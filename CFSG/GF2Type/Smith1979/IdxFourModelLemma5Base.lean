@@ -14,7 +14,7 @@ open CFSG.GF2Type.Smith1979.GammaU.Viol CFSG.GF2Type.Smith1979.IdxFour.Orb
 theorem fixed_of_normal_pGroup {Gp X : Type*} [Group Gp] [MulAction Gp X] [Finite X]
     [MulAction.IsPretransitive Gp X] (hX : Odd (Nat.card X)) (Nn : Subgroup Gp) [Nn.Normal]
     (h2 : IsPGroup 2 Nn) : ∀ n ∈ Nn, ∀ x : X, n • x = x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmod := h2.card_modEq_card_fixedPoints X
   have hodd : Odd (Nat.card (MulAction.fixedPoints Nn X)) := by
     have := (Nat.odd_iff.2 (hmod ▸ Nat.odd_iff.1 hX))
@@ -54,7 +54,7 @@ theorem f0_add_right' (x y z : V12) : f0 x (y + z) = f0 x y + f0 x z := by
   simp only [Pi.add_apply]
   ring
 
-@[expose] def InOmega (v : V12) : Prop :=
+def InOmega (v : V12) : Prop :=
   inO378 v ∧ f0 v w0 = 0 ∧ f0 v (theta0 w0) = 0 ∧ v ≠ w0 ∧ v ≠ theta0 w0 ∧
     v ≠ theta0 (theta0 w0)
 
@@ -64,7 +64,7 @@ theorem theta0_theta0_w0 : theta0 (theta0 w0) = vecOf 195 := by
   rw [show theta0N 192 = 195 by decide] at this
   exact this.symm
 
-theorem f0_codes_eq_zero (v : V12) (m : ℕ) (hm : m < 4096) :
+theorem f0_codes_eq_zero (v : V12) (m : ℕ) (_hm : m < 4096) :
     f0 v (vecOf m) = 0 ↔ f0b (codeOf v) m = false := by
   have h : f0 v (vecOf m) = if f0b (codeOf v) m then 1 else 0 := by
     conv_lhs => rw [← vecOf_codeOf v]
@@ -160,7 +160,7 @@ end Invariance
 
 abbrev OmegaTy : Type := {v : V12 // InOmega v}
 
-@[expose, instance_reducible] def omegaAction (K : Subgroup (V12 ≃ₗ[ZMod 2] V12))
+@[instance_reducible] def omegaAction (K : Subgroup (V12 ≃ₗ[ZMod 2] V12))
     (hK : K ≤ stabIn M0 w0) : MulAction ↥K OmegaTy where
   smul g x := ⟨g.1 x.1, inOmega_stab (hK g.2) x.2⟩
   one_smul _ := Subtype.ext rfl

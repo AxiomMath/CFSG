@@ -23,9 +23,10 @@ private theorem transv02_mul_transv12_entries (b b' : K) :
         SpecialLinearGroup.transvection (by decide : (1 : Fin 3) ≠ 2) b' :
           SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 1 2 = b' := by
   simp [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.SpecialLinearGroup.transvection_coe, Matrix.transvection, Matrix.single_apply]
+    Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply]
 
 omit [Finite K] in
+omit [CharP K 2] in
 private theorem rhoQ2_mem_Q2_comm {x y : SpecialLinearGroup (Fin 3) K} (hx : x ∈ Q2 K)
     (hy : y ∈ Q2 K) : x * y = y * x := by
   apply uni3_ext (mul_mem hx.1 hy.1) (mul_mem hy.1 hx.1)
@@ -46,7 +47,8 @@ private theorem rhoQ2_mem_Q2_sq {x : SpecialLinearGroup (Fin 3) K} (hx : x ∈ Q
   · rw [uni3_mul_12 hx.1 hx.1, CharTwo.add_self_eq_zero]
     simp
 
-theorem card_Q2_eq (hK : Nat.card K = (2 ^ n) ^ 2) : Nat.card (Q2 K) = Nat.card K ^ 2 := by
+omit [CharP K 2] in
+theorem card_Q2_eq (_hK : Nat.card K = (2 ^ n) ^ 2) : Nat.card (Q2 K) = Nat.card K ^ 2 := by
   refine le_antisymm card_Q2_le ?_
   have hf : Function.Injective (fun p : K × K =>
       (⟨SpecialLinearGroup.transvection (by decide : (0 : Fin 3) ≠ 2) p.1 *
@@ -70,7 +72,7 @@ theorem card_Q2_eq (hK : Nat.card K = (2 ^ n) ^ 2) : Nat.card (Q2 K) = Nat.card 
   calc Nat.card K ^ 2 = Nat.card (K × K) := by rw [Nat.card_prod, sq]
     _ ≤ Nat.card (Q2 K) := Nat.card_le_card_of_injective _ hf
 
-theorem card_rhoQ2 (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
+theorem card_rhoQ2 (_hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
     Nat.card ↥((Q2 K).map (rho hK)) = 2 ^ (4 * n) := by
   rw [card_map_rho_of_inj (P := Q2 K) hK (fun x hx h => eq_one_of_rho_uni3 hK hx.1 h),
     card_Q2_eq hK, hK]
@@ -128,9 +130,9 @@ theorem rhoQ2_mem_aSet (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
 private theorem rhoQ2_mem_fixV_conj {W : Type*} [CommGroup W] (B : Subgroup (MulAut W))
     (g : MulAut W) (v : W) : v ∈ fixV (conjSubgroup B g) ↔ g v ∈ fixV B := by
   have hinv : ∀ z : W, g (g⁻¹ z) = z := fun z => by
-    rw [← MulAut.mul_apply, mul_inv_cancel] <;> rfl
+    rw [← MulAut.mul_apply, mul_inv_cancel]; rfl
   have hinv' : ∀ z : W, g⁻¹ (g z) = z := fun z => by
-    rw [← MulAut.mul_apply, inv_mul_cancel] <;> rfl
+    rw [← MulAut.mul_apply, inv_mul_cancel]; rfl
   constructor
   · intro hv y hy
     have hmem : g⁻¹ * y * g ∈ conjSubgroup B g := by
@@ -220,7 +222,7 @@ theorem part3 (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
   have hTM : T ≤ M := hT.1
   have hev : Even (Nat.card M) :=
     E3.even_card_of_isPGroup hA.1 (E3.isPGroup_of_isElemAbelian2 hA.2.2.1) hA.2.1
-  rw [E3.aParam, if_pos hev]
+  rw [E3.aParam, ite_eq_left hev]
   apply le_antisymm
   · refine csSup_le ⟨3 * n, by omega, _, hA⟩ ?_
     rintro k ⟨-, A', hA'⟩

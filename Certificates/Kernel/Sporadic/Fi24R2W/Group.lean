@@ -310,7 +310,7 @@ theorem fix_iff (k : Fin 306936) : fi24R2 • k = k ↔ ∃ j < 504, fi24FPts[j]
   have hfix : ∀ j < 504, fi24R2 • g j = g j := by
     intro j hj
     apply Fin.ext
-    simp only [g, dif_pos hj]
+    simp only [g, dite_eq_left hj]
     rw [← idx_of_lt fi24R2 (fpt_lt hj)]
     exact fix_SR j hj
   let S := Finset.univ.filter fun k : Fin 306936 => fi24R2 • k = k
@@ -326,7 +326,7 @@ theorem fix_iff (k : Fin 306936) : fi24R2 • k = k ↔ ∃ j < 504, fi24FPts[j]
       have hi' := Finset.mem_range.1 hi
       have hj' := Finset.mem_range.1 hj
       have e' := congrArg Fin.val e
-      simp only [g, dif_pos hi', dif_pos hj'] at e'
+      simp only [g, dite_eq_left hi', dite_eq_left hj'] at e'
       exact fpt_inj hi' hj' e'
   constructor
   · intro hk
@@ -335,12 +335,12 @@ theorem fix_iff (k : Fin 306936) : fi24R2 • k = k ↔ ∃ j < 504, fi24FPts[j]
     obtain ⟨j, hj, rfl⟩ := Finset.mem_image.1 this
     have hj' := Finset.mem_range.1 hj
     refine ⟨j, hj', ?_⟩
-    simp only [g, dif_pos hj']
+    simp only [g, dite_eq_left hj']
     exact fpts_get hj'
   · rintro ⟨j, hj, e⟩
     have hk : k = g j := by
       apply Fin.ext
-      simp only [g, dif_pos hj]
+      simp only [g, dite_eq_left hj]
       rw [← e, fpts_get hj]
     rw [hk]
     exact hfix j hj

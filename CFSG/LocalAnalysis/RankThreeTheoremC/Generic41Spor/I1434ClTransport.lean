@@ -62,7 +62,7 @@ theorem ncard_conj_map (e : K ≃* M) (x : K) (Q : Subgroup K) :
 
 theorem exists_sylow_map [Finite K] (e : K ≃* M) (Q : Sylow 5 K) :
     ∃ Q' : Sylow 5 M, (Q' : Subgroup M) = (Q : Subgroup K).map e.toMonoidHom := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact ⟨Sylow.mapSurjective (f := e.toMonoidHom) e.surjective Q, rfl⟩
 
 theorem transport_lines [Finite K] (e : K ≃* M) (Q : Sylow 5 K) {x : K} (hx : x ∈ (Q : Subgroup K))

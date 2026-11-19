@@ -27,7 +27,7 @@ theorem inner_of_not_dvd_outer {S : Type*} [Group S] {p : ℕ} (hp : p.Prime)
   intro P hP π hπ
   obtain ⟨k, hk⟩ := hP ⟨π, hπ⟩
   have hk' : π ^ (p ^ k) = 1 := by simpa using congrArg Subtype.val hk
-  haveI := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal S
+  have := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal S
   let x : CFSG.ComponentClassification.OuterAutomorphisms.Outer S := QuotientGroup.mk π
   have hx : x ^ (p ^ k) = 1 := by
     change (QuotientGroup.mk π : MulAut S ⧸ CFSG.ComponentClassification.OuterAutomorphisms.inner S)

@@ -114,7 +114,7 @@ theorem key_oval {D : Finset (Finset (Finset (Fin 24)))} (hcard : D.card = 5)
         cases hmeets : Native.meets (Native.trioList ())[d]! (Native.trioList ())[k]! with
         | false => rfl
         | true => exact absurd hdisj.symm ((meets_iff hd1 hk1).1 hmeets)
-      simp [hdk, hm]
+      simp [hm]
   refine ⟨S.sort, ?_, fun d hd => (hmemS d).1 ((Finset.mem_sort _).1 hd)⟩
   simp only [Native.discsOvals]
   exact List.mem_append.2 (Or.inr (List.mem_filter.2 ⟨hsort, hpred⟩))

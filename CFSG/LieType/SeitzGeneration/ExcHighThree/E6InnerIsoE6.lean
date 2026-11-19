@@ -37,7 +37,7 @@ theorem e6InnerIsotropic_of_frame_of_scBase (hsc : ScBaseChange) (h : E6HeisFram
     rw [hcardK, h3']
     exact dvd_pow_self 3 (by omega)
   obtain ⟨K₁, hK₁, hroot⟩ := exists_cubeExt K
-  haveI := hK₁
+  have := hK₁
   have hinjc : Function.Injective (MulAut.conj : ↥(adjointGroup Tag.E6 K) →*
       MulAut ↥(adjointGroup Tag.E6 K)) :=
     mulAut_conj_injective_adjointGroup (τ := Tag.E6) (K := K)
@@ -50,7 +50,7 @@ theorem e6InnerIsotropic_of_frame_of_scBase (hsc : ScBaseChange) (h : E6HeisFram
     rintro _ ⟨x, -, rfl⟩
     exact innerAut_le_e6Inndiag K ⟨x, rfl⟩
   have hEab : CFSG.IsElementaryAbelian 3 E := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hcomm : IsMulCommutative E := IsPGroup.isMulCommutative_of_card_eq_prime_sq hcardE
     have hexpE : Monoid.exponent E ∣ 3 := by
       refine Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr ?_

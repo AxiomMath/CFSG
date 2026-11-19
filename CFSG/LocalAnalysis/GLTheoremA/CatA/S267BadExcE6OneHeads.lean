@@ -160,12 +160,12 @@ theorem exists_hom_ringAut_E6_three (K : Type) [Field K] [Finite K] :
 theorem card_le_three_mul_card_inf_hatAut {K : Type} [Field K] [Finite K]
     {A : Subgroup (MulAut (adjointGroup .E6 K))} (hA : IsElemAbelian 3 A) :
     Nat.card A ≤ 3 * Nat.card ↥(A ⊓ (hatAut .E6 K).range) := by
-  haveI : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
-  haveI := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
+  have : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
+  have := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   obtain ⟨Θ, hΘ⟩ := exists_hom_ringAut_E6_three K
   have h := CFSG.GH74.Uniqueness.SU.SU7.Gen.card_map_mul_card_inf_ker Θ A
   have h1 : Nat.card (A.map Θ) ≤ 3 := by
-    haveI : Finite ↥(A.map Θ) := Finite.of_surjective
+    have : Finite ↥(A.map Θ) := Finite.of_surjective
       (fun x : ↥A => (⟨Θ x, Subgroup.mem_map_of_mem Θ x.2⟩ : ↥(A.map Θ)))
       (fun y => by
         obtain ⟨x, hx, hxy⟩ := Subgroup.mem_map.1 y.2
@@ -339,7 +339,7 @@ theorem three_dvd_of_pow_mem {G : Type*} [Group G] {I : Subgroup G} {s : G} (hs3
 
 theorem card_le_pow_five_of_not_le {G : Type*} [Group G] [Finite G] {A : Subgroup G}
     (hA : IsElemAbelian 3 A) (h : ¬ 3 ^ 6 ≤ Nat.card A) : Nat.card A ≤ 3 ^ 5 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 (CFSG.Open.IsElemAbelian.isPGroup hA)
   rw [hk] at h ⊢
   apply Nat.pow_le_pow_right (by norm_num)

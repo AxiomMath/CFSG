@@ -19,6 +19,7 @@ namespace UFrame
 variable {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {L : Subgroup G}
   (F : UFrame V₀ V hV L)
 
+omit [Finite G] in
 theorem s16c4_out_card_sq_le {E : Subgroup (MulAut (Vtil V₀ V hV))}
     {τ : MulAut (Vtil V₀ V hV)} (hτE : τ ∈ E) (hτ : F.IsSemi τ) :
     Nat.card (fixV E) * Nat.card (fixV E) ≤
@@ -76,8 +77,9 @@ theorem s16c4_out_card_sq_le {E : Subgroup (MulAut (Vtil V₀ V hV))}
     _ ≤ Nat.card ↥(fixSp (F.suSub (E ⊓ lBar V₀ V hV L))) :=
         Nat.card_le_card_of_injective f hf_inj
 
+omit [Finite G] in
 theorem s16c4_out_C_le_four {E : Subgroup (MulAut (Vtil V₀ V hV))}
-    (hEN : E ≤ normalizer (lBar V₀ V hV L : Set (MulAut (Vtil V₀ V hV))))
+    (_hEN : E ≤ normalizer (lBar V₀ V hV L : Set (MulAut (Vtil V₀ V hV))))
     (hE2 : IsElemAbelian2 E) {τ : MulAut (Vtil V₀ V hV)} (hτE : τ ∈ E) (hτ : F.IsSemi τ)
     (h3 : 3 ≤ Nat.card (E ⊓ lBar V₀ V hV L : Subgroup (MulAut (Vtil V₀ V hV)))) :
     Nat.card (fixV E) ≤ 4 := by

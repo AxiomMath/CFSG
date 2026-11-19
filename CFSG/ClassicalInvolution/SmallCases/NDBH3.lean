@@ -116,9 +116,9 @@ theorem conj_zt_mul_inv_mem_of_orderFour (hs : Std8Core p f Ω K J S R T W z t)
     have := Subgroup.card_le_of_le hle
     rwa [Nat.card_zpowers, hx'o] at this
   have hKS : K ⊓ (S : Subgroup G) = R :=
-    hRsyl.eq_of_le (S.isPGroup'.to_inf_right) inf_le_left (le_inf hRK hRS)
+    hRsyl.eq_of_le (S.isPGroup.to_inf_right) inf_le_left (le_inf hRK hRS)
   have hJS : J ⊓ (S : Subgroup G) = T :=
-    hTsyl.eq_of_le (S.isPGroup'.to_inf_right) inf_le_left (le_inf hTJ hTS)
+    hTsyl.eq_of_le (S.isPGroup.to_inf_right) inf_le_left (le_inf hTJ hTS)
   by_cases hSyl : IsSylow2In (M ⊓ (S : Subgroup G)) M
   · have hMR : M ⊓ (S : Subgroup G) ∈ RSet Ω := mem_RSet_of_isSylow2In hMΩ hSyl
     rcases hX.rset hMR inf_le_right with h | h

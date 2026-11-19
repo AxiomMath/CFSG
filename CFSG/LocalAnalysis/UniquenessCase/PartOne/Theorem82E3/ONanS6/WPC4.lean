@@ -20,8 +20,8 @@ variable {G : Type} [Group G] [Finite G]
 variable {D : Data G}
 
 theorem pCoreInfCentralizer_normal' (c : Ctx82E3 D)
-    (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
-    {P : Subgroup G} {x : G} (hx : x ∈ zSub P c.L) (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1)
+    (_hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
+    {P : Subgroup G} {x : G} (_hx : x ∈ zSub P c.L) (_hx3 : x ^ 3 = 1) (_hx1 : x ≠ 1)
     (hC : Subgroup.centralizer ({x} : Set G) ≤ D.M) :
     PCoreInfCentralizerNormal c x := by
   set W : Subgroup G := Subgroup.centralizer ({x} : Set G) with hW
@@ -52,7 +52,7 @@ theorem thetaComponent_le_C_of_ne_Lz_core'
   have hJperf' : Group.IsPerfect ↥(J.subgroupOf W) := by
     have eJW : ↥(J.subgroupOf W) ≃* ↥J := Subgroup.subgroupOfEquivOfLe hJW
     exact Group.IsPerfect.ofSurjective (f := eJW.symm.toMonoidHom) eJW.symm.surjective
-  haveI : Group.IsPerfect ↥(J.subgroupOf W) := hJperf' 
+  have : Group.IsPerfect ↥(J.subgroupOf W) := hJperf' 
   let φ : W →* MulAut c.Lbar :=
     (CFSG.GroupTheory.conjModPCore 2 c.L D.M c.le_normalizer_L).comp (Subgroup.inclusion hC)
   let Pbar : Subgroup (MulAut c.Lbar) := (J.subgroupOf W).map φ
@@ -69,11 +69,11 @@ theorem thetaComponent_le_C_of_ne_Lz_core'
         (Outer (CFSG.Blueprint.NativeSporadic.Carrier .ONan)) :=
       CFSG.ONSchreier.at_on_schreier
     exact (CFSG.LocalAnalysis.ComponentInitial.outer_isomorphism eX).2.mpr hONsolv
-  haveI : Group.IsPerfect c.Lbar := Group.isPerfect_def.mpr hON.1.1
+  have : Group.IsPerfect c.Lbar := Group.isPerfect_def.mpr hON.1.1
   have hOutL : Group.IsSolvable (Outer c.Lbar) :=
     (CFSG.LocalAnalysis.ComponentInitial.perfect_central_quotient_Schreier c.Lbar).2.2 hOutX
-  haveI : Group.IsSolvable (Outer c.Lbar) := hOutL
-  haveI : Group.IsPerfect Pbar := hPperf
+  have : Group.IsSolvable (Outer c.Lbar) := hOutL
+  have : Group.IsPerfect Pbar := hPperf
   have hPInn : Pbar ≤ c.lbarInn := by
     intro p hp
     obtain ⟨g, hg⟩ :=
@@ -95,21 +95,21 @@ theorem thetaComponent_le_C_of_ne_Lz_core'
       ext y
       rw [MulAut.conj_apply]
       rw [← h y]
-      simpa
+      simp
   let innEquiv : (c.Lbar ⧸ Subgroup.center c.Lbar) ≃* c.lbarInn :=
     ((QuotientGroup.quotientMulEquivOfEq hker).symm).trans
       (QuotientGroup.quotientKerEquivRange (MulAut.conj : c.Lbar →* MulAut c.Lbar))
   obtain ⟨eX⟩ := hON.2.2
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .ONan) :=
     CFSG.Sporadic.ON.isSimpleGroup_ON
   have hXsimple : IsSimpleGroup (c.Lbar ⧸ Subgroup.center c.Lbar) :=
     MulEquiv.isSimpleGroup eX
   have hInnSimple : IsSimpleGroup c.lbarInn := by
-    haveI : IsSimpleGroup (c.Lbar ⧸ Subgroup.center c.Lbar) := hXsimple
+    have : IsSimpleGroup (c.Lbar ⧸ Subgroup.center c.Lbar) := hXsimple
     exact MulEquiv.isSimpleGroup innEquiv.symm
-  haveI : IsSimpleGroup c.lbarInn := hInnSimple
+  have : IsSimpleGroup c.lbarInn := hInnSimple
   have hXperfect : Group.IsPerfect (c.Lbar ⧸ Subgroup.center c.Lbar) := by
-    haveI : IsSimpleGroup (c.Lbar ⧸ Subgroup.center c.Lbar) := hXsimple
+    have : IsSimpleGroup (c.Lbar ⧸ Subgroup.center c.Lbar) := hXsimple
     refine
       CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Proving.isPerfect_of_simple_not_prime_card _ ?_
     rw [Nat.card_congr eX.toEquiv]
@@ -120,10 +120,10 @@ theorem thetaComponent_le_C_of_ne_Lz_core'
     rcases hp.eq_two_or_odd with h2eq | hodd
     · norm_num at h2eq
     · norm_num at hodd
-  haveI : Group.IsPerfect (c.Lbar ⧸ Subgroup.center c.Lbar) := hXperfect
+  have : Group.IsPerfect (c.Lbar ⧸ Subgroup.center c.Lbar) := hXperfect
   have hInnPerfect : Group.IsPerfect c.lbarInn :=
     Group.IsPerfect.ofSurjective (f := innEquiv.toMonoidHom) innEquiv.surjective
-  haveI : Group.IsPerfect c.lbarInn := hInnPerfect
+  have : Group.IsPerfect c.lbarInn := hInnPerfect
   have hLzmem : Lz c x ∈ thetaComponentsAt 3 x :=
     Lz_mem_thetaComponentsAt c hON hP hA hZA hx hx1 hC
   have hLzW : Lz c x ≤ W := CFSG.RankThree.PartOne.mem_thetaComponentsAt_iff.mp hLzmem |>.1
@@ -170,7 +170,7 @@ theorem thetaComponent_le_C_of_ne_Lz_core'
     rw [Subgroup.mem_subgroupOf]
     exact hPInn (by rw [← hP'_map]; exact Subgroup.mem_map_of_mem φ.range.subtype hx)
   have hInn'Simple : IsSimpleGroup Inn' := by
-    haveI : IsSimpleGroup c.lbarInn := hInnSimple
+    have : IsSimpleGroup c.lbarInn := hInnSimple
     exact MulEquiv.isSimpleGroup (Subgroup.subgroupOfEquivOfLe hInn_le_range)
   have hcase := Subgroup.IsSubnormal.eq_bot_or_top_of_isSimpleGroup hInn'Simple
     (Subgroup.IsSubnormal.subgroupOf hP'sn)
@@ -235,7 +235,7 @@ theorem thetaComponent_le_C_of_ne_Lz_core'
     have hSolvCore : Group.IsSolvable (aschbacherSolvableCore 3 W) :=
       (solvable_prime_complement_core_characterization (H := W) Nat.prime_three).1
     have hSolvImage : Group.IsSolvable ((aschbacherSolvableCore 3 W).map φ) := by
-      haveI : Group.IsSolvable (aschbacherSolvableCore 3 W) := hSolvCore
+      have : Group.IsSolvable (aschbacherSolvableCore 3 W) := hSolvCore
       have hrange : Group.IsSolvable (φ.comp (aschbacherSolvableCore 3 W).subtype).range :=
         Group.isSolvable_of_surjective
           (φ.comp (aschbacherSolvableCore 3 W).subtype).rangeRestrict_surjective
@@ -251,7 +251,7 @@ theorem thetaComponent_le_C_of_ne_Lz_core'
       rw [← hcomm_eq]
       exact hCommutImage
     have hSolvInn : Group.IsSolvable c.lbarInn := by
-      haveI : Group.IsSolvable ((aschbacherSolvableCore 3 W).map φ) := hSolvImage
+      have : Group.IsSolvable ((aschbacherSolvableCore 3 W).map φ) := hSolvImage
       exact Group.isSolvable_of_isSolvable_injective
         (f := Subgroup.inclusion hInn_le_image) (Subgroup.inclusion_injective _)
     exact False.elim ((Group.IsPerfect.not_isSolvable (G := c.lbarInn)) hSolvInn)
@@ -259,7 +259,7 @@ theorem thetaComponent_le_C_of_ne_Lz_core'
 theorem normalizes_of_le_C'''
     (c : Ctx82E3 D)
     (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
-    {P A : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
+    {P A : Subgroup G} (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hA : CFSG.Open.IsElemAbelian 3 A) (hZA : zSub P c.L ≤ A)
     (hAPL : A ≤ P ⊓ c.L) {x : G} (hx : x ∈ zSub P c.L) (hx1 : x ≠ 1)
     (hC : Subgroup.centralizer ({x} : Set G) ≤ D.M)
@@ -287,8 +287,8 @@ theorem thetaComponentsAt_center_normalized'''
     (c : Ctx82E3 D)
     (hON : UCK.ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
     {P A : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
-    (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27) (hZA : zSub P c.L ≤ A)
+    (_hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
+    (hA : CFSG.Open.IsElemAbelian 3 A) (_hA27 : Nat.card A = 27) (hZA : zSub P c.L ≤ A)
     (hAPL : A ≤ P ⊓ c.L) {x : G} (hx : x ∈ zSub P c.L) (hx1 : x ≠ 1)
     (hC : Subgroup.centralizer ({x} : Set G) ≤ D.M) :
     ∀ L ∈ thetaComponentsAt 3 x, A ≤ Subgroup.normalizer (L : Set G) := by

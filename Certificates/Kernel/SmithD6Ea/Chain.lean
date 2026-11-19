@@ -49,6 +49,7 @@ variable (hK : lineKeys.toList = J.lineKeysC.flatten)
   (hI : ∀ u w, lineIdx u w < 365211 → lineKeys[lineIdx u w]! = 4096 * u + w)
 include hK hL hI
 
+omit hI in
 theorem edge_img {g a b : Nat} (hg : lineTree.memB g = true) (ha : lineTree.memB a = true)
     (hb : lineTree.memB b = true) (himg : imgN g a = b) : tvImg (posK g) (posK a) = posK b := by
   obtain ⟨hgl, hgk⟩ := key_of_memB hg
@@ -118,7 +119,7 @@ theorem ea7Chain_of_pinned : ∀ t < 5, ∃ S : List Nat, S.length = ea7Sizes[t]
       obtain ⟨g, hg⟩ := hst
       obtain ⟨h1, h2, h3, h4, h5⟩ := edge_facts hg
       exact Relation.ReflTransGen.tail ih
-        ⟨posK g, edge_inY hK hL hI h1 h2, edge_img hK hL hI h1 h3 h4 h5⟩
+        ⟨posK g, edge_inY hK hL hI h1 h2, edge_img hK hL h1 h3 h4 h5⟩
   refine ⟨((JEA.eaLv.getD t []).map eaRec).map (fun r => posK r.1), ?_, ?_, ?_⟩
   · rw [List.length_map, hlen, hsz]
   · have e : ((JEA.eaLv.getD t []).map eaRec).map (fun r => posK r.1) =

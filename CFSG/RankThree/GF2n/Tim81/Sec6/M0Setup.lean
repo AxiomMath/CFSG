@@ -126,6 +126,7 @@ theorem Sec6Hyp.rootSetup (hS : Sec6Hyp M V) {f : ℕ} (hf : 2 ≤ f)
   pCore_eq_bot := hS.pCore_imgQ_m0
   oddCore_le := hS.oddCore_imgQ_m0_le_center
 
+omit [Finite G] in
 theorem isPGroup_imgQ_lOf (g : G) :
     IsPGroup 2 (imgQ M (lOf M V g)) := by
   unfold imgQ lOf
@@ -137,6 +138,7 @@ theorem Sec5Hyp.imgQ_le_imgQ_lOf (hS : Sec5Hyp M V) {g : G}
     imgQ M (conjSubgroup g V) ≤ imgQ M (lOf M V g) :=
   imgQ_mono (hS.conjSubgroup_le_lOf hg)
 
+omit [Finite G] in
 theorem imgQ_lOf_le_cenOf (M V : Subgroup G) (g : G) :
     imgQ M (lOf M V g) ≤ cenOf (imgQ M (conjSubgroup g V)) := by
   intro z hz

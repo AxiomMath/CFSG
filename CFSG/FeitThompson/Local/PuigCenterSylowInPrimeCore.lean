@@ -58,7 +58,7 @@ theorem map_puigCenter_sylow_le_map_puigCenter_pCore [Finite G] [Group.IsSolvabl
     simpa using mem_centralizer_iff.1 hxc (z : G)
       (mem_map_of_mem (S : Subgroup G).subtype (puigLower_le_puigSubgroup hz))
   have hylow : y ∈ puigLower (S : Subgroup G) :=
-    centralizer_puigLower_le hp S.isPGroup' hyc
+    centralizer_puigLower_le hp S.isPGroup hyc
   have hxT : (S : Subgroup G).subtype y ∈ (puigSubgroup (pCore p G)).map (pCore p G).subtype :=
     map_mono puigLower_le_puigSubgroup (hlow (mem_map_of_mem _ hylow))
   exact mem_inf.2 ⟨hxT, centralizer_le (by exact_mod_cast hup) hxc⟩

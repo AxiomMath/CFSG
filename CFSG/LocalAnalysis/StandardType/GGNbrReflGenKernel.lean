@@ -60,6 +60,7 @@ theorem eq_one_of_ggOverGamma_one {p : ℕ} (hp : p.Prime) {Bs K : Subgroup G}
   · exact h1
   · exact absurd h2 (hNoTr κ hmem)
 
+omit [Finite G] in
 theorem pow_eq_one_of_ggOverGamma_one {p : ℕ} {Bs X : Subgroup G}
     (hBs : IsElemAbelian p Bs) (hN : Bs ≤ Subgroup.normalizer (X : Set G))
     {κ : MulAut ↥Bs} (hκ : κ ∈ ggAutomizer X Bs) (hover : GGOverGamma hN κ 1) :
@@ -98,7 +99,7 @@ theorem prime_dvd_ggAutomizer_dvd_gamma {p ℓ : ℕ} (hp : p.Prime) (hℓ : ℓ
     ℓ ∣ Nat.card (ggAutomizer (MulAut.conj : ↥X →* MulAut ↥X).range
       (ggGamma X hN).range) := by
   classical
-  letI : Fact ℓ.Prime := ⟨hℓ⟩
+  let : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' ℓ hdiv
   obtain ⟨g, hgX, hgN, hcg⟩ := mem_ggAutomizer_iff.mp c.2
   have hceq : (c : MulAut ↥Bs) = ggConjAut Bs hgN :=

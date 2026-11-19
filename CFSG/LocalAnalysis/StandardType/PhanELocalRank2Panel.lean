@@ -18,6 +18,7 @@ section Helpers
 
 variable {K : Type} [Field K] [Finite K] {f : ℕ} [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem plpa_mem_Vsub_one (v : Fin 3 → K) :
     v ∈ Vsub (K := K) 3 1 ↔ v 1 = 0 ∧ v 2 = 0 := by
   constructor
@@ -26,12 +27,14 @@ private theorem plpa_mem_Vsub_one (v : Fin 3 → K) :
   · rintro ⟨h1, h2⟩ j hj
     fin_cases j <;> simp_all
 
+omit [Finite K] [CharP K 2] in
 private theorem plpa_zvec_not_mem_V1 (c : K) :
     (![0, 1, c] : Fin 3 → K) ∉ Vsub (K := K) 3 1 := by
   intro h
   have h1 : (![0, 1, c] : Fin 3 → K) 1 = 0 := (plpa_mem_Vsub_one _).mp h |>.1
-  simpa using h1
+  simp at h1
 
+omit [Finite K] [CharP K 2] in
 private theorem plpa_dir_eq_imp {u : Fin 3 → K} {c : K}
     (h : Submodule.span K {u} ⊔ Vsub (K := K) 3 1 =
       Submodule.span K {(![0, 1, c] : Fin 3 → K)} ⊔ Vsub (K := K) 3 1) :
@@ -53,6 +56,7 @@ private theorem plpa_dir_eq_imp {u : Fin 3 → K} {c : K}
     _ = (b * u 1) * u 2 := by ring
     _ = u 2 := by rw [h1, one_mul]
 
+omit [Finite K] [CharP K 2] in
 private theorem plpa_dir_ne_of_mul_ne {u : Fin 3 → K} {c : K} (hcu : c * u 1 ≠ u 2) :
     Submodule.span K {u} ⊔ Vsub (K := K) 3 1 ≠
       Submodule.span K {(![0, 1, c] : Fin 3 → K)} ⊔ Vsub (K := K) 3 1 :=
@@ -72,6 +76,7 @@ private theorem plpa_sgS_zdir_ne (hK : Nat.card K = (2 ^ f) ^ 2) {c : K}
   simp at h'
   exact hc h'.symm
 
+omit [Finite K] [CharP K 2] in
 private theorem plpa_mul_ne_of_ne_inv {u : Fin 3 → K} (hu1 : u 1 ≠ 0) {c : K}
     (h : c ≠ u 2 * (u 1)⁻¹) : c * u 1 ≠ u 2 := by
   intro hcu
@@ -79,6 +84,7 @@ private theorem plpa_mul_ne_of_ne_inv {u : Fin 3 → K} (hu1 : u 1 ≠ 0) {c : K
   calc c = c * u 1 * (u 1)⁻¹ := by rw [mul_assoc, mul_inv_cancel₀ hu1, mul_one]
     _ = u 2 * (u 1)⁻¹ := by rw [hcu]
 
+omit [Finite K] [CharP K 2] in
 private theorem plpa_mul_ne_of_eq_zero {u : Fin 3 → K} (hu1 : u 1 = 0) (hu2 : u 2 ≠ 0)
     (c : K) : c * u 1 ≠ u 2 := by
   rw [hu1, mul_zero]
@@ -113,6 +119,7 @@ private theorem plpa_exists_moved_avoid_mul (hK : Nat.card K = (2 ^ f) ^ 2)
         (u 2 * (u 1)⁻¹) (v 2 * (v 1)⁻¹)
       exact ⟨c, hc, plpa_mul_ne_of_ne_inv hu1 hc1, plpa_mul_ne_of_ne_inv hv1 hc2⟩
 
+omit [Finite K] [CharP K 2] in
 private theorem plpa_span_zvec_inf_Vsub (c : K) :
     Submodule.span K {(![0, 1, c] : Fin 3 → K)} ⊓ Vsub (K := K) 3 1 = ⊥ := by
   rw [Submodule.eq_bot_iff]
@@ -124,6 +131,7 @@ private theorem plpa_span_zvec_inf_Vsub (c : K) :
   have ha : a = 0 := by simpa using h1
   rw [ha, zero_smul]
 
+omit [Finite K] [CharP K 2] in
 private theorem plpa_finrank_sup_one {p z : Submodule K (Fin 3 → K)}
     (hp : finrank K p = 1) (hz : finrank K z = 1) (hne : z ≠ p) :
     finrank K ↥(p ⊔ z) = 2 := by
@@ -142,6 +150,7 @@ private theorem plpa_finrank_sup_one {p z : Submodule K (Fin 3 → K)}
   rw [hdisj, finrank_bot, add_zero, hp, hz] at hsum
   exact hsum
 
+omit [Finite K] [CharP K 2] in
 private theorem plpa_finrank_dir {p : Submodule K (Fin 3 → K)} (hp : finrank K p = 1)
     (hpV : p ⊓ Vsub (K := K) 3 1 = ⊥) :
     finrank K ↥(p ⊔ Vsub (K := K) 3 1) = 2 := by
@@ -150,6 +159,7 @@ private theorem plpa_finrank_dir {p : Submodule K (Fin 3 → K)} (hp : finrank K
     finrank_Vsub (K := K) (n := 3) (c := 1) (by norm_num)] at hsum
   omega
 
+omit [Finite K] [CharP K 2] in
 private theorem plpa_sup_Vsub_eq_top {m : Submodule K (Fin 3 → K)} (hm : finrank K m = 2)
     (hmV : m ⊓ Vsub (K := K) 3 1 = ⊥) : m ⊔ Vsub (K := K) 3 1 = ⊤ := by
   have hsum := Submodule.finrank_sup_add_finrank_inf_eq m (Vsub (K := K) 3 1)
@@ -159,6 +169,7 @@ private theorem plpa_sup_Vsub_eq_top {m : Submodule K (Fin 3 → K)} (hm : finra
   rw [Module.finrank_fin_fun K]
   exact hsum
 
+omit [Finite K] [CharP K 2] in
 private theorem plpa_inf_Vsub_one_eq_bot_of_not_le {m : Submodule K (Fin 3 → K)}
     (h : ¬ Vsub (K := K) 3 1 ≤ m) : m ⊓ Vsub (K := K) 3 1 = ⊥ := by
   classical
@@ -237,6 +248,7 @@ private theorem plpa_inf_sgS_eq_iff (hK : Nat.card K = (2 ^ f) ^ 2)
   · intro hne
     exact plpa_inf_sgS_eq_of_ne hK hp hpV hne
 
+omit [Finite K] [CharP K 2] in
 private theorem plpa_blockU_one (E : ℕ → Submodule K (Fin 3 → K)) (r : ℕ) :
     blockU K 3 [0, 1, 3] E 1 r = E r ⊔ Vsub (K := K) 3 1 := by
   show (E (3 - [0, 1, 3].getD (1 + 1) 0 + r) ⊓ Vsub 3 ([0, 1, 3].getD (1 + 1) 0)) ⊔
@@ -336,9 +348,9 @@ private theorem plpa_hasFl (hK : Nat.card K = (2 ^ f) ^ 2) {p m : Submodule K (F
 
 private theorem plpa_moved_nbr (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
     {x y : FlagK K 3} (hpV : x.E 1 ⊓ Vsub (K := K) 3 1 = ⊥)
-    (hpd : sgS K f 3 (x.E 1 ⊔ Vsub (K := K) 3 1) ≠ x.E 1 ⊔ Vsub (K := K) 3 1)
+    (_hpd : sgS K f 3 (x.E 1 ⊔ Vsub (K := K) 3 1) ≠ x.E 1 ⊔ Vsub (K := K) 3 1)
     (hpV' : y.E 1 ⊓ Vsub (K := K) 3 1 = ⊥)
-    (hpd' : sgS K f 3 (y.E 1 ⊔ Vsub (K := K) 3 1) ≠ y.E 1 ⊔ Vsub (K := K) 3 1) :
+    (_hpd' : sgS K f 3 (y.E 1 ⊔ Vsub (K := K) 3 1) ≠ y.E 1 ⊔ Vsub (K := K) 3 1) :
     ∃ z m m' : Submodule K (Fin 3 → K),
       finrank K z = 1 ∧ z ⊓ Vsub (K := K) 3 1 = ⊥ ∧
       sgS K f 3 (z ⊔ Vsub (K := K) 3 1) ≠ z ⊔ Vsub (K := K) 3 1 ∧

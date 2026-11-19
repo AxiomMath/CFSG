@@ -32,7 +32,7 @@ theorem corootCoord_intSmul (p : ℕ) (k : ℤ) (hk : 0 < k) (B : Matrix (Fin N)
 theorem perp_intSmul (R : Set (Fin N → ℤ)) (k : ℤ) (hk : k ≠ 0) (B : Matrix (Fin N) (Fin N) ℤ)
     (α : Fin N → ℤ) : perp R (k • B) α = perp R B α := by
   ext β
-  simp only [perp, Set.mem_setOf_eq, latGram_intSmul, mul_eq_zero, hk, false_or]
+  simp only [perp, Set.mem_ofPred_eq, latGram_intSmul, mul_eq_zero, hk, false_or]
 
 theorem latLinked_intSmul (k : ℤ) (hk : k ≠ 0) (B : Matrix (Fin N) (Fin N) ℤ)
     (Φ : Set (Fin N → ℤ)) : latLinked (k • B) Φ = latLinked B Φ := by

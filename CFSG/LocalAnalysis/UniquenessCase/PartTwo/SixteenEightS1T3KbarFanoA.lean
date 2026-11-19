@@ -16,6 +16,7 @@ private def s16t3_char (L : Subgroup (MulAut W)) (x y z : Subgroup W) : Prop :=
   z ∈ irrSet L ∧ z ≠ x ∧ z ≠ y ∧
     tilde L (⊤ : Subgroup W) z ≤ tilde L (⊤ : Subgroup W) x ⊔ tilde L (⊤ : Subgroup W) y
 
+omit [Finite W] in
 private theorem s16t3_char_comm (L : Subgroup (MulAut W)) (x y z : Subgroup W)
     (h : s16t3_char L x y z) : s16t3_char L y x z := by
   obtain ⟨hz, hzx, hzy, hle⟩ := h
@@ -35,7 +36,7 @@ private theorem s16t3_third_self (h : ThreeNat A L T)
     (h7 : Nat.card ↥(irrSet L) = 7) (x : ↥(irrSet L)) :
     s16t3_third h h7 x x = x := by
   unfold s16t3_third
-  rw [dif_pos rfl]
+  rw [dite_eq_left rfl]
 
 private theorem s16t3_third_of_ne (h : ThreeNat A L T)
     (h7 : Nat.card ↥(irrSet L) = 7) {x y : ↥(irrSet L)} (hxy : x ≠ y) :
@@ -43,7 +44,7 @@ private theorem s16t3_third_of_ne (h : ThreeNat A L T)
       Classical.choose ((s16t3_exists_unique_third h h7 x.2 y.2
         (fun hsub => hxy (Subtype.ext hsub))).1.exists) := by
   unfold s16t3_third
-  rw [dif_neg hxy]
+  rw [dite_eq_right hxy]
 
 private theorem s16t3_third_spec (h : ThreeNat A L T)
     (h7 : Nat.card ↥(irrSet L) = 7) {x y : ↥(irrSet L)} (hxy : x ≠ y) :
@@ -62,6 +63,7 @@ private theorem s16t3_third_eq_of_char (h : ThreeNat A L T)
       (s16t3_third h h7 x y : Subgroup W) := s16t3_third_spec h h7 hxy
   exact (ExistsUnique.unique hexu hspec hz).symm
 
+omit [Finite W] in
 private theorem s16t3_map_mem_irrSet_of_mem {A L : Subgroup (MulAut W)}
     (hA : A ≤ Subgroup.normalizer (L : Set (MulAut W))) {g : MulAut W} (hg : g ∈ A)
     {I : Subgroup W} (hI : I ∈ irrSet L) : I.map g.toMonoidHom ∈ irrSet L :=
@@ -108,10 +110,12 @@ private noncomputable def s16t3_ptAct (h : ThreeNat A L T) :
     rw [Subgroup.map_map]
     congr 1
 
+omit [Finite W] in
 private theorem s16t3_ptAct_apply (h : ThreeNat A L T) (a : ↥A) (x : ↥(irrSet L)) :
     (s16t3_ptAct h a x : Subgroup W) =
       (x : Subgroup W).map (a : MulAut W).toMonoidHom := rfl
 
+omit [Finite W] in
 private theorem s16t3_tilde_map_le_sup {A L : Subgroup (MulAut W)}
     (hA : A ≤ Subgroup.normalizer (L : Set (MulAut W))) {a : MulAut W} (ha : a ∈ A)
     {J₁ J₂ J₃ : Subgroup W}
@@ -120,7 +124,7 @@ private theorem s16t3_tilde_map_le_sup {A L : Subgroup (MulAut W)}
     tilde L (⊤ : Subgroup W) (J₁.map a.toMonoidHom) ≤
       tilde L (⊤ : Subgroup W) (J₂.map a.toMonoidHom) ⊔
         tilde L (⊤ : Subgroup W) (J₃.map a.toMonoidHom) := by
-  letI : MulDistribMulAction ↥(Subgroup.normalizer (L : Set (MulAut W)))
+  let : MulDistribMulAction ↥(Subgroup.normalizer (L : Set (MulAut W)))
       (W ⧸ modFix L (⊤ : Subgroup W)) :=
     quotAct (X := L) (W := (⊤ : Subgroup W)) le_rfl (fun _ _ _ _ => trivial)
   let t : ↥(Subgroup.normalizer (L : Set (MulAut W))) := ⟨a, hA ha⟩

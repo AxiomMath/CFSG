@@ -94,7 +94,7 @@ theorem borelCentralizerTrivial_projectiveSL_three (hK : 4 ≤ Nat.card K) :
   obtain ⟨S, hS⟩ := exists_sylow_projUnitriangular (K := K) 2 (n := 3) (by norm_num)
   have h0 : IsSylowTwoOf (projUnitriangular 3 K) ⊤ := by
     rw [← hS]
-    exact K1.isSylowTwoOf_top_iff.mpr ⟨S.isPGroup', S.not_dvd_index⟩
+    exact K1.isSylowTwoOf_top_iff.mpr ⟨S.isPGroup, S.not_dvd_index⟩
   refine borelCentralizerTrivial_of_core h0 ?_
   rw [normalizer_projUnitriangular (K := K) (n := 3) 2]
   exact core_all_projectiveSL_three hK

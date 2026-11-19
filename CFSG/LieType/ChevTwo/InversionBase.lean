@@ -14,7 +14,7 @@ theorem chev2RankTwoInverts
 
 namespace GL4Native
 
-@[expose] def toL (A : Matrix (Fin 4) (Fin 4) (ZMod 2)) : List (ZMod 2) :=
+def toL (A : Matrix (Fin 4) (Fin 4) (ZMod 2)) : List (ZMod 2) :=
   List.ofFn fun k : Fin 16 => A (ij k).1 (ij k).2
 
 theorem ij_fst (k : Fin 16) : (ij k).1.val = k.val / 4 := rfl
@@ -78,18 +78,18 @@ theorem powL_toL (A : Matrix (Fin 4) (Fin 4) (ZMod 2)) (n : ℕ) :
   | _ n ih =>
     by_cases h0 : n = 0
     · subst h0
-      rw [powL, dif_pos rfl, pow_zero, oneL_toL]
+      rw [powL, dite_eq_left rfl, pow_zero, oneL_toL]
     · have hhalf : powL (toL A) (n / 2) = toL (A ^ (n / 2)) := ih (n / 2) (by omega)
-      rw [powL, dif_neg h0]
+      rw [powL, dite_eq_right h0]
       dsimp only
       rw [hhalf, mulL_toL]
       by_cases hodd : n % 2 = 1
-      · rw [if_pos hodd, mulL_toL]
+      · rw [ite_eq_left hodd, mulL_toL]
         congr 1
         rw [← pow_add, ← pow_succ]
         congr 1
         omega
-      · rw [if_neg hodd]
+      · rw [ite_eq_right hodd]
         congr 1
         rw [← pow_add]
         congr 1
@@ -105,11 +105,11 @@ end GL4Native
 
 namespace OffNative
 
-@[expose] def glEquivAut : GL (Fin 4) (ZMod 2) ≃* ((Fin 4 → ZMod 2) ≃ₗ[ZMod 2] (Fin 4 → ZMod 2)) :=
+def glEquivAut : GL (Fin 4) (ZMod 2) ≃* ((Fin 4 → ZMod 2) ≃ₗ[ZMod 2] (Fin 4 → ZMod 2)) :=
   Matrix.GeneralLinearGroup.toLin.trans
     (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) (Fin 4 → ZMod 2))
 
-@[expose] def prodHom (U W : Type) [AddCommGroup U] [Module (ZMod 2) U] [AddCommGroup W]
+def prodHom (U W : Type) [AddCommGroup U] [Module (ZMod 2) U] [AddCommGroup W]
     [Module (ZMod 2) W] : (U ≃ₗ[ZMod 2] U) →* ((U × W) ≃ₗ[ZMod 2] (U × W)) where
   toFun g := LinearEquiv.prodCongr g (LinearEquiv.refl (ZMod 2) W)
   map_one' := by

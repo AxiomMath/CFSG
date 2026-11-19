@@ -17,11 +17,13 @@ variable {G : Type} [Group G] [Finite G] {T M L V H B D D₃ Z₁ : Subgroup G} 
 abbrev Ugrp (Z₁ D₃ : Subgroup G) : Subgroup G :=
   conjClosure (conjClosure Z₁ D₃) (Subgroup.centralizer (Z₁ : Set G))
 
+omit [Finite G] in
 theorem coordN_congr {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m) {x y : G} (hx : x ∈ N)
     (hy : y ∈ N) (h : x = y) : coordN D x hx = coordN D y hy := by
   subst h
   rfl
 
+omit [Finite G] in
 theorem coordN_conj {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m) {u : G}
     (hu : u ∈ Subgroup.normalizer (N : Set G)) {v : G} (hv : v ∈ N) :
     D.conj ⟨u, hu⟩ (coordN D v hv) = coordN D (u * v * u⁻¹)
@@ -30,12 +32,14 @@ theorem coordN_conj {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m) {u : G}
   rw [NatL2Data.conj_apply]
   congr 2
 
+omit [Finite G] in
 theorem coordN_inv {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m) {v : G} (hv : v ∈ N)
     (hv' : v⁻¹ ∈ N) : coordN D v⁻¹ hv' = -coordN D v hv := by
   unfold coordN
   have : (⟨v⁻¹, hv'⟩ : ↥N) = (⟨v, hv⟩ : ↥N)⁻¹ := rfl
   rw [this, map_inv, toAdd_inv]
 
+omit [Finite G] in
 theorem coordN_comm {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m) {u : G}
     (hu : u ∈ Subgroup.normalizer (N : Set G)) {v : G} (hv : v ∈ N)
     (h : u * v * u⁻¹ * v⁻¹ ∈ N) :
@@ -45,6 +49,7 @@ theorem coordN_comm {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m) {u : G}
   rw [coordN_mul D hA hB h,
     coordN_inv D hv hB, ← coordN_conj D hu hv, sub_eq_add_neg]
 
+omit [Finite G] in
 theorem NatL2Data.mem_comm {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m) {a b : G}
     (ha : a ∈ N) (hb : b ∈ N) : a * b = b * a := by
   have h : (⟨a, ha⟩ : ↥N) * ⟨b, hb⟩ = ⟨b, hb⟩ * ⟨a, ha⟩ :=
@@ -59,6 +64,7 @@ theorem T_le_centralizer_Z₁ (s : Setup521 G T M L V H B D D₃ Z₁ n) :
   have hz' := (quasithinOmegaOneCenter_le_inf T (s.z1.1 hz)).2
   exact (Subgroup.mem_centralizer_iff.mp hz' t ht).symm
 
+omit [Finite G] in
 theorem conj_fix_of_centralizes {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m) {u z : G}
     (hu : u ∈ Subgroup.normalizer (N : Set G)) {hzN : z ∈ N} (hcomm : u * z = z * u) :
     D.conj ⟨u, hu⟩ (coordN D z hzN) = coordN D z hzN := by

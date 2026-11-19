@@ -35,7 +35,7 @@ private lemma card_jSub_of_le_S {s : Setting3 G L} (hS : HRSetting G L)
 private lemma card_ker_jOn_comp_le_two {s : Setting3 G L} {e : Setting3.Ext s}
     (hH : F33Hyp s e) {U : Subgroup G} (hUH : U ≤ s.H) :
     Nat.card ↥((jOn L (s3_H_le_N s hH.hS)).comp (Subgroup.inclusion hUH)).ker ≤ 2 := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hH.hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hH.hS
   let j := jOn L (s3_H_le_N s hH.hS)
   let φ : ↥U →* MulAut (L ⧸ center L) := j.comp (Subgroup.inclusion hUH)
   show Nat.card ↥φ.ker ≤ 2
@@ -63,11 +63,11 @@ private lemma card_ker_jOn_comp_le_two {s : Setting3 G L} {e : Setting3.Ext s}
 theorem y6b_card_abelian_H_le {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e)
     (hRT : s.R ≠ s.T) {U : Subgroup G} (hUH : U ≤ s.H) (hU : IsPGroup 2 ↥U)
     (hUc : IsMulCommutative ↥U) : Nat.card ↥U ≤ 32 := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hH.hS
-  haveI : IsMulCommutative ↥U := hUc
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hH.hS
+  have : IsMulCommutative ↥U := hUc
   let φ : ↥U →* MulAut (L ⧸ center L) :=
     (jOn L (s3_H_le_N s hH.hS)).comp (Subgroup.inclusion hUH)
-  haveI hφcomm : IsMulCommutative φ.range := inferInstance
+  have hφcomm : IsMulCommutative φ.range := inferInstance
   have hφp : IsPGroup 2 φ.range := by
     have htop : IsPGroup 2 (⊤ : Subgroup ↥U) := hU.of_equiv Subgroup.topEquiv.symm
     have h := htop.map φ
@@ -95,7 +95,7 @@ theorem y6b_card_abelian_H_le {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33H
 theorem y6b_card_cent_g_le (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T)
     {U : Subgroup G} (hUH : U ≤ c.s.H) (hUg : U ≤ centralizer ({c.g} : Set G))
     (hU : IsPGroup 2 ↥U) : Nat.card ↥U ≤ 32 := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hH.hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hH.hS
   let σ : MulAut (L ⧸ center L) := c.s.fr'.σ
   let I : Subgroup (MulAut (L ⧸ center L)) := innerAut (L ⧸ center L)
   let φ : ↥U →* MulAut (L ⧸ center L) :=
@@ -148,7 +148,7 @@ theorem y6b_card_cent_g_le (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠
     constructor
     rintro _ ⟨g, rfl⟩ β
     exact ⟨β g, by ext x; simp [MulAut.conj_apply]⟩
-  haveI := hInormal
+  have := hInormal
   have hQrel : Q.relIndex φ.range ≤ 2 := by
     have hdvd : I.relIndex φ.range ∣ 2 := by
       rw [← hH.hOut]

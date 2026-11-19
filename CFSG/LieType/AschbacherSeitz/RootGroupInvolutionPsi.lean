@@ -31,13 +31,13 @@ private theorem adjDatum_rootGroup_sq_one
 private theorem minDatum_rootGroup_sq_one
     {τ : Tag} {D : MinData τ} {hV : D.Valid} {hA : TauCeti.IsFiniteType τ.cartan}
     {k : Type} [Field k] [CharP k 2]
-    {γ : Fin τ.rank → ℤ} (hγ : IsRoot τ γ) :
+    {γ : Fin τ.rank → ℤ} (_hγ : IsRoot τ γ) :
     ∀ x ∈ (hV.minDatum hA k).rootGroup γ, x * x = 1 := by
   intro x hx
   obtain ⟨c, rfl⟩ := (hV.mem_rootGroup (k := k)).1 hx
   rw [← hV.xm_add k, CharTwo.add_self_eq_zero, hV.xm_zero k]
 
-private theorem twistedE6_rootGroup_sq_one (f : ℕ) (hf : 1 ≤ f)
+private theorem twistedE6_rootGroup_sq_one (f : ℕ) (_hf : 1 ≤ f)
     {γ : Fin (twistedE6Datum 2 f).rank → ℤ}
     (hγ : γ ∈ (twistedE6Datum 2 f).roots) :
     ∀ x ∈ (twistedE6Datum 2 f).rootGroup γ, x * x = 1 := by
@@ -121,10 +121,10 @@ private theorem odd_center_twistedE6 (f : ℕ) (hf : 1 ≤ f) :
   · rw [h]; norm_num
   · rw [h]; norm_num
 
-theorem rootGroupInvolutionPsi_F4 (n f : ℕ) (hf : 1 ≤ f) {G : Type} [Group G]
+theorem rootGroupInvolutionPsi_F4 (n f : ℕ) (_hf : 1 ≤ f) {G : Type} [Group G]
     (ψ : (ggU .F4 n f).K →* G) (hker : ψ.ker ≤ Subgroup.center (ggU .F4 n f).K)
     {γ : Fin (ggU .F4 n f).D.rank → ℤ} (hγ : γ ∈ (ggU .F4 n f).D.roots)
-    (hclass : GGRootClass (ggU .F4 n f).D .F4 γ) (u : (ggU .F4 n f).K) :
+    (_hclass : GGRootClass (ggU .F4 n f).D .F4 γ) (u : (ggU .F4 n f).K) :
     ∃ r ∈ ggRootSub (ggU .F4 n f).D ψ γ u, orderOf r = 2 := by
   change ∃ r ∈ ggRootSub (adjDatum (rootOperatorFamily Tag.F4) (GaloisField 2 f)) ψ γ u,
     orderOf r = 2
@@ -135,9 +135,9 @@ theorem rootGroupInvolutionPsi_F4 (n f : ℕ) (hf : 1 ≤ f) {G : Type} [Group G
   have hsq : ∀ x ∈ (adjDatum (rootOperatorFamily Tag.F4) (GaloisField 2 f)).rootGroup γ,
       x * x = 1 :=
     adjDatum_rootGroup_sq_one (F := rootOperatorFamily Tag.F4) (K := GaloisField 2 f) hγ'
-  haveI : Finite (Module.End (GaloisField 2 f) (RootModule Tag.F4 (GaloisField 2 f))) :=
+  have : Finite (Module.End (GaloisField 2 f) (RootModule Tag.F4 (GaloisField 2 f))) :=
     Module.finite_of_finite (GaloisField 2 f)
-  haveI : Finite (adjointGroup Tag.F4 (GaloisField 2 f)) := Subtype.finite
+  have : Finite (adjointGroup Tag.F4 (GaloisField 2 f)) := Subtype.finite
   refine exists_involution_mem_ggRootSub (Δ := adjDatum (rootOperatorFamily Tag.F4)
     (GaloisField 2 f)) hγ u hker hsq ?_ ?_
   · exact rootGroup_ne_bot (F := rootOperatorFamily Tag.F4) hγ'
@@ -146,10 +146,10 @@ theorem rootGroupInvolutionPsi_F4 (n f : ℕ) (hf : 1 ≤ f) {G : Type} [Group G
       (fun x => ⟨1, Subtype.ext (by simpa [pow_two] using hsq x x.2)⟩)
       (odd_center_adjoint Tag.F4 (GaloisField 2 f))
 
-theorem rootGroupInvolutionPsi_E6 (n f : ℕ) (hf : 1 ≤ f) {G : Type} [Group G]
+theorem rootGroupInvolutionPsi_E6 (n f : ℕ) (_hf : 1 ≤ f) {G : Type} [Group G]
     (ψ : (ggU .E6 n f).K →* G) (hker : ψ.ker ≤ Subgroup.center (ggU .E6 n f).K)
     {γ : Fin (ggU .E6 n f).D.rank → ℤ} (hγ : γ ∈ (ggU .E6 n f).D.roots)
-    (hclass : GGRootClass (ggU .E6 n f).D .E6 γ) (u : (ggU .E6 n f).K) :
+    (_hclass : GGRootClass (ggU .E6 n f).D .E6 γ) (u : (ggU .E6 n f).K) :
     ∃ r ∈ ggRootSub (ggU .E6 n f).D ψ γ u, orderOf r = 2 := by
   change ∃ r ∈ ggRootSub (e6Datum (GaloisField 2 f)) ψ γ u, orderOf r = 2
   change γ ∈ (e6Datum (GaloisField 2 f)).roots at hγ
@@ -160,9 +160,9 @@ theorem rootGroupInvolutionPsi_E6 (n f : ℕ) (hf : 1 ≤ f) {G : Type} [Group G
   have hsq : ∀ x ∈ (e6Datum (GaloisField 2 f)).rootGroup γ, x * x = 1 :=
     minDatum_rootGroup_sq_one (D := e6Data) (hV := e6Data_valid)
       (hA := isFiniteType_cartan_E6) (k := GaloisField 2 f) hγ'
-  haveI : Finite (Module.End (GaloisField 2 f) (Fin e6Data.d →₀ GaloisField 2 f)) :=
+  have : Finite (Module.End (GaloisField 2 f) (Fin e6Data.d →₀ GaloisField 2 f)) :=
     Module.finite_of_finite (GaloisField 2 f)
-  haveI : Finite ↥(e6Data_valid.minGroup (GaloisField 2 f)) := Subtype.finite
+  have : Finite ↥(e6Data_valid.minGroup (GaloisField 2 f)) := Subtype.finite
   refine exists_involution_mem_ggRootSub (Δ := e6Datum (GaloisField 2 f)) hγ u hker hsq ?_ ?_
   · exact e6Data_valid.rootGroup_ne_bot (GaloisField 2 f) hγ'
   · exact inf_center_eq_bot_of_isPGroup_two_of_oddCenter
@@ -173,7 +173,7 @@ theorem rootGroupInvolutionPsi_E6 (n f : ℕ) (hf : 1 ≤ f) {G : Type} [Group G
 theorem rootGroupInvolutionPsi_E7 (n f : ℕ) (hf : 1 ≤ f) {G : Type} [Group G]
     (ψ : (ggU .E7 n f).K →* G) (hker : ψ.ker ≤ Subgroup.center (ggU .E7 n f).K)
     {γ : Fin (ggU .E7 n f).D.rank → ℤ} (hγ : γ ∈ (ggU .E7 n f).D.roots)
-    (hclass : GGRootClass (ggU .E7 n f).D .E7 γ) (u : (ggU .E7 n f).K) :
+    (_hclass : GGRootClass (ggU .E7 n f).D .E7 γ) (u : (ggU .E7 n f).K) :
     ∃ r ∈ ggRootSub (ggU .E7 n f).D ψ γ u, orderOf r = 2 := by
   change ∃ r ∈ ggRootSub (e7Datum (GaloisField 2 f)) ψ γ u, orderOf r = 2
   change γ ∈ (e7Datum (GaloisField 2 f)).roots at hγ
@@ -184,9 +184,9 @@ theorem rootGroupInvolutionPsi_E7 (n f : ℕ) (hf : 1 ≤ f) {G : Type} [Group G
   have hsq : ∀ x ∈ (e7Datum (GaloisField 2 f)).rootGroup γ, x * x = 1 :=
     minDatum_rootGroup_sq_one (D := e7Data) (hV := e7Data_valid)
       (hA := isFiniteType_cartan_E7) (k := GaloisField 2 f) hγ'
-  haveI : Finite (Module.End (GaloisField 2 f) (Fin e7Data.d →₀ GaloisField 2 f)) :=
+  have : Finite (Module.End (GaloisField 2 f) (Fin e7Data.d →₀ GaloisField 2 f)) :=
     Module.finite_of_finite (GaloisField 2 f)
-  haveI : Finite ↥(e7Data_valid.minGroup (GaloisField 2 f)) := Subtype.finite
+  have : Finite ↥(e7Data_valid.minGroup (GaloisField 2 f)) := Subtype.finite
   refine exists_involution_mem_ggRootSub (Δ := e7Datum (GaloisField 2 f)) hγ u hker hsq ?_ ?_
   · exact e7Data_valid.rootGroup_ne_bot (GaloisField 2 f) hγ'
   · exact inf_center_eq_bot_of_isPGroup_two_of_oddCenter
@@ -194,10 +194,10 @@ theorem rootGroupInvolutionPsi_E7 (n f : ℕ) (hf : 1 ≤ f) {G : Type} [Group G
       (fun x => ⟨1, Subtype.ext (by simpa [pow_two] using hsq x x.2)⟩)
       (odd_center_e7 f hf)
 
-theorem rootGroupInvolutionPsi_E8 (n f : ℕ) (hf : 1 ≤ f) {G : Type} [Group G]
+theorem rootGroupInvolutionPsi_E8 (n f : ℕ) (_hf : 1 ≤ f) {G : Type} [Group G]
     (ψ : (ggU .E8 n f).K →* G) (hker : ψ.ker ≤ Subgroup.center (ggU .E8 n f).K)
     {γ : Fin (ggU .E8 n f).D.rank → ℤ} (hγ : γ ∈ (ggU .E8 n f).D.roots)
-    (hclass : GGRootClass (ggU .E8 n f).D .E8 γ) (u : (ggU .E8 n f).K) :
+    (_hclass : GGRootClass (ggU .E8 n f).D .E8 γ) (u : (ggU .E8 n f).K) :
     ∃ r ∈ ggRootSub (ggU .E8 n f).D ψ γ u, orderOf r = 2 := by
   change ∃ r ∈ ggRootSub (adjDatum (rootOperatorFamily Tag.E8) (GaloisField 2 f)) ψ γ u,
     orderOf r = 2
@@ -208,9 +208,9 @@ theorem rootGroupInvolutionPsi_E8 (n f : ℕ) (hf : 1 ≤ f) {G : Type} [Group G
   have hsq : ∀ x ∈ (adjDatum (rootOperatorFamily Tag.E8) (GaloisField 2 f)).rootGroup γ,
       x * x = 1 :=
     adjDatum_rootGroup_sq_one (F := rootOperatorFamily Tag.E8) (K := GaloisField 2 f) hγ'
-  haveI : Finite (Module.End (GaloisField 2 f) (RootModule Tag.E8 (GaloisField 2 f))) :=
+  have : Finite (Module.End (GaloisField 2 f) (RootModule Tag.E8 (GaloisField 2 f))) :=
     Module.finite_of_finite (GaloisField 2 f)
-  haveI : Finite (adjointGroup Tag.E8 (GaloisField 2 f)) := Subtype.finite
+  have : Finite (adjointGroup Tag.E8 (GaloisField 2 f)) := Subtype.finite
   refine exists_involution_mem_ggRootSub (Δ := adjDatum (rootOperatorFamily Tag.E8)
     (GaloisField 2 f)) hγ u hker hsq ?_ ?_
   · exact rootGroup_ne_bot (F := rootOperatorFamily Tag.E8) hγ'
@@ -223,7 +223,7 @@ theorem rootGroupInvolutionPsi_twistedE6 (n f : ℕ) (hf : 1 ≤ f) {G : Type} [
     (ψ : (ggU .twistedE6 n f).K →* G)
     (hker : ψ.ker ≤ Subgroup.center (ggU .twistedE6 n f).K)
     {γ : Fin (ggU .twistedE6 n f).D.rank → ℤ} (hγ : γ ∈ (ggU .twistedE6 n f).D.roots)
-    (hclass : GGRootClass (ggU .twistedE6 n f).D .twistedE6 γ)
+    (_hclass : GGRootClass (ggU .twistedE6 n f).D .twistedE6 γ)
     (u : (ggU .twistedE6 n f).K) :
     ∃ r ∈ ggRootSub (ggU .twistedE6 n f).D ψ γ u, orderOf r = 2 := by
   change ∃ r ∈ ggRootSub (twistedE6Datum 2 f) ψ γ u, orderOf r = 2
@@ -239,10 +239,10 @@ theorem rootGroupInvolutionPsi_twistedE6 (n f : ℕ) (hf : 1 ≤ f) {G : Type} [
   have hne : (twistedE6Datum 2 f).rootGroup γ ≠ ⊥ := by
     change twistedRootGroup K θ γ ≠ ⊥
     exact twistedRootGroup_ne_bot (k := K) (θ := θ) hθ hγ'
-  haveI : Finite (Module.End K (Fin e6Data.d →₀ K)) :=
+  have : Finite (Module.End K (Fin e6Data.d →₀ K)) :=
     Module.finite_of_finite K
-  haveI : Finite ↥(e6Data_valid.minGroup K) := Subtype.finite
-  haveI : Finite (twistedE6Group 2 f) := Subtype.finite
+  have : Finite ↥(e6Data_valid.minGroup K) := Subtype.finite
+  have : Finite (twistedE6Group 2 f) := Subtype.finite
   refine exists_involution_mem_ggRootSub (Δ := twistedE6Datum 2 f) hγ u hker hsq hne ?_
   exact inf_center_eq_bot_of_isPGroup_two_of_oddCenter
     (X := (twistedE6Datum 2 f).rootGroup γ)

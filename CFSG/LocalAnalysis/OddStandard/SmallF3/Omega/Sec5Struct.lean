@@ -23,7 +23,7 @@ theorem sec5_isCyclic_of_isSylow2Of [Finite G] {H : Subgroup G}
     (hcyc : ∀ P : Sylow 2 ↥H, IsCyclic (P : Subgroup ↥H)) {P : Subgroup G}
     (hP : IsSylow2Of P H) : IsCyclic ↥P := by
   obtain ⟨Q, hQ⟩ := hP.exists_sylow
-  haveI : IsCyclic ↥(Q : Subgroup ↥H) := hcyc Q
+  have : IsCyclic ↥(Q : Subgroup ↥H) := hcyc Q
   rw [← hQ]
   exact isCyclic_of_surjective
     (Subgroup.equivMapOfInjective (Q : Subgroup ↥H) H.subtype H.subtype_injective).toMonoidHom

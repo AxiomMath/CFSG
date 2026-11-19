@@ -9,7 +9,7 @@ namespace CFSG.HardMathSupport.Dickson.I271
 open CFSG.Open CFSG.LocalAnalysis.GLTheoremB CFSG.HardMathSupport.Timmesfeld.Balance
 
 theorem le_of_isComponentOf_of_coprime_quotient {Z : Type*} [Group Z] [Finite Z] {p : ℕ}
-    (hp : p.Prime) (hO : GLAPPrimeCore p Z = ⊥) {N M : Subgroup Z} [N.Normal] (hNM : N ≤ M)
+    (hp : p.Prime) (hO : GLAPPrimeCore p Z = ⊥) {N M : Subgroup Z} [N.Normal] (_hNM : N ≤ M)
     (hexp : ∀ x ∈ M, ∃ n : ℕ, Nat.Coprime p n ∧ x ^ n ∈ N) (hab : commutator Z ≤ M)
     {L : Subgroup Z} (hL : CFSG.Open.IsComponentOf L ⊤) : L ≤ N := by
   have : Fact p.Prime := ⟨hp⟩

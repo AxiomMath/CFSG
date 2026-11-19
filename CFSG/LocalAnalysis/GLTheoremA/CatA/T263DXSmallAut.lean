@@ -115,7 +115,7 @@ private theorem smallAut_false_of_bad_case [Finite X] {A : Subgroup (MulAut X)}
   have hmod := smallAut_card_modEq_card_fixed hA hSinv
   have hempty : {x | x ∈ S ∧ x ∈ FixedPoints.subgroup A X} = ∅ := by
     ext x
-    simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and]
+    simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and]
     intro hxS hxF
     have hx1 : x ∈ R ⊓ FixedPoints.subgroup A X := ⟨hxS.1, hxF⟩
     rw [hbot, Subgroup.mem_bot] at hx1
@@ -164,7 +164,7 @@ private theorem smallAut_exists_sylow_le_fixed [Finite X] {p r : ℕ} [Fact p.Pr
     rcases hp with rfl | rfl <;> revert h216 <;> decide
   obtain ⟨R, hR⟩ := smallAut_exists_sylow_invariant (r := r) hA hpX
   refine ⟨R, ?_⟩
-  rcases smallAut_le_fixed_or hp hr hX hA R.isPGroup' hR with h | ⟨h7', h2, hcard, hbot⟩
+  rcases smallAut_le_fixed_or hp hr hX hA R.isPGroup hR with h | ⟨h7', h2, hcard, hbot⟩
   · exact h
   · exfalso
     subst h7' h2

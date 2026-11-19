@@ -20,7 +20,7 @@ private theorem s16k_wSub_eq (h : S16kBase D ⊥ V L hV) : wSub ⊥ V hV L = V :
   unfold wSub wTil
   rw [hcomm, preTil_top]
 
-private theorem s16k_inf_le_preTil_fixV (h : S16kBase D ⊥ V L hV) :
+private theorem s16k_inf_le_preTil_fixV (_h : S16kBase D ⊥ V L hV) :
     V ⊓ centralizer (L : Set G) ≤ preTil ⊥ V hV (fixV (lBar ⊥ V hV L)) := by
   rintro g ⟨hgV, hgC⟩
   rw [mem_preTil_iff_of_mem ⊥ V hV _ hgV, mem_fixV]

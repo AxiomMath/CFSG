@@ -47,7 +47,7 @@ theorem sup_zpowers_eq_top_of_normal (hO : oddCore Y = ⊥) {s : Y} (hs : orderO
   obtain ⟨S, hSs⟩ := hs'2.exists_le_sylow
   have hScard : Nat.card S = 2 := by
     have hle : Nat.card S ≤ 2 := by
-      have h1 := hsyl (S.toSubgroup.map C.subtype) (S.isPGroup'.map C.subtype)
+      have h1 := hsyl (S.toSubgroup.map C.subtype) (S.isPGroup.map C.subtype)
         (map_subtype_le _)
       rwa [card_map_of_injective C.subtype_injective] at h1
     have hge : 2 ≤ Nat.card S := by

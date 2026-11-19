@@ -52,7 +52,7 @@ private theorem lift_component_fix (σ : G →* T) (hσ : Function.Surjective σ
       ∀ d : G, σ d ∈ Subgroup.centralizer (JT : Set T) → d ∈ Subgroup.centralizer (J₀ : Set G) := by
   set H : Subgroup G := JT.comap σ with hH
   have hHmap : H.map σ = JT := Subgroup.map_comap_eq_self_of_surjective hσ JT
-  haveI hJTperf : Group.IsPerfect ↥JT := ⟨hJT.2.2.1⟩
+  have hJTperf : Group.IsPerfect ↥JT := ⟨hJT.2.2.1⟩
   have hJTcomm : ⁅JT, JT⁆ = JT := Subgroup.commutator_eq_self
   have hJ₀map : (⁅H, H⁆ : Subgroup G).map σ = JT := by
     rw [Subgroup.map_commutator, hHmap, hJTcomm]
@@ -97,7 +97,7 @@ private theorem lift_component_fix (σ : G →* T) (hσ : Function.Surjective σ
         _ = a * h * a⁻¹ := by group
     rw [this]
     exact Subgroup.mul_mem _ (Subgroup.mul_mem _ ha hh) (Subgroup.inv_mem _ ha)
-  haveI hJ₀perfect : Group.IsPerfect ↥(⁅H, H⁆ : Subgroup G) := Subgroup.isPerfect_iff.2 hJ₀perf
+  have hJ₀perfect : Group.IsPerfect ↥(⁅H, H⁆ : Subgroup G) := Subgroup.isPerfect_iff.2 hJ₀perf
   let φ : ↥(⁅H, H⁆ : Subgroup G) →* ↥JT :=
     (σ.comp (⁅H, H⁆ : Subgroup G).subtype).codRestrict JT (fun j => hJ₀H j.2)
   have hφsurj : Function.Surjective φ := by
@@ -150,7 +150,7 @@ theorem modelSelD_twistedE6 {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finit
     (hK : Nat.card K = (2 ^ f) ^ 2) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (2 ^ f))
     (hq4 : 4 ≤ 2 ^ f) (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ (2 ^ f) ^ 2 - 1) :
     ModelSelD p ↥(twistedE6RootGroup K σ) := by
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
   intro β hβmem hβp hβ1 P hPβ hP2 hP1
   exact exists_comp_of_two_twistedE6 hf hK σ hσ hq4 hp hp2 hpq β hβmem hβp hβ1 P hPβ hP2 hP1
 
@@ -171,7 +171,7 @@ theorem exists_modelSelD_e6Shape (hp : p.Prime) (hp2 : p ≠ 2) {X : Type} [Grou
         CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
           CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv
       have hK2 : ringChar K = 2 := by
-        haveI : CharP K 2 := by rw [← hq2]; exact hKchar
+        have : CharP K 2 := by rw [← hq2]; exact hKchar
         exact ringChar.eq K 2
       exact ⟨↥(adjointGroup Tag.E6 K), inferInstance, inferInstance, ⟨e.trans φ⟩,
         modelSelD_adjointGroup (Or.inr (Or.inr (Or.inl rfl))) hK2 (by rw [hK]; exact hq4) hp hp2
@@ -212,7 +212,7 @@ private theorem chevAut_mem_innAutDerived_of_innDiagOn (hp : p.Prime) (hp2 : p �
   have hqS : CFSG.Open.IsQuasisimple (PQuot p S) := isQuasisimple_pQuot_of_glaPComponent hp hL
   obtain ⟨labL, hLabQuot, hinDiag⟩ := I141F.innDiagKind_chevAut hx hqS hInn
   have hcen : Subgroup.center (PSimple p S) = ⊥ := Y10F.center_centerQuot_eq_bot hqS
-  haveI : Group.IsPerfect (PQuot p S) := ⟨hqS.1⟩
+  have : Group.IsPerfect (PQuot p S) := ⟨hqS.1⟩
   have hperf : commutator (PSimple p S) = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center (PQuot p S)))
       (QuotientGroup.mk'_surjective _)).commutator_eq_top
@@ -348,7 +348,7 @@ private theorem selCompCore_of_componentD (hp : p.Prime) (hp2 : p ≠ 2) {S B₀
     rw [hs_eq]
     exact Subgroup.mul_mem _ (Subgroup.mem_sup_left hjJ) (Subgroup.mem_sup_right hdD)
   · have hTs : IsSimpleGroup T := by
-      haveI : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
+      have : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
       exact e.symm.isSimpleGroup
     have hTnc : ∃ a b : T, a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := (native_of_open_dx hSq).2.2

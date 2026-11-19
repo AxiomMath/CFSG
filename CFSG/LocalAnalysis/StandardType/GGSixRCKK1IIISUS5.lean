@@ -126,12 +126,12 @@ private lemma s5cand_mem (M : Matrix (Fin 4) (Fin 4) (ZMod 2)) (hR : M.mulVec s5
   refine ⟨(fun i => M i 3), s5vec_mem _, ?_⟩
   exact s5mk_cols M hR
 
-private def decEqVec4Fast : DecidableEq (Fin 4 → ZMod 2) := fun u v =>
+@[instance_reducible] private def decEqVec4Fast : DecidableEq (Fin 4 → ZMod 2) := fun u v =>
   decidable_of_iff (((List.finRange 4).all fun i => decide (u i = v i)) = true) (by
     simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
     exact funext_iff.symm)
 
-private def decEqMat4Fast : DecidableEq (Matrix (Fin 4) (Fin 4) (ZMod 2)) := fun A B =>
+@[instance_reducible] private def decEqMat4Fast : DecidableEq (Matrix (Fin 4) (Fin 4) (ZMod 2)) := fun A B =>
   decidable_of_iff (((List.finRange 4).all fun i => (List.finRange 4).all fun j =>
       decide (A i j = B i j)) = true) (by
     simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
@@ -233,7 +233,7 @@ private lemma s5_finite :
 
 private lemma rckSU5_no_order_three {Y : Subgroup (GL (Fin 4) (ZMod 2))} (hY : IsPGroup 2 Y)
     {a : GL (Fin 4) (ZMod 2)} (ha : a ∈ Y) (h3 : a ^ 3 = 1) (hne : a ≠ 1) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hY.exists_orderOf_eq_pow (⟨a, ha⟩ : Y)
   have hkσ : orderOf a = 2 ^ k := by rw [← Subgroup.orderOf_mk a ha, hk]
   have hdvd3 : orderOf a ∣ 3 := (orderOf_dvd_iff_pow_eq_one).mpr h3

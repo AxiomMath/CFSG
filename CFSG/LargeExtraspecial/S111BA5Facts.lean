@@ -138,7 +138,7 @@ private theorem exists_sylow_eq {U : Subgroup (alternatingGroup (Fin 5))} (hU : 
   obtain ⟨P, hUP⟩ := hU2.exists_le_sylow
   refine ⟨P, (Subgroup.eq_of_le_of_card_ge hUP ?_).symm⟩
   rw [hU]
-  exact card_le_four_of_isPGroup_alternating P.isPGroup'
+  exact card_le_four_of_isPGroup_alternating P.isPGroup
 
 theorem exists_conj_fixfree_alternating {T : Subgroup (alternatingGroup (Fin 5))}
     (hT : Nat.card T = 4) :

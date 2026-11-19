@@ -88,7 +88,7 @@ theorem eq_of_forall_isTwoElement_mem {G : Type*} [Group G] [Finite G] {K N : Su
   obtain ⟨B⟩ : Nonempty (Sylow 2 ↥K) := inferInstance
   have hBM : (B : Subgroup ↥K) ≤ M := by
     intro b hb
-    obtain ⟨k, hk⟩ := B.isPGroup' ⟨b, hb⟩
+    obtain ⟨k, hk⟩ := B.isPGroup ⟨b, hb⟩
     have e1 : b ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hbk : (b : G) ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val e1
     exact h2 b b.2 ⟨k, hbk⟩

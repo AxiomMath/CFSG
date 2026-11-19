@@ -36,8 +36,8 @@ theorem fldExc_G2
     rw [hT] at h2
     exact h2
   have hn : 1 ≤ lab'.n := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
   have hconj := RecipeExcLang.ggRawFieldConj_chev (τ := .G2) (ℓ := 2) (f := lab'.n) (p := p) hn hK
     hp (RecipeExcLang.innerFieldTrivial_G2 hr2.2 hK)
   have hfix : ∀ f' ∈ LargeEvenChevFieldImage LargeEvenCartanG2 K
@@ -78,8 +78,8 @@ theorem fldExc_E6
     rw [hT] at h2
     exact h2
   have hn : 1 ≤ lab'.n := hlam'.1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
   have hconj := RecipeExcLang.ggRawFieldConj_chev (τ := CFSG.Blueprint.Chevalley.TwistTag.E6.tag) (ℓ := 2) (f := lab'.n)
     (p := p) hn hK hp CFSG.StandardType.RecipeExcLang.innerFieldTrivial_E6
   have hfix : ∀ f' ∈ LargeEvenChevFieldImage (LargeEvenCartanE 6) K

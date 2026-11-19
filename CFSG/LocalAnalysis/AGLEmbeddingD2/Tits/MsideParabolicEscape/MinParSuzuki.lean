@@ -207,9 +207,9 @@ theorem suzuki_oneNode : OneNode (suzukiGroup a K) (suzukiU a K) where
   pgroup := suzukiU_isPGroup hK
   coatom := by
     rw [suzuki_normalizer_eq hK, ← (suzuki_ovoid_stabilizer hK).2]
-    haveI : MulAction.IsPreprimitive (suzukiGroup a K) (suzukiOmegaSub hK) :=
+    have : MulAction.IsPreprimitive (suzukiGroup a K) (suzukiOmegaSub hK) :=
       (suzuki_ovoid_double_transitivity hK).2.2.2.2
-    haveI : Nontrivial (suzukiOmegaSub hK) :=
+    have : Nontrivial (suzukiOmegaSub hK) :=
       ⟨⟨⟨suzukiInfty K, suzukiInfty_mem_suzukiOmega a K⟩,
         ⟨suzukiLine a K 0 0, suzukiLine_mem_suzukiOmega a K 0 0⟩, fun h =>
           suzukiLine_ne_suzukiInfty 0 0 (congrArg Subtype.val h).symm⟩⟩
@@ -271,7 +271,7 @@ theorem suzuki_cat {S : Type} [Group S] [Finite S] (m : ℕ)
     ((CFSG.ShultStronglyClosedTI.SuzukiModel.suzukiGroupEquivSuzukiMatrixGroup hK).trans
       (CFSG.BenderSuzuki.Catalog.groupEquivSuzukiMatrixGroup hv).symm).trans e.symm
   refine ⟨?_, ?_⟩
-  · haveI := (suzuki_simple hm hK).2.2
+  · have := (suzuki_simple hm hK).2.2
     exact MulEquiv.isSimpleGroup ψ.symm
   · have h0 : IsSylowTwoOf ((suzukiU m (GaloisField 2 (2 * m + 1))).map ψ.toMonoidHom) ⊤ :=
       ChevGen.isSylowTwoOf_top_map_equiv ψ (suzukiU_isSylowTwoOf hK)

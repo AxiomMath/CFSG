@@ -55,6 +55,7 @@ theorem exists_singular_perp_pair (hQ : Q.polarBilin.Nondegenerate) (hV : finran
   rw [hW, OrthoF2.mem_orthogonal_span_pair_iff] at hwW
   exact ⟨w, hw0, hwq, hwW.1, hwW.2⟩
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem eichler_apply_pair {x b w : V} (hbq : Q b = 0) (hbw : polar Q b w = 0)
     (hxb : polar Q x b = 1) (hxw : polar Q x w = 0) (hwq : Q w = 0) :
     eichler Q b w x = x + w := by
@@ -150,8 +151,8 @@ theorem two_pow_ten_dvd_card (hQ : Q.polarBilin.Nondegenerate) (hV : finrank (ZM
     {M : Subgroup (V ≃ₗ[ZMod 2] V)} (hMO : M ≤ orthogonalGroup Q) {x : V} (hx0 : x ≠ 0)
     (hxq : Q x = 0) (hA : pointRadical Q x ≤ M) (horb : ∃ m ∈ M, polar Q x (m x) ≠ 0) :
     2 ^ 10 ∣ Nat.card M := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (V ≃ₗ[ZMod 2] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite (V ≃ₗ[ZMod 2] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 2] V => (e : V → V))
       (fun _ _ h => LinearEquiv.ext (congrFun h))
   obtain ⟨m₀, hm₀, hpol⟩ := horb
@@ -213,7 +214,7 @@ theorem two_pow_ten_dvd_card (hQ : Q.polarBilin.Nondegenerate) (hV : finrank (ZM
     rw [hpx] at h5
     rw [h5, hu]
   set A' : Subgroup P := A.subgroupOf P with hA'
-  haveI : A'.Normal :=
+  have : A'.Normal :=
     ⟨fun n hn g => by
       rw [hA', Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hAnorm g g.2 n hn⟩

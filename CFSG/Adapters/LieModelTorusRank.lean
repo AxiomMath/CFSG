@@ -20,7 +20,7 @@ theorem le_pRank_statedProj_of_torus {K : Type} [Field K] [Finite K] {n r m : �
     (hH : ∀ d : Fin n → Kˣ, (∀ i, d i ^ r = 1) → ∏ i, d i = 1 →
       CFSG.SectionRank.ClassicalEven.torusDiag d ∈ H) :
     m ≤ CFSG.Open.pRank r (⊤ : Subgroup (StatedProj H)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hμ : Nat.card (rootsOfUnity r K) = r := card_rootsOfUnity_of_dvd hr hrK
   let μ := rootsOfUnity r K
   let incl : μ →* Kˣ := μ.subtype
@@ -90,10 +90,10 @@ theorem le_pRank_statedProj_of_torus {K : Type} [Field K] [Finite K] {n r m : �
 theorem LieModel.le_pRank_psl_of_dvd {X : Type} [Group X] [Finite X] {n p f r m : ℕ}
     (h : LieModel X .PSL n p f) (hr : r.Prime) (hrq : r ∣ p ^ f - 1) (hmn : m < n)
     (hcen : m + 1 < n ∨ ¬ r ∣ n) : m ≤ CFSG.Open.pRank r (⊤ : Subgroup X) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨-, K, hfield, hfinite, hK, ⟨e⟩⟩ := h.statedClassicalModel_of_ne_zero (by omega)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hrK : r ∣ Nat.card Kˣ := by
     rw [Nat.card_units, hK]
     exact hrq
@@ -103,11 +103,11 @@ theorem LieModel.le_pRank_psl_of_dvd {X : Type} [Group X] [Finite X] {n p f r m 
 theorem LieModel.le_pRank_psu_of_dvd {X : Type} [Group X] [Finite X] {n p f r m : ℕ}
     (h : LieModel X .PSU n p f) (hr : r.Prime) (hrq : r ∣ p ^ f + 1) (hmn : m < n)
     (hcen : m + 1 < n ∨ ¬ r ∣ n) : m ≤ CFSG.Open.pRank r (⊤ : Subgroup X) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨⟨hp, -, -⟩, K, hfield, hfinite, hK, ⟨e⟩⟩ :=
     h.statedClassicalModel_of_ne_zero (by omega)
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hq : p ^ f ≠ 0 := (pow_pos hp.pos f).ne'
   have hcard : Nat.card Kˣ = (p ^ f + 1) * (p ^ f - 1) := by
     rw [Nat.card_units, hK, ← Nat.sq_sub_sq, one_pow]

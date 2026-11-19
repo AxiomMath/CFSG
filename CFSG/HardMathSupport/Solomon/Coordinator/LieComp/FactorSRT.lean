@@ -160,13 +160,13 @@ theorem lieFactorData_suzukiGroup {b : ℕ} (hb : 1 ≤ b) {k : Type}
     [Field k] [Finite k] (hk : Nat.card k = 2 ^ (2 * b + 1)) :
     LieFactorData 2 (suzukiGroup b k) := by
   obtain ⟨hfin, hs, hnc⟩ := suzukiGroup_simple_nonab hb hk
-  haveI := hfin
-  haveI := hs
+  have := hfin
+  have := hs
   exact LieFactorData.of_simple hnc (isChevSimple_suzukiGroup hb hk)
 
 theorem lieFactorData_SL2 {K : Type} [Field K] [Finite K] [CharP K 2] (h4 : 4 ≤ Nat.card K) :
     LieFactorData 2 (Matrix.SpecialLinearGroup (Fin 2) K) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h := slFactorFacts_holds K 2 le_rfl (fun _ => by rw [← Nat.card_eq_fintype_card]; exact h4)
   rwa [ringChar.eq K 2] at h
 

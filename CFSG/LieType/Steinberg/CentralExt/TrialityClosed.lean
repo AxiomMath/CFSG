@@ -417,9 +417,8 @@ theorem triality_exists_section_of_pKernel [Finite K] {q : ℕ} (hq : 3 ≤ q)
   intro a ha b hb hab
   rcases mem_posRoots ha with rfl | rfl | rfl | rfl | rfl | rfl <;>
     rcases mem_posRoots hb with rfl | rfl | rfl | rfl | rfl | rfl
-  all_goals first
+  all_goals try first
     | exact absurd rfl hab
-    | skip
   · exact Or.inl (sep_of (1, t₁) (by rw [rep_r10]; exact hJ1.1)
       (by rw [rep_r01]; show chi σ 1 t₁ d01 ≠ 1; rw [hJ1.2.1]; exact ht₁2))
   · exact Or.inl (sep_of (1, t₁) (by rw [rep_r10]; exact hJ1.1)

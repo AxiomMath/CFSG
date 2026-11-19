@@ -105,7 +105,7 @@ private theorem l02qj7b_commute_transfer {F₀ E : Type} [Field F₀] [Finite F�
     rw [h1, hN, l02qj7b_recipeEquiv_linConjAut]
   exact kgLangS1A_commute_transfer (d := 3) (by norm_num) hcard ψ' hM' hN' hgh
 
-theorem kgLangT3_E_le_component {n : ℕ} (hn : 2 ≤ n) (hev : Even n) (K : Type) [Field K]
+theorem kgLangT3_E_le_component {n : ℕ} (hn : 2 ≤ n) (_hev : Even n) (K : Type) [Field K]
     (hK : Nat.card K = (2 ^ n) ^ 3) (k : Type) [Field k] [Algebra k K] (hk : Nat.card k = 2 ^ n)
     (D : TriD4LineKGXData n K k)
     (A : Subgroup (MulAut (GGTriD4R n K))) (hA : IsElemAbelian 3 A)
@@ -120,10 +120,10 @@ theorem kgLangT3_E_le_component {n : ℕ} (hn : 2 ≤ n) (hev : Even n) (K : Typ
     triD4LineE n K A ≤ J₀ := by
   intro e₁ he₁
   have hn1 : 1 ≤ n := by omega
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-  haveI : Fintype k := Fintype.ofFinite k
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Fintype k := Fintype.ofFinite k
+  have : Fintype K := Fintype.ofFinite K
   have hZ : Subgroup.center (GGTriD4R n K) = ⊥ := triD4Line_center_bot hn1 K hK
   have hdeg : Module.finrank k K = 3 := by
     have hcard := Module.card_eq_pow_finrank (K := k) (V := K)
@@ -133,13 +133,13 @@ theorem kgLangT3_E_le_component {n : ℕ} (hn : 2 ≤ n) (hev : Even n) (K : Typ
     exact (Nat.pow_right_injective h2n hcard).symm
   have hocomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := by
     intro a ha b hb
-    haveI := hA.1
+    have := hA.1
     exact setLike_mul_comm (s := A) ha hb
   have hEA : IsElemAbelian 3 (triD4LineE n K A) := triD4Line_E_isElemAbelian K hZ A hA
   have hzEA : D.z₀ ∈ triD4LineE n K A := mem_triD4LineE.mpr hz
   have he₁C : e₁ ∈ Subgroup.centralizer ({D.z₀} : Set (GGTriD4R n K)) := by
     rw [Subgroup.mem_centralizer_singleton_iff]
-    haveI := hEA.1
+    have := hEA.1
     exact setLike_mul_comm (s := triD4LineE n K A) he₁ hzEA
   have he₁comm : e₁ * D.z₀ = D.z₀ * e₁ := Subgroup.mem_centralizer_singleton_iff.mp he₁C
   by_contra hnotJ
@@ -223,7 +223,7 @@ theorem kgLangT3_E_le_component {n : ℕ} (hn : 2 ≤ n) (hev : Even n) (K : Typ
       (by norm_num) hn (by rw [hk]) ((TypeA.recipeEquiv 3 k).symm.trans ψ)
     exact htd.2
   have hgeg' : g_e * g' = g' * g_e := by
-    haveI := hAtcomm
+    have := hAtcomm
     exact setLike_mul_comm (s := At) hg_e_mem hg'_mem
   have hcomm_transfer : g₁ * gx = gx * g₁ :=
     l02qj7b_commute_transfer hcard ψ hM hN hgeg'

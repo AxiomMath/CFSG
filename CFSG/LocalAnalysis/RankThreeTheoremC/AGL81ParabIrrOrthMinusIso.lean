@@ -67,10 +67,12 @@ variable {V : Type} [AddCommGroup V] [Module K V]
   right_inv v := by
     simp only [LinearEquiv.apply_symm_apply, map_smul, smul_smul, mul_inv_cancel₀ ha, one_smul]
 
+omit [Finite K] [CharP K 2] in
 theorem smulEquiv_apply (g : V ≃ₗ[K] V) {a : K} (ha : a ≠ 0) (v : V) :
     smulEquiv g ha v = a • g v :=
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem smulEquiv_conj (g x : V ≃ₗ[K] V) {a : K} (ha : a ≠ 0) :
     smulEquiv g ha * x * (smulEquiv g ha)⁻¹ = g * x * g⁻¹ := by
   refine LinearEquiv.ext fun v => ?_
@@ -79,6 +81,7 @@ theorem smulEquiv_conj (g x : V ≃ₗ[K] V) {a : K} (ha : a ≠ 0) :
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, LinearEquiv.mul_apply, LinearEquiv.mul_apply,
     h1, h2, smulEquiv_apply, map_smul, map_smul, map_smul, smul_smul, mul_inv_cancel₀ ha, one_smul]
 
+omit [Finite K] [CharP K 2] in
 theorem smul_mem_iff_of_ne_zero (T : Submodule K V) {a : K} (ha : a ≠ 0) {x : V} :
     a • x ∈ T ↔ x ∈ T :=
   ⟨fun h => by simpa [smul_smul, inv_mul_cancel₀ ha] using T.smul_mem a⁻¹ h,

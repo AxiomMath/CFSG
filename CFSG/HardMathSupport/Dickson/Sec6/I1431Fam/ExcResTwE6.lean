@@ -31,7 +31,7 @@ theorem excres_noField_twE6 (hKac : ExcKac Tag.E6) (hTLin : ExcTLInner Tag.E6)
     ¬ (FieldBar 2 J (MulAut.conj y) ∧ ¬ TrivBar J (MulAut.conj y)) := by
   classical
   obtain ⟨K, hKf, hKfin, σ, hK, hσ, ⟨e⟩⟩ := exists_twistedE6RootGroup_equiv hp hf hE
-  haveI : CharP K p := finite_field_prime_power_characteristic hp (k := f * 2) (by omega)
+  have : CharP K p := finite_field_prime_power_characteristic hp (k := f * 2) (by omega)
     (by rw [hK, ← pow_mul])
   obtain ⟨p₀, hp₀, hp₀5, hp₀p⟩ : ∃ p₀ : ℕ, p₀.Prime ∧ 5 ≤ p₀ ∧ p₀ ≠ p := by
     by_cases h5 : p = 5

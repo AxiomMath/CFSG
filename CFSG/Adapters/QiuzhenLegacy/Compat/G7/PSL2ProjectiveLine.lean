@@ -14,7 +14,7 @@ universe u
     (K : Type u) [Field K] :
     Multiplicative K ≃* psl2UpperUnipotentSubgroup K :=
   MulEquiv.ofBijective (psl2UpperUnipotentHom K).rangeRestrict
-    ⟨fun x y h => psl2UpperUnipotentHom_injective
+    ⟨fun _x _y h => psl2UpperUnipotentHom_injective
         (congrArg Subtype.val h),
       MonoidHom.rangeRestrict_surjective _⟩
 

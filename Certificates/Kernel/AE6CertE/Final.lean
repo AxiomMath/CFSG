@@ -51,14 +51,14 @@ theorem eT_letters : Letters eT (curtisPerms ()) := by
 
 theorem mem_eU {d : ℕ} (hd : d < 4) : (curtisPerms ()).getD (d + d) 1 ∈ eU := by
   apply Subgroup.subset_closure
-  simp only [Set.mem_setOf_eq, eGens, List.mem_map]
+  simp only [Set.mem_ofPred_eq, eGens, List.mem_map]
   exact ⟨d + d, by interval_cases d <;> decide, rfl⟩
 
 theorem eU_le_stabO {O : List ℕ} (h : ∀ l < 4, invarK (getK eT (l + l)) O 360 = true) :
     eU ≤ stabO O := by
   rw [Subgroup.closure_le]
   intro g hg
-  simp only [Set.mem_setOf_eq, eGens, List.mem_map] at hg
+  simp only [Set.mem_ofPred_eq, eGens, List.mem_map] at hg
   obtain ⟨i, hi, rfl⟩ := hg
   have hi' : ∃ l < 4, i = l + l := by
     simp only [List.mem_cons, List.not_mem_nil, or_false] at hi
@@ -84,7 +84,7 @@ theorem keyData {O : List ℕ} {Lk : List ℕ} {k : ℕ} (hO : O.Nodup) (hlt : �
   le := by
     rw [Subgroup.closure_le]
     intro g hg
-    simp only [Set.mem_setOf_eq, eGens, List.mem_map] at hg
+    simp only [Set.mem_ofPred_eq, eGens, List.mem_map] at hg
     obtain ⟨i, hi, rfl⟩ := hg
     have hi' : ∃ l < 4, i = l + l := by
       simp only [List.mem_cons, List.not_mem_nil, or_false] at hi
@@ -95,12 +95,12 @@ theorem keyData {O : List ℕ} {Lk : List ℕ} {k : ℕ} (hO : O.Nodup) (hlt : �
       · exact ⟨3, by norm_num, rfl⟩
     obtain ⟨l, hl, rfl⟩ := hi'
     apply Subgroup.subset_closure
-    simp only [Set.mem_setOf_eq, eGens, List.mem_map]
+    simp only [Set.mem_ofPred_eq, eGens, List.mem_map]
     exact ⟨l + l, hU l hl, rfl⟩
   card := by
     rw [hc, card_of_ok (certificate_originalSubgroup _ _ _ _ _) eUQ_ok]
   lk := fun a ha => ⟨hL a ha, Subgroup.subset_closure (by
-    simp only [Set.mem_setOf_eq, eGens, List.mem_map]
+    simp only [Set.mem_ofPred_eq, eGens, List.mem_map]
     exact ⟨a, ha, rfl⟩)⟩
   words := fun j hj a ha => by
     simp only [List.all_eq_true, List.mem_range] at hw

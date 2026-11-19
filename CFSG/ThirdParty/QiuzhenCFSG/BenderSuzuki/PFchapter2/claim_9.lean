@@ -170,7 +170,7 @@ private theorem chapter2_claim9_hom_eq_one_of_prime_target
     (hB2 : HypothesisB2 G p) (f : G →* A) :
     f = 1 := by
   have hprimeA : Nat.Prime (Nat.card A) := hcardA.symm ▸ hp
-  letI : Fact (Nat.card A).Prime := ⟨hprimeA⟩
+  let : Fact (Nat.card A).Prime := ⟨hprimeA⟩
   rcases f.range.eq_bot_or_eq_top_of_prime_card with hrange | hrange
   · exact MonoidHom.range_eq_bot_iff.mp hrange
   · have hquot : Nat.card (G ⧸ f.ker) = p := by
@@ -374,7 +374,7 @@ private theorem chapter2_claim9_diff_rightTranslate
         (chapter2_claim9_rightTranslateLeftTransversal T h) =
       Subgroup.leftTransversals.diff φ S T * (φ h) ^ H.index := by
   classical
-  letI := H.fintypeQuotientOfFiniteIndex
+  let := H.fintypeQuotientOfFiniteIndex
   rw [Subgroup.leftTransversals.diff, Subgroup.leftTransversals.diff,
     Subgroup.index_eq_card, Nat.card_eq_fintype_card,
     ← Finset.card_univ, ← Finset.prod_const, ← Finset.prod_mul_distrib]
@@ -464,7 +464,7 @@ private theorem chapter2_claim9_normal_complement
     let WKW : Subgroup KW := W.subgroupOf KW
     have hKleKW : K ≤ KW := le_sup_left
     have hWleKW : W ≤ KW := le_sup_right
-    haveI : KKW.Normal :=
+    have : KKW.Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hKleKW).mpr
         (hKWleD.trans hDnormK)
     rw [Subgroup.disjoint_def]
@@ -500,7 +500,7 @@ private theorem chapter2_claim9_normal_complement
   let QH : Subgroup H := Q.subgroupOf H
   let KWH : Subgroup H := KW.subgroupOf H
   have hKWleH : KW ≤ H := hKWleD.trans hA1.D_le_H
-  haveI : QH.Normal := by
+  have : QH.Normal := by
     simpa [QH] using hA1.Q_normal_in_H
   have hNH_eq : NH = QH ⊔ KWH := by
     change N.subgroupOf H = Q.subgroupOf H ⊔ KW.subgroupOf H
@@ -548,7 +548,7 @@ private theorem chapter2_claim9_normal_complement
     rw [← Subgroup.subgroupOf_sup hNleH hPleH, hNsupP]
     exact Subgroup.subgroupOf_self H
   refine ⟨hNnormalH, ?_⟩
-  letI : NH.Normal := hNnormalH
+  let : NH.Normal := hNnormalH
   exact isComplement'_of_disjoint_sup_eq_top_of_normal NH PH hdisjH hsupH
 
 /-- The exact transfer conclusion printed in Claim (9), proved from the source transversal
@@ -583,7 +583,7 @@ public theorem chapter2_transfer_p_dvd_Q_card_succ
   rcases chapter2_claim9_normal_complement
       H D Q K V W Q0 S Q1 P t s p hch with ⟨hN, hcomp⟩
   let NH : Subgroup H := N.subgroupOf H
-  letI : NH.Normal := hN
+  let : NH.Normal := hN
   have hVleD : V ≤ D :=
     PFchapter1section2.proposition_3_V_le_D H D Q K V W Q0 S Q1 t hsec
   have hPleH : P ≤ H :=
@@ -593,16 +593,16 @@ public theorem chapter2_transfer_p_dvd_Q_card_succ
     rw [show Nat.card PH = Nat.card P by
       simpa [PH] using natCard_subgroupOf_eq P H hPleH]
     exact hch.B1.P_card
-  letI : Fact p.Prime := ⟨hch.B1.p_prime⟩
-  haveI : IsCyclic PH := isCyclic_of_prime_card hPHcard
-  letI : CommGroup PH := IsCyclic.commGroup
+  let : Fact p.Prime := ⟨hch.B1.p_prime⟩
+  have : IsCyclic PH := isCyclic_of_prime_card hPHcard
+  let : CommGroup PH := IsCyclic.commGroup
   let proj : H →* PH :=
     hcomp.symm.QuotientMulEquiv.toMonoidHom.comp (QuotientGroup.mk' NH)
   let τ : G →* PH := MonoidHom.transfer proj
   have hτone : τ = 1 :=
     chapter2_claim9_hom_eq_one_of_prime_target
       p hch.B1.p_prime hPHcard hch.B2 τ
-  haveI : Nontrivial P := by
+  have : Nontrivial P := by
     rw [← Finite.one_lt_card_iff_nontrivial, hch.B1.P_card]
     exact hch.B1.p_prime.one_lt
   obtain ⟨u, hu⟩ : ∃ u : P, u ≠ 1 := exists_ne 1
@@ -644,8 +644,8 @@ public theorem chapter2_transfer_p_dvd_Q_card_succ
   have hpIndex : p ∣ H.index := by
     rw [← huPHorder]
     exact orderOf_dvd_of_pow_eq_one huIndex
-  haveI : MulAction.IsMultiplyPretransitive G Ω 2 := hA1.two_transitive
-  haveI : MulAction.IsPretransitive G Ω :=
+  have : MulAction.IsMultiplyPretransitive G Ω 2 := hA1.two_transitive
+  have : MulAction.IsPretransitive G Ω :=
     MulAction.isPretransitive_of_is_two_pretransitive
   obtain ⟨alpha, hHpoint⟩ := hA1.point_stabilizer
   have hHindex : H.index = Nat.card Ω := by
@@ -680,7 +680,7 @@ private theorem chapter2_claim9_p_dvd_field_order
     _root_.CFSG.BenderSuzuki.PFchapter2.HypothesisB2 G p))
     (_hell : orderOf (s * t) = ell) :
     p ∣ Nat.card (nearFieldStar Q P) + 1 := by
-  letI : Fact (Nat.Prime p) := ⟨hch.B1.p_prime⟩
+  let : Fact (Nat.Prime p) := ⟨hch.B1.p_prime⟩
   have hQcard :
       Nat.card Q = Nat.card (nearFieldStar Q P) ^ p := by
     simpa [nearFieldStar] using
@@ -731,9 +731,9 @@ private theorem chapter2_claim9_characteristic_prime
   rcases h2b with
     ⟨_hNcore, _hnormal, _quotientAction, _hsmul, _hAbar,
       F, hF, hFfinite, hFnontrivial, _unitEquiv, _hPO, hcharacteristic⟩
-  letI : PFAppendixII.RightNearField F := hF
-  letI : Finite F := hFfinite
-  letI : Nontrivial F := hFnontrivial
+  let : PFAppendixII.RightNearField F := hF
+  let : Finite F := hFfinite
+  let : Nontrivial F := hFnontrivial
   have hprime :
       Nat.Prime (addOrderOf (1 : F)) :=
     PFAppendixII.rightNearField_addOrderOf_one_prime
@@ -770,13 +770,13 @@ private theorem chapter2_claim9_field_order_prime_power
   rcases h2b with
     ⟨_hNcore, _hnormal, _quotientAction, _hsmul, _hAbar,
       F, hF, hFfinite, hFnontrivial, unitEquiv, _hPO, hcharacteristic⟩
-  letI : PFAppendixII.RightNearField F := hF
-  letI : Finite F := hFfinite
-  letI : Nontrivial F := hFnontrivial
+  let : PFAppendixII.RightNearField F := hF
+  let : Finite F := hFfinite
+  let : Nontrivial F := hFnontrivial
   obtain ⟨a, hFcard⟩ :=
     PFAppendixII.rightNearField_natCard_eq_addOrderOf_one_pow (F := F)
   have hFgt : 1 < Nat.card F := by
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     simpa [Nat.card_eq_fintype_card] using Fintype.one_lt_card (α := F)
   have ha_ne : a ≠ 0 := by
     intro ha

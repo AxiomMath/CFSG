@@ -37,7 +37,7 @@ private lemma c8h_fix_components {Γ : Type} [Group Γ] [Finite Γ] {d : Γ} (hd
       (CFSG.pPrimeCore 3 Γ) :=
     CFSG.HardMathSupport.MathTwE6.isComponentOf_map_conj_of_mem_normalizer hJ hd2N
   have hdist := CFSG.RankThree.PartTwo.Sec11.map_conj_sq_ne hd3 hne
-  haveI : Finite (Subgroup Γ) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup Γ) := Finite.of_injective _ SetLike.coe_injective
   have h3 : 2 < {J : Subgroup Γ | IsComponentOf J (CFSG.pPrimeCore 3 Γ)}.ncard := by
     rw [Set.two_lt_ncard_iff]
     exact ⟨J, J.map (MulAut.conj d).toMonoidHom, J.map (MulAut.conj (d ^ 2)).toMonoidHom,
@@ -50,9 +50,9 @@ theorem c8h_cent_layer
     (hsz : ∀ J : Subgroup Γ, IsComponentOf J (CFSG.pPrimeCore 3 Γ) → ∃ n : ℕ, IsSz ↥J n)
     (hcount : {J : Subgroup Γ | IsComponentOf J (CFSG.pPrimeCore 3 Γ)}.ncard ≤ 2) :
     rankThreeLayer (CFSG.pPrimeCore 3 Γ) ≤ centralizer ({d} : Set Γ) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let I : Subgroup Γ := CFSG.pPrimeCore 3 Γ
-  haveI hIn : I.Normal := CFSG.pPrimeCore_normal
+  have hIn : I.Normal := CFSG.pPrimeCore_normal
   have hcop : Nat.Coprime 3 (Nat.card ↥I) := CFSG.pPrimeCore_coprime_card
   have hperfect : _root_.commutator (Γ ⧸ I) = ⊤ := s16c1610_commutator_of_isL3 hl3
   have hd3 : d ^ 3 = 1 := by rw [← hd]; exact pow_orderOf_eq_one d
@@ -84,7 +84,7 @@ theorem c8h_cent_layer
     change (A (g * h)) x.1 = (A g) ((A h) x.1)
     rw [map_mul]
     rfl
-  letI : MulAction Γ ↥𝒞 :=
+  let : MulAction Γ ↥𝒞 :=
     { smul := smul, one_smul := smul_one, mul_smul := smul_mul }
   let π : Γ →* Equiv.Perm ↥𝒞 := MulAction.toPermHom Γ ↥𝒞
   have hπapply : ∀ (g : Γ) (x : ↥𝒞),
@@ -94,7 +94,7 @@ theorem c8h_cent_layer
     rw [Nat.card_coe_set_eq]
     exact hcount'
   have hcommker : _root_.commutator Γ ≤ K := by
-    haveI : IsMulCommutative (Equiv.Perm ↥𝒞) :=
+    have : IsMulCommutative (Equiv.Perm ↥𝒞) :=
       Equiv.Perm.isMulCommutative_iff_card_le_two.2 hcard
     exact Abelianization.commutator_subset_ker π
   have hdK : d ∈ K := by
@@ -166,7 +166,7 @@ theorem c8h_cent_layer
       ↥J 2 n hSuz).1).1
   have hOut : ∀ σ τ : MulAut ↥J, ∃ y : ↥J, σ * τ * σ⁻¹ * τ⁻¹ = MulAut.conj y := by
     intro σ τ
-    haveI : IsMulCommutative
+    have : IsMulCommutative
         (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥J) :=
       hcyc.isMulCommutative
     have h1 : (QuotientGroup.mk'
@@ -192,7 +192,7 @@ theorem c8h_cent_layer
   have hdN : d ∈ N := by
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
     exact c8h_fix_components hd hcount J hJ
-  haveI : IsMulCommutative (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥J) :=
+  have : IsMulCommutative (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥J) :=
     hcyc.isMulCommutative
   let ψ : ↥N →* CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥J :=
     (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner ↥J)).comp

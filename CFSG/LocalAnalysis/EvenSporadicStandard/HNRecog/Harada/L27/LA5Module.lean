@@ -143,7 +143,7 @@ theorem no_order_five_commuting_a5_pair {W : Type*} [AddCommGroup W] [Module (ZM
     simp only [hpow]
     rw [Finset.sum_const, Finset.card_range]
     rw [← Nat.cast_smul_eq_nsmul (ZMod 2) 5 x, h51, one_smul]
-  haveI hfin : FiniteDimensional (ZMod 2) W :=
+  have hfin : FiniteDimensional (ZMod 2) W :=
     FiniteDimensional.of_finrank_pos (by rw [hdim]; norm_num)
   let C : Submodule (ZMod 2) W := LinearMap.ker (σ - 1)
   let U : Submodule (ZMod 2) W := LinearMap.ker e
@@ -474,9 +474,9 @@ theorem no_order_five_commuting_a5_pair {W : Type*} [AddCommGroup W] [Module (ZM
           rw [LinearEquiv.mul_apply] }
     let GQ : Subgroup (Q ≃ₗ[ZMod 2] Q) := φ.range
     have hGQ : ⁅GQ, GQ⁆ = GQ := by
-      haveI hPperf : Group.IsPerfect P' :=
+      have hPperf : Group.IsPerfect P' :=
         Subgroup.isPerfect_iff.mpr (commutator_eq_self_of_equiv_a5 P' eP)
-      haveI hGQperf : Group.IsPerfect GQ := Group.IsPerfect.range (f := φ)
+      have hGQperf : Group.IsPerfect GQ := Group.IsPerfect.range (f := φ)
       exact Subgroup.commutator_eq_self
     have hφcomm : ∀ p (hp : p ∈ P'), ∀ x : Q,
         (φ ⟨p, hp⟩ : Q →ₗ[ZMod 2] Q) (σbar x) =
@@ -506,7 +506,7 @@ theorem no_order_five_commuting_a5_pair {W : Type*} [AddCommGroup W] [Module (ZM
       intro g hg x
       obtain ⟨p, rfl⟩ := MonoidHom.mem_range.mp hg
       exact hφcomm p p.2 x
-    haveI hQfin : Finite Q := by
+    have hQfin : Finite Q := by
       change Finite (W ⧸ ℓ)
       exact Finite.of_surjective (Submodule.Quotient.mk (p := ℓ))
         (Submodule.Quotient.mk_surjective ℓ)

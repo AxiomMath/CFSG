@@ -19,7 +19,7 @@ private theorem hdRo7SUPInvAux_coord_equiv {p : ℕ} {V : Type} [AddCommGroup V]
       Module.Basis.coord_apply, Module.Basis.repr_self_apply]
     by_cases hij : σ i = j
     · have hji : i = σ.symm j := by rw [← hij, Equiv.symm_apply_apply]
-      simp [hij, hji]
+      simp [hji]
     · have hji : i ≠ σ.symm j := by
         intro h'
         exact hij (by rw [h', Equiv.apply_symm_apply])
@@ -51,12 +51,12 @@ private theorem hdRo7SUPInvAux_sub_swap {p : ℕ} {V : Type} [AddCommGroup V] [M
   rw [show (Equiv.swap i j).symm = Equiv.swap i j from Equiv.swap_inv i j]
   simp only [Module.Basis.repr_self_apply]
   rcases eq_or_ne k i with rfl | hki
-  · rw [Equiv.swap_apply_left, if_neg (Ne.symm hij)]
+  · rw [Equiv.swap_apply_left, ite_eq_right (Ne.symm hij)]
     simp
   rcases eq_or_ne k j with rfl | hkj
-  · rw [Equiv.swap_apply_right, if_neg hij]
+  · rw [Equiv.swap_apply_right, ite_eq_right hij]
     simp
-  · rw [Equiv.swap_apply_of_ne_of_ne hki hkj, if_neg (Ne.symm hki), if_neg (Ne.symm hkj)]
+  · rw [Equiv.swap_apply_of_ne_of_ne hki hkj, ite_eq_right (Ne.symm hki), ite_eq_right (Ne.symm hkj)]
     ring
 
 private theorem hdRo7SUPInvAux_exists_coord_ne {p : ℕ} {V : Type} [AddCommGroup V]

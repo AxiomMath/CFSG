@@ -60,7 +60,7 @@ theorem twE6ToralBar_of_a2Peel (K : Type) [Field K] (σ : K ≃+* K) (hK3 : ring
   have hΦ₀ : ∀ x : E₀,
       Φ₀ x = g0⁻¹ * ι ((x : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) * g0 := by
     intro x
-    simp [hΦ₀def, MulAut.conj_apply]
+    simp [hΦ₀def]
   have hN : ∀ x : E₀, Φ₀ x ∈ monomialSubgroup TwistTag.E6.tag L := by
     intro x
     obtain ⟨t, ht, w, -, hw⟩ := hmono x x.2

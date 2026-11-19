@@ -80,10 +80,10 @@ private theorem omm_weight_one {P : Matrix (Fin n) (Fin n) (ZMod 3)} (hn : 5 ≤
       by_cases hS : i ∈ S.1
       · by_cases hS' : i ∈ S'.1
         · simp [hS, hS']
-        · rw [if_pos hS, if_neg hS'] at hi
+        · rw [ite_eq_left hS, ite_eq_right hS'] at hi
           exact absurd hi (by decide)
       · by_cases hS' : i ∈ S'.1
-        · rw [if_neg hS, if_pos hS'] at hi
+        · rw [ite_eq_right hS, ite_eq_left hS'] at hi
           exact absurd hi.symm (by decide)
         · simp [hS, hS']
     have hbound := omm_card_param_le h l f hsign hprod hinj
@@ -200,10 +200,10 @@ theorem monomial_of_conj_even {n : ℕ} (hn : 5 ≤ n) (P : Matrix (Fin n) (Fin 
   ext i l
   rw [spMat_apply]
   by_cases hil : i = σe l
-  · rw [if_pos hil]
+  · rw [ite_eq_left hil]
     subst hil
     rfl
-  · rw [if_neg hil]
+  · rw [ite_eq_right hil]
     have hz : P i l = 0 := by
       by_contra hc
       exact hil (by rw [hσuniq l i hc]; rfl)

@@ -22,8 +22,8 @@ theorem card_le_pow_subsystemGroup_e8A {m : ℕ} (hm : 3 ≤ m) (ι : Fin m → 
     (hpq : ¬ p ∣ Nat.card K - 1) {E : Subgroup (ModGL Tag.E8 K)}
     (hE : E ≤ subsystemGroup Tag.E8 K (Set.range ι)) (hEel : IsElemAbelian p E) :
     Nat.card E ≤ p ^ ((m + 1) / CFSG.StandardType.OrdPNS.ordQ K p) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, -, hK⟩ := FiniteField.card K 2
   have hKn : Nat.card K = 2 ^ (n : ℕ) := by rw [← Fintype.card_eq_nat_card]; exact hK
   have hn : 1 ≤ (n : ℕ) := CFSG.Quasithin.R3c2.one_le_of_natCard_eq_two_pow hKn

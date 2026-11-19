@@ -24,11 +24,11 @@ private theorem not_thompsonJ_le_centralizer_VZ' {k : Type} [Field k] [Finite k]
 
 private theorem thompsonJ_sup_centralizer_sup_eq_top' {k : Type} [Field k] [Finite k] [CharP k 2]
     {T : Subgroup G} {π : G →* SpecialLinearGroup (Fin 2) k}
-    (h : SeedSetting T π) (hnc : ⁅(⊤ : Subgroup G), quasithinOmegaOneCenter T⁆ ≠ ⊥)
+    (h : SeedSetting T π) (_hnc : ⁅(⊤ : Subgroup G), quasithinOmegaOneCenter T⁆ ≠ ⊥)
     (hJT : ¬ thompsonJ T ≤ CFSG.pCore 2 G) :
     thompsonJ (⊤ : Subgroup G) ⊔ Subgroup.centralizer (VZ T ⊤ : Set G) ⊔ T = ⊤ := by
-  haveI : (VZ T ⊤).Normal := normal_VZ_top T
-  haveI : (thompsonJ (⊤ : Subgroup G)).Normal :=
+  have : (VZ T ⊤).Normal := normal_VZ_top T
+  have : (thompsonJ (⊤ : Subgroup G)).Normal :=
     Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp (B6.le_normalizer_thompsonJ ⊤))
   refine h.sup_eq_top (C := thompsonJ (⊤ : Subgroup G) ⊔ Subgroup.centralizer (VZ T ⊤ : Set G))
     (h.pCore_le_centralizer_VZ.trans le_sup_right) fun hle => ?_
@@ -47,8 +47,8 @@ theorem exists_isSeed_of_setting' {k : Type} [Field k] [Finite k] [CharP k 2] {T
       (ψ : CFSG.QuasithinUnique.Setup.Campbell.Ecore G →* Multiplicative (Fin 2 → F)),
       CFSG.QuasithinUnique.Setup.Campbell.IsSeed P ρ
         (CFSG.QuasithinUnique.Setup.Campbell.Ecore G) ψ := by
-  haveI := CFSG.Adapters.certificate43_holds
-  haveI : (VZ T ⊤).Normal := normal_VZ_top T
+  have := CFSG.Adapters.certificate43_holds
+  have : (VZ T ⊤).Normal := normal_VZ_top T
   obtain ⟨M, hmin⟩ := h.exists_minParabolic
   have hfam := CFSG.AGLEmbeddingD2.Tits.E23.famI_e23FamGen h.isElemAbelian_VZ hmin
     (CFSG.AGLEmbeddingD2.Tits.E23.minPar_of_minParabolic hmin) h.charTwo h.isTwoReducedIn_VZ

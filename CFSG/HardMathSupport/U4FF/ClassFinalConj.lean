@@ -31,7 +31,7 @@ theorem exists_conj_of_single (R₁ : G →* Matrix κ κ E) (R₂ : G →* Matr
   have hperm : MatIso R₁ R₁' (CFSG.QuasithinUnique.Setup.X7.permMat E e)
       (CFSG.QuasithinUnique.Setup.X7.permMat E e.symm) :=
     matIso_of_reindex e (fun g x' x => by
-      simp [R₁', φ, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.submatrix_apply])
+      simp [R₁', φ, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.submatrix_apply])
   have t1 := h₁.symm.trans hperm
   have hPinv : (P' : Matrix (Fin m) (Fin m) E) * ((P'⁻¹ : GL (Fin m) E) : Matrix (Fin m) (Fin m) E)
       = 1 := Units.mul_inv P'

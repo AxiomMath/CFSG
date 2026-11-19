@@ -28,7 +28,7 @@ namespace CertificateChecks.KernelCosetJ.HeImgStr
 theorem w0_toList : hePiHeWord0.toList = W0 := by
   unfold hePiHeWord0
   simp only [String.toList_append, String.toList_ofList, w0.e0, w0.e1, w0.e2, w0.e3, w0.e4, w0.e5,
-    w0.e6, w0.e7, w0.e8, w0.e9, w0.e10, w0.e11, w0.e12, w0.e13, w0.e14, w0.e15, w0.e16, w0.e17,
+    w0.e6, w0.e7, w0.e8, w0.e9, w0.e10, w0.e11, w0.e12, w0.e16, w0.e17,
     w0.e18]
   rfl
 

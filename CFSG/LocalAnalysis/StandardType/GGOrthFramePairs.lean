@@ -221,7 +221,7 @@ theorem OrthFrameCore.rankOne_eq_map_of_signed_action
         Φ.Δ.τ (NbrOrth.dinv a b (SpCoord.permAut (Equiv.swap a b) f)) := by
       intro f
       simpa only [omPlusRefl, Bool.cond_true, MulAut.mul_apply, SpCoord.sgnAut_apply,
-        NbrOrth.dinv, Function.update_apply, if_neg (ne_of_lt hab).symm] using hw f
+        NbrOrth.dinv, Function.update_apply, ite_eq_right (ne_of_lt hab).symm] using hw f
     have h := ggRankOneIn_eq_map_of_inner Φ.ψ Φ.β Φ.hinj Φ.hcompat Φ.hβA Φ.hβsurj hr
       (fun t => Φ.Δ.mem_reflFixedPos_iff (ne_of_lt hab) hw' t)
     rw [Φ.hrange] at h
@@ -249,7 +249,7 @@ theorem OrthFrameCore.beta_mem_fixedTorus_of_hyperplane
         Φ.Δ.τ (NbrOrth.dinv a c (SpCoord.permAut (Equiv.swap a c) f)) := by
       intro f
       simpa only [omPlusRefl, Bool.cond_true, MulAut.mul_apply, SpCoord.sgnAut_apply,
-        NbrOrth.dinv, Function.update_apply, if_neg (ne_of_lt hac).symm] using hw f
+        NbrOrth.dinv, Function.update_apply, ite_eq_right (ne_of_lt hac).symm] using hw f
     exact (Φ.Δ.mem_reflFixedPos_iff (ne_of_lt hac) hw' _).mpr ⟨Φ.hβA b, hc'⟩
 
 theorem OrthFrameCore.exists_unitaryPair_of_signed_actions

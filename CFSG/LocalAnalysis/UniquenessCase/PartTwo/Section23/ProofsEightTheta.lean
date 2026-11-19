@@ -19,6 +19,7 @@ abbrev xbar (K : Subgroup G) : Type :=
 noncomputable abbrev sylowImage (D : Data G) (K : Subgroup G) : Subgroup (xbar K) :=
   ((D.T ⊓ K).subgroupOf K).map (piBarInf K)
 
+omit [Finite G] in
 theorem center_eq_bot_of_isL2_or_isSz {K : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple (Bar2 K)) {a : ℕ}
     (h : IsL2 (Bar2 K) a ∨ IsSz (Bar2 K) a) :
@@ -34,7 +35,7 @@ theorem exists_sylow_normalized {D : Data G} {Ch : Choice2011 G}
       ∀ x ∈ (S : Subgroup (xbar K)),
         inducedQuotInfAut K b hbN x ∈ (S : Subgroup (xbar K)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq : CFSG.Open.IsQuasisimple (Bar2 K) := hK.2.2
   have hc : Subgroup.center (Bar2 K) = ⊥ := center_eq_bot_of_isL2_or_isSz hq hshape
   have hLx : IsL2 (xbar K) a ∨ IsSz (xbar K) a :=
@@ -60,7 +61,7 @@ theorem exists_thetaData {D : Data G} {Ch : Choice2011 G}
     (hBor : KBor) (h1930 : H1930 D) (c : Ctx23L D Ch) {K : Subgroup G}
     (hK : K ∈ calC D.M) {a : ℕ} (hshape : IsL2 (Bar2 K) a ∨ IsSz (Bar2 K) a)
     {r : ℕ} (hr : r.Prime) (hrdvd : r ∣ 2 ^ CFSG.Open.pRank 2 D.Z - 1) :
-    ∃ (b : G) (hb : b ∈ c.B0) (hbN : b ∈ Subgroup.normalizer (K : Set G)),
+    ∃ (b : G) (_hb : b ∈ c.B0) (hbN : b ∈ Subgroup.normalizer (K : Set G)),
       Odd (orderOf b) ∧ b ∉ Subgroup.centralizer (D.Z : Set G) ∧
       Odd (orderOf (inducedQuotInfAut K b hbN)) ∧
       ∃ (S : Sylow 2 (xbar K)),
@@ -92,7 +93,7 @@ theorem exists_thetaData {D : Data G} {Ch : Choice2011 G}
 theorem exists_prime_order_centralizer_of_caseB {D : Data G} {K : Subgroup G} {b : G}
     {a : ℕ} (hK : K ∈ calC D.M) (hshape : IsL2 (Bar2 K) a ∨ IsSz (Bar2 K) a)
     (hbN : b ∈ Subgroup.normalizer (K : Set G)) (hbodd : Odd (orderOf b))
-    {s : ℕ} (hsdvd : s ∣ a) (hsodd : Odd s) (hsne : s ≠ 1)
+    {s : ℕ} (_hsdvd : s ∣ a) (hsodd : Odd s) (hsne : s ≠ 1)
     {x : xbar K} (hxord : orderOf x = 2 ^ s - 1)
     (hxfix : inducedQuotInfAut K b hbN x = x) :
     ∃ (r : ℕ) (y : ↥K), r.Prime ∧ r ≠ 2 ∧ r ∣ 2 ^ s - 1 ∧
@@ -155,7 +156,7 @@ theorem normal_of_caseB {D : Data G} {Ch : Choice2011 G}
       intro hbot
       rw [hbot, Subgroup.card_bot] at hAcard
       exact hr.ne_one hAcard.symm
-    haveI : Fact (Nat.Prime r) := ⟨hr⟩
+    have : Fact (Nat.Prime r) := ⟨hr⟩
     have hpgrp : IsPGroup r ↥A := IsPGroup.iff_card.mpr ⟨1, by simpa using hAcard⟩
     exact ((h54 h1930 c.withB0 b (by simpa using hb) hbZ).2 r hr A hAne hpgrp
       (le_inf hAM hAC)).1 huniq

@@ -159,7 +159,7 @@ theorem suz_false {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z : A
   obtain ⟨e⟩ := e
   have hm : 1 ≤ m := (LieTypeIndex.inStandardRange_iff _).mp
     ((LieTypeIndex.valid_iff _).mp hv).1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 (2 * m + 1)) = 2 ^ (2 * m + 1) :=
     GaloisField.card 2 (2 * m + 1) (by omega)
   have hS : CFSG.Blueprint.SuzukiModel ↥K 2 (2 * m + 1) :=

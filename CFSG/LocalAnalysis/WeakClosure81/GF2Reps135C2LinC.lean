@@ -45,15 +45,15 @@ theorem w135c2_one_lt_dim (hW : ∀ w : W, w ^ 2 = 1) (hirr : IsIrrOn L ⊤ ⊥)
   have hd1 : d = 1 := by omega
   have hcardEq : Nat.card (Additive W) = Nat.card ↥(LEnd L) := by
     rw [Nat.card_congr Additive.toMul, w135_card_eq_two_pow_rk hW, hd, hd1, mul_one, hk]
-  letI : Field ↥(LEnd L) := (w135c2_lend_isField hW hirr).toField
-  letI : Module ↥(LEnd L) (Additive W) := Module.compHom (Additive W) (LEnd L).subtype
-  haveI : Finite ↥(LEnd L) := by
-    haveI : Finite (AddMonoid.End (Additive W)) := DFunLike.finite _
+  let : Field ↥(LEnd L) := (w135c2_lend_isField hW hirr).toField
+  let : Module ↥(LEnd L) (Additive W) := Module.compHom (Additive W) (LEnd L).subtype
+  have : Finite ↥(LEnd L) := by
+    have : Finite (AddMonoid.End (Additive W)) := DFunLike.finite _
     infer_instance
   have htwo : 2 ≤ Nat.card ↥(LEnd L) := by
     have := Finite.one_lt_card (α := ↥(LEnd L))
     omega
-  haveI : Module.Finite ↥(LEnd L) (Additive W) := Module.Finite.of_finite
+  have : Module.Finite ↥(LEnd L) (Additive W) := Module.Finite.of_finite
   have hfinrank : Module.finrank ↥(LEnd L) (Additive W) = 1 := by
     refine Nat.pow_right_injective htwo ?_
     change Nat.card ↥(LEnd L) ^ Module.finrank ↥(LEnd L) (Additive W) =

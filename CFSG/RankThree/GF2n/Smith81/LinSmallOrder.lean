@@ -13,6 +13,7 @@ open CFSG.RankThree.GF2n.Stroth80
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {n : ℕ} {V₁ V₂ : Subgroup G}
 
+omit [Finite G] in
 theorem _root_.CFSG.RankThree.GF2n.Smith81.TypeE6.centDvdN_one
     (hE6 : TypeE6 M Q Z B n) (hn : n ≠ 2) :
     CentDvdN 1 M Q Z (Lgen M (LB M Q B)) := by

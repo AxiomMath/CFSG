@@ -17,8 +17,8 @@ namespace Res
 theorem eq_bot_of_perfect_of_solvable {K : Type*} [Group K] {S C : Subgroup K}
     (hS : Group.IsPerfect S) (hC : Group.IsSolvable C) (hSC : S ≤ C) : S = ⊥ := by
   by_contra hne
-  haveI : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).mpr hne
-  haveI : Group.IsSolvable S := solvable_of_solvable_injective (Subgroup.inclusion_injective hSC)
+  have : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).mpr hne
+  have : Group.IsSolvable S := Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hSC)
   exact Group.IsPerfect.not_isSolvable S inferInstance
 
 theorem lift_facts {K L : Type*} [Group K] [Group L] (φ : K →* L) (hs : Function.Surjective φ)

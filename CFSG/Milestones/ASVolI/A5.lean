@@ -168,7 +168,7 @@ theorem as_A_5_1 : A_5_1 := by
   intro G _ _ _ hEC T hT H hH
   obtain ⟨S, rfl⟩ := a5_exists_sylow hT
   have hEven : quasithinEvenCharacteristic G := by
-    first | exact a5_even hEC | exact a5_even_cha hEC
+    first | exact a5_even hEC
   rw [a5_vz_eq]
   exact a5_isTwoReduced (CFSG.Quasithin.isTwoReducedIn_conjClosure H S hH.1
     (CFSG.Quasithin.charTwo_of_inH hEven S hH) le_rfl)
@@ -184,7 +184,7 @@ theorem as_A_5_2 : A_5_2 := by
   intro G _ _ _ hEC T hT
   obtain ⟨S, rfl⟩ := a5_exists_sylow hT
   have hEven : quasithinEvenCharacteristic G := by
-    first | exact a5_even hEC | exact a5_even_cha hEC
+    first | exact a5_even hEC
   refine ⟨fun H _ => (a5_ordLE_iff _ _ _).mpr (CFSG.Quasithin.ordLE_refl _ _),
     fun H₁ H₂ _ _ h => (a5_ordLE_iff _ _ _).mpr (CFSG.Quasithin.ordLE_of_le h), fun M hM => ?_⟩
   exact (a5_inHvT_iff _ _).mpr ⟨CFSG.Quasithin.inH_of_inM hM, CFSG.Quasithin.isHv_of_inM hEven S hM⟩
@@ -239,7 +239,7 @@ theorem as_A_5_5 : A_5_5 := by
   intro G _ _ _ hEC T hT
   obtain ⟨S, rfl⟩ := a5_exists_sylow hT
   have hEven : quasithinEvenCharacteristic G := by
-    first | exact a5_even hEC | exact a5_even_cha hEC
+    first | exact a5_even hEC
   refine ⟨fun H _ => (a5_ordLE_iff _ _ _).mpr (CFSG.Quasithin.ordLE_refl _ _),
     fun H₁ H₂ h₁ h₂ h₁₂ h₂₁ => CFSG.Quasithin.eq_of_ordLE_antisymm ((a5_inHvT_iff _ _).mp h₁).2
       ((a5_inHvT_iff _ _).mp h₂).2 ((a5_ordLE_iff _ _ _).mp h₁₂) ((a5_ordLE_iff _ _ _).mp h₂₁),
@@ -261,7 +261,7 @@ theorem as_A_5_6 : A_5_6 := by
   intro G _ _ _ hEC T hT H M _ hM hle V hV hgen hVn hVM
   obtain ⟨S, rfl⟩ := a5_exists_sylow hT
   have hEven : quasithinEvenCharacteristic G := by
-    first | exact a5_even hEC | exact a5_even_cha hEC
+    first | exact a5_even hEC
   have hF : M ⊓ Subgroup.centralizer (pCoreOf 2 M : Set G) ≤ pCoreOf 2 M :=
     CFSG.Quasithin.charTwo_of_inH hEven S ⟨hM.2, CFSG.Quasithin.pCoreOf_ne_bot_of_isTwoLocal hM.1.1⟩
   have hgen' : V = CFSG.Quasithin.conjClosure (V ⊓ quasithinOmegaOneCenter (S : Subgroup G))
@@ -297,7 +297,7 @@ theorem as_A_5_7 : A_5_7 := by
   intro G _ _ _ hEC T hT
   obtain ⟨S, rfl⟩ := a5_exists_sylow hT
   have hEven : quasithinEvenCharacteristic G := by
-    first | exact a5_even hEC | exact a5_even_cha hEC
+    first | exact a5_even hEC
   refine ⟨fun M hM hmax => ?_, fun H hH => ?_⟩
   · have hmax' : CFSG.Quasithin.IsOrdMaximalIn (S : Subgroup G) (CFSG.Quasithin.InM S) M :=
       ⟨hM, fun M' hM' hle => hmax M' hM' ((a5_ordLE_iff _ _ _).mpr hle)⟩
@@ -371,7 +371,7 @@ theorem as_A_5_10 : A_5_10 := by
   intro G _ _ _ hEC T hT H K hH hK hmax
   obtain ⟨S, rfl⟩ := a5_exists_sylow hT
   have hEven : quasithinEvenCharacteristic G := by
-    first | exact a5_even hEC | exact a5_even_cha hEC
+    first | exact a5_even hEC
   have hmax' : Maximal (· ∈ CFSG.Quasithin.VFamily (S : Subgroup G)) (CFSG.Quasithin.VZ S H) := by
     refine ⟨CFSG.Quasithin.VZ_mem_VFamily hH, fun W hW hle => ?_⟩
     obtain ⟨H', hH', rfl⟩ := hW

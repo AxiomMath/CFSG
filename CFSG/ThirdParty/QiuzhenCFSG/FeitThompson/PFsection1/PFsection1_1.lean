@@ -234,7 +234,7 @@ lemma complex_star_eigenvalue_eq_pow_pred_of_pow_eq_one
     {f : Module.End ℂ V} {μ : ℂ} {n : ℕ}
     (hn : n ≠ 0) (hpow : f ^ n = 1) (hμ : f.HasEigenvalue μ) :
     star μ = μ ^ (n - 1) := by
-  haveI : NeZero n := ⟨hn⟩
+  have : NeZero n := ⟨hn⟩
   rw [complex_star_eigenvalue_eq_inv_of_pow_eq_one (n := n) hpow hμ]
   rcases Nat.exists_eq_succ_of_ne_zero hn with ⟨m, rfl⟩
   apply inv_eq_of_mul_eq_one_right
@@ -463,8 +463,8 @@ lemma representation_self_dual_hom_finrank_eq_one_of_fixed_conjugate
     representation_dual_character_eq_of_fixed_conjugate ρ hfixed
   have hcard_ne : (Nat.card G : ℂ) ≠ 0 := by
     exact_mod_cast (Nat.card_ne_zero.mpr ⟨inferInstance, inferInstance⟩ : Nat.card G ≠ 0)
-  letI : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard_ne
-  letI : Representation.IsIrreducible ρ := hρ_irreducible
+  let : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard_ne
+  let : Representation.IsIrreducible ρ := hρ_irreducible
   have horth :
       (Nat.card G : ℂ)⁻¹ * ∑ g : G, ρ.character g * ρ.character g⁻¹ = 1 := by
     have h := Representation.char_orthonormal (ρ := ρ) (σ := ρ)
@@ -632,7 +632,7 @@ lemma sum_classFunction_inv_mul_inv_eq_sum_of_odd_card
       _ = g ^ (z * 2) := by congr 1; ring
       _ = (g ^ ((2 : ℤ))) ^ z := by simpa using (zpow_mul' g z 2)
       _ = (g ^ 2) ^ z := by
-        simpa using congrArg (fun t : G => t ^ z) (zpow_natCast g 2)
+        simp
       _ = g := hz
   have hsurj : Function.Surjective (fun g : G => g⁻¹ * g⁻¹) := by
     intro g
@@ -659,8 +659,8 @@ lemma representation_average_character_ne_zero_of_fixed_conjugate
   let flip : LinearMap.BilinForm ℂ V →ₗ[ℂ] LinearMap.BilinForm ℂ V :=
     ((LinearMap.BilinForm.flipHom :
       LinearMap.BilinForm ℂ V ≃ₗ[ℂ] LinearMap.BilinForm ℂ V).toLinearMap)
-  letI : Module.Free ℂ p := Module.Free.of_basis (Module.Basis.ofVectorSpace ℂ p)
-  letI : Module.Finite ℂ p := Module.Finite.of_basis (Module.Basis.ofVectorSpace ℂ p)
+  let : Module.Free ℂ p := Module.Free.of_basis (Module.Basis.ofVectorSpace ℂ p)
+  let : Module.Finite ℂ p := Module.Finite.of_basis (Module.Basis.ofVectorSpace ℂ p)
   have hpfin : Module.finrank ℂ p = 1 := by
     simpa [p, ρh] using
       representation_linHom_dual_invariants_finrank_eq_one_of_fixed_conjugate
@@ -811,7 +811,7 @@ lemma representation_character_eq_principal_of_average_ne_zero
     simpa [T] using trivialRepresentation_irreducible (G := G)
   have hcard_ne : (Nat.card G : ℂ) ≠ 0 := by
     exact_mod_cast (Nat.card_ne_zero.mpr ⟨inferInstance, inferInstance⟩ : Nat.card G ≠ 0)
-  letI : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard_ne
+  let : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hcard_ne
   have hhom :
       ((Nat.card G : ℂ)⁻¹ * ∑ g : G, ρ.character g =
         Module.finrank ℂ (Representation.IntertwiningMap T ρ)) := by
@@ -832,8 +832,8 @@ lemma representation_character_eq_principal_of_average_ne_zero
       Module.finrank_zero_of_subsingleton
     exact hhom_ne hfinrank_zero
   rcases hexists with ⟨f, hf⟩
-  letI : Representation.IsIrreducible T := hTirreducible
-  letI : Representation.IsIrreducible ρ := hρ_irreducible
+  let : Representation.IsIrreducible T := hTirreducible
+  let : Representation.IsIrreducible ρ := hρ_irreducible
   have hbij : Function.Bijective f := by
     rcases Representation.IsIrreducible.bijective_or_eq_zero f with hbij | hzero
     · exact hbij

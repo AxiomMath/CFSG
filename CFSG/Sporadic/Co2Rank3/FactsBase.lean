@@ -92,10 +92,10 @@ theorem co2Q_levelSubgroup_eq
   · rintro ⟨j, hj, rfl⟩
     exact ⟨j, hj, strongAt_co2Q (hl11 j hj)⟩
 
-@[expose] def co2P0 : Subgroup (Equiv.Perm (Fin 2300)) :=
+def co2P0 : Subgroup (Equiv.Perm (Fin 2300)) :=
   co2P ⊓ stabilizer (Equiv.Perm (Fin 2300)) (0 : Fin 2300)
 
-@[expose] def co2P01 : Subgroup (Equiv.Perm (Fin 2300)) :=
+def co2P01 : Subgroup (Equiv.Perm (Fin 2300)) :=
   co2P0 ⊓ stabilizer (Equiv.Perm (Fin 2300)) (1 : Fin 2300)
 
 theorem co2Q_levelSubgroup_one :
@@ -131,7 +131,7 @@ theorem rep_lev2 {k : ℕ} (hk : k < lev2Gens.size) :
     exact List.getElem_mem hk'
   exact rep_co2Strong ((by decide : ∀ j ∈ level2Idx, j < 11) _ hmem)
 
-@[expose] def co2StabGen (k : ℕ) : Equiv.Perm (Fin 2300) :=
+def co2StabGen (k : ℕ) : Equiv.Perm (Fin 2300) :=
   Quiver.SchreierGraph.evalWord (fun h : Fin 11 => co2Strong h)
     (toLetters 11 (stabWords.getD k []))
 
@@ -141,7 +141,7 @@ theorem co2StabGen_mem
   rintro _ ⟨h, rfl⟩
   exact co2Strong_mem h.2
 
-@[expose] def co2N : Subgroup (Equiv.Perm (Fin 2300)) :=
+def co2N : Subgroup (Equiv.Perm (Fin 2300)) :=
   Subgroup.closure {g | ∃ k < stabGens.size, co2StabGen k = g}
 
 end CFSG.Sporadic.Co2Rank3

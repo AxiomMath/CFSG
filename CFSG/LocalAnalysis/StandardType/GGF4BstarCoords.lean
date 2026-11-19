@@ -126,22 +126,22 @@ theorem exists_bstar_f4Coords {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.
         · subst h1
           by_cases h3 : k = i
           · subst h3
-            rw [if_pos rfl, if_pos rfl] at hk
-            rw [if_pos rfl, if_pos rfl]
+            rw [ite_eq_left rfl, ite_eq_left rfl] at hk
+            rw [ite_eq_left rfl, ite_eq_left rfl]
             linear_combination a * hk
-          · rw [if_pos rfl, if_neg h3] at hk
-            rw [if_pos rfl, if_neg h3]
+          · rw [ite_eq_left rfl, ite_eq_right h3] at hk
+            rw [ite_eq_left rfl, ite_eq_right h3]
             linear_combination a * hk
         · by_cases h3 : k = i
-          · rw [if_neg h1, if_pos h3] at hk
-            rw [if_neg h1, if_pos h3]
+          · rw [ite_eq_right h1, ite_eq_left h3] at hk
+            rw [ite_eq_right h1, ite_eq_left h3]
             linear_combination a * hk
-          · rw [if_neg h1, if_neg h3] at hk
-            rw [if_neg h1, if_neg h3]
+          · rw [ite_eq_right h1, ite_eq_right h3] at hk
+            rw [ite_eq_right h1, ite_eq_right h3]
             linear_combination a * hk
       rw [Finset.sum_congr rfl fun k _ => by rw [hcoef k]]
       simp only [sub_smul, Finset.sum_sub_distrib, ite_smul, zero_smul, Finset.sum_ite_eq',
-        Finset.mem_univ, if_true]
+        Finset.mem_univ, ite_true]
     intro c
     exact LinearMap.congr_fun hlin c
   have hall : ∀ (w : CoxeterMatrix.F₄.Group) (c : Fin 4 → ZMod p),

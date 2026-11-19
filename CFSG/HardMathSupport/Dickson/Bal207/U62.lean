@@ -57,8 +57,7 @@ theorem u62Perm_commute_iff (σ : Equiv.Perm (Fin 6)) (b : sumZero6) :
       ∃ k : ZMod 3, ∀ i, (b : Fin 6 → ZMod 3) (σ.symm i) - (b : Fin 6 → ZMod 3) i = k := by
   rw [← mul_inv_eq_iff_eq_mul, u62Perm_conj, ← mul_inv_eq_one, ← map_inv, ← map_mul,
     ← ofAdd_neg, ← ofAdd_add, unitaryTorusHom_eq_one_iff]
-  simp only [AddSubgroup.coe_add, AddSubgroup.coe_neg, AddSubgroup.coe_sub, Pi.add_apply,
-    Pi.neg_apply, Pi.sub_apply, CentralCoverThree.permSumZero_apply, ← sub_eq_add_neg]
+  simp only [AddSubgroup.coe_sub, Pi.sub_apply, CentralCoverThree.permSumZero_apply, ← sub_eq_add_neg]
 
 theorem u62Perm_commutator (σ : Equiv.Perm (Fin 6)) (a b : sumZero6)
     (h : ∀ i, (b : Fin 6 → ZMod 3) i =
@@ -70,8 +69,8 @@ theorem u62Perm_commutator (σ : Equiv.Perm (Fin 6)) (a b : sumZero6)
   apply Subtype.ext
   funext i
   rw [h i]
-  simp only [AddSubgroup.coe_add, AddSubgroup.coe_neg, AddSubgroup.coe_sub, Pi.add_apply,
-    Pi.neg_apply, Pi.sub_apply, CentralCoverThree.permSumZero_apply, sub_eq_add_neg]
+  simp only [AddSubgroup.coe_add, AddSubgroup.coe_neg, Pi.add_apply,
+    Pi.neg_apply, CentralCoverThree.permSumZero_apply, sub_eq_add_neg]
 
 @[expose] def u62C1 : Equiv.Perm (Fin 6) := Equiv.swap 0 1 * Equiv.swap 1 2
 

@@ -54,6 +54,7 @@ theorem wordSubgroupP_normGens_le_normalizer :
   rw [mem_normalizer_subgroupOf_P (wordSubgroup_le uWords)]
   exact hnorm hx
 
+omit hι in
 theorem card_centralizer_pZ₁ (hP : Nat.card ↥P1408 = 177408000) :
     Nat.card (centralizer ({pZ₁} : Set ↥P1408)) = 3840 := by
   have hspec := (invClasses_classSpec hP).2.2.2
@@ -72,6 +73,7 @@ theorem card_centralizer_pZ₁ (hP : Nat.card ↥P1408 = 177408000) :
   rw [heq, card_subgroupOf_P inf_le_left]
   exact hcent
 
+omit hι in
 theorem centralizer_pZ₁_le_normGens (hP : Nat.card ↥P1408 = 177408000) :
     centralizer ({pZ₁} : Set ↥P1408) ≤ wordSubgroupP normGens := by
   have hspec := (invClasses_classSpec hP).2.2.2
@@ -155,11 +157,11 @@ theorem ncard_conjClass_normalizer_z₁ (hP : Nat.card ↥P1408 = 177408000) :
 theorem card_normalizer_A (hP : Nat.card ↥P1408 = 177408000) :
     Nat.card (normalizer (ι.range : Set ↥P1408)) = 46080 := by
   have hle : centralizer ({pZ₁} : Set ↥P1408) ≤ normalizer (ι.range : Set ↥P1408) :=
-    (centralizer_pZ₁_le_normGens ι hι hP).trans (wordSubgroupP_normGens_le_normalizer ι hι)
+    (centralizer_pZ₁_le_normGens hP).trans (wordSubgroupP_normGens_le_normalizer ι hι)
   have hos := CFSG.Sporadic.SmallOddCore.ncard_conjClass_mul_card
     (normalizer (ι.range : Set ↥P1408)) pZ₁
   rw [ncard_conjClass_normalizer_z₁ ι hι hP, inf_eq_right.mpr hle,
-    card_centralizer_pZ₁ ι hι hP] at hos
+    card_centralizer_pZ₁ hP] at hos
   norm_num at hos
   exact hos.symm
 

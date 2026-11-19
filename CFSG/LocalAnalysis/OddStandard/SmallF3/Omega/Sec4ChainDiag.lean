@@ -78,7 +78,7 @@ private theorem exists_center_quotient_lift {K K' : Subgroup G}
     ∃ π : ↥(K ⊔ K') →* ↥K ⧸ Subgroup.center ↥K,
       ∀ j : ↥(K ⊔ K'), π j = 1 ↔ ∃ a ∈ centerIn K, ∃ b ∈ K', (j : G) = a * b := by
   classical
-  haveI : Nonempty (↥K × ↥K') := ⟨(1, 1)⟩
+  have : Nonempty (↥K × ↥K') := ⟨(1, 1)⟩
   let f : ↥K × ↥K' →* ↥(K ⊔ K') :=
     { toFun := fun x => ⟨(x.1 : G) * (x.2 : G), mul_mem_sup x.1.2 x.2.2⟩
       map_one' := Subtype.ext (by simp)
@@ -173,7 +173,7 @@ theorem ctrQ_dvd_of_le_sup_of_commute [Finite G] {X K K' : Subgroup G} (hX : IsQ
         rw [← Subgroup.card_eq_card_quotient_mul_card_subgroup N,
           ← Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center ↥X)]
       exact mul_left_cancel₀ (by
-        haveI : Nonempty (↥X ⧸ Subgroup.center ↥X) := ⟨1⟩
+        have : Nonempty (↥X ⧸ Subgroup.center ↥X) := ⟨1⟩
         exact Nat.card_ne_zero.mpr ⟨inferInstance, inferInstance⟩) hmul
     have hNeq : N = Subgroup.center ↥X :=
       Subgroup.eq_of_le_of_card_ge hNcenter (le_of_eq hcardN.symm)

@@ -76,13 +76,13 @@ theorem isConj_conj_iff (g : G) {x : G} : IsConj a (g * x * g⁻¹) ↔ IsConj a
 
 theorem conj_mem_orb2A (g : G) {x c : G} :
     g * c * g⁻¹ ∈ orb2A a (g * x * g⁻¹) ↔ c ∈ orb2A a x := by
-  simp only [orb2A, Set.mem_setOf_eq]
+  simp only [orb2A, Set.mem_ofPred_eq]
   rw [show (g * x * g⁻¹) * (g * c * g⁻¹) = g * (x * c) * g⁻¹ by group]
   exact and_congr (isConj_conj_iff (x := c) g) (isConj_conj_iff (x := x * c) g)
 
 theorem conj_mem_orb2B (g : G) {x c : G} :
     g * c * g⁻¹ ∈ orb2B a z (g * x * g⁻¹) ↔ c ∈ orb2B a z x := by
-  simp only [orb2B, Set.mem_setOf_eq]
+  simp only [orb2B, Set.mem_ofPred_eq]
   rw [show (g * x * g⁻¹) * (g * c * g⁻¹) = g * (x * c) * g⁻¹ by group]
   exact and_congr (isConj_conj_iff (a := a) (x := c) g) (isConj_conj_iff (a := z) (x := x * c) g)
 
@@ -102,26 +102,26 @@ theorem conj_mem_orb3A (g : G) {x c : G} :
     · rintro ⟨d, hd1, hd2⟩
       exact ⟨g * d * g⁻¹, (conj_mem_orb2A (a := a) (g := g) (x := x) (c := d)).mpr hd1,
         (conj_mem_orb2A (a := a) (g := g) (x := c) (c := d)).mpr hd2⟩
-  simp only [orb3A, Set.mem_setOf_eq]
+  simp only [orb3A, Set.mem_ofPred_eq]
   rw [show (g * x * g⁻¹) * (g * c * g⁻¹) = g * (x * c) * g⁻¹ by group, orderOf_conj g (x * c)]
   exact and_congr (isConj_conj_iff (x := c) g) (and_congr Iff.rfl aux)
 
 theorem conj_mem_orb4A (g : G) {x c : G} :
     g * c * g⁻¹ ∈ orb4A a z (g * x * g⁻¹) ↔ c ∈ orb4A a z x := by
-  simp only [orb4A, Set.mem_setOf_eq]
+  simp only [orb4A, Set.mem_ofPred_eq]
   rw [show (g * x * g⁻¹) * (g * c * g⁻¹) = g * (x * c) * g⁻¹ by group, conj_pow]
   exact and_congr (isConj_conj_iff (a := a) (x := c) g)
     (isConj_conj_iff (a := z) (x := (x * c) ^ 2) g)
 
 theorem conj_mem_orb4B (g : G) {x c : G} :
     g * c * g⁻¹ ∈ orb4B a (g * x * g⁻¹) ↔ c ∈ orb4B a x := by
-  simp only [orb4B, Set.mem_setOf_eq]
+  simp only [orb4B, Set.mem_ofPred_eq]
   rw [show (g * x * g⁻¹) * (g * c * g⁻¹) = g * (x * c) * g⁻¹ by group, conj_pow]
   exact and_congr (isConj_conj_iff (x := c) g) (isConj_conj_iff (x := (x * c) ^ 2) g)
 
 theorem conj_mem_orb6A (g : G) {x c : G} :
     g * c * g⁻¹ ∈ orb6A a (g * x * g⁻¹) ↔ c ∈ orb6A a x := by
-  simp only [orb6A, Set.mem_setOf_eq]
+  simp only [orb6A, Set.mem_ofPred_eq]
   rw [show (g * x * g⁻¹) * (g * c * g⁻¹) = g * (x * c) * g⁻¹ by group,
     orderOf_conj g (x * c), conj_pow]
   exact and_congr (isConj_conj_iff (x := c) g)
@@ -129,7 +129,7 @@ theorem conj_mem_orb6A (g : G) {x c : G} :
 
 theorem conj_mem_oddSet (g : G) {x c : G} :
     g * c * g⁻¹ ∈ oddSet a (g * x * g⁻¹) ↔ c ∈ oddSet a x := by
-  simp only [oddSet, Set.mem_setOf_eq]
+  simp only [oddSet, Set.mem_ofPred_eq]
   rw [show (g * x * g⁻¹) * (g * c * g⁻¹) = g * (x * c) * g⁻¹ by group, orderOf_conj g (x * c)]
   refine and_congr (isConj_conj_iff (x := c) g) (and_congr ?_ (and_congr Iff.rfl ?_))
   · exact (conj_injective (x := g)).ne_iff
@@ -147,7 +147,7 @@ theorem conj_mem_oddSet (g : G) {x c : G} :
 
 theorem conj_mem_orb5A (g : G) {x c : G} :
     g * c * g⁻¹ ∈ orb5A a (g * x * g⁻¹) ↔ c ∈ orb5A a x := by
-  simp only [orb5A, Set.mem_setOf_eq]
+  simp only [orb5A, Set.mem_ofPred_eq]
   rw [conj_mem_oddSet (g := g) (x := x) (c := c),
     show (g * x * g⁻¹) * (g * c * g⁻¹) = g * (x * c) * g⁻¹ by group, orderOf_conj g (x * c)]
   refine and_congr Iff.rfl (and_congr Iff.rfl ?_)
@@ -178,7 +178,7 @@ theorem conj_mem_orb5A (g : G) {x c : G} :
 
 theorem conj_mem_orb5E (g : G) {x c : G} :
     g * c * g⁻¹ ∈ orb5E a (g * x * g⁻¹) ↔ c ∈ orb5E a x := by
-  simp only [orb5E, Set.mem_setOf_eq]
+  simp only [orb5E, Set.mem_ofPred_eq]
   rw [conj_mem_oddSet (g := g) (x := x) (c := c),
     show (g * x * g⁻¹) * (g * c * g⁻¹) = g * (x * c) * g⁻¹ by group, orderOf_conj g (x * c)]
   refine and_congr Iff.rfl (and_congr Iff.rfl ?_)

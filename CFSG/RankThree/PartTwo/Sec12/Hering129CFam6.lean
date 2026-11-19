@@ -41,7 +41,7 @@ theorem kFCensus46Six_of
     (h1 : KFCensus46SixL3Pi) (h2 : KFCensus46SixU4) (h3 : KFCensus46SixD42)
     (h4 : KFCensus46SixF4) : KFCensus46Six := by
   intro Q Lb _ _ _ c a I X f hQ hD
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnot3 : ∀ n : ℕ, ¬ 3 ∣ 2 ^ n := fun n h =>
     absurd (Nat.prime_three.dvd_of_dvd_pow h) (by norm_num)
   rcases hQ with (⟨n, hn, hX⟩ | ⟨f', hf⟩) | ⟨n, hn, hX⟩

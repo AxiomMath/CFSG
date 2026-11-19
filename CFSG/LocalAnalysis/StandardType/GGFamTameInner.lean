@@ -33,12 +33,12 @@ private theorem famInner_four_le
   classical
   obtain ⟨hs0, hs, hmin⟩ := fam_componentOrbitLength_spec S hρ i
   set s := componentOrbitLength S.ρ (componentRoots χ i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   have hinner := fam_twistInner_of_twistKind_eq_inner rootAutIsWeyl_holds S hρ i hkind
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := fam_exists_untwist S hρ i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
   have hQ' : 4 ≤ r ^ (e * s) := by rw [pow_mul, ← hq]; exact hQ
   obtain ⟨t, ht⟩ := exists_unit_sq_ne_one (L := L) σ hσ' (Nat.mul_pos he hs0) hQ'
@@ -68,12 +68,12 @@ private theorem famInner_small_tame
   classical
   obtain ⟨hs0, hs, hmin⟩ := fam_componentOrbitLength_spec S hρ i
   set s := componentOrbitLength S.ρ (componentRoots χ i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   have hinner := fam_twistInner_of_twistKind_eq_inner rootAutIsWeyl_holds S hρ i hkind
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := fam_exists_untwist S hρ i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
   have hQ' : r ^ (e * s) < 4 := by rw [pow_mul, ← hq]; exact hQ
   obtain ⟨hfinset, hcardset⟩ := ncard_pow_eq_self (L := L) r (e * s) (Nat.mul_pos he hs0)
@@ -85,7 +85,7 @@ private theorem famInner_small_tame
   have hfinK : Finite (fixSubfield σ) := by
     have h1 : (fixSubfield σ : Set L).Finite := by rw [hset]; exact hfinset
     exact h1.to_subtype
-  haveI : Finite (fixSubfield σ) := hfinK
+  have : Finite (fixSubfield σ) := hfinK
   have hKcard : Nat.card (fixSubfield σ) = r ^ (e * s) := by
     have h1 : Nat.card (fixSubfield σ) = (fixSubfield σ : Set L).ncard :=
       Nat.card_coe_set_eq (fixSubfield σ : Set L)
@@ -141,7 +141,7 @@ private theorem famInner_small_tame
 
 theorem langFamTame_inner
     {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
-    {p₀ p : ℕ} (S : LangSetup τ L p₀) (hp : p.Prime) (hp2 : p ≠ 2) {ι : Type}
+    {p₀ p : ℕ} (S : LangSetup τ L p₀) (hp : p.Prime) (_hp2 : p ≠ 2) {ι : Type}
     {a : ι → Fin τ.rank → Lˣ} (hT : ∀ u, rootDiagUnit τ (a u) ∈ S.D.torus)
     (hap : ∀ u j, a u j ^ p = 1) (h1 : ∃ u, rootDiagUnit τ (a u) ≠ 1)
     (i : KernelComponent (famCharHom a))

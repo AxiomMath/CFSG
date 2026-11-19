@@ -20,7 +20,7 @@ theorem w16l_isU3Shape_of_perfect {Q : Type} [Group Q] [Finite Q] {n : ℕ}
     (hperf : commutator Q = ⊤) (hQ : IsPSUGp (Q ⧸ Subgroup.center Q) 3 n) :
     IsU3Shape Q n := by
   refine ⟨hperf, hQ, ?_⟩
-  haveI : Group.IsPerfect Q := ⟨hperf⟩
+  have : Group.IsPerfect Q := ⟨hperf⟩
   have hmodel : StatedClassicalModel (Q ⧸ Subgroup.center Q) .PSU 3 2 n :=
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hQ
   have h1 : Nat.card (Subgroup.center Q) ∣
@@ -37,11 +37,11 @@ theorem w16l_exists_cover_unitarySU {Q : Type} [Group Q] [Finite Q] {n : ℕ}
     ∃ (F : Type) (_ : Field F) (hF : UnitaryFieldData 2 n F)
       (π : ↥(unitarySU 2 n F 3) →* Q) (ε : (Q ⧸ Subgroup.center Q) ≃* unitaryPSU hF 3),
       Function.Surjective π ∧ ∀ g, ε (QuotientGroup.mk (π g)) = unitaryProj hF 3 g := by
-  haveI : Group.IsPerfect Q := ⟨hperf⟩
+  have : Group.IsPerfect Q := ⟨hperf⟩
   obtain ⟨-, F, instField, instFinite, hFcard, ⟨e₀⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hQ
-  letI : Field F := instField
-  letI : Finite F := instFinite
+  let : Field F := instField
+  let : Finite F := instFinite
   let hF : UnitaryFieldData 2 n F := unitaryFieldDataOfCard hFcard
   have hodd : Odd (Nat.card (Subgroup.center Q)) :=
     Odd.of_dvd_nat (show Odd 3 from ⟨1, by norm_num⟩)

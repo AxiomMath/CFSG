@@ -15,6 +15,7 @@ namespace Exch
 
 variable {K : Type} [Field K] [Finite K] {f : ℕ} [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem plxd_finrank_sup_of_ne {p t : Submodule K (Fin 3 → K)}
     (hp : finrank K p = 1) (ht : finrank K t = 1) (hne : p ≠ t) :
     finrank K ↥(p ⊔ t) = 2 := by
@@ -33,6 +34,7 @@ private theorem plxd_finrank_sup_of_ne {p t : Submodule K (Fin 3 → K)}
   rw [hinf, finrank_bot, add_zero, hp, ht] at hsum
   omega
 
+omit [Finite K] [CharP K 2] in
 private theorem plxd_sup_Vsub_one_eq_top {x : FlagK K 3} (h2 : x.E 2 ⊓ Vsub 3 1 = ⊥) :
     x.E 2 ⊔ Vsub 3 1 = ⊤ := by
   refine Submodule.eq_top_of_finrank_eq ?_
@@ -42,6 +44,7 @@ private theorem plxd_sup_Vsub_one_eq_top {x : FlagK K 3} (h2 : x.E 2 ⊓ Vsub 3 
   rw [Module.finrank_fin_fun]
   omega
 
+omit [Finite K] [CharP K 2] in
 private theorem plxd_farSet_013 {x : FlagK K 3} :
     x ∈ farSet 3 [0, 1, 3] ↔ x.E 1 ⊓ Vsub 3 1 = ⊥ ∧ x.E 2 ⊓ Vsub 3 1 = ⊥ := by
   have hle : ∀ i, i < [0, 1, 3].length → [0, 1, 3].getD i 0 ≤ 3 := by
@@ -85,7 +88,7 @@ theorem exists_mem_setA2A1 {p l : Submodule K (Fin 3 → K)} (hp : finrank K p =
 
 variable (K f)
 
-@[expose] noncomputable abbrev X : ChamberSystem (Fin 2 ⊕ Fin 1) ↥(setA2A1 K f) :=
+noncomputable abbrev X : ChamberSystem (Fin 2 ⊕ Fin 1) ↥(setA2A1 K f) :=
   ((flagSys K 2).prod (flagSys K 1)).restrict (setA2A1 K f)
 
 @[expose] def V : Type := {p : Submodule K (Fin 3 → K) // ∃ c : ↥(setA2A1 K f), c.1.1.E 1 = p}

@@ -13,7 +13,7 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G]
 
 private theorem c23ne_tau_mem_Y {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
-    {x : G} {K₁ K₂ : Subgroup G} (hctx : C23NeCtx D V₀ V L hV x K₁ K₂) {v c : G} (hv : v ∈ V)
+    {x : G} {K₁ K₂ : Subgroup G} (_hctx : C23NeCtx D V₀ V L hV x K₁ K₂) {v c : G} (hv : v ∈ V)
     (hc : c ∈ c23neQ2 K₁ K₂) : c * v * c⁻¹ * v⁻¹ ∈ c23neY V K₁ K₂ := by
   have h := Subgroup.commutator_mem_commutator hc hv
   rw [Subgroup.commutator_comm] at h
@@ -28,7 +28,7 @@ private theorem c23_omega_closure_top {U : Type*} [CommGroup U] [Finite U]
     intro u hu
     by_contra hmem
     exact hu (Subgroup.subset_closure (by
-      simp only [c23Omega, Set.mem_setOf_eq]
+      simp only [c23Omega, Set.mem_ofPred_eq]
       simpa [Set.mem_union, not_or] using hmem))
   have hcardU : Nat.card U = 64 := c23_core_card_top h
   have hunion : ((Y₁ : Set U) ∪ (Y₂ : Set U)).ncard = 15 := by
@@ -65,6 +65,7 @@ private theorem c23_omega_closure_top {U : Type*} [CommGroup U] [Finite U]
     exact hk.symm
   exact Subgroup.eq_top_of_card_eq H (by omega)
 
+omit [Finite G] in
 private theorem c23ne_preTil_imgTil_eq {V₀ V U : Subgroup G} (hV : IsElemAbelian 2 V)
     (h0U : V₀ ≤ U) (hUV : U ≤ V) :
     preTil V₀ V hV (imgTil V₀ V hV U) = U := by
@@ -81,7 +82,7 @@ private theorem c23ne_preTil_imgTil_eq {V₀ V U : Subgroup G} (hV : IsElemAbeli
 private theorem c23ne_tau_eq_of_mem_V₀ {D : Data G} {V₀ V L : Subgroup G}
     {hV : IsElemAbelian 2 V} {x : G} {K₁ K₂ : Subgroup G}
     (hctx : C23NeCtx D V₀ V L hV x K₁ K₂) (hMs : D.M ≤ stabTil V₀ V) (hV₀V : V₀ ≤ V)
-    {u u' : G} (hu : u ∈ V) (hu' : u' ∈ V) (h : u * u'⁻¹ ∈ V₀)
+    {u u' : G} (_hu : u ∈ V) (hu' : u' ∈ V) (h : u * u'⁻¹ ∈ V₀)
     {c : G} (hc : c ∈ c23neQ2 K₁ K₂) :
     c * u * c⁻¹ * u⁻¹ = c * u' * c⁻¹ * u'⁻¹ := by
   have hM : D.M ≤ normalizer (V : Set G) := hMs.trans (stabTil_le_normalizer V₀ V)
@@ -224,7 +225,7 @@ theorem c23ne_tau_surj {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian 
   have hXQ₂ : X ≤ normalizer (Q₂ : Set G) := hXsyl.le.trans hLQ₂
   have hVcomm : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a := fun a ha b hb =>
     congrArg (fun x : ↥V => (x : G)) (hV.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-  haveI hZcomm : IsMulCommutative ↥Z := ⟨⟨fun a b => by
+  have hZcomm : IsMulCommutative ↥Z := ⟨⟨fun a b => by
     apply Subtype.ext
     exact hVcomm a.1 (hZV a.2) b.1 (hZV b.2)⟩⟩
   let τ : ↥Q₂ →* ↥Z :=
@@ -378,7 +379,7 @@ theorem c23ne_tau_surj {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian 
     have heq : u * c * u⁻¹ * c⁻¹ = (c * u * c⁻¹ * u⁻¹)⁻¹ := by group
     rw [heq]
     exact S.inv_mem hcu
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcop : Nat.Coprime 3 (Nat.card Q₂) := by
     obtain ⟨k, hk⟩ := hctx.q2_pgroup.exists_card_eq
     rw [hk]
@@ -416,7 +417,7 @@ theorem c23ne_tau_surj {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian 
       have heq : (⟨⁅g, q⁆, hgq⟩ : ↥Q₂)
           = ⟨g * q * g⁻¹, hgq'⟩ * ⟨q⁻¹, Q₂.inv_mem hq⟩ := by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]
+        simp only [Subgroup.coe_mul, commutatorElement_def]
       have hqinv : (⟨q⁻¹, Q₂.inv_mem hq⟩ : ↥Q₂) = (⟨q, hq⟩ : ↥Q₂)⁻¹ := Subtype.ext rfl
       rw [heq, map_mul, hconj, hqinv, map_inv]
       group
@@ -464,13 +465,14 @@ theorem c23ne_tau_surj {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian 
       _ = c * v * c⁻¹ * v⁻¹ := by rw [hτd]; group
   exact ⟨c, hcC, by rw [← hτc_eq, hqy']⟩
 
+omit [Finite G] in
 theorem c23ne_tau_le {V₀ V Y KK : Subgroup G} (hV : IsElemAbelian 2 V) (hV₀V : V₀ ≤ V)
-    (hYV₀ : Y ≤ V₀) (hKK : KK ≤ centralizer (V₀ : Set G))
+    (_hYV₀ : Y ≤ V₀) (hKK : KK ≤ centralizer (V₀ : Set G))
     (hgood : Y = V₀ ∨ C23NeSplit V₀ V Y KK) {v : G} (hv : v ∈ V) {n : G} (hn : n ∈ KK)
     (hnv : n * v * n⁻¹ * v⁻¹ ∈ V₀) : n * v * n⁻¹ * v⁻¹ ∈ Y := by
   rcases hgood with hY | ⟨C, hYC, hCV, hCinf, hCsup, hCinv⟩
   · rwa [hY]
-  · haveI : IsMulCommutative ↥V := hV.1
+  · have : IsMulCommutative ↥V := hV.1
     have hsupV : (C.subgroupOf V) ⊔ (V₀.subgroupOf V) = ⊤ := by
       rw [← Subgroup.subgroupOf_sup hCV hV₀V, hCsup, Subgroup.subgroupOf_self]
     have hvtop : (⟨v, hv⟩ : ↥V) ∈ (C.subgroupOf V) ⊔ (V₀.subgroupOf V) := by

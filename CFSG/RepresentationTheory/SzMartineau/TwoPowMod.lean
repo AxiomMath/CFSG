@@ -51,7 +51,7 @@ theorem two_pow_eq_two_pow_iff {f u v : ℕ} (hf : 2 ≤ f) :
   · intro h
     rw [pow_eq_pow_mod u hpow, pow_eq_pow_mod v hpow, h]
 
-private lemma finset_sum_two_pow_lt {f : ℕ} (hf : 2 ≤ f) {S : Finset ℕ}
+private lemma finset_sum_two_pow_lt {f : ℕ} (_hf : 2 ≤ f) {S : Finset ℕ}
     (hsub : S ⊆ Finset.range f) (hcard : S.card < f) :
     ∑ x ∈ S, (2 : ℕ) ^ x < 2 ^ f - 1 := by
   obtain ⟨d, hdmem, hdnot⟩ := Finset.exists_mem_notMem_of_card_lt_card

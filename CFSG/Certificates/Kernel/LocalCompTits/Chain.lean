@@ -193,11 +193,11 @@ theorem levP_of {TL : Nat → Nat} {TT TS TW : Nat → Nat → Nat} {sz : Nat �
     · simpa [hc, Nat.beq_eq] using this
     · simpa [hc, Nat.beq_eq] using this
   · have := allN_iff.1 h6 k hk
-    simp only [strictB_eq, bIf_eq, bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq,
-      List.all_eq_true, List.contains_iff_mem] at this
+    simp only [strictB_eq, bIf_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq,
+      List.all_eq_true] at this
     obtain ⟨a, b, c, d⟩ := this
     refine ⟨a, b, c, fun hk0 => ?_⟩
-    rw [if_neg (by omega)] at d
+    rw [ite_eq_right (by omega)] at d
     simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, List.contains_iff_mem] at d
     exact d
 
@@ -228,7 +228,7 @@ theorem bfsP_of {TL : Nat → Nat} {TT TS : Nat → Nat → Nat} {sz : Nat → N
     by_cases hz : f16 (TS i (apL TL ((levLetters TL CP i).getD u 0) (f16 (TT i h') 0))) 0 = 0
     · exact Or.inl hz
     · right
-      simp only [hz, Nat.beq_eq, ite_false, Bool.false_eq_true] at this
+      simp only [hz, Nat.beq_eq, ite_false] at this
       simpa [Nat.ble_eq] using this
 
 @[expose] noncomputable def gPts (TT : Nat → Nat → Nat) (i k : Nat) : Nat := f16 (TT i k) 0
@@ -281,7 +281,7 @@ theorem invLK_eq (l : Nat) : invLK l = Nat.xor l 1 := by
   rw [CFSG.KS.PC.xor_one]
   unfold invLK CFSG.Perm.Native.invL
   rw [CFSG.KS.Raw.Orb.nIf_eq]
-  simp only [Nat.beq_eq, Nat.and_one_is_mod]
+  simp only [Nat.beq_eq]
   by_cases h : l % 2 = 0
   · simp [h]
   · simp [h]
@@ -290,7 +290,7 @@ theorem walkInvF_zero (L : Nat → Nat → Nat) (PAR LAB : Nat → Nat) (F : Nat
     walkInvF L PAR LAB F 0 q = q := by
   cases F with
   | zero => rfl
-  | succ F => rw [walkInvF_succ, if_neg (by simp)]
+  | succ F => rw [walkInvF_succ, ite_eq_right (by simp)]
 
 section Walk
 
@@ -311,12 +311,12 @@ theorem walkF_tw (hL : LevP TL TT TS TW sz CP i) (hCP : TupR (tupOf CP) CP) :
     rw [walkF_succ, r32_tPar, r32_tLab]
     by_cases hk0 : k = 0
     · subst hk0
-      rw [if_neg (by simp [gPar]), hL.tw0]
+      rw [ite_eq_right (by simp [gPar]), hL.tw0]
       exact hCP
     · obtain ⟨-, -, -, hpt⟩ := hL.pt k hk
       obtain ⟨hlt, -, -, htw⟩ := hpt (by omega)
       have hc : 0 < k ∧ gPar TT i k < k := ⟨by omega, by simpa [gPar, hk0] using hlt⟩
-      rw [if_pos hc, mapK_eq]
+      rw [ite_eq_left hc, mapK_eq]
       have h1 := ih (f16 (TT i k) 1) (by omega) (by omega)
       rw [htw]
       simpa [gLab, gPar, hk0] using TupR_map h1 (apL TL (f16 (TT i k) 2)) (apL_lt _ _)
@@ -345,16 +345,16 @@ theorem walkInv_cmp (hL : LevP TL TT TS TW sz CP i) :
       obtain ⟨hlt, hlab, -, -⟩ := hpt (by omega)
       obtain ⟨F, rfl⟩ : ∃ F', F = F' + 1 := ⟨F - 1, by omega⟩
       have hc : 0 < k ∧ gPar TT i k < k := ⟨by omega, by simpa [gPar, hk0] using hlt⟩
-      rw [walkInvF_succ, r32_tPar, r32_tLab, if_pos hc, mapK_eq]
+      rw [walkInvF_succ, r32_tPar, r32_tLab, ite_eq_left hc, mapK_eq]
       have e : walkInvK 56 TL TT i (f + 1) k t =
           walkInvK 56 TL TT i f (f16 (TT i k) 1)
             (tupK 56 (apL TL (invLK (f16 (TT i k) 2))) t) := by
         simp only [walkInvK, CFSG.KS.Raw.Orb.nIf_eq, CFSG.KS.Raw.Orb.strictN_eq, Nat.beq_eq, hk0,
-          if_false]
+          ite_false]
       rw [e]
       have h1 := ih (f16 (TT i k) 1) (by omega) hd' F (by simp [gPar, hk0] at hc ⊢; omega) _ _
         (TupR_map htq (apL TL (invLK (f16 (TT i k) 2))) (apL_lt _ _))
-      simp only [gPar, gLab, hk0, if_false, invLK_eq] at h1 ⊢
+      simp only [gPar, gLab, hk0, ite_false, invLK_eq] at h1 ⊢
       exact h1
 
 theorem sift_cmp (hLv : ∀ j < 4, LevP TL TT TS TW sz CP j)
@@ -381,7 +381,7 @@ theorem sift_cmp (hLv : ∀ j < 4, LevP TL TT TS TW sz CP j)
     rw [siftF_succ, r32_tPos, Bool.and_eq_true]
     have hpos : gPos TS sz j (q.getD j 0) = f16 (TS j (q.getD j 0)) 0 := by
       unfold gPos
-      rw [if_pos hky]
+      rw [ite_eq_left hky]
     rw [hpos]
     refine ⟨by simpa using hky, ?_⟩
     refine ih (j + 1) (by omega) _ _ ?_ h2
@@ -401,7 +401,7 @@ theorem sch_cmp (hLv : ∀ j < 4, LevP TL TT TS TW sz CP j)
   have hpos : gPos TS sz i (apL TL l (f16 (TT i k) 0)) =
       f16 (TS i (apL TL l (f16 (TT i k) 0))) 0 := by
     unfold gPos
-    rw [if_pos hky]
+    rw [ite_eq_left hky]
   rw [hpos]
   refine ⟨by simpa using hky, ?_⟩
   have h3 : TupR (tupK 56 (apL TL l) (TW i k))
@@ -444,7 +444,7 @@ theorem hdK_of {n root cnt : Nat} {PTS POS PAR LAB : Nat → Nat}
   · have := h.cnt_le
     have := h.n_lt
     have : r32 POS z ≠ 4294967295 := by omega
-    simp [this, bAnd_eq, Nat.blt_eq, Nat.beq_eq, h1, h2]
+    simp [this, Nat.blt_eq, Nat.beq_eq, h1, h2]
 
 open CFSG.KS.Raw.Orb in
 theorem ptK_of {n cnt r : Nat} {L : Nat → Nat → Nat} {LV : Nat → Nat}
@@ -457,20 +457,20 @@ theorem ptK_of {n cnt r : Nat} {L : Nat → Nat → Nat} {LV : Nat → Nat}
   refine ⟨h.lt, h.pos, ?_, allN_iff.2 fun t ht => ?_⟩
   · by_cases hk : k = 0
     · subst hk
-      simp [bIf_eq]
+      simp
     · obtain ⟨a1, a2, a3, a4, a5⟩ := h.tree (Nat.pos_of_ne_zero hk)
-      rw [bIf_eq, if_neg (by simpa [Nat.beq_eq] using hk), strictB_eq, strictB_eq]
-      simp only [bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, bIf_eq]
+      rw [bIf_eq, ite_eq_right (by simpa [Nat.beq_eq] using hk), strictB_eq, strictB_eq]
+      simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq, bIf_eq]
       refine ⟨a1, a2, a3, a4, ?_⟩
       by_cases hc : k + 1 < cnt
       · have hc' : Nat.succ k < cnt := hc
-        simp only [Nat.blt_eq, hc', ite_true]
+        simp only [hc', ite_true]
         exact lexLtK_iff.2 (a5 hc)
       · have hc' : ¬ Nat.succ k < cnt := hc
         simp [hc']
   · obtain ⟨c1, c2, c3⟩ := h.close t ht
     rw [strictB_eq]
-    simp only [bAnd_eq, Bool.and_eq_true, Nat.blt_eq, strictB_eq, bIf_eq, Nat.beq_eq]
+    simp only [Bool.and_eq_true, Nat.blt_eq, strictB_eq, bIf_eq, Nat.beq_eq]
     refine ⟨c1, c2, ?_⟩
     rcases c3 with c3 | c3
     · simp [c3]
@@ -499,11 +499,11 @@ theorem hd_tables (hL : LevP TL TT TS TW sz CP i) :
     unfold gPos
     by_cases hc : f16 (TS i z) 0 < sz i
     · right
-      rw [if_pos hc, r32_tPts]
-      rw [if_pos hc] at h1
+      rw [ite_eq_left hc, r32_tPts]
+      rw [ite_eq_left hc] at h1
       exact ⟨hc, h1⟩
     · left
-      rw [if_neg hc]
+      rw [ite_eq_right hc]
 
 theorem pt_tables (hL : LevP TL TT TS TW sz CP i) (hB : BfsP TL TT TS sz CP i)
     (hmap : ∀ l < 28, ∀ x < 1755, apL TL l x < 1755) {k : Nat} (hk : k < sz i) :
@@ -526,7 +526,7 @@ theorem pt_tables (hL : LevP TL TT TS TW sz CP i) (hB : BfsP TL TT TS sz CP i)
   · rw [r32_tPts]; exact hp1
   · rw [r32_tPts, r32_tPos]
     unfold gPos
-    rw [hp2, if_pos hk]
+    rw [hp2, ite_eq_left hk]
   · obtain ⟨q1, q2, q3, q4⟩ := hp4 hk0
     have hk0' : k ≠ 0 := by omega
     have hq2 : (levLetters TL CP i).idxOf (f16 (TT i k) 2) < (levLetters TL CP i).length :=
@@ -534,7 +534,7 @@ theorem pt_tables (hL : LevP TL TT TS TW sz CP i) (hB : BfsP TL TT TS sz CP i)
     have hgl : (levLetters TL CP i).getD ((levLetters TL CP i).idxOf (f16 (TT i k) 2)) 0 =
         f16 (TT i k) 2 := by
       rw [getD_lt hq2, List.getElem_idxOf]
-    simp only [r32_tPar, r32_tLab, r32_tTi, r32_tPts, gPar, gLab, gTi, hk0', if_false, hgl]
+    simp only [r32_tPar, r32_tLab, r32_tTi, r32_tPts, gPar, gLab, gTi, hk0', ite_false, hgl]
     refine ⟨q1, hq2, trivial, q3, fun hk1 => ?_⟩
     · have h1 := hB.inc k hk0 (by omega)
       have hk1' : k + 1 ≠ 0 := by omega
@@ -542,7 +542,7 @@ theorem pt_tables (hL : LevP TL TT TS TW sz CP i) (hB : BfsP TL TT TS sz CP i)
       simp only [Nat.add_eq, Nat.mul_eq] at h1
       have h2 := List.idxOf_le_length (a := f16 (TT i k) 2) (l := levLetters TL CP i)
       have h3 := List.idxOf_le_length (a := f16 (TT i (k + 1)) 2) (l := levLetters TL CP i)
-      simp only [hk1', if_false]
+      simp only [hk1', ite_false]
       unfold LexLt
       omega
   · have htm := hmem t ht
@@ -553,7 +553,7 @@ theorem pt_tables (hL : LevP TL TT TS TW sz CP i) (hB : BfsP TL TT TS sz CP i)
     have hg : gPos TS sz i (apL TL ((levLetters TL CP i).getD t 0) (f16 (TT i k) 0)) =
         f16 (TS i (apL TL ((levLetters TL CP i).getD t 0) (f16 (TT i k) 0))) 0 := by
       unfold gPos
-      rw [if_pos hpos]
+      rw [ite_eq_left hpos]
     simp only [r32_tPts, r32_tPos, hg]
     refine ⟨hlt, hpos, ?_⟩
     rcases hB.close k hk t ht with h0 | h0
@@ -562,7 +562,7 @@ theorem pt_tables (hL : LevP TL TT TS TW sz CP i) (hB : BfsP TL TT TS sz CP i)
       · exact Or.inl hz
       · right
         rw [r32_tPar, r32_tTi]
-        simp only [gPar, gTi, gLab, hz, if_false]
+        simp only [gPar, gTi, gLab, hz, ite_false]
         unfold TitsChain.keyK at h0
         simp only [Nat.add_eq, Nat.mul_eq] at h0
         have h2 := List.idxOf_le_length (a := f16 (TT i
@@ -691,7 +691,7 @@ theorem chain_sound {TL : Nat → Nat} {TT TS TW : Nat → Nat → Nat} {sz : Na
     have e : Nat.add (64 * (k / 64)) (k % 64) = k := by
       show 64 * (k / 64) + k % 64 = k
       omega
-    simp only [CFSG.KS.Raw.Orb.bIf_eq, e, Nat.blt_eq, if_pos hk, List.all_eq_true] at h2
+    simp only [CFSG.KS.Raw.Orb.bIf_eq, e, Nat.blt_eq, ite_eq_left hk, List.all_eq_true] at h2
     exact sch_cmp hLv hdp hCP hi hk (h2 _ hmem)
   obtain ⟨h1, h2⟩ := CFSG.KS.PC.pchainK_sound H hsch (term_cmp hCP ht)
   refine ⟨h2 3, ?_⟩
@@ -700,7 +700,7 @@ theorem chain_sound {TL : Nat → Nat} {TT TS TW : Nat → Nat → Nat} {sz : Na
   apply List.ext_getElem
   · simp
   · intro i h1 h2
-    simp [List.getElem_map, Array.getElem_ofFn]
+    simp [List.getElem_map]
     have : i = 0 ∨ i = 1 ∨ i = 2 ∨ i = 3 := by simp at h2; omega
     rcases this with rfl | rfl | rfl | rfl <;> rfl
 

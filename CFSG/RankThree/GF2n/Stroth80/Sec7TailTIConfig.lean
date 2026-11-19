@@ -37,6 +37,7 @@ variable [Finite X] {H V N : Subgroup X}
 
 @[expose] def cenIn (P : Subgroup X) : Subgroup X := (Subgroup.center P).map P.subtype
 
+omit [Finite X] in
 theorem mem_cenIn {P : Subgroup X} {z : X} :
     z ∈ cenIn P ↔ z ∈ P ∧ ∀ s ∈ P, z * s = s * z := by
   constructor
@@ -48,10 +49,12 @@ theorem mem_cenIn {P : Subgroup X} {z : X} :
     refine ⟨⟨z, hzP⟩, Subgroup.mem_center_iff.mpr fun s => ?_, rfl⟩
     exact Subtype.ext (hz s s.2).symm
 
+omit [Finite X] in
 theorem V_le_N (h : TIConfig H V N) : V ≤ N :=
-  h.pcore_le V (fun x hx => ⟨h.V_le hx, Subgroup.le_normalizer hx⟩)
-    (fun k hk => hk.2) h.V_pgroup
+  h.pcore_le V (fun _x hx => ⟨h.V_le hx, Subgroup.le_normalizer hx⟩)
+    (fun _k hk => hk.2) h.V_pgroup
 
+omit [Finite X] in
 theorem conj_mem_of_mem_normalizer {A : Subgroup X} {k z : X} (hk : k ∈ normalizer (A : Set X))
     (hz : z ∈ A) : k * z * k⁻¹ ∈ A :=
   (Subgroup.mem_normalizer_iff.mp hk z).mp hz
@@ -61,6 +64,7 @@ theorem mem_normalizer_of_conj_mem {A : Subgroup X} {k : X}
   Subgroup.mem_normalizer_fintype h
 
 
+omit [Finite X] in
 theorem conj_mem_cenIn {P : Subgroup X} {k z : X} (hk : k ∈ normalizer (P : Set X))
     (hz : z ∈ cenIn P) : k * z * k⁻¹ ∈ cenIn P := by
   obtain ⟨hzN, hzc⟩ := mem_cenIn.1 hz
@@ -82,7 +86,7 @@ theorem conj_sup_mem {A B : Subgroup X} {k : X} (hA : k ∈ normalizer (A : Set 
     rcases hx with hx | hx
     · exact Subgroup.subset_closure (Or.inl (conj_mem_of_mem_normalizer hA hx))
     · exact Subgroup.subset_closure (Or.inr (conj_mem_of_mem_normalizer hB hx))
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have : k * (x * y) * k⁻¹ = (k * x * k⁻¹) * (k * y * k⁻¹) := by group
     rw [this]; exact Subgroup.mul_mem _ hx hy
@@ -93,12 +97,12 @@ theorem conj_sup_mem {A B : Subgroup X} {k : X} (hA : k ∈ normalizer (A : Set 
 theorem exists_mem_normalizer_not_mem {p : ℕ} [Fact p.Prime] {P N : Subgroup X}
     (hP : IsPGroup p P) (hNP : N ≤ P) (hne : ¬ P ≤ N) :
     ∃ x ∈ P, x ∈ normalizer (N : Set X) ∧ x ∉ N := by
-  haveI : Group.IsNilpotent P := hP.isNilpotent
+  have : Group.IsNilpotent P := hP.isNilpotent
   have hlt : N.subgroupOf P < ⊤ := by
     rw [lt_top_iff_ne_top, Ne, Subgroup.subgroupOf_eq_top]
     exact hne
   have h2 := Group.normalizerCondition_of_isNilpotent (G := P) _ hlt
-  obtain ⟨y, hy1, hy2⟩ := SetLike.exists_of_lt h2
+  obtain ⟨y, hy1, hy2⟩ := _root_.IsConcreteLE.exists_of_lt h2
   refine ⟨y, y.2, ?_, hy2⟩
   have h3 : y ∈ (normalizer (N : Set X)).subgroupOf P := by
     rw [Subgroup.subgroupOf_normalizer_eq hNP]; exact hy1
@@ -106,8 +110,8 @@ theorem exists_mem_normalizer_not_mem {p : ℕ} [Fact p.Prime] {P N : Subgroup X
 
 theorem exists_ne_one_mem_cenIn {p : ℕ} [Fact p.Prime] {S : Subgroup X} (hS : IsPGroup p S)
     (hne : S ≠ ⊥) : ∃ z ∈ cenIn S, z ≠ 1 := by
-  haveI : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).mpr hne
-  haveI := hS.center_nontrivial
+  have : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).mpr hne
+  have := hS.center_nontrivial
   obtain ⟨c, hc⟩ := exists_ne (1 : Subgroup.center S)
   refine ⟨(c : S), ⟨c, c.2, rfl⟩, ?_⟩
   intro h
@@ -126,6 +130,7 @@ theorem cenIn_N_eq (h : TIConfig H V N) : cenIn N = V := by
   · intro x hx y hy
     exact (mem_cenIn.1 hx).2 y (mem_cenIn.1 hy).1
 
+omit [Finite X] in
 theorem N_le_of_maximal (h : TIConfig H V N) {Y S : Subgroup X} (hNY : N ≤ Y)
     (hYK : Y ≤ NormIn H V) (hSY : S ≤ Y) (hSp : IsPGroup 2 S)
     (hS : ∀ T : Subgroup X, T ≤ Y → IsPGroup 2 T → S ≤ T → T = S) : N ≤ S := by

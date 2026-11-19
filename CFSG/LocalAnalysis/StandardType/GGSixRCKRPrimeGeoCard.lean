@@ -132,7 +132,7 @@ theorem card_matTransvGroup {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F
       {g : GL ι F | ∃ c ∈ (Set.univ : Set F),
         (g : Matrix ι ι F) = 1 + c • Matrix.vecMulVec v φ} := by
     ext g
-    simp only [Set.mem_setOf_eq, Set.mem_univ, true_and]
+    simp only [Set.mem_ofPred_eq, Set.mem_univ, true_and]
   rw [matTransvGroup, hgen]
   rw [rckRPgc_natCard_closure_one_add_smul (A := Set.univ) hN hN0 (by simp)
     (by intro a _ b _; trivial) (by intro a _; trivial)]
@@ -201,7 +201,7 @@ theorem card_altSiegelGroup {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F
         (Matrix.vecMulVec v (G.mulVec w) + Matrix.vecMulVec w (G.mulVec v))} =
       {g : GL ι F | ∃ c ∈ (Set.univ : Set F), (g : Matrix ι ι F) = 1 + c • N} := by
     ext g
-    simp only [Set.mem_setOf_eq, Set.mem_univ, true_and, hNdef]
+    simp only [Set.mem_ofPred_eq, Set.mem_univ, true_and, hNdef]
   rw [altSiegelGroup, hgen]
   rw [rckRPgc_natCard_closure_one_add_smul (A := Set.univ) hN hN0 (by simp)
     (by intro x _ y _; trivial) (by intro x _; trivial)]
@@ -263,8 +263,8 @@ theorem card_unitTransvGroup {ι F : Type} [Fintype ι] [DecidableEq ι] [Field 
     simp
   rw [unitTransvGroup, hgen]
   rw [rckRPgc_natCard_closure_one_add_smul (A := {c : F | σ c = c}) hN hN0 (by simp)
-    (by intro x hx y hy; simp only [Set.mem_setOf_eq] at *; rw [map_add, hx, hy])
-    (by intro x hx; simp only [Set.mem_setOf_eq] at *; rw [map_neg, hx])]
+    (by intro x hx y hy; simp only [Set.mem_ofPred_eq] at *; rw [map_add, hx, hy])
+    (by intro x hx; simp only [Set.mem_ofPred_eq] at *; rw [map_neg, hx])]
   rfl
 
 end CFSG.StandardType.RCKRP

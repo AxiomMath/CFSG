@@ -220,7 +220,7 @@ theorem exists_unit_pow_separating [IsAlgClosed k] (E : Finset ℤ) :
     have hpos : 0 < d.natAbs := Int.natAbs_pos.mpr hdne
     have hp : (Polynomial.X ^ d.natAbs - (1 : Polynomial k)) ≠ 0 := by
       simpa using Polynomial.X_pow_sub_C_ne_zero (n := d.natAbs) hpos (1 : k)
-    refine (Polynomial.finite_setOf_isRoot hp).subset ?_
+    refine (Polynomial.finite_setOfPred_isRoot hp).subset ?_
     intro x hx
     have hx' : x ^ d.natAbs = 1 := by
       rw [← zpow_natCast]
@@ -433,7 +433,7 @@ theorem pointsMulEquiv_cocharacterOfAddHom_apply {n : ℕ} (i : ULift.{u} (Fin n
   by_cases hji : j = i
   · subst hji
     simp
-  · rw [if_neg hji, Pi.mulSingle_eq_of_ne hji]
+  · rw [ite_eq_right hji, Pi.mulSingle_eq_of_ne hji]
     simp
 
 theorem mapDomain_mem_of_pointsHom_mem {M : Type u} [CommRing M] [HopfAlgebra k M]

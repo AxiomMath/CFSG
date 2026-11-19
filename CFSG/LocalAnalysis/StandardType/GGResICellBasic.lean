@@ -131,7 +131,7 @@ theorem ggResI_roots_indep {T : Fin N → Vector (ZMod p) (N + 1)}
     rw [LinearMap.smul_apply, smul_eq_mul, map_sum]
     simp only [map_smul, smul_eq_mul]
   rw [hc, LinearMap.zero_apply] at h1
-  simp only [hab, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true] at h1
+  simp only [hab, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h1
   exact h1.symm
 
 end FMat

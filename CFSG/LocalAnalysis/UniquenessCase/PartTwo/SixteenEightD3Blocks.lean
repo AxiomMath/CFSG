@@ -134,7 +134,7 @@ theorem s16e_d3_cfg_of_symSumOfConj [Finite W] {A : Subgroup (MulAut W)} {r m : 
     ∃ (Δ : Fin (r + 1) → Subgroup W) (σ : ↥A →* Equiv.Perm (Fin (r + 1))),
       s16e_d3_Cfg A r m Δ σ := by
   obtain ⟨ι, hι, Y, hind, hinj, hsup, hcard, hrk, hperm, hsurj⟩ := s16n9b_case4_data h
-  letI : Fintype ι := hι
+  let : Fintype ι := hι
   let e : ι ≃ Fin (r + 1) := Fintype.equivFinOfCardEq hcard
   let Δ : Fin (r + 1) → Subgroup W := fun i => Y (e.symm i)
   let ρ : ↥A →* Equiv.Perm ι := s16e_d3_rho hinj hperm

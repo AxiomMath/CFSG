@@ -93,9 +93,9 @@ theorem pwOf_sound : ∀ {P : List (ℕ × ℕ × ℕ)}, PwSound val P → ∀ {
   | (l, c, d) :: t, hP, x, b, e, h => by
     unfold pwOf at h
     cases hc : Nat.beq l x
-    · rw [hc, cond_false] at h
+    · rw [hc, Bool.cond_false] at h
       exact pwOf_sound (fun p hp => hP p (List.mem_cons_of_mem _ hp)) h
-    · rw [hc, cond_true, Option.some.injEq, Prod.mk.injEq] at h
+    · rw [hc, _root_.Bool.cond_true, Option.some.injEq, Prod.mk.injEq] at h
       obtain ⟨rfl, rfl⟩ := h
       rw [← Nat.eq_of_beq_eq_true hc]
       exact hP _ List.mem_cons_self
@@ -118,8 +118,8 @@ theorem sumPw_sound {P : List (ℕ × ℕ × ℕ)} (hP : PwSound val P) {b : ℕ
         rw [hx, hw] at h
         dsimp only at h
         cases hc : Nat.beq c b
-        · rw [hc, cond_false] at h; exact absurd h (by simp)
-        · rw [hc, cond_true, Option.some.injEq] at h
+        · rw [hc, Bool.cond_false] at h; exact absurd h (by simp)
+        · rw [hc, _root_.Bool.cond_true, Option.some.injEq] at h
           rw [← h, wv_cons, pwOf_sound hP hx, sumPw_sound hP hw, Nat.eq_of_beq_eq_true hc,
             pow_add]
 
@@ -166,9 +166,9 @@ theorem ordOf_sound {tab : List Ent} {P : List (ℕ × ℕ × ℕ)} {ords : List
       obtain ⟨a, n⟩ := o
       unfold ordOf
       cases hc : Nat.beq a b
-      · rw [cond_false]
+      · rw [Bool.cond_false]
         exact ih fun o ho => hos o (List.mem_cons_of_mem _ ho)
-      · rw [cond_true, ← Nat.eq_of_beq_eq_true hc]
+      · rw [_root_.Bool.cond_true, ← Nat.eq_of_beq_eq_true hc]
         have h1 := List.all_eq_true.1 h _ (hos _ List.mem_cons_self)
         simp only [Bool.and_eq_true, List.any_eq_true] at h1
         obtain ⟨_, e, he, hr, hs⟩ := h1
@@ -234,9 +234,9 @@ theorem rulesP_sound {tab : List Ent} {P : List (ℕ × ℕ × ℕ)} {ords : Lis
             simp only [Option.elim_some, wv_single]
             rw [pwOf_sound hP hw]
             cases hn : Nat.beq (ordOf ords d) 0
-            · rw [hn, cond_false] at h
+            · rw [hn, Bool.cond_false] at h
               rw [pow_mod_of (hord d), Nat.eq_of_beq_eq_true h, ← pow_mod_of (hord d)]
-            · rw [hn, cond_true] at h
+            · rw [hn, _root_.Bool.cond_true] at h
               rw [Nat.eq_of_beq_eq_true h]
 
 theorem powOK_sound {P : List (ℕ × ℕ × ℕ)} {ords : List (ℕ × ℕ)} (hP : PwSound val P)
@@ -259,9 +259,9 @@ theorem powOK_sound {P : List (ℕ × ℕ × ℕ)} {ords : List (ℕ × ℕ)} (h
       subst hbc
       rw [pwOf_sound hP hv, pwOf_sound hP hp, ← pow_mul]
       cases hn : Nat.beq (ordOf ords b) 0
-      · rw [hn, cond_false] at h
+      · rw [hn, Bool.cond_false] at h
         rw [pow_mod_of (hord b), Nat.eq_of_beq_eq_true h, ← pow_mod_of (hord b)]
-      · rw [hn, cond_true] at h
+      · rw [hn, _root_.Bool.cond_true] at h
         rw [Nat.eq_of_beq_eq_true h]
 
 end Monoid

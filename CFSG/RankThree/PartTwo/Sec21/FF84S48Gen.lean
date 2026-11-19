@@ -11,12 +11,14 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF84
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem op2_le (H : Subgroup G) : Op 2 H ≤ H := by
   intro x hx
   have hx' : x ∈ (pCore 2 H).map H.subtype := hx
   obtain ⟨y, _, rfl⟩ := Subgroup.mem_map.1 hx'
   exact y.2
 
+omit [Finite G] in
 theorem op2_isPGroup (H : Subgroup G) : IsPGroup 2 (Op 2 H) := by
   intro g
   have hg2 : (g : G) ∈ (pCore 2 H).map H.subtype := g.2
@@ -30,6 +32,7 @@ theorem op2_isPGroup (H : Subgroup G) : IsPGroup 2 (Op 2 H) := by
   rw [show (g : G) = (y : G) from hyg.symm]
   exact h2
 
+omit [Finite G] in
 theorem op2_of_normal {H N : Subgroup G} (hNH : N ≤ H) (hN : (N.subgroupOf H).Normal)
     (hp : IsPGroup 2 N) : N ≤ Op 2 H := by
   have hp' : IsPGroup 2 (N.subgroupOf H) := by
@@ -43,6 +46,7 @@ theorem op2_of_normal {H N : Subgroup G} (hNH : N ≤ H) (hN : (N.subgroupOf H).
   show x ∈ (pCore 2 H).map H.subtype
   exact Subgroup.mem_map.2 ⟨⟨x, hNH hx⟩, hle (Subgroup.mem_subgroupOf.2 hx), rfl⟩
 
+omit [Finite G] in
 theorem op2_conj {H : Subgroup G} {g x : G} (hg : g ∈ H) (hx : x ∈ Op 2 H) :
     g * x * g⁻¹ ∈ Op 2 H := by
   have hx' : x ∈ (pCore 2 H).map H.subtype := hx
@@ -52,6 +56,7 @@ theorem op2_conj {H : Subgroup G} {g x : G} (hg : g ∈ H) (hx : x ∈ Op 2 H) :
   · exact (pCore_normal (p := 2) (G := H)).conj_mem y hy _
   · simp
 
+omit [Finite G] in
 theorem le_nor_op2 (H : Subgroup G) : H ≤ Nor (Op 2 H) := by
   intro g hg
   rw [Subgroup.mem_normalizer_iff]
@@ -60,10 +65,12 @@ theorem le_nor_op2 (H : Subgroup G) : H ≤ Nor (Op 2 H) := by
   have := op2_conj (inv_mem hg) hx
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem normal_subgroupOf_of {H N : Subgroup G} (hH : H ≤ Nor N) (hNH : N ≤ H) :
     (N.subgroupOf H).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer hNH).2 hH
 
+omit [Finite G] in
 theorem mem_conjBy_iff {g x : G} {H : Subgroup G} : x ∈ conjBy g H ↔ g⁻¹ * x * g ∈ H := by
   constructor
   · rintro ⟨y, hy, rfl⟩
@@ -71,18 +78,22 @@ theorem mem_conjBy_iff {g x : G} {H : Subgroup G} : x ∈ conjBy g H ↔ g⁻¹ 
   · intro h
     exact ⟨g⁻¹ * x * g, h, by simp [MulAut.conj_apply, mul_assoc]⟩
 
+omit [Finite G] in
 theorem mem_conjBy_iff' {g x : G} {H : Subgroup G} : x ∈ conjBy g⁻¹ H ↔ g * x * g⁻¹ ∈ H := by
   rw [mem_conjBy_iff]; simp
 
+omit [Finite G] in
 theorem conjBy_conjBy_inv (g : G) (H : Subgroup G) : conjBy g (conjBy g⁻¹ H) = H := by
   ext x
   rw [mem_conjBy_iff, mem_conjBy_iff']
   simp [mul_assoc]
 
+omit [Finite G] in
 theorem conjBy_inv_conjBy (g : G) (H : Subgroup G) : conjBy g⁻¹ (conjBy g H) = H := by
   have := conjBy_conjBy_inv g⁻¹ H
   simpa using this
 
+omit [Finite G] in
 theorem conjBy_le_iff {g : G} {H K : Subgroup G} : conjBy g H ≤ conjBy g K ↔ H ≤ K := by
   constructor
   · intro h x hx
@@ -92,9 +103,11 @@ theorem conjBy_le_iff {g : G} {H K : Subgroup G} : conjBy g H ≤ conjBy g K ↔
     rw [mem_conjBy_iff] at hx ⊢
     exact h hx
 
+omit [Finite G] in
 theorem card_conjBy (g : G) (H : Subgroup G) : Nat.card ↥(conjBy g H) = Nat.card H :=
   Subgroup.card_map_of_injective (MulAut.conj g).injective
 
+omit [Finite G] in
 theorem mem_nor_conjBy {m g : G} {K : Subgroup G} : g ∈ Nor (conjBy m K) ↔ m⁻¹ * g * m ∈ Nor K := by
   rw [Subgroup.mem_normalizer_iff, Subgroup.mem_normalizer_iff]
   constructor
@@ -107,10 +120,12 @@ theorem mem_nor_conjBy {m g : G} {K : Subgroup G} : g ∈ Nor (conjBy m K) ↔ m
     have := h (m⁻¹ * x * m)
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem conjBy_inf (g : G) (H K : Subgroup G) : conjBy g (H ⊓ K) = conjBy g H ⊓ conjBy g K := by
   ext x
   rw [Subgroup.mem_inf, mem_conjBy_iff, mem_conjBy_iff, mem_conjBy_iff, Subgroup.mem_inf]
 
+omit [Finite G] in
 theorem conjBy_cen {g x : G} : conjBy g (Cen x) = Cen (g * x * g⁻¹) := by
   ext y
   rw [mem_conjBy_iff, Subgroup.mem_centralizer_singleton_iff, Subgroup.mem_centralizer_singleton_iff]
@@ -126,6 +141,7 @@ theorem conjBy_cen {g x : G} : conjBy g (Cen x) = Cen (g * x * g⁻¹) := by
       _ = g⁻¹ * (g * x * g⁻¹ * y) * g := by rw [h']
       _ = x * (g⁻¹ * y * g) := by group
 
+omit [Finite G] in
 theorem conjBy_closure_pair (g x y : G) :
     conjBy g (Subgroup.closure ({x, y} : Set G)) = Subgroup.closure ({g * x * g⁻¹, g * y * g⁻¹} : Set G) := by
   unfold conjBy
@@ -134,6 +150,7 @@ theorem conjBy_closure_pair (g x y : G) :
   ext z
   simp [MulAut.conj_apply]
 
+omit [Finite G] in
 theorem conjBy_zpowers (g x : G) : conjBy g (Subgroup.zpowers x) = Subgroup.zpowers (g * x * g⁻¹) := by
   unfold conjBy
   rw [MonoidHom.map_zpowers]
@@ -142,17 +159,20 @@ theorem conjBy_zpowers (g x : G) : conjBy g (Subgroup.zpowers x) = Subgroup.zpow
 abbrev EA2 (H : Subgroup G) : Prop :=
   (∀ x ∈ H, ∀ y ∈ H, x * y = y * x) ∧ ∀ x ∈ H, x * x = 1
 
+omit [Finite G] in
 theorem EA2.mono {H K : Subgroup G} (h : EA2 K) (hHK : H ≤ K) : EA2 H :=
   ⟨fun x hx y hy => h.1 x (hHK hx) y (hHK hy), fun x hx => h.2 x (hHK hx)⟩
 
+omit [Finite G] in
 theorem EA2.of_isElemAb {H : Subgroup G} {k : ℕ} (h : IsElemAb 2 k H) : EA2 H := by
   obtain ⟨hEA, -⟩ := h
-  haveI := hEA
+  have := hEA
   refine ⟨fun x hx y hy => congrArg Subtype.val (IsMulCommutative.is_comm.comm (⟨x, hx⟩ : H) ⟨y, hy⟩),
     fun x hx => ?_⟩
   have h := elemPow_eq_one_of_isElementaryAbelian (p := 2) (A := H) x hx
   rwa [pow_two] at h
 
+omit [Finite G] in
 theorem EA2.isElemAb {H : Subgroup G} {k : ℕ} (h : EA2 H) (hc : Nat.card H = 2 ^ k) :
     IsElemAb 2 k H := by
   refine ⟨?_, hc⟩
@@ -162,11 +182,13 @@ theorem EA2.isElemAb {H : Subgroup G} {k : ℕ} (h : EA2 H) (hc : Nat.card H = 2
     { toIsMulCommutative := hc
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one hH }
 
+omit [Finite G] in
 theorem EA2.isPGroup {H : Subgroup G} (h : EA2 H) : IsPGroup 2 H := by
   intro x
   refine ⟨1, Subtype.ext ?_⟩
   simpa [pow_two] using h.2 x x.2
 
+omit [Finite G] in
 theorem EA2.conj {H : Subgroup G} (h : EA2 H) (g : G) : EA2 (conjBy g H) := by
   constructor
   · intro x hx y hy
@@ -188,6 +210,7 @@ theorem exists_piStar_ge {X A V : Subgroup G} {q : ℕ} (hVX : V ≤ X) (hV : Is
   refine ⟨W, ⟨hW.1.1, hW.1.2.1, hW.1.2.2, fun V' hWV' hV'X hV'q hAV' => ?_⟩, hVW⟩
   exact (hW.eq_of_le ⟨hV'X, hV'q, hAV'⟩ hWV').symm
 
+omit [Finite G] in
 theorem piStar_conj {X A U : Subgroup G} {q : ℕ} {g : G} (hgX : g ∈ Nor X) (hgA : g ∈ Nor A)
     (hU : U ∈ PiStar X A q) : conjBy g U ∈ PiStar X A q := by
   obtain ⟨hUX, hUq, hAU, hmax⟩ := hU
@@ -229,6 +252,7 @@ theorem piStar_conj {X A U : Subgroup G} {q : ℕ} {g : G} (hgX : g ∈ Nor X) (
 
 open IsoAux
 
+omit [Finite G] in
 theorem decomp {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     (hsq : ∀ x ∈ S, x * x = 1) {c : G} (hc : c ∈ Nor S) (hc3 : c ^ 3 = 1) {x : G} (hx : x ∈ S) :
     ∃ f ∈ S ⊓ Cen c, ∃ d ∈ ⁅S, Subgroup.zpowers c⁆, x = f * d := by
@@ -243,6 +267,7 @@ theorem decomp {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
   · have hcomm : x * (pim c x)⁻¹ * pim c x = pim c x * (x * (pim c x)⁻¹) := hcm _ hwS _ hy
     rw [← hcomm]; group
 
+omit [Finite G] in
 theorem comm_comm {S : Subgroup G} (hcm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     (hsq : ∀ x ∈ S, x * x = 1) {c : G} (hc : c ∈ Nor S) (hc3 : c ^ 3 = 1) :
     ⁅⁅S, Subgroup.zpowers c⁆, Subgroup.zpowers c⁆ = ⁅S, Subgroup.zpowers c⁆ := by

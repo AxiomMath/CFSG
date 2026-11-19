@@ -14,7 +14,7 @@ theorem isTransvection_of_rkIdx_lt {B : Type} [CommGroup B] [Finite B] (hB : ∀
     {s : MulAut B} (hs : s ≠ 1) (h : rkIdx (fixV (Subgroup.zpowers s)) < 2) :
     CFSG.HardMathSupport.Solomon.UniquenessMaximal.IsTransvection s := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hker : (commHom s).ker = fixV (Subgroup.zpowers s) := ker_commHom s
   have hidx_lt : padicValNat 2 (commHom s).ker.index < 2 := by
     simpa [rkIdx, hker] using h

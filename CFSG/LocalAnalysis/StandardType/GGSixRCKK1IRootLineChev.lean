@@ -58,12 +58,12 @@ private theorem rckRLt1_hnb_A {m : ℕ} (hm : 2 ≤ m) :
   by_cases h : k.val + 1 < m
   · refine ⟨⟨k.val + 1, h⟩, ?_⟩
     rw [CartanMatrix.A, Matrix.of_apply,
-      if_neg (Fin.ne_of_val_ne (by omega : k.val + 1 ≠ k.val)),
-      if_pos (Or.inr (by simp))]
+      ite_eq_right (Fin.ne_of_val_ne (by omega : k.val + 1 ≠ k.val)),
+      ite_eq_left (Or.inr (by simp))]
   · refine ⟨⟨k.val - 1, by omega⟩, ?_⟩
     rw [CartanMatrix.A, Matrix.of_apply,
-      if_neg (Fin.ne_of_val_ne (by omega : k.val - 1 ≠ k.val)),
-      if_pos (Or.inl (by simp only [Fin.val_mk]; omega))]
+      ite_eq_right (Fin.ne_of_val_ne (by omega : k.val - 1 ≠ k.val)),
+      ite_eq_left (Or.inl (by simp only; omega))]
 
 private theorem rckRLt1_hnb_D {n : ℕ} (hn : 3 ≤ n) :
     ∀ k : Fin n, ∃ j : Fin n, cartanD n j k = -1 := by
@@ -72,16 +72,16 @@ private theorem rckRLt1_hnb_D {n : ℕ} (hn : 3 ≤ n) :
   · by_cases h2 : k.val + 2 < n
     · refine ⟨⟨k.val + 1, h⟩, ?_⟩
       rw [cartanD, Matrix.of_apply,
-        if_neg (Fin.ne_of_val_ne (by omega : k.val + 1 ≠ k.val)),
-        if_pos (Or.inr (Or.inl ⟨rfl, by omega⟩))]
+        ite_eq_right (Fin.ne_of_val_ne (by omega : k.val + 1 ≠ k.val)),
+        ite_eq_left (Or.inr (Or.inl ⟨rfl, by omega⟩))]
     · refine ⟨⟨n - 3, by omega⟩, ?_⟩
       rw [cartanD, Matrix.of_apply,
-        if_neg (Fin.ne_of_val_ne (by omega : n - 3 ≠ k.val)),
-        if_pos (Or.inl ⟨by simp only [Fin.val_mk]; omega, by omega⟩)]
+        ite_eq_right (Fin.ne_of_val_ne (by omega : n - 3 ≠ k.val)),
+        ite_eq_left (Or.inl ⟨by simp only; omega, by omega⟩)]
   · refine ⟨⟨n - 3, by omega⟩, ?_⟩
     rw [cartanD, Matrix.of_apply,
-      if_neg (Fin.ne_of_val_ne (by omega : n - 3 ≠ k.val)),
-      if_pos (Or.inr (Or.inr (Or.inl ⟨by simp only [Fin.val_mk]; omega, by omega⟩)))]
+      ite_eq_right (Fin.ne_of_val_ne (by omega : n - 3 ≠ k.val)),
+      ite_eq_left (Or.inr (Or.inr (Or.inl ⟨by simp only; omega, by omega⟩)))]
 
 private theorem rckRLt1_rootLineAll_of_pair
     {K : Type} [Group K] {D : UniversalRootDatum K} {F : Type} [Field F] [Finite F] [CharP F 2]
@@ -257,7 +257,7 @@ private theorem rckRLt1_coroot_cartanC_of_not_lt {n : ℕ} {k : Fin n} (h : ¬k.
     split_ifs <;> omega
   exact LinearMap.congr_fun key v
 
-private theorem rckRLt1_pair_cartanC {n : ℕ} (hn : 2 ≤ n) {β : Fin n → ℤ}
+private theorem rckRLt1_pair_cartanC {n : ℕ} (_hn : 2 ≤ n) {β : Fin n → ℤ}
     (hβ : β ∈ CFSG.LieType.RootSystem.roots (isFiniteType_cartanC n) ∅) :
     ∃ i : Fin n, (∑ j, cartanC n i j * β j) = 1 ∨
       (∑ j, cartanC n i j * β j) = 2 ∨
@@ -269,44 +269,44 @@ private theorem rckRLt1_pair_cartanC {n : ℕ} (hn : 2 ≤ n) {β : Fin n → �
     refine ⟨a, Or.inr (Or.inl ?_)⟩
     by_cases ha : a.val + 1 < n
     · rw [← coroot_apply, rckRLt1_coroot_cartanC_of_lt ha, ← hr]
-      simp [stdVec, Pi.single_apply, Fin.ext_iff] <;> (try split_ifs) <;> omega
+      simp [stdVec, Fin.ext_iff]
     · rw [← coroot_apply, rckRLt1_coroot_cartanC_of_not_lt ha, ← hr]
-      simp [stdVec, Pi.single_apply, Fin.ext_iff] <;> (try split_ifs) <;> omega
+      simp [stdVec]
   | negativeLong a =>
     refine ⟨a, Or.inr (Or.inr (Or.inr ?_))⟩
     by_cases ha : a.val + 1 < n
     · rw [← coroot_apply, rckRLt1_coroot_cartanC_of_lt ha, ← hr]
-      simp [stdVec, Pi.single_apply, Fin.ext_iff] <;> (try split_ifs) <;> omega
+      simp [stdVec, Fin.ext_iff]
     · rw [← coroot_apply, rckRLt1_coroot_cartanC_of_not_lt ha, ← hr]
-      simp [stdVec, Pi.single_apply, Fin.ext_iff] <;> (try split_ifs) <;> omega
+      simp [stdVec]
   | difference a b hab =>
     rcases lt_or_gt_of_ne hab with hlt | hgt
     · refine ⟨b, Or.inr (Or.inr (Or.inl ?_))⟩
       by_cases hb : b.val + 1 < n
       · rw [← coroot_apply, rckRLt1_coroot_cartanC_of_lt hb, ← hr]
-        simp [stdVec, Pi.single_apply, Fin.ext_iff] <;> (try split_ifs) <;> omega
+        simp [stdVec, Pi.single_apply, Fin.ext_iff]; (try split_ifs) <;> omega
       · rw [← coroot_apply, rckRLt1_coroot_cartanC_of_not_lt hb, ← hr]
-        simp [stdVec, Pi.single_apply, Fin.ext_iff] <;> (try split_ifs) <;> omega
+        simp [stdVec, Pi.single_apply, Fin.ext_iff]; omega
     · refine ⟨a, Or.inl ?_⟩
       by_cases ha : a.val + 1 < n
       · rw [← coroot_apply, rckRLt1_coroot_cartanC_of_lt ha, ← hr]
-        simp [stdVec, Pi.single_apply, Fin.ext_iff] <;> (try split_ifs) <;> omega
+        simp [stdVec, Pi.single_apply, Fin.ext_iff]; (try split_ifs) <;> omega
       · rw [← coroot_apply, rckRLt1_coroot_cartanC_of_not_lt ha, ← hr]
-        simp [stdVec, Pi.single_apply, Fin.ext_iff] <;> (try split_ifs) <;> omega
+        simp [stdVec, Pi.single_apply, Fin.ext_iff]; omega
   | positiveSum a b hab =>
     refine ⟨b, Or.inl ?_⟩
     by_cases hb : b.val + 1 < n
     · rw [← coroot_apply, rckRLt1_coroot_cartanC_of_lt hb, ← hr]
-      simp [stdVec, Pi.single_apply, Fin.ext_iff] <;> (try split_ifs) <;> omega
+      simp [stdVec, Pi.single_apply, Fin.ext_iff]; (try split_ifs) <;> omega
     · rw [← coroot_apply, rckRLt1_coroot_cartanC_of_not_lt hb, ← hr]
-      simp [stdVec, Pi.single_apply, Fin.ext_iff] <;> (try split_ifs) <;> omega
+      simp [stdVec, Pi.single_apply, Fin.ext_iff]; omega
   | negativeSum a b hab =>
     refine ⟨b, Or.inr (Or.inr (Or.inl ?_))⟩
     by_cases hb : b.val + 1 < n
     · rw [← coroot_apply, rckRLt1_coroot_cartanC_of_lt hb, ← hr]
-      simp [stdVec, Pi.single_apply, Fin.ext_iff] <;> (try split_ifs) <;> omega
+      simp [stdVec, Pi.single_apply, Fin.ext_iff]; (try split_ifs) <;> omega
     · rw [← coroot_apply, rckRLt1_coroot_cartanC_of_not_lt hb, ← hr]
-      simp [stdVec, Pi.single_apply, Fin.ext_iff] <;> (try split_ifs) <;> omega
+      simp [stdVec, Pi.single_apply, Fin.ext_iff]; omega
 
 private theorem rckRLt1_PSp {n f : ℕ} (hn : 2 ≤ n) {F : Type} [Field F] [Finite F] [CharP F 2]
     (hcard : Nat.card F = 2 ^ f)
@@ -326,7 +326,7 @@ theorem rckK1I_rootLine_chev
     (ht : (t = .PSL ∧ 3 ≤ n) ∨ t = .PSp ∨ t = .POmegaPlus ∨ t = .F4 ∨ t = .E6 ∨ t = .E7 ∨ t = .E8)
     (hadm : StatedLieAdmissible t n 2 f) :
     0 < (ggU t n f).D.rank ∧ RCKRootLineAll (ggU t n f) f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   rcases ht with ⟨rfl, hn3⟩ | rfl | rfl | rfl | rfl | rfl | rfl
   ·
@@ -362,7 +362,7 @@ theorem rckK1I_rootLine_chev
     rw [show ggU .POmegaPlus n f =
         (⟨spinGroup (Spin.quadPlus n (GaloisField 2 f)),
           Spin.plusDatum n (GaloisField 2 f) hn⟩ : LieUniversal) from by
-      simp only [ggU, lieUniversal, dif_pos hn]]
+      simp only [ggU, lieUniversal, dite_eq_left hn]]
     exact rckRLt1_POmegaPlus hn (GaloisField.card 2 f (by omega)) hE
   ·
     obtain ⟨x, C, O, hE⟩ := exists_chevalleyExtras_model_nonSimplyLaced (p := 2) .F4 n f

@@ -89,6 +89,7 @@ private theorem conj_eq_mul_decomp (h34 : Stroth34Statement) (hspread : StrothNo
   refine ⟨t * y, (t * y) * ⁅t, c⁆ * (t * y)⁻¹, rfl, hsY, hs1, hx''s, hx''2, ?_⟩
   rw [hw1, ← hsx, mul_assoc]
 
+omit [Finite G] in
 private theorem exists_z_of_comm {s x'' k : G} (hs2 : s * s = 1) (hx''2 : x'' * x'' = 1)
     (hx''_s : x'' * s = s * x'') (hkz : ⁅k, s⁆ * x''⁻¹ ∈ Z) :
     ∃ z₀ ∈ Z, k * s * k⁻¹ = z₀ * s * x'' := by
@@ -191,6 +192,7 @@ private theorem exists_conj_of_mem_root {Y : Subgroup G} {t s : G} (hs : Sit M Q
     _ = g * (g⁻¹ * s * g) * g⁻¹ := by rw [hm]
     _ = s := by group
 
+omit [Finite G] in
 private theorem caseA_conj_eq_core {w s a k k' z₀ z₆ z : G}
     (hz : z = k⁻¹ * (z₆⁻¹ * z₀⁻¹) * k)
     (hkw : k * w * k⁻¹ = z₀ * s * a * z₆)
@@ -207,6 +209,7 @@ private theorem caseA_conj_eq_core {w s a k k' z₀ z₆ z : G}
   rw [e, h1]
   group
 
+omit [Finite G] in
 private theorem conj_of_conj_eq_core {w s a u c t Hc G1 : G}
     (hHc : Hc * t * Hc⁻¹ = s) (hwU : w = (u * c) * t * (u * c)⁻¹)
     (hEq : G1 * w * G1⁻¹ = s * a) :

@@ -14,7 +14,7 @@ open CFSG.AGLEmbedding CFSG.AGLEmbedding.KFactProofs.NonUnitary
 
 theorem signalizerThreeLinTwo_holds : SignalizerThreeLinTwo := by
   intro p hp hp5 q d hqp hqe hd K _ _ hK
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   refine signalizerThreeOn_of_signalizerTrivialOn hp (by omega) fun P W hW hnorm => ?_
   have hdL : IsLinTwoIndex p q.exponent d := ⟨q, hd, hqp, rfl⟩

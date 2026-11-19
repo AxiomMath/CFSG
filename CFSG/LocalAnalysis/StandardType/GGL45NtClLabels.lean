@@ -21,22 +21,22 @@ theorem ggL45NtCoreOn_lin : GGL45NtCoreOn GGL45NtFamLin := by
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeLinear] at hQ ⊢
     obtain ⟨K, hf, hfin, hK, hQ'⟩ := hQ
     refine ⟨K, hf, hfin, hK, hQ', ?_⟩
-    haveI : Finite K := hfin
-    haveI := Fintype.ofFinite K
-    haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
+    have : Finite K := hfin
+    have := Fintype.ofFinite K
+    have : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
     have hrne : rank ≠ 1 := fun h => hvac (Or.inl ⟨rfl, h⟩)
     have hrank1 : 1 ≤ rank := hlab.2.1
     exact CFSG.HardMathSupport.C14Cl.ntCore_lin (d := rank + 1) (by omega) hp hp2 (Or.inl hnt)
   · subst hD
     subst hr3
     dsimp only [LargeEvenRawDatum] at hQ ⊢
-    rw [if_pos rfl] at hQ ⊢
+    rw [ite_eq_left rfl] at hQ ⊢
     dsimp only [LargeEvenRecipeLinear] at hQ ⊢
     obtain ⟨K, hf, hfin, hK, hQ'⟩ := hQ
     refine ⟨K, hf, hfin, hK, hQ', ?_⟩
-    haveI : Finite K := hfin
-    haveI := Fintype.ofFinite K
-    haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
+    have : Finite K := hfin
+    have := Fintype.ofFinite K
+    have : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
     have hpd : ¬ p ∣ 4 := by
       intro h
       have h42 : (2 : ℕ) ^ 2 = 4 := by norm_num
@@ -53,9 +53,9 @@ theorem ggL45NtCoreOn_uni : GGL45NtCoreOn GGL45NtFamUni := by
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeUnitary] at hQ ⊢
     obtain ⟨K, hf, hfin, hK, hQ'⟩ := hQ
     refine ⟨K, hf, hfin, hK, hQ', ?_⟩
-    haveI : Finite K := hfin
-    haveI := Fintype.ofFinite K
-    haveI : CharP K 2 :=
+    have : Finite K := hfin
+    have := Fintype.ofFinite K
+    have : CharP K 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
         (show 1 ≤ 2 * n by have hn1 : 1 ≤ n := hlab.1; omega) (by rw [hK, ← pow_mul, mul_comm])
     have hK' : Fintype.card K = (2 ^ n) ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
@@ -70,9 +70,9 @@ theorem ggL45NtCoreOn_uni : GGL45NtCoreOn GGL45NtFamUni := by
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeUnitary] at hQ ⊢
     obtain ⟨K, hf, hfin, hK, hQ'⟩ := hQ
     refine ⟨K, hf, hfin, hK, hQ', ?_⟩
-    haveI : Finite K := hfin
-    haveI := Fintype.ofFinite K
-    haveI : CharP K 2 :=
+    have : Finite K := hfin
+    have := Fintype.ofFinite K
+    have : CharP K 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
         (show 1 ≤ 2 * n by have hn1 : 1 ≤ n := hlab.1; omega) (by rw [hK, ← pow_mul, mul_comm])
     have hK' : Fintype.card K = (2 ^ n) ^ 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
@@ -86,8 +86,8 @@ theorem ggL45NtCoreOn_sp : GGL45NtCoreOn GGL45NtFamSp := by
   · dsimp only [LargeEvenRawDatum] at hraw ⊢
     refine NbrGraphSymplectic.recipeSymplectic_all (m := l) (N := 2 ^ n)
       (Q := GGL45NtCore p) (fun K _ _ hK => ?_) hraw
-    haveI := Fintype.ofFinite K
-    haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
+    have := Fintype.ofFinite K
+    have : CharP K 2 := CFSG.StandardType.charP_two_of_card hK
     exact CFSG.HardMathSupport.C14Cl.ntCore_sp hlab.2.1 hp hp2
 
 theorem ggL45NtCoreOn_orth : GGL45NtCoreOn GGL45NtFamOrth := by
@@ -120,12 +120,12 @@ theorem ggL45NtCoreOn_orth : GGL45NtCoreOn GGL45NtFamOrth := by
   · subst h
     refine largeEvenLabelAll_omegaPlus (P := GGL45NtCore p) rfl h4 ?_
     intro K _ _ _ hK
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     exact CFSG.HardMathSupport.C14Cl.ntCore_omegaPlus (by omega) hp hp2
   · subst h
     refine largeEvenLabelAll_omegaMinus (P := GGL45NtCore p) rfl h4 ?_
     intro K _ _ _ hK b c hbc
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     exact CFSG.HardMathSupport.C14Cl.ntCore_omegaMinus (m := l - 1) (by omega) hp hp2 b c hbc
 
 theorem ggL45NtCoreOn_cl : GGL45NtCoreOn GGL45NtFamCl :=

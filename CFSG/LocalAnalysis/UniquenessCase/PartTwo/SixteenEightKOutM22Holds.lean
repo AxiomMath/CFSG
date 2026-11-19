@@ -29,7 +29,7 @@ theorem s16kOutM22_holds :
     S16kOutM22 := by
   intro X _ _ hX
   obtain ⟨e⟩ := hX
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier TauCeti.SporadicName.M22) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier TauCeti.SporadicName.M22) :=
     Finite.of_equiv X e.toEquiv
   rw [Nat.card_congr (equivalence e).toEquiv]
   exact card_outer_dvd_two_of_card_mulAut_le CFSG.Sporadic.Schreier.m22_center_eq_bot'

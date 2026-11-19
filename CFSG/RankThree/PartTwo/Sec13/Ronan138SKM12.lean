@@ -31,8 +31,8 @@ theorem exists_s_of_m12 (h131 : Item131) (hspor : SporadicModels131)
     (hM12D : ∀ (X : Type) [Group X], Nonempty (X ≃* CFSG.Blueprint.NativeSporadic.M12) →
       Toolkit.M12ThreeLocalData X)
     {A L E F : Subgroup G} {c : G} (hH : Hyp138 A c L E) (hF : IsF138N L E F)
-    {x y : G} (hframe : HeisFrame (E ⊓ F) x y) (hxE : x ∈ E) (hyF : y ∈ F)
-    (h81 : Nat.card (E ⊔ F : Subgroup G) = 81) (h9 : Nat.card (E ⊓ F : Subgroup G) = 9)
+    {x y : G} (_hframe : HeisFrame (E ⊓ F) x y) (hxE : x ∈ E) (hyF : y ∈ F)
+    (h81 : Nat.card (E ⊔ F : Subgroup G) = 81) (_h9 : Nat.card (E ⊓ F : Subgroup G) = 9)
     {e : G} {K : Subgroup G} (heΩ : Subgroup.zpowers e ∈ omegaA E) (hK : K ∈ lA E e)
     (heF : e ∈ F)
     (hφ : Nonempty (lBarA e K E ≃*
@@ -136,13 +136,13 @@ theorem exists_s_of_m12 (h131 : Item131) (hspor : SporadicModels131)
         (S₀ : Subgroup K).map (QuotientGroup.mk' (aschbacherSolvableCore 3 K)) :=
       Sylow.coe_mapSurjective _ _
     obtain ⟨hHeis₀, -⟩ := h414 _ hKM Qb₀
-    rw [← card_map_eq_of_injOn _ (injOn_mk_of_isPGroup Nat.prime_three S₀.isPGroup'), ← hQb₀]
+    rw [← card_map_eq_of_injOn _ (injOn_mk_of_isPGroup Nat.prime_three S₀.isPGroup), ← hQb₀]
     exact hHeis₀.2.1
   have hSylPK : CFSG.ABGLocalTools.IsSylowOf 3 (P ⊓ K) K := by
     refine CFSG.ABGLocalTools.isSylowOf_of_card inf_le_right ?_
     rw [hPK27, ← hS₀, Sylow.card_eq_multiplicity]
   obtain ⟨SK, hSK⟩ := hSylPK
-  have hS3 : IsPGroup 3 (SK : Subgroup K) := SK.isPGroup'
+  have hS3 : IsPGroup 3 (SK : Subgroup K) := SK.isPGroup
   have hEKP : E ⊓ K ≤ P ⊓ K := inf_le_inf_right K le_sup_left
   set B : Subgroup K := (E ⊓ K).subgroupOf K with hBdef
   have hBmap : B.map K.subtype = E ⊓ K := by

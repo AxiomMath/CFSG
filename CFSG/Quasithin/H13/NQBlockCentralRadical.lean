@@ -335,7 +335,7 @@ theorem eq_iSup_inf_pCore_of_le_fitting {L : Type*} [Group L] [Finite L] {K : Su
       · have hyr : (y : L) ∈ CFSG.pCore r L := by
           set P : Subgroup L := (S : Subgroup K).map K.subtype with hP
           have hPF : P ≤ CFSG.fittingSubgroup L := (map_subtype_le _).trans hK
-          have hPr : IsPGroup r P := S.isPGroup'.map _
+          have hPr : IsPGroup r P := S.isPGroup.map _
           obtain ⟨S', hS'⟩ := (hPr.of_equiv (subgroupOfEquivOfLe hPF).symm :
             IsPGroup r (P.subgroupOf (CFSG.fittingSubgroup L))).exists_le_sylow
           rw [← sylow_fitting_map_eq_pCore S']

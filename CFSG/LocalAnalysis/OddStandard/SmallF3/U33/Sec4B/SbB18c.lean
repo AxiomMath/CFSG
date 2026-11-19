@@ -13,11 +13,13 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G} {𝒮 : Subgroup G}
 
+omit [Finite G] in
 private lemma centralizer_zpowers_eq (rho : G) :
     Subgroup.centralizer (Subgroup.zpowers rho : Set G) =
       Subgroup.centralizer ({rho} : Set G) := by
   rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
 
+omit [Finite G] in
 private lemma le_normalizer_of_normalIn {A B : Subgroup G} (h : NormalIn A B) :
     B ≤ Subgroup.normalizer (A : Set G) := by
   intro g hg

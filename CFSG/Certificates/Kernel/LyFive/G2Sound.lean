@@ -279,7 +279,7 @@ theorem lnList_eq (u : ℕ) :
     [ln u (nat_lit 0), ln u (nat_lit 1), ln u (nat_lit 2), ln u (nat_lit 3), ln u (nat_lit 4),
       ln u (nat_lit 5), ln u (nat_lit 6)] = (List.range 7).map (ln u) := rfl
 
-theorem bt_spec {TT : List ℕ} (hT : ∀ x ∈ TT, Can x) (hl : TT.length ≤ 7) {u v : ℕ} (hu : Can u)
+theorem bt_spec {TT : List ℕ} (hT : ∀ x ∈ TT, Can x) (hl : TT.length ≤ 7) {u v : ℕ} (_hu : Can u)
     (hv : Can v) : bt TT u v < 5 ∧ ((bt TT u v : ℕ) : ZMod 5) = dv u ⬝ᵥ (colM TT *ᵥ dv v) := by
   obtain ⟨hw, ew⟩ := mvL_spec hT hl hv
   refine ⟨Nat.mod_lt _ (by norm_num), ?_⟩
@@ -404,14 +404,14 @@ theorem stepI_eq (gv : List ℕ) (i : ℕ × ℕ × ℕ × List ℕ) (ih : List 
       else if i.1 = 6 then (if (!Nat.beq (getL us i.2.1) 0) = true then ih us else false)
       else false := by
   unfold stepI
-  simp only [bIf_eqP, bAnd_eqP, strictB_eqB, Nat.beq_eq]
+  simp only [bIf_eqP, strictB_eqB, Nat.beq_eq]
 
 omit hD in
 theorem iteF {c : Prop} [Decidable c] {x : Bool} : ((if c then x else false) = true) ↔ c ∧ x = true := by
   by_cases h : c
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact ⟨fun e => ⟨h, e⟩, fun e => e.2⟩
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact ⟨fun e => absurd e (by decide), fun e => absurd e.1 h⟩
 
 omit hD in
@@ -459,36 +459,36 @@ theorem runI_iff {gv : List ℕ} (hgv : ∀ x ∈ gv, Can x) :
     rw [hrun, stepI_eq, mRun_cons]
     unfold chkV pushV
     by_cases h0 : i.1 = 0
-    · rw [if_pos h0, if_pos h0, if_pos h0, true_and]
+    · rw [ite_eq_left h0, ite_eq_left h0, ite_eq_left h0, true_and]
       have hv := can_getL hgv i.2.1
       rw [ih _ (hpush _ hv), hsnoc, dv_getL]
-    rw [if_neg h0, if_neg h0, if_neg h0]
+    rw [ite_eq_right h0, ite_eq_right h0, ite_eq_right h0]
     by_cases h1 : i.1 = 1
-    · rw [if_pos h1, if_pos h1, if_pos h1, true_and]
+    · rw [ite_eq_left h1, ite_eq_left h1, ite_eq_left h1, true_and]
       obtain ⟨ho1, ho2⟩ := getLL_ops hD.ops i.2.1
       obtain ⟨hv, ev⟩ := mvL_spec ho1 ho2 (can_getL hus i.2.2.1)
       rw [ih _ (hpush _ hv), hsnoc, ev, dv_getL, opsM_getD]
-    rw [if_neg h1, if_neg h1, if_neg h1]
+    rw [ite_eq_right h1, ite_eq_right h1, ite_eq_right h1]
     by_cases h2 : i.1 = 2
-    · rw [if_pos h2, if_pos h2, if_pos h2, true_and]
+    · rw [ite_eq_left h2, ite_eq_left h2, ite_eq_left h2, true_and]
       obtain ⟨hv, ev⟩ := crs_spec hD.tab (can_getL hus i.2.1) (can_getL hus i.2.2.1)
       rw [ih _ (hpush _ hv), hsnoc, ev, dv_getL, dv_getL]
-    rw [if_neg h2, if_neg h2, if_neg h2]
+    rw [ite_eq_right h2, ite_eq_right h2, ite_eq_right h2]
     by_cases h3 : i.1 = 3
-    · rw [if_pos h3, if_pos h3, iteF, ih _ hus]
+    · rw [ite_eq_left h3, ite_eq_left h3, iteF, ih _ hus]
       obtain ⟨ho1, ho2⟩ := getLL_ops hD.ops i.2.1
       obtain ⟨hv, ev⟩ := mvL_spec ho1 ho2 (can_getL hus i.2.2.1)
       obtain ⟨hl, el⟩ := lin_spec hi.1 hi.2 hus
       rw [eq_iff_dv hv hl, ev, el, dv_getL, opsM_getD]
-    rw [if_neg h3, if_neg h3]
+    rw [ite_eq_right h3, ite_eq_right h3]
     by_cases h4 : i.1 = 4
-    · rw [if_pos h4, if_pos h4, iteF, ih _ hus]
+    · rw [ite_eq_left h4, ite_eq_left h4, iteF, ih _ hus]
       obtain ⟨hv, ev⟩ := crs_spec hD.tab (can_getL hus i.2.1) (can_getL hus i.2.2.1)
       obtain ⟨hl, el⟩ := lin_spec hi.1 hi.2 hus
       rw [eq_iff_dv hv hl, ev, el, dv_getL, dv_getL]
-    rw [if_neg h4, if_neg h4]
+    rw [ite_eq_right h4, ite_eq_right h4]
     by_cases h5 : i.1 = 5
-    · rw [if_pos h5, if_pos h5, iteF, ih _ hus]
+    · rw [ite_eq_left h5, ite_eq_left h5, iteF, ih _ hus]
       obtain ⟨hb1, hb2⟩ := bt_β hD (can_getL hus i.2.1) (can_getL hus i.2.2.1)
       have hc0 : getL i.2.2.2 0 < 5 := by
         rw [getL_eq]
@@ -506,9 +506,9 @@ theorem runI_iff {gv : List ℕ} (hgv : ∀ x ∈ gv, Can x) :
         refine ⟨?_, h⟩
         have := (ZMod.natCast_eq_natCast_iff' _ _ 5).1 e
         rwa [Nat.mod_eq_of_lt hb1, Nat.mod_eq_of_lt hc0] at this
-    rw [if_neg h5, if_neg h5]
+    rw [ite_eq_right h5, ite_eq_right h5]
     by_cases h6 : i.1 = 6
-    · rw [if_pos h6, if_pos h6, iteF, ih _ hus, Bool.not_eq_true', ← dv_getL]
+    · rw [ite_eq_left h6, ite_eq_left h6, iteF, ih _ hus, Bool.not_eq_true', ← dv_getL]
       have hv := can_getL hus i.2.1
       constructor
       · rintro ⟨e, h⟩
@@ -518,7 +518,7 @@ theorem runI_iff {gv : List ℕ} (hgv : ∀ x ∈ gv, Can x) :
         exact absurd e (by decide)
       · rintro ⟨e, h⟩
         refine ⟨beq_f fun e' => e (by rw [e', dv_zero]), h⟩
-    rw [if_neg h6, if_neg h6]
+    rw [ite_eq_right h6, ite_eq_right h6]
     simp
 
 theorem stkI_spec {gv : List ℕ} (hgv : ∀ x ∈ gv, Can x) :
@@ -539,27 +539,27 @@ theorem stkI_spec {gv : List ℕ} (hgv : ∀ x ∈ gv, Can x) :
     rw [stkI_cons, mStk_cons]
     unfold pushV
     by_cases h0 : i.1 = 0
-    · rw [if_pos h0, if_pos h0]
+    · rw [ite_eq_left h0, ite_eq_left h0]
       have hv := can_getL hgv i.2.1
       have := stkI_spec hgv ins _ (hpush _ hv)
       rw [hsnoc, dv_getL] at this
       exact this
-    rw [if_neg h0, if_neg h0]
+    rw [ite_eq_right h0, ite_eq_right h0]
     by_cases h1 : i.1 = 1
-    · rw [if_pos h1, if_pos h1]
+    · rw [ite_eq_left h1, ite_eq_left h1]
       obtain ⟨ho1, ho2⟩ := getLL_ops hD.ops i.2.1
       obtain ⟨hv, ev⟩ := mvL_spec ho1 ho2 (can_getL hus i.2.2.1)
       have := stkI_spec hgv ins _ (hpush _ hv)
       rw [hsnoc, ev, dv_getL, ← opsM_getD] at this
       exact this
-    rw [if_neg h1, if_neg h1]
+    rw [ite_eq_right h1, ite_eq_right h1]
     by_cases h2 : i.1 = 2
-    · rw [if_pos h2, if_pos h2]
+    · rw [ite_eq_left h2, ite_eq_left h2]
       obtain ⟨hv, ev⟩ := crs_spec hD.tab (can_getL hus i.2.1) (can_getL hus i.2.2.1)
       have := stkI_spec hgv ins _ (hpush _ hv)
       rw [hsnoc, ev, dv_getL, dv_getL] at this
       exact this
-    rw [if_neg h2, if_neg h2]
+    rw [ite_eq_right h2, ite_eq_right h2]
     exact stkI_spec hgv ins us hus
 
 end Run

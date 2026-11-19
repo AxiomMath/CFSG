@@ -35,12 +35,12 @@ private theorem k328dg2c_card_of_isSLThreePiAt {X : Type} [Group X] {q : ℕ}
   obtain ⟨K, hKf, hKfin, h1 | h1⟩ := h
   · obtain ⟨hcard, hq1, ⟨e⟩⟩ := h1
     rw [Nat.card_congr e.toEquiv, CFSG.Open.StatedAPI.card_statedSL_three, hcard]
-    simp only [k328det_sl3eps, hq1, if_true]
+    simp only [k328det_sl3eps, hq1, ite_true]
     ring
   · obtain ⟨hcard, hq2, ⟨e⟩⟩ := h1
     rw [Nat.card_congr e.toEquiv, CFSG.SectionRank.OddCover.card_statedSU_three_of_card_eq_sq hcard]
     have hq1 : q % 3 ≠ 1 := by omega
-    rw [k328det_sl3eps, if_neg hq1]
+    rw [k328det_sl3eps, ite_eq_right hq1]
     ring
 
 private theorem k328dg2c_perfect_le_commutator {G : Type*} [Group G] {N C : Subgroup G}
@@ -398,7 +398,7 @@ private theorem k328dd4c_model_comp
         rw [← hYcard, ← Subgroup.card_map_of_injective (K := Y) (f := c'.toMonoidHom) c'.injective, hZR]
       rw [hcard, Nat.card_congr eR.toEquiv,
         CFSG.LocalAnalysis.GLTheoremA.K148Inner.natCard_SL3 F, hFcard, k328det_sl3eps,
-        if_pos (CFSG.LocalAnalysis.GLTheoremA.K148Inner.two_pow_mod_three_of_even hev)]
+        ite_eq_left (CFSG.LocalAnalysis.GLTheoremA.K148Inner.two_pow_mod_three_of_even hev)]
     ·
       have hodd : f % 2 = 1 := by omega
       by_cases hf1 : f = 1
@@ -489,7 +489,7 @@ private theorem k328dd4c_model_comp
         rw [hcard, Nat.card_congr eR.toEquiv,
           CFSG.RankThree.PartTwo.Sec4.E27.card_subgroup_unitarySet (ℓ := 2) (f := f) hf U hU,
           k328det_sl3eps,
-          if_neg (by
+          ite_eq_right (by
             rw [CFSG.LocalAnalysis.GLTheoremA.K148Inner.two_pow_mod_three_of_odd hodd]
             norm_num)]
         ring_nf

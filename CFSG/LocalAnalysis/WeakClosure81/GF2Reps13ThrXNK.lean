@@ -17,12 +17,14 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w16g_stableUnder_bot {X : Subgroup (MulAut W)} :
     StableUnder X (⊥ : Subgroup W) := by
   intro x hx u hu
   rw [Subgroup.mem_bot] at hu ⊢
   rw [hu, map_one]
 
+omit [Finite W] in
 private theorem w16g_sup_zpowers_eq_of_relIndex {H X : Subgroup (MulAut W)} {ℓ : MulAut W}
     {p : ℕ} (hp : p.Prime) (hHle : H ≤ X) (hHrel : H.relIndex X = p) (hℓX : ℓ ∈ X)
     (hℓnot : ℓ ∉ H) : H ⊔ Subgroup.zpowers ℓ = X := by
@@ -44,6 +46,7 @@ private theorem w16g_sup_zpowers_eq_of_relIndex {H X : Subgroup (MulAut W)} {ℓ
       exact Nat.eq_of_mul_eq_mul_left hp.pos (by rw [mul_one]; exact h1')
     exact le_antisymm hle (Subgroup.relIndex_eq_one.mp he1)
 
+omit [Finite W] in
 private theorem w16g_s13IsoSum_eq_of_secIsoOn {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (hAB : SecIsoOn X A ⊥ B ⊥) (hBA : SecIsoOn X B ⊥ A ⊥) :
     s13IsoSum X A = s13IsoSum X B := by
@@ -92,7 +95,7 @@ theorem w16g_secIsoOn_of_kerOn_eq (hW : ∀ w : W, w * w = 1) {X : Subgroup (Mul
       rw [h1] at hrel
       exact (by norm_num : (1 : ℕ) ≠ 3) hrel
     have hHlt : H < X := lt_of_le_of_ne hHle hHneX
-    obtain ⟨x, hxX, hxH⟩ := SetLike.exists_of_lt hHlt
+    obtain ⟨x, hxX, hxH⟩ := _root_.IsConcreteLE.exists_of_lt hHlt
     have hxH₀ : x ∉ X ⊓ centSub U₀ := by change x ∉ H; exact hxH
     have hxH₁ : x ∉ X ⊓ centSub U₁ := by rw [← hHker]; exact hxH
     have hnt₀ : ∃ u ∈ U₀, x u ≠ u := by

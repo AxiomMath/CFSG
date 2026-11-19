@@ -149,9 +149,9 @@ theorem burnsideF42g_setup (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z) (hGp : Gp
       ∃ k ∈ Subgroup.centralizer ({burnsideF4d_bTwo β ε ⟨tb, htM⟩} : Set M),
         k⁻¹ * w * k ∈ ((burnsideF4d_bTwo β ε).comp (Subgroup.inclusion hCt)).range) := by
   classical
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   subst hGp
   set b₁ := burnsideF4d_bOne β ε with hb₁def
   set b₂ := burnsideF4d_bTwo β ε with hb₂def
@@ -310,7 +310,7 @@ theorem burnsideF42g_setup (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z) (hGp : Gp
   intro h hh hhy
   exact burnsideF42g_lemmaA ψ₁ hψ₁ hr₁ ψ₂ hψ₂ hX hf₁ hf₂ h40' hyX hyz hh hhy
 
-theorem burnsideF42g_HX (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z) {tb : E} (ht2 : tb * tb = 1)
+theorem burnsideF42g_HX (_hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z) {tb : E} (ht2 : tb * tb = 1)
     (htM : tb ∈ M₂) (hCt : Subgroup.centralizer ({tb} : Set E) ≤ M₂) :
     burnsideF4d_bTwo β ε ⟨tb, htM⟩ ∈
         Subgroup.centralizer ({burnsideF4d_bTwo β ε ⟨tb, htM⟩} : Set M) ∧
@@ -356,7 +356,7 @@ theorem burnsideF42g_A42_of_lemmaB (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z) (
     (hab : ∀ x ∈ Subgroup.centralizer ({tb} : Set E), x * a * x⁻¹ ≠ b ∧ x * a * x⁻¹ ≠ b * tb) :
     ∃ t : ↥M₂, (t : E) ∈ pCoreOf 2 (Gp ⊓ M₂) ∧ IsShortRootInv κ Gp M₁ M₂ (t : E) ∧
       Subgroup.centralizer ({epsG β ε (f2 (c := β) t)} : Set M) ≤ MiTwo β ε := by
-  haveI := hyp.finite_M
+  have := hyp.finite_M
   have htC : tb ∈ Subgroup.centralizer ({tb} : Set E) :=
     Subgroup.mem_centralizer_singleton_iff.mpr rfl
   have htM : tb ∈ M₂ := hCt htC
@@ -470,7 +470,7 @@ theorem burnsideF42g_A42_of_lemmaU (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z) (
     (h₁₂ : IsConj z₀ (v₁ * v₂) ∨ IsConj z₀ (v₁ * v₂ * tb)) :
     ∃ t : ↥M₂, (t : E) ∈ pCoreOf 2 (Gp ⊓ M₂) ∧ IsShortRootInv κ Gp M₁ M₂ (t : E) ∧
       Subgroup.centralizer ({epsG β ε (f2 (c := β) t)} : Set M) ≤ MiTwo β ε := by
-  haveI := hyp.finite_M
+  have := hyp.finite_M
   have htC : tb ∈ Subgroup.centralizer ({tb} : Set E) :=
     Subgroup.mem_centralizer_singleton_iff.mpr rfl
   have htM : tb ∈ M₂ := hCt htC

@@ -18,6 +18,7 @@ open scoped commutatorElement
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_polar_isom_of_mem {g : V ≃ₗ[ZMod 3] V}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (x y : V) :
     Q.polarBilin (g x) (g y) = Q.polarBilin x y := by
@@ -27,6 +28,7 @@ theorem fg_polar_isom_of_mem {g : V ≃ₗ[ZMod 3] V}
   simp only [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polar]
   rw [h, hg' x, hg' y]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_mem_orthogonalGroup_of_polar {g : V ≃ₗ[ZMod 3] V}
     (hg : ∀ x y, Q.polarBilin (g x) (g y) = Q.polarBilin x y) :
     g ∈ TauCeti.QuadraticMap.orthogonalGroup Q := by
@@ -38,7 +40,7 @@ theorem fg_mem_orthogonalGroup_of_polar {g : V ≃ₗ[ZMod 3] V}
   exact h3 _ _ h
 
 theorem fg_cplxGroup_commutator {ρ : ↥(simGroup Q)} {lam : ZMod 3}
-    (hρ : FGCplx Q.polarBilin (ρ : V ≃ₗ[ZMod 3] V).toLinearMap lam) :
+    (_hρ : FGCplx Q.polarBilin (ρ : V ≃ₗ[ZMod 3] V).toLinearMap lam) :
     FGCplxGroup Q.polarBilin (ρ : V ≃ₗ[ZMod 3] V).toLinearMap
       (⁅fixSub (simAct Q ρ), fixSub (simAct Q ρ)⁆.map
         (TauCeti.QuadraticMap.orthogonalGroup Q).subtype) := by
@@ -101,8 +103,8 @@ theorem fg_cplx_lifts (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V =
     fg_cplxGroup_commutator hρ
   let e : ↥P ≃* ↥H := Subgroup.equivMapOfInjective P
     (TauCeti.QuadraticMap.orthogonalGroup Q).subtype (Subgroup.subtype_injective _)
-  haveI : IsSimpleGroup ↥P := hsimp
-  haveI : IsSimpleGroup ↥H := e.symm.isSimpleGroup
+  have : IsSimpleGroup ↥P := hsimp
+  have : IsSimpleGroup ↥H := e.symm.isSimpleGroup
   have hcardH : ¬ Nat.card ↥H ∣ 11232 := by
     rw [← Nat.card_congr e.toEquiv]
     exact hcard

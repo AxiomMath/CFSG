@@ -26,9 +26,11 @@ abbrev NSolY (X : Subgroup G) : Type := ↥X ⧸ CFSG.pCore 2 ↥X
 
 def nsolMk (X : Subgroup G) : ↥X →* NSolY X := QuotientGroup.mk' (CFSG.pCore 2 ↥X)
 
+omit [Finite G] in
 theorem pCoreOf_eq_map_pCore (X : Subgroup G) :
     CFSG.Open.pCoreOf 2 X = (CFSG.pCore 2 ↥X).map X.subtype := rfl
 
+omit [Finite G] in
 theorem nsolMk_eq_one_iff {X : Subgroup G} (x : ↥X) :
     nsolMk X x = 1 ↔ (x : G) ∈ CFSG.Open.pCoreOf 2 X := by
   rw [nsolMk, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, pCoreOf_eq_map_pCore]
@@ -43,6 +45,7 @@ noncomputable def cAct (X : Subgroup G) (hc : c ∈ Subgroup.normalizer (X : Set
     MulAut (NSolY X) :=
   Sec16.Crit167.quotPCoreAut ↥X (X.normalizerMonoidHom ⟨c, hc⟩)
 
+omit [Finite G] in
 theorem cAct_mk (X : Subgroup G) (hc : c ∈ Subgroup.normalizer (X : Set G)) (x : ↥X)
     (hx : c * (x : G) * c⁻¹ ∈ X) :
     cAct X hc (nsolMk X x) = nsolMk X ⟨c * (x : G) * c⁻¹, hx⟩ := by
@@ -52,6 +55,7 @@ theorem cAct_mk (X : Subgroup G) (hc : c ∈ Subgroup.normalizer (X : Set G)) (x
   rw [Sec16.Crit167.quotPCoreAut_apply_mk, this]
   rfl
 
+omit [Finite G] in
 theorem cAct_pow_three (X : Subgroup G) (hc : c ∈ Subgroup.normalizer (X : Set G))
     (hc3 : c ^ 3 = 1) : cAct X hc ^ 3 = 1 := by
   unfold cAct
@@ -59,6 +63,7 @@ theorem cAct_pow_three (X : Subgroup G) (hc : c ∈ Subgroup.normalizer (X : Set
   have : (⟨c, hc⟩ : ↥(Subgroup.normalizer (X : Set G))) ^ 3 = 1 := Subtype.ext (by simpa using hc3)
   rw [this, map_one, map_one]
 
+omit [Finite G] in
 theorem cAct_ne_one (X : Subgroup G) (hc : c ∈ Subgroup.normalizer (X : Set G))
     (hnot : ¬ ⁅X, Subgroup.zpowers c⁆ ≤ CFSG.Open.pCoreOf 2 X) : cAct X hc ≠ 1 := by
   intro h1
@@ -118,6 +123,7 @@ theorem exists_fixed_lift (X : Subgroup G) (hc : c ∈ Subgroup.normalizer (X : 
     calc c * ((x₀ : G) * h) = (c * ((x₀ : G) * h) * c⁻¹) * c := by group
       _ = ((x₀ : G) * h) * c := by rw [hfix]
 
+omit [Finite G] in
 theorem exists_order_five_preimage (X : Subgroup G) {yb : NSolY X} (hyb5 : orderOf yb = 5) :
     ∃ y : ↥X, orderOf (y : G) = 5 ∧ nsolMk X y ∈ Subgroup.zpowers yb := by
   obtain ⟨y₀, hy₀⟩ := QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥X) yb
@@ -151,6 +157,7 @@ theorem exists_order_five_preimage (X : Subgroup G) {yb : NSolY X} (hyb5 : order
 def nsolPre (X : Subgroup G) (V : Subgroup (NSolY X)) : Subgroup G :=
   (V.comap (nsolMk X)).map X.subtype
 
+omit [Finite G] in
 theorem mem_nsolPre {X : Subgroup G} {V : Subgroup (NSolY X)} {g : G} :
     g ∈ nsolPre X V ↔ ∃ hg : g ∈ X, nsolMk X ⟨g, hg⟩ ∈ V := by
   unfold nsolPre
@@ -160,9 +167,11 @@ theorem mem_nsolPre {X : Subgroup G} {V : Subgroup (NSolY X)} {g : G} :
   · rintro ⟨hg, h⟩
     exact ⟨⟨g, hg⟩, h, rfl⟩
 
+omit [Finite G] in
 theorem nsolPre_le (X : Subgroup G) (V : Subgroup (NSolY X)) : nsolPre X V ≤ X :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem pCoreOf_le_nsolPre (X : Subgroup G) (V : Subgroup (NSolY X)) :
     CFSG.Open.pCoreOf 2 X ≤ nsolPre X V := by
   refine Subgroup.map_mono (fun x hx => ?_)
@@ -171,6 +180,7 @@ theorem pCoreOf_le_nsolPre (X : Subgroup G) (V : Subgroup (NSolY X)) :
   rw [this]
   exact V.one_mem
 
+omit [Finite G] in
 theorem le_normalizer_nsolPre (X : Subgroup G) (V : Subgroup (NSolY X)) [V.Normal] :
     X ≤ Subgroup.normalizer (nsolPre X V : Set G) := by
   have key : ∀ y : G, y ∈ X → ∀ h ∈ nsolPre X V, y * h * y⁻¹ ∈ nsolPre X V := by
@@ -196,6 +206,7 @@ theorem le_normalizer_nsolPre (X : Subgroup G) (V : Subgroup (NSolY X)) [V.Norma
     rw [e] at h'
     exact h'
 
+omit [Finite G] in
 theorem mem_normalizer_nsolPre {X : Subgroup G} (hc : c ∈ Subgroup.normalizer (X : Set G))
     {V : Subgroup (NSolY X)} (hV : V.map (cAct X hc).toMonoidHom = V) :
     c ∈ Subgroup.normalizer (nsolPre X V : Set G) := by
@@ -222,13 +233,15 @@ theorem mem_normalizer_nsolPre {X : Subgroup G} (hc : c ∈ Subgroup.normalizer 
     have : v = nsolMk X ⟨g, hgX⟩ := (cAct X hc).injective hve
     rwa [← this]
 
+omit [Finite G] in
 theorem le_normalizer_nsolPre_of_characteristic (X : Subgroup G) (V : Subgroup (NSolY X))
     [V.Characteristic] {B : Subgroup G} (hBX : B ≤ Subgroup.normalizer (X : Set G)) :
-    B ≤ Subgroup.normalizer (nsolPre X V : Set G) := fun b hb =>
+    B ≤ Subgroup.normalizer (nsolPre X V : Set G) := fun _b hb =>
   mem_normalizer_nsolPre (hBX hb) (Subgroup.characteristic_iff_map_eq.mp inferInstance _)
 
 def sylowImage (X S : Subgroup G) : Subgroup (NSolY X) := (S.subgroupOf X).map (nsolMk X)
 
+omit [Finite G] in
 theorem mem_sylowImage {X S : Subgroup G} {z : NSolY X} :
     z ∈ sylowImage X S ↔ ∃ s : ↥X, (s : G) ∈ S ∧ nsolMk X s = z := by
   unfold sylowImage
@@ -251,24 +264,26 @@ theorem isSylowOf_sylowImage {X S : Subgroup G} (hS : IsSylowOf 2 S X) :
     (S.subgroupOf X).index_map_dvd hsurj
   exact fun hdvd => hSdvd (hdvd.trans hdiv)
 
+omit [Finite G] in
 theorem isPGroup_sylowImage {X S : Subgroup G} (hS : IsPGroup 2 S) :
     IsPGroup 2 (sylowImage X S) :=
   (hS.comap_subtype (K := X)).map (nsolMk X)
 
+omit [Finite G] in
 theorem pCore_NSolY (X : Subgroup G) : CFSG.pCore 2 (NSolY X) = ⊥ :=
   CFSG.ABGLocalTools.pCore_quotient_pCore_eq_bot
 
 theorem not_isSolvable_nsolY (X : Subgroup G) (hns : ¬ Group.IsSolvable ↥X) :
     ¬ Group.IsSolvable (NSolY X) := fun h => hns (by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent (CFSG.pCore 2 ↥X) :=
+  have : Group.IsNilpotent (CFSG.pCore 2 ↥X) :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥X)).isNilpotent
-  haveI : Group.IsSolvable (CFSG.pCore 2 ↥X) := inferInstance
+  have : Group.IsSolvable (CFSG.pCore 2 ↥X) := inferInstance
   exact Group.isSolvable_of_ker_le_range (CFSG.pCore 2 ↥X).subtype
     (QuotientGroup.mk' (CFSG.pCore 2 ↥X)) (by simp [QuotientGroup.ker_mk']))
 
 theorem le_sup_centralizer_of_fixedSubgroupOf_sup (X S : Subgroup G)
-    (hc : c ∈ Subgroup.normalizer (X : Set G)) (hc3 : c ^ 3 = 1) (hSX : S ≤ X)
+    (hc : c ∈ Subgroup.normalizer (X : Set G)) (hc3 : c ^ 3 = 1) (_hSX : S ≤ X)
     (hQS : CFSG.Open.pCoreOf 2 X ≤ S)
     (hY : fixedSubgroupOf (cAct X hc) ⊔ sylowImage X S = ⊤) :
     X ≤ (X ⊓ Subgroup.centralizer ({c} : Set G)) ⊔ S := by
@@ -299,6 +314,7 @@ theorem le_sup_centralizer_of_fixedSubgroupOf_sup (X S : Subgroup G)
   rw [hxj]
   exact J.mul_mem hjJ hk3
 
+omit [Finite G] in
 theorem exists_restrict_hom (X : Subgroup G) (hc : c ∈ Subgroup.normalizer (X : Set G))
     (K : Subgroup (NSolY X)) (hK : K.map (cAct X hc).toMonoidHom = K) :
     ∃ π : ↥(nsolPre X K) →* ↥K, Function.Surjective π ∧

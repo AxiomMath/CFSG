@@ -78,7 +78,7 @@ theorem e6Four_A5_cover {L : Type} [Field L] [IsAlgClosed L] (S : LangSetup Tag.
   have hcard : (frameRoots σ).ncard = ν * (ν - 1) := by
     have hinj : Set.InjOn (fun p : Fin ν × Fin ν => σ p.1 p.2) {p | p.1 ≠ p.2} := by
       rintro ⟨a, b⟩ hab ⟨c, d⟩ hcd h
-      simp only [Set.mem_setOf_eq] at hab hcd
+      simp only [Set.mem_ofPred_eq] at hab hcd
       obtain ⟨rfl, rfl⟩ := hψ.eq_of_eq hκ hnorm hab hcd h
       rfl
     have himg : frameRoots σ = (fun p : Fin ν × Fin ν => σ p.1 p.2) '' {p | p.1 ≠ p.2} := by
@@ -92,7 +92,7 @@ theorem e6Four_A5_cover {L : Type} [Field L] [IsAlgClosed L] (S : LangSetup Tag.
     have hoff : ({p : Fin ν × Fin ν | p.1 ≠ p.2} : Set (Fin ν × Fin ν)) =
         ↑(Finset.univ.offDiag : Finset (Fin ν × Fin ν)) := by
       ext p
-      simp [Finset.mem_offDiag]
+      simp
     rw [hoff, Set.ncard_coe_finset, Finset.offDiag_card]
     rw [Finset.card_univ, Fintype.card_fin, Nat.mul_sub_left_distrib, mul_one]
   have h30 : ν * (ν - 1) = 30 := by
@@ -141,8 +141,8 @@ theorem e6Four_A5_cover {L : Type} [Field L] [IsAlgClosed L] (S : LangSetup Tag.
       (iform_rho_iterate S s) with ⟨π, hπ⟩ | ⟨π, hπ⟩
   ·
     obtain ⟨r, e, hr, hchar, he, hq'⟩ := exists_char_pow S
-    haveI : Fact r.Prime := ⟨hr⟩
-    haveI : CharP L r := hchar
+    have : Fact r.Prime := ⟨hr⟩
+    have : CharP L r := hchar
     have hπc : ∀ x y, x ≠ y →
         (S.ρ : (Fin Tag.E6.rank → ℤ) → _)^[componentOrbitLength S.ρ
           (componentRoots (rootCharHom a) i)] (σ x y) = σ (π x) (π y) := by
@@ -154,7 +154,7 @@ theorem e6Four_A5_cover {L : Type} [Field L] [IsAlgClosed L] (S : LangSetup Tag.
       (n := e * componentOrbitLength S.ρ (componentRoots (rootCharHom a) i))
       (Nat.mul_pos he hs0) σQ hσc
     have hcol1 : componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) = 1 := by
-      first | exact hs | (rw [← hsdef]; exact hs)
+      first | exact hs
     have hcardK4 : Nat.card (fixSubfield σQ) = 4 := by
       rw [hcardK, hcol1, mul_one, ← hq', hq]
     have hperf : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 6) ↥(fixSubfield σQ)) :=
@@ -179,7 +179,7 @@ theorem e6Four_A5_cover {L : Type} [Field L] [IsAlgClosed L] (S : LangSetup Tag.
   ·
     exfalso
     have hs1 : s = 1 := by
-      first | exact hs | (rw [hsdef]; exact hs)
+      first | exact hs
     have hπρ : ∀ x y, x ≠ y → S.ρ (σ x y) = σ (π y) (π x) := by
       intro x y hxy
       simpa [hs1, Function.iterate_one] using hπ x y hxy

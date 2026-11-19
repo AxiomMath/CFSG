@@ -25,6 +25,7 @@ variable {G : Type} [Group G] [Finite G]
 
 section Certified
 
+omit [Finite G] in
 theorem nOf_eq_of_isU3 {L : Subgroup G} {n : ℕ} (h : IsU3 (Bar2 L) n) : S17.nOf L = n :=
   S17.nOf_eq_of_isChar2LieShape h (Or.inr (Or.inl ⟨rfl, rfl⟩))
 

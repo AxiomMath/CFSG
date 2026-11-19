@@ -133,7 +133,7 @@ theorem ShultI85Hyp.exists_sylow (h : ShultI85Hyp M V) :
   have hP'p : IsPGroup 2 P' := by
     intro x
     obtain ⟨y, hy, hyx⟩ := Subgroup.mem_map.mp x.2
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨y, hy⟩
     have h2 : y ^ 2 ^ k = 1 := by
       have := congrArg (fun z : ↥(P : Subgroup ↥M) => (z : ↥M)) hk
       simpa using this

@@ -110,7 +110,7 @@ theorem P2_index_ge : 35 ≤ L3321.P2.index := by
   have h1 := Subgroup.card_mul_index (H := L3321.P2)
   rw [Ln2.card_specialLinear 4 (Or.inl rfl)] at h1
   have h2 := card_P2_le
-  simp only [if_true] at h1
+  simp only [ite_true] at h1
   by_contra hlt
   have h3 : L3321.P2.index ≤ 34 := by omega
   have h4 : Nat.card ↥L3321.P2 * L3321.P2.index ≤ 576 * 34 := Nat.mul_le_mul h2 h3
@@ -133,10 +133,12 @@ variable {G : Type} [Group G] [Finite G]
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem lsrq_le_normalizer_L {L T : Subgroup G} (hTL : T ≤ Subgroup.normalizer (L : Set G)) :
     L ⊔ T ≤ Subgroup.normalizer (L : Set G) :=
   sup_le Subgroup.le_normalizer hTL
 
+omit [Finite G] in
 theorem lsrq_le_normalizer_O2 {L T : Subgroup G} (hTL : T ≤ Subgroup.normalizer (L : Set G)) :
     L ⊔ T ≤ Subgroup.normalizer (pCoreOf 2 L : Set G) :=
   sup_le (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 L)
@@ -165,9 +167,11 @@ theorem lsrq_le_normalizer_O2 {L T : Subgroup G} (hTL : T ≤ Subgroup.normalize
     rw [e]
     exact Subgroup.inv_mem _ (k _ hy)
 
+omit [Finite G] in
 theorem lsrq_mem_actSub {L T : Subgroup G} (hTL : T ≤ Subgroup.normalizer (L : Set G)) {c : G} :
     c ∈ lsrqActSub L T hTL ↔ c ∈ L ⊔ T ∧ ∀ x ∈ L, c * x * c⁻¹ * x⁻¹ ∈ pCoreOf 2 L := Iff.rfl
 
+omit [Finite G] in
 theorem lsrq_actSub_inf_le {L T : Subgroup G} (hTL : T ≤ Subgroup.normalizer (L : Set G))
     {α : ↥L →* Matrix.SpecialLinearGroup (Fin 4) (ZMod 2)}
     (hαs : Function.Surjective α) (hαk : α.ker = CFSG.pCore 2 ↥L) {c : G}
@@ -195,6 +199,7 @@ theorem lsrq_actSub_inf_le {L T : Subgroup G} (hTL : T ≤ Subgroup.normalizer (
   rw [hαk] at h5
   exact (Lem3328.mem_pCore_iff _).1 h5
 
+omit [Finite G] in
 theorem lsrq_actSub_conj_mem {L T : Subgroup G} (hTL : T ≤ Subgroup.normalizer (L : Set G)) {g c : G}
     (hg : g ∈ L ⊔ T) (hc : c ∈ lsrqActSub L T hTL) : g * c * g⁻¹ ∈ lsrqActSub L T hTL := by
   obtain ⟨hcLT, hk⟩ := (lsrq_mem_actSub hTL).1 hc
@@ -210,6 +215,7 @@ theorem lsrq_actSub_conj_mem {L T : Subgroup G} (hTL : T ≤ Subgroup.normalizer
   rw [e]
   exact (Subgroup.mem_normalizer_iff.mp (lsrq_le_normalizer_O2 hTL hg) _).mp hu
 
+omit [Finite G] in
 theorem lsrq_le_normalizer_actSub {L T : Subgroup G} (hTL : T ≤ Subgroup.normalizer (L : Set G)) :
     L ⊔ T ≤ Subgroup.normalizer ((lsrqActSub L T hTL : Subgroup G) : Set G) := by
   intro g hg
@@ -267,6 +273,7 @@ theorem lsrq_S_le_LQ {L T S : Subgroup G} {α : ↥L →* Matrix.SpecialLinearGr
   exact Subgroup.mul_mem _ ((le_sup_left : L ≤ L ⊔ pCoreOf 2 (L ⊔ T)) y.2)
     ((le_sup_right : pCoreOf 2 (L ⊔ T) ≤ L ⊔ pCoreOf 2 (L ⊔ T)) hcP)
 
+omit [Finite G] in
 theorem lsrq_cover {L T S : Subgroup G} {t₀ : G} (hTL : T ≤ Subgroup.normalizer (L : Set G))
     (ht₀ : t₀ ∈ T) (hSLQ : S ≤ L ⊔ pCoreOf 2 (L ⊔ T))
     (hdich : ∀ x ∈ T, x ∈ S ∨ x * t₀⁻¹ ∈ S)
@@ -287,6 +294,7 @@ theorem lsrq_cover {L T S : Subgroup G} {t₀ : G} (hTL : T ≤ Subgroup.normali
     rw [e]
     exact (Subgroup.mem_normalizer_iff.mp hinv _).mp hls
 
+omit [Finite G] in
 theorem lsrq_LQ_relIndex_le_two {L T : Subgroup G} {t₀ : G} (ht₀ : t₀ ∈ T)
     (hcov : ∀ x ∈ L ⊔ T, x ∈ L ⊔ pCoreOf 2 (L ⊔ T) ∨ t₀⁻¹ * x ∈ L ⊔ pCoreOf 2 (L ⊔ T)) :
     (L ⊔ pCoreOf 2 (L ⊔ T)).relIndex (L ⊔ T) ≤ 2 := by
@@ -307,13 +315,14 @@ theorem lsrq_LQ_relIndex_le_two {L T : Subgroup G} {t₀ : G} (ht₀ : t₀ ∈ 
   have h := Subgroup.index_le_of_leftCoset_cover_const hcov'
   simpa [Subgroup.relIndex] using h
 
+omit [Finite G] in
 theorem lsrq_relIndex_le_ker_index {N Q : Subgroup G}
     {α : ↥N →* Matrix.SpecialLinearGroup (Fin 4) (ZMod 2)}
-    (hNQ : N ≤ Subgroup.normalizer (Q : Set G)) (hαs : Function.Surjective α)
+    (hNQ : N ≤ Subgroup.normalizer (Q : Set G)) (_hαs : Function.Surjective α)
     (hker : ∀ l : ↥N, α l = 1 → (l : G) ∈ Q) :
     Q.relIndex (N ⊔ Q) ≤ α.ker.index := by
   have hN' : N ⊔ Q ≤ Subgroup.normalizer (Q : Set G) := sup_le hNQ Subgroup.le_normalizer
-  haveI : (Q.subgroupOf (N ⊔ Q)).Normal :=
+  have : (Q.subgroupOf (N ⊔ Q)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_right).2 hN'
   let φ : ↥N →* ↥(N ⊔ Q) ⧸ Q.subgroupOf (N ⊔ Q) :=
     (QuotientGroup.mk' (Q.subgroupOf (N ⊔ Q))).comp
@@ -440,7 +449,7 @@ theorem leaf_LSRQ_of (h9 : Stmt3_3_9) (hGA : GriessAllModelsStatement) :
     unfold Subgroup.relIndex
     rw [hsub, Subgroup.index_comap_of_surjective (H := L3321.P2) hαs]
   have hHLT : 35 ≤ H.relIndex (L ⊔ T) := by
-    haveI : H.IsFiniteRelIndex (L ⊔ T) := Subgroup.isFiniteRelIndex_of_finiteIndex
+    have : H.IsFiniteRelIndex (L ⊔ T) := Subgroup.isFiniteRelIndex_of_finiteIndex
     have h1 := Subgroup.relIndex_le_of_le_right (H := H) (K := L) (L := L ⊔ T) le_sup_left
       Subgroup.relIndex_ne_zero
     have h2 := P2_index_ge

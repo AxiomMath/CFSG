@@ -26,7 +26,7 @@ private noncomputable def w183Sym {ι : Type} [Fintype ι] [DecidableEq ι] {K :
 private theorem w183Sym_apply {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
     (Φ : QuadForm K (ι → K)) {v : ι → K} (hv : Φ.Q v ≠ 0) (x : ι → K) :
     Matrix.mulVec ((w183Sym Φ v : GL ι K) : Matrix ι ι K) x = Φ.reflect v x := by
-  rw [w183Sym, dif_pos hv]
+  rw [w183Sym, dite_eq_left hv]
   exact (Classical.choose_spec (exists_mem_orthGroup_mulVec Φ.Q (Φ.reflect v) (Φ.reflect v)
     (Φ.reflect_reflect hv) (Φ.reflect_reflect hv) (Φ.Q_reflect v))).2.1 x
 
@@ -58,12 +58,12 @@ private theorem w183_eq_zero_or_one {K : Type} [Field K] [Finite K] (hK : Nat.ca
     have hcard : Nat.card Kˣ = 1 := by
       have h := Nat.card_eq_card_units_add_one (α := K)
       omega
-    haveI : Subsingleton Kˣ := (Finite.card_le_one_iff_subsingleton).mp (le_of_eq hcard)
+    have : Subsingleton Kˣ := (Finite.card_le_one_iff_subsingleton).mp (le_of_eq hcard)
     exact congrArg Units.val (Subsingleton.elim (Units.mk0 a ha) 1)
 
 private theorem w183_add_self {ι : Type} {K : Type} [Field K] [Algebra (ZMod 2) K]
     (y : ι → K) : y + y = 0 := by
-  haveI : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
+  have : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
   funext i
   simpa using CharTwo.add_self_eq_zero (y i)
 
@@ -131,7 +131,7 @@ private theorem w183_span_normOne_eq_top {ι : Type} [Fintype ι] {K : Type} [Fi
           funext i
           rw [Pi.add_apply, Pi.add_apply, ← add_assoc,
             show w i + w i = 0 from by
-              haveI : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
+              have : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
               exact CharTwo.add_self_eq_zero (w i),
             zero_add]
         rw [hxw]
@@ -140,13 +140,13 @@ private theorem w183_span_normOne_eq_top {ι : Type} [Fintype ι] {K : Type} [Fi
 
 private theorem w183_neg_eq_self {ι : Type} {K : Type} [Field K] [Algebra (ZMod 2) K]
     (y : ι → K) : -y = y := by
-  haveI : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
+  have : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
   funext i
   exact CharTwo.neg_eq (y i)
 
 private theorem w183_sub_smul_eq_add {ι : Type} {K : Type} [Field K] [Algebra (ZMod 2) K]
     (x : ι → K) (a : K) (v : ι → K) : x - a • v = x + a • v := by
-  haveI : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
+  have : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
   rw [sub_eq_add_neg, ← neg_smul, CharTwo.neg_eq]
 
 private theorem w183_add_eq_zero {ι : Type} {K : Type} [Field K] [Algebra (ZMod 2) K]
@@ -172,7 +172,7 @@ private theorem w183Sym_three {ι : Type} [Fintype ι] [DecidableEq ι] {K : Typ
     [Algebra (ZMod 2) K] (Φ : QuadForm K (ι → K)) {v w : ι → K}
     (hv : Φ.Q v = 1) (hw : Φ.Q w = 1) (hβ : Φ.polar.β v w = 1) :
     w183Sym Φ v * w183Sym Φ w * w183Sym Φ v = w183Sym Φ (v + w) := by
-  haveI : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
+  have : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
   have hvne : Φ.Q v ≠ 0 := by rw [hv]; exact one_ne_zero
   have hwne : Φ.Q w ≠ 0 := by rw [hw]; exact one_ne_zero
   have hvw1 : Φ.Q (v + w) = 1 := by
@@ -192,7 +192,7 @@ private theorem w183Sym_comm {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type
     [Algebra (ZMod 2) K] (Φ : QuadForm K (ι → K)) {v w : ι → K}
     (hv : Φ.Q v = 1) (hw : Φ.Q w = 1) (hβ : Φ.polar.β v w = 0) :
     w183Sym Φ v * w183Sym Φ w = w183Sym Φ w * w183Sym Φ v := by
-  haveI : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
+  have : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
   have hvne : Φ.Q v ≠ 0 := by rw [hv]; exact one_ne_zero
   have hwne : Φ.Q w ≠ 0 := by rw [hw]; exact one_ne_zero
   have h3 : w183Sym Φ v * w183Sym Φ w * w183Sym Φ v = w183Sym Φ w := by
@@ -241,7 +241,7 @@ private theorem w183_cocycle_sym_mem_span {ι : Type} [Fintype ι] [DecidableEq 
     (c : Z1 (s16ntNatRep (orthGroup Φ.Q))) :
     (c : orthGroup Φ.Q → ι → K) (w183Sym Φ v) ∈
       Submodule.span (ZMod 2) ({v} : Set (ι → K)) := by
-  haveI : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
+  have : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
   have hvne : Φ.Q v ≠ 0 := by rw [hv]; exact one_ne_zero
   have hv0 : v ≠ 0 := fun h => by rw [h, Φ.Q_zero] at hv; exact one_ne_zero hv.symm
   set A := w183Sym Φ v with hAdef
@@ -371,7 +371,7 @@ private theorem w183Evaluation_injective {ι : Type} [Fintype ι] [DecidableEq �
     (Φ : QuadForm K (ι → K)) {S : Set (ι → K)} (hS : ∀ v ∈ S, Φ.Q v = 1)
     (hgen : S16ntNormOneGen Φ.Q S) :
     Function.Injective (w183Evaluation hK Φ hS) := by
-  haveI : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
+  have : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
   intro c d hcd
   let f : Z1 (s16ntNatRep (orthGroup Φ.Q)) := c - d
   have hSzero : ∀ v : S, f.1 (w183Sym Φ v.1) = 0 := by
@@ -502,13 +502,13 @@ theorem w183_orth_natural_h1_bound
     Module.finrank (ZMod 2) (CFSG.Quasithin.JonesParshall.H1
       (s16ntNatRep (orthGroup Φ.Q))) + Fintype.card ι ≤ S.ncard := by
   classical
-  haveI : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
-  haveI : Fintype S := Fintype.ofFinite S
+  have : CharP K 2 := (Algebra.charP_iff (ZMod 2) K 2).mp inferInstance
+  have : Fintype S := Fintype.ofFinite S
   let ρ := s16ntNatRep (orthGroup Φ.Q)
   have hZle : Module.finrank (ZMod 2) (Z1 ρ) ≤ S.ncard := by
     have hevInj : Function.Injective (w183Evaluation hK Φ hS) :=
       w183Evaluation_injective hK h3 Φ hS hgen
-    haveI : ∀ v : S, Module.Free (ZMod 2)
+    have : ∀ v : S, Module.Free (ZMod 2)
         (Submodule.span (ZMod 2) ({v.1} : Set (ι → K))) :=
       fun v => Module.Free.of_divisionRing (ZMod 2) _
     have h1 : ∀ v : S, Module.finrank (ZMod 2)

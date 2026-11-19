@@ -62,17 +62,17 @@ theorem arr_pow {p d : ℕ} (hp : 1 < p) {X : Array (Array ℕ)} (hX : ArrCanon 
   | _ e ih =>
     unfold Ops.pow
     by_cases h0 : e = 0
-    · rw [if_pos h0]
+    · rw [ite_eq_left h0]
       exact arr_idM hp
     by_cases h1 : e = 1
-    · rw [if_neg h0, if_pos h1]
+    · rw [ite_eq_right h0, ite_eq_left h1]
       exact hX
-    rw [if_neg h0, if_neg h1]
+    rw [ite_eq_right h0, ite_eq_right h1]
     have hpow := ih (e / 2) (by omega) (arr_mulM hp0 X X)
     by_cases ho : e % 2 = 1
-    · rw [if_pos ho]
+    · rw [ite_eq_left ho]
       exact arr_mulM hp0 _ _
-    · rw [if_neg ho]
+    · rw [ite_eq_right ho]
       exact hpow
 
 theorem arr_eq_of_toMat_eq {p d : ℕ} {X Y : Array (Array ℕ)} (hX : ArrCanon p d X)
@@ -214,15 +214,15 @@ private theorem lane_pow_two (w t j : ℕ) (hw : 0 < w) :
   unfold lane
   rcases lt_trichotomy j t with h | h | h
   · obtain ⟨k, rfl⟩ : ∃ k, t = j + k + 1 := ⟨t - j - 1, by omega⟩
-    rw [if_neg (show j ≠ j + k + 1 by omega)]
+    rw [ite_eq_right (show j ≠ j + k + 1 by omega)]
     have e : 2 ^ (w * (j + k + 1)) = 2 ^ (w * j) * (2 ^ (w * k) * 2 ^ w) := by
       rw [← pow_add, ← pow_add]
       congr 1
       ring
     rw [e, Nat.mul_div_cancel_left _ (show 0 < 2 ^ (w * j) by positivity)]
     exact Nat.mod_eq_zero_of_dvd (dvd_mul_left _ _)
-  · rw [if_pos h, h, Nat.div_self (show 0 < 2 ^ (w * t) by positivity), Nat.mod_eq_of_lt hw2]
-  · rw [if_neg (show j ≠ t by omega)]
+  · rw [ite_eq_left h, h, Nat.div_self (show 0 < 2 ^ (w * t) by positivity), Nat.mod_eq_of_lt hw2]
+  · rw [ite_eq_right (show j ≠ t by omega)]
     have hlt : 2 ^ (w * t) < 2 ^ (w * j) :=
       Nat.pow_lt_pow_right (by norm_num) (by nlinarith)
     rw [Nat.div_eq_of_lt hlt, Nat.zero_mod]
@@ -372,13 +372,13 @@ theorem lcorr_init {c : Lay} (hc : c.ok = true) {A B n : ℕ} {LA LB : List Char
     rw [Snd.ofFn_getElem! _ hr]
   rw [e1, e2]
   by_cases h0 : r = 0
-  · rw [if_pos h0, if_pos h0]
+  · rw [ite_eq_left h0, ite_eq_left h0]
     exact rel_decode hc hA hsA
-  · rw [if_neg h0, if_neg h0]
+  · rw [ite_eq_right h0, ite_eq_right h0]
     by_cases h1 : r = 1
-    · rw [if_pos h1, if_pos h1]
+    · rw [ite_eq_left h1, ite_eq_left h1]
       exact rel_decode hc hB hsB
-    · rw [if_neg h1, if_neg h1]
+    · rw [ite_eq_right h1, ite_eq_right h1]
       exact rel_one hc
 
 theorem lcorr_regs {c : Lay} (hc : c.ok = true) {A B : ℕ} {LA LB : List Char}

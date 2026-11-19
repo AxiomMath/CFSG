@@ -16,6 +16,7 @@ open Subgroup SylowEnd CFSG.GroupTheory
 variable {G : Type} [Group G] [Finite G] {L R : Subgroup G} {t : G}
   {S A B Aa D : Subgroup G} {z b : G}
 
+omit [Finite G] in
 private theorem phiQ_commute_w (hD : DHyp A Aa t D) {Q : Subgroup G}
     {w : AddMonoid.End (VSub hD)}
     (hΦ : ∀ c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G),
@@ -28,6 +29,7 @@ private theorem phiQ_commute_w (hD : DHyp A Aa t D) {Q : Subgroup G}
   · rw [h]
   · rw [h, add_mul, one_mul, mul_add, mul_one]
 
+omit [Finite G] in
 private theorem phiQ_commute_add_one (hD : DHyp A Aa t D) {Q : Subgroup G}
     {w : AddMonoid.End (VSub hD)}
     (hΦ : ∀ c ∈ normalizer (Q : Set G) ⊓ centralizer (omega1 D hD.comm : Set G),
@@ -36,6 +38,7 @@ private theorem phiQ_commute_add_one (hD : DHyp A Aa t D) {Q : Subgroup G}
     phiQ hD Q c * (w + 1) = (w + 1) * phiQ hD Q c :=
   commute_add_one_of_commute hD (phiQ_commute_w hD hΦ c hc)
 
+omit [Finite G] in
 private theorem commute_vConj_add_one (hD : DHyp A Aa t D) {w : AddMonoid.End (VSub hD)}
     (hwH : ∀ n ∈ L ⊓ normalizer (A : Set G), vConj hD n * w = w * vConj hD n) :
     ∀ n ∈ L ⊓ normalizer (A : Set G), vConj hD n * (w + 1) = (w + 1) * vConj hD n :=

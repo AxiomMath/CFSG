@@ -89,11 +89,11 @@ theorem center_inf_odd (A : Subgroup G)
       rw [Subgroup.mem_center_iff]
       intro y
       exact Subtype.ext (Subgroup.mem_center_iff.mp ((hmemK x).mp hx) _)
-    have hZtwo : IsPGroup 2 Z := P.isPGroup'.to_le (Subgroup.map_subtype_le _)
+    have hZtwo : IsPGroup 2 Z := P.isPGroup.to_le (Subgroup.map_subtype_le _)
     have hZcomm : Z ≤ commutator A := by
       rintro _ ⟨x, hx, rfl⟩
       apply hcomm _ ((hmemK x).mp hx)
-      obtain ⟨k, hk⟩ := P.isPGroup' x
+      obtain ⟨k, hk⟩ := P.isPGroup x
       exact ⟨k, by simpa using congrArg Subtype.val hk⟩
     have heq := AschbacherToolkit.central_sylow_commutator P hZcenter hZtwo
     intro x hx
@@ -116,7 +116,7 @@ theorem center_inf_odd (A : Subgroup G)
       _ ≤ 1 := hrank
   have hbot : f.ker = ⊥ := by
     rcases TwoRankLowerBound.Helpers.rank_one_two_group_cyclic_or_quaternion _
-        (P.isPGroup'.to_quotient f.ker) hrankP with hcyclic | ⟨e, -, ⟨iso⟩⟩
+        (P.isPGroup.to_quotient f.ker) hrankP with hcyclic | ⟨e, -, ⟨iso⟩⟩
     · have := hcyclic
       have hderived := AschbacherToolkit.cyclic_central_extension (QuotientGroup.mk' f.ker)
         (by rw [QuotientGroup.ker_mk']; exact hKcenter)

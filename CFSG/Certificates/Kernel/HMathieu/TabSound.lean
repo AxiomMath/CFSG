@@ -36,11 +36,12 @@ theorem vp_pk (H : Packed T E) (p : T.Elem) : vpK (pk E p) = true := by
   rw [pk_eq H]
   exact H.vp _ (List.getElem_mem _)
 
+omit hT in
 theorem elems_get (H : Packed T E) {k : Nat} (hk : k < E.length) :
     T.elems[k]! = unpk (E.getD k 0) := by
   have : T.elems[k]! = (E.map unpk)[k]! := by rw [H.elems]; simp
   rw [this]
-  simp [List.getElem?_eq_getElem hk, List.getD_eq_getElem?_getD, hk]
+  simp [List.getD_eq_getElem?_getD, hk]
 
 theorem arr_eq (H : Packed T E) (p : T.Elem) : T.arr p = unpk (pk E p) :=
   elems_get H (idx_lt H p)
@@ -119,7 +120,7 @@ theorem actM_unpk (cc lift : List Nat) (p m : Nat) :
 
 theorem getD_map_lt {α β : Type} (f : α → β) (l : List α) {n : Nat} (hn : n < l.length)
     (d : β) (d' : α) : (l.map f).getD n d = f (l.getD n d') := by
-  simp [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem, hn]
+  simp [List.getD_eq_getElem?_getD, hn]
 
 theorem invFrom_eq (e0 : Nat) : ∀ (L : List Nat) (i : Nat), invFrom e0 L i =
     ((List.range' i L.length).filter fun k =>
@@ -237,7 +238,7 @@ theorem gtabs_of (H : Packed T E) {invL P : List Nat} (I : InvData T E invL P)
       exact (hcomm i hi j hj).1 hc
     rw [hb, Bool.not_true, Bool.false_or, Bool.and_eq_true, decide_eq_true_iff, beq_iff_eq] at h2
     have hmk : mkF (mkD D) T.invols.length i j = Nat.land (Nat.shiftRight (mkD D i) (8 * j)) 255 := by
-      rw [mkF, if_neg (Nat.ne_of_lt hi), if_neg (Nat.ne_of_lt hj)]
+      rw [mkF, ite_eq_right (Nat.ne_of_lt hi), ite_eq_right (Nat.ne_of_lt hj)]
     rw [hmk, hm]
     refine ⟨h2.1, ?_⟩
     rw [eq_comm, mul_iff H, pk_el H I hi.le, pk_el H I hj.le, pk_el H I (by rw [hm]; exact h2.1), h2.2]

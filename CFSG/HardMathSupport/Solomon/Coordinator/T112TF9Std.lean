@@ -53,7 +53,7 @@ theorem nineFix_of_mem [Finite F] {S : Subgroup (GL (Fin 3) F)} {ω : Fˣ} (hω 
     NineFix S (GeneralLinearGroup.map (σ : F →+* F)) := by
   set C := Subgroup.zpowers ω with hC
   have hCcard : Nat.card C = 9 := by rw [hC, Nat.card_zpowers, hω]
-  haveI : IsCyclic C := inferInstance
+  have : IsCyclic C := inferInstance
   have hcardZ : Nat.card (Multiplicative (ZMod 9)) = 9 := by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
   let eC : C ≃* Multiplicative (ZMod 9) := mulEquivOfCyclicCardEq (hCcard.trans hcardZ.symm)

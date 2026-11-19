@@ -196,7 +196,7 @@ theorem exists_normalizer_of_two_dvd_index {L : Subgroup G} {t : G}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set M := centralizer ({t} : Set G) with hMdef
   have htM : t ∈ M := mem_centralizer_singleton_iff.2 rfl
-  obtain ⟨P, hUP⟩ := (U.isPGroup'.map (inclusion hLt)).exists_le_sylow
+  obtain ⟨P, hUP⟩ := (U.isPGroup.map (inclusion hLt)).exists_le_sylow
   set S : Subgroup G := (P : Subgroup M).map M.subtype with hSdef
   have hSM : S ≤ M := map_subtype_le _
   have hmemS : ∀ y : M, (y : G) ∈ S ↔ y ∈ P := fun y => mem_map_iff_mem M.subtype_injective
@@ -215,11 +215,11 @@ theorem exists_normalizer_of_two_dvd_index {L : Subgroup G} {t : G}
   have htS : t ∈ S :=
     hNS t htM (IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, orderOf_mk, ht, pow_one]))
       (F4Pilot.mem_normalizer_of_le_centralizer_singleton hSM)
-  obtain ⟨Sst, hSS⟩ := (P.isPGroup'.map M.subtype).exists_le_sylow
+  obtain ⟨Sst, hSS⟩ := (P.isPGroup.map M.subtype).exists_le_sylow
   have hlt : S.subgroupOf Sst < ⊤ := by
     refine lt_top_iff_ne_top.2 fun h => ?_
     exact Sst.not_dvd_index (h2.trans (index_dvd_of_le ((subgroupOf_eq_top.1 h).trans hSM)))
-  have : Group.IsNilpotent Sst := Sst.isPGroup'.isNilpotent
+  have : Group.IsNilpotent Sst := Sst.isPGroup.isNilpotent
   obtain ⟨y, hyN, hyS⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   rw [← subgroupOf_normalizer_eq hSS, mem_subgroupOf] at hyN
@@ -230,7 +230,7 @@ theorem exists_normalizer_of_two_dvd_index {L : Subgroup G} {t : G}
     calc (y : G) * t = y * ((y : G)⁻¹ * t * y) := by rw [hxt]
       _ = t * y := by group
   refine hNS _ hxM ?_ hyN
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 Sst.isPGroup' y
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 Sst.isPGroup y
   exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, orderOf_mk, orderOf_coe, hk])
 
 theorem exists_conj_eq_mul_twoSided_of_two_dvd_index {L : Subgroup G} {t : G}
@@ -364,7 +364,7 @@ theorem two_dvd_index_of_commutator_eq_top (hperf : commutator G = ⊤) {L : Sub
           ((S : Subgroup G).subgroupOf L).index :=
       Subgroup.relIndex_subgroupOf hLt
     rwa [e] at h
-  have hSLp : IsPGroup 2 ((S : Subgroup G).subgroupOf L) := S.isPGroup'.comap_subtype
+  have hSLp : IsPGroup 2 ((S : Subgroup G).subgroupOf L) := S.isPGroup.comap_subtype
   set U : Sylow 2 L := hSLp.toSylow hodd with hUdef
   have hUS : ∀ u ∈ (U : Subgroup L), (u : G) ∈ (S : Subgroup G) := by
     intro u hu

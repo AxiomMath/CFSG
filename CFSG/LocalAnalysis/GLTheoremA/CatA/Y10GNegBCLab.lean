@@ -18,13 +18,13 @@ open CFSG.LieType.SemisimpleCentralizers.Held (heldSU)
 theorem not_bcd_of_canon_twA {labJ : GLALabel} {r k : ℕ} (h : canonLabel labJ = ⟨.twA, r, k⟩) :
     labJ.tag ≠ .B ∧ labJ.tag ≠ .C ∧ labJ.tag ≠ .D := by
   obtain ⟨t, r', n⟩ := labJ
-  cases t <;> simp [canonLabel] at h ⊢ <;> split_ifs at h <;> simp_all
+  cases t <;> simp [canonLabel] at h ⊢; split_ifs at h <;> simp_all
 
 theorem bcd_of_canon_A {labJ : GLALabel} {r k : ℕ} (h : canonLabel labJ = ⟨.A, r, k⟩)
     (hbcd : ¬ (labJ.tag ≠ .B ∧ labJ.tag ≠ .C ∧ labJ.tag ≠ .D)) :
     labJ.tag = .D ∧ labJ.rank = 3 ∧ r = 3 := by
   obtain ⟨t, r', n⟩ := labJ
-  cases t <;> simp [canonLabel] at h hbcd ⊢ <;> split_ifs at h <;> simp_all
+  cases t <;> simp [canonLabel] at h hbcd ⊢; split_ifs at h <;> simp_all
 
 theorem not_twD5_of_canon {labJ : GLALabel} {t : LargeEvenLieTag} {r k : ℕ}
     (h : canonLabel labJ = ⟨t, r, k⟩) (ht : t ≠ .twD) : ¬ (labJ.tag = .twD ∧ labJ.rank = 5) := by
@@ -44,7 +44,7 @@ theorem uniLabel_cases (hRig : GGLabelRigidInput) {J : Type} [Group J] [Finite J
     canonLabel labJ = ⟨.twA, a - 1, m⟩ ∨ canonLabel labJ = ⟨.A, 1, m⟩ := by
   obtain ⟨φ⟩ := hφ
   obtain ⟨hlab, hs, hhas⟩ := Y10GInnLin.ggHasLabel_of_hasLabel hJ
-  haveI := hs
+  have := hs
   have hm : 1 ≤ m := by
     by_contra hm0
     have h2 : 2 ≤ Nat.card E := Finite.one_lt_card
@@ -60,10 +60,10 @@ theorem uniLabel_cases (hRig : GGLabelRigidInput) {J : Type} [Group J] [Finite J
   · by_cases h31 : a = 3 ∧ m = 1
     · obtain ⟨rfl, rfl⟩ := h31
       exfalso
-      haveI := Y10GInnUni.isSolvable_quot_heldSU_three_two τ' hτ' (fun x => by simpa using hτ'm x)
+      have := Y10GInnUni.isSolvable_quot_heldSU_three_two τ' hτ' (fun x => by simpa using hτ'm x)
         (by simpa using hE)
       exact Y10GInnUni.not_isSolvable_quot_center
-        (solvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective)
+        (Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective)
     · have ham : (a, 2 ^ m) ≠ (3, 2) := by
         intro h
         obtain ⟨h1, h2⟩ := Prod.mk.inj h

@@ -42,7 +42,7 @@ theorem exists_caseTwo_data [Finite Y]
   have hrankY : 3 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup Y) :=
     h3.trans (LocalAction.pRank_mono_of_le' (by norm_num) le_top)
   have hidx5 : K.index = 5 := (LocalAction.exists_outer_sigma K d hd e hCK hrankY).1
-  have hP5 : IsPGroup 5 P := T.isPGroup'.to_inf_left
+  have hP5 : IsPGroup 5 P := T.isPGroup.to_inf_left
   have hPidx : ¬ 5 ∣ P.relIndex K := OvergroupTransport.not_dvd_relIndex_inf_sylow K T
   have hshape := LocalAction.sylowShape_five_of_catGroup hd e
   obtain ⟨ePK⟩ := hshape (P.subgroupOf K) hP5.comap_subtype hPidx

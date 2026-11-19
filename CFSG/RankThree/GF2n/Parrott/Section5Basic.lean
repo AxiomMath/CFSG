@@ -11,7 +11,8 @@ open CFSG CFSG.Open CFSG.ABGLocalTools Subgroup
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
-private theorem conj_z1_mem_centerIn (h : Tim79a.ParrottHyp z) {z₁ : G}
+omit [Finite G] in
+private theorem conj_z1_mem_centerIn (_h : Tim79a.ParrottHyp z) {z₁ : G}
     (hz₁ : z₁ ∈ centerIn (J z)) {x : G} (hx : x ∈ H z) :
     x * z₁ * x⁻¹ ∈ centerIn (J z) := by
   have hHN : H z ≤ Subgroup.normalizer (centerIn (J z) : Set G) :=
@@ -74,6 +75,7 @@ theorem exists_mem_H_not_mem_centralizer_z1 (h : Tim79a.ParrottHyp z)
   obtain ⟨x, hxH, hxne⟩ := hnotC
   exact ⟨x, hxH, fun hxC => hxne (Subgroup.mem_centralizer_singleton_iff.mp hxC)⟩
 
+omit [Finite G] in
 private theorem mul_mem_centralizer_z1_iff (hz2 : orderOf z = 2) {z₁ x₀ b : G}
     (hb : b ∈ H z) (hx₀ : x₀ * z₁ * x₀⁻¹ = z * z₁) :
     b * x₀ ∈ Subgroup.centralizer ({z₁} : Set G) ↔ b * z₁ * b⁻¹ = z * z₁ := by
@@ -274,7 +276,7 @@ theorem z_mem_of_normal_of_two_dvd (h : Tim79a.ParrottHyp z)
       exact one_lt_pow' (by norm_num) (Nat.pos_iff_ne_zero.mp hfacpos)
     exact (Subgroup.nontrivial_iff_ne_bot (N ⊓ T)).mp (Finite.one_lt_card_iff_nontrivial.mp hgt)
   have hTN : T ≤ Subgroup.normalizer ((N ⊓ T : Subgroup G) : Set G) := by
-    haveI : ((N ⊓ T).subgroupOf T).Normal := by
+    have : ((N ⊓ T).subgroupOf T).Normal := by
       rw [Subgroup.inf_subgroupOf_right]
       exact hN.subgroupOf T
     exact Subgroup.le_normalizer_of_normal_subgroupOf inf_le_right

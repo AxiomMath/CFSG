@@ -52,7 +52,7 @@ theorem kd26bcE6_of_fE6 (h : YS04F.KD26fE6) : KD26bcE6 := by
 
 theorem card_le_outer_of_inf_eq_bot {S : Type} [Group S] [Finite S] (D : Subgroup (MulAut S))
     (hD : D ⊓ inner S = ⊥) : Nat.card D ≤ Nat.card (Outer S) := by
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
+  have : Finite (MulAut S) := MulEquiv.finite_left
   refine Nat.card_le_card_of_injective (fun x : D => (QuotientGroup.mk (x : MulAut S) : Outer S)) ?_
   intro x y hxy
   have h1 : (x : MulAut S)⁻¹ * (y : MulAut S) ∈ inner S := (QuotientGroup.eq).1 hxy

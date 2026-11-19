@@ -25,7 +25,7 @@ theorem s16t3_omplus_model {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
   exact T3ParabIn.of_conj Subgroup.le_normalizer hPN hBP hBN hcard hexp hg hXB
 
 theorem s16t3_exists_parab_omegaPlus (h : ThreeNat A L T) {n : ℕ} (hn : 6 ≤ n)
-    (hom : IsOmegaPlus ↥L n 1) {I : Subgroup W} (hTI : StableUnder T I)
+    (_hom : IsOmegaPlus ↥L n 1) {I : Subgroup W} (hTI : StableUnder T I)
     (hnat : SumOfNat (fun H U Z => NatOmegaPlus H U Z n 1) L I (I ⊓ fixV L) 1) :
     ∃ P : Subgroup (MulAut W), P ≤ L ∧ (∀ t ∈ T, ∀ x ∈ P, t * x * t⁻¹ ∈ P) ∧ T ⊓ L ≤ P ∧
       Nat.card ↥P = 3 ^ ((n + 4) / 4) * Nat.card ↥(T ⊓ L) ∧

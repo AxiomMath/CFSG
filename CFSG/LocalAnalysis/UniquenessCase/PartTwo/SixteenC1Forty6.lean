@@ -21,6 +21,7 @@ theorem s16c1_perfectCore_eq_of_le {B C : Subgroup G} (hCB : C ≤ B) (hle : per
     perfectCore C = perfectCore B :=
   le_antisymm (perfectCore_mono hCB) (le_perfectCore_of_perfect hle (perfectCore_perfect B))
 
+omit [Finite G] in
 theorem s16c1_starImg_sup_pCoreOf {L Y : Subgroup G} (hYL : Y ≤ L) :
     starImg L (Y ⊔ pCoreOf 2 L) = starImg L Y := by
   have hOle : pCoreOf 2 L ≤ L := Subgroup.map_subtype_le _
@@ -69,7 +70,7 @@ theorem s16c1_isParabolic2In {L Y : Subgroup G} (hYL : Y ≤ L) (hL : Nat.card (
     have hS₁card : Nat.card ↥((S₀ : Subgroup ↥Q).map Q.subtype) = 2 ^ 6 := by
       rw [Subgroup.card_map_of_injective Q.subtype_injective, hS₀card]
     have hS₁pg : IsPGroup 2 ((S₀ : Subgroup ↥Q).map Q.subtype) :=
-      IsPGroup.map S₀.isPGroup' Q.subtype
+      IsPGroup.map S₀.isPGroup Q.subtype
     obtain ⟨S, hSle⟩ := hS₁pg.exists_le_sylow
     have hScard : Nat.card ↥(S : Subgroup (Bar2 L)) = 2 ^ 6 := by
       rw [Sylow.card_eq_multiplicity, hL, hfac25920]
@@ -80,11 +81,13 @@ theorem s16c1_isParabolic2In {L Y : Subgroup G} (hYL : Y ≤ L) (hL : Nat.card (
     rw [← hSeq]
     exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 private lemma s16c1_pCoreOf_subgroupOf (L : Subgroup G) :
     (pCoreOf 2 L).subgroupOf L = CFSG.pCore 2 ↥L := by
   unfold pCoreOf
   rw [Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective L.subtype_injective]
 
+omit [Finite G] in
 private lemma s16c1_conj_mem_pCoreOf {L : Subgroup G} {l : G} (hl : l ∈ L) :
     ∀ o ∈ pCoreOf 2 L, l * o * l⁻¹ ∈ pCoreOf 2 L := by
   intro o ho
@@ -93,6 +96,7 @@ private lemma s16c1_conj_mem_pCoreOf {L : Subgroup G} {l : G} (hl : l ∈ L) :
   exact ⟨⟨l, hl⟩ * n * ⟨l, hl⟩⁻¹,
     (CFSG.pCore_normal (p := 2) (G := ↥L)).conj_mem n hn ⟨l, hl⟩, by simp⟩
 
+omit [Finite G] in
 private theorem s16c1_mem_sup_pCoreOf_iff {L Y : Subgroup G} (hYL : Y ≤ L) {x : G} :
     x ∈ Y ⊔ pCoreOf 2 L ↔ ∃ y ∈ Y, ∃ o ∈ pCoreOf 2 L, x = y * o := by
   have hOle : pCoreOf 2 L ≤ L := Subgroup.map_subtype_le _
@@ -102,7 +106,7 @@ private theorem s16c1_mem_sup_pCoreOf_iff {L Y : Subgroup G} (hYL : Y ≤ L) {x 
     have hx' : (⟨x, hxL⟩ : ↥L) ∈ Y.subgroupOf L ⊔ (pCoreOf 2 L).subgroupOf L := by
       rw [← Subgroup.subgroupOf_sup hYL hOle]
       exact hx
-    haveI : ((pCoreOf 2 L).subgroupOf L).Normal := by
+    have : ((pCoreOf 2 L).subgroupOf L).Normal := by
       rw [s16c1_pCoreOf_subgroupOf]
       infer_instance
     obtain ⟨y, hy, o, ho, hyo⟩ := Subgroup.mem_sup_of_normal_right.mp hx'
@@ -110,6 +114,7 @@ private theorem s16c1_mem_sup_pCoreOf_iff {L Y : Subgroup G} (hYL : Y ≤ L) {x 
   · rintro ⟨y, hy, o, ho, rfl⟩
     exact (Y ⊔ pCoreOf 2 L).mul_mem (Subgroup.mem_sup_left hy) (Subgroup.mem_sup_right ho)
 
+omit [Finite G] in
 theorem s16c1_perfectCore_sup_eq {L Y : Subgroup G} (hYL : Y ≤ L) (hY : ⁅Y, Y⁆ = Y) :
     perfectCore (Y ⊔ pCoreOf 2 L) =
       Y ⊔ pCoreOf 2 (perfectCore (Y ⊔ pCoreOf 2 L)) := by

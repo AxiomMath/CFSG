@@ -238,7 +238,7 @@ theorem ncard_fixedHyp_le [Finite G] {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
     have hempty : fixedHyp p E t = ∅ := by
       rw [Set.eq_empty_iff_forall_notMem]
       intro D hD
-      simp only [fixedHyp, Set.mem_setOf_eq] at hD
+      simp only [fixedHyp, Set.mem_ofPred_eq] at hD
       obtain ⟨⟨hDle, hDrel⟩, -⟩ := hD
       have hDbot : D = ⊥ := le_antisymm (hEbot ▸ hDle) bot_le
       rw [hDbot, hEbot, Subgroup.relIndex_self] at hDrel
@@ -277,7 +277,7 @@ theorem ncard_fixedHyp_le [Finite G] {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
       ((I ≤ D) ∧ D = (D ⊓ C) ⊔ I ∧ D ⊓ C ∈ hyperplanes p C) ∨
         ((¬ I ≤ D) ∧ D = C ⊔ (D ⊓ I) ∧ D ⊓ I ∈ hyperplanes p I) := by
     intro D hD
-    simp only [fixedHyp, Set.mem_setOf_eq] at hD
+    simp only [fixedHyp, Set.mem_ofPred_eq] at hD
     obtain ⟨hDhyp, hDmap⟩ := hD
     have hDle : D ≤ E := hDhyp.1
     have hDrel : D.relIndex E = p := hDhyp.2
@@ -310,15 +310,15 @@ theorem ncard_fixedHyp_le [Finite G] {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) 
     intro D₁ D₂ heq
     by_cases h1 : I ≤ D₁.1
     · by_cases h2 : I ≤ D₂.1
-      · simp only [f', dif_pos h1, dif_pos h2, Sum.inl.injEq, Subtype.ext_iff] at heq
+      · simp only [f', dite_eq_left h1, dite_eq_left h2, Sum.inl.injEq, Subtype.ext_iff] at heq
         apply Subtype.ext
         rw [hkey1 D₁.1 D₁.2 h1, hkey1 D₂.1 D₂.2 h2, heq]
-      · simp only [f', dif_pos h1, dif_neg h2] at heq
+      · simp only [f', dite_eq_left h1, dite_eq_right h2] at heq
         exact (Sum.inl_ne_inr heq).elim
     · by_cases h2 : I ≤ D₂.1
-      · simp only [f', dif_neg h1, dif_pos h2] at heq
+      · simp only [f', dite_eq_right h1, dite_eq_left h2] at heq
         exact (Sum.inr_ne_inl heq).elim
-      · simp only [f', dif_neg h1, dif_neg h2, Sum.inr.injEq, Subtype.ext_iff] at heq
+      · simp only [f', dite_eq_right h1, dite_eq_right h2, Sum.inr.injEq, Subtype.ext_iff] at heq
         apply Subtype.ext
         rw [hkey2 D₁.1 D₁.2 h1, hkey2 D₂.1 D₂.2 h2, heq]
   have hle : Nat.card (fixedHyp p E t) ≤ Nat.card (hyperplanes p C ⊕ hyperplanes p I) :=

@@ -22,7 +22,7 @@ private theorem pow_add_one_le {q n : ℕ} (hq : 2 ≤ q) : q ^ n + 1 ≤ q ^ (n
 
 private theorem ordA_one_lt {q : ℕ} (hq : 2 ≤ q) : ordA 1 q < q ^ 3 := by
   rw [show ordA 1 q = q * (q ^ 2 - 1) / Nat.gcd 2 (q - 1) from by
-    rw [ordA, Finset.Icc_self, Finset.prod_singleton] <;> norm_num]
+    rw [ordA, Finset.Icc_self, Finset.prod_singleton]; norm_num]
   calc q * (q ^ 2 - 1) / Nat.gcd 2 (q - 1) ≤ q * (q ^ 2 - 1) := Nat.div_le_self _ _
     _ < q * q ^ 2 := by
         refine Nat.mul_lt_mul_of_pos_left ?_ (by omega)
@@ -32,7 +32,7 @@ private theorem ordA_one_lt {q : ℕ} (hq : 2 ≤ q) : ordA 1 q < q ^ 3 := by
 private theorem ordA_two_lt {q : ℕ} (hq : 2 ≤ q) : ordA 2 q < q ^ 9 := by
   rw [show ordA 2 q = q ^ 3 * ((q ^ 2 - 1) * (q ^ 3 - 1)) / Nat.gcd 3 (q - 1) from by
     rw [ordA, Finset.prod_Icc_succ_top (by norm_num : 2 ≤ 2 + 1), Finset.Icc_self,
-      Finset.prod_singleton] <;> norm_num]
+      Finset.prod_singleton]]
   calc q ^ 3 * ((q ^ 2 - 1) * (q ^ 3 - 1)) / Nat.gcd 3 (q - 1)
       ≤ q ^ 3 * ((q ^ 2 - 1) * (q ^ 3 - 1)) := Nat.div_le_self _ _
     _ ≤ q ^ 3 * (q ^ 2 * q ^ 3) :=
@@ -45,7 +45,7 @@ private theorem ordA_three_lt {q : ℕ} (hq : 2 ≤ q) : ordA 3 q < q ^ 18 := by
       Nat.gcd 4 (q - 1) from by
     rw [ordA, Finset.prod_Icc_succ_top (by norm_num : 2 ≤ 3 + 1),
       Finset.prod_Icc_succ_top (by norm_num : 2 ≤ 2 + 1), Finset.Icc_self,
-      Finset.prod_singleton] <;> norm_num]
+      Finset.prod_singleton]]
   calc q ^ 6 * (((q ^ 2 - 1) * (q ^ 3 - 1)) * (q ^ 4 - 1)) / Nat.gcd 4 (q - 1)
       ≤ q ^ 6 * (((q ^ 2 - 1) * (q ^ 3 - 1)) * (q ^ 4 - 1)) := Nat.div_le_self _ _
     _ ≤ q ^ 6 * ((q ^ 2 * q ^ 3) * q ^ 4) :=
@@ -57,7 +57,7 @@ private theorem ordA_three_lt {q : ℕ} (hq : 2 ≤ q) : ordA 3 q < q ^ 18 := by
 private theorem ordBC_two_lt {q : ℕ} (hq : 2 ≤ q) : ordBC 2 q < q ^ 12 := by
   rw [show ordBC 2 q = q ^ 4 * ((q ^ 2 - 1) * (q ^ 4 - 1)) / Nat.gcd 2 (q - 1) from by
     rw [ordBC, Finset.prod_Icc_succ_top (by norm_num : 1 ≤ 1 + 1), Finset.Icc_self,
-      Finset.prod_singleton] <;> norm_num]
+      Finset.prod_singleton]]
   calc q ^ 4 * ((q ^ 2 - 1) * (q ^ 4 - 1)) / Nat.gcd 2 (q - 1)
       ≤ q ^ 4 * ((q ^ 2 - 1) * (q ^ 4 - 1)) := Nat.div_le_self _ _
     _ ≤ q ^ 4 * (q ^ 2 * q ^ 4) :=
@@ -70,7 +70,7 @@ private theorem ordBC_three_lt {q : ℕ} (hq : 2 ≤ q) : ordBC 3 q < q ^ 27 := 
       Nat.gcd 2 (q - 1) from by
     rw [ordBC, Finset.prod_Icc_succ_top (by norm_num : 1 ≤ 2 + 1),
       Finset.prod_Icc_succ_top (by norm_num : 1 ≤ 1 + 1), Finset.Icc_self,
-      Finset.prod_singleton] <;> norm_num]
+      Finset.prod_singleton]]
   calc q ^ 9 * (((q ^ 2 - 1) * (q ^ 4 - 1)) * (q ^ 6 - 1)) / Nat.gcd 2 (q - 1)
       ≤ q ^ 9 * (((q ^ 2 - 1) * (q ^ 4 - 1)) * (q ^ 6 - 1)) := Nat.div_le_self _ _
     _ ≤ q ^ 9 * ((q ^ 2 * q ^ 4) * q ^ 6) :=
@@ -87,7 +87,7 @@ private theorem ordTwistedA_three_lt {q : ℕ} (hq : 2 ≤ q) : ordTwistedA 3 q 
       Finset.prod_singleton,
       Orders.toNat_pow_sub_neg_one_pow_of_even (i := 2) (by omega) (by decide),
       Orders.toNat_pow_sub_neg_one_pow_of_odd (i := 3) (by decide),
-      Orders.toNat_pow_sub_neg_one_pow_of_even (i := 4) (by omega) (by decide)] <;> norm_num]
+      Orders.toNat_pow_sub_neg_one_pow_of_even (i := 4) (by omega) (by decide)]]
   calc q ^ 6 * (((q ^ 2 - 1) * (q ^ 3 + 1)) * (q ^ 4 - 1)) / Nat.gcd 4 (q + 1)
       ≤ q ^ 6 * (((q ^ 2 - 1) * (q ^ 3 + 1)) * (q ^ 4 - 1)) := Nat.div_le_self _ _
     _ ≤ q ^ 6 * ((q ^ 2 * q ^ 4) * q ^ 4) :=
@@ -101,7 +101,7 @@ private theorem ordTwistedD_four_lt {q : ℕ} (hq : 2 ≤ q) : ordTwistedD 4 q <
       (q ^ 6 - 1)) / Nat.gcd 4 (q ^ 4 + 1) from by
     rw [ordTwistedD, Finset.prod_Icc_succ_top (by norm_num : 1 ≤ 2 + 1),
       Finset.prod_Icc_succ_top (by norm_num : 1 ≤ 1 + 1), Finset.Icc_self,
-      Finset.prod_singleton] <;> norm_num]
+      Finset.prod_singleton]]
   calc q ^ 12 * (q ^ 4 + 1) * (((q ^ 2 - 1) * (q ^ 4 - 1)) * (q ^ 6 - 1)) /
         Nat.gcd 4 (q ^ 4 + 1)
       ≤ q ^ 12 * (q ^ 4 + 1) * (((q ^ 2 - 1) * (q ^ 4 - 1)) * (q ^ 6 - 1)) :=
@@ -127,7 +127,7 @@ theorem ordData_ordA_one {k : ℕ} (hk : 4 ≤ k) : OrdData (ordA 1 (2 ^ k)) := 
 
 theorem ordA_one_two_pow_three : ordA 1 (2 ^ 3) = 504 := by
   rw [show ordA 1 (2 ^ 3) = (2 ^ 3) * ((2 ^ 3) ^ 2 - 1) / Nat.gcd 2 (2 ^ 3 - 1) from by
-    rw [ordA, Finset.Icc_self, Finset.prod_singleton] <;> norm_num]
+    rw [ordA, Finset.Icc_self, Finset.prod_singleton]; norm_num]
   norm_num
 
 theorem ordData_ordA_two {k : ℕ} (hk : 3 ≤ k) : OrdData (ordA 2 (2 ^ k)) := by
@@ -245,7 +245,7 @@ theorem exists_mul_ne_of_ordData {S : Type*} [Group S] [Finite S] [IsSimpleGroup
     (hS : OrdData (Nat.card S) ∨ Nat.card S = 504) : ∃ a b : S, a * b ≠ b * a := by
   by_contra h
   simp only [not_exists, not_not] at h
-  haveI : IsMulCommutative S := { is_comm := ⟨h⟩ }
+  have : IsMulCommutative S := { is_comm := ⟨h⟩ }
   have hprime : (Nat.card S).Prime := Group.is_simple_iff_prime_card.mp inferInstance
   rcases hS with hS | hS
   · exact not_ordData_of_prime hS hprime

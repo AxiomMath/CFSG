@@ -19,6 +19,7 @@ open CosetGeom (graph stab ballStab nbrs sphere vtype γ₀ γ₁ Vv)
 
 variable {G₀ G₁ G₂ T Z : Subgroup G} [Finite G]
 
+omit [Finite G] in
 theorem vtype_eq_of_dist (hc : CritAmalgam G₀ G₁ G₂ T Z) {γ : CosetGeom G₀ G₁ G₂}
     (hγ : vtype γ = false) :
     ∀ (d : ℕ) (μ : CosetGeom G₀ G₁ G₂), CosetGeom.dist γ μ = d → vtype μ = decide (Odd d) := by
@@ -78,6 +79,7 @@ theorem exists_critConfig (hc : CritAmalgam G₀ G₁ G₂ T Z) (hb : Odd (critB
   · exact lemma72_small hc hα'v (by rw [hk, hd₄])
   · exact lemma72_small hc hα₁v (by rw [hk, hd₃])
 
+omit [Finite G] in
 theorem CritConfig.smul (hc : CritAmalgam G₀ G₁ G₂ T Z) {α α₁ α' α₂ α₃ : CosetGeom G₀ G₁ G₂}
     (h : CritConfig Z α α₁ α' α₂ α₃) (g : ↥G₀) :
     CritConfig Z (g • α) (g • α₁) (g • α') (g • α₂) (g • α₃) where
@@ -97,11 +99,13 @@ theorem CritConfig.smul (hc : CritAmalgam G₀ G₁ G₂ T Z) {α α₁ α' α�
     rw [CosetGeom.Vv_smul hc.normalizes, CosetGeom.stab_smul, pCoreOf_conjSub]
     exact conjSub_mono _ h.push₃
 
+omit [Finite G] in
 theorem conj_eq_of_mem_centralizer {V : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.centralizer (V : Set G)) {a : G} (ha : a ∈ V) : g * a * g⁻¹ = a := by
   rw [mul_inv_eq_iff_eq_mul]
   exact ((Subgroup.mem_centralizer_iff.mp hg) a ha).symm
 
+omit [Finite G] in
 theorem conj_inv_action {V : Subgroup G} {s x : G} (hs : s ∈ Subgroup.normalizer (V : Set G))
     (hx : x ∈ Subgroup.normalizer (V : Set G))
     (hn : s * x * s⁻¹ * x ∈ Subgroup.centralizer (V : Set G)) :
@@ -114,6 +118,7 @@ theorem conj_inv_action {V : Subgroup G} {s x : G} (hs : s ∈ Subgroup.normaliz
       = (s * x * s⁻¹ * x) * (x⁻¹ * (s * a * s⁻¹) * x) * (s * x * s⁻¹ * x)⁻¹ := by group
     _ = x⁻¹ * (s * a * s⁻¹) * x := h1
 
+omit [Finite G] in
 theorem sq_action {V : Subgroup G} {t : G} (htt : t * t ∈ Subgroup.centralizer (V : Set G)) :
     ∀ a ∈ V, t * (t * a * t⁻¹) * t⁻¹ = a := by
   intro a ha
@@ -145,7 +150,7 @@ theorem crit_card_comm (hc : CritAmalgam G₀ G₁ G₂ T Z) (hconf : CritConfig
     p = 3 ∧ Nat.card (ConjAut.commSubgroup (Vv Z α') x) = 4 := by
   have hG := hc.amalgam.gen
   have hel := lemma63_2' hc hconf.vα'
-  haveI : IsMulCommutative ↥(Vv Z α') := hel.1.1
+  have : IsMulCommutative ↥(Vv Z α') := hel.1.1
   have h2 : ∀ v ∈ Vv Z α', v * v = 1 := fun v hv => by
     rw [← pow_two]; exact hel.1.2 v hv
   have hnorm : stab α' ≤ Subgroup.normalizer (Vv Z α' : Set G) := hel.2.2.2.2
@@ -153,7 +158,7 @@ theorem crit_card_comm (hc : CritAmalgam G₀ G₁ G₂ T Z) (hconf : CritConfig
   have hxs : x ∈ Subgroup.normalizer (Vv Z α' : Set G) := hnorm hxst
   have hcentN : ballStab 1 α' ≤ Subgroup.centralizer (Vv Z α' : Set G) :=
     ballStab_le_centralizer_Vv hc hconf.vα'
-  obtain ⟨v₀, hv₀Z, hv₀N⟩ := SetLike.not_le_iff_exists.mp hconf.not_le
+  obtain ⟨v₀, hv₀Z, hv₀N⟩ := IsConcreteLE.not_le_iff_exists.mp hconf.not_le
   have hv₀V₁ : v₀ ∈ Vv Z α₁ := Vv_le_Vv_of_mem_nbrs hconf.vα₁ hconf.adj₁ hv₀Z
   have hel₁ := lemma63_2' hc hconf.vα₁
   have hv₀sq : v₀ * v₀ = 1 := by rw [← pow_two]; exact hel₁.1.2 v₀ hv₀V₁
@@ -202,7 +207,7 @@ theorem crit_card_Z_le (hc : CritAmalgam G₀ G₁ G₂ T Z) (hconf : CritConfig
   have hG := hc.amalgam.gen
   obtain ⟨hp3, h4⟩ := crit_card_comm hc hconf h' h₁ hx hxN
   have hel := lemma63_2' hc hconf.vα'
-  haveI : IsMulCommutative ↥(Vv Z α') := hel.1.1
+  have : IsMulCommutative ↥(Vv Z α') := hel.1.1
   have h2 : ∀ v ∈ Vv Z α', v * v = 1 := fun v hv => by
     rw [← pow_two]; exact hel.1.2 v hv
   have hnorm : stab α' ≤ Subgroup.normalizer (Vv Z α' : Set G) := hel.2.2.2.2
@@ -232,6 +237,7 @@ theorem crit_card_Z_le (hc : CritAmalgam G₀ G₁ G₂ T Z) (hconf : CritConfig
     rw [mul_inv_eq_iff_eq_mul] at hax
     exact hax
 
+omit [Finite G] in
 theorem Vv_eq_sup_conj (hc : CritAmalgam G₀ G₁ G₂ T Z) {δ : CosetGeom G₀ G₁ G₂}
     (hδ : vtype δ = true) {X : Subgroup G} (h : IsLocalReg δ 3 X) {γ : CosetGeom G₀ G₁ G₂}
     (hγ : γ ∈ nbrs δ) {x : G} (hx : x ∈ X) (hxN : x ∉ ballStab 1 δ) :
@@ -254,6 +260,7 @@ theorem Vv_eq_sup_conj (hc : CritAmalgam G₀ G₁ G₂ T Z) {δ : CosetGeom G�
   · refine sup_le (sup_le (Vv_le_Vv_of_mem_nbrs hδ hγ) ?_) (hle 2)
     simpa using hle 1
 
+omit [Finite G] in
 theorem le_normalizer_of_le_comm {V H K : Subgroup G} [IsMulCommutative ↥V] (hH : H ≤ V)
     (hK : K ≤ V) : H ≤ Subgroup.normalizer (K : Set G) := by
   refine le_trans ?_ (Subgroup.centralizer_le_normalizer (K : Set G))
@@ -269,7 +276,7 @@ theorem crit_card_V_le (hc : CritAmalgam G₀ G₁ G₂ T Z) (hconf : CritConfig
   have hp3 := (crit_card_comm hc hconf h' h₁ hx hxN).1
   subst hp3
   have hel := lemma63_2' hc hconf.vα'
-  haveI : IsMulCommutative ↥(Vv Z α') := hel.1.1
+  have : IsMulCommutative ↥(Vv Z α') := hel.1.1
   have hγ := hconf.adj₃
   have hE := Vv_eq_sup_conj hc hconf.vα' h' hγ hx hxN
   have hA : Vv Z α₃ ≤ Vv Z α' := Vv_le_Vv_of_mem_nbrs hconf.vα' hγ
@@ -345,6 +352,7 @@ theorem exists_zpowers_of_card_two {H : Subgroup G} (h : Nat.card H = 2) :
   refine ⟨z, (Subgroup.eq_of_le_of_card_ge hzle ?_).symm, hord2⟩
   rw [Nat.card_zpowers, hord2, h]
 
+omit [Finite G] in
 theorem conjSub_zpowers (g z : G) :
     conjSub g (Subgroup.zpowers z) = Subgroup.zpowers (g * z * g⁻¹) := by
   unfold conjSub

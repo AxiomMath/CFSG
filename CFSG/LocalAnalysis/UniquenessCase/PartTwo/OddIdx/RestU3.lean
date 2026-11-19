@@ -39,8 +39,8 @@ theorem oddIdxNone_su3_even {F : Type} [Field F] [Finite F] {f : ℕ} [CharP F 2
     omega
   have hns : ¬ Group.IsSolvable ↥W := by
     intro hsol
-    haveI : Group.IsSolvable ↥W := hsol
-    haveI : Group.IsSolvable ↥N :=
+    have : Group.IsSolvable ↥W := hsol
+    have : Group.IsSolvable ↥N :=
       Group.isSolvable_of_isSolvable_injective
         (f := (N.equivMapOfInjective (MulAut.conj g).toMonoidHom
           (MulAut.conj g).injective).toMonoidHom) (MulEquiv.injective _)
@@ -66,8 +66,8 @@ theorem oddIdxNone_su3_odd {F : Type} [Field F] [Finite F]
   have hNW' : normA0 hF ω ≤ W := hNW
   have hns : ¬ Group.IsSolvable ↥W := by
     intro hsol
-    haveI : Group.IsSolvable ↥W := hsol
-    haveI : Group.IsSolvable ↥N :=
+    have : Group.IsSolvable ↥W := hsol
+    have : Group.IsSolvable ↥N :=
       Group.isSolvable_of_isSolvable_injective
         (f := (N.equivMapOfInjective (MulAut.conj g).toMonoidHom
           (MulAut.conj g).injective).toMonoidHom) (MulEquiv.injective _)
@@ -125,7 +125,7 @@ theorem oddIdxProp_psu3_rest {K : Type} [Group K] [Finite K]
     OddIdxProp K := by
   apply oddIdxProp_of_none
   have hmodel := hU.statedClassicalModel (by decide)
-  haveI : Fact p.Prime := ⟨hmodel.1.1⟩
+  have : Fact p.Prime := ⟨hmodel.1.1⟩
   obtain ⟨F, _, _, _, _, hF, ⟨e⟩⟩ := exists_mulEquiv_SU3 hmodel hq
   apply oddIdxNone_of_mulEquiv e
   by_cases hp2 : p = 2
@@ -134,7 +134,7 @@ theorem oddIdxProp_psu3_rest {K : Type} [Group K] [Finite K]
       CFSG.AGLEmbeddingD2.Tits.MsideParabolicEscape.I811.U3.two_le_f hF hq
     obtain ⟨eP⟩ :=
       CFSG.ComponentClassification.GMS78.nonempty_mulEquiv_psu3_of_stated hf2 hmodel
-    haveI : Finite (CFSG.Open.PSU3 2 f) := Finite.of_equiv K eP.toEquiv
+    have : Finite (CFSG.Open.PSU3 2 f) := Finite.of_equiv K eP.toEquiv
     have hB0 := CFSG.Open.bender_psu3_borel_full f hf2
     have hB := hB0.map_mulEquiv (eP.symm.trans e)
     exact oddIdxNone_su3_even hF hq hB

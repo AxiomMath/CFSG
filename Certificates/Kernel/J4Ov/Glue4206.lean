@@ -117,9 +117,9 @@ theorem l_bounds4206 {t : Nat} (ht : t < 49) : 5 ≤ (rep4207 t).l ∧ (rep4207 
 theorem wordProd_cons4206 (l : Nat) (p : List Nat) (hl : 1 ≤ l) :
     wordProd xJ ((l :: p).map Int.ofNat) = xJ (l - 1) * wordProd xJ (p.map Int.ofNat) := by
   have h0 : (0 : Int) < Int.ofNat l := by
-    rw [Int.ofNat_eq_coe]
+    rw [Int.ofNat_eq_natCast]
     omega
-  simp only [wordProd, List.map_cons, List.prod_cons, if_pos h0]
+  simp only [wordProd, List.map_cons, List.prod_cons, ite_eq_left h0]
   rfl
 
 theorem wordProd_mem4206 : ∀ p : List Nat, (∀ l ∈ p, 1 ≤ l ∧ l ≤ 3) →
@@ -288,10 +288,10 @@ theorem orbit_cover4206 {ℓ : Nat} (hℓ : ℓ = 5 ∨ ℓ = 6) {h : J} (hh : h
   rw [hu]
   rcases hℓ with rfl | rfl
   · exact cover4206 (lo := 0) (n := 28) (by norm_num)
-      (fun t _ ht => by rw [l_get4206 (by omega), if_pos ht]) orb5_vorbOK
+      (fun t _ ht => by rw [l_get4206 (by omega), ite_eq_left ht]) orb5_vorbOK
       (rep_toVec matFacts (by norm_num)) forest5_4206 h hh
   · exact cover4206 (lo := 28) (n := 21) (by norm_num)
-      (fun t ht1 ht2 => by rw [l_get4206 (by omega), if_neg (by omega)]) orb6_vorbOK
+      (fun t ht1 ht2 => by rw [l_get4206 (by omega), ite_eq_right (by omega)]) orb6_vorbOK
       (rep_toVec matFacts (by norm_num)) forest6_4206 h hh
 
 theorem strictB_eq4206 (y : Nat) (k : Nat → Bool) : strictB y k = k y := by

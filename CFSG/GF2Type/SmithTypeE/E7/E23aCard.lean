@@ -35,7 +35,7 @@ end Checks
 theorem exists_fixed_of_odd {α : Type} [Finite α] (N : Subgroup (Equiv.Perm α)) (hN : IsPGroup 2 N)
     (O : Set α) (hO : ∀ n ∈ N, ∀ a ∈ O, n a ∈ O) (hodd : Odd (Nat.card O)) :
     ∃ a ∈ O, ∀ n ∈ N, n a = a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : SubMulAction N α :=
     { carrier := O
       smul_mem' := by
@@ -56,7 +56,7 @@ theorem exists_fixed_of_odd {α : Type} [Finite α] (N : Subgroup (Equiv.Perm α
   exact h1
 
 theorem fixes_of_normal {α : Type} [Finite α] (L N : Subgroup (Equiv.Perm α)) (hNL : N ≤ L)
-    (hN : IsPGroup 2 N) (hnorm : ∀ l ∈ L, ∀ n ∈ N, l * n * l⁻¹ ∈ N) (O : Set α) (b : α) (hb : b ∈ O)
+    (hN : IsPGroup 2 N) (hnorm : ∀ l ∈ L, ∀ n ∈ N, l * n * l⁻¹ ∈ N) (O : Set α) (b : α) (_hb : b ∈ O)
     (hinv : ∀ l ∈ L, ∀ a ∈ O, l a ∈ O) (htrans : ∀ a ∈ O, ∃ l ∈ L, l b = a)
     (hodd : Odd (Nat.card O)) : ∀ a ∈ O, ∀ n ∈ N, n a = a := by
   have hO : ∀ n ∈ N, ∀ a ∈ O, n a ∈ O := fun n hn a ha => hinv n (hNL hn) a ha
@@ -233,7 +233,7 @@ theorem level_step {i : ℕ} (hi : i < 5) :
   rintro _ ⟨q, hq, rfl⟩
   have hq' : ea7InY (ea7Bases.take i) q.val = true ∧ tvImg q.val ea7Bases[i]! = ea7Bases[i]! := by
     have h := hq
-    simp only [ea7Gen, Set.mem_setOf_eq] at h
+    simp only [ea7Gen, Set.mem_ofPred_eq] at h
     rw [ea7InY_succ hi] at h
     simpa using h
   refine ⟨Subgroup.subset_closure ⟨q, hq'.1, rfl⟩, ?_⟩
@@ -305,7 +305,7 @@ theorem ea7L_zero_eq : ea7L 0 = Lstd := by
   have h : ea7Gen 0 =
       {k : Fin 365211 | Commute (tvP k) (tvP 0) ∧ Commute (tvP k) (tvP stdOpp)} := by
     ext q
-    simp only [ea7Gen, Set.mem_setOf_eq, List.take_zero, ea7InY, List.all_nil, Bool.and_true]
+    simp only [ea7Gen, Set.mem_ofPred_eq, List.take_zero, ea7InY, List.all_nil, Bool.and_true]
     exact ea7InX_iff
   rw [ea7L, h]
 
@@ -353,7 +353,7 @@ theorem odd_facts :
 
 theorem BSet_eq : BSet = XSet \ ASet := by
   ext p
-  simp only [BSet, XSet, ASet, Set.mem_setOf_eq, Set.mem_diff, Bool.not_eq_true]
+  simp only [BSet, XSet, ASet, Set.mem_ofPred_eq, Set.mem_sdiff, Bool.not_eq_true]
 
 theorem lt_of_ea7InX {p : ℕ} (h : ea7InX p = true) : p < 365211 := by
   simp only [CFSG.SmithD6.ea7InX, Bool.and_eq_true, decide_eq_true_eq] at h
@@ -435,7 +435,7 @@ theorem exists_mem_Lstd_B {a : Fin 365211} (ha : a ∈ BSet) :
     have hX := (Lstd_preserves hg').1
     have hA := (Lstd_preserves hg').2
     have hmem : g b' ∈ g '' (XSet \ ASet) := ⟨b', by rw [← BSet_eq]; exact hbB, rfl⟩
-    rwa [Set.image_diff g.injective, hX, hA] at hmem
+    rwa [Set.image_sdiff g.injective, hX, hA] at hmem
   have hcardB : Nat.card ↥BSet = 1575 := by
     have := card_BSet h31 h557 h1083
     rw [hlen] at this
@@ -471,7 +471,7 @@ theorem fixes_X_of_normal {N : Subgroup (Equiv.Perm (Fin 365211))} (hNL : N ≤ 
       ⟨ea7Bases[0]!, lt_of_ea7InX hb1⟩ ⟨hb1, hb2⟩
       (fun l hl a ha => by
         rw [BSet_eq] at ha ⊢
-        rw [← (Lstd_preserves hl).1, ← (Lstd_preserves hl).2, ← Set.image_diff l.injective]
+        rw [← (Lstd_preserves hl).1, ← (Lstd_preserves hl).2, ← Set.image_sdiff l.injective]
         exact Set.mem_image_of_mem l ha)
       (fun a ha => exists_mem_Lstd_B ha)
       (by

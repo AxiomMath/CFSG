@@ -77,7 +77,7 @@ theorem k1419ClsLinLift {K : Type} [Field K] [Finite K] (h2 : (2 : K) = 0) {d : 
         intro htop
         have htriv : ∀ x : ↥M, f x = 1 := fun x =>
           MonoidHom.mem_ker.mp (by rw [htop]; exact Subgroup.mem_top x)
-        haveI hnt : Nontrivial (PQuot 3 J) :=
+        have hnt : Nontrivial (PQuot 3 J) :=
           isQuasisimple_nontrivial (isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ)
         obtain ⟨a, b, hab⟩ := hnt.exists_pair_ne
         obtain ⟨x, hx⟩ := hf a

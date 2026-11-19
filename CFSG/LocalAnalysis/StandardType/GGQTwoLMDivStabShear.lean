@@ -40,7 +40,7 @@ theorem qTwoLMDivStab_card_Qm (m : ℕ) (hm : 1 ≤ m) : Nat.card (QTwoQm m) = 3
     rw [Nat.card_zpowers]
     have horder : orderOf (fun _ => Multiplicative.ofAdd (1 : ZMod 3) :
         Fin m → Multiplicative (ZMod 3)) = 3 := by
-      haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       rw [orderOf_eq_prime (p := 3)]
       · ext i
         rw [Pi.pow_apply, Pi.one_apply, ← ofAdd_nsmul, nsmul_eq_mul]
@@ -58,7 +58,7 @@ theorem qTwoLMDivStab_card_Qm (m : ℕ) (hm : 1 ≤ m) : Nat.card (QTwoQm m) = 3
 
 theorem qTwoLMDivStab_card_W {G : Type} [Group G] [Finite G] {Bs L : Subgroup G} {x : G}
     {m : ℕ} {VT : Type} [Group VT] (F : QTwoFrame m (QTwoQm m) VT Bs L x)
-    (hm : 1 ≤ m) (hV : IsQmModel m (QTwoQm m) F.permV) :
+    (hm : 1 ≤ m) (_hV : IsQmModel m (QTwoQm m) F.permV) :
     Nat.card ↥(ggGamma L F.hN).range = 3 ^ (m - 1) := by
   rw [← Nat.card_congr F.theta.toEquiv]
   exact qTwoLMDivStab_card_Qm m hm
@@ -118,7 +118,7 @@ theorem qTwoLMDivStab_shear {G : Type} [Group G] [Finite G] {B Bs L : Subgroup G
       refine ⟨⟨g * b * g⁻¹, (Subgroup.mem_normalizer_iff.mp hgBs b).mp b.2⟩, ?_⟩
       have hconjc : (MulAut.conj c).toMonoidHom (ggGamma L F.hN b)
           = c * ggGamma L F.hN b * c⁻¹ := by
-        simpa using MulAut.conj_apply c (ggGamma L F.hN b)
+        simp
       rw [hconjc]
       exact (qTwoLMDivStab_gamma_conj F hgBs hgL b).symm
     have hcard : Nat.card ↥(W.map (MulAut.conj c).toMonoidHom) = Nat.card ↥W :=

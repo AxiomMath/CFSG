@@ -181,7 +181,7 @@ theorem seventeen_thirtyfive_one
     have hKmem : Kbar ∈ conjSet Kbar (Mbar D.M V₀ V hV) := by
       refine ⟨1, (Mbar D.M V₀ V hV).one_mem, ?_⟩
       ext x
-      simp [MulAut.conj_apply]
+      simp
     have hKleH : Kbar ≤ H := le_iSup₂_of_le Kbar hKmem le_rfl
     have hHne : H ≠ ⊥ := fun h0 => hLbar_ne (le_bot_iff.1 (h0 ▸ hKleH))
     have hHL : barSub V₀ V hV (UC22.conjClosure D.M L) = H :=
@@ -382,6 +382,7 @@ theorem card_le_three_of_isPGroup_three_le {L X : Subgroup G}
     · omega
   exact h9 ((dvd_trans (by norm_num : 9 ∣ 3 ^ 2) (pow_dvd_pow 3 hj2)).trans hdvd)
 
+omit [Finite G] in
 theorem le_normalizer_of_conjSet_pair {R L K : Subgroup G}
     (hR : IsPGroup 3 R) (hne : K ≠ L)
     (hpair : ∀ r ∈ R, L.map (MulAut.conj r).toMonoidHom = L ∨
@@ -424,7 +425,7 @@ theorem le_normalizer_of_conjSet_pair {R L K : Subgroup G}
         refine ⟨fun _ => ?_, fun h => absurd h (by decide)⟩
         rw [pow_zero]
         show L.map (MulAut.conj (1 : G)).toMonoidHom = L
-        rw [show MulAut.conj (1 : G) = 1 by ext y; simp [MulAut.conj_apply]]
+        rw [show MulAut.conj (1 : G) = 1 by ext y; simp]
         exact Subgroup.map_id L
     | succ n ih =>
         refine ⟨fun hn => ?_, fun hn => ?_⟩
@@ -448,7 +449,7 @@ theorem le_normalizer_of_conjSet_pair {R L K : Subgroup G}
   have h2 : L.map (MulAut.conj (r ^ orderOf r)).toMonoidHom = L := by
     rw [pow_orderOf_eq_one]
     show L.map (MulAut.conj (1 : G)).toMonoidHom = L
-    rw [show MulAut.conj (1 : G) = 1 by ext y; simp [MulAut.conj_apply]]
+    rw [show MulAut.conj (1 : G) = 1 by ext y; simp]
     exact Subgroup.map_id L
   rw [h2] at h1
   exact hne h1.symm
@@ -959,7 +960,7 @@ theorem conjClosure_eq_sup_of_list_two (D : Data G) {L : Subgroup G} {l : List (
   have hLa : L = a ∨ L = b := by
     have : L ∈ [a, b] := (hmem L).2 ⟨1, D.M.one_mem, by
       ext x
-      simp [MulAut.conj_apply]⟩
+      simp⟩
     simpa using this
   rcases hLa with hLa | hLb
   · refine ⟨b, fun h => hnd' (hLa.symm.trans h.symm), ?_, ?_⟩
@@ -998,7 +999,7 @@ theorem seventeen_thirtyfive_two_L0 (D : Data G) {V₀ V : Subgroup G}
           have hLa : L = a := by
             have : L ∈ [a] := (hmem L).2 ⟨1, D.M.one_mem, by
               ext x
-              simp [MulAut.conj_apply]⟩
+              simp⟩
             simpa using this
           simp [hLa]
         | cons b t => simp at hlen1
@@ -1012,7 +1013,7 @@ theorem seventeen_thirtyfive_two_L0 (D : Data G) {V₀ V : Subgroup G}
   ·
     have hLmem : L ∈ l := (hmem L).2 ⟨1, D.M.one_mem, by
       ext x
-      simp [MulAut.conj_apply]⟩
+      simp⟩
     have hlen0 : l.length ≠ 0 := by
       intro h0
       have hnil : l = [] := List.length_eq_zero_iff.mp h0

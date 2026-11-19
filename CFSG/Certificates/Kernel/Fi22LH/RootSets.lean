@@ -68,10 +68,10 @@ theorem root_lt {S : Array Nat} (hS : S.size = 351) {lb : Nat}
   omega
 
 theorem c_mem0 (h : LHChecks D) : memOK (bitsOf (lhData ())[0]!) (lhData ())[0]! = true :=
-  memOK_gen (root_lt lhData0_size (fun j hj => (root_get h hj).1) (walk_rest h.walkA).2.1)
+  memOK_gen (root_lt lhData0_size (fun _j hj => (root_get h hj).1) (walk_rest h.walkA).2.1)
 
 theorem c_mem1 (h : LHChecks D) : memOK (bitsOf (lhData ())[1]!) (lhData ())[1]! = true :=
-  memOK_gen (root_lt lhData1_size (fun j hj => (root_get h hj).2) (walk_rest h.walkB).2.1)
+  memOK_gen (root_lt lhData1_size (fun _j hj => (root_get h hj).2) (walk_rest h.walkB).2.1)
 
 theorem closedOK_gen (hO : OrbOK) (h : LHChecks D) {lb : Nat} {B : Bits}
     (hB : BitsIs B fun y => ∃ j < 351, ent lb j = y) (hinc : incK lb = true)
@@ -175,7 +175,7 @@ theorem dom_of_count {lb : Nat} {B : Bits} (hB : BitsIs B fun y => ∃ j < 351, 
   · obtain ⟨j, hj, hjf⟩ : ∃ j ∈ Finset.range 351, g (ent lb j) = ent lb j := by
       by_contra hne
       push Not at hne
-      rw [Finset.sum_eq_zero fun j hj => if_neg (hne j hj)] at hc
+      rw [Finset.sum_eq_zero fun j hj => ite_eq_right (hne j hj)] at hc
       omega
     refine ⟨ent lb j, hlt j (Finset.mem_range.1 hj), ?_⟩
     rw [Bool.and_eq_true, beq_iff_eq, ht _ (hlt j (Finset.mem_range.1 hj)), hjf]
@@ -184,7 +184,7 @@ theorem dom_of_count {lb : Nat} {B : Bits} (hB : BitsIs B fun y => ∃ j < 351, 
   · obtain ⟨j, hj, hjf⟩ : ∃ j ∈ Finset.range 351, g (ent lb j) ≠ ent lb j := by
       by_contra hne
       push Not at hne
-      rw [Finset.sum_congr rfl fun j hj => if_pos (hne j hj), Finset.sum_const,
+      rw [Finset.sum_congr rfl fun j hj => ite_eq_left (hne j hj), Finset.sum_const,
         Finset.card_range] at hc'
       simp at hc'
     refine ⟨ent lb j, hlt j (Finset.mem_range.1 hj), ?_⟩
@@ -215,9 +215,9 @@ theorem domK_spec (h : LHChecks D) {f : Nat} (hf : f < 3510) (hb : (bs D.lb1).te
   have e : Nat.add (Nat.mul (nat_lit 880) (f / 880)) (f % 880) = f := by
     change 880 * (f / 880) + f % 880 = f
     omega
-  rw [strictB_eq, e, bIf_eq, if_pos (by rw [Nat.blt_eq]; exact hf)] at this
+  rw [strictB_eq, e, bIf_eq, ite_eq_left (by rw [Nat.blt_eq]; exact hf)] at this
   unfold domK at this
-  rw [bIf_eq, memB_eq, hb, if_neg (by simp), strictB_eq, strictB_eq, bAnd_eq, Bool.and_eq_true,
+  rw [bIf_eq, memB_eq, hb, ite_eq_right (by simp), strictB_eq, strictB_eq, bAnd_eq, Bool.and_eq_true,
     Nat.blt_eq, Nat.blt_eq, sum351_eq] at this
   simp only [strictN_eq, nIf_eq, Nat.beq_eq] at this
   exact this
@@ -296,16 +296,15 @@ theorem starK_at (h : LHChecks D) {x : Nat} (hx : x < 3510) :
   simp only [strictB_eq, bAnd_eq, Bool.and_eq_true, allN_iff] at hs
   have hx' := hs.2 x hx
   rw [pop_below D.eb (by omega)] at hx'
-  simp only [bEq_eq, bIf_eq, notB_eq, memB_eq, strictB_eq, bAnd_eq, Bool.and_eq_true, beq_iff_eq,
-    Nat.beq_eq] at hx'
+  simp only [bEq_eq, bIf_eq, notB_eq, memB_eq, beq_iff_eq] at hx'
   obtain ⟨h1, h2⟩ := hx'
   refine ⟨?_, fun hb c hc => ?_, fun hb => ?_⟩
   · rw [h1]
     apply Bool.eq_iff_iff.2
     simp [beq_dec]
-  · rw [if_pos hb, hc] at h2
+  · rw [ite_eq_left hb, hc] at h2
     simpa only [Bool.and_eq_true, beq_iff_eq] using h2
-  · rw [if_neg (by rw [hb]; decide)] at h2
+  · rw [ite_eq_right (by rw [hb]; decide)] at h2
     simpa using h2
 
 theorem mono_of_step {f : Nat → Nat} {n : Nat} (hf : ∀ i, i + 1 < n → f i < f (i + 1)) {i j : Nat}

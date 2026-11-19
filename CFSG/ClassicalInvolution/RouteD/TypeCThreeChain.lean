@@ -69,15 +69,15 @@ theorem routeD_typeC_two_of_shortNodes (S : CSetupW p f 2 Ω K z) (hconn : Delta
   refine routeD_typeC_of_chain S.odd S.five S.two_le S.inClass S.mem S.single hconn S.cls S.shape
     S.p1_z ![T₀, T₁, Fr.Kf 2] (Fr.mem 2) ?_ ?_ ?_
   · intro i j hij a ha b hb
-    fin_cases i <;> fin_cases j <;> first | (exfalso; revert hij; decide) | skip
+    fin_cases i <;> fin_cases j <;> try (exfalso; revert hij; decide)
     exact commutes_Mf_Kf Fr (i := 0) (j := 1) (k := 2) (by decide) (by decide) a (hT₀.1 ha) b hb
   · intro i j hij hj
     fin_cases i <;> fin_cases j <;>
-      first | (exfalso; revert hij; decide) | (exfalso; revert hj; decide) | skip
+      try first | (exfalso; revert hij; decide) | (exfalso; revert hj; decide)
     exact hW
   · intro i j hi hj
     fin_cases i <;> fin_cases j <;>
-      first | (exfalso; revert hi; decide) | (exfalso; revert hj; decide) | skip
+      try first | (exfalso; revert hi; decide) | (exfalso; revert hj; decide)
     exact exists_symplecticBlockStandardPairW S Fr (i₀ := 1) (j₀ := 2) (by decide) hT₁ (l := 0)
       (by decide) (by decide)
 

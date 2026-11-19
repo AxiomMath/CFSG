@@ -68,7 +68,7 @@ theorem wielandt (S : Sylow p Γ) {Y : Subgroup Γ} (hYn : Y.Normal) (hYS : Y �
   set E : Subgroup Γ := closure E₀ with hEdef
   set L : Subgroup Γ := normalizer (E : Set Γ) with hLdef
   have hES : E ≤ S := (closure_le _).mpr hE₀S
-  have hEp : IsPGroup p E := S.isPGroup'.to_le hES
+  have hEp : IsPGroup p E := S.isPGroup.to_le hES
   have hSL : (S : Subgroup Γ) ≤ L := by
     intro s hs
     refine mem_normalizer_closure_of_conj (hwc s fun e he => ?_)
@@ -86,7 +86,7 @@ theorem wielandt (S : Sylow p Γ) {Y : Subgroup Γ} (hYn : Y.Normal) (hYS : Y �
       have := hlS _ ⟨e, subset_closure he, rfl⟩
       simpa [MulAut.conj_apply, mul_assoc] using this
     simpa using L.mul_mem hxl (L.inv_mem hl)
-  haveI : Fintype (Γ ⧸ L) := Fintype.ofFinite _
+  have : Fintype (Γ ⧸ L) := Fintype.ofFinite _
   let ϕ : ↥L →* Abelianization ↥L := Abelianization.of
   refine ⟨hSL, ?_⟩
   rintro g ⟨hgY, hgc⟩
@@ -108,7 +108,7 @@ theorem wielandt (S : Sylow p Γ) {Y : Subgroup Γ} (hYn : Y.Normal) (hYS : Y �
       group
     rw [e1, map_mul, map_mul, map_inv, mul_comm, ← mul_assoc, mul_inv_cancel, one_mul]
   have hVF : ϕ.transfer g = ∏ q : Γ ⧸ L, F q := transfer_eq_prod_of_conj_mem ϕ g hgconj
-  haveI : Fintype (orbitRel.Quotient (↥E) (Γ ⧸ L)) := Fintype.ofFinite _
+  have : Fintype (orbitRel.Quotient (↥E) (Γ ⧸ L)) := Fintype.ofFinite _
   have hfiber : ∀ j : orbitRel.Quotient (↥E) (Γ ⧸ L),
       (Finset.univ.filter fun q : Γ ⧸ L => (Quotient.mk (orbitRel (↥E) (Γ ⧸ L)) q) = j) =
         orbF E (Quotient.out j) := by
@@ -173,7 +173,7 @@ theorem wielandt (S : Sylow p Γ) {Y : Subgroup Γ} (hYn : Y.Normal) (hYS : Y �
     refine Finset.prod_eq_one fun i _ => ?_
     set m := Function.minimalPeriod (a • ·) (x : Γ ⧸ L) with hm
     have haS : a ∈ (S : Subgroup Γ) := hE₀S haE₀
-    obtain ⟨s, hs⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨a, haS⟩
+    obtain ⟨s, hs⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨a, haS⟩
     have hos : orderOf a = p ^ s := by
       rw [← Subgroup.orderOf_mk a haS]
       exact hs
@@ -214,7 +214,7 @@ theorem wielandt (S : Sylow p Γ) {Y : Subgroup Γ} (hYn : Y.Normal) (hYS : Y �
       simp only [smul_iterate_apply]
       exact h
     rw [himage, Finset.prod_image hinj]
-    letI : CommGroup ↥Y :=
+    let : CommGroup ↥Y :=
       { (inferInstance : Group ↥Y) with mul_comm := fun c d => Subtype.ext (hYc _ c.2 _ d.2) }
     have hconjY : ∀ (c : Γ), ∀ y ∈ Y, c⁻¹ * y * c ∈ Y := fun c y hy => by
       have := hYn.conj_mem y hy c⁻¹

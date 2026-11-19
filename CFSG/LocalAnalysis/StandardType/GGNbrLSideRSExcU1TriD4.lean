@@ -42,13 +42,13 @@ theorem ggNbrLSideRSExc_u1_triD4 :
   intro K _ _ n hn hK φ hφI ψ hψI hφ1 hφ3 hψ3 hcomm
   classical
   have hK3 : Nat.card K = 2 ^ (n * 3) := by rw [hK, ← pow_mul]
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 3)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 3)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   set σ : K ≃+* K := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by
     rw [hσdef, iterateFrobeniusEquiv_apply, iterateFrobenius_def]
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hcommL : (algebraMap K (AlgebraicClosure K)).comp σ.toRingHom =
       (iterateFrobenius (AlgebraicClosure K) 2 n).comp
@@ -129,7 +129,7 @@ theorem ggNbrLSideRSExc_u1_triD4 :
   have hufix : twistHom TwistTag.D4 (AlgebraicClosure K)
       (iterateFrobenius (AlgebraicClosure K) 2 n) u = u :=
     triEmb_fixed (iterateFrobenius (AlgebraicClosure K) 2 n) hcommL c₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmon : MonomialToralAt Tag.D4 3 := monomialToralAt_three_of_block a2BlockToral_D4
   have hconjT : ∃ g ∈ adjointGroup TwistTag.D4.tag (AlgebraicClosure K),
       g⁻¹ * u * g ∈ torusGroup TwistTag.D4.tag (AlgebraicClosure K) :=

@@ -60,6 +60,7 @@ theorem Ivk73Cfg.false_of_fixed_solvable (h : Ivk73Cfg N L K Q)
       (Subgroup.subgroupOfEquivOfLe h.K_le).symm.injective
   exact not_isSolvable_of_isQuasisimple h.K_quasi hsK
 
+omit [Finite N] in
 theorem conjNormal_injective_of_cent_trivial [L.Normal]
     (hcent : ∀ n : N, (∀ l ∈ L, n * l = l * n) → n = 1) :
     Function.Injective (MulAut.conjNormal : N →* MulAut ↥L) := by

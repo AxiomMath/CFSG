@@ -21,10 +21,10 @@ theorem e8FiveTwoFrameDatum_holds : E8FiveTwoFrameDatum := by
   rw [eq_frameW8_of_smul_neg hw]
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   have hq : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   have hfr : Fr = iterateFrobenius (AlgebraicClosure K) (ringChar K) (f : ℕ) :=
     RingHom.ext fun x => by rw [hFr, iterateFrobenius_def, hq]

@@ -17,6 +17,7 @@ theorem mul_lt0 {a b : ℕ} (ha : a < N) (hb : b < N) : mul a b < N := by
   exact Φ.lt _
 
 include Φ h0 in
+omit h0 in
 theorem mul_assoc_c {a b c : ℕ} (ha : a < N) (hb : b < N) (hc : c < N) :
     mul (mul a b) c = mul a (mul b c) := by
   rw [← Φ.f_g ha, ← Φ.f_g hb, ← Φ.f_g hc, ← Φ.map_mul, ← Φ.map_mul, ← Φ.map_mul, ← Φ.map_mul,
@@ -37,7 +38,7 @@ theorem foldl_mul_c : ∀ (w : List ℕ) {c : ℕ}, c < N → (∀ a ∈ w, a < 
     obtain ⟨e2, -⟩ := foldl_mul_c w ha hw'
     obtain ⟨-, l0⟩ := foldl_mul_c w (Φ.pos) hw'
     refine ⟨?_, by rw [List.foldl_cons]; exact l1⟩
-    rw [List.foldl_cons, List.foldl_cons, h0a, e1, e2, mul_assoc_c Φ h0 hc ha l0]
+    rw [List.foldl_cons, List.foldl_cons, h0a, e1, e2, mul_assoc_c Φ hc ha l0]
 
 include Φ h0 in
 theorem gen_of_words {gs : List ℕ} (hG : Gen mul gens N) (hgs : ∀ g ∈ gs, g < N)

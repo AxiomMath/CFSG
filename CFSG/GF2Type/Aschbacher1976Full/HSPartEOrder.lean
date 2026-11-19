@@ -11,7 +11,7 @@ variable {G : Type} [Group G] [Finite G] {z : G} {T V : Subgroup G}
 
 theorem card_sylow_eq_of_le (P : Sylow 2 G) {K : Subgroup G} (hK : (P : Subgroup G) ≤ K) :
     Nat.card (P : Subgroup G) = 2 ^ (Nat.card K).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 := Sylow.card_eq_multiplicity P
   have h2 : Nat.card K ∣ Nat.card G := Subgroup.card_subgroup_dvd_card K
   have h3 : Nat.card (P : Subgroup G) ∣ Nat.card K := Subgroup.card_dvd_of_le hK
@@ -28,6 +28,7 @@ theorem card_sylow_eq_of_le (P : Sylow 2 G) {K : Subgroup G} (hK : (P : Subgroup
   toSubgroup := T
   maximal_isPGroup := ⟨hV.sylow.1, fun {Q} hQ hle => le_of_eq (hV.sylow.2 Q hQ hle)⟩
 
+omit [Finite G] in
 theorem sylowOfHSV_coe (hV : HSV z T V) : (sylowOfHSV hV : Subgroup G) = T := rfl
 
 theorem factorization_two_7680 : Nat.factorization 7680 2 = 9 := by
@@ -42,6 +43,7 @@ theorem factorization_two_168 : Nat.factorization 168 2 = 3 := by
   rw [Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_two (by norm_num)] at h1 h2
   omega
 
+omit [Finite G] in
 theorem card_Hz_of_S5 (hF : Nat.card (Fz z) = 64) (hs5 : HSS5 z) : Nat.card (Hz z) = 7680 := by
   obtain ⟨φ, hφ, hker⟩ := hs5
   have h1 := Subgroup.card_ker_mul_card_of_surjective hφ

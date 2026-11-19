@@ -63,7 +63,7 @@ private theorem join_facts {A B : Subgroup M} {p : ℕ} (h : A ≤ centralizer (
     rw [← Nat.card_prod, Nat.card_congr e]
 
 theorem exists_elemAbelian_join
-    {M : Type*} [Group M] [Finite M] {p : ℕ} (hp : p.Prime)
+    {M : Type*} [Group M] [Finite M] {p : ℕ} (_hp : p.Prime)
     {I : Type*} [Fintype I] (Y E : I → Subgroup M) (C0 : Subgroup M) (q : ℕ)
     (hYcomm : ∀ i j, i ≠ j → Y i ≤ Subgroup.centralizer (Y j : Set M))
     (hEY : ∀ i, E i ≤ Y i)

@@ -18,9 +18,8 @@ theorem hdRo7SmAAux_d9Hom_swap_08_apply (v : SMV 7) :
       (hdRo7SmAAux_delEmbed v)) = v - smDual sm7A7a.2 v • sm7A7a.1
   ext i
   fin_cases i <;>
-    simp [hdRo7SmAAux_delProj, hdRo7SmAAux_delEmbed, hdRo7SmAAux_q9, hdRo7SmAAux_q9Hom,
-      hdRo7SmAAux_proj9, hdRo7SmAAux_ext9, LinearMap.pi_apply, Equiv.swap_apply_def,
-      sm7A7a, smDual, Fin.sum_univ_seven, Pi.sub_apply, Pi.smul_apply, Pi.single_apply]
+    simp [hdRo7SmAAux_delProj, hdRo7SmAAux_delEmbed, hdRo7SmAAux_q9, hdRo7SmAAux_proj9, hdRo7SmAAux_ext9, LinearMap.pi_apply, Equiv.swap_apply_def,
+      sm7A7a, smDual, Fin.sum_univ_seven, Pi.sub_apply]
   all_goals
     generalize v 0 = a
     clear v

@@ -36,7 +36,7 @@ theorem crossAtOn_of_ambient {d : TauCeti.ValidLieTypeIndex} {q : TauCeti.PrimeP
       Nonempty (L ≃* (TauCeti.CFSGIndex.lie d).Group) → ∀ P : Sylow p L,
         IsMulCommutative (P : Subgroup L) := by
     intro L _ _ p hp hp5 hS hdp hiso P
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨K, _, _, ι, _, _, H, hN, hK, ⟨e'⟩⟩ := hmodel L hiso
     have hdp' : q.p ≠ p := by rwa [hchar] at hdp
     have hpK : ¬ p ∣ Nat.card K := by
@@ -55,7 +55,7 @@ theorem crossAtOn_of_ambient {d : TauCeti.ValidLieTypeIndex} {q : TauCeti.PrimeP
           (hGL _ (hP.map _))) R) P
   refine ⟨fun p hp hp5 hS hdp L _ _ hs hiso hn h2 P => core L p hp hp5 hS hdp hiso P,
     fun p hp hp5 hS hdp L _ _ hs hiso hn h3 y hy => ?_⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact three_le_pRank_centralizer_of_sylow_abelian (core L p hp hp5 hS hdp hiso) h3
     (hy ▸ pow_orderOf_eq_one y)
 

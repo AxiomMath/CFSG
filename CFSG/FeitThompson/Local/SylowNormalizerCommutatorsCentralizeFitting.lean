@@ -158,7 +158,7 @@ theorem commutator_pComplCoreIn_mixedFitting_eq_bot [Finite G] [IsSimpleGroup G]
   have hP₀X : ⁅(P : Subgroup G), normalizer ((P : Subgroup G) : Set G)⁆ ≤ ⁅M ⊓ L, M ⊓ L⁆ :=
     Subgroup.commutator_mono (Subgroup.le_normalizer.trans hNPX) hNPX
   have hP₀pg : IsPGroup p ↥⁅(P : Subgroup G), normalizer ((P : Subgroup G) : Set G)⁆ :=
-    P.isPGroup'.to_le (commutator_normalizer_le (P : Subgroup G))
+    P.isPGroup.to_le (commutator_normalizer_le (P : Subgroup G))
   have hNle : pComplCoreIn p (mixedFitting M) ⊓ L ≤ mixedFitting M ⊓ L := inf_le_inf_right L hDF
   have hNp : ¬ p ∣ Nat.card ↥(pComplCoreIn p (mixedFitting M) ⊓ L) := fun h =>
     hDp (h.trans (Subgroup.card_dvd_of_le inf_le_left))

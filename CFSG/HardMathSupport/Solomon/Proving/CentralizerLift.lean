@@ -68,7 +68,7 @@ theorem exists_sylow_sup_eq_top {K : Type*} [Group K] [Finite K] {p : ℕ} (hp :
   have := Fact.mk hp
   obtain ⟨S, hQS⟩ := hQ.exists_le_sylow
   have hnd : ¬ p ∣ (S : Subgroup K).index := Sylow.not_dvd_index S
-  refine ⟨S, hQS, S.isPGroup', hnd, ?_⟩
+  refine ⟨S, hQS, S.isPGroup, hnd, ?_⟩
   have hRp : ∃ k, R.index = p ^ k := by
     have h1 := Subgroup.relIndex_sup_right Q R
     rw [h, Subgroup.relIndex_top_right] at h1

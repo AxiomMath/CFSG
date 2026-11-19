@@ -38,14 +38,14 @@ theorem shapeRkAt'_isHS_five {Q : Type} [Group Q] [Finite Q] {t : Q} (ht5 : orde
     (hC : Nat.card ↥(Subgroup.centralizer ({t} : Set Q)) < 665280000) :
     ShapeRkAt' 5 IsHS (fun (T : Type) [Group T] => True) t := by
   have hsimple : IsSimpleGroup NativeSporadic.HS := CFSG.Sporadic.HS.isSimpleGroup_HS
-  haveI : IsSimpleGroup ↥E := @MulEquiv.isSimpleGroup _ _ NativeSporadic.HS _ hsimple eE
+  have : IsSimpleGroup ↥E := @MulEquiv.isSimpleGroup _ _ NativeSporadic.HS _ hsimple eE
   have hcard : Nat.card ↥E = 44352000 := by
     rw [Nat.card_congr eE.toEquiv]
     exact CFSG.Sporadic.HS.card_HS
   have hnab : ∃ a b : ↥E, a * b ≠ b * a := by
     by_contra hc
     push Not at hc
-    letI : CommGroup ↥E := { (inferInstance : Group ↥E) with mul_comm := hc }
+    let : CommGroup ↥E := { (inferInstance : Group ↥E) with mul_comm := hc }
     have hp := IsSimpleGroup.prime_card (α := ↥E)
     rw [hcard] at hp
     norm_num at hp
@@ -75,7 +75,7 @@ theorem census_B_five_of_noComp
     (h : TabBFiveBNoComp) :
     PCompCensus 5 (NativeSporadic.Carrier .B) (· = .sporadic .HS) := by
   show PCompCensus 5 NativeSporadic.B (· = .sporadic .HS)
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨E, hEC, ⟨eE⟩⟩ := tabBFiveAHS_of_cert
   have hD : CentShapeRk' 5 CensusB5.IsHS (fun (T : Type) [Group T] => True)
       NativeSporadic.B :=

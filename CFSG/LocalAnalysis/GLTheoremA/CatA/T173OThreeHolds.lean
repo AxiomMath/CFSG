@@ -23,15 +23,15 @@ theorem i173OOn_famThree_of_modelFactExcThree (hF4 : ModelFactExcThree .F4)
   have hE6n : lab.tag = .E6 → 3 ≠ 3 ∨ lab.n = 1 := fun _ => Or.inr hn
   rcases htag with ⟨htagBC, hrank⟩ | hExc
   · obtain ⟨F, hF, hFin, hcard, hZ, ⟨M⟩⟩ := exists_model_sp hcfg hlab htagBC hrank hmark
-    letI : Field F := hF
-    letI : Finite F := hFin
+    let : Field F := hF
+    let : Finite F := hFin
     have hcard2 : Nat.card F = 2 := by rw [hcard, hn]; norm_num
     exact concl_of_modelFactO hcfg M hZ (modelFactSpThree F lab.rank hrank hcard2)
   · obtain ⟨τ, F, hF, hFin, hFinAdj, hτlab, hcard, hZ, ⟨M⟩⟩ :=
       exists_model_exc hcfg hlab hExc hE6n hmark
-    letI : Field F := hF
-    letI : Finite F := hFin
-    letI : Finite ↥(adjointGroup τ F) := hFinAdj
+    let : Field F := hF
+    let : Finite F := hFin
+    let : Finite ↥(adjointGroup τ F) := hFinAdj
     have hcard2 : Nat.card F = 2 := by rw [hcard, hn]; norm_num
     rcases hτlab with ⟨-, rfl⟩ | ⟨-, rfl⟩ | ⟨-, rfl⟩ | ⟨-, rfl⟩
     · exact concl_of_modelFactO hcfg M hZ (hF4 F hcard2)

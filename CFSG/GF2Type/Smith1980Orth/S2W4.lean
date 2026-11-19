@@ -291,7 +291,7 @@ private theorem exists_s2Data_w4_of_coord [IsSimpleGroup G] (I : TimInputs)
     intro m hm p hp
     obtain ⟨n, rfl⟩ := mem_zpowers_iff.mp hp
     rw [← conj_zpow]
-    rcases W4.conj_k_cases htt hk3 htk hdec hm with h | h
+    rcases W4.conj_k_cases htt htk hdec hm with h | h
     · rw [h]
       exact zpow_mem (mem_zpowers k) n
     · rw [h]
@@ -301,7 +301,7 @@ private theorem exists_s2Data_w4_of_coord [IsSimpleGroup G] (I : TimInputs)
     omega
   have hfpf : S13.FixFree S (zpowers k) := S13.fixFree_of hP1k hPn hirr
   exact ⟨⟨⟨g, T, k, hG.toGoodPre, by omega, hfin, hkM, hk1, hk3,
-    fun x hx => W4.conj_k_cases htt hk3 htk hdec hx, htk,
+    fun x hx => W4.conj_k_cases htt htk hdec hx, htk,
     fun v hv => S13.fix_eq_zero hP3 hfpf (mem_zpowers k) hk1 v hv, hdec,
     S2Rel.full hkM⟩, hG.hΩ⟩⟩
 

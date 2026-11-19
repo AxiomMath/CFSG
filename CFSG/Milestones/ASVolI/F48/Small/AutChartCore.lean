@@ -27,7 +27,7 @@ theorem burnsideF48s_autc_self_of_lie {X : Type} [Group X] [IsSimpleGroup X] {p 
   have hN : Q < Subgroup.normalizer (Q : Set X) :=
     lt_of_le_of_ne Subgroup.le_normalizer fun h =>
       hgQ (by rw [h]; exact Subgroup.mem_normalizer_iff.2 hg)
-  haveI hQn : Q.Normal := Subgroup.normalizer_eq_top_iff.1 ((hcoat Q hQ).2 _ hN)
+  have hQn : Q.Normal := Subgroup.normalizer_eq_top_iff.1 ((hcoat Q hQ).2 _ hN)
   rcases hQn.eq_bot_or_eq_top with h | h
   · obtain ⟨Q', hQ', hne'⟩ : ∃ Q', (Q' = P₁ ∨ Q' = P₂) ∧ Q ≠ Q' := by
       rcases hQ with rfl | rfl
@@ -228,7 +228,7 @@ theorem burnsideF48s_autc_chart_of {p : ℕ} [Fact p.Prime] {B P₁ P₂ : Subgr
     ∃ θ : Ah ≃* E, M₁ ⊓ M₂ = Bhat.map θ.toMonoidHom ∧
       ((M₁ = Phat₁.map θ.toMonoidHom ∧ M₂ = Phat₂.map θ.toMonoidHom) ∨
         (M₁ = Phat₂.map θ.toMonoidHom ∧ M₂ = Phat₁.map θ.toMonoidHom)) := by
-  haveI : IsSimpleGroup Y := isSimpleGroup_of_lieModel_PSU_four_two lieModel_Y
+  have : IsSimpleGroup Y := isSimpleGroup_of_lieModel_PSU_four_two lieModel_Y
   obtain ⟨ρ, ε₀, hε₀⟩ := burnsideF48s_autc_ext_equiv e hcent hGp
   obtain ⟨g, hε⟩ := burnsideF48s_autc_identify ε₀ hX hP
   set ε : Y ≃* ↥Gp := ε₀.trans (MulAut.conj g) with hεdef

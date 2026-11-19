@@ -25,9 +25,9 @@ theorem card_ker_le_two_of_hopfMultiplier
     (φ : Γ →* X) (hφ : Function.Surjective φ)
     (hcen : φ.ker ≤ Subgroup.center Γ) (hcom : φ.ker ≤ commutator Γ) :
     Nat.card φ.ker ≤ 2 := by
-  haveI : Group.IsPerfect X := Group.isPerfect_def.2 hX
-  haveI : Group.IsPerfect Γ := CFSG.Holt.H78.isPerfect_of_ker_le_commutator φ hφ hcom
-  haveI : Finite (hopfMultiplier X) := finite_hopfMultiplier (inferInstance : Group.IsPerfect X)
+  have : Group.IsPerfect X := Group.isPerfect_def.2 hX
+  have : Group.IsPerfect Γ := CFSG.Holt.H78.isPerfect_of_ker_le_commutator φ hφ hcom
+  have : Finite (hopfMultiplier X) := finite_hopfMultiplier (inferInstance : Group.IsPerfect X)
   have hsurj : Function.Surjective (hopfMultiplierToKer φ hφ hcen) :=
     hopfMultiplierToKer_surjective φ hφ hcen
   exact (Nat.card_le_card_of_surjective _ hsurj).trans hM
@@ -102,7 +102,7 @@ theorem exists_cover_statedSp_one_two :
         φ.ker ≤ commutator Γ ∧ Nat.card φ.ker = 2 := by
   classical
   let S : Type := Matrix.SpecialLinearGroup (Fin 2) (ZMod 5)
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hcardS : Nat.card S = 120 := CFSG.CGT.PushingUpLit.CGT6.card_sl2_five'
   have hcen : Nat.card (Subgroup.center S) = 2 :=
     CFSG.ClassicalInvolution.sl2_natCard_center (by rw [Nat.card_zmod]; norm_num)
@@ -132,7 +132,7 @@ theorem exists_cover_statedSp_one_two :
     simp only [φ, MonoidHom.mem_ker, MonoidHom.comp_apply]
     exact e.symm.map_eq_one_iff
   refine ⟨S, inferInstance, inferInstance, φ, hφ, ?_, ?_, ?_⟩
-  · simpa [hkerφ, hker]
+  · simp [hkerφ, hker]
   · rw [hkerφ, hker, hperf.commutator_eq_top]
     exact le_top
   · rw [hkerφ, hker]
@@ -151,7 +151,7 @@ theorem exists_cover_statedSp_three_two_one :
   refine ⟨CFSG.Sporadic.Schreier.Co3.co3M, inferInstance, inferInstance, φ, hsurj, ?_, ?_, ?_⟩
   · rw [hker]
   · rw [hker]
-    haveI : Group.IsPerfect CFSG.Sporadic.Schreier.Co3.co3M :=
+    have : Group.IsPerfect CFSG.Sporadic.Schreier.Co3.co3M :=
       CFSG.Sporadic.Schreier.Co3.co3M_isPerfect
     rw [Group.IsPerfect.commutator_eq_top]
     exact le_top

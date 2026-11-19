@@ -143,7 +143,7 @@ theorem twE6_fixedPoints_le_of_fixed {N : Set ℕ} (hN : ∀ n ∈ N, TwE6ConnFi
     apply hinj
     rw [map_mul, map_mul, hh, hh']
     exact congrArg Subtype.val (hcube.elemAbelian.1.is_comm.comm ⟨f, hfE⟩ ⟨e, heE⟩)
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨hp, ff, hf, hqf⟩ := prime_ringChar_and_eq_pow_of_card_sq K q hcube.card_field hq2
   have hK' : Nat.card K = (ringChar K ^ ff) ^ 2 := by rw [← hqf]; exact hcube.card_field
   have hσ' : ∀ c, σ c = c ^ (ringChar K ^ ff) := by intro c; rw [← hqf]; exact hcube.frob c

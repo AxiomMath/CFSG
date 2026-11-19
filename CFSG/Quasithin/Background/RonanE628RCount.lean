@@ -25,6 +25,7 @@ theorem rc_conj_eq_iff_comm {H : Type} [Group H] (a b v : H) :
     have e : b * v * b⁻¹ = a * ((a⁻¹ * b) * v * (a⁻¹ * b)⁻¹) * a⁻¹ := by group
     rw [e, h, mul_inv_cancel_right]
 
+omit [Finite G] in
 theorem rc_transitive {K V P : Subgroup G} (hVP : V ≤ P)
     (htr : ∀ p ∈ P, ∀ q ∈ P, p ≠ 1 → q ≠ 1 → ∃ k ∈ K, k⁻¹ * p * k = q)
     (hTI : ∀ g ∈ K, g ∉ Subgroup.normalizer (V : Set G) → V ⊓ conjSubgroup V g = ⊥)
@@ -46,6 +47,7 @@ theorem rc_transitive {K V P : Subgroup G} (hVP : V ≤ P)
     exact hw1 hmem
   exact ⟨k, Subgroup.mem_inf.2 ⟨hkK, hkN⟩, hk⟩
 
+omit [Finite G] in
 theorem rc_card_sub_one_dvd {N V : Subgroup G} {v₀ : G} (hv₀V : v₀ ∈ V) (hv₀1 : v₀ ≠ 1)
     (htrN : ∀ w ∈ V, w ≠ 1 → ∃ n ∈ N, n⁻¹ * v₀ * n = w)
     (hNV : N ≤ Subgroup.normalizer (V : Set G)) :
@@ -101,7 +103,7 @@ theorem rc_card_sub_one_dvd {N V : Subgroup G} {v₀ : G} (hv₀V : v₀ ∈ V) 
 
 theorem rc_exists_cyclic {N : Subgroup G} [IsCyclic N] {d : ℕ} (hd : d ∣ Nat.card N) :
     ∃ Y : Subgroup G, Y ≤ N ∧ IsCyclic Y ∧ Nat.card Y = d := by
-  haveI : Nonempty N := ⟨1⟩
+  have : Nonempty N := ⟨1⟩
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥N)
   have hn0 : Nat.card N ≠ 0 := (Nat.card_pos (α := ↥N)).ne'
   have hm0 : Nat.card N / d ≠ 0 := by
@@ -136,7 +138,7 @@ theorem ti_counting {P K V : Subgroup G} (hP : IsElemAbelian 2 P) (hVP : V ≤ P
     fun w hw hw1 => rc_transitive hVP htr hTI hv₀V hv₀1 hw hw1
   have hdvd : Nat.card V - 1 ∣ Nat.card ↥(K ⊓ Subgroup.normalizer (V : Set G)) :=
     rc_card_sub_one_dvd hv₀V hv₀1 htrN inf_le_right
-  haveI : IsCyclic ↥(K ⊓ Subgroup.normalizer (V : Set G)) :=
+  have : IsCyclic ↥(K ⊓ Subgroup.normalizer (V : Set G)) :=
     Subgroup.isCyclic_of_le inf_le_left
   obtain ⟨Y, hYN, hYc, hYcard⟩ := rc_exists_cyclic hdvd
   exact ⟨Y, hYN, hYc, hYcard⟩

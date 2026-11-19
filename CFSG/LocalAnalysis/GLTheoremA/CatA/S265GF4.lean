@@ -122,7 +122,7 @@ private theorem sup_lift_data (cfg : QUCfg 3 S B T x b) {C : Type} [Group C] [Fi
 private theorem card_le_three_mul_card_map (cfg : QUCfg 3 S B T x b) {C : Type} [Group C]
     {Φ : Ω →* MulAut C} (hker : ∀ c ∈ B, Φ c = 1 → c ∈ Subgroup.zpowers x) :
     Nat.card B ≤ 3 * Nat.card ↥(B.map Φ) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle : B ⊓ Φ.ker ≤ Subgroup.zpowers x := fun c hc =>
     hker c (Subgroup.mem_inf.1 hc).1 (MonoidHom.mem_ker.1 (Subgroup.mem_inf.1 hc).2)
   have hcard : Nat.card ↥(B ⊓ Φ.ker) ≤ 3 := by
@@ -140,17 +140,17 @@ theorem qUFamCF4_holds : S265C.QUFamCF4 := by
   intro Ω _ _ S B T x b hN _ hF hL
   have cfg := hN.cfg
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
-  haveI hSn : S.Normal := cfg.normal
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
+  have hSn : S.Normal := cfg.normal
   have hnorm : ∀ g : Ω, g ∈ Subgroup.normalizer (S : Set Ω) := fun g => by
     rw [Subgroup.normalizer_eq_top_iff.2 hSn]
     exact Subgroup.mem_top _
   obtain ⟨K, _, _, hK, ⟨θ⟩⟩ := CFSG.RankThree.Chevalley.exists_mulEquiv_adjointGroup_of_untwisted
     (hL.chevalleyExceptionalModel (by decide)).2
-  haveI : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := 3) (by rw [← Nat.card_eq_fintype_card, hK])
-  haveI : Finite (ModGL .F4 K) := finite_modGL
+  have : Finite (ModGL .F4 K) := finite_modGL
   have hZC : Subgroup.center ↥(adjointGroup .F4 K) = ⊥ := center_adjointGroup_eq_bot
   have hconj : Function.Injective
       (MulAut.conj : ↥(adjointGroup .F4 K) →* MulAut ↥(adjointGroup .F4 K)) :=
@@ -158,7 +158,7 @@ theorem qUFamCF4_holds : S265C.QUFamCF4 := by
   have hZ : Subgroup.center ↥S = ⊥ :=
     S267.BadExc.center_eq_bot_of_adjointGroup hp
       (S2019.commutator_self_eq_of_isQuasisimple cfg.quasi) cfg.core θ (by
-        haveI := (CFSG.LieType.Steinberg.CentralExt.AdjointClosed.f4_hopfMultiplier
+        have := (CFSG.LieType.Steinberg.CentralExt.AdjointClosed.f4_hopfMultiplier
           (K := K) (by rw [hK]; norm_num)).2
         rw [Nat.card_of_subsingleton
           (1 : CFSG.Open.griessHopfMultiplier (CFSG.Blueprint.AdjointQuotient .F4 K))]
@@ -258,7 +258,7 @@ theorem qUFamCF4_holds : S265C.QUFamCF4 := by
       rw [Subgroup.mem_centralizer_singleton_iff, ← map_mul, ← map_mul]
       exact congrArg Λ (Subgroup.mem_centralizer_singleton_iff.1 (hE₃t he))
   have hE₅card : Nat.card ↥(Dgrp b x ⊔ E₃.map Λ) = 3 ^ 5 := by
-    rw [hE₅c, hE₃c] <;> norm_num
+    rw [hE₅c, hE₃c]; norm_num
   have hk5 := CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.Bal209TwoAux.le_glaTwoLocalRank_of_elemAb
     hp hU hU2 hE₅N hE₅el hE₅card
   have hB5 : 3 ^ 5 ≤ Nat.card B := le_trans (Nat.pow_le_pow_right (by norm_num) hk5) cfg.rank
@@ -267,7 +267,7 @@ theorem qUFamCF4_holds : S265C.QUFamCF4 := by
     rw [hΦb]
     exact hE₄δ c hc
   have hE₆card : Nat.card ↥(Dgrp b x ⊔ E₄.map Λ) = 3 ^ 6 := by
-    rw [hE₆c, hE₄c] <;> norm_num
+    rw [hE₆c, hE₄c]; norm_num
   have hfin81 : 3 ^ 6 ≤ Nat.card B → QUConcl 3 S B x b := by
     intro h6
     have h81 : 3 ^ 4 ≤ Nat.card A₀ := by

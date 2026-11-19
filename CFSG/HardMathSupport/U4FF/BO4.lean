@@ -12,6 +12,7 @@ open CFSG.LieType.Universal.Spin (quadMinus nondegenerate_polarBilin_quadMinus_o
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
 
+omit [Finite F] [CharP F 2] in
 theorem bo_polar_isometry {a : AddAut (OIdx → F)}
     (hiso : ∀ x, quadMinus 3 F b c (a x) = quadMinus 3 F b c x) (x y : OIdx → F) :
     polar (quadMinus 3 F b c) (a x) (a y) = polar (quadMinus 3 F b c) x y := by
@@ -105,7 +106,7 @@ theorem partBO4_sub {n : ℕ} (hn : 1 ≤ n) (hF : Nat.card F = 2 ^ n)
     (hcard : Nat.card B = 4)
     (hidx : Nat.card (OIdx → F) = 2 * Nat.card {x : OIdx → F // ∀ a ∈ B, a x = x}) : False := by
   classical
-  haveI : Nonempty OIdx := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty OIdx := ⟨Sum.inr (Sum.inr 0)⟩
   have hsemi : ∀ a ∈ B, ∃ θ : F →+* F, ∀ (c : F) (x : OIdx → F), a (c • x) = θ c • a x :=
     fun a ha => bo_exists_semilinear_omega hirr (h2 a ha) (hN a ha)
   by_cases hall : ∀ a ∈ B, boIsLin a
@@ -121,7 +122,7 @@ theorem partBO4_sub {n : ℕ} (hn : 1 ≤ n) (hF : Nat.card F = 2 ^ n)
       simp [OIdx]
     have hle : Nat.card (boLinFix B) ≤ Nat.card (OIdx → F) :=
       Nat.card_le_card_of_injective Subtype.val Subtype.val_injective
-    haveI : Nonempty {x : OIdx → F // ∀ a ∈ B, a x = x} := ⟨⟨0, fun a _ => map_zero a⟩⟩
+    have : Nonempty {x : OIdx → F // ∀ a ∈ B, a x = x} := ⟨⟨0, fun a _ => map_zero a⟩⟩
     have hCpos : 0 < Nat.card {x : OIdx → F // ∀ a ∈ B, a x = x} := Nat.card_pos
     have h64 : 4 ^ 6 ≤ Nat.card F ^ 6 := Nat.pow_le_pow_left hq4 6
     have hW4 : 4096 ≤ Nat.card (OIdx → F) := by

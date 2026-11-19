@@ -87,7 +87,7 @@ abbrev i0 : Ix := ⟨0, by decide⟩
 
 theorem fT_single_i0 : fT K (Finsupp.single i0 (1 : K)) = 0 := by
   rw [fT_eq]
-  simp [Finsupp.single_apply, i12, i13, i14, i0, Fin.ext_iff]
+  simp [i12, i13, i14, i0, Fin.ext_iff]
 
 theorem fixed_coords (x : Ix → K)
     (hx : ∀ k < 4, (Gm2 k - 1).map (cast2 K) *ᵥ x = 0) :
@@ -133,7 +133,7 @@ theorem eq_smul_i0_of_fixed (x : Fin e6Data.d →₀ K) (hxf : fT K x = 0)
   simp only [Finsupp.smul_apply, Finsupp.single_apply, smul_eq_mul]
   by_cases hi0 : i0 = i
   · subst hi0; simp
-  · rw [if_neg hi0, mul_zero]
+  · rw [ite_eq_right hi0, mul_zero]
     by_cases hi : i.val = 0 ∨ i.val = 12 ∨ i.val = 13 ∨ i.val = 14
     · rcases hi with h | h | h | h
       · exact absurd (Fin.ext h.symm) hi0
@@ -152,7 +152,7 @@ theorem coe_vecOf (v : Ix → ZMod 2) : ⇑(vecOf K v) = cast2 K ∘ v := rfl
 theorem vecOf_add (v w : Ix → ZMod 2) : vecOf K (v + w) = vecOf K v + vecOf K w :=
   Finsupp.ext fun j => map_add (cast2 K) (v j) (w j)
 
-theorem vecOf_zero : vecOf K (0 : Ix → ZMod 2) = 0 := Finsupp.ext fun j => map_zero (cast2 K)
+theorem vecOf_zero : vecOf K (0 : Ix → ZMod 2) = 0 := Finsupp.ext fun _j => map_zero (cast2 K)
 
 @[expose] def vecOfHom : (Ix → ZMod 2) →+ (Fin e6Data.d →₀ K) where
   toFun := vecOf K
@@ -167,7 +167,7 @@ theorem vecOf_single (i : Ix) : vecOf K (Pi.single i 1) = Finsupp.single i (1 : 
   rw [coe_vecOf, Finsupp.single_apply]
   by_cases h : i = j
   · subst h; simp
-  · simp [Pi.single_apply, h, Ne.symm h]
+  · simp [h, Ne.symm h]
 
 theorem vecOf_Nact (k : ℕ) (hk : k < 72) (v : Ix → ZMod 2) :
     e6Data_valid.endo K (gen e6Data_valid K (e6root k) 1) (vecOf K v) - vecOf K v =

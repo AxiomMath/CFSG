@@ -110,7 +110,7 @@ theorem fd24_bitP {k : Nat} (hk : k < 840) {j : Nat} (hj : j < 24) (P : Nat) :
     fd24 ((P >>> j) &&& ONES) k = if (fd24 P k).testBit j then 1 else 0 := by
   rw [fd24_land]
   change fd24 (P >>> j) k &&& fd24 (onesN 840) k = _
-  rw [fd24_onesN, if_pos hk, land_one, testBit_fd24, testBit_fd24, Nat.testBit_shiftRight]
+  rw [fd24_onesN, ite_eq_left hk, land_one, testBit_fd24, testBit_fd24, Nat.testBit_shiftRight]
   simp [hj, Nat.add_comm j]
 
 theorem fd24_bitP_le (j P k : Nat) : fd24 ((P >>> j) &&& ONES) k ≤ 1 := by
@@ -274,7 +274,7 @@ theorem length_filter_le_of_imp {α : Type u} (p q : α → Bool) (h : ∀ x, p 
     cases hp : p x
     · cases q x
       · simpa using ih
-      · simp only [if_true, if_false, List.length_cons, Bool.false_eq_true]
+      · simp only [ite_true, ite_false, List.length_cons, Bool.false_eq_true]
         omega
     · rw [h x hp]
       simpa using ih
@@ -287,8 +287,8 @@ theorem mem_of_mem_selC {α : Type u} {conds : List α} {sel : List Nat} {c : α
 
 theorem filter_length_le_selC {α β : Type u} (X : List α) (conds : List β) (sel : List Nat)
     (p : α → β → Bool) :
-    (X.filter fun x => conds.all (p x)).length ≤ (X.filter fun x => (selC conds sel).all (p x)).length :=
-  length_filter_le_of_imp _ _ (fun x h =>
+    (X.filter fun _x => conds.all (p _x)).length ≤ (X.filter fun _x => (selC conds sel).all (p _x)).length :=
+  length_filter_le_of_imp _ _ (fun _x h =>
     List.all_eq_true.2 fun c hc => List.all_eq_true.1 h c (mem_of_mem_selC hc)) X
 
 end CFSG.KC.Co1BBoundP

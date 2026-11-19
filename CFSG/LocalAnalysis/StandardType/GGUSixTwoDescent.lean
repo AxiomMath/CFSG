@@ -92,7 +92,7 @@ theorem qAutHom_injective (hperf : commutator L' = ⊤) :
     have h := qAutHom_mk a l
     rw [ha, MulAut.one_apply] at h
     rw [← qmk_eq_one_iff, map_mul, map_inv, ← h, inv_mul_cancel]
-  letI : CommGroup (zTwo L') :=
+  let : CommGroup (zTwo L') :=
     { (inferInstance : Group (zTwo L')) with
       mul_comm := fun x y => Subtype.ext (zTwo_comm x.2 y).symm }
   let f : L' →* zTwo L' :=
@@ -159,7 +159,7 @@ theorem qLift_odd_ker (h : zTwo L' ≤ ψ.ker) (hker : ψ.ker ≤ Subgroup.cente
     Odd (Nat.card (qLift ψ h).ker) := by
   by_contra hne
   rw [Nat.not_odd_iff_even] at hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 (even_iff_two_dvd.mp hne)
   obtain ⟨l, hl⟩ := qmk_surjective x.1
   have hx2 : x.1 ^ 2 = 1 := by
@@ -387,7 +387,7 @@ theorem three_dvd_orderOf_qmk {x : L'} (h : 3 ∣ orderOf x) : 3 ∣ orderOf (qm
 
 theorem ggDeltaAdm_descent (hperf : commutator L' = ⊤) (hA : CFSG.Open.IsElemAbelian 3 A)
     (hadm : GGDeltaAdm 3 L' A) : GGDeltaAdm 3 (Qt L') (A.map (qAutHom L')) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA3 : IsPGroup 3 A := isPGroup_three_of_isElemAbelian hA
   have hcard : Nat.card (A.map (qAutHom L')) = Nat.card A :=
     Subgroup.card_map_of_injective (qAutHom_injective hperf)

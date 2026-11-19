@@ -81,12 +81,12 @@ theorem L_not_le_M (h619 : m.C619) : ¬ m.L ≤ m.M := by
     exact sup_le hLM inf_le_right
   exact this
 
-theorem center_L_eq_bot (h67 : R6_7 (dataOfSetup4 m.hS m.hU m.S)) (h619 : m.C619)
+theorem center_L_eq_bot (_h67 : R6_7 (dataOfSetup4 m.hS m.hU m.S)) (h619 : m.C619)
     (hmult : Odd (Nat.card (center ↥m.L)) → center ↥m.L = ⊥) : center ↥m.L = ⊥ := by
   apply hmult
   rw [Nat.odd_iff, ← Nat.two_dvd_ne_zero]
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have h2c : c ^ 2 = 1 := by
     have := pow_orderOf_eq_one c
@@ -118,7 +118,7 @@ theorem center_L_eq_bot (h67 : R6_7 (dataOfSetup4 m.hS m.hU m.S)) (h619 : m.C619
   exact m.L_not_le_M h619 (m.L_le_H.trans (m.H_le_normalizer_twoCenterL.trans hNM))
 
 theorem R_isSylowOf_top : IsSylowOf m.r m.R ⊤ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   rw [isSylowOf_iff]
   refine ⟨le_top, m.d.sylow.isPGroup, ?_⟩
   have := m.toMc614.sylowTop.not_dvd_index
@@ -140,7 +140,7 @@ theorem not_W_le_of_not_c623 (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) (hne : ¬
     ¬ m.W ≤ normalizer (m.Z : Set G) := by
   intro hW
   apply hne
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hsix := m.hZ.sixteen h69
   intro g hg
   by_contra hne'
@@ -185,7 +185,7 @@ theorem R_le_centralizer_A (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) :
 
 theorem not_dvd_relIndex_W (h69 : R6_9 (dataOfSetup4 m.hS m.hU m.S)) :
     ¬ m.r ∣ (centralizer (m.A : Set G) ⊓ m.W).relIndex m.W := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hRC := m.R_le_centralizer_A h69
   have hRW : m.R ≤ m.W := hRC.trans (Subgroup.centralizer_le_normalizer _)
   have hRWsyl : IsSylowOf m.r m.R m.W := m.R_isSylowOf_top.of_le hRW le_top
@@ -255,7 +255,7 @@ theorem scalarTriple (h620 : m.C620) (h621 : m.C621) {y : G} (hy : y ∈ m.L ⊓
   W_le := le_rfl
   N_le := inf_le_right
   N_P := m.L_inf_W_le_normalizer
-  N_Z := fun n hn z hz => (m.Z_comm_L hz hn.1).symm
+  N_Z := fun _n hn _z hz => (m.Z_comm_L hz hn.1).symm
   irr := fun B hB hN => h621 B hB hN
   y_mem := hy
   y_P := hyB
@@ -275,7 +275,7 @@ section Matrix
 variable [Fact m.r.Prime] (f : Multiplicative (Fin 3 → ZMod m.r) ≃* ↥m.A)
 
 theorem exists_coords_A : Nonempty (Multiplicative (Fin 3 → ZMod m.r) ≃* ↥m.A) := by
-  haveI : CFSG.IsElementaryAbelian m.r ↥m.A := m.isElemAbelian_A.isElementaryAbelian
+  have : CFSG.IsElementaryAbelian m.r ↥m.A := m.isElemAbelian_A.isElementaryAbelian
   exact CFSG.RankThree.PartOne.LinAlg.exists_coords m.A m.card_A
 
 theorem irredGL3_torusWeylGL (h : torusIrreducible m.A) : UCK.IrredGL3 m.r (torusWeylGL f) :=

@@ -18,6 +18,7 @@ section Step5
 variable {X : Type} [Group X] [Finite X] {n : ℕ} {z : X} {Z : Subgroup X}
   {S : Sylow 2 ↥(normalizer (Z : Set X))} {s : X}
 
+omit [Finite X] in
 private theorem bcdSwap_perfect {H K : Subgroup X} (h : IsPCompIn 2 H K) : ⁅K, K⁆ = K := by
   have hp : Group.IsPerfect (K.subgroupOf H) :=
     CFSG.ComponentClassification.CatalogueBAlternating.pComponent_perfect h.2
@@ -121,8 +122,8 @@ theorem step5_swap (h : Sec5Data X n z Z S) {s : X} (hs : IsSec5Inv X Z s) {u : 
     have hn : 8 ≤ n := h.maxdeg.1
     obtain ⟨r, hrΔ, hr1, hr2⟩ : ∃ r ∈ Δ, r ≠ 1 ∧ r * r = 1 := by
       obtain ⟨e⟩ := hD.quot
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
       have h4 := two_mul_nat_card_alternatingGroup (α := Fin n)
       rw [Nat.card_eq_fintype_card (α := Perm (Fin n)), Fintype.card_perm,
         Fintype.card_fin] at h4

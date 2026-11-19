@@ -181,7 +181,7 @@ theorem ff_K1_exists_E (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V 
       apply hnot
       refine Subgroup.mem_map.mpr ⟨g', ?_, rfl⟩
       exact (QuotientGroup.eq_one_iff g').mp h
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2dvd : 2 ∣ orderOf (QuotientGroup.mk' E' g') := hPE'.dvd_orderOf hne
     have hdvd : orderOf (QuotientGroup.mk' E' g') ∣ orderOf g := by
       rw [← Subgroup.orderOf_mk g hg]

@@ -139,7 +139,7 @@ theorem l34ActiveImageBound_holds : L34ActiveImageBound := by
     hY.trans (hsol.2 J hJ.1 hJ.2.1).1
   have hmemI : ∀ J : ↥I, (J : Subgroup G) ∈ A := fun J => hAfin.mem_toFinset.mp J.2
   let Φ : ↥Y →* ∀ J : ↥I, MulAut (↥(J : Subgroup G) ⧸ Open.fusionZStar ↥(J : Subgroup G)) :=
-    Pi.monoidHom fun J => (GSThmB.A10T.zStarAct (J : Subgroup G)).comp
+    _root_.MonoidHom.pi fun J => (GSThmB.A10T.zStarAct (J : Subgroup G)).comp
       (Subgroup.inclusion (hYN J (hmemI J)))
   have hkerK : ∀ y : ↥Y, Φ y = 1 → ∀ J ∈ A, (y : G) ∈ coreActionKernel J := by
     intro y hy J hJ

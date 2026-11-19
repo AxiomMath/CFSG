@@ -19,9 +19,11 @@ section Helpers
 
 variable {V : Type} [AddCommGroup V] [Module k V] {Q : QuadraticForm k V}
 
+omit [Finite k] in
 private theorem polar_self_zero (x : V) : polar Q x x = 0 := by
   rw [polar_self, two_smul, CharTwo.add_self_eq_zero]
 
+omit [Finite k] [CharP k 2] in
 private theorem exists_polar_one (hQ : Q.polarBilin.Nondegenerate) {x : V} (hx : x ≠ 0) :
     ∃ y, polar Q x y = 1 := by
   by_contra h
@@ -32,6 +34,7 @@ private theorem exists_polar_one (hQ : Q.polarBilin.Nondegenerate) {x : V} (hx :
   refine h ((polar Q x y)⁻¹ • y) ?_
   rw [polar_smul_right, smul_eq_mul, inv_mul_cancel₀ hy]
 
+omit [Finite k] in
 private theorem exists_singular_polar_one (hQ : Q.polarBilin.Nondegenerate) {x : V} (hx : x ≠ 0)
     (hQx : Q x = 0) : ∃ y, Q y = 0 ∧ polar Q x y = 1 := by
   obtain ⟨y, hy⟩ := exists_polar_one hQ hx
@@ -40,6 +43,7 @@ private theorem exists_singular_polar_one (hQ : Q.polarBilin.Nondegenerate) {x :
       smul_zero, add_zero, polar_smul_right, polar_comm, hy, smul_eq_mul, mul_one, add_neg_cancel]
   · rw [polar_sub_right, polar_smul_right, polar_self_zero, smul_zero, sub_zero, hy]
 
+omit [Finite k] [CharP k 2] in
 private theorem polar_sum_left {ι : Type*} [Fintype ι] (a : ι → k) (x : ι → V) (y : V) :
     polar Q (∑ j, a j • x j) y = ∑ j, a j * polar Q (x j) y := by
   have h := map_sum (Q.polarBilin.flip y) (fun j => a j • x j) Finset.univ
@@ -47,6 +51,7 @@ private theorem polar_sum_left {ι : Type*} [Fintype ι] (a : ι → k) (x : ι 
     smul_eq_mul] at h
   exact h
 
+omit [Finite k] [CharP k 2] in
 private theorem polar_sum_right {ι : Type*} [Fintype ι] (a : ι → k) (x : ι → V) (y : V) :
     polar Q y (∑ j, a j • x j) = ∑ j, a j * polar Q y (x j) := by
   have h := map_sum (Q.polarBilin y) (fun j => a j • x j) Finset.univ
@@ -60,7 +65,7 @@ private theorem exists_fixed_ne_zero [FiniteDimensional k V] (hV : 0 < finrank k
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Finite V := Module.finite_of_finite k
   have : Fintype k := Fintype.ofFinite k
-  letI : MulAction G V :=
+  let : MulAction G V :=
     { smul := fun g u => ρ g u
       one_smul := fun u => by show ρ 1 u = u; simp
       mul_smul := fun g h u => by show ρ (g * h) u = ρ g (ρ h u); simp }
@@ -110,14 +115,14 @@ theorem exists_flagData {G : Type*} [Group G] (hG : IsPGroup 2 G) (n : ℕ) :
       intro d h1 h2
       let Φ : V →ₗ[k] k × k := (Q.polarBilin.flip u).prod (Q.polarBilin.flip u')
       have hsurj : Function.Surjective Φ := fun p => ⟨p.1 • u' + p.2 • u, by
-        ext <;> simp [Φ, polar_add_left, polar_smul_left, polar_self_zero, hu', hsymm u' u,
+        ext <;> simp [Φ, hu', hsymm u' u,
           CharTwo.two_eq_zero]⟩
       have hrk := LinearMap.finrank_range_add_finrank_ker Φ
       rw [LinearMap.range_eq_top.mpr hsurj, finrank_top] at hrk
       simp only [Module.finrank_prod, Module.finrank_self] at hrk
       have hker : LinearMap.ker Φ = ⊥ := Submodule.finrank_eq_zero.mp (by omega)
       have hd : d ∈ LinearMap.ker Φ := by
-        simp [Φ, Prod.ext_iff, h1, h2]
+        simp [Φ, h1, h2]
       rw [hker, Submodule.mem_bot] at hd
       exact hd
     refine ⟨Fin.elim0, Fin.elim0, u, u', ⟨fun i => i.elim0, fun i => i.elim0, fun i => i.elim0,
@@ -149,11 +154,11 @@ theorem exists_flagData {G : Type*} [Group G] (hG : IsPGroup 2 G) (n : ℕ) :
     let Φ : V →ₗ[k] k × k := (Q.polarBilin.flip v₀).prod (Q.polarBilin c)
     let U := LinearMap.ker Φ
     have hmemU : ∀ x, x ∈ U ↔ polar Q x v₀ = 0 ∧ polar Q c x = 0 := fun x => by
-      simp [U, Φ, Prod.ext_iff]
+      simp [U, Φ]
     have hUdim : finrank k U = 2 * n + 2 := by
       have hsurj : Function.Surjective Φ := fun p => ⟨p.1 • c + p.2 • v₀, by
-        ext <;> simp [Φ, polar_add_left, polar_add_right, polar_smul_left, polar_smul_right,
-          polar_self_zero, hcv, hvc, CharTwo.two_eq_zero]⟩
+        ext <;> simp [Φ, polar_add_right, polar_smul_right,
+          hcv, CharTwo.two_eq_zero]⟩
       have h1 := LinearMap.finrank_range_add_finrank_ker Φ
       rw [LinearMap.range_eq_top.mpr hsurj, finrank_top] at h1
       simp only [Module.finrank_prod, Module.finrank_self] at h1
@@ -254,12 +259,12 @@ theorem exists_flagData {G : Type*} [Group G] (hG : IsPGroup 2 G) (n : ℕ) :
       · exact hF.ww i j
     · rcases Fin.eq_zero_or_eq_succ i with rfl | ⟨i, rfl⟩ <;>
         rcases Fin.eq_zero_or_eq_succ j with rfl | ⟨j, rfl⟩
-      · rw [if_pos rfl]
+      · rw [ite_eq_left rfl]
         exact hvc
-      · rw [if_neg (Fin.succ_ne_zero j).symm]
+      · rw [ite_eq_right (Fin.succ_ne_zero j).symm]
         show polar Q v₀ (w' j : V) = 0
         rw [hsymm]; exact (hm _).1
-      · rw [if_neg (Fin.succ_ne_zero i)]
+      · rw [ite_eq_right (Fin.succ_ne_zero i)]
         show polar Q (v' i : V) c = 0
         rw [hsymm]; exact (hm _).2
       · have h := hF.vw i j
@@ -330,9 +335,9 @@ theorem exists_pairBasis_unitri {V : Type} [AddCommGroup V] [Module k V] [Finite
   have hpol : ∀ p q, polar Q (f p) (f q) = if q = pdual p then 1 else 0 := by
     intro p q
     rcases p with i | t | i <;> rcases q with i' | t' | i'
-    · rw [if_neg (by simp)]
+    · rw [ite_eq_right (by simp)]
       exact hF.vv i i'
-    · rw [if_neg (by simp)]
+    · rw [ite_eq_right (by simp)]
       rcases hfin2 t' with rfl | rfl
       · exact hF.vu i
       · exact hF.vu' i
@@ -341,25 +346,25 @@ theorem exists_pairBasis_unitri {V : Type} [AddCommGroup V] [Module k V] [Finite
       simp only [pdual_inl, Sum.inr.injEq]
       by_cases hii : i = i'
       · subst hii
-        rw [if_pos rfl] at h ⊢
+        rw [ite_eq_left rfl] at h ⊢
         exact h
-      · rw [if_neg hii] at h
-        rw [if_neg (Ne.symm hii)]
+      · rw [ite_eq_right hii] at h
+        rw [ite_eq_right (Ne.symm hii)]
         exact h
-    · rw [if_neg (by simp)]
+    · rw [ite_eq_right (by simp)]
       rcases hfin2 t with rfl | rfl
       · show polar Q u (v i') = 0
         rw [hsymm]; exact hF.vu i'
       · show polar Q u' (v i') = 0
         rw [hsymm]; exact hF.vu' i'
     · rcases hfin2 t with rfl | rfl <;> rcases hfin2 t' with rfl | rfl
-      · rw [hpd0, if_neg h01]; exact polar_self_zero u
-      · rw [hpd0, if_pos rfl]; exact hF.uu'
-      · rw [hpd1, if_pos rfl]
+      · rw [hpd0, ite_eq_right h01]; exact polar_self_zero u
+      · rw [hpd0, ite_eq_left rfl]; exact hF.uu'
+      · rw [hpd1, ite_eq_left rfl]
         show polar Q u' u = 1
         rw [hsymm]; exact hF.uu'
-      · rw [hpd1, if_neg h01.symm]; exact polar_self_zero u'
-    · rw [if_neg (by simp)]
+      · rw [hpd1, ite_eq_right h01.symm]; exact polar_self_zero u'
+    · rw [ite_eq_right (by simp)]
       rcases hfin2 t with rfl | rfl
       · show polar Q u (w i') = 0
         rw [hsymm]; exact hF.wu i'
@@ -369,18 +374,18 @@ theorem exists_pairBasis_unitri {V : Type} [AddCommGroup V] [Module k V] [Finite
       simp only [pdual_inr_inr, Sum.inl.injEq]
       rw [hsymm]
       exact hF.vw i' i
-    · rw [if_neg (by simp)]
+    · rw [ite_eq_right (by simp)]
       rcases hfin2 t' with rfl | rfl
       · exact hF.wu i
       · exact hF.wu' i
-    · rw [if_neg (by simp)]
+    · rw [ite_eq_right (by simp)]
       exact hF.ww i i'
   have hli : LinearIndependent k f := by
     rw [Fintype.linearIndependent_iff]
     intro a ha q
     have h := congrArg (fun x => polar Q x (f (pdual q))) ha
     simp only [polar_sum_left, QuadraticMap.polar_zero_left, hpol, pdual_inj', mul_ite, mul_one,
-      mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true] at h
+      mul_zero, Finset.sum_ite_eq, Finset.mem_univ, ite_true] at h
     exact h
   have hcard : Fintype.card (PIdx n) = finrank k V := by
     rw [hV]
@@ -407,7 +412,7 @@ theorem exists_pairBasis_unitri {V : Type} [AddCommGroup V] [Module k V] [Finite
         rw [hF.vw]
         by_cases hl : l = i'
         · rw [hl, ha0 i' (Fin.le_def.mpr hpq), zero_mul]
-        · rw [if_neg hl, mul_zero]
+        · rw [ite_eq_right hl, mul_zero]
       · rcases hfin2 t' with rfl | rfl
         · show a l * polar Q (v l) u' = 0
           rw [hF.vu', mul_zero]
@@ -477,7 +482,7 @@ theorem exists_pairBasis_unitri {V : Type} [AddCommGroup V] [Module k V] [Finite
         rw [hsymm, hF.vw]
         by_cases hl : l = i
         · rw [hl, ha0 i hii, zero_mul]
-        · rw [if_neg hl, mul_zero]
+        · rw [ite_eq_right hl, mul_zero]
   refine ⟨b, hbP, fun g hg => ?_⟩
   intro p q hpq
   by_contra hlt

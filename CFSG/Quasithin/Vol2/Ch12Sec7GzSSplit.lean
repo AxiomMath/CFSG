@@ -189,7 +189,7 @@ theorem exists_complement_1277
       ∀ m ∈ Subgroup.normalizer (L : Set G), ∃ v ∈ V, ∃ h ∈ M₀, m = v * h := by
   classical
   have hyp := s.d.hyp
-  haveI : IsMulCommutative ↥V := ⟨⟨fun a b => Subtype.ext (s.d.comm a a.2 b b.2)⟩⟩
+  have : IsMulCommutative ↥V := ⟨⟨fun a b => Subtype.ext (s.d.comm a a.2 b b.2)⟩⟩
   have hNLV : Subgroup.normalizer (L : Set G) = Subgroup.normalizer (V : Set G) :=
     mEqNormV1277_of h331 h1222 h1226 G T L V t s
   have hCV : Subgroup.centralizer (V : Set G) = V := s.centralizer_V_eq h1222 h1226 h331
@@ -207,7 +207,7 @@ theorem exists_complement_1277
       Subgroup.card_map_dvd ((XOf L).subgroupOf (Subgroup.normalizer (V : Set G))) (conjAct V)
     rw [hX3, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hXN).toEquiv] at h1
     exact h1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 3 h3X
   have hyo : orderOf (y : G) = 3 := by rw [Subgroup.orderOf_coe]; exact hy
   have hy3 : (y : G) ^ 3 = 1 := by rw [← hyo]; exact pow_orderOf_eq_one _

@@ -155,6 +155,7 @@ theorem mem_normalizer_of_split {L A : Subgroup G}
     obtain ⟨y, hy, hyx⟩ := hx'
     rwa [hinj hyx] at hy
 
+omit [Finite G] in
 theorem zpowers_subgroupOf {L : Subgroup G} {c : G} (hcL : c ∈ L) :
     (Subgroup.zpowers c).subgroupOf L = Subgroup.zpowers (⟨c, hcL⟩ : L) := by
   have hmap : (Subgroup.zpowers (⟨c, hcL⟩ : L)).map L.subtype = Subgroup.zpowers c :=
@@ -162,12 +163,14 @@ theorem zpowers_subgroupOf {L : Subgroup G} {c : G} (hcL : c ∈ L) :
   rw [← hmap]
   exact Subgroup.comap_map_eq_self_of_injective L.subtype_injective _
 
+omit [Finite G] in
 theorem mem_normalizer_of_subgroupOf {L H : Subgroup G} (hHL : H ≤ L) {n : L}
     (hn : n ∈ Subgroup.normalizer ((H.subgroupOf L : Subgroup L) : Set L)) :
     (n : G) ∈ Subgroup.normalizer (H : Set G) := by
   rw [← Subgroup.subgroupOf_normalizer_eq hHL] at hn
   exact hn
 
+omit [Finite G] in
 theorem mem_normalizer_subgroupOf {L H : Subgroup G} (hHL : H ≤ L) {n : L}
     (hn : (n : G) ∈ Subgroup.normalizer (H : Set G)) :
     n ∈ Subgroup.normalizer ((H.subgroupOf L : Subgroup L) : Set L) := by
@@ -199,6 +202,7 @@ theorem false_of_e9Move {L A : Subgroup G} (hZ : Subgroup.center L = ⊥) (hcube
   rw [← zpowers_subgroupOf hcL]
   exact mem_normalizer_subgroupOf (Subgroup.zpowers_le.mpr hcL) (hN hnAA)
 
+omit [Finite G] in
 theorem mem_normalizer_sup {H K : Subgroup G} {n : G}
     (hH : n ∈ Subgroup.normalizer (H : Set G)) (hK : n ∈ Subgroup.normalizer (K : Set G)) :
     n ∈ Subgroup.normalizer ((H ⊔ K : Subgroup G) : Set G) := by
@@ -231,6 +235,7 @@ theorem mem_normalizer_sup {H K : Subgroup G} {n : G}
     obtain ⟨y, hy, hyx⟩ := hx'
     rwa [hinj hyx] at hy
 
+omit [Finite G] in
 theorem mem_normalizer_of_le_centralizer {L B : Subgroup G}
     (hB : B ≤ Subgroup.centralizer (L : Set G)) {n : G} (hn : n ∈ L) :
     n ∈ Subgroup.normalizer (B : Set G) := by
@@ -312,7 +317,7 @@ theorem cc425_of_row {S : Type} [Group S] (hθ : aschbacherSolvableCore 3 G = �
     (hAZ : A ⊓ (K' ⊓ Subgroup.centralizer (K' : Set G)) = Subgroup.zpowers c) :
     ∃ hc : c ∈ L, CC425 (((quotCenterEquivOfEqBot hZ).trans e) ⟨c, hc⟩)
       ((K'.subgroupOf L).map (((quotCenterEquivOfEqBot hZ).trans e : L ≃* S) : L →* S)) := by
-  haveI : Finite S := Finite.of_equiv _ e.toEquiv
+  have : Finite S := Finite.of_equiv _ e.toEquiv
   obtain ⟨hc, -, hcc⟩ := exists_cc425 hθ hA hL hLc hK hK' htype hAZ
   refine ⟨hc, ?_⟩
   have hmap := hcc.map e
@@ -344,6 +349,7 @@ structure RankTwoData (S : Type) [Group S] : Prop where
   card_le : ∀ E : Subgroup S, CFSG.Assembly.IsElemAbelian 3 E → Nat.card E ≤ 9
   exists_e9 : ∃ E : Subgroup S, CFSG.Assembly.IsElemAbelian 3 E ∧ Nat.card E = 9
 
+omit [Finite G] in
 theorem RankTwoData.transport
     {S : Type} [Group S] {L : Subgroup G} (eL : L ≃* S)
     (h : RankTwoData S) :
@@ -392,9 +398,10 @@ theorem row425_of_survJ2
   obtain ⟨φ⟩ := hX
   exact Or.inl ⟨isExtOf_congr (equivImage eL hK' hK'L).symm (hsurv _ _ hcc), ⟨eL.trans φ⟩⟩
 
+omit [Finite G] in
 theorem exists_move_of_image
     {S : Type} [Group S] {L K' : Subgroup G} (eL : L ≃* S)
-    (hK'L : K' ≤ L) {c : G} (hcL : c ∈ L) {F : Subgroup S}
+    (_hK'L : K' ≤ L) {c : G} (hcL : c ∈ L) {F : Subgroup S}
     (hFK : F ≤ (K'.subgroupOf L).map (eL : L →* S)) (hF : CFSG.Assembly.IsElemAbelian 3 F)
     (hF9 : Nat.card F = 9) {n : S} (hn : n ∈ Subgroup.normalizer (F : Set S))
     (hns : n ∉ Subgroup.normalizer (Subgroup.zpowers (eL ⟨c, hcL⟩) : Set S)) :

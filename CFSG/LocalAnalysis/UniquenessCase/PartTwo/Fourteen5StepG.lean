@@ -23,9 +23,9 @@ theorem exists_isSylowOf_seven_le_centralizer (h : Hyp141 D L₁ L₂ X) (h1422 
     (hHM : ¬ H ≤ D.M) :
     ∃ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 7 P (H ⊓ D.M) ∧
       P ≤ centralizer (X : Set G) := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P₀, hP₀⟩ := CFSG.ABGLocalTools.exists_isSylowOf 7 (H ⊓ D.M)
   have hP₀H : P₀ ≤ H := hP₀.le.trans inf_le_left
   have hP₀M : P₀ ≤ D.M := hP₀.le.trans inf_le_right

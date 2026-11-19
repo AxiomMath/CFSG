@@ -39,12 +39,12 @@ theorem card_centralizer_inf_map (σ : G ≃* G) (a b : G) :
 theorem exists_conj_le_of_isMaximalTwoSubgroup [Finite G] {T L R : Subgroup G}
     (hT : IsMaximalTwoSubgroup T L) (hRL : R ≤ L) (hR : IsPGroup 2 R) :
     ∃ m ∈ L, ∀ r ∈ R, m * r * m⁻¹ ∈ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hTL, hT2, hTmax⟩ := hT
   have hTl : IsPGroup 2 (T.subgroupOf L) := hT2.of_equiv (Subgroup.subgroupOfEquivOfLe hTL).symm
   obtain ⟨P, hP⟩ := hTl.exists_le_sylow
   have hPT : (P : Subgroup ↥L).map L.subtype = T :=
-    hTmax _ (Subgroup.map_subtype_le _) (P.isPGroup'.map _) fun t ht =>
+    hTmax _ (Subgroup.map_subtype_le _) (P.isPGroup.map _) fun t ht =>
       Subgroup.mem_map.2 ⟨⟨t, hTL ht⟩, hP ht, rfl⟩
   have hRl : IsPGroup 2 (R.subgroupOf L) := hR.of_equiv (Subgroup.subgroupOfEquivOfLe hRL).symm
   obtain ⟨Q, hQ⟩ := hRl.exists_le_sylow
@@ -98,7 +98,7 @@ theorem card_centralizer_tGmat_inf_le
         left_inv := fun y => rfl
         right_inv := fun y => rfl }
   rw [hcard]
-  haveI := CFSG.Monster.B.Pinned.finite_B
+  have := CFSG.Monster.B.Pinned.finite_B
   let e : cent tGmat ⧸ centToCbar.ker ≃* CFSG.Blueprint.NativeSporadic.B :=
     (QuotientGroup.quotientKerEquivOfSurjective _ centToCbar_surjective).trans phiB
   have hmk : orderOf (e (QuotientGroup.mk x')) = 11 := by

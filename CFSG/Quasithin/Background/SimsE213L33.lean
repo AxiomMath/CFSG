@@ -40,17 +40,17 @@ theorem not_isL33Exception_of_charTwo
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have := E2P.finite_starQuot M H
   set L := oTwoUpper (⊤ : Subgroup (E2.StarQuot M H)) with hLdef
-  haveI hLn : L.Normal :=
+  have hLn : L.Normal :=
     Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp (le_normalizer_oTwoUpper ⊤))
   have hmpY := E2P.minParabolic_star h.minParabolic
   have hJY := E2P.kerIn_star M H
   obtain ⟨ι⟩ := OLB.exists_equiv_sl3 hL
-  haveI : Group.IsPerfect SL(3, GaloisField 3 1) :=
+  have : Group.IsPerfect SL(3, GaloisField 3 1) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_of_three_le (by norm_num)
-  haveI hperfL : Group.IsPerfect ↥L :=
+  have hperfL : Group.IsPerfect ↥L :=
     Group.IsPerfect.ofSurjective (f := ι.toMonoidHom) ι.surjective
   have hsL : IsSimpleGroup ↥L := OL.isSimpleGroup_of_L3U3 Nat.prime_three le_rfl (Or.inr hL)
-  haveI hntL : Nontrivial ↥L := hsL.toNontrivial
+  have hntL : Nontrivial ↥L := hsL.toNontrivial
   have hnabL : ∃ a b : ↥L, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
@@ -79,7 +79,7 @@ theorem not_isL33Exception_of_charTwo
     E213L33.four_le_card hmpY hL hCL hVT hTV hVe hVM hVL
   have hns : ¬ Group.IsSolvable ↥H := by
     intro hsolv
-    haveI : Group.IsSolvable (E2.StarQuot M H) :=
+    have : Group.IsSolvable (E2.StarQuot M H) :=
       Group.isSolvable_of_surjective (E2P.starMap_surjective M H)
     exact Group.IsPerfect.not_isSolvable ↥L inferInstance
   obtain ⟨⟨K, hKc, hHK, hq, hcases⟩, hsqtk⟩ :=
@@ -95,7 +95,7 @@ theorem not_isL33Exception_of_charTwo
       _ ≤ (V ⊓ pCoreOf 2 H).relIndex V :=
         Subgroup.relIndex_le_of_le_left hle Subgroup.index_ne_zero_of_finite
   have hS : Setting H T M V K := ⟨h, hc, hns, h4le, hKc, hHK, hq, hsqtk⟩
-  haveI hperfK : Group.IsPerfect ↥(E2.star M H K) := E213L33.isPerfect_star hKc
+  have hperfK : Group.IsPerfect ↥(E2.star M H K) := E213L33.isPerfect_star hKc
   have hKL : E2.star M H K ≤ L := B1Red.perfect_le_oTwoUpper' le_top hperfK
   have hsupK := OS.star_sup_eq_top (M := M) hHK
   have hnot2 : ¬ IsPGroup 2 ↥(E2.star M H K) := by
@@ -104,7 +104,7 @@ theorem not_isL33Exception_of_charTwo
     · rw [hbot, bot_sup_eq] at hsupK
       exact E213L33.not_isPGroup_of_isPerfect
         (hmpY.isSylow.2.1.to_le (le_top.trans hsupK.ge) : IsPGroup 2 ↥L)
-    · haveI : Nontrivial ↥(E2.star M H K) := (Subgroup.nontrivial_iff_ne_bot _).mpr hbot
+    · have : Nontrivial ↥(E2.star M H K) := (Subgroup.nontrivial_iff_ne_bot _).mpr hbot
       exact E213L33.not_isPGroup_of_isPerfect h2
   have hJU : kerIn M H ≤ pCoreOf 2 H := by
     dsimp only [E2.E22CasesNoN] at hcases
@@ -116,8 +116,8 @@ theorem not_isL33Exception_of_charTwo
       have hKn : (E2.star M H K).Normal := OS.normal_star (M := M) hKH hHK'
       have hKeq : E2.star M H K = L := by
         refine le_antisymm hKL ?_
-        haveI := hsL
-        haveI := hKn.subgroupOf L
+        have := hsL
+        have := hKn.subgroupOf L
         rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((E2.star M H K).subgroupOf L) with
           hb | ht
         · exfalso

@@ -73,7 +73,7 @@ private theorem s16c167_not_comm_of_counterex (D : Data G) {V₀ V L : Subgroup 
     {hV : IsElemAbelian 2 V} (hC : Counterex16 D V₀ V L hV) (h2 : Case168_2 D V₀ V hV L) :
     ¬ IsMulCommutative ↥(lBar V₀ V hV L) := by
   rintro hcomm
-  haveI := hcomm
+  have := hcomm
   obtain ⟨e⟩ := h2.1
   have hcenter : ∀ σ : Equiv.Perm (Fin 3), (∀ τ, σ * τ = τ * σ) → σ = 1 := by decide
   have hLM : L ≤ D.M := hC.setting.hyp151.le
@@ -131,7 +131,7 @@ theorem s16c167_exclusive_two (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemA
       Set.singleton_eq_singleton_iff.mp (hsig3 ▸ h9.2.2.2.2)
     exact absurd h37 (by norm_num)
   · rintro ⟨p, -, h10at⟩
-    haveI : IsCyclic ↥(lBar V₀ V hV L) := h10at.1.1
+    have : IsCyclic ↥(lBar V₀ V hV L) := h10at.1.1
     exact hnc inferInstance
 
 theorem s16c167_exclusive_four (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
@@ -141,7 +141,7 @@ theorem s16c167_exclusive_four (D : Data G) {V₀ V L : Subgroup G} {hV : IsElem
   have hcard : Nat.card ↥(lBar V₀ V hV L) = 27 := by
     obtain ⟨e⟩ := hab
     rw [Nat.card_congr e.toEquiv]
-    simp [Nat.card_eq_fintype_card, Fintype.card_multiplicative, Fintype.card_fun, ZMod.card]
+    simp [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
   refine ⟨?_, ?_⟩
   · intro h9
     have h37 : (3 : ℕ) = 7 :=
@@ -192,6 +192,7 @@ theorem s16c167_v1Sub_eq_bot_of_inf_fixV (D : Data G) {V₀ V L : Subgroup G}
   rw [v1Sub_of_eq_bot D.M (⊥ : Subgroup G) V hV L rfl]
   exact iSup_eq_bot.2 fun m => conjSubgroup_eq_bot_iff.2 hwSub
 
+omit [Finite G] in
 theorem s16c167_wTil_inf_fixV_eq_bot_of_odd {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (L : Subgroup G) (hodd : Odd (Nat.card ↥(lBar V₀ V hV L))) :
     wTil V₀ V hV L ⊓ fixV (lBar V₀ V hV L) = ⊥ := by

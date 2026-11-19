@@ -164,9 +164,9 @@ theorem odd_ncard_involutions_center {X : Type} [Group X] [Finite X] (h2 : 2 ∣
   have hS1 : (S : Subgroup X) ≠ ⊥ := S.ne_bot_of_dvd_card h2
   have hZ : Subgroup.center (S : Subgroup X) ≠ ⊥ := by
     have : Nontrivial (S : Subgroup X) := (Subgroup.nontrivial_iff_ne_bot _).mpr hS1
-    exact (Subgroup.nontrivial_iff_ne_bot _).mp S.isPGroup'.center_nontrivial
+    exact (Subgroup.nontrivial_iff_ne_bot _).mp S.isPGroup.center_nontrivial
   have hZ2 : 2 ∣ Nat.card (Subgroup.center (S : Subgroup X)) := by
-    obtain ⟨n, hn⟩ := (S.isPGroup'.to_subgroup (Subgroup.center (S : Subgroup X))).exists_card_eq
+    obtain ⟨n, hn⟩ := (S.isPGroup.to_subgroup (Subgroup.center (S : Subgroup X))).exists_card_eq
     rcases n with _ | n
     · exact absurd (Subgroup.card_eq_one.mp (by simpa using hn)) hZ
     · rw [hn, pow_succ]
@@ -263,7 +263,7 @@ theorem exists_good_of_hasLongRootSet {G : Type} [Group G] [Finite G] {I N : Sub
   obtain ⟨S, hS⟩ := exists_sylow_inf hIN hN T
   set T' : Subgroup G := (T : Subgroup N).map N.subtype with hT'
   have hT'N : T' ≤ Subgroup.normalizer (I : Set G) := (Subgroup.map_subtype_le _).trans hN
-  have hT'p : IsPGroup 2 T' := T.isPGroup'.map _
+  have hT'p : IsPGroup 2 T' := T.isPGroup.map _
   have hmemS : ∀ z : I, z ∈ (S : Subgroup I) ↔ (z : G) ∈ T' := fun z => by
     rw [← SetLike.mem_coe, hS]
     rfl

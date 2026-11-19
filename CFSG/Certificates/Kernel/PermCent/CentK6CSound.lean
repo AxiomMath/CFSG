@@ -76,7 +76,7 @@ theorem five_eq : ((allPerms 5).all fun τ =>
   rw [f5F, forcePL_eq, forceCL_eq, allPerms_eq 5 inferInstance]
   simp only [forceC_eq, List.all_map, Function.comp_def, ev_mul', ev_inv', one_eq_ev, ev_eq_iff,
     ne_eq, cmC_eq, powOneC_eq, pow_one, pow_three', beq_val, Bool.decide_and, Bool.decide_or,
-    decide_not, Bool.not_and, Bool.not_not, Bool.or_assoc, Bool.and_assoc]
+    decide_not, Bool.not_and, Bool.not_not, Bool.or_assoc]
 
 end CFSG.Certificates.Kernel.PkCV
 

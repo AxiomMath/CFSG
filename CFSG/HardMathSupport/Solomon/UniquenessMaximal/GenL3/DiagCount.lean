@@ -129,7 +129,7 @@ theorem diag_mem_of_card [Finite Fo] (w : Foˣ) (hw3 : w ^ 3 = 1)
     fin_cases k
     · exact e0.trans htgt1
     · exact e1.trans htgt2
-    · simp [div_eq_mul_inv]
+    · simp
   have hdv : vv = fun k => (d : Ut).1 k * ((d : Ut).1 2)⁻¹ * vv 2 := by
     funext k
     rw [← div_eq_mul_inv, hratio k, div_mul_cancel]

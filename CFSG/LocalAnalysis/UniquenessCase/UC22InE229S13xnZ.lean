@@ -30,7 +30,7 @@ theorem uc22ine229_exists_cartan_lift {M L T B : Subgroup G}
     hBM.trans ((Subgroup.normal_subgroupOf_iff_le_normalizer hLM).mp hLn)
   obtain ⟨Q, t, -, -, hcyc, -, h3, -, hfix⟩ :=
     uc22s13xf_fix_cartan hLM hLn hT hBN hB hBT hn (Or.inr hU)
-  haveI := hcyc
+  have := hcyc
   obtain ⟨d, hd⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥(cartan (Q : Subgroup (Bar2 L)) t))
   obtain ⟨l, hl⟩ := QuotientGroup.mk_surjective (d : Bar2 L)
   obtain ⟨c, hcB, hcl⟩ := uc22s13xh_exists_lift hBN hB l fun b hb => by

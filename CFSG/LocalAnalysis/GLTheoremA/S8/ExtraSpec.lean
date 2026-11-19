@@ -34,7 +34,7 @@ theorem exists_transvection {P : Type*} [Group P] [Finite P] {z u : P}
     intro s t
     by_cases hs : Commute s u <;> by_cases ht : Commute t u
     · have h : Commute (s * t) u := hs.mul_left ht
-      simp only [f, if_pos hs, if_pos ht, if_pos h]
+      simp only [f, ite_eq_left hs, ite_eq_left ht, ite_eq_left h]
     · have hst : ¬ Commute (s * t) u := by
         intro h
         have h1 := key t ht
@@ -51,7 +51,7 @@ theorem exists_transvection {P : Type*} [Group P] [Finite P] {z u : P}
           have h4 : 1 * (u * (s * t)) = z * (u * (s * t)) := by rw [one_mul]; exact h2
           exact (mul_right_cancel h4).symm
         exact hz1 this
-      simp only [f, if_pos hs, if_neg ht, if_neg hst, mul_assoc]
+      simp only [f, ite_eq_left hs, ite_eq_right ht, ite_eq_right hst, mul_assoc]
     · have hst : ¬ Commute (s * t) u := by
         intro h
         have h1 := key s hs
@@ -66,7 +66,7 @@ theorem exists_transvection {P : Type*} [Group P] [Finite P] {z u : P}
           have h4 : 1 * (u * (s * t)) = z * (u * (s * t)) := by rw [one_mul]; exact h2
           exact (mul_right_cancel h4).symm
         exact hz1 this
-      simp only [f, if_neg hs, if_pos ht, if_neg hst]
+      simp only [f, ite_eq_right hs, ite_eq_left ht, ite_eq_right hst]
       calc s * t * u = s * (t * u) := by rw [mul_assoc]
         _ = s * (u * t) := by rw [ht.eq]
         _ = s * u * t := by rw [mul_assoc]
@@ -81,7 +81,7 @@ theorem exists_transvection {P : Type*} [Group P] [Finite P] {z u : P}
           _ = z * ((z * (u * s)) * t) := by rw [h1]
           _ = (z * z) * (u * (s * t)) := by simp only [mul_assoc]
           _ = u * (s * t) := by rw [hz2, one_mul]
-      simp only [f, if_neg hs, if_neg ht, if_pos hst]
+      simp only [f, ite_eq_right hs, ite_eq_right ht, ite_eq_left hst]
       have h1 : s * u * (t * u) = s * (u * t) * u := by simp only [mul_assoc]
       have h2 : s * (z * (t * u)) * u = z * (s * (t * (u * u))) := by
         calc s * (z * (t * u)) * u = (s * z) * (t * u) * u := by simp only [mul_assoc]
@@ -103,21 +103,21 @@ theorem exists_transvection {P : Type*} [Group P] [Finite P] {z u : P}
     change f s = 1 at hs
     rw [Subgroup.mem_bot]
     by_cases hc : Commute s u
-    · simpa only [f, if_pos hc] using hs
-    · simp only [f, if_neg hc] at hs
+    · simpa only [f, ite_eq_left hc] using hs
+    · simp only [f, ite_eq_right hc] at hs
       have h1 : s = u⁻¹ := eq_inv_of_mul_eq_one_left hs
       exact absurd (h1 ▸ (Commute.refl u).inv_left) hc
   refine ⟨MulEquiv.ofBijective φ (Finite.injective_iff_bijective.1 hinj), ?_⟩
   intro s hs
   show f s = s * u
-  simp only [f, if_neg hs]
+  simp only [f, ite_eq_right hs]
 
 theorem extraspecial_char_abelian_cyclic {P : Type*} [Group P] [Finite P] (h2 : IsPGroup 2 P)
     (hcf : commutator P = frattini P) (hfz : frattini P = Subgroup.center P)
     (hcard : Nat.card (Subgroup.center P) = 2) (A : Subgroup P) [A.Characteristic]
     [IsMulCommutative A] : IsCyclic A := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨zc, hzc1, hzcu⟩ := (Nat.card_eq_two_iff' (1 : Subgroup.center P)).1 hcard
   set z : P := (zc : P) with hz
   have hzcent : ∀ g, z * g = g * z := fun g => (Subgroup.mem_center_iff.1 zc.2 g).symm
@@ -147,7 +147,7 @@ theorem extraspecial_char_abelian_cyclic {P : Type*} [Group P] [Finite P] (h2 : 
     rw [Subgroup.mem_iInf]
     intro hM
     have hidx : M.index = 2 := (h2.isCoatom_iff_index_eq_prime).1 hM
-    haveI : M.Normal := Subgroup.normal_of_index_eq_two hidx
+    have : M.Normal := Subgroup.normal_of_index_eq_two hidx
     have := Subgroup.pow_index_mem M g
     rwa [hidx, pow_two] at this
   have hU : ∀ a ∈ A, ∀ u : P, u * u ≠ 1 → Commute a u := by
@@ -215,7 +215,7 @@ theorem extraspecial_char_abelian_cyclic {P : Type*} [Group P] [Finite P] (h2 : 
       · exact h
     intro l r hl hr
     exact Subtype.ext ((hz' l hl).trans (hz' r hr).symm)
-  letI : CommGroup A := { (inferInstance : Group A) with
+  let : CommGroup A := { (inferInstance : Group A) with
     mul_comm := fun a b => (IsMulCommutative.is_comm (M := A)).comm a b }
   exact CFSG.TwoRankLowerBound.Helpers.abelian_two_group_cyclic_of_unique_involution_of_card_eq_pow
     k A hA2 hk hunique
@@ -225,8 +225,8 @@ theorem extraspec_symplectic {G : Type} [Group G] [Finite G] {S : Subgroup G} (h
   obtain ⟨h2, hcf, hfz, hcard⟩ := hS
   refine ⟨h2, ?_⟩
   intro A hAchar hAcomm
-  haveI := hAchar
-  haveI := hAcomm
+  have := hAchar
+  have := hAcomm
   exact extraspecial_char_abelian_cyclic h2 hcf hfz hcard A
 
 end S8

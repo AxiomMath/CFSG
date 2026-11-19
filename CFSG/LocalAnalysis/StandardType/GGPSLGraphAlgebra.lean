@@ -94,7 +94,7 @@ private lemma pslBPF_star_B_mem {n : ℕ} {K : Type} [Field K]
       map_smul' := by
         intro d s
         ext
-        simp [Matrix.mul_smul] }
+        simp }
   have hT_inj : Function.Injective T := by
     intro s t hst
     have hval : (B : Matrix (Fin n) (Fin n) K) * (s : Matrix (Fin n) (Fin n) K) =
@@ -135,7 +135,7 @@ private lemma pslBPF_pslAlg_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) 
     rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
     rw [Set.mem_singleton_iff] at hs hs'
     rw [hs, hs']
-  haveI : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommS
+  have : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommS
   intro a ha b hb
   have h := mul_comm' (⟨a, ha⟩ : pslAlg B) (⟨b, hb⟩ : pslAlg B)
   simpa only [Subalgebra.coe_mul] using congrArg Subtype.val h

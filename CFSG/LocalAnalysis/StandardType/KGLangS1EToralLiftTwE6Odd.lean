@@ -60,21 +60,21 @@ theorem kgLangS1E_toral_lift_twE6_odd
   obtain ⟨k, hkF, hkFin, σ, ι, g, hkcard, hσ, hgadj, ψ, huniv⟩ :=
     kgLangS1E_J0_model_twE6_odd hn hodd hK₁ he hen ρ Θ hρ hρG hΘ hI hconjΘ hFj θ hcomm A hA hAI hξ
       hξI hJ₀
-  letI : Field k := hkF
-  letI : Finite k := hkFin
+  let : Field k := hkF
+  let : Finite k := hkFin
   have hType := kgLangS1E_typeDet_twE6 he hkcard σ hσ ψ
   rcases hTor with hE6 | hE7 | hTwE6
   · obtain ⟨K₀, hK₀F, hK₀Fin, θ₀, W, hW, hact⟩ := hE6
-    letI : Field K₀ := hK₀F
-    letI : Finite K₀ := hK₀Fin
+    let : Field K₀ := hK₀F
+    let : Finite K₀ := hK₀Fin
     exact False.elim ((hType.1 K₀).false θ₀)
   · obtain ⟨K₀, hK₀F, hK₀Fin, θ₀, W, hW, hact⟩ := hE7
-    letI : Field K₀ := hK₀F
-    letI : Finite K₀ := hK₀Fin
+    let : Field K₀ := hK₀F
+    let : Finite K₀ := hK₀Fin
     exact False.elim ((hType.2.1 K₀).false θ₀)
   · obtain ⟨K₀, hK₀F, hK₀Fin, σ₀, hσ₀, θ₀, W, hW, hact⟩ := hTwE6
-    letI : Field K₀ := hK₀F
-    letI : Finite K₀ := hK₀Fin
+    let : Field K₀ := hK₀F
+    let : Finite K₀ := hK₀Fin
     have hK₀ : Nat.card K₀ = (2 ^ e) ^ 2 := hType.2.2 K₀ σ₀ hσ₀ ⟨θ₀⟩
     let Ψ : ↥(graphFixedRootGroup TwistTag.E6 K₀ σ₀.toRingHom) ≃*
         ↥(graphFixedRootGroup TwistTag.E6 k σ.toRingHom) := θ₀.symm.trans ψ

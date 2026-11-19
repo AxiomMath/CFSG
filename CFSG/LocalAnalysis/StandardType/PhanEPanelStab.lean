@@ -210,7 +210,7 @@ private theorem hmbPan_cell_simple_eq (i : Fin D.rank) {g : K}
     _ = x'' * n i * b := by rw [← hx''_def, ← hb_def]
 
 include hext hw₀ hsq in
-theorem stdFix_mem_cell_iff (hBU : BruhatExtras D H) (L : StdLevi F (nrep hct w₀))
+theorem stdFix_mem_cell_iff (_hBU : BruhatExtras D H) (L : StdLevi F (nrep hct w₀))
     (i : Fin D.rank) {g : K} (hg : g ∈ stdFix F (nrep hct w₀)) :
     (g ∈ bruhatCell hct 1 ∨ g ∈ bruhatCell hct ((cs).simple i)) ↔
       g ∈ (borel D H ⊓ stdFix F (nrep hct w₀)) ⊔ (slSU L.θ 2).map (L.ε i) := by

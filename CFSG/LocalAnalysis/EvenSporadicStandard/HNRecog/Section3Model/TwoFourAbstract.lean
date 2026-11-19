@@ -16,7 +16,7 @@ theorem isElemTwo_of_map {A G : Type} [Group A] [Group G] {f : A →* G}
     IsElemTwo n E := by
   obtain ⟨⟨hcomm, hexp⟩, hcard⟩ := h
   refine ⟨⟨?_, ?_⟩, ?_⟩
-  · haveI : IsMulCommutative ↥(E.map f) := hcomm
+  · have : IsMulCommutative ↥(E.map f) := hcomm
     refine isMulCommutative_iff.mpr fun a b => ?_
     have h := mul_comm' (M := ↥(E.map f)) ⟨f a, Subgroup.mem_map_of_mem f a.2⟩
       ⟨f b, Subgroup.mem_map_of_mem f b.2⟩
@@ -97,12 +97,12 @@ theorem pCoreOf_eq_of_hom {M : Type} [Group M] [Finite M] {Y N : Subgroup M} (hN
       have h := Subgroup.card_mul_index ψ.range
       rw [hrange, h120] at h
       omega
-    haveI : IsSimpleGroup ↥ψ.range := MulEquiv.isSimpleGroup (MulEquiv.subgroupCongr hrangeEq)
+    have : IsSimpleGroup ↥ψ.range := MulEquiv.isSimpleGroup (MulEquiv.subgroupCongr hrangeEq)
     have hPn : ((CFSG.pCore 2 ↥Y).map ψ.rangeRestrict).Normal :=
       Subgroup.Normal.map CFSG.pCore_normal ψ.rangeRestrict (MonoidHom.rangeRestrict_surjective ψ)
     have hPp : IsPGroup 2 ↥((CFSG.pCore 2 ↥Y).map ψ.rangeRestrict) :=
       CFSG.pCore_isPGroup.map ψ.rangeRestrict
-    haveI := hPn
+    have := hPn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((CFSG.pCore 2 ↥Y).map ψ.rangeRestrict) with
       hbot | htop
     · have hPle : CFSG.pCore 2 ↥Y ≤ ψ.ker := by

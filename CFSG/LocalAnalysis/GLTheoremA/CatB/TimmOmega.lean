@@ -26,8 +26,8 @@ theorem isSimpleGroup_oPrimeRes_of_alt3 {Mb : Type} [Group Mb] [Finite Mb] {w : 
       Nonempty (Mb ≃* Equiv.Perm (Fin 3) × CFSG.Open.timmesfeldIsometries q)) :
     IsSimpleGroup ↥(oPrimeRes 5 Mb) := by
   have hnd := CFSG.LargeExtraspecial.s12_polarBilin_nondegenerate hq
-  haveI : Nonempty (Fin w) := ⟨⟨0, by omega⟩⟩
-  haveI : Nontrivial (Fin w → ZMod 2) := inferInstance
+  have : Nonempty (Fin w) := ⟨⟨0, by omega⟩⟩
+  have : Nontrivial (Fin w → ZMod 2) := inferInstance
   have hfin : Module.finrank (ZMod 2) (Fin w → ZMod 2) = w := Module.finrank_fin_fun (ZMod 2)
   have h6 : 6 ≤ Module.finrank (ZMod 2) (Fin w → ZMod 2) := by omega
   have hOmega : IsSimpleGroup ↥(omegaGroup q hnd) :=
@@ -39,8 +39,8 @@ theorem isSimpleGroup_oPrimeRes_of_alt3 {Mb : Type} [Group Mb] [Finite Mb] {w : 
     have hXsimple : IsSimpleGroup ↥(CFSG.Open.timmesfeldOmega q) := by
       rw [CFSG.LargeExtraspecial.s12_timmesfeldOmega_eq q hnd]
       exact hOmega
-    haveI : Finite ↥(CFSG.Open.timmesfeldOmega q) := by
-      haveI : Finite (Equiv.Perm (Fin 3) × ↥(CFSG.Open.timmesfeldOmega q)) :=
+    have : Finite ↥(CFSG.Open.timmesfeldOmega q) := by
+      have : Finite (Equiv.Perm (Fin 3) × ↥(CFSG.Open.timmesfeldOmega q)) :=
         Finite.of_equiv Mb e.toEquiv
       exact Finite.of_surjective (Prod.snd : Equiv.Perm (Fin 3) × ↥(CFSG.Open.timmesfeldOmega q) → _)
         (fun y => ⟨(1, y), rfl⟩)
@@ -61,8 +61,8 @@ theorem isSimpleGroup_oPrimeRes_of_alt3 {Mb : Type} [Group Mb] [Finite Mb] {w : 
         (Equiv.Perm (Fin 3) × ↥(TauCeti.QuadraticMap.orthogonalGroup q)) :=
       MulEquiv.prodCongr (MulEquiv.refl _) eO
     let e' : Mb ≃* (Equiv.Perm (Fin 3) × ↥(TauCeti.QuadraticMap.orthogonalGroup q)) := e.trans e2
-    haveI : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup q) := by
-      haveI : Finite (Equiv.Perm (Fin 3) × ↥(TauCeti.QuadraticMap.orthogonalGroup q)) :=
+    have : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup q) := by
+      have : Finite (Equiv.Perm (Fin 3) × ↥(TauCeti.QuadraticMap.orthogonalGroup q)) :=
         Finite.of_equiv Mb e'.toEquiv
       exact Finite.of_surjective
         (Prod.snd : Equiv.Perm (Fin 3) × ↥(TauCeti.QuadraticMap.orthogonalGroup q) → _)

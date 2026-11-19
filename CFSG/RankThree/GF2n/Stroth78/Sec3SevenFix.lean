@@ -76,7 +76,7 @@ theorem commutator_mem_ZQ_of_fix (S : Setting z E F) (ℓ : ↥(H z)) (r : ↥(Q
   exact Subgroup.mem_subgroupOf.mp h1
 
 theorem Sec3Hyp.commutator_mem_ZQ_of_mem_L0 {S : Setting z E F} {a : G} {w : ℕ}
-    (h : Sec3Hyp S a w) {r : ↥(Q z)}
+    (_h : Sec3Hyp S a w) {r : ↥(Q z)}
     (hfix : ∀ ℓ ∈ Lbar S a, rhoLin S ℓ (Additive.ofMul (mkQbar S r)) =
       Additive.ofMul (mkQbar S r))
     {ℓ : G} (hℓ : ℓ ∈ L0 S a) : ⁅ℓ, (r : G)⁆ ∈ ZQ z := by
@@ -162,7 +162,7 @@ theorem Sec3Hyp.rhoLin_sub_mem_span_of_fix {S : Setting z E F} {a g : G} {w : �
     {x : Additive (QbarOf S)}
     (hx : QuadraticMap.polar (qS S) x (aVec S h.mem_Q) = 0) :
     rhoLin S (QuotientGroup.mk t) x - x ∈ (ZMod 2) ∙ aVec S h.mem_Q := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   obtain ⟨y, hyC, hyv⟩ := (mem_QaInterImage_iff S).mp
     (mem_QaInterImage_CQ_of_polar_aVec_eq_zero S h.mem_Q hx)
   have hyQ : (y : G) ∈ Q z := y.2
@@ -199,14 +199,14 @@ theorem Sec3Hyp.rhoLin_mem_pointRadical_of_fix {S : Setting z E F} {a g : G} {w 
     (QuotientGroup.mk t : Hbar z) ∈ Lbar S a ∧
       rhoLin S (QuotientGroup.mk t) ∈
         CFSG.LargeExtraspecial.pointRadical (qS S) (aVec S h.mem_Q) := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   have hgz : g * z * g⁻¹ = a :=
     conj_z_eq_of_conj_a_eq S h.mem_Q h.isConj h.not_mem_ZQ hgQaz hga
   have htL0 : (t : G) ∈ L0 S a := by
     have hmem : (t : G) ∈ (Q z ⊓ Subgroup.centralizer ({a} : Set G)).map
         (MulAut.conj g).toMonoidHom := by
       refine Subgroup.mem_map.mpr ⟨(r : G), Subgroup.mem_inf.mpr ⟨r.2, hrCa⟩, ?_⟩
-      simpa [MulAut.conj_apply, ht]
+      simp [MulAut.conj_apply, ht]
     rwa [map_conj_CQ_eq_L0 S h.mem_Q h.isConj h.not_mem_ZQ hgQaz hga] at hmem
   have hmemLbar : (QuotientGroup.mk t : Hbar z) ∈ Lbar S a :=
     mem_Lbar_of_mem_L0 S htL0
@@ -225,7 +225,7 @@ theorem Sec3Hyp.rhoLin_mem_pointRadical_of_fix {S : Setting z E F} {a g : G} {w 
       hfixa, sub_self]
 
 theorem Sec3Hyp.mk_ne_one_of_fix {S : Setting z E F} {a g : G} {w : ℕ}
-    (h : Sec3Hyp S a w) (hgQaz : g ∈ QaOf (a * z)) (hga : g * a * g⁻¹ = z)
+    (h : Sec3Hyp S a w) (_hgQaz : g ∈ QaOf (a * z)) (hga : g * a * g⁻¹ = z)
     (r : ↥(Q z))
     (hfix : ∀ ℓ ∈ Lbar S a, rhoLin S ℓ (Additive.ofMul (mkQbar S r)) =
       Additive.ofMul (mkQbar S r))
@@ -260,10 +260,10 @@ theorem Sec3Hyp.exists_commutator_of_qS_ne_zero {S : Setting z E F} {a g : G} {w
     (hr2 : (r : G) ^ 2 = 1) {u : Additive (QbarOf S)}
     (hu : u ∈ commSpace (rhoLin S (QuotientGroup.mk t)))
     (hua : QuadraticMap.polar (qS S) u (aVec S h.mem_Q) = 0) (hq1 : qS S u = 1) :
-    ∃ (c : G) (hcQ : c ∈ Q z) (hcCa : c ∈ Subgroup.centralizer ({a} : Set G)),
+    ∃ (c : G) (hcQ : c ∈ Q z) (_hcCa : c ∈ Subgroup.centralizer ({a} : Set G)),
       c ^ 2 = z ∧ u = Additive.ofMul (mkQbar S ⟨c, hcQ⟩) ∧
         c * (t : G) * c⁻¹ = (t : G) * z := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   rw [rhoLin_mk_eq_conjQbar S t] at hu
   obtain ⟨y, hyv⟩ := (mem_commSpace_conjQbar_iff S t.2).mp hu
   let c : G := ⁅(y : G), (t : G)⁆
@@ -281,7 +281,7 @@ theorem Sec3Hyp.exists_commutator_of_qS_ne_zero {S : Setting z E F} {a g : G} {w
     rcases eq_one_or_z_of_mem_zpowers S (sq_mem_zpowers_of_mem_Q S hcQ) with h1 | h1
     · exact absurd h1 hc2ne
     · exact h1
-  have hcCa : c ∈ Subgroup.centralizer ({a} : Set G) := by
+  have _hcCa : c ∈ Subgroup.centralizer ({a} : Set G) := by
     have hpolar : QuadraticMap.polar (qS S)
         (Additive.ofMul (mkQbar S ⟨c, hcQ⟩)) (aVec S h.mem_Q) = 0 := by
       rw [← hu_c]
@@ -298,7 +298,7 @@ theorem Sec3Hyp.exists_commutator_of_qS_ne_zero {S : Setting z E F} {a g : G} {w
   have hconjct : c * (t : G) * c⁻¹ = (t : G) * z :=
     conj_s_eq_mul_z_of_commutator S (s := (t : G)) (q := (y : G)) ht2
       (by simpa [c] using hc2z)
-  exact ⟨c, hcQ, hcCa, hc2z, hu_c, hconjct⟩
+  exact ⟨c, hcQ, _hcCa, hc2z, hu_c, hconjct⟩
 
 theorem Sec3Hyp.exists_mem_L0_conj_eq_mul {S : Setting z E F} {a g : G} {w : ℕ}
     (h : Sec3Hyp S a w) (hgQaz : g ∈ QaOf (a * z)) (hga : g * a * g⁻¹ = z)
@@ -345,7 +345,7 @@ theorem Sec3Hyp.qS_eq_zero_of_mem_commSpace_of_fix {S : Setting z E F} {a g : G}
     (hu : u ∈ commSpace (rhoLin S (QuotientGroup.mk t)))
     (hua : QuadraticMap.polar (qS S) u (aVec S h.mem_Q) = 0) :
     qS S u = 0 := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   by_contra hq0
   have hq1 : qS S u = 1 := by
     rcases CFSG.RankThree.Literature.FSmith.zmod2_cases (qS S u) with h1 | h1
@@ -378,8 +378,8 @@ theorem Sec3Hyp.mem_Tset_of_fix {S : Setting z E F} {a g : G} {w : ℕ}
     (hq : qS S (Additive.ofMul (mkQbar S r)) = 0)
     (hspan : Additive.ofMul (mkQbar S r) ∉ (ZMod 2) ∙ aVec S h.mem_Q) :
     (QuotientGroup.mk t : Hbar z) ∈ Tset S a := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have hB : QuadraticMap.polar (qS S) (Additive.ofMul (mkQbar S r))
       (aVec S h.mem_Q) = 0 :=
     Sec3Hyp.polar_aVec_eq_zero_of_fix h hfix

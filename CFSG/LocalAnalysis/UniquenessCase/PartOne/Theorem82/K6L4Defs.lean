@@ -29,7 +29,7 @@ theorem pow_add (x y : ZMod 3) : ζ.pow (x + y) = ζ.pow x * ζ.pow y := by
 theorem pow_zero : ζ.pow 0 = 1 := by simp [pow]
 
 theorem exists_of_dvd [Finite K] (h : 3 ∣ Nat.card K - 1) : Nonempty (CubeRoot K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : 3 ∣ Nat.card Kˣ := by rwa [Nat.card_units]
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' 3 h3
   refine ⟨⟨ω, ?_, ?_⟩⟩
@@ -210,9 +210,9 @@ theorem monomial_of_normalizes_single (ζ : CubeRoot K) (i k : Fin 4) :
     · intro hi; exact absurd (Finset.mem_univ i) hi
   by_cases hki : k = i
   · subst hki
-    rw [Pi.single_eq_same, hsum, sub_self, CubeRoot.pow_zero, if_pos rfl]
+    rw [Pi.single_eq_same, hsum, sub_self, CubeRoot.pow_zero, ite_eq_left rfl]
     rfl
-  · rw [Pi.single_eq_of_ne hki, hsum, if_neg hki, zero_sub]
+  · rw [Pi.single_eq_of_ne hki, hsum, ite_eq_right hki, zero_sub]
 
 theorem monomial_of_normalizes_pow_neg_one_ne_one (ζ : CubeRoot K) :
     (ζ.pow (-1) : K) ≠ 1 := by
@@ -236,8 +236,8 @@ theorem monomial_of_normalizes_distinct (ζ : CubeRoot K) {i j : Fin 4} (hij : i
     ∃ g ∈ D₀ ζ, ((g : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) i i ≠
       ((g : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) j j := by
   refine ⟨stdDiagHom ζ (Multiplicative.ofAdd (Pi.single i 1)), ⟨_, rfl⟩, ?_⟩
-  rw [monomial_of_normalizes_single ζ i i, monomial_of_normalizes_single ζ i j, if_pos rfl,
-    if_neg hij.symm]
+  rw [monomial_of_normalizes_single ζ i i, monomial_of_normalizes_single ζ i j, ite_eq_left rfl,
+    ite_eq_right hij.symm]
   intro h
   exact monomial_of_normalizes_pow_neg_one_ne_one ζ h.symm
 
@@ -302,11 +302,11 @@ theorem centralizer_D₀_comm_diag (ζ : CubeRoot K) {H : Subgroup (GL (Fin 4) K
   rw [← hDdiag.diagonal_diag, Matrix.diagonal_mul, Matrix.mul_diagonal] at hentry
   have hti : (D : Matrix (Fin 4) (Fin 4) K).diag i = 1 := by
     have h := monomial_of_normalizes_single ζ i i
-    rw [if_pos rfl] at h
+    rw [ite_eq_left rfl] at h
     simpa using h
   have htl : (D : Matrix (Fin 4) (Fin 4) K).diag l = (ζ.pow (-1) : K) := by
     have h := monomial_of_normalizes_single ζ i l
-    rw [if_neg hil.symm] at h
+    rw [ite_eq_right hil.symm] at h
     simpa using h
   rw [hti, htl, one_mul] at hentry
   by_contra hne
@@ -348,9 +348,11 @@ def card_D₀_ker_equiv (ζ : CubeRoot K) : (stdDiagHom ζ).ker ≃ ZMod 3 where
     rw [hv i, hv 0]
   right_inv t := rfl
 
+omit [Finite K] in
 theorem card_D₀_ker (ζ : CubeRoot K) : Nat.card (stdDiagHom ζ).ker = 3 := by
   rw [Nat.card_congr (card_D₀_ker_equiv ζ), Nat.card_zmod]
 
+omit [Finite K] in
 theorem card_D₀ (ζ : CubeRoot K) : Nat.card (D₀ ζ) = 27 := by
   have h := Subgroup.card_ker_mul_card_range (stdDiagHom ζ)
   have h81 : Nat.card (Multiplicative (Fin 4 → ZMod 3)) = 81 := by
@@ -360,6 +362,7 @@ theorem card_D₀ (ζ : CubeRoot K) : Nat.card (D₀ ζ) = 27 := by
   change Nat.card (stdDiagHom ζ).range = 27
   omega
 
+omit [Finite K] in
 theorem mem_D₀_of_diag_exists_diagUnit {g : GL (Fin 4) K}
     (hg : ((g : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K).IsDiag) :
     ∃ u : Fin 4 → Kˣ, diagUnit u = g := by
@@ -378,6 +381,7 @@ theorem mem_D₀_of_diag_exists_diagUnit {g : GL (Fin 4) K}
   simp only [diagUnit, Units.val_mk0]
   exact hg.diagonal_diag
 
+omit [Finite K] in
 theorem mem_D₀_of_diag_exists_pow (ζ : CubeRoot K) {w : Kˣ} (hw : w ^ 3 = 1) :
     ∃ a : ZMod 3, ζ.pow a = w := by
   have hω3 : (ζ.ω : K) ^ 3 = 1 := by
@@ -412,6 +416,7 @@ theorem mem_D₀_of_diag_exists_pow (ζ : CubeRoot K) {w : Kˣ} (hw : w ^ 3 = 1)
     rw [show (2 : ZMod 3).val = 2 from by decide]
     exact (Units.ext (sub_eq_zero.mp h)).symm
 
+omit [Finite K] in
 theorem mem_D₀_of_diag (ζ : CubeRoot K) {g : GL (Fin 4) K}
     (hd : ((g : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K).IsDiag) (h3 : g ^ 3 = 1)
     (hdet : ((g : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K).det = 1) : g ∈ D₀ ζ := by
@@ -480,7 +485,7 @@ variable {K : Type} [Field K] [Finite K] (H : Subgroup (GL (Fin 4) K)) (ζ : Cub
 @[expose] def Sub8Fact : Prop :=
   ∀ d : H, (d : GL (Fin 4) K) = d₁ ζ →
     ∃ K₁ : Subgroup H, K₁ ≤ Subgroup.centralizer ({d} : Set H) ∧ ⁅K₁, K₁⁆ = K₁ ∧
-      ¬ IsSolvable K₁ ∧ Nat.card K₁ = (r * (r ^ 2 - 1)) ^ 2 ∧
+      ¬ Group.IsSolvable K₁ ∧ Nat.card K₁ = (r * (r ^ 2 - 1)) ^ 2 ∧
       Nat.card ↥(K₁ ⊓ (StatedScalars (Fin 4) K).subgroupOf H) = 2 ∧
       ∀ N : Subgroup H, N ≤ K₁ → (N.subgroupOf K₁).Normal →
         K₁ ⊓ (StatedScalars (Fin 4) K).subgroupOf H ≤ N → Odd (Nat.card N / 2) →
@@ -488,7 +493,7 @@ variable {K : Type} [Field K] [Finite K] (H : Subgroup (GL (Fin 4) K)) (ζ : Cub
 
 @[expose] def Sub9Fact : Prop :=
   ∀ d : H, (d : GL (Fin 4) K) = d₃ ζ →
-    ∃ K₃ : Subgroup H, K₃ ≤ Subgroup.centralizer ({d} : Set H) ∧ ¬ IsSolvable K₃ ∧
+    ∃ K₃ : Subgroup H, K₃ ≤ Subgroup.centralizer ({d} : Set H) ∧ ¬ Group.IsSolvable K₃ ∧
       K₃ ⊓ (StatedScalars (Fin 4) K).subgroupOf H = ⊥ ∧
       ∀ N : Subgroup H, N ≤ K₃ → (N.subgroupOf K₃).Normal → Odd (Nat.card N) →
         N ≤ Subgroup.centralizer (K₃ : Set H)
@@ -506,19 +511,19 @@ theorem point_classes : ∀ u : Fin 4 → ZMod 3, (¬ ∃ t : ZMod 3, u = fun _ 
         (∀ i, u i = ε * ![1, -1, 0, 0] (σ i) + t) ∨ (∀ i, u i = ε * ![1, 1, 1, 0] (σ i) + t)) := by
   decide +kernel
 
-theorem weights_of_invariant_eq {ε ε' : ZMod 3} (hε : ε ≠ 0) (hε' : ε' ≠ 0) {k k' : Fin 4}
+theorem weights_of_invariant_eq {ε ε' : ZMod 3} (_hε : ε ≠ 0) (hε' : ε' ≠ 0) {k k' : Fin 4}
     (h : (fun i => if i = k then 0 else ε) = fun i => if i = k' then 0 else ε') :
     ε = ε' ∧ k = k' := by
   have hk : k = k' := by
     by_contra hne
     have h1 := congr_fun h k
-    rw [if_pos rfl, if_neg hne] at h1
+    rw [ite_eq_left rfl, ite_eq_right hne] at h1
     exact hε' h1.symm
   subst hk
   refine ⟨?_, rfl⟩
   obtain ⟨i, hi⟩ : ∃ i : Fin 4, i ≠ k := Fintype.exists_ne_of_one_lt_card (by norm_num) k
   have h1 := congr_fun h i
-  rwa [if_neg hi, if_neg hi] at h1
+  rwa [ite_eq_right hi, ite_eq_right hi] at h1
 
 theorem weights_of_invariant_orbit_card (ξ : Fin 4 → Fin 4 → ZMod 3)
     (hinv : ∀ (σ : Equiv.Perm (Fin 4)) (j : Fin 4), ∃ j', ∀ i, ξ j (σ i) = ξ j' i) (j : Fin 4) :
@@ -547,7 +552,7 @@ theorem weights_of_invariant_range {ξ : Fin 4 → Fin 4 → ZMod 3}
     rw [hσ, Equiv.symm_swap]
     exact Equiv.swap_apply_right m k
   have hiff : σ i = k ↔ i = m := by
-    rw [Equiv.apply_eq_iff_eq_symm_apply, hσs]
+    rw [← _root_.Equiv.eq_symm_apply, hσs]
   exact if_congr hiff rfl rfl
 
 theorem weights_of_invariant_image {ξ : Fin 4 → Fin 4 → ZMod 3}

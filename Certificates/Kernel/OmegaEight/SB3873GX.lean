@@ -83,7 +83,7 @@ theorem clsAt_of_low {k m z : ℕ} (hH : homK k m z = true) (hz : z < 65536) (hF
   obtain ⟨h1, h2, h3, h4⟩ := low_parts ΦK Φ₁ mulK_zero hFlt invOK_K sGens_lt genK hinv1 hg₁ hG₁
     cls_check ha hb hd2 hF hcase hn
   have hMK : MK k m z r.1 r.1 = mulK r.1 r.1 := by
-    rw [MK, extMul, if_pos hr1, if_pos hr1]
+    rw [MK, extMul, ite_eq_left hr1, ite_eq_left hr1]
   unfold clsAt
   simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq, bne_iff_ne, ne_eq, List.all_eq_true]
   exact ⟨⟨⟨⟨⟨⟨by omega, by rw [hMK, hrr]⟩, hr0'⟩, h1⟩, h2⟩, h3⟩, h4⟩

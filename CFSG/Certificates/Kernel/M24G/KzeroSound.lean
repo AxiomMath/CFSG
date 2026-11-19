@@ -59,7 +59,7 @@ theorem kz_foldl_inj : ∀ (l1 l2 : List Nat) (c1 c2 : Nat), l1.length = l2.leng
 theorem kzeroKeyF_inj {a b : Array Nat} (ha : DuadV a) (hb : DuadV b)
     (e : kzeroKeyF a = kzeroKeyF b) : a = b := by
   unfold kzeroKeyF at e
-  rw [if_pos ha.1, if_pos hb.1] at e
+  rw [ite_eq_left ha.1, ite_eq_left hb.1] at e
   exact Array.toList_inj.1 (kz_foldl_inj _ _ 0 0 (by rw [Array.length_toList, Array.length_toList,
     ha.1, hb.1]) ha.2 hb.2 e).2
 
@@ -90,11 +90,11 @@ theorem kzeroK0List_eq {KL : List (Array Nat)}
   have hp1 : DuadV kzeroPairF.1 := duadV_of _ (by decide)
   unfold Native.kzeroK0List Native.kzeroK0
   rw [kzeroSyl_eq h, kzeroPair_eq, ← hk]
-  simp only [List.toList_toArray]
+  simp only
   unfold kzeroK0F
   apply List.filter_congr
   intro t _
-  rw [Bool.eq_iff_iff, Array.contains_iff, List.mem_toArray, Option.isSome_iff_exists,
+  rw [Bool.eq_iff_iff, _root_.Array.contains_iff_mem, List.mem_toArray, Option.isSome_iff_exists,
     Native.kzeroConj, kzeroMul_eq, kzeroMul_eq]
   have hy : DuadV (mulTabF kzeroPairF.1 (mulTabF t kzeroPairF.2)) := duadV_mulTabF hp1 _
   constructor

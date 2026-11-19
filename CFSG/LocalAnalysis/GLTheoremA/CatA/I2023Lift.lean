@@ -19,7 +19,7 @@ theorem exists_elemAb_lift {X L : Subgroup G} (hL : GLAPComponent 3 X L)
       (∀ s ∈ S, (s : G) ∈ Subgroup.normalizer (L : Set G)) ∧
       ∀ e ∈ Ebar, ∃ s ∈ S, QuotientGroup.mk' (GLAPPrimeCore 3 ↥X) s = e := by
   classical
-  haveI hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Nn : Subgroup ↥X := GLAPPrimeCore 3 ↥X with hNn
   set π : ↥X →* (↥X ⧸ Nn) := QuotientGroup.mk' Nn with hπ
   set P : Subgroup ↥X := Ebar.comap π with hP
@@ -63,7 +63,7 @@ theorem exists_elemAb_lift {X L : Subgroup G} (hL : GLAPComponent 3 X L)
   have hSpow : ∀ s ∈ S, ∃ m : ℕ, s ^ (3 ^ m) = 1 := by
     intro s hs
     obtain ⟨q, hq, rfl⟩ := hSP s hs
-    obtain ⟨m, hm⟩ := Q.isPGroup' ⟨q, hq⟩
+    obtain ⟨m, hm⟩ := Q.isPGroup ⟨q, hq⟩
     refine ⟨m, ?_⟩
     have h1 : q ^ (3 ^ m) = 1 := by
       have h := congrArg Subtype.val hm

@@ -43,9 +43,9 @@ public theorem CFSG.lemma_12_1_d
         ⟨hE12E, hHallE12⟩ ⟨hE1E12, hHallE1⟩
     have hE1comm : IsMulCommutative E₁ :=
       section12_isMulCommutative_of_commutator_eq_bot hE1commutator
-    letI : IsZGroup E₁ := hE1Z
-    letI : CommGroup E₁ := IsMulCommutative.instCommGroup
-    haveI : Group.IsNilpotent E₁ := inferInstance
+    let : IsZGroup E₁ := hE1Z
+    let : CommGroup E₁ := IsMulCommutative.instCommGroup
+    have : Group.IsNilpotent E₁ := inferInstance
     infer_instance
   · have hE3Z : IsZGroup E₃ := by
       refine section12_isZGroup_of_prime_support_rank_le_one
@@ -68,13 +68,13 @@ public theorem CFSG.lemma_12_1_d
     have hnil_E3 : Group.IsNilpotent E₃ := by
       let e : E₃.subgroupOf (ambientDerivedSubgroup E) ≃* E₃ :=
         Subgroup.subgroupOfEquivOfLe (H := E₃) (K := ambientDerivedSubgroup E) hE3_le_der
-      haveI : Group.IsNilpotent (ambientDerivedSubgroup E) := hnil_der
+      have : Group.IsNilpotent (ambientDerivedSubgroup E) := hnil_der
       have hsubnil : Group.IsNilpotent (E₃.subgroupOf (ambientDerivedSubgroup E)) :=
         inferInstance
       exact Group.nilpotent_of_mulEquiv
         (G := E₃.subgroupOf (ambientDerivedSubgroup E)) (G' := E₃) e
-    letI : IsZGroup E₃ := hE3Z
-    haveI : Group.IsNilpotent E₃ := hnil_E3
+    let : IsZGroup E₃ := hE3Z
+    have : Group.IsNilpotent E₃ := hnil_E3
     infer_instance
 
 end Section12

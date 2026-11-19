@@ -50,18 +50,18 @@ private theorem naturalU4Mod_of_singleN
     (l : Lbl n) (hdimW : Module.finrank (EndRing ρ) (Additive U) = l.dim)
     (hinv : l.RotInv d) (hSN : l.SingleN) : NaturalU4Mod n S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
-  haveI : CharP (EndRing ρ) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (EndRing ρ) := finite_endRing ρ
+  have : CharP (EndRing ρ) 2 :=
     charP_of_injective_algebraMap (algebraMap (ZMod 2) (EndRing ρ)).injective 2
-  haveI : Module.Finite (EndRing ρ) (Additive U) := Module.Finite.of_finite
+  have : Module.Finite (EndRing ρ) (Additive U) := Module.Finite.of_finite
   have h4 : Module.finrank (EndRing ρ) (Additive U) = 4 := by
     rw [hdimW]
     exact Lbl.dim_eq_four_of_singleN hSN
   have h2n : 2 * n ∣ d := Lbl.SingleN.two_mul_dvd hSN hinv
   have hK' : Nat.card K = 2 ^ (2 * n) := by rw [hK, ← pow_mul, mul_comm]
   obtain ⟨ι⟩ := ClassFinal.exists_ringHom_of_dvd hK' hDcard h2n
-  letI : Algebra K (EndRing ρ) := ι.toAlgebra
+  let : Algebra K (EndRing ρ) := ι.toAlgebra
   let b : Module.Basis (Fin 4) (EndRing ρ) (Additive U) :=
     Module.finBasisOfFinrankEq _ _ h4
   obtain ⟨l', -, ⟨Φ'⟩, hdim'⟩ := u4_exists_label hC hnt b ι (RingHom.id (EndRing ρ))
@@ -115,13 +115,13 @@ private theorem naturalU4Mod_of_singleO
     (hinv : l.RotInv d) (hSO : l.SingleO) (ιK : K →+* E) (ιD : EndRing ρ →+* E) :
     NaturalU4Mod n S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
-  haveI : CharP (EndRing ρ) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (EndRing ρ) := finite_endRing ρ
+  have : CharP (EndRing ρ) 2 :=
     charP_of_injective_algebraMap (algebraMap (ZMod 2) (EndRing ρ)).injective 2
-  haveI : Module.Finite (EndRing ρ) (Additive U) := Module.Finite.of_finite
-  letI : Algebra K E := ιK.toAlgebra
-  letI : Algebra (EndRing ρ) E := ιD.toAlgebra
+  have : Module.Finite (EndRing ρ) (Additive U) := Module.Finite.of_finite
+  let : Algebra K E := ιK.toAlgebra
+  let : Algebra (EndRing ρ) E := ιD.toAlgebra
   have h6 : Module.finrank (EndRing ρ) (Additive U) = 6 := by
     rw [hdimW]
     exact Lbl.dim_eq_six_of_singleO hSO
@@ -205,13 +205,13 @@ private theorem adjointOmega6_of_single101
     (hb : l.b i₀ = false) (hc : l.c i₀ = true)
     (ιK : K →+* E) (ιD : EndRing ρ →+* E) : AdjointOmega6 n S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
-  haveI : CharP (EndRing ρ) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (EndRing ρ) := finite_endRing ρ
+  have : CharP (EndRing ρ) 2 :=
     charP_of_injective_algebraMap (algebraMap (ZMod 2) (EndRing ρ)).injective 2
-  haveI : Module.Finite (EndRing ρ) (Additive U) := Module.Finite.of_finite
-  letI : Algebra K E := ιK.toAlgebra
-  letI : Algebra (EndRing ρ) E := ιD.toAlgebra
+  have : Module.Finite (EndRing ρ) (Additive U) := Module.Finite.of_finite
+  let : Algebra K E := ιK.toAlgebra
+  let : Algebra (EndRing ρ) E := ιD.toAlgebra
   have h14 : Module.finrank (EndRing ρ) (Additive U) = 14 := by
     rw [hdimW]
     exact dim_eq_fourteen_of_single101 hz ha hb hc
@@ -245,7 +245,7 @@ theorem k146U4OuterMcClurg_holds :
     K146U4OuterMcClurg := by
   intro U _ _ hU2 S n σ hU4 hn hirr hbig hσN hσS hσ2 hσm
   classical
-  haveI : Fact (∀ s : U, s * s = 1) := ⟨fun s => by rw [← pow_two]; exact hU2 s⟩
+  have : Fact (∀ s : U, s * s = 1) := ⟨fun s => by rw [← pow_two]; exact hU2 s⟩
   have hL : IsU4Group n S := isU4Group_of_isU4' hU4
   have hirrG : CFSG.LocalAnalysis.RankThreeUC.IsIrrOn S := fun J hJ => hirr.2.2.2 J hJ bot_le le_top
   have hbigD : ∀ t ∈ S, t ≠ 1 → t * t = 1 → 4 * n + 2 ≤ disp t := fun t ht ht1 ht2 => by
@@ -276,26 +276,26 @@ theorem k146U4OuterMcClurg_holds :
     have h1 := disp_le_of_naturalU4Mod h ht₀2
     have h2 := hbigD t₀ ht₀S ht₀1 ht₀2
     omega
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   obtain ⟨K, _, _, _, hK, ⟨η⟩⟩ := exists_equiv_SU hL
   obtain ⟨hSnt, x₀, hx₀⟩ := ClassFinal.nontrivial_of_isU4Group hL
-  haveI := hSnt
+  have := hSnt
   let ρ := ClassFinal.binRep S η
-  haveI : Fact ρ.IsIrreducible := ⟨ClassFinal.binRep_isIrreducible η hirrG⟩
+  have : Fact ρ.IsIrreducible := ⟨ClassFinal.binRep_isIrreducible η hirrG⟩
   have hnt : ∃ g, ρ g ≠ 1 := ⟨η x₀, ClassFinal.binRep_ne_one S η x₀ hx₀⟩
   have hlin : ∀ x : ↥S, ρ (η x) =
       (binaryLin ((x : ↥S) : MulAut U) : Additive U →ₗ[ZMod 2] Additive U) :=
     ClassFinal.binRep_eta_lin S η
   have hC := classif_holds hK
   obtain ⟨d, hd1, hDcard, hdesc⟩ := u4_descent hC hK hnt
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
-  haveI : CharP (EndRing ρ) 2 :=
+  have : Finite (EndRing ρ) := finite_endRing ρ
+  have : CharP (EndRing ρ) 2 :=
     charP_of_injective_algebraMap (algebraMap (ZMod 2) (EndRing ρ)).injective 2
-  haveI : Module.Finite (EndRing ρ) (Additive U) := Module.Finite.of_finite
+  have : Module.Finite (EndRing ρ) (Additive U) := Module.Finite.of_finite
   let b₀ : Module.Basis (Fin (Module.finrank (EndRing ρ) (Additive U))) (EndRing ρ)
       (Additive U) := Module.finBasis (EndRing ρ) (Additive U)
   obtain ⟨E, _, _, _, ιK, ιD, l, hl0, ⟨Φ⟩, hm1, hm2, hdimW⟩ := hdesc b₀
-  letI : Algebra K E := ιK.toAlgebra
+  let : Algebra K E := ιK.toAlgebra
   have hinv : l.RotInv d := by
     refine Lbl.rotInv_of_modEq l d ?_ hm2
     rwa [show (2 ^ n) ^ 2 = 2 ^ (2 * n) by rw [← pow_mul, mul_comm]] at hm1

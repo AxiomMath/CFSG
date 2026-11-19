@@ -34,7 +34,7 @@ private theorem b0_ne_b0 {k : ℕ} {i j : Fin k} (hij : i ≠ j) : b0 k i ≠ b0
   simp [b0] at this
   omega
 
-private theorem b0_ne_b1' {k : ℕ} {i j : Fin k} (hij : i ≠ j) : b0 k i ≠ b1 k j := by
+private theorem b0_ne_b1' {k : ℕ} {i j : Fin k} (_hij : i ≠ j) : b0 k i ≠ b1 k j := by
   intro h
   have := congrArg Fin.val h
   simp [b0, b1] at this
@@ -52,11 +52,12 @@ private noncomputable def blockPlane {k : ℕ} (P : Fin (2 * k) → HypPair Q)
     (hP : ∀ i j, i ≠ j → (P i).Orth (P j)) (c : F)
     (hc : ∀ s t : F, s ^ 2 + s * t + c * t ^ 2 = 0 → s = 0 ∧ t = 0) :
     Fin k × Fin 2 → PlaneFrame Q := fun i =>
-  if hi : i.2 = 0 then
+  if _hi : i.2 = 0 then
     plusPlaneA (P (b0 k i.1)) (P (b1 k i.1)) (hP _ _ (b0_ne_b1 k i.1)) c hc
   else
     plusPlaneB (P (b0 k i.1)) (P (b1 k i.1)) (hP _ _ (b0_ne_b1 k i.1)) c hc
 
+omit [Finite F] [FiniteDimensional F W] [CharP F 2] in
 private theorem blockPlane_zero {k : ℕ} (P : Fin (2 * k) → HypPair Q)
     (hP : ∀ i j, i ≠ j → (P i).Orth (P j)) (c : F)
     (hc : ∀ s t : F, s ^ 2 + s * t + c * t ^ 2 = 0 → s = 0 ∧ t = 0)
@@ -65,6 +66,7 @@ private theorem blockPlane_zero {k : ℕ} (P : Fin (2 * k) → HypPair Q)
       plusPlaneA (P (b0 k i.1)) (P (b1 k i.1)) (hP _ _ (b0_ne_b1 k i.1)) c hc := by
   simp [blockPlane, hi]
 
+omit [Finite F] [FiniteDimensional F W] [CharP F 2] in
 private theorem blockPlane_one {k : ℕ} (P : Fin (2 * k) → HypPair Q)
     (hP : ∀ i j, i ≠ j → (P i).Orth (P j)) (c : F)
     (hc : ∀ s t : F, s ^ 2 + s * t + c * t ^ 2 = 0 → s = 0 ∧ t = 0)
@@ -73,6 +75,7 @@ private theorem blockPlane_one {k : ℕ} (P : Fin (2 * k) → HypPair Q)
       plusPlaneB (P (b0 k i.1)) (P (b1 k i.1)) (hP _ _ (b0_ne_b1 k i.1)) c hc := by
   simp [blockPlane, hi]
 
+omit [Finite F] [FiniteDimensional F W] in
 private theorem blockPlane_orthogonal {k : ℕ} (P : Fin (2 * k) → HypPair Q)
     (hP : ∀ i j, i ≠ j → (P i).Orth (P j)) (c : F)
     (hc : ∀ s t : F, s ^ 2 + s * t + c * t ^ 2 = 0 → s = 0 ∧ t = 0) :

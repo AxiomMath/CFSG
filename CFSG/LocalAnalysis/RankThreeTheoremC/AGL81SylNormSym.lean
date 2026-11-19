@@ -26,7 +26,7 @@ theorem mulAut_perm_eq_one_of_wSup {n : ℕ} (h2 : CFSG.pCore 2 (Perm (Fin n)) =
   have h4' : n ≠ 4 := by rintro rfl; exact pCore_two_perm_ne_bot (Or.inr rfl) h2
   rcases Nat.lt_or_ge n 2 with hn1 | hn2
   ·
-    haveI : Subsingleton (Fin n) := Fintype.card_le_one_iff_subsingleton.mp (by simpa using hn1)
+    have : Subsingleton (Fin n) := Fintype.card_le_one_iff_subsingleton.mp (by simpa using hn1)
     exact Or.inl (Subsingleton.elim α 1)
   · rcases Nat.lt_or_ge n 3 with hn3 | hn3
     · obtain rfl : n = 2 := by omega
@@ -47,7 +47,7 @@ theorem mulAut_perm_eq_one_of_wSup {n : ℕ} (h2 : CFSG.pCore 2 (Perm (Fin n)) =
           exact absurd rfl h4'
         ·
           have hn5' : 5 ≤ n := hn5
-          haveI : (alternatingGroup (Fin n)).Normal := alternatingGroup.normal
+          have : (alternatingGroup (Fin n)).Normal := alternatingGroup.normal
           have hAle : alternatingGroup (Fin n) ≤ wSup (Perm (Fin n)) :=
             le_wSup_of_normal_of_isQuasisimple inferInstance
               ((CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native _).mp

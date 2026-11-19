@@ -8,7 +8,7 @@ namespace CFSG.OddStandard.HigherRank.YamadaG23
 
 private theorem isCyclic_prod_of_subsingleton {A B : Type*} [Group A] [Group B] [IsCyclic A]
     [Subsingleton B] : IsCyclic (A × B) := by
-  haveI : Unique B := ⟨⟨1⟩, fun b => Subsingleton.elim _ _⟩
+  have : Unique B := ⟨⟨1⟩, fun b => Subsingleton.elim _ _⟩
   exact isCyclic_of_surjective (MulEquiv.prodUnique (M := A) (N := B)).symm.toMonoidHom
     (MulEquiv.prodUnique (M := A) (N := B)).symm.surjective
 
@@ -32,7 +32,7 @@ private theorem gcd_four_pow_add_one {q n : ℕ} (hq : 4 ∣ q + 1) (hn : Odd n)
   have hq0 : q + 1 ≡ 0 [MOD 4] := (Nat.modEq_zero_iff_dvd).mpr hq
   have h4zero : (3 : ℕ) + 1 ≡ 0 [MOD 4] := by
     have : (4 : ℕ) ≡ 0 [MOD 4] := (Nat.modEq_zero_iff_dvd).mpr (dvd_refl 4)
-    simpa using this
+    simp
   have hq3 : q ≡ 3 [MOD 4] := Nat.ModEq.add_right_cancel' 1 (hq0.trans h4zero.symm)
   have hqn : q ^ n ≡ 3 [MOD 4] := (hq3.pow n).trans (modEq_three_pow_odd hn)
   have hzero : q ^ n + 1 ≡ 0 [MOD 4] := by
@@ -76,20 +76,20 @@ private theorem finish_cyclic_four
     rw [Nat.card_congr e.toEquiv]
     unfold CFSG.Blueprint.Multiplier.generic CFSG.Blueprint.Multiplier.exceptional
     rw [hg, he]
-    simp [Nat.card_prod, Nat.card_congr Multiplicative.toAdd]
+    simp
   have hcyc : IsCyclic (CFSG.RankThree.PerfectCover.hopfMultiplier S) := by
-    haveI : Subsingleton (CFSG.Blueprint.Multiplier.exceptional t n p f) := by
+    have : Subsingleton (CFSG.Blueprint.Multiplier.exceptional t n p f) := by
       unfold CFSG.Blueprint.Multiplier.exceptional
       rw [he]
       infer_instance
-    haveI : IsCyclic (CFSG.Blueprint.Multiplier.generic t n p f) := by
+    have : IsCyclic (CFSG.Blueprint.Multiplier.generic t n p f) := by
       unfold CFSG.Blueprint.Multiplier.generic
       rw [hg]
       exact isCyclic_prod_of_subsingleton
-    haveI : IsCyclic (CFSG.Blueprint.Multiplier.generic t n p f ×
+    have : IsCyclic (CFSG.Blueprint.Multiplier.generic t n p f ×
         CFSG.Blueprint.Multiplier.exceptional t n p f) := isCyclic_prod_of_subsingleton
     exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
-  haveI : Finite (CFSG.RankThree.PerfectCover.hopfMultiplier S) :=
+  have : Finite (CFSG.RankThree.PerfectCover.hopfMultiplier S) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   obtain ⟨ζ, hζmem, hζord, hζgen⟩ :=
     exists_generator_four (CFSG.RankThree.PerfectCover.hopfMultiplier S) hcyc hcard
@@ -128,7 +128,7 @@ theorem l2_hopf_cyclic_four (hG : CFSG.ComponentClassification.HarrisLit.T1.P54.
           (if Even (p ^ f) then (1, 1) else if Even n then (2, 2) else
             (Nat.gcd 4 ((p ^ f) ^ n - 1), 1)) := by
         simp [CFSG.Blueprint.Multiplier.genericOrders]
-      rw [hg, if_neg hqEven, if_neg hnEven, gcd_four_pow_sub_one hq1 h4]
+      rw [hg, ite_eq_right hqEven, ite_eq_right hnEven, gcd_four_pow_sub_one hq1 h4]
     have hn4 : n ≠ 4 := by
       rintro rfl
       obtain ⟨k, hk⟩ := hn

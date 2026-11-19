@@ -61,7 +61,7 @@ theorem qK_eq (u : Bool) (v : ℕ) : qK (if u then 1 else 0) v = qOf u v := by
   show Nat.xor (Nat.xor (outerK (wpart v) (wpart v)) (outerK (wpart v) (xpart v)))
     (Nat.mul _ (outerK (xpart v) (xpart v))) = _
   rw [outerK_eq, outerK_eq, outerK_eq]
-  cases u <;> simp [qOf] <;> rfl
+  cases u <;> simp [qOf]
 
 private theorem qOf_zero (u : Bool) : qOf u 0 = 0 := by
   cases u <;> simp [qOf, wpart, xpart, outer]
@@ -115,7 +115,7 @@ private theorem lane9_lor_shift (X y p k : ℕ) (hy : y < 512) :
   · by_cases hk : k = p
     · subst hk
       simp [hi]
-    · have h0 : (if k = p then y else 0) = 0 := if_neg hk
+    · have h0 : (if k = p then y else 0) = 0 := ite_eq_right hk
       rw [h0]
       by_cases h9 : 9 * p ≤ 9 * k + i
       · have : 9 ≤ 9 * k + i - 9 * p := by omega
@@ -161,7 +161,7 @@ private theorem bEntry_lt (u : Bool) (A i j : ℕ) :
     · have := qImg_lt u A (mkvK (Nat.shiftLeft 1 i) (Nat.shiftLeft 1 j)); omega
     · have := qImg_lt u A (mkvK (Nat.shiftLeft 1 i) 0); omega
     · have key : ∀ m x : ℕ, m ≤ 1 → x < 2 ^ 9 → Nat.mul m x < 2 ^ 9 := fun m x hm hx => by
-        interval_cases m <;> simp <;> omega
+        interval_cases m <;> simp; omega
       have := qImg_lt u A (mkvK 0 (Nat.shiftLeft 1 j))
       exact key _ _ (by split_ifs <;> omega) (by omega)
   · exact qImg_lt u A _
@@ -190,7 +190,7 @@ private theorem bEntry_eq (u : Bool) (A : ℕ) {i j : ℕ} (hi : i < 3) (hj : j 
   have hv3 := mkv_lt 0 (2 ^ j)
   by_cases hij : i = j
   · subst hij
-    rw [Nat.beq_refl, if_pos rfl]
+    rw [Nat.beq_refl, ite_eq_left rfl]
     show qImg _ _ _ _ = _
     exact qImg_mkv u A _ _
   · have hb : Nat.beq i j = false := by
@@ -198,10 +198,10 @@ private theorem bEntry_eq (u : Bool) (A : ℕ) {i j : ℕ} (hi : i < 3) (hj : j 
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true h) hij
     rw [hb]
-    rw [if_neg hij]
+    rw [ite_eq_right hij]
     show Nat.xor (Nat.xor (qImg _ _ _ _) (qImg _ _ _ _)) (Nat.mul _ (qImg _ _ _ _)) = _
     rw [qImg_mkv, qImg_mkv, qImg_mkv]
-    cases u <;> simp <;> rfl
+    cases u <;> simp
 
 private theorem bTabK_eq (m T₀ T₁ : ℕ) : bTabK m T₀ T₁ = (((((((((0 ||| (bEntry m T₀ T₁ 0 0 <<< (9 * (3 * 0 + 0)))) ||| (bEntry m T₀ T₁ 0 1 <<< (9 * (3 * 0 + 1)))) ||| (bEntry m T₀ T₁ 0 2 <<< (9 * (3 * 0 + 2)))) ||| (bEntry m T₀ T₁ 1 0 <<< (9 * (3 * 1 + 0)))) ||| (bEntry m T₀ T₁ 1 1 <<< (9 * (3 * 1 + 1)))) ||| (bEntry m T₀ T₁ 1 2 <<< (9 * (3 * 1 + 2)))) ||| (bEntry m T₀ T₁ 2 0 <<< (9 * (3 * 2 + 0)))) ||| (bEntry m T₀ T₁ 2 1 <<< (9 * (3 * 2 + 1)))) ||| (bEntry m T₀ T₁ 2 2 <<< (9 * (3 * 2 + 2)))) := rfl
 
@@ -211,7 +211,7 @@ theorem lane9_bTabK (u : Bool) (A : ℕ) {k : ℕ} (hk : k < 9) :
   have hl := bEntry_lt u A
   simp only [lane9_lor_shift _ _ _ _ (hl _ _), lane9_zero]
   interval_cases k
-  all_goals (simp only [Nat.reduceMul, Nat.reduceAdd, Nat.reduceEqDiff, Nat.zero_or, Nat.or_zero, if_true, if_false, Nat.succ_ne_self, OfNat.ofNat_ne_zero, one_ne_zero]; exact bEntry_eq u A (by norm_num) (by norm_num))
+  all_goals (simp only [Nat.reduceMul, Nat.reduceAdd, Nat.reduceEqDiff, Nat.zero_or, Nat.or_zero, ite_true, ite_false, Nat.succ_ne_self, OfNat.ofNat_ne_zero, one_ne_zero]; exact bEntry_eq u A (by norm_num) (by norm_num))
 
 private theorem rec_xor_eq (F : ℕ → ℕ) (e n : ℕ) :
     (Nat.rec (motive := fun _ => ℕ) 0 (fun k acc => acc ^^^ bitK e k * F k) n : ℕ) =
@@ -247,8 +247,8 @@ theorem validK_eq (u : Bool) (A : ℕ) : validK (if u then 1 else 0) A = validT 
   have hlen := (dec_tup A).1
   have hall := (dec_tup A).2
   unfold validT
-  simp only [hlen, hall, List.all_eq_true, List.mem_range, Bool.and_eq_true, beq_iff_eq,
-    decide_eq_true_eq, bne_iff_ne, ne_eq, true_and]
+  simp only [hlen, List.all_eq_true, List.mem_range, Bool.and_eq_true, beq_iff_eq,
+    decide_eq_true_eq, true_and]
   have hall' : (∀ x ∈ dec A, x < 64) = True := eq_true hall
   simp only [hall', true_and]
   have hb : ∀ a b : ℕ, Nat.beq a b = true ↔ a = b :=
@@ -287,11 +287,11 @@ private theorem rec_bitset (S : ℕ → ℕ → ℕ) (p : ℕ → Bool)
       rw [Nat.shiftLeft_eq, Nat.one_mul, Nat.testBit_two_pow]
     rcases lt_trichotomy v n with h | h | h
     · have : n ≠ v := by omega
-      cases hp : p n <;> simp [h1, hp, h, this, show v < n + 1 by omega]
+      cases hp : p n <;> simp [h1, h, this, show v < n + 1 by omega]
     · subst h
-      cases hp : p v <;> simp [h1, hp]
+      cases hp : p v <;> simp [h1]
     · have : n ≠ v := by omega
-      cases hp : p n <;> simp [h1, hp, show ¬ v < n by omega, show ¬ v < n + 1 by omega, this]
+      cases hp : p n <;> simp [h1, show ¬ v < n by omega, show ¬ v < n + 1 by omega, this]
 
 set_option maxRecDepth 10000 in
 theorem xeK_testBit (j e : ℕ) : (xeK j).testBit e = (decide (e < 512) && e.testBit j) := by
@@ -373,7 +373,7 @@ private theorem fixRec_testBit (N S : ℕ) (hS : S = 2 ^ N) (X F : ℕ → ℕ)
     have ih := ih (by omega)
     have hrec : ∀ (z : ℕ) (s : ℕ → ℕ → ℕ) (n : ℕ),
         (Nat.rec (motive := fun _ => ℕ) z s (n + 1) : ℕ) = s n (Nat.rec z s n) := fun _ _ _ => rfl
-    simp only [hrec, letN_eq] at ih ⊢
+    simp only [letN_eq] at ih ⊢
     have hW : ∀ w : ℕ, Nat.sub (Nat.sub (Nat.shiftLeft 1 S) 1) w = 2 ^ S - (w + 1) := by
       intro w
       show Nat.shiftLeft 1 S - 1 - w = _

@@ -98,7 +98,7 @@ theorem ggTypeANbr_false_of_card_dvd (hCD : GGTypeACompatDiagBInput)
     subst hf1
     norm_num at hpf
     exact hp.ne_one hpf
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hBsAb, -, -, -⟩ := hcfg.tableB_facts
   have hKA : ggAutomizer K' Bs ≤ ggAutomizer L Bs ⊔ ggAutomizer K' Bs := le_sup_right
   have hsplit : ∀ t : LargeEvenLieTag, LargeEvenUntwisted t → ∀ (r : ℕ),
@@ -147,7 +147,7 @@ theorem ggTypeANbr_false_of_card_dvd (hCD : GGTypeACompatDiagBInput)
       ⟨by show 1 ≤ f; omega, by show 1 ≤ n; omega, fun h1 => by omega⟩
     have hn5 : n = 5 :=
       eq_five_of_factorial_succ_dvd_six_mul_factorial hn ((hcardA n hΛA hhasA).trans hdvd)
-    have h38 : 3 ∣ 8 := by simpa [hp3, hn5] using hpn
+    have h38 : 3 ∣ 8 := by simp [hp3, hn5] at hpn
     norm_num at h38
   ·
     subst hX

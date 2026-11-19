@@ -79,7 +79,7 @@ open Subgroup CFSG.GH74.Uniqueness.SU.SU4
 variable {G : Type} [Group G] [Finite G]
 
 theorem isSylowIn_top (S : Sylow 2 G) : IsSylowIn ⊤ (S : Subgroup G) := by
-  refine ⟨le_top, S.isPGroup', ?_⟩
+  refine ⟨le_top, S.isPGroup, ?_⟩
   have hdvd : (S : Subgroup G).relIndex ⊤ = (S : Subgroup G).index :=
     Subgroup.relIndex_top_right _
   rw [hdvd]
@@ -88,7 +88,7 @@ theorem isSylowIn_top (S : Sylow 2 G) : IsSylowIn ⊤ (S : Subgroup G) := by
 theorem exists_isSylowIn (X : Subgroup G) : ∃ P : Subgroup G, IsSylowIn X P := by
   obtain ⟨Q⟩ : Nonempty (Sylow 2 ↥X) := inferInstance
   refine ⟨(Q : Subgroup ↥X).map X.subtype, Subgroup.map_subtype_le _,
-    Q.isPGroup'.map X.subtype, ?_⟩
+    Q.isPGroup.map X.subtype, ?_⟩
   have h0 : ((Q : Subgroup ↥X).map X.subtype).subgroupOf X = (Q : Subgroup ↥X) := by
     ext x
     rw [Subgroup.mem_subgroupOf]
@@ -223,6 +223,6 @@ theorem exists_extremal_conj (S : Sylow 2 G) {u : G} (hu : orderOf u = 2) :
     simpa using hTS t ht
   have hle : T.map (MulAut.conj x⁻¹).toMonoidHom ≤
       (S : Subgroup G) ⊓ centralizer ({x⁻¹ * u * x⁻¹⁻¹} : Set G) := le_inf hT₁S hT₁.1
-  exact isSylowIn_of_le hT₁ hle inf_le_right (S.isPGroup'.to_inf_left)
+  exact isSylowIn_of_le hT₁ hle inf_le_right (S.isPGroup.to_inf_left)
 
 end CFSG.GH74.Uniqueness.SU.SU10

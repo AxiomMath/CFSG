@@ -56,7 +56,7 @@ theorem u48CentInvAt_of_root (G : Type) [Group G] [Finite G] (h : U48RootResidua
         intro a b
         ext r
         simp [mul_assoc] }
-  letI : MulAction ↥A S := MulAction.compHom S ρ
+  let : MulAction ↥A S := MulAction.compHom S ρ
   have hA3 : IsPGroup 3 ↥A := isPGroup_of_isElemAbelian hA
   have hmod := hA3.card_modEq_card_fixedPoints S
   rw [hS7] at hmod

@@ -63,7 +63,7 @@ theorem exists_bad_conjugate_in_sylow {V H T : Subgroup G} (hV7 : Hyp7 V) (hH : 
     ∃ U : Subgroup G, (∃ g : G, U = conjSubgroup V g) ∧ U ≤ T ∧
       (∀ h ∈ H, U ≠ conjSubgroup V h) ∧
       ¬ ∀ h ∈ H, ∀ u ∈ U, ∀ v ∈ conjSubgroup V h, u * v = v * u := by
-  push_neg at hnot
+  push Not at hnot
   obtain ⟨U₁, ⟨g, rfl⟩, hU₁H, hU₁Ω, W, hW, u, hu, w, hw, hne⟩ := hnot
   have hTH : IsSylowIn 2 T H := isSylowIn_of_isCalH hH hT
   have hU₁p : IsPGroup 2 (conjSubgroup V g) := (isElemAbelian_conjSubgroup' hV7.1 g).isPGroup
@@ -136,6 +136,7 @@ private theorem pCoreOf_inf_le_pCoreOf_of_le' {K H : Subgroup G} (hKH : K ≤ H)
     rw [Subgroup.mem_inf, Subgroup.mem_inf, h1 y, h2 y]
   · exact (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H).to_le inf_le_left
 
+omit [Finite G] in
 private theorem isSylowIn_two_restrict' {P K K' : Subgroup G} (hP : IsSylowIn 2 P K)
     (hPK' : P ≤ K') (hK'K : K' ≤ K) : IsSylowIn 2 P K' := by
   refine ⟨hPK', hP.isPGroup, fun h => hP.not_dvd_relIndex ?_⟩
@@ -216,7 +217,7 @@ theorem eight_six_one_C (h83 : W3Lem83In G) (h85two : W3Lem85TwoKT G)
 
 theorem w3Lem86_1Two_of_kt_inputs (h85two : W3Lem85TwoKT G) (h85three : W3Lem85ThreeFirst G)
     (hsh : W3Shape86C G) (hbor : W3Borel86 G) : W3Lem86_1Two G :=
-  fun V H T hV7 hH hH0 hT hW hcond =>
+  fun _V _H _T hV7 hH hH0 hT hW hcond =>
     eight_six_one_C w3Lem83In_holds h85two h85three hsh hbor hV7 hH hH0 hT hW hcond
 
 theorem w3Lem86_1_of_kt_inputs (h85two : W3Lem85TwoKT G) (h85three : W3Lem85ThreeFirst G)

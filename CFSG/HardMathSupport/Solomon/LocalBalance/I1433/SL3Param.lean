@@ -70,7 +70,7 @@ private theorem card_of_isSL3EpsOver {Y : Type} [Group Y] {q : ℕ} (h : IsSL3Ep
   · have h2 : 2 ≤ Nat.card F := Finite.one_lt_card
     have hq : 2 ≤ q := by
       by_contra hlt
-      push_neg at hlt
+      push Not at hlt
       interval_cases q <;> simp_all
     refine ⟨hq, Or.inr ?_⟩
     rw [Nat.card_congr e.toEquiv,

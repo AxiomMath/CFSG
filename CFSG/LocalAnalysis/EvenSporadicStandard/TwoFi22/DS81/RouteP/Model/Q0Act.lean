@@ -96,7 +96,7 @@ noncomputable abbrev planeXMulAction : MulAction ↥Q0 (Fin 891) :=
 
 theorem planeXMulAction_isPretransitive :
     @MulAction.IsPretransitive ↥Q0 (Fin 891) planeXMulAction.toSMul := by
-  letI := planeXMulAction
+  let := planeXMulAction
   exact ⟨fun i j => exists_planeXAct_eq i j⟩
 
 theorem stabilizer_planeXMulAction_zero :

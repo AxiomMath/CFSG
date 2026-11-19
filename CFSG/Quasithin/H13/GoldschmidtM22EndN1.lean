@@ -87,6 +87,7 @@ theorem rep_o2 (h6210 : Stmt6_2_10) :
   exact (rep_eq_one_iff p).mpr (key ⟨p, hp, rfl⟩)
 
 include h in
+omit [Fact (IsElemAbelianMod (UU T L V) (quasithinOmegaOneCenter T))] in
 theorem isQuotientOfSQTK_HH (hZ : Nat.card (quasithinOmegaOneCenter T) = 2) (h6210 : Stmt6_2_10) :
     IsQuotientOfSQTK ↥(HH T) := by
   have hO2 : pCoreOf 2 (HH T) ≠ ⊥ := by

@@ -70,7 +70,7 @@ private theorem l6sc_reindex_trans {ι κ ν : Type} (M : CoxeterMatrix ι) (e :
     (f : κ ≃ ν) : (M.reindex e).reindex f = M.reindex (e.trans f) := by
   apply CoxeterMatrix.ext
   funext x y
-  simp only [CoxeterMatrix.reindex_apply, Equiv.trans_apply, Equiv.symm_trans_apply]
+  simp only [CoxeterMatrix.reindex_apply, Equiv.symm_trans_apply]
 
 private theorem l6sc_weyl_reindex {ι κ : Type} {M : CoxeterMatrix ι} (h : GGIsWeylMatrix M)
     (f : ι ≃ κ) : GGIsWeylMatrix (M.reindex f) := by
@@ -223,12 +223,12 @@ theorem ggJoint_oneNode_sideClause_selected {G : Type} [Group G] [Finite G]
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] {ι : Additive ↥Bs ≃+ V}
     {φ : Λ ⊕ Λa → MulAut ↥Bs} {h : Λ ⊕ Λa → V}
     {α : Λ ⊕ Λa → Module.Dual (ZMod p) V}
-    (hφ : ∀ o w, ggLin (p := p) ι (φ o) w = w - α o w • h o)
+    (_hφ : ∀ o w, ggLin (p := p) ι (φ o) w = w - α o w • h o)
     (hpairK : ∀ o o' : {i : Λ // i ≠ b₁ ∧ i ≠ b₂} ⊕ Λa,
       α (o.map Subtype.val id) (h (o'.map Subtype.val id)) = (CK o o' : ZMod p))
     (hfK : ∃ fK : MK.Group ≃* ↥(ggAutomizer K Bs),
       ∀ o, (fK (MK.simple o) : MulAut ↥Bs) = φ (o.map Subtype.val id))
-    (hAK : ggAutomizer K Bs = Subgroup.closure
+    (_hAK : ggAutomizer K Bs = Subgroup.closure
       (Set.range (fun j : {j : Λ // j ≠ b₁ ∧ j ≠ b₂} => φ (Sum.inl j)) ∪
         Set.range fun a : Λa => φ (Sum.inr a))) :
     ∃ (S : Finset (Fin (N - 1))) (MK' : CoxeterMatrix (Option ↥S))

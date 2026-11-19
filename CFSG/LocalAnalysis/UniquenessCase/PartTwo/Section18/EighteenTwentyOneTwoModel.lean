@@ -84,6 +84,7 @@ private theorem two_le_card_inf_T3J3 {G : Type} [Group G] [Finite G] {E P B : Su
   rw [pow_add] at h4
   omega
 
+omit [Finite F] in
 private theorem ne_top_T3J3 {n : ℕ} (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n)
     {S : Submodule F (Fin 4 → F)} (hS6 : Nat.card ↥S = 2 ^ (6 * n)) : S ≠ ⊤ := by
   intro h

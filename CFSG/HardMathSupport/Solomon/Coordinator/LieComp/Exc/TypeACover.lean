@@ -20,7 +20,7 @@ theorem rationalLieType_of_cover {ℓ : ℕ} {G : Type} [Group G] (R : Subgroup 
 
 theorem ringChar_eq_three_of_card_eq_nine {K : Type} [Field K] [Fintype K]
     (h : Fintype.card K = 9) : ringChar K = 3 := by
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : CharP K (ringChar K) := ringChar.charP K
   obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
   have hd : ringChar K ∣ 3 ^ 2 := by
     have h9 : Fintype.card K = 3 ^ 2 := by rw [h]; norm_num
@@ -29,8 +29,8 @@ theorem ringChar_eq_three_of_card_eq_nine {K : Type} [Field K] [Fintype K]
   exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).1 (hp.dvd_of_dvd_pow hd)
 
 theorem ringChar_subfield' {K : Type} [Field K] (k : Subfield K) : ringChar k = ringChar K := by
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : CharP k (ringChar K) := (k.subtype.charP_iff k.subtype_injective _).2 inferInstance
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : CharP k (ringChar K) := (k.subtype.charP_iff k.subtype_injective _).2 inferInstance
   exact ringChar.eq k _
 
 theorem rationalLieType_of_slCover {K : Type} [Field K] [Finite K] {ν : ℕ} (hν : 2 ≤ ν)
@@ -39,7 +39,7 @@ theorem rationalLieType_of_slCover {K : Type} [Field K] [Finite K] {ν : ℕ} (h
     (hgk : g.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin ν) K)) :
     RationalLieType (ringChar K) R := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hFD := slFactorFacts_holds K ν hν (fun h => by
     rw [← Nat.card_eq_fintype_card]
     exact h4 h)

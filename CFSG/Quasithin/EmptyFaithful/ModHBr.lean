@@ -85,7 +85,7 @@ theorem false_of_solvNine {T Mc M V₁ V₂ Yp I L : Subgroup G} {t : G}
   set π : ↥L →* ↥L ⧸ Z := QuotientGroup.mk' Z with hπ
   have hTsyl : IsSylowTwoOf ((Q.subgroupOf L).map π) ⊤ := by
     rw [← hT]
-    exact K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup', Tsyl.not_dvd_index⟩
+    exact K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup, Tsyl.not_dvd_index⟩
   have hnorm := quot_normalizes (L := L) (A := Q) hYL (fun q hq => hSN (hQS hq))
   obtain ⟨b, k, hk2, -, hcard⟩ := SBd11.card_form_of_struct c.facts11.struct_Yp
   have hsolvY : Group.IsSolvable ↥Yp := isSolvable_of_struct c.facts11.struct_Yp

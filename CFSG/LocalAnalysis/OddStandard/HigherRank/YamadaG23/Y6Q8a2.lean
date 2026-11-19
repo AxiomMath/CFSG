@@ -65,7 +65,7 @@ private lemma comm_gen_z (h : Y6ARel a₁ b₁ a₂ b₂ z) :
 
 private lemma comm_mem_fixed (h : Y6ARel a₁ b₁ a₂ b₂ z)
     (hz : ∀ a ∈ (closure {a₁, b₁, a₂, b₂} : Subgroup G), a * z = z * a)
-    {a : G} (ha : a ∈ (closure {a₁, b₁, a₂, b₂} : Subgroup G))
+    {a : G} (_ha : a ∈ (closure {a₁, b₁, a₂, b₂} : Subgroup G))
     (hagen : ∀ y ∈ ({a₁, b₁, a₂, b₂} : Set G), ⁅a, y⁆ = 1 ∨ ⁅a, y⁆ = z) :
     ∀ b ∈ (closure {a₁, b₁, a₂, b₂} : Subgroup G), ⁅a, b⁆ = 1 ∨ ⁅a, b⁆ = z := by
   intro b hb

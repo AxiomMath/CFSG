@@ -98,9 +98,9 @@ theorem psl2_overgroup_strong {F : Type} [Field F] [Finite F]
     (h3 : ¬ 3 ∣ Nat.card F) {A W : Subgroup (PSL2MatrixGroup F)} (hA : Nat.card A = 3)
     (hNW : Subgroup.normalizer (A : Set (PSL2MatrixGroup F)) ≤ W)
     (hW : ¬ CFSG.HallHigman.IsPSolvable 3 W) : W = ⊤ := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨p, f, hp, hf, hcard⟩ := (isPrimePow_nat_iff _).1 (FiniteField.isPrimePow_card F)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF : Nat.card F = p ^ f := by
     rw [Nat.card_eq_fintype_card]
     exact hcard.symm

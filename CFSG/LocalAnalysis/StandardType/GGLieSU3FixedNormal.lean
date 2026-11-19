@@ -38,7 +38,7 @@ theorem ggLieSU3Fixed_normal {K : Type} [Field K] [Finite K] {n : ℕ}
       ∃ u ∈ Jh, t * u ≠ u * t := by
   classical
   have h : UnitaryFieldData 2 n K := TableBU.unitaryFieldData_of_card hK hn
-  haveI := h.finite
+  have := h.finite
   have hα0 : α ≠ 0 := by
     intro h0
     have hdetne : (Matrix.diagonal ![α, α, α, 1] : Matrix (Fin 4) (Fin 4) K).det ≠ 0 := by
@@ -95,22 +95,22 @@ theorem ggLieSU3Fixed_normal {K : Type} [Field K] [Finite K] {n : ℕ}
   ·
     subst n
     exfalso
-    haveI : Group.IsSolvable ↥(unitarySU 2 1 K 3) :=
+    have : Group.IsSolvable ↥(unitarySU 2 1 K 3) :=
       SmallU.isSolvable_unitarySU_small (m := 3) h (by norm_num) le_rfl
     have hRsolv : Group.IsSolvable ↥((blk93 h).range) :=
       Group.isSolvable_of_surjective
         (f := (MonoidHom.ofInjective (blk93_injective h)).toMonoidHom)
         (MonoidHom.ofInjective (blk93_injective h)).surjective
     have hJsolv : Group.IsSolvable Jh := by
-      haveI : Group.IsSolvable ↥((blk93 h).range) := hRsolv
+      have : Group.IsSolvable ↥((blk93 h).range) := hRsolv
       let f : ↥Jh →* ↥((blk93 h).range) :=
         Subgroup.inclusion (G := ↥(LargeEvenSUGroup (Fin 4) K (2 ^ 1))) hJleR
       exact Group.isSolvable_of_isSolvable_injective (f := f)
         (Subgroup.inclusion_injective (G := ↥(LargeEvenSUGroup (Fin 4) K (2 ^ 1))) hJleR)
     have hJbot : Jh = ⊥ := by
       by_contra hne'
-      haveI : Nontrivial Jh := (Subgroup.nontrivial_iff_ne_bot Jh).mpr hne'
-      haveI : Group.IsPerfect Jh := Subgroup.isPerfect_iff.mpr hJperf
+      have : Nontrivial Jh := (Subgroup.nontrivial_iff_ne_bot Jh).mpr hne'
+      have : Group.IsPerfect Jh := Subgroup.isPerfect_iff.mpr hJperf
       exact (Group.IsPerfect.not_isSolvable (G := Jh)) hJsolv
     exact hJ1 hJbot
   ·
@@ -122,7 +122,7 @@ theorem ggLieSU3Fixed_normal {K : Type} [Field K] [Finite K] {n : ℕ}
       hJsub'.inf_of_le hRC
     have hJeq : Jh ⊓ (blk93 h).range = Jh := inf_eq_left.mpr hJleR
     have hsn := (CFSG.Assembly.IsSubnormal.iff_subgroupOf hJleR).mp (hJeq ▸ hJsub_inf)
-    haveI : Group.IsPerfect Jh := Subgroup.isPerfect_iff.mpr hJperf
+    have : Group.IsPerfect Jh := Subgroup.isPerfect_iff.mpr hJperf
     have hJeqR : Jh = (blk93 h).range :=
       CFSG.RankThree.PartOne.eq_of_isSubnormal_of_isPerfect_of_isQuasisimple
         hRq hJleR inferInstance hJ1 hsn
@@ -174,7 +174,7 @@ theorem ggLieSU3Fixed_normal {K : Type} [Field K] [Finite K] {n : ℕ}
     have htmat : gu4 t = Matrix.diagonal D := by
       rw [show gu4 t = CFSG.RankThree.PartOne.KFU.blk3 ((Xt : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) from rfl, hXtmat]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [CFSG.RankThree.PartOne.KFU.blk3, Matrix.diagonal_apply, D, v]
+      fin_cases i <;> fin_cases j <;> simp [CFSG.RankThree.PartOne.KFU.blk3, D, v]
     have ht_diag : ((t : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K).IsDiag := by
       rw [show ((t : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) = Matrix.diagonal D from htmat]
       exact Matrix.isDiag_diagonal _

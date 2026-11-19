@@ -368,7 +368,7 @@ theorem sylow_le [Finite H] (hd : IsLinearDecomposition ι L E S) (P : Sylow 2 H
     (P : Subgroup H) ≤ L := by
   have := hd.normal
   have h2 : IsPGroup 2 ((P : Subgroup H).map (QuotientGroup.mk' L)) :=
-    P.isPGroup'.map (QuotientGroup.mk' L)
+    P.isPGroup.map (QuotientGroup.mk' L)
   obtain ⟨k, hk⟩ := h2.exists_card_eq
   have hdvd : Nat.card ((P : Subgroup H).map (QuotientGroup.mk' L)) ∣ L.index := by
     rw [Subgroup.index_eq_card]

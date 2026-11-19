@@ -120,7 +120,7 @@ theorem injective_resGL_comp_inclusion {K B : Subgroup G} (hinv : CFSG.HardMathS
     (hKs : IsSimpleGroup ↥K) (hKU : ¬ K ≤ cenOn ρ K (commOn ρ K ⊤)) :
     Function.Injective
       ((resGL ρ (K ⊔ B) (commOn ρ K ⊤) hinv).comp (Subgroup.inclusion (le_sup_left : K ≤ K ⊔ B))) := by
-  haveI := hKs
+  have := hKs
   rw [← MonoidHom.ker_eq_bot_iff]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       ((resGL ρ (K ⊔ B) (commOn ρ K ⊤) hinv).comp (Subgroup.inclusion (le_sup_left : K ≤ K ⊔ B))).ker
@@ -158,8 +158,8 @@ theorem center_imgGL_eq_bot {K B : Subgroup G} (hinv : CFSG.HardMathSupport.Meie
     (hK : IsComponentOf K ⊤) (hKs : IsSimpleGroup ↥K) (hKU : ¬ K ≤ cenOn ρ K (commOn ρ K ⊤)) :
     Subgroup.center ↥(imgGL ρ (K ⊔ B) (commOn ρ K ⊤) hinv K) = ⊥ := by
   obtain ⟨e, -⟩ := exists_mulEquiv_imgGL hinv hKs hKU
-  haveI := hKs
-  haveI : IsSimpleGroup ↥(imgGL ρ (K ⊔ B) (commOn ρ K ⊤) hinv K) := e.symm.isSimpleGroup
+  have := hKs
+  have : IsSimpleGroup ↥(imgGL ρ (K ⊔ B) (commOn ρ K ⊤) hinv K) := e.symm.isSimpleGroup
   exact ExcAux.center_eq_bot ((CFSG.IsQuasisimple.congr e).1 (ExcAux.isQuasisimple_of_isComponentOf hK))
 
 theorem map_commGL_imgGL {K B X : Subgroup G} (hinv : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ (K ⊔ B) (commOn ρ K ⊤))
@@ -245,7 +245,7 @@ theorem exists_transportGL [Finite G] [Finite V] (hρ : Function.Injective ρ) {
   have hLA' := commutator_eq_self_of_mem_calP hρ hL hA hLA
   have hAe := isElementaryAbelian_of_mem_calP hA
   have hbest := isBestOffenderOn_of_mem_calP hρ hA
-  haveI := hLs
+  have := hLs
   have hLnt : ¬ L ≤ cenOn ρ L ⊤ := by
     intro hle
     have hL1 : L = ⊥ := by

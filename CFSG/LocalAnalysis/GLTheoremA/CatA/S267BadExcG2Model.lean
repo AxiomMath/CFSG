@@ -40,8 +40,8 @@ theorem eq_one_of_mem_center_sl2_of_pow {F : Type} [Field F] {p : ℕ} (hp2 : Od
 theorem exists_orderOf_eq_sl2 {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime)
     (hpF : p ∣ Nat.card F ^ 2 - 1) : ∃ A : SL2 F, orderOf A = p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype (SL2 F) := Fintype.ofFinite _
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype (SL2 F) := Fintype.ofFinite _
   refine exists_prime_orderOf_dvd_card p ?_
   rw [← Nat.card_eq_fintype_card, CFSG.SL2MinimalFaithful.card_specialLinearGroup_fin_two]
   exact Dvd.dvd.mul_left hpF _
@@ -64,7 +64,7 @@ variable {K : Type} [Field K]
 theorem dvd_card_fixSubfield_sq_sub_one [Finite K] {p : ℕ} (hp : p.Prime) {σ : K ≃+* K}
     (hσ : orderOf σ = p) (hpK : p ∣ Nat.card K ^ 2 - 1) :
     p ∣ Nat.card (fixSubfield σ) ^ 2 - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hc := CFSG.RankThree.PartTwo.KFacts.card_fixSubfield_pow σ
   rw [hσ] at hc
   set n := Nat.card (fixSubfield σ) with hn
@@ -79,7 +79,7 @@ theorem dvd_card_fixSubfield_sq_sub_one [Finite K] {p : ℕ} (hp : p.Prime) {σ 
 noncomputable abbrev fixIncl (σ : K ≃+* K) : SL2 (fixSubfield σ) →* SL2 K :=
   Matrix.SpecialLinearGroup.map (fixSubfield σ).subtype
 
-theorem fixIncl_injective (σ : K ≃+* K) : Function.Injective (fixIncl σ) := fun A B h =>
+theorem fixIncl_injective (σ : K ≃+* K) : Function.Injective (fixIncl σ) := fun _A _B h =>
   Subtype.ext (Matrix.ext fun i j =>
     Subtype.val_injective (congrFun (congrFun (congrArg Subtype.val h) i) j))
 

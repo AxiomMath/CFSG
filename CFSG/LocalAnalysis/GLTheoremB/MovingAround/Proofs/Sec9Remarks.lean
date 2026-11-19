@@ -26,13 +26,13 @@ theorem sec9_exists_subgroup_card_eq_of_dvd_comm :
     set q := Nat.minFac d with hq_def
     have hq2 : 2 ≤ q := hqp.two_le
     have hq0 : 0 < q := by omega
-    haveI : Fact q.Prime := ⟨hqp⟩
+    have : Fact q.Prime := ⟨hqp⟩
     have hdH : d ∣ Nat.card H := by rw [hn]; exact hd
     have hqn : q ∣ Nat.card H := hqd.trans hdH
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' q hqn
     set N : Subgroup H := Subgroup.zpowers x with hN_def
     have hNcard : Nat.card N = q := by rw [hN_def, Nat.card_zpowers, hx]
-    haveI hNnormal : N.Normal :=
+    have hNnormal : N.Normal :=
       ⟨fun n hn g => by
         have : g * n * g⁻¹ = n := by rw [hc g n, mul_inv_cancel_right]
         rw [this]; exact hn⟩

@@ -152,6 +152,7 @@ theorem yamadaD₁_le_normalizer_of_le {H : Subgroup G} (hVH : yamadaV₁ d t �
     exact mul_mem (hVH h1) hx
 
 include h hNH h561 h562 in
+omit h562 in
 theorem mem_inf_normalizer_iff {H : Subgroup G} (hHD : H ≤ yamadaD₁ d t)
     (hH5 : yamadaR₅ d t ≤ normalizer (H : Set G)) {x : G} :
     x ∈ yamadaR₅ d t ⊓ normalizer ((H ⊔ zpowers t : Subgroup G) : Set G) ↔
@@ -193,8 +194,8 @@ theorem exists_mem_inf_normalizer_conj_eq {H : Subgroup G} (hVH : yamadaV₁ d t
       ∃ v ∈ yamadaV₁ d t, x * t * x⁻¹ = t * w * v := by
   have hCQ := h.yamadaC₅_eq_yamadaQ₅ d hNH h561 h562 h591 h592 h593
   obtain ⟨x, hx, v, hv, e⟩ :=
-    h.exists_mem_yamadaQ₅_conj_eq d hNH h561 h562 h591 h592 h593 (hHD hw)
-  refine ⟨x, (h.mem_inf_normalizer_iff d hNH h561 h562 hHD hH5).2
+    h.exists_mem_yamadaQ₅_conj_eq d h561 h562 h591 h592 h593 (hHD hw)
+  refine ⟨x, (h.mem_inf_normalizer_iff d hNH h561 hHD hH5).2
     ⟨mem_sup_left (hCQ ▸ hx), ?_⟩, v, hv, e⟩
   rw [show t * x * t * x⁻¹ = t * (x * t * x⁻¹) by group, e, ← mul_assoc, ← mul_assoc,
     h.t_mul_t, one_mul]
@@ -262,7 +263,7 @@ theorem crossed_conj_mem {H H' : Subgroup G} (hVH : yamadaV₁ d t ≤ H) (hHD :
     (hg : g ∈ yamadaR₅ d t) (hκg : t * g * t * g⁻¹ ∈ H') (hx : x ∈ yamadaR₅ d t)
     (hκx : t * x * t * x⁻¹ ∈ H) : t * (g * x * g⁻¹) * t * (g * x * g⁻¹)⁻¹ ∈ H := by
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_right h.t_mul_t
-  have hκgD := h.crossed_mem_yamadaD₁ d hNH h561 h562 (h.yamadaR₅_le_normalizer_yamadaC₁ d hg)
+  have hκgD := h.crossed_mem_yamadaD₁ d hNH h561 (h.yamadaR₅_le_normalizer_yamadaC₁ d hg)
   have e : t * (g * x * g⁻¹) * t⁻¹ * (g * x * g⁻¹)⁻¹ =
       ((t * g * t⁻¹ * g⁻¹) * (g * (t * x * t⁻¹ * x⁻¹) * g⁻¹) * (t * g * t⁻¹ * g⁻¹)⁻¹) *
         ((t * g * t⁻¹ * g⁻¹) * (g * x * g⁻¹) * (t * g * t⁻¹ * g⁻¹)⁻¹ * (g * x * g⁻¹)⁻¹) := by
@@ -349,7 +350,7 @@ theorem yamadaR₂_eq_inf_normalizer : yamadaR₂ d t =
   have hCQ := h.yamadaC₅_eq_yamadaQ₅ d hNH h561 h562 h591 h592 h593
   have hY₁5 := h.yamadaR₅_le_normalizer_yamadaY₁ d hNH h561 h562 h591 h592 h593
   have hiff := fun {x : G} =>
-    h.mem_inf_normalizer_iff d hNH h561 h562 (yamadaY₁_le_yamadaD₁ d) hY₁5 (x := x)
+    h.mem_inf_normalizer_iff d hNH h561 (yamadaY₁_le_yamadaD₁ d) hY₁5 (x := x)
   apply le_antisymm
   · intro x hx
     refine hiff.2 ⟨h.yamadaR₂_le_yamadaR₅ d hNH h561 h562 h591 h592 h593 hx, ?_⟩
@@ -386,7 +387,7 @@ theorem yamadaR₂_eq_inf_normalizer : yamadaR₂ d t =
         one_mul]
     have hκ1 : t * (a * a⁻¹) * t * (a * a⁻¹)⁻¹ = 1 := by
       rw [mul_inv_cancel, mul_one, inv_one, mul_one, h.t_mul_t]
-    have h1 := h.crossed_mul_mem d hNH h561 h562 haQ (inv_mem haN)
+    have h1 := h.crossed_mul_mem d hNH h561 haQ (inv_mem haN)
     rw [hκ1, mul_one, hκa] at h1
     have h1' := (inv_mem_iff).1 h1
     have hyN : y ∈ normalizer (yamadaV₁ d t : Set G) := hYV hy
@@ -396,7 +397,7 @@ theorem yamadaR₂_eq_inf_normalizer : yamadaR₂ d t =
           y⁻¹ * (y * (t * a⁻¹ * t * a⁻¹⁻¹)) * y⁻¹⁻¹ * v₁ := by group
       rw [e]
       exact mul_mem ((mem_normalizer_iff.1 (inv_mem hyN) _).1 h1') hv₁
-    have h3 := h.crossed_mul_mem d hNH h561 h562 (inv_mem haQ) hcN
+    have h3 := h.crossed_mul_mem d hNH h561 (inv_mem haQ) hcN
     have h4 : t * (a⁻¹ * c) * t * (a⁻¹ * c)⁻¹ ∈ yamadaV₁ d t := by
       have := mul_mem h2 h3
       rwa [mul_inv_cancel_left] at this
@@ -420,8 +421,8 @@ theorem inf_normalizer_le_and_le_normalizer {H H' : Subgroup G} (hVH : yamadaV�
         normalizer ((yamadaR₅ d t ⊓ normalizer ((H ⊔ zpowers t : Subgroup G) : Set G) :
           Subgroup G) : Set G) := by
   have hiff := fun {x : G} =>
-    h.mem_inf_normalizer_iff d hNH h561 h562 (hHH'.trans hH'D) hH5 (x := x)
-  have hiff' := fun {x : G} => h.mem_inf_normalizer_iff d hNH h561 h562 hH'D hH'5 (x := x)
+    h.mem_inf_normalizer_iff d hNH h561 (hHH'.trans hH'D) hH5 (x := x)
+  have hiff' := fun {x : G} => h.mem_inf_normalizer_iff d hNH h561 hH'D hH'5 (x := x)
   refine ⟨fun x hx => ?_, fun g hg => mem_normalizer_fintype fun x hx => ?_⟩
   · obtain ⟨hx5, hκ⟩ := hiff.1 hx
     exact hiff'.2 ⟨hx5, hHH' hκ⟩
@@ -448,7 +449,7 @@ theorem yamada_5_14 :
   have hcrossed : ∀ {H : Subgroup G}, H ≤ yamadaD₁ d t → yamadaR₅ d t ≤ normalizer (H : Set G) →
       ∀ x ∈ yamadaR₅ d t ⊓ normalizer ((H ⊔ zpowers t : Subgroup G) : Set G),
         ∃ w ∈ H, x * t * x⁻¹ = t * w := fun hHD hH5 x hx => by
-    obtain ⟨-, hκ⟩ := (h.mem_inf_normalizer_iff d hNH h561 h562 hHD hH5).1 hx
+    obtain ⟨-, hκ⟩ := (h.mem_inf_normalizer_iff d hNH h561 hHD hH5).1 hx
     refine ⟨_, hκ, ?_⟩
     rw [show t * (t * x * t * x⁻¹) = (t * t) * x * t * x⁻¹ by group, h.t_mul_t, one_mul]
   have h23 := h.inf_normalizer_le_and_le_normalizer d hNH h561 h562 le_sup_right
@@ -467,13 +468,13 @@ theorem yamada_5_14 :
     exact h23
   · intro g hg
     refine mem_normalizer_fintype fun x hx => ?_
-    have hiff := fun {z : G} => h.mem_inf_normalizer_iff d hNH h561 h562
+    have hiff := fun {z : G} => h.mem_inf_normalizer_iff d hNH h561
       (yamadaF₁_le_yamadaD₁ d) hF₁5 (x := z)
     obtain ⟨hx5, hκx⟩ := hiff.1 hx
     exact hiff.2 ⟨mul_mem (mul_mem hg hx5) (inv_mem hg), h.crossed_conj_mem d hNH h561 h562
       h562.2.2.2 (yamadaF₁_le_yamadaD₁ d) hF₁5
       (fun x hx y hy => h.commutatorElement_mem_yamadaF₁ d hNH h561 h562 h591 h592 h593 hx hy)
-      hg (h.crossed_mem_yamadaD₁ d hNH h561 h562 (h.yamadaR₅_le_normalizer_yamadaC₁ d hg))
+      hg (h.crossed_mem_yamadaD₁ d hNH h561 (h.yamadaR₅_le_normalizer_yamadaC₁ d hg))
       hx5 hκx⟩
 
 omit [Finite G] in
@@ -584,7 +585,7 @@ theorem yamadaR₅_inf_normalizer_yamadaR₁_le :
       exact V_le_yamadaV₁ d h562 hv₀
     have hyN : s * c⁻¹ * s⁻¹ ∈ normalizer (yamadaC₁ d t : Set G) :=
       mul_mem (mul_mem hsN (inv_mem hcNC₁)) (inv_mem hsN)
-    have h1 := h.crossed_mul_mem d hNH h561 h562 hcQ hyN
+    have h1 := h.crossed_mul_mem d hNH h561 hcQ hyN
     rw [show c * (s * c⁻¹ * s⁻¹) = c * s * c⁻¹ * s⁻¹ by group] at h1
     have hcy : (t * c * t * c⁻¹) * (t * (s * c⁻¹ * s⁻¹) * t * (s * c⁻¹ * s⁻¹)⁻¹) ∈
         yamadaV₁ d t := by
@@ -602,7 +603,7 @@ theorem yamadaR₅_inf_normalizer_yamadaR₁_le :
         _ = (s * t) * c⁻¹ * (t * s⁻¹) * s * c * s⁻¹ := by rw [← hst, hst']
         _ = s * (t * c⁻¹ * t * c⁻¹⁻¹) * s⁻¹ := by group
     rw [hκy] at hcy
-    have h2 := h.crossed_mul_mem d hNH h561 h562 hcQ (inv_mem hcNC₁)
+    have h2 := h.crossed_mul_mem d hNH h561 hcQ (inv_mem hcNC₁)
     have hκ1 : t * (c * c⁻¹) * t * (c * c⁻¹)⁻¹ = 1 := by
       rw [mul_inv_cancel, mul_one, inv_one, mul_one, h.t_mul_t]
     rw [hκ1, mul_one] at h2
@@ -613,7 +614,7 @@ theorem yamadaR₅_inf_normalizer_yamadaR₁_le :
     rw [e]
     exact mul_mem hcy ((mem_normalizer_iff.1 hsV _).1 h2)
   obtain ⟨n, hn, v, hv, hnv⟩ := h.exists_mul_of_mem_yamadaD₁ d h561 h562
-    (h.crossed_mem_yamadaD₁ d hNH h561 h562 hcNC₁)
+    (h.crossed_mem_yamadaD₁ d hNH h561 hcNC₁)
   have hnY : n ∈ d.Y.map L.subtype := by
     obtain ⟨n', hn', rfl⟩ := hn
     refine ⟨n', d.mem_Y_iff_forall.2 ⟨d.D_le_S hn', fun y hy => ?_⟩, rfl⟩
@@ -643,7 +644,7 @@ theorem yamadaR₅_inf_normalizer_yamadaR₁_le :
     exact mul_mem (mem_sup_left hnY) (mem_sup_right hv)
   have hcR₂ : c ∈ yamadaR₂ d t := by
     rw [h.yamadaR₂_eq_inf_normalizer d hNH h561 h562 h591 h592 h593]
-    exact (h.mem_inf_normalizer_iff d hNH h561 h562 (yamadaY₁_le_yamadaD₁ d)
+    exact (h.mem_inf_normalizer_iff d hNH h561 (yamadaY₁_le_yamadaD₁ d)
       (h.yamadaR₅_le_normalizer_yamadaY₁ d hNH h561 h562 h591 h592 h593)).2
         ⟨mem_sup_left hc, hκY₁⟩
   exact mul_mem hcR₂ (mem_sup_right hs₀)

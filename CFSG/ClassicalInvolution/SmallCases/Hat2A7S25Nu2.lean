@@ -124,7 +124,7 @@ theorem epsG_eq_neg_one_of_isFAut (cov : IsDoubleCoverA7 π zE) (hR : IsSylow2In
     exact h2.2
   rw [hR₁def] at hkbQ
   obtain ⟨s, hs, hsk⟩ := hkbQ
-  have hS2 : IsPGroup 2 ↥(R.subgroupOf K) := Q.isPGroup'
+  have hS2 : IsPGroup 2 ↥(R.subgroupOf K) := Q.isPGroup
   have hinj := Uniform.injective_mk_oddCore_of_isPGroup K hS2
   have hsfix : α s = s := by
     have h1 : ᾱ (QuotientGroup.mk' N s) = QuotientGroup.mk' N s := by

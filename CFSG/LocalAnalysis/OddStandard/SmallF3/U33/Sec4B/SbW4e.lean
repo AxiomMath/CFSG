@@ -11,6 +11,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private theorem w4_conj_mem_closure_of_gens {T : Set G} {g : G}
     (hgen : ∀ x ∈ T, g * x * g⁻¹ ∈ Subgroup.closure T) :
     ∀ w ∈ Subgroup.closure T, g * w * g⁻¹ ∈ Subgroup.closure T := by
@@ -28,7 +29,7 @@ private theorem w4_conj_mem_closure_of_gens {T : Set G} {g : G}
 
 theorem w4_A_comm (hc : Ctx0 t L S x₁ x₂ lam rho) {a b : G} (ha : a ∈ baseGrp x₁ x₂)
     (hb : b ∈ baseGrp x₁ x₂) : a * b = b * a := by
-  haveI : IsMulCommutative (baseGrp x₁ x₂) := hc.wreath.baseGrp_eq.1
+  have : IsMulCommutative (baseGrp x₁ x₂) := hc.wreath.baseGrp_eq.1
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : baseGrp x₁ x₂) ⟨b, hb⟩)
 
 theorem w4_tau_conj_baseGrp (hc : Ctx4 t L S x₁ x₂ lam rho tau) {b : G}

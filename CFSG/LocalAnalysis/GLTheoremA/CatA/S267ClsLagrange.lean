@@ -14,6 +14,7 @@ open Polynomial
 variable {K : Type*} [Field K] [Fintype K] [DecidableEq K]
 variable {V : Type*} [AddCommGroup V] [Module K V]
 
+omit [DecidableEq K] in
 theorem prod_X_sub_C_eq : ∏ c : K, (X - C c) = (X ^ Fintype.card K - X : K[X]) := by
   have h1 : 1 < Fintype.card K := Fintype.one_lt_card
   have hmon : (X ^ Fintype.card K - X : K[X]).Monic :=
@@ -28,6 +29,7 @@ theorem prod_X_sub_C_eq : ∏ c : K, (X - C c) = (X ^ Fintype.card K - X : K[X])
   rw [← h]
   rfl
 
+omit [DecidableEq K] in
 theorem aeval_prod_X_sub_C_eq_zero (g : Module.End K V) (hg : g ^ Fintype.card K = g) :
     aeval g (∏ c : K, (X - C c)) = 0 := by
   rw [prod_X_sub_C_eq, map_sub, map_pow, aeval_X, hg, sub_self]

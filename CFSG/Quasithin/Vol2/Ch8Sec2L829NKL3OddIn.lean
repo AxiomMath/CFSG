@@ -52,7 +52,7 @@ theorem nkL3xSqMat_pow (n : ℕ) :
     rw [pow_succ, ih]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [nkL3xSqMat, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+      simp [nkL3xSqMat, Matrix.mul_apply, Fin.sum_univ_three]; ring
 
 @[expose] def nkL3GLx : GL (Fin 3) K :=
   ⟨nkL3xMat, nkL3xInvMat, nkL3xMat_mul_xInvMat, nkL3xInvMat_mul_xMat⟩
@@ -82,13 +82,13 @@ theorem nkL3wH_val :
   show nkL3zMat * (nkL3xInvMat * nkL3zMat * nkL3xMat) = nkL3xSqMat
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [nkL3zMat, nkL3xInvMat, nkL3xMat, nkL3xSqMat, Matrix.mul_apply, Fin.sum_univ_three] <;>
+    simp [nkL3zMat, nkL3xInvMat, nkL3xMat, nkL3xSqMat, Matrix.mul_apply, Fin.sum_univ_three];
     ring
 
 theorem nkL3_core (p : ℕ) (hp : p.Prime) (h7 : 7 ≤ p) (h2 : (2 : K) ≠ 0)
     (hpK : (p : K) = 0) :
     ∃ z g : StatedProj (StatedSL 3 K), orderOf z = 2 ∧ 6 ≤ orderOf (z * (g⁻¹ * z * g)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hzH : nkL3zH (K := K) * nkL3zH (K := K) = 1 := Subtype.ext (Units.ext nkL3zMat_mul_self)
   have hzne : (QuotientGroup.mk nkL3zH : StatedProj (StatedSL 3 K)) ≠ 1 := by
     rw [Ne, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf, StatedScalars, MonoidHom.mem_range]
@@ -142,15 +142,15 @@ theorem nk_l3odd_uin (p : ℕ) (hp : p.Prime) (h7 : 7 ≤ p) (h4 : p % 4 = 3)
     exact (hp.odd_of_ne_two hp2).pow
   have h2 : (2 : K) ≠ 0 := CFSG.Wreathed.OddLinearThreeCentralizerCore.two_ne_zero K hKodd
   have hpK : (p : K) = 0 := by
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     have h := Nat.cast_card_eq_zero K
     rw [← Nat.card_eq_fintype_card, hK, pow_one] at h
     exact h
-  haveI : Finite (StatedProj (StatedSL 3 K)) :=
+  have : Finite (StatedProj (StatedSL 3 K)) :=
     Finite.of_surjective
       (fun g : ↥(StatedSL 3 K) => (QuotientGroup.mk g : StatedProj (StatedSL 3 K)))
       (fun q => QuotientGroup.mk_surjective q)
-  haveI : Finite X := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite X := Finite.of_equiv _ e.symm.toEquiv
   obtain ⟨hconj, -⟩ := CFSG.Goldschmidt.Rank2List.psl3_concl X hp hp2 hX0
   obtain ⟨zQ, gQ, hz, hw⟩ := nkL3_core (K := K) p hp h7 h2 hpK
   have hEs : ∀ g : StatedProj (StatedSL 3 K), orderOf (e.symm g) = orderOf g := fun g =>

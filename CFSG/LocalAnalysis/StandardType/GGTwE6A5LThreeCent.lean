@@ -44,7 +44,7 @@ theorem three_mul_ordTwistedA_five_dvd_card_of_conj {R : Type} [Group R] [Finite
     (hJ₁ : J₁ ≤ ggFix (MulAut.conj x)) {n : ℕ}
     (hmark : LargeEvenMarking ↥J₁ (fun lab' _ _ _ _ _ => lab' = ⟨.twA, 5, n⟩)) :
     3 * CFSG.Open.ordTwistedA 5 (2 ^ n) ∣ Nat.card R := by
-  haveI := hR
+  have := hR
   have hnc : ¬ IsMulCommutative R := fun h => by
     obtain ⟨a, b, hab⟩ := hna
     exact hab (h.is_comm.comm a b)

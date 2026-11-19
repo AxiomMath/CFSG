@@ -36,7 +36,7 @@ theorem entry_of_intertwine {d d' : Fin 3 → F} {A : Matrix (Fin 3) (Fin 3) F} 
 theorem exists_ne_zero_col {A : Matrix (Fin 3) (Fin 3) F} (hA : A.det ≠ 0) (j : Fin 3) :
     ∃ i, A i j ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   exact hA (Matrix.det_eq_zero_of_column_eq_zero j h)
 
 theorem eq_diag_of_intertwine {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 3) {ζ ζ' : F}
@@ -92,19 +92,11 @@ theorem eq_diag_of_intertwine {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 3) {ζ ζ' :
     · exfalso
       simp at k
       first
-        | exact hζ'1 k
-        | exact hζ'1 k.1
         | exact hζ'1 k.2
-        | exact hζ'1 k.1.symm
-        | exact hζ'1 k.2.symm
     · exfalso
       simp at k
       first
-        | exact hζ'1 k
         | exact hζ'1 k.1
-        | exact hζ'1 k.2
-        | exact hζ'1 k.1.symm
-        | exact hζ'1 k.2.symm
   refine ⟨hζζ, fun i j hij => ?_⟩
   by_contra hne
   have k := key i j hne
@@ -144,7 +136,7 @@ theorem fieldAut_proj_diagSL (σ : F ≃+* F) (a b c : F) (h : a * b * c = 1)
   ext i j
   have := SpecialLinearGroup.map_apply_coe σ.toRingHom (diagSL a b c h)
   rw [this]
-  fin_cases i <;> fin_cases j <;> simp [diagSL, diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [diagSL]
 
 theorem prod_erase_diag (a b c : F) (h : a * b * c = 1) (i : Fin 3) :
     ∏ x ∈ Finset.univ.erase i, ![a, b, c] x = (![a, b, c] i)⁻¹ := by
@@ -165,7 +157,7 @@ theorem dualAut_proj_diagSL (a b c : F) (h : a * b * c = 1) (h' : a⁻¹ * b⁻�
   simp only [coe_diagSL]
   rw [adjugate_diagonal]
   simp only [prod_erase_diag a b c h]
-  fin_cases i <;> fin_cases j <;> simp [diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 @[expose] noncomputable def stdAut (A : GL (Fin 3) F) (σ : F ≃+* F) (ε : Bool) :
     MulAut (projectiveSL 3 F) :=
@@ -176,9 +168,9 @@ theorem dualAut_proj_diagSL (a b c : F) (h : a * b * c = 1) (h' : a⁻¹ * b⁻�
 theorem twist_mul_mul (σ : F ≃+* F) (ε : Bool) {a b c : F} (h : a * b * c = 1) :
     twist σ ε a * twist σ ε b * twist σ ε c = 1 := by
   cases ε
-  · simp only [twist, Bool.false_eq_true, if_false]
+  · simp only [twist, Bool.false_eq_true, ite_false]
     rw [← map_mul, ← map_mul, h, map_one]
-  · simp only [twist, if_true]
+  · simp only [twist, ite_true]
     rw [← mul_inv, ← mul_inv, ← map_mul, ← map_mul, h, map_one, inv_one]
 
 theorem intertwine_of_fix (A : GL (Fin 3) F) (σ : F ≃+* F) (ε : Bool) (a b c : F)
@@ -192,9 +184,9 @@ theorem intertwine_of_fix (A : GL (Fin 3) F) (σ : F ≃+* F) (ε : Bool) (a b c
   have himg : (fieldAut 3 F σ * (if ε then dualAut 3 F else 1)) (proj 3 F (diagSL a b c h)) =
       proj 3 F (diagSL (twist σ ε a) (twist σ ε b) (twist σ ε c) h') := by
     cases ε
-    · simp only [twist, Bool.false_eq_true, if_false, MulAut.mul_apply, MulAut.one_apply]
+    · simp only [twist, Bool.false_eq_true, ite_false, MulAut.mul_apply, MulAut.one_apply]
       exact fieldAut_proj_diagSL σ a b c h h'
-    · simp only [twist, if_true, MulAut.mul_apply]
+    · simp only [twist, ite_true, MulAut.mul_apply]
       have hinv : a⁻¹ * b⁻¹ * c⁻¹ = 1 := by rw [← mul_inv, ← mul_inv, h, inv_one]
       rw [dualAut_proj_diagSL a b c h hinv]
       have h3 : σ a⁻¹ * σ b⁻¹ * σ c⁻¹ = 1 := by
@@ -235,7 +227,7 @@ theorem intertwine_of_fix (A : GL (Fin 3) F) (σ : F ≃+* F) (ε : Bool) (a b c
               diagonal ![twist σ ε a, twist σ ε b, twist σ ε c] *
               (((A⁻¹ : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) *
                 (A : Matrix (Fin 3) (Fin 3) F))) := by
-            simp [Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_assoc]
+            simp [Matrix.mul_assoc]
         _ = _ := by rw [hMi, Matrix.mul_one]
     rw [e1, smul_smul, inv_mul_cancel₀ hu0, one_smul]
 
@@ -249,7 +241,7 @@ theorem map_diagUnits (σ : F ≃+* F) (a b c : Fˣ) :
   apply Units.ext
   rw [coe_diagUnits]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [diagonal_apply, GeneralLinearGroup.map, coe_diagUnits]
+  fin_cases i <;> fin_cases j <;> simp [GeneralLinearGroup.map, coe_diagUnits]
 
 theorem inverseTranspose_diagUnits (a b c : Fˣ) :
     GeneralLinearGroup.inverseTranspose (diagUnits a b c) = diagUnits a⁻¹ b⁻¹ c⁻¹ := by
@@ -293,10 +285,10 @@ theorem stdAut_conj (A : GL (Fin 3) F) (σ : F ≃+* F) (ε : Bool) (y : GL (Fin
   obtain ⟨hcc, -, hfc, hdd, hdc, -, -⟩ := standard_automorphism_transport (n := 3) (K := F)
   have hδinv : (dualAut 3 F)⁻¹ = dualAut 3 F := inv_eq_of_mul_eq_one_right hdd
   cases ε
-  · simp only [stdAut, Bool.false_eq_true, if_false, mul_one]
+  · simp only [stdAut, Bool.false_eq_true, ite_false, mul_one]
     rw [map_mul, map_mul, map_inv, ← hfc σ y]
     group
-  · simp only [stdAut, if_true]
+  · simp only [stdAut, ite_true]
     rw [map_mul, map_mul, map_inv, ← hfc σ, ← hdc y]
     simp only [_root_.mul_inv_rev, hδinv]
     group
@@ -326,9 +318,9 @@ theorem exists_exp_of_ringEquiv (σ : F ≃+* F) :
     have hu3 : ((u : Fˣ) : F) ^ 3 = 1 := by rw [← Units.val_pow_eq_pow_val, hu]; simp
     obtain ⟨j, hj, hju⟩ := hprim0.eq_pow_of_pow_eq_one hu3
     apply Units.ext
-    rw [Units.coe_map, MonoidHom.coe_coe, Units.val_pow_eq_pow_val, ← hju, map_pow, ← hωi,
+    rw [Units.coe_map, _root_.MonoidHom.coe_ofClass, Units.val_pow_eq_pow_val, ← hju, map_pow, ← hωi,
       ← pow_mul, ← pow_mul, mul_comm]
-  · push_neg at h
+  · push Not at h
     refine ⟨1, Or.inl rfl, fun u hu => ?_⟩
     rw [h u hu, map_one, one_pow]
 
@@ -348,19 +340,19 @@ theorem twist_one (σ : F ≃+* F) (ε : Bool) : twist σ ε 1 = 1 := by
 theorem twist_pow (σ : F ≃+* F) (ε : Bool) {x : F} {p : ℕ} (hx : x ^ p = 1) :
     twist σ ε x ^ p = 1 := by
   cases ε
-  · simp only [twist, Bool.false_eq_true, if_false]
+  · simp only [twist, Bool.false_eq_true, ite_false]
     rw [← map_pow, hx, map_one]
-  · simp only [twist, if_true]
+  · simp only [twist, ite_true]
     rw [inv_pow, ← map_pow, hx, map_one, inv_one]
 
 theorem twist_ne_one (σ : F ≃+* F) (ε : Bool) {x : F} (hx : x ≠ 1) : twist σ ε x ≠ 1 := by
   cases ε
-  · simp only [twist, Bool.false_eq_true, if_false]
+  · simp only [twist, Bool.false_eq_true, ite_false]
     intro h
     apply hx
     apply σ.injective
     rw [h, map_one]
-  · simp only [twist, if_true]
+  · simp only [twist, ite_true]
     intro h
     apply hx
     apply σ.injective
@@ -390,7 +382,7 @@ theorem exists_exp_twU (σ : F ≃+* F) (ε : Bool) :
   cases ε
   · exact ⟨m, hm, fun u hu => by simpa [twU] using hmu u hu⟩
   · refine ⟨3 - m, by omega, fun u hu => ?_⟩
-    simp only [twU, if_true]
+    simp only [twU, ite_true]
     rw [hmu u hu]
     have h3 : u ^ m * u ^ (3 - m) = 1 := by
       rw [← pow_add, show m + (3 - m) = 3 by omega, hu]
@@ -406,10 +398,10 @@ theorem stdAut_conj_diagUnits (A : GL (Fin 3) F) (σ : F ≃+* F) (ε : Bool)
       else GeneralLinearGroup.map (σ : F →+* F) (diagUnits 1 s t)) =
       diagUnits 1 (twU σ ε s) (twU σ ε t) := by
     cases ε
-    · simp only [Bool.false_eq_true, if_false, twU]
+    · simp only [Bool.false_eq_true, ite_false, twU]
       rw [map_diagUnits]
       simp
-    · simp only [if_true, twU]
+    · simp only [ite_true, twU]
       rw [inverseTranspose_diagUnits, map_diagUnits]
       simp
   rw [hy, conj_diag_eq hA _ ![((1 : Fˣ) : F), twU σ ε s, twU σ ε t] rfl]
@@ -622,13 +614,13 @@ theorem mem_of_card_eq [Finite F] {p : ℕ} (hp : p.Prime) (Pbar : Subgroup (pro
     (hcard : Nat.card Pbar = p ^ 2)
     (hT : ∀ z ∈ Pbar, ∃ (a b c : F) (h : a * b * c = 1), a ^ p = 1 ∧ b ^ p = 1 ∧ c ^ p = 1 ∧
       z = proj 3 F (diagSL a b c h))
-    (a b c : F) (h : a * b * c = 1) (ha : a ^ p = 1) (hb : b ^ p = 1) (hc : c ^ p = 1) :
+    (a b c : F) (h : a * b * c = 1) (ha : a ^ p = 1) (hb : b ^ p = 1) (_hc : c ^ p = 1) :
     proj 3 F (diagSL a b c h) ∈ Pbar := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hfin : (Set.range (torPhi (F := F) p)).Finite := Set.finite_range _
   have hsub : (Pbar : Set (projectiveSL 3 F)) ⊆ Set.range (torPhi (F := F) p) := by
     intro z hz
-    obtain ⟨a, b, c, h, ha, hb, hc, rfl⟩ := hT z hz
+    obtain ⟨a, b, c, h, ha, hb, _hc, rfl⟩ := hT z hz
     have ha0 : a ≠ 0 := by
       rintro rfl
       rw [zero_pow hp.ne_zero] at ha

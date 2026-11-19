@@ -12,7 +12,7 @@ theorem mem_covW_of_sigma_mul_inv_mem (h : CoverP P σ Zh) {p : P}
     (hp : σ p * p⁻¹ ∈ commutator P) : p ∈ covW Zh h.central := by
   by_contra hpW
   set Wh := covW Zh h.central
-  haveI hN : Wh.Normal := ⟨fun n hn g => conj_mem_covW h hn g⟩
+  have hN : Wh.Normal := ⟨fun n hn g => conj_mem_covW h hn g⟩
   have hWc : Nat.card Wh = 9 := covW_card h
   have hQcard : Nat.card (P ⧸ Wh) = 9 := by
     have h1 := Subgroup.card_mul_index (H := Wh)

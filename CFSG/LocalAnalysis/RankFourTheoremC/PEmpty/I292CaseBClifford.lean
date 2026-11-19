@@ -46,7 +46,7 @@ theorem eq_top_of_stable {ŷ : GL (Fin p) K} {ω : K} (hp : p.Prime)
     (hω : ∀ b : K, b ^ p ≠ ω) {U : Submodule K (Fin p → K)}
     (hU : ∀ u ∈ U, (ŷ : Matrix (Fin p) (Fin p) K) *ᵥ u ∈ U) (hne : U ≠ ⊥) : U = ⊤ := by
   classical
-  haveI : Nontrivial U := Submodule.nontrivial_iff_ne_bot.2 hne
+  have : Nontrivial U := Submodule.nontrivial_iff_ne_bot.2 hne
   set f₀ : Module.End K (Fin p → K) := Matrix.toLinAlgEquiv' (ŷ : Matrix (Fin p) (Fin p) K)
     with hf₀
   have hf₀p : f₀ ^ p = algebraMap K (Module.End K (Fin p → K)) ω := by
@@ -189,9 +189,9 @@ variable [Finite K] {G : Subgroup (GL (Fin p) K)} {ŷ : GL (Fin p) K}
 
 theorem exists_central_involution (hG2 : IsPGroup 2 G) (hGne : G ≠ ⊥) :
     ∃ a ∈ G, a ≠ 1 ∧ a ^ 2 = 1 ∧ ∀ g ∈ G, g * a = a * g := by
-  haveI : Nontrivial ↥G := (Subgroup.nontrivial_iff_ne_bot G).2 hGne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥(Subgroup.center ↥G) := hG2.center_nontrivial
+  have : Nontrivial ↥G := (Subgroup.nontrivial_iff_ne_bot G).2 hGne
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial ↥(Subgroup.center ↥G) := hG2.center_nontrivial
   have hZ2 : IsPGroup 2 ↥(Subgroup.center ↥G) :=
     hG2.of_injective (Subgroup.center ↥G).subtype (Subgroup.subtype_injective _)
   obtain ⟨n, hn⟩ := hZ2.exists_card_eq
@@ -218,6 +218,7 @@ theorem exists_central_involution (hG2 : IsPGroup 2 G) (hGne : G ≠ ⊥) :
     have := Subgroup.mem_center_iff.1 z.2 ⟨g, hg⟩
     exact congrArg Subtype.val this
 
+omit [Finite K] in
 theorem eq_one_of_isScalar (hp : p.Prime) (hp2 : p ≠ 2) (hG2 : IsPGroup 2 G)
     (hdet : ∀ g ∈ G, (g : Matrix (Fin p) (Fin p) K).det = 1) {g : GL (Fin p) K} (hg : g ∈ G)
     {c : K} (hs : (g : Matrix (Fin p) (Fin p) K) = Matrix.scalar (Fin p) c) : g = 1 := by
@@ -238,13 +239,15 @@ theorem eq_one_of_isScalar (hp : p.Prime) (hp2 : p ≠ 2) (hG2 : IsPGroup 2 G)
   rw [hcop.gcd_eq_one] at h3
   exact orderOf_eq_one_iff.1 (Nat.dvd_one.1 h3)
 
+omit [Finite K] in
 theorem eq_zero_of_mulVec_eq_zero {M : Matrix (Fin p) (Fin p) K} (h : ∀ u, M *ᵥ u = 0) :
     M = 0 := by
   apply Matrix.ext_of_mulVec_single
   intro j
   rw [h, Matrix.zero_mulVec]
 
-theorem not_simple_of_central_involution (hp : p.Prime) (hp2 : p ≠ 2) (hG2 : IsPGroup 2 G)
+omit [Finite K] in
+theorem not_simple_of_central_involution (hp : p.Prime) (hp2 : p ≠ 2) (_hG2 : IsPGroup 2 G)
     (hdet : ∀ g ∈ G, (g : Matrix (Fin p) (Fin p) K).det = 1) {a : GL (Fin p) K} (haG : a ∈ G)
     (ha1 : a ≠ 1) (ha2 : a ^ 2 = 1) (hac : ∀ g ∈ G, g * a = a * g)
     (hsimp : ∀ U : Submodule K (Fin p → K), GInv G U → U ≠ ⊥ → U = ⊤) : False := by
@@ -316,8 +319,8 @@ theorem exists_common_eigenvector (hp : p.Prime) (hp2 : p ≠ 2) (hG2 : IsPGroup
       (∀ g ∈ G, ∃ c : K, (g : Matrix (Fin p) (Fin p) K) *ᵥ v₀ = c • v₀) ∧
       Submodule.span K (Set.range (orbitVec ŷ v₀)) = ⊤ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨a, haG, ha1, ha2, hac⟩ := exists_central_involution hG2 hGne
   have hex : ∃ n, ∃ W : Submodule K (Fin p → K), GInv G W ∧ W ≠ ⊥ ∧ finrank K W = n :=
     ⟨_, ⊤, GInv.top G, top_ne_bot, rfl⟩
@@ -434,7 +437,7 @@ theorem orbitMat_mulVec_single (j : Fin p) :
 
 theorem isUnit_orbitMat (hsp : Submodule.span K (Set.range (orbitVec ŷ v₀)) = ⊤) :
     IsUnit (orbitMat ŷ v₀) := by
-  rw [← Matrix.linearIndependent_cols_iff_isUnit]
+  rw [← Matrix.linearIndependent_col_iff_isUnit]
   have hcol : (orbitMat ŷ v₀).col = orbitVec ŷ v₀ := rfl
   rw [hcol]
   exact linearIndependent_of_top_le_span_of_card_eq_finrank hsp.ge (by simp)
@@ -495,7 +498,7 @@ theorem conj_orbit_diag (B : GL (Fin p) K)
   rw [Units.val_mul, Units.val_mul, ← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec, hBe, hd j,
     Matrix.mulVec_smul, hBinv, diagGL_mulVec_single]
   ext i
-  by_cases h : i = j <;> simp [Pi.single_apply, h]
+  by_cases h : i = j <;> simp [h]
 
 theorem conj_orbit_rot (B : GL (Fin p) K)
     (hBe : ∀ j, (B : Matrix (Fin p) (Fin p) K) *ᵥ Pi.single j 1 = orbitVec ŷ v₀ j)
@@ -573,6 +576,7 @@ theorem entry_eq_of_hasEv (B : GL (Fin p) K)
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem eq_bot_of_not_separated (hp : p.Prime) (hp2 : p ≠ 2) (hG2 : IsPGroup 2 G)
     (hdet : ∀ g ∈ G, (g : Matrix (Fin p) (Fin p) K).det = 1) {ω : K}
     (hy : (ŷ : Matrix (Fin p) (Fin p) K) ^ p = Matrix.scalar (Fin p) ω) (hω0 : ω ≠ 0)
@@ -703,7 +707,7 @@ theorem eq_bot_of_not_separated (hp : p.Prime) (hp2 : p ≠ 2) (hG2 : IsPGroup 2
     simp only [Matrix.mulVecLin_apply, LinearMap.smul_apply, LinearMap.id_apply] at this
     rw [this, Matrix.scalar_apply, Matrix.diagonal_mulVec_single]
     ext i
-    by_cases h : i = j <;> simp [Pi.single_apply, h]
+    by_cases h : i = j <;> simp [h]
   exact eq_one_of_isScalar hp hp2 hG2 hdet hg hs
 
 end Characters

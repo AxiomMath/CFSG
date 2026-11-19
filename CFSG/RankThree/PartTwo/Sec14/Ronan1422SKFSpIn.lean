@@ -84,8 +84,8 @@ theorem sp48_theta_eq_bot {Y : Type} [Group Y] [Finite Y] {J : Subgroup Y}
   have hs : IsSimpleGroup (StatedProj (StatedSp 2 (GaloisField 2 3))) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp (GaloisField 2 3) 2
       (by norm_num) (Or.inl (Or.inr (by rw [h8]; norm_num)))
-  haveI := hs
-  haveI : IsSimpleGroup ↥J :=
+  have := hs
+  have : IsSimpleGroup ↥J :=
     (eJ.trans (CFSG.RankThree.PartTwo.Sec4.projSpEquivStatedProj 2
       (GaloisField 2 3))).isSimpleGroup
   have hna : ∃ a b : ↥J, a * b ≠ b * a := by
@@ -242,9 +242,9 @@ theorem sp48_card_centralizer_le {Y : Type} [Group Y] [Finite Y] {J P : Subgroup
 theorem sp48_sylow_inputs {Y : Type} [Group Y] [Finite Y] {J : Subgroup Y} (hJn : J.Normal)
     (hJ : Nonempty (↥J ≃* projSp 2 (GaloisField 2 3)))
     (hCJ : Subgroup.centralizer (J : Set Y) = ⊥) (hY : Nat.card Y = 3 * Nat.card J)
-    {E : Subgroup Y} (hE : CFSG.Assembly.IsElemAbelian 3 E) (hE27 : Nat.card E = 27)
+    {E : Subgroup Y} (hE : CFSG.Assembly.IsElemAbelian 3 E) (_hE27 : Nat.card E = 27)
     (hEJ : Nat.card (E ⊓ J : Subgroup Y) = 9)
-    {P : Subgroup Y} (hP3 : IsPGroup 3 P) (hEP : E ≤ P) (hP : Nat.card P = 243) :
+    {P : Subgroup Y} (_hP3 : IsPGroup 3 P) (hEP : E ≤ P) (hP : Nat.card P = 243) :
     Nat.card (P ⊓ J : Subgroup Y) = 81 ∧
     (∀ x ∈ P ⊓ J, ∀ y ∈ P ⊓ J, x * y = y * x) ∧
     (∀ x ∈ P ⊓ J, x ^ 9 = 1) ∧

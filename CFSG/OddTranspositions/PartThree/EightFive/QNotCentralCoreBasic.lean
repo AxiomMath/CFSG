@@ -14,6 +14,7 @@ open CFSG.Timmesfeld CFSG.Timmesfeld.Connectivity CFSG.Timmesfeld.Bridge
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem commute_of_commute_mk_localGroup_of_ne (hS : Setup G D) {z : G}
     {a b : localGroup D z} (ha : (a : G) ∈ centSet D z) (hb : (b : G) ∈ centSet D z)
     (hcomm : Commute (QuotientGroup.mk' (CFSG.solvableRadical (localGroup D z)) a)
@@ -192,9 +193,9 @@ theorem not_commute_of_mem_sylow_of_bender (hS : Setup G D)
   let mk := QuotientGroup.mk' R
   obtain ⟨huC, hvC, hwC, hbC⟩ := thirdKind_mem_centSet hS htri hn hord
   rw [hzdef] at huC hvC hwC hbC
-  have hsu : Commute s u := hS.oddT.commute_of_isPGroup S₀.isPGroup' hsD htri.1 hsS huS
-  have hsv : Commute s v := hS.oddT.commute_of_isPGroup S₀.isPGroup' hsD htri.2.1 hsS hvS
-  have hsb : Commute s b := hS.oddT.commute_of_isPGroup S₀.isPGroup' hsD hbD hsS hbS
+  have hsu : Commute s u := hS.oddT.commute_of_isPGroup S₀.isPGroup hsD htri.1 hsS huS
+  have hsv : Commute s v := hS.oddT.commute_of_isPGroup S₀.isPGroup hsD htri.2.1 hsS hvS
+  have hsb : Commute s b := hS.oddT.commute_of_isPGroup S₀.isPGroup hsD hbD hsS hbS
   have hsC : s ∈ centSet D z := by
     refine ⟨hsD, ?_⟩
     rw [hzabd]
@@ -240,9 +241,9 @@ theorem disconnected_classIn_of_bender (hS : Setup G D)
     · exact mem_localGroup_of_mem hwC
     · refine mem_localGroup_of_mem ⟨hy.1, ?_⟩
       rw [hzabd]
-      exact ((hS.oddT.commute_of_isPGroup S₀.isPGroup' hy.1 htri.1 hy.2 huS).mul_right
-        (hS.oddT.commute_of_isPGroup S₀.isPGroup' hy.1 htri.2.1 hy.2 hvS)).mul_right
-        (hS.oddT.commute_of_isPGroup S₀.isPGroup' hy.1 hbD hy.2 hbS)
+      exact ((hS.oddT.commute_of_isPGroup S₀.isPGroup hy.1 htri.1 hy.2 huS).mul_right
+        (hS.oddT.commute_of_isPGroup S₀.isPGroup hy.1 htri.2.1 hy.2 hvS)).mul_right
+        (hS.oddT.commute_of_isPGroup S₀.isPGroup hy.1 hbD hy.2 hbS)
   have hEXD : ∀ k ∈ EX, (k : G) ∈ D := by
     intro k hk
     obtain ⟨c, rfl⟩ := isConj_iff.mp hk

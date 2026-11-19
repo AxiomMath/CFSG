@@ -21,7 +21,7 @@ variable {X : Setup Γ G}
 theorem CaseBGen.sq_mem_centerOf (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1) {x : G}
     (hx : x ∈ X.Z i) : x ^ 2 ∈ centerOf (X.L i) := by
   classical
-  haveI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
   have hj : 1 - i = 0 ∨ 1 - i = 1 := by rcases hi with rfl | rfl <;> simp
   obtain ⟨-, -, hNZ⟩ := X.Gi_le_normalizer_L_Q_Z i
   have hRelem := B.R_elem
@@ -112,7 +112,7 @@ theorem CaseBGen.isElemSec (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1) :
   rw [commutatorElement_eq_one_iff_mul_comm.mpr (X.Z_commute i x hx y hy)]
   exact one_mem _
 
-theorem CaseBGen.relCent_L (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1) :
+theorem CaseBGen.relCent_L (B : X.CaseBGen) {i : ℤ} (_hi : i = 0 ∨ i = 1) :
     relCent (X.Z i) (centerOf (X.L i)) (X.L i) = centerOf (X.L i) := by
   have hL := X.L_eq_commutator_sup_Q i (B.two_le_n i) (X.hyp.isLocL2_oTwoPrime (X.vert i)).quot
   have hZN : X.Z i ≤ Subgroup.normalizer (centerOf (X.L i) : Set G) :=
@@ -188,7 +188,7 @@ theorem CaseBGen.inf_Q_le_relCent (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i =
 theorem CaseBGen.relIndex_inf_Q (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1) :
     (X.Z i ⊓ X.Q (1 - i)).relIndex (X.Z i) = 2 ^ X.n (1 - i) := by
   have hj : 1 - i = 0 ∨ 1 - i = 1 := by rcases hi with rfl | rfl <;> simp
-  haveI : Finite ↥(X.Gi 0 ⊓ X.Gi 1) :=
+  have : Finite ↥(X.Gi 0 ⊓ X.Gi 1) :=
     finite_of_le_stabilizer X.hyp (H := X.Gi 0 ⊓ X.Gi 1) inf_le_left
   have hSP : X.S ≤ X.Gi 0 ⊓ X.Gi 1 :=
     le_inf (X.isSylowTwoOf_S_Gi (Or.inl rfl)).1 (X.isSylowTwoOf_S_Gi (Or.inr rfl)).1
@@ -202,9 +202,9 @@ theorem CaseBGen.relIndex_inf_Q (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1
   rw [inf_eq_left.mpr hQS, X.relIndex_Q_S hj] at hS
   have hZ := Subgroup.relIndex_mul_card (H := X.Z i ⊓ X.Q (1 - i)) (K := X.Z i)
   rw [inf_eq_left.mpr inf_le_left] at hZ
-  haveI : Finite ↥(X.Q (1 - i)) :=
+  have : Finite ↥(X.Q (1 - i)) :=
     finite_of_le_stabilizer X.hyp (H := X.Q (1 - i)) (X.Q_le_Gi (1 - i))
-  haveI : Finite ↥(X.Z i ⊓ X.Q (1 - i)) :=
+  have : Finite ↥(X.Z i ⊓ X.Q (1 - i)) :=
     Finite.of_injective (Subgroup.inclusion inf_le_right) (Subgroup.inclusion_injective _)
   have hpos1 : 0 < Nat.card ↥(X.Q (1 - i)) := Nat.card_pos
   have hpos2 : 0 < Nat.card ↥(X.Z i ⊓ X.Q (1 - i)) := Nat.card_pos
@@ -284,7 +284,7 @@ theorem CaseBGen.step8_of_counts (B : X.CaseBGen)
     · exact ⟨by simpa using hE1, by simpa using hC1, by simpa using hCi1, by simpa using hn⟩
   refine ⟨hn, fun i hi => B.isElemSec hi, fun i hi => ?_, fun i hi => ?_⟩
   · obtain ⟨hE, hC, -, -⟩ := hdata i hi
-    haveI : Finite ↥(X.L i) := finite_of_le_stabilizer X.hyp (H := X.L i) (X.L_le_Gi i)
+    have : Finite ↥(X.L i) := finite_of_le_stabilizer X.hyp (H := X.L i) (X.L_le_Gi i)
     have hcore : ∀ q ∈ pCoreOf 2 (X.L i), ∀ e ∈ X.Z i, ⁅q, e⁆ ∈ centerOf (X.L i) := by
       rw [(X.hyp.isLocL2_oTwoPrime (X.vert i)).pCoreOf_eq]
       intro q hq e he
@@ -306,7 +306,7 @@ theorem CaseBGen.step8_of_counts (B : X.CaseBGen)
     have hle := B.inf_Q_le_relCent hi
     have hidx := B.relIndex_inf_Q hi
     rw [hnj] at hidx
-    haveI : Finite ↥(relCent (X.Z i) (centerOf (X.L i)) X.S) :=
+    have : Finite ↥(relCent (X.Z i) (centerOf (X.L i)) X.S) :=
       finite_of_le_stabilizer X.hyp (H := relCent (X.Z i) (centerOf (X.L i)) X.S)
         (le_trans (fun _ h => h.1) (X.Z_le_Gi i))
     refine Subgroup.eq_of_le_of_card_ge hle ?_
@@ -352,8 +352,8 @@ theorem CaseBGen.gen (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1) :
       X.L i ≤ Subgroup.normalizer (Y : Set G) →
         relCent (X.Z i) (centerOf (X.L i)) X.S ≤ Y → Y = X.Z i := by
   intro Y _ hYZ hLY hCY
-  haveI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
-  haveI : Finite ↥(X.L i) := finite_of_le_stabilizer X.hyp (H := X.L i) (X.L_le_Gi i)
+  have : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have : Finite ↥(X.L i) := finite_of_le_stabilizer X.hyp (H := X.L i) (X.L_le_Gi i)
   obtain ⟨-, hNQ, -⟩ := X.Gi_le_normalizer_L_Q_Z i
   refine le_antisymm hYZ ?_
   have hZdef : X.Z i = ⨆ (P : Subgroup G) (_ : IsSylowTwoOf P (X.Gi i)), centerOf P ⊓ X.Q i :=
@@ -397,8 +397,8 @@ theorem CaseBGen.gen (B : X.CaseBGen) {i : ℤ} (hi : i = 0 ∨ i = 1) :
 
 theorem CaseBGen.step8 (B : X.CaseBGen) : X.CaseBStep8 := by
   refine B.step8_of_counts fun i hi => ?_
-  haveI : Finite ↥(X.L i) := finite_of_le_stabilizer X.hyp (H := X.L i) (X.L_le_Gi i)
-  haveI : Finite ↥(X.Z i) := finite_of_le_stabilizer X.hyp (H := X.Z i) (X.Z_le_Gi i)
+  have : Finite ↥(X.L i) := finite_of_le_stabilizer X.hyp (H := X.L i) (X.L_le_Gi i)
+  have : Finite ↥(X.Z i) := finite_of_le_stabilizer X.hyp (H := X.Z i) (X.Z_le_Gi i)
   have hcore : ∀ q ∈ pCoreOf 2 (X.L i), ∀ e ∈ X.Z i, ⁅q, e⁆ ∈ centerOf (X.L i) := by
     rw [(X.hyp.isLocL2_oTwoPrime (X.vert i)).pCoreOf_eq]
     intro q hq e he

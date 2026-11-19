@@ -115,8 +115,8 @@ theorem k1419e_dvd_27_of_triple {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6 ∨ τ =
     27 ∣ Nat.card (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
   classical
-  haveI := D.hKfin
-  haveI := finite_rationalComponent S a i
+  have := D.hKfin
+  have := finite_rationalComponent S a i
   have hperf := isPerfect_componentRootSpan_of_big hτ D hbig
   obtain ⟨g, hg, hgk⟩ := exists_surjective_central_of_perfect D hperf
   obtain ⟨e⟩ := CFSG.Goldschmidt.G37.nonempty_centerQuotientEquiv hperf g hg hgk

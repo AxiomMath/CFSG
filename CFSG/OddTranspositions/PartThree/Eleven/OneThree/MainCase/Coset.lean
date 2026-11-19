@@ -19,8 +19,9 @@ namespace MainHyp
 
 variable {hC : HypothesisC D}
 
+omit [Finite G] in
 private theorem not_commute_mul_conj (hC : HypothesisC D) {X C W : Halpha D hC.alpha}
-    (hX2 : X * X = 1) (hC2 : C * C = 1) (hW2 : W * W = 1)
+    (_hX2 : X * X = 1) (hC2 : C * C = 1) (hW2 : W * W = 1)
     (hxD : (X : G) ∈ D) (hcD : (C : G) ∈ D) (hncXC : ¬ Commute X C)
     (hWQ : QuotientGroup.mk' (CFSG.pCore 2 (Halpha D hC.alpha)) W =
       QuotientGroup.mk' (CFSG.pCore 2 (Halpha D hC.alpha)) X) :
@@ -47,6 +48,7 @@ private theorem not_commute_mul_conj (hC : HypothesisC D) {X C W : Halpha D hC.a
     commute_of_mul_sq_mem_pCore hC hcD hxD hmem
   exact hncXC (Subtype.ext hcommCX.symm.eq)
 
+omit [Finite G] in
 private theorem exists_zpow_conj_of_odd_orders (hC : HypothesisC D)
     {X C W : Halpha D hC.alpha}
     (hX2 : X * X = 1) (hC2 : C * C = 1) (hW2 : W * W = 1)
@@ -85,6 +87,7 @@ private theorem exists_zpow_conj_of_odd_orders (hC : HypothesisC D)
     rw [zpow_natCast, pow_succ, hWCN, one_mul, mul_assoc, hC2, mul_one]
   exact ⟨j, hconjX, hconjW⟩
 
+omit [Finite G] in
 private theorem exists_pCore_conj_of_not_commute (hC : HypothesisC D)
     {X C W : Halpha D hC.alpha}
     (hX2 : X * X = 1) (hC2 : C * C = 1) (hW2 : W * W = 1)

@@ -21,19 +21,19 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.PEnum CFSG.KS.PC CFSG.KS.CentReg CFSG.Classica
 
 theorem σK0 : σK 0 = κ 0 := by
   unfold σK
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem σK1 : σK 1 = (κ 0)⁻¹ := by
   unfold σK
-  rw [if_neg (by decide), if_pos rfl]
+  rw [ite_eq_right (by decide), ite_eq_left rfl]
 
 theorem σK2 : σK 2 = κ 1 := by
   unfold σK
-  rw [if_neg (by decide), if_neg (by decide), if_pos rfl]
+  rw [ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_left rfl]
 
 theorem σK3 : σK 3 = (κ 1)⁻¹ := by
   unfold σK
-  rw [if_neg (by decide), if_neg (by decide), if_neg (by decide)]
+  rw [ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_right (by decide)]
 
 theorem kArr : ∀ h < 2, kStrong[h]! = Array.ofFn (n := 20520) fun x => KLr (2 * h) x.val := by
   intro h hh

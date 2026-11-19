@@ -105,7 +105,7 @@ theorem prep_gen {ng : ℕ} {G GI : ℕ → ℕ} (hh : headK 80 7 ng G GI = true
 
 theorem img2 {X : Type*} (f : ℕ → X) : f '' {k | k < 2} = {f 0, f 1} := by
   ext y
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨k, hk, rfl⟩
     interval_cases k

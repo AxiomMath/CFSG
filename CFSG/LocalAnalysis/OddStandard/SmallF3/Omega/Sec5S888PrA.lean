@@ -93,7 +93,7 @@ private lemma s888_commutator_pow4 {K : Subgroup G} (e : ↥K ≃* SL23) {x y : 
 
 private lemma s888_odd_card_oddCore (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -221,7 +221,7 @@ theorem Sec5Pair.card_sup [Finite G] {K₁ K₂ : Subgroup G} {z : G} (h : Sec5P
     · exact Subgroup.zpowers_le.mpr ⟨h.z_mem₁, h.z_mem₂⟩
   have hcardinf : Nat.card ↥(K₁ ⊓ K₂) = 2 := by
     rw [hinf, Nat.card_zpowers]
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by simpa [pow_two] using h.z_sq) h.z_ne
   have hcard := s888_card_sup_mul_card_inf h.comm
   rw [hcard1, hcard2, hcardinf] at hcard

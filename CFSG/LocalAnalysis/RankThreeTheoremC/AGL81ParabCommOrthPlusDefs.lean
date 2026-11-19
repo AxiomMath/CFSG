@@ -36,7 +36,7 @@ theorem autMat_fieldConj (σ : K ≃+* K) (g : GLV r K) :
   have h := autMat_matrixEquiv ((matrixEquiv r K).symm g)
   rw [MulEquiv.apply_symm_apply] at h
   rw [fieldConj, MonoidHom.comp_apply, MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe,
-    MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MonoidHom.coe_coe, autMat_matrixEquiv, h]
+    MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, _root_.MonoidHom.coe_ofClass, autMat_matrixEquiv, h]
   rfl
 
 theorem fieldConj_apply (σ : K ≃+* K) (g : GLV r K) (v : Fin r ⊕ Fin r → K) :
@@ -154,12 +154,14 @@ theorem coe_plusResBlockHomO {D : Finset ℕ} (hD : ∀ d ∈ D, d ≤ r) {t m :
 
 variable [CharP K 2]
 
+omit [CharP K 2] in
 theorem fieldConj_mem_plusFlagStabO (σ : K ≃+* K) {D : Finset ℕ} (hD : ∀ d ∈ D, d ≤ r)
     {g : GLV r K} (hg : g ∈ plusFlagStabO K r D) : fieldConj r K σ g ∈ plusFlagStabO K r D := by
   obtain ⟨hgO, hgF⟩ := mem_plusFlagStabO.1 hg
   exact mem_plusFlagStabO.2 ⟨fieldConj_mem_orthogonalGroup σ hgO,
     fun d hd => smul_flag_fieldConj σ (hD d hd) (hgF d hd)⟩
 
+omit [CharP K 2] in
 theorem plusEBlockHomO_fieldConj (σ : K ≃+* K) {D : Finset ℕ} (hD : ∀ d ∈ D, d ≤ r) {b : ℕ}
     (hb : b ∈ D) (g : GLV r K) (hg : g ∈ plusFlagStabO K r D) :
     (plusEBlockHomO hD hb ⟨fieldConj r K σ g, fieldConj_mem_plusFlagStabO σ hD hg⟩ :
@@ -170,6 +172,7 @@ theorem plusEBlockHomO_fieldConj (σ : K ≃+* K) {D : Finset ℕ} (hD : ∀ d �
   change ((autMat (fieldConj r K σ g)).submatrix _ _) = _
   rw [autMat_fieldConj, Matrix.submatrix_map]
 
+omit [CharP K 2] in
 theorem plusResBlockHomO_fieldConj (σ : K ≃+* K) {D : Finset ℕ} (hD : ∀ d ∈ D, d ≤ r) {t m : ℕ}
     (ht : t = 0 ∨ t ∈ D) (htm : t + m = r) (g : GLV r K) (hg : g ∈ plusFlagStabO K r D) :
     (plusResBlockHomO hD ht htm ⟨fieldConj r K σ g, fieldConj_mem_plusFlagStabO σ hD hg⟩ :

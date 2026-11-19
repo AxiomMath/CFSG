@@ -38,7 +38,7 @@ theorem kFactSp62CfgLocal_holds :
         Subgroup.card_map_of_injective e₃.symm.injective, card_B0]
   ·
     have hZ6 : Subgroup.center H6 = ⊥ := by
-      haveI : IsSimpleGroup H6 := CFSG.RankThree.PartTwo.Sec4.RonanK429F.Sp8.isSimpleGroup_H6
+      have : IsSimpleGroup H6 := CFSG.RankThree.PartTwo.Sec4.RonanK429F.Sp8.isSimpleGroup_H6
       obtain ⟨a, b, hab⟩ := CFSG.RankThree.PartTwo.Sec4.RonanK429F.Sp8.exists_not_comm_H6
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center H6) with h | h
       · exact h

@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G
 
 theorem a10t1_eq_zpowers {H : Type} [Group H] {A : Subgroup H} (hA : Nat.card A = 5) {a : H}
     (ha : a ∈ A) (ha1 : a ≠ 1) : orderOf a = 5 ∧ A = Subgroup.zpowers a := by
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
   have hdvd : orderOf a ∣ 5 := hA ▸ Subgroup.orderOf_dvd_natCard A ha
   have hord : orderOf a = 5 :=
     ((Nat.dvd_prime (by norm_num)).mp hdvd).resolve_left fun h => ha1 (orderOf_eq_one_iff.mp h)
@@ -36,8 +36,8 @@ theorem a10t1_inj {G Q : Type} [Group G] [Finite G] [Group Q] {P : Sylow 5 G} {J
     (hTP : T ≤ (P : Subgroup G)) (ψ : ↥J →* Q)
     (hker : ψ.ker = (rankThreePrimeCore 5 J).subgroupOf J) :
     ∀ (t : G) (ht : t ∈ J), t ∈ T → ψ ⟨t, ht⟩ = 1 → t = 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  have hTp : IsPGroup 5 (T.subgroupOf J) := (P.isPGroup'.to_le hTP).comap_subtype
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have hTp : IsPGroup 5 (T.subgroupOf J) := (P.isPGroup.to_le hTP).comap_subtype
   have hOJ : rankThreePrimeCore 5 J ≤ J := CFSG.AGLEmbedding.glbPrimeCore_le 5 J
   have hOcop : Nat.Coprime 5 (Nat.card (rankThreePrimeCore 5 J)) :=
     CFSG.AGLEmbedding.glbPrimeCore_coprime 5 J
@@ -196,10 +196,10 @@ theorem a10t1_core {G Q : Type} [Group G] [Group Q] [Finite G] [Finite Q] {J T U
       exact hAeq.trans ((a10t1_eq_zpowers hA₂card haA₂ ha1).2.symm.trans hAv)
 
 theorem a10_T_lines (hX : A10Facts) (hc : PointConfig IsA10Type G 5 P M x J) {Q : Type} [Group Q] [Finite Q]
-    (ψ : ↥J →* Q) (hψ : Function.Surjective ψ) (hker : ψ.ker = (rankThreePrimeCore 5 J).subgroupOf J)
-    (hQ : IsA10Type 5 Q) {S : Sylow 5 Q} (hSyl : (S : Subgroup Q) = ((u3T P x J).subgroupOf J).map ψ)
+    (ψ : ↥J →* Q) (_hψ : Function.Surjective ψ) (hker : ψ.ker = (rankThreePrimeCore 5 J).subgroupOf J)
+    (_hQ : IsA10Type 5 Q) {S : Sylow 5 Q} (hSyl : (S : Subgroup Q) = ((u3T P x J).subgroupOf J).map ψ)
     {Λ₁ Λ₂ : Subgroup Q} (hΛ : A10GammaStructAt Q (S : Subgroup Q) Λ₁ Λ₂) {U : Subgroup G}
-    (hUP : IIPlane 5 P x J U) (hγ : A10PlaneShape J (u3T P x J) ψ U) :
+    (_hUP : IIPlane 5 P x J U) (hγ : A10PlaneShape J (u3T P x J) ψ U) :
     ∃ a₁ a₂ : G, a₁ ∈ u3T P x J ∧ a₂ ∈ u3T P x J ∧ orderOf a₁ = 5 ∧ orderOf a₂ = 5 ∧
       a₁ * a₂ ∈ U ∧ u3T P x J = Subgroup.zpowers a₁ ⊔ Subgroup.zpowers a₂ ∧
       a₁ ∉ Subgroup.zpowers a₂ ∧
@@ -207,7 +207,7 @@ theorem a10_T_lines (hX : A10Facts) (hc : PointConfig IsA10Type G 5 P M x J) {Q 
       Subgroup.zpowers a₂ = u3T P x J ⊓ a10Pre J ψ Λ₂ ∧
       (∀ A : Subgroup G, IsFiveCycleLine J (u3T P x J) ψ A →
         A = Subgroup.zpowers a₁ ∨ A = Subgroup.zpowers a₂) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨hTcard, hTel, -⟩ := plane_T_structure hX.sylow hc
   have hTcard' : Nat.card ↥(u3T P x J) = 25 := by rw [hTcard]; norm_num
   have hTJ : u3T P x J ≤ J := inf_le_right

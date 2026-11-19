@@ -17,7 +17,7 @@ theorem exists_orderOf_prime_conj_sq_of_quotient {J : Type*} [Group J] [Finite J
     (e : (J ⧸ Subgroup.center J) ≃* A) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {a b : A}
     (ha : orderOf a = p) (hab : b * a * b⁻¹ = a ^ 2) :
     ∃ x y : J, orderOf x = p ∧ y * x * y⁻¹ = x ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Z := Subgroup.center J
   let π : J →* A := e.toMonoidHom.comp (QuotientGroup.mk' Z)
   have hker : π.ker = Z := by
@@ -101,7 +101,7 @@ theorem exists_orderOf_five_conj_sq_alternatingEight :
     simp [d]
   refine ⟨⟨c, hc⟩, ⟨d, hd⟩, ?_, ?_⟩
   · rw [Subgroup.orderOf_mk]
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     exact orderOf_eq_prime (by decide +kernel) (by decide)
   · apply Subtype.ext
     change d * c * d⁻¹ = c ^ 2
@@ -121,7 +121,7 @@ theorem exists_orderOf_seven_conj_sq_alternatingEight :
     simp [d]
   refine ⟨⟨c, hc⟩, ⟨d, hd⟩, ?_, ?_⟩
   · rw [Subgroup.orderOf_mk]
-    haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+    have : Fact (Nat.Prime 7) := ⟨by decide⟩
     exact orderOf_eq_prime (by decide +kernel) (by decide)
   · apply Subtype.ext
     change d * c * d⁻¹ = c ^ 2
@@ -141,10 +141,11 @@ theorem IsAlternatingEightCover.exists_orderOf_seven_conj_sq (hJ : IsAlternating
   obtain ⟨a, b, ha, hab⟩ := exists_orderOf_seven_conj_sq_alternatingEight
   exact exists_orderOf_prime_conj_sq_of_quotient hZ e (by decide) (by decide) ha hab
 
+omit [Finite J] in
 theorem IsAlternatingEightCover.eq_top_of_normal (hJ : IsAlternatingEightCover J)
     {N : Subgroup J} (hN : N.Normal) (h : ¬ N ≤ Subgroup.center J) : N = ⊤ := by
   obtain ⟨hperf, ⟨e⟩, hZ⟩ := hJ
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   let Z := Subgroup.center J
   let π : J →* alternatingGroup (Fin 8) := e.toMonoidHom.comp (QuotientGroup.mk' Z)
   have hker : π.ker = Z := by
@@ -157,8 +158,8 @@ theorem IsAlternatingEightCover.eq_top_of_normal (hJ : IsAlternatingEightCover J
     obtain ⟨q, hq⟩ := e.surjective g
     obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective Z q
     exact ⟨x, hq⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : (N.map π).Normal := hN.map π hsurj
+  have : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
+  have : (N.map π).Normal := hN.map π hsurj
   rcases (Subgroup.Normal.eq_bot_or_eq_top (N.map π)) with hbot | htop
   · exfalso
     apply h
@@ -183,6 +184,7 @@ theorem IsAlternatingEightCover.eq_top_of_normal (hJ : IsAlternatingEightCover J
     intro g _
     exact hle (by rw [hperf]; trivial)
 
+omit [Finite J] in
 theorem IsAlternatingEightCover.map_eq_one_of_map_eq_one (hJ : IsAlternatingEightCover J)
     {M : Type*} [Monoid M] {x : J} (hx : orderOf x = 5 ∨ orderOf x = 7) (ρ : J →* M)
     (hρ : ρ x = 1) (g : J) : ρ g = 1 := by

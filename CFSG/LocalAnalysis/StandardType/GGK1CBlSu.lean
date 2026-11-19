@@ -101,14 +101,14 @@ private theorem ggK1CBu_qs_eq {nf m : ℕ} (hm : 1 ≤ m) :
   rcases m with _ | _ | _ | m
   · exfalso; omega
   · simp [ggK1CCo_kindOrbit, ggK1CBu_Small]
-  · simp [ggK1CCo_kindOrbit, ggMultBlockA, ggK1CBu_Small, decide_eq_true_eq]
+  · simp [ggK1CCo_kindOrbit, ggMultBlockA, ggK1CBu_Small]
   · rcases m with _ | m
-    · simp [ggK1CCo_kindOrbit, ggMultBlockA, ggK1CBu_Small, decide_eq_true_eq]
+    · simp [ggK1CCo_kindOrbit, ggMultBlockA, ggK1CBu_Small]
     · have h1 : ¬ (m + 3 = 2) := by omega
       have h2 : ¬ (m + 4 = 2) := by omega
       have h3 : ¬ (m + 4 = 3) := by omega
       have h4 : ¬ (m + 4 ≤ 1) := by omega
-      simp [ggK1CCo_kindOrbit, ggMultBlockA, ggK1CBu_Small, decide_eq_true_eq, h1, h2, h3, h4]
+      simp [ggK1CCo_kindOrbit, ggMultBlockA, ggK1CBu_Small, h1, h2, h3, h4]
 
 private theorem ggK1CBu_card_primeFactors_two_three (a b : ℕ) (ha : a ≠ 0) (hb : b ≠ 0) :
     (2 ^ a * 3 ^ b).primeFactors.card ≤ 2 := by
@@ -139,7 +139,7 @@ private theorem ggK1CBu_isSolvable_sesqUnitaryGroup_of_small {ℓ g : ℕ} {E : 
   have hq2 : 2 ≤ ℓ ^ g := by
     have := Nat.one_lt_pow (by have := hE.one_le; omega : g ≠ 0) hE.prime.one_lt
     omega
-  haveI := ggK1CBu_finite_generalLinearGroup hE (W := W)
+  have := ggK1CBu_finite_generalLinearGroup hE (W := W)
   by_cases hm : 2 ≤ Module.finrank E W
   · have hq : ¬ ((Module.finrank E W = 2 → 4 ≤ ℓ ^ g) ∧
         (Module.finrank E W = 3 → 3 ≤ ℓ ^ g)) := by
@@ -200,13 +200,13 @@ private theorem ggK1CBu_map_commutator {A B : Type*} [Group A] [Group B] (φ : A
 
 private theorem ggK1CBu_solvable_iff {nf : ℕ} {K : Type} [Field K] [Finite K]
     {G : Type} [Group G] {A : Subgroup G} {m : ℕ}
-    (hK : Nat.card K = 2 ^ nf) (hnf : 1 ≤ nf)
+    (_hK : Nat.card K = 2 ^ nf) (hnf : 1 ≤ nf)
     {E : Type} [Field E] [Fintype E]
     (hE : UnitaryFieldData 2 nf E)
     {V : Type} [AddCommGroup V] [Module E V] [FiniteDimensional E V]
     {Hf : V →ₛₗ[hE.bar] V →ₗ[E] E} (hHf : Hf.IsSymm) (hHfl : Hf.SeparatingLeft)
     (b : Module.Basis (Fin m) E V)
-    (hb : ∀ i j, Hf (b i) (b j) = if i = j then 1 else 0)
+    (_hb : ∀ i j, Hf (b i) (b j) = if i = j then 1 else 0)
     (e : ↥A ≃* sesqUnitaryGroup Hf) :
     Group.IsSolvable ↥A ↔ ggK1CBu_Small nf m := by
   have hfind : Module.finrank E V = m := by
@@ -222,12 +222,12 @@ private theorem ggK1CBu_solvable_iff {nf : ℕ} {K : Type} [Field K] [Finite K]
     have hqSU : CFSG.IsQuasisimple (sesqSpecialUnitaryGroup Hf) :=
       CFSG.RankThree.PartOne.KCUnitary.isQuasisimple_sesqSpecialUnitaryGroup_of_two_le
         hE hHf hHfl hm2 hqq
-    haveI : Group.IsSolvable ↥(sesqUnitaryGroup Hf) := by
-      haveI := hsol
+    have : Group.IsSolvable ↥(sesqUnitaryGroup Hf) := by
+      have := hsol
       exact Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
-    haveI : Nontrivial ↥(sesqSpecialUnitaryGroup Hf) :=
+    have : Nontrivial ↥(sesqSpecialUnitaryGroup Hf) :=
       CFSG.LocalCores.isQuasisimple_nontrivial hqSU
-    haveI : Group.IsPerfect ↥(sesqSpecialUnitaryGroup Hf) := hqSU.1
+    have : Group.IsPerfect ↥(sesqSpecialUnitaryGroup Hf) := hqSU.1
     have hnot : ¬ Group.IsSolvable ↥(sesqSpecialUnitaryGroup Hf) :=
       Group.IsPerfect.not_isSolvable ↥(sesqSpecialUnitaryGroup Hf)
     refine hnot ?_
@@ -239,14 +239,14 @@ private theorem ggK1CBu_solvable_iff {nf : ℕ} {K : Type} [Field K] [Finite K]
         (Module.finrank E V = 3 → 3 ≤ 2 ^ nf))) := by
       rw [hfind]
       exact (ggK1CBu_small_iff hnf).mpr hSmall
-    haveI : Group.IsSolvable ↥(sesqUnitaryGroup Hf) :=
+    have : Group.IsSolvable ↥(sesqUnitaryGroup Hf) :=
       ggK1CBu_isSolvable_sesqUnitaryGroup_of_small hE hHf hHfl hsmall
     exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
 
 private theorem ggK1CBu_commutator_eq_su {ℓ g : ℕ} {E : Type} [Field E]
     (hE : UnitaryFieldData ℓ g E) {W : Type*} [AddCommGroup W] [Module E W]
-    [FiniteDimensional E W] {Hf : W →ₛₗ[hE.bar] W →ₗ[E] E} (hHf : Hf.IsSymm)
-    (hHfl : Hf.SeparatingLeft) (hq : CFSG.IsQuasisimple (sesqSpecialUnitaryGroup Hf)) :
+    [FiniteDimensional E W] {Hf : W →ₛₗ[hE.bar] W →ₗ[E] E} (_hHf : Hf.IsSymm)
+    (_hHfl : Hf.SeparatingLeft) (hq : CFSG.IsQuasisimple (sesqSpecialUnitaryGroup Hf)) :
     ⁅(sesqUnitaryGroup Hf), (sesqUnitaryGroup Hf)⁆ = sesqSpecialUnitaryGroup Hf := by
   have hker : CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.unitarySpecial (h := hE) Hf =
       (sesqSpecialUnitaryGroup Hf).subgroupOf (sesqUnitaryGroup Hf) := by
@@ -268,7 +268,7 @@ private theorem ggK1CBu_commutator_eq_su {ℓ g : ℕ} {E : Type} [Field E]
 
 private theorem ggK1CBu_model_nonempty {nf : ℕ} {K : Type} [Field K] [Finite K]
     {G : Type} [Group G] {A : Subgroup G} {m : ℕ}
-    (hK : Nat.card K = 2 ^ nf) (hnf : 1 ≤ nf)
+    (hK : Nat.card K = 2 ^ nf) (_hnf : 1 ≤ nf)
     {E : Type} [Field E] [Fintype E]
     (hE : UnitaryFieldData 2 nf E)
     {V : Type} [AddCommGroup V] [Module E V] [FiniteDimensional E V]
@@ -334,12 +334,12 @@ theorem ggK1CBl_classical_su {nf : ℕ} {K : Type} [Field K] [Finite K]
     constructor
     · intro hQ hSmall
       have hS : Group.IsSolvable ↥A := hS_iff.mpr hSmall
-      haveI : Nontrivial ↥⁅A, A⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hQ
-      haveI : Group.IsPerfect ↥⁅A, A⁆ := hQ.1
+      have : Nontrivial ↥⁅A, A⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hQ
+      have : Group.IsPerfect ↥⁅A, A⁆ := hQ.1
       have hnot : ¬ Group.IsSolvable ↥⁅A, A⁆ :=
         Group.IsPerfect.not_isSolvable ↥⁅A, A⁆
       refine hnot ?_
-      haveI := hS
+      have := hS
       exact Group.isSolvable_of_isSolvable_injective
         (f := Subgroup.inclusion (Subgroup.commutator_le_self A))
         (Subgroup.inclusion_injective (Subgroup.commutator_le_self A))

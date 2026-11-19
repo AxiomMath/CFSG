@@ -23,9 +23,9 @@ theorem exists_rep_of_chief_factor {K U W : Subgroup G} {r : ℕ} [Fact r.Prime]
       ∀ A : Subgroup ↥K,
         (∀ u ∈ U, (∀ a ∈ A, (a : G) * u * (a : G)⁻¹ * u⁻¹ ∈ W) → u ∈ W) → fixV ρ A = ⊥ := by
   classical
-  haveI hWn : (W.subgroupOf U).Normal := hUW.normal
-  haveI hEl : IsElementaryAbelian r (↥U ⧸ W.subgroupOf U) := hUW.isElementaryAbelian
-  haveI hnt : Nontrivial (↥U ⧸ W.subgroupOf U) := by
+  have hWn : (W.subgroupOf U).Normal := hUW.normal
+  have hEl : IsElementaryAbelian r (↥U ⧸ W.subgroupOf U) := hUW.isElementaryAbelian
+  have hnt : Nontrivial (↥U ⧸ W.subgroupOf U) := by
     rw [QuotientGroup.nontrivial_iff]
     intro htop
     exact hUW.1.ne ((Subgroup.subgroupOf_eq_top.mp htop).antisymm hUW.1.le).symm

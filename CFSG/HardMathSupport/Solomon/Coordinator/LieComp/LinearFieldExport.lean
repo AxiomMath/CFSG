@@ -83,7 +83,7 @@ private theorem isSolvable_SL_of_not_perfect {n : ℕ} (hn : 2 ≤ n) {k₀ : Ty
   have hcard : Nat.card k₀ = 2 ∨ Nat.card k₀ = 3 := by
     have : 1 < Nat.card k₀ := Finite.one_lt_card
     omega
-  haveI : Group.IsSolvable (GL (Fin 2) k₀) :=
+  have : Group.IsSolvable (GL (Fin 2) k₀) :=
     CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable k₀ hcard
   exact Group.isSolvable_of_isSolvable_injective
     (f := (Matrix.SpecialLinearGroup.toGL : Matrix.SpecialLinearGroup (Fin 2) k₀ →* _))
@@ -124,8 +124,8 @@ theorem linearFieldAut_components {n : ℕ} (hn : 2 ≤ n) {k : Type} [Field k] 
     rw [hKi]
     exact ⟨f, hf, hfk⟩
   · exfalso
-    haveI := isSolvable_SL_of_not_perfect hn hperf
-    haveI : Group.IsSolvable ↥(fixSubgroup α) :=
+    have := isSolvable_SL_of_not_perfect hn hperf
+    have : Group.IsSolvable ↥(fixSubgroup α) :=
       Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
     obtain ⟨i, -⟩ := components_of_centralQuotient (LinearFlag.proj n k)
       (LinearFlag.proj_surjective n k) hker α _ hαβ (fun i : Empty => i.elim)
@@ -139,7 +139,7 @@ theorem linearFieldAut_components {n : ℕ} (hn : 2 ≤ n) {k : Type} [Field k] 
 theorem linearFieldAut_lieFactorData (hSL : SLFactorFacts) {n : ℕ} (hn : 2 ≤ n) {k : Type}
     [Field k] [Finite k] (σ : k ≃+* k) (hperf : 3 ≤ n ∨ 4 ≤ Nat.card (fixedField σ)) :
     LieFactorData (ringChar k) (Matrix.SpecialLinearGroup (Fin n) (fixedField σ)) := by
-  haveI : Fintype ↥(fixedField σ) := Fintype.ofFinite _
+  have : Fintype ↥(fixedField σ) := Fintype.ofFinite _
   have h := hSL (fixedField σ) n hn (fun h2 => by
     rcases hperf with h3 | h4
     · omega
@@ -150,7 +150,7 @@ private theorem noThreeCover_projectiveSL_two
     {k : Type} [Field k] [Finite k] (hk : Nat.card k = 729) :
     NoThreeCover (LinearFlag.projectiveSL 2 k) := by
   intro Y _ _ hY ⟨e⟩ h3
-  haveI := Fintype.ofFinite k
+  have := Fintype.ofFinite k
   have hk' : Fintype.card k = 729 := by rw [Fintype.card_eq_nat_card]; exact hk
   obtain ⟨-, ⟨m⟩⟩ := CFSG.LieType.Steinberg.CentralExt.SL2Closed.psl_two_hopfMultiplier
     (k := k) (by omega) (by omega)
@@ -172,7 +172,7 @@ theorem lieCompExport_fieldAut
     (hSL : SLFactorFacts) (hA6 : SLAltSixFacts) {n : ℕ} (hn : 2 ≤ n)
     {k : Type} [Field k] [Finite k] (σ : k ≃+* k) (hσ : orderOf σ = 3) :
     LieCompExport (ringChar k) (LinearFlag.fieldAut n k σ) := by
-  haveI : Fintype ↥(fixedField σ) := Fintype.ofFinite _
+  have : Fintype ↥(fixedField σ) := Fintype.ofFinite _
   refine ⟨?_, fun K hK => ?_, ?_⟩
   · rcases Nat.lt_or_ge n 3 with h | h
     · obtain rfl : n = 2 := by omega

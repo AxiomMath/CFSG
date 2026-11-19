@@ -1,6 +1,6 @@
 module
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section4.Defs
 public import Mathlib.Algebra.Group.Subgroup.Lattice
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.DihedralOddRotationCentralizer
@@ -34,7 +34,7 @@ public theorem cyclic_subgroup_containing_involution_le_reflected_torus
     {G : Type u} [Group G] [Finite G]
     {t : G} (ht : IsInvolution t)
     (T : Subgroup G) (s : G)
-    (hTcyc : IsCyclic T) (htT : t ∈ T)
+    (_hTcyc : IsCyclic T) (htT : t ∈ T)
     (hsI : IsInvolution s) (hs_not_T : s ∉ T)
     (hinvT : ∀ x : G, x ∈ T → s * x * s⁻¹ = x⁻¹)
     (hC : Subgroup.centralizer ({t} : Set G) = T ⊔ Subgroup.zpowers s)
@@ -74,7 +74,7 @@ public theorem cyclic_subgroup_containing_involution_le_reflected_torus
       intro h
       exact hb h.symm
     have hbad : 3 ≤ 2 := by
-      simpa [S, h1a, h1b, ha, hb, hab] using hcard
+      simp [S, h1a, h1b, hab] at hcard
     omega
   rcases (mem_sup_zpowers_of_involution_inverts hs_not_T hwsq hinvT).mp hxsup with
     ⟨u, hu, hxu | hxu⟩
@@ -93,7 +93,7 @@ public theorem cyclic_subgroup_containing_involution_le_reflected_torus
     have hx_ne : x ≠ 1 := by
       intro hx1
       apply hxT
-      simpa [hx1] using T.one_mem
+      simp [hx1]
     have ht_ne : t ≠ 1 := ht.1
     have heq : (⟨x, hx⟩ : X) = (⟨t, htX⟩ : X) := by
       apply hcyclic_unique

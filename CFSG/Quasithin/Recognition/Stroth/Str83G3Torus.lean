@@ -36,11 +36,11 @@ theorem l2_chiefStep_fixedLine_card {H Y S : Subgroup G} {n : ℕ}
       Nat.card ↥(Y ⊓ Subgroup.centralizer (S : Set G)) = 2 ^ n := by
   classical
   let F := GaloisField 2 n
-  haveI : Fintype F := Fintype.ofFinite _
+  have : Fintype F := Fintype.ofFinite _
   have hFcard : Nat.card F = 2 ^ n := GaloisField.card 2 n hn
   let hE := CFSG.Quasithin.isElemAbelian_chiefMod hstep hYH hV.isPGroup
-  letI : CommGroup ↥(Ch3z.chiefMod ⊥ Y) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ Y)) := l2ChiefSectionModule hE
+  let : CommGroup ↥(Ch3z.chiefMod ⊥ Y) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ Y)) := l2ChiefSectionModule hE
   intro hE₀ e ρ φ hcompat hφnat
   have hρeq : ρ = l2ChiefSectionRep hstep hYH hE e := by
     refine MonoidHom.ext fun g' => LinearMap.ext fun w => ?_
@@ -113,6 +113,7 @@ theorem l2_chiefStep_fixedLine_card {H Y S : Subgroup G} {n : ℕ}
     exact h.symm
   rw [hcard, hfixcard, hFcard]
 
+omit [Finite G] in
 theorem inf_centralizer_le_omegaOneCenterOf_of_le {Y S : Subgroup G}
     (hYS : Y ≤ S) (hV : IsElemAbelian 2 Y) :
     Y ⊓ Subgroup.centralizer (S : Set G) ≤ omegaOneCenterOf S := by
@@ -146,11 +147,11 @@ theorem l2_chiefStep_torus_faithful {H Y S : Subgroup G} {n : ℕ}
         d = 1 := by
   classical
   let F := GaloisField 2 n
-  haveI : Fintype F := Fintype.ofFinite _
+  have : Fintype F := Fintype.ofFinite _
   have hFcard : Nat.card F = 2 ^ n := GaloisField.card 2 n hn
   let hE := CFSG.Quasithin.isElemAbelian_chiefMod hstep hYH hV.isPGroup
-  letI : CommGroup ↥(Ch3z.chiefMod ⊥ Y) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ Y)) := l2ChiefSectionModule hE
+  let : CommGroup ↥(Ch3z.chiefMod ⊥ Y) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ Y)) := l2ChiefSectionModule hE
   intro hE₀ e ρ φ hcompat hφnat d hdH hdN hodd hcent
   have hρeq : ρ = l2ChiefSectionRep hstep hYH hE e := by
     refine MonoidHom.ext fun g' => LinearMap.ext fun w => ?_
@@ -306,7 +307,7 @@ theorem l2_chiefStep_torus_faithful {H Y S : Subgroup G} {n : ℕ}
       have h1 : orderOf (ψ dH) = orderOf g := rfl
       rw [h1] at h
       have h2 : orderOf dH = orderOf d := by
-        simpa [dH] using (Subgroup.orderOf_coe dH).symm
+        simp [dH]
       rwa [h2] at h
     exact Odd.of_dvd_nat hodd hdvd
   have hordY : orderOf (x⁻¹ * g * x) = orderOf g := by

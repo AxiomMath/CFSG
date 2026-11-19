@@ -29,14 +29,15 @@ variable {Mh : Subgroup H} (hMh : IsZJMh y z v₁ v₂ Mh) include hMh
 
 variable {Mc : Subgroup H} (hMc : IsZJMc ρ Q Mh Mc) include hMc
 
+omit [Finite H] in
 theorem exists_E16 {α α' : H} (hα : α ∈ Mc) (hα' : α' ∈ Mc) (hα2 : α * α = 1)
     (hα'2 : α' * α' = 1) (hc : α * α' = α' * α) (hαQ : α ∉ Q) (hα'Q : α' ∉ Q)
     (hαα'Q : α * α' ∉ Q) :
     ∃ F : Subgroup H, F ≤ Mc ∧ V ≤ F ∧ (∀ a ∈ F, ∀ b ∈ F, a * b = b * a) ∧
       (∀ a ∈ F, a * a = 1) ∧ Nat.card F = 16 ∧
       ∀ u ∈ F, u ∉ V → ∃ v ∈ V, u = α * v ∨ u = α' * v ∨ u = (α * α') * v := by
-  have hαM : α ∈ Mh := Mc_le_Mh h hMh hMc hα
-  have hα'M : α' ∈ Mh := Mc_le_Mh h hMh hMc hα'
+  have hαM : α ∈ Mh := Mc_le_Mh hMc hα
+  have hα'M : α' ∈ Mh := Mc_le_Mh hMc hα'
   have hαα'M : α * α' ∈ Mh := Mh.mul_mem hαM hα'M
   have hVY : V ≤ Y := by rw [h.Y_eq]; exact le_sup_left
   have hVQ : V ≤ Q := fun x hx => h.Y_le_Q (hVY hx)

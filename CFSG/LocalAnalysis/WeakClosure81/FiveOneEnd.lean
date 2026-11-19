@@ -182,7 +182,7 @@ theorem exists_odd_coatom_of_unique_max {K : Type} [Group K] [Finite K] {M : Sub
     · rw [hy_eq]
       exact Subgroup.mul_mem_sup (Subgroup.mem_zpowers x) (Subgroup.mem_zpowers c)
   have hclub : ∀ k : K, k ∈ C ∨ x * k ∈ C := by
-    haveI : C.Normal := hCnormal
+    have : C.Normal := hCnormal
     intro k
     have hk : k ∈ Subgroup.zpowers x ⊔ C := by rw [hsup]; exact Subgroup.mem_top k
     rw [Subgroup.mem_sup_of_normal_right] at hk

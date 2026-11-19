@@ -117,7 +117,7 @@ private theorem ord_card_ggAutsOf_tE_le
   set T : Subgroup (ordAdj τ K) := (TableBExcTwoTB.tE K F).range with hT
   set N : Subgroup (ordAdj τ K) := Subgroup.normalizer (T : Set (ordAdj τ K)) with hN
   change Nat.card (CFSG.StandardType.ggAutsOf T N le_rfl) ≤ Nat.card (WeylGroup τ)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set L := FiniteField.Extension K 2 2 with hL
   have hV : Nat.card (torusPow τ L 3) = 3 ^ τ.rank := ord_card_torusPow_of_E7_E8 hτ hK
   obtain ⟨ω, hωo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := L) (p := 3)
@@ -132,7 +132,7 @@ private theorem ord_card_ggAutsOf_tE_le
   let Ψ : T →* ordAdj τ L := (MulAut.conj G⁻¹).toMonoidHom.comp (ι.comp T.subtype)
   have hΨ_coe : ∀ y : T, Ψ y = G⁻¹ * ι (y : ordAdj τ K) * G := by
     intro y
-    simp [Ψ, MulAut.conj_apply]
+    simp [Ψ]
   have hΨinj : Function.Injective Ψ := by
     intro x y hxy
     apply Subtype.ext

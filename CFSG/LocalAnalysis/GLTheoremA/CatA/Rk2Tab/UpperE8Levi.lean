@@ -35,8 +35,8 @@ theorem card_le_pow_of_le_map_subtype {τ : Tag} {K : Type} [Field K] [Finite K]
     (hS : CFSG.Open.pRank p (⊤ : Subgroup S) ≤ k) {E : Subgroup (ModGL τ K)}
     (hE : E ≤ S.map (adjointGroup τ K).subtype) (hEel : IsElemAbelian p E) :
     Nat.card E ≤ p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
   set E' : Subgroup (adjointGroup τ K) := E.comap (adjointGroup τ K).subtype with hE'def
   have hErange : E ≤ (adjointGroup τ K).subtype.range :=
     hE.trans (Subgroup.map_le_range _ _)
@@ -94,7 +94,7 @@ theorem not_dvd_card_inf_subsystemGroup_e8 {K : Type} [Field K] [Finite K] [Char
     (hcomm : ∀ x ∈ subsystemGroup Tag.E8 K J₁, ∀ y ∈ subsystemGroup Tag.E8 K J₂,
       Commute x y) :
     ¬ p ∣ Nat.card ↥(subsystemGroup Tag.E8 K J₁ ⊓ subsystemGroup Tag.E8 K J₂) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hT : Nat.card (torusGroup Tag.E8 K) = (Nat.card K - 1) ^ 8 :=
     CFSG.Timmesfeld.ExceptionalOrders.card_torusGroup_E8 (K := K)
   have hle : subsystemGroup Tag.E8 K J₁ ⊓ subsystemGroup Tag.E8 K J₂ ≤
@@ -188,8 +188,8 @@ theorem card_le_pow_subsystemGroup_e8A {m : ℕ} (hm : 3 ≤ m) (ι : Fin m → 
     (hpq : ¬ p ∣ Nat.card K - 1) {E : Subgroup (ModGL Tag.E8 K)}
     (hE : E ≤ subsystemGroup Tag.E8 K (Set.range ι)) (hEel : IsElemAbelian p E) :
     Nat.card E ≤ p ^ ((m + 1) / 2) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, -, hK⟩ := FiniteField.card K 2
   have hKn : Nat.card K = 2 ^ (n : ℕ) := by rw [← Fintype.card_eq_nat_card]; exact hK
   have hn : 1 ≤ (n : ℕ) := CFSG.Quasithin.R3c2.one_le_of_natCard_eq_two_pow hKn
@@ -499,9 +499,9 @@ theorem card_le_pow_six_subsystemGroup_e8D7 {K : Type} [Field K] [Finite K] [Cha
     {E : Subgroup (ModGL Tag.E8 K)}
     (hE : E ≤ subsystemGroup Tag.E8 K (Set.range e8D7Node))
     (hEel : IsElemAbelian p E) : Nat.card E ≤ p ^ 6 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, -, hK⟩ := FiniteField.card K 2
   have hKn : Nat.card K = 2 ^ (n : ℕ) := by rw [← Fintype.card_eq_nat_card]; exact hK
   have hn : 1 ≤ (n : ℕ) := CFSG.Quasithin.R3c2.one_le_of_natCard_eq_two_pow hKn
@@ -564,7 +564,7 @@ theorem pRank_le_four_of_e6_model {S : Type} [Group S] [Finite S] {n p : ℕ}
     (hmodel : LieModel (S ⧸ Subgroup.center S) .E6 0 2 n)
     (hp : p.Prime) (hp2 : p ≠ 2) (hd : p ∣ 2 ^ n + 1) :
     CFSG.Open.pRank p (⊤ : Subgroup S) ≤ 4 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ : ¬ p ∣ Nat.card (Subgroup.center S) := by
     obtain ⟨-, ⟨eM⟩⟩ := CFSG.Milestones.cl_lit_griess_schur_multipliers_all_native_models
       (S ⧸ Subgroup.center S) .E6 0 2 n hmodel
@@ -576,7 +576,7 @@ theorem pRank_le_four_of_e6_model {S : Type} [Group S] [Finite S] {n p : ℕ}
       rw [Nat.card_congr eM.toEquiv,
         CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_generic_exceptional', hg, he]
       norm_num
-    haveI : Finite (CFSG.Open.griessHopfMultiplier (S ⧸ Subgroup.center S)) :=
+    have : Finite (CFSG.Open.griessHopfMultiplier (S ⧸ Subgroup.center S)) :=
       Nat.finite_of_card_ne_zero
         (by rw [hcard]; exact (Nat.gcd_pos_of_pos_left _ (by norm_num)).ne')
     have hdvd := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hQs
@@ -597,8 +597,8 @@ theorem pRank_le_four_of_e6_model {S : Type} [Group S] [Finite S] {n p : ℕ}
   have hq : CFSG.Open.pRank p (⊤ : Subgroup (S ⧸ Subgroup.center S)) ≤ 4 := by
     obtain ⟨-, F', hF', hFin', hFcard', ⟨φ⟩⟩ :=
       hmodel.chevalleyExceptionalModel (by decide : StatedLieTag.E6 ∈ chevalleyExceptionalTags)
-    letI : Field F' := hF'
-    letI : Finite F' := hFin'
+    let : Field F' := hF'
+    let : Finite F' := hFin'
     let χ : AdjointQuotient .E6 F' ≃* adjointGroup .E6 F' :=
       (QuotientGroup.quotientMulEquivOfEq
         (center_adjointGroup_eq_bot (τ := Tag.E6) (K := F'))).trans QuotientGroup.quotientBot
@@ -636,9 +636,9 @@ theorem card_le_pow_four_subsystemGroup_e8E6 {K : Type} [Field K] [Finite K] [Ch
     {E : Subgroup (ModGL Tag.E8 K)}
     (hE : E ≤ subsystemGroup Tag.E8 K (Set.range e8E6Node))
     (hEel : IsElemAbelian p E) : Nat.card E ≤ p ^ 4 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, -, hK⟩ := FiniteField.card K 2
   have hKn : Nat.card K = 2 ^ (n : ℕ) := by rw [← Fintype.card_eq_nat_card]; exact hK
   have hn : 1 ≤ (n : ℕ) := CFSG.Quasithin.R3c2.one_le_of_natCard_eq_two_pow hKn
@@ -679,7 +679,7 @@ theorem pRank_le_seven_of_e7_model {S : Type} [Group S] [Finite S] {n p : ℕ}
     (hmodel : LieModel (S ⧸ Subgroup.center S) .E7 0 2 n)
     (hn : 1 ≤ n) (hp : p.Prime) (hp2 : p ≠ 2) (hd : p ∣ 2 ^ n + 1) :
     CFSG.Open.pRank p (⊤ : Subgroup S) ≤ 7 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ : ¬ p ∣ Nat.card (Subgroup.center S) := by
     obtain ⟨-, ⟨eM⟩⟩ := CFSG.Milestones.cl_lit_griess_schur_multipliers_all_native_models
       (S ⧸ Subgroup.center S) .E7 0 2 n hmodel
@@ -694,7 +694,7 @@ theorem pRank_le_seven_of_e7_model {S : Type} [Group S] [Finite S] {n p : ℕ}
       rw [Nat.card_congr eM.toEquiv,
         CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_generic_exceptional', hg, he, hgcd]
       norm_num
-    haveI : Finite (CFSG.Open.griessHopfMultiplier (S ⧸ Subgroup.center S)) :=
+    have : Finite (CFSG.Open.griessHopfMultiplier (S ⧸ Subgroup.center S)) :=
       Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
     have hdvd := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hQs
       (MulEquiv.refl (S ⧸ Subgroup.center S))
@@ -704,9 +704,9 @@ theorem pRank_le_seven_of_e7_model {S : Type} [Group S] [Finite S] {n p : ℕ}
   have hq : CFSG.Open.pRank p (⊤ : Subgroup (S ⧸ Subgroup.center S)) ≤ 7 := by
     obtain ⟨-, F', hF', hFin', hFcard', ⟨φ⟩⟩ :=
       hmodel.chevalleyExceptionalModel (by decide : StatedLieTag.E7 ∈ chevalleyExceptionalTags)
-    letI : Field F' := hF'
-    letI : Finite F' := hFin'
-    haveI : CharP F' 2 :=
+    let : Field F' := hF'
+    let : Finite F' := hFin'
+    have : CharP F' 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         Nat.prime_two (by omega) hFcard'
     let χ : AdjointQuotient .E7 F' ≃* adjointGroup .E7 F' :=
@@ -728,9 +728,9 @@ theorem card_le_pow_seven_subsystemGroup_e8E7 {K : Type} [Field K] [Finite K] [C
     {E : Subgroup (ModGL Tag.E8 K)}
     (hE : E ≤ subsystemGroup Tag.E8 K e8LeviE7)
     (hEel : IsElemAbelian p E) : Nat.card E ≤ p ^ 7 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, -, hK⟩ := FiniteField.card K 2
   have hKn : Nat.card K = 2 ^ (n : ℕ) := by rw [← Fintype.card_eq_nat_card]; exact hK
   have hn : 1 ≤ (n : ℕ) := CFSG.Quasithin.R3c2.one_le_of_natCard_eq_two_pow hKn
@@ -990,7 +990,7 @@ theorem levi_card_le_seven_explicit {K : Type} [Field K] [Finite K] [CharP K 2] 
     {J : Set (Fin Tag.E8.rank)} (hJ : J ≠ Set.univ)
     {E : Subgroup (ModGL Tag.E8 K)} (hE : E ≤ subsystemGroup Tag.E8 K J)
     (hEel : IsElemAbelian p E) : Nat.card E ≤ p ^ 7 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨i, hi⟩ : ∃ i, i ∉ J := by
     by_contra hall
     push Not at hall
@@ -1016,9 +1016,9 @@ theorem rk2E8LeviRankInput_holds (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) :
     ∀ (i : Fin Tag.E8.rank), ∀ E : Subgroup (ModGL Tag.E8 F),
       E ≤ subsystemGroup Tag.E8 F {j | j ≠ i} → IsElemAbelian p E → Nat.card E ≤ p ^ 7
   intro F hF hFin hCh hd i E hE hEel
-  letI : Field F := hF
-  letI : Finite F := hFin
-  haveI : CharP F 2 := hCh
+  let : Field F := hF
+  let : Finite F := hFin
+  have : CharP F 2 := hCh
   refine levi_card_le_seven_explicit hp hp2 hd ?_ hE hEel
   intro h
   have hi : i ∈ ({j : Fin Tag.E8.rank | j ≠ i} : Set _) := by

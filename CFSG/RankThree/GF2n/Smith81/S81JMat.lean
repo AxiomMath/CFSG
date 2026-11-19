@@ -63,10 +63,10 @@ theorem dg_conj_tr (d : Fin 6 → Kˣ) {a b : Fin 6} (hab : a ≠ b) (t : K) :
   funext i
   by_cases hi : i = a
   · subst hi
-    simp [Pi.single_apply]
+    simp
     rw [mul_add, units_mul_inv_mul]
     ring
-  · simp [Pi.single_apply, hi]
+  · simp [hi]
 
 theorem pm_mulVec (σ : Equiv.Perm (Fin 6)) (v : Fin 6 → K) :
     ((pm K σ : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K).mulVec v = fun j => v (σ.symm j) := by
@@ -254,18 +254,16 @@ theorem dg_cOn_eq [CharP K 2] {a b : Fin 6} (hab : a ≠ b) (c : Kˣ) :
     sj_tr_mulVec]
   by_cases hia : i = a
   · rw [hia]
-    simp only [cOn, Pi.add_apply, Pi.single_apply, hab, hba, eq_self_iff_true, if_true,
-      ite_true, if_false, ite_false, ↓reduceIte, one_mul]
+    simp only [cOn, Pi.add_apply, Pi.single_apply, hab, hba, ↓reduceIte, one_mul]
     linear_combination (-(2 * v a + 3 * v b + (c : K) * v a + 2 * (c : K) * v b)) * hcd
       + (-(2 * v a + 3 * v b + (c : K) * v a + 3 * (c : K) * v b)) * h2
   · by_cases hib : i = b
     · rw [hib]
-      simp only [cOn, Pi.add_apply, Pi.single_apply, hab, hba, eq_self_iff_true, if_true,
-        ite_true, if_false, ite_false, ↓reduceIte, one_mul]
+      simp only [cOn, Pi.add_apply, Pi.single_apply, hab, hba, ↓reduceIte, one_mul]
       linear_combination (-(v a)) * hcd
         + (-(v a + v b + ((c⁻¹ : Kˣ) : K) * v a + ((c⁻¹ : Kˣ) : K) * v b
             + ((c⁻¹ : Kˣ) : K) * (c : K) * v b)) * h2
-    · simp [cOn, Pi.single_apply, hia, hib, hab, hba]
+    · simp [cOn, hia, hib, hab, hba]
 
 theorem swap_eq [CharP K 2] {a b : Fin 6} (hab : a ≠ b) :
     transvGL K a b hab (1 : K) * transvGL K b a hab.symm (1 : K) * transvGL K a b hab (1 : K) =
@@ -280,16 +278,14 @@ theorem swap_eq [CharP K 2] {a b : Fin 6} (hab : a ≠ b) :
     ← Matrix.mulVec_mulVec, sj_tr_mulVec, Function.comp_apply]
   by_cases hia : i = a
   · rw [hia]
-    simp only [Pi.add_apply, Pi.single_apply, hab, hba, eq_self_iff_true, if_true,
-      ite_true, if_false, ite_false, ↓reduceIte, one_mul, Equiv.swap_apply_left]
+    simp only [Pi.add_apply, Pi.single_apply, hab, hba, ↓reduceIte, one_mul, Equiv.swap_apply_left]
     linear_combination (v a + v b) * h2
   · by_cases hib : i = b
     · rw [hib]
-      simp only [Pi.add_apply, Pi.single_apply, hab, hba, eq_self_iff_true, if_true,
-        ite_true, if_false, ite_false, ↓reduceIte, one_mul, Equiv.swap_apply_right]
+      simp only [Pi.add_apply, Pi.single_apply, hba, ↓reduceIte, one_mul, Equiv.swap_apply_right]
       linear_combination (v b) * h2
     · rw [Equiv.swap_apply_of_ne_of_ne hia hib]
-      simp [Pi.single_apply, hia, hib, hab, hba]
+      simp [hia, hib, hba]
 
 theorem tr_Wc_stable {a b : Fin 6} (hab : a ≠ b) (t : K) {I : Finset (Fin 6)}
     (h : b ∈ I → a ∈ I) {v : Fin 6 → K} (hv : v ∈ Wc K I) :
@@ -300,8 +296,8 @@ theorem tr_Wc_stable {a b : Fin 6} (hab : a ≠ b) (t : K) {I : Finset (Fin 6)}
   by_cases hia : i = a
   · have haI : a ∉ I := by rw [← hia]; exact hi
     have hbI : b ∉ I := fun hb => haI (h hb)
-    rw [Pi.add_apply, Pi.single_apply, if_pos hia, hv i hi, hv b hbI, mul_zero, zero_add]
-  · rw [Pi.add_apply, Pi.single_apply, if_neg hia, hv i hi, add_zero]
+    rw [Pi.add_apply, Pi.single_apply, ite_eq_left hia, hv i hi, hv b hbI, mul_zero, zero_add]
+  · rw [Pi.add_apply, Pi.single_apply, ite_eq_right hia, hv i hi, add_zero]
 
 theorem tr_mem_UnipGL {a b : Fin 6} (hab : a ≠ b) (t : K) {I : Finset (Fin 6)} (ha : a ∈ I)
     (hb : b ∉ I) : transvGL K a b hab t ∈ UnipGL K (Wc K I) := by
@@ -364,13 +360,12 @@ theorem UnipGL_I0_decomp [CharP K 2] {u : GL (Fin 6) K} (hu : u ∈ UnipGL K (Wc
     have e40 : (4 : Fin 6) ≠ 0 := by decide
     have e50 : (5 : Fin 6) ≠ 0 := by decide
     simp only [Matrix.mulVec, dotProduct, Fin.sum_univ_six, hu00, hu01, hu02, Pi.add_apply,
-      Pi.single_apply, hv0, hv4, hv5, e30, e40, e50, eq_self_iff_true, if_true, ite_true,
-      if_false, ite_false, ↓reduceIte, one_mul, zero_mul, mul_zero, zero_add, add_zero]
+      Pi.single_apply, hv0, hv4, hv5, e30, e40, e50, ↓reduceIte, one_mul, zero_mul, mul_zero, zero_add, add_zero]
     linear_combination ((u : Matrix (Fin 6) (Fin 6) K) 0 3 * v 3) * h2K
   · rw [hrowv 4 h4]
-    simp [Pi.single_apply, hv4]
+    simp [hv4]
   · rw [hrowv 5 h5]
-    simp [Pi.single_apply, hv5]
+    simp [hv5]
 
 private theorem transvGL_eq_toGL (a b : Fin 6) (hab : a ≠ b) (t : K) :
     transvGL K a b hab t =

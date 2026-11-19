@@ -15,7 +15,7 @@ theorem FrameProps.of_sylow {Ω : Type*} [Group Ω] [Finite Ω] {ν : Ω → ℕ
     (huniq : ∀ J' : Subgroup Ω, J' ≤ T₀ → IsElemAbelian 3 J' → Nat.card J' = 27 → J' = J₀)
     (hF : FrameProps ν s ⊤ J₀) {J' : Subgroup Ω}
     (hJ'ab : IsElemAbelian 3 J') (hJ'card : Nat.card J' = 27) : FrameProps ν s ⊤ J' := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := hJ'ab.isPGroup.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Ω (hT3.toSylow hTidx) Q
   have hle : J'.map (MulAut.conj g⁻¹).toMonoidHom ≤ T₀ := by

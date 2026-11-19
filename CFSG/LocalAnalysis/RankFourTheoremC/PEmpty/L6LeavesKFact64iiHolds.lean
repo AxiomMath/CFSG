@@ -12,8 +12,8 @@ open CFSG.Open Subgroup CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs
 theorem kFact64iiI121_of_weakClosureInner (h : Stroth.WeakClosure.KFactWeakClosureInner) :
     KFact64iiI121 := by
   intro p hp hp3 K _ _ hs hna hcat P hcomm hrk A hAP hAc hN
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hcomm
+  have : Fact p.Prime := ⟨hp⟩
+  have := hcomm
   obtain ⟨g, hgP, hgne⟩ := h p hp (by omega) K hs hna hcat P hcomm hrk A hAP hAc
   exact hgne (SmallRank.map_conj_eq_of_normalizer_le P hAP hgP hN)
 

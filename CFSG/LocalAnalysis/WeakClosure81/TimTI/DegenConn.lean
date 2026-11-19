@@ -47,7 +47,7 @@ theorem conn_rootGroupShape
       IsRootGroupShape X f (CFSG.Timmesfeld.rootGroup (dSet S) s) := by
   classical
   have hP : CFSG.pCore 2 (X ⧸ Subgroup.center X) = ⊥ := by
-    haveI : Group.IsNilpotent (CFSG.pCore 2 (X ⧸ Subgroup.center X)) :=
+    have : Group.IsNilpotent (CFSG.pCore 2 (X ⧸ Subgroup.center X)) :=
       CFSG.pCore_isPGroup.isNilpotent
     exact h.eq_bot_of_normal_isSolvable_quot _ CFSG.pCore_normal inferInstance
   have hZ : Subgroup.center (X ⧸ Subgroup.center X) = ⊥ :=
@@ -147,7 +147,7 @@ theorem conn_rootGroup_sub
     ∀ w ∈ CFSG.Timmesfeld.rootGroup (dSet S) s, w ≠ 1 → w ∈ dSet S := by
   classical
   have hP : CFSG.pCore 2 (X ⧸ Subgroup.center X) = ⊥ := by
-    haveI : Group.IsNilpotent (CFSG.pCore 2 (X ⧸ Subgroup.center X)) :=
+    have : Group.IsNilpotent (CFSG.pCore 2 (X ⧸ Subgroup.center X)) :=
       CFSG.pCore_isPGroup.isNilpotent
     exact h.eq_bot_of_normal_isSolvable_quot _ CFSG.pCore_normal inferInstance
   have hOR : CFSG.Timmesfeld.Bridge.OddRoot.Hyp (X ⧸ Subgroup.center X)

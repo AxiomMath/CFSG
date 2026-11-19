@@ -26,14 +26,13 @@ private lemma exists_iso_of_herm_ne_zero (hσ : IsUnitaryInvolution σ) (hn : 3 
   have hze : herm σ z e = 0 := by rw [herm_conj σ hσ.invol, hez, map_zero]
   have hzf : herm σ z f = 0 := by rw [herm_conj σ hσ.invol, hfz, map_zero]
   have hae : herm σ (σ c • e + f + ν • z) e = 1 := by
-    simp only [herm_add_left, herm_smul_left, he, hfe, hze, mul_zero, zero_mul, add_zero,
+    simp only [herm_add_left, herm_smul_left, he, hfe, hze, mul_zero, add_zero,
       zero_add]
   have haf : herm σ (σ c • e + f + ν • z) f = c := by
     simp only [herm_add_left, herm_smul_left, hef, hff, hzf, hσ.invol, mul_one, mul_zero,
-      zero_mul, add_zero, zero_add]
+      add_zero]
   have haz : herm σ (σ c • e + f + ν • z) z = σ ν := by
-    simp only [herm_add_left, herm_smul_left, hez, hfz, hzz, mul_one, mul_zero, zero_mul,
-      add_zero, zero_add]
+    simp only [herm_add_left, herm_smul_left, hez, hfz, hzz, mul_one, mul_zero, add_zero, zero_add]
   have haa : herm σ (σ c • e + f + ν • z) (σ c • e + f + ν • z) = 0 := by
     simp only [herm_add_right, herm_smul_right, hae, haf, haz, mul_one]
     rw [mul_comm ν (σ ν), hν]

@@ -288,7 +288,7 @@ theorem ncard_sextets_of_trio {l : Finset (Finset (Fin 24))} (hl : IsTrio l) :
   have hset : {U | IsSextet U ∧ TrioIn l U} =
       (fun V => g⁻¹ • V) '' {U | IsSextet U ∧ TrioIn (trioFin 0) U} := by
     ext U
-    simp only [Set.mem_setOf_eq, Set.mem_image]
+    simp only [Set.mem_ofPred_eq, Set.mem_image]
     constructor
     · rintro ⟨hU, hUl⟩
       refine ⟨g • U, ⟨(isSextet_smul_iff hg).2 hU, ?_⟩, inv_smul_smul g U⟩

@@ -468,7 +468,7 @@ theorem ggQTwoXInLU_coordAt {n : ℕ} {K : Type} [Field K] [Finite K]
       simp [f, hmem]
     · have hmem : i ∈ Finset.univ.erase j₀ := Finset.mem_erase.mpr ⟨hi, Finset.mem_univ i⟩
       have hvi : f i = -1 := by simp [f, hi]
-      rw [hvi, if_pos hmem]
+      rw [hvi, ite_eq_left hmem]
       have hval : ((-1 : ZMod 3)).val = 2 := by decide
       rw [hval, hω2]
   have hsz : ggQTUca_diagSU F.field hordω v₀ = z := by

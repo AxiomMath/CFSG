@@ -85,8 +85,8 @@ theorem ggStepTwo {L T B : Subgroup G} (hTL : T ≤ Subgroup.normalizer (L : Set
     refine ⟨k, ?_⟩
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
     exact hcen _ hk
-  haveI : Group.IsNilpotent (X ⧸ Subgroup.center X) := hQ.isNilpotent
-  haveI : Group.IsNilpotent X :=
+  have : Group.IsNilpotent (X ⧸ Subgroup.center X) := hQ.isNilpotent
+  have : Group.IsNilpotent X :=
     Subgroup.isNilpotent_of_ker_le_center (QuotientGroup.mk' (Subgroup.center X))
       (by rw [QuotientGroup.ker_mk'])
   let P : Sylow 2 X := default
@@ -109,7 +109,7 @@ theorem ggStepTwo {L T B : Subgroup G} (hTL : T ≤ Subgroup.normalizer (L : Set
       map_mul' := fun a c => Subtype.ext (by simp [mul_assoc]) }
   set S : Subgroup G := (P : Subgroup X).map X.subtype with hSdef
   have hSL : S ≤ L := (Subgroup.map_subtype_le _).trans fun _ h => h.1
-  have hS2 : IsPGroup 2 S := P.isPGroup'.map X.subtype
+  have hS2 : IsPGroup 2 S := P.isPGroup.map X.subtype
   have hfwd : ∀ b ∈ B, ∀ h ∈ S, b * h * b⁻¹ ∈ S := by
     rintro b hb _ ⟨a, ha, rfl⟩
     exact ⟨φ b hb a, (Subgroup.characteristic_iff_le_comap.mp hchar (φ b hb)) ha, rfl⟩
@@ -246,7 +246,7 @@ theorem ggResidual_commutator_eq_bot {x : G} {L B T : Subgroup G}
       _ = t * b := by rw [h])
   have ht1 : t ≠ 1 := by rintro rfl; simp at hne
   have h2 : b * t * b⁻¹ ≠ 1 := fun h => ht1 (by simpa using h)
-  haveI : Fintype T := Fintype.ofFinite _
+  have : Fintype T := Fintype.ofFinite _
   have h3 : ({1, ⟨t, ht⟩, ⟨b * t * b⁻¹, hbt⟩} : Finset T).card = 3 := by
     refine Finset.card_eq_three.mpr ⟨_, _, _, ?_, ?_, ?_, rfl⟩
     · exact fun h => ht1 (congrArg Subtype.val h).symm

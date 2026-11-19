@@ -144,11 +144,11 @@ theorem a6core_toral_SL
     CFSG.StandardType.TableCRes.langFamilyCompFieldSL_holds (langTag t) GGL 5 p S
       (by rcases ht with rfl | rfl | rfl | rfl <;> simp [langTag]) hp hp2 (Fin 2) a hTa hpa
       (K.map c) hK''
-  have hker : ∀ γ ∈ kernelRoots (Pi.monoidHom fun u : Fin 2 => rootCharHom (a u)),
-      S.ρ γ ∈ kernelRoots (Pi.monoidHom fun u : Fin 2 => rootCharHom (a u)) :=
+  have hker : ∀ γ ∈ kernelRoots (_root_.MonoidHom.pi fun u : Fin 2 => rootCharHom (a u)),
+      S.ρ γ ∈ kernelRoots (_root_.MonoidHom.pi fun u : Fin 2 => rootCharHom (a u)) :=
     fun γ hγ => CFSG.StandardType.TableCRes.rho_mem_kernelRoots_famChar S a hTa hγ
   let s : ℕ := componentOrbitLength S.ρ
-    (componentRoots (Pi.monoidHom fun u : Fin 2 => rootCharHom (a u)) i)
+    (componentRoots (_root_.MonoidHom.pi fun u : Fin 2 => rootCharHom (a u)) i)
   have hs : 1 ≤ s := by
     obtain ⟨hpos, -⟩ := CFSG.StandardType.TableCRes.fam_componentOrbitLength_spec S hker i
     exact Nat.succ_le_of_lt hpos

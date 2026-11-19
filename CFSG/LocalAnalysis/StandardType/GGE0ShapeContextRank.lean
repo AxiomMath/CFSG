@@ -95,7 +95,7 @@ private theorem exists_two_subgroup_meets_inner
   have hG1M : ggG1 ψ ≤ M := ggG1_le_ggM hctx.range_eq
   have hG1N : ggG1 ψ ≤ Subgroup.normalizer (ggG0 3 B x L D J : Set G) := hG1M
   have hBG1 : B ≤ ggG1 ψ := hctx.2.1.1.trans (ggBs_le_ggG1 hctx)
-  haveI hG0G1N : ((ggG0 3 B x L D J).subgroupOf (ggG1 ψ)).Normal :=
+  have hG0G1N : ((ggG0 3 B x L D J).subgroupOf (ggG1 ψ)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hG1N
   have hSt : ∀ m ∈ Subgroup.normalizer (ψ.range : Set G), ∃ g ∈ ψ.range,
       GGRootAdmissible (ggU .twistedE6 n f).D ψ (m * g) := by
@@ -115,7 +115,7 @@ private theorem exists_two_subgroup_meets_inner
     intro hQbot
     have hPG0 : T ⊓ ggG1 ψ ≤ ggG0 3 B x L D J := by
       let N : Subgroup (ggG1 ψ) := (ggG0 3 B x L D J).subgroupOf (ggG1 ψ)
-      haveI hN : N.Normal := hG0G1N
+      have hN : N.Normal := hG0G1N
       let f : (ggG1 ψ) →* (ggG1 ψ) ⧸ N := QuotientGroup.mk' N
       have hodd' : Odd (Nat.card ((ggG1 ψ) ⧸ N)) := hodd1
       have hPpg : IsPGroup 2 ↥(T ⊓ ggG1 ψ) := hT2.to_le (inf_le_left : T ⊓ ggG1 ψ ≤ T)
@@ -211,7 +211,7 @@ theorem twisted_context_root
   obtain ⟨K, hF, hFin, hAlgΩ, σ, e, A, hK, hσ, hIcl, hAI, hcard, hrel, he⟩ :=
     twisted_descend_torus R.setup hΦ hd hAlg A₀ hA₀model
   obtain ⟨hIcl'⟩ := hIcl
-  haveI : IsAlgClosure K Ω := hIcl'
+  have : IsAlgClosure K Ω := hIcl'
   have hA₀t : A₀ ≤ R.setup.D.torus := by
     intro y hy
     exact ⟨hA₀torus hy, (Subgroup.mem_inf.mp (hA₀model hy)).2⟩
@@ -226,7 +226,7 @@ theorem twisted_context_root
       (fun y hy => ⟨hA₀t hy, hA₀model hy⟩) hrel hv
   have hlong : TwE6RootKill.IsLongest v := twisted_isLongest R.setup hΦ hs hv
   have hlongD : TwE6RootKill.IsLongest Dtw.v := hDv ▸ hlong
-  haveI hCK2 : CharP K 2 := ⟨fun x => by
+  have hCK2 : CharP K 2 := ⟨fun x => by
     rw [← (algebraMap K Ω).injective.eq_iff, map_zero, map_natCast,
       CharP.cast_eq_zero_iff Ω 2 x]⟩
   have h2 : ringChar K = 2 := ringChar.eq K 2

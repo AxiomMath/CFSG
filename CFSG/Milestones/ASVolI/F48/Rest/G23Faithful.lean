@@ -22,7 +22,7 @@ theorem burnsideF48t_dv_unit (i : Fin 14) :
   by_cases h : j = i
   · subst h
     simp
-  · rw [if_neg (fun e => h (Fin.ext e)), Pi.single_eq_of_ne h]
+  · rw [ite_eq_right (fun e => h (Fin.ext e)), Pi.single_eq_of_ne h]
     simp
 
 @[expose] def burnsideF48t_frameV (FV : List (Array ℕ)) : Matrix (Fin 14) (Fin 14) (ZMod 3) :=

@@ -84,10 +84,10 @@ private theorem omPlusMonoSpMonoPerm_inl_long {n : ℕ} (hn : 3 ≤ n) {k : Fin 
         else Sum.inl m := by
   rw [spMonoPerm_inl]
   by_cases hc : n ≤ m.val + 2
-  · have hs : (if n ≤ m.val + 2 then (-1 : ℤ) else 1) = -1 := if_pos hc
-    rw [hs, if_neg (by norm_num : ¬((-1 : ℤ) = 1)), if_pos hc]
-  · have hs : (if n ≤ m.val + 2 then (-1 : ℤ) else 1) = 1 := if_neg hc
-    rw [hs, if_pos rfl, if_neg hc]
+  · have hs : (if n ≤ m.val + 2 then (-1 : ℤ) else 1) = -1 := ite_eq_left hc
+    rw [hs, ite_eq_right (by norm_num : ¬((-1 : ℤ) = 1)), ite_eq_left hc]
+  · have hs : (if n ≤ m.val + 2 then (-1 : ℤ) else 1) = 1 := ite_eq_right hc
+    rw [hs, ite_eq_left rfl, ite_eq_right hc]
     congr 1
     exact Equiv.swap_apply_of_ne_of_ne
       (fun h => hc (by rw [h]; simp; omega))
@@ -101,10 +101,10 @@ private theorem omPlusMonoSpMonoPerm_inr_long {n : ℕ} (hn : 3 ≤ n) {k : Fin 
         else Sum.inr m := by
   rw [spMonoPerm_inr]
   by_cases hc : n ≤ m.val + 2
-  · have hs : (if n ≤ m.val + 2 then (-1 : ℤ) else 1) = -1 := if_pos hc
-    rw [hs, if_neg (by norm_num : ¬((-1 : ℤ) = 1)), if_pos hc]
-  · have hs : (if n ≤ m.val + 2 then (-1 : ℤ) else 1) = 1 := if_neg hc
-    rw [hs, if_pos rfl, if_neg hc]
+  · have hs : (if n ≤ m.val + 2 then (-1 : ℤ) else 1) = -1 := ite_eq_left hc
+    rw [hs, ite_eq_right (by norm_num : ¬((-1 : ℤ) = 1)), ite_eq_left hc]
+  · have hs : (if n ≤ m.val + 2 then (-1 : ℤ) else 1) = 1 := ite_eq_right hc
+    rw [hs, ite_eq_left rfl, ite_eq_right hc]
     congr 1
     exact Equiv.swap_apply_of_ne_of_ne
       (fun h => hc (by rw [h]; simp; omega))
@@ -144,22 +144,22 @@ private theorem omPlusMonoSpinMatrix_weylD_col_long {n : ℕ} (hn : 3 ≤ n) {k 
       omPlusMonoSpMonoPerm_inl_long hn hk]
     by_cases hq : n ≤ m.val + 2
     · have hp : m = rootIdxD n k ∨ m = rootIdxD' n k := (omPlusMonoLongCond_iff hn hk m).1 hq
-      rw [if_pos hp, if_pos hq, hroot, hroot']
+      rw [ite_eq_left hp, ite_eq_left hq, hroot, hroot']
       simp
     · have hp : ¬(m = rootIdxD n k ∨ m = rootIdxD' n k) :=
         fun h => hq ((omPlusMonoLongCond_iff hn hk m).2 h)
-      rw [if_neg hp, if_neg hq]
+      rw [ite_eq_right hp, ite_eq_right hq]
       rw [Equiv.swap_apply_of_ne_of_ne (fun h => hp (Or.inl h)) (fun h => hp (Or.inr h))]
       simp
   · rw [← plusVec_false (n := n) (K := K) m, omPlusMonoSpinAction_weylD_of_not_lt hn hk,
       omPlusMonoSpMonoPerm_inr_long hn hk]
     by_cases hq : n ≤ m.val + 2
     · have hp : m = rootIdxD n k ∨ m = rootIdxD' n k := (omPlusMonoLongCond_iff hn hk m).1 hq
-      rw [if_pos hp, if_pos hq, hroot, hroot']
+      rw [ite_eq_left hp, ite_eq_left hq, hroot, hroot']
       simp
     · have hp : ¬(m = rootIdxD n k ∨ m = rootIdxD' n k) :=
         fun h => hq ((omPlusMonoLongCond_iff hn hk m).2 h)
-      rw [if_neg hp, if_neg hq]
+      rw [ite_eq_right hp, ite_eq_right hq]
       rw [Equiv.swap_apply_of_ne_of_ne (fun h => hp (Or.inl h)) (fun h => hp (Or.inr h))]
       simp
 

@@ -108,7 +108,7 @@ theorem ParabCore.of_primeOver {S : Type} [Group S] [Finite S] (h : PrimeOver S)
     ParabCore S 2 := by
   intro T J hNJ hJ p hp hp5
   have hT : IsSylowTwoOf (T : Subgroup S) ⊤ :=
-    ⟨le_top, T.isPGroup', by
+    ⟨le_top, T.isPGroup, by
       rw [← Subgroup.relIndex, Subgroup.relIndex_top_right]
       exact T.not_dvd_index⟩
   have hTJ : (T : Subgroup S) ≤ J := Subgroup.le_normalizer.trans hNJ

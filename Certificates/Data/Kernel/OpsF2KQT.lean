@@ -136,7 +136,7 @@ theorem agree_set {d n h : Nat} {R : List Nat} {T : RT} (hn : n ≤ 2 ^ h) (H : 
     · have hbi : Nat.blt i n = false := by
         rw [Bool.eq_false_iff]; intro h'; exact hi (Nat.blt_eq.mp h')
       have hik : i ≠ k := by omega
-      rw [hbi, if_neg hik, Bool.cond_false, Bool.cond_false]
+      rw [hbi, ite_eq_right hik, Bool.cond_false, Bool.cond_false]
   · have hb : Nat.blt k n = false := by
       rw [Bool.eq_false_iff]; intro h'; exact hk (Nat.blt_eq.mp h')
     rw [hb, Bool.cond_false]

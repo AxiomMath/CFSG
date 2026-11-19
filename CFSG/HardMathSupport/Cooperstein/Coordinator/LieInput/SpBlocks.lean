@@ -151,13 +151,13 @@ theorem toStd_fundOf (e : Fin n → ℤ) (hsum : ∀ a : Fin n, a.val + 1 = n �
     · simp
   rw [h1]
   by_cases ha : 0 < a.val
-  · rw [dif_pos ha, cumE_succ e a ha]
+  · rw [dite_eq_left ha, cumE_succ e a ha]
     have h2 : cumE e ⟨a.val - 1, by omega⟩ / (if (a.val - 1) + 1 = n then 2 else 1) = cumE e ⟨a.val - 1, by omega⟩ := by
       have : (a.val - 1) + 1 ≠ n := by omega
       simp [this]
     simp only [h2]
     ring
-  · rw [dif_neg ha, cumE_zero e a (by omega)]
+  · rw [dite_eq_right ha, cumE_zero e a (by omega)]
     simp
 
 theorem fundOf_eq_zero (e : Fin n → ℤ) (a : Fin n) (h : cumE e a = 0) : fundOf e a = 0 := by
@@ -211,7 +211,7 @@ theorem cumE_stdVec_ne_zero {r : RootSubgroupIndex n} {k : Fin n} (h : cumE (std
     by_contra hc
     apply h
     simp only [Fin.le_def]
-    split_ifs <;> omega
+    split_ifs; omega
   | negativeLong i =>
     rw [cumE_nl] at h
     simp only [rLo, rHi]
@@ -219,7 +219,7 @@ theorem cumE_stdVec_ne_zero {r : RootSubgroupIndex n} {k : Fin n} (h : cumE (std
     by_contra hc
     apply h
     simp only [Fin.le_def]
-    split_ifs <;> omega
+    split_ifs; omega
   | difference i j hij =>
     rw [cumE_df _ _ _ hij] at h
     simp only [rLo, rHi]
@@ -356,24 +356,24 @@ theorem mem_nodesOf_of_between {p : Fin (n + 1)} {a b k : Fin n}
   rcases le_total a.val b.val with hab | hab
   · rw [min_eq_left hab] at h1
     rw [max_eq_right hab] at h2
-    exact ⟨blkSet_convex ha hb (by simp only [Fin.le_def, Fin.val_castSucc, Fin.val_succ]; omega)
-        (by simp only [Fin.le_def, Fin.val_castSucc, Fin.val_succ]; omega),
+    exact ⟨blkSet_convex ha hb (by simp only [Fin.le_def, Fin.val_castSucc]; omega)
+        (by simp only [Fin.le_def, Fin.val_castSucc]; omega),
       blkSet_convex ha hb (by simp only [Fin.le_def, Fin.val_castSucc, Fin.val_succ]; omega)
         (by simp only [Fin.le_def, Fin.val_castSucc, Fin.val_succ]; omega)⟩
   · rw [min_eq_right hab] at h1
     rw [max_eq_left hab] at h2
-    exact ⟨blkSet_convex hb ha (by simp only [Fin.le_def, Fin.val_castSucc, Fin.val_succ]; omega)
-        (by simp only [Fin.le_def, Fin.val_castSucc, Fin.val_succ]; omega),
+    exact ⟨blkSet_convex hb ha (by simp only [Fin.le_def, Fin.val_castSucc]; omega)
+        (by simp only [Fin.le_def, Fin.val_castSucc]; omega),
       blkSet_convex hb ha (by simp only [Fin.le_def, Fin.val_castSucc, Fin.val_succ]; omega)
         (by simp only [Fin.le_def, Fin.val_castSucc, Fin.val_succ]; omega)⟩
 
 theorem mem_nodesOf_of_ge {p : Fin (n + 1)} {a k : Fin n}
     (ha : a.castSucc ∈ blkSet I p) (hl : Fin.last n ∈ blkSet I p) (h1 : a.val ≤ k.val) :
     k ∈ nodesOf (blkSet I p) :=
-  ⟨blkSet_convex ha hl (by simp only [Fin.le_def, Fin.val_castSucc, Fin.val_succ, Fin.val_last]; omega)
-      (by simp only [Fin.le_def, Fin.val_castSucc, Fin.val_succ, Fin.val_last]; omega),
-    blkSet_convex ha hl (by simp only [Fin.le_def, Fin.val_castSucc, Fin.val_succ, Fin.val_last]; omega)
-      (by simp only [Fin.le_def, Fin.val_castSucc, Fin.val_succ, Fin.val_last]; omega)⟩
+  ⟨blkSet_convex ha hl (by simp only [Fin.le_def, Fin.val_castSucc]; omega)
+      (by simp only [Fin.le_def, Fin.val_castSucc, Fin.val_last]; omega),
+    blkSet_convex ha hl (by simp only [Fin.le_def, Fin.val_castSucc, Fin.val_succ]; omega)
+      (by simp only [Fin.le_def, Fin.val_succ, Fin.val_last]; omega)⟩
 
 end Blocks
 
@@ -470,7 +470,7 @@ theorem rankOne_le_GA {B : Finset (Fin (n + 1))} (hl : Fin.last n ∉ B) {i : Fi
 theorem GA_eq {B : Finset (Fin (n + 1))} {p : Fin (n + 1)} (hB : B = blkSet I p)
     (hl : Fin.last n ∉ B) : GA F B = leviM (rootDatum n F) (nodesOf B) :=
   le_antisymm (leviSL_range_coordHom_le B hB)
-    (iSup₂_le fun i hi => rankOne_le_GA hl hi)
+    (iSup₂_le fun _i hi => rankOne_le_GA hl hi)
 
 @[expose] noncomputable def GA_equiv (B : Finset (Fin (n + 1))) :
     ↥(GA F B) ≃* SpecialLinearGroup (Fin (coordsOf B).card) F :=
@@ -570,7 +570,7 @@ theorem GE_le {B : Finset (Fin (n + 1))} {p : Fin (n + 1)} (hB : B = blkSet I p)
 
 theorem GE_eq {B : Finset (Fin (n + 1))} {p : Fin (n + 1)} (hB : B = blkSet I p)
     (hl : Fin.last n ∈ B) : GE F B = leviM (rootDatum n F) (nodesOf B) :=
-  le_antisymm (GE_le hB hl) (iSup₂_le fun i hi => rankOne_le_GE hi)
+  le_antisymm (GE_le hB hl) (iSup₂_le fun _i hi => rankOne_le_GE hi)
 
 @[expose] noncomputable def GE_equiv (B : Finset (Fin (n + 1))) :
     ↥(GE F B) ≃* StatedSp (coordsOf B).card F :=

@@ -27,6 +27,7 @@ theorem close16_barSub_opp {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {Z : S
   rw [hOpp, s13_pElementSubgroup_map h3 (actTil V₀ V hV)]
   rfl
 
+omit [Finite G] in
 theorem close16_barSub_le_normalizer {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V}
     {X B : Subgroup G} (hB : B ≤ stabTil V₀ V) (hXB : X ≤ normalizer (B : Set G)) :
     barSub V₀ V hV X ≤
@@ -57,6 +58,7 @@ theorem close16_isPGroup_of_barSub (hM : D.M ≤ stabTil ⊥ V) {Y : Subgroup G}
   rw [Subgroup.comap_top] at h2
   exact h2.of_equiv Subgroup.topEquiv
 
+omit [Finite G] in
 theorem close16_inf_le_pCoreOf {M A Y : Subgroup G} (hAM : A ≤ M) (hYn : (Y.subgroupOf M).Normal)
     (h2 : IsPGroup 2 ↥(A ⊓ Y)) : A ⊓ Y ≤ pCoreOf 2 A := by
   have hconj : ∀ a ∈ A, ∀ y ∈ A ⊓ Y, a * y * a⁻¹ ∈ A ⊓ Y := by
@@ -85,7 +87,7 @@ theorem close16_threePrime_normalized {W : Type} [CommGroup W] {H : Subgroup (Mu
     (hN : H ⊓ MulAction.stabilizer (MulAut W) w ≤ normalizer (B : Set (MulAut W))) :
     IsPGroup 2 ↥B := by
   classical
-  haveI := hH
+  have := hH
   have hSH : H ⊓ MulAction.stabilizer (MulAut W) w ≤ H := inf_le_left
   have h3S : 3 ∣ Nat.card ↥(H ⊓ MulAction.stabilizer (MulAut W) w) := by
     rw [hpt.card]
@@ -101,8 +103,8 @@ theorem close16_threePrime_normalized {W : Type} [CommGroup W] {H : Subgroup (Mu
     have hnormS : (B.subgroupOf (H ⊓ MulAction.stabilizer (MulAut W) w)).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hBS).2 hN
     obtain ⟨f, hfs, hf2, -⟩ := hpt.quot
-    haveI := GoldS146P.sl_simple 3 le_rfl
-    haveI himgN := hnormS.map f hfs
+    have := GoldS146P.sl_simple 3 le_rfl
+    have himgN := hnormS.map f hfs
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       ((B.subgroupOf (H ⊓ MulAction.stabilizer (MulAut W) w)).map f) with hbot | htop
     · have hle : B.subgroupOf (H ⊓ MulAction.stabilizer (MulAut W) w) ≤ f.ker := by

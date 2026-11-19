@@ -37,7 +37,7 @@ theorem i263_core (hF : T263FactGen) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       ¬ T ≤ GLAPPrimeCoreOf p L) :
     IsGStar p B L ∨ (p = 3 ∧ GLAMarking (PQuot 3 L) (fun lab _ _ _ _ _ => lab.n = 1)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hBel, hBcard, -, -, -⟩ :
       CFSG.Open.IsElemAbelian p B ∧ Nat.card ↥B = p ^ GLATwoLocalRank p G ∧
         ∃ U : Subgroup G, U ≠ ⊥ ∧ IsPGroup 2 U ∧ B ≤ Subgroup.normalizer (U : Set G) := hBmax
@@ -46,9 +46,9 @@ theorem i263_core (hF : T263FactGen) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   have hBH : B ≤ H := le_sup_right
   have hHN : H ≤ Subgroup.normalizer (L : Set G) := sup_le Subgroup.le_normalizer hBN
   set K₀ : Subgroup ↥H := L.subgroupOf H with hK₀def
-  haveI hK₀n : K₀.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).2 hHN
+  have hK₀n : K₀.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).2 hHN
   set N₀ : Subgroup ↥H := GLAPPrimeCoreOf p K₀ with hN₀def
-  haveI hN₀n : N₀.Normal := by
+  have hN₀n : N₀.Normal := by
     have h := normalizer_le_normalizer_glaPPrimeCoreOf p K₀
     rw [Subgroup.normalizer_eq_top_iff.2 hK₀n, top_le_iff] at h
     exact Subgroup.normalizer_eq_top_iff.1 h
@@ -259,7 +259,7 @@ theorem i263_of_facts (hF : T263FactGen) (G : Type) [Group G] [Finite G] (hKp : 
 
 theorem i263_of_facts' (hF : T263FactGen) (G : Type) [Group G] [Finite G] {m : ℕ} (hctx : ThmACtx G m)
     {p : ℕ} (hp : p ∈ Mu G m) : I263UsedAt G p := by
-  haveI := hctx.1.simple
+  have := hctx.1.simple
   exact i263_of_facts hF G hctx.1.kProper
     (CFSG.StandardType.center_eq_bot_of_isSimpleGroup_of_nonabelian hctx.1.nonabelian) p hp.1.1 hp.1.2.1
     (hp.2.1 ▸ hctx.1.four_le)

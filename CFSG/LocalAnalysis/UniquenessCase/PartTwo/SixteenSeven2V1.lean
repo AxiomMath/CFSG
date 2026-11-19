@@ -49,7 +49,7 @@ theorem s16c167_inf_fixV_eq_bot_of_binaryNaturalSL {W : Type} [CommGroup W]
     {H : Subgroup (MulAut W)} {U : Subgroup W} {n : ℕ} (hn : 2 ≤ n)
     (h : BinaryNaturalSL H U ⊥ n 1) : U ⊓ fixV H = ⊥ := by
   obtain ⟨K, hK, hKf, hK2, π, hπ⟩ := h
-  letI := hK
+  let := hK
   let R := CFSG.Quasithin.SzN15.NatReal.of_realizesVia hπ
   obtain ⟨β, -, hβk, hβe⟩ := R.exists_β
   refine le_bot_iff.1 fun w hw => ?_

@@ -30,6 +30,7 @@ theorem commutator_le_ker {G A : Type*} [Group G] [CommGroup A] (f : G →* A) :
 variable {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y} {x k : Y} {K₁ K₂ Q : Subgroup Y}
   {a b t : Y}
 
+omit [Finite Y] in
 theorem map_conj_one (K : Subgroup Y) : K.map (MulAut.conj (1 : Y)).toMonoidHom = K := by
   have : (MulAut.conj (1 : Y)).toMonoidHom = MonoidHom.id Y := by
     ext z
@@ -43,7 +44,7 @@ variable (sd : SwapData P K₁ K₂ Q a b t)
 include sd
 
 theorem rank_le_one : CFSG.Open.pRank 3 K₁ ≤ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEK, hE, hEc⟩ := CFSG.PreuniquenessRankFour.Helpers.pRank_attained 3
     Nat.prime_three K₁
   have hEp : IsPGroup 3 E := elementary_isPGroup 3 E hE
@@ -93,11 +94,11 @@ theorem P_le_sup_cent (hd : ClosedData P x k) (hs : CompSetting P) {K D : Subgro
     (hDN : D ≤ normalizer (K : Set Y)) (hPD : P ≤ D)
     (hcomm : ∀ (p : Y) (hp : p ∈ D), p ∈ P → (⟨p, hp⟩ : D) ∈ commutator D) :
     ∀ p ∈ P, p ∈ K ⊔ centralizer (K : Set Y) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hs1, hnab⟩ := hs.simple hK
   have hcat : IsCatalogGroup K := hd.catalog.simple_subgroup K hs1 hnab
   obtain ⟨R, -, hRnorm, -, hdR, hRK⟩ := hN Y K hs1 hnab hcat hrk
-  haveI hR'n : (R.subgroupOf D).Normal := ⟨fun r hr g => by
+  have hR'n : (R.subgroupOf D).Normal := ⟨fun r hr g => by
     rw [mem_subgroupOf] at hr ⊢
     exact hRnorm g (hDN g.2) r hr⟩
   have hB3 : IsPGroup 3 (↥D ⧸ R.subgroupOf D) := by
@@ -130,8 +131,8 @@ theorem P_le_sup_cent (hd : ClosedData P x k) (hs : CompSetting P) {K D : Subgro
     by_contra hne
     push Not at hne
     obtain ⟨bq, hbq⟩ := hne
-    haveI : Nontrivial (↥D ⧸ R.subgroupOf D) := ⟨⟨bq, 1, hbq⟩⟩
-    haveI : Group.IsNilpotent (↥D ⧸ R.subgroupOf D) := hB3.isNilpotent
+    have : Nontrivial (↥D ⧸ R.subgroupOf D) := ⟨⟨bq, 1, hbq⟩⟩
+    have : Group.IsNilpotent (↥D ⧸ R.subgroupOf D) := hB3.isNilpotent
     exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (↥D ⧸ R.subgroupOf D)).ne hcommB
   intro p hp
   have hpD : p ∈ D := hPD hp
@@ -150,10 +151,10 @@ variable (sd : SwapData P K₁ K₂ Q a b t)
 include sd
 
 theorem false_of_swap (hd : ClosedData P x k) (hN : KFactOutThreeNilpotent) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨u, huP, huQ, q, hqQ, hutq⟩ := sd.exists_u hd
   set D : Subgroup Y := normalizer (K₁ : Set Y) with hD
-  haveI hDn : D.Normal := sd.two.normal_normalizer
+  have hDn : D.Normal := sd.two.normal_normalizer
   have hPD : P ≤ D := sd.two.hs.normalizes sd.two.c₁
   have hQD : Q ≤ D := sd.q.Q_le.trans hPD
   have hDN₂ : D ≤ normalizer (K₂ : Set Y) := fun g hg =>

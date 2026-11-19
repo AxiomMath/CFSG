@@ -2,7 +2,7 @@ module
 
 public import CFSG.LocalAnalysis.AGLEmbeddingD2.Wilson.NormalizerAction.FrattiniSub
 public import CFSG.RankThree.PartTwo.Sec4.T444.Item434AltPerm
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 
@@ -212,8 +212,8 @@ theorem zpow_cases (hc3 : c ^ 3 = 1) (hc1 : c ≠ 1) {j : ℤ} (hj : c ^ j ≠ 1
   rw [hord] at h
   have : j % 3 = 0 ∨ j % 3 = 1 ∨ j % 3 = 2 := by omega
   rcases this with h0 | h1 | h2
-  · exfalso; apply hj; rw [← h]; simp [show ((3 : ℕ) : ℤ) = 3 from rfl, h0]
-  · left; rw [← h]; simp [show ((3 : ℕ) : ℤ) = 3 from rfl, h1]
+  · exfalso; apply hj; rw [← h]; simp [h0]
+  · left; rw [← h]; simp [h1]
   · right
     rw [← h]
     simp only [Nat.cast_ofNat, h2]

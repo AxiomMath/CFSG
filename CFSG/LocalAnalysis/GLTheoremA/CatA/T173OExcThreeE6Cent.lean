@@ -55,7 +55,7 @@ private theorem pow_three_eq_one_of_commute_zSL (hK : Nat.card K = 2) {M : SL(6,
   have hAb : ∀ a ∈ A, a < 64 := maskOf_lt _
   have hc : ∀ Zm ∈ e6TorusMasks, mmul A Zm = mmul Zm A := by
     intro Zm hZm
-    simp only [e6TorusMasks, List.mem_cons, List.mem_singleton, List.not_mem_nil,
+    simp only [e6TorusMasks, List.mem_cons, List.not_mem_nil,
       or_false] at hZm
     rcases hZm with rfl | rfl | rfl
     · exact mmul_comm_of_commute hK (coe_tvSLWord_eq_real _) (length_wordMask _)
@@ -91,7 +91,7 @@ theorem centralizer_range_torusE6Two_le (h2 : (2 : K) = 0) (hK : Nat.card K = 2)
   intro c hc
   have hc3 : c ^ 3 = 1 := by
     classical
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hu0mem : uE6Two (K := K) 0 ∈ (torusE6Two (K := K) h2).range :=
       MonoidHom.mem_range.mpr ⟨_, torusE6Two_single_zero h2⟩
     have hu0 : c ∈ Subgroup.centralizer ({uE6Two (K := K) 0} : Set (adjointGroup .E6 K)) := by

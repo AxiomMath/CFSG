@@ -26,9 +26,9 @@ theorem IsDih.card_inf_normalizer_le {D T V : Subgroup G} (hD : IsDih D) (hTD : 
     (normal_subgroupOf_iff_le_normalizer hTN).2 inf_le_right
   have hnc : ¬ IsCyclic ↥(T.subgroupOf (D ⊓ normalizer (T : Set G))) := by
     intro hc
-    haveI : IsCyclic ↥T := (subgroupOfEquivOfLe hTN).isCyclic.1 hc
+    have : IsCyclic ↥T := (subgroupOfEquivOfLe hTN).isCyclic.1 hc
     have hVc : IsCyclic ↥V := Subgroup.isCyclic_of_le hVT
-    haveI := isKleinFour_of_isFourIn hV
+    have := isKleinFour_of_isFourIn hV
     exact IsKleinFour.not_isCyclic hVc
   have hidx := CFSG.GorensteinWalter.normal_noncyclic_subgroup_dihedral_of_mulEquiv_index_le_two
     hm e _ hnormal hnc
@@ -69,8 +69,8 @@ include hd
 
 theorem finite : Finite ↥S := by
   rw [← hd.sup_eq]
-  haveI := hd.dih₁.finite
-  haveI := hd.isDih₂.finite
+  have := hd.dih₁.finite
+  have := hd.isDih₂.finite
   exact Nat.finite_of_card_ne_zero (by
     rw [card_sup_of_le_normalizer (le_normalizer_of_comm fun x hx y hy => hd.comm hx hy)
       hd.inf_eq]
@@ -78,9 +78,10 @@ theorem finite : Finite ↥S := by
 
 theorem card_inf_sup_inf (T : Subgroup G) :
     Nat.card ↥((T ⊓ S₁) ⊔ (T ⊓ S₂)) = Nat.card ↥(T ⊓ S₁) * Nat.card ↥(T ⊓ S₂) :=
-  card_sup_of_le_normalizer (le_normalizer_of_comm fun x hx y hy => hd.comm hx.2 hy.2)
+  card_sup_of_le_normalizer (le_normalizer_of_comm fun _x hx _y hy => hd.comm hx.2 hy.2)
     (eq_bot_iff.2 ((inf_le_inf inf_le_right inf_le_right).trans hd.inf_eq.le))
 
+omit hd in
 theorem mul_mem_inf_sup_inf {T : Subgroup G} {x₁ x₂ : G} (hx₁ : x₁ ∈ S₁) (hx₂ : x₂ ∈ S₂)
     (hx : x₁ * x₂ ∈ T) (hx₁T : x₁ ∈ T) : x₁ * x₂ ∈ (T ⊓ S₁) ⊔ (T ⊓ S₂) := by
   have hx₂T : x₂ ∈ T := by
@@ -88,23 +89,24 @@ theorem mul_mem_inf_sup_inf {T : Subgroup G} {x₁ x₂ : G} (hx₁ : x₁ ∈ S
     rwa [inv_mul_cancel_left] at this
   exact mul_mem (mem_sup_left ⟨hx₁T, hx₁⟩) (mem_sup_right ⟨hx₂T, hx₂⟩)
 
+omit hd in
 theorem mul_mem_inf_sup_inf' {T : Subgroup G} {x₁ x₂ : G} (hx₁ : x₁ ∈ S₁) (hx₂ : x₂ ∈ S₂)
     (hx : x₁ * x₂ ∈ T) (hx₂T : x₂ ∈ T) : x₁ * x₂ ∈ (T ⊓ S₁) ⊔ (T ⊓ S₂) := by
   have hx₁T : x₁ ∈ T := by
     have := mul_mem hx (inv_mem hx₂T)
     rwa [mul_inv_cancel_right] at this
-  exact hd.mul_mem_inf_sup_inf hx₁ hx₂ hx hx₁T
+  exact DDDecomp.mul_mem_inf_sup_inf hx₁ hx₂ hx hx₁T
 
 theorem relIndex_inf_sup_le_two {T : Subgroup G} (hTS : T ≤ S) {V : Subgroup G}
     (hV : IsFourIn S₂ V) (hVT : V ≤ T) : ((T ⊓ S₁) ⊔ (T ⊓ S₂)).relIndex T ≤ 2 := by
-  haveI := hd.finite
-  haveI : Finite ↥T := Finite.of_injective _ (inclusion_injective hTS)
-  haveI : Finite ↥(T ⊓ S₁) :=
+  have := hd.finite
+  have : Finite ↥T := Finite.of_injective _ (inclusion_injective hTS)
+  have : Finite ↥(T ⊓ S₁) :=
     Finite.of_injective _ (inclusion_injective (inf_le_left : T ⊓ S₁ ≤ T))
-  haveI : Finite ↥(T ⊓ S₂) :=
+  have : Finite ↥(T ⊓ S₂) :=
     Finite.of_injective _ (inclusion_injective (inf_le_left : T ⊓ S₂ ≤ T))
-  haveI : Finite ↥S₂ := hd.isDih₂.finite
-  haveI : Finite ↥(S₂ ⊓ normalizer ((T ⊓ S₂ : Subgroup G) : Set G)) :=
+  have : Finite ↥S₂ := hd.isDih₂.finite
+  have : Finite ↥(S₂ ⊓ normalizer ((T ⊓ S₂ : Subgroup G) : Set G)) :=
     Finite.of_injective _ (inclusion_injective
       (inf_le_left : S₂ ⊓ normalizer ((T ⊓ S₂ : Subgroup G) : Set G) ≤ S₂))
   set φ := ddProdEquiv hd
@@ -168,11 +170,11 @@ theorem exists_involution_not_mem {T : Subgroup G} (hTS : T ≤ S) {V₁ V₂ : 
     (hV₁ : IsFourIn S₁ V₁) (hV₁T : V₁ ≤ T) (hV₂ : IsFourIn S₂ V₂) (hV₂T : V₂ ≤ T)
     (hne : ¬ T ≤ (T ⊓ S₁) ⊔ (T ⊓ S₂)) :
     ∃ y₁ ∈ S₁, ∃ y₂ ∈ S₂, y₁ ∉ T ∧ y₂ ∉ T ∧ y₁ * y₁ = 1 ∧ y₂ * y₂ = 1 ∧ y₁ * y₂ ∈ T := by
-  rw [SetLike.not_le_iff_exists] at hne
+  rw [IsConcreteLE.not_le_iff_exists] at hne
   obtain ⟨t, ht, htT⟩ := hne
   obtain ⟨x₁, hx₁, x₂, hx₂, rfl⟩ := hd.mem_iff.1 (hTS ht)
-  have hx₁T : x₁ ∉ T := fun h => htT (hd.mul_mem_inf_sup_inf hx₁ hx₂ ht h)
-  have hx₂T : x₂ ∉ T := fun h => htT (hd.mul_mem_inf_sup_inf' hx₁ hx₂ ht h)
+  have hx₁T : x₁ ∉ T := fun h => htT (DDDecomp.mul_mem_inf_sup_inf hx₁ hx₂ ht h)
+  have hx₂T : x₂ ∉ T := fun h => htT (CFSG.GH72.DDDecomp.mul_mem_inf_sup_inf' hx₁ hx₂ ht h)
   obtain ⟨s₁, hs₁, hs₁'⟩ := hd.dih₁.exists_mem_four_mul_self hV₁
   obtain ⟨s₂, hs₂, hs₂'⟩ := hd.isDih₂.exists_mem_four_mul_self hV₂
   have hpick : ∀ {D V : Subgroup G} {x s : G}, x ∈ D → s ∈ V → V ≤ D → V ≤ T → x ∉ T →
@@ -198,12 +200,12 @@ theorem card_inf_centralizer_of_not_mem {T : Subgroup G} (hTS : T ≤ S) {V₁ V
     (hV₁ : IsFourIn S₁ V₁) (hV₁T : V₁ ≤ T) (hV₂ : IsFourIn S₂ V₂) (hV₂T : V₂ ≤ T) {y : G}
     (hyT : y ∈ T) (hy : y ∉ (T ⊓ S₁) ⊔ (T ⊓ S₂)) (hy2 : y * y = 1) :
     Nat.card ↥(T ⊓ C y) = 8 := by
-  haveI := hd.finite
-  haveI : Finite ↥T := Finite.of_injective _ (inclusion_injective hTS)
+  have := hd.finite
+  have : Finite ↥T := Finite.of_injective _ (inclusion_injective hTS)
   obtain ⟨y₁, hy₁, y₂, hy₂, rfl⟩ := hd.mem_iff.1 (hTS hyT)
   obtain ⟨hy₁2, hy₂2⟩ := (hd.mul_self_iff hy₁ hy₂).1 hy2
-  have hy₁T : y₁ ∉ T := fun h => hy (hd.mul_mem_inf_sup_inf hy₁ hy₂ hyT h)
-  have hy₂T : y₂ ∉ T := fun h => hy (hd.mul_mem_inf_sup_inf' hy₁ hy₂ hyT h)
+  have hy₁T : y₁ ∉ T := fun h => hy (DDDecomp.mul_mem_inf_sup_inf hy₁ hy₂ hyT h)
+  have hy₂T : y₂ ∉ T := fun h => hy (CFSG.GH72.DDDecomp.mul_mem_inf_sup_inf' hy₁ hy₂ hyT h)
   have hN₁ : IsDihNonab S₁ := by
     rcases hd.dih₁.isKleinFour_or_isDihNonab with hK | hN
     · exact absurd (hV₁T ((IsDih.four_eq_of_isKleinFour hK hV₁).symm ▸ hy₁)) hy₁T
@@ -222,7 +224,7 @@ theorem card_inf_centralizer_of_not_mem {T : Subgroup G} (hTS : T ≤ S) {V₁ V
       push Not at hc
       exact hxT (hVT ((isDih_of_isDihNonab hD).mem_four_of_central hV hxD hc))
     have hW := (isDih_of_isDihNonab hD).isFourIn_inf_centralizer hxD hx2 hnc
-    haveI : Finite ↥(D ⊓ C x) := hW.finite
+    have : Finite ↥(D ⊓ C x) := hW.finite
     have hle : T ⊓ (D ⊓ C x) ≤ D ⊓ C x := inf_le_right
     have hdvd : Nat.card ↥(T ⊓ (D ⊓ C x)) ∣ 4 := hW.2.2 ▸ card_dvd_of_le hle
     have hne4 : Nat.card ↥(T ⊓ (D ⊓ C x)) ≠ 4 := by
@@ -477,10 +479,10 @@ theorem card_inf_centralizer_le_of_noncentral {y₁ y₂ a : G} (hy₁ : y₁ �
     (hy₁2 : y₁ * y₁ = 1) (hnc : ∃ g ∈ S₁, g * y₁ ≠ y₁ * g) (hy₂ : y₂ ∈ S₂) (ha : a ∈ S₁)
     (ha2 : a * a = 1) (hanc : ∃ g ∈ S₁, g * a ≠ a * g) :
     Nat.card ↥(S ⊓ C (y₁ * y₂)) ≤ Nat.card ↥(S ⊓ C a) := by
-  haveI := hd.isDih₂.finite
+  have := hd.isDih₂.finite
   have hW₁ := hd.dih₁.isFourIn_inf_centralizer hy₁ hy₁2 hnc
   have hWa := hd.dih₁.isFourIn_inf_centralizer ha ha2 hanc
-  haveI : Finite ↥(S₂ ⊓ C y₂) :=
+  have : Finite ↥(S₂ ⊓ C y₂) :=
     Finite.of_injective _ (inclusion_injective (inf_le_left : S₂ ⊓ C y₂ ≤ S₂))
   rw [hd.inf_centralizer_mul hy₁ hy₂, hd.inf_centralizer_left ha,
     card_sup_of_le_normalizer (le_normalizer_of_comm (H := S₁ ⊓ C y₁) (K := S₂ ⊓ C y₂)

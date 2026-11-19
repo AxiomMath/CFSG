@@ -37,7 +37,7 @@ theorem s13_eight_N_comm_t (h : Cfg133 A t 3) {z : MulAut W} {N : Subgroup (MulA
     exact htP x hx
   have hcomm' : ⁅P, Subgroup.zpowers t⁆ = P := by rw [hPdef]; exact hcomm
   have hNP' : N ≤ P := by rw [hPdef]; exact hD.hNP
-  haveI hPinst : CFSG.IsExtraspecial 3 ↥P := hD.hP.1
+  have hPinst : CFSG.IsExtraspecial 3 ↥P := hD.hP.1
   have htt : t * t = 1 := by
     have h2 := h.ht2
     rwa [pow_two] at h2
@@ -62,9 +62,9 @@ theorem s13_eight_N_comm_t (h : Cfg133 A t 3) {z : MulAut W} {N : Subgroup (MulA
     calc t * (t * (x : MulAut W) * t⁻¹) * t⁻¹
         = (t * t) * (x : MulAut W) * (t⁻¹ * t⁻¹) := by group
       _ = (x : MulAut W) := by rw [htt, htinv, htt]; group
-  haveI : IsElementaryAbelian 3 (↥P ⧸ Subgroup.center ↥P) :=
+  have : IsElementaryAbelian 3 (↥P ⧸ Subgroup.center ↥P) :=
     CFSG.IsExtraspecial.quotient_elementary_abelian 3 ↥P
-  haveI : IsMulCommutative (↥P ⧸ Subgroup.center ↥P) :=
+  have : IsMulCommutative (↥P ⧸ Subgroup.center ↥P) :=
     IsMulCommutative.of_comm fun a b => IsMulCommutative.is_comm.comm a b
   have hτsurj : Function.Surjective τ := fun y => ⟨τ y, hττ y⟩
   have hCmap : Subgroup.center ↥P ≤ (Subgroup.center ↥P).comap τ :=

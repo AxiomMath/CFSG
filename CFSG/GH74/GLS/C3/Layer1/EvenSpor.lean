@@ -219,7 +219,7 @@ theorem false_of_J2 (hJ2 : B_spor_J2_table)
         hCxH (mem_centralizer_singleton_iff.2 (hSc s hs'))
       have hSyl' : IsSylowOf 2 (S : Subgroup G) H := by
         rw [isSylowOf_iff]
-        refine ⟨hSC, S.isPGroup', fun hdvd => S.not_dvd_index ?_⟩
+        refine ⟨hSC, S.isPGroup, fun hdvd => S.not_dvd_index ?_⟩
         rw [← Subgroup.relIndex_mul_index hSC]
         exact Dvd.dvd.mul_right hdvd _
       exact hcent x ⟨hQC hxQ, hCK (hQC hxQ)⟩ hx2 ⟨S, hSyl', hxS, hSc⟩

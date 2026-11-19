@@ -54,7 +54,7 @@ theorem concA_of_modelBGen {n : ℕ} (hp : p.Prime) (hn : 2 ≤ n) (hSn : S.Norm
     (hb'φ : ∀ x, b' * φ x * b'⁻¹ = φ (ψ x)) (hM : ModelBGen p n X ψ) : S267ConcA p S B := by
   obtain ⟨hψp, hψout, A, A₁, J, t, hA, hAc, hψA, h1, hA₁c, hJ, hAN, hJψ, hcent, hlay, ht1, ht2,
     hJt, hAt, hψt⟩ := hM
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set B₀ := B ⊓ centModSubgroup p S with hB₀
   have hmapS : ∀ (K : Subgroup X), K.map φ ≤ S := fun K => by
     rw [← hφS]

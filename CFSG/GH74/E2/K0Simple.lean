@@ -91,7 +91,7 @@ theorem exists_twoSubgroup_rank_two_of_simple [Finite K] [IsSimpleGroup K]
     (hn : ¬ (Nat.card K).Prime) (he : Even (Nat.card K)) :
     ∃ T : Subgroup K, IsPGroup 2 T ∧ 2 ≤ Group.rank T := by
   obtain ⟨S⟩ : Nonempty (Sylow 2 K) := inferInstance
-  refine ⟨S, S.isPGroup', ?_⟩
+  refine ⟨S, S.isPGroup, ?_⟩
   by_contra hlt
   have hcyc : IsCyclic S := isCyclic_of_group_rank_le_one (by omega)
   obtain ⟨N, hN, hNS⟩ := CFSG.exists_normal_isComplement'_of_isCyclic_sylow_two S hcyc

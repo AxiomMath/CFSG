@@ -27,7 +27,7 @@ theorem certificate490011 :
     refine all_congr_mem fun x hx => all_congr_mem fun i hi => ?_
     have hlt : ∀ i ∈ offPts24, i < 24 := by decide
     have hi' := hlt i hi
-    simp only [Function.comp_apply]
+    simp only
     rw [T24.arr_get x hi', show inv24s2 = T24s2.invols from rfl,
       pk_idxOf T24.packed T24.invData (Or.inl (hl x hx))]
   unfold predOff24 predOff24K fixSt

@@ -20,7 +20,7 @@ open scoped commutatorElement
 theorem input19_20_2CoreStrong_of (hKD : Chev2KDOut) (hCore : Chev2CoreCent) :
     Input19_20_2CoreStrong := by
   intro X _ _ K _ hs hna hCh hcent p hp hp2 D Sd hfam
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpD : ∀ E : Subgroup X, (∀ x ∈ E, x ^ p = 1) → IsPGroup p (E.map (rho K)) := by
     intro E hE g
     obtain ⟨x, hx, hgx⟩ := Subgroup.mem_map.1 g.2

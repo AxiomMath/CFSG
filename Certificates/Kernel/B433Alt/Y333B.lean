@@ -28,7 +28,7 @@ theorem lsub_tL_eq : CFSG.YGroups.Y442Tw.lsub CertificateChecks.KernelY442.tL = 
   rw [CFSG.YGroups.Y442Tw.lsub, J432]
   congr 1
   ext y
-  simp only [Set.mem_image, Set.mem_setOf_eq, CertificateChecks.KernelY442.tL, List.mem_cons,
+  simp only [Set.mem_image, Set.mem_ofPred_eq, CertificateChecks.KernelY442.tL, List.mem_cons,
     List.not_mem_nil, or_false]
   constructor
   · rintro ⟨c, hc, rfl⟩

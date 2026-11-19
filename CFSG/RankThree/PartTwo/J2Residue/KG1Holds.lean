@@ -15,6 +15,7 @@ open CFSG CFSG.Blueprint.NativeSporadic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_inf_centralizer_eq_three {S : Subgroup G} (hS : Sec4.IsHeisThree S) :
     Nat.card ↥(S ⊓ Subgroup.centralizer (S : Set G)) = 3 := by
   rw [← CFSG.center_map_subtype_eq_inf_centralizer S,
@@ -62,6 +63,7 @@ theorem card_zpowers_sup_eq_nine {S : Subgroup G} (hS : Sec4.IsHeisThree S) {s :
     rw [CFSG.card_sup_eq_mul_of_commute (Subgroup.zpowers s) Z hcomm hdisj,
       hzpowcard, hZcard]
 
+omit [Finite G] in
 theorem le_normalizer_of_card_eq_nine {S B : Subgroup G} (hS : Sec4.IsHeisThree S)
     (hBS : B ≤ S) (hB : Nat.card B = 9) : S ≤ Subgroup.normalizer (B : Set G) := by
   rw [← Subgroup.normal_subgroupOf_iff_le_normalizer hBS]
@@ -79,7 +81,7 @@ theorem monoidHom_eq_id_or_inv_of_pow_three {A : Type*} [Group A] [IsMulCommutat
     (hexp : ∀ a : A, a ^ 3 = 1) (f : A →* A)
     (hf : ∀ a : A, f a = a ∨ f a = a⁻¹) :
     (∀ a, f a = a) ∨ (∀ a, f a = a⁻¹) := by
-  letI : CommGroup A := IsMulCommutative.instCommGroup
+  let : CommGroup A := IsMulCommutative.instCommGroup
   by_cases h : ∃ s : A, s ≠ 1 ∧ f s = s
   · left
     obtain ⟨s, hs1, hfs⟩ := h
@@ -185,7 +187,7 @@ private theorem inv_of_sq_normalizes_aux {S : Subgroup G}
   let Z : Subgroup G := S ⊓ Subgroup.centralizer (S : Set G)
   let Zc : Subgroup ↥S := Subgroup.center ↥S
   let Q := ↥S ⧸ Zc
-  haveI : Zc.Normal := inferInstance
+  have : Zc.Normal := inferInstance
   have hZeq : Z = Zc.map S.subtype := (CFSG.center_map_subtype_eq_inf_centralizer S).symm
   have hSexp : ∀ t : ↥S, t ^ 3 = 1 := by
     intro t
@@ -202,7 +204,7 @@ private theorem inv_of_sq_normalizes_aux {S : Subgroup G}
   have hΦmem : ∀ t : ↥S, (Φ t : G) = γ ^ 2 * (t : G) * (γ ^ 2)⁻¹ := by
     intro t
     have := Subgroup.normalizerMonoidHom_apply_apply_coe S ⟨γ ^ 2, hγ2S⟩ t
-    simpa [Φ] using this
+    simp [Φ]
   have hΦ : Zc.map Φ.toMonoidHom = Zc := Subgroup.map_center_eq Φ
   let α : Q →* Q := QuotientGroup.map Zc Zc Φ.toMonoidHom (by
     intro z hz
@@ -379,6 +381,7 @@ theorem inv_of_sq_normalizes {S : Subgroup G} (hS : Sec4.IsHeisThree S) {γ : G}
     ∀ s ∈ S, γ ^ 2 * s * (γ ^ 2)⁻¹ * s ∈ S ⊓ Subgroup.centralizer (S : Set G) :=
   inv_of_sq_normalizes_aux hS hγ h1 h2
 
+omit [Finite G] in
 private theorem normalizer_iff_of_order_nine {S B B' : Subgroup G}
     (hS : Sec4.IsHeisThree S)
     (hcomm : ∀ x ∈ Subgroup.normalizer (S : Set G), ∀ y ∈ Subgroup.normalizer (S : Set G),
@@ -413,7 +416,7 @@ private theorem normalizer_iff_of_order_nine {S B B' : Subgroup G}
     · intro h x
       rw [hyBiff x, hyBiff (g * x * g⁻¹)]
       have := h (y * x * y⁻¹)
-      convert this using 1 <;> group
+      convert this using 1; group
     · intro h a
       have := h (y⁻¹ * a * y)
       rw [hyBiff (y⁻¹ * a * y), hyBiff (g * (y⁻¹ * a * y) * g⁻¹)] at this
@@ -505,6 +508,7 @@ theorem exists_inv_of_transitive {S : Subgroup G}
   exact inv_of_sq_normalizes hS hγN h1 h2
 
 
+omit [Finite G] in
 theorem comm_mem_and_pow_eight_mem {S : Subgroup G}
     (e : Subgroup.normalizer (S : Set G) ⧸ S.subgroupOf (Subgroup.normalizer (S : Set G)) ≃*
       Multiplicative (ZMod 8)) :

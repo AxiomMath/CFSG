@@ -17,10 +17,10 @@ variable {p : ℕ} {K : Type} [Field K]
 theorem burnsideA315y_u3_exists_xyc (hU : UnitaryFieldData p 1 K) (hp2 : p ≠ 2) :
     ∃ x y cc : K, cc ^ 2 * (x ^ 2 + y ^ 2) = -1 ∧ hU.bar x = x ∧ hU.bar y = y ∧
       hU.bar cc = -cc := by
-  haveI : Fact p.Prime := ⟨hU.prime⟩
-  haveI := hU.finite
-  haveI : CharP K p := hU.charP
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hU.prime⟩
+  have := hU.finite
+  have : CharP K p := hU.charP
+  have : Fintype K := Fintype.ofFinite K
   have hp := hU.prime
   have hchar : ringChar (ZMod p) ≠ 2 := by rw [ZMod.ringChar_zmod_n]; exact hp2
   obtain ⟨ν₀, hν₀⟩ := FiniteField.exists_nonsquare hchar
@@ -98,7 +98,7 @@ theorem burnsideA315y_u3_scalar_mem (hU : UnitaryFieldData p 1 K) {μ : Kˣ}
   rw [mem_unitaryIsom3, Matrix.GeneralLinearGroup.coe_scalar]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply, Matrix.diagonal, hμ]
+    simp [Matrix.mul_apply, Matrix.scalar_apply, Matrix.diagonal, hμ]
 
 theorem burnsideA315y_u3_dgl_mem (hU : UnitaryFieldData p 1 K) {s : Kˣ}
     (hs : hU.bar (s : K) * s = 1) : burnsideA315y_dgl s ∈ unitaryIsom3 hU := by
@@ -121,7 +121,7 @@ theorem burnsideA315y_u3_negDiag3_mem (hU : UnitaryFieldData p 1 K) :
     negDiag3 K ∈ unitaryIsom3 hU := by
   rw [mem_unitaryIsom3, coe_negDiag3]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal]
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Matrix.diagonal]
 
 theorem burnsideA315y_u3_qa_unitary (hU : UnitaryFieldData p 1 K) :
     ((burnsideA315y_qa K).map hU.bar)ᵀ * burnsideA315y_qa K = 1 := by

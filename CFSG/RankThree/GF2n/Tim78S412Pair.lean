@@ -60,18 +60,19 @@ include H hmut
 section Root
 
 
+omit [Finite G] H hmut in
 theorem pair_L_conj_eq :
     conjSubgroup g B ⊔ conjSubgroup g⁻¹ (conjSubgroup g B) = B ⊔ conjSubgroup g B := by
   rw [conjSubgroup_inv_conjSubgroup, sup_comm]
 
 theorem pair_B_cen {b : G} (hb : b ∈ B) :
     b ∈ Subgroup.centralizer ((B ⊔ conjSubgroup g B : Subgroup G) : Set G) :=
-  Subgroup.mem_centralizer_iff.mpr fun l hl =>
+  Subgroup.mem_centralizer_iff.mpr fun _l hl =>
     comm_of_isElemAbelian (H.outer_L_elemAb hmut.outer) hl (Subgroup.mem_sup_left hb)
 
 theorem pair_A_cen {a : G} (ha : a ∈ conjSubgroup g B) :
     a ∈ Subgroup.centralizer ((B ⊔ conjSubgroup g B : Subgroup G) : Set G) :=
-  Subgroup.mem_centralizer_iff.mpr fun l hl =>
+  Subgroup.mem_centralizer_iff.mpr fun _l hl =>
     comm_of_isElemAbelian (H.outer_L_elemAb hmut.outer) hl (Subgroup.mem_sup_right ha)
 
 theorem pair_centP_cen {c : G} (hc : c ∈ centP B P g) :
@@ -87,6 +88,7 @@ theorem pair_centP_cen {c : G} (hc : c ∈ centP B P g) :
     _ = (c * b) * a := by rw [H.center_Q hb (H.P_le_Q hcP)]
     _ = c * (b * a) := by group
 
+omit hmut in
 theorem pair_Pg_comm_A {u a : G} (hu : u ∈ conjSubgroup g P) (ha : a ∈ conjSubgroup g B) :
     a * u = u * a :=
   (H.conj g).center_Q ha (Subgroup.map_mono H.P_le_Q hu)
@@ -94,21 +96,21 @@ theorem pair_Pg_comm_A {u a : G} (hu : u ∈ conjSubgroup g P) (ha : a ∈ conjS
 theorem pair_Pg_le_normalizer_L :
     conjSubgroup g P ≤ Subgroup.normalizer ((B ⊔ conjSubgroup g B : Subgroup G) : Set G) := by
   have h := (H.conj g).outer_P_le_normalizer_L (H.outer_conj_of_mutual hmut)
-  rwa [H.pair_L_conj_eq hmut] at h
+  rwa [CFSG.RankThree.GF2n.Tim78.Hyp4.pair_L_conj_eq] at h
 
 theorem pair_classIn_cases_Pg (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInput)
     {U : Subgroup G} (hUc : U ∈ classIn B (B ⊔ conjSubgroup g B)) :
     U = conjSubgroup g B ∨ ∃ u ∈ conjSubgroup g P, U = conjSubgroup u B := by
   have h1 : U ∈ classIn (conjSubgroup g B)
       (conjSubgroup g B ⊔ conjSubgroup g⁻¹ (conjSubgroup g B)) := by
-    rw [H.pair_L_conj_eq hmut]
+    rw [CFSG.RankThree.GF2n.Tim78.Hyp4.pair_L_conj_eq]
     exact (mem_classIn_conj_iff g).mpr hUc
   have h2 := (H.conj g).outer_classIn_cases (H.outer_conj_of_mutual hmut) hCen hU h1
   rwa [conjSubgroup_inv_conjSubgroup] at h2
 
 theorem pair_conj_mem_classIn_Pg {u : G} (hu : u ∈ conjSubgroup g P) :
     conjSubgroup u B ∈ classIn B (B ⊔ conjSubgroup g B) := by
-  have h := (H.conj g).outer_conj_mem_classIn (H.outer_conj_of_mutual hmut) hu
+  have h := CFSG.RankThree.GF2n.Tim78.Hyp4.outer_conj_mem_classIn (H.outer_conj_of_mutual hmut) hu
   rw [conjSubgroup_inv_conjSubgroup, sup_comm] at h
   exact (mem_classIn_conj_iff g).mp h
 
@@ -128,17 +130,18 @@ theorem pair_cen_of_normalizes_B {u : G} (hu : u ∈ conjSubgroup g P)
     have h3 : ⁅b, u⁆ ∈ B ⊓ conjSubgroup g B := ⟨h2, h1⟩
     rw [H.outer_inf_B hmut.outer, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at h3
     exact h3
-  have hau : a * u = u * a := H.pair_Pg_comm_A hmut hu ha
+  have hau : a * u = u * a := H.pair_Pg_comm_A hu ha
   calc b * a * u = b * (a * u) := by group
     _ = b * (u * a) := by rw [hau]
     _ = (b * u) * a := by group
     _ = (u * b) * a := by rw [hbu]
     _ = u * (b * a) := by group
 
+omit hmut in
 theorem pair_Pg_normalizes_A {u : G} (hu : u ∈ conjSubgroup g P) :
     u ∈ Subgroup.normalizer (conjSubgroup g B : Set G) :=
   mem_normalizer_of_mem_centralizer (L := conjSubgroup g B)
-    (Subgroup.mem_centralizer_iff.mpr fun a ha => H.pair_Pg_comm_A hmut hu ha) le_rfl
+    (Subgroup.mem_centralizer_iff.mpr fun _a ha => H.pair_Pg_comm_A hu ha) le_rfl
 
 theorem pair_rankOne (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInput) :
     ∃ n : ℕ, 2 ≤ n ∧ Nat.card B = 2 ^ n ∧
@@ -162,7 +165,7 @@ theorem pair_rankOne (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInput)
         conjSubgroup u P = conjSubgroup p (conjSubgroup g P) := by
     intro p hp hpC
     have hpc : p ∉ centP B P g := fun hc => hpC (H.pair_centP_cen hmut hc)
-    have hUc := H.outer_conj_mem_classIn hg hp
+    have hUc := CFSG.RankThree.GF2n.Tim78.Hyp4.outer_conj_mem_classIn hg hp
     have hUA := H.outer_conj_ne_of_not_cent hg hp hCen hU hpc
     obtain ⟨u, hu, hUu⟩ := (H.pair_classIn_cases_Pg hmut hCen hU hUc).resolve_left hUA
     refine ⟨u, hu, fun huC => ?_, ?_⟩
@@ -184,7 +187,7 @@ theorem pair_rankOne (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInput)
     refine ⟨p, hp, fun hpC => ?_, ?_⟩
     · have h1 : conjSubgroup p (conjSubgroup g B) = conjSubgroup g B :=
         conjSubgroup_eq_self_iff.mpr (mem_normalizer_of_mem_centralizer hpC le_sup_right)
-      have hunA := H.pair_Pg_normalizes_A hmut hu
+      have hunA := H.pair_Pg_normalizes_A hu
       apply H.outer_ne_B hg
       calc conjSubgroup g B = conjSubgroup u⁻¹ (conjSubgroup g B) :=
             (conjSubgroup_eq_self_iff.mpr (Subgroup.inv_mem _ hunA)).symm
@@ -201,7 +204,7 @@ theorem pair_rankOne (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInput)
     have hkA : conjSubgroup (p⁻¹ * u) (conjSubgroup g B) = conjSubgroup g B :=
       conjSubgroup_eq_self_iff.mpr (mem_normalizer_of_mem_centralizer hk le_sup_right)
     have huA : conjSubgroup u (conjSubgroup g B) = conjSubgroup g B :=
-      conjSubgroup_eq_self_iff.mpr (H.pair_Pg_normalizes_A hmut hu)
+      conjSubgroup_eq_self_iff.mpr (H.pair_Pg_normalizes_A hu)
     have hpA : conjSubgroup p (conjSubgroup g B) = conjSubgroup g B := by
       calc conjSubgroup p (conjSubgroup g B)
           = conjSubgroup p (conjSubgroup (p⁻¹ * u) (conjSubgroup g B)) := by rw [hkA]

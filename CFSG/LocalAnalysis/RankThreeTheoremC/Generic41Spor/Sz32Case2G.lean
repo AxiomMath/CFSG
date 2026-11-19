@@ -26,7 +26,7 @@ theorem sz32_centSeries (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLoca
     (hSz' : Sz32OpenFacts) (hc : PointConfig IsSz32Type G 5 P M x J) {a c y : G}
     (hP : Sz32Struct P x J a c y) :
     ∃ N : Subgroup G, CentSeries 5 (M ⊓ Subgroup.centralizer ({x} : Set G)) (P : Subgroup G) N := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hpres := hP.pres_P
   have hPC := hP.le_cent
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
@@ -48,7 +48,7 @@ theorem sz32_centSeries (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLoca
   exact ⟨_, szh2_centSeries_of_comm hPW (fun c hc n hn => hN₀C c hc.2 n hn) hN₀cop hK
     (szh2_comm hS hD1 hU0 hSz hSz' hc hP)⟩
 
-theorem sz32_case2_G (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
+theorem sz32_case2_G (hS : Setting G) (_hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
     (hc : PointConfig IsSz32Type G 5 P M x J) {a c y : G} (hP : Sz32Struct P x J a c y)
     (hL : Sz32Lines P x (a ^ 5)) (hZ : Sz32ZFacts P M x (a ^ 5)) {N : Subgroup G}
     (hser : CentSeries 5 (M ⊓ Subgroup.centralizer ({x} : Set G)) (P : Subgroup G) N)
@@ -58,7 +58,7 @@ theorem sz32_case2_G (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G
       (QuotientGroup.mk' (primeComplementCore (G := ↥M) 5) ⟨a, ha⟩)
       (QuotientGroup.mk' (primeComplementCore (G := ↥M) 5) ⟨c, hcM⟩)
       (QuotientGroup.mk' (primeComplementCore (G := ↥M) 5) ⟨y, hyM⟩) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
   have hMtop : M ≠ ⊤ := fun h => hc.not_le (h ▸ le_top)
   have hrank : CFSG.Open.pRank 5 M ≤ 3 := by

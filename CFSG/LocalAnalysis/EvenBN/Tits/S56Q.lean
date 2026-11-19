@@ -16,9 +16,9 @@ open scoped commutatorElement
 
 namespace S56
 
-theorem comm_mul_central {G : Type*} [Group G] {c c' k k' : G} (hkc : k * c = c * k)
+theorem comm_mul_central {G : Type*} [Group G] {c c' k k' : G} (_hkc : k * c = c * k)
     (hkc' : k * c' = c' * k) (hkk' : k * k' = k' * k) (hk'c : k' * c = c * k')
-    (hk'c' : k' * c' = c' * k') : ⁅c * k, c' * k'⁆ = ⁅c, c'⁆ := by
+    (_hk'c' : k' * c' = c' * k') : ⁅c * k, c' * k'⁆ = ⁅c, c'⁆ := by
   have h4 : Commute k' c := hk'c
   simp only [commutatorElement_def, mul_inv_rev]
   calc c * k * (c' * k') * (k⁻¹ * c⁻¹) * (k'⁻¹ * c'⁻¹)
@@ -59,7 +59,7 @@ theorem s56_M_le_normalizer_Q0 (d : Data G) : d.M ≤ normalizer (d.s56Q0 : Set 
   simpa [mul_assoc] using this
 
 theorem Hyp.s56_X_isPGroup (hd : d.Hyp) : IsPGroup 5 (zpowers d.x₅) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hd.s56_orderOf_x5]; simp)
 
 theorem Hyp.s56_X_le_M (hd : d.Hyp) : zpowers d.x₅ ≤ d.M := zpowers_le.2 hd.s56_x5_mem_M
@@ -79,8 +79,8 @@ theorem Hyp.s56_M_le_normalizer_Q (h49 : d.Thm49Statement) (hd : d.Hyp) :
 
 theorem Hyp.s56_Q0_decomp (hd : d.Hyp) {q : G} (hq : q ∈ d.s56Q0) :
     ∃ c ∈ d.s56Q, ∃ k ∈ d.s56Q0 ⊓ centralizer ((zpowers d.x₅ : Subgroup G) : Set G), q = c * k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact S56.coprime_decomp_mem (p := 2) (r := 5) (by norm_num) (s56_Q0_isPGroup d)
     hd.s56_X_isPGroup hd.s56_X_le_normalizer_Q0 hq
 
@@ -99,8 +99,8 @@ theorem Hyp.s56_Q_comm_X (hd : d.Hyp) : ⁅d.s56Q, zpowers d.x₅⁆ = d.s56Q :=
   exact Subgroup.commutator_mem_commutator hc hx'
 
 theorem Hyp.s56_J_eq_comm (hd : d.Hyp) : ⁅d.s56J, zpowers d.x₅⁆ = d.s56J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hJX : zpowers d.x₅ ≤ normalizer (d.s56J : Set G) := zpowers_le.2 hd.s56_x5_normalizes_J
   have hdec : ∀ j ∈ d.s56J, ∃ c ∈ ⁅d.s56J, zpowers d.x₅⁆,
       ∃ k ∈ d.s56J ⊓ centralizer ((zpowers d.x₅ : Subgroup G) : Set G), j = c * k :=

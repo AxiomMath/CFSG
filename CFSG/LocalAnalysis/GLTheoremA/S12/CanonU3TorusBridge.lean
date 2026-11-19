@@ -36,7 +36,7 @@ theorem map_fixSubgroup_conjAut (L : Subgroup Γ) {y : Γ}
 
 theorem map_conjAut_subgroupOf_eq_self {L K : Subgroup Γ} {g : Γ}
     (hgL : g ∈ Subgroup.normalizer (L : Set Γ))
-    (hgK : g ∈ Subgroup.normalizer (K : Set Γ)) (hKL : K ≤ L) :
+    (hgK : g ∈ Subgroup.normalizer (K : Set Γ)) (_hKL : K ≤ L) :
     (K.subgroupOf L).map (conjAut L g hgL).toMonoidHom = K.subgroupOf L := by
   ext x
   constructor
@@ -149,7 +149,7 @@ variable {Γ : Type} [Group Γ]
 theorem isSolvable_of_le_fixedPreimage {X : Type} [Group X] (Z : Subgroup X) [Z.Normal]
     (hZ : Z ≤ Subgroup.center X) (ψ : MulAut X) (hinv : Z.map ψ.toMonoidHom = Z)
     {P : Subgroup X} (hP : P ≤ fixedPreimage Z ψ hinv)
-    (hsol : IsSolvable ↥(P ⊓ fixSubgroup ψ)) : IsSolvable ↥P := by
+    (hsol : Group.IsSolvable ↥(P ⊓ fixSubgroup ψ)) : Group.IsSolvable ↥P := by
   let d := displacement Z ψ hinv hZ
   let incl : P →* fixedPreimage Z ψ hinv := Subgroup.inclusion hP
   let f : P →* Z := d.comp incl
@@ -163,21 +163,21 @@ theorem isSolvable_of_le_fixedPreimage {X : Type} [Group X] (Z : Subgroup X) [Z.
       exact (displacement_eq_one_iff Z ψ hinv hZ (incl x)).1 hx
     · rintro ⟨-, hx⟩
       exact (displacement_eq_one_iff Z ψ hinv hZ (incl x)).2 hx
-  haveI : Group.IsSolvable ↥f.ker := by
+  have : Group.IsSolvable ↥f.ker := by
     rw [hker]
     let e := Subgroup.subgroupOfEquivOfLe (inf_le_left : P ⊓ fixSubgroup ψ ≤ P)
     exact @Group.isSolvable_of_surjective (↥(P ⊓ fixSubgroup ψ))
       (↥((P ⊓ fixSubgroup ψ).subgroupOf P)) _ _ e.symm.toMonoidHom e.symm.surjective hsol
-  haveI : IsMulCommutative Z :=
+  have : IsMulCommutative Z :=
     isMulCommutative_iff.mpr fun a b => by
       have ha : (a : X) ∈ Subgroup.center X := hZ a.2
       exact Subtype.ext (Subgroup.mem_center_iff.1 ha (b : X)).symm
-  haveI : Group.IsSolvable Z := Group.instIsSolvableOfIsMulCommutative
-  haveI : Group.IsSolvable ↥f.range :=
+  have : Group.IsSolvable Z := Group.instIsSolvableOfIsMulCommutative
+  have : Group.IsSolvable ↥f.range :=
     Group.isSolvable_of_isSolvable_injective (f := f.range.subtype) f.range.subtype_injective
   have hker_le : f.rangeRestrict.ker ≤ (f.ker.subtype).range := by
     rw [MonoidHom.ker_rangeRestrict, Subgroup.range_subtype]
-  exact solvable_of_ker_le_range f.ker.subtype f.rangeRestrict hker_le
+  exact Group.isSolvable_of_ker_le_range f.ker.subtype f.rangeRestrict hker_le
 
 end SolvableDescent
 
@@ -188,8 +188,8 @@ variable {L K : Subgroup Γ} {g y : Γ}
 
 theorem isSolvable_fixSubgroup_of_isSolvable_centralizer
     (hgL : g ∈ Subgroup.normalizer (L : Set Γ)) (hKL : K ≤ L)
-    (hsol : IsSolvable ↥(K ⊓ Subgroup.centralizer ({g} : Set Γ))) :
-    IsSolvable ↥(((K.subgroupOf L).map (QuotientGroup.mk' (Subgroup.center ↥L))) ⊓
+    (hsol : Group.IsSolvable ↥(K ⊓ Subgroup.centralizer ({g} : Set Γ))) :
+    Group.IsSolvable ↥(((K.subgroupOf L).map (QuotientGroup.mk' (Subgroup.center ↥L))) ⊓
       fixSubgroup (centerQuotAut ↥L (conjAut L g hgL))) := by
   let Z : Subgroup ↥L := Subgroup.center ↥L
   let π : ↥L →* (↥L ⧸ Z) := QuotientGroup.mk' Z
@@ -219,10 +219,10 @@ theorem isSolvable_fixSubgroup_of_isSolvable_centralizer
       refine ⟨⟨hxK, ?_⟩, hxC⟩
       exact fixed_le_fixedPreimage Z α hinv ((CanonInn.mem_fixSubgroup_conjAut L hgL x).2 hxC)
   have hPle : P ≤ fixedPreimage Z α hinv := inf_le_right
-  have hPsol : IsSolvable ↥P := by
+  have hPsol : Group.IsSolvable ↥P := by
     refine isSolvable_of_le_fixedPreimage Z (le_refl Z) α hinv hPle ?_
     rw [hPfix]
-    haveI : Group.IsSolvable ↥(K ⊓ Subgroup.centralizer ({g} : Set Γ)) := hsol
+    have : Group.IsSolvable ↥(K ⊓ Subgroup.centralizer ({g} : Set Γ)) := hsol
     let e := Subgroup.subgroupOfEquivOfLe (inf_le_left.trans hKL :
       K ⊓ Subgroup.centralizer ({g} : Set Γ) ≤ L)
     exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
@@ -243,15 +243,15 @@ theorem isSolvable_fixSubgroup_of_isSolvable_centralizer
         rw [hpre]
         exact Subgroup.mem_comap.2 hyfix
       exact ⟨k, ⟨hk, hkFP⟩, rfl⟩
-  haveI : Group.IsSolvable ↥P := hPsol
-  have hsurj : IsSolvable ↥(P.map π) :=
+  have : Group.IsSolvable ↥P := hPsol
+  have hsurj : Group.IsSolvable ↥(P.map π) :=
     Group.isSolvable_of_surjective (f := π.subgroupMap P) (π.subgroupMap_surjective P)
   rwa [hmapP] at hsurj
 
 theorem exists_map_centerQuotAut_ne_of_not_mem_centralizer
     (hgL : g ∈ Subgroup.normalizer (L : Set Γ)) (hKL : K ≤ L)
     (hK : CFSG.Open.IsQuasisimple ↥K)
-    (hgK : g ∈ Subgroup.normalizer (K : Set Γ))
+    (_hgK : g ∈ Subgroup.normalizer (K : Set Γ))
     (hgC : g ∉ Subgroup.centralizer (K : Set Γ)) :
     ∃ j ∈ (K.subgroupOf L).map (QuotientGroup.mk' (Subgroup.center ↥L)),
       centerQuotAut ↥L (conjAut L g hgL) j ≠ j := by
@@ -270,17 +270,17 @@ theorem exists_map_centerQuotAut_ne_of_not_mem_centralizer
     exact Subgroup.mem_comap.2 (h (π l) ⟨l, hl, rfl⟩)
   let incl : ↥(K.subgroupOf L) →* fixedPreimage Z α hinv := Subgroup.inclusion hKFP
   let φ : ↥(K.subgroupOf L) →* Z := (displacement Z α hinv (le_refl Z)).comp incl
-  haveI : Group.IsPerfect ↥(K.subgroupOf L) := by
-    haveI : Group.IsPerfect ↥K := ⟨hK.1⟩
+  have : Group.IsPerfect ↥(K.subgroupOf L) := by
+    have : Group.IsPerfect ↥K := ⟨hK.1⟩
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hKL).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hKL).symm.surjective
-  haveI : Group.IsPerfect φ.range := Group.IsPerfect.range φ
-  haveI : IsMulCommutative φ.range :=
+  have : Group.IsPerfect φ.range := Group.IsPerfect.range φ
+  have : IsMulCommutative φ.range :=
     isMulCommutative_iff.mpr fun a b =>
       Subtype.ext (Subtype.ext
         (Subgroup.mem_center_iff.1 a.val.2 (b.val : ↥L)).symm)
-  haveI : Subsingleton φ.range := Group.IsPerfect.subsingleton_of_isMulCommutative
+  have : Subsingleton φ.range := Group.IsPerfect.subsingleton_of_isMulCommutative
   have hφ : ∀ x, φ x = 1 := by
     intro x
     have hx : (⟨φ x, MonoidHom.mem_range.mpr ⟨x, rfl⟩⟩ : φ.range) = 1 :=
@@ -384,13 +384,13 @@ theorem eq_of_isComponentOf_fixSubgroup_centerQuotAut
       (Subgroup.map_subtype_le (commutator H)).trans hHle
     let inclP : ↥P →* fixedPreimage Z α hinv := Subgroup.inclusion hPleFP
     let φP : ↥P →* Z := (displacement Z α hinv (le_refl Z)).comp inclP
-    haveI : Group.IsPerfect ↥P := ⟨hPq.1⟩
-    haveI : Group.IsPerfect φP.range := Group.IsPerfect.range φP
-    haveI : IsMulCommutative φP.range :=
+    have : Group.IsPerfect ↥P := ⟨hPq.1⟩
+    have : Group.IsPerfect φP.range := Group.IsPerfect.range φP
+    have : IsMulCommutative φP.range :=
       isMulCommutative_iff.mpr fun a b =>
         Subtype.ext (Subtype.ext
           (Subgroup.mem_center_iff.1 a.val.2 (b.val : ↥L)).symm)
-    haveI : Subsingleton φP.range := Group.IsPerfect.subsingleton_of_isMulCommutative
+    have : Subsingleton φP.range := Group.IsPerfect.subsingleton_of_isMulCommutative
     have hφP : ∀ x, φP x = 1 := by
       intro x
       have hx : (⟨φP x, MonoidHom.mem_range.mpr ⟨x, rfl⟩⟩ : φP.range) = 1 :=

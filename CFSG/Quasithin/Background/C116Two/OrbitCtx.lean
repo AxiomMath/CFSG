@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem Ctx.conj {H T V L : Subgroup G} (h : Ctx H T V L) {a : G} (ha : a ∈ T) :
     Ctx H T V (conjByElt a L) := by
   have haH : a ∈ H := h.sylow.1 ha

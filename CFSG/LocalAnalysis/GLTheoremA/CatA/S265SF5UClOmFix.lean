@@ -163,7 +163,7 @@ theorem card_ne_ordTwistedA_four_of_sl {m k e : ℕ} {E : Type} [Field E] [Finit
   intro hcard
   by_cases h21 : m = 2 ∧ k = 1
   · obtain ⟨rfl, rfl⟩ := h21
-    haveI := Fintype.ofFinite E
+    have := Fintype.ofFinite E
     have hdvd := Subgroup.card_dvd_of_surjective hg
     rw [Matrix.card_SL_field, ← Nat.card_eq_fintype_card, hE, hcard] at hdvd
     have h6 := (two_pow_ten_dvd_ordTwistedA_four he).trans hdvd
@@ -229,7 +229,7 @@ theorem card_ne_ordTwistedA_four_of_orthFactorRank {f e : ℕ} (hf : 1 ≤ f) (h
       (ker_comp_le_center eX.symm g hker) hZ hcard
     rw [Nat.card_eq_fintype_card, hEc, pow_mul]
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hfj : 1 ≤ f * j := Nat.mul_pos hf hj
     obtain rfl : q' = 2 ^ (f * j) := by rw [hq', ← pow_mul]
     have hEn : Nat.card E = (2 ^ (f * j)) ^ 2 := by rw [Nat.card_eq_fintype_card, hEc]

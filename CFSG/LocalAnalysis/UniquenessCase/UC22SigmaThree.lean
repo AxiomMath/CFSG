@@ -24,7 +24,7 @@ theorem three_not_mem_uniqueFourBeta (hS : Standing4 G) (hU : uniqueFourUnique G
       isStronglyPEmbedded_of_clause_one hM0 hdvd hstrong
     have h1 : (dataOfSetup4 hS hU S).k = 1 := by
       show CFSG.LocalAnalysis.RankThreeUC.kParam S.M = 1
-      rw [CFSG.LocalAnalysis.RankThreeUC.kParam, if_pos hSE]
+      rw [CFSG.LocalAnalysis.RankThreeUC.kParam, ite_eq_left hSE]
     omega
   · omega
 

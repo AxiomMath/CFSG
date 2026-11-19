@@ -118,7 +118,7 @@ theorem ff_cover_i4 (hGA : CFSG.Open.GriessAllModelsStatement) :
   have hphiu : ffPhi hz e ⟨(l : G), l.2⟩ = w := (ffPhi hz e).apply_symm_apply w
   have huX : (l : G) ∈ XOut L s :=
     (ff_mem_XOut_iff hQ h5 hz e hs l.2).mpr (by rw [hphiu]; exact hwX)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hwne : w ≠ 1 := fun hw1 => ff_KM0_ne_one hKM0 (by rw [hw1]; rfl)
   have hordw : orderOf w = 2 := orderOf_eq_prime (p := 2) (by rwa [pow_two]) hwne
   have hordl : orderOf (l : G) = 2 := by
@@ -185,7 +185,7 @@ theorem ff_i4m_of_inv (hGA : CFSG.Open.GriessAllModelsStatement) :
     have hphiu : ffPhi hz e ⟨(l : G), l.2⟩ = w := (ffPhi hz e).apply_symm_apply w
     have huX : (l : G) ∈ XOut L s :=
       (ff_mem_XOut_iff hQ h5 hz e hs l.2).mpr (by rw [hphiu]; exact hwX)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hwne : w ≠ 1 := fun hw1 => ff_KM0_ne_one hKM0 (by rw [hw1]; rfl)
     have hordw : orderOf w = 2 := orderOf_eq_prime (p := 2) (by rwa [pow_two]) hwne
     have hordl : orderOf (l : G) = 2 := by

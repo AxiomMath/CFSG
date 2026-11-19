@@ -36,7 +36,7 @@ private theorem eigen_three {B : GL (Fin 3) K} {σ : K ≃+* K} {ζ : Kˣ}
   have h2 : (B : Matrix (Fin 3) (Fin 3) K) * (diagonal ![x, x⁻¹, 1] - x • 1) =
       (diagonal ![(ζ : K), ((ζ⁻¹ : Kˣ) : K), 1] - x • 1) * (B : Matrix (Fin 3) (Fin 3) K) := by
     rw [Matrix.mul_sub, Matrix.sub_mul, h]
-    simp [Matrix.mul_smul, Matrix.smul_mul]
+    simp
   rw [hsub, hsub] at h2
   have hdet := congrArg Matrix.det h2
   rw [Matrix.det_mul, Matrix.det_mul, Matrix.det_diagonal, Matrix.det_diagonal,

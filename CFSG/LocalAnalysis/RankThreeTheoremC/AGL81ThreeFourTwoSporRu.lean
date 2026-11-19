@@ -77,7 +77,7 @@ theorem sylow_facts_of_coreGenerationOneOf {G : Type*} [Group G] [Finite G] {p :
   have hET0 : (T₀ : Subgroup G) = E :=
     (Subgroup.eq_of_le_of_card_ge hET (by rw [hEc, hS T₀])).symm
   obtain ⟨l, -, hl⟩ := CFSG.AGLEmbedding.exists_mem_map_conj_eq_of_card_eq
-    (L := ⊤) (le_top : (S : Subgroup G) ≤ ⊤) le_top S.isPGroup' T₀.isPGroup'
+    (L := ⊤) (le_top : (S : Subgroup G) ≤ ⊤) le_top S.isPGroup T₀.isPGroup
     (by
       change ¬ p ∣ (S : Subgroup G).relIndex ⊤
       rw [Subgroup.relIndex_top_right]
@@ -394,7 +394,7 @@ theorem coreGenerationOneOf_ruP :
 
 private theorem card_sylow_five_of_card {K : Type*} [Group K] [Finite K]
     (hK : Nat.card K = 145926144000) (T : Sylow 5 K) : Nat.card T = 5 ^ 3 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h0 : (145926144000 : ℕ) ≠ 0 := by norm_num
   have h1 := (Nat.prime_five.pow_dvd_iff_le_factorization h0).1
     (by norm_num : 5 ^ 3 ∣ 145926144000)
@@ -407,7 +407,7 @@ theorem threeFourTwoNoneAt_ru :
     ThreeFourTwoNoneAt 5 (TauCeti.CFSGIndex.sporadic .Ru).Group := by
   have hcard : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .Ru) = 145926144000 :=
     CFSG.Sporadic.Ru.card_Ru
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Ru) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Ru) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hO : Nat.card (Outer (CFSG.Blueprint.NativeSporadic.Carrier .Ru)) ≤ 2 :=
     CFSG.RankThree.PartTwo.Sec4.card_outer_Ru
@@ -417,7 +417,7 @@ theorem threeFourTwoNoneAt_ru :
   refine threeFourTwoNoneAt_of_glbCore_eq_top hX hnab hout fun K _ _ hK => ?_
   obtain ⟨e⟩ := nonempty_mulEquiv_carrier_of_sporadicIndex (s := .Ru)
     CFSG.Sporadic.Bridge.Ru.nonempty_mulEquiv hK
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hKc : Nat.card K = 145926144000 := by rw [Nat.card_congr e.toEquiv, hcard]
   have hcg : CoreGenerationOneOf K 5 :=
     coreGenerationOneOf_ruP.of_mulEquiv Nat.prime_five (e.trans ruEquivP).symm

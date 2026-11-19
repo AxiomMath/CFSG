@@ -20,6 +20,7 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G]
 
 
+omit [Finite G] in
 theorem s16c1_card_imgTil_mul {V₀ V U : Subgroup G} (hV : IsElemAbelian 2 V) (hU : U ≤ V) :
     Nat.card ↥(imgTil V₀ V hV U) * Nat.card ↥(U ⊓ V₀) = Nat.card ↥U := by
   have hker : (mkTil V₀ V hV).ker = modNull V₀ V hV := QuotientGroup.ker_mk' _
@@ -52,6 +53,7 @@ theorem s16c1_card_vTil_le_two_mul {V₀ V U : Subgroup G} (hV : IsElemAbelian 2
       Nat.card ↥(imgTil V₀ V hV U) * Nat.card ↥V₀ := Nat.mul_le_mul_left _ h3
   nlinarith
 
+omit [Finite G] in
 theorem s16c1_stable_imgTil_uOne {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V}
     (x : IntMod V hV) (L : Subgroup G) :
     StableUnder (barSub V₀ V hV (centralizer ({x.val} : Set G) ⊓ L))
@@ -74,11 +76,11 @@ theorem s16c1_barSub_xInf_eq_ptCent {V₀ V L : Subgroup G} {hV : IsElemAbelian 
     (he16 : IsE16A5 ↥(barSub V₀ V hV (xInf L x.val)))
     (h960 : Nat.card ↥(ptCent (lBar V₀ V hV L) (mkTil V₀ V hV x)) = 960) :
     barSub V₀ V hV (xInf L x.val) = ptCent (lBar V₀ V hV L) (mkTil V₀ V hV x) := by
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   have hle : barSub V₀ V hV (xInf L x.val) ≤
       ptCent (lBar V₀ V hV L) (mkTil V₀ V hV x) :=
     (barSub_mono V₀ V hV (perfectCore_le _)).trans (s16c1_barSub_cent_le hL x)
-  haveI : Finite ↥(ptCent (lBar V₀ V hV L) (mkTil V₀ V hV x)) := Subtype.finite
+  have : Finite ↥(ptCent (lBar V₀ V hV L) (mkTil V₀ V hV x)) := Subtype.finite
   exact Subgroup.eq_of_le_of_card_ge hle (by rw [h960, s16c1_card_of_isE16A5 he16])
 
 theorem s16c1_perp_le_imgTil_uOne (D : Data G) (hkit : OmegaKit) (h41 : R16_41 D)

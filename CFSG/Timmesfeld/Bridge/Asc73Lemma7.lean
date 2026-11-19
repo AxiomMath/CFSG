@@ -63,7 +63,7 @@ theorem exists_sylow_le_centralizer [Finite G] (hN : IsNormalSet D) (hD : IsInvo
   obtain ⟨P⟩ : Nonempty (Sylow 2 C) := inferInstance
   set P' : Subgroup G := (P : Subgroup C).map C.subtype with hP'
   have hP'C : P' ≤ C := Subgroup.map_subtype_le _
-  have hP'2 : IsPGroup 2 P' := P.isPGroup'.map _
+  have hP'2 : IsPGroup 2 P' := P.isPGroup.map _
   have hcomm : ∀ s ∈ P', Commute s z := fun s hs =>
     Subgroup.mem_centralizer_singleton_iff.1 (hP'C hs)
   have hzP' : z ∈ P' := by
@@ -95,7 +95,7 @@ theorem exists_sylow_le_centralizer [Finite G] (hN : IsNormalSet D) (hD : IsInvo
     intro y hy
     have : (⟨y, hy⟩ : S) ∈ P'.subgroupOf S := by rw [htop]; trivial
     exact Subgroup.mem_subgroupOf.1 this
-  have : Group.IsNilpotent S := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent S := S.isPGroup.isNilpotent
   obtain ⟨y, hyN, hyP⟩ := IsConcreteLE.exists_of_lt
     (Group.normalizerCondition_of_isNilpotent _ hlt)
   have hyP' : (y : G) ∉ P' := fun h => hyP (Subgroup.mem_subgroupOf.2 h)
@@ -113,7 +113,7 @@ theorem exists_sylow_le_centralizer [Finite G] (hN : IsNormalSet D) (hD : IsInvo
       have hh' : h ∈ (S : Subgroup G) := by simpa [mul_assoc] using hhS
       have := (Subgroup.mem_normalizer_iff.1 hyN ⟨h, hh'⟩).2 (Subgroup.mem_subgroupOf.2 hh)
       exact Subgroup.mem_subgroupOf.1 this
-  obtain ⟨n, hn⟩ := S.isPGroup' y
+  obtain ⟨n, hn⟩ := S.isPGroup y
   have hyn : (y : G) ^ 2 ^ n = 1 := by simpa using congrArg Subtype.val hn
   obtain ⟨t, htY, htP, ht2⟩ := exists_pow_not_mem_sq_mem hyn hyP'
   have htN : t ∈ Subgroup.normalizer (P' : Set G) := by
@@ -127,7 +127,7 @@ theorem exists_sylow_le_centralizer [Finite G] (hN : IsNormalSet D) (hD : IsInvo
   set R : Subgroup G := P' ⊔ Subgroup.zpowers t with hR
   have hR2 : IsPGroup 2 R := by
     refine hP'2.to_sup_of_normal_left' ?_ ?_
-    · exact S.isPGroup'.to_le (by rw [Subgroup.zpowers_le]; exact htS)
+    · exact S.isPGroup.to_le (by rw [Subgroup.zpowers_le]; exact htS)
     · rw [Subgroup.zpowers_le]; exact htN
   have hP'R : P' < R := by
     refine lt_of_le_of_ne le_sup_left fun heq => htP ?_

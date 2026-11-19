@@ -37,7 +37,7 @@ private lemma s16h_e3_CycTwoP3M4AA2AABAABA_of_orbit_three
   rw [h3, hcardE] at hos
   have hstab : Nat.card (MulAction.stabilizer ↥E w) = 3 := by omega
   have hdvd : 3 ∣ Nat.card (MulAction.stabilizer ↥E w) := ⟨1, by rw [hstab]⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card'
     (G := MulAction.stabilizer ↥E w) 3 hdvd
   have hbstab : (b : ↥E) ∈ MulAction.stabilizer ↥E w := b.property

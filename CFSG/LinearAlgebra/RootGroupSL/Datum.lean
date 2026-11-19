@@ -15,7 +15,7 @@ variable (X) in
   toFun v := (v.1 + φ v.2.2, v.2.1, v.2.2)
   invFun v := (v.1 - φ v.2.2, v.2.1, v.2.2)
   map_add' u v := by
-    ext <;> simp only [Prod.fst_add, Prod.snd_add, map_add] <;> abel
+    ext <;> simp only [Prod.fst_add, Prod.snd_add, map_add]; abel
   map_smul' c v := by
     ext <;> simp [smul_add]
   left_inv v := by
@@ -36,13 +36,13 @@ variable (k X) in
   map_smul' c v := by
     ext <;> simp [smul_add]
   left_inv v := by
-    ext <;> simp <;> abel
+    ext <;> simp; abel
   right_inv v := by
-    ext <;> simp <;> abel
+    ext <;> simp; abel
 
 private lemma shearE_add_aux (φ ψ : E →ₗ[k] E) :
     shearE X (φ + ψ) = shearE X φ * shearE X ψ := by
-  ext v <;> simp [shearE, map_add] <;> abel
+  ext v <;> simp [shearE]; abel
 private lemma rootEquiv_add_aux (s t : E) :
     rootEquiv k X (s + t) = rootEquiv k X s * rootEquiv k X t := by
   simp only [rootEquiv]
@@ -58,7 +58,7 @@ private def prodShear {A B : Type} [AddCommGroup A] [Module k A]
     [AddCommGroup B] [Module k B] (L : B →ₗ[k] A) : (A × B) ≃ₗ[k] (A × B) where
   toFun v := (v.1 + L v.2, v.2)
   invFun v := (v.1 - L v.2, v.2)
-  map_add' u v := by ext <;> simp only [Prod.fst_add, Prod.snd_add, map_add] <;> abel
+  map_add' u v := by ext <;> simp only [Prod.fst_add, Prod.snd_add, map_add]; abel
   map_smul' c v := by ext <;> simp [smul_add]
   left_inv v := by ext <;> simp
   right_inv v := by ext <;> simp
@@ -95,9 +95,9 @@ private lemma det_prodShear {A B : Type} [AddCommGroup A] [Module k A] [Module.F
 
 variable (k) in
 @[expose] def mulLeftEquiv (s : Eˣ) : E ≃ₗ[k] E :=
-  LinearEquiv.ofLinear (LinearMap.mulLeft k (s : E)) (LinearMap.mulLeft k ((s⁻¹ : Eˣ) : E))
-    (by ext x; simp [LinearMap.comp_apply, LinearMap.mulLeft_apply, mul_assoc])
-    (by ext x; simp [LinearMap.comp_apply, LinearMap.mulLeft_apply, mul_assoc])
+  LinearEquiv.ofLinearMap (LinearMap.mulLeft k (s : E)) (LinearMap.mulLeft k ((s⁻¹ : Eˣ) : E))
+    (by ext x; simp [LinearMap.comp_apply, LinearMap.mulLeft_apply])
+    (by ext x; simp [LinearMap.comp_apply, LinearMap.mulLeft_apply])
 
 variable (k E X) in
 @[expose] def flagW : Submodule k (DSpace E X) :=
@@ -113,12 +113,12 @@ variable (k E X) in
   mul_mem' := by
     rintro g h ⟨s, rfl⟩ ⟨t, rfl⟩
     refine ⟨s + t, ?_⟩
-    ext v <;> simp [rootEquiv, shearE, LinearMap.mulLeft_apply, add_mul] <;> abel
+    ext v <;> simp [rootEquiv, shearE, LinearMap.mulLeft_apply, add_mul]; abel
   one_mem' := ⟨0, by ext v <;> simp [rootEquiv, shearE]⟩
   inv_mem' := by
     rintro g ⟨t, rfl⟩
     refine ⟨-t, ?_⟩
-    ext v <;> simp [rootEquiv, shearE, LinearMap.mulLeft_apply] <;> abel
+    ext v <;> simp [rootEquiv, shearE, LinearMap.mulLeft_apply]; abel
 
 variable (k E X) in
 @[expose] def unipRad : Subgroup (DSpace E X ≃ₗ[k] DSpace E X) where
@@ -210,7 +210,7 @@ theorem det_unipElt (φ : X →ₗ[k] E) (χ : E →ₗ[k] X) (ψ : E →ₗ[k] 
   have hfac : unipElt φ χ ψ =
       unipElt φ 0 0 * unipElt 0 χ 0 * unipElt 0 0 (ψ - φ ∘ₗ χ) := by
     rw [unipElt_mul_aux, unipElt_mul_aux]
-    ext v <;> simp [unipElt] <;> abel
+    ext v <;> simp [unipElt]
   have hd1 : LinearEquiv.det (unipElt φ 0 0) = 1 := by
     rw [show unipElt φ 0 0 = prodShear (φ ∘ₗ LinearMap.fst k X E) by
       ext v <;> simp [unipElt, prodShear]]
@@ -310,7 +310,7 @@ theorem exists_unipElt_of_mem_unipRad {g : DSpace E X ≃ₗ[k] DSpace E X}
     Prod.ext hE1 (Prod.ext hE2 hE3)
   rw [show (a, x, b) = (a, 0, 0) + ((0, x, 0) + (0, 0, b)) by ext <;> simp,
     map_add, map_add, hW, hX, hE]
-  simp [unipElt] <;> abel
+  simp [unipElt]; abel
 
 theorem mem_rootSL_iff {g : SpecialLinearGroup k (DSpace E X)} :
     g ∈ rootSL k E X ↔ ∃ t : E, (g : DSpace E X ≃ₗ[k] DSpace E X) = rootEquiv k X t :=
@@ -340,7 +340,7 @@ theorem rootSL_le_QK : rootSL k E X ≤ QK k E X := by
   exact rootEquiv_mem_unipRad t
 
 theorem mulLeftEquiv_apply (s : Eˣ) (x : E) : mulLeftEquiv k s x = (s : E) * x := by
-  rw [mulLeftEquiv, LinearEquiv.ofLinear_apply, LinearMap.mulLeft_apply]
+  rw [mulLeftEquiv, LinearEquiv.coe_ofLinearMap, LinearMap.mulLeft_apply]
 
 theorem blockDiag_mul (a a' : E ≃ₗ[k] E) (g g' : X ≃ₗ[k] X) (b b' : E ≃ₗ[k] E) :
     blockDiag a g b * blockDiag a' g' b' = blockDiag (a * a') (g * g') (b * b') := by

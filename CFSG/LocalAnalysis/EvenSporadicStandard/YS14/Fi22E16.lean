@@ -116,9 +116,9 @@ theorem rep_fi22WFactor {k : ℕ} (hk : k < 6) (m i : ℕ)
     Rep 3510 (if m.testBit i then fi22E16Arr (4 * k + i) else idA 3510)
       (if m.testBit i then fi22WGen k i else 1) := by
   by_cases h : m.testBit i
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     exact rep_fi22WGen (by omega)
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
     exact rep_idA
 
 theorem rep_fi22WProd {k : ℕ} (hk : k < 6) (m : ℕ) :

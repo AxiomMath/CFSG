@@ -214,7 +214,7 @@ theorem p10Claim (hP : TypPumpInput) (n : ℕ) :
         have hyc : y * c = c * y := mem_centralizer_iff.mp hc1 _ ⟨_, hy, rfl⟩
         have hbc : b * c = c * b := by
           have := mem_centralizer_singleton_iff.mp hc2
-          first | exact this | exact this.symm
+          exact this.symm
         have hx' : x = b * y := by simp [hydef, hbdef]
         rw [hx']
         calc b * y * c = b * (y * c) := by group

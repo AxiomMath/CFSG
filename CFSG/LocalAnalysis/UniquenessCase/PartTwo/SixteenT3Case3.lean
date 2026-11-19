@@ -130,7 +130,7 @@ theorem s16t_s15_le_two (D : Data G) {V₀ V L : Subgroup G} (h : Hyp151 D V₀ 
       fixV (barSub V₀ V hV (conjSubgroup L (m₂ : G))) := commSub_eq_bot_iff.mp hcomm₂
   have hUle₃ : commSub ⊤ (barSub V₀ V hV (conjSubgroup L (m₁ : G))) ≤
       fixV (barSub V₀ V hV (conjSubgroup L (m₃ : G))) := commSub_eq_bot_iff.mp hcomm₃
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE9 : Nat.card ↥E = 3 ^ 2 := by rw [hE]; norm_num
   have hsup23 : barSub V₀ V hV (conjSubgroup L (m₂ : G)) ⊔
       barSub V₀ V hV (conjSubgroup L (m₃ : G)) = E :=
@@ -189,7 +189,7 @@ theorem s16t_rk_vtil_le (D : Data G) (h1217 : R1217 D) {V L : Subgroup G}
       imgTil ⊥ V hV (conjSubgroup (wSub ⊥ V hV L) (m : G))
     rw [← s15_Infra_wSub_conjSubgroup ⊥ V L hV (hMs m.2)]
     exact (imgTil_preTil ⊥ V hV (wTil ⊥ V hV (conjSubgroup L (m : G)))).symm
-  haveI : Fintype ↥(Set.range K) := (Set.finite_range K).fintype
+  have : Fintype ↥(Set.range K) := (Set.finite_range K).fintype
   have hsup : (⨆ b : ↥(Set.range K), commSub ⊤ (b : Subgroup (MulAut (Vtil ⊥ V hV)))) = ⊤ := by
     rw [iSup_range' (fun b : Subgroup (MulAut (Vtil ⊥ V hV)) => commSub ⊤ b) K]
     exact hspan
@@ -225,7 +225,7 @@ theorem s16t_false_of_case153_3 (D : Data G) (h1217 : R1217 D) {V L : Subgroup G
     False := by
   obtain ⟨hcard, hrk⟩ := r1613g_case153_3_summary D hc.conc h
   obtain ⟨hE, hrk8, -⟩ := r1613g_case168_eight_of_card_three D hcard hrk hc.concl168
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLp : IsPGroup 3 ↥(lBar ⊥ V hV L) := IsPGroup.of_card (n := 1) (by rw [pow_one]; exact hcard)
   have hLE : lBar ⊥ V hV L ≤ fstarBar D.M ⊥ V hV :=
     (s16c13bc_lBar_le_pCoreOf D hV hc Nat.prime_three hLp hc.ne_bot).trans

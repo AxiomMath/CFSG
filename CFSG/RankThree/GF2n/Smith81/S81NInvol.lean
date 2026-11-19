@@ -21,13 +21,13 @@ private theorem s81n_permMatrix_mul (σ : Equiv.Perm (Fin 6)) (M : Matrix (Fin 6
     σ.permMatrix K * M = M.submatrix σ σ * σ.permMatrix K := by
   ext i j
   have hL : (σ.permMatrix K * M) i j = M (σ i) j := by
-    simp [Matrix.mul_apply, s81n_permMatrix_apply, ite_mul]
+    simp [Matrix.mul_apply, ite_mul]
   have hR : (M.submatrix σ σ * σ.permMatrix K) i j = M (σ i) j := by
     rw [Matrix.mul_apply, Finset.sum_eq_single (σ.symm j)]
-    · simp [s81n_permMatrix_apply]
+    · simp
     · intro k _ hk
       have hkj : σ k ≠ j := fun h => hk (by rw [← h, Equiv.symm_apply_apply])
-      simp [s81n_permMatrix_apply, hkj]
+      simp [hkj]
     · intro h
       exact absurd (Finset.mem_univ _) h
   rw [hL, hR]
@@ -133,20 +133,20 @@ private theorem s81n_conj_std [CharP K 2] {k : ℕ} (u w su sw : Fin k → Fin 6
 private theorem s81n_nilOf_one :
     nilOf K (![0] : Fin 1 → Fin 6) ![1] = Matrix.single 0 1 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [nilOf_apply, Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [nilOf_apply]
 
 private theorem s81n_nilOf_two :
     nilOf K (![0, 2] : Fin 2 → Fin 6) ![1, 3] = Matrix.single 0 1 1 + Matrix.single 2 3 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [nilOf_apply, Matrix.single_apply, Fin.exists_fin_succ]
+    simp [nilOf_apply, Fin.exists_fin_succ]
 
 private theorem s81n_nilOf_three :
     nilOf K (![0, 2, 4] : Fin 3 → Fin 6) ![1, 3, 5] =
       Matrix.single 0 1 1 + Matrix.single 2 3 1 + Matrix.single 4 5 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [nilOf_apply, Matrix.single_apply, Fin.exists_fin_succ]
+    simp [nilOf_apply, Fin.exists_fin_succ]
 
 private theorem s81n_tInv1_val :
     (tInv1 K : Matrix (Fin 6) (Fin 6) K) = 1 + Matrix.single 0 1 1 := by

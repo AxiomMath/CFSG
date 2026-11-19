@@ -46,15 +46,15 @@ theorem negAt_single_add_single (i₀ : Fin n) {i j : Fin n} (hij : i ≠ j) (s 
   · subst hai
     by_cases ha : a = i₀
     · subst ha
-      simp [negAt, flipAt, Pi.single_apply, hij]
-    · simp [negAt, flipAt, ha, Pi.single_apply, hij]
+      simp [negAt, flipAt, hij]
+    · simp [negAt, flipAt, ha, hij]
   · by_cases haj : a = j
     · subst haj
       by_cases ha : a = i₀
       · subst ha
-        simp [negAt, flipAt, Pi.single_apply, hai]
-      · simp [negAt, flipAt, ha, Pi.single_apply, hai]
-    · simp [negAt, Pi.single_apply, hai, haj]
+        simp [negAt, flipAt, hai]
+      · simp [negAt, flipAt, ha, hai]
+    · simp [negAt, hai, haj]
 
 theorem isLong_negAt (i₀ : Fin n) {e : Fin n → ℤ} (he : IsLong e) : IsLong (negAt i₀ e) := by
   obtain ⟨i, j, hij, s, t, rfl⟩ := he
@@ -99,7 +99,7 @@ variable {K : Type} [Field K]
 
 theorem toStdD_swap45 (γ : Fin 6 → ℤ) : toStdD 6 (swap45 γ) = negAt 5 (toStdD 6 γ) := by
   funext a
-  fin_cases a <;> simp [toStdD, negAt, swap45, Equiv.swap_apply_of_ne_of_ne] <;> omega
+  fin_cases a <;> simp [toStdD, negAt, swap45, Equiv.swap_apply_of_ne_of_ne]; omega
 
 theorem swap45_mem_roots {γ : Fin 6 → ℤ} (hγ : γ ∈ roots (isFiniteType_cartanD 6) ∅) :
     swap45 γ ∈ roots (isFiniteType_cartanD 6) ∅ := by

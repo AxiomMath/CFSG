@@ -91,7 +91,7 @@ theorem fwd6_mem (A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W))
     (t : W ≃ₗ[ZMod 2] W) (hc : ConjOK6 A t) {Q R : Submodule A W} (e : Q ≃ₗ[A] R)
     (w : ↥(twA6 A t hc Q)) : fwd6 A t hc e w ∈ twA6 A t hc R := by
   show (t⁻¹ : W ≃ₗ[ZMod 2] W) (t (e (psiTw6 A t hc Q w)).1) ∈ R
-  simpa using (e (psiTw6 A t hc Q w)).2
+  simp
 
 @[expose] def bwd6 (A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W)) (t : W ≃ₗ[ZMod 2] W)
     (hc : ConjOK6 A t) {Q R : Submodule A W} (e : Q ≃ₗ[A] R)
@@ -102,7 +102,7 @@ theorem bwd6_mem (A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W))
     (t : W ≃ₗ[ZMod 2] W) (hc : ConjOK6 A t) {Q R : Submodule A W} (e : Q ≃ₗ[A] R)
     (w : ↥(twA6 A t hc R)) : bwd6 A t hc e w ∈ twA6 A t hc Q := by
   show (t⁻¹ : W ≃ₗ[ZMod 2] W) (t (e.symm (psiTw6 A t hc R w)).1) ∈ Q
-  simpa using (e.symm (psiTw6 A t hc R w)).2
+  simp
 
 @[expose] def twA6Equiv (A : Subalgebra (ZMod 2) (Module.End (ZMod 2) W)) (t : W ≃ₗ[ZMod 2] W)
     (hc : ConjOK6 A t) {Q R : Submodule A W} (e : Q ≃ₗ[A] R) :

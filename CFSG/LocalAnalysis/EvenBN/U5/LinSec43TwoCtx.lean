@@ -71,9 +71,9 @@ theorem lin43_pair_full (h41 : c.Sec41) :
     ring
   have key := sl2_pair_module_small hkm (by omega : 2 ≤ 2 * f) (by omega : 2 * f ≠ 3)
     (hd.isElementaryAbelian_F hl.gms) hcardF c.φX c.φY hXF hYF hcomm
-    (s313a_F_inf_centralizer_X_inf_centralizer_Y hp k c.S_syl c.P_le_S c.ψ)
-    (s313a_isSylowOf_X_inf_S hp k c.S_syl c.P_le_S c.ψ) hP' hPP'
-    (s313a_isSylowOf_Y_inf_S hp k c.S_syl c.P_le_S c.ψ) hQ' hQQ'
+    (s313a_F_inf_centralizer_X_inf_centralizer_Y hp c.ψ)
+    (s313a_isSylowOf_X_inf_S k c.S_syl c.P_le_S c.ψ) hP' hPP'
+    (s313a_isSylowOf_Y_inf_S k c.S_syl c.P_le_S c.ψ) hQ' hQQ'
     (s313a_card_F_Y_eq hp k c.S_syl c.P_le_S c.ψ hk').symm hle'
   obtain ⟨-, hUU', hUU, hWW', hWW, hWX, hWX', hUY, hUY'⟩ := key
   exact ⟨P', Q', hP', hPP', hQ', hQQ', hUY, hUY', hWX, hWX', hUU', hUU, hWW', hWW⟩
@@ -84,9 +84,9 @@ theorem lin43_comm_X_Y {a b : G} (ha : a ∈ c.X) (hb : b ∈ c.Y) : a * b = b *
 theorem lin43_exists_mul_S :
     ∀ s ∈ c.S, ∃ d' ∈ d.D, ∃ p ∈ c.X ⊓ c.S, ∃ q' ∈ c.Y ⊓ c.S, s = d' * p * q' := by
   intro s hs
-  have hS : c.S = d.D ⊔ (c.S ⊓ d.M₁) := s313a_S_eq_D_sup hl.toCaseHyp k c.S_syl c.P_le_S
+  have hS : c.S = d.D ⊔ (c.S ⊓ d.M₁) := s313a_S_eq_D_sup k c.S_syl c.P_le_S
   have hM : c.S ⊓ d.M₁ = (c.X ⊓ c.S) ⊔ (c.Y ⊓ c.S) :=
-    s313a_S_inf_M₁_eq hl.toCaseHyp k c.S_syl c.P_le_S c.ψ
+    s313a_S_inf_M₁_eq k c.S_syl c.P_le_S c.ψ
   have hnorm : c.S ⊓ d.M₁ ≤ normalizer (d.D : Set G) :=
     inf_le_right.trans ((lin_M₁_le_L₁ hl k c).trans (lin_L₁_le_normalizer_D hl k c))
   rw [hS] at hs
@@ -113,7 +113,7 @@ theorem lin43_card_Q : Nat.card (c.Y ⊓ c.S : Subgroup G) = (2 ^ f) ^ 2 := by
   have hf2 := hl.hyp.two_le
   have hkm : Nat.card c.k = 2 ^ (2 * f) := c.card_k_eq
   have := Prelim.card_of_isSylowOf hkm (by omega : 1 ≤ 2 * f) c.φY
-    (s313a_isSylowOf_Y_inf_S hl.toCaseHyp k c.S_syl c.P_le_S c.ψ)
+    (s313a_isSylowOf_Y_inf_S k c.S_syl c.P_le_S c.ψ)
   exact this.trans (by rw [← pow_mul, mul_comm])
 
 theorem lin43_card_DQ : Nat.card (d.D ⊔ (c.Y ⊓ c.S) : Subgroup G) ≤ (2 ^ f) ^ 2 * Nat.card d.D := by

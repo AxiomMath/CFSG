@@ -220,7 +220,7 @@ theorem quad_rel_lt : ∀ j j' : Fin 6, 0 < j → j < j' →
     simpa [mul_assoc] using this
   intro j j' hj hjj'
   fin_cases j <;> fin_cases j' <;>
-    first | exact absurd hj (by decide) | exact absurd hjj' (by decide) | skip
+    try first | exact absurd hj (by decide) | exact absurd hjj' (by decide)
   · exact k3 _ _ _ [1, 8, 12, 32, 21, 42, 39, 27, 45] (by decide) (by decide) (by decide)
   · exact k3 _ _ _ [1, 8, 12, 16, 32, 42, 30, 39, 45] (by decide) (by decide) (by decide)
   · exact k3 _ _ _ [2, 3, 4, 16, 32, 42, 39, 27, 45] (by decide) (by decide) (by decide)

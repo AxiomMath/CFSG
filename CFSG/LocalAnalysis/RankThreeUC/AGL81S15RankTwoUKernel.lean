@@ -105,7 +105,7 @@ private lemma mem_of_mul_mem_of_two_pow {G : Type} [Group G] {K U : Subgroup G} 
     (hzq : z ^ q = 1) (huzK : u * z ∈ K) : z ∈ K := by
   let N : Subgroup G := Subgroup.normalizer (K : Set G)
   let K' : Subgroup N := K.subgroupOf N
-  haveI hK' : K'.Normal := Subgroup.normal_in_normalizer
+  have hK' : K'.Normal := Subgroup.normal_in_normalizer
   have huN' : u ∈ N := huN
   have hzN' : z ∈ N := hzN
   have huzN : u * z ∈ N := Subgroup.mul_mem _ huN' hzN'

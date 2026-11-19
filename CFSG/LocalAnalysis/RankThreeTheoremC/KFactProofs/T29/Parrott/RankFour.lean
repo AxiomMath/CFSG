@@ -28,8 +28,8 @@ theorem rankFourOpen_holds : RankFourOpen := by
     have hqc : q.card = q.p ^ q.exponent := PrimePower.card_def q
     rcases hd with ⟨hr4, hq⟩ | ⟨hr7, hq⟩
     · exact four_le_pRank_projSU_of_dvd_add hF (by omega) (by rw [← hqc]; omega)
-    · haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-      haveI : CharP F q.p :=
+    · have : Fact q.p.Prime := ⟨q.prime_p⟩
+      have : CharP F q.p :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic q.prime_p
           (k := q.exponent * 2) (by have := q.exponent_pos; omega) (by rw [hF, ← pow_mul])
       exact four_le_pRank_projSU_of_dvd_sub hF (by omega) (by rw [← hqc]; exact hq)

@@ -160,7 +160,7 @@ private lemma r891_normal_sup_zpowers {G : Type} [Group G] {P : Subgroup G} {y b
 
 private lemma r891_comm_sup_zpowers {G : Type} [Group G] {y b : G} (hyb : Commute y b) :
     ∀ a ∈ zpowers y ⊔ zpowers b, ∀ c ∈ zpowers y ⊔ zpowers b, a * c = c * a := by
-  haveI := r891_isMulCommutative_sup_zpowers hyb
+  have := r891_isMulCommutative_sup_zpowers hyb
   intro a ha c hc
   exact setLike_mul_comm ha hc
 

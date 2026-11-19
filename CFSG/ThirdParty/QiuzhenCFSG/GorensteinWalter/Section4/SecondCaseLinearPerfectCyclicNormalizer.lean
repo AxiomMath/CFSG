@@ -31,7 +31,7 @@ public theorem normalizer_not_cyclic_of_perfect_of_prime_card
     ¬ IsCyclic (Subgroup.normalizer (X : Set H)) := by
   intro hNcyc
   have hXp : IsPGroup p X :=
-    IsPGroup.of_card (n := 1) (by simpa [hXcard])
+    IsPGroup.of_card (n := 1) (by simp [hXcard])
   obtain ⟨S, hXS⟩ := hXp.exists_le_sylow
   have hScyc : IsCyclic S := hSylowCyc S
   have hNSleNX : Subgroup.normalizer ((S : Subgroup H) : Set H) ≤

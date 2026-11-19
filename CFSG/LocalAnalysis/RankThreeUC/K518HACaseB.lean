@@ -19,6 +19,7 @@ section CaseB
 variable {K Y : Type} [Group K] [Finite K] [Group Y] [Finite Y] {D : UniversalRootDatum K}
   {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {π : K →* Y} {M : ℕ}
 
+omit [Finite K] [Finite Y] in
 private theorem natCard_map_rankOne (j : Fin D.rank) (hker : π.ker ⊓ rankOne D.rootGroup j = ⊥) :
     Nat.card ↥((rankOne D.rootGroup j).map π) = Nat.card ↥(rankOne D.rootGroup j) := by
   have hinj : Function.Injective (π.comp (rankOne D.rootGroup j).subtype) := by
@@ -33,6 +34,7 @@ private theorem natCard_map_rankOne (j : Fin D.rank) (hker : π.ker ⊓ rankOne 
   rw [← hrange]
   exact (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
 
+omit [Finite K] [Finite Y] in
 private theorem map_rankOne_inf_eq_bot (h : BorelQuotient D n H π M) {j k : Fin D.rank} (hjk : j ≠ k)
     (hc : D.cartan j k = 0)
     (hcent : Subgroup.center ↥(rankOne D.rootGroup j) = ⊥ ∨
@@ -45,7 +47,7 @@ private theorem map_rankOne_inf_eq_bot (h : BorelQuotient D n H π M) {j k : Fin
     rw [MonoidHom.mem_ker, map_mul, map_inv, hvu, inv_mul_cancel]
   have hzc := Subgroup.mem_center_iff.1 (h.ker_central _ hz)
   have hcomm : ∀ a ∈ rankOne D.rootGroup j, ∀ b ∈ rankOne D.rootGroup k, a * b = b * a :=
-    fun a ha b hb => Levi.rankOne_commute h.ct h.extras hjk hc ha hb
+    fun a ha b hb => Levi.rankOne_commute h.extras hjk hc ha hb
   have hcomm' : ∀ a ∈ rankOne D.rootGroup k, ∀ b ∈ rankOne D.rootGroup j, a * b = b * a :=
     fun a ha b hb => (hcomm b hb a ha).symm
   rcases hcent with hj | hk
@@ -93,6 +95,7 @@ private theorem toMonoidHom_pow_succ {Y : Type} [Group Y] (c : MulAut Y) (m : �
   rw [pow_succ']
   exact MonoidHom.ext fun _ => rfl
 
+omit [Finite Y] in
 private theorem map_parJ_pow_nodePerm (h : BorelQuotient D n H π M) (c : MulAut Y)
     (hcS : ((posUnipotent D).map π).map c.toMonoidHom = (posUnipotent D).map π)
     (j : Fin D.rank) (m : ℕ) :
@@ -107,6 +110,7 @@ private theorem map_parJ_pow_nodePerm (h : BorelQuotient D n H π M) (c : MulAut
     rw [toMonoidHom_pow_succ, ← Subgroup.map_map, ih,
       map_parJ_singleton_nodePerm h c hcS, pow_succ', Equiv.Perm.mul_apply]
 
+omit [Finite Y] in
 private theorem map_unipJ_pow_nodePerm (h : BorelQuotient D n H π M) (c : MulAut Y)
     (hcS : ((posUnipotent D).map π).map c.toMonoidHom = (posUnipotent D).map π)
     (j : Fin D.rank) (m : ℕ) :
@@ -121,6 +125,7 @@ private theorem map_unipJ_pow_nodePerm (h : BorelQuotient D n H π M) (c : MulAu
     rw [toMonoidHom_pow_succ, ← Subgroup.map_map, ih, map_unipJ_nodePerm h c hcS,
       Set.image_singleton, pow_succ', Equiv.Perm.mul_apply]
 
+omit [Finite Y] in
 private theorem exists_nonadjacent_orbit (h : BorelQuotient D n H π M) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (c : MulAut Y) (hc : ∃ k : ℕ, orderOf c = p ^ k)
     (hcS : ((posUnipotent D).map π).map c.toMonoidHom = (posUnipotent D).map π) (i : Fin D.rank)
@@ -175,7 +180,7 @@ theorem caseB (h : BorelQuotient D n H π M) (hZ : Subgroup.center Y = ⊥)
     2 ≤ CFSG.Open.pRank p
       (((unipJ D {i}).map π).map (MulAut.conj : Y →* MulAut Y) ⊔ Subgroup.zpowers c) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hinj : Function.Injective (MulAut.conj : Y →* MulAut Y) :=
     conj_injective_of_center_eq_bot hZ
   obtain ⟨s, t, hst, hcart⟩ := exists_nonadjacent_orbit h hp hp2 c hc hcS i hmove
@@ -197,7 +202,7 @@ theorem caseB (h : BorelQuotient D n H π M) (hZ : Subgroup.center Y = ⊥)
   obtain ⟨u, hu, hua⟩ := a.2
   obtain ⟨v, hv, hvb⟩ := b.2
   have hcomm : Commute (a : Y) (b : Y) := by
-    have := Levi.rankOne_commute h.ct h.extras hst hcart hu hv
+    have := Levi.rankOne_commute h.extras hst hcart hu hv
     show (a : Y) * (b : Y) = (b : Y) * (a : Y)
     rw [← hua, ← hvb, ← map_mul, ← map_mul, this]
   have hnot : (b : Y) ∉ Subgroup.zpowers (a : Y) := by

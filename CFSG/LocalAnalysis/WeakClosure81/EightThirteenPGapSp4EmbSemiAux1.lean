@@ -38,7 +38,7 @@ theorem wcgapesM_mul (g h : Matrix.SpecialLinearGroup (Fin 2) F) :
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
     simp [wcgapesM, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two,
-      Matrix.SpecialLinearGroup.coe_mul, Matrix.fromBlocks_multiply]
+      Matrix.SpecialLinearGroup.coe_mul]
   all_goals
     first
       | linear_combination (g 0 0 * g 0 1) * hh +
@@ -56,12 +56,12 @@ theorem wcgapesM_mul (g h : Matrix.SpecialLinearGroup (Fin 2) F) :
       | linear_combination (-(g 0 0 * g 0 1 * h 0 1 * h 1 1)) * h2
       | linear_combination (-(g 1 0 * g 1 1 * h 0 0 * h 1 0)) * h2
       | linear_combination (-(g 1 0 * g 1 1 * h 0 1 * h 1 1)) * h2
-      | ring
 
+omit [CharP F 2] in
 theorem wcgapesM_one : wcgapesM (1 : Matrix.SpecialLinearGroup (Fin 2) F) = 1 := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [wcgapesM, Matrix.SpecialLinearGroup.coe_one, Matrix.one_apply]
+    simp [wcgapesM, Matrix.SpecialLinearGroup.coe_one]
 
 theorem wcgapesM_symp (g : Matrix.SpecialLinearGroup (Fin 2) F) :
     (wcgapesM g)ᵀ * fromBlocks 0 1 (-1) 0 * wcgapesM g = fromBlocks 0 1 (-1) 0 := by
@@ -72,7 +72,7 @@ theorem wcgapesM_symp (g : Matrix.SpecialLinearGroup (Fin 2) F) :
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
     simp [wcgapesM, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two,
-      Matrix.fromBlocks_multiply, Matrix.transpose_apply]
+      Matrix.transpose_apply]
   all_goals
     first
       | linear_combination (1 + g 0 1 * g 1 0 + g 0 0 * g 1 1) * hg + (g 0 1 * g 1 0) * h2
@@ -126,9 +126,10 @@ def wcgapesIota1Hom : Matrix.SpecialLinearGroup (Fin 2) F →* StatedSp 2 F wher
 def wcgapesUnitriSL (t : F) : Matrix.SpecialLinearGroup (Fin 2) F :=
   ⟨!![1, t; 0, 1], by rw [Matrix.det_fin_two_of]; simp⟩
 
+omit [CharP F 2] in
 theorem wcgapes_sq_injective [Finite F] (hF : Nat.card F = 4) (x y : F) (h : x ^ 2 = y ^ 2) :
     x = y := by
-  letI := Fintype.ofFinite F
+  let := Fintype.ofFinite F
   have hcard : Fintype.card F = 4 := by rw [← Nat.card_eq_fintype_card]; exact hF
   have pow4 : ∀ z : F, z ^ 4 = z := by
     intro z
@@ -175,8 +176,9 @@ theorem wcgapesIota1_unitri (t : F) :
   rw [wcgapesIota1_coe, sp4Z, coe_tau]
   apply Matrix.fromBlocks_inj.mpr
   refine ⟨?_, ?_, ?_, ?_⟩ <;> ext i j <;> fin_cases i <;> fin_cases j <;>
-    simp [wcgapesM, wcgapesUnitriSL, sym2]
+    simp [wcgapesUnitriSL, sym2]
 
+omit [CharP F 2] in
 theorem wcgapesM_diag (l : Fˣ) :
     wcgapesM (slTwoDiag l) = blockMat !![(l : F) ^ 2, 0; 0, 1] 0 := by
   have hinv : (!![(l : F) ^ 2, 0; 0, 1] : Matrix (Fin 2) (Fin 2) F)⁻¹ =
@@ -184,18 +186,20 @@ theorem wcgapesM_diag (l : Fˣ) :
     refine Matrix.inv_eq_left_inv ?_
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, inv_mul_cancel₀]
+      simp [Matrix.mul_apply, Fin.sum_univ_two]
   rw [blockMat, Matrix.mul_zero, hinv]
   apply Matrix.fromBlocks_inj.mpr
   refine ⟨?_, ?_, ?_, ?_⟩ <;> ext i j <;> fin_cases i <;> fin_cases j <;>
-    simp [wcgapesM, slTwoDiag, inv_pow, Matrix.transpose_apply]
+    simp [slTwoDiag, inv_pow, Matrix.transpose_apply]
 
+omit [CharP F 2] in
 theorem wcgapes_pow_four [Finite F] (hF : Nat.card F = 4) (x : F) : x ^ 4 = x := by
-  letI := Fintype.ofFinite F
+  let := Fintype.ofFinite F
   have hcard : Fintype.card F = 4 := by rw [← Nat.card_eq_fintype_card]; exact hF
   have hz := FiniteField.pow_card (K := F) x
   rwa [hcard] at hz
 
+omit [CharP F 2] in
 theorem wcgapesUnitriSL_mem (t : F) : wcgapesUnitriSL t ∈ unitriangular 2 F := by
   rw [mem_unitriangular]
   refine ⟨?_, ?_⟩
@@ -227,6 +231,7 @@ theorem wcgapes_mem_map_unitriangular [Finite F] (hF : Nat.card F = 4) (g : Stat
 def wcgapesHb (b : F) (hb : b ≠ 0) : StatedSp 2 F :=
   torusHom ![1, Units.mk0 b hb]
 
+omit [CharP F 2] in
 theorem wcgapesHb_coe (b : F) (hb : b ≠ 0) :
     (((wcgapesHb b hb : StatedSp 2 F) : GL (Fin 2 ⊕ Fin 2) F) :
       Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) F) =
@@ -236,6 +241,7 @@ theorem wcgapesHb_coe (b : F) (hb : b ≠ 0) :
   refine ⟨?_, ?_, ?_, ?_⟩ <;> ext i j <;> fin_cases i <;> fin_cases j <;>
     simp [Units.val_inv_eq_inv_val]
 
+omit [CharP F 2] in
 theorem wcgapesHb_inv_coe (b : F) (hb : b ≠ 0) :
     ((((wcgapesHb b hb)⁻¹ : StatedSp 2 F) : GL (Fin 2 ⊕ Fin 2) F) :
       Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) F) =
@@ -245,6 +251,7 @@ theorem wcgapesHb_inv_coe (b : F) (hb : b ≠ 0) :
   refine ⟨?_, ?_, ?_, ?_⟩ <;> ext i j <;> fin_cases i <;> fin_cases j <;>
     simp [Units.val_inv_eq_inv_val]
 
+omit [CharP F 2] in
 theorem wcgapes_conj_sp4Z (b : F) (hb : b ≠ 0) (s : F) :
     wcgapesHb b hb * sp4Z s (s ^ 2) * (wcgapesHb b hb)⁻¹ = sp4Z s (b * s ^ 2) := by
   apply Subtype.ext
@@ -254,10 +261,10 @@ theorem wcgapes_conj_sp4Z (b : F) (hb : b ≠ 0) (s : F) :
   rw [Matrix.fromBlocks_multiply, Matrix.fromBlocks_multiply]
   apply Matrix.fromBlocks_inj.mpr
   refine ⟨?_, ?_, ?_, ?_⟩ <;> ext i j <;> fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, sym2, hb, inv_mul_cancel₀, mul_inv_cancel₀,
-      mul_comm]
+    simp [sym2, hb, mul_comm]
 
 
+omit [CharP F 2] in
 theorem wcgapesHb_coe_blockMat (b : F) (hb : b ≠ 0) :
     (((wcgapesHb b hb : StatedSp 2 F) : GL (Fin 2 ⊕ Fin 2) F) :
       Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) F) = blockMat !![1, 0; 0, b] 0 := by
@@ -265,7 +272,7 @@ theorem wcgapesHb_coe_blockMat (b : F) (hb : b ≠ 0) :
     refine Matrix.inv_eq_left_inv ?_
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, hb, inv_mul_cancel₀, mul_inv_cancel₀]
+      simp [Matrix.mul_apply, Fin.sum_univ_two, hb]
   rw [wcgapesHb_coe, blockMat, Matrix.mul_zero, hinv]
   apply Matrix.fromBlocks_inj.mpr
   refine ⟨?_, ?_, ?_, ?_⟩ <;> ext i j <;> fin_cases i <;> fin_cases j <;>

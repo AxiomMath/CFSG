@@ -23,7 +23,7 @@ theorem c8_mQuot_barSub_le_one (D : Data G) (h274 : R16_27_4 D) {V₀ V L : Subg
     {hV : IsElemAbelian 2 V} (hS : Sect16 D V₀ V L hV) (hc : Case167_8 D V₀ V hV L)
     {B : Subgroup G} (hBM : B ≤ D.M) (hB : IsElemAbelian 2 B) :
     E3.mQuot (barSub V₀ V hV B) ⊥ ≤ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hmM, hm⟩ := UC6.exists_conj_le_of_isSylowOf D.sylowM hBM hB.isPGroup
   have hP := hS.setting.hyp16.hyp125.pairFacts
   have hms : m ∈ stabTil V₀ V := (le_stabTil hP.le_normalizer hP.le_normalizer₀) hmM

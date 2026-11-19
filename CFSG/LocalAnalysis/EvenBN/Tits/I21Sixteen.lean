@@ -12,6 +12,7 @@ open Subgroup CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {t u : G}
 
+omit [Finite G] in
 theorem eq_of_mem_R_of_sq_eq_z (h : SecTwoHyp G t u) {r : G} (hr : r ∈ secTwoR t u)
     (hr2 : r ^ 2 = u ^ 2) : r = u ∨ r = u⁻¹ ∨ r = t * u ∨ r = t * u⁻¹ := by
   obtain ⟨a, b, rfl⟩ := h.exists_pow_of_mem_R hr
@@ -34,6 +35,7 @@ theorem eq_of_mem_R_of_sq_eq_z (h : SecTwoHyp G t u) {r : G} (hr : r ∈ secTwoR
   · exfalso; apply h.z_ne_one; rw [h4] at hr2; exact hr2.symm
   · right; right; right; simp [hu3]
 
+omit [Finite G] in
 theorem exists_fixed_w (h : SecTwoHyp G t u) {y : G}
     (hyN : y ∈ normalizer (secTwoR t u : Set G)) (hyt : y * t * y⁻¹ = t * u ^ 2)
     (hy2 : y ^ 2 ∈ secTwoR t u) :
@@ -92,6 +94,7 @@ theorem exists_fixed_w (h : SecTwoHyp G t u) {y : G}
       _ = y * a * y⁻¹ := by rw [h1]
       _ = u := hyyu
 
+omit [Finite G] in
 theorem exists_pow_t_w (h : SecTwoHyp G t u) {w : G} (hw : w = u ∨ w = t * u) {r : G}
     (hr : r ∈ secTwoR t u) : ∃ a b : ℕ, r = t ^ a * w ^ b := by
   obtain ⟨a, b, rfl⟩ := h.exists_pow_of_mem_R hr
@@ -103,6 +106,7 @@ theorem exists_pow_t_w (h : SecTwoHyp G t u) {w : G} (hw : w = u ∨ w = t * u) 
     have hc : Commute t (t * u) := (Commute.refl t).mul_right h.commute_tu
     conv_lhs => rw [hu, hc.mul_pow, ← mul_assoc, ← pow_add]
 
+omit [Finite G] in
 theorem exists_sq_eq_pow_w (h : SecTwoHyp G t u) {y w : G} (hyt : y * t * y⁻¹ = t * u ^ 2)
     (hw : w = u ∨ w = t * u) (hyw : y * w * y⁻¹ = w) (hy2 : y ^ 2 ∈ secTwoR t u) :
     ∃ b : ℕ, y ^ 2 = w ^ b := by
@@ -129,6 +133,7 @@ theorem exists_sq_eq_pow_w (h : SecTwoHyp G t u) {y w : G} (hyt : y * t * y⁻¹
   refine ⟨β, ?_⟩
   rw [hαβ, hk, pow_mul, h.t_sq, one_pow, one_mul]
 
+omit [Finite G] in
 theorem z_pow_cases (h : SecTwoHyp G t u) (m : ℕ) :
     (u ^ 2) ^ m = 1 ∨ (u ^ 2) ^ m = u ^ 2 := by
   have hzz : (u ^ 2) ^ 2 = 1 := by rw [← pow_mul]; exact h.u_pow_four

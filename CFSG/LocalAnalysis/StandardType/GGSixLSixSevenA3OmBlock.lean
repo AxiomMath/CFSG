@@ -49,6 +49,7 @@ theorem exists_factor_of_mem [Fact p.Prime] (hQ : (QuadraticMap.polarBilin Q).No
     rw [this]
     exact h1
 
+omit [Finite K] in
 theorem eq_X_sub_one_of_apply_eq_zero [Fact p.Prime]
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hp2 : p ≠ 2) (F : SevOm.Frame Q p A r)
     (hAΩ : A ≤ orthDerived Q) {t : Fin r → ZMod p} {h : K[X]}
@@ -62,6 +63,7 @@ theorem eq_X_sub_one_of_apply_eq_zero [Fact p.Prime]
   exact hu0 (eq_zero_of_fix_orbit hx hp hp2 hh hX (hU hu)
     (F.triv (ofAdd t) m (by simpa using htm) u hu))
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem apply_eq_zero_of_le_orbitSpace_X_sub_one [Fact p.Prime] (F : SevOm.Frame Q p A r)
     {t : Fin r → ZMod p} {m : Fin r}
     (hU : F.U m ≤ orbitSpace (F.ι (ofAdd t)).toLinearMap (X - 1)) : t m = 0 := by
@@ -72,6 +74,7 @@ theorem apply_eq_zero_of_le_orbitSpace_X_sub_one [Fact p.Prime] (F : SevOm.Frame
   rw [orbitSpace_X_sub_one] at h1
   exact hu0 (F.fpf (ofAdd t) m (by simpa using h0) u hu (mem_fixedSpace.mp h1))
 
+omit [Finite K] [CharP K 2] in
 theorem isComponentOf_centralizer_of_le_block {b : V ≃ₗ[K] V} (hb : OddOrderIsometry Q p b)
     {h : K[X]} (hh : h ∈ primaryFactors b.toLinearMap) {E J : Subgroup (V ≃ₗ[K] V)}
     (hbE : b ∈ E)
@@ -136,7 +139,7 @@ theorem card_ge_of_two [Fact p.Prime] (F : SevOm.Frame Q p A r) {H : Subgroup (V
     {k₁ k₂ : Fin r} (hv₁ : v₁ k₁ ≠ 0) (hv₂ : v₂ k₂ ≠ 0) (h12 : v₁ k₂ = 0) :
     p ^ 2 ≤ Nat.card H := by
   have hp : p.Prime := Fact.out
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hmem : ∀ a : ZMod p × ZMod p,
       F.ι (ofAdd (a.1 • v₁ + a.2 • v₂)) ∈ H := by
     intro a

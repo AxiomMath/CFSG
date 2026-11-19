@@ -15,11 +15,13 @@ variable {G : Type} [Group G] [Finite G] {L A T : Subgroup G} {z t : G} {W : Sub
 @[expose] def E3Facts.deltaRestrict (h2 : E2Facts L A z) (h3 : E3Facts A z W) : W →* A :=
   (deltaHom h2.conj_mem).comp (Subgroup.inclusion h3.le_R₀)
 
+omit [Finite G] in
 @[simp]
 theorem E3Facts.coe_deltaRestrict (h2 : E2Facts L A z) (h3 : E3Facts A z W) (w : W) :
     ((E3Facts.deltaRestrict h2 h3 w : A) : G) = delta z (w : G) :=
   rfl
 
+omit [Finite G] in
 theorem E3Facts.relIndex_W_R₀ (h2 : E2Facts L A z) (h3 : E3Facts A z W) :
     W.relIndex (R₀ A z) = 2 := by
   have h := Subgroup.relIndex_mul_card (H := W) (K := R₀ A z)
@@ -117,17 +119,20 @@ theorem E3Facts.deltaSection_val (h : Hyp G L A T z t) (h2 : E2Facts L A z)
 
 theorem Hyp.A_mul_comm (h : Hyp G L A T z t) {a b : G} (ha : a ∈ A) (hb : b ∈ A) :
     a * b = b * a := by
-  haveI : IsMulCommutative A := h.jc.module.elemAb.toIsMulCommutative
+  have : IsMulCommutative A := h.jc.module.elemAb.toIsMulCommutative
   exact setLike_mul_comm (s := A) ha hb
 
+omit [Finite G] in
 theorem E3Facts.A_commute_W (h3 : E3Facts A z W) {a w : G} (ha : a ∈ A) (hw : w ∈ W) :
     a * w = w * a :=
   Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp (h3.le_R₀ hw)).2 a ha
 
+omit [Finite G] in
 theorem E3Facts.commutator_mem_W (h3 : E3Facts A z W) {v w : W} :
     ⁅(v : G), (w : G)⁆ ∈ A := by
   simpa [commutatorElement_def] using h3.commutator_mem (v : G) v.2 (w : G) w.2
 
+omit [Finite G] in
 private theorem commutator_left_of_commute (s t ω : G) (h : ω * t = t * ω) :
     ⁅s * ω, t⁆ = ⁅s, t⁆ := by
   have h' : ω * t * ω⁻¹ = t := by rw [h, mul_inv_cancel_right]
@@ -137,6 +142,7 @@ private theorem commutator_left_of_commute (s t ω : G) (h : ω * t = t * ω) :
       group
     _ = ⁅s, t⁆ := by rw [h', commutatorElement_def]
 
+omit [Finite G] in
 private theorem commutator_right_of_commute (s t ω : G) (h : ω * s = s * ω) :
     ⁅s, t * ω⁆ = ⁅s, t⁆ := by
   rw [← commutatorElement_inv (t * ω) s, commutator_left_of_commute t s ω h,
@@ -153,6 +159,7 @@ private theorem wedge_commutator_mul_left (h : Hyp G L A T z t) (h3 : E3Facts A 
   rw [hconj]
   exact Hyp.A_mul_comm h hcA (E3Facts.commutator_mem_W h3)
 
+omit [Finite G] in
 private theorem wedge_commutator_mul_right (h3 : E3Facts A z W) {u v v' : W} :
     ⁅(u : G), ((v * v' : W) : G)⁆ = ⁅(u : G), (v : G)⁆ * ⁅(u : G), (v' : G)⁆ := by
   change ⁅(u : G), (v : G) * (v' : G)⁆ = ⁅(u : G), (v : G)⁆ * ⁅(u : G), (v' : G)⁆
@@ -373,7 +380,7 @@ private theorem squareHom_ker_le (h : Hyp G L A T z t) (h2 : E2Facts L A z)
   rw [MonoidHom.mem_ker] at hw ⊢
   have hwA : (w : G) ∈ A := (E3Facts.deltaRestrict_eq_one_iff h h2 h3 w).mp hw
   apply Subtype.ext
-  haveI : IsElementaryAbelian 2 A := h.jc.module.elemAb
+  have : IsElementaryAbelian 2 A := h.jc.module.elemAb
   simpa [squareHom, pow_two] using
     elemPow_eq_one_of_isElementaryAbelian (p := 2) (A := A) (w : G) hwA
 
@@ -471,7 +478,7 @@ theorem Hyp.isElementaryAbelian_of_e3Facts (h : Hyp G L A T z t) (h2 : E2Facts L
     {W : Subgroup G} (h3 : E3Facts A z W) : IsElementaryAbelian 2 W := by
   classical
   have hcomm : ∀ v ∈ W, ∀ w ∈ W, v * w = w * v := Hyp.commute_of_e3Facts h h2 h3
-  letI : IsMulCommutative W :=
+  let : IsMulCommutative W :=
     IsMulCommutative.of_setLike_mul_comm (fun v hv w hw => hcomm v hv w hw)
   have hNle : L ⊓ normalizer (A : Set G) ≤ Subgroup.normalizer (W : Set G) := by
     intro x hx

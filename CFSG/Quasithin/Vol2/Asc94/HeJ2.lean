@@ -86,6 +86,7 @@ variable [Finite G] {A A' : Subgroup G} {u w : G → V2} {m : G → M2} (hT : TD
 
 include hT hAab hA'ab
 
+omit [Finite G] hT in
 theorem TData.Z_central {z : G} (hz : z ∈ A ⊓ A') {x : G} (hx : x ∈ A ⊔ A') :
     x * z = z * x := by
   refine sup_induction (A := A) (A' := A') (P := fun x => x * z = z * x) ?_ ?_ ?_ ?_ ?_ hx
@@ -103,6 +104,7 @@ theorem TData.Z_central {z : G} (hz : z ∈ A ⊓ A') {x : G} (hx : x ∈ A ⊔ 
       _ = x⁻¹ * (x * z) * x⁻¹ := by rw [hx]
       _ = z * x⁻¹ := by group
 
+omit [Finite G] hA'ab in
 theorem TData.Q_gen {x : G} (hx : x ∈ A ∨ x ∈ A') {a : G} (ha : a ∈ A) :
     x * a * x⁻¹ ∈ A ∧ u (x * a * x⁻¹) = u a := by
   rcases hx with hx | hx
@@ -116,6 +118,7 @@ theorem TData.Q_gen {x : G} (hx : x ∈ A ∨ x ∈ A') {a : G} (ha : a ∈ A) :
     refine ⟨A.mul_mem hz.1 ha, ?_⟩
     rw [hT.cu.mul _ hz.1 _ ha, (hT.cu.zero _ hz.1).mpr hz.2, zero_add]
 
+omit [Finite G] hA'ab in
 theorem TData.J_trivial_u {x : G} (hx : x ∈ A ⊔ A') {a : G} (ha : a ∈ A) :
     x * a * x⁻¹ ∈ A ∧ u (x * a * x⁻¹) = u a := by
   have key : (∀ a ∈ A, x * a * x⁻¹ ∈ A ∧ u (x * a * x⁻¹) = u a) ∧
@@ -124,12 +127,12 @@ theorem TData.J_trivial_u {x : G} (hx : x ∈ A ⊔ A') {a : G} (ha : a ∈ A) :
       (∀ a ∈ A, x * a * x⁻¹ ∈ A ∧ u (x * a * x⁻¹) = u a) ∧
       (∀ a ∈ A, x⁻¹ * a * x ∈ A ∧ u (x⁻¹ * a * x) = u a)) ?_ ?_ ?_ ?_ ?_ hx
     · intro y hy
-      refine ⟨fun a ha => hT.Q_gen hAab hA'ab (Or.inl hy) ha, fun a ha => ?_⟩
-      have := hT.Q_gen hAab hA'ab (Or.inl (A.inv_mem hy)) ha
+      refine ⟨fun a ha => hT.Q_gen hAab (Or.inl hy) ha, fun a ha => ?_⟩
+      have := hT.Q_gen hAab (Or.inl (A.inv_mem hy)) ha
       simpa using this
     · intro y hy
-      refine ⟨fun a ha => hT.Q_gen hAab hA'ab (Or.inr hy) ha, fun a ha => ?_⟩
-      have := hT.Q_gen hAab hA'ab (Or.inr (A'.inv_mem hy)) ha
+      refine ⟨fun a ha => hT.Q_gen hAab (Or.inr hy) ha, fun a ha => ?_⟩
+      have := hT.Q_gen hAab (Or.inr (A'.inv_mem hy)) ha
       simpa using this
     · exact ⟨fun a ha => by simp [ha], fun a ha => by simp [ha]⟩
     · intro x y _ _ hx hy
@@ -208,12 +211,14 @@ variable [Finite G] {A A' : Subgroup G} {u w : G → V2} {m : G → M2} {N T : S
 
 include hT hK
 
+omit [Finite G] in
 theorem TData.rho_J (x : N) (hx : (x : G) ∈ A ⊔ A') : hT.rho N hK.norm x = 1 := by
   rw [hT.rho_eq_one_iff N hK.norm]
-  refine ⟨fun a ha => (hT.J_trivial_u hK.Aab hK.A'ab hx ha).2, fun a ha => ?_⟩
+  refine ⟨fun a ha => (hT.J_trivial_u hK.Aab hx ha).2, fun a ha => ?_⟩
   have hx' : (x : G) ∈ A' ⊔ A := by rw [sup_comm]; exact hx
-  exact (hT.symm.J_trivial_u hK.A'ab hK.Aab hx' ha).2
+  exact (hT.symm.J_trivial_u hK.A'ab hx' ha).2
 
+omit [Finite G] in
 theorem TData.odd_one (c : N) (hc : hT.rho N hK.norm c = 1) (hodd : Odd (orderOf (c : G))) :
     (c : G) = 1 := by
   obtain ⟨h1, h2⟩ := (hT.rho_eq_one_iff N hK.norm c).mp hc
@@ -240,7 +245,7 @@ theorem TData.odd_one (c : N) (hc : hT.rho N hK.norm c = 1) (hodd : Odd (orderOf
     · intro x y hxJ hyJ hdx hdy
       have hxd : x * (g * y * g⁻¹ * y⁻¹) * x⁻¹ = g * y * g⁻¹ * y⁻¹ := by
         rw [mul_inv_eq_iff_eq_mul]
-        exact hT.Z_central hK.Aab hK.A'ab hdy hxJ
+        exact CFSG.Quasithin.A94.HeJ.TData.Z_central hK.Aab hK.A'ab hdy hxJ
       have : g * (x * y) * g⁻¹ * (x * y)⁻¹ =
           (g * x * g⁻¹ * x⁻¹) * (x * (g * y * g⁻¹ * y⁻¹) * x⁻¹) := by group
       rw [this, hxd]
@@ -249,7 +254,7 @@ theorem TData.odd_one (c : N) (hc : hT.rho N hK.norm c = 1) (hodd : Odd (orderOf
       have : g * x⁻¹ * g⁻¹ * x⁻¹⁻¹ = x⁻¹ * (g * x * g⁻¹ * x⁻¹)⁻¹ * x := by group
       rw [this]
       have h3 : x⁻¹ * (g * x * g⁻¹ * x⁻¹)⁻¹ * x = (g * x * g⁻¹ * x⁻¹)⁻¹ := by
-        have hc := hT.Z_central hK.Aab hK.A'ab (inv_mem hdx) (inv_mem hxJ : x⁻¹ ∈ A ⊔ A')
+        have hc := CFSG.Quasithin.A94.HeJ.TData.Z_central hK.Aab hK.A'ab (inv_mem hdx) (inv_mem hxJ : x⁻¹ ∈ A ⊔ A')
         rw [hc]; group
       rw [h3]
       exact inv_mem hdx
@@ -298,7 +303,7 @@ theorem TData.ker_rho : (hT.rho N hK.norm).ker = (A ⊔ A').subgroupOf N := by
   constructor
   · intro hn
     obtain ⟨S, hS⟩ := hK.TN.exists_sylow_eq_subgroupOf
-    haveI : (hT.rho N hK.norm).ker.Normal := MonoidHom.normal_ker _
+    have : (hT.rho N hK.norm).ker.Normal := MonoidHom.normal_ker _
     have hK2 : IsPGroup 2 (hT.rho N hK.norm).ker := by
       intro g
       obtain ⟨i, r, hr, hord⟩ := Nat.exists_eq_two_pow_mul_odd

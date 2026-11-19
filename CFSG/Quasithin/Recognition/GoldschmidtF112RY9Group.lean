@@ -23,7 +23,7 @@ theorem eq_bot_of_nilpotent_perfect (H : Type*) [Group H] [Group.IsNilpotent H]
 theorem normal_eq_top_of_perfect_of_pGroup_quotient [Finite G] {p : ℕ} [Fact p.Prime]
     (N : Subgroup G) [N.Normal] (hq : IsPGroup p (G ⧸ N))
     (hperf : ⁅(⊤ : Subgroup G), (⊤ : Subgroup G)⁆ = ⊤) : N = ⊤ := by
-  haveI : Group.IsNilpotent (G ⧸ N) := hq.isNilpotent
+  have : Group.IsNilpotent (G ⧸ N) := hq.isNilpotent
   have hperfQ : ⁅(⊤ : Subgroup (G ⧸ N)), (⊤ : Subgroup (G ⧸ N))⁆ = ⊤ := by
     have hs : Function.Surjective (QuotientGroup.mk' N) := QuotientGroup.mk'_surjective N
     have h1 : (⊤ : Subgroup G).map (QuotientGroup.mk' N) = ⊤ := Subgroup.map_top_of_surjective _ hs

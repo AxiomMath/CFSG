@@ -57,9 +57,9 @@ namespace Data.Hyp
 variable {G : Type} [Group G] [Finite G] {d : Data G}
 
 omit [Finite G] in
-theorem mem_Y_iff_D₀ (z : G) : z ∈ d.Y ↔ z ∈ d.D₀ ∧ ∀ q ∈ d.D₀, z * q = q * z :=
-  ⟨fun hz => ⟨Y_le_D₀ hz, fun q hq => Y_comm_D₀ hz hq⟩, fun ⟨hz, hc⟩ =>
-    ⟨mem_centralizer_iff.2 fun q hq => (hc q hq).symm, hz⟩⟩
+theorem mem_Y_iff_D₀ (z : G) : z ∈ d.Y ↔ z ∈ d.D₀ ∧ ∀ _q ∈ d.D₀, z * _q = _q * z :=
+  ⟨fun hz => ⟨Y_le_D₀ hz, fun _q hq => Y_comm_D₀ hz hq⟩, fun ⟨hz, hc⟩ =>
+    ⟨mem_centralizer_iff.2 fun _q hq => (hc _q hq).symm, hz⟩⟩
 
 theorem card_D₀_eq_mul (h : d.Hyp) : Nat.card d.D₀ = 16 * Nat.card d.Y := by
   rw [h.card_D₀, h.sec4_6.2.2.2.2.1]
@@ -138,7 +138,7 @@ theorem C₀_le_UD₀ (h : d.Hyp) : d.C₀ ≤ d.UD₀ := fun c hc =>
     have := h.conj_mem_Y_of_mem_C₀ (inv_mem hc) ha
     rwa [inv_inv] at this⟩⟩
 
-theorem Y_le_UD₀ (h : d.Hyp) : d.Y ≤ d.UD₀ := fun y hy =>
+theorem Y_le_UD₀ (h : d.Hyp) : d.Y ≤ d.UD₀ := fun _y hy =>
   h.C₀_le_UD₀ (h.Y_le_C₀ hy)
 
 theorem conj_mem_UD₀ (h : d.Hyp) {g u : G} (hg : g ∈ d.XC₀) (hu : u ∈ d.UD₀) :

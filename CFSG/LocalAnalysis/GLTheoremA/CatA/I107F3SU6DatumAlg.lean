@@ -79,11 +79,12 @@ theorem conjT_mul [Fintype m] (M : Matrix l m F) (N : Matrix m n F) :
 theorem conjT_conjT (M : Matrix m n F) : conjT (conjT M) = M := by
   ext i j; simp [conjT_apply, CjField.sq_sq]
 
+omit [CjField F] in
 theorem conjT_one [DecidableEq n] : conjT (1 : Matrix n n F) = 1 := by
   ext i j
   by_cases h : i = j
   · subst h; simp [conjT_apply]
-  · simp [conjT_apply, Matrix.one_apply, h, Ne.symm h]
+  · simp [conjT_apply, h, Ne.symm h]
 
 theorem matrix_add_self (X : Matrix m n F) : X + X = 0 := by
   ext i j; simp [CjField.add_self]
@@ -121,23 +122,29 @@ section Lemmas
 
 variable {F : Type} [Field F] [CjField F] (H : Hyp F)
 
+omit [CjField F] in
 theorem UU_mul {k : Type} (Z : Matrix (Fin 3) k F) : conjT H.U * (H.U * Z) = 0 := by
   rw [← Matrix.mul_assoc, H.UU, Matrix.zero_mul]
 
+omit [CjField F] in
 theorem WW_mul {k : Type} (Z : Matrix (Fin 3) k F) : conjT H.W * (H.W * Z) = 0 := by
   rw [← Matrix.mul_assoc, H.WW, Matrix.zero_mul]
 
+omit [CjField F] in
 theorem UW_mul {k : Type} (Z : Matrix (Fin 3) k F) : conjT H.U * (H.W * Z) = Z := by
   rw [← Matrix.mul_assoc, H.UW, Matrix.one_mul]
 
+omit [CjField F] in
 theorem WU_mul {k : Type} (Z : Matrix (Fin 3) k F) : conjT H.W * (H.U * Z) = Z := by
   rw [← Matrix.mul_assoc, H.WU, Matrix.one_mul]
 
+omit [CjField F] in
 theorem B_mul (X Y : Matrix (Fin 3) (Fin 3) F) : H.B X * H.B Y = H.B (X + Y) := by
   simp only [B, Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.one_mul, Matrix.mul_assoc,
     H.UU_mul, Matrix.mul_zero, add_zero]
   abel
 
+omit [CjField F] in
 theorem B_zero : H.B 0 = 1 := by simp [B]
 
 theorem conjT_B (X : Matrix (Fin 3) (Fin 3) F) : conjT (H.B X) = H.B (conjT X) := by
@@ -147,6 +154,7 @@ theorem B_unit {X : Matrix (Fin 3) (Fin 3) F} (hX : conjT X = X) :
     conjT (H.B X) * H.B X = 1 := by
   rw [conjT_B, hX, B_mul, matrix_add_self, B_zero]
 
+omit [CjField F] in
 theorem det_B (X : Matrix (Fin 3) (Fin 3) F) : (H.B X).det = 1 := by
   unfold B
   rw [Matrix.det_one_add_mul_comm, H.UU_mul]
@@ -155,15 +163,18 @@ theorem det_B (X : Matrix (Fin 3) (Fin 3) F) : (H.B X).det = 1 := by
 theorem B_isSU {X : Matrix (Fin 3) (Fin 3) F} (hX : conjT X = X) : IsSU (H.B X) :=
   ⟨H.det_B X, H.B_unit hX⟩
 
+omit [CjField F] in
 theorem L_mul_U (A A' : Matrix (Fin 3) (Fin 3) F) : H.L A A' * H.U = H.U * A := by
   simp only [L, Matrix.add_mul, Matrix.mul_assoc, H.WU, H.UU, Matrix.mul_one, Matrix.mul_zero,
     add_zero]
 
+omit [CjField F] in
 theorem conjTU_mul_L (A A' : Matrix (Fin 3) (Fin 3) F) :
     conjT H.U * H.L A A' = A' * conjT H.U := by
   simp only [L, Matrix.mul_add, ← Matrix.mul_assoc, H.UU, H.UW, Matrix.zero_mul, Matrix.one_mul,
     zero_add]
 
+omit [CjField F] in
 theorem L_mul_B {A A' : Matrix (Fin 3) (Fin 3) F} (hA : conjT A * A' = 1)
     (X : Matrix (Fin 3) (Fin 3) F) :
     H.L A A' * H.B X = H.B (A * X * conjT A) * H.L A A' := by
@@ -193,6 +204,7 @@ theorem conjT_L_mul_L {A A' : Matrix (Fin 3) (Fin 3) F} (hA : conjT A * A' = 1) 
     H.WU_mul, hA_mul, hA'_mul, Matrix.mul_zero, add_zero, zero_add]
   exact H.sumId
 
+omit [CjField F] in
 theorem det_L (A A' : Matrix (Fin 3) (Fin 3) F) : (H.L A A').det = A.det * A'.det := by
   let e : Fin 6 ≃ Fin 3 ⊕ Fin 3 := (finSumFinEquiv (m := 3) (n := 3)).symm
   let P : Matrix (Fin 6) (Fin 6) F := (fromCols H.U H.W).submatrix id e
@@ -216,6 +228,7 @@ theorem L_isSU {A A' : Matrix (Fin 3) (Fin 3) F} (hA : conjT A * A' = 1) (h1 : A
     (h2 : A'.det = 1) : IsSU (H.L A A') :=
   ⟨by rw [H.det_L, h1, h2, one_mul], H.conjT_L_mul_L hA⟩
 
+omit [CjField F] in
 theorem eq_zero_of_B_eq_smul {Y : Matrix (Fin 3) (Fin 3) F} {u : F}
     (h : H.B Y = u • (1 : Matrix (Fin 6) (Fin 6) F)) : Y = 0 := by
   have hne : ∃ i j, conjT H.U i j ≠ 0 := by

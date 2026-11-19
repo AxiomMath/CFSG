@@ -26,6 +26,7 @@ theorem mul_conj_mul_inv_eq (t : MulAut X) (x : X) :
 
 variable [Finite X]
 
+omit [Finite X] in
 theorem isPGroup_comap_conj {T : Subgroup (MulAut X)}
     (hZ : Subgroup.center X = ⊥) (hT : IsPGroup 2 T) :
     IsPGroup 2 (T.comap (MulAut.conj : X →* MulAut X)) := by

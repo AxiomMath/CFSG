@@ -18,14 +18,14 @@ private lemma four_dvd_lcm {u v : ℕ} (h : 4 ∣ u.lcm v) : 4 ∣ u ∨ 4 ∣ v
   rw [Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_two (Nat.lcm_ne_zero hu0 hv0)] at h4
   have hu2 : u.factorization 2 ≤ 1 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     exact hu (by
       show 2 ^ 2 ∣ u
       rw [Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_two hu0]
       omega)
   have hv2 : v.factorization 2 ≤ 1 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     exact hv (by
       show 2 ^ 2 ∣ v
       rw [Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_two hv0]
@@ -101,7 +101,7 @@ private lemma exceptionalOrders_four {t : CFSG.Open.StatedLieTag} {n p f : ℕ}
     (h : 4 ∣ (exceptionalOrders t n p f).1 ∨ 4 ∣ (exceptionalOrders t n p f).2) :
     t = .PSL ∧ n = 3 ∧ p = 2 ∧ f = 2 := by
   unfold exceptionalOrders at h
-  split at h <;> simp_all <;> omega
+  split at h <;> simp_all
 
 theorem l2_four_dvd_orders (t : CFSG.Open.StatedLieTag) (n p f : ℕ)
     (m : generic t n p f × exceptional t n p f) (hm : 4 ∣ orderOf m) :
@@ -163,26 +163,26 @@ theorem l2_orders_cases {X : Type} [Group X] {t : CFSG.Open.StatedLieTag} {n p f
     simp only [genericOrders] at h4
     rcases h4 with h | h | h | h
     · by_cases hq : Even (p ^ f)
-      · rw [if_pos hq] at h
+      · rw [ite_eq_left hq] at h
         exact absurd h (by decide)
-      · rw [if_neg hq] at h
+      · rw [ite_eq_right hq] at h
         by_cases hn : Even n
-        · rw [if_pos hn] at h
+        · rw [ite_eq_left hn] at h
           exact absurd h (by decide)
-        · rw [if_neg hn] at h
+        · rw [ite_eq_right hn] at h
           refine Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨n, p, f, ?_, ?_, hX⟩))))
           · exact Nat.not_even_iff_odd.mp hn
           · exact four_dvd_sub_one_of_odd_pow (Nat.not_even_iff_odd.mp hq)
               (Nat.not_even_iff_odd.mp hn) (h.trans (Nat.gcd_dvd_right 4 _))
     · by_cases hq : Even (p ^ f)
-      · rw [if_pos hq] at h
+      · rw [ite_eq_left hq] at h
         exact absurd h (by decide)
-      · rw [if_neg hq] at h
+      · rw [ite_eq_right hq] at h
         by_cases hn : Even n
-        · rw [if_pos hn] at h
+        · rw [ite_eq_left hn] at h
           exact absurd h (by decide)
-        · rw [if_neg hn] at h
-          have h' : 4 ∣ 1 := by simpa using h
+        · rw [ite_eq_right hn] at h
+          have h' : 4 ∣ 1 := by simp at h
           exact absurd h' (by decide)
     · exact absurd (exceptionalOrders_four (Or.inl h)).1 (by decide)
     · exact absurd (exceptionalOrders_four (Or.inr h)).1 (by decide)

@@ -64,7 +64,7 @@ theorem orb4_commute_AD [Finite G] {Ω : Set (Subgroup G)} (hΩ : HypOmegaGen Ω
     (hRa : Ra ∈ RSet Ω) (hRb : Rb ∈ RSet Ω) (hRaK : Ra ≤ Ka) (hRbK : Rb ≤ Kb)
     (hRaS : Ra ≤ (S : Subgroup G)) (hRbS : Rb ≤ (S : Subgroup G)) {u u' z : G}
     (hza : IsUniqueInvolution Ka z) (hzb : IsUniqueInvolution Kb z)
-    (hua : u ∈ Ra) (hu4 : orderOf u = 4) (hub : u' ∈ Rb) (hu'4 : orderOf u' = 4)
+    (hua : u ∈ Ra) (hu4 : orderOf u = 4) (hub : u' ∈ Rb) (_hu'4 : orderOf u' = 4)
     (hz : u * u = z) (hz' : u' * u' = z) {w : G} (hwP : w ∈ Ra ⊔ Rb) (hwu : w * u = u * w)
     (hwu' : w * u' = u' * w) (hww : w * w = 1) :
     w = 1 ∨ w = z ∨ w = u * u' ∨ w = z * (u * u') := by

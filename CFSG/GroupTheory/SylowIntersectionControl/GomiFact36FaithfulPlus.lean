@@ -250,7 +250,7 @@ private theorem false_of_card_eq_two_mul_fixV_fpl [Finite W] (hW : ∀ w : W, w 
     {X : Subgroup W} (hLX : L ≤ stabSub X) (hAX : A ≤ stabSub X) (hXC : X ⊓ fixV C = ⊥)
     (hCX : C ⊓ centSec X ⊥ = ⊥) (hXA : ¬ X ≤ fixV A)
     (hX2 : Nat.card ↥X = 2 * Nat.card ↥(X ⊓ fixV A)) : False := by
-  obtain ⟨x₀, hx₀X, hx₀A⟩ := SetLike.not_le_iff_exists.mp hXA
+  obtain ⟨x₀, hx₀X, hx₀A⟩ := IsConcreteLE.not_le_iff_exists.mp hXA
   have hx₀A' : ¬ ∀ a ∈ A, a x₀ = x₀ := fun h => hx₀A (mem_fixV.mpr h)
   push Not at hx₀A'
   obtain ⟨a, haA, hax₀⟩ := hx₀A'

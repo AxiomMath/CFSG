@@ -35,8 +35,8 @@ private theorem commutator_le_of_index_le_two {G : Type*} [Group G] [Finite G] {
     exact le_top
   · rw [← Subgroup.Normal.quotient_commutative_iff_commutator_le]
     have hcard : Nat.card (G ⧸ K) = 2 := by rw [← Subgroup.index_eq_card]; exact h2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : IsCyclic (G ⧸ K) := isCyclic_of_prime_card hcard
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : IsCyclic (G ⧸ K) := isCyclic_of_prime_card hcard
     infer_instance
 
 theorem card_l2Wreath_two_two : Nat.card (L2Wreath 2 2) = 7200 := by
@@ -81,8 +81,8 @@ theorem not_isSimpleGroup_of_index_le_two_l2Wreath {Y : Type} [Group Y] {f : ℕ
     (φ : Y ≃* L2Wreath f 2) (M : Subgroup Y) (hM : M.Normal) (hidx : M.index ≤ 2) :
     ¬ IsSimpleGroup M := by
   classical
-  haveI : Finite Y := Finite.of_injective φ φ.injective
-  haveI : M.Normal := hM
+  have : Finite Y := Finite.of_injective φ φ.injective
+  have : M.Normal := hM
   let B' : Subgroup Y := (l2WreathBase f 2).map φ.symm.toMonoidHom
   have hbase := CFSG.OddTranspositions.base_isMinimalNormal f 2 hf (by norm_num)
   have hBbaseNormal : (l2WreathBase f 2).Normal := hbase.1

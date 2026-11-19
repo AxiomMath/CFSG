@@ -51,6 +51,7 @@ noncomputable def e8LineComp {ω : (FiniteField.Extension K 2 2)ˣ} (hω : order
   ((e8LineP K).subgroupOf (langModel .E8 K (e8LangField K) (e8LangG0 hω))).map
     (langModelMulEquiv .E8 K (e8LangField K) (e8LangG0 hω)).symm.toMonoidHom
 
+omit [Finite K] in
 private theorem orderOf_units_map_ext {ω : (FiniteField.Extension K 2 2)ˣ}
     (hω : orderOf ω = 3) :
     orderOf (Units.map (algebraMap (FiniteField.Extension K 2 2) (e8LangField K)).toMonoidHom
@@ -234,7 +235,7 @@ theorem e8LineComp_le_centralizer (hK : Nat.card K = 2)
   rw [hφx, hφd]
   exact hcomm.symm
 
-private theorem commute_langImage_lineRep (hK : Nat.card K = 2)
+private theorem commute_langImage_lineRep (_hK : Nat.card K = 2)
     {ω : (FiniteField.Extension K 2 2)ˣ} (hω : orderOf ω = 3)
     {c : ↥(adjointGroup .E8 K)} {a : ModGL .E8 (e8LangField K)}
     (hφd : ((langModelMulEquiv .E8 K (e8LangField K) (e8LangG0 hω)
@@ -324,8 +325,8 @@ section CertE6
 
 theorem finite_isQuasisimple_e8LineP :
     Finite ↥(e8LineP K) ∧ CFSG.IsQuasisimple ↥(e8LineP K) := by
-  haveI : IsAlgClosure K (e8LangField K) := isAlgClosure_e8LangField K
-  haveI : IsAlgClosed (e8LangField K) := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosure K (e8LangField K) := isAlgClosure_e8LangField K
+  have : IsAlgClosed (e8LangField K) := IsAlgClosure.isAlgClosed K
   obtain ⟨h, hw⟩ := exists_e8LangN_mem_monomial (K := K)
   exact e6Layer_finite_quasisimple .E8 (L := e8LangField K) (ℓ := 2) (f := 1) le_rfl
     h (fun α hα => by
@@ -335,8 +336,8 @@ theorem finite_isQuasisimple_e8LineP :
 theorem e8LineP_le_langModel (hK : Nat.card K = 2)
     {ω : (FiniteField.Extension K 2 2)ˣ} (hω : orderOf ω = 3) :
     e8LineP K ≤ langModel .E8 K (e8LangField K) (e8LangG0 hω) := by
-  haveI : IsAlgClosure K (e8LangField K) := isAlgClosure_e8LangField K
-  haveI := (finite_isQuasisimple_e8LineP (K := K)).1
+  have : IsAlgClosure K (e8LangField K) := isAlgClosure_e8LangField K
+  have := (finite_isQuasisimple_e8LineP (K := K)).1
   refine le_langModel_E8_of_le_twModel K (e8LangField K)
     (Fr := iterateFrobenius (e8LangField K) 2 1)
     (fun c => by rw [iterateFrobenius_def, hK, pow_one]) (e8LangG0_mem hω)
@@ -398,7 +399,7 @@ private theorem e8FrameV_tC_mem_lineRep (hK : Nat.card K = 2) (c : ZMod 3) :
     exact (stdLayer (tE K frameE8 (Multiplicative.ofAdd e8FrameLineRep))).pow_mem
       (rho_three_mem_stdLayer_lineRep hK (uSL 1 * vSL 1)) c.val
 
-private theorem e8FrameV_tE_mem_lineRep (hK : Nat.card K = 2) (w : Fin 8 → ZMod 3)
+private theorem e8FrameV_tE_mem_lineRep (_hK : Nat.card K = 2) (w : Fin 8 → ZMod 3)
     (hw0 : w 0 = 0) (hw3 : w 3 = 0) :
     tE K frameE8 (Multiplicative.ofAdd w) ∈
       (e8FrameV K ⊓ Subgroup.normalizer

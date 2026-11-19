@@ -45,7 +45,7 @@ theorem invTab_foldl {s : Array Nat} {σ : Equiv.Perm (Fin 693)} (hs : IsTab s �
           if (σ⁻¹ y).val < n then (σ⁻¹ y).val else 0
   | 0, _ => by
     refine ⟨by simp, fun y => ?_⟩
-    rw [List.range_zero, List.foldl_nil, if_neg (Nat.not_lt_zero _),
+    rw [List.range_zero, List.foldl_nil, ite_eq_right (Nat.not_lt_zero _),
       getElem!_pos _ y.val (by simp), Array.getElem_replicate]
   | n + 1, hn => by
     obtain ⟨h1, h2⟩ := invTab_foldl hs n (by omega)
@@ -59,16 +59,16 @@ theorem invTab_foldl {s : Array Nat} {σ : Equiv.Perm (Fin 693)} (hs : IsTab s �
       rw [Array.size_setIfInBounds, h1]; exact y.2), Array.getElem_setIfInBounds]
     by_cases hy : σ ⟨n, hn'⟩ = y
     · have hv : (σ⁻¹ y).val = n := by rw [← hy, perm_inv_apply_self]
-      rw [if_pos (congrArg Fin.val hy), if_pos (by omega), hv]
+      rw [ite_eq_left (congrArg Fin.val hy), ite_eq_left (by omega), hv]
     · have hne : (σ ⁻¹ y).val ≠ n := by
         intro h
         apply hy
         rw [← Fin.ext (h.trans rfl : (σ⁻¹ y).val = (⟨n, hn'⟩ : Fin 693).val),
           perm_apply_inv_self]
-      rw [if_neg (fun h => hy (Fin.ext h)), ← getElem!_pos r y.val (by rw [h1]; exact y.2), h2]
+      rw [ite_eq_right (fun h => hy (Fin.ext h)), ← getElem!_pos r y.val (by rw [h1]; exact y.2), h2]
       by_cases hl : (σ⁻¹ y).val < n
-      · rw [if_pos hl, if_pos (by omega)]
-      · rw [if_neg hl, if_neg (by omega)]
+      · rw [ite_eq_left hl, ite_eq_left (by omega)]
+      · rw [ite_eq_right hl, ite_eq_right (by omega)]
     · rw [h1]
       exact y.2
 
@@ -76,7 +76,7 @@ theorem isTab_invTab {s : Array Nat} {σ : Equiv.Perm (Fin 693)} (hs : IsTab s �
     IsTab (invTab s) σ⁻¹ := by
   intro y
   unfold invTab
-  rw [(invTab_foldl hs 693 le_rfl).2 y, if_pos (σ⁻¹ y).2]
+  rw [(invTab_foldl hs 693 le_rfl).2 y, ite_eq_left (σ⁻¹ y).2]
 
 theorem invPairOK_of {t r : Array Nat} {σ : Equiv.Perm (Fin 693)} (ht : IsTab t σ)
     (hr : IsTab r σ⁻¹) : invPairOK t r = true := by

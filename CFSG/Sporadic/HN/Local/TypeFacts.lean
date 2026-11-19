@@ -97,7 +97,6 @@ theorem wG14_form : wG 14 = wordG (letterEl 14) Native.invFusW * wG 12 *
     List.prod_cons, List.prod_nil, mul_one] at this ⊢
   rw [this]
   congr 2
-  all_goals exact hmid
 
 theorem isConj_t2_x2 : IsConj (wG 12) (wG 2) := by
   rw [← type_certificate.2.2.2.2.1]

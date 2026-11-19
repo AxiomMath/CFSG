@@ -93,7 +93,7 @@ theorem uc22s21ru3a_exists_piece (hX : Group.IsSolvable X) {T' : Subgroup X}
       R.comap (QuotientGroup.mk' (CFSG.pCore 2 X)) ⊔ T' = ⊤ ∧
       IsPiece q (T'.map (QuotientGroup.mk' (CFSG.pCore 2 X))) R := by
   classical
-  haveI := hX
+  have := hX
   set ρ : X →* X ⧸ CFSG.pCore 2 X := QuotientGroup.mk' (CFSG.pCore 2 X) with hρ
   have hρs : Function.Surjective ρ := QuotientGroup.mk'_surjective _
   have hker : ρ.ker ≤ T' := by
@@ -101,7 +101,7 @@ theorem uc22s21ru3a_exists_piece (hX : Group.IsSolvable X) {T' : Subgroup X}
     exact hK
   have hS : IsCoatom (T'.map ρ) := uc22s21ru3a_isCoatom_map ρ hρs hker hcoat
   have h2 : IsPGroup 2 ↥(T'.map ρ) := hT2.map ρ
-  haveI : Nontrivial (X ⧸ CFSG.pCore 2 X) := by
+  have : Nontrivial (X ⧸ CFSG.pCore 2 X) := by
     by_contra hnt
     rw [not_nontrivial_iff_subsingleton] at hnt
     exact hS.1 (eq_top_iff.2 fun x _ => by rw [Subsingleton.elim x 1]; exact one_mem _)
@@ -112,8 +112,8 @@ theorem uc22s21ru3a_exists_piece (hX : Group.IsSolvable X) {T' : Subgroup X}
     exact le_bot_iff.1 h1
   obtain ⟨r, N, hr, hrodd, hNn, hN1, -, hNr⟩ :=
     CFSG.Quasithin.B1.exists_normal_elem_abelian_odd inferInstance inferInstance hO
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hr2 : r ≠ 2 := by
     rintro rfl
     exact absurd hrodd (by decide)
@@ -145,13 +145,13 @@ theorem uc22s21ru3a_le_or_le {X T H₁ H₂ : Subgroup G} (hTX : IsSylowIn 2 T X
       (X : Set G) = ((H₁ ⊓ X : Subgroup G) : Set G) * ((H₂ ⊓ X : Subgroup G) : Set G)) :
     X ≤ H₁ ∨ X ≤ H₂ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : IsSylowIn 2 (T.subgroupOf X) ⊤ := uc22s21rd_isSylowIn_subgroupOf hTX
   have hK : CFSG.pCore 2 ↥X ≤ T.subgroupOf X :=
     CFSG.pCore_isPGroup.le_sylow_of_normal hTX.toSylow
   obtain ⟨q, R, hq, hq2, hRn, hPT, hR0, hRq, -, hirr⟩ :=
     uc22s21ru3a_exists_piece hsol hS.isPGroup (uc22s21ru3a_isCoatom_subgroupOf hcov) hK
-  haveI := hRn
+  have := hRn
   refine uc22s21rd_le_or_le hq hq2 hTX hT₁ hT₂ hH (QuotientGroup.mk' (CFSG.pCore 2 ↥X))
     (by rw [QuotientGroup.ker_mk']) hR0 hRq ?_ ?_ hPT hirr
   · rw [Subgroup.normalizer_eq_top]

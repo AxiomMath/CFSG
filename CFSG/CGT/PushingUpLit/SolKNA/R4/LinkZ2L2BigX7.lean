@@ -35,7 +35,7 @@ theorem Z2SetR.exists_Ry_data (hs : Z2SetR r n R S t J u R₀ T₀ P) (hr : 4 �
   have hVy : V ≤ Subgroup.centralizer ({y} : Set Y) := by
     intro v hv
     rw [Subgroup.mem_centralizer_singleton_iff]
-    haveI : IsCyclic ↥V := hcyc
+    have : IsCyclic ↥V := hcyc
     have hcomm := (IsCyclic.commGroup (α := ↥V)).mul_comm (⟨v, hv⟩ : ↥V) (⟨y, hyV⟩ : ↥V)
     simpa using congrArg Subtype.val hcomm
   obtain ⟨Ry, hRy, hVRy, hE⟩ :=

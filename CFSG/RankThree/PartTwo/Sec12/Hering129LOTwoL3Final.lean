@@ -15,7 +15,7 @@ theorem ks129OTwoL3_holds :
     KS129OTwoL3 := by
   intro X _ _ hX hperf hex
   obtain ⟨p, e, hp, hp2, he, hiso⟩ := hex
-  haveI := hperf
+  have := hperf
   obtain ⟨hθsol, -, hθ3, -, -, -, hθO⟩ :=
     solvable_prime_complement_core_characterization (H := X) Nat.prime_three
   have hL : LData (X ⧸ aschbacherSolvableCore 3 X) :=

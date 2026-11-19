@@ -31,7 +31,7 @@ theorem exists_fieldAut_mem [Finite K] (h : UnitaryFieldData ℓ f K) (hℓ : �
       ∃ M : primeFormUnitary h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K),
         (primeFormConjHom h _ M)⁻¹ * α * primeFormConjHom h _ M =
           primeFormFieldHom h (isPrimeFormGram_one (n := 3)) σ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 := CFSG.GH74.Uniqueness.SU.SU7.Gen.card_map_mul_card_inf_ker (fieldFactor h hℓ) E
   rw [ker_fieldFactor, hcard] at h1
   have hmap := card_map_fieldFactor_le h hℓ hp hE

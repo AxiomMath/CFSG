@@ -180,6 +180,7 @@ variable {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [Fact ℓ.Prime] {p : ℕ
   {L : Type} [Field L] [Algebra K L] [IsAlgClosure K L] [CharP L ℓ]
 
 
+omit [IsAlgClosure K L] in
 theorem pElem_centralizes (F : E7FourFrame K L ℓ f p) (hK : Nat.card K = ℓ ^ f) (hp : p.Prime)
     (hp3 : 3 < p) (hpq : (p : ℤ) ∣ (Nat.card K : ℤ) ^ 2 + 1) {x : adjointGroup .E7 K}
     (S : Sylow p (Subgroup.centralizer ({x} : Set (adjointGroup .E7 K)))) (c : adjointGroup .E7 K)
@@ -194,7 +195,7 @@ theorem pElem_centralizes (F : E7FourFrame K L ℓ f p) (hK : Nat.card K = ℓ ^
     ∀ y, (∃ k : ℕ, y ^ p ^ k = 1) →
       ψ y ∈ Subgroup.centralizer (rootSpan .E7 L R : Set (ModGL .E7 L)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hFr : ∀ c, iterateFrobenius L ℓ f c = c ^ Nat.card K := fun c => by
     rw [hK]
     exact iterateFrobenius_def ℓ f c
@@ -208,7 +209,7 @@ theorem pElem_centralizes (F : E7FourFrame K L ℓ f p) (hK : Nat.card K = ℓ ^
   rw [F.hT] at h1
   obtain ⟨b', hb', hb'e⟩ := h1
   have hbe : rootDiagUnit .E7 b' = ψ s := hb'e
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
   have hsk : s ^ p ^ k = 1 := congrArg Subtype.val hk
   have hpow : rootDiagUnit .E7 b' ^ p ^ k = 1 := by rw [hbe, ← map_pow, hsk, map_one]
   have hbm : ∀ i, b' i ^ p ^ k = 1 := by
@@ -239,12 +240,12 @@ theorem oddPCoreInClosure_E7_four (K : Type) [Field K] [Finite K] {f : ℕ} [Cha
     (hpq : (p : ℤ) ∣ (Nat.card K : ℤ) ^ 2 + 1) {x : adjointGroup .E7 K} (hx : orderOf x = p) :
     OddPCoreInClosure p ↥(Subgroup.centralizer ({x} : Set (adjointGroup .E7 K))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype K := Fintype.ofFinite K
   let L := AlgebraicClosure K
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   obtain ⟨F⟩ := exists_e7FourFrame K hf hK hp hp3 hpq L
   have hstab := e7_stabHyp F hK hp hp3 hpq
   have hD4 : D4TranspositionLayer Tag.E7 := d4TranspositionLayer_E7
@@ -266,7 +267,7 @@ theorem oddPCoreInClosure_E7_four (K : Type) [Field K] [Finite K] {f : ℕ} [Cha
     exact ⟨S, hS (Subgroup.mem_zpowers _)⟩
   have hpS : IsPGroup p ((S : Subgroup (Subgroup.centralizer ({x} : Set (adjointGroup .E7 K)))).map
       (Subgroup.centralizer ({x} : Set (adjointGroup .E7 K))).subtype) :=
-    S.isPGroup'.map _
+    S.isPGroup.map _
   obtain ⟨c, hc⟩ := F.hconj _ hpS
   have hh : F.g0⁻¹ * adjEmb .E7 K L (c * x * c⁻¹) * F.g0 ∈
       twistedTorusOf F.n (Units.map (entrywiseHom (iterateFrobenius L 2 f))) :=
@@ -335,7 +336,7 @@ theorem chevTwoPClosureOddE7Four_holds : ChevTwoPClosureOddE7Four := by
     have hq2 : q.p = 2 := hdi
     have hord : orderOf ((q.card : ℕ) : ZMod p) = 4 := hF
     have hp3 : 3 < p := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hne : ((q.card : ℕ) : ZMod p) ≠ 0 := by
         intro h0
         rw [h0, orderOf_zero] at hord
@@ -346,7 +347,7 @@ theorem chevTwoPClosureOddE7Four_holds : ChevTwoPClosureOddE7Four := by
       omega
     obtain ⟨K, _, _, hK, hchK, ⟨eK⟩⟩ :=
       exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e7 q hv
-    haveI : CharP K 2 := hq2 ▸ hchK
+    have : CharP K 2 := hq2 ▸ hchK
     have hK2 : Nat.card K = 2 ^ q.exponent := by rw [hK, PrimePower.card_def, hq2]
     have hpq : (p : ℤ) ∣ (Nat.card K : ℤ) ^ 2 + 1 := by
       have h1 : p ∣ Nat.card K ^ 2 + 1 := by
@@ -358,7 +359,7 @@ theorem chevTwoPClosureOddE7Four_holds : ChevTwoPClosureOddE7Four := by
     let θ : L ≃* adjointGroup Tag.E7 K := e.trans eK
     refine PClosureOdd.of_mulEquiv θ.symm ?_
     intro d hd1 hdp
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact oddPCoreInClosure_E7_four K q.exponent_pos hK2 hp hp3 hpq (orderOf_eq_prime hdp hd1)
   | A _ _ => exact absurd hF (by simp [LieFamilyE7Four])
   | twistedA _ _ => exact absurd hF (by simp [LieFamilyE7Four])

@@ -15,14 +15,14 @@ variable {W : Type} [AddCommGroup W] [Module (ZMod 3) W] [FiniteDimensional (ZMo
 
 theorem fg_card_le_two_of_dim_one (hR : R.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) W = 1) (B : Subgroup (OGroup R)) : Nat.card B ≤ 2 := by
-  haveI : Finite (OGroup R) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (OGroup R) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   calc Nat.card B ≤ Nat.card (OGroup R) := Subgroup.card_le_card_group B
     _ = 2 := natCard_oGroup_one hR hdim
 
 theorem fg_mul_self_of_two_plus (hR : R.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) W = 2) (hs : quadSign R = 1) (g : OGroup R) :
     g * g = 1 := by
-  haveI : Finite (OGroup R) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (OGroup R) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   by_contra hgg
   have hcard : Nat.card (OGroup R) = 4 := natCard_oGroup_two_plus hR hdim hs
   have hnot2 : ¬ orderOf g ∣ 2 := by
@@ -43,7 +43,7 @@ theorem fg_mul_self_of_two_plus (hR : R.Nondegenerate)
     have hj2 : j = 2 := by omega
     rw [hjeq, hj2]
     norm_num
-  haveI : Finite (Subgroup.zpowers g) := Subtype.finite
+  have : Finite (Subgroup.zpowers g) := Subtype.finite
   have htop : Subgroup.zpowers g = ⊤ :=
     Subgroup.eq_top_of_card_eq _ (by rw [Nat.card_zpowers, hord, hcard])
   have hmem : piOrth R ∈ Subgroup.zpowers g := by
@@ -75,8 +75,8 @@ theorem fg_subgroup_two_plus (hR : R.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) W = 2) (hs : quadSign R = 1) (B : Subgroup (OGroup R)) :
     Nat.card B ≤ 2 ∨
       Nonempty (↥B ≃* Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) := by
-  haveI : Finite (OGroup R) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Nonempty ↥B := ⟨1⟩
+  have : Finite (OGroup R) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Nonempty ↥B := ⟨1⟩
   have hcard : Nat.card (OGroup R) = 4 := natCard_oGroup_two_plus hR hdim hs
   have hdvd : Nat.card B ∣ 4 := by
     rw [← hcard]
@@ -85,7 +85,7 @@ theorem fg_subgroup_two_plus (hR : R.Nondegenerate)
   · right
     have hsq : ∀ b : ↥B, b * b = 1 := fun b =>
       Subtype.ext (by simpa using fg_mul_self_of_two_plus hR hdim hs (b : OGroup R))
-    haveI : Nontrivial ↥B := by
+    have : Nontrivial ↥B := by
       rw [← Finite.one_lt_card_iff_nontrivial, hB4]
       norm_num
     have hexp_dvd : Monoid.exponent ↥B ∣ 2 :=
@@ -95,8 +95,8 @@ theorem fg_subgroup_two_plus (hR : R.Nondegenerate)
       rcases (Nat.dvd_prime Nat.prime_two).mp hexp_dvd with h | h
       · omega
       · exact h
-    haveI : IsKleinFour ↥B := ⟨hB4, hexp⟩
-    haveI : IsKleinFour (Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) :=
+    have : IsKleinFour ↥B := ⟨hB4, hexp⟩
+    have : IsKleinFour (Multiplicative (ZMod 2) × Multiplicative (ZMod 2)) :=
       inferInstanceAs (IsKleinFour (Multiplicative (ZMod 2 × ZMod 2)))
     exact IsKleinFour.nonempty_mulEquiv
   · left

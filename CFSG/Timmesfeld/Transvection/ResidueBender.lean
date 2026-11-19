@@ -926,7 +926,7 @@ theorem IsMaxFrame.residueGroup_quotient_psu3 (h : TransvectionHyp H Δ)
     (hns : ¬ IsSmallFrame Δ P Q k) :
     ∃ n : ℕ, 2 ≤ n ∧ (∀ A ∈ Δ, Nat.card A = 2 ^ n) ∧
       Nonempty (residueQuotient Δ P Q k ≃* CFSG.Theory.Comparator.PSU3Model n) := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   have hB := isBenderGroup_residueQuotient (Δ := Δ) (P := P) (Q := Q) (k := k) h.cls hML hF hq
   rcases hB with ⟨n, hn, e⟩ | ⟨a, ha, e⟩ | ⟨n, hn, e⟩
   · exact (false_of_psl2_case (Δ := Δ) (P := P) (Q := Q) (k := k) h.cls hML hF hq hns hn e).elim
@@ -946,7 +946,7 @@ theorem IsMaxFrame.map_mem_frameResidue_eq_center (h : TransvectionHyp H Δ)
           (QuotientGroup.mk' (Subgroup.center ↥(residueGroup Δ P Q k))) =
         (Subgroup.center (T : Subgroup (residueQuotient Δ P Q k))).map
           (T : Subgroup (residueQuotient Δ P Q k)).subtype := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   have hB := isBenderGroup_residueQuotient (Δ := Δ) (P := P) (Q := Q) (k := k) h.cls hML hF hq
   rcases hB with ⟨n, hn, e⟩ | ⟨a, ha, e⟩ | ⟨n, hn, e⟩
   · exact (false_of_psl2_case (Δ := Δ) (P := P) (Q := Q) (k := k) h.cls hML hF hq hns hn e).elim
@@ -959,7 +959,7 @@ theorem IsMaxFrame.ncard_frameResidue_eq (h : TransvectionHyp H Δ)
     (hML : MeetsLines Δ) (hq : ∀ A ∈ Δ, 4 ≤ Nat.card A) (hF : IsMaxFrame Δ P Q)
     (hns : ¬ IsSmallFrame Δ P Q k) :
     (frameResidue Δ P Q k).ncard = (Nat.card (P k)) ^ 3 + 1 := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   obtain ⟨n, hn, hcardΔ, ⟨e⟩⟩ := hF.residueGroup_quotient_psu3 h hML hq hns
   let Qq := residueQuotient Δ P Q k
   have hP : P k ∈ frameResidue Δ P Q k := hF.toIsFrame.memP_frameResidue k

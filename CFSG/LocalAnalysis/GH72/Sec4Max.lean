@@ -63,7 +63,7 @@ theorem isSylowOf_of_isMaxInvIn {p : ℕ} (hp : p.Prime) {A H P W : Subgroup G}
     have hmem := smul_mem_pointwise_smul x a (Q : Subgroup W) hx
     rwa [← Sylow.pointwise_smul_def, hQ a] at hmem
   have hQ'eq : Q' = P :=
-    hmax Q' ((map_subtype_le _).trans hWH) (Q.isPGroup'.map W.subtype) hAQ' hPQ'
+    hmax Q' ((map_subtype_le _).trans hWH) (Q.isPGroup.map W.subtype) hAQ' hPQ'
   exact hQ'eq ▸ ⟨Q, rfl⟩
 
 theorem le_sup_inf_centralizer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {A L J P : Subgroup G}

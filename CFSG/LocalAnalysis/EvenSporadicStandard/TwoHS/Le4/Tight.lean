@@ -41,7 +41,7 @@ theorem _root_.CFSG.EvenSporadicStandard.StdHyp.exists_tight_cyclic (h : StdHyp 
   have hsord : orderOf s = Nat.card S := by
     have h' := orderOf_eq_card_of_forall_mem_zpowers hgen
     rwa [Subgroup.orderOf_mk, hTcard] at h'
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp S.isPGroup
   have hn2 : 2 ≤ n := by
     by_contra hlt
     have h4 : 4 ≤ 2 ^ n := hn ▸ hS4

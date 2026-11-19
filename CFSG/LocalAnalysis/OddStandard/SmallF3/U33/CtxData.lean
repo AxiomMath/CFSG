@@ -71,7 +71,7 @@ theorem Ctx0.of_data {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
     (hS : S ≤ invCent t) (hS2 : IsPGroup 2 S) (hSodd : ¬ 2 ∣ S.relIndex (invCent t))
     (hST : twoCore t ⊔ wreathGrp x₁ x₂ lam ≤ S) :
     Ctx0 t L S x₁ x₂ lam rho := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTL : wreathGrp x₁ x₂ lam ≤ L := by
     rw [wreathGrp, Subgroup.closure_le]
     intro y hy
@@ -112,7 +112,7 @@ theorem Ctx0.of_data {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   have hP2group : IsPGroup 2 (twoCore t) :=
     (CFSG.pCore_isPGroup (p := 2) (G := ↥(invCent t))).map (invCent t).subtype
   have hPab : IsMulCommutative (twoCore t) := by
-    haveI := hH.isCyclic
+    have := hH.isCyclic
     infer_instance
   have hAab : IsMulCommutative (baseGrp x₁ x₂) := (hW.baseGrp_eq).1
   have hT2group : IsPGroup 2 (wreathGrp x₁ x₂ lam) :=

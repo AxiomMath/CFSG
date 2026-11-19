@@ -43,14 +43,14 @@ noncomputable def resB (hBE : B ≤ E) (u : MulAut ↥E)
     change ((g⁻¹ (g (embB hBE b)) : ↥E) : G) = (embB hBE b : G)
     have hc : g⁻¹ (g (embB hBE b)) = embB hBE b := by
       have h := congrArg (fun f : MulAut ↥E => f (embB hBE b)) (inv_mul_cancel g)
-      simpa [MulAut.mul_apply] using h
+      simp
     exact congrArg Subtype.val hc
   · intro b
     apply Subtype.ext
     change ((g (g⁻¹ (embB hBE b)) : ↥E) : G) = (embB hBE b : G)
     have hc : g (g⁻¹ (embB hBE b)) = embB hBE b := by
       have h := congrArg (fun f : MulAut ↥E => f (embB hBE b)) (mul_inv_cancel g)
-      simpa [MulAut.mul_apply] using h
+      simp
     exact congrArg Subtype.val hc
   · intro b₁ b₂
     apply Subtype.ext

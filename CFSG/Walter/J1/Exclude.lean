@@ -63,7 +63,7 @@ theorem card_oddPart_ne_125 {a b : G} (hT : IsFour a b) {A : Subgroup G} (hM : I
   rw [hA, ha] at hcard
   have hb : Nat.card (A ⊓ Subgroup.centralizer ({b} : Set G) : Subgroup G) = 5 := by
     rcases hb' with h1 | h1 | h1 <;> rcases hab' with h2 | h2 | h2 <;> rw [h1, h2] at hcard <;>
-      first | rfl | (exfalso; omega) | exact h1
+      first | (exfalso; omega) | exact h1
   have hab : Nat.card (A ⊓ Subgroup.centralizer ({a * b} : Set G) : Subgroup G) = 5 := by
     rw [hb] at hcard
     omega

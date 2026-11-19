@@ -115,12 +115,11 @@ private lemma exists_of_relations (A : Matrix (Fin 4) (Fin 4) K)
   refine ⟨X, ?_, ?_⟩
   · ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [X, szJ, Matrix.mul_apply, Fin.sum_univ_four, Matrix.vecMul_apply, dotProduct]
+      simp [X, szJ, Matrix.mul_apply, Fin.sum_univ_four]
   · ext i j
     fin_cases i <;> fin_cases j
     all_goals
-      simp [X, szX₀, Matrix.mul_apply, Fin.sum_univ_four, Matrix.vecMul_apply, dotProduct,
-        CharTwo.add_self_eq_zero]
+      simp [X, szX₀, CharTwo.add_self_eq_zero]
     all_goals
         first
         | (linear_combination (norm := char2_finish); done)
@@ -132,7 +131,7 @@ private lemma exists_of_relations (A : Matrix (Fin 4) (Fin 4) K)
         | (linear_combination (norm := char2_finish) (r1 + r2); done)
         | (linear_combination (norm := char2_finish) r8; done)
         | (linear_combination (norm := char2_finish) r7; done)
-        | (linear_combination (norm := char2_finish) (r5 + r7); done)
+        | (linear_combination (norm := char2_finish) (r5 + r7))
 
 theorem exists_szTwo_coboundary (A : Matrix (Fin 4) (Fin 4) K)
     (h4 : A * szX₀ ^ 3 + szX₀ * A * szX₀ ^ 2 + szX₀ ^ 2 * A * szX₀ +

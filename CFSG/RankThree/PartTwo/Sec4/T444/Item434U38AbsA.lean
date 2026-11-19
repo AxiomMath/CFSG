@@ -11,6 +11,7 @@ namespace CFSG.RankThree.PartTwo.Sec4.Item434U38
 
 variable {H : Type*} [Group H] [Finite H] {Ω : Type*} [Finite Ω] [MulAction H Ω]
 
+omit [Finite H] in
 theorem isPretransitive_of_two_transitive (hΩ : 2 ≤ Nat.card Ω)
     (h2 : ∀ a b a' b' : Ω, a ≠ b → a' ≠ b' → ∃ g : H, g • a = a' ∧ g • b = b') :
     MulAction.IsPretransitive H Ω := by
@@ -23,6 +24,7 @@ theorem isPretransitive_of_two_transitive (hΩ : 2 ≤ Nat.card Ω)
   obtain ⟨g, hg, -⟩ := h2 a c b d hc.symm hd.symm
   exact ⟨g, hg⟩
 
+omit [Finite H] [Finite Ω] in
 theorem card_stabilizer_mul_card (htrans : MulAction.IsPretransitive H Ω) (a : Ω) :
     Nat.card (MulAction.stabilizer H a) * Nat.card Ω = Nat.card H := by
   have h1 : (MulAction.stabilizer H a).index = Nat.card Ω :=
@@ -32,6 +34,7 @@ theorem card_stabilizer_mul_card (htrans : MulAction.IsPretransitive H Ω) (a : 
   rw [h1] at h2
   exact h2
 
+omit [Finite H] [Finite Ω] in
 theorem card_stabilizer_stabilizer_eq (a b : Ω) :
     Nat.card (MulAction.stabilizer (MulAction.stabilizer H a) b) =
       Nat.card (MulAction.stabilizer H a ⊓ MulAction.stabilizer H b : Subgroup H) := by
@@ -44,6 +47,7 @@ theorem card_stabilizer_stabilizer_eq (a b : Ω) :
       left_inv := fun x => rfl
       right_inv := fun y => rfl }
 
+omit [Finite H] in
 theorem card_stabilizer_eq_mul
     (h2 : ∀ a b a' b' : Ω, a ≠ b → a' ≠ b' → ∃ g : H, g • a = a' ∧ g • b = b')
     {a b : Ω} (hab : a ≠ b) :
@@ -65,6 +69,7 @@ theorem card_stabilizer_eq_mul
   rw [hidx, horb, Set.ncard_compl ({a} : Set Ω), Set.ncard_singleton] at hcm
   exact hcm.symm
 
+omit [Finite H] in
 theorem card_pairStabilizer
     (h2 : ∀ a b a' b' : Ω, a ≠ b → a' ≠ b' → ∃ g : H, g • a = a' ∧ g • b = b')
     {a b : Ω} (hab : a ≠ b) :
@@ -74,14 +79,14 @@ theorem card_pairStabilizer
   have h2le : 2 ≤ Nat.card Ω := by
     have := (Finite.one_lt_card_iff_nontrivial).mpr hnt
     omega
-  haveI htrans : MulAction.IsPretransitive H Ω := isPretransitive_of_two_transitive h2le h2
+  have htrans : MulAction.IsPretransitive H Ω := isPretransitive_of_two_transitive h2le h2
   have hsm := card_stabilizer_mul_card htrans a
   have hK := card_stabilizer_eq_mul h2 hab
   have hstab := card_stabilizer_stabilizer_eq (H := H) a b
   rw [← hsm, hK, hstab]
 
 theorem factorization_193536 : (193536 : ℕ).factorization 3 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Nat.factorization_def _ Nat.prime_three,
     show (193536 : ℕ) = 3 ^ 3 * 7168 by norm_num,
     padicValNat.mul (by norm_num) (by norm_num), padicValNat.prime_pow,
@@ -90,13 +95,13 @@ theorem factorization_193536 : (193536 : ℕ).factorization 3 = 3 := by
 theorem no_sylow_contra {G : Type*} [Group G] [Finite G] (hG : Nat.card G = 193536)
     {Ein : Subgroup G} (hEin : ∀ x ∈ Ein, x ^ 3 = 1) (hEin27 : Nat.card Ein = 27)
     {Y : G} (hY : orderOf Y = 9) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfac : (Nat.card G).factorization 3 = 3 := by
     rw [hG]
     exact factorization_193536
-  let Ein' : Sylow 3 G := Sylow.ofCard Ein (by rw [hEin27, hfac] <;> norm_num)
+  let Ein' : Sylow 3 G := Sylow.ofCard Ein (by rw [hEin27, hfac]; norm_num)
   have hpg : IsPGroup 3 (Subgroup.zpowers Y) :=
-    (IsPGroup.iff_card).mpr ⟨2, by rw [Nat.card_zpowers, hY] <;> norm_num⟩
+    (IsPGroup.iff_card).mpr ⟨2, by rw [Nat.card_zpowers, hY]; norm_num⟩
   obtain ⟨P, hP⟩ := IsPGroup.exists_le_sylow hpg
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq G Ein' P
   have h1 : ((c • Ein' : Sylow 3 G) : Subgroup G) = (P : Subgroup G) := by rw [hc]
@@ -112,6 +117,7 @@ theorem no_sylow_contra {G : Type*} [Group G] [Finite G] (hG : Nat.card G = 1935
   rw [hY] at hdvd
   norm_num at hdvd
 
+omit [Finite Ω] in
 theorem no_E27_fixes_point
     (hΩ : Nat.card Ω = 513) (hH : Nat.card H = 99283968)
     (htrans : MulAction.IsPretransitive H Ω)

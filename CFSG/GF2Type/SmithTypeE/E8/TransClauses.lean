@@ -30,8 +30,8 @@ section Ext
 theorem twoRankMbar8_of_equiv {S : Setting G} (ψ : S.Mbar ≃* ↥(adjointGroup .E7 (ZMod 2))) :
     TwoRankMbar8 S := by
   intro E hE hel
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hel
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hel
   by_contra hlt
   push Not at hlt
   have h1 : CFSG.IsElementaryAbelian 2 (E.subgroupOf S.Mbar) :=
@@ -51,7 +51,7 @@ theorem twoRankMbar8_of_equiv {S : Setting G} (ψ : S.Mbar ≃* ↥(adjointGroup
       Subgroup.card_map_of_injective ψ.injective,
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hE).toEquiv]
     exact hlt.le
-  haveI := h3
+  have := h3
   obtain ⟨g, hg, hgE⟩ := abelian_conj_QA_of_sq _ hEle
     (fun a ha b hb => by
       have := (IsMulCommutative.is_comm (M := ↥(((E.subgroupOf S.Mbar).map ψ.toMonoidHom).map

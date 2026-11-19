@@ -44,7 +44,7 @@ private lemma lea12e_isInner_of_card_two
   obtain ⟨-, Θ, -, -, hΘker, -⟩ :=
     even_E7_E8_exact_inner_field_automorphism_normal_form (f := 1) (by norm_num) K
       (by simpa using hK) τ (Or.inl hτ)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsub : Subsingleton (K ≃+* K) :=
     CFSG.RankThree.PartOne.CTP.subsingleton_ringEquiv_of_card_eq_prime (p := 2) hK
   have h1 : Θ α = 1 := Subsingleton.elim _ _
@@ -129,9 +129,9 @@ theorem k0_exists_modelAction_eq_E7
       (S := A.setup) hτ (f := 1) hq
       (CFSG.StandardType.GGK0LQ.lq_setup_isAlgebraic hAlg A)
       (Fr := A.fr) (by intro c; rw [A.fr_eq, A.q_eq]) hΦ
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  letI : Algebra K Omega := hKalgebra
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  let : Algebra K Omega := hKalgebra
   have hK2 : Nat.card K = 2 := by
     rw [hKcard, hq]
     norm_num

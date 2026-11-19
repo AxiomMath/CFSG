@@ -73,7 +73,7 @@ theorem le_normalizer_sup_sSup_of {A : Subgroup G} {a : G}
 section Certificates
 
 theorem map_mem_lbMembers_or_single (h134 : Item134) {A L : Subgroup G} {c a : G}
-    (hS : Sec14Std G A c L) (ha : a ∈ A) (ha1 : a ≠ 1) (hΩ : Subgroup.zpowers a ∉ omegaA A)
+    (hS : Sec14Std G A c L) (ha : a ∈ A) (ha1 : a ≠ 1) (_hΩ : Subgroup.zpowers a ∉ omegaA A)
     (hII : ∀ (D : Subgroup G) (b d : G) (Lb : Subgroup G), IsHyperplane A D → a ∈ D →
       IsLBConfig A D b d Lb → Subgroup.zpowers a = Subgroup.zpowers d)
     {K : Subgroup G} (hKX : K ∈ lbMembers A a) {g : G}

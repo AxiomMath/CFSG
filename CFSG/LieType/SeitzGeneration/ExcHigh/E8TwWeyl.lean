@@ -36,7 +36,7 @@ theorem sl2_rigid {K L G : Type*} [Field K] [Field L] [Group G] {R : SL2 L →* 
         CFSG.LieType.Steinberg.sl2Lower (-1) * CFSG.LieType.Steinberg.sl2Upper 1) := by
     ext i j
     simp only [Matrix.SpecialLinearGroup.coe_mul, coe_sl2Upper', coe_sl2Lower']
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
   have e1 : R (uSL a * vSL (-b) * uSL a * uSL a) = R (vSL (-b) * (uSL a * vSL (-b) * uSL a)) := by
     simpa only [map_mul, hu, hl, map_one, map_neg, mul_one, mul_neg] using congrArg φ hw
   have hLm : ((uSL a * vSL (-b) * uSL a * uSL a : SL2 L) : Matrix (Fin 2) (Fin 2) L) =
@@ -63,7 +63,7 @@ end Rigid
 theorem simpleRootSL2_injective_E8 (L : Type) [Field L] (i : Fin Tag.E8.rank) :
     Function.Injective (simpleRootSL2 Tag.E8 L i) := by
   by_cases h : ringChar L = 2
-  · haveI : CharP L 2 := ringChar.of_eq h
+  · have : CharP L 2 := ringChar.of_eq h
     exact CFSG.RankThree.Chevalley.simpleRootSL2_injective_of_charTwo i
   · exact simpleRootSL2_injective h i
 

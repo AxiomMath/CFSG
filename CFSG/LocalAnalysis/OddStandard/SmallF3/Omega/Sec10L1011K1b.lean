@@ -15,6 +15,7 @@ private instance instDecidableIsEvenVec5b (v : Fin 5 → ZMod 2) : Decidable (Is
   unfold IsEvenVec
   infer_instance
 
+omit [Finite A] in
 private lemma sec1011_alpha_wfour_nonzero (h : Sec1011A1 B t K φ) (α : ↥K) :
     ∃ w, IsEvenVec w ∧ w ≠ 0 ∧ φ w = (α : MulAut A) (φ (sec1011_wfour 0)) := by
   have hv0 : IsEvenVec (sec1011_wfour 0) := sec1011_wfour_even 0
@@ -32,6 +33,7 @@ private lemma sec1011_alpha_wfour_nonzero (h : Sec1011A1 B t K φ) (α : ↥K) :
     simpa using h2'
   exact h.core.ne_one hv0 (sec1011_wfour_ne_zero' 0) hz1
 
+omit [Finite A] in
 private lemma sec1011_orbit_nonzero_even (h : Sec1011A1 B t K φ) (α : ↥K)
     (w : Fin 5 → ZMod 2) (hw : IsEvenVec w) (hwt : vecWeight w = 2)
     (hφw : φ w = (α : MulAut A) (φ (sec1011_wfour 0))) :
@@ -95,6 +97,7 @@ private lemma sec1011_orbit_nonzero_even (h : Sec1011A1 B t K φ) (α : ↥K)
   rintro a ⟨u, hu, hu0, rfl⟩
   exact (hPall u hu hu0).2.2
 
+omit [Finite A] in
 private lemma sec1011_card_orbit_of_eq (h : Sec1011A1 B t K φ)
     (hset : (MulAction.orbit ↥K (φ (sec1011_wfour 0)) : Set A) =
       {a | ∃ u, IsEvenVec u ∧ u ≠ 0 ∧ a = φ u}) :
@@ -119,6 +122,7 @@ private lemma sec1011_card_orbit_of_eq (h : Sec1011A1 B t K φ)
   rw [← hc, Nat.card_eq_fintype_card]
   decide +kernel
 
+omit [Finite A] in
 theorem Sec1011A1.W4_stable (h : Sec1011A1 B t K φ) :
     ∀ α ∈ K, ∀ i : Fin 5, ∃ j : Fin 5, α (φ (sec1011_wfour i)) = φ (sec1011_wfour j) := by
   have hnot3 : ¬ (3 : ℕ) ∣ Nat.card (MulAction.orbit ↥K (φ (sec1011_wfour 0))) := by
@@ -184,6 +188,7 @@ private noncomputable def sec1011_theta (h : Sec1011A1 B t K φ) (α : ↥K) :
     exact congrArg (fun k => φ (sec1011_wfour k)) hij
   Equiv.ofBijective f ⟨hf, (Finite.injective_iff_surjective).mp hf⟩
 
+omit [Finite A] in
 private lemma sec1011_theta_spec (h : Sec1011A1 B t K φ) (α : ↥K) (i : Fin 5) :
     (α : MulAut A) (φ (sec1011_wfour i)) =
       φ (sec1011_wfour ((sec1011_theta h α) i)) :=

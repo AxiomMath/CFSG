@@ -31,7 +31,7 @@ theorem exists_surjective_factor
   let rho := toPermHom (sylowNormalizer X P s S) F
   let sigma := NormalizerOrbitFamily.toPermHom (X := X) Q 7
   obtain ⟨hF,hAlt⟩ := Degree79SevenFixed.fixed_card_and_alternating P hcard h5 hnotAlt s hs S hS
-  have hQ : IsPGroup 7 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 7 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hcommon : Nat.card (fixedPoints Q X) = 9 := by
     rw [← FixedNormalizerAction.fixed_eq Q]
     exact hF
@@ -57,7 +57,7 @@ theorem exists_five_with_label_order
   let rho := toPermHom (sylowNormalizer X P s S) F
   let sigma := NormalizerOrbitFamily.toPermHom (X := X) Q 7
   obtain ⟨hF,hAlt⟩ := Degree79SevenFixed.fixed_card_and_alternating P hcard h5 hnotAlt s hs S hS
-  have hQ : IsPGroup 7 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 7 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hcommon : Nat.card (fixedPoints Q X) = 9 := by
     rw [← FixedNormalizerAction.fixed_eq Q]
     exact hF

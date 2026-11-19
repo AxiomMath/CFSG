@@ -110,7 +110,7 @@ theorem EndHyp.exists_conj_mem_K [Finite G] (h : EndHyp G Ω p ω K P) {g : G} {
   have : Fact r.Prime := ⟨hr⟩
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow r K))
   set Q' : Subgroup G := (Q : Subgroup K).map K.subtype with hQ'
-  have hQ'p : IsPGroup r Q' := Q.isPGroup'.map K.subtype
+  have hQ'p : IsPGroup r Q' := Q.isPGroup.map K.subtype
   have hKidx : K.index = 2 ^ p * p := by
     have hG := h.card_group
     rw [← Subgroup.card_mul_index K, h.card_K] at hG

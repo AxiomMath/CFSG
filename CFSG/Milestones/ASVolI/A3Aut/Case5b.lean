@@ -31,7 +31,7 @@ theorem burnsideAut_oddPart_le (Φ : Subgroup A) (hΦ : ∀ x ∈ Φ, ∀ y ∈ 
 
 theorem burnsideAut_oddPart_odd [Finite A] (Φ : Subgroup A)
     (hΦ : ∀ x ∈ Φ, ∀ y ∈ Φ, x * y = y * x) : Odd (Nat.card (burnsideAut_oddPart Φ hΦ)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← Nat.not_even_iff_odd, even_iff_two_dvd]
   intro h2
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(burnsideAut_oddPart Φ hΦ)) 2 h2
@@ -122,8 +122,8 @@ theorem burnsideAut_case5_of_model2 {L T B : Subgroup G}
           IM.map (MulAut.congr ε.symm).toMonoidHom) →
         IsCyclic F ∧ Nat.card F ∣ n ∧ ChA.A315PinnedFieldGroup n ↥L ((T ⊓ L).subgroupOf L) F) :
     ChA.A315Case5Concrete L T B := by
-  haveI := h.sqtk.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.sqtk.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set α : G →* MulAut ↥L := MulAut.conjNormal with hα
   have hαinj : Function.Injective α := burnsideAut_conjNormal_injective h
   set S : Subgroup ↥L := (T ⊓ L).subgroupOf L with hS
@@ -171,7 +171,7 @@ theorem burnsideAut_case5_of_model2 {L T B : Subgroup G}
     rw [this, map_one]
     exact Subgroup.one_mem _
   have hΦ₁J : Φ₁ ≤ Subgroup.normalizer (J : Set (MulAut ↥L)) := by
-    haveI := burnsideAut_innDiag_normal ↥L
+    have := burnsideAut_innDiag_normal ↥L
     rw [Subgroup.normalizer_eq_top]
     exact le_top
   have hΦ₁S : Φ₁ ≤ Subgroup.normalizer (Sb : Set (MulAut ↥L)) := by
@@ -227,7 +227,7 @@ theorem burnsideAut_case5_of_model2 {L T B : Subgroup G}
     exact h.odd
   obtain ⟨χ, ⟨hχIΦ, hχN⟩, F, H, hFΦ, hFdvd, hFS, hFH, hcart, heq, hle, hFI⟩ :=
     burnsideAut_case5_core2 hSbLb hLbI hIJ' hΦ₁I hIΦ₁ hΦ₁J hΦ₁S hΦ₁odd hSb2 hSbI hBΦ hBS hBodd
-  haveI : IsSimpleGroup ↥L := h.simple
+  have : IsSimpleGroup ↥L := h.simple
   have hLZ : Subgroup.center ↥L = ⊥ := burnsideAut_center_eq_bot h.nonabelian
   have hcL : Function.Injective (MulAut.conj : ↥L →* MulAut ↥L) :=
     burnsideAut_conj_injective_of_center hLZ

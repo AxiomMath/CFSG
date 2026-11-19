@@ -35,7 +35,7 @@ theorem commute_of_inf_eq_bot {π : Bool} {ν : ↥(slPi π 3 (p ^ f) K) →* �
 theorem caseA_uni (hUni : KD292UniOuter3) {ν : ↥(slPi false 3 (p ^ f) K) →* ↥L}
     (cfg : LinUniCfgThree L x Px B) (S : ShapeThree L x B false p f K ν y) {T : Subgroup X}
     (hT : IsPGroup 2 T) (hcomm : ∀ t ∈ T, t * x = x * t) (hTL : T ⊓ L = ⊥) : T = ⊥ := by
-  haveI : L.Normal := cfg.setup.normal
+  have : L.Normal := cfg.setup.normal
   have M := S.model
   let e : ↥(slPi false 3 (p ^ f) K) ≃* ↥L := MulEquiv.ofBijective ν ⟨S.inj, M.surj⟩
   let Φ : X →* MulAut ↥(slPi false 3 (p ^ f) K) :=
@@ -79,7 +79,7 @@ theorem caseA_lin (hLin : KD292ThreeFrameLin3) {ν : ↥(slPi true 3 (p ^ f) K) 
     (cfg : LinUniCfgThree L x Px B) (S : ShapeThree L x B true p f K ν y) {T : Subgroup X}
     (hT : IsPGroup 2 T) (hcomm : ∀ t ∈ T, t * x = x * t) :
     ∃ v : Fin 3 → K, v ≠ 0 ∧ T ≤ normalizer (threeFrameIn ν y v : Set X) := by
-  haveI : L.Normal := cfg.setup.normal
+  have : L.Normal := cfg.setup.normal
   obtain ⟨ha, hodd⟩ :=
     hLin p f K y S.model.piField S.model.modThree S.model.two_lt S.typeThree
   rw [← card_candsX S.model S.inj S.lift] at hodd

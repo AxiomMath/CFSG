@@ -44,7 +44,7 @@ theorem N_norm_Z_422 {n : G} (hn : n ∈ S.N) {z : G} (hz : z ∈ S.Z) : n * z *
 theorem B_conj_422 {n : G} (hn : n ∈ S.N) (h2 : (S.rhoG n).2 = 1) (hc : Commute (S.rhoG n).1 S.g) :
     ∀ b ∈ S.B, n * b * n⁻¹ ∈ S.B := by
   intro b hb
-  have hbm := (S.hD.mem_B_iff S.hxN S.hxa S.hx3).1 hb
+  have hbm := (S.hD.mem_B_iff S.hxN S.hxa).1 hb
   have hbZ : b ∈ S.A ⊓ S.A' := hbm.1
   have hnZ : n * b * n⁻¹ ∈ S.A ⊓ S.A' := S.N_norm_Z_422 hn hbZ
   have hm := S.m_conj_422 hn hbZ
@@ -53,7 +53,7 @@ theorem B_conj_422 {n : G} (hn : n ∈ S.N) (h2 : (S.rhoG n).2 = 1) (hc : Commut
   have hPg : ((S.rhoG n).1 : M2) * (S.g : M2) = (S.g : M2) * ((S.rhoG n).1 : M2) := by
     have h := congrArg Units.val hc.eq
     rwa [Units.val_mul, Units.val_mul] at h
-  refine (S.hD.mem_B_iff S.hxN S.hxa S.hx3).2 ⟨hnZ, ?_⟩
+  refine (S.hD.mem_B_iff S.hxN S.hxa).2 ⟨hnZ, ?_⟩
   rw [hm]
   have hcm : (S.g : M2) * S.m b = S.m b * (S.g : M2) := hbm.2
   calc (S.g : M2) * (((S.rhoG n).1 : M2) * S.m b)
@@ -151,6 +151,7 @@ theorem E_bwd_422 {y₁ : G} (hy3 : y₁ ^ 3 = 1) {g : G}
   rw [hW]
   exact hfwd _ (hfwd e he)
 
+omit [Finite G] in
 theorem comm_conj_iff_422 {g z y₁ : G} :
     (g * z * g⁻¹) * y₁ = y₁ * (g * z * g⁻¹) ↔ z * (g⁻¹ * y₁ * g) = (g⁻¹ * y₁ * g) * z := by
   constructor
@@ -282,7 +283,7 @@ theorem R_le_conjZ_422 {y₁ y₂ : G} (hZm : S.StepZmat y₁ y₂) (hn : y₁ �
   have hCZ := S.card_Z_centralizer_422 hyN hyZ
   have hτCE : τ ∈ S.conjZ_422 g ⊓ centralizer ({y₁} : Set G) :=
     Subgroup.mem_inf.mpr ⟨hτ, (Subgroup.mem_inf.mp hτR).2⟩
-  haveI : Nontrivial ↥(S.conjZ_422 g ⊓ centralizer ({y₁} : Set G)) :=
+  have : Nontrivial ↥(S.conjZ_422 g ⊓ centralizer ({y₁} : Set G)) :=
     ⟨⟨⟨τ, hτCE⟩, 1, fun h => hτ1 (congrArg Subtype.val h)⟩⟩
   have hgt : 1 < Nat.card ↥(S.conjZ_422 g ⊓ centralizer ({y₁} : Set G)) := Finite.one_lt_card
   have hcount : Nat.card ↥(S.conjZ_422 g ⊓ centralizer ({y₁} : Set G)) = 4 := by

@@ -24,17 +24,19 @@ variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y} {x : Y}
   one_mem' := ⟨W.one_mem, one_pow p⟩
   inv_mem' := fun {a} ha => ⟨W.inv_mem ha.1, by rw [inv_pow, ha.2, inv_one]⟩
 
+omit [Finite Y] in
 theorem omega1_le {W : Subgroup Y} {hW : ∀ w ∈ W, ∀ w' ∈ W, w * w' = w' * w} :
     omega1 p W hW ≤ W := fun _ hw => hw.1
 
+omit [Finite Y] in
 theorem isElemAbelian_omega1 {W : Subgroup Y} {hW : ∀ w ∈ W, ∀ w' ∈ W, w * w' = w' * w} :
     IsElemAbelian p (omega1 p W hW) :=
   (CFSG.GH74.Uniqueness.SU.SU1.isElemAbelian_iff).2
-    ⟨fun a ha b hb => hW a ha.1 b hb.1, fun a ha => ha.2⟩
+    ⟨fun _a ha b hb => hW _a ha.1 b hb.1, fun _a ha => ha.2⟩
 
 theorem comm_comp (h : SplitCfg p P x) (C : ComponentIndex Y) :
     ∀ a ∈ P ⊓ C.1, ∀ b ∈ P ⊓ C.1, a * b = b * a := fun a ha b hb => by
-  haveI := h.cyclic C
+  have := h.cyclic C
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥(P ⊓ C.1)) ⟨b, hb⟩)
 
 @[expose] def omegaComp (h : SplitCfg p P x) (C : ComponentIndex Y) : Subgroup Y :=
@@ -48,7 +50,7 @@ theorem mem_omegaComp {h : SplitCfg p P x} {C : ComponentIndex Y} {t : Y} :
 
 theorem card_omegaComp (h : SplitCfg p P x) (C : ComponentIndex Y) :
     Nat.card (omegaComp h C) = p := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   apply le_antisymm
   · exact card_le_comp h C ((omegaComp_le h C).trans inf_le_right) isElemAbelian_omega1
   · obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥(P ⊓ C.1)) p (dvd_inf_comp h C)
@@ -61,13 +63,13 @@ theorem card_omegaComp (h : SplitCfg p P x) (C : ComponentIndex Y) :
 
 theorem omegaComp_central (h : SplitCfg p P x) (C : ComponentIndex Y) {n q : Y}
     (hn : n ∈ omegaComp h C) (hq : q ∈ compKer P) : q * n = n * q := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : Fact (IsPGroup p ↥(compKer P)) := ⟨h.sylow.isPGroup.to_le compKer_le⟩
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : Fact (IsPGroup p ↥(compKer P)) := ⟨h.sylow.isPGroup.to_le compKer_le⟩
   have hNQ : omegaComp h C ≤ compKer P :=
     ((omegaComp_le h C).trans (inf_le_inf_left P (component_le_layer C.2))).trans
       layer_inf_le_compKer
   let N : Subgroup ↥(compKer P) := (omegaComp h C).subgroupOf (compKer P)
-  haveI : N.Normal := ⟨fun n' hn' g => by
+  have : N.Normal := ⟨fun n' hn' g => by
     have hn'' : (n' : Y) ∈ omegaComp h C := hn'
     refine Subgroup.mem_subgroupOf.mpr (mem_omegaComp.mpr ⟨⟨?_, ?_⟩, ?_⟩)
     · exact P.mul_mem (P.mul_mem (compKer_le g.2) (omegaComp_le h C hn'').1)
@@ -100,7 +102,7 @@ theorem Vsub_le : Vsub p P ≤ P ⊓ layer Y := fun _ ha => ha.1
 
 theorem isElemAbelian_Vsub : IsElemAbelian p (Vsub p P) :=
   (CFSG.GH74.Uniqueness.SU.SU1.isElemAbelian_iff).2
-    ⟨fun a ha b hb => hb.2.2 a (layer_inf_le_compKer ha.1), fun a ha => ha.2.1⟩
+    ⟨fun _a ha _b hb => hb.2.2 _a (layer_inf_le_compKer ha.1), fun _a ha => ha.2.1⟩
 
 theorem conj_mem_Vsub {g v : Y} (hg : g ∈ P) (hv : v ∈ Vsub p P) : g * v * g⁻¹ ∈ Vsub p P := by
   refine ⟨⟨P.mul_mem (P.mul_mem hg hv.1.1) (P.inv_mem hg), ?_⟩, ?_, fun q hq => ?_⟩
@@ -154,11 +156,11 @@ theorem W_eq_bot (h : SplitCfg p P x) {W : Subgroup Y} (hWQ : W ≤ compKer P)
     (hWx : ∀ w ∈ W, x * w * x⁻¹ ∈ W) (hWc : ∀ w ∈ W, ∀ w' ∈ W, w * w' = w' * w)
     (hWA : ∀ a ∈ P ⊓ layer Y, a ∈ W → a = 1) : W = ⊥ := by
   by_contra hne
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hp := h.prime
   have hWP : W ≤ P := hWQ.trans compKer_le
   obtain ⟨w0, hw0W, hw0p, hw01⟩ : ∃ w0 ∈ W, w0 ^ p = 1 ∧ w0 ≠ 1 := by
-    haveI : Nontrivial ↥W := (Subgroup.nontrivial_iff_ne_bot W).2 hne
+    have : Nontrivial ↥W := (Subgroup.nontrivial_iff_ne_bot W).2 hne
     have hWp : IsPGroup p ↥W := h.sylow.isPGroup.to_le hWP
     obtain ⟨m, hm, hmcard⟩ := hWp.nontrivial_iff_card.mp inferInstance
     have hdvd : p ∣ Nat.card ↥W := hmcard ▸ dvd_pow_self p hm.ne'

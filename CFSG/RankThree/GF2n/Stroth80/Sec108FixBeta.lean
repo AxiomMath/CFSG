@@ -26,8 +26,8 @@ private theorem bV_sum_ne_zero (D : Sec108Data hc t Y)
     simpa using hb
   have hrepr := congrArg (fun v : ↥(AM.Vsp hc t) => (D.bV AM).coord i v) hzero
   simp only [map_sum, map_smul, Module.Basis.coord_apply, Module.Basis.repr_self,
-    Finsupp.smul_apply, Finsupp.single_apply, smul_eq_mul, map_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true, mul_ite, mul_one, mul_zero] at hrepr
+    Finsupp.single_apply, smul_eq_mul, map_zero,
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true, mul_ite, mul_one, mul_zero] at hrepr
   simpa using hrepr
 
 private theorem phi_bV_sum_eq_self (D : Sec108Data hc t Y)

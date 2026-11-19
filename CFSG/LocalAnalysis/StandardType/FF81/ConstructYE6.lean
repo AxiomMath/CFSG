@@ -498,7 +498,7 @@ theorem FrameSystem.yData_e6 (hC : CurtisA2) (hA : HypA G 5 b L) (hF : FrameSyst
     apply Subtype.ext
     have h := posUnipotent_le_centralizer_highRoot (τ := .E6) F2 ((hS0 s).1 hs)
     exact (Subgroup.mem_centralizer_iff.1 h _ hθroot).symm
-  refine ⟨(S0 : Subgroup EC).map φ, ⟨?_, S0.isPGroup'.map φ, fun T' hT'Y hT'p hle => ?_⟩,
+  refine ⟨(S0 : Subgroup EC).map φ, ⟨?_, S0.isPGroup.map φ, fun T' hT'Y hT'p hle => ?_⟩,
     ⟨_, (hS0 _).2 hθU, hφx⟩, hF.ord_t, ?_⟩
   · rw [← hφrange]
     exact Subgroup.map_le_range φ _

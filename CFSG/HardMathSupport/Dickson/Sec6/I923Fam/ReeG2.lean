@@ -39,9 +39,9 @@ theorem noL2Layer_reeGammaFieldAut_G2 (hO : ComponentClassification.CatLeaf.LieO
           (ReeTag.G2.reeGamma F a).subtype =
         (ReeTag.G2.reeGamma (fixSubfield σ) b).map (baseChangeGL (fixSubfield σ).subtype)) :
     NoL2Layer (ReeTag.G2.reeGammaFieldAut F a σ) := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP ↥(fixSubfield σ) ReeTag.G2.prime :=
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP ↥(fixSubfield σ) ReeTag.G2.prime :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_three
       (by omega) hk
   let C : Subgroup ↥(ReeTag.G2.reeGamma F a) :=
@@ -65,7 +65,7 @@ theorem noL2Layer_reeGammaFieldAut_G2 (hO : ComponentClassification.CatLeaf.LieO
     ReeTag.center_reeGamma_G2_eq_bot hk
   have hX : LieModel ↥(ReeTag.G2.reeGamma (fixSubfield σ) b) .twistedG2 0 3 (2 * b + 1) :=
     Or.inr (Or.inr (Or.inl ⟨rfl, by decide, hrel⟩))
-  haveI : Nontrivial ↥(ReeTag.G2.reeGamma (fixSubfield σ) b) := hsimp.toNontrivial
+  have : Nontrivial ↥(ReeTag.G2.reeGamma (fixSubfield σ) b) := hsimp.toNontrivial
   exact noL2Layer_of_fixed_equiv _ eC hsimp (exists_noncomm_of_center_bot hZ) fun r hr =>
     not_typeL2_of_lieModel hO hX.admissible hX (by decide) (by decide) hZ hr
 
@@ -114,7 +114,7 @@ theorem noL2OuterAt_reeg2 (hO : ComponentClassification.CatLeaf.LieOrderFormulas
   have hF' : Nat.card F = 3 ^ (2 * a + 1) := hfa ▸ hF
   obtain ⟨e₂⟩ := nonempty_derivedCentralQuotient_reeGamma_G2 (K := F) ha hF'
   let e := e₁.trans e₂
-  haveI : Finite ↥(ReeTag.G2.reeGamma F a) := Finite.of_equiv P e.toEquiv
+  have : Finite ↥(ReeTag.G2.reeGamma F a) := Finite.of_equiv P e.toEquiv
   have hβ3 : MulAut.congr e ψ ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]
   have hβinn : MulAut.congr e ψ ∉ inner ↥(ReeTag.G2.reeGamma F a) := fun hin =>
     hψ ((congr_mem_inner_iff_of_equiv e ψ).mp hin)

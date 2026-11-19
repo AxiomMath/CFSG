@@ -68,7 +68,7 @@ theorem rk_fixV_rTr (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
         apply Subtype.ext
         apply mat_injective
         ext i j
-        fin_cases i <;> fin_cases j <;> simp [mk, mat_mkH, h21, h22, h12, h02, h10, h20]
+        fin_cases i <;> fin_cases j <;> simp [mk, mat_mkH, h21, h22, h12, h10, h20]
       right_inv := fun p => by
         simp [mk, mat_mkH] }
   have h5 : 2 ^ n * (2 ^ n * ((2 ^ n) ^ 2 * 2 ^ n)) = 2 ^ (5 * n) := by ring

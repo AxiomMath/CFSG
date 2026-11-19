@@ -35,6 +35,7 @@ structure Br2RadY (T L Q₁ Q₂ : Subgroup (LGL 2 V)) : Prop where
     (⨆ p ∈ L ⊓ Subgroup.normalizer (Q₂ : Set (LGL 2 V)), cj p E) = Q₂
   swap : ∃ τ ∈ T, cj τ Q₁ = Q₂ ∧ cj τ Q₂ = Q₁
 
+omit [Finite V] in
 theorem Br2RadY.symm {T L Q₁ Q₂ : Subgroup (LGL 2 V)} (h : Br2RadY T L Q₁ Q₂) :
     Br2RadY T L Q₂ Q₁ := by
   refine
@@ -71,9 +72,11 @@ private def w183b2_stabPt (U : Submodule (ZMod 2) V) : Subgroup (LGL 2 V) where
     rw [hb u hu, ha u hu]
   inv_mem' := fun {a} ha u hu => a.symm_apply_eq.mpr (ha u hu).symm
 
+omit [Finite V] in
 private theorem w183b2_mem_stabPt {U : Submodule (ZMod 2) V} {g : LGL 2 V} :
     g ∈ w183b2_stabPt U ↔ ∀ u ∈ U, g u = u := Iff.rfl
 
+omit [Finite V] in
 private theorem w183b2_le_stabPt_iff {G' : Subgroup (LGL 2 V)}
     {U : Submodule (ZMod 2) V} :
     G' ≤ w183b2_stabPt U ↔ U ≤ fixSub G' := by
@@ -88,9 +91,9 @@ private theorem w183b2_le_stabPt_iff {G' : Subgroup (LGL 2 V)}
     exact (h hu) g hg
 
 private theorem w183b2_index_eq_two_pow {A B : Subgroup (LGL 2 V)}
-    (hA : IsElemAbelian 2 A) (hB : B ≤ A) :
+    (hA : IsElemAbelian 2 A) (_hB : B ≤ A) :
     ∃ k : ℕ, (B.subgroupOf A).index = 2 ^ k := by
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   have hpg : IsPGroup 2 ↥A := hA.isPGroup
   have hq : IsPGroup 2 (↥A ⧸ B.subgroupOf A) := hpg.to_quotient (B.subgroupOf A)
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hq
@@ -114,6 +117,7 @@ private theorem w183b2_mOf_add_of_elemAbelian {A B C : Subgroup (LGL 2 V)}
     rw [mOf, hmul, hl, hj, ← pow_add, Nat.log_pow (by norm_num)]
   omega
 
+omit [Finite V] in
 private theorem w183b2_mem_VA_of_mem_commSpace
     (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ) (hR : Br2RadY T L Q₁ Q₂)
     {A : Subgroup (LGL 2 V)} (hA : A ∈ Γ) (hAQ : A ≤ Q₁)
@@ -129,8 +133,9 @@ private theorem w183b2_mem_VA_of_mem_commSpace
     fixSub_anti (A ⊓ Q₂) Q₂ inf_le_right
   exact hcomm (commSpace_mono le_rfl hle hv)
 
+omit [Finite V] in
 private theorem w183b2_mem_fixSub_of_mem_commSpace
-    (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ) (hR : Br2RadY T L Q₁ Q₂)
+    (_hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ) (hR : Br2RadY T L Q₁ Q₂)
     {A : Subgroup (LGL 2 V)} (hAQ : A ≤ Q₁)
     {v : V} (hv : v ∈ commSpace A (fixSub Q₂)) : v ∈ fixSub Q₂ := by
   have hA_le : A ≤ T ⊓ L := hAQ.trans hR.le₁
@@ -278,7 +283,7 @@ theorem w183b2_rad_step1 (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ) (hL : Simple
 
 theorem w183b2_rad_step2 (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ) (hR : Br2RadY T L Q₁ Q₂)
     (hgen : ∀ B ∈ 𝒢, B ≤ Q₁ ∨ B ≤ Q₂) {A : Subgroup (LGL 2 V)} (hA : A ∈ Γ) (hAQ : A ≤ Q₁)
-    {v : V} (hv : v ∈ commSpace A (fixSub Q₂)) (hv0 : v ≠ 0) :
+    {v : V} (hv : v ∈ commSpace A (fixSub Q₂)) (_hv0 : v ≠ 0) :
     ∀ B ∈ 𝒢, ∀ b ∈ B, b v = v := by
   have hvA : v ∈ VA A := w183b2_mem_VA_of_mem_commSpace hc hR hA hAQ hv
   have hvF : v ∈ fixSub Q₂ := w183b2_mem_fixSub_of_mem_commSpace hc hR hAQ hv
@@ -339,7 +344,7 @@ theorem w183b2_rad_step2 (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ) (hR : Br2Rad
 private theorem w183b2_false_of_le (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ) (hL : SimpleCore Y L)
     (hR : Br2RadY T L Q₁ Q₂) (hgen : ∀ B ∈ 𝒢, B ≤ Q₁ ∨ B ≤ Q₂)
     (hrk : ∀ D ∈ Γ, 3 ≤ mRank D) {D₀ : Subgroup (LGL 2 V)} (hD₀ : D₀ ∈ Γ)
-    (hD₀S : D₀ ≤ T ⊓ L) (hD₀Q : D₀ ≤ Q₁) (hD₀n : ¬ D₀ ≤ Q₂) : False := by
+    (_hD₀S : D₀ ≤ T ⊓ L) (hD₀Q : D₀ ≤ Q₁) (hD₀n : ¬ D₀ ≤ Q₂) : False := by
   obtain ⟨A, hA, hAQ, hAv⟩ :=
     w183b2_rad_step1 hc hL hR hrk hD₀ hD₀Q hD₀n
   obtain ⟨v, hv, hv0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hAv

@@ -168,9 +168,11 @@ theorem x_mem_heisSub (i : Fin n) : x i ∈ heisSub x y :=
 theorem y_mem_heisSub (i : Fin n) : y i ∈ heisSub x y :=
   Subgroup.subset_closure (Or.inr ⟨i, rfl⟩)
 
+omit [Group G] in
 theorem heisBasis_castAdd (j : Fin n) : heisBasis x y (Fin.castAdd n j) = x j :=
   Fin.addCases_left j
 
+omit [Group G] in
 theorem heisBasis_natAdd (j : Fin n) : heisBasis x y (Fin.natAdd n j) = y j :=
   Fin.addCases_right j
 
@@ -182,7 +184,7 @@ theorem heisBasis_mem (k : Fin (n + n)) : heisBasis x y k ∈ heisSub x y := by
 theorem castAdd_ne_natAdd (i j : Fin n) : Fin.castAdd n i ≠ Fin.natAdd n j := by
   intro e
   have := congrArg Fin.val e
-  simp only [Fin.coe_castAdd, Fin.coe_natAdd] at this
+  simp only [Fin.val_castAdd, Fin.val_natAdd] at this
   omega
 
 theorem natAdd_ne_castAdd (j i : Fin n) : Fin.natAdd n j ≠ Fin.castAdd n i :=
@@ -465,7 +467,7 @@ theorem zpow_val_inj {z : G} (hz : orderOf z = 3) {a b : ZMod 3} (h : z ^ a.val 
 theorem zlog_pow {z : G} (hz : orderOf z = 3) (e : ZMod 3) : zlog z (z ^ e.val) = e := by
   have hex : ∃ e' : ZMod 3, z ^ e'.val = z ^ e.val := ⟨e, rfl⟩
   unfold zlog
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact zpow_val_inj hz hex.choose_spec
 
 theorem zlog_one {z : G} (hz : orderOf z = 3) : zlog z 1 = 0 := by
@@ -576,7 +578,7 @@ theorem heisCoord_surjective (h : HeisCfg 3 n x y z) (hy3 : ∀ i, y i ^ 3 = 1) 
 theorem heisCoordG_of_mem (h : HeisCfg 3 n x y z) (hy3 : ∀ i, y i ^ 3 = 1) {q : G}
     (hq : q ∈ heisSub x y) : heisCoordG h hy3 q = heisCoordFun x y z q := by
   unfold heisCoordG
-  rw [dif_pos hq]
+  rw [dite_eq_left hq]
   rfl
 
 theorem heisCoordG_mul (h : HeisCfg 3 n x y z) (hy3 : ∀ i, y i ^ 3 = 1) {q q' : G}

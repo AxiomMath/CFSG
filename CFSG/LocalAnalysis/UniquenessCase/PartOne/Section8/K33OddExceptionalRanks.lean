@@ -19,10 +19,10 @@ theorem pRank_three_eq_two_of_lieModel_G2_odd
   have hX : ChevalleyExceptionalModel X .G2 p f := h.chevalleyExceptionalModel (by decide)
   obtain ⟨K, hKfield, hKfin, hK, ⟨e⟩⟩ :=
     CFSG.LieType.Chevalley.nonempty_mulEquiv_adjointGroup .G2 hX.2
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   have hp : p.Prime := hX.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hf : 1 ≤ f := hX.1.2.1
   have hK' : Nat.card K = p ^ f := hK
   have h3K : ¬ 3 ∣ Nat.card K := by
@@ -43,10 +43,10 @@ theorem pRank_three_eq_two_of_lieModel_G2_odd
   have hupper : CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ 2 := by
     rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 3) (by norm_num) e]
     refine CFSG.SectionRank.pRank_le (p := 3) (by norm_num) (fun F _ hF => ?_)
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     have hchar : CharP K p :=
       charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK'])
-    haveI : CharP K p := hchar
+    have : CharP K p := hchar
     have hk2 : ringChar K ≠ 2 := by
       rw [ringChar.eq K p]
       exact hp2

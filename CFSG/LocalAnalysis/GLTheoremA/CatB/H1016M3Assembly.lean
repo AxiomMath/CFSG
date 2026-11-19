@@ -20,7 +20,7 @@ theorem i1016M3Fact_of_parts (ha : TwoLocalRankCriterion) (hco1 : Co1ThreeRankFa
     (hfix : Co1ThreeSixFixFact) (hbaby : BabyThreeRankFact) : I1016M3Fact := by
   have hE : MonsterExistenceStatement MGriess :=
     CFSG.Milestones.cl_lit_monster_existence_griess_conway
-  haveI : Finite MGriess := hE.1.1
+  have : Finite MGriess := hE.1.1
   have hM : GLATwoLocalRank 3 MGriess ≤ 6 :=
     ha MGriess 3 6 2 Nat.prime_three (by norm_num)
       (fun j hj0 hj2 => by interval_cases j; decide) (card_le_of_involution_three hE hco1 hbaby)

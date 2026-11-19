@@ -27,7 +27,7 @@ theorem odd_card_ker_of_le_scalars {K : Type} [Field K] [Finite K] [CharP K 2]
     ((Subgroup.card_dvd_of_le hf).trans hsc)
 
 theorem map_eq_of_map_map_eq {G H : Type*} [Group G] [Finite G] [Group H] {f : G →* H}
-    (hf : Function.Surjective f) {Q : Subgroup G} (hQ : f.ker ≤ Q)
+    (_hf : Function.Surjective f) {Q : Subgroup G} (hQ : f.ker ≤ Q)
     {φ : MulAut G} {ν : MulAut H} (hφν : ∀ x, f (φ x) = ν (f x))
     (hQν : (Q.map f).map ν.toMonoidHom = Q.map f) :
     Q.map φ.toMonoidHom = Q := by
@@ -168,8 +168,8 @@ theorem exists_cover_of_odd_center
   obtain ⟨K, hKf, hKfin, hcard, he⟩ :=
     LinearCover.exists_mulEquiv_projectiveSL_of_lieModel hL
   obtain ⟨e⟩ := he
-  haveI : CharP K 2 := uc22pwlie_charP_two hcard
-  haveI : Group.IsPerfect Y := ⟨hq.1⟩
+  have : CharP K 2 := uc22pwlie_charP_two hcard
+  have : Group.IsPerfect Y := ⟨hq.1⟩
   have hsplit : ∀ (E : Type) [Group E] [Finite E]
       (π : E →* SpecialLinearGroup (Fin 3) K), Function.Surjective π →
       π.ker ≤ Subgroup.center E → Odd (Nat.card π.ker) →
@@ -195,7 +195,7 @@ theorem exists_cover_sylow_of_odd_center
   classical
   obtain ⟨K, hKf, hKfin, hKchar, _, α, hcard, hα, hαc, -⟩ :=
     exists_cover_of_odd_center hq hL hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := exists_sylow_unitriangular (K := K) 2 (n := 3) (by norm_num)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Y (Q.mapSurjective hα) S
   refine ⟨K, hKf, hKfin, hKchar,
@@ -244,7 +244,7 @@ theorem exists_lift_sl3_of_odd_cover
   have hU : IsPGroup 2 (unitriangular 3 K) := by
     obtain ⟨Q, hQ⟩ := exists_sylow_unitriangular (K := K) 2 (n := 3) (by norm_num)
     rw [← hQ]
-    exact Q.isPGroup'
+    exact Q.isPGroup
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hU
   have hpow : ∀ s ∈ unitriangular 3 K, s ^ 2 ^ k = 1 := by
     intro s hs
@@ -304,7 +304,7 @@ theorem diagonalTorus_le_stabilizer {K : Type*} [Field K] (d : ℕ) :
 theorem normalizer_map_unitriangular_le_map_stabilizer {K : Type} [Field K] [Finite K]
     [CharP K 2] {Y : Type} [Group Y] [Finite Y]
     (α : SpecialLinearGroup (Fin 3) K →* Y) (hα : Function.Surjective α)
-    (hαc : α.ker ≤ scalars 3 K) {d : ℕ} (hd : 1 ≤ d) (hdn : d < 3) :
+    (hαc : α.ker ≤ scalars 3 K) {d : ℕ} (_hd : 1 ≤ d) (_hdn : d < 3) :
     normalizer ((unitriangular 3 K).map α : Set Y) ≤
       (stabilizer (flagSpace 3 K d)).map α := by
   intro x hx
@@ -361,7 +361,7 @@ theorem sl3_powerMap_of_fixes_flagParabolics {K : Type} [Field K] [Finite K] [Ch
     (hθU : ∀ s, s ∈ unitriangular 3 K ↔ θ s ∈ unitriangular 3 K)
     (hQ1 : (stabilizer (flagSpace 3 K 1)).map θ.toMonoidHom =
       stabilizer (flagSpace 3 K 1))
-    (hQ2 : (stabilizer (flagSpace 3 K 2)).map θ.toMonoidHom =
+    (_hQ2 : (stabilizer (flagSpace 3 K 2)).map θ.toMonoidHom =
       stabilizer (flagSpace 3 K 2)) :
     ∃ j : ℕ, ∀ x ∈ normalizer ((unitriangular 3 K : Subgroup _) : Set _),
       θ x * (x ^ 2 ^ j)⁻¹ ∈ unitriangular 3 K := by

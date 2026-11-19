@@ -159,7 +159,7 @@ theorem pairDiag_norm {c : F} (hc : σ c * c = 1) (i : Fin m) :
   rcases eq_or_ne i a with rfl | h1
   · simpa using hc
   · rcases eq_or_ne i b with rfl | h2
-    · simp only [h1, if_false, if_true, map_inv₀]
+    · simp only [h1, ite_false, ite_true, map_inv₀]
       rw [← mul_inv, hc, inv_one]
     · simp [h1, h2]
 
@@ -228,7 +228,7 @@ theorem exists_diag_witness (hσ : CFSG.ClassicalGroups.Unitary.IsUnitaryInvolut
     rw [hkk] at hu
     have h1 := congrFun (congrFun hu a) a
     have h2 := congrFun (congrFun hu e) e
-    simp only [diagonal_apply_eq, scalar_apply, pairDiag, if_true, hea, heb, if_false] at h1 h2
+    simp only [diagonal_apply_eq, scalar_apply, pairDiag, ite_true, hea, heb, ite_false] at h1 h2
     exact hc1 (h1.trans h2.symm)
 
 end Native
@@ -535,7 +535,7 @@ theorem exists_conj_eq_diagCubeTorus [Finite F] (hF : Nat.card F = 64) {σ : F �
     refine mem_SUid.2 ⟨?_, ?_⟩
     · show ((P : Matrix (Fin m) (Fin m) F) * diagonal dfun).det = 1
       rw [det_mul, ← hδdef, det_diagonal, Finset.prod_ite_eq' Finset.univ a,
-        if_pos (Finset.mem_univ a), mul_inv_cancel₀ hδ0]
+        ite_eq_left (Finset.mem_univ a), mul_inv_cancel₀ hδ0]
     · show conjTr σ ((P : Matrix (Fin m) (Fin m) F) * diagonal dfun) *
         ((P : Matrix (Fin m) (Fin m) F) * diagonal dfun) = 1
       rw [conjTr_mul, show conjTr σ (diagonal dfun) * conjTr σ (P : Matrix (Fin m) (Fin m) F) *
@@ -547,7 +547,7 @@ theorem exists_conj_eq_diagCubeTorus [Finite F] (hF : Nat.card F = 64) {σ : F �
       congr 1
       funext i
       by_cases h : i = a
-      · simp only [dfun, h, if_true, map_inv₀]
+      · simp only [dfun, h, ite_true, map_inv₀]
         rw [← mul_inv, hδσ, inv_one]
       · simp [dfun, h]
   let k : SUid σ m := (⟨P * D, hQ⟩ : SUid σ m)⁻¹

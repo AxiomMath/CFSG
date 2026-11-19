@@ -35,8 +35,8 @@ noncomputable abbrev excU62_N (A : primeFormUnitary h (idGram K 6))
   (t6psub_block A i).map (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K 6)) 6))
 
 theorem excU62_finite (h : UnitaryFieldData 2 1 K) : Finite (primeFormP h (idGram K 6)) := by
-  haveI := h.finite
-  haveI : Finite (GL (Fin 6) K) :=
+  have := h.finite
+  have : Finite (GL (Fin 6) K) :=
     Finite.of_injective (fun g : GL (Fin 6) K => (g : Matrix (Fin 6) (Fin 6) K)) Units.val_injective
   infer_instance
 
@@ -44,8 +44,8 @@ theorem excU62_block_isComponent (A : primeFormUnitary h (idGram K 6))
     (H : UnitaryPrimaryData h.bar (idForm h 6) (t6psub_toLin A)) (i : t6psub_Idx h 6 A) :
     CFSG.Open.IsComponentOf (excU62_N A i)
       (fixSubgroup (primeFormConjHom h (idGram K 6) A)) := by
-  haveI := h.finite
-  haveI : Finite (GL (Fin 6) K) :=
+  have := h.finite
+  have : Finite (GL (Fin 6) K) :=
     Finite.of_injective (fun g : GL (Fin 6) K => (g : Matrix (Fin 6) (Fin 6) K)) Units.val_injective
   have hq := isQuasisimple_open (u6r_block_quasisimple A H i)
   have hn : ((excU62_N A i).subgroupOf (excU62_X0 A)).Normal := by
@@ -74,7 +74,7 @@ theorem excU62_compShape_of_blocks (A : primeFormUnitary h (idGram K 6)) {c : K�
     (hT : ∀ i : t6psub_Idx h 6 A,
       ExcU62Type (↥(excU62_N A i) ⧸ Subgroup.center ↥(excU62_N A i))) :
     CompShape ExcU62Type (primeFormConjHom h (idGram K 6) A) := by
-  haveI := excU62_finite h
+  have := excU62_finite h
   have H : UnitaryPrimaryData h.bar (idForm h 6) (t6psub_toLin A) :=
     t6psuh_primaryData_toLin' h A.2 Nat.prime_three (by norm_num) hA3
   by_cases hne : Nonempty (t6psub_Idx h 6 A)
@@ -95,8 +95,8 @@ theorem excU62_block_type (A : primeFormUnitary h (idGram K 6))
       primaryMultiplicity ((t6psub_toLin A : LinearMap.GeneralLinearGroup K (Fin 6 → K)) :
         Module.End K (Fin 6 → K)) (i.1 : K[X]) = 5) :
     ExcU62Type (↥(excU62_N A i) ⧸ Subgroup.center ↥(excU62_N A i)) := by
-  haveI := h.finite
-  haveI : Finite (AdjoinRoot (i.1 : K[X])) := Module.finite_of_finite K
+  have := h.finite
+  have : Finite (AdjoinRoot (i.1 : K[X])) := Module.finite_of_finite K
   obtain ⟨hE, Hf, hHf, hHfl, ⟨e1⟩⟩ :=
     Sec6.Up34Chev2.nonempty_specialBlock_mulEquiv_sesqSU_c2 hself
       (selfDualPrimaryBlock H i.1 hself)
@@ -135,7 +135,7 @@ theorem excU62_block_type (A : primeFormUnitary h (idGram K 6))
   exact excU62Type_of_psu hF (by omega) (eZ.symm.trans eQ)
 
 theorem excU62_units_pow_three (h : UnitaryFieldData 2 1 K) (a : Kˣ) : a ^ 3 = 1 := by
-  haveI := h.finite
+  have := h.finite
   have hc : Nat.card Kˣ = 3 := by
     rw [Nat.card_units, h.card]
     norm_num
@@ -217,7 +217,7 @@ theorem excU62_good_mult_lt (hA3 : (A : GL (Fin 6) K) ^ 3 = 1)
   have hmult : primaryMultiplicity x (i.1 : K[X]) =
       Module.finrank K (primaryComponent x (X - C d)) := by
     rw [hid]
-    haveI : Fact (Irreducible (X - C d : K[X])) := ⟨irreducible_X_sub_C d⟩
+    have : Fact (Irreducible (X - C d : K[X])) := ⟨irreducible_X_sub_C d⟩
     have h1 := finrank_primaryComponent x (X - C d)
     rw [natDegree_X_sub_C, one_mul] at h1
     exact h1.symm
@@ -279,7 +279,7 @@ theorem excU62_realize (h : UnitaryFieldData 2 1 K) (β : MulAut (primeFormP h (
   have hσ : primeFormFieldFactor h hC hn3 hq' β = 1 := by
     have hc : Nat.card (K ≃+* K) = 2 := by
       rw [CFSG.SignalizerFunctorTheorem.NearModels.UnitaryAut.card_ringEquiv_unitary h]
-    haveI : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+    have : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
     have h3 : (primeFormFieldFactor h hC hn3 hq' β) ^ 3 = 1 := by rw [← map_pow, hβ, map_one]
     have h2 : (primeFormFieldFactor h hC hn3 hq' β) ^ 2 = 1 := by
       have := pow_card_eq_one' (G := K ≃+* K) (x := primeFormFieldFactor h hC hn3 hq' β)

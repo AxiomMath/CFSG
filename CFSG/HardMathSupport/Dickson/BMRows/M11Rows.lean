@@ -38,21 +38,21 @@ theorem qcompOK_gmat_eleven (h : CentElevenBound) {s : Gmat} (hs : orderOf s = 1
     (M11.qtypeOK_goodM12 sporadicOuterLeTwo_holds)
 
 theorem kdSporRow_M_eleven (h : CentElevenBound) : KDSporRow .M 11 := by
-  haveI : IsSimpleGroup Gmat := generated_rational_group_finite_simple.2.1
+  have : IsSimpleGroup Gmat := generated_rational_group_finite_simple.2.1
   obtain ⟨b⟩ : Nonempty (Gmat ≃* (TauCeti.CFSGIndex.sporadic .M).Group) :=
     CFSG.Blueprint.NativeSporadic.MonsterModel.iso_gmat_tauCeti
   exact KDSpor.kdSporRow_of_levelOK sporadicOuterLeTwo_holds b ⟨_, _, w0_e0_ne⟩ (by norm_num)
     (by norm_num) fun k hk => levelOK_gmat_eleven h hk
 
 theorem row_M_eleven (h : CentElevenBound) : I1416Rows.I1416SporRow .M 11 := by
-  haveI : IsSimpleGroup Gmat := generated_rational_group_finite_simple.2.1
+  have : IsSimpleGroup Gmat := generated_rational_group_finite_simple.2.1
   obtain ⟨b⟩ : Nonempty (Gmat ≃* (TauCeti.CFSGIndex.sporadic .M).Group) :=
     CFSG.Blueprint.NativeSporadic.MonsterModel.iso_gmat_tauCeti
   exact I1416Rows.row_of_model sporadicOuterLeTwo_holds b ⟨_, _, w0_e0_ne⟩
     fun k hk => compOK_gmat_eleven h hk
 
 theorem qrow_M_eleven (h : CentElevenBound) : I1416QRows.I1416QRow .M 11 := by
-  haveI : IsSimpleGroup Gmat := generated_rational_group_finite_simple.2.1
+  have : IsSimpleGroup Gmat := generated_rational_group_finite_simple.2.1
   obtain ⟨b⟩ : Nonempty (Gmat ≃* (TauCeti.CFSGIndex.sporadic .M).Group) :=
     CFSG.Blueprint.NativeSporadic.MonsterModel.iso_gmat_tauCeti
   exact I1416QRows.qrow_of_model sporadicOuterLeTwo_holds b ⟨_, _, w0_e0_ne⟩
@@ -69,7 +69,7 @@ theorem ccompOK_gmat_eleven (hb : LieOrderBridge) (h : CentElevenBound) {s : Gma
     (M11.ctypeOK_goodM12 hb)
 
 theorem crow_M_eleven (h : CentElevenBound) : Chev2Rows.CRow .M 11 := by
-  haveI : IsSimpleGroup Gmat := generated_rational_group_finite_simple.2.1
+  have : IsSimpleGroup Gmat := generated_rational_group_finite_simple.2.1
   obtain ⟨b⟩ : Nonempty (Gmat ≃* (TauCeti.CFSGIndex.sporadic .M).Group) :=
     CFSG.Blueprint.NativeSporadic.MonsterModel.iso_gmat_tauCeti
   exact Chev2Rows.crow_of_model sporadicOuterLeTwo_holds b ⟨_, _, w0_e0_ne⟩

@@ -11,7 +11,8 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremA.KD264Inner
 
 variable {Y : Type} [Group Y] [Finite Y]
 
-theorem isElemAbelian_map {p : ℕ} {A : Type*} [Group A] {f : A →* Y} (hf : Function.Injective f)
+omit [Finite Y] in
+theorem isElemAbelian_map {p : ℕ} {A : Type*} [Group A] {f : A →* Y} (_hf : Function.Injective f)
     {S : Subgroup A} (hS : IsElemAbelian p S) : IsElemAbelian p (S.map f) := by
   have hcomm : ∀ u ∈ S.map f, ∀ v ∈ S.map f, u * v = v * u := by
     intro u hu v hv
@@ -26,6 +27,7 @@ theorem isElemAbelian_map {p : ℕ} {A : Type*} [Group A] {f : A →* Y} (hf : F
   obtain ⟨s, hs, hsx⟩ := Subgroup.mem_map.1 hx
   rw [← hsx, ← map_pow, hS.2 s hs, map_one]
 
+omit [Finite Y] in
 theorem map_ker_psiHom {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} (hn : 5 ≤ n)
     (K : Subgroup Y) (hK : K.Normal) (e : K ≃* alternatingGroup (Fin n)) (B : Subgroup Y)
     (hB : IsElemAbelian p B) :
@@ -42,6 +44,7 @@ theorem map_ker_psiHom {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} (hn : 
     refine ⟨⟨y, hyB⟩, ?_, rfl⟩
     exact (psiHom_eq_one_iff K hK e hp hp2 hn B (fun b hb => hB.2 b hb) ⟨y, hyB⟩).2 hcen
 
+omit [Finite Y] in
 theorem card_inf_centralizer_eq_ker {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} (hn : 5 ≤ n)
     (K : Subgroup Y) (hK : K.Normal) (e : K ≃* alternatingGroup (Fin n)) (B : Subgroup Y)
     (hB : IsElemAbelian p B) :

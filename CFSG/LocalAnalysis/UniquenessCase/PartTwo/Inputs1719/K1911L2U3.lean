@@ -24,7 +24,7 @@ theorem card_isU3_torus_factor {X : Type} [Group X] {n : ℕ} (h : IsU3 X n)
     CFSG.Quasithin.Ch1Four.cube_add_one_eq (Nat.one_le_two_pow (n := n))]
   ring
 
-theorem coprime_two_pow_sub_one_sq_sub_add_one {n : ℕ} (hn : 1 ≤ n) :
+theorem coprime_two_pow_sub_one_sq_sub_add_one {n : ℕ} (_hn : 1 ≤ n) :
     Nat.Coprime (2 ^ n - 1) ((2 ^ n) ^ 2 - 2 ^ n + 1) := by
   have h : 2 ^ n * (2 ^ n - 1) = (2 ^ n) ^ 2 - 2 ^ n := by
     rw [Nat.mul_sub_left_distrib, mul_one, pow_two]
@@ -56,7 +56,7 @@ theorem exists_orderOf_fixed_of_isU3 {Y : Type} [Group Y] [Finite Y] {n : ℕ} (
     hpd.trans
       (CFSG.LocalAnalysis.UniquenessCase.PartTwo.S19.two_pow_add_one_dvd_card_of_isL2_psl_two
         hL2)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨yL, hyL⟩ := exists_prime_orderOf_dvd_card' p hpL
   refine ⟨(yL : Y), ?_, ?_⟩
   · rw [orderOf_coe]; exact hyL
@@ -99,7 +99,7 @@ theorem exists_orderOf_fixed_of_isU3 {Y : Type} [Group Y] [Finite Y] {n : ℕ} (
       have hdvd : orderOf βL ∣ 2 ^ k := orderOf_dvd_iff_pow_eq_one.mpr hβLpow
       obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd
       exact ⟨j, hj⟩
-    haveI : IsMulCommutative ↥T := hTc
+    have : IsMulCommutative ↥T := hTc
     have hTcL : IsMulCommutative (T.subgroupOf L) := inferInstance
     have hTL' : Nat.card (T.subgroupOf L) = 2 ^ n - 1 := by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTL).toEquiv, hT]
@@ -123,8 +123,8 @@ theorem torusFixedConcl_l2_u3_prod {Y₁ Y₂ : Type} [Group Y₁] [Group Y₂] 
     CFSG.Timmesfeld.Bridge.isBenderGroup_of_fusionIsBenderGroup (uc22p2214_bor_bender_L2 h₁)
   have hb₂ : CFSG.BenderSuzuki.IsBenderGroup Y₂ :=
     CFSG.Timmesfeld.Bridge.isBenderGroup_of_fusionIsBenderGroup (uc22p2214_bor_bender_U3 h₂)
-  haveI : IsSimpleGroup Y₁ := CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup hb₁
-  haveI : IsSimpleGroup Y₂ := CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup hb₂
+  have : IsSimpleGroup Y₁ := CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup hb₁
+  have : IsSimpleGroup Y₂ := CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup hb₂
   have hZ₁ : Subgroup.center Y₁ = ⊥ :=
     CFSG.BenderSuzuki.center_eq_bot_of_isSimpleGroup_of_not_commutative inferInstance (by
       obtain ⟨a, b, hab⟩ := CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.exists_not_commute hb₁
@@ -134,7 +134,7 @@ theorem torusFixedConcl_l2_u3_prod {Y₁ Y₂ : Type} [Group Y₁] [Group Y₂] 
       obtain ⟨a, b, hab⟩ := CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.exists_not_commute hb₂
       exact fun h => hab ((commute_iff_eq a b).mpr (h a b)))
   intro A t hAcard ht hinv Q hQ hQB
-  haveI : IsMulCommutative ↥A :=
+  have : IsMulCommutative ↥A :=
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.S19.isMulCommutative_of_isZModSq hAcard
   have hAmm : Nat.card A = (2 ^ n - 1) * (2 ^ n - 1) :=
     CFSG.LocalAnalysis.UniquenessCase.PartTwo.S19.card_eq_of_isZModSq hAcard
@@ -181,7 +181,7 @@ theorem torusFixedConcl_l2_u3_prod {Y₁ Y₂ : Type} [Group Y₁] [Group Y₂] 
     have h4 : p ∣ ((2 ^ n) ^ 3 * (2 ^ n + 1) ^ 2) * ((2 ^ n) ^ 2 - 2 ^ n + 1) :=
       dvd_mul_of_dvd_left h3 _
     exact dvd_mul_of_dvd_right h4 _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨y₁, hy₁⟩ := exists_prime_orderOf_dvd_card' p hp₁
   obtain ⟨y₂, hy₂, hy₂fix⟩ :=
     exists_orderOf_fixed_of_isU3 h₂ hn heven hTcomm₂ hAcard₂ hp hpd

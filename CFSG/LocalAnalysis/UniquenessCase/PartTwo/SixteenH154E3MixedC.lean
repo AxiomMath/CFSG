@@ -12,6 +12,7 @@ open scoped IsMulCommutative
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16h_mixed_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
   rw [← MonoidHom.ker_eq_bot_iff]
@@ -25,6 +26,7 @@ private theorem s16h_mixed_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbel
   · rintro rfl
     exact map_one _
 
+omit [Finite G] in
 private theorem s16h_mixed_card_preTil_bot {V : Subgroup G} (hV : IsElemAbelian 2 V)
     (S : Subgroup (Vtil ⊥ V hV)) :
     Nat.card ↥(preTil ⊥ V hV S) = Nat.card ↥S := by
@@ -35,6 +37,7 @@ private theorem s16h_mixed_card_preTil_bot {V : Subgroup G} (hV : IsElemAbelian 
     (K := S.comap (mkTil ⊥ V hV)) (s16h_mixed_mkTil_bot_injective hV),
     Subgroup.map_comap_eq_self_of_surjective (mkTil_surjective ⊥ V hV) S]
 
+omit [Finite G] in
 private theorem s16h_mixed_comm_of_mem_cElt_bot {M : Subgroup G} {v m : G}
     (hm : m ∈ F11.CElt M ⊥ v) : m * v = v * m := by
   have h1 : m * v * m⁻¹ * v⁻¹ = 1 := Subgroup.mem_bot.1 hm.2.2
@@ -55,6 +58,7 @@ private theorem s16h_mixed_eq_of_ne_one_of_card_le_two {H : Subgroup G}
       _ ≤ Nat.card ↥H := Nat.card_le_card_of_injective _ hinj
   omega
 
+omit [Finite G] in
 private theorem s16h_mixed_map_conj_le_centralizer {B A : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.centralizer (B : Set G)) (hA : A ≤ Subgroup.centralizer (B : Set G)) :
     A.map (MulAut.conj g).toMonoidHom ≤ Subgroup.centralizer (B : Set G) := by
@@ -96,6 +100,7 @@ private theorem s16h_mixed_card_map_mul_card_inf_ker_cond {H N : Type*} [Group H
   rw [h2, mul_comm] at h1
   exact h1
 
+omit [Finite G] in
 private theorem s16h_mixed_card_inf_preBarSub_eq {M V₀ V E : Subgroup G} (hV : IsElemAbelian 2 V)
     (hEM : E ≤ M) (hEs : E ≤ stabTil V₀ V) (Xbar : Subgroup (MulAut (Vtil V₀ V hV))) :
     Nat.card ↥(E ⊓ preBarSub M V₀ V hV Xbar) =
@@ -124,7 +129,7 @@ private theorem s16h_mixed_card_inf_preBarSub_eq {M V₀ V E : Subgroup G} (hV :
   exact h1.symm
 
 private theorem s16h_mixed_conj_mem_centSub {W : Type*} [CommGroup W] {U : Subgroup W}
-    {g φ : MulAut W} (hg : ∀ u ∈ U, g u ∈ U) (hg' : ∀ u ∈ U, g⁻¹ u ∈ U)
+    {g φ : MulAut W} (_hg : ∀ u ∈ U, g u ∈ U) (hg' : ∀ u ∈ U, g⁻¹ u ∈ U)
     (hφ : φ ∈ centSub U) : g * φ * g⁻¹ ∈ centSub U := by
   intro u hu
   rw [MulAut.mul_apply, MulAut.mul_apply, hφ (g⁻¹ u) (hg' u hu)]
@@ -178,7 +183,7 @@ private theorem s16h_mixed_exists_P (D : Data G) {V L : Subgroup G} (h : Setting
   have hMs : D.M ≤ stabTil ⊥ V :=
     le_stabTil h.hyp151.hyp125.pairFacts.le_normalizer h.hyp151.hyp125.pairFacts.le_normalizer₀
   have hpp := D.sig_prime q hq
-  haveI : Fact q.Prime := ⟨hpp.1⟩
+  have : Fact q.Prime := ⟨hpp.1⟩
   have huV : u ∈ V := preTil_le ⊥ V hV _ hu
   let Ū : Subgroup (Vtil ⊥ V hV) := wTil ⊥ V hV L
   let X : Subgroup G := preBarSub D.M ⊥ V hV (centSub Ū)
@@ -352,7 +357,7 @@ theorem s16h_uniqueMax_of_fix_two_mixed (D : Data G) (h61 : UC6.R6_1 D) (h127 : 
   have hMs : D.M ≤ stabTil ⊥ V :=
     le_stabTil h.hyp151.hyp125.pairFacts.le_normalizer h.hyp151.hyp125.pairFacts.le_normalizer₀
   have hpp := D.sig_prime q hq
-  haveI : Fact q.Prime := ⟨hpp.1⟩
+  have : Fact q.Prime := ⟨hpp.1⟩
   have hqodd : Odd q := hpp.1.odd_of_ne_two hpp.2
   have hq2le : 2 ≤ q := hpp.1.two_le
   obtain ⟨x, hxM, hxn⟩ :=
@@ -418,7 +423,7 @@ theorem s16h_uniqueMax_of_fix_two_mixed (D : Data G) (h61 : UC6.R6_1 D) (h127 : 
     exact s16h_mixed_comm_of_mem_cElt_bot hce
   intro w hw hw1
   rw [hsupw] at hw
-  haveI : IsMulCommutative ↥V := hV.1
+  have : IsMulCommutative ↥V := hV.1
   have hZ₂V : Z₂ ≤ V := hZ₂v1.trans (s15_Infra_v1Sub_le h.hyp151.hyp125 hV)
   have hwV : w ∈ V := (sup_le (preTil_le ⊥ V hV _) hZ₂V) hw
   have hWV : wSub ⊥ V hV L ≤ V := preTil_le ⊥ V hV _

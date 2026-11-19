@@ -27,8 +27,8 @@ theorem WeakHyp.finite_Q (hC : WeakHyp C Q) : Finite Q :=
   hC.plus.finite
 
 theorem WeakHyp.finite (hC : WeakHyp C Q) : Finite C := by
-  haveI : Finite Q := hC.finite_Q
-  haveI : Finite (C ⧸ Q) := by
+  have : Finite Q := hC.finite_Q
+  have : Finite (C ⧸ Q) := by
     obtain ⟨e⟩ := hC.quotient
     exact Finite.of_equiv _ e.toEquiv.symm
   exact Finite.of_equiv _ (Subgroup.groupEquivQuotientProdSubgroup (s := Q)).symm

@@ -66,14 +66,14 @@ private theorem commutator_P (h : Case2Data p P T D F x) :
   intro a ha b hb
   obtain ⟨t, ht, d, hd, rfl⟩ := h.exists_mul a ha
   obtain ⟨t', ht', d', hd', rfl⟩ := h.exists_mul b hb
-  haveI := h.pdata.D_cyc
+  have := h.pdata.D_cyc
   have hDD : d * d' = d' * d :=
     congrArg Subtype.val ((IsCyclic.isMulCommutative (α := D)).is_comm.comm ⟨d, hd⟩ ⟨d', hd'⟩)
   rw [commutator_mul_mul (h.pdata.comm t' ht' d hd).symm hDD (h.pdata.comm t ht d' hd').symm]
   exact h.commutator_mem t ht t' ht'
 
 private theorem commutator_T_eq (h : Case2Data p P T D F x) : ⁅T, T⁆ = zOf T := by
-  haveI := h.fact
+  have := h.fact
   have hle : ⁅T, T⁆ ≤ zOf T :=
     Subgroup.commutator_le.2 (fun a ha b hb => h.commutator_mem a ha b hb)
   have hne : ⁅T, T⁆ ≠ ⊥ := by
@@ -102,7 +102,7 @@ private theorem V_le_P (h : Case2Data p P T D F x) : T ⊔ zpowers x ≤ P :=
   sup_le h.pdata.T_le ((Subgroup.zpowers_le).2 (h.pdata.D_le h.pdata.x_mem))
 
 private theorem pCore_le_P (h : Case2Data p P T D F x) : CFSG.pCore p Y ≤ P := by
-  haveI := h.fact
+  have := h.fact
   obtain ⟨S, hS⟩ := h.sylow
   rw [← hS]
   exact (CFSG.pCore_isPGroup (p := p) (G := Y)).le_sylow_of_normal S
@@ -111,7 +111,7 @@ theorem eq_of_complements (h : Case2Data p P T D F x) {T' : Subgroup Y}
     (hT'V : T' ≤ T ⊔ zpowers x) (hZT' : zOf T ≤ T') (hT'Λ : T' ⊓ zpowers x = ⊥)
     (hT'Λ' : T' ⊔ zpowers x = T ⊔ zpowers x) (hF : ∀ f ∈ F, ∀ a ∈ T', f * a * f⁻¹ ∈ T') :
     T' = T := by
-  haveI := h.fact
+  have := h.fact
   have hcommV : ∀ v ∈ T ⊔ zpowers x, ∀ c ∈ zpowers x, v * c = c * v := by
     intro v hv c hc
     obtain ⟨t, ht, c', hc', rfl⟩ := exists_mul_of_mem_sup T (zpowers x) h.comm_T_zpowers v hv
@@ -180,7 +180,7 @@ theorem eq_of_complements (h : Case2Data p P T D F x) {T' : Subgroup Y}
 
 theorem V_normal (h : Case2Data p P T D F x) (hT : T ≤ CFSG.pCore p Y) (hx : x ∈ CFSG.pCore p Y) :
     ∀ y : Y, ∀ v ∈ T ⊔ zpowers x, y * v * y⁻¹ ∈ T ⊔ zpowers x := by
-  haveI := h.fact
+  have := h.fact
   have key : ∀ v : Y, v ∈ T ⊔ zpowers x ↔ v ∈ CFSG.pCore p Y ∧ v ^ p = 1 := by
     intro v
     constructor
@@ -212,7 +212,7 @@ theorem zpowers_normal (h : Case2Data p P T D F x)
 theorem zOf_normal (h : Case2Data p P T D F x)
     (hV : ∀ y : Y, ∀ v ∈ T ⊔ zpowers x, y * v * y⁻¹ ∈ T ⊔ zpowers x) :
     ∀ y : Y, ∀ z ∈ zOf T, y * z * y⁻¹ ∈ zOf T := by
-  haveI : (T ⊔ zpowers x).Normal := ⟨fun v hv y => hV y v hv⟩
+  have : (T ⊔ zpowers x).Normal := ⟨fun v hv y => hV y v hv⟩
   have hVV : ⁅T ⊔ zpowers x, T ⊔ zpowers x⁆ = zOf T := by
     apply le_antisymm
     · exact Subgroup.commutator_le.2
@@ -226,16 +226,16 @@ theorem zOf_normal (h : Case2Data p P T D F x)
 
 theorem normal_of_le_pCore (h : Case2Data p P T D F x) (hT : T ≤ CFSG.pCore p Y) :
     ∀ y : Y, ∀ t ∈ T, y * t * y⁻¹ ∈ T := by
-  haveI := h.fact
+  have := h.fact
   by_cases hx : x ∈ CFSG.pCore p Y
   ·
     obtain ⟨S, hS⟩ := h.sylow
     have hV := h.V_normal hT hx
     have hΛ := h.zpowers_normal hV
     have hZ := h.zOf_normal hV
-    haveI hVn : (T ⊔ zpowers x).Normal := ⟨fun v hv y => hV y v hv⟩
-    haveI hΛn : (zpowers x).Normal := ⟨fun v hv y => hΛ y v hv⟩
-    haveI hZn : (zOf T).Normal := ⟨fun v hv y => hZ y v hv⟩
+    have hVn : (T ⊔ zpowers x).Normal := ⟨fun v hv y => hV y v hv⟩
+    have hΛn : (zpowers x).Normal := ⟨fun v hv y => hΛ y v hv⟩
+    have hZn : (zOf T).Normal := ⟨fun v hv y => hZ y v hv⟩
     obtain ⟨T', hT'n, hZT', hT'V, hT'Λ, hT'sup⟩ :=
       exists_normal_complement h.prime S (T ⊔ zpowers x) (zpowers x) (zOf T) hVn hΛn hZn
         le_sup_right (h.zOf_le.trans le_sup_left)

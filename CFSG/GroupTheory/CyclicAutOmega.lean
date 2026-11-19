@@ -39,7 +39,7 @@ theorem omega_map_mulEquiv {X Y : Type*} [Group X] [Group Y] (e : X ≃* Y) (p k
 theorem normalizer_le_normalizer_omega₁_map_subtype {X : Type*} [Group X] (Q : Subgroup X) :
     Subgroup.normalizer (Q : Set X) ≤
       Subgroup.normalizer ((CFSG.omega₁ ↥Q (p := 3)).map Q.subtype : Set X) := by
-  haveI : (CFSG.omega₁ ↥Q (p := 3)).Characteristic := CFSG.omega₁_characteristic ↥Q
+  have : (CFSG.omega₁ ↥Q (p := 3)).Characteristic := CFSG.omega₁_characteristic ↥Q
   exact CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
     (CFSG.omega₁ ↥Q (p := 3))
 
@@ -50,11 +50,11 @@ theorem exists_mem_normalizer_conj_eq_inv_of_perfect
       ∀ a ∈ (CFSG.omega₁ ↥(Q : Subgroup X) (p := 3)).map (Q : Subgroup X).subtype,
         n * a * n⁻¹ = a⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : CommGroup ↥(Q : Subgroup X) := IsCyclic.commGroup
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : CommGroup ↥(Q : Subgroup X) := IsCyclic.commGroup
   let A : Subgroup X := (CFSG.omega₁ ↥(Q : Subgroup X) (p := 3)).map (Q : Subgroup X).subtype
   have h3dvd : 3 ∣ Nat.card ↥(Q : Subgroup X) := by
-    rcases Q.isPGroup'.card_eq_or_dvd with h | h
+    rcases Q.isPGroup.card_eq_or_dvd with h | h
     · exact absurd (Subgroup.card_eq_one.mp h) hQ
     · exact h
   have hAcard : Nat.card A = 3 := by
@@ -153,7 +153,7 @@ theorem exists_mem_normalizer_conj_eq_inv_of_perfect
         intro a ha
         apply Subtype.ext
         rw [Subgroup.normalizerMonoidHom_apply_apply_coe]
-        simp only [Subgroup.coe_mk, inv_inv]
+        simp only [inv_inv]
         have haA : (a : X) ∈ A := Subgroup.mem_map_of_mem _ ha
         have h := hcentral n hnN (a : X) haA
         calc n⁻¹ * (a : X) * n = n⁻¹ * (n * (a : X) * n⁻¹) * n := by rw [h]
@@ -164,7 +164,7 @@ theorem exists_mem_normalizer_conj_eq_inv_of_perfect
           = x⁻¹ * y := by
         simp only [Subgroup.coe_mul, Subgroup.coe_inv]
         rw [Subgroup.normalizerMonoidHom_apply_apply_coe]
-        simp only [Subgroup.coe_mk, inv_inv]
+        simp only [inv_inv]
         have : n⁻¹ * x * n = y := by
           rw [← hn]
           simpa using hc

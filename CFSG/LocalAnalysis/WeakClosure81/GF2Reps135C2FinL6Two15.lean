@@ -27,7 +27,7 @@ theorem lt_orbitSize_of_symmetric_six (S : Finset (Fin 6)) (h0 : (⟨0, by omega
       simpa using hmem
     have hjval : (j : ℕ) = 3 := by
       have hv := congrArg Fin.val hrep
-      simp only [Fin.val_mk] at hv
+      simp only at hv
       omega
     have hjeq : j = (⟨3, by omega⟩ : Fin 6) := Fin.ext (by simpa using hjval)
     rw [hjeq, orbitSize_singleton]

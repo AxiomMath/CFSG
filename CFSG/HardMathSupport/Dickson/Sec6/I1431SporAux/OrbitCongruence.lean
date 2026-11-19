@@ -32,10 +32,10 @@ theorem exists_mul_eq_sum_card_fixedBy [Fintype P] [Finite Ω] {p : ℕ} (hp : p
     (hP : Fintype.card P = p ^ 3) (hstab : ∀ ω : Ω, Nat.card (stabilizer P ω) ≤ p) :
     ∃ K : ℕ, p * Nat.card Ω = ∑ g : P, Nat.card (fixedBy Ω g) + p ^ 3 * K := by
   classical
-  haveI : Fintype Ω := Fintype.ofFinite Ω
-  haveI : ∀ g : P, Fintype (fixedBy Ω g) := fun g => Fintype.ofFinite _
-  haveI : ∀ ω : Ω, Fintype (stabilizer P ω) := fun ω => Fintype.ofFinite _
-  haveI : Fintype (orbitRel.Quotient P Ω) := Fintype.ofFinite _
+  have : Fintype Ω := Fintype.ofFinite Ω
+  have : ∀ g : P, Fintype (fixedBy Ω g) := fun g => Fintype.ofFinite _
+  have : ∀ ω : Ω, Fintype (stabilizer P ω) := fun ω => Fintype.ofFinite _
+  have : Fintype (orbitRel.Quotient P Ω) := Fintype.ofFinite _
   have hclass := card_eq_sum_card_group_div_card_stabilizer P Ω
   have hburn := sum_card_fixedBy_eq_card_orbits_mul_card_group P Ω
   have hterm : ∀ q : orbitRel.Quotient P Ω, ∃ j : ℕ,
@@ -86,7 +86,7 @@ variable {G : Type*} [Group G]
 theorem card_inf_centralizer_le [Finite G] {p : ℕ} (hp : p.Prime) {S : Subgroup G}
     (hS : IsPGroup p S) {u : G} (hC : ¬ p ^ 2 ∣ Nat.card (Subgroup.centralizer ({u} : Set G))) :
     Nat.card ↥(S ⊓ Subgroup.centralizer ({u} : Set G)) ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hR : IsPGroup p ↥(S ⊓ Subgroup.centralizer ({u} : Set G)) :=
     hS.to_le inf_le_left
   obtain ⟨n, hn⟩ := hR.exists_card_eq

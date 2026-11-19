@@ -256,7 +256,7 @@ private theorem lin_catalogue_field {G : Type} [Group G] [Finite G] {p N m : ℕ
       · rw [h] at hq2dvd; norm_num at hq2dvd
       · rw [h] at hq8; omega
       · rw [h] at hq8; omega
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin (N / p)) E ⧸
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin (N / p)) E ⧸
       Subgroup.center (Matrix.SpecialLinearGroup (Fin (N / p)) E)) :=
     CFSG.BenderSuzuki.External.huppert_II_6_13 (K := E) (N / p) h2Np h22 h23
   let g' : Matrix.SpecialLinearGroup (Fin (N / p)) E →*
@@ -286,9 +286,9 @@ theorem t158CompLin_of (hLM : T171Sh.LinMarking) (hMI : T158MISetup)
   have hdN : d ∈ Subgroup.normalizer (L : Set G) :=
     S11.le_normalizer_of_innerDiag hpre.idiag₂ (Subgroup.mem_sup_left (Subgroup.mem_zpowers d))
   obtain ⟨K, hK, hKfin, hKcard, θ, hact⟩ := hLM G p L J A' d b N m hw hcatLin
-  letI := hK
-  letI := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let := hK
+  let := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hS : (Set.univ : Set (GL (Fin N) K)) ⊆ Subgroup.normalizer
       (LargeEvenSLGroup (Fin N) K : Set (GL (Fin N) K)) := by
     intro x _
@@ -327,8 +327,8 @@ theorem t158CompLin_of (hLM : T171Sh.LinMarking) (hMI : T158MISetup)
     rwa [hfix] at h1
   obtain ⟨hpN', h2Np, huniq, E, hEfield, hEfin, hEcard, g, hgsurj, hgker⟩ :=
     lin_field_type_data hpre hKcard hDp hcube hT'trans
-  letI := hEfield
-  letI := hEfin
+  let := hEfield
+  let := hEfin
   have hLayer : GLALayer (L ⊓ Subgroup.centralizer ({d} : Set G)) = J :=
     lin_field_layer hpre θ D hD hind hcompJ huniq
   let T : Subgroup (LinearFlag.projectiveSL N K) :=

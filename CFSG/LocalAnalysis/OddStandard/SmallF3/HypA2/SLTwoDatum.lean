@@ -11,7 +11,7 @@ open Subgroup CFSG.Blueprint CFSG.ComponentClassification
 
 private theorem two_dvd_card_of_isPGroup_two_center {X : Type} [Group X] [Finite X]
     (h2 : IsPGroup 2 ↥(center X)) (hZ : center X ≠ ⊥) : 2 ∣ Nat.card ↥(center X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := h2.exists_card_eq
   have hn0 : n ≠ 0 := by
     intro hn0
@@ -23,7 +23,7 @@ private theorem two_dvd_card_of_isPGroup_two_center {X : Type} [Group X] [Finite
 private theorem pPrimeCore_eq_bot_of_isQuasisimple_of_isPGroup_center {X : Type} [Group X]
     [Finite X] (hq : IsQuasisimple X) (h2 : IsPGroup 2 ↥(center X)) (hZ : center X ≠ ⊥) :
     pPrimeCore 2 X = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : (pPrimeCore 2 X).Normal := inferInstance
   have hcop : Nat.Coprime 2 (Nat.card ↥(pPrimeCore 2 X)) := CFSG.pPrimeCore_coprime_card
   rcases CFSG.LocalCores.quasisimple_normal_subgroups hq hN with htop | hle
@@ -48,7 +48,7 @@ theorem centralDatum_of_psl_two (hGr : TBLit.GriessMultipliersOdd) {K : Type} [G
     [Finite K] (hK : IsQuasisimple K) (h2 : IsPGroup 2 ↥(center K)) (hZ : center K ≠ ⊥)
     {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h9 : 9 ≤ p ^ f)
     (hm : LieModel (K ⧸ center K) .PSL 2 p f) : CentralDatum K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd (p ^ f) := (hp.odd_of_ne_two hp2).pow
   have h5 : 5 ≤ p ^ f := by omega
   have hSL : HarrisLit.IsSLTwoOver (p ^ f) K :=

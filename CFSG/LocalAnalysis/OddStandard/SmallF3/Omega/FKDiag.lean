@@ -118,7 +118,7 @@ theorem fk_diag_longRoot (κ : MulAut (spinGroup (quadPlus 4 (GaloisField 3 1)))
     κ ((fr (GaloisField 3 1)).longRoot hij s t (.ofAdd c)) =
       (fr (GaloisField 3 1)).longRoot hij s t
         (.ofAdd ((d (idx i s) : GaloisField 3 1) * d (idx j t) / μ * c)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h2 : (2 : 𝔽₃) ≠ 0 := two_ne_zero_of_charP (p := 3) (by norm_num)
   have hact : spinAction (quadPlus 4 𝔽₃) (κ ((fr 𝔽₃).longRoot hij s t (.ofAdd c))) =
       spinAction (quadPlus 4 𝔽₃) ((fr 𝔽₃).longRoot hij s t
@@ -183,7 +183,7 @@ theorem fk_diag_fix_z (κ : MulAut (spinGroup (quadPlus 4 (GaloisField 3 1))))
     κ (z0 (GaloisField 3 1)) = z0 (GaloisField 3 1) ∧
       κ (z2 (GaloisField 3 1)) = z2 (GaloisField 3 1) ∧
       κ (z3 (GaloisField 3 1)) = z3 (GaloisField 3 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h2 : (2 : 𝔽₃) ≠ 0 := two_ne_zero_of_charP (p := 3) (by norm_num)
   have hfix : ∀ {i j : Fin 4} (hij : i ≠ j) (s t : Bool),
       κ ((fr 𝔽₃).longSL2 hij s t (-1)) = (fr 𝔽₃).longSL2 hij s t (-1) := by

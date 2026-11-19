@@ -105,7 +105,7 @@ theorem s16c2m_setting (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAbelian 
   have hsimple : IsSimpleGroup ↥(lBar V₀ V hV L) := s16c167_cfg2_simple D h2
   have hfix : fixV (lBar V₀ V hV L) = ⊥ := s16c167_cfg2_fix D h2
   have hLbot : lBar V₀ V hV L ≠ ⊥ := by
-    haveI := hsimple.toNontrivial
+    have := hsimple.toNontrivial
     exact (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance
   have hall : commSub ⊤ (lBar V₀ V hV L) = ⊤ := by
     refine top_le_iff.1 (hsup.symm.le.trans (sup_le ?_ ?_))

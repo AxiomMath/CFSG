@@ -27,7 +27,7 @@ theorem model_exists_centralizer_two
     ∃ x : GM, x ^ 3 = 1 ∧ x ∉ zpowers zG ∧ x * k₁ = k₁ * x ∧ x * k₂ = k₂ * x := by
   classical
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hzN : (zpowers zG).Normal := CFSG.RankThree.PartTwo.Sec13.ON134.model_zpowers_normal
+  have hzN : (zpowers zG).Normal := CFSG.RankThree.PartTwo.Sec13.ON134.model_zpowers_normal
   set V : Subgroup GM := zpowers zG ⊔ zpowers k₁ with hV
   have hV3 : IsPGroup 3 V :=
     IsPGroup.to_sup_of_normal_left (isPGroup_zpowers_of_pow_three relG.xcube)

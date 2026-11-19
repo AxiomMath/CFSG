@@ -88,7 +88,7 @@ theorem yB_eq_polarFun (v w : Fin 10 → ZMod 2) : yB v w = yPolarFun w v := by
   simp only [yB, yQ_add]
   have h2 : (2 : ZMod 2) = 0 := by decide
   ring_nf
-  simp only [h2, mul_zero, zero_mul, add_zero, zero_add]
+  simp only [h2, mul_zero, add_zero, zero_add]
 
 theorem yQ_yY : yQ yY = 1 := by
   simp [yQ, yY]
@@ -158,7 +158,7 @@ theorem yRestrict_conjCoeff (α : Fin Tag.E7.rank → ℤ) (t : ZMod 2)
   · obtain ⟨h1, h2⟩ := h
     have hlt : yPsi.idxOf (yVec k - α) % 10 < 10 := Nat.mod_lt _ (by decide)
     have hcond : (True ∧ α ≠ yVec k - α) = True := by simp [h2]
-    simp only [h1, hcond, if_true, ite_true, yRestrict, hlt, if_pos]
+    simp only [h1, hcond, yRestrict, hlt, ite_eq_left]
     rw [yFinOfNat_eq hlt, yVec_idxOf_mod h1]
   · simp [h, yRestrict]
 
@@ -2867,9 +2867,9 @@ theorem yEq_of_add_eq {a b c : Fin 10 → ZMod 2} (h : a + b = c) : a = b + c :=
 
 @[expose] def ySubsetSum : List (Fin 10 → ZMod 2) → List Bool → Fin 10 → ZMod 2
   | [], _ => 0
-  | v :: vs, [] => ySubsetSum vs []
+  | _v :: vs, [] => ySubsetSum vs []
   | v :: vs, true :: ms => v + ySubsetSum vs ms
-  | v :: vs, false :: ms => ySubsetSum vs ms
+  | _v :: vs, false :: ms => ySubsetSum vs ms
 
 theorem ySubsetSum_mem_of_closed {T : Set (Fin 10 → ZMod 2)}
     (h0 : (0 : Fin 10 → ZMod 2) ∈ T) (hadd : ∀ u ∈ T, ∀ v ∈ T, u + v ∈ T)

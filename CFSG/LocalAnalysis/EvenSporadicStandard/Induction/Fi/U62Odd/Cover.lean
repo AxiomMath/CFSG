@@ -20,9 +20,9 @@ theorem odd_card_center_of_lieModel_psl_six_four
     (hmodel : CFSG.Blueprint.LieModel (L ⧸ center L) .PSL 6 2 2) :
     Odd (Nat.card (center L)) := by
   have hmodel' := hmodel.statedClassicalModel (by decide)
-  haveI : Finite (L ⧸ center L) :=
+  have : Finite (L ⧸ center L) :=
     CFSG.HardMathSupport.Foote.Proving.finite_of_statedClassicalModel _ _ _ _ _ hmodel'
-  haveI : Finite L :=
+  have : Finite L :=
     CFSG.RankThree.PerfectCover.finite_of_quasisimple_finite_central_quotient hq
       (MulEquiv.refl _)
   have hdvd := CFSG.AGLEmbedding.card_center_dvd_card_griessHopfMultiplier hq.1
@@ -42,12 +42,12 @@ theorem center_eq_bot_of_fi23_of_sporadicMultipliers
     (hSM : CFSG.RankThree.PartTwo.Sec4.Census.SporadicMultipliers)
     {X : Type} [Group X] (hq : CFSG.IsQuasisimple X)
     (hX : IsSporadic (X ⧸ center X) .Fi23) : center X = ⊥ := by
-  haveI : Finite (Carrier .Fi23) :=
+  have : Finite (Carrier .Fi23) :=
     CFSG.Sporadic.Catalog.finite_carrier_of_ne_M .Fi23 (by decide)
   have hX' : IsSporadic (X ⧸ center X) .Fi23 := hX
   obtain ⟨e⟩ := hX
-  haveI : Finite (X ⧸ center X) := Finite.of_equiv _ e.toEquiv.symm
-  haveI : Finite X :=
+  have : Finite (X ⧸ center X) := Finite.of_equiv _ e.toEquiv.symm
+  have : Finite X :=
     CFSG.RankThree.PerfectCover.finite_of_quasisimple_finite_central_quotient hq e
   exact fi23Mult_of_sporadicMultipliers hSM X hq hX'
 
@@ -55,12 +55,12 @@ theorem odd_card_center_of_fi24_of_sporadicMultipliers
     (hSM : CFSG.RankThree.PartTwo.Sec4.Census.SporadicMultipliers)
     {X : Type} [Group X] (hq : CFSG.IsQuasisimple X)
     (hX : IsSporadic (X ⧸ center X) .Fi24Prime) : Odd (Nat.card (center X)) := by
-  haveI : Finite (Carrier .Fi24Prime) :=
+  have : Finite (Carrier .Fi24Prime) :=
     CFSG.Sporadic.Catalog.finite_carrier_of_ne_M .Fi24Prime (by decide)
   have hX' : IsSporadic (X ⧸ center X) .Fi24Prime := hX
   obtain ⟨e⟩ := hX
-  haveI : Finite (X ⧸ center X) := Finite.of_equiv _ e.toEquiv.symm
-  haveI : Finite X :=
+  have : Finite (X ⧸ center X) := Finite.of_equiv _ e.toEquiv.symm
+  have : Finite X :=
     CFSG.RankThree.PerfectCover.finite_of_quasisimple_finite_central_quotient hq e
   exact fi24Mult_of_sporadicMultipliers hSM X hq hX'
 

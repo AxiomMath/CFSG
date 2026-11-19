@@ -176,7 +176,7 @@ end SzRCoords2
 theorem isSylowOf_top_of_sylow_eq {R : Subgroup G} {S : Sylow 2 G} (hS : (S : Subgroup G) = R) :
     IsSylowOf 2 R ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine isSylowOf_iff.mpr ⟨le_top, hS ▸ S.isPGroup', ?_⟩
+  refine isSylowOf_iff.mpr ⟨le_top, hS ▸ S.isPGroup, ?_⟩
   rw [relIndex_top_right, ← hS]
   exact S.not_dvd_index
 
@@ -206,7 +206,7 @@ theorem not_isSylow (hG : ¬ ∃ N : Subgroup G, N.Normal ∧ N.index = 2) (hS :
     Endings.relIndex_sup_zpowers_eq_two htW htN htt
   apply hG
   refine CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson (T := szR T₁ R₂ t)
-    (U := T₁ ⊔ R₂) (hSR ▸ S.isPGroup') (hSR ▸ S.not_dvd_index) (sup_le_szR T₁ R₂ t) hidx
+    (U := T₁ ⊔ R₂) (hSR ▸ S.isPGroup) (hSR ▸ S.not_dvd_index) (sup_le_szR T₁ R₂ t) hidx
     (mem_szR_right T₁ R₂ t) htW (fun y _ hyU => ?_)
     (h.conj_t_not_mem_sup_of_isSylowOf hS hc ha hK hCt hR)
   exact Endings.orderOf_le_of_ne_one htt fun hy1 => hyU (hy1 ▸ one_mem _)
@@ -226,7 +226,7 @@ theorem not_isSylowOf_normalizer (hG : ¬ ∃ N : Subgroup G, N.Normal ∧ N.ind
     GMS28.exists_mem_normalizer_of_not_isSylowOf (h.isPGroup_szR hc ha hK) hnot
   have hle : szR T₁ R₂ t ⊔ zpowers z ≤ normalizer (szR T₁ R₂ t : Set G) :=
     sup_le (le_normalizer) (zpowers_le.mpr hzN)
-  have heq := hRN.eq_of_le le_sup_left hle (P.isPGroup'.to_le (sup_le hRP (zpowers_le.mpr hzP)))
+  have heq := hRN.eq_of_le le_sup_left hle (P.isPGroup.to_le (sup_le hRP (zpowers_le.mpr hzP)))
   exact hzR (heq ▸ mem_sup_right (mem_zpowers z))
 
 theorem exists_mem_normalizer_not_mem (hG : ¬ ∃ N : Subgroup G, N.Normal ∧ N.index = 2)
@@ -241,7 +241,7 @@ theorem exists_mem_normalizer_not_mem (hG : ¬ ∃ N : Subgroup G, N.Normal ∧ 
     hS.not_isSylow hG hc ha hK hμ hCt (exists_sylow_eq_of_isSylowOf_top hR)
   obtain ⟨P, hRP, z, hzP, hzN, hzR⟩ :=
     GMS28.exists_mem_normalizer_of_not_isSylowOf (h.isPGroup_szR hc ha hK) hnot
-  exact ⟨z, hzN, hzR, P.isPGroup'.to_le (sup_le hRP (zpowers_le.mpr hzP))⟩
+  exact ⟨z, hzN, hzR, P.isPGroup.to_le (sup_le hRP (zpowers_le.mpr hzP))⟩
 
 end SzR2
 

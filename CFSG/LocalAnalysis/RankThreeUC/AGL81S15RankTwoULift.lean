@@ -28,7 +28,7 @@ private theorem characteristic_subgroupOf_sup_center {L : Type} [Group L] [Finit
     (hU : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤) :
     (U.subgroupOf (U ⊔ Z)).Characteristic := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUidx : ¬ 2 ∣ U.index := by
     simpa only [show (U.subgroupOf ⊤).index = U.index from
       Subgroup.relIndex_top_right U] using hU.2.2
@@ -89,17 +89,17 @@ private theorem normalizer_sup_center_le_normalizer {L : Type} [Group L] [Finite
 
 private theorem exists_sylow_preimage_map {L : Type} [Group L] [Finite L] {q : ℕ}
     (hq : q.Prime) (hqZ : ¬ q ∣ Nat.card (Subgroup.center L)) {U : Subgroup L}
-    (hU : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤)
+    (_hU : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤)
     {Ebar : Subgroup (L ⧸ Subgroup.center L)} (hEbarCard : Nat.card Ebar = q ^ 2) :
     ∃ E : Subgroup L, IsPGroup q E ∧
       E.map (QuotientGroup.mk' (Subgroup.center L)) = Ebar := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let π : L →* L ⧸ Subgroup.center L := QuotientGroup.mk' (Subgroup.center L)
   let P : Subgroup L := Ebar.comap π
   let E : Sylow q ↥P := Sylow.nonempty.some
   let E₀ : Subgroup L := (E : Subgroup ↥P).map P.subtype
-  have hE₀q : IsPGroup q E₀ := E.isPGroup'.map P.subtype
+  have hE₀q : IsPGroup q E₀ := E.isPGroup.map P.subtype
   have hE₀syl : CFSG.ABGLocalTools.IsSylowOf q E₀ P := ⟨E, rfl⟩
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hker : ¬ q ∣ Nat.card ↥(MonoidHom.ker π) := by
@@ -208,11 +208,11 @@ private theorem isElemAbelian_of_map_eq {L : Type} [Group L] {q : ℕ}
 private theorem exists_center_factor {L : Type} [Group L] {U : Subgroup L}
     {α : MulAut L} {x y : L} (hxy : α x * y⁻¹ ∈ U ⊔ Subgroup.center L) :
     ∃ u ∈ U, ∃ z ∈ Subgroup.center L, u * z = α x * y⁻¹ := by
-  haveI : (Subgroup.center L).Normal := inferInstance
+  have : (Subgroup.center L).Normal := inferInstance
   exact (Subgroup.mem_sup_of_normal_right (s := U) (t := Subgroup.center L)).mp hxy
 
 private theorem center_factor_pow_mem {L : Type} [Group L] [Finite L] {q : ℕ}
-    (hq : q.Prime) {U E : Subgroup L} (hE : IsElemAbelian q E)
+    (_hq : q.Prime) {U E : Subgroup L} (hE : IsElemAbelian q E)
     (hEN : E ≤ Subgroup.normalizer (U : Set L))
     {α : MulAut L} (hα : U.map α.toMonoidHom = U) {x y u z : L}
     (hxE : x ∈ E) (hyE : y ∈ E) (huU : u ∈ U)
@@ -362,7 +362,7 @@ private theorem power_clause {L : Type} [Group L] [Finite L] {q : ℕ}
       rwa [show (QuotientGroup.mk' (Subgroup.center L)) (α x * (x ^ j)⁻¹) =
         (QuotientGroup.mk' (Subgroup.center L)) (α x) *
           ((QuotientGroup.mk' (Subgroup.center L)) x ^ j)⁻¹ by
-          simp [map_mul, map_pow]]
+          simp [map_mul]]
     have h2 : α x * (x ^ j)⁻¹ ∈
         (U.map (QuotientGroup.mk' (Subgroup.center L))).comap
           (QuotientGroup.mk' (Subgroup.center L)) := h1

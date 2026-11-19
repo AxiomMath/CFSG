@@ -79,6 +79,6 @@ theorem c127_of_ffK
 
 theorem theoremC127_of_ffK
     (hFF : C127FFKInput) : TheoremC127 :=
-  fun G _ _ X T P K hX hT hKG hP hK hKJ hPK => c127_of_ffK hFF X T P K hX hT hKG hP hK hKJ hPK
+  fun _G _ _ X T P K hX hT hKG hP hK hKJ hPK => c127_of_ffK hFF X T P K hX hT hKG hP hK hKJ hPK
 
 end CFSG.Quasithin

@@ -40,12 +40,14 @@ theorem exists_mul_of_mem_sup (h618 : Stage618 M H K z) {y : G} (hy : y ∈ K �
 theorem pCoreOf_le_kRad (hyp : Hyp P M x z H S) : pCoreOf 2 H ≤ kRad H S K :=
   le_inf hyp.optimal.core_le le_sup_right
 
+omit [Finite G] in
 theorem kRad_le_sup : kRad H S K ≤ K ⊔ pCoreOf 2 H :=
   inf_le_right
 
 theorem pCoreOf_le_kPar (hyp : Hyp P M x z H S) : pCoreOf 2 H ≤ kPar H S K :=
   le_inf le_sup_right ((pCoreOf_le_kRad hyp).trans le_normalizer)
 
+omit [Finite G] in
 theorem kPar_le_sup : kPar H S K ≤ K ⊔ pCoreOf 2 H :=
   inf_le_left
 
@@ -111,7 +113,7 @@ theorem isPGroup_bar_kRad (hyp : Hyp P M x z H S) : IsPGroup 2 (bar K (kRad H S 
 
 theorem bar_kRad_ne_bot (hyp : Hyp P M x z H S) (h618 : Stage618 M H K z)
     (hL : LieCase M H S K x z) : bar K (kRad H S K) ≠ ⊥ := by
-  obtain ⟨s, hs, hsO⟩ := SetLike.exists_of_lt hL.rad_gt
+  obtain ⟨s, hs, hsO⟩ := _root_.IsConcreteLE.exists_of_lt hL.rad_gt
   obtain ⟨k, hk, o, ho, rfl⟩ := exists_mul_of_mem_sup h618 (kRad_le_sup hs)
   have hO := pCoreOf_le_kRad (K := K) hyp
   have hkR : k ∈ kRad H S K := by
@@ -126,7 +128,7 @@ theorem relIndex_eq_relIndex_sup (h618 : Stage618 M H K z) {A : Subgroup G}
     (hOA : pCoreOf 2 H ≤ A) : A.relIndex K = A.relIndex (K ⊔ pCoreOf 2 H) := by
   have hKH : K ≤ H := h618.comp.le
   have hOH : pCoreOf 2 H ≤ H := pCoreOf_le 2 H
-  haveI hN : ((pCoreOf 2 H).subgroupOf H).Normal :=
+  have hN : ((pCoreOf 2 H).subgroupOf H).Normal :=
     (normal_subgroupOf_iff_le_normalizer hOH).2 (le_normalizer_pCoreOf 2 H)
   let f : H →* H ⧸ (pCoreOf 2 H).subgroupOf H := QuotientGroup.mk' _
   have hA : ((A.subgroupOf H).map f).comap f = A.subgroupOf H := by
@@ -168,6 +170,7 @@ theorem le_pCoreOf_normalizer {T : Type*} [Group T] {R : Subgroup T} (hR : IsPGr
   intro r hr
   exact ⟨⟨r, le_normalizer hr⟩, hle hr, rfl⟩
 
+omit [Finite G] in
 theorem mem_normalizer_map_comap {Q : Subgroup (Kbar K)} {k : K}
     (hk : kbarMk K k ∈ normalizer (Q : Set (Kbar K))) :
     (k : G) ∈ normalizer ((Q.comap (kbarMk K)).map K.subtype : Set G) := by

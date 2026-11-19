@@ -71,7 +71,7 @@ theorem theta0e_ne_one : theta0e ≠ 1 := by
   decide +revert
 
 theorem orderOf_theta0e : orderOf theta0e = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime theta0e_pow_three theta0e_ne_one
 
 theorem theta0e_mem_E : theta0e ∈ C.E := by
@@ -132,8 +132,8 @@ theorem AtildeE_pow_three {x : C.E} (hx : x ∈ C.AtildeE) : x ^ 3 = 1 := by
     _ = 1 := by rw [hy3, hz3, one_mul]
 
 theorem card_AtildeE : Nat.card C.AtildeE = 243 := by
-  haveI : Finite C.E := Nat.finite_of_card_ne_zero (by rw [C.card_E]; norm_num)
-  haveI : Finite X₀ := Finite.of_surjective C.π C.hπs
+  have : Finite C.E := Nat.finite_of_card_ne_zero (by rw [C.card_E]; norm_num)
+  have : Finite X₀ := Finite.of_surjective C.π C.hπs
   have h := card_comap_of_surjective C.π C.hπs thetaBar.range
   rw [C.hπk, C.card_center, card_range_thetaBar] at h
   exact h.trans (by norm_num)
@@ -156,8 +156,8 @@ theorem AtildeE_le_PE : C.AtildeE ≤ C.PE := fun _ hx => A_le_Psub hx
 theorem AtildeG_le_PG : C.AtildeG ≤ C.PG := Subgroup.map_mono C.AtildeE_le_PE
 
 theorem card_PE : Nat.card C.PE = 3 ^ 7 := by
-  haveI : Finite C.E := Nat.finite_of_card_ne_zero (by rw [C.card_E]; norm_num)
-  haveI : Finite X₀ := Finite.of_surjective C.π C.hπs
+  have : Finite C.E := Nat.finite_of_card_ne_zero (by rw [C.card_E]; norm_num)
+  have : Finite X₀ := Finite.of_surjective C.π C.hπs
   have h := card_comap_of_surjective C.π C.hπs Psub
   rw [C.hπk, C.card_center, card_Psub] at h
   exact h.trans (by norm_num)
@@ -195,7 +195,7 @@ theorem mem_PE_of_mem_PG {e : C.E} (h : (e : G12) ∈ C.PG) : e ∈ C.PE := by
 
 theorem normalizes_AtildeG_of_normalizes_PG {n : G12} (hn : n ∈ C.X)
     (hP : ∀ p ∈ C.PG, n * p * n⁻¹ ∈ C.PG) : ∀ a ∈ C.AtildeG, n * a * n⁻¹ ∈ C.AtildeG := by
-  haveI : Finite C.E := Nat.finite_of_card_ne_zero (by rw [C.card_E]; norm_num)
+  have : Finite C.E := Nat.finite_of_card_ne_zero (by rw [C.card_E]; norm_num)
   set B : Subgroup C.E := C.AtildeE.map (C.conjE hn) with hB
   have hBP : B ≤ C.PE := by
     rintro _ ⟨a, ha, rfl⟩
@@ -260,7 +260,7 @@ theorem normalizes_AtildeG_of_normalizes_PG {n : G12} (hn : n ∈ C.X)
 
 theorem frattini : ∀ x ∈ C.X, ∃ e ∈ C.E, ∃ n ∈ C.X,
     (∀ a ∈ C.AtildeG, n * a * n⁻¹ ∈ C.AtildeG) ∧ x = e * n := by
-  haveI : Finite G12 := Finite.of_injective (fun e : G12 => (e : V12 → V12))
+  have : Finite G12 := Finite.of_injective (fun e : G12 => (e : V12 → V12))
     fun _ _ h => LinearEquiv.ext (congrFun h)
   refine frattini_of_normalizes C.X C.E C.PG C.AtildeG C.hEX C.hEnorm ?_ ?_ ?_
   · exact Subgroup.map_subtype_le _

@@ -26,7 +26,7 @@ theorem P3Hyp.false_of_inverted_gens (H : P3Hyp q S B) {X : Type} [Group X]
         (n * g i * n⁻¹ = g j ∧ n * g j * n⁻¹ = g i))
     {t : X} (ht1 : t ≠ 1) (ht2 : t ^ 2 = 1) (htg : ∀ i, Commute t (g i))
     (hcard : 3 ^ 4 ≤ Nat.card (Subgroup.closure (Set.range g))) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set e' : ↥S ⧸ Subgroup.center ↥S ≃* X := (psimpleEquivCenterQuot H).symm.trans e
   set π : ↥S →* X := e'.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥S)) with hπdef
   have hπ : Function.Surjective π := e'.surjective.comp (QuotientGroup.mk'_surjective _)
@@ -109,7 +109,7 @@ theorem P3Hyp.false_of_torus_hom (H : P3Hyp q S B) {X : Type} [Group X]
       n * θ (.ofAdd (Pi.single j 1)) * n⁻¹ = θ (.ofAdd (Pi.single j' 1)) ∧
         n * θ (.ofAdd (Pi.single j' 1)) * n⁻¹ = θ (.ofAdd (Pi.single j 1)))
     {t : X} (ht1 : t ≠ 1) (ht2 : t ^ 2 = 1) (htθ : ∀ a, Commute t (θ a)) : False := by
-  haveI : Finite X := Finite.of_equiv _ e.toEquiv
+  have : Finite X := Finite.of_equiv _ e.toEquiv
   set g : Fin m → X := fun j => θ (.ofAdd (Pi.single j 1)) with hg
   have htop : Subgroup.closure (Set.range fun j : Fin m =>
       (Multiplicative.ofAdd (Pi.single j 1) : Multiplicative (Fin m → ZMod 3))) = ⊤ := by

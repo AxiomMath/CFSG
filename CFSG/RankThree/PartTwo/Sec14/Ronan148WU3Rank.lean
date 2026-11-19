@@ -265,7 +265,7 @@ theorem isLThreePi_of_kType148 {G : Type} [Group G] [Finite G] {A Y : Subgroup G
       hL⟩
   · exact absurd (isoLThreePi_of_mulEquiv148 φ.symm hK) (not_isoLThreePi_alternating_seven 2 f)
   · exfalso
-    haveI := h7
+    have := h7
     have h7iso : Sec4.IsoLThreePi ↥(img148 A Y K) 7 1 :=
       isoLThreePi_of_mulEquiv148 φ (Or.inl ⟨by norm_num, ⟨MulEquiv.refl _⟩⟩)
     obtain ⟨π₁, -, hc₁⟩ := card_mul_three_of_isoLThreePi hf hK
@@ -281,12 +281,12 @@ theorem isLThreePi_of_kType148 {G : Type} [Group G] [Finite G] {A Y : Subgroup G
 theorem step148PGLConjU3_of_rank (hR : Step148OmegaRankThree) : Ronan148A.Step148PGLConjU3 := by
   intro G _ _ A c L h Y hY hs ih hYB B Q e K Le hP hkt he J hJ hKJ hAJ hEq f hf hq3 hq9 hpgl heΩ
     hLeA hX1 y hy D hDne hDC hAD heD hcent
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   have hA3 : ∀ a ∈ A, a ^ 3 = 1 := h.mem_partTwoF.1.2
   have hJY : J ≤ Y := le_of_mem_thetaComponentsIn hJ
   have hJM : J ≤ Y ⊔ A := hJY.trans le_sup_left
-  haveI : Group.IsPerfect ↥J := isPerfect_of_mem_thetaComponentsIn hJ
-  haveI hJp : Group.IsPerfect ↥(img148 A Y J) := isPerfect_img148 hJM
+  have : Group.IsPerfect ↥J := isPerfect_of_mem_thetaComponentsIn hJ
+  have hJp : Group.IsPerfect ↥(img148 A Y J) := isPerfect_img148 hJM
   have hJnt : Nontrivial ↥(img148 A Y J) := by
     rw [Subgroup.nontrivial_iff_ne_bot]
     intro hbot
@@ -299,7 +299,7 @@ theorem step148PGLConjU3_of_rank (hR : Step148OmegaRankThree) : Ronan148A.Step14
   have hpgl' := hpgl
   rw [img148_sup hJM le_sup_right] at hpgl'
   obtain ⟨hp, hJpi⟩ := Ronan148N.isoLThreePi_of_isZ3PGLThreeAt148 hpgl' hJp hJnt hAN
-  haveI := hp
+  have := hp
   have hJs : IsSimpleGroup ↥(img148 A Y J) :=
     (Sec19.Step1914TriProof.isSimpleGroup_of_isoLThreePi hf hJpi).1
   obtain ⟨-, hJZ⟩ := Item148Res5.isComponent_img148 hY.2 hJ hJs

@@ -21,7 +21,7 @@ theorem isSubnormal_map_subtype {G : Type} [Group G] {M : Subgroup G} {H K : Sub
 theorem gnSetting_of_maxTwoLocal {G : Type} [Group G] [Finite G] (hglob : AGLGlobal G)
     (hX : D1NoXBlock) {M T : Subgroup G} (hM : GLBIsMaxTwoLocal M) (hT : IsSylowTwoOf T M) :
     GNSetting ↥M (T.subgroupOf M) := by
-  haveI := hglob.simple
+  have := hglob.simple
   have hMtop : M ≠ ⊤ := twoLocal_ne_top hglob.nonab hM.1
   refine ⟨CFSG.AGLEmbeddingD2.McLaughlin.cfsgIsKGroup_of_open
     (CFSG.LocalAnalysis.GLTheoremB.isKGroup_of_isKProper hglob.kProper hMtop), ?_,

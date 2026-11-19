@@ -124,7 +124,7 @@ theorem exists_frobenius_pair [Finite X] (hX : IsLThreeTwo X) {c : X} (hc : orde
       have h2' : c ^ 2 = c⁻¹ := eq_inv_of_mul_eq_one_left h2
       have hinv : c⁻¹ = g * a₀ * g⁻¹ := by
         rw [← h2', ← hk']
-        simp [zpow_two, pow_two]
+        simp [pow_two]
       exact hrel _ hinv
 
 end Pair

@@ -31,7 +31,7 @@ variable {p : ℕ} {S : Type} [Group S] [Finite S] {β : MulAut S} {M : Subgroup
 
 theorem SimpleNormalData.eq_of_glaPComponent (h : SimpleNormalData p β M) {I : Subgroup S}
     (hI : GLAPComponent p (fixSubgroup β) I) : I = M := by
-  haveI := h.normal
+  have := h.normal
   have hIC : I ≤ fixSubgroup β := hI.1
   have hperf : ⁅I, I⁆ = I := glaPComponent_perfect hI
   have hIM : I ≤ M :=
@@ -43,8 +43,8 @@ theorem SimpleNormalData.eq_of_glaPComponent (h : SimpleNormalData p β M) {I : 
 
 theorem SimpleNormalData.primeCore_eq_bot (hp : p.Prime) (h : SimpleNormalData p β M) :
     GLAPPrimeCore p ↥M = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := h.simple
+  have : Fact p.Prime := ⟨hp⟩
+  have := h.simple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore p ↥M) with h0 | h0
   · exact h0
   · exfalso
@@ -59,8 +59,8 @@ noncomputable def SimpleNormalData.pQuotEquivSelf (hp : p.Prime) (h : SimpleNorm
 theorem SimpleNormalData.center_pQuot_eq_bot (hp : p.Prime) (h : SimpleNormalData p β M) :
     Subgroup.center (PQuot p M) = ⊥ := by
   let e := h.pQuotEquivSelf hp
-  haveI := h.simple
-  haveI : IsSimpleGroup (PQuot p M) := e.isSimpleGroup
+  have := h.simple
+  have : IsSimpleGroup (PQuot p M) := e.isSimpleGroup
   refine b3Lie_center_eq_bot ?_
   obtain ⟨a, b, hab⟩ := h.nonabelian
   exact ⟨e.symm a, e.symm b, fun h' => hab (by
@@ -74,8 +74,8 @@ noncomputable def SimpleNormalData.pSimpleEquivSelf (hp : p.Prime) (h : SimpleNo
 
 theorem SimpleNormalData.core_eq_bot (hp : p.Prime) (h : SimpleNormalData p β M) :
     GLAPPrimeCoreOf p (fixSubgroup β) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := h.simple
+  have : Fact p.Prime := ⟨hp⟩
+  have := h.simple
   set C := fixSubgroup β with hC
   have hWC : ∀ w ∈ GLAPPrimeCoreOf p C, w ∈ C := fun w hw => Subgroup.map_subtype_le _ hw
   have hcon : ∀ t ∈ C, ∀ w ∈ GLAPPrimeCoreOf p C, t * w * t⁻¹ ∈ GLAPPrimeCoreOf p C :=
@@ -125,13 +125,14 @@ theorem SimpleNormalData.core_eq_bot (hp : p.Prime) (h : SimpleNormalData p β M
   calc w * m = (w * m * w⁻¹ * m⁻¹) * (m * w) := by group
     _ = m * w := by rw [hc, one_mul]
 
+omit [Finite S] in
 theorem SimpleNormalData.ofSimple (hs : IsSimpleGroup ↥(fixSubgroup β))
     (hnc : ∃ a b : ↥(fixSubgroup β), a * b ≠ b * a) (hchev : IsChevSimple p ↥(fixSubgroup β))
     (hdvd : p ∣ Nat.card ↥(fixSubgroup β)) : SimpleNormalData p β (fixSubgroup β) := by
   have hnorm : ((fixSubgroup β).subgroupOf (fixSubgroup β)).Normal := by
     rw [Subgroup.subgroupOf_self]
     infer_instance
-  haveI := hnorm
+  have := hnorm
   have hZ : Subgroup.center ↥(fixSubgroup β) = ⊥ := b3Lie_center_eq_bot hnc
   refine
     { le := le_rfl
@@ -142,7 +143,7 @@ theorem SimpleNormalData.ofSimple (hs : IsSimpleGroup ↥(fixSubgroup β))
       centralizer_trivial := fun x hx hxc => ?_
       chev := hchev
       dvd := hdvd }
-  · haveI : Subsingleton (↥(fixSubgroup β) ⧸ (fixSubgroup β).subgroupOf (fixSubgroup β)) := by
+  · have : Subsingleton (↥(fixSubgroup β) ⧸ (fixSubgroup β).subgroupOf (fixSubgroup β)) := by
       refine ⟨fun a b => ?_⟩
       induction a using QuotientGroup.induction_on with | H a => ?_
       induction b using QuotientGroup.induction_on with | H b => ?_
@@ -214,11 +215,11 @@ theorem noComponent_of_solvable {p : ℕ} {S : Type} [Group S] [Finite S] {β : 
 
 theorem false_of_perfect_le_solvable {G : Type} [Group G] {I X : Subgroup G}
     (hX : Group.IsSolvable ↥X) (hIX : I ≤ X) (hperf : ⁅I, I⁆ = I) (hne : I ≠ ⊥) : False := by
-  haveI : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.mpr hperf
-  haveI : Group.IsSolvable ↥I :=
+  have : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.mpr hperf
+  have : Group.IsSolvable ↥I :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hIX)
       (Subgroup.inclusion_injective hIX)
-  haveI : Nontrivial ↥I := (Subgroup.nontrivial_iff_ne_bot I).2 hne
+  have : Nontrivial ↥I := (Subgroup.nontrivial_iff_ne_bot I).2 hne
   exact Group.IsPerfect.not_isSolvable (G := ↥I) inferInstance
 
 theorem noComponent_of_pConstrained {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
@@ -227,7 +228,7 @@ theorem noComponent_of_pConstrained {G : Type} [Group G] [Finite G] {p : ℕ} (h
     (hc : ∀ x ∈ X, (∀ y ∈ P, x * y = y * x) → x ∈ P) :
     ∀ I : Subgroup G, ¬ GLAPComponent p X I := by
   intro I hI
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hIX : I ≤ X := hI.1
   have hOI : GLAPPrimeCore p ↥I = ⊥ := by
     have h1 : GLAPPrimeCoreOf p I ≤ GLAPPrimeCoreOf p X :=
@@ -248,7 +249,7 @@ theorem noComponent_of_pConstrained {G : Type} [Group G] [Finite G] {p : ℕ} (h
       refine hc x (hIX hx) fun y hy => ?_
       exact ((Subgroup.mem_centralizer_iff.1
         (Subgroup.commutator_eq_bot_iff_le_centralizer.1 h hx)) y hy).symm
-  haveI : Group.IsNilpotent ↥P := hPp.isNilpotent
+  have : Group.IsNilpotent ↥P := hPp.isNilpotent
   exact false_of_perfect_le_solvable inferInstance hIP (glaPComponent_perfect hI)
     (glaPComponent_ne_bot' hI)
 

@@ -18,14 +18,17 @@ open CFSG.Timmesfeld.Bridge.NatSum
 variable {F : Type} [Field F] [Fintype F] [CharP F 2]
   {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
+omit [Fintype F] [CharP F 2] in
 theorem lowerElt_eq_ltriElt (t : F) : lowerElt F t = ltriElt t := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [lowerElt, ltriElt]
 
+omit [Fintype F] [CharP F 2] in
 private theorem upperElt_mem_utri (t : F) : upperElt F t ∈ utri F := by
   rw [CFSG.RankThree.GF2n.Tim77.utri_eq_upperUnipotent]
   exact (mem_upperUnipotent_iff F).2 ⟨t, rfl⟩
 
+omit [Fintype F] [CharP F 2] in
 private theorem lowerElt_mem_ltri (t : F) : lowerElt F t ∈ ltri F := by
   rw [lowerElt_eq_ltriElt]
   exact ltriElt_mem_ltri t
@@ -37,8 +40,8 @@ theorem isNatSumModule_of_fixedSub
     (hspan : fixedSub ρ (utri F) ⊔ fixedSub ρ (ltri F) = ⊤) :
     IsNatSumModule ρ := by
   classical
-  haveI : PerfectRing F 2 := PerfectField.toPerfectRing 2
-  letI : DistribMulAction SL(2, F) W := DistribMulAction.compHom W ρ
+  have : PerfectRing F 2 := PerfectField.toPerfectRing 2
+  let : DistribMulAction SL(2, F) W := DistribMulAction.compHom W ρ
   have hquad' : ∀ (s t : F) (v : W),
       upperElt F s • (upperElt F t • v - v) = upperElt F t • v - v := by
     intro s t v
@@ -102,6 +105,7 @@ theorem isNatSumModule_of_fixedSub
   intro g w i
   rw [hφ_smul g w]
 
+omit [Fintype F] [CharP F 2] [Finite W] in
 private theorem fixedSub_comp_conj
     (ρ : Representation (ZMod 2) SL(2, F) W) (c : SL(2, F)) (S : Subgroup SL(2, F)) :
     fixedSub (ρ.comp (MulAut.conj c).toMonoidHom) S =
@@ -119,6 +123,7 @@ private theorem fixedSub_comp_conj
       simpa [show c⁻¹ * (c * s * c⁻¹) * c = s by group] using hs
     simpa [MulAut.conj_apply] using hv _ hmem
 
+omit [Fintype F] [CharP F 2] [Finite W] in
 private theorem isNatSumModule_comp_conj
     (ρ : Representation (ZMod 2) SL(2, F) W) (c : SL(2, F))
     (h : IsNatSumModule (ρ.comp (MulAut.conj c).toMonoidHom)) :

@@ -42,7 +42,7 @@ theorem pijMat_mul_self {i j : Fin n} (hij : i ≠ j) {α : K} (hα : α ≠ 0) 
     by_cases hc : c = i
     · subst c
       simp [mul_inv_cancel₀ hα]
-    · rw [if_neg hc, if_neg (Ne.symm hc)]
+    · rw [ite_eq_right hc, ite_eq_right (Ne.symm hc)]
       simp
   · by_cases hrj : r = j
     · subst r
@@ -56,7 +56,7 @@ theorem pijMat_mul_self {i j : Fin n} (hij : i ≠ j) {α : K} (hα : α ≠ 0) 
       by_cases hc : c = j
       · subst c
         simp [inv_mul_cancel₀ hα]
-      · rw [if_neg hc, if_neg (Ne.symm hc)]
+      · rw [ite_eq_right hc, ite_eq_right (Ne.symm hc)]
         simp
     · simp_rw [pijMat_row_other hij α hri hrj]
       rw [show (∑ k, (if r = k then (1 : K) else 0) * pijMat i j α k c) = pijMat i j α r c by
@@ -80,7 +80,7 @@ theorem pijMat_mul_pijMat {i j : Fin n} (hij : i ≠ j) (α β : K) :
     rw [pijMat_row_j hij β c, Matrix.diagonal_apply]
     by_cases hc : c = i
     · subst c; simp
-    · rw [if_neg hc, if_neg (Ne.symm hc)]; simp
+    · rw [ite_eq_right hc, ite_eq_right (Ne.symm hc)]; simp
   · by_cases hrj : r = j
     · subst r
       simp_rw [pijMat_row_j hij α]
@@ -90,8 +90,8 @@ theorem pijMat_mul_pijMat {i j : Fin n} (hij : i ≠ j) (α β : K) :
         simp]
       rw [pijMat_row_i hij β c, Matrix.diagonal_apply]
       by_cases hc : c = j
-      · subst c; simp [hij, hij.symm]
-      · rw [if_neg hc, if_neg (Ne.symm hc)]; simp
+      · subst c; simp [hij.symm]
+      · rw [ite_eq_right hc, ite_eq_right (Ne.symm hc)]; simp
     · simp_rw [pijMat_row_other hij α hri hrj]
       rw [show (∑ k, (if r = k then (1 : K) else 0) * pijMat i j β k c) = pijMat i j β r c by
         simp only [ite_mul, one_mul, zero_mul]
@@ -100,7 +100,7 @@ theorem pijMat_mul_pijMat {i j : Fin n} (hij : i ≠ j) (α β : K) :
       rw [pijMat_row_other hij β hri hrj c, Matrix.diagonal_apply]
       by_cases hrc : r = c
       · subst c; simp [hri, hrj]
-      · rw [if_neg hrc, if_neg hrc]
+      · rw [ite_eq_right hrc, ite_eq_right hrc]
 
 theorem diagSignMat_mul_self (i : Fin n) :
     (diagSignMat i : Matrix (Fin n) (Fin n) K) * diagSignMat i = 1 := by
@@ -199,7 +199,7 @@ private lemma pijMat_action_i {n : ℕ} (f : Module.Basis (Fin n) (ZMod p) U) {i
   · rw [pijMat_row_j hij α i]; simp
   · intro r _ hrj
     by_cases hri : r = i
-    · subst r; rw [pijMat_row_i hij α i]; simp only [hij, if_false, zero_smul]
+    · subst r; rw [pijMat_row_i hij α i]; simp only [hij, ite_false, zero_smul]
     · rw [pijMat_row_other hij α hri hrj i]; simp [hri]
   · intro h; exact absurd (Finset.mem_univ j) h
 
@@ -266,7 +266,7 @@ private lemma pijMat_root_ne {n : ℕ} (f : Module.Basis (Fin n) (ZMod p) U) {i 
     rw [hsplit, h]
   have h0 := Fintype.linearIndependent_iff.mp f.linearIndependent
     (fun k : Fin n => if k = i then α else if k = j then (-1 : ZMod p) else 0) hsum i
-  rw [if_pos rfl] at h0
+  rw [ite_eq_left rfl] at h0
   exact hα h0
 
 theorem isRefl_of_toMatrix_eq_pijMat {n : ℕ} (f : Module.Basis (Fin n) (ZMod p) U) {i j : Fin n}

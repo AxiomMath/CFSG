@@ -295,7 +295,7 @@ theorem two_dvd_card_hat_of_threeASix {A : Type} [Group A] [Finite A] {Y P : Sub
       Equiv.Perm (Fin 4))) :
     2 ∣ Nat.card (↥P ⧸ CFSG.pCore 2 ↥P) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e4⟩ := hS4
   set Z := Subgroup.center ↥Y with hZdef
   set ρ₀ : ↥P →* ↥Y ⧸ Z := (QuotientGroup.mk' Z).comp (inclusion hPY) with hρ₀
@@ -431,7 +431,7 @@ theorem agl81TenOneCZero_of (h98 : AGL81NineEightFour G) (h85 : Asc81bEightFive)
     obtain ⟨-, n, ⟨eL⟩, ⟨e⟩⟩ := h6
     refine hasWGen_of_mulEquiv_perm e hQ ?_
     by_contra hn
-    haveI : Nontrivial (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) := hLq.2.toNontrivial
+    have : Nontrivial (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) := hLq.2.toNontrivial
     exact not_nontrivial_alternatingGroup_of_le_two (m := 2 * n) (by omega)
       eL.injective.nontrivial
   ·
@@ -439,21 +439,21 @@ theorem agl81TenOneCZero_of (h98 : AGL81NineEightFour G) (h85 : Asc81bEightFive)
     refine hasWGen_of_mulEquiv_perm e hQ ?_
     by_contra hn
     rcases (show n = 0 ∨ n = 1 by omega) with rfl | rfl
-    · haveI : Nontrivial ↥(barM M L) := by
+    · have : Nontrivial ↥(barM M L) := by
         have := hLq.2.toNontrivial
         exact (QuotientGroup.mk'_surjective (Subgroup.center ↥(barM M L))).nontrivial
       exact not_nontrivial_alternatingGroup_of_le_two (m := 4 * 0) (by omega)
         eL.injective.nontrivial
     ·
-      haveI : Nontrivial ↥(barM M L) := by
+      have : Nontrivial ↥(barM M L) := by
         have := hLq.2.toNontrivial
         exact (QuotientGroup.mk'_surjective (Subgroup.center ↥(barM M L))).nontrivial
-      haveI : Group.IsSolvable (Equiv.Perm (Fin 4)) := Equiv.Perm.isSolvable (by simp)
-      haveI : Group.IsSolvable ↥(alternatingGroup (Fin (4 * 1))) :=
+      have : Group.IsSolvable (Equiv.Perm (Fin 4)) := Equiv.Perm.isSolvable (by simp)
+      have : Group.IsSolvable ↥(alternatingGroup (Fin (4 * 1))) :=
         subgroup_solvable_of_solvable _
       have hsol : Group.IsSolvable ↥(barM M L) :=
-        solvable_of_solvable_injective (f := eL.toMonoidHom) eL.injective
-      haveI : Group.IsPerfect ↥(barM M L) := ⟨hLq.1⟩
+        Group.isSolvable_of_isSolvable_injective (f := eL.toMonoidHom) eL.injective
+      have : Group.IsPerfect ↥(barM M L) := ⟨hLq.1⟩
       exact Group.IsPerfect.not_isSolvable (↥(barM M L)) hsol
   ·
     obtain ⟨-, N, r, hN, -, h0, h2, h4, -, φ, -, -⟩ := h8

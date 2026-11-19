@@ -21,16 +21,19 @@ variable {G : Type} [Group G] [Finite G] (L : Subgroup G) [L.Normal] {K : Type} 
 
 @[expose] def psi : G →* MulAut K := (MulAut.congr φ).toMonoidHom.comp (actHom L)
 
+omit [Finite G] in
 theorem psi_apply_mk (g y : G) (hy : y ∈ L) :
     psi L φ g (φ (QuotientGroup.mk ⟨y, hy⟩)) = φ (actHom L g (QuotientGroup.mk ⟨y, hy⟩)) := by
   change (MulAut.congr φ) (actHom L g) (φ _) = _
   simp [MulAut.congr_apply]
 
+omit [Finite G] in
 theorem psi_mk_eq_iff (g y : G) (hy : y ∈ L) :
     psi L φ g (φ (QuotientGroup.mk ⟨y, hy⟩)) = φ (QuotientGroup.mk ⟨y, hy⟩) ↔
       g * y * g⁻¹ * y⁻¹ ∈ centerOf L := by
   rw [psi_apply_mk, φ.injective.eq_iff, actHom_mk_eq_iff]
 
+omit [Finite G] in
 theorem psi_eq_conj {y : G} (hy : y ∈ L) :
     psi L φ y = MulAut.conj (φ (QuotientGroup.mk ⟨y, hy⟩)) := by
   ext k
@@ -39,6 +42,7 @@ theorem psi_eq_conj {y : G} (hy : y ∈ L) :
   rw [psi_apply_mk, actHom_apply_mk, MulAut.conj_apply, ← map_inv, ← map_mul, ← map_mul]
   congr 1
 
+omit [Finite G] in
 theorem psi_eq_one_of_mem_centerOf {z : G} (hz : z ∈ centerOf L) : psi L φ z = 1 := by
   have hzL := centerOf_le L hz
   rw [psi_eq_conj L φ hzL]
@@ -49,6 +53,8 @@ theorem psi_eq_one_of_mem_centerOf {z : G} (hz : z ∈ centerOf L) : psi L φ z 
 @[expose] def mImage (M : Subgroup G) : Subgroup K :=
   ((M.subgroupOf L).map (QuotientGroup.mk' (Subgroup.center ↥L))).map φ.toMonoidHom
 
+omit [L.Normal] in
+omit [Finite G] in
 theorem mem_mImage_iff {M : Subgroup G} {y : G} (hy : y ∈ L) :
     φ (QuotientGroup.mk ⟨y, hy⟩) ∈ mImage L φ M ↔ ∃ m ∈ M ⊓ L, ∃ z ∈ centerOf L, y = m * z := by
   constructor
@@ -61,7 +67,6 @@ theorem mem_mImage_iff {M : Subgroup G} {y : G} (hy : y ∈ L) :
       exact hc'
     refine ⟨m', ⟨hm', m'.2⟩, ((m'⁻¹ * ⟨y, hy⟩ : ↥L) : G),
       (mem_center_iff_mem_centerOf L _).1 hz, ?_⟩
-    change y = (m' : G) * ((m'⁻¹ : ↥L) * ⟨y, hy⟩ : ↥L)
     simp
   · rintro ⟨m, hm, z, hz, hyz⟩
     refine ⟨QuotientGroup.mk ⟨m, hm.2⟩, ⟨⟨m, hm.2⟩, hm.1, rfl⟩, ?_⟩
@@ -71,6 +76,8 @@ theorem mem_mImage_iff {M : Subgroup G} {y : G} (hy : y ∈ L) :
     rw [this, hyz, inv_mul_cancel_left]
     exact hz
 
+omit [L.Normal] in
+omit [Finite G] in
 theorem le_of_mImage_eq_top {M : Subgroup G} (hLc : commutator ↥L = ⊤) (htop : mImage L φ M = ⊤) :
     L ≤ M := by
   refine le_of_mul_centerOf L hLc fun y hy => ?_
@@ -88,7 +95,7 @@ end Odd
 
 namespace Hyp36
 
-open Odd
+open _root_.CFSG.LocalAnalysis.UniquenessCase.UCK.Odd
 
 variable {G : Type} [Group G] [Finite G] {M E : Subgroup G} {p : ℕ}
 
@@ -111,15 +118,15 @@ theorem exists_mem_of_fixed (h : Hyp36 G M p E) (L : Subgroup G) [L.Normal] {K :
 theorem le_of_forall_centralizer_le (h : Hyp36 G M p E) {N : Subgroup G}
     (hN : ∀ e ∈ E, e ≠ 1 → ∀ q ∈ pCoreOf 2 M, q * e = e * q → q ∈ N) : pCoreOf 2 M ≤ N := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   set Q := pCoreOf 2 M with hQ
   have hEQ : E ≤ Subgroup.normalizer (Q : Set G) :=
     h.E_le.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M)
-  letI : MulDistribMulAction E Q :=
+  let : MulDistribMulAction E Q :=
     MulDistribMulAction.compHom Q (Q.normalizerMonoidHom.comp (Subgroup.inclusion hEQ))
   have hact : ∀ (a : E) (x : Q), ((a • x : Q) : G) = (a : G) * (x : G) * (a : G)⁻¹ :=
     fun _ _ => rfl
-  haveI : IsElementaryAbelian p E := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp h.elem
+  have : IsElementaryAbelian p E := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp h.elem
   have hQ2 : IsPGroup 2 Q := by
     rw [hQ, pCoreOf]
     exact CFSG.pCore_isPGroup.map _
@@ -151,7 +158,7 @@ theorem exists_centralizer_act_nontrivially (h : Hyp36 G M p E) {L : Subgroup G}
     ∃ e ∈ E, e ≠ 1 ∧ ∃ q ∈ pCoreOf 2 M, q * e = e * q ∧
       ∃ y ∈ L, q * y * q⁻¹ * y⁻¹ ∉ centerOf L := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hker : ∀ g : G, g ∈ (actHom L).ker ↔ ∀ y ∈ L, g * y * g⁻¹ * y⁻¹ ∈ centerOf L := by
     intro g
     rw [MonoidHom.mem_ker]
@@ -176,7 +183,7 @@ theorem false_of_seitz (hS : AGLEmbeddingD2.KFactSeitzRankTwo) (h : Hyp36 G M p 
     [L.Normal] (hL : CFSG.IsComponent L) (hne : ⁅L, pCoreOf 2 M⁆ ≠ ⊥) (d : TauCeti.ValidLieTypeIndex)
     (φ : ↥L ⧸ Subgroup.center ↥L ≃* (TauCeti.CFSGIndex.lie d).Group)
     (hp : p ≠ d.1.characteristic) (hex : ¬ AGLEmbeddingD2.IsD2SeitzException p d.1) : False :=
-  h.false_of_component_le hL hne (h.le_of_seitz hS hL.1.1 d φ hp hex)
+  CFSG.LocalAnalysis.UniquenessCase.UCK.Hyp36.false_of_component_le hL hne (h.le_of_seitz hS hL.1.1 d φ hp hex)
 
 theorem false_of_seitz_odd (hS : AGLEmbeddingD2.KFactSeitzRankTwo) (h : Hyp36 G M p E)
     {L : Subgroup G} [L.Normal] (hL : CFSG.IsComponent L) (hne : ⁅L, pCoreOf 2 M⁆ ≠ ⊥)
@@ -209,7 +216,7 @@ abbrev CatGrp (d : TauCeti.ValidLieTypeIndex) : Type := (TauCeti.CFSGIndex.lie d
 
 namespace Hyp36
 
-open Odd
+open _root_.CFSG.LocalAnalysis.UniquenessCase.UCK.Odd
 
 variable {G : Type} [Group G] [Finite G] {M E : Subgroup G} {p : ℕ}
 
@@ -220,13 +227,13 @@ theorem false_of_oddDefChar (hR : OddDefCharCentralizer) (hR' : L227Generation) 
     (hodd : d.1.characteristic ≠ 2) (hp : p = d.1.characteristic) :
     False := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hLc : commutator ↥L = ⊤ := hL.1.1.commutator_eq_top
-  have hLM : ¬ L ≤ M := fun hLM => h.false_of_component_le hL hne hLM
+  have hLM : ¬ L ≤ M := fun hLM => CFSG.LocalAnalysis.UniquenessCase.UCK.Hyp36.false_of_component_le hL hne hLM
   have hfaith : ∀ e ∈ E, e ≠ 1 → ∃ y ∈ L, e * y * e⁻¹ * y⁻¹ ∉ centerOf L := by
     intro e he he1
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hLM (h.le_of_not_faithful L hLc he he1 hcon)
   obtain ⟨e, he, he1, q, hq, hqe, y₀, hy₀, hy₀'⟩ := h.exists_centralizer_act_nontrivially hLc hne
   set Ψ : G →* MulAut (TauCeti.CFSGIndex.lie d).Group := psi L φ with hΨ
@@ -293,7 +300,7 @@ theorem false_of_oddDefChar (hR : OddDefCharCentralizer) (hR' : L227Generation) 
   have hp3' : p = 3 := hp.trans hp3
   subst hp3'
   obtain ⟨P, hEP⟩ := IsPGroup.exists_le_sylow h.isPGroup
-  have hPM : (P : Subgroup G) ≤ M := h.le_of_isPGroup P.isPGroup' hEP
+  have hPM : (P : Subgroup G) ≤ M := h.le_of_isPGroup P.isPGroup hEP
   obtain ⟨R, hRP⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal P hL.2
   have hRmem : ∀ r : ↥L, r ∈ (R : Subgroup ↥L) → (r : G) ∈ (P : Subgroup G) ⊓ L := fun r hr => by
     rw [← hRP]

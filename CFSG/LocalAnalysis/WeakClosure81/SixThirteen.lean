@@ -31,6 +31,7 @@ namespace Hyp6H
 
 variable {M V₀ V : Subgroup G}
 
+omit [Finite G] in
 theorem le_M (h : Hyp6H M V₀ V) : V ≤ M := by
   rw [← h.normalizer_eq]
   exact Subgroup.le_normalizer
@@ -72,12 +73,14 @@ theorem hyp64 (h : Hyp6H M V₀ V) {n : ℕ} {g : G} (hO : InCalOStar n M V₀ V
     Hyp64 n M V₀ V g :=
   ⟨h.elemAbelian, h.le, h.normalizer_eq, h.le_normalizer₀, h.isTI, h.normalizer₀, hO⟩
 
+omit [Finite G] in
 theorem hyp65 (h : Hyp6H M V₀ V) (hV₀ : V₀ ≠ ⊥) {n : ℕ} {g : G} (hO : InCalO1 n M V₀ V g) :
     Hyp65 n M V₀ V g :=
   ⟨h.elemAbelian, h.le, hV₀, h.normalizer_eq, h.normalizer₀ hV₀, h.isTI hV₀, hO⟩
 
 end Hyp6H
 
+omit [Finite G] in
 theorem Vtil_pow_two {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (w : Vtil V₀ V hV) :
     w ^ 2 = 1 := by
   induction w using QuotientGroup.induction_on with
@@ -102,6 +105,7 @@ namespace Hyp613
 variable {k p : ℕ} {M V₀ V : Subgroup G} {hV : IsElemAbelian 2 V}
   {X : Subgroup (MulAut (Vtil V₀ V hV))}
 
+omit [Finite G] in
 theorem odd_prime (h : Hyp613 k p M V₀ V hV X) : Odd p := by
   rcases h.prime.eq_two_or_odd' with h2 | hodd
   · exfalso
@@ -114,11 +118,12 @@ theorem odd_prime (h : Hyp613 k p M V₀ V hV X) : Odd p := by
   · exact hodd
 
 theorem odd_card (h : Hyp613 k p M V₀ V hV X) : Odd (Nat.card X) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := p)).1 h.isPGroup
   rw [hn]
   exact h.odd_prime.pow
 
+omit [Finite G] in
 theorem lt_dParam (h : Hyp613 k p M V₀ V hV X) : k < dParam p := by
   have hp2 : p ≠ 2 := by
     intro hp2
@@ -159,6 +164,7 @@ theorem lt_dParam (h : Hyp613 k p M V₀ V hV X) : k < dParam p := by
       have := Nat.le_of_dvd (by norm_num : 0 < 3) hp3
       omega
 
+omit [Finite G] in
 theorem lt_rMV (h : Hyp613 k p M V₀ V hV X) : ((mSub V₀ + k : ℕ) : ℕ∞) < rMV M V := by
   have hkjr : ((k + 1 : ℕ) : ℕ∞) < rMV M V - (mSub V₀ : ℕ∞) :=
     h.lt_min.trans_le (min_le_right _ _)
@@ -166,7 +172,7 @@ theorem lt_rMV (h : Hyp613 k p M V₀ V hV X) : ((mSub V₀ + k : ℕ) : ℕ∞)
     by_contra hlt
     rw [not_le] at hlt
     have h0 : rMV M V - (mSub V₀ : ℕ∞) = 0 := tsub_eq_zero_of_le hlt.le
-    have h1 : ((k + 1 : ℕ) : ℕ∞) < 0 := by simpa [h0] using hkjr
+    have h1 : ((k + 1 : ℕ) : ℕ∞) < 0 := by simp [h0] at hkjr
     have h2 : (0 : ℕ∞) ≤ ((k + 1 : ℕ) : ℕ∞) := by exact_mod_cast Nat.zero_le _
     exact (not_lt_of_ge h2) h1
   have hstrict : ((k + 1 : ℕ) : ℕ∞) + (mSub V₀ : ℕ∞) < rMV M V := by
@@ -182,6 +188,7 @@ theorem lt_rMV (h : Hyp613 k p M V₀ V hV X) : ((mSub V₀ + k : ℕ) : ℕ∞)
         exact_mod_cast Nat.lt_succ_self _
     _ < rMV M V := hstrict
 
+omit [Finite G] in
 theorem hmin (h : Hyp613 k p M V₀ V hV X) :
     ((k + 2 : ℕ) : ℕ∞) ≤ min (betaN k M V) (rMV M V - (mSub V₀ : ℕ∞)) := by
   have h1 : ((k + 2 : ℕ) : ℕ∞) = ((k + 1 : ℕ) : ℕ∞) + 1 := by

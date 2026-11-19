@@ -46,7 +46,7 @@ private theorem d3b_root0
   have hok : d3b_ok0 b = true := by
     unfold d3b_ok0
     simp only [List.all_cons, List.all_nil, Bool.and_true, Bool.and_eq_true, beq_iff_eq]
-    refine ⟨h 1 ?_, h 2 ?_, h 3 ?_, h 4 ?_⟩ <;> (rw [d4Nodes, Set.mem_setOf_eq]; decide)
+    refine ⟨h 1 ?_, h 2 ?_, h 3 ?_, h 4 ?_⟩ <;> (rw [d4Nodes, Set.mem_ofPred_eq]; decide)
   simp only [Bool.or_eq_true, Bool.not_eq_true', beq_iff_eq] at hall
   rcases hall with (hno | h0) | h5
   · rw [hok] at hno
@@ -62,7 +62,7 @@ private theorem d3b_root5
   have hok : d3b_ok5 b = true := by
     unfold d3b_ok5
     simp only [List.all_cons, List.all_nil, Bool.and_true, Bool.and_eq_true, beq_iff_eq]
-    refine ⟨h 1 ?_, h 2 ?_, h 3 ?_, h 4 ?_⟩ <;> (rw [d4Nodes, Set.mem_setOf_eq]; decide)
+    refine ⟨h 1 ?_, h 2 ?_, h 3 ?_, h 4 ?_⟩ <;> (rw [d4Nodes, Set.mem_ofPred_eq]; decide)
   simp only [Bool.or_eq_true, Bool.not_eq_true', beq_iff_eq] at hall
   rcases hall with (hno | h0) | h5
   · rw [hok] at hno
@@ -129,7 +129,7 @@ private theorem d3b_pointwise
       rootChar a (v • (Pi.single j 1 : Fin Tag.E6.rank → ℤ)) = 1 := by
     intro j h1 h4
     have hj : j ∈ d4Nodes Tag.E6 := by
-      rw [d4Nodes, Set.mem_setOf_eq]
+      rw [d4Nodes, Set.mem_ofPred_eq]
       exact ⟨h1, h4⟩
     have hk : v • (Pi.single j 1 : Fin Tag.E6.rank → ℤ) ∈ rootCharKernel a := by
       rw [hv]
@@ -144,7 +144,7 @@ private theorem d3b_pointwise
     obtain ⟨α, hα, hαe⟩ := hk
     have hαi : α = Pi.single i 1 := smul_left_cancel v hαe
     have h0 := hα.2 i (by
-      rw [d4Nodes, Set.mem_setOf_eq]
+      rw [d4Nodes, Set.mem_ofPred_eq]
       omega)
     rw [hαi, Pi.single_eq_same] at h0
     exact one_ne_zero h0
@@ -190,7 +190,7 @@ private theorem d3b_pointwise
     by_cases h5' : i.val = 5
     · exact Or.inr (Or.inl (Fin.ext h5'))
     refine Or.inr (Or.inr ?_)
-    rw [d4Nodes, Set.mem_setOf_eq]
+    rw [d4Nodes, Set.mem_ofPred_eq]
     have hlt : i.val < 6 := i.isLt
     omega
   rcases hi with rfl | rfl | hi
@@ -229,7 +229,7 @@ private theorem d3b_core
     obtain ⟨α, hα, hαe⟩ := hk
     have hαi : α = Pi.single 0 1 := smul_left_cancel v hαe
     have h0 := hα.2 0 (by
-      rw [d4Nodes, Set.mem_setOf_eq]
+      rw [d4Nodes, Set.mem_ofPred_eq]
       decide)
     rw [hαi, Pi.single_eq_same] at h0
     exact one_ne_zero h0
@@ -298,7 +298,7 @@ private theorem d3b_core
     rcases e6_three_class_table a ha3 ha1 with hEq | ⟨-, hidx⟩
     · exact hw' (by rw [hEq]; exact hw)
     · set N := (kernelReflectionGroup a).subgroupOf (rootCharStabilizerSubgroup a) with hN
-      haveI : N.Normal := kernelReflectionGroup_normal a
+      have : N.Normal := kernelReflectionGroup_normal a
       have hcard : Nat.card (↥(rootCharStabilizerSubgroup a) ⧸ N) = 3 := hidx
       let xW : ↥(rootCharStabilizerSubgroup a) := ⟨v * w₀ * v⁻¹, hxmem⟩
       have h2 : xW * xW = 1 := Subtype.ext hx2
@@ -337,7 +337,7 @@ private theorem d3b_core
   obtain ⟨ε, hε12, hεact⟩ := hε
   refine ⟨v * u'⁻¹ * v⁻¹, ε, hconj _ (inv_mem hu'), hε12, fun k => ?_⟩
   have hd : d4Idx k ∈ d4Set Tag.E6 := by
-    rw [d4Set, Set.mem_setOf_eq]
+    rw [d4Set, Set.mem_ofPred_eq]
     have hk : k.val < 4 := k.isLt
     change 1 ≤ k.val + 1 ∧ k.val + 1 ≤ 4
     omega

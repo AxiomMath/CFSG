@@ -227,10 +227,10 @@ theorem Bf_single_right (q : Fin n ⊕ Fin n) (v : Fin n ⊕ Fin n → F) :
     Bf n v (Pi.single q (1 : F)) = v (bar q) := by
   unfold Bf
   rw [Finset.sum_eq_single (bar q)]
-  · simp [bar_bar]
+  · simp
   · intro x _ hx
     have : ¬ (bar x = q) := fun e => hx (by rw [← e, bar_bar])
-    simp [Pi.single_apply, this]
+    simp [this]
   · simp
 
 theorem Bf_add_left (v v' w : Fin n ⊕ Fin n → F) : Bf n (v + v') w = Bf n v w + Bf n v' w := by
@@ -289,7 +289,7 @@ theorem alt_diag (hQ : ∀ v, Qf n (G.mulVec v) = Qf n v)
 
 theorem alt_symm [CharP F 2] (hQ : ∀ v, Qf n (G.mulVec v) = Qf n v)
     (hΔ : ∀ x y, ¬ (x ∈ P ∧ bar y ∈ P) → G x y = if x = y then 1 else 0)
-    (hd : ∀ p ∈ P, bar p ∉ P) (hp : p ∈ P) (hp' : p' ∈ P) (hne : p ≠ p') :
+    (hd : ∀ p ∈ P, bar p ∉ P) (hp : p ∈ P) (hp' : p' ∈ P) (_hne : p ≠ p') :
     G p (bar p') = G p' (bar p) := by
   have h2 : (2 : F) = 0 := by simpa using CharP.cast_eq_zero F 2
   have := orth_cols hQ (bar p) (bar p')
@@ -301,7 +301,7 @@ theorem alt_symm [CharP F 2] (hQ : ∀ v, Qf n (G.mulVec v) = Qf n v)
   have e2 : ¬ (bar p' = p) := fun e => hd p' hp' (e ▸ hp)
   have e3 : ¬ (p' = bar p) := fun e => hd p hp (e ▸ hp')
   simp only [Bf_single_left, Bf_single_right, suppP, bar_bar, hp, hp', ite_true, Pi.single_apply,
-    e1, e2, e3, ite_false] at this
+    e2, e3, ite_false] at this
   linear_combination this - (G p' (bar p)) * h2
 
 end Cfg

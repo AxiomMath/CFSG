@@ -68,7 +68,7 @@ private theorem le_of_oUpperTwo_le_of_commutator_sup
   have : Group.IsNilpotent (↥H ⧸ N.subgroupOf H) := h2.isNilpotent
   have : Group.IsSolvable (↥H ⧸ N.subgroupOf H) := IsNilpotent.to_isSolvable
   by_contra hHN
-  obtain ⟨h, hhH, hhN⟩ := SetLike.not_le_iff_exists.mp hHN
+  obtain ⟨h, hhH, hhN⟩ := IsConcreteLE.not_le_iff_exists.mp hHN
   have hnt : Nontrivial (↥H ⧸ N.subgroupOf H) := by
     refine ⟨⟨π ⟨h, hhH⟩, 1, ?_⟩⟩
     intro hEq
@@ -392,6 +392,7 @@ private theorem badSet_N0_le_N
       simp [badPart, hlb]
     rw [hMl]; exact bot_le
 
+omit [Finite Q] in
 private theorem badSet_decomp
     {P N O N0 T : Subgroup Q}
     (hO : O = pCoreOf 2 P) (hNopp : N = Opp 2 N ⊔ pCoreOf 2 P)
@@ -412,6 +413,7 @@ private theorem badSet_decomp
   rw [sup_comm, sup_comm T N0, inf_eq_left.mpr hNle'] at h
   exact h.symm
 
+omit [Finite Q] in
 private theorem badSet_pCore_K0 {P O : Subgroup Q} (hO : O = pCoreOf 2 P) :
     CFSG.Open.pCoreOf 2 (Opp 2 P ⊔ O) = O := by
   have hOleP : O ≤ P := hO.le.trans (CFSG.LieType.BorelTits.pCoreOf_le 2 P)
@@ -494,6 +496,7 @@ private theorem badSet_central
   rw [hK0O, Subgroup.commutator_comm (N ⊓ T) (Opp 2 P ⊔ pCoreOf 2 P)]
   exact hsup
 
+omit [Finite Q] in
 private theorem badSet_N_le_K0
     {P N O : Subgroup Q} (hO : O = pCoreOf 2 P)
     (hNopp : N = Opp 2 N ⊔ pCoreOf 2 P) (hNle : N ≤ P) :

@@ -75,7 +75,7 @@ theorem unitaryTwo_trace_gl_conj {K : Type} [Field K] (D : GL (Fin 2) K)
 theorem unitaryTwo_fieldAction_not_inner {f : ℕ} {K : Type} [Field K] [Finite K]
     [CharP K 2] (h : UnitaryFieldData 2 f K)
     (f' : MulAut ↥(LargeEvenSUGroup (Fin 2) K (2 ^ f)))
-    {B : GL (Fin 2) K} (hB : B ∈ LargeEvenGUSet (Fin 2) K (2 ^ f))
+    {B : GL (Fin 2) K} (_hB : B ∈ LargeEvenGUSet (Fin 2) K (2 ^ f))
     {τ : K ≃+* K}
     (hpoint : ∀ c : ↥(LargeEvenSUGroup (Fin 2) K (2 ^ f)),
       (f' c : GL (Fin 2) K) =
@@ -105,14 +105,14 @@ theorem unitaryTwo_fieldAction_not_inner {f : ℕ} {K : Type} [Field K] [Finite 
     have hcongr : f' g = MulAut.conj C g := by
       rw [hC]
     rw [hcongr, MulAut.conj_apply]
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Units.val_mul, Units.val_inv]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Units.val_mul]
     rw [unitaryTwo_trace_gl_conj, hgtr]
   exact hz (haction.symm.trans hinner)
 
 
 theorem unitaryTwo_odd_card_units {F : Type} [Field F] [Finite F] [CharP F 2] :
     Odd (Nat.card Fˣ) := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨k, -, hk⟩ := FiniteField.card F 2
   rw [Nat.card_units, Nat.card_eq_fintype_card, hk]
   obtain ⟨j, hj⟩ : ∃ j, (k : ℕ) = j + 1 := ⟨(k : ℕ) - 1, by have := k.pos; omega⟩
@@ -123,7 +123,7 @@ theorem unitaryTwo_odd_card_units {F : Type} [Field F] [Finite F] [CharP F 2] :
 theorem unitaryTwo_largeEvenSL_two_perfect {F : Type} [Field F] [Finite F]
     (h4card : 4 ≤ Nat.card F) :
     Group.IsPerfect ↥(LargeEvenSLGroup (Fin 2) F) := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have h4 : ∃ s : Finset F, s.card = 4 := by
     have hle : 4 ≤ (Finset.univ : Finset F).card := by
       simpa [Finset.card_univ, Nat.card_eq_fintype_card] using h4card
@@ -151,7 +151,7 @@ theorem unitaryTwo_largeEvenProj_two_noncomm {F : Type} [Field F] [Finite F]
     Group.IsPerfect.ofSurjective (f := LargeEvenProjMk (LargeEvenSLGroup (Fin 2) F))
       (QuotientGroup.mk'_surjective _)
   have hsimple := unitaryTwo_largeEvenProj_two_simple hcard4
-  haveI : Nontrivial (LargeEvenProj (LargeEvenSLGroup (Fin 2) F)) := hsimple.toNontrivial
+  have : Nontrivial (LargeEvenProj (LargeEvenSLGroup (Fin 2) F)) := hsimple.toNontrivial
   have hnc : ¬ IsMulCommutative (LargeEvenProj (LargeEvenSLGroup (Fin 2) F)) :=
     Group.IsPerfect.not_isMulCommutative _
   by_contra h
@@ -191,7 +191,7 @@ theorem unitaryTwo_largeEvenMarking_PSL2_not_inner {F : Type} [Field F] [Finite 
     change ∃ a b : LargeEvenProj (LargeEvenSLGroup (Fin 2) F), a * b ≠ b * a
     exact unitaryTwo_largeEvenProj_two_noncomm (F := F) hcard4
   have hcenterR : Subgroup.center (LargeEvenProj L) = ⊥ := by
-    haveI : Group.IsPerfect (LargeEvenProj L) := ⟨hperfR⟩
+    have : Group.IsPerfect (LargeEvenProj L) := ⟨hperfR⟩
     rcases (inferInstance : (Subgroup.center (LargeEvenProj L)).Normal).eq_bot_or_eq_top with h | h
     · exact h
     · exfalso
@@ -237,7 +237,7 @@ theorem unitaryTwo_largeEvenMarking_PSL2_not_inner {F : Type} [Field F] [Finite 
   refine ⟨hperfR, ⟨⟨.A, 1, f⟩, ?_, ?_⟩⟩
   · simp only [LargeEvenInLambda2]
     exact ⟨by omega, ⟨le_rfl, by omega⟩⟩
-  · simp only [LargeEvenRawDatum]
+  · simp only
     refine ⟨F, inferInstance, inferInstance, hF, ?_⟩
     exact ⟨hsimpleR, hnonabR, θ, hneg⟩
 
@@ -261,12 +261,12 @@ theorem unitaryTwo_fieldAction_oneMarking {f : ℕ} {K : Type} [Field K] [Finite
   obtain ⟨F, hFfield, hFfin, hFcard, ⟨eSL⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.nonempty_sl2_mulEquiv_unitarySU_two
       (p := 2) (f := f) h
-  letI : Field F := hFfield
-  letI : Finite F := hFfin
-  letI : Fintype F := Fintype.ofFinite F
+  let : Field F := hFfield
+  let : Finite F := hFfin
+  let : Fintype F := Fintype.ofFinite F
   have hFcard' : Fintype.card F = 2 ^ f := by
     simpa [Nat.card_eq_fintype_card] using hFcard
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hFcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hFcard'
   let SU := LargeEvenSUGroup (Fin 2) K (2 ^ f)
   let eSU0 : ↥SU ≃* Matrix.SpecialLinearGroup (Fin 2) F := eSL.symm
   let L := LargeEvenSLGroup (Fin 2) F
@@ -335,7 +335,7 @@ theorem unitaryTwo_two_le_f_of_fixedField {f : ℕ} {K : Type} [Field K] [Finite
     rw [hfzero, pow_zero] at hpow
     omega
   have hf_eq : f = 1 := by omega
-  letI : Fintype h.fixedField := Fintype.ofFinite h.fixedField
+  let : Fintype h.fixedField := Fintype.ofFinite h.fixedField
   have hcard2 : Nat.card h.fixedField = 2 := by
     rw [h.card_fixedField, hf_eq, pow_one]
   have hcard2' : Fintype.card h.fixedField = 2 := by

@@ -31,7 +31,7 @@ private theorem w16l_conjSubgroup_closure_pair {G : Type*} [Group G] (x y g : G)
   rw [CFSG.Quasithin.conjSubgroup, MonoidHom.map_closure]
   congr 1
   ext z
-  simp [MulAut.conj_apply]
+  simp
 
 private theorem w16l_conj_mem_normalizer {G : Type*} [Group G] {A : Subgroup G} {δ v : G}
     (h : v ∈ Subgroup.normalizer (A : Set G)) :
@@ -498,7 +498,7 @@ theorem w16l_alt6_witness (V : Subgroup (alternatingGroup (Fin 6))) (hV : IsElem
     rw [hWconj, CFSG.Quasithin.conjSubgroup]
     rw [Subgroup.card_map_of_injective (MulAut.conj δ⁻¹).injective, hcard]
   have hWcomm : IsMulCommutative W := by
-    haveI : IsMulCommutative V := hV.1
+    have : IsMulCommutative V := hV.1
     rw [hWconj, CFSG.Quasithin.conjSubgroup]
     exact Subgroup.map_isMulCommutative V (MulAut.conj δ⁻¹).toMonoidHom
   have hWexp : ∀ x ∈ W, x * x = 1 := by
@@ -576,7 +576,7 @@ theorem w16l_false_of_alt6 {X : Type} [Group X] [Finite X] {B : Subgroup X}
     rw [Subgroup.card_map_of_injective e.injective, hcardMap]
   have hVel : IsElemAbelian 2 V := by
     constructor
-    · haveI : IsMulCommutative B := hel.1
+    · have : IsMulCommutative B := hel.1
       exact Subgroup.map_isMulCommutative B f
     · intro x hx
       change x ∈ B.map f at hx

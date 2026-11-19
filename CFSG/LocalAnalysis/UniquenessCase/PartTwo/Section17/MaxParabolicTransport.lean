@@ -16,7 +16,7 @@ variable {G Y : Type} [Group G] [Group Y]
 private theorem opp_le_of_isSylowIn_le_normalizer [Finite G] {P J S : Subgroup G}
     (hJ : P ≤ normalizer (J : Set G)) (hS : IsSylowIn 2 S P) (hSJ : S ≤ J) :
     Opp 2 P ≤ J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Opp, CFSG.RankThree.PartOne.pElementSubgroup]
   refine (Subgroup.closure_le J).mpr ?_
   rintro x ⟨hxP, k, hk⟩
@@ -30,7 +30,7 @@ private theorem opp_le_of_isSylowIn_le_normalizer [Finite G] {P J S : Subgroup G
     rw [← Subgroup.comap_subtype,
       Subgroup.comap_map_eq_self_of_injective P.subtype_injective]
   have hT : IsSylowIn 2 (T.map P.subtype) P := by
-    refine ⟨Subgroup.map_subtype_le (H := P) T, T.isPGroup'.map P.subtype, ?_⟩
+    refine ⟨Subgroup.map_subtype_le (H := P) T, T.isPGroup.map P.subtype, ?_⟩
     rw [Subgroup.relIndex, hsub]
     exact Sylow.not_dvd_index T
   obtain ⟨c, hcP, hconj⟩ :=
@@ -76,7 +76,7 @@ theorem opp_eq_of_isSimpleGroup_bar2 [Finite G] {P J S : Subgroup G} (hJP : J �
     exact Subgroup.mem_subgroupOf.mpr (hOleE hx')
   have hNnorm : (((Opp 2 P).subgroupOf J).map π).Normal :=
     Subgroup.Normal.map hEnormJ π (QuotientGroup.mk'_surjective O)
-  haveI : (((Opp 2 P).subgroupOf J).map π).Normal := hNnorm
+  have : (((Opp 2 P).subgroupOf J).map π).Normal := hNnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (((Opp 2 P).subgroupOf J).map π) with hbot | htop
   · have hEsub_le : (Opp 2 P).subgroupOf J ≤ CFSG.pCore 2 ↥J := by
       intro x hx
@@ -166,7 +166,7 @@ theorem nonempty_bar2_map (φ : G ≃* Y) (X : Subgroup G) :
 theorem exists_mulEquiv_map_eq_of_isSylowIn {p : ℕ} [Fact p.Prime] [Finite G] (e : G ≃* Y)
     {U : Subgroup G} {S : Subgroup Y} (hU : IsSylowIn p U ⊤) (hS : IsSylowIn p S ⊤) :
     ∃ φ : G ≃* Y, U.map φ.toMonoidHom = S := by
-  haveI : Finite Y := Finite.of_injective e.symm.toMonoidHom e.symm.injective
+  have : Finite Y := Finite.of_injective e.symm.toMonoidHom e.symm.injective
   have hU' : IsSylowIn p (U.map e.toMonoidHom) ⊤ := by
     have h := (CFSG.Quasithin.E1.isSylowIn_map_mulEquiv e).mpr hU
     simpa [Subgroup.map_top_of_surjective e.toMonoidHom e.surjective] using h
@@ -192,6 +192,6 @@ theorem map_map_trans_symm (φ : G ≃* Y) (r : MulAut Y) (X : Subgroup G) :
   simp only [Subgroup.map_map]
   congr 1
   ext x
-  simp [MulEquiv.trans_apply]
+  simp
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17

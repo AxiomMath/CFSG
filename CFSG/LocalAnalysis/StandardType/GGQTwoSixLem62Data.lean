@@ -29,8 +29,8 @@ abbrev qTwoSixLem62_Mat := Matrix (Fin 3) (Fin 3) F4c
 
 instance qTwoSixLem62_decidableSupport (J : Finset (Fin 3)) (A : qTwoSixLem62_Mat) :
     Decidable (qTwoSixLem62_support J A) :=
-  @Nat.decidableForallFin 3 _ (fun i =>
-    @Nat.decidableForallFin 3 _ (fun j => inferInstance))
+  @Nat.decidableForallFin 3 _ (fun _i =>
+    @Nat.decidableForallFin 3 _ (fun _j => inferInstance))
 
 @[expose] def qTwoSixLem62_nodes (A B : qTwoSixLem62_Mat) : Prop :=
   let a := qTwoSixLem62_eval A B (qTwoSixLem62_word 85)

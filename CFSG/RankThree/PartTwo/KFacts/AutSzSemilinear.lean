@@ -77,10 +77,10 @@ private theorem exists_psi_of_normalizes (hm : 0 < m) (α : MulAut (SuzukiMatrix
   have hψadd : ∀ a b : F, ψ (a + b) = ψ a + ψ b := by
     intro a b
     have h := congrArg α (root_mul m hm 0 a 0 b)
-    simp only [zero_add, map_zero, zero_mul, add_zero, map_mul] at h
+    simp only [map_zero, zero_mul, add_zero, map_mul] at h
     rw [hψ a, hψ b, hψ (a + b)] at h
     rw [root_mul m hm 0 (ψ a) 0 (ψ b)] at h
-    simp only [zero_add, map_zero, zero_mul, add_zero] at h
+    simp only [map_zero, zero_mul, add_zero] at h
     exact (root_injective m h).2.symm
   have hψinj : Function.Injective ψ := by
     intro a b h
@@ -278,7 +278,7 @@ theorem exists_conj_inv_mul_normalizes_torus (hm : 0 < m)
   obtain ⟨x', hx'⟩ := (mem_torusSub m hm).mp hmem
   exact ⟨x', by simpa [hα'] using hx'⟩
 
-theorem torus_mem_rootSub_iff (hm : 0 < m) (x : Fˣ) :
+theorem torus_mem_rootSub_iff (_hm : 0 < m) (x : Fˣ) :
     torus m x ∈ rootSub m ↔ x = 1 := by
   constructor
   · intro hx
@@ -374,7 +374,7 @@ private theorem pow_eq_one_key (α : MulAut (SuzukiMatrixGroup m)) (τ : F ≃+*
       ext
       rfl
     rw [hτ0, pow_zero]
-    simpa using (rootSub m).one_mem
+    simp
   | succ k ih =>
     intro x
     exact pow_eq_one_step m α τ hR hτ k x (ih x)

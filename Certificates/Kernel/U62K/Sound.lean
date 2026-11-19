@@ -49,13 +49,13 @@ theorem vWn_succ {n c : ℕ} (hc : c ≠ 0) (h : vWn (n + 1) c = true) :
       bAnd(Nat.ble (nat_lit 1) (Nat.land c (nat_lit 63)),
         bAnd(Nat.ble (Nat.land c (nat_lit 63)) (nat_lit 42),
           vWn n (Nat.shiftRight c (nat_lit 6))))) = true at h
-  rw [bIf_eq, if_neg (fun e => hc (Nat.eq_of_beq_eq_true e)), bAnd_eq, bAnd_eq,
+  rw [bIf_eq, ite_eq_right (fun e => hc (Nat.eq_of_beq_eq_true e)), bAnd_eq, bAnd_eq,
     Bool.and_eq_true, Bool.and_eq_true, land63, shr6] at h
   have h2 : c % 64 ≤ 42 := Nat.ble_eq.mp h.2.1
   exact ⟨by omega, h.2.2⟩
 
 theorem decW_succ {n c : ℕ} (hc : c ≠ 0) : decW (n + 1) c = (c % 64 - 1) :: decW n (c / 64) := by
-  rw [decW, if_neg hc]
+  rw [decW, ite_eq_right hc]
 
 theorem vWn_zero {c : ℕ} (h : vWn 0 c = true) : c = 0 := Nat.eq_of_beq_eq_true h
 
@@ -79,7 +79,7 @@ theorem idx_wPn : ∀ {n c : ℕ}, vWn n c = true → ∀ x < 31671,
   | n + 1, c, h, x, hx => by
     by_cases hc : c = 0
     · subst hc
-      simp only [decW, if_true, List.map_nil, List.prod_nil, idx_one]
+      simp only [decW, ite_true, List.map_nil, List.prod_nil, idx_one]
       rfl
     · obtain ⟨h1, h2⟩ := vWn_succ hc h
       rw [decW_succ hc, List.map_cons, List.prod_cons, idx_mul, idx_wPn h2 x hx]
@@ -88,7 +88,7 @@ theorem idx_wPn : ∀ {n c : ℕ}, vWn n c = true → ∀ x < 31671,
       change _ = nIf(Nat.beq c (nat_lit 0), x,
         strictN (wPn n (Nat.shiftRight c (nat_lit 6)) x) fun y =>
           LS (Nat.sub (Nat.land c (nat_lit 63)) (nat_lit 1)) y)
-      rw [nIf_eq, if_neg (fun e => hc (Nat.eq_of_beq_eq_true e)), strictN_eq, land63, shr6]
+      rw [nIf_eq, ite_eq_right (fun e => hc (Nat.eq_of_beq_eq_true e)), strictN_eq, land63, shr6]
       rfl
 
 theorem idx_wIn : ∀ {n c : ℕ}, vWn n c = true → ∀ x < 31671,
@@ -100,7 +100,7 @@ theorem idx_wIn : ∀ {n c : ℕ}, vWn n c = true → ∀ x < 31671,
   | n + 1, c, h, x, hx => by
     by_cases hc : c = 0
     · subst hc
-      simp only [decW, if_true, List.map_nil, List.prod_nil, inv_one, idx_one]
+      simp only [decW, ite_true, List.map_nil, List.prod_nil, inv_one, idx_one]
       rfl
     · obtain ⟨h1, h2⟩ := vWn_succ hc h
       rw [decW_succ hc, List.map_cons, List.prod_cons, mul_inv_rev, idx_mul,
@@ -110,7 +110,7 @@ theorem idx_wIn : ∀ {n c : ℕ}, vWn n c = true → ∀ x < 31671,
       change _ = nIf(Nat.beq c (nat_lit 0), x,
         strictN (LS (Nat.xor (Nat.sub (Nat.land c (nat_lit 63)) (nat_lit 1)) (nat_lit 1)) x)
           fun y => wIn n (Nat.shiftRight c (nat_lit 6)) y)
-      rw [nIf_eq, if_neg (fun e => hc (Nat.eq_of_beq_eq_true e)), strictN_eq, land63, shr6]
+      rw [nIf_eq, ite_eq_right (fun e => hc (Nat.eq_of_beq_eq_true e)), strictN_eq, land63, shr6]
       rfl
 
 theorem idx_wE {c : ℕ} (hc : vW c = true) {x : ℕ} (hx : x < 31671) :
@@ -144,7 +144,7 @@ theorem wPn_digit {n a r x : ℕ} (ha1 : 1 ≤ a) (ha : a < 64) :
   change nIf(Nat.beq (a + 64 * r) (nat_lit 0), x,
     strictN (wPn n (Nat.shiftRight (a + 64 * r) (nat_lit 6)) x) fun y =>
       LS (Nat.sub (Nat.land (a + 64 * r) (nat_lit 63)) (nat_lit 1)) y) = _
-  rw [nIf_eq, if_neg (fun e => digit_ne ha1 (Nat.eq_of_beq_eq_true e)), strictN_eq, land63, shr6,
+  rw [nIf_eq, ite_eq_right (fun e => digit_ne ha1 (Nat.eq_of_beq_eq_true e)), strictN_eq, land63, shr6,
     digit_mod ha, digit_div ha]
   rfl
 
@@ -157,7 +157,7 @@ theorem vWn_digit {n a r : ℕ} (ha1 : 1 ≤ a) (ha : a ≤ 42) :
       bAnd(Nat.ble (nat_lit 1) (Nat.land (a + 64 * r) (nat_lit 63)),
         bAnd(Nat.ble (Nat.land (a + 64 * r) (nat_lit 63)) (nat_lit 42),
           vWn n (Nat.shiftRight (a + 64 * r) (nat_lit 6))))) = _
-  rw [bIf_eq, if_neg (fun e => digit_ne ha1 (Nat.eq_of_beq_eq_true e)), land63, shr6,
+  rw [bIf_eq, ite_eq_right (fun e => digit_ne ha1 (Nat.eq_of_beq_eq_true e)), land63, shr6,
     digit_mod (by omega), digit_div (by omega), bAnd_eq, bAnd_eq,
     Nat.ble_eq_true_of_le ha1, Nat.ble_eq_true_of_le ha, Bool.true_and, Bool.true_and]
 
@@ -177,7 +177,7 @@ theorem sw_spec {u : ℕ} (hu : u < 84) : vW (sw u) = true ∧
   · have hb : Nat.blt u (nat_lit 42) = true := Nat.blt_eq.mpr h42
     have e0 : sw u = if wP (u + 1) 14566 = 14566 then u + 1 else u + 1 + 256 := by
       unfold sw
-      simp only [strictN_eq, nIf_eq, hb, if_true, qq_eq, Nat.beq_eq_true_eq, Nat.succ_eq_add_one]
+      simp only [strictN_eq, nIf_eq, hb, qq_eq, Nat.succ_eq_add_one]
       rw [show Nat.mod u 42 = u from Nat.mod_eq_of_lt h42]
       have k : Nat.add (u + 1) (Nat.shiftLeft 4 6) = u + 1 + 256 := rfl
       rw [k]
@@ -188,10 +188,10 @@ theorem sw_spec {u : ℕ} (hu : u < 84) : vW (sw u) = true ∧
       rw [wPn_digit (n := 15) (by omega) (by omega), wPn_zero]
       congr 1
     rw [hw] at e0
-    rw [if_pos h42, KernelFi23T2.idx_lG h42 hq]
+    rw [ite_eq_left h42, KernelFi23T2.idx_lG h42 hq]
     by_cases hf : LS u 14566 = 14566
-    · rw [if_pos hf] at e0
-      rw [e0, if_pos hf, show u + 1 = (u + 1) + 64 * 0 by omega]
+    · rw [ite_eq_left hf] at e0
+      rw [e0, ite_eq_left hf, show u + 1 = (u + 1) + 64 * 0 by omega]
       refine ⟨?_, ?_⟩
       · unfold vW
         rw [vWn_digit (n := 15) (by omega) (by omega), vWn_zero']
@@ -199,8 +199,8 @@ theorem sw_spec {u : ℕ} (hu : u < 84) : vW (sw u) = true ∧
         rw [decW_digit (n := 15) (by omega) (by omega), decW_zero]
         simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one,
           Nat.add_sub_cancel]
-    · rw [if_neg hf] at e0
-      rw [e0, if_neg hf, show u + 1 + 256 = (u + 1) + 64 * (4 + 64 * 0) by omega]
+    · rw [ite_eq_right hf] at e0
+      rw [e0, ite_eq_right hf, show u + 1 + 256 = (u + 1) + 64 * (4 + 64 * 0) by omega]
       refine ⟨?_, ?_⟩
       · unfold vW
         rw [vWn_digit (n := 15) (by omega) (by omega), vWn_digit (n := 14) (by omega) (by omega),
@@ -220,8 +220,8 @@ theorem sw_spec {u : ℕ} (hu : u < 84) : vW (sw u) = true ∧
     have e0 : sw u = if wP (3 + 64 * ((u - 42 + 1) + 64 * 0)) 14566 = 14566 then
         3 + 64 * ((u - 42 + 1) + 64 * 0) else 3 + 64 * ((u - 42 + 1) + 64 * (4 + 64 * 0)) := by
       unfold sw
-      simp only [strictN_eq, nIf_eq, hb, Bool.false_eq_true, if_false, qq_eq,
-        Nat.beq_eq_true_eq, Nat.succ_eq_add_one]
+      simp only [strictN_eq, nIf_eq, hb, qq_eq,
+        Nat.succ_eq_add_one]
       have k1 : Nat.add 3 (Nat.shiftLeft (Nat.mod u 42 + 1) 6) =
           3 + 64 * ((u - 42 + 1) + 64 * 0) := by
         change 3 + (u % 42 + 1) <<< 6 = _
@@ -243,10 +243,10 @@ theorem sw_spec {u : ℕ} (hu : u < 84) : vW (sw u) = true ∧
       rw [idx_mul, KernelFi23T2.idx_lG hl42 hq,
         KernelFi23T2.idx_lG (by norm_num) (KernelFi23T2.LS_lt' hl42 hq)]
     rw [hw] at e0
-    rw [if_neg h42, hidx]
+    rw [ite_eq_right h42, hidx]
     by_cases hf : LS 2 (LS (u - 42) 14566) = 14566
-    · rw [if_pos hf] at e0
-      rw [e0, if_pos hf]
+    · rw [ite_eq_left hf] at e0
+      rw [e0, ite_eq_left hf]
       refine ⟨?_, ?_⟩
       · unfold vW
         rw [vWn_digit (n := 15) (by omega) (by omega), vWn_digit (n := 14) (by omega) (by omega),
@@ -256,8 +256,8 @@ theorem sw_spec {u : ℕ} (hu : u < 84) : vW (sw u) = true ∧
           decW_zero]
         simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one,
           Nat.add_sub_cancel]
-    · rw [if_neg hf] at e0
-      rw [e0, if_neg hf]
+    · rw [ite_eq_right hf] at e0
+      rw [e0, ite_eq_right hf]
       refine ⟨?_, ?_⟩
       · unfold vW
         rw [vWn_digit (n := 15) (by omega) (by omega), vWn_digit (n := 14) (by omega) (by omega),
@@ -463,7 +463,7 @@ theorem covered {i : ℕ} (hi : i < 262144)
       Nat.blt_eq.mp h
     omega
   have hq' : Nat.beq (gL i qq) qq = true := by rw [qq_eq, hq]; exact Nat.beq_refl _
-  rw [strictB_eq, e1, strictB_eq, bIf_eq, if_neg hn, bIf_eq, if_pos hq'] at hd'
+  rw [strictB_eq, e1, strictB_eq, bIf_eq, ite_eq_right hn, bIf_eq, ite_eq_left hq'] at hd'
   obtain ⟨e, he, hhd⟩ := KernelFi23T2.memH_spec hd'
   exact ⟨e, hhd, entsW_spec hents e he⟩
 

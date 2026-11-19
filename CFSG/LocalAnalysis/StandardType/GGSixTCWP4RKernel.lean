@@ -59,9 +59,9 @@ theorem tcrCdataOf_sound
   dsimp only at h
   by_cases hc : (tcrOrbitLen S.tcrN perm psi S.tcrN == 0 ||
       decide (12 < tcrOrbitLen S.tcrN perm psi S.tcrN)) = true
-  · rw [if_pos hc] at h
+  · rw [ite_eq_left hc] at h
     exact absurd h (by simp)
-  · rw [if_neg hc] at h
+  · rw [ite_eq_right hc] at h
     obtain ⟨k, hk, rfl⟩ := Option.map_eq_some_iff.1 h
     simp only [Bool.or_eq_true, beq_iff_eq, not_or] at hc
     obtain ⟨he0, he12⟩ := hc
@@ -82,9 +82,9 @@ theorem tcrCdataOfA_sound
   unfold tcrCdataOfA at h
   dsimp only at h
   by_cases hc : (tcrOrbitLen S.tcrN perm psi S.tcrN == 0) = true
-  · rw [if_pos hc] at h
+  · rw [ite_eq_left hc] at h
     exact absurd h (by simp)
-  · rw [if_neg hc] at h
+  · rw [ite_eq_right hc] at h
     have hd := Option.some.inj h
     subst hd
     have he0 : tcrOrbitLen S.tcrN perm psi S.tcrN ≠ 0 := by simpa using hc

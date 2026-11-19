@@ -401,7 +401,7 @@ theorem ncard_orthPairs_eq_filter {τ : Tag}
   have hset : {p : (Fin τ.rank → ℤ) × (Fin τ.rank → ℤ) |
         p.1 ∈ Ψ ∧ p.2 ∈ Ψ ∧ iform p.1 p.2 = 0} = G '' (T : Set _) := by
     ext q
-    simp only [Set.mem_setOf_eq, Set.mem_image, Finset.mem_coe]
+    simp only [Set.mem_ofPred_eq, Set.mem_image, Finset.mem_coe]
     constructor
     · rintro ⟨h1, h2, h0⟩
       rw [← image_rootLift_orbit hΨ e he] at h1 h2
@@ -652,14 +652,14 @@ theorem twistKindOf_of_neg {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 
     exact ⟨1, Subgroup.one_mem _, fun γ _ => by simp⟩
   by_cases hneg : twistInner Ψ (fun γ => -γ)
   · unfold twistKindOf
-    rw [if_pos (hinner.2 hneg), if_pos hneg]
+    rw [ite_eq_left (hinner.2 hneg), ite_eq_left hneg]
   · have hnot : ¬ twistInner Ψ
         ((ρ : (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ))^[componentOrbitLength ρ Ψ]) :=
       fun h => hneg (hinner.1 h)
     unfold twistKindOf
-    rw [if_neg hnot, if_neg hneg]
+    rw [ite_eq_right hnot, ite_eq_right hneg]
     by_cases hE : compRank Ψ = 6 ∧ Ψ.ncard = 72
-    · rw [if_pos (Or.inl hE), if_pos hE]
+    · rw [ite_eq_left (Or.inl hE), ite_eq_left hE]
     · have hnotExc : ¬ ((compRank Ψ = 6 ∧ Ψ.ncard = 72) ∨
           (compRank Ψ = 4 ∧ Ψ.ncard = 24 ∧
             ¬ twistInner Ψ
@@ -667,10 +667,10 @@ theorem twistKindOf_of_neg {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 
         rintro (h | ⟨-, -, h⟩)
         · exact hE h
         · exact h htwo
-      rw [if_neg hnotExc, if_neg hE]
+      rw [ite_eq_right hnotExc, ite_eq_right hE]
       by_cases hD : 4 ≤ compRank Ψ ∧ Ψ.ncard = 2 * compRank Ψ * (compRank Ψ - 1)
-      · rw [if_pos hD, if_pos hD]
-      · rw [if_neg hD, if_neg hD]
+      · rw [ite_eq_left hD, ite_eq_left hD]
+      · rw [ite_eq_right hD, ite_eq_right hD]
         have hAshape : 2 ≤ compRank Ψ ∧ Ψ.ncard = compRank Ψ * (compRank Ψ + 1) := by
           rcases CFSG.StandardType.LieKnownR2.ExcPos.compRank_ncard_ade hτ hΨ hne with
             hk1 | hkA | hkD | hkE6 | hkE7 | hkE8
@@ -682,7 +682,7 @@ theorem twistKindOf_of_neg {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 
               (Or.inr (Or.inr (Or.inl hkE7)))) hneg
           · exact absurd ((twistInner_neg_iff hτ hΨ hne).2
               (Or.inr (Or.inr (Or.inr hkE8)))) hneg
-        rw [if_pos hAshape]
+        rw [ite_eq_left hAshape]
 
 theorem ncard_orthPairs_of_ncard_eq_seventyTwo {τ : Tag}
     (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {Ψ : Set (Fin τ.rank → ℤ)}
@@ -714,7 +714,7 @@ theorem ncard_orthPairs_of_ncard_eq_seventyTwo {τ : Tag}
     have horbit := cartanOrbitA8_orbit_eq_range hΨ e heA h72
     have hcount := ncard_orthPairs_eq_filter hΨ e hsl heA cartanOrbitA8
       cartanOrbitA8_injective horbit
-    rw [hcount, if_pos hcomp8]
+    rw [hcount, ite_eq_left hcomp8]
     exact cartanOrbitA8_orthCount
   · subst htE
     have heE : ∀ β γ : simpleRoots Ψ, corootPair (β : Fin τ.rank → ℤ) γ =
@@ -724,7 +724,7 @@ theorem ncard_orthPairs_of_ncard_eq_seventyTwo {τ : Tag}
     have horbit := cartanOrbitE6_orbit_eq_range hΨ e heE h72
     have hcount := ncard_orthPairs_eq_filter hΨ e hsl heE cartanOrbitE6
       cartanOrbitE6_injective horbit
-    rw [hcount, if_neg (by omega : compRank Ψ ≠ 8)]
+    rw [hcount, ite_eq_right (by omega : compRank Ψ ≠ 8)]
     exact cartanOrbitE6_orthCount
 
 end CFSG.StandardType.TableCRes
@@ -775,7 +775,7 @@ theorem codeRoots_eq_image (d : ExcCoordDatum S T₀ m) (c : Finset (ExcRaw.Root
     codeRoots d.γ c =
       codeRootSign d '' ((c ×ˢ (Finset.univ : Finset Bool)) : Set (ExcRaw.Root m × Bool)) := by
   ext δ
-  simp only [codeRoots, Set.mem_setOf_eq, Set.mem_image]
+  simp only [codeRoots, Set.mem_ofPred_eq, Set.mem_image]
   constructor
   · rintro ⟨i, hi, h | h⟩
     · exact ⟨(i, true), ⟨hi, Finset.mem_univ _⟩, by simp [codeRootSign, h]⟩
@@ -815,7 +815,7 @@ theorem ncard_orthPairs_codeRoots (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ 
         q.1 ∈ codeRoots d.γ c ∧ q.2 ∈ codeRoots d.γ c ∧ iform q.1 q.2 = 0} =
       g '' (V : Set _) := by
     ext q
-    simp only [Set.mem_setOf_eq, Set.mem_image, Finset.mem_coe]
+    simp only [Set.mem_ofPred_eq, Set.mem_image, Finset.mem_coe]
     constructor
     · rintro ⟨h1, h2, h0⟩
       rw [codeRoots_eq_image d c] at h1 h2
@@ -907,7 +907,7 @@ theorem componentLabel_codeRoots_eq_labelSL (hτ : τ = .E6 ∨ τ = .E7 ∨ τ 
     have hc1 : c.card = 1 := by omega
     have hneg : twistInner Ψ (fun γ => -γ) :=
       (twistInner_neg_iff hτ' hΨ hne).2 (Or.inl h1)
-    rw [hkind, if_pos hneg, h1, h2', hc1]
+    rw [hkind, ite_eq_left hneg, h1, h2', hc1]
     norm_num [componentLabel, ExcRaw.labelSL]
   ·
     have hcA : c.card = Ψ.ncard / 2 :=
@@ -927,7 +927,7 @@ theorem componentLabel_codeRoots_eq_labelSL (hτ : τ = .E6 ∨ τ = .E7 ∨ τ 
           rw [← hOP]
           exact h2''
         omega
-      rw [hkind, if_neg hni, hA, h8, hc36, ho]
+      rw [hkind, ite_eq_right hni, hA, h8, hc36, ho]
       norm_num [componentLabel, ExcRaw.labelSL]
     ·
       have hle7 : compRank Ψ ≤ 7 := by omega
@@ -935,7 +935,7 @@ theorem componentLabel_codeRoots_eq_labelSL (hτ : τ = .E6 ∨ τ = .E7 ∨ τ 
         (have hni : ¬ twistInner Ψ (fun γ => -γ) := by
            rw [twistInner_neg_iff hτ' hΨ hne, hr, hA]
            norm_num
-         rw [hkind, if_neg hni, hcA, hA]
+         rw [hkind, ite_eq_right hni, hcA, hA]
          norm_num [componentLabel, ExcRaw.labelSL])
   ·
     have hcD : c.card = Ψ.ncard / 2 :=
@@ -945,31 +945,31 @@ theorem componentLabel_codeRoots_eq_labelSL (hτ : τ = .E6 ∨ τ = .E7 ∨ τ 
       have hneg : twistInner Ψ (fun γ => -γ) := by
         rw [twistInner_neg_iff hτ' hΨ hne, hr]
         exact Or.inr (Or.inl ⟨by omega, by norm_num, by omega⟩)
-      rw [hkind, if_pos hneg, hcD, hD]
+      rw [hkind, ite_eq_left hneg, hcD, hD]
       norm_num [componentLabel, ExcRaw.labelSL]
     ·
       have hni : ¬ twistInner Ψ (fun γ => -γ) := by
         rw [twistInner_neg_iff hτ' hΨ hne, hr, hD]
         norm_num
-      rw [hkind, if_neg hni, hcD, hD]
+      rw [hkind, ite_eq_right hni, hcD, hD]
       norm_num [componentLabel, ExcRaw.labelSL]
     ·
       have hneg : twistInner Ψ (fun γ => -γ) := by
         rw [twistInner_neg_iff hτ' hΨ hne, hr]
         exact Or.inr (Or.inl ⟨by omega, by norm_num, by omega⟩)
-      rw [hkind, if_pos hneg, hcD, hD]
+      rw [hkind, ite_eq_left hneg, hcD, hD]
       norm_num [componentLabel, ExcRaw.labelSL]
     ·
       have hni : ¬ twistInner Ψ (fun γ => -γ) := by
         rw [twistInner_neg_iff hτ' hΨ hne, hr, hD]
         norm_num
-      rw [hkind, if_neg hni, hcD, hD]
+      rw [hkind, ite_eq_right hni, hcD, hD]
       norm_num [componentLabel, ExcRaw.labelSL]
     ·
       have hneg : twistInner Ψ (fun γ => -γ) := by
         rw [twistInner_neg_iff hτ' hΨ hne, hr]
         exact Or.inr (Or.inl ⟨by omega, by norm_num, by omega⟩)
-      rw [hkind, if_pos hneg, hcD, hD]
+      rw [hkind, ite_eq_left hneg, hcD, hD]
       norm_num [componentLabel, ExcRaw.labelSL]
   ·
     have hc6 : c.card = 36 := by omega
@@ -984,19 +984,19 @@ theorem componentLabel_codeRoots_eq_labelSL (hτ : τ = .E6 ∨ τ = .E7 ∨ τ 
         rw [← hOP]
         exact h2''
       omega
-    rw [hkind, if_neg hni, h6, h72, hc6, ho]
+    rw [hkind, ite_eq_right hni, h6, h72, hc6, ho]
     norm_num [componentLabel, ExcRaw.labelSL]
   ·
     have hneg : twistInner Ψ (fun γ => -γ) :=
       (twistInner_neg_iff hτ' hΨ hne).2 (Or.inr (Or.inr (Or.inl ⟨h7, h126⟩)))
     have hc7 : c.card = 63 := by omega
-    rw [hkind, if_pos hneg, h7, h126, hc7]
+    rw [hkind, ite_eq_left hneg, h7, h126, hc7]
     norm_num [componentLabel, ExcRaw.labelSL]
   ·
     have hneg : twistInner Ψ (fun γ => -γ) :=
       (twistInner_neg_iff hτ' hΨ hne).2 (Or.inr (Or.inr (Or.inr ⟨h8, h240⟩)))
     have hc8 : c.card = 120 := by omega
-    rw [hkind, if_pos hneg, h8, h240, hc8]
+    rw [hkind, ite_eq_left hneg, h8, h240, hc8]
     norm_num [componentLabel, ExcRaw.labelSL]
 
 end

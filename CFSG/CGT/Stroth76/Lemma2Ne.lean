@@ -15,6 +15,7 @@ theorem co_two_nsmul_ne_xy :
 
 variable {X : Type*} [Group X] [Finite X] (K : Config X)
 
+omit [Finite X] in
 theorem false_of_card_of_sq {C : Subgroup X} (hAC : K.A ≤ C) (hCab : IsMulCommutative C)
     (hcard : Nat.card C = 2 ^ 6) {a b : X} (haC : a ∈ C) (hbC : b ∈ C) (ha2 : a ^ 2 = K.x)
     (hb2 : b ^ 2 = K.y) : False := by
@@ -54,8 +55,8 @@ theorem arch76Lemma2_of_ne [K.A.Normal] (hρodd : Odd (orderOf K.ρ))
       ((Subgroup.closure {K.x ^ 2, K.y ^ 2, K.uv, K.t} : Subgroup X) : Set X) →
         g ∈ K.A ⊔ Subgroup.closure {K.uv, K.t, K.u}) :
     (P : Subgroup X) = C ⊔ Subgroup.closure {K.uv, K.t, K.u} := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : C.Normal := by rw [← hCA]; infer_instance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : C.Normal := by rw [← hCA]; infer_instance
   have hAC : K.A ≤ C := by
     rw [← hCA]
     exact fun a ha => Subgroup.mem_centralizer_iff.mpr fun b hb => K.comm hb ha

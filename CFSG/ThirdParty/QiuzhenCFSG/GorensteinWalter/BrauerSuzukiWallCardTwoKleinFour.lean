@@ -115,7 +115,7 @@ public theorem BrauerSuzukiWallHypotheses.isKleinFour_H_of_card_K_eq_two
       rcases hScases bS with hb | hb
       · have hbG : b = 1 := congrArg Subtype.val hb
         apply Subtype.ext
-        simpa [hxb, hbG]
+        simp [hxb, hbG]
       · have hbG : b = h.s := congrArg Subtype.val hb
         apply Subtype.ext
         simpa [hxb, hbG, pow_two] using h.s_involution.2

@@ -31,7 +31,7 @@ theorem typeLayer_fieldActor_two_all (hD : LieSOutType T tm tf tN) {f : ℕ} (hf
     {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = (2 ^ f) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (2 ^ f)) :
     TypeLayer T (fieldActor (t := TwistTag.D4) σ σ) False := by
-  haveI := finite_graphFixedRootGroup_D4 σ
+  have := finite_graphFixedRootGroup_D4 σ
   rcases Nat.lt_or_ge f 2 with h | h
   · obtain rfl : f = 1 := by omega
     refine typeLayer_of_card_dvd hD.card_eq _ (M := 12096) ?_ hD.ord.not_dvd_12096
@@ -59,7 +59,7 @@ theorem typeLayer_of_equiv_projImage {p f : ℕ} {K : Type} [Field K] [Fact p.Pr
   have hSc := Sec13.commutator_projImage_glPi hK hq2
   set S : Subgroup ↥(projImage (glPi π 3 (p ^ f) K)) :=
     (projImage (slPi π 3 (p ^ f) K)).subgroupOf (projImage (glPi π 3 (p ^ f) K)) with hS
-  haveI hSn : S.Normal := by
+  have hSn : S.Normal := by
     have h : (commutator ↥(projImage (glPi π 3 (p ^ f) K))).Normal := inferInstance
     rwa [hSc] at h
   have hsol : Group.IsSolvable (↥(projImage (glPi π 3 (p ^ f) K)) ⧸ S) := by
@@ -67,7 +67,7 @@ theorem typeLayer_of_equiv_projImage {p f : ℕ} {K : Type} [Field K] [Fact p.Pr
     exact (inferInstance : Group.IsSolvable
       (Abelianization ↥(projImage (glPi π 3 (p ^ f) K))))
   have eS : ↥S ≃* ↥(projImage (slPi π 3 (p ^ f) K)) := Subgroup.subgroupOfEquivOfLe hSP
-  haveI hs0 := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
+  have hs0 := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
   have hs : IsSimpleGroup ↥S := eS.isSimpleGroup
   have hnab0 := exists_noncomm_projImage_slPi hK hq2
   have hnab : ∃ a b : ↥S, a * b ≠ b * a := by
@@ -82,7 +82,7 @@ theorem lieSOut_not_catalogIs_projImage_slPi_true (hD : LieSOutType T tm tf tN) 
     {K : Type} [Field K] (hK : PiField true 2 f K) :
     ¬ catalogIs ↥(projImage (slPi true 3 (2 ^ f) K)) T := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := nonempty_projImage_slPi_true_equiv hK
   exact (KFacts.KS14.isEmpty_mulEquiv_projSL_three_of_card (hD.card_eq h) hD.ord.ne_sl3
     (GaloisField 2 f)).false e
@@ -91,7 +91,7 @@ theorem lieSOut_not_catalogIs_projImage_slPi_false (hD : LieSOutType T tm tf tN)
     {K : Type} [Field K] (hK : PiField false 2 f K) :
     ¬ catalogIs ↥(projImage (slPi false 3 (2 ^ f) K)) T := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := nonempty_projImage_slPi_false_equiv hK
   exact (KFacts.KS14.isEmpty_mulEquiv_projSU_three_of_card (hD.card_eq h) hD.ord.ne_su3 2 f
     hK.one_le).false e
@@ -110,7 +110,7 @@ theorem typeLayer_of_autFix_equiv_even (hD : LieSOutType T tm tf tN) {f : ℕ} (
     omega
   have hq2 : 2 < 2 ^ f :=
     lt_of_lt_of_le (by norm_num) (Nat.pow_le_pow_right (by norm_num) hf2)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact typeLayer_of_equiv_projImage hPi hq2 φ (ef.trans e₃) fun hT =>
     (lieSOut_not_catalogIs_projImage_slPi_true hD hPi hT).elim
 
@@ -123,7 +123,7 @@ theorem typeLayer_of_autFix_equiv_odd (hD : LieSOutType T tm tf tN) {f : ℕ} (h
     TypeLayer T φ False := by
   obtain ⟨F, _, _, hF, ⟨e₃⟩⟩ := kF82D4SecondCentY0_holds f hfo K σ hK hσ
   have hPi : PiField false 2 f F := ⟨Nat.prime_two, hf, hF⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hf1 : f = 1
   · subst hf1
     refine typeLayer_of_card_dvd hD.card_eq φ (M := 216) ?_ hD.ord.not_dvd_216
@@ -145,7 +145,7 @@ theorem typeLayer_three_D4_outer_two (hD : LieSOutType T tm tf tN) {f : ℕ} (hf
     (hφ : φ ∉ (MulAut.conj : graphFixedRootGroup TwistTag.D4 K σ.toRingHom →*
       MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range) :
     TypeLayer T φ False := by
-  haveI := finite_graphFixedRootGroup_D4 σ
+  have := finite_graphFixedRootGroup_D4 σ
   have hG2 : TypeLayer T (fieldActor (t := TwistTag.D4) σ σ) False :=
     typeLayer_fieldActor_two_all hD hf hK σ hσ
   rcases Item8KFacts2Proof.isStdGraphFieldConj_or_nonempty_autFix_equiv hf hK hσ hφ3
@@ -180,7 +180,7 @@ theorem lieSOut_triD4 (hD : LieSOutType T tm tf tN) : TypeOuterAt T Pc FamTriD4 
       · exact absurd h (by decide)
     obtain ⟨K, _, _, σ, hK, hσ, ⟨e'⟩⟩ := exists_graphFixed_of_chevalleyExceptional hexc
     rw [hq2] at hK hσ
-    haveI := finite_graphFixedRootGroup_D4 σ
+    have := finite_graphFixedRootGroup_D4 σ
     have hβ3 : MulAut.congr e' α ^ 3 = 1 := by rw [← map_pow, hp.1, map_one]
     have hβ : MulAut.congr e' α ∉ (MulAut.conj : graphFixedRootGroup TwistTag.D4 K σ.toRingHom →*
         MulAut (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range := by

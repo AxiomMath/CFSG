@@ -401,7 +401,6 @@ theorem comm_y₀_eq (h : OneAxisData L K n φ TG t M) {x : G} (hx : x ∈ M) (a
     rw [uElt_mul, uElt_mul, uElt_mul]
     congr 1
     all_goals first
-      | ring1
       | linear_combination a * h2
       | linear_combination (b + a * d) * h2
       | linear_combination (c + a * b + a ^ 2 * d) * h2

@@ -43,8 +43,8 @@ namespace CFSG.RankThree.PartTwo.Sec11.Item1119Sym
 theorem exists_ne_one_mem_center_of_normal {G : Type*} [Group G] [Finite G]
     (P : Subgroup G) (hP : IsPGroup 3 P) (Q : Subgroup P) [Q.Normal] (hQ : Q ≠ ⊥) :
     ∃ z : P, z ∈ Q ∧ z ≠ 1 ∧ z ∈ Subgroup.center P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsNilpotent P := hP.isNilpotent
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsNilpotent P := hP.isNilpotent
   obtain ⟨a, ha⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
     (Group.IsNilpotent.inf_center_ne_bot_of_normal hQ)
   have hmem := Subgroup.mem_inf.mp a.2

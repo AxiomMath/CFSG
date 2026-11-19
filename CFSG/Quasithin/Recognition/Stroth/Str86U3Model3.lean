@@ -13,7 +13,8 @@ noncomputable section
 
 variable {F : Type} [Field F] [Finite F]
 
-theorem wittInv_orthonormal [CharP F 2] {k : ℕ} (hFc : Nat.card F = (2 ^ k) ^ 2) :
+omit [Finite F] in
+theorem wittInv_orthonormal [CharP F 2] {k : ℕ} (_hFc : Nat.card F = (2 ^ k) ^ 2) :
     (CFSG.Quasithin.H.SU3.wittInv : Matrix (Fin 3) (Fin 3) F)ᵀ *
         (CFSG.Quasithin.H.SU3.antiJ (K := F)) *
       (CFSG.Quasithin.H.SU3.wittInv : Matrix (Fin 3) (Fin 3) F).map (· ^ (2 ^ k)) = 1 := by
@@ -22,7 +23,7 @@ theorem wittInv_orthonormal [CharP F 2] {k : ℕ} (hFc : Nat.card F = (2 ^ k) ^ 
       CFSG.Quasithin.H.SU3.wittInv := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [CFSG.Quasithin.H.SU3.wittInv, hq]
+      simp [CFSG.Quasithin.H.SU3.wittInv]
   rw [hmap, ← CFSG.Quasithin.H.SU3.wittMat_gram]
   have hWW : (CFSG.Quasithin.H.SU3.wittMat : Matrix (Fin 3) (Fin 3) F) *
       CFSG.Quasithin.H.SU3.wittInv = 1 := CFSG.Quasithin.H.SU3.wittMat_mul_wittInv
@@ -38,7 +39,8 @@ theorem wittInv_orthonormal [CharP F 2] {k : ℕ} (hFc : Nat.card F = (2 ^ k) ^ 
     _ = 1 := by
       rw [← Matrix.transpose_mul, hWW, Matrix.transpose_one, Matrix.one_mul]
 
-theorem statedSU3_conj_anti [CharP F 2] {k : ℕ} (hk : 2 ≤ k)
+omit [Finite F] in
+theorem statedSU3_conj_anti [CharP F 2] {k : ℕ} (_hk : 2 ≤ k)
     (hFc : Nat.card F = (2 ^ k) ^ 2) :
     ∃ P : GL (Fin 3) F,
       ((P : Matrix (Fin 3) (Fin 3) F)ᵀ * (CFSG.Quasithin.H.SU3.antiJ (K := F)) *
@@ -56,6 +58,7 @@ theorem statedSU3_conj_anti [CharP F 2] {k : ℕ} (hk : 2 ≤ k)
     rw [su3Anti]
     rfl
 
+omit [Finite F] in
 theorem ujSub_mulVec_two [CharP F 2] {k : ℕ} {u : GL (Fin 3) F}
     (hu : u ∈ CFSG.Quasithin.H.SU3.ujSub k F) (v : Fin 3 → F) :
     (((u : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) *ᵥ v) 2 = v 2 := by
@@ -73,6 +76,7 @@ theorem torJ_mulVec_two [CharP F 2] {k : ℕ} (α : Fˣ) (v : Fin 3 → F) :
   rw [Matrix.mulVec, dotProduct, Fin.sum_univ_three]
   simp [Matrix.diagonal]
 
+omit [Finite F] in
 theorem torJ_mem_normalizer_ujSub [Finite F] [CharP F 2] {k : ℕ}
     (hFc : Nat.card F = (2 ^ k) ^ 2) (α : Fˣ) :
     CFSG.Quasithin.H.SU3.torJ k α ∈
@@ -86,6 +90,7 @@ theorem torJ_mem_normalizer_ujSub [Finite F] [CharP F 2] {k : ℕ}
     have h := CFSG.Quasithin.H.SU3.torJ_conj_mem_ujSub hFc α⁻¹ hu
     simpa [mul_assoc] using h
 
+omit [Finite F] in
 theorem exists_torJ_mul_of_mem_normalizer [Finite F] [CharP F 2] {k : ℕ}
     (hk : 1 ≤ k) (hFc : Nat.card F = (2 ^ k) ^ 2) {g : GL (Fin 3) F}
     (hgL : g ∈ su3Anti F k)
@@ -124,7 +129,7 @@ theorem exists_torJ_mul_of_mem_normalizer [Finite F] [CharP F 2] {k : ℕ}
   obtain ⟨α, u, hu, hgu⟩ := CFSG.Quasithin.H.SU3.exists_torJ_mul (n := k) hFc hδB hδSU
   exact ⟨α, u, hu, hgu⟩
 
-theorem u3_cartan_transitive_mod_perp [Finite F] [CharP F 2] {k : ℕ} (hk : 2 ≤ k)
+theorem u3_cartan_transitive_mod_perp [CharP F 2] {k : ℕ} (_hk : 2 ≤ k)
     (hFc : Nat.card F = (2 ^ k) ^ 2) (H : Subgroup (GL (Fin 3) F))
     (hcover : ∀ n ∈ su3Anti F k ⊓
         Subgroup.normalizer (CFSG.Quasithin.H.SU3.ujSub k F : Set (GL (Fin 3) F)),

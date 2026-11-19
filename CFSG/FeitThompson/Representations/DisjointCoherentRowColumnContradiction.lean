@@ -133,10 +133,10 @@ theorem cfInner_eq_zero_of_disjoint_support_of_ne_conj [Fintype G] {ρ s : G →
     have h0' : cfInner cs s = 0 := by rw [← conj_cfInner, h0, map_zero]
     intro b hb b' hb'
     rcases Finset.mem_insert.1 hb with rfl | hb <;> rcases Finset.mem_insert.1 hb' with rfl | hb'
-    · rw [if_pos rfl]; exact cfInner_self_of_mem_signedIrr hs
-    · rw [Finset.mem_singleton.1 hb', if_neg hne, cfInner_neg_right, h0, neg_zero]
-    · rw [Finset.mem_singleton.1 hb, if_neg (Ne.symm hne), cfInner_neg_left, h0', neg_zero]
-    · rw [Finset.mem_singleton.1 hb, Finset.mem_singleton.1 hb', if_pos rfl,
+    · rw [ite_eq_left rfl]; exact cfInner_self_of_mem_signedIrr hs
+    · rw [Finset.mem_singleton.1 hb', ite_eq_right hne, cfInner_neg_right, h0, neg_zero]
+    · rw [Finset.mem_singleton.1 hb, ite_eq_right (Ne.symm hne), cfInner_neg_left, h0', neg_zero]
+    · rw [Finset.mem_singleton.1 hb, Finset.mem_singleton.1 hb', ite_eq_left rfl,
         cfInner_neg_left, cfInner_neg_right, neg_neg]
       exact cfInner_self_of_mem_signedIrr hcsmem
   ·

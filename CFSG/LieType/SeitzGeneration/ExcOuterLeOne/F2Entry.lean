@@ -40,7 +40,7 @@ private theorem spanF2_rootNorm_E (hE : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {γ 
   | reflect i hv ih => rw [rootNorm_reflect, ih]
 
 theorem span_orbit_eq_top_f2 (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 ∨ τ = .F4) {k : Subfield K}
-    (hk : Nat.card k = 2) {R : Subgroup ↥(adjointGroup τ K)}
+    (_hk : Nat.card k = 2) {R : Subgroup ↥(adjointGroup τ K)}
     (hrat : ∀ γ : Fin τ.rank → ℤ, IsRoot τ γ → ∀ c ∈ k, xPar (rootOperatorFamily τ) γ c ∈ R)
     {θ : Fin τ.rank → ℤ} (hθ : IsMaxHeightRoot τ θ) :
     Submodule.span K {x | ∃ r ∈ R, x = endHom K r (rootVec τ K θ)} = ⊤ := by
@@ -158,9 +158,9 @@ private theorem f2E_cartan_eq {z : RootModule τ K}
   classical
   ext a
   rcases a with j | ⟨β, hβ⟩
-  · simp [hVec, Finsupp.finset_sum_apply, Finsupp.single_apply]
+  · simp [hVec, _root_.Finsupp.finsetSum_apply, Finsupp.single_apply]
   · have h : z (Sum.inr ⟨β, hβ⟩) = 0 := hz β hβ
-    simp [hVec, Finsupp.finset_sum_apply, Finsupp.single_apply, h]
+    simp [hVec, _root_.Finsupp.finsetSum_apply, h]
 
 private theorem f2E_fix_of_coord (op : K → Module.End K (RootModule τ K)) (A : Fin τ.rank → K)
     {β : Fin τ.rank → ℤ} (hβ : IsRoot τ β) {z : RootModule τ K}
@@ -190,7 +190,7 @@ private theorem f2E_fix_of_coord (op : K → Module.End K (RootModule τ K)) (A 
   rw [hopz c, hT c, hT1, zero_mul, zero_smul, add_zero]
 
 theorem vanishSub_le_top_f2_E (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {k : Subfield K}
-    (hk : Nat.card k = 2) {R : Subgroup ↥(adjointGroup τ K)}
+    (_hk : Nat.card k = 2) {R : Subgroup ↥(adjointGroup τ K)}
     (hrat : ∀ γ : Fin τ.rank → ℤ, IsRoot τ γ → ∀ c ∈ k, xPar (rootOperatorFamily τ) γ c ∈ R)
     {θ : Fin τ.rank → ℤ} (hθ : IsMaxHeightRoot τ θ) :
     vanishSub R (negLabel hθ.1) ≤ vanishSub (⊤ : Subgroup ↥(adjointGroup τ K)) (negLabel hθ.1) := by
@@ -273,7 +273,7 @@ theorem vanishSub_le_top_f2_E (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {k : Su
   exact h0
 
 private theorem f4_two_eq_zero {k : Subfield K} (hk : Nat.card k = 2) : (2 : K) = 0 := by
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; norm_num)
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; norm_num)
   have hdvd : addOrderOf (1 : k) ∣ 2 := by
     have h := addOrderOf_dvd_natCard (1 : k)
     rwa [hk] at h
@@ -417,7 +417,6 @@ private theorem f4_xOp_coord_simple (i : Fin Tag.F4.rank) (c : K) (z : RootModul
       rw [e, map_smul, xOp_apply_hVec]
       simp only [Finsupp.smul_apply, Finsupp.add_apply, smul_eq_mul, rootVec_apply_rootLabel]
       simp [hVec, Finsupp.single_apply, mul_comm, mul_left_comm]
-      done
     · have e : (Finsupp.single (Sum.inr ⟨α, hα⟩) a : RootModule Tag.F4 K) = a • rootVec Tag.F4 K α := by
         rw [rootVec_of_isRoot' hα]
         simp
@@ -433,7 +432,7 @@ private theorem f4_xOp_coord_simple (i : Fin Tag.F4.rank) (c : K) (z : RootModul
       · by_cases h2 : α = -Pi.single i 1
         · subst h2
           rw [CFSG.Blueprint.Chevalley.xOp_apply_rootVec_neg_single]
-          simp [rootVec_apply_rootLabel, hne2, rootVec_apply_inl, hVec, Finsupp.single_apply]
+          simp [rootVec_apply_rootLabel, hne2, hVec]
           ring
         · have hk : ∀ k : ℕ, α + (k : ℤ) • (Pi.single i 1 : Fin Tag.F4.rank → ℤ) ≠ Pi.single i 1 := by
             intro k hk
@@ -443,10 +442,10 @@ private theorem f4_xOp_coord_simple (i : Fin Tag.F4.rank) (c : K) (z : RootModul
             rcases (isRoot_smul_single_iff i (1 - (k : ℤ))).1 (hα' ▸ hα) with h | h
             · exact h1 (by rw [hα', h, one_smul])
             · exact h2 (by rw [hα', h, neg_one_smul])
-          rw [CFSG.Blueprint.Chevalley.xOp_apply_rootVec_of_ne i c hα h1 h2, Finsupp.finset_sum_apply, if_neg h1, if_neg h2]
+          rw [CFSG.Blueprint.Chevalley.xOp_apply_rootVec_of_ne i c hα h1 h2, _root_.Finsupp.finsetSum_apply, ite_eq_right h1, ite_eq_right h2]
           rw [Finset.sum_eq_zero, mul_zero, mul_zero, add_zero]
           intro k _
-          rw [Finsupp.smul_apply, rootVec_apply_rootLabel, if_neg (hk k), smul_eq_mul, mul_zero]
+          rw [Finsupp.smul_apply, rootVec_apply_rootLabel, ite_eq_right (hk k), smul_eq_mul, mul_zero]
 
 private theorem f4_vanishSub_cartan (h2 : (2 : K) = 0) {k : Subfield K}
     {R : Subgroup ↥(adjointGroup Tag.F4 K)}
@@ -546,7 +545,7 @@ private theorem rootNorm_add_smul_single (i : Fin τ.rank) (v : Fin τ.rank → 
   have h1 : dotProduct v (Matrix.mulVec τ.symmetrizedCartan (Pi.single i 1)) =
       Matrix.mulVec τ.symmetrizedCartan v i := by
     simp only [Matrix.mulVec, dotProduct, Pi.single_apply, mul_ite, mul_one, mul_zero,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     exact Finset.sum_congr rfl fun a _ => by rw [hsym a i]; ring
   have h2 : dotProduct (Pi.single i (1 : ℤ)) (Matrix.mulVec τ.symmetrizedCartan v) =
       Matrix.mulVec τ.symmetrizedCartan v i := by
@@ -554,7 +553,7 @@ private theorem rootNorm_add_smul_single (i : Fin τ.rank) (v : Fin τ.rank → 
   have h3 : dotProduct (Pi.single i (1 : ℤ)) (Matrix.mulVec τ.symmetrizedCartan (Pi.single i 1)) =
       2 * τ.symmetrizer i i := by
     simp only [Matrix.mulVec, dotProduct, Pi.single_apply, ite_mul, one_mul, zero_mul, mul_ite,
-      mul_one, mul_zero, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     exact hBii
   unfold rootNorm
   simp only [Matrix.mulVec_add, Matrix.mulVec_smul, dotProduct_add, add_dotProduct, dotProduct_smul,
@@ -617,7 +616,7 @@ private theorem f4_xOp_rootVec_long (h2 : (2 : K) = 0) (i : Fin Tag.F4.rank) (c 
     (h₁ : β ≠ Pi.single i 1) (h₂ : β ≠ -Pi.single i 1)
     {γ : Fin Tag.F4.rank → ℤ} (hγ : IsRoot Tag.F4 γ) (hγn : rootNorm Tag.F4 γ = 4) :
     (xOp Tag.F4 K i c (rootVec Tag.F4 K β)) (rootLabel hγ) = 0 := by
-  rw [xOp_apply_rootVec_of_ne i c hβ h₁ h₂, Finsupp.finset_sum_apply]
+  rw [xOp_apply_rootVec_of_ne i c hβ h₁ h₂, _root_.Finsupp.finsetSum_apply]
   refine Finset.sum_eq_zero fun k hk => ?_
   rw [Finsupp.smul_apply, rootVec_apply_rootLabel, smul_eq_mul]
   split_ifs with heq
@@ -633,7 +632,7 @@ private theorem f4_yOp_rootVec_long (h2 : (2 : K) = 0) (i : Fin Tag.F4.rank) (c 
     (h₁ : β ≠ Pi.single i 1) (h₂ : β ≠ -Pi.single i 1)
     {γ : Fin Tag.F4.rank → ℤ} (hγ : IsRoot Tag.F4 γ) (hγn : rootNorm Tag.F4 γ = 4) :
     (yOp Tag.F4 K i c (rootVec Tag.F4 K β)) (rootLabel hγ) = 0 := by
-  rw [yOp_apply_rootVec_of_ne i c hβ h₁ h₂, Finsupp.finset_sum_apply]
+  rw [yOp_apply_rootVec_of_ne i c hβ h₁ h₂, _root_.Finsupp.finsetSum_apply]
   refine Finset.sum_eq_zero fun k hk => ?_
   rw [Finsupp.smul_apply, rootVec_apply_rootLabel, smul_eq_mul]
   split_ifs with heq

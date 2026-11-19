@@ -37,7 +37,7 @@ theorem sec12J_alt2_data [Finite G] {V : Subgroup G} (h : Sec128Alt2 V) :
     rfl
   have hnormal : (MonoidHom.range φ).Normal := by
     rw [hrange]
-    haveI : (CFSG.layer ↥(secNb V)).Characteristic := CFSG.LocalCores.layer_characteristic
+    have : (CFSG.layer ↥(secNb V)).Characteristic := CFSG.LocalCores.layer_characteristic
     infer_instance
   refine ⟨φ, hS, hnormal, ?_⟩
   have hcE : Nat.card (secLayerNb V) = Nat.card (MonoidHom.range φ) := by

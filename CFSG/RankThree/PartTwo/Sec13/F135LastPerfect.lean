@@ -52,8 +52,8 @@ theorem ln_surj_of_map_top {K : Type*} [Group K] (N N₁ : Subgroup K) [N.Normal
 theorem normal_dichotomy {K : Type*} [Group K] [Finite K] (hKperf : commutator K = ⊤)
     (N : Subgroup K) [N.Normal] (hNodd : Odd (Nat.card N)) (hS : IsSimpleGroup (K ⧸ N))
     (N₁ : Subgroup K) [N₁.Normal] : N₁ = ⊤ ∨ N₁ ≤ N := by
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hKperf
-  haveI : (N₁.map (QuotientGroup.mk' N)).Normal :=
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hKperf
+  have : (N₁.map (QuotientGroup.mk' N)).Normal :=
     Subgroup.Normal.map inferInstance (QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
   rcases hS.eq_bot_or_eq_top_of_normal (N₁.map (QuotientGroup.mk' N)) with h | h
   · right
@@ -63,7 +63,7 @@ theorem normal_dichotomy {K : Type*} [Group K] [Finite K] (hKperf : commutator K
     rw [h, Subgroup.mem_bot] at hmem
     exact (QuotientGroup.eq_one_iff n).mp hmem
   · left
-    haveI : Group.IsSolvable ↥N := CFSG.FeitThompson.isSolvable_of_odd_natCard ↥N hNodd
+    have : Group.IsSolvable ↥N := CFSG.FeitThompson.isSolvable_of_odd_natCard ↥N hNodd
     have hsolv : Group.IsSolvable (K ⧸ N₁) :=
       Group.isSolvable_of_surjective (ln_surj_of_map_top N N₁ h)
     have hsub : Subsingleton (K ⧸ N₁) := by
@@ -80,7 +80,7 @@ theorem closure_twoElements_eq_top {K : Type*} [Group K] [Finite K] (hKperf : co
       g * s * g⁻¹ ∈ {k : K | ∃ n : ℕ, k ^ (2 ^ n) = 1} := by
     rintro g s ⟨n, hn⟩
     exact ⟨n, by rw [conj_pow, hn, mul_one, mul_inv_cancel]⟩
-  haveI : (Subgroup.closure {k : K | ∃ n : ℕ, k ^ (2 ^ n) = 1}).Normal :=
+  have : (Subgroup.closure {k : K | ∃ n : ℕ, k ^ (2 ^ n) = 1}).Normal :=
     ln_closure_normal _ hSconj
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := K ⧸ N) 2 (even_iff_two_dvd.mp heven)
   obtain ⟨k, rfl⟩ := QuotientGroup.mk_surjective x

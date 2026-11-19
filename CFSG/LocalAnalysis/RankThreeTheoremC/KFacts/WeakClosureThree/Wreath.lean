@@ -46,8 +46,7 @@ theorem isPGroup_closure_cycle {u v w y : G} (huv : u * v = v * u) (huw : u * w 
     ⟨1, Subtype.ext (by simpa using pow_three_eq_one_of_mem_closure hcomm hS3 g.2)⟩
   have himage : (MulAut.conj y : G →* G) '' S = S := by
     ext a
-    simp only [hSdef, Set.mem_image, Set.mem_insert_iff, Set.mem_singleton_iff,
-      MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+    simp only [hSdef, Set.mem_image, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨b, hb, rfl⟩
       rcases hb with rfl | rfl | rfl
@@ -90,7 +89,7 @@ theorem not_isCyclic_of_four_cubes {H : Type*} [Group H] [Finite H] {a b c d : H
     (hac : a ≠ c) (had : a ≠ d) (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d) : ¬ IsCyclic H := by
   intro hcyc
   classical
-  haveI := Fintype.ofFinite H
+  have := Fintype.ofFinite H
   have hle := IsCyclic.card_pow_eq_one_le (α := H) (n := 3) (by norm_num)
   have hsub : ({a, b, c, d} : Finset H) ⊆ Finset.univ.filter (fun x : H => x ^ 3 = 1) := by
     intro x hx

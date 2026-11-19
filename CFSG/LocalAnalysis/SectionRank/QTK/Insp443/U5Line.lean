@@ -194,10 +194,10 @@ theorem KConfig.u5_line {f : ℕ} {K : Type} [Field K]
     ConclKLeft (CFSG.ClassicalGroups.UnitaryFlag.hypPSU h 2 1) L V
         (CFSG.Quasithin.H13.Sec53F.Unit.u5LnP h) ∧
       CFSG.Quasithin.IsPSL 2 2 (2 * f) (CFSG.Quasithin.ModO2 L) := by
-  haveI := h.finite
-  haveI : CharP K 2 := h.charP
-  haveI := finite_hypPSU_five h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := h.finite
+  have : CharP K 2 := h.charP
+  have := finite_hypPSU_five h
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hL : L = perfectCore (u5LnP h) :=
     hc.eq_perfectCore_of_simple (isSimpleGroup_modO2_perfectCore_u5LnP h hf)
   subst hL
@@ -252,7 +252,7 @@ theorem KConfig.u5_line {f : ℕ} {K : Type} [Field K]
         exact hw
       exact hwR.1
   subst hV
-  haveI : IsMulCommutative ↥((Vsub h).map (hypProj h 2 1)) := hc.elemAbelian.1
+  have : IsMulCommutative ↥((Vsub h).map (hypProj h 2 1)) := hc.elemAbelian.1
   have hαV : ∀ ℓ : ↥(perfectCore (u5LnP h)), lineAlpha h hf ℓ = 1 →
       ∀ v ∈ (Vsub h).map (hypProj h 2 1),
         (ℓ : hypPSU h 2 1) * v * (ℓ : hypPSU h 2 1)⁻¹ = v := by

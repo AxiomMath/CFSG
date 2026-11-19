@@ -314,7 +314,7 @@ private noncomputable def CFSG.section12_quotientPPrimeCoreEquivSylowOfHasNormal
     simpa [N] using pPrimeCore_coprime_card (p := p) (G := G)
   have hS_inf_N : (S : Subgroup G) ⊓ N = ⊥ :=
     section12_inf_eq_bot_of_pSubgroup_and_pPrime_card_local
-      (G := G) (p := p) S.isPGroup' hN_cop
+      (G := G) (p := p) S.isPGroup hN_cop
   have hqS_ker : qS.ker = ⊥ := by
     have hker : qS.ker = N.subgroupOf (S : Subgroup G) := by
       simpa [qS, q, N, QuotientGroup.ker_mk'] using
@@ -348,7 +348,7 @@ private theorem CFSG.section12_sylow_isComplement_pPrimeCore_of_hasNormalPComple
           Nat.card (G ⧸ N) * Nat.card N := by rw [hcard_quot]
       _ = Nat.card G := (Subgroup.card_eq_card_quotient_mul_card_subgroup (s := N)).symm
   have hcop : Nat.Coprime (Nat.card (S : Subgroup G)) (Nat.card N) := by
-    rcases S.isPGroup'.exists_card_eq with ⟨n, hn⟩
+    rcases S.isPGroup.exists_card_eq with ⟨n, hn⟩
     rw [hn]
     exact Nat.Coprime.pow_left n (by
       simpa [N] using pPrimeCore_coprime_card (p := p) (G := G))
@@ -686,7 +686,7 @@ private theorem CFSG.section12_sylow_le_normal_hall_of_mem_local
   let PS : Sylow p.val S := Classical.choice (Sylow.nonempty (p := p.val) (G := S))
   let Psub : Subgroup H := (PS : Subgroup S).map S.subtype
   have hPsub_p : IsPGroup p.val Psub := by
-    exact IsPGroup.map (p := p.val) (H := (PS : Subgroup S)) PS.isPGroup' S.subtype
+    exact IsPGroup.map (p := p.val) (H := (PS : Subgroup S)) PS.isPGroup S.subtype
   have hp_not_S_index : ¬ p.val ∣ S.index := by
     intro hp_dvd
     exact (hSHall.p_in_pi_of_p_dvd_index p hp_dvd) hpπ
@@ -840,7 +840,7 @@ private theorem CFSG.section12_sigma_ambient_sylow_eq_of_le_sylow_local
     exact hne (le_antisymm hS_le_PG (by simpa [PG] using hPGS))
   rcases section12_exists_pSubgroup_gt_le_normalizer_of_lt_pgroup_local
       (G := G) (S := (S : Subgroup G)) (X := PG) (p := p.val)
-      S.isPGroup' hPG_lt_S with
+      S.isPGroup hPG_lt_S with
     ⟨Y, hPGY, _hYS, hYnorm, hYp⟩
   have hnorm_le_M :
       Subgroup.normalizer (PG : Set G) ≤ M := by
@@ -964,7 +964,7 @@ private theorem CFSG.section12_corollary_12_14_derived_chosen_core
   have hPamb_p : IsPGroup p.val Pamb := by
     change IsPGroup p.val
       ((P : Subgroup (section10Msigma M)).map (section10Msigma M).subtype)
-    exact IsPGroup.map P.isPGroup' (section10Msigma M).subtype
+    exact IsPGroup.map P.isPGroup (section10Msigma M).subtype
   have hPamb_proper : Pamb ≠ ⊤ :=
     IsMinCE.pSubgroup_ne_top (G := G) (p := p.val) hPamb_p
   have hcompAmb : HasNormalPComplement p.val (section10Msigma M) :=
@@ -1086,7 +1086,7 @@ private theorem CFSG.section12_corollary_12_14_derived_chosen_core
         exact Subgroup.mem_map.mpr ⟨xM, hPsubM_le_PM hxPsubM, rfl⟩
       have hPMamb_p : IsPGroup p.val PMamb := by
         change IsPGroup p.val ((PM : Subgroup M).map M.subtype)
-        exact IsPGroup.map PM.isPGroup' M.subtype
+        exact IsPGroup.map PM.isPGroup M.subtype
       let PMambSub : Subgroup (section10Msigma M) := PMamb.subgroupOf (section10Msigma M)
       have hPMambSub_p : IsPGroup p.val PMambSub :=
         hPMamb_p.of_equiv
@@ -1236,7 +1236,7 @@ private theorem CFSG.section12_corollary_12_14_core
   have hPamb_p : IsPGroup p.val Pamb := by
     change IsPGroup p.val
       ((P : Subgroup (section10Msigma M)).map (section10Msigma M).subtype)
-    exact IsPGroup.map P.isPGroup' (section10Msigma M).subtype
+    exact IsPGroup.map P.isPGroup (section10Msigma M).subtype
   have hbeta_core
       (hpβ : p ∈ section10BetaPrimes M) :
       section10AmbientSylowSubgroup (section10Msigma M) P ∈ section9UniqueSubgroups G ∧
@@ -1268,7 +1268,7 @@ private theorem CFSG.section12_corollary_12_14_core
       simpa [U] using
         proposition_10_14_c (G := G) hpIdeal S hX_le_S
     have hUp : IsPGroup p.val U := by
-      exact S.isPGroup'.to_le (by
+      exact S.isPGroup.to_le (by
         intro u hu
         exact (mem_subgroupNormalizerIn.mp (by simpa [U] using hu)).2)
     have hU_le_CX : U ≤ Subgroup.centralizer (X : Set G) :=

@@ -27,13 +27,13 @@ theorem mem_sup_centralizer_of_kFactOuterSylowInner
   have hSsub : ((T : Subgroup K).map K.subtype).subgroupOf K = (T : Subgroup K) :=
     Subgroup.comap_map_eq_self_of_injective K.subtype_injective _
   have hpK : p ∣ Nat.card K := by
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp T.isPGroup'
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp T.isPGroup
     have hn0 : n ≠ 0 := by
       rintro rfl
       exact hT1 (Subgroup.eq_bot_of_card_eq _ (by simpa using hn))
     exact (dvd_pow_self p hn0).trans (hn ▸ (T : Subgroup K).card_subgroup_dvd_card)
   refine hKO Y K p hp2 hK hcat hpK ((T : Subgroup K).map K.subtype)
-    (Subgroup.map_subtype_le _) (T.isPGroup'.map K.subtype)
+    (Subgroup.map_subtype_le _) (T.isPGroup.map K.subtype)
     (by rw [hSsub]; exact T.not_dvd_index)
     (isCyclic_of_surjective
       ((T : Subgroup K).equivMapOfInjective _ K.subtype_injective).toMonoidHom

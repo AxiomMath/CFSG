@@ -17,7 +17,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 private theorem chi_swap (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
-    (hspread : StrothNoA2SpreadStatement) {hc : Ctx M Q Z B} {n : ℕ} (H : Sec10Hyp hc n)
+    (hspread : StrothNoA2SpreadStatement) {hc : Ctx M Q Z B} {n : ℕ} (_H : Sec10Hyp hc n)
     {t : G} {Y : Subgroup G} (hs : Sit M Q Z Y t) {g : G}
     (hgZ : conjSubgroup g Z = Y)
     {hcY : Ctx (conjSubgroup g M) (conjSubgroup g Q) Y B} (H' : Sec10Hyp hcY n) {z : G}
@@ -76,8 +76,9 @@ private theorem exists_not_mem_wt {m : ℕ} {Y : Subgroup G} {g : G}
     have hc := Subgroup.card_le_of_le hle
     rw [hQcard] at hc
     omega
-  exact SetLike.not_le_iff_exists.mp hnotle
+  exact IsConcreteLE.not_le_iff_exists.mp hnotle
 
+omit [Finite G] in
 private theorem comm_mul_mem_Q {hc : Ctx M Q Z B} {Y : Subgroup G}
     {h' c z : G}
     (hcA : c ∈ Q ⊓ QB Y) (hzZ : z ∈ Z)
@@ -106,6 +107,7 @@ private theorem comm_mul_mem_Q {hc : Ctx M Q Z B} {Y : Subgroup G}
   rwa [show ⁅c⁻¹, h'⁻¹⁆ * ⁅h'⁻¹, z⁆ * z * z⁻¹ =
     ⁅c⁻¹, h'⁻¹⁆ * ⁅h'⁻¹, z⁆ by group] at h
 
+omit [Finite G] in
 private theorem comm_inv_mem_QB {Y : Subgroup G} {g : G} {h' z : G}
     {hcY : Ctx (conjSubgroup g M) (conjSubgroup g Q) Y B}
     (hh'QB : h' ∈ QB Y) (hzM : z ∈ conjSubgroup g M) :
@@ -124,7 +126,7 @@ private theorem comm_inv_mem_QB {Y : Subgroup G} {g : G} {h' z : G}
 
 private theorem decomp_eq_one (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
     (hspread : StrothNoA2SpreadStatement) {hc : Ctx M Q Z B} {n m : ℕ} (H : Sec10Hyp hc n)
-    {t : G} (ht : Good103 M Q Z B t) {Y : Subgroup G} (hs : Sit M Q Z Y t) {g : G}
+    {t : G} (_ht : Good103 M Q Z B t) {Y : Subgroup G} (hs : Sit M Q Z Y t) {g : G}
     (hgZ : conjSubgroup g Z = Y)
     {hcY : Ctx (conjSubgroup g M) (conjSubgroup g Q) Y B} (H' : Sec10Hyp hcY n)
     (hzswap : ∀ z ∈ Z, z ≠ 1 →
@@ -235,7 +237,7 @@ private theorem centralizes_Vt {hc : Ctx M Q Z B} {t : G}
 
 private theorem comm_mem_inf_QB {hc : Ctx M Q Z B} {t : G} {Y : Subgroup G}
     (hs : Sit M Q Z Y t) {u y z₀ : G} (huQB : u ∈ QB Y) (huM : u ∈ M)
-    (hz₀Z : z₀ ∈ Z) (huz : u * z₀ = z₀ * u) (hyu : y = u * z₀) :
+    (hz₀Z : z₀ ∈ Z) (_huz : u * z₀ = z₀ * u) (hyu : y = u * z₀) :
     ∀ x ∈ Q ⊓ Subgroup.centralizer ({t} : Set G), ⁅x, y⁆ ∈ Q ⊓ QB Y := by
   intro x hx
   obtain ⟨hxQ, hxC⟩ := Subgroup.mem_inf.mp hx

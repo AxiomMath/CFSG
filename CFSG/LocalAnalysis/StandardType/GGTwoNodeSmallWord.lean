@@ -22,10 +22,10 @@ private lemma tnw_foldl_range_map (p D : ℕ) (F : ℕ → ℕ) :
 
 private lemma tnw_getD_range_map (D : ℕ) (F : ℕ → ℕ) (j : Fin D) :
     (((List.range D).map F).getD j.val 0) = F j.val := by
-  have hlen : j.val < ((List.range D).map F).length := by simpa using j.isLt
+  have hlen : j.val < ((List.range D).map F).length := by simp
   rw [List.getD_eq_getElem _ 0 hlen, List.getElem_map]
   have hr : (List.range D)[j.val] = j.val :=
-    List.getElem_range (j := j.val) (by simpa using j.isLt)
+    List.getElem_range (j := j.val) (by simp)
   rw [hr]
 
 private lemma tnw_cast_refl_coord (p a b : ℕ) (hp : 0 < p) :
@@ -102,7 +102,7 @@ theorem Pt.vec_unit (P : Pt) [Fact P.p.Prime] (i : Fin P.D) :
   · subst h
     simp
   · have hv : j.val ≠ i.val := fun hh => h (Fin.ext hh)
-    rw [if_neg hv, if_neg h]
+    rw [ite_eq_right hv, ite_eq_right h]
     simp
 
 private lemma tnw_exists_genSet_of_wf (P : Pt) [Fact P.p.Prime] (hwf : P.WF) (r : Refl)

@@ -89,7 +89,7 @@ theorem exists_hom_twistedE6_of_eigen {Fr : L →+* L} {q : ℕ} (hFr : ∀ c, F
   have : Fact p.Prime := ⟨hp⟩
   have : NeZero p := ⟨hp.ne_zero⟩
   have : NeZero (p : L) := ⟨hpL⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   set M : Matrix (Fin TwistTag.E6.tag.rank) (Fin TwistTag.E6.tag.rank) ℤ :=
     Matrix.of fun i k => Wm i (TwistTag.E6.perm k) with hM
   have hv : ∀ x, v • x = M *ᵥ permLattice TwistTag.E6.perm x := by

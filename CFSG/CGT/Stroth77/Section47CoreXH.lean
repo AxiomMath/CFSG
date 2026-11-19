@@ -90,7 +90,7 @@ theorem t200x_sqE_ne_zero (hm : 2 ≤ m) (hp : p % 2 = 1)
     t200xEAction_wt, show m' + 2 - 1 = m' + 1 by omega] at h
   cases i <;>
   simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, AddMonoidHom.comp_apply,
-    AddMonoidHom.id_apply, Bool.and_false, map_add, map_sub, map_zero, t200xEAction_φe_apply,
+    AddMonoidHom.id_apply, Bool.and_false, map_zero, t200xEAction_φe_apply,
     t200_φuv, ← Torus.ofInt_add, ← Torus.ofInt_sub, add_zero, zero_add, t200_ofInt_eq_zero_iff,
     Pi.add_apply, Pi.sub_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
     Matrix.head_cons, Matrix.tail_cons] at h <;>
@@ -158,10 +158,9 @@ theorem t200x_h8 (hm : 2 ≤ m) (hp : p % 2 = 1) (hfN : f ∈ Subgroup.normalize
   intro h
   obtain ⟨m', rfl⟩ : ∃ m', m = m' + 2 := ⟨m - 2, by omega⟩
   obtain ⟨r, rfl⟩ : ∃ r, p = 2 * r + 1 := ⟨p / 2, by omega⟩
-  simp only [EAction.sqE, EAction.twist, t200xEAction_ve, t200xEAction_wuv,
-    t200xEAction_wt, show m' + 2 - 1 = m' + 1 by omega, SigmaFourAction.d8Act,
+  simp only [EAction.sqE, EAction.twist, t200xEAction_ve, show m' + 2 - 1 = m' + 1 by omega, SigmaFourAction.d8Act,
     Bool.false_eq_true, ↓reduceIte, AddMonoidHom.comp_apply, AddMonoidHom.id_apply,
-    Bool.and_false, map_add, map_sub, map_zero, t200xEAction_φe_apply, ← Torus.ofInt_add,
+    Bool.and_false, map_zero, t200xEAction_φe_apply, ← Torus.ofInt_add,
     ← Torus.ofInt_sub, add_zero, zero_add, ← natCast_zsmul, ← Torus.ofInt_zsmul,
     t200_ofInt_eq_zero_iff, Pi.add_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul,
     Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,

@@ -177,12 +177,12 @@ theorem l10mp2a_card_ker {L : Type} [Field L] [IsAlgClosed L] [CharP L 2] :
     ext k
     exact l10mp2a_mem_ker_iff_centerChars k
   rw [hZ, Nat.card_congr (e6CenterCharsEquiv L).toEquiv]
-  haveI : NeZero ((3 : L)) := ⟨by
+  have : NeZero ((3 : L)) := ⟨by
     intro h0
     have h2 : (2 : ℕ) ∣ 3 := (CharP.cast_eq_zero_iff L 2 3).1 (by simpa using h0)
     norm_num at h2⟩
-  haveI : HasEnoughRootsOfUnity L 3 := IsSepClosed.hasEnoughRootsOfUnity L 3
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  have : HasEnoughRootsOfUnity L 3 := IsSepClosed.hasEnoughRootsOfUnity L 3
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   exact hζ.card_rootsOfUnity
 
 theorem l10mp2a_ker_le_pfix {L : Type} [Field L] (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ 2)
@@ -235,7 +235,7 @@ theorem l10mp2a_twE6Fp_inv {L : Type} [Field L] (Fr : L →+* L) (ω : List (Fin
   change twE6FpHom Fr ω c⁻¹ = (twE6FpHom Fr ω c)⁻¹
   rw [map_inv]
 
-theorem l10mp2a_delta_mem {L : Type} [Field L] (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ 2)
+theorem l10mp2a_delta_mem {L : Type} [Field L] (Fr : L →+* L) (_hFr : ∀ c, Fr c = c ^ 2)
     (ω : List (Fin Tag.E6.rank)) {a c : Fin Tag.E6.rank → Lˣ}
     (ha : a ∈ l10mp2a_AFix Fr ((coxeterSystem Tag.E6).wordProd ω))
     (hc : e6RootParams c = a) :
@@ -244,8 +244,6 @@ theorem l10mp2a_delta_mem {L : Type} [Field L] (Fr : L →+* L) (hFr : ∀ c, Fr
   change e6RootParams (twE6Fp Fr ω c) * (e6RootParams c)⁻¹ = 1
   have hfp : twE6Fp Fr ω c =
       ω.foldr e6StarS (fun i => Units.map Fr.toMonoidHom (c (l10mp2a_perm i))) := by
-    change twE6Fp Fr ω c = ω.foldr e6StarS
-      (fun i => Units.map Fr.toMonoidHom (c (l10mp2a_perm i)))
     rfl
   rw [hfp, l10mp2a_cartan_fp Fr ω c, hc]
   have ha' : weylTuple ((coxeterSystem Tag.E6).wordProd ω)
@@ -334,7 +332,7 @@ noncomputable def l10mp2a_delta {L : Type} [Field L] [IsAlgClosed L] (Fr : L →
       (c' := l10mp2a_preimage (a : Fin Tag.E6.rank → Lˣ) *
         l10mp2a_preimage (b : Fin Tag.E6.rank → Lˣ)) ?_]
     · rw [twE6Fp_mul]
-      simp [mul_inv, mul_assoc, mul_comm, mul_left_comm]
+      simp [mul_assoc, mul_comm, mul_left_comm]
     · rw [l10mp2a_preimage_spec]
       rw [show e6RootParams (l10mp2a_preimage (a : Fin Tag.E6.rank → Lˣ) *
           l10mp2a_preimage (b : Fin Tag.E6.rank → Lˣ)) =
@@ -373,7 +371,7 @@ theorem l10mp2a_delta_range {L : Type} [Field L]
       (l10mp2a_preimage (e6RootParams c))⁻¹ = (z : Fin Tag.E6.rank → Lˣ)
   rw [l10mp2a_delta_wd Fr hFr ω (c := l10mp2a_preimage (e6RootParams c)) (c' := c) ?_]
   · rw [hc]
-    simp [mul_assoc, mul_comm, mul_left_comm]
+    simp [mul_assoc, mul_comm]
   · rw [l10mp2a_preimage_spec]
 
 theorem l10mp2a_delta_ker {L : Type} [Field L] [IsAlgClosed L] (Fr : L →+* L)

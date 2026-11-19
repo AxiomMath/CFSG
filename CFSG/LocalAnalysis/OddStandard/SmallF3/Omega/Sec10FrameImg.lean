@@ -65,7 +65,7 @@ theorem img_le_P (X : Subgroup G) : F.img X ≤ QP45.originalSubgroup := by
   obtain ⟨l, -, rfl⟩ := mem_img.1 hp
   exact F.ψ_mem l
 
-theorem pre_le (K : Subgroup P45) : F.pre K ≤ L := fun g hg => (mem_pre.1 hg).1
+theorem pre_le (K : Subgroup P45) : F.pre K ≤ L := fun _g hg => (mem_pre.1 hg).1
 
 theorem img_mono (h : X ≤ Y) : F.img X ≤ F.img Y := by
   intro p hp
@@ -143,7 +143,7 @@ theorem card_img (hX : X ≤ L) : Nat.card (F.img X) = Nat.card X := by
 theorem imgEquiv_apply (hX : X ≤ L) (x : ↥X) :
     ((F.imgEquiv hX x : ↥(F.img X)) : P45) = F.ψ ⟨(x : G), hX x.2⟩ := rfl
 
-theorem relIndex_img (hXY : X ≤ Y) (hY : Y ≤ L) :
+theorem relIndex_img (_hXY : X ≤ Y) (hY : Y ≤ L) :
     (F.img X).relIndex (F.img Y) = X.relIndex Y := by
   rw [img, img, Subgroup.relIndex_map_map_of_injective _ _ F.ψ_injective,
     Subgroup.relIndex_subgroupOf hY]

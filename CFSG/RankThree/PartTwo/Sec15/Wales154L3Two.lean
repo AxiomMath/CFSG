@@ -136,6 +136,7 @@ theorem nonempty_quot_pCore_imgX_equiv {X Y : Subgroup G} (hXY : X ≤ Y) :
     simpa using h1
   exact nonempty_quot_pCore_two_equiv_of_surjective f hfs hker'
 
+omit [Finite G] in
 theorem conj_mul_inv_mem_of_le_sup {Y N D₁ D₂ : Subgroup G} {e : G}
     (hYN : Y ≤ Subgroup.normalizer (N : Set G)) (hle : Y ≤ D₁ ⊔ D₂) (hD₁ : D₁ ≤ Y)
     (hD₂ : D₂ ≤ Y) (h₁ : ∀ d ∈ D₁, e * d * e⁻¹ * d⁻¹ ∈ N)

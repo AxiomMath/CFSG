@@ -103,6 +103,7 @@ theorem comm_eq_of_quasisimple (h37 : A37ForSQTK) (h38 : A38ForSQTK)
       exact le_inf ((hAB.trans (Subgroup.centralizer_le_normalizer _))) hAI
     exact hLn (le_of_autOn_le hUN hLle inf_le_right hF.cent_le hAMI)
 
+omit [Finite G] in
 theorem charTwo_of_le {I X : Subgroup G} (hI : CharTwo I) (hXI : X ≤ I) (hOX : pCoreOf 2 I ≤ X) :
     CharTwo X := CFSG.QuasithinUnique.CharTwo.of_pCoreOf_le hI hXI hOX
 

@@ -24,8 +24,8 @@ theorem twA2Plane_exists
 private theorem twNeg_three_mul_card_le {G : Type*} [Group G] {E H H' : Subgroup G}
     (hE : Nat.card E = 3 ^ 3) (hH'E : H' ≤ E) (hHH' : H < H') :
     3 * Nat.card H ≤ Nat.card H' := by
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
-  haveI : Finite H' :=
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
+  have : Finite H' :=
     Finite.of_injective (Subgroup.inclusion hH'E) (Subgroup.inclusion_injective _)
   have h1 := Subgroup.card_lt_of_lt hHH'
   have h3 : Nat.card H' ∣ 3 ^ 3 := hE ▸ Subgroup.card_dvd_of_le hH'E
@@ -40,18 +40,18 @@ private theorem twNeg_three_mul_card_le {G : Type*} [Group G] {E H H' : Subgroup
 private theorem twNeg_step {G : Type*} [Group G] {E H : Subgroup G} (hE : Nat.card E = 3 ^ 3)
     (hHE : H ≤ E) :
     ∃ x ∈ E, min (3 * Nat.card H) (3 ^ 3) ≤ Nat.card ↥(H ⊔ Subgroup.closure {x}) := by
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
   by_cases h : E ≤ H
   · refine ⟨1, E.one_mem, ?_⟩
     have hle' : H ⊔ Subgroup.closure {(1 : G)} ≤ E :=
       sup_le hHE ((Subgroup.closure_le E).2 (Set.singleton_subset_iff.2 E.one_mem))
-    haveI : Finite ↥(H ⊔ Subgroup.closure {(1 : G)}) :=
+    have : Finite ↥(H ⊔ Subgroup.closure {(1 : G)}) :=
       Finite.of_injective (Subgroup.inclusion hle') (Subgroup.inclusion_injective _)
     calc min (3 * Nat.card H) (3 ^ 3) ≤ 3 ^ 3 := min_le_right _ _
       _ = Nat.card E := hE.symm
       _ ≤ Nat.card ↥(H ⊔ Subgroup.closure {(1 : G)}) :=
         Subgroup.card_le_of_le (h.trans le_sup_left)
-  · obtain ⟨x, hxE, hxH⟩ := SetLike.not_le_iff_exists.1 h
+  · obtain ⟨x, hxE, hxH⟩ := IsConcreteLE.not_le_iff_exists.1 h
     refine ⟨x, hxE, (min_le_left _ _).trans (twNeg_three_mul_card_le hE ?_ ?_)⟩
     · exact sup_le hHE ((Subgroup.closure_le E).2 (Set.singleton_subset_iff.2 hxE))
     · refine lt_of_le_of_ne le_sup_left fun h' => hxH ?_
@@ -61,7 +61,7 @@ private theorem twNeg_step {G : Type*} [Group G] {E H : Subgroup G} (hE : Nat.ca
 private theorem twNeg_exists_gen {G : Type*} [Group G] (E : Subgroup G)
     (hE : Nat.card E = 3 ^ 3) :
     ∃ x₁ ∈ E, ∃ x₂ ∈ E, ∃ x₃ ∈ E, ∀ N : Subgroup G, x₁ ∈ N → x₂ ∈ N → x₃ ∈ N → E ≤ N := by
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hE]; norm_num)
   have hcl : ∀ {x : G} {N : Subgroup G}, x ∈ N → Subgroup.closure {x} ≤ N := fun hx =>
     (Subgroup.closure_le _).2 (Set.singleton_subset_iff.2 hx)
   obtain ⟨x₁, hx₁, h₁⟩ := twNeg_step hE (bot_le : (⊥ : Subgroup G) ≤ E)
@@ -105,8 +105,8 @@ private theorem twNeg_exists_omega (K : Type) [Field K] (hr : ringChar K ≠ 3) 
     rcases (Nat.dvd_prime Nat.prime_three).1 ((ringChar.spec K 3).1 h) with h1 | h3
     · exact CharP.ringChar_ne_one h1
     · exact hr h3
-  haveI : NeZero ((3 : ℕ) : AlgebraicClosure K) := ⟨hne3⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) 3
+  have : NeZero ((3 : ℕ) : AlgebraicClosure K) := ⟨hne3⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) 3
   exact ⟨(hζ.isUnit (by norm_num)).unit, by rw [IsUnit.unit_spec]; exact hζ⟩
 
 private theorem twNeg_rootChar_eq_one {τ : Tag} {L : Type} [Field L] {ω : Lˣ} (hω3 : ω ^ 3 = 1)
@@ -150,7 +150,7 @@ private theorem twNegDiag_apply (K : Type) [Field K] (σ : K ≃+* K)
     twNegDiag K σ g0 x =
       g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x : ModGL TwistTag.E6.tag K) *
         g0 := by
-  simp [twNegDiag, MulAut.conj_apply]
+  simp [twNegDiag]
 
 private noncomputable def twNegKer (K : Type) [Field K] (σ : K ≃+* K)
     (g0 : ModGL TwistTag.E6.tag (AlgebraicClosure K)) (m : Fin TwistTag.E6.tag.rank → ℤ) :
@@ -272,7 +272,7 @@ theorem exists_a2Plane_of_regular (K : Type) [Field K]
     rw [h2, h3, twNegDiag_apply] at h1
     exact h1.symm
   set χ : E₀ →* (AlgebraicClosure K)ˣ := (twNegChar (AlgebraicClosure K) β₁).comp c with hχ
-  haveI : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hle3 : χ.range ≤ rootsOfUnity 3 (AlgebraicClosure K) := by
     rintro _ ⟨x, rfl⟩
     refine (mem_rootsOfUnity 3 _).2 ?_
@@ -293,7 +293,7 @@ theorem exists_a2Plane_of_regular (K : Type) [Field K]
     have h : χ ⟨x₀, hx₀⟩ ∈ χ.range := ⟨_, rfl⟩
     rw [hbot, Subgroup.mem_bot] at h
     exact hx₀χ _ (hcx ⟨x₀, hx₀⟩) h
-  haveI : Finite χ.range :=
+  have : Finite χ.range :=
     Nat.finite_of_card_ne_zero fun h0 => by rw [h0] at hdvd; norm_num at hdvd
   have hone : 1 < Nat.card χ.range := (Subgroup.one_lt_card_iff_ne_bot _).2 hne
   have hχcard : Nat.card χ.range = 3 := by

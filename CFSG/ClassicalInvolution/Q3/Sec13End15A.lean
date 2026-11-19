@@ -20,6 +20,7 @@ structure TwinSit (Ω : Set (Subgroup G)) (K K' : Subgroup G) (z : G) : Prop whe
   twin : twinSet Ω K = {K, K'}
   ne : K ≠ K'
 
+omit [Finite G] in
 theorem zGroup_normal_of_conjInvariant {Ω : Set (Subgroup G)} (hΩ : ConjInvariant Ω) :
     (zGroup Ω).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -45,6 +46,7 @@ namespace TwinSit
 
 variable {Ω : Set (Subgroup G)} {K K' : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem mem_twin (s : TwinSit Ω K K' z) : K' ∈ Ω ∧ IsUniqueInvolution K' z := by
   have hK' : K' ∈ twinSet Ω K := by
     rw [s.twin]
@@ -122,6 +124,7 @@ theorem card_sup (s : TwinSit Ω K K' z) (h : EndHyp Ω) : Nat.card ↥(K ⊔ K'
 
 end TwinSit
 
+omit [Finite G] in
 private theorem e15a_conj_fix {Ω : Set (Subgroup G)} (hΩ : ConjInvariant Ω) {A B : Subgroup G}
     (hT : twinSet Ω A = {A, B}) (hAB : A ≠ B) {g : G} (hg : conjSub g A = A) :
     conjSub g B = B := by
@@ -204,6 +207,7 @@ theorem kPerp_eq_twinSet_of_perp9 (h : EndHyp Ω) (h9 : Perp9 Ω) {L : Subgroup 
     · exact Or.inl hJL
     · exact Or.inr (Q3CL.T3.twin_mem_omegaNbr h.thmD.hyp hL hJΩ hJL hz'L hz'J)
 
+omit [Finite G] in
 theorem twinSet_pair (h : EndHyp Ω) (s : TwinSit Ω K K' z) {L : Subgroup G} (hL : L ∈ Ω) :
     ∃ L' : Subgroup G, L' ≠ L ∧ twinSet Ω L = {L, L'} := by
   have hΩc := h.thmD.hyp.conjInvariant
@@ -237,6 +241,7 @@ theorem twinSet_pair (h : EndHyp Ω) (s : TwinSit Ω K K' z) {L : Subgroup G} (h
     · rw [hMK, ← hg]
       exact twinSet_conj hΩc hK'mem g
 
+omit [Finite G] in
 theorem normalizer_twin (h : EndHyp Ω) (s : TwinSit Ω K K' z) :
     Subgroup.normalizer (K : Set G) = Subgroup.normalizer (K' : Set G) ∧
       Subgroup.normalizer (K : Set G) ≤ Subgroup.centralizer ({z} : Set G) := by
@@ -274,9 +279,9 @@ theorem mem_eGroup_of_normalizes (h : EndHyp Ω) (h9 : Perp9 Ω) {K M : Subgroup
     (hM : M ∈ Ω) {s : G} (hs : IsUniqueInvolution M s)
     (hsN : s ∈ Subgroup.normalizer (K : Set G)) : s ∈ eGroup Ω K := by
   rcases h.mem_omegaStarNbr_or_twinSet h9 hK hM hs hsN with hMN | ⟨-, z, hzK, hzM⟩
-  · exact h.mem_eGroup_of_mem_omegaStarNbr hMN hs
+  · exact CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_mem_omegaStarNbr hMN hs
   · rw [hs.eq hzM]
-    exact h.mem_eGroup_of_isUniqueInvolution hzK
+    exact CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_isUniqueInvolution hzK
 
 theorem mem_eGroup_iff_mem_normalizer (h : EndHyp Ω) (h9 : Perp9 Ω) {K : Subgroup G} {z : G}
     (hK : K ∈ Ω) (hz : IsUniqueInvolution K z) {s : G} (hs : ∃ g : G, s = g * z * g⁻¹) :

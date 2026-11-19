@@ -30,7 +30,7 @@ theorem pCoreOf_two_sxGen_le_sxN :
   have hN : ((CFSG.pCore 2 ↥sxGen).map sxAct).Normal :=
     (inferInstance : (CFSG.pCore 2 ↥sxGen).Normal).map sxAct sxAct_surjective
   have hbot : (CFSG.pCore 2 ↥sxGen).map sxAct = ⊥ := by
-    haveI := hN
+    have := hN
     apply S6_normal_two_group
     intro z hz
     rw [Subgroup.mem_map] at hz
@@ -64,7 +64,7 @@ theorem pCoreOf_two_sxGen :
     rw [← hyx]
     exact hk'
   let K : Subgroup ↥sxN := sxKS.subgroupOf sxN
-  haveI hK : K.Normal :=
+  have hK : K.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer sxKS_le_sxN).2
       (sxN_le_sxGen.trans sxGen_le_normalizer_KS)
   let q : ↥sxN ⧸ K := QuotientGroup.mk (s := K) ⟨x, hxN⟩
@@ -103,7 +103,7 @@ theorem isO23_sxGen :
     have hmapnorm : ((N'.subgroupOf sxGen).map sxAct).Normal :=
       hN''norm.map sxAct sxAct_surjective
     have hbot : (N'.subgroupOf sxGen).map sxAct = ⊥ := by
-      haveI := hmapnorm
+      have := hmapnorm
       apply S6_normal_three_group
       intro z hz
       rw [Subgroup.mem_map] at hz

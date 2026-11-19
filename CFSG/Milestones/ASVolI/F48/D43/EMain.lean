@@ -22,7 +22,7 @@ theorem burnsideF48dE_U_le_pCore (hM : burnsideF48d_ModelFacts) {E : Type} [Grou
     (hBθ : M₁ ⊓ M₂ = (burnsideF48dE_P1 ⊓ burnsideF48dE_P2).map θ.toMonoidHom)
     (hXθ : burnsideF48dE_Xs.map θ.toMonoidHom = Gp) :
     burnsideF48dE_Uh.map θ.toMonoidHom ≤ pCoreOf 3 (Gp ⊓ (M₁ ⊓ M₂)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Bp := Gp ⊓ (M₁ ⊓ M₂) with hBp
   set S := burnsideF48dE_Uh.map θ.toMonoidHom with hSdef
   have hUB : burnsideF48dE_Uh ≤ burnsideF48dE_Bs := Subgroup.map_mono hM.U_le
@@ -72,8 +72,8 @@ theorem burnsideF48dE_U_le_pCore (hM : burnsideF48d_ModelFacts) {E : Type} [Grou
 
 theorem burnsideF48dE_extCase (hM : burnsideF48d_ModelFacts) : burnsideF48d_ExtCase := by
   intro E _ Gp M₁ M₂ hyp hGp
-  haveI : Finite E := hyp.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := hyp.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hext := burnsideF48s_isLieExtGroup_E ChF.nativeChartCompatibility hyp
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
   obtain ⟨θ, hBθ, hor, hXθ⟩ := burnsideF48dE_chart hM hyp hGp

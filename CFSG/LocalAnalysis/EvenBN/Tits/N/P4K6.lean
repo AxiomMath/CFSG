@@ -112,7 +112,7 @@ theorem inf_zpowers_invol_eq_bot (htt : t * t = 1) (htnU : t ∉ U) : U ⊓ zpow
   · exact absurd (h ▸ hyU) htnU
 
 theorem card_zpowers_invol (htt : t * t = 1) (htnU : t ∉ U) : Nat.card (zpowers t) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ht1 : t ≠ 1 := fun h => htnU (h ▸ U.one_mem)
   have hord : orderOf t = 2 := orderOf_eq_prime (by rw [pow_two]; exact htt) ht1
   rw [Nat.card_zpowers, hord]
@@ -272,12 +272,12 @@ theorem exists_W0 [Finite Γ] (hF : IsF20 U x v) {K : Subgroup Γ}
     rintro k hk _ ⟨u, hu, rfl⟩
     obtain ⟨u', hu', h⟩ := hΔ k hk u hu
     exact ⟨u', hu', h.symm⟩
-  letI : MulAction ↥K ↥(deltaSet U t) := conjSetAction K (deltaSet U t) hdel
+  let : MulAction ↥K ↥(deltaSet U t) := conjSetAction K (deltaSet U t) hdel
   have hsmul : ∀ (k : ↥K) (δ : ↥(deltaSet U t)),
       ((k • δ : ↥(deltaSet U t)) : Γ) = (k : Γ) * (δ : Γ) * (k : Γ)⁻¹ := fun k δ => rfl
   let ω : ↥(deltaSet U t) := ⟨t, 1, U.one_mem, mul_one t⟩
   have hω : (ω : Γ) = t := rfl
-  haveI : MulAction.IsPretransitive ↥K ↥(deltaSet U t) := by
+  have : MulAction.IsPretransitive ↥K ↥(deltaSet U t) := by
     have key : ∀ δ : ↥(deltaSet U t), ∃ k : ↥K, k • ω = δ := by
       rintro ⟨_, u, hu, rfl⟩
       obtain ⟨k, hk, hkt⟩ := htr u hu
@@ -472,8 +472,7 @@ theorem exists_W0 [Finite Γ] (hF : IsF20 U x v) {K : Subgroup Γ}
     have := congrArg Subtype.val hwω
     rw [hsmul, hω] at this
     exact this
-  · intro M hMK hMst hM2
-    intro m hm
+  · intro M hMK hMst hM2 m hm
     have hmK : m ∈ K := hMK hm
     have hMn : (M.subgroupOf K).Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢

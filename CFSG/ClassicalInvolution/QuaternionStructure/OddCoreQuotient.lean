@@ -168,7 +168,7 @@ theorem sylow_oddCore_quotient_equiv (S : Sylow 2 X) (P : Sylow 2 (X ⧸ oddCore
     Nonempty ((P : Subgroup (X ⧸ oddCore X)) ≃* (S : Subgroup X)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P', rfl⟩ := Sylow.mapSurjective_surjective (QuotientGroup.mk'_surjective (oddCore X)) 2 P
-  exact ⟨((mulEquivMapOddCore (P' : Subgroup X) P'.isPGroup').symm).trans (Sylow.equiv P' S)⟩
+  exact ⟨((mulEquivMapOddCore (P' : Subgroup X) P'.isPGroup).symm).trans (Sylow.equiv P' S)⟩
 
 theorem sylow_oddCore_quotient_quaternion (S : Sylow 2 X) {n : ℕ}
     (e : (S : Subgroup X) ≃* QuaternionGroup n) (P : Sylow 2 (X ⧸ oddCore X)) :

@@ -30,9 +30,9 @@ theorem not_isCyclic_of_elemAbelian_27 {Q : Type} [Group Q] {E : Subgroup Q}
 theorem noE27_of_cyclic_sylow {P : Type} [Group P] [Finite P] (hS : ∀ S : Sylow 3 P, IsCyclic S) :
     NoE27 P := by
   rintro ⟨E, hE, hc⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hES⟩ := (CFSG.Open.IsElemAbelian.isPGroup hE).exists_le_sylow
-  haveI := hS S
+  have := hS S
   have hcyc : IsCyclic E := by
     have h1 : IsCyclic (E.subgroupOf (S : Subgroup P)) := inferInstance
     exact isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hES).toMonoidHom
@@ -42,7 +42,7 @@ theorem noE27_of_cyclic_sylow {P : Type} [Group P] [Finite P] (hS : ∀ S : Sylo
 theorem isCyclic_sylow_of_surjective {G P : Type} [Group G] [Finite G] [Group P] [Finite P]
     (π : G →* P) (hπ : Function.Surjective π) (hS : ∀ S : Sylow 3 G, IsCyclic S)
     (Q : Sylow 3 P) : IsCyclic Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, rfl⟩ := Sylow.mapSurjective_surjective hπ 3 Q
   have := hS S
   rw [Sylow.coe_mapSurjective]
@@ -78,10 +78,10 @@ theorem noE27_psuGoodThree : NoE27At FamPsuGoodThree := by
   have hC : StatedClassicalModel P .PSU 3 p f := (lieModel_classical_iff (by decide)).mp hm
   obtain ⟨-, K, _, _, hK, ⟨e0⟩⟩ := hC
   have hp : p.Prime := hadm.1
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hf : 1 ≤ f := hadm.2.1
-  haveI : CharP K p :=
+  have : CharP K p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp
       (k := f * 2) (by omega) (by rw [hK, ← pow_mul])
   have hre : ¬ 3 ∣ p ^ f + 1 := fun h => hnd (by rw [Nat.gcd_eq_left h])

@@ -14,6 +14,7 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22r3g_false_of_inverted {L : Subgroup G}
     (N : Subgroup (MulAut (BarInf L ⧸ center (BarInf L))))
     {b m : G} (hbN : b ∈ normalizer (L : Set G)) (hmN : m ∈ normalizer (L : Set G)) {r : ℕ}

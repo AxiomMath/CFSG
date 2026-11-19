@@ -56,7 +56,7 @@ theorem hom_trivial_of_commuting_values {A : Type} [Group A] (hP : ⁅(⊤ : Sub
 
 theorem normal_le_center_or_top (hQ : CFSG.IsQuasisimple Q) (N : Subgroup Q) [N.Normal] :
     N ≤ Subgroup.center Q ∨ N = ⊤ := by
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2.1
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2.1
   let π : Q →* Q ⧸ Subgroup.center Q := QuotientGroup.mk' (Subgroup.center Q)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hN' : (N.map π).Normal := Subgroup.Normal.map inferInstance π hπ
@@ -142,7 +142,7 @@ theorem isQuasisimple_quot_of_le_center (hQ : CFSG.IsQuasisimple Q) (N : Subgrou
   have e2 := QuotientGroup.quotientQuotientEquivQuotient N (Subgroup.center Q) hN
   have ε := e1.trans e2
   refine ⟨⟨hcomm⟩, ?_, ?_⟩
-  · haveI := hQ.2.1
+  · have := hQ.2.1
     exact MulEquiv.isSimpleGroup ε
   · exact nonabelian_transfer ε.symm hQ.2.2
 
@@ -153,7 +153,7 @@ theorem isQuasisimple_of_quot_le_center (hP : Group.IsPerfect Q) (N : Subgroup Q
   have e1 := QuotientGroup.quotientMulEquivOfEq hc
   have e2 := QuotientGroup.quotientQuotientEquivQuotient N (Subgroup.center Q) hN
   have ε := e1.trans e2
-  haveI := hq.2.1
+  have := hq.2.1
   refine ⟨hP, ?_, ?_⟩
   · exact MulEquiv.isSimpleGroup ε.symm
   · exact nonabelian_transfer ε hq.2.2

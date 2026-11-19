@@ -56,11 +56,11 @@ theorem sporKRest_generating_of_data {K : Type} [Group K] [Finite K] {p : ℕ} (
     (wa wb : List ℤ) (ha : sporKRestEval (sg ++ ent.flatMap fun e => e.2.2) wa = a)
     (hb : sporKRestEval (sg ++ ent.flatMap fun e => e.2.2) wb = b)
     {x : K} (hx : IsConj x₀ x) : SporKRestGenerating p x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ggSporKRest_generating_of_closure hp S hx
     {z : K | z ∈ ent.flatMap fun e => e.2.2} ?_ ?_
   · intro z hz
-    rw [Set.mem_setOf_eq, List.mem_flatMap] at hz
+    rw [Set.mem_ofPred_eq, List.mem_flatMap] at hz
     obtain ⟨e, he, hze⟩ := hz
     obtain ⟨he1S, he2, hzcent⟩ := hent e he
     exact ⟨e.2.1, e.1, he1S, he2,
@@ -97,20 +97,20 @@ theorem sporKRest_cover_of_data {K : Type} [Group K] [Finite K] {p : ℕ} (hp : 
     (S : Sylow p K) (T : List K) (hT : ∀ x ∈ (S : Subgroup K), x ∈ T) (reps : List K)
     (hreps : ∀ r ∈ reps, ∀ x : K, IsConj r x → SporKRestGenerating p x)
     (hcensus : ∀ t ∈ T, t ≠ 1 → ∃ r ∈ reps, ∃ g : K, g⁻¹ * r * g = t) : SporKRestCover p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro E _hE hcard
   have hlt : 1 < Nat.card E := by
     rw [hcard]
     nlinarith [hp.two_le]
   have hbot : E ≠ ⊥ := (Subgroup.one_lt_card_iff_ne_bot E).mp hlt
-  haveI : Nontrivial ↥E := (Subgroup.nontrivial_iff_ne_bot E).mpr hbot
+  have : Nontrivial ↥E := (Subgroup.nontrivial_iff_ne_bot E).mpr hbot
   obtain ⟨x, hxE, hx1⟩ := Subgroup.exists_ne_one_of_nontrivial E
   have hEp : IsPGroup p ↥E := IsPGroup.of_card hcard
   have hzp : IsPGroup p ↥(Subgroup.zpowers x) :=
     hEp.to_le (Subgroup.zpowers_le.mpr hxE)
   obtain ⟨Q, hxQ⟩ := hzp.exists_le_sylow
   have hxQmem : x ∈ Q := hxQ (Subgroup.mem_zpowers x)
-  letI : MulAction.IsPretransitive K (Sylow p K) :=
+  let : MulAction.IsPretransitive K (Sylow p K) :=
     Sylow.isPretransitive_of_finite (p := p) (G := K)
   obtain ⟨g, hg⟩ := MulAction.IsPretransitive.exists_smul_eq (M := K) S Q
   have hxS : g⁻¹ * x * g ∈ (S : Subgroup K) := by

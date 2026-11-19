@@ -29,8 +29,8 @@ theorem s16nt_h1_su_le {K : Type} [Field K] [Finite K] [Algebra (ZMod 2) K] {n :
     (hn : 4 ≤ n) (hK : Nat.card K = 4) :
     Module.finrank (ZMod 2) (CFSG.Quasithin.JonesParshall.H1
       (Representation.dual (s16ntNatRep (StatedSU n 2 K)))) ≤ n := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   obtain ⟨β, hβ, hinv⟩ := s16nt_su_form hK
   have h : CFSG.LieType.Universal.Unitary.SUid (s16ntSuSigma K) n = StatedSU n 2 K :=
@@ -40,13 +40,13 @@ theorem s16nt_h1_su_le {K : Type} [Field K] [Finite K] [Algebra (ZMod 2) K] {n :
 
 theorem s16nt_cover_su {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 4 ≤ n)
     (hK : Nat.card K = 4) : S16BoundCover (FFModel.nat (StatedSU n 2 K)) n := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Fintype.card K = 2 ^ 2 := by
     rw [← Nat.card_eq_fintype_card, hK]
     norm_num
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hcard
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) hcard
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   exact s16nt_cover_of_h1 (StatedSU n 2 K) (s16nt_h1_su_le hn hK)
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

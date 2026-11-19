@@ -15,8 +15,8 @@ theorem equiv_of_card_eq_quaternion {X Y : Type} [Group X] [Group Y] {n m : ℕ}
     (h : Nat.card X = Nat.card Y) : Nonempty (X ≃* Y) := by
   obtain ⟨hn, ⟨eX⟩⟩ := hX
   obtain ⟨hm, ⟨eY⟩⟩ := hY
-  haveI : NeZero (2 ^ (n - 2)) := ⟨by positivity⟩
-  haveI : NeZero (2 ^ (m - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (n - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m - 2)) := ⟨by positivity⟩
   have h1 : Nat.card X = 4 * 2 ^ (n - 2) := by rw [Nat.card_congr eX.toEquiv, Basic.card_quat]
   have h2 : Nat.card Y = 4 * 2 ^ (m - 2) := by rw [Nat.card_congr eY.toEquiv, Basic.card_quat]
   have h3 : 2 ^ (n - 2) = 2 ^ (m - 2) := by omega

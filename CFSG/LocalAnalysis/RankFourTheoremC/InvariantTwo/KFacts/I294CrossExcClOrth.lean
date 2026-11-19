@@ -90,7 +90,7 @@ theorem crossExcCl_diag_quadPlus (n : ℕ) (t : Fin n → Kˣ) (v : Fin n ⊕ Fi
     StatedQuadPlus n K
       (((crossExcClDiag (Fin n ⊕ Fin n) K (crossExcClSplit K n t) : GL _ K) : Matrix _ _ K) *ᵥ
         v) = StatedQuadPlus n K v := by
-  simp only [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, crossExcClDiag_mulVec,
+  simp only [StatedQuadPlus, crossExcClDiag_mulVec,
     crossExcClSplit, MonoidHom.coe_mk, OneHom.coe_mk, Sum.elim_inl, Sum.elim_inr, Pi.inv_apply]
   exact Finset.sum_congr rfl fun i _ => crossExcCl_unit_mul_inv_mul _ _ _
 
@@ -100,7 +100,7 @@ theorem crossExcCl_diag_quadMinus (n : ℕ) (b c : K) (t : Fin (n - 1) → Kˣ)
       (((crossExcClDiag (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) K
         (crossExcClTail K (n - 1) (Fin 2) t) : GL _ K) : Matrix _ _ K) *ᵥ v) =
       StatedQuadMinus n K b c v := by
-  simp only [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, crossExcClDiag_mulVec,
+  simp only [StatedQuadMinus, crossExcClDiag_mulVec,
     crossExcClTail, MonoidHom.coe_mk, OneHom.coe_mk, Sum.elim_inl, Sum.elim_inr, Pi.inv_apply,
     Units.val_one, one_mul]
   congr 3
@@ -212,7 +212,7 @@ theorem crossExcCl_sylow_isoOdd {n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h2 : (
     (hpq : p ∣ Nat.card K - 1) (hn : n < p)
     (S : Sylow p (CFSG.MatrixModel.isometryCore (StatedQuadOdd n K))) :
     IsMulCommutative (S : Subgroup (CFSG.MatrixModel.isometryCore (StatedQuadOdd n K))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : 1 ≤ Nat.card K := Finite.card_pos
   have hpK := crossExcCl_not_dvd_of_dvd_pred hp hq hpq
   let τ : (Fin n → Kˣ) →* CFSG.MatrixModel.isometryCore (StatedQuadOdd n K) :=
@@ -232,7 +232,7 @@ theorem crossExcCl_sylow_isoPlus {m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card K - 1) (hm : m + 1 < p)
     (S : Sylow p (CFSG.MatrixModel.isometryCore (StatedQuadPlus (m + 1) K))) :
     IsMulCommutative (S : Subgroup (CFSG.MatrixModel.isometryCore (StatedQuadPlus (m + 1) K))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : 1 ≤ Nat.card K := Finite.card_pos
   have hpK := crossExcCl_not_dvd_of_dvd_pred hp hq hpq
   let τ : (Fin (m + 1) → Kˣ) →* CFSG.MatrixModel.isometryCore (StatedQuadPlus (m + 1) K) :=
@@ -259,7 +259,7 @@ theorem crossExcCl_sylow_isoMinus {m : ℕ} {b c : K} (hp : p.Prime) (hp2 : p �
     (S : Sylow p (CFSG.MatrixModel.isometryCore (StatedQuadMinus (m + 1) K b c))) :
     IsMulCommutative
       (S : Subgroup (CFSG.MatrixModel.isometryCore (StatedQuadMinus (m + 1) K b c))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : 1 ≤ Nat.card K := Finite.card_pos
   have hpK := crossExcCl_not_dvd_of_dvd_pred hp hq hpq
   let τ : (Fin (m + 1 - 1) → Kˣ) →* CFSG.MatrixModel.isometryCore (StatedQuadMinus (m + 1) K b c) :=
@@ -300,7 +300,7 @@ theorem crossExcCl_sylow_statedOmega (hp : p.Prime) (hp2 : p ≠ 2) (hpK : ¬ p 
       IsMulCommutative (S : Subgroup (CFSG.MatrixModel.isometryCore Q₀)))
     (R : Sylow p (StatedProj (StatedOmega Q₀))) :
     IsMulCommutative (R : Subgroup (StatedProj (StatedOmega Q₀))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact crossExcCl_sylow_statedProj hp hp2 hpK hN (StatedOmega Q₀)
     (fun hpq S => isMulCommutative_sylow_of_injective
       (Subgroup.inclusion (crossExcCl_statedOmega_le Q₀))

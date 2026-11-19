@@ -86,7 +86,7 @@ theorem ggB2der_card_B {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : 
       have hyA : (y : MulAut (alternatingGroup (Fin 6))) ∈ A' := by
         obtain ⟨a, -, ha⟩ := Subgroup.mem_map.mp y.2
         rw [← ha]; exact a.2
-      haveI : IsMulCommutative ↥A' := hA'ab.1
+      have : IsMulCommutative ↥A' := hA'ab.1
       exact congrArg Subtype.val
         (mul_comm' (⟨(x : MulAut (alternatingGroup (Fin 6))), hxA⟩ : ↥A')
           ⟨(y : MulAut (alternatingGroup (Fin 6))), hyA⟩)

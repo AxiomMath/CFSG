@@ -13,6 +13,7 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 variable {G : Type} [Group G] [Finite G] {a z : G}
 
+omit [Finite G] in
 theorem gamma_exists_QB_comm (H : GammaHyps a z) :
     ∃ v w : G, v ∈ Qz z ∧ IsConj z v ∧ v ≠ z ∧ IsConj a w ∧ w ∈ Gx z ∧ w ∈ Gx v := by
   obtain ⟨z₀, b, u, hF, hz₀, -, -, -, -, -⟩ := (H.hF1.self).rep_z
@@ -28,7 +29,7 @@ theorem gamma_exists_QB_comm (H : GammaHyps a z) :
   obtain ⟨E, hEF, hE3, huE⟩ := exists_isElemTwo_three_avoiding hE5 huF hu1
   have hnot : ¬ (∀ t ∈ E, t ^ 2 = 1 → t ≠ 1 → IsConj a t) :=
     fun hall => (H.hCube.self).no_cube ⟨E, hE3, hall⟩
-  push_neg at hnot
+  push Not at hnot
   obtain ⟨t, htE, ht2, ht1, ht_not_conj⟩ := hnot
   have htQz : t ∈ Qz (u : G) := (hEF htE).1
   have htGx : t ∈ Gx a := (hEF htE).2

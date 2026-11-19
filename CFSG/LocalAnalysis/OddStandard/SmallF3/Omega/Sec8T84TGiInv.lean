@@ -46,9 +46,9 @@ theorem sec8t84t_gi_involution_mem (hQ : Q.Nondegenerate)
           ↥(ffFix hQ (by omega) (QuotientGroup.mk ρ : ProjSim Q)) :=
         (ff6mTwistHom hQ hdim hsgn ρ).comp (Subgroup.inclusion hG1N)
       obtain ⟨hs, hnc⟩ := ff_simple_of_lieModel_psl2 hLie
-      haveI : Group.IsPerfect ↥⁅fixSub (simAct Q ρ), fixSub (simAct Q ρ)⁆ :=
+      have : Group.IsPerfect ↥⁅fixSub (simAct Q ρ), fixSub (simAct Q ρ)⁆ :=
         (ff_isQuasisimple_of_simple hs hnc).1
-      haveI : Group.IsPerfect ↥ψ.range :=
+      have : Group.IsPerfect ↥ψ.range :=
         Group.IsPerfect.ofSurjective (f := ψ.rangeRestrict) ψ.rangeRestrict_surjective
       have hle : ψ.range ≤ E := ff_perfect_le_of_quot_two E h2 ψ.range inferInstance
       rcases sec8t84t_gi_claimA hQ hdim hsgn hρ hρρ hgΩ hgC with hG | hG

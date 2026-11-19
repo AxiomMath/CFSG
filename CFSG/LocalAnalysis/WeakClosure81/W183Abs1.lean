@@ -14,6 +14,7 @@ variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
 
 namespace Assumption131
 
+omit [Finite V] in
 theorem inf_eq_bot_of_mRank_le (h : Assumption131 G Γ VA i) {A B : Subgroup (LGL 2 V)}
     (hA : A ∈ Γ) (hB : B ∈ Γ) (hAr : mRank A ≤ i) (hBr : mRank B ≤ i) (hne : A ≠ B) :
     A ⊓ B = ⊥ := by
@@ -33,6 +34,7 @@ theorem inf_eq_bot_of_mRank_le (h : Assumption131 G Γ VA i) {A B : Subgroup (LG
   calc commSub (Subgroup.zpowers a) ≤ VA A ⊓ VA B := le_inf hcA hcB
     _ = ⊥ := h.disjoint A hA B hB hne
 
+omit [Finite V] in
 theorem commSpace_VA_eq_bot_of_le_normalizer (h : Assumption131 G Γ VA i)
     {A B : Subgroup (LGL 2 V)} (hA : A ∈ Γ) (hB : B ∈ Γ) (hBr : mRank B ≤ i) (hne : A ≠ B)
     (hnorm : B ≤ Subgroup.normalizer (A : Set (LGL 2 V))) : commSpace B (VA A) = ⊥ := by
@@ -49,6 +51,7 @@ theorem commSpace_VA_eq_bot_of_le_normalizer (h : Assumption131 G Γ VA i)
   have h3 : b v - v ∈ VA A ⊓ VA B := ⟨h1, h2⟩
   rwa [h.disjoint A hA B hB hne] at h3
 
+omit [Finite V] in
 theorem commSpace_VA_eq_bot_of_commute (h : Assumption131 G Γ VA i)
     {A B : Subgroup (LGL 2 V)} (hA : A ∈ Γ) (hB : B ∈ Γ) (hBr : mRank B ≤ i) (hne : A ≠ B)
     (hcomm : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) : commSpace B (VA A) = ⊥ := by
@@ -67,6 +70,7 @@ theorem commSpace_VA_eq_bot_of_commute (h : Assumption131 G Γ VA i)
     rw [e1]
     exact ha
 
+omit [Finite V] in
 theorem stabilizer_le_normalizer (h : Assumption131 G Γ VA i) {A : Subgroup (LGL 2 V)}
     (hA : A ∈ Γ) {v : V} (hv : v ∈ VA A) (hv0 : v ≠ 0) {g : LGL 2 V} (hg : g ∈ G) (hgv : g v = v) :
     g ∈ Subgroup.normalizer (A : Set (LGL 2 V)) := by
@@ -82,6 +86,7 @@ theorem stabilizer_le_normalizer (h : Assumption131 G Γ VA i) {A : Subgroup (LG
   rw [hdis] at hboth
   exact hv0 (by simpa using hboth)
 
+omit [Finite V] in
 theorem fixSub_le_fixSub_of_conj_mem_coset (h : Assumption131 G Γ VA i)
     {D : Subgroup (LGL 2 V)} (hD : D ∈ Γ) (hDr : mRank D ≤ i) {Z : Subgroup (LGL 2 V)}
     {y : LGL 2 V} (hy : y ∈ G) (hDy : cj y D ≠ D)
@@ -107,6 +112,7 @@ theorem fixSub_le_fixSub_of_conj_mem_coset (h : Assumption131 G Γ VA i)
   have h0 : s w - w = 0 := by simpa using hboth
   exact sub_eq_zero.mp h0
 
+omit [Finite V] in
 theorem false_of_commutator_transfer (h : Assumption131 G Γ VA i)
     {D A' : Subgroup (LGL 2 V)} (hD : D ∈ Γ) (hA' : A' ∈ Γ) (hDr : mRank D ≤ i)
     (hA'r : mRank A' ≤ i) (hVfix : VA A' ≤ fixSub A') {𝒮 : Set (Subgroup (LGL 2 V))}

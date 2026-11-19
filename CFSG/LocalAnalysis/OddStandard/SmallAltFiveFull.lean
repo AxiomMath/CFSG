@@ -30,7 +30,7 @@ theorem qg_le_H (t : G) (Q : Sylow 2 (centralizer ({t} : Set G))) :
     qg t Q ≤ centralizer ({t} : Set G) := map_subtype_le _
 
 theorem isPGroup_qg (t : G) (Q : Sylow 2 (centralizer ({t} : Set G))) : IsPGroup 2 (qg t Q) :=
-  Q.isPGroup'.map _
+  Q.isPGroup.map _
 
 theorem card_qg [Finite G] (t : G) (Q : Sylow 2 (centralizer ({t} : Set G))) :
     Nat.card (qg t Q) = 2 ^ (Nat.card (centralizer ({t} : Set G))).factorization 2 := by

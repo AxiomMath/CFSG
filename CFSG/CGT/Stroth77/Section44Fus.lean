@@ -151,7 +151,7 @@ theorem t201_omega_eq (h : F.IsD D dD) :
   · rw [hβ, hβb, F.dA.ofTorus_nsmul]; rfl
 
 theorem t201_a_half_mem (h : F.IsD D dD) : (dD.a : G) ^ 2 ^ m ∈ F.A := by
-  haveI := dD.isMulCommutative
+  have := dD.isMulCommutative
   set a' := (dD.a : G) ^ 2 ^ m with ha'
   have ha'D : a' ∈ D := D.pow_mem dD.a.2 _
   have haD : (F.dA.a : G) ∈ D := h.A_le F.dA.a.2
@@ -170,7 +170,7 @@ theorem t201_a_half_mem (h : F.IsD D dD) : (dD.a : G) ^ 2 ^ m ∈ F.A := by
   exact F.A.mul_mem F.dA.a.2 hpA
 
 theorem t201_b_half_mem (h : F.IsD D dD) : (dD.b : G) ^ 2 ^ m ∈ F.A := by
-  haveI := dD.isMulCommutative
+  have := dD.isMulCommutative
   set b' := (dD.b : G) ^ 2 ^ m with hb'
   have hb'D : b' ∈ D := D.pow_mem dD.b.2 _
   have hbD : (F.dA.b : G) ∈ D := h.A_le F.dA.b.2
@@ -191,7 +191,7 @@ theorem t201_b_half_mem (h : F.IsD D dD) : (dD.b : G) ^ 2 ^ m ∈ F.A := by
 theorem t201_d_eq_xy (h : F.IsD D dD) :
     (dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m = ((F.dA.a : G)⁻¹ * (F.dA.b : G)⁻¹)⁻¹ ∨
       (dD.a : G) ^ 2 ^ m * (dD.b : G) ^ 2 ^ m = (F.dA.a : G)⁻¹ * (F.dA.b : G)⁻¹ := by
-  haveI := dD.isMulCommutative
+  have := dD.isMulCommutative
   have hm := Stroth44.one_le h
   obtain ⟨-, ha₁, hb₁⟩ := h.t201_omega_eq
   have ha'A := h.t201_a_half_mem

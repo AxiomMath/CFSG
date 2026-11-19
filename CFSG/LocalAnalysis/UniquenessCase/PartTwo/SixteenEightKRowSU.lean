@@ -19,9 +19,9 @@ variable {G : Type} [Group G] [Finite G] {D : Data G} {V₀ V L : Subgroup G}
 private theorem s16k_not_isSolvable_of_isQuasisimple {Q : Type} [Group Q]
     (hq : CFSG.Open.IsQuasisimple Q) : ¬ Group.IsSolvable Q := by
   intro hs
-  haveI := hs
-  haveI : Nontrivial (Q ⧸ Subgroup.center Q) := hq.2.toNontrivial
-  haveI : Nontrivial Q := (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
+  have := hs
+  have : Nontrivial (Q ⧸ Subgroup.center Q) := hq.2.toNontrivial
+  have : Nontrivial Q := (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
   have h := Group.IsSolvable.commutator_lt_top_of_nontrivial Q
   rw [hq.1] at h
   exact lt_irrefl _ h
@@ -48,15 +48,15 @@ private theorem s16k_isSolvable_statedSU_of_le_three {K : Type} [Field K] [Finit
   · infer_instance
   · rw [s16k_statedSU_one_eq_bot]
     infer_instance
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 :=
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 :=
       CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1) (by rw [hK]; norm_num)
     have hcard : Nat.card (StatedSU 2 (2 ^ 1) K) = 6 := by
       have h := CFSG.RankThree.SubgroupLists.card_statedSU_two (K := K) (r := 2) (f := 1)
         (by rw [hK]; norm_num)
       norm_num at h ⊢
       exact h
-    haveI : Fintype (StatedSU 2 (2 ^ 1) K) := Fintype.ofFinite _
+    have : Fintype (StatedSU 2 (2 ^ 1) K) := Fintype.ofFinite _
     exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
       (G := ↥(StatedSU 2 (2 ^ 1) K)) (p := 2) (q := 3) (a := 1) (b := 1)
       Nat.prime_two Nat.prime_three (by norm_num)
@@ -73,18 +73,18 @@ theorem s16k_false_of_natSUn (h : S16gRowCtx D V₀ V L hV)
     by_contra hlt
     have hn3 : n ≤ 3 := by omega
     obtain ⟨K', hF', hFin', hK', ⟨e⟩⟩ := hSU
-    letI := hF'
-    letI := hFin'
+    let := hF'
+    let := hFin'
     have hK'4 : Nat.card K' = 4 := by rw [hK']; norm_num
-    haveI : Group.IsSolvable ↥(StatedSU n (2 ^ 1) K') :=
+    have : Group.IsSolvable ↥(StatedSU n (2 ^ 1) K') :=
       s16k_isSolvable_statedSU_of_le_three hK'4 hn3
-    haveI : Group.IsSolvable ↥(lBar V₀ V hV L) :=
+    have : Group.IsSolvable ↥(lBar V₀ V hV L) :=
       Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
     exact (s16k_not_isSolvable_of_isQuasisimple h.quasi) inferInstance
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   obtain ⟨K, hF, hFin, hK, hR⟩ := hN
-  letI := hF
-  letI := hFin
+  let := hF
+  let := hFin
   simp only [pow_one] at hK hR
   have hK4 : Nat.card K = 4 := by rw [hK]; norm_num
   obtain ⟨p, hpσ⟩ := h.std.hx.sig_nonempty

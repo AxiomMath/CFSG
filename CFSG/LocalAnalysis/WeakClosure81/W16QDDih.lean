@@ -45,7 +45,7 @@ private theorem w16q_sq_eq_one [Finite X] (h : Dihedral2p X Y p) {y : X} (hy : y
     _ = 1 := by rw [pow_orderOf_eq_one, one_pow]
 
 theorem odd [Finite X] (h : Dihedral2p X Y p) : Odd p := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcop := CFSG.pPrimeCore_coprime_card (p := 2) (G := X)
   rw [← w16q_fusionOddCore_eq_pPrimeCore X, h.card_O] at hcop
   exact Nat.coprime_two_left.mp hcop
@@ -79,7 +79,7 @@ theorem card_eq [Finite X] (h : Dihedral2p X Y p) : Nat.card X = 2 * p := by
 
 theorem inv [Finite X] (h : Dihedral2p X Y p) {y : X} (hy : y ∈ Y) (hy1 : y ≠ 1) {o : X}
     (ho : o ∈ fusionOddCore X) : y * o * y⁻¹ = o⁻¹ := by
-  haveI : Fact (Nat.Prime p) := ⟨h.prime⟩
+  have : Fact (Nat.Prime p) := ⟨h.prime⟩
   have hodd := h.odd
   have hy2 : y ^ 2 = 1 := h.w16q_sq_eq_one hy
   have hyinv : y⁻¹ = y := by rw [inv_eq_iff_mul_eq_one, ← pow_two, hy2]
@@ -142,7 +142,7 @@ theorem inv [Finite X] (h : Dihedral2p X Y p) {y : X} (hy : y ∈ Y) (hy1 : y �
 
 theorem mem_of_conj_le [Finite X] (h : Dihedral2p X Y p) {z : X}
     (hz : ∀ y ∈ Y, z * y * z⁻¹ ∈ Y) : z ∈ Y := by
-  haveI : Fact (Nat.Prime p) := ⟨h.prime⟩
+  have : Fact (Nat.Prime p) := ⟨h.prime⟩
   have hinf := h.w16q_inf_eq_bot
   have hzX : z ∈ Y ⊔ fusionOddCore X := by
     rw [h.sup_eq]; exact Subgroup.mem_top z
@@ -193,7 +193,7 @@ theorem mem_of_conj_le [Finite X] (h : Dihedral2p X Y p) {z : X}
 
 theorem orderOf_prod [Finite X] (h : Dihedral2p X Y p) {y : X} (hy : y ∈ Y) (hy1 : y ≠ 1)
     {o : X} (ho : o ∈ fusionOddCore X) (ho1 : o ≠ 1) : orderOf (y * (o⁻¹ * y * o)) = p := by
-  haveI : Fact (Nat.Prime p) := ⟨h.prime⟩
+  have : Fact (Nat.Prime p) := ⟨h.prime⟩
   have hodd := h.odd
   have hy2 : y ^ 2 = 1 := h.w16q_sq_eq_one hy
   have hyinv : y⁻¹ = y := by rw [inv_eq_iff_mul_eq_one, ← pow_two, hy2]
@@ -269,13 +269,14 @@ theorem exists_mulEquiv_psl [Finite X] (h : Dihedral2p X Y 3) :
 
 end Dihedral2p
 
+omit [Finite G] in
 theorem pow_comm_mem {I W : Subgroup G} {y : G} (hyI : y ∈ normalizer (I : Set G))
     (hyt : ∀ i ∈ I, y * i * y⁻¹ * i⁻¹ ∈ W) (k : ℕ) :
     ∀ i ∈ I, y ^ k * i * (y ^ k)⁻¹ * i⁻¹ ∈ W := by
   induction k with
   | zero =>
     intro i _
-    simpa using W.one_mem
+    simp
   | succ k ih =>
     intro i hi
     have hyk : y ^ k ∈ Subgroup.normalizer (I : Set G) :=
@@ -540,7 +541,7 @@ theorem prod_acts (d : DichCfg M V₀ V U S H φ) {v x : G} (hv : v ∈ V)
 
 private theorem w16q_odd_div_pow_padicValNat {n : ℕ} (hn : n ≠ 0) :
     Odd (n / 2 ^ padicValNat 2 n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← Nat.not_even_iff_odd, even_iff_two_dvd]
   intro h
   obtain ⟨k, hk⟩ := h

@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem uc22p2214_normalizer_le_of_sp {M : Subgroup G} {q : ℕ} (hq : q.Prime)
     (hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded q M) {A : Subgroup G} (hAM : A ≤ M) (hA : IsPGroup q A)
     (hA1 : A ≠ ⊥) : normalizer (A : Set G) ≤ M := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   intro g hg
   by_contra hgM
   apply hsp.2.2 g hgM
@@ -35,7 +35,7 @@ theorem uc22p2214_normalizer_le_of_sp {M : Subgroup G} {q : ℕ} (hq : q.Prime)
 theorem uc22p2214_false_of_sp (D : Data G) (Ch : Choice2011 G) (h1930 : H1930 D) (c : Ctx22b D Ch) {q : ℕ}
     (hq : q.Prime) (hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded q D.M) {a : G} (ha : a ∈ c.B0)
     (hao : orderOf a = q) : False := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hA : IsPGroup q (zpowers a) := IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hao, pow_one])
   have hA1 : zpowers a ≠ ⊥ := by
     intro h
@@ -77,14 +77,17 @@ theorem uc22p2214_shape_of_mulEquiv {A B : Type} [Group A] [Group B] (e : A ≃*
   · exact Or.inr (Or.inr (Or.inl (CFSG.Blueprint.LieModel.of_mulEquiv e h)))
   · exact Or.inr (Or.inr (Or.inr (CFSG.Blueprint.LieModel.of_mulEquiv e h)))
 
+omit [Finite G] in
 theorem uc22p2214_mbarImage_mono {M V X Y : Subgroup G} (h : X ≤ Y) : mbarImage M V X ≤ mbarImage M V Y := by
   rintro _ ⟨y, hy, rfl⟩
   exact ⟨y, h hy, rfl⟩
 
+omit [Finite G] in
 theorem uc22p2214_mem_mbarImage {M V X : Subgroup G} {x : G} (hxM : x ∈ M) (hx : x ∈ X) :
     (QuotientGroup.mk ⟨x, hxM⟩ : MBar M V) ∈ mbarImage M V X :=
   ⟨⟨x, hxM⟩, hx, rfl⟩
 
+omit [Finite G] in
 theorem uc22p2214_mk_mem_normalizer {M V X : Subgroup G} {x : G} (hxM : x ∈ M) (hxX : x ∈ normalizer (X : Set G)) :
     (QuotientGroup.mk ⟨x, hxM⟩ : MBar M V) ∈ normalizer (mbarImage M V X : Set (MBar M V)) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
@@ -94,10 +97,11 @@ theorem uc22p2214_mk_mem_normalizer {M V X : Subgroup G} {x : G} (hxM : x ∈ M)
   rw [hX] at h1
   exact h1.symm
 
+omit [Finite G] in
 theorem uc22p2214_isSolvable_mbarImage {M V X : Subgroup G} (hX : Group.IsSolvable ↥X) (hXM : X ≤ M) :
     Group.IsSolvable ↥(mbarImage M V X) := by
-  haveI : Group.IsSolvable ↥(X.subgroupOf M) := by
-    haveI := hX
+  have : Group.IsSolvable ↥(X.subgroupOf M) := by
+    have := hX
     exact Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe hXM).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hXM).injective
   exact Group.isSolvable_of_surjective ((QuotientGroup.mk' _).subgroupMap_surjective (X.subgroupOf M))
@@ -110,6 +114,7 @@ theorem uc22p2214_odd_card_B0 (D : Data G) {Ch : Choice2011 G} (c : Ctx22b D Ch)
   rw [Subgroup.orderOf_coe, hx] at h1
   exact (by decide : ¬ Odd 2) h1
 
+omit [Finite G] in
 theorem uc22p2214_conjClosure_eq_of_normal {M K : Subgroup G} (hKM : K ≤ M) (hn : (K.subgroupOf M).Normal) :
     conjClosure M K = K := by
   have hMK : M ≤ normalizer (K : Set G) := (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).1 hn

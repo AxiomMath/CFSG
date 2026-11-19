@@ -33,6 +33,7 @@ theorem exists_sylow_eq_map_posUnipotent (h : BorelQuotient D n H π M) :
     h.not_dvd_index (hd.trans (Subgroup.index_map_dvd _ h.surj))
   exact ⟨(hU2.map π).toSylow hidx, by rw [IsPGroup.toSylow_coe]⟩
 
+omit [Finite Y] in
 theorem nodePerm_pow_eq_one (h : BorelQuotient D n H π M) {θ : MulAut Y}
     (hθ : ((posUnipotent D).map π).map θ.toMonoidHom = (posUnipotent D).map π) {m : ℕ}
     (hm : θ ^ m ∈ inner Y) : Nodes.nodePerm h θ hθ ^ m = 1 := by

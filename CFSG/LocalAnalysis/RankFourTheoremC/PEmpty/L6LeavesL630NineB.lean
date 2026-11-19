@@ -27,7 +27,7 @@ theorem simple_le_of_pow_four_mem {Q : Type} [Group Q] [Finite Q] {S L : Subgrou
   rcases Subgroup.Normal.eq_bot_or_eq_top ((S ⊓ L).subgroupOf S) with hbot | htop
   ·
     exfalso
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' 3 h3
     have h4 : t ^ 4 = 1 := by
       have hmem : ((t ^ 4 : S) : Q) ∈ S ⊓ L := by
@@ -111,7 +111,7 @@ theorem isSimpleSection_of_surjective {G : Type} [Group G] {H K : Subgroup G} {S
       _ = t * s := by rw [h1, one_mul]
 
 theorem relIndex_eq_card_of_surjective {G : Type} [Group G] {H K : Subgroup G} {Sg : Type}
-    [Group Sg] [Finite Sg] (ρ : H →* Sg) (hsurj : Function.Surjective ρ) (hKH : K ≤ H)
+    [Group Sg] [Finite Sg] (ρ : H →* Sg) (hsurj : Function.Surjective ρ) (_hKH : K ≤ H)
     (hker : ∀ h : H, (h : G) ∈ K ↔ ρ h = 1) : K.relIndex H = Nat.card Sg := by
   have hkerEq : K.subgroupOf H = ρ.ker := by
     ext h
@@ -121,8 +121,8 @@ theorem relIndex_eq_card_of_surjective {G : Type} [Group G] {H K : Subgroup G} {
   rw [hkerEq, Subgroup.index_ker, MonoidHom.range_eq_top.mpr hsurj, Subgroup.card_top]
 
 theorem sectionOfPowerCover {G : Type} [Group G] [Finite G] {Q : Type} [Group Q] [Finite Q]
-    (N : Subgroup G) (Φ : N →* Q) (hΦ : Function.Surjective Φ) (X1 : Subgroup G)
-    (hX1N : X1 ≤ N) (S : Subgroup Q) [S.Normal] [IsSimpleGroup S]
+    (N : Subgroup G) (Φ : N →* Q) (_hΦ : Function.Surjective Φ) (X1 : Subgroup G)
+    (_hX1N : X1 ≤ N) (S : Subgroup Q) [S.Normal] [IsSimpleGroup S]
     (hnab : ¬ ∀ a b : S, a * b = b * a) (h3 : 3 ∣ Nat.card S)
     (hLn : ((X1.subgroupOf N).map Φ).Normal)
     (hpow : ∀ q : Q, q ^ 4 ∈ (X1.subgroupOf N).map Φ) :
@@ -130,7 +130,7 @@ theorem sectionOfPowerCover {G : Type} [Group G] [Finite G] {Q : Type} [Group Q]
       CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.S622IsSimpleSection H K ∧
         K.relIndex H = Nat.card S := by
   classical
-  haveI := hLn
+  have := hLn
   have hSL : S ≤ (X1.subgroupOf N).map Φ := simple_le_of_pow_four_mem h3 hpow
   set TH : Subgroup N := S.comap Φ ⊓ X1.subgroupOf N with hTH
   set TK : Subgroup N := (⊥ : Subgroup Q).comap Φ ⊓ X1.subgroupOf N with hTK

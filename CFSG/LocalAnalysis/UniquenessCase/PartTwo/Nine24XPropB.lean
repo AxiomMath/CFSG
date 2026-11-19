@@ -27,7 +27,7 @@ theorem normal_opp_eq_of_mem_calY2 (hB0 : KFactL2EvenThreeElts) (D : Data G)
     (hL2 : IsL2 (Bar2 X) (2 * n)) (hXp : pCoreOf 2 X ≠ ⊥)
     (hY : Y ∈ F09.calY2_9 D) (hXY : X ≤ Y) :
     (X.subgroupOf Y).Normal ∧ Opp 3 Y = X ∧ pCoreOf 2 Y ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨N, hNmem, hNM⟩ : ∃ N ∈ calMOf Y, N ≠ D.M := by
     by_contra h
     apply hY.2.1

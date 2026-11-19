@@ -47,9 +47,9 @@ theorem elemK_of_elemMF {G : Nat → Nat → Nat} {T : Nat → Nat} {k : Nat}
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩, h9⟩ := h
   refine ⟨⟨⟨⟨⟨⟨⟨⟨?_, fun t ht => ?_⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩, h9⟩
   · by_cases hk : (k == 0) = true
-    · rw [if_pos hk] at h1 ⊢
+    · rw [ite_eq_left hk] at h1 ⊢
       exact h1
-    · rw [if_neg hk] at h1 ⊢
+    · rw [ite_eq_right hk] at h1 ⊢
       simp only [Bool.and_eq_true] at h1 ⊢
       obtain ⟨⟨h1a, h1b⟩, h1c⟩ := h1
       refine ⟨⟨h1a, h1b⟩, ?_⟩

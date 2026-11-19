@@ -28,7 +28,7 @@ theorem card_le_of_sylowShape {p r e : ℕ} (hp : p.Prime) {Γ : Type*} [Group �
   set π : Γ →* Γ ⧸ Subgroup.center Γ := QuotientGroup.mk' _ with hπ
   have hT' : IsPGroup p ↥(T.map π) := hT.map π
   obtain ⟨S, hS'⟩ := hT'.exists_le_sylow
-  have h1 : IsPGroup p ↥(S : Subgroup (Γ ⧸ Subgroup.center Γ)) := S.isPGroup'
+  have h1 : IsPGroup p ↥(S : Subgroup (Γ ⧸ Subgroup.center Γ)) := S.isPGroup
   have h2 : ¬ p ∣ (S : Subgroup (Γ ⧸ Subgroup.center Γ)).index := S.not_dvd_index
   have hφ : Nonempty (↥(S : Subgroup (Γ ⧸ Subgroup.center Γ)) ≃*
       (Fin r → Multiplicative (ZMod (p ^ e)))) := hS (S : Subgroup (Γ ⧸ Subgroup.center Γ)) h1 h2

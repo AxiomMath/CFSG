@@ -63,7 +63,7 @@ private theorem sec4S47_compl_fin8 {N : Type*} [Group N] (π : N →* Perm (Fin 
       have hb₀ : π y₀ ∈ π.range := ⟨y₀, rfl⟩
       have hbt : (π y₀)⁻¹ * t ∈ alternatingGroup (Fin 8) := by
         rw [Equiv.Perm.mem_alternatingGroup, ht_def]
-        simp [hy₀, Int.units_mul_self]
+        simp [hy₀]
       have hprod := Subgroup.mul_mem _ hb₀ (hA hbt)
       simpa [mul_inv_cancel_left] using hprod
     have ht0 : t 0 = 0 := by

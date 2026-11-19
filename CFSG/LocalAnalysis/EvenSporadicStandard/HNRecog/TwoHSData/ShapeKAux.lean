@@ -84,7 +84,7 @@ theorem nonempty_mulEquiv_two_four {Z : Type*} [Group Z] (hcomm : ∀ a b : Z, a
       rw [← ofAdd_toAdd j, hj0]
       rfl
     exact Prod.ext hi1 hj1
-  haveI : Finite Z := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite Z := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hcarddom :
       Nat.card (Multiplicative (ZMod 2) × Multiplicative (ZMod 4)) = Nat.card Z := by
     rw [Nat.card_prod (Multiplicative (ZMod 2)) (Multiplicative (ZMod 4)),

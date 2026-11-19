@@ -23,8 +23,8 @@ theorem three_le_pRank_of_case2 {f p : ℕ} (hf : f.Prime) (hp : p.Prime) (hf3 :
     (h3 : ∀ w ∈ (P : Subgroup X), (∀ b ∈ (P : Subgroup X), w * b = b * w) → w ^ p = 1 → w ∈ L)
     {y : X} (hy : orderOf y = f) (hyE : y ∈ normalizer (E : Set X)) :
     3 ≤ CFSG.Open.pRank f (Subgroup.centralizer ({y} : Set X)) := by
-  haveI := Fact.mk hf
-  haveI := Fact.mk hp
+  have := Fact.mk hf
+  have := Fact.mk hp
   obtain ⟨P', hP'N⟩ := exists_sylow_le_of_cover p hOp hfrat
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X P' P
   have hconj : ∀ a ∈ (P' : Subgroup X), g * a * g⁻¹ ∈ (P : Subgroup X) := by
@@ -74,7 +74,7 @@ theorem three_le_pRank_of_case2 {f p : ℕ} (hf : f.Prime) (hp : p.Prime) (hf3 :
           calc (k : X)⁻¹ * e = (k : X)⁻¹ * (e * k) * (k : X)⁻¹ := by group
             _ = (k : X)⁻¹ * (k * e) * (k : X)⁻¹ := by rw [this]
             _ = e * (k : X)⁻¹ := by group }
-    haveI : K.Normal := ⟨fun k hk q e he => by
+    have : K.Normal := ⟨fun k hk q e he => by
       show ((q * k * q⁻¹ : P') : X) * e = e * ((q * k * q⁻¹ : P') : X)
       have hq : (q : X) ∈ normalizer (E : Set X) := hP'N q.2
       have he' : (q : X)⁻¹ * e * q ∈ E := by
@@ -91,7 +91,7 @@ theorem three_le_pRank_of_case2 {f p : ℕ} (hf : f.Prime) (hp : p.Prime) (hf3 :
       have : (⟨a, ha⟩ : (P' : Subgroup X)) ∈ K := fun e he => hae e he
       rw [hbot, Subgroup.mem_bot] at this
       exact hne (congrArg Subtype.val this)
-    obtain ⟨w, hwK, hwZ, hwp, hw1⟩ := exists_ne_one_mem_inf_center P'.isPGroup' K hKne
+    obtain ⟨w, hwK, hwZ, hwp, hw1⟩ := exists_ne_one_mem_inf_center P'.isPGroup K hKne
     have hwX : (w : X) ∈ L := h3' w w.2 (fun b hb => by
       have := mem_center_iff.mp hwZ ⟨b, hb⟩
       exact congrArg Subtype.val this.symm) (by simpa using congrArg Subtype.val hwp)
@@ -104,7 +104,7 @@ theorem three_le_pRank_of_case2 {f p : ℕ} (hf : f.Prime) (hp : p.Prime) (hf3 :
     rw [← hord]
     exact Subgroup.orderOf_dvd_natCard O hwO
   obtain ⟨D, hDE, hDnorm, hDexp, hDcl, hDdim⟩ := exists_critical_big hf hp hf3 hfp hE
-    (P'.isPGroup') hP'N hfaith hnc'
+    (P'.isPGroup) hP'N hfaith hnc'
   exact step0 hf hf3 hDexp hDcl hDdim hy (hDnorm y hyE)
 
 end CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.RankP

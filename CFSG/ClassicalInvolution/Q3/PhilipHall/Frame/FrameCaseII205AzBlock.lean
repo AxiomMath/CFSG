@@ -73,8 +73,8 @@ theorem hyp51_of_rows_block (hU : TL4.OuterFixedOddFree .PSU 3)
   ·
     obtain ⟨N, hNn, hidx, hlie⟩ := hU3
     obtain ⟨hsimpN, hnabN⟩ := u33_isSimpleGroup hlie
-    haveI : N.Normal := hNn
-    haveI : IsSimpleGroup N := hsimpN
+    have : N.Normal := hNn
+    have : IsSimpleGroup N := hsimpN
     have hsolv : Group.IsSolvable (SecQuot P ⧸ N) :=
       isSolvable_of_card_two_pow (n := 1)
         (by rw [← Subgroup.index_eq_card, hidx]; norm_num)
@@ -82,14 +82,14 @@ theorem hyp51_of_rows_block (hU : TL4.OuterFixedOddFree .PSU 3)
     exact transfer_uniq_odd _ hmoved U' O'
   ·
     obtain ⟨e⟩ := hM12'
-    haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M12) := hM12.1
-    haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M12) := hM12fin
-    haveI hsimpS : IsSimpleGroup (SecQuot P) := e.isSimpleGroup
+    have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M12) := hM12.1
+    have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M12) := hM12fin
+    have hsimpS : IsSimpleGroup (SecQuot P) := e.isSimpleGroup
     have hAOS : Q3NM.AutOddFree (SecQuot P) := Q3NM.AutOddFree.of_mulEquiv e.symm hM12.2
     have hnabS := exists_noncomm_of_mulEquiv e hM12nab
     have hnabT : ∃ x y : ↥(⊤ : Subgroup (SecQuot P)), x * y ≠ y * x :=
       exists_noncomm_of_mulEquiv Subgroup.topEquiv hnabS
-    haveI hsimpT : IsSimpleGroup ↥(⊤ : Subgroup (SecQuot P)) :=
+    have hsimpT : IsSimpleGroup ↥(⊤ : Subgroup (SecQuot P)) :=
       Subgroup.topEquiv.isSimpleGroup
     have hsolv : Group.IsSolvable (SecQuot P ⧸ (⊤ : Subgroup (SecQuot P))) :=
       isSolvable_of_card_two_pow (n := 0)
@@ -100,7 +100,7 @@ theorem hyp51_of_rows_block (hU : TL4.OuterFixedOddFree .PSU 3)
     exact transfer_uniq_odd _ hmoved U' O'
   ·
     obtain ⟨E, hEn, -, hEcard, ⟨eL⟩⟩ := hL3
-    haveI : E.Normal := hEn
+    have : E.Normal := hEn
     have hEp : IsPGroup 2 E := IsPGroup.of_card (n := 3) (by rw [hEcard]; norm_num)
     obtain ⟨ι, hιP, hιa⟩ := hq
     let Φq : QuaternionGroup 2 →* SecQuot P :=
@@ -126,11 +126,11 @@ theorem hyp51_of_rows_block (hU : TL4.OuterFixedOddFree .PSU 3)
       fun L hL hm => (nomoved L hL hm).elim⟩
   ·
     obtain ⟨W₀, hWn, hWeq, ⟨eW⟩⟩ := hW
-    haveI : W₀.Normal := hWn
+    have : W₀.Normal := hWn
     have hWp : IsPGroup 2 W₀ :=
       isPGroup_of_mem_WSet (by rw [hWeq]; exact Set.mem_singleton _)
-    haveI : Group.IsSolvable (DihedralGroup 6) := CFSG.Walter.isSolvable_dihedralGroup' 6
-    haveI : Group.IsSolvable (SecQuot P ⧸ W₀) :=
+    have : Group.IsSolvable (DihedralGroup 6) := CFSG.Walter.isSolvable_dihedralGroup' 6
+    have : Group.IsSolvable (SecQuot P ⧸ W₀) :=
       Group.isSolvable_of_surjective (f := eW.symm.toMonoidHom) eW.symm.surjective
     have nomoved : ∀ L : Subgroup Z, CFSG.IsComponent L → (∃ y ∈ L, ζ * y ≠ y * ζ) → False := by
       intro L hL hm

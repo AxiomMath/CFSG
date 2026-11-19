@@ -16,15 +16,18 @@ open CFSG.CGT.Timmesfeld75 (IsTI)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22qh_isPGroup_pCoreOf (K : Subgroup G) : IsPGroup 2 (pCoreOf 2 K) :=
   (CFSG.pCore_isPGroup (p := 2) (G := ↥K)).map K.subtype
 
+omit [Finite G] in
 theorem uc22p22qh_conj_mem_pCoreOf {K : Subgroup G} {k x : G} (hk : k ∈ K) (hx : x ∈ pCoreOf 2 K) :
     k * x * k⁻¹ ∈ pCoreOf 2 K := by
   obtain ⟨y, hy, rfl⟩ := hx
   exact ⟨⟨k, hk⟩ * y * ⟨k, hk⟩⁻¹,
     (CFSG.pCore_normal (p := 2) (G := ↥K)).conj_mem y hy ⟨k, hk⟩, rfl⟩
 
+omit [Finite G] in
 theorem uc22p22qh_le_pCoreOf {K V : Subgroup G} (hVK : V ≤ K) (hV : IsPGroup 2 V)
     (hn : ∀ k ∈ K, ∀ x ∈ V, k * x * k⁻¹ ∈ V) : V ≤ pCoreOf 2 K := by
   have hN : (V.subgroupOf K).Normal := ⟨fun x hx k => hn (k : G) k.2 x hx⟩
@@ -70,7 +73,7 @@ theorem uc22p22qh_normalizer_decomp {p : ℕ} [Fact p.Prime] {M P P₀ P₁ : Su
 
 theorem uc22p22qh_pCore_le_ctilde (D : Data G) {V₀ V : Subgroup G} (hH : F11.Hyp11 D V₀ V) :
     pCoreOf 2 D.M ≤ F11.CTilde D.M V₀ V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hV, hV₀V, hMV₀, -⟩ := uc22p22q_hyp11_unpack D hH
   have hMV : D.M ≤ normalizer (V : Set G) := hV.2.2.1
   have hRM : pCoreOf 2 D.M ≤ D.M := Subgroup.map_subtype_le _
@@ -152,7 +155,7 @@ theorem uc22p22qh_pCore_le_ctilde (D : Data G) {V₀ V : Subgroup G} (hH : F11.H
         simp only [Subgroup.mem_subgroupOf, hC, Subgroup.mem_inf]
         exact ⟨fun h => ⟨hKM x.2, h⟩, fun h => h.2⟩
       rw [hsub]
-      haveI hCn : (C.subgroupOf K).Normal :=
+      have hCn : (C.subgroupOf K).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hCK).2 (hKM.trans hMC)
       have hsup : (pCoreOf 2 D.M).subgroupOf K ⊔ C.subgroupOf K = ⊤ := by
         rw [← Subgroup.subgroupOf_sup hRK hCK, sup_comm, ← hK, Subgroup.subgroupOf_self]

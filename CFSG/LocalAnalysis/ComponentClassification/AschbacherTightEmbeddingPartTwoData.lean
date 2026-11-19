@@ -141,7 +141,7 @@ theorem subgroup_sylow_ambient_of_normalizer_le {G : Type*} [Group G] [Finite G]
     rw [← Subgroup.subgroupOf_normalizer_eq hXP, Subgroup.subgroupOf_map_subtype]
     exact inf_le_left.trans hnormalizer
   have htwoN : IsPGroup 2 (N.map (P : Subgroup G).subtype) :=
-    (P.isPGroup'.to_subgroup N).map _
+    (P.isPGroup.to_subgroup N).map _
   have hXN : X ≤ N.map (P : Subgroup G).subtype := by
     rw [← himageX]
     exact Subgroup.map_mono Subgroup.le_normalizer
@@ -155,7 +155,7 @@ theorem subgroup_sylow_ambient_of_normalizer_le {G : Type*} [Group G] [Finite G]
     rfl
   have hNY : N = Y := Subgroup.map_injective (P : Subgroup G).subtype_injective
     (hNX.trans himageX.symm)
-  let : Group.IsNilpotent P := P.isPGroup'.isNilpotent
+  let : Group.IsNilpotent P := P.isPGroup.isNilpotent
   have hYtop : Y = ⊤ := by
     by_contra hproper
     have hlt := Group.normalizerCondition_of_isNilpotent Y (lt_top_iff_ne_top.mpr hproper)

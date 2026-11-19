@@ -97,12 +97,12 @@ theorem ggNbrTableBWeylNonSplitOn_vac :
         (Or.inl ⟨ht, by have := hlab.2; simp only [ht] at this; omega⟩))
     · refine hsmall (Or.inr (Or.inr (Or.inr (Or.inr
         (Or.inl ⟨Or.inl ⟨ht, hr1⟩, fun j hj hj3 => ?_⟩)))))
-      have hj1 : j = 1 := by simp only [ht, reduceCtorEq, if_false] at hj3; omega
+      have hj1 : j = 1 := by simp only [ht, reduceCtorEq, ite_false] at hj3; omega
       subst hj1
       simpa using not_dvd_sub_of_nonSplit hp hlab hns (by simp [ht, LargeEvenUntwisted])
   ·
     refine hsmall (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨Or.inr ⟨ht, hr⟩, fun j hj hj3 => ?_⟩)))))
-    have hj1 : j = 1 := by simp only [ht, if_true] at hj3; omega
+    have hj1 : j = 1 := by simp only [ht, ite_true] at hj3; omega
     subst hj1
     simpa using not_dvd_sub_of_nonSplit hp hlab hns (by simp [ht, LargeEvenUntwisted])
   · exact hguard (largeEvenLabelAll_card_lt_symplecticTwo hp hp2 hlab ht hr)

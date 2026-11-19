@@ -414,7 +414,7 @@ theorem rckTriD4_q_conj_xUnit_two (c : GGL) :
   have hQ : d4SwapMap GGL = labelMap GGL d4Swap d4Swap_cartan := rfl
   rw [hQ]
   apply Units.ext
-  simp only [Units.val_mul, Units.val_inv_eq_inv_val, coe_xUnit]
+  simp only [Units.val_mul, coe_xUnit]
   rw [labelMap_mul_xOp (K := GGL) (π := d4Swap) (hπ := d4Swap_cartan)]
   rw [show d4Swap (nd 2) = nd 2 from rfl, mul_assoc, ← Units.val_mul, mul_inv_cancel,
     Units.val_one, mul_one]
@@ -425,7 +425,7 @@ theorem rckTriD4_q_conj_yUnit_two (c : GGL) :
   have hQ : d4SwapMap GGL = labelMap GGL d4Swap d4Swap_cartan := rfl
   rw [hQ]
   apply Units.ext
-  simp only [Units.val_mul, Units.val_inv_eq_inv_val, coe_yUnit]
+  simp only [Units.val_mul, coe_yUnit]
   rw [labelMap_mul_yOp (K := GGL) (π := d4Swap) (hπ := d4Swap_cartan)]
   rw [show d4Swap (nd 2) = nd 2 from rfl, mul_assoc, ← Units.val_mul, mul_inv_cancel,
     Units.val_one, mul_one]
@@ -673,7 +673,7 @@ theorem rckTriD4_fieldData (h : ℕ) (hh : 1 ≤ h) :
       ← pow_mul, mul_comm]
   have hFmem : ∀ c : GGL, c ∈ F ↔ c ^ 2 ^ (3 * h) = c := fun c =>
     mem_frobeniusFixedField (k := GGL) (p := 2) (n := 3 * h)
-  haveI : Finite ↥F := Nat.finite_of_card_ne_zero (by
+  have : Finite ↥F := Nat.finite_of_card_ne_zero (by
     rw [hFcard]
     exact pow_ne_zero _ (pow_ne_zero _ (by norm_num : (2:ℕ) ≠ 0)))
   exact ⟨F, inferInstance, hFcard, hFmem⟩
@@ -695,8 +695,8 @@ theorem rckTriD4_model_aux {h r : ℕ} (hh : 1 ≤ h) (hr : r = 1 ∨ r = 2) :
         rootSubgroup d4 GGL (-Pi.single (nd 2) 1) := by
   classical
   obtain ⟨F, hFin, hFcard, hFmem⟩ := rckTriD4_fieldData h hh
-  letI hField : Field ↥F := inferInstance
-  letI hFinite : Finite ↥F := hFin
+  let hField : Field ↥F := inferInstance
+  let hFinite : Finite ↥F := hFin
   have hTri : TriField ↥F (iterateFrobenius ↥F 2 h) h :=
     ⟨hh, hFcard, fun c => iterateFrobenius_def 2 h c⟩
   rcases hr with rfl | rfl

@@ -492,7 +492,7 @@ theorem bridge_untwisted
     rw [hc]
   · rw [endPow_frobTwist_one, one_mul, inv_one, mul_one]
   · rw [hrat]
-    haveI : Finite (adjointGroup τ K) := CFSG.LieType.Chevalley.generated_group_finite τ K
+    have : Finite (adjointGroup τ K) := CFSG.LieType.Chevalley.generated_group_finite τ K
     exact Finite.of_surjective _ (MonoidHom.subgroupMap_surjective
       (baseChangeGL (algebraMap K L)) (adjointGroup τ K))
 

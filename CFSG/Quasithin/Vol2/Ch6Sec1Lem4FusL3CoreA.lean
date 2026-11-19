@@ -15,12 +15,14 @@ section CoreA
 variable {F : Type} [Field F] [Finite F] {S : Subgroup (GL (Fin 3) F)}
   {Bl : Subgroup (GL (Fin 2) F)} {p : ℕ} {G : Type*} [Group G] {ψ : ↥S →* G}
 
+omit [Finite F] in
 private theorem blk_entry22_L3core (X : GL (Fin 2) F) :
     ((blk X : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) 2 2 =
       ((X : Matrix (Fin 2) (Fin 2) F).det)⁻¹ := by
   rw [coe_blk]
   simp [blkMat]
 
+omit [Finite F] in
 private theorem negDiag3_mul_self_L3core :
     negDiag3 F * negDiag3 F = (1 : GL (Fin 3) F) := by
   apply Units.ext
@@ -30,6 +32,7 @@ private theorem negDiag3_mul_self_L3core :
   funext i
   fin_cases i <;> norm_num
 
+omit [Finite F] in
 private theorem eq_one_of_conj_scalar_L3core {X : GL (Fin 2) F}
     (hX : Matrix.GeneralLinearGroup.det X = 1) (q : GL (Fin 3) F) {c : Fˣ}
     (h : q * blk X * q⁻¹ = Matrix.GeneralLinearGroup.scalar (Fin 3) c) : X = 1 := by
@@ -46,9 +49,10 @@ private theorem eq_one_of_conj_scalar_L3core {X : GL (Fin 2) F}
   apply blk_injective
   rw [hbX, hc, map_one, map_one]
 
+omit [Finite F] in
 private theorem ker_central_L3core (hker : ψ.ker ≤ (StatedScalars (Fin 3) F).subgroupOf S) :
     ψ.ker ≤ Subgroup.center S :=
-  fun z hz => CFSG.Open.StatedAPI.statedScalars_subgroupOf_le_center S (hker hz)
+  fun _z hz => CFSG.Open.StatedAPI.statedScalars_subgroupOf_le_center S (hker hz)
 
 private theorem ker_cube_L3core (hS : L3Shape F S Bl p)
     (hker : ψ.ker ≤ (StatedScalars (Fin 3) F).subgroupOf S) : ∀ z ∈ ψ.ker, z ^ 3 = 1 := by
@@ -67,6 +71,7 @@ private theorem sq_one_of_orderOf_two_L3core {H : Type*} [Group H] {x : H}
     (hx : orderOf x = 2) : x * x = 1 := by
   rw [← pow_two, ← hx, pow_orderOf_eq_one]
 
+omit [Finite F] in
 private theorem coe_ne_one_of_orderOf_L3core {x : ↥S} (hx : orderOf (ψ x) = 2) :
     (x : GL (Fin 3) F) ≠ 1 := by
   intro h
@@ -74,18 +79,22 @@ private theorem coe_ne_one_of_orderOf_L3core {x : ↥S} (hx : orderOf (ψ x) = 2
   rw [h1, map_one, orderOf_one] at hx
   norm_num at hx
 
+omit [Finite F] in
 private theorem coe_sq_one_L3core {x : ↥S} (hx : x * x = 1) :
     (x : GL (Fin 3) F) * x = 1 := by
   have := congrArg Subtype.val hx
   simpa using this
 
+omit [Finite F] in
 private theorem det_sl2_L3core {b : GL (Fin 2) F} (hb : b ∈ sl2Of Bl) :
     Matrix.GeneralLinearGroup.det b = 1 :=
   MonoidHom.mem_ker.mp (Subgroup.mem_inf.mp hb).2
 
+omit [Finite F] in
 private theorem mem_of_sl2_L3core {b : GL (Fin 2) F} (hb : b ∈ sl2Of Bl) : b ∈ Bl :=
   (Subgroup.mem_inf.mp hb).1
 
+omit [Finite F] in
 private theorem mem_sl2_of_L3core {b : GL (Fin 2) F} (hb : b ∈ Bl)
     (hd : Matrix.GeneralLinearGroup.det b = 1) : b ∈ sl2Of Bl :=
   Subgroup.mem_inf.mpr ⟨hb, MonoidHom.mem_ker.mpr hd⟩
@@ -104,6 +113,7 @@ private theorem exists_b0_L3core (hS : L3Shape F S Bl p) :
 private noncomputable def conjBlk_L3core (q : GL (Fin 3) F) : GL (Fin 2) F →* GL (Fin 3) F :=
   (MulAut.conj q).toMonoidHom.comp blk
 
+omit [Finite F] in
 private theorem conjBlk_apply_L3core (q : GL (Fin 3) F) (B : GL (Fin 2) F) :
     conjBlk_L3core q B = q * blk B * q⁻¹ := rfl
 
@@ -325,7 +335,7 @@ private theorem isL3Levi_L3core (hS : L3Shape F S Bl p)
     rw [mem_center_equiv_L3core e b, he b, hS.sl2_center b, h1, h2, h3, h4]
   unfold IsL3Levi
   obtain ⟨F₀, hF₀, hF₀fin, hcard, ⟨eq⟩⟩ := hS.sl2_psl
-  haveI := hS.sl2_perfect
+  have := hS.sl2_perfect
   refine ⟨hu2, hu_mem, hcenter, ?_, F₀, hF₀, hF₀fin, hcard,
     ⟨(QuotientGroup.congr (Subgroup.center ↥(ι.range)) (Subgroup.center ↥(sl2Of Bl)) e.symm
       (Subgroup.map_center_eq e.symm)).trans eq⟩⟩

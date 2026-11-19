@@ -53,11 +53,11 @@ private theorem irgSp_exists_map_tauSp_rootGroup_two
       (pow_tauExp_surjective (negIdx r)) (tauSp_elt (negIdx r)) hr' hw'
 
 theorem irgRootPairAut_PSp_two
-    {g : ℕ} (hadm : StatedLieAdmissible .PSp 2 2 g) : IRGRootPairAut .PSp 2 g := by
+    {g : ℕ} (_hadm : StatedLieAdmissible .PSp 2 2 g) : IRGRootPairAut .PSp 2 g := by
   intro θ β' hβ' hlong u'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (GaloisField 2 g) 2 := inferInstance
-  haveI : Finite (GaloisField 2 g) := inferInstance
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (GaloisField 2 g) 2 := inferInstance
+  have : Finite (GaloisField 2 g) := inferInstance
   have hZ : Subgroup.center (ggU .PSp 2 g).K = ⊥ := by
     change Subgroup.center (CFSG.Open.StatedSp 2 (GaloisField 2 g)) = ⊥
     exact CFSG.SeitzReduction.F4Pilot.center_statedSp_eq_bot_of_charTwo
@@ -150,13 +150,13 @@ theorem irgRootPairAut_PSp_two
           (t := sG) (u := u') hmapneg
 
 theorem irgRootPairAut_PSp
-    {n g : ℕ} (hn : 3 ≤ n) (hadm : StatedLieAdmissible .PSp n 2 g) :
+    {n g : ℕ} (hn : 3 ≤ n) (_hadm : StatedLieAdmissible .PSp n 2 g) :
     IRGRootPairAut .PSp n g := by
   intro θ β' hβ' hlong u'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (GaloisField 2 g) 2 := inferInstance
-  haveI : Finite (GaloisField 2 g) := inferInstance
-  haveI : NeZero n := ⟨by omega⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (GaloisField 2 g) 2 := inferInstance
+  have : Finite (GaloisField 2 g) := inferInstance
+  have : NeZero n := ⟨by omega⟩
   have hZ : Subgroup.center (ggU .PSp n g).K = ⊥ := by
     change Subgroup.center (CFSG.Open.StatedSp n (GaloisField 2 g)) = ⊥
     exact CFSG.SeitzReduction.F4Pilot.center_statedSp_eq_bot_of_charTwo

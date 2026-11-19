@@ -45,9 +45,9 @@ theorem s16t3_omplus_std_of_census {K : Type} [Field K] [Finite K] (hK : Nat.car
       Nat.card ↥P = 3 ^ ((m + 2) / 2) *
         2 ^ (Nat.card ↥(StatedOmega (StatedQuadPlus m K))).factorization 2 ∧
       ∀ p ∈ P, ∀ k : ℕ, p ^ 3 ^ k = 1 → p ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
-    letI := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
+    let := Fintype.ofFinite K
     have hK' : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
     exact charP_of_card_eq_prime hK'
   classical

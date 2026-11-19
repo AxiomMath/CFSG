@@ -59,12 +59,15 @@ theorem mul_self_eq_one {v : G} (hv : v ∈ V) : v * v = 1 :=
 theorem γ_sq_eq_zero {v : G} (hv : v ∈ V) : γ (v ^ 2) = 0 := by
   rw [pow_two, C.mul_self_eq_one hv, C.γ_one]
 
+omit [CharP K 2] in
 theorem comm_eq_one_left {v y : G} (hv : v ∈ V) (hy : y ∈ Q) : ⁅v, y⁆ = 1 :=
   commutatorElement_eq_one_iff_mul_comm.mpr (C.central v hv y hy)
 
+omit [CharP K 2] in
 theorem comm_eq_one_right {v y : G} (hv : v ∈ V) (hy : y ∈ Q) : ⁅y, v⁆ = 1 :=
   commutatorElement_eq_one_iff_mul_comm.mpr (C.central v hv y hy).symm
 
+omit [CharP K 2] in
 theorem comm_mul_left {x y z : G} (hx : x ∈ Q) (hy : y ∈ Q) (hz : z ∈ Q) :
     ⁅x * y, z⁆ = ⁅x, z⁆ * ⁅y, z⁆ := by
   have hyz : ⁅y, z⁆ ∈ V := C.comm_mem y hy z hz
@@ -76,6 +79,7 @@ theorem comm_mul_left {x y z : G} (hx : x ∈ Q) (hy : y ∈ Q) (hz : z ∈ Q) :
     _ = ⁅y, z⁆ * ⁅x, z⁆ := by rw [h1]
     _ = ⁅x, z⁆ * ⁅y, z⁆ := h2.symm
 
+omit [CharP K 2] in
 theorem γ_comm_mul_left {x y z : G} (hx : x ∈ Q) (hy : y ∈ Q) (hz : z ∈ Q) :
     γ ⁅x * y, z⁆ = γ ⁅x, z⁆ + γ ⁅y, z⁆ := by
   rw [C.comm_mul_left hx hy hz]
@@ -230,7 +234,7 @@ private noncomputable def piE (C : ModelCtx V Q γ) (x : G) : Esub C :=
 
 private theorem piE_val (C : ModelCtx V Q γ) {x : G} (hx : x ∈ classGroup V Q γ) :
     (piE C x).1 = jh Q γ x := by
-  simp only [piE, dif_pos hx]
+  simp only [piE, dite_eq_left hx]
 
 private theorem piE_mul (C : ModelCtx V Q γ) {x y : G} (hx : x ∈ classGroup V Q γ)
     (hy : y ∈ classGroup V Q γ) : piE C (x * y) = piE C x + piE C y := by
@@ -300,6 +304,7 @@ private theorem Qform_piE (C : ModelCtx V Q γ) {x : G} (hx : x ∈ classGroup V
   rw [piE_val C hx] at h2
   exact h2
 
+omit [CharP K 2] in
 private theorem comm_of_comm_classGroup {x : G}
     (hcl : Q = classGroup V Q γ ⊔ (Q ⊓ Subgroup.centralizer (classGroup V Q γ : Set G)))
     (hx : x ∈ classGroup V Q γ) (h : ∀ y ∈ classGroup V Q γ, x * y = y * x) :

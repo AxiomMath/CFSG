@@ -71,7 +71,7 @@ theorem prodL_two_pow (h : ℕ → G) {L : List ℕ} (hL : L.Nodup) {i : ℕ} (h
         refine List.prod_eq_one fun b hb => ?_
         obtain ⟨j, hj, rfl⟩ := List.mem_map.1 hb
         have hji : ¬ i = j := fun e => haL (e ▸ hj)
-        simp [Nat.testBit_two_pow, hji]
+        simp [hji]
       simp [h1]
     · have hia : ¬ i = a := fun e => haL (e ▸ hi')
       simp [hia, ih hnd hi']
@@ -90,8 +90,8 @@ theorem prodL_congr {h h' : ℕ → G} (L : List ℕ) {μ : ℕ} (e : ∀ j, μ.
   congr 1
   refine List.map_congr_left fun j _ => ?_
   by_cases hb : μ.testBit j = true
-  · rw [if_pos hb, if_pos hb, e j hb]
-  · rw [if_neg hb, if_neg hb]
+  · rw [ite_eq_left hb, ite_eq_left hb, e j hb]
+  · rw [ite_eq_right hb, ite_eq_right hb]
 
 theorem prodL_mem {h : ℕ → G} {K : Subgroup G} (L : List ℕ) (μ : ℕ)
     (hK : ∀ j ∈ L, μ.testBit j = true → h j ∈ K) : prodL h L μ ∈ K := by
@@ -166,7 +166,7 @@ theorem closure_eq_of_span {h y : ℕ → G} {mp : ℕ → ℕ} {m : ℕ} (hm : 
     have h2 := hmem m le_rfl
     have hi' : i < m := hi
     rw [hs, prodM_two_pow h' (Nat.lt_of_lt_of_le hi hm)] at h2
-    simp only [hh', if_pos hi'] at h2
+    simp only [hh', ite_eq_left hi'] at h2
     exact h2
 
 abbrev conjG (g : G) (H : Subgroup G) : Subgroup G := H.map (MulAut.conj g).toMonoidHom
@@ -200,7 +200,7 @@ theorem conjG_eq_of_pair {hs ht : ℕ → G} {r : ℕ} {x g : G} {mp : ℕ → �
   set y : ℕ → G := fun i => if i < r then g * hs i * g⁻¹ else g * x * g⁻¹ with hy'
   have himg : (fun z => g * z * g⁻¹) '' insert x (hs '' {i | i < r}) = y '' {i | i < r + 1} := by
     ext z
-    simp only [Set.image_insert_eq, Set.mem_insert_iff, Set.mem_image, Set.mem_setOf_eq, hy']
+    simp only [Set.image_insert_eq, Set.mem_insert_iff, Set.mem_image, Set.mem_ofPred_eq, hy']
     constructor
     · rintro (rfl | ⟨_, ⟨i, hi, rfl⟩, rfl⟩)
       · exact ⟨r, by omega, by simp⟩

@@ -330,7 +330,7 @@ theorem KConfig.conclK_of_sixteen_a6
   classical
   have F : Facts := Certificates.certificate442267
   have hcommV : IsMulCommutative ↥V := h.elemAbelian.1
-  letI : IsMulCommutative ↥V := hcommV
+  let : IsMulCommutative ↥V := hcommV
   have hcomm : ∀ a b : ↥V, a * b = b * a := fun a b => hcommV.is_comm.comm a b
   have hpow : ∀ a : ↥V, a ^ 2 = 1 := fun a => Subtype.ext (by simpa using h.elemAbelian.2 a a.2)
   obtain ⟨e₀⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary hcomm hpow (n := 4)
@@ -396,8 +396,8 @@ theorem KConfig.conclK_of_sixteen_a6
     CFSG.Quasithin.H13.Prop329.isFFModule_of_le (CFSG.Quasithin.A4.autOn_mono h.le_normalizer) hFF
   have hcardX : Nat.card (↥L ⧸ CFSG.pCore 2 ↥L) = 360 := by
     rw [Nat.card_congr e.toEquiv, card_alt6]
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup (↥L ⧸ CFSG.pCore 2 ↥L) := e.isSimpleGroup
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (↥L ⧸ CFSG.pCore 2 ↥L) := e.isSimpleGroup
   have hnc : ∃ x y : ↥L ⧸ CFSG.pCore 2 ↥L, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := alt6_nonab
     exact ⟨e.symm x, e.symm y, fun h' => hxy (by simpa using congrArg e h')⟩

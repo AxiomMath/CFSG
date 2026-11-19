@@ -84,7 +84,7 @@ theorem maximalAbelian_of_maximalElemAbelian [IsSimpleGroup G] (hnonab : ∃ a b
   have hN : Subgroup.normalizer (B : Set G) = M :=
     normalizer_eq_of_maximal hM hB1 hP2B hB.prop.2.1
   have hO2 : pCore 2 G = ⊥ := by
-    haveI : (pCore 2 G).Normal := pCore_normal
+    have : (pCore 2 G).Normal := pCore_normal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (pCore 2 G) with h | h
     · exact h
     · exfalso

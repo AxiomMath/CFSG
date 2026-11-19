@@ -21,6 +21,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType
 
 variable {k : Type} [Field k] [Finite k] [CharP k 2] {θ : k →+* k} {q : ℕ}
 
+omit [Finite k] [CharP k 2] in
 theorem hHat_pow_eq_one (i : Fin (Tag.rank .F4)) {g : fixedGroup k θ} (hg : g ∈ hHat k θ i) :
     g ^ Nat.card kˣ = 1 := by
   apply Subtype.ext
@@ -41,6 +42,7 @@ theorem hHat_pow_eq_one (i : Fin (Tag.rank .F4)) {g : fixedGroup k θ} (hg : g �
   · obtain ⟨t, ht⟩ := h1
     rw [← ht, ← map_pow, hN t, map_one]
 
+omit [CharP k 2] in
 theorem pow_card_units_of_mem_center (hk : Nat.card k = q ^ 2) (hθq : ∀ c, θ c = c ^ q)
     {z : fixedGroup k θ} (hz : z ∈ Subgroup.center (fixedGroup k θ)) : z ^ Nat.card kˣ = 1 := by
   have hcard := (CFSG.LieType.Steinberg.CentralExt.TwistedE6Closed.card_center_fixedGroup
@@ -95,6 +97,7 @@ theorem borelQuotient_e6tw (hθ : ∀ c, θ (θ c) = c) (hK4 : 4 ≤ Nat.card k)
       ker_central := fun z hz => hkerπ z (MonoidHom.mem_ker.1 hz)
       ker_pow := fun z hz => pow_card_units_of_mem_center hk hθq (hkerπ z (MonoidHom.mem_ker.1 hz)) }
 
+omit [Finite k] in
 theorem hasSL2Node_e6tw (hθ : ∀ c, θ (θ c) = c) (hK4 : 4 ≤ Nat.card k) :
     HasSL2Node (twistedDatum k θ) (nf 2) k := by
   have hab : (nd 2 = nd 2 ∧ nd 4 = nd 4) ∨ (nd 2 = nd 0 ∧ nd 4 = nd 5) := Or.inl ⟨rfl, rfl⟩
@@ -140,6 +143,7 @@ theorem hasSL2Node_e6tw (hθ : ∀ c, θ (θ c) = c) (hK4 : 4 ≤ Nat.card k) :
     rw [hx1, this]
     exact Subgroup.one_mem _
 
+omit [CharP k 2] in
 theorem involutive_of_card (hk : Nat.card k = q ^ 2) (hθq : ∀ c, θ c = c ^ q) :
     ∀ c, θ (θ c) = c := by
   intro c

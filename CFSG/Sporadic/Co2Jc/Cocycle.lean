@@ -22,7 +22,7 @@ private noncomputable def Gam (Γ : Qj → ↥Jc → ↥Jc) (g : MulAut ↥Jc) :
 private theorem Gam_of_mem {Γ : Qj → ↥Jc → ↥Jc} {g : MulAut ↥Jc} (hg : g ∈ Qj) :
     Gam Γ g = Γ ⟨g, hg⟩ := by
   rw [Gam]
-  exact dif_pos hg
+  exact dite_eq_left hg
 
 private theorem Gam_one {Γ : Qj → ↥Jc → ↥Jc}
     (h2 : ∀ g h a, Γ (g * h) a = Γ g a * (g : MulAut ↥Jc) (Γ h ((g : MulAut ↥Jc)⁻¹ a))) :
@@ -80,7 +80,7 @@ private theorem cbit_mul (ρ : ℕ) (a b : ↥Jc) : cbit ρ (a * b) = cbit ρ a 
   by_cases ha : (coord a).testBit ρ <;> by_cases hb : (coord b).testBit ρ <;>
     simp [ha, hb, h11]
 
-private theorem cbit_jcA {ρ m : ℕ} (hm : m < 1024) (hρ : ρ < 10) :
+private theorem cbit_jcA {ρ m : ℕ} (hm : m < 1024) (_hρ : ρ < 10) :
     cbit ρ (jcA m) = if m.testBit ρ then 1 else 0 := by
   simp only [cbit, coord_jcA hm]
 
@@ -158,8 +158,8 @@ private theorem bsum_foldr_ite (l : List ℕ) (g : ℕ → Bool) (m : ℕ → �
   | cons x xs ih =>
     rw [List.foldr_cons, List.map_cons, List.sum_cons]
     by_cases h : g x
-    · rw [if_pos h, if_pos h, bsum_xor, ih]
-    · rw [if_neg h, if_neg h, ih, zero_add]
+    · rw [ite_eq_left h, ite_eq_left h, bsum_xor, ih]
+    · rw [ite_eq_right h, ite_eq_right h, ih, zero_add]
 
 private theorem bsum_preMask (Γ : Qj → ↥Jc → ↥Jc) (k ρ v : ℕ) (hk : k < 3) (hρ : ρ < 10) :
     bsum 300 (Native.preMask k ρ v) (Vvec Γ) =
@@ -170,9 +170,9 @@ private theorem bsum_preMask (Γ : Qj → ↥Jc → ↥Jc) (k ρ v : ℕ) (hk : 
   intro b hb
   have hb10 : b < 10 := by simpa using hb
   by_cases hbit : v.testBit b
-  · rw [if_pos hbit, if_pos hbit]
+  · rw [ite_eq_left hbit, ite_eq_left hbit]
     exact bsum_two_pow (n := 300) (by omega) (Vvec Γ)
-  · rw [if_neg hbit, if_neg hbit]
+  · rw [ite_eq_right hbit, ite_eq_right hbit]
 
 private theorem bsum_congr {n m : ℕ} {f g : ℕ → ZMod 2} (h : ∀ i < n, f i = g i) :
     bsum n m f = bsum n m g := by
@@ -181,7 +181,7 @@ private theorem bsum_congr {n m : ℕ} {f g : ℕ → ZMod 2} (h : ∀ i < n, f 
   intro i hi
   rw [h i (by simpa using hi)]
 
-private theorem vvec_qA {Γ : Qj → ↥Jc → ↥Jc} (k b ρ : ℕ) (hk : k < 3) (hb : b < 10)
+private theorem vvec_qA {Γ : Qj → ↥Jc → ↥Jc} (k b ρ : ℕ) (_hk : k < 3) (hb : b < 10)
     (hρ : ρ < 10) :
     Vvec Γ (100 * k + 10 * b + ρ) = cbit ρ (Delta Γ (qA k) (jcA (2 ^ b))) := by
   simp only [Vvec]
@@ -197,7 +197,7 @@ private theorem cbit_delta_qA {Γ : Qj → ↥Jc → ↥Jc}
   additive_jcA (f := fun x => cbit ρ (Delta Γ (qA k) x))
     (fun a b => by rw [Delta_hom h1 (qA_mem hk) a b, cbit_mul]) hm
 
-private theorem cbit_qA_apply {k ρ m : ℕ} (hk : k < 3) (hρ : ρ < 10) (hm : m < 1024) :
+private theorem cbit_qA_apply {k ρ m : ℕ} (_hk : k < 3) (_hρ : ρ < 10) (hm : m < 1024) :
     cbit ρ (qA k (jcA m)) = bsum 10 m (fun b => cbit ρ (qA k (jcA (2 ^ b)))) :=
   additive_jcA (f := fun x => cbit ρ (qA k x))
     (fun a b => by rw [map_mul, cbit_mul]) hm
@@ -328,10 +328,10 @@ private theorem foldr_xor_lt (l : List ℕ) (f : ℕ → ℕ) (g : ℕ → Bool)
   | cons x xs ih =>
     rw [List.foldr_cons]
     by_cases hg : g x
-    · rw [if_pos hg]
+    · rw [ite_eq_left hg]
       exact Nat.xor_lt_two_pow (n := 10) (by simpa using h x (by simp))
         (by simpa using ih (fun i hi => h i (by simp [hi])))
-    · rw [if_neg hg]
+    · rw [ite_eq_right hg]
       exact ih (fun i hi => h i (by simp [hi]))
 
 private theorem Xcol_lt (Γ : Qj → ↥Jc → ↥Jc) (p : ℕ) : Xcol Γ p < 1024 := by
@@ -373,7 +373,7 @@ private theorem ite_xb (Γ : Qj → ↥Jc → ↥Jc) (pq : ℕ) :
   by_cases h : xbit Γ pq = 1
   · simp [h]
   · have h' : ¬ (xbit Γ pq == 1) := by simpa [beq_iff_eq] using h
-    rw [if_neg h', zmod2_eq_zero_of_ne_one h]
+    rw [ite_eq_right h', zmod2_eq_zero_of_ne_one h]
 
 private noncomputable def Xfun (Γ : Qj → ↥Jc → ↥Jc) : ↥Jc →* ↥Jc where
   toFun x := jcA (colAct (Xcol Γ) (coord x))
@@ -398,7 +398,7 @@ private theorem cbit_Xfun (Γ : Qj → ↥Jc → ↥Jc) (m ρ : ℕ) (hm : m < 1
     rw [Xfun_jcA Γ (two_pow_lt_1024 hp), colAct_two_pow (Xcol Γ) hp]
   rw [hxp, cbit_jcA (Xcol_lt Γ p) hρ, Xcol_testBit Γ p ρ hρ, ite_xb]
 
-private theorem bsum_cobMask1 (Γ : Qj → ↥Jc → ↥Jc) (k b ρ : ℕ) (hk : k < 3) (hb : b < 10)
+private theorem bsum_cobMask1 (Γ : Qj → ↥Jc → ↥Jc) (k b ρ : ℕ) (hk : k < 3) (_hb : b < 10)
     (hρ : ρ < 10) :
     bsum 300 (Native.cobMask1 k b ρ) (Vvec Γ) =
       cbit ρ (Xfun Γ (qA k (jcA (2 ^ b)))) := by
@@ -501,7 +501,7 @@ private theorem noW_spec (h : Native.splitOK = true) :
     exact ⟨by simpa [beq_iff_eq] using hc.1, by simpa [beq_iff_eq] using hc.2⟩
   have h := hw w (List.mem_range.mpr hlt)
   rw [hb] at h
-  simpa using h
+  simp at h
 
 private theorem bsum_ite {c : Bool} {m : ℕ} (f : ℕ → ZMod 2) :
     bsum 300 (if c then m else 0) f = if c then bsum 300 m f else 0 := by
@@ -552,7 +552,7 @@ private theorem bsum_xorRowsFrom_eq_zero {n : ℕ} {rows : List ℕ} {start : �
     have hrs : ∀ q ∈ rs, bsum n q U = 0 := fun q hq => h q (by simp [hq])
     have hih := ih (start := start + 1) hrs
     by_cases hbit : m.testBit start
-    · simp [hbit, hr, hih, bsum_zero]
+    · simp [hbit, hr, hih]
     · simp [hbit, hih, bsum_zero]
 
 private theorem bsum_rowV_rel {Γ : Qj → ↥Jc → ↥Jc}
@@ -573,7 +573,7 @@ private theorem bsum_splitRows_eq_zero {Γ : Qj → ↥Jc → ↥Jc}
     bsum 300 (Native.xorRowsByMask Native.splitRows m) (Vvec Γ) = 0 := by
   apply bsum_xorRowsFrom_eq_zero
   intro x hx
-  simp only [Native.splitRows, List.mem_flatMap, List.mem_map, List.mem_range] at hx
+  simp only [Native.splitRows, List.mem_flatMap, List.mem_range] at hx
   obtain ⟨r, hr, j, hj, hx⟩ := hx
   rw [rowAll_eq_rowV] at hx
   obtain ⟨rho, hrho, rfl⟩ := List.mem_map.mp hx
@@ -605,7 +605,7 @@ private theorem split_unknown_eq {Γ : Qj → ↥Jc → ↥Jc}
   rw [← ite_mul, ← cbit_mul, add_assoc] at hzero
   exact eq_of_add_eq_zero' hzero
 
-private theorem cbit_testBit {ρ : ℕ} (x : ↥Jc) (hρ : ρ < 10) :
+private theorem cbit_testBit {ρ : ℕ} (x : ↥Jc) (_hρ : ρ < 10) :
     (coord x).testBit ρ = decide (cbit ρ x = 1) := by
   simp only [cbit]
   by_cases h : (coord x).testBit ρ <;> simp [h]
@@ -931,11 +931,11 @@ private theorem split_of_fixed_Qj_aux (Γ : Qj → ↥Jc → ↥Jc)
     have hda : Γ g a = Delta Γ (g : MulAut ↥Jc) ((g : MulAut ↥Jc)⁻¹ a) := by
       rw [Delta, Gam_of_mem g.2]
       have hgg : (g : MulAut ↥Jc) ((g : MulAut ↥Jc)⁻¹ a) = a := by
-        simpa using MulEquiv.apply_symm_apply (g : MulAut ↥Jc) a
+        simp
       rw [hgg]
     rw [hda, congrFun hDelta ((g : MulAut ↥Jc)⁻¹ a), DeltaX]
     have hgg : (g : MulAut ↥Jc) ((g : MulAut ↥Jc)⁻¹ a) = a := by
-      simpa using MulEquiv.apply_symm_apply (g : MulAut ↥Jc) a
+      simp
     rw [hgg]
   · exfalso
     exact eps_ne_one h1 h2 hsplit hrel h3 (zmod2_eq_one_of_ne_zero heps)
@@ -947,7 +947,7 @@ private noncomputable def gam (γ : Qj → ↥Jc → ZMod 2) (g : MulAut ↥Jc) 
 private theorem gam_of_mem {γ : Qj → ↥Jc → ZMod 2} {g : MulAut ↥Jc} (hg : g ∈ Qj) :
     gam γ g = γ ⟨g, hg⟩ := by
   rw [gam]
-  exact dif_pos hg
+  exact dite_eq_left hg
 
 private noncomputable def del (γ : Qj → ↥Jc → ZMod 2) (g : MulAut ↥Jc) : ↥Jc → ZMod 2 :=
   fun x => gam γ g (g x)
@@ -1009,7 +1009,7 @@ private theorem bsum_shiftLeft (n m w : ℕ) (hm : m + w ≤ n) {v : ℕ} (hv : 
     intro j _ hnot
     simp only [Finset.mem_image, Finset.mem_range] at hnot
     have hnot' : ∀ b < w, m + b ≠ j := fun b hb hbj => hnot ⟨b, hb, hbj⟩
-    simp only [f, hf]
+    simp only [f]
     rw [Nat.testBit_shiftLeft]
     by_cases hjm : m ≤ j
     · have hw : w ≤ j - m := by
@@ -1023,7 +1023,7 @@ private theorem bsum_shiftLeft (n m w : ℕ) (hm : m + w ≤ n) {v : ℕ} (hv : 
   rw [← Finset.sum_subset hsub hzero, Finset.sum_image]
   · apply Finset.sum_congr rfl
     intro b hb
-    simp only [f, hf, g, hg, Finset.mem_range] at hb ⊢
+    simp only [f, g, Finset.mem_range] at hb ⊢
     rw [Nat.testBit_shiftLeft]
     rw [decide_eq_true_eq.mpr (by omega : m + b ≥ m), Bool.true_and, Nat.add_sub_cancel_left]
   · intro b _ b' _ h
@@ -1080,7 +1080,7 @@ private theorem bsum_dualTarget_ten (γ : Qj → ↥Jc → ZMod 2) (k b : ℕ) :
   intro bp _
   by_cases hbit : (Native.gl k (2 ^ b)).testBit bp
   · simp [hbit]
-  · simp [hbit, bsum_zero]
+  · simp [hbit]
 
 private theorem bsum_dualTarget (γ : Qj → ↥Jc → ZMod 2) (k b : ℕ) (hk : k < 3) (hb : b < 10) :
     bsum 30 (Native.dualTarget k b) (Uvec γ) =
@@ -1088,7 +1088,7 @@ private theorem bsum_dualTarget (γ : Qj → ↥Jc → ZMod 2) (k b : ℕ) (hk :
         bsum 10 (Native.gl k (2 ^ b))
           (fun bp => bsum 30 (cocycleDualP[bp]!) (Uvec γ)) := by
   rw [Native.dualTarget, bsum_xorList]
-  simp only [List.map_cons, List.sum_cons, List.map_map, Function.comp_apply]
+  simp only [List.map_cons, List.sum_cons, List.map_map]
   rw [bsum_two_pow (by omega)]
   rw [bsum_dualTarget_ten]
   abel
@@ -1233,7 +1233,7 @@ private theorem dual_cocycle_aux {γ : Qj → ↥Jc → ZMod 2}
   rw [del_eq_delf_word h1 h2 hcert w hw]
   simp only [delf]
   have hgg : (qWord w) ((qWord w)⁻¹ a) = a := by
-    simpa using MulEquiv.apply_symm_apply (qWord w) a
+    simp
   rw [hgg]
 
 theorem dual_cocycle_Qj (γ : Qj → ↥Jc → ZMod 2) (h1 : ∀ g a b, γ g (a * b) = γ g a + γ g b)

@@ -15,12 +15,13 @@ variable {X : Type} [Group X] [Finite X]
 
 theorem pRank_barO2_eq_aux_notDvdCard {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) :
     ¬ q ∣ Nat.card (CFSG.pCore 2 X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 (CFSG.pCore_isPGroup (p := 2) (G := X))
   rw [hn]
   intro h
   exact hq2 ((Nat.prime_dvd_prime_iff_eq hq Nat.prime_two).1 (hq.dvd_of_dvd_pow h))
 
+omit [Finite X] in
 theorem pRank_barO2_eq_aux_powTwo {n : X} (hn : n ∈ CFSG.pCore 2 X) :
     ∃ k : ℕ, n ^ (2 ^ k) = 1 := by
   obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := X)) ⟨n, hn⟩
@@ -28,7 +29,7 @@ theorem pRank_barO2_eq_aux_powTwo {n : X} (hn : n ∈ CFSG.pCore 2 X) :
 
 theorem pRank_barO2_eq_aux_le (U : Subgroup X) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) :
     CFSG.Open.pRank q U ≤ CFSG.Open.pRank q (barO2 U) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨E, hEU, hE, hcard⟩ := CFSG.SectionRank.exists_pRank hq.one_lt U
   have hEp : IsPGroup q E := IsPGroup.iff_card.2 ⟨_, hcard⟩
   have hbot : E ⊓ CFSG.pCore 2 X = ⊥ :=
@@ -42,7 +43,7 @@ theorem pRank_barO2_eq_aux_le (U : Subgroup X) {q : ℕ} (hq : q.Prime) (hq2 : q
     have h2 : (e : X) ∈ E ⊓ CFSG.pCore 2 X := ⟨e.2, h1⟩
     rw [hbot, Subgroup.mem_bot] at h2
     exact Subtype.ext h2
-  haveI := hE.1
+  have := hE.1
   refine CFSG.SectionRank.le_pRank_of_injective hq.one_lt (fun a b => mul_comm' a b)
     (fun a => Subtype.ext (hE.2 _ a.2)) hcard _ hinj ?_
   rw [MonoidHom.range_comp, Subgroup.range_subtype]
@@ -63,7 +64,7 @@ theorem pRank_barO2_eq {L : Subgroup X} (hL : IsC2 L) {q : ℕ} (hq : q.Prime) (
 theorem pRank_add_le_pRank_sup_aux_comm {Y : Type} [Group Y] {q : ℕ} {E : Subgroup Y}
     (hE : CFSG.Open.IsElemAbelian q E) {a b : Y} (ha : a ∈ E) (hb : b ∈ E) :
     a * b = b * a := by
-  haveI := hE.1
+  have := hE.1
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : E) ⟨b, hb⟩)
 
 theorem pRank_add_le_pRank_sup_aux_commute {Y : Type} [Group Y] [Finite Y] {A B : Subgroup Y}
@@ -203,6 +204,7 @@ theorem pRank_add_le_pRank_sup_aux_normalizer {L : Subgroup X} (hL : IsC2 L) :
     exact L.mul_mem h1 hg.1
   rwa [hcl] at key
 
+omit [Finite X] in
 theorem pRank_add_le_pRank_sup_aux_mem {L : Subgroup X}
     (hN : CFSG.pCore 2 X ≤ Subgroup.normalizer (L : Set X)) {x : X}
     (hx : x ∈ L ⊔ CFSG.pCore 2 X) (hodd : Odd (orderOf x)) : x ∈ L := by

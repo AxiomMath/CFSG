@@ -126,9 +126,9 @@ theorem cntN_eq (n : Nat) (f : Nat → Bool) :
         Bool.rec (motive := fun _ => Nat) (cntN n f) (cntN n f + 1) (f n) := rfl
     rw [e, Finset.range_add_one, Finset.filter_insert]
     cases h : f n
-    · rw [if_neg (by simp)]
+    · rw [ite_eq_right (by simp)]
       exact ih
-    · rw [if_pos rfl, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_left rfl, Finset.card_insert_of_notMem (by simp)]
       exact congrArg (· + 1) ih
 
 section Count
@@ -145,19 +145,20 @@ theorem kord_eq {x : Nat} (hx : x < 512) : kord P.e x = kordN T S L x := by
   unfold kord kordN sqN
   rw [e1, e2, e3]
   by_cases a : x = 0
-  · rw [if_pos a, (beq_iff x 0).mpr a]
-  rw [if_neg a, (beq_false_iff x 0).mpr a]
+  · rw [ite_eq_left a, (beq_iff x 0).mpr a]
+  rw [ite_eq_right a, (beq_false_iff x 0).mpr a]
   by_cases b : emP T S L x x = 0
-  · rw [if_pos b, (beq_iff _ 0).mpr b]
-  rw [if_neg b, (beq_false_iff _ 0).mpr b]
+  · rw [ite_eq_left b, (beq_iff _ 0).mpr b]
+  rw [ite_eq_right b, (beq_false_iff _ 0).mpr b]
   by_cases c : emP T S L (emP T S L x x) (emP T S L x x) = 0
-  · rw [if_pos c, (beq_iff _ 0).mpr c]
-  rw [if_neg c, (beq_false_iff _ 0).mpr c]
+  · rw [ite_eq_left c, (beq_iff _ 0).mpr c]
+  rw [ite_eq_right c, (beq_false_iff _ 0).mpr c]
   by_cases d : emP T S L (emP T S L (emP T S L x x) (emP T S L x x))
       (emP T S L (emP T S L x x) (emP T S L x x)) = 0
-  · rw [if_pos d, (beq_iff _ 0).mpr d]
-  rw [if_neg d, (beq_false_iff _ 0).mpr d]
+  · rw [ite_eq_left d, (beq_iff _ 0).mpr d]
+  rw [ite_eq_right d, (beq_false_iff _ 0).mpr d]
 
+omit hθ in
 theorem cent_card {w : Nat} (hw : w < 512) :
     (fzrCent P w).card = cntN 512 fun x => cmN T S L x w := by
   rw [cntN_eq]
@@ -177,6 +178,7 @@ theorem cntC_eq {w o : Nat} (hw : w < 512) :
   rw [band_iff, beq_iff, beq_iff, kord_eq hP hθ hx, hP.e x w hx hw, hP.e w x hw hx]
 
 open Classical in
+omit hP hθ in
 theorem key_split (A : Finset ℕ) (o : Nat) :
     (A.filter fun x => kord P.e x = o).card =
       (A.filter fun x => fzrKey P θ x = 2 * o + 1).card +
@@ -187,13 +189,13 @@ theorem key_split (A : Finset ℕ) (o : Nat) :
     unfold fzrKey
     constructor
     · rintro ⟨h1, h2⟩
-      rw [if_pos h2]
+      rw [ite_eq_left h2]
       omega
     · intro h1
       by_cases h2 : θ x
-      · rw [if_pos h2] at h1
+      · rw [ite_eq_left h2] at h1
         exact ⟨by omega, h2⟩
-      · rw [if_neg h2] at h1
+      · rw [ite_eq_right h2] at h1
         omega
   have e2 : (A.filter fun x => kord P.e x = o ∧ ¬ θ x) =
       A.filter fun x => fzrKey P θ x = 2 * o := by
@@ -201,13 +203,13 @@ theorem key_split (A : Finset ℕ) (o : Nat) :
     unfold fzrKey
     constructor
     · rintro ⟨h1, h2⟩
-      rw [if_neg h2]
+      rw [ite_eq_right h2]
       omega
     · intro h1
       by_cases h2 : θ x
-      · rw [if_pos h2] at h1
+      · rw [ite_eq_left h2] at h1
         omega
-      · rw [if_neg h2] at h1
+      · rw [ite_eq_right h2] at h1
         exact ⟨by omega, h2⟩
   rw [← Finset.card_filter_add_card_filter_not (s := A.filter fun x => kord P.e x = o)
     (fun x => θ x), Finset.filter_filter, Finset.filter_filter, e1, e2]
@@ -223,11 +225,11 @@ theorem kill_sound {w k o : Nat} (hw : w < 512) (h : killOK T S L w k o = true) 
     exact Bool.false_ne_true this
   · intro hθw
     have hc' : 32 ≤ (fzrCent P w).card := by
-      rw [cent_card hP hθ hw]
+      rw [cent_card hP hw]
       exact hc
     obtain ⟨f₀, f₁, -, -, -, -, -, hkey⟩ := hθ.prof w hθw hc'
-    have e1 := key_split hP hθ (fzrH P f₀ f₁) o
-    have e2 := key_split hP hθ (fzrCent P w) o
+    have e1 := key_split (P := P) (θ := θ) (fzrH P f₀ f₁) o
+    have e2 := key_split (P := P) (θ := θ) (fzrCent P w) o
     rw [hkey, hkey] at e1
     have sub : ((fzrH P f₀ f₁).filter fun x => kord P.e x = o).card ≤
         ((fzrCent P 64).filter fun x => kord P.e x = o).card := by
@@ -243,6 +245,7 @@ theorem dead_sound {DW n : Nat} (hD : deadOK T S L DW n = true) :
   rw [allN_iff] at hD
   exact fun i hi => kill_sound hP hθ (fl9_lt _ _) (hD i hi)
 
+omit hθ in
 theorem fE_add {FP FV : Nat} (hfun : funOK T S L FP FV = true) {x y : Nat} (hx : x < 512)
     (hy : y < 512) : fE FP FV (P.e x y) = xor (fE FP FV x) (fE FP FV y) := by
   simp only [funOK, band_iff, allN_iff, blt_iff, beqB_iff, bxor_eq] at hfun
@@ -277,7 +280,7 @@ theorem cover_sound {FR DW n FP FV : Nat} (hF : forestOK T S L FR = true)
     simp only [funOK, band_iff] at hfun
     rw [hP.tI]
     exact hfun.2.2.2
-  obtain ⟨x, hx, hθx, hfx⟩ := hθ.cover _ (fun x y hx hy => fE_add hP hθ hfun hx hy) ht
+  obtain ⟨x, hx, hθx, hfx⟩ := hθ.cover _ (fun x y hx hy => fE_add hP hfun hx hy) ht
   obtain ⟨-, hx0, hxx⟩ := hθ.th_inv x hθx
   have hinv : invB T S L x = true := by
     unfold invB

@@ -19,7 +19,7 @@ theorem seitz27_g2_of_inputs {K : Type} [Field K] [Finite K] {f : ℕ} (hf : 4 �
     (hinner : ∀ E : Subgroup (adjointGroup .G2 K), IsElemAbelian 3 E → Nat.card E = 27 →
       HyperGen 3 (⊤ : Subgroup (adjointGroup .G2 K)) E) :
     Seitz27 (adjointGroup .G2 K) := by
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   have hZ : Subgroup.center (adjointGroup .G2 K) = ⊥ := center_adjointGroup_eq_bot
   have hF : FieldAutData (adjointGroup .G2 K) 3 := by
     refine fieldAutData_G2_odd Nat.prime_three (by norm_num) (by omega) hK ?_

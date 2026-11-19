@@ -42,7 +42,7 @@ theorem sec4_isSimpleGroup_quotient_oddCore [Finite G] {L : Subgroup G} (hL : Is
 
 private theorem sec4Struct_odd_card_oddCore (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -95,7 +95,7 @@ theorem sec4_t_mem_S [Finite G] {t : G} {S : Subgroup G}
     apply Subtype.ext
     show (a : G) * t = t * (a : G)
     exact (Subgroup.mem_centralizer_iff.mp a.2 t (Set.mem_singleton t)).symm
-  haveI hnorm : (Subgroup.zpowers t').Normal :=
+  have hnorm : (Subgroup.zpowers t').Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr ht'center)
   have ht'ord : orderOf t' = 2 := by
     change orderOf (⟨t, htH⟩ : ↥H) = 2
@@ -120,8 +120,8 @@ theorem sec4_isSylow2Of_inf [Finite G] {t : G} {L S : Subgroup G}
       (Subgroup.inclusion_injective inf_le_left)
   refine ⟨inf_le_right, hSp, ?_⟩
   have hE : L.relIndex (S ⊔ L) = L.relIndex S := by
-    haveI : (L.subgroupOf S).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hSnorm
-    haveI : (L.subgroupOf (S ⊔ L)).Normal :=
+    have : (L.subgroupOf S).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hSnorm
+    have : (L.subgroupOf (S ⊔ L)).Normal :=
       Subgroup.normal_subgroupOf_sup_of_le_normalizer hSnorm
     have e := QuotientGroup.quotientInfEquivProdNormalizerQuotient S L hSnorm
     simpa only [Subgroup.relIndex, Subgroup.index] using (Nat.card_congr e.toEquiv).symm
@@ -141,7 +141,7 @@ theorem sec4_isSylow2Of_inf [Finite G] {t : G} {L S : Subgroup G}
     intro h0
     have h := Subgroup.relIndex_mul_card (H := L) (K := S)
     rw [h0, zero_mul] at h
-    haveI : Nonempty ↥S := ⟨1⟩
+    have : Nonempty ↥S := ⟨1⟩
     exact Nat.card_pos.ne' h.symm
   have heq : (S ⊓ L).relIndex L = S.relIndex (S ⊔ L) := by
     refine Nat.mul_right_cancel (Nat.pos_of_ne_zero hLne) ?_

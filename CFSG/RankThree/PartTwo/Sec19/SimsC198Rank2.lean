@@ -90,8 +90,8 @@ theorem card_center_dvd_two_of_f4 (hX : IsQuasisimple X)
 
 theorem false_of_rankHyp_F4_two (h : RankHyp X)
     (e : X ⧸ Subgroup.center X ≃* (TauCeti.CFSGIndex.lie f4TwoIndex).Group) : False := by
-  haveI : Finite (TauCeti.CFSGIndex.lie f4TwoIndex).Group := Finite.of_equiv _ e.toEquiv
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (TauCeti.CFSGIndex.lie f4TwoIndex).Group := Finite.of_equiv _ e.toEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : ¬ 3 ∣ Nat.card (Subgroup.center X) := fun hd =>
     absurd (hd.trans (card_center_dvd_two_of_f4 h.quasisimple e)) (by norm_num)
   have hrank : 3 < CFSG.Open.pRank 3 (⊤ : Subgroup (X ⧸ Subgroup.center X)) := by

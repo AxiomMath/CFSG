@@ -23,6 +23,7 @@ theorem s16c1610_end_eq_zero_or_id (hd : 2 ≤ Module.finrank (ZMod 2) Y)
     (hφ : ∀ τ : Y ≃ₗ[ZMod 2] Y, ∀ y, φ (τ y) = τ (φ y)) : φ = 0 ∨ φ = LinearMap.id :=
   CFSG.Quasithin.H13.Mult.eq_zero_or_eq_id_of_commute hd hφ
 
+omit [Module.Finite (ZMod 2) Y] in
 theorem s16c1610_exists_linearEquiv_apply_eq {y₀ y : Y} (hy₀ : y₀ ≠ 0) (hy : y ≠ 0) :
     ∃ τ : Y ≃ₗ[ZMod 2] Y, τ y₀ = y :=
   CFSG.Quasithin.H13.Mult.exists_linearEquiv_apply_eq hy₀ hy
@@ -242,9 +243,9 @@ theorem s16c1610_stable_of_binaryNaturalSL (h : BinaryNaturalSL H U Z n a) :
 theorem s16c1610_sq_eq_one_of_binaryNaturalSL (h : BinaryNaturalSL H U ⊥ n 1) {u : W}
     (hu : u ∈ U) : u ^ 2 = 1 := by
   obtain ⟨K, hK, hKf, hK2, π, hπ⟩ := h
-  letI := hK
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let := hK
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card K = 2 := by simpa using hK2
   have hchar : CharP K 2 :=
     charP_of_card_eq_prime (p := 2)
@@ -277,7 +278,7 @@ theorem s16c1610_statedSL_eq_top_of_card_two {K : Type} [Field K] [Finite K]
   have hsub : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.1 hcard).1
   have hset : {A : GL (Fin n) K | (A : Matrix (Fin n) (Fin n) K).det = 1} = Set.univ := by
     ext A
-    simp only [Set.mem_setOf_eq, Set.mem_univ, iff_true]
+    simp only [Set.mem_ofPred_eq, Set.mem_univ, iff_true]
     have hunit : IsUnit (A : Matrix (Fin n) (Fin n) K).det := by
       have h : (A : Matrix (Fin n) (Fin n) K) *
           ((A⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = 1 := by
@@ -296,10 +297,10 @@ noncomputable def s16c1610_glMulEquiv {K : Type} [Field K] {m : ℕ}
 
 theorem s16c1610_isSimpleGroup_GL_of_card_two {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2) {m : ℕ} (hm : 3 ≤ m) : IsSimpleGroup (GL (Fin m) K) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hfc : Fintype.card K = 2 := by simpa using hK
   have e : ZMod 2 ≃+* K := ZMod.ringEquivOfPrime K Nat.prime_two hfc
-  haveI : IsSimpleGroup (GL (Fin m) (ZMod 2)) :=
+  have : IsSimpleGroup (GL (Fin m) (ZMod 2)) :=
     CFSG.LargeExtraspecial.S45Q.isSimpleGroup_GL_zmod_two hm
   exact (s16c1610_glMulEquiv e).symm.isSimpleGroup
 
@@ -367,21 +368,21 @@ private theorem s16c1610_coords_of_binaryNaturalSL (hm : 3 ≤ m) (hLbig : 1 < N
           (((ρ x : GL (Fin m) (ZMod 2)) : Matrix (Fin m) (Fin m) (ZMod 2)).mulVec
             (Multiplicative.toAdd (b u))) := by
   obtain ⟨K, hKfld, hKfin, hK2, π, hπ⟩ := h
-  letI := hKfld
-  letI : Finite K := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let := hKfld
+  let : Finite K := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hcard : Nat.card K = 2 := by simpa using hK2
   have hfc : Fintype.card K = 2 := by simpa using hcard
   let rK : ZMod 2 ≃+* K := ZMod.ringEquivOfPrime K Nat.prime_two hfc
   have hS : StatedSL m K = ⊤ := s16c1610_statedSL_eq_top_of_card_two hcard m
-  haveI : IsSimpleGroup (GL (Fin m) K) := s16c1610_isSimpleGroup_GL_of_card_two hcard hm
+  have : IsSimpleGroup (GL (Fin m) K) := s16c1610_isSimpleGroup_GL_of_card_two hcard hm
   let glE : ↥(StatedSL m K) ≃* GL (Fin m) K :=
     { toFun := fun γ => (γ : GL (Fin m) K)
       invFun := fun x => ⟨x, by rw [hS]; exact Subgroup.mem_top x⟩
       left_inv := fun γ => rfl
       right_inv := fun x => rfl
       map_mul' := fun γ δ => rfl }
-  haveI : IsSimpleGroup ↥(StatedSL m K) := glE.isSimpleGroup
+  have : IsSimpleGroup ↥(StatedSL m K) := glE.isSimpleGroup
   let πh : ↥(StatedSL m K) →* ↥Lb :=
     { toFun := fun γ => π (show (FFModel.nat (StatedSL m K)).Gam from γ)
       map_one' := map_one π
@@ -404,7 +405,7 @@ private theorem s16c1610_coords_of_binaryNaturalSL (hm : 3 ≤ m) (hLbig : 1 < N
       have hle : Nat.card ↥Lb ≤ 1 := by
         have h := Nat.card_le_card_of_injective (fun _ : ↥Lb => (() : Unit))
           (fun a b _ => Subsingleton.elim a b)
-        simpa using h
+        simp
       omega
   let πe : ↥(StatedSL m K) ≃* ↥Lb := MulEquiv.ofBijective πh ⟨hπinj, hπsurj⟩
   obtain ⟨eK, heK⟩ :=
@@ -450,7 +451,7 @@ private theorem s16c1610_coords_of_binaryNaturalSL (hm : 3 ≤ m) (hLbig : 1 < N
     ((γ : GL (Fin m) K) : Matrix (Fin m) (Fin m) K)
     (fun j => rK (Multiplicative.toAdd
       ((eK.trans (s16c1610_stdModMulEquiv rK m)) u) j)) i).trans ?_
-  simp only [Matrix.map_apply, RingEquiv.mapMatrix_apply]
+  simp only [RingEquiv.mapMatrix_apply]
   rw [show (⇑rK.symm.toRingHom ∘ fun j => rK (Multiplicative.toAdd
         ((eK.trans (s16c1610_stdModMulEquiv rK m)) u) j)) =
       Multiplicative.toAdd ((eK.trans (s16c1610_stdModMulEquiv rK m)) u) from by
@@ -601,7 +602,7 @@ private theorem s16c1610_D_inr {ρ0 ρ1 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
 
 private theorem s16c1610_conj {ρ0 ρ1 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     {c : Additive W ≃ₗ[ZMod 2] ((Fin m → ZMod 2) × (Fin m → ZMod 2))}
-    (hNat : ∀ (l : ↥Lb) (x : Additive W),
+    (_hNat : ∀ (l : ↥Lb) (x : Additive W),
       c (CFSG.Quasithin.H13.Mult.linEquiv (l : MulAut W) x) = s16c1610_diag ρ0 ρ1 l (c x))
     (κ : MulAut W) (l : ↥Lb) (hκl : κ * (l : MulAut W) = (l : MulAut W) * κ)
     (z : (Fin m → ZMod 2) × (Fin m → ZMod 2)) :
@@ -759,7 +760,7 @@ private theorem s16c1610_e0_ne_zero (hm : 1 ≤ m) : s16c1610_e0 (m := m) hm ≠
 
 private theorem s16c1610_T00_ne_zero_of_offdiag {ρ0 ρ1 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     {c : Additive W ≃ₗ[ZMod 2] ((Fin m → ZMod 2) × (Fin m → ZMod 2))}
-    (hNat : ∀ (l : ↥Lb) (x : Additive W),
+    (_hNat : ∀ (l : ↥Lb) (x : Additive W),
       c (CFSG.Quasithin.H13.Mult.linEquiv (l : MulAut W) x) = s16c1610_diag ρ0 ρ1 l (c x))
     (κ : MulAut W) (hm : 1 ≤ m)
     (hT01 : s16c1610_T01 c (CFSG.Quasithin.H13.Mult.linEquiv κ) = 0)
@@ -790,7 +791,7 @@ private theorem s16c1610_T00_ne_zero_of_offdiag {ρ0 ρ1 : ↥Lb ≃* GL (Fin m)
 
 private theorem s16c1610_T11_ne_zero_of_offdiag {ρ0 ρ1 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     {c : Additive W ≃ₗ[ZMod 2] ((Fin m → ZMod 2) × (Fin m → ZMod 2))}
-    (hNat : ∀ (l : ↥Lb) (x : Additive W),
+    (_hNat : ∀ (l : ↥Lb) (x : Additive W),
       c (CFSG.Quasithin.H13.Mult.linEquiv (l : MulAut W) x) = s16c1610_diag ρ0 ρ1 l (c x))
     (κ : MulAut W) (hm : 1 ≤ m)
     (hT01 : s16c1610_T01 c (CFSG.Quasithin.H13.Mult.linEquiv κ) = 0)
@@ -876,7 +877,7 @@ variable {W : Type} [CommGroup W] [Module (ZMod 2) (Additive W)]
 
 private theorem s16c1610_one_ne_zero_pi (hm : 1 ≤ m) :
     (1 : (Fin m → ZMod 2) →ₗ[ZMod 2] (Fin m → ZMod 2)) ≠ 0 := by
-  haveI : Nontrivial (Fin m → ZMod 2) :=
+  have : Nontrivial (Fin m → ZMod 2) :=
     ⟨⟨s16c1610_e0 (m := m) hm, 0, s16c1610_e0_ne_zero hm⟩⟩
   exact one_ne_zero
 
@@ -884,11 +885,11 @@ private theorem s16c1610_eps_id {φ : (Fin m → ZMod 2) →ₗ[ZMod 2] (Fin m �
     (hm : 1 ≤ m) (h : φ = 0 ∨ φ = LinearMap.id) :
     φ = (if φ = 0 then (0 : ZMod 2) else 1) • (LinearMap.id : (Fin m → ZMod 2) →ₗ[ZMod 2] _) := by
   rcases h with h | h
-  · rw [h, if_pos rfl, zero_smul]
+  · rw [h, ite_eq_left rfl, zero_smul]
   · have hne : φ ≠ 0 := by rw [h]; exact s16c1610_one_ne_zero_pi hm
-    rw [if_neg hne, h, one_smul]
+    rw [ite_eq_right hne, h, one_smul]
 
-private noncomputable def s16c1610_matA {ρ0 ρ1 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
+private noncomputable def s16c1610_matA {_ρ0 _ρ1 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     {c : Additive W ≃ₗ[ZMod 2] ((Fin m → ZMod 2) × (Fin m → ZMod 2))}
     (κ : MulAut W) : Matrix (Fin 2) (Fin 2) (ZMod 2) :=
   Matrix.of fun i j =>
@@ -902,25 +903,25 @@ private noncomputable def s16c1610_matA {ρ0 ρ1 : ↥Lb ≃* GL (Fin m) (ZMod 2
 
 private theorem s16c1610_matA_zero_zero {ρ0 ρ1 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     {c : Additive W ≃ₗ[ZMod 2] ((Fin m → ZMod 2) × (Fin m → ZMod 2))} (κ : MulAut W) :
-    s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ 0 0 =
+    s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ1) (c := c) κ 0 0 =
       (if s16c1610_T00 c (CFSG.Quasithin.H13.Mult.linEquiv κ) = 0 then 0 else 1) := by
   simp [s16c1610_matA]
 
 private theorem s16c1610_matA_zero_one {ρ0 ρ1 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     {c : Additive W ≃ₗ[ZMod 2] ((Fin m → ZMod 2) × (Fin m → ZMod 2))} (κ : MulAut W) :
-    s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ 0 1 =
+    s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ1) (c := c) κ 0 1 =
       (if s16c1610_T01 c (CFSG.Quasithin.H13.Mult.linEquiv κ) = 0 then 0 else 1) := by
   simp [s16c1610_matA]
 
 private theorem s16c1610_matA_one_zero {ρ0 ρ1 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     {c : Additive W ≃ₗ[ZMod 2] ((Fin m → ZMod 2) × (Fin m → ZMod 2))} (κ : MulAut W) :
-    s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ 1 0 =
+    s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ1) (c := c) κ 1 0 =
       (if s16c1610_T10 c (CFSG.Quasithin.H13.Mult.linEquiv κ) = 0 then 0 else 1) := by
   simp [s16c1610_matA]
 
 private theorem s16c1610_matA_one_one {ρ0 ρ1 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     {c : Additive W ≃ₗ[ZMod 2] ((Fin m → ZMod 2) × (Fin m → ZMod 2))} (κ : MulAut W) :
-    s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ 1 1 =
+    s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ1) (c := c) κ 1 1 =
       (if s16c1610_T11 c (CFSG.Quasithin.H13.Mult.linEquiv κ) = 0 then 0 else 1) := by
   simp [s16c1610_matA]
 
@@ -933,8 +934,9 @@ open CFSG.Quasithin.H13.Mult
 variable {W : Type} [CommGroup W] [Module (ZMod 2) (Additive W)]
   {I : Fin 2 → Subgroup W} {Lb Kb Mb : Subgroup (MulAut W)} {m : ℕ}
 
+omit [Module (ZMod 2) (Additive W)] in
 private theorem s16c1610_comp_eq_zero_or_id {ρ0 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
-    (κ : MulAut W) (hm : 3 ≤ m)
+    (_κ : MulAut W) (hm : 3 ≤ m)
     {φ : (Fin m → ZMod 2) →ₗ[ZMod 2] (Fin m → ZMod 2)}
     (hcomm : ∀ (l : ↥Lb) (z : Fin m → ZMod 2),
       φ (((ρ0 l : GL (Fin m) (ZMod 2)) : Matrix (Fin m) (Fin m) (ZMod 2)).mulVec z) =
@@ -952,10 +954,10 @@ private noncomputable def s16c1610_actA {ρ0 ρ1 : ↥Lb ≃* GL (Fin m) (ZMod 2
     (κ : MulAut W) :
     ((Fin m → ZMod 2) × (Fin m → ZMod 2)) → ((Fin m → ZMod 2) × (Fin m → ZMod 2)) :=
   fun p =>
-    ((s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ) 0 0 • p.1 +
-        (s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ) 0 1 • p.2,
-      (s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ) 1 0 • p.1 +
-        (s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ) 1 1 • p.2)
+    ((s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ1) (c := c) κ) 0 0 • p.1 +
+        (s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ1) (c := c) κ) 0 1 • p.2,
+      (s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ1) (c := c) κ) 1 0 • p.1 +
+        (s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ1) (c := c) κ) 1 1 • p.2)
 
 private theorem s16c1610_coord_matA {ρ0 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     {c : Additive W ≃ₗ[ZMod 2] ((Fin m → ZMod 2) × (Fin m → ZMod 2))}
@@ -981,7 +983,7 @@ private theorem s16c1610_coord_matA {ρ0 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
   apply Prod.ext <;>
     simp only [LinearMap.smul_apply, LinearMap.id_apply, s16c1610_actA,
       s16c1610_matA_zero_zero, s16c1610_matA_zero_one, s16c1610_matA_one_zero,
-      s16c1610_matA_one_one, Prod.fst, Prod.snd] <;> rfl
+      s16c1610_matA_one_one]
 
 private theorem s16c1610_smul_e0_cancel (hm : 1 ≤ m) {r s : ZMod 2}
     (h : r • s16c1610_e0 (m := m) hm = s • s16c1610_e0 (m := m) hm) : r = s := by
@@ -992,10 +994,10 @@ private theorem s16c1610_actA_eq {ρ0 ρ1 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     {c : Additive W ≃ₗ[ZMod 2] ((Fin m → ZMod 2) × (Fin m → ZMod 2))} (κ : MulAut W)
     (u v : Fin m → ZMod 2) :
     s16c1610_actA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ (u, v) =
-      (s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ 0 0 • u +
-          s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ 0 1 • v,
-        s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ 1 0 • u +
-          s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ 1 1 • v) := rfl
+      (s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ1) (c := c) κ 0 0 • u +
+          s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ1) (c := c) κ 0 1 • v,
+        s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ1) (c := c) κ 1 0 • u +
+          s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ1) (c := c) κ 1 1 • v) := rfl
 
 private theorem s16c1610_matA_mul {ρ0 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     {c : Additive W ≃ₗ[ZMod 2] ((Fin m → ZMod 2) × (Fin m → ZMod 2))}
@@ -1004,9 +1006,9 @@ private theorem s16c1610_matA_mul {ρ0 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     (hm : 3 ≤ m) (κ κ' : MulAut W)
     (hκl : ∀ l : ↥Lb, κ * (l : MulAut W) = (l : MulAut W) * κ)
     (hκ'l : ∀ l : ↥Lb, κ' * (l : MulAut W) = (l : MulAut W) * κ') :
-    s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) (κ * κ') =
-      s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) κ *
-        s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) κ' := by
+    s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) (κ * κ') =
+      s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) κ *
+        s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) κ' := by
   have hmul : ∀ u v : Fin m → ZMod 2,
       s16c1610_actA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) (κ * κ') (u, v) =
         s16c1610_actA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) κ
@@ -1023,22 +1025,22 @@ private theorem s16c1610_matA_mul {ρ0 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
   ext i j
   fin_cases i <;> fin_cases j
   · have h := congrArg Prod.fst (hmul (s16c1610_e0 (m := m) (by omega)) 0)
-    simp only [s16c1610_actA_eq, Prod.fst, smul_zero, add_zero, zero_add, smul_smul] at h
+    simp only [s16c1610_actA_eq, smul_zero, add_zero, smul_smul] at h
     rw [← add_smul] at h
     rw [Matrix.mul_apply, Fin.sum_univ_two]
     exact s16c1610_smul_e0_cancel (m := m) (by omega) h
   · have h := congrArg Prod.fst (hmul 0 (s16c1610_e0 (m := m) (by omega)))
-    simp only [s16c1610_actA_eq, Prod.fst, smul_zero, add_zero, zero_add, smul_smul] at h
+    simp only [s16c1610_actA_eq, smul_zero, zero_add, smul_smul] at h
     rw [← add_smul] at h
     rw [Matrix.mul_apply, Fin.sum_univ_two]
     exact s16c1610_smul_e0_cancel (m := m) (by omega) h
   · have h := congrArg Prod.snd (hmul (s16c1610_e0 (m := m) (by omega)) 0)
-    simp only [s16c1610_actA_eq, Prod.snd, smul_zero, add_zero, zero_add, smul_smul] at h
+    simp only [s16c1610_actA_eq, smul_zero, add_zero, smul_smul] at h
     rw [← add_smul] at h
     rw [Matrix.mul_apply, Fin.sum_univ_two]
     exact s16c1610_smul_e0_cancel (m := m) (by omega) h
   · have h := congrArg Prod.snd (hmul 0 (s16c1610_e0 (m := m) (by omega)))
-    simp only [s16c1610_actA_eq, Prod.snd, smul_zero, add_zero, zero_add, smul_smul] at h
+    simp only [s16c1610_actA_eq, smul_zero, zero_add, smul_smul] at h
     rw [← add_smul] at h
     rw [Matrix.mul_apply, Fin.sum_univ_two]
     exact s16c1610_smul_e0_cancel (m := m) (by omega) h
@@ -1060,26 +1062,26 @@ private theorem s16c1610_matA_one {ρ0 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     (hNat : ∀ (l : ↥Lb) (x : Additive W),
       c (CFSG.Quasithin.H13.Mult.linEquiv (l : MulAut W) x) = s16c1610_diag ρ0 ρ0 l (c x))
     (hm : 3 ≤ m) :
-    s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) (1 : MulAut W) = 1 := by
+    s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) (1 : MulAut W) = 1 := by
   let e : Fin m → ZMod 2 := s16c1610_e0 (m := m) (by omega)
-  have h1 : s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) (1 : MulAut W) 0 0 = 1 := by
+  have h1 : s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) (1 : MulAut W) 0 0 = 1 := by
     have h := congrArg Prod.fst (s16c1610_actA_one hNat hm (e, 0))
-    simp only [s16c1610_actA_eq, Prod.fst, smul_zero, add_zero, zero_add] at h
+    simp only [s16c1610_actA_eq, smul_zero, add_zero] at h
     exact s16c1610_smul_e0_cancel (m := m) (by omega) (by rw [one_smul]; exact h)
-  have h2 : s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) (1 : MulAut W) 1 0 = 0 := by
+  have h2 : s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) (1 : MulAut W) 1 0 = 0 := by
     have h := congrArg Prod.snd (s16c1610_actA_one hNat hm (e, 0))
-    simp only [s16c1610_actA_eq, Prod.snd, smul_zero, add_zero, zero_add] at h
+    simp only [s16c1610_actA_eq, smul_zero, add_zero] at h
     exact s16c1610_smul_e0_cancel (m := m) (by omega) (by rw [zero_smul]; exact h)
-  have h3 : s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) (1 : MulAut W) 0 1 = 0 := by
+  have h3 : s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) (1 : MulAut W) 0 1 = 0 := by
     have h := congrArg Prod.fst (s16c1610_actA_one hNat hm (0, e))
-    simp only [s16c1610_actA_eq, Prod.fst, smul_zero, add_zero, zero_add] at h
+    simp only [s16c1610_actA_eq, smul_zero, zero_add] at h
     exact s16c1610_smul_e0_cancel (m := m) (by omega) (by rw [zero_smul]; exact h)
-  have h4 : s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) (1 : MulAut W) 1 1 = 1 := by
+  have h4 : s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) (1 : MulAut W) 1 1 = 1 := by
     have h := congrArg Prod.snd (s16c1610_actA_one hNat hm (0, e))
-    simp only [s16c1610_actA_eq, Prod.snd, smul_zero, add_zero, zero_add] at h
+    simp only [s16c1610_actA_eq, smul_zero, zero_add] at h
     exact s16c1610_smul_e0_cancel (m := m) (by omega) (by rw [one_smul]; exact h)
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [h1, h2, h3, h4, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [h1, h2, h3, h4]
 
 private theorem s16c1610_exists_permEquiv {ρ0 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     {c : Additive W ≃ₗ[ZMod 2] ((Fin m → ZMod 2) × (Fin m → ZMod 2))}
@@ -1089,20 +1091,20 @@ private theorem s16c1610_exists_permEquiv {ρ0 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     (hcomm : ∀ (κ : ↥Kb) (l : ↥Lb),
       (κ : MulAut W) * (l : MulAut W) = (l : MulAut W) * κ) :
     ∃ s : ↥Kb ≃* Equiv.Perm (Fin 3),
-      ∀ κ : ↥Kb, s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) (κ : MulAut W) =
+      ∀ κ : ↥Kb, s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) (κ : MulAut W) =
         s16c1610_permMat (s κ) := by
-  have hone : s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) (1 : MulAut W) = 1 :=
+  have hone : s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) (1 : MulAut W) = 1 :=
     s16c1610_matA_one hNat hm
   have hmul : ∀ κ κ' : ↥Kb,
-      s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) ((κ : MulAut W) * κ') =
-        s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) (κ : MulAut W) *
-          s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) (κ' : MulAut W) :=
+      s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) ((κ : MulAut W) * κ') =
+        s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) (κ : MulAut W) *
+          s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) (κ' : MulAut W) :=
     fun κ κ' => s16c1610_matA_mul hNat hm (κ : MulAut W) (κ' : MulAut W)
       (hcomm κ) (hcomm κ')
-  have hunit : ∀ κ : ↥Kb, IsUnit (s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c)
+  have hunit : ∀ κ : ↥Kb, IsUnit (s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c)
       (κ : MulAut W)) := by
     intro κ
-    refine ⟨⟨_, s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) (κ⁻¹ : ↥Kb), ?_, ?_⟩, rfl⟩
+    refine ⟨⟨_, s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) (κ⁻¹ : ↥Kb), ?_, ?_⟩, rfl⟩
     · have h := hmul κ κ⁻¹
       rw [← Subgroup.coe_mul, mul_inv_cancel, Subgroup.coe_one, hone] at h
       exact h.symm
@@ -1116,8 +1118,8 @@ private theorem s16c1610_exists_permEquiv {ρ0 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
       map_mul' := fun κ κ' => Units.ext (by simpa [Units.val_mul] using hmul κ κ') }
   have hinj : Function.Injective fgl := by
     intro κ κ' h
-    have hA : s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) (κ : MulAut W) =
-        s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) (κ' : MulAut W) := by
+    have hA : s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) (κ : MulAut W) =
+        s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) (κ' : MulAut W) := by
       have := congrArg (fun g : GL (Fin 2) (ZMod 2) =>
         (g : Matrix (Fin 2) (Fin 2) (ZMod 2))) h
       exact this
@@ -1138,7 +1140,7 @@ private theorem s16c1610_exists_permEquiv {ρ0 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     (Nat.bijective_iff_injective_and_card fgl).mpr
       ⟨hinj, by rw [s16c1610_card_IsSym_three hK, hcardGL]⟩
   refine ⟨(MulEquiv.ofBijective fgl hbij).trans (s16c1610_permGL).symm, fun κ => ?_⟩
-  show s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) (κ : MulAut W) =
+  show s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c) (κ : MulAut W) =
     s16c1610_permMat ((MulEquiv.ofBijective fgl hbij).trans
       (s16c1610_permGL).symm κ)
   rw [MulEquiv.trans_apply, ← s16c1610_permGL_coe
@@ -1149,10 +1151,10 @@ private theorem s16c1610_actA_smul {ρ0 ρ1 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     {c : Additive W ≃ₗ[ZMod 2] ((Fin m → ZMod 2) × (Fin m → ZMod 2))} (κ : MulAut W)
     (r s : ZMod 2) (z : Fin m → ZMod 2) :
     s16c1610_actA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ (r • z, s • z) =
-      ((s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ 0 0 * r +
-          s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ 0 1 * s) • z,
-        (s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ 1 0 * r +
-          s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ1) (c := c) κ 1 1 * s) • z) := by
+      ((s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ1) (c := c) κ 0 0 * r +
+          s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ1) (c := c) κ 0 1 * s) • z,
+        (s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ1) (c := c) κ 1 0 * r +
+          s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ1) (c := c) κ 1 1 * s) • z) := by
   simp only [s16c1610_actA, smul_smul, ← add_smul]
 
 private theorem s16c1610_assemble {ρ0 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
@@ -1220,8 +1222,7 @@ private theorem s16c1610_assemble {ρ0 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
         (s16c1610_pi1 a) • ((ρ0 ⟨l0, hl0⟩ : GL (Fin m) (ZMod 2)) :
           Matrix (Fin m) (Fin m) (ZMod 2)).mulVec c0) := by
     rw [hΨw, hNat ⟨l0, hl0⟩, LinearEquiv.apply_symm_apply]
-    simp only [s16c1610_diag, Prod.fst, Prod.snd, Matrix.mulVec_add, Matrix.mulVec_smul,
-      Matrix.mulVec_zero, add_zero, zero_add]
+    simp only [s16c1610_diag, Matrix.mulVec_smul]
   have hκ : c (CFSG.Quasithin.H13.Mult.linEquiv (κ0 : MulAut W)
       (CFSG.Quasithin.H13.Mult.linEquiv (l0 : MulAut W) (Additive.ofMul w))) =
       s16c1610_actA (ρ0 := ρ0) (ρ1 := ρ0) (c := c) (κ0 : MulAut W)
@@ -1240,12 +1241,12 @@ private theorem s16c1610_assemble {ρ0 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     rw [← TensorProduct.smul_tmul, ← TensorProduct.smul_tmul, ← TensorProduct.add_tmul]
     rw [← hc']
     congr 1
-    have h0 : s16c1610_pi0 a' = (s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c)
+    have h0 : s16c1610_pi0 a' = (s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c)
         (κ0 : MulAut W)).mulVec ![s16c1610_pi0 a, s16c1610_pi1 a] 0 := by
       show (a' : Fin 3 → ZMod 2) 0 = _
       rw [ha', hs ⟨κ0, hκ0⟩]
       exact s16c1610_permAct_eq (s ⟨κ0, hκ0⟩) a 0
-    have h1 : s16c1610_pi1 a' = (s16c1610_matA (ρ0 := ρ0) (ρ1 := ρ0) (c := c)
+    have h1 : s16c1610_pi1 a' = (s16c1610_matA (_ρ0 := ρ0) (_ρ1 := ρ0) (c := c)
         (κ0 : MulAut W)).mulVec ![s16c1610_pi0 a, s16c1610_pi1 a] 1 := by
       show (a' : Fin 3 → ZMod 2) 1 = _
       rw [ha', hs ⟨κ0, hκ0⟩]
@@ -1253,7 +1254,7 @@ private theorem s16c1610_assemble {ρ0 : ↥Lb ≃* GL (Fin m) (ZMod 2)}
     rw [show a' = s16c1610_pi0 a' • s16c1610_b1 + s16c1610_pi1 a' • s16c1610_b2 from
       (s16c1610_pi0_smul_b1_add_pi1_smul_b2 a').symm, h0, h1]
     simp only [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.head_cons]
+      Matrix.cons_val_one]
   rw [show ψ ((γ : MulAut W) w) = Multiplicative.ofAdd (Ψlin (Additive.ofMul ((γ : MulAut W) w)))
       from rfl, hgoal]
 
@@ -1268,7 +1269,7 @@ theorem s16c1610_isTensorS3L2_of_sum_natural {W : Type} [CommGroup W] [Finite W]
   have h2 : ∀ w : W, w ^ 2 = 1 := fun w => by
     rw [pow_two]
     exact s16c1610_sq_eq_one_of_sum_two hsum w
-  letI : Module (ZMod 2) (Additive W) := CFSG.Quasithin.H13.Mult.zmodModuleW h2
+  let : Module (ZMod 2) (Additive W) := CFSG.Quasithin.H13.Mult.zmodModuleW h2
   obtain ⟨I, hinf, hsup, hnat⟩ := s16c1610_sum_two_of_sumOfNat hsum
   have hLbig : 1 < Nat.card ↥Lb := s16c1610_one_lt_card_of_isLn hm hL
   obtain ⟨b0, ρ0, hb0⟩ := s16c1610_coords_of_binaryNaturalSL (U := I 0) hm hLbig (hnat 0)

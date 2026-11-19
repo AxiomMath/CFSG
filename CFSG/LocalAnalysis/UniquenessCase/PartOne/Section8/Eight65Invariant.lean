@@ -19,7 +19,7 @@ theorem eq_left_or_right_of_invariant_order_three
     (hcomm : ∀ x ∈ X, ∀ z ∈ Z, x * z = z * x)
     (hZ3 : ∀ z ∈ Z, z ^ 3 = 1)
     (hXcard : Nat.card X = 3) (hZcard : Nat.card Z = 3)
-    (hXneZ : X ≠ Z)
+    (_hXneZ : X ≠ Z)
     (hX : ∀ x ∈ X, t * x * t⁻¹ = x)
     (hZinv : ∀ z ∈ Z, t * z * t⁻¹ = z⁻¹)
     (hW : W ≤ X ⊔ Z) (hWcard : Nat.card W = 3)
@@ -29,9 +29,9 @@ theorem eq_left_or_right_of_invariant_order_three
   rcases eq_or_ne W Z with hWZ | hWZ
   · exact Or.inr hWZ
   left
-  haveI hfinX : Finite ↥X := Nat.finite_of_card_ne_zero (by rw [hXcard]; norm_num)
-  haveI hfinW : Finite ↥W := Nat.finite_of_card_ne_zero (by rw [hWcard]; norm_num)
-  haveI hfinZ : Finite ↥Z := Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
+  have hfinX : Finite ↥X := Nat.finite_of_card_ne_zero (by rw [hXcard]; norm_num)
+  have hfinW : Finite ↥W := Nat.finite_of_card_ne_zero (by rw [hWcard]; norm_num)
+  have hfinZ : Finite ↥Z := Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
   have hdisj : W ⊓ Z = ⊥ := by
     have hdvd : Nat.card ↥(W ⊓ Z) ∣ 3 := by
       have := card_inf_dvd (W := W) (Z := Z)

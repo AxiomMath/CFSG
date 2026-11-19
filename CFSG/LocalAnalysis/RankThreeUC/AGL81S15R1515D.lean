@@ -50,7 +50,7 @@ theorem pRank_eq_div_of_alt_s15 (hAlt : LieOddRankAlt) {Y : Type} [Group Y] [Fin
   exact CFSG.SectionRank.pRank_eq_pRank_top_subgroup Ls
 
 theorem false_of_two_components_pRank_three {T T₁ T₂ : Subgroup X} (hthree : GNThree T T₁ T₂)
-    {Ls Is : Subgroup (X ⧸ gnC T)} {L I : Subgroup X} (hLs : GNYComponent T T₁ T₂ Ls)
+    {Ls Is : Subgroup (X ⧸ gnC T)} {L I : Subgroup X} (_hLs : GNYComponent T T₁ T₂ Ls)
     (hIs : GNYComponent T T₁ T₂ Is) (hL : LiftOf T L Ls) (hI : LiftOf T I Is) (hne : Ls ≠ Is)
     (hZ : ¬ 3 ∣ Nat.card (Subgroup.center ↥(barO2 L)))
     (hX3 : CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ 3) (hL3 : 3 ≤ CFSG.Open.pRank 3 L) : False := by
@@ -94,7 +94,7 @@ theorem false_of_two_components_pRank_three {T T₁ T₂ : Subgroup X} (hthree :
 
 theorem dvd_card_oddHull_of_dvd {Y : Type} [Group Y] [Finite Y] (P : Subgroup Y) {q : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) (h : q ∣ Nat.card P) : q ∣ Nat.card (oddHull P) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := P) q h
   have hxq : orderOf (x : Y) = q := by rw [Subgroup.orderOf_coe, hx]
   have hmem : (x : Y) ∈ oddHull P :=

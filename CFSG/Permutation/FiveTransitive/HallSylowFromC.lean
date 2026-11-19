@@ -18,12 +18,14 @@ variable {G X : Type} [Group G] [Finite G] [Fintype X] [MulAction G X]
 @[expose] def sylowImage {p : ℕ} (C : Subgroup G) (P : Sylow p C) : Subgroup G :=
   Subgroup.map C.subtype (P : Subgroup C)
 
+omit [Finite G] in
 theorem sylowImage_isPGroup
     {p : ℕ} [Fact p.Prime]
     (C : Subgroup G) (P : Sylow p C) :
     IsPGroup p (sylowImage C P) := by
-  exact P.isPGroup'.map C.subtype
+  exact P.isPGroup.map C.subtype
 
+omit [Finite G] [Fintype X] in
 theorem orbit_sylowImage_eq
     {p : ℕ} (C : Subgroup G) (P : Sylow p C) (x : X) :
     MulAction.orbit (sylowImage C P) x = MulAction.orbit P x := by
@@ -46,6 +48,7 @@ theorem orbit_sylowImage_eq
     change ((u : C) : G) • x = z
     exact hu
 
+omit [Finite G] [Fintype X] in
 theorem exists_ambientSylow_containing_sylowImage
     {p : ℕ} [Fact p.Prime]
     (e : Fin 4 ↪ X) (C : Subgroup G)
@@ -56,7 +59,7 @@ theorem exists_ambientSylow_containing_sylowImage
   let f : C →* MulAction.stabilizer G e := Subgroup.inclusion hCbase
   let PH : Subgroup (MulAction.stabilizer G e) :=
     Subgroup.map f (P : Subgroup C)
-  have hPH : IsPGroup p PH := P.isPGroup'.map f
+  have hPH : IsPGroup p PH := P.isPGroup.map f
   obtain ⟨Q, hQ⟩ := hPH.exists_le_sylow
   refine ⟨Q, ?_⟩
   rintro g ⟨u, huP, rfl⟩
@@ -64,6 +67,7 @@ theorem exists_ambientSylow_containing_sylowImage
     hQ ⟨u, huP, rfl⟩
   exact ⟨f u, huf, rfl⟩
 
+omit [Finite G] [Fintype X] in
 theorem exceptional_subset_fixedPoints_sylowImage
     {p : ℕ} (C : Subgroup G) (P : Sylow p C) (E : Set X)
     (hCfix : ∀ c : C, ∀ x ∈ E, (c : G) • x = x) :
@@ -76,6 +80,7 @@ theorem exceptional_subset_fixedPoints_sylowImage
   rw [← huz]
   exact hCfix u x hx
 
+omit [Fintype X] in
 theorem outside_moved_by_sylowImage
     {p : ℕ} [Fact p.Prime]
     (C : Subgroup G) (P : Sylow p C) (E : Set X)

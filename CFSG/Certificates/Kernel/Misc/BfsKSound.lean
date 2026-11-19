@@ -37,7 +37,7 @@ theorem stepG_facts {st : ℕ → ℕ → ℕ} {X PA PB C POS : ℕ → ℕ} {n 
   obtain ⟨⟨⟨⟨a, b⟩, c⟩, d⟩, e⟩ := e
   refine ⟨a, b, c, d, fun hpc => ?_, fun hpc => ?_⟩
   · have hb : Nat.beq (POS i) (C i) = true := Nat.beq_eq.mpr hpc
-    rw [hb, cond_true] at e
+    rw [hb, _root_.Bool.cond_true] at e
     simp only [Bool.and_eq_true, Nat.beq_eq] at e
     obtain ⟨⟨e1, e2⟩, e3⟩ := e
     rw [Nat.pred_eq_sub_one] at e2 e3
@@ -46,7 +46,7 @@ theorem stepG_facts {st : ℕ → ℕ → ℕ} {X PA PB C POS : ℕ → ℕ} {n 
       cases hq : Nat.beq (POS i) (C i)
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true hq) hpc
-    rw [hb, cond_false] at e
+    rw [hb, Bool.cond_false] at e
     exact Nat.eq_of_beq_eq_true e
 
 theorem push_tableE {E : List ℕ → ℕ → Prop} {start : List ℕ} {K : ℕ}
@@ -163,12 +163,12 @@ theorem tableE {ok : List ℕ → Bool} {num : List ℕ → ℕ}
     exact hinj _ _ cp cm (by rw [pp, hx, pm])
   obtain ⟨C', hC'lo, hC'hi⟩ : ∃ C' : ℕ → ℕ, (∀ i ≤ n * k, C' i = C i) ∧
       ∀ i, n * k ≤ i → C' i = n := by
-    refine ⟨fun i => if i ≤ n * k then C i else n, fun i hi => if_pos hi, fun i hi => ?_⟩
+    refine ⟨fun i => if i ≤ n * k then C i else n, fun i hi => ite_eq_left hi, fun i hi => ?_⟩
     by_cases h : i ≤ n * k
     · have e : i = n * k := by omega
-      simp only [if_pos h]
+      simp only [ite_eq_left h]
       rw [e, hCn]
-    · exact if_neg h
+    · exact ite_eq_right h
   have hstep : ∀ h < fuel, ∀ s < gens.length,
       CFSG.KC.G2Three.StepOK mul gens (build start mul gens PL) PL.toArray C' POS h s
         (h * gens.length + s) := by

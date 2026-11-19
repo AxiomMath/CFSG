@@ -24,7 +24,7 @@ theorem ggNbrLSideRSExc_u2_typeA
       compRank (componentRoots (rootCharHom a) i) = 2 ∧
       (componentRoots (rootCharHom a) i).ncard = 6 ∧
       Q = S.D.q ^ componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) := by
-  haveI : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 (by simpa using h2)
+  have : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 (by simpa using h2)
   obtain ⟨hT, hp3, hne, hqs, hQ4, h3Q, F, hFf, hFin, hFc, ⟨e⟩⟩ := hP
   have hF4 : 4 ≤ Nat.card F := hFc ▸ hQ4
   by_cases hin : twistInner (componentRoots (rootCharHom a) i)
@@ -37,7 +37,7 @@ theorem ggNbrLSideRSExc_u2_typeA
     have hr : compRank (componentRoots (rootCharHom a) i) = 2 := by omega
     refine ⟨?_, hr, ?_, ?_⟩
     · unfold twistKind
-      rw [if_pos hin]
+      rw [ite_eq_left hin]
     · rw [hA.2, hr]
     · rw [← hFc, hcard, ← hfeq, ringChar.eq L 2]
   · exfalso

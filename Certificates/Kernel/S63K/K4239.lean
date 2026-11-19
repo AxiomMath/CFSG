@@ -66,7 +66,7 @@ theorem kline : kleinLineOK (CkG ID.ZP LK.PAR LK.LAB 819) = true := by
         exact hz _ hk' he
       rw [hmem]
       simp
-    · simp only [MatL.strictB_eq, MatL.bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at h3
+    · simp only [MatL.bAnd_eq, Bool.and_eq_true, Nat.blt_eq] at h3
       obtain ⟨hr, hzr, hany⟩ := h3
       generalize ID.ZS (CFSG.KC.S63K.bsK ID.ZP ID.ZS
         (Nat.mod (CFSG.KC.F2W.mulW 24 (ID.ZP 0) (ID.ZP q)) (2 ^ 576)) 32 0 819) = r at hr hzr hany

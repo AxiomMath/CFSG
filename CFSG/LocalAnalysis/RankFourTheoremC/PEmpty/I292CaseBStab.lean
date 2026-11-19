@@ -44,8 +44,10 @@ variable {Y : Type} [Group Y] (L : Subgroup Y) [L.Normal] {P' : Type} [Group P']
 @[expose] noncomputable def eL : ↥L →* P' :=
   (eP : (↥L ⧸ center ↥L) →* P').comp (QuotientGroup.mk' (center ↥L))
 
+omit [L.Normal] in
 theorem eL_apply (l : ↥L) : eL L eP l = eP (QuotientGroup.mk l) := rfl
 
+omit [L.Normal] in
 theorem eL_eq_one_iff (l : ↥L) : eL L eP l = 1 ↔ l ∈ center ↥L := by
   rw [eL_apply, ← eP.map_one, eP.injective.eq_iff, QuotientGroup.eq_one_iff]
 
@@ -70,7 +72,7 @@ theorem mem_stabSub {T : Subgroup P'} {φ : MulAut P'} :
 
 variable {L}
 
-theorem mem_stabSub_of_mem_normalizer {T₀ : Subgroup Y} (hT₀L : T₀ ≤ L) {y : Y}
+theorem mem_stabSub_of_mem_normalizer {T₀ : Subgroup Y} (_hT₀L : T₀ ≤ L) {y : Y}
     (hy : y ∈ normalizer (T₀ : Set Y)) :
     thetaP L eP y ∈ stabSub ((T₀.subgroupOf L).map (eL L eP)) := by
   have fwd : ∀ y ∈ normalizer (T₀ : Set Y), ∀ t ∈ (T₀.subgroupOf L).map (eL L eP),
@@ -149,7 +151,8 @@ theorem mem_normalizer_iff_mem_stab {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       thetaP L eP y ∈ stabSub ((T₀.subgroupOf L).map (eL L eP)) :=
   ⟨mem_stabSub_of_mem_normalizer eP hT₀L, mem_normalizer_of_mem_stabSub L eP hp hp2 hZ hT₀L hT₀2⟩
 
-theorem isTwoElt_map {T₀ : Subgroup Y} (hT₀L : T₀ ≤ L) (hT₀2 : IsPGroup 2 T₀)
+omit [L.Normal] in
+theorem isTwoElt_map {T₀ : Subgroup Y} (_hT₀L : T₀ ≤ L) (hT₀2 : IsPGroup 2 T₀)
     (t : P') (ht : t ∈ (T₀.subgroupOf L).map (eL L eP)) : ∃ k : ℕ, t ^ (2 ^ k) = 1 := by
   obtain ⟨a, ha, rfl⟩ := ht
   obtain ⟨k, hk⟩ := hT₀2 ⟨(a : Y), Subgroup.mem_subgroupOf.1 ha⟩
@@ -158,6 +161,7 @@ theorem isTwoElt_map {T₀ : Subgroup Y} (hT₀L : T₀ ≤ L) (hT₀2 : IsPGrou
   have : a ^ (2 ^ k) = 1 := Subtype.ext (by simpa using congrArg Subtype.val hk)
   rw [this, map_one]
 
+omit [L.Normal] in
 theorem map_ne_bot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hZ : ∀ z ∈ center ↥L, ∃ k : ℕ, z ^ (p ^ k) = 1) {T₀ : Subgroup Y} (hT₀L : T₀ ≤ L)
     (hT₀2 : IsPGroup 2 T₀) (hT₀ : T₀ ≠ ⊥) : (T₀.subgroupOf L).map (eL L eP) ≠ ⊥ := by

@@ -110,6 +110,7 @@ theorem k618_card_le_two_mul {D H : Subgroup Γ}
     calc Nat.card D ≤ Nat.card (↥(D ⊓ H) ⊕ ↥(D ⊓ H)) := Nat.card_le_card_of_surjective ψ hψ
       _ = 2 * Nat.card ↥(D ⊓ H) := by rw [Nat.card_sum]; ring
 
+omit [Finite Γ] in
 theorem k618_card_fixSub {x y t : Γ} (hF : IsF20 x y) (htx : t * x = x * t)
     {K W₀ W : Subgroup Γ} (hW₀K : W₀ ≤ K) (hFK : F20 x y ≤ K)
     (hKW : K ≤ normalizer (W : Set Γ)) (hKW₀ : K ≤ normalizer (W₀ : Set Γ))

@@ -68,11 +68,11 @@ theorem modelInvolutionCover_of_spinData {ι : Type} [Fintype ι] [DecidableEq �
   classical
   obtain ⟨U, hUgrp, hUfin, σ, ω, z₀, hUperf, hσsurj, hσker_center, hUclosed, hcardZ,
     hωsurj, hωker, hz₀ne, hz₀sq, hσmk, hcliff⟩ := h
-  letI : Group U := hUgrp
-  letI : Finite U := hUfin
+  let : Group U := hUgrp
+  let : Finite U := hUfin
   intro Γ Γgrp Γfin ρ hρsurj hΓperf hρker_center hcardρ g₀ hrefpair hlift
-  letI : Group Γ := Γgrp
-  letI : Finite Γ := Γfin
+  let : Group Γ := Γgrp
+  let : Finite Γ := Γfin
   obtain ⟨x, hx, hxsq⟩ := hlift
   exact modelInvolutionCover_abstract (U := U) (X := StatedProj (StatedOmega Q₀))
     (Ω := ↥(StatedOmega Q₀)) (Γ := Γ) σ ω
@@ -101,7 +101,7 @@ theorem modelSpinData_of_spinGroup {ι : Type} [Fintype ι] [DecidableEq ι]
   set ω : spinGroup Q →* ↥(StatedOmega Q₀) :=
     (spinMatrix Q).codRestrict (StatedOmega Q₀) (spinMatrix_mem_of_range_eq Q hR) with hω
   set σ : spinGroup Q →* StatedProj (StatedOmega Q₀) := spinToStatedProj Q hR with hσ
-  haveI : Finite (spinGroup Q) := CFSG.LieType.Steinberg.finite_spinGroup_of_ker Q hkerSet
+  have : Finite (spinGroup Q) := CFSG.LieType.Steinberg.finite_spinGroup_of_ker Q hkerSet
   have hωker : ω.ker = (spinMatrix Q).ker := by
     rw [hω]
     exact MonoidHom.ker_codRestrict _ _ _
@@ -357,7 +357,7 @@ theorem modelSpinData_quadMinus_three_zmod5
     CFSG.LieType.Steinberg.finite_spinGroup_of_ker Q1
       (coe_ker_spinMatrix_quadMinus (n := 3) hirr),
     σ, ω, z0, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
-  · haveI : Group.IsPerfect (spinGroup Q1) :=
+  · have : Group.IsPerfect (spinGroup Q1) :=
       CFSG.ComponentClassification.HarrisLit.T1.P54.Klein.isPerfect_spinGroup_quadMinus_three
         hodd h4 hirr
     exact Group.IsPerfect.commutator_eq_top
@@ -410,7 +410,7 @@ theorem modelSpinData_quadMinus_three_zmod5
         exact Or.inr (CliffordAlgebra.spinGroup.coe_negOne Q1 hQne)
       rw [MonoidHom.mem_ker] at hz0ker
       rw [hz0ker, map_one]
-  · haveI : Invertible (2 : F) := invertibleOfNonzero h2
+  · have : Invertible (2 : F) := invertibleOfNonzero h2
     exact CliffordAlgebra.spinGroup.negOne_ne_one (Q := Q1) hQne
   · exact CliffordAlgebra.spinGroup.negOne_mul_self (Q := Q1) hQne
   · intro u
@@ -638,7 +638,7 @@ theorem modelSpinData_quadPlus {n : ℕ} (hn : 3 ≤ n) :
   have h2 : (2 : ZMod 5) ≠ 0 := by decide
   have h4 : 4 ≤ Nat.card (ZMod 5) := by
     simp [Nat.card_eq_fintype_card, ZMod.card]
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hv : ∃ v : Fin n ⊕ Fin n → ZMod 5, quadPlus n (ZMod 5) v ≠ 0 :=
     exists_map_ne_zero_of_hypPair _ (CFSG.ClassicalGroups.Orthogonal.plusPair (ZMod 5)
       (⟨0, by omega⟩ : Fin n))

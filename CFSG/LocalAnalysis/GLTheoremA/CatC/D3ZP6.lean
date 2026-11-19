@@ -39,7 +39,7 @@ theorem common_split_three (hK2 : ringChar K ≠ 2) (hg : g ∈ borelGroup Tag.D
     ∃ k ∈ ({0, 1, 3} : Set (Fin Tag.D4.rank)), ∃ e : SL2 K,
       (ρ k e)⁻¹ * m * ρ k e ∈ Subgroup.normalizer (Uk K k : Set (ModGL Tag.D4 K)) ∧
       (ρ k e)⁻¹ * m' * ρ k e ∈ Subgroup.normalizer (Uk K k : Set (ModGL Tag.D4 K)) := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   have hsp := split_all_factors hK2 hg hε hJρ hφP hφQ hφ3 hm hm2 hbm
   have hsp' := split_all_factors hK2 hg hε hJρ hφP hφQ hφ3 hm' hm'2 hbm'
   obtain ⟨b, A₀, A₁, A₃, hmdef⟩ := levi_outer_decomp hm
@@ -97,7 +97,7 @@ theorem levi_key_three_pair (hK2 : ringChar K ≠ 2) (hg : g ∈ borelGroup Tag.
     ∃ s ∈ parabolicLevi Tag.D4 K ({0, 1, 3} : Set (Fin Tag.D4.rank)),
       s⁻¹ * y * s ∈ borelGroup Tag.D4 K ∧ s⁻¹ * y' * s ∈ borelGroup Tag.D4 K ∧
         s⁻¹ * phiG g a σ ε s ∈ borelGroup Tag.D4 K := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   set J : Set (Fin Tag.D4.rank) := {0, 1, 3} with hJdef
   have hJ : J = {2} ∨ J = ({0, 1, 3} : Set (Fin Tag.D4.rank)) := Or.inr rfl
   have hS := semiDirect_levi (K := K) J
@@ -161,7 +161,7 @@ theorem levi_c_level_pair (hK2 : ringChar K ≠ 2) {g : ModGL Tag.D4 K} (hg : g 
     refine ⟨1, one_mem _, ?_, ?_, ?_⟩
     · simpa [hAB] using (hAB ▸ hy : y ∈ borelGroup Tag.D4 K)
     · simpa [hAB] using (hAB ▸ hy' : y' ∈ borelGroup Tag.D4 K)
-    · simpa using one_mem (borelGroup Tag.D4 K)
+    · simp
   · have hA2 : A = parabolicSubgroup Tag.D4 K ({2} : Set (Fin Tag.D4.rank)) := by rw [hAP, h2]
     have hJρ' : ∀ i, i ∈ ({2} : Set (Fin Tag.D4.rank)) ↔
         (d4Rho ^ ε) i ∈ ({2} : Set (Fin Tag.D4.rank)) := by rw [h2] at hJρ; exact hJρ

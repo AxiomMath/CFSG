@@ -48,7 +48,7 @@ theorem IsMinFam16.exists_mem_not_le_conj
     ∃ k ∈ conjClosure V H, ¬ conjSubgroup V k ≤ conjSubgroup M x ∧
       ¬ conjSubgroup V x ≤ conjSubgroup M k := by
   classical
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   let K : Subgroup G := conjClosure V H
   let A : Subgroup G := conjSubgroup V x
   let Vb : Subgroup X := SevenK.barSub (conjClosure V H) φ V

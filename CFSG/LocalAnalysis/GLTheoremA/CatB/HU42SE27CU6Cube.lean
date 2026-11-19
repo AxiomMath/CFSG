@@ -24,7 +24,7 @@ private theorem cube_roots_sum_zero {c u v : F4} (hc : c ^ 3 = 1) (hu : u ^ 3 = 
 
 private theorem cube_root_ne_zero {x : F4} (hx : x ^ 3 = 1) : x ≠ 0 := by
   rintro rfl
-  exact zero_ne_one (α := F4) (by simpa using hx)
+  exact zero_ne_one (α := F4) (by simp at hx)
 
 private theorem exists_pow_mul (u v ω x y : F4) (hu : u ^ 3 = 1) (hv : v ^ 3 = 1)
     (hω : ω ^ 3 = 1) (hω1 : ω ≠ 1) (huv : u ≠ v) (hx : x ^ 3 = 1) (hy : y ^ 3 = 1) :
@@ -98,15 +98,14 @@ private theorem conjM6_symm (P : primeFormUnitary hF4 (idGram F4 6)) :
   apply (conjM6 P).injective
   rw [MulEquiv.apply_symm_apply]
   apply Subtype.ext
-  simp only [conjM6_apply, Subgroup.coe_mul, Subgroup.coe_inv]
+  simp only [conjM6_apply, Subgroup.coe_inv]
   group
 
 private theorem CenD_single_cube {d : Fin 6 → F4} {Dm : M6}
     (hD : mM6 Dm = Matrix.diagonal d) (x : ↥(CenD (Dm : GL (Fin 6) F4)))
     {i : Fin 6} (hi : ∀ k, d k = d i → k = i) : (mM6 (x : M6) i i) ^ 3 = 1 := by
   have h := congrFun (congrFun (M6_unitary (x : M6)) i) i
-  simp only [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply, Matrix.one_apply,
-    if_pos rfl] at h
+  simp only [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply, Matrix.one_apply] at h
   have hsum : ∑ k, bar (mM6 (x : M6) k i) * mM6 (x : M6) k i =
       bar (mM6 (x : M6) i i) * mM6 (x : M6) i i := by
     apply Finset.sum_eq_single i
@@ -268,7 +267,7 @@ private theorem big_range_le_CenD (hD : mM6 Dm = Matrix.diagonal d) :
 
 private theorem big_range_simple (hcard4 : Fintype.card (Blk d c) = 4) :
     IsSimpleGroup ↥(embSU d c).range := by
-  haveI : IsSimpleGroup ↥(StatedSU (Fintype.card (Blk d c)) (2 ^ 1) F4) := by
+  have : IsSimpleGroup ↥(StatedSU (Fintype.card (Blk d c)) (2 ^ 1) F4) := by
     rw [hcard4]
     exact CFSG.LocalAnalysis.GLTheoremA.CatB.U52Layer.isSimple_M4
   exact (MonoidHom.ofInjective (embSU_injective d c)).symm.isSimpleGroup
@@ -302,7 +301,7 @@ private theorem big_range_inf (hda : d a ≠ c) :
   obtain ⟨lam, hlam⟩ := mem_Z6_iff.1 hzZ
   have h1 : mM6 z a a = 1 := by
     rw [← hA, mM6_embSU, extMat_apply]
-    rw [dif_neg (show ¬ (d a = c ∧ d a = c) from fun h => hda h.1)]
+    rw [dite_eq_right (show ¬ (d a = c ∧ d a = c) from fun h => hda h.1)]
     exact Matrix.one_apply_eq a
   have hzmat : mM6 z = ((Matrix.GeneralLinearGroup.scalar (Fin 6) lam : GL (Fin 6) F4) :
       Matrix (Fin 6) (Fin 6) F4) := by
@@ -522,7 +521,7 @@ private theorem big_notin (hD : mM6 Dm = Matrix.diagonal d) (hda : d a ≠ c) (h
       rw [hlam]
     rw [hzmat, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
       Matrix.diagonal_mul, extMat_apply]
-    rw [dif_neg (show ¬ (d a = c ∧ d a = c) from fun h => hda h.1)]
+    rw [dite_eq_right (show ¬ (d a = c ∧ d a = c) from fun h => hda h.1)]
     rw [Matrix.one_apply_eq, mul_one]
   have hRb : mM6 (z * r) b b = (lam : F4) := by
     rw [mM6_mul, ← hA, mM6_embSU]
@@ -532,7 +531,7 @@ private theorem big_notin (hD : mM6 Dm = Matrix.diagonal d) (hda : d a ≠ c) (h
       rw [hlam]
     rw [hzmat, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
       Matrix.diagonal_mul, extMat_apply]
-    rw [dif_neg (show ¬ (d b = c ∧ d b = c) from fun h => hdb h.1)]
+    rw [dite_eq_right (show ¬ (d b = c ∧ d b = c) from fun h => hdb h.1)]
     rw [Matrix.one_apply_eq, mul_one]
   have e1 : d a = (lam : F4) := by rw [← hDa, heq, hRa]
   have e2 : d b = (lam : F4) := by rw [← hDb, heq, hRb]
@@ -544,7 +543,7 @@ private theorem cubeFact_diag_big (Dm : M6) (d : Fin 6 → F4) (c : F4) (a b : F
     (hD : mM6 Dm = Matrix.diagonal d) (hd0 : ∀ i, d i ≠ 0)
     (hcube : ∀ i, d i ^ 3 = 1) (hc3 : c ^ 3 = 1)
     (hcard4 : Fintype.card (Blk d c) = 4)
-    (hab : a ≠ b) (hda : d a ≠ c) (hdb : d b ≠ c) (hdab : d a ≠ d b)
+    (_hab : a ≠ b) (hda : d a ≠ c) (hdb : d b ≠ c) (hdab : d a ≠ d b)
     (hSab : Finset.univ.filter (fun i : Fin 6 => d i ≠ c) = {a, b})
     (hsum_d : ∑ i, d i = c) :
     ∃ R : Subgroup M6, R ≤ CenD (Dm : GL (Fin 6) F4) ∧ IsSimpleGroup ↥R ∧
@@ -642,7 +641,7 @@ private theorem transport_big (e : M6 ≃* M6) {Dm s : M6}
   refine ⟨R_D.map e.toMonoidHom, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · rw [← hmapCen_D]
     exact Subgroup.map_mono hRD
-  · haveI := hsimple
+  · have := hsimple
     exact (Subgroup.equivMapOfInjective R_D e.toMonoidHom e.injective).symm.isSimpleGroup
   · intro hcomm
     apply hnc

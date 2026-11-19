@@ -80,7 +80,7 @@ theorem eq_bot_of_isometry_normalizing_ppd (β : ReflForm F V) {r d : ℕ} (hr :
     have h2 : g⁻¹ (x (g w)) = w := by simpa [LinearEquiv.mul_apply] using h1
     have h3 : g (g⁻¹ (x (g w))) = x (g w) := by
       have : (g * g⁻¹) (x (g w)) = x (g w) := by simp
-      simpa [LinearEquiv.mul_apply] using this
+      simp
     rw [← h3, h2]
   have hWg' : ∀ w ∈ W, g⁻¹ w ∈ W := by
     intro w hw x hx
@@ -88,7 +88,7 @@ theorem eq_bot_of_isometry_normalizing_ppd (β : ReflForm F V) {r d : ℕ} (hr :
     have h2 : g (x (g⁻¹ w)) = w := by simpa [LinearEquiv.mul_apply] using h1
     have h3 : g⁻¹ (g (x (g⁻¹ w))) = x (g⁻¹ w) := by
       have : (g⁻¹ * g) (x (g⁻¹ w)) = x (g⁻¹ w) := by simp
-      simpa [LinearEquiv.mul_apply] using this
+      simp
     rw [← h3, h2]
   have hWtop : W ≠ ⊤ := by
     intro hWt
@@ -115,7 +115,7 @@ theorem eq_bot_of_isometry_normalizing_ppd (β : ReflForm F V) {r d : ℕ} (hr :
     have h1 := hgβ (g⁻¹ w) u
     have h2 : g (g⁻¹ w) = w := by
       have : (g * g⁻¹) w = w := by simp
-      simpa [LinearEquiv.mul_apply] using this
+      simp
     rw [h2] at h1
     rw [h1]
     exact hu _ (hWg' w hw)

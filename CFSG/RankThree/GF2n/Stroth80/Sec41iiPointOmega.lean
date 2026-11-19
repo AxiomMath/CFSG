@@ -23,7 +23,7 @@ private theorem card_le_root_of_singular {ι : Type} [Fintype ι] [DecidableEq �
     Nat.card P ≤ Nat.card K ^ (Fintype.card ι - 2) := by
   have hdim : Module.finrank K (ι → K) = Fintype.card ι :=
     Module.finrank_fintype_fun_eq_card K
-  haveI : Finite ((ι → K) ≃ₗ[K] (ι → K)) :=
+  have : Finite ((ι → K) ≃ₗ[K] (ι → K)) :=
     Finite.of_injective (DFunLike.coe : ((ι → K) ≃ₗ[K] (ι → K)) → ((ι → K) → (ι → K)))
       LinearEquiv.coe_injective
   obtain ⟨N, hN⟩ : ∃ N : Subgroup (CFSG.ClassicalGroups.Orthogonal.Gom Q),

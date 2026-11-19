@@ -326,7 +326,7 @@ theorem dickson_gl_two (H : Subgroup (GL (Fin 2) (ZMod p))) (hpH : p ∣ Nat.car
   classical
   have hsyl : ∀ P : Sylow p H, Nat.card P = p := by
     intro P
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
     have hne := P.ne_bot_of_dvd_card hpH
     have hk0 : k ≠ 0 := by
       rintro rfl

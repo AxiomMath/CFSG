@@ -265,7 +265,7 @@ private theorem k328frame_aux (F : Type) [Field F] [Finite F] [CharP F 2] :
           · intro j
             have h0 : B v (z (w j : V)) = 0 := hQv (z (w j : V)) (hzQ (w j) (w j).2)
             simp only [vNew, Fin.cons_zero, Fin.cons_succ]
-            rw [if_neg (Fin.succ_ne_zero j).symm]
+            rw [ite_eq_right (Fin.succ_ne_zero j).symm]
             exact h0
         · intro i j
           refine Fin.cases ?_ ?_ j
@@ -273,7 +273,7 @@ private theorem k328frame_aux (F : Type) [Field F] [Finite F] [CharP F 2] :
               rw [hsym (w i : V) (z v)]
               exact hQzv (w i) (w i).2
             simp only [vNew, Fin.cons_zero, Fin.cons_succ]
-            rw [if_neg (Fin.succ_ne_zero i)]
+            rw [ite_eq_right (Fin.succ_ne_zero i)]
             exact h0
           · intro j
             have h0 : B (w i : V) (z (w j : V)) = if i = j then 1 else 0 := by

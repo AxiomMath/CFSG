@@ -34,7 +34,7 @@ private theorem exists_centralizing_elemAbelian_field_E7
   classical
   have hpp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hpres : GGPresentsG0 G₀ (ggU .E7 n f).D .E7 n f ψ := hS.presents
   have hrange : ψ.range = G₀ := hS.range_eq
   have hf : 1 ≤ f := hpres.1.1.2.1
@@ -86,7 +86,7 @@ private theorem exists_centralizing_elemAbelian_field_E7
   let α_ad : MulAut (adjointGroup .E7 (GaloisField 2 f)) := MulAut.congr ε α
   have hcongr : ∀ u : (ggU .E7 n f).K, α_ad (ε u) = ε (α u) := by
     intro u
-    simp [α_ad, MulAut.congr, MulEquiv.trans_apply]
+    simp [α_ad, MulEquiv.trans_apply]
   have hαad_pow : α_ad ^ p = 1 := by
     have h1 : MulAut.congr ε (α ^ p) = (MulAut.congr ε α) ^ p := map_pow (MulAut.congr ε) α p
     rw [hαp, map_one] at h1
@@ -139,10 +139,10 @@ private theorem exists_centralizing_elemAbelian_field_E7
     ggFieldRankTransfer_of_bounds hpp
       (fun E hE => rankLE_E7 (K := GaloisField 2 f) (p := p) (e := e) hpp hp2 rfl E hE)
       (fun σ hσp hσ1 => by
-        haveI : Finite (fixSubfield σ) :=
+        have : Finite (fixSubfield σ) :=
           Finite.of_injective (Subtype.val : fixSubfield σ → GaloisField 2 f)
             Subtype.val_injective
-        haveI : CharP (fixSubfield σ) 2 := Subfield.charP (fixSubfield σ) 2
+        have : CharP (fixSubfield σ) 2 := Subfield.charP (fixSubfield σ) 2
         exact exists_E7 (K := fixSubfield σ) (e := e) hpp hp2
           (by rw [orderOf_card_fixSubfield_eq hpp hp2 σ hσ1 hσp]))
   let ψ' : adjointGroup .E7 (GaloisField 2 f) →* G := ψ.comp ε.symm.toMonoidHom

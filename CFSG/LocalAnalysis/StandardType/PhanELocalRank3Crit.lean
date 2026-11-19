@@ -25,7 +25,7 @@ variable {I C V : Type*}
       X.adj b f₃ e₁ ∧ P e₁ = x ∧ P f₁ = y ∧ P f₂ = z ∧ P f₃ = x
 
 theorem simplyTwoConnected_of_pointGraph_diag (X : ChamberSystem I C) (a b c : I)
-    (hI : ∀ i : I, i = a ∨ i = b ∨ i = c) (P : C → V) (hP : Function.Surjective P)
+    (hI : ∀ i : I, i = a ∨ i = b ∨ i = c) (P : C → V) (_hP : Function.Surjective P)
     (hPb : ∀ {e f : C}, X.adj b e f → P e = P f) (hPc : ∀ {e f : C}, X.adj c e f → P e = P f)
     (hinj : ∀ {e f : C}, X.adj a e f → P e = P f → e = f)
     (hfib : ∀ e f : C, P e = P f →
@@ -52,7 +52,7 @@ theorem simplyTwoConnected_of_pointGraph_diag (X : ChamberSystem I C) (a b c : I
     X.Connected ∧ X.SimplyTwoConnected := by
   classical
   by_cases hV : Nonempty V
-  · haveI : Nonempty V := hV
+  · have : Nonempty V := hV
     let J' : Set I := {b, c}
     let G : SimpleGraph V := pointGraph X a P
     have hbJ : b ∈ J' := by
@@ -233,7 +233,7 @@ theorem simplyTwoConnected_of_pointGraph_diag (X : ChamberSystem I C) (a b c : I
         exact h.1
       exact hg.append hτ.1
     · rw [galleryEnd_append, hτe]
-  · haveI : IsEmpty C := ⟨fun c => hV ⟨P c⟩⟩
+  · have : IsEmpty C := ⟨fun c => hV ⟨P c⟩⟩
     exact ⟨fun x => isEmptyElim x, fun x => isEmptyElim x⟩
 
 theorem simplyTwoConnected_of_pointGraph_weak (X : ChamberSystem I C) (a b c : I)

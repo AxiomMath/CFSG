@@ -18,19 +18,19 @@ theorem qPlusPi_eq_plusPi (r f : ℕ) : qPlusPi r f = SignedFacts.plusPi (r ^ f)
 
 theorem qMinusPi_of_mod_two {r f : ℕ} (h : r ^ f % 3 = 2) : qMinusPi r f = r ^ f + 1 := by
   unfold qMinusPi
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
 
 theorem qPlusPi_of_mod_two {r f : ℕ} (h : r ^ f % 3 = 2) : qPlusPi r f = r ^ f - 1 := by
   unfold qPlusPi
-  rw [if_neg (by omega)]
+  rw [ite_eq_right (by omega)]
 
 theorem qMinusPi_of_mod_one {r f : ℕ} (h : r ^ f % 3 = 1) : qMinusPi r f = r ^ f - 1 := by
   unfold qMinusPi
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 theorem qPlusPi_of_mod_one {r f : ℕ} (h : r ^ f % 3 = 1) : qPlusPi r f = r ^ f + 1 := by
   unfold qPlusPi
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 theorem not_dvd_sub_one_of_dvd_add_one {p q : ℕ} (hp5 : 5 ≤ p) (hq : 1 ≤ q) (h : p ∣ q + 1) :
     ¬ p ∣ q - 1 := fun h' => by

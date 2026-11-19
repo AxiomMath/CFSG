@@ -10,7 +10,7 @@ open CFSG.LieType.Universal.Spin CFSG.LieType.Universal.Spin.Twisted
 open CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.Thm14_5
 
 private theorem c2slomqmw8_inv_pow_val {k : Type*} [Field k] {M : ℕ} [NeZero M] {u : k}
-    (hu : u ^ M = 1) (hne : u ≠ 0) (x : ZMod M) : (u⁻¹) ^ x.val = u ^ (-x).val := by
+    (hu : u ^ M = 1) (_hne : u ≠ 0) (x : ZMod M) : (u⁻¹) ^ x.val = u ^ (-x).val := by
   have h1 : u ^ ((-x).val + x.val) = 1 := by
     have h2 : (((-x).val + x.val : ℕ) : ZMod M) = 0 := by
       rw [Nat.cast_add, ZMod.natCast_zmod_val, ZMod.natCast_zmod_val, neg_add_cancel]
@@ -72,7 +72,7 @@ theorem omq_omMinus_exists_alpha_long {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field
     rw [e0, e1]
   · intro k _ ι ι' g
     obtain ⟨t, z, ht⟩ := omq_omMinus_H_toral hn hirr g.2
-    haveI : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
+    have : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
     have hpt : ∀ i, ι (t i : K) ^ Nat.card Kˣ = 1 := fun i => by
       rw [← map_pow, ← Units.val_pow_eq_pow_val, pow_card_eq_one', Units.val_one, map_one]
     rw [omq_omMinus_wt_eq_of_toral ι ι' _ ht]
@@ -89,10 +89,10 @@ theorem omq_omMinus_exists_alpha_long {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field
       have hu1 : ι (t i1 : K) ^ (Nat.card Kˣ) = 1 := hpt i1
       have v0 : ((Pi.single i0 (1 : ZMod (Nat.card Kˣ)) - Pi.single i1 (1 : ZMod (Nat.card Kˣ)) :
           Fin (n - 1) → ZMod (Nat.card Kˣ)) i0) = 1 := by
-        simp [Pi.single_apply, hi01]
+        simp [hi01]
       have v1 : ((Pi.single i0 (1 : ZMod (Nat.card Kˣ)) - Pi.single i1 (1 : ZMod (Nat.card Kˣ)) :
           Fin (n - 1) → ZMod (Nat.card Kˣ)) i1) = -1 := by
-        simp [Pi.single_apply, hi01.symm]
+        simp [hi01.symm]
       show ι (t i0 : K) * (ι (t i1 : K))⁻¹ = ι (t i0 : K) ^ ((Pi.single i0 (1 : ZMod _) -
         Pi.single i1 (1 : ZMod _) : Fin (n - 1) → ZMod (Nat.card Kˣ)) i0).val *
           ι (t i1 : K) ^ ((Pi.single i0 (1 : ZMod _) -
@@ -108,7 +108,7 @@ theorem omq_omMinus_exists_alpha_long {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field
     · intro l _ hl
       have h1 : l ≠ (⟨0, by omega⟩ : Fin (n - 1)) := fun h => hl (by simp [i0, h])
       have h2 : l ≠ (⟨1, by omega⟩ : Fin (n - 1)) := fun h => hl (by simp [i1, h])
-      simp [Pi.single_apply, h1, h2]
+      simp [h1, h2]
 
 theorem omq_omMinus_exists_alpha_short {n : ℕ} (hn : 4 ≤ n) {K : Type} [Field K] [Finite K]
     [CharP K 2] {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (i : Fin (n - 1)) :
@@ -124,7 +124,7 @@ theorem omq_omMinus_exists_alpha_short {n : ℕ} (hn : 4 ≤ n) {K : Type} [Fiel
             ((Pi.single i (1 : ZMod (Nat.card Kˣ)) : Fin (n - 1) → ZMod (Nat.card Kˣ)),
               (1 : ZMod (Nat.card K + 1))) g := by
   classical
-  haveI := fact_shortField hirr
+  have := fact_shortField hirr
   refine ⟨(Units.map (algebraMap K (ShortField b c)).toMonoidHom).comp
     (omqMinusEntryHom hn hirr i) *
     omqMinusZHom hn hirr, ?_, ?_⟩
@@ -163,8 +163,8 @@ theorem omq_omMinus_exists_alpha_short {n : ℕ} (hn : 4 ≤ n) {K : Type} [Fiel
     ring
   · intro k _ ι ι' hι' g
     obtain ⟨t, z, ht⟩ := omq_omMinus_H_toral hn hirr g.2
-    haveI : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
-    haveI : NeZero (Nat.card K + 1) := ⟨Nat.succ_ne_zero _⟩
+    have : NeZero (Nat.card Kˣ) := ⟨Nat.card_pos.ne'⟩
+    have : NeZero (Nat.card K + 1) := ⟨Nat.succ_ne_zero _⟩
     have hpt : ι (t i : K) ^ Nat.card Kˣ = 1 := by
       rw [← map_pow, ← Units.val_pow_eq_pow_val, pow_card_eq_one', Units.val_one, map_one]
     have hpz : ι' z ^ (Nat.card K + 1) = 1 := by

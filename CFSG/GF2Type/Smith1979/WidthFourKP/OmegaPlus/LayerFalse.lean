@@ -39,7 +39,7 @@ theorem widthFourOmegaPlusLayerFalse_holds :
   have hZ := exists_mem_layer_not_center H ht ht1 hPR hq hfaith hP3 hPn hKP hKc
   obtain ⟨A, τ, B, D⟩ := exists_layerData hw H C ht ht1 hPR hP9 hq hfaith hP3 hPn hK4 hKt hKe
     hKc hC32 hO2 hEtop hZ
-  haveI : IsSimpleGroup (timmesfeldLayer S.Mbar ⧸ center (timmesfeldLayer S.Mbar)) := hq.2
+  have : IsSimpleGroup (timmesfeldLayer S.Mbar ⧸ center (timmesfeldLayer S.Mbar)) := hq.2
   have hnonab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hq
   have hX := CFSG.RankThree.PartOne.TCB.tauCetiCatalogBridge _ hnonab
     (Case25.inCatalog_layer_quotient hK (Case25.M_ne_top_of_isSimpleGroup S) hq)

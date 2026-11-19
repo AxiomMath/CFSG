@@ -45,7 +45,7 @@ theorem KLift.exists_mk_eq (hK : KLift D Y K) {y : MBar D.M D.U} (hy : y ∈ Y) 
   obtain ⟨x, hx, rfl⟩ := hy
   exact ⟨x, hx, x.2, rfl⟩
 
-theorem KLift.le_normalizer_preN (hK : KLift D Y K) : K ≤ normalizer (preN D Y : Set G) := fun k hk =>
+theorem KLift.le_normalizer_preN (hK : KLift D Y K) : K ≤ normalizer (preN D Y : Set G) := fun _k hk =>
   P22k2.mem_normalizer_preN D (hK.le_M hk) (Subgroup.le_normalizer (hK.mk_mem hk))
 
 theorem KLift.le_normalizer_proofIi (hK : KLift D Y K) : K ≤ normalizer (proofIi D (preN D Y) : Set G) := by
@@ -90,7 +90,7 @@ theorem KLift.proofIi_le (hK : KLift D Y K) : proofIi D (preN D Y) ≤ K := by
 
 theorem KLift.isSylowOf_sup (hK : KLift D Y K) :
     CFSG.ABGLocalTools.IsSylowOf 2 (D.T ⊓ K ⊔ proofS D) (K ⊔ proofS D) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S := proofS D with hSdef
   set P := D.T ⊓ K with hPdef
   have hP := hK.sylow
@@ -138,7 +138,7 @@ theorem KLift.kerN_le_pCoreOf (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D C
     (h51 : S22_5_1 D Ch) (hH : H1930 D) (c : Ctx22c D Ch) {m : ℕ} {Nb : Fin m → Subgroup (MBar D.M D.U)}
     (hNb : NbarSplit D Nb) {i : Fin m} (hK : KLift D (Nb i) K) :
     (K ⊔ proofS D) ⊓ preMbar D (centralizer (Nb i : Set (MBar D.M D.U))) ≤ pCoreOf 2 (K ⊔ proofS D) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S := proofS D with hSdef
   set H : Subgroup G := K ⊔ S with hHdef
   set Kh : Subgroup G := H ⊓ preMbar D (centralizer (Nb i : Set (MBar D.M D.U))) with hKhdef
@@ -187,7 +187,7 @@ theorem KLift.exists_quotient (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D C
     ∃ (n : ℕ) (X : Type) (_ : Group X) (φ : ↥(K ⊔ proofS D) →* X), 1 ≤ n ∧
       Function.Surjective φ ∧ Nonempty (X ≃* CFSG.Assembly.RankThreeEven.projSL 2 (GaloisField 2 n)) ∧
       φ.ker ≤ CFSG.pCore 2 ↥(K ⊔ proofS D) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S := proofS D with hSdef
   set H : Subgroup G := K ⊔ S with hHdef
   have hKM : K ≤ D.M := hK.le_M
@@ -255,11 +255,11 @@ theorem KLift.exists_quotient (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D C
   rw [← this]
   exact hy
 
-theorem KLift.pCoreOf_le_preMbar (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch) (h3 : S22_3_3 D Ch)
+theorem KLift.pCoreOf_le_preMbar (D : Data G) (Ch : Choice2011 G) (_h2 : S22_3_2 D Ch) (_h3 : S22_3_3 D Ch)
     (h51 : S22_5_1 D Ch) (hH : H1930 D) (c : Ctx22c D Ch) {m : ℕ} {Nb : Fin m → Subgroup (MBar D.M D.U)}
     (hNb : NbarSplit D Nb) {i : Fin m} (hK : KLift D (Nb i) K) :
     pCoreOf 2 (K ⊔ proofS D) ≤ preMbar D (centralizer (Nb i : Set (MBar D.M D.U))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S := proofS D with hSdef
   set H : Subgroup G := K ⊔ S with hHdef
   set R : Subgroup G := pCoreOf 2 H with hRdef
@@ -298,8 +298,8 @@ theorem KLift.pCoreOf_le_preMbar (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 
   obtain ⟨n, hn, hnM, rfl⟩ := hK.exists_mk_eq hy
   have hcR : r * n * r⁻¹ * n⁻¹ ∈ R := by
     have h1 : n * r⁻¹ * n⁻¹ ∈ R := (mem_normalizer_iff.1 (hHR (Subgroup.mem_sup_left hn)) r⁻¹).1 (R.inv_mem hr)
-    have h2 := R.mul_mem hr h1
-    simpa [mul_assoc] using h2
+    have _h2 := R.mul_mem hr h1
+    simpa [mul_assoc] using _h2
   have hcK : r * n * r⁻¹ * n⁻¹ ∈ K := K.mul_mem ((mem_normalizer_iff.1 (hHK (hRH hr)) n).1 hn) (K.inv_mem hn)
   have hcM : r * n * r⁻¹ * n⁻¹ ∈ D.M := hKM hcK
   have hcQ : (⟨QuotientGroup.mk ⟨r * n * r⁻¹ * n⁻¹, hcM⟩, hQle ⟨⟨_, hcM⟩, ⟨hcR, hcK⟩, rfl⟩⟩ : ↥(Nb i)) ∈ Q :=
@@ -369,7 +369,7 @@ theorem KLift.isTwoReducedIn (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch
     (h51 : S22_5_1 D Ch) (hH : H1930 D) (c : Ctx22c D Ch) {m : ℕ} {Nb : Fin m → Subgroup (MBar D.M D.U)}
     (hNb : NbarSplit D Nb) {i : Fin m} (hK : KLift D (Nb i) K) :
     CFSG.Quasithin.IsTwoReducedIn (K ⊔ proofS D) (proofIi D (preN D (Nb i))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Umod, _, _, _, e, ρ, hc⟩ :=
     uc22br4_exists_conjModule D.M D.U (uc22p22xf_hV D) (uc22p22xf_hel D)
   have d := natDec_of_data D Ch h3 h51 hH c hNb e ρ hc
@@ -467,18 +467,18 @@ theorem KLift.exists_minParabolic (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2
     (h51 : S22_5_1 D Ch) (hH : H1930 D) (c : Ctx22c D Ch) {m : ℕ} {Nb : Fin m → Subgroup (MBar D.M D.U)}
     (hNb : NbarSplit D Nb) {i : Fin m} (hK : KLift D (Nb i) K) :
     ∃ Mx : Subgroup G, CFSG.Quasithin.MinParabolic (K ⊔ proofS D) (D.T ⊓ K ⊔ proofS D) Mx := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := K ⊔ proofS D with hHdef
   have hT : CFSG.QuasithinUnique.IsSylowTwoOf (D.T ⊓ K ⊔ proofS D) H :=
     CFSG.ABGLocalTools.isSylowOf_iff.1 hK.isSylowOf_sup
   obtain ⟨n, X, _, φ, hn, hφ, ⟨eX⟩, hker⟩ := KLift.exists_quotient D Ch h2 h3 h51 hH c hNb hK
   set F := GaloisField 2 n with hFdef
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hF : Fintype.card F = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 n (by omega)]
   set eS : X ≃* Matrix.SpecialLinearGroup (Fin 2) F :=
     eX.trans (CFSG.RankThree.PartTwo.KFacts.KS116Proof.projSLEquiv F).symm with heSdef
-  haveI : Finite X := Finite.of_equiv _ eS.symm.toEquiv
+  have : Finite X := Finite.of_equiv _ eS.symm.toEquiv
   have hL2 : IsL2Ev X n := ⟨F, inferInstance, inferInstance, by rw [Nat.card_eq_fintype_card, hF],
     ⟨eS.trans (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 F)⟩⟩
   have hker' : φ.ker = CFSG.pCore 2 ↥H := by

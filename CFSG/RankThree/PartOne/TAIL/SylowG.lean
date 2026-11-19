@@ -23,7 +23,7 @@ theorem sylow_of_normalizer_le [Finite G] {P N : Subgroup G} (hpg : IsPGroup 7 P
       have : (⟨x, hx⟩ : ↥(S : Subgroup G)) ∈ P.subgroupOf (S : Subgroup G) := by
         rw [htop]; exact Subgroup.mem_top _
       exact this
-    have : Group.IsNilpotent ↥(S : Subgroup G) := IsPGroup.isNilpotent S.isPGroup'
+    have : Group.IsNilpotent ↥(S : Subgroup G) := IsPGroup.isNilpotent S.isPGroup
     obtain ⟨s, hsn, hsH⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
     have hsP : (s : G) ∈ Subgroup.normalizer (P : Set G) := by
       refine mem_normalizer_of_conj_mem P fun y hy => ?_
@@ -35,7 +35,7 @@ theorem sylow_of_normalizer_le [Finite G] {P N : Subgroup G} (hpg : IsPGroup 7 P
     have hxN : Subgroup.zpowers (s : G) ≤ Subgroup.normalizer (P : Set G) :=
       Subgroup.zpowers_le.mpr hsP
     have hsord : IsPGroup 7 ↥(Subgroup.zpowers (s : G)) := by
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') s
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) s
       rw [← Subgroup.orderOf_coe] at hk
       exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
     have hRpg : IsPGroup 7 ↥(P ⊔ Subgroup.zpowers (s : G)) :=

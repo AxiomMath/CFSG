@@ -151,7 +151,7 @@ theorem closure_eq :
 theorem syl_eq : sylXList = ((List.range 256).map fE).toArray := by
   rw [sylXList_fst, closure_eq]
   apply Array.toList_inj.1
-  simp only [hRec, Array.toList_ofFn, List.toList_toArray]
+  simp only [hRec, Array.toList_ofFn]
   rw [List.ofFn_eq_map, ← List.map_coe_finRange_eq_range, List.map_map, hcnt]
   rfl
 
@@ -169,7 +169,6 @@ theorem facts25510 : j3OuterCheck = true := by
   refine ⟨⟨?_, ?_⟩, ?_⟩
   · refine (any_mem fun i hi => ?_).trans t0_mem
     rw [Function.comp_apply]
-    beta_reduce
     rw [fE, tblEq_unpack (hT (List.mem_range.1 hi)) h9]
   · rw [List.all_eq_true]
     intro i hi
@@ -177,19 +176,16 @@ theorem facts25510 : j3OuterCheck = true := by
     have hr := row i hi'
     unfold cenRow commAll at hr
     rw [Function.comp_apply]
-    beta_reduce
     rw [fE, tblEq_unpack (hT hi') h9, hid, tblEq_unpack (hT hi') hidc]
     refine (congrArg (fun b => !b || Nat.beq (J3XS.T i) (pidn 6156 13) ||
       Nat.beq (J3XS.T i) (J3CentP 9)) (all_mem fun j hj => ?_)).trans hr
     rw [Function.comp_apply]
-    beta_reduce
     rw [commTT_unpack (hT hi') (gen (List.mem_range.1 hj)).1, pc, pc]
   · obtain ⟨i, hi, he⟩ := List.any_eq_true.1 x_mem
     have hi' := List.mem_range.1 hi
     have hx : J3XS.T i = xW := Nat.eq_of_beq_eq_true he
     refine List.any_eq_true.2 ⟨i, hi, ?_⟩
     rw [Function.comp_apply]
-    beta_reduce
     rw [fE, Bool.and_eq_true]
     refine ⟨?_, ?_⟩
     · rw [compT_unpack (hT hi') (hT hi'), compT_unpack (canonK_pcomp (hT hi') (hT hi'))

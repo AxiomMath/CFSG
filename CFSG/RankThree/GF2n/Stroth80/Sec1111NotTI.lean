@@ -21,7 +21,7 @@ variable {F : Type} [Field F] [Finite F] {n : ℕ}
 theorem card_statedSLElations_le (u : Fin n → F) (hu : u ≠ 0) :
     Nat.card (statedSLElations n F u) ≤ Nat.card F ^ (n - 1) := by
   classical
-  haveI : Finite (Module.Dual F (Fin n → F)) := Module.finite_of_finite F
+  have : Finite (Module.Dual F (Fin n → F)) := Module.finite_of_finite F
   have hex : ∀ A : statedSLElations n F u, ∃ f : Module.Dual F (Fin n → F), f u = 0 ∧
       ∀ x, (A.1 : Matrix (Fin n) (Fin n) F) *ᵥ x = x + f x • u := by
     intro A
@@ -74,6 +74,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z A : Subgroup G}
   {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
   {F : Type} [Field F] [Finite F] {n : ℕ}
 
+omit [Finite F] [Finite K] in
 theorem elation_of_mem_LB (hcA : Ctx M Q Z A) (h : GlobalModelData M Q Z γ M₀)
     {S V : Subgroup G} (hSH : S ≤ H0 M Z) (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
@@ -277,6 +278,7 @@ section NotTI
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem IsTIMod.conj_of_mem {L : Subgroup G} (hc : Ctx M Q Z B) (h : IsTIMod M Q L) {g : G}
     (hg : g ∈ M) : IsTIMod M Q (conjSubgroup g L) := by
   intro m hm
@@ -317,7 +319,7 @@ theorem not_isTIMod_of_core (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n) (hn 
     show _ ↔ (C.Ψ e).1 = 0
     rw [hCΦ]
     exact hΦ₂ e
-  haveI : CharP F 2 := charP_of_injective_ringHom C.θ₁.toRingHom.injective 2
+  have : CharP F 2 := charP_of_injective_ringHom C.θ₁.toRingHom.injective 2
   obtain ⟨x, hxM, hxV⟩ := hx
   have hSN₂ : ∀ s ∈ S, conjSubgroup s V₂ = V₂ := fun s hs =>
     conjSubgroup_eq_self_iff.mpr (hact₂.1 hs)
@@ -363,7 +365,7 @@ theorem not_isTIMod_of_core (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n) (hn 
       refine ⟨u j • Pi.single i 1 - u i • Pi.single j 1, ?_, ?_⟩
       · intro h0
         have := congrFun h0 j
-        simp [Pi.single_apply, hj, hi] at this
+        simp [hj, hi] at this
       · simp [sub_dotProduct, smul_dotProduct, mul_comm]
     obtain ⟨A', hA'SL, hA'w⟩ := exists_statedSL_mulVec_eq (by omega : 2 ≤ n) hw₂0 hα0
     obtain ⟨s, hs⟩ := NatDualCoord.exists_eq_of_mem_statedSL hrange (tinvGL_mem_statedSL hA'SL)

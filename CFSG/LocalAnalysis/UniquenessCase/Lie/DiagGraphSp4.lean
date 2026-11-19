@@ -62,7 +62,7 @@ open CFSG.Blueprint (LieModel)
 theorem uc22pdiag_twoClasses_projSp4 {K : Type} [Field K] [Finite K] [CharP K 2]
     (V₀ : Sylow 2 (StatedProj (StatedSp 2 K))) (hV₀ : (V₀ : Subgroup _) = projUnipotent 2 K) :
     uc22pdiag_TwoClasses (StatedProj (StatedSp 2 K)) (V₀ : Subgroup (StatedProj (StatedSp 2 K))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : normalizer ((V₀ : Subgroup (StatedProj (StatedSp 2 K))) :
       Set (StatedProj (StatedSp 2 K))) = projBorel 2 K := by
     rw [hV₀]; exact normalizer_projUnipotent 2 (by norm_num)
@@ -112,9 +112,9 @@ theorem uc22pdiag_twoClasses_projSp4 {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem uc22pdiag_twoClasses_Sp4 {M : Type} [Group M] [Finite M] {n : ℕ} (h : LieModel M .PSp 2 2 n)
     (V : Sylow 2 M) : uc22pdiag_TwoClasses M (V : Subgroup M) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := h.statedClassicalModel (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   obtain ⟨V₀, hV₀⟩ := exists_sylow_projUnipotent (K := K) 2 (r := 2) (by norm_num)
   let VN : Sylow 2 (StatedProj (StatedSp 2 K)) := Sylow.mapSurjective (f := e.toMonoidHom) e.surjective V
   obtain ⟨k, hk⟩ := MulAction.exists_smul_eq (StatedProj (StatedSp 2 K)) V₀ VN

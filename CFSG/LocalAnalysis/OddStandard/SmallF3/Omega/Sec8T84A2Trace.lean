@@ -81,9 +81,8 @@ theorem sec8t84a2_trace_split {M V : Type*} [AddCommGroup M] [Module (ZMod 2) M]
     have hexp : (β (s (ρ x v)) (s (ρ x w)) + c x w • (ρ x v)) + c x v • (ρ x w)
         = ρ x (β (s v) (s w)) := by
       have h' := h
-      simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, smul_smul,
-        hβt, hβt', halt, hs_apply, hπt, smul_zero, add_zero, zero_add] at h'
-      convert h' using 1 <;> abel
+      simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, hβt, hβt', hs_apply, hπt, smul_zero, add_zero] at h'
+      convert h' using 1; abel
     rw [eq_comm, ← hexp]
     exact zmod2_add_add_add_add_self
       (β (s (ρ x v)) (s (ρ x w))) (c x w • (ρ x v)) (c x v • (ρ x w))
@@ -106,7 +105,7 @@ theorem sec8t84a2_trace_split {M V : Type*} [AddCommGroup M] [Module (ZMod 2) M]
     have htr := congrArg (LinearMap.trace (ZMod 2) V) hE
     simp only [map_add, map_smul, LinearMap.trace_conj', LinearMap.trace_smulRight,
       LinearMap.trace_id, LinearMap.comp_apply, LinearEquiv.coe_coe,
-      LinearEquiv.apply_symm_apply, LinearEquiv.symm_apply_apply] at htr
+      LinearEquiv.symm_apply_apply] at htr
     rw [hfin, smul_zero, add_zero] at htr
     exact htr
   let s' : V →ₗ[ZMod 2] M := s + φ.smulRight t

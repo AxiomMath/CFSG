@@ -58,7 +58,7 @@ theorem k_eq_one_of_three_conj (D : Data G) (h82 : F08.R82 D) {L : Subgroup G}
     (h82 _ (hyp81_of_three hL hLx hLy hxL.symm hyL.symm hyx.symm hL3 hLx3 hLy3))
 
 @[expose] def Gap17_15_P (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   IsL2Over17 (Bar2 L) 7 → D.k = 1 →
     ∀ x ∈ D.M, ∀ y ∈ D.M, L.map (MulAut.conj x).toMonoidHom ≠ L →
       L.map (MulAut.conj y).toMonoidHom ≠ L →
@@ -67,7 +67,7 @@ theorem k_eq_one_of_three_conj (D : Data G) (h82 : F08.R82 D) {L : Subgroup G}
       CFSG.Quasithin.F6.IsPGL2 7 (Bar2 (L ⊔ NTL17 D L))
 
 @[expose] def Gap17_15_paraTwo (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   IsL2Over17 (Bar2 L) 7 → Nat.card V₀ ≤ 4
 
 @[expose] def Gap17_15_paraSix (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
@@ -76,7 +76,7 @@ theorem k_eq_one_of_three_conj (D : Data G) (h82 : F08.R82 D) {L : Subgroup G}
     mBar D.M V₀ V hC.hyp125.isElemAbelian = 4 → False
 
 @[expose] def Gap17_15_pair (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   IsL2Over17 (Bar2 L) 7 →
     ∃ H₁ H₂ : Subgroup G,
       D.T ≤ H₁ ∧ H₁ ≤ D.M ∧ D.T ≤ H₂ ∧ H₂ ≤ D.M ∧ L ≤ H₁ ⊔ H₂ ⊔ D.T ∧
@@ -87,7 +87,7 @@ theorem k_eq_one_of_three_conj (D : Data G) (h82 : F08.R82 D) {L : Subgroup G}
         UniqueMax D.M (H₁ ⊔ H₂ ⊔ D.T)
 
 @[expose] def Gap17_15_pairOuter (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   IsL2Over17 (Bar2 L) 7 → ¬ IsL2Over17 (Bar2 (L ⊔ D.T)) 7 →
     ∃ H₁ H₂ : Subgroup G,
       D.T ≤ H₁ ∧ H₁ ≤ D.M ∧ D.T ≤ H₂ ∧ H₂ ≤ D.M ∧ L ≤ H₁ ⊔ H₂ ⊔ D.T ∧
@@ -98,7 +98,7 @@ theorem k_eq_one_of_three_conj (D : Data G) (h82 : F08.R82 D) {L : Subgroup G}
         UniqueMax D.M (H₁ ⊔ H₂ ⊔ D.T)
 
 @[expose] def Gap17_15_paraTwoOuter (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
-    (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   IsL2Over17 (Bar2 L) 7 → ¬ IsL2Over17 (Bar2 (L ⊔ D.T)) 7 → Nat.card V₀ ≤ 4
 
 theorem gap17_15_pair_inner (D : Data G) (V₀ V L : Subgroup G) (r q : ℕ)
@@ -337,17 +337,17 @@ theorem seventeen_fifteen_of_not_seven (D : Data G)
     have h1 : (m : ℕ∞) ≤ (D.k : ℕ∞) + i + (b : ℕ∞) := not_lt.mp hnot'
     have h2 : (m : ℕ∞) ≤ (D.k : ℕ∞) + 1 + (b : ℕ∞) := by simpa only [hi1] using h1
     have h3 : m ≤ D.k + 1 + b := by
-      refine ENat.coe_le_coe.mp ?_
+      refine ENat.natCast_le_natCast.mp ?_
       simpa only [Nat.cast_add, Nat.cast_one] using h2
     omega
   have hP : P17_12_1 r q L := Or.inl hq.1
   have hmemΔ : D.T ⊔ L ∈ Delta17_12 D (fundPred q) r q L := by
     unfold Delta17_12
-    rw [dif_pos hP]
+    rw [dite_eq_left hP]
     refine ⟨1, D.M.one_mem, ?_⟩
     congr 1
     ext x
-    simp [MulAut.conj_apply]
+    simp
   have hUc : UniqueMax D.M (UC22.conjClosure D.M L) :=
     uc22p22u_uniqueMax_mono D (TwelveTwentyThree.le_conjClosure D.M L)
       (TwelveTwentyThree.conjClosure_le hC.memL.1.le) h17_7.1

@@ -40,6 +40,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def Case234 (p q : ℕ) (B : Subgroup G) (x : G) (L : Subgroup G) : Prop :=
   Case64ii p q B x L ∨ Case34 p q B x L
 
+omit [Finite G] in
 theorem lemma64Cases_iff (p q : ℕ) (B : Subgroup G) (x : G) (L : Subgroup G) :
     Lemma64Cases p q B x L ↔ Case64i p q B x L ∨ Case234 p q B x L := Iff.rfl
 

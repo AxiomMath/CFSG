@@ -36,7 +36,8 @@ private def commModSubgroup (O : Subgroup G) (x : G) : Subgroup G where
     rw [e]
     exact h3
 
-private theorem le_commModSubgroup_of_le {O : Subgroup G} {x : G} (hx : x ∈ normalizer (O : Set G))
+omit [Finite G] in
+private theorem le_commModSubgroup_of_le {O : Subgroup G} {x : G} (_hx : x ∈ normalizer (O : Set G))
     {Y : Subgroup G} (hYO : Y ≤ normalizer (O : Set G))
     (hY : ∀ y ∈ Y, x * y * x⁻¹ * y⁻¹ ∈ O) : Y ≤ commModSubgroup O x :=
   fun y hy => ⟨hYO hy, hY y hy⟩
@@ -69,7 +70,7 @@ theorem le_normalizer_K0193 {D : Data G} {X A K : Subgroup G} (hK : K ≤ X ⊔ 
         (Subgroup.mem_iSup_of_mem (Subgroup.mul_mem _ hk' (Subgroup.inv_mem _ hk)) ?_))
       rw [mem_conjSubgroup_iff] at hz ⊢
       have e : k' * k⁻¹ * ((MulAut.conj k).toMonoidHom z) * (k' * k⁻¹)⁻¹ = k' * z * k'⁻¹ := by
-        simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+        simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
         group
       rw [e]
       exact hz
@@ -101,7 +102,7 @@ theorem N_inf_T_le (c : MinCex193 D V₀ V p X) :
 
 theorem inf_K_ne_bot (c : MinCex193 D V₀ V p X) {g : G} {K : Subgroup G}
     (hc : Conf196 D V X g K) : X ⊓ K ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨c.hyp.prime⟩
+  have : Fact p.Prime := ⟨c.hyp.prime⟩
   obtain ⟨x, hxK, hxp⟩ := hc.exists_orderOf_eq c
   set O := pCoreOf 2 (X ⊔ D.T) with hO
   have hXO : X ≤ normalizer (O : Set G) :=
@@ -145,7 +146,7 @@ theorem card_le_of_isCyclic (c : MinCex193 D V₀ V p X) {Y : Subgroup G} (hY : 
 
 theorem commute_of_card_le (c : MinCex193 D V₀ V p X) (hcard : Nat.card ↥X ≤ p ^ 2) :
     ∀ a ∈ X, ∀ b ∈ X, a * b = b * a := by
-  haveI : Fact p.Prime := ⟨c.hyp.prime⟩
+  have : Fact p.Prime := ⟨c.hyp.prime⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 c.hyp.isPGroup
   have hn2 : n ≤ 2 := by
     have : p ^ n ≤ p ^ 2 := hn ▸ hcard
@@ -154,7 +155,7 @@ theorem commute_of_card_le (c : MinCex193 D V₀ V p X) (hcard : Nat.card ↥X �
     by_contra hne
     apply c.hyp.noncyclic
     interval_cases n
-    · haveI : Subsingleton ↥X := by
+    · have : Subsingleton ↥X := by
         rw [pow_zero] at hn
         exact (Nat.card_eq_one_iff_unique.1 hn).1
       exact isCyclic_of_subsingleton
@@ -282,7 +283,7 @@ theorem sup_eq_eGen_sup_of_card (c : MinCex193 D V₀ V p X)
       Nat.card ↥(X ⊓ J193 D X (conjSubgroup V g) K) = p) :
     E1.eGen 1 (X ⊔ D.T) D.T (E3.gammaSet V 0 (X ⊔ D.T)) ⊔ D.T = X ⊔ D.T := by
   classical
-  haveI : Fact p.Prime := ⟨c.hyp.prime⟩
+  have : Fact p.Prime := ⟨c.hyp.prime⟩
   have hLH : E1.eGen 1 (X ⊔ D.T) D.T (E3.gammaSet V 0 (X ⊔ D.T)) ⊔ D.T ≤ X ⊔ D.T :=
     sup_le (E1.eGen_le 1 _ _ _) le_sup_right
   by_contra hne

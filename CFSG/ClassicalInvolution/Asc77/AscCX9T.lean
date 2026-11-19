@@ -150,7 +150,7 @@ theorem twinIso_vtx (hyp : Hyp25 p f Ω K K' W S R R' z t u₁ u₂) {w w' : G}
   have hK'Ω : K' ∈ Ω := hs.hK'.1
   set F := Subgroup.closure ({w, w'} : Set G) with hF
   have hFA := closure_pair_le hwA hw'A
-  have hF2 : IsPGroup 2 F := S.isPGroup'.to_le (hFA.trans inf_le_left)
+  have hF2 : IsPGroup 2 F := S.isPGroup.to_le (hFA.trans inf_le_left)
   have hwF : w ∈ F := Subgroup.subset_closure (Set.mem_insert w _)
   have hw'F : w' ∈ F := Subgroup.subset_closure (Set.mem_insert_of_mem w rfl)
   have hcK : ⁅F, K⁆ ≤ oddCoreOf K := Subgroup.commutator_le.mpr fun a ha x hx =>

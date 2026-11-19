@@ -55,7 +55,7 @@ theorem card_le_mul_card_inf_of_le_sup {H : Type*} [Group H] {B L₁ L₂ : Subg
         calc (b : H) = ψ (β b) := (hβ_apply b).symm
           _ = ψ (1, (β b).2) := by rw [hβeq]
           _ = ((β b).2 : H) := by rw [hψ_apply]; simp
-      simpa [hb_eq] using (β b).2.2
+      simp [hb_eq]
     · rintro ⟨_, hbL₂⟩
       let c : ↥L₂ := ⟨(b : H), hbL₂⟩
       have hc : ψ (β b) = ψ (1, c) := by

@@ -422,7 +422,7 @@ private theorem ncard_axisBundle_of_dist_two (hP : IsGeneralizedPolygon Γ 4) (h
     exact ptPerp_singleton_injective hP hT (color_eq_zero_of_mem_starLine u.2)
       (color_eq_zero_of_mem_starLine v.2) huv
   rw [Set.ncard_range_of_injective hinj, Nat.card_coe_set_eq, hLeq, SimpleGraph.ncard_neighborSet,
-    hdeg (commonNeighbor hP h2), if_neg (by rw [hK1]; decide)]
+    hdeg (commonNeighbor hP h2), ite_eq_right (by rw [hK1]; decide)]
 
 private theorem ncard_tangentBundle (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     (c : Γ.Coloring (Fin 2)) {s t : ℕ}
@@ -446,7 +446,7 @@ private theorem ncard_tangentBundle (hP : IsGeneralizedPolygon Γ 4) (hT : IsThi
         {ℓ | IsHypLine Γ c ℓ ∧ x ∈ ℓ} \ {ℓ | IsHypLine Γ c ℓ ∧ x ∈ ℓ ∧ ℓ ⊆ X} := by
       ext ℓ
       simp only [Lall, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_sdiff,
-        Set.mem_setOf_eq]
+        Set.mem_ofPred_eq]
       tauto
     have hsub : {ℓ | IsHypLine Γ c ℓ ∧ x ∈ ℓ ∧ ℓ ⊆ X} ⊆
         {ℓ | IsHypLine Γ c ℓ ∧ x ∈ ℓ} := fun ℓ h => ⟨h.1, h.2.1⟩
@@ -650,7 +650,7 @@ private theorem ncard_tangentBundle (hP : IsGeneralizedPolygon Γ 4) (hT : IsThi
 theorem ncard_of_isPlaneBundle (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     (c : Γ.Coloring (Fin 2)) {s t : ℕ}
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
-    (hreg : ∀ x, c x = 0 → IsRegularVertex Γ x) (hst : s ≠ t) (hii : TalliniCondPrime Γ c)
+    (hreg : ∀ x, c x = 0 → IsRegularVertex Γ x) (_hst : s ≠ t) (hii : TalliniCondPrime Γ c)
     {β : Set (Set V)} (hβ : IsPlaneBundle Γ c β) : β.ncard = s + 1 := by
   classical
   rcases hβ with ⟨L, hL, rfl⟩ | ⟨X, x, hX, hx, rfl⟩

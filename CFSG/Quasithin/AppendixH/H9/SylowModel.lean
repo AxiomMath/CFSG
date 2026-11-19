@@ -72,7 +72,7 @@ theorem padicValNat_card_GL_two (n : ℕ) :
       simpa using CFSG.LocalAnalysis.ComponentInitial.LinearFlag.not_dvd_prod_pow_sub_one
         Nat.prime_two (dvd_refl 2) (by norm_num) n
   have hne : ∏ j ∈ Finset.Icc 1 n, (2 ^ j - 1) ≠ 0 := fun h => hprod (h ▸ dvd_zero 2)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [padicValNat.mul (by positivity) hne, padicValNat.prime_pow,
     padicValNat.eq_zero_of_not_dvd hprod, add_zero]
 
@@ -114,7 +114,7 @@ theorem revGL_mulVec_ez (m : ℕ) :
       omega
     simp [revGL_val_apply, ez, ezl, Pi.single_apply, h]
   · intro j _ hj
-    simp [ez, Pi.single_apply, hj]
+    simp [ez, hj]
   · simp
 
 private theorem revGL_mulVec_ezl (m : ℕ) :
@@ -128,7 +128,7 @@ private theorem revGL_mulVec_ezl (m : ℕ) :
       omega
     simp [revGL_val_apply, ez, ezl, Pi.single_apply, h]
   · intro j _ hj
-    simp [ezl, Pi.single_apply, hj]
+    simp [ezl, hj]
   · simp
 
 theorem revGL_mul_dualGLn_mul_revGL_mem_utriGL {A : GL (Fin n) (ZMod 2)} (hA : A ∈ utriGL n) :
@@ -139,7 +139,7 @@ theorem revGL_mul_dualGLn_mul_revGL_mem_utriGL {A : GL (Fin n) (ZMod 2)} (hA : A
         X (Fin.rev i) (Fin.rev j) := by
     intro X i j
     simp only [Matrix.mul_apply, revGL_val_apply, mul_ite, mul_one, mul_zero, ite_mul, one_mul,
-      zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     rw [Finset.sum_eq_single (Fin.rev j)]
     · simp
     · intro k _ hk
@@ -296,7 +296,7 @@ theorem card_T0 (hn : 0 < n) : Nat.card (T0 n) = 2 * 2 ^ (n * (n - 1) / 2) := by
 
 theorem isSylowIn_T0 (hn : 0 < n) : IsSylowIn 2 (T0 n) (Mg n) := by
   refine isSylowIn_of_card_eq (T0_le_Mg n) ?_
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [card_T0 hn, card_Mg hn, Nat.factorization_def _ Nat.prime_two,
     padicValNat.mul (by norm_num) Nat.card_pos.ne', padicValNat_card_GL_two, padicValNat_self,
     pow_add, pow_one]
@@ -361,7 +361,7 @@ private theorem utriGL_mulVec_ez (m : ℕ) {A : GL (Fin (m + 1)) (ZMod 2)} (hA :
   · subst hi
     simp [h2 0]
   · have : (0 : Fin (m + 1)) < i := Fin.pos_iff_ne_zero.2 hi
-    simp [h1 i 0 this, Pi.single_apply, hi]
+    simp [h1 i 0 this, hi]
 
 private theorem utriGL_dual_mulVec_ezl (m : ℕ) {A : GL (Fin (m + 1)) (ZMod 2)}
     (hA : A ∈ utriGL (m + 1)) :
@@ -374,7 +374,7 @@ private theorem utriGL_dual_mulVec_ezl (m : ℕ) {A : GL (Fin (m + 1)) (ZMod 2)}
   · subst hi
     simp [h2 (Fin.last m)]
   · have : i < Fin.last m := Fin.lt_last_iff_ne_last.2 hi
-    simp [h1 (Fin.last m) i this, Pi.single_apply, hi]
+    simp [h1 (Fin.last m) i this, hi]
 
 private noncomputable def tvGL {n : ℕ} {i j : Fin n} (hij : i < j) : GL (Fin n) (ZMod 2) :=
   Matrix.SpecialLinearGroup.toGL (Matrix.SpecialLinearGroup.transvection hij.ne (1 : ZMod 2))
@@ -428,7 +428,7 @@ private theorem eq_zero_or_ez {m : ℕ} {v : Fin (m + 1) → ZMod 2} (h : ∀ j,
     by_cases hj : j = 0
     · subst hj
       simp [ez, h0]
-    · simp [ez, Pi.single_apply, hj, h j hj]
+    · simp [ez, hj, h j hj]
 
 private theorem eq_zero_or_ezl {m : ℕ} {v : Fin (m + 1) → ZMod 2}
     (h : ∀ j, j ≠ Fin.last m → v j = 0) : v = 0 ∨ v = ezl m := by
@@ -445,7 +445,7 @@ private theorem eq_zero_or_ezl {m : ℕ} {v : Fin (m + 1) → ZMod 2}
     by_cases hj : j = Fin.last m
     · subst hj
       simp [ezl, h0]
-    · simp [ezl, Pi.single_apply, hj, h j hj]
+    · simp [ezl, hj, h j hj]
 
 private theorem fixed_by_utri_fst {m : ℕ} {a b : Fin (m + 1) → ZMod 2}
     (hfix : ∀ A ∈ utriGL (m + 1), pairActN (m + 1) A (pairVec a b) = pairVec a b) :
@@ -469,7 +469,7 @@ private theorem fixed_by_utri_snd {m : ℕ} {a b : Fin (m + 1) → ZMod 2}
   rw [dualGLn_tvGL_mulVec hij b (Fin.last m)] at h2
   simpa using h2
 
-theorem mem_fixV_T0_iff (m : ℕ) (hm : 1 ≤ m) (x : PairN (m + 1)) :
+theorem mem_fixV_T0_iff (m : ℕ) (_hm : 1 ≤ m) (x : PairN (m + 1)) :
     x ∈ fixV (T0 (m + 1)) ↔ x = 1 ∨ x = pairVec (ez m) (ezl m) := by
   constructor
   · intro hx
@@ -637,6 +637,6 @@ theorem T0_outer_not_fix (m : ℕ) (hm : 1 ≤ m) {s : MulAut (PairN (m + 1))} (
       have := congrArg Fin.val h0
       simp only [Fin.val_zero, Fin.val_last] at this
       omega
-    simp [ezl, Pi.single_apply, hlast, hb] at h2
+    simp [ezl, hlast, hb] at h2
 
 end CFSG.ASVolI.ChH

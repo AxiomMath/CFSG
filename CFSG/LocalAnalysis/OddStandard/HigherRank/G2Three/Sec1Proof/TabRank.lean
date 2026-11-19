@@ -12,6 +12,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three.Sec1
 
 variable {Γ : Type} [Group Γ] [Finite Γ] {D : TabData} {elt : ℕ → Γ}
 
+omit [Finite Γ] in
 private theorem map_subtype_injective {A : Subgroup Γ} :
     Function.Injective (Subgroup.map (A.subtype : ↥A →* Γ)) := by
   intro P Q h
@@ -29,6 +30,7 @@ private theorem map_subtype_injective {A : Subgroup Γ} :
     have : y = x := Subtype.ext hyx
     rwa [this] at hy
 
+omit [Finite Γ] in
 theorem sectionalTwoRank_eq_of_data {S X : Subgroup Γ} (hS : IsPGroup 2 S) (hXS : X ≤ S)
     {k : ℕ} (hk : 1 ≤ k)
     (hup : ∀ P : Subgroup Γ, P ≤ S → ∃ s : Finset Γ, s.card ≤ k ∧ closure (s : Set Γ) = P)
@@ -47,7 +49,7 @@ theorem sectionalTwoRank_eq_of_data {S X : Subgroup Γ} (hS : IsPGroup 2 S) (hXS
     let f : Γ → ↥S := fun x => if h : ∃ p : ↥S, S.subtype p = x then h.choose else 1
     have hf : ∀ x ∈ s, S.subtype (f x) = x := by
       intro x hx
-      have h : f x = (hlift x hx).choose := dif_pos (hlift x hx)
+      have h : f x = (hlift x hx).choose := dite_eq_left (hlift x hx)
       rw [h]; exact (hlift x hx).choose_spec
     let s' : Finset ↥S := s.image f
     have hs'card : s'.card ≤ k := le_trans Finset.card_image_le hscard

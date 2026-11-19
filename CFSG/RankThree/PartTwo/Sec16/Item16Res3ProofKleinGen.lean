@@ -336,7 +336,7 @@ theorem le_kY_of_le_centralizer (p : Fin 4) {W : Subgroup PU5} (hW : IsPGroup 2 
       φ.symm.toMonoidHom
     have hsymm : φ.symm.toMonoidHom (yRep p) = x1 := by
       apply φ.injective
-      simpa [hφx1] using φ.apply_symm_apply (yRep p)
+      simp [hφx1]
     rwa [Set.image_singleton, hsymm] at h
   have hle : W.map φ.symm.toMonoidHom ≤ kD :=
     le_kD_of_le_centralizer (IsPGroup.map hW φ.symm.toMonoidHom) hWC'
@@ -625,13 +625,13 @@ private theorem kleinGen_of_card {E : Subgroup PU5} (hE : Nat.card E = 9) :
 
 theorem ks163U35InvTwo : KFacts.KS163U35InvTwo := by
   intro h5 E hE
-  haveI : Fact (Nat.Prime 5) := h5
+  have : Fact (Nat.Prime 5) := h5
   exact invTwo_map equivPU (invTwo_of_card (by
     rw [Subgroup.card_map_of_injective (f := equivPU.toMonoidHom) equivPU.injective, hE]))
 
 theorem ks163U35KleinGen : KFacts.KS163U35KleinGen := by
   intro h5 E hE
-  haveI : Fact (Nat.Prime 5) := h5
+  have : Fact (Nat.Prime 5) := h5
   exact kleinGen_map equivPU (kleinGen_of_card (by
     rw [Subgroup.card_map_of_injective (f := equivPU.toMonoidHom) equivPU.injective, hE]))
 

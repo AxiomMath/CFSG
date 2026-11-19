@@ -15,7 +15,7 @@ namespace U4InnU5
 theorem pPrimeCore_centralizer_yM5 :
     CFSG.pPrimeCore 3 ↥(Subgroup.centralizer ({yM5} : Set M5)) = ⊥ := by
   obtain ⟨Kb, hKbC, hsup, -, hsimp, hnc, h3, -⟩ := m5_u4_layer
-  haveI := hsimp
+  have := hsimp
   have hK : ∀ k ∈ Kb, k * yM5 = yM5 * k := fun k hk =>
     Subgroup.mem_centralizer_singleton_iff.1 (hKbC hk)
   have hdec : ∀ x ∈ Subgroup.centralizer ({yM5} : Set M5),
@@ -77,7 +77,7 @@ theorem pPrimeCore_centralizer_yM5 :
     show (g : M5) ^ 3 = 1
     rw [hgn, hk₀1, one_mul]
     rw [← zpow_natCast (yM5 ^ n) 3, ← zpow_mul, mul_comm, zpow_mul]
-    simp [zpow_natCast, yM5_pow_three]
+    simp [yM5_pow_three]
 
 theorem u4InnModel_M5 : U4InnModel M5 := by
   intro hS u hu3 hq

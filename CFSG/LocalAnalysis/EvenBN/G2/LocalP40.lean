@@ -86,6 +86,7 @@ variable {G : Type*} [Group G] {L : Subgroup G} {K : Type} [Field K] (d : G2Data
 variable
   [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem mem_M_or_mem_F_of_commutator_mem_W (_hK : 4 ≤ Nat.card K) {s m : G} (hs : s ∈ d.S)
     (hm : m ∈ d.M) (h : s * m * s⁻¹ * m⁻¹ ∈ d.W) : s ∈ d.M ∨ m ∈ d.F := by
   obtain ⟨g, hg, rfl⟩ := d.mem_image.1 hs
@@ -138,9 +139,10 @@ private theorem centralizer_inf_normalizer_Y_le_normalizer_yamadaL₆ (h : Setup
 private theorem centralizer_inf_normalizer_S_le_Y (h : Setup G L f t) (d : G2Data L K)
     (hK : Nat.card K = 2 ^ f) (hD : h.DoublingFacts d) :
     centralizer ({t} : Set G) ⊓ normalizer (d.S : Set G) ≤
-      centralizer ({t} : Set G) ⊓ normalizer (d.Y : Set G) := fun x hx =>
+      centralizer ({t} : Set G) ⊓ normalizer (d.Y : Set G) := fun _x hx =>
   Subgroup.mem_inf.2 ⟨hx.1, (h.centralizer_inf_normalizer_S_le d hK hD).2.2 hx⟩
 
+omit [Finite K] in
 private theorem isPGroup_yamadaL₆ (d : G2Data L K) (t : G) : IsPGroup 2 (yamadaL₆ d t) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact LieType.BorelTits.pCoreOf_isPGroup 2 _
@@ -163,6 +165,7 @@ private theorem yamadaR₂_le_yamadaR₅ (hW : CFSG.Walter.WalterOrderForm) (h :
   have hD := hQ.doubling
   exact (h.yamada_5_21_2 hW d hK hD).2.1.trans (h.yamada_5_27_3 hW d hK hD).ge
 
+omit [Finite K] [CharP K 2] in
 private theorem yamadaR_inf_L (h : Setup G L f t) (d : G2Data L K) :
     yamadaR d t ⊓ L = d.S := by
   refine le_antisymm (fun x hx => ?_) (le_inf (by rw [h.yamadaR_eq d]; exact le_sup_left)
@@ -235,6 +238,7 @@ private theorem exists_rel_yamadaL₆ (hW : CFSG.Walter.WalterOrderForm) (h : Se
     exact ⟨hx, hm', e'⟩
 
 omit [Finite K] in
+omit [Finite G] in
 private theorem inv_mul_mem_W_of_rel {d : G2Data L K} {Rel : G → G → Prop}
     (hR : L₆Rel d t Rel) {l m m' : G} (hlm : Rel l m) (hlm' : Rel l m') : m⁻¹ * m' ∈ d.W := by
   have := hR.mul _ _ _ _ (hR.inv _ _ hlm) hlm'
@@ -431,6 +435,7 @@ private theorem mem_yamadaR₅_iff_of_rel (hW : CFSG.Walter.WalterOrderForm) (h 
     rw [h.yamadaR₅_eq_inf_normalizer hW d hK hQ]
     exact Subgroup.mem_inf.2 ⟨mem_sup_left hl₆, haN⟩
 
+omit [Finite G] in
 private theorem commutator_mem_F (d : G2Data L K) (hK : 4 ≤ Nat.card K) {s m : G} (hs : s ∈ d.S)
     (hm : m ∈ d.S) : s * m * s⁻¹ * m⁻¹ ∈ d.F := by
   have := Subgroup.commutator_mem_commutator hs hm

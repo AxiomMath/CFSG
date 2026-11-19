@@ -88,6 +88,7 @@ theorem isPConstrained_congr_mulEquiv_s15 (p : ℕ) {H H' : Type*} [Group H] [Gr
     CFSG.ABGLocalTools.IsPConstrained p H ↔ CFSG.ABGLocalTools.IsPConstrained p H' :=
   ⟨isPConstrained_of_mulEquiv_s15 p e, isPConstrained_of_mulEquiv_s15 p e.symm⟩
 
+omit [Finite G] in
 theorem autOn_mulEquiv_quot {M T : Subgroup G}
     (hC : gnC (T.subgroupOf M) = (Subgroup.centralizer (uCore M T : Set G)).subgroupOf M) :
     Nonempty (↥(CFSG.Quasithin.autOn M (uCore M T)) ≃* (↥M ⧸ gnC (T.subgroupOf M))) := by
@@ -100,6 +101,7 @@ theorem autOn_mulEquiv_quot {M T : Subgroup G}
       (CFSG.Quasithin.InternalSec.autOnHom_surjective hMU)).symm.trans
     (QuotientGroup.quotientMulEquivOfEq hker)⟩
 
+omit [Finite G] in
 theorem isPConstrained_autOn_iff_quot {M T : Subgroup G} (p : ℕ)
     (hC : gnC (T.subgroupOf M) = (Subgroup.centralizer (uCore M T : Set G)).subgroupOf M) :
     CFSG.ABGLocalTools.IsPConstrained p ↥(CFSG.Quasithin.autOn M (uCore M T)) ↔

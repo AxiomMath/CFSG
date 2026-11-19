@@ -23,7 +23,7 @@ theorem dvd_twelve_nat {p x : ℕ} (hx : 1 ≤ x)
   have hle : x ^ 2 ≤ x ^ 4 := Nat.pow_le_pow_right hx (by norm_num)
   have e : (exhaustionPhi 12).eval (x : ℤ) = ((x ^ 4 - x ^ 2 + 1 : ℕ) : ℤ) := by
     rw [Nat.cast_add, Nat.cast_sub hle, Nat.cast_one]
-    simp [exhaustionPhi] <;> ring
+    simp [exhaustionPhi]
   rw [e] at h
   exact Int.natCast_dvd_natCast.1 h
 
@@ -63,14 +63,14 @@ theorem pRank_top_graphFixedRootGroup_D4_orient {ℓ d p : ℕ} (hℓ : ℓ.Prim
       CFSG.Open.pRank p (⊤ : Subgroup (graphFixedRootGroup TwistTag.D4 k σ₀.toRingHom)) =
         CFSG.Open.pRank p (⊤ : Subgroup (graphFixedRootGroup TwistTag.D4 k σ₁.toRingHom)) := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨fr, hfr, -⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_automorphism_fixed_field_cardinality hℓ
       (by omega : 1 ≤ 3 * d) (by rw [hk, ← pow_mul, mul_comm] : Nat.card k = ℓ ^ (3 * d))
   obtain ⟨σ₁, hσ₁⟩ : ∃ σ₁ : k ≃+* k, ∀ c, σ₁ c = c ^ ℓ ^ d :=
     ⟨fr ^ d, fun c => ringAut_pow_apply_of_frobenius hfr d c⟩
   refine ⟨σ₁, hσ₁, ?_⟩
-  haveI : Finite (ModGL TwistTag.D4.tag k) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag k) := finite_modGL
   rcases hσ₀ with h | h
   · have hσe : σ₀ = σ₁ := RingEquiv.ext fun c => by rw [h, hσ₁]
     subst hσe
@@ -81,15 +81,15 @@ theorem pRank_top_graphFixedRootGroup_D4_orient {ℓ d p : ℕ} (hℓ : ℓ.Prim
 
 theorem triD4CrossRankStep (h1 : TriPhi1Rank) : TriD4CrossRankStep := by
   intro ℓ d p hℓ hd hp hp5 hne K k _ _ _ _ σ σ₀ hK hk hσ hσ₀ hrk
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hp1 : 1 < p := hp.one_lt
   have hpd1 : 1 ≤ p * d := by nlinarith [hp.two_le]
   have hpK : ¬ p ∣ ℓ ^ (p * d) := OFRC.not_dvd_pow_of_ne hp hℓ hne
   have hq1 : 1 ≤ ℓ ^ (p * d) := Nat.one_le_pow _ _ hℓ.pos
   have hcong : ((ℓ ^ (p * d) : ℕ) : ZMod p) = ((ℓ ^ d : ℕ) : ZMod p) := by
     rw [pow_mul', OFRC.natCast_pow_prime]
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hdvd : p ∣ Nat.card (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := by
     obtain ⟨E, -, -, hcardE⟩ := CFSG.SectionRank.exists_pRank hp1
       (⊤ : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom))
@@ -125,7 +125,7 @@ theorem triD4CrossRankStep (h1 : TriPhi1Rank) : TriD4CrossRankStep := by
     have hdiv : (p : ℤ) ∣ ((ℓ ^ d : ℕ) : ℤ) ^ 2 + (1 : ℤ) * ((ℓ ^ d : ℕ) : ℤ) + 1 := by
       have e : ((ℓ ^ d : ℕ) : ℤ) ^ 2 + (1 : ℤ) * ((ℓ ^ d : ℕ) : ℤ) + 1 =
           (exhaustionPhi 3).eval ((ℓ ^ d : ℕ) : ℤ) := by
-        simp [exhaustionPhi] <;> ring
+        simp [exhaustionPhi]
       rw [e]
       exact (dvd_eval_iff_of_natCast_eq (exhaustionPhi 3) hcong).1 hpm
     have := CFSG.RankThree.PartOne.KLC.two_le_pRank_triality_phi36 hd hk σ₁ hσ₁
@@ -135,7 +135,7 @@ theorem triD4CrossRankStep (h1 : TriPhi1Rank) : TriD4CrossRankStep := by
     have hdiv : (p : ℤ) ∣ ((ℓ ^ d : ℕ) : ℤ) ^ 2 + (-1 : ℤ) * ((ℓ ^ d : ℕ) : ℤ) + 1 := by
       have e : ((ℓ ^ d : ℕ) : ℤ) ^ 2 + (-1 : ℤ) * ((ℓ ^ d : ℕ) : ℤ) + 1 =
           (exhaustionPhi 6).eval ((ℓ ^ d : ℕ) : ℤ) := by
-        simp [exhaustionPhi] <;> ring
+        simp [exhaustionPhi]; ring
       rw [e]
       exact (dvd_eval_iff_of_natCast_eq (exhaustionPhi 6) hcong).1 hpm
     have := CFSG.RankThree.PartOne.KLC.two_le_pRank_triality_phi36 hd hk σ₁ hσ₁

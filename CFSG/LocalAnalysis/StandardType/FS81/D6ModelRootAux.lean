@@ -25,22 +25,19 @@ theorem lin_genGL_empty_apply {a b : Fin 6} (hab : a ≠ b) (v : V12) :
         Matrix.single (Sum.inr b) (Sum.inr a) 1 := by
     ext x y
     rcases x with i | i <;> rcases y with j | j
-    · simp only [genMat, flipPermFun, Finset.notMem_empty, if_false, Matrix.of_apply,
-        Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁,
-        Matrix.fromBlocks_apply₂₂, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply,
-        Sum.inl.injEq, Sum.inr.injEq, Matrix.transvection]
+    · simp only [genMat, flipPermFun, Finset.notMem_empty, ite_false, Matrix.of_apply,
+        Matrix.fromBlocks_apply₁₁, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply,
+        Sum.inl.injEq, Matrix.transvection]
       by_cases hia : i = a <;> by_cases hjb : j = b <;> simp [hia, hjb, eq_comm]
-    · simp [genMat, flipPermFun, Matrix.fromBlocks_apply₁₂, Matrix.one_apply,
-        Matrix.single_apply]
-    · simp [genMat, flipPermFun, Matrix.fromBlocks_apply₂₁, Matrix.one_apply,
-        Matrix.single_apply]
-    · simp only [genMat, flipPermFun, Finset.notMem_empty, if_false, Matrix.of_apply,
+    · simp [genMat, flipPermFun, Matrix.fromBlocks_apply₁₂]
+    · simp [genMat, flipPermFun, Matrix.fromBlocks_apply₂₁]
+    · simp only [genMat, flipPermFun, Finset.notMem_empty, ite_false, Matrix.of_apply,
         Matrix.fromBlocks_apply₂₂, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply,
-        Sum.inl.injEq, Sum.inr.injEq, Matrix.transpose_apply, Matrix.transvection]
+        Sum.inr.injEq, Matrix.transpose_apply, Matrix.transvection]
       by_cases hib : i = b <;> by_cases hja : j = a <;> simp [hib, hja, eq_comm, and_comm]
   rw [hmat, Matrix.add_mulVec, Matrix.add_mulVec, Matrix.one_mulVec,
     Matrix.single_mulVec_eq, Matrix.single_mulVec_eq]
-  simp [Pi.add_apply, one_mul, add_assoc]
+  simp [one_mul, add_assoc]
 
 theorem lin_genGL_empty_eq_eichler {a b : Fin 6} (hab : a ≠ b) :
     lin (genGL hab ∅) =
@@ -57,7 +54,7 @@ theorem lin_genGL_empty_eq_eichler {a b : Fin 6} (hab : a ≠ b) :
   · rw [Q12, CFSG.LieType.Universal.Spin.quadPlus_apply]
     simp [Pi.single_apply]
   · rw [CFSG.LieType.Universal.Spin.polar_quadPlus_single_inr]
-    simp [Pi.single_apply, hab]
+    simp [hab]
 
 abbrev vecE (i : Fin 6) : V12 := Pi.single (Sum.inl i) 1
 
@@ -66,20 +63,20 @@ abbrev vecF (i : Fin 6) : V12 := Pi.single (Sum.inr i) 1
 private theorem quadPlus_single_inl_zero (i : Fin 6) : Q12 (vecE i) = 0 := by
   rw [Q12, CFSG.LieType.Universal.Spin.quadPlus_apply]
   refine Finset.sum_eq_zero fun x _ => ?_
-  simp [vecE, Pi.single_apply, Sum.inl_ne_inr, Sum.inr_ne_inl]
+  simp [vecE, Pi.single_apply, Sum.inr_ne_inl]
 
 private theorem quadPlus_single_inr_zero (i : Fin 6) : Q12 (vecF i) = 0 := by
   rw [Q12, CFSG.LieType.Universal.Spin.quadPlus_apply]
   refine Finset.sum_eq_zero fun x _ => ?_
-  simp [vecF, Pi.single_apply, Sum.inl_ne_inr, Sum.inr_ne_inl]
+  simp [vecF, Pi.single_apply, Sum.inl_ne_inr]
 
 private theorem polar_Q12_vecE_vecF {a b : Fin 6} (hab : a ≠ b) :
     QuadraticMap.polar Q12 (vecE a) (vecF b) = 0 := by
   simp only [Q12, vecE, vecF]
   rw [CFSG.LieType.Universal.Spin.polar_quadPlus_single_inr]
-  simp [Pi.single_apply, Ne.symm hab]
+  simp [Ne.symm hab]
 
-private theorem linearIndependent_vecE_vecF {a b : Fin 6} (hab : a ≠ b) :
+private theorem linearIndependent_vecE_vecF {a b : Fin 6} (_hab : a ≠ b) :
     LinearIndependent (ZMod 2) ![vecE a, vecF b] := by
   rw [LinearIndependent.pair_iff]
   intro s t h
@@ -87,7 +84,7 @@ private theorem linearIndependent_vecE_vecF {a b : Fin 6} (hab : a ≠ b) :
   · have hc := congrArg (fun w : V12 => w (Sum.inl a)) h
     simpa [vecE, vecF, Pi.add_apply, Pi.smul_apply, Pi.single_apply] using hc
   · have hc := congrArg (fun w : V12 => w (Sum.inr b)) h
-    simpa [vecE, vecF, Pi.add_apply, Pi.smul_apply, Pi.single_apply, Ne.symm hab] using hc
+    simpa [vecE, vecF, Pi.add_apply, Pi.smul_apply, Pi.single_apply, Ne.symm _hab] using hc
 
 theorem lin_genGL_empty_sq {a b : Fin 6} (hab : a ≠ b) :
     lin (genGL hab ∅) * lin (genGL hab ∅) = 1 := by
@@ -115,32 +112,32 @@ private theorem lin_genGL_symm_empty_mem_O12 {a b : Fin 6} (hab : a ≠ b) :
 private theorem lin_genGL_empty_apply_vecE_self {a b : Fin 6} (hab : a ≠ b) :
     lin (genGL hab ∅) (vecE a) = vecE a := by
   rw [lin_genGL_empty_apply hab]
-  simp [vecE, vecF, Pi.single_apply, Ne.symm hab]
+  simp [vecE, Ne.symm hab]
 
 private theorem lin_genGL_empty_apply_vecE_other {a b : Fin 6} (hab : a ≠ b) :
     lin (genGL hab ∅) (vecE b) = vecE b + vecE a := by
   rw [lin_genGL_empty_apply hab]
-  simp [vecE, vecF, Pi.single_apply]
+  simp [vecE]
 
 private theorem lin_genGL_empty_apply_vecF_other {a b : Fin 6} (hab : a ≠ b) :
     lin (genGL hab ∅) (vecF a) = vecF a + vecF b := by
   rw [lin_genGL_empty_apply hab]
-  simp [vecE, vecF, Pi.single_apply]
+  simp [vecF]
 
 private theorem lin_genGL_symm_empty_apply_vecE_self {a b : Fin 6} (hab : a ≠ b) :
     lin (genGL hab.symm ∅) (vecE b) = vecE b := by
   rw [lin_genGL_empty_apply (a := b) (b := a) hab.symm]
-  simp [vecE, vecF, Pi.single_apply, hab]
+  simp [vecE, hab]
 
 private theorem lin_genGL_symm_empty_apply_vecE_other {a b : Fin 6} (hab : a ≠ b) :
     lin (genGL hab.symm ∅) (vecE a) = vecE a + vecE b := by
   rw [lin_genGL_empty_apply (a := b) (b := a) hab.symm]
-  simp [vecE, vecF, Pi.single_apply]
+  simp [vecE]
 
 private theorem lin_genGL_symm_empty_apply_vecF_other {a b : Fin 6} (hab : a ≠ b) :
     lin (genGL hab.symm ∅) (vecF b) = vecF b + vecF a := by
   rw [lin_genGL_empty_apply (a := b) (b := a) hab.symm]
-  simp [vecE, vecF, Pi.single_apply]
+  simp [vecF]
 
 private theorem lin_genGL_empty_mul_symm_mul {a b : Fin 6} (hab : a ≠ b) :
     lin (genGL hab ∅) * lin (genGL hab.symm ∅) * lin (genGL hab ∅) =

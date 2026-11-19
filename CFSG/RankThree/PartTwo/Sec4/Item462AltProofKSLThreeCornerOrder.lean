@@ -12,7 +12,7 @@ theorem eq_bot_of_datum_order_216 {C : Type} [Group C] [Finite C] (hC : Nat.card
     (hO2 : ∀ N : Subgroup C, N.Normal → IsPGroup 2 N → N = ⊥) {R P : Subgroup C} (hPR : P ≤ R)
     (hnorm : ∀ c : C, ∀ r ∈ R, c * r * c⁻¹ ∈ R) (hZR : Subgroup.center C ≤ R)
     (h9 : ¬ 9 ∣ Nat.card R) (hP2 : IsPGroup 2 P) : P = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Z : Subgroup C := Subgroup.center C with hZdef
   have hRd : Nat.card R ∣ 216 := hC ▸ Subgroup.card_subgroup_dvd_card R
   have h3 : 3 ∣ Nat.card R := hZ ▸ Subgroup.card_dvd_of_le hZR

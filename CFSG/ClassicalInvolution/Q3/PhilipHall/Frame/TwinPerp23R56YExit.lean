@@ -310,7 +310,7 @@ theorem p23YExitNE'_of_split (hE : TwinThmE.TwinThmEP n) (hT : TwinThmE.T4Supply
     have hOddC := p23_oddCent_eq_bot₂ hD4 hT hcit hP hc hno hα1 halpha hTwo
     have hCe := p23_cu_le_ce (hT n hcit hP) hc hZ hα1 halpha
     have hCt := hZC hcit hP Y R S t K' W u e g hc hnoU hno hEorth hZ hα1 hOddC hCe
-    haveI := CFSG.ClassicalInvolution.Q8P.coreLike_of_core hC
+    have := CFSG.ClassicalInvolution.Q8P.coreLike_of_core hC
     have hecen : e ∈ Subgroup.center Y := by
       rw [Subgroup.mem_center_iff]
       intro y

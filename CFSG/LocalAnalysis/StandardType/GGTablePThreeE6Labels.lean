@@ -61,7 +61,7 @@ private theorem e6_split_concl {lab : LargeEvenLabel} (hsplit : LargeEvenSplit 3
     · exact Or.inl ⟨rfl, hdiv⟩
     · exact absurd hunt (by simp [LargeEvenUntwisted])
   · rcases htag with rfl | rfl
-    · exact absurd trivial (by simpa [LargeEvenUntwisted] using hunt)
+    · exact absurd trivial (by simp [LargeEvenUntwisted] at hunt)
     · exact Or.inr ⟨rfl, hdiv⟩
   · rcases htag with rfl | rfl <;> rcases htag' with htag'' | htag'' <;>
       exact absurd htag'' (by simp)

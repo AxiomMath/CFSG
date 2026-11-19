@@ -69,7 +69,7 @@ theorem lin_lift_torsion {p n d : ℕ} {F : Type} [Field F] [Finite F] (h : LinA
   obtain ⟨A₀, hA₀map⟩ :=
     CFSG.SignalizerFunctor.Helpers.surjective_pgroup_sylow_lift p hp f hf hB.isPGroup
   let A₁ : Subgroup ↥(LinSL d F) := (A₀ : Subgroup Ppre).map Ppre.subtype
-  have hA₁p : IsPGroup p A₁ := A₀.isPGroup'.map Ppre.subtype
+  have hA₁p : IsPGroup p A₁ := A₀.isPGroup.map Ppre.subtype
   have hA₁map : A₁.map (LinMk d F) = B := by
     apply le_antisymm
     · rintro _ ⟨x, hx, rfl⟩

@@ -39,7 +39,7 @@ theorem exists_isPGroup_le_not_dvd_relIndex [Finite G] {q : ℕ} (hq : q.Prime) 
   have := Fact.mk hq
   let S : Sylow q ↥E := default
   have hP : IsPGroup q ↥((S : Subgroup ↥E).map E.subtype) :=
-    S.isPGroup'.of_equiv ((S : Subgroup ↥E).equivMapOfInjective E.subtype E.subtype_injective)
+    S.isPGroup.of_equiv ((S : Subgroup ↥E).equivMapOfInjective E.subtype E.subtype_injective)
   refine ⟨(S : Subgroup ↥E).map E.subtype, Subgroup.map_subtype_le _, hP, hP.exists_card_eq, ?_⟩
   rw [Subgroup.relIndex, subgroupOf_map_subtype]
   exact S.not_dvd_index

@@ -107,13 +107,13 @@ private theorem gAB_ne : gA * gB ≠ 1 := by decide
 
 private theorem gen_closure : Subgroup.closure ({gA, gB} : Set L3Two) = ⊤ := by
   set H := Subgroup.closure ({gA, gB} : Set L3Two) with hH
-  haveI : IsSimpleGroup L3Two := isSimpleGroup_l3Two
+  have : IsSimpleGroup L3Two := isSimpleGroup_l3Two
   have hA : gA ∈ H := Subgroup.subset_closure (by simp)
   have hB : gB ∈ H := Subgroup.subset_closure (by simp)
   have hAB : gA * gB ∈ H := H.mul_mem hA hB
   have o2 : orderOf gA = 2 := orderOf_eq_prime (by rw [sq]; exact gA_sq) gA_ne
   have o3 : orderOf gB = 3 := orderOf_eq_prime (by rw [pow_succ, sq]; exact gB_cube) gB_ne
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have o7 : orderOf (gA * gB) = 7 := orderOf_eq_prime gAB_pow gAB_ne
   have d2 : 2 ∣ Nat.card H := by
     have := Subgroup.orderOf_dvd_natCard H hA
@@ -316,7 +316,7 @@ private theorem comm_set_le_two {E : Subgroup X} [E.Normal] (hE : IsElemAbelian 
     (hne : b⁻¹ * ε₀ * b * ε₀ ≠ 1) :
     ∀ ε ∈ E, b⁻¹ * ε * b * ε = 1 ∨ b⁻¹ * ε * b * ε = b⁻¹ * ε₀ * b * ε₀ := by
   intro ε hε
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hconj : ∀ x ∈ E, b⁻¹ * x * b ∈ E := fun x hx => by
     simpa using ‹E.Normal›.conj_mem x hx b⁻¹
   have hmem : ∀ x ∈ E, b⁻¹ * x * b * x ∈ E := fun x hx => E.mul_mem (hconj x hx) hx
@@ -370,7 +370,7 @@ private theorem comm_set_le_two {E : Subgroup X} [E.Normal] (hE : IsElemAbelian 
     exact (congrArg (fun t : F.range => (((t : F.range) : E) : X)) h).symm
 
 private theorem faithful_card_X {E : Subgroup X} (h : FaithfulL3E8 X E) : Nat.card X = 1344 := by
-  haveI := h.normal
+  have := h.normal
   obtain ⟨e⟩ := h.quotient
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup E, Nat.card_congr e.toEquiv, l3Two_card,
     h.card]
@@ -389,7 +389,7 @@ private theorem faithful_model {E : Subgroup X} [E.Normal] (h : FaithfulL3E8 X E
       (∀ x : X, Θ x = 1 ↔ x ∈ E) ∧ Function.Surjective Θ ∧
       ∀ (x : X) (w : E), (Θ x : Matrix (Fin 3) (Fin 3) (ZMod 2)) *ᵥ Multiplicative.toAdd (ε w) =
         Multiplicative.toAdd (ε (MulAut.conjNormal x w)) := by
-  haveI := faithful_finite h
+  have := faithful_finite h
   have hcomm : ∀ a b : E, a * b = b * a := fun a b =>
     Subtype.ext (elem_comm h.elemAbelian a.2 b.2)
   have hpow : ∀ a : E, a ^ 2 = 1 := fun a =>
@@ -455,14 +455,14 @@ private theorem faithful_model {E : Subgroup X} [E.Normal] (h : FaithfulL3E8 X E
 private theorem faithful_char [Finite X] {E : Subgroup X} (h : FaithfulL3E8 X E) :
     ∀ φ : MulAut X, ∀ x ∈ E, φ x ∈ E := by
   intro φ x hx
-  haveI := h.normal
+  have := h.normal
   obtain ⟨e⟩ := h.quotient
   have hNn : (E.map φ.toMonoidHom).Normal :=
     Subgroup.Normal.map ‹E.Normal› φ.toMonoidHom φ.surjective
   have hNcard : Nat.card (E.map φ.toMonoidHom) = 8 := by
     rw [Subgroup.card_map_of_injective φ.injective, h.card]
-  haveI : IsSimpleGroup L3Two := isSimpleGroup_l3Two
-  haveI hNm : ((E.map φ.toMonoidHom).map (toL3 e)).Normal := hNn.map _ (toL3_surjective e)
+  have : IsSimpleGroup L3Two := isSimpleGroup_l3Two
+  have hNm : ((E.map φ.toMonoidHom).map (toL3 e)).Normal := hNn.map _ (toL3_surjective e)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((E.map φ.toMonoidHom).map (toL3 e)) with h0 | h0
   · have h1 : toL3 e (φ x) ∈ (E.map φ.toMonoidHom).map (toL3 e) := ⟨φ x, ⟨x, hx, rfl⟩, rfl⟩
     rw [h0, Subgroup.mem_bot] at h1
@@ -477,21 +477,21 @@ private theorem faithful_char [Finite X] {E : Subgroup X} (h : FaithfulL3E8 X E)
     rw [hNcard, l3Two_card] at this
     omega
 
-private def resE {E : Subgroup X} (hchar : ∀ φ : MulAut X, ∀ x ∈ E, φ x ∈ E) :
+private def resE {E : Subgroup X} (hchar : ∀ φ : MulAut X, ∀ _x ∈ E, φ _x ∈ E) :
     MulAut X →* MulAut E where
   toFun φ :=
-    { toFun := fun x => ⟨φ x, hchar φ x x.2⟩
-      invFun := fun x => ⟨φ.symm x, hchar φ.symm x x.2⟩
-      left_inv := fun x => Subtype.ext (φ.symm_apply_apply x)
-      right_inv := fun x => Subtype.ext (φ.apply_symm_apply x)
-      map_mul' := fun x y => Subtype.ext (map_mul φ (x : X) (y : X)) }
-  map_one' := MulEquiv.ext (fun x => Subtype.ext rfl)
-  map_mul' φ ψ := MulEquiv.ext (fun x => Subtype.ext rfl)
+    { toFun := fun _x => ⟨φ _x, hchar φ _x _x.2⟩
+      invFun := fun _x => ⟨φ.symm _x, hchar φ.symm _x _x.2⟩
+      left_inv := fun _x => Subtype.ext (φ.symm_apply_apply _x)
+      right_inv := fun _x => Subtype.ext (φ.apply_symm_apply _x)
+      map_mul' := fun _x y => Subtype.ext (map_mul φ (_x : X) (y : X)) }
+  map_one' := MulEquiv.ext (fun _x => Subtype.ext rfl)
+  map_mul' _φ _ψ := MulEquiv.ext (fun _x => Subtype.ext rfl)
 
 private theorem card_ker_resE_le [Finite X] {E : Subgroup X} (h : FaithfulL3E8 X E)
     (hchar : ∀ φ : MulAut X, ∀ x ∈ E, φ x ∈ E) : Nat.card (resE hchar).ker ≤ 16 := by
   classical
-  haveI := h.normal
+  have := h.normal
   obtain ⟨e⟩ := h.quotient
   obtain ⟨ε, Θ, hΘker, -, hΘact⟩ := faithful_model h
   have hkerE : ∀ κ : MulAut X, κ ∈ (resE hchar).ker → ∀ x ∈ E, κ x = x := by
@@ -650,7 +650,7 @@ private theorem card_ker_resE_le [Finite X] {E : Subgroup X} (h : FaithfulL3E8 X
       _ = (κ₂ : MulAut X) w * (κ₂ : MulAut X) (w⁻¹ * x) := by rw [hκ2 _ hwx]
       _ = (κ₂ : MulAut X) (w * (w⁻¹ * x)) := (map_mul _ _ _).symm
       _ = (κ₂ : MulAut X) x := congrArg (κ₂ : MulAut X) hxw.symm
-  haveI : Fintype (resE hchar).ker := Fintype.ofFinite _
+  have : Fintype (resE hchar).ker := Fintype.ofFinite _
   have hcard : Nat.card (resE hchar).ker ≤ (S₁ ×ˢ S₂).card := by
     rw [Nat.card_eq_fintype_card, ← Finset.card_univ]
     exact Finset.card_le_card_of_injOn D (fun κ _ => hD_mem κ) (fun a _ b _ hab => hD_inj hab)
@@ -671,10 +671,10 @@ theorem l3e8_centralizer_dichotomy {E : Subgroup X} [E.Normal] (hE : IsElemAbeli
     calc y * (g * k * g⁻¹) = g * ((g⁻¹ * y * g) * k) * g⁻¹ := by group
       _ = g * (k * (g⁻¹ * y * g)) * g⁻¹ := by rw [this]
       _ = (g * k * g⁻¹) * y := by group⟩
-  haveI : IsSimpleGroup L3Two := isSimpleGroup_l3Two
+  have : IsSimpleGroup L3Two := isSimpleGroup_l3Two
   have hfs : Function.Surjective (toL3 e) := toL3_surjective e
   have hKm : (K.map (toL3 e)).Normal := hKnormal.map _ hfs
-  haveI := hKm
+  have := hKm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.map (toL3 e)) with h | h
   · left
     refine le_antisymm (fun n hn => ?_) hEK
@@ -739,13 +739,13 @@ variable {E : Subgroup X}
 
 theorem mem_E_of_q8 (h : FaithfulL3E8 X E) {P : Subgroup X} {z : X}
     (hP : Nonempty (↥P ≃* QuaternionGroup 2)) (hz : IsUniqueInvolution P z) : z ∈ E := by
-  haveI := h.normal
+  have := h.normal
   obtain ⟨e⟩ := h.quotient
   exact q8_mem_E e hP hz
 
 theorem exists_conj (h : FaithfulL3E8 X E) {e f : X} (he : e ∈ E) (hf : f ∈ E) (he1 : e ≠ 1)
     (hf1 : f ≠ 1) : ∃ x : X, x * e * x⁻¹ = f := by
-  haveI := h.normal
+  have := h.normal
   obtain ⟨ε, Θ, -, hsurj, hact⟩ := faithful_model h
   have hv : Multiplicative.toAdd (ε ⟨e, he⟩) ≠ 0 := by
     intro h0
@@ -779,7 +779,7 @@ theorem center_eq_bot (h : FaithfulL3E8 X E) : Subgroup.center X = ⊥ := by
       intro y _
       exact Subgroup.mem_center_iff.mp hz y
     rwa [h.centralizer] at this
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [h.card]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [h.card]; norm_num)
   have hex : ∃ f : E, f ≠ 1 ∧ (f : X) ≠ z := by
     by_contra hcon
     push Not at hcon
@@ -799,13 +799,13 @@ theorem center_eq_bot (h : FaithfulL3E8 X E) : Subgroup.center X = ⊥ := by
 theorem out_le_two [Finite X] (h : FaithfulL3E8 X E) :
     (MulAut.conj : X →* MulAut X).range.index ≤ 2 := by
   classical
-  haveI := h.normal
-  haveI : Finite (MulAut X) := MulEquiv.finite_left
+  have := h.normal
+  have : Finite (MulAut X) := MulEquiv.finite_left
   have hchar := faithful_char h
   have hK := card_ker_resE_le h hchar
   obtain ⟨ε, -⟩ := faithful_model h
-  haveI : Finite E := inferInstance
-  haveI : Finite (MulAut E) := MulEquiv.finite_left
+  have : Finite E := inferInstance
+  have : Finite (MulAut E) := MulEquiv.finite_left
   have hAutE : Nat.card (MulAut E) = 168 := by
     rw [CFSG.SectionRank.Ccomm.card_mulAut_eq_card_GL ε,
       CFSG.SectionRank.Ccomm.card_GL_zmod (p := 2) 3]
@@ -841,7 +841,7 @@ theorem out_le_two [Finite X] (h : FaithfulL3E8 X E) :
 theorem exists_inner [Finite X] (h : FaithfulL3E8 X E) (A : Subgroup (MulAut X))
     (hA : Nat.card A = 4) : ∃ φ ∈ A, φ ≠ 1 ∧ φ ∈ (MulAut.conj : X →* MulAut X).range := by
   classical
-  haveI : Finite (MulAut X) := MulEquiv.finite_left
+  have : Finite (MulAut X) := MulEquiv.finite_left
   by_contra hcon
   push Not at hcon
   have hinj : Function.Injective (fun φ : A =>
@@ -862,7 +862,7 @@ theorem exists_inner [Finite X] (h : FaithfulL3E8 X E) (A : Subgroup (MulAut X))
 theorem involution_cent_order_four (h : FaithfulL3E8 X E) {P : Subgroup X}
     (hP : Nonempty (↥P ≃* QuaternionGroup 2)) {y : X} (hy : y * y = 1) :
     ∃ x : X, ∃ k ∈ P, orderOf k = 4 ∧ y * (x * k * x⁻¹) = (x * k * x⁻¹) * y := by
-  haveI := h.normal
+  have := h.normal
   obtain ⟨e⟩ := h.quotient
   obtain ⟨z, hz⟩ := q8_exists_unique hP
   obtain ⟨a, b, haP, hbP, haa, hbb, hab, hbab, hba, hca⟩ := q8_data hP hz

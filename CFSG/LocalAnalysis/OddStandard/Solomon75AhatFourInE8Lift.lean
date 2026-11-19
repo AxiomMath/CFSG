@@ -28,7 +28,7 @@ theorem exists_peel_perm {σ : Perm (Fin n)} (hσ : sign σ = 1) (h2 : ∀ y, σ
     exists_swap_pairs (Perm.mem_alternatingGroup.2 hσ) hσ2 h1
   set δ : Perm (Fin n) := swap a₁ b₁ * swap a₂ b₂ with hδ
   have hnd : [a₁, b₁, a₂, b₂].Nodup := by
-    simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, not_or, List.not_mem_nil,
+    simp only [List.nodup_cons, List.mem_cons, not_or, List.not_mem_nil,
       List.nodup_nil, and_true, not_false_eq_true]
     grind
   have hδcyc : δ.cycleType = {2, 2} := cycleType_swap_mul_swap_of_nodup hnd

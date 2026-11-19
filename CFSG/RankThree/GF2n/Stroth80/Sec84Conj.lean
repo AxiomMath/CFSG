@@ -12,6 +12,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem SpMNat_congr (hc : Ctx M Q Z B) {s t : G}
     (hR : Rt M (LB M Q B) s = Rt M (LB M Q B) t)
     (hV : Vt M (LB M Q B) B Z s = Vt M (LB M Q B) B Z t) (m : ℕ) :
@@ -19,6 +20,7 @@ theorem SpMNat_congr (hc : Ctx M Q Z B) {s t : G}
   unfold SpMNat
   rw [hc.CN_congr hR hV, hR, hV]
 
+omit [Finite G] in
 theorem Sec8Hyp.congr {hc : Ctx M Q Z B} {n : ℕ} {t s : G} (hs : Sec8Hyp hc n t)
     (hsL : s ∈ LB M Q B) (hsQ : s ∉ Q) (hR : Rt M (LB M Q B) s = Rt M (LB M Q B) t)
     (hV : Vt M (LB M Q B) B Z s = Vt M (LB M Q B) B Z t) : Sec8Hyp hc n s where

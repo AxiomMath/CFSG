@@ -52,8 +52,8 @@ private theorem conj_of_odd {K : Type} [Group K] [Finite K] (N : Subgroup K) [N.
       rw [← QuotientGroup.eq_one_iff (N := N), QuotientGroup.mk_mul, QuotientGroup.mk_inv, hqj, mul_inv_cancel]
     refine Set.mem_mul.2 ⟨n * (x ^ j * (y ^ j)⁻¹), N.mul_mem hn hm, y ^ j, Subgroup.zpow_mem_zpowers y j, ?_⟩
     group
-  haveI : Group.IsSolvable N := by
-    haveI : Group.IsNilpotent N := hN.isNilpotent
+  have : Group.IsSolvable N := by
+    have : Group.IsNilpotent N := hN.isNilpotent
     infer_instance
   have hcop : Nat.Coprime (Nat.card N) N.index := by
     have hc := Subgroup.isComplement'_of_disjoint_and_mul_eq_univ (disjoint_iff.mpr hxN) hNx
@@ -65,7 +65,7 @@ private theorem conj_of_odd {K : Type} [Group K] [Finite K] (N : Subgroup K) [N.
     have : y ∈ (Subgroup.zpowers x).map (MulAut.conj n⁻¹).toMonoidHom := hxe ▸ Subgroup.mem_zpowers y
     obtain ⟨g, hg, hgy⟩ := this
     obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.1 hg
-    exact ⟨j, by rw [← hgy]; simp [MulAut.conj_apply]⟩
+    exact ⟨j, by rw [← hgy]; simp⟩
   have hq : (QuotientGroup.mk x : K ⧸ N) = QuotientGroup.mk y := by
     have := (QuotientGroup.eq_one_iff (N := N) (x * y⁻¹)).2 hxy
     rwa [QuotientGroup.mk_mul, QuotientGroup.mk_inv, mul_inv_eq_one] at this
@@ -234,7 +234,7 @@ theorem semiregular {p : ℕ} {P T B : Subgroup G} {e : ℕ}
   let N : Subgroup Kg := M0.subgroupOf Kg
   have hKS : S ⊔ Subgroup.zpowers b ≤ Subgroup.normalizer (S : Set G) :=
     sup_le Subgroup.le_normalizer hbzp
-  haveI hNN : N.Normal := ⟨fun k hk g => by
+  have hNN : N.Normal := ⟨fun k hk g => by
     have hk' : (k : G) ∈ M0 := hk
     show ((g * k * g⁻¹ : Kg) : G) ∈ M0
     refine ⟨?_, ?_⟩

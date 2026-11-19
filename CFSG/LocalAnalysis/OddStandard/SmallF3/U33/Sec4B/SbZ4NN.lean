@@ -39,7 +39,7 @@ theorem tG_not_mem_normal_eleven {R A : Subgroup G} (hR : IsPGroup 2 R)
     hz.toCtx10.le_invCent hz.toCtx10.isPGroup hz.toCtx10.relIndex_odd
     (Ctx4.card_S_seven hz.toCtx10.toCtx4) g hQp inf_le_right
   have hA1 : Nat.card A - 1 ≤ 15 := by
-    haveI : Nonempty A := ⟨⟨1, A.one_mem⟩⟩
+    have : Nonempty A := ⟨⟨1, A.one_mem⟩⟩
     have hpos : 0 < Nat.card A := Nat.card_pos
     omega
   have hRle : Nat.card R ≤ 15 * 2 ^ 7 := by
@@ -73,7 +73,7 @@ theorem U_tQ {R A : Subgroup G} (hR : IsPGroup 2 R) (hVR : ctxVN t tau x₁ x₂
   obtain ⟨p, hp, hp'⟩ := hw.fl_t q (hw.Q_le_ctxWN hq) h2
   exact hw.U_tG hR hVR hA hAN p (by rw [← hp']; exact hmem)
 
-theorem U_ttauQ {R A : Subgroup G} (hR : IsPGroup 2 R) (hVR : ctxVN t tau x₁ x₂ lam rho ≤ R)
+theorem U_ttauQ {R A : Subgroup G} (_hR : IsPGroup 2 R) (hVR : ctxVN t tau x₁ x₂ lam rho ≤ R)
     (hA : IsE16In R A) (hAN : NormalIn A R) {q : G} (hq : q ∈ ctxQ t tau x₁ x₂ rho) :
     (t * tau) * q ∉ A := by
   intro hmem
@@ -89,7 +89,7 @@ theorem U_ttauQ {R A : Subgroup G} (hR : IsPGroup 2 R) (hVR : ctxVN t tau x₁ x
     rw [ctxQm, hQm]
     exact Subgroup.subset_closure (by simp)
   obtain ⟨w, hwW, hwc⟩ := hw.phi_surj (x₁ * v₁) hcQm
-  have hwR : w ∈ R := hVR (hw.W_le_ctxVN hwW)
+  have hwR : w ∈ R := hVR (CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Z.W_le_ctxVN hwW)
   have hconj : w * ((t * tau) * q) * w⁻¹ ∈ A := hAN.2 w hwR ((t * tau) * q) hmem
   have hwq : w * q = q * w := ctxCQ_comm (ctxWN_le_ctxCQ t tau x₁ x₂ rho hwW) hq
   have hwqinv : q * w⁻¹ = w⁻¹ * q := by
@@ -131,7 +131,7 @@ theorem U_ttauQ {R A : Subgroup G} (hR : IsPGroup 2 R) (hVR : ctxVN t tau x₁ x
   have hsq1 : ((x₁ * v₁) * y') ^ 2 = 1 := hA.2.1.2 ((x₁ * v₁) * y') hcA
   exact hw.y_ne_one (by rw [← hsq]; exact hsq1)
 
-theorem U_tauQ {R A : Subgroup G} (hR : IsPGroup 2 R) (hVR : ctxVN t tau x₁ x₂ lam rho ≤ R)
+theorem U_tauQ {R A : Subgroup G} (_hR : IsPGroup 2 R) (hVR : ctxVN t tau x₁ x₂ lam rho ≤ R)
     (hA : IsE16In R A) (hAN : NormalIn A R) {q : G} (hq : q ∈ ctxQ t tau x₁ x₂ rho) :
     tau * q ∉ A := by
   intro hmem
@@ -149,7 +149,7 @@ theorem U_tauQ {R A : Subgroup G} (hR : IsPGroup 2 R) (hVR : ctxVN t tau x₁ x�
         _ = w⁻¹ * (q * w) * w⁻¹ := by rw [hwq]
         _ = w⁻¹ * q := by group
     have hconj : w * (tau * q) * w⁻¹ ∈ A :=
-      hAN.2 w (hVR (hw.W_le_ctxVN hwW)) (tau * q) hmem
+      hAN.2 w (hVR (CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Z.W_le_ctxVN hwW)) (tau * q) hmem
     have hstep1 : w * (tau * q) * w⁻¹ = (w * tau * w⁻¹) * q := by
       calc w * (tau * q) * w⁻¹ = w * tau * (q * w⁻¹) := by group
         _ = w * tau * (w⁻¹ * q) := by rw [hwqinv]

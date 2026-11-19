@@ -28,7 +28,7 @@ theorem exists_sylow_le_of_not_dvd_index' {G : Type*} [Group G] [Finite G] {p : 
     [Fact p.Prime] {T : Subgroup G} (hT : ¬ p ∣ T.index) :
     ∃ S : Sylow p G, (S : Subgroup G) ≤ T := by
   obtain ⟨S₀⟩ : Nonempty (Sylow p T) := inferInstance
-  have hS : IsPGroup p ((S₀ : Subgroup T).map T.subtype) := S₀.isPGroup'.map T.subtype
+  have hS : IsPGroup p ((S₀ : Subgroup T).map T.subtype) := S₀.isPGroup.map T.subtype
   have hSi : ¬ p ∣ ((S₀ : Subgroup T).map T.subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact fun h => ((Fact.out : p.Prime).dvd_mul.1 h).elim S₀.not_dvd_index hT
@@ -37,7 +37,7 @@ theorem exists_sylow_le_of_not_dvd_index' {G : Type*} [Group G] [Finite G] {p : 
     exact Subgroup.map_subtype_le _⟩
 
 theorem exists_sylow_le_of_matrix {p : ℕ} [Fact p.Prime] {Y : Type} [Group Y] [Finite Y]
-    {P' : Type} [Group P'] (θ : Y →* MulAut P') (hker : IsPGroup p θ.ker)
+    {P' : Type} [Group P'] (θ : Y →* MulAut P') (_hker : IsPGroup p θ.ker)
     {G : Type} [Group G] (c : G →* MulAut P') (hDθ : c.range ≤ θ.range)
     (hDidx : ¬ p ∣ (c.range.comap θ).index) (N : Subgroup G) (hN : ¬ p ∣ N.index)
     {X : Subgroup Y} (hX : ∀ y : Y, θ y ∈ N.map c → y ∈ X) :
@@ -83,6 +83,7 @@ structure AutHyps {Y : Type} [Group Y] (θ : Y →* MulAut P') (M : MatModel p K
 
 variable [Finite K] {Y : Type} [Group Y] [Finite Y] {L : Subgroup Y} [L.Normal]
 
+omit [Finite Y] [L.Normal] in
 theorem hZ_of_centralizer {p : ℕ} (hCp : IsPGroup p (centralizer (L : Set Y))) :
     ∀ z ∈ center ↥L, ∃ k : ℕ, z ^ (p ^ k) = 1 := by
   intro z hz
@@ -95,6 +96,7 @@ theorem hZ_of_centralizer {p : ℕ} (hCp : IsPGroup p (centralizer (L : Set Y)))
   refine ⟨k, Subtype.ext ?_⟩
   simpa using congrArg Subtype.val hk
 
+omit [Finite Y] in
 theorem exists_lift_diag (hp : p.Prime) (hp2 : p ≠ 2)
     (hCp : IsPGroup p (centralizer (L : Set Y))) (eP : (↥L ⧸ center ↥L) ≃* P')
     (M : MatModel p K P') {ŷ : GL (Fin p) K} (hM : ModelHyps M ŷ) {T₀ : Subgroup Y}
@@ -123,7 +125,7 @@ theorem exists_sylow_normalizer (hp : p.Prime) (hp2 : p ≠ 2) [Group.IsPerfect 
     (hT₀ : T₀ ≠ ⊥) {x : Y} (hxN : x ∈ normalizer (T₀ : Set Y))
     (hx : thetaP L eP x = M.c ⟨ŷ, hM.ŷ_mem⟩) :
     ∃ Q : Sylow p Y, (Q : Subgroup Y) ≤ normalizer (T₀ : Set Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ := hZ_of_centralizer (L := L) hCp
   obtain ⟨Th, hL, hyN, B, hBG, hB⟩ := exists_lift_diag hp hp2 hCp eP M hM hT₀L hT₀2 hT₀ hxN hx
   have hker : IsPGroup p (thetaP L eP).ker := by

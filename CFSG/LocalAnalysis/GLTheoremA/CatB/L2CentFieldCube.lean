@@ -41,7 +41,7 @@ theorem l2c_field_case_cube {Q : Type} [Group Q] [Finite Q] (hZ : Subgroup.cente
   let ψ₀ : fixS a ≃* fixS β :=
     (θ.subgroupMap (fixS a)).trans (MulEquiv.subgroupCongr hfix.symm)
   have hcontra : Group.IsSolvable (fixS β) → False := fun hs => by
-    haveI : Group.IsSolvable (fixS a) :=
+    have : Group.IsSolvable (fixS a) :=
       Group.isSolvable_of_surjective (f := ψ₀.symm.toMonoidHom) ψ₀.symm.surjective
     exact CFSG.HardMathSupport.Dickson.KD.false_of_glaPComponent_of_solvable hS inferInstance
   rcases l2Aut3Classification_holds F β hβ3 with hb | hsol | ⟨σ, φ, γ, hφ, hβγ⟩
@@ -57,7 +57,7 @@ theorem l2c_field_case_cube {Q : Type} [Group Q] [Finite Q] (hZ : Subgroup.cente
     · simp at hk; omega
     ·
       have hT : Group.IsSolvable (StatedProj (StatedSL 2 F₀)) := l2c_solvable_two (by rw [hk])
-      haveI := hT
+      have := hT
       exact (hcontra (Group.isSolvable_of_surjective (f := ψ.symm.toMonoidHom)
         ψ.symm.surjective)).elim
   have hT4 : 4 ≤ Nat.card F₀ := by

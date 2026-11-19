@@ -25,7 +25,7 @@ theorem noOuterIrr_L32
   by_contra hcon
   have hEboff : Nat.card W ≤ Nat.card E * Nat.card (fixV E) := not_lt.1 hcon
   have hV' : ∀ w : W, w * w = 1 := hW
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun g : MulAut W => (g : W → W)) DFunLike.coe_injective
   have hodd : Odd (Nat.card (Subgroup.center ↥L)) :=
     Family.odd_card_center_of_irreducible hV' hirr.2
@@ -33,7 +33,7 @@ theorem noOuterIrr_L32
     CFSG.Assembly.RankThreeEven.statedClassicalModel_of_projSL (n := 3) (p := 2) (f := 1)
       ⟨Nat.prime_two, le_refl 1, by norm_num, by simp, by simp⟩ (e.trans hY.some)
   obtain ⟨F, iF, iFin, φ₀, hFc, hcov⟩ := X7Sec.exists_cover_of_model hq.1 hodd (le_refl 1) hmodel
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hF2 : Fintype.card F = 2 := by
     rw [Fintype.card_eq_nat_card]
     simpa using hFc
@@ -42,8 +42,8 @@ theorem noOuterIrr_L32
       Subgroup.map_bot]
   obtain ⟨eL⟩ := B42L2.exists_gl32_of_model hZ hmodel
   obtain ⟨S, _, _, _, ⟨θ⟩⟩ := Layer.Actor.exists_binModel_of_binary hV'
-  haveI : Nontrivial W := hirr.1
-  haveI : Nontrivial S := (θ.toEquiv.trans Multiplicative.toAdd).symm.nontrivial
+  have : Nontrivial W := hirr.1
+  have : Nontrivial S := (θ.toEquiv.trans Multiplicative.toAdd).symm.nontrivial
   let ι : MulAut W ≃* (Module.End (ZMod 2) S)ˣ :=
     (binPsi θ).trans (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) S).symm
   have hι : ∀ (g : MulAut W) (u : S),
@@ -80,8 +80,8 @@ theorem noOuterIrr_L32
     rintro _ ⟨g, hg, rfl⟩
     show (ι g) ^ 2 = 1
     rw [← map_pow, hel.2 g hg, map_one]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥A := Finite.of_equiv ↥E (MulEquiv.subgroupMap ι E).toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥A := Finite.of_equiv ↥E (MulEquiv.subgroupMap ι E).toEquiv
   have hAp : IsPGroup 2 ↥A := fun a => ⟨1, Subtype.ext (by
     rw [pow_one, Subgroup.coe_pow, Subgroup.coe_one]
     exact hA2 a a.2)⟩

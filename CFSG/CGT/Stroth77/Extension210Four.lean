@@ -76,14 +76,14 @@ theorem t_apply_gens_t210 (i j l : ℤ) :
     Type210.uvA, Type210.ρM, ofCols_apply]
   congr 2
   · congr 1
-    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, ofCols_apply, -mul_eq_mul_right_iff,
-      -mul_eq_mul_left_iff] <;> ring
+    simp [-mul_eq_mul_right_iff,
+      -mul_eq_mul_left_iff]; ring
   · congr 1
-    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, ofCols_apply, -mul_eq_mul_right_iff,
-      -mul_eq_mul_left_iff] <;> ring
+    simp [-mul_eq_mul_right_iff,
+      -mul_eq_mul_left_iff]
   · congr 1
-    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, ofCols_apply, -mul_eq_mul_right_iff,
-      -mul_eq_mul_left_iff] <;> ring
+    simp [-mul_eq_mul_right_iff,
+      -mul_eq_mul_left_iff]; ring
 
 theorem t_apply_gens_t211 (i j l : ℤ) :
     (StrothTypeIndex.t211 m hm).action.φt
@@ -100,14 +100,14 @@ theorem t_apply_gens_t211 (i j l : ℤ) :
     Type211.uvA, Type211.ρM, ofCols_apply]
   congr 2
   · congr 1
-    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, ofCols_apply, -mul_eq_mul_right_iff,
-      -mul_eq_mul_left_iff] <;> ring
+    simp [-mul_eq_mul_right_iff,
+      -mul_eq_mul_left_iff]; ring
   · congr 1
-    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, ofCols_apply, -mul_eq_mul_right_iff,
-      -mul_eq_mul_left_iff] <;> ring
+    simp [-mul_eq_mul_right_iff,
+      -mul_eq_mul_left_iff]; ring
   · congr 1
-    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, ofCols_apply, -mul_eq_mul_right_iff,
-      -mul_eq_mul_left_iff] <;> ring
+    simp [-mul_eq_mul_right_iff,
+      -mul_eq_mul_left_iff]; ring
 
 theorem parityTorus_rho_t210 (y : Torus (StrothTypeIndex.t210 m hm).k) :
     parityTorus _ (hk_t210 m hm) ((StrothTypeIndex.t210 m hm).action.φρ y) =
@@ -167,6 +167,7 @@ section Fixed
 
 variable {S : Type*} [Group S] [Finite S] {B : Subgroup S} {m : ℕ} {hm : 2 ≤ m}
 
+omit [Finite S] in
 theorem fixed_rho_t_t210 (D : StrothTypeData B (StrothTypeIndex.t210 m hm)) {y : B}
     (hρ : conjBy D.ρ_mem y = y) (ht : conjBy D.t_mem y = y) : y = 1 := by
   have hρ' : (StrothTypeIndex.t210 m hm).action.φρ (D.ec y) = D.ec y := by
@@ -213,6 +214,7 @@ theorem fixed_rho_t_t210 (D : StrothTypeData B (StrothTypeIndex.t210 m hm)) {y :
   rw [h0]
   simp
 
+omit [Finite S] in
 theorem fixed_rho_t_t211 (D : StrothTypeData B (StrothTypeIndex.t211 m hm)) {y : B}
     (hρ : conjBy D.ρ_mem y = y) (ht : conjBy D.t_mem y = y) : y = 1 := by
   have hρ' : (StrothTypeIndex.t211 m hm).action.φρ (D.ec y) = D.ec y := by

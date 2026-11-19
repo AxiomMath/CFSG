@@ -78,7 +78,7 @@ theorem l3ao_linearEquiv_mulEquiv_GL {F : Type} [Field F] [Finite F] (U : Type) 
 theorem l3ao_finite_linearEquiv {F : Type} [Field F] [Finite F] (U : Type) [AddCommGroup U]
     [Module F U] [Module.Finite F U] : Finite (U ≃ₗ[F] U) := by
   obtain ⟨φ⟩ := l3ao_linearEquiv_mulEquiv_GL (F := F) U
-  haveI : Finite (GL (Fin (Module.finrank F U)) F) := inferInstance
+  have : Finite (GL (Fin (Module.finrank F U)) F) := inferInstance
   exact Finite.of_equiv _ φ.symm.toEquiv
 
 theorem l3ao_v2_card_linearEquiv {F : Type} [Field F] [Finite F] {e : ℕ} (hF : Nat.card F = 2 ^ e)
@@ -433,8 +433,7 @@ theorem l3ao_G_surj {B : GL (Fin 3) K} {τ : K ≃+* K} {S : Subgroup (projectiv
     · have h3 : proj 3 K ⁅g₁, g₂⁆ = ⁅proj 3 K g₁, proj 3 K g₂⁆ := map_commutatorElement _ _ _
       rw [h3, commutatorElement_def]
       exact S.mul_mem (S.mul_mem (S.mul_mem hg₁ hg₂) (S.inv_mem hg₁)) (S.inv_mem hg₂)
-    · change l3aoPhi B τ ⁅g₁, g₂⁆ = ⁅g₁, g₂⁆
-      rw [map_commutatorElement, h₁, h₂]
+    · rw [map_commutatorElement, h₁, h₂]
       exact l3ao_comm_mul_central g₁ g₂ z₁ z₂ hz₁ hz₂
   have hle : ⁅At, At⁆ ≤ l3aoG B τ S := Subgroup.commutator_le.2 hcomm
   have hmap : (⁅At, At⁆).map (proj 3 K) = S := by
@@ -509,7 +508,7 @@ theorem l3ao_h5_scalar_map (τ : K ≃+* K) (c : K) :
   by_cases h : i = j
   · subst h
     simp [Matrix.scalar_apply]
-  · simp [Matrix.scalar_apply, Matrix.diagonal_apply, h]
+  · simp [Matrix.scalar_apply, h]
 
 theorem l3ao_h5_scalar_eq_smul_one (c : K) :
     Matrix.scalar (Fin 3) c = c • (1 : Matrix (Fin 3) (Fin 3) K) := by
@@ -930,7 +929,7 @@ theorem l3ao_main (f : ℕ) (hf : 2 ≤ f) (X : Type) [Group X] (A : Subgroup X)
   have hAsimple : IsSimpleGroup A :=
     CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_PSU3 hA
   have hSsimple : IsSimpleGroup S := by
-    haveI := hAsimple
+    have := hAsimple
     exact hAS.symm.isSimpleGroup
   have hnc : ¬ ∀ a b : S, a * b = b * a := by
     intro h

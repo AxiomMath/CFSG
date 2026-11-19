@@ -16,6 +16,7 @@ open Subgroup
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma fk3_coord_ab {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε))
     {γ : V ≃ₗ[ZMod 3] V} (hγ : IsSimilitude Q γ (-1))
     (hW : ∀ (i : Fin 2) (k : Fin 4), fr.b.repr (γ⁻¹ (fr.b (Sum.inl i))) (Sum.inr k) = 0)
@@ -34,6 +35,7 @@ private lemma fk3_coord_ab {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε))
     fin_cases m <;> simp [ffE8Norm] <;> decide
   exact (mul_eq_zero.mp h1).resolve_left h2
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8Cent_no_neg {ε : ZMod 3} (hε : ε = 1 ∨ ε = -1)
     (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {γ : V ≃ₗ[ZMod 3] V} (hγ : IsSimilitude Q γ (-1))
     (hn : ∀ δ : V ≃ₗ[ZMod 3] V, (δ = γ ∨ δ = γ⁻¹) →

@@ -21,8 +21,8 @@ theorem i2020FixCentAt_of_sylow (hZ : Subgroup.center X = ⊥)
     {J : Subgroup X} (hJβ : J ≤ fixSubgroup β)
     (hsyl : (Nat.card J).factorization 2 = (Nat.card X).factorization 2) :
     I2020FixCentAt β J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : ((MulAut.conj : X →* MulAut X).range).Normal := CFSG.Fischer.innerAut_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : ((MulAut.conj : X →* MulAut X).range).Normal := CFSG.Fischer.innerAut_normal
   intro T hTsyl S hSp hST hSβ hScomm
   have hβD : β ∈ Subgroup.normalizer (D : Set (MulAut X)) := by
     rw [Subgroup.normalizer_eq_top]
@@ -47,7 +47,7 @@ theorem i2020FixCentAt_of_sylow (hZ : Subgroup.center X = ⊥)
     rw [Subgroup.commutator_comm] at hle
     exact hScomm ▸ (Subgroup.commutator_mono hSD le_rfl).trans hle
   have hcardT : Nat.card T = ordProj[2] (Nat.card X) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     let T' : Subgroup J := T.subgroupOf J
     have hT'p : IsPGroup 2 T' := hTsyl.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hTsyl.1).symm
     have hmax : ∀ Q : Subgroup J, IsPGroup 2 Q → T' ≤ Q → Q = T' := by

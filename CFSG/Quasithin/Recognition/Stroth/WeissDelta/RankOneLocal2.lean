@@ -147,7 +147,7 @@ theorem oddConj {X Ω : Type*} [Group X] [MulAction X Ω] [Finite X]
     refine ⟨fun n hn g => ?_⟩
     change ((g : X) * (n : X) * (g : X)⁻¹) ∈ R
     exact (Subgroup.normal_subgroupOf_iff hRstab).mp hRnorm (n : X) (g : X) hn (hHstab g.2)
-  haveI : (R.subgroupOf H).Normal := hNHnormal
+  have : (R.subgroupOf H).Normal := hNHnormal
   have hNH2 : IsPGroup 2 (R.subgroupOf H) := by
     intro x
     obtain ⟨k, hk⟩ := hR2 ⟨(x : X), x.2⟩
@@ -156,15 +156,15 @@ theorem oddConj {X Ω : Type*} [Group X] [MulAction X Ω] [Finite X]
     apply Subtype.ext
     change (x : X) ^ 2 ^ k = 1
     simpa using congrArg (fun y : R => (y : X)) hk
-  haveI : Group.IsNilpotent ↥(R.subgroupOf H) :=
+  have : Group.IsNilpotent ↥(R.subgroupOf H) :=
     IsPGroup.isNilpotent (p := 2) hNH2
-  haveI : Group.IsSolvable ↥(R.subgroupOf H) := inferInstance
-  haveI : Group.IsSolvable (H ⧸ R.subgroupOf H) :=
+  have : Group.IsSolvable ↥(R.subgroupOf H) := inferInstance
+  have : Group.IsSolvable (H ⧸ R.subgroupOf H) :=
     CFSG.FeitThompson.isSolvable_of_odd_natCard _ hquotOdd
   have hHsolv : Group.IsSolvable H :=
     Group.isSolvable_of_subgroup_quotient (R.subgroupOf H)
   let π : Set Nat.Primes := {p | p.val ≠ 2}
-  letI : MulDistribMulAction Unit H :=
+  let : MulDistribMulAction Unit H :=
     { smul := fun _ x => x
       one_smul := fun _ => rfl
       mul_smul := fun _ _ _ => rfl
@@ -205,7 +205,7 @@ theorem oddConj {X Ω : Type*} [Group X] [MulAction X Ω] [Finite X]
     have h2dvd : 2 ∣ Nat.card C := even_iff_two_dvd.mp heven
     have hmem : (⟨2, Nat.prime_two⟩ : Nat.Primes) ∈ π :=
       hChall.p_in_pi_of_p_dvd_card ⟨2, Nat.prime_two⟩ h2dvd
-    exact hmem (by simp [π])
+    exact hmem (by simp)
   let CX : Subgroup X := C.map H.subtype
   have hCXle : CX ≤ MulAction.stabilizer X ω := by
     intro x hx
@@ -229,10 +229,10 @@ theorem oddConj {X Ω : Type*} [Group X] [MulAction X Ω] [Finite X]
   obtain ⟨g, hg⟩ :=
     exists_conj_eq_of_isHallSubgroup_of_solvable (G := H) hHsolv hChall hC'hall
   refine ⟨((g⁻¹ : H) : X), ?_, ?_⟩
-  · simpa [H] using (g⁻¹ : H).2
+  · simp [H]
   · intro b hb
     let bH : B.subgroupOf H := ⟨⟨b, hBH hb⟩, hb⟩
-    have hbHmem : (bH : H) ∈ B.subgroupOf H := by simpa using bH.2
+    have hbHmem : (bH : H) ∈ B.subgroupOf H := by simp
     have hbC' : (bH : H) ∈ C' := hBC' hbHmem
     rw [hg] at hbC'
     rcases Subgroup.mem_map.mp hbC' with ⟨c, hc, hceq⟩

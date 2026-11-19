@@ -14,6 +14,7 @@ open Subgroup
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8K1_polar_eq {ι : Type} [Fintype ι] [DecidableEq ι] {c : ι → ZMod 3}
     (fr : PFrame Q ι c) (x y : V) :
     QuadraticMap.polar Q x y = ∑ i, 2 * c i * (fr.b.repr x i * fr.b.repr y i) := by
@@ -23,18 +24,20 @@ theorem ffE8K1_polar_eq {ι : Type} [Fintype ι] [DecidableEq ι] {c : ι → ZM
   rw [map_add, Finsupp.add_apply]
   ring
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8K1_polar_basis {ι : Type} [Fintype ι] [DecidableEq ι] {c : ι → ZMod 3}
     (fr : PFrame Q ι c) (i : ι) (x : V) :
     QuadraticMap.polar Q (fr.b i) x = 2 * c i * fr.b.repr x i := by
   rw [ffE8K1_polar_eq fr, Finset.sum_eq_single i]
-  · rw [Module.Basis.repr_self_apply, if_pos rfl]
+  · rw [Module.Basis.repr_self_apply, ite_eq_left rfl]
     ring
   · intro j _ hj
-    rw [Module.Basis.repr_self_apply, if_neg (Ne.symm hj)]
+    rw [Module.Basis.repr_self_apply, ite_eq_right (Ne.symm hj)]
     ring
   · intro h
     exact absurd (Finset.mem_univ i) h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8K1_signChange_fix {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε))
     (J : Finset (Fin 4)) {x : V} (hx : ∀ k, fr.b.repr x (Sum.inr k) = 0) :
     ((fr.signChange (ffE8Hat J) : OGroup Q) : V ≃ₗ[ZMod 3] V) x = x := by
@@ -45,6 +48,7 @@ theorem ffE8K1_signChange_fix {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)
   · simp [ffE8Hat]
   · simp [ffE8Hat, hx k]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8K1_mem_normalizer_of_monomial {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε))
     {g : OGroup Q} (hg : g * g = 1) (σ : Equiv.Perm (Fin 4)) (s : Fin 4 → ZMod 3)
     (hab : ∀ (i : Fin 2) (k : Fin 4),
@@ -62,17 +66,17 @@ theorem ffE8K1_mem_normalizer_of_monomial {ε : ZMod 3} (fr : PFrame Q FFE8Idx (
       intro i
       rw [Submonoid.coe_mul, Submonoid.coe_mul, LinearEquiv.mul_apply, LinearEquiv.mul_apply]
       rcases i with i | k
-      · rw [fr.signChange_basis, if_neg (by simp [ffE8Hat]),
+      · rw [fr.signChange_basis, ite_eq_right (by simp [ffE8Hat]),
           ffE8K1_signChange_fix fr _ (hab i)]
       · have hiff : Sum.inr (σ k) ∈ ffE8Hat (J.map σ.toEmbedding) ↔
             Sum.inr k ∈ ffE8Hat J := by
           simp [ffE8Hat]
         rw [fr.signChange_basis]
         by_cases hk : Sum.inr k ∈ ffE8Hat J
-        · rw [if_pos hk, map_neg, hmap k, map_smul, fr.signChange_basis, if_pos (hiff.mpr hk),
+        · rw [ite_eq_left hk, map_neg, hmap k, map_smul, fr.signChange_basis, ite_eq_left (hiff.mpr hk),
             smul_neg]
-        · rw [if_neg hk, hmap k, map_smul, fr.signChange_basis,
-            if_neg (fun h => hk (hiff.mp h))]
+        · rw [ite_eq_right hk, hmap k, map_smul, fr.signChange_basis,
+            ite_eq_right (fun h => hk (hiff.mp h))]
   have hginv : g⁻¹ = g := inv_eq_of_mul_eq_one_right hg
   rw [mem_normalizer_iff]
   intro e
@@ -93,6 +97,7 @@ theorem ffE8K1_sq_one (x : ZMod 3) (hx : x ≠ 0) : x * x = 1 := by
   revert x
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8K1_coeff {ε : ZMod 3} (hε : ε = 1 ∨ ε = -1) {u : V} [Invertible (Q u)]
     (hu : Q u = -ε) (c : ZMod 3) : ⅟(Q u) * (2 * ε * c) = c := by
   have hε2 : ε * ε = 1 := by rcases hε with rfl | rfl <;> decide
@@ -105,6 +110,7 @@ theorem ffE8K1_coeff {ε : ZMod 3} (hε : ε = 1 ∨ ε = -1) {u : V} [Invertibl
   calc -ε * (2 * ε * c) = (-2) * (ε * ε) * c := by ring
     _ = c := by rw [hε2, h2]; ring
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8K1_coords {ε : ZMod 3} (hε : ε = 1 ∨ ε = -1) (fr : PFrame Q FFE8Idx (ffE8Norm ε))
     {u : V} (hu : Q u = -ε) (ha : fr.b.repr u (Sum.inl 0) = 0)
     (hb : fr.b.repr u (Sum.inl 1) = 0) :
@@ -127,11 +133,13 @@ theorem ffE8K1_coords {ε : ZMod 3} (hε : ε = 1 ∨ ε = -1) (fr : PFrame Q FF
     decide
   exact ffE8K1_two_nonzero (fun k => fr.b.repr u (Sum.inr k)) hsum
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8K1_aux {cj ck : ZMod 3} {bj bk w : V} (h : w = cj • bj + ck • bk) :
     bj - cj • w = (1 - cj * cj) • bj + (-(cj * ck)) • bk := by
   rw [h]
   module
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8K1_refl_mem_normalizer {ε : ZMod 3} (hε : ε = 1 ∨ ε = -1)
     (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {u : V} [Invertible (Q u)] (hu : Q u = -ε)
     (ha : fr.b.repr u (Sum.inl 0) = 0) (hb : fr.b.repr u (Sum.inl 1) = 0) :
@@ -184,7 +192,7 @@ theorem ffE8K1_refl_mem_normalizer {ε : ZMod 3} (hε : ε = 1 ∨ ε = -1)
     ?_ ?_
   · intro i k'
     rw [TauCeti.QuadraticMap.coe_reflectionOrthogonal, hr1 i, Module.Basis.repr_self_apply,
-      if_neg (by simp)]
+      ite_eq_right (by simp)]
   · intro l
     rw [TauCeti.QuadraticMap.coe_reflectionOrthogonal]
     by_cases hlj : l = j
@@ -195,6 +203,7 @@ theorem ffE8K1_refl_mem_normalizer {ε : ZMod 3} (hε : ε = 1 ∨ ε = -1)
         simp [hrk, hjk.symm]
       · simp [hr2 l hlj hlk, hlj, hlk, Equiv.swap_apply_of_ne_of_ne hlj hlk]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8K1_refl_mem_normalizer_perp {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε))
     {u : V} [Invertible (Q u)] (hu : ∀ k, fr.b.repr u (Sum.inr k) = 0) :
     TauCeti.QuadraticMap.reflectionOrthogonal Q u ∈
@@ -205,7 +214,7 @@ theorem ffE8K1_refl_mem_normalizer_perp {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ff
     (TauCeti.QuadraticMap.reflectionOrthogonal_mul_self Q u) 1 (fun _ => 1) ?_ ?_
   · intro i k
     rw [TauCeti.QuadraticMap.coe_reflectionOrthogonal, TauCeti.QuadraticMap.reflection_apply]
-    simp [hu k, Module.Basis.repr_self_apply]
+    simp [hu k]
   · intro l
     rw [TauCeti.QuadraticMap.coe_reflectionOrthogonal, one_smul,
       TauCeti.QuadraticMap.reflection_apply_of_polar_eq_zero Q u]
@@ -213,6 +222,7 @@ theorem ffE8K1_refl_mem_normalizer_perp {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ff
     · rw [hpol]
       simp [hu l]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffE8K1_signChange_mem {N : Subgroup (OGroup Q)} (frP : PFrame Q (Option (Fin 5)) ffC)
     (hN : ∀ i : Fin 5, frP.signChange {some i} ∈ N) (J : Finset (Option (Fin 5)))
     (hJ : none ∉ J) : frP.signChange J ∈ N := by

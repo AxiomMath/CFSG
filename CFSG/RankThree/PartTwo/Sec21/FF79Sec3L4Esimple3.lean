@@ -13,6 +13,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem e34_eq_one_of_two_three {v : H} (h2 : ∃ j : ℕ, v ^ (2 ^ j) = 1)
     (h3 : ∃ k : ℕ, v ^ (3 ^ k) = 1) : v = 1 := by
   obtain ⟨j, hj⟩ := h2
@@ -23,10 +24,12 @@ theorem e34_eq_one_of_two_three {v : H} (h2 : ∃ j : ℕ, v ^ (2 ^ j) = 1)
     (orderOf_dvd_of_pow_eq_one hk)
   exact orderOf_eq_one_iff.mp this
 
+omit [Finite H] in
 theorem e34_layer_normal : (layer H).Normal := by
-  haveI := LocalCores.layer_characteristic (G := H)
+  have := LocalCores.layer_characteristic (G := H)
   infer_instance
 
+omit [Finite H] in
 theorem e34_layer_inv (β : MulAut H) {x : H} (hx : x ∈ layer H) : β x ∈ layer H := by
   have h := WholeGroup.layer_map_mulEquiv β
   rw [← h]
@@ -57,7 +60,7 @@ theorem e34_center_layer_trivial (hO : pPrimeCore 3 H = ⊥)
 variable {β : MulAut H} {Z K : Subgroup H} {z₀ : H}
 
 theorem e34_layer_ne_bot (hd : FF79APData β Z K z₀) : layer H ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hE
   obtain ⟨e⟩ := hd.K_a5
   obtain ⟨x, hxK, hx3, V, hVK, hV2, hV1, -⟩ := e34_a5_data e

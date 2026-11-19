@@ -88,15 +88,15 @@ theorem excres_inner_on_rankOne {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ =
     · refine ⟨20, 34, fun t => ?_⟩
       rw [hθdef, excres_trace_theta (Or.inl rfl)]
       simp [eRootTracePoly, sl2Diag, Matrix.trace_fin_two, map_ofNat]
-      first | rfl | norm_num | simp | exact_mod_cast rfl
+      first | rfl
     · refine ⟨32, 65, fun t => ?_⟩
       rw [hθdef, excres_trace_theta (Or.inr (Or.inl rfl))]
       simp [eRootTracePoly, sl2Diag, Matrix.trace_fin_two, map_ofNat]
-      first | rfl | norm_num | simp | exact_mod_cast rfl
+      first | rfl
     · refine ⟨56, 132, fun t => ?_⟩
       rw [hθdef, excres_trace_theta (Or.inr (Or.inr rfl))]
       simp [eRootTracePoly, sl2Diag, Matrix.trace_fin_two, map_ofNat]
-      first | rfl | norm_num | simp | exact_mod_cast rfl
+      first | rfl
   have hχd : ∀ t : K'ˣ, LinearMap.trace L (RootModule τ L) (ι (ρ (sl2Diag K' t)) : Module.End L
       (RootModule τ L)) = K'.subtype (((t : K') + (t : K')⁻¹) ^ 2 +
         (c : K') * ((t : K') + (t : K')⁻¹)) + c₀ := by

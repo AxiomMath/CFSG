@@ -46,9 +46,9 @@ theorem false_of_thirteen_dvd_orderOf {W : Submodule (ZMod 2) V}
     False := by
   classical
   have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-  haveI : Finite (GLV V) := Finite.of_injective (fun g : GLV V => (g : V → V))
+  have : Finite (GLV V) := Finite.of_injective (fun g : GLV V => (g : V → V))
     DFunLike.coe_injective
-  letI : Fintype ↥W := Fintype.ofFinite ↥W
+  let : Fintype ↥W := Fintype.ofFinite ↥W
   have hfin : orderOf y ≠ 0 := (isOfFinOrder_of_finite y).orderOf_pos.ne'
   set x := y ^ (orderOf y / 13) with hxdef
   have hx13 : orderOf x = 13 := orderOf_pow_orderOf_div hfin h13

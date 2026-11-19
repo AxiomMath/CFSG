@@ -20,14 +20,16 @@ noncomputable abbrev Fx (ρ : Representation (ZMod 2) G W) (B : Subgroup G) :
     Submodule (ZMod 2) W :=
   Representation.invariants (ρ.comp B.subtype)
 
+omit [Finite G] in
 theorem mem_Fx {ρ : Representation (ZMod 2) G W} {B : Subgroup G} {w : W} :
     w ∈ Fx ρ B ↔ ∀ b ∈ B, ρ b w = w :=
   mem_invariants_comp_subtype
 
+omit [Finite G] in
 theorem map_Fx_le (ρ : Representation (ZMod 2) G W) (n : G) (B : Subgroup G) :
     letI := subConjAction G
     (Fx ρ B).map (repEquiv ρ n : W →ₗ[ZMod 2] W) ≤ Fx ρ (n • B) := by
-  letI := subConjAction G
+  let := subConjAction G
   rintro _ ⟨v, hv, rfl⟩
   refine mem_Fx.mpr fun b hb => ?_
   have hb' : n⁻¹ * b * n ∈ B := (mem_conj_subgroup_iff n B b).mp hb
@@ -39,11 +41,12 @@ theorem map_Fx_le (ρ : Representation (ZMod 2) G W) (n : G) (B : Subgroup G) :
     group
   rw [h2, h1]
 
+omit [Finite G] in
 theorem finrank_Fx_conj [Finite W] (ρ : Representation (ZMod 2) G W) (n : G) (B : Subgroup G) :
     letI := subConjAction G
     Module.finrank (ZMod 2) (Fx ρ (n • B)) = Module.finrank (ZMod 2) (Fx ρ B) := by
-  letI := subConjAction G
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  let := subConjAction G
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   have h1 : Module.finrank (ZMod 2) (Fx ρ B) ≤ Module.finrank (ZMod 2) (Fx ρ (n • B)) := by
     have := Submodule.finrank_mono (map_Fx_le ρ n B)
     rwa [LinearEquiv.finrank_map_eq (repEquiv ρ n)] at this
@@ -55,6 +58,7 @@ theorem finrank_Fx_conj [Finite W] (ρ : Representation (ZMod 2) G W) (n : G) (B
   exact le_antisymm h2 h1
 
 
+omit [Finite G] in
 theorem card_hyperplane {J B : Subgroup G} (hBJ : B ≤ J) (hrel : B.relIndex J = 5)
     (hJcard : Nat.card J = 5 ^ 4) : Nat.card B = 5 ^ 3 := by
   have h := Subgroup.relIndex_mul_card (H := B) (K := J)
@@ -67,7 +71,7 @@ theorem four_le_finrank_Fx [Finite W] (ρ : Representation (ZMod 2) G W) {J B : 
     (hJe : CFSG.Open.IsElemAbelian 5 J) (hFJ : Fx ρ J = ⊥) (hBJ : B ≤ J)
     (hrel : B.relIndex J = 5) (hB : Fx ρ B ≠ ⊥) : 4 ≤ Module.finrank (ZMod 2) (Fx ρ B) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hnle : ¬ J ≤ B := by
     intro h
     have := Subgroup.relIndex_eq_one.mpr h
@@ -120,7 +124,7 @@ theorem four_le_finrank_Fx [Finite W] (ρ : Representation (ZMod 2) G W) {J B : 
     simpa using h1
   have hdvd := CFSG.Quasithin.SzN31.cyclic_dvd_two_pow Nat.prime_five x hx (Fx ρ B) hxT h0
   have hpos : 0 < Module.finrank (ZMod 2) (Fx ρ B) := by
-    haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
     exact Nat.pos_of_ne_zero fun h => hB (Submodule.finrank_eq_zero.mp h)
   by_contra hlt
   push Not at hlt
@@ -139,9 +143,9 @@ theorem endgame_core [Finite W] [Nontrivial W] (ρ : Representation (ZMod 2) G W
     (hdim : Module.finrank (ZMod 2) W ≤ 36)
     (hfix : ∀ w : W, (∀ e ∈ E, ρ e w = w) → w = 0) : False := by
   classical
-  letI := subConjAction G
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  let := subConjAction G
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   have h2p : Nat.Prime 2 := Nat.prime_two
   have h5p : Nat.Prime 5 := Nat.prime_five
   have hJbot : J ≠ ⊥ := by
@@ -154,7 +158,7 @@ theorem endgame_core [Finite W] [Nontrivial W] (ρ : Representation (ZMod 2) G W
     exact hfix w fun e he => mem_Fx.mp hw e (hEJ he)
   have hindep := iSupIndep_invariants_hyperplanes ρ h2p h5p (by norm_num) hJe hFJ
   have hspan := iSup_invariants_hyperplanes_eq_top ρ h2p h5p (by norm_num) hJe hJbot
-  haveI hJnorm : J.Normal := ⟨fun j hj g => hJn g j hj⟩
+  have hJnorm : J.Normal := ⟨fun j hj g => hJn g j hj⟩
   have hFE : Fx ρ E = ⊥ := by
     rw [Submodule.eq_bot_iff]
     intro w hw
@@ -186,7 +190,7 @@ theorem endgame_core [Finite W] [Nontrivial W] (ρ : Representation (ZMod 2) G W
     rintro _ ⟨n, rfl⟩
     exact finrank_Fx_conj ρ n B₁
   have hsum : Nat.card O * Module.finrank (ZMod 2) (Fx ρ B₁) ≤ 36 := by
-    haveI : Fintype O := Fintype.ofFinite O
+    have : Fintype O := Fintype.ofFinite O
     let fam : O → Submodule (ZMod 2) W := fun B => Fx ρ B.1
     let emb : O → {B : Subgroup G // B ≤ J ∧ B.relIndex J = 5} :=
       fun B => ⟨B.1, hO B.1 B.2⟩
@@ -233,7 +237,7 @@ theorem endgame_core [Finite W] [Nontrivial W] (ρ : Representation (ZMod 2) G W
     rw [hF, finrank_bot] at hfr
     omega
   have h5dvd : 5 ∣ Nat.card O := by
-    haveI : Finite T' := hOfin
+    have : Finite T' := hOfin
     have hmod := hP.card_modEq_card_fixedPoints T'
     have hempty : IsEmpty (MulAction.fixedPoints P T') :=
       ⟨fun x => hnofix x.1 x.2⟩
@@ -241,7 +245,7 @@ theorem endgame_core [Finite W] [Nontrivial W] (ρ : Representation (ZMod 2) G W
     rw [h0] at hmod
     exact (Nat.modEq_zero_iff_dvd).mp hmod
   have hOpos : 0 < Nat.card O := by
-    haveI : Nonempty O := ⟨⟨B₁, MulAction.mem_orbit_self B₁⟩⟩
+    have : Nonempty O := ⟨⟨B₁, MulAction.mem_orbit_self B₁⟩⟩
     exact Nat.card_pos
   have hO5 : Nat.card O = 5 := by
     obtain ⟨k, hk⟩ := h5dvd

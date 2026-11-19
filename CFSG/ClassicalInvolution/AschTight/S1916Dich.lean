@@ -137,13 +137,13 @@ theorem Ctx12.mem_cStar_X [IsSimpleGroup G] (c : Ctx12 p f K z S W L t)
     S1911.oddCoreOf_le_oddCoreOf hYX fun x hx => sd_centralizer_le_normalizer_Y hd (hXz hx)
   have haQ : ∀ q ∈ (S : Subgroup G) ⊓ sec19Y K z, a * q = q * a := fun q hq =>
     commute_of_mem_centralizerModOdd ha (hY.sylow.1.trans le_sup_left)
-      (S.isPGroup'.to_le inf_le_left)
+      (S.isPGroup.to_le inf_le_left)
       (mem_normalizer_inf_of_mem haS (sd_centralizer_le_normalizer_Y hd hCz)) hq
   refine mem_centralizerModOdd_of_index_two (M := K ⊔ sec19Y K z) c.rel
     (c.W_le_X hvV.2) hvKY haX ?_ (hav v hvV)
   refine commutator_mem_oddCoreOf_of_sup hKX hYX
     (fun k hk => hO1 (ha.2.2.2 k (Subgroup.mem_sup_right hk))) fun y hy => hO2 ?_
-  exact c.f1 a (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr haS))
+  exact c.f1 a (S.isPGroup.to_le (Subgroup.zpowers_le.mpr haS))
     (sd_centralizer_le_normalizer_Y hd hCz) haQ y hy
 
 end CFSG.ClassicalInvolution.Disconnected.AschTight.S1916

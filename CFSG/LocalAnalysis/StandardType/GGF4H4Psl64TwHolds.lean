@@ -125,8 +125,8 @@ theorem ggF4H4Psl64Twisted_of_balance (hL : GGLBalanceInput) (hRig : GGLabelRigi
     dsimp only [CFSG.Assembly.LargeEvenRawDatumLegacy, CFSG.Assembly.LargeEvenRecipeLinear]
       at hraw'
     obtain ⟨F, hFf, hFfin, hFcard, -, -, θ, -, hBsN, hall⟩ := hraw'
-    letI := hFf
-    haveI := hFfin
+    let := hFf
+    have := hFfin
     have hF : Nat.card F = 4 := hFcard
     obtain ⟨φ, hφI, hφ⟩ := hall x⁻¹ (Bs.inv_mem hxBs)
     obtain ⟨A, rfl⟩ := TableB.exists_eq_linConjAut hφI
@@ -170,7 +170,7 @@ theorem ggF4H4Psl64Twisted_of_balance (hL : GGLBalanceInput) (hRig : GGLabelRigi
     have hA15 : A ^ 15 = 1 := by
       rw [show (15 : ℕ) = 5 * 3 by norm_num, pow_mul, ← hc, ← map_pow,
         ggF4H4Psl64_units_pow_three hF c, map_one]
-    haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 13 h13J
     have hyC : (y : G) ∈ Subgroup.centralizer ({x} : Set G) := (hJcomp.1 y.2).2
     have hxy : (y : G) * x = x * y := Subgroup.mem_centralizer_singleton_iff.1 hyC

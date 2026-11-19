@@ -67,9 +67,9 @@ theorem allL_eq (l : List ℕ) (f : ℕ → Bool) : CFSG.KC.LQT.P.allL l f = l.a
     rw [andB_eq, ih, List.all_cons]
 
 theorem forall₂_map_map {α β γ : Type} {R : β → γ → Prop} {f : α → β} {g : α → γ} :
-    ∀ {l : List α}, (∀ x ∈ l, R (f x) (g x)) → List.Forall₂ R (l.map f) (l.map g)
+    ∀ {_l : List α}, (∀ x ∈ _l, R (f x) (g x)) → List.Forall₂ R (_l.map f) (_l.map g)
   | [], _ => List.Forall₂.nil
-  | x :: l, h => List.Forall₂.cons (h x List.mem_cons_self)
+  | x :: _l, h => List.Forall₂.cons (h x List.mem_cons_self)
       (forall₂_map_map fun y hy => h y (List.mem_cons_of_mem _ hy))
 
 theorem toArray_getElem! {α : Type} [Inhabited α] (l : List α) (i : ℕ) :

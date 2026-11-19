@@ -62,7 +62,7 @@ noncomputable def θ4 : MulAut (primeFormP h (Cid1 4 K)) →* (K ≃+* K) :=
 theorem θ4_ker_le_inner (hf : 1 ≤ f) : (θ4 h).ker ≤
     (MulAut.conj : primeFormP h (Cid1 4 K) →* MulAut (primeFormP h (Cid1 4 K))).range := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   obtain ⟨-, -, hcard, -⟩ := unitary_full_diagonal_outer_order h (n := 4) (by norm_num)
     (un4_hq (f := f))
   rw [Nat.Coprime.gcd_eq_one (coprime_four_pow_two_add_one hf)] at hcard
@@ -113,7 +113,7 @@ theorem eInvFour_un4_inner {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (hω1 : ω ≠ 1
   classical
   have hinj : Function.Injective (MulAut.conj : primeFormP h (Cid1 4 K) →*
       MulAut (primeFormP h (Cid1 4 K))) := conj_injective_of_mulEquiv (MulEquiv.refl _) hZ
-  haveI : Finite Ē := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite Ē := Nat.finite_of_card_ne_zero (by omega)
   have : Nontrivial Ē := Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨⟨σ₀, hσ₀E⟩, hne⟩ := exists_ne (1 : Ē)
   have hσ₀1 : σ₀ ≠ 1 := fun e => hne (Subtype.ext e)
@@ -161,9 +161,9 @@ theorem eInvFour_un4_fixing {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (hω1 : ω ≠ 
     (hσE : primeFormFieldHom h (isPrimeFormGram_one (n := 4) (K := K)) σ ∈ Ē) :
     EInvFour (primeFormP h (Cid1 4 K)) Ē := by
   classical
-  haveI : Finite K := h.finite
-  haveI := CFSG.RankThree.GF2n.Stroth80.isCyclic_ringEquiv K
-  haveI : Finite (K ≃+* K) := Finite.of_injective (fun τ : K ≃+* K => (τ : K → K))
+  have : Finite K := h.finite
+  have := CFSG.RankThree.GF2n.Stroth80.isCyclic_ringEquiv K
+  have : Finite (K ≃+* K) := Finite.of_injective (fun τ : K ≃+* K => (τ : K → K))
     (fun a b hab => RingEquiv.ext (fun x => congrFun hab x))
   have hinj : Function.Injective (MulAut.conj : primeFormP h (Cid1 4 K) →*
       MulAut (primeFormP h (Cid1 4 K))) := conj_injective_of_mulEquiv (MulEquiv.refl _) hZ
@@ -227,7 +227,7 @@ theorem eInvFour_un4_outer {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (hω1 : ω ≠ 1
     {Ē : Subgroup (MulAut (primeFormP h (Cid1 4 K)))} (hE3 : IsElemAbelian 3 Ē)
     (hE9 : Nat.card Ē = 9) (hout : ¬ Ē ≤ (θ4 h).ker) : EInvFour (primeFormP h (Cid1 4 K)) Ē := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   obtain ⟨a, haE, haθ⟩ : ∃ a ∈ Ē, θ4 h a ≠ 1 := by
     by_contra hcon
     push Not at hcon
@@ -269,7 +269,7 @@ theorem eInvNine_primeForm4 (hf : Even f) (hf0 : 0 < f)
     (hZ : Subgroup.center (primeFormP h (Cid1 4 K)) = ⊥) :
     EInvNine (primeFormP h (Cid1 4 K)) := by
   intro Ē hE3 hE9
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have h3 : 3 ∣ Nat.card K - 1 := by
     rw [h.card]
     exact three_dvd_two_pow_sub_one (even_two_mul f)
@@ -279,10 +279,10 @@ theorem eInvNine_primeForm4 (hf : Even f) (hf0 : 0 < f)
   · exact eInvFour_un4_inner h hω hω1 hωb hf0 hZ hE3 hE9 (hin.trans (θ4_ker_le_inner h hf0))
   · exact eInvFour_un4_outer h hω hω1 hωb hf0 hZ hE3 hE9 hin
 
-theorem four_dvd_card_gramSU (hf : Even f) (hf0 : 0 < f) :
+theorem four_dvd_card_gramSU (hf : Even f) (_hf0 : 0 < f) :
     4 ∣ Nat.card (gramSU h (Cid1 4 K)) := by
-  haveI : Finite K := h.finite
-  haveI : CharP K 2 := h.charP
+  have : Finite K := h.finite
+  have : CharP K 2 := h.charP
   have h3 : 3 ∣ Nat.card K - 1 := by
     rw [h.card]
     exact three_dvd_two_pow_sub_one (even_two_mul f)
@@ -307,7 +307,7 @@ theorem four_dvd_card_gramSU (hf : Even f) (hf0 : 0 < f) :
 theorem center_primeForm4_eq_bot (hf : Even f) (hf0 : 0 < f)
     (hs : IsSimpleGroup (primeFormP h (Cid1 4 K))) :
     Subgroup.center (primeFormP h (Cid1 4 K)) = ⊥ := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   refine center_eq_bot_of_simple_of_not_prime hs ?_
   have h4 : 4 ∣ Nat.card (primeFormP h (Cid1 4 K)) := by
     rw [Nat.card_congr (eTS h hf0).toEquiv]
@@ -323,7 +323,7 @@ end Un4
 
 theorem eInvNine_of_projSU4 {X : Type} [Group X] {f : ℕ} (hf0 : 0 < f) (hf : Even f)
     (e : X ≃* projSU 4 2 f) : EInvNine X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKcard : Nat.card (GaloisField 2 (2 * f)) = 2 ^ (2 * f) :=
     GaloisField.card 2 (2 * f) (by omega)
   have h : UnitaryFieldData 2 f (GaloisField 2 (2 * f)) := ⟨Nat.prime_two, hf0, hKcard⟩
@@ -333,7 +333,7 @@ theorem eInvNine_of_projSU4 {X : Type} [Group X] {f : ℕ} (hf0 : 0 < f) (hf : E
     (CFSG.PGLModel.projSUEquivStatedProj 4 2 f).trans
       (CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.OuterFourSeitz.statedProjEquivPrimeFormOne
         h (n := 4) (by norm_num))
-  haveI : IsSimpleGroup (projSU 4 2 f) := CFSG.PGLModel.isSimpleGroup_projSU_of_admissible hadm
+  have : IsSimpleGroup (projSU 4 2 f) := CFSG.PGLModel.isSimpleGroup_projSU_of_admissible hadm
   have hs : IsSimpleGroup (primeFormP h (Cid1 4 (GaloisField 2 (2 * f)))) :=
     eT.symm.isSimpleGroup
   exact EInvNine.of_mulEquiv (e.trans eT)

@@ -66,6 +66,7 @@ theorem phiImg_le_range_conj (hOut : SporadicOuterLeTwo) {p : ℕ} (hp : p.Prime
     (Subtype.ext (by simpa using hH _ (Subgroup.mem_subgroupOf.1 hh)))
   exact ⟨s, hs.symm⟩
 
+omit [Finite G] in
 theorem phiImg_le_range_conj_of_le {p : ℕ} {J H : Subgroup G} (hHJ : H ≤ J) :
     (H.subgroupOf (Subgroup.normalizer (J : Set G))).map (L62.phiC p J) ≤
       (MulAut.conj : PSimple p J →* MulAut (PSimple p J)).range := by
@@ -98,6 +99,7 @@ theorem phiImg_le_cx {p : ℕ} (hp : p.Prime) {X J H : Subgroup G} {y : G}
   subst hnh
   exact hn
 
+omit [Finite G] in
 theorem phiImg_le_normalizer {p : ℕ} {J H R : Subgroup G}
     (hRN : R ≤ Subgroup.normalizer (J : Set G)) (hH : H ≤ Subgroup.normalizer (R : Set G)) :
     (H.subgroupOf (Subgroup.normalizer (J : Set G))).map (L62.phiC p J) ≤

@@ -117,7 +117,7 @@ theorem ggA8Nbr_spFrame
         (⟨ψ b, by rw [← hrange]; exact MonoidHom.mem_range.mpr ⟨b, rfl⟩⟩ : L)
       have h2 : ψ b * (z : G) = (z : G) * ψ b := congrArg Subtype.val hcomm
       rw [← ha] at h2
-      first | exact h2 | exact h2.symm
+      first | exact h2
     rw [hZSp, Subgroup.mem_bot] at haZ
     apply Subtype.ext
     rw [← ha, haZ, map_one]
@@ -176,7 +176,7 @@ theorem ggA8Nbr_spFrame
     (by norm_num) (by norm_num) hE'ab hdiag' (by norm_num)
   have hpF : 7 ∣ Nat.card (GaloisField 2 3) - 1 := by
     rw [GaloisField.card 2 3 (by norm_num)]; norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨ζ, hζo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := GaloisField 2 3) hpF
   have hζ : ζ ^ 7 = 1 := by rw [← hζo]; exact pow_orderOf_eq_one ζ
   have hFr_inj : Function.Injective (CoordSp.frameHom ψ B₀ hζ) :=
@@ -415,7 +415,7 @@ theorem ggA8Nbr_spFrame
         funext i
         rw [Fin.tail]
         exact Pi.single_eq_of_ne (by simp) 1
-      haveI : Fact (1 < 7) := ⟨by norm_num⟩
+      have : Fact (1 < 7) := ⟨by norm_num⟩
       simp only [ΦFun, Pi.single_eq_same, htail, hιT_zero, ZMod.val_one]
       rw [pow_one, mul_one]
     exact (Φe.symm_apply_eq).mpr hsingle.symm
@@ -476,7 +476,7 @@ theorem ggA8Nbr_spFrame
       apply Subtype.ext
       have hws_v := hws (Fin.tail v)
       rw [ggConjAut_apply]
-      simp only [ΦFun, Subgroup.coe_mk, inv_inv]
+      simp only [ΦFun, inv_inv]
       rw [Fin.cons_zero, Fin.tail_cons]
       have hwxpow : w⁻¹ * x ^ (v 0).val * w = x ^ (v 0).val := by
         have hc : Commute (x ^ (v 0).val) w :=

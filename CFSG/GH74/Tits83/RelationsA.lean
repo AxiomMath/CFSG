@@ -56,7 +56,7 @@ theorem X_add_odd {j : ℤ} (hj : Odd j) (t u : F.K) :
     F.X j (t + u) = F.X j t * F.X j u := by
   rw [F.X_of_odd hj, F.X_of_odd hj, F.X_of_odd hj, F.val_add, F.xo_mul]
 
-theorem X'_add {j : ℤ} (hj : Even j) (t u : F.K) :
+theorem X'_add {j : ℤ} (_hj : Even j) (t u : F.K) :
     F.X' j (t + u) = F.X' j t * F.X' j u := by
   rw [F.X'_def, F.X'_def, F.X'_def, F.val_add]
   exact F.xp_mul t.mem u.mem j
@@ -195,24 +195,24 @@ theorem wtX_two_sub (x : F.K) (j : ℤ) : F.wtX x (2 - j) = F.wtX x j := by
   have h0 := Int.emod_nonneg j (by norm_num : (16 : ℤ) ≠ 0)
   have h1 := Int.emod_lt_of_pos j (by norm_num : (0 : ℤ) < 16)
   interval_cases h : j % 16 <;>
-    simp [wtX, Int.sub_emod, Int.add_mul_emod_self_right, h]
+    simp [wtX, Int.sub_emod, h]
 theorem wtX'_two_sub (x : F.K) (j : ℤ) : F.wtX' x (2 - j) = F.wtX' x j := by
   have h0 := Int.emod_nonneg j (by norm_num : (16 : ℤ) ≠ 0)
   have h1 := Int.emod_lt_of_pos j (by norm_num : (0 : ℤ) < 16)
   interval_cases h : j % 16 <;>
-    simp [wtX', Int.sub_emod, Int.add_mul_emod_self_right, h]
+    simp [wtX', Int.sub_emod, h]
 theorem wtX_ne_zero {x : F.K} (hx : x ≠ 0) (j : ℤ) : F.wtX x j ≠ 0 := by
   have hσ : F.sigma x ≠ 0 := (map_ne_zero F.sigma).2 hx
   have h0 := Int.emod_nonneg j (by norm_num : (16 : ℤ) ≠ 0)
   have h1 := Int.emod_lt_of_pos j (by norm_num : (0 : ℤ) < 16)
   interval_cases h : j % 16 <;>
-    simp [wtX, h, hx, hσ, pow_ne_zero, inv_ne_zero, div_ne_zero, mul_ne_zero]
+    simp [wtX, h, hx, hσ]
 theorem wtX'_ne_zero {x : F.K} (hx : x ≠ 0) (j : ℤ) : F.wtX' x j ≠ 0 := by
   have hσ : F.sigma x ≠ 0 := (map_ne_zero F.sigma).2 hx
   have h0 := Int.emod_nonneg j (by norm_num : (16 : ℤ) ≠ 0)
   have h1 := Int.emod_lt_of_pos j (by norm_num : (0 : ℤ) < 16)
   interval_cases h : j % 16 <;>
-    simp [wtX', h, hx, hσ, pow_ne_zero, inv_ne_zero, div_ne_zero, mul_ne_zero]
+    simp [wtX', h, hx, hσ]
 theorem sigma_wtX_mul {x : F.K} (hx : x ≠ 0) {j : ℤ} (hj : Even j) :
     F.sigma (F.wtX x j) * F.wtX x j = (F.wtX' x (j + 8))⁻¹ := by
   have hσ : F.sigma x ≠ 0 := (map_ne_zero F.sigma).2 hx
@@ -228,9 +228,9 @@ theorem sigma_wtX_mul {x : F.K} (hx : x ≠ 0) {j : ℤ} (hj : Even j) :
     rw [Int.add_emod]
     norm_num
   rcases hmod with h | h | h | h | h | h | h | h <;>
-    simp [wtX, wtX', h, h8, hσ, hx, F.sigma_sigma, pow_ne_zero, inv_inv,
-      div_eq_mul_inv, map_mul, map_div₀, map_inv₀] <;>
-    field_simp <;> ring
+    simp [wtX, wtX', h, h8, F.sigma_sigma, inv_inv,
+      div_eq_mul_inv, map_mul, map_inv₀] <;>
+    field_simp
 
 private theorem xo_add_mul_sixteen (k j : ℤ) (x : G) : F.xo (j + 16 * k) x = F.xo j x := by
   have h8 : F.rho ^ (8 : ℤ) = 1 := by
@@ -272,14 +272,14 @@ private theorem wtX_eq_of_emod (x : F.K) {j r : ℤ} (h : j % 16 = r % 16) :
   have hd := (Int.emod_eq_emod_iff_emod_sub_eq_zero.mp h)
   obtain ⟨k, hk⟩ := Int.dvd_of_emod_eq_zero hd
   rw [show j = r + 16 * k by omega]
-  simp [wtX, Int.add_mul_emod_self_right]
+  simp [wtX]
 
 private theorem wtX'_eq_of_emod (x : F.K) {j r : ℤ} (h : j % 16 = r % 16) :
     F.wtX' x j = F.wtX' x r := by
   have hd := (Int.emod_eq_emod_iff_emod_sub_eq_zero.mp h)
   obtain ⟨k, hk⟩ := Int.dvd_of_emod_eq_zero hd
   rw [show j = r + 16 * k by omega]
-  simp [wtX', Int.add_mul_emod_self_right]
+  simp [wtX']
 
 private theorem alpha_conj_X'_two {x : F.K} (hx : x ≠ 0) (v : F.K) :
     F.alpha x * F.X' 2 v * (F.alpha x)⁻¹ = F.X' 2 (F.wtX' x 2 * v) := by
@@ -479,7 +479,7 @@ private theorem alpha_conj_X_fifteen {x : F.K} (hx : x ≠ 0) (v : F.K) :
   rw [hX, hXw] at h
   exact h
 
-private theorem alpha_conj_X_of_emod_odd {x : F.K} (hx : x ≠ 0) {j r : ℤ}
+private theorem alpha_conj_X_of_emod_odd {x : F.K} (_hx : x ≠ 0) {j r : ℤ}
     (h : j % 16 = r % 16) (hr : Odd r) (v : F.K)
     (hbase : F.alpha x * F.X r v * (F.alpha x)⁻¹ = F.X r (F.wtX x r * v)) :
     F.alpha x * F.X j v * (F.alpha x)⁻¹ = F.X j (F.wtX x j * v) := by
@@ -491,7 +491,7 @@ private theorem alpha_conj_X_of_emod_odd {x : F.K} (hx : x ≠ 0) {j r : ℤ}
   rw [hX, hXw]
   exact hbase
 
-private theorem alpha_conj_X'_of_emod {x : F.K} (hx : x ≠ 0) {j r : ℤ}
+private theorem alpha_conj_X'_of_emod {x : F.K} (_hx : x ≠ 0) {j r : ℤ}
     (h : j % 16 = r % 16) (v : F.K)
     (hbase : F.alpha x * F.X' r v * (F.alpha x)⁻¹ = F.X' r (F.wtX' x r * v)) :
     F.alpha x * F.X' j v * (F.alpha x)⁻¹ = F.X' j (F.wtX' x j * v) := by

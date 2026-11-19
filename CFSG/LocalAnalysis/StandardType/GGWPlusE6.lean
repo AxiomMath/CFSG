@@ -17,7 +17,7 @@ theorem ggWPlusTableB_E6_three
     (h3 : 3 ∣ 2 ^ n - 1) :
     GGWPlusTableB 3 (TableBExc.RecipeGroup .E6 K) (TableBExc.RecipeID .E6 K) := by
   intro M _ _ L' E θ hE hP hZ A M₁ E₁ h hXA hAN hAp hME hEA hCM hAM hAE hpow hh hhp hAh
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   have hpK : 3 ∣ Nat.card K - 1 := by rw [hK]; exact h3
   have hL : GGTorusLift 3 5 (TableBExc.RecipeGroup .E6 K) :=
     TableBExc.ggTorusLift_E6_three hpK
@@ -30,7 +30,7 @@ theorem ggWPlusTableB_E6_three
   have hI : (ggLAutImage L' θ E : Set (MulAut (TableBExc.RecipeGroup .E6 K))) ⊆
       TableBExc.RecipeID .E6 K := by
     intro a ha
-    simp only [ggLAutImage, Subgroup.mem_map] at ha
+    simp only [ggLAutImage] at ha
     obtain ⟨x, hx, rfl⟩ := ha
     have hxe : (⟨(x : M), hE hx⟩ : Subgroup.normalizer (L' : Set M)) = x :=
       Subtype.ext rfl
@@ -45,11 +45,11 @@ theorem ggWPlusTableB_E6_three
     rwa [commutator_def, Subgroup.map_commutator, ← MonoidHom.range_eq_map,
       MonoidHom.range_eq_top.mpr (ggQuotHom_surjective θ), ← commutator_def] at h1
   have hX := ggSolvQuotLeTwo_E6_three (Eb := ggLAutImage L' θ E) n hn hK h3 hA hI hr hsc hperf
-  haveI : ((MulAut.conj : TableBExc.RecipeGroup .E6 K →*
+  have : ((MulAut.conj : TableBExc.RecipeGroup .E6 K →*
       MulAut (TableBExc.RecipeGroup .E6 K)).range).Normal :=
     ggInnNormal _
-  haveI : Finite (TableBExc.RecipeGroup .E6 K) := TableBExc.finite_recipeGroup .E6 K
-  haveI : Finite (MulAut (TableBExc.RecipeGroup .E6 K)) :=
+  have : Finite (TableBExc.RecipeGroup .E6 K) := TableBExc.finite_recipeGroup .E6 K
+  have : Finite (MulAut (TableBExc.RecipeGroup .E6 K)) :=
     Finite.of_injective (fun f : MulAut (TableBExc.RecipeGroup .E6 K) =>
       (f : TableBExc.RecipeGroup .E6 K → TableBExc.RecipeGroup .E6 K))
       DFunLike.coe_injective

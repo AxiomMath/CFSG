@@ -91,6 +91,7 @@ variable {K : Type} [Field K] [Finite K] {Ω : Type} [Field Ω] [Algebra K Ω]
   (MulAut.conj H).toMonoidHom.comp
     ((baseChangeGL (algebraMap K Ω)).comp (adjointGroup Tag.E6 K).subtype)
 
+omit [Finite K] [Algebra.IsAlgebraic K Ω] in
 theorem layerHom_injective (H : ModGL Tag.E6 Ω) : Function.Injective (layerHom K Ω H) :=
   (MulAut.conj H).injective.comp ((baseChangeGL_injective _).comp (Subgroup.subtype_injective _))
 
@@ -129,7 +130,7 @@ theorem exists_layer_equiv {Fr : Ω →+* Ω} (hFr : ∀ c, Fr c = c ^ Nat.card 
     apply layerHom_injective H
     exact congrArg Subtype.val hab
   · obtain ⟨y, hy⟩ := hsurj z.1 z.2
-    exact ⟨⟨y, by simpa [hy] using z.2⟩, Subtype.ext hy⟩
+    exact ⟨⟨y, by simp [hy]⟩, Subtype.ext hy⟩
 
 end LayerEquiv
 

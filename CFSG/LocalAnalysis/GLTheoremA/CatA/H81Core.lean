@@ -48,6 +48,7 @@ theorem exists_choice_component {p : ℕ} (hp : p.Prime) {L : Subgroup G} (yK : 
     exact component_eq_of_map_eq hp _ hψ hT hJK heq
   refine ⟨JK, hJK, hmap, huniq, layer_eq_of_unique hJK huniq⟩
 
+omit [Finite G] in
 theorem map_subtype_centralizer {L : Subgroup G} (yK : ↥L) :
     (Subgroup.centralizer ({yK} : Set ↥L)).map L.subtype =
       L ⊓ Subgroup.centralizer ({(yK : G)} : Set G) := by
@@ -74,6 +75,7 @@ theorem component_map_subtype {p : ℕ} (hp : p.Prime) {L : Subgroup G} {K S : S
     (hS : GLAPComponent p K S) : GLAPComponent p (K.map L.subtype) (S.map L.subtype) :=
   component_image hp L.subtype (fun A => coprime_ker_subtype L A) K hS
 
+omit [Finite G] in
 theorem centMod_of_commute {p : ℕ} {J : Subgroup G} {g : G} (hg : ∀ j ∈ J, g * j = j * g) :
     CentMod p J g := by
   have hfix : ∀ j ∈ J, g⁻¹ * j * g = j := by

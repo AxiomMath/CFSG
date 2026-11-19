@@ -84,7 +84,7 @@ theorem Cfg.mul_self_x {T : Sylow 2 H} {x : H} (h : Cfg H T x) : x * x = 1 := by
 theorem Cfg.exists_normal {T : Sylow 2 H} {x : H} (h : Cfg H T x) :
     ∃ N : Subgroup H, N.Normal ∧ (∀ g : H, g ^ 2 ∈ N) ∧ x ∉ N := by
   have hxx := h.mul_self_x
-  have hT2 : IsPGroup 2 (T : Subgroup H) := T.isPGroup'
+  have hT2 : IsPGroup 2 (T : Subgroup H) := T.isPGroup
   have hTrank : 3 ≤ Open.pRank 2 (T : Subgroup H) := by
     rw [CFSG.ProperTwoGeneratedCore.sylow_two_rank_eq T]
     exact h.rank

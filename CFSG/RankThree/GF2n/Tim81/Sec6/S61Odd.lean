@@ -106,7 +106,7 @@ theorem Sec6Hyp.card_imgQ_of_mem_sigmaSet (hS : Sec6Hyp M V) {B : Subgroup G}
 private theorem Sec6Hyp.oddCore_inf_imgQ_eq_bot (hS : Sec6Hyp M V) {B : Subgroup G}
     (hB : B ∈ sigmaSet M V) :
     (pPrimeCore 2 ↥(imgQ M (m0Of M V))).map (imgQ M (m0Of M V)).subtype ⊓ imgQ M B = ⊥ := by
-  haveI : Finite (MBar M) := inferInstance
+  have : Finite (MBar M) := inferInstance
   let X : Subgroup (MBar M) := imgQ M (m0Of M V)
   let O : Subgroup (MBar M) := (pPrimeCore 2 ↥X).map X.subtype
   have hOcard : Nat.card O = Nat.card (pPrimeCore 2 ↥X) := Subgroup.card_subtype X _
@@ -122,7 +122,7 @@ theorem Sec6Hyp.oddCore_le_centralizer_imgQ (hS : Sec6Hyp M V) {B : Subgroup G}
     (hB : B ∈ sigmaSet M V) :
     (pPrimeCore 2 ↥(imgQ M (m0Of M V))).map (imgQ M (m0Of M V)).subtype ≤
       Subgroup.centralizer (imgQ M B : Set (MBar M)) := by
-  haveI : Finite (MBar M) := inferInstance
+  have : Finite (MBar M) := inferInstance
   let X : Subgroup (MBar M) := imgQ M (m0Of M V)
   let O : Subgroup (MBar M) := (pPrimeCore 2 ↥X).map X.subtype
   show O ≤ Subgroup.centralizer (imgQ M B : Set (MBar M))

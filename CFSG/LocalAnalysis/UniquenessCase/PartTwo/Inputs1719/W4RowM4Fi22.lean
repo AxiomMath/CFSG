@@ -16,7 +16,7 @@ open CFSG.Monster.B.Fischer CFSG.Sporadic.FischerOddCore
   CFSG.HardMathSupport.Meierfrankenfeld.FFToolkit
 
 private theorem m4_orderOf_two_zmod_three : orderOf (2 : ZMod 3) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : (2 : ZMod 3) ^ 2 = 1 := by decide
   have h1 : (2 : ZMod 3) ≠ 1 := by decide
   exact orderOf_eq_prime h2 h1
@@ -26,7 +26,7 @@ theorem fi22_involution_inverts_heis
     ∃ (x y : Fin 3 → Equiv.Perm (Fin 3510)) (z : Equiv.Perm (Fin 3510)),
       (∀ i, x i ∈ fi22P) ∧ (∀ i, y i ∈ fi22P) ∧ z ∈ fi22P ∧ HeisCfg 3 3 x y z ∧
         (∀ i, y i ^ 3 = 1) ∧ r * x 0 * r⁻¹ = (x 0)⁻¹ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ho : orderOf r = 2 := orderOf_eq_prime (by rwa [pow_two]) hr1
   obtain ⟨k, hk, s, hs, hsr⟩ := fi22R_involution_conj hr ho
   obtain ⟨x, y, z, hxP, hyP, hzP, hcfg, hy3, hinv⟩ := fi22_ext_heisCfg hk
@@ -87,7 +87,7 @@ theorem w4Fi22RowM4CentreOne_holds :
         IsSpor (↥L ⧸ Subgroup.center ↥L) .Fi22 → 4 ≤ E3.mParam Y := by
   intro W _ _ hW Y L hLY hLn hF hq hO2 hZ hs
   obtain ⟨e0⟩ := hs
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h2S : 2 ∣ Nat.card ↥fi22P := by rw [card_fi22P]; norm_num
   have hZ3 : ¬ 3 ∣ Nat.card (Subgroup.center ↥L) := by rw [hZ]; norm_num
   have hρ : 2 * 4 < (3 - 1) * 3 ^ 2 * orderOf (2 : ZMod 3) + 2 := by

@@ -132,9 +132,11 @@ omit [Finite G] in
 theorem s208a_cj_le_cj {g : G} {A B : Subgroup G} (h : A ≤ B) : uc22p20bCj g A ≤ uc22p20bCj g B :=
   Subgroup.map_mono h
 
+omit [Finite G] in
 theorem s208a_cj_inv_cj (g : G) (A : Subgroup G) : uc22p20bCj g⁻¹ (uc22p20bCj g A) = A := by
   rw [uc22p20b_cj_cj, inv_mul_cancel, uc22p20b_cj_one]
 
+omit [Finite G] in
 theorem s208a_cj_cj_inv (g : G) (A : Subgroup G) : uc22p20bCj g (uc22p20bCj g⁻¹ A) = A := by
   rw [uc22p20b_cj_cj, mul_inv_cancel, uc22p20b_cj_one]
 
@@ -148,6 +150,7 @@ theorem s208a_cj_eq_of_mem_normalizer {g : G} {A : Subgroup G} (hg : g ∈ norma
     uc22p20bCj g A = A :=
   Subgroup.mem_normalizer_iff_map_conj_eq.1 hg
 
+omit [Finite G] in
 theorem s208a_conj_mem_cj {g x : G} {A : Subgroup G} (hx : x ∈ A) : g * x * g⁻¹ ∈ uc22p20bCj g A :=
   uc22p20b_mem_cj.2 ⟨x, hx, rfl⟩
 

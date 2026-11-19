@@ -101,7 +101,7 @@ theorem entrywiseFrobGL_rootSL2 (f : ℕ) {β : Fin Tag.E6.rank → ℤ} (hβ : 
     (M : SL2 Ω) :
     entrywiseFrobGL Tag.E6 Ω 2 f (rootSL2 Tag.E6 Ω β M) =
       rootSL2 Tag.E6 Ω β (Matrix.SpecialLinearGroup.map (iterateFrobenius Ω 2 f) M) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : (entrywiseFrobGL Tag.E6 Ω 2 f).comp (rootSL2 Tag.E6 Ω β) =
       (rootSL2 Tag.E6 Ω β).comp (Matrix.SpecialLinearGroup.map (iterateFrobenius Ω 2 f)) := by
     refine MonoidHom.eq_of_eqOn_dense (sl2_closure_upper_lower (K := Ω)) fun g hg => ?_

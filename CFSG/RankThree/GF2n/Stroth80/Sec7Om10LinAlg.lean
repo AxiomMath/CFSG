@@ -159,10 +159,10 @@ private theorem eq_of_polar_baseVec [CharP K 2] {v : Fin 5 ⊕ Fin 5 → K}
 theorem isCoord_base [CharP K 2] : IsCoord (baseVec K) (baseProj K) (baseSec K) where
   quad_a := by
     rw [quadPlus_apply, Fin.sum_univ_succ]
-    simp [baseVec, Pi.single_apply]
+    simp [baseVec]
   proj_a := by
     funext x
-    rcases x with i | i <;> simp [baseVec, Pi.single_apply]
+    rcases x with i | i <;> simp [baseVec]
   perp_sec y := by
     rw [polar_baseVec]
     simp
@@ -173,7 +173,7 @@ theorem isCoord_base [CharP K 2] : IsCoord (baseVec K) (baseProj K) (baseSec K) 
     have h0 := eq_of_polar_baseVec hv
     refine ⟨v (.inl 0), ?_⟩
     funext x
-    rcases x with i | i <;> cases i using Fin.cases <;> simp [baseVec, Pi.single_apply, h0]
+    rcases x with i | i <;> cases i using Fin.cases <;> simp [baseVec, h0]
   form v w hv hw := by
     rw [polar_quadPlus 5 K v w, Fin.sum_univ_succ, spForm_eq_polar_quadPlus, polar_quadPlus 4 K]
     simp only [baseProj_apply, Sum.map_inl, Sum.map_inr]
@@ -183,7 +183,7 @@ theorem isCoord_base [CharP K 2] : IsCoord (baseVec K) (baseProj K) (baseSec K) 
   quad_sec y := by
     rw [quadPlus_apply 5 K, Fin.sum_univ_succ, quadPlus_apply 4 K]
     simp
-  exists_one := ⟨Pi.single (.inl 0) 1, by rw [polar_baseVec]; simp [Pi.single_apply]⟩
+  exists_one := ⟨Pi.single (.inl 0) 1, by rw [polar_baseVec]; simp⟩
 
 end Model
 

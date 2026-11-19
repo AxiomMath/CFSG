@@ -33,8 +33,8 @@ theorem Hyp167.I_le_conjSubgroup_M (h1 : W16One G) (hS : Std15 G)
   have hcomm : i * b = b * i := B2F.isElemAbelian_comm hIab hi hbI
   exact CFSG.RankThree.GF2n.Tim77.mem_normalizer_of_commute_of_isTI hTI_B hbB hb1 hcomm
 
-theorem Hyp167.false_of_mQuot_A_le (h1 : W16One G) (hS : Std15 G) (h152 : Thm152 G)
-    (hX : Hyp167 M V₀ V U S H g X T) (hVO : V ≤ pCoreOf 2 H)
+theorem Hyp167.false_of_mQuot_A_le (h1 : W16One G) (hS : Std15 G) (_h152 : Thm152 G)
+    (hX : Hyp167 M V₀ V U S H g X T) (_hVO : V ≤ pCoreOf 2 H)
     (hIA : conjClosure V X ≤ conjSubgroup M g)
     (hle : E3.mQuot (conjSubgroup V g) (conjSubgroup V g ⊓ kerMOf M X) ≤
       E3.mQuot V (U ⊔ V₀)) : False := by

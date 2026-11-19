@@ -23,21 +23,21 @@ theorem T_le_of_mem_Delta17_12 {D : Data G}
     (hH : H ∈ Delta17_12 D 𝔉 r q L) : D.T ≤ H := by
   unfold Delta17_12 at hH
   by_cases h1 : P17_12_1 r q L
-  · rw [dif_pos h1] at hH
+  · rw [dite_eq_left h1] at hH
     obtain ⟨x, -, rfl⟩ := hH
     exact le_sup_left
   · by_cases h2 : P17_12_2 q L
-    · rw [dif_neg h1, dif_pos h2] at hH
+    · rw [dite_eq_right h1, dite_eq_left h2] at hH
       obtain ⟨X, -, -, -, rfl⟩ := hH
       exact le_sup_left
-    · rw [dif_neg h1, dif_neg h2] at hH
+    · rw [dite_eq_right h1, dite_eq_right h2] at hH
       obtain ⟨x, -, X, hX⟩ := hH
       obtain ⟨-, -, hHX, -⟩ := hX
       rw [hHX]
       exact le_sup_left
 
 @[expose] def Gap17_13_diagonal (D : Data G)
-    (V₀ V L : Subgroup G) (r q : ℕ) (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (V₀ V L : Subgroup G) (r q : ℕ) (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   ∀ H ∈ Delta17_12 D (fundPred q) r q L,
     ∃ K : Subgroup (Bar2 H),
       CFSG.IsComponent K ∧
@@ -49,7 +49,7 @@ theorem T_le_of_mem_Delta17_12 {D : Data G}
                 (q = 9 → CompFactorAutInF 3 ⊤ T')
 
 @[expose] def Gap17_13_upperBounds (D : Data G)
-    (V₀ V L : Subgroup G) (r q : ℕ) (hC : Ctx17_6 D V₀ V L r q) : Prop :=
+    (V₀ V L : Subgroup G) (r q : ℕ) (_hC : Ctx17_6 D V₀ V L r q) : Prop :=
   (9 < q → ∀ H ∈ Delta17_12 D (fundPred q) r q L, InFSq 1 H) ∧
     (q ≤ 9 → q ≠ 9 → ∀ H ∈ Delta17_12 D (fundPred q) r q L, InFSq 2 H) ∧
     (q = 9 → ∀ H ∈ Delta17_12 D (fundPred q) r q L, InFSq 3 H)

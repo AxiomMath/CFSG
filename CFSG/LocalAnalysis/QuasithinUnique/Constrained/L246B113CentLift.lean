@@ -16,7 +16,7 @@ theorem SylowAutTrivial.of_mulEquiv {S S' : Type} [Group S] [Finite S] [Group S'
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Finite S' := Finite.of_equiv S e.toEquiv
   intro P α hα hfix
-  have hP2 : IsPGroup 2 ↥((P : Subgroup S).map e.toMonoidHom) := P.isPGroup'.map e.toMonoidHom
+  have hP2 : IsPGroup 2 ↥((P : Subgroup S).map e.toMonoidHom) := P.isPGroup.map e.toMonoidHom
   have hPi : ¬ 2 ∣ ((P : Subgroup S).map e.toMonoidHom).index := by
     rw [Subgroup.index_map_of_bijective e.bijective]
     exact P.not_dvd_index

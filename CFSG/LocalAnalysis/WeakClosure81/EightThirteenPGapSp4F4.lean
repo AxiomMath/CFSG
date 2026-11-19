@@ -57,15 +57,15 @@ private theorem wcgapsy_map_centralizer_eq {M M' : Type} [Group M] [Group M'] (e
 private theorem wcgapsy_exists_sylow_eq_of_isSylowIn_top {M : Type} [Group M] [Finite M]
     {S : Subgroup M} (hS : IsSylowIn 2 S (⊤ : Subgroup M)) :
     ∃ P : Sylow 2 M, (P : Subgroup M) = S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨hS.isPGroup.toSylow ?_, IsPGroup.toSylow_coe _ _⟩
   have := hS.not_dvd_relIndex
   rwa [Subgroup.relIndex_top_right] at this
 
 private theorem wcgapsy_charP_two_of_card_eq_four {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = 4) : CharP F 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine charP_of_card_eq_prime_pow (p := 2) (f := 2) ?_
   rw [← Nat.card_eq_fintype_card, hF]
   norm_num
@@ -73,15 +73,15 @@ private theorem wcgapsy_charP_two_of_card_eq_four {F : Type} [Field F] [Finite F
 theorem rankTwoParabData_statedSp {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = 4) (S : Sylow 2 (StatedSp 2 F)) :
     RankTwoParabData (S : Subgroup (StatedSp 2 F)) := by
-  haveI : CharP F 2 := wcgapsy_charP_two_of_card_eq_four hF
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := wcgapsy_charP_two_of_card_eq_four hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U, hU⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.exists_sylow_unipotent (K := F) 2 2
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (StatedSp 2 F) U S
   let e : StatedSp 2 F ≃* StatedSp 2 F := MulAut.conj g
   have hSmap : (S : Subgroup (StatedSp 2 F)) =
       (U : Subgroup (StatedSp 2 F)).map e.toMonoidHom := by
-    rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def] <;> rfl
+    rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def]; rfl
   have hUdata : RankTwoParabData (U : Subgroup (StatedSp 2 F)) := by
     rw [hU]
     exact rankTwoParabData_unipotent_sp4 (F := F) hF
@@ -94,8 +94,8 @@ theorem centralKData_statedSp {F : Type} [Field F] [Finite F]
     (hAc : A ≤ centralizer ((S : Subgroup (StatedSp 2 F)) : Set (StatedSp 2 F)))
     (hA4 : Nat.card ↥A = 4) (hT : TISIn (⊤ : Subgroup (StatedSp 2 F)) A) :
     CentralKData (S : Subgroup (StatedSp 2 F)) A := by
-  haveI : CharP F 2 := wcgapsy_charP_two_of_card_eq_four hF
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := wcgapsy_charP_two_of_card_eq_four hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U, hU⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.exists_sylow_unipotent (K := F) 2 2
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (StatedSp 2 F) U S
@@ -103,7 +103,7 @@ theorem centralKData_statedSp {F : Type} [Field F] [Finite F]
   let f : StatedSp 2 F ≃* StatedSp 2 F := e.symm
   have hSmap : (S : Subgroup (StatedSp 2 F)) =
       (U : Subgroup (StatedSp 2 F)).map e.toMonoidHom := by
-    rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def] <;> rfl
+    rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def]; rfl
   have hSf : (S : Subgroup (StatedSp 2 F)).map f.toMonoidHom =
       (U : Subgroup (StatedSp 2 F)) := by
     rw [hSmap]

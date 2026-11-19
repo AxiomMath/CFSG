@@ -59,7 +59,7 @@ theorem ggQ2TableBI1FailOn_unitaryHeart :
           largeEvenLabelAll_torusLift_twA (lab := ⟨.twA, r, 1⟩) hlab rfl Nat.prime_three
             (by norm_num)
         have hE2 : ggUnitaryTorusRank 3 (r + 1) = r - 2 := by
-          simp only [ggUnitaryTorusRank, if_pos hdvd']
+          simp only [ggUnitaryTorusRank, ite_eq_left hdvd']
           omega
         have hLift' : LargeEvenLabelAll ⟨.twA, r, 1⟩ fun R _ _ _ =>
             GGTorusLift 3 (r - 2) R := by

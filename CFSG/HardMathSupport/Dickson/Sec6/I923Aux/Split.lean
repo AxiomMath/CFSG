@@ -58,7 +58,7 @@ theorem noL2_of_famOK {Y P : Type} [Group Y] [Finite Y] [Group P] (hY : CFSG.Ope
     (hnot : α ∉ innAutDerived Y) {J : Subgroup Y}
     (hJ : GLAPComponent 3 (Lemma510Ns.fixSub α) J) {r : ℕ} (hr : 10 ≤ r) :
     ¬ IsTypeL2 r (barOf 3 J) := by
-  haveI : Group.IsPerfect Y := ⟨hY.1⟩
+  have : Group.IsPerfect Y := ⟨hY.1⟩
   have hψ3 : (MulAut.congr e (centerDescend Y α)) ^ 3 = 1 := by
     rw [← map_pow, ← map_pow, h3, map_one, map_one]
   have hninn : ¬ IsInnerAut (MulAut.congr e (centerDescend Y α)) := fun hinn => hnot

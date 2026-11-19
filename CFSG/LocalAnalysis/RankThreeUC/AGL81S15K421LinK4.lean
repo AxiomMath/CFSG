@@ -95,10 +95,10 @@ theorem psi4_omega : psi4 omega4 = Cm := by
   rw [Algebra.leftMulMatrix_eq_repr_mul]
   fin_cases j
   · have h : omega4 * basis4 0 = basis4 1 := by rw [basis4_zero, basis4_one, mul_one]
-    fin_cases i <;> simp [h, Cm, Module.Basis.repr_self, Finsupp.single_apply]
+    fin_cases i <;> simp [h, Cm, Module.Basis.repr_self]
   · have h : omega4 * basis4 1 = basis4 1 + basis4 0 := by
       rw [basis4_zero, basis4_one, omega4_sq, add_comm]
-    fin_cases i <;> simp [h, Cm, map_add, Module.Basis.repr_self, Finsupp.single_apply]
+    fin_cases i <;> simp [h, Cm, map_add, Module.Basis.repr_self]
 
 theorem psi4_commutant (M : Matrix (Fin 2) (Fin 2) (ZMod 2))
     (hM : M * psi4 omega4 = psi4 omega4 * M) : ∃ k : K4, psi4 k = M := by
@@ -135,7 +135,7 @@ theorem psiB_scalar_omega (β : Type) [Fintype β] [DecidableEq β] :
     show psi4 ((Matrix.scalar β omega4) b b) i j = _
     simp [Matrix.scalar_apply, psi4_omega, Ωstd]
   · show psi4 ((Matrix.scalar β omega4) b b') i j = _
-    simp [Matrix.scalar_apply, Matrix.diagonal_apply, hb, Ωstd]
+    simp [Matrix.scalar_apply, hb, Ωstd]
 
 theorem range_Phi4 {ι β : Type} [Fintype ι] [DecidableEq ι] [Fintype β] [DecidableEq β] :
     (Phi psi4 : GL ι (ZMod 2) × GL β K4 →* GL (ι ⊕ (β × Fin 2)) (ZMod 2)).range =

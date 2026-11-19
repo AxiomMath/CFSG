@@ -24,8 +24,8 @@ theorem w135c2_psu_linear_degree {G V : Type} [Group G] [AddCommGroup V] [Module
     s ∣ finrank (ZMod 2) (LinearMap.range (τ - 1)) := by
   classical
   let E := Module.End (MonoidAlgebra (ZMod 2) G) ρ.asModule
-  haveI hirr' : ρ.IsIrreducible := hirr
-  haveI : Field E := endField_field ρ
+  have hirr' : ρ.IsIrreducible := hirr
+  have : Field E := endField_field ρ
   let τE : ρ.asModule →ₗ[E] ρ.asModule :=
     { toFun := τ
       map_add' := fun x y => map_add τ x y

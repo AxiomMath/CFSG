@@ -51,7 +51,7 @@ variable [Finite K]
 theorem g2FieldHom_mem_borel (σ : K ≃+* K) {x : adjointGroup .G2 K}
     (hx : x ∈ borel (g2Datum K) (torus (τ := .G2) K)) :
     g2FieldHom K σ x ∈ borel (g2Datum K) (torus (τ := .G2) K) := by
-  haveI : Finite ↥(adjointGroup .G2 K) := generated_group_finite .G2 _
+  have : Finite ↥(adjointGroup .G2 K) := generated_group_finite .G2 _
   have hN : x ∈ Subgroup.normalizer (posUnipotent (g2Datum K) : Set (adjointGroup .G2 K)) :=
     borel_le_normalizer_posUnipotent (g2_isCTGroupDatum K) hx
   apply CFSG.ClassicalInvolution.WeakCT.normalizer_posUnipotent_le_borel (g2_isCTGroupDatum K)
@@ -84,8 +84,8 @@ theorem g2FieldHom_mem_of_borel_le (σ : K ≃+* K) {A : Subgroup (adjointGroup 
 theorem mem_of_mem_normalizer_of_borel_le [CharP K 2] {A : Subgroup (adjointGroup .G2 K)}
     (hBA : borel (g2Datum K) (torus (τ := .G2) K) ≤ A) {g : adjointGroup .G2 K}
     (hg : g ∈ Subgroup.normalizer (A : Set (adjointGroup .G2 K))) : g ∈ A := by
-  haveI : Finite ↥(adjointGroup .G2 K) := generated_group_finite .G2 _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(adjointGroup .G2 K) := generated_group_finite .G2 _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hB := borelQuotient_g2 (CFSG.AGLEmbedding.ParabAutIrr.adjointQuotientEquiv K).symm
   let S : Sylow 2 ↥(adjointGroup .G2 K) :=
     (isPGroup_iSup_pos hB.extras hB.pGroup).toSylow hB.not_dvd_index
@@ -94,6 +94,7 @@ theorem mem_of_mem_normalizer_of_borel_le [CharP K 2] {A : Subgroup (adjointGrou
     ((CFSG.ClassicalInvolution.WeakCT.normalizer_posUnipotent_le_borel hB.ct hB.extras).trans
       hBA) hg
 
+omit [Finite K] in
 theorem exists_torus_conj_xPar (i : Fin (Tag.rank .G2)) {t : adjointGroup .G2 K}
     (ht : t ∈ ⨆ k, torus (τ := .G2) K k) :
     ∃ u : Kˣ, ∀ c : K, t * xPar (rootOperatorFamily .G2) (Pi.single i 1) c * t⁻¹ =

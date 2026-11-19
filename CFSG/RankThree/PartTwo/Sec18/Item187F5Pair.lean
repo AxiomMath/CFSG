@@ -12,7 +12,7 @@ variable {V : Type} [Group V] [Finite V]
 
 abbrev Fix {V : Type} [Group V] (F : Subgroup (MulAut V)) : Subgroup V := FixedPoints.subgroup F V
 
-theorem index_fix_zpowers_le_sq {e y : MulAut V} (he : e * e = 1) (hy : e * y * e⁻¹ = y⁻¹)
+theorem index_fix_zpowers_le_sq {e y : MulAut V} (_he : e * e = 1) (hy : e * y * e⁻¹ = y⁻¹)
     (hodd : Odd (orderOf y)) :
     (Fix (Subgroup.zpowers y)).index ≤ (Fix (Subgroup.zpowers e)).index ^ 2 := by
   have hF : ∀ (L : Subgroup (MulAut V)) (v : V), v ∈ Fix L ↔ ∀ f ∈ L, f v = v :=
@@ -60,7 +60,7 @@ theorem index_fix_zpowers_le_sq {e y : MulAut V} (he : e * e = 1) (hy : e * y * 
     _ = (Fix (Subgroup.zpowers e)).index * (Fix (Subgroup.zpowers e)).index := by rw [hCy]
     _ = (Fix (Subgroup.zpowers e)).index ^ 2 := (sq _).symm
 
-theorem index_fix_closure_le_cube {e y₁ y₂ : MulAut V} (he : e * e = 1)
+theorem index_fix_closure_le_cube {e y₁ y₂ : MulAut V} (_he : e * e = 1)
     (h₁ : e * y₁ * e⁻¹ = y₁⁻¹) (h₂ : e * y₂ * e⁻¹ = y₂⁻¹) (hodd₁ : Odd (orderOf y₁))
     (hodd₂ : Odd (orderOf y₂)) :
     (Fix (Subgroup.closure {y₁, y₂})).index ≤ (Fix (Subgroup.zpowers e)).index ^ 3 := by

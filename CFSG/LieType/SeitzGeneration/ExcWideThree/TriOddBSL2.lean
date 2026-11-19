@@ -40,7 +40,7 @@ theorem triOdd_sl2_conj_hsl {K : Type} [Field K] (t : Kˣ) (ht3 : t ^ 3 = 1) (ht
   have e01 := congrFun (congrFun hMq 0) 1
   have e10 := congrFun (congrFun hMq 1) 0
   have e11 := congrFun (congrFun hMq 1) 1
-  simp [pow_two, Matrix.mul_apply, Fin.sum_univ_two] at e00 e01 e10 e11
+  simp [pow_two] at e00 e01 e10 e11
   have F1 : ∀ x₁ x₂ : K,
       a * (a * x₁ + b * x₂) + b * (c * x₁ + d * x₂) + (a * x₁ + b * x₂) + x₁ = 0 := fun x₁ x₂ => by
     linear_combination x₁ * e00 + x₂ * e01

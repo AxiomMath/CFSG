@@ -40,9 +40,10 @@ abbrev blockSpace (D : Subgroup ↥A) : Submodule F V := block (actionEnd A) ⊤
 
 abbrev Hyperplane (p : ℕ) : Type _ := {D : Subgroup ↥A // D.index = p}
 
+omit [Fintype ↥A] in
 @[simp] theorem mem_fixedSpaceOf {v : V} :
     v ∈ fixedSpaceOf A ↔ ∀ a : ↥A, (a : V ≃ₗ[F] V) v = v := by
-  simp [fixedSpaceOf, fixSub, stabVec]
+  simp [fixedSpaceOf, fixSub]
 
 @[simp] theorem mem_commutatorSpaceOf {v : V} :
     v ∈ commutatorSpaceOf A ↔ sumOp (actionEnd A) ⊤ v = 0 :=
@@ -50,7 +51,7 @@ abbrev Hyperplane (p : ℕ) : Type _ := {D : Subgroup ↥A // D.index = p}
 
 @[simp] theorem mem_blockSpace {D : Subgroup ↥A} {v : V} :
     v ∈ blockSpace A D ↔ (∀ d ∈ D, (d : V ≃ₗ[F] V) v = v) ∧ v ∈ commutatorSpaceOf A := by
-  simp [blockSpace, block, mem_commutatorSpaceOf, fixSub, stabVec]
+  simp [blockSpace, block, fixSub]
 
 theorem blockSpace_le_commutatorSpaceOf (D : Subgroup ↥A) :
     blockSpace A D ≤ commutatorSpaceOf A := fun _ hv => (mem_blockSpace A).mp hv |>.2
@@ -63,6 +64,7 @@ theorem natCast_card_ne_zero {p : ℕ} (hp : p.Prime) (hpF : (p : F) ≠ 0)
   rwa [Nat.card_eq_fintype_card,
     Fintype.card_congr (Subgroup.topEquiv (G := ↥A)).toEquiv] at h
 
+omit [Fintype ↥A] in
 theorem pow_eq_one {p : ℕ} (hA : IsElemAbelian p A) (a : ↥A) : a ^ p = 1 :=
   Subtype.ext (by simpa using hA.2 (a : V ≃ₗ[F] V) a.2)
 
@@ -110,7 +112,7 @@ theorem commutatorSpaceOf_eq_span {p : ℕ} (hp : p.Prime) (hpF : (p : F) ≠ 0)
   have hcard := natCast_card_ne_zero A hp hpF hA
   refine le_antisymm (fun w hw => ?_) (Submodule.span_le.mpr ?_)
   · have hzero : (∑ a : ↥A, (a : V ≃ₗ[F] V) w) = 0 := by
-      simp only [SetLike.mem_coe, mem_commutatorSpaceOf] at hw
+      simp only [mem_commutatorSpaceOf] at hw
       rwa [← sumOp_top_apply A w]
     have hsum : (∑ a : ↥A, (w - (a : V ≃ₗ[F] V) w)) = (Fintype.card A : F) • w := by
       rw [Finset.sum_sub_distrib, hzero, sub_zero, Finset.sum_const, Finset.card_univ,
@@ -135,12 +137,13 @@ theorem commutatorSpaceOf_eq_span {p : ℕ} (hp : p.Prime) (hpF : (p : F) ≠ 0)
     ↥A →* Module.End F U :=
   LinearEquiv.automorphismGroup.toLinearMapMonoidHom.comp (restrictAction A.subtype U hU)
 
+omit [Fintype ↥A] in
 theorem restrictEnd_apply (U : Submodule F V) (hU : ∀ a : ↥A, ∀ u ∈ U, (a : V ≃ₗ[F] V) u ∈ U)
     (a : ↥A) (u : U) : ((restrictEnd A U hU a u : U) : V) = (a : V ≃ₗ[F] V) u :=
   restrictAction_apply A.subtype U hU a u
 
-theorem commutatorSpaceOf_invariant {p : ℕ} (hp : p.Prime) (hpF : (p : F) ≠ 0)
-    (hA : IsElemAbelian p A) (a : ↥A) :
+theorem commutatorSpaceOf_invariant {p : ℕ} (_hp : p.Prime) (_hpF : (p : F) ≠ 0)
+    (_hA : IsElemAbelian p A) (a : ↥A) :
     ∀ u ∈ commutatorSpaceOf A, (a : V ≃ₗ[F] V) u ∈ commutatorSpaceOf A := by
   intro u hu
   have hu' : sumOp (actionEnd A) ⊤ u = 0 := hu
@@ -211,8 +214,8 @@ theorem blockSpace_eq_map_blockSpaceU {p : ℕ} (hp : p.Prime) (hpF : (p : F) �
 theorem isInternal_blockSpaceU {p : ℕ} (hp : p.Prime) (hpF : (p : F) ≠ 0)
     (hA : IsElemAbelian p A) :
     DirectSum.IsInternal (blockSpaceU A hp hpF hA) := by
-  haveI : IsMulCommutative ↥A := hA.1
-  letI : CommGroup ↥A := { (inferInstance : Group ↥A) with
+  have : IsMulCommutative ↥A := hA.1
+  let : CommGroup ↥A := { (inferInstance : Group ↥A) with
     mul_comm := fun a b => mul_comm' a b }
   let α : ↥A →* Module.End F ↥(commutatorSpaceOf A) :=
     restrictEnd A (commutatorSpaceOf A) (commutatorSpaceOf_invariant A hp hpF hA)
@@ -264,7 +267,7 @@ theorem sup_fixedSpaceOf_iSup_blockSpace {p : ℕ} (hp : p.Prime) (hpF : (p : F)
 theorem blockSpace_invariant {p : ℕ} (hp : p.Prime) (hpF : (p : F) ≠ 0)
     (hA : IsElemAbelian p A) {D : Subgroup ↥A} {a : ↥A} {v : V}
     (hv : v ∈ blockSpace A D) : (a : V ≃ₗ[F] V) v ∈ blockSpace A D := by
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   obtain ⟨hvD, hvU⟩ := (mem_blockSpace A).mp hv
   refine (mem_blockSpace A).mpr ⟨fun d hd => ?_,
     commutatorSpaceOf_invariant A hp hpF hA a v hvU⟩

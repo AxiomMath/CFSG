@@ -289,7 +289,7 @@ theorem char_two_degree_three_scalar_quotient_Ccomponents_quasisimple_two_core_q
     Matrix.GeneralLinearGroup.toLin.injective.comp Γ.subtype_injective
   have hV3 : finrank k (Fin 3 → k) = 3 := Module.finrank_fin_fun k
   have : Finite (LinearMap.GeneralLinearGroup k (Fin 3 → k)) := LocDbl.finite_GL
-  have hQp : IsPGroup 2 (Q.map θ) := (P₀.isPGroup'.map _).map θ
+  have hQp : IsPGroup 2 (Q.map θ) := (P₀.isPGroup.map _).map θ
   have hQne : Q.map θ ≠ ⊥ := by
     have hN₂ne : (CFSG.pCore 2 ↥B).map β ≠ ⊥ := fun h =>
       hO2 ((Subgroup.map_eq_bot_iff_of_injective _ hβ).mp h)

@@ -121,8 +121,8 @@ private theorem ggD4OddCent_fieldFixedData
     twistedFixedGroup TwistTag.D4 K τ₁.toRingHom = graphFixedRootGroup TwistTag.D4 K τ₁.toRingHom ∧
       IsSimpleGroup (graphFixedRootGroup TwistTag.D4 K τ₁.toRingHom) ∧
       ∃ x y : graphFixedRootGroup TwistTag.D4 K τ₁.toRingHom, x * y ≠ y * x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨-, -, hfix, hsimple, x, y, hxy⟩ :=
     triality_both_field_orientations_simple_full_ambient_fixed_group 2 d Nat.prime_two hd K hKd
@@ -161,7 +161,7 @@ private theorem ggD4OddCent_outerShape_core
       obtain ⟨e⟩ := he
       obtain ⟨F, hFf, hFi, hFcard, ⟨e2⟩⟩ := ggD4OddCent_secondCent_isoPGU hn hK
       exact Or.inl ⟨F, hFf, hFi, hFcard, ⟨e.trans e2⟩⟩
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hτo : orderOf τ = 3 := orderOf_eq_prime hτ3 hτ1
     obtain ⟨d, hd, hKd, r, hr, hτr⟩ := exists_frob_of_orderOf_three τ hτo
     have hn3 : n = 3 * d := by
@@ -185,7 +185,7 @@ private theorem ggD4OddCent_outerShape_core
         (ggFixEquiv τ).trans (MulEquiv.subgroupCongr hfix)
       obtain ⟨e_tri⟩ := TableBExcSmallRest.nonempty_triD4_equiv hd K hKd τ hτ1d
       have e_total := e_conj.trans e_θ
-      haveI := hsimple
+      have := hsimple
       have e_final : ↥(ggFix (MulAut.conj γ' * (theta * AutOm.fieldAutP 4 τ))) ≃*
           GGTriD4R d K := e_total.trans e_tri.symm
       refine Or.inr (Or.inr ⟨d, K, inferInstance, inferInstance, hd, hn3, hKd, ?_, ?_,
@@ -198,7 +198,7 @@ private theorem ggD4OddCent_outerShape_core
     · have hτi : ∀ c, (τ⁻¹ : K ≃+* K) c = c ^ 2 ^ d := by
         intro c
         have hpow : (2 ^ d) ^ 2 * 2 ^ d = (2 ^ d) ^ 3 := by rw [← pow_succ]
-        haveI : Fintype K := Fintype.ofFinite K
+        have : Fintype K := Fintype.ofFinite K
         have h : τ (c ^ 2 ^ d) = c := by
           rw [map_pow, hτr, ← pow_mul, hpow, ← hKd, Nat.card_eq_fintype_card,
             FiniteField.pow_card]
@@ -221,7 +221,7 @@ private theorem ggD4OddCent_outerShape_core
         e_ρ.trans ((ggFixEquiv τ⁻¹).trans (MulEquiv.subgroupCongr hfix))
       obtain ⟨e_tri⟩ := TableBExcSmallRest.nonempty_triD4_equiv hd K hKd τ⁻¹ hτi
       have e_total := e_conj.trans e_θ
-      haveI := hsimple
+      have := hsimple
       have e_final : ↥(ggFix (MulAut.conj γ' * (theta * AutOm.fieldAutP 4 τ))) ≃*
           GGTriD4R d K := e_total.trans e_tri.symm
       refine Or.inr (Or.inr ⟨d, K, inferInstance, inferInstance, hd, hn3, hKd, ?_, ?_,
@@ -257,9 +257,9 @@ theorem ggD4OddCent_outerShape
     (hK : Nat.card K = 2 ^ n) (hn : Odd n) {s : MulAut (D4Recipe K)} (hs3 : s ^ 3 = 1)
     (hs : ¬ GGInnField (LargeEvenInnSet (D4Recipe K)) (D4FieldSet K) s) :
     GGD4OddCentOuterShape n ↥(ggAutFixedSubgroup s) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
   set Θ : D4Recipe K ≃* Om8 K := RecipeFieldOmega.plusEquiv (K := K) (m := 4) one_le_four
   let β : MulAut (Om8 K) := MulAut.congr Θ s

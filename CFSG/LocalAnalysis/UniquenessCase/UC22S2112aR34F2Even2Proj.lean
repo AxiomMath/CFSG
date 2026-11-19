@@ -269,7 +269,7 @@ theorem uc22s2112r34_eq_bot_of_swap {K₁ K₂ P R : Subgroup X} (hc : ⁅K₁, 
   have hcomm := uc22s2112r34_proj_commute hc
   obtain ⟨k, hk⟩ := hP.exists_card_eq
   have hRPbot : R ⊓ P = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hk]
     exact Nat.Coprime.pow_right k (Nat.coprime_two_right.2 hRo)
   let S : Subgroup X := R.map (MulAut.conj w).toMonoidHom

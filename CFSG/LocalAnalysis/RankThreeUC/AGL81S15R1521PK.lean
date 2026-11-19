@@ -50,7 +50,7 @@ theorem exists_centralizing_pGroup_aux_out {Y : Type} [Group Y] [Finite Y] {K : 
     {p m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpK : ¬ p ∣ Nat.card ↥K)
     {y : Y} (hy : y ∈ Subgroup.normalizer (K : Set Y)) (hym : y ^ (p ^ m) = 1) :
     y ∈ Subgroup.centralizer (K : Set Y) := by
-  haveI : Group.IsPerfect ↥K := ⟨hK.1⟩
+  have : Group.IsPerfect ↥K := ⟨hK.1⟩
   obtain ⟨α, hα⟩ := exists_centralizing_pGroup_aux_conjAut hy
   have hα1 : α ^ (p ^ m) = 1 := by
     apply MulEquiv.ext
@@ -335,7 +335,7 @@ theorem exists_centralizing_pGroup_aux_lThree_of_mulEquiv {S S' : Type} [Group S
 theorem exists_centralizing_pGroup_aux_outList_lThree {S : Type} [Group S]
     (h : IsLThreeOfExp 1 S) : IsOutTwoGroupList (S ⧸ Subgroup.center S) := by
   obtain ⟨hs, hc⟩ := small1522_simple_center_aux3 (isLThreeTwo_iff_isLThreeOfExp_one.2 h)
-  haveI := hs
+  have := hs
   have hZ : Subgroup.center S = ⊥ := small1522_simple_center_aux1 (by rw [hc]; norm_num)
   have e : (S ⧸ Subgroup.center S) ≃* S :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
@@ -388,7 +388,7 @@ theorem exists_centralizing_pGroup_aux_branch2 {X : Type} [Group X] [Finite X] {
     (hpJ : ¬ p ∣ Nat.card ↥(Subgroup.normalClosure (L : Set X))) {y : X} (hym : y ^ (p ^ m) = 1) :
     ∀ j ∈ Subgroup.normalClosure (L : Set X), y * j * y⁻¹ * j⁻¹ ∈ CFSG.pCore 2 X := by
   obtain ⟨hs, hc⟩ := small1522_simple_center_aux3 (isLThreeTwo_iff_isLThreeOfExp_one.2 hL3)
-  haveI := hs
+  have := hs
   have hZ : Subgroup.center ↥(barO2 L) = ⊥ := small1522_simple_center_aux1 (by rw [hc]; norm_num)
   have hcenter : KFactsPair.centerIn (barO2 L) = ⊥ := by
     unfold KFactsPair.centerIn
@@ -508,7 +508,7 @@ theorem exists_E9_of_ne_aux_move_gen {T T₁ T₂ : Subgroup X} {Ls : Subgroup (
     · exact hcon a (Or.inl (Subgroup.centralizer_le_normalizer (T₁ : Set X) ha))
     · exact exists_E9_of_ne_aux_Y0_gen hl hy
     · exact hcon b (Or.inr hb)
-  haveI : L.Normal := ⟨fun n hn g => ((Subgroup.mem_normalizer_iff.1 (htop g)) n).1 hn⟩
+  have : L.Normal := ⟨fun n hn g => ((Subgroup.mem_normalizer_iff.1 (htop g)) n).1 hn⟩
   exact (Subgroup.normalClosure_eq_self L).symm
 
 theorem exists_E9_of_ne_aux_move {T T₁ T₂ : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)} {L : Subgroup X}
@@ -607,7 +607,7 @@ theorem exists_E9_of_ne_aux_nc {Y : Type} [Group Y] [Finite Y] {u v : Y} (huv : 
   have hvAB : v ∈ A ⊔ B := Subgroup.mem_sup_right (Subgroup.mem_zpowers v)
   have hnc : ¬ IsCyclic ↥(A ⊔ B) := by
     intro hcyc
-    haveI := hcyc
+    have := hcyc
     have hc1 : Nat.card (A.subgroupOf (A ⊔ B)) = 3 ^ α := by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (le_sup_left : A ≤ A ⊔ B)).toEquiv]
       exact hAcard
@@ -633,12 +633,12 @@ theorem exists_E9_of_ne_aux_nc {Y : Type} [Group Y] [Finite Y] {u v : Y} (huv : 
 theorem exists_E9_of_ne_gen {T T₁ T₂ : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
     {L : Subgroup X} (hl : LiftCtxGen X T T₁ T₂ Ls L)
     (hne : L ≠ Subgroup.normalClosure (L : Set X))
-    (hsh : IsCentralProdA6Z3 ↥(barO2 (Subgroup.normalClosure (L : Set X))) ∨
+    (_hsh : IsCentralProdA6Z3 ↥(barO2 (Subgroup.normalClosure (L : Set X))) ∨
       (IsLThreeOfExp 1 ↥(barO2 L) ∧
         Set.ncard {L' : Subgroup X | IsC2 L' ∧ L' ≤ Subgroup.normalClosure (L : Set X)} ≤ 3)) :
     ∃ E : Subgroup X, E ≤ Subgroup.normalClosure (L : Set X) ∧ IsElemAbelian 3 E ∧ Nat.card E = 9 ∧
       E ≤ Subgroup.normalizer (T₁ : Set X) := by
-  clear hsh
+  clear _hsh
   set J : Subgroup X := Subgroup.normalClosure (L : Set X) with hJ
   set π : X →* X ⧸ CFSG.pCore 2 X := QuotientGroup.mk' (CFSG.pCore 2 X) with hπ
   obtain ⟨g, hgN, hgL⟩ := exists_E9_of_ne_aux_move_gen hl hne
@@ -1018,7 +1018,7 @@ theorem isCentralProdA6Z3_gnImg_aux_inj_gen {T T₁ T₂ : Subgroup X} {Ls : Sub
     apply hnc
     have := hφx₁ x₁ h
     rw [map_mul, map_mul, this, one_mul, mul_one]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hordu : orderOf (π x₁) = 3 := orderOf_eq_prime hu3 hu1
   have hordv : orderOf (π y) = 3 := orderOf_eq_prime hn3 hne1
   have h1 : π x₁ ∉ Subgroup.zpowers (π y) := by

@@ -37,7 +37,7 @@ private noncomputable def T31vfun (lam : T31K) : Fin 5 → T31K :=
 
 private theorem T31S_vfun (lam : T31K) (hlam5 : lam ^ 5 + lam ^ 2 + 1 = 0) :
     T31S *ᵥ T31vfun lam = lam • T31vfun lam := by
-  haveI : CharP T31K 2 := charP_of_injective_algebraMap (algebraMap F2 T31K).injective 2
+  have : CharP T31K 2 := charP_of_injective_algebraMap (algebraMap F2 T31K).injective 2
   have htwo : (2 : T31K) = 0 := CharP.cast_eq_zero T31K 2
   have h11 : (1 : T31K) + 1 = 0 := by rw [← two_mul, htwo, zero_mul]
   have hlam : lam ^ 5 + lam ^ 2 = 1 := by
@@ -56,7 +56,7 @@ private theorem T31S_vfun (lam : T31K) (hlam5 : lam ^ 5 + lam ^ 2 + 1 = 0) :
   fin_cases j <;>
     simp [T31S, T31vfun, Matrix.mulVec, dotProduct, Fin.sum_univ_five,
       CFSG.GroupTheory.GL52.s31M, T31phi, RingHom.mapMatrix_apply]
-  all_goals simp only [e0, e1, etmp, e2, e3, e4]
+  all_goals simp only [e0, e1, etmp, e2, e3]
 
 private theorem T31A_mulVec_pad (w : Fin 5 → T31K) :
     T31A *ᵥ T31pad w = T31pad (T31S *ᵥ w) := by
@@ -69,7 +69,7 @@ private theorem T31A_mulVec_e5 :
     T31A *ᵥ (Pi.single (5 : Fin 6) (1 : T31K)) = Pi.single (5 : Fin 6) (1 : T31K) := by
   ext j
   fin_cases j <;>
-    simp [T31A, Matrix.mulVec, dotProduct, Fin.sum_univ_six, Pi.single_apply, e6TwoT31SL, T31phi,
+    simp [T31A, Matrix.mulVec, dotProduct, Pi.single_apply, e6TwoT31SL, T31phi,
       RingHom.mapMatrix_apply]
 
 private theorem T31pad_smul (lam : T31K) (w : Fin 5 → T31K) :
@@ -143,7 +143,7 @@ private theorem T31Dsl_exponent (j : Fin 6) :
               T31cexp 4 * Tag.cartan .E6 (E6Pilot.chainNode 4) j ≡
       e6TwoT31Exp j [ZMOD 31] := by
   fin_cases j <;>
-    (simp [T31cexp, E6Pilot.chainNode, e6TwoT31Exp, Tag.cartan, Tag.cartanE] <;> decide)
+    (simp [T31cexp, E6Pilot.chainNode, e6TwoT31Exp, Tag.cartan, Tag.cartanE]; decide)
 
 private theorem T31Dsl_image
     [CharP T31K 2]
@@ -172,9 +172,9 @@ private theorem T31Dsl_image
 private theorem T31lam_root (ζ : T31Kˣ) (hroot : (ζ : T31K) ^ 5 + (ζ : T31K) ^ 2 + 1 = 0)
     (l : Fin 5) : ((ζ : T31K) ^ (2 ^ (l : ℕ) : ℤ)) ^ 5
       + ((ζ : T31K) ^ (2 ^ (l : ℕ) : ℤ)) ^ 2 + 1 = 0 := by
-  haveI : CharP T31K 2 := charP_of_injective_algebraMap (algebraMap F2 T31K).injective 2
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
-  haveI : ExpChar T31K 2 := expChar_prime (R := T31K) 2
+  have : CharP T31K 2 := charP_of_injective_algebraMap (algebraMap F2 T31K).injective 2
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : ExpChar T31K 2 := expChar_prime (R := T31K) 2
   have h : ∀ n : ℕ, ((ζ : T31K) ^ (2 ^ n : ℤ)) ^ 5
       + ((ζ : T31K) ^ (2 ^ n : ℤ)) ^ 2 + 1 = 0 := by
     intro n
@@ -191,15 +191,15 @@ private theorem T31lam_root (ζ : T31Kˣ) (hroot : (ζ : T31K) ^ 5 + (ζ : T31K)
 
 private theorem T31_exists_root (hK : Nat.card T31K = 32) :
     ∃ ζ : T31Kˣ, orderOf ζ = 31 ∧ (ζ : T31K) ^ 5 + (ζ : T31K) ^ 2 + 1 = 0 := by
-  haveI : Fintype T31K := Fintype.ofFinite T31K
-  haveI : DecidableEq T31K := Classical.decEq T31K
-  haveI : CharP T31K 2 := charP_of_injective_algebraMap (algebraMap F2 T31K).injective 2
+  have : Fintype T31K := Fintype.ofFinite T31K
+  have : DecidableEq T31K := Classical.decEq T31K
+  have : CharP T31K 2 := charP_of_injective_algebraMap (algebraMap F2 T31K).injective 2
   have hcard : Nat.card T31Kˣ = 31 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hK]
-  haveI : Fintype T31Kˣ := Fintype.ofFinite T31Kˣ
+  have : Fintype T31Kˣ := Fintype.ofFinite T31Kˣ
   have h1lt : 1 < Fintype.card T31Kˣ := by rw [← Nat.card_eq_fintype_card, hcard]; norm_num
   obtain ⟨u, hu⟩ := Fintype.exists_ne_of_one_lt_card h1lt (1 : T31Kˣ)
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   have h31 : orderOf u = 31 := by
     rw [orderOf_eq_prime_iff]
     refine ⟨?_, hu⟩
@@ -297,7 +297,7 @@ private theorem T31_conj_of_eigen_sl {ι : Type*} [Fintype ι] [DecidableEq ι]
     simp only [Matrix.mulVec, dotProduct, Pi.smul_apply, smul_eq_mul] at hij
     rw [Matrix.mul_apply, hij, Matrix.mul_apply]
     rw [Finset.sum_eq_single j]
-    · simp [Matrix.diagonal_apply]; ring
+    · simp; ring
     · intro b _ hb; rw [Matrix.diagonal_apply_ne _ hb, mul_zero]
     · intro hj; exact absurd (Finset.mem_univ j) hj
   calc P⁻¹ * M * P = P⁻¹ * (M * P) := by group
@@ -316,7 +316,7 @@ private theorem T31vfun_ne_zero (lam : T31K) : T31vfun lam ≠ 0 := by
   simp [T31vfun] at this
 
 private noncomputable def T31b (ζ : T31Kˣ) : Fin 6 → (Fin 6 → T31K) :=
-  fun l => if h : (l : ℕ) < 5 then T31pad (T31vfun ((ζ : T31K) ^ (2 ^ (l : ℕ) : ℤ)))
+  fun l => if _h : (l : ℕ) < 5 then T31pad (T31vfun ((ζ : T31K) ^ (2 ^ (l : ℕ) : ℤ)))
     else Pi.single (5 : Fin 6) 1
 
 private theorem T31b_castSucc (ζ : T31Kˣ) (l : Fin 5) :
@@ -372,7 +372,7 @@ theorem exists_conj_baseChangeGL_e6TwoT31 :
         n⁻¹ * baseChangeGL (algebraMap F2 (FiniteField.Extension F2 2 5))
             ((e6TwoT31 : EC) : ModGL .E6 F2) * n =
           rootDiagUnit .E6 (e6TwoT31Char ζ) := by
-  haveI : CharP T31K 2 := charP_of_injective_algebraMap (algebraMap F2 T31K).injective 2
+  have : CharP T31K 2 := charP_of_injective_algebraMap (algebraMap F2 T31K).injective 2
   have hK : Nat.card T31K = 32 := by
     rw [FiniteField.natCard_extension]
     have hF2 : Nat.card F2 = 2 := by
@@ -387,7 +387,7 @@ theorem exists_conj_baseChangeGL_e6TwoT31 :
       rw [show Pm.col = T31b ζ from rfl]
       exact T31b_linearIndependent ζ hζ hroot
     exact isUnit_iff_ne_zero.mp ((Matrix.isUnit_iff_isUnit_det Pm).mp
-      ((Matrix.linearIndependent_cols_iff_isUnit).mp hLI))
+      ((Matrix.linearIndependent_col_iff_isUnit).mp hLI))
   set d : T31K := Pm.det with hd
   have hd_ne : d ≠ 0 := hPm_det
   set u : Fin 6 → T31K := Function.update (1 : Fin 6 → T31K) (5 : Fin 6) d⁻¹ with hu

@@ -320,7 +320,7 @@ theorem center_eq_bot_of_isJ1 {X : Type} [Group X] [Finite X] (hX : IsJ1 X) :
       have := congrArg f h
       simpa using this
     exact rels_aut.2.2.2.1 hcomm
-  haveI : IsSimpleGroup X := hsimpleX
+  have : IsSimpleGroup X := hsimpleX
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center X) with h | h
   · exact h
   · exfalso

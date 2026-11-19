@@ -41,8 +41,8 @@ theorem kF418ModelOn_of_noCommute37 {P : ∀ (X : Type) [Group X], Prop}
   have hβI : c.beta ∈ innBar L := hinner _ hq hl _ c.beta_pow_three
   obtain ⟨hβo, -, h7⟩ := exists_centralizer_of_inner c.hKL c.hKb c.ha3 c.hb3 c.hab c.haL c.hbL
     c.hβ1 c.haK c.hout hT hαI hβI
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite (MulAut (L ⧸ aschbacherSolvableCore 3 L)) :=
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite (MulAut (L ⧸ aschbacherSolvableCore 3 L)) :=
     Finite.of_injective (fun α : MulAut (L ⧸ aschbacherSolvableCore 3 L) => (α : _ → _))
       fun _ _ h => MulEquiv.ext (congrFun h)
   obtain ⟨w, hw7⟩ := exists_prime_orderOf_dvd_card' (G := ↥(innBar L ⊓
@@ -86,7 +86,7 @@ theorem Cfg.exists_nine_dvd_orderOf_rhoK {G : Type} [Group G] [Finite G] {L K : 
   show 9 ∣ orderOf x
   set Z := Subgroup.center (K ⧸ aschbacherSolvableCore 3 K) with hZ
   set yb : (K ⧸ aschbacherSolvableCore 3 K) ⧸ Z := QuotientGroup.mk (QuotientGroup.mk k) with hyb
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h9 : yb ^ 9 = 1 := by
     rw [hyb, ← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff, ← QuotientGroup.mk_pow]
     exact hy9
@@ -123,7 +123,7 @@ theorem kF418ModelOn_of_no_nine {P : ∀ (X : Type) [Group X], Prop}
   have hKq := Sec6.isQuasisimple_of_mem_thetaComponentsIn hK
   have hq : IsQuasisimple (L ⧸ aschbacherSolvableCore 3 L) := hL.2.2
   obtain ⟨x, hxI, hx9⟩ := c.exists_nine_dvd_orderOf (hnine _ n hn hKq htype)
-  haveI : Finite (MulAut (L ⧸ aschbacherSolvableCore 3 L)) :=
+  have : Finite (MulAut (L ⧸ aschbacherSolvableCore 3 L)) :=
     Finite.of_injective (fun α : MulAut (L ⧸ aschbacherSolvableCore 3 L) => (α : _ → _))
       fun _ _ h => MulEquiv.ext (congrFun h)
   let e := quotCenterEquivInn (L ⧸ aschbacherSolvableCore 3 L)

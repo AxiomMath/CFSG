@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
+omit [Finite G] in
 theorem exists_e_f (S : Setting z E F) {x : G} (hx : x ∈ Q z) :
     ∃ e ∈ E, ∃ f ∈ F, x = e * f := by
   rw [Q_eq_sup S] at hx
@@ -198,8 +199,8 @@ theorem card_centralizer_F (S : Setting z E F) {f : G} (hf : f ∈ F) (hfZ : f �
       rw [← hcardT]
       exact (Nat.mul_div_cancel _ (by norm_num : 0 < 2)).symm
 
-theorem card_centralizer_Q (S : Setting z E F) {a f : G} (haQ : a ∈ Q z) (haZ : a ∉ ZQ z)
-    (ha2 : a ^ 2 = 1) (hef : ∃ e ∈ E, a = e * f) (hf : f ∈ F) (hfZ : f ∉ centerIn F) :
+theorem card_centralizer_Q (S : Setting z E F) {a f : G} (haQ : a ∈ Q z) (_haZ : a ∉ ZQ z)
+    (_ha2 : a ^ 2 = 1) (hef : ∃ e ∈ E, a = e * f) (hf : f ∈ F) (hfZ : f ∉ centerIn F) :
     Nat.card ↥(Subgroup.centralizer ({a} : Set G) ⊓ Q z) = Nat.card E * (Nat.card F / 2) := by
   rw [centralizer_Q_eq S haQ hef]
   have hinf : E ⊓ (Subgroup.centralizer ({f} : Set G) ⊓ F) = ⊥ := by
@@ -212,7 +213,7 @@ theorem card_centralizer_Q (S : Setting z E F) {a f : G} (haQ : a ∈ Q z) (haZ 
   rw [card_sup_of_comm (fun x hx y hy => (S.hyp.commute x hx y (Subgroup.mem_inf.mp hy).2).eq)
     hinf, card_centralizer_F S hf hfZ]
 
-@[expose] def CommutatorOrthogonality (S : Setting z E F) : Prop :=
+@[expose] def CommutatorOrthogonality (_S : Setting z E F) : Prop :=
   ∀ W : Subgroup G, ZQ z ≤ W → W ≤ Q z →
     Nat.card ↥(Subgroup.centralizer (W : Set G) ⊓ Q z) * Nat.card W =
       Nat.card (Q z) * Nat.card (ZQ z)

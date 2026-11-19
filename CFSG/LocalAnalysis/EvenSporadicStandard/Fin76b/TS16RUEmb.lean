@@ -225,7 +225,7 @@ theorem fOf_eq (hβ3 : orderOf β = 3)
     (θ : (↥(centralizer ({β} : Set G)) ⧸ fusionOddCore ↥(centralizer ({β} : Set G))) ≃*
       ↥U43Ext) {g : G} (hg : g ∈ Kst β) : fOf hβ3 θ g = psiHom hβ3 θ ⟨g, hg⟩ := by
   unfold fOf
-  exact dif_pos hg
+  exact dite_eq_left hg
 
 theorem fOf_mul (hβ3 : orderOf β = 3)
     (θ : (↥(centralizer ({β} : Set G)) ⧸ fusionOddCore ↥(centralizer ({β} : Set G))) ≃*
@@ -279,7 +279,7 @@ theorem homOn_injective {P : Subgroup G} (hP : IsPGroup 2 P) (hPn : P ≤ Kst β
 theorem exists_image {P : Subgroup G} (hP : IsPGroup 2 P) (hPn : P ≤ Kst β) :
     ∃ R : Subgroup (Equiv.Perm (Fin 820)), R ≤ U16.U43ExtStar ∧ IsPGroup 2 R ∧
       Nonempty (↥P ≃* ↥R) ∧ (∀ g ∈ P, E.f g ∈ R) ∧ (∀ r ∈ R, ∃ g ∈ P, E.f g = r) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card ↥(E.homOn P hPn).range = Nat.card ↥P :=
     (Nat.card_congr (MonoidHom.ofInjective (E.homOn_injective hP hPn)).toEquiv).symm
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hP
@@ -333,16 +333,16 @@ theorem f_mem_P_of_A6 {H : Subgroup G} (hH : H ≤ centralizer ({β} : Set G))
     (QuotientGroup.mk' (fusionOddCore ↥(centralizer ({β} : Set G)))) with hDbar
   set Dp : Subgroup ↥U43Ext := Dbar.map E.θ.toMonoidHom with hDp
   let e₁ : ↥Dbar ≃* ↥Dp := Dbar.equivMapOfInjective E.θ.toMonoidHom E.θ.injective
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have e₂ : ↥Dp ≃* alternatingGroup (Fin 6) := e₁.symm.trans e
-  haveI : IsSimpleGroup ↥Dp := MulEquiv.isSimpleGroup e₂
+  have : IsSimpleGroup ↥Dp := MulEquiv.isSimpleGroup e₂
   have hDpcard : Nat.card ↥Dp = 360 := by
     rw [Nat.card_congr e₂.toEquiv]
     rw [Nat.card_eq_fintype_card, card_alternatingGroup]
     decide
   set N : Subgroup ↥U43Ext := P.subgroupOf U43Ext with hN
   have hidx : N.index = 2 := U16.index_P_U43Ext
-  haveI hNn : N.Normal := Subgroup.normal_of_index_eq_two hidx
+  have hNn : N.Normal := Subgroup.normal_of_index_eq_two hidx
   let φ : ↥Dp →* ↥U43Ext ⧸ N := (QuotientGroup.mk' N).comp Dp.subtype
   have hker : φ.ker = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal φ.ker with h | h

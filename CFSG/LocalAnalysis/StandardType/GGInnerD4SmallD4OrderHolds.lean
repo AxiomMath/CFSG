@@ -24,9 +24,7 @@ private theorem ltrsm4_ordD_four_two_pow_le (n : ℕ) (hn : 1 ≤ n) :
   have h2 : 2 ≤ 2 ^ n := by
     calc (2 : ℕ) = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  gcongr <;> first
-    | exact Nat.pow_le_pow_left h2 _
-    | exact Nat.sub_le_sub_right (Nat.pow_le_pow_left h2 _) 1
+  gcongr
 
 theorem d4OrderLowerInput_holds : S2MathAs51600Small.D4OrderLowerInput := by
   intro lab R _ hlab htag hrank hlabel

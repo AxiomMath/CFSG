@@ -43,7 +43,7 @@ theorem index_facts (h : ThreeNineHyp K E D X₁ p d) (hZ : Subgroup.center ↥K
     exact this
   obtain ⟨Eb, hEb, -, -, hN⟩ := h.exists_barE hZ hp
   obtain ⟨T, hT⟩ := (CFSG.Open.IsElemAbelian.isPGroup hEb).exists_le_sylow
-  have hNT : Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ Y := hN T T.isPGroup' hT
+  have hNT : Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ Y := hN T T.isPGroup hT
   have hmodp := index_modEq_one_of_normalizer_le T hNT
   have hTY : (T : Subgroup ↥K) ≤ Y := Subgroup.le_normalizer.trans hNT
   have hTc : Nat.card (T : Subgroup ↥K) = p ^ (Nat.card ↥K).factorization p :=

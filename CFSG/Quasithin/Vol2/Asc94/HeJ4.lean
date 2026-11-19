@@ -11,6 +11,7 @@ open Matrix Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem NData.symm {A A' : Subgroup G} {u w : G → V2} {N T : Subgroup G}
     (h : NData (A := A) (A' := A') u w N T) (hsq : ∀ x ∈ A', x * x = 1) :
     NData (A := A') (A' := A) w u N T where
@@ -38,6 +39,7 @@ structure Data40 (A A' : Subgroup G) (u w : G → V2) (m : G → M2) (N T : Subg
   cardM : Nat.card ↥(normalizer (A : Set G)) = 138240
   cardΩ : Nat.card {y : G // ∃ l ∈ normalizer (A : Set G), y = l⁻¹ * a * l} = 18
 
+omit [Finite G] in
 theorem Data40.symm {A A' : Subgroup G} {u w : G → V2} {m : G → M2} {N T : Subgroup G} {a : G}
     (h : Data40 A A' u w m N T a) (hsq : ∀ x ∈ A', x * x = 1)
     (cardM : Nat.card ↥(normalizer (A' : Set G)) = 138240)
@@ -58,9 +60,11 @@ variable {A A' : Subgroup G} {u w : G → V2} {m : G → M2} {N T : Subgroup G} 
 
 include hD
 
+omit [Finite G] in
 theorem Data40.cardN : Nat.card ↥N = 9216 := by
   rw [hD.hK.card, hD.cardJ]
 
+omit [Finite G] in
 theorem Data40.N_le_M : N ≤ normalizer (A : Set G) := by
   intro n hn
   rw [mem_normalizer_iff]
@@ -72,6 +76,7 @@ theorem Data40.N_le_M : N ≤ normalizer (A : Set G) := by
     have e : n⁻¹ * (n * x * n⁻¹) * n⁻¹⁻¹ = x := by group
     rwa [e] at h
 
+omit [Finite G] in
 theorem Data40.mem_Z_conj {l : G} (hl : l ∈ N) {y : G} (hy : y ∈ A ⊓ A') : l * y * l⁻¹ ∈ A ⊓ A' :=
   ⟨(hD.hK.norm l hl).1 y hy.1, (hD.hK.norm l hl).2 y hy.2⟩
 
@@ -112,12 +117,14 @@ theorem Data40.cardD : Nat.card ↥(N ⊓ centralizer ({a} : Set G)) = 1536 := b
   rw [hD.card_orbit_N, hD.cardN] at h
   omega
 
+omit [Finite G] in
 theorem Data40.cardI :
     Nat.card ↥(normalizer (A : Set G) ⊓ centralizer ({a} : Set G)) = 7680 := by
   have h := CFSG.Quasithin.A94.Gen.card_conjOrbit_mul_card_stab (normalizer (A : Set G)) a
   rw [hD.cardΩ, hD.cardM] at h
   omega
 
+omit [Finite G] in
 theorem Data40.D_le_I :
     N ⊓ centralizer ({a} : Set G) ≤ normalizer (A : Set G) ⊓ centralizer ({a} : Set G) :=
   inf_le_inf_right _ hD.N_le_M
@@ -130,6 +137,7 @@ theorem Data40.relIndex_D_I :
   rw [inf_eq_left.mpr hD.D_le_I, hD.cardD, hD.cardI] at h
   omega
 
+omit [Finite G] in
 theorem Data40.rho_D {n : N} (hn : (n : G) ∈ centralizer ({a} : Set G)) :
     ((hD.hT.rho N hD.hK.norm n).1 : M2) * ((hD.hT.rho N hD.hK.norm n).2 : M2)ᵀ = 1 := by
   have hc : (n : G) * a * (n : G)⁻¹ = a := by
@@ -141,11 +149,12 @@ theorem Data40.rho_D {n : N} (hn : (n : G) ∈ centralizer ({a} : Set G)) :
 
 theorem Data40.exists_x :
     ∃ x : G, x ∈ N ∧ x ∈ centralizer ({a} : Set G) ∧ orderOf x = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h3 : 3 ∣ Nat.card ↥(N ⊓ centralizer ({a} : Set G)) := by rw [hD.cardD]; norm_num
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(N ⊓ centralizer ({a} : Set G))) 3 h3
   exact ⟨x, x.2.1, x.2.2, by rw [Subgroup.orderOf_coe]; exact hx⟩
 
+omit [Finite G] in
 theorem Data40.rho_D_inv {n : N} (hn : (n : G) ∈ centralizer ({a} : Set G)) :
     ((hD.hT.rho N hD.hK.norm n).2 : M2)ᵀ = (((hD.hT.rho N hD.hK.norm n).1)⁻¹ : GL2).val := by
   have hρ := hD.rho_D hn
@@ -157,6 +166,7 @@ theorem Data40.rho_D_inv {n : N} (hn : (n : G) ∈ centralizer ({a} : Set G)) :
         rw [mul_assoc]
     _ = (g⁻¹ : GL2).val := by rw [hρ, mul_one]
 
+omit [Finite G] in
 theorem Data40.m_conj_D {n : N} (hn : (n : G) ∈ centralizer ({a} : Set G)) {v : G}
     (hv : v ∈ A ⊓ A') :
     m ((n : G) * v * (n : G)⁻¹) = ((hD.hT.rho N hD.hK.norm n).1 : M2) * m v *
@@ -169,6 +179,7 @@ variable {x : G} (hxN : x ∈ N) (hxa : x ∈ centralizer ({a} : Set G)) (hx3 : 
 
 include hxN hxa hx3
 
+omit [Finite G] hxa in
 theorem Data40.g_pow_three :
     (hD.hT.rho N hD.hK.norm ⟨x, hxN⟩).1 ^ 3 = 1 := by
   have h1 : (⟨x, hxN⟩ : N) ^ 3 = 1 := Subtype.ext (by

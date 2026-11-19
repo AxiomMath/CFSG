@@ -61,12 +61,12 @@ theorem twE6Diag_of (hK : T171Sh.ExcKernelCompAction) (hD4 : TwE6D4Inner) (hL : 
   obtain ⟨q, hv, hq2, ⟨eS⟩⟩ := exists_twE6Idx_of_catalogIs hcat
   obtain ⟨K, _, σ, hKcard, hσ, ⟨eCat⟩⟩ :=
     CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI hKfin : Finite K :=
+  have hKfin : Finite K :=
     (Nat.card_ne_zero.mp (by
       rw [hKcard]
       exact pow_ne_zero 2 (pow_ne_zero q.exponent q.prime_p.ne_zero))).2
-  haveI : Finite ↥(twistedE6RootGroup K σ) := by
-    haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup K σ) := by
+    have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
     exact Subtype.finite
   have eR : ↥(twistedE6RootGroup K σ) ≃* S := (eS.trans eCat).symm
   have hcatR : catalogIs ↥(twistedE6RootGroup K σ)

@@ -59,7 +59,7 @@ theorem ev_mem_inner {g : Array ℕ} (hv : rawValid g = true) (h16 : g[16]! = 0)
     rw [h16, pow_zero]
   have hun : unitOf g = ⟨glOf g hv, glOf_mem g hv⟩ := by
     unfold unitOf
-    rw [dif_pos hv]
+    rw [dite_eq_left hv]
   unfold ev
   rw [hdec, primeFormPsi_apply, map_one, mul_one, hun]
 

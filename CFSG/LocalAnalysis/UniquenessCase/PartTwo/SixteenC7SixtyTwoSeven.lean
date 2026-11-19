@@ -28,8 +28,8 @@ theorem s16c7_card_le_of_isPGroup_seven {W : Type*} [CommGroup W] [Finite W]
     {H Q : Subgroup (MulAut W)} (hreal : (tensorPairModel SL32 SL32).RealizesMod H)
     (hQ : IsPGroup 7 Q) (hQN : Q ≤ Subgroup.normalizer (H : Set (MulAut W))) :
     Nat.card Q ≤ 49 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite (MulAut W) := MulEquiv.finite_left
   obtain ⟨n, hn⟩ := hQ.exists_card_eq
   have hdvd : Nat.card Q ∣ Nat.card ↥(Subgroup.normalizer (H : Set (MulAut W))) :=
     Subgroup.card_dvd_of_le hQN
@@ -50,13 +50,14 @@ section Kernel
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16c7_card_barSub_le {V E : Subgroup G} (hV : IsElemAbelian 2 V)
-    (hE : E ≤ stabTil ⊥ V) (hp : IsPGroup 7 E) {A : Subgroup (MulAut (Vtil ⊥ V hV))}
+    (_hE : E ≤ stabTil ⊥ V) (hp : IsPGroup 7 E) {A : Subgroup (MulAut (Vtil ⊥ V hV))}
     (hreal : (tensorPairModel SL32 SL32).RealizesMod A)
     (hEA : barSub ⊥ V hV E ≤ Subgroup.normalizer (A : Set (MulAut (Vtil ⊥ V hV)))) :
     Nat.card (barSub ⊥ V hV E) ≤ 49 := by
   have h0 : IsPGroup 7 (E.subgroupOf (stabTil ⊥ V)) := hp.comap_subtype
   exact s16c7_card_le_of_isPGroup_seven hreal (h0.map (actTil ⊥ V hV)) hEA
 
+omit [Finite G] in
 theorem s16c7_seven_dvd_card_inf_centralizer {V E : Subgroup G} (hV : IsElemAbelian 2 V)
     (hE : E ≤ stabTil ⊥ V) (hcard : Nat.card E = 7 ^ 3) (hbar : Nat.card (barSub ⊥ V hV E) ≤ 49) :
     7 ∣ Nat.card ↥(E ⊓ centralizer (V : Set G)) := by
@@ -76,7 +77,7 @@ theorem s16c7_pRank_seven_le_three {V M : Subgroup G} (hV : IsElemAbelian 2 V)
     (hreal : (tensorPairModel SL32 SL32).RealizesMod A)
     (hMA : barSub ⊥ V hV M ≤ Subgroup.normalizer (A : Set (MulAut (Vtil ⊥ V hV))))
     (hC : CFSG.Open.pRank 7 (F11.CTilde M ⊥ V) ≤ 1) : CFSG.Open.pRank 7 M ≤ 3 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   refine CFSG.SectionRank.pRank_le (by norm_num) ?_
   intro E hEM hEel
   have hEs : E ≤ stabTil ⊥ V := hEM.trans hMs

@@ -21,8 +21,8 @@ section Card3
 variable {K : Type} [Field K] [Finite K]
 
 theorem ringEquiv_eq_one_of_card_three (hK : Nat.card K = 3) (σ : K ≃+* K) : σ = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := Fintype.ofFinite K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := Fintype.ofFinite K
   have hcard : Fintype.card K = 3 := by rw [← Nat.card_eq_fintype_card]; exact hK
   let e : ZMod 3 ≃+* K := ZMod.ringEquivOfPrime K Nat.prime_three hcard
   have hf : (e.symm.toRingHom.comp (σ.toRingHom.comp e.toRingHom)) = RingHom.id (ZMod 3) :=
@@ -36,7 +36,7 @@ theorem d3_involution_inner_card3 (hK : Nat.card K = 3) {t : MulAut (D4Model K)}
     (htE : t ∉ D4Img K) {z : MulAut (D4Model K)} (hz2 : z ^ 2 = 1) (hzt : z * t = t * z) :
     z ∈ Inn (D4Model K) := by
   have hK' : Nat.card K = 3 ^ 1 := by simpa using hK
-  haveI := charP_three_of_card hK'
+  have := charP_three_of_card hK'
   have hrc : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   let ψ : adjointGroup Tag.D4 K ≃* D4Model K := coordinatePlusWitnessEquiv K (isoAdj K).symm
   let φ : D4Model K ≃* adjointGroup Tag.D4 K := ψ.symm
@@ -62,8 +62,8 @@ theorem d3CaseTwoOneFour_holds : D3CaseTwoOneFour := by
   intro K _ _ hK b x y hb3 hbE hx2 hy2 hxy hx1 hy1 hxne hbx hby A hA hA9 hAb hAx hAy
   classical
   have hK' : Nat.card K = 3 ^ 1 := by simpa using hK
-  haveI := charP_three_of_card hK'
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := charP_three_of_card hK'
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcen : Subgroup.center (D4Model K) = ⊥ :=
     (d4Facts2 Nat.prime_three (by norm_num) le_rfl hK').2.2
   have hinj := CFSG.HardMathSupport.Timmesfeld.ComponentBalance.conj_injective_of_center_eq_bot hcen

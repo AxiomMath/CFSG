@@ -194,10 +194,10 @@ theorem burnsideF429b_F4_chart_two {E : Type} [Group E] {Gp M₁ M₂ : Subgroup
   obtain ⟨a, K, fK, finK, charK, hscope, hfa, marking, h1, h2⟩ := burnsideF4g_chart_F4tw h
   have ha : a = 0 := by omega
   subst ha
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   have hK : Nat.card K = 2 ^ (2 * 0 + 1) := hscope
-  haveI : CharP K F4.prime := inferInstanceAs (CharP K 2)
+  have : CharP K F4.prime := inferInstanceAs (CharP K 2)
   obtain ⟨Φ, hΦ⟩ := burnsideF429b_F4_exists_iso hK marking
   refine ⟨K, fK, finK, inferInstance, hK, Φ, h1.trans (hΦ _ _ fun y => ?_),
     h2.trans (hΦ _ _ fun y => ?_)⟩

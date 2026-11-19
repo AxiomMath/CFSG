@@ -99,7 +99,7 @@ theorem false_of_borel_case [Finite G] {L X : Subgroup G} (hXL : X ≤ L) (hs : 
         exact Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp this
     have hlP : π ⟨g, hgL⟩ ∈ (P : Subgroup (↥L ⧸ K)) := hlPc
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨π ⟨g, hgL⟩, hlP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨π ⟨g, hgL⟩, hlP⟩
     refine ⟨k, ?_⟩
     have h1 : (π ⟨g, hgL⟩) ^ 2 ^ k = 1 := congrArg Subtype.val hk
     have h2 : (⟨g, hgL⟩ : ↥L) ^ 2 ^ k ∈ K := by

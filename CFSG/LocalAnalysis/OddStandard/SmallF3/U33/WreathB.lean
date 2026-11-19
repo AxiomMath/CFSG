@@ -273,14 +273,14 @@ private lemma image_fourGrp (φ : WMod →* G) (h1 : φ WMod.wx₁ = x₁) (h2 :
 
 private lemma isElemAbelian_map {H : Subgroup WMod} (hH : IsElemAbelian 2 H)
     (φ : WMod →* G) : IsElemAbelian 2 (H.map φ) := by
-  haveI : IsMulCommutative H := hH.1
+  have : IsMulCommutative H := hH.1
   refine ⟨inferInstance, ?_⟩
   rintro x ⟨y, hy, rfl⟩
   rw [← map_pow, hH.2 y hy, map_one]
 
 private lemma isElemAbelian_comap {H : Subgroup G} (hH : IsElemAbelian 2 H)
     (φ : WMod →* G) (hinj : Function.Injective φ) : IsElemAbelian 2 (H.comap φ) := by
-  haveI : IsMulCommutative H := hH.1
+  have : IsMulCommutative H := hH.1
   refine ⟨Subgroup.comap_injective_isMulCommutative H hinj, ?_⟩
   intro x hx
   apply hinj
@@ -364,7 +364,7 @@ theorem WreathRel.pRank_eq_two [Finite G] (h : WreathRel x₁ x₂ lam) :
     have hE'_ab : IsElemAbelian 2 E' := by
       rw [hE'def]
       exact isElemAbelian_comap hE_ab φ hinj
-    haveI : IsMulCommutative E' := hE'_ab.1
+    have : IsMulCommutative E' := hE'_ab.1
     have h4 : Nat.card E' ≤ 4 := by
       by_cases hcase : E' ≤ baseGrp WMod.wx₁ WMod.wx₂
       · have hsub : (E' : Set WMod) ⊆

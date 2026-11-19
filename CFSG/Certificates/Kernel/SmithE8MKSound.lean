@@ -55,12 +55,12 @@ theorem foldl_pick (g : ℕ → ℕ) : ∀ (L : List ℕ) (b : ℕ × ℕ),
     obtain ⟨h1, h2, h3⟩ := foldl_pick g L (if b.2 < g x then (x, g x) else b)
     simp only [List.foldl_cons, List.mem_cons, forall_eq_or_imp]
     by_cases hx : b.2 < g x
-    · rw [if_pos hx] at h1 h2 h3 ⊢
+    · rw [ite_eq_left hx] at h1 h2 h3 ⊢
       refine ⟨by simp at h1; omega, ⟨h1, h2⟩, ?_⟩
       rcases h3 with h3 | h3
       · exact Or.inr (Or.inl (by rw [h3]))
       · exact Or.inr (Or.inr h3)
-    · rw [if_neg hx] at h1 h2 h3 ⊢
+    · rw [ite_eq_right hx] at h1 h2 h3 ⊢
       exact ⟨h1, ⟨by omega, h2⟩, h3.imp_right Or.inr⟩
 
 theorem pick_ge (cf : ℕ → ℕ → Bool) (P : List ℕ) :
@@ -88,7 +88,7 @@ theorem e8mNoIndep_complete (cf : ℕ → ℕ → Bool) :
     by_cases hk : k = 0
     · exact absurd (hS ∅ (by simp) (by simp)) (by omega)
     by_cases hP : P.length < k
-    · rw [if_neg hk, if_pos hP]
+    · rw [ite_eq_right hk, ite_eq_left hP]
     by_cases hd : (e8mPick cf P).2 = 0
     · exfalso
       have hind : ∀ a ∈ P, ∀ b ∈ P, cf a b = false := by
@@ -100,7 +100,7 @@ theorem e8mNoIndep_complete (cf : ℕ → ℕ → Bool) :
         (fun a ha b hb _ => hind a (List.mem_toFinset.mp ha) b (List.mem_toFinset.mp hb))
       rw [List.toFinset_card_of_nodup hnd] at this
       omega
-    rw [if_neg hk, if_neg hP, if_neg hd, Bool.and_eq_true]
+    rw [ite_eq_right hk, ite_eq_right hP, ite_eq_right hd, Bool.and_eq_true]
     obtain ⟨v, hv⟩ : ∃ v, v = (e8mPick cf P).1 := ⟨_, rfl⟩
     rw [← hv]
     have hvP : v ∈ P := hv ▸ pick_mem cf P hd

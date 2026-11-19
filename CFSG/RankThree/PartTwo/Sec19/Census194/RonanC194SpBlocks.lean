@@ -33,8 +33,8 @@ theorem spBlock_symp (A : Fin n → Matrix (Fin 2) (Fin 2) K) (hA : ∀ i, (A i)
     (spBlock A)ᵀ * fromBlocks 0 1 (-1) 0 * spBlock A = fromBlocks 0 1 (-1) 0 := by
   unfold spBlock
   rw [fromBlocks_transpose, fromBlocks_multiply, fromBlocks_multiply]
-  simp only [diagonal_transpose, transpose_zero, transpose_one, Matrix.mul_zero, Matrix.mul_one,
-    Matrix.zero_mul, zero_add, add_zero, Matrix.mul_neg, Matrix.neg_mul, diagonal_mul_diagonal]
+  simp only [diagonal_transpose, Matrix.mul_zero, Matrix.mul_one,
+    zero_add, add_zero, Matrix.mul_neg, Matrix.neg_mul, diagonal_mul_diagonal]
   have h : ∀ i, A i 0 0 * A i 1 1 - A i 0 1 * A i 1 0 = 1 := fun i => by
     rw [← det_fin_two]; exact hA i
   simp only [diagonal_neg, diagonal_add]
@@ -71,11 +71,11 @@ variable (K : Type) [Field K] (n : ℕ)
     (Fin n → Matrix.SpecialLinearGroup (Fin 2) K) →* StatedSp n K :=
   let Φ : (Fin n → Matrix.SpecialLinearGroup (Fin 2) K) →*
       Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K :=
-    { toFun := fun A => spBlock fun i => (A i : Matrix (Fin 2) (Fin 2) K)
+    { toFun := fun _A => spBlock fun i => (_A i : Matrix (Fin 2) (Fin 2) K)
       map_one' := spBlock_one
-      map_mul' := fun A B => (spBlock_mul _ _).symm }
-  (MonoidHom.toHomUnits Φ).codRestrict (StatedSp n K) fun A =>
-    StatedAPI.mem_statedSp_iff.2 (spBlock_symp _ fun i => (A i).2)
+      map_mul' := fun _A _B => (spBlock_mul _ _).symm }
+  (MonoidHom.toHomUnits Φ).codRestrict (StatedSp n K) fun _A =>
+    StatedAPI.mem_statedSp_iff.2 (spBlock_symp _ fun i => (_A i).2)
 
 theorem coe_spBlockHom (A : Fin n → Matrix.SpecialLinearGroup (Fin 2) K) :
     (((spBlockHom K n A : StatedSp n K) : GL (Fin n ⊕ Fin n) K) :
@@ -100,7 +100,7 @@ variable {K : Type} [Field K] [Finite K] {n r : ℕ}
 
 theorem le_pRank_statedSp (hr : r.Prime) (hdvd : r ∣ Nat.card K ^ 2 - 1) :
     n ≤ CFSG.Open.pRank r (⊤ : Subgroup (StatedSp n K)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨g, hg⟩ : ∃ g : Matrix.SpecialLinearGroup (Fin 2) K, orderOf g = r := by
     refine exists_prime_orderOf_dvd_card' r ?_
     rw [← StatedAPI.card_statedSL, StatedAPI.card_statedSL_two]

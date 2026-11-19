@@ -119,7 +119,7 @@ private theorem spFix_natAct_eq (g : TauCeti.GLSymplectic (Fin d) K)
         rw [CFSG.ClassicalGroups.Symplectic.statedSp_eq_GLSymplectic]; exact g.2⟩
       (Multiplicative.ofAdd x) = Multiplicative.ofAdd (g • x) := rfl
 
-private theorem spFix_fixed_eq_zero {d : ℕ} (hd : 1 ≤ d) {K : Type} [Field K]
+private theorem spFix_fixed_eq_zero {d : ℕ} (_hd : 1 ≤ d) {K : Type} [Field K]
     {v : Fin d ⊕ Fin d → K}
     (hv : ∀ γ : ↥(StatedSp d K),
       natAct (StatedSp d K) γ (Multiplicative.ofAdd v) = Multiplicative.ofAdd v) : v = 0 := by
@@ -143,7 +143,7 @@ end Symplectic
 theorem s16c167_cfg2_fix_sp {W : Type} [CommGroup W] {H : Subgroup (MulAut W)}
     {U : Subgroup W} {n : ℕ} (hn : 2 ≤ n) (h : NatSpn H U ⊥ n 1) : U ⊓ fixV H = ⊥ := by
   obtain ⟨hEven, K, hK, hKf, hK2, π, hπ⟩ := h
-  letI := hK
+  let := hK
   let R := CFSG.Quasithin.SzN15.NatReal.of_realizesVia hπ
   obtain ⟨β, hβsurj, hβker, hβe⟩ := R.exists_β
   have hstab : ∀ x : ↥H, ∀ u ∈ U, (x : MulAut W) u ∈ U := R.U_inv

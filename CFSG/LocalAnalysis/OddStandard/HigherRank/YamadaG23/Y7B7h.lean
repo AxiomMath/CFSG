@@ -76,7 +76,7 @@ theorem y7b_X0_le_K (c : Ctx7 G L) (hb : B5Std c) : y7bX0 c.s ≤ y7bK c.s := by
       rw [← y7b_E_inf_F hb.hH]
       exact inf_le_right
     exact (le_sup_right : c.s.fr.F ≤ M3 c.s) (hle hv)
-  haveI : IsMulCommutative ↥(M3 c.s) := (y7b_M3_elem c hb).1
+  have : IsMulCommutative ↥(M3 c.s) := (y7b_M3_elem c hb).1
   have hmv : v * m = m * v :=
     congrArg Subtype.val (mul_comm' (⟨v, hvM3⟩ : ↥(M3 c.s)) ⟨m, hm⟩)
   have hnv : v * n = n * v := (Subgroup.mem_centralizer_iff.mp hn.2) v hv

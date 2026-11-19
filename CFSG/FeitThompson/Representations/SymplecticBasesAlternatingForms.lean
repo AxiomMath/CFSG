@@ -243,11 +243,11 @@ private theorem exists_isSymplecticBasis_aux (m : ℕ) :
       · intro j; rw [hFs, hFs, ← hres]; exact hbW.inr_inr i j
     have hEF : ∀ i j, β (E i) (F j) = if i = j then 1 else 0 := by
       refine Fin.cases (Fin.cases ?_ ?_) fun i => Fin.cases ?_ ?_
-      · rw [hE0, hF0, if_pos rfl]; exact hef
+      · rw [hE0, hF0, ite_eq_left rfl]; exact hef
       · intro j
-        rw [hE0, hFs, if_neg (Fin.succ_ne_zero j).symm]
+        rw [hE0, hFs, ite_eq_right (Fin.succ_ne_zero j).symm]
         exact hEW _ (hbWmem _)
-      · rw [hEs, hF0, if_neg (Fin.succ_ne_zero i)]
+      · rw [hEs, hF0, ite_eq_right (Fin.succ_ne_zero i)]
         exact halt.isRefl _ _ (hFW _ (hbWmem (Sum.inl i)))
       · intro j
         rw [hEs, hFs, ← hres, hbW.inl_inr i j]

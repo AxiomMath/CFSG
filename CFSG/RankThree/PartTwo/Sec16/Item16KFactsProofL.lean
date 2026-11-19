@@ -101,7 +101,7 @@ theorem center_eq_bot {Q : Type} [Group Q] [Finite Q] {n : ℕ} (hn : 4 ≤ n)
     (φ : Q ⧸ Subgroup.center Q ≃* CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 2 n)) :
     Subgroup.center Q = ⊥ := by
   classical
-  haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have hcard : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
   have hcard' : Fintype.card (GaloisField 2 n) = 2 ^ n := by
     rw [Fintype.card_eq_nat_card, hcard]
@@ -137,7 +137,7 @@ theorem center_eq_bot {Q : Type} [Group Q] [Finite Q] {n : ℕ} (hn : 4 ≤ n)
     hdvd.trans (Nat.gcd_dvd_left 3 (2 ^ n - 1))
   rcases (Nat.dvd_prime Nat.prime_three).mp hdvd3 with h1 | h3
   · exact Subgroup.eq_bot_of_card_eq _ h1
-  · exact absurd (by simpa [h3]) hZ3
+  · exact absurd (by simp [h3]) hZ3
 
 noncomputable def mulEquivProjectiveSL {Q : Type} [Group Q] {n : ℕ}
     (φ : Q ⧸ Subgroup.center Q ≃* CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 2 n))

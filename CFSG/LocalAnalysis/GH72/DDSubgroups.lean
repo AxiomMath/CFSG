@@ -43,7 +43,7 @@ theorem isPGroup (hD : IsDih D) : IsPGroup 2 D := by
 
 theorem four_eq_of_isKleinFour (hD : IsKleinFour D) {V : Subgroup G} (hV : IsFourIn D V) :
     V = D := by
-  haveI : Finite D := Nat.finite_of_card_ne_zero (by rw [IsKleinFour.card_four]; norm_num)
+  have : Finite D := Nat.finite_of_card_ne_zero (by rw [IsKleinFour.card_four]; norm_num)
   exact eq_of_le_of_card_ge hV.1 (by rw [IsKleinFour.card_four, hV.2.2])
 
 theorem isFourIn_self_of_isKleinFour (hD : IsKleinFour D) : IsFourIn D D :=
@@ -75,9 +75,9 @@ theorem isCyclic_of_le (hD : IsDih D) {K : Subgroup G} (hKD : K ≤ D)
 theorem exists_unique_involution (hD : IsDih D) {K : Subgroup G} (hKD : K ≤ D) (hK1 : K ≠ ⊥)
     (hK : ∀ V, IsFourIn D V → ¬ V ≤ K) :
     ∃ z ∈ K, orderOf z = 2 ∧ ∀ t ∈ K, orderOf t = 2 → t = z := by
-  haveI := hD.finite
-  haveI : Finite K := Finite.of_injective _ (inclusion_injective hKD)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hD.finite
+  have : Finite K := Finite.of_injective _ (inclusion_injective hKD)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcyc : IsCyclic K := hD.isCyclic_of_le hKD hK
   have h2 : 2 ∣ Nat.card K := by
     rcases (hD.isPGroup.to_le hKD).card_eq_or_dvd with h | h
@@ -98,7 +98,7 @@ theorem exists_unique_involution (hD : IsDih D) {K : Subgroup G} (hKD : K ≤ D)
     rw [h, orderOf_one] at hto
     exact absurd hto (by norm_num)
   have hc : t * z = z * t := by
-    letI := IsCyclic.commGroup (α := K)
+    let := IsCyclic.commGroup (α := K)
     exact congrArg Subtype.val (mul_comm (⟨t, ht⟩ : K) z)
   have hle : zpowers t ⊔ zpowers (z : G) ≤ K :=
     sup_le (zpowers_le.2 ht) (zpowers_le.2 z.2)
@@ -181,8 +181,8 @@ theorem exists_inf_normalizer_four_eq (hD : IsDihNonab D) {V : Subgroup G}
   refine ⟨f, hfD, hf2, hfV, ?_⟩
   have hle : V ⊔ zpowers f ≤ D ⊓ normalizer (V : Set G) :=
     sup_le (le_inf hV.1 (le_normalizer)) (le_inf (zpowers_le.2 hfD) (zpowers_le.2 hfN))
-  haveI : Finite D := (isDih_of_isDihNonab ⟨a, ha, ⟨e⟩⟩).finite
-  haveI : Finite ↥(D ⊓ normalizer (V : Set G)) :=
+  have : Finite D := (isDih_of_isDihNonab ⟨a, ha, ⟨e⟩⟩).finite
+  have : Finite ↥(D ⊓ normalizer (V : Set G)) :=
     Finite.of_injective _ (inclusion_injective (inf_le_left : D ⊓ normalizer (V : Set G) ≤ D))
   have hf1 : f ≠ 1 := fun h => hfV (h ▸ one_mem V)
   have hinf : V ⊓ zpowers f = ⊥ := by
@@ -212,9 +212,9 @@ theorem exists_four_classes (hD : IsDihNonab D) :
     exact zero_ne_one this
   · obtain ⟨d, hd, hdV⟩ := exists_conj_four_rep e hk hk2 hV
     by_cases h0 : fourClass e hk V = 0
-    · rw [if_pos h0] at hdV
+    · rw [ite_eq_left h0] at hdV
       exact Or.inl ⟨d, hd, hdV⟩
-    · rw [if_neg h0] at hdV
+    · rw [ite_eq_right h0] at hdV
       exact Or.inr ⟨d, hd, hdV⟩
 
 theorem exists_cyclic_index_two (hD : IsDihNonab D) :
@@ -222,7 +222,7 @@ theorem exists_cyclic_index_two (hD : IsDihNonab D) :
       ∀ t ∈ R, t * t = 1 → ∀ y ∈ D, y * t = t * y := by
   obtain ⟨k, hk2, ⟨e⟩⟩ := hD
   have hk : 1 ≤ k := by omega
-  haveI : NeZero (2 ^ k) := ⟨by positivity⟩
+  have : NeZero (2 ^ k) := ⟨by positivity⟩
   set R := liftSub e (zpowers (r 1 : DihedralGroup (2 ^ k))) with hR
   have hRD : R ≤ D := liftSub_le e _
   have hrot : ∀ x : D, (x : G) ∈ R ↔ ∃ j, e x = r j := by
@@ -353,7 +353,7 @@ theorem exists_of_mul_self {t : G} (ht : t ∈ S) (ht2 : t * t = 1) :
   obtain ⟨x, hx, y, hy, rfl⟩ := hd.mem_iff.1 ht
   exact ⟨x, hx, y, hy, rfl, (hd.mul_self_iff hx hy).1 ht2⟩
 
-theorem conj_left {s₁ s₂ g : G} (hs₁ : s₁ ∈ S₁) (hs₂ : s₂ ∈ S₂) (hg : g ∈ S₁) :
+theorem conj_left {s₁ s₂ g : G} (_hs₁ : s₁ ∈ S₁) (hs₂ : s₂ ∈ S₂) (hg : g ∈ S₁) :
     s₁ * s₂ * g * (s₁ * s₂)⁻¹ = s₁ * g * s₁⁻¹ := by
   have h := hd.comm hg hs₂
   calc s₁ * s₂ * g * (s₁ * s₂)⁻¹ = s₁ * (s₂ * g) * s₂⁻¹ * s₁⁻¹ := by group
@@ -378,12 +378,12 @@ theorem conj_mem_right {s g : G} (hs : s ∈ S) (hg : g ∈ S₂) : s * g * s⁻
 theorem map_conj_left {s₁ s₂ : G} (hs₁ : s₁ ∈ S₁) (hs₂ : s₂ ∈ S₂) {V : Subgroup G}
     (hV : V ≤ S₁) :
     V.map (MulAut.conj (s₁ * s₂)).toMonoidHom = V.map (MulAut.conj s₁).toMonoidHom :=
-  map_conj_eq_of_agree fun v hv => hd.conj_left hs₁ hs₂ (hV hv)
+  map_conj_eq_of_agree fun _v hv => hd.conj_left hs₁ hs₂ (hV hv)
 
 theorem map_conj_right {s₁ s₂ : G} (hs₁ : s₁ ∈ S₁) (hs₂ : s₂ ∈ S₂) {V : Subgroup G}
     (hV : V ≤ S₂) :
     V.map (MulAut.conj (s₁ * s₂)).toMonoidHom = V.map (MulAut.conj s₂).toMonoidHom :=
-  map_conj_eq_of_agree fun v hv => hd.conj_right hs₁ hs₂ (hV hv)
+  map_conj_eq_of_agree fun _v hv => hd.conj_right hs₁ hs₂ (hV hv)
 
 theorem map_conj_inf_left {s : G} (hs : s ∈ S) (E : Subgroup G) :
     E.map (MulAut.conj s).toMonoidHom ⊓ S₁ = (E ⊓ S₁).map (MulAut.conj s).toMonoidHom :=
@@ -752,9 +752,9 @@ theorem exists_injective_of_inf_right_eq_bot {R : Subgroup G} (hRS : R ≤ S) (h
     exact h
 
 theorem relIndex_sup_left {R : Subgroup G} (hR : R ≤ S₂) : (S₁ ⊔ R).relIndex S = R.relIndex S₂ := by
-  haveI := hd.dih₁.finite
-  haveI := hd.isDih₂.finite
-  haveI : Finite R := Finite.of_injective _ (inclusion_injective hR)
+  have := hd.dih₁.finite
+  have := hd.isDih₂.finite
+  have : Finite R := Finite.of_injective _ (inclusion_injective hR)
   have hle : S₁ ⊔ R ≤ S := sup_le hd.le_left (hR.trans hd.le_right)
   have hc : ∀ x ∈ S₁, ∀ y ∈ R, x * y = y * x := fun x hx y hy => hd.comm hx (hR hy)
   have hcard : Nat.card ↥(S₁ ⊔ R) = Nat.card S₁ * Nat.card R :=
@@ -775,9 +775,9 @@ theorem relIndex_sup_left {R : Subgroup G} (hR : R ≤ S₂) : (S₁ ⊔ R).relI
 
 theorem relIndex_sup_right {R : Subgroup G} (hR : R ≤ S₁) :
     (R ⊔ S₂).relIndex S = R.relIndex S₁ := by
-  haveI := hd.dih₁.finite
-  haveI := hd.isDih₂.finite
-  haveI : Finite R := Finite.of_injective _ (inclusion_injective hR)
+  have := hd.dih₁.finite
+  have := hd.isDih₂.finite
+  have : Finite R := Finite.of_injective _ (inclusion_injective hR)
   have hle : R ⊔ S₂ ≤ S := sup_le (hR.trans hd.le_left) hd.le_right
   have hc : ∀ x ∈ R, ∀ y ∈ S₂, x * y = y * x := fun x hx y hy => hd.comm (hR hx) hy
   have hcard : Nat.card ↥(R ⊔ S₂) = Nat.card R * Nat.card S₂ :=
@@ -802,15 +802,16 @@ section Sylow
 
 variable [Finite G] {P : Sylow 2 G} {S₁ S₂ : Subgroup G}
 
+omit [Finite G] in
 private theorem coe_smul_sylow_eq (g : G) (P : Sylow 2 G) :
     ((g • P : Sylow 2 G) : Subgroup G) = (P : Subgroup G).map (MulAut.conj g).toMonoidHom := by
   rw [Sylow.smul_def, Sylow.pointwise_smul_def, Subgroup.pointwise_smul_def]
   rfl
 
 theorem DDDecomp.isSylowOf_centralizer_e16 (hd : DDDecomp (P : Subgroup G) S₁ S₂)
-    {A : Subgroup G} (hAS : A ≤ P) (hA : IsE16 A) :
+    {A : Subgroup G} (_hAS : A ≤ P) (hA : IsE16 A) :
     CFSG.ABGLocalTools.IsSylowOf 2 A (centralizer (A : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA2 : IsPGroup 2 A := IsPGroup.of_card (n := 4) (by rw [hA.2]; norm_num)
   have hAC : A ≤ centralizer (A : Set G) := fun a ha =>
     mem_centralizer_iff.2 fun b hb => comm_of_mul_self (isElemAbelian_two_iff.1 hA.1) hb ha
@@ -819,7 +820,7 @@ theorem DDDecomp.isSylowOf_centralizer_e16 (hd : DDDecomp (P : Subgroup G) S₁ 
   have hAT' : A ≤ T' := fun a ha =>
     ⟨⟨a, hAC ha⟩, hT (show (⟨a, hAC ha⟩ : centralizer (A : Set G)) ∈
       A.comap (centralizer (A : Set G)).subtype from ha), rfl⟩
-  obtain ⟨R, hR⟩ := (T.isPGroup'.map (centralizer (A : Set G)).subtype).exists_le_sylow
+  obtain ⟨R, hR⟩ := (T.isPGroup.map (centralizer (A : Set G)).subtype).exists_le_sylow
   obtain ⟨g, rfl⟩ := MulAction.exists_smul_eq G P R
   have hd' := hd.map_conj g
   rw [← coe_smul_sylow_eq] at hd'
@@ -830,15 +831,15 @@ theorem DDDecomp.isSylowOf_normalizer_e16 (hd : DDDecomp (P : Subgroup G) S₁ S
     {A : Subgroup G} (hAS : A ≤ P) (hA : IsE16 A) :
     CFSG.ABGLocalTools.IsSylowOf 2 ((P : Subgroup G) ⊓ normalizer (A : Set G))
       (normalizer (A : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := normalizer (A : Set G)
   set U₀ := (P : Subgroup G) ⊓ N
-  have hU₀2 : IsPGroup 2 U₀ := P.isPGroup'.to_inf_left
+  have hU₀2 : IsPGroup 2 U₀ := P.isPGroup.to_inf_left
   obtain ⟨T, hT⟩ := (hU₀2.comap_subtype (K := N)).exists_le_sylow
   set T' := (T : Subgroup N).map N.subtype
   have hU₀T' : U₀ ≤ T' := fun x hx =>
     ⟨⟨x, hx.2⟩, hT (show (⟨x, hx.2⟩ : N) ∈ U₀.comap N.subtype from hx), rfl⟩
-  obtain ⟨R, hR⟩ := (T.isPGroup'.map N.subtype).exists_le_sylow
+  obtain ⟨R, hR⟩ := (T.isPGroup.map N.subtype).exists_le_sylow
   obtain ⟨g, rfl⟩ := MulAction.exists_smul_eq G P R
   have hd' := hd.map_conj g
   rw [← coe_smul_sylow_eq] at hd'

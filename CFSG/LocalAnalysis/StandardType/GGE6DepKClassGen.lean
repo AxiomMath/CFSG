@@ -84,7 +84,7 @@ private theorem mpart_smul (a : ZMod 3) (u : Vec6) : mpart (a • u) = a • mpa
 
 private theorem fpart_add (c : ZMod 3) (u v : Vec6) :
     fpart c (u + v) = fpart c u + fpart c v := by
-  simp [fpart, smul_eq_mul]; ring
+  simp [fpart]; ring
 
 private theorem fpart_smul (c : ZMod 3) (a : ZMod 3) (u : Vec6) :
     fpart c (a • u) = a * fpart c u := by

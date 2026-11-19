@@ -11,6 +11,7 @@ open CFSG CFSG.QuasithinUnique CFSG.RankThree.PartTwo
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commutator_eq_of_isShort_of_isQuasisimple {L : Subgroup G} (hL : IsShort L)
     (hq : CFSG.IsQuasisimple (L ⧸ CFSG.pCore 2 L)) : ⁅L, L⁆ = L := by
   have hQ : Group.IsPerfect (↥L ⧸ CFSG.pCore 2 ↥L) := hq.1
@@ -52,11 +53,12 @@ theorem alternatingGroup_fin_subsingleton (n : ℕ) (hn : n ≤ 2) :
       rfl
     exact (Nat.card_eq_one_iff_unique.mp h2).1
 
+omit [Finite G] in
 theorem three_le_of_isAltNaturalType {L : Subgroup G} {n : ℕ}
     (hq : CFSG.IsQuasisimple (L ⧸ CFSG.pCore 2 L)) (h : IsAltNaturalType L n) : 3 ≤ n := by
   by_contra hlt
   obtain ⟨α, -, hker, -⟩ := h
-  haveI : Subsingleton (alternatingGroup (Fin n)) := alternatingGroup_fin_subsingleton n (by omega)
+  have : Subsingleton (alternatingGroup (Fin n)) := alternatingGroup_fin_subsingleton n (by omega)
   have hQ : Subsingleton (L ⧸ CFSG.pCore 2 L) := by
     refine ⟨fun x y => ?_⟩
     obtain ⟨x', rfl⟩ := QuotientGroup.mk_surjective x
@@ -74,7 +76,7 @@ theorem generalizedFitting_centralizer_eq_pCore
     (ht : t ∈ CFSG.Open.pCoreOf 2 M) (h1 : t ≠ 1) :
     CFSG.generalizedFitting ↥(Subgroup.centralizer ({t} : Set G)) =
       CFSG.pCore 2 ↥(Subgroup.centralizer ({t} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : Subgroup.zpowers t ≤ CFSG.Open.pCoreOf 2 M := Subgroup.zpowers_le.mpr ht
   have hD : IsPGroup 2 ↥(Subgroup.zpowers t) :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M).to_le hle

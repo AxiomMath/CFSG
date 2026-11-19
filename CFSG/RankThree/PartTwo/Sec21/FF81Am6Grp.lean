@@ -29,7 +29,7 @@ theorem nonempty_perm_three_closure {a t : G} (ha : orderOf a = 3) (ht : orderOf
     Nonempty (↥(Subgroup.closure ({a, t} : Set G)) ≃* Equiv.Perm (Fin 3)) := by
   have ht2 : t * t = 1 := by rw [← sq, ← ht]; exact pow_orderOf_eq_one t
   have hcard := card_closure_dihedral ha ht2 hc
-  haveI : Finite ↥(Subgroup.closure ({a, t} : Set G)) :=
+  have : Finite ↥(Subgroup.closure ({a, t} : Set G)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have haH : a ∈ Subgroup.closure ({a, t} : Set G) := Subgroup.subset_closure (by simp)
   have htH : t ∈ Subgroup.closure ({a, t} : Set G) := Subgroup.subset_closure (by simp)
@@ -125,7 +125,7 @@ theorem factorization_168 : (168 : ℕ).factorization 3 = 1 := by
 
 theorem card_nor_of_card_three {P : Subgroup G3} (hP : Nat.card P = 3) :
     Nat.card ↥(Nor P) = 6 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h168 : Nat.card (⊤ : Subgroup G3) = 168 := by rw [Subgroup.card_top]; exact card_G3
   have hS : ∀ Q : Subgroup G3, Nat.card Q = 3 → IsSylowOf 3 Q ⊤ := fun Q hQ =>
     isSylowOf_of_card_p le_top (by rw [hQ, h168, factorization_168]; norm_num)
@@ -140,7 +140,7 @@ theorem le_nor_of_card_six {P A : Subgroup G} [Finite G] (hPA : P ≤ A) (hP : N
     have h := Subgroup.card_mul_index (P.subgroupOf A)
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hPA).toEquiv, hP, hA] at h
     omega
-  haveI : (P.subgroupOf A).Normal := Subgroup.normal_of_index_eq_two hidx
+  have : (P.subgroupOf A).Normal := Subgroup.normal_of_index_eq_two hidx
   intro x hx
   refine mem_nor_of_forall fun y hy => ?_
   have := (inferInstance : (P.subgroupOf A).Normal).conj_mem ⟨y, hPA hy⟩ hy ⟨x, hx⟩
@@ -149,13 +149,13 @@ theorem le_nor_of_card_six {P A : Subgroup G} [Finite G] (hPA : P ≤ A) (hP : N
 
 theorem g3_exists_conj_of_card_six {A B : Subgroup G3} (hA : Nat.card A = 6)
     (hB : Nat.card B = 6) : ∃ g : G3, conjBy g A = B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h168 : Nat.card (⊤ : Subgroup G3) = 168 := by rw [Subgroup.card_top]; exact card_G3
   have hS : ∀ Q : Subgroup G3, Nat.card Q = 3 → IsSylowOf 3 Q ⊤ := fun Q hQ =>
     isSylowOf_of_card_p le_top (by rw [hQ, h168, factorization_168]; norm_num)
   have hex : ∀ C : Subgroup G3, Nat.card C = 6 → ∃ c ∈ C, orderOf c = 3 := by
     intro C hC
-    haveI : Finite ↥C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
+    have : Finite ↥C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
     obtain ⟨c, hc⟩ := @exists_prime_orderOf_dvd_card' ↥C _ _ 3 ⟨Nat.prime_three⟩
       (by rw [hC]; norm_num)
     exact ⟨c.1, c.2, by rw [Subgroup.orderOf_coe]; exact hc⟩

@@ -147,9 +147,9 @@ theorem exists_conj_plane_of_twoFrames (ψA : M₁ →* G) (ψB : M₂ →* G) (
   obtain ⟨P₁⟩ : Nonempty (Sylow p M₁) := inferInstance
   obtain ⟨P₂⟩ : Nonempty (Sylow p M₂) := inferInstance
   have hP₁cyc : IsCyclic (P₁ : Subgroup M₁) :=
-    isCyclic_of_isPGroup_of_centralizer hcycA P₁.isPGroup'
+    isCyclic_of_isPGroup_of_centralizer hcycA P₁.isPGroup
   have hP₂cyc : IsCyclic (P₂ : Subgroup M₂) :=
-    isCyclic_of_isPGroup_of_centralizer hcycB P₂.isPGroup'
+    isCyclic_of_isPGroup_of_centralizer hcycB P₂.isPGroup
   let f : (P₁ : Subgroup M₁) →* G := ψA.comp (P₁ : Subgroup M₁).subtype
   let g' : (P₂ : Subgroup M₂) →* G := ψB.comp (P₂ : Subgroup M₂).subtype
   have hfg : ∀ x y, Commute (f x) (g' y) := fun x y => hcomm _ _
@@ -166,7 +166,7 @@ theorem exists_conj_plane_of_twoFrames (ψA : M₁ →* G) (ψB : M₂ →* G) (
       · rintro _ ⟨y, rfl⟩
         exact ⟨_, rfl⟩
     have hpg : IsPGroup p ↥(f.range ⊓ g'.range) :=
-      (IsPGroup.of_surjective P₁.isPGroup' f.rangeRestrict f.rangeRestrict_surjective).to_le
+      (IsPGroup.of_surjective P₁.isPGroup f.rangeRestrict f.rangeRestrict_surjective).to_le
         inf_le_left
     obtain ⟨k, hk⟩ := hpg.exists_card_eq
     have hdvd : Nat.card ↥(f.range ⊓ g'.range) ∣ Nat.card ↥(ψA.range ⊓ ψB.range) :=
@@ -458,6 +458,7 @@ section Transfer
 
 variable {τ : Tag} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem closing_of_map {X : Subgroup (ModGL τ K)} {Y : Subgroup ↥(adjointGroup τ K)}
     (hY : Y.map (adjointGroup τ K).subtype = X) (hC : TwFrameClosing τ K X) :
     ∀ H : Subgroup ↥(adjointGroup τ K), Y ≤ H →
@@ -489,6 +490,7 @@ theorem closing_of_map {X : Subgroup (ModGL τ K)} {Y : Subgroup ↥(adjointGrou
   rw [← this]
   exact hy₀
 
+omit [Finite K] in
 theorem normalizerSolvable_of_map {X : Subgroup (ModGL τ K)} {Y : Subgroup ↥(adjointGroup τ K)}
     (hY : Y.map (adjointGroup τ K).subtype = X) (hN : TwFrameNormalizerSolvable τ K X) :
     ∀ P : Subgroup ↥(adjointGroup τ K), P ≤ Subgroup.normalizer (Y : Set ↥(adjointGroup τ K)) →

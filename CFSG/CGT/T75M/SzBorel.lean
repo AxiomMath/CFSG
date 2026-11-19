@@ -36,7 +36,7 @@ theorem mem_normalizer_sylow_of_mem_normalizer (hK : IsBenderGroup K) {T : Subgr
     calc x * t = g * ((g⁻¹ * x * g) * (g⁻¹ * t * g)) * g⁻¹ := by group
       _ = g * ((g⁻¹ * t * g) * (g⁻¹ * x * g)) * g⁻¹ := by rw [h3]
       _ = t * x := by group
-  have hP : IsPGroup 2 (conjSubgroup g (Q : Subgroup K)) := Q.isPGroup'.map _
+  have hP : IsPGroup 2 (conjSubgroup g (Q : Subgroup K)) := Q.isPGroup.map _
   have hle2 := le_of_isPGroup_of_le_normalizer hP Q hle
   exact mem_normalizer_iff_conjSubgroup_eq.2 (conjSubgroup_eq_of_le hle2)
 

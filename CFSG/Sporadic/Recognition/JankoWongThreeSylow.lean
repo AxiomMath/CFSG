@@ -255,7 +255,7 @@ theorem exists_std_sylow3 (S : Setup G) :
   have haQ : a' ∈ (Q : Subgroup C) := ha'p.le_sylow_of_normal Q (Subgroup.mem_zpowers a')
   have hbQ : b' ∈ (Q : Subgroup C) := hQ (Subgroup.mem_zpowers b')
   refine ⟨a, b, (Q : Subgroup C).map C.subtype, ha, hb, ha3, hb3, hab,
-    Q.isPGroup'.map C.subtype, ?_, ⟨a', haQ, rfl⟩, ⟨b', hbQ, rfl⟩⟩
+    Q.isPGroup.map C.subtype, ?_, ⟨a', haQ, rfl⟩, ⟨b', hbQ, rfl⟩⟩
   rw [Subgroup.card_map_of_injective C.subtype_injective, Q.card_eq_multiplicity, hcard,
     factorization_three_360]
   norm_num
@@ -294,7 +294,7 @@ theorem exists_sylow_of_card_nine {G : Type*} [Group G] [Finite G] {C A : Subgro
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAC).toEquiv, hA9]
   obtain ⟨Q, hQ⟩ := hA'.exists_le_sylow
   refine ⟨Q, (Subgroup.eq_of_le_of_card_ge hQ ?_).symm⟩
-  have hQG : IsPGroup 3 ↥((Q : Subgroup C).map C.subtype) := Q.isPGroup'.map C.subtype
+  have hQG : IsPGroup 3 ↥((Q : Subgroup C).map C.subtype) := Q.isPGroup.map C.subtype
   have := hbound _ hQG
   rw [Subgroup.card_map_of_injective C.subtype_injective] at this
   omega
@@ -353,7 +353,7 @@ theorem exists_abelian_three_group (S : Setup G) {x t : S.H} (hx3 : x ^ 3 = 1) (
     (centralizer ({(t : G)} : Set G)).subtype with hXG
   have hxX : (⟨(x : G), hxC⟩ : centralizer ({(t : G)} : Set G)) ∈ (X : Subgroup _) :=
     hX (Subgroup.mem_zpowers _)
-  refine ⟨XG, X.isPGroup'.map _, ?_, ⟨_, hxX, rfl⟩, ?_, ?_⟩
+  refine ⟨XG, X.isPGroup.map _, ?_, ⟨_, hxX, rfl⟩, ?_, ?_⟩
   · rw [hXG, Subgroup.card_map_of_injective (Subgroup.subtype_injective _), hXcard]; norm_num
   · rintro _ ⟨c, hc, rfl⟩ _ ⟨d, hd, rfl⟩
     have h2 := hXcomm.is_comm.comm ⟨c, hc⟩ ⟨d, hd⟩
@@ -496,7 +496,7 @@ theorem exists_sylow_of_card_two {K A : Subgroup G} (hA : IsPGroup 2 A) (hAK : A
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAK).toEquiv, hA2]
   obtain ⟨Q, hQ⟩ := hA'.exists_le_sylow
   refine ⟨Q, (Subgroup.eq_of_le_of_card_ge hQ ?_).symm⟩
-  have hQG : IsPGroup 2 ↥((Q : Subgroup K).map K.subtype) := Q.isPGroup'.map K.subtype
+  have hQG : IsPGroup 2 ↥((Q : Subgroup K).map K.subtype) := Q.isPGroup.map K.subtype
   have hQK : (Q : Subgroup K).map K.subtype ≤ K := by
     rintro _ ⟨c, -, rfl⟩; exact c.2
   have := hbound _ hQG hQK

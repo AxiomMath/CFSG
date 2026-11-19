@@ -18,7 +18,7 @@ private theorem le_normalizer_inf_of_le {K U V : Subgroup G} (hU : K ≤ Subgrou
   intro g hg
   rw [Subgroup.mem_normalizer_iff]
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr (Subgroup.mem_normalizer_iff.mp (hU hg) h)
     (Subgroup.mem_normalizer_iff.mp (hV hg) h)
 
@@ -84,7 +84,7 @@ theorem sup_eq_or_inf_le {X : Subgroup G} (hX : MinCex A M H c X)
     (hAV : A ≤ Subgroup.normalizer (V : Set G)) :
     V ⊔ CFSG.Open.pCoreOf 2 (H ⊓ M) = X ∨
       V ⊓ CFSG.Open.pCoreOf 2 (H ⊓ M) ≤ CFSG.Open.pCoreOf 2 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S := CFSG.Open.pCoreOf 2 (H ⊓ M) with hSdef
   have hSX : S ≤ X := hX.pCoreOf_le
   have hSV : S ≤ Subgroup.normalizer (V : Set G) := hSX.trans hXV

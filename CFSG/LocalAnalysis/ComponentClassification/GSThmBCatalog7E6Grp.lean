@@ -361,7 +361,7 @@ theorem exists_inf_eq_sup_zpowers {I : Subgroup G} {a : G} (ha : a ∈ normalize
         convert h using 1
         group }
   obtain ⟨m, hmz⟩ := (AddSubgroup.isAddCyclic_iff_exists_zmultiples_eq_top S).mp
-    (Int.subgroup_cyclic S)
+    (AddSubgroup.isAddCyclic S)
   rw [AddSubgroup.zmultiples_eq_closure] at hmz
   have hm : S = AddSubgroup.closure {m} := hmz.symm
   have hmS : m ∈ S := by rw [hm]; exact AddSubgroup.subset_closure rfl

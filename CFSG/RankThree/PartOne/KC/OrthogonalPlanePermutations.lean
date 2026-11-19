@@ -87,7 +87,7 @@ theorem polar_coord (ψ : V ≃ₗ[K] R × (Fin m → E))
       ∑ i, polar QE ((ψ v).2 i) ((ψ w).2 i) := by
   rw [QuadraticMap.polar, QuadraticMap.polar, hψ (v + w), hψ v, hψ w]
   simp only [QuadraticMap.polar, map_add, Prod.fst_add, Prod.snd_add, Pi.add_apply,
-    Finset.sum_add_distrib, Finset.sum_sub_distrib]
+    Finset.sum_sub_distrib]
   abel
 
 theorem polar_coordAnchor_plane (ψ : V ≃ₗ[K] R × (Fin m → E))
@@ -97,7 +97,7 @@ theorem polar_coordAnchor_plane (ψ : V ≃ₗ[K] R × (Fin m → E))
   obtain ⟨r, rfl⟩ := mem_coordAnchor.mp hw
   obtain ⟨e, rfl⟩ := mem_coordPlane.mp hu
   rw [polar_coord ψ hψ]
-  simp [Pi.single_eq_same]
+  simp
 
 theorem polar_coordPlane_plane (ψ : V ≃ₗ[K] R × (Fin m → E))
     (hψ : ∀ v : V, Q v = QR (ψ v).1 + ∑ i, QE ((ψ v).2 i))
@@ -155,7 +155,7 @@ theorem coordPlane_polarNondegOn (ψ : V ≃ₗ[K] R × (Fin m → E))
     rw [polarBilin_apply_apply]
     exact h
   rw [hx]
-  simp [mem_coordPlane]
+  simp
 
 theorem coordAnchor_sup_coordActive (ψ : V ≃ₗ[K] R × (Fin m → E)) :
     coordAnchor ψ ⊔ coordActive ψ = ⊤ := by
@@ -192,7 +192,7 @@ theorem coordAnchor_sup_coordActive (ψ : V ≃ₗ[K] R × (Fin m → E)) :
 
 theorem coordAnchor_nondegenerate (ψ : V ≃ₗ[K] R × (Fin m → E))
     (hψ : ∀ v : V, Q v = QR (ψ v).1 + ∑ i, QE ((ψ v).2 i))
-    (hQ : (polarBilin Q).Nondegenerate) (hQE : (polarBilin QE).Nondegenerate) :
+    (hQ : (polarBilin Q).Nondegenerate) (_hQE : (polarBilin QE).Nondegenerate) :
     (polarBilin (Q.comp (coordAnchor ψ).subtype)).Nondegenerate := by
   have hspan : coordAnchor ψ ⊔ coordActive ψ = ⊤ := coordAnchor_sup_coordActive ψ
   have horth : ∀ w ∈ coordAnchor ψ, ∀ s ∈ coordActive ψ, polar Q w s = 0 :=
@@ -225,10 +225,10 @@ theorem coordSupport_empty (ψ : V ≃ₗ[K] R × (Fin m → E)) :
   simp [coordSupport]
 
 theorem coordSupport_insert (ψ : V ≃ₗ[K] R × (Fin m → E))
-    {i : Fin m} {S : Finset (Fin m)} (hi : i ∉ S) :
+    {i : Fin m} {S : Finset (Fin m)} (_hi : i ∉ S) :
     coordSupport ψ (insert i S) = coordSupport ψ S ⊔ coordPlane ψ i := by
   rw [coordSupport, coordSupport, Finset.sup_insert]
-  simp only [sup_assoc, sup_comm, sup_left_comm]
+  simp only [sup_assoc, sup_comm]
 
 theorem polar_coordSupport_plane (ψ : V ≃ₗ[K] R × (Fin m → E))
     (hψ : ∀ v : V, Q v = QR (ψ v).1 + ∑ i, QE ((ψ v).2 i)) :
@@ -429,7 +429,7 @@ theorem codRestrictedρ_centralizes_pair [Finite K] [FiniteDimensional K V] [Cha
     [Nontrivial E] (ψ : V ≃ₗ[K] R × (Fin m → E))
     (hQ : (polarBilin Q).Nondegenerate) (hQE : (polarBilin QE).Nondegenerate)
     (hψ : ∀ v : V, Q v = QR (ψ v).1 + ∑ i, QE ((ψ v).2 i))
-    (h8 : 8 ≤ finrank K V) {i j : Fin m} (hij : i ≠ j)
+    (h8 : 8 ≤ finrank K V) {i j : Fin m} (_hij : i ≠ j)
     (σ : Equiv.Perm (Fin m)) (hi : σ i = i) (hj : σ j = j) :
     ∀ x ∈ (supportedDerived Q (coordSupport ψ {i,j})).subgroupOf (orthDerived Q),
       codRestrictedρ ψ hQ hQE hψ h8 σ * x *
@@ -470,9 +470,6 @@ theorem codRestrictedρ_centralizes_pair [Finite K] [FiniteDimensional K V] [Cha
       intro w hw
       exact (CFSG.LocalAnalysis.GLTheoremA.S172C.Cent.mem_polarPerp_iff.mp hv) w hw)
   apply Subtype.ext
-  change (((codRestrictedρ ψ hQ hQE hψ h8 σ * x *
-      (codRestrictedρ ψ hQ hQE hψ h8 σ)⁻¹ : orthDerived Q) : V ≃ₗ[K] V)) =
-    (x : V ≃ₗ[K] V)
   simp only [Subgroup.coe_mul, Subgroup.coe_inv, coe_codRestrictedρ_apply]
   have hcoord : (coordPermHom ψ) σ = coordAut ψ (permAut K E m σ) := rfl
   rw [hcoord, hcomm, mul_assoc, mul_inv_cancel, mul_one]
@@ -491,7 +488,7 @@ theorem psi2_coordChange (psi1 : V ≃ₗ[K] R × (Fin m → E))
     (epsR : R ≃ₗ[K] R2) (epsE : E ≃ₗ[K] E2) (v : V) :
     psi2 (coordChange psi1 psi2 epsR epsE v) =
       (epsR (psi1 v).1, fun i => epsE ((psi1 v).2 i)) := by
-  simp [coordChange, LinearEquiv.prodCongr_apply, LinearEquiv.piCongrRight_apply]
+  simp [coordChange, LinearEquiv.prodCongr_apply]
   rfl
 
 theorem coordChange_anchor (psi1 : V ≃ₗ[K] R × (Fin m → E))
@@ -576,9 +573,6 @@ variable {Q1 : QuadraticForm K V} {QR1 : QuadraticForm K R} {QE1 : QuadraticForm
   map_app' v := by
     change Q2 (coordChange psi1 psi2 epsR.toLinearEquiv epsE.toLinearEquiv v) = Q1 v
     rw [hψ2]
-    change QR2 (psi2 (coordChange psi1 psi2 epsR.toLinearEquiv epsE.toLinearEquiv v)).1 +
-        ∑ i, QE2 ((psi2 (coordChange psi1 psi2 epsR.toLinearEquiv epsE.toLinearEquiv v)).2 i) =
-      Q1 v
     rw [psi2_coordChange]
     have hR : QR2 (epsR.toLinearEquiv (psi1 v).1) = QR1 (psi1 v).1 :=
       epsR.map_app (psi1 v).1

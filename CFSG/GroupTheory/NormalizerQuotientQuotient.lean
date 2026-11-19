@@ -27,6 +27,7 @@ private noncomputable def normalizerQuotientMap (N S : Subgroup H) [N.Normal] :
   (Subgroup.normalizerQuotientMk (S.map (QuotientGroup.mk' N))).comp
     (normalizerToQuotient N S)
 
+omit [Finite H] in
 private theorem normalizerQuotientMap_ker (N S : Subgroup H) [N.Normal] (hNS : N ≤ S) :
     (normalizerQuotientMap N S).ker = S.subgroupOf (Subgroup.normalizer (S : Set H)) := by
   ext x

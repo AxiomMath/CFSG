@@ -37,6 +37,7 @@ private def q13eFix (K H : Subgroup G) (f : G)
     rw [hid]
     simpa using hH a⁻¹ (K.inv_mem haK) _ (H.inv_mem haH)
 
+omit [Finite G] in
 private lemma q13eFix_card (K H : Subgroup G) (f : G)
     (hH : ∀ k ∈ K, ∀ h ∈ H, k * h * k⁻¹ ∈ H) :
     Nat.card (q13eFix K H f hH)
@@ -45,6 +46,7 @@ private lemma q13eFix_card (K H : Subgroup G) (f : G)
   rw [Nat.card_coe_set_eq]
   rfl
 
+omit [Finite G] in
 private lemma q13e_commutator_mem {K H : Subgroup G}
     (hH : ∀ k ∈ K, ∀ h ∈ H, k * h * k⁻¹ ∈ H) (hsq : ∀ k ∈ K, k * k ∈ H)
     {x y : G} (hx : x ∈ K) (hy : y ∈ K) : x * y * x⁻¹ * y⁻¹ ∈ H := by
@@ -58,6 +60,7 @@ private lemma q13e_commutator_mem {K H : Subgroup G}
   rw [hid]
   exact H.mul_mem (H.mul_mem hprod hconj) hy2
 
+omit [Finite G] in
 private lemma q13e_psi_psi {f k : G} (hf : f * f = 1) :
     f * (f * k * f⁻¹ * k⁻¹) * f⁻¹ * (f * k * f⁻¹ * k⁻¹)⁻¹
       = (k * (f * k⁻¹ * f⁻¹)) * (k * (f * k⁻¹ * f⁻¹)) := by
@@ -70,6 +73,7 @@ private lemma q13e_psi_psi {f k : G} (hf : f * f = 1) :
     _ = k * f * k⁻¹ * f * k * f * k⁻¹ * f := by rw [hf, one_mul]
     _ = k * (f * k⁻¹ * f) * (k * (f * k⁻¹ * f)) := by group
 
+omit [Finite G] in
 private lemma q13e_psi_diff_mem {K H : Subgroup G} {f : G}
     (hH : ∀ k ∈ K, ∀ h ∈ H, k * h * k⁻¹ ∈ H) (hsq : ∀ k ∈ K, k * k ∈ H)
     (hfK : ∀ k ∈ K, f * k * f⁻¹ ∈ K)

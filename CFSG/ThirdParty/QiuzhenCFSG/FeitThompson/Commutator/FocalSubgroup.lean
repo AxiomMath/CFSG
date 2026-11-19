@@ -142,16 +142,16 @@ theorem CFSG.transferHom_eq_focalQuotientProj_pow_index [Finite G] [Fact p.Prime
     transferHom p S s = π p S ⟨s ^ (S : Subgroup G).index, (S : Subgroup G).pow_mem hs _⟩ := by
   classical
   let Q := G ⧸ (S : Subgroup G)
-  haveI : Fintype Q := Subgroup.fintypeQuotientOfFiniteIndex
-  haveI : MulAction.QuotientAction G (S : Subgroup G) := MulAction.left_quotientAction (H := (S : Subgroup G))
+  have : Fintype Q := Subgroup.fintypeQuotientOfFiniteIndex
+  have : MulAction.QuotientAction G (S : Subgroup G) := MulAction.left_quotientAction (H := (S : Subgroup G))
   let orbitQ := Quotient (MulAction.orbitRel (Subgroup.zpowers s) Q)
-  haveI : Fintype orbitQ := Quotient.fintype _
+  have : Fintype orbitQ := Quotient.fintype _
   rw [transferHom, MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot]
   -- Express each factor as π (s ^ m)
   have hfactor_eq : ∀ q : orbitQ,
       π p S ⟨(Quotient.out (Quotient.out q))⁻¹ * s ^ Function.minimalPeriod (s • ·) (Quotient.out q) * Quotient.out (Quotient.out q),
         by
-          haveI : MulAction.QuotientAction G (S : Subgroup G) := MulAction.left_quotientAction (H := (S : Subgroup G))
+          have : MulAction.QuotientAction G (S : Subgroup G) := MulAction.left_quotientAction (H := (S : Subgroup G))
           exact QuotientGroup.out_conj_pow_minimalPeriod_mem (H := (S : Subgroup G)) s (Quotient.out q)
         ⟩ = π p S ⟨s ^ Function.minimalPeriod (s • ·) (Quotient.out q),
         (S : Subgroup G).pow_mem hs _⟩ := by
@@ -161,7 +161,7 @@ theorem CFSG.transferHom_eq_focalQuotientProj_pow_index [Finite G] [Fact p.Prime
     have hpow : s ^ Function.minimalPeriod (s • ·) t ∈ (S : Subgroup G) :=
       (S : Subgroup G).pow_mem hs _
     have hfactor : (Quotient.out (Quotient.out q))⁻¹ * s ^ Function.minimalPeriod (s • ·) t * Quotient.out (Quotient.out q) ∈ (S : Subgroup G) := by
-      haveI : MulAction.QuotientAction G (S : Subgroup G) := MulAction.left_quotientAction (H := (S : Subgroup G))
+      have : MulAction.QuotientAction G (S : Subgroup G) := MulAction.left_quotientAction (H := (S : Subgroup G))
       exact QuotientGroup.out_conj_pow_minimalPeriod_mem (H := (S : Subgroup G)) s t
     have hdiff : (s ^ Function.minimalPeriod (s • ·) t)⁻¹ * (x⁻¹ * s ^ Function.minimalPeriod (s • ·) t * x) ∈ feitThompsonFocalSubgroup p S := by
       -- this is exactly transfer_factor_div_mem_focalSubgroup, but we can inline
@@ -185,7 +185,7 @@ theorem CFSG.transferHom_eq_focalQuotientProj_pow_index [Finite G] [Fact p.Prime
       ∑ q : orbitQ, Function.minimalPeriod (s • ·) (Quotient.out q)
           = ∑ q : orbitQ, Nat.card (MulAction.orbit (Subgroup.zpowers s) (Quotient.out q)) := by
             refine Finset.sum_congr rfl fun q _ => ?_
-            haveI : Fintype (MulAction.orbit (Subgroup.zpowers s) (Quotient.out q)) := inferInstance
+            have : Fintype (MulAction.orbit (Subgroup.zpowers s) (Quotient.out q)) := inferInstance
             have h := MulAction.minimalPeriod_eq_card (a := s) (b := Quotient.out q)
             rw [← Nat.card_eq_fintype_card] at h
             exact h
@@ -199,7 +199,7 @@ theorem CFSG.transferHom_eq_focalQuotientProj_pow_index [Finite G] [Fact p.Prime
 /-- If an element `s` of a Sylow `p`-subgroup `S` satisfies `s ^ index ∈ F`, then `s` itself lies in `F`. -/
 lemma CFSG.mem_focalSubgroup_of_pow_index_mem [Finite G] [Fact p.Prime] (s : G) (hs : s ∈ (S : Subgroup G))
     (hpow : s ^ (S : Subgroup G).index ∈ feitThompsonFocalSubgroup p S) : s ∈ feitThompsonFocalSubgroup p S := by
-  have hS : IsPGroup p (S : Subgroup G) := S.isPGroup'
+  have hS : IsPGroup p (S : Subgroup G) := S.isPGroup
   have hn : ¬ p ∣ (S : Subgroup G).index := Sylow.not_dvd_index S
   -- The quotient `Q = S / F` is a p‑group.
   let Q := (S : Subgroup G) ⧸ (feitThompsonFocalSubgroup p S).subgroupOf (S : Subgroup G)
@@ -234,7 +234,7 @@ lemma CFSG.mem_focalSubgroup_of_pow_index_mem [Finite G] [Fact p.Prime] (s : G) 
       _ = h_pow_equiv.symm 1 := by rw [h_eq]
       _ = 1 := h_symm_one
   -- `π s = 1` means `s` belongs to the kernel of the projection, i.e. to `F`.
-  haveI := focalSubgroup_normal_in_sylow p S
+  have := focalSubgroup_normal_in_sylow p S
   have h_mem : (⟨s, hs⟩ : (S : Subgroup G)) ∈ (feitThompsonFocalSubgroup p S).subgroupOf (S : Subgroup G) :=
     (QuotientGroup.eq_one_iff (N := (feitThompsonFocalSubgroup p S).subgroupOf (S : Subgroup G)) (x := (⟨s, hs⟩ : (S : Subgroup G)))).mp h_πs_one
   rw [Subgroup.mem_subgroupOf] at h_mem
@@ -298,7 +298,7 @@ public theorem CFSG.sylow_inf_derivedSubgroup_eq_focalSubgroup {G : Type*} [Grou
       Eq.trans (Eq.symm h_transfer) hV
     have h_pow : s ^ (S : Subgroup G).index ∈ F := by
       let h_s_pow_mem := (S : Subgroup G).pow_mem hsS (S : Subgroup G).index
-      haveI := focalSubgroup_normal_in_sylow p S
+      have := focalSubgroup_normal_in_sylow p S
       have h_mem : (⟨s ^ (S : Subgroup G).index, h_s_pow_mem⟩ : (S : Subgroup G)) ∈
           (feitThompsonFocalSubgroup p S).subgroupOf (S : Subgroup G) :=
         (QuotientGroup.eq_one_iff (N := (feitThompsonFocalSubgroup p S).subgroupOf (S : Subgroup G)) (x := (⟨s ^ (S : Subgroup G).index, h_s_pow_mem⟩ : (S : Subgroup G)))).mp h_pi_eq_one

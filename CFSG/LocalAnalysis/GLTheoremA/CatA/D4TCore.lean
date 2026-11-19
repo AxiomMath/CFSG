@@ -41,6 +41,7 @@ section Main
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem mem_normalizer_of_centralizes {W : Subgroup H} {s : H} (hs : ∀ w ∈ W, s * w = w * s) :
     s ∈ Subgroup.normalizer (W : Set H) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -59,6 +60,7 @@ theorem mem_normalizer_of_centralizes {W : Subgroup H} {s : H} (hs : ∀ w ∈ W
     rw [e] at hh
     exact hh
 
+omit [Finite H] in
 theorem card_subgroupOf_of_le {N Y : Subgroup H} (hY : Y ≤ N) :
     Nat.card (Y.subgroupOf N) = Nat.card Y :=
   Nat.card_congr (Subgroup.subgroupOfEquivOfLe hY).toEquiv
@@ -73,7 +75,7 @@ theorem noTriality_core {K B : Subgroup H} (hF : D4TwoFacts ↥K)
         ∃ T : Subgroup H, IsPGroup 2 T ∧ T ≠ ⊥ ∧ B ≤ Subgroup.normalizer (T : Set H) ∧
           T ≤ Subgroup.normalizer (K : Set H))) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N : Subgroup H := Subgroup.normalizer (K : Set H) with hN
   set ρ : ↥N →* MulAut ↥K := conjHom K with hρ
   set B' : Subgroup ↥N := B.subgroupOf N with hB'
@@ -202,7 +204,7 @@ theorem noTriality_core {K B : Subgroup H} (hF : D4TwoFacts ↥K)
         rw [Subgroup.mem_normalizer_iff]
         intro y
         have h1 := Subgroup.mem_normalizer_iff.1 (hBT (Subgroup.mem_subgroupOf.1 hb)) (y : H)
-        simp only [hT', Subgroup.mem_subgroupOf, SetLike.mem_coe, Subgroup.coe_mul,
+        simp only [hT', Subgroup.mem_subgroupOf, Subgroup.coe_mul,
           Subgroup.coe_inv] at h1 ⊢
         exact h1
       have hnorm : Bh ≤ Subgroup.normalizer (Th : Set (MulAut ↥K)) := fun σ hσ => by

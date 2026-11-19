@@ -168,7 +168,7 @@ theorem pRank_mulAut_barImage_le_one
   rw [← CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt (MulAut.congr e)]
   have hperf : Group.IsPerfect (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L) :=
     Group.isPerfect_def.mpr hSL.1.1.1
-  haveI : Group.IsPerfect (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L) := hperf
+  have : Group.IsPerfect (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L) := hperf
   refine (CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.pRank_mulAut_le
     (J := CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L) hp).trans ?_
   have hcardAut : Nat.card (MulAut (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L ⧸
@@ -176,8 +176,8 @@ theorem pRank_mulAut_barImage_le_one
       2 ^ 8 * 3 ^ 3 * 5 * 7 := by
     obtain ⟨K, hfield, hfin, hKcard, ⟨eK⟩⟩ :=
       CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hSL.1.2
-    letI := hfield
-    letI := hfin
+    let := hfield
+    let := hfin
     have hk : Nat.card K = 4 := by rw [hKcard]; norm_num
     rw [Nat.card_congr (MulAut.congr eK).toEquiv,
       CFSG.RankThree.PartTwo.KFacts.L34.card_mulAut hk]
@@ -190,7 +190,7 @@ theorem pRank_eq_of_relIndex_le_two {A : Type*} [Group A] [Finite A] {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) {H K : Subgroup A} (hHK : H ≤ K)
     (hidx : H.relIndex K ≤ 2) :
     CFSG.Open.pRank p H = CFSG.Open.pRank p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine le_antisymm (CFSG.SectionRank.pRank_mono hp.one_lt hHK) ?_
   obtain ⟨E, hEK, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt K
   have hHK0 : H.relIndex K ≠ 0 := by
@@ -215,6 +215,7 @@ theorem pRank_eq_of_relIndex_le_two {A : Type*} [Group A] [Finite A] {p : ℕ}
     exact (Subgroup.relIndex_eq_one.mp h1).trans inf_le_right
   exact CFSG.SectionRank.le_pRank hp.one_lt hE_le_H hE hEcard
 
+omit [Finite G] in
 theorem inf_normalizer_le_normalizer_of_conjSetOf_eq_pair {M L L' : Subgroup G}
     (hset : CFSG.LocalAnalysis.UniquenessCase.UC22.conjSetOf M L = {L, L'}) :
     M ⊓ Subgroup.normalizer (L : Set G) ≤ Subgroup.normalizer (L' : Set G) := by
@@ -247,13 +248,14 @@ theorem inf_normalizer_le_normalizer_of_conjSetOf_eq_pair {M L L' : Subgroup G}
       (MulAut.conj m).injective (by rw [h, hmL])
   · exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr h
 
+omit [Finite G] in
 theorem relIndex_inf_normalizer_le_two {M L L' : Subgroup G}
     (hset : CFSG.LocalAnalysis.UniquenessCase.UC22.conjSetOf M L = {L, L'}) :
     (M ⊓ Subgroup.normalizer (L : Set G)).relIndex M ≤ 2 := by
   classical
   let act : MulAction ↥M (Subgroup G) :=
     MulAction.compHom _ ((MulAut.conj : G →* MulAut G).comp M.subtype)
-  letI := act
+  let := act
   have horbit : MulAction.orbit ↥M L =
       CFSG.LocalAnalysis.UniquenessCase.UC22.conjSetOf M L := by
     ext K
@@ -278,7 +280,7 @@ theorem relIndex_inf_normalizer_le_two {M L L' : Subgroup G}
   exact hcard
 
 theorem two_le_pRank_centralizer_barX
-    (hS : Standing4 G) (hU : CFSG.Open.uniqueFourUnique G) (S : Setup4 G)
+    (_hS : Standing4 G) (hU : CFSG.Open.uniqueFourUnique G) (S : Setup4 G)
     (hMS : S.InMSigma) (hnot : ¬ CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 S.M)
     {L L' : Subgroup G} (hL : L ∈ CFSG.LocalAnalysis.UniquenessCase.UC22.calC S.M)
     (hset : CFSG.LocalAnalysis.UniquenessCase.UC22.conjSetOf S.M L = {L, L'})
@@ -289,7 +291,7 @@ theorem two_le_pRank_centralizer_barX
         (CFSG.LocalAnalysis.UniquenessCase.UC22.barImage S.M
           (CFSG.LocalAnalysis.UniquenessCase.UC22.conjClosure S.M L) : Set (Bar2 S.M))) := by
   classical
-  haveI : Fact S.p.Prime := ⟨S.hp.1.1⟩
+  have : Fact S.p.Prime := ⟨S.hp.1.1⟩
   have hp := S.hp.1.1
   have hp2 : S.p ≠ 2 := S.hp.1.2.1
   have h3β : 3 ∉ CFSG.Open.uniqueFourBeta G :=

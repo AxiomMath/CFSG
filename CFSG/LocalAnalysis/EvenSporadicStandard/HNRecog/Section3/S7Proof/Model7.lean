@@ -28,7 +28,7 @@ private theorem s7_model7_cycleType_swap_1_2_3_4_5_6 :
     Equiv.Perm.isSwap_iff_cycleType.mp h56]
   decide
 
-theorem s7_sym7_swap_of_threeTransp {D' : Set (Sym 7)} (hne : D'.Nonempty)
+theorem s7_sym7_swap_of_threeTransp {D' : Set (Sym 7)} (_hne : D'.Nonempty)
     (hinv : ∀ d ∈ D', d ^ 2 = 1 ∧ d ≠ 1) (hnorm : ∀ d ∈ D', ∀ g : Sym 7, g * d * g⁻¹ ∈ D')
     (h3 : ∀ d ∈ D', ∀ e ∈ D', (d * e) ^ 3 = 1 ∨ (d * e) ^ 2 = 1) :
     ∀ d ∈ D', d.cycleType = {2} := by

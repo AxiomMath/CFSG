@@ -63,11 +63,11 @@ theorem burnsideF4n_F422_of_facts
     (h45 : F_4_5) (h46 : F_4_6)
     (hfacts : burnsideF4n_F422Facts) : F_4_22 := by
   intro κ p f E _ Gp M₁ M₂ hyp hGp hκ Y _ β hβ hs
-  haveI : Finite E := hyp.finite
-  haveI := burnsideF4b_finite_G1 M₁ M₂
-  haveI := burnsideF4b_finite_G2 M₁ M₂
+  have : Finite E := hyp.finite
+  have := burnsideF4b_finite_G1 M₁ M₂
+  have := burnsideF4b_finite_G2 M₁ M₂
   have F := burnsideF4n_facts46_at h46 hyp β hβ
-  haveI : Finite Y := burnsideF4b_finite_of_small F hs
+  have : Finite Y := burnsideF4b_finite_of_small F hs
   obtain ⟨hc10, hc3, hN⟩ := hfacts κ p f E Gp M₁ M₂ hyp hGp hκ
   have hm : 2 < κ.m := by rcases hκ with rfl | rfl <;> decide
   have h58 := (h46 κ p f E Gp M₁ M₂ hyp Y β hβ (incl M₁ M₂) rfl).2.2.2.2
@@ -209,7 +209,7 @@ theorem burnsideF4n_four_dvd_card_M1 {p : ℕ} {E : Type} [Group E] [Finite E]
     (hpar : IsLieParabolics p ⊤ (⊤ ⊓ (M₁ ⊓ M₂)) (⊤ ⊓ M₁) (⊤ ⊓ M₂)) (hp : p = 2)
     (h4 : 4 ∣ Nat.card E) : 4 ∣ Nat.card M₁ := by
   subst hp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨S, ⟨-, hSp, hSi⟩, hB⟩, -⟩ := hpar
   have hSM : S ≤ M₁ := by
     intro s hs
@@ -245,7 +245,7 @@ theorem burnsideF4n_model_facts
     obtain ⟨Φ, -, -, -⟩ := burnsideF4nB_ident hyp
     have hcard : Nat.card E = 6048 := (Nat.card_congr Φ.toEquiv).symm.trans card_u33Pres
     refine ⟨hp2, by rw [hcard]; norm_num, ?_⟩
-    haveI := isSimpleGroup_u33Pres
+    have := isSimpleGroup_u33Pres
     exact MulEquiv.isSimpleGroup Φ.symm
   · obtain ⟨hp2, -, hmodel⟩ := hyp.model
     obtain ⟨e⟩ := CFSG.Sporadic.Schreier.Tits.titsModelEquiv _ p f hmodel
@@ -253,20 +253,20 @@ theorem burnsideF4n_model_facts
     have hcard : Nat.card E = 17971200 :=
       (Nat.card_congr e'.toEquiv).trans CFSG.Sporadic.Schreier.Tits.card_titsD
     refine ⟨hp2, by rw [hcard]; norm_num, ?_⟩
-    haveI := CFSG.Sporadic.Schreier.Tits.titsD_simple
+    have := CFSG.Sporadic.Schreier.Tits.titsD_simple
     exact MulEquiv.isSimpleGroup e'
 
 theorem burnsideF4n_F422Facts_holds :
     burnsideF4n_F422Facts := by
   intro κ p f E _ Gp M₁ M₂ hyp hGp hκ
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have hpar := burnsideF4n_parabolics_at hyp
   subst hGp
   obtain ⟨hp2, h4, hsimple⟩ := burnsideF4n_model_facts hyp hκ
   have h4M := burnsideF4n_four_dvd_card_M1 hpar hp2 h4
   refine ⟨by omega, by omega, fun N hN hNle => ?_⟩
-  haveI := hsimple
-  haveI := hN
+  have := hsimple
+  have := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
   · exact h
   · exfalso

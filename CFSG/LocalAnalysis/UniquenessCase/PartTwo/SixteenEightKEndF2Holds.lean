@@ -19,7 +19,7 @@ open CFSG.Quasithin.JonesParshall.Curtis
 open CFSG.Quasithin.Background.Harris.IrreducibleModulesAndBounds
 open CFSG.LocalAnalysis.UniquenessCase.UC22
 
-private noncomputable def s16kEndF2_autLin {X : Type*} [CommGroup X] (hX : ∀ x : X, x ^ 2 = 1)
+private noncomputable def s16kEndF2_autLin {X : Type*} [CommGroup X] (_hX : ∀ x : X, x ^ 2 = 1)
     [Module (ZMod 2) (Additive X)] :
     MulAut X ≃* (Additive X ≃ₗ[ZMod 2] Additive X) where
   toFun g :=
@@ -74,17 +74,17 @@ private theorem s16kEndF2_centralizer_eq_bot_of_map
 theorem s16kEndF2Rank10_holds :
     S16kEndF2Rank10 := by
   intro Q _ _ hQ2 hcard L hirr hLie
-  haveI : Module (ZMod 2) (Additive Q) :=
+  have : Module (ZMod 2) (Additive Q) :=
     AddCommGroup.zmodModule (G := Additive Q) (fun x => by
       have hx := hQ2 (Additive.toMul x)
       rw [two_nsmul]
       apply Additive.toMul.injective
       rw [toMul_add, ← pow_two]
       exact hx)
-  haveI : Nontrivial Q := by
+  have : Nontrivial Q := by
     rw [← Finite.one_lt_card_iff_nontrivial, hcard]
     norm_num
-  haveI : Nontrivial (Additive Q) := inferInstance
+  have : Nontrivial (Additive Q) := inferInstance
   have hcardV : Nat.card (Additive Q) = 2 ^ 10 :=
     (Nat.card_congr (Additive.ofMul : Q ≃ Additive Q)).symm.trans hcard
   have hdim : Module.finrank (ZMod 2) (Additive Q) = 10 := by
@@ -165,7 +165,7 @@ theorem s16kEndF2Rank10_holds :
         have h1 : (γ : Additive Q →ₗ[ZMod 2] Additive Q) (γ.symm v) = 0 := by
           rw [h0']; simp
         have h2 : (γ : Additive Q →ₗ[ZMod 2] Additive Q) (γ.symm v) = v := by
-          simpa using γ.apply_symm_apply v
+          simp
         exact hv (h2.symm.trans h1)
       rcases eq_zero_or_eq_one_of_endIsField_one hEnd T with h0 | h1
       · exact absurd h0 hTne

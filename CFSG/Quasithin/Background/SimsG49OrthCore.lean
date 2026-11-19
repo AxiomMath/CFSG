@@ -23,7 +23,7 @@ theorem finrank_le_one_of_not_plus (Q : QuadraticForm K W) (hdim : finrank K W =
   by_contra hlt
   push Not at hlt
   apply hplus
-  haveI : FiniteDimensional K W := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
+  have : FiniteDimensional K W := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
   let b := Module.finBasis K U
   have h2 : 2 ≤ finrank K U := hlt
   let i₀ : Fin (finrank K U) := ⟨0, by omega⟩
@@ -55,7 +55,7 @@ theorem exists_orth_unit [Finite K] [CharP K 2] (Q : QuadraticForm K W) (hdim : 
     (hnd : ∀ x, (∀ y, QuadraticMap.polar Q x y = 0) → x = 0) {r : W} (hr : Q r = 1) :
     ∃ s : W, Q s = 1 ∧ QuadraticMap.polar Q s r = 0 ∧ LinearIndependent K ![s, r] := by
   classical
-  haveI : FiniteDimensional K W := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K W := Module.finite_of_finrank_pos (by omega)
   have hr0 : r ≠ 0 := by
     rintro rfl
     rw [QuadraticMap.map_zero] at hr
@@ -139,17 +139,17 @@ theorem orth_minus_core [Finite G₀] [Finite K] [CharP K 2] (Q : QuadraticForm 
   have hidx' : ((⁅O, O⁆).subgroupOf f.range).index = 2 := by
     rw [hrange]
     exact hidx
-  letI := Fintype.ofFinite K
-  letI := Fintype.ofFinite L
+  let := Fintype.ofFinite K
+  let := Fintype.ofFinite L
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hLcard : Fintype.card L = 2 ^ (2 * (m : ℕ)) := by
     rw [Fintype.card_eq_nat_card, hL, Nat.card_eq_fintype_card, hm, ← pow_mul, mul_comm]
-  haveI : CharP L 2 := charP_of_card_eq_prime_pow hLcard
+  have : CharP L 2 := charP_of_card_eq_prime_pow hLcard
   have hL4 : 4 ≤ Nat.card L := by
     rw [Nat.card_eq_fintype_card, hLcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ (2 * (m : ℕ)) := Nat.pow_le_pow_right (by norm_num) (by have := m.pos; omega)
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) L) :=
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) L) :=
     CFSG.RankThree.PartOne.KFCL.L4.sl2_isSimpleGroup hL4
   obtain ⟨e₁⟩ := nonempty_mulEquiv_pre hf hΩf
   have e : ↥(pre f ⁅O, O⁆) ≃* Matrix.SpecialLinearGroup (Fin 2) L :=
@@ -220,7 +220,7 @@ theorem orth_plus_core [Finite G₀] [Finite K] [CharP K 2] (Q : QuadraticForm K
   have hinj₂ : Function.Injective ρ₂ := fun x y h => by
     have h' : ρ (1, x) = ρ (1, y) := h
     exact congrArg Prod.snd (hρinj h')
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) :=
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) :=
     CFSG.RankThree.PartOne.KFCL.L4.sl2_isSimpleGroup h4
   obtain ⟨e₁⟩ := nonempty_mulEquiv_pre hf hS₁f
   obtain ⟨e₂⟩ := nonempty_mulEquiv_pre hf hS₂f

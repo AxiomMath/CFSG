@@ -15,7 +15,7 @@ variable {G : Type*} [Group G]
 theorem max_of_card_odd {G : Type} [Group G] [Finite G] {m : ℕ} (hG : Nat.card G = 256 * m)
     (hm : ¬ 2 ∣ m) {S0 R : Subgroup G} (hS0card : Nat.card S0 = 256) (hR : IsPGroup 2 R)
     (hle : S0 ≤ R) : R ≤ S0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hR
   have h2 : Nat.card R ∣ Nat.card G := Subgroup.card_subgroup_dvd_card R
   rw [hn, hG] at h2

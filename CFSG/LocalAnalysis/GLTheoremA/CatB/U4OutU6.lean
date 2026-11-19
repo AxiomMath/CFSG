@@ -28,7 +28,7 @@ theorem u4Out_nonempty_timmesfeldPSU_six {X : Type} [Group X]
 
 theorem u4Out_index_u6two {P : Type} [Group P] [Finite P] (h : catalogIs P S9.isU6two) :
     (innerAut P).index = 6 := by
-  haveI : Finite (MulAut P) :=
+  have : Finite (MulAut P) :=
     Finite.of_injective (fun α : MulAut P => (α : P → P)) DFunLike.coe_injective
   obtain ⟨q, hv, hq, ⟨e⟩⟩ := U62RankSound.lieIndex_isU6two h
   obtain ⟨h1, h2⟩ := CFSG.LocalAnalysis.GLTheoremA.primePower_eq_of_card_eq Nat.prime_two (s := 1)

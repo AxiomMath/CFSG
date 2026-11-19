@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 private lemma qTwoLMDivCoordInner_tlift_eq_one_of_mem_ker_of_pow {L L0 : Type} [Group L] [Group L0]
     {c : L →* L0} (hc2 : IsPGroup 2 c.ker) {z : L} (hz : z ∈ c.ker) (hz3 : z ^ 3 = 1) :
     z = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hc2.exists_orderOf_eq_pow ⟨z, hz⟩
   rw [Subgroup.orderOf_mk] at hk
   have hdvd : 2 ^ k ∣ 3 := by
@@ -41,7 +41,7 @@ theorem qTwoLMDivCoordInner_tlift {B Bs L : Subgroup G} (hBs : GGBstar 3 B Bs)
     {ρ : ↥Bs →* MulAut L0} (hU : QTwoDivInnerFrame m Bs L hN F0 L0 c π ρ) {h3 : 3 ∣ m}
     {δ : ↥(sumZero m 3) →* Su F0 2 1 m} (hδ : QTwoDivTorus h3 δ) :
     ∃ τ : ↥(sumZero m 3) →* ↥L, QTwoDivLift Bs L c π δ τ := by
-  letI : CommGroup ↥(sumZero m 3) := Subgroup.toCommGroup _
+  let : CommGroup ↥(sumZero m 3) := Subgroup.toCommGroup _
   obtain ⟨s, hs, hs3⟩ := qTwoLMDivCoordInner_section c hU.c_surj hU.c_ker hU.c_two
     (fun v : ↥(sumZero m 3) => pow_p_eq_one v) (π.comp δ)
   have hs_pt : ∀ f, c (s f) = π (δ f) :=

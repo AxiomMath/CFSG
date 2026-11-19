@@ -106,8 +106,8 @@ theorem ggQTwoXInLU_descentR
     ⟨a, k, D, iD, hD, hk, ha2, hak, hne2, hne3, ⟨iso⟩⟩ |
     ⟨b, k, D, iD, hDFin, hk, hb2, hbk, hDcard, ⟨iso⟩⟩
   ·
-    letI : Field D := iD
-    letI : Finite D := hD.finite
+    let : Field D := iD
+    let : Finite D := hD.finite
     rcases Nat.lt_or_ge a 3 with ha3 | ha3
     ·
       exfalso
@@ -116,7 +116,7 @@ theorem ggQTwoXInLU_descentR
         have hmk_pos : 0 < m * k := Nat.mul_pos (by omega) (by omega)
         by_contra h
         exact hne2 ⟨rfl, by omega⟩
-      haveI : CharP D 2 := hD.charP
+      have : CharP D 2 := hD.charP
       obtain ⟨F, iF, hFfin, hFcard, ⟨e⟩⟩ := TablePThreeKG.psu2_equiv_psl2 (K := D) hD.card_eq_sq
       have hΛA : LargeEvenInLambda2 ⟨.A, 1, m * k⟩ := by
         dsimp only [LargeEvenInLambda2]
@@ -203,8 +203,8 @@ theorem ggQTwoXInLU_descentR
       show a - 1 + 2 ≤ N
       omega
   ·
-    letI : Field D := iD
-    letI : Finite D := hDFin
+    let : Field D := iD
+    let : Finite D := hDFin
     have hΛA : LargeEvenInLambda2 ⟨.A, b - 1, 2 * (m * k)⟩ := by
       dsimp only [LargeEvenInLambda2]
       refine ⟨?_, ?_, ?_⟩

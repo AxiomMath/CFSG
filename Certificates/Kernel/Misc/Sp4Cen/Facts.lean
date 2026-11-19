@@ -9,7 +9,7 @@ public section
 namespace CertificateChecks.KernelMisc.Sp4Cen
 
 open Matrix CFSG.KD.Sp4Cen CFSG.KC.Misc.GL4 CFSG.Quasithin.H13.MatNCert
-open Certificates.GL4 (GL4 sg)
+open Certificates.GL4Sub (GL4 sg)
 open Certificates.A5GL42 (Mat4 ofCode)
 open Certificates.A5A7GL42 (Pset)
 open CFSG.RankThree.PartTwo.Sec21.FF81.Sp4Cen (sbGens4 w0c4 Sp4CenFacts)
@@ -28,7 +28,7 @@ theorem genSub_eq : genSubN 4 sbGens4 = SB := by
   rw [genSubN, SB, sg]
   congr 1
   ext g
-  simp only [Set.mem_setOf_eq, Pset, sbGens4, List.mem_cons, List.not_mem_nil, or_false,
+  simp only [Set.mem_ofPred_eq, Pset, sbGens4, List.mem_cons, List.not_mem_nil, or_false,
     exists_eq_or_imp, exists_eq_left]
   constructor
   · rintro (h | h)

@@ -24,7 +24,7 @@ theorem sporTypes_notList93_five (hb : LieOrderBridge) (hOrd : SporadicOrdersTab
     (name : TauCeti.SporadicName) :
     SporTables.SporTypes 5 (fun T _ => ¬ catalogIs T (S9.isList93 5)) name := by
   intro T _ _ ⟨e⟩ s _ I _ hcat
-  haveI : Finite (PSimple 5 I) := inferInstance
+  have : Finite (PSimple 5 I) := inferInstance
   have h260 : 2 ^ 60 ∣ Nat.card (PSimple 5 I) :=
     two_pow_sixty_dvd_card_of_isList93_five hb hcat
   have hdvd : 2 ^ 60 ∣ Nat.card T :=

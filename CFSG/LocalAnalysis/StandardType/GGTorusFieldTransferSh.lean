@@ -36,7 +36,7 @@ theorem exists_isPGroup_le_of_le_map_prime {p : ℕ} (hp : p.Prime) {L' R : Type
     [Group R] (ψ : L' →* R) {X : Subgroup L'} {E : Subgroup R} (hE : E ≤ X.map ψ)
     (hEp : IsPGroup p E) : ∃ P : Subgroup L', P ≤ X ∧ IsPGroup p P ∧ P.map ψ = E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Y : Subgroup L' := X ⊓ E.comap ψ
   have hYmap : Y.map ψ = E := by
     refine le_antisymm ?_ ?_
@@ -48,7 +48,7 @@ theorem exists_isPGroup_le_of_le_map_prime {p : ℕ} (hp : p.Prime) {L' R : Type
   obtain ⟨S⟩ : Nonempty (Sylow p ↥Y) := Sylow.nonempty
   refine ⟨(S : Subgroup ↥Y).map Y.subtype, ?_, ?_, ?_⟩
   · exact (Subgroup.map_subtype_le (H := Y) (S : Subgroup ↥Y)).trans inf_le_left
-  · exact (S.isPGroup').map Y.subtype
+  · exact (S.isPGroup).map Y.subtype
   · let f : ↥Y →* ↥(Y.map ψ) := ψ.subgroupMap Y
     have hf : Function.Surjective f := MonoidHom.subgroupMap_surjective ψ Y
     have hEp' : IsPGroup p (Y.map ψ) := by
@@ -80,13 +80,13 @@ theorem exists_isPGroup_le_of_le_map_prime {p : ℕ} (hp : p.Prime) {L' R : Type
 
 private theorem ggShAux_isCyclic_map_of_isCyclic {L' R : Type} [Group L'] [Group R]
     (P : Subgroup L') (hP : IsCyclic P) (ψ : L' →* R) : IsCyclic (P.map ψ) := by
-  haveI : IsCyclic P := hP
+  have : IsCyclic P := hP
   exact isCyclic_of_surjective (ψ.subgroupMap P) (MonoidHom.subgroupMap_surjective ψ P)
 
 private theorem ggShAux_exists_lift_pgroup_other {p : ℕ} {L' R : Type} [Group L'] [Finite L']
     [Group R] {ψ : L' →* R} (hp : p.Prime) (hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center L') {a : MulAut L'} {ab : MulAut R}
-    (hc : ∀ l, ab (ψ l) = ψ (a l)) {J₁ : Subgroup L'} (hJ₁ : IsComponentOf J₁ (ggFix a))
+    (hc : ∀ l, ab (ψ l) = ψ (a l)) {J₁ : Subgroup L'} (_hJ₁ : IsComponentOf J₁ (ggFix a))
     {Pb : Subgroup R} (hPb : IsPGroup p Pb)
     (hle : Pb ≤ ⨆ (B : Subgroup R) (_ : IsComponentOf B (ggFix ab) ∧ B ≠ J₁.map ψ ∧
       p ∣ Nat.card B), B) :
@@ -198,7 +198,7 @@ theorem ggTorusNoLineFieldComp_of_fixDataSh {p r : ℕ} (hp : p.Prime) (hr : 3 �
       (Nat.pow_le_pow_right hp.pos (Nat.le_succ r)).trans hcard1
     obtain ⟨W, h1, h2⟩ := hin L' ψ hψ hker hperf A hAe hind hc1 hcard3 hsc
     exact ⟨W, h1, fun hN' a₀ ha₀ hne _ hcl => h2 hN' a₀ ha₀ hne hcl⟩
-  · obtain ⟨b, hbA, hbA₀⟩ := SetLike.not_le_iff_exists.mp hAA₀
+  · obtain ⟨b, hbA, hbA₀⟩ := IsConcreteLE.not_le_iff_exists.mp hAA₀
     set x : MulAut R := Ind ⟨b, hbA⟩ with hx
     have hxcl : x ∈ Subgroup.closure (I ∪ F) := hIndcl _
     have hxI : x ∉ I := fun h => hbA₀ ((hmem ⟨b, hbA⟩).mpr ((hIJ _).mp h))
@@ -389,7 +389,7 @@ theorem ggFixDataSh_conj {p r : ℕ} {R : Type} [Group R] {J : Subgroup (MulAut 
     { toFun := fun g => ⟨u⁻¹ (g : R), (ggFixDer_conj_mem f u (g : R)).1 g.2⟩
       invFun := fun k => ⟨u (k : R), by
         rw [ggFixDer_conj_mem]
-        simpa using k.2⟩
+        simp⟩
       left_inv := fun g => Subtype.ext (by simp)
       right_inv := fun k => Subtype.ext (by simp)
       map_mul' := fun g k => Subtype.ext (by simp) }

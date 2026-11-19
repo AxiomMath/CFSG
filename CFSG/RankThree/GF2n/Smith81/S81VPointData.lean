@@ -34,6 +34,7 @@ private theorem exists_mul_of_mem_sup {G : Type} [Group G] {Q H : Subgroup G}
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite K] in
 theorem exists_point_dataU [CharP K 2] (h34 : Stroth34Statement) (hGen : StrothGenByBStatement)
     (IH : Smith1981Below (Nat.card G)) (hc : SmithECfg M Q Z B) (h3U : InCaseE3U M Q Z B)
     (hg : GlobalModelData M Q Z γ M₀) [(Q.subgroupOf (Lgen M (LB M Q B))).Normal]

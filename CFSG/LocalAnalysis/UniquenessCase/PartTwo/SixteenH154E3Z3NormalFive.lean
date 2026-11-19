@@ -23,14 +23,14 @@ theorem s16h_e3_sylow_eq_bot_of_closure_involutions {p : ℕ} [Fact p.Prime] (hp
     have h2 : orderOf (MonoidHom.transferSylow P hP x) ∣ 2 := by
       have := orderOf_map_dvd (MonoidHom.transferSylow P hP) x
       rwa [show orderOf x = 2 from hx] at this
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') (MonoidHom.transferSylow P hP x)
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) (MonoidHom.transferSylow P hP x)
     rw [hk] at h2
     rcases k with _ | k
     · simpa using hk
     · exfalso
       have hpd : p ∣ 2 := (dvd_pow_self p (Nat.succ_ne_zero k)).trans h2
       exact hp2 ((Nat.prime_dvd_prime_iff_eq (Fact.out) Nat.prime_two).mp hpd)
-  have hc := (MonoidHom.ker_transferSylow_isComplement' P hP).card_mul
+  have hc := (MonoidHom.ker_transferSylow_isComplement' P hP).card_mul_card
   rw [hker, Subgroup.card_top] at hc
   have h1 : Nat.card (P : Subgroup D) = 1 := by
     have hpos : 0 < Nat.card D := Nat.card_pos
@@ -51,10 +51,10 @@ theorem s16h_e3_exists_normal_card_five [Nontrivial D]
     (h3 : ∀ P : Sylow 3 D, normalizer (P : Set D) ≤ centralizer (P : Set D))
     (h7 : ∀ P : Sylow 7 D, normalizer (P : Set D) ≤ centralizer (P : Set D)) :
     ∃ F : Subgroup D, F.Normal ∧ Nat.card F = 5 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set n := Nat.card D with hn
   have hn3 : ¬ 3 ∣ n := s16h_e3_not_dvd_card_of_closure_involutions (by norm_num) hgen h3
   have hn7 : ¬ 7 ∣ n := s16h_e3_not_dvd_card_of_closure_involutions (by norm_num) hgen h7
@@ -96,8 +96,8 @@ theorem s16h_e3_exists_normal_card_five [Nontrivial D]
     have hdv := (S.card_dvd_index).trans hidx
     rcases (Nat.dvd_prime (by norm_num)).mp hdv with h1 | h5'
     · exfalso
-      haveI : Subsingleton (Sylow 2 D) := (Nat.card_eq_one_iff_unique.mp h1).1
-      exact S.ne_bot_of_dvd_card h2 (hO2 S S.normal_of_subsingleton S.isPGroup')
+      have : Subsingleton (Sylow 2 D) := (Nat.card_eq_one_iff_unique.mp h1).1
+      exact S.ne_bot_of_dvd_card h2 (hO2 S S.normal_of_subsingleton S.isPGroup)
     · exact h5'
   have hN : IsPGroup 2 (normalizer (S : Set D)) := by
     apply h2grp_of_dvd
@@ -131,9 +131,9 @@ theorem s16h_e3_exists_normal_card_five [Nontrivial D]
     have hle : m ≤ 40 := Nat.le_of_dvd (by norm_num) hd
     clear * - hd hm hle
     interval_cases m <;> omega
-  haveI : Subsingleton (Sylow 5 D) := (Nat.card_eq_one_iff_unique.mp hn5).1
+  have : Subsingleton (Sylow 5 D) := (Nat.card_eq_one_iff_unique.mp hn5).1
   refine ⟨P, P.normal_of_subsingleton, ?_⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hd : 5 ^ k ∣ 40 := hk ▸ (Subgroup.card_subgroup_dvd_card _).trans h40
   have hk0 : k ≠ 0 := by
     rintro rfl

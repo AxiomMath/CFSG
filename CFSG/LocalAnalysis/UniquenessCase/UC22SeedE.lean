@@ -70,7 +70,7 @@ theorem exists_bar (h : SeedSetting T π) {V : Subgroup G} [V.Normal] (hV : IsEl
     ∃ πb : ↥(autI hV (⊤ : Subgroup G)) →* SpecialLinearGroup (Fin 2) k,
       (∀ g, πb (actA hV g) = π g) ∧ Function.Surjective πb ∧ ¬ 2 ∣ Nat.card πb.ker := by
   classical
-  haveI : Finite ↥(autI hV (⊤ : Subgroup G)) := Finite.of_surjective _ (actA_surjective hV)
+  have : Finite ↥(autI hV (⊤ : Subgroup G)) := Finite.of_surjective _ (actA_surjective hV)
   have hker : (actA hV).ker ≤ π.ker := by rw [ker_actA]; exact hCK
   have hcomp : ∀ g, ((actA hV).liftOfSurjective (actA_surjective hV) ⟨π, hker⟩) (actA hV g) = π g :=
     fun g => MonoidHom.liftOfRightInverse_comp_apply _ _ _ ⟨π, hker⟩ g
@@ -80,7 +80,7 @@ theorem exists_bar (h : SeedSetting T π) {V : Subgroup G} [V.Normal] (hV : IsEl
     obtain ⟨g, rfl⟩ := h.surj s
     exact ⟨actA hV g, hcomp g⟩
   · intro hdvd
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 2 hdvd
     obtain ⟨g, hg⟩ := actA_surjective hV (y : ↥(autI hV (⊤ : Subgroup G)))
     have hgK : g ∈ π.ker := by
@@ -122,7 +122,7 @@ theorem isSeed_of_e23 (h : SeedSetting T π) {V : Subgroup G} [V.Normal] (hV : I
   classical
   obtain ⟨hne, hJeq, hcomm, -, hcases, -, -⟩ := hfam
   obtain ⟨πb, hcomp, hsurj, hodd⟩ := exists_bar h hV hOC hCK
-  haveI : Finite ↥(autI hV (⊤ : Subgroup G)) := Finite.of_surjective _ (actA_surjective hV)
+  have : Finite ↥(autI hV (⊤ : Subgroup G)) := Finite.of_surjective _ (actA_surjective hV)
   have hQ : ∀ (y : SpecialLinearGroup (Fin 2) k) (a : ℕ), y ^ 2 ^ a = 1 → y ^ 2 = 1 :=
     fun y a hy => sl2_sq_eq_one_of_pow_two_pow (MulEquiv.refl _) hy
   have hJA : autI hV (thompsonJ (⊤ : Subgroup G)) ≤ autI hV (⊤ : Subgroup G) := autI_mono hV le_top
@@ -140,7 +140,7 @@ theorem isSeed_of_e23 (h : SeedSetting T π) {V : Subgroup G} [V.Normal] (hV : I
       have := pow_two_pow_of_odd_kernel πb hodd hQ (⟨x, hIA L hL hxL⟩ : ↥(autI hV (⊤ : Subgroup G))) 2
         (Subtype.ext (by simpa using hx4))
       exact hx2 (by simpa using congrArg Subtype.val this)
-  haveI hJGn : (thompsonJ (⊤ : Subgroup G)).Normal :=
+  have hJGn : (thompsonJ (⊤ : Subgroup G)).Normal :=
     Subgroup.normalizer_eq_top_iff.1 (top_le_iff.1 (B6.le_normalizer_thompsonJ (⊤ : Subgroup G)))
   have hAJ : ∀ a ∈ autI hV (⊤ : Subgroup G), ∃ j : ℕ,
       a ^ 2 ^ j ∈ autI hV (thompsonJ (⊤ : Subgroup G)) := by
@@ -155,8 +155,8 @@ theorem isSeed_of_e23 (h : SeedSetting T π) {V : Subgroup G} [V.Normal] (hV : I
   have hinv : ∀ L ∈ I, ∃ x ∈ L, x ≠ 1 ∧ x ^ 2 = 1 := by
     intro L hL
     obtain ⟨n, hn1, F, hF, hFin, hcard, e, β, -⟩ := hall L hL
-    haveI : Finite F := Finite.of_fintype F
-    haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+    have : Finite F := Finite.of_fintype F
+    have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hn1 (by rw [Nat.card_eq_fintype_card]; exact hcard)
     obtain ⟨x, hx1, hx2⟩ := sl2_exists_involution e
     exact ⟨x, x.2, fun h' => hx1 (Subtype.ext h'), by simpa using congrArg Subtype.val hx2⟩
@@ -182,8 +182,8 @@ theorem exists_isSeed_of_setting (h : SeedSetting T π)
     (P : Sylow 2 G) (hP : (P : Subgroup G) = T) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (ρ : G →* SpecialLinearGroup (Fin 2) F)
       (ψ : Ecore G →* Multiplicative (Fin 2 → F)), IsSeed P ρ (Ecore G) ψ := by
-  haveI := CFSG.Adapters.certificate43_holds
-  haveI : (VZ T ⊤).Normal := normal_VZ_top T
+  have := CFSG.Adapters.certificate43_holds
+  have : (VZ T ⊤).Normal := normal_VZ_top T
   obtain ⟨M, hmin⟩ := h.exists_minParabolic
   have hfam := CFSG.AGLEmbeddingD2.Tits.E23.famI_e23FamGen h.isElemAbelian_VZ hmin
     (CFSG.AGLEmbeddingD2.Tits.E23.minPar_of_minParabolic hmin) h.charTwo h.isTwoReducedIn_VZ

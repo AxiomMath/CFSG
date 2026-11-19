@@ -24,7 +24,7 @@ private lemma ksl3f_mem_fixedBy_zpowers_iff {J : Type*} [Group J] (f : MulAut J)
   simpa [MulAut.smul_def] using h1
 
 theorem fixedBy_zpowers_fieldAut_eq_range {K : Type} [Field K] [Finite K] (σ : K ≃+* K)
-    (hσ : orderOf σ = 7) (h7 : ¬ 7 ∣ Nat.card (projectiveSL 3 K)) :
+    (hσ : orderOf σ = 7) (_h7 : ¬ 7 ∣ Nat.card (projectiveSL 3 K)) :
     fixedBy (Subgroup.zpowers (fieldAut 3 K σ)) =
       (linearSubfieldInclusion 3 (semilinearFixedSubfield σ)).range := by
   have hk : ∀ x, x ∈ semilinearFixedSubfield σ ↔ σ x = x := fun x => RingHom.mem_eqLocusField

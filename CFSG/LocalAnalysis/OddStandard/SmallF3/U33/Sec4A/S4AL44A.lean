@@ -211,7 +211,7 @@ theorem ncard_sq_roots_tz_le (h : Ctx t L S x₁ x₂ lam rho tau) (h43 : twoCor
       exact hu_su_eq
     have hm_sigma : m * sigmaModel m = (WMod.wx₁ * WMod.wx₂) ^ 2 := by
       apply hφinj
-      simpa only [hu_su_model, hφwz]
+      simp only [hu_su_model, hφwz]
     have hm_triple : (m.a, m.b, m.i) ∈ U₀ := by
       simp only [U₀, Finset.mem_filter, Finset.mem_univ, true_and]
       have htri : (⟨m.a, m.b, m.i⟩ : WMod) = m := by cases m; rfl

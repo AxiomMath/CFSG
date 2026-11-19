@@ -151,7 +151,7 @@ theorem accum_spec : ∀ (m : ℕ) (R : List (List ℤ)) (ds : List ℕ) (ρ : �
         have h2 : (R.map List.tail).getD l [] = [] := List.getD_eq_default _ _ (by simpa using hl)
         rw [h1, h2]
         have := hρ l
-        simp only [dotR, List.headD_nil, List.map_cons]
+        simp only [dotR, List.headD_nil]
         omega
 
 end Fast
@@ -322,7 +322,7 @@ theorem fetchT_tblOf {B : ℕ} (hB : 0 < B) :
 @[expose] def rowFast (τ : Tag) (k : ℕ) : ℕ :=
   fetchT (tblOf (2 ^ τ.artifactRoots.length) (rowsFast τ)) (2 ^ τ.artifactRoots.length) k
 
-theorem rowsFast_lt (hτ : NoG2 τ) : ∀ r ∈ rowsFast τ, r < 2 ^ τ.artifactRoots.length := by
+theorem rowsFast_lt (_hτ : NoG2 τ) : ∀ r ∈ rowsFast τ, r < 2 ^ τ.artifactRoots.length := by
   intro r hr
   obtain ⟨w, hw, rfl⟩ := List.mem_map.1 hr
   refine Nat.lt_pow_two_of_testBit _ fun i hi => ?_
@@ -356,7 +356,7 @@ theorem lowbit_two_mul_add_one (q : ℕ) : lowbit (2 * q + 1) = 1 := by
     rw [Nat.testBit_succ, Nat.testBit_succ, Nat.testBit_succ, h1, h2]
     simp
 
-theorem lowbit_two_mul {q : ℕ} (hq : q ≠ 0) : lowbit (2 * q) = 2 * lowbit q := by
+theorem lowbit_two_mul {q : ℕ} (_hq : q ≠ 0) : lowbit (2 * q) = 2 * lowbit q := by
   refine Nat.eq_of_testBit_eq fun i => ?_
   rcases i with _ | i
   · rw [testBit_lowbit]
@@ -449,14 +449,14 @@ theorem bfs2_sound {rowM row : ℕ → ℕ} (hrow : ∀ x, rowM (2 ^ x) = row x)
     unfold bfs2 at hb
     by_cases hc : (Nat.beq fr 0 || Nat.beq vis K) = true
     · rw [hc] at hb
-      simp only [cond_true] at hb
+      simp only [_root_.Bool.cond_true] at hb
       obtain rfl := Option.some.inj hb
       have hexit : fr = 0 ∨ vis = K := by
         simpa [Bool.or_eq_true, Nat.beq_eq_true_eq] using hc
       exact ⟨fun _ hx => hx, h.reach, h.closed_of_exit hexit⟩
     · have hc' : (Nat.beq fr 0 || Nat.beq vis K) = false := Bool.eq_false_iff.mpr hc
       rw [hc'] at hb
-      simp only [cond_false] at hb
+      simp only [Bool.cond_false] at hb
       have hfr : fr ≠ 0 := by
         intro h0
         apply hc
@@ -510,7 +510,7 @@ theorem compLoop2_sound {rowM row : ℕ → ℕ} (hrow : ∀ x, rowM (2 ^ x) = r
       simp at hx
     have hb0 : Nat.beq rem 0 = false := beq0_false hrem
     rw [hb0] at h
-    simp only [cond_false] at h
+    simp only [Bool.cond_false] at h
     obtain ⟨b, hb1, hb2⟩ := lowbit_spec rem hrem
     cases hbfs : bfs2 rowM K bf (lowbit rem) (lowbit rem) with
     | none => simp [hbfs] at h
@@ -539,17 +539,17 @@ theorem compLoop2_sound {rowM row : ℕ → ℕ} (hrow : ∀ x, rowM (2 ^ x) = r
 theorem bitsSet_clear' {V x : ℕ} (hx : V.testBit x = true) :
     bitsSet (V ^^^ 2 ^ x) = bitsSet V \ {x} := by
   ext y
-  simp only [bitsSet, Set.mem_setOf_eq, Nat.testBit_xor, Nat.testBit_two_pow, Set.mem_diff,
+  simp only [bitsSet, Set.mem_ofPred_eq, Nat.testBit_xor, Nat.testBit_two_pow, Set.mem_sdiff,
     Set.mem_singleton_iff]
   by_cases hxe : x = y
   · subst hxe
     simp [hx]
-  · cases h : V.testBit y <;> simp [hxe, h, Ne.symm hxe]
+  · cases h : V.testBit y <;> simp [hxe, Ne.symm hxe]
 
 theorem ncard_bitsSet_clear' {V x : ℕ} (hx : V.testBit x = true) :
     (bitsSet V).ncard = (bitsSet (V ^^^ 2 ^ x)).ncard + 1 := by
   rw [bitsSet_clear' hx]
-  exact (Set.ncard_diff_singleton_add_one (show x ∈ bitsSet V from hx) (bitsSet_finite V)).symm
+  exact (Set.ncard_sdiff_singleton_add_one (show x ∈ bitsSet V from hx) (bitsSet_finite V)).symm
 
 theorem cnt2_spec : ∀ (f V : ℕ), (cnt2 f V = f → f ≤ (bitsSet V).ncard) ∧
     (cnt2 f V < f → (bitsSet V).ncard = cnt2 f V)
@@ -561,7 +561,7 @@ theorem cnt2_spec : ∀ (f V : ℕ), (cnt2 f V = f → f ≤ (bitsSet V).ncard) 
     · obtain ⟨x, hx1, hx2⟩ := lowbit_spec V hV
       have hc : cnt2 (f + 1) V = cnt2 f (V ^^^ 2 ^ x) + 1 := by
         have hb : Nat.beq V 0 = false := beq0_false hV
-        simp only [cnt2, hb, cond_false, hx1]
+        simp only [cnt2, hb, Bool.cond_false, hx1]
         rfl
       obtain ⟨h1, h2⟩ := cnt2_spec f (V ^^^ 2 ^ x)
       rw [hc, ncard_bitsSet_clear' hx2]
@@ -572,7 +572,7 @@ theorem cnt2_le : ∀ (f V : ℕ), cnt2 f V ≤ f
   | f + 1, V => by
     unfold cnt2
     cases hb : Nat.beq V 0
-    · simp only [cond_false]
+    · simp only [Bool.cond_false]
       have := cnt2_le f (Nat.xor V (lowbit V))
       omega
     · simp
@@ -590,7 +590,7 @@ theorem testBit_of_mem_memb2 : ∀ (f V x : ℕ), x ∈ memb2 f V → V.testBit 
       simp at h
     · have hb : Nat.beq V 0 = false := beq0_false hV
       rw [hb] at h
-      simp only [cond_false] at h
+      simp only [Bool.cond_false] at h
       obtain ⟨y, hy1, hy2⟩ := lowbit_spec V hV
       rw [hy1] at h
       rcases List.mem_cons.1 h with rfl | h

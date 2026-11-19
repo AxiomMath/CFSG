@@ -198,8 +198,8 @@ theorem suppC_eq (P : Nat) :
     · have h : pt P m ≠ m := fun e => by
         rw [e, Nat.beq_refl] at hb
         exact Bool.noConfusion hb
-      rw [if_neg h]
-    · rw [if_pos (Nat.eq_of_beq_eq_true hb)]
+      rw [ite_eq_right h]
+    · rw [ite_eq_left (Nat.eq_of_beq_eq_true hb)]
       rfl
 
 theorem genRecsB_at {n TAB MP CATP : Nat} :
@@ -251,14 +251,17 @@ section Perm
 
 variable {n : ℕ} [NeZero n] {TAB : ℕ}
 
+omit [NeZero n] in
 theorem RepP.unique {i : ℕ} {σ τ : Perm (Fin n)} (h1 : RepP n TAB i σ) (h2 : RepP n TAB i τ) :
     σ = τ :=
   Equiv.ext fun x => Fin.ext ((h1 x).symm.trans (h2 x))
 
+omit [NeZero n] in
 theorem RepP.lane_eq {i j : ℕ} {σ : Perm (Fin n)} (h1 : RepP n TAB i σ) (h2 : RepP n TAB j σ) :
     lP n TAB i = lP n TAB j :=
   eq_of_pt (lP_lt n TAB i) (lP_lt n TAB j) fun x hx => (h1 ⟨x, hx⟩).trans (h2 ⟨x, hx⟩).symm
 
+omit [NeZero n] in
 theorem suppC_card {i : ℕ} {σ : Perm (Fin n)} (h : RepP n TAB i σ) :
     suppC n (lP n TAB i) = σ.support.card := by
   rw [suppC_eq, ← Fin.sum_univ_eq_sum_range (fun i' => if pt (lP n TAB i) i' = i' then 0 else 1) n,
@@ -273,9 +276,11 @@ theorem suppC_card {i : ℕ} {σ : Perm (Fin n)} (h : RepP n TAB i σ) :
 
 noncomputable def lperm (n : ℕ) (TAB i : ℕ) : Perm (Fin n) := Classical.epsilon (RepP n TAB i)
 
+omit [NeZero n] in
 theorem lperm_eq {i : ℕ} {σ : Perm (Fin n)} (h : RepP n TAB i σ) : lperm n TAB i = σ :=
   (Classical.epsilon_spec (p := RepP n TAB i) ⟨σ, h⟩).unique h
 
+omit [NeZero n] in
 theorem rep_lperm {i : ℕ} {σ : Perm (Fin n)} (h : RepP n TAB i σ) : RepP n TAB i (lperm n TAB i) :=
   Classical.epsilon_spec ⟨σ, h⟩
 

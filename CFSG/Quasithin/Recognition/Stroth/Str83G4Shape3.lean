@@ -36,9 +36,9 @@ theorem str83G4_mem_x1_of_commutator_mem_x1
   let K := GaloisField 2 (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) :=
     GaloisField.card 2 (2 * a + 1) (by omega)
-  letI : CommGroup (Ch3z.chiefMod (str83X1 L1 L2 S) (str83X L1 L2 S)) :=
+  let : CommGroup (Ch3z.chiefMod (str83X1 L1 L2 S) (str83X L1 L2 S)) :=
     l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod (str83X1 L1 L2 S)
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod (str83X1 L1 L2 S)
       (str83X L1 L2 S))) := l2ChiefSectionModule hE
   let ρ : Representation (ZMod 2) (suzukiGroup a K)
       (Additive (Ch3z.chiefMod (str83X1 L1 L2 S) (str83X L1 L2 S))) :=
@@ -51,7 +51,7 @@ theorem str83G4_mem_x1_of_commutator_mem_x1
   let g : suzukiGroup a K := e (QuotientGroup.mk yH)
   have hg1 : g ≠ 1 := by
     intro hg
-    haveI : (pCore 2 ↥(L1 ⊔ S)).Normal := pCore_normal
+    have : (pCore 2 ↥(L1 ⊔ S)).Normal := pCore_normal
     have hq : (QuotientGroup.mk' (pCore 2 ↥(L1 ⊔ S))) yH = 1 := by
       apply e.injective
       simpa [g] using hg
@@ -186,7 +186,6 @@ theorem str83G4_mem_x1_of_commutator_mem_x1
         intro a b ha hb
         change ρ (a * b) w1 = w1
         rw [map_mul]
-        change (ρ a * ρ b) w1 = w1
         rw [Module.End.mul_apply, hb, ha]
       inv_mem' := by
         intro a ha

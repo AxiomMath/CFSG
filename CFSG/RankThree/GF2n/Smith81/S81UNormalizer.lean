@@ -22,33 +22,38 @@ variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F}
     refine Finset.sum_congr rfl fun I _ => ?_
     rw [coord_add, map_add, add_smul]
 
+omit [CharP F 2] in
 private theorem h55_sigmaC_apply (τ : F ≃+* F) (ξ : Cube F) :
     sigmaC τ ξ = ∑ I : Set.powersetCard (Fin 6) 3, τ (coord F ξ I) • cubeBasis F I := rfl
 
+omit [CharP F 2] in
 theorem coord_sigmaC (τ : F ≃+* F) (ξ : Cube F) (I : Set.powersetCard (Fin 6) 3) :
     coord F (sigmaC τ ξ) I = τ (coord F ξ I) := by
   rw [h55_sigmaC_apply]
   unfold coord
-  simp only [map_sum, map_smul, Finsupp.coe_finset_sum, Finset.sum_apply, Finsupp.smul_apply,
+  simp only [map_sum, map_smul, _root_.Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.smul_apply,
     Module.Basis.repr_self, smul_eq_mul]
   rw [Finset.sum_eq_single I]
-  · simp [Finsupp.single_apply]
+  · simp
   · intro J _ hJ
-    simp [Finsupp.single_apply, hJ]
+    simp [hJ]
   · intro h
     exact absurd (Finset.mem_univ I) h
 
+omit [CharP F 2] in
 theorem sigmaC_smul (τ : F ≃+* F) (c : F) (ξ : Cube F) : sigmaC τ (c • ξ) = τ c • sigmaC τ ξ := by
   apply (cubeBasis F).ext_elem
   intro I
   show coord F (sigmaC τ (c • ξ)) I = coord F (τ c • sigmaC τ ξ) I
   rw [coord_sigmaC, coord_smul, coord_smul, coord_sigmaC, map_mul]
 
+omit [CharP F 2] in
 private theorem h55_cmat_glAut (τ : F ≃+* F) (g : GL (Fin 6) F) (I J : Idx) :
     cmat (glAut τ g) I J = τ (cmat g I J) := by
   rw [cmat_apply_det, cmat_apply_det, RingEquiv.map_det]
   congr 1
 
+omit [CharP F 2] in
 theorem sigmaC_rho (τ : F ≃+* F) (g : GL (Fin 6) F) (ξ : Cube F) :
     sigmaC τ (rho F g ξ) = rho F (glAut τ g) (sigmaC τ ξ) := by
   apply (cubeBasis F).ext_elem
@@ -58,6 +63,7 @@ theorem sigmaC_rho (τ : F ≃+* F) (g : GL (Fin 6) F) (ξ : Cube F) :
   refine Finset.sum_congr rfl fun J _ => ?_
   rw [coord_sigmaC, h55_cmat_glAut, map_mul]
 
+omit [CharP F 2] in
 theorem theta_sigmaC {τ : F ≃+* F} (hτ : ∀ c, σ (τ c) = τ (σ c)) (ξ : Cube F) :
     theta σ (sigmaC τ ξ) = sigmaC τ (theta σ ξ) := by
   apply (cubeBasis F).ext_elem
@@ -66,6 +72,7 @@ theorem theta_sigmaC {τ : F ≃+* F} (hτ : ∀ c, σ (τ c) = τ (σ c)) (ξ :
   rw [coord_theta', coord_sigmaC, coord_sigmaC, coord_theta']
   exact hτ _
 
+omit [CharP F 2] in
 theorem sigmaC_sigmaC {τ τ' : F ≃+* F} (h : ∀ c, τ (τ' c) = c) (ξ : Cube F) :
     sigmaC τ (sigmaC τ' ξ) = ξ := by
   apply (cubeBasis F).ext_elem
@@ -73,12 +80,14 @@ theorem sigmaC_sigmaC {τ τ' : F ≃+* F} (h : ∀ c, τ (τ' c) = c) (ξ : Cub
   show coord F (sigmaC τ (sigmaC τ' ξ)) I = coord F ξ I
   rw [coord_sigmaC, coord_sigmaC, h]
 
+omit [CharP F 2] in
 theorem sigmaC_refl (ξ : Cube F) : sigmaC (RingEquiv.refl F) ξ = ξ := by
   apply (cubeBasis F).ext_elem
   intro I
   show coord F (sigmaC (RingEquiv.refl F) ξ) I = coord F ξ I
   rw [coord_sigmaC, RingEquiv.refl_apply]
 
+omit [CharP F 2] in
 theorem det_norm_one {B : GL (Fin 6) F}
     (hB : conjTr σ (B : Matrix (Fin 6) (Fin 6) F) * (B : Matrix (Fin 6) (Fin 6) F) = 1) :
     σ (B : Matrix (Fin 6) (Fin 6) F).det * (B : Matrix (Fin 6) (Fin 6) F).det = 1 := by
@@ -102,6 +111,7 @@ theorem exists_mu (hσ : ∀ c, σ (σ c) = c) {d : F} (hd : σ d * d = 1) :
     · rw [map_add, map_one, hσ d]
       linear_combination (-1 : F) * hd
 
+omit [CharP F 2] in
 theorem conjTr_glAut_unitary {τ : F ≃+* F} (hτ : ∀ c, σ (τ c) = τ (σ c)) {P : GL (Fin 6) F}
     (hP : conjTr σ (P : Matrix (Fin 6) (Fin 6) F) * (P : Matrix (Fin 6) (Fin 6) F) = 1) :
     conjTr σ ((glAut τ P : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) *
@@ -175,6 +185,7 @@ private theorem h57_cube_eq_one_of_sixth_eq_one {c : F} (h6 : c ^ 6 = 1) : c ^ 3
     linear_combination h6 + (1 - c ^ 3) * h2
   exact sub_eq_zero.mp (mul_self_eq_zero.mp hsq)
 
+omit [CharP F 2] in
 private theorem h57_det {σ : F ≃+* F} (y : SUid σ 6) :
     ((y : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F).det = 1 :=
   (CFSG.LieType.Universal.Unitary.mem_SUid.mp y.2).1
@@ -342,6 +353,7 @@ private theorem h58_rho_conj_transv (P : GL (Fin 6) F) {a b : Fin 6} (hab : a �
   congr 1
   rw [← rho_mul_apply, mul_inv_cancel, rho_one, Module.End.one_apply]
 
+omit [CharP F 2] in
 private theorem h58_glAut_transv (τ : F ≃+* F) {a b : Fin 6} (hab : a ≠ b) (d : F) :
     glAut τ (transvGL F a b hab d) = transvGL F a b hab (τ d) := by
   apply Units.ext
@@ -349,6 +361,7 @@ private theorem h58_glAut_transv (τ : F ≃+* F) {a b : Fin 6} (hab : a ≠ b) 
   ext i j
   simp [Matrix.transvection, Matrix.one_apply, Matrix.single_apply, apply_ite τ]
 
+omit [CharP F 2] in
 private theorem h58_conj_scalar (P X : GL (Fin 6) F) (l : F)
     (h : ((P * X * P⁻¹ : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) = l • 1) :
     (X : Matrix (Fin 6) (Fin 6) F) = l • 1 := by
@@ -358,11 +371,11 @@ private theorem h58_conj_scalar (P X : GL (Fin 6) F) (l : F)
 
 theorem tau_fixes_Fq (hσ : IsUnitaryInvolution σ) {T : Wform σ ≃ₗ[Fσ σ] Wform σ}
     {B : GL (Fin 6) F} {τ : F ≃+* F}
-    (hB : conjTr σ (B : Matrix (Fin 6) (Fin 6) F) * (B : Matrix (Fin 6) (Fin 6) F) = 1)
+    (_hB : conjTr σ (B : Matrix (Fin 6) (Fin 6) F) * (B : Matrix (Fin 6) (Fin 6) F) = 1)
     (htw : ∀ g : SUid σ 6, ∃ gB : SUid σ 6, (gB : GL (Fin 6) F) = B * glAut τ (g : GL (Fin 6) F) * B⁻¹ ∧
       T * Wact σ g = Wact σ gB * T) :
     ∀ c : F, σ c = c → τ c = c := by
-  clear hB
+  clear _hB
   intro c hc
   obtain ⟨ω, hω⟩ := hσ.trace_surj 1 (map_one σ)
   obtain ⟨Sf, hSf⟩ : ∃ Sf : GL (Fin 6) F, Sf = frameGL σ ω hω := ⟨_, rfl⟩
@@ -456,7 +469,7 @@ theorem tau_fixes_Fq (hσ : IsUnitaryInvolution σ) {T : Wform σ ≃ₗ[Fσ σ]
     rw [hgB1, map_one τ] at hl
     have hl' := h58_conj_scalar P (transvGL F 0 (partner 0) hab 1) l hl
     have h01 := congrFun (congrFun hl' 0) (partner 0)
-    simp [transvGL_val, Matrix.transvection, Matrix.one_apply, Matrix.single_apply, hab] at h01
+    simp [transvGL_val, Matrix.transvection, hab] at h01
   obtain ⟨w0, hw0⟩ := hex
   have h' : (c - τ c) • rho F P (Nop F 0 (partner 0) hab (rho F P⁻¹ ((T w0 : Wform σ) : Cube F))) =
       0 := by
@@ -474,6 +487,7 @@ theorem tau_fixes_Fq (hσ : IsUnitaryInvolution σ) {T : Wform σ ≃ₗ[Fσ σ]
   · exact (sub_eq_zero.mp h'').symm
   · exact absurd h'' hw0
 
+omit [CharP F 2] in
 private theorem h59_conj {B g gB : GL (Fin 6) F} {τ : F ≃+* F}
     (hgB : gB = B * glAut τ g * B⁻¹) (ξ : Cube F) :
     rho F B (sigmaC τ (rho F g ξ)) = rho F gB (rho F B (sigmaC τ ξ)) := by
@@ -493,12 +507,14 @@ private theorem h59_mem {B : GL (Fin 6) F} {τ : F ≃+* F} {μ₀ : F}
   rw [theta_smul, hμ, mul_comm (B : Matrix (Fin 6) (Fin 6) F).det μ₀, mul_smul,
     theta_rho_unitary hB, theta_sigmaC hτ, hw]
 
+omit [CharP F 2] in
 private theorem h59_rho_eq_zero {B : GL (Fin 6) F} {y : Cube F} (h : rho F B y = 0) : y = 0 := by
   have h1 : rho F (B⁻¹) (rho F B y) = y := by
     rw [← Module.End.mul_apply, ← rho_mul, inv_mul_cancel, rho_one, Module.End.one_apply]
   rw [h, map_zero] at h1
   exact h1.symm
 
+omit [CharP F 2] in
 private theorem h59_nz {B : GL (Fin 6) F} {τ : F ≃+* F} {μ₀ : F} (hμ₀ : μ₀ ≠ 0) {x : Cube F}
     (hx : x ≠ 0) : μ₀ • rho F B (sigmaC τ x) ≠ 0 := by
   intro h
@@ -596,6 +612,7 @@ theorem u6_normalizer_dichotomy [Finite F] {f : ℕ} (hF : Nat.card F = (2 ^ f) 
   obtain ⟨μ, hμ⟩ := eq_smul_phi_of_twist hσ hτ hB htw
   exact ⟨B, μ, τ, hτ, hB, hμ⟩
 
+omit [CharP F 2] in
 private theorem h60_pow_unitary {A : Matrix (Fin 6) (Fin 6) F} (hA : conjTr σ A * A = 1) (n : ℕ) :
     conjTr σ (A ^ n) * A ^ n = 1 := by
   induction n with
@@ -607,17 +624,17 @@ private theorem h60_pow_unitary {A : Matrix (Fin 6) (Fin 6) F} (hA : conjTr σ A
       simp only [Matrix.mul_assoc]
     rw [e, ih, Matrix.one_mul, hA]
 
-theorem mem_Gam_of_innerTypeU_pow [Finite F] (hσ : IsUnitaryInvolution σ)
+theorem mem_Gam_of_innerTypeU_pow [Finite F] (_hσ : IsUnitaryInvolution σ)
     {T : Wform σ ≃ₗ[Fσ σ] Wform σ} {P : GL (Fin 6) F} {μ : F}
     (hP : conjTr σ (P : Matrix (Fin 6) (Fin 6) F) * (P : Matrix (Fin 6) (Fin 6) F) = 1)
     (hT : ∀ w : Wform σ, ((T w : Wform σ) : Cube F) = μ • rho F P (w : Cube F)) {k : ℕ}
     (hk : T ^ (2 ^ k) = 1) : ∃ g : SUid σ 6, T = Wact σ g := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hpow : ∀ (n : ℕ) (w : Wform σ),
       (((T ^ n) w : Wform σ) : Cube F) = μ ^ n • rho F (P ^ n) (w : Cube F) := by
     intro n
     induction n with
-    | zero => intro w; simp [rho_one]
+    | zero => intro w; simp
     | succ n ih =>
       intro w
       rw [pow_succ T n, pow_succ μ n, pow_succ P n, LinearEquiv.mul_eq_trans,
@@ -680,6 +697,7 @@ theorem mem_Gam_of_innerTypeU_pow [Finite F] (hσ : IsUnitaryInvolution σ)
   refine ⟨g₀ ^ ((Fintype.card F - 1) ^ (Nat.totient (2 ^ (k + 1)) - 1)), ?_⟩
   rw [map_pow, ← hTN, ← pow_mul, hTM]
 
+omit [CharP F 2] in
 private theorem h60_unitary_mul {A B : Matrix (Fin 6) (Fin 6) F} (hA : conjTr σ A * A = 1)
     (hB : conjTr σ B * B = 1) : conjTr σ (A * B) * (A * B) = 1 := by
   rw [conjTr_mul]
@@ -687,6 +705,7 @@ private theorem h60_unitary_mul {A B : Matrix (Fin 6) (Fin 6) F} (hA : conjTr σ
       = conjTr σ B * (conjTr σ A * A) * B := by simp only [Matrix.mul_assoc]
     _ = 1 := by rw [hA, Matrix.mul_one, hB]
 
+omit [CharP F 2] in
 theorem innerType_mul_of_fieldType (hσ : IsUnitaryInvolution σ)
     {T₁ T₂ : Wform σ ≃ₗ[Fσ σ] Wform σ} {P₁ P₂ : GL (Fin 6) F} {μ₁ μ₂ : F}
     (hP₁ : conjTr σ (P₁ : Matrix (Fin 6) (Fin 6) F) * (P₁ : Matrix (Fin 6) (Fin 6) F) = 1)

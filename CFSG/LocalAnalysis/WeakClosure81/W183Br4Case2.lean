@@ -14,13 +14,13 @@ theorem br4_false_case_two_aux {Y S : Type} [Group Y] [Finite Y] [Group S] {A B 
     (h : Br4TwoSimple S A B) (gA : Br4Good ↥A) (gB : Br4Good ↥B) (θ : Y →* S)
     (hθ : Function.Surjective θ) (hQ : IsPGroup 3 θ.ker) (hr : CFSG.pRank 3 Y ≤ 3)
     (hAC : A ≤ (Subgroup.centralizer (θ.ker : Set Y)).map θ) : False := by
-  haveI : Finite S := Finite.of_surjective θ hθ
+  have : Finite S := Finite.of_surjective θ hθ
   let C : Subgroup Y := Subgroup.centralizer (θ.ker : Set Y)
   let C₁ : Subgroup Y := C ⊓ A.comap θ
   have hCnorm : C.Normal := Subgroup.normal_centralizer
   have hC₁norm : C₁.Normal := by
-    haveI : C.Normal := hCnorm
-    haveI : (A.comap θ).Normal := h.normal₁.comap θ
+    have : C.Normal := hCnorm
+    have : (A.comap θ).Normal := h.normal₁.comap θ
     exact inferInstance
   have hC₁map : C₁.map θ = A := by
     apply le_antisymm
@@ -34,7 +34,7 @@ theorem br4_false_case_two_aux {Y S : Type} [Group Y] [Finite Y] [Group S] {A B 
   have hC₁mem : C₁ ∈ Sset := ⟨hC₁norm, le_rfl, hC₁map⟩
   obtain ⟨J, hJmem, hJmin⟩ := wellFounded_lt.has_min Sset ⟨C₁, hC₁mem⟩
   have hJnorm : J.Normal := hJmem.1
-  haveI : J.Normal := hJnorm
+  have : J.Normal := hJnorm
   have hJle : J ≤ C₁ := hJmem.2.1
   have hJmap : J.map θ = A := hJmem.2.2
   have hJJmem : ⁅J, J⁆ ∈ Sset := by
@@ -52,7 +52,7 @@ theorem br4_false_case_two_aux {Y S : Type} [Group Y] [Finite Y] [Group S] {A B 
       rw [Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype, hJperf]
     exact Subgroup.map_injective J.subtype_injective hmap
   let Z : Subgroup ↥J := (J ⊓ θ.ker).subgroupOf J
-  haveI hZnorm : Z.Normal :=
+  have hZnorm : Z.Normal :=
     Subgroup.Normal.subgroupOf (inferInstance : (J ⊓ θ.ker).Normal) J
   have hZcenter : Z ≤ Subgroup.center ↥J := by
     intro z hz
@@ -84,7 +84,7 @@ theorem br4_false_case_two_aux {Y S : Type} [Group Y] [Finite Y] [Group S] {A B 
     ((QuotientGroup.quotientMulEquivOfEq hZbot).trans QuotientGroup.quotientBot).symm.trans eJ
   let P : Subgroup Y := B.comap θ
   have hPnorm : P.Normal := h.normal₂.comap θ
-  haveI : P.Normal := hPnorm
+  have : P.Normal := hPnorm
   have hJPbot : J ⊓ P = ⊥ := by
     apply le_bot_iff.mp
     intro x hx
@@ -163,7 +163,7 @@ theorem br4_false_case_two {Y S : Type} [Group Y] [Finite Y] [Group S] {A₁ A�
     (h : Br4TwoSimple S A₁ A₂) (g₁ : Br4Good ↥A₁) (g₂ : Br4Good ↥A₂) (θ : Y →* S)
     (hθ : Function.Surjective θ) (hQ : IsPGroup 3 θ.ker) (hr : CFSG.pRank 3 Y ≤ 3)
     (hC : ¬ Subgroup.centralizer (θ.ker : Set Y) ≤ θ.ker) : False := by
-  haveI : Finite S := Finite.of_surjective θ hθ
+  have : Finite S := Finite.of_surjective θ hθ
   let C : Subgroup Y := Subgroup.centralizer (θ.ker : Set Y)
   have hCnorm : C.Normal := Subgroup.normal_centralizer
   let M : Subgroup S := C.map θ

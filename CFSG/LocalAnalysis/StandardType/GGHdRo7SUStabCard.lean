@@ -37,9 +37,9 @@ private lemma hdRo7SUStabCardAux_injective (hN : SUNormalizerLeaf) {p : ℕ} [Fa
     by_cases h1 : SUPerm p b a₁.1
     · by_cases h2 : SUPerm p b a₂.1
       · have hf1 : f a₁ = Sum.inl (Classical.choose h1) := by
-          dsimp only [f]; exact dif_pos h1
+          dsimp only [f]; exact dite_eq_left h1
         have hf2 : f a₂ = Sum.inl (Classical.choose h2) := by
-          dsimp only [f]; exact dif_pos h2
+          dsimp only [f]; exact dite_eq_left h2
         have hσ : Classical.choose h1 = Classical.choose h2 := by
           have h := heq
           rw [hf1, hf2] at h
@@ -47,24 +47,24 @@ private lemma hdRo7SUStabCardAux_injective (hN : SUNormalizerLeaf) {p : ℕ} [Fa
         exact hdRo7SUStabCardAux_ext (fun i => by
           rw [Classical.choose_spec h1 i, hσ, ← Classical.choose_spec h2 i])
       · have hf1 : f a₁ = Sum.inl (Classical.choose h1) := by
-          dsimp only [f]; exact dif_pos h1
+          dsimp only [f]; exact dite_eq_left h1
         have hf2 : f a₂ = Sum.inr (Classical.choose ((d a₂).resolve_left h2)) := by
-          dsimp only [f]; exact dif_neg h2
+          dsimp only [f]; exact dite_eq_right h2
         have h := heq
         rw [hf1, hf2] at h
         exact (Sum.inl_ne_inr h).elim
     · by_cases h2 : SUPerm p b a₂.1
       · have hf1 : f a₁ = Sum.inr (Classical.choose ((d a₁).resolve_left h1)) := by
-          dsimp only [f]; exact dif_neg h1
+          dsimp only [f]; exact dite_eq_right h1
         have hf2 : f a₂ = Sum.inl (Classical.choose h2) := by
-          dsimp only [f]; exact dif_pos h2
+          dsimp only [f]; exact dite_eq_left h2
         have h := heq
         rw [hf1, hf2] at h
         exact (Sum.inr_ne_inl h).elim
       · have hf1 : f a₁ = Sum.inr (Classical.choose ((d a₁).resolve_left h1)) := by
-          dsimp only [f]; exact dif_neg h1
+          dsimp only [f]; exact dite_eq_right h1
         have hf2 : f a₂ = Sum.inr (Classical.choose ((d a₂).resolve_left h2)) := by
-          dsimp only [f]; exact dif_neg h2
+          dsimp only [f]; exact dite_eq_right h2
         have hσ : Classical.choose ((d a₁).resolve_left h1)
             = Classical.choose ((d a₂).resolve_left h2) := by
           have h := heq

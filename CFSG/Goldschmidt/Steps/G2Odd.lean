@@ -238,7 +238,7 @@ theorem odd_card
     exact Nat.not_odd_iff_even.mp hodd
   obtain ⟨P₀⟩ : Nonempty (Sylow 2 X) := inferInstance
   set P₁ := (P₀ : Subgroup X).map X.subtype with hP₁def
-  have hP₁ : IsPGroup 2 P₁ := P₀.isPGroup'.map _
+  have hP₁ : IsPGroup 2 P₁ := P₀.isPGroup.map _
   have hV : (⊤ : Submodule (ZMod 2) V) ≠ ⊥ := by
     intro h0
     apply h.fixSp_ne_bot

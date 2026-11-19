@@ -14,6 +14,7 @@ open scoped Pointwise
 
 variable {G : Type*} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem perp_self_mem (D : Set G) (β : Set G) : β ∈ perp D β := Or.inr rfl
 
 noncomputable def blockDist (hC : HypothesisC D) (β γ : Set G) : ℕ := by
@@ -24,12 +25,13 @@ noncomputable def blockDist (hC : HypothesisC D) (β γ : Set G) : ℕ := by
     else 0
   else 0
 
+omit [Finite G] in
 theorem blockDist_of_mem (hC : HypothesisC D) {β γ : Set G}
     (hβ : β ∈ blockClass hC.alpha) (hγ : γ ∈ blockClass hC.alpha) :
     blockDist hC β γ = (blockGraph D hC.alpha).dist ⟨β, hβ⟩ ⟨γ, hγ⟩ := by
   classical
   unfold blockDist
-  rw [dif_pos hβ, dif_pos hγ]
+  rw [dite_eq_left hβ, dite_eq_left hγ]
 
 theorem blockGraph_connected (hC : HypothesisC D) :
     (blockGraph D hC.alpha).Connected :=
@@ -41,6 +43,7 @@ theorem blockDist_eq_zero (hC : HypothesisC D) {β γ : Set G}
   rw [blockDist_of_mem hC hβ hγ, (blockGraph_connected hC).dist_eq_zero_iff]
   exact Subtype.ext_iff
 
+omit [Finite G] in
 theorem blockDist_eq_one_of_adj (hC : HypothesisC D) {β γ : Set G}
     (hβ : β ∈ blockClass hC.alpha) (hγ : γ ∈ blockClass hC.alpha)
     (hadj : (blockGraph D hC.alpha).Adj ⟨β, hβ⟩ ⟨γ, hγ⟩) :

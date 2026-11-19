@@ -41,7 +41,7 @@ private lemma sec5b_sq_of_pow4_of_iso {K : Subgroup G} (e : ↥K ≃* SL23) {z u
   · rcases sec5b_sl23_eq_of_sq_eq_one hζ2 hζ1 h1 with h2 | h2
     · have h2' : (⟨u, hu⟩ : ↥K) = 1 := by
         apply e.injective
-        simpa [h2]
+        simp [h2]
       exact absurd (congrArg Subtype.val h2') hu1
     · exact absurd (congrArg Subtype.val (e.injective h2)) huz
   · have hsub : (⟨u, hu⟩ * ⟨u, hu⟩ : ↥K) = ⟨z, hz⟩ := by
@@ -70,7 +70,7 @@ private lemma sec5_proj_card_inf [Finite G] {K₁ K₂ : Subgroup G} {z : G} (h 
     sup_le Subgroup.le_normalizer hK₂norm
   have hN₁ : (K₁.subgroupOf (K₁ ⊔ K₂)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr hMnorm
-  haveI : (K₁.subgroupOf (K₁ ⊔ K₂)).Normal := hN₁
+  have : (K₁.subgroupOf (K₁ ⊔ K₂)).Normal := hN₁
   let ψ : ↥P →* (↥(K₁ ⊔ K₂) ⧸ (K₁.subgroupOf (K₁ ⊔ K₂))) :=
     (QuotientGroup.mk' (K₁.subgroupOf (K₁ ⊔ K₂))).comp (Subgroup.inclusion hP)
   have hψ : Function.Surjective ψ := by

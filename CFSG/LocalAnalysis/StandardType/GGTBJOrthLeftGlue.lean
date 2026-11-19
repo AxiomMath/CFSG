@@ -322,7 +322,7 @@ section OriginalLMarkedDeletionChart
 
 variable {b c : K}
 
-open Module QuadraticMap
+open Module _root_.CFSG.QuadraticMap
 open CFSG.RankThree.PartOne.KCOrthogonal
 open CFSG.LocalAnalysis.GLTheoremA.S172C.Cent
 
@@ -436,15 +436,15 @@ theorem ggTBJOrthLeft_exists_markedDeletionChart_of_sparse
     · intro hk
       obtain ⟨t, ht, rfl⟩ := Finset.mem_image.mp hk
       have htne : t ≠ a0 := (Finset.mem_erase.mp ht).1
-      simp only [Finset.mem_inter, Finset.mem_erase, Finset.mem_univ, true_and, and_true]
+      simp only [Finset.mem_inter, Finset.mem_erase, Finset.mem_univ, and_true]
       exact ⟨Fin.succ_ne_zero t, fun h => htne (Fin.succ_inj.mp h)⟩
     · intro hk
-      simp only [Finset.mem_inter, Finset.mem_erase, Finset.mem_univ, true_and, and_true] at hk
+      simp only [Finset.mem_inter, Finset.mem_erase, Finset.mem_univ, and_true] at hk
       obtain ⟨hk0, hka⟩ := hk
       rcases Fin.eq_zero_or_eq_succ k with rfl | ⟨t, rfl⟩
       · exact absurd rfl hk0
       · refine Finset.mem_image.mpr ⟨t, ?_, rfl⟩
-        simp only [Finset.mem_erase, Finset.mem_univ, true_and, and_true]
+        simp only [Finset.mem_erase, Finset.mem_univ, and_true]
         intro hta
         exact hka (by rw [hta])
   let f : I → I := Fin.cases i0 (fun t : Fin r => (ι t).val)

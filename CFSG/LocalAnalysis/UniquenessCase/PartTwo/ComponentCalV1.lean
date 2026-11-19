@@ -123,7 +123,7 @@ theorem inCalV1_of_commutator_ne_bot {D : Data G} {W L : Subgroup G}
     (hLN : D.M ≤ Subgroup.normalizer (L : Set G))
     (hU : UniqueMax D.M (L ⊔ D.T)) (hLW : ⁅L, W⁆ ≠ ⊥) :
     InCalV1 D.M D.T W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLM : L ≤ D.M := hL.1.le
   have hLWn : L ≤ Subgroup.normalizer (W : Set G) := hLM.trans hW.2.2.1
   set C : Subgroup G := D.M ⊓ Subgroup.centralizer (W : Set G) with hCdef

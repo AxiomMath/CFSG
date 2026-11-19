@@ -84,7 +84,7 @@ theorem i2_centralizer_normal {D Kb : Subgroup Y'}
     _ = (g : Y') * n * (g : Y')⁻¹ * d := by group
 
 theorem i2_centralizer_quot_iso {D Kb : Subgroup Y'} (hDKb : D ≤ Kb)
-    (hDn : ∀ y ∈ Kb, ∀ d ∈ D, y * d * y⁻¹ ∈ D)
+    (_hDn : ∀ y ∈ Kb, ∀ d ∈ D, y * d * y⁻¹ ∈ D)
     (hdec : ∀ y ∈ Kb, ∃ a ∈ D, ∃ n ∈ Subgroup.centralizer (D : Set Y'), y = a * n)
     [hN : Subgroup.Normal (((Subgroup.centralizer (D : Set Y')) ⊓ Kb).subgroupOf Kb)] :
     Nonempty (↥Kb ⧸ ((Subgroup.centralizer (D : Set Y')) ⊓ Kb).subgroupOf Kb ≃*
@@ -176,7 +176,7 @@ theorem i2_coprime {p : ℕ} (hp : p.Prime) {X K : Subgroup G} {x : G} (hKX : K 
     (hyE : Commute y (QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨x, hxX⟩)) :
     y ∈ barX p X (K ⊓ Subgroup.centralizer ({x} : Set G)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxN : x ∈ Subgroup.normalizer (K : Set G) := by
     refine Subgroup.mem_normalizer_iff.2 (fun h => ⟨fun hh => hKn h hh, fun hh => ?_⟩)
     have := hKn' _ hh
@@ -299,6 +299,7 @@ variable {G : Type} [Group G] [Finite G]
 def i2Fam (M : Subgroup G) (x : G) : Set (Subgroup G) :=
   {M, GLBConj x M, GLBConj x (GLBConj x M)}
 
+omit [Finite G] in
 theorem i2Fam_conj_mem {M : Subgroup G} {x : G} (hx3 : x ^ 3 = 1) (n : ℕ) :
     GLBConj (x ^ n) M ∈ i2Fam M x := by
   have hn : n = 3 * (n / 3) + n % 3 := (Nat.div_add_mod n 3).symm
@@ -315,6 +316,7 @@ theorem i2Fam_conj_mem {M : Subgroup G} {x : G} (hx3 : x ^ 3 = 1) (n : ℕ) :
   · right; right
     simp [gLBConj_gLBConj, pow_two]
 
+omit [Finite G] in
 theorem i2Fam_exists {M : Subgroup G} {x : G} {C : Subgroup G} (hC : C ∈ i2Fam M x) :
     ∃ n : ℕ, n < 3 ∧ C = GLBConj (x ^ n) M := by
   simp only [i2Fam, Set.mem_insert_iff, Set.mem_singleton_iff] at hC
@@ -323,6 +325,7 @@ theorem i2Fam_exists {M : Subgroup G} {x : G} {C : Subgroup G} (hC : C ∈ i2Fam
   · exact ⟨1, by norm_num, by simp [h]⟩
   · exact ⟨2, by norm_num, by simp [h, gLBConj_gLBConj, pow_two]⟩
 
+omit [Finite G] in
 theorem i2Fam_comp {p : ℕ} {X M : Subgroup G} {x : G} (hM : GLAPComponent p X M) (hxX : x ∈ X) :
     ∀ C ∈ i2Fam M x, GLAPComponent p X C := by
   intro C hC
@@ -331,6 +334,7 @@ theorem i2Fam_comp {p : ℕ} {X M : Subgroup G} {x : G} (hM : GLAPComponent p X 
   have := glaPComponent_gLBConj hM (x ^ n)
   rwa [gLBConj_eq_of_mem_normalizer (Subgroup.le_normalizer hn)] at this
 
+omit [Finite G] in
 theorem i2Fam_inv {M : Subgroup G} {x : G} (hx3 : x ^ 3 = 1) {e : G} (he : e ∈ Subgroup.zpowers x)
     {C : Subgroup G} (hC : C ∈ i2Fam M x) : GLBConj e C ∈ i2Fam M x := by
   obtain ⟨n, -, rfl⟩ := i2Fam_exists hC
@@ -339,6 +343,7 @@ theorem i2Fam_inv {M : Subgroup G} {x : G} (hx3 : x ^ 3 = 1) {e : G} (he : e ∈
   rw [hm, gLBConj_gLBConj, ← pow_add]
   exact i2Fam_conj_mem hx3 _
 
+omit [Finite G] in
 theorem i2Fam_trans {M : Subgroup G} {x : G} (hx3 : x ^ 3 = 1) {C C' : Subgroup G}
     (hC : C ∈ i2Fam M x) (hC' : C' ∈ i2Fam M x) :
     ∃ e ∈ Subgroup.zpowers x, GLBConj e C = C' := by
@@ -349,6 +354,7 @@ theorem i2Fam_trans {M : Subgroup G} {x : G} (hx3 : x ^ 3 = 1) {C C' : Subgroup 
   have e : n + (n' + 3 - n) = n' + 3 := by omega
   rw [e, pow_add, hx3, mul_one]
 
+omit [Finite G] in
 theorem i2Fam_ne {M : Subgroup G} {x : G} (h1 : GLBConj x M ≠ M)
     (h2 : GLBConj x (GLBConj x M) ≠ M) :
     ∀ C ∈ i2Fam M x, ∃ C₂ ∈ i2Fam M x, C₂ ≠ C := by
@@ -359,6 +365,7 @@ theorem i2Fam_ne {M : Subgroup G} {x : G} (h1 : GLBConj x M ≠ M)
   · exact ⟨M, by simp [i2Fam], fun e => h1 (h.symm.trans e.symm)⟩
   · exact ⟨M, by simp [i2Fam], fun e => h2 (h.symm.trans e.symm)⟩
 
+omit [Finite G] in
 theorem i2Fam_sup (M : Subgroup G) (x : G) :
     (⨆ C : i2Fam M x, (C : Subgroup G)) = M ⊔ GLBConj x M ⊔ GLBConj x (GLBConj x M) := by
   apply le_antisymm
@@ -591,6 +598,7 @@ section FamilyBar
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem i2_K_normalized {M : Subgroup G} {x : G} (hx3 : x ^ 3 = 1) :
     (∀ k ∈ ⨆ C : i2Fam M x, (C : Subgroup G), x * k * x⁻¹ ∈ ⨆ C : i2Fam M x, (C : Subgroup G)) ∧
     (∀ k ∈ ⨆ C : i2Fam M x, (C : Subgroup G), x⁻¹ * k * x ∈ ⨆ C : i2Fam M x, (C : Subgroup G)) := by
@@ -626,8 +634,9 @@ theorem i2_K_normalized {M : Subgroup G} {x : G} (hx3 : x ^ 3 = 1) :
       rw [this]
       exact Subgroup.mul_mem _ ha hb
 
+omit [Finite G] in
 theorem i2_barX_K_eq {p : ℕ} {X M : Subgroup G} {x : G} (hfam : ∀ C ∈ i2Fam M x, GLAPComponent p X C)
-    (hKX : (⨆ C : i2Fam M x, (C : Subgroup G)) ≤ X) :
+    (_hKX : (⨆ C : i2Fam M x, (C : Subgroup G)) ≤ X) :
     barX p X (⨆ C : i2Fam M x, (C : Subgroup G)) = ⨆ C : i2Fam M x, barX p X (C : Subgroup G) := by
   apply le_antisymm
   · exact idiag_barX_le_kb (fun C hC => hfam C hC) le_rfl
@@ -651,7 +660,7 @@ theorem i2_J_part {X K M J : Subgroup G} {x : G}
         Subgroup.centralizer (barX 3 X (Subgroup.zpowers x) : Set (↥X ⧸ GLAPPrimeCore 3 ↥X)))) ∧
       (∀ C ∈ i2Fam M x, ∀ m ∈ C, ∃ j ∈ J, ∃ n ∈ centModSubgroup 3 C, m = j * n) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   set fam := i2Fam M x with hfam
@@ -876,7 +885,7 @@ theorem i2_inf_bot {Y' : Type} [Group Y'] {Kb D N : Subgroup Y'} (hDK : D ≤ Kb
     rw [Subgroup.mem_subgroupOf]
     refine Subgroup.mem_inf.2 ⟨hN g (hDK g.2) s (Subgroup.mem_inf.1 hs').1, ?_⟩
     exact D.mul_mem (D.mul_mem g.2 (Subgroup.mem_inf.1 hs').2) (D.inv_mem g.2)
-  haveI := hnorm
+  have := hnorm
   have hle : (N ⊓ D).subgroupOf D ≤ GLAPPrimeCore 3 ↥D := i2_le_core hc
   rw [hcore] at hle
   ext y
@@ -914,7 +923,7 @@ theorem i2_mu_exists {Y' Q : Type} [Group Y'] [Group Q] {D Kb : Subgroup Y'} (hD
     (θ : (↥D ⧸ Subgroup.center ↥D) ≃* Q) :
     ∃ μ : ↥Kb →* Q, Function.Surjective μ ∧
       ∀ k : ↥Kb, μ k = 1 ↔ ∀ d ∈ D, d * (k : Y') = (k : Y') * d := by
-  haveI := i2_centralizer_normal hDn
+  have := i2_centralizer_normal hDn
   obtain ⟨e⟩ := i2_centralizer_quot_iso hDKb hDn hdec
   refine ⟨θ.toMonoidHom.comp (e.toMonoidHom.comp
     (QuotientGroup.mk' (((Subgroup.centralizer (D : Set Y')) ⊓ Kb).subgroupOf Kb))), ?_, ?_⟩
@@ -1086,7 +1095,7 @@ theorem i2_J_abstract {Jg DJ Q : Type} [Group Jg] [Group DJ] [Group Q] (N : Subg
     (ψ : DJ →* Q) (hψs : Function.Surjective ψ)
     (hcl : ∀ z : Q, (∀ q : Q, q * z = z * q) → z = 1) (hQnt : Nontrivial Q) :
     (∀ n ∈ N, ψ (ε n) = 1) ∧ (∀ j : Jg, ψ (ε j) = 1 → ∀ j' : Jg, ⁅j, j'⁆ ∈ N) := by
-  haveI hNmap : (N.map ε).Normal := Subgroup.Normal.map inferInstance ε hεs
+  have hNmap : (N.map ε).Normal := Subgroup.Normal.map inferInstance ε hεs
   have hÑ : N.map ε ≠ ⊤ := by
     intro htop
     apply hNtop
@@ -1121,7 +1130,7 @@ theorem i2_J_abstract {Jg DJ Q : Type} [Group Jg] [Group DJ] [Group Q] (N : Subg
     exact huv (h1.trans h2.symm)
 
 theorem i2_diag_factor {X K J C : Subgroup G} (hC : GLAPComponent 3 X C) (hCK : C ≤ K)
-    (hJK : J ≤ K) (hKX : K ≤ X) (hJX : J ≤ X)
+    (hJK : J ≤ K) (_hKX : K ≤ X) (hJX : J ≤ X)
     (hdiag : ∀ m ∈ C, ∃ j ∈ J, ∃ n ∈ centModSubgroup 3 C, m = j * n)
     {a : ↥X ⧸ GLAPPrimeCore 3 ↥X} (ha : a ∈ barX 3 X C) :
     ∃ j : ↥J, ∃ c : ↥X ⧸ GLAPPrimeCore 3 ↥X, c ∈ barX 3 X K ∧
@@ -1254,7 +1263,7 @@ theorem i2_main {X M K J : Subgroup G} {x : G}
     (i2_psimple_barX hC2).symm.trans
       ((i2_psimple_conj x (GLBConj x M)).symm.trans (i2_psimple_conj x M).symm)
   have hcl := i2_psimple_centreless hM
-  haveI hQnt : Nontrivial (PSimple 3 M) := i2_psimple_nontrivial hM
+  have hQnt : Nontrivial (PSimple 3 M) := i2_psimple_nontrivial hM
   obtain ⟨μ0, μ1, μ2, hk0, hk1, hk2, hs0, hs1, hs2, hΛs, hcen_of, hcen_to⟩ :=
     i2_Kb_stage hc01 hc02 hc12 hKb hD0K hD1K hD2K θ0 θ1 θ2 hcl
   have hcopK : Nat.Coprime 3 (Nat.card (GLAPPrimeCore 3 ↥K)) := CFSG.pPrimeCore_coprime_card
@@ -1338,7 +1347,7 @@ theorem i2_main {X M K J : Subgroup G} {x : G}
     hdiagAll (GLBConj x (GLBConj x M)) (by simp [i2Fam])
   have hNJtop : GLAPPrimeCore 3 ↥J ≠ ⊤ := by
     intro htop
-    haveI : Nontrivial ↥(barX 3 (K ⊓ Subgroup.centralizer ({x} : Set G)) J) :=
+    have : Nontrivial ↥(barX 3 (K ⊓ Subgroup.centralizer ({x} : Set G)) J) :=
       Quasisimple.nontrivial hJ.2.2.1.2.2
     obtain ⟨u, v, huv⟩ := exists_pair_ne ↥(barX 3 (K ⊓ Subgroup.centralizer ({x} : Set G)) J)
     have e := quotEquivBarX Nat.prime_three hJ.1 hJ.2.1

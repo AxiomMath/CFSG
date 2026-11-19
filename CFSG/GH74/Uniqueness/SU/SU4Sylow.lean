@@ -76,7 +76,7 @@ theorem exists_isSylowIn (X : Subgroup G) : ∃ P, IsSylowIn X P := by
     unfold Subgroup.subgroupOf
     exact Subgroup.comap_map_eq_self_of_injective X.subtype_injective _
   refine ⟨Subgroup.map_subtype_le _, ?_, ?_⟩
-  · exact S.isPGroup'.map _
+  · exact S.isPGroup.map _
   · have h1 : ((S : Subgroup ↥X).map X.subtype).relIndex X = (S : Subgroup ↥X).index := by
       unfold Subgroup.relIndex
       rw [hsub]
@@ -125,7 +125,7 @@ theorem IsSylowIn.pRank_eq {X P : Subgroup G} (hP : IsSylowIn X P) : Open.pRank 
   exact SU1.le_pRank (by norm_num) hcE (isElemAbelian_conjSub hE) (by rw [card_conjSub]; exact hEc)
 
 theorem sylow_isSylowIn_top (S : Sylow 2 G) : IsSylowIn ⊤ (S : Subgroup G) := by
-  refine ⟨le_top, S.isPGroup', ?_⟩
+  refine ⟨le_top, S.isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right]
   have := S.not_dvd_index
   rw [Nat.odd_iff]

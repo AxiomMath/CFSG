@@ -40,7 +40,7 @@ theorem SE.exists_sylow_le (hse : fusionStronglyEmbedded M) :
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥M) := inferInstance
   let P₁ : Subgroup G := (P : Subgroup ↥M).map M.subtype
   have hP₁M : P₁ ≤ M := Subgroup.map_subtype_le _
-  have hP₁2 : IsPGroup 2 P₁ := P.isPGroup'.map M.subtype
+  have hP₁2 : IsPGroup 2 P₁ := P.isPGroup.map M.subtype
   obtain ⟨Q, hQ⟩ := hP₁2.exists_le_sylow
   refine ⟨Q, ?_⟩
   have hQM : (Q : Subgroup G) ⊓ M = P₁ := by
@@ -48,7 +48,7 @@ theorem SE.exists_sylow_le (hse : fusionStronglyEmbedded M) :
     · intro y hy
       have hy' := Subgroup.mem_inf.1 hy
       have hT2 : IsPGroup 2 ↥((Q ⊓ M : Subgroup G).subgroupOf M) := by
-        have h1 : IsPGroup 2 ↥(Q ⊓ M : Subgroup G) := Q.isPGroup'.to_le inf_le_left
+        have h1 : IsPGroup 2 ↥(Q ⊓ M : Subgroup G) := Q.isPGroup.to_le inf_le_left
         exact h1.of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
       have hPT : (P : Subgroup ↥M) ≤ (Q ⊓ M : Subgroup G).subgroupOf M := by
         intro x hx
@@ -70,7 +70,7 @@ theorem SE.exists_sylow_le (hse : fusionStronglyEmbedded M) :
     intro x hx
     have := Subgroup.mem_subgroupOf.1 (e ▸ Subgroup.mem_top (⟨x, hx⟩ : ↥(Q : Subgroup G)))
     exact this
-  have : Group.IsNilpotent ↥(Q : Subgroup G) := IsPGroup.isNilpotent Q.isPGroup'
+  have : Group.IsNilpotent ↥(Q : Subgroup G) := IsPGroup.isNilpotent Q.isPGroup
   have hnc := Group.normalizerCondition_of_isNilpotent (G := ↥(Q : Subgroup G)) _ hA
   obtain ⟨n', hn'N, hn'A⟩ := IsConcreteLE.exists_of_lt hnc
   have hn' := Subgroup.mem_normalizer_iff.1 hn'N
@@ -215,7 +215,7 @@ theorem no_stronglyEmbedded_Z3Z3 [IsSimpleGroup G] {R : Subgroup G}
     have hx' : π (Subgroup.inclusion hTM x) = 1 := hx
     have hxQ : ((Subgroup.inclusion hTM x : ↥M) : G) ∈ (Q : Subgroup G) :=
       Subgroup.mem_subgroupOf.1 ((QuotientGroup.eq_one_iff _).1 hx')
-    exact Subtype.ext (eq_one_of_mem_pGroup_pow_three Q.isPGroup' hxQ (hcube x x.2))
+    exact Subtype.ext (eq_one_of_mem_pGroup_pow_three Q.isPGroup hxQ (hcube x x.2))
   have : IsCyclic ↥(Subgroup.zpowers a ⊔ Subgroup.zpowers b) := isCyclic_of_injective f hfinj
   obtain ⟨t, ht⟩ := IsCyclic.exists_generator (α := ↥(Subgroup.zpowers a ⊔ Subgroup.zpowers b))
   have ht3 : t ^ 3 = 1 := Subtype.ext (by simpa using hcube t t.2)

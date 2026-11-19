@@ -49,7 +49,7 @@ theorem fam_C {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag
     · obtain ⟨hn1, hsurv⟩ := hex
       have hl3 : lab.rank = 3 := by simp [ht] at hsurv; exact hsurv
       have he0 : (if p ∣ lab.n then 1 else 0) = 0 := by
-        rw [if_neg]; rw [hn1]; intro hd; exact hp.ne_one (Nat.dvd_one.1 hd)
+        rw [ite_eq_right]; rw [hn1]; intro hd; exact hp.ne_one (Nat.dvd_one.1 hd)
       rw [he0] at hA
       rw [hl3] at hr3
       omega
@@ -108,7 +108,7 @@ theorem fam_twD {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.t
     · obtain ⟨hn1, hsurv⟩ := hex
       have hl3 : lab.rank = 3 := by simp [ht] at hsurv; exact hsurv
       have he0 : (if p ∣ lab.n then 1 else 0) = 0 := by
-        rw [if_neg]; rw [hn1]; intro hd; exact hp.ne_one (Nat.dvd_one.1 hd)
+        rw [ite_eq_right]; rw [hn1]; intro hd; exact hp.ne_one (Nat.dvd_one.1 hd)
       rw [he0] at hA
       rw [hl3] at hr3
       omega
@@ -136,7 +136,7 @@ theorem fam_D {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag
     · rcases hc.2 with ⟨_, h4⟩ | h'
       · exact h4
       · simp [ht] at h'
-    · rw [if_neg hc] at h
+    · rw [ite_eq_right hc] at h
       omega
   rcases m0_cases (n := lab.n) hp hp2 with ⟨h1, hd1⟩ | ⟨h2, hd2⟩ | h3
   · rw [h1, rk2Mult_D_one ht] at hA
@@ -180,7 +180,7 @@ theorem fam_D {lab : GLALabel} {p : ℕ} (hlab : GLAInLambda2 lab) (ht : lab.tag
     · obtain ⟨hn1, hsurv⟩ := hex
       have hl4 : lab.rank = 4 := by simp [ht] at hsurv; exact hsurv
       have he0 : (if p ∣ lab.n then 1 else 0) = 0 := by
-        rw [if_neg]; rw [hn1]; intro hd; exact hp.ne_one (Nat.dvd_one.1 hd)
+        rw [ite_eq_right]; rw [hn1]; intro hd; exact hp.ne_one (Nat.dvd_one.1 hd)
       rw [he0] at hA
       rw [hl4] at hr3
       omega

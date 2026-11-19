@@ -17,7 +17,7 @@ theorem kronMap_eq_one_scalar {K : Type*} [Field K] {n : ℕ} (k : Fin n → Mat
     have := congrArg (fun f => f (Pi.single y 1) x) hk
     simp only [kronMap_basis, LinearMap.id_apply] at this
     rw [this]
-    simp [Pi.single_apply, eq_comm]
+    simp [Pi.single_apply]
   intro i
   set z : Fin n → Fin 2 := fun _ => 0 with hz
   have hP : ∏ j ∈ Finset.univ.erase i, k j (z j) (z j) ≠ 0 := by
@@ -41,11 +41,11 @@ theorem kronMap_eq_one_scalar {K : Type*} [Field K] {n : ℕ} (k : Fin n → Mat
   rw [if_congr h4 rfl rfl] at h2
   rw [Matrix.smul_apply, Matrix.one_apply, smul_eq_mul]
   by_cases hab : a = b
-  · rw [if_pos hab, mul_one]
-    rw [if_pos hab] at h2
+  · rw [ite_eq_left hab, mul_one]
+    rw [ite_eq_left hab] at h2
     exact eq_inv_of_mul_eq_one_left h2
-  · rw [if_neg hab, mul_zero]
-    rw [if_neg hab] at h2
+  · rw [ite_eq_right hab, mul_zero]
+    rw [ite_eq_right hab] at h2
     exact (mul_eq_zero.mp h2).resolve_right hP
 
 section Finite2
@@ -72,6 +72,7 @@ theorem kronSLHom_injective (n : ℕ) (K : Type) [Field K] [Finite K] [CharP K 2
   rw [hci, hc2, one_smul]
   rfl
 
+omit [Finite K] in
 theorem cubeU_mul_self {g : Cube n K ≃ₗ[K] Cube n K} (hg : g ∈ cubeU n K) : g * g = 1 := by
   obtain ⟨β, hβ⟩ := mem_cubeU.mp hg
   refine LinearEquiv.ext fun v => ?_
@@ -117,7 +118,7 @@ theorem exists_conj_cubeU (n : ℕ) (K : Type) [Field K] [Finite K] [CharP K 2]
     ∃ C ∈ cubeE n K, ∀ g : Cube n K ≃ₗ[K] Cube n K, g ∈ U ↔ C⁻¹ * g * C ∈ cubeU n K := by
   classical
   obtain ⟨k, hk1, hk⟩ : ∃ k : ℕ, 1 ≤ k ∧ Nat.card K = 2 ^ k := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨m, -, hm⟩ := FiniteField.card K 2
     exact ⟨m, m.pos, by rw [Nat.card_eq_fintype_card, hm]⟩
   have hEcard := card_cubeE n K
@@ -126,9 +127,9 @@ theorem exists_conj_cubeU (n : ℕ) (K : Type) [Field K] [Finite K] [CharP K 2]
   have hq21 : Nat.card K ^ 2 - 1 ≠ 0 := by
     have : 4 ≤ Nat.card K ^ 2 := by nlinarith
     omega
-  haveI hfin : Finite (cubeE n K) :=
+  have hfin : Finite (cubeE n K) :=
     Nat.finite_of_card_ne_zero (by rw [hEcard]; exact pow_ne_zero _ (mul_ne_zero hq0 hq21))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : ¬ 2 ∣ (Nat.card K ^ 2 - 1) ^ n := by
     intro h
     have h2 : 2 ∣ Nat.card K ^ 2 - 1 := Nat.prime_two.dvd_of_dvd_pow h

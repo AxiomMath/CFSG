@@ -148,8 +148,8 @@ theorem exists_fourGroupsMinus_of_pair (h45 : Sec4.Item4_5) (h66 : Sec6.Item6_6)
     obtain ⟨hTs, hTch, -⟩ := solvable_prime_complement_core_characterization (H := ↥L)
       Nat.prime_three
     have : (aschbacherSolvableCore 3 ↥L).Normal := Subgroup.normal_of_characteristic _
-    haveI : Group.IsPerfect ↥L := hq.1
-    haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2.1
+    have : Group.IsPerfect ↥L := hq.1
+    have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2.1
     exact Sec4.Census.le_of_isSolvable_of_normal inferInstance hTs
   have hE3 : ∀ e ∈ E, e ^ 3 = 1 := hpair.mem_E.1.1.2
   have hdata : BarData (lBar L) (barImage L E) (barImage L U) := by
@@ -161,8 +161,8 @@ theorem exists_fourGroupsMinus_of_pair (h45 : Sec4.Item4_5) (h66 : Sec6.Item6_6)
   have hperfBar : Group.IsPerfect (lBar L) := by
     obtain ⟨-, hTch, -⟩ := solvable_prime_complement_core_characterization (H := ↥L)
       Nat.prime_three
-    haveI : Group.IsPerfect ↥L := hq.1
-    haveI : (aschbacherSolvableCore 3 ↥L).Normal := Subgroup.normal_of_characteristic _
+    have : Group.IsPerfect ↥L := hq.1
+    have : (aschbacherSolvableCore 3 ↥L).Normal := Subgroup.normal_of_characteristic _
     infer_instance
   have hfour : EInvFour (lBar L) (barImage L E) := by
     rcases h211 G A E U c L hpair with ⟨-, h, -⟩ | ⟨h, -⟩ | ⟨h | h, -⟩ | ⟨h | h, -⟩ | ⟨h, -⟩ |

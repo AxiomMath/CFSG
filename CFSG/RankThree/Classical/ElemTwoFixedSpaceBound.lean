@@ -122,7 +122,7 @@ theorem card_div_two_sub_one_le_of_sum_char (hexp : ∀ g : Γ, g ^ 2 = 1)
     · have : χ (Additive.ofMul h) = 0 := (ZMod.val_eq_zero _).mp h0
       simp [hs, this]
     · have hne : χ (Additive.ofMul h) ≠ 0 := fun h' => by rw [h', ZMod.val_zero] at h1; omega
-      simp only [hs, if_neg hne, h1, pow_one]
+      simp only [hs, ite_eq_right hne, h1, pow_one]
       norm_num
   have hdq : ∀ h, (2 * (d h : ℚ) - D) = ∑ χ, (n χ : ℚ) * s χ h := by
     intro h
@@ -131,9 +131,9 @@ theorem card_div_two_sub_one_le_of_sum_char (hexp : ∀ g : Γ, g ^ 2 = 1)
       refine Finset.sum_congr rfl fun χ _ => ?_
       have := hs01 χ h
       split_ifs with hχ
-      · rw [if_pos hχ] at this
+      · rw [ite_eq_left hχ] at this
         rw [mul_div_assoc, ← this, mul_one]
-      · rw [if_neg hχ] at this
+      · rw [ite_eq_right hχ] at this
         rw [mul_div_assoc, ← this, mul_zero]
     rw [e1, Finset.mul_sum, hD, Nat.cast_sum, ← Finset.sum_sub_distrib]
     refine Finset.sum_congr rfl fun χ _ => ?_
@@ -184,7 +184,7 @@ theorem card_div_two_sub_one_le_of_sum_char (hexp : ∀ g : Γ, g ^ 2 = 1)
     rw [Finset.sum_congr rfl hrest, ← Finset.mul_sum]
     have hsum1 : ∑ h ∈ Finset.univ.erase (1 : Γ), s ψ h = -1 := by
       have := horth ψ
-      rw [if_neg hψ, ← Finset.add_sum_erase _ _ (Finset.mem_univ (1 : Γ))] at this
+      rw [ite_eq_right hψ, ← Finset.add_sum_erase _ _ (Finset.mem_univ (1 : Γ))] at this
       have hs1 : s ψ 1 = 1 := by simp [hs]
       linarith
     have hs1 : s ψ 1 = 1 := by simp [hs]

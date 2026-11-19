@@ -20,8 +20,8 @@ theorem card_le_pow_seven_of_isPGroup [CharP K 3] (E : Subgroup ↥(adjointGroup
     (hE : IsPGroup 3 E) (hcomm : ∀ u ∈ E, ∀ w ∈ E, u * w = w * u) :
     Nat.card E ≤ Nat.card K ^ 7 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_modGL (τ := Tag.D4) (K := K)
   obtain ⟨S, hES⟩ := hE.exists_le_sylow
   obtain ⟨w₀, hw₀⟩ := Finite.exists_max (coxeterSystem Tag.D4).length
   obtain ⟨P₀, hP₀⟩ := (exceptional_ordinary_Sylow_opposition Tag.D4 K 3 w₀ hw₀).1
@@ -53,11 +53,11 @@ theorem card_le_pow_seven_of_isPGroup [CharP K 3] (E : Subgroup ↥(adjointGroup
 
 theorem pRank_top_le_seven {T : Type} [Group T] [Finite T] (hK : Nat.card K = 3)
     (e : T ≃* ↥(adjointGroup Tag.D4 K)) : CFSG.Open.pRank 3 (⊤ : Subgroup T) ≤ 7 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP K 3 := by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 3 := by
     have := Fintype.ofFinite K
     exact charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hK])
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num) e]
   refine CFSG.SectionRank.pRank_le (by norm_num) fun E _ hE => ?_
   have hEp : IsPGroup 3 E := fun y => ⟨1, Subtype.ext (by simpa using hE.2 y y.2)⟩

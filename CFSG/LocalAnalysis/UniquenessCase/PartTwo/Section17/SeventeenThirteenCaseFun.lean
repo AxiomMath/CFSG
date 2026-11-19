@@ -109,7 +109,7 @@ theorem fun_case_dichotomy (hFunComm : K_FunCommute) {D : Data G} {V₀ V L : Su
       exact ⟨(Subgroup.mem_inf.mp hy).1.1, (Subgroup.mem_inf.mp hy).2⟩
     have hSyl2 : IsPGroup 2 (Syl2Bar D Lx) := by
       obtain ⟨P, hP⟩ := exists_sylow_syl2Bar D Lx hLxC.1
-      exact hP ▸ P.isPGroup'
+      exact hP ▸ P.isPGroup
     have hKbSyl : (X.subgroupOf Lx).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Lx)) ∈
         FunSet (fundPred q) (Bar2 Lx) (Syl2Bar D Lx) :=
       funSet_mono_of_le (Subgroup.map_mono hSS') hSyl2 hKb
@@ -299,7 +299,7 @@ theorem delta17_12_case_fun_triple (hFunComm : K_FunCommute) {D : Data G}
         CFSG.LocalAnalysis.WeakClosure81.barImage H D.T = ⊤ ∧
       OddComponentShapeCore q (↥K ⧸ Subgroup.center ↥K) := by
   classical
-  rw [Delta17_12, dif_neg h1, dif_neg h2] at hH
+  rw [Delta17_12, dite_eq_right h1, dite_eq_right h2] at hH
   obtain ⟨x, hxM, X, hX⟩ := hH
   dsimp only at hX
   obtain ⟨hXLx, hO2, rfl, hKb⟩ := hX
@@ -442,7 +442,7 @@ theorem delta17_12_case_fun_triple (hFunComm : K_FunCommute) {D : Data G}
             (MulAut.conj (y : G) (xb : G)) (Subgroup.mem_map_of_mem _ hxbX))
         have hcoe : ((⁅xa, MulAut.conj y xb⁆ : ↥H') : G) =
             ⁅(xa : G), MulAut.conj (y : G) (xb : G)⁆ := by
-          simp [commutatorElement_def, hval y xb]
+          simp [commutatorElement_def]
         have hone : (QuotientGroup.mk' (CFSG.pCore 2 ↥H'))
             (⁅xa, MulAut.conj y xb⁆) = 1 := by
           refine (QuotientGroup.eq_one_iff (⁅xa, MulAut.conj y xb⁆)).mpr ?_

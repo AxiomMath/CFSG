@@ -118,8 +118,8 @@ theorem Std.exists_pinL
   have hE0L0 : Model.E0 ≤ Model.L0 := Model.E0_le_B0.trans Model.B0_le_L0
   have hN := mem_normalizer_iff_of_mulEquiv h.E_le hE0L0 ψL hE
   refine ⟨ψL, hE, fun x => (hN x).trans ?_⟩
-  haveI : Finite ↥Model.L0 := Finite.of_equiv _ ψL.toEquiv
-  haveI : Finite ↥(normalizer (Model.E0 : Set Q3) ⊓ Model.L0) :=
+  have : Finite ↥Model.L0 := Finite.of_equiv _ ψL.toEquiv
+  have : Finite ↥(normalizer (Model.E0 : Set Q3) ⊓ Model.L0) :=
     Finite.of_injective (Subgroup.inclusion inf_le_right) (Subgroup.inclusion_injective _)
   obtain ⟨D⟩ := nonempty_normCocode h.m24 Model.tauM24_zero_ne_one
   have hcard : Nat.card ↥(normalizer (Model.E0 : Set Q3) ⊓ Model.L0) = Nat.card ↥Model.B0 := by

@@ -91,7 +91,7 @@ theorem exists_involution_of_standard [Finite G] {X : Subgroup G}
     ∃ t : G, orderOf t = 2 ∧ t ∈ centralizer (X : Set G) := by
   obtain ⟨-, hev, -⟩ := hX
   have hdvd : 2 ∣ Nat.card ↥(Subgroup.centralizer (X : Set G)) := even_iff_two_dvd.mp hev
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht2⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(Subgroup.centralizer (X : Set G))) 2 hdvd
   exact ⟨(t : G), by rw [Subgroup.orderOf_coe, ht2], t.2⟩
@@ -126,7 +126,7 @@ theorem standard_of_componentAtCentralInvolutions [Finite G] {X : Subgroup G} (h
       Subgroup.orderOf_dvd_natCard _ hx₀C
     rw [hx₀2] at hdvd
     exact even_iff_two_dvd.mpr hdvd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t₀, ht₀2⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(Subgroup.centralizer (X : Set G))) 2 (even_iff_two_dvd.mp hev)
   have htight : ∀ g : G, g ∉ Subgroup.normalizer (Subgroup.centralizer (X : Set G) : Set G) →

@@ -16,6 +16,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.LocalRank CFSG.RankThree.PartTwo
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem normalizer_le_normalizer_pCoreOf' (J : Subgroup G) :
     Subgroup.normalizer (J : Set G) ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 J : Set G) := by
   have hmap : ∀ g ∈ Subgroup.normalizer (J : Set G), ∀ x ∈ CFSG.Open.pCoreOf 2 J,

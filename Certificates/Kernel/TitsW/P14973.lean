@@ -27,7 +27,7 @@ theorem autCheck : TitsAutCheck := by
   refine ⟨by decide, by decide, by decide, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   all_goals simp (maxDischargeDepth := 64) only [pairArr, titsAArr, titsBArr, titsGArr,
     wordArr_D lA, wordArr_D lB, wordArr_D lG,
-    invCand_G, compA_G, eqA_G, isInvA_G, idA_G, pow_eq, allLt_allN, Gd.mul, Gd.inv, Gd.one, Gd_WD,
+    compA_G, eqA_G, idA_G, pow_eq, allLt_allN, Gd.mul, Gd.one, Gd_WD,
     Gd.pow]
   all_goals quickRfl
 
@@ -51,7 +51,7 @@ theorem bigCheck : TitsBigCheck := by
   change CFSG.KC.Enum.allN 48 (fun n => titsBigOK n) = true
   simp (maxDischargeDepth := 64) only [titsBigOK, pairArr, titsAArr, titsBArr, bigArr_eq,
     wordArr_D lA, wordArr_D lB,
-    invCand_G, compA_G, eqA_G, isInvA_G, idA_G, pow_eq, allLt_allN, Gd.mul, Gd.inv, Gd.one, Gd_WD,
+    compA_G, eqA_G, pow_eq, Gd.mul, Gd_WD,
     Gd.pow]
   quickRfl
 

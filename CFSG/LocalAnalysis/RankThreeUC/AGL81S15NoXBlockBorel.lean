@@ -22,7 +22,7 @@ open scoped commutatorElement
 
 theorem noXBlock_borelPre {X : Type} [Group X] [Finite X] {T : Subgroup X}
     (hX : GNSetting X T) {Ls : Subgroup (X ⧸ gnC T)}
-    (hLs : CFSG.Open.IsComponentOf Ls ⊤)
+    (_hLs : CFSG.Open.IsComponentOf Ls ⊤)
     (hinv : gnImg T T ≤ Subgroup.normalizer (Ls : Set (X ⧸ gnC T)))
     (hLI : ∀ x ∈ Subgroup.centralizer ((gnImg T T ⊓ Ls : Subgroup (X ⧸ gnC T)) :
         Set (X ⧸ gnC T)) ⊓ Ls, Odd (orderOf x) → ∀ l ∈ Ls, x * l = l * x)
@@ -43,7 +43,7 @@ theorem noXBlock_borelPre {X : Type} [Group X] [Finite X] {T : Subgroup X}
   set J : Subgroup X := B.comap (toStar T) with hJ
   set X₁ : Subgroup X := borelPre T Ls with hX₁
   have hsurj : Function.Surjective (toStar T) := QuotientGroup.mk'_surjective (gnC T)
-  haveI : Finite (X ⧸ gnC T) := Finite.of_surjective (toStar T) hsurj
+  have : Finite (X ⧸ gnC T) := Finite.of_surjective (toStar T) hsurj
   have hJmap : J.map (toStar T) = B :=
     Subgroup.map_comap_eq_self_of_surjective hsurj B
   have hX₁map : X₁.map (toStar T) = B ⊔ gnImg T T := by

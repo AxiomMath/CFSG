@@ -32,10 +32,11 @@ section Perm
 
 variable {α : Type*} [Fintype α] [DecidableEq α]
 
+omit [Fintype α] [DecidableEq α] in
 theorem fg_five_dvd_card_of_free (σ : Equiv.Perm α) (hσ : σ ^ 5 = 1) (T : Finset α)
     (hT : ∀ a, a ∈ T ↔ σ a ∈ T) (hfree : ∀ a ∈ T, σ a ≠ a) : 5 ∣ T.card := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   by_contra h
   have hcard : ¬ 5 ∣ Fintype.card {a // a ∈ T} := by
     simpa [Fintype.card_coe] using h
@@ -52,6 +53,7 @@ theorem fg_five_dvd_card_of_free (σ : Equiv.Perm α) (hσ : σ ^ 5 = 1) (T : Fi
     Equiv.Perm.exists_fixed_point_of_prime (p := 5) (n := 1) hcard hσ''
   exact hfree a a.2 (congrArg Subtype.val ha)
 
+omit [Fintype α] [DecidableEq α] in
 theorem fg_orbit_count (σ : Equiv.Perm α) (hσ : σ ^ 5 = 1) (S : Finset α)
     (hS : ∀ a, a ∈ S ↔ σ a ∈ S) (hfree : ∀ a ∈ S, σ a ≠ a) (d : α → ℕ)
     (hd : ∀ a, d (σ a) = d a) (hpos : ∀ a ∈ S, 1 ≤ d a) (hne : S.Nonempty)
@@ -113,8 +115,8 @@ theorem fg_card_modEq_centralizer (hf : f ^ 5 = 1) (H : Subgroup Γ) [Finite H]
     (hH : ∀ h, h ∈ H ↔ f * h * f⁻¹ ∈ H) :
     Nat.card H ≡ Nat.card ↥(H ⊓ Subgroup.centralizer {f}) [MOD 5] := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fintype H := Fintype.ofFinite H
   let π : Equiv.Perm H :=
     { toFun := fun h => ⟨f * (h : Γ) * f⁻¹, (hH h).mp h.2⟩
       invFun := fun h => ⟨f⁻¹ * (h : Γ) * f,
@@ -176,7 +178,7 @@ theorem fg_card_centralizer_sixteen (hf : f ^ 5 = 1) (B : Subgroup Γ) (hB : Nat
     (hBn : ∀ h, h ∈ B ↔ f * h * f⁻¹ ∈ B) :
     Nat.card ↥(B ⊓ Subgroup.centralizer {f}) = 1 ∨
       Nat.card ↥(B ⊓ Subgroup.centralizer {f}) = 16 := by
-  haveI : Finite B := Nat.finite_of_card_ne_zero (by rw [hB]; norm_num)
+  have : Finite B := Nat.finite_of_card_ne_zero (by rw [hB]; norm_num)
   have hmod := fg_card_modEq_centralizer (f := f) hf B hBn
   rw [hB] at hmod
   have hdvd : Nat.card ↥(B ⊓ Subgroup.centralizer {f}) ∣ 2 ^ 4 := by
@@ -188,8 +190,8 @@ theorem fg_card_centralizer_sixteen (hf : f ^ 5 = 1) (B : Subgroup Γ) (hB : Nat
 theorem fg_card_invariant_subgroup (hf : f ^ 5 = 1) (B H : Subgroup Γ) (hB : Nat.card B = 16)
     (hHB : H ≤ B) (hBC : B ⊓ Subgroup.centralizer {f} = ⊥)
     (hH : ∀ h, h ∈ H ↔ f * h * f⁻¹ ∈ H) : Nat.card H = 1 ∨ Nat.card H = 16 := by
-  haveI : Finite B := Nat.finite_of_card_ne_zero (by rw [hB]; norm_num)
-  haveI : Finite H :=
+  have : Finite B := Nat.finite_of_card_ne_zero (by rw [hB]; norm_num)
+  have : Finite H :=
     Finite.of_injective (Subgroup.inclusion hHB) (Subgroup.inclusion_injective hHB)
   have hmod := fg_card_modEq_centralizer (f := f) hf H hH
   have hbot : H ⊓ Subgroup.centralizer {f} = ⊥ := by
@@ -220,9 +222,9 @@ theorem fg_fix_of_finrank_le_three (E : Submodule (ZMod 3) V) (f : V ≃ₗ[ZMod
     (hf : f ^ 5 = 1) (hE : ∀ v ∈ E, f v ∈ E) (hd : Module.finrank (ZMod 3) E ≤ 3) :
     ∀ v ∈ E, f v = v := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Finite E := Module.finite_of_finite (R := ZMod 3) (M := E)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite E := Module.finite_of_finite (R := ZMod 3) (M := E)
+  have : Fintype E := Fintype.ofFinite E
   let g : Function.End E := fun x => ⟨f x, hE x x.2⟩
   have hgpow : ∀ n : ℕ, ∀ x : E, ((g ^ n) x : V) = (f ^ n) (x : V) := by
     intro n
@@ -249,8 +251,8 @@ theorem fg_fix_of_finrank_le_three (E : Submodule (ZMod 3) V) (f : V ≃ₗ[ZMod
     rw [Module.card_eq_pow_finrank (K := ZMod 3) (V := E), ZMod.card]
   let K : Submodule (ZMod 3) V :=
     E ⊓ LinearMap.ker (f.toLinearMap - (LinearMap.id : V →ₗ[ZMod 3] V))
-  haveI : Finite K := Module.finite_of_finite (R := ZMod 3) (M := K)
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Module.finite_of_finite (R := ZMod 3) (M := K)
+  have : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = 3 ^ Module.finrank (ZMod 3) K := by
     rw [Module.card_eq_pow_finrank (K := ZMod 3) (V := K), ZMod.card]
   have hcardFix : Fintype.card (Function.fixedPoints (g : E → E)) = Fintype.card K := by

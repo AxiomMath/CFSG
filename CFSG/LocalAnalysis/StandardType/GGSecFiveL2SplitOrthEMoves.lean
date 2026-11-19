@@ -86,8 +86,8 @@ theorem ggOrth_conj_of_simplePair {ι : Type} {M : CoxeterMatrix ι} (hW : GGIsW
     (ht' : ∃ (w : M.Group) (i : ι), t' = w * M.simple i * w⁻¹) (hne : t ≠ t')
     (hcomm : t * t' = t' * t) {i j : ι} (h2 : M.M i j = 2) :
     ∃ w : M.Group, w * M.simple i * w⁻¹ = t ∧ w * M.simple j * w⁻¹ = t' := by
-  haveI : Finite ι := ggIsWeylMatrix_finite hW
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Finite ι := ggIsWeylMatrix_finite hW
+  have : Fintype ι := Fintype.ofFinite ι
   classical
   obtain ⟨C, hC, -, rfl⟩ := ggWeylCartan hW h3
   obtain ⟨a, b, w, hab, hwa, hwb⟩ :=

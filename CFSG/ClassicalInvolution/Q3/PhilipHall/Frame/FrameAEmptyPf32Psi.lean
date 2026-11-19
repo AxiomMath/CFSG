@@ -54,7 +54,7 @@ include d
 
 theorem frameX_le_N :
     sec20X (CoreAssembly.conjClass K) z K K' ≤ Subgroup.normalizer (K : Set G) :=
-  fun x hx => ((sec20X_le_normalizers_frame d) hx).1
+  fun _x hx => ((sec20X_le_normalizers_frame d) hx).1
 
 theorem K_le_kerG {y : G} (hy : y ∈ K) : y ∈ kerG K :=
   mem_kerG.mpr ⟨Subgroup.le_normalizer hy, psiK_eq_one_of_mem K hy⟩

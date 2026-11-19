@@ -45,7 +45,7 @@ theorem liftM_mulVec_e0 (B : Matrix (Fin w) (Fin w) F4) (d : F4) :
     simp only [Matrix.mulVec, dotProduct, Pi.smul_apply, smul_eq_mul]
     rw [Fin.sum_univ_add, Fin.sum_univ_two]
     simp only [liftM_TW, liftM_TT, zero_mul, Finset.sum_const_zero, zero_add, e0_natAdd_zero,
-      e0_natAdd_one, mul_one, Finset.sum_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      e0_natAdd_one, mul_one]
     fin_cases s <;> simp [e0_natAdd_zero, e0_natAdd_one, Matrix.one_apply]
 
 theorem liftM_det (B : Matrix (Fin w) (Fin w) F4) (d : F4) :
@@ -90,7 +90,7 @@ theorem liftM_unitary {B : Matrix (Fin w) (Fin w) F4} (hB : IsUnitaryMat B) {d :
         simp [liftM_WT]
       have h2 : ∑ u : Fin 2, fr (liftM B d (Tp w u) (Wc w i)) * liftM B d (Tp w u) (Tp w t) = 0 := by
         simp [liftM_TW]
-      rw [h1, h2, add_zero, if_neg (hne i t)]
+      rw [h1, h2, add_zero, ite_eq_right (hne i t)]
   | right s =>
     induction m using Fin.addCases with
     | left j =>
@@ -98,14 +98,14 @@ theorem liftM_unitary {B : Matrix (Fin w) (Fin w) F4} (hB : IsUnitaryMat B) {d :
         simp [liftM_WT]
       have h2 : ∑ u : Fin 2, fr (liftM B d (Tp w u) (Tp w s)) * liftM B d (Tp w u) (Wc w j) = 0 := by
         simp [liftM_TW]
-      rw [h1, h2, zero_add, if_neg (fun h => hne j s h.symm)]
+      rw [h1, h2, zero_add, ite_eq_right (fun h => hne j s h.symm)]
     | right t =>
       have h1 : ∑ a : Fin w, fr (liftM B d (Wc w a) (Tp w s)) * liftM B d (Wc w a) (Tp w t) = 0 := by
         simp [liftM_WT]
       have h2 : ∑ u : Fin 2, fr (liftM B d (Tp w u) (Tp w s)) * liftM B d (Tp w u) (Tp w t) =
           if s = t then 1 else 0 := by
         fin_cases s <;> fin_cases t <;>
-          simp [Fin.sum_univ_two, liftM_TT, Matrix.one_apply, map_mul, hd, fr_fix01]
+          simp [liftM_TT, Matrix.one_apply, hd, fr_fix01]
       rw [h1, h2, zero_add]
       simp [Fin.natAdd_inj]
 

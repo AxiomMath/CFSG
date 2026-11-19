@@ -101,7 +101,7 @@ theorem sup_eq_top :
     exact Subgroup.card_dvd_of_le le_sup_left
   rw [card_Z hi] at hdvd
   interval_cases i
-  all_goals first | (exfalso; revert hdvd; decide) | skip
+  all_goals try (exfalso; revert hdvd; decide)
   ·
     exfalso
     have hx : (⟨x36, Equiv.Perm.mem_alternatingGroup.mpr x36_sign⟩ : ↥A7s) ∈ Q10 ⊔ Q7 :=

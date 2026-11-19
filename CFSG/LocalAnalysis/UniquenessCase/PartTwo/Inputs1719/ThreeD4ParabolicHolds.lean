@@ -27,7 +27,7 @@ theorem isPGroup_graphFixedPosUnipotent_D4
     (hK : Nat.card K = (2 ^ f) ^ 3) :
     IsPGroup 2 ↥(graphFixedPosUnipotent TwistTag.D4 K σ) := by
   have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hK3
   exact (CFSG.LieType.Chevalley.isPGroup_posUnipotent (K := K) 2 TwistTag.D4.tag).to_le
@@ -102,7 +102,7 @@ theorem k_3D4ParabolicGen_holds :
       (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).map φ.symm.toMonoidHom
   have hresQ : ResidualOvergroupsAt X S (fun j => Q (d4Index j)) := hres
   have hK3 : Nat.card K = 2 ^ (3 * n) := by rw [hK, ← pow_mul, mul_comm]
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hK3
   have hU := isPGroup_graphFixedPosUnipotent_D4 (f := n) (by omega) (σ := σ.toRingHom) hK

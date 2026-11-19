@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup
 
 theorem glbPrimeCore_eq_pCoreOf (hp : p.Prime) (hp2 : p ≠ 2) (H : Subgroup G)
     (h2 : IsPGroup 2 (GLBPrimeCore p H)) : GLBPrimeCore p H = pCoreOf 2 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply le_antisymm
   · have hn : ((GLBPrimeCore p H).subgroupOf H).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer (CFSG.AGLEmbedding.glbPrimeCore_le p H)).mpr
@@ -48,11 +48,11 @@ theorem exists_kgData3 (hKF : KFact64iiL) (hS : Situation G p P M) (hx : Point P
     (hO : GLBPrimeCore p H ≤ M)
     (hΩ : ∀ Q : Subgroup G, Q ≤ H → IsPGroup p Q → zpowers x ⊔ zpowers z ≤ Q →
       ∀ q ∈ Q, q ^ p = 1 → q ∈ zpowers x ⊔ zpowers z)
-    (hnpc : ¬ CFSG.HasNormalPComplement p ↥(centralizer ({x} : Set G)))
+    (_hnpc : ¬ CFSG.HasNormalPComplement p ↥(centralizer ({x} : Set G)))
     (h2 : IsPGroup 2 (GLBPrimeCore p H)) :
     ∃ L : Subgroup G, KGData3 p H (GLBPrimeCore p H) S (zpowers x ⊔ zpowers z) L M z := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hp2 : p ≠ 2 := hS.ne_two
   have hHtop : H ≠ ⊤ := isTwoLocal_ne_top hS hopt.ext.pair.isTwoLocal
   have hcat : ∀ X : Subgroup G, X ≤ H → CFSG.AGLEmbedding.CatalogSimpleSections ↥X := fun X hXH =>

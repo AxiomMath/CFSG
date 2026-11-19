@@ -64,7 +64,7 @@ theorem iform_sigma_prev (h : IsSLFrame ρ σ) {κ : ℤ}
 
 theorem iform_sigma_disjoint (h : IsSLFrame ρ σ) {κ : ℤ}
     (hnorm : ∀ a b, a ≠ b → iform (σ a b) (σ a b) = 2 * κ) {i j k l : Fin ν} (hij : i ≠ j)
-    (hkl : k ≠ l) (hik : i ≠ k) (hil : i ≠ l) (hjk : j ≠ k) (hjl : j ≠ l) :
+    (_hkl : k ≠ l) (hik : i ≠ k) (hil : i ≠ l) (hjk : j ≠ k) (hjl : j ≠ l) :
     iform (σ i j) (σ k l) = 0 := by
   have e : σ k l = σ k j + σ j l := (h.add k j l).symm
   rw [e, iform_add_right', iform_sigma_prev h hnorm hij hjk hik,
@@ -148,18 +148,17 @@ theorem slEmbed_transvection (e : Fin m → Fin n) (he : Function.Injective e) {
   congr 1
   ext k l
   simp only [Matrix.mul_apply, Matrix.single_apply, inclMat, Matrix.transpose_apply,
-    Matrix.of_apply, mul_ite, ite_mul, one_mul, mul_one, mul_zero, zero_mul, Finset.sum_ite_eq,
-    Finset.mem_univ, if_true, Matrix.add_apply, Matrix.one_apply, Matrix.sub_apply]
+    Matrix.of_apply, mul_ite, ite_mul, one_mul, mul_one, mul_zero, zero_mul, Matrix.add_apply, Matrix.one_apply, Matrix.sub_apply]
   rw [Finset.sum_eq_single c]
-  · simp only [Finset.mem_univ, if_true]
+  · simp only
     by_cases hl : l = e c
-    · rw [if_pos hl, Finset.sum_eq_single a]
+    · rw [ite_eq_left hl, Finset.sum_eq_single a]
       · simp [hl, eq_comm]
       · intro x _ hx
         simp [hx.symm]
       · simp
     · have : ¬ (e a = k ∧ e c = l) := fun h => hl h.2.symm
-      rw [if_neg hl, if_neg this]
+      rw [ite_eq_right hl, ite_eq_right this]
   · intro j _ hj
     simp [hj.symm]
   · simp

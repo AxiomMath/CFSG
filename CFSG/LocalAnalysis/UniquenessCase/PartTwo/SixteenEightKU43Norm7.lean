@@ -41,7 +41,7 @@ theorem exists_eig_of_unitary {B : Matrix (Fin 4) (Fin 4) L}
     refine ⟨w, hw0, ?_⟩
     rw [vecMul_sub, h2, scalar_apply]
     funext i
-    simp [mul_comm]
+    simp
   obtain ⟨w', hw', h⟩ := exists_mulVec_eq_zero_iff.mpr hdet
   refine ⟨w', hw', ?_⟩
   rw [sub_mulVec, sub_eq_zero, scalar_apply] at h
@@ -166,7 +166,7 @@ theorem core_seven [IsAlgClosed L] {B : Matrix (Fin 4) (Fin 4) L}
     omega
   set vec : Fin 4 → (Fin 4 → L) := ![u, v, v₂, v₄] with hvec_def
   have hli : LinearIndependent L vec := by
-    have := linearIndependent_fin_cons.mpr ⟨hli3, hnotin⟩
+    have := linearIndependent_finCons.mpr ⟨hli3, hnotin⟩
     exact this
   have hcard : Fintype.card (Fin 4) = Module.finrank L (Fin 4 → L) := by simp
   set bs := basisOfLinearIndependentOfCardEqFinrank hli hcard with hbs_def
@@ -227,7 +227,7 @@ theorem core_seven [IsAlgClosed L] {B : Matrix (Fin 4) (Fin 4) L}
   set σ : Fin 4 → Fin 4 := ![0, 3, 1, 2] with hσ
   have hlamσ : ∀ k, lam k ^ 3 * lam (σ k) = 1 := by
     intro k
-    fin_cases k <;> simp [hlam_def, hσ, he, ← pow_mul, ← pow_add, hμ7, h14] <;>
+    fin_cases k <;> simp [hlam_def, hσ, he, ← pow_mul, ← pow_add, hμ7, h14];
       first | done | (rw [← pow_succ]; exact hμ7)
   have hlam0 : ∀ k, lam k ≠ 0 := fun k => pow_ne_zero _ hμ0
   have hσ_unique : ∀ k j, lam k ^ 3 * lam j = 1 → j = σ k := by
@@ -309,7 +309,7 @@ theorem core_seven [IsAlgClosed L] {B : Matrix (Fin 4) (Fin 4) L}
       rw [hbs, Matrix.toLin'_apply, Matrix.toLin'_apply, hcf, hall, scalar_apply]
       funext j
       rw [mulVec_diagonal]
-      simp [mul_comm]
+      simp
     exact Matrix.toLin'.injective hlin
   · intro Y hY
     set w := Y *ᵥ v with hw
@@ -345,7 +345,7 @@ theorem seven_facts_projSU (x : projSU 4 3 1) (hx : orderOf x = 7) :
   have hU : UnitaryFieldData 3 1 K :=
     ⟨Nat.prime_three, le_rfl, GaloisField.card 3 (2 * 1) (by norm_num)⟩
   have : CharP K 3 := hU.charP
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hlift : ∀ z : projSU 4 3 1, ∃ Z : GL (Fin 4) K, Z ∈ unitarySU 3 1 K 4 ∧
       ProjGenLinGroup.mk Z = (z : ProjGenLinGroup (Fin 4) K) := fun z =>
     Subgroup.mem_map.mp
@@ -381,7 +381,7 @@ theorem seven_facts_projSU (x : projSU 4 3 1) (hx : orderOf x = 7) :
     rw [show T * B * T⁻¹ = MulAut.conj T B by simp, ← map_pow, hB7, map_one]
   have hconjdet : ∀ T : GL (Fin 4) K,
       Matrix.GeneralLinearGroup.det (T * B * T⁻¹) = Matrix.GeneralLinearGroup.det B := fun T => by
-    simp [map_mul, map_inv, mul_comm]
+    simp only [map_mul, map_inv, mul_inv_cancel_comm]
   set L := AlgebraicClosure K
   set ι := (algebraMap K L).mapMatrix (m := Fin 4) with hι
   have hιunit : ∀ Z ∈ unitarySU 3 1 K 4,
@@ -513,9 +513,9 @@ theorem card_normalizer_dvd_twentyOne (P : Subgroup G) (hP : Nat.card P = 7)
     (hC : ∀ x : G, orderOf x = 7 → Nat.card (Subgroup.centralizer ({x} : Set G)) ∣ 7)
     (hR : ∀ x : G, orderOf x = 7 → ∀ t : G, t * x * t⁻¹ ≠ x⁻¹) :
     Nat.card (Subgroup.normalizer (P : Set G)) ∣ 21 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := isCyclic_of_prime_card hP
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := isCyclic_of_prime_card hP
   obtain ⟨a, ha⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := P)
   rw [hP] at ha
   set x : G := (a : G) with hxa
@@ -561,7 +561,7 @@ theorem card_normalizer_dvd_twentyOne (P : Subgroup G) (hP : Nat.card P = 7)
         rw [Subgroup.mem_centralizer_singleton_iff]
         rw [hxk] at hk
         rw [eq_mul_inv_iff_mul_eq] at hk
-        first | exact hk | exact hk.symm
+        exact hk.symm
       have := (Subgroup.orderOf_dvd_natCard _ htC).trans (hC x hx)
       rw [ht2] at this
       norm_num at this
@@ -582,7 +582,7 @@ end Normalizer
 theorem u43Norm7 : U43Norm7Statement := by
   unfold U43Norm7Statement
   intro S _ _ hS P hP
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := CFSG.Quasithin.A318P.projSU_of_statedClassicalModel_gen
     (hS.statedClassicalModel (by decide))
   refine card_normalizer_dvd_twentyOne P hP ?_ ?_

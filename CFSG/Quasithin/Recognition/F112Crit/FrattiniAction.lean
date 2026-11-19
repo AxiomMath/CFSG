@@ -22,10 +22,10 @@ theorem exists_frattini_action {H : Type} [Group H] [Finite H]
           π (Additive.ofMul (MulAut.conjNormal h n))) ∧
       (∀ h : H, ρ h = 1 ↔ h ∈ CFSG.pCore 2 H) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : IsPGroup 2 ↥(CFSG.pCore 2 H) := CFSG.pCore_isPGroup
   obtain ⟨-, -, -, helem, -⟩ := CFSG.GroupTheory.frattini_elementary_quotient (p := 2) hP
-  haveI : IsElementaryAbelian 2 (↥(CFSG.pCore 2 H) ⧸ frattini ↥(CFSG.pCore 2 H)) := helem
+  have : IsElementaryAbelian 2 (↥(CFSG.pCore 2 H) ⧸ frattini ↥(CFSG.pCore 2 H)) := helem
   let ρ₀ : H →* MulAut (↥(CFSG.pCore 2 H) ⧸ frattini ↥(CFSG.pCore 2 H)) :=
     (quotientAutomorphism (frattini ↥(CFSG.pCore 2 H))).comp
       (MulAut.conjNormal : H →* MulAut ↥(CFSG.pCore 2 H))

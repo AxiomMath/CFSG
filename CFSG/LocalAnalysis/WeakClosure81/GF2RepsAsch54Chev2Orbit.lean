@@ -101,6 +101,7 @@ variable {Q : Type} [Group Q] [Finite Q] {L T M : Subgroup Q} {K : Type} [Group 
     {t : Q} (ht : t ∈ R) : ↥(actHom hRN).range :=
   ⟨actHom hRN ⟨t, ht⟩, ⟨⟨t, ht⟩, rfl⟩⟩
 
+omit [Finite Q] in
 theorem map_parJ_subtype_conj (h : BorelQuotient D n H π e) {R : Subgroup Q}
     (hRN : R ≤ Subgroup.normalizer (L : Set Q))
     (h𝒜 : ∀ α ∈ (actHom hRN).range,
@@ -120,6 +121,7 @@ theorem map_parJ_subtype_conj (h : BorelQuotient D n H π e) {R : Subgroup Q}
     exact congrArg (Subgroup.map L.subtype) h1
   simpa [B6.conjSub, a] using h2
 
+omit [Finite Q] in
 theorem image_nodeOrbit_compl (h : BorelQuotient D n H π e) (𝒜 : Subgroup (MulAut ↥L))
     (h𝒜 : ∀ α ∈ 𝒜, ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π)
     (i : Fin D.rank) (a : ↥𝒜) :
@@ -145,6 +147,7 @@ theorem image_nodeOrbit_compl (h : BorelQuotient D n H π e) (𝒜 : Subgroup (M
       exact hj this
     · simp
 
+omit [Finite Q] in
 theorem map_parJ_orbit_subtype_conj (h : BorelQuotient D n H π e) {R : Subgroup Q}
     (hRN : R ≤ Subgroup.normalizer (L : Set Q))
     (h𝒜 : ∀ α ∈ (actHom hRN).range,
@@ -168,6 +171,7 @@ theorem map_parJ_orbit_subtype_conj (h : BorelQuotient D n H π e) {R : Subgroup
     exact congrArg (Subgroup.map L.subtype) h1
   simpa [B6.conjSub, a] using h2
 
+omit [Finite Q] in
 theorem map_parJ_compl_subtype_conj (h : BorelQuotient D n H π e) {R : Subgroup Q}
     (hRN : R ≤ Subgroup.normalizer (L : Set Q))
     (h𝒜 : ∀ α ∈ (actHom hRN).range,
@@ -201,6 +205,7 @@ theorem iSup_map_rankOne_subtype_eq (h : BorelQuotient D n H π e) :
   rw [← Subgroup.map_iSup, ← Subgroup.map_iSup, iSup_rankOne_eq_top h.ct h.extras,
     Subgroup.map_top_of_surjective π h.surj, Subgroup.map_top, Subgroup.range_subtype]
 
+omit [Finite Q] [Finite K] in
 theorem mem_of_map_parJ_map_subtype_eq_top (h : BorelQuotient D n H π e)
     {J : Set (Fin D.rank)} (hJ : J.Nonempty) {k : Fin D.rank}
     (htop : ((parJ D H J).map π).map L.subtype = L) : k ∈ J := by
@@ -237,6 +242,7 @@ theorem map_parJ_map_subtype_sup_compl_eq_top (h : BorelQuotient D n H π e)
         · exact le_sup_of_le_right
             (Subgroup.map_mono (Subgroup.map_mono (rankOne_le_parJ (by simpa using hk))))
 
+omit [Finite Q] in
 theorem nodeHom_eq_of_map_parJ_subtype_conj (h : BorelQuotient D n H π e)
     {R : Subgroup Q} (hRN : R ≤ Subgroup.normalizer (L : Set Q))
     (h𝒜 : ∀ α ∈ (actHom hRN).range,
@@ -254,6 +260,7 @@ theorem nodeHom_eq_of_map_parJ_subtype_conj (h : BorelQuotient D n H π e)
     simpa [B6.conjSub] using hconj
   simpa [nodeHom_apply] using hperm
 
+omit [Finite Q] [Finite K] in
 theorem card_parJ_eq_card_map_mul_ker (h : BorelQuotient D n H π e)
     (J : Set (Fin D.rank)) : Nat.card ↥(parJ D H J) =
       Nat.card ↥((parJ D H J).map π) * Nat.card ↥π.ker := by
@@ -315,7 +322,7 @@ theorem rank_le_two_of_nodeTransitive (hbq : BorelQuotient D n H π e) (hLn : L.
     hT2.of_surjective (actHom hRN).rangeRestrict
       (actHom hRN).rangeRestrict_surjective
   have hT : (TauCeti.diagramGraph D.cartan).IsTree :=
-    @CFSG.AGLEmbeddingD2.Tits.GN516.Conn.diagram_isTree K ↥L _ _ _ D n H π e hbq
+    @CFSG.AGLEmbeddingD2.Tits.GN516.Conn.diagram_isTree K ↥L _ _ D n H π e hbq
       hLs hnab
   let act : MulAction ↥𝒜 (Fin D.rank) :=
     { smul := fun a x => nodeHom hbq 𝒜 h𝒜 a x
@@ -374,6 +381,7 @@ theorem rank_le_two_of_nodeTransitive (hbq : BorelQuotient D n H π e) (hLn : L.
   rw [Set.ncard_univ, Nat.card_fin, Set.ncard_pair hxy.ne] at hcard
   omega
 
+omit [Finite Q] in
 theorem card_rootGroup_eq_of_nodeTransitive (hbq : BorelQuotient D n H π e)
     (htr : NodeTransitive L T D H π) (i j : Fin D.rank) :
     Nat.card ↥(D.rootGroup (Pi.single i 1)) = Nat.card ↥(D.rootGroup (Pi.single j 1)) := by
@@ -399,6 +407,7 @@ theorem card_rootGroup_eq_of_nodeTransitive (hbq : BorelQuotient D n H π e)
   have hEq := Nat.eq_of_mul_eq_mul_left hB hcardP
   omega
 
+omit [Finite Q] in
 theorem degree_nodePerm (hbq : BorelQuotient D n H π e) (α : MulAut ↥L)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π) (j : Fin D.rank) :
     (TauCeti.diagramGraph D.cartan).degree (nodePerm hbq α hα j) =
@@ -409,6 +418,7 @@ theorem degree_nodePerm (hbq : BorelQuotient D n H π e) (α : MulAut ↥L)
         CFSG.AGLEmbeddingD2.Tits.GN516.Core.nodePerm_adj_iff hbq α hα a b }
   exact f.degree_eq j
 
+omit [Finite Q] in
 theorem card_rootGroup_eq_of_nodePerm (hbq : BorelQuotient D n H π e) (α : MulAut ↥L)
     (hα : ((posUnipotent D).map π).map α.toMonoidHom = (posUnipotent D).map π) (j : Fin D.rank) :
     Nat.card ↥(D.rootGroup (Pi.single (nodePerm hbq α hα j) 1)) =
@@ -508,6 +518,7 @@ theorem exists_umaxBQ (hLn : L.Normal) (hLs : IsSimpleGroup ↥L)
 
 namespace UMaxBQ
 
+omit [Finite K] in
 theorem inf_ne_bot (hU : UMaxBQ L T M D n H π e) : T ⊓ L ≠ ⊥ := by
   intro hbot
   have hT2 : IsSylowTwoOf T ⊤ := ⟨hU.sylow.1, hU.sylow.2.1, hU.sylow.2.2⟩
@@ -557,6 +568,7 @@ theorem inf_ne_bot (hU : UMaxBQ L T M D n H π e) : T ⊓ L ≠ ⊥ := by
   rw [Subgroup.mem_bot] at ha hb
   rw [ha, hb]
 
+omit [Finite K] in
 private theorem map_parJ_map_subtype_ne_bot (hU : UMaxBQ L T M D n H π e)
     (J : Set (Fin D.rank)) : ((parJ D H J).map π).map L.subtype ≠ ⊥ := by
   have hUle : (posUnipotent D).map π ≤ (parJ D H J).map π :=

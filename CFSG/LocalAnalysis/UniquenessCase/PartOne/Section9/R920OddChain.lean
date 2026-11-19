@@ -25,6 +25,7 @@ theorem le_of_mem_uniqueSet_of_isPGroup {M E P : Subgroup G} {p : ℕ} [Fact p.P
     CFSG.LocalAnalysis.RankThreeUC.normalizer_le_of_mem_uniqueSet hM hYU
   exact (not_lt_of_ge (le_inf inf_le_left (inf_le_right.trans hNY))) hgrow
 
+omit [Finite G] in
 theorem mem_of_map_conj_le_of_mem_uniqueSet {M E : Subgroup G} (hM : rankThreeIsMaxTwoLocal M)
     (hE : E ∈ uniqueSet M) {h : G} (hh : E.map (MulAut.conj h).toMonoidHom ≤ M) : h ∈ M := by
   have h1 : E ≤ M.map (MulAut.conj h⁻¹).toMonoidHom := by
@@ -37,6 +38,7 @@ theorem mem_of_map_conj_le_of_mem_uniqueSet {M E : Subgroup G} (hM : rankThreeIs
   rw [CFSG.RankThreeCoreUniqueness.Helpers.maxTwoLocal_self_normalizing M hM] at h2
   simpa using M.inv_mem h2
 
+omit [Finite G] in
 private theorem exists_isSylowOf_ge_chain {p : ℕ} [Fact p.Prime] {K E : Subgroup G} (hEK : E ≤ K)
     (hE : IsPGroup p ↥E) : ∃ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p P K ∧ E ≤ P := by
   obtain ⟨T, hT⟩ := (hE.comap_subtype (K := K)).exists_le_sylow
@@ -60,7 +62,7 @@ variable {D : Data G} {L D₃ Y H : Subgroup G}
 theorem exists_sylow_le_M (S : SliceCore D L D₃ Y H) {E : Subgroup G} (hEX : E ≤ Opp 3 Y)
     (hE3 : IsPGroup 3 ↥E) (hEU : E ∈ uniqueSet D.M) :
     ∃ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 P H ∧ E ≤ P ∧ P ≤ D.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP, hEP⟩ :=
     exists_isSylowOf_ge_chain (hEX.trans ((opp_le 3 Y).trans S.Y_le_H)) hE3
   exact ⟨P, hP, hEP, le_of_mem_uniqueSet_of_isPGroup D.maxLocal hEU hEP hP.isPGroup⟩
@@ -69,7 +71,7 @@ theorem map_conj_L_ne (S : SliceCore D L D₃ Y H) {E P : Subgroup G} (hEX : E �
     (hE3 : Nat.card E = 3) (hP : IsPGroup 3 ↥P) {h : G} (hEP : E ≤ P)
     (hhP : E.map (MulAut.conj h).toMonoidHom ≤ P)
     (hne : E.map (MulAut.conj h).toMonoidHom ≠ E) : L.map (MulAut.conj h).toMonoidHom ≠ L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hL
   apply hne
   have hEL : E ≤ L := hEX.trans S.opp_le_L

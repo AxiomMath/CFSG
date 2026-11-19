@@ -70,7 +70,7 @@ theorem eq_fiveReflOf_of_neg_eigenline {t : GL (Fin 5) (ZMod 5)}
     (ht : t * t = 1) {w : Fin 5 → ZMod 5} (hw : w ≠ 0)
     (hline : ∀ x, (t : Matrix (Fin 5) (Fin 5) (ZMod 5)) *ᵥ x = -x ↔ ∃ a : ZMod 5, x = a • w) :
     fiveForm 4 true w w ≠ 0 ∧ t = fiveReflOf 4 true w := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have htM : (t : Matrix (Fin 5) (Fin 5) (ZMod 5)) * t = 1 := by
     have h := congrArg (fun u : GL (Fin 5) (ZMod 5) =>
       (u : Matrix (Fin 5) (Fin 5) (ZMod 5))) ht
@@ -180,7 +180,7 @@ theorem mem_fiveReflections_four_true_false_of_dvd_card_centralizer
     (h13 : 13 ∣ Nat.card
       (Subgroup.centralizer ({t} : Set (fiveReflectionGroup 4 true false)))) :
     (t : GL (Fin 5) (ZMod 5)) ∈ fiveReflections 4 true false := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨c, hc13⟩ := exists_prime_orderOf_dvd_card'
     (G := Subgroup.centralizer ({t} : Set (fiveReflectionGroup 4 true false))) 13 h13
   let cGL : GL (Fin 5) (ZMod 5) :=

@@ -64,8 +64,8 @@ theorem map_letterCode_substWord (hs : List (List (Fin 2 × Bool))) (r : List (F
   dsimp only
   rw [hdiv, hb, hg]
   cases b
-  · rw [Bool.cond_false, if_neg Bool.false_ne_true, map_letterCode_invRev]
-  · rw [Bool.cond_true, if_pos rfl]
+  · rw [Bool.cond_false, ite_eq_right Bool.false_ne_true, map_letterCode_invRev]
+  · rw [Bool.cond_true, ite_eq_left rfl]
 
 end CFSG.KC.L34Cov
 

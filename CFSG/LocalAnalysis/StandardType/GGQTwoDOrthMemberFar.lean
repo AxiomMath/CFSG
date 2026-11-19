@@ -18,7 +18,7 @@ private theorem plh_label_three {r m : ℕ} (hm : 3 ≤ m) (hr : r = m + 1) (i j
       (i.val + 2 = m ∧ j.val = m) ∨ (j.val + 2 = m ∧ i.val = m)) :
     CFSG.StandardType.ggCoxeterMatrixD (m + 1) (Fin.cast hr i) (Fin.cast hr j) = 3 := by
   rw [qtwoLabel_three_iff hm]
-  simpa only [Fin.coe_cast] using h
+  simpa only [_root_.Fin.val_cast] using h
 
 private theorem plh_label_two {r m : ℕ} (hm : 3 ≤ m) (hr : r = m + 1) (i j : Fin r)
     (hij : i ≠ j)
@@ -26,7 +26,7 @@ private theorem plh_label_two {r m : ℕ} (hm : 3 ≤ m) (hr : r = m + 1) (i j :
       (i.val + 2 = m ∧ j.val = m) ∨ (j.val + 2 = m ∧ i.val = m))) :
     CFSG.StandardType.ggCoxeterMatrixD (m + 1) (Fin.cast hr i) (Fin.cast hr j) = 2 := by
   rw [qtwoLabel_two_iff hm _ _ (fun hEq => hij (Fin.cast_injective hr hEq))]
-  simpa only [Fin.coe_cast] using h
+  simpa only [_root_.Fin.val_cast] using h
 
 theorem qtwoOrth_farEdgeEdge (hF : Nat.card Φ.F = 2)
     (hZ : Subgroup.center ↥Y = ⊥) (hBs : IsElemAbelian p Bs) {ρ₁ ρ₂ ρ₃ ρ₄ : MulAut ↥Bs}
@@ -61,7 +61,7 @@ theorem qtwoOrth_farEdgeEdge (hF : Nat.card Φ.F = 2)
   obtain ⟨m, hm⟩ : ∃ m, Φ.r = m + 1 := ⟨Φ.r - 1, by omega⟩
   have hm3 : 3 ≤ m := by omega
   obtain ⟨alg, E, χ, _hχQ, hstd1, hstd2⟩ := qtwoOrth_std Φ hF hZ hBs m hm3 hm
-  letI := alg
+  let := alg
   let n₀ : Fin Φ.r := ⟨0, by omega⟩
   let n₁ : Fin Φ.r := ⟨1, by omega⟩
   let n₃ : Fin Φ.r := ⟨3, by omega⟩

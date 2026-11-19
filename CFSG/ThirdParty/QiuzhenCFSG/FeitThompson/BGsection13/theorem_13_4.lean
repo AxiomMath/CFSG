@@ -66,8 +66,8 @@ public theorem CFSG.section13_le_normalizer_map_of_isInvariant
     IsInvariant (↥A) (↥H) K →
     A ≤ Subgroup.normalizer (K.map H.subtype : Set G) := by
   intro hKinv
-  haveI : Subgroup.Normalizes A H := ⟨hAH⟩
-  letI : IsInvariant (↥A) (↥H) K := hKinv
+  have : Subgroup.Normalizes A H := ⟨hAH⟩
+  let : IsInvariant (↥A) (↥H) K := hKinv
   refine subgroup_le_normalizer_of_conj_mem (K.map H.subtype) A ?_
   intro a x hx
   rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
@@ -89,7 +89,7 @@ private theorem CFSG.section13_theorem_13_4_exists_pr_invariant_sylow
       IsInvariant (↥(P ⊔ R)) (↥(subgroupCentralizerIn (section10Msigma M) P))
         (S : Subgroup (subgroupCentralizerIn (section10Msigma M) P)) := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   let X : Subgroup G := subgroupCentralizerIn (section10Msigma M) P
   let A : Subgroup G := P ⊔ R
   rcases (by simpa [section10PrimeOrderSubgroupsIn] using hP) with ⟨hPE, _hPcard⟩
@@ -150,13 +150,13 @@ private theorem CFSG.section13_theorem_13_4_exists_pr_invariant_sylow
     have htop_le_M : (⊤ : Subgroup G) ≤ M := by
       simpa [hXtop] using hX_le_M
     exact hM.1 (top_le_iff.mp htop_le_M)
-  have hXsolv : IsSolvable X :=
+  have hXsolv : Group.IsSolvable X :=
     IsMinCE.proper_subgroups_solvable X (lt_top_iff_ne_top.2 hX_ne_top)
   have hqσ : q ∈ section10SigmaPrimes M :=
     section13_sigma_of_mem_centralizer_msigma (G := G) hM hqX
   have hAX : Subgroup.Normalizes A X := ⟨hA_norm_X⟩
   refine ⟨by simpa [X, A] using hAX, ?_⟩
-  letI : Subgroup.Normalizes A X := hAX
+  let : Subgroup.Normalizes A X := hAX
   have hq_eq : (⟨q.val, Fact.out⟩ : Nat.Primes) = q := by
     ext
     rfl
@@ -562,7 +562,7 @@ private theorem CFSG.section13_malpha_exists_pr_invariant_sylow
       IsInvariant (↥(P ⊔ R)) (↥(subgroupCentralizerIn (section10Malpha M) P))
         (S : Subgroup (subgroupCentralizerIn (section10Malpha M) P)) := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   let X : Subgroup G := subgroupCentralizerIn (section10Malpha M) P
   let A : Subgroup G := P ⊔ R
   rcases (by simpa [section10PrimeOrderSubgroupsIn] using hP) with ⟨hPE, hPcard⟩
@@ -640,12 +640,12 @@ private theorem CFSG.section13_malpha_exists_pr_invariant_sylow
     have htop_le_M : (⊤ : Subgroup G) ≤ M := by
       simpa [hXtop] using hX_le_M
     exact hM.1 (top_le_iff.mp htop_le_M)
-  have hXsolv : IsSolvable X :=
+  have hXsolv : Group.IsSolvable X :=
     IsMinCE.proper_subgroups_solvable X (lt_top_iff_ne_top.2 hX_ne_top)
   have hqα : q ∈ section10AlphaPrimes M := hXπsub q hqX
   have hAX : Subgroup.Normalizes A X := ⟨hA_norm_X⟩
   refine ⟨by simpa [X, A] using hAX, ?_⟩
-  letI : Subgroup.Normalizes A X := hAX
+  let : Subgroup.Normalizes A X := hAX
   have hq_eq : (⟨q.val, Fact.out⟩ : Nat.Primes) = q := by
     ext
     rfl
@@ -695,7 +695,7 @@ private theorem CFSG.section13_malpha_pr_invariant_sylow_centralizes
     have hSgq : IsPGroup q.val Sg := by
       change IsPGroup q.val ((S : Subgroup Xα).map Xα.subtype)
       exact IsPGroup.map (p := q.val) (H := (S : Subgroup Xα))
-        S.isPGroup' Xα.subtype
+        S.isPGroup Xα.subtype
     have hXα_le_Xσ :
         Xα ≤ subgroupCentralizerIn (section10Msigma M) P := by
       intro x hx
@@ -759,7 +759,7 @@ private theorem CFSG.section13_malpha_centralizer_le_of_tau1_prime_order_pair
           (E₂ := E₂) (E₃ := E₃) (P := P) (R := R)
           (p := p) (r := r) (q := q) hM hE hpτ1 hP hrτ1 hR hqXα with
         ⟨hAX, S, hSinv⟩
-      letI : Subgroup.Normalizes (P ⊔ R) Xα := by
+      let : Subgroup.Normalizes (P ⊔ R) Xα := by
         simpa [Xα] using hAX
       refine ⟨S, ?_⟩
       simpa [Xα] using
@@ -848,7 +848,7 @@ private theorem CFSG.section13_theorem_13_4_pr_invariant_sylow_noncentral_absurd
     have hSgq : IsPGroup q.val Sg := by
       change IsPGroup q.val ((S : Subgroup X).map X.subtype)
       exact IsPGroup.map (p := q.val) (H := (S : Subgroup X))
-        S.isPGroup' X.subtype
+        S.isPGroup X.subtype
     exact section13_isPGroup_of_le_pSubgroup (G := G) hSgq hQ_le_Sg
   have hSR_norm_Q : Sg ⊔ R ≤ Subgroup.normalizer (Q : Set G) := by
     have hQ_norm_sup : (Q.subgroupOf (Sg ⊔ R : Subgroup G)).Normal := by
@@ -882,7 +882,7 @@ private theorem CFSG.section13_theorem_13_4_pr_invariant_sylow_noncentral_absurd
   have hSgq : IsPGroup q.val Sg := by
     change IsPGroup q.val ((S : Subgroup X).map X.subtype)
     exact IsPGroup.map (p := q.val) (H := (S : Subgroup X))
-      S.isPGroup' X.subtype
+      S.isPGroup X.subtype
   have hSg_comm : IsMulCommutative Sg := by
     by_contra hnon
     exact
@@ -1221,7 +1221,7 @@ private theorem CFSG.section13_theorem_13_4_exists_centralized_sylow_tau1_star
       (E₂ := E₂) (E₃ := E₃) (P := P) (R := R)
       (p := p) (r := r) (q := q) hM hE hP hR hqX with
     ⟨hAX, S, hSinv⟩
-  letI : Subgroup.Normalizes (P ⊔ R) (subgroupCentralizerIn (section10Msigma M) P) := hAX
+  let : Subgroup.Normalizes (P ⊔ R) (subgroupCentralizerIn (section10Msigma M) P) := hAX
   refine ⟨S, ?_⟩
   exact
     section13_theorem_13_4_pr_invariant_sylow_centralizes

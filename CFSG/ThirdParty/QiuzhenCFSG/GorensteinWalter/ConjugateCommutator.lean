@@ -51,8 +51,7 @@ public theorem centralizer_normalizes_commutator_closure
     rcases hx with ⟨p, hp, rfl⟩
     rw [conjugate_commutator_of_centralizes z t p hzt]
     exact Subgroup.subset_closure ⟨z * p * z⁻¹, hznorm p hp, rfl⟩
-  · simpa using (Subgroup.closure
-      {x : G | ∃ p : G, p ∈ P ∧ x = t * p * t⁻¹}).one_mem
+  · simp
   · intro x y _ _ hx hy
     have hzxy : z * (x * y) * z⁻¹ =
         (z * x * z⁻¹) * (z * y * z⁻¹) := by group

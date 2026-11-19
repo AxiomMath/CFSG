@@ -37,9 +37,9 @@ public theorem lemma115_prime_card_subgroup_centralizes_cyclic_small_group
     (hPnormT : P ≤ Subgroup.normalizer (T : Set X)) :
     P ≤ Subgroup.centralizer (T : Set X) := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : IsCyclic T := hTcyc
-  letI : Subgroup.Normalizes P T := ⟨hPnormT⟩
+  let : Fact p.Prime := ⟨hp⟩
+  let : IsCyclic T := hTcyc
+  let : Subgroup.Normalizes P T := ⟨hPnormT⟩
   let phi : P →* MulAut T := MulDistribMulAction.toMulAut P T
   have hRangeP : Nat.card phi.range ∣ Nat.card P :=
     Subgroup.card_range_dvd phi
@@ -49,7 +49,7 @@ public theorem lemma115_prime_card_subgroup_centralizes_cyclic_small_group
     rcases hf with rfl | rfl
     · exact Nat.prime_three
     · exact Nat.prime_five
-  letI : Fact f.Prime := ⟨hfprime⟩
+  let : Fact f.Prime := ⟨hfprime⟩
   have hAutNotP : ¬ p ∣ Nat.card (MulAut T) := by
     obtain ⟨n, hn⟩ := hTf.exists_card_eq
     rw [IsCyclic.card_mulAut, hn]

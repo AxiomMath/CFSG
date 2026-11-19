@@ -23,6 +23,7 @@ theorem rho_conj_mul_self (S : Setting G) {k : G} (hxM : k * S.z * k⁻¹ ∈ S.
       _ = 1 := by rw [S.z_mul_z, mul_one, mul_inv_cancel])
   rw [this, map_one]
 
+omit [Finite G] in
 theorem commute_of_commutator_sq {x y : G} (hx2 : x ^ 2 = 1)
     (hg2 : (x * y * x⁻¹ * y⁻¹) ^ 2 = 1) : x * (x * y * x⁻¹ * y⁻¹) = (x * y * x⁻¹ * y⁻¹) * x := by
   have hxx : x * x = 1 := by rw [← pow_two, hx2]

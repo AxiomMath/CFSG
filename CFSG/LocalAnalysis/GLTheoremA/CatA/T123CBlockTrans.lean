@@ -51,7 +51,7 @@ private theorem card_quotient_center_comap (e : T ≃* T') (K : Subgroup T') :
 
 private theorem isElemAbelian_map {p : ℕ} (e : T ≃* T') {A : Subgroup T}
     (hA : IsElemAbelian p A) : IsElemAbelian p (A.map e.toMonoidHom) := by
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   refine ⟨inferInstance, ?_⟩
   rintro _ ⟨x, hx, rfl⟩
   rw [MulEquiv.coe_toMonoidHom, ← map_pow, hA.2 x hx, map_one]

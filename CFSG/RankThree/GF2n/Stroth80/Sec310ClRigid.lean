@@ -15,7 +15,7 @@ theorem rigidity_core (hnd : F.Nondegenerate) (halt : F.IsAlt)
     (hdim : 3 ≤ Module.finrank K V) {H : Subgroup (V ≃ₗ[K] V)}
     (hF1 : ∀ e f : V, e ∈ ElPts F H → f ∈ ElPts F H → F e f = 1 → ∃ Q, PairForm F H e f Q)
     {e r' s' : V} (hr' : r' ∈ ElPts F H) (hs' : s' ∈ ElPts F H)
-    (her : F e r' = 1) (hes : F e s' = 1) (hrs : F r' s' ≠ 0)
+    (_her : F e r' = 1) (_hes : F e s' = 1) (hrs : F r' s' ≠ 0)
     (hind : ∀ a b : K, e ≠ a • r' + b • s')
     {Q Q' : QuadraticForm K V} (hQ : Q.polarBilin = F) (hQ' : Q'.polarBilin = F) (κ : K)
     (hκ : ∀ v, Q' v = Q v + κ * (F v e) ^ 2)
@@ -156,7 +156,7 @@ theorem same_form_of_common_opposite (hnd : F.Nondegenerate) (halt : F.IsAlt)
     have hQw0 : Q w₀ = a w₀ := hWQ w₀ hw₀e hw₀f
     have hQsz : Q (f + (w₀ + c₀ • e)) = a w₀ + c₀ := by
       simp only [qf_add hQ.1, qf_smul, hQ.2.1, hQ.2.2.1, hQw0, map_add, map_smul,
-        LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hw₀e, hfw0, hfe]
+        smul_eq_mul, hw₀e, hfw0, hfe]
       ring
     exact (congrArg Q hsdecomp).trans hQsz
   have hκw : κ = a w₀ + c₀ := hκs.trans hQs_eq
@@ -247,12 +247,12 @@ theorem same_form_of_common_opposite (hnd : F.Nondegenerate) (halt : F.IsAlt)
       exact huf
     have hes' : F e s' = 1 := by
       rw [hs'eq]
-      simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+      simp only [map_add, map_smul, smul_eq_mul,
         hef, heu, form_self halt]
       ring
     have hfs' : F f s' = a u + κ := by
       rw [hs'eq]
-      simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+      simp only [map_add, map_smul, smul_eq_mul,
         hfe, hfu, form_self halt]
       ring
     have hrs' : F f s' ≠ 0 := by
@@ -264,7 +264,7 @@ theorem same_form_of_common_opposite (hnd : F.Nondegenerate) (halt : F.IsAlt)
       intro α β heq
       have p1 : α + β = 0 := by
         have h := congrArg (F e) heq
-        simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+        simp only [map_add, map_smul, smul_eq_mul,
           hef, hes', form_self halt] at h
         linear_combination -h
       have hαβ : α = β := by

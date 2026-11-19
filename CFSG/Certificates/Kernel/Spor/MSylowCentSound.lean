@@ -28,7 +28,7 @@ theorem letP_pkw {w : Nat} (vs ws : List (Equiv.Perm (Fin n))) (l : Int) :
   · change getDN _ j _ = _
     have e : (Int.ofNat (j + 1)).natAbs - 1 = j := rfl
     have e' : (0 : Int) < Int.ofNat (j + 1) := Int.ofNat_succ_pos j
-    rw [getDN_eq, hg, if_pos e', e]
+    rw [getDN_eq, hg, ite_eq_left e', e]
   · change getDN _ k _ = _
     rw [getDN_eq, hg]
     simp
@@ -126,7 +126,7 @@ theorem allL_comm_pkw {w P : Nat} {x : Equiv.Perm (Fin n)} (hn32 : n < 2 ^ 32) (
       allL _ (ps.map (pkw w))) = _
     rw [beq_pcomp_iff hn32 hw0 hP (prep_pkw hw p) (prep_pkw hw p) hP,
       allL_comm_pkw hn32 hw0 hw hP ps, PK.bAnd_eq]
-    simp [List.forall_mem_cons]
+    simp
 
 theorem centBadP_eq {w P : Nat} {x : Equiv.Perm (Fin n)} (hn24 : n < 16777216)
     (hw1 : n + 1 < 2 ^ w) (hP : PRep n w P x) (sP : P >>> (n * w) = 0)

@@ -199,52 +199,52 @@ private lemma ct_rm8_cartanD_02 {n : ℕ} (hn : 4 ≤ n) :
     CartanMatrix.D n ⟨0, by omega⟩ ⟨n - 2, by omega⟩ = 0 := by
   rw [CartanMatrix.D, Matrix.of_apply]
   dsimp only [Fin.val_mk, Fin.val_zero]
-  rw [if_neg (by intro h; exact absurd (congrArg Fin.val h) (by simp; omega))]
-  rw [if_neg (by omega)]
-  rw [if_neg (by rintro ⟨h1, h2⟩; omega)]
-  rw [if_neg (by rintro ⟨h1, h2⟩; omega)]
-  rw [if_neg (by rintro ⟨h1, h2⟩; omega)]
-  rw [if_neg (by rintro ⟨h1, h2⟩; omega)]
+  rw [ite_eq_right (by intro h; exact absurd (congrArg Fin.val h) (by simp; omega))]
+  rw [ite_eq_right (by omega)]
+  rw [ite_eq_right (by rintro ⟨h1, h2⟩; omega)]
+  rw [ite_eq_right (by rintro ⟨h1, h2⟩; omega)]
+  rw [ite_eq_right (by rintro ⟨h1, h2⟩; omega)]
+  rw [ite_eq_right (by rintro ⟨h1, h2⟩; omega)]
 
 private lemma ct_rm8_cartanD_01 {n : ℕ} (hn : 4 ≤ n) :
     CartanMatrix.D n ⟨0, by omega⟩ ⟨n - 1, by omega⟩ = 0 := by
   rw [CartanMatrix.D, Matrix.of_apply]
   dsimp only [Fin.val_mk, Fin.val_zero]
-  rw [if_neg (by intro h; exact absurd (congrArg Fin.val h) (by simp; omega))]
-  rw [if_neg (by omega)]
-  rw [if_neg (by rintro ⟨h1, h2⟩; omega)]
-  rw [if_neg (by rintro ⟨h1, h2⟩; omega)]
-  rw [if_neg (by rintro ⟨h1, h2⟩; omega)]
-  rw [if_neg (by rintro ⟨h1, h2⟩; omega)]
+  rw [ite_eq_right (by intro h; exact absurd (congrArg Fin.val h) (by simp; omega))]
+  rw [ite_eq_right (by omega)]
+  rw [ite_eq_right (by rintro ⟨h1, h2⟩; omega)]
+  rw [ite_eq_right (by rintro ⟨h1, h2⟩; omega)]
+  rw [ite_eq_right (by rintro ⟨h1, h2⟩; omega)]
+  rw [ite_eq_right (by rintro ⟨h1, h2⟩; omega)]
 
 private lemma ct_rm8_cartanD_21 {n : ℕ} (hn : 4 ≤ n) :
     CartanMatrix.D n ⟨n - 2, by omega⟩ ⟨n - 1, by omega⟩ = 0 := by
   rw [CartanMatrix.D, Matrix.of_apply]
   dsimp only [Fin.val_mk, Fin.val_zero]
-  rw [if_neg (by intro h; exact absurd (congrArg Fin.val h) (by simp; omega))]
-  rw [if_neg (by omega)]
-  rw [if_neg (by rintro ⟨h1, h2⟩; omega)]
-  rw [if_neg (by rintro ⟨h1, h2⟩; omega)]
-  rw [if_neg (by rintro ⟨h1, h2⟩; omega)]
-  rw [if_neg (by rintro ⟨h1, h2⟩; omega)]
+  rw [ite_eq_right (by intro h; exact absurd (congrArg Fin.val h) (by simp; omega))]
+  rw [ite_eq_right (by omega)]
+  rw [ite_eq_right (by rintro ⟨h1, h2⟩; omega)]
+  rw [ite_eq_right (by rintro ⟨h1, h2⟩; omega)]
+  rw [ite_eq_right (by rintro ⟨h1, h2⟩; omega)]
+  rw [ite_eq_right (by rintro ⟨h1, h2⟩; omega)]
 
 private lemma ct_rm8_D_M02 {n : ℕ} (hn : 4 ≤ n) :
     (ggCoxeterMatrixD n).M ⟨0, by omega⟩ ⟨n - 2, by omega⟩ = 2 := by
   rw [ggCoxeterMatrixD_apply]
-  rw [if_neg (by intro h; exact absurd (congrArg Fin.val h) (by simp; omega))]
-  rw [if_pos (ct_rm8_cartanD_02 hn)]
+  rw [ite_eq_right (by intro h; exact absurd (congrArg Fin.val h) (by simp; omega))]
+  rw [ite_eq_left (ct_rm8_cartanD_02 hn)]
 
 private lemma ct_rm8_D_M01 {n : ℕ} (hn : 4 ≤ n) :
     (ggCoxeterMatrixD n).M ⟨0, by omega⟩ ⟨n - 1, by omega⟩ = 2 := by
   rw [ggCoxeterMatrixD_apply]
-  rw [if_neg (by intro h; exact absurd (congrArg Fin.val h) (by simp; omega))]
-  rw [if_pos (ct_rm8_cartanD_01 hn)]
+  rw [ite_eq_right (by intro h; exact absurd (congrArg Fin.val h) (by simp; omega))]
+  rw [ite_eq_left (ct_rm8_cartanD_01 hn)]
 
 private lemma ct_rm8_D_M21 {n : ℕ} (hn : 4 ≤ n) :
     (ggCoxeterMatrixD n).M ⟨n - 2, by omega⟩ ⟨n - 1, by omega⟩ = 2 := by
   rw [ggCoxeterMatrixD_apply]
-  rw [if_neg (by intro h; exact absurd (congrArg Fin.val h) (by simp; omega))]
-  rw [if_pos (ct_rm8_cartanD_21 hn)]
+  rw [ite_eq_right (by intro h; exact absurd (congrArg Fin.val h) (by simp; omega))]
+  rw [ite_eq_left (ct_rm8_cartanD_21 hn)]
 
 private lemma ct_rm8_A_not_dvd {G : Type} [Group G] {p : ℕ} {Bs : Subgroup G}
     {A : Subgroup (MulAut ↥Bs)} {n : ℕ} (h : GGWeylOfType p (CoxeterMatrix.A n) A)

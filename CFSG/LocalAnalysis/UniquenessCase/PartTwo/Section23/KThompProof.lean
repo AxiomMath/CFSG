@@ -45,7 +45,7 @@ theorem kThomp_holds : KThomp := by
         CFSG.HardMathSupport.Solomon.UniquenessMaximal.omegaOneZ
           (CFSG.HardMathSupport.Solomon.UniquenessMaximal.jOneOf (P : Subgroup X)) := by
       rw [← hfour]
-      exact CFSG.RankThree.PartTwo.Sec20.SimsYKO3.fourChar_two_eq _ P.isPGroup' hne
+      exact CFSG.RankThree.PartTwo.Sec20.SimsYKO3.fourChar_two_eq _ P.isPGroup hne
     have hsolvTop : Group.IsSolvable (⊤ : Subgroup X) :=
       Group.isSolvable_of_surjective (f := (Subgroup.topEquiv (G := X)).symm.toMonoidHom)
         (Subgroup.topEquiv (G := X)).symm.surjective
@@ -53,7 +53,7 @@ theorem kThomp_holds : KThomp := by
       (G := X) (R := (⊤ : Subgroup X)) (S := (P : Subgroup X))
       ⟨hsolvTop, by rwa [Subgroup.card_top],
         fun N _ hNn hodd => odd_normal_eq_bot_of_centralizer_pCore_le hchar hNn hodd,
-        le_top, P.isPGroup', by
+        le_top, P.isPGroup, by
           rw [Subgroup.relIndex_top_right]
           exact P.not_dvd_index⟩
     unfold CFSG.HardMathSupport.Solomon.Coordinator.I28_8.Th1J1.Fac at hfac

@@ -112,10 +112,10 @@ theorem triD4_modelB_of {K : Type} [Field K] [Finite K] {Q : ℕ} {σ δ : K ≃
   set C₀ := graphFixedRootGroup TwistTag.D4 K σ.toRingHom with hC₀
   set J := CFSG.RankThree.PartTwo.Sec11.KS11Lie4Proof.d4ShortSL2 K σ.toRingHom with hJdef
   set ψ : MulAut C₀ := fieldActor σ δ with hψdef
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ℓ, f, hℓ, hf, hQℓ⟩ :=
     CFSG.RankThree.PartTwo.Sec11.KS11Lie5Proof.exists_prime_pow_of_card_eq_cube hK
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hf0 : f ≠ 0 := by omega
   have hℓ2 : ℓ ≠ 2 := by
     rintro rfl

@@ -317,7 +317,7 @@ private theorem r873cen_pRank_quotient_center_le_one {K : Type} [Group K] [Finit
     rw [(CFSG.SectionRank.pRank_sylow S).1]
     exact h1
   have hScyc : IsCyclic ↥(S : Subgroup K) := by
-    refine CFSG.isCyclic_of_pRank_le_one hp hp2 S.isPGroup' ?_
+    refine CFSG.isCyclic_of_pRank_le_one hp hp2 S.isPGroup ?_
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup (S : Subgroup K)]
     exact hS1
   have : IsCyclic ↥(S : Subgroup K) := hScyc
@@ -1901,8 +1901,8 @@ private theorem r873shp_card_filter_of_sum {ι : Type} (t : Finset ι) (f : ι �
   refine Finset.sum_le_sum fun A hA => ?_
   have := hf A hA
   by_cases h : 1 ≤ f A
-  · rw [if_pos h]; omega
-  · rw [if_neg h]; omega
+  · rw [ite_eq_left h]; omega
+  · rw [ite_eq_right h]; omega
 
 private theorem r873shp_card_filter_eq_one {ι : Type} (t : Finset ι) (f : ι → ℕ)
     (hf : ∀ A ∈ t, f A ≤ 1) (h1 : ∑ A ∈ t, f A = 1) :
@@ -1915,8 +1915,8 @@ private theorem r873shp_card_filter_eq_one {ι : Type} (t : Finset ι) (f : ι �
   · refine Finset.sum_congr rfl fun A hA => ?_
     have := hf A hA
     by_cases h : 1 ≤ f A
-    · rw [if_pos h]; omega
-    · rw [if_neg h]; omega
+    · rw [ite_eq_left h]; omega
+    · rw [ite_eq_right h]; omega
   · exact h1
 
 theorem r873shp_pRank_sum {G : Type} [Group G] [Finite G] {M L : Subgroup G} {k : ℕ}

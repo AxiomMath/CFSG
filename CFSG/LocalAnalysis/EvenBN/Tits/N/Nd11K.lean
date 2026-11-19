@@ -58,16 +58,16 @@ theorem nd11k_Kc_eq_mul :
     ((K0 d z₀ ⊔ d.F : Subgroup G) : Set G) = (K0 d z₀ : Set G) * (d.F : Set G) :=
   S56.coe_sup_eq_mul_of_comm fun _ hk _ hf => nd11k_KF_comm hk hf
 
-theorem K0_comm (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h07 : Node07 d)
-    (h08 : Node08 d z₀) (h09 : Node09 d z₀) (h10 : Node10 d z₀) :
+theorem K0_comm (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (_h07 : Node07 d)
+    (_h08 : Node08 d z₀) (h09 : Node09 d z₀) (h10 : Node10 d z₀) :
     ∀ a ∈ K0 d z₀, ∀ b ∈ K0 d z₀, a * b = b * a := by
   intro a ha b hb
   obtain ⟨⟨haQ, -⟩, haz⟩ := mem_K0_iff.1 ha
   obtain ⟨⟨hbQ, -⟩, hbz⟩ := mem_K0_iff.1 hb
   exact (C2_facts h49 hd hz h09 h10).1 a haQ haz b hbQ hbz
 
-theorem K0_card (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h07 : Node07 d)
-    (h08 : Node08 d z₀) (h09 : Node09 d z₀) (h10 : Node10 d z₀) :
+theorem K0_card (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (_h07 : Node07 d)
+    (_h08 : Node08 d z₀) (_h09 : Node09 d z₀) (h10 : Node10 d z₀) :
     Nat.card (K0 d z₀) = 2 ^ 8 := by
   obtain ⟨-, -, -, -, -, -, h9, -, -⟩ := h10
   have hM : ∀ m ∈ d.s56Q2 ⊓ d.s56P, m ∈ d.M := fun m hm =>
@@ -86,8 +86,8 @@ theorem K0_card (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h07 :
   unfold K0
   omega
 
-theorem K0_inf_B (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h07 : Node07 d)
-    (h08 : Node08 d z₀) (h09 : Node09 d z₀) (h10 : Node10 d z₀) :
+theorem K0_inf_B (_h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h07 : Node07 d)
+    (h08 : Node08 d z₀) (_h09 : Node09 d z₀) (_h10 : Node10 d z₀) :
     K0 d z₀ ⊓ d.B = d.E ⊓ d.F := by
   have hz0V := hz.mem_V
   refine le_antisymm (fun b hb => ?_) (fun e he => ?_)
@@ -134,8 +134,8 @@ theorem epsImg_K0 (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h07
   rw [hd.s56_card_E_inf_F]
   omega
 
-theorem Pe_le_Kc (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h07 : Node07 d)
-    (h08 : Node08 d z₀) (h09 : Node09 d z₀) (h10 : Node10 d z₀) :
+theorem Pe_le_Kc (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (_h07 : Node07 d)
+    (h08 : Node08 d z₀) (_h09 : Node09 d z₀) (h10 : Node10 d z₀) :
     Pe11 d ≤ K0 d z₀ ⊔ d.F := by
   intro w hw
   obtain ⟨f, hf, x, hx, rfl⟩ := nd11k_Pe_decomp h08 hw
@@ -176,8 +176,8 @@ theorem Kc_le_P1 (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h07 
     _ = (k * f) * x := by rw [hkf]
     _ = k * (f * x) := by group
 
-theorem Kc_inf_B (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h07 : Node07 d)
-    (h08 : Node08 d z₀) (h09 : Node09 d z₀) (h10 : Node10 d z₀) :
+theorem Kc_inf_B (_h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h07 : Node07 d)
+    (h08 : Node08 d z₀) (_h09 : Node09 d z₀) (_h10 : Node10 d z₀) :
     (K0 d z₀ ⊔ d.F) ⊓ d.B = d.F := by
   refine le_antisymm (fun b hb => ?_) (le_inf le_sup_right (s56_F_le_B d))
   obtain ⟨hbK, hbB⟩ := mem_inf.1 hb

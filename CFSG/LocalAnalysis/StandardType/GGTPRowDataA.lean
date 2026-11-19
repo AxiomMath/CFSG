@@ -23,9 +23,9 @@ theorem ggTPRowData_A {r n : ℕ} (hr : r = 6 ∨ r = 11 ∨ r = 12) (h3 : r = 1
       Nat.card K = 2 ^ n ∧
       Nonempty (Y ≃* LargeEvenProj (LargeEvenSLGroup (Fin (r + 1)) K)) := by
     simpa only [GGHasLabel, LargeEvenRawDatum, LargeEvenRecipeLinear] using hY
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : Fintype K := Fintype.ofFinite K
   refine ⟨Fin (r + 1), inferInstance, inferInstance, K, hField, hFinite,
     LargeEvenSLGroup (Fin (r + 1)) K, hIso, ?_, ?_, ?_⟩
   · rcases hr with rfl | rfl | rfl <;> simp
@@ -58,7 +58,7 @@ theorem ggTPRowData_A {r n : ℕ} (hr : r = 6 ∨ r = 11 ∨ r = 12) (h3 : r = 1
     have h2 : orderOf (g.1 : GL (Fin (r + 1)) K) = orderOf g := by
       have h := orderOf_injective ((H.subtype).comp Z.subtype)
         ((Subgroup.subtype_injective H).comp (Subgroup.subtype_injective Z)) g
-      simpa using h
+      simp
     have hco : orderOf c = 3 := by
       have h1 : orderOf (Matrix.GeneralLinearGroup.scalar (Fin (r + 1)) c) = orderOf c :=
         orderOf_injective _ hsc_inj c

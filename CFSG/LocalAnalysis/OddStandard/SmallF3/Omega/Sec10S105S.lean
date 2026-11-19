@@ -115,15 +115,15 @@ theorem sec10_two_elem_cases {z t x : G} (hzt : z * t = t * z) (hz : orderOf z =
 
 theorem sec10_normalizer_grows [Finite G] {S T : Subgroup G} (hT : IsPGroup 2 T) (hlt : S < T) :
     ∃ n ∈ T, n ∈ normalizer (S : Set G) ∧ n ∉ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥T := hT.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥T := hT.isNilpotent
   let H : Subgroup ↥T := S.subgroupOf T
   have hHlt : H < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro htop
     exact hlt.ne (le_antisymm hlt.le (Subgroup.subgroupOf_eq_top.mp htop))
   have hnc := Group.normalizerCondition_of_isNilpotent (G := ↥T)
-  obtain ⟨x, hxnorm, hxH⟩ := SetLike.exists_of_lt (hnc H hHlt)
+  obtain ⟨x, hxnorm, hxH⟩ := _root_.IsConcreteLE.exists_of_lt (hnc H hHlt)
   have hxT : (x : G) ∈ T := x.2
   have hxnormS : (x : G) ∈ normalizer (S : Set G) := by
     have hmap := Subgroup.le_normalizer_map (f := T.subtype) (H := H)

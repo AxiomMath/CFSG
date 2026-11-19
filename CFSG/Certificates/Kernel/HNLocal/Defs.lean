@@ -20,6 +20,7 @@ noncomputable abbrev OM (X : Nat) : Matrix (Fin 133) (Fin 133) (ZMod 5) := ordMa
     Matrix (Fin 133) (Fin 133) (ZMod 5) :=
   ((List.range' 0 n).map fun i => OM (PC i) ^ e i).prod
 
+set_option exponentiation.threshold 399 in
 theorem testBit_three {x : Nat} (hx : x < 2 ^ 399) {i : Nat} (hi : 399 ≤ i) : x.testBit i = false :=
   Nat.testBit_lt_two_pow (lt_of_lt_of_le hx (Nat.pow_le_pow_right (by norm_num) hi))
 

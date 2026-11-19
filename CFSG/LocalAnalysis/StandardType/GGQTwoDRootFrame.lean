@@ -64,7 +64,7 @@ private lemma bForm_single_single {κ : Type} [Fintype κ] [DecidableEq κ]
 
 private lemma qForm_single {κ : Type} [Fintype κ] [DecidableEq κ]
     (i : κ) (a : ZMod 3) : qForm (Pi.single i a) = a * a := by
-  rw [qForm, bForm_single_single, if_pos rfl]
+  rw [qForm, bForm_single_single, ite_eq_left rfl]
 
 private lemma sq_eq_one_of_ne_zero (x : ZMod 3) (hx : x ≠ 0) : x * x = 1 := by
   fin_cases x
@@ -107,7 +107,7 @@ private lemma qForm_eq_two_of_isDRootVec {κ : Type} [Fintype κ] [DecidableEq �
     {v : κ → ZMod 3} (hv : IsDRootVec v) : qForm v = 2 := by
   obtain ⟨i, j, hij, a, b, ha, hb, rfl⟩ := hv
   rw [qForm_add, qForm_single i a, qForm_single j b,
-    bForm_single_single, if_neg hij]
+    bForm_single_single, ite_eq_right hij]
   rcases ha with rfl | rfl <;> rcases hb with rfl | rfl <;> decide
 
 private lemma supp_single_add_single {κ : Type} [Fintype κ] [DecidableEq κ]
@@ -355,7 +355,7 @@ private lemma linearIndependent_restrict_of_supp_subset {ι κ : Type} [Fintype 
 private lemma not_exists_card_supp_eq_four {ι κ : Type} [Fintype ι] [Fintype κ]
     [DecidableEq κ] {u : ι → κ → ZMod 3} (hι : Fintype.card ι = 5)
     (hli : LinearIndependent (ZMod 3) u)
-    (hsupp : ∀ a : ι, (supp (u a)).card = 1 ∨ (supp (u a)).card = 4)
+    (_hsupp : ∀ a : ι, (supp (u a)).card = 1 ∨ (supp (u a)).card = 4)
     (hcases : ∀ a b : ι, a ≠ b →
       ((supp (u a)).card = 1 ∧ (supp (u b)).card = 1 ∧
         Disjoint (supp (u a)) (supp (u b))) ∨
@@ -408,7 +408,7 @@ private lemma injective_of_forall_supp_eq_singleton {ι κ : Type} [Fintype κ]
       rw [hπ_spec a, hπ_spec b, hab]
       simp
     rw [hempty] at hmem
-    simpa using hmem
+    simp at hmem
   · rw [hsupp_one a] at h4a
     omega
 

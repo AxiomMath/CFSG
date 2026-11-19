@@ -96,7 +96,7 @@ theorem d4ThreeACent_two_solvable (K : Type) [Field K] [Finite K] (σ : K ≃+* 
   obtain ⟨x, k, hk, hxk, hsol⟩ := exists_threeA_model_two hf hℓ3 hK' hσ' hζ hq'
   obtain ⟨k', hk', hzk⟩ := exists_conj_dA_of_mem_short hσ3 hζ hzS hz3 hz1
   obtain ⟨c, hc⟩ := exists_conj_of_triEmb_conj hf hK' hσ' (isPointIrreducible_gA hζ) hk' hk hzk hxk
-  haveI := hsol
+  have := hsol
   have hmap : (centralizer ({z} : Set (graphFixedRootGroup TwistTag.D4 K σ.toRingHom))).map
       (MulAut.conj c).toMonoidHom = centralizer ({x} : Set _) := by
     rw [← hc]

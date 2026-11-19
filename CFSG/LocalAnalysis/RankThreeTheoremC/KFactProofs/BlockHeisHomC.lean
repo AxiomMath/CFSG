@@ -19,7 +19,7 @@ variable {p : ℕ}
 
 theorem zmod_pth_power {a : ℕ} (hp : p.Prime) (ha : 2 ≤ a) (c : Multiplicative (ZMod (p ^ a)))
     (hc : c ^ p = 1) : ∃ y : Multiplicative (ZMod (p ^ a)), y ^ p = c := by
-  haveI : NeZero (p ^ a) := ⟨pow_ne_zero a hp.ne_zero⟩
+  have : NeZero (p ^ a) := ⟨pow_ne_zero a hp.ne_zero⟩
   have h1 : (p : ZMod (p ^ a)) * (Multiplicative.toAdd c) = 0 := by
     have := congrArg Multiplicative.toAdd hc
     simpa [toAdd_pow, nsmul_eq_mul] using this
@@ -52,9 +52,9 @@ theorem homC_pth_power {a r : ℕ} (hp : p.Prime) (ha : 2 ≤ a) (x : HomC p a r
 
 theorem zmod_card_torsion_le {a : ℕ} (hp : p.Prime) :
     Nat.card {c : Multiplicative (ZMod (p ^ a)) // c ^ p = 1} ≤ p := by
-  haveI : NeZero (p ^ a) := ⟨pow_ne_zero a hp.ne_zero⟩
+  have : NeZero (p ^ a) := ⟨pow_ne_zero a hp.ne_zero⟩
   classical
-  haveI : Fintype (Multiplicative (ZMod (p ^ a))) := Fintype.ofFinite _
+  have : Fintype (Multiplicative (ZMod (p ^ a))) := Fintype.ofFinite _
   have h := IsCyclic.card_pow_eq_one_le (α := Multiplicative (ZMod (p ^ a))) hp.pos
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
   exact h
@@ -217,7 +217,7 @@ theorem sigmaOf_equiv_of_eq_nil {p a : ℕ} {L : List ℕ} (h : L = []) :
   subst h
   exact ⟨sigmaOfNil p a⟩
 
-theorem sigmaModel_equiv_homC {p e a N : ℕ} (hp : p.Prime) (hlt : N / e < p) :
+theorem sigmaModel_equiv_homC {p e a N : ℕ} (_hp : p.Prime) (hlt : N / e < p) :
     Nonempty (sigmaModel p e a N ≃* HomC p a (N / e)) := by
   rcases Nat.eq_zero_or_pos (N / e) with h0 | hpos
   · have hd : Nat.digits p (N / e) = [] := by rw [h0]; exact Nat.digits_zero p
@@ -284,7 +284,7 @@ theorem sylowShape_of_surjective {G Q M : Type*} [Group G] [Group Q] [Group M] [
     rw [hcardG, Nat.factorization_mul Nat.card_pos.ne' Nat.card_pos.ne', Finsupp.add_apply,
       Nat.factorization_eq_zero_of_not_dvd hker, zero_add]
   have hinj : Function.Injective (π.comp (P : Subgroup G).subtype) :=
-    injective_comp_subtype_of_isPGroup π hker P.isPGroup'
+    injective_comp_subtype_of_isPGroup π hker P.isPGroup
   let H' : Subgroup Q := (π.comp (P : Subgroup G).subtype).range
   have hP : Nat.card (P : Subgroup G) = p ^ (Nat.card G).factorization p := P.card_eq_multiplicity
   have hH' : Nat.card H' = p ^ (Nat.card Q).factorization p := by

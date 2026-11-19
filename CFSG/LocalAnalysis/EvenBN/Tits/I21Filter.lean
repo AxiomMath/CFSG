@@ -88,7 +88,7 @@ theorem card_psl_two_even (F : Type) [Field F] [Finite F] {n : ℕ} (hn : 1 ≤ 
 
 theorem card_eq_prime_pow (F : Type) [Field F] [Finite F] (p : ℕ) [CharP F p] :
     ∃ n : ℕ, 1 ≤ n ∧ p.Prime ∧ Nat.card F = p ^ n := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, hp, hn⟩ := FiniteField.card F p
   exact ⟨n, n.pos, hp, by rw [Nat.card_eq_fintype_card]; exact hn⟩
 
@@ -182,7 +182,7 @@ theorem fin_two_sq {F : Type} [Field F] (N : Matrix (Fin 2) (Fin 2) F) :
 
 theorem mat_sq_eq_one {F : Type} [Field F] [CharP F 2] (M : Matrix (Fin 2) (Fin 2) F)
     (h4 : M ^ 4 = 1) : M ^ 2 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : (2 : Matrix (Fin 2) (Fin 2) F) = 0 := by
     simpa using CharP.cast_eq_zero (Matrix (Fin 2) (Fin 2) F) 2
   have hN4 : (M + 1) ^ 4 = 0 := by
@@ -233,14 +233,14 @@ theorem sec622_filter_psl_odd {F : Type} [Field F] [Finite F] (hodd : Odd (Nat.c
     (Nat.card F = 31 ∧ (Nat.card (PSL(2, F))).factorization 2 = 5) ∨
     (Nat.card F = 49 ∧ (Nat.card (PSL(2, F))).factorization 2 = 4) ∨
     (Nat.card F = 127 ∧ (Nat.card (PSL(2, F))).factorization 2 = 7) := by
-  haveI := ringChar.charP F
+  have := ringChar.charP F
   obtain ⟨n, hn, hp, hq⟩ := I21.Filter.card_eq_prime_pow F (ringChar F)
   rw [I21.Filter.card_psl_two_odd F hodd] at hdvd ⊢
   exact I21.Filter.filter_psl_odd_arith hp hn hq hodd h5 hdvd
 
 theorem sec622_psl2_even_no_order_four {F : Type} [Field F] [Finite F] (hchar : ringChar F = 2)
     (g : PSL(2, F)) (hg : g ^ 4 = 1) : g ^ 2 = 1 := by
-  haveI : CharP F 2 := ringChar.of_eq hchar
+  have : CharP F 2 := ringChar.of_eq hchar
   obtain ⟨A, rfl⟩ := QuotientGroup.mk_surjective g
   rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff] at hg
   rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]

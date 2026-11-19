@@ -46,8 +46,8 @@ theorem uniClosure_eq_top_of_closingFrames {G : Type*} [Group G] {E : Subgroup G
       · exact Subgroup.mem_centralizer_singleton_iff.2 (hx _ (by simp))
       · exact Subgroup.mem_centralizer_singleton_iff.2 (hx _ (by simp))
     exact Subgroup.mem_centralizer_singleton_iff.1 (hcl (hgen hh))
-  haveI := hCE
-  exact solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+  have := hCE
+  exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
 
 theorem exists_noncentral_pElement_of_perfect {X : Type*} [Group X] [Finite X] {p : ℕ} [hp : Fact p.Prime]
     (hperf : commutator X = ⊤) (hdvd : p ∣ Nat.card X) :
@@ -58,7 +58,7 @@ theorem exists_noncentral_pElement_of_perfect {X : Type*} [Group X] [Finite X] {
   obtain ⟨P⟩ : Nonempty (Sylow p X) := inferInstance
   have hPc : ∀ x ∈ (P : Subgroup X), ∀ g : X, x * g = g * x := by
     intro x hx g
-    obtain ⟨k, hk⟩ := (P.isPGroup' ⟨x, hx⟩)
+    obtain ⟨k, hk⟩ := (P.isPGroup ⟨x, hx⟩)
     have hk' : x ^ (p ^ k) = 1 := by simpa using congrArg Subtype.val hk
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow hp.out).1 (orderOf_dvd_of_pow_eq_one hk')
     exact hcon x ⟨j, hj⟩ g
@@ -179,7 +179,7 @@ theorem uniClosure_eq_top_of_conj {G : Type*} [Group G] {E : Subgroup G} (g : G)
     · have h1 := hkx.map (MulAut.conj g⁻¹).toMonoidHom
       simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv] at h1
       simpa [mul_assoc] using h1
-    · rw [show g⁻¹ * k * g = (MulAut.conj g⁻¹) k by simp [MulAut.conj_apply], ← map_pow, hn, map_one]
+    · rw [show g⁻¹ * k * g = (MulAut.conj g⁻¹) k by simp, ← map_pow, hn, map_one]
     · simp [MulAut.conj_apply, mul_assoc]
   have htop : (Subgroup.closure S).map (MulAut.conj g).toMonoidHom = ⊤ := by
     rw [eq_top_iff, ← h]
@@ -295,7 +295,7 @@ theorem uniClosure_map_conj {G : Type*} [Group G] (g : G) (E : Subgroup G) {r : 
       refine ⟨g⁻¹ * k * g, ⟨x, hx, fun h => hx1 (by rw [h, map_one]), ?_, n, ?_⟩, ?_⟩
       · have h := hkx.map (MulAut.conj g⁻¹).toMonoidHom
         simpa [hφ, MulAut.conj_apply, mul_assoc] using h
-      · rw [show g⁻¹ * k * g = (MulAut.conj g⁻¹) k by simp [MulAut.conj_apply], ← map_pow, hn,
+      · rw [show g⁻¹ * k * g = (MulAut.conj g⁻¹) k by simp, ← map_pow, hn,
           map_one]
       · simp [hφ, MulAut.conj_apply, mul_assoc]
     · rintro ⟨k', ⟨x, hx, hx1, hkx, n, hn⟩, rfl⟩
@@ -355,7 +355,7 @@ set_option linter.unusedSectionVars false
 
 theorem closingFrameAt_split (K : Type) [Field K] [Finite K] (hK : Nat.card K % 3 = 1) (ω : Kˣ)
     (hω : orderOf ω = 3) : ClosingFrameAt (zSplit K ω) (frameIn (XS K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK4 : 4 ≤ Nat.card K := by
     have h1 : 1 < Nat.card K := Finite.one_lt_card
     omega
@@ -385,14 +385,14 @@ theorem closingFrameAt_split (K : Type) [Field K] [Finite K] (hK : Nat.card K % 
     exact this
   · refine nonsolvable_frameIn hXS ?_
     intro hs
-    haveI := hs
-    haveI h2 : Group.IsSolvable ↥(X2 K) :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective (X2_le_XS K))
+    have := hs
+    have h2 : Group.IsSolvable ↥(X2 K) :=
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective (X2_le_XS K))
     obtain ⟨hperf, -, a₀, b₀, hab⟩ := X2_quasisimple K
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a₀
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b₀
-    haveI : Nontrivial ↥(X2 K) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
-    exact (IsSolvable.commutator_lt_top_of_nontrivial (↥(X2 K))).ne hperf.commutator_eq_top
+    have : Nontrivial ↥(X2 K) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
+    exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (↥(X2 K))).ne hperf.commutator_eq_top
   · exact closing_of_twFrameClosing hXS
       ((frameClosing_iff Tag.F4 K _).1
         (frameClosing_of_detection_F4 K (by omega) (DetectF4.frameDetection_F4 K (by omega))))
@@ -440,7 +440,7 @@ theorem closingFrameAt_twisted (K : Type) [Field K] [Finite K] (h3 : 3 ≤ Nat.c
       D.g * rootDiagUnit TwClass.f4Six.tag (Pi.mulSingle (⟨1, by decide⟩ : Fin
         TwClass.f4Six.tag.rank) ω) * D.g⁻¹) :
     ClosingFrameAt z (frameIn (TwClass.f4Six.X₁ D ⊔ TwClass.f4Six.X₂ D)) := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   set i₁ : Fin TwClass.f4Six.tag.rank := ⟨1, by decide⟩ with hi₁
   set a : Fin TwClass.f4Six.tag.rank → D.Lˣ := Pi.mulSingle i₁ ω with ha
   have hzbc' : baseChangeGL (algebraMap K D.L) (z : ModGL TwClass.f4Six.tag K) =
@@ -511,15 +511,15 @@ theorem closingFrameAt_twisted (K : Type) [Field K] [Finite K] (h3 : 3 ≤ Nat.c
     exact Subgroup.mem_centralizer_singleton_iff.1 (hsup hy')
   · refine nonsolvable_frameIn hle ?_
     intro hs
-    haveI := hs
-    haveI h2 : Group.IsSolvable ↥(TwClass.f4Six.X₂ D) :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective
+    have := hs
+    have h2 : Group.IsSolvable ↥(TwClass.f4Six.X₂ D) :=
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective
         (le_sup_right : TwClass.f4Six.X₂ D ≤ TwClass.f4Six.X₁ D ⊔ TwClass.f4Six.X₂ D))
     obtain ⟨hperf, -, a₀, b₀, hab⟩ := hq3.2
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a₀
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b₀
-    haveI : Nontrivial ↥(TwClass.f4Six.X₂ D) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
-    exact (IsSolvable.commutator_lt_top_of_nontrivial
+    have : Nontrivial ↥(TwClass.f4Six.X₂ D) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
+    exact (Group.IsSolvable.commutator_lt_top_of_nontrivial
       (↥(TwClass.f4Six.X₂ D))).ne hperf.commutator_eq_top
   · exact closing_of_twFrameClosing hle (twClosing_f4Six K h3 D)
   · exact normalizerSolvable_of_twFrame hle (twNormalizer_f4Six K hKq D)
@@ -535,7 +535,7 @@ theorem frameIn_twisted_le_closure (K : Type) [Field K] [Finite K] (h3 : 3 ≤ N
   refine subgroupOf_le_closure_of_le hle ?_
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
   have hr : ringChar K ∣ Nat.card K := by
     rw [Nat.card_eq_fintype_card, hn]
     exact dvd_pow_self _ n.ne_zero
@@ -565,7 +565,7 @@ theorem f4ThreeUniNative_of_three_le (K : Type) [Field K] [Finite K]
     (h3 : 3 ≤ Nat.card K) (hnd : ¬ 3 ∣ Nat.card K) (E₀ : Subgroup (adjointGroup .F4 K))
     (hexp : ∀ x ∈ E₀, x ^ 3 = 1) (hcard : Nat.card E₀ = 3 ^ 2) (hn : ¬ NormalizesRNative .F4 K E₀) :
     Subgroup.closure {k | ∃ x ∈ E₀, x ≠ 1 ∧ Commute k x ∧ ∃ n : ℕ, k ^ (ringChar K ^ n) = 1} = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK3 : 3 ≤ Nat.card K := h3
   rcases (langToralOrParabolic_of_langToralPlane langToralPlane_F4_three) K hnd E₀ hexp hcard with
     ⟨⟨D⟩⟩ | hnorm
@@ -721,7 +721,7 @@ theorem e6UniClose_one_of_card (K : Type) [Field K] [Finite K] (hK : Nat.card K 
     have h1 : (embE6F4 K g)⁻¹ * u * embE6F4 K g ∈ H := by
       refine Subgroup.subset_closure ⟨embE6F4 K x, hιxE, hιx1, hcomm, 1, ?_⟩
       rw [pow_one, show (embE6F4 K g)⁻¹ * u * embE6F4 K g = MulAut.conj (embE6F4 K g)⁻¹ u by
-        simp [MulAut.conj_apply], ← map_pow, hur, map_one]
+        simp, ← map_pow, hur, map_one]
     have h2 : u = embE6F4 K g * ((embE6F4 K g)⁻¹ * u * embE6F4 K g) * (embE6F4 K g)⁻¹ := by group
     rw [h2]
     exact mul_mem (mul_mem hιg h1) (inv_mem hιg)
@@ -735,7 +735,7 @@ theorem e6UniClose_one_of_card (K : Type) [Field K] [Finite K] (hK : Nat.card K 
   · obtain ⟨hxc, hyc⟩ := hCent_proved K hK ω hω i hi c
     exact ⟨hroot _ hxc (xE_pow_ringChar _ _ _ _), hroot _ hyc (yE_pow_ringChar _ _ _ _)⟩
 
-theorem e6UniClose_one (K : Type) [Field K] [Finite K] (hK : Nat.card K % 3 = 1) (hK2 : ringChar K ≠ 2)
+theorem e6UniClose_one (K : Type) [Field K] [Finite K] (hK : Nat.card K % 3 = 1) (_hK2 : ringChar K ≠ 2)
     (E₃ : Subgroup (adjointGroup .F4 K)) (hexp : ∀ x ∈ E₃, x ^ 3 = 1) (hcard : Nat.card E₃ = 3 ^ 2)
     (hnF : ¬ NormalizesRNative .F4 K E₃) :
     Subgroup.closure {k : adjointGroup .E6 K | ∃ x ∈ E₃.map (embE6F4 K), x ≠ 1 ∧ Commute k x ∧
@@ -751,7 +751,7 @@ theorem frameIn_e6Six_le_closure (K : Type) [Field K] [Finite K] (h3 : 3 ≤ Nat
   refine subgroupOf_le_closure_of_le (e6Frame_le K D) ?_
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
   have hr : ringChar K ∣ Nat.card K := by
     rw [Nat.card_eq_fintype_card, hn]
     exact dvd_pow_self _ n.ne_zero
@@ -817,10 +817,10 @@ theorem e6UniFrame_two (K : Type) [Field K] [Finite K] (hK : Nat.card K % 3 = 2)
   have hC' := e6FrameCentral_holds K h3 D₆ ω₆ hω₆
     ((embE6F4 K z : adjointGroup .E6 K) : ModGL Tag.E6 K) hbc
   have hcent := e6Frame_centralizes K D₆ (embE6F4 K z) hC'
-  haveI hsimpleF4 : IsSimpleGroup (adjointGroup .F4 K) :=
+  have hsimpleF4 : IsSimpleGroup (adjointGroup .F4 K) :=
     CFSG.LieType.SeitzGeneration.ExcOuterLeOne.isSimpleGroup_adjointGroup_of_type
       (τ := Tag.F4) (K := K) (Or.inr (Or.inr (Or.inr rfl)))
-  haveI hsimpleF : IsSimpleGroup ↥(fixE6 K) := MulEquiv.isSimpleGroup (isoE6F4 K).symm
+  have hsimpleF : IsSimpleGroup ↥(fixE6 K) := MulEquiv.isSimpleGroup (isoE6F4 K).symm
   have hnc : ∃ a b : ↥(fixE6 K), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := (opposite_simple_root_noncommutativity Tag.F4 K).2.2.1
     refine ⟨isoE6F4 K a, isoE6F4 K b, fun h => hab ?_⟩
@@ -1173,7 +1173,7 @@ theorem uniSeitzPlanes_twE6_inner_three_one :
       d.1.characteristic ≠ 2 ∧ ¬ NormalizesRSubgroup d E := by
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, rfl, ⟨q, hq, hmod⟩, hch, hn⟩
   obtain rfl : d = .twistedE6 q := hq
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨K, _, σ, hK, hσ, ⟨e⟩⟩ := exists_catEquiv_twistedE6 q hv
   have hfin : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
@@ -1343,7 +1343,7 @@ theorem uniSeitzPlanes_F4_inner_two :
       d.1.characteristic ≠ 2 ∧ ¬ NormalizesRSubgroup d E := by
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, hp5, ⟨q, hq, hpq⟩, hch, hn⟩
   obtain rfl : d = .F4 q := hq
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases hpq with hpq | hpq
   · exact absurd (normalizesRSubgroup_F4_of_dvd_sub_one q hv hp hp5 hpq (IsPGroup.of_card hc) hin) hn
   obtain ⟨K, _, _, hKq, hKchar, ⟨e⟩⟩ :=
@@ -1533,7 +1533,7 @@ theorem e8FourUniNative_five
   obtain ⟨k, hk⟩ := exists_conj_le_of_frameDatum hE₀p D
     (e8FiveFourFrameDatum_holds K he D.Fr D.hFr D.w
       (e8FiveFourSquare_holds K he E₀ hE₀p hE₀c D hD))
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨Ψ, hker, hrange⟩ := exists_psi_D8_E8_of_family (exists_e8D8_family K)
   exact uniClosure_eq_top_of_two_conj (p := 5) (⨆ k, e8D8Chain K k) (e8D4Group K)
     (weylWordElt .E8 K e8Word) e8D4Group_le_d8 e8D4Group_le_conj_d8
@@ -1586,14 +1586,14 @@ theorem closingFrameAt_splitE8 (K : Type) [Field K] [Finite K] (hK : 5 ∣ Nat.c
     exact this
   · refine nonsolvable_frameIn hXS ?_
     intro hs
-    haveI := hs
-    haveI h2 : Group.IsSolvable ↥(X2 K) :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective (X2_le_XS K))
+    have := hs
+    have h2 : Group.IsSolvable ↥(X2 K) :=
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective (X2_le_XS K))
     obtain ⟨hperf, -, a₀, b₀, hab⟩ := X2_quasisimple K
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a₀
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b₀
-    haveI : Nontrivial ↥(X2 K) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
-    exact (IsSolvable.commutator_lt_top_of_nontrivial (↥(X2 K))).ne hperf.commutator_eq_top
+    have : Nontrivial ↥(X2 K) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
+    exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (↥(X2 K))).ne hperf.commutator_eq_top
   · exact closing_of_twFrameClosing hXS
       ((frameClosing_iff Tag.E8 K _).1
         (frameClosing_of_detection_E8 K (frameDetection_E8 K)))
@@ -1619,7 +1619,7 @@ theorem closingFrameAt_twistedE8 (K : Type) [Field K] [Finite K] (hK : 5 ∣ Nat
       D.g * rootDiagUnit TwClass.e8Ten.tag (Pi.mulSingle (⟨4, by decide⟩ : Fin
         TwClass.e8Ten.tag.rank) ζ) * D.g⁻¹) :
     ClosingFrameAt z (frameIn (TwClass.e8Ten.X₁ D ⊔ TwClass.e8Ten.X₂ D)) := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   set i₁ : Fin TwClass.e8Ten.tag.rank := ⟨4, by decide⟩ with hi₁
   set a : Fin TwClass.e8Ten.tag.rank → D.Lˣ := Pi.mulSingle i₁ ζ with ha
   have hzbc' : baseChangeGL (algebraMap K D.L) (z : ModGL TwClass.e8Ten.tag K) =
@@ -1692,15 +1692,15 @@ theorem closingFrameAt_twistedE8 (K : Type) [Field K] [Finite K] (hK : 5 ∣ Nat
     exact Subgroup.mem_centralizer_singleton_iff.1 (hsup hy')
   · refine nonsolvable_frameIn hle ?_
     intro hs
-    haveI := hs
-    haveI h2 : Group.IsSolvable ↥(TwClass.e8Ten.X₂ D) :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective
+    have := hs
+    have h2 : Group.IsSolvable ↥(TwClass.e8Ten.X₂ D) :=
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective
         (le_sup_right : TwClass.e8Ten.X₂ D ≤ TwClass.e8Ten.X₁ D ⊔ TwClass.e8Ten.X₂ D))
     obtain ⟨hperf, -, a₀, b₀, hab⟩ := hq3.2
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a₀
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b₀
-    haveI : Nontrivial ↥(TwClass.e8Ten.X₂ D) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
-    exact (IsSolvable.commutator_lt_top_of_nontrivial
+    have : Nontrivial ↥(TwClass.e8Ten.X₂ D) := ⟨⟨x, 1, fun h => hab (by rw [h]; simp)⟩⟩
+    exact (Group.IsSolvable.commutator_lt_top_of_nontrivial
       (↥(TwClass.e8Ten.X₂ D))).ne hperf.commutator_eq_top
   · have h3 : 3 ≤ Nat.card K := by
       have h1 : 1 < Nat.card K := Finite.one_lt_card
@@ -1719,7 +1719,7 @@ theorem frameIn_twistedE8_le_closure (K : Type) [Field K] [Finite K]
   refine subgroupOf_le_closure_of_le hle ?_
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
   have hr : ringChar K ∣ Nat.card K := by
     rw [Nat.card_eq_fintype_card, hn]
     exact dvd_pow_self _ n.ne_zero
@@ -1788,7 +1788,7 @@ theorem e8FiveUniClose_of_frameElt {K : Type} [Field K] [Finite K]
     (hXr : X ≤ Subgroup.closure {x | x ∈ X ∧ ∃ n : ℕ, x ^ (ringChar K ^ n) = 1}) :
     Subgroup.closure {k | ∃ x ∈ E₀, x ≠ 1 ∧ Commute k x ∧ ∃ n : ℕ, k ^ (ringChar K ^ n) = 1} =
       ⊤ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨a, ha, b, hb, ha1, hb1, hgen⟩ := exists_gens_of_plane (p := 5) hE₀p hE₀c
   obtain ⟨ga, hga⟩ := E8FiveSq.exists_conj_frameElt hpK hE₀p hE₀c D hreg hV1 hV F ha ha1
   obtain ⟨gb, hgb⟩ := E8FiveSq.exists_conj_frameElt hpK hE₀p hE₀c D hreg hV1 hV F hb hb1
@@ -1837,7 +1837,7 @@ theorem e8TwoUniNative_five (K : Type) [Field K] [Finite K]
   by_cases hw : ∀ u : Fin Tag.E8.rank → ℤ, D.w • u = -u
   · obtain ⟨k, hk⟩ := exists_conj_le_of_frameDatum hE₀p D
       (e8FiveTwoFrameDatum_holds K hpq D.Fr D.hFr D.w hw)
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     obtain ⟨Ψ, hker, hrange⟩ := exists_psi_D8_E8_of_family (exists_e8D8_family K)
     exact uniClosure_eq_top_of_two_conj (p := 5) (⨆ k, e8D8Chain K k) (e8FrameGroup K)
       (weylWordElt .E8 K e8Word) e8FrameGroup_le_d8 e8FrameGroup_le_conj_d8
@@ -1913,7 +1913,7 @@ theorem uniSeitzPlanes_E8_inner :
       d.1.characteristic ≠ 2 ∧ ¬ NormalizesRSubgroup d E := by
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, hp5, ⟨q, hq, hpq⟩, hch, hn⟩
   obtain rfl : d = .E8 q := hq
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hfour : ∀ (K : Type) [Field K] [Finite K], ringChar K ≠ 2 →
       orderOf ((Nat.card K : ℕ) : ZMod p) = 4 → ∀ E₀ : Subgroup (adjointGroup .E8 K),
         (∀ x ∈ E₀, x ^ p = 1) → Nat.card E₀ = p ^ 2 → ¬ NormalizesRGroup (ringChar K) E₀ →

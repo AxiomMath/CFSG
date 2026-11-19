@@ -73,7 +73,7 @@ theorem l55_central_of_pgroup {p : ℕ} [Fact p.Prime] {G : Type} [Group G] [Fin
     intro h
     apply hN1
     rw [← Subgroup.map_subgroupOf_eq_of_le hNS, h, Subgroup.map_bot]
-  have : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup.isNilpotent
   have hne := Group.IsNilpotent.inf_center_ne_bot_of_normal hN'1
   obtain ⟨⟨z, hz⟩, hz1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp hne
   have hgN : (z : G) ∈ N := hz.1

@@ -30,6 +30,7 @@ private def sec4S47RW (v : Option (Fin 7) → ZMod 2) : Fin 7 → ZMod 2 :=
 
 private def sec4S47RTw (t : G) (a : ZMod 2) : G := t ^ a.val
 
+omit [Finite G] in
 private lemma sec4S47RCoord_eq (v : Option (Fin 7) → ZMod 2) :
     sec4S47RCoord t φ v = sec4S47RTw t (sec4S47RA v) * φ (sec4S47RW v) := rfl
 
@@ -55,14 +56,17 @@ private lemma sec4S47RW_even (v : Option (Fin 7) → ZMod 2) : IsEvenVec (sec4S4
   rw [show ((7 : ℕ) : ZMod 2) = 1 by decide, one_mul]
   exact CharTwo.add_self_eq_zero _
 
+omit [Finite G] in
 private lemma sec4S47RTw_zero (t : G) : sec4S47RTw t 0 = 1 := by
   unfold sec4S47RTw
   rw [show (0 : ZMod 2).val = 0 by decide, pow_zero]
 
+omit [Finite G] in
 private lemma sec4S47RTw_one (t : G) : sec4S47RTw t 1 = t := by
   unfold sec4S47RTw
   rw [show (1 : ZMod 2).val = 1 by decide, pow_one]
 
+omit [Finite G] in
 private lemma sec4S47RTw_add {t : G} (ht : t * t = 1) (a b : ZMod 2) :
     sec4S47RTw t (a + b) = sec4S47RTw t a * sec4S47RTw t b := by
   have h2 : t ^ 2 = 1 := by rw [pow_two]; exact ht
@@ -263,8 +267,8 @@ theorem sec4S47RCoord_conj (h : Sec4FSetup t L S z A B φ) {m : G}
       funext r
       rw [Function.comp_apply, Pi.single_apply, Pi.single_apply]
       by_cases hs : σ.symm r = s
-      · rw [if_pos hs, if_pos ((Equiv.symm_apply_eq σ).mp hs)]
-      · rw [if_neg hs, if_neg (fun hh => hs ((Equiv.symm_apply_eq σ).mpr hh))]
+      · rw [ite_eq_left hs, ite_eq_left ((Equiv.symm_apply_eq σ).mp hs)]
+      · rw [ite_eq_right hs, ite_eq_right (fun hh => hs ((Equiv.symm_apply_eq σ).mpr hh))]
     rw [sec4S47RCoord_single h s, hcomp, sec4S47RCoord_single h (σ s)]
     exact hm s
   have hadd : ∀ u w, P u → P w → P (u + w) := by

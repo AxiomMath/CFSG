@@ -72,7 +72,7 @@ theorem exists_sylow_fixing_set
         (fixedBy X u).ncard ≤ (fixedBy X tH).ncard := by
       intro u hu
       exact hmax (u : G) ((Subgroup.orderOf_coe u).trans hu)
-    apply eq_one_of_fixing_outside H X tH hmaxH (Q : Subgroup H) Q.isPGroup' ?_ q x hx hqx
+    apply eq_one_of_fixing_outside H X tH hmaxH (Q : Subgroup H) Q.isPGroup ?_ q x hx hqx
     intro u y hy
     exact (mem_fixingSubgroup_iff G).mp (u : H).property y hy
 

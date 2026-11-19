@@ -84,7 +84,7 @@ theorem Wg_le_T [IsMulCommutative ↥V] (hT : quasithinIsSylowTwo T)
         _ = t * x * t⁻¹ * v := by group
   obtain ⟨P, hP⟩ := CFSG.Quasithin.exists_sylow_of_quasithinIsSylowTwo hT
   have hsup : IsPGroup 2 ↥(T ⊔ C₂) :=
-    IsPGroup.to_sup_of_normal_right' (hP ▸ P.isPGroup') hC₂2 hTC
+    IsPGroup.to_sup_of_normal_right' (hP ▸ P.isPGroup) hC₂2 hTC
   have hmax : T ⊔ C₂ = T := by
     have hle : (P : Subgroup G) ≤ T ⊔ C₂ := by rw [hP]; exact le_sup_left
     have hle2 : T ⊔ C₂ ≤ (P : Subgroup G) := P.maximal_isPGroup.2 hsup hle

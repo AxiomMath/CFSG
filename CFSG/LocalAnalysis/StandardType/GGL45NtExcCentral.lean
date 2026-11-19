@@ -39,8 +39,8 @@ theorem eC1_endPow_restrictEnd_coe
 
 theorem eC1_endPow_restrictEnd
                                       {Γ : Type*} [Group Γ] (F : Γ →* Γ) (H : Subgroup Γ)
-    (hH : ∀ g ∈ H, F g ∈ H) (n : ℕ) :
-    endPow (eC1_restrictEnd F H hH) n = eC1_restrictEnd (endPow F n) H (fun g hg => endPow_mem hH n hg) := by
+    (hH : ∀ _g ∈ H, F _g ∈ H) (n : ℕ) :
+    endPow (eC1_restrictEnd F H hH) n = eC1_restrictEnd (endPow F n) H (fun _g hg => endPow_mem hH n hg) := by
   ext x
   rw [eC1_endPow_restrictEnd_coe, eC1_restrictEnd_coe]
 
@@ -143,7 +143,7 @@ private theorem eC1_card_fixed_prod_eq
       exact (hZab x.1 x.1.2 y.1 y.1.2).symm
     · apply Subtype.ext
       exact (hZc x.2 hx2Z y.2 (hSM y.2.2)).symm
-  haveI : Finite μ.ker := by
+  have : Finite μ.ker := by
     let f : μ.ker → ↥(Z ⊓ S) := fun k =>
       ⟨((k.1).1 : Γ), Subgroup.mem_inf.mpr ⟨(k.1).1.2, by
         have h1 : ((k.1).1 : Γ) * ((k.1).2 : Γ) = 1 := by
@@ -255,7 +255,7 @@ theorem eC1_not_dvd_card_fixed_S
   have hcardGG : Nat.card (fixG G) = Nat.card ↥(S ⊓ fixG (endPow F₀ p)) := by
     rw [hGE]
     exact eC1_card_fixG_restrictEnd (endPow F₀ p) S hFS'
-  haveI : Finite (fixG G) := by
+  have : Finite (fixG G) := by
     rw [hGE]
     exact Finite.of_equiv ↥(S ⊓ fixG (endPow F₀ p))
       (eC1_fixEquiv (endPow F₀ p) S hFS').symm
@@ -347,10 +347,10 @@ theorem prop43_abstract
       (S ⊓ fixG F₀)).index) :
     ∀ y ∈ M, endPow F₀ p y = y → (∃ n : ℕ, y ^ p ^ n = 1) → y ∈ Z := by
   have hFM' : ∀ g ∈ M, endPow F₀ p g ∈ M := fun g hg => endPow_mem hFM p hg
-  haveI : Finite ↥(M ⊓ fixG (endPow F₀ p)) :=
+  have : Finite ↥(M ⊓ fixG (endPow F₀ p)) :=
     Finite.of_injective _ (Subgroup.inclusion_injective
       (inf_le_right : M ⊓ fixG (endPow F₀ p) ≤ fixG (endPow F₀ p)))
-  haveI : Finite ↥(S ⊓ fixG (endPow F₀ p)) :=
+  have : Finite ↥(S ⊓ fixG (endPow F₀ p)) :=
     Finite.of_injective _ (Subgroup.inclusion_injective
       (inf_le_right : S ⊓ fixG (endPow F₀ p) ≤ fixG (endPow F₀ p)))
   have hs : ¬ p ∣ Nat.card ↥(S ⊓ fixG (endPow F₀ p)) :=
@@ -371,7 +371,7 @@ theorem prop43_abstract
       show Nat.card ↥(Z' ⊓ fixG FM : Subgroup M) = Nat.card ↥(Z ⊓ fixG (endPow F₀ p)) from
         eC1_card_subgroupOf_inf_fixG (endPow F₀ p) M Z hZM hFM']
     exact eC1_card_fixed_prod_eq F₀ M Z S hZM hSM hMS hZc hZab hFM hFZ hFS hLZ hLS
-  haveI : Finite (fixG FM) :=
+  have : Finite (fixG FM) :=
     Finite.of_equiv ↥(M ⊓ fixG (endPow F₀ p)) (eC1_fixEquiv (endPow F₀ p) M hFM').symm
   have hg : FM ⟨y, hyM⟩ = ⟨y, hyM⟩ := by
     apply Subtype.ext
@@ -415,7 +415,7 @@ theorem lang_famZ
     {Q' : ModGL τ L} (hQfr : entrywiseFrobGL τ L 2 e Q' = Q') {p : ℕ} (hp : 1 ≤ p)
     (hstab : ∀ g ∈ famZ a, frobTwistGL τ L 2 e Q' g ∈ famZ a) :
     ∀ c ∈ famZ a, ∃ z ∈ famZ a, z⁻¹ * endPow (frobTwistGL τ L 2 e Q') p z = c := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   obtain ⟨-, -, -, hZconn, -⟩ := hBor τ L a
   have hiter : ∀ g, endPow (frobTwistGL τ L 2 e Q') p g =
       frobTwistGL τ L 2 (e * p) (Q' ^ p) g :=
@@ -440,7 +440,7 @@ theorem lang_famS
       frobTwistGL τ L 2 e Q' g ∈ (famS a).map (adjointGroup τ L).subtype) :
     ∀ c ∈ (famS a).map (adjointGroup τ L).subtype, ∃ s ∈ (famS a).map (adjointGroup τ L).subtype,
       s⁻¹ * endPow (frobTwistGL τ L 2 e Q') p s = c := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   obtain ⟨-, -, -, -, hSconn⟩ := hBor τ L a
   have hiter : ∀ g, endPow (frobTwistGL τ L 2 e Q') p g =
       frobTwistGL τ L 2 (e * p) (Q' ^ p) g :=

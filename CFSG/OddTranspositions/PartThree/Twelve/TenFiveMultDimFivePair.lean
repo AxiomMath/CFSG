@@ -18,9 +18,9 @@ abbrev V5 : Type := Fin 2 ⊕ Fin 2 ⊕ Unit → ZMod 5
 noncomputable abbrev Q5 : QuadraticForm (ZMod 5) V5 := quadOdd 2 (ZMod 5)
 
 theorem exists_mem_polar_orthogonal_two {a b : V5} (ha : Q5 a ≠ 0) (hb : Q5 b ≠ 0)
-    (hab : QuadraticMap.polar Q5 a b = 0) {d : ZMod 5} (hd : d ≠ 0) :
+    (hab : QuadraticMap.polar Q5 a b = 0) {d : ZMod 5} (_hd : d ≠ 0) :
     ∃ c : V5, QuadraticMap.polar Q5 a c = 0 ∧ QuadraticMap.polar Q5 b c = 0 ∧ Q5 c = d := by
-  letI : Invertible (2 : ZMod 5) := invertibleOfNonzero (by decide)
+  let : Invertible (2 : ZMod 5) := invertibleOfNonzero (by decide)
   let U : Submodule (ZMod 5) V5 := Submodule.span (ZMod 5) ({a, b} : Set V5)
   let W : Submodule (ZMod 5) V5 := LinearMap.BilinForm.orthogonal (QuadraticMap.polarBilin Q5) U
   have hB : (QuadraticMap.polarBilin Q5).Nondegenerate :=
@@ -127,10 +127,10 @@ theorem exists_mem_polar_orthogonal_two {a b : V5} (ha : Q5 a ≠ 0) (hb : Q5 b 
 theorem exists_mem_polar_orthogonal_three {a b c : V5} (ha : Q5 a ≠ 0) (hb : Q5 b ≠ 0)
     (hc : Q5 c ≠ 0) (hab : QuadraticMap.polar Q5 a b = 0)
     (hac : QuadraticMap.polar Q5 a c = 0) (hbc : QuadraticMap.polar Q5 b c = 0)
-    {d : ZMod 5} (hd : d ≠ 0) :
+    {d : ZMod 5} (_hd : d ≠ 0) :
     ∃ e : V5, QuadraticMap.polar Q5 a e = 0 ∧ QuadraticMap.polar Q5 b e = 0 ∧
       QuadraticMap.polar Q5 c e = 0 ∧ Q5 e = d := by
-  letI : Invertible (2 : ZMod 5) := invertibleOfNonzero (by decide)
+  let : Invertible (2 : ZMod 5) := invertibleOfNonzero (by decide)
   let U : Submodule (ZMod 5) V5 := Submodule.span (ZMod 5) ({a, b, c} : Set V5)
   let W : Submodule (ZMod 5) V5 := LinearMap.BilinForm.orthogonal (QuadraticMap.polarBilin Q5) U
   have hB : (QuadraticMap.polarBilin Q5).Nondegenerate :=
@@ -396,10 +396,10 @@ theorem reflPairInvariant_intrinsic {x : ↥(CFSG.RankThree.Classical2.orthDeriv
   have hc' : Q5 c' ≠ 0 := by rw [hc'Q]; exact ha
   obtain ⟨d₁, hd₁a, hd₁b, hd₁c, hd₁Q⟩ :=
     exists_mem_polar_orthogonal_three ha hb hc hab hac hbc (d := 2 * Q5 b)
-      (hd := mul_ne_zero (by decide) hb)
+      (_hd := mul_ne_zero (by decide) hb)
   obtain ⟨d₂, hd₂a, hd₂b, hd₂c, hd₂Q⟩ :=
     exists_mem_polar_orthogonal_three ha hb hc hab hac hbc (d := 2 * Q5 a)
-      (hd := mul_ne_zero (by decide) ha)
+      (_hd := mul_ne_zero (by decide) ha)
   have hQbc : Q5 (b - c) = Q5 d₁ := by
     rw [sub_eq_add_neg, QuadraticMap.map_add Q5, QuadraticMap.map_neg Q5,
       QuadraticMap.polar_neg_right, hbc, neg_zero, add_zero, hcQ, hd₁Q]

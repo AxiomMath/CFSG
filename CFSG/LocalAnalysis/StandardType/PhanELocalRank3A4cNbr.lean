@@ -49,7 +49,7 @@ private lemma plh_common (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
       have h3 : 4 * (2 ^ f) ^ 3 ≤ (2 ^ f) ^ 4 := by nlinarith [hq]
       rw [h2] at h1
       omega
-    simp only [Finset.card_empty, Nat.zero_mul, Nat.zero_add]
+    simp only [Finset.card_empty, Nat.zero_mul]
     nlinarith [hRsle, hx3, Nat.zero_le ((2 ^ f) ^ 3 - 2 ^ f)]
   obtain ⟨u, v, hu, hv, huv, hRu, -⟩ :=
     exists_real_plane (f := f) hK Rs ∅ hR (by intro L hL; simp at hL) hcountA hcountB

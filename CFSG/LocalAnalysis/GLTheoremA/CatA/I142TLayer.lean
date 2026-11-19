@@ -19,9 +19,9 @@ theorem goodA_orbit_of_stab {S : Type} [Group S] [Finite S] (E : Subgroup (MulAu
         GoodA (quotAct (E.subtype.comp B.subtype) K₀ hinv) ⊤) :
     GoodA E.subtype (sSup (orbitOf E.subtype K₀)) := by
   classical
-  haveI : Finite (Subgroup S) := Finite.of_injective (fun H : Subgroup S => (H : Set S))
+  have : Finite (Subgroup S) := Finite.of_injective (fun H : Subgroup S => (H : Set S))
     (fun H K h => SetLike.coe_injective h)
-  haveI : Fintype ↥(orbitOf E.subtype K₀) := Fintype.ofFinite _
+  have : Fintype ↥(orbitOf E.subtype K₀) := Fintype.ofFinite _
   set ρ : ↥E →* MulAut S := E.subtype with hρ
   set O := orbitOf ρ K₀ with hOdef
   have hcomp : ∀ K ∈ O, IsComponentOf K X :=
@@ -77,11 +77,11 @@ theorem goodA_glaLayer_of_orbits {S : Type} [Group S] [Finite S] (E : Subgroup (
       GoodA E.subtype (sSup (orbitOf E.subtype K₀))) :
     GoodA E.subtype (GLALayer X) := by
   classical
-  haveI : Finite (Subgroup S) := Finite.of_injective (fun H : Subgroup S => (H : Set S))
+  have : Finite (Subgroup S) := Finite.of_injective (fun H : Subgroup S => (H : Set S))
     (fun H K h => SetLike.coe_injective h)
   let ι := {O : Set (Subgroup S) // ∃ K, IsComponentOf K X ∧ O = orbitOf E.subtype K}
-  haveI : Finite ι := Subtype.finite
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Finite ι := Subtype.finite
+  have : Fintype ι := Fintype.ofFinite ι
   have hmemO : ∀ O : ι, ∀ K ∈ O.1, IsComponentOf K X := by
     rintro ⟨O, K₁, hK₁, rfl⟩ K hK
     exact isComponentOf_orbit hXE hK₁ hK

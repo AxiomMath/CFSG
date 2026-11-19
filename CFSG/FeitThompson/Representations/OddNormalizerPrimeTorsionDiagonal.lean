@@ -15,6 +15,7 @@ open Matrix Module Pointwise Polynomial MatrixGroups
 
 variable {n : Type*} [Fintype n] {E : Type*} [Field E]
 
+omit [Fintype n] in
 theorem exists_mem_ne_zero_of_finrank_eq_one {W : Submodule E (n → E)} (hW : finrank E ↥W = 1) :
     ∃ w ∈ W, w ≠ 0 := by
   refine (Submodule.ne_bot_iff W).mp fun h => ?_

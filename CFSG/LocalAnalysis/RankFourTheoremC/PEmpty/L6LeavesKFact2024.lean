@@ -14,12 +14,12 @@ open CFSG.Open Subgroup
 theorem kFact2024_of_kg2024 : KG2024 → KFact2024 := by
   intro hKG A _ _ L S z n p hLe hn hp hp5 hz hzL hrk hSL hS2 hS hzS
   obtain ⟨e⟩ := hLe
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hpn : p ≤ n := by
     have h1 : orderOf (⟨z, hzL⟩ : ↥L) = p := by rw [Subgroup.orderOf_mk, hz]
     have h2 : p ∣ Nat.card ↥L := h1 ▸ orderOf_dvd_natCard _
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup,
       Fintype.card_fin] at h2
     exact (hp.dvd_factorial).mp (h2.trans (Nat.div_dvd_of_dvd (Nat.dvd_factorial two_pos

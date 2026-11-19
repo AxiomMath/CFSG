@@ -226,7 +226,7 @@ theorem movedL_eq {P : Nat → Nat} {N : Nat} (T : Nat) (hP : ∀ i < N, P i < 2
       have e3 : 80 + q < 128 * N := by omega
       have hi : q / 128 < N := by omega
       rw [e1, e2, tb80 (hD _ hi)]
-      simp [hq, hN, e3, xor_ne_zero]
+      simp [hq, hN, e3]
     · simp [hN]
   · simp [hq]
 

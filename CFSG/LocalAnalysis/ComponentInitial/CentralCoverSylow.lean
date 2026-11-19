@@ -164,7 +164,7 @@ theorem perfect_central_cover_metacyclic_sylow_prime_kernel_cyclic {E Q : Type*}
     rintro _ ⟨c, -, rfl⟩
     exact hC c.2
   have hAp : IsPGroup ℓ A :=
-    Cℓ.isPGroup'.map η.ker.subtype
+    Cℓ.isPGroup.map η.ker.subtype
   have hA := CFSG.ShultStronglyClosedTI.central_pSubgroup_le_sylow_derived T A hAc hAp
   let φ : (Cℓ : Subgroup η.ker) →* ((commutator (T : Subgroup E)).map (T : Subgroup E).subtype) :=
     ((η.ker.subtype).comp (Cℓ : Subgroup η.ker).subtype).codRestrict _ fun c =>

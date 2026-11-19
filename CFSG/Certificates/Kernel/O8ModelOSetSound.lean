@@ -129,7 +129,7 @@ private theorem img_bit {n w O G : ℕ} (z : ℕ) :
   · rintro ⟨hz, hb⟩
     refine ⟨z, hz, ?_⟩
     change (bitN O (pg w (mask w) G z) <<< z).testBit z = true
-    rw [Nat.testBit_shiftLeft, bitN_eq, if_pos hb]
+    rw [Nat.testBit_shiftLeft, bitN_eq, ite_eq_left hb]
     simp
 
 private theorem img_lt {n w O G : ℕ} : imgMask n w O G < 2 ^ n := by

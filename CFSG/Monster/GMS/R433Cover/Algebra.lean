@@ -140,7 +140,7 @@ theorem cm_slide {z : E} (hzc : ∀ g : E, g * z = z * g) (hz2 : z * z = 1) {a b
     rw [hbc, cm_inv_of_central hcen]
   rw [e1, e2] at e3
   rcases hb with h | h <;> rcases hc with h' | h' <;> rw [h, h'] at e3 ⊢ <;>
-    first | rfl | (simp [hz2] at e3; first | exact e3 | exact e3.symm)
+    first | (simp [hz2] at e3; first | exact e3 | exact e3.symm)
 
 theorem cm_evalWord {a : E} {g : ℕ → E} {k : E} (hk : ∀ x : E, x * k = k * x) {w : List ℕ}
     (h : ∀ c ∈ w, cm a (g c) = k) : cm a (evalWord g w) = k ^ w.length := by

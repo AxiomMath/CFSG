@@ -246,7 +246,7 @@ theorem two_lt_kLevel_five_of_card (hb : LieOrderBridge) (hOrd : SporadicOrdersT
     rintro ⟨i, hi, -⟩
     cases i <;> simp [k3] at hi
   unfold kLevel
-  rw [if_neg hC, if_neg hK2, if_neg hK3]
+  rw [ite_eq_right hC, ite_eq_right hK2, ite_eq_right hK3]
   norm_num
 
 end Level
@@ -309,8 +309,8 @@ theorem sporTypes_Fi24_seven (hOrd : SporadicOrdersTable)
     SporTypes 7 (fun T _ => 7 * Nat.card T ≤ 17640) .Fi24Prime := by
   have e : (TauCeti.CFSGIndex.sporadic .Fi24Prime).Group ≃* ↥CFSG.Sporadic.Fi24.J :=
     (hBr .Fi24Prime).some.symm.trans CFSG.Sporadic.Fi24.fi24EquivJ
-  haveI := Inputs1415b.finite_spor hOrd .Fi24Prime
-  haveI : Finite ↥CFSG.Sporadic.Fi24.J := Finite.of_equiv _ e.toEquiv
+  have := Inputs1415b.finite_spor hOrd .Fi24Prime
+  have : Finite ↥CFSG.Sporadic.Fi24.J := Finite.of_equiv _ e.toEquiv
   refine sporTypes_of_subgroup_model (p := 7) (by norm_num) (typeInv_card fun N => 7 * N ≤ 17640) e
     (centTypes_of_card_le (by norm_num) fun s hs => ?_)
   obtain ⟨g, hg | hg⟩ := CFSG.HardMathSupport.Dickson.I271.Fi7.fi7_conj_class s hs
@@ -386,7 +386,7 @@ section S_sporTypes_B_seven
 
 theorem sporTypes_B_seven
     (hBr : SporadicBridges) : SporTypes 7 (fun T _ => Nat.card T ∣ 80640) .B := by
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .B) := CFSG.Monster.B.Pinned.finite_B
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .B) := CFSG.Monster.B.Pinned.finite_B
   exact sporTypes_of_model (p := 7) (by norm_num) (typeInv_card fun N => N ∣ 80640) (hBr .B).some
     CFSG.HardMathSupport.Dickson.BMRows.census_B_seven
 
@@ -469,9 +469,9 @@ theorem centTypes_Fi23J_five :
 set_option maxRecDepth 100000 in
 theorem sporTypes_Fi23_five (hBr : SporadicBridges) :
     SporTypes 5 (fun T _ => Nat.card T ≤ 5040) .Fi23 := by
-  haveI hJ : Finite CFSG.Sporadic.Fi23.J :=
+  have hJ : Finite CFSG.Sporadic.Fi23.J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi23.card_J]; norm_num)
-  haveI hf : Finite CFSG.Blueprint.NativeSporadic.Fi23 :=
+  have hf : Finite CFSG.Blueprint.NativeSporadic.Fi23 :=
     Finite.of_equiv CFSG.Sporadic.Fi23.J
       (CFSG.Sporadic.Fi23.fi23EquivJ : CFSG.Blueprint.NativeSporadic.Fi23 ≃* CFSG.Sporadic.Fi23.J).symm.toEquiv
   have hC : CentTypes 5 (fun T _ => Nat.card T ≤ 5040) CFSG.Blueprint.NativeSporadic.Fi23 :=
@@ -549,8 +549,8 @@ section S_centTypes_B_five
 theorem centTypes_B_five
     (hOrd : SporadicOrdersTable) :
     CentTypes 5 (fun T _ => Nat.card T = 44352000 ∨ ¬ 7 ∣ 5 * Nat.card T) CFSG.Blueprint.NativeSporadic.B := by
-  haveI hfin : Finite CFSG.Blueprint.NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have hfin : Finite CFSG.Blueprint.NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hGood : TypeInv CFSG.HardMathSupport.Dickson.BMRows.CensusB5.IsHS :=
     fun _ _ _ _ e h => CFSG.HardMathSupport.Dickson.BMRows.CensusB5.IsHS.of_equiv e h
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
@@ -584,7 +584,7 @@ theorem centTypes_B_five
 theorem sporTypes_B_five
     (hBr : SporadicBridges) (hOrd : SporadicOrdersTable) :
     SporTypes 5 (fun T _ => Nat.card T = 44352000 ∨ ¬ 7 ∣ 5 * Nat.card T) .B := by
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .B) := CFSG.Monster.B.Pinned.finite_B
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .B) := CFSG.Monster.B.Pinned.finite_B
   exact sporTypes_of_model (p := 5) Nat.prime_five
     (typeInv_card fun N => N = 44352000 ∨ ¬ 7 ∣ 5 * N) (hBr .B).some (centTypes_B_five hOrd)
 
@@ -826,7 +826,7 @@ section S_sporTypes_Co1_five
 theorem sporTypes_Co1_five (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo)
     (hBr : SporadicBridges) :
     SporTypes 5 (fun T _ => 5 * Nat.card T ≤ 3024000 ∧ GoodSpor 5 [.J2] T) .Co1 := by
-  haveI : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
+  have : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
   have hG : GOK := Certificates.certificate13670
   have hC : CentTypes 5 (fun T _ => 5 * Nat.card T ≤ 3024000 ∧ GoodSpor 5 [.J2] T) ↥GA :=
     (centTypes_of_card_le Nat.prime_five card_centralizer_five_GA_le).and
@@ -878,7 +878,7 @@ theorem sporNoAltDown_of_arow {s : TauCeti.SporadicName} {p m : ℕ} (hp : p.Pri
   · intro h1
     let φ : T ≃* Q := e.trans b.symm
     have hZ : Subgroup.center Q = ⊥ := by
-      haveI := hQ
+      have := hQ
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center Q) with hc | hc
       · exact hc
       · exfalso
@@ -996,7 +996,7 @@ section S_centTypes_Gmat_eleven
 
 theorem centTypes_Gmat_eleven (h : MElevenNoSeven) :
     CentTypes 11 (fun T _ => ¬ 7 ∣ 11 * Nat.card T) Gmat := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   refine centTypes_of_not_dvd (by norm_num) fun s hs => ?_
   have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨hx, hy, hxy, hx1, h3, h4, -, -⟩ := CFSG.AGLEmbedding.Norton.MON11_13.eleven_gw_facts
@@ -1026,7 +1026,7 @@ section S_sporTypes_M_eleven
 
 
 theorem sporTypes_M_eleven (h : MElevenNoSeven) : SporTypes 11 (fun T _ => ¬ 7 ∣ 11 * Nat.card T) .M := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   obtain ⟨e1⟩ : Nonempty (Gmat ≃* (TauCeti.CFSGIndex.sporadic .M).Group) :=
     CFSG.Blueprint.NativeSporadic.MonsterModel.iso_gmat_tauCeti
   exact sporTypes_of_subgroup_model (p := 11) (by norm_num) (typeInv_card fun N => ¬ 7 ∣ 11 * N) e1.symm
@@ -1066,11 +1066,11 @@ theorem centFiveBNoComp_M_of_xFiveB (h5B : MFiveBNoComp) :
   obtain ⟨e₀⟩ := CFSG.Blueprint.NativeSporadic.MonsterModel.iso_griess_y443Derived
   let e : MGriess ≃* CFSG.Blueprint.NativeSporadic.Carrier .M := e₀
   have φ := CFSG.YGroups.Y443.griessEquivGmat CFSG.YGroups.Y443.Gmat_eq_AutO_of_stroth
-  haveI : Finite MGriess :=
+  have : Finite MGriess :=
     (CFSG.HardMathSupport.Timmesfeld.SporadicBalance.twoA_data_of_existence
       CFSG.Milestones.cl_lit_monster_existence_griess_conway).1
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M) := Finite.of_equiv MGriess e.toEquiv
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M) := Finite.of_equiv MGriess e.toEquiv
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   have hG : CentFiveBNoComp Gmat := by
     intro x hx hinv J hJ
     obtain ⟨j, hj, hxj⟩ := MonsterFiveB.m5bClass_of_certs x hx hinv
@@ -1135,9 +1135,9 @@ end BFiveB
 
 section Fi24Five
 
-theorem sporTypes_Fi24_five (hOrd : SporadicOrdersTable) (hBr : SporadicBridges) (h : Fi24FiveA9) :
+theorem sporTypes_Fi24_five (_hOrd : SporadicOrdersTable) (hBr : SporadicBridges) (h : Fi24FiveA9) :
     SporTypes 5 (fun T _ => Nat.card T = 181440) .Fi24Prime := by
-  haveI := Inputs1415b.finite_carrier hOrd hBr .Fi24Prime
+  have := Inputs1415b.finite_carrier _hOrd hBr .Fi24Prime
   exact sporTypes_of_model (p := 5) Nat.prime_five (typeInv_card fun N => N = 181440) (hBr .Fi24Prime).some h
 
 theorem sporNoAltDown_Fi24_five_seven (hOrd : SporadicOrdersTable) (hBr : SporadicBridges)

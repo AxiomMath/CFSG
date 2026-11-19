@@ -36,11 +36,11 @@ theorem map_inf_eq_stabilizer_Ztil (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     ((D.M ⊓ c.L).subgroupOf c.L).map (c.phiL hV) =
       MulAction.stabilizer ↥(c.H hV)
         (((c.Ztil hV : Subgroup (c.W hV)) : Set (c.W hV))) := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
   refine le_antisymm ?_ ?_
   · rintro _ ⟨x, hx, rfl⟩
     exact (c.phiL_mem_stabilizer_Ztil_iff hV h4 h1930 x).2
@@ -61,11 +61,11 @@ theorem map_Hinf_inf_eq (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     ((Hinf (D.M ⊓ c.L)).subgroupOf c.L).map (c.phiL hV) =
       Hinf (MulAction.stabilizer ↥(c.H hV)
         (((c.Ztil hV : Subgroup (c.W hV)) : Set (c.W hV)))) := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
   have hsub := Hinf_subgroupOf c (A := D.M ⊓ c.L) inf_le_right
   rw [← hsub, Hinf_map, map_inf_eq_stabilizer_Ztil c hV h4 h1930]
 
@@ -74,8 +74,8 @@ end Ctx23L
 private theorem nontrivial_of_isSLn_three {X : Type} [Group X] {n : ℕ}
     (h : IsSLn X 3 n) (hn : 3 ≤ n) : Nontrivial X := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have h2 : 2 ≤ Nat.card K := by
     rw [hKcard]
     calc 2 = 2 ^ 1 := by norm_num
@@ -93,7 +93,7 @@ private theorem nontrivial_of_isSLn_three {X : Type} [Group X] {n : ℕ}
     calc 1 < 8 * (3 * 7) := by norm_num
       _ ≤ Nat.card K ^ 3 * ((Nat.card K ^ 2 - 1) * (Nat.card K ^ 3 - 1)) :=
         Nat.mul_le_mul h8 (Nat.mul_le_mul h3 h7)
-  haveI : Nontrivial (↥(StatedSL 3 K)) := Finite.one_lt_card_iff_nontrivial.mp hgt
+  have : Nontrivial (↥(StatedSL 3 K)) := Finite.one_lt_card_iff_nontrivial.mp hgt
   exact e.toEquiv.nontrivial
 
 private theorem exists_quotient_bar2 {D : Data G} {Ch : Choice2011 G}
@@ -176,7 +176,7 @@ private theorem false_of_K_mem_calC {D : Data G} {Ch : Choice2011 G}
     exists_quotient_bar2 c hV (K := K)
       (show K ≤ c.L from (uc22p21c_Hinf_le (D.M ⊓ c.L)).trans inf_le_right)
       (show (K.subgroupOf c.L).map (c.phiL hV) = Kstar from hKstar_eq)
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   refine hNL.1 (Bar2 K) hshapeQ N n hn ?_
   rcases hlarge with hSL | hSp | hU
   · exact Or.inl (IsSLn.of_mulEquiv e hSL)
@@ -212,15 +212,15 @@ theorem s23_9_NotLarge_of (D : Data G) (Ch : Choice2011 G)
     (IsOmega8m ↥(c.H hV) n ∧ NatOmegaMinus (c.H hV) ⊤ ⊥ 8 n))
   intro hline
   have hline0 := hline
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (c.W hV) :=
     MulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
-  letI : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.H hV) (Set (c.W hV)) := Set.mulActionSet
+  let : MulDistribMulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
-  letI : MulAction ↥(c.sylowStar hV) (c.W hV) :=
+  let : MulAction ↥(c.sylowStar hV) (c.W hV) :=
     MulAction.compHom (c.W hV)
       ((c.H hV).subtype.comp (c.sylowStar hV : Subgroup ↥(c.H hV)).subtype)
   let K : Subgroup G := Hinf (D.M ⊓ c.L)

@@ -139,9 +139,9 @@ theorem sec4WreathFalseSmall_holds :
         exact mem_subgroupOf.1 h
       have h := le_antisymm hTHP hPTH
       exact P.not_dvd_index (h ▸ hidx)
-    have hnil : Group.IsNilpotent P := P.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent P := P.isPGroup.isNilpotent
     have hlt := Group.normalizerCondition_of_isNilpotent (G := P) _ (lt_of_le_of_ne le_top hne)
-    obtain ⟨⟨y, hyP⟩, hyN, hyTH⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨⟨y, hyP⟩, hyN, hyTH⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     have hyN' : y ∈ normalizer ((K₁ ⊓ T ⊔ D₁ ⊔ conjSub z (K₁ ⊓ T ⊔ D₁) ⊔ zpowers z :
         Subgroup G) : Set G) := by
       have h : (⟨y, hyP⟩ : P) ∈ (normalizer ((K₁ ⊓ T ⊔ D₁ ⊔ conjSub z (K₁ ⊓ T ⊔ D₁) ⊔
@@ -165,7 +165,7 @@ theorem sec4WreathFalseSmall_holds :
         _ = y * (y⁻¹ * z * y) * b := by rw [hbx]
         _ = z * (y * b) := by group
     have hybP : y * b ∈ (P : Subgroup G) := mul_mem hyP (hTHP hbTH)
-    have hcardP := card_le_of_isPGroup c hin (P.isPGroup'.to_le inf_le_left)
+    have hcardP := card_le_of_isPGroup c hin (P.isPGroup.to_le inf_le_left)
       (inf_le_right : (P : Subgroup G) ⊓ centralizer ({z} : Set G) ≤ centralizer ({z} : Set G))
     have hcardTH := hWr.card_cent_z
     have hR64 := hA.card_sup_ge

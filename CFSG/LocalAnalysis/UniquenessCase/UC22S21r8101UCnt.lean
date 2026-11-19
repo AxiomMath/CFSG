@@ -22,6 +22,7 @@ section Generic
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem u81_exists_conj_of_outer {F : Subgroup Q} {β : Q} (hβ : β ∈ normalizer (F : Set Q))
     (h : QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner ↥F)
       (F.normalizerMonoidHom ⟨β, hβ⟩) = 1) :
@@ -44,8 +45,8 @@ theorem u81_exists_elem (u : U4X D L K n) (hsp : IsStronglyPEmbedded n D.M)
       E ≤ normalizer (barImage D.M L : Set (Bar2 D.M)) ∧ IsElemAbelian n E ∧
       Nat.card E = n ^ 4 := by
   have hn : n.Prime := u.prime_n
-  haveI : Fact n.Prime := ⟨hn⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact n.Prime := ⟨hn⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn2 : n ≠ 2 := by rcases u.hLS with ⟨rfl, -⟩ | ⟨rfl, -⟩ <;> norm_num
   obtain ⟨S, hSM, hSM'⟩ :=
     UC6.sylow_le_commutator_map_of_stronglyEmbedded_uc6 D.standing.simple D.standing.nonab hsp
@@ -79,7 +80,7 @@ theorem u81_exists_mem_centralizer (u : U4X D L K n)
     ∃ c ∈ centralizer ((barImage D.M L ⊔ barImage D.M K : Subgroup (Bar2 D.M)) : Set (Bar2 D.M)),
       orderOf c = n := by
   have hn : n.Prime := u.prime_n
-  haveI : Fact n.Prime := ⟨hn⟩
+  have : Fact n.Prime := ⟨hn⟩
   have hn2 : n ≠ 2 := by rcases u.hLS with ⟨rfl, -⟩ | ⟨rfl, -⟩ <;> norm_num
   obtain ⟨hcomm, hinf, -, -, -, -, hXC⟩ := u4x_bar_structure u.hL u.hK u.hne u.hset u.shape
   obtain ⟨E, hE', hEN, hEel, hEc⟩ := u.u81_exists_elem hsp hfour
@@ -97,7 +98,7 @@ theorem u81_exists_mem_centralizer (u : U4X D L K n)
         _ ≤ Nat.card χ.ker * n := Nat.mul_le_mul_left _ h2
     exact Nat.le_of_mul_le_mul_right h3 hn.pos
   by_contra hno
-  push_neg at hno
+  push Not at hno
   have hle : χ.ker.map E.subtype ≤ barImage D.M L ⊔ barImage D.M K := by
     intro z hz
     obtain ⟨e, he, rfl⟩ := Subgroup.mem_map.1 hz

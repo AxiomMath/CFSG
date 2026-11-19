@@ -63,8 +63,8 @@ theorem ggReflSpan_card_le_finrank_of_weylOfType {p : ℕ} [Fact p.Prime] (hp2 :
     Submodule.span_le.mpr fun v hv => by
       obtain ⟨i, rfl⟩ := hv
       exact hmem i
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   calc Fintype.card Λ
       = Module.finrank (ZMod p) (Submodule.span (ZMod p) (Set.range h)) :=
         (finrank_span_eq_card hindep).symm

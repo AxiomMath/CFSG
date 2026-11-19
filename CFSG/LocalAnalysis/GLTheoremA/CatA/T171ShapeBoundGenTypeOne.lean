@@ -81,8 +81,8 @@ theorem scalar_mul_mem_guSet {N n : ℕ} {K : Type} [Field K] (h : UnitaryFieldD
     {M : GL (Fin N) K} (hM : M ∈ LargeEvenGUSet (Fin N) K (2 ^ n)) (c : Kˣ) :
     Matrix.GeneralLinearGroup.scalar (Fin N) c * M ∈
       LargeEvenGUSet (Fin N) K (2 ^ n) := by
-  haveI : Finite K := h.finite
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := h.finite
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨μ, hμ0, hμq, hMeq⟩ := hM
   have hbar : ∀ X : Matrix (Fin N) (Fin N) K, X.map h.bar = X.map (· ^ 2 ^ n) := fun X => by
     ext i j
@@ -126,8 +126,8 @@ theorem scalar_mul_mem_guSet {N n : ℕ} {K : Type} [Field K] (h : UnitaryFieldD
 
 theorem uniTypeOne_commuting (hUB : UniBlockInnDiag)
     {G : Type} [Group G] [Finite G] {p N n : ℕ} {L J A : Subgroup G} {d b : G}
-    {K : Type} [Field K] [Finite K] (h : UnitaryFieldData 2 n K) (hp : p.Prime)
-    (hpq : p ∣ 2 ^ n + 1) (hN : 3 ≤ N) (hNq : (N, 2 ^ n) ≠ (3, 2))
+    {K : Type} [Field K] [Finite K] (h : UnitaryFieldData 2 n K) (_hp : p.Prime)
+    (_hpq : p ∣ 2 ^ n + 1) (hN : 3 ≤ N) (hNq : (N, 2 ^ n) ≠ (3, 2))
     {θ : ↥L ⧸ Subgroup.center ↥L ≃* LargeEvenProj (unitarySU 2 n K N)}
     {hact : ∀ a ∈ A, ∃ φ ∈ LargeEvenMatConjImage
       (LargeEvenProjMk (unitarySU 2 n K N)) (LargeEvenGUSet (Fin N) K (2 ^ n)),

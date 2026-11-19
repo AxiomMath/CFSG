@@ -23,7 +23,7 @@ theorem eq_one_of_odd_of_fix_omega_sz {a : ℕ} (ha : 1 ≤ a)
       simpa [pow_two] using hc.center_sq z hz)
   obtain ⟨r, hr, hαr⟩ := hB.exists_eq_conj_of_centralizes_center_suzuki S α hσ
   obtain ⟨k, hk⟩ : ∃ k : ℕ, orderOf r = 2 ^ k := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' ⟨r, hr⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp S.isPGroup ⟨r, hr⟩
     exact ⟨k, (Subgroup.orderOf_coe ⟨r, hr⟩).trans hk⟩
   have hdvd : orderOf α ∣ 2 ^ k := by
     rw [hαr]

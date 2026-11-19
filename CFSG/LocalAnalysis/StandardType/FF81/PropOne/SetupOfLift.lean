@@ -38,7 +38,7 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
   have hS : BB b b₁ b₂ b₃ ≤ (S : Subgroup ↥Â).map Â.subtype := fun z hz =>
     ⟨⟨z, D.B_le_Ahat hz⟩, hSle (Subgroup.mem_subgroupOf.mpr hz), rfl⟩
   set A0 := (S : Subgroup ↥Â).map Â.subtype with hA0def
-  have hÂ : ∀ {x}, x ∈ A0 → x ∈ Â := fun hx => D.A0_le hS hx
+  have hÂ : ∀ {x}, x ∈ A0 → x ∈ Â := fun hx => CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le (S := S) hx
   obtain ⟨hτN, hτb⟩ := M.mem τ (by simp)
   obtain ⟨hι₁N, hι₁b⟩ := M.mem ι₁ (by simp)
   obtain ⟨hι₂N, hι₂b⟩ := M.mem ι₂ (by simp)
@@ -46,17 +46,17 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
   obtain ⟨hσ₁₂N, hσ₁₂b⟩ := M.mem σ₁₂ (by simp)
   obtain ⟨hσ₂₃N, hσ₂₃b⟩ := M.mem σ₂₃ (by simp)
   obtain ⟨hγN, hγb⟩ := M.mem γ (by simp)
-  obtain ⟨τ', hτ'N, hτ'B, hτ'A⟩ := D.exists_translate' hS hτN
-  obtain ⟨ι₁', hι₁'N, hι₁'B, hι₁'A⟩ := D.exists_translate' hS hι₁N
-  obtain ⟨ι₂', hι₂'N, hι₂'B, hι₂'A⟩ := D.exists_translate' hS hι₂N
-  obtain ⟨ι₃', hι₃'N, hι₃'B, hι₃'A⟩ := D.exists_translate' hS hι₃N
-  obtain ⟨σ₁₂', hσ₁₂'N, hσ₁₂'B, hσ₁₂'A⟩ := D.exists_translate' hS hσ₁₂N
-  obtain ⟨σ₂₃', hσ₂₃'N, hσ₂₃'B, hσ₂₃'A⟩ := D.exists_translate' hS hσ₂₃N
-  obtain ⟨γ', hγ'N, hγ'B, hγ'A⟩ := D.exists_translate' hS hγN
-  have hb := D.b_mem_B
-  have h₁ : b₁ ∈ BB b b₁ b₂ b₃ := D.B₁_le_B D.mem₁
-  have h₂ : b₂ ∈ BB b b₁ b₂ b₃ := D.B₁_le_B D.mem₂
-  have h₃ : b₃ ∈ BB b b₁ b₂ b₃ := D.B₁_le_B D.mem₃
+  obtain ⟨τ', hτ'N, hτ'B, hτ'A⟩ := D.exists_translate' (S := S) hτN
+  obtain ⟨ι₁', hι₁'N, hι₁'B, hι₁'A⟩ := D.exists_translate' (S := S) hι₁N
+  obtain ⟨ι₂', hι₂'N, hι₂'B, hι₂'A⟩ := D.exists_translate' (S := S) hι₂N
+  obtain ⟨ι₃', hι₃'N, hι₃'B, hι₃'A⟩ := D.exists_translate' (S := S) hι₃N
+  obtain ⟨σ₁₂', hσ₁₂'N, hσ₁₂'B, hσ₁₂'A⟩ := D.exists_translate' (S := S) hσ₁₂N
+  obtain ⟨σ₂₃', hσ₂₃'N, hσ₂₃'B, hσ₂₃'A⟩ := D.exists_translate' (S := S) hσ₂₃N
+  obtain ⟨γ', hγ'N, hγ'B, hγ'A⟩ := D.exists_translate' (S := S) hγN
+  have hb := (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.b_mem_B (G := G) (b := b) (b₁ := b₁) (b₂ := b₂) (b₃ := b₃))
+  have h₁ : b₁ ∈ BB b b₁ b₂ b₃ := CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁
+  have h₂ : b₂ ∈ BB b b₁ b₂ b₃ := CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂
+  have h₃ : b₃ ∈ BB b b₁ b₂ b₃ := CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃
   obtain ⟨hAab, hA3⟩ := D.comm_cube_A0 hS (t₁ := ι₁') (t₂ := ι₂') (t₃ := ι₃')
     (by
       rintro t (rfl | rfl | rfl)
@@ -75,30 +75,30 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
   have hτ₂A : ∀ x ∈ A0, τ₂ * x * τ₂⁻¹ ∈ A0 := pow_conj_mem hτ'A m
   have hτ₂b : τ₂ * b * τ₂⁻¹ = b := pow_conj_fix (by rw [hτ'B b hb, hτb]) m
   have hτ₂inv : ∀ y ∈ B₁, τ₂ * y * τ₂⁻¹ = y⁻¹ := fun y hy =>
-    pow_conj_inv (by rw [hτ'B y (D.B₁_le_B hy), hτinv y hy]) hm
+    pow_conj_inv (by rw [hτ'B y (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B hy), hτinv y hy]) hm
   have hτ₂sq : ∀ x ∈ A0, τ₂ * (τ₂ * x * τ₂⁻¹) * τ₂⁻¹ = x := by
     intro x hx
     have hδ : τ₂ ^ 2 ∈ Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) := by
-      refine D.mem_cen_of_gens fun z hz => ?_
+      refine CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem_cen_of_gens fun z hz => ?_
       have e : τ₂ ^ 2 * z * (τ₂ ^ 2)⁻¹ = τ₂ * (τ₂ * z * τ₂⁻¹) * τ₂⁻¹ := by
         rw [pow_two, mul_inv_rev]; simp only [mul_assoc]
       rw [e]
       rcases hz with rfl | rfl | rfl | rfl
       · rw [hτ₂b, hτ₂b]
-      · rw [hτ₂inv _ D.mem₁, show τ₂ * z⁻¹ * τ₂⁻¹ = (τ₂ * z * τ₂⁻¹)⁻¹ by group,
-          hτ₂inv _ D.mem₁, inv_inv]
-      · rw [hτ₂inv _ D.mem₂, show τ₂ * z⁻¹ * τ₂⁻¹ = (τ₂ * z * τ₂⁻¹)⁻¹ by group,
-          hτ₂inv _ D.mem₂, inv_inv]
-      · rw [hτ₂inv _ D.mem₃, show τ₂ * z⁻¹ * τ₂⁻¹ = (τ₂ * z * τ₂⁻¹)⁻¹ by group,
-          hτ₂inv _ D.mem₃, inv_inv]
+      · rw [hτ₂inv _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁, show τ₂ * z⁻¹ * τ₂⁻¹ = (τ₂ * z * τ₂⁻¹)⁻¹ by group,
+          hτ₂inv _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁, inv_inv]
+      · rw [hτ₂inv _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂, show τ₂ * z⁻¹ * τ₂⁻¹ = (τ₂ * z * τ₂⁻¹)⁻¹ by group,
+          hτ₂inv _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₂, inv_inv]
+      · rw [hτ₂inv _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃, show τ₂ * z⁻¹ * τ₂⁻¹ = (τ₂ * z * τ₂⁻¹)⁻¹ by group,
+          hτ₂inv _ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₃, inv_inv]
     have h2p : IsPGroup 2 (Subgroup.zpowers (τ₂ ^ 2)) :=
       hτ₂p.to_le (Subgroup.zpowers_le.2 (pow_mem (Subgroup.mem_zpowers _) 2))
-    have := D.cen_two hS hδ (pow_conj_mem hτ₂A 2) h2p hx
+    have := D.cen_two hδ (pow_conj_mem hτ₂A 2) h2p hx
     calc τ₂ * (τ₂ * x * τ₂⁻¹) * τ₂⁻¹ = τ₂ ^ 2 * x * (τ₂ ^ 2)⁻¹ := by
           rw [pow_two, mul_inv_rev]; simp only [mul_assoc]
       _ = x := this
   have H : CFSG.RankThree.PartTwo.Sec21.FF81.B2Construct.Hyp A0 B₁ b τ₂ :=
-    { B₁A := D.B₁_le_B.trans hS
+    { B₁A := CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B.trans hS
       bA := hS hb
       B₁n := fun x hx y hy => by rw [(hÂ hx).1 y hy]; exact hy
       Aab := hAab
@@ -116,12 +116,12 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
           rw [beta_conj hτ₂b, hτ₂inv _ (beta_mem (hÂ hx))]
         have h2 : beta b (τ₂ * x * τ₂⁻¹) = beta b x := by
           have e : τ₂ * x * τ₂⁻¹ = (τ₂ * x * τ₂⁻¹ * x⁻¹) * x := by group
-          rw [e, beta_mul D.B₁ab (D.B_le_Ahat (D.B₁_le_B hfx)) (hÂ hx),
+          rw [e, beta_mul D.B₁ab (D.B_le_Ahat (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B hfx)) (hÂ hx),
             beta_one_of_mem D.bB₁ hfx, one_mul]
         have h3 : beta b x = 1 :=
-          D.eq_one_of_eq_inv (D.B₁3 _ (beta_mem (hÂ hx))) (h1.symm.trans h2)
-        rw [← D.B_eq_sup]
-        exact D.mem_B_of_mem_A0 hS hx h3 }
+          CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.eq_one_of_eq_inv (D.B₁3 _ (beta_mem (hÂ hx))) (h1.symm.trans h2)
+        rw [← CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B_eq_sup]
+        exact D.mem_B_of_mem_A0 hx h3 }
   set B₂ := H.B₂ with hB₂def
   have hB₂A : B₂ ≤ A0 := H.le_A
   have hnorm : ∀ g ∈ N, (∀ x ∈ A0, g * x * g⁻¹ ∈ A0) →
@@ -161,7 +161,7 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
       rw [inv_inv] at h
       calc τ₂⁻¹ * y * τ₂⁻¹⁻¹ = τ₂⁻¹ * (τ₂ * y⁻¹ * τ₂⁻¹) * τ₂⁻¹⁻¹ := by rw [h]
         _ = y⁻¹ := by group
-    refine D.mem_cen_of_gens fun z hz => ?_
+    refine CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem_cen_of_gens fun z hz => ?_
     have e : (g⁻¹ * τ₂ * g) * τ₂⁻¹ * z * ((g⁻¹ * τ₂ * g) * τ₂⁻¹)⁻¹ =
         g⁻¹ * (τ₂ * (g * (τ₂⁻¹ * z * τ₂⁻¹⁻¹) * g⁻¹) * τ₂⁻¹) * g⁻¹⁻¹ := by group
     rw [e]
@@ -196,7 +196,7 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
     norm_num at h ⊢
     omega
   have hPp : IsPGroup 3 ↥(A0 ⊔ Subgroup.zpowers c : Subgroup G) :=
-    IsPGroup.to_sup_of_normal_left' (D.isPGroup_A0 hS) hcp
+    IsPGroup.to_sup_of_normal_left' (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.isPGroup_A0) hcp
       ((Subgroup.zpowers_le).2
         (CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.mem_normalizer_of_conj_mem hcA))
   have hPcard : 3 ^ 8 ≤ Nat.card ↥(A0 ⊔ Subgroup.zpowers c : Subgroup G) := by
@@ -212,7 +212,7 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
       have hcA0 : c ∈ A0 := by
         rw [heq]
         exact Subgroup.mem_sup_right (Subgroup.mem_zpowers c)
-      have := (hÂ hcA0).1 b₁ D.mem₁
+      have := (hÂ hcA0).1 b₁ CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem₁
       rw [hc₁] at this
       exact D.b₁_ne_b₂ this.symm
     rw [hk]
@@ -224,11 +224,11 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
     rw [hsup] at hPR ⊢
     exact (Subgroup.eq_of_le_of_card_ge hPR ((hN3 R hRN hRp).trans hPcard)).symm
   have hSetup := H.toSetup (b₁ := b₁) (b₂ := b₂) (b₃ := b₃) (c := c) rfl D.Bab D.B3 D.Bcard
-    D.B₁card ((D.A0_le hS).trans D.Ahat_le_N) hcN hcb hc₁ hc₂ hc₃ hcB₂ hc3 hPmax
-  have hB₂p : IsPGroup 3 B₂ := (D.isPGroup_A0 hS).to_le hB₂A
+    D.B₁card ((CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le (S := S)).trans D.Ahat_le_N) hcN hcb hc₁ hc₂ hc₃ hcB₂ hc3 hPmax
+  have hB₂p : IsPGroup 3 B₂ := (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.isPGroup_A0).to_le hB₂A
   have hker : ∀ x ∈ B₂, x * b = b * x → x ∈ B₁ :=
     CFSG.RankThree.PartTwo.Sec21.FF81.RankFour.ker_of_cenS H.B₁_le H.inv_comm.2 hB₂p
-      (fun x hx hx2 => H.mem_B₁_of_mem_sup (by rw [← D.B_eq_sup]; exact hx) hx2) D.CB
+      (fun x hx hx2 => H.mem_B₁_of_mem_sup (by rw [← CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B_eq_sup]; exact hx) hx2) D.CB
   set T : Set G := {ι₁', ι₂', ι₃', σ₁₂', σ₂₃', γ'} with hTdef
   have hT : ∀ g ∈ T, ∀ x ∈ B₂, g * x * g⁻¹ ∈ B₂ := by
     rintro g (rfl | rfl | rfl | rfl | rfl | rfl)
@@ -252,7 +252,7 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
     refine hirr K hKB₁ hK ?_
     have tr : ∀ {g g' : G}, (∀ z ∈ BB b b₁ b₂ b₃, g' * z * g'⁻¹ = g * z * g⁻¹) → g' ∈ T →
         ∀ x ∈ K, g * x * g⁻¹ ∈ K := fun hg'B hg'T x hx => by
-      rw [← hg'B x (D.B₁_le_B (hKB₁ hx))]
+      rw [← hg'B x (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B (hKB₁ hx))]
       exact hKT _ hg'T x hx
     rintro g (rfl | rfl | rfl | rfl | rfl | rfl)
     · exact tr hι₁'B (by simp [hTdef])
@@ -263,14 +263,14 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
     · exact tr hγ'B (by simp [hTdef])
   have hirr' := CFSG.RankThree.PartTwo.Sec21.FF81.RankFour.irreducible_of_kappa H.B₁_le
     H.inv_comm.2 (fun x hx => H.bB₂ hx) (fun y hy => (D.bB₁ y hy).symm) hker hTb hB₁irr
-  have hA0N : A0 ≤ N := (D.A0_le hS).trans D.Ahat_le_N
+  have hA0N : A0 ≤ N := (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le (S := S)).trans D.Ahat_le_N
   have hB₂N : B₂ ≤ N := hB₂A.trans hA0N
   have hno : ∀ (K NL : Subgroup G), Compl b b₁ b₂ b₃ K NL →
       ∀ hb : b ∈ N, (⟨b, hb⟩ : ↥N) ∉ commutator ↥N := by
     intro K NL C hbN hmem
     have hKA : ∀ k ∈ K, k ∈ A0 → k = 1 := by
       intro k hk hkA
-      obtain ⟨e, he⟩ := (D.isPGroup_A0 hS) ⟨k, hkA⟩
+      obtain ⟨e, he⟩ := (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.isPGroup_A0) ⟨k, hkA⟩
       have hke : k ^ (3 ^ e) = 1 := by simpa using congrArg Subtype.val he
       have h1 : orderOf k ∣ 3 ^ e := orderOf_dvd_of_pow_eq_one hke
       have h2 : orderOf k ∣ Nat.card K := Subgroup.orderOf_dvd_natCard K hk
@@ -295,7 +295,7 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
       exact ⟨y, hy, k, hk, hyk⟩
     have hÂdec : ∀ a ∈ Â, ∃ x ∈ A0, ∃ k ∈ K, a = x * k := by
       intro a ha
-      obtain ⟨x, hx, hxa⟩ := D.exists_beta_eq hS (beta_mem ha)
+      obtain ⟨x, hx, hxa⟩ := D.exists_beta_eq (beta_mem ha)
       have hc : x⁻¹ * a ∈ Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) := by
         refine D.mem_cen_of_beta (mul_mem (inv_mem (hÂ hx)) ha) ?_
         rw [beta_mul D.B₁ab (inv_mem (hÂ hx)) ha, D.beta_inv (hÂ hx), hxa, inv_mul_cancel]
@@ -328,10 +328,10 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
     have hconjB₂ : ∀ g ∈ N, ∀ y ∈ B₂, g * y * g⁻¹ ∈ M₀ := by
       intro g hg y hy
       obtain ⟨x, hx, k, hk, l, hl, rfl⟩ := hNdec g hg
-      obtain ⟨k₁, hk₁, hk₁A⟩ := D.exists_translate_cen hS (C.NLN hl)
+      obtain ⟨k₁, hk₁, hk₁A⟩ := D.exists_translate_cen (C.NLN hl)
       have hl'N : k₁⁻¹ * l ∈ N := mul_mem (inv_mem (D.cen_le_N hk₁)) (C.NLN hl)
       have hl'b : (k₁⁻¹ * l) * b * (k₁⁻¹ * l)⁻¹ = b := by
-        rw [D.translate_conj hk₁ (by rw [C.NLb l hl]; exact hb), C.NLb l hl]
+        rw [CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.translate_conj hk₁ (by rw [C.NLb l hl]; exact hb), C.NLb l hl]
       have hy₁ : (k₁⁻¹ * l) * y * (k₁⁻¹ * l)⁻¹ ∈ B₂ := hfixnorm _ hl'N hk₁A hl'b y hy
       obtain ⟨z, hz, k₂, hk₂, hzk⟩ := hBK _ (C.CK hk₁)
       have e : x * k * l * y * (x * k * l)⁻¹ =
@@ -425,7 +425,7 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
     have hbM' : b ∈ ((M₀ ⊔ NL : Subgroup G) : Set G) := hbM
     rw [hcoe] at hbM'
     obtain ⟨m, hm, l, hl, hml⟩ := hbM'
-    have hM₀Â : M₀ ≤ Â := sup_le (hB₂A.trans (D.A0_le hS)) (C.KC.trans D.cen_le_Ahat)
+    have hM₀Â : M₀ ≤ Â := sup_le (hB₂A.trans (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.A0_le (S := S))) (C.KC.trans CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.cen_le_Ahat)
     have hlÂ : l ∈ Â := by
       have e : l = m⁻¹ * b := by rw [← hml, inv_mul_cancel_left]
       rw [e]
@@ -449,7 +449,7 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
     have hk1 := hKA k hk hkA
     simp only [hk1, mul_one] at hyk
     rw [hyk] at hy
-    exact D.b_not_mem (H.mem_B₁_of_mem_sup (by rw [← D.B_eq_sup]; exact hb) hy)
+    exact D.b_not_mem (H.mem_B₁_of_mem_sup (by rw [← CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B_eq_sup]; exact hb) hy)
   have hbN' : ∀ hb : b ∈ N, (⟨b, hb⟩ : ↥N) ∈ commutator ↥N →
       ∃ s : G, s * b₁ * s⁻¹ = b₁⁻¹ ∧ ∀ x ∈ B₂, s * x * s⁻¹ * x⁻¹ ∈ B₁ := by
     intro hbN hmem
@@ -466,7 +466,7 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
       · rw [hτb, htb]
       · have hzB : z ∈ B₁ := Subgroup.subset_closure hz
         rw [hτinv z hzB, show t * z⁻¹ * t⁻¹ = (t * z * t⁻¹)⁻¹ by group, htB₁ z hzB]
-    obtain ⟨s, hsN, hsB, hsA⟩ := D.exists_translate' hS hs₀N
+    obtain ⟨s, hsN, hsB, hsA⟩ := D.exists_translate' (S := S) hs₀N
     have hsinv : ∀ z ∈ BB b b₁ b₂ b₃, s * z * s⁻¹ = z⁻¹ := fun z hz => by
       rw [hsB z hz, hs₀inv z hz]
     have hsinv' : ∀ z ∈ BB b b₁ b₂ b₃, s⁻¹ * z * s⁻¹⁻¹ = z⁻¹ := by
@@ -477,9 +477,9 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
         _ = z⁻¹ := by group
     have hδ : (s⁻¹ * τ₂ * s) * τ₂⁻¹ ∈
         Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) := by
-      refine D.mem_cen_of_gens fun z hz => ?_
+      refine CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem_cen_of_gens fun z hz => ?_
       have hzB : z ∈ BB b b₁ b₂ b₃ := Subgroup.subset_closure hz
-      have hz' : τ₂⁻¹ * z * τ₂⁻¹⁻¹ ∈ BB b b₁ b₂ b₃ := D.conj_mem_B (inv_mem hτ₂N) hzB
+      have hz' : τ₂⁻¹ * z * τ₂⁻¹⁻¹ ∈ BB b b₁ b₂ b₃ := CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.conj_mem_B (inv_mem hτ₂N) hzB
       have e : (s⁻¹ * τ₂ * s) * τ₂⁻¹ * z * ((s⁻¹ * τ₂ * s) * τ₂⁻¹)⁻¹ =
           s⁻¹ * (τ₂ * (s * (τ₂⁻¹ * z * τ₂⁻¹⁻¹) * s⁻¹) * τ₂⁻¹) * s⁻¹⁻¹ := by group
       rw [e, hsinv _ hz', show τ₂ * (τ₂⁻¹ * z * τ₂⁻¹⁻¹)⁻¹ * τ₂⁻¹ = z⁻¹ by group,
@@ -500,12 +500,12 @@ private theorem b2_elemAbelian {G : Type} [Group G] [Finite G]
         calc x * b⁻¹ * x⁻¹ * b = b⁻¹ * ((x * b * x⁻¹ * b⁻¹)⁻¹ * b) := by group
           _ = b⁻¹ * (b * (x * b * x⁻¹ * b⁻¹)⁻¹) := by rw [hβc.inv_left.eq]
           _ = (x * b * x⁻¹ * b⁻¹)⁻¹ := by group
-      rw [e2, hsinv _ (D.B₁_le_B (inv_mem (beta_mem (hÂ hxA)))), inv_inv]
+      rw [e2, hsinv _ (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B₁_le_B (inv_mem (beta_mem (hÂ hxA)))), inv_inv]
     have hw : s * x * s⁻¹ * x⁻¹ ∈ BB b b₁ b₂ b₃ := by
-      refine D.mem_B_of_mem_A0 hS (mul_mem (hsA x hxA) (inv_mem hxA)) ?_
+      refine D.mem_B_of_mem_A0 (mul_mem (hsA x hxA) (inv_mem hxA)) ?_
       rw [beta_mul D.B₁ab (hÂ (hsA x hxA)) (inv_mem (hÂ hxA)), hsx, D.beta_inv (hÂ hxA),
         mul_inv_cancel]
-    exact H.mem_B₁_of_mem_sup (by rw [← D.B_eq_sup]; exact hw)
+    exact H.mem_B₁_of_mem_sup (by rw [← CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B_eq_sup]; exact hw)
       (mul_mem (hsB₂ x hx) (inv_mem hx))
   have hB₂3 := CFSG.RankThree.PartTwo.Sec21.FF81.B2Elem.exp_three_of_irreducible' hSetup hT
     hirr' hB₂card hbN' hbG

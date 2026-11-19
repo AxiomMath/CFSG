@@ -108,7 +108,7 @@ theorem ker_adGL_eq {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) :
     · apply Units.ext
       rw [coe_adGL]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [negOne, adMat] <;> ring
+      fin_cases i <;> fin_cases j <;> simp [negOne, adMat]
 
 end Adjoint
 
@@ -163,7 +163,7 @@ theorem splitForm_det_ne_zero_of_ne_two {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
   rw [Matrix.det_fin_three]
   simp [splitForm]
   intro h
-  first | exact h2 h | exact h2 (by linear_combination -h)
+  exact h2 h
 
 theorem omegaGL_splitForm_eq_range {p : ℕ} [Fact p.Prime] (hp : 5 ≤ p) :
     omegaGL (splitForm p) = (adGL (K := ZMod p)).range := by

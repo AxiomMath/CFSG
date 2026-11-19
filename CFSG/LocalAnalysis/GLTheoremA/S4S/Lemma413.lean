@@ -23,7 +23,7 @@ theorem layer_closureIn {p : ℕ} (hp : p.Prime) {Y K₁ B : Subgroup G}
   obtain ⟨𝓛, h𝓛def⟩ : ∃ 𝓛 : Set (Subgroup G), 𝓛 = {X | ∃ b ∈ B, GLBConj b K₁ = X} :=
     ⟨_, rfl⟩
   have hmem : ∀ X, X ∈ 𝓛 ↔ ∃ b ∈ B, GLBConj b K₁ = X := fun X => by
-    rw [h𝓛def, Set.mem_setOf_eq]
+    rw [h𝓛def, Set.mem_ofPred_eq]
   have h𝓛C : ∀ X ∈ 𝓛, GLAPComponent p Y X := by
     intro X hX
     obtain ⟨b, hb, rfl⟩ := (hmem X).1 hX
@@ -95,6 +95,7 @@ theorem commutator_oPrime_facts {p : ℕ} (hp : p.Prime) {Y K₁ B : Subgroup G}
   intro g hg x hx
   exact (Subgroup.mem_normalizer_iff.1 (hKX hg) x).1 hx
 
+omit [Finite G] in
 private theorem barX_oPPrimeP_413 (p : ℕ) (X : Subgroup G) :
     barX p X (oPPrimeP p X) = CFSG.pCore p (↥X ⧸ GLAPPrimeCore p ↥X) := by
   have hJg : (oPPrimeP p X).subgroupOf X =
@@ -109,10 +110,10 @@ theorem J_not_le_centralizer {p : ℕ} (hp : p.Prime) {K J R : Subgroup G} (hJK 
     (hC : K ⊓ Subgroup.centralizer (R : Set G) ≤ oPPrimeP p K) :
     ¬ J ≤ Subgroup.centralizer (R : Set G) := by
   intro hJC
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨T, hT⟩ : ∃ T : Subgroup G, GLAPComponent p J T := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hJ1
     refine le_bot_iff.1 ?_
     rw [← hJ]
@@ -123,14 +124,14 @@ theorem J_not_le_centralizer {p : ℕ} (hp : p.Prime) {K J R : Subgroup G} (hJK 
   have hTO : T ≤ oPPrimeP p K := fun t ht => hC ⟨hTK ht, hJC (hTJ ht)⟩
   have hperf : ⁅barX p K T, barX p K T⁆ = barX p K T := by
     rw [← barX_commutator p hTK hTK, glaPComponent_perfect hT]
-  haveI : Group.IsPerfect ↥(barX p K T) := Subgroup.isPerfect_iff.2 hperf
+  have : Group.IsPerfect ↥(barX p K T) := Subgroup.isPerfect_iff.2 hperf
   have hle : barX p K T ≤ CFSG.pCore p (↥K ⧸ GLAPPrimeCore p ↥K) :=
     (barX_mono p hTO).trans (barX_oPPrimeP_413 p K).le
   have hpg : IsPGroup p ↥(barX p K T) :=
     IsPGroup.to_le (CFSG.pCore_isPGroup (p := p) (G := ↥K ⧸ GLAPPrimeCore p ↥K)) hle
   have htriv : barX p K T = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥(barX p K T) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+    have : Nontrivial ↥(barX p K T) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
     exact Group.IsPerfect.not_isNilpotent ↥(barX p K T) (IsPGroup.isNilpotent hpg)
   have hTO' : T ≤ GLAPPrimeCoreOf p K := by
     intro t ht
@@ -149,15 +150,15 @@ theorem J_not_le_centralizer {p : ℕ} (hp : p.Prime) {K J R : Subgroup G} (hJK 
 theorem exists_D_commutator {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {E R J : Subgroup G}
     (hE : IsElemAbelian p E)
     (hEc : Nat.card E = p ^ 3) (hER : E ≤ Subgroup.normalizer (R : Set G)) (hR : IsPGroup 2 R)
-    (hJR : J ≤ Subgroup.normalizer (R : Set G)) (hJE : J ≤ Subgroup.centralizer (E : Set G))
+    (_hJR : J ≤ Subgroup.normalizer (R : Set G)) (_hJE : J ≤ Subgroup.centralizer (E : Set G))
     (hnc : ¬ J ≤ Subgroup.centralizer (R : Set G)) :
     ∃ D : Subgroup G, D ≤ E ∧ IsElemAbelian p D ∧ Nat.card D = p ^ 2 ∧
       (⁅R ⊓ Subgroup.centralizer (D : Set G), J⁆ : Subgroup G) ≠ ⊥ := by
   classical
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hnc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpE : p ≤ Nat.card E := by
     rw [hEc]
     exact Nat.le_self_pow (by norm_num) p
@@ -185,7 +186,7 @@ theorem layer_inf_centralizer_le {p : ℕ} (hp : p.Prime) {Y K₁ B E : Subgroup
   obtain ⟨𝓛, h𝓛def⟩ : ∃ 𝓛 : Set (Subgroup G), 𝓛 = {X | ∃ b ∈ B, GLBConj b K₁ = X} :=
     ⟨_, rfl⟩
   have hmem : ∀ X, X ∈ 𝓛 ↔ ∃ b ∈ B, GLBConj b K₁ = X := fun X => by
-    rw [h𝓛def, Set.mem_setOf_eq]
+    rw [h𝓛def, Set.mem_ofPred_eq]
   have h𝓛C : ∀ X ∈ 𝓛, GLAPComponent p Y X := by
     intro X hX
     obtain ⟨b, hb, rfl⟩ := (hmem X).1 hX

@@ -33,20 +33,20 @@ theorem cand_get {k y : Nat} (hk : k < 13) (hy : y < 3510) : (indCandidate k)[y]
   unfold indCandidate candF
   by_cases h2 : k < 2
   · have hb : Nat.blt k 2 = true := by simpa using h2
-    rw [if_pos h2, hb]
+    rw [ite_eq_left h2, hb]
     exact gen_get h2 hy
   · have hb : Nat.blt k 2 = false := by
       rw [Bool.eq_false_iff, ne_eq, Nat.blt_eq]
       exact h2
-    rw [if_neg h2, hb]
+    rw [ite_eq_right h2, hb]
     by_cases h12 : k < 12
     · have hb' : Nat.blt k 12 = true := by simpa using h12
-      rw [if_pos h12, hb']
+      rw [ite_eq_left h12, hb']
       exact trans_get (by omega) hy
     · have hb' : Nat.blt k 12 = false := by
         rw [Bool.eq_false_iff, ne_eq, Nat.blt_eq]
         exact h12
-      rw [if_neg h12, hb']
+      rw [ite_eq_right h12, hb']
       exact central_get hy
 
 end CertificateChecks.KernelMonB.IndCand

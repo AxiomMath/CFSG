@@ -19,6 +19,7 @@ section Sym
 
 variable {n f : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem u42_pg_card_sym (hodd : ringChar K ≠ 2) (R : GL (Fin n) K)
     (hR : (R : Matrix (Fin n) (Fin n) K)ᵀ = (R : Matrix (Fin n) (Fin n) K)) :
     Nat.card ↥(isometryGroup n K R) =
@@ -55,7 +56,7 @@ theorem u42_card_orthogonalGroup_dim_three {W : Type} [AddCommGroup W] [Module K
       2 * (Nat.card K : ℤ) * ((Nat.card K : ℤ) ^ 2 - 1) := by
   have := natCard_orthogonalGroup_odd hodd hQ (n := 1) hm
   rw [this]
-  simp [Finset.prod_Icc_succ_top]
+  simp
 
 theorem u42_pg_symmetric_false (hf : 1 ≤ f) (hK : Nat.card K = 3 ^ f) (hn : 3 ≤ n)
     (R : GL (Fin n) K) (hR : (R : Matrix (Fin n) (Fin n) K)ᵀ = (R : Matrix (Fin n) (Fin n) K))

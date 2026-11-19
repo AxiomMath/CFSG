@@ -21,6 +21,7 @@ theorem e6_table : e6 (0, 0) = 0 ∧ e6 (0, 1) = 1 ∧ e6 (0, 2) = 2 ∧ e6 (1, 
     e6 (1, 1) = 4 ∧ e6 (1, 2) = 5 := by
   decide
 
+omit [CharP K 2] in
 theorem kronSL2_transvection_zero_one (t : K) :
     kronSL2 K (Matrix.SpecialLinearGroup.transvection (show (0 : Fin 2) ≠ 1 by decide) t) =
       Matrix.SpecialLinearGroup.transvection (show (0 : Fin 6) ≠ 3 by decide) t *
@@ -36,9 +37,10 @@ theorem kronSL2_transvection_zero_one (t : K) :
   obtain ⟨t00, t01, t02, t10, t11, t12⟩ := e6_table
   fin_cases i <;> fin_cases j <;> fin_cases i' <;> fin_cases j' <;>
     simp [t00, t01, t02, t10, t11, t12, Matrix.SpecialLinearGroup.coe_mul,
-      CFSG.LinearGroups.coe_transvection, Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_six,
+      CFSG.LinearGroups.coe_transvection, Matrix.mul_apply, Fin.sum_univ_six,
       Matrix.one_apply, Matrix.single_apply]
 
+omit [CharP K 2] in
 theorem kronSL2_transvection_one_zero (t : K) :
     kronSL2 K (Matrix.SpecialLinearGroup.transvection (show (1 : Fin 2) ≠ 0 by decide) t) =
       Matrix.SpecialLinearGroup.transvection (show (3 : Fin 6) ≠ 0 by decide) t *
@@ -54,13 +56,14 @@ theorem kronSL2_transvection_one_zero (t : K) :
   obtain ⟨t00, t01, t02, t10, t11, t12⟩ := e6_table
   fin_cases i <;> fin_cases j <;> fin_cases i' <;> fin_cases j' <;>
     simp [t00, t01, t02, t10, t11, t12, Matrix.SpecialLinearGroup.coe_mul,
-      CFSG.LinearGroups.coe_transvection, Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_six,
+      CFSG.LinearGroups.coe_transvection, Matrix.mul_apply, Fin.sum_univ_six,
       Matrix.one_apply, Matrix.single_apply]
 
 @[expose] def cubeCurve (b : Bool) (t : K) : ModGL .E7 K :=
   if b then cubeSL2 K (Matrix.SpecialLinearGroup.transvection (show (0 : Fin 2) ≠ 1 by decide) t)
   else cubeSL2 K (Matrix.SpecialLinearGroup.transvection (show (1 : Fin 2) ≠ 0 by decide) t)
 
+omit [CharP K 2] in
 theorem cubeCurve_zero (b : Bool) : cubeCurve b (0 : K) = 1 := by
   have h0 : ∀ (i j : Fin 2) (h : i ≠ j), Matrix.SpecialLinearGroup.transvection h (0 : K) = 1 :=
     fun i j h => Subtype.ext (by
@@ -68,6 +71,7 @@ theorem cubeCurve_zero (b : Bool) : cubeCurve b (0 : K) = 1 := by
       rfl)
   cases b <;> simp [cubeCurve, h0]
 
+omit [CharP K 2] in
 theorem isPolynomialCurve_cubeCurve (b : Bool) : IsPolynomialCurve (cubeCurve (K := K) b) := by
   have key : ∀ (a₁ b₁ a₂ b₂ a₃ b₃ : Fin 6) (h₁ : a₁ ≠ b₁) (h₂ : a₂ ≠ b₂) (h₃ : a₃ ≠ b₃),
       IsPolynomialCurve fun t : K => a5Frame K (Matrix.SpecialLinearGroup.transvection h₁ t) *
@@ -87,13 +91,14 @@ theorem isPolynomialCurve_cubeCurve (b : Bool) : IsPolynomialCurve (cubeCurve (K
   cases b
   · have h := key 3 0 4 1 5 2 (by decide) (by decide) (by decide)
     refine (funext fun t => ?_ : (cubeCurve (K := K) false) = _) ▸ h
-    simp only [cubeCurve, Bool.false_eq_true, if_false, cubeSL2, MonoidHom.comp_apply,
+    simp only [cubeCurve, Bool.false_eq_true, ite_false, cubeSL2, MonoidHom.comp_apply,
       kronSL2_transvection_one_zero, map_mul]
   · have h := key 0 3 1 4 2 5 (by decide) (by decide) (by decide)
     refine (funext fun t => ?_ : (cubeCurve (K := K) true) = _) ▸ h
-    simp only [cubeCurve, if_true, cubeSL2, MonoidHom.comp_apply,
+    simp only [cubeCurve, ite_true, cubeSL2, MonoidHom.comp_apply,
       kronSL2_transvection_zero_one, map_mul]
 
+omit [CharP K 2] in
 theorem range_cubeSL2_eq_closure :
     (cubeSL2 K).range = Subgroup.closure (⋃ b, Set.range (cubeCurve (K := K) b)) := by
   rw [MonoidHom.range_eq_map, ← CFSG.LinearGroups.special_linear_elementary_generation (n := 2)
@@ -113,6 +118,7 @@ theorem range_cubeSL2_eq_closure :
     · exact ⟨_, CFSG.LinearGroups.transvection_mem_elementarySet _ c, rfl⟩
     · exact ⟨_, CFSG.LinearGroups.transvection_mem_elementarySet _ c, rfl⟩
 
+omit [CharP K 2] in
 theorem isPointClosed_isPointIrreducible_range_cubeSL2 [IsAlgClosed K] :
     IsPointClosed K (transportPoints (modGLPoint .E7 K) ((cubeSL2 K).range : Set (ModGL .E7 K))) ∧
       IsPointIrreducible K
@@ -201,6 +207,7 @@ theorem bijective_cubeE_toQuotient {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3) :
       rw [← hσe, hc, inv_mul_cancel_left]
       exact hσ
 
+omit [IsAlgClosed K] in
 theorem card_cubeE {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3) :
     Nat.card (cubeE ζ hζ.pow_eq_one) = 27 := by
   rw [cubeE, Subgroup.card_map_of_injective Subtype.val_injective, card_range_cubeHom ζ hζ]

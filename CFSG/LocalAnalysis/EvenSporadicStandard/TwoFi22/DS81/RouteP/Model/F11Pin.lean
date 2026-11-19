@@ -26,7 +26,7 @@ theorem sq_eq_one_of_mem_E0
 theorem exists_equiv_Cd_mem_E0_iff :
     ∃ ψ : ↥L0 ≃* ↥Cd, ∀ x : ↥L0, (x : Q3) ∈ E0 ↔ ψ x ∈ DS81.E0 := by
   obtain ⟨ψ₀⟩ := L0_equiv_Cd
-  haveI : Finite ↥Cd := Nat.finite_of_card_ne_zero (by
+  have : Finite ↥Cd := Nat.finite_of_card_ne_zero (by
     have h : Nat.card ↥Cd = 129123503308800 := card_centralizer_d
     omega)
   have hsq : ∀ x ∈ E0.subgroupOf L0, x ^ 2 = 1 := by
@@ -62,8 +62,8 @@ theorem mem_center_L0_iff
     exact congrArg Subtype.val (Subgroup.mem_center_iff.1 hz ⟨b, B0_le_L0 hb⟩)
   refine ⟨key z, fun h => ?_⟩
   have hcard : Nat.card ↥(Subgroup.center ↥L0) = 2 := card_center_L0
-  haveI : Finite ↥(Subgroup.center ↥L0) := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Nontrivial ↥(Subgroup.center ↥L0) := Finite.one_lt_card_iff_nontrivial.1 (by omega)
+  have : Finite ↥(Subgroup.center ↥L0) := Nat.finite_of_card_ne_zero (by omega)
+  have : Nontrivial ↥(Subgroup.center ↥L0) := Finite.one_lt_card_iff_nontrivial.1 (by omega)
   obtain ⟨z0, hz0⟩ := exists_ne (1 : ↥(Subgroup.center ↥L0))
   have hz0' : ((z0 : ↥L0) : Q3) ≠ 1 := fun h' => hz0 (Subtype.ext (Subtype.ext h'))
   have hz0t : ((z0 : ↥L0) : Q3) = t0 := (key z0 z0.2).resolve_left hz0'

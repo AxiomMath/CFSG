@@ -425,8 +425,7 @@ theorem nineQ_pow_three :
   obtain ⟨i, j, -, -, hqij⟩ := E.exists_pow_mul_pow hq'
   apply Subtype.ext
   change (q : Equiv.Perm (Fin 2300)) ^ 3 = 1
-  simp only [E, CFSG.RankThree.Asc83Table.E9Basis.ofNe,
-    CFSG.RankThree.Asc83Table.E9Basis.sub] at hqij
+  simp only [E, CFSG.RankThree.Asc83Table.E9Basis.ofNe] at hqij
   rw [hqij]
   have hpow_comm : Commute (nineXPerm ^ i) (nineYPerm ^ j) :=
     Commute.pow_right (Commute.pow_left nineXY_comm i) j
@@ -455,12 +454,12 @@ theorem nineProd_mem
 
 theorem nineOrbit_ge :
     315 ≤ Nat.card (MulAction.orbit ↥co2NineR nineEll) := by
-  letI : Fintype ↥co2NineR :=
+  let : Fintype ↥co2NineR :=
     Fintype.ofInjective (Subtype.val : ↥co2NineR → Equiv.Perm (Fin 63)) Subtype.val_injective
-  letI : Fintype ↥(MulAction.orbit ↥co2NineR nineEll) :=
+  let : Fintype ↥(MulAction.orbit ↥co2NineR nineEll) :=
     Fintype.ofInjective (fun x : ↥(MulAction.orbit ↥co2NineR nineEll) => (x.val : NineSub))
       (fun a b h => Subtype.ext h)
-  letI : Fintype ↥(MulAction.stabilizer ↥co2NineR nineEll) :=
+  let : Fintype ↥(MulAction.stabilizer ↥co2NineR nineEll) :=
     Fintype.ofInjective
       (fun x : ↥(MulAction.stabilizer ↥co2NineR nineEll) => (x.val : ↥co2NineR))
       (fun a b h => Subtype.ext h)
@@ -502,12 +501,12 @@ theorem nineR_card :
 
 theorem nineStab_card_le :
     Nat.card nineStab ≤ 4608 := by
-  letI : Fintype ↥co2NineR :=
+  let : Fintype ↥co2NineR :=
     Fintype.ofInjective (Subtype.val : ↥co2NineR → Equiv.Perm (Fin 63)) Subtype.val_injective
-  letI : Fintype ↥(MulAction.orbit ↥co2NineR nineEll) :=
+  let : Fintype ↥(MulAction.orbit ↥co2NineR nineEll) :=
     Fintype.ofInjective (fun x : ↥(MulAction.orbit ↥co2NineR nineEll) => (x.val : NineSub))
       (fun a b h => Subtype.ext h)
-  letI : Fintype ↥(MulAction.stabilizer ↥co2NineR nineEll) :=
+  let : Fintype ↥(MulAction.stabilizer ↥co2NineR nineEll) :=
     Fintype.ofInjective
       (fun x : ↥(MulAction.stabilizer ↥co2NineR nineEll) => (x.val : ↥co2NineR))
       (fun a b h => Subtype.ext h)
@@ -841,7 +840,7 @@ private theorem nineFixPair_top :
       exact Fin.ext h2
     rw [hset, Set.image_union, Set.image_singleton, Set.image_singleton, hp25, hp53]
     ext x
-    simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_union, Set.mem_singleton_iff]
     exact or_comm
 
 private theorem nine_locS_fix43
@@ -1029,7 +1028,7 @@ private theorem nine_stab_pair
         ext x; simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff],
       Set.image_union, Set.image_singleton, Set.image_singleton, h1, h2]
     ext x
-    simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_union, Set.mem_singleton_iff]
     exact or_comm
 
 private theorem nine_stab_of_pair

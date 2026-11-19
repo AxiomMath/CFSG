@@ -13,7 +13,7 @@ open Matrix
 theorem not_two_dvd_card_diagTorus {n : Nat} {F : Type} [Field F] [Finite F] [CharP F 2] :
     ¬ 2 ∣ Nat.card (diagTorus n F) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hinj : Function.Injective (diagSLHom n F) := by
     intro d e hde
     apply Subtype.ext

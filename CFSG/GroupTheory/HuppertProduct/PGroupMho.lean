@@ -35,9 +35,9 @@ theorem relIndex_mho_self (S : Subgroup G) (p : ℕ) :
 
 theorem pow_mem_of_isCoatom_of_isPGroup {P : Type*} [Group P] [Finite P] {p : ℕ} [Fact p.Prime]
     (hP : IsPGroup p P) {H : Subgroup P} (hH : IsCoatom H) (x : P) : x ^ p ∈ H := by
-  haveI : Group.IsNilpotent P := IsPGroup.isNilpotent hP
+  have : Group.IsNilpotent P := IsPGroup.isNilpotent hP
   have hidx : H.index = p := (IsPGroup.isCoatom_iff_index_eq_prime hP).1 hH
-  haveI : H.Normal :=
+  have : H.Normal :=
     Subgroup.NormalizerCondition.normal_of_coatom H Group.normalizerCondition_of_isNilpotent hH
   have h := H.pow_index_mem x
   rwa [hidx] at h
@@ -70,8 +70,8 @@ theorem isCyclic_of_relIndex_mho_le {G : Type*} [Group G] [Finite G] {S : Subgro
     [Fact p.Prime] (hS : IsPGroup p S) (h : (mho S p).relIndex S ≤ p) : IsCyclic S := by
   rw [relIndex_mho_self] at h
   by_contra hnc
-  haveI : Group.IsNilpotent S := IsPGroup.isNilpotent hS
-  haveI : IsCoatomic (Subgroup S) := inferInstance
+  have : Group.IsNilpotent S := IsPGroup.isNilpotent hS
+  have : IsCoatomic (Subgroup S) := inferInstance
   obtain ⟨H₁, H₂, hne, h₁, h₂⟩ := (IsPGroup.not_isCyclic_iff_exists_ne_index_eq_prime hS).1 hnc
   have hc₁ : IsCoatom H₁ := (IsPGroup.isCoatom_iff_index_eq_prime hS).2 h₁
   have hc₂ : IsCoatom H₂ := (IsPGroup.isCoatom_iff_index_eq_prime hS).2 h₂

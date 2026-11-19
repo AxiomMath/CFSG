@@ -345,6 +345,7 @@ private lemma tbjOmDTwoCountAux_ker_le
   have hcomm := hπcomm (φ t) hπ j hj
   simpa [hφ t] using hcomm
 
+omit [Finite K] in
 private lemma tbjOmDTwoCountAux_H₁_le_C [Fact p.Prime] (hp2 : p ≠ 2)
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (f₀ : Fin r → Multiplicative (ZMod p)) {i k : Fin r} (hik : i ≠ k)
@@ -420,6 +421,7 @@ private lemma tbjOmDTwoCountAux_count [Fact p.Prime] (hp2 : p ≠ 2)
       _ ≤ Nat.card (tbjOmDTwoCountAux_C Δ J) := hcard
   exact hmain
 
+omit [Finite K] in
 private lemma tbjOmDTwoCountAux_commutator_eq_bot_of_card_le_one [Fact p.Prime] (hp2 : p ≠ 2)
     (Δ : TBJOmData Q p A r) (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (hnf : ∀ v : V, (∀ a ∈ A, a v = v) → v = 0)
@@ -476,17 +478,17 @@ theorem TBJOmData.pow_le_card_centralizer_of_two_zero [Fact p.Prime] (hp2 : p �
     have hsolvO : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup R) :=
       tbjQ2_isSolvable_orthogonalGroup_split_four hK2 R hR h4 hS
     have hsolvD : Group.IsSolvable ↥(orthDerived R) :=
-      solvable_of_solvable_injective
+      Group.isSolvable_of_isSolvable_injective
         (Subgroup.inclusion_injective (orthDerived_le_orthogonalGroup (Q := R)))
     have hsolvN : Group.IsSolvable ↥(supportedFixedDerived Q (Δ.τ f₀)) :=
-      solvable_of_solvable_injective (f := (supportedFixedDerivedEquiv hx).toMonoidHom)
+      Group.isSolvable_of_isSolvable_injective (f := (supportedFixedDerivedEquiv hx).toMonoidHom)
         (supportedFixedDerivedEquiv hx).injective
     have hsolvJ : Group.IsSolvable ↥J :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective hJ.1)
-    haveI : Group.IsPerfect ↥J := Group.IsPerfect.mk hJ.2.2.1
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJ.1)
+    have : Group.IsPerfect ↥J := Group.IsPerfect.mk hJ.2.2.1
     have hJne : J ≠ ⊥ := fun h => commutator_ne_bot_of_isQuasisimple hJ.2.2
       (by rw [h]; exact Subgroup.commutator_bot_left _)
-    haveI : Nontrivial ↥J := (Subgroup.nontrivial_iff_ne_bot J).mpr hJne
+    have : Nontrivial ↥J := (Subgroup.nontrivial_iff_ne_bot J).mpr hJne
     exact Group.IsPerfect.not_isSolvable ↥J hsolvJ
   obtain ⟨e₂⟩ :=
     nonempty_commutator_orthogonalGroup_mulEquiv_specialLinear_prod
@@ -499,7 +501,7 @@ theorem TBJOmData.pow_le_card_centralizer_of_two_zero [Fact p.Prime] (hp2 : p �
   let Θ : ↥(supportedFixedDerived Q (Δ.τ f₀)) ≃*
       Matrix.SpecialLinearGroup (Fin 2) K × Matrix.SpecialLinearGroup (Fin 2) K :=
     (supportedFixedDerivedEquiv hx).trans ((eMap.trans eCongr).symm.trans e₂)
-  haveI : Finite (V ≃ₗ[K] V) := by
+  have : Finite (V ≃ₗ[K] V) := by
     have : Finite V := Module.finite_of_finite K
     exact Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V)) DFunLike.coe_injective
   rcases commute_of_isComponentOf_of_mulEquiv_prod Θ hJ

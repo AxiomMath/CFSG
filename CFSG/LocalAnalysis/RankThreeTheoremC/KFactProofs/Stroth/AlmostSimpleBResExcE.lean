@@ -24,7 +24,7 @@ section
         HasIndepPair p (adjointGroup τ k)
 
 theorem exists_elemAbelian_sq_E6 (k : Type) [Field k] [Finite k] {p : ℕ} (hp : p.Prime)
-    (hp3 : 3 < p) (hpk : ¬ p ∣ Nat.card k)
+    (_hp3 : 3 < p) (hpk : ¬ p ∣ Nat.card k)
     (hcnt : degCount Tag.E6 (orderOf ((Nat.card k : ℕ) : ZMod p)) = 2) :
     ∃ E : Subgroup (adjointGroup Tag.E6 k), IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
   obtain ⟨e, he⟩ : ∃ e, orderOf ((Nat.card k : ℕ) : ZMod p) = e := ⟨_, rfl⟩
@@ -38,7 +38,7 @@ theorem exists_elemAbelian_sq_E6 (k : Type) [Field k] [Finite k] {p : ℕ} (hp :
   · exact (sylowTorus_E6_six k hp he).exists_elemAbelian
 
 theorem exists_elemAbelian_sq_E7 (k : Type) [Field k] [Finite k] {p : ℕ} (hp : p.Prime)
-    (hp3 : 3 < p) (hpk : ¬ p ∣ Nat.card k)
+    (_hp3 : 3 < p) (hpk : ¬ p ∣ Nat.card k)
     (hcnt : degCount Tag.E7 (orderOf ((Nat.card k : ℕ) : ZMod p)) = 2) :
     ∃ E : Subgroup (adjointGroup Tag.E7 k), IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
   obtain ⟨e, he⟩ : ∃ e, orderOf ((Nat.card k : ℕ) : ZMod p) = e := ⟨_, rfl⟩
@@ -51,7 +51,7 @@ theorem exists_elemAbelian_sq_E7 (k : Type) [Field k] [Finite k] {p : ℕ} (hp :
   exact (sylowTorus_E7_four k hp he).exists_elemAbelian
 
 theorem exists_elemAbelian_sq_E8 (k : Type) [Field k] [Finite k] {p : ℕ} (hp : p.Prime)
-    (hp3 : 3 < p) (hpk : ¬ p ∣ Nat.card k)
+    (_hp3 : 3 < p) (hpk : ¬ p ∣ Nat.card k)
     (hcnt : degCount Tag.E8 (orderOf ((Nat.card k : ℕ) : ZMod p)) = 2) :
     ∃ E : Subgroup (adjointGroup Tag.E8 k), IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
   obtain ⟨e, he⟩ : ∃ e, orderOf ((Nat.card k : ℕ) : ZMod p) = e := ⟨_, rfl⟩
@@ -105,8 +105,8 @@ theorem fixesPair_adjointE {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
     (hp5 : 5 ≤ p) (hrk1 : ¬ RankLE1 p (adjointGroup τ K)) (hrk2 : RankLE2 p (adjointGroup τ K))
     {α : MulAut (adjointGroup τ K)} (hαp : α ^ p = 1) (hα : α ∉ inner (adjointGroup τ K)) :
     FixesIndepPair p α := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact (pow_pos (by norm_num) f).ne')
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact (pow_pos (by norm_num) f).ne')
   have hp2 : p ≠ 2 := by omega
   have hdet : ¬ p ∣ τ.cartan.det.natAbs := by
     rcases hτ with rfl | rfl | rfl
@@ -131,12 +131,12 @@ theorem fixesPair_adjointE {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow hd'))
   have hFk : Nat.card K = Nat.card (fixSubfield T) ^ p := by
     rw [hK, hc, ← pow_mul, hd, mul_comm]
-  haveI : Finite (fixSubfield T) :=
+  have : Finite (fixSubfield T) :=
     Nat.finite_of_card_ne_zero (by rw [hc]; exact (pow_pos (by norm_num) d).ne')
   have hpk : ¬ p ∣ Nat.card (fixSubfield T) := fun h => hpK (by rw [hFk]; exact h.pow hp.ne_zero)
   have hord : orderOf ((Nat.card (fixSubfield T) : ℕ) : ZMod p) =
       orderOf ((Nat.card K : ℕ) : ZMod p) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     rw [hFk]
     push_cast
     rw [ZMod.pow_card]

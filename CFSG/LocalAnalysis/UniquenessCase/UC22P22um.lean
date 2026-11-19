@@ -11,12 +11,14 @@ open CFSG.Open Subgroup F11
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22u_twostep_mul_comm {T Z : Subgroup G} (hcent : ⁅T, Z⁆ = ⊥) {t z : G} (ht : t ∈ T)
     (hz : z ∈ Z) : t * z = z * t := by
   have h := Subgroup.commutator_mem_commutator ht hz
   rw [hcent, Subgroup.mem_bot] at h
   exact commutatorElement_eq_one_iff_mul_comm.1 h
 
+omit [Finite G] in
 theorem uc22p22u_twostep_pow_mul {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T Z : Subgroup G}
     (hcomm : ⁅T, T⁆ ≤ Z) (hcent : ⁅T, Z⁆ = ⊥) (hpow : ∀ t ∈ T, t ^ p ∈ Z) :
     ∀ x ∈ T, ∀ y ∈ T, (x * y) ^ p = x ^ p * y ^ p := by
@@ -41,7 +43,7 @@ theorem uc22p22u_twostep_pow_mul {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T Z :
 
 theorem uc22p22u_exists_pow_subgroup {α : Type*} [Group α] [Finite α] [IsCyclic α] {p : ℕ} (hp : 0 < p) :
     ∃ N : Subgroup α, (∀ x, x ∈ N ↔ ∃ z : α, z ^ p = x) ∧ N.index ≤ p := by
-  letI : CommGroup α := IsCyclic.commGroup
+  let : CommGroup α := IsCyclic.commGroup
   refine ⟨(powMonoidHom p : α →* α).range, fun x => ?_, ?_⟩
   · simp [MonoidHom.mem_range]
   · rw [IsCyclic.index_powMonoidHom_range]
@@ -51,7 +53,7 @@ theorem uc22p22u_twostep_card_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T Z :
     (hT : IsPGroup p ↥T) (hZc : IsCyclic ↥Z) (hZT : Z ≤ T) (hcomm : ⁅T, T⁆ ≤ Z) (hcent : ⁅T, Z⁆ = ⊥)
     (hpow : ∀ t ∈ T, t ^ p ∈ Z) : Nat.card ↥T ≤ p * Nat.card ↥(Omega1p p T ⊔ Z) := by
   have _ := hT
-  haveI := hZc
+  have := hZc
   have hmul := uc22p22u_twostep_pow_mul hp hp2 hcomm hcent hpow
   obtain ⟨N, hN, hNp⟩ := uc22p22u_exists_pow_subgroup (α := ↥Z) hp.pos
   let θ : ↥T →* ↥Z :=
@@ -88,7 +90,7 @@ theorem uc22p22u_twostep_inf_ne_bot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T 
   have _ := hp2
   have _ := hcomm
   have _ := hcent
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hbot
   have hZne : Z ≠ ⊥ := by
     rintro rfl
@@ -96,7 +98,7 @@ theorem uc22p22u_twostep_inf_ne_bot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T 
     have h := hpow t ht
     rw [Subgroup.mem_bot] at h
     exact Subgroup.mem_sup_left (Subgroup.subset_closure ⟨ht, h⟩)
-  haveI : Nontrivial ↥Z := (Subgroup.nontrivial_iff_ne_bot Z).2 hZne
+  have : Nontrivial ↥Z := (Subgroup.nontrivial_iff_ne_bot Z).2 hZne
   obtain ⟨k, hk, hkcard⟩ := ((hT.to_le hZT).nontrivial_iff_card).1 inferInstance
   have hdvd : p ∣ Nat.card ↥Z := by
     rw [hkcard]
@@ -116,8 +118,8 @@ theorem uc22p22u_twostep_bundle {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T Z : 
         (Nat.card ↥⁅Omega1p p T, Omega1p p T⁆ = p ∧
           ⁅Omega1p p T, Omega1p p T⁆ ≤ Omega1p p T ⊓ centralizer ((Omega1p p T : Subgroup G) : Set G))) ∧
       p ^ n ≤ Nat.card (Omega1p p T) ∧ n / 2 + 1 ≤ CFSG.Open.pRank p (Omega1p p T) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hZc
+  have : Fact p.Prime := ⟨hp⟩
+  have := hZc
   have hp1 : 1 < p := hp.one_lt
   have hclT : ⁅⁅T, T⁆, T⁆ = ⊥ :=
     eq_bot_iff.2 ((Subgroup.commutator_mono_left hcomm).trans (by rw [Subgroup.commutator_comm, hcent]))
@@ -147,7 +149,7 @@ theorem uc22p22u_twostep_bundle {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {T Z : 
         _ ≤ Nat.card ↥(Y ⊔ Z) * Nat.card ↥(Y ⊓ Z) := Nat.mul_le_mul_left _ h2
         _ = Nat.card ↥Y * Nat.card ↥Z := hprod
     · have hinf := uc22p22u_twostep_inf_ne_bot hp hp2 hT hZT hcomm hcent hpow hYZ
-      haveI : Nontrivial ↥(Y ⊓ Z) := (Subgroup.nontrivial_iff_ne_bot (Y ⊓ Z)).2 hinf
+      have : Nontrivial ↥(Y ⊓ Z) := (Subgroup.nontrivial_iff_ne_bot (Y ⊓ Z)).2 hinf
       have hYZT : Y ⊓ Z ≤ T := inf_le_left.trans hYT
       obtain ⟨k, hk, hkcard⟩ := ((hT.to_le hYZT).nontrivial_iff_card).1 inferInstance
       have hpinf : p ≤ Nat.card ↥(Y ⊓ Z) := by

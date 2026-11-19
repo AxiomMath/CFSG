@@ -131,7 +131,7 @@ private theorem uc22s2342_centralizer_cClos1_le (D : Data G) (Ch : Choice2011 G)
     (c.centralizer_V_le_N h4 h1930)
 
 private theorem uc22s2342_pRank_le_mParam (D : Data G) (Ch : Choice2011 G)
-    (h4 : S23_4 D Ch) (h39 : S23_39 D Ch) (h41 : S23_41 D Ch) (h1930 : H1930 D)
+    (h4 : S23_4 D Ch) (h39 : S23_39 D Ch) (_h41 : S23_41 D Ch) (h1930 : H1930 D)
     (c : Ctx23L D Ch) :
     CFSG.Open.pRank 2 D.Z ≤
       CFSG.Quasithin.E3.mParam

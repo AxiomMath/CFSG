@@ -21,7 +21,7 @@ theorem false_of_outer_three_twistedE6_two (q : TauCeti.PrimePower)
     (hd : (TauCeti.LieTypeIndex.twistedE6 q).Valid) (hq2 : q.card = 2) {X : Type} [Group X]
     (eX : X ≃* (TauCeti.CFSGIndex.lie ⟨.twistedE6 q, hd⟩).Group) (γ : MulAut X) (hγ3 : γ ^ 3 = 1)
     (hout : γ ∉ innAutDerived X) : False := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hqc : q.p ^ q.exponent = 2 := by rw [← TauCeti.PrimePower.card_def]; exact hq2
   set F := GaloisField q.p (2 * q.exponent) with hF
   have hF2 : Nat.card F = q.card ^ 2 := by

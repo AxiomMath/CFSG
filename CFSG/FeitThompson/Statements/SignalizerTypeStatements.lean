@@ -219,7 +219,7 @@ theorem exteriorFixedSet_subset_coreFixedSet (H X : Subgroup G) :
 theorem exteriorFixedSet_eq_sdiff (H X : Subgroup G) :
     exteriorFixedSet H X = coreFixedSet H X \ ((H : Set G) \ {1}) := by
   ext y
-  simp only [mem_exteriorFixedSet, mem_coreFixedSet, Set.mem_diff, Set.mem_singleton_iff,
+  simp only [mem_exteriorFixedSet, mem_coreFixedSet, Set.mem_sdiff, Set.mem_singleton_iff,
     not_and, not_not]
   constructor
   · rintro ⟨h1, h2, h3⟩
@@ -234,22 +234,22 @@ theorem one_notMem_sigmaSupport [Finite G] : (1 : G) ∉ sigmaSupport G := by
 open scoped Classical in
 theorem sigmaSignalizerOn_of_mem [Finite G] {M : Subgroup G} {a : G} (ha : a ∈ sigmaCore M)
     (ha1 : a ≠ 1) : sigmaSignalizerOn M a = sigmaSignalizer a := by
-  rw [sigmaSignalizerOn, if_pos ⟨ha, ha1⟩]
+  rw [sigmaSignalizerOn, ite_eq_left ⟨ha, ha1⟩]
 
 open scoped Classical in
 theorem sigmaSignalizerOn_of_notMem [Finite G] {M : Subgroup G} {a : G}
     (ha : ¬ (a ∈ sigmaCore M ∧ a ≠ 1)) : sigmaSignalizerOn M a = ⊥ := by
-  rw [sigmaSignalizerOn, if_neg ha]
+  rw [sigmaSignalizerOn, ite_eq_right ha]
 
 open scoped Classical in
 theorem hallSignalizerOn_of_mem [Finite G] {M : Subgroup G} {a : G} (ha : a ∈ hallCoreIn M) :
     hallSignalizerOn M a = sigmaSignalizer a := by
-  rw [hallSignalizerOn, if_pos ha]
+  rw [hallSignalizerOn, ite_eq_left ha]
 
 open scoped Classical in
 theorem hallSignalizerOn_of_notMem [Finite G] {M : Subgroup G} {a : G} (ha : a ∉ hallCoreIn M) :
     hallSignalizerOn M a = ⊥ := by
-  rw [hallSignalizerOn, if_neg ha]
+  rw [hallSignalizerOn, ite_eq_right ha]
 
 theorem isTypeII_of_isTypeIIWitness [Finite G] {M E W₁ W₂ : Subgroup G}
     (h : IsTypeIIWitness M E W₁ W₂) : IsTypeII M :=

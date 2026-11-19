@@ -107,7 +107,7 @@ theorem mem_chains {S L : List ℕ} (h : L.Sublist S) (hP : L.Pairwise (fun a b 
       exact List.mem_append_right _ (ih hP hacc)
   | @cons_cons L S a h ih =>
     rw [List.pairwise_cons] at hP
-    rw [List.length_cons, chains, if_pos (by simpa using hacc a List.mem_cons_self)]
+    rw [List.length_cons, chains, ite_eq_left (by simpa using hacc a List.mem_cons_self)]
     refine List.mem_append_left _ (List.mem_map.2 ⟨L, ih hP.2 fun m hm => ?_, rfl⟩)
     refine land_lor_eq_zero (hacc m (List.mem_cons_of_mem _ hm)) ?_
     have h1 : a &&& m = 0 := hP.1 m hm
@@ -124,7 +124,7 @@ theorem sublist_of_pairwise_lt : ∀ {L S : List ℕ}, L.Pairwise (· < ·) → 
     have hL' := List.pairwise_cons.1 hL
     by_cases hxs : x = s
     · subst hxs
-      refine List.Sublist.cons₂ x (sublist_of_pairwise_lt hL'.2 hS.2 fun y hy => ?_)
+      refine List.Sublist.cons_cons x (sublist_of_pairwise_lt hL'.2 hS.2 fun y hy => ?_)
       rcases List.mem_cons.1 (h y (List.mem_cons_of_mem _ hy)) with h' | h'
       · exact absurd h' (ne_of_gt (hL'.1 y hy))
       · exact h'

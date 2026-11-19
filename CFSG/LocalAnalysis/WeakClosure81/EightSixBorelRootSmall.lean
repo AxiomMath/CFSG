@@ -12,6 +12,7 @@ open CFSG.LocalAnalysis.WeakClosure81.SevenK
 
 variable {G : Type} [Group G] [Finite G] {V H T : Subgroup G}
 
+omit [Finite G] in
 private theorem borel86_rootsmall_mk_comp_eq_one_iff {K N : Subgroup G} {X : Type} [Group X]
     {φ : ↥K →* X} (hφ : IsBarMap K N φ) (k : ↥K) :
     (QuotientGroup.mk' (Subgroup.center X)) (φ k) = 1 ↔ (k : G) ∈ centerPre K N := by
@@ -140,12 +141,12 @@ theorem shape86DeltaT'_of_small (h : Hyp83 V H T) (hKT : H = kGenIn V H ⊔ T) {
     obtain ⟨k, hmk, F, hFld, hFin, hFcard, ⟨e₂⟩⟩ := hPY
     have hk : k = 1 := by omega
     subst k
-    haveI := hFin
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := Fintype.ofFinite F
+    have := hFin
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := Fintype.ofFinite F
     have hcharF : Fintype.card F = 2 ^ n := by
       rw [Fintype.card_eq_nat_card, hFcard]
-    haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := n) hcharF
+    have : CharP F 2 := charP_of_card_eq_prime_pow (f := n) hcharF
     refine ⟨1, hmk, F, inferInstance, inferInstance, hFcard, e₁.trans e₂, ?_⟩
     let g : ↥(StatedSp 1 F) := e₂ (e₁ (QuotientGroup.mk s))
     have hmk2 : (QuotientGroup.mk s : X ⧸ Subgroup.center X) *
@@ -193,7 +194,7 @@ theorem shape86DeltaT'_of_small (h : Hyp83 V H T) (hKT : H = kGenIn V H ⊔ T) {
     have hSCM : StatedClassicalModel Y .PSU 3 2 n :=
       CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hPY3
     obtain ⟨-, F, hFld, hFin, hFcard, ⟨e₂⟩⟩ := hSCM
-    haveI := hFin
+    have := hFin
     refine ⟨F, inferInstance, inferInstance, hFcard, e₁.trans e₂, ?_⟩
     let t : StatedProj (StatedSU 3 (2 ^ n) F) := e₂ (e₁ (QuotientGroup.mk s))
     change IsUnitaryTransvectionIn 3 n t
@@ -211,11 +212,11 @@ theorem shape86DeltaT'_of_small (h : Hyp83 V H T) (hKT : H = kGenIn V H ⊔ T) {
         simpa [t] using ht
       exact hnotmk (e₁.injective (by rw [h1, map_one]))
     obtain ⟨g₀, hg₀⟩ := QuotientGroup.mk_surjective t
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := Fintype.ofFinite F
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := Fintype.ofFinite F
     have hcharF : Fintype.card F = 2 ^ (2 * n) := by
       rw [Fintype.card_eq_nat_card, hFcard, ← pow_mul, Nat.mul_comm n 2]
-    haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 2 * n) hcharF
+    have : CharP F 2 := charP_of_card_eq_prime_pow (f := 2 * n) hcharF
     have hmem : (g₀ * g₀ : ↥(StatedSU 3 (2 ^ n) F)) ∈
         (StatedScalars (Fin 3) F).subgroupOf (StatedSU 3 (2 ^ n) F) := by
       have hq : (QuotientGroup.mk (g₀ * g₀) :

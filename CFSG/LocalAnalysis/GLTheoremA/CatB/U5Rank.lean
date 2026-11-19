@@ -36,7 +36,7 @@ theorem u5_comm_central_mul {u v : K} (hu : ∀ g : K, g * u = u * g) (hv : ∀ 
 theorem u5_comm_of_lifts (φ : K →* R)
     (hc : ∀ z : K, φ z = 1 → z ∈ Subgroup.center K) {x y n : K}
     (hxy : φ x * φ y = φ y * φ x) (hn1 : φ (n * x * n⁻¹) = φ y) (hn2 : φ (n * y * n⁻¹) = φ x)
-    (hx5 : φ x ^ 5 = 1) (hy5 : φ y ^ 5 = 1) : x * y = y * x := by
+    (hx5 : φ x ^ 5 = 1) (_hy5 : φ y ^ 5 = 1) : x * y = y * x := by
   set z : K := x * y * x⁻¹ * y⁻¹ with hz_def
   have hz1 : φ z = 1 := by
     rw [hz_def, map_mul, map_mul, map_mul, map_inv, map_inv, hxy]
@@ -104,7 +104,7 @@ theorem u5_exists_elemAbelian (φ : K →* R) (hker : ∀ z : K, φ z = 1 ↔ z 
     (hPc : ∀ x ∈ P, ∀ y ∈ P, x * y = y * x) (hP5 : ∀ x ∈ P, φ x ^ 5 = 1)
     (hcard : 5 ^ 5 ≤ Nat.card (φ.comp P.subtype).range) :
     ∃ Ω : Subgroup K, Ω ≤ P ∧ IsElemAbelian 5 Ω ∧ 5 ^ 5 ≤ Nat.card Ω := by
-  letI : CommGroup P := { (inferInstance : Group P) with
+  let : CommGroup P := { (inferInstance : Group P) with
     mul_comm := fun a b => Subtype.ext (hPc a a.2 b b.2) }
   set f : P →* P := powMonoidHom 5 with hf
   set ψ : P →* R := φ.comp P.subtype with hψ
@@ -458,19 +458,19 @@ theorem u5Idx_ne_one (hd : 8 ≤ d) (j : Fin 5) : u5Idx (d := d) j ≠ 1 := by
 theorem u5Gen_at (hd : 8 ≤ d) (j k : Fin 5) :
     u5Gen (d := d) j (u5Idx k) = if j = k then Multiplicative.ofAdd 1 else 1 := by
   have h2 := u5Idx_ne_two (d := d) hd k
-  simp only [u5Gen, Pi.mul_apply, Pi.inv_apply, Pi.mulSingle_apply, h2, if_false, inv_one,
+  simp only [u5Gen, Pi.mul_apply, Pi.inv_apply, Pi.mulSingle_apply, h2, ite_false, inv_one,
     mul_one]
   by_cases hjk : j = k
   · subst hjk; simp
   · have : u5Idx (d := d) j ≠ u5Idx k := fun h => hjk (u5Idx_inj hd h)
-    simp [this, Ne.symm this, hjk]
+    simp [Ne.symm this, hjk]
 
 theorem u5Gen_zero (hd : 8 ≤ d) (j : Fin 5) : u5Gen (d := d) j 0 = 1 := by
-  simp [u5Gen, Pi.mul_apply, Pi.inv_apply, Pi.mulSingle_apply, (u5Idx_ne_zero hd j).symm,
+  simp [u5Gen, Pi.mul_apply, Pi.inv_apply, (u5Idx_ne_zero hd j).symm,
     u5_ne_two_zero hd]
 
 theorem u5Gen_one (hd : 8 ≤ d) (j : Fin 5) : u5Gen (d := d) j 1 = 1 := by
-  simp [u5Gen, Pi.mul_apply, Pi.inv_apply, Pi.mulSingle_apply, (u5Idx_ne_one hd j).symm,
+  simp [u5Gen, Pi.mul_apply, Pi.inv_apply, (u5Idx_ne_one hd j).symm,
     u5_ne_two_one hd]
 
 theorem u5Gen_swap (hd : 8 ≤ d) {j k : Fin 5} (hjk : j ≠ k) :
@@ -485,7 +485,7 @@ theorem u5Gen_swap (hd : 8 ≤ d) {j k : Fin 5} (hjk : j ≠ k) :
   · by_cases hi' : i = u5Idx k
     · subst hi'
       rw [Equiv.swap_apply_right, u5Gen_at hd, u5Gen_at hd]
-      simp [hjk]
+      simp
     · rw [Equiv.swap_apply_of_ne_of_ne hi hi']
       simp [u5Gen, Pi.mulSingle_apply, hi, hi']
 
@@ -501,7 +501,7 @@ theorem u5Gen_swap01 (hd : 8 ≤ d) (j : Fin 5) :
       rw [Equiv.swap_apply_right, u5Gen_zero hd, u5Gen_one hd]
     · rw [Equiv.swap_apply_of_ne_of_ne h0 h1]
 
-theorem u5Gen_pow5 (hd : 8 ≤ d) (j : Fin 5) : u5Gen (d := d) j ^ 5 = 1 := by
+theorem u5Gen_pow5 (_hd : 8 ≤ d) (j : Fin 5) : u5Gen (d := d) j ^ 5 = 1 := by
   funext i
   simp [u5Gen, u5_pow5_chi]
 
@@ -528,6 +528,7 @@ abbrev u5E1 (ζ : Fˣ) (h5 : ζ ^ 5 = 1) : Subgroup (Fin d → Multiplicative (Z
     u5E1 (F := F) (d := d) ζ h5 →* StatedProj (StatedSU d (2 ^ 2) F) :=
   (QuotientGroup.mk' _).comp (u5Tau ζ h5)
 
+omit [NeZero d] in
 theorem u5Phi_eq_one_iff (ζ : Fˣ) (h5 : ζ ^ 5 = 1) (u : u5E1 (F := F) (d := d) ζ h5) :
     u5Phi ζ h5 u = 1 ↔
       ∃ c : Fˣ, u5Torus ζ h5 u.1 = Matrix.GeneralLinearGroup.scalar (Fin d) c := by
@@ -542,12 +543,12 @@ theorem u5Phi_eq_one_iff (ζ : Fˣ) (h5 : ζ ^ 5 = 1) (u : u5E1 (F := F) (d := d
   · rintro ⟨c, hc⟩
     exact ⟨c, hc.symm⟩
 
+omit [NeZero d] in
 theorem u5Torus_entry (ζ : Fˣ) (h5 : ζ ^ 5 = 1) (u : Fin d → Multiplicative (ZMod 5)) (c : Fˣ)
     (h : u5Torus ζ h5 u = Matrix.GeneralLinearGroup.scalar (Fin d) c) (i : Fin d) :
     u5Chi ζ h5 (u i) = c := by
   have := congrArg (fun g : GL (Fin d) F => (g : Matrix (Fin d) (Fin d) F) i i) h
-  simp only [u5Torus_val, Matrix.GeneralLinearGroup.scalar, Units.coe_map, MonoidHom.coe_mk,
-    OneHom.coe_mk, Matrix.diagonal_apply_eq, Matrix.scalar_apply] at this
+  simp only [u5Torus_val, Matrix.GeneralLinearGroup.scalar, Units.coe_map, Matrix.diagonal_apply_eq] at this
   exact Units.ext (by simpa using this)
 
 theorem u5Phi_injOn (ζ : Fˣ) (h5 : ζ ^ 5 = 1) (hζ : orderOf ζ = 5)
@@ -614,6 +615,7 @@ section Assembly
 
 variable {K R : Type} [Group K] [Group R] [Finite K]
 
+omit [Finite K] in
 theorem u5_comm_closure (S : Set K) (hS : ∀ a ∈ S, ∀ b ∈ S, a * b = b * a) :
     ∀ x ∈ Subgroup.closure S, ∀ y ∈ Subgroup.closure S, x * y = y * x := by
   have h1 : Subgroup.closure S ≤ Subgroup.centralizer S :=
@@ -646,7 +648,7 @@ theorem u5_le_twoLocal (H : Subgroup K) (hH : CFSG.Open.IsTwoLocal H) (k : ℕ)
 
 theorem u5_five_pow (Ω : Subgroup K) (hΩ : IsElemAbelian 5 Ω) (h : 5 ^ 5 ≤ Nat.card Ω) :
     ∃ k, 5 ≤ k ∧ Nat.card Ω = 5 ^ k := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hp : IsPGroup 5 Ω := fun g => ⟨1, Subtype.ext (by simpa using hΩ.2 g.1 g.2)⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hp
   refine ⟨k, ?_, hk⟩
@@ -710,13 +712,13 @@ theorem u5_main_abstract (φ : K →* R)
     exact P.mul_mem (P.mul_mem (P.mul_mem (P.mul_mem (P.pow_mem (hm 0) _)
       (P.pow_mem (hm 1) _)) (P.pow_mem (hm 2) _)) (P.pow_mem (hm 3) _)) (P.pow_mem (hm 4) _)
   have hcard : 5 ^ 5 ≤ Nat.card (φ.comp P.subtype).range := by
-    haveI : Finite (φ.comp P.subtype).range :=
+    have : Finite (φ.comp P.subtype).range :=
       (Set.finite_range (φ.comp P.subtype)).to_subtype
     let f : (Fin 5 → ZMod 5) → (φ.comp P.subtype).range := fun v =>
       ⟨φ _, ⟨⟨_, hXP v⟩, rfl⟩⟩
     have hf : Function.Injective f := fun v w h => hinj v w (congrArg Subtype.val h)
     have h1 := Nat.card_le_card_of_injective f hf
-    have h2 : Nat.card (Fin 5 → ZMod 5) = 5 ^ 5 := by simp [Nat.card_fun]
+    have h2 : Nat.card (Fin 5 → ZMod 5) = 5 ^ 5 := by simp
     omega
   obtain ⟨Ω, hΩP, hΩab, hΩcard⟩ := u5_exists_elemAbelian φ hker P hPz hPc hP5 hcard
   have hΩN : Ω ≤ Subgroup.normalizer (Q : Set K) := hΩP.trans hPN
@@ -757,7 +759,7 @@ theorem u5_swap_not_scalar {F : Type} [Field F] {d : ℕ} [NeZero d] (i j : Fin 
     (c : Fˣ) (h : u5Swap (F := F) i j = Matrix.GeneralLinearGroup.scalar (Fin d) c) : False := by
   have h2 : (Matrix.swap F i j) i j = 1 := by
     have e := u5_swap_mul_apply i j (1 : Matrix (Fin d) (Fin d) F) i j
-    rw [mul_one, Matrix.one_apply, Equiv.swap_apply_left, if_pos rfl] at e
+    rw [mul_one, Matrix.one_apply, Equiv.swap_apply_left, ite_eq_left rfl] at e
     exact e
   have h3 : ((Matrix.GeneralLinearGroup.scalar (Fin d) c : GL (Fin d) F) :
       Matrix (Fin d) (Fin d) F) i j = 0 := by
@@ -783,9 +785,9 @@ theorem u5RankAt_holds : U5RankAt := by
   obtain ⟨-, F, hFi, hFf, hF, ⟨e⟩⟩ := hsc
   have hd8 : 8 ≤ 5 * r - 1 + 1 := by omega
   generalize 5 * r - 1 + 1 = d at e hd8
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h16 : Fintype.card F = 2 ^ 4 := by
     rw [← Nat.card_eq_fintype_card, hF]
     norm_num
@@ -796,9 +798,9 @@ theorem u5RankAt_holds : U5RankAt := by
       exact dvd_pow_self p (by exact_mod_cast n.ne_zero)
     exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow hdvd)
   subst hp2
-  haveI : CharP F 2 := hpc
+  have : CharP F 2 := hpc
   have hneg : (-1 : F) = 1 := CharTwo.neg_eq 1
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h5card : 5 ∣ Fintype.card Fˣ := by
     rw [Fintype.card_units, h16]
     norm_num

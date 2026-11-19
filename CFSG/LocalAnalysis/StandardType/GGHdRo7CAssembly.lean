@@ -203,7 +203,7 @@ private theorem false_of_gen_le_three
       refine ⟨1, fun i => if i = j.succ then -1 else 1, ?_, ?_, ?_, ?_⟩
       · simp
       · dsimp only
-        rw [if_neg (Ne.symm (Fin.succ_ne_zero j))]
+        rw [ite_eq_right (Ne.symm (Fin.succ_ne_zero j))]
       · intro i
         dsimp only
         by_cases h : i = j.succ <;> simp [h]
@@ -211,9 +211,9 @@ private theorem false_of_gen_le_three
         rw [Equiv.Perm.one_apply]
         dsimp only
         by_cases h : i = j.succ
-        · rw [h, if_pos rfl, CFSG.StandardType.OrthF3.ggOrthSignChange_apply_self]
+        · rw [h, ite_eq_left rfl, CFSG.StandardType.OrthF3.ggOrthSignChange_apply_self]
           simp
-        · rw [if_neg h, CFSG.StandardType.OrthF3.ggOrthSignChange_apply_of_ne b h]
+        · rw [ite_eq_right h, CFSG.StandardType.OrthF3.ggOrthSignChange_apply_of_ne b h]
           simp
     obtain ⟨ψ, hψ, hψs⟩ := Subgroup.mem_map.mp ((hALmodel s).mpr hsp)
     let a : V₀ ≃ₗ[ZMod 3] V₀ := ggLin (p := 3) ι₀ ψ

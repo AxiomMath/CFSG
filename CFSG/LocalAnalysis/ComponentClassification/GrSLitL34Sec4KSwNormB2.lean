@@ -89,7 +89,7 @@ theorem exists_sylow_of_wT {T W : Subgroup G} (hTsyl : IsSylowTwoIn T (normalize
     refine lt_top_iff_ne_top.mpr fun htop => hQT fun q hq => ?_
     have : (⟨q, hq⟩ : Q) ∈ T.subgroupOf Q := by rw [htop]; exact mem_top _
     exact mem_subgroupOf.mp this
-  have hnil : Group.IsNilpotent Q := Q.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent Q := Q.isPGroup.isNilpotent
   obtain ⟨y, hyN, hyT⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   have hconj : ∀ z ∈ T, (y : G) * z * (y : G)⁻¹ ∈ T := by
@@ -126,7 +126,7 @@ theorem exists_sylow_of_wT {T W : Subgroup G} (hTsyl : IsSylowTwoIn T (normalize
     rw [wGroup_map_conj, hFW] at h1
     exact mem_normalizer_iff_map_conj_eq.mpr h1
   have hQ' : IsPGroup 2 ↥(T ⊔ zpowers (y : G)) :=
-    Q.isPGroup'.to_le (sup_le hTQ (zpowers_le.mpr y.2))
+    Q.isPGroup.to_le (sup_le hTQ (zpowers_le.mpr y.2))
   have heq := hTsyl.eq_of_le le_sup_left (sup_le hTsyl.1 (zpowers_le.mpr hyM)) hQ'
   have hyT' : (y : G) ∈ T ⊔ zpowers (y : G) :=
     (le_sup_right : zpowers (y : G) ≤ T ⊔ zpowers (y : G)) (mem_zpowers (y : G))

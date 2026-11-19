@@ -78,6 +78,7 @@ section Orders
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {W : Type} [AddCommGroup W] [Module K W]
   [FiniteDimensional K W]
 
+omit [CharP K 2] in
 theorem factorization_two_card_orthogonalGroup {R : QuadraticForm K W}
     (hR : (polarBilin R).Nondegenerate) {m f : ℕ} (hdim : finrank K W = 2 * (m + 1))
     (hK : Nat.card K = 2 ^ f) :
@@ -152,6 +153,7 @@ section Components
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [Field K] [Finite K] [CharP K 2] in
 theorem exists_exp (hK : Nat.card K = 2 ∨ Nat.card K = 8) :
     ∃ f : ℕ, (f = 1 ∨ f = 3) ∧ Nat.card K = 2 ^ f := by
   rcases hK with h | h
@@ -202,7 +204,7 @@ theorem exists_fixedFactors' {p : ℕ} {x : V ≃ₗ[K] V} (hx : OddOrderIsometr
       let e := supportedFixedDerivedEquiv hx
       let A : Subgroup ↥(supportedFixedDerived Q x) := (F i).subgroupOf (supportedFixedDerived Q x)
       have hAn : (A.map e.toMonoidHom).Normal := hFn.map e.toMonoidHom e.surjective
-      haveI := hAn
+      have := hAn
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (A.map e.toMonoidHom) with hb | ht
       · exfalso
         have hAb : A = ⊥ := (Subgroup.map_eq_bot_iff_of_injective _ e.injective).mp hb
@@ -271,7 +273,7 @@ theorem odd_card_center_specialBlock_phi {x : V ≃ₗ[K] V} (hx : OddOrderIsome
     (hmem : (X ^ 2 + X + 1 : K[X]) ∈ primaryFactors x.toLinearMap)
     (hm : 2 ≤ primaryMultiplicity x.toLinearMap (X ^ 2 + X + 1)) :
     Odd (Nat.card (Subgroup.center ↥(specialBlock Q x (X ^ 2 + X + 1)))) := by
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) := ⟨irreducible_of_mem_primaryFactors hmem⟩
+  have : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) := ⟨irreducible_of_mem_primaryFactors hmem⟩
   have : Finite V := Module.finite_of_finite K
   have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
@@ -280,6 +282,7 @@ theorem odd_card_center_specialBlock_phi {x : V ≃ₗ[K] V} (hx : OddOrderIsome
     (fun g' hg' => ?_) (by simpa using congrArg Subtype.val hz2)
   exact (congrArg Subtype.val (Subgroup.mem_center_iff.mp hz ⟨g', hg'⟩)).symm
 
+omit [CharP K 2] in
 theorem factorization_two_card_specialBlock {x : V ≃ₗ[K] V} (hx : OddOrderIsometry Q 3 x)
     (hmem : (X ^ 2 + X + 1 : K[X]) ∈ primaryFactors x.toLinearMap) {f : ℕ}
     (hK : Nat.card K = 2 ^ f) :
@@ -287,7 +290,7 @@ theorem factorization_two_card_specialBlock {x : V ≃ₗ[K] V} (hx : OddOrderIs
       f * (primaryMultiplicity x.toLinearMap (X ^ 2 + X + 1) *
         (primaryMultiplicity x.toLinearMap (X ^ 2 + X + 1) - 1) / 2) := by
   have hirr := irreducible_of_mem_primaryFactors hmem
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) := ⟨hirr⟩
+  have : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) := ⟨hirr⟩
   obtain ⟨d, ℓ, f', hU, B, -, hq, hBsymm, hBl, hrange⟩ :=
     orth2_exists_unitary_model hx ⟨1, rfl⟩ hmem phi_ne (reciprocal_cyc3 K).symm
   have e₁ : ↥(specialBlock Q x (X ^ 2 + X + 1)) ≃* ↥(sesqSpecialUnitaryGroup B) :=
@@ -400,7 +403,7 @@ theorem card_fixedFactor_ne [Nontrivial V] (hQ : (polarBilin Q).Nondegenerate) {
       obtain ⟨E, _, _, D, ψ, ρ, -, -, -, -, hcomm, hsimple, -, hnab, hcardρ, -, -, -⟩ :=
         even_minus_six_actual_derived_extraction R hR h6 hts
       have he : orthDerived R = ρ.range := hcomm
-      haveI := hsimple
+      have := hsimple
       have hZ1 : Nat.card (Subgroup.center ↥ρ.range) = 1 := by
         rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥ρ.range) with hb | ht
         · rw [hb]
@@ -433,13 +436,13 @@ theorem eq_componentImage_of_card (hK : Nat.card K = 2 ∨ Nat.card K = 8)
   have : Nontrivial V := by
     by_contra hV
     rw [not_nontrivial_iff_subsingleton] at hV
-    haveI := hV
+    have := hV
     have h1 : x = 1 := Subtype.ext (LinearEquiv.ext fun v => Subsingleton.elim _ _)
     rw [h1, orderOf_one] at hx3
     omega
   obtain ⟨f, hf, hKf⟩ := exists_exp hK
   have hpq : 3 ∣ Nat.card K + 1 := by
-    rcases hK with h | h <;> rw [h] <;> norm_num
+    rcases hK with h | h <;> rw [h]; norm_num
   rw [← centralizerImage_eq hQ x] at hL
   obtain ⟨Rep, hRep⟩ := hx.exists_orbitRepresentatives
   set xe : V ≃ₗ[K] V := (x : V ≃ₗ[K] V) with hxe
@@ -499,7 +502,7 @@ theorem eq_componentImage_of_card (hK : Nat.card K = 2 ∨ Nat.card K = 8)
       (fun hlist => by
         rw [← fixedLayerImage_of_listed hlist]
         exact le_sup_right)
-    haveI := hS₀sol
+    have := hS₀sol
     exact perfect_le_of_le_sup_solvable hENN hS₀N hENn hcomm hPN (Subgroup.isPerfect_iff.1 ⟨hP⟩)
   let Fm : ι₁ ⊕ Fin n → Subgroup (ProjOrthDerived Q) := Sum.elim S C
   have hFm : ∀ i, CFSG.Open.IsComponentOf (Fm i) N := by
@@ -515,7 +518,7 @@ theorem eq_componentImage_of_card (hK : Nat.card K = 2 ∨ Nat.card K = 8)
   rcases i with ⟨⟨h, hh⟩, hne, hq⟩ | i
   · have hh' : h ∈ primaryFactors xe.toLinearMap := hRep.1 hh
     obtain rfl : h = X ^ 2 + X + 1 := eq_phi hx hpq hh' hne
-    haveI : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) := ⟨irreducible_of_mem_primaryFactors hh'⟩
+    have : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) := ⟨irreducible_of_mem_primaryFactors hh'⟩
     have hm2 : 2 ≤ primaryMultiplicity xe.toLinearMap (X ^ 2 + X + 1) := by
       have h1 := hx.primaryMultiplicity_pos hh'
       by_contra hlt

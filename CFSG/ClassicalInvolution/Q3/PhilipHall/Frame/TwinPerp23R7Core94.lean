@@ -14,6 +14,7 @@ section Q8
 
 variable {L : Subgroup G} {s : G}
 
+omit [Finite G] in
 theorem comm_of_mem_q8 (hs : IsUniqueInvolution L s) {x : G} (hx : x ∈ L) : x * s = s * x :=
   mul_inv_eq_iff_eq_mul.1 (hs.conj_eq (conjSub_eq_self_of_mem hx))
 
@@ -129,10 +130,12 @@ theorem exists_fixed_q8 (hs : IsUniqueInvolution L s) (h8 : Nat.card L = 8)
 
 end Q8
 
+omit [Finite G] in
 theorem comm_of_conj_eq' {x y : G} (h : y * x * y⁻¹ = x) : x * y = y * x := by
   calc x * y = y * x * y⁻¹ * y := by rw [h]
     _ = y * x := by group
 
+omit [Finite G] in
 theorem conj_eq_of_comm' {x y : G} (h : x * y = y * x) : y * x * y⁻¹ = x := by
   rw [← h, mul_inv_cancel_right]
 

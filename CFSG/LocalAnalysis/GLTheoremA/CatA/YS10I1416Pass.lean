@@ -11,7 +11,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 open scoped commutatorElement
 
 theorem psimple_equiv_of_central_surj {Q F : Type} [Group Q] [Group F] (hQ : CFSG.Open.IsQuasisimple Q)
-    (f : Q →* F) (hf : Function.Surjective f) (hker : f.ker ≤ Subgroup.center Q) [Nontrivial F] :
+    (f : Q →* F) (hf : Function.Surjective f) (_hker : f.ker ≤ Subgroup.center Q) [Nontrivial F] :
     Nonempty ((Q ⧸ Subgroup.center Q) ≃* (F ⧸ Subgroup.center F)) := by
   classical
   let φ : Q →* F ⧸ Subgroup.center F := (QuotientGroup.mk' (Subgroup.center F)).comp f
@@ -79,7 +79,7 @@ theorem pSimple_equiv_of_comps {G : Type} [Group G] [Finite G] {p p' : ℕ} {X K
     have hsub : Subsingleton (↥K ⧸ M) := by
       rw [hMt]
       exact QuotientGroup.subsingleton_quotient_top
-    haveI := isQuasisimple_nontrivial hQ
+    have := isQuasisimple_nontrivial hQ
     exact not_subsingleton (↥K ⧸ M) hsub
   have hPne : N ⊔ M ≠ ⊤ := by
     intro hP
@@ -105,7 +105,7 @@ theorem pSimple_equiv_of_comps {G : Type} [Group G] [Finite G] {p p' : ℕ} {X K
       obtain ⟨m, hm, hmx⟩ := Subgroup.mem_map.1 hx
       have hmx' : m = x := Subtype.ext hmx
       exact hmx' ▸ hm
-    haveI : (J₀.subgroupOf K).Normal := by
+    have : (J₀.subgroupOf K).Normal := by
       rw [hsubMK]
       infer_instance
     have hJ₀K : IsSubnormal J₀ K := IsSubnormal.step hJ₀le inferInstance (IsSubnormal.refl K)
@@ -144,7 +144,7 @@ theorem pSimple_equiv_of_comps {G : Type} [Group G] [Finite G] {p p' : ℕ} {X K
         rw [hxeq, map_mul, h1, one_mul]
     exact hK'.2.2.2 J₀ (lt_of_le_of_ne hJ₀le hJ₀ne) hJ₀X hEq'
   set P : Subgroup ↥K := N ⊔ M with hPdef
-  haveI : Nontrivial (↥K ⧸ P) := by
+  have : Nontrivial (↥K ⧸ P) := by
     by_contra hcon
     rw [not_nontrivial_iff_subsingleton] at hcon
     apply hPne

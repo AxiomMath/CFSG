@@ -36,7 +36,7 @@ open CFSG.RankThree.PartOne.KCUnitaryModel
 
 @[expose] def U6Type9Core : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (L J A : Subgroup G) (d b : G) (n : ℕ) (K : Type)
-    [Field K] [Finite K] (h : UnitaryFieldData 2 n K)
+    [Field K] [Finite K] (_h : UnitaryFieldData 2 n K)
     (θ : ↥L ⧸ Subgroup.center ↥L ≃* LargeEvenProj (unitarySU 2 n K 6)),
     Setup 3 L J A d b → 3 ∣ 2 ^ n + 1 →
     (∀ a ∈ A, ∃ φ ∈ LargeEvenMatConjImage (LargeEvenProjMk (unitarySU 2 n K 6))
@@ -51,7 +51,7 @@ open CFSG.RankThree.PartOne.KCUnitaryModel
 theorem u6Type9_of_core (hcore : U6Type9Core) : U6Type9 := by
   intro G _ _ L J A d b n K _ _ h θ hS hpq hA φ hφ
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hdA : d ∈ A := hS.d_mem
   have hd3 : d ^ 3 = 1 := pow_eq_one_of_mem_isElemAbelian hS.elem hdA
   have hdN : d ∈ Subgroup.normalizer (L : Set G) :=

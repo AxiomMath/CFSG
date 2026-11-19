@@ -21,6 +21,7 @@ variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
 
 namespace CaseBData
 
+omit [Finite G] in
 theorem nonSwap_comm_of_sq_eq_one {E : Subgroup G} (hsq : ∀ y ∈ E, y * y = 1) {x y : G}
     (hx : x ∈ E) (hy : y ∈ E) : x * y = y * x := by
   have h1 := hsq (x * y) (E.mul_mem hx hy)
@@ -30,6 +31,7 @@ theorem nonSwap_comm_of_sq_eq_one {E : Subgroup G} (hsq : ∀ y ∈ E, y * y = 1
   rw [mul_inv_rev, hx', hy'] at hxy
   exact hxy.symm
 
+omit [Finite G] in
 theorem nonSwap_quotient_conj {M : Type} [Group M] {X : Subgroup G} (φ : G ≃* G)
     (e : X ⧸ center X ≃* M) :
     Nonempty ((X.map φ.toMonoidHom) ⧸ center (X.map φ.toMonoidHom) ≃* M) := by
@@ -38,6 +40,7 @@ theorem nonSwap_quotient_conj {M : Type} [Group M] {X : Subgroup G} (φ : G ≃*
       center (X.map φ.toMonoidHom) := Subgroup.map_center_eq e1
   exact ⟨(QuotientGroup.congr _ _ e1 hc).symm.trans e⟩
 
+omit [Finite G] in
 theorem nonSwap_odd_center_conj {X : Subgroup G} (φ : G ≃* G)
     (hZ : Odd (Nat.card (center X))) :
     Odd (Nat.card (center (X.map φ.toMonoidHom))) := by
@@ -47,6 +50,7 @@ theorem nonSwap_odd_center_conj {X : Subgroup G} (φ : G ≃* G)
   rw [← hc, Subgroup.card_map_of_injective e1.injective]
   exact hZ
 
+omit [Finite G] in
 theorem nonSwap_eq_one_of_odd_center {A : Subgroup G} (hZ : Odd (Nat.card (center A)))
     {z : G} (hzA : z ∈ A) (hcomm : ∀ a ∈ A, a * z = z * a) (hz2 : z * z = 1) : z = 1 := by
   have hzc : (⟨z, hzA⟩ : A) ∈ center A := by
@@ -69,6 +73,7 @@ theorem nonSwap_eq_one_of_odd_center {A : Subgroup G} (hZ : Odd (Nat.card (cente
     obtain ⟨k, hk⟩ := hZ
     omega
 
+omit [Finite G] in
 theorem nonSwap_mul_comm_of {a₁ a₂ b₁ b₂ : G} (ha : a₁ * a₂ = a₂ * a₁) (hb : b₁ * b₂ = b₂ * b₁)
     (h21 : b₁ * a₂ = a₂ * b₁) (h12 : a₁ * b₂ = b₂ * a₁) :
     a₁ * b₁ * (a₂ * b₂) = a₂ * b₂ * (a₁ * b₁) := by
@@ -94,12 +99,12 @@ theorem nonSwap_exists_elemAb_cent_of_cover (hN3 : CaseBParts.InvolutoryFixedEle
   have hθ2 : θ * θ = 1 := by
     rw [hθ, ← map_mul, hα2, map_one]
   obtain ⟨E, hEel, hEfix, hE8⟩ := hN3 f K h hf θ hθ2
-  haveI : CFSG.IsElementaryAbelian 2 ↥E := hEel
+  have : CFSG.IsElementaryAbelian 2 ↥E := hEel
   have hEsq : ∀ y ∈ E, y * y = 1 := by
     intro y hy
     have hy2 := CFSG.elemPow_eq_one_of_isElementaryAbelian (p := 2) (A := E) y hy
     rwa [sq] at hy2
-  haveI : Finite (hypPSU h 2 1) := Finite.of_equiv (X ⧸ center X) e.toEquiv
+  have : Finite (hypPSU h 2 1) := Finite.of_equiv (X ⧸ center X) e.toEquiv
   have hEp : IsPGroup 2 ↥E := CFSG.IsElementaryAbelian.isPGroup 2 ↥E
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card).1 hEp
   set E₀ : Subgroup (X ⧸ center X) := E.map e.symm.toMonoidHom with hE₀

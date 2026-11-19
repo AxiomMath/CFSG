@@ -112,12 +112,12 @@ private theorem SOmega_ne_bot (hF : 4 ≤ Nat.card F) : OmegaSiegel.SOmega (F :=
       Matrix (Fin 4) (Fin 4) F)) 0 1 = (1 : F) := by
     rw [Matrix.SpecialLinearGroup.transvection_coe, Matrix.add_apply,
       Matrix.one_apply_ne hij, Matrix.single_apply]
-    simp [hij]
+    simp
   rw [h3, Matrix.SpecialLinearGroup.coe_one, Matrix.one_apply_ne hij] at h00
   exact one_ne_zero h00.symm
 
 theorem four_le_evenRank_statedOmega_quadPlus (hF : 4 ≤ Nat.card F) {q : ℕ} (hq : q.Prime)
-    (hq2 : q ≠ 2) (hdvd : q ∣ Nat.card F - 1) {n : ℕ} (hpow : Nat.card F = 2 ^ n) (hn : 2 ≤ n) :
+    (hq2 : q ≠ 2) (hdvd : q ∣ Nat.card F - 1) {n : ℕ} (hpow : Nat.card F = 2 ^ n) (_hn : 2 ≤ n) :
     4 ≤ evenRank (StatedOmega (StatedQuadPlus 4 F)) := by
   have hloc : IsTwoLocal
       (Subgroup.normalizer (OmegaSiegel.SOmega (F := F) hF : Set
@@ -140,6 +140,7 @@ private noncomputable def eParamD4 (q : ℕ) :
     funext i
     fin_cases i <;> simp [mul_assoc, mul_left_comm, mul_comm]
 
+omit [Finite F] [CharP F 2] in
 private theorem eParamD4_injective (q : ℕ) : Function.Injective (eParamD4 (F := F) q) := by
   intro e e' h
   have h0 : e 0 * e 2 = e' 0 * e' 2 := by simpa [eParamD4] using congrFun h 0
@@ -151,13 +152,15 @@ private theorem eParamD4_injective (q : ℕ) : Function.Injective (eParamD4 (F :
 private noncomputable def ED4 (q : ℕ) : Subgroup (GL (Fin 4) F) :=
   ((OmegaSiegel.diagTorusGL (F := F) q).comp (eParamD4 (F := F) q)).range
 
+omit [Finite F] [CharP F 2] in
 private theorem ED4_le_BGL (q : ℕ) : ED4 (F := F) q ≤ OmegaSiegel.BGL (F := F) q := by
   rintro _ ⟨e, rfl⟩
   exact MonoidHom.mem_range.2 ⟨eParamD4 (F := F) q e, rfl⟩
 
+omit [CharP F 2] in
 private theorem card_ED4 (q : ℕ) (hq : q.Prime) (hdvd : q ∣ Nat.card F - 1) :
     Nat.card (ED4 (F := F) q) = q ^ 3 := by
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   have hinj : Function.Injective
       ((OmegaSiegel.diagTorusGL (F := F) q).comp (eParamD4 (F := F) q)) :=
     (OmegaSiegel.diagTorusGL_injective q).comp (eParamD4_injective q)
@@ -169,6 +172,7 @@ private theorem card_ED4 (q : ℕ) (hq : q.Prime) (hdvd : q ∣ Nat.card F - 1) 
   simp only [CFSG.LinearGroups.card_rootsOfUnity_of_dvd (K := F) (d := q) hdvd]
   rw [Finset.prod_const, Finset.card_univ, Fintype.card_fin]
 
+omit [CharP F 2] in
 private theorem isElemAbelian_ED4 (q : ℕ) (hdvd : q ∣ Nat.card F - 1) :
     IsElemAbelian q (ED4 (F := F) q) := by
   have h := (OmegaPair.isElemAbelian_top_pi_rootsOfUnity (K := F) 3 q hdvd).map
@@ -195,6 +199,7 @@ private theorem ED4Omega_le_BOmega (hF : 4 ≤ Nat.card F) (q : ℕ) :
     ED4Omega (F := F) hF q ≤ OmegaSiegel.BOmega (F := F) hF q :=
   Subgroup.map_mono (ED4_le_BGL q)
 
+omit [CharP F 2] in
 theorem hasLabel_statedOmega_quadPlus_four {n : ℕ} (hn : 2 ≤ n)
     (hFcard : Nat.card F = 2 ^ n) :
     HasLabel (StatedOmega (StatedQuadPlus 4 F)) (fun l : GLALabel => l = ⟨.D, 4, n⟩) := by
@@ -256,6 +261,7 @@ theorem hasLabel_JOmega (hF : 4 ≤ Nat.card F) {n : ℕ} (hn : 2 ≤ n)
     Subgroup (StatedOmega (StatedQuadPlus 4 F)) :=
   Subgroup.closure (Set.range (eTripleOmega (F := F) hF s))
 
+omit [Finite F] [CharP F 2] in
 private theorem closure_std_rootsOfUnity (q : ℕ) [NeZero q] {sμ : rootsOfUnity q F}
     (hs : orderOf (sμ : Fˣ) = q) :
     Subgroup.closure ({![sμ, 1, 1], ![1, sμ, 1], ![1, 1, sμ]} :
@@ -334,9 +340,9 @@ private theorem map_std_rootsOfUnity_eq (hF : 4 ≤ Nat.card F) {q : ℕ} [NeZer
     exact key ![1, 1, sμ] (fun _ => s) (fun i => by fin_cases i <;> simp [eParamD4, hsμ])
 
 private theorem ED4Gen_eq_ED4Omega (hF : 4 ≤ Nat.card F) {q : ℕ} (hq : q.Prime)
-    (hdvd : q ∣ Nat.card F - 1) {s : Fˣ} (hs : orderOf s = q) :
+    (_hdvd : q ∣ Nat.card F - 1) {s : Fˣ} (hs : orderOf s = q) :
     ED4Gen (F := F) hF s = ED4Omega (F := F) hF q := by
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   set sμ : rootsOfUnity q F := ⟨s, by
     rw [mem_rootsOfUnity q s, ← hs]; exact pow_orderOf_eq_one s⟩ with hsμdef
   have hsμ : (sμ : Fˣ) = s := rfl
@@ -398,6 +404,7 @@ theorem xOmega_mem_ED4Gen (hF : 4 ≤ Nat.card F) (s : Fˣ) :
   rw [← eTripleOmega_zero_eq hF s]
   exact Subgroup.subset_closure ⟨0, rfl⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem eigClass_eGenTriple {s : Fˣ} (hs1 : s ≠ 1) :
     eigClass (eGenTriple s) 2 = ({2, 3} : Finset (Fin 4)) := by
   ext j
@@ -417,14 +424,12 @@ private theorem eigClass_eGenTriple {s : Fˣ} (hs1 : s ≠ 1) :
   · constructor
     · intro _
       simp
-    · intro _
-      intro k
+    · intro _ k
       fin_cases k <;> simp [eGenTriple]
   · constructor
     · intro _
       simp
-    · intro _
-      intro k
+    · intro _ k
       fin_cases k <;> simp [eGenTriple]
 
 private theorem range_leviOmega_comp_toGL (hF : 4 ≤ Nat.card F) :

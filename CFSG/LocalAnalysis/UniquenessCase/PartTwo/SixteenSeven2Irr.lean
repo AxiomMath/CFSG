@@ -180,7 +180,7 @@ theorem s16c167_mem_irrSet_alt {W : Type} [CommGroup W] [Finite W] {H : Subgroup
       refine le_antisymm le_top fun z _ => ?_
       have hz : Multiplicative.toAdd z ∈ Y := by rw [h]; exact AddSubgroup.mem_top _
       exact (Subgroup.mem_toAddSubgroup' K (Multiplicative.toAdd z)).1 hz
-  haveI : Nontrivial (Multiplicative (AltHeart n)) := by
+  have : Nontrivial (Multiplicative (AltHeart n)) := by
     refine ⟨?_, ?_, ?_⟩
     · exact Multiplicative.ofAdd (QuotientAddGroup.mk
         (CFSG.Quasithin.C41Pf.AltN.pairVec (⟨0, by omega⟩ : Fin n) ⟨1, by omega⟩))
@@ -199,7 +199,7 @@ theorem s16c167_mem_irrSet_ln {W : Type} [CommGroup W] [Finite W] {H : Subgroup 
     {I : Subgroup W} {m : ℕ} (hm : 2 ≤ m) (h : BinaryNaturalSL H I ⊥ m 1) : I ∈ irrSet H := by
   have hfix : I ⊓ fixV H = ⊥ := s16c167_inf_fixV_eq_bot_of_binaryNaturalSL hm h
   obtain ⟨K, hK, hKf, hK2, π, hπ⟩ := h
-  letI := hK
+  let := hK
   let R := CFSG.Quasithin.SzN15.NatReal.of_realizesVia hπ
   obtain ⟨β, hβsurj, hβker, hβe⟩ := R.exists_β
   have hstab : ∀ x : ↥H, ∀ u ∈ I, (x : MulAut W) u ∈ I := R.U_inv
@@ -209,8 +209,8 @@ theorem s16c167_mem_irrSet_ln {W : Type} [CommGroup W] [Finite W] {H : Subgroup 
     have h2 : ((a * b⁻¹ : ↥I) : W) ∈ (⊥ : Subgroup W) := (hβker (a * b⁻¹)).1 h1
     have h3 : a * b⁻¹ = 1 := Subtype.ext (by simpa using Subgroup.mem_bot.1 h2)
     exact mul_inv_eq_one.1 h3
-  haveI : Nontrivial (Multiplicative (Fin m → K)) := by
-    haveI : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
+  have : Nontrivial (Multiplicative (Fin m → K)) := by
+    have : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
     infer_instance
   refine mem_irrSet_of_map hβinj hβsurj hstab hfix ?_
   intro A hA
@@ -400,7 +400,7 @@ private theorem spNatAct_eq (g : TauCeti.GLSymplectic (Fin d) K) (x : Fin d ⊕ 
         rw [CFSG.ClassicalGroups.Symplectic.statedSp_eq_GLSymplectic]; exact g.2⟩
       (Multiplicative.ofAdd x) = Multiplicative.ofAdd (g • x) := rfl
 
-private theorem spNatAct_irr {d : ℕ} (hd : 1 ≤ d) {K : Type} [Field K]
+private theorem spNatAct_irr {d : ℕ} (_hd : 1 ≤ d) {K : Type} [Field K]
     (A : Subgroup (Multiplicative (Fin d ⊕ Fin d → K)))
     (hA : ∀ γ : ↥(StatedSp d K), ∀ x ∈ A, natAct (StatedSp d K) γ x ∈ A) :
     A = ⊥ ∨ A = ⊤ := by
@@ -432,7 +432,7 @@ private theorem spNatAct_irr {d : ℕ} (hd : 1 ≤ d) {K : Type} [Field K]
     rw [haeq, spNatAct_eq g v, hg] at hγ
     simpa [hw] using hγ
 
-private theorem spFixed_eq_zero {d : ℕ} (hd : 1 ≤ d) {K : Type} [Field K]
+private theorem spFixed_eq_zero {d : ℕ} (_hd : 1 ≤ d) {K : Type} [Field K]
     {v : Fin d ⊕ Fin d → K}
     (hv : ∀ γ : ↥(StatedSp d K),
       natAct (StatedSp d K) γ (Multiplicative.ofAdd v) = Multiplicative.ofAdd v) : v = 0 := by
@@ -455,7 +455,7 @@ end Symplectic
 theorem s16c167_mem_irrSet_sp {W : Type} [CommGroup W] [Finite W] {H : Subgroup (MulAut W)}
     {I : Subgroup W} {n : ℕ} (hn : 2 ≤ n) (h : NatSpn H I ⊥ n 1) : I ∈ irrSet H := by
   obtain ⟨hEven, K, hK, hKf, hK2, π, hπ⟩ := h
-  letI := hK
+  let := hK
   let R := CFSG.Quasithin.SzN15.NatReal.of_realizesVia hπ
   obtain ⟨β, hβsurj, hβker, hβe⟩ := R.exists_β
   have hstab : ∀ x : ↥H, ∀ u ∈ I, (x : MulAut W) u ∈ I := R.U_inv
@@ -465,8 +465,8 @@ theorem s16c167_mem_irrSet_sp {W : Type} [CommGroup W] [Finite W] {H : Subgroup 
     have h2 : ((a * b⁻¹ : ↥I) : W) ∈ (⊥ : Subgroup W) := (hβker (a * b⁻¹)).1 h1
     have h3 : a * b⁻¹ = 1 := Subtype.ext (by simpa using Subgroup.mem_bot.1 h2)
     exact mul_inv_eq_one.1 h3
-  haveI : Nontrivial (Multiplicative (Fin (n / 2) ⊕ Fin (n / 2) → K)) := by
-    haveI : Nonempty (Fin (n / 2)) := ⟨⟨0, by omega⟩⟩
+  have : Nontrivial (Multiplicative (Fin (n / 2) ⊕ Fin (n / 2) → K)) := by
+    have : Nonempty (Fin (n / 2)) := ⟨⟨0, by omega⟩⟩
     infer_instance
   have hdiv : 2 * (n / 2) = n := Nat.two_mul_div_two_of_even hEven
   have hn2 : 1 ≤ n / 2 := by omega
@@ -586,7 +586,7 @@ private theorem mem_irrSet_omegaMinus_of_eichler {W : Type} [CommGroup W] [Finit
     (hReal : (FFModel.nat (StatedOmega (StatedQuadMinus d K b c))).Realizes H I ⊥) :
     I ∈ irrSet H := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨π, hπ⟩ := hReal
   let R := CFSG.Quasithin.SzN15.NatReal.of_realizesVia hπ
   obtain ⟨β, hβsurj, hβker, hβe⟩ := R.exists_β
@@ -654,8 +654,8 @@ private theorem mem_irrSet_omegaMinus_of_eichler {W : Type} [CommGroup W] [Finit
     · right
       refine le_antisymm le_top fun x _ => ?_
       exact (show Multiplicative.toAdd x ∈ W from by rw [htop]; exact Submodule.mem_top)
-  haveI : Nontrivial (Multiplicative (Fin (d - 1) ⊕ Fin (d - 1) ⊕ Fin 2 → K)) := by
-    haveI : Nonempty (Fin (d - 1)) := ⟨⟨0, by omega⟩⟩
+  have : Nontrivial (Multiplicative (Fin (d - 1) ⊕ Fin (d - 1) ⊕ Fin 2 → K)) := by
+    have : Nonempty (Fin (d - 1)) := ⟨⟨0, by omega⟩⟩
     infer_instance
   refine @mem_irrSet_of_map W _ H I
     (Multiplicative (Fin (d - 1) ⊕ Fin (d - 1) ⊕ Fin 2 → K)) _ _ β hβinj hβsurj hstab ?_ ?_
@@ -736,7 +736,7 @@ private theorem elementaryGroup_le_commutator_of_perfect {K V : Type*} [Field K]
     [Module K V] {Q : QuadraticForm K V} (hperf : Group.IsPerfect ↥(elementaryGroup Q)) :
     elementaryGroup Q ≤ ⁅TauCeti.QuadraticMap.orthogonalGroup Q,
       TauCeti.QuadraticMap.orthogonalGroup Q⁆ := by
-  haveI := hperf
+  have := hperf
   calc elementaryGroup Q = ⁅elementaryGroup Q, elementaryGroup Q⁆ :=
         (Subgroup.commutator_eq_self).symm
     _ ≤ _ := Subgroup.commutator_mono (elementaryGroup_le_orthogonalGroup Q)
@@ -749,7 +749,7 @@ private theorem eichler_mem_statedOmega {d : ℕ} (hd : 3 ≤ d) {K : Type} [Fie
     (hg : g ∈ elementaryGroup (quadMinus d K b c)) :
     (toLinEquiv (Fin (d - 1) ⊕ Fin (d - 1) ⊕ Fin 2) K).symm g ∈
       StatedOmega (StatedQuadMinus d K b c) := by
-  haveI : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
+  have : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
     CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2.of_natCard_eq_two hK2
   have hQ : (polarBilin (quadMinus d K b c)).Nondegenerate :=
     nondegenerate_polarBilin_quadMinus_of_finite d K hpoly
@@ -779,13 +779,13 @@ theorem s16c167_mem_irrSet_omegaMinus {W : Type} [CommGroup W] [Finite W]
     (h : NatOmegaMinus H I ⊥ n 1) : I ∈ irrSet H := by
   rcases hn with rfl | rfl
   · obtain ⟨-, K, hK, hKf, b, c, hK2, hpoly, π, hπ⟩ := h
-    letI := hK
-    haveI : Finite K := hKf
+    let := hK
+    have : Finite K := hKf
     exact mem_irrSet_omegaMinus_of_eichler (d := 3) (by norm_num) b c hK2 hpoly
       (fun g hg => eichler_mem_statedOmega (by norm_num) b c hK2 hpoly hg) ⟨π, hπ⟩
   · obtain ⟨-, K, hK, hKf, b, c, hK2, hpoly, π, hπ⟩ := h
-    letI := hK
-    haveI : Finite K := hKf
+    let := hK
+    have : Finite K := hKf
     exact mem_irrSet_omegaMinus_of_eichler (d := 4) (by norm_num) b c hK2 hpoly
       (fun g hg => eichler_mem_statedOmega (by norm_num) b c hK2 hpoly hg) ⟨π, hπ⟩
 

@@ -68,7 +68,7 @@ theorem caseBG0_false
   have htM : d.t ∉ (T : Subgroup G) ⊓ normalizer (G₁ : Set G) := fun hm => cd.t_not_mem hm.2
   obtain ⟨x, hxM, hext⟩ :=
     CFSG.LargeExtraspecial.GLR.exists_extremal_conj_mem_of_sq_eq_of_isSimpleGroup h.nonab
-      T.isPGroup' T.not_dvd_index inf_le_left hidx htT htM (datum_t_sq d) (mul_one 1)
+      T.isPGroup T.not_dvd_index inf_le_left hidx htT htM (datum_t_sq d) (mul_one 1)
       (fun y _ => by simp)
   have ht'2 : (x⁻¹ * d.t * x) * (x⁻¹ * d.t * x) = 1 := by
     calc (x⁻¹ * d.t * x) * (x⁻¹ * d.t * x) = x⁻¹ * (d.t * d.t) * x := by group
@@ -93,7 +93,7 @@ theorem caseBG0_false
       ↥((T : Subgroup G) ⊓ centralizer ({d.t} : Set G)) :=
     (MulEquiv.subgroupCongr hzeq.symm).trans ((equivCs z (cs x⁻¹ d.P)).symm.trans
       ((equivCs x⁻¹ d.P).symm.trans (MulEquiv.subgroupCongr hPeq.symm)))
-  exact E.not_equiv c.odd_centralizer T.isPGroup' hTN hST c.S₀_le c.card_S₀ htT cd.t_not_mem
+  exact E.not_equiv c.odd_centralizer T.isPGroup hTN hST c.S₀_le c.card_S₀ htT cd.t_not_mem
     (datum_t_sq d) hxM.1 hxM.2 ht'2 ht'1 ⟨e⟩
 
 end CFSG.OddStandard.Seitz77

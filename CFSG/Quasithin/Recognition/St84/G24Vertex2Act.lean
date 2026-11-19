@@ -199,7 +199,7 @@ private theorem mem_normalizer_closure_sup_centerOf [Finite G] {K Z : Subgroup G
     (hgen : ∀ d, g * n d * g⁻¹ ∈ K ⊔ Z)
     (hZ : ∀ z ∈ Z, g * z * g⁻¹ ∈ Z) :
     g ∈ Subgroup.normalizer ((K ⊔ Z : Subgroup G) : Set G) := by
-  haveI : Finite ((K ⊔ Z : Subgroup G) : Set G) :=
+  have : Finite ((K ⊔ Z : Subgroup G) : Set G) :=
     Set.toFinite ((K ⊔ Z : Subgroup G) : Set G)
   exact Subgroup.mem_normalizer_fintype (conj_sup_closure_mem hK hgen hZ)
 
@@ -316,7 +316,7 @@ private theorem exists_quotient_map_of_isNLift [Finite G] (F : G24Frame2 L1 L2 S
   have hZc : ∀ z ∈ Z2, ∀ x ∈ N', z * x = x * z := by
     intro z hz x hx
     exact (F.special_data hD).2.2.2.1 z hz x (hNQ hx)
-  haveI : (Z2.subgroupOf N').Normal :=
+  have : (Z2.subgroupOf N').Normal :=
     Subgroup.normal_of_le_center fun z hz =>
       Subgroup.mem_center_iff.mpr fun x => Subtype.ext (hZc z hz x x.2).symm
   have hZc_gen : ∀ z ∈ Z2, ∀ i, z * n i = n i * z := by
@@ -481,7 +481,7 @@ private theorem card_closure_sup_centerOf_le [Finite G] (F : G24Frame2 L1 L2 S)
   have hZc : ∀ z ∈ Z2, ∀ x ∈ N', z * x = x * z := by
     intro z hz x hx
     exact (F.special_data hD).2.2.2.1 z hz x (hNQ hx)
-  haveI : (Z2.subgroupOf N').Normal :=
+  have : (Z2.subgroupOf N').Normal :=
     Subgroup.normal_of_le_center fun z hz =>
       Subgroup.mem_center_iff.mpr fun x => Subtype.ext (hZc z hz x x.2).symm
   obtain ⟨φN, hgen⟩ := exists_quotient_map_of_isNLift F hD hn

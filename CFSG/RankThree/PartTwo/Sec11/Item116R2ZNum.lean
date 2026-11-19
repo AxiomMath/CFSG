@@ -15,7 +15,7 @@ theorem three_dvd_sq_sub_one {q : ℕ} (h3 : ¬ 3 ∣ q) : 3 ∣ q ^ 2 - 1 := by
 
 theorem padicValNat_cube_sq_sub_one {q : ℕ} (hq : 2 ≤ q) (h3 : ¬ 3 ∣ q) :
     padicValNat 3 ((q ^ 3) ^ 2 - 1) = padicValNat 3 (q ^ 2 - 1) + 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 : 1 < q ^ 2 := Nat.one_lt_pow (by norm_num) (by omega)
   have hx : ¬ 3 ∣ q ^ 2 := fun h => h3 (Nat.prime_three.dvd_of_dvd_pow h)
   have h := padicValNat.pow_sub_pow (p := 3) (by decide : Odd 3) (x := q ^ 2) (y := 1) h1
@@ -28,7 +28,7 @@ theorem three_adic_L2 {q : ℕ} (hq : 2 ≤ q) (h3 : ¬ 3 ∣ q) {A B : ℕ}
     (hA : A * Nat.gcd 2 (q ^ 3 - 1) = q ^ 3 * ((q ^ 3) ^ 2 - 1))
     (hB : B * Nat.gcd 2 (q - 1) = q * (q ^ 2 - 1)) :
     9 ∣ A ∧ B.factorization 3 < A.factorization 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq3 : ¬ 3 ∣ q ^ 3 := fun h => h3 (Nat.prime_three.dvd_of_dvd_pow h)
   have hq0 : 0 < q := by omega
   have h1 : 1 < q ^ 2 := Nat.one_lt_pow (by norm_num) (by omega)

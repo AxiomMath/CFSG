@@ -30,15 +30,15 @@ theorem psu_traceZero_dihedral (ζ : kˣ) (h8 : ζ ^ 8 = 1) (h4 : ζ ^ 4 ≠ 1) 
     (by simp [Matrix.det_fin_two_of])
   have hg₁ : g₁ ^ 2 = 1 := by
     apply Units.ext
-    simp [g₁, pow_two, Matrix.mul_fin_two, Matrix.one_fin_two]
+    simp [g₁, pow_two, Matrix.one_fin_two]
   have hg₂ : g₂ ^ 2 = GeneralLinearGroup.scalar (Fin 2) ζ := by
     apply Units.ext
-    simp [g₂, pow_two, Matrix.mul_fin_two, GeneralLinearGroup.coe_scalar]
+    simp [g₂, pow_two, GeneralLinearGroup.coe_scalar]
     ext i j
     fin_cases i <;> fin_cases j <;> simp
   have hg₁₂ : g₁ * g₂ = d := by
     apply Units.ext
-    simp [g₁, g₂, d, Matrix.mul_fin_two]
+    simp [g₁, g₂, d]
   have hdpow : ∀ m : ℕ, ((d ^ m : GL (Fin 2) k) : Matrix (Fin 2) (Fin 2) k) =
       !![1, 0; 0, (ζ : k) ^ m] := by
     intro m
@@ -46,7 +46,7 @@ theorem psu_traceZero_dihedral (ζ : kˣ) (h8 : ζ ^ 8 = 1) (h4 : ζ ^ 4 ≠ 1) 
     | zero => simp [Matrix.one_fin_two]
     | succ m ih =>
       rw [pow_succ, Units.val_mul, ih]
-      simp [d, Matrix.mul_fin_two, pow_succ]
+      simp [d, pow_succ]
   refine ⟨traceZeroOrthogonalAction g₁, traceZeroOrthogonalAction g₂, ?_, ?_, ?_, ?_⟩
   · rw [← map_pow, hg₁, map_one]
   · rw [← map_pow, hg₂, traceZeroOrthogonalAction_scalar]
@@ -76,7 +76,7 @@ section Zeta
 
 theorem psu_exists_unit_order_eight {k : Type} [Field k] (hk : Nat.card k = 9) :
     ∃ ζ : kˣ, ζ ^ 8 = 1 ∧ ζ ^ 4 ≠ 1 := by
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite k := Nat.finite_of_card_ne_zero (by omega)
   obtain ⟨ζ, hζ⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := kˣ)
   have hc : Nat.card kˣ = 8 := by rw [Nat.card_units, hk]
   rw [hc] at hζ
@@ -131,8 +131,8 @@ variable {K : Type} [Field K] {p f n : ℕ} (h : UnitaryFieldData p f K)
 theorem psu_negOne_mem (τ₀ : (Fin n → K) →ₛₗ[h.bar] (Fin n → K)) :
     (-1 : LinearMap.GeneralLinearGroup K (Fin n → K)) ∈ commutingUnitary (idForm h n) τ₀ := by
   refine ⟨fun x y => ?_, fun v => ?_⟩
-  · simp [Units.coe_neg_one, map_neg]
-  · simp [Units.coe_neg_one, map_neg]
+  · simp [map_neg]
+  · simp [map_neg]
 
 theorem psu_negOne_central :
     (-1 : LinearMap.GeneralLinearGroup K (Fin n → K)) ∈
@@ -177,8 +177,8 @@ theorem psu_graph_three_two_equiv (A : primeFormUnitary h (idGram K 3)) (φ : K 
     Nonempty (TauCeti.QuadraticMap.orthogonalGroup (traceZeroForm h.fixedField) ≃*
       commutingUnitary (idForm h 3)
         (semilinearMatrixMap h ((A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := h.finite
   have hC : IsPrimeFormGram (1 : GL (Fin 3) K) := isPrimeFormGram_one
   have hn : 3 ≤ 3 := le_rfl
   have hx2 : primeFormPsi h hC (⟨A, φ⟩ * ⟨A, φ⟩) = 1 := by
@@ -300,8 +300,8 @@ theorem psu_graph_three_two_pair (A : primeFormUnitary h (idGram K 3)) (φ : K �
         (semilinearMatrixMap h ((A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K))) :
     ∃ a₁ a₂ : ↥(fixedSubgroup (primeFormPsi h isPrimeFormGram_one ⟨A, φ⟩)),
       a₁ ^ 2 = 1 ∧ a₂ ^ 2 = 1 ∧ (a₁ * a₂) ^ 8 = 1 ∧ (a₁ * a₂) ^ 4 ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := h.finite
   set τ₀ := semilinearMatrixMap h ((A : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) with hτ₀
   obtain ⟨ζ, hζ8, hζ4⟩ := psu_exists_unit_order_eight (k := h.fixedField)
     (by rw [h.card_fixedField]; norm_num)
@@ -348,8 +348,8 @@ variable {K : Type} [Field K] (h : UnitaryFieldData 3 2 K)
 theorem psu_small_three_two (hO : LieOrderFormulasInput)
     (σ : MulAut (primeFormP h (idGram K 3))) (hσ : orderOf σ = 2)
     {D : Subgroup ↥(fixedSubgroup σ)} (hA : A6Hyp σ D) : A6SmallConcl .PSU 3 2 σ D := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite K := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := h.finite
   have hC : IsPrimeFormGram (1 : GL (Fin 3) K) := isPrimeFormGram_one
   have hn : 3 ≤ 3 := le_rfl
   have hq : ¬(3 = 3 ∧ 3 ^ 2 = 2) := by norm_num

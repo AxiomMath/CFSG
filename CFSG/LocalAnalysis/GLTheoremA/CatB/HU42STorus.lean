@@ -16,6 +16,7 @@ section Basic
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem units_pow_three (hK : Nat.card K = 4) (c : Kˣ) : c ^ 3 = 1 := by
   have h : Nat.card Kˣ = 3 := by rw [Nat.card_units, hK]
   have hd : orderOf c ∣ 3 := by
@@ -23,14 +24,17 @@ theorem units_pow_three (hK : Nat.card K = 4) (c : Kˣ) : c ^ 3 = 1 := by
     exact orderOf_dvd_natCard c
   exact orderOf_dvd_iff_pow_eq_one.1 hd
 
+omit [Finite K] in
 theorem card_units_eq_three (hK : Nat.card K = 4) : Nat.card Kˣ = 3 := by
   rw [Nat.card_units, hK]
 
+omit [Finite K] in
 theorem diag_mul_inv_aux (a : Fin 6 → Kˣ) :
     Matrix.diagonal (fun i => (a i : K)) * Matrix.diagonal (fun i => (((a i)⁻¹ : Kˣ) : K)) = 1 := by
   rw [Matrix.diagonal_mul_diagonal]
   simp
 
+omit [Finite K] in
 theorem diag_inv_mul_aux (a : Fin 6 → Kˣ) :
     Matrix.diagonal (fun i => (((a i)⁻¹ : Kˣ) : K)) * Matrix.diagonal (fun i => (a i : K)) = 1 := by
   rw [Matrix.diagonal_mul_diagonal]
@@ -40,6 +44,7 @@ theorem diag_inv_mul_aux (a : Fin 6 → Kˣ) :
   ⟨Matrix.diagonal (fun i => (a i : K)), Matrix.diagonal (fun i => (((a i)⁻¹ : Kˣ) : K)),
     diag_mul_inv_aux a, diag_inv_mul_aux a⟩
 
+omit [Finite K] in
 theorem diagGL_val (a : Fin 6 → Kˣ) :
     ((diagGL a : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) = Matrix.diagonal (fun i => (a i : K)) :=
   rfl
@@ -61,6 +66,7 @@ theorem diagGL_val (a : Fin 6 → Kˣ) :
 
 abbrev T₀ : Subgroup (Fin 6 → Kˣ) := MonoidHom.ker (prodHom (K := K))
 
+omit [Finite K] in
 theorem mem_T₀ {a : Fin 6 → Kˣ} : a ∈ T₀ (K := K) ↔ ∏ i, a i = 1 := by
   rw [MonoidHom.mem_ker]
   rfl
@@ -71,6 +77,7 @@ section SU
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem diagGL_mem_SU (hK : Nat.card K = 4) {a : Fin 6 → Kˣ} (ha : ∏ i, a i = 1) :
     diagGL a ∈ StatedSU 6 (2 ^ 1) K := by
   apply Subgroup.subset_closure
@@ -91,14 +98,15 @@ theorem diagGL_mem_SU (hK : Nat.card K = 4) {a : Fin 6 → Kˣ} (ha : ∏ i, a i
     simp only [hc]
     simp
 
-theorem scalar_eq_diagGL (c : Kˣ) :
+omit [Finite K] in
+theorem scalar_eq_diagGL [Finite K] (c : Kˣ) :
     Matrix.GeneralLinearGroup.scalar (Fin 6) c = diagGL (fun _ => c) := by
   apply Units.ext
   ext i j
   by_cases h : i = j
   · subst h
     simp [Matrix.GeneralLinearGroup.scalar, diagGL_val]
-  · simp [Matrix.GeneralLinearGroup.scalar, diagGL_val, Matrix.diagonal_apply, h]
+  · simp [Matrix.GeneralLinearGroup.scalar, diagGL_val, h]
 
 theorem scalar_mem_SU (hK : Nat.card K = 4) (c : Kˣ) :
     Matrix.GeneralLinearGroup.scalar (Fin 6) c ∈ StatedSU 6 (2 ^ 1) K := by
@@ -125,9 +133,10 @@ theorem torusY_apply (hK : Nat.card K = 4) (a : TT K) :
     ((torusY hK a : StatedSU 6 (2 ^ 1) K) : GL (Fin 6) K) = diagGL a.1 :=
   rfl
 
-theorem diag_entry (a : Fin 6 → Kˣ) (i : Fin 6) :
+omit [Finite K] in
+theorem diag_entry [Finite K] (a : Fin 6 → Kˣ) (i : Fin 6) :
     ((diagGL a : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) i i = (a i : K) := by
-  simp [diagGL_val, Matrix.diagonal_apply]
+  simp [diagGL_val]
 
 theorem torusY_injective (hK : Nat.card K = 4) : Function.Injective (torusY hK) := by
   intro a b hab
@@ -172,15 +181,18 @@ theorem card_range_of_injective' {G H : Type} [Group G] [Finite G] [Group H] (f 
   rw [(MonoidHom.ker_eq_bot_iff f).2 hf, Subgroup.card_bot, one_mul] at h
   exact h
 
+omit [Finite K] in
 theorem card_fun_six (hK : Nat.card K = 4) : Nat.card (Fin 6 → Kˣ) = 3 ^ 6 := by
   rw [Nat.card_fun, card_units_eq_three hK]
   simp
 
+omit [Finite K] in
 theorem prodHom_surjective : Function.Surjective (prodHom (K := K)) := by
   intro c
   refine ⟨fun i => if i = 0 then c else 1, ?_⟩
   simp [prodHom]
 
+omit [Finite K] in
 theorem card_T₀ (hK : Nat.card K = 4) : Nat.card (T₀ (K := K)) = 3 ^ 5 := by
   have h := Subgroup.card_ker_mul_card_range (prodHom (K := K))
   rw [MonoidHom.range_eq_top.2 prodHom_surjective, Subgroup.card_top, card_fun_six hK,
@@ -194,6 +206,7 @@ theorem card_TT (hK : Nat.card K = 4) : Nat.card (TT K) = 3 ^ 5 := card_T₀ hK
 theorem card_W6 (hK : Nat.card K = 4) : Nat.card (W6 hK) = 3 ^ 5 := by
   rw [W6, card_range_of_injective' (torusY hK) (torusY_injective hK), card_TT hK]
 
+omit [Finite K] in
 theorem eval_zero_surjective :
     Function.Surjective ((Pi.evalMonoidHom (fun _ : Fin 6 => Kˣ) 0).comp (T₀ (K := K)).subtype) := by
   intro c

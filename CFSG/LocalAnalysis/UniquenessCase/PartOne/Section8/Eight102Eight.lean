@@ -22,6 +22,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC6S846 (SigmaStd rhoL)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_commutator_rhoL_of_mem_commutator {L M : Subgroup G}
     (hMN : M ≤ normalizer (L : Set G)) {s : G} (hsM : s ∈ M) (hs : s ∈ ⁅M, M⁆) :
     rhoL L ⟨s, hMN hsM⟩ ∈ _root_.commutator (MulAut (Bar2 L)) := by
@@ -41,6 +42,7 @@ private theorem mem_commutator_rhoL_of_mem_commutator {L M : Subgroup G}
   rw [hK] at hmem
   exact Subgroup.commutator_mono le_top le_top hmem
 
+omit [Finite G] in
 private theorem center_bar2_eq_bot_of_isU45 {L : Subgroup G} {n : ℕ}
     (hX : IsU45 (Bar2 L) n) : Subgroup.center (Bar2 L) = ⊥ := by
   rcases hX with ⟨hU5, rfl⟩ | ⟨hU4, -⟩
@@ -83,7 +85,7 @@ private theorem exists_inner_rhoL_of_mem_commutator (hK6 : KU45Out) {L M S : Sub
 private theorem mem_normalizer_of_isSylowOf_of_isPGroup {L P S : Subgroup G}
     (hP : IsSylowOf 3 P L) (hS : IsPGroup 3 S) (hPS : P ≤ S) {s : G} (hs : s ∈ S)
     (hsN : s ∈ normalizer (L : Set G)) : ∀ x ∈ P, s * x * s⁻¹ ∈ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hSinf : S ⊓ L = P := by
     refine IsSylowOf.eq_of_le hP ?_ inf_le_right (hS.to_le inf_le_left)
     exact fun x hx => ⟨hPS hx, hP.le hx⟩
@@ -97,7 +99,7 @@ private theorem mem_barImage_of_three_elem_normalizer {L P : Subgroup G}
     (hP : IsSylowOf 3 P L) {z : Bar2 L}
     (hzP : z ∈ normalizer (barImage L P : Set (Bar2 L))) {k : ℕ} (hz3 : z ^ (3 ^ k) = 1) :
     z ∈ barImage L P := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hPb := isPGroup_barImage_of_isSylowOf (s := 3) Nat.prime_three hP
   have hZp : IsPGroup 3 (Subgroup.zpowers z) := by
     intro g
@@ -117,7 +119,7 @@ private theorem mem_barImage_of_three_elem_normalizer {L P : Subgroup G}
   exact hzQ.2
 
 private theorem mem_normalizer_barImage_of_conj_eq {L P : Subgroup G} {s : G}
-    (hP : IsSylowOf 3 P L) (hsN : s ∈ normalizer (L : Set G))
+    (_hP : IsSylowOf 3 P L) (hsN : s ∈ normalizer (L : Set G))
     (hsP : ∀ x ∈ P, s * x * s⁻¹ ∈ P) {z : Bar2 L}
     (hz : MulAut.conj z = rhoL L ⟨s, hsN⟩) :
     z ∈ normalizer (barImage L P : Set (Bar2 L)) := by
@@ -139,7 +141,7 @@ private theorem mem_normalizer_barImage_of_conj_eq {L P : Subgroup G} {s : G}
   exact Subgroup.eq_of_le_of_card_ge hmap_le (le_of_eq hcard.symm)
 
 private theorem exists_mem_rhoL_eq_of_three_elem {L P S : Subgroup G} {s : G}
-    (hP : IsSylowOf 3 P L) (hPS : P ≤ S) (hs : s ∈ S)
+    (hP : IsSylowOf 3 P L) (_hPS : P ≤ S) (_hs : s ∈ S)
     (hsN : s ∈ normalizer (L : Set G)) (hsP : ∀ x ∈ P, s * x * s⁻¹ ∈ P) {z : Bar2 L}
     (hz : MulAut.conj z = rhoL L ⟨s, hsN⟩) {k : ℕ} (hz3 : z ^ (3 ^ k) = 1) :
     ∃ x, ∃ hx : x ∈ P, rhoL L ⟨x, Subgroup.le_normalizer (hP.le hx)⟩ =
@@ -161,7 +163,7 @@ theorem exists_mem_forall_mem_pCoreOf (hK6 : KU45Out) {L P S M : Subgroup G} {n 
     (hS : IsPGroup 3 S) (hSM : S ≤ ⁅M, M⁆) (hPS : P ≤ S) {s : G} (hs : s ∈ S) :
     ∃ x ∈ P, ∀ l ∈ L, (x⁻¹ * s) * l * (x⁻¹ * s)⁻¹ * l⁻¹ ∈ pCoreOf 2 L := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hsM : s ∈ M := Subgroup.commutator_le_self M (hSM hs)
   have hsN : s ∈ normalizer (L : Set G) := hMN hsM
   obtain ⟨z, k, hz, hz3⟩ :=
@@ -182,7 +184,7 @@ theorem exists_mem_forall_mem_pCoreOf (hK6 : KU45Out) {L P S M : Subgroup G} {n 
 private theorem not_mem_of_mem_centOverO2_of_orderOf_three {L S : Subgroup G} {y : G}
     (hZ : Subgroup.center (Bar2 L) = ⊥) (hyR : y ∈ F08.CentOverO2 S L)
     (hy3 : orderOf y = 3) : y ∉ L := by
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   intro hyL
   have hytriv : ∀ l ∈ L, y * l * y⁻¹ * l⁻¹ ∈ pCoreOf 2 L :=
     (CFSG.LocalAnalysis.UniquenessCase.PartTwo.mem_centOverO2_iff.mp hyR).2
@@ -242,7 +244,7 @@ private theorem exists_prime_order_mem_centOverO2 {L S : Subgroup G} (hS : IsPGr
     (hr : ∀ l ∈ L, r * l * r⁻¹ * l⁻¹ ∈ pCoreOf 2 L) :
     ∃ y ∈ S, y ∈ F08.CentOverO2 S L ∧ y ∈ centralizer (S : Set G) ∧ orderOf y = 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let R : Subgroup G := F08.CentOverO2 S L
   have hrR : r ∈ R :=
     (CFSG.LocalAnalysis.UniquenessCase.PartTwo.mem_centOverO2_iff).mpr ⟨hrS, hr⟩
@@ -284,6 +286,7 @@ private theorem exists_three_elem_centOverO2 {L S : Subgroup G} (hS : IsPGroup 3
   exact ⟨y, hyS, hyR, hyC, hyord,
     not_mem_of_mem_centOverO2_of_orderOf_three hZ hyR hyord⟩
 
+omit [Finite G] in
 private theorem comm_A_zpowers_of_le_centralizer {S A : Subgroup G} {y : G}
     (hAC : A ≤ centralizer (S : Set G)) (hyS : y ∈ S) :
     ∀ a ∈ A, ∀ b ∈ Subgroup.zpowers y, a * b = b * a := by
@@ -368,12 +371,12 @@ private theorem commutator_sup_zpowers_le_pCoreOf {L S A : Subgroup G} {y : G}
 
 private theorem two_le_pRank_centralizer {D : Data G} {L S E F : Subgroup G} {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hLm : L ≤ D.M) (hSN : S ≤ normalizer (L : Set G))
-    (hE : IsElemAbelian 3 E) (hEcard : Nat.card E = 9) (hF : IsElemAbelian p F)
-    (hFcard : Nat.card F = p ^ 2) (hES : E ≤ S) (hEC : E ≤ centralizer (S : Set G))
+    (hE : IsElemAbelian 3 E) (_hEcard : Nat.card E = 9) (hF : IsElemAbelian p F)
+    (hFcard : Nat.card F = p ^ 2) (hES : E ≤ S) (_hEC : E ≤ centralizer (S : Set G))
     (hFL : F ≤ L) (hcomm : ∀ e ∈ E, ∀ a ∈ F, e * a * e⁻¹ * a⁻¹ ∈ pCoreOf 2 L) :
     2 ≤ Open.pRank p (D.M ⊓ centralizer (E : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hO : IsPGroup 2 (pCoreOf 2 L) := UC6S846.isPGroup_pCoreOf L
   have hFnorm : F ≤ normalizer (pCoreOf 2 L : Set G) :=
     hFL.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 L)
@@ -389,7 +392,7 @@ private theorem two_le_pRank_centralizer {D : Data G} {L S E F : Subgroup G} {p 
     · exact hFL.trans hLm
     · exact (CFSG.LieType.BorelTits.pCoreOf_le 2 L).trans hLm
   have hF'ea : IsElemAbelian p F' := by
-    haveI : IsMulCommutative ↥F := hF.1
+    have : IsMulCommutative ↥F := hF.1
     refine ⟨⟨⟨fun x z => ?_⟩⟩, fun x hx => ?_⟩
     · apply eF.injective
       rw [map_mul, map_mul]
@@ -410,7 +413,7 @@ theorem false_of_mem_forall_mem_pCoreOf {D : Data G} (hSg : SigmaStd D) (h76 : F
     (hS : IsSylowOf 3 S D.M) (hPS : P ≤ S) (hA : F08.NotationA8103 L P p n A) {r : G}
     (hrS : r ∈ S) (hr1 : r ≠ 1) (hr : ∀ l ∈ L, r * l * r⁻¹ * l⁻¹ ∈ pCoreOf 2 L) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hns : ¬ Group.IsSolvable ↥D.M := UC6S846.not_solvable_of_mem_calC hH.1
   have hLm : L ≤ D.M := hH.1.1.le
   have hSN : S ≤ normalizer (L : Set G) := hS.le.trans hN
@@ -439,7 +442,7 @@ theorem false_of_mem_forall_mem_pCoreOf {D : Data G} (hSg : SigmaStd D) (h76 : F
 private theorem exists_sylow_top_of_mem_uniqueSet {D : Data G} {L P A : Subgroup G}
     (hP : IsSylowOf 3 P L) (hLM : L ≤ D.M) (hA : A ∈ uniqueSet D.M) (hAP : A ≤ P) :
     ∃ S : Subgroup G, IsSylowOf 3 S ⊤ ∧ S ≤ D.M ∧ P ≤ S := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hPsub : IsPGroup 3 (P.subgroupOf D.M) := hP.isPGroup.comap_subtype
   obtain ⟨Q, hPQ⟩ := IsPGroup.exists_le_sylow hPsub
   let S : Subgroup G := (Q : Subgroup ↥D.M).map D.M.subtype
@@ -476,7 +479,7 @@ theorem isSylowOf_top_of_hyp8102 {D : Data G} (hSg : SigmaStd D) (h76 : F07.R76S
     (h6 : ∀ A : Subgroup G, F08.NotationA8103 L P p n A → A ∈ uniqueSet D.M) :
     IsSylowOf 3 P ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨hp, hp2, -⟩ := prime_of_hyp8102 hSg hH
   have hP : IsSylowOf 3 P L := hH.2.2.2.2
   obtain ⟨A, hA⟩ := exists_notationA8103 hK5 hX hP hp hp2 hpn
@@ -498,7 +501,7 @@ theorem isSylowOf_top_of_hyp8102 {D : Data G} (hSg : SigmaStd D) (h76 : F07.R76S
     exact exists_conj_eq_of_mem_uniqueSet Nat.prime_three D.maxLocal hStop hSM (h6 A hA)
       (le_inf hAS hAC) (x := x) (g := g) hx hgx
   have hcommG : commutator G = ⊤ := by
-    haveI : IsSimpleGroup G := D.standing.simple
+    have : IsSimpleGroup G := D.standing.simple
     exact CFSG.Assembly.Dichotomy.commutator_eq_top_of_isSimpleGroup D.standing.nonab
   have hSM' : S ≤ ⁅D.M, D.M⁆ :=
     le_commutator_of_control Nat.prime_three hcommG hStop hSM hctl

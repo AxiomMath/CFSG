@@ -195,7 +195,7 @@ theorem ggEndNodeRootEltBigAs_of_rootFusion [Finite G] {r : ℕ} {J D : Subgroup
     have haN := Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer haC)
     rw [Subgroup.mem_normalizer_iff]
     intro h
-    simp only [SetLike.mem_coe, Subgroup.mem_inf] at haV haN ⊢
+    simp only [Subgroup.mem_inf] at haV haN ⊢
     exact and_congr (haV h) (haN h)
 
 end General

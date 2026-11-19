@@ -20,7 +20,7 @@ theorem mem_sylow_of_centralizes {p : ℕ} [Fact p.Prime] (S : Sylow p G) {x : G
   have hle : Subgroup.zpowers x ≤ Subgroup.normalizer ((S : Subgroup G) : Set G) :=
     (Subgroup.zpowers_le.mpr hx).trans (Subgroup.centralizer_le_normalizer _)
   have hsup : (S : Subgroup G) ⊔ Subgroup.zpowers x = (S : Subgroup G) :=
-    (S.maximal_isPGroup.eq_of_le (IsPGroup.to_sup_of_normal_left' S.isPGroup' hpx hle)
+    (S.maximal_isPGroup.eq_of_le (IsPGroup.to_sup_of_normal_left' S.isPGroup hpx hle)
       le_sup_left).symm
   rw [← hsup]
   exact Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
@@ -68,7 +68,7 @@ theorem linear_normalizer_label_sylow_center_nonvanishing
     (lambdaLabel : normalizerBasis.index)
     (hlabel : ∀ x, (normalizerBasis.representation lambdaLabel).character x = lam x)
     (B : basis.index)
-    (hB : brauerNormalizerCharacterResidueHom ideal p (S : Subgroup G) S.isPGroup'
+    (hB : brauerNormalizerCharacterResidueHom ideal p (S : Subgroup G) S.isPGroup
       (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _) le_rfl
         normalizerBasis lambdaLabel = centralCharacterResidueHom basis ideal B) :
     coefficientBlockDefect basis ideal p B S ∧
@@ -80,7 +80,7 @@ theorem linear_normalizer_label_sylow_center_nonvanishing
     (∀ χ ∈ coefficientBlock basis (localizedComplexIntegerRing ideal) B,
       ∀ u ∈ (S : Subgroup G), u ∈ Subgroup.centralizer ((S : Subgroup G) : Set G) →
         (basis.representation χ).character u ≠ 0) := by
-  have hSp : IsPGroup p (S : Subgroup G) := S.isPGroup'
+  have hSp : IsPGroup p (S : Subgroup G) := S.isPGroup
   have hlocal := (CFSG.Wreathed.linear_character_block_has_sylow_defect normalizerBasis ideal p
     lam lambdaLabel hlabel (S.subtype Subgroup.le_normalizer)).1
   change coefficientBlockDefect normalizerBasis ideal p lambdaLabel

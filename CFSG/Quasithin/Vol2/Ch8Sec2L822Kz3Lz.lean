@@ -31,7 +31,7 @@ theorem res822_fix_iff_kz3 {G : Type} [Group G] {V L : Subgroup G} {z : G} (hzV 
       _ = z := by group
 
 theorem isHat_transport_kz3 {G : Type} [Group G] {X Y : Subgroup G} (h : X = Y) {S : Type} [Group S]
-    (hN : ((CFSG.Open.pCoreOf 2 X).subgroupOf X).Normal)
+    (_hN : ((CFSG.Open.pCoreOf 2 X).subgroupOf X).Normal)
     (hN' : ((CFSG.Open.pCoreOf 2 Y).subgroupOf Y).Normal)
     (hX : IsHat (↥X ⧸ (CFSG.Open.pCoreOf 2 X).subgroupOf X) S) :
     IsHat (↥Y ⧸ (CFSG.Open.pCoreOf 2 Y).subgroupOf Y) S := by

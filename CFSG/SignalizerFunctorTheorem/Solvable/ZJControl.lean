@@ -91,7 +91,7 @@ theorem zj_global_normalizer_control
   obtain ⟨hTne, hZne, hTcomp, hZcomp, hLcomp, hfactor, hWL⟩ := zj_normalizer_refinement prime rank q
     prime_prime q_prime hq actor elementary large' values conditions locally_complete W hW hWcomp
     hWq P hPnorm
-  have hTq : IsPGroup q T := P.isPGroup'.map _
+  have hTq : IsPGroup q T := P.isPGroup.map _
   obtain ⟨hZle, -, -⟩ := embedded_order_thompson_center_properties T actor hPnorm
   have hZq : IsPGroup q Z := hTq.to_le hZle
   obtain ⟨Sstar, hTle, hSstar⟩ := Finite.exists_le_maximal
@@ -141,7 +141,7 @@ theorem complete_of_locallyComplete_of_five_le
     (elementary_abelian_isPGroup prime actor elementary) (conditions.normalized selected member)
     (conditions.coprime selected member) divides
   set W₀ := (sylow : Subgroup (values selected)).map (values selected).subtype with hW₀
-  have hW₀q : IsPGroup q W₀ := sylow.isPGroup'.map _
+  have hW₀q : IsPGroup q W₀ := sylow.isPGroup.map _
   have hW₀comp : solvableSignalizerCompatible prime rank actor values W₀ :=
     solvable_signalizer_compatible_of_le prime rank actor values (values selected) W₀
       (solvable_signalizer_value_compatible prime rank actor values conditions selected member)

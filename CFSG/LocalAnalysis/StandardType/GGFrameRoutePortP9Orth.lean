@@ -45,6 +45,7 @@ private theorem p9Orth_finrank_eq {Q : QuadraticForm K V} {E : Subgroup (V ≃�
     _ = finrank K (Fin C.s → K × K) + finrank K C.W0 := Module.finrank_prod
     _ = 2 * C.s + finrank K C.W0 := by rw [hdim]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem p9Orth_tor_apply_eq_of_mem_polarPerp {Q : QuadraticForm K V}
     {E : Subgroup (V ≃ₗ[K] V)} {k : ℕ} {U : Fin k → Submodule K V}
     {e : Fin k → ↥(orthDerived Q)}
@@ -70,6 +71,7 @@ private theorem p9Orth_fst_eq_zero_of_fixed {Q : QuadraticForm K V} {E : Subgrou
     simpa [ChoiceTwoOm.torC_apply] using congrFun hd i
   exact ChoiceTwoOm.eq_zero_of_zpow_eq 1 (by decide) (d i) hi
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem p9Orth_exists_W0_of_mem_polarPerp {Q : QuadraticForm K V}
     {E : Subgroup (V ≃ₗ[K] V)} {k : ℕ} {U : Fin k → Submodule K V}
     {e : Fin k → ↥(orthDerived Q)}
@@ -90,6 +92,7 @@ private theorem p9Orth_exists_W0_of_mem_polarPerp {Q : QuadraticForm K V}
     C.Φ (0, (C.Φ.symm v).2) = C.Φ ((C.Φ.symm v).1, (C.Φ.symm v).2) := by rw [hd]
     _ = v := hv'
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem p9Orth_exists_hyperbolic_pair {Q : QuadraticForm K V}
     {E : Subgroup (V ≃ₗ[K] V)} {k : ℕ} {U : Fin k → Submodule K V}
     {e : Fin k → ↥(orthDerived Q)}

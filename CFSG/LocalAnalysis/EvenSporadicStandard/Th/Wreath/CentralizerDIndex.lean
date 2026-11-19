@@ -751,7 +751,7 @@ private theorem ThCyc.mem_range_mu_conj (H : ThCyc G L R t) (W : ThLocalIn L S A
   have hnσ' : ∀ a (ha : a ∈ A), n * a * n⁻¹ = ((σ ⟨a, ha⟩ : ↥A) : G) := by
     intro a ha
     have h := hnσ a ha
-    simpa only [dif_pos ha] using h
+    simpa only [dite_eq_left ha] using h
   have hnA : ∀ a ∈ A, n * a * n⁻¹ ∈ A := fun a ha => by
     rw [hnσ' a ha]
     exact (σ ⟨a, ha⟩).2
@@ -855,10 +855,10 @@ theorem ThCyc.mem_K1_eq_centralizer_or_mul_b (H : ThCyc G L R t) (W : ThLocalIn 
     (hb : ∀ d ∈ D, b * d * b⁻¹ = d⁻¹) {κ : G} (hκ : κ ∈ ThCyc.K1 H W W2 hD h4) :
     κ ∈ (centralizer (D : Set G)) ∨ κ * b ∈ (centralizer (D : Set G)) := by
   classical
-  haveI hAcomm : Fact (∀ a b : ↥A, a * b = b * a) :=
+  have hAcomm : Fact (∀ a b : ↥A, a * b = b * a) :=
     ⟨fun a b => Subtype.ext (W.A_comm a.1 a.2 b.1 b.2)⟩
-  letI : IsMulCommutative ↥A := IsMulCommutative.of_comm (Fact.out)
-  letI : CommGroup ↥A := IsMulCommutative.instCommGroup
+  let : IsMulCommutative ↥A := IsMulCommutative.of_comm (Fact.out)
+  let : CommGroup ↥A := IsMulCommutative.instCommGroup
   have hsqA : ∀ x : ↥A, x ^ 2 = 1 := fun x => Subtype.ext (W.A_sq x x.2)
   have hcardA : Nat.card ↥A = 16 := W.A_card
   have hconj : ∀ (σ : ↥A ≃* ↥A) {f : ↥A →* ↥A},

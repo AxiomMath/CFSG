@@ -37,8 +37,8 @@ theorem dadeAverage_conj (hD : IsDadeData L A H) (hχ : χ ∈ classFun G) {l : 
           classFun.apply_conj hχ]
       simp only [hu]
       by_cases h : u ∈ H x
-      · rw [if_pos (hmem.2 h), if_pos h, hval]
-      · rw [if_neg (fun hc => h (hmem.1 hc)), if_neg h]
+      · rw [ite_eq_left (hmem.2 h), ite_eq_left h, hval]
+      · rw [ite_eq_right (fun hc => h (hmem.1 hc)), ite_eq_right h]
     rw [dadeAverage_apply_of_mem' hx', dadeAverage_apply_of_mem' hx, hcard, hsum]
   · have hx' : l * x * l⁻¹ ∉ A := by
       intro hc

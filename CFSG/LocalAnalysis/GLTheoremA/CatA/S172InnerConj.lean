@@ -112,7 +112,7 @@ private theorem mem_sup_centralizer_of_inner_conj {Ω : Type} [Group Ω] {S : Su
     b ∈ S ⊔ Subgroup.centralizer (S : Set Ω) := by
   let w : Ω := b * (s : Ω)
   have hL : ⁅(S : Subgroup Ω), S⁆ = S := by
-    haveI : Group.IsPerfect ↥S := ⟨hperf⟩
+    have : Group.IsPerfect ↥S := ⟨hperf⟩
     exact Subgroup.commutator_eq_self
   have hg : ∀ l ∈ S, ∃ z ∈ S, (∀ m ∈ S, m * z = z * m) ∧ w⁻¹ * l * w = l * z := by
     intro l hl
@@ -162,13 +162,13 @@ theorem mem_sup_centralizer_of_largeEvenInduces_conj {Ω : Type} [Group Ω] {S :
 
 theorem innerDiagMarking_rawDatum_of_hasLabel (hRig : CFSG.StandardType.GGLabelRigidInput)
     {Ω : Type} [Group Ω] {S B : Subgroup Ω} {lab₀ : CFSG.Assembly.LargeEvenLabel}
-    (hqs : CFSG.IsQuasisimple ↥S)
+    (_hqs : CFSG.IsQuasisimple ↥S)
     (hHasTarget : CFSG.LocalAnalysis.GLTheoremA.Y10F.HasLabel ↥S (· = lab₀))
     (hiso : ∀ lab, CFSG.StandardType.GGLabelIso lab lab₀ → lab = lab₀)
     (hid : InnerDiagMarking B S) :
     commutator ↥S = ⊤ ∧
       CFSG.Assembly.LargeEvenRawDatum lab₀
-        (fun R _ I F => IsSimpleGroup R ∧ (∃ a b : R, a * b ≠ b * a) ∧
+        (fun R _ I _F => IsSimpleGroup R ∧ (∃ a b : R, a * b ≠ b * a) ∧
           ∃ θ : ↥S ⧸ Subgroup.center ↥S ≃* R,
             B ≤ Subgroup.normalizer (S : Set Ω) ∧
             ∀ b ∈ B, ∃ φ ∈ I, CFSG.Assembly.LargeEvenInduces θ
@@ -182,7 +182,7 @@ theorem innerDiagMarking_rawDatum_of_hasLabel (hRig : CFSG.StandardType.GGLabelR
   have hHasLab : CFSG.StandardType.GGHasLabel lab (↥S ⧸ Subgroup.center ↥S) := by
     unfold CFSG.StandardType.GGHasLabel
     refine CFSG.StandardType.Canonical.largeEvenRawDatum_mono ?_ hraw
-    rintro R _ I F ⟨-, -, θ, -⟩
+    rintro R _ I _F ⟨-, -, θ, -⟩
     exact ⟨θ⟩
   have hIso : CFSG.StandardType.GGLabelIso lab lab₀ :=
     hRig lab lab₀ (↥S ⧸ Subgroup.center ↥S) hlab hlabT₀ hHasLab hHasLabTarget₀

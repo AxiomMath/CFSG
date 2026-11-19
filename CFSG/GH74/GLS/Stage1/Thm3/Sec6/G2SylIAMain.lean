@@ -73,7 +73,7 @@ theorem sylow_transfer {K : Type*} [Group K] [Finite K] {F : Type*} [Field F] [F
     Sylow.coe_mapSurjective hf P'
   refine ⟨fun h2 p hp => ?_, fun h2 => ⟨?_, ?_⟩⟩
   · have hfp : f p ∈ (T : Subgroup _) := by rw [hTc]; exact ⟨p, hp, rfl⟩
-    obtain ⟨j, hj⟩ := T.isPGroup' ⟨f p, hfp⟩
+    obtain ⟨j, hj⟩ := T.isPGroup ⟨f p, hfp⟩
     have hj' : (f p) ^ (2 ^ j) = 1 := by simpa using congrArg Subtype.val hj
     have := sl2_sq_eq_one_of_char_two h2 (f p) hj'
     apply hinj (p * p) ((P' : Subgroup K).mul_mem hp hp)

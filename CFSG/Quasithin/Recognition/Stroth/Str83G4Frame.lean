@@ -21,14 +21,17 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def str83R (L1 L2 S : Subgroup G) : Subgroup G :=
   conjClosure (str83X L1 L2 S) (P2 L1 L2 S)
 
+omit [Finite G] in
 theorem le_normalizer_str83X (L1 L2 S : Subgroup G) :
     P1 L1 L2 S ≤ Subgroup.normalizer (str83X L1 L2 S : Set G) :=
   le_normalizer_conjClosure _ _
 
+omit [Finite G] in
 theorem le_normalizer_str83R (L1 L2 S : Subgroup G) :
     P2 L1 L2 S ≤ Subgroup.normalizer (str83R L1 L2 S : Set G) :=
   le_normalizer_conjClosure _ _
 
+omit [Finite G] in
 theorem z2_le_str83X (L1 L2 S : Subgroup G) : Z2 L1 L2 S ≤ str83X L1 L2 S :=
   le_conjClosure _ _
 
@@ -70,7 +73,7 @@ section NaturalBottom
 open CFSG.QuasithinUnique.Setup
 open scoped MatrixGroups
 
-@[expose] def Str83G4VNat (L1 L2 S V : Subgroup G) (a : ℕ) : Prop :=
+@[expose] def Str83G4VNat (_L1 L2 S V : Subgroup G) (a : ℕ) : Prop :=
   ∃ (hstep : IsChiefStep (L2 ⊔ S) V ⊥ V) (hVH : V ≤ L2 ⊔ S) (hV : IsElemAbelian 2 V),
     let hE := CFSG.Quasithin.isElemAbelian_chiefMod hstep hVH hV.isPGroup
     letI _cg : CommGroup ↥(Ch3z.chiefMod ⊥ V) := l2ChiefSectionCommGroup hE
@@ -184,6 +187,7 @@ end NaturalBottom
           Matrix (Fin 4) (Fin 4) (GaloisField 2 (2 * a + 1))).map (· ^ 2 ^ c))
         (Multiplicative.toAdd (φ x))
 
+omit [Finite G] in
 theorem relIndex_eq_of_isSzNaturalSection {H N M : Subgroup G} {a : ℕ}
     (h : IsSzNaturalSection H N M a) : M.relIndex N = (2 ^ (2 * a + 1)) ^ 4 := by
   obtain ⟨-, -, φ, hsurj, hker, -⟩ := h

@@ -129,7 +129,7 @@ theorem CentConfig.false_of_block_lifts (hK : PiField Ï€ p f K) (hq : ModThree Ï
       rw [mem_rootsOfUnity']
       have h := congrArg (fun A : Matrix (Fin 3) (Fin 3) K => A 0 0) ((mem_glPi_false hU).mp hy)
       simp only [Matrix.mul_apply, Fin.sum_univ_three, Matrix.transpose_apply, Matrix.map_apply,
-        h10, h20, map_zero, zero_mul, mul_zero, add_zero, Matrix.one_apply_eq,
+        h10, h20, mul_zero, add_zero, Matrix.one_apply_eq,
         hU.bar_apply] at h
       rw [ha, Units.val_mk0]
       change (y : Matrix (Fin 3) (Fin 3) K) 0 0 ^ (p ^ f + 1) = 1

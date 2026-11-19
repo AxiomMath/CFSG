@@ -10,7 +10,7 @@ theorem exists_ringEquiv_of_normalizes_p {F : Type} [Field F] [Finite F] {p : �
     (hp2 : p ≠ 2) (ψ : F ≃+ F)
     (hnorm : ∀ a : Fˣ, ∃ b : Fˣ, ∀ t, ψ ((a : F) ^ 2 * t) = (b : F) ^ 2 * ψ t) :
     ∃ σ : F ≃+* F, ∀ s t, ψ (s * t) = σ s * ψ t := by
-  haveI : Fact p.Prime := ⟨CharP.char_is_prime F p⟩
+  have : Fact p.Prime := ⟨CharP.char_is_prime F p⟩
   have h2 : (2 : F) ≠ 0 := by
     intro h
     have hd : p ∣ 2 := (CharP.cast_eq_zero_iff F p 2).mp (by exact_mod_cast h)

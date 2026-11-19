@@ -77,10 +77,10 @@ theorem exists_sylow_sup_eq {p k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {P O : Su
   obtain ⟨Q⟩ : Nonempty (Sylow p ↥P) := inferInstance
   set E := (Q : Subgroup ↥P).map P.subtype with hE
   have hEP : E ≤ P := Subgroup.map_subtype_le _
-  have hEp : IsPGroup p E := Q.isPGroup'.map _
+  have hEp : IsPGroup p E := Q.isPGroup.map _
   have hEQ : Nat.card E = Nat.card (Q : Subgroup ↥P) :=
     Subgroup.card_map_of_injective P.subtype_injective
-  obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+  obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp Q.isPGroup
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hO2
   have hidx : ¬ p ∣ (Q : Subgroup ↥P).index := Q.not_dvd_index
   have hQ := Subgroup.card_mul_index (Q : Subgroup ↥P)

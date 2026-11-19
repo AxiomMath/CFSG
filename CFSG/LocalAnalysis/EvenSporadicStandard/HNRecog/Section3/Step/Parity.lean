@@ -45,7 +45,7 @@ private lemma conj_pow_of_odd_order {G : Type} [Group G] {a x : G} (ha2 : a ^ 2 
     _ = x := by rw [← mul_assoc, ha_mul, one_mul]
 
 theorem parity_of_fusion3 {G : Type} [Group G] [Finite G] {a z : G} (h : IsF5Type a z)
-    (hF2 : Vert Fusion2Facts a z) (hF3 : Vert Fusion3Facts a z) : ParityFacts a z := by
+    (_hF2 : Vert Fusion2Facts a z) (hF3 : Vert Fusion3Facts a z) : ParityFacts a z := by
   have ha2 : a ^ 2 = 1 := by rw [← h.orderOf_a]; exact pow_orderOf_eq_one a
   refine ⟨?_, ?_⟩
   · intro x t hx _ht2 htmem hnot

@@ -18,6 +18,7 @@ namespace AltData
 variable {G L : Subgroup (GLV V)} {m : ℕ} {ψ : ↥G ≃* alternatingGroup (Fin m)}
   {F : Set (Fin m)}
 
+omit [Finite V] in
 theorem exists_nat (hd : AltData G L ψ F) {n : ℕ} (hn : F.ncard = n) :
     ∃ (τ : Fin n ↪ Fin m) (nat : ↥L ≃* alternatingGroup (Fin n)), Set.range τ = F ∧
       ∀ (ℓ : ↥L) (i : Fin n), hd.jL ℓ (τ i) = τ ((nat ℓ : Perm (Fin n)) i) := by
@@ -57,9 +58,10 @@ theorem exists_nat (hd : AltData G L ψ F) {n : ℕ} (hn : F.ncard = n) :
     ((e.symm (e ((k : Perm ↥T) (e.symm i))) : ↥T) : Fin m)
   rw [Equiv.symm_apply_apply, Perm.ofSubtype_apply_coe]
 
+omit [Finite V] in
 theorem jL_eq_c3 (hd : AltData G L ψ F) {n : ℕ} {τ : Fin n ↪ Fin m} {nat : ↥L ≃* alternatingGroup (Fin n)}
     (hτF : Set.range τ = F) (hnat : ∀ (ℓ : ↥L) (i : Fin n), hd.jL ℓ (τ i) = τ ((nat ℓ : Perm (Fin n)) i))
-    {ℓ : ↥L} {i j k : Fin n} (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k)
+    {ℓ : ↥L} {i j k : Fin n} (_hij : i ≠ j) (_hik : i ≠ k) (_hjk : j ≠ k)
     (hℓ : (nat ℓ : Perm (Fin n)) = c3 i j k) : hd.jL ℓ = c3 (τ i) (τ j) (τ k) := by
   refine Equiv.ext fun x => ?_
   by_cases hx : x ∈ Set.range τ
@@ -73,6 +75,7 @@ theorem jL_eq_c3 (hd : AltData G L ψ F) {n : ℕ} {τ : Fin n ↪ Fin m} {nat :
 
 end AltData
 
+omit [Finite V] in
 theorem isNaturalHeartFor_of_conj {G L : Subgroup (GLV V)} (hLG : L ≤ G) {N n : ℕ}
     (φ : ↥G ≃* alternatingGroup (Fin N)) (τ : Fin n ↪ Fin N) (nat : ↥L ≃* alternatingGroup (Fin n))
     (hnat : ∀ (ℓ : ↥L) (i : Fin n), ((φ (Subgroup.inclusion hLG ℓ) : alternatingGroup (Fin N)) :
@@ -93,7 +96,7 @@ theorem isNaturalHeartFor_of_conj {G L : Subgroup (GLV V)} (hLG : L ≤ G) {N n 
     have h1 := hσ i
     have h2 := hnat ℓ (π⁻¹ i)
     rw [hincl] at h2
-    simp only [Function.Embedding.trans_apply, Equiv.coe_toEmbedding, Perm.inv_def] at h1
+    simp only [Function.Embedding.trans_apply, Equiv.coe_toEmbedding] at h1
     rw [← Perm.inv_def] at h1
     have h3 : τ (π⁻¹ (σ i)) = τ (π⁻¹ ((α ℓ : Perm (Fin n)) i)) := by
       rw [← h1, h2, hαπ ℓ]

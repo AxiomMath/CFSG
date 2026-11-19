@@ -33,7 +33,7 @@ theorem frobTensorMat_one (M : G →* Matrix ι ι K) (S : Finset ℕ) :
   by_cases h : x' = x
   · subst h; simp
   · obtain ⟨b, hb⟩ := Function.ne_iff.mp h
-    rw [if_neg h]
+    rw [ite_eq_right h]
     exact Finset.prod_eq_zero (Finset.mem_univ b) (by simp [hb])
 
 theorem frobTensorMat_mul (M : G →* Matrix ι ι K) (S : Finset ℕ) (g h : G) :
@@ -80,14 +80,14 @@ private theorem kronMat_empty (S : Finset ℕ) (A : Matrix ι ι k) : kronMat k 
   by_cases h : x' = x
   · subst h; simp
   · obtain ⟨b, hb⟩ := Function.ne_iff.mp h
-    rw [if_neg h]
+    rw [ite_eq_right h]
     exact Finset.prod_eq_zero (Finset.mem_univ b) (by simp [hb])
 
 private theorem kronMat_singleton_apply (S : Finset ℕ) (b : S) (A : Matrix ι ι k)
     (y x : S → ι) :
     kronMat k S ({b} : Finset S) A y x =
       A (y b) (x b) * ∏ b' ∈ (Finset.univ.erase b), (if y b' = x b' then 1 else 0) := by
-  rw [kronMat, Finset.prod_eq_mul_prod_diff_singleton b]
+  rw [kronMat, Finset.prod_eq_mul_prod_sdiff_singleton b]
   · rw [Finset.sdiff_singleton_eq_erase]
     congr 1
     · simp
@@ -135,7 +135,7 @@ private theorem kronMat_singleton_mulVec_apply (S : Finset ℕ) (b : S) (A : Mat
       have hsymm : (Equiv.funSplitAt b ι).symm (j, off) b' = off ⟨b', hb'⟩ := by
         simp [Equiv.funSplitAt, hb']
       rw [hsymm]
-      exact if_neg (fun hh => hb'ne hh.symm)
+      exact ite_eq_right (fun hh => hb'ne hh.symm)
     rw [Finset.prod_eq_zero hb'mem hfac]
     simp
   · intro hb
@@ -186,20 +186,20 @@ private theorem pi_single_update_left (S : Finset ℕ) (b : S) (z y : S → ι) 
         funext b'
         by_cases hb' : b' = b
         · subst hb'; simp
-        · rw [Function.update_apply, if_neg hb', Function.update_apply, if_neg hb']
+        · rw [Function.update_apply, ite_eq_right hb', Function.update_apply, ite_eq_right hb']
           exact hzy b' hb'
-      rw [if_pos heq, if_pos ⟨rfl, hzy⟩]
+      rw [ite_eq_left heq, ite_eq_left ⟨rfl, hzy⟩]
     · have heq : Function.update y b j ≠ Function.update z b j := by
         intro heq
         apply hzy
         intro b' hb'
         have := congrFun heq b'
         simpa [Function.update_apply, hb'] using this
-      rw [if_neg heq, if_neg (fun h => hzy h.2)]
+      rw [ite_eq_right heq, ite_eq_right (fun h => hzy h.2)]
   · have heq : Function.update y b j' ≠ Function.update z b j := by
       intro heq
       exact hjj (by simpa using congrFun heq b)
-    rw [if_neg heq, if_neg (fun h => hjj h.1)]
+    rw [ite_eq_right heq, ite_eq_right (fun h => hjj h.1)]
 
 private theorem pi_single_update_right (S : Finset ℕ) (b : S) (z y : S → ι) (j : ι) :
     (Pi.single (Function.update z b j) (1 : k) : (S → ι) → k) y =
@@ -244,37 +244,37 @@ private theorem kronMat_singleton_mulVec_single (S : Finset ℕ) (b : S) (A : Ma
       intro j'
       rw [pi_single_update_left k S b z y j j']
       by_cases h : j' = j
-      · rw [if_pos ⟨h, hzy⟩, if_pos h]
-      · rw [if_neg (fun hh => h hh.1), if_neg h]
+      · rw [ite_eq_left ⟨h, hzy⟩, ite_eq_left h]
+      · rw [ite_eq_right (fun hh => h hh.1), ite_eq_right h]
     have hR : ∀ j' : ι,
         (Pi.single (Function.update z b j') (1 : k) : (S → ι) → k) y =
         if j' = y b then (1 : k) else 0 := by
       intro j'
       rw [pi_single_update_right k S b z y j']
       by_cases h : j' = y b
-      · rw [if_pos ⟨h, hzy⟩, if_pos h]
-      · rw [if_neg (fun hh => h hh.1), if_neg h]
+      · rw [ite_eq_left ⟨h, hzy⟩, ite_eq_left h]
+      · rw [ite_eq_right (fun hh => h hh.1), ite_eq_right h]
     simp only [hL, hR]
     rw [Finset.sum_eq_single j]
-    · rw [if_pos rfl, mul_one]
+    · rw [ite_eq_left rfl, mul_one]
       rw [Finset.sum_eq_single (y b)]
-      · rw [if_pos rfl, mul_one]
+      · rw [ite_eq_left rfl, mul_one]
       · intro j' _ hj'
-        rw [if_neg hj', mul_zero]
+        rw [ite_eq_right hj', mul_zero]
       · simp
     · intro j' _ hj'
-      rw [if_neg hj', mul_zero]
+      rw [ite_eq_right hj', mul_zero]
     · simp
   · have hL : ∀ j' : ι,
         (Pi.single (Function.update z b j) (1 : k) : (S → ι) → k) (Function.update y b j') = 0 := by
       intro j'
       rw [pi_single_update_left k S b z y j j']
-      rw [if_neg (fun hh => hzy hh.2)]
+      rw [ite_eq_right (fun hh => hzy hh.2)]
     have hR : ∀ j' : ι,
         (Pi.single (Function.update z b j') (1 : k) : (S → ι) → k) y = 0 := by
       intro j'
       rw [pi_single_update_right k S b z y j']
-      rw [if_neg (fun hh => hzy hh.2)]
+      rw [ite_eq_right (fun hh => hzy hh.2)]
     simp only [hL, hR, mul_zero, Finset.sum_const_zero]
 
 private theorem kronMat_singleton_mulVec_sliceVec (S : Finset ℕ) (b : S) (A : Matrix ι ι k)
@@ -345,9 +345,9 @@ private theorem frobTensorMat_eq_sum (M : G →* Matrix ι ι K) (S : Finset ℕ
     rw [Matrix.add_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, map_add, map_mul,
       frobHom_apply, hA']
     by_cases h : x' b = x b
-    · rw [if_pos h, map_one, if_pos h, frobHom_apply, matrix_map_apply_algebraMap]
+    · rw [ite_eq_left h, map_one, ite_eq_left h, frobHom_apply, matrix_map_apply_algebraMap]
       ring
-    · rw [if_neg h, map_zero, if_neg h, frobHom_apply, matrix_map_apply_algebraMap]
+    · rw [ite_eq_right h, map_zero, ite_eq_right h, frobHom_apply, matrix_map_apply_algebraMap]
       ring
   rw [Finset.prod_congr rfl fun b _ => hfac b]
   rw [Fintype.prod_add]
@@ -448,7 +448,7 @@ private theorem sum_pow_algebraMap_eq [Fintype K] [DecidableEq K] {n a : ℕ}
     (hK : Fintype.card K = 2 ^ n) (ha : a < 2 ^ n) :
     ∑ c : K, (algebraMap K k c) ^ a = if a = 2 ^ n - 1 then 1 else 0 := by
   by_cases h : a = 2 ^ n - 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have ha0 : a ≠ 0 := by
       have h1 : 1 < 2 ^ n := by rw [← hK]; exact Fintype.one_lt_card
       omega
@@ -473,8 +473,8 @@ private theorem sum_pow_algebraMap_eq [Fintype K] [DecidableEq K] {n a : ℕ}
       exact Finset.sum_congr rfl fun x _ => (map_pow (algebraMap K k) (x : K) a).symm
     have hdvd : Fintype.card K - 1 ∣ a := by
       simp [hK, h]
-    rw [h2, FiniteField.sum_pow_units K a, if_pos hdvd, map_neg, map_one, CharTwo.neg_eq]
-  · rw [if_neg h]
+    rw [h2, FiniteField.sum_pow_units K a, ite_eq_left hdvd, map_neg, map_one, CharTwo.neg_eq]
+  · rw [ite_eq_right h]
     have hlt : a < Fintype.card K - 1 := by
       rw [hK]
       omega
@@ -668,7 +668,7 @@ theorem frobTensorRep_single_of_col (M : G →* Matrix ι ι K) (S : Finset ℕ)
     · subst h
       simp
     · have hsingle : (Pi.single (fun _ => v) (1 : k) : (S → ι) → k) x' = 0 := by
-        rw [Pi.single_apply, if_neg h]
+        rw [Pi.single_apply, ite_eq_right h]
       have hzero : (∏ b : S, frobHom k b (M g (x' b) (v))) = 0 := by
         obtain ⟨b, hb⟩ : ∃ b : S, x' b ≠ v := by
           by_contra hcon
@@ -678,7 +678,7 @@ theorem frobTensorRep_single_of_col (M : G →* Matrix ι ι K) (S : Finset ℕ)
       rw [hzero, hsingle, smul_zero]
   · intro x _ hx
     have hsingle : (Pi.single (fun _ => v) (1 : k) : (S → ι) → k) x = 0 := by
-      rw [Pi.single_apply, if_neg hx]
+      rw [Pi.single_apply, ite_eq_right hx]
     rw [hsingle, mul_zero]
   · simp
 
@@ -699,10 +699,10 @@ theorem frobTensorRep_single_of_col_single (M : G →* Matrix ι ι K) (S : Fins
       simp
     · have hforall : ¬ ∀ i ∈ (Finset.univ : Finset S), x' i = v' := fun hh =>
         h (funext fun i => hh i (Finset.mem_univ i))
-      rw [if_neg hforall, if_neg h]
+      rw [ite_eq_right hforall, ite_eq_right h]
   · intro x _ hx
     have hsingle : (Pi.single (fun _ => v) (1 : k) : (S → ι) → k) x = 0 := by
-      rw [Pi.single_apply, if_neg hx]
+      rw [Pi.single_apply, ite_eq_right hx]
     rw [hsingle, mul_zero]
   · simp
 

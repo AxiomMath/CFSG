@@ -99,14 +99,14 @@ private theorem s16t3_alt_ext_castSucc (n : ℕ) (π : Perm (Fin (n / 4))) (a : 
     s16t3_alt_ext n π (a.castLE (Nat.le_succ (n / 4)))
       = (π a).castLE (Nat.le_succ (n / 4)) := by
   unfold s16t3_alt_ext
-  rw [dif_pos (by simpa using a.isLt)]
+  rw [dite_eq_left (by simp)]
   exact congrArg (fun y : Fin (n / 4) => (π y).castLE (Nat.le_succ (n / 4)))
     (Fin.ext (by simp))
 
 private theorem s16t3_alt_ext_last (n : ℕ) (π : Perm (Fin (n / 4))) :
     s16t3_alt_ext n π (Fin.last (n / 4)) = Fin.last (n / 4) := by
   unfold s16t3_alt_ext
-  rw [dif_neg (by simpa using lt_irrefl (n / 4))]
+  rw [dite_eq_right (by simp)]
 
 private theorem s16t3_alt_f_s (n : ℕ) (π : Perm (Fin (n / 4))) (i : Fin n) :
     s16t3_alt_f n (s16t3_alt_sHom n π i)
@@ -213,11 +213,11 @@ private def s16t3_alt_fibreFour (n : ℕ) (b : Fin (n / 4)) :
       simpa [s16t3_alt_f, Fin.val_castSucc] using this
     have h := Nat.div_add_mod ((a : Fin n) : ℕ) 4
     rw [ha] at h
-    simp only [Fin.val_mk]
+    simp only
     omega
   right_inv j := by
     apply Fin.ext
-    simp only [Fin.val_mk]
+    simp only
     rw [show 4 * (b : ℕ) + (j : ℕ) = (j : ℕ) + 4 * (b : ℕ) by omega,
       Nat.add_mul_mod_self_left]
     exact Nat.mod_eq_of_lt j.isLt
@@ -255,11 +255,11 @@ private def s16t3_alt_fibreLast (n : ℕ) :
     have h := Nat.div_add_mod ((a : Fin n) : ℕ) 4
     rw [ha] at h
     have hone : ((a : Fin n) : ℕ) = 4 * (n / 4) + ((a : Fin n) : ℕ) % 4 := h.symm
-    simp only [Fin.val_mk]
+    simp only
     omega
   right_inv j := by
     apply Fin.ext
-    simp only [Fin.val_mk]
+    simp only
     omega
 
 private theorem s16t3_alt_fibre_card_four (n : ℕ) (b : Fin (n / 4)) :

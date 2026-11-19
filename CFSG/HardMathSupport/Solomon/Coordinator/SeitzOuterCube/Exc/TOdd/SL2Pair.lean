@@ -111,7 +111,7 @@ theorem finrank_fixedField_eq_three [Finite K] {τ : K ≃+* K} (hτ : orderOf �
     · intro hx
       exact hx ⟨τ, Subgroup.mem_zpowers τ⟩
   subst hFeq
-  haveI : Fintype (Subgroup.zpowers τ) := Fintype.ofFinite _
+  have : Fintype (Subgroup.zpowers τ) := Fintype.ofFinite _
   rw [FixedPoints.finrank_eq_card (Subgroup.zpowers τ) K, ← Nat.card_eq_fintype_card,
     Nat.card_zpowers, hτ]
 
@@ -278,7 +278,7 @@ theorem fixed_eq_map_sl2Range (hFτ : ∀ x, x ∈ F ↔ τ x = x)
     {A | θ A = A} =
       ((sl2Range F K).map (sl2Conj h).toMonoidHom : Set (SpecialLinearGroup (Fin 2) K)) := by
   ext A
-  simp only [Set.mem_setOf_eq, SetLike.mem_coe, Subgroup.mem_map]
+  simp only [Set.mem_ofPred_eq, SetLike.mem_coe, Subgroup.mem_map]
   constructor
   · intro hA
     refine ⟨sl2Conj h⁻¹ A, ?_, ?_⟩

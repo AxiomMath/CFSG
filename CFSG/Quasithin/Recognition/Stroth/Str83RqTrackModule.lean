@@ -22,13 +22,14 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem r8tm12_eq_top_of_pCore_le_of_map_ne_bot {L : Subgroup G} {N : Subgroup ↥L}
     (hN : N.Normal) (hP : CFSG.pCore 2 ↥L ≤ N)
     (hs : IsSimpleGroup (oTwoQuot ↥L))
     (hne : N.map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) ≠ ⊥) : N = ⊤ := by
   classical
   let q : ↥L →* oTwoQuot ↥L := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
-  haveI hmap : (N.map q).Normal :=
+  have hmap : (N.map q).Normal :=
     hN.map q (QuotientGroup.mk'_surjective _)
   rcases hs.eq_bot_or_eq_top_of_normal (N.map q) with hbot | htop
   · exact absurd hbot hne
@@ -48,7 +49,7 @@ private theorem r8tm12_isSimpleGroup_oTwoQuot_Lv {a f : ℕ} (hfr : Frame L1 L2 
     (v : ℤ) : IsSimpleGroup (oTwoQuot ↥(t.Lv v)) := by
   rcases Int.even_or_odd v with hv | hv
   · obtain ⟨e⟩ := t.nonempty_mulEquiv_sz_Lv hfr hv
-    haveI : IsSimpleGroup ↥(Sz a) :=
+    have : IsSimpleGroup ↥(Sz a) :=
       CFSG.SignalizerFunctorTheorem.McBride.SzModel.sz_isSimpleGroup hfr.ha
     exact e.isSimpleGroup
   · exact CFSG.Quasithin.S1421NS.isSimpleGroup_of_isL2Quot hfr.hf (t.isL2Quot_Lv hfr hv)
@@ -58,7 +59,7 @@ theorem Lv_le_centralizer_of_relIndex_lt {a f : ℕ}
     (hlt : (t.Zv v ⊓ centralizer (t.Lv v : Set G)).relIndex (t.Zv v) <
       if Even v then (2 ^ (2 * a + 1)) ^ 4 else (2 ^ f) ^ 2) :
     t.Lv v ≤ centralizer (t.Zv v : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hnt : ∃ l ∈ t.Lv v, ∃ w ∈ t.Zv v,
       ⁅l, w⁆ ∉ t.Zv v ⊓ centralizer (t.Lv v : Set G)
   · exfalso
@@ -97,7 +98,7 @@ theorem Lv_le_centralizer_of_relIndex_lt {a f : ℕ}
     · have hle := two_pow_le_relIndex_of_nontrivial_of_sz (L := t.Lv v)
           (V := t.Zv v) (Z := t.Zv v ⊓ centralizer (t.Lv v : Set G))
           hfr.ha (t.nonempty_mulEquiv_sz_Lv hfr hv) hsec hL hQ hnt
-      rw [if_pos hv] at hlt
+      rw [ite_eq_left hv] at hlt
       have heq : 2 ^ (4 * (2 * a + 1)) = (2 ^ (2 * a + 1)) ^ 4 := by
         rw [← pow_mul, Nat.mul_comm (2 * a + 1) 4]
       rw [heq] at hle
@@ -110,7 +111,7 @@ theorem Lv_le_centralizer_of_relIndex_lt {a f : ℕ}
         rintro ⟨k, hk⟩
         obtain ⟨m, hm⟩ := hv
         omega
-      rw [if_neg hnot] at hlt
+      rw [ite_eq_right hnot] at hlt
       have heq : 2 ^ (2 * f) = (2 ^ f) ^ 2 := by
         rw [← pow_mul, Nat.mul_comm f 2]
       rw [heq] at hle
@@ -153,7 +154,7 @@ theorem Lv_le_centralizer_of_relIndex_lt {a f : ℕ}
     have hQvLv : t.Qv v ≤ t.Lv v := t.le_Lv hfr (t.isPGroup_Qv v) (t.Qv_le_Gv_self v)
     have hKQ : t.K ⊓ t.Qv v = ⊥ := by
       obtain ⟨n, hn⟩ := (t.isPGroup_Qv v).exists_card_eq
-      apply Subgroup.inf_eq_bot_of_coprime
+      apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
       rw [hn]
       exact Nat.Coprime.pow_right n (Nat.coprime_two_right.mpr t.hHall.2.1)
     have hnotle : ¬ t.K ⊓ t.Lv v ≤ t.Qv v := by
@@ -253,7 +254,7 @@ theorem Lv_le_centralizer_of_relIndex_mul_lt
     le_inf (inf_le_left.trans inf_le_left) ((Subgroup.le_centralizer_iff).mpr hLC)
   have hle1 : (t.Zv v ⊓ centralizer (t.Lv v : Set G)).relIndex (t.Zv v) ≤
       C.relIndex (t.Zv v) := by
-    haveI : C.IsFiniteRelIndex (t.Zv v) :=
+    have : C.IsFiniteRelIndex (t.Zv v) :=
       Subgroup.isFiniteRelIndex_iff_finiteIndex.mpr inferInstance
     exact Subgroup.relIndex_le_of_le_left hCZ Subgroup.relIndex_ne_zero
   have hle2 : C.relIndex (t.Zv v) ≤ A.relIndex (t.Zv v) * B.relIndex (t.Zv v) :=
@@ -317,7 +318,7 @@ theorem eq_bot_or_eq_of_card_Zv {a f : ℕ}
     · have h := two_pow_le_relIndex_of_nontrivial_of_sz (L := t.Lv v) (V := U)
         (Z := ⊥) hfr.ha (t.nonempty_mulEquiv_sz_Lv hfr hv) hsec hL hQ hnt
       rw [Subgroup.relIndex_bot_left] at h
-      rw [if_pos hv] at hcard
+      rw [ite_eq_left hv] at hcard
       rw [hcard] at hcardlt
       have h2 : (2 ^ (2 * a + 1)) ^ 4 = 2 ^ (4 * (2 * a + 1)) := by
         conv_lhs => rw [← pow_mul, Nat.mul_comm (2 * a + 1) 4]
@@ -331,7 +332,7 @@ theorem eq_bot_or_eq_of_card_Zv {a f : ℕ}
         (V := U) (Z := ⊥) (m := f) (by have := hfr.hf; omega) (t.isL2Quot_Lv hfr hodd)
         hsec hL hQ hnt
       rw [Subgroup.relIndex_bot_left] at h
-      rw [if_neg hv] at hcard
+      rw [ite_eq_right hv] at hcard
       rw [hcard] at hcardlt
       have h2 : (2 ^ f) ^ 2 = 2 ^ (2 * f) := by
         conv_lhs => rw [← pow_mul, Nat.mul_comm f 2]
@@ -375,17 +376,17 @@ private theorem r8tm4_exists_central_involution {a f : ℕ}
   have hQN : Q ≤ normalizer (V : Set G) := hQL.trans hV
   have hQZ : Q ≤ normalizer (Z : Set G) := hQL.trans hZ
   have hZT : Z ≤ Q := hZV.trans hVQ
-  haveI hZTn : (Z.subgroupOf Q).Normal :=
+  have hZTn : (Z.subgroupOf Q).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hZT).mpr hQZ
-  haveI hVQn : (V.subgroupOf Q).Normal :=
+  have hVQn : (V.subgroupOf Q).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hVQ).mpr hQN
   let Tq := ↥Q ⧸ Z.subgroupOf Q
-  haveI : Finite ↥Q := inferInstance
-  haveI : Finite Tq := Quotient.finite (QuotientGroup.leftRel (Z.subgroupOf Q))
+  have : Finite ↥Q := inferInstance
+  have : Finite Tq := Quotient.finite (QuotientGroup.leftRel (Z.subgroupOf Q))
   have hTq_p : IsPGroup 2 Tq := (t.isPGroup_Qv v).to_quotient (Z.subgroupOf Q)
-  haveI : Group.IsNilpotent Tq := IsPGroup.isNilpotent hTq_p
+  have : Group.IsNilpotent Tq := IsPGroup.isNilpotent hTq_p
   let Vq : Subgroup Tq := (V.subgroupOf Q).map (QuotientGroup.mk' (Z.subgroupOf Q))
-  haveI hVqn : Vq.Normal :=
+  have hVqn : Vq.Normal :=
     hVQn.map _ (QuotientGroup.mk'_surjective (Z.subgroupOf Q))
   have hVq_ne_bot : Vq ≠ ⊥ := by
     intro hbot
@@ -581,14 +582,14 @@ private theorem r8tm4_commutator_mem_of_le_Qv {a f : ℕ}
           have hbound : bound ≤ Z.relIndex W := by
             by_cases hv : Even v
             · change (if Even v then (2 ^ (2 * a + 1)) ^ 4 else (2 ^ f) ^ 2) ≤ Z.relIndex W
-              rw [if_pos hv]
+              rw [ite_eq_left hv]
               have h := two_pow_le_relIndex_of_nontrivial_of_sz (L := t.Lv v) (V := W) (Z := Z)
                 hfr.ha (t.nonempty_mulEquiv_sz_Lv hfr hv) hsec (le_inf hLN hZ) hQN hnt
               have h2 : (2 ^ (2 * a + 1)) ^ 4 = 2 ^ (4 * (2 * a + 1)) := by
                 rw [← pow_mul, Nat.mul_comm (2 * a + 1) 4]
               rwa [h2]
             · change (if Even v then (2 ^ (2 * a + 1)) ^ 4 else (2 ^ f) ^ 2) ≤ Z.relIndex W
-              rw [if_neg hv]
+              rw [ite_eq_right hv]
               have hvodd : Odd v := by
                 rcases Int.even_or_odd v with he | ho
                 · exact absurd he hv

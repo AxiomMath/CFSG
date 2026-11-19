@@ -15,6 +15,7 @@ section SL
 
 variable {K : Type} [Field K] [Finite K] {d : ℕ}
 
+omit [Finite K] in
 theorem sl_map_subtype_iff (σ : K ≃+* K) (A : GL (Fin d) (fixF σ)) :
     Matrix.GeneralLinearGroup.map (fixF σ).subtype A ∈ LargeEvenSLGroup (Fin d) K ↔
       A ∈ LargeEvenSLGroup (Fin d) (fixF σ) := by

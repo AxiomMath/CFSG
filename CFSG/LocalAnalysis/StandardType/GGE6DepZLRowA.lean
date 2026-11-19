@@ -19,6 +19,7 @@ theorem zl_nb_eq (ζ : Kˣ) (hζ : ζ ^ 3 = 1) (i : Fin 6) :
     (eFrame K ζ hζ).nb i = e6Isogeny K (e6Data_valid.nm K i) :=
   Subtype.ext (e6Isogeny_nt_eq i 1).symm
 
+omit [Finite K] in
 theorem zl_comm_nm_hm (ζ : Kˣ) (hζ : ζ ^ 3 = 1) (i : Fin 6) :
     ⁅e6Data_valid.nm K i, e6Data_valid.hm K i ζ⁆ = e6Data_valid.hm K i ζ := by
   have h := e6Data_valid.nm_conj_hm K i i ζ

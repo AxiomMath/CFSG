@@ -91,7 +91,7 @@ theorem eq_one_of_fixes_sq [Finite V] (hV : ∀ v : V, v ^ 2 = 1) {r : MulAut V}
 theorem eq_one_of_fixes_of_odd [Finite V] (hV : ∀ v : V, v ^ 2 = 1) {s t : MulAut V} {n : ℕ}
     (hst : s * t = t * s) (hs : s ^ 2 ^ n = 1) (ht : Odd (orderOf t))
     (h : ∀ v : V, s v = v → t v = v) : t = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVp : IsPGroup 2 V := fun v => ⟨1, by rw [pow_one, hV v]⟩
   have hsP : IsPGroup 2 (Subgroup.zpowers s) := by
     refine IsPGroup.of_card_dvd_pow (n := n) ?_

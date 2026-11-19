@@ -28,7 +28,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ} {k : Type} [Field
 
 theorem Trep_apply (l : Lbl n) (g : SU4 K n) (w : TIdx l → k) :
     Trep K l k g w = Tmod K l k g *ᵥ w := by
-  simp [Trep, Matrix.toLinAlgEquiv'_apply, Matrix.toLin'_apply]
+  simp [Trep, Matrix.toLinAlgEquiv'_apply]
 
 theorem Tmod_eq (l : Lbl n) : Tmod K l k = TmodΦ l (fun i => frobTw K k i) := rfl
 
@@ -55,7 +55,7 @@ theorem steinberg_regular (hK : Nat.card K = (2 ^ n) ^ 2) :
         Trep K (rhoL n) k (u : SU4 K n) (hwv (rhoL n) k)) = ⊤ ∧
       Module.finrank k ↥(fixedSub ((Trep K (rhoL n) k).comp (LowerU K n).subtype) ⊤) = 1 := by
   classical
-  haveI : Fintype ↥(LowerU K n) := Fintype.ofFinite _
+  have : Fintype ↥(LowerU K n) := Fintype.ofFinite _
   have hdim : Module.finrank k (TIdx (rhoL n) → k) = Fintype.card ↥(LowerU K n) := by
     have h2 : Fintype.card ↥(LowerU K n) = (2 ^ n) ^ 6 := by
       rw [← Nat.card_eq_fintype_card, card_LowerU hK]
@@ -154,7 +154,7 @@ theorem fixed_line (hK : Nat.card K = (2 ^ n) ^ 2) (l : Lbl n) :
 theorem Tmod_fixed_and_irreducible (hK : Nat.card K = (2 ^ n) ^ 2) (l : Lbl n) :
     fixedSub (Trep K l k) (UpperU K n) = Submodule.span k {hwv l k} ∧
       (Trep K l k).IsIrreducible := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hv : hwv l k ∈ fixedSub (Trep K l k) (UpperU K n) := by
     intro u hu
     rw [Trep_apply, Tmod_eq]

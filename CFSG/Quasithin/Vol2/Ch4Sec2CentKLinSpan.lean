@@ -44,7 +44,7 @@ private theorem exists_stabVec_sub_eq {w x u c : Fin 3 → F}
   · rw [mem_stabVec, hgM, key, hcw, mul_zero, zero_smul, add_zero]
   · rw [hgM, key, hκ, one_smul, add_sub_cancel_left]
 
-theorem span_stabVec [Fintype F] (h4 : 4 ≤ Fintype.card F) {w : Fin 3 → F} (hw : w ≠ 0)
+theorem span_stabVec [Fintype F] (_h4 : 4 ≤ Fintype.card F) {w : Fin 3 → F} (hw : w ≠ 0)
     (ℓ : Submodule F (Fin 3 → F)) (hℓ : Module.finrank F ℓ = 2) :
     AddSubgroup.closure {y : Fin 3 → F | ∃ g ∈ stabVec w, ∃ x ∈ ℓ,
       y = (g : Matrix (Fin 3) (Fin 3) F).mulVec x - x} = ⊤ := by
@@ -60,9 +60,9 @@ theorem span_stabVec [Fintype F] (h4 : 4 ≤ Fintype.card F) {w : Fin 3 → F} (
   have hmem : ∀ u : Fin 3 → F, crossProdCoord w u ⬝ᵥ x ≠ 0 → u ∈ A := by
     intro u hu
     have hcw : crossProdCoord w u ⬝ᵥ w = 0 := by
-      simp [crossProdCoord, dotProduct, Fin.sum_univ_three] <;> ring
+      simp [crossProdCoord, dotProduct, Fin.sum_univ_three]; ring
     have hcu : crossProdCoord w u ⬝ᵥ u = 0 := by
-      simp [crossProdCoord, dotProduct, Fin.sum_univ_three] <;> ring
+      simp [crossProdCoord, dotProduct, Fin.sum_univ_three]; ring
     obtain ⟨g, hg, hgu⟩ :=
       exists_stabVec_sub_eq (x := x) (u := u) (c := crossProdCoord w u) hcw hcu hu
     rw [← hgu]
@@ -71,7 +71,7 @@ theorem span_stabVec [Fintype F] (h4 : 4 ≤ Fintype.card F) {w : Fin 3 → F} (
   have hadd : ∀ u z : Fin 3 → F,
       crossProdCoord w (u + z) ⬝ᵥ x = crossProdCoord w u ⬝ᵥ x + crossProdCoord w z ⬝ᵥ x := by
     intro u z
-    simp [crossProdCoord, dotProduct, Fin.sum_univ_three] <;> ring
+    simp [crossProdCoord, dotProduct, Fin.sum_univ_three]; ring
   obtain ⟨z, hz⟩ : ∃ z : Fin 3 → F, crossProdCoord w z ⬝ᵥ x ≠ 0 := by
     by_contra hcon
     push Not at hcon

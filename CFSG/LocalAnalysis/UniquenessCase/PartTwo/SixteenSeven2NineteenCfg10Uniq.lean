@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W] {X Fs : Subgroup (MulAut W)} {I₁ I₂ : Subgroup W}
 
+omit [Finite W] in
 theorem s16c167_cfg10_cent_of_ker (F : Cfg10Mod X Fs I₁ I₂) {I : Subgroup W}
     (hI : I = I₁ ∨ I = I₂) {s : MulAut W} (hsX : s ∈ X) (hs2 : s * s = 1)
     (hsI : I ≤ fixV (Subgroup.zpowers s)) (hQ : ∀ q ∈ Fs ⊓ centSub I, s * q = q * s) :

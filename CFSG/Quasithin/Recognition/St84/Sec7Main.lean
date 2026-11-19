@@ -44,7 +44,7 @@ theorem sec7_S3A5 {V G : Type} [Group G] [MulAction G V] {Γ : SimpleGraph V}
   exact ⟨s, X, hs, hX, ⟨k, hk⟩, by omega⟩
 
 theorem sec7_A5A5_even {V G : Type} [Group G]
-    [MulAction G V] {Γ : SimpleGraph V} (h : Hyp30 Γ G) (hc : CharTwoStab (V := V) (G := G))
+    [MulAction G V] {Γ : SimpleGraph V} (_h : Hyp30 Γ G) (hc : CharTwoStab (V := V) (G := G))
     (hn : ∀ v, nOf Γ v = 2) {s : ℕ} (hs : IsSingularity Γ G s) (hev : Even s) (X : Setup Γ G) :
     s = 4 ∧ X.TreeL34Data :=
   X.even_singularity_A5A5 hc hs hev hn

@@ -18,7 +18,7 @@ theorem le_normalizer_inf {G : Type} [Group G] {X A C : Subgroup G}
   intro g hg
   rw [Subgroup.mem_normalizer_iff]
   intro x
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr (Subgroup.mem_normalizer_iff.mp (hA hg) x) (Subgroup.mem_normalizer_iff.mp (hC hg) x)
 
 theorem commutator_le_of_le {G : Type} [Group G] {X E T : Subgroup G} (hX : X ≤ E)

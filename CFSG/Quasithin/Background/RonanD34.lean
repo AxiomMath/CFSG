@@ -169,6 +169,7 @@ section Clause2
 
 variable [Finite W] {M Mp T : Subgroup (MulAut W)} {V : Subgroup W}
 
+omit [Finite W] in
 theorem inf_centSub_inv {A X : Subgroup (MulAut W)} {U : Subgroup W}
     (hXA : X ≤ Subgroup.normalizer (A : Set (MulAut W))) (hXU : X ≤ stabSub U) :
     ∀ x ∈ X, ∀ k ∈ A ⊓ centSub U, x * k * x⁻¹ ∈ A ⊓ centSub U := by
@@ -180,6 +181,7 @@ theorem inf_centSub_inv {A X : Subgroup (MulAut W)} {U : Subgroup W}
   rw [h1]
   simp
 
+omit [Finite W] in
 theorem Core.not_Mp_le_centSub (h : Core M Mp T V) : ¬ Mp ≤ centSub (orbSup T V) := by
   intro hle
   obtain ⟨-, -, hlt, -⟩ := mem_irrPlus_top_iff.mp h.irr
@@ -187,6 +189,7 @@ theorem Core.not_Mp_le_centSub (h : Core M Mp T V) : ¬ Mp ≤ centSub (orbSup T
   intro v hv
   exact ⟨hv, fun m hm => hle hm v (le_orbSup T V hv)⟩
 
+omit [Finite W] in
 theorem normal_inf_centSub (h : Core M Mp T V) :
     ((Mp ⊓ centSub (orbSup T V)).subgroupOf Mp).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -366,7 +369,7 @@ theorem eq_of_trivial_mod_frattini {K : Type*} [Group K] [Finite K]
     (hσ : ∀ y : K, (σ : K → K)^[2 ^ n] y = y)
     (htriv : ∀ y : K, σ y * y⁻¹ ∈ frattini K) (y : K) : σ y = y := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let F : Subgroup K := MonoidHom.eqLocus σ.toMonoidHom (MonoidHom.id K)
   have hσN : ∀ z ∈ frattini K, σ z ∈ frattini K := by
     intro z hz
@@ -401,7 +404,7 @@ theorem eq_of_trivial_mod_frattini {K : Type*} [Group K] [Finite K]
     have hmod := Equiv.Perm.card_fixedPoints_modEq (p := 2) hg
     let e : S ≃ frattini K :=
       { toFun := fun z => ⟨y⁻¹ * z.1, z.2⟩
-        invFun := fun w => ⟨y * w.1, by simpa using w.2⟩
+        invFun := fun w => ⟨y * w.1, by simp⟩
         left_inv := fun z => by ext; simp
         right_inv := fun w => by ext; simp }
     have hcard : Fintype.card S = Nat.card (frattini K) := by
@@ -435,7 +438,7 @@ theorem commute_of_comm_mod_frattini {G : Type*} [Group G] [Finite G] {Mp : Subg
   let σ : ↥Mp ≃* ↥Mp := Mp.normalizerMonoidHom ⟨y, hyn⟩
   have hσ : ∀ x : ↥Mp, ((σ x : ↥Mp) : G) = y * x * y⁻¹ := fun x =>
     Mp.normalizerMonoidHom_apply_apply_coe ⟨y, hyn⟩ x
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hodd : Odd (Nat.card (frattini ↥Mp)) := by
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (hMp.to_subgroup (frattini ↥Mp))
     rw [hn]
@@ -491,8 +494,8 @@ theorem le_normalizer_of_forall_conj_mem {S Y : Subgroup G}
 theorem eq_bot_of_perfect_of_isPGroup [Finite G] {Q : Subgroup G} (hq : ⁅Q, Q⁆ = Q)
     (hQ : IsPGroup 2 ↥Q) : Q = ⊥ := by
   by_contra hne
-  haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
-  haveI : Group.IsPerfect ↥Q := Subgroup.isPerfect_iff.mpr hq
+  have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+  have : Group.IsPerfect ↥Q := Subgroup.isPerfect_iff.mpr hq
   exact Group.IsPerfect.not_isNilpotent _ hQ.isNilpotent
 
 end Helpers
@@ -545,7 +548,7 @@ theorem isPGroup_autSub {p : ℕ} {A : Subgroup (MulAut W)} (hA : A ≤ stabSub 
 theorem autSub_normal (hTn : T ≤ Subgroup.normalizer (Mp : Set (MulAut W))) :
     ∀ x ∈ autSub (Mp ⊔ T) U, ∀ k ∈ autSub Mp U, x * k * x⁻¹ ∈ autSub Mp U :=
   autSub_conj_mem (Y := Mp ⊔ T) (L := Mp) (U := U)
-    (fun g hg => (sup_le Subgroup.le_normalizer hTn) hg.1)
+    (fun _g hg => (sup_le Subgroup.le_normalizer hTn) hg.1)
 
 theorem normal_autSub_subgroupOf (hTn : T ≤ Subgroup.normalizer (Mp : Set (MulAut W))) :
     ((autSub Mp U).subgroupOf (autSub (Mp ⊔ T) U)).Normal := by
@@ -858,7 +861,7 @@ theorem tilde_eq_iSup_smul (hTX : T ≤ Subgroup.normalizer (X : Set G))
     (hS : ∀ t ∈ T, ∀ w ∈ S, t • w ∈ S) (hgen : S = ⨆ t ∈ T, t • I) :
     letI := quotAct hTX hS
     tilde X S S = ⨆ t : T, t • tilde X S I := by
-  letI := quotAct hTX hS
+  let := quotAct hTX hS
   rw [← tilde_biSup_smul hTX hS I]
   exact congrArg (tilde X S) hgen
 
@@ -868,7 +871,7 @@ theorem semisimple_tilde_of_orbit (hTX : T ≤ Subgroup.normalizer (X : Set G))
       ∃ J' : Subgroup (V ⧸ modFix X S), J' ≤ tilde X S S ∧ XMod.IsInv ↥X J' ∧ J ⊓ J' = ⊥ ∧
         J ⊔ J' = tilde X S S := by
   intro J hJle hJinv
-  letI := quotAct hTX hS
+  let := quotAct hTX hS
   have hnorm := normalizes_quot hTX hS
   obtain ⟨hirr, -⟩ := isIrr_tilde hI
   have hM := tilde_eq_iSup_smul hTX hS hgen
@@ -886,7 +889,7 @@ theorem trans_tilde_of_orbit (hTX : T ≤ Subgroup.normalizer (X : Set G))
           XMod.IsIrr ↥X I' ∧ XMod.Iso ↥X I' I₂}, I') →
       ∃ t ∈ T, t • H₁ = H₂ := by
   intro H₁ H₂ hc₁ _ hc₂ _ ⟨I₁, hI₁le, hI₁irr, hH₁⟩ ⟨I₂, hI₂le, hI₂irr, hH₂⟩
-  letI := quotAct hTX hS
+  let := quotAct hTX hS
   have hnorm := normalizes_quot hTX hS
   obtain ⟨hirr, -⟩ := isIrr_tilde hI
   have hM := tilde_eq_iSup_smul hTX hS hgen
@@ -968,7 +971,7 @@ theorem sup_inf_fixV_le {H : Subgroup (MulAut W)} {U I C : Subgroup W}
             exact mul_mul_mul_comm _ _ _ _
           rw [e]
           exact (fixV H).mul_mem (hag g hg) (hbg g hg)
-        one_mem' := ⟨I.one_mem, fun g _ => by simpa using (fixV H).one_mem⟩
+        one_mem' := ⟨I.one_mem, fun g _ => by simp⟩
         inv_mem' := by
           rintro a ⟨ha, hag⟩
           refine ⟨I.inv_mem ha, fun g hg => ?_⟩
@@ -1072,9 +1075,10 @@ theorem mem_of_pow_prime_pow_eq_one {X : Type*} [Group X] {K : Subgroup X} [K.No
   rw [orderOf_eq_one_iff] at h
   exact (QuotientGroup.eq_one_iff x).mp h
 
+omit [Finite G] in
 theorem isPGroup_two_quotient {H Z : Subgroup G} (hZn : (Z.subgroupOf H).Normal)
     (hq : ∀ y ∈ H, ∃ n : ℕ, y ^ 2 ^ n ∈ Z) : IsPGroup 2 (↥H ⧸ Z.subgroupOf H) := by
-  haveI := hZn
+  have := hZn
   intro g
   obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective g
   obtain ⟨n, hn⟩ := hq y.1 y.2
@@ -1085,8 +1089,8 @@ theorem isPGroup_two_quotient {H Z : Subgroup G} (hZn : (Z.subgroupOf H).Normal)
 theorem generalizedFitting_map_le_of_two_quotient {H Z : Subgroup G} (hZH : Z ≤ H)
     (hZn : (Z.subgroupOf H).Normal) (hq : ∀ y ∈ H, ∃ n : ℕ, y ^ 2 ^ n ∈ Z)
     (hO2 : pCoreOf 2 H = ⊥) : (CFSG.generalizedFitting ↥H).map H.subtype ≤ Z := by
-  haveI := hZn
-  haveI : Group.IsNilpotent (↥H ⧸ Z.subgroupOf H) := (isPGroup_two_quotient hZn hq).isNilpotent
+  have := hZn
+  have : Group.IsNilpotent (↥H ⧸ Z.subgroupOf H) := (isPGroup_two_quotient hZn hq).isNilpotent
   have hO2' : CFSG.pCore 2 ↥H = ⊥ :=
     (Subgroup.map_eq_bot_iff_of_injective _ H.subtype_injective).mp hO2
   have hF : CFSG.fittingSubgroup ↥H ≤ Z.subgroupOf H := by
@@ -1139,6 +1143,7 @@ theorem layer_eq_top_of_mulEquiv {A B : Type*} [Group A] [Group B] (e : A ≃* B
   rw [h, Subgroup.map_top_of_surjective _ e.surjective] at hle
   exact top_le_iff.mp hle
 
+omit [Finite G] in
 theorem le_generalizedFitting_map_of_layer_eq_top {H Z : Subgroup G} (hZH : Z ≤ H)
     (hZn : (Z.subgroupOf H).Normal) (hZl : CFSG.layer ↥Z = ⊤) :
     Z ≤ (CFSG.generalizedFitting ↥H).map H.subtype := by
@@ -1226,6 +1231,7 @@ section Clause1V
 
 variable [Finite W] {M Mp T : Subgroup (MulAut W)} {V : Subgroup W}
 
+omit [Finite W] in
 theorem normal_comap_pCoreOf {A X : Subgroup (MulAut W)} {U : Subgroup W} (hXU : X ≤ stabSub U)
     (hXA : X ≤ A) :
     ((pCoreOf 2 (autSub A U)).comap ((resHom U).comp (Subgroup.inclusion hXU))).Normal := by
@@ -1259,7 +1265,7 @@ theorem pCoreOf_autSub_eq_bot_of_comm (h : Core M Mp T V)
   let Yt : Subgroup ↥X := (pCoreOf 2 (autSub (Mp ⊔ T) V)).comap ρ
   have hYtn : Yt.Normal := normal_comap_pCoreOf hXV inf_le_left
   obtain ⟨S⟩ : Nonempty (Sylow 2 ↥X) := inferInstance
-  have hS2 : IsPGroup 2 (S : Subgroup ↥X) := S.isPGroup'
+  have hS2 : IsPGroup 2 (S : Subgroup ↥X) := S.isPGroup
   have hSi : ¬ 2 ∣ (S : Subgroup ↥X).index := S.not_dvd_index
   have hsurj : Function.Surjective ρ.rangeRestrict := ρ.rangeRestrict_surjective
   have hQ2 : IsPGroup 2 ((S : Subgroup ↥X).map ρ.rangeRestrict) := hS2.map _
@@ -1322,6 +1328,7 @@ theorem commute_on_of_caseII (h : Core M Mp T V) {p : ℕ} (hII : CaseII Mp T p)
   have h2 := congrArg (fun φ : MulAut ↥U => ((φ ⟨u, hu⟩ : ↥U) : W)) h1
   simpa [MulAut.mul_apply, resHom_apply] using h2
 
+omit [Finite W] in
 theorem conjAutSub_le_Mp {Mp T L : Subgroup (MulAut W)} (hMp : Mp = conjClosure L T)
     {t : MulAut W} (ht : t ∈ T) : conjAutSub t L ≤ Mp := by
   rintro _ ⟨l, hl, rfl⟩
@@ -1449,10 +1456,11 @@ theorem autSub_le_generalizedFitting_of_pGroup (h : Core M Mp T V) {U : Subgroup
     (hMpU : Mp ≤ stabSub U) {p : ℕ} (hp : p.Prime) (hMp : IsPGroup p ↥Mp) :
     autSub Mp U ≤
       (CFSG.generalizedFitting ↥(autSub (Mp ⊔ T) U)).map (autSub (Mp ⊔ T) U).subtype := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact le_generalizedFitting_map_of_isPGroup p (autSub_mono le_sup_left U)
     (normal_autSub_subgroupOf h.T_le_normalizer) (isPGroup_autSub hMpU hMp)
 
+omit [Finite W] in
 theorem autSub_le_generalizedFitting_of_layer (h : Core M Mp T V) {U : Subgroup W}
     (hl : CFSG.layer ↥(autSub Mp U) = ⊤) :
     autSub Mp U ≤
@@ -1496,12 +1504,14 @@ section Clause36
 
 variable [Finite W] {M Mp T : Subgroup (MulAut W)} {V : Subgroup W}
 
+omit [Finite W] in
 theorem irrPlus_map_of_mem_normalizer (h : Core M Mp T V) {x : MulAut W}
     (hx : x ∈ Subgroup.normalizer (Mp : Set (MulAut W))) :
     V.map x.toMonoidHom ∈ IrrPlus Mp (⊤ : Subgroup W) :=
   irrPlus_map (fun _ hy => conj_mem_of_mem_normalizer hx hy)
     (fun _ hy => inv_conj_mem_of_mem_normalizer hx hy) h.irr
 
+omit [Finite W] in
 theorem Core.commSub_top (h : Core M Mp T V) : commSub (⊤ : Subgroup W) Mp = ⊤ := by
   refine eq_top_iff.mpr (h.gen.symm.le.trans (iSup₂_le fun m hm => ?_))
   have hVm := irrPlus_map_of_mem_normalizer h (h.Mp_normal hm)
@@ -1509,6 +1519,7 @@ theorem Core.commSub_top (h : Core M Mp T V) : commSub (⊤ : Subgroup W) Mp = �
         (mem_irrPlus_top_iff.mp hVm).2.1.symm
     _ ≤ commSub ⊤ Mp := commSub_mono le_top le_rfl
 
+omit [Finite W] in
 theorem Core.commSub_orbSup (h : Core M Mp T V) : commSub (orbSup T V) Mp = orbSup T V := by
   refine le_antisymm (commSub_le_of_invariant fun x hx w hw => ?_) (orbSup_le fun t ht => ?_)
   · exact ((h.Mp_le_stabSub_orbSup hx) w).mpr hw
@@ -1517,6 +1528,7 @@ theorem Core.commSub_orbSup (h : Core M Mp T V) : commSub (orbSup T V) Mp = orbS
           (mem_irrPlus_top_iff.mp hVt).2.1.symm
       _ ≤ commSub (orbSup T V) Mp := commSub_mono (map_le_orbSup ht) le_rfl
 
+omit [Finite W] in
 theorem Core.ti (h : Core M Mp T V) (hC : V ⊓ fixV Mp = ⊥) :
     ∀ x ∈ M, V ⊓ V.map x.toMonoidHom = ⊥ ∨ V.map x.toMonoidHom = V := by
   intro x hx

@@ -71,7 +71,7 @@ theorem hyperGenSet_of_seitz2313Even {A : Type} [Group A] [Finite A] (hS : Seitz
     (hU0 : U ≠ ⊥) (hU2 : IsPGroup 2 U) (hEU : E ≤ normalizer (U : Set A)) :
     K ≤ Subgroup.closure {k : A | k ∈ K ∧ ∃ F : Subgroup A, F ≤ E ∧ F.relIndex E = f ∧
       ∀ y ∈ F, y * k = k * y} := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   by_cases hcen : ∀ e ∈ E, ∀ k ∈ K, e * k = k * e
   · obtain ⟨F, hFE, hrel⟩ := exists_hyperplane hEcard
     intro k hk

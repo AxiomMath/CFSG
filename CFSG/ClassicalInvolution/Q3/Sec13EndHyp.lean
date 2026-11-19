@@ -36,34 +36,43 @@ namespace EndHyp
 variable {Ω : Set (Subgroup G)} (h : EndHyp Ω)
 include h
 
+omit [Finite G] in
 theorem card_eq_eight {L : Subgroup G} (hL : L ∈ Ω) : Nat.card L = 8 :=
   h.thmD.card L hL
 
+omit [Finite G] in
 theorem exists_ne : ∃ L ∈ Ω, ∃ L' ∈ Ω, L ≠ L' := by
   by_contra hcon
   push Not at hcon
   exact h.not (Or.inl hcon)
 
+omit [Finite G] in
 theorem wSet_ne (W : Subgroup G) : WSet Ω ≠ {W} := fun hW =>
   h.not (Or.inr (Or.inl ⟨W, hW⟩))
 
+omit [Finite G] in
 theorem no_e8 (E : Subgroup G) : ¬ E8Struct ⊤ E := fun hE =>
   h.not (Or.inr (Or.inr (Or.inl ⟨E, hE⟩)))
 
+omit [Finite G] in
 theorem no_e64 : IsEmpty (AEIdentOn Ω 7 AE.e64Sets AE.e64Sub) :=
   ⟨fun hA => h.not (Or.inr (Or.inr (Or.inr (Or.inl ⟨hA⟩))))⟩
 
+omit [Finite G] in
 theorem no_aeIdent {n : ℕ} (hn : 5 ≤ n) : IsEmpty (AEIdent Ω n) :=
   ⟨fun hA => h.not (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨n, hn, ⟨hA⟩⟩)))))⟩
 
+omit [Finite G] in
 theorem no_e29 : IsEmpty (AEIdentOn Ω 8 AE.e29Sets AE.e29Sub) :=
   ⟨fun hA => h.not (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr ⟨hA⟩)))))⟩
 
+omit [Finite G] in
 theorem mem_pCore {L : Subgroup G} (hL : L ∈ Ω) {z : G} (hz : IsUniqueInvolution L z) :
     z ∈ pCore 2 G := by
   obtain ⟨Q, hQn, hQ2, hzQ⟩ := h.thmD.inO2 L hL z hz
   exact (le_sSup ⟨hQn, hQ2⟩ : Q ≤ pCore 2 G) hzQ
 
+omit [Finite G] in
 theorem zGroup_le_pCore : zGroup Ω ≤ pCore 2 G :=
   (Subgroup.closure_le _).mpr fun _ ⟨_, hL, hu⟩ => h.mem_pCore hL hu
 

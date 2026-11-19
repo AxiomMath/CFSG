@@ -127,7 +127,7 @@ theorem s16h_H5_rowSt8_sec_centralizer_eq_bot [Finite W]
     Subgroup.centralizer (autSec L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) :
       Set (MulAut (Sec (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L)))) = ⊥ := by
   classical
-  haveI : Finite (MulAut W) := s16h_e3A_finite_mulAut (X := W)
+  have : Finite (MulAut W) := s16h_e3A_finite_mulAut (X := W)
   set U : Subgroup W := commSub ⊤ L with hU
   set Z : Subgroup W := U ⊓ fixV L with hZ
   have hLU : L ≤ stabSub U := by rw [hU]; exact s16h_e3A_le_stabSub_commSub L
@@ -151,7 +151,7 @@ theorem s16h_H5_rowSt8_sec_centralizer_eq_bot [Finite W]
       have h2 : (w ^ 2 : ↥U) = 1 := Subtype.ext (by simpa using hc.elem (w : W))
       rw [h2]
       rfl
-  letI : Module (ZMod 2) (Additive (Sec U Z)) :=
+  let : Module (ZMod 2) (Additive (Sec U Z)) :=
     AddCommGroup.zmodModule (n := 2) fun x => by
       show Additive.ofMul ((Additive.toMul x) ^ 2) = 0
       rw [hQ2]; rfl
@@ -177,7 +177,7 @@ theorem s16h_H5_rowSt8_sec_centralizer_eq_bot [Finite W]
   let ρ : GL32 →* (Additive (Sec U Z) ≃ₗ[ZMod 2] Additive (Sec U Z)) :=
     (s16h_mulAutLinearHom (Sec U Z)).comp act
   have hirrsec : XMod.IsIrrSec ↥(autSec L U Z) (⊥ : Subgroup (Sec U Z)) ⊤ := by
-    rw [irrSet, Set.mem_setOf_eq] at hirr
+    rw [irrSet, Set.mem_ofPred_eq] at hirr
     obtain ⟨-, hIrr⟩ := hirr
     rw [IsIrrOn] at hIrr
     obtain ⟨hZU, -, -, hirrCond⟩ := hIrr
@@ -215,7 +215,7 @@ theorem s16h_H5_rowSt8_sec_centralizer_eq_bot [Finite W]
         ext x
         simp [s16h_submoduleOfSubgroup]
   have hcard : 2 ^ 8 ∣ Nat.card (Additive (Sec U Z)) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hmq : E3.mQuot U Z = 8 := h.2
     unfold E3.mQuot at hmq
     have h1 : Nat.card (Additive (Sec U Z)) = Z.relIndex U := by

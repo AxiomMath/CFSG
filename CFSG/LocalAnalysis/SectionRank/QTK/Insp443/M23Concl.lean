@@ -116,7 +116,7 @@ theorem conclK_m23_duad
     (isNaturalSection_iff_isSumOfNaturalModules_one _ _ bot_le).mp hsec
   have hcommV : IsMulCommutative ↥(eSub basis_duad) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm basis_duad x y hx hy
-  letI : IsMulCommutative ↥(eSub basis_duad) := hcommV
+  let : IsMulCommutative ↥(eSub basis_duad) := hcommV
   have hFFM : IsFFModule (autOn Mduad (eSub basis_duad)) :=
     FFn.isFFModule_autOn_of_sum (n := 1) (k := 1) (by decide) le_rfl le_rfl hsum
   have hFF : IsFFModule (autOn (Subgroup.normalizer (eSub basis_duad : Set G₀))
@@ -169,7 +169,7 @@ private theorem shape_quot_m23_w :
 private theorem isFFModule_m23_w
     [IsMulCommutative ↥(eSub basis_w)] : IsFFModule (autOn Mw (eSub basis_w)) := by
   let V := eSub basis_w
-  letI : IsMulCommutative ↥V := ‹IsMulCommutative ↥(eSub basis_w)›
+  let : IsMulCommutative ↥V := ‹IsMulCommutative ↥(eSub basis_w)›
   let ρ : ↥Mw →* MulAut ↥V :=
     (conjAct V).comp (Subgroup.inclusion Mw_le_eNorm)
   have hρapply : ∀ (x : ↥Mw) (v : ↥V), ((ρ x) v : G₀) =
@@ -278,7 +278,7 @@ theorem conclK_m23_w
   have hshape := shape_quot_m23_w
   have hcommV : IsMulCommutative ↥(eSub basis_w) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm basis_w x y hx hy
-  letI : IsMulCommutative ↥(eSub basis_w) := hcommV
+  let : IsMulCommutative ↥(eSub basis_w) := hcommV
   have hFF : IsFFModule (autOn (Subgroup.normalizer (eSub basis_w : Set G₀))
       (eSub basis_w)) := by
     have h := isFFModule_m23_w
@@ -366,7 +366,7 @@ theorem conclK_m23_e8
     (isNaturalSection_iff_isSumOfNaturalModules_one _ _ bot_le).mp hsec
   have hcommV : IsMulCommutative ↥(eSub basis_e8) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm basis_e8 x y hx hy
-  letI : IsMulCommutative ↥(eSub basis_e8) := hcommV
+  let : IsMulCommutative ↥(eSub basis_e8) := hcommV
   have hFF : IsFFModule (autOn (Subgroup.normalizer (eSub basis_e8 : Set G₀))
       (eSub basis_e8)) := by
     exact FFn.isFFModule_autOn_of_sum (n := 2) (k := 1) (by decide) le_rfl (by norm_num) hsum

@@ -208,9 +208,9 @@ theorem rowsMatrix_deltaRows_apply {i : Nat} (hi : i < 124) (a : Fin 2) (k : Fin
       keyVec (Native.deltaKeys[i]!) a k := by
   rw [rowsMatrix_apply]
   fin_cases a
-  · simp only [Fin.zero_eta, Fin.val_zero, Nat.add_zero, keyVec_zero]
+  · simp only [Fin.zero_eta, Nat.add_zero, keyVec_zero]
     rw [deltaRows_getD_two_mul hi]
-  · simp only [Fin.mk_one, Fin.val_one, keyVec_one]
+  · simp only [Fin.mk_one, keyVec_one]
     rw [deltaRows_getD_two_mul_add_one hi]
 
 theorem cRows_eq_deltaRows : Native.cRows () = BaseS.deltaRows.toArray := by
@@ -224,23 +224,23 @@ theorem cRows_eq_deltaRows : Native.cRows () = BaseS.deltaRows.toArray := by
       have e2 : Native.deltaKeys[q]! = Native.deltaKeys[q] := getElem!_pos Native.deltaKeys q hq
       rw [e1, Option.map_some]
       rw [deltaKeys_size] at hq
-      simp [Native.cRows, Array.getElem?_ofFn, show 2 * q < 248 by omega, e2]
+      simp [Native.cRows, show 2 * q < 248 by omega, e2]
     · have e1 : Native.deltaKeys[q]? = none := Array.getElem?_eq_none (by omega)
       rw [e1, Option.map_none]
       rw [deltaKeys_size] at hq
-      simp [Native.cRows, Array.getElem?_ofFn, show ¬ 2 * q < 248 by omega]
+      simp [Native.cRows, show ¬ 2 * q < 248 by omega]
   · rw [getElem?_keyRows_two_mul_add_one, Array.getElem?_toList]
     by_cases hq : q < Native.deltaKeys.size
     · have e1 : Native.deltaKeys[q]? = some Native.deltaKeys[q] := Array.getElem?_eq_getElem hq
       have e2 : Native.deltaKeys[q]! = Native.deltaKeys[q] := getElem!_pos Native.deltaKeys q hq
       rw [e1, Option.map_some]
       rw [deltaKeys_size] at hq
-      simp [Native.cRows, Array.getElem?_ofFn, show 2 * q + 1 < 248 by omega,
+      simp [Native.cRows, show 2 * q + 1 < 248 by omega,
         show (2 * q + 1) / 2 = q by omega, e2]
     · have e1 : Native.deltaKeys[q]? = none := Array.getElem?_eq_none (by omega)
       rw [e1, Option.map_none]
       rw [deltaKeys_size] at hq
-      simp [Native.cRows, Array.getElem?_ofFn, show ¬ 2 * q + 1 < 248 by omega]
+      simp [Native.cRows, show ¬ 2 * q + 1 < 248 by omega]
 
 theorem wfRows_cRows : WfRows (Native.cRows ()) := by
   rw [cRows_eq_deltaRows]
@@ -288,11 +288,11 @@ theorem bit_rowB (hk : constsOK c rm tm0 tm1 tm2 tm3 tm4 tm5 tm6 tm7 up dg ONE =
   rw [pkVec_apply] at h
   rw [bit_eq]
   by_cases hb : (rowB rm G r.val).testBit j.val = true
-  · rw [if_pos hb] at h
-    rw [if_pos hb, ← h]
+  · rw [ite_eq_left hb] at h
+    rw [ite_eq_left hb, ← h]
     rfl
-  · rw [if_neg hb] at h
-    rw [if_neg hb, ← h]
+  · rw [ite_eq_right hb] at h
+    rw [ite_eq_right hb, ← h]
     rfl
 
 theorem blkG_eq_gramCode (hk : constsOK c rm tm0 tm1 tm2 tm3 tm4 tm5 tm6 tm7 up dg ONE = true)

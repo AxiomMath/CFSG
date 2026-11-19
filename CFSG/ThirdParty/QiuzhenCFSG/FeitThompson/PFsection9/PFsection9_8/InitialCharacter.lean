@@ -181,9 +181,9 @@ public theorem
     theorem_9_8_initial_constituent_Mtheta_uprime_subgroupOf_normal_sec9
       U Uprime hUprimeEq
   let Hsub : Subgroup K := (Uprime.subgroupOf U).subgroupOf K
-  letI : Hsub.Normal := hUprimeNormal.subgroupOf K
+  let : Hsub.Normal := hUprimeNormal.subgroupOf K
   let Clam : Type u := K ⧸ Hsub
-  letI : Group Clam := inferInstance
+  let : Group Clam := inferInstance
   let hClamComm : IsMulCommutative Clam :=
     theorem_9_8_initial_constituent_Mtheta_clam_kernel_quotient_comm_sec9
       U C Uprime ρBase hUprimeEq
@@ -194,8 +194,8 @@ public theorem
     rcases hy with ⟨x, rfl⟩
     rcases QuotientGroup.mk'_surjective (C.subgroupOf U) x with ⟨u, rfl⟩
     exact ⟨u, rfl⟩
-  letI : IsCyclic ρBase.range := hρcycBase
-  letI : IsMulCommutative ρBase.range := IsCyclic.isMulCommutative
+  let : IsCyclic ρBase.range := hρcycBase
+  let : IsMulCommutative ρBase.range := IsCyclic.isMulCommutative
   let σ : ρBase.range →* MulAut Clam :=
     mulAutHomInvOfCommDomain_sec9
       (kernelQuotientConjHomOfSurjective_sec9 f (Uprime.subgroupOf U) (by
@@ -207,8 +207,8 @@ public theorem
   let instFirstAction : MulAction ρBase.range (Fin (p - 1)) :=
     nonprincipalLinearCharacterIndexMulAction_sec9 p
       (hHcard ⟨0, hqpos⟩) ρRange
-  letI : MulAction ρBase.range Lam := instLamAction
-  letI : MulAction ρBase.range (Fin (p - 1)) := instFirstAction
+  let : MulAction ρBase.range Lam := instLamAction
+  let : MulAction ρBase.range (Fin (p - 1)) := instFirstAction
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
   let A : Subgroup Dm := (((H0 ⊔ Uprime).subgroupOf M).subgroupOf Dm)
   let MFD : Subgroup Dm := ((MF.subgroupOf M).subgroupOf Dm)
@@ -219,9 +219,9 @@ public theorem
             (H ⟨0, hqpos⟩) p (hHcard ⟨0, hqpos⟩)) k.1).1.comp
         eH1.toMonoidHom)
       (k.2.comp eClam.toMonoidHom)
-  letI : B.Normal := hBnormal
-  letI : A.Normal := hAnormal
-  letI : (A.subgroupOf B).Normal := hAnormal.subgroupOf B
+  let : B.Normal := hBnormal
+  let : A.Normal := hAnormal
+  let : (A.subgroupOf B).Normal := hAnormal.subgroupOf B
   have hψirr :
       Section1.IsIrreducibleCharacterOnGroup
         (Section1.quotientCharacterInflation A B (ψlin k)) :=
@@ -235,7 +235,7 @@ public theorem
       simpa [ψlin] using hIeq k)
   have hDnormal : Dm.Normal := by
     simpa [Dm] using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-  letI : Dm.Normal := hDnormal
+  let : Dm.Normal := hDnormal
   have hcomp : Dm.IsComplement' (W1.subgroupOf M) := by
     dsimp [Dm]
     exact ambientDerived_W1_isComplement'_subgroupOf_M_of_hypothesis_9_2_sec9
@@ -293,7 +293,7 @@ public theorem
       simpa [MFD, Dm] using
         theorem_9_8_MF_subgroupOf_ambientDerived_normal_sec9
           M MF U W1 W2 H0 C p q a hcase
-    letI : MFD.Normal := hMFDnormal
+    let : MFD.Normal := hMFDnormal
     let W : Subgroup Dm := (U.subgroupOf M).subgroupOf Dm
     have hsemiTop :
         Section2.IsInternalSemidirectProduct (⊤ : Subgroup Dm) MFD W := by
@@ -528,7 +528,7 @@ public theorem
       change qMFD (mMFD * wConjMFD * mMFD⁻¹) ∈ H1cMF
       simpa [map_mul, map_inv, mul_assoc] using
         hH1c_normal.conj_mem (qMFD wConjMFD) hq_wConj_mem (qMFD mMFD)
-    letI : MFDH1c.Normal := hMFDH1c_normal
+    let : MFDH1c.Normal := hMFDH1c_normal
     have hkerMFDH1c :
         Section1.subgroupInKernel'
           (Section1.inducedCF B
@@ -751,9 +751,9 @@ public theorem
     theorem_9_8_initial_constituent_Mtheta_uprime_subgroupOf_normal_sec9
       U Uprime hUprimeEq
   let Hsub : Subgroup K := (Uprime.subgroupOf U).subgroupOf K
-  letI : Hsub.Normal := hUprimeNormal.subgroupOf K
+  let : Hsub.Normal := hUprimeNormal.subgroupOf K
   let Clam : Type u := K ⧸ Hsub
-  letI : Group Clam := inferInstance
+  let : Group Clam := inferInstance
   let Lam : Type u := Clam →* ℂˣ
   let hClamComm : IsMulCommutative Clam :=
     theorem_9_8_initial_constituent_Mtheta_clam_kernel_quotient_comm_sec9
@@ -764,8 +764,8 @@ public theorem
     rcases hy with ⟨x, rfl⟩
     rcases QuotientGroup.mk'_surjective (C.subgroupOf U) x with ⟨u, rfl⟩
     exact ⟨u, rfl⟩
-  haveI : IsCyclic ρBase.range := hρcycBase
-  haveI : IsMulCommutative ρBase.range := IsCyclic.isMulCommutative
+  have : IsCyclic ρBase.range := hρcycBase
+  have : IsMulCommutative ρBase.range := IsCyclic.isMulCommutative
   let σ : ρBase.range →* MulAut Clam :=
     mulAutHomInvOfCommDomain_sec9
       (kernelQuotientConjHomOfSurjective_sec9 f (Uprime.subgroupOf U) (by
@@ -777,8 +777,8 @@ public theorem
   let instFirstAction : MulAction ρBase.range (Fin (p - 1)) :=
     nonprincipalLinearCharacterIndexMulAction_sec9 p
       (hHcard ⟨0, hqpos⟩) ρRange
-  letI : MulAction ρBase.range Lam := instLamAction
-  letI : MulAction ρBase.range (Fin (p - 1)) := instFirstAction
+  let : MulAction ρBase.range Lam := instLamAction
+  let : MulAction ρBase.range (Fin (p - 1)) := instFirstAction
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
   let A : Subgroup Dm := (((H0 ⊔ Uprime).subgroupOf M).subgroupOf Dm)
   let MFD : Subgroup Dm := ((MF.subgroupOf M).subgroupOf Dm)
@@ -790,9 +790,9 @@ public theorem
             (H ⟨0, hqpos⟩) p (hHcard ⟨0, hqpos⟩)) k.1).1.comp
         eH1.toMonoidHom)
       (k.2.comp eClam.toMonoidHom)
-  letI : B.Normal := hBnormal
-  letI : A.Normal := hAnormal
-  letI : (A.subgroupOf B).Normal := hAnormal.subgroupOf B
+  let : B.Normal := hBnormal
+  let : A.Normal := hAnormal
+  let : (A.subgroupOf B).Normal := hAnormal.subgroupOf B
   have hψirr :
       ∀ k : Fin (p - 1) × Lam,
         Section1.IsIrreducibleCharacterOnGroup
@@ -822,12 +822,12 @@ public theorem
             (Section1.quotientCharacterInflation A B (ψlin l)) := by
     have hDnormal : Dm.Normal := by
       simpa [Dm] using (section12_normalIn_ambientDerivedSubgroup (G := G) (E := M)).2
-    letI : Dm.Normal := hDnormal
+    let : Dm.Normal := hDnormal
     have hMFDnormal : MFD.Normal := by
       simpa [MFD, Dm] using
         theorem_9_8_MF_subgroupOf_ambientDerived_normal_sec9
           M MF U W1 W2 H0 C p q a hcase
-    letI : MFD.Normal := hMFDnormal
+    let : MFD.Normal := hMFDnormal
     have hsemiTop :
         Section2.IsInternalSemidirectProduct (⊤ : Subgroup Dm) MFD W := by
       simpa [MFD, W, Dm] using
@@ -1119,7 +1119,7 @@ public theorem
           change qMFD (mMFD * wConjMFD * mMFD⁻¹) ∈ H1cMF
           simpa [map_mul, map_inv, mul_assoc] using
             hH1c_normal.conj_mem (qMFD wConjMFD) hq_wConj_mem (qMFD mMFD)
-        letI : MFDH1c.Normal := hMFDH1c_normal
+        let : MFDH1c.Normal := hMFDH1c_normal
         have hsourceKerMFDH1c :
             ∀ r : Fin (p - 1) × Lam,
               Section1.subgroupInKernel'
@@ -1255,7 +1255,7 @@ public theorem
       simpa [MFD, Dm] using
         theorem_9_8_MF_subgroupOf_ambientDerived_normal_sec9
           M MF U W1 W2 H0 C p q a hcase
-    letI : MFD.Normal := hMFDnormal
+    let : MFD.Normal := hMFDnormal
     have hsemiTop :
         Section2.IsInternalSemidirectProduct (⊤ : Subgroup Dm) MFD W := by
       simpa [MFD, W, Dm] using
@@ -1487,8 +1487,8 @@ public theorem
         rcases hy with ⟨x, rfl⟩
         rcases QuotientGroup.mk'_surjective (C.subgroupOf U) x with ⟨u, rfl⟩
         exact ⟨u, rfl⟩
-      haveI : IsCyclic ρBase.range := hρcycBase
-      haveI : IsMulCommutative ρBase.range := IsCyclic.isMulCommutative
+      have : IsCyclic ρBase.range := hρcycBase
+      have : IsMulCommutative ρBase.range := IsCyclic.isMulCommutative
       let σ0 : ρBase.range →* MulAut Clam :=
         kernelQuotientConjHomOfSurjective_sec9 f (Uprime.subgroupOf U) (by
           simpa [Clam, Hsub, K, f] using hClamComm) hf_surj
@@ -1756,9 +1756,9 @@ public theorem
     theorem_9_8_initial_constituent_Mtheta_uprime_subgroupOf_normal_sec9
       U Uprime hUprimeEq
   let Hsub : Subgroup K := (Uprime.subgroupOf U).subgroupOf K
-  letI : Hsub.Normal := hUprimeNormal.subgroupOf K
+  let : Hsub.Normal := hUprimeNormal.subgroupOf K
   let Clam : Type u := K ⧸ Hsub
-  letI : Group Clam := inferInstance
+  let : Group Clam := inferInstance
   let hClamComm : IsMulCommutative Clam :=
     theorem_9_8_initial_constituent_Mtheta_clam_kernel_quotient_comm_sec9
       U C Uprime ρBase hUprimeEq
@@ -1769,8 +1769,8 @@ public theorem
     rcases hy with ⟨x, rfl⟩
     rcases QuotientGroup.mk'_surjective (C.subgroupOf U) x with ⟨u, rfl⟩
     exact ⟨u, rfl⟩
-  letI : IsCyclic ρBase.range := hρcycBase
-  letI : IsMulCommutative ρBase.range := IsCyclic.isMulCommutative
+  let : IsCyclic ρBase.range := hρcycBase
+  let : IsMulCommutative ρBase.range := IsCyclic.isMulCommutative
   let σ : ρBase.range →* MulAut Clam :=
     mulAutHomInvOfCommDomain_sec9
       (kernelQuotientConjHomOfSurjective_sec9 f (Uprime.subgroupOf U) (by
@@ -1782,8 +1782,8 @@ public theorem
   let instFirstAction : MulAction ρBase.range (Fin (p - 1)) :=
     nonprincipalLinearCharacterIndexMulAction_sec9 p
       (hHcard ⟨0, hqpos⟩) ρRange
-  letI : MulAction ρBase.range Lam := instLamAction
-  letI : MulAction ρBase.range (Fin (p - 1)) := instFirstAction
+  let : MulAction ρBase.range Lam := instLamAction
+  let : MulAction ρBase.range (Fin (p - 1)) := instFirstAction
   let Dm : Subgroup M := (ambientDerivedSubgroup M).subgroupOf M
   let A : Subgroup Dm := (((H0 ⊔ Uprime).subgroupOf M).subgroupOf Dm)
   let MFD : Subgroup Dm := ((MF.subgroupOf M).subgroupOf Dm)
@@ -1794,11 +1794,11 @@ public theorem
       QMF, QH1c, QH1, QClam, QH1CH1, hsemi, hprod, eH1, eClam,
       hQH1_apply, hQH1c_apply, hQClam_apply, hQMF_eq, hQMF_split_in_Q,
       hQH1_le_QMF⟩
-  letI : B.Normal := hBnormal
-  letI : A.Normal := hAnormal
-  letI : (A.subgroupOf B).Normal := hAnormal.subgroupOf B
+  let : B.Normal := hBnormal
+  let : A.Normal := hAnormal
+  let : (A.subgroupOf B).Normal := hAnormal.subgroupOf B
   let Q : Type u := B ⧸ A.subgroupOf B
-  letI : Group Q := inferInstance
+  let : Group Q := inferInstance
   let ψlin : Fin (p - 1) × Lam → Q →* ℂˣ := fun k =>
     semidirectProductOfInternalDirectProductLinearCharacter_sec9
       hsemi hprod
@@ -1894,7 +1894,7 @@ public theorem
     simpa [MFD, Dm] using
       theorem_9_8_MF_subgroupOf_ambientDerived_normal_sec9
         M MF U W1 W2 H0 C p q a hcase
-  letI : MFD.Normal := hMFDnormal
+  let : MFD.Normal := hMFDnormal
   have hsemiTop :
       Section2.IsInternalSemidirectProduct (⊤ : Subgroup Dm) MFD W := by
     simpa [MFD, W, Dm] using
@@ -2587,25 +2587,25 @@ public theorem
     theorem_9_8_initial_constituent_Mtheta_uprime_subgroupOf_normal_sec9
       U Uprime hUprimeEq
   let Hsub : Subgroup K := (Uprime.subgroupOf U).subgroupOf K
-  letI : Hsub.Normal := hUprimeNormal.subgroupOf K
+  let : Hsub.Normal := hUprimeNormal.subgroupOf K
   let Clam : Type u := K ⧸ Hsub
-  letI : Group Clam := inferInstance
-  letI : Fintype Clam := Fintype.ofFinite Clam
-  letI : DecidableEq Clam := Classical.decEq Clam
-  letI : Finite Clam := Finite.of_fintype Clam
+  let : Group Clam := inferInstance
+  let : Fintype Clam := Fintype.ofFinite Clam
+  let : DecidableEq Clam := Classical.decEq Clam
+  let : Finite Clam := Finite.of_fintype Clam
   have hClamComm : IsMulCommutative Clam := by
     simpa [Clam, Hsub, K, f] using
       theorem_9_8_initial_constituent_Mtheta_clam_kernel_quotient_comm_sec9
         U C Uprime ρBase hUprimeEq
-  letI : IsMulCommutative Clam := hClamComm
-  letI : CommGroup Clam := IsMulCommutative.instCommGroup
-  haveI : HasEnoughRootsOfUnity ℂ (Monoid.exponent Clam) :=
+  let : IsMulCommutative Clam := hClamComm
+  let : CommGroup Clam := IsMulCommutative.instCommGroup
+  have : HasEnoughRootsOfUnity ℂ (Monoid.exponent Clam) :=
     Section1.complex_hasEnoughRootsOfUnity (Monoid.exponent Clam)
   let Lam : Type u := Clam →* ℂˣ
   let instFintypeLam : Fintype Lam := Fintype.ofFinite Lam
   let instDecidableEqLam : DecidableEq Lam := Classical.decEq Lam
-  letI : Fintype Lam := instFintypeLam
-  letI : DecidableEq Lam := instDecidableEqLam
+  let : Fintype Lam := instFintypeLam
+  let : DecidableEq Lam := instDecidableEqLam
   let lam : Lam → Clam →* ℂˣ := fun χ => χ
   have hlaminj : Function.Injective lam := by
     intro χ η hχη
@@ -2632,8 +2632,8 @@ public theorem
     rcases hy with ⟨x, rfl⟩
     rcases QuotientGroup.mk'_surjective (C.subgroupOf U) x with ⟨u, rfl⟩
     exact ⟨u, rfl⟩
-  letI : IsCyclic ρBase.range := hρcycBase
-  letI : IsMulCommutative ρBase.range := IsCyclic.isMulCommutative
+  let : IsCyclic ρBase.range := hρcycBase
+  let : IsMulCommutative ρBase.range := IsCyclic.isMulCommutative
   let σ : ρBase.range →* MulAut Clam :=
     mulAutHomInvOfCommDomain_sec9
       (kernelQuotientConjHomOfSurjective_sec9 f (Uprime.subgroupOf U) (by
@@ -2665,7 +2665,7 @@ public theorem theorem_9_8_initial_constituent_Mtheta_free_action_source_core_se
   -- `[set~ 0] × Iirr Clam`, its order is `a`, and quotienting gives the
   -- induced `M'` constituents of degree `a`.
   intro hcase hBarU hUprime
-  haveI : NeZero a :=
+  have : NeZero a :=
     ⟨Nat.ne_of_gt
       (case_9_7_a_index_a_pos_sec9 M MF U W1 W2 H0 C p q a hcase)⟩
   rcases case_9_7_a_component_decomposition_sec9 hcase with
@@ -2675,10 +2675,10 @@ public theorem theorem_9_8_initial_constituent_Mtheta_free_action_source_core_se
     ⟨hnormalC, ρBase, hρcycBase, hρcardBase, hρactionBase, hρkerBase⟩
   rcases case_9_7_a_quotient_isElementaryAbelian_sec9 hcase with
     ⟨_hnormalH0_case, hquotElem⟩
-  letI : (H0.subgroupOf MF).Normal := hnormalH0
-  letI : (C.subgroupOf U).Normal := hnormalC
-  letI : IsElementaryAbelian p (MF ⧸ H0.subgroupOf MF) := hquotElem
-  haveI : IsMulCommutative (MF ⧸ H0.subgroupOf MF) := inferInstance
+  let : (H0.subgroupOf MF).Normal := hnormalH0
+  let : (C.subgroupOf U).Normal := hnormalC
+  let : IsElementaryAbelian p (MF ⧸ H0.subgroupOf MF) := hquotElem
+  have : IsMulCommutative (MF ⧸ H0.subgroupOf MF) := inferInstance
   have hclam :=
     theorem_9_8_initial_constituent_Mtheta_clam_kernel_quotient_theta_source_core_sec9
       M MF U W1 W2 H0 C Uprime p q a u H hqpos hHcard hHnorm hHindep hHsup

@@ -57,12 +57,12 @@ theorem IsZariskiClosed.sum_lowest_mem [Infinite k] {C : Set V} (hC : IsZariskiC
   refine Finset.sum_congr rfl fun i hi => ?_
   by_cases hmin : ∀ j ∈ s, e i ≤ e j
   · have hia : e i = a := le_antisymm (Finset.le_inf' hs e hmin) (ha i hi)
-    rw [if_pos hmin, hia, sub_self, Int.toNat_zero, pow_zero, one_smul]
+    rw [ite_eq_left hmin, hia, sub_self, Int.toNat_zero, pow_zero, one_smul]
   · obtain ⟨j, hj, hji⟩ : ∃ j ∈ s, e j < e i := by simpa using hmin
     have hpos : (e i - a).toNat ≠ 0 := by
       have := ha j hj
       omega
-    rw [if_neg hmin, zero_pow hpos, zero_smul]
+    rw [ite_eq_right hmin, zero_pow hpos, zero_smul]
 
 theorem IsZariskiClosed.sum_highest_mem [Infinite k] {C : Set V} (hC : IsZariskiClosed k C)
     (hcone : IsCone k C) {ι : Type w} (s : Finset ι) (hs : s.Nonempty) (e : ι → ℤ) (w : ι → V)

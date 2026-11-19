@@ -22,8 +22,8 @@ private theorem false_of_inf_eq_bot_of_le (c : Cfg145 M X₁ X₂ P) (hKB : KThr
     {J : Subgroup K} (hJ : IsComponentOf J ⊤)
     (hJu : ∀ J' : Subgroup K, IsComponentOf J' ⊤ → J' = J)
     (hJnorm : normalizer (J : Set K) = ⊤) (hnot9 : ¬ 9 ∣ Nat.card J) {Y : Subgroup K}
-    (hYX : Y ≤ X₁ ⊔ X₂) (hY : Nat.card Y = 3) (hYJ : Y ⊓ J = ⊥) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    (_hYX : Y ≤ X₁ ⊔ X₂) (hY : Nat.card Y = 3) (hYJ : Y ⊓ J = ⊥) : False := by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hYne : Y ≠ ⊥ := by
     intro hbot
     rw [hbot, Subgroup.card_bot] at hY
@@ -71,7 +71,7 @@ private theorem false_of_inf_eq_bot_of_le (c : Cfg145 M X₁ X₂ P) (hKB : KThr
 theorem false_of_card_inf_eq_three (c : Cfg145 M X₁ X₂ P) (hKB : KThreeInner) {J : Subgroup K}
     (hJ : IsComponentOf J ⊤) (hJu : ∀ J' : Subgroup K, IsComponentOf J' ⊤ → J' = J)
     (hXJ : Nat.card ↥((X₁ ⊔ X₂) ⊓ J) = 3) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJnorm : normalizer (J : Set K) = ⊤ := by
     rw [Subgroup.normalizer_eq_top_iff, Subgroup.normal_iff_map_conj_eq]
     intro k

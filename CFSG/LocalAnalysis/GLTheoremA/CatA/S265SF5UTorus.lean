@@ -31,7 +31,7 @@ private theorem exists_exponent_five_of_dvd (hF : UnitaryFieldData 2 m F) (h5 : 
       (∀ g ∈ P, g ^ 5 = 1) ∧ ∃ a ∈ P, ∃ b ∈ P, ∀ c : Fˣ,
         ((b * a * b⁻¹ * a⁻¹ : gramSU hF ((1 : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F)) :
           GL (Fin 5) F) ≠ GeneralLinearGroup.scalar (Fin 5) c := by
-  haveI := hF.finite
+  have := hF.finite
   obtain ⟨ζ, hζ, -⟩ := exists_orderOf_eq_norm_one hF Nat.prime_five h5
   have hCcard : Nat.card (Subgroup.zpowers ζ) = 5 ^ 1 := by rw [Nat.card_zpowers, hζ, pow_one]
   have hC5 : ∀ u : Subgroup.zpowers ζ, u ^ 5 = 1 := fun u => by

@@ -38,7 +38,7 @@ theorem GGExtCtx.eq_top_of_classRefl_five_seven {V : Type} [AddCommGroup V] [Mod
     (hT : Module.finrank (ZMod 7) ↥T = 5) {Q : QuadraticForm (ZMod 7) ↥T}
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {c : ZMod 7} (hc : c ≠ 0)
     (hAT : AT = Subgroup.closure (ZS.ClassRefl 7 Q c)) : T = ⊤ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨ℓ, s, d, hℓ, hs, hd, hd3, hdc1, hdc2, hcoc, hidx⟩ :=
     OFiveSeven.exists_splitData hT hQ hc
   have hℓ' : ℓ ∈ AT := by rw [hAT]; exact hℓ
@@ -81,13 +81,13 @@ theorem GGExtCtx.eq_top_of_classRefl_five_seven {V : Type} [AddCommGroup V] [Mod
   have h1 : ∑ k ∈ Finset.range 4, (ℓ ^ k) ⟨lhat w₀ - w₀, hxT⟩ =
       d ⟨lhat w₀ - w₀, hxT⟩ := by
     apply Subtype.ext
-    simp only [Submodule.coe_sum, Submodule.coe_mk, ← lift_pow_apply X hℓ', ← hresd]
+    simp only [Submodule.coe_sum, ← lift_pow_apply X hℓ', ← hresd]
     simpa only [Finset.sum_range_zero, map_zero, add_zero] using
       sum_cocycle_eq (c := lhat) (i := 4) (j := 0) hw₀ (by simpa using hdc1')
   have h2 : ∑ k ∈ Finset.range 2, (s ^ k) ⟨shat w₀ - w₀, hyT⟩ =
       d ⟨shat w₀ - w₀, hyT⟩ := by
     apply Subtype.ext
-    simp only [Submodule.coe_sum, Submodule.coe_mk, ← lift_pow_apply X hs', ← hresd]
+    simp only [Submodule.coe_sum, ← lift_pow_apply X hs', ← hresd]
     simpa only [Finset.sum_range_zero, map_zero, add_zero] using
       sum_cocycle_eq (c := shat) (i := 2) (j := 0) hw₀ (by simpa using hdc2')
   obtain ⟨t, htℓ, hts⟩ := hcoc ⟨lhat w₀ - w₀, hxT⟩ ⟨shat w₀ - w₀, hyT⟩ h1 h2

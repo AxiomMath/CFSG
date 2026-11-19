@@ -43,7 +43,7 @@ open CFSG.KC.Ord CFSG.KC.Loop CFSG.KD.G2Three
   allBelow m hi fun q => Nat.beq (MULP (A q) (B q)) (MULP (C q) (D q))
 
 @[expose] noncomputable def neK (A B C D : Nat → Nat) (m hi : Nat) : Bool :=
-  allBelow m hi fun q => Bool.not' (Nat.beq (MULP (A q) (B q)) (MULP (C q) (D q)))
+  allBelow m hi fun q => not (Nat.beq (MULP (A q) (B q)) (MULP (C q) (D q)))
 
 @[expose] noncomputable def idxK (X Y I : Nat → Nat) (n m hi : Nat) : Bool :=
   allBelow m hi fun q => bAnd(Nat.blt (I q) n, Nat.beq (X (I q)) (Y q))
@@ -52,7 +52,7 @@ open CFSG.KC.Ord CFSG.KC.Loop CFSG.KD.G2Three
   allBelow m hi fun q => Nat.blt (I q) n
 
 @[expose] noncomputable def neqK (U V : Nat → Nat) (m hi : Nat) : Bool :=
-  allBelow m hi fun q => Bool.not' (Nat.beq (U q) (V q))
+  allBelow m hi fun q => not (Nat.beq (U q) (V q))
 
 @[expose] noncomputable def actK (X G M : Nat → Nat) (k hi : Nat) : Bool :=
   allBelow (Nat.mul 3 k) hi fun q => (fun s j =>

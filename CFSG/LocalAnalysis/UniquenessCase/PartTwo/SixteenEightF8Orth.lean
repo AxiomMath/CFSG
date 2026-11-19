@@ -19,8 +19,8 @@ theorem s16g_orth_values_of_singular [CharP K 2] (Q : QuadraticForm K (ι → K)
     (c : K) :
     ∃ w : ι → K, w ≠ 0 ∧ Q w = c ∧ ∀ b ∈ B, (b : Matrix ι ι K) *ᵥ w = w := by
   classical
-  haveI : Fintype ↥B := Fintype.ofFinite ↥B
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fintype ↥B := Fintype.ofFinite ↥B
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := p) (G := ↥B)).mp hB
   have hpK : (p : K) ≠ 0 := by
     intro h
@@ -152,9 +152,10 @@ theorem s16g_orth_values_of_singular [CharP K 2] (Q : QuadraticForm K (ι → K)
     have h := hWfix ⟨b, hb⟩
     simpa only [M, Matrix.mulVecLin_apply] using h⟩
 
+omit [DecidableEq ι] in
 theorem s16g_exists_singular_of_finrank_ge_three (Q : QuadraticForm K (ι → K))
     (U : Submodule K (ι → K)) (hU : 3 ≤ Module.finrank K U) : ∃ u ∈ U, u ≠ 0 ∧ Q u = 0 := by
-  haveI : Module.Finite K U := Module.Finite.of_injective U.subtype Subtype.coe_injective
+  have : Module.Finite K U := Module.Finite.of_injective U.subtype Subtype.coe_injective
   obtain ⟨f, hf⟩ := exists_linearIndependent_of_le_finrank (R := K) (M := U) hU
   let D : Submodule K (ι → K) :=
     Submodule.span K (Set.range (fun i : Fin 3 => (f i : ι → K)))
@@ -172,13 +173,13 @@ theorem s16g_exists_singular_of_finrank_ge_three (Q : QuadraticForm K (ι → K)
   exact ⟨p, hDle hpD, hp0, hQp⟩
 
 theorem s16g_exists_singular_of_nofix [CharP K 2] (Q : QuadraticForm K (ι → K)) {p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpq : ¬ p ∣ Nat.card K ^ 2 - 1)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hpq : ¬ p ∣ Nat.card K ^ 2 - 1)
     (g : Matrix.GeneralLinearGroup ι K) (hg : g ^ p = 1) (U : Submodule K (ι → K)) (hU : U ≠ ⊥)
     (hUg : ∀ u ∈ U, (g : Matrix ι ι K) *ᵥ u ∈ U)
     (hnofix : ∀ u ∈ U, (g : Matrix ι ι K) *ᵥ u = u → u = 0) :
     ∃ u ∈ U, u ≠ 0 ∧ Q u = 0 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let f : (ι → K) ≃ₗ[K] (ι → K) := (Matrix.GeneralLinearGroup.toLin g).toLinearEquiv
   have hf_apply : ∀ v : ι → K, f v = (g : Matrix ι ι K) *ᵥ v := by
     intro v
@@ -234,12 +235,12 @@ theorem s16g_exists_singular_of_nofix [CharP K 2] (Q : QuadraticForm K (ι → K
     have h3 : (g : Matrix ι ι K) *ᵥ u₀ = u₀ := by rwa [hf_apply] at h1
     exact hu₀ (hnofix u₀ hu₀U h3)
   have horder : orderOf gU = p := orderOf_eq_prime hgU_pow hgU_ne
-  haveI : Module.Finite K U := Module.Finite.of_injective U.subtype Subtype.coe_injective
+  have : Module.Finite K U := Module.Finite.of_injective U.subtype Subtype.coe_injective
   have hcardz : Nat.card ↥(Subgroup.zpowers gU) = p := by
     rw [Nat.card_zpowers, horder]
-  haveI hGp : IsPGroup p ↥(Subgroup.zpowers gU) :=
+  have hGp : IsPGroup p ↥(Subgroup.zpowers gU) :=
     IsPGroup.of_card (n := 1) (by rw [hcardz, pow_one])
-  letI : MulAction ↥(Subgroup.zpowers gU) U :=
+  let : MulAction ↥(Subgroup.zpowers gU) U :=
     MulAction.compHom U (Subgroup.subtype (Subgroup.zpowers gU))
   have hfixset : Nat.card ↥(MulAction.fixedPoints ↥(Subgroup.zpowers gU) U) = 1 := by
     refine Nat.card_eq_one_iff_unique.mpr ⟨⟨fun a b => Subtype.ext ?_⟩, ⟨⟨(0 : U), ?_⟩⟩⟩

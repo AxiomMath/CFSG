@@ -30,6 +30,7 @@ private theorem q13e_mem_zpowers_tau (h : Q13Om t L S x₁ x₂ lam rho tau om) 
     have hm' : m % ((2 : ℕ) : ℤ) = 1 := by simpa using hm
     rw [hm', zpow_one]
 
+omit [Finite G] in
 private lemma q13e_rotate {x y z : G} (hxy : x * y = y * x) (hxz : x * z = z * x) :
     x * y * z = y * z * x := by
   calc x * y * z = (x * y) * z := rfl
@@ -150,6 +151,7 @@ theorem q13e_mem_H1 (h : Q13Om t L S x₁ x₂ lam rho tau om) {p : G} :
     · exact ⟨1, Subgroup.one_mem _, c, hc, by rw [h1, one_mul]⟩
     · exact ⟨tau, Subgroup.mem_zpowers tau, c, hc, ht⟩
 
+omit [Finite G] in
 theorem q13e_H1_le_AN : q13H1 t tau x₁ x₂ lam rho ≤ q13AN t tau x₁ x₂ rho := by
   rw [q13H1]
   refine sup_le ?_ ?_

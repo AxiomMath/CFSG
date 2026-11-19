@@ -224,10 +224,10 @@ theorem cj_le_of_swap {E : Subgroup (adjointGroup Tag.E8 K)} (hEN : E ≤ monomi
     (hW : wImg K E = sylowW) {yA yB : adjointGroup Tag.E8 K} (hyAE : yA ∈ E) (hyBE : yB ∈ E)
     (hyA : rhoN K ⟨yA, hEN hyAE⟩ = e8FiveG1 ^ 4) (hyB : rhoN K ⟨yB, hEN hyBE⟩ = e8FiveG2)
     {Φ : adjointGroup Tag.E8 K} {w₂ : WeylGroup Tag.E8}
-    (hA : ∃ h : Φ * yA * Φ⁻¹ ∈ monomialN K, rhoN K ⟨Φ * yA * Φ⁻¹, h⟩ = 1)
-    (hB : ∃ h : Φ * yB * Φ⁻¹ ∈ monomialN K, rhoN K ⟨Φ * yB * Φ⁻¹, h⟩ = w₂)
+    (hA : ∃ _h : Φ * yA * Φ⁻¹ ∈ monomialN K, rhoN K ⟨Φ * yA * Φ⁻¹, _h⟩ = 1)
+    (hB : ∃ _h : Φ * yB * Φ⁻¹ ∈ monomialN K, rhoN K ⟨Φ * yB * Φ⁻¹, _h⟩ = w₂)
     (hT : ∀ (e : adjointGroup Tag.E8 K) (he : e ∈ E), rhoN K ⟨e, hEN he⟩ = 1 → Φ * e * Φ⁻¹ = e) :
-    ∃ h : cj Φ E ≤ monomialN K, wImg K (cj Φ E) ≤ Subgroup.zpowers w₂ := by
+    ∃ _h : cj Φ E ≤ monomialN K, wImg K (cj Φ E) ≤ Subgroup.zpowers w₂ := by
   obtain ⟨hAN, hAρ⟩ := hA
   obtain ⟨hBN, hBρ⟩ := hB
   have key : ∀ (e : adjointGroup Tag.E8 K) (he : e ∈ E), ∃ (hN : Φ * e * Φ⁻¹ ∈ monomialN K) (j : ℕ),

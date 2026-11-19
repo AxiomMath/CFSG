@@ -18,6 +18,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem v_elem_sub {X Y : Subgroup G} (hY : IsElementaryAbelian 3 ↥Y) (h : X ≤ Y) :
     IsElementaryAbelian 3 ↥X := by
   refine
@@ -28,11 +29,12 @@ theorem v_elem_sub {X Y : Subgroup G} (hY : IsElementaryAbelian 3 ↥Y) (h : X �
   exact elemPow_eq_one_of_isElementaryAbelian (p := 3) (A := Y) (g : G) (h g.2)
 
 theorem v_K_ord3 {K : Subgroup G} (hK : IsLnq 2 2 2 K) : ∃ x ∈ K, orderOf x = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h60 := (M42A5.of_IsLnq hK).card
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 3 (by rw [h60]; norm_num)
   exact ⟨x, x.2, by rw [← hx, Subgroup.orderOf_coe]⟩
 
+omit [Finite G] in
 theorem v_K_not_central {K : Subgroup G} (hK : IsLnq 2 2 2 K) {x : G} (hx : x ∈ K)
     (hxo : orderOf x = 3) : ¬ ∀ y ∈ K, x * y = y * x := by
   intro hc
@@ -40,7 +42,7 @@ theorem v_K_not_central {K : Subgroup G} (hK : IsLnq 2 2 2 K) {x : G} (hx : x �
   have h60 := (M42A5.of_IsLnq hK).card
   set z : ↥K := ⟨x, hx⟩ with hz
   have hzo : orderOf z = 3 := by rw [hz, Subgroup.orderOf_mk, hxo]
-  haveI : (Subgroup.zpowers z).Normal := by
+  have : (Subgroup.zpowers z).Normal := by
     refine ⟨fun n hn g => ?_⟩
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hn
     have : g * z = z * g := (Subtype.ext (hc g.1 g.2)).symm
@@ -59,7 +61,7 @@ theorem v_K_not_central {K : Subgroup G} (hK : IsLnq 2 2 2 K) {x : G} (hx : x �
 
 theorem v_exists_sylow_ge {Q : Subgroup G} (hQ : IsPGroup 3 Q) :
     ∃ S : Subgroup G, IsSylowOf 3 S ⊤ ∧ Q ≤ S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := L41.exists_sylowOf_p (p := 3) (⊤ : Subgroup G)
   obtain ⟨k, -, hk⟩ := L41.exists_conj_le_sylowOf_p hP le_top hQ
   refine ⟨conjBy k⁻¹ P, ?_, fun x hx => ?_⟩
@@ -75,6 +77,7 @@ section VStructure
 
 variable {b : G} {J B A P D : Subgroup G}
 
+omit [Finite G] in
 theorem v_zpowers_le_nor {x y : G} (h : x * y = y * x) :
     Subgroup.zpowers x ≤ Nor (Subgroup.zpowers y) := by
   have hx : x ∈ Subgroup.centralizer (Subgroup.zpowers y : Set G) := by
@@ -83,6 +86,7 @@ theorem v_zpowers_le_nor {x y : G} (h : x * y = y * x) :
     exact (Commute.zpow_left (Commute.symm h) m).eq
   exact (Subgroup.zpowers_le).mpr (Subgroup.centralizer_le_normalizer _ hx)
 
+omit [Finite G] in
 theorem v_closure_pair (a b : G) :
     Subgroup.closure {a, b} = Subgroup.zpowers a ⊔ Subgroup.zpowers b := by
   rw [Subgroup.zpowers_eq_closure, Subgroup.zpowers_eq_closure, ← Subgroup.closure_union,
@@ -187,6 +191,7 @@ theorem v_V_card (h : FF79Sec34In4 b J B A P D) (hbJ : b ∉ J) {a : G} (ha : a 
   · exact (v_nor_iff h hbJ ha v.2.1).mp v.2.2
   · exact (v_nor_iff h hbJ ha y.1.2).mpr y.2
 
+omit [Finite G] in
 theorem v_cenS_nor {K : Subgroup G} {b : G} (hKb : ∀ k ∈ K, b * k = k * b) : b ∈ Nor (CenS K) := by
   refine Subgroup.mem_normalizer_iff.mpr fun y => ?_
   have e2 : ∀ k ∈ K, b⁻¹ * k * b = k := fun k hk => by
@@ -215,6 +220,7 @@ theorem v_cenS_nor {K : Subgroup G} {b : G} (hKb : ∀ k ∈ K, b * k = k * b) :
       _ = y * (b⁻¹ * k * b) := by group
       _ = y * k := by rw [e2 k hk]
 
+omit [Finite G] in
 theorem v_nor_inf {X Y : Subgroup G} {b : G} (hX : b ∈ Nor X) (hY : b ∈ Nor Y) :
     b ∈ Nor (X ⊓ Y) := by
   refine Subgroup.mem_normalizer_iff.mpr fun y => ?_
@@ -224,7 +230,7 @@ theorem v_nor_inf {X Y : Subgroup G} {b : G} (hX : b ∈ Nor X) (hY : b ∈ Nor 
 
 theorem v_B0_not_cen (h : FF79Sec34In4 b J B A P D) (hbJ : b ∉ J) {a : G}
     (hK : IsLnq 2 2 2 (Lay (J ⊓ Cen a))) : ¬ (B ⊓ J ≤ CenS (Lay (J ⊓ Cen a))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hcen
   have hB := h.elemB.1.toIsMulCommutative
   have hbB : b ∈ B := h.supB ▸ Subgroup.mem_sup_left (Subgroup.mem_zpowers b)

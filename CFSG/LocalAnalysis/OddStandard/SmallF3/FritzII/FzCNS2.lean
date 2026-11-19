@@ -93,7 +93,7 @@ theorem fzc_ns2_of
     {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
     (h : FzCCtx G t L S x₁ x₂ lam rho) (hA : CorAStatement)
     (hV : 2 ∣ (l41V S t x₁ x₂).index) (hV1 : ¬ 2 ∣ (l41V1 t x₁ x₂ rho lam).index) : False := by
-  haveI : IsSimpleGroup G := h.simple
+  have : IsSimpleGroup G := h.simple
   have p14 := fzc_ns_ph14 h hA hV
   have p10 : L41GPh10 t L S x₁ x₂ lam rho := p14.toL41GPh10
   obtain ⟨ht, hQ, hcard, -⟩ := S4A.q15_hs27 p10

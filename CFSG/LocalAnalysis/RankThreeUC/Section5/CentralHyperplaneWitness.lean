@@ -25,9 +25,9 @@ theorem exists_hyperplane {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V : Type} [A
     haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
     ∃ H : Subgroup (MulAut ↥P), H ≤ Z P T B ∧ (H.subgroupOf (Z P T B)).index = 2 ∧
       Q p P T B H ≠ ⊥ ∧ ∃ r ∈ R P T B A, ∃ v ∈ Q p P T B H, sigma p P r v ≠ v := by
-  haveI : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
-  haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
-  haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
+  have : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
+  have : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
+  have : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
   have hp2 : p ≠ 2 := by
     rintro rfl
     exact absurd hc.oddPrimeClassTwoAction.setting.odd (by decide)

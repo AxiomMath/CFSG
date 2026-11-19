@@ -30,7 +30,7 @@ theorem l3u3_inn_ncard_frameRoots_le {τ : Tag} {ν : ℕ} (σ : Fin ν → Fin 
   classical
   have h : frameRoots σ = ↑((Finset.univ : Finset (Fin ν)).offDiag.image fun p => σ p.1 p.2) := by
     ext x
-    simp only [frameRoots, Set.mem_setOf_eq, Finset.coe_image, Set.mem_image, Finset.mem_coe,
+    simp only [frameRoots, Set.mem_ofPred_eq, Finset.coe_image, Set.mem_image, Finset.mem_coe,
       Finset.mem_offDiag, Finset.mem_univ, true_and, Prod.exists]
     constructor
     · rintro ⟨x1, x2, hne, rfl⟩
@@ -106,7 +106,7 @@ theorem l3u3_inn_typeA_false (hF : L3U3Facts) (hT : rootDiagUnit τ a ∈ S.D.to
     (hL : L3U3 (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))) : False := by
   classical
-  haveI := finite_rationalComponent S a i
+  have := finite_rationalComponent S a i
   have h2 : 2 ≤ compRank (componentRoots (rootCharHom a) i) := by
     by_contra h
     have h1 : compRank (componentRoots (rootCharHom a) i) ≤ 1 := by omega
@@ -153,7 +153,7 @@ theorem l3u3_inn_typeA_false (hF : L3U3Facts) (hT : rootDiagUnit τ a ∈ S.D.to
   · obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
     have hr2 : r = 2 := CharP.eq L hchar ‹CharP L 2›
     subst hr2
-    haveI : Fact (Nat.Prime 2) := ⟨hr⟩
+    have : Fact (Nat.Prime 2) := ⟨hr⟩
     obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ := split_exists_hom S hT i hν hψ hΨ π hπ hr hchar he hq
     obtain ⟨hfinK, hKcard⟩ := finite_card_fixSubfield (L := L) (r := 2) (n := e * s)
       (Nat.mul_pos he hs0) σQ hσc

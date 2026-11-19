@@ -67,12 +67,12 @@ theorem layer_wrapper (hGA : CFSG.Open.GriessAllModelsStatement) {X L I C : Subg
     (hE : ∃ E : Subgroup (PSimple 3 L), IsSimpleGroup ↥E ∧ chevTransfer 3 L I = E) :
     GLAPPrimeCoreOf 3 I ≤ I ⊓ GLAPPrimeCoreOf 3 L ∧ (n ≠ 2 → GLAPPrimeCoreOf 3 I = ⊥) := by
   classical
-  haveI hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hIL : I ≤ L := hI.1.trans hCL
   obtain ⟨E, hEs, hEq⟩ := hE
   have hZI : Subgroup.center (PQuot 3 I) = ⊥ := center_pQuot_eq_bot_G2 hGA hI hcat
   obtain ⟨q, hv, hq2, hqn, ⟨eI⟩⟩ := lieIndex_isG2n hcat
-  haveI hsimpG : IsSimpleGroup (TauCeti.ValidLieTypeIndex.Group ⟨.G2 q, hv⟩) :=
+  have hsimpG : IsSimpleGroup (TauCeti.ValidLieTypeIndex.Group ⟨.G2 q, hv⟩) :=
     (CFSG.Assembly.lie_finite_simple ⟨.G2 q, hv⟩).2
   have hPSs : IsSimpleGroup (PSimple 3 I) := eI.isSimpleGroup
   have eQ : PQuot 3 I ≃* PSimple 3 I :=

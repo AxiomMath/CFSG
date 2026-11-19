@@ -20,7 +20,7 @@ theorem s16k_fixNc_statedSU_of_pRank {K : Type} [Field K] [Finite K] (hK : Nat.c
     (hp : p.Prime) (hp5 : 5 ≤ p) (ρ : ↥A →* MulAut (Multiplicative (Fin n → K)))
     (hρ : Function.Injective ρ) (hρN : ∀ a : ↥A, ρ a ∈ s16gNorm (StatedSU n 2 K))
     (hrk : 3 ≤ CFSG.Open.pRank p A) : FixNc (StatedSU n 2 K) p := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
   obtain ⟨E, hEr, hE, hcard⟩ := s16g_exists_elem_of_le_pRank ρ hρ hp hrk
   have hEN : E ≤ s16gNorm (StatedSU n 2 K) := hEr.trans (s16g_range_le_norm hρN)
   have hA : ¬ p ∣ Nat.card (RingAut K) := by
@@ -50,7 +50,7 @@ theorem s16k_fixNc_statedSU_of_pRank {K : Type} [Field K] [Finite K] (hK : Nat.c
       have h1 := congrArg (fun u : Kˣ => (u : K)) hφx
       rwa [Matrix.GeneralLinearGroup.val_det_apply, Units.val_one] at h1
     · exact s16k_normalizer_statedSU_unitary hK (by omega) (hFN hx)
-  haveI := hF.1
+  have := hF.1
   have hFc : ∀ x ∈ F, ∀ y ∈ F, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : F) ⟨y, hy⟩)
   have hcardF : p ^ 3 ≤ Nat.card F := by rw [hFcard]; exact hcard

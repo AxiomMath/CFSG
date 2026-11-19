@@ -22,6 +22,7 @@ theorem sl2_equiv_rankOne_of_range {i : Fin D.rank} {F : Type} [Field F]
     Nonempty (Matrix.SpecialLinearGroup (Fin 2) F ≃* ↥(rankOne D.rootGroup i)) :=
   ⟨(MonoidHom.ofInjective hφ).trans (MulEquiv.subgroupCongr hr.symm)⟩
 
+omit [Finite K] in
 theorem nodeData_of_sl2 (h : BorelQuotient D n H π M) {i : Fin D.rank} {F : Type} [Field F]
     [Finite F] [CharP F 2]
     (e : Matrix.SpecialLinearGroup (Fin 2) F ≃* ↥(rankOne D.rootGroup i))
@@ -42,6 +43,7 @@ theorem nodeData_of_sl2 (h : BorelQuotient D n H π M) {i : Fin D.rank} {F : Typ
   · rw [← Nat.card_congr e.toEquiv, card_sl2]
     exact hM.trans (dvd_mul_left _ _)
 
+omit [Finite K] in
 theorem center_inf_eq_bot_of_center_eq_bot {L : Subgroup K} (hc : Subgroup.center ↥L = ⊥) :
     Subgroup.center K ⊓ L = ⊥ := by
   refine eq_bot_iff.2 fun z hz => ?_
@@ -53,6 +55,7 @@ theorem center_inf_eq_bot_of_center_eq_bot {L : Subgroup K} (hc : Subgroup.cente
   rw [Subgroup.mem_bot]
   exact congrArg Subtype.val hzL
 
+omit [Finite K] in
 theorem ker_inf_eq_bot_of_center_inf (h : BorelQuotient D n H π M) {L : Subgroup K}
     (hc : Subgroup.center K ⊓ L = ⊥) : π.ker ⊓ L = ⊥ := by
   refine eq_bot_iff.2 fun z hz => ?_

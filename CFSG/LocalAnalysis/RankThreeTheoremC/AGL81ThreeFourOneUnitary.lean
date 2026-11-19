@@ -26,7 +26,7 @@ private theorem smallRankOneData_of_unitaryIndex {K : Type} [Group K] [Finite K]
 
 theorem signalizerThreeUnitary_holds : SignalizerThreeUnitary := by
   intro p hp hp5 q d hqp hd K _ _ hK
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   refine signalizerThreeOn_of_signalizerTrivialOn hp (by omega) fun P W hW hnorm => ?_
   have hdU : IsUnitaryIndex p d := ⟨q, hqp, hd⟩

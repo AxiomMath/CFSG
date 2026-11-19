@@ -17,7 +17,7 @@ namespace CFSG.RankThree.PartTwo.Sec4.Ronan148L
 
 open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Solomon.Coordinator.LieComp
 
-theorem lieComp_holds : LieComp :=
+theorem lieComp_holds : LieCompAll :=
   lieComp_of_classical lieOrderBridge_holds YS08.LieQ.lieQConstrainedInner_three_holds
       (d4OuterExport_holds (trialityOddA2Comps_of_toral TriA2.a2PlusComps_holds
           TriA2.a2MinusComps_holds))

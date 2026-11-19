@@ -71,7 +71,7 @@ theorem one_le_of_card_field {F : Type} [Field F] [Finite F] {n : ℕ} (hF : Nat
 theorem alt_mulEquiv_of_surj {n : ℕ} (hn : 5 ≤ n) {Y : Type} [Group Y] {A : Subgroup Y}
     (hA : A ≠ ⊥) (π : ↥(alternatingGroup (Fin n)) →* ↥A) (hπ : Function.Surjective π) :
     Nonempty (↥(alternatingGroup (Fin n)) ≃* ↥A) := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin n)) := alternatingGroup.isSimpleGroup (by simpa using hn)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin n)) := alternatingGroup.isSimpleGroup (by simpa using hn)
   have hne : ∃ s, π s ≠ 1 := by
     obtain ⟨a, ha1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp hA
     obtain ⟨s, rfl⟩ := hπ a
@@ -143,7 +143,7 @@ theorem natChoice4U_of_alt
       have hn1 : n = 1 := by omega
       subst hn1
       apply not_isPerfect_statedSp_card_two (F := F) (by simpa using hcard)
-      haveI : Group.IsPerfect ↥(autIH V₁ I H (conjClosure K T)) := by
+      have : Group.IsPerfect ↥(autIH V₁ I H (conjClosure K T)) := by
         rw [hMp]; exact hperfA
       exact Group.IsPerfect.ofSurjective (f := πe.symm.toMonoidHom) πe.symm.surjective
     exact kstar_equiv_sp4 hGA h hIU hnt hn2 hcard (πe.trans (MulEquiv.subgroupCongr hMp))

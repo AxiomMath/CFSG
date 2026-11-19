@@ -270,6 +270,7 @@ private theorem s16c167_omega_of_mem_irrSet {W : Type} [CommGroup W] [Finite W]
   have hstabK : StableUnder L K := fun x hx u hu => hIrrK.1 ⟨x, hx⟩ u hu
   exact s16c167_natOmegaMinus_of_iso hstab₀ hstabK ψe hψeqv hN₀
 
+omit [Finite G] in
 private theorem s16c167_conj_conj {g u m : G} (hm : m = g * u * g⁻¹)
     (I : Subgroup G) :
     conjSubgroup (conjSubgroup I g) u = conjSubgroup (conjSubgroup I m) g := by
@@ -277,11 +278,13 @@ private theorem s16c167_conj_conj {g u m : G} (hm : m = g * u * g⁻¹)
   congr 1
   group
 
+omit [Finite G] in
 private theorem s16c167_conjSubgroup_inj {A B : Subgroup G} {g : G}
     (h : conjSubgroup A g = conjSubgroup B g) : A = B := by
   have hc := congrArg (fun C : Subgroup G => conjSubgroup C g⁻¹) h
   rwa [E3.conjSubgroup_conj_inv, E3.conjSubgroup_conj_inv] at hc
 
+omit [Finite G] in
 private theorem s16c167_conj_centralizer_singleton {g u m : G}
     (hm : m = g * u * g⁻¹) :
     conjSubgroup (Subgroup.centralizer ({m} : Set G)) g =
@@ -300,6 +303,7 @@ private theorem s16c167_conj_centralizer_singleton {g u m : G}
     group at h' ⊢
     exact h'
 
+omit [Finite G] in
 private theorem s16c167_imgTil_inj {V U U' : Subgroup G}
     (hV : IsElemAbelian 2 V) (hU : U ≤ V) (hU' : U' ≤ V)
     (h : imgTil ⊥ V hV U = imgTil ⊥ V hV U') : U = U' := by
@@ -314,8 +318,9 @@ private theorem s16c167_imgTil_inj {V U U' : Subgroup G}
     simpa only [intSub] using congrArg (Subgroup.map V.subtype) h1
   rwa [Subgroup.map_subgroupOf_eq_of_le hU, Subgroup.map_subgroupOf_eq_of_le hU'] at h2
 
+omit [Finite G] in
 private theorem s16c167_imgTil_le_iff {V U U' : Subgroup G}
-    (hV : IsElemAbelian 2 V) (hU : U ≤ V) (hU' : U' ≤ V) :
+    (hV : IsElemAbelian 2 V) (hU : U ≤ V) (_hU' : U' ≤ V) :
     imgTil ⊥ V hV U ≤ imgTil ⊥ V hV U' ↔ U ≤ U' := by
   constructor
   · intro h
@@ -402,7 +407,7 @@ theorem s16c167_twenty_two_cap (D : Data G) {V L : Subgroup G}
   have hUCB : U ≤ centralizer (B : Set G) := by rw [hUeq]; exact inf_le_right
   have hsimple : IsSimpleGroup ↥(lBar ⊥ V hV L) := s16c167_cfg2_simple D h2
   have hLbot : lBar ⊥ V hV L ≠ ⊥ := by
-    haveI := hsimple.toNontrivial
+    have := hsimple.toNontrivial
     exact (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance
   obtain ⟨a₀, b₀, hab₀, hΔab₀⟩ := Set.ncard_eq_two.1 hΔ.1
   have hmem_a₀ : imgTil ⊥ V hV a₀ ∈ irrBar L ⊥ V hV := by

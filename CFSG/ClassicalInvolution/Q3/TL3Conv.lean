@@ -105,7 +105,7 @@ theorem exists_threeElement_of_isClassicalMember3 {G : Type} [Group G] [Finite G
     rw [injective_iff_map_eq_one]
     intro u hu
     have h1 : ι u ∈ classicalInvolutionOddCore J := (hker _).mp hu
-    obtain ⟨m, hm⟩ := S.isPGroup' u
+    obtain ⟨m, hm⟩ := S.isPGroup u
     have h2 : (ι u) ^ 2 ^ m = 1 := by rw [← map_pow, hm, map_one]
     have h3 : orderOf (ι u) ∣ Nat.card (classicalInvolutionOddCore J) := by
       have := orderOf_dvd_natCard (⟨ι u, h1⟩ : classicalInvolutionOddCore J)

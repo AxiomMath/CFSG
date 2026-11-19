@@ -141,7 +141,7 @@ theorem exists_t_chi_two [Finite K] (u : Kˣ) :
   rw [chi_hexRoot_two]
   apply Units.ext
   simp only [Units.val_mul, Units.val_inv_eq_inv_val, Units.coe_map, Units.val_mk0,
-    RingHom.toMonoidHom_eq_coe, MonoidHom.coe_coe]
+    RingHom.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass]
   have hu0 : (u : K) ≠ 0 := u.ne_zero
   field_simp
   have : r * (σ.toRingHom r * σ.toRingHom (σ.toRingHom r)) = (u : K) * (r * r) := by

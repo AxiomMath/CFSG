@@ -67,7 +67,7 @@ theorem d8K_spec {r s Dm : ℕ} (h : d8K P r s Dm = true) :
   rw [e1, e2] at this
   exact Nat.eq_of_beq_eq_true this
 
-theorem d8K_sound (hR : RealT elt P C V Q) {r s Dm : ℕ} (hr : r < 128)
+theorem d8K_sound (hR : RealT elt P C V Q) {r s Dm : ℕ} (_hr : r < 128)
     (h : d8K P r s Dm = true) :
     ∃ φ : DihedralGroup 4 →* G, Function.Injective φ ∧ Set.range φ = mset elt Dm := by
   classical
@@ -79,8 +79,6 @@ theorem d8K_sound (hR : RealT elt P C V Q) {r s Dm : ℕ} (hr : r < 128)
         have e : d8I P r s 0 = 0 := rfl
         rw [e, hR.one]
       map_mul' := fun a b => by
-        change elt (d8I P r s (d8Code (a * b))) = elt (d8I P r s (d8Code a)) *
-          elt (d8I P r s (d8Code b))
         rw [← d8M_code, hmul _ (d8Code_lt a) _ (d8Code_lt b),
           mulE_elt hR (d8I_lt _ _ _) (d8I_lt _ _ _)] }
   have hrange : Set.range φ = mset elt Dm := by

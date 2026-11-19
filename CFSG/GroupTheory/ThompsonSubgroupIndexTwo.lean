@@ -22,7 +22,7 @@ theorem three_dvd_orderOf_of_fixedPointFree_of_card_le_four {V : Type*} [Group V
     3 ∣ orderOf φ := by
   classical
   let C : Subgroup (MulAut V) := Subgroup.zpowers φ
-  letI : MulAction C V := MulAction.compHom V C.subtype
+  let : MulAction C V := MulAction.compHom V C.subtype
   obtain ⟨v, hv1⟩ := exists_ne (1 : V)
   let O : Set V := MulAction.orbit C v
   have hvO : v ∈ O := MulAction.mem_orbit_self v
@@ -30,7 +30,7 @@ theorem three_dvd_orderOf_of_fixedPointFree_of_card_le_four {V : Type*} [Group V
     intro w hw
     rw [MulAction.mem_orbit_iff] at hw
     obtain ⟨c, rfl⟩ := hw
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     intro h
     have hcv : c • v = (c : MulAut V) v := rfl
     rw [hcv] at h
@@ -236,8 +236,8 @@ theorem relIndex_center_le_two_of_maxCardAbelian_not_le [Finite H]
   have hTrel : (B ⊓ Q).relIndex T = (B ⊓ Z).relIndex Z := by
     let K : Subgroup ↥T := (B ⊓ Q).subgroupOf T
     let L : Subgroup ↥T := Z.subgroupOf T
-    letI : IsMulCommutative ↥T := hTab
-    haveI : K.Normal := inferInstance
+    let : IsMulCommutative ↥T := hTab
+    have : K.Normal := inferInstance
     have hsup : L ⊔ K = ⊤ := by
       dsimp [L, K]
       rw [← Subgroup.subgroupOf_sup (le_sup_right : Z ≤ T) (le_sup_left : B ⊓ Q ≤ T)]
@@ -407,7 +407,7 @@ theorem mem_centralizer_of_relIndex_center_le_two [Finite H] {A Z : Subgroup H}
     exact (Subgroup.mem_centralizer_iff.mp (hZle hz) a (Subgroup.mem_zpowers a)).symm
   · exfalso
     have hVne : V ≠ ⊥ := hVbot
-    haveI : Nontrivial V := (Subgroup.nontrivial_iff_ne_bot V).mpr hVne
+    have : Nontrivial V := (Subgroup.nontrivial_iff_ne_bot V).mpr hVne
     have haNV : a ∈ Subgroup.normalizer (V : Set H) :=
       Subgroup.normalizer_commutator_ge_right Z (Subgroup.zpowers a)
         (Subgroup.mem_zpowers a)
@@ -443,10 +443,10 @@ theorem mem_centralizer_of_relIndex_center_le_two [Finite H] {A Z : Subgroup H}
     have hcardV : Nat.card V ≤ 4 := by
       have hVsup : V ⊔ Ca = Z := hsup_a
       have hVinf : V ⊓ Ca = ⊥ := hdisj_a
-      letI : IsMulCommutative ↥Z := hZab
+      let : IsMulCommutative ↥Z := hZab
       let Y : Subgroup ↥Z := Ca.subgroupOf Z
       let A : Subgroup ↥Z := V.subgroupOf Z
-      haveI : Y.Normal := inferInstance
+      have : Y.Normal := inferInstance
       have hinfY : A ⊓ Y = ⊥ := by
         ext x
         constructor
@@ -467,7 +467,7 @@ theorem mem_centralizer_of_relIndex_center_le_two [Finite H] {A Z : Subgroup H}
         rw [← Subgroup.subgroupOf_sup (inf_le_left : Ca ≤ Z) hVleZ]
         rw [show Ca ⊔ V = Z from by rw [sup_comm]; exact hVsup]
         exact Subgroup.subgroupOf_self Z
-      letI : CommGroup ↥Z := IsMulCommutative.instCommGroup
+      let : CommGroup ↥Z := IsMulCommutative.instCommGroup
       have hdisjYA : Disjoint Y A := by
         rw [disjoint_iff]
         rwa [inf_comm]
@@ -524,8 +524,8 @@ theorem thompsonSubgroup_eq_of_commutator_center_ne [Finite H] {A S Q : Subgroup
   have hfam_le : ∀ B ∈ ambientMaxCardAbelianFamily S, B ≤ Q := by
     intro B hB
     by_contra hBQ
-    rw [SetLike.le_def] at hBQ
-    push_neg at hBQ
+    rw [_root_.IsConcreteLE.le_iff] at hBQ
+    push Not at hBQ
     obtain ⟨b, hbB, hbQ⟩ := hBQ
     have hCindex :=
       relIndex_center_le_two_of_maxCardAbelian_not_le hQleS hQrel hB hbB hbQ hsS hsQ

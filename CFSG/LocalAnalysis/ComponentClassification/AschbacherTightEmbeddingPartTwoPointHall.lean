@@ -22,7 +22,7 @@ theorem normal_sylow_two_ambient_image_data
       (R.subgroupOf H).Normal ∧ R ≠ ⊥ := by
   let R := (P : Subgroup H).map H.subtype
   have hRH : R ≤ H := Subgroup.map_subtype_le _
-  have hR : IsPGroup 2 R := P.isPGroup'.map H.subtype
+  have hR : IsPGroup 2 R := P.isPGroup.map H.subtype
   have hRP : R.subgroupOf H = (P : Subgroup H) :=
     Subgroup.comap_map_eq_self_of_injective H.subtype_injective (P : Subgroup H)
   have hRN : (R.subgroupOf H).Normal := hRP.symm ▸ hP

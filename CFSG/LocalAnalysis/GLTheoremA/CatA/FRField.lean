@@ -28,9 +28,9 @@ theorem exists_noncomm_of_perfect {S : Type} [Group S] {D T : Subgroup S} (hTD :
 
 theorem false_of_perfect_solvable {S : Type} [Group S] {D T : Subgroup S} (hTD : T ≤ D)
     (hperf : ⁅T, T⁆ = T) (hne : T ≠ ⊥) (hsol : Group.IsSolvable ↥D) : False := by
-  haveI : Group.IsSolvable ↥T :=
+  have : Group.IsSolvable ↥T :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hTD)
-  haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hne
+  have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hne
   have hc : commutator ↥T = ⊤ := by
     apply Subgroup.map_injective T.subtype_injective
     rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype, hperf]

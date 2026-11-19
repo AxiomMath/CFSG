@@ -45,7 +45,7 @@ private lemma k330c_seven_not_dvd_ordBC_two (q : ℕ) (hq : ¬ 7 ∣ q) (h1 : ¬
     (Nat.dvd_div_iff_mul_dvd hdvd).1 h
   have h7N : 7 ∣ q ^ 4 * ((q ^ 2 - 1) * (q ^ 4 - 1)) := by
     refine dvd_trans ?_ hmul
-    simpa [mul_comm] using dvd_mul_right 7 (Nat.gcd 2 (q - 1))
+    simp
   rw [Nat.prime_seven.dvd_mul] at h7N
   rcases h7N with hq4 | hrest
   · exact hq (Nat.prime_seven.dvd_of_dvd_pow hq4)
@@ -63,7 +63,7 @@ private lemma k330c_seven_not_dvd_ordBC_two (q : ℕ) (hq : ¬ 7 ∣ q) (h1 : ¬
 
 private lemma k330c_noSevenCent_of_not_dvd_card {J : Type} [Group J] [Finite J]
     (h : ¬ 7 ∣ Nat.card J) : NoSevenCent J := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   intro X R _ _ _ hR hRne _
   have h7R : 7 ∣ Nat.card R := by
     rcases hR.card_eq_or_dvd with h1 | h7

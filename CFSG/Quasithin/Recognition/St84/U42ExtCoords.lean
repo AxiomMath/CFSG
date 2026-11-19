@@ -15,7 +15,7 @@ variable {G : Type} [Group G]
 
 theorem dsuce_main [Finite G] {L1 L2 S : Subgroup G}
     (h : Hyp111R L1 L2 S) (hS : ¬ S ≤ L1)
-    (hs3 : Nonempty (oTwoQuot ↥L2 ≃* Equiv.Perm (Fin 3)))
+    (_hs3 : Nonempty (oTwoQuot ↥L2 ≃* Equiv.Perm (Fin 3)))
     (hb6 : F112B6Loc L2 L1)
     (hE1 : pCoreOf 2 L1 = dsQ L1 L2 S) (hEZ : dsQ L1 L2 S = dsZi L1 S)
     (hE16 : Nat.card ↥(pCoreOf 2 L1) = 16)
@@ -34,7 +34,7 @@ theorem dsuce_main [Finite G] {L1 L2 S : Subgroup G}
       pCoreOf 2 L2 ≤ ⁅(L2 ⊔ bigB L1 L2 S) ⊓ (L1 ⊔ bigB L1 L2 S),
         (L2 ⊔ bigB L1 L2 S) ⊓ (L1 ⊔ bigB L1 L2 S)⁆ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P1 : Subgroup G := L1 ⊔ bigB L1 L2 S
   let P2 : Subgroup G := L2 ⊔ bigB L1 L2 S
   let B : Subgroup G := bigB L1 L2 S

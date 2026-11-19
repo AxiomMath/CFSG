@@ -19,12 +19,14 @@ structure OmegaData (f p : ℕ) (Fs N Ω : Subgroup K) : Prop where
   faithful : ∀ t ∈ N, ∀ n : ℕ, t ^ (p ^ n) = 1 →
     (∀ x ∈ Ω, x⁻¹ * (t * x * t⁻¹) ∈ ⁅Ω, Ω⁆) → ∀ x ∈ Fs, t * x = x * t
 
+omit [Finite K] in
 theorem commutator_le_self (H : Subgroup K) : ⁅H, H⁆ ≤ H := by
   rw [Subgroup.commutator_le]
   intro a ha b hb
   rw [commutatorElement_def]
   exact H.mul_mem (H.mul_mem (H.mul_mem ha hb) (H.inv_mem ha)) (H.inv_mem hb)
 
+omit [Finite K] in
 theorem normalizer_le_normalizer_commutator (H : Subgroup K) :
     normalizer (H : Set K) ≤ normalizer ((⁅H, H⁆ : Subgroup K) : Set K) := by
   have key : ∀ g ∈ normalizer (H : Set K), ∀ y ∈ (⁅H, H⁆ : Subgroup K), g * y * g⁻¹ ∈ ⁅H, H⁆ := by
@@ -50,7 +52,7 @@ theorem exists_omega {f p : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) (hp : p.Prime) (
   have hf : f.Prime := Fact.out
   obtain ⟨C₀, hC₀⟩ := (CFSG.SectionRank.Ccomm.thompson_critical_subgroup (P := ↥Fs) (p := f) hFs).1
   have hC₀p : IsPGroup f ↥C₀ := hFs.to_subgroup C₀
-  haveI : Fact (IsPGroup f ↥C₀) := ⟨hC₀p⟩
+  have : Fact (IsPGroup f ↥C₀) := ⟨hC₀p⟩
   have hC₀full := hC₀
   obtain ⟨hchar, hfrat, -, -⟩ := hC₀
   set Cₐ : Subgroup K := C₀.map Fs.subtype with hCₐ
@@ -85,7 +87,7 @@ theorem exists_omega {f p : ℕ} [Fact f.Prime] (hf2 : f ≠ 2) (hp : p.Prime) (
     have hgF : g ∈ normalizer (Fs : Set K) := hN hg
     have hφ := Subgroup.normalizerMonoidHom_apply_apply_coe Fs ⟨g, hgF⟩ a
     refine ⟨_, CFSG.SectionRank.Ccomm.char_apply_mem hchar (Fs.normalizerMonoidHom ⟨g, hgF⟩) ha, ?_⟩
-    simpa using hφ
+    simp
   have hNCn : ∀ g ∈ N, g ∈ normalizer (Cₐ : Set K) := by
     intro g hg
     rw [mem_normalizer_iff]

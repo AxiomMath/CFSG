@@ -27,7 +27,7 @@ theorem not_isPGroup_two_alt {P : Type*} [Fintype P] [DecidableEq P]
 theorem eq_bot_of_normal_isPGroup_alt {P : Type*} [Fintype P] [DecidableEq P]
     (h5 : 5 ≤ Fintype.card P) {M : Subgroup ↥(alternatingGroup P)} (hM : M.Normal)
     (h2 : IsPGroup 2 ↥M) : M = ⊥ := by
-  haveI := hM
+  have := hM
   rcases alternatingGroup.normal_subgroup_eq_bot_or_eq_top (α := P)
     (by rw [Nat.card_eq_fintype_card]; exact h5) (N := M) with h | h
   · exact h

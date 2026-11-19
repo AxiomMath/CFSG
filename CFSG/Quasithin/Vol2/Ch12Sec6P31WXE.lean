@@ -17,6 +17,7 @@ section Prep
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem card_sup_mul_card_inf {N S : Subgroup Y} (hSN : S ≤ Subgroup.normalizer (N : Set Y)) :
     Nat.card ↥(S ⊔ N) * Nat.card ↥(N ⊓ S) = Nat.card ↥S * Nat.card ↥N := by
   have h1 : N.relIndex (S ⊔ N) = N.relIndex S := A4.relIndex_sup_eq_of_le_normalizer' hSN
@@ -50,9 +51,9 @@ theorem card_le_three_of_cyclic {B U W : Subgroup Y} (hUB : U ≤ B)
     (hcyc : ∃ g ∈ B, ∀ b ∈ B, ∃ k : ℕ, (g ^ k)⁻¹ * b ∈ U) (hWB : W ≤ B)
     (hW3 : ∀ w ∈ W, w ^ 3 = 1) (hWU : W ⊓ U = ⊥) : Nat.card W ≤ 3 := by
   classical
-  haveI hN : (U.subgroupOf B).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUB).2 hBU
-  haveI : Fintype (↥B ⧸ U.subgroupOf B) := Fintype.ofFinite _
-  haveI hcy : IsCyclic (↥B ⧸ U.subgroupOf B) := by
+  have hN : (U.subgroupOf B).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUB).2 hBU
+  have : Fintype (↥B ⧸ U.subgroupOf B) := Fintype.ofFinite _
+  have hcy : IsCyclic (↥B ⧸ U.subgroupOf B) := by
     obtain ⟨g, hg, hgen⟩ := hcyc
     refine ⟨⟨QuotientGroup.mk ⟨g, hg⟩, fun x => ?_⟩⟩
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective x
@@ -106,7 +107,7 @@ theorem single_prep {Ts Ms Ls Tls X : Subgroup Y} (h : SingleData Y Ts Ms Ls Tls
       (∀ b ∈ borel X Ts, r * b * r⁻¹ * (b ^ 2 ^ j)⁻¹ ∈ Ts ⊓ X) ∧
       (9 ∣ Nat.card ↥(borel X Ts) → 27 ∣ Nat.card ↥Ms) := by
   obtain ⟨hR, hTs, hP, hnormal, hTsMs, hBM, hKM, hLM, hTlsTs, r, hrTls, S, hSL, hSe, hS9, hSinv⟩ := h
-  haveI : X.Normal := hnormal
+  have : X.Normal := hnormal
   have hXn : ∀ x : Y, x ∈ Subgroup.normalizer (X : Set Y) := fun x => by
     rw [Subgroup.normalizer_eq_top_iff.2 hnormal]
     exact Subgroup.mem_top x
@@ -271,7 +272,7 @@ theorem permData_of_single {Ts Ms Ls Tls X : Subgroup Y} (h : SingleData Y Ts Ms
   obtain ⟨n, hnB, hnp, hnr⟩ := exists_moved_p_element_of_dvd (B := borel X Ts) (U := Ts ⊓ X)
     (r := r) (k := k) (j := j) (p := p) hUB hBN hpN hfr hp (by omega) hpk hj
   have hXn : ∀ x : Y, x ∈ Subgroup.normalizer (X : Set Y) := fun x => by
-    haveI := h.normal
+    have := h.normal
     rw [Subgroup.normalizer_eq_top_iff.2 h.normal]
     exact Subgroup.mem_top x
   refine permData_build (n := n) hp (by omega) hUB hBN habel h.borel_le ?_ ?_ inf_le_left hnB hnp
@@ -303,7 +304,7 @@ theorem single_L2_even (hL : L2BorelFacts) {m : ℕ} (hm : 2 ≤ m) {Ts Ms Ls Tl
     (h : SingleData Y Ts Ms Ls Tls X) (hX : IsPSL 2 2 m ↥X) : Even m := by
   have hSylX : IsSylowTwoOf (Ts ⊓ X) X :=
     A4.isSylowTwoOf_inf_normal h.sylow le_top (by
-      haveI := h.normal
+      have := h.normal
       exact Subgroup.le_normalizer_of_normal)
   obtain ⟨-, -, hcB, hcoat, -, hcyc, hfrob⟩ := hL m hm Y X (Ts ⊓ X) hX hSylX
   obtain ⟨r, j, c, hrTls, hj, hcB', hcU, hc3, hfr, -⟩ := single_prep h hcoat hcyc hfrob
@@ -321,14 +322,14 @@ theorem permData_of_single_L2 (hL : L2BorelFacts) {m : ℕ} (hm : 4 ≤ m) {Ts M
   have hm_even : Even m := single_L2_even hL (by omega) h hX
   have hSylX : IsSylowTwoOf (Ts ⊓ X) X :=
     A4.isSylowTwoOf_inf_normal h.sylow le_top (by
-      haveI := h.normal
+      have := h.normal
       exact Subgroup.le_normalizer_of_normal)
   obtain ⟨-, hcU, hcB, hcoat, habel, hcyc, hfrob⟩ := hL m (by omega) Y X (Ts ⊓ X) hX hSylX
   obtain ⟨r, j, c, hrTls, hj, hcB', hcU', hc3, hfr, hcount⟩ := single_prep h hcoat hcyc hfrob
   have hcB2 : Nat.card ↥(borel X Ts) = 2 ^ m * (2 ^ m - 1) := hcB
   have hm3 : ¬ 3 ∣ m := by
     intro h3m
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hv := P31NT.padicValNat_three_two_pow_sub_one hm_even (by omega)
     have hv3 : 1 ≤ padicValNat 3 m := one_le_padicValNat_of_dvd (by omega) h3m
     have h9 : 3 ^ 2 ∣ 2 ^ m - 1 := (padicValNat_dvd_iff_le (by

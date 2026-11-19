@@ -13,6 +13,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_centralizerQuot {H E F : Subgroup G} (hE : H ≤ normalizer (E : Set G))
     (hF : H ≤ normalizer (F : Set G)) :
     H ≤ normalizer (centralizerQuot H E F : Set G) := by
@@ -37,9 +38,10 @@ theorem le_normalizer_centralizerQuot {H E F : Subgroup G} (hE : H ≤ normalize
   have e : h⁻¹ * (h * y * h⁻¹) * h⁻¹⁻¹ = y := by group
   rwa [e] at h1
 
+omit [Finite G] in
 theorem le_centralizerQuot_of_comm_le {H E F A : Subgroup G} (hAH : A ≤ H)
     (hF : H ≤ normalizer (F : Set G)) (h : ⁅A, E⁆ ≤ F) : A ≤ centralizerQuot H E F :=
-  fun a ha => ⟨hAH ha, hF (hAH ha), fun _ he => h (Subgroup.commutator_mem_commutator ha he)⟩
+  fun _a ha => ⟨hAH ha, hF (hAH ha), fun _ he => h (Subgroup.commutator_mem_commutator ha he)⟩
 
 theorem le_sup_of_isE {H T A K C : Subgroup G} (hK : E1.IsE 1 H T A K) (hAC : A ≤ C)
     (hC : H ≤ normalizer (C : Set G)) : K ≤ T ⊔ C := by

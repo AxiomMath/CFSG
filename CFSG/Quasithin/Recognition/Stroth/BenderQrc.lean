@@ -495,8 +495,8 @@ private theorem not_dualFFInt_of_disp {G : Type*} [Group G] [Finite G] {G₁ V T
           a * a ∈ Subgroup.centralizer (V : Set G)) →
       (A ⊓ Subgroup.centralizer (V : Set G)).relIndex A ≤ q) :
     ¬ IsDualFFInt G₁ V hV := by
-  letI : IsMulCommutative ↥V := hV.1
-  letI : CommGroup ↥V := IsMulCommutative.instCommGroup
+  let : IsMulCommutative ↥V := hV.1
+  let : CommGroup ↥V := IsMulCommutative.instCommGroup
   intro hFF
   obtain ⟨B, hB_le, hB_ne, hB_el, hB_off⟩ := hFF
   have hTN : T ≤ Subgroup.normalizer (V : Set G) := hT.1.trans hG₁V
@@ -745,9 +745,8 @@ theorem d15_false_or_not_le' {G : Type} [Group G] [Finite G] {G₁ G₂ T V M₂
   have hUG₂ : U ≤ G₂ := conjClosure_le fun g hg v hv =>
     G₂.mul_mem (G₂.mul_mem hg (hR₂G₂ (hVR₂ hv))) (G₂.inv_mem hg)
   have hD125 : IsElemAbelian 2 U → D15Proof.D125 G₂ T U := by
-    intro hUe
-    intro L N hstep hnc A hAT hAe hquad
-    haveI : (L.subgroupOf (Subgroup.normalizer (L : Set G))).Normal :=
+    intro hUe L N hstep hnc A hAT hAe hquad
+    have : (L.subgroupOf (Subgroup.normalizer (L : Set G))).Normal :=
       Subgroup.normal_in_normalizer
     have hE : IsElemAbelian 2 (Ch3z.chiefMod L N) :=
       isElemAbelian_secImg (A := Subgroup.normalizer (L : Set G)) (K := L) (X := N)

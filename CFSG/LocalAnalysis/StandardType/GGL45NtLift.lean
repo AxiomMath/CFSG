@@ -23,7 +23,7 @@ private theorem ggL45Nt_inducedAut_conj {K : Type*} [Group K] {R : Type} [Group 
 
 theorem ggL45Nt_eq_one_of_forall_commute {K R : Type*} [Group K] [Group R] (hK : commutator K = ⊤)
     (θ : K ⧸ Subgroup.center K ≃* R) {r : R} (hr : ∀ s : R, s * r = r * s) : r = 1 := by
-  haveI : Group.IsPerfect K := ⟨hK⟩
+  have : Group.IsPerfect K := ⟨hK⟩
   have hbot : Subgroup.center (K ⧸ Subgroup.center K) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot K
   have hmem : θ.symm r ∈ Subgroup.center (K ⧸ Subgroup.center K) := by
@@ -81,12 +81,12 @@ theorem ggL45Nt_exists_fixed_pElt_lift {K : Type} [Group K] [Finite K] {p : ℕ}
       ∀ a ∈ A, a k = k := by
   classical
   let Z := Subgroup.center K
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let C := {k : K // (k : K ⧸ Z) = (k₀ : K ⧸ Z)}
   have hCinv : ∀ (a : A) (c : C), ((a : MulAut K) c.1 : K ⧸ Z) = (k₀ : K ⧸ Z) := by
     intro a c
     rw [ggL45Nt_centerQuotAut_mk_congr (a : MulAut K) c.2, hfix (a : MulAut K) a.2]
-  letI : MulAction A C :=
+  let : MulAction A C :=
     { smul := fun a c => ⟨(a : MulAut K) c.1, hCinv a c⟩
       one_smul := fun c => Subtype.ext rfl
       mul_smul := fun a b c => Subtype.ext rfl }
@@ -153,12 +153,12 @@ theorem ggL45Nt_satR_of_satK {p : ℕ} (hp : p.Prime) {K : Type} [Group K] [Fini
       one_mem' := by simp
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [MulAut.mul_apply]
         rw [ggL45Nt_centerQuotAut_mk_congr a hb, ha]
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         simpa using (ggL45Nt_centerQuotAut_mk_congr a⁻¹ ha).symm }
   have hSA : A ≤ S := by
     change Subgroup.closure (insert ψ (E : Set (MulAut K))) ≤ S

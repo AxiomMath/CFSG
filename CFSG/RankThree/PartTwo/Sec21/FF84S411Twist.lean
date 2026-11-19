@@ -26,7 +26,7 @@ theorem toAdd_twistE (g : OmG) (x : ↥S) :
     Multiplicative.toAdd (twistE e g x) = g⁻¹ • Multiplicative.toAdd (e x) := rfl
 
 theorem twistPsi_apply (g : OmG) (n : ↥(Nor S)) : twistPsi ψ g n = g⁻¹ * ψ n * g := by
-  simp [twistPsi, MulAut.conj_apply]
+  simp [twistPsi]
 
 theorem OmSet.twist (H : OmSet S e ψ) (g : OmG) : OmSet S (twistE e g) (twistPsi ψ g) where
   surj := by

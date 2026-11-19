@@ -125,8 +125,8 @@ theorem sylow_normal_outer_prod_of_simple {L : Type*} [Group L] [Finite L] [IsSi
     rintro ⟨_, φ, ⟨h1, h2⟩, rfl⟩
     have h1' : QuotientGroup.mk' (inner L) (fstHom φ) ∈ (S₀ : Subgroup (Outer L)) := h1
     have h2' : QuotientGroup.mk' (inner L) (sndHom φ) ∈ (S₀ : Subgroup (Outer L)) := h2
-    obtain ⟨k₁, hk₁⟩ := exists_pow_eq_one_of_mem S₀.isPGroup' h1'
-    obtain ⟨k₂, hk₂⟩ := exists_pow_eq_one_of_mem S₀.isPGroup' h2'
+    obtain ⟨k₁, hk₁⟩ := exists_pow_eq_one_of_mem S₀.isPGroup h1'
+    obtain ⟨k₂, hk₂⟩ := exists_pow_eq_one_of_mem S₀.isPGroup h2'
     have hin := mem_inner_of_fstHom_sndHom (φ ^ p ^ (k₁ + k₂))
       ((QuotientGroup.eq_one_iff _).mp (by rw [map_pow, QuotientGroup.mk_pow, pow_add, pow_mul,
         ← QuotientGroup.mk'_apply, hk₁, one_pow]))
@@ -152,7 +152,7 @@ theorem sylow_normal_outer_prod_of_simple {L : Type*} [Group L] [Finite L] [IsSi
       exact (QuotientGroup.eq_one_iff _).mpr hin.2
   intro S
   have hSR : (S : Subgroup (Outer (L × L))) ≤ R := fun x hx => by
-    obtain ⟨k, hk⟩ := exists_pow_eq_one_of_mem S.isPGroup' hx
+    obtain ⟨k, hk⟩ := exists_pow_eq_one_of_mem S.isPGroup hx
     exact hRmax x k hk
   rw [S.maximal_isPGroup.eq_of_le hRp hSR]
   refine ⟨fun x hx g => ?_⟩

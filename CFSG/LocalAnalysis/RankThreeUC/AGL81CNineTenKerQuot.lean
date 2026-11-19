@@ -42,7 +42,7 @@ theorem layer_eq_iSup_of_components {X : Type*} [Group X] {ι : Type*} (f : ι �
   rw [CFSG.layer.eq_sSup, ← sSup_range]
   congr 1
   ext D
-  simp only [Set.mem_setOf_eq, Set.mem_range]
+  simp only [Set.mem_ofPred_eq, Set.mem_range]
   rw [hf D]
   exact ⟨fun ⟨i, hi⟩ => ⟨i, hi.symm⟩, fun ⟨i, hi⟩ => ⟨i, hi.symm⟩⟩
 
@@ -123,7 +123,7 @@ variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H E : Sub
 theorem centralizer_le_of_mem_starImg (h : NineSetting G M p Q H E 2) {x : StarGroup p H}
     (hxE : x ∈ starImg p H E) (hx1 : x ≠ 1) {V : Subgroup (StarGroup p H)} (hxV : x ∈ V) :
     centralizer (V : Set (StarGroup p H)) ≤ starImg p H M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨u, hu, hux⟩ := Subgroup.mem_map.mp hxE
   have huE : (u : G) ∈ E := Subgroup.mem_subgroupOf.mp hu
   have hu1 : u ≠ 1 := by
@@ -171,10 +171,10 @@ theorem centralizer_le_of_mem_starImg (h : NineSetting G M p Q H E 2) {x : StarG
 theorem exists_hom_quotKer (h : NineSetting G M p Q H E k) :
     ∃ φ : StarGroup p H →* QuotKer M H, Function.Surjective φ ∧
       ∀ y : StarGroup p H, (∀ g : StarGroup p H, g * y * g⁻¹ ∈ starImg p H M) → φ y = 1 := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   let K : Subgroup ↥H := Subgroup.normalCore ((M ⊓ H).subgroupOf H)
-  haveI hKn : K.Normal := inferInstance
+  have hKn : K.Normal := inferInstance
   have hOM : ∀ u : ↥H, u ∈ O → (u : G) ∈ M := by
     intro u hu
     have h1 : (u : G) ∈ relPPrimeCore p H := by
@@ -222,12 +222,12 @@ theorem top_le_layer_sup_normalizer (h : NineSetting G M p Q H E k)
     (⊤ : Subgroup (StarGroup p H)) ≤ CFSG.layer (StarGroup p H) ⊔
       normalizer ((starImg p H Q ⊓ CFSG.layer (StarGroup p H) : Subgroup (StarGroup p H)) :
         Set (StarGroup p H)) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let L : Subgroup (StarGroup p H) := CFSG.layer (StarGroup p H)
-  haveI hLc : L.Characteristic := by
+  have hLc : L.Characteristic := by
     change (CFSG.layer (StarGroup p H)).Characteristic
     exact CFSG.LocalCores.layer_characteristic
-  haveI hLn : L.Normal := inferInstance
+  have hLn : L.Normal := inferInstance
   have hSyl : CFSG.ABGLocalTools.IsSylowOf p (starImg p H Q ⊓ L) L :=
     CFSG.ABGLocalTools.IsSylowOf.inf_of_le_normalizer (h.isSylowOf_starImg_top hQ) le_top
       (by simp [Subgroup.normalizer_eq_top])

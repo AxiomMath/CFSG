@@ -47,11 +47,11 @@ theorem toLetters_positive {j : ℕ} {w : List Int}
     rcases hm with hmz | hm
     · rw [hmz] at hfm
       by_cases hz : z ≠ 0 ∧ z.natAbs ≤ j
-      · simp only [dif_pos hz] at hfm
+      · simp only [dite_eq_left hz] at hfm
         simp only [Option.some.injEq] at hfm
         rw [← hfm]
         rcases h z (by simp) with rfl | rfl | rfl | rfl <;> simp
-      · simp only [dif_neg hz] at hfm
+      · simp only [dite_eq_right hz] at hfm
         simp at hfm
     · have hm' : a ∈ toLetters j w := by
         rw [toLetters]
@@ -67,7 +67,7 @@ theorem step_spec (hcheck : BridgeCheck) (hData : DataOK (PermutationNative.inpu
   have hstep : step (PermutationNative.inputs ()).tr i k =
       ⟨((PermutationNative.inputs ()).tr[i.val]!)[k.val]!, hlt⟩ := by
     unfold step
-    rw [dif_pos hlt]
+    rw [dite_eq_left hlt]
   obtain ⟨q, hq, hqalpha⟩ :=
     (original_actions_spec hcheck).2.2.2.2.1 i k
   have hqeq : (⟨((PermutationNative.inputs ()).tr[i.val]!)[k.val]!, hlt⟩ : Fin 256) = q := by
@@ -94,7 +94,7 @@ theorem walk_spec (hcheck : BridgeCheck) (hData : DataOK (PermutationNative.inpu
       rw [ih (step (PermutationNative.inputs ()).tr i k)
         (fun b hb => hpos b (by simp [hb]))]
       rw [step_spec hcheck hData i k]
-      simp only [FreeGroup.lift_mk, List.map_cons, List.prod_cons, cond_true]
+      simp only [FreeGroup.lift_mk, List.map_cons, List.prod_cons, _root_.Bool.cond_true]
       rw [mul_assoc]
 
 theorem mulIndex_spec (hcheck : BridgeCheck) (hData : DataOK (PermutationNative.inputs ()))
@@ -146,7 +146,7 @@ private theorem orderOf_pair_one_e0 : orderOf ((1 : G4), e0) = 4 := by
 private theorem e0_pow (n : ℕ) : e0 ^ n = Multiplicative.ofAdd (n : ZMod 4) := by
   rw [e0, ← ofAdd_nsmul]
   congr 1
-  simpa using nsmul_eq_mul n (1 : ZMod 4)
+  simp
 
 private theorem zmod4_basis {B : Type*} [Group B] (e : B ≃* (G4 × G4))
     (u v : B) (hu : u = e.symm (e0, 1)) (hv : v = e.symm (1, e0)) :
@@ -363,16 +363,16 @@ theorem exists_central_involution_mem_commutator_closure
       if hk : k < 9 then p0Perm ⟨k, hk⟩ else 1
     have hS : ∀ k < 9, Rep 2688 (PermutationNative.inputs ()).p0[k]! (gs k) := by
       intro k hk
-      simpa only [gs, dif_pos hk] using (p0_rows ⟨k, hk⟩).1
+      simpa only [gs, dite_eq_left hk] using (p0_rows ⟨k, hk⟩).1
     have hI : ∀ k < 9, Rep 2688
         (p0InvArrays (PermutationNative.inputs ()))[k]! (gs k)⁻¹ := by
       intro k hk
-      simpa only [gs, dif_pos hk] using (p0_rows ⟨k, hk⟩).2
+      simpa only [gs, dite_eq_left hk] using (p0_rows ⟨k, hk⟩).2
     have h := rep_wordA (n := 2688) (S := (PermutationNative.inputs ()).p0)
       (Sinv := p0InvArrays (PermutationNative.inputs ())) (gs := gs) (j := 9) hS hI w hw
     have heq : (fun k : Fin 9 => gs k.val) = p0Perm := by
       funext k
-      simp only [gs, dif_pos k.isLt]
+      simp only [gs, dite_eq_left k.isLt]
     rw [heq] at h
     rw [p0_word_coe]
     exact h
@@ -461,14 +461,14 @@ theorem exists_central_involution_mem_commutator_closure
   have hRepW : Rep 2688 (witnessW inputs (liftInvArrays inputs) W)
       ((w : Equiv.Perm (Fin 2688))) := by
     by_cases hsign : W.sign
-    · have hw : w = term := if_pos hsign
+    · have hw : w = term := ite_eq_left hsign
       rw [hw]
-      simp only [hsign, if_true, witnessW]
+      simp only [hsign, ite_true, witnessW]
       exact hRepT
     · have hs : W.sign = false := by simpa using hsign
-      have hw : w = term⁻¹ := if_neg hsign
+      have hw : w = term⁻¹ := ite_eq_right hsign
       rw [hw]
-      simp only [hs, Bool.false_eq_true, if_false, witnessW]
+      simp only [hs, Bool.false_eq_true, ite_false, witnessW]
       exact rep_inv_of_isInvA hRepT hWinv_t
 
   have hw_sq : w * w = 1 := by
@@ -528,9 +528,9 @@ theorem exists_central_involution_mem_commutator_closure
     exact ⟨c, bK, hc_mem, hfixed, rfl⟩
   have hw_closure : w ∈ Subgroup.closure S := by
     by_cases hsign : W.sign
-    · simp only [w, hsign, if_true]
+    · simp only [w, hsign, ite_true]
       exact hterm_mem
-    · simp only [w, hsign, if_false]
+    · simp only [w, hsign]
       exact Subgroup.inv_mem _ hterm_mem
 
   exact ⟨sK, w, hs_order, hw_order, hw_center, hw_closure⟩

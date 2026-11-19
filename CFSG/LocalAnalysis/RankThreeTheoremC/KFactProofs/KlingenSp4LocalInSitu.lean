@@ -106,7 +106,7 @@ theorem a9InSitu (T : Sylow 3 Y) (hp3 : p = 3) (h : SiegelRadicalData 3 K (T : S
       exact bot_le
     ·
       have hsup : IsPGroup 3 (W ⊔ (T : Subgroup Y) : Subgroup Y) :=
-        hWp.to_sup_of_normal_left' T.isPGroup' (fun t ht => hWn (hTY ht))
+        hWp.to_sup_of_normal_left' T.isPGroup (fun t ht => hWn (hTY ht))
       have hWT : W ≤ (T : Subgroup Y) := by
         have := T.maximal_isPGroup.le_of_ge hsup le_sup_right
         exact le_sup_left.trans this

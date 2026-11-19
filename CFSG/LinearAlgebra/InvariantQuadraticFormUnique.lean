@@ -12,16 +12,19 @@ open Module QuadraticMap
 
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem polarBilin_comm (q : QuadraticForm (ZMod 2) V) (x y : V) :
     polarBilin q x y = polarBilin q y x := by
   rw [polarBilin_apply_apply, polarBilin_apply_apply, polar_comm]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem polarBilin_map_of_invariant {q : QuadraticForm (ZMod 2) V} {g : V ≃ₗ[ZMod 2] V}
     (h : ∀ v, q (g v) = q v) (x y : V) :
     polarBilin q (g x) (g y) = polarBilin q x y := by
   rw [polarBilin_apply_apply, polarBilin_apply_apply, polar, ← map_add, h (x + y), h x, h y,
     ← polar, ← polarBilin_apply_apply]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem eq_zero_of_polarBilin_eq_zero_of_invariant {q : QuadraticForm (ZMod 2) V}
     {w : V ≃ₗ[ZMod 2] V} (hq : polarBilin q = 0)
     (hw2 : ∀ v, w (w v) + w v + v = 0) (hinv : ∀ v, q (w v) = q v) : q = 0 := by
@@ -112,7 +115,7 @@ theorem eq_of_invariant_of_commutant {Γ : Set (V ≃ₗ[ZMod 2] V)} {w : V ≃�
       ext x y
       rw [polarBilin_apply_apply, LinearMap.zero_apply]
       have hp : polar (⇑(q₂ - q₁)) x y = polar (⇑q₂) x y - polar (⇑q₁) x y := by
-        simp only [polar, QuadraticMap.sub_apply]
+        simp only [polar, _root_.sub_apply]
         abel
       rw [hp]
       have hBxy : polar q₂ x y = polar q₁ x y := by
@@ -121,7 +124,7 @@ theorem eq_of_invariant_of_commutant {Γ : Set (V ≃ₗ[ZMod 2] V)} {w : V ≃�
       rw [LinearMap.zero_apply]
     have hf : q₂ - q₁ = 0 :=
       eq_zero_of_polarBilin_eq_zero_of_invariant hpolf hw2 (fun v => by
-        rw [QuadraticMap.sub_apply, QuadraticMap.sub_apply, h₂ w hw v, h₁ w hw v])
+        rw [_root_.sub_apply, _root_.sub_apply, h₂ w hw v, h₁ w hw v])
     exact sub_eq_zero.1 hf
   ·
     have hLw' : ∀ v u, polarBilin q₁ (w v) u = polarBilin q₂ v u := by

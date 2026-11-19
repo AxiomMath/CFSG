@@ -82,7 +82,7 @@ private theorem centFacts_of_isoCore {D R : Type} [Group D] [Finite D] [Group R]
     exact (e.symm x).2
   · rwa [hNcard]
   · intro M hMnorm hMcard
-    haveI : M.Normal := hMnorm
+    have : M.Normal := hMnorm
     refine le_of_normal_of_card_gt (c := c) ?_ ?_
     · intro K hKN hKnorm hKne
       have hmapN : ((K.subgroupOf N).map e.toMonoidHom).Normal :=
@@ -113,7 +113,7 @@ section TypeA
 theorem co3M_proper_normal_card_le :
     ∀ K : Subgroup ↥co3M, K.Normal → K ≠ ⊤ → Nat.card K ≤ 2 := by
   intro K hK hproper
-  haveI : K.Normal := hK
+  have : K.Normal := hK
   have hq : CFSG.Open.IsQuasisimple ↥co3M := isTwoSp62_co3M.isSp62Cover.isQuasisimple
   have hle : K ≤ Subgroup.center ↥co3M :=
     CFSG.ComponentClassification.Quasisimple.normal_le_center_of_ne_top hq K hproper
@@ -126,7 +126,7 @@ private theorem sylow_co3M :
   let S₀ : Sylow 2 ↥co3M := default
   have hS : Nat.card (S₀ : Subgroup ↥co3M) = 2 ^ 10 := by
     rw [Sylow.card_eq_multiplicity S₀, card_co3M, factorization_2903040_two]
-  refine ⟨(S₀ : Subgroup ↥co3M), S₀.isPGroup', ?_⟩
+  refine ⟨(S₀ : Subgroup ↥co3M), S₀.isPGroup, ?_⟩
   intro M hM hcyc
   exact lt_relIndex_of_perm (E := ↥co3M) (n := 276) co3M.subtype co3M.subtype_injective
     (S := (S₀ : Subgroup ↥co3M)) (k := 10) (by norm_num) hS (by norm_num) M hM hcyc
@@ -150,7 +150,7 @@ private theorem sylow_M12 :
   let S₀ : Sylow 2 ↥NativeSporadic.M12 := default
   have hS : Nat.card (S₀ : Subgroup ↥NativeSporadic.M12) = 2 ^ 6 := by
     rw [Sylow.card_eq_multiplicity S₀, CFSG.Sporadic.Mathieu.card_M12, factorization_95040_two]
-  refine ⟨(S₀ : Subgroup ↥NativeSporadic.M12), S₀.isPGroup', ?_⟩
+  refine ⟨(S₀ : Subgroup ↥NativeSporadic.M12), S₀.isPGroup, ?_⟩
   intro M hM hcyc
   exact lt_relIndex_of_perm (E := ↥NativeSporadic.M12) (n := 12) NativeSporadic.M12.subtype
     NativeSporadic.M12.subtype_injective (S := (S₀ : Subgroup ↥NativeSporadic.M12)) (k := 6)
@@ -163,9 +163,9 @@ theorem centFacts_of_typeB {D : Type} [Group D] [Finite D] {N : Subgroup D} [N.N
   have hproper : ∀ K : Subgroup ↥NativeSporadic.M12, K.Normal → K ≠ ⊤ →
       Nat.card K ≤ 1 := by
     intro K hK hne
-    haveI : IsSimpleGroup ↥NativeSporadic.M12 :=
+    have : IsSimpleGroup ↥NativeSporadic.M12 :=
       (CFSG.Sporadic.Mathieu.fam_m12_simplicity).2.2
-    haveI : K.Normal := hK
+    have : K.Normal := hK
     rcases Subgroup.Normal.eq_bot_or_eq_top K with hbot | htop
     · rw [hbot, Subgroup.card_bot]
     · exact absurd htop hne

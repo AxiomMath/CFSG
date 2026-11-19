@@ -51,9 +51,9 @@ private theorem s16h_e3_ncard_sdiff {α : Type*} {s t : Set α} (h : s ⊆ t) (h
   classical
   have hs : s.Finite := ht.subset h
   have hts : (t \ s).Finite := ht.sdiff
-  haveI : Fintype ↥t := ht.fintype
-  haveI : Fintype ↥s := hs.fintype
-  haveI : Fintype ↥(t \ s) := hts.fintype
+  have : Fintype ↥t := ht.fintype
+  have : Fintype ↥s := hs.fintype
+  have : Fintype ↥(t \ s) := hts.fintype
   have e_s : ↥s ≃ {x : ↥t // (x : α) ∈ s} :=
     (Equiv.subtypeSubtypeEquivSubtype (p := fun x => x ∈ t) (q := fun x => x ∈ s)
       (fun {x} hx => h hx)).symm
@@ -65,16 +65,19 @@ private theorem s16h_e3_ncard_sdiff {α : Type*} {s t : Set α} (h : s ⊆ t) (h
   rw [← Nat.card_coe_set_eq (t \ s), ← Nat.card_coe_set_eq t, ← Nat.card_coe_set_eq s]
   omega
 
+omit [Finite K] [CharP K 2] in
 private theorem s16h_e3_quadMinus_smul (a : K) (v : s16h_H5E3RkιA → K) :
     StatedQuadMinus 2 K b c (a • v) = a ^ 2 * StatedQuadMinus 2 K b c v := by
   rw [← coe_quadMinus (n := 2) (K := K) b c]
   rw [QuadraticMap.map_smul]
   simp [smul_eq_mul, pow_two]
 
+omit [Finite K] [CharP K 2] in
 private theorem s16h_e3_quadMinus_zero : StatedQuadMinus 2 K b c (0 : s16h_H5E3RkιA → K) = 0 := by
   rw [← coe_quadMinus (n := 2) (K := K) b c]
   exact QuadraticMap.map_zero (quadMinus 2 K b c)
 
+omit [CharP K 2] in
 private theorem s16h_e3_natCard_finrank_one (hK : Nat.card K = 2 ^ 3) :
     {P : Submodule K (s16h_H5E3RkιA → K) | Module.finrank K P = 1}.ncard = 585 := by
   have hfin : Module.finrank K (s16h_H5E3RkιA → K) = 4 := by
@@ -182,6 +185,7 @@ private theorem s16h_e3_stab_subgroupOf_card {G V : Type} [Group G] [MulAction G
     ← Subgroup.subgroupOf_map_subtype (MulAction.stabilizer G v) H]
   exact (Subgroup.card_subtype H ((MulAction.stabilizer G v).subgroupOf H)).symm
 
+omit [Finite K] [CharP K 2] in
 private theorem s16h_e3_mem_orbit_natImage_iff {Γ : Subgroup (GL s16h_H5E3RkιA K)}
     {v w : StdMod s16h_H5E3RkιA K} :
     w ∈ MulAction.orbit (↥(natImage Γ)) v ↔
@@ -312,6 +316,7 @@ private theorem s16h_e3_orbit_statedOmega_eq_singular (hirr : ∀ s : K, s ^ 2 +
     exact (s16h_e3_mem_orbit_natImage_iff
       (Γ := StatedOmega (StatedQuadMinus 2 K b c))).mpr ⟨A, hA, hAx⟩
 
+omit [CharP K 2] in
 private theorem s16h_e3_nonzeroVectors_ncard (hK : Nat.card K = 2 ^ 3) :
     {x : s16h_H5E3RkιA → K | x ≠ 0}.ncard = 4095 := by
   have hι : Nat.card s16h_H5E3RkιA = 4 := by
@@ -331,8 +336,8 @@ private theorem s16h_e3_nonsingularVectors_ncard (hK : Nat.card K = 2 ^ 3)
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     {x : s16h_H5E3RkιA → K | StatedQuadMinus 2 K b c x ≠ 0}.ncard = 3640 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype {μ : K // μ ≠ 0} := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype {μ : K // μ ≠ 0} := Fintype.ofFinite _
   let e : {x : s16h_H5E3RkιA → K // StatedQuadMinus 2 K b c x ≠ 0} ≃
       Σ μ : {μ : K // μ ≠ 0}, {x : s16h_H5E3RkιA → K // StatedQuadMinus 2 K b c x = μ.1} :=
     (Equiv.sigmaSubtypeFiberEquivSubtype (f := StatedQuadMinus 2 K b c)

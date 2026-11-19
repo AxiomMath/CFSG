@@ -68,10 +68,10 @@ theorem gamMat_mul_apply {N g : ℕ} (hg : ∀ r < N, gP g r < N) (B : Matrix (F
     (r c : Fin N) :
     (gamMat N g * B) r c = (if gS g r = 1 then (-1 : ℚ) else 1) * B ⟨gP g r, hg r r.isLt⟩ c := by
   rw [Matrix.mul_apply, Finset.sum_eq_single ⟨gP g r, hg r r.isLt⟩]
-  · rw [gamMat_apply_eq, if_pos rfl]
+  · rw [gamMat_apply_eq, ite_eq_left rfl]
   · intro t _ ht
     have : gP g r ≠ (t : ℕ) := fun e => ht (Fin.ext e.symm)
-    rw [gamMat_apply_eq, if_neg this, zero_mul]
+    rw [gamMat_apply_eq, ite_eq_right this, zero_mul]
   · intro hn
     exact absurd (Finset.mem_univ _) hn
 
@@ -102,19 +102,19 @@ theorem gamRelK_sound {n N : ℕ} {G : List ℕ} (h : gamRelK n N G = true) :
   unfold relAt at hrr
   simp only [P.letB_eq] at hrr
   simp only [Matrix.add_apply, gamM, gamMat_mul_apply (hpi i hi), gamMat_mul_apply (hpi j hj),
-    gamMat_apply_eq, Fin.val_mk]
+    gamMat_apply_eq]
   by_cases hij : i = j
   · subst hij
     rw [show Nat.beq i i = true from P.beq_iff.2 rfl] at hrr
     obtain ⟨h5, h6⟩ := P.andB_iff.1 hrr
     have e5 := P.beq_iff.1 h5
     have e6 := P.beq_iff.1 h6
-    rw [e5, ← e6, if_pos rfl, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul]
+    rw [e5, ← e6, ite_eq_left rfl, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul]
     by_cases hrc : r = c
     · subst hrc
-      rw [if_pos rfl, if_pos rfl, sgn_mul_sgn (gS_le_one _ _) (gS_le_one _ _)]
+      rw [ite_eq_left rfl, ite_eq_left rfl, sgn_mul_sgn (gS_le_one _ _) (gS_le_one _ _)]
       split_ifs <;> first | omega | norm_num
-    · rw [if_neg (fun e => hrc (Fin.ext e)), if_neg hrc]
+    · rw [ite_eq_right (fun e => hrc (Fin.ext e)), ite_eq_right hrc]
       ring
   · have hb : Nat.beq i j = false := by
       cases hc : Nat.beq i j
@@ -124,14 +124,14 @@ theorem gamRelK_sound {n N : ℕ} {G : List ℕ} (h : gamRelK n N G = true) :
     obtain ⟨h5, h6⟩ := P.andB_iff.1 hrr
     have e5 := P.beq_iff.1 h5
     have e6 := P.notB_iff.1 h6
-    rw [e5, if_neg hij, Matrix.zero_apply]
+    rw [e5, ite_eq_right hij, Matrix.zero_apply]
     by_cases hc : gP (G.getD i 0) (gP (G.getD j 0) r) = c
-    · rw [if_pos hc, if_pos hc, sgn_mul_sgn (gS_le_one _ _) (gS_le_one _ _), sgn_mul_sgn (gS_le_one _ _) (gS_le_one _ _)]
+    · rw [ite_eq_left hc, ite_eq_left hc, sgn_mul_sgn (gS_le_one _ _) (gS_le_one _ _), sgn_mul_sgn (gS_le_one _ _) (gS_le_one _ _)]
       have hne : (gS (G.getD i 0) r + gS (G.getD j 0) (gP (G.getD i 0) r)) % 2 ≠
           (gS (G.getD j 0) r + gS (G.getD i 0) (gP (G.getD j 0) r)) % 2 :=
         fun e => e6 (P.beq_iff.2 e)
       split_ifs <;> first | omega | norm_num
-    · rw [if_neg hc, if_neg hc]
+    · rw [ite_eq_right hc, ite_eq_right hc]
       ring
 
 theorem wordsOK_sound {n : ℕ} {p : List Q4 × List Q4} (h : wordsOK n p = true) :
@@ -213,7 +213,7 @@ theorem add_div_lanes (w x y : ℕ) : ∀ i, (∀ i' < i, lane w x i' + lane w y
     have e : ∀ z, z / 2 ^ (w * (i + 1)) = z / 2 ^ (w * i) / 2 ^ w := fun z => by
       rw [Nat.div_div_eq_div_mul, ← pow_add]
       congr 2
-    rw [e, e, e, ih, Nat.add_div (Nat.two_pow_pos w), if_neg (by omega), add_zero]
+    rw [e, e, e, ih, Nat.add_div (Nat.two_pow_pos w), ite_eq_right (by omega), add_zero]
 
 theorem lane_add {w x y i : ℕ} (h : ∀ i' ≤ i, lane w x i' + lane w y i' < 2 ^ w) :
     lane w (x + y) i = lane w x i + lane w y i := by
@@ -253,12 +253,12 @@ theorem pkE_permP {N g X Y r j : ℕ} (hr : r < N) :
   rw [lane_ofLanes (fun i _ => lane_lt_two_pow _ _ _) hr]
   by_cases h : gS g r = 1
   · have hb : Nat.beq (gS g r) (nat_lit 1) = true := P.beq_iff.2 h
-    rw [hb, if_pos h]
+    rw [hb, ite_eq_left h]
   · have hb : Nat.beq (gS g r) (nat_lit 1) = false := by
       cases hc : Nat.beq (gS g r) (nat_lit 1)
       · rfl
       · exact absurd (P.beq_iff.1 hc) h
-    rw [hb, if_neg h]
+    rw [hb, ite_eq_right h]
 
 theorem pkB_mono {N B B' X : ℕ} (h : PkB N B X) (hB : B ≤ B') : PkB N B' X :=
   fun r hr j hj => (h r hr j hj).trans hB
@@ -275,7 +275,7 @@ theorem pkV_permP {N g X Y : ℕ} (hg : ∀ r < N, gP g r < N) :
     pkV N (permP (64 * N) N g X Y) (permP (64 * N) N g Y X) = gamMat N g * pkV N X Y := by
   ext r c
   rw [gamMat_mul_apply hg]
-  simp only [pkV, Matrix.of_apply, pkE_permP r.isLt, Fin.val_mk]
+  simp only [pkV, Matrix.of_apply, pkE_permP r.isLt]
   split_ifs <;> ring
 
 theorem pkB_add {N B X Y : ℕ} (hB : B + B < 2 ^ 64) (hX : PkB N B X) (hY : PkB N B Y) :
@@ -334,7 +334,7 @@ theorem ddA_spec {n N B : ℕ} {G : List ℕ} {q : Q4}
   rw [pkV_add hB2 ha1 ha2 hb1 hb2, pkV_permP ha, pkV_permP hb, pkV_add hB1 hc1 hc2 hd1 hd2,
     pkV_permP hc, pkV_permP hd]
   have hne : ¬ (q.1 = q.2.1 ∨ q.2.2.1 = q.2.2.2) := fun h => h.elim hq.2.2.2.2.1 hq.2.2.2.2.2
-  rw [SpinM.Mdd, if_neg hne, Matrix.smul_mul, smul_smul,
+  rw [SpinM.Mdd, ite_eq_right hne, Matrix.smul_mul, smul_smul,
     show (2 : ℚ) * (1 / 2) = 1 by norm_num, one_smul]
   unfold gamM
   simp only [Matrix.sub_mul, Matrix.mul_sub, Matrix.mul_assoc]
@@ -380,11 +380,11 @@ theorem pkE_idM {N r j : ℕ} (hr : r < N) (hj : j < N) :
   change lane 64 (lane (64 * N) (ofLanes (64 * N) N fun i => Nat.shiftLeft 1 (64 * i)) r) j = _
   rw [lane_ofLanes hpow hr, hsh, lane_eq_div]
   rcases lt_trichotomy r j with h | rfl | h
-  · rw [if_neg (by omega), Nat.div_eq_of_lt (Nat.pow_lt_pow_right (by norm_num) (by omega)),
+  · rw [ite_eq_right (by omega), Nat.div_eq_of_lt (Nat.pow_lt_pow_right (by norm_num) (by omega)),
       Nat.zero_mod]
-  · rw [if_pos rfl, Nat.div_self (Nat.two_pow_pos _)]
+  · rw [ite_eq_left rfl, Nat.div_self (Nat.two_pow_pos _)]
     norm_num
-  · rw [if_neg (by omega), Nat.pow_div (by omega) (by norm_num),
+  · rw [ite_eq_right (by omega), Nat.pow_div (by omega) (by norm_num),
       show 64 * r - 64 * j = 64 + (64 * r - 64 * j - 64) by omega, pow_add, Nat.mul_mod_right]
 
 theorem pkB_idM (N : ℕ) : PkB N 1 (idM N) := by
@@ -664,7 +664,6 @@ theorem mvOK_sound {N : ℕ} {G : List ℕ} {p : List Q4 × List Q4} {R : List (
   obtain ⟨tA1, tA2⟩ := hT (fun j => (R.getD j (0, 0)).1) (fun j => (R.getD j (0, 0)).2) hC
   obtain ⟨tB1, tB2⟩ := hT (fun j => (R.getD j (0, 0)).2) (fun j => (R.getD j (0, 0)).1)
     fun j hj => (hC j hj).symm
-  beta_reduce at tA1 tA2 tB1 tB2
   have hones : LnB N 1 (ones N) ∧ ∀ i < N, lane 64 (ones N) i = 1 := by
     have e : ∀ i < N, lane 64 (ones N) i = 1 := fun i hi =>
       lane_ofLanes (f := fun _ => 1) (fun _ _ => by norm_num) hi
@@ -711,11 +710,11 @@ theorem lamOK_sound {S Sg Tr L k : ℕ} (hS : S ≤ 256) (h : lamOK S Sg Tr L k 
   rw [e1]
   by_cases hk : k = 0
   · subst hk
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have h' : Nat.beq (lane (8 * S) L 0) (ofLanes 8 S fun j => j) = true := h
     rw [P.beq_iff.1 h', lane_ofLanes _ hj]
     exact fun i hi => lt_of_lt_of_le hi (hS.trans (by norm_num))
-  · rw [if_neg hk]
+  · rw [ite_eq_right hk]
     have hb : Nat.beq k 0 = false := by
       cases k with
       | zero => exact absurd rfl hk
@@ -743,10 +742,10 @@ theorem treeOK_sound {S nL Sg Tr k : ℕ} (h : treeOK S nL Sg Tr k = true) (hk :
 theorem gamMat_mulVec_apply {N g : ℕ} (v : Fin N → ℚ) (r : Fin N) (hr : gP g r < N) :
     (gamMat N g *ᵥ v) r = (if gS g r = 1 then (-1 : ℚ) else 1) * v ⟨gP g r, hr⟩ := by
   rw [Matrix.mulVec, dotProduct, Finset.sum_eq_single ⟨gP g r, hr⟩]
-  · rw [gamMat_apply_eq, if_pos rfl]
+  · rw [gamMat_apply_eq, ite_eq_left rfl]
   · intro t _ ht
     have : gP g r ≠ (t : ℕ) := fun e => ht (Fin.ext e.symm)
-    rw [gamMat_apply_eq, if_neg this, zero_mul]
+    rw [gamMat_apply_eq, ite_eq_right this, zero_mul]
   · intro hn
     exact absurd (Finset.mem_univ _) hn
 
@@ -808,14 +807,14 @@ theorem kronIK_sound {G G' : List ℕ} (hG : gamRelK 10 32 G = true) (h : kronIK
   rw [gamM, gamM, gamMat_mulVec_apply _ _ hlt, emb_apply, emb_apply]
   by_cases he : s.val % 2 = 0
   · have he' : (gP (G'.getD k 0) s) % 2 = 0 := by omega
-    rw [if_pos he', if_pos he]
+    rw [ite_eq_left he', ite_eq_left he]
     rw [gamMat_mulVec_apply _ ⟨s.val / 2, hr⟩ hlt0, hS']
     congr 2
     apply Fin.ext
     change gP (G'.getD k 0) s / 2 = gP (G.getD k 0) (s.val / 2)
     omega
   · have he' : ¬ (gP (G'.getD k 0) s) % 2 = 0 := by omega
-    rw [if_neg he', if_neg he, mul_zero]
+    rw [ite_eq_right he', ite_eq_right he, mul_zero]
 
 theorem gensEq_sound {n : ℕ} {ps : List (List Q4 × List Q4)} {gs : List ℕ}
     (h : gensEq n ps gs = true) :
@@ -1076,7 +1075,7 @@ theorem blk_eq_of_vecT {N T a b : ℕ} (h : vecT N (blk N T a) = vecT N (blk N T
 theorem emb_apply_two (u : Fin 32 → ℚ) (r : Fin 32) :
     emb u ⟨2 * r.val, by have := r.isLt; omega⟩ = u r := by
   show (if (2 * r.val) % 2 = 0 then u ⟨2 * r.val / 2, _⟩ else 0) = u r
-  rw [if_pos (by omega)]
+  rw [ite_eq_left (by omega)]
   congr 1
   ext
   show 2 * r.val / 2 = r.val
@@ -1160,7 +1159,7 @@ variable {G : Type} [Group G]
 @[expose] noncomputable def xs (gs : List G) (par lab : ℕ → ℕ) : ℕ → G
   | 0 => 1
   | k + 1 =>
-    if h : par (k + 1) < k + 1 then gs.getD (lab (k + 1)) 1 * xs gs par lab (par (k + 1)) else 1
+    if _h : par (k + 1) < k + 1 then gs.getD (lab (k + 1)) 1 * xs gs par lab (par (k + 1)) else 1
 termination_by k => k
 
 theorem xs_zero (gs : List G) (par lab : ℕ → ℕ) : xs gs par lab 0 = 1 := by
@@ -1169,7 +1168,7 @@ theorem xs_zero (gs : List G) (par lab : ℕ → ℕ) : xs gs par lab 0 = 1 := b
 theorem xs_pos (gs : List G) (par lab : ℕ → ℕ) {k : ℕ} (hk : k ≠ 0) (hp : par k < k) :
     xs gs par lab k = gs.getD (lab k) 1 * xs gs par lab (par k) := by
   obtain ⟨k, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hk
-  rw [xs, dif_pos hp]
+  rw [xs, dite_eq_left hp]
 
 theorem tree_core [Finite G] {N : ℕ} (θ : G →* Matrix (Fin N) (Fin N) ℚ) (gs : List G) (S : ℕ)
     (v : ℕ → Fin N → ℚ) (σ : ℕ → ℕ → ℕ) (par lab : ℕ → ℕ)
@@ -1228,12 +1227,12 @@ theorem tree_mul [Finite G] {N : ℕ} (θ : G →* Matrix (Fin N) (Fin N) ℚ) (
       intro hi j hj
       by_cases h0 : i = 0
       · subst h0
-        rw [hlam 0 hi j hj, if_pos rfl, xs_zero, map_one, Matrix.one_mulVec]
+        rw [hlam 0 hi j hj, ite_eq_left rfl, xs_zero, map_one, Matrix.one_mulVec]
         exact ⟨hj, rfl⟩
       · obtain ⟨hp, hl, -⟩ := htree i hi h0
         obtain ⟨ih1, ih2⟩ := ih _ hp (hp.trans hi) j hj
         obtain ⟨hs1, hs2⟩ := hact _ hl _ ih1
-        rw [hlam i hi j hj, if_neg h0, xs_pos gs par lab h0 hp, map_mul, ← Matrix.mulVec_mulVec,
+        rw [hlam i hi j hj, ite_eq_right h0, xs_pos gs par lab h0 hp, map_mul, ← Matrix.mulVec_mulVec,
           ih2, hs2]
         exact ⟨hs1, rfl⟩
   intro i hi j hj
@@ -1263,7 +1262,7 @@ theorem mem_normalizer_of_conj [Finite G] {A : Subgroup G} {g : G}
 theorem exists_sylow_eq [Finite G] (S0 : Subgroup G) {e k : ℕ} (hS0 : Nat.card S0 = 2 ^ e)
     (hG : Nat.card G = 2 ^ e * k) (hodd : ¬ 2 ∣ k) :
     ∃ P : Sylow 2 G, (P : Subgroup G) = S0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx : ¬ 2 ∣ S0.index := by
     have h1 := S0.card_mul_index
     rw [hS0, hG] at h1
@@ -1422,9 +1421,9 @@ variable {m : ℕ}
 
 theorem card_le_phi (hm : 6 ≤ m) (K : Subgroup (E (m + 2))) :
     Nat.card K ≤ 2 * Nat.card (K.map (phiE m)) := by
-  haveI := finite_E hm
+  have := finite_E hm
   obtain ⟨hfin, hker⟩ := card_ker_psi_le (m := m) hm
-  haveI := hfin
+  have := hfin
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup ((phiE m).comp K.subtype).ker
   have h2 : Nat.card (K ⧸ ((phiE m).comp K.subtype).ker) =
       Nat.card ((phiE m).comp K.subtype).range :=
@@ -1484,7 +1483,7 @@ theorem psiW_eq {n : ℕ} (hn : n ≤ 32) (w : List Q4) (hw : ∀ q ∈ w, Valid
         Equiv.swap (⟨q.1, hq.1⟩ : Fin n) ⟨q.2.1, hq.2.1⟩ *
           Equiv.swap (⟨q.2.2.1, hq.2.2.1⟩ : Fin n) ⟨q.2.2.2, hq.2.2.2.1⟩ := by
       unfold ddH
-      rw [dif_pos hq]
+      rw [dite_eq_left hq]
       exact perm_dd _ _
     rw [hw', map_mul, ih', hdd,
       show P.swap n q.1 q.2.1 = P.code (Equiv.swap (⟨q.1, hq.1⟩ : Fin n) ⟨q.2.1, hq.2.1⟩) from
@@ -1565,7 +1564,7 @@ theorem orbit_E (hm : 6 ≤ m) (hn32 : m + 2 ≤ 32) {N M : ℕ} (G' G0 : List �
       (∀ a < S, ∀ b < S, xE m ps Tr a = xE m ps Tr b → a = b) ∧
       (∀ i < S, ∀ j < S, lamAt S L i j < S ∧
         xE m ps Tr i * xE m ps Tr j = xE m ps Tr (lamAt S L i j)) := by
-  haveI := finite_E hm
+  have := finite_E hm
   have hrel := gamRelK_sound hG'
   have hval : ∀ p ∈ ps, (∀ q ∈ p.1, ValidQ (m + 2) q) ∧ (∀ q ∈ p.2, ValidQ (m + 2) q) :=
     fun p hp => wordsOK_sound ((allPairs_iff _ _).1 hw p hp)
@@ -1676,7 +1675,7 @@ theorem sylow_normal_of_checks (hm : 6 ≤ m) (hn32 : m + 2 ≤ 32) {N M : ℕ} 
     (A : List ℕ) (habel : abelOK S ps.length Tr L A = true) (hA : A.length = 8)
     (hnF : ps.length < S) (e k : ℕ) (hSe : S = 2 ^ e) (hE : Nat.card (E (m + 2)) = 2 ^ e * k)
     (hodd : ¬ 2 ∣ k) : SylowFourJoined (E (m + 2)) := by
-  haveI := finite_E hm
+  have := finite_E hm
   obtain ⟨hmem, hc, hx0, hxinj, hmul⟩ := orbit_E hm hn32 G' G0 n0 ι hι hG' hG0 hint ps hw0 hw R
     hRl hmat S hS T Sg Tr L SG horb PG NP PE PA PS PC hNP h2 hgens hpsi
   obtain ⟨P, hP⟩ := exists_sylow_eq _ (hc.trans hSe) hE hodd
@@ -1708,7 +1707,7 @@ theorem sylow_klein_of_checks (hm : 6 ≤ m) (hn32 : m + 2 ≤ 32) {N M : ℕ} (
     (hpairs : ∀ a < I.length, pairsAt S L K nK I Wt a = true)
     (e k : ℕ) (hSe : S = 2 ^ e) (hE : Nat.card (E (m + 2)) = 2 ^ e * k)
     (hodd : ¬ 2 ∣ k) : SylowFourJoined (E (m + 2)) := by
-  haveI := finite_E hm
+  have := finite_E hm
   have hS0 : 0 < S := by have := Nat.two_pow_pos e; omega
   obtain ⟨hmem, hc, hx0, hxinj, hmul⟩ := orbit_E hm hn32 G' G0 n0 ι hι hG' hG0 hint ps hw0 hw R
     hRl hmat S hS T Sg Tr L SG horb PG NP PE PA PS PC hNP h2 hgens hpsi

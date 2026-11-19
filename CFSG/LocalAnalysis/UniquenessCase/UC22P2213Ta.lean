@@ -84,6 +84,7 @@ theorem uc22p2213t_not_le_centralizer (D : Data G) (Ch : Choice2011 G) (h117 : R
     exact uc22p22u_calC_of_le hK (le_inf (uc22p22a_le_of_isSubnormal hK.1) hKV) inf_le_left
   exact hthin (h117 c.V (uc22p22vd_hyp11 D Ch h1930 hV c) K hKX).2
 
+omit [Finite G] in
 theorem uc22p2213t_onto {M V K : Subgroup G} (hVM : M ≤ normalizer (V : Set G)) (hKM : K ≤ M)
     (hO : ∀ x ∈ CFSG.pCore 2 ↥K, (x : G) ∈ centralizer (V : Set G))
     (hq : CFSG.Open.IsQuasisimple (Bar2 K)) (hKV : ¬ K ≤ centralizer (V : Set G)) :
@@ -115,6 +116,7 @@ theorem uc22p2213t_onto {M V K : Subgroup G} (hVM : M ≤ normalizer (V : Set G)
   have h2 : (ψ w : MBar M V) = z := congrArg Subtype.val hw
   rw [Subgroup.mem_bot, ← h2, h1, OneMemClass.coe_one]
 
+omit [Finite G] in
 theorem uc22p2213t_diag {M V K : Subgroup G} (hKM : K ≤ M) (e : Bar2 K ≃* ↥(mbarImage M V K))
     (he : ∀ k : ↥K, (e (QuotientGroup.mk k) : MBar M V) =
       QuotientGroup.mk (Subgroup.inclusion hKM k))
@@ -124,7 +126,7 @@ theorem uc22p2213t_diag {M V K : Subgroup G} (hKM : K ≤ M) (e : Bar2 K ≃* �
   have htN' : (⟨t, htM⟩ : ↥M) ∈ normalizer ((K.subgroupOf M : Subgroup ↥M) : Set ↥M) := by
     rw [mem_normalizer_iff]
     intro h
-    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
     exact mem_normalizer_iff.1 htN (h : G)
   refine ⟨le_normalizer_map _ (mem_map_of_mem _ htN'), ?_⟩
   set ε : (Bar2 K ⧸ center (Bar2 K)) ≃* (↥(mbarImage M V K) ⧸ center ↥(mbarImage M V K)) :=

@@ -84,6 +84,7 @@ private theorem fixBlockPiHom_injective {A : GL (Fin n) k}
   have h1 := congrArg Subtype.val ((glCentralizerEquivPi hsq).injective h)
   exact Subtype.ext (slGL_injective h1)
 
+omit [Finite k] in
 theorem mem_iSup_specialFactor_of_blockDetHom_eq_one {A : GL (Fin n) k}
     (hsq : Squarefree (minpoly k (glA A : Module.End k (Fin n → k))))
     (g : ↥(fixSubgroup (CatalogueBHigherLinearAction.slConjugation n k A)))
@@ -162,12 +163,12 @@ theorem perfectInLayer_conjAut {p : ℕ} (hpk : (p : k) ≠ 0) {A : GL (Fin n) k
     (hA : A ^ p = Matrix.GeneralLinearGroup.scalar (Fin n) c) :
     PerfectInLayer (LinearFlag.conjAut n k A) := by
   have hsq := squarefree_minpoly_glA hpk hA
-  haveI : ∀ b : {b : primaryFactors (glA A : Module.End k (Fin n → k)) // ¬ IsGoodFactor A b},
+  have : ∀ b : {b : primaryFactors (glA A : Module.End k (Fin n → k)) // ¬ IsGoodFactor A b},
       Group.IsSolvable (blockGL (glA A : Module.End k (Fin n → k)) b.1.1) := fun b =>
     isSolvable_blockGL_of_not_good b.1.2 b.2
-  haveI : Group.IsSolvable ((b : primaryFactors (glA A : Module.End k (Fin n → k))) →
+  have : Group.IsSolvable ((b : primaryFactors (glA A : Module.End k (Fin n → k))) →
       (AdjoinRoot (b : k[X]))ˣ) := inferInstance
-  haveI : Group.IsSolvable ((b : {b : primaryFactors (glA A : Module.End k (Fin n → k)) //
+  have : Group.IsSolvable ((b : {b : primaryFactors (glA A : Module.End k (Fin n → k)) //
       ¬ IsGoodFactor A b}) → blockGL (glA A : Module.End k (Fin n → k)) b.1.1) :=
     isSolvable_pi_of_finite'
   exact perfectInLayer_of_centralQuotient (LinearFlag.proj n k) (LinearFlag.proj_surjective n k)

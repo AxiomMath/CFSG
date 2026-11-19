@@ -119,7 +119,7 @@ theorem A5Config.false_of_residual (hH : CFSG.LieType.BorelTits.Holds S 2) {U : 
     omega
   obtain ⟨S₀, P', hP'top, hNP', -, -, hS₀⟩ := hH V hV0 hV2
   have hpar : IsParabolic2 (⊤ : Subgroup S) P' := by
-    refine ⟨le_top, (S₀ : Subgroup S), ⟨le_top, S₀.isPGroup', ?_⟩, fun x hx => hS₀ hx.2⟩
+    refine ⟨le_top, (S₀ : Subgroup S), ⟨le_top, S₀.isPGroup, ?_⟩, fun x hx => hS₀ hx.2⟩
     rw [show ((S₀ : Subgroup S).subgroupOf ⊤).index = (S₀ : Subgroup S).index from
       Subgroup.relIndex_top_right _]
     exact S₀.not_dvd_index

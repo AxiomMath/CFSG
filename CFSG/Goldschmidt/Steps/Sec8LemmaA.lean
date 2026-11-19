@@ -26,7 +26,7 @@ theorem mem_normalizer_of_conjSub_le (hset : GoldSetting G S A) {g : G}
 omit [Finite G] in
 theorem fusionIsSylowIn_of_le {N : Subgroup G} (hSN : (S : Subgroup G) ≤ N) :
     fusionIsSylowIn 2 (S : Subgroup G) N :=
-  ⟨hSN, S.isPGroup', fun _ _ hP hSP => S.maximal_isPGroup.eq_of_ge hP hSP⟩
+  ⟨hSN, S.isPGroup, fun _ _ hP hSP => S.maximal_isPGroup.eq_of_ge hP hSP⟩
 
 theorem exists_conj_normalizer (hset : GoldSetting G S A) (h4 : Nat.card A = 4) {N : Subgroup G}
     (hSN : (S : Subgroup G) ≤ N) {b g : G} (hb : b ∈ A) (hg : g ∈ N) (hgb : g⁻¹ * b * g ∈ A) :
@@ -50,7 +50,7 @@ theorem exists_conj_normalizer (hset : GoldSetting G S A) (h4 : Nat.card A = 4) 
         _ = g⁻¹ * (b * (g * x * g⁻¹)) * g := by rw [hxb]
         _ = c * x := by rw [hc]; group
   obtain ⟨d, hdK, y, hy1, hy2⟩ := Quasithin.exists_conj_le_sylow_of_isPGroup S hSK hS'K
-    S.isPGroup' (S.isPGroup'.map _)
+    S.isPGroup (S.isPGroup.map _)
   have hcard : ∀ {z : G}, Quasithin.conjSubgroup (S : Subgroup G) z ≤ S →
       z ∈ Subgroup.normalizer ((S : Subgroup G) : Set G) := fun {z} hz => by
     have heq : Quasithin.conjSubgroup (S : Subgroup G) z = S :=
@@ -103,7 +103,7 @@ theorem GLemmaA :
     intro b hb g hg hgS
     obtain ⟨n, hnN, hnS, hn⟩ :=
       exists_conj_normalizer hset h4 hSN hb hg (hset.closed b hb g hgS)
-    have hnA := N3a G S A S hset.le hset.closed S.isPGroup' hset.le hnS
+    have hnA := N3a G S A S hset.le hset.closed S.isPGroup hset.le hnS
     have hnC : n ∈ Subgroup.centralizer (A : Set G) := hNA ▸ ⟨hnN, hnA⟩
     rw [← hn]
     simpa using conj_eq_of_mem_centralizer (Subgroup.inv_mem _ hnC) hb
@@ -136,7 +136,7 @@ theorem GLemmaA :
     exact Subgroup.mul_mem _ (Subgroup.mem_sup_right hb) (Subgroup.mem_sup_left hyO)
   refine ⟨hQeq, le_antisymm (fun n hn => ?_)
     (sup_le ((oddCoreOf_le Q).trans hQN) (hNA ▸ inf_le_left))⟩
-  have hA2 : IsPGroup 2 A := S.isPGroup'.to_le hset.le
+  have hA2 : IsPGroup 2 A := S.isPGroup.to_le hset.le
   have hAnQ : Quasithin.conjSubgroup A n ≤ Q := by
     intro x hx
     rw [Quasithin.mem_conjSubgroup_iff] at hx

@@ -22,8 +22,7 @@ private theorem tvf_apply (v x : V) : tvf B v x = x + B x v • v := rfl
 
 private theorem tvf_invol (hB : B.IsAlt) (v : V) : Function.Involutive (tvf B v) := fun x => by
   have h1 : tvf B v (tvf B v x) = x + (B x v + B x v) • v := by
-    simp only [tvf_apply, map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply,
-      smul_eq_mul, hB.self_eq_zero v, mul_zero, add_zero, zero_smul, add_smul, add_assoc]
+    simp only [tvf_apply, map_add, map_smul, hB.self_eq_zero v, add_zero, zero_smul, add_smul, add_assoc]
   rw [h1, zmod_two_add_self, zero_smul, add_zero]
 
 private def transvec (hB : B.IsAlt) (v : V) : V ≃ₗ[ZMod 2] V :=
@@ -44,8 +43,7 @@ private theorem transvec_isom (hB : B.IsAlt) (v x y : V) :
 private theorem transvec_comm (hB : B.IsAlt) {v v' : V} (h : B v v' = 0) (x : V) :
     transvec hB v (transvec hB v' x) = transvec hB v' (transvec hB v x) := by
   have h' : B v' v = 0 := by rw [alt_symm hB]; exact h
-  simp only [transvec_apply, map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply,
-    smul_eq_mul, h, h', mul_zero, zero_smul, add_zero]
+  simp only [transvec_apply, map_add, map_smul, h, h', zero_smul, add_zero]
   abel
 
 private theorem transvec_conj (hB : B.IsAlt) (e : V ≃ₗ[ZMod 2] V)
@@ -72,9 +70,6 @@ private theorem exists_ne_transvec (hnd : B.Nondegenerate) (hB : B.IsAlt) {v : V
     exact hv h
   first
     | exact hv (hnd.1 v fun y => by rw [alt_symm hB]; exact hx y)
-    | exact hv (hnd.2 v fun y => by rw [alt_symm hB]; exact hx y)
-    | exact hv (hnd.2 v fun y => hx y)
-    | exact hv (hnd.1 v fun y => hx y)
 
 variable {G : Type*} [Group G]
 
@@ -113,7 +108,7 @@ theorem exists_centralized_two_group {ψ : G →* (V ≃ₗ[ZMod 2] V)} (hB : B.
     rw [map_mul, map_mul, hg, map_inv]
     exact LinearEquiv.ext fun x => transvec_conj hB (ψ b) (hiso b) v x
   have hcommS : S.Pairwise Commute := fun g hg g' hg' _ => hcom g hg g' hg'
-  haveI hScomm : IsMulCommutative ↥(Subgroup.closure S) :=
+  have hScomm : IsMulCommutative ↥(Subgroup.closure S) :=
     Subgroup.isMulCommutative_closure hcommS
   have hsqW : ∀ x ∈ Subgroup.closure S, x * x = 1 := by
     intro x hx

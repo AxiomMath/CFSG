@@ -73,7 +73,7 @@ theorem fkSwap_congr {G : Type*} [Group G] (ρ φ : MulAut G) {ℓ ℓ' : Subgro
       obtain ⟨h, hhℓ, rfl⟩ := hh'ℓ'
       refine hwconj h hhℓ ?_
       rw [show (ρ⁻¹ * φ * ρ) w = ρ⁻¹ (φ (ρ w)) by
-            simp [MulAut.coe_mul, MulAut.coe_inv, Function.comp_apply], hconj]
+            simp, hconj]
       simp
   · rintro ⟨w', hw'ℓ', hw'3, hw'1, hwconj'⟩
     have hwℓ : ρ.symm w' ∈ ℓ := (Subgroup.mem_map_equiv (f := ρ)).mp (hℓ ▸ hw'ℓ')

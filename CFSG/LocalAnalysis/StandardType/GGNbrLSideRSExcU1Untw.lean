@@ -94,17 +94,17 @@ private theorem ggNbrLSideRSExcU1Untw_model
     intro c
     rw [hw', hh'def]
     exact RecipeExcLang.coe_inndiagConj w' c
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓprime, hfcard⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓprime⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓprime⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   set ℓ := ringChar K with hℓdef
   have hqK : Nat.card K = ℓ ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hfcard
   have hf1 : 1 ≤ (f : ℕ) := f.pos
   set L := AlgebraicClosure K with hLdef
-  haveI hcharL : CharP L ℓ :=
+  have hcharL : CharP L ℓ :=
     charP_of_injective_algebraMap (algebraMap K L).injective (ringChar K)
-  haveI : CharP K 2 := charP_two_of_card hcard
+  have : CharP K 2 := charP_two_of_card hcard
   have hℓ2 : ℓ = 2 := by rw [hℓdef]; exact ringChar.eq K 2
   have hℓ3 : ℓ ≠ 3 := by rw [hℓ2]; norm_num
   have hpq : Nat.Coprime 3 (ℓ ^ (f : ℕ)) := by
@@ -202,7 +202,7 @@ private theorem ggNbrLSideRSExcU1Untw_model
     | succ n => omega
   have hcommu : u * u' = u' * u := by
     rw [hu, hu', ← map_mul, ← map_mul, hhcomm]
-  haveI : CharP L 2 := hℓ2 ▸ hcharL
+  have : CharP L 2 := hℓ2 ▸ hcharL
   obtain ⟨S, a, e, y, hq, hT, ha3, h1, hyM, hcent, hy3, hφe, hψe⟩ :=
     ggNbrLSideRSExc_transport_of_datum (L := L) (p₀ := 5) (f := n) hn1 D hDq2
       Nat.prime_five (by norm_num) (Or.inl le_rfl) hd.finite_model ι₀ hι₀ hd.Γ_eq φ ψ

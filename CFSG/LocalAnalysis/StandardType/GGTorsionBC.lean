@@ -16,7 +16,7 @@ section TorsionBC
 
 private theorem tbc_center_eq_bot {R : Type} [Group R] (hs : IsSimpleGroup R)
     (hna : ∃ a b : R, a * b ≠ b * a) : Subgroup.center R = ⊥ := by
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center R) with h | h
   · exact h
   · obtain ⟨a, b, hab⟩ := hna

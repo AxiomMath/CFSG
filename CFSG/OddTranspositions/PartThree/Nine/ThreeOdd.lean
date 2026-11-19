@@ -248,7 +248,7 @@ theorem false_of_pCore_eq_bot (hC : HypothesisC D) (hH : Th91Hyp D hC)
         simp only [Subgroup.coe_mul, mul_inv_rev]
         group) }
   obtain ⟨⟨z, hzP⟩, hzfix⟩ :=
-    (S.isPGroup').nonempty_fixed_point_of_prime_not_dvd_card P hPodd
+    (S.isPGroup).nonempty_fixed_point_of_prime_not_dvd_card P hPodd
   obtain ⟨a₀, ha₀, b₀, hb₀, rfl⟩ := hzP
   have hzc : ∀ x ∈ (S : Subgroup G), x * (a₀ * b₀) = (a₀ * b₀) * x := by
     intro x hx
@@ -531,7 +531,7 @@ theorem false_of_pCore_eq_bot (hC : HypothesisC D) (hH : Th91Hyp D hC)
     have hlt := Set.ncard_lt_ncard hPS (Set.toFinite _)
     rw [hPcard] at hlt
     have h9 : 9 ≤ (2 ^ k - 1) * (2 ^ k - 1) := Nat.mul_le_mul hm3 hm3
-    obtain ⟨n, hn⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := S.isPGroup.exists_card_eq
     have hSn : ((S : Subgroup G) : Set G).ncard = 2 ^ n := by
       rw [← Nat.card_coe_set_eq]
       exact hn

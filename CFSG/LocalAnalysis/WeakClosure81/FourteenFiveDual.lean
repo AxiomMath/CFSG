@@ -32,20 +32,25 @@ private noncomputable instance instModuleE (V : Subgroup G) (hV : IsElemAbelian 
 private def ev {V : Subgroup G} {hV : IsElemAbelian 2 V} (x : E V hV) : G :=
   (Additive.toMul x : IntMod V hV).val
 
+omit [Finite G] in
 private theorem ev_mem {V : Subgroup G} {hV : IsElemAbelian 2 V} (x : E V hV) :
     ev x ∈ V := IntMod.val_mem _
 
+omit [Finite G] in
 private theorem ev_add {V : Subgroup G} {hV : IsElemAbelian 2 V} (x y : E V hV) :
     ev (x + y) = ev x * ev y := rfl
 
+omit [Finite G] in
 private theorem ev_zero {V : Subgroup G} {hV : IsElemAbelian 2 V} : ev (0 : E V hV) = 1 := rfl
 
 private def ofG {V : Subgroup G} (hV : IsElemAbelian 2 V) (v : G) (hv : v ∈ V) : E V hV :=
   Additive.ofMul (IntMod.mk hV ⟨v, hv⟩)
 
+omit [Finite G] in
 private theorem ev_ofG {V : Subgroup G} {hV : IsElemAbelian 2 V} {v : G} (hv : v ∈ V) :
     ev (ofG hV v hv) = v := rfl
 
+omit [Finite G] in
 private theorem comm_of_mem {V : Subgroup G} {hV : IsElemAbelian 2 V} {a b : G}
     (ha : a ∈ V) (hb : b ∈ V) : a * b = b * a := by
   have h := IntMod.val_comm (hV := hV) (IntMod.mk hV ⟨a, ha⟩) (IntMod.mk hV ⟨b, hb⟩)
@@ -62,12 +67,14 @@ private noncomputable def formFun {V : Subgroup G} {hV : IsElemAbelian 2 V}
     (D : Subgroup G) (x : G) (z : E V hV) : ZMod 2 :=
   bit (x * ev z * x⁻¹ * (ev z)⁻¹ ∈ D)
 
+omit [Finite G] in
 private theorem formFun_zero {V : Subgroup G} {hV : IsElemAbelian 2 V} (D : Subgroup G)
     (x : G) : formFun D x (0 : E V hV) = 0 := by
   unfold formFun bit
   rw [ev_zero]
   simp
 
+omit [Finite G] in
 private theorem formFun_one {V : Subgroup G} {hV : IsElemAbelian 2 V} (D : Subgroup G)
     (z : E V hV) : formFun D 1 z = 0 := by
   unfold formFun bit
@@ -76,14 +83,15 @@ private theorem formFun_one {V : Subgroup G} {hV : IsElemAbelian 2 V} (D : Subgr
 private theorem zmod2_indicator_add {P Q : Prop} :
     bit P + bit Q = bit (P ↔ Q) := by
   unfold bit
-  by_cases hP : P <;> by_cases hQ : Q <;> simp [hP, hQ] <;> decide
+  by_cases hP : P <;> by_cases hQ : Q <;> simp [hP, hQ]; decide
 
 private theorem zmod2_indicator_eq_iff {P Q : Prop} (h : bit P = bit Q) : P ↔ Q := by
   unfold bit at h
   by_cases hP : P <;> by_cases hQ : Q <;> simp_all
 
+omit [Finite G] in
 private theorem commutator_mul_mem_iff {V V₀ D H : Subgroup G} (hV : IsElemAbelian 2 V)
-    (hV₀ : V₀ ≤ V) (hD : D ≤ V₀) (hD2 : D.relIndex V₀ = 2)
+    (hV₀ : V₀ ≤ V) (_hD : D ≤ V₀) (hD2 : D.relIndex V₀ = 2)
     (hHV : ∀ x ∈ H, ∀ v ∈ V, x * v * x⁻¹ * v⁻¹ ∈ V₀)
     {x v w : G} (hx : x ∈ H) (hv : v ∈ V) (hw : w ∈ V) :
     x * (v * w) * x⁻¹ * (v * w)⁻¹ ∈ D ↔
@@ -108,6 +116,7 @@ private theorem commutator_mul_mem_iff {V V₀ D H : Subgroup G} (hV : IsElemAbe
       (b := (⟨x * w * x⁻¹ * w⁻¹, hHV x hx w hw⟩ : V₀))
   simpa only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subtype.coe_mk] using hf
 
+omit [Finite G] in
 private theorem formFun_add {V V₀ D H : Subgroup G} (hV : IsElemAbelian 2 V)
     (hV₀ : V₀ ≤ V) (hD : D ≤ V₀) (hD2 : D.relIndex V₀ = 2)
     (hHV : ∀ x ∈ H, ∀ v ∈ V, x * v * x⁻¹ * v⁻¹ ∈ V₀)
@@ -120,8 +129,9 @@ private theorem formFun_add {V V₀ D H : Subgroup G} (hV : IsElemAbelian 2 V)
     (P := x * ev a * x⁻¹ * (ev a)⁻¹ ∈ D)
     (Q := x * ev b * x⁻¹ * (ev b)⁻¹ ∈ D)).symm
 
+omit [Finite G] in
 private theorem formFun_mul {V V₀ D H : Subgroup G} (hV : IsElemAbelian 2 V)
-    (hV₀ : V₀ ≤ V) (hD : D ≤ V₀) (hD2 : D.relIndex V₀ = 2)
+    (_hV₀ : V₀ ≤ V) (_hD : D ≤ V₀) (hD2 : D.relIndex V₀ = 2)
     (hHV : ∀ x ∈ H, ∀ v ∈ V, x * v * x⁻¹ * v⁻¹ ∈ V₀)
     (hHV₀ : ∀ x ∈ H, ∀ v ∈ V₀, x * v * x⁻¹ * v⁻¹ ∈ D)
     (a b : H) (z : E V hV) :
@@ -168,6 +178,7 @@ private noncomputable def formL {V V₀ D H : Subgroup G} (hV : IsElemAbelian 2 
     H → Module.Dual (ZMod 2) (E V hV) :=
   fun x => form hV hV₀ hD hD2 hHV x
 
+omit [Finite G] in
 private theorem formL_apply {V V₀ D H : Subgroup G} {hV : IsElemAbelian 2 V}
     (hV₀ : V₀ ≤ V) (hD : D ≤ V₀) (hD2 : D.relIndex V₀ = 2)
     (hHV : ∀ x ∈ H, ∀ v ∈ V, x * v * x⁻¹ * v⁻¹ ∈ V₀)
@@ -188,6 +199,7 @@ private noncomputable def formW {V W : Subgroup G} (hV : IsElemAbelian 2 V)
     map_smul' := fun c z => by
       rcases zmod_two_eq_zero_or_one c with rfl | rfl <;> simp [bit, ev_zero] }
 
+omit [Finite G] in
 private theorem formW_apply {V W : Subgroup G} {hV : IsElemAbelian 2 V}
     (hW : W.relIndex V = 2) (z : E V hV) :
     formW hV hW z = bit (ev z ∈ W) := rfl
@@ -197,7 +209,7 @@ theorem exists_mem_forall_commutator_mem_iff {V V₀ D H W : Subgroup G}
     (hHV : ∀ x ∈ H, ∀ v ∈ V, x * v * x⁻¹ * v⁻¹ ∈ V₀)
     (hHV₀ : ∀ x ∈ H, ∀ v ∈ V₀, x * v * x⁻¹ * v⁻¹ ∈ D)
     (hker : ∀ v ∈ V, (∀ x ∈ H, x * v * x⁻¹ * v⁻¹ ∈ D) → v ∈ V₀)
-    (hWV : W ≤ V) (hV₀W : V₀ ≤ W) (hW : W.relIndex V = 2) :
+    (_hWV : W ≤ V) (hV₀W : V₀ ≤ W) (hW : W.relIndex V = 2) :
     ∃ x ∈ H, ∀ v ∈ V, (x * v * x⁻¹ * v⁻¹ ∈ D ↔ v ∈ W) := by
   let Ψ : Submodule (ZMod 2) (Module.Dual (ZMod 2) (E V hV)) :=
     { carrier := Set.range (formL hV hV₀ hD hD2 hHV)
@@ -243,10 +255,10 @@ theorem exists_mem_forall_commutator_mem_iff {V V₀ D H W : Subgroup G}
       unfold formFun at h0
       by_contra h
       rw [show bit (x * ev z * x⁻¹ * (ev z)⁻¹ ∈ D) = (1 : ZMod 2) by
-        unfold bit; rw [if_neg h]] at h0
+        unfold bit; rw [ite_eq_right h]] at h0
       exact one_ne_zero h0
     rw [formW_apply, show bit (ev z ∈ W) = (0 : ZMod 2) by
-      unfold bit; rw [if_pos (hV₀W (hker (ev z) (ev_mem z) hzD))]]
+      unfold bit; rw [ite_eq_left (hV₀W (hker (ev z) (ev_mem z) hzD))]]
   have hmem : formW hV hW ∈
       Submodule.span (ZMod 2) (Set.range (formL hV hV₀ hD hD2 hHV)) :=
     FiniteDimensional.mem_span_of_iInf_ker_le_ker hker_le

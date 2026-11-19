@@ -19,7 +19,7 @@ theorem card_ker_dvd_three {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite
   have hkc : ψ.ker = Subgroup.center L' := BstarDesc.ker_eq_center hψ hker hZR
   obtain ⟨hcf1, hcf2⟩ := TwE6DD2.center_facts hn hK hψ hker hperf
   have hoddZ : Odd (Nat.card (Subgroup.center L')) := by rw [← hkc]; exact hodd
-  haveI : Finite (Subgroup.center L') := inferInstance
+  have : Finite (Subgroup.center L') := inferInstance
   let M : ℕ := 4 ^ Nat.card L'
   let f : Subgroup.center L' → Subgroup.center L' := fun z => z ^ M
   have hf_inj : Function.Injective f := by

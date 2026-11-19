@@ -220,7 +220,7 @@ theorem exists_conj_of_vbfs (hT : tabOK tab = true) {M : Subgroup S24} {gens : L
       rw [hgrp, hgconj, hconj, heq]
 
 theorem irreducible_of_orbit (hT : tabOK tab = true) {M : Subgroup S24}
-    (hEM : tabSub tab hT ≤ M)
+    (_hEM : tabSub tab hT ≤ M)
     (horb : ∀ n, 0 < n → n < 16 → ∃ g ∈ M, g * tabPerm tab 1 * g⁻¹ = tabPerm tab n) :
     ∀ W : Subgroup S24, W ≤ tabSub tab hT → W ≠ ⊥ →
       (∀ g ∈ M, W.map (MulAut.conj g).toMonoidHom = W) → W = tabSub tab hT := by

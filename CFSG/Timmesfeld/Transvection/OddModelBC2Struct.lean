@@ -24,7 +24,7 @@ private lemma bcLastIdx_ne_bcPrevIdx :
     (⟨r - 1, by omega⟩ : Fin ((2 * r + 1) / 2)) ≠ bcPrevIdx r hr := by
   rw [show bcPrevIdx r hr = (⟨r - 2, by omega⟩ : Fin ((2 * r + 1) / 2)) from rfl]
   apply Fin.ne_of_val_ne
-  simp only [Fin.val_mk]
+  simp only
   omega
 
 @[expose] noncomputable def bc2Q0 : Subgroup (SU σ (2 * r + 1)) :=
@@ -35,12 +35,13 @@ private lemma bcLastIdx_ne_bcPrevIdx :
 @[expose] noncomputable def bc2Qe1 : Subgroup (SU σ (2 * r + 1)) :=
   bc2Q0 hσ hr ⊔ X (Pi.single (bcPrevIdx r hr) 1 + Pi.single (bcLastIdx r (by omega)) 1)
 
+omit [CharP F 2] in
 theorem bc2Q0_le_range_oddEmb : bc2Q0 hσ hr ≤ (oddEmb σ r).range := by
   refine sup_le (sup_le ?_ ?_) ?_
   · refine rootGroup_le_range_oddEmb (r := r) hσ (by omega) ?_
     have h1 : (Pi.single (bcPrevIdx r hr) (1 : ℤ) : Fin ((2 * r + 1) / 2) → ℤ)
         (⟨r - 1, by omega⟩ : Fin ((2 * r + 1) / 2)) = 0 := by
-      rw [Pi.single_apply, if_neg (bcLastIdx_ne_bcPrevIdx hr)]
+      rw [Pi.single_apply, ite_eq_right (bcLastIdx_ne_bcPrevIdx hr)]
     rw [h1]
     exact ⟨0, rfl⟩
   · refine rootGroup_le_range_oddEmb (r := r) hσ (by omega) ?_
@@ -48,7 +49,7 @@ theorem bc2Q0_le_range_oddEmb : bc2Q0 hσ hr ≤ (oddEmb σ r).range := by
         2 • Pi.single (bcLastIdx r (by omega)) (1 : ℤ) : Fin ((2 * r + 1) / 2) → ℤ)
         (⟨r - 1, by omega⟩ : Fin ((2 * r + 1) / 2)) = 2 := by
       rw [Pi.add_apply, Pi.smul_apply, Pi.single_apply, Pi.single_apply,
-        if_neg (bcLastIdx_ne_bcPrevIdx hr), if_pos (bcLastIdx_eq hr).symm]
+        ite_eq_right (bcLastIdx_ne_bcPrevIdx hr), ite_eq_left (bcLastIdx_eq hr).symm]
       norm_num
     rw [h1]
     exact ⟨1, by norm_num⟩
@@ -57,10 +58,11 @@ theorem bc2Q0_le_range_oddEmb : bc2Q0 hσ hr ≤ (oddEmb σ r).range := by
         2 • Pi.single (bcLastIdx r (by omega)) (1 : ℤ) : Fin ((2 * r + 1) / 2) → ℤ)
         (⟨r - 1, by omega⟩ : Fin ((2 * r + 1) / 2)) = 2 := by
       rw [Pi.add_apply, Pi.smul_apply, Pi.smul_apply, Pi.single_apply, Pi.single_apply,
-        if_neg (bcLastIdx_ne_bcPrevIdx hr), if_pos (bcLastIdx_eq hr).symm]
+        ite_eq_right (bcLastIdx_ne_bcPrevIdx hr), ite_eq_left (bcLastIdx_eq hr).symm]
       norm_num
     rw [h1]
     exact ⟨1, by norm_num⟩
+omit [CharP F 2] in
 private lemma rootGroup_le_centralizer_heisP_of_toStd_rt
     {γ : Fin ((2 * r + 1) / 2) → ℤ}
     {a b : Fin ((2 * r + 1) / 2) ⊕ Fin ((2 * r + 1) / 2)}
@@ -78,6 +80,7 @@ private lemma rootGroup_le_centralizer_heisP_of_toStd_rt
       (toStd_bc2 hr).2.2.2.1 k).mp hk
   exact commutatorElement_eq_one_iff_mul_comm.mp
     (suHeis_comm_suElt hσ (Nat.not_even_two_mul_add_one r) hab hca hcb u v t)
+omit [CharP F 2] in
 private lemma rootGroup_le_centralizer_heisP_of_toStd_rt_self
     {γ : Fin ((2 * r + 1) / 2) → ℤ}
     {a : Fin ((2 * r + 1) / 2) ⊕ Fin ((2 * r + 1) / 2)}
@@ -95,6 +98,7 @@ private lemma rootGroup_le_centralizer_heisP_of_toStd_rt_self
   exact commutatorElement_eq_one_iff_mul_comm.mp
     (suHeis_comm_suLong hσ (Nat.not_even_two_mul_add_one r) hca u v t)
 
+omit [CharP F 2] in
 theorem heisP_le_centralizer :
     X (Pi.single (bcPrevIdx r hr) 1 +
         Pi.single (bcLastIdx r (Nat.one_le_of_lt hr)) 1) ≤
@@ -114,6 +118,7 @@ theorem heisP_le_centralizer :
   · refine rootGroup_le_centralizer_heisP_of_toStd_rt_self hσ hr (toStd_bc2 hr).2.2.2.2.2 ?_
     · exact Sum.inl_ne_inr
 
+omit [CharP F 2] in
 theorem heisP_inf_bc2Q0 :
     X (Pi.single (bcPrevIdx r hr) 1 +
         Pi.single (bcLastIdx r (Nat.one_le_of_lt hr)) 1) ⊓ bc2Q0 hσ hr ≤
@@ -134,6 +139,7 @@ theorem heisP_inf_bc2Q0 :
   subst u
   rw [suHeis_zero_left hσ (Nat.not_even_two_mul_add_one r) (Sum.inl (bcPrevIdx r hr)) v]
   exact suLong_mem hσ (Sum.inl (bcPrevIdx r hr)) (toStd_bc2 hr).2.2.2.2.2 v
+omit [CharP F 2] in
 private lemma rootGroup_le_flagSubgroup_of_toStd_rt
     {γ : Fin ((2 * r + 1) / 2) → ℤ}
     {b : Fin ((2 * r + 1) / 2) ⊕ Fin ((2 * r + 1) / 2)}
@@ -143,6 +149,7 @@ private lemma rootGroup_le_flagSubgroup_of_toStd_rt
   intro g hg
   obtain ⟨t, rfl⟩ := (mem_rootGroup_iff_suElt_odd hσ hab hγ g).mp hg
   exact suElt_mem_flagSubgroup hσ hab t
+omit [CharP F 2] in
 private lemma rootGroup_le_flagSubgroup_of_toStd_rt_self
     {γ : Fin ((2 * r + 1) / 2) → ℤ}
     (hγ : toStd (2 * r + 1) γ = rt (Sum.inl (bcPrevIdx r hr)) (Sum.inl (bcPrevIdx r hr))) :
@@ -151,6 +158,7 @@ private lemma rootGroup_le_flagSubgroup_of_toStd_rt_self
   obtain ⟨t, _ht, rfl⟩ :=
     (mem_rootGroup_iff_suLong_odd hσ (Sum.inl (bcPrevIdx r hr)) hγ g).mp hg
   exact suLong_mem_flagSubgroup (Sum.inl (bcPrevIdx r hr)) t
+omit [CharP F 2] in
 private lemma rootGroup_heisP_le_flagSubgroup :
     X (Pi.single (bcPrevIdx r hr) 1 + Pi.single (bcLastIdx r (by omega)) 1) ≤
       flagSubgroup σ (Sum.inl (bcPrevIdx r hr)) := by
@@ -160,6 +168,7 @@ private lemma rootGroup_heisP_le_flagSubgroup :
       (toStd_bc2 hr).2.2.2.1 g).mp hg
   exact suHeis_mem_flagSubgroup hσ (Nat.not_even_two_mul_add_one r)
     (Sum.inl (bcPrevIdx r hr)) u v
+omit [CharP F 2] in
 private lemma bc2Qe1_le_flagSubgroup :
     bc2Qe1 hσ hr ≤ flagSubgroup σ (Sum.inl (bcPrevIdx r hr)) := by
   rw [bc2Qe1]
@@ -173,6 +182,7 @@ private lemma bc2Qe1_le_flagSubgroup :
     · exact rootGroup_le_flagSubgroup_of_toStd_rt_self hσ hr (toStd_bc2 hr).2.2.2.2.2
   · exact rootGroup_heisP_le_flagSubgroup hσ hr
 
+omit [CharP F 2] in
 theorem heisL_inf_bc2Qe1 :
     X (Pi.single (bcLastIdx r (Nat.one_le_of_lt hr)) 1) ⊓ bc2Qe1 hσ hr = ⊥ := by
   refine le_antisymm ?_ bot_le
@@ -188,6 +198,7 @@ theorem heisL_inf_bc2Qe1 :
       (Sum.inl (bcLastIdx r (by omega))) 0, suLong_zero]
     exact one_mem ⊥
   · simpa [idx, bcLastIdx] using (Ne.symm (bcLastIdx_ne_bcPrevIdx (r := r) hr))
+omit [CharP F 2] in
 private lemma suElt_alphaP_mem_bc2Qe1 (t : F) :
     suElt σ hσ (Sum.inl (bcPrevIdx r hr)) (Sum.inr (bcLastIdx r (by omega))) t ∈
       bc2Qe1 hσ hr := by
@@ -197,6 +208,7 @@ private lemma suElt_alphaP_mem_bc2Qe1 (t : F) :
   have h := suElt_mem hσ hab (toStd_bc2 hr).1 t
   rw [bc2Qe1, bc2Q0]
   exact Subgroup.mem_sup_left (Subgroup.mem_sup_left (Subgroup.mem_sup_left h))
+omit [CharP F 2] in
 private lemma suElt_alphaP_two_mem_bc2Qe1 (t : F) :
     suElt σ hσ (Sum.inl (bcPrevIdx r hr)) (Sum.inl (bcLastIdx r (by omega))) t ∈
       bc2Qe1 hσ hr := by
@@ -206,11 +218,13 @@ private lemma suElt_alphaP_two_mem_bc2Qe1 (t : F) :
   have h := suElt_mem hσ hab (toStd_bc2 hr).2.2.2.2.1 t
   rw [bc2Qe1, bc2Q0]
   exact Subgroup.mem_sup_left (Subgroup.mem_sup_left (Subgroup.mem_sup_right h))
+omit [CharP F 2] in
 private lemma suLong_alphaP_two_mem_bc2Qe1 (t : F) :
     suLong σ (Sum.inl (bcPrevIdx r hr)) t ∈ bc2Qe1 hσ hr := by
   have h := suLong_mem hσ (Sum.inl (bcPrevIdx r hr)) (toStd_bc2 hr).2.2.2.2.2 t
   rw [bc2Qe1, bc2Q0]
   exact Subgroup.mem_sup_left (Subgroup.mem_sup_right h)
+omit [CharP F 2] in
 private lemma suHeis_alphaP_mem_bc2Qe1 (u v : F) :
     suHeis σ hσ (Nat.not_even_two_mul_add_one r) (Sum.inl (bcPrevIdx r hr)) u v ∈
       bc2Qe1 hσ hr := by
@@ -239,6 +253,7 @@ private lemma conj_suElt_alphaP_mem_bc2Qe1 (u v t : F)
     (inv_mem (mul_mem (suHeis_alphaP_mem_bc2Qe1 hσ hr (t * u) (σ t * t * v))
       (suElt_alphaP_two_mem_bc2Qe1 hσ hr (t * σ v))))
     (suElt_alphaP_mem_bc2Qe1 hσ hr t)
+omit [CharP F 2] in
 private lemma conj_suElt_alphaP_two_mem_bc2Qe1 (u v t : F) :
     suHeis σ hσ (Nat.not_even_two_mul_add_one r) (Sum.inl (bcLastIdx r (by omega))) u v *
         suElt σ hσ (Sum.inl (bcPrevIdx r hr)) (Sum.inl (bcLastIdx r (by omega))) t *
@@ -255,6 +270,7 @@ private lemma conj_suElt_alphaP_two_mem_bc2Qe1 (u v t : F) :
         (idx_inl_ne_idx_inl (r := r) hr) Sum.inl_ne_inr Sum.inl_ne_inr u v t)
   rw [hcomm, mul_assoc, mul_inv_cancel, mul_one]
   exact suElt_alphaP_two_mem_bc2Qe1 hσ hr t
+omit [CharP F 2] in
 private lemma conj_suLong_alphaP_two_mem_bc2Qe1 (u v t : F) :
     suHeis σ hσ (Nat.not_even_two_mul_add_one r) (Sum.inl (bcLastIdx r (by omega))) u v *
         suLong σ (Sum.inl (bcPrevIdx r hr)) t *
@@ -394,6 +410,7 @@ private lemma X_heisP_le_bc2Qe1 :
   rw [bc2Qe1]
   exact le_sup_right
 
+omit [CharP F 2] in
 theorem rootGroup_le_bc2U {p f : ℕ} [Finite F] [Fact p.Prime] [CharP F p]
     (hF : Nat.card F = (p ^ f) ^ 2) {γ : Fin ((2 * r + 1) / 2) → ℤ}
     (hγ : γ ∈ pairRoots (rootDatum hF (2 * r + 1)) (bcPrevIdx r hr)
@@ -421,6 +438,7 @@ theorem rootGroup_le_bc2U {p f : ℕ} [Finite F] [Fact p.Prime] [CharP F p]
     exact ((X_alphaP_two_le_bc2Q0 hσ hr).trans (bc2Q0_le_bc2Qe1 hσ hr)).trans le_sup_left
   · exact ((X_alphaP_two_two_le_bc2Q0 hσ hr).trans (bc2Q0_le_bc2Qe1 hσ hr)).trans le_sup_left
 
+omit [CharP F 2] in
 theorem rootGroup_unitaryLongRoot_odd (h : 2 ≤ 2 * r + 1) (h' : 2 ≤ 2 * r) :
     X (unitaryLongRoot (2 * r + 1) h) =
       (CFSG.LieType.Universal.Unitary.rootGroup σ hσ (2 * r)
@@ -462,24 +480,25 @@ private lemma levelPerm_comp_lastIdxOdd {n : ℕ} (hn : ¬ Even n) {k : Fin (n /
   funext i
   fin_cases i
   · change levelPerm k (lowIdx ⟨k.val + 1, hk⟩) = lowIdx k
-    rw [levelPerm, dif_pos hk, Equiv.Perm.mul_apply,
+    rw [levelPerm, dite_eq_left hk, Equiv.Perm.mul_apply,
       Equiv.swap_apply_of_ne_of_ne (a := (lowIdx k).rev)
         (b := (lowIdx ⟨k.val + 1, hk⟩).rev) (x := lowIdx ⟨k.val + 1, hk⟩)
         (lowIdx_ne_rev (n := n) ⟨k.val + 1, hk⟩ k)
         (lowIdx_ne_rev (n := n) ⟨k.val + 1, hk⟩ ⟨k.val + 1, hk⟩),
       Equiv.swap_apply_right]
   · change levelPerm k (midIdx n hn) = midIdx n hn
-    rw [levelPerm, dif_pos hk, Equiv.Perm.mul_apply,
+    rw [levelPerm, dite_eq_left hk, Equiv.Perm.mul_apply,
       Equiv.swap_apply_of_ne_of_ne (a := (lowIdx k).rev)
         (b := (lowIdx ⟨k.val + 1, hk⟩).rev) (x := midIdx n hn) hmid_rev hmid_rev',
       Equiv.swap_apply_of_ne_of_ne (a := lowIdx k) (b := lowIdx ⟨k.val + 1, hk⟩)
         (x := midIdx n hn) hmid_low hmid_low']
   · change levelPerm k (Fin.rev (lowIdx ⟨k.val + 1, hk⟩)) = Fin.rev (lowIdx k)
-    rw [levelPerm, dif_pos hk, Equiv.Perm.mul_apply, Equiv.swap_apply_right,
+    rw [levelPerm, dite_eq_left hk, Equiv.Perm.mul_apply, Equiv.swap_apply_right,
       Equiv.swap_apply_of_ne_of_ne (a := lowIdx k) (b := lowIdx ⟨k.val + 1, hk⟩)
         (x := (lowIdx k).rev)
         (lowIdx_ne_rev (n := n) k k).symm
         (lowIdx_ne_rev (n := n) ⟨k.val + 1, hk⟩ k).symm]
+omit [CharP F 2] in
 private lemma extendMat_eq_blockMat {n : ℕ} (e : Fin 3 → Fin n) (he : Function.Injective e)
     (M : Matrix (Fin 3) (Fin 3) F) :
     CFSG.AGLEmbedding.LeviBlock.extendMat he M =

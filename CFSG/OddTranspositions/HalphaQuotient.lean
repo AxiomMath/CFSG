@@ -16,9 +16,11 @@ variable {G : Type} [Group G] [Finite G] {D : Set G}
 @[expose] def DstarH (hC : HypothesisC (G := G) D) : Set (Halpha D hC.alpha) :=
   {x | (x : G) ∈ DalphaStar D hC.alpha}
 
+omit [Finite G] in
 theorem mem_DstarH_iff (hC : HypothesisC (G := G) D) {x : Halpha D hC.alpha} :
     x ∈ DstarH hC ↔ (x : G) ∈ DalphaStar D hC.alpha := Iff.rfl
 
+omit [Finite G] in
 theorem DstarH_conj_mem (hC : HypothesisC (G := G) D)
     {h x : Halpha D hC.alpha} (hx : x ∈ DstarH hC) :
     h * x * h⁻¹ ∈ DstarH hC := by
@@ -49,7 +51,7 @@ theorem DstarH_isClass (hC : HypothesisC (G := G) D) :
   ext g
   constructor
   · intro hg
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     obtain ⟨h, hh, hgh⟩ :=
       hC.Halpha_transitive (x := (g : G)) (y := (d₀ : G))
         ((mem_DstarH_iff hC).mp hg) ((mem_DstarH_iff hC).mp hd₀)
@@ -60,12 +62,13 @@ theorem DstarH_isClass (hC : HypothesisC (G := G) D) :
     rw [← hgh]
     group
   · intro hg
-    simp only [Set.mem_setOf_eq] at hg
+    simp only [Set.mem_ofPred_eq] at hg
     rw [isConj_iff] at hg
     obtain ⟨c, hc⟩ := hg
     rw [← hc]
     exact DstarH_conj_mem hC (h := c) (x := d₀) hd₀
 
+omit [Finite G] in
 theorem DstarH_closure_eq_top (hC : HypothesisC (G := G) D) :
     Subgroup.closure (DstarH hC) = ⊤ :=
   Subgroup.closure_preimage_eq_top (s := DalphaStar D hC.alpha)
@@ -132,7 +135,7 @@ theorem imageClass_involutions (hC : HypothesisC (G := G) D)
           ((mem_DstarH_iff hC).mp hz) ((mem_DstarH_iff hC).mp hy)
       have hz_eq : z = (⟨h, hh⟩ : Halpha D hC.alpha)⁻¹ * y * (⟨h, hh⟩ : Halpha D hC.alpha) := by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, inv_inv]
+        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
         rw [← hzy]
         group
       rw [hz_eq]
@@ -142,7 +145,7 @@ theorem imageClass_involutions (hC : HypothesisC (G := G) D)
       (Subgroup.closure_le _).mpr hsub
     have htop : CFSG.solvableRadical (Halpha D hC.alpha) = ⊤ :=
       top_le_iff.mp (DstarH_closure_eq_top hC ▸ hle)
-    haveI : Group.IsSolvable (CFSG.solvableRadical (Halpha D hC.alpha)) :=
+    have : Group.IsSolvable (CFSG.solvableRadical (Halpha D hC.alpha)) :=
       CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical
     have hsurj :
         Function.Surjective (Subgroup.subtype (CFSG.solvableRadical (Halpha D hC.alpha))) := by
@@ -166,6 +169,7 @@ theorem imageClass_isOddTransp (hC : HypothesisC (G := G) D)
     (Θ := DstarH hC) (CFSG.solvableRadical (Halpha D hC.alpha))
     (DstarH_isOddTransp hC) hne
 
+omit [Finite G] in
 theorem imageClass_gen (hC : HypothesisC (G := G) D) :
     Subgroup.closure (imageClass hC) = ⊤ := by
   simpa [imageClass] using image_closure_eq_top_quotient

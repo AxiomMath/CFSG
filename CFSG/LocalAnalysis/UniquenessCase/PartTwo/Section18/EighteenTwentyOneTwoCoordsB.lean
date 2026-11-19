@@ -22,15 +22,18 @@ private noncomputable def fH_T3J5 (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) :
     ↥(SUid σ 4) →* MulAut W :=
   H.subtype.comp (coordsEps (ε := ε) hS).symm.toMonoidHom
 
+omit [Finite W] [Finite F] in
 private theorem fH_injective_T3J5 (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) :
     Function.Injective (fH_T3J5 (ε := ε) hS) :=
   H.subtype_injective.comp (coordsEps (ε := ε) hS).symm.injective
 
+omit [Finite W] [Finite F] in
 private theorem map_le_T3J5 (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) (B : Subgroup (SUid σ 4)) :
     B.map (fH_T3J5 (ε := ε) hS) ≤ H := by
   rintro x ⟨z, hz, rfl⟩
   exact ((coordsEps (ε := ε) hS).symm z).2
 
+omit [Finite W] [Finite F] in
 private theorem coordsE_map_T3J5 (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) (B : Subgroup (SUid σ 4))
     (hBwH : B.map (fH_T3J5 (ε := ε) hS) ≤ H) :
     coordsE (ε := ε) hBwH hS = B := by
@@ -44,7 +47,6 @@ private theorem coordsE_map_T3J5 (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) (B : Su
     have hys : (Subgroup.inclusion hBwH y : ↥H) = (coordsEps (ε := ε) hS).symm z0 := by
       apply Subtype.ext
       rw [Subgroup.coe_inclusion]
-      change (y : MulAut W) = ((coordsEps (ε := ε) hS).symm z0 : MulAut W)
       rw [← hz0x]
       rfl
     change coordsEps (ε := ε) hS (Subgroup.inclusion hBwH y) ∈ B
@@ -61,6 +63,7 @@ private theorem coordsE_map_T3J5 (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) (B : Su
     rw [hys]
     simp
 
+omit [Finite W] [Finite F] in
 private theorem transport_T3J5 (hψ : NatCoordsSU4 H n F ε ψ)
     (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) (B : Subgroup (SUid σ 4))
     (hH : B.map (fH_T3J5 (ε := ε) hS) ≤ H) :
@@ -72,6 +75,7 @@ private theorem transport_T3J5 (hψ : NatCoordsSU4 H n F ε ψ)
     rw [mem_fixV_coords hH hψ hS w, coordsE_map_T3J5 (ε := ε) hS B hH]
   · rw [card_fixV_coords hH hψ hS, coordsE_map_T3J5 (ε := ε) hS B hH]
 
+omit [Finite W] [Finite F] in
 private theorem map_inclusion_le_T3J5 (hAH : A ≤ H)
     (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) (B : Subgroup (SUid σ 4))
     (hB : B ≤ coordsE (ε := ε) hAH hS) :
@@ -85,11 +89,13 @@ private theorem map_inclusion_le_T3J5 (hAH : A ≤ H)
   rw [hfa]
   exact a.2
 
+omit [Finite W] [Finite F] in
 private theorem rank_map_T3J5 (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) (B : Subgroup (SUid σ 4))
     (hcard : Nat.card ↥B = 2 ^ n) : rk ↥(B.map (fH_T3J5 (ε := ε) hS)) = n := by
   rw [rk, Subgroup.card_map_of_injective (fH_injective_T3J5 (ε := ε) hS), hcard,
     padicValNat.prime_pow]
 
+omit [Finite W] [Finite F] in
 private theorem rank_fixV_T3J5 (hψ : NatCoordsSU4 H n F ε ψ)
     (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) (B : Subgroup (SUid σ 4))
     (hH : B.map (fH_T3J5 (ε := ε) hS) ≤ H)
@@ -97,6 +103,7 @@ private theorem rank_fixV_T3J5 (hψ : NatCoordsSU4 H n F ε ψ)
     rk ↥(fixV (B.map (fH_T3J5 (ε := ε) hS))) = 6 * n := by
   rw [rk, (transport_T3J5 (ε := ε) hψ hS B hH).2, hfix, padicValNat.prime_pow]
 
+omit [Finite F] in
 private theorem ne_top_T3J5 (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n)
     {S : Submodule F (Fin 4 → F)} (hS6 : Nat.card ↥S = 2 ^ (6 * n)) : S ≠ ⊤ := by
   intro h
@@ -108,6 +115,7 @@ private theorem ne_top_T3J5 (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n)
   have := Nat.pow_right_injective (le_refl 2) hS6
   omega
 
+omit [Finite W] [Finite F] in
 private theorem fixV_ne_T3J5 (hψ : NatCoordsSU4 H n F ε ψ)
     (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n)
     {B₁ B₂ : Subgroup (SUid σ 4)} (hH₁ : B₁.map (fH_T3J5 (ε := ε) hS) ≤ H)
@@ -126,6 +134,7 @@ private theorem fixV_ne_T3J5 (hψ : NatCoordsSU4 H n F ε ψ)
   rw [hfs, sup_idem] at hsup
   exact ne_top_T3J5 hF hn hfix₂ hsup
 
+omit [Finite W] [Finite F] in
 private theorem fixV_sup_T3J5 (hψ : NatCoordsSU4 H n F ε ψ)
     (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) {B₁ B₂ : Subgroup (SUid σ 4)}
     (hH₁ : B₁.map (fH_T3J5 (ε := ε) hS) ≤ H) (hH₂ : B₂.map (fH_T3J5 (ε := ε) hS) ≤ H)
@@ -146,6 +155,7 @@ private theorem fixV_sup_T3J5 (hψ : NatCoordsSU4 H n F ε ψ)
   rw [hwyz]
   exact Subgroup.mul_mem_sup ((hm₁ _).2 (by simpa using hy)) ((hm₂ _).2 (by simpa using hz))
 
+omit [Finite W] [Finite F] in
 private theorem exists_from_roots_T3J5 (hn : 1 ≤ n) (hF : Nat.card F = (2 ^ n) ^ 2)
     (hAH : A ≤ H) (hψ : NatCoordsSU4 H n F ε ψ)
     (hS : SUid σ 4 = StatedSU 4 (2 ^ n) F) {B₁ B₂ : Subgroup (SUid σ 4)}
@@ -177,8 +187,8 @@ theorem exists_two_root_groups_of_natSUn {W : Type} [CommGroup W] [Finite W]
       rk ↥(fixV B₁) = 6 * n ∧ rk ↥(fixV B₂) = 6 * n ∧
       fixV B₁ ≠ fixV B₂ ∧ fixV B₁ ⊔ fixV B₂ = ⊤ := by
   obtain ⟨F, hFld, hFfin, hF, ε, ψ, hψ⟩ := exists_natCoords_of_natSUn hNat
-  letI := hFld
-  letI := hFfin
+  let := hFld
+  let := hFfin
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF

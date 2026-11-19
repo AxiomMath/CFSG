@@ -67,6 +67,7 @@ private theorem mem_centerIn_map_conj_iff_kl {K : Subgroup G} {c e : G} :
       _ = (c * (c⁻¹ * e * c) * c⁻¹) * (c * k * c⁻¹) := by group
       _ = e * k' := by rw [heq, hke]
 
+omit [Finite G] in
 private theorem conj_mem_H_kl {z c y : G} (hc : c ∈ H z) (hy : y ∈ H z) : c * y * c⁻¹ ∈ H z := by
   rw [H_eq_centralizer, Subgroup.mem_centralizer_singleton_iff] at hy ⊢
   have hc' : c * z = z * c := by
@@ -102,6 +103,7 @@ private theorem map_conj_centralizer_kl {u c : G} :
         _ = u * (c⁻¹ * y * c) := by group
     · rw [conj_toMonoidHom_apply_kl]; group
 
+omit [Finite G] in
 private theorem map_conj_H_kl {z c : G} (hc : c ∈ H z) :
     (H z).map (MulAut.conj c).toMonoidHom = H z := by
   apply le_antisymm
@@ -122,6 +124,7 @@ private theorem map_conj_centralizer_singleton_self_kl {σ c : G} (hc : c * σ =
       _ = σ := by group
   rw [h]
 
+omit [Finite G] in
 theorem lemma54KLBranches_conj (h : Tim79a.ParrottHyp z) {σ x c : G} {W K : Subgroup G}
     (hc : c ∈ H z ⊓ centralizer ({σ} : Set G)) (hB : lemma54KLBranches z σ x W K) :
     lemma54KLBranches z σ (c * x * c⁻¹) W (K.map (MulAut.conj c).toMonoidHom) := by
@@ -301,14 +304,14 @@ private theorem mem_closure_t_uv_iff_kl (x : A45) :
         one_mem' := Or.inl rfl
         mul_mem' := by
           intro y z hy hz
-          simp only [Set.mem_setOf_eq] at hy hz ⊢
+          simp only [Set.mem_ofPred_eq] at hy hz ⊢
           rcases hy with rfl | rfl | rfl | rfl <;>
             rcases hz with rfl | rfl | rfl | rfl <;>
             simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_one] <;>
             decide +kernel
         inv_mem' := by
           intro y hy
-          simp only [Set.mem_setOf_eq] at hy ⊢
+          simp only [Set.mem_ofPred_eq] at hy ⊢
           rcases hy with rfl | rfl | rfl | rfl <;>
             simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_one] <;>
             decide +kernel }

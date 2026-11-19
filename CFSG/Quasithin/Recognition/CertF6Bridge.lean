@@ -42,7 +42,7 @@ theorem nonempty_iso_ofSubgroups_of_isAmalgamIso {D E : Type} [Group D] [Group E
 
 theorem isSylowTwoOf_top_of_sylow {W : Type} [Group W] [Finite W] (S : Sylow 2 W) :
     IsSylowTwoOf (S : Subgroup W) ⊤ := by
-  refine ⟨le_top, S.isPGroup', ?_⟩
+  refine ⟨le_top, S.isPGroup, ?_⟩
   have e1 : ((S : Subgroup W).subgroupOf ⊤).index = (S : Subgroup W).index :=
     Subgroup.relIndex_top_right _
   rw [e1]

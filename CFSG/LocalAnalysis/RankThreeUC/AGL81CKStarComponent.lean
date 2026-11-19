@@ -40,7 +40,7 @@ theorem isComponent_kStar_of_isQuasisimple (h : NineSettingGen G M p Q H E k)
         (CFSG.LocalCores.distinct_components_commute hDS.1 hCS.1).resolve_left hDC
       exact (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcomm).trans
         (Subgroup.centralizer_le_normalizer (C : Set (StarGroup p H)))
-  haveI hCnorm : (C.subgroupOf (kStar p M H)).Normal :=
+  have hCnorm : (C.subgroupOf (kStar p M H)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hnorm
   have hCK : C = kStar p M H := by
     rcases CFSG.LocalCores.quasisimple_normal_subgroups hq hCnorm with htop | hcen

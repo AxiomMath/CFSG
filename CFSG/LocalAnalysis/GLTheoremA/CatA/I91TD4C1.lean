@@ -34,8 +34,8 @@ theorem td4C1NotExc_of_distinct
   rcases k148_outer K148G2SimpleFact_holds K148TwoG2Fact_holds hL hchev hTD4 hNI.1 hb3 hNI hI hfix
     with ⟨q, hv, hq2, -, ⟨eG2⟩⟩ | hU3
   ·
-    haveI : IsSimpleGroup (PQuot 3 I) := by
-      haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group :=
+    have : IsSimpleGroup (PQuot 3 I) := by
+      have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group :=
         (CFSG.Assembly.lie_finite_simple ⟨.G2 q, hv⟩).2
       exact MulEquiv.isSimpleGroup eG2
     have hcenter : Subgroup.center (PQuot 3 I) = ⊥ :=
@@ -45,11 +45,11 @@ theorem td4C1NotExc_of_distinct
     have hexc' : catalogIs (PQuot 3 I) excIndex := (catalogIs_congr eS).1 hexc
     exact hG2X (PQuot 3 I) q hv hq2 eG2 hexc'
   ·
-    haveI : IsSimpleGroup (PQuot 3 I) := by
+    have : IsSimpleGroup (PQuot 3 I) := by
       obtain ⟨i, hi, ⟨eU⟩⟩ := hU3
       cases i with
       | lie idx =>
-        haveI : IsSimpleGroup idx.Group := (CFSG.Assembly.lie_finite_simple idx).2
+        have : IsSimpleGroup idx.Group := (CFSG.Assembly.lie_finite_simple idx).2
         exact MulEquiv.isSimpleGroup eU
       | cyclic _ _ => exact False.elim hi
       | alternating _ _ => exact False.elim hi

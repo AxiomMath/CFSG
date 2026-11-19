@@ -590,8 +590,7 @@ theorem s16c167_twenty_nine_cap (D : Data G) {V L : Subgroup G}
           show (g * x * g⁻¹) * (g * (a : G) * g⁻¹) = g * (x * (a : G)) * g⁻¹ by group] at h5
         exact mul_left_cancel (mul_right_cancel h5)
       exact h4.symm
-    · intro h
-      intro v hv
+    · intro h v hv
       rw [Subgroup.mem_bot]
       have hv' : g⁻¹ * v * g ∈ conjSubgroup V g := by
         rw [mem_conjSubgroup_iff]

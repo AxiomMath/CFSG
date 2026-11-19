@@ -14,6 +14,7 @@ open W183K3
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {Y T L₁ L₂ A : Subgroup (LGL 2 V)}
 
+omit [Finite V] in
 private theorem w183k3_inf_centralizer_eq_quasiCentre {L : Subgroup (LGL 2 V)} :
     L ⊓ Subgroup.centralizer (L : Set (LGL 2 V)) = quasiCentre L := by
   ext z
@@ -21,6 +22,7 @@ private theorem w183k3_inf_centralizer_eq_quasiCentre {L : Subgroup (LGL 2 V)} :
   exact ⟨fun h => ⟨h.1, fun l hl => (h.2 l hl).symm⟩,
     fun h => ⟨h.1, fun l hl => (h.2 l hl).symm⟩⟩
 
+omit [Finite V] in
 private theorem w183k3_conj_mem_centralizer {L : Subgroup (LGL 2 V)} {g c : LGL 2 V}
     (hg : g ∈ Subgroup.normalizer (L : Set (LGL 2 V)))
     (hc : c ∈ Subgroup.centralizer (L : Set (LGL 2 V))) :
@@ -33,6 +35,7 @@ private theorem w183k3_conj_mem_centralizer {L : Subgroup (LGL 2 V)} {g c : LGL 
     _ = g * (c * (g⁻¹ * l * g)) * g⁻¹ := by rw [hc (g⁻¹ * l * g) hl']
     _ = (g * c * g⁻¹) * l := by group
 
+omit [Finite V] in
 private theorem w183k3_cj_eq_components (htwo : Br3TwoComp Y T L₁ L₂) {x : LGL 2 V}
     (hx : x ∈ alphaX Y L₁) : cj x L₁ = L₁ ∧ cj x L₂ = L₂ := by
   have hcj1 : cj x L₁ = L₁ :=
@@ -41,6 +44,7 @@ private theorem w183k3_cj_eq_components (htwo : Br3TwoComp Y T L₁ L₂) {x : L
   · exact h
   · exact absurd (hcj1.symm.trans h.1) htwo.ne
 
+omit [Finite V] in
 private theorem w183k3_commutator_mem_centralizer {L : Subgroup (LGL 2 V)} {w a : LGL 2 V}
     (hw : w ∈ Subgroup.centralizer (L : Set (LGL 2 V)))
     (ha : a ∈ Subgroup.normalizer (L : Set (LGL 2 V))) :
@@ -75,6 +79,7 @@ private theorem w183k3_commutator_mem_centralizer {L : Subgroup (LGL 2 V)} {w a 
       _ = l * (w * a * w⁻¹ * a⁻¹) := by rw [hkey]
   exact hxl.symm
 
+omit [Finite V] in
 theorem w183k3_alpha_normal_cent {L : Subgroup (LGL 2 V)} (hq : CFSG.Open.IsQuasisimple ↥L)
     (hLY : L ≤ Y) :
     (alphaL Y L).Normal ∧ Subgroup.centralizer (alphaL Y L : Set (alphaQuot Y L)) = ⊥ := by
@@ -120,6 +125,7 @@ theorem w183k3_alpha_normal_cent {L : Subgroup (LGL 2 V)} (hq : CFSG.Open.IsQuas
     exact (QuotientGroup.eq_one_iff (N := (alphaC Y L).subgroupOf (alphaX Y L)) xX).mpr
       ⟨xX.2.1, hxX_cent⟩
 
+omit [Finite V] in
 theorem w183k3_alpha_shape {L : Subgroup (LGL 2 V)} (hLY : L ≤ Y) :
     Nonempty (↥L ⧸ Subgroup.center ↥L ≃* ↥(alphaL Y L)) := by
   have hLX : L ≤ alphaX Y L := le_inf hLY L.le_normalizer
@@ -163,7 +169,7 @@ theorem w183k3_alpha_shape {L : Subgroup (LGL 2 V)} (hLY : L ≤ Y) :
 theorem w183k3_alpha_dynkin {L : Subgroup (LGL 2 V)} [Finite (alphaQuot Y L)] (hLY : L ≤ Y)
     {τ : LGL 2 V} (hτY : τ ∈ Y) (hτ : ActsOnDynkinMod (quasiCentre L) L τ) :
     ∃ τ' : alphaQuot Y L, ActsOnDynkinMod ⊥ (alphaL Y L) τ' := by
-  haveI : Finite ↥(alphaX Y L) := Subtype.finite
+  have : Finite ↥(alphaX Y L) := Subtype.finite
   have hLX : L ≤ alphaX Y L := le_inf hLY L.le_normalizer
   have hτX : τ ∈ alphaX Y L := ⟨hτY, hτ.1⟩
   have hker : (alphaMk Y L).ker ⊓ (L.subgroupOf (alphaX Y L)) ≤
@@ -197,7 +203,8 @@ theorem w183k3_alpha_dynkin {L : Subgroup (LGL 2 V)} [Finite (alphaQuot Y L)] (h
   rw [hqc] at hmap
   exact ⟨alphaMk Y L ⟨τ, hτX⟩, hmap⟩
 
-private theorem w183k3_cent_inf_le_normalizer (htwo : Br3TwoComp Y T L₁ L₂) :
+omit [Finite V] in
+private theorem w183k3_cent_inf_le_normalizer (_htwo : Br3TwoComp Y T L₁ L₂) :
     Y ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V)) ⊓
       Subgroup.centralizer (L₂ : Set (LGL 2 V)) ≤ alphaX Y L₁ := by
   intro z hz
@@ -205,6 +212,7 @@ private theorem w183k3_cent_inf_le_normalizer (htwo : Br3TwoComp Y T L₁ L₂) 
   obtain ⟨hzY, hzC₁⟩ := Subgroup.mem_inf.mp hz₁
   exact Subgroup.mem_inf.mpr ⟨hzY, Subgroup.centralizer_le_normalizer _ hzC₁⟩
 
+omit [Finite V] in
 private theorem w183k3_cent_inf_normal (htwo : Br3TwoComp Y T L₁ L₂) :
     ((Y ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V)) ⊓
       Subgroup.centralizer (L₂ : Set (LGL 2 V))).subgroupOf (alphaX Y L₁)).Normal := by
@@ -232,7 +240,7 @@ theorem w183k3_alpha_ti (htwo : Br3TwoComp Y T L₁ L₂) (hA : A ≤ Y) (hA2 : 
     (hAn₁ : A ≤ Subgroup.normalizer (L₁ : Set (LGL 2 V)))
     (hC₂ : A ≤ Subgroup.centralizer (L₂ : Set (LGL 2 V)))
     (hTI : IsTISub ↥Y (A.subgroupOf Y)) : IsTISub (alphaQuot Y L₁) (alphaA Y L₁ A) := by
-  haveI : Finite ↥(alphaX Y L₁) := Subtype.finite
+  have : Finite ↥(alphaX Y L₁) := Subtype.finite
   intro t ht ht1 g hgt
   obtain ⟨tX, htXA, rfl⟩ := Subgroup.mem_map.mp ht
   obtain ⟨xX, rfl⟩ := QuotientGroup.mk'_surjective _ g
@@ -264,7 +272,7 @@ theorem w183k3_alpha_ti (htwo : Br3TwoComp Y T L₁ L₂) (hA : A ≤ Y) (hA2 : 
         Subgroup.centralizer (L₂ : Set (LGL 2 V))).subgroupOf (alphaX Y L₁) :=
     Subgroup.mem_subgroupOf.mpr (Subgroup.mem_inf.mpr
       ⟨Subgroup.mem_inf.mpr ⟨hdY, hdC₁⟩, hdC₂⟩)
-  haveI : ((Y ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V)) ⊓
+  have : ((Y ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V)) ⊓
       Subgroup.centralizer (L₂ : Set (LGL 2 V))).subgroupOf (alphaX Y L₁)).Normal :=
     w183k3_cent_inf_normal htwo
   obtain ⟨m, hm⟩ := hA2 ⟨tX.1, ht0A⟩
@@ -304,7 +312,7 @@ theorem w183k3_diag_ti (htwo : Br3TwoComp Y T L₁ L₂) (hA : A ≤ Y) (hA2 : I
     (hTI : IsTISub ↥Y (A.subgroupOf Y)) :
     ∀ t ∈ alphaA Y L₁ A, t ≠ 1 → ∀ g ∈ alphaL Y L₁, g * t = t * g →
       ∀ a ∈ alphaA Y L₁ A, g * a = a * g := by
-  haveI : Finite ↥(alphaX Y L₁) := Subtype.finite
+  have : Finite ↥(alphaX Y L₁) := Subtype.finite
   intro t ht ht1 g hg hgt a ha
   obtain ⟨tX, htXA, rfl⟩ := Subgroup.mem_map.mp ht
   obtain ⟨lX, hlXL, rfl⟩ := Subgroup.mem_map.mp hg
@@ -347,7 +355,7 @@ theorem w183k3_diag_ti (htwo : Br3TwoComp Y T L₁ L₂) (hA : A ≤ Y) (hA2 : I
     · rw [Subgroup.mem_centralizer_iff]
       intro l hl
       exact (htwo.comm _ (mem_quasiCentre.mp hdqc).1 l hl).symm
-  haveI : ((Y ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V)) ⊓
+  have : ((Y ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V)) ⊓
       Subgroup.centralizer (L₂ : Set (LGL 2 V))).subgroupOf (alphaX Y L₁)).Normal :=
     w183k3_cent_inf_normal htwo
   obtain ⟨m, hm⟩ := hA2 ⟨tX.1, ht0A⟩

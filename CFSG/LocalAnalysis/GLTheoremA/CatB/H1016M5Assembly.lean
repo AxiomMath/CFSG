@@ -18,7 +18,7 @@ theorem i1016M5Fact_of_parts (ha : TwoLocalRankCriterion) (hb : Co1FiveCubeFacts
     (hc : BabyFiveRankFact) : I1016M5Fact := by
   have hE : MonsterExistenceStatement MGriess :=
     CFSG.Milestones.cl_lit_monster_existence_griess_conway
-  haveI : Finite MGriess := hE.1.1
+  have : Finite MGriess := hE.1.1
   have hG5 : ∀ A : Subgroup MGriess, (∀ a ∈ A, ∀ b ∈ A, a * b = b * a) → (∀ a ∈ A, a ^ 2 = 1) →
       8 ≤ Nat.card ↥A → ∃ u ∈ A, orderOf u = 2 ∧
         Nat.card ↥(Subgroup.centralizer ({u} : Set MGriess)) = twoBCentralizerOrder := by

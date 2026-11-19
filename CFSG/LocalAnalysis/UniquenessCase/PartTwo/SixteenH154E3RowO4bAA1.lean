@@ -58,7 +58,7 @@ private theorem s16h_e3_centralizer_le_scalars {K : Type} [Field K] [Finite K] [
     have hsingle : (Pi.single (Sum.inl (0 : Fin 1)) (1 : K) : s16h_H5E3RkιA → K) ≠ 0 := by
       intro h
       have := congrFun h (Sum.inl (0 : Fin 1))
-      simpa using this
+      simp at this
     refine hsingle ((toAddMap_eq_zero_iff g).mp ?_)
     have h1 : f (Pi.single (Sum.inl (0 : Fin 1)) (1 : K)) = 0 := by
       rw [hμ, h0, zero_smul]
@@ -122,7 +122,7 @@ theorem s16h_H5_omegaMinusFour_q_sq_order_meet {K : Type} [Field K] [Finite K] [
   let Ω : Subgroup G := natImage Γ
   change Nat.card ↥(D ⊓ Ω) = q
   have hqprime : q.Prime := by rcases hq with h | h <;> subst h <;> norm_num
-  haveI : Fact q.Prime := ⟨hqprime⟩
+  have : Fact q.Prime := ⟨hqprime⟩
   have hq2 : q ≠ 2 := by rcases hq with h | h <;> omega
   have hDN' : D ≤ Subgroup.normalizer (Ω : Set G) := hDN
   have hInjNatAut : Function.Injective (natAut Γ) :=
@@ -160,9 +160,9 @@ theorem s16h_H5_omegaMinusFour_q_sq_order_meet {K : Type} [Field K] [Finite K] [
       norm_num
     have hCnorm : C ≤ Subgroup.normalizer (Ω : Set G) :=
       Subgroup.centralizer_le_normalizer (Ω : Set G)
-    haveI hnC : (Ω.subgroupOf C).Normal :=
+    have hnC : (Ω.subgroupOf C).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer hCnorm
-    haveI hnSup : (Ω.subgroupOf (C ⊔ Ω)).Normal :=
+    have hnSup : (Ω.subgroupOf (C ⊔ Ω)).Normal :=
       Subgroup.normal_subgroupOf_sup_of_le_normalizer hCnorm
     have hKdvd7 : Nat.card ↥(D ⊓ (C ⊔ Ω)) ∣ 7 := by
       let Ksub : Subgroup G := D ⊓ (C ⊔ Ω)
@@ -229,8 +229,8 @@ theorem s16h_H5_omegaMinusFour_q_sq_order_meet {K : Type} [Field K] [Finite K] [
       exact h1.trans hKdvd7
     have hOut_le : Nat.card (Outer ↥Ω) ≤ 6 := by
       obtain ⟨⟨-, -, -⟩, L', hL'f, hL'fin, hL'card, ⟨ePSL⟩⟩ := hm
-      letI : Field L' := hL'f
-      letI : Finite L' := hL'fin
+      let : Field L' := hL'f
+      let : Finite L' := hL'fin
       let e' : ↥Ω ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) L' :=
         ePSL.trans
           (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 L').symm

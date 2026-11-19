@@ -70,13 +70,13 @@ theorem pt_data_abelian [Fact p.Prime] (hIA : KFactInnerAction) (h715 : GL83.I_7
   have hp : p.Prime := Fact.out
   have hp2 : p ≠ 2 := by have := hl.p5; omega
   have hS : D1Global G := ⟨hG.simple, hG.nonab, hG.kProper, hG.charTwo, hG.rank, hG.pre⟩
-  haveI : IsSimpleGroup G := hG.simple
+  have : IsSimpleGroup G := hG.simple
   obtain ⟨R, K, hRK, hReq⟩ := hl.point.exists_pPointReduced hG.fullCore hl.loc
   obtain ⟨hzc, hzp⟩ := hl.point.central_xbar hl.loc
   have hcatC := hl.point.catalogSimpleSections hS hp
   have hpg := hRK.isPGroup_centralizer hzc hzp
   have hcyc := hRK.isCyclic_centralizer hzc hzp
-  haveI hKn : K.Normal := hRK.normal
+  have hKn : K.Normal := hRK.normal
   have hab := isMulCommutative_sylow_quotient (p := p) (N := centralizer ({x} : Set G))
     (pt_pGroup_abelian hl)
   have hRab : IsMulCommutative (R : Subgroup (RedCent p x)) := hab R
@@ -87,7 +87,7 @@ theorem pt_data_abelian [Fact p.Prime] (hIA : KFactInnerAction) (h715 : GL83.I_7
   have eK : ↥K ≃* (↥K ⧸ center ↥K) :=
     QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)
   have hsimple : IsSimpleGroup ↥K := by
-    haveI := hquot
+    have := hquot
     exact MulEquiv.isSimpleGroup eK
   have hnonab : ∃ a b : ↥K, a * b ≠ b * a := by
     obtain ⟨a, b, hab'⟩ :=
@@ -192,8 +192,7 @@ theorem pt_data_abelian [Fact p.Prime] (hIA : KFactInnerAction) (h715 : GL83.I_7
       refine hRK.not_le fun k hk => ?_
       have : (⟨k, hk⟩ : ↥K) ∈ (redCentM p M x ⊓ K).subgroupOf K := htop ▸ mem_top _
       exact (mem_subgroupOf.mp this).1
-    · intro Q hQS hQ1
-      intro n hn
+    · intro Q hQS hQ1 n hn
       have hU : Q.map K.subtype ≤ (R : Subgroup (RedCent p x)) ⊓ K := by
         rw [← hSmap]
         exact Subgroup.map_mono hQS

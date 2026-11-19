@@ -17,14 +17,17 @@ namespace Sit16
 
 variable {Ω : Set (Subgroup G)} {K K' W : Subgroup G} {z u e g : G}
 
+omit [Finite G] in
 private theorem e16g1_conjSub_sup (x : G) (A B : Subgroup G) :
     conjSub x (A ⊔ B) = conjSub x A ⊔ conjSub x B :=
   Subgroup.map_sup _ _ _
 
+omit [Finite G] in
 private theorem e16g1_conjSub_inf (x : G) (A B : Subgroup G) :
     conjSub x (A ⊓ B) = conjSub x A ⊓ conjSub x B :=
   Subgroup.map_inf_eq _ _ _ (MulAut.conj x).injective
 
+omit [Finite G] in
 private theorem e16g1_mem_centerIn {R : Subgroup G} {y : G} :
     y ∈ Asc77.centerIn R ↔ y ∈ R ∧ ∀ r ∈ R, r * y = y * r := by
   constructor
@@ -38,6 +41,7 @@ private theorem e16g1_mem_centerIn {R : Subgroup G} {y : G} :
     intro g
     exact Subtype.ext (hc g g.2)
 
+omit [Finite G] in
 private theorem e16g1_centerIn_conj (x : G) (W : Subgroup G) :
     conjSub x (Asc77.centerIn (Subgroup.normalizer (W : Set G))) =
       Asc77.centerIn (Subgroup.normalizer ((conjSub x W : Subgroup G) : Set G)) := by
@@ -74,10 +78,11 @@ private theorem e16g1_centerIn_conj (x : G) (W : Subgroup G) :
     have h1 := (hcomm y (x * s * x⁻¹)).mp (hc _ hr)
     rwa [show x⁻¹ * (x * s * x⁻¹) * x = s by group] at h1
 
+omit [Finite G] in
 private theorem e16g1_twinSet_congr {A B : Subgroup G} {z : G} (hA : IsUniqueInvolution A z)
     (hB : IsUniqueInvolution B z) : twinSet Ω A = twinSet Ω B := by
   ext J
-  simp only [twinSet, Set.mem_setOf_eq]
+  simp only [twinSet, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hJ, w, hw, hJw⟩
     have hwz : w = z := (hA.eq hw).symm
@@ -88,6 +93,7 @@ private theorem e16g1_twinSet_congr {A B : Subgroup G} {z : G} (hA : IsUniqueInv
     rw [hwz] at hJw
     exact ⟨hJ, z, hA, hJw⟩
 
+omit [Finite G] in
 private theorem e16g1_dSet_conj (h : EndHyp Ω) {R W : Subgroup G} (hR : R ∈ DSet Ω W) (x : G) :
     conjSub x R ∈ DSet Ω (conjSub x W) := by
   rw [h.mem_dSet_iff] at hR ⊢
@@ -100,6 +106,7 @@ private theorem e16g1_dSet_conj (h : EndHyp Ω) {R W : Subgroup G} (hR : R ∈ D
     _ = conjSub x (conjSub (x⁻¹ * y * x) W) := conjSub_mul _ _ _
     _ = conjSub x W := by rw [hN]
 
+omit [Finite G] in
 private theorem e16g1_eq_of_mem_closure {a b : G} (ha : a * a = 1) (hb1 : b ≠ 1)
     (hb : b ∈ Subgroup.closure ({a} : Set G)) : b = a := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_closure_singleton.mp hb
@@ -109,7 +116,7 @@ private theorem e16g1_eq_of_mem_closure {a b : G} (ha : a * a = 1) (hb1 : b ≠ 
     exact absurd rfl hb1
   · rw [zpow_add_one, zpow_mul, ha2, one_zpow, one_mul]
 
-theorem symm (c : Sit16 Ω K K' W z u e g) (h : EndHyp Ω) : Sit16 Ω K' K W z u e g := by
+theorem symm (c : Sit16 Ω K K' W z u e g) (_h : EndHyp Ω) : Sit16 Ω K' K W z u e g := by
   have s := c.twin
   have hK' : TwinSit Ω K' K z := by
     refine ⟨s.mem_twin.1, s.mem_twin.2, ?_, s.ne.symm⟩
@@ -439,13 +446,14 @@ private theorem e16g2_inter_card {α β γ : Finset (Fin 6)} (hα : α.card = 4)
     have := hx x
     simp only [Finset.mem_sdiff, Finset.mem_union, Finset.mem_inter]
     by_cases ha : x ∈ α <;> by_cases hb : x ∈ β <;> by_cases hc : x ∈ γ <;>
-      simp_all <;> revert this <;> decide
+      simp_all
   have hsub : α ∩ β ⊆ α ∪ β := Finset.inter_subset_union
   have h1 := Finset.card_sdiff_of_subset hsub
   have h2 := Finset.card_union_add_card_inter α β
   rw [← hγ', hγ] at h1
   omega
 
+omit [Finite G] in
 private theorem e16g2_conj_mem_of_pSpan {Ω : Set (Subgroup G)} (hΩ : ConjInvariant Ω) {a : G}
     {L : Subgroup G} {x : G} (hL : L ∈ centMembers Ω a) (hx : x ∈ pSpan (centMembers Ω a)) :
     conjSub x L ∈ centMembers Ω a := by
@@ -511,6 +519,7 @@ private theorem e16g2_comm_normalizer (c : Sit16 Ω K K' W z u e g) {x : G}
   rw [show (y : G) = e from hye] at h1
   exact h1
 
+omit [Finite G] in
 private theorem e16g2_psi_mem {P : Set (Subgroup G)} (I : AEIdent P 6)
     (ψ : ↥(pSpan P) ≃* ↥(AE.aeSub 6))
     (hmem : ∀ L ∈ P, ∀ (α : Finset (Fin 6)) (hα : α.card = 4) (b : Bool),
@@ -523,6 +532,7 @@ private theorem e16g2_psi_mem {P : Set (Subgroup G)} (I : AEIdent P 6)
   refine Subgroup.mem_map.mpr ⟨ψ ⟨x, hx⟩, Subgroup.mem_map.mpr ⟨⟨x, hx⟩, ?_, rfl⟩, rfl⟩
   exact Subgroup.mem_subgroupOf.mpr hxL
 
+omit [Finite G] in
 private theorem e16g2_psi_inv {P : Set (Subgroup G)} (I : AEIdent P 6)
     (ψ : ↥(pSpan P) ≃* ↥(AE.aeSub 6))
     (hmem : ∀ L ∈ P, ∀ (α : Finset (Fin 6)) (hα : α.card = 4) (b : Bool),
@@ -560,6 +570,7 @@ private theorem e16g2_mem_centMembers_of_inv (c : Sit16 Ω K K' W z u e g) (h : 
   have hLD : L ∈ DSet Ω W := h.twinSet_subset_dSet c.data.hW hRD ⟨hL, t', hRt, hLt⟩
   exact dSet_subset_centMembers c h hLD
 
+omit [Finite G] in
 private theorem e16g2_comm_memAt {P : Set (Subgroup G)} (I : AEIdent P 6)
     (ψ : ↥(pSpan P) ≃* ↥(AE.aeSub 6))
     (hmem : ∀ L ∈ P, ∀ (α : Finset (Fin 6)) (hα : α.card = 4) (b : Bool),
@@ -806,8 +817,8 @@ theorem eq_of_mem_zSet_of_mem_sup (c : Sit16 Ω K K' W z u e g)
         have := (hmemS i).mp hi
         rw [h0] at this
         exact zero_ne_one this
-      rw [if_neg hnot, h0]
-    · rw [if_pos ((hmemS i).mpr h1), h1]
+      rw [ite_eq_right hnot, h0]
+    · rw [ite_eq_left ((hmemS i).mpr h1), h1]
   have hSsub : S ⊆ αK := by
     intro i hi
     by_contra hiα
@@ -888,7 +899,7 @@ theorem eq_of_mem_zSet_of_mem_sup (c : Sit16 Ω K K' W z u e g)
           rw [hS2]
           exact fun h' => hi (by exact_mod_cast h')
         refine ⟨?_, ?_⟩
-        · rw [hval i, if_neg hi']
+        · rw [hval i, ite_eq_right hi']
         · rw [hwperm]
           rfl
       have hdisj : Disjoint (Set.range (AE.emb _ hβ))
@@ -996,7 +1007,7 @@ theorem eq_of_frames_same_line (c : Sit16 Ω K K' W z u e g)
     exact e16g2_mem_centMembers_of_inv c h h9 hRΩ hrt hr
 
 theorem two_le_ncard_centres (c : Sit16 Ω K K' W z u e g)
-    (h : EndHyp Ω) (h9 : Perp9 Ω) (h13 : zGroup Ω ≠ eGroup Ω K) :
+    (h : EndHyp Ω) (h9 : Perp9 Ω) (_h13 : zGroup Ω ≠ eGroup Ω K) :
     2 ≤ (centres Ω K K' z).ncard := by
   have heC : e ∈ centres Ω K K' z := ⟨W, u, g, c⟩
   have hΩc : ConjInvariant Ω := h.thmD.hyp.conjInvariant
@@ -1105,8 +1116,8 @@ private theorem e16ge_zOf_eq (ι : Fin 4 ↪ Fin n) : zOf ι = ofVec (embedVec �
     show _ = embedVec ι (fun _ => 1) x
     by_cases hx : x ∈ Set.range ι
     · obtain ⟨i, rfl⟩ := hx
-      rw [embedVec_apply, if_pos (Set.mem_range_self i)]
-    · rw [if_neg hx, embedVec_of_not_mem ι _ hx]
+      rw [embedVec_apply, ite_eq_left (Set.mem_range_self i)]
+    · rw [ite_eq_right hx, embedVec_of_not_mem ι _ hx]
   · rw [zOf_perm]
     rfl
 
@@ -1228,12 +1239,14 @@ private theorem e16ge_comb : ∀ w₁ w₂ : Fin 4 → ZMod 2,
 
 end E16geAE
 
+omit [Finite G] in
 private theorem e16ge_comm_of_mem {L : Subgroup G} {z l : G} (hz : IsUniqueInvolution L z)
     (hl : l ∈ L) : z * l = l * z := by
   have h := conj_of_mem_mem hz hl (Or.inr rfl)
   rw [mul_inv_eq_iff_eq_mul] at h
   exact h.symm
 
+omit [Finite G] in
 private theorem e16ge_q8_conj {L : Subgroup G} {z i j : G} (hQ : Q8Data L z i j) :
     i * j * i⁻¹ = z * j ∧ j * i * j⁻¹ = z * i := by
   have hcomm : j * i = z * (i * j) := hQ.comm
@@ -1246,6 +1259,7 @@ private theorem e16ge_q8_conj {L : Subgroup G} {z i j : G} (hQ : Q8Data L z i j)
   · calc j * i * j⁻¹ = z * (i * j) * j⁻¹ := by rw [hcomm]
       _ = z * i := by group
 
+omit [Finite G] in
 private theorem e16ge_zpow_involution {z : G} (hzz : z * z = 1) (n : ℤ) :
     z ^ n = 1 ∨ z ^ n = z := by
   have hsq : z ^ (2 : ℤ) = 1 := by rw [zpow_two, hzz]
@@ -1255,8 +1269,9 @@ private theorem e16ge_zpow_involution {z : G} (hzz : z * z = 1) (n : ℤ) :
   · right
     rw [hm, zpow_add_one, zpow_mul, hsq, one_zpow, one_mul]
 
+omit [Finite G] in
 private theorem e16ge_inner_of_mod {L : Subgroup G} {z i j y : G} (hQ : Q8Data L z i j)
-    (hy : y ∈ Subgroup.normalizer (L : Set G))
+    (_hy : y ∈ Subgroup.normalizer (L : Set G))
     (hm : ∀ l ∈ L, y * l * y⁻¹ = l ∨ y * l * y⁻¹ = z * l) :
     ∃ w ∈ L, ∀ l ∈ L, y * l * y⁻¹ = w * l * w⁻¹ := by
   have hzi : Commute z i := (e16ge_comm_of_mem hQ.inv hQ.mem_i : z * i = i * z)
@@ -1315,6 +1330,7 @@ private theorem e16ge_inner_of_mod {L : Subgroup G} {z i j y : G} (hQ : Q8Data L
     _ = w * l * w⁻¹ := by rw [ht]; group
 
 
+omit [Finite G] in
 private theorem e16ge_pair_aux {K K' : Subgroup G} {z k k' k₁ k₁' : G}
     (hzz : z * z = 1) (hzmem : z ∈ K) (hinf : ∀ t ∈ K ⊓ K', t = 1 ∨ t = z)
     (hzK : ∀ l ∈ K, z * l = l * z) (hzK' : ∀ l ∈ K', z * l = l * z)
@@ -1472,13 +1488,15 @@ private noncomputable def e16geΨ (X : Subgroup G) (ψ : ↥X ≃* ↥(AE.aeSub 
   if h : d ∈ X then ((ψ ⟨d, h⟩ : ↥(AE.aeSub 6)) :
     AE.Wr 6) else 1
 
+omit [Finite G] in
 private theorem e16geΨ_eq {X : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)}
     {d : G} (hd : d ∈ X) :
     e16geΨ X ψ d = ((ψ ⟨d, hd⟩ : ↥(AE.aeSub 6)) :
       AE.Wr 6) := by
   unfold e16geΨ
-  rw [dif_pos hd]
+  rw [dite_eq_left hd]
 
+omit [Finite G] in
 private theorem e16geΨ_mul {X : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)}
     {d d' : G} (hd : d ∈ X) (hd' : d' ∈ X) :
     e16geΨ X ψ (d * d') = e16geΨ X ψ d * e16geΨ X ψ d' := by
@@ -1488,6 +1506,7 @@ private theorem e16geΨ_mul {X : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)}
   rfl
 
 
+omit [Finite G] in
 private theorem e16geΨ_inj {X D : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)}
     (hDX : D ≤ X) {d d' : G} (hd : d ∈ D) (hd' : d' ∈ D)
     (h : e16geΨ X ψ d = e16geΨ X ψ d') : d = d' := by
@@ -1495,6 +1514,7 @@ private theorem e16geΨ_inj {X D : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)}
   have h2 : ψ ⟨d, hDX hd⟩ = ψ ⟨d', hDX hd'⟩ := Subtype.ext h
   exact congrArg Subtype.val (ψ.injective h2)
 
+omit [Finite G] in
 private theorem e16geΨ_vec_of_mem {X D : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)}
     {ι : Fin 4 ↪ Fin 6} (hDX : D ≤ X)
     (hperm : ∀ d ∈ D, (e16geΨ X ψ d).perm = 1)
@@ -1514,6 +1534,7 @@ private theorem e16geΨ_vec_of_mem {X D : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeS
   exact hsum
 
 
+omit [Finite G] in
 private theorem e16geΨ_mul_vec {X D : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)}
     {ι : Fin 4 ↪ Fin 6} (hDX : D ≤ X) {a b : G} (ha : a ∈ D) (hb : b ∈ D)
     {u w : Fin 4 → ZMod 2}
@@ -1526,6 +1547,7 @@ private theorem e16geΨ_mul_vec {X D : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 
   rw [e16geΨ_mul (hDX ha) (hDX hb), hau, hbw, e16ge_ofVec_mul,
     e16ge_embedVec_add]
 
+omit [Finite G] in
 private theorem e16geΨ_one {X : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)} :
     e16geΨ X ψ 1 = 1 := by
   rw [e16geΨ_eq X.one_mem]
@@ -1533,6 +1555,7 @@ private theorem e16geΨ_one {X : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)} :
   rw [h1, map_one]
   rfl
 
+omit [Finite G] in
 private theorem e16ge_eight {X D : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)}
     {ι : Fin 4 ↪ Fin 6} (hDX : D ≤ X)
     (hvec : ∀ d ∈ D, ∃ v : Fin 4 → ZMod 2, (∑ i, v i) = 0 ∧
@@ -1590,6 +1613,7 @@ private theorem e16ge_eight {X D : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)}
     rw [hzpq, add_comm]
     rfl
 
+omit [Finite G] in
 private theorem e16ge_surj {X D : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)}
     {ι : Fin 4 ↪ Fin 6} (hDX : D ≤ X) (hcard : Nat.card ↥D = 8)
     (hvec : ∀ d ∈ D, ∃ v : Fin 4 → ZMod 2, (∑ i, v i) = 0 ∧
@@ -1631,6 +1655,7 @@ private theorem e16ge_surj {X D : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)}
   obtain ⟨d, hd, hdv⟩ := hmem
   exact ⟨d, hd, hdv⟩
 
+omit [Finite G] in
 private theorem e16ge_eight_conj {y z p q d : G} (hzz : z * z = 1)
     (hyz : y * z * y⁻¹ = z) (hzp : z * p = p * z) (hzq : z * q = q * z) (hpq : p * q = q * p)
     (h1 : y * p * y⁻¹ = p ∨ y * p * y⁻¹ = z * p) (h2 : y * q * y⁻¹ = q ∨ y * q * y⁻¹ = z * q)
@@ -1679,6 +1704,7 @@ private theorem e16ge_eight_conj {y z p q d : G} (hzz : z * z = 1)
     · rw [h, hzsq]
       exact Or.inr rfl
 
+omit [Finite G] in
 private theorem e16geΨ_inv {X : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)}
     {d : G} (hd : d ∈ X) : e16geΨ X ψ d⁻¹ = (e16geΨ X ψ d)⁻¹ := by
   rw [e16geΨ_eq (X.inv_mem hd), e16geΨ_eq hd]
@@ -1686,12 +1712,13 @@ private theorem e16geΨ_inv {X : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)}
   rw [h1, map_inv]
   rfl
 
+omit [Finite G] in
 private theorem e16ge_tau {X D : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)}
     {ι : Fin 4 ↪ Fin 6} {e z : G} (hDX : D ≤ X) (hzX : z ∈ X)
     (hz : e16geΨ X ψ z = AE.zOf ι) (heX : e ∈ X)
     (he : e16geΨ X ψ e = AE.Wr.allOnes 6)
-    (hperm : ∀ d ∈ D, (e16geΨ X ψ d).perm = 1)
-    (hsupp : ∀ d ∈ D, AE.SupportedOn (e16geΨ X ψ d) (Set.range ι))
+    (_hperm : ∀ d ∈ D, (e16geΨ X ψ d).perm = 1)
+    (_hsupp : ∀ d ∈ D, AE.SupportedOn (e16geΨ X ψ d) (Set.range ι))
     (hDn : ∀ g ∈ Subgroup.centralizer ({z} : Set G), ∀ d ∈ D, g * d * g⁻¹ ∈ D)
     (τ : Equiv.Perm (Fin 4)) :
     ∃ c ∈ Subgroup.centralizer ({e} : Set G) ⊓ Subgroup.centralizer ({z} : Set G),
@@ -1754,6 +1781,7 @@ private theorem e16ge_tau {X D : Subgroup G} {ψ : ↥X ≃* ↥(AE.aeSub 6)}
     rw [Equiv.symm_apply_eq, hσ, Equiv.apply_symm_apply]
   rw [hconj, AE.ofPerm_conj_vec, hsymm]
 
+omit [Finite G] in
 private theorem e16ge_mem_sup_decomp {K K' : Subgroup G} (hc : Commutes K K') {x : G}
     (hx : x ∈ K ⊔ K') : ∃ k ∈ K, ∃ k' ∈ K', x = k * k' := by
   let P : Subgroup G :=
@@ -1780,6 +1808,7 @@ private theorem e16ge_mem_sup_decomp {K K' : Subgroup G} (hc : Commutes K K') {x
       (fun k' hk' => ⟨1, K.one_mem, k', hk', by simp⟩)
   exact hle hx
 
+omit [Finite G] in
 private theorem e16ge_conj_pair {Ω : Set (Subgroup G)} {K K' : Subgroup G} {z : G} (h : EndHyp Ω)
     (s : TwinSit Ω K K' z) {x : G} (hx : x ∈ Subgroup.centralizer ({z} : Set G)) :
     conjSub x K = K ∨ conjSub x K = K' := by
@@ -1795,6 +1824,7 @@ private theorem e16ge_conj_pair {Ω : Set (Subgroup G)} {K K' : Subgroup G} {z :
   · exact Or.inl h1
   · exact Or.inr (Set.mem_singleton_iff.mp h1)
 
+omit [Finite G] in
 private theorem e16ge_normQ {Ω : Set (Subgroup G)} {K K' : Subgroup G} {z : G} (h : EndHyp Ω)
     (s : TwinSit Ω K K' z) {x : G} (hx : x ∈ Subgroup.centralizer ({z} : Set G)) {d : G}
     (hd : d ∈ K ⊔ K') : x * d * x⁻¹ ∈ K ⊔ K' := by
@@ -2240,7 +2270,7 @@ theorem centralizer_sup_le_centralizer_u (c : Sit16 Ω K K' W z u e g) :
   exact (hx u c.data.hu).symm
 
 theorem exists_mem_normalizer_conj_centre (c : Sit16 Ω K K' W z u e g) (h : EndHyp Ω)
-    (h9 : Perp9 Ω) {e' : G} (he' : e' ∈ centres Ω K K' z) :
+    (_h9 : Perp9 Ω) {e' : G} (he' : e' ∈ centres Ω K K' z) :
     ∃ n ∈ Subgroup.normalizer (K : Set G), n * e * n⁻¹ = e' := by
   obtain ⟨W', u', g', c'⟩ := he'
   have s := c.twin

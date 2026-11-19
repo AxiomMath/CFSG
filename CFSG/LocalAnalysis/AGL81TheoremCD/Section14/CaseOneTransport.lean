@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem map_pLayerIn_conj_three (H : Subgroup G) (g : G) :
     pLayerIn 3 (H.map (MulAut.conj g).toMonoidHom) =
       (pLayerIn 3 H).map (MulAut.conj g).toMonoidHom := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let e : ↥H ≃* ↥(H.map (MulAut.conj g).toMonoidHom) := (MulAut.conj g).subgroupMap H
   have hlayer : (CFSG.pLayer ↥H 3).map e.toMonoidHom =
       CFSG.pLayer ↥(H.map (MulAut.conj g).toMonoidHom) 3 :=
@@ -27,11 +27,13 @@ private theorem map_pLayerIn_conj_three (H : Subgroup G) (g : G) :
   rw [← hlayer, Subgroup.map_map, Subgroup.map_map]
   congr 1
 
+omit [Finite G] in
 private theorem map_sSup_conj_eq (S : Set (Subgroup G)) (g : G) :
     (sSup S).map (MulAut.conj g).toMonoidHom =
       sSup ((fun Y : Subgroup G => Y.map (MulAut.conj g).toMonoidHom) '' S) := by
   rw [(gc_map_comap (MulAut.conj g).toMonoidHom).l_sSup, sSup_image]
 
+omit [Finite G] in
 private theorem isPComponentIn_map_conj_local {p : ℕ} {L H : Subgroup G} (g : G)
     (h : IsPComponentIn p L H) :
     IsPComponentIn p (L.map (MulAut.conj g).toMonoidHom)
@@ -40,6 +42,7 @@ private theorem isPComponentIn_map_conj_local {p : ℕ} {L H : Subgroup G} (g : 
     CFSG.ComponentClassification.CatFactsSp4.isPComponent_map_subgroupOf p
       (MulAut.conj g) h.1 h.2⟩
 
+omit [Finite G] in
 private theorem sSup_card_map_conj (p : ℕ) (H : Subgroup G) (g : G) :
     sSup {Y : Subgroup G | Y ≤ H.map (MulAut.conj g).toMonoidHom ∧ Nat.card Y = p} =
       (sSup {Y : Subgroup G | Y ≤ H ∧ Nat.card Y = p}).map
@@ -60,6 +63,7 @@ private theorem sSup_card_map_conj (p : ℕ) (H : Subgroup G) (g : G) :
       · exact CFSG.Quasithin.H13.Ch4.map_conj_map_conj_inv Y g
   rw [map_sSup_conj_eq, hST]
 
+omit [Finite G] in
 private theorem sSup_comp_map_conj {M H : Subgroup G} {g : G} (hg : g ∈ M) :
     sSup {Y : Subgroup G | IsPComponentIn 3 Y (H.map (MulAut.conj g).toMonoidHom) ∧
         ¬ Y ≤ M} =
@@ -115,9 +119,9 @@ theorem kSub_map_conj {M N : Subgroup G} {g : G} (hg : g ∈ M) :
   unfold kSub
   rw [hiff]
   by_cases hle : pLayerIn 3 N ≤ M
-  · simp only [hle, if_true]
+  · simp only [hle, ite_true]
     exact hcard
-  · simp only [hle, if_false]
+  · simp only [hle, ite_false]
     exact hcomp
 
 theorem IsKComp.map_conj {M N A : Subgroup G} {g : G} (hg : g ∈ M)
@@ -135,6 +139,7 @@ private noncomputable def threeStarConjEquiv (A : Subgroup G) (g : G) :
     ((MulAut.conj g).subgroupMap A)
     (CFSG.pPrimeCore_map_iso 3 ((MulAut.conj g).subgroupMap A))
 
+omit [Finite G] in
 private theorem mem_H2Fam_map_conj {M Q H : Subgroup G} {g : G} (hgM : g ∈ M)
     (hgQ : g ∈ Subgroup.normalizer (Q : Set G)) (hH : H ∈ H2Fam M Q) :
     H.map (MulAut.conj g).toMonoidHom ∈ H2Fam M Q := by
@@ -173,6 +178,7 @@ private theorem mem_H2Fam_map_conj {M Q H : Subgroup G} {g : G} (hgM : g ∈ M)
       (MulAut.conj g).toMonoidHom (MulAut.conj g).injective]
     exact Subgroup.map_mono hH.2.2.2
 
+omit [Finite G] in
 private theorem mem_H2StarFam_map_conj {M Q H : Subgroup G} {g : G} (hgM : g ∈ M)
     (hgQ : g ∈ Subgroup.normalizer (Q : Set G)) (hH : H ∈ H2StarFam M Q) :
     H.map (MulAut.conj g).toMonoidHom ∈ H2StarFam M Q := by
@@ -212,6 +218,7 @@ theorem map_conj_mem_calKStar {M Q A : Subgroup G} {g : G} (hgM : g ∈ M)
   have heq : J'.map (MulAut.conj g⁻¹).toMonoidHom = A := hA.2 _ hJ'' hAle
   rw [← CFSG.Quasithin.H13.Ch4.map_conj_map_conj_inv J' g, heq]
 
+omit [Finite G] in
 private theorem IsTwoPrimeComponentIn.map_conj_of_mem_normalizer {L H : Subgroup G} {g : G}
     (h : IsTwoPrimeComponentIn L H) (hg : g ∈ Subgroup.normalizer (H : Set G)) :
     IsTwoPrimeComponentIn (L.map (MulAut.conj g).toMonoidHom) H := by

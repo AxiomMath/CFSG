@@ -115,11 +115,11 @@ theorem unitary_alperin_eq_sylow {G : Type} [Group G] [Finite G] (S : Sylow 2 G)
   obtain ⟨hQS, hcop, hCS, hrad⟩ := hQ
   by_contra hne
   have hlt : Q < S := lt_of_le_of_ne hQS hne
-  have hQp : IsPGroup 2 Q := S.isPGroup'.to_le hQS
-  have hQlt := lt_inf_normalizer_of_lt_of_isPGroup S.isPGroup' hlt
+  have hQp : IsPGroup 2 Q := S.isPGroup.to_le hQS
+  have hQlt := lt_inf_normalizer_of_lt_of_isPGroup S.isPGroup hlt
   have hP₀p : IsPGroup 2 (((S : Subgroup G) ⊓ Subgroup.normalizer (Q : Set G)).subgroupOf
       (Subgroup.normalizer (Q : Set G))) :=
-    (S.isPGroup'.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
+    (S.isPGroup.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
   let P : Sylow 2 (Subgroup.normalizer (Q : Set G)) :=
     hP₀p.toSylow ((Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mp hcop)
   have hPcoe : (P : Subgroup (Subgroup.normalizer (Q : Set G))) =

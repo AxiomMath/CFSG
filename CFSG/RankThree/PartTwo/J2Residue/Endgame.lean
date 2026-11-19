@@ -47,7 +47,7 @@ variable {G : Type} [Group G]
 
 theorem isPerfect_subgroupOf {H Y : Subgroup G} (hH : Group.IsPerfect H) (hHY : H ≤ Y) :
     Group.IsPerfect (H.subgroupOf Y) := by
-  haveI := hH
+  have := hH
   exact Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hHY).symm.toMonoidHom)
     (MulEquiv.surjective _)
 
@@ -82,7 +82,7 @@ theorem omegaZOf_pCoreOf_facts [Finite G] {LB Y : Subgroup G}
       Sec3.omegaZOf (CFSG.Open.pCoreOf 2 LB) ≤ CFSG.Open.pCoreOf 2 LB ∧
       Sec3.omegaZOf (CFSG.Open.pCoreOf 2 LB) ≤ Y ∧
       Y ≤ Subgroup.normalizer (Sec3.omegaZOf (CFSG.Open.pCoreOf 2 LB) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : Sec3.omegaZOf (CFSG.Open.pCoreOf 2 LB) ≤ CFSG.Open.pCoreOf 2 LB :=
     fun z hz => ((mem_omegaZOf_iff _).mp hz).1
   exact ⟨omegaZOf_pCoreOf_ne_bot hU, (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 LB).to_le hle,

@@ -38,8 +38,8 @@ theorem uc22s206k_false [Finite G] (hU : uniqueFourUnique G) {M L : Subgroup G}
     (nonempty_quot_ptCore α hα hker (by norm_num) i) hF
   unfold CriticalSection206 at hC
   obtain ⟨R, hRc, -, hRexp, -, -, -, -, d, -, hd4, e, φ, hφker, hφ⟩ := hC
-  haveI := hRc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hRc
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, y, hx, -, hx3, hy7, hxy, E, -, hE, hE8, hyE, hfix⟩ := uc22s206g_lift α hα hker i
     (φ.comp ((QuotientGroup.mk' (CFSG.pCore 2 ↥M)).comp (Subgroup.inclusion hKM))) hφker
   have hg7 : (φ.comp ((QuotientGroup.mk' (CFSG.pCore 2 ↥M)).comp (Subgroup.inclusion hKM))) y ^ 7

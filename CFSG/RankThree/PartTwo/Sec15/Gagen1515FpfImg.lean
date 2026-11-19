@@ -24,7 +24,7 @@ theorem pPrimeCoreOf_deltaZero_le {A Y : Subgroup G} (hY : Y ∈ scriptY A)
       ∀ N : Subgroup ↥(img148 A Y (deltaZero A (lB A) Y)), N.Normal → ¬ 3 ∣ Nat.card N →
         N = ⊥) :
     pPrimeCoreOf 3 (deltaZero A (lB A) Y) ≤ pPrimeCoreOf 3 Y := by
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   set X := deltaZero A (lB A) Y with hXdef
   set O := pPrimeCoreOf 3 X with hOdef
   have hOle : O ≤ pPrimeCoreOf 3 Y := by
@@ -90,6 +90,7 @@ theorem deltaZero_inf_normalizer_le_centralizer_lB {A Y : Subgroup G} {c : G}
   calc x * c = x * c * x⁻¹ * c⁻¹ * (c * x) := by group
     _ = c * x := by rw [h4, one_mul]
 
+omit [Finite G] in
 theorem commutator_zpowers_le_of_sup_of_centralizer {O D : Subgroup G} {c : G}
     (hD : D ≤ Subgroup.normalizer (O : Set G))
     (hc : c ∈ Subgroup.normalizer (O : Set G))
@@ -115,6 +116,7 @@ theorem commutator_zpowers_le_of_sup_of_centralizer {O D : Subgroup G} {c : G}
   rw [e]
   exact O.mul_mem hn ((Subgroup.mem_normalizer_iff.mp hck n⁻¹).mp (O.inv_mem hn))
 
+omit [Finite G] in
 theorem commutator_zpowers_conj_le {X O : Subgroup G} {c d g : G}
     (hcomm : ⁅X, Subgroup.zpowers c⁆ ≤ O)
     (hgX : g ∈ Subgroup.normalizer (X : Set G))
@@ -141,6 +143,7 @@ theorem commutator_zpowers_conj_le {X O : Subgroup G} {c d g : G}
   rw [e]
   exact (Subgroup.mem_normalizer_iff.mp hgO (⁅g⁻¹ * x * g, c ^ k⁆)).mp hbase
 
+omit [Finite G] in
 theorem commutator_element_zpowers_le {X O : Subgroup G} {c d : G}
     (hcomm_c : ⁅X, Subgroup.zpowers c⁆ ≤ O)
     (hcomm_cd : ⁅X, Subgroup.zpowers (c * d)⁆ ≤ O)
@@ -177,6 +180,7 @@ theorem commutator_element_zpowers_le {X O : Subgroup G} {c d : G}
     exact O.mul_mem hxcdi
       ((Subgroup.mem_normalizer_iff.mp (inv_mem hcdO) (⁅x, c⁆)).mp hxc)
 
+omit [Finite G] in
 private theorem commutator_zpowers_le_of_point {X O : Subgroup G} {d : G}
     (hdO : d ∈ Subgroup.normalizer (O : Set G))
     (hpoint : ∀ x ∈ X, ⁅x, d⁆ ∈ O ∧ ⁅x, d⁻¹⁆ ∈ O) :
@@ -251,6 +255,7 @@ theorem commutator_zpowers_le {A Y : Subgroup G} {c d g : G} (hY : Y ∈ scriptY
   exact (commutator_zpowers_le_of_point hdO
     (commutator_element_zpowers_le hcomm_c hcomm_cd hcO hcdO)).trans hO
 
+omit [Finite G] in
 theorem img148_eq_bot_of_le_pPrimeCoreOf {A Y Z : Subgroup G} [(ker148 A Y).Normal]
     (hZ : Z ≤ pPrimeCoreOf 3 Y) : img148 A Y Z = ⊥ := by
   rw [eq_bot_iff]
@@ -335,6 +340,7 @@ theorem deltaZero_le_inf_centralizer_sup_inf {A Y : Subgroup G} {c d : G}
     · exact (Subgroup.commutator_mono hDcX le_rfl).trans hd
   exact le_inf_centralizer_sup (by rw [hKdef]; exact inf_le_left) hDcK hdK hd3 hK3 hcommK
 
+omit [Finite G] in
 theorem img148_eq_of_eq_sup_of_le_pPrimeCoreOf {A Y X O D E K : Subgroup G}
     [(ker148 A Y).Normal] (hX : X = O ⊔ D) (hO : O ≤ pPrimeCoreOf 3 Y)
     (hD : D = E ⊔ K) (hDle : D ≤ Y ⊔ A) (hK : K ≤ pPrimeCoreOf 3 Y) :
@@ -392,7 +398,7 @@ theorem three_dvd_card_residual {A Y : Subgroup G} {c d : G} (hY : Y ∈ scriptY
     3 ∣ Nat.card (inSubgroup perfectResidual
       (deltaZero A (lB A) (Y ⊓ Subgroup.normalizer (Subgroup.zpowers c : Set G)) ⊓
         Subgroup.centralizer ({d} : Set G))) := by
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   set X := deltaZero A (lB A) Y with hXdef
   set O := pPrimeCoreOf 3 X with hOdef
   set V := pPrimeCoreOf 3 Y with hVdef

@@ -19,11 +19,13 @@ open CFSG.OddStandard CFSG.OddStandard.AltStdSec
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem oddOutcome_of_childLargeAltW
     (h : AltOutcome G ∨ OddLieType G ∨ IsSporadic G .McL ∨ IsSporadic G .Ly) : OddOutcome G := by
   unfold OddOutcome
   tauto
 
+omit [Finite G] in
 private theorem oddOutcome_of_childSmallAltOdd
     (h : AltOutcome G ∨ OddLieType G ∨
       (IsSporadic G .M12 ∨ IsSporadic G .J1 ∨ IsSporadic G .J2 ∨ IsSporadic G .HS)) :

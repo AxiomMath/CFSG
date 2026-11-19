@@ -46,7 +46,7 @@ theorem isSub_sup {U V : Subgroup W} (hU : S.IsSub U) (hV : S.IsSub V) : S.IsSub
 theorem card_isSub_cases (hSK : Nat.card S.K = 4) {U : Subgroup W} (hU : S.IsSub U) :
     Nat.card U = 1 ∨ Nat.card U = 4 ∨ Nat.card U = 16 ∨ Nat.card U = 64 ∨ Nat.card U = 256 := by
   obtain ⟨d, hd⟩ := S.exists_card_eq_pow hU
-  haveI := S.finite_carrier
+  have := S.finite_carrier
   have hle : Nat.card U ≤ Nat.card W := Subgroup.card_le_card_group U
   rw [S.card_eq, hd, hSK] at hle
   have hd4 : d ≤ 4 := by
@@ -61,7 +61,7 @@ theorem card_isSub_cases (hSK : Nat.card S.K = 4) {U : Subgroup W} (hU : S.IsSub
 theorem exists_smul_eq_of_card_eq {F : Subgroup W} (hF : S.IsSub F)
     (hcard : Nat.card F = Nat.card S.K) {z : W} (hz : z ∈ F) (hz1 : z ≠ 1) :
     ∀ f ∈ F, ∃ c : S.K, f = S.smul c z := by
-  haveI := S.finite_carrier
+  have := S.finite_carrier
   have hle : S.line z ≤ F := by
     rintro _ ⟨c, rfl⟩
     exact hF c z hz
@@ -89,7 +89,7 @@ theorem Geo2.two_le_mQuot_stabAt (hE : Geo2 S E) {w : W} (hw : w ∉ fixV E) :
 
 theorem Geo2.mQuot_stabAt_le_two (hE : Geo2 S E) {U : Subgroup W} {w : W}
     (hw : ∀ e ∈ E, e w * w⁻¹ ∈ U) (hU : Nat.card U ≤ 4) : E3.mQuot E (stabAt E w) ≤ 2 := by
-  haveI := S.finite_carrier
+  have := S.finite_carrier
   have h := two_pow_mQuot_stabAt_le hE.elem hw
   by_contra hlt
   push Not at hlt
@@ -99,7 +99,7 @@ theorem Geo2.mQuot_stabAt_le_two (hE : Geo2 S E) {U : Subgroup W} {w : W}
 theorem mem_gammaCheck_of_mQuot_stabAt_le {w : W}
     (h : E3.mQuot E (stabAt E w) ≤ 2) : w ∈ E3.gammaCheck 2 E :=
   (le_iSup_of_le (stabAt E w) (le_iSup_of_le (stabAt_le E w) (le_iSup_of_le h le_rfl)) :
-    fixV (stabAt E w) ≤ E3.gammaCheck 2 E) (mem_fixV.2 fun a ha => (mem_stabAt.1 ha).2)
+    fixV (stabAt E w) ≤ E3.gammaCheck 2 E) (mem_fixV.2 fun _a ha => (mem_stabAt.1 ha).2)
 
 theorem eq_top_of_forall_notMem {G : Type*} [Group G] {H T : Subgroup G} (hT : T ≠ ⊤)
     (h : ∀ x, x ∉ T → x ∈ H) : H = ⊤ := by
@@ -117,9 +117,9 @@ theorem eq_top_of_forall_notMem {G : Type*} [Group G] {H T : Subgroup G} (hT : T
 
 theorem Geo2.card_fixV_cases (hE : Geo2 S E) (hSK : Nat.card S.K = 4) :
     Nat.card (fixV E) = 4 ∨ Nat.card (fixV E) = 16 ∨ Nat.card (fixV E) = 64 := by
-  haveI := S.finite_carrier
+  have := S.finite_carrier
   have hW2 : ∀ w : W, w ^ 2 = 1 := fun w => by rw [pow_two]; exact S.mul_self_eq_one w
-  haveI : Nontrivial W := ⟨⟨1, S.ofVec (Pi.single (Sum.inl 0) 1), fun h => by
+  have : Nontrivial W := ⟨⟨1, S.ofVec (Pi.single (Sum.inl 0) 1), fun h => by
     have h1 := congrArg S.vec h
     rw [S.vec_one, S.vec_ofVec] at h1
     have h2 := congrFun h1 (Sum.inl 0)
@@ -139,7 +139,7 @@ theorem Geo2.card_fixV_cases (hE : Geo2 S E) (hSK : Nat.card S.K = 4) :
 theorem exists_comm_eq_of_card_le [Finite W] {A : Subgroup (MulAut W)} (hA : IsElemAbelian2 A)
     {U : Subgroup W} {w : W} (hw : ∀ a ∈ A, a w * w⁻¹ ∈ U)
     (hge : Nat.card U ≤ 2 ^ E3.mQuot A (stabAt A w)) : ∀ u ∈ U, ∃ a ∈ A, a w * w⁻¹ = u := by
-  letI : MulAction A W := MulAction.compHom W A.subtype
+  let : MulAction A W := MulAction.compHom W A.subtype
   have hstab : MulAction.stabilizer A w = (stabAt A w).subgroupOf A := by
     ext a
     simp only [MulAction.mem_stabilizer_iff, Subgroup.mem_subgroupOf, mem_stabAt,

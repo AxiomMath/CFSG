@@ -49,7 +49,7 @@ theorem sec5b513_mem_normalizer_twoRes {H : Subgroup G} {g : G}
     rw [Subgroup.mem_normalizer_iff] at hg
     rw [Subgroup.mem_set_normalizer_iff]
     intro x
-    simp only [Set.mem_setOf_eq, sec5b513_orderOf_conj]
+    simp only [Set.mem_ofPred_eq, sec5b513_orderOf_conj]
     rw [← hg x]
   exact Subgroup.normalizer_le_normalizer_closure _ h1
 
@@ -59,7 +59,7 @@ theorem sec5b513_twoRes_conjugate (H : Subgroup G) (g : G) :
   rw [MonoidHom.map_closure]
   congr 1
   ext y
-  simp only [Set.mem_setOf_eq, Set.mem_image, Subgroup.mem_map]
+  simp only [Set.mem_ofPred_eq, Set.mem_image, Subgroup.mem_map]
   have hord : ∀ x : G, orderOf ((MulAut.conj g⁻¹).toMonoidHom x) = orderOf x := fun x =>
     MulEquiv.orderOf_eq (MulAut.conj g⁻¹) x
   constructor

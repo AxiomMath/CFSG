@@ -11,7 +11,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.UCK.UC46
 open Subgroup
 open scoped commutatorElement
 
-lemma not_isSolvable_alternatingGroup_five : ¬ IsSolvable (alternatingGroup (Fin 5)) := by
+lemma not_isSolvable_alternatingGroup_five : ¬ Group.IsSolvable (alternatingGroup (Fin 5)) := by
   intro h
   have hcomm : ∀ a b : alternatingGroup (Fin 5), a * b = b * a :=
     (IsSimpleGroup.comm_iff_isSolvable).mpr h
@@ -44,10 +44,10 @@ lemma card_sup_dvd_mul_card {G : Type*} [Group G] (H K : Subgroup G) [H.Normal] 
 lemma isSolvable_sup_of_isSolvable_of_normal {G : Type*} [Group G] {H K : Subgroup G}
     [H.Normal] (hH : Group.IsSolvable ↥H) (hK : Group.IsSolvable ↥K) :
     Group.IsSolvable ↥(H ⊔ K) := by
-  haveI : Group.IsSolvable ↥H := hH
+  have : Group.IsSolvable ↥H := hH
   let M : Subgroup ↥(H ⊔ K) := H.subgroupOf (H ⊔ K)
   have hM : M.Normal := Subgroup.normal_subgroupOf
-  haveI : M.Normal := hM
+  have : M.Normal := hM
   have hMsolv : Group.IsSolvable ↥M :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe (le_sup_left : H ≤ H ⊔ K)).toMonoidHom)
@@ -63,10 +63,10 @@ lemma isSolvable_sup_of_isSolvable_of_normal {G : Type*} [Group G] {H K : Subgro
     rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq,
       Subgroup.mem_subgroupOf]
     simpa [mul_assoc] using (inferInstance : H.Normal).conj_mem' a ha b
-  haveI : Group.IsSolvable ↥K := hK
-  haveI : Group.IsSolvable ↥M := hMsolv
+  have : Group.IsSolvable ↥K := hK
+  have : Group.IsSolvable ↥M := hMsolv
   have hQsolv : Group.IsSolvable (↥(H ⊔ K) ⧸ M) := Group.isSolvable_of_surjective hφ
-  haveI : Group.IsSolvable (↥(H ⊔ K) ⧸ M) := hQsolv
+  have : Group.IsSolvable (↥(H ⊔ K) ⧸ M) := hQsolv
   exact Group.isSolvable_of_subgroup_quotient M
 
 lemma map_conj_le_sup {Γ : Type*} [Group Γ] (K D : Subgroup Γ) [K.Normal] (k : Γ) (hk : k ∈ K) :
@@ -87,12 +87,12 @@ lemma quotient_pCoreOf_isCyclic_card_three {Γ : Type} [Group Γ] (Y : Subgroup 
   rcases hshape N hN with ⟨hcyc, hcard⟩ | ⟨hcard9, -⟩ | hisAlt
   · exact ⟨hcyc, hcard⟩
   · exfalso
-    haveI : Group.IsSolvable ↥Y := hYsolv
+    have : Group.IsSolvable ↥Y := hYsolv
     exact h9 (hcard9 ▸ Subgroup.card_quotient_dvd_card N)
   · exfalso
     obtain ⟨e⟩ := hisAlt
-    haveI : Group.IsSolvable ↥Y := hYsolv
-    haveI : Group.IsSolvable (↥Y ⧸ N) := inferInstance
+    have : Group.IsSolvable ↥Y := hYsolv
+    have : Group.IsSolvable (↥Y ⧸ N) := inferInstance
     exact not_isSolvable_alternatingGroup_five
       (Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective)
 
@@ -102,15 +102,15 @@ lemma pairSubgroup_shape {Γ : Type} [Group Γ] {Dbar Kbar : Subgroup Γ} [Kbar.
     (Dbar ⊔ Dbar.map (MulAut.conj k).toMonoidHom) ≤ Kbar ⊔ Dbar ∧
       Group.IsSolvable ↥(Dbar ⊔ Dbar.map (MulAut.conj k).toMonoidHom) ∧
       ¬ 9 ∣ Nat.card ↥(Dbar ⊔ Dbar.map (MulAut.conj k).toMonoidHom) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hYle : Dbar ⊔ Dbar.map (MulAut.conj k).toMonoidHom ≤ Kbar ⊔ Dbar :=
     sup_le le_sup_right (map_conj_le_sup Kbar Dbar k hk)
   have hsupSolv : Group.IsSolvable ↥(Kbar ⊔ Dbar) := by
-    haveI : IsCyclic ↥Dbar := isCyclic_of_prime_card hD
+    have : IsCyclic ↥Dbar := isCyclic_of_prime_card hD
     have hDsolv : Group.IsSolvable ↥Dbar := inferInstance
     exact isSolvable_sup_of_isSolvable_of_normal hsolv hDsolv
   have hYsolv : Group.IsSolvable ↥(Dbar ⊔ Dbar.map (MulAut.conj k).toMonoidHom) := by
-    haveI : Group.IsSolvable ↥(Kbar ⊔ Dbar) := hsupSolv
+    have : Group.IsSolvable ↥(Kbar ⊔ Dbar) := hsupSolv
     exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hYle)
       (Subgroup.inclusion_injective hYle)
   refine ⟨hYle, hYsolv, ?_⟩
@@ -135,8 +135,8 @@ lemma mem_pCoreOf_of_isSolvable_of_shape {Γ : Type} [Group Γ] (Y K : Subgroup 
     rw [show N = (CFSG.Open.pCoreOf 2 Y).subgroupOf Y from rfl,
       CFSG.openPCoreOf_subgroupOf]
     exact CFSG.pCore_normal
-  haveI : N.Normal := hNnormal
-  haveI : Group.IsSolvable ↥Y := hYsolv
+  have : N.Normal := hNnormal
+  have : Group.IsSolvable ↥Y := hYsolv
   obtain ⟨-, hcard⟩ :=
     quotient_pCoreOf_isCyclic_card_three Y N rfl hYsolv h9 hshape
   let q : ↥Y ⧸ N := QuotientGroup.mk' N ⟨e, heY⟩
@@ -179,7 +179,7 @@ lemma conj_mem_commSub {M : Type} [Group M] (σ : MulAut M) (m : M) {c : M}
         group
       rw [heq]
       exact C.mul_mem hgen1 hgen2
-  | one => simpa using C.one_mem
+  | one => simp
   | mul x y _ _ ihx ihy =>
       have heq : m * (x * y) * m⁻¹ = m * x * m⁻¹ * (m * y * m⁻¹) := by group
       rw [heq]
@@ -245,7 +245,7 @@ lemma exists_orderOf_inv_mul_conjNormal_dvd_two {Γ : Type} [Group Γ] [Finite �
     (hpair : ∀ k ∈ Kbar, Z3E9A5Mod2 (Dbar ⊔ Dbar.map (MulAut.conj k).toMonoidHom))
     (hsolv : Group.IsSolvable ↥Kbar) (hcop : Nat.Coprime 3 (Nat.card Kbar)) (x : ↥Kbar) :
     ∃ m, orderOf (x⁻¹ * MulAut.conjNormal d x) ∣ 2 ^ m := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let k : Γ := (x : Γ)⁻¹
   have hk : k ∈ Kbar := by
     dsimp only [k]

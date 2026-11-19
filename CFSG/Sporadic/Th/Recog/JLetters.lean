@@ -17,13 +17,13 @@ open CFSG.Sporadic.Recognition.PresentedWords
 
 section Basic
 
-theorem imgGL_mem_J {k : ℕ} (hk : k < 8) : Bridge.Th.imgGL k ∈ J := by
+theorem imgGL_mem_J {k : ℕ} (_hk : k < 8) : Bridge.Th.imgGL k ∈ J := by
   have hJ : J ≤ Bridge.Th.φ.range := Bridge.Th.J_le_range
   have hcard : Nat.card Bridge.Th.φ.range ≤ Nat.card J := by
     have hfinP : Finite Bridge.Th.pres.Group := by
       change Finite TauCeti.SporadicName.Th.Group
       exact CFSG.Sporadic.Presentation.Th.finite_card_le.1
-    letI := hfinP
+    let := hfinP
     have h1 : Nat.card Bridge.Th.φ.range ≤ Nat.card Bridge.Th.pres.Group :=
       Nat.card_le_card_of_surjective Bridge.Th.φ.rangeRestrict
         (MonoidHom.rangeRestrict_surjective _)
@@ -55,8 +55,8 @@ noncomputable def imgWordJ (w : List (Fin 8 × Bool)) : J :=
         Bridge.Th.imgGL := by
       funext i
       by_cases hi : i < 8
-      · rw [dif_pos hi]
-      · rw [dif_neg hi, Bridge.Th.imgGL, dif_neg hi]
+      · rw [dite_eq_left hi]
+      · rw [dite_eq_right hi, Bridge.Th.imgGL, dite_eq_right hi]
     rw [hfun]
     exact Bridge.wordProd_mem imgGL_mem_J_all (w.map fun l => (l.1.val, l.2))⟩
 
@@ -69,9 +69,9 @@ theorem imgWordJ_cons (l : Fin 8 × Bool) (w : List (Fin 8 × Bool)) :
     (if l.2 then (gJ l.1 : J) else (gJ l.1)⁻¹) * (imgWordJ w : J)
   rw [wprod_cons]
   cases hl : l.2
-  · simp [gJ, hl]
+  · simp [gJ]
     rfl
-  · simp [gJ, hl]
+  · simp [gJ]
     rfl
 
 theorem wprod_hswJ (w : List (Fin 8 × Bool)) :
@@ -81,9 +81,9 @@ theorem wprod_hswJ (w : List (Fin 8 × Bool)) :
   | cons l w ih =>
     rw [wprod_cons, ih, imgWordJ_cons]
     cases hl : l.2
-    · simp only [hl, Bool.false_eq_true, ↓reduceIte, hswJ, gJ]
+    · simp only [Bool.false_eq_true, ↓reduceIte, hswJ, gJ]
       group
-    · simp only [hl, ↓reduceIte, hswJ, gJ]
+    · simp only [↓reduceIte, hswJ, gJ]
       group
 
 theorem hswJ_rel : ∀ w : List (Fin 8 × Bool),
@@ -95,8 +95,8 @@ theorem hswJ_rel : ∀ w : List (Fin 8 × Bool),
       Bridge.Th.imgGL := by
     funext i
     by_cases hi : i < 8
-    · rw [dif_pos hi]
-    · rw [dif_neg hi, Bridge.Th.imgGL, dif_neg hi]
+    · rw [dite_eq_left hi]
+    · rw [dite_eq_right hi, Bridge.Th.imgGL, dite_eq_right hi]
   have h1 : wprod (fun i : Fin 8 => Bridge.Th.imgGL i) w = 1 := by
     refine (th_relatorLetters_iff (fun i : Fin 8 => Bridge.Th.imgGL i)).1 ?_ w hw
     have h := Bridge.Th.hrel

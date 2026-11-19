@@ -13,7 +13,7 @@ open CFSG.Quasithin.S151S4
 private theorem isSolvable_of_map_D5 {G H : Type} [Group G] [Group H]
     (e : G ≃* H) (A : Subgroup G) (hA : Group.IsSolvable ↥(A.map e.toMonoidHom)) :
     Group.IsSolvable ↥A := by
-  haveI := hA
+  have := hA
   exact Group.isSolvable_of_isSolvable_injective
     (f := e.toMonoidHom.subgroupMap A)
     (MonoidHom.subgroupMap_injective e.toMonoidHom A e.injective)
@@ -30,9 +30,9 @@ theorem isSolvable_normalizer_sylow_of_isL2 {X : Type} [Group X] [Finite X] {m :
     (hm : 2 ≤ m) (hX : IsL2 X m) (S : Sylow 2 X) :
     Group.IsSolvable ↥(Subgroup.normalizer ((S : Subgroup X) : Set X)) := by
   obtain ⟨K, hField, hFinite, hKcard, ⟨e⟩⟩ := nonempty_mulEquiv_sl2_of_isL2 hX
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := uc22p22d_charP_two (by omega) hKcard
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := uc22p22d_charP_two (by omega) hKcard
   have hK4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
@@ -64,13 +64,13 @@ theorem isSolvable_normalizer_sylow_of_isL2 {X : Type} [Group X] [Finite X] {m :
 theorem hinf_eq_bot_of_isL2_of_sylow_le {X : Type} [Group X] [Finite X] {m : ℕ} (hm : 2 ≤ m)
     (hX : IsL2 X m) (S : Sylow 2 X) (P : Subgroup X) (hSP : (S : Subgroup X) ≤ P)
     (hP : P ≠ ⊤) : Hinf P = ⊥ := by
-  haveI : Group.IsSolvable ↥(Subgroup.normalizer ((S : Subgroup X) : Set X)) :=
+  have : Group.IsSolvable ↥(Subgroup.normalizer ((S : Subgroup X) : Set X)) :=
     isSolvable_normalizer_sylow_of_isL2 hm hX S
   have hPN : P ≤ Subgroup.normalizer ((S : Subgroup X) : Set X) :=
     l2_sylow_le_normalizer hm hX S P hSP hP
-  haveI : Group.IsSolvable ↥(P.subgroupOf (Subgroup.normalizer ((S : Subgroup X) : Set X))) :=
+  have : Group.IsSolvable ↥(P.subgroupOf (Subgroup.normalizer ((S : Subgroup X) : Set X))) :=
     inferInstance
-  haveI : Group.IsSolvable ↥P :=
+  have : Group.IsSolvable ↥P :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hPN).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hPN).symm.injective

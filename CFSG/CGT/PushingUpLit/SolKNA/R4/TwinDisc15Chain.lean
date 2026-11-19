@@ -24,7 +24,7 @@ variable {Y : Type} [Group Y] [Finite Y] {Ω : Set (Subgroup Y)}
 theorem exists_twoGroup_of_core_adj (hΩ : HypOmegaGen Ω) {K K' M₃ M₄ : Subgroup Y} {z : Y}
     (hK : K ∈ Ω) (hz : IsUniqueInvolution K z) (hK' : K' ∈ twinSet Ω K) (hne : K' ≠ K)
     (hM₃ : M₃ ∈ omegaOfSet Ω (twinSet Ω K)) (hM₄ : M₄ ∈ omegaOfSet Ω (twinSet Ω K))
-    (hM₃tq : M₃ ∈ tqMembers3 Ω z) (hM₄tq : M₄ ∈ tqMembers3 Ω z) {U : Subgroup Y}
+    (_hM₃tq : M₃ ∈ tqMembers3 Ω z) (hM₄tq : M₄ ∈ tqMembers3 Ω z) {U : Subgroup Y}
     (hU : U ∈ USet Ω) (hUM₃ : U ≤ TwinADescent.coreAt z M₃)
     (hUN : U ≤ Subgroup.normalizer ((TwinADescent.coreAt z M₄ : Subgroup Y) : Set Y)) :
     ∃ B : Subgroup Y, IsPGroup 2 B ∧ 2 < Nat.card ↥(K ⊓ B) ∧ 2 < Nat.card ↥(K' ⊓ B) ∧

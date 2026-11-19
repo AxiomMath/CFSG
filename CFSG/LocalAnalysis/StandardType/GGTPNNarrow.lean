@@ -63,7 +63,7 @@ theorem GGNbrTablePNbrInputOnL.mono
 theorem GGNbrTablePNbrInput.onL' (h : GGNbrTablePNbrInput)
     (R : ℕ → ℕ → LargeEvenLabel → LargeEvenLabel → LargeEvenLabel → Prop) :
     GGNbrTablePNbrInputOnL R :=
-  fun G _ _ p B Bs x L D J y K hc hL hK hn labL labJ labK _ hJ hK' _ _ hhJ hhK =>
+  fun G _ _ p B Bs x L D J y K hc hL hK hn _labL labJ labK _ hJ hK' _ _ hhJ hhK =>
     h G p B Bs x L D J y K hc hL hK hn labJ labK hJ hK' hhJ hhK
 
 theorem GGNbrTablePNbrInputOnL.toOn {R : ℕ → ℕ → LargeEvenLabel → LargeEvenLabel → Prop}

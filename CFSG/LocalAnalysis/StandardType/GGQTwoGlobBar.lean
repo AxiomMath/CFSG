@@ -18,7 +18,7 @@ theorem qTwo_bar_weylConnGen
     (show A ≤ Subgroup.closure (ggInduced ⊤ Bs) from hA) hW
 
 private lemma qTwoGBA_big
-    {G : Type} [Group G] [Finite G] (B Bs L D J : Subgroup G) (x : G)
+    {G : Type} [Group G] [Finite G] (B Bs _L D J : Subgroup G) (x : G)
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V] (ι : Additive ↥Bs ≃+ V) :
     (⨆ (y : G) (K : Subgroup G) (_ : GGNbr 3 B x D J y K),
         (ggAutomizer K Bs).map (ggLin (p := 3) ι)) =

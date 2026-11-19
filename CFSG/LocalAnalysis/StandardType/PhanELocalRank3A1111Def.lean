@@ -14,6 +14,7 @@ variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
 @[expose] def Adm1111 (p L H : Submodule K (Fin 4 → K)) : Prop :=
   p ⊓ Vsub 4 3 = ⊥ ∧ L ⊓ Vsub 4 2 = ⊥ ∧ H ⊓ Vsub 4 1 = ⊥
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_mem_farSet_a3_1111_iff (x : FlagK K 4) :
     x ∈ farSet 4 [0, 1, 2, 3, 4] ↔
       x.E 1 ⊓ Vsub 4 3 = ⊥ ∧ x.E 2 ⊓ Vsub 4 2 = ⊥ ∧ x.E 3 ⊓ Vsub 4 1 = ⊥ := by
@@ -145,7 +146,7 @@ private theorem plh_inf_Vsub_sgS_Vsub (c : ℕ) :
 theorem genSet_a3_1111_eq :
     genSet K f 4 [0, 1, 2, 3, 4] [] = admSet (Adm1111 (K := K)) := by
   ext x
-  simp only [genSet, Set.mem_setOf_eq, admSet, Adm1111]
+  simp only [genSet, Set.mem_ofPred_eq, admSet, Adm1111]
   have hfar_iff := plh_mem_farSet_a3_1111_iff (K := K) x
   constructor
   · rintro ⟨hfar, _⟩

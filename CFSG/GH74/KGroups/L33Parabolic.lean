@@ -171,16 +171,16 @@ open CFSG.Certificates CFSG.Sporadic.Schreier
     order3PairsCheck parabolicS0List (pow3list parabolicU2a parabolicU2b) parabolicPairs2 &&
     (parabolicQU ()).check && decide ((parabolicQU ()).orderCertificate = 5616)
 
-@[expose] def l33ParabolicListSubgroup (L : List (Equiv.Perm (Fin 26))) (hnd : L.Nodup)
+@[expose] def l33ParabolicListSubgroup (L : List (Equiv.Perm (Fin 26))) (_hnd : L.Nodup)
     (h1 : 1 ∈ L) (hmul : ∀ x ∈ L, ∀ y ∈ L, x * y ∈ L) (hinv : ∀ x ∈ L, x⁻¹ ∈ L) :
     Subgroup (Equiv.Perm (Fin 26)) where
   carrier := {x | x ∈ L.toFinset}
   one_mem' := by simp [h1]
   mul_mem' := fun hx hy => by
-    simp only [Set.mem_setOf_eq, List.mem_toFinset] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq, List.mem_toFinset] at hx hy ⊢
     exact hmul _ hx _ hy
   inv_mem' := fun hx => by
-    simp only [Set.mem_setOf_eq, List.mem_toFinset] at hx ⊢
+    simp only [Set.mem_ofPred_eq, List.mem_toFinset] at hx ⊢
     exact hinv _ hx
 
 @[simp] theorem mem_l33ParabolicListSubgroup {L : List (Equiv.Perm (Fin 26))} {hnd h1 hmul hinv}
@@ -201,7 +201,7 @@ theorem card_l33ParabolicListSubgroup {L : List (Equiv.Perm (Fin 26))} {hnd h1 h
 theorem mem_flatMap_mul_three {S : List (Equiv.Perm (Fin 26))} {e x : Equiv.Perm (Fin 26)} :
     x ∈ S.flatMap (fun t => [t, t * e, t * e ^ 2]) ↔
       ∃ t ∈ S, x = t ∨ x = t * e ∨ x = t * e ^ 2 := by
-  simp [List.mem_flatMap, List.mem_cons, List.not_mem_nil, or_assoc]
+  simp [List.mem_flatMap, List.mem_cons, List.not_mem_nil]
 
 theorem closedListCheck_sound {L : List (Equiv.Perm (Fin 26))} (h : closedListCheck L = true) :
     L.length = 16 ∧ L.Nodup ∧ 1 ∈ L ∧

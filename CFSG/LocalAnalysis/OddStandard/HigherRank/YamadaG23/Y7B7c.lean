@@ -239,7 +239,7 @@ theorem y7b_relIndex_B_NLB (hH : F33Hyp s e) :
     have h := hH.hLF.fact18.2.1.2.2.1
     simpa only [f3_zL_eq_bot hH, bot_sup_eq] using h
   obtain ⟨hBn, ⟨iso⟩⟩ := hSec
-  haveI := hBn
+  have := hBn
   have hq : Nat.card (↥(normIn L s.fr.B) ⧸ s.fr.B.subgroupOf (normIn L s.fr.B)) = 6 := by
     rw [Nat.card_congr iso.toEquiv, Nat.card_eq_fintype_card]
     decide

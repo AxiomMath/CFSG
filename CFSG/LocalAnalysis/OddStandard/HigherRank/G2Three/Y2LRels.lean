@@ -40,10 +40,10 @@ theorem y2l_rels_iff {G : Type} [Group G] {n : ℕ} {e : Bool} {u v w r s : G} :
   have h4 : FreeGroup.lift (![u, v, w, r, s] : Fin 5 → G) (FreeGroup.of 4) = s :=
     FreeGroup.lift_apply_of
   cases e <;>
-  simp only [rels26, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false,
-    forall_eq_or_imp, forall_eq, map_mul, map_inv, map_pow, map_commutatorElement, map_one, h0,
+  simp only [rels26, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false,
+    forall_eq_or_imp, forall_eq, map_mul, map_inv, map_pow, map_commutatorElement, h0,
     h1, h2, h3, h4, Bool.false_eq_true, ↓reduceIte, mul_one, commutatorElement_eq_one_iff_commute,
-    mul_inv_eq_one, mul_eq_one_iff_eq_inv, inv_inv] <;>
+    mul_eq_one_iff_eq_inv, inv_inv] <;>
   exact ⟨fun ⟨a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15⟩ =>
       ⟨a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, by simpa using a15⟩,
     fun h => ⟨h.cuv, h.cuw, h.cvw, h.pu, h.pv, h.pw, h.r2, h.crs, h.cru, h.crv, h.crw, h.csu,

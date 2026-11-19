@@ -24,10 +24,12 @@ private theorem w16ex_odd_card_fusionOddCore (H : Type) [Group H] [Finite H] :
   rw [h]
   exact Nat.coprime_two_left.1 (CFSG.pPrimeCore_coprime_card (p := 2) (G := H))
 
+omit [Finite X] in
 private theorem w16ex_card_eq_two_of_shape166 {Y : Subgroup X} (hX : Shape166 X Y 1) :
     Nat.card Y = 2 := by
   simpa using hX.1
 
+omit [Finite X] in
 private theorem w16ex_sup_oddCore_eq_top_of_shape166 {Y : Subgroup X} (hX : Shape166 X Y 1) :
     Y ⊔ fusionOddCore X = ⊤ := by
   rcases hX.2 with ⟨h1, -⟩ | ⟨-, hsup, -⟩
@@ -48,6 +50,7 @@ private theorem w16ex_zpowers_eq_of_isElemAbelian_card_two {Y : Subgroup X}
   refine Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.2 ht) ?_
   simp [hYcard, Nat.card_zpowers, horder]
 
+omit [Finite X] in
 private theorem w16ex_inf_oddCore_eq_bot_of_card_two {Y : Subgroup X} (hYcard : Nat.card Y = 2)
     (hodd : Odd (Nat.card (fusionOddCore X))) : Y ⊓ fusionOddCore X = ⊥ := by
   have hcop : Nat.Coprime 2 (Nat.card (fusionOddCore X)) := Nat.coprime_two_left.mpr hodd
@@ -65,7 +68,7 @@ private theorem w16ex_commutator_zpowers_eq_oddCore_of_shape166
     {t : X} (ht : t ∈ Y) (ht1 : t ≠ 1) :
     ⁅fusionOddCore X, Subgroup.zpowers t⁆ = fusionOddCore X := by
   let N : Subgroup X := fusionOddCore X
-  haveI hNnormal : N.Normal := fusionOddCore_normal X
+  have hNnormal : N.Normal := fusionOddCore_normal X
   have hYcard : Nat.card Y = 2 := w16ex_card_eq_two_of_shape166 hX
   have hsup : Y ⊔ N = ⊤ := w16ex_sup_oddCore_eq_top_of_shape166 hX
   have hYt : Subgroup.zpowers t = Y :=
@@ -173,11 +176,11 @@ private theorem w16ex_commutator_eq_center_of_isExtraspecial {p : ℕ} [Fact p.P
     {H : Type*} [Group H] [CFSG.IsExtraspecial p H] : commutator H = Subgroup.center H := by
   have hZtop : Subgroup.center H ≠ ⊤ := by
     intro h
-    haveI : Nontrivial (H ⧸ Subgroup.center H) := CFSG.IsExtraspecial.quotient_nontrivial p H
+    have : Nontrivial (H ⧸ Subgroup.center H) := CFSG.IsExtraspecial.quotient_nontrivial p H
     exact (not_subsingleton_iff_nontrivial.mpr ‹Nontrivial (H ⧸ Subgroup.center H)›)
       (QuotientGroup.subsingleton_iff.mpr h)
   have hle : commutator H ≤ Subgroup.center H := by
-    haveI : IsElementaryAbelian p (H ⧸ Subgroup.center H) :=
+    have : IsElementaryAbelian p (H ⧸ Subgroup.center H) :=
       CFSG.IsExtraspecial.quotient_elementary_abelian p H
     rw [commutator_def, Subgroup.commutator_le]
     intro a _ b _
@@ -188,7 +191,7 @@ private theorem w16ex_commutator_eq_center_of_isExtraspecial {p : ℕ} [Fact p.P
   have hbot : commutator H ≠ ⊥ := by
     intro h
     have hc : IsMulCommutative H := (commutator_eq_bot_iff H).mp h
-    haveI : IsMulCommutative H := hc
+    have : IsMulCommutative H := hc
     exact hZtop Subgroup.center_eq_top
   have hdiv : Nat.card (commutator H) ∣ p := by
     rw [← CFSG.IsExtraspecial.center_order_p p H]
@@ -199,7 +202,7 @@ private theorem w16ex_commutator_eq_center_of_isExtraspecial {p : ℕ} [Fact p.P
     rcases (Fact.out : Nat.Prime p).eq_one_or_self_of_dvd _ hdiv with h1 | hp
     · exact absurd h1 hne1
     · exact hp
-  haveI : Finite (Subgroup.center H) :=
+  have : Finite (Subgroup.center H) :=
     Nat.finite_of_card_ne_zero (by
       rw [CFSG.IsExtraspecial.center_order_p p H]; exact (Fact.out : Nat.Prime p).ne_zero)
   exact Subgroup.eq_of_le_of_card_ge hle
@@ -241,8 +244,8 @@ private lemma w16ex_conj_commutator_mul_self {H : Type*} [Group H] {p v : H} (hv
     _ = v * v := by group
     _ = 1 := hv
 
-private theorem w16ex_exists_conj_data_of_isExtraspecial {p : ℕ} [Fact p.Prime] (hp : p ≠ 2)
-    {P : Subgroup G} {v : G} [CFSG.IsExtraspecial p ↥P] (hcard : Nat.card ↥P = p ^ 3)
+private theorem w16ex_exists_conj_data_of_isExtraspecial {p : ℕ} [Fact p.Prime] (_hp : p ≠ 2)
+    {P : Subgroup G} {v : G} [CFSG.IsExtraspecial p ↥P] (_hcard : Nat.card ↥P = p ^ 3)
     (hv : v * v = 1) (hvP : v ∈ Subgroup.normalizer (P : Set G))
     (hPv : ⁅P, Subgroup.zpowers v⁆ = P) :
     ∃ σ : ↥P → ↥P,
@@ -250,9 +253,9 @@ private theorem w16ex_exists_conj_data_of_isExtraspecial {p : ℕ} [Fact p.Prime
       (∀ y : ↥P, σ y * y ∈ Subgroup.center ↥P) ∧
       (∀ z ∈ Subgroup.center ↥P, σ z = z) := by
 
-  haveI : Finite ↥P :=
-    Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero 3 (Fact.out : Nat.Prime p).ne_zero)
-  haveI : IsElementaryAbelian p (↥P ⧸ Subgroup.center ↥P) :=
+  have : Finite ↥P :=
+    Nat.finite_of_card_ne_zero (by rw [_hcard]; exact pow_ne_zero 3 (Fact.out : Nat.Prime p).ne_zero)
+  have : IsElementaryAbelian p (↥P ⧸ Subgroup.center ↥P) :=
     CFSG.IsExtraspecial.quotient_elementary_abelian p ↥P
   let Z : Subgroup ↥P := Subgroup.center ↥P
   have hcommZ : commutator ↥P = Z := w16ex_commutator_eq_center_of_isExtraspecial (p := p)
@@ -274,7 +277,7 @@ private theorem w16ex_exists_conj_data_of_isExtraspecial {p : ℕ} [Fact p.Prime
       change (QuotientGroup.mk' Z) (σ (a * b) * (a * b)) =
         (QuotientGroup.mk' Z) (σ a * a) * (QuotientGroup.mk' Z) (σ b * b)
       rw [hσ_mul]
-      letI : CommMonoid (↥P ⧸ Z) :=
+      let : CommMonoid (↥P ⧸ Z) :=
         { (inferInstance : Group (↥P ⧸ Z)) with mul_comm := fun x y => mul_comm' x y }
       simp only [map_mul]
       ac_rfl)
@@ -285,7 +288,7 @@ private theorem w16ex_exists_conj_data_of_isExtraspecial {p : ℕ} [Fact p.Prime
     exact QuotientGroup.eq_one_iff (σ y * y)
   have hgen : ⁅P, Subgroup.zpowers v⁆ ≤ ψ.ker.map P.subtype := by
     rw [Subgroup.commutator_le]
-    intro p hp w hw
+    intro p _hp w hw
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hw
     rcases w16ex_zpow_eq_one_or_self hv k with hk | hk
     · rw [hk, commutatorElement_one_right]
@@ -293,7 +296,7 @@ private theorem w16ex_exists_conj_data_of_isExtraspecial {p : ℕ} [Fact p.Prime
     · rw [hk]
       have hmemP : ⁅p, v⁆ ∈ P := by
         rw [← hPv]
-        exact Subgroup.commutator_mem_commutator hp (Subgroup.mem_zpowers v)
+        exact Subgroup.commutator_mem_commutator _hp (Subgroup.mem_zpowers v)
       refine Subgroup.mem_map.mpr ⟨⟨⁅p, v⁆, hmemP⟩, ?_, rfl⟩
       rw [hS]
       have h1 : σ ⟨⁅p, v⁆, hmemP⟩ * ⟨⁅p, v⁆, hmemP⟩ = 1 := by
@@ -354,8 +357,8 @@ theorem Shape166.mul_mem_center_of_extraspecial (hY : IsElemAbelian 2 Y)
     (hN : CFSG.IsExtraspecial p ↥(fusionOddCore X)) (hNc : Nat.card (fusionOddCore X) = p ^ 3)
     {t : X} (ht : t ∈ Y) (ht1 : t ≠ 1) {m : X} (hm : m ∈ fusionOddCore X) :
     t * m * t⁻¹ * m ∈ (center ↥(fusionOddCore X)).map (fusionOddCore X).subtype := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hNinst : CFSG.IsExtraspecial p ↥(fusionOddCore X) := hN
+  have : Fact p.Prime := ⟨hp⟩
+  have hNinst : CFSG.IsExtraspecial p ↥(fusionOddCore X) := hN
   have hp_ne_two : p ≠ 2 := by
     intro hp2
     have hodd := w16ex_odd_card_fusionOddCore X
@@ -379,8 +382,8 @@ theorem Shape166.center_le_centralizer_of_extraspecial (hY : IsElemAbelian 2 Y)
     (hgen : normalClosure (Y : Set X) = ⊤) (hX : Shape166 X Y 1) {p : ℕ} (hp : p.Prime)
     (hN : CFSG.IsExtraspecial p ↥(fusionOddCore X)) (hNc : Nat.card (fusionOddCore X) = p ^ 3) :
     (center ↥(fusionOddCore X)).map (fusionOddCore X).subtype ≤ centralizer (Y : Set X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hNinst : CFSG.IsExtraspecial p ↥(fusionOddCore X) := hN
+  have : Fact p.Prime := ⟨hp⟩
+  have hNinst : CFSG.IsExtraspecial p ↥(fusionOddCore X) := hN
   have hp_ne_two : p ≠ 2 := by
     intro hp2
     have hodd := w16ex_odd_card_fusionOddCore X
@@ -427,8 +430,8 @@ theorem Shape166.inv_center_of_extraspecial (hY : IsElemAbelian 2 Y)
     (α : MulAut X) (hα : α * α = 1) (hαY : ∀ y ∈ Y, α y = y)
     (hne : ∀ y ∈ Y, α ≠ MulAut.conj y) :
     ∀ z ∈ (center ↥(fusionOddCore X)).map (fusionOddCore X).subtype, α z = z⁻¹ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hNinst : CFSG.IsExtraspecial p ↥(fusionOddCore X) := hN
+  have : Fact p.Prime := ⟨hp⟩
+  have hNinst : CFSG.IsExtraspecial p ↥(fusionOddCore X) := hN
   have hp_ne_two : p ≠ 2 := by
     intro hp2
     have hodd := w16ex_odd_card_fusionOddCore X

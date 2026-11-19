@@ -81,7 +81,7 @@ private theorem commutator_sup_le_of_commute {G : Type*} [Group G] {A S : Subgro
   rw [hc, mul_assoc, mul_inv_cancel, mul_one]
   exact hE2
 
-theorem eq_map_slOn_of_perfect {G : Type} [Group G] {m : ℕ} (hm : 3 ≤ m)
+theorem eq_map_slOn_of_perfect {G : Type} [Group G] {m : ℕ} (_hm : 3 ≤ m)
     {ψ : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2 →* G} (hψ : Function.Injective ψ)
     {x : G} {P : Fin (m + 1 + 1)} {t : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2}
     (ht : t ∈ Subgroup.zpowers (omegaBlock (m + 1 + 1) P)) (ht1 : t ≠ 1)
@@ -180,7 +180,7 @@ theorem eq_map_slOn_of_perfect {G : Type} [Group G] {m : ℕ} (hm : 3 ≤ m)
     rw [show S' = S.map ψ from rfl, Subgroup.card_map_of_injective hψ, hcard]
     obtain ⟨e⟩ := exists_mulEquiv_slOn_compl m P
     exact Nat.card_congr e.toEquiv
-  haveI : Finite ↥S' := by
+  have : Finite ↥S' := by
     have hsurj : Function.Surjective (fun s : ↥S => (⟨ψ s, Subgroup.mem_map_of_mem ψ s.2⟩ : ↥S')) := by
       intro y
       obtain ⟨s, hs, hys⟩ := Subgroup.mem_map.mp y.2

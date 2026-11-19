@@ -56,10 +56,12 @@ private noncomputable def stdX : projectiveSL 3 K :=
 private noncomputable def stdY : projectiveSL 3 K :=
   proj 3 K (oddDiag₂SL (K := K))
 
+omit [Finite K] in
 private theorem stdX_eq_proj_dNeg : stdX (K := K) = proj 3 K ((dNeg : SL(3, K))) := by
   rw [stdX]
   congr 1
 
+omit [Finite K] in
 private theorem stdX_mul_self : stdX (K := K) * stdX (K := K) = 1 := by
   rw [stdX, ← map_mul, show oddDiag₃SL (K := K) * oddDiag₃SL (K := K) = 1 by
     apply Subtype.ext
@@ -68,6 +70,7 @@ private theorem stdX_mul_self : stdX (K := K) * stdX (K := K) = 1 := by
     fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three],
     map_one]
 
+omit [Finite K] in
 private theorem stdY_mul_self : stdY (K := K) * stdY (K := K) = 1 := by
   rw [stdY, ← map_mul, show oddDiag₂SL (K := K) * oddDiag₂SL (K := K) = 1 by
     apply Subtype.ext
@@ -76,6 +79,7 @@ private theorem stdY_mul_self : stdY (K := K) * stdY (K := K) = 1 := by
     fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three],
     map_one]
 
+omit [Finite K] in
 private theorem fieldAut_stdX (σ : K ≃+* K) : fieldAut 3 K σ (stdX (K := K)) = stdX (K := K) := by
   rw [stdX, fieldAut_proj]
   congr 1
@@ -84,6 +88,7 @@ private theorem fieldAut_stdX (σ : K ≃+* K) : fieldAut 3 K σ (stdX (K := K))
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 
+omit [Finite K] in
 private theorem fieldAut_stdY (σ : K ≃+* K) : fieldAut 3 K σ (stdY (K := K)) = stdY (K := K) := by
   rw [stdY, fieldAut_proj]
   congr 1
@@ -92,11 +97,13 @@ private theorem fieldAut_stdY (σ : K ≃+* K) : fieldAut 3 K σ (stdY (K := K))
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 
+omit [Finite K] in
 private theorem dualAut_stdX : dualAut 3 K (stdX (K := K)) = stdX (K := K) := by
   rw [stdX_eq_proj_dNeg, dualAut_proj]
   congr 1
   exact dNeg_inv_transpose (F := K)
 
+omit [Finite K] in
 private theorem dualAut_stdY : dualAut 3 K (stdY (K := K)) = stdY (K := K) := by
   rw [stdY, dualAut_proj]
   congr 1
@@ -111,12 +118,14 @@ private theorem dualAut_stdY : dualAut 3 K (stdY (K := K)) = stdY (K := K) := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 
+omit [Finite K] in
 private theorem dualAut_pow_stdX {ε : ℕ} (hε : ε ≤ 1) :
     (dualAut 3 K ^ ε) (stdX (K := K)) = stdX (K := K) := by
   interval_cases ε
   · rw [pow_zero, MulAut.one_apply]
   · rw [pow_one, dualAut_stdX]
 
+omit [Finite K] in
 private theorem dualAut_pow_stdY {ε : ℕ} (hε : ε ≤ 1) :
     (dualAut 3 K ^ ε) (stdY (K := K)) = stdY (K := K) := by
   interval_cases ε
@@ -182,8 +191,8 @@ private theorem exists_diagonal_form_of_fixes (h2 : (2 : K) ≠ 0)
     simpa using hrel
   have h01 : (A : Matrix (Fin 3) (Fin 3) K) 0 1 = 0 := by
     have h := congrFun (congrFun hA2 0) 1
-    simp only [Matrix.mul_apply, Fin.sum_univ_three, h02, h12, h20, h21, zero_mul,
-      zero_add, coe_oddDiag₂SL, Matrix.of_apply, Matrix.cons_val_zero,
+    simp only [Matrix.mul_apply, Fin.sum_univ_three, h02, h21, zero_mul,
+      coe_oddDiag₂SL, Matrix.of_apply, Matrix.cons_val_zero,
       Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_two,
       Matrix.tail_cons] at h
     have h' : (2 : K) * (A : Matrix (Fin 3) (Fin 3) K) 0 1 = 0 := by
@@ -191,7 +200,7 @@ private theorem exists_diagonal_form_of_fixes (h2 : (2 : K) ≠ 0)
     exact (mul_eq_zero.mp h').resolve_left h2
   have h10 : (A : Matrix (Fin 3) (Fin 3) K) 1 0 = 0 := by
     have h := congrFun (congrFun hA2 1) 0
-    simp only [Matrix.mul_apply, Fin.sum_univ_three, h02, h12, h20, h21, zero_mul,
+    simp only [Matrix.mul_apply, Fin.sum_univ_three, h12, h20, zero_mul,
       zero_add, coe_oddDiag₂SL, Matrix.of_apply, Matrix.cons_val_zero,
       Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_two,
       Matrix.tail_cons] at h
@@ -206,8 +215,7 @@ private theorem exists_diagonal_form_of_fixes (h2 : (2 : K) ≠ 0)
       simp [h01, h10, h02, h12, h20, h21, Matrix.diagonal]
   have hA00 : (A : Matrix (Fin 3) (Fin 3) K) 0 0 ≠ 0 := by
     have h00 := congrFun (congrFun hAAinv 0) 0
-    simp only [Matrix.mul_apply, Fin.sum_univ_three, h01, h02, zero_mul, zero_add,
-      Matrix.one_apply_eq] at h00
+    simp only [Matrix.mul_apply, Fin.sum_univ_three, h01, h02, zero_mul, Matrix.one_apply_eq] at h00
     intro h0
     rw [h0, zero_mul] at h00
     norm_num at h00
@@ -223,6 +231,7 @@ private noncomputable def d0Orbit (P : Subgroup (projectiveSL 3 K)) :
     Set (Subgroup (projectiveSL 3 K)) :=
   {Q | ∃ δ : Kˣ, Q = P.map (d0Aut (K := K) δ).toMonoidHom}
 
+omit [Finite K] in
 private theorem d0Proj_neg_one : d0Proj (K := K) (-1) = stdX (K := K) := by
   rw [d0Proj, MonoidHom.comp_apply, stdX]
   congr 1
@@ -231,6 +240,7 @@ private theorem d0Proj_neg_one : d0Proj (K := K) (-1) = stdX (K := K) := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 
+omit [Finite K] in
 private theorem stdX_conj_symTorusHom (h2 : (2 : K) ≠ 0) (lam : Kˣ) :
     stdX (K := K) * symTorusHom (K := K) h2 lam * stdX (K := K) =
       (symTorusHom (K := K) h2 lam)⁻¹ := by
@@ -238,6 +248,7 @@ private theorem stdX_conj_symTorusHom (h2 : (2 : K) ≠ 0) (lam : Kˣ) :
   rw [map_mul, map_mul, map_inv] at h
   simpa [stdX, symTorusHom_apply] using h
 
+omit [Finite K] in
 private theorem stdY_conj_symTorusHom (h2 : (2 : K) ≠ 0) (lam : Kˣ) :
     stdY (K := K) * symTorusHom (K := K) h2 lam * stdY (K := K) =
       symTorusHom (K := K) h2 lam := by
@@ -245,12 +256,14 @@ private theorem stdY_conj_symTorusHom (h2 : (2 : K) ≠ 0) (lam : Kˣ) :
   rw [map_mul, map_mul] at h
   simpa [stdY, symTorusHom_apply] using h
 
+omit [Finite K] in
 private theorem stdX_inv_symTorusHom (h2 : (2 : K) ≠ 0) (lam : Kˣ) :
     stdX (K := K) * symTorusHom (K := K) h2 lam * (stdX (K := K))⁻¹ =
       (symTorusHom (K := K) h2 lam)⁻¹ := by
   rw [inv_eq_of_mul_eq_one_right (stdX_mul_self (K := K))]
   exact stdX_conj_symTorusHom h2 lam
 
+omit [Finite K] in
 private theorem stdY_comm_symTorusHom (h2 : (2 : K) ≠ 0) (lam : Kˣ) :
     stdY (K := K) * symTorusHom (K := K) h2 lam * (stdY (K := K))⁻¹ =
       symTorusHom (K := K) h2 lam := by
@@ -274,7 +287,7 @@ private theorem exists_odd_torus_data (hq4 : Nat.card K % 4 = 3) (hq7 : 7 ≤ Na
   obtain ⟨r, hrprime, hrm⟩ := Nat.exists_prime_and_dvd (show m ≠ 1 by omega)
   have hrodd : Odd r := hm_odd.of_dvd_nat hrm
   have hrdvd : r ∣ Nat.card K - 1 := hrm.trans (Nat.div_dvd_of_dvd h2dvd)
-  haveI : IsCyclic Kˣ := inferInstance
+  have : IsCyclic Kˣ := inferInstance
   obtain ⟨g, hg_ord⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := Kˣ)
   have hordg : orderOf g = Nat.card K - 1 := by
     rw [hg_ord, Nat.card_units]
@@ -291,6 +304,7 @@ private noncomputable def torusSubgroup (h2 : (2 : K) ≠ 0) (Hr : Subgroup Kˣ)
     Subgroup (projectiveSL 3 K) :=
   Hr.map (symTorusHom (K := K) h2)
 
+omit [Finite K] in
 private theorem card_torusSubgroup (h2 : (2 : K) ≠ 0) (Hr : Subgroup Kˣ) :
     Nat.card (torusSubgroup (K := K) h2 Hr) = Nat.card Hr :=
   Subgroup.card_map_of_injective (symTorusHom_injective h2)
@@ -302,7 +316,7 @@ private theorem not_two_dvd_index_zpowers_neg_one (hq4 : Nat.card K % 4 = 3) :
     omega
   have hcard_neg : Nat.card (Subgroup.zpowers (-1 : Kˣ)) = 2 := by
     rw [Nat.card_zpowers]
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hchar : ringChar K ≠ 2 := by
       intro h
       have h2 : Fintype.card K % 2 = 0 := (FiniteField.even_card_iff_char_two).mp h
@@ -310,7 +324,7 @@ private theorem not_two_dvd_index_zpowers_neg_one (hq4 : Nat.card K % 4 = 3) :
       omega
     rw [← orderOf_injective (Units.coeHom K) Units.val_injective (-1 : Kˣ)]
     simp only [Units.coeHom_apply, Units.coe_neg_one]
-    rw [orderOf_neg_one, if_neg hchar]
+    rw [orderOf_neg_one, ite_eq_right hchar]
   have h := Subgroup.index_mul_card (Subgroup.zpowers (-1 : Kˣ))
   rw [hcard_neg, Nat.card_units, hq_eq] at h
   have hidx : (Subgroup.zpowers (-1 : Kˣ)).index = 2 * (Nat.card K / 4) + 1 := by
@@ -322,7 +336,7 @@ private theorem exists_sylow_two_units (hq4 : Nat.card K % 4 = 3) :
     ∃ S : Sylow 2 Kˣ, (S : Subgroup Kˣ) = Subgroup.zpowers (-1 : Kˣ) := by
   have hcard_neg : Nat.card (Subgroup.zpowers (-1 : Kˣ)) = 2 := by
     rw [Nat.card_zpowers]
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hq_eq : Nat.card K = 4 * (Nat.card K / 4) + 3 := by
       have h := Nat.div_add_mod (Nat.card K) 4
       omega
@@ -333,16 +347,16 @@ private theorem exists_sylow_two_units (hq4 : Nat.card K % 4 = 3) :
       omega
     rw [← orderOf_injective (Units.coeHom K) Units.val_injective (-1 : Kˣ)]
     simp only [Units.coeHom_apply, Units.coe_neg_one]
-    rw [orderOf_neg_one, if_neg hchar]
+    rw [orderOf_neg_one, ite_eq_right hchar]
   let S : Sylow 2 Kˣ :=
     (IsPGroup.of_card (show Nat.card (Subgroup.zpowers (-1 : Kˣ)) = 2 ^ 1 by
       rw [hcard_neg]; norm_num)).toSylow (not_two_dvd_index_zpowers_neg_one hq4)
   exact ⟨S, IsPGroup.toSylow_coe _ _⟩
 
 private theorem odd_ncard_d0Orbit (h2 : (2 : K) ≠ 0) (hq4 : Nat.card K % 4 = 3)
-    (hq7 : 7 ≤ Nat.card K) {r : ℕ} {Hr : Subgroup Kˣ} (hrprime : r.Prime)
-    (hrodd : Odd r) (hHr : Nat.card Hr = r)
-    (hHr_unique : ∀ (φ : Kˣ →* Kˣ), Function.Injective φ → Hr.map φ = Hr) :
+    (_hq7 : 7 ≤ Nat.card K) {r : ℕ} {Hr : Subgroup Kˣ} (_hrprime : r.Prime)
+    (_hrodd : Odd r) (_hHr : Nat.card Hr = r)
+    (_hHr_unique : ∀ (φ : Kˣ →* Kˣ), Function.Injective φ → Hr.map φ = Hr) :
     Odd (Nat.card (d0Orbit (K := K) (torusSubgroup (K := K) h2 Hr))) := by
   classical
   let P0 : Subgroup (projectiveSL 3 K) := torusSubgroup (K := K) h2 Hr
@@ -357,10 +371,10 @@ private theorem odd_ncard_d0Orbit (h2 : (2 : K) ≠ 0) (hq4 : Nat.card K % 4 = 3
           (P.map (d0Aut (K := K) ε).toMonoidHom).map (d0Aut (K := K) δ).toMonoidHom
         rw [map_mul, Subgroup.map_map]
         rfl }
-  letI := act
+  let := act
   have horbit : MulAction.orbit Kˣ P0 = d0Orbit (K := K) P0 := by
     ext Q
-    simp only [MulAction.mem_orbit_iff, d0Orbit, Set.mem_setOf_eq]
+    simp only [MulAction.mem_orbit_iff, d0Orbit, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨δ, hδ⟩
       exact ⟨δ, hδ.symm⟩
@@ -403,6 +417,7 @@ private noncomputable def entryUnitHom (σ : K ≃+* K) (ε : ℕ) : Kˣ →* K�
   map_one' := Units.ext (by simp [entryMap_one])
   map_mul' η θ := Units.ext (by simp [entryMap_mul])
 
+omit [Finite K] in
 private theorem entryUnitHom_injective (σ : K ≃+* K) (ε : ℕ) :
     Function.Injective (entryUnitHom (K := K) σ ε) := by
   intro η θ h
@@ -410,6 +425,7 @@ private theorem entryUnitHom_injective (σ : K ≃+* K) (ε : ℕ) :
   apply entryMap_injective σ ε
   exact congrArg (fun u : Kˣ => (u : K)) h
 
+omit [Finite K] in
 private theorem fieldAut_symTorusHom_entry (h2 : (2 : K) ≠ 0) (σ : K ≃+* K) (lam : Kˣ) :
     fieldAut 3 K σ (symTorusHom (K := K) h2 lam) =
       symTorusHom (K := K) h2 (entryUnitHom (K := K) σ 0 lam) := by
@@ -418,6 +434,7 @@ private theorem fieldAut_symTorusHom_entry (h2 : (2 : K) ≠ 0) (σ : K ≃+* K)
   apply Units.ext
   simp [entryUnitHom, entryMap]
 
+omit [Finite K] in
 private theorem fieldAut_dualAut_pow_symTorusHom (h2 : (2 : K) ≠ 0) (σ : K ≃+* K)
     {ε : ℕ} (hε : ε ≤ 1) (lam : Kˣ) :
     fieldAut 3 K σ ((dualAut 3 K ^ ε) (symTorusHom (K := K) h2 lam)) =
@@ -430,6 +447,7 @@ private theorem fieldAut_dualAut_pow_symTorusHom (h2 : (2 : K) ≠ 0) (σ : K �
     apply Units.ext
     simp [entryUnitHom, entryMap, map_inv]
 
+omit [Finite K] in
 private theorem fieldAut_dualAut_pow_d0Proj (σ : K ≃+* K) {ε : ℕ} (hε : ε ≤ 1) (η : Kˣ) :
     fieldAut 3 K σ ((dualAut 3 K ^ ε) (d0Proj (K := K) η)) =
       d0Proj (K := K) (entryUnitHom (K := K) σ ε η) := by
@@ -446,14 +464,13 @@ private theorem fieldAut_dualAut_pow_d0Proj (σ : K ≃+* K) {ε : ℕ} (hε : �
     change fieldAut 3 K σ (dualAut 3 K (proj 3 K (d0Hom (K := K) η))) =
       proj 3 K (d0Hom (K := K) (entryUnitHom (K := K) σ 1 η))
     rw [dualAut_d0Hom]
-    change fieldAut 3 K σ (proj 3 K (d0Hom (K := K) (η⁻¹))) =
-      proj 3 K (d0Hom (K := K) (entryUnitHom (K := K) σ 1 η))
     rw [fieldAut_d0Hom]
     congr 1
     congr 1
     apply Units.ext
     simp [entryUnitHom, entryMap, map_inv]
 
+omit [Finite K] in
 private theorem conjAut_symTorusHom_of_diagonal (h2 : (2 : K) ≠ 0) {A : GL (Fin 3) K}
     {a0 a1 a2 : K} (hA : (A : Matrix (Fin 3) (Fin 3) K) = diagonal ![a0, a1, a2])
     (ha0 : a0 ≠ 0) (ha2 : a2 ≠ 0) (lam : Kˣ) :
@@ -466,6 +483,7 @@ private theorem conjAut_symTorusHom_of_diagonal (h2 : (2 : K) ≠ 0) {A : GL (Fi
   rw [map_mul, map_mul, map_inv]
   rfl
 
+omit [Finite K] in
 private theorem conjAut_mul_fieldAut_mul_dualAut_pow_symTorusHom (h2 : (2 : K) ≠ 0)
     {A : GL (Fin 3) K} {σ : K ≃+* K} {ε : ℕ} (hε : ε ≤ 1) {a0 a1 a2 : K}
     (hA : (A : Matrix (Fin 3) (Fin 3) K) = diagonal ![a0, a1, a2]) (ha0 : a0 ≠ 0)
@@ -479,6 +497,7 @@ private theorem conjAut_mul_fieldAut_mul_dualAut_pow_symTorusHom (h2 : (2 : K) �
     fieldAut_dualAut_pow_symTorusHom h2 σ hε lam,
     conjAut_symTorusHom_of_diagonal h2 hA ha0 ha2]
 
+omit [Finite K] in
 private theorem conjAut_mul_fieldAut_mul_dualAut_pow_d0Proj {A : GL (Fin 3) K} {σ : K ≃+* K}
     {ε : ℕ} (hε : ε ≤ 1) {a0 a1 a2 : K}
     (hA : (A : Matrix (Fin 3) (Fin 3) K) = diagonal ![a0, a1, a2]) (η : Kˣ) :
@@ -491,7 +510,7 @@ private theorem conjAut_mul_fieldAut_mul_dualAut_pow_d0Proj {A : GL (Fin 3) K} {
   exact conjAut_d0Hom_of_diagonal hA (entryUnitHom (K := K) σ ε η)
 
 private theorem d0Orbit_invariant_of_fixes (h2 : (2 : K) ≠ 0) {r : ℕ} {Hr : Subgroup Kˣ}
-    (hHr : Nat.card Hr = r)
+    (_hHr : Nat.card Hr = r)
     (hHr_unique : ∀ (φ : Kˣ →* Kˣ), Function.Injective φ → Hr.map φ = Hr)
     (α : MulAut (projectiveSL 3 K)) (hαx : α (stdX (K := K)) = stdX (K := K))
     (hαy : α (stdY (K := K)) = stdY (K := K)) :
@@ -551,6 +570,7 @@ private theorem d0Orbit_invariant_of_fixes (h2 : (2 : K) ≠ 0) {r : ℕ} {Hr : 
     _ = (torusSubgroup (K := K) h2 Hr).map
             (d0Aut (K := K) (φ η * δ)).toMonoidHom := rfl
 
+omit [Finite K] in
 private theorem card_of_mem_d0Orbit (h2 : (2 : K) ≠ 0) {Hr : Subgroup Kˣ}
     {P : Subgroup (projectiveSL 3 K)}
     (hP : P ∈ d0Orbit (K := K) (torusSubgroup (K := K) h2 Hr)) :
@@ -559,6 +579,7 @@ private theorem card_of_mem_d0Orbit (h2 : (2 : K) ≠ 0) {Hr : Subgroup Kˣ}
   rw [Subgroup.card_map_of_injective (d0Aut (K := K) η).injective,
     card_torusSubgroup]
 
+omit [Finite K] in
 private theorem stdX_comm_d0Proj (η : Kˣ) :
     stdX (K := K) * d0Proj (K := K) η = d0Proj (K := K) η * stdX (K := K) := by
   change proj 3 K (oddDiag₃SL (K := K)) * proj 3 K (d0Hom (K := K) η) =
@@ -571,6 +592,7 @@ private theorem stdX_comm_d0Proj (η : Kˣ) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three]
 
+omit [Finite K] in
 private theorem stdY_comm_d0Proj (η : Kˣ) :
     stdY (K := K) * d0Proj (K := K) η = d0Proj (K := K) η * stdY (K := K) := by
   change proj 3 K (oddDiag₂SL (K := K)) * proj 3 K (d0Hom (K := K) η) =
@@ -583,18 +605,21 @@ private theorem stdY_comm_d0Proj (η : Kˣ) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three]
 
+omit [Finite K] in
 private theorem stdX_inv_torusSubgroup (h2 : (2 : K) ≠ 0) {Hr : Subgroup Kˣ}
     {p : projectiveSL 3 K} (hp : p ∈ torusSubgroup (K := K) h2 Hr) :
     stdX (K := K) * p * (stdX (K := K))⁻¹ = p⁻¹ := by
   obtain ⟨lam, hlam, rfl⟩ := hp
   exact stdX_inv_symTorusHom h2 lam
 
+omit [Finite K] in
 private theorem stdY_comm_torusSubgroup (h2 : (2 : K) ≠ 0) {Hr : Subgroup Kˣ}
     {p : projectiveSL 3 K} (hp : p ∈ torusSubgroup (K := K) h2 Hr) :
     stdY (K := K) * p * (stdY (K := K))⁻¹ = p := by
   obtain ⟨lam, hlam, rfl⟩ := hp
   exact stdY_comm_symTorusHom h2 lam
 
+omit [Finite K] in
 private theorem stdX_inv_of_mem_d0Orbit (h2 : (2 : K) ≠ 0) {Hr : Subgroup Kˣ}
     {P : Subgroup (projectiveSL 3 K)}
     (hP : P ∈ d0Orbit (K := K) (torusSubgroup (K := K) h2 Hr)) :
@@ -617,6 +642,7 @@ private theorem stdX_inv_of_mem_d0Orbit (h2 : (2 : K) ≠ 0) {Hr : Subgroup Kˣ}
           rw [hη, stdX_inv_torusSubgroup h2 hp0]
     _ = (d0Proj (K := K) η * p0 * (d0Proj (K := K) η)⁻¹)⁻¹ := by group
 
+omit [Finite K] in
 private theorem stdY_comm_of_mem_d0Orbit (h2 : (2 : K) ≠ 0) {Hr : Subgroup Kˣ}
     {P : Subgroup (projectiveSL 3 K)}
     (hP : P ∈ d0Orbit (K := K) (torusSubgroup (K := K) h2 Hr)) :
@@ -639,6 +665,7 @@ private theorem stdY_comm_of_mem_d0Orbit (h2 : (2 : K) ≠ 0) {Hr : Subgroup Kˣ
           rw [hη, stdY_comm_torusSubgroup h2 hp0]
     _ = d0Proj (K := K) η * p0 * (d0Proj (K := K) η)⁻¹ := rfl
 
+omit [Finite K] in
 private theorem not_le_centralizer_stdX_of_mem_d0Orbit (h2 : (2 : K) ≠ 0) {r : ℕ}
     {Hr : Subgroup Kˣ} (hrprime : r.Prime) (hrodd : Odd r) (hHr : Nat.card Hr = r)
     {P : Subgroup (projectiveSL 3 K)}
@@ -684,10 +711,11 @@ private theorem not_le_centralizer_stdX_of_mem_d0Orbit (h2 : (2 : K) ≠ 0) {r :
   · exact hr_ne_two h2
 
 private theorem two_ne_zero_of_natCard_mod_four (hq4 : Nat.card K % 4 = 3) : (2 : K) ≠ 0 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   exact CFSG.ComponentClassification.CatFactsL4U4.StabL.two_ne_zero_of_card_mod_four (by
     rwa [Nat.card_eq_fintype_card] at hq4)
 
+omit [Finite K] in
 private theorem projectiveSLMulEquivStatedProj_mk (g : SpecialLinearGroup (Fin 3) K) :
     CFSG.CGT.Timmesfeld75.projectiveSLMulEquivStatedProj 3 K (proj 3 K g) =
       statedProjMk (StatedSL 3 K) (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 3 K g) := by
@@ -701,9 +729,10 @@ private theorem projectiveSLMulEquivStatedProj_mk (g : SpecialLinearGroup (Fin 3
     rfl
   rw [h1]
   rw [CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj]
-  simp only [QuotientGroup.congr, Quotient.congr_mk]
+  simp only [QuotientGroup.congr]
   rfl
 
+omit [Finite K] in
 private theorem projectiveSLMulEquivStatedProj_stdX :
     CFSG.CGT.Timmesfeld75.projectiveSLMulEquivStatedProj 3 K (stdX (K := K)) =
       CFSG.GH74.GLS.IVK.Proofs2.linU₀ (F := K) := by
@@ -715,6 +744,7 @@ private theorem projectiveSLMulEquivStatedProj_stdX :
   rw [CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL_coe]
   rfl
 
+omit [Finite K] in
 private theorem projectiveSLMulEquivStatedProj_stdY :
     CFSG.CGT.Timmesfeld75.projectiveSLMulEquivStatedProj 3 K (stdY (K := K)) =
       CFSG.GH74.GLS.IVK.Proofs2.linU₀' (F := K) := by

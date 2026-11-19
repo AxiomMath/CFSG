@@ -31,7 +31,7 @@ theorem MinCex.centralizer_le_H' (h4 : E18_4C r) (c : MinCex r Ω K S R W H)
   obtain ⟨w, hw1, hw2, rfl⟩ := hAcyc
   rw [centralizer_zpowers_eq_singleton] at hRA hX ⊢
   have hRS := c.stand.hR.2.2
-  exact h4 G Ω K S R W H c K' hK' hne R' hR' hR'K' (S.isPGroup'.to_le (sup_le hRS hR'S)) w hw1 hw2
+  exact h4 G Ω K S R W H c K' hK' hne R' hR' hR'K' (S.isPGroup.to_le (sup_le hRS hR'S)) w hw1 hw2
     hRA hX
 
 theorem MinCex.part1_core (h : E18_6 r) (h4 : E18_4C r)

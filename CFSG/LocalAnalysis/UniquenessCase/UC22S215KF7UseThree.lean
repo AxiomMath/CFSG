@@ -25,7 +25,7 @@ theorem kf7Use_dataOfSetup (hSQ : StronglyEmbeddedSolvableQ) (hSE : StronglyEmbe
     KF7Use (PartTwo.Three.dataOfSetup hS S) := by
   intro p hp H hH
   obtain ⟨hpp, hp2, hsp, htop, hHM, hrank⟩ := hH
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   let k : Sec7Core4 G := Sec7Core4.ofThree hS S.M S.witness.maxLocal p hpp hp2 hsp
     (PartTwo.Three.normalizer_le_of_mem_sigmaOf S hp)
   have hk : k.Config H := ⟨htop, hHM, hrank⟩
@@ -42,13 +42,13 @@ theorem kf7Use_dataOfSetup (hSQ : StronglyEmbeddedSolvableQ) (hSE : StronglyEmbe
     hsol | ⟨hp5, -, -, hY⟩
   · exact Or.inl hsol
   refine Or.inr ⟨hp5, fun Y hYN hYp T _ hT f hf => ?_⟩
-  haveI : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hYp
-  haveI : Group.IsPerfect T := Group.IsPerfect.ofSurjective hf
-  haveI : IsSimpleGroup T := hT
-  haveI : Finite T := Finite.of_surjective f hf
+  have : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hYp
+  have : Group.IsPerfect T := Group.IsPerfect.ofSurjective hf
+  have : IsSimpleGroup T := hT
+  have : Finite T := Finite.of_surjective f hf
   have hnab : ∃ a b : T, a * b ≠ b * a := by
     by_contra hc
-    haveI : IsMulCommutative T := ⟨⟨fun a b => not_not.mp fun h => hc ⟨a, b, h⟩⟩⟩
+    have : IsMulCommutative T := ⟨⟨fun a b => not_not.mp fun h => hc ⟨a, b, h⟩⟩⟩
     exact false_of_nontrivial_of_subsingleton T
   exact CFSG.QuasithinUnique.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty
     (hY Y hYN hYp ↥Y T (MonoidHom.id ↥Y) Function.injective_id hT hnab f hf)

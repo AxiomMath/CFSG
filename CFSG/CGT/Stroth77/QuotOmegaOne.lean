@@ -15,7 +15,7 @@ def zmodRed (n : ℕ) : ZMod (2 ^ n) →+ ZMod (2 ^ (n - 1)) where
   map_add' a b := ZMod.cast_add (pow_dvd_pow 2 (Nat.sub_le n 1)) a b
 
 @[expose]
-def torusRed (k : Fin 3 → ℕ) (hk : ∀ i, 1 ≤ k i) : Torus k →+ Torus (fun i => k i - 1) where
+def torusRed (k : Fin 3 → ℕ) (_hk : ∀ i, 1 ≤ k i) : Torus k →+ Torus (fun i => k i - 1) where
   toFun v i := zmodRed (k i) (v i)
   map_zero' := by funext i; simp
   map_add' a b := by funext i; simp
@@ -26,11 +26,11 @@ def twoTorsion (k : Fin 3 → ℕ) : AddSubgroup (Torus k) where
   zero_mem' := by simp
   add_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [zsmul_add, ha, hb, add_zero]
   neg_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [zsmul_neg, ha, neg_zero]
 
 @[simp]
@@ -81,7 +81,7 @@ def conjByMul {g : G} (hg : g ∈ Subgroup.normalizer (Z.D : Set G)) : Z.D →* 
 @[expose]
 noncomputable def quotConjBy {g : G} (hg : g ∈ Subgroup.normalizer (Z.D : Set G)) :
     Z.D ⧸ (omegaIn 1 Z.D).subgroupOf Z.D →* Z.D ⧸ (omegaIn 1 Z.D).subgroupOf Z.D :=
-  QuotientGroup.map _ _ (conjByMul Z hg) (fun d hd => Z.conjBy_mem_omegaIn_one hg hd)
+  QuotientGroup.map _ _ (conjByMul Z hg) (fun _d hd => Z.conjBy_mem_omegaIn_one hg hd)
 
 @[simp]
 theorem quotConjBy_mk {g : G} (hg : g ∈ Subgroup.normalizer (Z.D : Set G)) (d : Z.D) :

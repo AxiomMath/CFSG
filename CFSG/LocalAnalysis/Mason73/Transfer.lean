@@ -27,7 +27,7 @@ theorem not_mem_commutator_of_not_conj_into {ι : L4Model n →* G} (hι : Funct
   obtain ⟨N, -, hNn, hsq, hlN⟩ := CFSG.Quasithin.thompson_transfer_exists_normal_subgroup
     le_top hP2 hPidx hQP hQidx (Subgroup.mem_top _) (by rw [orderOf_injective ι hι, hl])
     (fun x _ => hQl x)
-  haveI : N.Normal := ⟨fun x hx g => Subgroup.mem_subgroupOf.1
+  have : N.Normal := ⟨fun x hx g => Subgroup.mem_subgroupOf.1
     (hNn.conj_mem ⟨x, Subgroup.mem_top x⟩ (Subgroup.mem_subgroupOf.2 hx) ⟨g, Subgroup.mem_top g⟩)⟩
   have hcomm : IsMulCommutative (G ⧸ N) := by
     refine ⟨⟨fun a b => ?_⟩⟩

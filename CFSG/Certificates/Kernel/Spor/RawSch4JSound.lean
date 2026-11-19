@@ -61,7 +61,7 @@ theorem schK_of_t4KD {n w kS BP i T E D : Nat} {S SI LR TR TRI U : Nat → Nat}
   obtain ⟨j', hj', hst⟩ := hD j hj
   obtain ⟨hk, hk1, hk2, hk3, hE⟩ := t4K_facts (hF _ hc j' hj')
     (s := letterK S SI kS (stAt T j)) (by rw [hst]) rfl rfl rfl rfl rfl
-  rw [if_pos hk]
+  rw [ite_eq_left hk]
   refine sift3_of_fields hsz hb2' hb3' (by rw [PF.pg_pcomp hn hb1', PF.pg_pcomp hn hb1']) hk1
     (by rw [PF.pg_pcomp hn hb2', PF.pg_pcomp hn hb2']) hk2
     (by rw [PF.pg_pcomp hn hb3', PF.pg_pcomp hn hb3']) hk3 (hp1 _ hk1) (hp2 _ hk2) (hp3 _ hk3)

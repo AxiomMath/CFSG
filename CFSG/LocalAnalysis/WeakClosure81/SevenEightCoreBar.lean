@@ -18,10 +18,12 @@ variable {G : Type} [Group G] [Finite G]
     Subgroup G :=
   (Xb.comap φ).map H.subtype
 
+omit [Finite G] in
 theorem barPre_le (H : Subgroup G) {Q : Type} [Group Q] (φ : ↥H →* Q) (Xb : Subgroup Q) :
     barPre H φ Xb ≤ H :=
   Subgroup.map_subtype_le (Xb.comap φ)
 
+omit [Finite G] in
 theorem mem_barPre {H : Subgroup G} {Q : Type} [Group Q] {φ : ↥H →* Q} {Xb : Subgroup Q}
     {g : G} : g ∈ barPre H φ Xb ↔ ∃ hg : g ∈ H, φ ⟨g, hg⟩ ∈ Xb := by
   rw [barPre, Subgroup.mem_map]
@@ -33,6 +35,7 @@ theorem mem_barPre {H : Subgroup G} {Q : Type} [Group Q] {φ : ↥H →* Q} {Xb 
   · rintro ⟨hg, hgX⟩
     exact ⟨⟨g, hg⟩, by rwa [Subgroup.mem_comap], rfl⟩
 
+omit [Finite G] in
 theorem le_barPre {H J : Subgroup G} (hJH : J ≤ H) {Q : Type} [Group Q] {φ : ↥H →* Q}
     (hφ : IsBarMap H J φ) (Xb : Subgroup Q) : J ≤ barPre H φ Xb := by
   intro j hj
@@ -40,6 +43,7 @@ theorem le_barPre {H J : Subgroup G} (hJH : J ≤ H) {Q : Type} [Group Q] {φ : 
   rw [show φ ⟨j, hJH hj⟩ = 1 from (hφ.ker_iff ⟨j, hJH hj⟩).mpr hj]
   exact Xb.one_mem
 
+omit [Finite G] in
 theorem barSub_barPre {H J : Subgroup G} {Q : Type} [Group Q] {φ : ↥H →* Q}
     (hφ : IsBarMap H J φ) (Xb : Subgroup Q) : barSub H φ (barPre H φ Xb) = Xb := by
   have hsub : (barPre H φ Xb).subgroupOf H = Xb.comap φ := by
@@ -50,13 +54,15 @@ theorem barSub_barPre {H J : Subgroup G} {Q : Type} [Group Q] {φ : ↥H →* Q}
   rw [hsub]
   exact Subgroup.map_comap_eq_self_of_surjective hφ.surjective Xb
 
+omit [Finite G] in
 theorem relIndex_barPre {H J : Subgroup G} (hJH : J ≤ H) {Q : Type} [Group Q] {φ : ↥H →* Q}
     (hφ : IsBarMap H J φ) (Xb : Subgroup Q) : J.relIndex (barPre H φ Xb) = Nat.card Xb := by
   rw [← card_barSub_eq_relIndex_of_isBarMap (K := H) (N := J) (A := barPre H φ Xb)
     (barPre_le H φ Xb) hJH hφ, barSub_barPre hφ Xb]
 
+omit [Finite G] in
 theorem le_normalizer_barPre {H J : Subgroup G} {Q : Type} [Group Q] {φ : ↥H →* Q}
-    (hφ : IsBarMap H J φ) {Xb : Subgroup Q} {A : Subgroup G} (hAH : A ≤ H)
+    (_hφ : IsBarMap H J φ) {Xb : Subgroup Q} {A : Subgroup G} (hAH : A ≤ H)
     (hA : barSub H φ A ≤ Subgroup.normalizer (Xb : Set Q)) :
     A ≤ Subgroup.normalizer ((barPre H φ Xb : Subgroup G) : Set G) := by
   intro a ha
@@ -99,6 +105,7 @@ theorem le_normalizer_barPre {H J : Subgroup G} {Q : Type} [Group Q] {φ : ↥H 
     rw [hEq, map_mul, map_mul, map_inv]
     exact hmem
 
+omit [Finite G] in
 theorem barSub_le_normalizer_barSub {H : Subgroup G} {Q : Type} [Group Q] (φ : ↥H →* Q)
     {A B : Subgroup G} (hAB : A ≤ Subgroup.normalizer (B : Set G)) :
     barSub H φ A ≤ Subgroup.normalizer ((barSub H φ B : Subgroup Q) : Set Q) := by
@@ -126,6 +133,7 @@ theorem barSub_le_normalizer_barSub {H : Subgroup G} {Q : Type} [Group Q] (φ : 
     · rw [map_mul, map_mul, map_inv, hbφ]
       group
 
+omit [Finite G] in
 theorem forall_commutator_mem_of_commutator_eq_bot {H J : Subgroup G} {Q : Type} [Group Q]
     {φ : ↥H →* Q} (hφ : IsBarMap H J φ) {N : Subgroup G} (hNH : N ≤ H) {v : G} (hv : v ∈ H)
     (hN : ⁅barSub H φ N, Subgroup.zpowers (φ ⟨v, hv⟩)⁆ = ⊥) : ∀ n ∈ N, ⁅v, n⁆ ∈ J := by
@@ -146,9 +154,10 @@ theorem forall_commutator_mem_of_commutator_eq_bot {H J : Subgroup G} {Q : Type}
   rw [← commutatorElement_inv]
   exact J.inv_mem hJ
 
+omit [Finite G] in
 theorem Hyp78.odd_card_barSub {V H E J L N : Subgroup G} (h : Hyp78 V H E J L) {Q : Type}
     [Group Q] {φ : ↥H →* Q} (hφ : IsBarMap H J φ) (hNK : N ≤ kSub V H E)
-    (hJN : kSub V H E ⊓ J ≤ N) (hNodd : Odd ((kSub V H E ⊓ J).relIndex N)) :
+    (_hJN : kSub V H E ⊓ J ≤ N) (hNodd : Odd ((kSub V H E ⊓ J).relIndex N)) :
     Odd (Nat.card (barSub H φ N)) := by
   have hJH : J ≤ H := h.pcore_le.trans (CFSG.LieType.BorelTits.pCoreOf_le 2 H)
   have hKH : kSub V H E ≤ H := kSub_le_of_forall_le h.omega_le
@@ -164,11 +173,13 @@ theorem Hyp78.odd_card_barSub {V H E J L N : Subgroup G} (h : Hyp78 V H E J L) {
   rw [hcard, h5]
   exact hNodd
 
+omit [Finite G] in
 private theorem seven_eight_core_bar_relIndex_conjSubgroup (A B : Subgroup G) (k : G) :
     (conjSubgroup A k).relIndex (conjSubgroup B k) = A.relIndex B := by
   simp only [CFSG.Quasithin.conjSubgroup]
   exact Subgroup.relIndex_map_map_of_injective A B (MulAut.conj k⁻¹).injective
 
+omit [Finite G] in
 private theorem seven_eight_core_bar_relIndex_sup_right {H J K : Subgroup G}
     (hKH : K ≤ H) (hJH : J ≤ H) [hJn : (J.subgroupOf H).Normal] :
     J.relIndex (K ⊔ J) = J.relIndex K := by
@@ -178,7 +189,8 @@ private theorem seven_eight_core_bar_relIndex_sup_right {H J K : Subgroup G}
   have h3 := Subgroup.relIndex_subgroupOf (H := J) (K := K) (L := H) hKH
   rw [← h2, Subgroup.subgroupOf_sup hKH hJH, h1, h3]
 
-private theorem seven_eight_core_bar_deltaSet_iff {V H E J L : Subgroup G} (h : Hyp78 V H E J L)
+omit [Finite G] in
+private theorem seven_eight_core_bar_deltaSet_iff {V H E J L : Subgroup G} (_h : Hyp78 V H E J L)
     {Q : Type} [Group Q] {φ : ↥H →* Q} {v : G} (hvH : v ∈ H) {a : Q} :
     a ∈ deltaSet (barSub H φ (pCoreOf 2 L)) (φ ⟨v, hvH⟩) ↔
       ∃ x ∈ pCoreOf 2 L, ∃ hx : x ∈ H,
@@ -210,7 +222,7 @@ theorem Hyp78.sevenEightFrame {V H E J L : Subgroup G} (h : Hyp78 V H E J L)
   have hLH : L ≤ H := h.le_kSub.trans hKH
   have hJnormH : H ≤ Subgroup.normalizer (J : Set G) :=
     le_normalizer_of_subgroupOf_normal hJH h.jnormal
-  haveI hJn : (J.subgroupOf H).Normal := h.jnormal
+  have hJn : (J.subgroupOf H).Normal := h.jnormal
   have hgen : (⨆ U ∈ omegaWithin V H E L, U) = L := h.generated
   set S : Set G := {u | ∃ U ∈ omegaWithin V H E L, u ∈ U ∧ u ∉ J} with hSdef
   have hSH : S ⊆ H := by
@@ -359,7 +371,7 @@ theorem Hyp78.sevenEightFrame {V H E J L : Subgroup G} (h : Hyp78 V H E J L)
               ⟨g, hgH⟩⁻¹ * ⟨v, hVH⟩ * ⟨g, hgH⟩ from Subtype.ext rfl,
             map_mul, map_mul, map_inv, inv_inv]
       refine ⟨a, haΔ, ?_⟩
-      haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+      have : Fact (Nat.Prime 2) := Nat.fact_prime_two
       have hVe : IsElemAbelian 2 V := isElemAbelian_of_mem_omegaSet h.elemAbelian h.mem
       have hVleH : V ≤ H := h.omega_le V h.mem
       have hbarV : barSub H φ V = Subgroup.zpowers (φ ⟨v, hVH⟩) := by

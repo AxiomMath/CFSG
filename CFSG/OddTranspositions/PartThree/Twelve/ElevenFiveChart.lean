@@ -47,7 +47,7 @@ structure FiveLocalModel (D : Set G) (x : G) (k : ℕ) (ε π : Bool) where
 
 theorem mem_commSet_conj {D : Set G} (hS : Setup G D) (g x y : G) :
     MulAut.conj g y ∈ commSet D (MulAut.conj g x) ↔ y ∈ commSet D x := by
-  simp only [commSet, Set.mem_setOf_eq, MulAut.conj_apply]
+  simp only [commSet, Set.mem_ofPred_eq, MulAut.conj_apply]
   constructor
   · rintro ⟨hyD, hyc, hne⟩
     refine ⟨?_, ?_, ?_⟩

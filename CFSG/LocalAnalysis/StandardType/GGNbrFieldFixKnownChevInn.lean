@@ -18,8 +18,8 @@ theorem chev_idImage_subset_inn {τ : Tag} (hτ : τ = .F4 ∨ τ = .E7 ∨ τ =
         MulAut (LargeEvenCenterQuot (LargeEvenChevH τ.cartan K false))) := by
   rcases hτ with rfl | rfl | rfl
   · exact TableBF4.idImage_subset_inn K
-  · haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 :=
+  · have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 :=
       charP_of_card_eq_prime_pow (p := 2) (f := n)
         (by rw [← Nat.card_eq_fintype_card]; exact hK)
     exact TableBExc.idImage_subset_inn_E7 K

@@ -19,7 +19,7 @@ private theorem core (hp2 : p ≠ 2) (ρ : Representation (ZMod p) G W) (Z : Sub
     iSupIndep (fun H : hyperplanes 2 Z => commSpace ρ Z ⊓ fixedSpace ρ H.1) ∧
       (⨆ H : hyperplanes 2 Z, commSpace ρ Z ⊓ fixedSpace ρ H.1) = commSpace ρ Z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp2' : (2 : ℕ) ≠ p := fun h => hp2 h.symm
   have hcentral : ∀ k ∈ Z, ∀ z ∈ Z, k * z = z * k := fun x hx y hy => by
     have := hZ.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩

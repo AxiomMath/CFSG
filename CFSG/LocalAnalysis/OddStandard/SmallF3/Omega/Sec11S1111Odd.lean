@@ -20,7 +20,7 @@ private theorem sec11_relIndex_sup_mul_card [Finite G] {A N K : Subgroup G} (hNK
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).mpr
       (Subgroup.le_normalizer_iff.mpr hNn)
   have hrelNK : N.relIndex K = N.relIndex A := by
-    haveI : (N.subgroupOf K).Normal := hNnormal
+    have : (N.subgroupOf K).Normal := hNnormal
     have h := Subgroup.relIndex_sup_right (H := A.subgroupOf K) (K := N.subgroupOf K)
     rw [← Subgroup.subgroupOf_sup hAK hNK, ← hsup, Subgroup.subgroupOf_self,
       Subgroup.relIndex_top_right, Subgroup.relIndex_subgroupOf hAK] at h
@@ -67,7 +67,7 @@ theorem sec11_card_sup_dvd [Finite G] {A B : Subgroup G}
 
 theorem sec11_isPGroup_sup [Finite G] {A B : Subgroup G} (hA : IsPGroup 2 A) (hB : IsPGroup 2 B)
     (hn : ∀ b ∈ B, ∀ a ∈ A, b * a * b⁻¹ ∈ A) : IsPGroup 2 ↥(A ⊔ B) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card (p := 2) (G := ↥A)).mp hA
   obtain ⟨b, hb⟩ := (IsPGroup.iff_card (p := 2) (G := ↥B)).mp hB
   have hdvd : Nat.card ↥(A ⊔ B) ∣ 2 ^ (a + b) := by

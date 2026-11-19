@@ -62,7 +62,7 @@ theorem x_mem : C.x ∈ C.A := by rw [C.hA]; exact Subgroup.subset_closure (by s
 theorem y_mem : C.y ∈ C.A := by rw [C.hA]; exact Subgroup.subset_closure (by simp)
 
 theorem comm {a b : X} (ha : a ∈ C.A) (hb : b ∈ C.A) : a * b = b * a := by
-  haveI := C.hAc
+  have := C.hAc
   exact setLike_mul_comm ha hb
 
 @[expose] def evA (v : Co) : C.A :=
@@ -77,7 +77,7 @@ theorem ev_mem (v : Co) : C.ev v ∈ C.A := by
   rw [← coe_evA]; exact (C.evA v).2
 
 theorem evA_add (v v' : Co) : C.evA (v + v') = C.evA v * C.evA v' := by
-  haveI := C.hAc
+  have := C.hAc
   have hw : (⟨C.w, C.w_mem⟩ : C.A) ^ 2 = 1 := Subtype.ext (by simpa using C.hw)
   have hx : (⟨C.x, C.x_mem⟩ : C.A) ^ 4 = 1 := Subtype.ext (by simpa using C.hx)
   have hy : (⟨C.y, C.y_mem⟩ : C.A) ^ 4 = 1 := Subtype.ext (by simpa using C.hy)

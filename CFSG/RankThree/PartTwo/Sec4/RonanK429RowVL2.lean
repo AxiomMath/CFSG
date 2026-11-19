@@ -27,10 +27,10 @@ theorem pCore_two_le_center_of_quasisimple {K : Type} [Group K] [Finite K]
     have h2 : IsPGroup 2 (CFSG.pCore 2 K) := CFSG.pCore_isPGroup
     rw [h] at h2
     have hp : IsPGroup 2 K := h2.of_equiv Subgroup.topEquiv
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := hK.1
-    haveI : Nontrivial K := by
-      haveI : Nontrivial (K ⧸ Subgroup.center K) := hK.2.1.toNontrivial
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := hK.1
+    have : Nontrivial K := by
+      have : Nontrivial (K ⧸ Subgroup.center K) := hK.2.1.toNontrivial
       exact (QuotientGroup.mk'_surjective (Subgroup.center K)).nontrivial
     exact Group.IsPerfect.not_isNilpotent K hp.isNilpotent
   · exact h
@@ -47,7 +47,7 @@ theorem noCfgS429_psl2_char_three {F : Type} [Field F] [Finite F] [CharP F 3]
   intro A σ K hc
   have hZ := center_eq_bot_of_simple hs hna
   have h3 : σ ^ 3 = 1 := hc.isE27.1.2 σ hc.mem
-  haveI : Group.IsPerfect K := hc.isPerfect
+  have : Group.IsPerfect K := hc.isPerfect
   have hX : ¬ Nat.card K ∣ 12 := fun h =>
     not_isType429_of_card_dvd_twelve ((Subgroup.card_quotient_dvd_card _).trans h) hc.isType
   by_cases hin : IsInnerAut σ
@@ -84,7 +84,7 @@ theorem noCfgS429_psl2_char_three {F : Type} [Field F] [Finite F] [CharP F 3]
       apply Subtype.ext
       apply φ.injective
       simpa only [Subgroup.coe_mul, map_mul] using h
-    haveI : IsMulCommutative K := ⟨⟨hcomm⟩⟩
+    have : IsMulCommutative K := ⟨⟨hcomm⟩⟩
     exact hX (by rw [Nat.card_unique]; exact one_dvd _)
   ·
     set β := MulAut.congr φ σ with hβ

@@ -194,7 +194,7 @@ theorem isSylowOf_top_U (hS : SzR2 T₁ R₂ t d) (h : SzRCoords2 T₁ R₂ t a 
     sup_le (hTtU.trans hUS) (zpowers_le.mpr heS)
   have hQC : (T₁ ⊔ zpowers t) ⊔ zpowers (w⁻¹ * z) ≤ centralizer ({t} : Set G) :=
     sup_le hTt (zpowers_le.mpr he)
-  have h1 := card_le_of_isPGroup_of_le (S.isPGroup'.to_le hQS) hQC
+  have h1 := card_le_of_isPGroup_of_le (S.isPGroup.to_le hQS) hQC
   rw [← hTc] at h1
   have hQeq := Subgroup.eq_of_le_of_card_ge (le_sup_left : T₁ ⊔ zpowers t ≤ _) h1
   have heT : w⁻¹ * z ∈ T₁ ⊔ zpowers t := hQeq ▸ mem_sup_right (mem_zpowers _)

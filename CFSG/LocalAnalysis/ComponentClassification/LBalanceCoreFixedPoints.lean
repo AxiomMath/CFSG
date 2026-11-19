@@ -39,7 +39,7 @@ theorem exists_fixed_pElement {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p
   obtain ⟨b, hb, hb1⟩ :=
     hA.exists_fixed_point_of_prime_dvd_card_of_fixed_point S (P.dvd_card_of_dvd_card hdvd) hS1
   refine ⟨b, fun h => hb1 (Subtype.ext h.symm), congrArg Subtype.val (hb ⟨α, mem_zpowers α⟩), ?_⟩
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨b, b.2⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨b, b.2⟩
   exact ⟨k, congrArg Subtype.val hk⟩
 
 theorem exists_pElement_lift {G : Type*} [Group G] [Finite G] {N : Subgroup G} [N.Normal]

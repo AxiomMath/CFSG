@@ -22,13 +22,13 @@ theorem ggRCS_solvable_normal_le_center {Q : Type} [Group Q]
     htop | hcen
   · exfalso
     have htop' : Group.IsSolvable ↥(⊤ : Subgroup Q) := htop ▸ hs
-    haveI : Group.IsSolvable ↥(⊤ : Subgroup Q) := htop'
+    have : Group.IsSolvable ↥(⊤ : Subgroup Q) := htop'
     have hsol : Group.IsSolvable Q :=
       Group.isSolvable_of_surjective (f := (Subgroup.topEquiv (G := Q)).toMonoidHom)
         (Subgroup.topEquiv (G := Q)).surjective
-    haveI : Group.IsSolvable Q := hsol
-    haveI : Group.IsPerfect Q := ⟨hQ.1⟩
-    haveI : Nontrivial Q := CFSG.LocalCores.isQuasisimple_nontrivial hQn
+    have : Group.IsSolvable Q := hsol
+    have : Group.IsPerfect Q := ⟨hQ.1⟩
+    have : Nontrivial Q := CFSG.LocalCores.isQuasisimple_nontrivial hQn
     exact Group.IsPerfect.not_isSolvable Q hsol
   · exact hcen
 
@@ -69,8 +69,8 @@ theorem ggRCS_center_eq_bot_of_isSimpleGroup_of_isPerfect {Q : Type} [Group Q]
   · exfalso
     have hcomm : ∀ a b : Q, a * b = b * a := fun a b =>
       (Subgroup.mem_center_iff.mp (h ▸ Subgroup.mem_top a) b).symm
-    haveI : Group.IsSolvable Q := Group.isSolvable_of_comm hcomm
-    haveI : Group.IsPerfect Q := hQ
+    have : Group.IsSolvable Q := Group.isSolvable_of_comm hcomm
+    have : Group.IsPerfect Q := hQ
     exact Group.IsPerfect.not_isSolvable Q inferInstance
 
 theorem ggRCSImg_conj_eq {A : Type} [Group A] {H N : Subgroup A} {g : A}
@@ -148,7 +148,7 @@ theorem ggRCSconjAut_apply {A : Type} [Group A] {H : Subgroup A} {g : A}
     (hm : H.map (MulAut.conj g).toMonoidHom = H) (x : H) :
     ((ggRCSconjAut hm x : H) : A) = g * (x : A) * g⁻¹ := by
   simp only [ggRCSconjAut, MulEquiv.trans_apply, MulEquiv.subgroupCongr_apply,
-    Subgroup.equivMapOfInjective, MulAut.conj_apply]
+    Subgroup.equivMapOfInjective]
   rfl
 
 theorem ggRCSconjAut_inv_apply {A : Type} [Group A] {H : Subgroup A} {g : A}
@@ -259,7 +259,7 @@ theorem ggRCSSix_false_of_y {G : Type} [Group G] [Finite G] {p : ℕ}
   obtain ⟨σ, hσsurj, hσker, hσformula⟩ :=
     ggRCS_kv_sigma_bar_exists (G₀ := ggG0 p B x L D J) (r := r)
   have hσsol : Group.IsSolvable ↥σ.ker := by
-    haveI : Group.IsNilpotent ↥σ.ker := hσker.isNilpotent
+    have : Group.IsNilpotent ↥σ.ker := hσker.isNilpotent
     exact IsNilpotent.to_isSolvable
   have hD'compX : CFSG.Open.IsComponentOf ((D'.subgroupOf Y).map σ) ⊤ :=
     (ggRCS_component_map_solvable_ker σ hσsurj hσsol hD'compY).1
@@ -436,7 +436,7 @@ theorem ggRCSSix_false_of_y {G : Type} [Group G] [Finite G] {p : ℕ}
       ((σD.ker).equivMapOfInjective (Subgroup.inclusion hD'Y)
         (Subgroup.inclusion_injective hD'Y)).symm
   have hσDsol : Group.IsSolvable ↥σD.ker := by
-    haveI : Group.IsNilpotent ↥σD.ker := hσDker.isNilpotent
+    have : Group.IsNilpotent ↥σD.ker := hσDker.isNilpotent
     exact IsNilpotent.to_isSolvable
   have hstep3aux : ∀ d : ↥D', d⁻¹ * βD d ∈ Subgroup.center ↥D' := by
     intro d
@@ -473,7 +473,7 @@ theorem ggRCSSix_false_of_y {G : Type} [Group G] [Finite G] {p : ℕ}
         group
       rwa [hval] at hconj
     exact hconjmem
-  haveI : Group.IsPerfect ↥D' := ⟨hD'q.1⟩
+  have : Group.IsPerfect ↥D' := ⟨hD'q.1⟩
   have hβD : βD = 1 :=
     CFSG.ComponentClassification.CentralCover.eq_one_of_forall_inv_mul_mem_center βD hstep3aux
   have hstep3 : ∀ d ∈ D', ybar * d * ybar⁻¹ = d := by
@@ -507,13 +507,13 @@ theorem ggRCSSix_false_of_y {G : Type} [Group G] [Finite G] {p : ℕ}
       have hle : K ≤ Subgroup.centralizer (K.map (MulAut.conj ybar).toMonoidHom) :=
         Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcommK
       exact Subgroup.mem_centralizer_iff.mp (hle (hD'K ha)) b (hD'K' hb)
-    haveI : Group.IsPerfect ↥D' := ⟨hD'q.1⟩
+    have : Group.IsPerfect ↥D' := ⟨hD'q.1⟩
     have hD'perf : ⁅D', D'⁆ = D' := Subgroup.isPerfect_iff.mp inferInstance
     rw [hD'perf] at hself
-    haveI : Nontrivial ↥D' := nontrivial_of_open_isQuasisimple hD'q
+    have : Nontrivial ↥D' := nontrivial_of_open_isQuasisimple hD'q
     exact ((Subgroup.nontrivial_iff_ne_bot D').mp inferInstance) hself
   have hstep5 : K ≤ Subgroup.centralizer ({ybar} : Set (GGRCSNbar r)) := by
-    haveI hKperfect : Group.IsPerfect ↥K := hKcomp.1.1
+    have hKperfect : Group.IsPerfect ↥K := hKcomp.1.1
     let W := ggRCSWt V Eb K
     let πW : ↥(Eb ⊔ K) →* W :=
       QuotientGroup.mk' ((ggRCSU V Eb K).subgroupOf (Eb ⊔ K))
@@ -521,7 +521,7 @@ theorem ggRCSSix_false_of_y {G : Type} [Group G] [Finite G] {p : ℕ}
     have hDlmap'' : ((D'.subgroupOf (Eb ⊔ K)).map πW) = Cmap := hDlmap
     let Kbar : Subgroup W := (K.subgroupOf (Eb ⊔ K)).map πW
     let Fstar : Subgroup W := CFSG.generalizedFitting W
-    haveI : IsSimpleGroup ↥Fstar := hsimple
+    have : IsSimpleGroup ↥Fstar := hsimple
     have hπWsurj : Function.Surjective πW := QuotientGroup.mk'_surjective _
     have hKbar_normal : Kbar.Normal := by
       have hKn : (K.subgroupOf (Eb ⊔ K)).Normal := by
@@ -535,7 +535,7 @@ theorem ggRCSSix_false_of_y {G : Type} [Group G] [Finite G] {p : ℕ}
     have hπK_range : πK.range = Kbar := by
       rw [MonoidHom.range_comp, Subgroup.inclusion_range]
     have hKbar_perf : ⁅Kbar, Kbar⁆ = Kbar := by
-      haveI hKperfect : Group.IsPerfect ↥K := hKcomp.1.1
+      have hKperfect : Group.IsPerfect ↥K := hKcomp.1.1
       have hKperf : ⁅(⊤ : Subgroup ↥K), (⊤ : Subgroup ↥K)⁆ = ⊤ :=
         Group.IsPerfect.commutator_eq_top
       calc ⁅Kbar, Kbar⁆ = ⁅πK.range, πK.range⁆ := by rw [hπK_range]
@@ -586,7 +586,7 @@ theorem ggRCSSix_false_of_y {G : Type} [Group G] [Finite G] {p : ℕ}
           Subgroup.range_subtype] at h
         exact h
     have hFperf : Group.IsPerfect ↥Fstar := by
-      haveI : Group.IsPerfect ↥Kbar := Subgroup.isPerfect_iff.mpr hKbar_perf
+      have : Group.IsPerfect ↥Kbar := Subgroup.isPerfect_iff.mpr hKbar_perf
       rw [hKbar_eq_F] at this
       exact this
     have hFcenter : Subgroup.center ↥Fstar = ⊥ :=

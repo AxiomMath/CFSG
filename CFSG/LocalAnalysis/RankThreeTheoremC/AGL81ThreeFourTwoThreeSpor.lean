@@ -33,20 +33,20 @@ private theorem inf_centralizer_eq_bot_of_center {Y : Type*} [Group Y] {K : Subg
 
 private theorem center_eq_bot_of_mulEquiv {K X : Type*} [Group K] [Group X] [IsSimpleGroup X]
     (e : K ≃* X) (hnab : ∃ a b : X, a * b ≠ b * a) : center K = ⊥ := by
-  haveI : IsSimpleGroup K := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup K := MulEquiv.isSimpleGroup e
   obtain ⟨a, b, hab⟩ := hnab
   exact CFSG.ComponentClassification.Helpers.center_eq_bot K
     ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
 
 private theorem isSolvable_of_card_le_two {G : Type*} [Group G] [Finite G]
     (h : Nat.card G ≤ 2) : Group.IsSolvable G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpos : 0 < Nat.card G := Nat.card_pos
   have hp : IsPGroup 2 G := by
     rcases (by omega : Nat.card G = 2 ^ 0 ∨ Nat.card G = 2 ^ 1) with hc | hc
     · exact IsPGroup.of_card hc
     · exact IsPGroup.of_card hc
-  haveI := hp.isNilpotent
+  have := hp.isNilpotent
   infer_instance
 
 section M12
@@ -57,7 +57,7 @@ open CFSG.AGLEmbedding.KFactProofs.M12Cover CFSG.AGLEmbedding.KFactProofs.M12Z2
 theorem m12_isSolvable_of_sylow_le {L : Type} [Group L] [Finite L]
     (hL : Nonempty (L ≃* (TauCeti.CFSGIndex.sporadic .M12).Group)) (T : Sylow 3 L)
     (H : Subgroup L) (hTH : (T : Subgroup L) ≤ H) (hH : H ≠ ⊤) : Group.IsSolvable H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hL
   obtain ⟨eC⟩ := CFSG.Sporadic.Bridge.M12.nonempty_mulEquiv
   obtain ⟨Φ, hΦ⟩ := CFSG.LocalAnalysis.RankThreeTheoremC.exists_mulEquiv_map_eq_sylow
@@ -86,12 +86,12 @@ theorem m12_isSolvable_of_sylow_le {L : Type} [Group L] [Finite L]
     exact subset_closure (by simp))
   have hndvd : ∀ q : ℕ, q.Prime → (q = 5 ∨ q = 11) → ¬ q ∣ Nat.card H' := by
     intro q hq hq' hdvd
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' q hdvd
     refine hH'ne (eq_top_of_order hu hv x.2 ?_)
     rw [Subgroup.orderOf_coe, hx]
     exact hq'
-  haveI := isSolvable_of_not_dvd H' (hndvd 5 (by norm_num) (Or.inl rfl))
+  have := isSolvable_of_not_dvd H' (hndvd 5 (by norm_num) (Or.inl rfl))
     (hndvd 11 (by norm_num) (Or.inr rfl))
   exact Group.isSolvable_of_isSolvable_injective
     (f := (H.equivMapOfInjective Φ.symm.toMonoidHom Φ.symm.injective).toMonoidHom)
@@ -100,19 +100,19 @@ theorem m12_isSolvable_of_sylow_le {L : Type} [Group L] [Finite L]
 theorem threeFourTwoNoneAt_m12 :
     ThreeFourTwoNoneAt 3 (TauCeti.CFSGIndex.sporadic .M12).Group := by
   obtain ⟨eC⟩ := CFSG.Sporadic.Bridge.M12.nonempty_mulEquiv
-  haveI := CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
-  haveI hX : IsSimpleGroup (TauCeti.CFSGIndex.sporadic .M12).Group :=
+  have := CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
+  have hX : IsSimpleGroup (TauCeti.CFSGIndex.sporadic .M12).Group :=
     MulEquiv.isSimpleGroup eC.symm
   have hcard : Nat.card (TauCeti.CFSGIndex.sporadic .M12).Group = 95040 := by
     rw [← Nat.card_congr eC.toEquiv, CFSG.Sporadic.Mathieu.card_M12]
-  haveI := CFSG.Sporadic.Schreier.at_m12_schreier.2.2
+  have := CFSG.Sporadic.Schreier.at_m12_schreier.2.2
   refine threeFourTwoNoneAt_of_inf hX
     (exists_mul_ne_of_sq_dvd_card Nat.prime_three (by rw [hcard]; norm_num)
       (by rw [hcard]; norm_num))
     (CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv eC) ?_
   intro Y _ _ K Y₀ E R _ _ hKn hKX _ _ _ _ _ _ _ hRY₀ hKY₀
-  haveI := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact Or.inl (isSolvable_inf_of_forall_sylow_le R
     (fun T H hTH hH => m12_isSolvable_of_sylow_le hKX T H hTH hH) hRY₀ hKY₀)
 
@@ -127,7 +127,7 @@ private theorem isElemAbelian_of_forall_not_mem_normalizer {X : Type*} [Group X]
     IsElemAbelian p R := by
   have hnc : ¬ IsCyclic R := by
     intro hc
-    haveI := hc
+    have := hc
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := R) p
       (by rw [hR]; exact dvd_pow_self p two_ne_zero)
     set Y₀ : Subgroup X := zpowers (g : X) with hY₀
@@ -163,7 +163,7 @@ theorem m11_sylow_three_facts {K : Type} [Group K] [Finite K]
       (∀ H : Subgroup K, normalizer ((T : Subgroup K) : Set K) ≤ H →
         H = normalizer ((T : Subgroup K) : Set K) ∨ H = ⊤) ∧
       Group.IsSolvable (normalizer ((T : Subgroup K) : Set K)) ∧ Nat.card (Outer K) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hK
   obtain ⟨eC⟩ := CFSG.Sporadic.Bridge.M11.nonempty_mulEquiv
   let e' : K ≃* CFSG.Blueprint.NativeSporadic.M11 := e.trans eC.symm
@@ -182,10 +182,10 @@ theorem m11_sylow_three_facts {K : Type} [Group K] [Finite K]
 
 theorem threeFourTwoNoneAt_m11 :
     ThreeFourTwoNoneAt 3 (TauCeti.CFSGIndex.sporadic .M11).Group := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨eC⟩ := CFSG.Sporadic.Bridge.M11.nonempty_mulEquiv
-  haveI := CFSG.Sporadic.Mathieu.fam_m11_simplicity.2.2
-  haveI hX : IsSimpleGroup (TauCeti.CFSGIndex.sporadic .M11).Group :=
+  have := CFSG.Sporadic.Mathieu.fam_m11_simplicity.2.2
+  have hX : IsSimpleGroup (TauCeti.CFSGIndex.sporadic .M11).Group :=
     MulEquiv.isSimpleGroup eC.symm
   have hcard : Nat.card (TauCeti.CFSGIndex.sporadic .M11).Group = 7920 := by
     rw [← Nat.card_congr eC.toEquiv, CFSG.Sporadic.Mathieu.card_M11]
@@ -197,12 +197,12 @@ theorem threeFourTwoNoneAt_m11 :
       rw [← Nat.card_congr
         (CFSG.ComponentClassification.OuterAutomorphisms.equivalence eC).toEquiv]
       exact CFSG.AGLEmbeddingD2.card_outer_m11
-    haveI : Subsingleton (Outer (TauCeti.CFSGIndex.sporadic .M11).Group) :=
+    have : Subsingleton (Outer (TauCeti.CFSGIndex.sporadic .M11).Group) :=
       (Nat.card_eq_one_iff_unique.mp h1).1
     infer_instance
   refine threeFourTwoNoneAt_of_inf hX hnab hout ?_
   intro Y _ _ K Y₀ E R _ _ hKn hKX _ _ _ hER hE hEc hcore _ hKY₀
-  haveI := hKn
+  have := hKn
   obtain ⟨eK⟩ := hKX
   obtain ⟨T, hT⟩ := CFSG.QuasithinUnique.exists_sylow_map_eq_inf_of_normal R K
   obtain ⟨hTel, hTc, hmax, hsol, hO⟩ := m11_sylow_three_facts ⟨eK⟩ T
@@ -236,26 +236,26 @@ private theorem centerOf_eq_map_center {G : Type*} [Group G] (T : Subgroup G) :
 
 theorem threeFourTwoNoneAt_j3 :
     ThreeFourTwoNoneAt 3 (TauCeti.CFSGIndex.sporadic .J3).Group := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨β⟩ : Nonempty (CFSG.Blueprint.NativeSporadic.Carrier .J3 ≃*
       (TauCeti.CFSGIndex.sporadic .J3).Group) := CFSG.Sporadic.Bridge.J3.nonempty_mulEquiv
-  haveI := CFSG.Sporadic.J3.isSimpleGroup_J3
-  haveI hX : IsSimpleGroup (TauCeti.CFSGIndex.sporadic .J3).Group :=
+  have := CFSG.Sporadic.J3.isSimpleGroup_J3
+  have hX : IsSimpleGroup (TauCeti.CFSGIndex.sporadic .J3).Group :=
     MulEquiv.isSimpleGroup (H := CFSG.Blueprint.NativeSporadic.J3) β.symm
   have hcard : Nat.card (TauCeti.CFSGIndex.sporadic .J3).Group = 50232960 := by
     rw [← Nat.card_congr β.toEquiv]
     exact CFSG.Sporadic.J3.card_J3
-  haveI : Finite (TauCeti.CFSGIndex.sporadic .J3).Group :=
+  have : Finite (TauCeti.CFSGIndex.sporadic .J3).Group :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hOR := CFSG.AGLEmbedding.kFactJ3OuterRank_closed CFSG.Sporadic.Bridge.J3.nonempty_mulEquiv
   have hout : Group.IsSolvable (Outer (TauCeti.CFSGIndex.sporadic .J3).Group) := by
-    haveI : Finite (MulAut (TauCeti.CFSGIndex.sporadic .J3).Group) := MulEquiv.finite_left
+    have : Finite (MulAut (TauCeti.CFSGIndex.sporadic .J3).Group) := MulEquiv.finite_left
     exact isSolvable_of_card_le_two (hOR _ ⟨MulEquiv.refl _⟩).1
   refine threeFourTwoNoneAt_of_inf hX
     (exists_mul_ne_of_sq_dvd_card Nat.prime_three (by rw [hcard]; norm_num)
       (by rw [hcard]; norm_num)) hout ?_
   intro Y _ _ K Y₀ E R _ _ hKn hKX _ _ _ _ _ _ hcore _ hKY₀
-  haveI := hKn
+  have := hKn
   obtain ⟨T, hT⟩ := CFSG.QuasithinUnique.exists_sylow_map_eq_inf_of_normal R K
   have hF := CFSG.AGLEmbedding.kFactJ3Sylow K hKX T
   have hrk := (hOR K hKX).2
@@ -284,7 +284,7 @@ theorem threeFourTwoNoneAt_j3 :
   have hNX := normalizer_le_of_le_centralizer_of_three_le_pRank Nat.prime_three R hcore hXR hX2
     inf_le_left hSX hS3
   refine Or.inl (isSolvable_inf_of_normalizer_le T hF.maximal
-    (CFSG.AGLEmbedding.isSolvable_normalizer_of_facts T.isPGroup' hF) ?_ hKY₀)
+    (CFSG.AGLEmbedding.isSolvable_normalizer_of_facts T.isPGroup hF) ?_ hKY₀)
   have hNZ : normalizer ((T : Subgroup K) : Set K) ≤ normalizer (Z : Set K) := by
     rw [hZdef, centerOf_eq_map_center]
     exact CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic (center T)

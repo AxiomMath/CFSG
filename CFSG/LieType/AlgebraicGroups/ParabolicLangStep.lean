@@ -19,6 +19,7 @@ open scoped CFSG.ConvolutionPoints
 
 variable {k : Type} [Field k] (p : ℕ) [Fact p.Prime] [CharP k p] [PerfectRing k p] [IsAlgClosed k]
 
+omit [IsAlgClosed k] in
 theorem entrywiseFrobGL_mem_parabolicSubgroup {τ : Tag} (e : ℕ) (J : Set (Fin τ.rank))
     {g : ModGL τ k} (hg : g ∈ parabolicSubgroup τ k J) :
     entrywiseFrobGL τ k p e g ∈ parabolicSubgroup τ k J := by
@@ -64,6 +65,7 @@ private theorem orbitUnion_orbitIndex_image_eq {t : TwistTag} {J : Set (Fin t.ta
   · intro hi
     exact ⟨i, hi, rfl⟩
 
+omit [IsAlgClosed k] in
 theorem frobTwistGL_mem_parabolicSubgroup_diagram (t : TwistTag) (e : ℕ)
     {J : Set (Fin t.tag.rank)} (hJ : ∀ j ∈ J, t.perm j ∈ J) {g : ModGL t.tag k}
     (hg : g ∈ parabolicSubgroup t.tag k J) :
@@ -76,6 +78,7 @@ theorem frobTwistGL_mem_parabolicSubgroup_diagram (t : TwistTag) (e : ℕ)
   rw [hU] at h
   exact h ▸ Subgroup.mem_map_of_mem _ hg
 
+omit [PerfectRing k p] in
 theorem exists_frobTwistGL_fixed_mul_of_mem_normalizer_parabolic {τ : Tag} {e : ℕ} (he : 1 ≤ e)
     (Q : ModGL τ k) {J : Set (Fin τ.rank)}
     (hP : ∀ g ∈ parabolicSubgroup τ k J, frobTwistGL τ k p e Q g ∈ parabolicSubgroup τ k J)

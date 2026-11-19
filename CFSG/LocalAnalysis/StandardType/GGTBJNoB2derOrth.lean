@@ -55,7 +55,7 @@ private theorem a1o_cases_contra {R : Type} [Group R] [Finite R]
     (hlab : GGHasLabel (⟨.B2der, 0, 1⟩ : LargeEvenLabel)
       (↥J ⧸ Subgroup.center ↥J)) : False := by
   have hf1 : 1 ≤ f := hG.1.2.1
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJopen.2.2.2
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJopen.2.2.2
   rcases TCJ.tcjOrth_quotCenter_cases_of_component_conj_omega ht hG Nat.prime_three
       (by norm_num) a ha3 hJopen with
     ⟨b, k, E, hEf, hEfin, hb, hEcard, hfk, hφiso⟩ |
@@ -63,15 +63,15 @@ private theorem a1o_cases_contra {R : Type} [Group R] [Finite R]
     ⟨s, K', hK'f, hK'fin, hs, hK'card, hne, hφSp⟩ |
     ⟨s, hM | hM⟩
   ·
-    letI : Field E := hEf
-    letI : Finite E := hEfin
+    let : Field E := hEf
+    let : Finite E := hEfin
     obtain ⟨e⟩ := hφiso
     obtain ⟨hLC, hC⟩ :=
       S2MathAs51600RALabels.admissible_typeA_of_psl (Q := ↥J ⧸ Subgroup.center ↥J) hb hEcard e
     exact a1o_classical_label_not_b2der hRig hLC (Or.inl rfl) hC hlab
   ·
-    letI : Field E := hEf
-    letI : Finite E := hEfin
+    let : Field E := hEf
+    let : Finite E := hEfin
     obtain ⟨e⟩ := hψiso
     obtain ⟨labC, htagC, hLC, hC⟩ :=
       S2MathAs51600RALabels.admissible_label_of_heldSU_quot (Q := ↥J ⧸ Subgroup.center ↥J)
@@ -83,8 +83,8 @@ private theorem a1o_cases_contra {R : Type} [Group R] [Finite R]
       · exact Or.inr (Or.inl h)
     exact a1o_classical_label_not_b2der hRig hLC htagC' hC hlab
   ·
-    letI : Field K' := hK'f
-    letI : Finite K' := hK'fin
+    let : Field K' := hK'f
+    let : Finite K' := hK'fin
     obtain ⟨e⟩ := hφSp
     have h22 : (s, 2 ^ f) ≠ (2, 2) := by
       intro hpair
@@ -134,19 +134,19 @@ theorem omegaPlusNoB2der_recipe
     LargeEvenRecipeOmegaPlus m (2 ^ n) fun R _ I F => Q R I F ∧ NoB2derProp R I F := by
   unfold LargeEvenRecipeOmegaPlus at hQ
   obtain ⟨K, hKf, hKfin, hcard, hQK⟩ := hQ
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   refine ⟨K, hKf, hKfin, hcard, hQK, ?_⟩
   have hRig : GGLabelRigidInput := ggLabelRigidInput_holds
   intro φ hφ1 hφ3 hφI J hJ hlab
   simp only [LargeEvenInnSet, Set.mem_range] at hφI
   obtain ⟨a, rfl⟩ := hφI
-  haveI : Finite (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) :=
+  have : Finite (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) :=
     TCJ.tcjDatum_finite_proj (LargeEvenOmega (LargeEvenQPlus K m))
   have hG : CFSG.Open.StatedClassicalModel
       (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) .POmegaPlus m 2 n :=
     statedClassicalModel_omegaPlus m n hcard ⟨Nat.prime_two, hn, hm⟩
-  haveI : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) :=
+  have : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) :=
     (CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_of_statedClassicalModel_POmegaPlus _ m 2 n hG).2
   have hna : ∃ x y : LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m)), x * y ≠ y * x :=
     a1o_exists_noncomm_of_component hJ.2.2
@@ -165,19 +165,19 @@ theorem omegaMinusNoB2der_recipe
     LargeEvenRecipeOmegaMinus m (2 ^ n) fun R _ I F => Q R I F ∧ NoB2derProp R I F := by
   unfold LargeEvenRecipeOmegaMinus at hQ
   obtain ⟨K, hKf, hKfin, hcard, b, c, hbc, hQK⟩ := hQ
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   refine ⟨K, hKf, hKfin, hcard, b, c, hbc, hQK, ?_⟩
   have hRig : GGLabelRigidInput := ggLabelRigidInput_holds
   intro φ hφ1 hφ3 hφI J hJ hlab
   simp only [LargeEvenInnSet, Set.mem_range] at hφI
   obtain ⟨a, rfl⟩ := hφI
-  haveI : Finite (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) :=
+  have : Finite (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) :=
     TCJ.tcjDatum_finite_proj (LargeEvenOmega (LargeEvenQMinus m b c))
   have hG : CFSG.Open.StatedClassicalModel
       (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) .POmegaMinus (m + 1) 2 n :=
     statedClassicalModel_omegaMinus (m + 1) n hcard b c hbc ⟨Nat.prime_two, hn, by omega⟩
-  haveI : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) :=
+  have : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) :=
     (CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_of_statedClassicalModel_POmegaMinus _
       (m + 1) 2 n hG).2
   have hna : ∃ x y : LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c)), x * y ≠ y * x :=
@@ -218,7 +218,7 @@ theorem orthNoB2derInput_holds :
       rw [hq] at hQ ⊢
       exact linNoB2der_recipe (d := 2) (n := 2 * n) (by omega) (by omega) (fun _ => by omega) hQ
     · by_cases h3 : rank = 3
-      · simp only [h2, h3, ↓reduceIte] at hQ ⊢
+      · simp only [h3, ↓reduceIte] at hQ ⊢
         exact uniNoB2der_recipe (d := 4) (n := n) (by omega) h.1 (fun h4 => by omega) hQ
       · simp only [h2, h3, ↓reduceIte] at hQ ⊢
         exact omegaMinusNoB2der_recipe (m := rank - 1) (n := n) (by omega) h.1 hQ

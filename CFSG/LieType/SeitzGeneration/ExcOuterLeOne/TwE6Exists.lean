@@ -41,6 +41,7 @@ theorem twPair_le {σ η : K ≃+* K} {M : Subgroup ↥(twistedE6RootGroup K σ)
   · exact hRM hx
   · exact M.mul_mem (M.mul_mem hg (hRM hy)) (M.inv_mem hg)
 
+omit [Finite K] in
 private theorem twE6X1_P_apply_labelPerm (v : RootModule TwistTag.E6.tag K) (a : Label TwistTag.E6.tag) :
     (diagramMap TwistTag.E6 K : Module.End K (RootModule TwistTag.E6.tag K)) v
       (labelPerm TwistTag.E6.perm TwistTag.E6.cartan_perm a) = v a := by
@@ -48,6 +49,7 @@ private theorem twE6X1_P_apply_labelPerm (v : RootModule TwistTag.E6.tag K) (a :
       (labelPerm TwistTag.E6.perm TwistTag.E6.cartan_perm a) = v a
   rw [Finsupp.equivMapDomain_apply, Equiv.symm_apply_apply]
 
+omit [Finite K] in
 private theorem twE6X1_P_single (b : Label TwistTag.E6.tag) :
     (diagramMap TwistTag.E6 K : Module.End K (RootModule TwistTag.E6.tag K)) (Finsupp.single b 1) =
       Finsupp.single (labelPerm TwistTag.E6.perm TwistTag.E6.cartan_perm b) 1 :=
@@ -71,6 +73,7 @@ private theorem twE6X1_labelPerm_negLabel {θ : Fin Tag.E6.rank → ℤ} (hθ : 
   show permLattice TwistTag.E6.perm (-θ) = -θ
   exact (permLattice_neg TwistTag.E6.perm θ).trans (congrArg Neg.neg (isMaxHeightRoot_perm_fixed hθ))
 
+omit [Finite K] in
 private theorem twE6X1_core (σ : K ≃+* K) (A : Module.End K (RootModule TwistTag.E6.tag K))
     (hcomm : (diagramMap TwistTag.E6 K : Module.End K (RootModule TwistTag.E6.tag K)) *
         entrywise σ.toRingHom A =
@@ -87,6 +90,7 @@ private theorem twE6X1_core (σ : K ≃+* K) (A : Module.End K (RootModule Twist
   rw [entrywise_single, Finsupp.mapRange_apply] at h3
   exact h3.symm
 
+omit [Finite K] in
 theorem twE6_entry_mem_fixSubfield {θ : Fin Tag.E6.rank → ℤ} (hθ : IsMaxHeightRoot Tag.E6 θ)
     (g : ↥(twistedE6RootGroup K σ)) :
     entry (twIncl σ g) (negLabel hθ.1) (rootLabel hθ.1) ∈ fixSubfield σ := by
@@ -116,13 +120,15 @@ theorem twE6_entry_mem_fixSubfield {θ : Fin Tag.E6.rank → ℤ} (hθ : IsMaxHe
   exact twE6X1_core σ _ hcomm (rootLabel (τ := TwistTag.E6.tag) hθ.1)
     (negLabel (τ := TwistTag.E6.tag) hθ.1) hb ha
 
+omit [Finite K] in
 private theorem twE6X2_ringChar_fixSubfield (σ : K ≃+* K) :
     ringChar ↥(fixSubfield σ) = ringChar K := by
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : CharP ↥(fixSubfield σ) (ringChar K) :=
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : CharP ↥(fixSubfield σ) (ringChar K) :=
     ((fixSubfield σ).subtype.charP_iff Subtype.val_injective _).2 inferInstance
   exact ringChar.eq _ _
 
+omit [Finite K] in
 private theorem twE6X2_map_u2 (c : ↥(fixSubfield σ)) :
     Matrix.SpecialLinearGroup.map (fixSubfield σ).subtype (u2 c) = u2 (c : K) := by
   refine Subtype.ext ?_
@@ -130,6 +136,7 @@ private theorem twE6X2_map_u2 (c : ↥(fixSubfield σ)) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [RingHom.mapMatrix_apply]
 
+omit [Finite K] in
 private theorem twE6X2_map_l2 (c : ↥(fixSubfield σ)) :
     Matrix.SpecialLinearGroup.map (fixSubfield σ).subtype (l2 c) = l2 (c : K) := by
   refine Subtype.ext ?_
@@ -250,10 +257,12 @@ private noncomputable def twE6F (σ : K ≃+* K) :
     (adjointGroup Tag.E6 K)
     (fun g => twistHom_mem_adjointGroup TwistTag.E6 K σ.toRingHom g.2)
 
+omit [Finite K] in
 private theorem coe_twE6F (σ : K ≃+* K) (g : ↥(adjointGroup Tag.E6 K)) :
     ((twE6F σ g : ↥(adjointGroup Tag.E6 K)) : ModGL Tag.E6 K) =
       twistHom TwistTag.E6 K σ.toRingHom (g : ModGL Tag.E6 K) := rfl
 
+omit [Finite K] in
 private theorem twE6F_twIncl (σ : K ≃+* K) (g : ↥(twistedE6RootGroup K σ)) :
     twE6F σ (twIncl σ g) = twIncl σ g := by
   apply Subtype.ext
@@ -271,6 +280,7 @@ private theorem twE6BC_eq_hiRoot {θ : Fin Tag.E6.rank → ℤ} (hθ : IsMaxHeig
     decide +kernel
   exact key θ (mem_rootFinset.2 hθ.1) hh
 
+omit [Finite K] in
 private theorem twE6BC_coe_xE6 {γ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.E6 γ) (c : K) :
     ((xE6 γ c : ↥(adjointGroup Tag.E6 K)) : ModGL Tag.E6 K) =
       pinnedX Tag.E6 K γ (((rootOperatorFamily Tag.E6).pinnedFamilySign γ : K) * c) := by
@@ -278,6 +288,7 @@ private theorem twE6BC_coe_xE6 {γ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.
   rw [(rootOperatorFamily Tag.E6).pinnedX_eq_eltUnit K hγ, ← mul_assoc, hss, one_mul, xE6,
     xPar_of_isRoot hγ, (rootOperatorFamily Tag.E6).coe_eltElement]
 
+omit [Finite K] in
 private theorem twE6F_xE6 (σ : K ≃+* K) {γ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.E6 γ) :
     ∃ ε : K, ε * ε = 1 ∧ ∀ c : K,
       twE6F σ (xE6 γ c) = xE6 (permLattice TwistTag.E6.perm γ) (ε * σ c) := by
@@ -310,6 +321,7 @@ private theorem twE6F_xE6 (σ : K ≃+* K) {γ : Fin Tag.E6.rank → ℤ} (hγ :
     rw [map_mul, hσs]
     linear_combination (-(ε₀ * s * σ c)) * hs'
 
+omit [Finite K] in
 private theorem twE6_exists_weyl_commute {q : ↥(adjointGroup Tag.E6 K)}
     (hq : ∀ a : K, q * xE6 (hiRoot Tag.E6) a = xE6 (hiRoot Tag.E6) a * q) {m : K} (hm : m ≠ 0)
     (h : q * xE6 (-hiRoot Tag.E6) m = xE6 (-hiRoot Tag.E6) m * q) :
@@ -353,7 +365,6 @@ private theorem twE6_exists_weyl_commute {q : ↥(adjointGroup Tag.E6 K)}
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
     fin_cases i <;> fin_cases j <;>
       simp [nSL, uSL, vSL, Matrix.mul_apply, Fin.sum_univ_two]
-    all_goals field_simp
   have hu : ∀ z : K, Commute (q : ModGL Tag.E6 K) (rootSL2 Tag.E6 K (hiRoot Tag.E6) (uSL z)) := by
     intro z
     rw [rootSL2_uSL_eq]
@@ -367,6 +378,7 @@ private theorem twE6_exists_weyl_commute {q : ↥(adjointGroup Tag.E6 K)}
     exact ((hu _).mul_right hvv).mul_right (hu _)
   exact hcomm.symm.eq
 
+omit [Finite K] in
 private theorem twE6_conj_Q_mem_negUnipotent {n : ModGL Tag.E6 K}
     (hn : n ∈ monomialSubgroup Tag.E6 K)
     (hπ : weylQuotientHom Tag.E6 K ⟨n, hn⟩ = rootReflection (hiRoot Tag.E6))
@@ -401,6 +413,7 @@ private theorem twE6_conj_Q_mem_negUnipotent {n : ModGL Tag.E6 K}
     rw [e]
     exact inv_mem hx
 
+omit [Finite K] in
 private theorem twE6_Q_le_posUnipotent {q : ↥(adjointGroup Tag.E6 K)} (hq : q ∈ Qgrp Tag.E6 K) :
     (q : ModGL Tag.E6 K) ∈ posUnipotent Tag.E6 K := by
   have hlvl : ∀ γ ∈ rootFinset Tag.E6, 0 < lvl Tag.E6 γ → 0 < height γ := by decide +kernel
@@ -415,6 +428,7 @@ private theorem twE6_Q_le_posUnipotent {q : ↥(adjointGroup Tag.E6 K)} (hq : q 
   | mul x y _ _ hx hy => exact mul_mem hx hy
   | inv x _ hx => exact inv_mem hx
 
+omit [Finite K] in
 private theorem twE6_Q_rigid {q : ↥(adjointGroup Tag.E6 K)} (hq : q ∈ Qgrp Tag.E6 K) {m : K}
     (hm : m ≠ 0) (h : q * xE6 (-hiRoot Tag.E6) m = xE6 (-hiRoot Tag.E6) m * q) : q = 1 := by
   obtain ⟨n, hn, hπ, hcomm⟩ := twE6_exists_weyl_commute
@@ -428,6 +442,7 @@ private theorem twE6_Q_rigid {q : ↥(adjointGroup Tag.E6 K)} (hq : q ∈ Qgrp T
   rw [posUnipotent_inf_negUnipotent, Subgroup.mem_bot] at h3
   exact Subtype.ext h3
 
+omit [Finite K] in
 private theorem twE6_Q_fixed_mem_range (σ : K ≃+* K) {q : ↥(adjointGroup Tag.E6 K)}
     (hq : q ∈ Qgrp Tag.E6 K) (hF : twE6F σ q = q) :
     ∃ x : ↥(twistedE6RootGroup K σ), twIncl σ x = q := by
@@ -445,6 +460,7 @@ private theorem twE6_lvl_permLattice (γ : Fin Tag.E6.rank → ℤ) :
   show γ (TwistTag.E6.perm.symm (gradNode Tag.E6)) = γ (gradNode Tag.E6)
   congr 1
 
+omit [Finite K] in
 private theorem twE6F_mem_Qgrp (σ : K ≃+* K) {q : ↥(adjointGroup Tag.E6 K)}
     (hq : q ∈ Qgrp Tag.E6 K) : twE6F σ q ∈ Qgrp Tag.E6 K := by
   induction hq using Subgroup.closure_induction with
@@ -458,12 +474,14 @@ private theorem twE6F_mem_Qgrp (σ : K ≃+* K) {q : ↥(adjointGroup Tag.E6 K)}
   | mul x y _ _ hx hy => rw [map_mul]; exact mul_mem hx hy
   | inv x _ hx => rw [map_inv]; exact inv_mem hx
 
+omit [Finite K] in
 private theorem twE6F_xE6_of_fixed (σ : K ≃+* K) {γ : Fin Tag.E6.rank → ℤ} (hγ : IsRoot Tag.E6 γ)
     (hρ : permLattice TwistTag.E6.perm γ = γ) {c : K} (hc : σ c = c) :
     twE6F σ (xE6 γ c) = xE6 γ c := by
   obtain ⟨x, hx⟩ := xPar_fixed_mem_twIncl_range σ hγ hρ hc
   rw [← hx, twE6F_twIncl]
 
+omit [Finite K] in
 private theorem twE6F_xE6_hiRoot (σ : K ≃+* K) (c : K) :
     twE6F σ (xE6 (hiRoot Tag.E6) c) = xE6 (hiRoot Tag.E6) (σ c) := by
   have hmax := hiRoot_isMax (τ := Tag.E6) (Or.inr (Or.inl rfl))
@@ -480,7 +498,7 @@ private theorem twE6F_xE6_hiRoot (σ : K ≃+* K) (c : K) :
   have hε1 : ε = 1 := xPar_injective hmax.1 h1
   rw [h' c, hε1, one_mul]
 
-theorem twE6_bigCell_Q (hS : TwE6Setup K σ η p) {θ : Fin Tag.E6.rank → ℤ}
+theorem twE6_bigCell_Q (_hS : TwE6Setup K σ η p) {θ : Fin Tag.E6.rank → ℤ}
     (hθ : IsMaxHeightRoot Tag.E6 θ) (g : ↥(twistedE6RootGroup K σ))
     (hlam : entry (twIncl σ g) (negLabel hθ.1) (rootLabel hθ.1) ≠ 0) :
     ∃ (q : ↥(twistedE6RootGroup K σ)) (ε : ℤ), (ε = 1 ∨ ε = -1) ∧
@@ -577,7 +595,7 @@ private theorem twE6X4a_perm_delta2 :
 private theorem twE6X4a_charP_two (F : Type) [Field F] [Finite F] (h : Nat.card F = 2) :
     CharP F 2 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨p, hc, n, hp, hn⟩ := FiniteField.card' F
   have hdvd : p ∣ 2 := by
     rw [← h, Nat.card_eq_fintype_card, hn]
@@ -770,9 +788,10 @@ theorem exists_irrational_longRootElt_twE6_of_two (hS : TwE6Setup K σ η p)
   exact twE6_irrational_of_bigCell_two hS hθ hk2 (twPair σ η (r * g * r')) (twR_le_twPair σ η _)
     (r * g * r') q ε hε hq1 hq2 hq3 (fun x hx => conj_mem_twPair σ η (r * g * r') hx) hbad
 
+omit [Finite K] in
 theorem ringChar_fixSubfield (σ : K ≃+* K) : ringChar ↥(fixSubfield σ) = ringChar K := by
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : CharP ↥(fixSubfield σ) (ringChar K) :=
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : CharP ↥(fixSubfield σ) (ringChar K) :=
     ((fixSubfield σ).subtype.charP_iff Subtype.val_injective _).2 inferInstance
   exact ringChar.eq _ _
 

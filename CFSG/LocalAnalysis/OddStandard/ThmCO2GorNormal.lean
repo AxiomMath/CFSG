@@ -86,7 +86,7 @@ theorem sylow_le_of_normalizedBy (hO : pPrimeCore 2 Q = ⊥) (hP : pCore 2 Q = �
     have hNR : N ≤ (R : Subgroup Q) := by
       rw [hO1, bot_sup_eq] at hNOR
       exact hNOR
-    have hN2 : IsPGroup 2 N := R.isPGroup'.to_le hNR
+    have hN2 : IsPGroup 2 N := R.isPGroup.to_le hNR
     exact absurd (eq_bot_of_two hP hM hNM hMN hN2) hN
 
 omit [Finite Q] in
@@ -190,7 +190,7 @@ theorem normalClosure_simple (hO : pPrimeCore 2 Q = ⊥) (hP : pCore 2 Q = ⊥) 
       rw [Subgroup.mem_centralizer_iff]
       intro s hs
       exact congrArg Subtype.val (hcomm' ⟨s, hRM hs⟩ ⟨m, hm⟩)
-    exact hR1 (eq_bot_of_two hP hM hRM hMR R.isPGroup')
+    exact hR1 (eq_bot_of_two hP hM hRM hMR R.isPGroup)
 
 end Local
 

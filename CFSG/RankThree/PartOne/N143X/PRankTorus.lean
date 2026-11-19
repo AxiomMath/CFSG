@@ -12,7 +12,7 @@ theorem exists_conj_map_le_of_not_dvd_index' {G : Type*} [Group G] [Finite G] {p
     ∃ g : G, P.map (MulAut.conj g).toMonoidHom ≤ H := by
   obtain ⟨S₀⟩ : Nonempty (Sylow p H) := inferInstance
   set S := (S₀ : Subgroup H).map H.subtype
-  have hS : IsPGroup p S := S₀.isPGroup'.map H.subtype
+  have hS : IsPGroup p S := S₀.isPGroup.map H.subtype
   have hSi : ¬ p ∣ S.index := by
     rw [Subgroup.index_map_subtype]
     exact fun h => ((Fact.out : p.Prime).dvd_mul.1 h).elim S₀.not_dvd_index hH

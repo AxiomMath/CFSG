@@ -46,10 +46,10 @@ theorem deq2_le_of_central_quotient {G : Type*} [Group G] [Finite G] {B Q X : Su
     obtain ⟨q, hq, rfl⟩ := Subgroup.mem_map.mp hv
     obtain ⟨g, rfl⟩ := hπ g
     exact (hcent g q hq).symm
-  haveI hVn : V.Normal := ⟨fun n hn g => by
+  have hVn : V.Normal := ⟨fun n hn g => by
     rw [← hVc n hn g, mul_assoc, mul_inv_cancel, mul_one]
     exact hn⟩
-  haveI hVc' : IsMulCommutative V := ⟨⟨fun a b => Subtype.ext (hVc a.1 a.2 b.1)⟩⟩
+  have hVc' : IsMulCommutative V := ⟨⟨fun a b => Subtype.ext (hVc a.1 a.2 b.1)⟩⟩
   have hV2 : IsPGroup 2 V := hQ2.map π
   let P' : Sylow 2 (G ⧸ B) := S.mapSurjective hπ
   have hP' : (P' : Subgroup (G ⧸ B)) = (S : Subgroup G).map π := Sylow.coe_mapSurjective hπ S
@@ -152,14 +152,14 @@ theorem deq2_no_quotient_split {G : Type} [Group G] [Finite G]
   have hPD : D.subgroupOf N ≤ (P : Subgroup N) := hDN2.le_sylow_of_normal P
   have hPidx := Subgroup.card_mul_index (H := (P : Subgroup N))
   have hPcard : Nat.card (P : Subgroup N) = 64 := by
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 P.isPGroup'
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 P.isPGroup
     have hodd : ¬ 2 ∣ (P : Subgroup N).index := Sylow.not_dvd_index P
     rw [hn, hN] at hPidx
     have hdvd : 2 ^ n ∣ 192 := ⟨_, hPidx.symm⟩
     have hle : 2 ^ n ≤ 192 := Nat.le_of_dvd (by norm_num) hdvd
     have hn7 : n < 8 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have : 2 ^ 8 ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hcon
       norm_num at this
       omega
@@ -223,6 +223,7 @@ section Helpers
 
 variable {Ω : Set (Subgroup G)}
 
+omit [Finite G] in
 private theorem deq2_twinSet_eq {K J : Subgroup G} (hJ : J ∈ twinSet Ω K) :
     twinSet Ω J = twinSet Ω K := by
   obtain ⟨_, z, hKz, hJz⟩ := hJ
@@ -242,6 +243,7 @@ private theorem deq2_twinSet_eq_pair {K J : Subgroup G} (h2 : (twinSet Ω K).nca
     (Set.insert_subset hK (Set.singleton_subset_iff.mpr hJ))
     (le_of_eq (by rw [h2, Set.ncard_pair hne.symm]))).symm
 
+omit [Finite G] in
 private theorem deq2_exists_other {K : Subgroup G} (h2 : (twinSet Ω K).ncard = 2)
     (hK : K ∈ twinSet Ω K) : ∃ J ∈ twinSet Ω K, J ≠ K := by
   obtain ⟨a, b, hab, hS⟩ := Set.ncard_eq_two.mp h2
@@ -250,6 +252,7 @@ private theorem deq2_exists_other {K : Subgroup G} (h2 : (twinSet Ω K).ncard = 
   · exact ⟨b, by simp, hab.symm⟩
   · exact ⟨a, by simp, hab⟩
 
+omit [Finite G] in
 private theorem deq2_conjSub_mem_twinSet {L J : Subgroup G} {z x : G}
     (hΩ : ConjInvariant Ω) (hz : IsUniqueInvolution L z) (hxz : x * z = z * x)
     (hJ : J ∈ twinSet Ω L) : conjSub x J ∈ twinSet Ω L := by
@@ -261,6 +264,7 @@ private theorem deq2_conjSub_mem_twinSet {L J : Subgroup G} {z x : G}
   rw [hxzx] at hc
   exact ⟨hΩ x J hJΩ, z, hz, hc⟩
 
+omit [Finite G] in
 private theorem deq2_eq_one_or_eq_of_mem_zpowers {z x : G} (hz : z * z = 1) (hz1 : z ≠ 1)
     (hx : x ∈ Subgroup.zpowers z) : x = 1 ∨ x = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -279,35 +283,42 @@ private theorem deq2_eq_one_or_eq_of_mem_zpowers {z x : G} (hz : z * z = 1) (hz1
     rw [h1']
     exact zpow_one z
 
+omit [Finite G] in
 private theorem deq2_exists_q8 {L : Subgroup G} {z : G} (hz : IsUniqueInvolution L z)
     (hQ : IsQuatSub L) (hL8 : Nat.card L = 8) : ∃ i j : G, Q8Data L z i j := by
   obtain ⟨i, j, hi, hj, hii, hjj, hji, hNF⟩ := exists_q8_gen hz hQ hL8
   exact ⟨i, j, ⟨hz, hi, hj, hii, hjj, hji, hNF⟩⟩
 
+omit [Finite G] in
 private theorem deq2_flipVal_eq_zero_iff {K : Subgroup G} {q : G} :
     flipVal K q = 0 ↔ conjSub q K = K := by
   unfold flipVal
   by_cases hq : conjSub q K = K <;> simp [hq]
 
+omit [Finite G] in
 private theorem deq2_flipVal_eq_one_iff {K : Subgroup G} {q : G} :
     flipVal K q = 1 ↔ conjSub q K ≠ K := by
   unfold flipVal
   by_cases hq : conjSub q K = K <;> simp [hq]
 
+omit [Finite G] in
 private theorem deq2_flipVal_cases (K : Subgroup G) (q : G) :
     flipVal K q = 0 ∨ flipVal K q = 1 := by
   unfold flipVal
   by_cases hq : conjSub q K = K <;> simp [hq]
 
+omit [Finite G] in
 private theorem deq2_flipVal_of_eq {K : Subgroup G} {q q' : G}
     (h : conjSub q K = conjSub q' K) : flipVal K q = flipVal K q' := by
   unfold flipVal
   rw [h]
 
+omit [Finite G] in
 private theorem deq2_conjSub_conj (g q : G) (K : Subgroup G) :
     conjSub (g * q * g⁻¹) (conjSub g K) = conjSub g (conjSub q K) := by
   rw [conjSub_mul, conjSub_mul, conjSub_inv_conjSub]
 
+omit [Finite G] in
 private theorem deq2_mul_eq_one_iff {z a b : G} (hz2 : z * z = 1) (hz1 : z ≠ 1)
     (ha : a = 1 ∨ a = z) (hb : b = 1 ∨ b = z) : b * a = 1 ↔ b = a := by
   rcases ha with ha | ha <;> rcases hb with hb | hb <;> rw [ha, hb]
@@ -316,17 +327,19 @@ private theorem deq2_mul_eq_one_iff {z a b : G} (hz2 : z * z = 1) (hz1 : z ≠ 1
   · simp [hz1, hz1.symm]
   · simp [hz2]
 
+omit [Finite G] in
 private theorem deq2_dComm_involution_one {L : Subgroup G} {z : G}
     (hz : IsUniqueInvolution L z) {w : G} (hw : w ∈ L) : dComm z w = 1 := by
   have hc := conj_of_mem_mem hz hw (Or.inr rfl)
   exact dComm_eq_one_iff.mpr (mul_inv_eq_iff_eq_mul.mp hc).symm
 
+omit [Finite G] in
 private theorem deq2_seven_orbit {α : Type} [MulAction G α] [Finite α] (hα : Nat.card α = 8)
     {g : G} (hg : orderOf g = 7) {x₁ : α} (hfix : ∀ y : α, g • y = y → y = x₁)
     (hx₁ : g • x₁ = x₁) {z y : α} (hz : z ≠ x₁) (hy : y ≠ x₁) :
     ∃ k : ℕ, (g ^ k) • z = y := by
   classical
-  haveI := Fintype.ofFinite α
+  have := Fintype.ofFinite α
   have hg7 : g ^ 7 = 1 := by rw [← hg]; exact pow_orderOf_eq_one g
   have hpowmod : ∀ k : ℕ, g ^ k = g ^ (k % 7) := by
     intro k
@@ -481,13 +494,13 @@ private theorem deq2_eq_one_of_odd_mem_centralizer {x : G}
 
 private theorem deq2_isPGroup_centralizer :
     IsPGroup 2 (Subgroup.centralizer (zGroup Ω : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [IsPGroup.iff_card]
   rcases Nat.eq_two_pow_or_exists_odd_prime_and_dvd
       (Nat.card (Subgroup.centralizer (zGroup Ω : Set G))) with hpow | ⟨p, hp, hdvd, hodd⟩
   · exact hpow
   · exfalso
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' p hdvd
     have hord : orderOf (c : G) = p := (Subgroup.orderOf_coe c).trans hc
     obtain ⟨m, hm⟩ := hodd
@@ -583,7 +596,8 @@ theorem flipVal_mul {K : Subgroup G} (hK : K ∈ Ω) {q q' : G} (hq : q ∈ pCor
       rw [e0]
       decide
 
-theorem flipVal_conj {K : Subgroup G} (hK : K ∈ Ω) (g : G) {q : G} (hq : q ∈ pCore 2 G) :
+omit h [Finite G] in
+theorem flipVal_conj {K : Subgroup G} (_hK : K ∈ Ω) (g : G) {q : G} (_hq : q ∈ pCore 2 G) :
     flipVal (conjSub g K) (g * q * g⁻¹) = flipVal K q := by
   by_cases hqK : conjSub q K = K
   · rw [deq2_flipVal_eq_zero_iff.mpr hqK]
@@ -601,7 +615,7 @@ theorem exists_flip {K : Subgroup G} (hK : K ∈ Ω) : ∃ q ∈ pCore 2 G, flip
   obtain ⟨J, hJ, hJne⟩ := deq2_exists_other (h.twin2 K hK) hKS
   obtain ⟨g, hgC, hgJ⟩ := h.exists_swap_of_mem_twinSet hK hJ hu
   rw [h.centralizer_eq_sup hK hu] at hgC
-  haveI : (Subgroup.centralizer (zGroup Ω : Set G)).Normal := h.centralizer_zGroup_normal
+  have : (Subgroup.centralizer (zGroup Ω : Set G)).Normal := h.centralizer_zGroup_normal
   obtain ⟨n, hn, c, hc, hnc⟩ := Subgroup.mem_sup_of_normal_right.mp hgC
   have hcp : c ∈ pCore 2 G := by
     rw [← h.centralizer_zGroup_eq_pCore]
@@ -716,7 +730,7 @@ theorem ncard_centralized_coset {f : G} (hf : f ∈ pCore 2 G) (hfN : ∀ L ∈ 
         (hc y hy)
   have hS : {d : G | d ∈ zGroup Ω ∧ ∀ y ∈ L, (f * d) * y = y * (f * d)} = {d₀, z * d₀} := by
     ext d
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨hd, hc⟩
       have hP := (hkey d hd).mp hc
@@ -797,7 +811,7 @@ private theorem deq2_fixed_free {g : G} (hg7 : orderOf g = 7) {δ : G} (hδ : δ
       (Subgroup.centralizer ({δ} : Set G)) = 24 := by omega
   set H := Subgroup.centralizer (zGroup Ω : Set G) with hH
   set K := Subgroup.centralizer ({δ} : Set G) with hK
-  haveI : H.Normal := h.centralizer_zGroup_normal
+  have : H.Normal := h.centralizer_zGroup_normal
   let x : K := ⟨g, hgC⟩
   have hx7 : x ^ 7 = 1 := by
     apply Subtype.ext
@@ -828,7 +842,7 @@ private theorem deq2_fixed_free {g : G} (hg7 : orderOf g = 7) {δ : G} (hδ : δ
   norm_num at this
 
 private theorem deq2_exists_order_seven : ∃ g : G, orderOf g = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   apply exists_prime_orderOf_dvd_card' 7
   have h1 := Subgroup.card_mul_index (Subgroup.centralizer (zGroup Ω : Set G))
   rw [h.index_centralizer_zGroup] at h1
@@ -851,7 +865,7 @@ theorem exists_conj_coset_eq {f : G} (hf : f ∈ pCore 2 G) (hfN : ∀ L ∈ Ω,
     calc g * (f * e) * g⁻¹ = (g * f * g⁻¹) * (g * e * g⁻¹) := by group
       _ = f * c * (g * e * g⁻¹) := by rw [hgc]
       _ = f * (c * (g * e * g⁻¹)) := by group
-  letI act : MulAction G X :=
+  let act : MulAction G X :=
     { smul := fun g x => ⟨g * x * g⁻¹, hXc g x x.2⟩
       one_smul := fun x => Subtype.ext (by show (1 : G) * x.1 * (1 : G)⁻¹ = x.1; group)
       mul_smul := fun a b x => Subtype.ext (by
@@ -866,7 +880,7 @@ theorem exists_conj_coset_eq {f : G} (hf : f ∈ pCore 2 G) (hfN : ∀ L ∈ Ω,
             obtain ⟨e, he, hx⟩ := (hmemX x.1).mp x.2
             exact ⟨⟨e, he⟩, Subtype.ext hx.symm⟩⟩
     rw [← Nat.card_congr e, h.card_zGroup]
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hH7 : IsPGroup 7 (Subgroup.zpowers g₇) := by
     rw [IsPGroup.iff_card]
     exact ⟨1, by rw [Nat.card_zpowers, hg₇, pow_one]⟩
@@ -922,7 +936,7 @@ theorem exists_conj_coset_eq {f : G} (hf : f ∈ pCore 2 G) (hfN : ∀ L ∈ Ω,
   have hx₁g : g₇ • x₁ = x₁ := Subtype.ext hx₁
   have hnotfix : ∃ g : G, g * x₁.1 * g⁻¹ ≠ x₁.1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hc : x₁.1 ∈ Subgroup.center G := by
       rw [Subgroup.mem_center_iff]
       intro g
@@ -986,12 +1000,12 @@ theorem mem_zGroup_of_flipVal_eq_zero {q : G} (hq : q ∈ pCore 2 G)
     · intro x hx
       simp only [Finset.mem_coe, Finset.mem_filter, hmemXs, hr] at hx
       obtain ⟨e, he, rfl⟩ := (hmemX x).mp hx.1
-      simp only [Finset.mem_coe, Set.Finite.mem_toFinset, Set.mem_setOf_eq, inv_mul_cancel_left]
+      simp only [Finset.mem_coe, Set.Finite.mem_toFinset, Set.mem_ofPred_eq, inv_mul_cancel_left]
       refine ⟨he, ?_⟩
       intro y hy
       exact hx.2 y hy
     · intro d hd
-      simp only [Finset.mem_coe, Set.Finite.mem_toFinset, Set.mem_setOf_eq] at hd
+      simp only [Finset.mem_coe, Set.Finite.mem_toFinset, Set.mem_ofPred_eq] at hd
       simp only [Finset.mem_coe, Finset.mem_filter, hmemXs, hr]
       exact ⟨(hmemX _).mpr ⟨d, hd.1, rfl⟩, hd.2⟩
     · intro x _
@@ -1118,11 +1132,11 @@ theorem flipVal_eq_zero_of_mul {K₁ K₂ K₃ : Subgroup G} (h₁ : K₁ ∈ Ω
 
 private theorem deq2_index_normalizer {L : Subgroup G} (hL : L ∈ Ω) :
     (Subgroup.normalizer (L : Set G)).index = 14 := by
-  letI act : MulAction G Ω :=
+  let act : MulAction G Ω :=
     { smul := fun g M => ⟨conjSub g M.1, h.hyp.conjInvariant g M.1 M.2⟩
       one_smul := fun M => Subtype.ext (conjSub_one M.1)
       mul_smul := fun a b M => Subtype.ext (conjSub_mul a b M.1) }
-  haveI : MulAction.IsPretransitive G Ω := ⟨fun M M' => by
+  have : MulAction.IsPretransitive G Ω := ⟨fun M M' => by
     obtain ⟨g, hg⟩ := h.trans M.1 M.2 M'.1 M'.2
     exact ⟨g, Subtype.ext hg⟩⟩
   have hstab : MulAction.stabilizer G (⟨L, hL⟩ : Ω) = Subgroup.normalizer (L : Set G) := by
@@ -1141,8 +1155,8 @@ theorem card_pCore_ne_sixteen : Nat.card (pCore 2 G) ≠ 16 := by
   have hQn : (pCore 2 G).Normal := by
     rw [← h.centralizer_zGroup_eq_pCore]
     exact h.centralizer_zGroup_normal
-  haveI : (zGroup Ω).Normal := h.zGroup_normal
-  haveI : (pCore 2 G).Normal := hQn
+  have : (zGroup Ω).Normal := h.zGroup_normal
+  have : (pCore 2 G).Normal := hQn
   have hcardQ : (pCore 2 G).index = 168 := by
     rw [← h.centralizer_zGroup_eq_pCore]
     exact h.index_centralizer_zGroup
@@ -1188,7 +1202,7 @@ theorem card_pCore_ne_sixteen : Nat.card (pCore 2 G) ≠ 16 := by
       rw [h16', h16]
     have hc8 : c ≤ 8 := by
       have hle16 : c ≤ 16 := Nat.le_of_dvd (by norm_num) hdvd
-      interval_cases c <;> first | omega | (norm_num at hdvd) | exact absurd rfl hlt
+      interval_cases c <;> first | omega
     exact (Subgroup.eq_of_le_of_card_ge hDle (by rw [h.card_zGroup, ← hc]; exact hc8)).symm
   exact deq2_no_quotient_split (zGroup Ω) (pCore 2 G) (Subgroup.normalizer (L : Set G))
     h.zGroup_le_pCore h.card_zGroup h16 hG (h.dNorm L hL) hNQ hN h.commutator_eq_top
@@ -1367,11 +1381,11 @@ private theorem deq2_bad_global {K₁ K₂ K₃ : Subgroup G} (h₁ : K₁ ∈ �
         group
       have hq₀' : g * q₀ * g⁻¹ ∈ pCore 2 G := hQn.conj_mem q₀ hq₀ g
       have h10' : flipVal (conjSub g K₁) (g * q₀ * g⁻¹) = 1 := by
-        rw [h.flipVal_conj h₁ g hq₀, h10]
+        rw [DE2Hyp.flipVal_conj h₁ g hq₀, h10]
       have h20' : flipVal (conjSub g K₂) (g * q₀ * g⁻¹) = 1 := by
-        rw [h.flipVal_conj h₂ g hq₀, h20]
+        rw [DE2Hyp.flipVal_conj h₂ g hq₀, h20]
       have h30' : flipVal (conjSub g K₃) (g * q₀ * g⁻¹) = 1 := by
-        rw [h.flipVal_conj h₃ g hq₀, h30]
+        rw [DE2Hyp.flipVal_conj h₃ g hq₀, h30]
       have hT := h.deq2_pattern_const (h.hyp.conjInvariant g K₁ h₁)
         (h.hyp.conjInvariant g K₂ h₂) (h.hyp.conjInvariant g K₃ h₃)
         (hu.conj g) (hv.conj g) (hw.conj g) huv' hw'' hq₀' h10' h20' h30'
@@ -1470,6 +1484,7 @@ open Classical in
 @[expose] noncomputable def deq2Fh (Ω : Set (Subgroup G)) (H : Subgroup G) : G → ZMod 2 :=
   fun x => if x ∈ zGroup Ω ∧ x ∉ H then 1 else 0
 
+omit [Finite G] in
 private theorem deq2_hyp_relIndex {H : Subgroup G} (hH : IsHyp Ω H) :
     H.relIndex (zGroup Ω) = 2 := by
   unfold IsHyp at hH
@@ -1521,15 +1536,16 @@ private theorem deq2_fh_mem_dual {H : Subgroup G} (hH : IsHyp Ω H) :
         simpa using this)
       simp [deq2Fh, hxyD, hx, hy, hxH, hyH, hxyH]
     · have hxyH : x * y ∈ H := h.deq2_hyp_mul_mem hH hx hy hxH hyH
-      simp [deq2Fh, hxyD, hx, hy, hxH, hyH, hxyH] <;> decide
+      simp [deq2Fh, hxyD, hx, hy, hxH, hyH, hxyH]; decide
 
+omit [Finite G] in
 private theorem deq2_dual_eq_fh {F : G → ZMod 2} (hF : F ∈ deq2Dual Ω) (hF0 : F ≠ 0) :
     ∃ H : Subgroup G, IsHyp Ω H ∧ F = deq2Fh Ω H := by
   obtain ⟨h1, h2, h3⟩ := hF
   have hc1 : ∀ c : ZMod 2, c ≠ 0 → c = 1 := by decide
   obtain ⟨x₀, hx₀⟩ : ∃ x₀, F x₀ ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hF0 (funext fun x => hcon x)
   have hx₀D : x₀ ∈ zGroup Ω := by
     by_contra hn
@@ -1583,7 +1599,7 @@ private theorem deq2_dual_ncard : (deq2Dual Ω).ncard = 8 := by
     intro H hH hfh
     obtain ⟨x, hxD, hxH⟩ : ∃ x, x ∈ zGroup Ω ∧ x ∉ H := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hHtop : zGroup Ω ≤ H := fun x hx => hcon x hx
       have := Subgroup.card_le_of_le hHtop
       unfold IsHyp at hH
@@ -1613,7 +1629,7 @@ private theorem deq2_dual_ncard : (deq2Dual Ω).ncard = 8 := by
       simp [deq2Fh, hxD, hn] at hx0
   have hset : deq2Dual Ω = insert 0 (deq2Fh Ω '' {H : Subgroup G | IsHyp Ω H}) := by
     ext F
-    simp only [Set.mem_insert_iff, Set.mem_image, Set.mem_setOf_eq]
+    simp only [Set.mem_insert_iff, Set.mem_image, Set.mem_ofPred_eq]
     constructor
     · intro hF
       by_cases hF0 : F = 0
@@ -1636,7 +1652,7 @@ private theorem deq2_lam_mem_dual {Lf : G → Subgroup G}
   have hlam : ∀ x, x ∈ zGroup Ω → x ≠ 1 → deq2Lam Ω Lf q x = flipVal (Lf x) q := by
     intro x hx hx1
     unfold deq2Lam
-    rw [if_pos ⟨hx, hx1⟩]
+    rw [ite_eq_left ⟨hx, hx1⟩]
   have h0 : deq2Lam Ω Lf q 1 = 0 := by
     unfold deq2Lam
     simp
@@ -1679,10 +1695,11 @@ private theorem deq2_lam_mul {Lf : G → Subgroup G}
   rw [Pi.add_apply]
   unfold deq2Lam
   by_cases hx : x ∈ zGroup Ω ∧ x ≠ 1
-  · simp only [if_pos hx]
+  · simp only [ite_eq_left hx]
     exact h.flipVal_mul (hLf x hx.1 hx.2).1 hq hq'
-  · simp only [if_neg hx, add_zero]
+  · simp only [ite_eq_right hx, add_zero]
 
+omit [Finite G] in
 private theorem deq2_lam_D {Lf : G → Subgroup G}
     (hLf : ∀ x, x ∈ zGroup Ω → x ≠ 1 → Lf x ∈ Ω ∧ IsUniqueInvolution (Lf x) x)
     {d : G} (hd : d ∈ zGroup Ω) : deq2Lam Ω Lf d = 0 := by
@@ -1690,10 +1707,10 @@ private theorem deq2_lam_D {Lf : G → Subgroup G}
   rw [Pi.zero_apply]
   unfold deq2Lam
   by_cases hx : x ∈ zGroup Ω ∧ x ≠ 1
-  · simp only [if_pos hx]
+  · simp only [ite_eq_left hx]
     exact deq2_flipVal_eq_zero_iff.mpr
       (mem_normalizer_iff_conjSub_eq.mp (h.dNorm _ (hLf x hx.1 hx.2).1 hd))
-  · simp only [if_neg hx]
+  · simp only [ite_eq_right hx]
 
 private theorem deq2_lam_eq_zero_iff {Lf : G → Subgroup G}
     (hLf : ∀ x, x ∈ zGroup Ω → x ≠ 1 → Lf x ∈ Ω ∧ IsUniqueInvolution (Lf x) x)
@@ -1708,7 +1725,7 @@ private theorem deq2_lam_eq_zero_iff {Lf : G → Subgroup G}
     have h0 : flipVal (Lf z) q = 0 := by
       have := congrFun hq0 z
       unfold deq2Lam at this
-      rw [if_pos ⟨hzD, hz1⟩] at this
+      rw [ite_eq_left ⟨hzD, hz1⟩] at this
       simpa using this
     obtain ⟨hK, hKz⟩ := hLf z hzD hz1
     rw [h.flipVal_eq_of_mem_twinSet hK ⟨hL, z, hKz, hz⟩ hq, h0]
@@ -1729,14 +1746,14 @@ private theorem deq2_lam_conj {Lf : G → Subgroup G}
         apply hx.2
         calc x = g * (g⁻¹ * x * g) * g⁻¹ := by group
           _ = 1 := by rw [e]; group
-    rw [if_pos hx, if_pos hxg]
+    rw [ite_eq_left hx, ite_eq_left hxg]
     have hM : conjSub g⁻¹ (Lf x) ∈ Ω := h.hyp.conjInvariant g⁻¹ _ (hLf x hx.1 hx.2).1
     have hMinv : IsUniqueInvolution (conjSub g⁻¹ (Lf x)) (g⁻¹ * x * g) := by
       have := (hLf x hx.1 hx.2).2.conj g⁻¹
       rwa [inv_inv] at this
     have e1 : flipVal (Lf x) (g * q * g⁻¹) = flipVal (conjSub g⁻¹ (Lf x)) q := by
       conv_lhs => rw [← conjSub_conjSub_inv g (Lf x)]
-      exact h.flipVal_conj hM g hq
+      exact DE2Hyp.flipVal_conj hM g hq
     have e2 : flipVal (Lf (g⁻¹ * x * g)) q = flipVal (conjSub g⁻¹ (Lf x)) q :=
       h.flipVal_eq_of_mem_twinSet hM
         ⟨(hLf _ hxg.1 hxg.2).1, g⁻¹ * x * g, hMinv, (hLf _ hxg.1 hxg.2).2⟩ hq
@@ -1751,8 +1768,9 @@ private theorem deq2_lam_conj {Lf : G → Subgroup G}
         apply h2
         rw [e]
         group
-    rw [if_neg hx, if_neg hxg]
+    rw [ite_eq_right hx, ite_eq_right hxg]
 
+omit h [Finite G] in
 private theorem deq2_lam_one {Lf : G → Subgroup G} : deq2Lam Ω Lf 1 = 0 := by
   funext x
   unfold deq2Lam
@@ -1769,7 +1787,7 @@ private theorem deq2_lam_surj {Lf : G → Subgroup G}
   by_cases hF0 : F = 0
   · refine ⟨1, (pCore 2 G).one_mem, ?_⟩
     rw [hF0]
-    exact h.deq2_lam_one
+    exact DE2Hyp.deq2_lam_one
   · obtain ⟨H, hH, hFH⟩ := h.deq2_dual_eq_fh hF hF0
     obtain ⟨K₀, hK₀, -⟩ := h.exists_ne
     obtain ⟨z₀, hz₀⟩ := h.exists_isUniqueInvolution hK₀
@@ -1780,7 +1798,7 @@ private theorem deq2_lam_surj {Lf : G → Subgroup G}
       intro h0
       have h1 := congrFun h0 z₀
       unfold deq2Lam at h1
-      rw [if_pos ⟨hz₀D, hz₀1⟩] at h1
+      rw [ite_eq_left ⟨hz₀D, hz₀1⟩] at h1
       obtain ⟨hK, hKz⟩ := hLf z₀ hz₀D hz₀1
       have htw := h.flipVal_eq_of_mem_twinSet hK₀ ⟨hK, z₀, hz₀, hKz⟩ hq₀Q
       rw [htw, hq₀] at h1
@@ -1857,7 +1875,7 @@ theorem card_pCore_eq : Nat.card (pCore 2 G) = 64 := by
       have hinv1 : deq2Lam Ω Lf (qF (deq2Lam Ω Lf q))⁻¹ = deq2Lam Ω Lf (qF (deq2Lam Ω Lf q)) := by
         have h0 := h.deq2_lam_mul hLf ((pCore 2 G).inv_mem hq'Q) hq'Q
         rw [inv_mul_cancel] at h0
-        rw [h.deq2_lam_one] at h0
+        rw [DE2Hyp.deq2_lam_one] at h0
         funext x
         exact hcinv _ _ (congrFun h0.symm x)
       have hdQ : (qF (deq2Lam Ω Lf q))⁻¹ * q ∈ pCore 2 G :=
@@ -1903,11 +1921,11 @@ private theorem deq2_exists_psi {q : G} (hq : q ∈ pCore 2 G) :
       fun _ => rfl⟩
   have hψ1 : ψ 1 = 0 := by
     have hn : ¬ ∃ L ∈ Ω, IsUniqueInvolution L (1 : G) := fun ⟨_, _, hL⟩ => hL.ne_one rfl
-    rw [hψdef, dif_neg hn]
+    rw [hψdef, dite_eq_right hn]
   have hval : ∀ L ∈ Ω, ∀ z : G, IsUniqueInvolution L z → ψ z = flipVal L q := by
     intro L hL z hz
     have hx : ∃ L ∈ Ω, IsUniqueInvolution L z := ⟨L, hL, hz⟩
-    rw [hψdef, dif_pos hx]
+    rw [hψdef, dite_eq_left hx]
     exact (h.deq2_flip_twin hq hx.choose_spec.1 hL hx.choose_spec.2 hz).symm
   refine ⟨ψ, hψ1, hval, ?_⟩
   intro x hx y hy
@@ -1949,7 +1967,7 @@ private theorem deq2_exists_hyp {ψ : G → ZMod 2} (hψ1 : ψ 1 = 0)
   have hDAB : (zGroup Ω : Set G) =
       {x | x ∈ zGroup Ω ∧ ψ x = 0} ∪ {x | x ∈ zGroup Ω ∧ ψ x ≠ 0} := by
     ext x
-    simp only [SetLike.mem_coe, Set.mem_union, Set.mem_setOf_eq]
+    simp only [SetLike.mem_coe, Set.mem_union, Set.mem_ofPred_eq]
     constructor
     · intro hx
       by_cases h0 : ψ x = 0
@@ -2003,7 +2021,7 @@ private theorem deq2_flip_normalizer {q : G} (hq : q ∈ pCore 2 G) {ψ : G → 
     have hc := hz.conj g⁻¹
     rwa [inv_inv] at hc
   have h1 : flipVal L (g * q * g⁻¹) = flipVal (conjSub g⁻¹ L) q := by
-    have hc := h.flipVal_conj hM g hq
+    have hc := DE2Hyp.flipVal_conj hM g hq
     rwa [conjSub_conjSub_inv] at hc
   have hconj : g⁻¹ * z * g ∈ zGroup Ω := by
     have hc := h.zGroup_normal.conj_mem z hzD g⁻¹
@@ -2028,7 +2046,7 @@ theorem pCore_mul_self : ∀ q ∈ pCore 2 G, q * q = 1 := by
   obtain ⟨ψ, hψ1, hψ, hadd⟩ := h.deq2_exists_psi hq
   obtain ⟨L₀, hL₀, hL₀ne⟩ : ∃ L ∈ Ω, flipVal L q ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hqD (h.mem_zGroup_of_flipVal_eq_zero hq hcon)
   obtain ⟨t, ht⟩ := h.exists_isUniqueInvolution hL₀
   have htD : t ∈ zGroup Ω := deq2_involution_mem h hL₀ ht
@@ -2094,6 +2112,7 @@ private theorem deq2_exists_two_ne_one {H : Subgroup G} (hH : Nat.card H = 4) :
     exact ⟨a, ha, c, hc, ha1, fun e => hbc e.symm, hac⟩
   exact ⟨a, ha, b, hb, ha1, hb1, hab⟩
 
+omit [Finite G] in
 private theorem deq2_flipVal_zGroup {K : Subgroup G} (hK : K ∈ Ω) {d : G}
     (hd : d ∈ zGroup Ω) : flipVal K d = 0 :=
   deq2_flipVal_eq_zero_iff.mpr (mem_normalizer_iff_conjSub_eq.mp (h.dNorm K hK hd))
@@ -2103,7 +2122,7 @@ private theorem deq2_dComm_pCore_zGroup {q : G} (hq : q ∈ pCore 2 G) {d : G}
   dComm_eq_one_iff.mpr
     ((Subgroup.mem_centralizer_iff.mp (h.pCore_le_centralizer_zGroup hq) d hd).symm)
 
-omit h in
+omit h [Finite G] in
 private theorem deq2_dComm_eq_one_of_zpowers {L : Subgroup G} {z : G}
     (hz : IsUniqueInvolution L z) {w : G} (hw : w = 1 ∨ w = z) {k : G} (hk : k ∈ L) :
     dComm w k = 1 := by
@@ -2114,10 +2133,12 @@ private theorem deq2_dComm_eq_one_of_zpowers {L : Subgroup G} {z : G}
     exact deq2_dComm_involution_one hz hk
 
 omit h in
+omit [Finite G] in
 private theorem deq2_dComm_one_left (k : G) : dComm (1 : G) k = 1 := by
   simp [dComm]
 
 omit h in
+omit [Finite G] in
 private theorem deq2_mul_self_eq_one {z c : G} (hz : z * z = 1) (hc : c = 1 ∨ c = z) :
     c * c = 1 := by
   rcases hc with hc | hc
@@ -2151,6 +2172,7 @@ private theorem deq2_mem_zpowers_of_comm {K : Subgroup G} (hK : K ∈ Ω) {z : G
   rwa [inv_inv] at key'
 
 omit h in
+omit [Finite G] in
 private theorem deq2_inv_comm {K : Subgroup G} {y : G} (hy : ∀ k ∈ K, k * y = y * k) :
     ∀ k ∈ K, k * y⁻¹ = y⁻¹ * k := by
   intro k hk
@@ -2160,6 +2182,7 @@ private theorem deq2_inv_comm {K : Subgroup G} {y : G} (hy : ∀ k ∈ K, k * y 
     _ = y⁻¹ * k := by group
 
 omit h in
+omit [Finite G] in
 private theorem deq2_comm_conjSub {y g : G} (hg : g * y = y * g) {K : Subgroup G}
     (hK : ∀ k ∈ K, k * y = y * k) : ∀ x ∈ conjSub g K, x * y = y * x := by
   intro x hx
@@ -2179,6 +2202,7 @@ private theorem deq2_comm_conjSub {y g : G} (hg : g * y = y * g) {K : Subgroup G
     _ = y * x := by group
 
 omit h in
+omit [Finite G] in
 private theorem deq2_normalizer_of_comm {L : Subgroup G} {w : G}
     (hw : ∀ x ∈ L, x * w = w * x) : w ∈ Subgroup.normalizer (L : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -2200,7 +2224,7 @@ private theorem deq2_normalizer_of_comm {L : Subgroup G} {w : G}
     rw [e]
     exact hg
 
-omit h in
+omit h [Finite G] in
 private theorem deq2_flipVal_of_comm {H L : Subgroup G} (hL : L ∈ omegaHyp Ω H) {w : G}
     (hw : ∀ g ∈ pSpan (omegaHyp Ω H), g * w = w * g) : flipVal L w = 0 :=
   deq2_flipVal_eq_zero_iff.mpr (mem_normalizer_iff_conjSub_eq.mp
@@ -2233,7 +2257,7 @@ private theorem deq2_dual_eq_fh_of_vanish {H : Subgroup G} (hH : IsHyp Ω H) {F 
     rw [hFH'] at h1
     have h2 : deq2Fh Ω H' x = 1 := by
       unfold deq2Fh
-      rw [if_pos ⟨hH.1 hx, hxH'⟩]
+      rw [ite_eq_left ⟨hH.1 hx, hxH'⟩]
     rw [h2] at h1
     exact one_ne_zero h1
   have heq : H = H' := Subgroup.eq_of_le_of_card_ge hle (le_of_eq (hH'.2.trans hH.2.symm))
@@ -2245,7 +2269,7 @@ private theorem deq2_lam_inv {Lf : G → Subgroup G}
     {q : G} (hq : q ∈ pCore 2 G) : deq2Lam Ω Lf q⁻¹ = deq2Lam Ω Lf q := by
   have hcinv : ∀ a b : ZMod 2, a + b = 0 → a = b := by decide
   have h0 := h.deq2_lam_mul hLf hq ((pCore 2 G).inv_mem hq)
-  rw [mul_inv_cancel, h.deq2_lam_one] at h0
+  rw [mul_inv_cancel, DE2Hyp.deq2_lam_one] at h0
   funext x
   have h1 := congrFun h0.symm x
   simp only [Pi.add_apply, Pi.zero_apply] at h1
@@ -2293,7 +2317,7 @@ theorem exists_unique_yElt {H : Subgroup G} (hH : IsHyp Ω H) :
     intro x hx hx1
     have e := congrFun hq₁F x
     unfold deq2Lam at e
-    rwa [if_pos ⟨hx, hx1⟩] at e
+    rwa [ite_eq_left ⟨hx, hx1⟩] at e
   have hfl₁ : flipVal (Lf x₁) q₁ = 0 := by
     rw [hflip x₁ hx₁D hx₁1]
     simp [deq2Fh, hx₁H]
@@ -2304,7 +2328,7 @@ theorem exists_unique_yElt {H : Subgroup G} (hH : IsHyp Ω H) :
     intro hD
     obtain ⟨x, hxD, hxH⟩ : ∃ x ∈ zGroup Ω, x ∉ H := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hc := Subgroup.card_le_of_le (show zGroup Ω ≤ H from fun x hx => hcon x hx)
       rw [h.card_zGroup, hH.2] at hc
       omega
@@ -2365,7 +2389,7 @@ theorem exists_unique_yElt {H : Subgroup G} (hH : IsHyp Ω H) :
     h.card_inf_centralizer_of_not_mem_twinSet hK₁Ω hK₂Ω hnot hz₁
   have hA : ∃ a ∈ K₂ ⊓ Subgroup.centralizer ({x₁} : Set G), a ∉ Subgroup.zpowers x₂ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : K₂ ⊓ Subgroup.centralizer ({x₁} : Set G) ≤ Subgroup.zpowers x₂ :=
       fun a ha => hcon a ha
     have hc := Subgroup.card_le_of_le hle
@@ -2546,7 +2570,7 @@ theorem exists_unique_yElt {H : Subgroup G} (hH : IsHyp Ω H) :
       have hLx : Lf x ∈ omegaHyp Ω H :=
         ⟨(hLf x hxD hx1).1, x, hx, (hLf x hxD hx1).2⟩
       unfold deq2Lam
-      rw [if_pos ⟨hxD, hx1⟩]
+      rw [ite_eq_left ⟨hxD, hx1⟩]
       exact deq2_flipVal_of_comm hLx hwc
   have hyvan : ∀ x ∈ H, deq2Lam Ω Lf y x = 0 := hvan y hyQ hyc'
   have hy'van : ∀ x ∈ H, deq2Lam Ω Lf y' x = 0 := hvan y' hy'Q hy'c
@@ -2616,6 +2640,7 @@ private theorem deq2_exists_Lf : ∃ Lf : G → Subgroup G,
   choose Lf hLf using hex
   exact ⟨Lf, hLf⟩
 
+omit h [Finite G] in
 private theorem deq2_flip_zero_of_centralizes {H : Subgroup G} {y : G}
     (hyc : ∀ g ∈ pSpan (omegaHyp Ω H), g * y = y * g) {L : Subgroup G} (hL : L ∈ Ω) {u : G}
     (hu : u ∈ H) (hLu : IsUniqueInvolution L u) : flipVal L y = 0 := by
@@ -2642,7 +2667,7 @@ private theorem deq2_flip_zero_of_centralizes {H : Subgroup G} {y : G}
 private theorem deq2_yElt_eq {H : Subgroup G} (hH : IsHyp Ω H) :
     h.yElt H = (h.exists_unique_yElt hH).choose := by
   unfold yElt
-  rw [dif_pos hH]
+  rw [dite_eq_left hH]
 
 private theorem deq2_yElt_spec {H : Subgroup G} (hH : IsHyp Ω H) :
     h.yElt H ∈ pCore 2 G ∧ h.yElt H ∉ zGroup Ω ∧
@@ -2710,7 +2735,7 @@ theorem flipVal_yElt {H : Subgroup G} (hH : IsHyp Ω H) {K : Subgroup G} (hK : K
   have hx1 : x ≠ 1 := hx.ne_one
   obtain ⟨Lf, hLf⟩ := h.deq2_exists_Lf
   split_ifs with hxH
-  · exact deq2_flip_zero_of_centralizes h hy.2.2.1 hK hxH hx
+  · exact deq2_flip_zero_of_centralizes hy.2.2.1 hK hxH hx
   · have hvan : ∀ x' ∈ H, deq2Lam Ω Lf (h.yElt H) x' = 0 := by
       intro x' hx'H
       by_cases hx'1 : x' = 1
@@ -2718,8 +2743,8 @@ theorem flipVal_yElt {H : Subgroup G} (hH : IsHyp Ω H) {K : Subgroup G} (hK : K
         simp [deq2Lam]
       · have hx'D : x' ∈ zGroup Ω := (show H ≤ zGroup Ω from hH.1) hx'H
         unfold deq2Lam
-        rw [if_pos ⟨hx'D, hx'1⟩]
-        exact deq2_flip_zero_of_centralizes h hy.2.2.1 (hLf x' hx'D hx'1).1 hx'H
+        rw [ite_eq_left ⟨hx'D, hx'1⟩]
+        exact deq2_flip_zero_of_centralizes hy.2.2.1 (hLf x' hx'D hx'1).1 hx'H
           (hLf x' hx'D hx'1).2
     have hnz : deq2Lam Ω Lf (h.yElt H) ≠ 0 := fun h0 =>
       hy.2.1 ((h.deq2_lam_eq_zero_iff hLf hy.1).mp h0)
@@ -2739,7 +2764,7 @@ theorem flipVal_yElt {H : Subgroup G} (hH : IsHyp Ω H) {K : Subgroup G} (hK : K
       obtain ⟨hLfΩ, hLfx⟩ := hLf x hxD hx1
       have htw := h.flipVal_eq_of_mem_twinSet hLfΩ ⟨hK, x, hLfx, hx⟩ hy.1
       unfold deq2Lam
-      rw [if_pos ⟨hxD, hx1⟩, htw]
+      rw [ite_eq_left ⟨hxD, hx1⟩, htw]
     rw [hKlam, hF, ← hHH']
     unfold deq2Fh
     simp [hxD, hxH]
@@ -2859,7 +2884,7 @@ theorem norm_identity {K : Subgroup G} (hK : K ∈ Ω) {u i j : G} (hQ : Q8Data 
     have hBB : (q * j * q⁻¹ * j⁻¹) * (q * j * q⁻¹ * j⁻¹) = 1 := h.pCore_mul_self _ hB
     have hBA : (q * j * q⁻¹ * j⁻¹) * (q * i * q⁻¹ * i⁻¹) =
         (q * i * q⁻¹ * i⁻¹) * (q * j * q⁻¹ * j⁻¹) := h.pCore_comm _ hB _ hA
-    rw [if_neg (show ¬ (flipVal K q = 1) by rw [h0]; decide), hLHS]
+    rw [ite_eq_right (show ¬ (flipVal K q = 1) by rw [h0]; decide), hLHS]
     exact deq2_abab hAA hBB hBA hC
   ·
     have hne : conjSub q K ≠ K := deq2_flipVal_eq_one_iff.mp h1
@@ -2896,7 +2921,7 @@ theorem norm_identity {K : Subgroup G} (hK : K ∈ Ω) {u i j : G} (hQ : Q8Data 
         _ = 1 := mul_inv_cancel u
     have hC : q * (i * j) * q⁻¹ * (i * j)⁻¹ = (q * i * q⁻¹) * (q * j * q⁻¹) * j⁻¹ * i⁻¹ := by
       group
-    rw [if_pos h1, hLHS, hC]
+    rw [ite_eq_left h1, hLHS, hC]
     exact deq2_caseB_prod hz.sq hss htt hts hxt hys hxs hyt hxyyx
 
 @[expose] def deq2Dot (f v : Fin 3 → ZMod 2) : ZMod 2 := f 0 * v 0 + f 1 * v 1 + f 2 * v 2
@@ -2949,6 +2974,7 @@ private theorem deq2_vec_of_line : ∀ s ∈ AE.fanoLines, ∃ v : Fin 3 → ZMo
     exact ⟨v, (inv_eq_of_mul_eq_one_right (he.sq _ (TL4.e8Coord_mem he v))).symm, hv⟩
 
 omit h in
+omit [Finite G] in
 private theorem deq2_mem_deq2K (e : Fin 3 → G) (he : TL4.E8Basis (zGroup Ω) e)
     (f v : Fin 3 → ZMod 2) : TL4.e8Coord e v ∈ deq2K e he f ↔ deq2Dot f v = 0 := by
   constructor
@@ -2957,7 +2983,7 @@ private theorem deq2_mem_deq2K (e : Fin 3 → G) (he : TL4.E8Basis (zGroup Ω) e
   · intro hv
     exact ⟨v, rfl, hv⟩
 
-omit h in
+omit h [Finite G] in
 private theorem deq2_eq_of_deq2K_eq (e : Fin 3 → G) (he : TL4.E8Basis (zGroup Ω) e)
     {f f' : Fin 3 → ZMod 2} (hf : f ≠ 0) (hf' : f' ≠ 0) (hK : deq2K e he f = deq2K e he f') :
     f = f' := by
@@ -2965,6 +2991,7 @@ private theorem deq2_eq_of_deq2K_eq (e : Fin 3 → G) (he : TL4.E8Basis (zGroup 
   rw [← deq2_mem_deq2K e he f v, ← deq2_mem_deq2K e he f' v, hK]
 
 omit h in
+omit [Finite G] in
 private theorem deq2_card_deq2K (e : Fin 3 → G) (he : TL4.E8Basis (zGroup Ω) e)
     {f : Fin 3 → ZMod 2} (hf : f ≠ 0) : Nat.card (deq2K e he f) = 4 := by
   have hk : Nat.card {v : Fin 3 → ZMod 2 // deq2Dot f v = 0} = 4 := by
@@ -2978,7 +3005,7 @@ private theorem deq2_card_deq2K (e : Fin 3 → G) (he : TL4.E8Basis (zGroup Ω) 
   · rintro ⟨x, v, rfl, hv⟩
     exact ⟨⟨v, hv⟩, rfl⟩
 
-omit h in
+omit h [Finite G] in
 private theorem deq2_isHyp (e : Fin 3 → G) (he : TL4.E8Basis (zGroup Ω) e)
     {f : Fin 3 → ZMod 2} (hf : f ≠ 0) : IsHyp Ω (deq2K e he f) := by
   refine ⟨fun x hx => ?_, deq2_card_deq2K e he hf⟩
@@ -3170,7 +3197,7 @@ private theorem deq2_coord_single (y : Fin 7 → A) (hy : ∀ i, y i * y i = 1) 
   · simp only [toAdd_ofAdd]
     rw [Pi.single_eq_same, show (1 : ZMod 2).val = 1 from rfl, pow_one]
   · intro j _ hji
-    simp [Pi.single_apply, hji]
+    simp [hji]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 
@@ -3260,7 +3287,7 @@ theorem deq2_beta (lab : Subgroup G → Fin 7) (σ : G →* Equiv.Perm (Fin 7))
   have hQn : (pCore 2 G).Normal := by
     rw [← h.centralizer_zGroup_eq_pCore]
     exact h.centralizer_zGroup_normal
-  letI : CommGroup (pCore 2 G) :=
+  let : CommGroup (pCore 2 G) :=
     deq2_commGroup (pCore 2 G) (fun a ha b hb => h.pCore_comm a ha b hb)
   obtain ⟨y, hy_def⟩ : ∃ y : Fin 7 → pCore 2 G, ∀ i, ((y i : pCore 2 G) : G) = h.yElt (Hs i) :=
     ⟨fun i => ⟨h.yElt (Hs i), h.yElt_mem_pCore (hHs i)⟩, fun i => rfl⟩
@@ -3300,11 +3327,11 @@ theorem deq2_beta (lab : Subgroup G → Fin 7) (σ : G →* Equiv.Perm (Fin 7))
     unfold deq2Lam deq2Fh
     by_cases hx : x ∈ zGroup Ω ∧ x ≠ 1
     · obtain ⟨hK, hxK⟩ := hLf x hx.1 hx.2
-      rw [if_pos hx, h.flipVal_yElt hH hK hxK]
+      rw [ite_eq_left hx, h.flipVal_yElt hH hK hxK]
       by_cases hxH : x ∈ H
       · simp [hxH]
       · simp [hxH, hx.1]
-    · rw [if_neg hx]
+    · rw [ite_eq_right hx]
       by_cases hxD : x ∈ zGroup Ω
       · have hx1 : x = 1 := by
           by_contra hne
@@ -3323,14 +3350,14 @@ theorem deq2_beta (lab : Subgroup G → Fin 7) (σ : G →* Equiv.Perm (Fin 7))
         intro h0
         have h1 : deq2Lam Ω Lf q₀ x = 0 := congrFun h0 x
         unfold deq2Lam at h1
-        rw [if_pos (show x ∈ zGroup Ω ∧ x ≠ 1 from ⟨hxD, hx1⟩), hf₀] at h1
+        rw [ite_eq_left (show x ∈ zGroup Ω ∧ x ≠ 1 from ⟨hxD, hx1⟩), hf₀] at h1
         exact absurd h1 (by decide)
       obtain ⟨H₀, hH₀, hF⟩ := h.deq2_dual_eq_fh (h.deq2_lam_mem_dual hLf hq₀) hne
       refine ⟨H₀, hH₀, fun hxH => ?_⟩
       have h1 : deq2Lam Ω Lf q₀ x = deq2Fh Ω H₀ x := congrFun hF x
       unfold deq2Lam deq2Fh at h1
-      rw [if_pos (show x ∈ zGroup Ω ∧ x ≠ 1 from ⟨hxD, hx1⟩), hf₀,
-        if_neg (fun hh : x ∈ zGroup Ω ∧ x ∉ H₀ => hh.2 hxH)] at h1
+      rw [ite_eq_left (show x ∈ zGroup Ω ∧ x ≠ 1 from ⟨hxD, hx1⟩), hf₀,
+        ite_eq_right (fun hh : x ∈ zGroup Ω ∧ x ∉ H₀ => hh.2 hxH)] at h1
       exact absurd h1 (by decide)
     obtain ⟨a, b, hQ⟩ := deq2_exists_q8 hxK (h.isQuatSub_of_mem hK) (h.card _ hK)
     have hxa : x * a = a * x := by
@@ -3522,9 +3549,9 @@ theorem deq2_beta (lab : Subgroup G → Fin 7) (σ : G →* Equiv.Perm (Fin 7))
       · simp [show (1 : ZMod 2).val = 1 from rfl]
       · simp
     have hfl : flipVal (Lf x) (h.yElt H₀) = 1 := by
-      rw [h.flipVal_yElt hH₀ hK hxK, if_neg hx₀]
+      rw [h.flipVal_yElt hH₀ hK hxK, ite_eq_right hx₀]
     have hN := h.norm_identity hK hQ (h.yElt_mem_pCore hH₀)
-    rw [hfl, if_pos (rfl : (1 : ZMod 2) = 1), h.yElt_conj hH₀ a, h.yElt_conj hH₀ b,
+    rw [hfl, ite_eq_left (rfl : (1 : ZMod 2) = 1), h.yElt_conj hH₀ a, h.yElt_conj hH₀ b,
       h.yElt_conj hH₀ (a * b)] at hN
     simp only [mul_assoc] at hN
     rw [hβ, hβx, hprod, Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_mul, hy_def, hy_def,
@@ -3603,7 +3630,7 @@ theorem deq2_beta (lab : Subgroup G → Fin 7) (σ : G →* Equiv.Perm (Fin 7))
   have hR1 : r.toAdd = fun _ => 1 := by
     obtain ⟨i₀, hi₀⟩ : ∃ i, r.toAdd i ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hr1
       apply toAdd_eq_zero.mp
       funext i

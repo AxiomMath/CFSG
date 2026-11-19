@@ -25,7 +25,7 @@ theorem exists_commute_of_indepPair {Y : Type*} [Group Y] [Finite Y] {y₁ y₂ 
     {z : Y} (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) :
     ∃ y : Y, y ^ 3 = 1 ∧ Commute z y ∧ y ∉ zpowers z := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hF : IsPGroup 3 ↥(zpowers y₁ ⊔ zpowers y₂ : Subgroup Y) := by
     refine IsPGroup.to_sup_of_normal_right' (isPGroup_zpowers_of_pow_three h1)
       (isPGroup_zpowers_of_pow_three h2) ?_
@@ -83,9 +83,9 @@ theorem exists_commute_of_indepPair {Y : Type*} [Group Y] [Finite Y] {y₁ y₂ 
       omega
     · exact ⟨w₁, hw3 y₁ h1, hcz.1, h₁⟩
   ·
-    have hP : IsPGroup 3 (S' : Subgroup Y) := S'.isPGroup'
-    haveI : Nontrivial (S' : Subgroup Y) := ⟨⟨⟨z, hzS⟩, 1, fun h => hz1 (congrArg Subtype.val h)⟩⟩
-    haveI := hP.center_nontrivial
+    have hP : IsPGroup 3 (S' : Subgroup Y) := S'.isPGroup
+    have : Nontrivial (S' : Subgroup Y) := ⟨⟨⟨z, hzS⟩, 1, fun h => hz1 (congrArg Subtype.val h)⟩⟩
+    have := hP.center_nontrivial
     have h3 : 3 ∣ Nat.card (center (S' : Subgroup Y)) := by
       rcases (hP.to_subgroup (center _)).card_eq_or_dvd with h | h
       · exact absurd h (Finite.one_lt_card).ne'
@@ -141,7 +141,7 @@ theorem isElemAbelian_card_of_pair {G : Type} [Group G] [Finite G] {y₁ y₂ : 
     (hc : Commute y₁ y₂) (h1 : y₁ ^ 3 = 1) (h2 : y₂ ^ 3 = 1)
     (hind : ∀ i j : ℤ, y₁ ^ i * y₂ ^ j = 1 → (3 : ℤ) ∣ i ∧ (3 : ℤ) ∣ j) :
     IsElemAbelian 3 (zpowers y₁ ⊔ zpowers y₂) ∧ Nat.card ↥(zpowers y₁ ⊔ zpowers y₂) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hy₁ : y₁ ≠ 1 := fun h => by
     have := (hind 1 0 (by rw [h]; simp)).1
     omega
@@ -172,7 +172,7 @@ theorem three_le_pRank_of_fixesPair {X C : Type} [Group X] [Finite X] [Group C] 
     {E : Subgroup (MulAut X)} (hEH : E ≤ H) (hE : IsElemAbelian 3 E) (hEc : Nat.card E = 9) :
     3 ≤ Open.pRank 3 (H ⊓ centralizer (E : Set (MulAut X))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set I := (MulAut.conj : X →* MulAut X).range with hI
   have hconj := conj_injective_of_center hc
   have hΦI : ∀ δ ∈ I, Φ δ = 1 := by

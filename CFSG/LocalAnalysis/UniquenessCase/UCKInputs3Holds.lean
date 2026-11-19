@@ -36,7 +36,7 @@ theorem kSch_holds : KSch := by
         rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.zpowers g) with h | h
         · exact absurd (Subgroup.zpowers_eq_bot.1 h) hg
         · exact ⟨⟨g, fun x => Subgroup.mem_zpowers_iff.1 (h ▸ Subgroup.mem_top x)⟩⟩
-    haveI : Group.IsSolvable (MulAut J) :=
+    have : Group.IsSolvable (MulAut J) :=
       Group.isSolvable_of_isSolvable_injective (f := (IsCyclic.mulAutMulEquiv J).toMonoidHom)
         (IsCyclic.mulAutMulEquiv J).injective
     change Group.IsSolvable (MulAut J ⧸ (MulAut.conj : J →* MulAut J).range)
@@ -75,10 +75,10 @@ private theorem exists_not_comm_quotient_center {J : Type} [Group J]
 theorem kMult_holds : KMult := by
   intro J _ _ hq hK p hp hp5 hpz h3
   by_contra hne
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : p ∣ Nat.card (Subgroup.center J) :=
     (hpz.card_eq_or_dvd).resolve_left fun h => hne (Subgroup.eq_bot_of_card_eq _ h)
-  haveI : IsSimpleGroup (J ⧸ Subgroup.center J) := hq.2
+  have : IsSimpleGroup (J ⧸ Subgroup.center J) := hq.2
   have hnab := exists_not_comm_quotient_center hq
   have hcat : CFSG.Open.IsCatalogGroup (J ⧸ Subgroup.center J) :=
     hK.isCatalogGroup_of_surjective ⊤ hnab (Subgroup.subtype ⊤) (fun x => ⟨⟨x, trivial⟩, rfl⟩)
@@ -92,9 +92,9 @@ section K631
 
 theorem k631_holds : K631 := by
   intro Y _ _ hY r hr hr2 N hNn hsN hnc hC hrk B hB hBN
-  haveI := hNn
-  haveI := hsN
-  haveI : Fact r.Prime := ⟨hr⟩
+  have := hNn
+  have := hsN
+  have : Fact r.Prime := ⟨hr⟩
   have hnab : ∃ a b : ↥N, a * b ≠ b * a := by
     by_contra h
     push Not at h
@@ -114,7 +114,7 @@ theorem k631_holds : K631 := by
       rw [CFSG.SectionRank.pRank_eq_open_pRank_top r ↥N]
       exact hrk'
     have hcycX : IsCyclic ((T : Subgroup ↥N).map N.subtype) :=
-      CFSG.RankThree.PartOne.isCyclic_of_pRank_le_one hr hr2 hLX (T.isPGroup'.map N.subtype) hr'
+      CFSG.RankThree.PartOne.isCyclic_of_pRank_le_one hr hr2 hLX (T.isPGroup.map N.subtype) hr'
     exact (Subgroup.equivMapOfInjective (T : Subgroup ↥N) N.subtype
       N.subtype_injective).isCyclic.mpr hcycX
   have hOut := CFSG.LocalAnalysis.RankThreeTheoremC.kFactOutCyclic_holds ↥N hsN hnab hcat r hr hr2

@@ -50,7 +50,7 @@ theorem gffa2_unitary_clauseB {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 2 
     obtain ⟨σ', hσ', ⟨E'⟩⟩ := gffa2_unitary_fixed_equiv h θ hZ' ψ hind
     have hsolv3 := gffa2_unitary_solvable h hσ'
     have hsolv : Group.IsSolvable ↥(ggAutFixedSubgroup ψ) := by
-      haveI := hsolv3
+      have := hsolv3
       exact Group.isSolvable_of_isSolvable_injective (f := E'.toMonoidHom) E'.injective
     exact (gffa2_false_of_solvable hsolv hQ).elim
   · obtain ⟨K₀, hFieldK₀, hFinK₀, hK₀, ⟨T₀⟩⟩ :=

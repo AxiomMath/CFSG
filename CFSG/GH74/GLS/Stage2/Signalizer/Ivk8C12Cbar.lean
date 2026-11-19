@@ -105,7 +105,7 @@ theorem no_abelian_81 {K : Type} [Group K] [Finite K] {n : ℕ} (hn : n = 10 ∨
     have := congrArg (fun Q : Sylow 3 (↥R' ⧸ N) => (Q : Subgroup (↥R' ⧸ N))) hT
     simpa [Sylow.coe_mapSurjective, S3] using this
   have hTcard : Nat.card (T : Subgroup ↥R') ∣ 81 := by
-    obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
     have h1 : 3 ^ k ∣ Nat.factorial 11 :=
       hk ▸ (Subgroup.card_subgroup_dvd_card (T : Subgroup ↥R')).trans hR'K
     have hk4 : k ≤ 4 := by

@@ -28,11 +28,11 @@ private theorem s16c11_fr_not_two_dvd_relIndex_inf_of_normalizes {G : Type*} [Gr
   exact hodd (h2.trans ⟨_, hmul.symm⟩)
 
 private theorem s16c11_fr_relIndex_inf_eq_two {G : Type*} [Group G] [Finite G]
-    {P K T : Subgroup G} (hKP : K ≤ P) (hKn : (K.subgroupOf P).Normal) (hTP : T ≤ P)
+    {P K T : Subgroup G} (_hKP : K ≤ P) (hKn : (K.subgroupOf P).Normal) (hTP : T ≤ P)
     (hT2 : IsPGroup 2 T) (hTodd : ¬ 2 ∣ (T.subgroupOf P).index)
     (hKi : (K.subgroupOf P).index = 6) :
     K.relIndex T = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2P : IsPGroup 2 (T.subgroupOf P) :=
     hT2.of_equiv (Subgroup.subgroupOfEquivOfLe hTP).symm
   let TP : Sylow 2 ↥P := hT2P.toSylow hTodd
@@ -62,7 +62,7 @@ theorem s16c11_fr_selfNormalizing {G Ō : Type*} [Group G] [Finite G] [Group Ō]
     (hŌ : ∀ D : Subgroup Ō, IsPGroup 2 ↥D → ¬ 2 ∣ D.index →
       Subgroup.normalizer (D : Set Ō) = D) :
     ∀ g ∈ K, (∀ s ∈ T ⊓ K, g * s * g⁻¹ ∈ T ⊓ K) → g ∈ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro g hgK hgnorm
   set S : Subgroup G := T ⊓ K with hSdef
   have hTK : T ≤ Subgroup.normalizer (K : Set G) :=
@@ -115,7 +115,7 @@ theorem s16c11_fr_exists_index_three {G : Type*} [Group G] [Finite G] (P K T : S
     ∃ X : Subgroup G, X ≤ P ∧ T ≤ X ∧ T.relIndex X = 3 ∧
       ∀ p ∈ P, ∃ x ∈ X, ∃ k ∈ K, p = x * k := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S : Subgroup G := T ⊓ K with hSdef
   have hTK : T ≤ Subgroup.normalizer (K : Set G) :=
     hTP.trans ((Subgroup.normal_subgroupOf_iff_le_normalizer hKP).mp hKn)
@@ -136,7 +136,7 @@ theorem s16c11_fr_exists_index_three {G : Type*} [Group G] [Finite G] (P K T : S
   have hdecomp : ∀ p ∈ P, ∃ x ∈ SX, ∃ k ∈ K, p = x * k := by
     intro p hp
     let N : Subgroup ↥P := K.subgroupOf P
-    haveI : N.Normal := hKn
+    have : N.Normal := hKn
     have hS2P : IsPGroup 2 (S.subgroupOf P) :=
       hS2G.comap_of_injective P.subtype Subtype.coe_injective
     have hSPN : S.subgroupOf P ≤ N := Subgroup.subgroupOf_mono P inf_le_right
@@ -147,9 +147,8 @@ theorem s16c11_fr_exists_index_three {G : Type*} [Group G] [Finite G] (P K T : S
       rw [Subgroup.relIndex_subgroupOf (H := S) (K := K) (L := P) hKP]
       exact hSoddK
     let QN : Sylow 2 ↥N := hS2N.toSylow hSoddN
-    haveI : Finite (Sylow 2 ↥N) := Sylow.finite_of_finiteIndex QN
+    have : Finite (Sylow 2 ↥N) := Sylow.finite_of_finiteIndex QN
     have hQN : QN.map N.subtype = S.subgroupOf P := by
-      change ((QN : Subgroup ↥N).map N.subtype) = S.subgroupOf P
       rw [show (QN : Subgroup ↥N) = (S.subgroupOf P).subgroupOf N from
         IsPGroup.toSylow_coe hS2N hSoddN]
       exact Subgroup.map_subgroupOf_eq_of_le hSPN

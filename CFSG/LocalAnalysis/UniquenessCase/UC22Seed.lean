@@ -23,7 +23,7 @@ open Matrix (SpecialLinearGroup)
 
 theorem inClassG_exists_sylow {S H : Type} [Group S] [Group H] [Finite H] {ι : S →* H}
     (hG : InClassG S H ι) : ∃ T : Sylow 2 H, (T : Subgroup H) = ι.range := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 ι.range := hG.sylow.2.1
   have hidx : ¬ 2 ∣ ι.range.index := by
     have := hG.sylow.2.2

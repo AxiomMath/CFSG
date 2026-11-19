@@ -215,7 +215,7 @@ theorem mem_oddCoreIn_of_twoElements {K R : Subgroup G} (hR : IsSylowOf 2 R K)
     have h2 : orderOf (QuotientGroup.mk' Q (⟨c, hcC⟩ : ↥C)) ∣ Nat.card (↥C ⧸ Q) :=
       orderOf_dvd_natCard _
     have h3 : Nat.card (↥C ⧸ Q) = Nat.card P := hQidx
-    obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp P.isPGroup'
+    obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp P.isPGroup
     rw [h3, hm] at h2
     have hcop : Nat.Coprime (orderOf c) (2 ^ m) :=
       Nat.Coprime.pow_right _ (Nat.coprime_two_right.mpr hc)

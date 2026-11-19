@@ -143,7 +143,7 @@ theorem y6_blockStab_card : Nat.card ↥blockStab = 72 := by
 theorem y6_order72_conj {D : Subgroup (Equiv.Perm (Fin 6))} (hD : Nat.card ↥D = 72) :
     ∃ σ : Equiv.Perm (Fin 6), D = blockStab.map (MulAut.conj σ).toMonoidHom := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hGcard : Nat.card (Equiv.Perm (Fin 6)) = 720 := by
     rw [Nat.card_perm]; simp [Nat.factorial]
   have hP0grp : IsPGroup 3 P0 := IsPGroup.of_card (n := 2) (by rw [P0_card]; norm_num)

@@ -13,9 +13,9 @@ namespace CFSG.CGT.Foote82
 
 open CFSG.Open CFSG.Quasithin.G11
 
-theorem caseIFalse (h51 : Lemma51) (h25 : CaseIFooteLemma25) (hG10 : CaseIG10)
+theorem caseIFalse (_h51 : Lemma51) (h25 : CaseIFooteLemma25) (hG10 : CaseIG10)
     (h511 : CaseILemma511) (hG6 : CaseIG6) : CaseIFalse := by
-  clear h51
+  clear _h51
   intro V _ _ _ G L z v H₁ n ψ hstd hrank hv hd
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 6 := ⟨n - 6, by have := hd.six_le; omega⟩
   have h : CaseIAux.Hyp G L z v H₁ m ψ := ⟨hstd, hrank, hv, hd⟩

@@ -28,8 +28,8 @@ theorem pCoreOf_normalizer_le_sylow (S : Sylow 2 G) :
 private theorem b12_TwelveFourA_card_ne_one (A : Subgroup G) {m : ℕ} (hA : Nat.card A = 2 ^ m) :
     Nat.card {x : ↥A // x ≠ 1} = 2 ^ m - 1 := by
   classical
-  haveI hF : Fintype ↥A := Fintype.ofFinite _
-  haveI hFs : Fintype {x : ↥A // x ≠ 1} := Fintype.ofFinite _
+  have hF : Fintype ↥A := Fintype.ofFinite _
+  have hFs : Fintype {x : ↥A // x ≠ 1} := Fintype.ofFinite _
   have h1 : Fintype.card ↥A = 2 ^ m := by rw [← Nat.card_eq_fintype_card, hA]
   have h2 : Fintype.card {x : ↥A // x ≠ 1} = 2 ^ m - 1 := by
     rw [Fintype.card_subtype_compl (p := fun y : ↥A => y = 1),
@@ -86,6 +86,7 @@ theorem exists_cartan_conj_inf_eq_bot {n m : ℕ}
   generalize y * y = w at h3
   omega
 
+omit [Finite G] in
 private theorem b12_TwelveFourA_mul_injective {A C : Subgroup G} (hdisj : A ⊓ C = ⊥)
     {a a' c c' : G} (ha : a ∈ A) (ha' : a' ∈ A) (hc : c ∈ C) (hc' : c' ∈ C)
     (h : a * c = a' * c') : a = a' ∧ c = c' := by
@@ -119,6 +120,7 @@ private theorem b12_TwelveFourA_exists_mul {S A C : Subgroup G} (hAS : A ≤ S) 
   obtain ⟨⟨a, c⟩, hac⟩ := hbij.2 ⟨s, hs⟩
   exact ⟨a, a.2, c, c.2, (congrArg Subtype.val hac).symm⟩
 
+omit [Finite G] in
 private theorem b12_TwelveFourA_card_eq_mul {A C U : Subgroup G} (hAU : A ≤ U)
     (hdisj : A ⊓ C = ⊥) (hdec : ∀ u ∈ U, ∃ a ∈ A, ∃ c ∈ C, u = a * c) :
     Nat.card U = Nat.card A * Nat.card ↥(U ⊓ C) := by

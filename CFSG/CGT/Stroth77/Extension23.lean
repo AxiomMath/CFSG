@@ -19,11 +19,13 @@ section Generic
 
 variable {τ : StrothTypeIndex} {B : Subgroup S}
 
+omit [Finite S] in
 theorem comm_of_strothTypeData (D : StrothTypeData B τ) (x y : B) : x * y = y * x := by
   apply Additive.ofMul.injective
   apply D.e.injective
   simp only [ofMul_mul, map_add, add_comm]
 
+omit [Finite S] in
 theorem isSquareInSubgroup_iff_even_of_type (D : StrothTypeData B τ)
     {x : S} (hx : x ∈ B) :
     SquareIn B x ↔
@@ -50,6 +52,7 @@ theorem isSquareInSubgroup_iff_even_of_type (D : StrothTypeData B τ)
       abel
     simpa using congrArg (fun y : B => (y : S)) hb
 
+omit [Finite S] in
 theorem isSquareInSubgroup_mul_of_type (D : StrothTypeData B τ)
     {x y : S} (hx : SquareIn B x) (hy : SquareIn B y) :
     SquareIn B (x * y) := by
@@ -66,6 +69,7 @@ theorem isSquareInSubgroup_mul_of_type (D : StrothTypeData B τ)
     _ = ((a : S) * a) * (b * b) := by group
     _ = x * y := by rw [ha, hb]
 
+omit [Finite S] in
 theorem isSquareInSubgroup_zpow_of_even_of_type (D : StrothTypeData B τ)
     {i : ℤ} (hi : Even i) :
     SquareIn B ((D.c : S) ^ i) := by
@@ -75,6 +79,7 @@ theorem isSquareInSubgroup_zpow_of_even_of_type (D : StrothTypeData B τ)
   change (D.c : S) ^ k * (D.c : S) ^ k = (D.c : S) ^ (k + k)
   rw [← _root_.zpow_add]
 
+omit [Finite S] in
 theorem closure_c_a_b_of_type (D : StrothTypeData B τ) :
     Subgroup.closure ({(D.c : S), (D.a : S), (D.b : S)} : Set S) = B := by
   apply le_antisymm
@@ -98,7 +103,7 @@ theorem closure_c_a_b_of_type (D : StrothTypeData B τ) :
     have hy : y = z 0 • gen τ.k 0 + z 1 • gen τ.k 1 + z 2 • gen τ.k 2 := by
       funext i
       fin_cases i <;>
-        simp [gen, Pi.single_eq_same, Pi.single_eq_of_ne, hz, Pi.add_apply, Pi.smul_apply]
+        simp [gen, Pi.single_eq_same, Pi.single_eq_of_ne, hz, Pi.add_apply]
     have hx' : xB = D.c ^ (z 0) * D.a ^ (z 1) * D.b ^ (z 2) := by
       apply Additive.ofMul.injective
       apply D.e.injective
@@ -114,16 +119,16 @@ theorem closure_c_a_b_of_type (D : StrothTypeData B τ) :
     have hb : (D.b : S) ∈ cl := Subgroup.subset_closure (by simp)
     exact cl.mul_mem (cl.mul_mem (cl.zpow_mem hc _) (cl.zpow_mem ha _)) (cl.zpow_mem hb _)
 
-theorem comm_of_le_centralizer_of_type (D : StrothTypeData B τ)
+theorem comm_of_le_centralizer_of_type (_D : StrothTypeData B τ)
     (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
     (hrel : Nat.card C = 2 * Nat.card B) (x y : C) : x * y = y * x := by
   let H : Subgroup C := B.subgroupOf C
   have hindex : H.index = 2 := index_two_of_relIndex hBC hrel
-  haveI : H.Normal := Subgroup.normal_of_index_eq_two hindex
+  have : H.Normal := Subgroup.normal_of_index_eq_two hindex
   have hcard : Nat.card (C ⧸ H) = 2 := by
     rw [← Subgroup.index_eq_card, hindex]
-  haveI : IsCyclic (C ⧸ H) :=
-    isCyclic_of_card_dvd_prime (p := 2) (by simpa [hcard])
+  have : IsCyclic (C ⧸ H) :=
+    isCyclic_of_card_dvd_prime (p := 2) (by simp [hcard])
   have hker : (QuotientGroup.mk' H).ker ≤ Subgroup.center C := by
     rw [QuotientGroup.ker_mk']
     intro b hb
@@ -131,7 +136,7 @@ theorem comm_of_le_centralizer_of_type (D : StrothTypeData B τ)
     intro g
     have hbB : (b : S) ∈ B := Subgroup.mem_subgroupOf.mp hb
     exact Subtype.ext (Subgroup.mem_centralizer_iff.mp (hC g.2) (b : S) hbB).symm
-  exact commutative_of_cyclic_center_quotient (QuotientGroup.mk' H) hker x y
+  exact (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' H) hker).is_comm.comm x y
 
 theorem closure_eq_of_sq_of_type (D : StrothTypeData B τ)
     (hBC : B ≤ C) (hrel : Nat.card C = 2 * Nat.card B) {d : S}
@@ -200,18 +205,22 @@ namespace StrothTypeData
 
 variable {D : StrothTypeData B (StrothTypeIndex.t200 m)}
 
+omit [Finite S] in
 theorem ec_conj_u_t200 (D : StrothTypeData B (StrothTypeIndex.t200 m)) (x : B) :
     D.ec (conjBy D.u_mem x) = Type200.PhiU m (D.ec x) :=
   D.u_conj x
 
+omit [Finite S] in
 theorem ec_conj_t_t200 (D : StrothTypeData B (StrothTypeIndex.t200 m)) (x : B) :
     D.ec (conjBy D.t_mem x) = Type200.PhiT m (D.ec x) :=
   D.t_conj x
 
+omit [Finite S] in
 theorem ec_conj_ρ_t200 (D : StrothTypeData B (StrothTypeIndex.t200 m)) (x : B) :
     D.ec (conjBy D.ρ_mem x) = Type200.PhiR m (D.ec x) :=
   D.ρ_conj x
 
+omit [Finite S] in
 theorem ec_conj_uv_t200 (D : StrothTypeData B (StrothTypeIndex.t200 m)) (x : B) :
     D.ec (conjBy D.uv_mem x) = Type200.PhiUV m (D.ec x) :=
   D.uv_conj x
@@ -259,6 +268,7 @@ theorem PhiR_apply_gens (m : ℕ) (a b c : ℤ) :
 
 end Type200
 
+omit [Finite S] in
 theorem t200_square_section
     {m : ℕ} {B : Subgroup S} (D : StrothTypeData B (StrothTypeIndex.t200 m)) (x : B)
     (hu : SquareIn B ((conjBy D.u_mem x * x⁻¹ : B) : S))
@@ -307,10 +317,10 @@ theorem t200_square_section
     abel
   have hy1 : y 1 = (j : ZMod (2 ^ (StrothTypeIndex.t200 m).k 1)) := by
     rw [hy]
-    simp [gen, Pi.single_apply]
+    simp [gen]
   have hy2 : y 2 = (k : ZMod (2 ^ (StrothTypeIndex.t200 m).k 2)) := by
     rw [hy]
-    simp [gen, Pi.single_apply]
+    simp [gen]
   have h1u : ((k - j : ℤ) : ZMod (2 ^ (StrothTypeIndex.t200 m).k 1)) = 2 * zu 1 := by
     have h := congrFun hzu' 1
     rw [hφu, hy] at h
@@ -339,18 +349,18 @@ theorem t200_square_section
       -(k : ZMod (2 ^ (StrothTypeIndex.t200 m).k 1)) := by
     rw [hy, map_add, map_add, map_zsmul, map_zsmul, map_zsmul]
     rw [hρ0, hρ1, hρ2]
-    simp [gen, Pi.single_apply, zsmul_eq_mul]
+    simp [gen, zsmul_eq_mul]
   have hφρ2 : ((StrothTypeIndex.t200 m).action.φρ y) 2 =
       (j : ZMod (2 ^ (StrothTypeIndex.t200 m).k 2)) - (k : ZMod (2 ^ (StrothTypeIndex.t200 m).k 2)) := by
     rw [hy, map_add, map_add, map_zsmul, map_zsmul, map_zsmul]
     rw [hρ0, hρ1, hρ2]
-    simp [gen, Pi.single_apply, zsmul_eq_mul]
+    simp [gen, zsmul_eq_mul]
     ring
   have h2r : ((j - 2 * k : ℤ) : ZMod (2 ^ (StrothTypeIndex.t200 m).k 2)) = 2 * zr 2 := by
     have h := congrFun hzr' 2
     simp only [Pi.sub_apply] at h
     rw [hφρ2, hy2] at h
-    simp only [Pi.smul_apply, zsmul_eq_mul] at h
+    simp only [Pi.smul_apply] at h
     convert h using 2 <;> push_cast <;> ring
   have hj2k : Even (j - 2 * k) :=
     even_of_intCast_eq_two_mul (N := (StrothTypeIndex.t200 m).k 2)
@@ -359,7 +369,7 @@ theorem t200_square_section
     have h := congrFun hzr' 1
     simp only [Pi.sub_apply] at h
     rw [hφρ1, hy1] at h
-    simp only [Pi.smul_apply, zsmul_eq_mul] at h
+    simp only [Pi.smul_apply] at h
     push_cast
     ring_nf at h ⊢
     exact h
@@ -370,7 +380,7 @@ theorem t200_square_section
     rcases hneg with ⟨t, ht⟩
     refine ⟨-t, ?_⟩
     have hneg' := congrArg Neg.neg ht
-    simp only [neg_neg, neg_mul] at hneg'
+    simp only [neg_neg] at hneg'
     rw [hneg']
     ring
   have hj : Even j := by
@@ -412,10 +422,10 @@ theorem exists_square_root_c_t200
     (hH : NoInvolutionsCentralizing S' B) (hCS : C ≤ S') (hne : C ≠ B) :
     ∃ d : S, d ∈ C ∧ d ∉ B ∧ d * d = (D.c : S) := by
   classical
-  letI : CommGroup C :=
+  let : CommGroup C :=
     { (inferInstance : Group C) with mul_comm := comm_of_le_centralizer_of_type D hBC hC hrel }
   have hlt : B < C := lt_of_le_of_ne hBC hne.symm
-  obtain ⟨d, hdC, hdB⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨d, hdC, hdB⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hindex : (B.subgroupOf C).index = 2 := index_two_of_relIndex hBC hrel
   let dC : C := ⟨d, hdC⟩
   have hd2B : d * d ∈ B := by
@@ -445,7 +455,7 @@ theorem exists_square_root_c_t200
       have hmem : dC ∈ B.subgroupOf C := by
         rw [hd_eq]
         exact (B.subgroupOf C).mul_mem (by simpa [Subgroup.mem_subgroupOf] using hz)
-          (by simpa [Subgroup.mem_subgroupOf, bC] using b.2)
+          (by simp [Subgroup.mem_subgroupOf, bC])
       exact hdB (by simpa [Subgroup.mem_subgroupOf] using hmem)
     exact hzB (hH (zC : S) (hCS hzC) hz2 (hC hzC))
   have square_conj (g : S) (hgB : g ∈ Subgroup.normalizer B)
@@ -602,11 +612,13 @@ theorem mul_comm_C_of_type (D : StrothTypeData B τ) (hBC : B ≤ C)
     (x y : C) : x * y = y * x :=
   comm_of_le_centralizer_of_type D hBC hC hrel x y
 
+omit [Finite S] in
 theorem dC_sq_of_type (D : StrothTypeData B τ) (hBC : B ≤ C) {d : S}
     (hdC : d ∈ C) (hd2 : d * d = (D.c : S)) :
     (⟨d, hdC⟩ : C) * ⟨d, hdC⟩ = Subgroup.inclusion hBC D.c :=
   Subtype.ext hd2
 
+omit [Finite S] in
 theorem conj_dC_mul_of_type {g : S} (hBC : B ≤ C) {d : S} (hdC : d ∈ C)
     (hgC : g ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B) {b : B}
     (hb : conjBy hgC (⟨d, hdC⟩ : C) = ⟨d, hdC⟩ * Subgroup.inclusion hBC b) (β : B) :
@@ -621,7 +633,7 @@ theorem sq_rel_of_type (D : StrothTypeData B τ) (hBC : B ≤ C)
     {b β : B} (hb : conjBy hgC (⟨d, hdC⟩ : C) = ⟨d, hdC⟩ * Subgroup.inclusion hBC b)
     (hβ : conjBy hgB D.c = D.c * β) :
     (2 : ℤ) • D.ec b = D.ec β := by
-  letI : CommGroup C :=
+  let : CommGroup C :=
     { (inferInstance : Group C) with mul_comm := fun x y => mul_comm_C_of_type D hBC hC hrel x y }
   have hsq : (⟨d, hdC⟩ : C) * ⟨d, hdC⟩ * Subgroup.inclusion hBC (b * b) =
       Subgroup.inclusion hBC (conjBy hgB D.c) := by
@@ -645,6 +657,7 @@ theorem sq_rel_of_type (D : StrothTypeData B τ) (hBC : B ≤ C)
   rw [two_zsmul]
   exact add_left_cancel h1
 
+omit [Finite S] in
 theorem inv_rel_of_type (D : StrothTypeData B τ) (hBC : B ≤ C)
     {d : S} (hdC : d ∈ C) {g : S}
     (hgC : g ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B) {b : B}
@@ -671,6 +684,7 @@ theorem inv_rel_of_type (D : StrothTypeData B τ) (hBC : B ≤ C)
   rw [D.ec_mul, D.ec_one, hφ] at h5
   exact h5
 
+omit [Finite S] in
 theorem inv_rel_three_of_type (D : StrothTypeData B τ) (hBC : B ≤ C)
     {d : S} (hdC : d ∈ C) {g : S}
     (hgC : g ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B) {b : B}
@@ -702,6 +716,7 @@ theorem inv_rel_three_of_type (D : StrothTypeData B τ) (hBC : B ≤ C)
   simp only [D.ec_mul, D.ec_one, hφ] at h5
   simpa [add_assoc] using h5
 
+omit [Finite S] in
 theorem rel_uv_comm_u_of_type (D : StrothTypeData B τ) (hBC : B ≤ C)
     {d : S} (hdC : d ∈ C)
     (hLu : D.u ∈ Subgroup.normalizer C) (hLuv : D.uv ∈ Subgroup.normalizer C)
@@ -735,6 +750,7 @@ theorem rel_uv_comm_u_of_type (D : StrothTypeData B τ) (hBC : B ≤ C)
   have h5 := congrArg D.ec h3
   simpa [D.ec_mul, hφu, hφuv] using h5
 
+omit [Finite S] in
 theorem rel_t_rho_of_type (D : StrothTypeData B τ) (hBC : B ≤ C)
     {d : S} (hdC : d ∈ C)
     (hLt : D.t ∈ Subgroup.normalizer C) (hLr : D.ρ ∈ Subgroup.normalizer C)
@@ -780,6 +796,7 @@ theorem rel_t_rho_of_type (D : StrothTypeData B τ) (hBC : B ≤ C)
   rw [conjBy_mul, D.ec_mul, e1, e2] at h5
   simpa [map_add, add_assoc] using h5
 
+omit [Finite S] in
 theorem rel_u_rho_of_type (D : StrothTypeData B τ) (hBC : B ≤ C)
     {d : S} (hdC : d ∈ C)
     (hLu : D.u ∈ Subgroup.normalizer C) (hLr : D.ρ ∈ Subgroup.normalizer C)
@@ -846,7 +863,7 @@ theorem PhiUV_apply_gens (m : ℕ) (a b c : ℤ) :
   have hv21 : Type200.uvM 2 1 = 2 := by decide
   have hv22 : Type200.uvM 2 2 = 1 := by decide
   rw [hv00, hv01, hv02, hv10, hv11, hv12, hv20, hv21, hv22]
-  simp only [zero_mul, one_mul, zero_add, add_zero]
+  simp only [one_mul]
 
 theorem PhiT_apply_gens (m : ℕ) (a b c : ℤ) :
     PhiT m (a • gen (Type200.k m) 0 + b • gen (Type200.k m) 1 +
@@ -873,7 +890,7 @@ theorem k200_zero (m : ℕ) : Type200.k m 0 = m := by
   simp only [Type200.k, Matrix.cons_val_zero]
 
 theorem k200_one (m : ℕ) : Type200.k m 1 = m + 2 := by
-  simp only [Type200.k, Matrix.cons_val_one, Matrix.cons_val_zero, Matrix.head_cons]
+  simp only [Type200.k, Matrix.cons_val_one, Matrix.cons_val_zero]
 
 theorem k200_two (m : ℕ) : Type200.k m 2 = m + 2 := by
   simp only [Type200.k, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
@@ -917,7 +934,7 @@ theorem form_bu_t200 {m : ℕ} (hm : 1 ≤ m) {x : Torus (Type200.k m)}
     have h11 : Type200.uM 1 1 = 0 := by decide
     have h12 : Type200.uM 1 2 = 1 := by decide
     rw [h10, h11, h12] at h
-    simp only [zero_mul, mul_one, one_mul, add_zero, zero_add] at h
+    simp only [zero_mul, one_mul, add_zero, zero_add] at h
     have h' := gens_coord_one_of_eq_zero h
     rw [k200_one] at h'
     rw [Int.cast_add] at h'
@@ -1100,7 +1117,7 @@ theorem form_br_t200 {m : ℕ} (hm : 1 ≤ m) {z : Torus (Type200.k m)}
     have h := hφ
     rw [hz, Type200.PhiR_apply_gens, Type200.PhiR_apply_gens] at h
     have h0 := congrFun h 0
-    simp [gen, Pi.single_apply, zsmul_eq_mul] at h0
+    simp [gen, zsmul_eq_mul] at h0
     have hk : Type200.k m 0 = m := k200_zero m
     have h0' : (↑i + (↑i - ↑l) + (↑i - ↑j) : ZMod (2 ^ m)) = 0 := hk ▸ h0
     have hcast : (((i + (i - l) + (i - j) : ℤ)) : ZMod (2 ^ m)) = 0 := by
@@ -1256,7 +1273,7 @@ theorem form_buv_t200 {m : ℕ} (hm : 1 ≤ m) {z : Torus (Type200.k m)}
   rw [Type200.PhiUV_apply_gens] at hφ'
   have hφa : ((-4 * i0 + 2 * j0 + 2 * l0 : ℤ) : ZMod (2 ^ (m + 2))) = 0 := by
     have h := congrFun hφ' 1
-    simp [gen, Pi.single_apply, zsmul_eq_mul] at h
+    simp [gen, zsmul_eq_mul] at h
     have hk : Type200.k m 1 = m + 2 := k200_one m
     have h' : (↑j0 + (-(4 * ↑i0) + ↑j0 + 2 * ↑l0) : ZMod (2 ^ (m + 2))) = 0 := hk ▸ h
     have hcast : (((j0 + (-4 * i0 + j0 + 2 * l0) : ℤ)) : ZMod (2 ^ (m + 2))) = 0 := by
@@ -1613,7 +1630,7 @@ variable (hBC : B ≤ C) (hC : C ≤ Subgroup.centralizer (B : Set S))
   (hrel : Nat.card C = 2 * Nat.card B) {d : S} (hdC : d ∈ C) (hdB : d ∉ B)
   (hd2 : d * d = (D.c : S)) (hL : D.L ≤ Subgroup.normalizer C) (hm : 1 ≤ m)
 
-theorem bit_eps_200 (hm : 1 ≤ m) {ε δ p r : ℕ} (hε : ε ≤ 1) (hδ : δ ≤ 1)
+theorem bit_eps_200 (hm : 1 ≤ m) {ε δ p r : ℕ} (hε : ε ≤ 1) (_hδ : δ ≤ 1)
     (hp : p ≤ 1) (hr : r ≤ 1)
     (hX : xU200 D hBC hrel hdC hdB hL =
       ((ε : ℤ) * 2 ^ (m - 1)) • gen (Type200.k m) 0 +
@@ -1634,7 +1651,7 @@ theorem bit_eps_200 (hm : 1 ≤ m) {ε δ p r : ℕ} (hε : ε ≤ 1) (hδ : δ 
       Type200.PhiUV m (xU200 D hBC hrel hdC hdB hL) at h
   rw [hX, hW, Type200.PhiU_apply_gens, Type200.PhiUV_apply_gens] at h
   have h1 := congrFun h 1
-  simp [gen, Pi.single_apply, zsmul_eq_mul] at h1
+  simp [gen, zsmul_eq_mul] at h1
   have hNpos : 1 ≤ Type200.k m 1 := by rw [k200_one m]; omega
   have hN1 : Type200.k m 1 - 1 = m + 1 := by rw [k200_one m]; omega
   have hcast : ((((r : ℤ) - (p : ℤ) + (ε : ℤ)) * 2 ^ (Type200.k m 1 - 1) : ℤ) :
@@ -1672,7 +1689,7 @@ theorem bit_eps_200 (hm : 1 ≤ m) {ε δ p r : ℕ} (hε : ε ≤ 1) (hδ : δ 
     even_of_two_pow_mul_eq_zero_zmod hNpos hcast
   exact bit_eps_of_even hε hp hr he
 
-theorem bit_alpha_q_200 (hm : 1 ≤ m) {ε δ p r α q η θ : ℕ}
+theorem bit_alpha_q_200 (hm : 1 ≤ m) {_ε _δ p r α q η θ : ℕ}
     (hα : α ≤ 1) (hq : q ≤ 1) (hp : p ≤ 1) (hr : r ≤ 1)
     (hY : yT200 D hBC hrel hdC hdB hL = (0 : ℤ) • gen (Type200.k m) 0 +
       ((2 : ℤ) + (α : ℤ) * 2 ^ (m + 1)) • gen (Type200.k m) 1 +
@@ -1713,7 +1730,7 @@ theorem bit_alpha_q_200 (hm : 1 ≤ m) {ε δ p r α q η θ : ℕ}
     rw [show (2 : ZMod (2 ^ Type200.k m 2)) = ((2 : ℕ) : ZMod (2 ^ Type200.k m 2))
       by norm_num, ← Nat.cast_pow, ZMod.natCast_self]
   have ha := congrFun h 1
-  simp [gen, Pi.single_apply, zsmul_eq_mul] at ha
+  simp [gen, zsmul_eq_mul] at ha
   have hcasta : ((((p : ℤ) + (q : ℤ) + (α : ℤ)) * 2 ^ (Type200.k m 1 - 1) : ℤ) :
       ZMod (2 ^ Type200.k m 1)) = 0 := by
     rw [hN1]
@@ -1721,7 +1738,7 @@ theorem bit_alpha_q_200 (hm : 1 ≤ m) {ε δ p r α q η θ : ℕ}
     linear_combination ha + ((q : ZMod (2 ^ Type200.k m 1)) + (α : ZMod (2 ^ Type200.k m 1)) -
       (r : ZMod (2 ^ Type200.k m 1)) - (η : ZMod (2 ^ Type200.k m 1))) * hpow0a
   have hb := congrFun h 2
-  simp [gen, Pi.single_apply, zsmul_eq_mul] at hb
+  simp [gen, zsmul_eq_mul] at hb
   have hcastb : ((((r : ℤ) + (α : ℤ)) * 2 ^ (Type200.k m 2 - 1) : ℤ) :
       ZMod (2 ^ Type200.k m 2)) = 0 := by
     rw [hN2]
@@ -1738,8 +1755,8 @@ theorem bit_alpha_q_200 (hm : 1 ≤ m) {ε δ p r α q η θ : ℕ}
   rw [hαr] at hqpa
   exact hqpa
 
-theorem bit_delta_200 (hm : 1 ≤ m) {ε δ p r η θ : ℕ}
-    (hε : ε ≤ 1) (hδ : δ ≤ 1) (hη : η ≤ 1) (hθ : θ ≤ 1)
+theorem bit_delta_200 (hm : 1 ≤ m) {ε δ _p _r η θ : ℕ}
+    (_hε : ε ≤ 1) (hδ : δ ≤ 1) (hη : η ≤ 1) (_hθ : θ ≤ 1)
     (hX : xU200 D hBC hrel hdC hdB hL =
       ((ε : ℤ) * 2 ^ (m - 1)) • gen (Type200.k m) 0 +
         ((δ : ℤ) * 2 ^ (m + 1)) • gen (Type200.k m) 1 +
@@ -1761,7 +1778,7 @@ theorem bit_delta_200 (hm : 1 ≤ m) {ε δ p r η θ : ℕ}
   rw [hX, hZ, Type200.PhiR_apply_gens, Type200.PhiU_apply_gens,
     Type200.PhiR_apply_gens, Type200.PhiU_apply_gens, Type200.PhiR_apply_gens] at h
   have h1 := congrFun h 2
-  simp [gen, Pi.single_apply, zsmul_eq_mul] at h1
+  simp [gen, zsmul_eq_mul] at h1
   have hN2 : Type200.k m 2 - 1 = m + 1 := by rw [k200_two m]; omega
   have hNpos2 : 1 ≤ Type200.k m 2 := by rw [k200_two m]; omega
   have hpow0 : (2 : ZMod (2 ^ Type200.k m 2)) ^ m * 4 = 0 := by

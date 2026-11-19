@@ -15,7 +15,7 @@ variable {G : Type*} [Group G]
 theorem mem_normalizer_inf_centralizer {P : Subgroup G} [Finite P] {τ y : G}
     (hy : y ∈ normalizer (P : Set G)) (hyτ : y * τ = τ * y) :
     y ∈ normalizer ((P ⊓ centralizer ({τ} : Set G) : Subgroup G) : Set G) := by
-  haveI : Finite ↥(P ⊓ centralizer ({τ} : Set G)) :=
+  have : Finite ↥(P ⊓ centralizer ({τ} : Set G)) :=
     Finite.of_injective _ (inclusion_injective (inf_le_left : P ⊓ centralizer ({τ} : Set G) ≤ P))
   refine mem_normalizer_of_forall_conj_mem fun z hz => ?_
   obtain ⟨hzP, hzc⟩ := mem_inf.1 hz
@@ -76,16 +76,16 @@ theorem mul_mem_B₀B₁_of_not_mem {x y : G} (hx : x ∈ D.B) (hx' : x ∉ D.B�
 
 theorem E16_decomp {P : Subgroup G} (hP : D.IsE16 P) :
     P = (P ⊓ D.B₀) ⊔ (P ⊓ D.B₁) ∧ IsFourIn D.B₀ (P ⊓ D.B₀) ∧ IsFourIn D.B₁ (P ⊓ D.B₁) := by
-  haveI := D.finite_B₀
-  haveI := D.finite_B₁
+  have := D.finite_B₀
+  have := D.finite_B₁
   obtain ⟨hdec, h0, h1⟩ := eq_sup_inf_of_card D.B₀_comm_B₁ D.B₀_inf_B₁ D.elemBound_B₀
     D.elemBound_B₁ hP.1 hP.2.1 (hP.2.2.trans (by norm_num))
   exact ⟨hdec, ⟨inf_le_right, fun x hx => hP.2.1 x (mem_inf.1 hx).1, h0⟩,
     ⟨inf_le_right, fun x hx => hP.2.1 x (mem_inf.1 hx).1, h1⟩⟩
 
 theorem isE16_inf_B₀B₁ {E : Subgroup G} (hE : IsE64 T E) : D.IsE16 (E ⊓ (D.B₀ ⊔ D.B₁)) := by
-  haveI := D.finite_A
-  haveI := D.finite_B₀B₁
+  have := D.finite_A
+  have := D.finite_B₀B₁
   obtain ⟨-, -, h16⟩ := eq_sup_inf_of_card D.A_comm_B₀B₁ D.A_inf_B₀B₁ D.elemBound_A
     (ElemBound.sup D.B₀_comm_B₁ D.B₀_inf_B₁ D.elemBound_B₀ D.elemBound_B₁)
     (D.le_T₁_of_isE64 hE) hE.mul_self (by rw [hE.2.2]; norm_num)
@@ -232,7 +232,7 @@ theorem finite_pairT {V : Subgroup G} (hV : IsFourIn D.B₀ V) : Finite (D.pairT
 theorem mem_normalizer_pairT_of_mem {V : Subgroup G} (hV : IsFourIn D.B₀ V) {r : G}
     (hr : r ∈ D.B₀ ⊓ normalizer (V : Set G)) :
     r ∈ normalizer ((D.pairT V : Subgroup G) : Set G) := by
-  haveI := D.finite_pairT hV
+  have := D.finite_pairT hV
   obtain ⟨hrB, hrN⟩ := mem_inf.1 hr
   refine mem_normalizer_of_forall_conj_mem fun p hp => ?_
   obtain ⟨v, hv, u, hu, rfl⟩ := (D.mem_pairT hV.1).1 hp
@@ -252,8 +252,8 @@ theorem inf_normalizer_pairT_le {V : Subgroup G} (hV : IsFourIn D.B₀ V) :
     (D.B₀ ⊔ D.B₁) ⊓ normalizer ((D.pairT V : Subgroup G) : Set G) ≤
       (D.B₀ ⊓ normalizer (V : Set G)) ⊔
         (D.B₀t ⊓ normalizer ((D.tConj V : Subgroup G) : Set G)) := by
-  haveI : Finite V := hV.finite
-  haveI : Finite (D.tConj V) := Nat.finite_of_card_ne_zero (by
+  have : Finite V := hV.finite
+  have : Finite (D.tConj V) := Nat.finite_of_card_ne_zero (by
     rw [tConj, card_map_conj, hV.2.2]; norm_num)
   intro w hw
   obtain ⟨hwB, hwN⟩ := mem_inf.1 hw
@@ -284,8 +284,8 @@ theorem inf_normalizer_pairT_le {V : Subgroup G} (hV : IsFourIn D.B₀ V) :
 
 theorem card_pairT_inf_centralizer {V : Subgroup G} (hV : IsFourIn D.B₀ V) :
     Nat.card ↥(D.pairT V ⊓ centralizer ({D.t} : Set G)) = 4 := by
-  haveI := D.finite_pairT hV
-  haveI : Finite ↥(D.pairT V ⊓ centralizer ({D.t} : Set G)) :=
+  have := D.finite_pairT hV
+  have : Finite ↥(D.pairT V ⊓ centralizer ({D.t} : Set G)) :=
     Finite.of_injective _ (inclusion_injective
       (inf_le_left : D.pairT V ⊓ centralizer ({D.t} : Set G) ≤ D.pairT V))
   have hXY : ∀ x ∈ V, D.t * x * D.t⁻¹ ∈ D.tConj V := fun x hx => conj_mem_map_conj hx
@@ -310,7 +310,7 @@ theorem not_mem_normalizer_pairT {V : Subgroup G} (hV : IsFourIn D.B₀ V) {x : 
     (hx : x ∉ D.B₀ ⊔ D.B₁) : x ∉ normalizer ((D.pairT V : Subgroup G) : Set G) := by
   intro hxN
   obtain ⟨e⟩ := D.B₀_iso
-  haveI := D.finite_pairT hV
+  have := D.finite_pairT hV
   have hR0 : D.B₀ ⊓ normalizer (V : Set G) ≤ D.B₀ := inf_le_left
   have hR'0 : D.B₀t ⊓ normalizer ((D.tConj V : Subgroup G) : Set G) ≤ D.B₀t := inf_le_left
   have hc : ∀ y ∈ D.B₀ ⊓ normalizer (V : Set G),
@@ -366,9 +366,9 @@ theorem not_mem_normalizer_pairT {V : Subgroup G} (hV : IsFourIn D.B₀ V) {x : 
   obtain ⟨eQ⟩ := D.CBt_iso
   have h8 := card_inf_normalizer_le_of_semidihedral (by have := D.three_le_n; omega) eQ hΔB hΔ2
     hΔ4
-  haveI : Finite ↥(D.B ⊓ centralizer ({D.t} : Set G)) :=
+  have : Finite ↥(D.B ⊓ centralizer ({D.t} : Set G)) :=
     Nat.finite_of_card_ne_zero (by rw [D.card_CBt]; positivity)
-  haveI : Finite ↥(D.B ⊓ centralizer ({D.t} : Set G) ⊓
+  have : Finite ↥(D.B ⊓ centralizer ({D.t} : Set G) ⊓
       normalizer ((D.pairT V ⊓ centralizer ({D.t} : Set G) : Subgroup G) : Set G)) :=
     Finite.of_injective _ (inclusion_injective inf_le_left)
   have hmemM : ∀ y : G, y ∈ D.B → y * D.t = D.t * y →
@@ -403,7 +403,7 @@ theorem exists_conj_pairT {P : Subgroup G} (hP16 : Nat.card P = 16)
     (hV : IsFourIn D.B₀ (P ⊓ D.B₀)) {x : G} (hx : x * D.t⁻¹ ∈ D.B₀ ⊔ D.B₁)
     (hxN : x ∈ normalizer (P : Set G)) :
     ∃ c ∈ D.B₀ ⊔ D.B₁, (D.pairT (P ⊓ D.B₀)).map (MulAut.conj c).toMonoidHom = P := by
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hP16]; norm_num)
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hP16]; norm_num)
   rw [← D.B₀_sup_B₀t] at hx
   obtain ⟨w₀, hw₀, w₁, hw₁, hw⟩ := (mem_sup_iff_of_le_normalizer (le_normalizer_of_comm
     fun y hy z hz => D.B₀_comm_B₀t hy hz)).1 hx

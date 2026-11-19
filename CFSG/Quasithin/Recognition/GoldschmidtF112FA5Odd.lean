@@ -23,7 +23,7 @@ theorem exists_sylow_normalized_of_not_dvd {p q : ℕ} [Fact p.Prime] [Fact q.Pr
   let _ : MulDistribMulAction B L := MulDistribMulAction.compHom L φ
   let _ : MulAction B (Sylow p L) := Sylow.pointwiseMulAction
   obtain ⟨Q₀, hQ₀⟩ := hBq.nonempty_fixed_point_of_prime_not_dvd_card (Sylow p L) hcard
-  refine ⟨(Q₀ : Subgroup L).map L.subtype, map_subtype_le _, Q₀.isPGroup'.map _,
+  refine ⟨(Q₀ : Subgroup L).map L.subtype, map_subtype_le _, Q₀.isPGroup.map _,
     fun n hn => ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective (Subgroup.subtype_injective L)]
     exact Q₀.pow_dvd_card_of_pow_dvd_card hn

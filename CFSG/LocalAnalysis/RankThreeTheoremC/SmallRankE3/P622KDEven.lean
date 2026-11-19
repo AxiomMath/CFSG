@@ -133,7 +133,7 @@ theorem not_five_dvd_normalizer {J : Type} [Group J] [Finite J] {f : ℕ}
       rw [← pow_mul, mul_comm (2 * a + 1) 2]
     rw [e2]
     exact h
-  haveI : Finite (Sylow 2 J) := Nat.finite_of_card_ne_zero (by rw [hD.card]; omega)
+  have : Finite (Sylow 2 J) := Nat.finite_of_card_ne_zero (by rw [hD.card]; omega)
   have hIdx : Nat.card (Sylow 2 J) = (normalizer ((T : Subgroup J) : Set J)).index :=
     Sylow.card_eq_index_normalizer T
   have hIdx' : (normalizer ((T : Subgroup J) : Set J)).index = (2 ^ (2 * a + 1)) ^ 2 + 1 := by
@@ -165,8 +165,8 @@ theorem kFactFieldAutEvenAt_three_of_suzuki (h : KFactSuzukiThreeFree) :
     KFactFieldAutEvenAt 3 := by
   intro J _ _ α T hp3 hα h3 hsimple hnab hK hT _
   obtain ⟨f, hSz⟩ := h J hsimple hnab hK h3
-  haveI : IsSimpleGroup J := hsimple
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup J := hsimple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTidx : ¬ 2 ∣ T.index := by
     have h2 := (CFSG.ABGLocalTools.isSylowOf_iff.mp hT).2.2
     rwa [Subgroup.relIndex_top_right] at h2

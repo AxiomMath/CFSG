@@ -28,7 +28,7 @@ theorem kapMat_one_tv {m : ℕ} (p q : Fin (m + 1)) (c : Fld) :
     kapMat θ false (1 : SpecialLinearGroup (Fin (m + 1)) Fld) (tv Fld p q c) =
       tv Fld p q (θ c) := by
   simp only [kapMat, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
-    if_neg (Bool.false_ne_true), inv_one, one_mul, mul_one]
+    ite_eq_right (Bool.false_ne_true), inv_one, one_mul, mul_one]
   by_cases h : p = q
   · subst h
     simp [tv]

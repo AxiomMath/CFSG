@@ -41,10 +41,10 @@ theorem ggTwE6SCFourOutKnown_of_ad (h : GGTwE6SCFourOutAd) : GGTwE6SCFourOutKnow
   obtain ⟨hE, hI, hcard, hSC, ha₀, -, hcomp, -, -⟩ := hset'
   obtain ⟨φ₀, -, hφ₀⟩ := hI a₀ ha₀
   have hJ := commutator_eq_self_of_isComponentOf hcomp
-  haveI := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := lab.n * 2)
+  have := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := lab.n * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hinj : Function.Injective (iterateFrobenius K 2 lab.n) :=
     (iterateFrobenius K 2 lab.n).injective

@@ -577,7 +577,7 @@ theorem eq_one_of_central_commutator {p : ℕ} [hp : Fact p.Prime] (P : Sylow p 
     exact Subtype.ext (hPab _ b.2 _ a.2)
   rw [hcomm, Subgroup.mem_bot] at h2
   have h3 : z ^ (P : Subgroup G).index = 1 := congrArg Subtype.val h2
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨z, hzP⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨z, hzP⟩
   rw [Subgroup.orderOf_mk] at hk
   have hcop : Nat.Coprime (orderOf z) (P : Subgroup G).index := by
     rw [hk]
@@ -623,7 +623,7 @@ theorem sylow_comm_of_e64 (φ : G →* AEQ 7)
   have he64 : Nat.card e64Sub = 10752 :=
     le_antisymm Sp62Rec.card_e64Sub_le E64Ker.le_card_e64Sub
   have hdvd : Nat.card Pφ ∣ 10752 := he64 ▸ Subgroup.card_dvd_of_le hrange
-  have hpg : IsPGroup p Pφ := P.isPGroup'.map φ
+  have hpg : IsPGroup p Pφ := P.isPGroup.map φ
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hpg
   have hk1 : k ≤ 1 := by
     by_contra hk1
@@ -653,7 +653,7 @@ theorem sylow_comm_of_e64 (φ : G →* AEQ 7)
     intro y
     exact Subtype.ext (Subgroup.mem_center_iff.mp (hker hxk) y)
   intro a ha b hb
-  have := commutative_of_cyclic_center_quotient f hkf ⟨a, ha⟩ ⟨b, hb⟩
+  have := (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center f hkf).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩
   exact congrArg Subtype.val this
 
 theorem oddCore_eq_bot_of_e64 {P : Set (Subgroup G)}
@@ -810,7 +810,7 @@ theorem K1'_le_X : conjSub b K' ≤ xA R A := (le_xA_iff H.mem_K1').mpr H.K'_le
 theorem isPGroup_A : IsPGroup 2 A := by
   intro a
   refine ⟨1, Subtype.ext ?_⟩
-  simp only [pow_one, Subgroup.coe_pow, pow_two, Subgroup.coe_one]
+  simp only [pow_one, pow_two, Subgroup.coe_one]
   exact H.e64.2.1 a a.2
 
 theorem A_ne_bot : A ≠ ⊥ := by
@@ -821,7 +821,7 @@ theorem A_ne_bot : A ≠ ⊥ := by
 
 theorem card_lt : Nat.card (xA R A) < n := by
   have hC := H.cfg.std.perp.core
-  haveI := hC.simple
+  have := hC.simple
   have hne := ne_top_of_le_normalizer hC.nonab H.A_ne_bot H.isPGroup_A (xA_le R A)
   rw [← hC.card]
   exact lt_of_le_of_ne (Subgroup.card_le_card_group _) fun heq =>
@@ -1029,7 +1029,7 @@ theorem gen (hT : Thm4RTwinBelow 3 n) :
   rw [← hx]
   exact le_iSup (fun x : xA R A => conjSub (x : Y) (conjSub b (tightCore R))) x
 
-theorem normA : ∀ x ∈ xA R A, ∀ v ∈ A, x * v * x⁻¹ ∈ A := fun x hx v hv =>
+theorem normA : ∀ _x ∈ xA R A, ∀ v ∈ A, _x * v * _x⁻¹ ∈ A := fun _x hx v hv =>
   (Subgroup.mem_normalizer_iff.mp (xA_le R A hx) v).mp hv
 
 theorem thmDHyp (hT : Thm4RTwinBelow 3 n) :

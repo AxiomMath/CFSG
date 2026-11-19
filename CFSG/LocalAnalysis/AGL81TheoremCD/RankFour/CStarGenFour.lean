@@ -27,7 +27,7 @@ theorem sigmaA_eq_uniqueFourBeta (hS : Standing4 G) :
 theorem mem_uniqueFourSigma_of_two_le_pRank (hU : uniqueFourUnique G)
     {N : Subgroup G} (hN : uniqueFourIsMaxTwoLocal N) {p : ℕ}
     (hp : p ∈ uniqueFourBeta G) (h2 : 2 ≤ Open.pRank p N) : p ∈ uniqueFourSigma N := by
-  haveI : Fact p.Prime := ⟨hp.1⟩
+  have : Fact p.Prime := ⟨hp.1⟩
   obtain ⟨E, hEN, hEel, hEcard⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := p) (k := 2) h2
   obtain ⟨N', hN', hpN'⟩ := exists_maxLocal_mem_sigma hp
@@ -73,7 +73,7 @@ private theorem pRank_le_one_of_cyclic_pSubgroups {p : ℕ} (hp : p.Prime)
   refine CFSG.SectionRank.pRank_le hp.one_lt (H := R) (k := 1) ?_
   intro E hE hEel
   have hEcyc : IsCyclic ↥E := hcyc E hE hEel.isPGroup
-  haveI : IsCyclic ↥E := hEcyc
+  have : IsCyclic ↥E := hEcyc
   obtain ⟨x, hx⟩ := isCyclic_iff_exists_zpowers_eq_top.mp (inferInstance : IsCyclic E)
   have hcard : Nat.card E = orderOf x := (orderOf_eq_card_of_zpowers_eq_top hx).symm
   have hxq : x ^ p = 1 := by
@@ -96,7 +96,7 @@ private theorem uniqueFourLayer_centralizer_pRank_le_one_of_ne {N P₀ : Subgrou
       (uniqueFourPrimeCore p (Subgroup.centralizer (P₀ : Set G)) ⊔ P₀)) :
     CFSG.Open.pRank q (Subgroup.centralizer (P₀ : Set G) ⊓
       Subgroup.centralizer (rankThreeLayer (Subgroup.centralizer (P₀ : Set G)) : Set G)) ≤ 1 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨hKne, -, hKX, hKnorm, hVX, -, -, hfpf⟩ := hfrob
   have hK2 : IsPGroup 2 (pCoreOf 2 N) :=
     CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_isPGroup 2 N
@@ -154,7 +154,7 @@ theorem almostStrongCore_of_uniqueFourAlmostStrong {N : Subgroup G} {p : ℕ}
   refine ⟨P, hPN, ?_, ?_⟩
   · simpa [rankThreeGamma, uniqueFourGamma] using hΓ
   · rcases hcase with ⟨hdvd, hstrong⟩ | ⟨h5, hsolv, -, P₀, hP₀⟩
-    · haveI : Fact p.Prime := ⟨hpβ.1⟩
+    · have : Fact p.Prime := ⟨hpβ.1⟩
       have hPne : (P : Subgroup G) ≠ ⊥ :=
         Sylow.ne_bot_of_dvd_card (G := G) (p := p) P hpβ.2.2.1
       have hstr := isStronglyPEmbedded_of_clause_one hNne hdvd hstrong

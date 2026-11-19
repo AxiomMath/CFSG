@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem s1611e3_normalizer_le_of_local {D : Data G} (h : S1611e3Std D) {V₀ V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hc : Counterex16 D V₀ V L hV) {p : ℕ} (hp : p ∈ D.sig)
     (Itil : Subgroup (Vtil V₀ V hV))
-    (hIT : ∀ φ ∈ barSub V₀ V hV D.T, Itil.map φ.toMonoidHom = Itil)
+    (_hIT : ∀ φ ∈ barSub V₀ V hV D.T, Itil.map φ.toMonoidHom = Itil)
     (hI3 : ∀ w ∈ Itil, w ≠ 1 → ∃ y ∈ Mbar D.M V₀ V hV, orderOf y = p ∧ y w = w)
     (hMod : ∀ E : Subgroup (MulAut (Vtil V₀ V hV)), E ≤ barSub V₀ V hV D.T → IsElemAbelian2 E →
       E ≠ ⊥ → ∃ B ≤ E, E3.mQuot E B = 1 ∧ ∃ u : Vtil V₀ V hV, (∀ b ∈ B, b u = u) ∧

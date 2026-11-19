@@ -20,9 +20,9 @@ theorem l3_card_simple_section_statedProj_three {K : Type} [Field K] [Finite K] 
     [IsSimpleGroup Q] (hab : ∃ a b : Q, a * b ≠ b * a) (g : A →* Q)
     (hg : Function.Surjective g) :
     Nat.card Q = 60 ∨ ∃ m : ℕ, 2 ≤ m ∧ Nat.card Q = 2 ^ m * (4 ^ m - 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hK)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hK)
   let ι₀ : StatedProj (StatedSL 3 K) →* Matrix.ProjGenLinGroup (Fin 3) K :=
     ((StatedSL 3 K).map
       (Matrix.ProjGenLinGroup.mk : GL (Fin 3) K →* Matrix.ProjGenLinGroup (Fin 3) K)).subtype.comp

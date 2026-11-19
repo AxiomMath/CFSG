@@ -165,7 +165,7 @@ theorem critical_two_subgroup_full_layer_and_odd_two_core_of_inputs
   have hS2 : IsPGroup 2 S := by
     obtain ⟨P₀, hP₀⟩ := hSsyl
     have h1 : IsPGroup 2 (S.subgroupOf (centralizer ({a} : Set G) ⊓ normalizer (J : Set G))) :=
-      hP₀ ▸ P₀.isPGroup'
+      hP₀ ▸ P₀.isPGroup
     exact h1.of_equiv (subgroupOfEquivOfLe hSX)
   have hA2 := actual_two_local_fixed_layer_orbits_of_inputs hS hU hheld hnonab hK ha hJa hJ hSX
     hSsyl hP H R T X E V hH hR hT hX hE hV d hd
@@ -344,7 +344,7 @@ theorem critical_two_subgroup_full_layer_and_odd_two_core_of_inputs
     obtain ⟨Ps, hPs⟩ := (hB2.comap_of_injective D.subtype D.subtype_injective).exists_le_sylow
     refine ⟨Ps, ?_⟩
     set PsG := (Ps : Subgroup ↥D).map D.subtype with hPsGdef
-    have hPsG2 : IsPGroup 2 PsG := Ps.isPGroup'.map _
+    have hPsG2 : IsPGroup 2 PsG := Ps.isPGroup.map _
     have hPsGL : PsG ≤ L := (map_subtype_le _).trans hDL
     obtain ⟨c, hcL, hcQ⟩ := UnbalancedLayer.exists_conjugate_le_of_sylow hQsyl hPsGL hPsG2
     have hcD : conjugate PsG c ≤ D := by

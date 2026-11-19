@@ -133,7 +133,7 @@ theorem Sec7E16Act.mem_ker_rho (h : Sec7E16Act N B φ) (x : ↥N) :
       group
     exact this
 
-theorem Sec7E16Act.pow_act (h : Sec7E16Act N B φ) {x : G} {σ : Equiv.Perm (Fin 5)}
+theorem Sec7E16Act.pow_act (_h : Sec7E16Act N B φ) {x : G} {σ : Equiv.Perm (Fin 5)}
     (hσ : ∀ v, IsEvenVec v → x * φ v * x⁻¹ = φ (permVec σ v)) (k : ℕ) :
     ∀ v, IsEvenVec v → x ^ k * φ v * (x ^ k)⁻¹ = φ (permVec (σ ^ k) v) := by
   induction k with
@@ -187,7 +187,7 @@ theorem Sec7E16Act.card_N [Finite G] (h : Sec7E16Act N B φ) : Nat.card N = 1920
 
 theorem Sec7E16Act.card_sylow [Finite G] (h : Sec7E16Act N B φ) {P : Subgroup G}
     (hP : IsSylow2Of P N) : Nat.card P = 2 ^ 7 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hle, hp, hnd⟩ := hP
   obtain ⟨k, hk⟩ := hp.exists_card_eq
   have hmul := Subgroup.relIndex_mul_card (H := P) (K := N)

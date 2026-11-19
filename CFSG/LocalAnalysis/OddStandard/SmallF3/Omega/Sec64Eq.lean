@@ -19,11 +19,11 @@ private theorem sec64_sectional_le_three [Finite G] {T H : Subgroup G} {F : Type
     (hQ : QuotEquivTo T (T ⊓ H) F) (hU : IsCyclic ↥(T ⊓ H))
     (hF : CFSG.GH74.SectionalTwoRankLE F 2) : CFSG.GH74.sectionalTwoRank T ≤ 3 := by
   obtain ⟨φ, hφ, hker⟩ := hQ
-  haveI : Finite ↥T := inferInstance
-  haveI : φ.ker.Normal := MonoidHom.normal_ker φ
+  have : Finite ↥T := inferInstance
+  have : φ.ker.Normal := MonoidHom.normal_ker φ
   rw [CFSG.GH74.sectionalTwoRank_le_iff]
   have hcyc : CFSG.GH74.SectionalTwoRankLE ↥(φ.ker) 1 := by
-    haveI : IsCyclic ↥(T ⊓ H) := hU
+    have : IsCyclic ↥(T ⊓ H) := hU
     have hle : T ⊓ H ≤ T := inf_le_left
     rw [hker]
     exact CFSG.GH74.SectionalTwoRankLE.of_mulEquiv

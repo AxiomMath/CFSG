@@ -110,12 +110,12 @@ theorem exists_mul_eq_of_mem_centralizer (hK : Nat.card K = 2) (hζo : IsPrimiti
       rw [hv0, map_zero]
     · rw [F.tor_zero]
       exact one_mem _
-  · haveI : NeZero n := ⟨by
+  · have : NeZero n := ⟨by
       intro h0
       subst h0
       have hsub : Subsingleton (Fin F.s → L) :=
         ⟨fun a b => F.Φ.injective (Subsingleton.elim (F.Φ a) (F.Φ b))⟩
-      haveI := hsub
+      have := hsub
       have hs : F.s = 0 := by
         by_contra hs
         obtain ⟨i⟩ := Fin.pos_iff_nonempty.mp (Nat.pos_of_ne_zero hs)
@@ -123,7 +123,7 @@ theorem exists_mul_eq_of_mem_centralizer (hK : Nat.card K = 2) (hζo : IsPrimiti
         have h2 := congrFun h1 i
         rw [Pi.single_eq_same, Pi.zero_apply] at h2
         exact one_ne_zero h2
-      haveI : IsEmpty (Fin F.s) := by rw [hs]; infer_instance
+      have : IsEmpty (Fin F.s) := by rw [hs]; infer_instance
       exact hf (Subsingleton.elim f 0)⟩
     have hw : F.tor f ^ 3 = 1 := F.tor_pow_three hζo.pow_eq_one f
     have blocks := F.blocks_tor hK hζo hf
@@ -149,7 +149,7 @@ theorem exists_mul_eq_of_mem_centralizer (hK : Nat.card K = 2) (hζo : IsPrimiti
       rw [← blocks.directProduct.2.2]
       exact iSup_le hfac
     have hsup : A ⊔ B = Subgroup.centralizer {F.tor f} := le_antisymm (sup_le hA hB) hCw
-    haveI hAn : (A.subgroupOf (Subgroup.centralizer {F.tor f})).Normal :=
+    have hAn : (A.subgroupOf (Subgroup.centralizer {F.tor f})).Normal :=
       SevSpNs.normal_subgroupOf_of_normalized hA (spFixedFactor_normalized (F.tor f))
     have hsub : A.subgroupOf (Subgroup.centralizer {F.tor f}) ⊔
         B.subgroupOf (Subgroup.centralizer {F.tor f}) = ⊤ := by
@@ -167,6 +167,7 @@ section Component
 
 variable [NeZero n]
 
+omit [NeZero n] in
 theorem le_spFixedFactor_or_le_spSupported (hK : Nat.card K = 2) (hζo : IsPrimitiveRoot ζ 3)
     {f : Fin F.s → ZMod 3} {D Q : Subgroup (StatedSp n K)}
     (hDw : D ≤ Subgroup.centralizer {F.tor f})
@@ -269,7 +270,7 @@ section Components
 variable {G : Type*} [Group G]
 
 theorem isComponentOf_centralizer_of_inf {x : G} {D L₀ J : Subgroup G}
-    (hxD : x ∈ D) (hLx : L₀ ≤ Subgroup.centralizer {x})
+    (hxD : x ∈ D) (_hLx : L₀ ≤ Subgroup.centralizer {x})
     (hLn : ∀ m ∈ Subgroup.centralizer ({x} : Set G), ∀ g ∈ L₀, m * g * m⁻¹ ∈ L₀)
     (hJ : IsComponentOf J (L₀ ⊓ Subgroup.centralizer (D : Set G))) :
     IsComponentOf J (Subgroup.centralizer (D : Set G)) := by

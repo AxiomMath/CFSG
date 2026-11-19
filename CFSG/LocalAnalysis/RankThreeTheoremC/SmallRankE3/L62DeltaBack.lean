@@ -19,6 +19,7 @@ section Delta3Core
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem delta3_map_inf_comap {S : Subgroup H} {Q : Subgroup (Bar H)}
     (hQS : Q ≤ S.map (barMk H)) :
     (S ⊓ Q.comap (barMk H)).map (barMk H) = Q := by
@@ -32,6 +33,7 @@ theorem delta3_map_inf_comap {S : Subgroup H} {Q : Subgroup (Bar H)}
     rw [hyx]
     exact hx
 
+omit [Finite H] in
 theorem delta3_sup_prime {S : Subgroup H} {Q : Subgroup (Bar H)}
     (hQS : Q ≤ S.map (barMk H)) :
     (S ⊓ Q.comap (barMk H)) ⊔ primeComplementCore (G := H) 3 = Q.comap (barMk H) := by
@@ -85,7 +87,7 @@ theorem smallRankCaseDelta3_of_sylow {G : Type} [Group G] [Finite G] {P : Sylow 
     {Q : Subgroup (Bar ↥M)} (hQn : Q.Normal) (hcyc : IsCyclic ↥Q) (h9 : 9 ∣ Nat.card ↥Q)
     (hQS : Q ≤ (S : Subgroup ↥M).map (barMk ↥M)) :
     SmallRankCaseDelta3 P M := by
-  have hS3 : IsPGroup 3 (S : Subgroup ↥M) := S.isPGroup'
+  have hS3 : IsPGroup 3 (S : Subgroup ↥M) := S.isPGroup
   have hMinj : Function.Injective M.subtype := Subgroup.subtype_injective M
   have hN0 : IsCyclic ↥((S : Subgroup ↥M) ⊓ Q.comap (barMk ↥M)) :=
     delta3_isCyclic hS3 hQS hcyc
@@ -120,7 +122,7 @@ theorem smallRankCaseDelta3_of_pCore {G : Type} [Group G] [Finite G] {P : Sylow 
     (hcyc : IsCyclic ↥(CFSG.pCore 3 (Bar ↥M)))
     (h9 : 9 ≤ Nat.card ↥(CFSG.pCore 3 (Bar ↥M))) :
     SmallRankCaseDelta3 P M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsurj : Function.Surjective (barMk ↥M) :=
     QuotientGroup.mk'_surjective (primeComplementCore (G := ↥M) 3)
   have h9dvd : 9 ∣ Nat.card ↥(CFSG.pCore 3 (Bar ↥M)) := by

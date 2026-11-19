@@ -14,7 +14,7 @@ open CFSG.Blueprint.NativeSporadic CFSG.Open CFSG.Sporadic.Recognition.LyonsSims
 
 theorem wcOn_three_of_lemma45 {G : Type} [Group G] [Finite G] {x : G} (T : Sylow 3 G)
     (h : Lemma45 x (T : Subgroup G)) : WCOn 3 G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine WCOn.of_sylow T fun hc => ?_
   exfalso
   obtain ⟨R, E, hRT, -, hR, -, hE, hcent, -⟩ := h
@@ -49,7 +49,7 @@ theorem wcSporadicAt_Ly
   rcases hmem with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   · exact absurd rfl hq2
   · exact wcOn_Ly_three
-  · haveI : Fact (Nat.Prime 5) := ⟨hq⟩
+  · have : Fact (Nat.Prime 5) := ⟨hq⟩
     exact WCOn.of_hasNoncommPair CFSG.RankThree.PartOne.CTP.hasNoncommPair_Ly
   all_goals (exfalso; norm_num at hdvd)
 

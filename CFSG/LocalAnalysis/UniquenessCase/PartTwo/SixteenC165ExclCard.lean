@@ -25,7 +25,7 @@ theorem card_isOmegaPlus_four {X : Type} [Group X] {a : ℕ} (ha : 2 ≤ a)
   have hv : ∃ v, quadPlus 2 K v ≠ 0 := by
     refine ⟨fun i => if i = Sum.inl 0 ∨ i = Sum.inr 0 then 1 else 0, ?_⟩
     rw [coe_quadPlus]
-    simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_two]
+    simp [StatedQuadPlus]
   obtain ⟨e2⟩ := uc22p22d_omegaPlus4_equiv (F := K) h4
   rw [Nat.card_congr e.toEquiv,
     CFSG.Timmesfeld.ClassicalOrders.card_statedProj_statedOmega (coe_quadPlus 2 K) hv,

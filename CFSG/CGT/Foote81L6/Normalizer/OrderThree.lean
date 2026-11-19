@@ -148,7 +148,7 @@ theorem exists_central_inverted_of_transvection [Finite V] [Finite X] (hV : ∀ 
     have hΦodd : Odd (Nat.card Φ) := by
       rw [hΦ, Subgroup.card_map_of_injective hρ]
       exact hK
-    haveI : Group.IsSolvable Φ := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hΦodd
+    have : Group.IsSolvable Φ := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hΦodd
     have htΦ : ∀ f ∈ Φ, ρ d * f * (ρ d)⁻¹ ∈ Φ := by
       rintro _ ⟨k, hk, rfl⟩
       exact ⟨d * k * d⁻¹, hdK k hk, by simp [map_mul, map_inv]⟩

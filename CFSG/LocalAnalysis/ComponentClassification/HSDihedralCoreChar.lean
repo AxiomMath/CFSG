@@ -30,7 +30,7 @@ theorem nonempty_fusion (hA : AutFacts Δ) (hX : ¬ SectionalRankLeFour X) :
   classical
   obtain ⟨T, hST, x, hxT, hxS, hx⟩ := Δ.exists_fusion hA hX
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨N, hN⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup') ⟨x, hxT⟩
+  obtain ⟨N, hN⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup) ⟨x, hxT⟩
   rw [Subgroup.orderOf_mk] at hN
   have hP : ∃ n : ℕ, x ^ 2 ^ n ∈ Δ.S := ⟨N, by rw [← hN, pow_orderOf_eq_one]; exact one_mem _⟩
   set n₀ := Nat.find hP with hn₀
@@ -57,7 +57,7 @@ namespace Fusion
 variable (φ : Δ.Fusion)
 
 omit [Finite X] in
-theorem isPGroup : IsPGroup 2 (φ.T : Subgroup X) := φ.T.isPGroup'
+theorem isPGroup : IsPGroup 2 (φ.T : Subgroup X) := φ.T.isPGroup
 
 theorem conj_inv_mem {s : X} (hs : s ∈ Δ.S) : φ.x⁻¹ * s * φ.x ∈ Δ.S := by
   have hle : Δ.S.map (MulAut.conj φ.x).toMonoidHom ≤ Δ.S := by

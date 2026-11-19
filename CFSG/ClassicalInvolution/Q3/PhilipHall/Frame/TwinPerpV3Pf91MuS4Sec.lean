@@ -48,7 +48,7 @@ section Sec
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {c : G}
 
 theorem omegaStarNbr_cFam (hΩ : HypOmegaGen Ω) {K J : Subgroup G} (hJ2 : IsPGroup 2 J)
-    (hKcore : K ∈ TwinADescent.coreFamily Ω c) (hJcore : J ∈ TwinADescent.coreFamily Ω c)
+    (_hKcore : K ∈ TwinADescent.coreFamily Ω c) (hJcore : J ∈ TwinADescent.coreFamily Ω c)
     (hKC : K ≤ Subgroup.centralizer ({c} : Set G)) (hJC : J ≤ Subgroup.centralizer ({c} : Set G))
     (h : J ∈ omegaStarNbr Ω K) :
     J.subgroupOf (Subgroup.centralizer ({c} : Set G)) ∈

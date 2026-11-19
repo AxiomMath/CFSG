@@ -12,7 +12,7 @@ open CFSG.Assembly CFSG.Blueprint CFSG.LieType.Universal CFSG.LieType.RootSystem
 open CFSG.Open (StatedLieTag StatedLieAdmissible)
 
 theorem irgRootPairAut_POmegaPlus
-    {n g : ℕ} (hn : 5 ≤ n) (hadm : StatedLieAdmissible .POmegaPlus n 2 g) :
+    {n g : ℕ} (hn : 5 ≤ n) (_hadm : StatedLieAdmissible .POmegaPlus n 2 g) :
     IRGRootPairAut .POmegaPlus n g := by
   have hn3 : 3 ≤ n := by omega
   have hsrc : ggU .POmegaPlus n g =

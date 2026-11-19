@@ -12,6 +12,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 private theorem nine3_pair_sum_list_prod_mem {W : Subgroup G} (l : List G) (f : G → G)
     (h : ∀ x ∈ l, f x ∈ W) : (l.map f).prod ∈ W := by
   induction l with
@@ -20,6 +21,7 @@ private theorem nine3_pair_sum_list_prod_mem {W : Subgroup G} (l : List G) (f : 
       rw [List.map_cons, List.prod_cons]
       exact W.mul_mem (h x (by simp)) (ih fun y hy => h y (by simp [hy]))
 
+omit [Finite G] in
 private theorem nine3_pair_sum_comm_list {W : Subgroup G}
     (hW : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a) {i : G} (l : List G)
     (hl : ∀ x ∈ l, x ∈ W) (hlc : ∀ x ∈ l, ⁅i, x⁆ ∈ W) :
@@ -42,6 +44,7 @@ private theorem nine3_pair_sum_comm_list {W : Subgroup G}
         _ = (List.map (fun x => ⁅i, x⁆) (x :: l)).prod := by
               rw [List.map_cons, List.prod_cons]
 
+omit [Finite G] in
 private theorem nine3_pair_sum_prod_inv {W : Subgroup G}
     (hW : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a) (l : List ↥W) :
     (l.map fun x => x⁻¹).prod = (l.prod)⁻¹ := by
@@ -51,6 +54,7 @@ private theorem nine3_pair_sum_prod_inv {W : Subgroup G}
       rw [List.map_cons, List.prod_cons, List.prod_cons, ih, mul_inv_rev]
       exact Subtype.ext (hW x⁻¹ (W.inv_mem x.2) (l.prod)⁻¹ (W.inv_mem (l.prod).2))
 
+omit [Finite G] in
 private theorem nine3_pair_sum_conj_prod (l : List G) (a : G) :
     (l.map fun z => a⁻¹ * z * a).prod = a⁻¹ * l.prod * a := by
   induction l with
@@ -71,7 +75,7 @@ theorem nine3_pair_five_sum (hc : Nine3Choice V T A K S X p g x) (hI : Nine3IFac
         ((List.finRange 5).map fun l => ⁅g⁻¹ * bb (σ.symm l) * g, j⁆).prod = 1) ∧
       ∀ h ∈ nineH V K, ⁅bb 1 * bb 2 * bb 3 * bb 4, h⁆ ∈ nineI V K := by
   classical
-  letI : CommMonoid ↥(nineW V S) :=
+  let : CommMonoid ↥(nineW V S) :=
     { (inferInstance : Monoid ↥(nineW V S)) with
       mul_comm := fun a b => Subtype.ext (hc.core.nineW_mul_comm a.2 b.2) }
   have hbbprod : ((List.finRange 5).map bb).prod = bb 1 * bb 2 * bb 3 * bb 4 := by

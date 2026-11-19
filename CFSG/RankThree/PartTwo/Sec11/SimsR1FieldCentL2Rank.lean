@@ -49,7 +49,7 @@ theorem simpleFixedRank_of_equiv_L2 {p e : ℕ} [Fact p.Prime] (hp : 5 ≤ p) (h
     rw [inSubgroup, htop, Subgroup.map_top, Subgroup.range_subtype]
   have hnc : ¬ (∀ x y : Sec11.fixedSub α, x * y = y * x) := by
     intro hcomm
-    haveI : IsMulCommutative (Sec11.fixedSub α) := ⟨⟨fun x y => hcomm x y⟩⟩
+    have : IsMulCommutative (Sec11.fixedSub α) := ⟨⟨fun x y => hcomm x y⟩⟩
     exact Group.IsPerfect.not_isMulCommutative _ this
   have hrank : HasPRank (Sec11.fixedSub α) p e := by
     have h01 : (0 : Fin 2) ≠ 1 := by decide

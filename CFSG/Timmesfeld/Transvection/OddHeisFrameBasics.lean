@@ -244,7 +244,7 @@ theorem SURelations.toHom_shortWeyl_cPrevIdx
         R.ξ (Sum.inl (cPrevIdx r hr)) (Sum.inr (cLastIdx r hr)) c := by
   have hidx : (⟨(cPrevIdx r hr).val + 1, hk⟩ : Fin (2 * r / 2)) = cLastIdx r hr := by
     apply Fin.ext
-    simp only [cPrevIdx, cLastIdx, Fin.val_mk]
+    simp only
     omega
   rw [← shortWeyl_eq (m := 2 * r) (σ := unitaryInvolution F 2 n) (i := cPrevIdx r hr)
     (unitaryInvolution_involutive hFn) hk c, map_mul, map_mul,
@@ -259,7 +259,7 @@ theorem SURelations.toHom_levelWeyl_cPrevIdx :
         R.ξ (Sum.inl (cLastIdx r hr)) (Sum.inr (cPrevIdx r hr)) (-1⁻¹) *
         R.ξ (Sum.inl (cPrevIdx r hr)) (Sum.inr (cLastIdx r hr)) 1 := by
   have hk : (cPrevIdx r hr).val + 1 < 2 * r / 2 := by
-    simp only [cPrevIdx, Fin.val_mk]
+    simp only
     omega
   have hstep : levelWeyl (unitaryInvolution_involutive hFn) ⟨1, one_mem_traceZero⟩
       (cPrevIdx r hr) =

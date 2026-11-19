@@ -61,7 +61,7 @@ theorem invariant_sylow_containing [Finite GroupType]
   let embedded : Subgroup GroupType :=
     (normalizerSylow : Subgroup normalizer).map normalizer.subtype
   have embedded_pgroup : IsPGroup sylowPrime embedded :=
-    normalizerSylow.isPGroup'.map normalizer.subtype
+    normalizerSylow.isPGroup.map normalizer.subtype
   have embedded_invariant : ∀ actorElement : ActorType, ∀ element ∈ embedded,
       actorElement • element ∈ embedded := by
     intro actorElement element member

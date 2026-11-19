@@ -48,8 +48,8 @@ theorem fuseCheck_parts :
   simp only [Bool.or_eq_true, beq_iff_eq, Bool.and_eq_true] at this
   rcases this with h0 | ⟨⟨h1, h2⟩, h3⟩
   · exact absurd h0 hk0
-  · exact ⟨h1, h2, fun hc => by rw [if_pos hc] at h3; exact h3,
-      fun hc => by rw [if_neg hc] at h3; exact h3⟩
+  · exact ⟨h1, h2, fun hc => by rw [ite_eq_left hc] at h3; exact h3,
+      fun hc => by rw [ite_eq_right hc] at h3; exact h3⟩
 
 end Fuse
 

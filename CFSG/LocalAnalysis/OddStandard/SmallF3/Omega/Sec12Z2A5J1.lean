@@ -17,7 +17,7 @@ theorem z2a5_not_J1
     [Finite Y] (h : Z2A5Hyp Y τ) {S : Subgroup Y}
     (hS : FixedData Y S) : ¬ NativeSporadic.IsSporadic ↥S .J1 := by
   rintro ⟨eS⟩
-  haveI := hS.normal
+  have := hS.normal
   have htop : S = ⊤ := CFSG.EvenSporadicStandard.HSStd.InvCent.Harada.eq_top_of_J1 hS.cent eS
   have eG : Y ≃* NativeSporadic.Carrier .J1 :=
     ((Subgroup.topEquiv (G := Y)).symm.trans (MulEquiv.subgroupCongr htop.symm)).trans eS

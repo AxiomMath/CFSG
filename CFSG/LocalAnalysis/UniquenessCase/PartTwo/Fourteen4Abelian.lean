@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem map_conj_inf_centralizer {V : Subgroup G} {g : G}
     (hg : g ∈ normalizer (V : Set G)) (y : G) :
     (V ⊓ centralizer ({y} : Set G)).map (MulAut.conj g : G →* G) =
@@ -39,6 +40,7 @@ private theorem map_conj_inf_centralizer {V : Subgroup G} {g : G}
         group
   rw [Subgroup.map_inf _ _ _ (MulAut.conj g).injective, hV, hC]
 
+omit [Finite G] in
 private theorem card_inf_centralizer_eq {V : Subgroup G} {g y z : G}
     (hg : g ∈ normalizer (V : Set G)) (hz : g * y * g⁻¹ = z) :
     Nat.card ↥(V ⊓ centralizer ({y} : Set G)) = Nat.card ↥(V ⊓ centralizer ({z} : Set G)) := by
@@ -47,12 +49,14 @@ private theorem card_inf_centralizer_eq {V : Subgroup G} {g y z : G}
   rw [← this]
   exact (Subgroup.card_map_of_injective (MulAut.conj g).injective).symm
 
+omit [Finite G] in
 private theorem centralizer_inv_singleton (y : G) :
     centralizer ({y⁻¹} : Set G) = centralizer ({y} : Set G) := by
   ext z
   simp only [Subgroup.mem_centralizer_singleton_iff]
   exact (Commute.inv_right_iff (a := z) (b := y))
 
+omit [Finite G] in
 private theorem normalizes_inf_centralizer {V : Subgroup G} {g y : G}
     (hg : g ∈ normalizer (V : Set G)) (hy : g * y * g⁻¹ = y ∨ g * y * g⁻¹ = y⁻¹) :
     g ∈ normalizer ((V ⊓ centralizer ({y} : Set G) : Subgroup G) : Set G) := by
@@ -61,6 +65,7 @@ private theorem normalizes_inf_centralizer {V : Subgroup G} {g y : G}
   · rw [h]
   · rw [h, centralizer_inv_singleton]
 
+omit [Finite G] in
 private theorem eq_bot_of_commute {V X : Subgroup G} {x : G} (hX : X = zpowers x)
     (hC : V ⊓ centralizer (X : Set G) = ⊥) {v : G} (hv : v ∈ V) (hvx : v * x = x * v) :
     v = 1 := by
@@ -72,16 +77,19 @@ private theorem eq_bot_of_commute {V X : Subgroup G} {x : G} (hX : X = zpowers x
   rw [hC] at hmem
   exact Subgroup.mem_bot.1 hmem
 
+omit [Finite G] in
 private theorem mem_zpowers_sq {y : G} (hy : y ^ 3 = 1) : y ∈ zpowers (y ^ 2) := by
   refine Subgroup.mem_zpowers_iff.2 ⟨2, ?_⟩
   have : (y ^ 2) ^ (2 : ℤ) = y ^ 3 * y := by group
   rw [this, hy, one_mul]
 
+omit [Finite G] in
 private theorem zpow_eq_of_pow_three {y : G} (hy : y ^ 3 = 1) (i : ℤ) : y ^ i = y ^ (i % 3) := by
   conv_lhs => rw [← Int.emod_add_mul_ediv i 3]
   have h3 : y ^ (3 : ℤ) = 1 := by exact_mod_cast hy
   rw [zpow_add, zpow_mul, h3, one_zpow, mul_one]
 
+omit [Finite G] in
 private theorem exists_mem_zpowers {x₁ x₂ : G} (h12 : x₁ * x₂ = x₂ * x₁)
     (h1 : x₁ ^ 3 = 1) (h2 : x₂ ^ 3 = 1) {x : G} (hx : x ∈ zpowers x₁ ⊔ zpowers x₂)
     (hx1 : x ≠ 1) :
@@ -122,6 +130,7 @@ private theorem exists_mem_zpowers {x₁ x₂ : G} (h12 : x₁ * x₂ = x₂ * x
   · rw [← hsq']; exact Or.inr (Or.inr (Or.inr (mem_zpowers_sq hy3')))
   · rw [← hsq]; exact Or.inr (Or.inr (Or.inl (mem_zpowers_sq hy3)))
 
+omit [Finite G] in
 private theorem centralizer_singleton_le_of_mem_zpowers {x y : G} (hy : y ∈ zpowers x) :
     centralizer ({x} : Set G) ≤ centralizer ({y} : Set G) := by
   intro v hv
@@ -133,7 +142,7 @@ private theorem card_eq_prime_of_sq {q : ℕ} (hq : q.Prime) {V A B : Subgroup G
     (hV1 : V ≠ ⊥) (hVc : Nat.card V ≤ q ^ 3) (hAle : A ≤ V)
     (hcard : Nat.card V = Nat.card A * Nat.card B) (hcardAB : Nat.card A = Nat.card B) :
     Nat.card A = q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := q)).1 hV
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card (p := q)).1 (hV.to_le hAle)
   have hk2 : k = m + m := by
@@ -149,12 +158,12 @@ private theorem card_eq_prime_of_sq {q : ℕ} (hq : q.Prime) {V A B : Subgroup G
 
 theorem eq_sup_diagonals {q : ℕ} (hq : q.Prime) (hq3 : q ≠ 3) {V X₁ X₂ : Subgroup G} {x₁ x₂ : G}
     (hV : IsPGroup q V) (hX₁ : X₁ = zpowers x₁) (hX₂ : X₂ = zpowers x₂)
-    (hc₁ : Nat.card X₁ = 3) (hc₂ : Nat.card X₂ = 3)
+    (_hc₁ : Nat.card X₁ = 3) (_hc₂ : Nat.card X₂ = 3)
     (hX : IsElemAbelian 3 (X₁ ⊔ X₂)) (hX12 : Nat.card (X₁ ⊔ X₂ : Subgroup G) = 9)
     (hXV : X₁ ⊔ X₂ ≤ normalizer (V : Set G))
     (hC₁ : V ⊓ centralizer (X₁ : Set G) = ⊥) (hC₂ : V ⊓ centralizer (X₂ : Set G) = ⊥) :
     V = (V ⊓ centralizer ({x₁ * x₂} : Set G)) ⊔ (V ⊓ centralizer ({x₁ * x₂⁻¹} : Set G)) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hcompl : ¬ 3 ∣ Nat.card V := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hV
     intro h
@@ -188,6 +197,7 @@ theorem eq_sup_diagonals {q : ℕ} (hq : q.Prime) (hq3 : q ≠ 3) {V X₁ X₂ :
   · exact (inf_le_inf_left V (centralizer_singleton_le_of_mem_zpowers h)).trans le_sup_left
   · exact (inf_le_inf_left V (centralizer_singleton_le_of_mem_zpowers h)).trans le_sup_right
 
+omit [Finite G] in
 theorem centralizes_of_inverted {A : Subgroup G} (hA : IsCyclic A) {x n : G} (hx : x ^ 3 = 1)
     (hxA : x ∈ normalizer (A : Set G)) (hnA : n ∈ normalizer (A : Set G))
     (hn : n * x * n⁻¹ = x⁻¹) : ∀ a ∈ A, x * a = a * x := by
@@ -228,10 +238,10 @@ theorem abelian_338 {q : ℕ} (hq : q.Prime) (hq3 : q ≠ 3) {V X₁ X₂ : Subg
   obtain ⟨hC₁, hC₂⟩ := not_or.1 hcon
   replace hC₁ := not_not.1 hC₁
   replace hC₂ := not_not.1 hC₂
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hcyc : ∀ X : Subgroup G, Nat.card X = 3 → ∃ x, X = zpowers x := by
     intro X hX3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top X).1 (isCyclic_of_prime_card hX3)
     exact ⟨x, hx.symm⟩
   obtain ⟨x₁, hx₁⟩ := hcyc X₁ hX₁

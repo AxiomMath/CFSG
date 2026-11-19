@@ -56,7 +56,7 @@ theorem cornerOpFixed_of_eq_smul {π : Bool} {p f : ℕ} {K : Type} [Field K]
 theorem exists_cornerOpFixed_ne_zero {π : Bool} {p f : ℕ} {K : Type} [Field K] [Finite K]
     [Fact p.Prime] (hpK : p ∣ Nat.card K) (N : Subgroup (slPi π 3 (p ^ f) K))
     (hN : IsPGroup p N) : ∃ u : Fin 3 → K, u ≠ 0 ∧ cornerOpFixed N u := by
-  letI : MulAction N (Fin 3 → K) := cornerOpAct N
+  let : MulAction N (Fin 3 → K) := cornerOpAct N
   have hdvd : p ∣ Nat.card (Fin 3 → K) := by
     rw [Nat.card_fun]
     exact dvd_pow hpK (by simp [Nat.card_eq_fintype_card])
@@ -99,7 +99,7 @@ theorem cornerOp_combo {K : Type} [Field K] (τ a b : K) (u : Fin 3 → K) :
       = ![(τ - a) * (τ - b) * u 0, (τ ^ 2 - a) * (τ ^ 2 - b) * u 1,
           (1 - a) * (1 - b) * u 2] := by
   ext i
-  fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, Matrix.vecHead,
+  fin_cases i <;> simp [dotProduct, Fin.sum_univ_three, Matrix.vecHead,
     Matrix.vecTail, Function.comp_apply, Pi.smul_apply, smul_eq_mul] <;> ring
 
 theorem cornerOp_facts {K : Type} [Field K] {τ : K} (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1) :
@@ -150,21 +150,21 @@ theorem cornerOp_basis {π : Bool} {p f : ℕ} {K : Type} [Field K]
     refine cornerOpFixed_of_eq_smul hv (mul_ne_zero (mul_ne_zero n1 n6) h0) ?_
     rw [cornerOp_combo]
     ext i
-    fin_cases i <;> simp <;> ring
+    fin_cases i <;> simp
   · have hv := cornerOpFixed_add
       (cornerOpFixed_sub hDDu (cornerOpFixed_smul (τ + 1) hDu))
       (cornerOpFixed_smul (τ * 1) hu)
     refine cornerOpFixed_of_eq_smul hv (mul_ne_zero (mul_ne_zero n2 n3) h1) ?_
     rw [cornerOp_combo]
     ext i
-    fin_cases i <;> simp <;> ring
+    fin_cases i <;> simp
   · have hv := cornerOpFixed_add
       (cornerOpFixed_sub hDDu (cornerOpFixed_smul (τ + τ ^ 2) hDu))
       (cornerOpFixed_smul (τ * τ ^ 2) hu)
     refine cornerOpFixed_of_eq_smul hv (mul_ne_zero (mul_ne_zero n4 n5) h2) ?_
     rw [cornerOp_combo]
     ext i
-    fin_cases i <;> simp <;> ring
+    fin_cases i <;> simp
 
 theorem cornerOp_cycle {π : Bool} {p f : ℕ} {K : Type} [Field K]
     (N : Subgroup (slPi π 3 (p ^ f) K)) [N.Normal]
@@ -180,18 +180,15 @@ theorem cornerOp_cycle {π : Bool} {p f : ℕ} {K : Type} [Field K]
   have e01 : Matrix.mulVec !![(0 : K), 0, 1; 1, 0, 0; 0, 1, 0] (Pi.single 0 1)
       = Pi.single 1 1 := by
     ext i
-    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, Matrix.vecHead,
-      Matrix.vecTail, Function.comp_apply, Pi.single_apply]
+    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Pi.single_apply]
   have e12 : Matrix.mulVec !![(0 : K), 0, 1; 1, 0, 0; 0, 1, 0] (Pi.single 1 1)
       = Pi.single 2 1 := by
     ext i
-    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, Matrix.vecHead,
-      Matrix.vecTail, Function.comp_apply, Pi.single_apply]
+    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Pi.single_apply]
   have e20 : Matrix.mulVec !![(0 : K), 0, 1; 1, 0, 0; 0, 1, 0] (Pi.single 2 1)
       = Pi.single 0 1 := by
     ext i
-    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, Matrix.vecHead,
-      Matrix.vecTail, Function.comp_apply, Pi.single_apply]
+    fin_cases i <;> simp [Matrix.mulVec, dotProduct, Pi.single_apply]
   refine ⟨fun h => ?_, fun h => ?_, fun h => ?_⟩
   · have := hC _ h
     rwa [e01] at this
@@ -216,8 +213,8 @@ theorem cornerOp_eq_one {π : Bool} {p f : ℕ} {K : Type} [Field K]
 theorem eq_bot_of_normal_isPGroup {π : Bool} {p f : ℕ} {K : Type} [Field K]
     (hK : PiField π p f K) (hq : ModThree π (p ^ f)) (N : Subgroup (slPi π 3 (p ^ f) K))
     [N.Normal] (hN : IsPGroup p N) : N = ⊥ := by
-  haveI : Fact p.Prime := ⟨hK.prime⟩
-  haveI : Finite K := hK.finite
+  have : Fact p.Prime := ⟨hK.prime⟩
+  have : Finite K := hK.finite
   have hpK : p ∣ Nat.card K := by
     have hf : f ≠ 0 := by
       have := hK.one_le
@@ -245,7 +242,7 @@ theorem eq_bot_of_normal_isPGroup {π : Bool} {p f : ℕ} {K : Type} [Field K]
   obtain ⟨u, hu0, hu⟩ := exists_cornerOpFixed_ne_zero hpK N hN
   obtain ⟨i, hi⟩ : ∃ i : Fin 3, u i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hu0 (funext h)
   obtain ⟨b0, b1, b2⟩ := cornerOp_basis N hτ hτ1 hD hu
   obtain ⟨c01, c12, c20⟩ := cornerOp_cycle N hC

@@ -72,7 +72,7 @@ theorem of_card_oddCore_eq_twentyseven (hw : S.width = 4) (hnoAll : S11.NoA2All 
   obtain ⟨i0, rfl⟩ := T.exists_eq_l H C ht ht1 hVQ hΩ h4 hplus
   by_cases hfix : ∀ x : S.Mbar, T.perm x i0 = i0
   · exact Or.inl (T.iso_of_fixed hw hnoAll H C hfix)
-  · push_neg at hfix
+  · push Not at hfix
     obtain ⟨x, hx⟩ := hfix
     obtain ⟨y, hy, hyconj⟩ := T.exists_conj_eq_l x i0
     refine Or.inr ⟨hE, h27, y, hy, ?_, ?_⟩

@@ -429,10 +429,10 @@ private lemma d7f_D2 {A Mg : Subgroup (Vn 8 ≃ₗ[ZMod 3] Vn 8)}
       have ha : a = (a (Fin.last 7)) • xLast 7 := by
         funext k
         induction k using Fin.lastCases with
-        | last => rw [Pi.smul_apply, smul_eq_mul, xLast_apply, if_pos rfl, mul_one]
+        | last => rw [Pi.smul_apply, smul_eq_mul, xLast_apply, ite_eq_left rfl, mul_one]
         | cast i =>
             rw [hl i, hμ, Pi.smul_apply, Pi.smul_apply, smul_eq_mul, smul_eq_mul, xLast_apply,
-              if_neg (Fin.castSucc_ne_last i)]
+              ite_eq_right (Fin.castSucc_ne_last i)]
             ring
       obtain ⟨l', hl'⟩ : ∃ l' : ZMod 3, a = l' • xLast 7 := ⟨_, ha⟩
       subst hμ
@@ -459,7 +459,7 @@ private lemma d7f_D2 {A Mg : Subgroup (Vn 8 ≃ₗ[ZMod 3] Vn 8)}
     ·
       exfalso
       have h7 := congrFun (hμ.symm.trans hν) (Fin.last 7)
-      rw [Pi.smul_apply, Pi.smul_apply, hz7, smul_zero, xLast_apply, if_pos rfl, smul_eq_mul,
+      rw [Pi.smul_apply, Pi.smul_apply, hz7, smul_zero, xLast_apply, ite_eq_left rfl, smul_eq_mul,
         mul_one] at h7
       rw [h7, zero_smul] at hμ
       rw [hμ, dotProduct_zero] at hac

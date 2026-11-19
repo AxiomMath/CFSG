@@ -12,7 +12,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator.I1420 (lieOrderFormula)
 
 theorem l3u3Ord_card_alternating_le {S : Type} [Group S] {n : ℕ} (hn : n = 5 ∨ n = 6 ∨ n = 8)
     (e : S ≃* alternatingGroup (Fin n)) : Nat.card S ≤ 20160 := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
   rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup]
   simp only [Nat.card_eq_fintype_card, Fintype.card_fin]
   rcases hn with rfl | rfl | rfl <;> norm_num [Nat.factorial]

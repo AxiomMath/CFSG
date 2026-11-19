@@ -29,7 +29,7 @@ private theorem ne_bot_inf_of_isSylowOf_of_three_dvd {O P S : Subgroup G}
     (hSyl : CFSG.ABGLocalTools.IsSylowOf 3 S P) (hOP : O ≤ P)
     (hPN : P ≤ Subgroup.normalizer (O : Set G)) (hdvd : 3 ∣ Nat.card O) :
     S ⊓ O ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSylO : CFSG.ABGLocalTools.IsSylowOf 3 (S ⊓ O) O :=
     hSyl.inf_of_le_normalizer hOP hPN
   have hk : 0 < (Nat.card O).factorization 3 :=
@@ -55,7 +55,7 @@ private theorem not_three_dvd_card_of_isElemAbelian_e27 {V O : Subgroup G}
     (hPN : V ⊔ O ≤ Subgroup.normalizer (O : Set G)) (hVM : V ≤ M) (hOM : O ≤ M)
     (h3 : CFSG.Open.pRank 3 M ≤ 3) : ¬ 3 ∣ Nat.card O := by
   intro hdvd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hSyl, hVS⟩ := exists_isSylowOf_ge (p := 3) (Q := V) (K := V ⊔ O) le_sup_left
     (CFSG.Open.IsElemAbelian.isPGroup hE)
   obtain ⟨r, hrS, hrcent, hrord⟩ :=

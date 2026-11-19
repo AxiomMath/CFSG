@@ -48,6 +48,7 @@ private theorem e7Cent_iform_sub_right (μ β : Fin (Tag.rank .E7) → ℤ) :
   rw [sub_eq_add_neg, iform_add_left, iform_neg_left]
   ring
 
+omit [CharP K 2] in
 private theorem e7Cent_coord_sub_eq_zero {β μ : Fin (Tag.rank .E7) → ℤ} {k : ℤ}
     {q : ModGL .E7 K} (hq : q ∈ e7CentF (K := K) k)
     (hlt : iform μ d6HighRoot - iform β d6HighRoot < k) :
@@ -73,7 +74,7 @@ private theorem e7Cent_shifts_mem_F {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsR
   have hμroot : μ ∈ rootFinset .E7 := mem_rootFinset.2 hμ.1
   have hzero : heisCoord .E7 K q (μ - β) = 0 :=
     e7Cent_coord_sub_eq_zero hq (by omega)
-  rw [hconj.2 μ, hq.2 μ hμ hk, if_pos hμroot, hzero, mul_zero, add_zero]
+  rw [hconj.2 μ, hq.2 μ hμ hk, ite_eq_left hμroot, hzero, mul_zero, add_zero]
 
 private theorem e7Cent_commutator_mem_F {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7 β)
     (hβ0 : β 0 = 0) (hh : 0 < iform β d6HighRoot) {k : ℤ} {q : ModGL .E7 K}
@@ -102,11 +103,12 @@ private theorem e7Cent_commutator_mem_F {β : Fin (Tag.rank .E7) → ℤ} (hβ :
   have hμroot : μ ∈ rootFinset .E7 := mem_rootFinset.2 hμ.1
   have hzero : heisCoord .E7 K q (μ - β) = 0 :=
     e7Cent_coord_sub_eq_zero hq (by omega)
-  rw [hcoord μ, if_pos hμroot, hzero, mul_zero]
+  rw [hcoord μ, ite_eq_left hμroot, hzero, mul_zero]
 
 private def e7CentSGen : Set (ModGL .E7 K) :=
   {x | ∃ β ∈ radicalRoots .E7 d6HighRoot ∩ perpRoots .E7, ∃ c : K, pinnedX .E7 K β c = x}
 
+omit [CharP K 2] in
 private theorem e7Cent_rootSpan_eq_closure_S :
     rootSpan .E7 K (radicalRoots .E7 d6HighRoot ∩ perpRoots .E7) =
       Subgroup.closure (e7CentSGen (K := K)) :=
@@ -212,16 +214,17 @@ private theorem e7Cent_sigma_commutator_mem_F {k : ℤ} {q : ModGL .E7 K}
       rw [e7Cent_iform_d6HighRoot_self]
       omega)
   rw [e7Cent_heisCoord_commutator_sigma hq.1]
-  simp only [shiftRoot, hμroot, if_pos]
+  simp only [shiftRoot, hμroot, ite_eq_left]
   exact hzero
 
+omit [CharP K 2] in
 private theorem e7Cent_shift_sigma_eq_zero_of_F_zero {q : ModGL .E7 K}
     (hq : q ∈ e7CentF (K := K) 0) :
     shiftRoot K d6HighRoot (heisCoord .E7 K q) = 0 := by
   funext μ
   simp only [shiftRoot]
   by_cases hμroot : μ ∈ rootFinset .E7
-  · rw [if_pos hμroot]
+  · rw [ite_eq_left hμroot]
     by_cases hμD : μ ∈ Deg1 .E7
     · have hlt : iform (μ - d6HighRoot) d6HighRoot < 0 := by
         rw [e7Cent_iform_sub_right, e7Cent_iform_d6HighRoot_self]
@@ -236,7 +239,7 @@ private theorem e7Cent_shift_sigma_eq_zero_of_F_zero {q : ModGL .E7 K}
           simpa [Pi.sub_apply, d6HighRoot_apply_zero] using h1
         exact hμD ⟨mem_rootFinset.1 hμroot, hμ0⟩
       exact (heisCoord_spec .E7 K).support q hq.1 (μ - d6HighRoot) hsub
-  · simp only [if_neg hμroot, Pi.zero_apply]
+  · simp only [ite_eq_right hμroot, Pi.zero_apply]
 
 private theorem e7Cent_sigma_commutator_mem_U {q : ModGL .E7 K}
     (hq : q ∈ e7CentF (K := K) 0) :
@@ -277,7 +280,7 @@ private theorem e7Cent_F_zero_of_sigma_commutator_mem_U {q : ModGL .E7 K}
     isRoot_add_of_iform_neg hμ.1 isRoot_d6HighRoot hne (by omega)
   have hν : μ + d6HighRoot ∈ rootFinset .E7 := mem_rootFinset.2 hroot
   have hval := congrFun hshift (μ + d6HighRoot)
-  simp only [shiftRoot, hν, if_pos, Pi.zero_apply] at hval
+  simp only [shiftRoot, hν, ite_eq_left, Pi.zero_apply] at hval
   have hsub : μ + d6HighRoot - d6HighRoot = μ := by abel
   rwa [hsub] at hval
 
@@ -446,6 +449,7 @@ private theorem e7Cent_deg1_d1_shift_alpha7_check :
       (μ + e7Alpha7 ∉ rootFinset .E7 ∧ μ - e7Alpha7 ∉ rootFinset .E7) := by
   decide +kernel
 
+omit [CharP K 2] in
 private theorem e7Cent_shift_alpha7_eq_zero {γ : Fin (Tag.rank .E7) → ℤ}
     (hγ : γ ∈ ({e7Alpha7, -e7Alpha7} : Set (Fin (Tag.rank .E7) → ℤ)))
     {w : ModGL .E7 K} (hw : w ∈ e7CentF (K := K) 1) :
@@ -454,7 +458,7 @@ private theorem e7Cent_shift_alpha7_eq_zero {γ : Fin (Tag.rank .E7) → ℤ}
   simp only [Pi.zero_apply]
   rw [shiftRoot]
   by_cases hν : ν ∈ rootFinset .E7
-  · rw [if_pos hν]
+  · rw [ite_eq_left hν]
     rcases hγ with h | h
     · subst h
       by_cases hc : heisCoord .E7 K w (ν - e7Alpha7) = 0
@@ -484,7 +488,7 @@ private theorem e7Cent_shift_alpha7_eq_zero {γ : Fin (Tag.rank .E7) → ℤ}
           have heq : (ν - -e7Alpha7) - e7Alpha7 = ν := by abel
           rwa [heq]
         exact absurd hν' hchk.2
-  · rw [if_neg hν]
+  · rw [ite_eq_right hν]
 
 private theorem e7Cent_alpha7_gen_commutator_mem_U {γ : Fin (Tag.rank .E7) → ℤ}
     (hγ : γ ∈ ({e7Alpha7, -e7Alpha7} : Set (Fin (Tag.rank .E7) → ℤ))) (c : K)
@@ -511,16 +515,17 @@ private theorem e7Cent_alpha7_gen_commutator_mem_U {γ : Fin (Tag.rank .E7) → 
   rw [hcomm, e7Cent_heisCoord_mul hconj.1 hwinv, Pi.add_apply, hconj.2 ν,
     heisCoord_inv hw.1, Pi.neg_apply]
   by_cases hν : ν ∈ rootFinset .E7
-  · rw [if_pos hν]
+  · rw [ite_eq_left hν]
     have hval : heisCoord .E7 K w (ν - γ) = 0 := by
       have h := congrFun hshift ν
-      rw [shiftRoot, if_pos hν] at h
+      rw [shiftRoot, ite_eq_left hν] at h
       simpa only [Pi.zero_apply] using h
     rw [hval]
     ring
-  · rw [if_neg hν]
+  · rw [ite_eq_right hν]
     ring
 
+omit [CharP K 2] in
 private theorem e7Cent_rootSpan_pair (α : Fin (Tag.rank .E7) → ℤ) :
     rootSpan .E7 K {α, -α} = rootSubgroup .E7 K α ⊔ rootSubgroup .E7 K (-α) := by
   refine le_antisymm ?_ ?_
@@ -534,6 +539,7 @@ private theorem e7Cent_rootSpan_pair (α : Fin (Tag.rank .E7) → ℤ) :
   · exact sup_le (rootSubgroup_le_rootSpan_of_mem (Set.mem_insert _ _))
       (rootSubgroup_le_rootSpan_of_mem (Set.mem_insert_of_mem _ rfl))
 
+omit [CharP K 2] in
 private theorem e7Cent_rootSpan_alpha7_centralizes_Uθ :
     rootSpan .E7 K ({e7Alpha7, -e7Alpha7} : Set (Fin (Tag.rank .E7) → ℤ)) ≤
       Subgroup.centralizer (Uθ .E7 K : Set (ModGL .E7 K)) := by
@@ -549,6 +555,7 @@ private theorem e7Cent_rootSpan_alpha7_centralizes_Uθ :
   refine Subgroup.mem_centralizer_iff.2 fun u hu => ?_
   exact Subgroup.mem_centralizer_iff.1 (h hx) u (Subgroup.mem_sup_left hu)
 
+omit [CharP K 2] in
 private theorem e7Cent_conj_mem_Uθ_of_rootSpan_alpha7 {x u : ModGL .E7 K}
     (hx : x ∈ rootSpan .E7 K ({e7Alpha7, -e7Alpha7} : Set (Fin (Tag.rank .E7) → ℤ)))
     (hu : u ∈ Uθ .E7 K) : x * u * x⁻¹ = u := by
@@ -557,6 +564,7 @@ private theorem e7Cent_conj_mem_Uθ_of_rootSpan_alpha7 {x u : ModGL .E7 K}
     _ = (u * x) * x⁻¹ := by rw [← h]
     _ = u := by group
 
+omit [CharP K 2] in
 private theorem e7Cent_conj_inv_mem_Uθ_of_rootSpan_alpha7 {x u : ModGL .E7 K}
     (hx : x ∈ rootSpan .E7 K ({e7Alpha7, -e7Alpha7} : Set (Fin (Tag.rank .E7) → ℤ)))
     (hu : u ∈ Uθ .E7 K) : x⁻¹ * u * x = u := by
@@ -600,6 +608,7 @@ private theorem e7Cent_rootSpan_alpha7_commutator_mem_U {x : ModGL .E7 K}
         (Subgroup.inv_mem _ (ih w hw))]
       exact Subgroup.inv_mem _ (ih w hw)
 
+omit [CharP K 2] in
 private theorem e7Cent_F_two_le_Uθ :
     e7CentF (K := K) 2 ≤ Uθ .E7 K := by
   intro q hq
@@ -610,6 +619,7 @@ private theorem e7Cent_F_two_le_Uθ :
       rcases e7Cent_deg1_iform_d6HighRoot hμD with h | h | h <;> omega)
   · exact (heisCoord_spec .E7 K).support q hq.1 μ hμD
 
+omit [CharP K 2] in
 private theorem e7Cent_mem_F_neg_one {q : ModGL .E7 K} (hq : q ∈ Qθ .E7 K) :
     q ∈ e7CentF (K := K) (-1) :=
   (e7Cent_mem_F (K := K)).2 ⟨hq, fun μ hμ hlt => by

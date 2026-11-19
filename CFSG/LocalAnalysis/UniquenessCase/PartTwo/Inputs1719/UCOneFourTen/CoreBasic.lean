@@ -107,7 +107,7 @@ theorem odd_card_center_of_normal {K : Subgroup X} (hO2 : CFSG.pCore 2 X = ⊥)
       (K := (P : Subgroup ↥(Subgroup.center ↥K)))
   have hmap2 : IsPGroup 2
       ((P : Subgroup ↥(Subgroup.center ↥K)).map (Subgroup.center ↥K).subtype) :=
-    P.isPGroup'.map _
+    P.isPGroup.map _
   have hle : ((P : Subgroup ↥(Subgroup.center ↥K)).map
       (Subgroup.center ↥K).subtype) ≤ CFSG.pCore 2 ↥K :=
     CFSG.LieType.BorelTits.le_pCore 2 hmapNormal hmap2

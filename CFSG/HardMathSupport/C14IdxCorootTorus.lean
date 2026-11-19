@@ -177,7 +177,7 @@ private lemma exists_coordTuple_of_mem_supportedTorus
     have hi : e i (i : Fin τ.rank) = (1 : ℤ) := by simp [e]
     have hj : e j (i : Fin τ.rank) = (0 : ℤ) := by
       simp only [e]
-      rw [if_neg]
+      rw [ite_eq_right]
       exact fun h => hne (Subtype.ext h)
     rw [hi, hj] at h1
     exact one_ne_zero h1
@@ -187,7 +187,7 @@ private lemma exists_coordTuple_of_mem_supportedTorus
   have ha'e : ∀ j : J, a' (e j) = a j := by
     intro j
     have hmem : e j ∈ Δ' := Finset.mem_image.2 ⟨j, Finset.mem_univ j, rfl⟩
-    simp only [a', dif_pos hmem]
+    simp only [a', dite_eq_left hmem]
     exact congrArg a (he (Classical.choose_spec (Finset.mem_image.1 hmem)).2)
   refine ⟨Δ', fun β hβ => ?_, fun β hβ => ?_, a', ?_⟩
   · obtain ⟨j, -, rfl⟩ := Finset.mem_image.1 hβ
@@ -250,7 +250,7 @@ private lemma exists_coordTuple_of_prod {τ : Tag} {L : Type} [Field L] [IsAlgCl
   have hd : ∀ γ (hγ : γ ∈ s), d γ = fun β => (bu ⟨γ, hγ⟩) ^ n ⟨γ, hγ⟩ β := by
     intro γ hγ
     funext β
-    simp only [d, dif_pos hγ]
+    simp only [d, dite_eq_left hγ]
   have hfac : ∀ γ ∈ s, (fun i => (c γ) ^ corootVec γ i) = coordTuple Δ (d γ) := by
     intro γ hγ
     funext i

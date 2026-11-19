@@ -173,7 +173,7 @@ private noncomputable def bT :
 private theorem nW_conj_xr
     {δ : Fin (Tag.rank .E6) → ℤ} (hδ : IsRoot .E6 δ) :
     nW * xr δ * nW⁻¹ = xr (wAct wE6 δ) := by
-  haveI : CharP F2 2 := inferInstance
+  have : CharP F2 2 := inferInstance
   apply Subtype.ext
   simp only [nW, xr, Subgroup.coe_mul, Subgroup.coe_inv]
   rw [E6Pilot.q2WordElt_conj_pinnedX wE6 hδ, wordProd_smul_eq]
@@ -292,7 +292,7 @@ private theorem map_halfTorus :
   simp only [Subgroup.zpowers_eq_closure, ← Subgroup.closure_union]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_union, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_union, Set.mem_singleton_iff]
   constructor
   · rintro ⟨t, ⟨k, hk, rfl⟩, rfl⟩
     fin_cases k
@@ -365,9 +365,9 @@ private theorem le_lE_of_perfect
   have hsup : (lE.subgroupOf Z) ⊔ (Subgroup.zpowers zE).subgroupOf Z = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hlE_le_Z hzp_le_Z, Subgroup.subgroupOf_eq_top]
     simpa [sup_comm] using (le_of_eq hZ)
-  haveI : (lE.subgroupOf Z).Normal := hNnormal
-  haveI : IsMulCommutative (Subgroup.zpowers zE) := Subgroup.zpowers_isMulCommutative zE
-  haveI hHcomm : IsMulCommutative ((Subgroup.zpowers zE).subgroupOf Z) :=
+  have : (lE.subgroupOf Z).Normal := hNnormal
+  have : IsMulCommutative (Subgroup.zpowers zE) := Subgroup.zpowers_isMulCommutative zE
+  have hHcomm : IsMulCommutative ((Subgroup.zpowers zE).subgroupOf Z) :=
     Subgroup.subgroupOf_isMulCommutative Z (Subgroup.zpowers zE)
   have hcommZ : _root_.commutator ↥Z ≤ lE.subgroupOf Z :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
@@ -420,7 +420,7 @@ theorem ggHalfFusionE6Input_of_centT31
   rw [← hφr, MonoidHom.range_eq_map] at hkxK
   obtain ⟨a, -, rfl⟩ := Subgroup.mem_map.mp hkxK
   have ha : orderOf a = 3 := (orderOf_injective φ hφi a).symm.trans hkx
-  haveI : Finite EC := finite_EC
+  have : Finite EC := finite_EC
   have hJK' : J ≤ K' := fun x hx => (hJc.1 hx).1
   have hJrange : J ≤ φ.range := by rw [hφr]; exact hJK'
   have hmapJ : (J.comap φ).map φ = J := Subgroup.map_comap_eq_self hJrange

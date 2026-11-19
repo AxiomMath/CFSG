@@ -103,7 +103,7 @@ theorem sylow_local_pointwise_inner {G : Type*} [Group G] [Finite G] {p : ℕ} [
   have hKn : (K.subgroupOf N).Normal := by
     subst hN
     exact Subgroup.normal_in_normalizer
-  have hKp : IsPGroup p K := S.isPGroup'.to_le hKS
+  have hKp : IsPGroup p K := S.isPGroup.to_le hKS
   have hKN' : IsPGroup p (K.subgroupOf N) :=
     hKp.of_equiv (Subgroup.subgroupOfEquivOfLe hKN).symm
   have hCK' : Subgroup.centralizer ((K.subgroupOf N : Subgroup N) : Set N) ≤ K.subgroupOf N := by

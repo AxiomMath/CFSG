@@ -56,7 +56,7 @@ theorem three_dvd_card_alt {K : Subgroup X} (hnab : ∃ a b : ↥K, a * b ≠ b 
     rw [Nat.card_congr ψ.toEquiv]
     by_cases h2 : 2 ≤ n
     · rw [card_alt h2]
-      interval_cases n <;> decide
+      interval_cases n; decide
     · calc Nat.card (alternatingGroup (Fin n)) ≤ Nat.card (Perm (Fin n)) :=
             card_le_card_group _
         _ = n.factorial := by rw [Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin]

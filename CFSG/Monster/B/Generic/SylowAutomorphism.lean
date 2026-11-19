@@ -174,7 +174,7 @@ theorem not_eleven_dvd_card_mulAut :
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow p T))
   refine ⟨P, ?_⟩
-  obtain ⟨k, hk⟩ := (P.isPGroup').exists_card_eq
+  obtain ⟨k, hk⟩ := (P.isPGroup).exists_card_eq
   have hkdvd : p ^ k ∣ 3968055 := hk ▸ (card_subgroup_dvd_card (P : Subgroup T)).trans hT
   have hp' : p = 3 ∨ p = 5 ∨ p = 7 ∨ p = 13 ∨ p = 17 ∨ p = 19 := by
     have hpd : p ∣ 3 ^ 3 * 5 * 7 * 13 * 17 * 19 := hpT.trans hT

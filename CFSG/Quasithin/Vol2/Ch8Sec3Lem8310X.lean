@@ -129,7 +129,7 @@ theorem isSylowIn_inf {Gz T : Subgroup G} {N₁ N₂ : Subgroup (OTwoQuot Gz)}
       rfl
     refine ⟨le_top, ?_, ?_⟩
     · rw [← hP]
-      exact P.isPGroup'
+      exact P.isPGroup
     · rw [Subgroup.relIndex_top_right, ← hP]
       exact P.not_dvd_index
   have hN12norm : ((N₁ ⊔ N₂).subgroupOf ⊤).Normal :=

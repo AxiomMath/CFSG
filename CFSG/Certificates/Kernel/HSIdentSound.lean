@@ -47,12 +47,12 @@ theorem testBit_foldl (P : Nat → Bool) (b : Nat) :
   | y :: l, m => by
     rw [List.foldl_cons, testBit_foldl P b l]
     by_cases hy : P y = true
-    · rw [if_pos hy, Nat.testBit_or, Nat.one_shiftLeft, Nat.testBit_two_pow]
+    · rw [ite_eq_left hy, Nat.testBit_or, Nat.one_shiftLeft, Nat.testBit_two_pow]
       by_cases hb : y = b
       · subst hb
         simp [hy]
       · simp [hb, Ne.symm hb]
-    · rw [if_neg hy]
+    · rw [ite_eq_right hy]
       by_cases hb : y = b
       · subst hb
         simp [hy]
@@ -107,28 +107,28 @@ theorem vert_cases {n : Nat} (hn : n < 100) :
     · exact Or.inr (Or.inr ⟨n - 23, by omega, by omega⟩)
 
 theorem modelVertAt_zero : modelVertAt 0 = vInf := by
-  rw [modelVertAt, if_pos rfl]
+  rw [modelVertAt, ite_eq_left rfl]
 
 theorem modelVertAt_pt {k : Nat} (hk : k < 22) : modelVertAt (k + 1) = vPt ⟨k, hk⟩ := by
-  rw [modelVertAt, if_neg (by omega), if_pos (by omega)]
+  rw [modelVertAt, ite_eq_right (by omega), ite_eq_left (by omega)]
   exact congrArg (fun a : Fin 22 => (vPt a : Vert hexads))
     (Fin.ext (by change (k + 1 - 1) % 22 = k; omega))
 
 theorem modelVertAt_blk (k : Nat) : modelVertAt (k + 23) = vBlk (modelBlkAt k) := by
-  rw [modelVertAt, if_neg (by omega), if_neg (by omega), Nat.add_sub_cancel]
+  rw [modelVertAt, ite_eq_right (by omega), ite_eq_right (by omega), Nat.add_sub_cancel]
 
 theorem modelAdjN_zero (m : Nat) : modelAdjN 0 m = (decide (1 ≤ m) && decide (m ≤ 22)) := by
-  rw [modelAdjN, if_pos rfl]
+  rw [modelAdjN, ite_eq_left rfl]
 
 theorem modelAdjN_pt {k : Nat} (hk : k < 22) (m : Nat) : modelAdjN (k + 1) m =
     (decide (m = 0) || (decide (23 ≤ m) && (hexMask (m - 23)).testBit k)) := by
-  rw [modelAdjN, if_neg (by omega), if_pos (by omega), Nat.add_sub_cancel]
+  rw [modelAdjN, ite_eq_right (by omega), ite_eq_left (by omega), Nat.add_sub_cancel]
 
 theorem modelAdjN_blk (k m : Nat) : modelAdjN (k + 23) m =
     ((decide (1 ≤ m) && decide (m ≤ 22) && (hexMask k).testBit (m - 1)) ||
       (decide (23 ≤ m) && decide (hexMask k ≠ hexMask (m - 23)) &&
         decide (hexMask k &&& hexMask (m - 23) = 0))) := by
-  rw [modelAdjN, if_neg (by omega), if_neg (by omega), Nat.add_sub_cancel]
+  rw [modelAdjN, ite_eq_right (by omega), ite_eq_right (by omega), Nat.add_sub_cancel]
 
 theorem testBit_hexMask (l k : Nat) (hk : k < 22) :
     (hexMask l).testBit k = true ↔ (⟨k, hk⟩ : Fin 22) ∈ (modelBlkAt l).1 :=

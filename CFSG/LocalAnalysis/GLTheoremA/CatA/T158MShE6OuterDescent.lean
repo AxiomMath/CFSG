@@ -144,10 +144,10 @@ theorem exists_finite_model_descent (S : LangSetup Tag.E6 L p₀) (hS : E6ShapeS
         ∀ c ∈ E, c ∈ Set.range ι := by
   classical
   obtain ⟨f, Q, v, hQ, hf, hconj⟩ := exists_frob_conj_of_shape S hS
-  letI : Algebra (ZMod 2) L := ZMod.algebra L 2
+  let : Algebra (ZMod 2) L := ZMod.algebra L 2
   set L₀ := algebraicClosure (ZMod 2) L
-  haveI : IsAlgClosed L₀ := IsAlgClosure.isAlgClosed (ZMod 2)
-  haveI : Algebra.IsAlgebraic (ZMod 2) L₀ := algebraicClosure.isAlgebraic (ZMod 2) L
+  have : IsAlgClosed L₀ := IsAlgClosure.isAlgClosed (ZMod 2)
+  have : Algebra.IsAlgebraic (ZMod 2) L₀ := algebraicClosure.isAlgebraic (ZMod 2) L
   have halg : ∀ {c : L} {N : ℕ}, 1 < N → c ^ N = c → c ∈ L₀ := fun {c N} hN hc =>
     mem_algebraicClosure_iff.2 ⟨Polynomial.X ^ N - Polynomial.X,
       FiniteField.X_pow_card_sub_X_ne_zero (ZMod 2) hN, by simp [hc]⟩
@@ -170,8 +170,8 @@ theorem exists_finite_model_descent (S : LangSetup Tag.E6 L p₀) (hS : E6ShapeS
     refine ⟨y₀, mem_adjointGroup_of_baseChangeGL_mem L₀ L ?_, hy₀⟩
     rw [hy₀]
     exact ((S.D.mem_model).1 hy).1
-  haveI : Finite S.D.model := S.finite
-  letI : Fintype S.D.model := Fintype.ofFinite _
+  have : Finite S.D.model := S.finite
+  let : Fintype S.D.model := Fintype.ofFinite _
   have hpar : ∀ y : S.D.model, ∃ Ey : Finset L₀, ∀ K : Subfield L₀, (Ey : Set L₀) ⊆ K →
       ∃ y₃ ∈ adjointGroup Tag.E6 K,
         baseChangeGL ((algebraMap L₀ L).comp K.subtype) y₃ = (y : ModGL Tag.E6 L) := by

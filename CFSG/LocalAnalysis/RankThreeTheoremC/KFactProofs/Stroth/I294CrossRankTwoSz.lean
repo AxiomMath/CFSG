@@ -22,7 +22,7 @@ theorem i294CrossThreeRankTwoSz_holds : I294CrossThreeRankTwoSz := by
       exact CFSG.RankThree.PartTwo.Census.not_three_dvd_card_suzukiMatrixGroup hm
     obtain ⟨S, hS'⟩ := hS
     have hcard : Nat.card (S : Subgroup L) = 1 := by
-      rcases IsPGroup.card_eq_or_dvd S.isPGroup' with h | h
+      rcases IsPGroup.card_eq_or_dvd S.isPGroup with h | h
       · exact h
       · exact (h3 (dvd_trans h (Subgroup.card_subgroup_dvd_card _))).elim
     have hsub : Subsingleton (S : Subgroup L) := (Nat.card_eq_one_iff_unique.mp hcard).1

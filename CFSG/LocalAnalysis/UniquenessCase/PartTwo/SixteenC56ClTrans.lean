@@ -151,7 +151,7 @@ theorem autI_conjSubgroup {V : Subgroup G} (hV : IsElemAbelian 2 V) (K : Subgrou
         Subgroup.normalizer ((conjSubgroup V g : Subgroup G) : Set G) := by
       rw [← E3.conjSubgroup_normalizer, mem_conjSubgroup_iff]
       have h := k.2
-      simpa [mul_assoc] using h
+      simp [mul_assoc]
     refine ⟨⟨g⁻¹ * (k : G) * g, hk'N⟩, ?_, ?_⟩
     · rw [mem_conjSubgroup_iff]
       simpa [mul_assoc] using hkK

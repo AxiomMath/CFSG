@@ -147,14 +147,14 @@ private lemma rckRPfeu_blockAction {F : Type} [Field F] [Finite F] [CharP F 2] {
   classical
   obtain ⟨K, hKf, hKa, hKfin, π, hπsurj, hπker, hKfr, hcard⟩ :=
     fePSU_blockField_card hc S hS hodd he _ rfl
-  letI : Field K := hKf
-  letI : Algebra F K := hKa
-  haveI : Finite K := hKfin
+  let : Field K := hKf
+  let : Algebra F K := hKa
+  have : Finite K := hKfin
   obtain ⟨hmod, htower, actK, hact, hcomp⟩ :=
     fePSU_dualPair_unitBlockCentralizer_KAction_body (f := f) (ε := ε) S hS he K π hπsurj hπker
-  letI : Module K (LinearMap.range (Matrix.mulVecLin e)) := hmod
-  haveI : IsScalarTower F K (LinearMap.range (Matrix.mulVecLin e)) := htower
-  haveI hWfd : FiniteDimensional K (LinearMap.range (Matrix.mulVecLin e)) :=
+  let : Module K (LinearMap.range (Matrix.mulVecLin e)) := hmod
+  have : IsScalarTower F K (LinearMap.range (Matrix.mulVecLin e)) := htower
+  have hWfd : FiniteDimensional K (LinearMap.range (Matrix.mulVecLin e)) :=
     Module.Finite.of_restrictScalars_finite F K _
   have hreal := fePSU_dualPair_unitBlockCentralizer_extension_realizes hc S hS hSU hε he heε
     hpair hεeq K π actK hact hcomp

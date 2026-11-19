@@ -15,14 +15,14 @@ variable {Kg : Type} [Group Kg] [Finite Kg] {M : Type} [Group M]
 
 theorem not_three_dvd_card_comap (π : Kg →* M) (hk3 : ¬ 3 ∣ Nat.card π.ker) {Wb : Subgroup M}
     (hW2 : IsPGroup 2 Wb) : ¬ 3 ∣ Nat.card (Wb.comap π) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P : Subgroup Kg := Wb.comap π with hP
   set g : ↥P →* M := π.comp P.subtype with hg
   have hrange : g.range ≤ Wb := by
     rintro _ ⟨x, rfl⟩
     exact x.2
   have hgr : IsPGroup 2 g.range := hW2.to_le hrange
-  haveI : Finite g.range := Finite.of_surjective g.rangeRestrict g.rangeRestrict_surjective
+  have : Finite g.range := Finite.of_surjective g.rangeRestrict g.rangeRestrict_surjective
   have hcard : Nat.card ↥P = Nat.card g.range * Nat.card g.ker := by
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup g.ker
     rw [Nat.card_congr (QuotientGroup.quotientKerEquivRange g).toEquiv] at h1
@@ -42,8 +42,8 @@ theorem exists_two_local_lift (π : Kg →* M) (hπ : Function.Surjective π)
     ∃ W T : Subgroup Kg, IsElemAbelian 3 W ∧ W.map π = Eb ∧
       Function.Injective (π.comp W.subtype) ∧ IsPGroup 2 T ∧
       W ≤ Subgroup.normalizer (T : Set Kg) ∧ ∃ t ∈ T, π t ≠ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨W, hW3, hWmap, hWinj⟩ := exists_pSubgroup_lift Nat.prime_three π hk3 hE.isPGroup
     (by rw [MonoidHom.range_eq_top.2 hπ]; exact le_top)
   have hWe : IsElemAbelian 3 W := isElemAbelian_of_injective_comp_subtype π hWinj (hWmap ▸ hE)
@@ -62,7 +62,7 @@ theorem exists_two_local_lift (π : Kg →* M) (hπ : Function.Surjective π)
   obtain ⟨S, hS⟩ := c25_exists_invariant_sylow (A := ↥W) (P := ↥P) hW3 hPcop
   set T : Subgroup Kg := (S : Subgroup ↥P).map P.subtype with hT
   have hT2 : IsPGroup 2 ↥T :=
-    (S.isPGroup').of_equiv ((S : Subgroup ↥P).equivMapOfInjective P.subtype P.subtype_injective)
+    (S.isPGroup).of_equiv ((S : Subgroup ↥P).equivMapOfInjective P.subtype P.subtype_injective)
   have hWT : W ≤ Subgroup.normalizer (T : Set Kg) := by
     intro w hw
     rw [Subgroup.mem_normalizer_iff]
@@ -91,7 +91,7 @@ theorem exists_two_local_lift (π : Kg →* M) (hπ : Function.Surjective π)
     intro w
     obtain ⟨x, hx⟩ := hπ (w : M)
     exact ⟨⟨x, by simp [hP, Subgroup.mem_comap, hx]⟩, Subtype.ext hx⟩
-  haveI : Finite Wb := Finite.of_surjective f hf
+  have : Finite Wb := Finite.of_surjective f hf
   have htop : IsPGroup 2 (⊤ : Subgroup ↥Wb) := hW2.of_equiv Subgroup.topEquiv.symm
   have hmap : (S : Subgroup ↥P).map f = ⊤ := by
     have h1 : ((Sylow.mapSurjective hf S : Sylow 2 ↥Wb) : Subgroup ↥Wb) = ⊤ :=
@@ -148,7 +148,7 @@ theorem exists_E_T_pQuot_of_sub (K : Subgroup G) {Eb Wb : Subgroup (PQuot 3 K)}
       Nat.card E = Nat.card Eb ∧ W.map (QuotientGroup.mk' (GLAPPrimeCore 3 ↥K)) = Eb ∧
       Function.Injective ((QuotientGroup.mk' (GLAPPrimeCore 3 ↥K)).comp W.subtype) ∧
       T ≤ K ∧ IsPGroup 2 T ∧ ¬ T ≤ GLAPPrimeCoreOf 3 K ∧ E ≤ Subgroup.normalizer (T : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π : ↥K →* PQuot 3 K := QuotientGroup.mk' (GLAPPrimeCore 3 ↥K) with hπ
   have hk3 : ¬ 3 ∣ Nat.card π.ker := by
     rw [hπ, QuotientGroup.ker_mk']

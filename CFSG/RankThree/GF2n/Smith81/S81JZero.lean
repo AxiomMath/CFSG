@@ -23,9 +23,9 @@ theorem const_or_weight [CharP K 2] [Finite K] {D : Type*} (u : Kˣ → V) (r : 
     (∀ s, u s = u 1) ∨
       ∃ (μ : Kˣ →* Kˣ) (w : V), (∃ c, μ c ≠ 1) ∧ w ≠ 0 ∧
         ∀ d, ρ d w = ((μ (r d) : Kˣ) : K) • w := by
-  haveI : HasEnoughRootsOfUnity K (Monoid.exponent Kˣ) := hasEnoughRootsOfUnity_units_exponent
-  haveI : Fintype Kˣ := Fintype.ofFinite Kˣ
-  haveI : Fintype (MulChar K K) := Fintype.ofFinite _
+  have : HasEnoughRootsOfUnity K (Monoid.exponent Kˣ) := hasEnoughRootsOfUnity_units_exponent
+  have : Fintype Kˣ := Fintype.ofFinite Kˣ
+  have : Fintype (MulChar K K) := Fintype.ofFinite _
   obtain ⟨W, hW⟩ : ∃ W : MulChar K K → V,
       ∀ χ, W χ = ∑ s : Kˣ, χ ((s⁻¹ : Kˣ) : K) • u s :=
     ⟨fun χ => ∑ s : Kˣ, χ ((s⁻¹ : Kˣ) : K) • u s, fun _ => rfl⟩
@@ -42,7 +42,7 @@ theorem const_or_weight [CharP K 2] [Finite K] {D : Type*} (u : Kˣ → V) (r : 
       χ ((r d : Kˣ) : K) • (χ (((s * r d)⁻¹ : Kˣ) : K) • u (s * r d))
     rw [map_smul, hρ, hc s, smul_smul]
   have hcard : ((Nat.card Kˣ : ℕ) : K) = 1 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have h1 : Nat.card K = Nat.card Kˣ + 1 := Nat.card_eq_card_units_add_one K
     have h2 : ((Nat.card K : ℕ) : K) = 0 := by
       rw [Nat.card_eq_fintype_card]
@@ -225,6 +225,7 @@ theorem weights_trivial {v₀ : V} (S : Setup0 A v₀) {I : Finset (Fin 6)} (hI 
   rw [A.weight_I S.h0 hξ hI d hd v hv]
   simp only [MonoidHom.one_apply, Units.val_one, one_smul]
 
+omit [CharP K 2] in
 private theorem zC_unip_sq [CharP K 2] {W : Submodule K (Fin 6 → K)} {g : GL (Fin 6) K}
     (hg : g ∈ UnipGL K W) : g * g = 1 := by
   apply Units.ext
@@ -282,6 +283,7 @@ theorem fix_I0_of_X_fix {v₀ : V} (S : Setup0 A v₀)
     exact hX
   rw [hu_eq, A.act_mul u' T' hdet' hdetT', Module.End.mul_apply, hT'v1, hinv' _ hv1I1]
 
+omit [CharP K 2] in
 private theorem zE_exists_s (hq : 4 ≤ Nat.card K) : ∃ s : K, s ≠ 0 ∧ s ≠ 1 := by
   classical
   have hfin : Finite K := Nat.finite_of_card_ne_zero (by omega)
@@ -300,12 +302,14 @@ private theorem zE_exists_s (hq : 4 ≤ Nat.card K) : ∃ s : K, s ≠ 0 ∧ s �
   rw [Finset.card_univ, ← Nat.card_eq_fintype_card] at h1
   omega
 
+omit [CharP K 2] in
 private theorem zE_add_one_ne_zero [CharP K 2] {s : K} (hs : s ≠ 1) : s + 1 ≠ 0 := by
   intro h
   apply hs
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   linear_combination h - h2
 
+omit [CharP K 2] in
 private theorem zE_X_fix [CharP K 2] (v : V) (hq : 4 ≤ Nat.card K)
     (hc : ∀ t : K, t ≠ 0 → A.X t v = A.X 1 v) : ∀ t : K, A.X t v = v := by
   obtain ⟨s, hs0, hs1⟩ := zE_exists_s hq
@@ -324,6 +328,7 @@ private theorem zE_X_fix [CharP K 2] (v : V) (hq : 4 ≤ Nat.card K)
     rw [A.X_zero, Module.End.one_apply]
   · rw [hc t ht, h1]
 
+omit [CharP K 2] in
 private theorem zE_line_eq [FiniteDimensional K V] {W₁ W₂ : Submodule K V}
     (h₁ : finrank K W₁ = 1) (h₂ : finrank K W₂ = 1) {v : V} (hv : v ≠ 0)
     (hv₁ : v ∈ W₁) (hv₂ : v ∈ W₂) : W₁ = W₂ := by
@@ -335,6 +340,7 @@ private theorem zE_line_eq [FiniteDimensional K V] {W₁ W₂ : Submodule K V}
       (by rw [finrank_span_singleton hv, h₂])
   exact e₁.symm.trans e₂
 
+omit [CharP K 2] in
 private theorem zE_map_eq_of_stable {g : GL (Fin 6) K}
     (hg : (g : Matrix (Fin 6) (Fin 6) K).det = 1) {I : Finset (Fin 6)}
     (hI : A.Fix (Wc K I) = A.Fix (Wc K I0))
@@ -342,15 +348,18 @@ private theorem zE_map_eq_of_stable {g : GL (Fin 6) K}
     (A.Fix (Wc K I0)).map (A.act g) = A.Fix (Wc K I0) := by
   rw [← hI, A.Fix_map hg (Wc K I), actA_map_eq hstab]
 
+omit [CharP K 2] in
 private theorem zE_stab_mul {W : Submodule K V} {g h : GL (Fin 6) K}
     (hg : (g : Matrix (Fin 6) (Fin 6) K).det = 1) (hh : (h : Matrix (Fin 6) (Fin 6) K).det = 1)
     (hgW : W.map (A.act g) = W) (hhW : W.map (A.act h) = W) :
     W.map (A.act (g * h)) = W := by
   rw [A.act_mul g h hg hh, Module.End.mul_eq_comp, Submodule.map_comp, hhW, hgW]
 
+omit [CharP K 2] in
 private theorem zE_stab_one {W : Submodule K V} : W.map (A.act 1) = W := by
   rw [A.act_one, Module.End.one_eq_id, Submodule.map_id]
 
+omit [CharP K 2] in
 private theorem zE_stab_inv {W : Submodule K V} {g : GL (Fin 6) K}
     (hg : (g : Matrix (Fin 6) (Fin 6) K).det = 1) (hgW : W.map (A.act g) = W) :
     W.map (A.act g⁻¹) = W := by
@@ -360,6 +369,7 @@ private theorem zE_stab_inv {W : Submodule K V} {g : GL (Fin 6) K}
         rw [A.act_mul g⁻¹ g (det_inv_eq_one hg) hg, Module.End.mul_eq_comp]
     _ = W := by rw [inv_mul_cancel, A.act_one, Module.End.one_eq_id, Submodule.map_id]
 
+omit [CharP K 2] in
 private theorem zE_tr_map [CharP K 2] (hI1 : A.Fix (Wc K I1) = A.Fix (Wc K I0))
     {a b : Fin 6} (hab : a ≠ b) (t : K) :
     (A.Fix (Wc K I0)).map (A.act (transvGL K a b hab t)) = A.Fix (Wc K I0) := by
@@ -387,7 +397,7 @@ private theorem zE_tr_map [CharP K 2] (hI1 : A.Fix (Wc K I1) = A.Fix (Wc K I0))
 theorem caseA_false {v₀ : V} (S : Setup0 A v₀)
     (hconst : ∀ s : Kˣ, A.X (s : K) (A.act (pm K (Equiv.swap 0 3)) v₀) =
       A.X 1 (A.act (pm K (Equiv.swap 0 3)) v₀)) : False := by
-  haveI : FiniteDimensional K V := Module.finite_of_finrank_pos (by rw [S.hV]; norm_num)
+  have : FiniteDimensional K V := Module.finite_of_finrank_pos (by rw [S.hV]; norm_num)
   have hv1ne : A.act (pm K (Equiv.swap (0 : Fin 6) 3)) v₀ ≠ 0 := by
     intro h
     apply S.hv0
@@ -425,7 +435,7 @@ theorem caseA_false {v₀ : V} (S : Setup0 A v₀)
   have hall : ∀ g : {g : GL (Fin 6) K // (g : Matrix (Fin 6) (Fin 6) K).det = 1},
       (A.Fix (Wc K I0)).map (A.act g.1) = A.Fix (Wc K I0) := fun g =>
     ((hH g.1).1 (sl_le_of_adjacent_transvections H hHt g.1 g.2)).2
-  haveI : Nonempty {g : GL (Fin 6) K // (g : Matrix (Fin 6) (Fin 6) K).det = 1} :=
+  have : Nonempty {g : GL (Fin 6) K // (g : Matrix (Fin 6) (Fin 6) K).det = 1} :=
     ⟨⟨1, by simp⟩⟩
   have hsup : (⨆ g : {g : GL (Fin 6) K // (g : Matrix (Fin 6) (Fin 6) K).det = 1},
       (A.Fix (Wc K I0)).map (A.act g.1)) = A.Fix (Wc K I0) := by
@@ -524,7 +534,7 @@ theorem caseB_false {v₀ : V} (S : Setup0 A v₀) {μ : Kˣ →* Kˣ} {w : V} (
   have hli : LinearIndependent K W :=
     linearIndependent_of_eigen (fun d : {d : Fin 6 → Kˣ // ∏ i, d i = 1} => A.act (dg d.1))
       W χ hW hr hsep
-  haveI : FiniteDimensional K V := Module.finite_of_finrank_pos (by rw [S.hV]; norm_num)
+  have : FiniteDimensional K V := Module.finite_of_finrank_pos (by rw [S.hV]; norm_num)
   have hle := hli.fintype_card_le_finrank
   rw [S.hV, Fintype.card_sum, Fintype.card_unit] at hle
   have h30 : Fintype.card {p : Fin 6 × Fin 6 // p.1 ≠ p.2} = 30 := by decide

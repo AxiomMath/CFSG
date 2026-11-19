@@ -199,7 +199,7 @@ theorem shape_A_of_label {p : ℕ} (hp : p.Prime) {lab : GLALabel} {R : Type} [G
     (hM : MarkedModel lab R) (hpd : p ∣ rk2DiagIndex lab) :
     catalogIs R (onLie (I171.I171LieShape p)) := by
   obtain ⟨tag, rank, n⟩ := lab
-  simp only [LargeEvenLabel.mk.injEq] at htag
+  simp only at htag
   subst htag
   simp only [LargeEvenInLambda2] at hlab
   obtain ⟨hn, hrk, hrn⟩ := hlab
@@ -208,9 +208,9 @@ theorem shape_A_of_label {p : ℕ} (hp : p.Prime) {lab : GLALabel} {R : Type} [G
     CFSG.Blueprint.LieModel.statedClassicalModel hM (by decide)
   simp only [rk2DiagIndex] at hpd
   obtain ⟨-, K, hfield, hfinite, hKcard, ⟨e⟩⟩ := hSC
-  letI := hfield
-  letI := hfinite
-  haveI : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
+  let := hfield
+  let := hfinite
+  have : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
   let q : TauCeti.PrimePower := ⟨2, n, Nat.prime_two, by omega⟩
   have hqcard : q.card = 2 ^ n := TauCeti.PrimePower.card_def q
   have hodd : Odd (2 ^ n - 1) := CFSG.StandardType.ggOdd_two_pow_sub_one hn
@@ -257,12 +257,12 @@ private noncomputable def statedProjEq {ι : Type} [Fintype ι] [DecidableEq ι]
   subst h
   exact MulEquiv.refl _
 
-theorem shape_twA_of_label {p : ℕ} (hp : p.Prime) {lab : GLALabel} {R : Type} [Group R]
+theorem shape_twA_of_label {p : ℕ} (_hp : p.Prime) {lab : GLALabel} {R : Type} [Group R]
     (hlab : LargeEvenInLambda2 lab) (htag : lab.tag = .twA)
     (hM : MarkedModel lab R) (hpd : p ∣ rk2DiagIndex lab) :
     catalogIs R (onLie (I171.I171LieShape p)) := by
   obtain ⟨tag, rank, n⟩ := lab
-  simp only [LargeEvenLabel.mk.injEq] at htag
+  simp only at htag
   subst htag
   simp only [LargeEvenInLambda2] at hlab
   obtain ⟨hn, hrk, hrn⟩ := hlab
@@ -271,9 +271,9 @@ theorem shape_twA_of_label {p : ℕ} (hp : p.Prime) {lab : GLALabel} {R : Type} 
     CFSG.Blueprint.LieModel.statedClassicalModel hM (by decide)
   simp only [rk2DiagIndex] at hpd
   obtain ⟨-, K, hfield, hfinite, hKcard, ⟨e⟩⟩ := hSC
-  letI := hfield
-  letI := hfinite
-  haveI : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
+  let := hfield
+  let := hfinite
+  have : Fact (2 : ℕ).Prime := ⟨Nat.prime_two⟩
   let q : TauCeti.PrimePower := ⟨2, n, Nat.prime_two, by omega⟩
   have hqcard : q.card = 2 ^ n := TauCeti.PrimePower.card_def q
   have hv : (TauCeti.LieTypeIndex.twistedA rank q).Valid := by
@@ -358,7 +358,7 @@ theorem shape_E6_of_label {p : ℕ} (hp : p.Prime) {lab : GLALabel} {R : Type}
     (hM : MarkedModel lab R) (hpd : p ∣ rk2DiagIndex lab) :
     catalogIs R (onLie (I171.I171LieShape p)) := by
   obtain ⟨tag, rank, n⟩ := lab
-  simp only [LargeEvenLabel.mk.injEq] at htag
+  simp only at htag
   subst htag
   simp only [LargeEvenInLambda2] at hlab
   obtain ⟨hn, hrank⟩ := hlab
@@ -369,8 +369,8 @@ theorem shape_E6_of_label {p : ℕ} (hp : p.Prime) {lab : GLALabel} {R : Type}
   obtain ⟨-, hUM⟩ := hCE
   simp only [CFSG.Blueprint.UntwistedChevalleyModel] at hUM
   obtain ⟨K, hfield, hfinite, hKcard, ⟨e⟩⟩ := hUM
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   let q : TauCeti.PrimePower := ⟨2, n, Nat.prime_two, by omega⟩
   have hqcard : q.card = 2 ^ n := TauCeti.PrimePower.card_def q
   have hp3 : p = 3 :=
@@ -395,7 +395,7 @@ theorem shape_twE6_of_label {p : ℕ} (hp : p.Prime) {lab : GLALabel} {R : Type}
     (hM : MarkedModel lab R) (hpd : p ∣ rk2DiagIndex lab) :
     catalogIs R (onLie (I171.I171LieShape p)) := by
   obtain ⟨tag, rank, n⟩ := lab
-  simp only [LargeEvenLabel.mk.injEq] at htag
+  simp only at htag
   subst htag
   simp only [LargeEvenInLambda2] at hlab
   obtain ⟨hn, hrank⟩ := hlab
@@ -406,8 +406,8 @@ theorem shape_twE6_of_label {p : ℕ} (hp : p.Prime) {lab : GLALabel} {R : Type}
   obtain ⟨-, hTM⟩ := hCE
   simp only [CFSG.Blueprint.TwistedChevalleyModel] at hTM
   obtain ⟨K, hfield, hfinite, hKcard, σ, hσ, ⟨e⟩⟩ := hTM
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   let q : TauCeti.PrimePower := ⟨2, n, Nat.prime_two, by omega⟩
   have hqcard : q.card = 2 ^ n := TauCeti.PrimePower.card_def q
   have hp3 : p = 3 :=
@@ -433,8 +433,8 @@ theorem pSimple_equiv_centerQuot_of_dvd {Ω : Type} [Group Ω] [Finite Ω] {p : 
     (hp : p.Prime) {K : Subgroup Ω} (hq : CFSG.Open.IsQuasisimple ↥K)
     (hd : p ∣ Nat.card ↥K) :
     Nonempty ((↥K ⧸ Subgroup.center ↥K) ≃* PSimple p K) := by
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hOne : GLAPPrimeCore p ↥K ≠ ⊤ := by
     intro htop
     have hc : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥K)) :=
@@ -479,7 +479,7 @@ theorem innerDiagInnerOrShape_holds (F : TauCeti.LieTypeIndex → Prop) :
     exact (CFSG.LocalAnalysis.GLTheoremA.catalogIs_congr eP
       (Q := onLie (I171.I171LieShape p))).mp hshapeZ
   · left
-    haveI : Fact p.Prime := ⟨hS.prime⟩
+    have : Fact p.Prime := ⟨hS.prime⟩
     have hstep : GLARawDatum lab (fun R _ I F =>
         (IsSimpleGroup R ∧ (∃ a b : R, a * b ≠ b * a) ∧
           ∃ θ : ↥L ⧸ Subgroup.center ↥L ≃* R,

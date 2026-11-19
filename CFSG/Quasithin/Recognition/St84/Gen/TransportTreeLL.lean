@@ -81,8 +81,8 @@ theorem f112ll_card_pCoreOf_inf_of_tree (hF : F112HypW L1 L2 S) (hm : 2 ≤ m) (
   have hP : Nat.card ↥(pCoreOf 2 (oTwoPrime D.Pα) ⊓ pCoreOf 2 (oTwoPrime D.Pβ)) =
       Nat.card ↥(pCoreOf 2 D.Pα ⊓ pCoreOf 2 D.Pβ) := by
     rw [pCoreOf_oTwoPrime D.Pα, pCoreOf_oTwoPrime D.Pβ]
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
-  haveI : Finite ↥(X.Gi 1) := X.hyp.finite_stab (X.vert 1)
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Finite ↥(X.Gi 1) := X.hyp.finite_stab (X.vert 1)
   have hQ : Nat.card ↥(pCoreOf 2 (oTwoPrime (X.Gi 0)) ⊓ pCoreOf 2 (oTwoPrime (X.Gi 1))) =
       Nat.card ↥(D.X.Q 0 ⊓ D.X.Q 1) := by
     rw [pCoreOf_oTwoPrime (X.Gi 0), pCoreOf_oTwoPrime (X.Gi 1)]

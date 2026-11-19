@@ -37,7 +37,7 @@ theorem rk1MatAct_one : rk1MatAct (D := D) (1 : Matrix (Fin 2) (Fin 2) K) = Line
 
 noncomputable def rk1ModelAct :
     Matrix.SpecialLinearGroup (Fin 2) K →* ((D × D) ≃ₗ[K] (D × D)) where
-  toFun g := LinearEquiv.ofLinear (rk1MatAct (g : Matrix (Fin 2) (Fin 2) K))
+  toFun g := LinearEquiv.ofLinearMap (rk1MatAct (g : Matrix (Fin 2) (Fin 2) K))
     (rk1MatAct ((g⁻¹ : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K))
     (by
       rw [← rk1MatAct_mul, ← Matrix.SpecialLinearGroup.coe_mul, mul_inv_cancel,

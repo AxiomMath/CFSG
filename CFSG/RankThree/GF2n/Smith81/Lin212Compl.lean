@@ -27,7 +27,7 @@ theorem Sit.mem_Lgen (h28c : Lin28CondStatement) (hb : Smith1981Below (Nat.card 
 
 theorem lin212C7_conj_of_cent (h7 : Lin212C7Statement) (hb : Smith1981Below (Nat.card G))
     (hc : Ctx M Q Z B) (hS : LinSetup M Q Z B n V₁ V₂) (hn : 3 ≤ n) (hs : Sit M Q Z X x)
-    (hne : Q ⊓ QB X ≠ ⊥) (hxL : x ∈ Lgen M (LB M Q B)) {a : G} (haM : a ∈ M)
+    (hne : Q ⊓ QB X ≠ ⊥) (hxL : x ∈ Lgen M (LB M Q B)) {a : G} (_haM : a ∈ M)
     (ha : ∀ s ∈ Lgen M (LB M Q B), a * s * a⁻¹ * s⁻¹ ∈ Q) :
     ∃ q ∈ Q, a * x * a⁻¹ = q * x * q⁻¹ := by
   have hxM : x ∈ M := hs.memM
@@ -41,7 +41,7 @@ theorem lin212Compl_of_cond (h28c : Lin28CondStatement) : Lin212ComplStatement :
   intro G _ _ M Q Z B n V₁ V₂ hb hc hS hn X x hs hne
   obtain ⟨p, hp, hp2, A, hQA, hAM, hAn, hpow, hAc, c, hcA, hfpf⟩ :=
     LinSetup.exists_scalar_normal hb hc hS hn
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQ2 : IsPGroup 2 Q := by
     rw [hc.hyp.hQ]
     exact (inSubgroup_pCore_two M).1

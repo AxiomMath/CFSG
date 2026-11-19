@@ -12,6 +12,7 @@ open scoped commutatorElement BigOperators
 variable {W : Type} [CommGroup W] [Finite W]
 variable {A X Q : Subgroup (MulAut W)} {t : MulAut W}
 
+omit [Finite W] in
 private theorem w16g_card_supp_compSet {A X Q : Subgroup (MulAut W)}
     (c : (s13SuppGraph A X Q).ConnectedComponent) :
     Nat.card ↥c.supp = (s13CompSet A X Q c).ncard := by
@@ -42,7 +43,7 @@ theorem w16g_case_one_hyperplane (h : HAb A X Q t 3)
   classical
   have hp3 : Nat.Prime 3 := by norm_num
   have hp32 : 3 ≠ 2 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have h2 : ∀ a ∈ A, (s13Supp X (Q.map (MulAut.conj a).toMonoidHom)).ncard = 2 := by
     intro a ha
     have hconj := s13Supp_conj (X := X) (L := Q) (g := a)

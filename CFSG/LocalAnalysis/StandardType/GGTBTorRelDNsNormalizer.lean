@@ -20,6 +20,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p k : ℕ} {U : Fin k → Submodule F V}
   {e : Fin k → ↥(orthDerived Q)} {E : Subgroup ↥(orthDerived Q)} {u : Fin k → V} {c t : F}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem frame_u_ne_zero (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     u a ≠ 0 := by
   intro h0
@@ -27,6 +28,7 @@ private theorem frame_u_ne_zero (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c 
   rw [h0, map_zero] at h1
   exact hF.c_ne_zero h1.symm
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem frame_u_linearIndependent (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     (a : Fin k) : LinearIndependent F ![u a, (e a : V ≃ₗ[F] V) (u a)] := by
   rw [LinearIndependent.pair_iff]
@@ -42,6 +44,7 @@ private theorem frame_u_linearIndependent (hF : OmNsRootGen.IsCoherentFrame Q p 
   simp only [zero_smul, add_zero] at hxyV
   exact ⟨(smul_eq_zero.mp hxyV).resolve_right (frame_u_ne_zero hF a), rfl⟩
 
+omit [Finite F] in
 private theorem frame_span (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     Submodule.span F ({u a, (e a : V ≃ₗ[F] V) (u a)} : Set V) = U a := by
   have hli := frame_u_linearIndependent hF a
@@ -58,6 +61,7 @@ private theorem frame_span (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (a
     rw [finrank_span_eq_card hli, Fintype.card_fin]
     exact (hF.toIsPlaneFrame.toIsPlaneSystem.finrank_eq a).symm
 
+omit [Finite F] in
 private theorem rot_apply_add_self (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     (a : Fin k) {x : V} (hx : x ∈ U a) :
     (e a : V ≃ₗ[F] V) ((e a : V ≃ₗ[F] V) x) + t • (e a : V ≃ₗ[F] V) x + x = 0 := by
@@ -88,6 +92,7 @@ private theorem rot_apply_add_self (hF : OmNsRootGen.IsCoherentFrame Q p U e E u
     | smul b y hy ihy => rw [map_smul, ihy, smul_zero]
   exact hAall x hx
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem plane_anisotropic (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
     (a : Fin k) {x : ↥(U a)} (hx : Q (x : V) = 0) : x = 0 := by
   by_contra hx0
@@ -100,6 +105,7 @@ private theorem plane_anisotropic (hF : OmNsRootGen.IsCoherentFrame Q p U e E u 
     change Q (b • (x : V)) = 0
     rw [map_smul_eq_sq, hx, mul_zero]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem fixedSpace_conj {g f : V ≃ₗ[F] V} :
     fixedSpace (g * f * g⁻¹) = (fixedSpace f).map (g : V →ₗ[F] V) := by
   ext x
@@ -114,8 +120,9 @@ private theorem fixedSpace_conj {g f : V ≃ₗ[F] V} :
   · rintro ⟨y, hy, rfl⟩
     simp [hy]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem fixedSpace_inf_sup_eq_bot {A B F0 : Submodule F V} {d : V ≃ₗ[F] V}
-    (hAB : Disjoint A B) (hFA : F0 ⊓ A = ⊥) (hFB : F0 ⊓ B = ⊥)
+    (hAB : Disjoint A B) (_hFA : F0 ⊓ A = ⊥) (_hFB : F0 ⊓ B = ⊥)
     (hdA : ∀ x ∈ A, d x ∈ A) (hdB : ∀ x ∈ B, d x ∈ B)
     (hfreeA : ∀ x ∈ A, d x = x → x = 0) (hfreeB : ∀ x ∈ B, d x = x → x = 0)
     (hfix : F0 ≤ fixedSpace d) : F0 ⊓ (A ⊔ B) = ⊥ := by
@@ -153,6 +160,7 @@ private theorem fixedSpace_inf_sup_eq_bot {A B F0 : Submodule F V} {d : V ≃ₗ
   have hb0 : b = 0 := hfreeB b hb (sub_eq_zero.mp hdb0)
   rw [ha0, hb0, add_zero]
 
+omit [Finite F] [CharP F 2] in
 private theorem fixedSpace_disjoint_iSup (hF : IsPlaneSystem Q U) {d : V ≃ₗ[F] V}
     {s : Finset (Fin k)} (hmaps : ∀ j, ∀ x ∈ U j, d x ∈ U j)
     (hfree : ∀ j ∈ s, ∀ x ∈ U j, d x = x → x = 0) :
@@ -188,8 +196,7 @@ private theorem fixedSpace_disjoint_iSup (hF : IsPlaneSystem Q U) {d : V ≃ₗ[
           intro j
           rw [Submodule.map_iSup]
           refine iSup_le ?_
-          intro hj
-          intro x hx
+          intro hj x hx
           rw [Submodule.mem_map] at hx
           obtain ⟨y, hy, rfl⟩ := hx
           exact Submodule.mem_iSup_of_mem j (Submodule.mem_iSup_of_mem hj (hmaps j y hy))
@@ -204,6 +211,7 @@ private theorem fixedSpace_disjoint_iSup (hF : IsPlaneSystem Q U) {d : V ≃ₗ[
         (fun x hx => hfree a (Finset.mem_insert_self a s) x hx) hfreeB
         (le_refl _)]
 
+omit [CharP F 2] in
 private theorem exists_unique_plane_of_fixedSpace
     (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t) (hp : p.Prime) (hk : 0 < k)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
@@ -366,7 +374,7 @@ private theorem exists_unique_plane_of_fixedSpace
 
 theorem conj_e_of_mem_normalizer {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type}
     [AddCommGroup V] [Module F V] [FiniteDimensional F V] {Q : QuadraticForm F V}
-    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     {k : ℕ} {U : Fin k → Submodule F V} {e : Fin k → ↥(CFSG.RankThree.Classical2.orthDerived Q)}
     {E : Subgroup ↥(CFSG.RankThree.Classical2.orthDerived Q)} {u : Fin k → V} {c t : F}
     (hF : OmNsRootGen.IsCoherentFrame Q p U e E u c t)
@@ -375,11 +383,11 @@ theorem conj_e_of_mem_normalizer {F : Type} [Field F] [Finite F] [CharP F 2] {V 
     ∃ (π : Equiv.Perm (Fin k)) (ε : Fin k → ℤ),
       (∀ a, ε a = 1 ∨ ε a = -1) ∧ ∀ a, g * e a * g⁻¹ = e (π a) ^ ε a := by
   classical
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) :=
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) :=
     Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
       fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Finite ↥(orthDerived Q) := Subtype.finite
+  have : Finite ↥(orthDerived Q) := Subtype.finite
   by_cases hk0 : k = 0
   · subst hk0
     refine ⟨Equiv.refl (Fin 0), fun a => Fin.elim0 a, ?_, ?_⟩

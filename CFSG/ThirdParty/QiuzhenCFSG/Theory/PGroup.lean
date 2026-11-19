@@ -26,7 +26,7 @@ namespace CFSG.Theory.PGroup
 /-- Maximal subgroups of finite p-groups are normal. -/
 public lemma coatom_normal_of_isPGroup {R : Type*} [Group R] [Finite R] {p : ℕ} [Fact p.Prime]
     [Fact (IsPGroup p R)] {K : Subgroup R} (hK : IsCoatom K) : K.Normal := by
-  letI : Group.IsNilpotent R := IsPGroup.isNilpotent (p := p) (G := R) (h := Fact.out)
+  let : Group.IsNilpotent R := IsPGroup.isNilpotent (p := p) (G := R) (h := Fact.out)
   exact Subgroup.NormalizerCondition.normal_of_coatom K
     (Group.normalizerCondition_of_isNilpotent (G := R)) hK
 
@@ -60,7 +60,7 @@ public lemma quotient_subgroup_eq_bot_or_top_of_coatom {R : Type*} [Group R]
 public lemma card_quotient_coatom_eq_prime {R : Type*} [Group R] [Finite R]
     {p : ℕ} [Fact p.Prime] [Fact (IsPGroup p R)]
     {K : Subgroup R} (hK : IsCoatom K) : Nat.card (R ⧸ K) = p := by
-  letI : K.Normal := coatom_normal_of_isPGroup (p := p) (K := K) hK
+  let : K.Normal := coatom_normal_of_isPGroup (p := p) (K := K) hK
   have hq_pgroup : IsPGroup p (R ⧸ K) := (Fact.out : IsPGroup p R).to_quotient K
   rcases hq_pgroup.exists_card_eq with ⟨n, hn⟩
   have hn_ne_zero : n ≠ 0 := by

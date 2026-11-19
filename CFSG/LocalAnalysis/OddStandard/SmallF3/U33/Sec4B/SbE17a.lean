@@ -56,7 +56,7 @@ private lemma l17_conj_tauom_by_t (hc : Ctx13 t L S x₁ x₂ lam rho tau om) :
       rcases hx with rfl | rfl
       · exact htau_gen
       · exact hom_gen
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y hx hy ihx ihy =>
       have heq : t * (x * y) * t⁻¹ = (t * x * t⁻¹) * (t * y * t⁻¹) := by group
       rw [heq]

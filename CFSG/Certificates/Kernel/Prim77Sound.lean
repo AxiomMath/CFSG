@@ -164,7 +164,7 @@ theorem ofList_ne_empty (l : List Char) : decide (String.ofList l ≠ "") = !l.i
       intro h
       have := congrArg String.toList h
       simp at this
-    simp [this]
+    simp
 
 theorem startsWith_colon (l : List Char) :
     (String.ofList l).startsWith ":" = [':'].isPrefixOf l := by
@@ -325,7 +325,7 @@ theorem countP_rep {R : List Nat} (hR : R.length = 77) (r : Nat) :
   have e : ((fun y => decide (y ≠ 0) && (x :: T).toArray.getD y 0 == r) ∘ Nat.succ) =
       fun y => T.getD y 0 == r := by
     funext y
-    simp [getD_toArray]
+    simp
   rw [e]
   simp
 
@@ -357,7 +357,7 @@ theorem stabW_spec {g : Nat → Nat} {R : List Nat} : ∀ (W : List (List Nat)) 
     rcases j with _ | j
     · have hi : Nat.beq i 0 = false := beq_ne (by simpa using hij)
       have := h.1
-      rw [hi, if_neg (by simp), nth_eq] at this
+      rw [hi, ite_eq_right (by simp), nth_eq] at this
       simpa using this
     · have := h2 j (by simpa using hj) (by omega)
       rw [List.getD_cons_succ, show i + (j + 1) = i + 1 + j by omega]
@@ -402,7 +402,7 @@ theorem neAny_spec {p : Nat} : ∀ {n : Nat}, neAny p n = true → ∃ j < n, im
     have e : neAny p (n + 1) = if Nat.beq (im p n) n then neAny p n else true := bIf_eq _ _ _
     rw [e] at h
     by_cases hn : im p n = n
-    · rw [if_pos (by simpa using hn)] at h
+    · rw [ite_eq_left (by simpa using hn)] at h
       obtain ⟨j, hj, hne⟩ := neAny_spec h
       exact ⟨j, by omega, hne⟩
     · exact ⟨n, by omega, hn⟩

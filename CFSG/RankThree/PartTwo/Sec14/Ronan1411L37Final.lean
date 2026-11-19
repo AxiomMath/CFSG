@@ -22,7 +22,7 @@ theorem ks1411HJCoreL37 : KS1411HJCoreL37 := by
   intro M _ _ Ybar Abar Xbar Rbar abar hset hX S T hS hT hST hsupp
   classical
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hXn := Wales1411W.HJInner.normal_X hset
+  have hXn := Wales1411W.HJInner.normal_X hset
   obtain ⟨h7, -⟩ := id hX
   obtain ⟨e, hpgl⟩ := exists_pgl_model hset hX
   set K := GaloisField 7 1 with hKdef
@@ -34,8 +34,8 @@ theorem ks1411HJCoreL37 : KS1411HJCoreL37 := by
   have h9 : ¬ ModNine true (7 ^ 1) := by
     change ¬ 7 ^ 1 % 9 = 1
     norm_num
-  haveI : Group.IsPerfect ↥Xbar := hset.perfect
-  haveI := isPerfect_projImage_of_equiv e
+  have : Group.IsPerfect ↥Xbar := hset.perfect
+  have := isPerfect_projImage_of_equiv e
   have : Finite K := hK.finite
   have hLC := inf_centralizer_eq_bot_proj hK hq e
   have hA := maximal_elemAbelian hset
@@ -186,7 +186,7 @@ theorem ks1411HJCoreL37 : KS1411HJCoreL37 := by
         have h1 := isPGLAtP_inv_mul_mem hK hq (isPGLAtP_of_mem_centralizer e hav) ha
         rw [inv_one, one_mul] at h1
         exact ha₁Z h1
-      obtain ⟨a₀, ha₀A, ha₀⟩ := SetLike.not_le_iff_exists.mp hin
+      obtain ⟨a₀, ha₀A, ha₀⟩ := IsConcreteLE.not_le_iff_exists.mp hin
       exact (false_of_not_inner hset hX (hvA a haA v hv hav) hv hv1 ⟨a₀, ha₀A, ha₀⟩ hS hT hST
         hsupp).elim
   ·
@@ -234,7 +234,7 @@ theorem ks1411HJCoreL37 : KS1411HJCoreL37 := by
         (fun a ha => hA3 a (Subgroup.mem_inf.mp ha).1) hE (hrange _ hy₁) (hrange _ hy₂) hζ1 hζ h1
       exact conj_of_hess Sec4.Ronan148L.kl3HessTori_holds hset hX hAX htr hS hT hST
     ·
-      obtain ⟨a₀, ha₀A, ha₀⟩ := SetLike.not_le_iff_exists.mp hin
+      obtain ⟨a₀, ha₀A, ha₀⟩ := IsConcreteLE.not_le_iff_exists.mp hin
       obtain ⟨y₀, hy₀⟩ := hpgl a₀ ha₀A
       have ha₀C : a₀ ∉ Subgroup.centralizer (Xbar : Set M) := fun h =>
         ha₀ (Subgroup.mem_sup_right h)

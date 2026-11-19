@@ -34,7 +34,7 @@ theorem spanInv_step {B : Array ℕ} (hB : SpanInv B) {x : ℕ} (hxlt : x < 64) 
   · have hmem : x ∈ B.toList :=
       Array.mem_toList_iff.mpr (Array.contains_iff_mem.mp hx)
     have hxB : SpanInv B := ⟨hnd, hcl, hlt⟩
-    rw [spanStep, if_pos hx]
+    rw [spanStep, ite_eq_left hx]
     exact hxB
   · have hxfalse : B.contains x = false := by simpa using hx
     have hxnot : x ∉ B.toList := by
@@ -56,7 +56,7 @@ theorem spanInv_step {B : Array ℕ} (hB : SpanInv B) {x : ℕ} (hxlt : x < 64) 
       obtain ⟨b, hb, hba⟩ := List.mem_map.mp hb
       have hxeq : x = a ^^^ b := by
         calc x = (b ^^^ x) ^^^ b := by
-              simp [Nat.xor_assoc, Nat.xor_left_comm, Nat.xor_comm]
+              simp [Nat.xor_comm]
           _ = a ^^^ b := by rw [hba]
       exact hxnot (hxeq ▸ hcl a ha b hb)
     have hnd' : (B.toList ++ (B.map (fun y => y ^^^ x)).toList).Nodup :=
@@ -64,33 +64,33 @@ theorem spanInv_step {B : Array ℕ} (hB : SpanInv B) {x : ℕ} (hxlt : x < 64) 
     have hcl' : ∀ a ∈ (spanStep B x).toList, ∀ b ∈ (spanStep B x).toList,
         a ^^^ b ∈ (spanStep B x).toList := by
       intro a ha b hb
-      rw [spanStep, if_neg hx, Array.toList_append, Array.toList_map] at ha hb ⊢
+      rw [spanStep, ite_eq_right hx, Array.toList_append, Array.toList_map] at ha hb ⊢
       rcases List.mem_append.mp ha with ha | ha
       · rcases List.mem_append.mp hb with hb | hb
         · exact List.mem_append_left _ (hcl a ha b hb)
         · obtain ⟨b0, hb0, rfl⟩ := List.mem_map.mp hb
           rw [show a ^^^ (b0 ^^^ x) = (a ^^^ b0) ^^^ x by
-            simp [Nat.xor_assoc, Nat.xor_left_comm, Nat.xor_comm]]
+            simp [Nat.xor_left_comm, Nat.xor_comm]]
           exact List.mem_append_right _ (List.mem_map.mpr ⟨a ^^^ b0, hcl a ha b0 hb0, rfl⟩)
       · obtain ⟨a0, ha0, rfl⟩ := List.mem_map.mp ha
         rcases List.mem_append.mp hb with hb | hb
         · rw [show (a0 ^^^ x) ^^^ b = (a0 ^^^ b) ^^^ x by
-            simp [Nat.xor_assoc, Nat.xor_left_comm, Nat.xor_comm]]
+            simp [Nat.xor_left_comm, Nat.xor_comm]]
           exact List.mem_append_right _ (List.mem_map.mpr ⟨a0 ^^^ b, hcl a0 ha0 b hb, rfl⟩)
         · obtain ⟨b0, hb0, rfl⟩ := List.mem_map.mp hb
           rw [show (a0 ^^^ x) ^^^ (b0 ^^^ x) = a0 ^^^ b0 by
-            simp [Nat.xor_assoc, Nat.xor_left_comm, Nat.xor_comm]]
+            simp [Nat.xor_left_comm, Nat.xor_comm]]
           exact List.mem_append_left _ (hcl a0 ha0 b0 hb0)
     have hlt' : ∀ b ∈ (spanStep B x).toList, b < 64 := by
       intro b hb
-      rw [spanStep, if_neg hx, Array.toList_append, Array.toList_map] at hb
+      rw [spanStep, ite_eq_right hx, Array.toList_append, Array.toList_map] at hb
       rcases List.mem_append.mp hb with hb | hb
       · exact hlt b hb
       · obtain ⟨b0, hb0, rfl⟩ := List.mem_map.mp hb
         exact Nat.xor_lt_two_pow (n := 6) (by simpa using hlt b0 hb0) (by simpa using hxlt)
     refine ⟨?_, ?_, hlt'⟩
     · have hxmem : ¬ x ∈ B := fun hmem => hx (Array.contains_iff_mem.mpr hmem)
-      rw [spanStep, if_neg hx, Array.toList_append, Array.toList_map]
+      rw [spanStep, ite_eq_right hx, Array.toList_append, Array.toList_map]
       simpa only [Array.toList_map] using hnd'
     · exact hcl'
 

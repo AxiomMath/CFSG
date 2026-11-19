@@ -130,7 +130,7 @@ theorem false_of_units_hom_of_isExtremalIn
     rw [ht]
     omega
   obtain ⟨g, hgM, hgext⟩ := CFSG.EvenSporTransfer.exists_extremal_conj_of_thompson
-    (T := (P : Subgroup G)) (U := M) (x := t) (Sylow.isPGroup' P)
+    (T := (P : Subgroup G)) (U := M) (x := t) (Sylow.isPGroup P)
     (P.not_dvd_index' (by dsimp [Subgroup.relIndex]; exact Subgroup.index_ne_zero_of_finite))
     hMP hrel htP htM hmin hno
   obtain ⟨x, hxC, hxconj⟩ := exists_mem_centralizer_conj_of_isExtremalIn

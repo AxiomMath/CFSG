@@ -31,7 +31,7 @@ noncomputable def psl2EquivSl2 (F : Type) [Field F] [CharP F 2] :
 theorem isCyclic_of_isPGroup_of_isL2Ev {X : Type} [Group X] {n : ℕ} (h : IsL2Ev X n) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (P : Subgroup X) (hP : IsPGroup p P) : IsCyclic P := by
   obtain ⟨F, _, _, _, _, ⟨e⟩⟩ := exists_equiv_sl2 h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hc := CFSG.LinearAlgebra.even_SL2_odd_prime_subgroups_cyclic hp2 (P.map e.toMonoidHom)
     (hP.map _)
   exact isCyclic_of_injective (P.equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom
@@ -54,7 +54,7 @@ theorem conj_injective_of_center_eq_bot {X : Type} [Group X] (hZ : Subgroup.cent
 theorem isCyclic_range_inf_inner {X : Type} [Group X] {n : ℕ} (h : IsL2Ev X n) {P : Type} [Group P]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hexp : ∀ x : P, x ^ p = 1) (φ : P →* MulAut X) :
     IsCyclic ↥(φ.range ⊓ (MulAut.conj : X →* MulAut X).range) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ := center_eq_bot_of_isL2Ev h
   have hinj := conj_injective_of_center_eq_bot hZ
   set B : Subgroup X := (φ.range ⊓ (MulAut.conj : X →* MulAut X).range).comap MulAut.conj with hB
@@ -67,7 +67,7 @@ theorem isCyclic_range_inf_inner {X : Type} [Group X] {n : ℕ} (h : IsL2Ev X n)
     have h2 : (b : X) ^ p = 1 := hinj (h1.trans (map_one _).symm)
     rw [pow_one]
     exact Subtype.ext h2
-  haveI := isCyclic_of_isPGroup_of_isL2Ev h hp hp2 B hBp
+  have := isCyclic_of_isPGroup_of_isL2Ev h hp hp2 B hBp
   have hmap : B.map (MulAut.conj : X →* MulAut X) = φ.range ⊓ (MulAut.conj : X →* MulAut X).range :=
     Subgroup.map_comap_eq_self inf_le_right
   rw [← hmap]
@@ -86,15 +86,15 @@ theorem isCyclic_outer_of_isL2Ev {X : Type} [Group X] {n : ℕ} (h : IsL2Ev X n)
   have hev : Even (Nat.card F) := by
     rw [hF]
     exact (Nat.even_pow.2 ⟨even_two, by have := one_le_of_card hF; omega⟩)
-  haveI := CFSG.Quasithin.OuterPrimeControl.outer_psl2_isCyclic F (Or.inl hev)
+  have := CFSG.Quasithin.OuterPrimeControl.outer_psl2_isCyclic F (Or.inl hev)
   exact isCyclic_of_surjective
     (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).symm.toMonoidHom
     (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).symm.surjective
 
 theorem exists_pow_eq_of_isCyclic {C : Type} [Group C] [Finite C] [IsCyclic C] {p : ℕ} (hp : p.Prime)
     {a b : C} (ha : a ^ p = 1) (ha1 : a ≠ 1) (hb : b ^ p = 1) : ∃ k : ℕ, a ^ k = b := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : CommGroup C := IsCyclic.commGroup
+  have : Fact p.Prime := ⟨hp⟩
+  let : CommGroup C := IsCyclic.commGroup
   set K : Subgroup C := Subgroup.closure {a, b} with hK
   have hexp : ∀ x ∈ K, x ^ p = 1 := by
     intro x hx
@@ -122,7 +122,7 @@ theorem exists_pow_mul_mem_inner {X : Type} [Group X] [Finite X] {n : ℕ} (h : 
     (hp : p.Prime) {x y : MulAut X} (hx : x ^ p = 1) (hy : y ^ p = 1)
     (hxi : x ∉ (MulAut.conj : X →* MulAut X).range) :
     ∃ k : ℕ, x ^ k * y ∈ (MulAut.conj : X →* MulAut X).range := by
-  haveI := isCyclic_outer_of_isL2Ev h
+  have := isCyclic_outer_of_isL2Ev h
   set π : MulAut X →* CFSG.ComponentClassification.OuterAutomorphisms.Outer X :=
     QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner X) with hπ
   have hker : ∀ z : MulAut X, π z = 1 ↔ z ∈ (MulAut.conj : X →* MulAut X).range := fun z => by
@@ -165,7 +165,7 @@ theorem exists_sylow_fixed_of_equiv {X Y : Type} [Group X] [Group Y] [Finite Y] 
 theorem exists_sylow_fixed {X : Type} [Group X] [Finite X] {n : ℕ} (h : IsL2Ev X n) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (z : MulAut X) (hz : orderOf z = p)
     (hzi : z ∉ (MulAut.conj : X →* MulAut X).range) : ∃ ω : Sylow 2 X, z • ω = ω := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨F, _, _, _, hF, ⟨e⟩⟩ := exists_equiv_psl2 h
   set z' : MulAut (CFSG.GorensteinWalter.PSL2 F) := MulAut.congr e z with hz'
   have hz'o : orderOf z' = p := by
@@ -197,7 +197,7 @@ theorem exists_sylow_index_le {X : Type} [Group X] [Finite X] {n : ℕ} (h : IsL
     [Finite P] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hexp : ∀ x : P, x ^ p = 1)
     (hPab : ∀ x y : P, x * y = y * x) (φ : P →* MulAut X) :
     ∃ ω : Sylow 2 X, ((MulAction.stabilizer (MulAut X) ω).comap φ).index ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrp : ∀ x ∈ φ.range, x ^ p = 1 := by
     rintro _ ⟨y, rfl⟩
     rw [← map_pow, hexp, map_one]
@@ -210,8 +210,8 @@ theorem exists_sylow_index_le {X : Type} [Group X] [Finite X] {n : ℕ} (h : IsL
 theorem exists_sylow_fixed_of_not_dvd {X : Type} [Group X] [Finite X] {n : ℕ} (h : IsL2Ev X n)
     {P : Type} [Group P] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hexp : ∀ x : P, x ^ p = 1)
     (hpX : ¬ p ∣ Nat.card X) (φ : P →* MulAut X) : ∃ ω : Sylow 2 X, ∀ x : P, φ x • ω = ω := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ := center_eq_bot_of_isL2Ev h
   have hinj := conj_injective_of_center_eq_bot hZ
   have hrp : ∀ x : P, φ x ^ p = 1 := fun x => by rw [← map_pow, hexp, map_one]

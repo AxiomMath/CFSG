@@ -77,7 +77,7 @@ theorem ug87_eta_add [CharP K 2] {ψ : AddChar (ZMod r) K} (hψ : ψ ≠ 1) :
     intro x
     by_cases hx : x = 0
     · subst hx
-      simp [quadraticChar_zero, AddChar.map_zero_eq_one, CharTwo.add_self_eq_zero]
+      simp [AddChar.map_zero_eq_one, CharTwo.add_self_eq_zero]
     · rcases quadraticChar_dichotomy hx with h | h
       · simp [h, hx]
       · simp [h, hx]
@@ -128,8 +128,8 @@ theorem ug87_G (ψ : AddChar (ZMod r) K) (δ : ℤ) {u : ZMod r} (hu : u ≠ 0) 
   show (if χ x = δ then ψ (u * x) else 0) = if χ (u * x) = δ * χ u then ψ (u * x) else 0
   have hmul : χ (u * x) = χ u * χ x := map_mul _ _ _
   by_cases hx : χ x = δ
-  · rw [if_pos hx, if_pos (by rw [hmul, hx, mul_comm])]
-  · rw [if_neg hx, if_neg]
+  · rw [ite_eq_left hx, ite_eq_left (by rw [hmul, hx, mul_comm])]
+  · rw [ite_eq_right hx, ite_eq_right]
     intro h
     exact hx (mul_left_cancel₀ hχu ((hmul.symm.trans h).trans (mul_comm _ _)))
 
@@ -140,23 +140,23 @@ theorem ug87_ft_chi [CharP K 2] (hr8 : r % 8 = 1) {ψ : AddChar (ZMod r) K} {σ 
   classical
   by_cases hu : u = 0
   · subst hu
-    simp only [zero_mul, AddChar.map_zero_eq_one, mul_one, if_true, add_zero]
+    simp only [zero_mul, AddChar.map_zero_eq_one, mul_one, ite_true, add_zero]
     rw [ug87_sum_even hr8 (fun x => φ (χ x)) (fun x => by simp only [ug87_chi_neg hr8])]
-    simp [quadraticChar_zero]
+    simp
   · have hpt : ∀ x : ZMod r, φ (χ x) * ψ (u * x) =
         (if x = 0 then φ 0 else 0) + φ 1 * (if χ x = 1 then ψ (u * x) else 0) +
           φ (-1) * (if χ x = -1 then ψ (u * x) else 0) := by
       intro x
       by_cases hx : x = 0
       · subst hx
-        simp [quadraticChar_zero]
+        simp
       · rcases quadraticChar_dichotomy hx with h | h
         · simp [h, hx]
         · simp [h, hx]
     rw [Finset.sum_congr rfl fun x _ => hpt x, Finset.sum_add_distrib, Finset.sum_add_distrib,
       ← Finset.mul_sum, ← Finset.mul_sum, Finset.sum_ite_eq' Finset.univ (0 : ZMod r),
       ug87_G ψ 1 hu, ug87_G ψ (-1) hu]
-    simp only [Finset.mem_univ, if_true, hu, if_false]
+    simp only [Finset.mem_univ, ite_true, hu, ite_false]
     rcases quadraticChar_dichotomy hu with hp | hp <;> rcases hσ with rfl | rfl <;>
       simp_all
 

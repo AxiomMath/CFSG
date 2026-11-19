@@ -148,7 +148,7 @@ theorem twelveOne
         exact Subtype.ext (Subgroup.mem_centralizer_iff.mp hxC y y.2)
       rw [hZc, Subgroup.mem_bot] at hmem
       exact congrArg Subtype.val hmem
-    refine hrad _ inferInstance (isSolvable_of_comm fun a b => Subtype.ext ?_)
+    refine hrad _ inferInstance (_root_.Group.isSolvable_of_comm fun a b => Subtype.ext ?_)
     have hC' : ⁅(a : G), (b : G)⁆ ∈ Subgroup.centralizer (commutator G : Set G) := by
       rw [commutatorElement_def]
       exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.mul_mem _ a.2 b.2)
@@ -165,7 +165,7 @@ theorem twelveOne
     obtain ⟨f', hf', ⟨eH⟩, hG⟩ := h91 G D hC hrad hrc (hBφ hB)
     have hHns : ¬ Group.IsSolvable (Halpha D hC.alpha) := fun hsol => by
       have hs' : Group.IsSolvable (CFSG.Theory.Comparator.PSL2Model f') :=
-        solvable_of_surjective (f := eH.toMonoidHom.comp
+        Group.isSolvable_of_surjective (f := eH.toMonoidHom.comp
           (QuotientGroup.mk' (Subgroup.center (Halpha D hC.alpha))))
           (eH.surjective.comp (QuotientGroup.mk'_surjective _))
       have hP := SetupQ.isPerfect_psl2Model hf'
@@ -174,7 +174,7 @@ theorem twelveOne
         CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup
           (CFSG.BenderSuzuki.IsBenderGroup.isPSL2 f' hf' (MulEquiv.refl _))
       have : Nontrivial (CFSG.Theory.Comparator.PSL2Model f') := IsSimpleGroup.toNontrivial
-      have hlt := IsSolvable.commutator_lt_top_of_nontrivial (CFSG.Theory.Comparator.PSL2Model f')
+      have hlt := Group.IsSolvable.commutator_lt_top_of_nontrivial (CFSG.Theory.Comparator.PSL2Model f')
       rw [Group.isPerfect_def.mp hP] at hlt
       exact lt_irrefl _ hlt
     obtain ⟨s, hs⟩ := imageClass_nonempty hC

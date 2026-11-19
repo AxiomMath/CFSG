@@ -246,7 +246,7 @@ instance : Group (SD n) :=
     (fun x => by ext <;> simp)
     (fun x => by
       ext
-      · simp only [mul_i, inv_i, inv_j, tw_tw, neg_add_cancel, one_i]
+      · simp only [mul_i, inv_i, inv_j, neg_add_cancel, one_i]
       · simp only [mul_j, inv_j, CharTwo.add_self_eq_zero, one_j])
 
 @[expose] def ω : SD n := ⟨1, 0⟩
@@ -262,7 +262,7 @@ instance : Group (SD n) :=
 
 theorem rotHom_apply (k : Multiplicative (ZMod (2 ^ n))) : rotHom k = ⟨k.toAdd, 0⟩ := rfl
 
-theorem rotHom_injective : Function.Injective (rotHom (n := n)) := fun a b h =>
+theorem rotHom_injective : Function.Injective (rotHom (n := n)) := fun _a _b h =>
   congrArg Multiplicative.ofAdd (congrArg SD.i h)
 
 theorem mk_zero_pow (a : ZMod (2 ^ n)) (k : ℕ) : (⟨a, 0⟩ : SD n) ^ k = ⟨k * a, 0⟩ := by
@@ -387,7 +387,7 @@ theorem lift_apply (hw : w ^ 2 ^ n = 1) (hs : s ^ 2 = 1) (hsw : s * w * s⁻¹ =
 
 theorem lift_ω (hn : 1 ≤ n) (hw : w ^ 2 ^ n = 1) (hs : s ^ 2 = 1)
     (hsw : s * w * s⁻¹ = w ^ (θ n).val) : lift hw hs hsw ω = w := by
-  haveI : Fact (1 < 2 ^ n) := ⟨Nat.one_lt_two_pow (by omega)⟩
+  have : Fact (1 < 2 ^ n) := ⟨Nat.one_lt_two_pow (by omega)⟩
   change w ^ (1 : ZMod (2 ^ n)).val * s ^ (0 : ZMod 2).val = w
   rw [ZMod.val_one, ZMod.val_zero, pow_one, pow_zero, mul_one]
 

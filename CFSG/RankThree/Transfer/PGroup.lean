@@ -67,7 +67,7 @@ theorem mem_normalizer_of_forall_conj_mem_normalizer [Finite G] (P : Sylow p G) 
       g⁻¹ * c * g ∈ Subgroup.normalizer ((P : Subgroup G) : Set G)) :
     g ∈ Subgroup.normalizer ((P : Subgroup G) : Set G) := by
   let Q : Subgroup G := (P : Subgroup G).map (MulAut.conj g⁻¹).toMonoidHom
-  have hQ : IsPGroup p Q := P.isPGroup'.map _
+  have hQ : IsPGroup p Q := P.isPGroup.map _
   have hQN : Q ≤ Subgroup.normalizer ((P : Subgroup G) : Set G) := by
     rintro _ ⟨c, hc, rfl⟩
     simpa [MulAut.conj_apply] using hg c hc

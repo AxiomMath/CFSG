@@ -13,16 +13,19 @@ open CFSG.LocalAnalysis.GLTheoremA (pQuotHom coprime_card_inf_ker_pQuotHom glaPC
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem glaPrimeCoreOf_le_self' {L : Subgroup G} : GLAPPrimeCoreOf 3 L ≤ L := by
   intro g hg
   obtain ⟨h, -, rfl⟩ := CFSG.LocalAnalysis.GLTheoremA.I137Tr.mem_glaPPrimeCoreOf_iff.1 hg
   exact h.2
 
+omit [Finite G] in
 theorem inv_comm_of_comm {f d : G} (hf : f * d = d * f) : f⁻¹ * d = d * f⁻¹ := by
   calc f⁻¹ * d = f⁻¹ * (d * f) * f⁻¹ := by group
     _ = f⁻¹ * (f * d) * f⁻¹ := by rw [hf]
     _ = d * f⁻¹ := by group
 
+omit [Finite G] in
 theorem conj_comm_of_comm {f d h : G} (hf : f * d = d * f) (hh : h * d = d * h) :
     (f * h * f⁻¹) * d = d * (f * h * f⁻¹) := by
   calc f * h * f⁻¹ * d = f * h * (f⁻¹ * d) := by group
@@ -32,6 +35,7 @@ theorem conj_comm_of_comm {f d h : G} (hf : f * d = d * f) (hh : h * d = d * h) 
     _ = (f * d) * h * f⁻¹ := by group
     _ = d * (f * h * f⁻¹) := by rw [hf]; group
 
+omit [Finite G] in
 theorem normalizer_inf_centralizer {K : Subgroup G} {d e : G} (he : e ∈ Subgroup.normalizer (K : Set G))
     (hed : e * d = d * e) :
     e ∈ Subgroup.normalizer ((K ⊓ Subgroup.centralizer ({d} : Set G) : Subgroup G) : Set G) := by
@@ -53,7 +57,7 @@ theorem innerOnMod_imp_inducesInnerMod {K J : Subgroup G} {d e : G}
     (he : e ∈ Subgroup.normalizer (K : Set G)) (hed : e * d = d * e)
     (hJ : GLAPComponent 3 (K ⊓ Subgroup.centralizer ({d} : Set G)) J)
     (hinn : InnerOnMod 3 (imgK K J) (barAut 3 K ⟨e, he⟩)) : InducesInnerMod 3 J e := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup G := K ⊓ Subgroup.centralizer ({d} : Set G) with hC
   set τ := barAut 3 K ⟨e, he⟩ with hτ
   have hJC : J ≤ C := hJ.1
@@ -147,8 +151,7 @@ theorem innerOnMod_imp_inducesInnerMod {K J : Subgroup G} {d e : G}
     have hzK : (⟨(((u₀ : G))⁻¹ * y * (u₀ : G))⁻¹ * (e⁻¹ * y * e), hJK hzJ⟩ : ↥K) =
         (u₀⁻¹ * ⟨y, hyK⟩ * u₀)⁻¹ * K.normalizerMonoidHom ⟨e⁻¹, Subgroup.inv_mem _ he⟩ ⟨y, hyK⟩ := by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, chev_coe_normalizerMonoidHom, inv_inv,
-        Subgroup.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv, chev_coe_normalizerMonoidHom, inv_inv]
     rw [hzK]
     simp only [map_mul, map_inv]
     rw [hu₀l, ← barAut_symm_pQuotHom he ⟨y, hyK⟩]

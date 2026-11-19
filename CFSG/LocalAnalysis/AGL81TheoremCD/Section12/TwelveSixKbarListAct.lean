@@ -21,6 +21,7 @@ namespace KbarList
 
 variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H : Subgroup G}
 
+omit [Finite G] in
 theorem conj_mem (hKH : ((kSub p M H).subgroupOf H).Normal) (y : ↥H)
     (k : ↥(kSub p M H)) : (y : G) * k * (y : G)⁻¹ ∈ kSub p M H :=
   (mem_normalizer_iff.mp ((normal_subgroupOf_iff_le_normalizer
@@ -30,11 +31,13 @@ noncomputable def kbarAct (hKH : ((kSub p M H).subgroupOf H).Normal) :
     ↥H →* MulAut (kbarQuot p M H) :=
   (MulAut.mapQuotient (center (modTwoCore (kSub p M H)))).comp (kbarConj hKH)
 
+omit [Finite G] in
 theorem kbarAct_apply_mk (hKH : ((kSub p M H).subgroupOf H).Normal) (y : ↥H)
     (q : modTwoCore (kSub p M H)) :
     kbarAct hKH y (QuotientGroup.mk q) = QuotientGroup.mk (kbarConj hKH y q) :=
   MulAut.mapQuotient_mk _ _ _
 
+omit [Finite G] in
 theorem kbarAct_mk (hKH : ((kSub p M H).subgroupOf H).Normal) (y : ↥H)
     (k : ↥(kSub p M H)) :
     kbarAct hKH y (QuotientGroup.mk (QuotientGroup.mk k)) =
@@ -42,6 +45,7 @@ theorem kbarAct_mk (hKH : ((kSub p M H).subgroupOf H).Normal) (y : ↥H)
         (⟨(y : G) * k * (y : G)⁻¹, conj_mem hKH y k⟩ : ↥(kSub p M H))) := by
   rw [kbarAct_apply_mk, kbarConj_mk]
 
+omit [Finite G] in
 theorem kbarAct_eq_conj (hKH : ((kSub p M H).subgroupOf H).Normal)
     (k : ↥(kSub p M H)) (hk : (k : G) ∈ H) :
     kbarAct hKH ⟨k, hk⟩ =
@@ -68,6 +72,7 @@ theorem ker_kbarAct_le (h : TwelveCtx G M p Q H)
   have h2 := QuotientGroup.eq_iff_div_mem.1 h1
   rwa [div_eq_mul_inv] at h2
 
+omit [Finite G] in
 theorem conj_range_le_range (hKH : ((kSub p M H).subgroupOf H).Normal) :
     (MulAut.conj : kbarQuot p M H →* MulAut (kbarQuot p M H)).range ≤ (kbarAct hKH).range := by
   rintro _ ⟨s, rfl⟩

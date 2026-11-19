@@ -37,7 +37,7 @@ theorem nonempty_mulEquiv_statedSp_plus_of_induced
     intro hmem
     exact hαout (show α ∈ (MulAut.conj : PlusOmega →* MulAut PlusOmega).range from
       hgk ▸ (hG.kappa_mem_inner_iff g).2 hmem)
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥Y) 5 h5
   let d : GL (Fin 4 ⊕ Fin 4) (ZMod 2) := (y : PlusOmega)
   have hd : orderOf d = 5 := by

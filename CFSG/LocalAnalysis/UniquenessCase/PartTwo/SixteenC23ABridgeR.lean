@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Quasithin.FFC CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem c23a_bridger_mQuot_centralizer_eq_rk_barSub {V E : Subgroup G} (hV : IsElemAbelian 2 V)
     (hE : E ≤ normalizer (V : Set G)) :
     E3.mQuot E (centralizer (V : Set G)) = rk ↥(barSub (⊥ : Subgroup G) V hV E) := by

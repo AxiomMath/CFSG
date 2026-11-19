@@ -95,7 +95,7 @@ theorem rank_le_of_le_centralizer [Finite G] [Finite K] [CharP K 2]
   obtain ⟨R, hQR⟩ := (hS.Q_two.of_equiv (subgroupOfEquivOfLe hS.Q_le_C).symm).exists_le_sylow
   set RG := (R : Subgroup C).map C.subtype with hRG
   have hRGC : RG ≤ C := map_subtype_le _
-  have hRG2 : IsPGroup 2 RG := R.isPGroup'.map _
+  have hRG2 : IsPGroup 2 RG := R.isPGroup.map _
   have hQRG : pull φ (antiUnipotent K) ⊔ TG ≤ RG := fun q hq =>
     ⟨⟨q, hS.Q_le_C hq⟩, hQR (mem_subgroupOf.mpr hq), rfl⟩
   have : IsElementaryAbelian 2 E := hE

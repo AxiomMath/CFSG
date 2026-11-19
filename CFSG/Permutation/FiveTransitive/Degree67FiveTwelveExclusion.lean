@@ -29,7 +29,7 @@ theorem fixed_ne_twelve
   let F := sylowFixedPoints X P s S
   let _ : Fintype F := Fintype.ofFinite F
   have hF : Nat.card F = 12 := hF12
-  have hQ : IsPGroup 5 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 5 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixeq : (F : Set X) = fixedPoints Q X := FixedNormalizerAction.fixed_eq Q
   have hQcard : Nat.card Q ≤ 5 := by
     have he : Nat.card Q = Nat.card S := Subgroup.card_map_of_injective (fixingSubgroup P s).subtype_injective

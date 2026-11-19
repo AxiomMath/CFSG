@@ -27,8 +27,8 @@ theorem burnsideF4m_lieI_hnc {K' : Type} [Group K'] [Finite K']
         ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) z₀)
       (amalgamMap ((burnsideF4d_bOne β ε).comp (burnsideF4m_psi θ h1))
         ((burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2)) t₀) := by
-  haveI := hyp.finite_M
-  haveI := hyp.amalgam.finite
+  have := hyp.finite_M
+  have := hyp.amalgam.finite
   obtain ⟨hC, hr, -, -⟩ := burnsideF4m_comp_data hyp θ h1 h2
   set b1 := (burnsideF4d_bOne β ε).comp (burnsideF4m_psi θ h1) with hb1
   set b2 := (burnsideF4d_bTwo β ε).comp (burnsideF4m_psi θ h2) with hb2
@@ -61,7 +61,7 @@ theorem burnsideF4m_F_4_35_of_lieI {K' : Type} [Group K'] [Finite K']
     (hj : (j : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) (hi1 : i ≠ 1) (hi2 : i * i = 1)
     (hj1 : j ≠ 1) (hj2 : j * j = 1) :
     ((∃ g ∈ Gp, g * (i : E) * g⁻¹ = (j : E)) ↔ IsConj (bM β ε i) (bM β ε j)) := by
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   refine ⟨burnsideF4j_F_4_35_forward hyp i j hi hj, fun h => ?_⟩
   obtain ⟨hC, -, -, -⟩ := burnsideF4m_comp_data hyp θ h1 h2
   have hiT := burnsideF4m_theta_S_le hyp.amalgam θ h1 h2 L.sylow L.T_le₁ L.T_le₂ hi

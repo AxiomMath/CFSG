@@ -25,7 +25,7 @@ theorem burnsideA315y_pglAction_bijective (p : ℕ) [Fact p.Prime] :
   have hcard : Nat.card (RingAut (ZMod p)) = 1 :=
     (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic (Fact.out : p.Prime) (ZMod p)
       (by rw [Nat.card_zmod, pow_one])).1
-  haveI : Subsingleton (RingAut (ZMod p)) := (Nat.card_eq_one_iff_unique.mp hcard).1
+  have : Subsingleton (RingAut (ZMod p)) := (Nat.card_eq_one_iff_unique.mp hcard).1
   obtain ⟨g, hg⟩ := CFSG.RankThree.PartTwo.KFacts.mem_range_pglAction_of_rightHom_eq_one
     (K := ZMod p) (α := α) (Subsingleton.elim _ _)
   exact ⟨g, hg⟩
@@ -120,6 +120,7 @@ variable {X : Type} [Group X] {p : ℕ} [Fact p.Prime] {K M : Subgroup X}
   haveI : (K.subgroupOf M).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKM).2 hMN
   (MulAut.congr ((Subgroup.subgroupOfEquivOfLe hKM).trans e)).toMonoidHom.comp MulAut.conjNormal
 
+omit [Fact (Nat.Prime p)] in
 theorem burnsideA315y_conjSL_apply (e : ↥K ≃* SL(2, ZMod p)) (hKM : K ≤ M)
     (hMN : M ≤ Subgroup.normalizer (K : Set X)) (m : ↥M) (x : SL(2, ZMod p)) :
     ((e.symm (burnsideA315y_conjSL e hKM hMN m x) : ↥K) : X) =

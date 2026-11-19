@@ -81,7 +81,7 @@ theorem uc22pwsu3_mat_Y (β : F) (hβ : σ β = β) :
     mat σ 3 (uc22pwsu3Y β hβ) = !![1, 0, β; 0, 1, 0; 0, 0, 1] := by
   rw [mat_apply, uc22pwsu3Y, coe_longRootHom]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [longRootMatrix, Matrix.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [longRootMatrix]
 
 theorem uc22pwsu3Y_mul (β β' : F) (hβ : σ β = β) (hβ' : σ β' = β') (hs : σ (β + β') = β + β') :
     uc22pwsu3Y β hβ * uc22pwsu3Y β' hβ' = uc22pwsu3Y (β + β') hs := by
@@ -145,6 +145,7 @@ theorem uc22pwsu3Y_conj {h : SU σ 3} {d : Fin 3 → F} (hd : ∀ i, d i ≠ 0)
   fin_cases i <;> fin_cases j <;> simp [hd]
   ring
 
+omit [CharP F 2] in
 theorem uc22pwsu3_bruhat (hnorm : ∀ x, σ x = x → ∃ a, σ a * a = x)
     (htop : CFSG.LieType.CurtisTits.rankOne (rootGroup σ hσ 3) (0 : Fin (3 / 2)) = ⊤)
     {ζ : traceZero σ} (hζ : (ζ : F) ≠ 0) (g : SU σ 3) :
@@ -181,6 +182,7 @@ theorem uc22pwsu3_normalizer_decomp (hnorm : ∀ x, σ x = x → ∃ a, σ a * a
     exact mul_mem (mul_mem (mul_mem (inv_mem (le_normalizer hu)) hg) (inv_mem (le_normalizer hv)))
       (inv_mem (hN hh))
 
+omit [CharP F 2] in
 theorem uc22pwsu3_normalizer_sup_eq_top (hnorm : ∀ x, σ x = x → ∃ a, σ a * a = x)
     (htop : CFSG.LieType.CurtisTits.rankOne (rootGroup σ hσ 3) (0 : Fin (3 / 2)) = ⊤)
     {ζ : traceZero σ} (hζ : (ζ : F) ≠ 0) :
@@ -193,6 +195,7 @@ theorem uc22pwsu3_normalizer_sup_eq_top (hnorm : ∀ x, σ x = x → ∃ a, σ a
   · exact mul_mem (mul_mem (mul_mem (mem_sup_left (le_normalizer hu))
       (mem_sup_right (mem_zpowers _))) (mem_sup_left (hN hh))) (mem_sup_left (le_normalizer hv))
 
+omit [CharP F 2] in
 theorem uc22pwsu3_diagonal_fin_three (a b c : F) :
     (diagonal ![a, b, c] : Matrix (Fin 3) (Fin 3) F) = !![a, 0, 0; 0, b, 0; 0, 0, c] := by
   ext i j
@@ -216,7 +219,7 @@ theorem uc22pwsu3_levelWeyl_conj {ζ : traceZero σ} (hζ : (ζ : F) ≠ 0) {h :
     uc22pwsu3_diagonal_fin_three]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_fin_three, hζ, ht, CharTwo.neg_eq] <;> field_simp
+    simp [ht, CharTwo.neg_eq] <;> field_simp
 
 end Char2
 

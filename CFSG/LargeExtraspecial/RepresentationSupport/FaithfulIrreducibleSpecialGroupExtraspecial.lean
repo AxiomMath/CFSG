@@ -40,8 +40,8 @@ theorem extraspecial {F : Type*} [Field F] [IsAlgClosed F] {E : Type*} [Group E]
     {V : Type*} [AddCommGroup V] [Module F V] [FiniteDimensional F V] [Nontrivial V]
     (σ : Representation F E V) (hfaith : Function.Injective σ) (hirr : σ.IsIrreducible) :
     CFSG.IsExtraspecialPGroup q E := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (IsPGroup q E) := ⟨hE⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (IsPGroup q E) := ⟨hE⟩
   have hcommZ : ∀ a b : E, ⁅a, b⁆ ∈ Subgroup.center E := by
     intro a b
     rw [hZC]
@@ -68,7 +68,7 @@ theorem extraspecial {F : Type*} [Field F] [IsAlgClosed F] {E : Type*} [Group E]
       rw [this.mul_pow, ihx, ihy, one_mul]
     | inv x hx ihx => rw [inv_pow, ihx, inv_one]
   obtain ⟨χ, hχ, -⟩ := CFSG.LinearAlgebra.CoprimeActions.IrreducibleCentralCharacter.exists_character σ hfaith hirr
-  haveI : IsCyclic (Subgroup.center E) :=
+  have : IsCyclic (Subgroup.center E) :=
     isCyclic_of_injective_ringHom ((Units.coeHom F).comp χ)
       (Units.val_injective.comp hχ)
   have hntriv : Nontrivial (Subgroup.center E) := by

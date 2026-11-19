@@ -53,6 +53,7 @@ private theorem s16h_sl28_isTransNZ_statedSL_two (K : Type) [Field K] :
   rw [CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL_coe]
   exact hg
 
+omit [Finite W] in
 theorem s16h_sl28_quotient_fixV_aux {L : Subgroup (MulAut W)}
     (hrow : s16h_H5RowSL2 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 3)
     (hgen : commSub (commSub ⊤ L) L = commSub ⊤ L)
@@ -97,8 +98,8 @@ theorem s16h_sl28_quotient_fixV_aux {L : Subgroup (MulAut W)}
     change d (l w) * (l w)⁻¹ = l (d w * w⁻¹)
     rw [hdl, map_mul, map_inv]
   obtain ⟨K, hKf, hKfin, hKcard, π, hπ⟩ := hrow.2
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have htrans : CFSG.Quasithin.MS93.S32.IsTransNZ (CFSG.Open.StatedSL 2 K) :=
     s16h_sl28_isTransNZ_statedSL_two K
   have hirr : ∀ J : Subgroup W, (∀ x ∈ L, ∀ w ∈ J, x w ∈ J) → Z ≤ J → J ≤ U →

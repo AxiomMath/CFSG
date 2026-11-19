@@ -108,7 +108,7 @@ theorem exists_mem_normalizer_mk_eq_of_bound {p : ℕ} (hp : p.Prime) (N : Subgr
     obtain ⟨T, hT⟩ := hS'.exists_le_sylow
     refine ⟨T, (Subgroup.eq_of_le_of_card_ge hT ?_).symm⟩
     have h1 : Nat.card ((T : Subgroup M).map M.subtype) ≤ Nat.card P :=
-      hbound _ (Subgroup.map_subtype_le _) (T.isPGroup'.map _)
+      hbound _ (Subgroup.map_subtype_le _) (T.isPGroup.map _)
     rw [Subgroup.card_map_of_injective M.subtype_injective] at h1
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSM).toEquiv, hScard]
     exact h1
@@ -176,8 +176,8 @@ theorem lift_data (N : Subgroup Λ) [N.Normal] (hN : ¬ 3 ∣ Nat.card N)
           (QuotientGroup.mk' N) =
         Subgroup.centralizer ({yb} : Set (Λ ⧸ N)) ⊓ Subgroup.normalizer (Tb : Set (Λ ⧸ N)) := by
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π := QuotientGroup.mk' N with hπ
   have hyb3 : yb ^ 3 = 1 := by rw [← hyb]; exact pow_orderOf_eq_one yb
   obtain ⟨S, hSle, hSel, hScard⟩ :=
@@ -251,7 +251,7 @@ theorem lift_data (N : Subgroup Λ) [N.Normal] (hN : ¬ 3 ∣ Nat.card N)
     rw [hk]
     have hpos : 0 < 2 ^ (Nat.card N).factorization 2 := by positivity
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h1 := Nat.mul_le_mul hb (le_refl (Nat.card ↥(T.map π)))
     have h2 := Nat.mul_lt_mul_of_pos_left hlt hpos
     linarith
@@ -335,7 +335,7 @@ theorem uniq_lift {L H : Subgroup G} (hHL : H ≤ L) {I : Subgroup (PQuot 3 L)}
 
 theorem glaPPrimeCore_eq_bot_of_simple {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
     (h3 : 3 ∣ Nat.card S) : GLAPPrimeCore 3 S = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card (GLAPPrimeCore 3 S)) :=
     CFSG.pPrimeCore_coprime_card (p := 3) (G := S)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore 3 S) with h | h
@@ -353,7 +353,7 @@ theorem le_of_cover {H₁ H₂ I J : Subgroup G} (hH : H₂ ≤ H₁) (hJH : J �
     (hs : IsSimpleGroup (PQuot 3 I)) (h3 : 3 ∣ Nat.card (PQuot 3 I))
     (hcov : ∀ i ∈ I, ∃ j ∈ J, Nat.Coprime 3 (orderOf (j⁻¹ * i))) : I ≤ J := by
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hIH₁ : I ≤ H₁ := hI.1.trans hH
   have hJnorm : (J.subgroupOf H₁).Normal := normal_subgroupOf_of_conj hJn
   have h3el : ∀ i ∈ I, orderOf i = 3 → i ∈ J := by
@@ -387,8 +387,8 @@ theorem le_of_cover {H₁ H₂ I J : Subgroup G} (hH : H₂ ≤ H₁) (hJH : J �
     ⟨I.mul_mem (I.mul_mem hg hl.1) (I.inv_mem hg), hJn g (hIH₁ hg) l hl.2⟩
   set σ := QuotientGroup.mk' (GLAPPrimeCore 3 ↥I)
   have hNbn : ((N.subgroupOf I).map σ).Normal := hNn.map _ (QuotientGroup.mk'_surjective _)
-  haveI := hs
-  haveI := hNbn
+  have := hs
+  have := hNbn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((N.subgroupOf I).map σ) with hbot | htop
   · exfalso
     have h3I : 3 ∣ Nat.card I := h3.trans (by

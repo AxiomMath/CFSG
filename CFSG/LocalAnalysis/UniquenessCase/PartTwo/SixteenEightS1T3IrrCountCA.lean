@@ -12,9 +12,10 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)}
 
+omit [Finite W] in
 private theorem s16t3_mem_irrSet_iff' (I : Subgroup W) :
     I ∈ irrSet L ↔ I ∈ IrrPlus L (⊤ : Subgroup W) := by
-  rw [irrSet, Set.mem_setOf_eq, mem_irrPlus_top_iff]
+  rw [irrSet, Set.mem_ofPred_eq, mem_irrPlus_top_iff]
   constructor
   · rintro ⟨hcomm, hlt, hstab, -, hirr⟩
     exact ⟨hstab, hcomm, hlt, hirr⟩
@@ -23,6 +24,7 @@ private theorem s16t3_mem_irrSet_iff' (I : Subgroup W) :
     rw [mem_fixV.1 hw.2 x hx]
     exact hw.2
 
+omit [Finite W] in
 private theorem s16t3_perfect_of_quasisimple (hq : CFSG.Open.IsQuasisimple ↥L) :
     ⁅L, L⁆ = L := by
   have htop : commutator ↥L = ⊤ := hq.1
@@ -30,16 +32,17 @@ private theorem s16t3_perfect_of_quasisimple (hq : CFSG.Open.IsQuasisimple ↥L)
   rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top, L.range_subtype] at hmap
   exact hmap
 
-private noncomputable def s16t3_qact (W : Type) [CommGroup W] (L : Subgroup (MulAut W)) :
+@[instance_reducible] private noncomputable def s16t3_qact (W : Type) [CommGroup W] (L : Subgroup (MulAut W)) :
     MulDistribMulAction ↥(Subgroup.normalizer (L : Set (MulAut W)))
       (W ⧸ modFix L (⊤ : Subgroup W)) :=
   quotAct (V := W) (X := L) (T := Subgroup.normalizer (L : Set (MulAut W))) (W := ⊤)
     le_rfl (fun _ _ _ _ => trivial)
 
+omit [Finite W] in
 private theorem s16t3_fixed_quot_eq_bot (hq : CFSG.Open.IsQuasisimple ↥L) :
     letI := s16t3_qact W L
     XMod.fixed ↥L (⊤ : Subgroup (W ⧸ modFix L (⊤ : Subgroup W))) = ⊥ := by
-  letI := s16t3_qact W L
+  let := s16t3_qact W L
   have hZ : modFix L (⊤ : Subgroup W) = fixV L := by
     rw [modFix, fixed_eq_inf_fixV, top_inf_eq]
   apply le_bot_iff.1
@@ -80,7 +83,7 @@ private theorem s16t3_fixed_quot_eq_bot (hq : CFSG.Open.IsQuasisimple ↥L) :
     rw [Subgroup.commutator_le]
     intro a _ b _
     rw [MonoidHom.mem_ker, commutatorElement_def, map_mul, map_mul, map_inv, map_inv]
-    simp [mul_comm, mul_assoc, mul_left_comm]
+    simp [mul_assoc]
   have hw : w ∈ fixV L := by
     have h2 : ∀ l : ↥L, (l : MulAut W) w * w⁻¹ = 1 := fun l =>
       MonoidHom.mem_ker.1 (hker (Subgroup.mem_top l))
@@ -91,11 +94,12 @@ private theorem s16t3_fixed_quot_eq_bot (hq : CFSG.Open.IsQuasisimple ↥L) :
   rw [← hZ] at hw
   exact (QuotientGroup.eq_one_iff w).2 hw
 
+omit [Finite W] in
 private theorem s16t3_commOf_eq_of_isIrr (hq : CFSG.Open.IsQuasisimple ↥L)
     {Y : Subgroup (W ⧸ modFix L (⊤ : Subgroup W))}
     (hY : letI := s16t3_qact W L; XMod.IsIrr ↥L Y) :
     letI := s16t3_qact W L; XMod.commOf ↥L Y = Y := by
-  letI := s16t3_qact W L
+  let := s16t3_qact W L
   have hfix := s16t3_fixed_quot_eq_bot (W := W) (L := L) hq
   rcases hY.2.2 (XMod.commOf ↥L Y) (XMod.isInv_commOf Y) bot_le
     (XMod.commOf_le_of_isInv hY.1) with h | h
@@ -106,7 +110,8 @@ private theorem s16t3_commOf_eq_of_isIrr (hq : CFSG.Open.IsQuasisimple ↥L)
     exact hY.2.1.ne' (le_bot_iff.1 hle)
   · exact h
 
-private theorem s16t3_stableUnder_commSub {J : Subgroup W} (hJ : StableUnder L J) :
+omit [Finite W] in
+private theorem s16t3_stableUnder_commSub {J : Subgroup W} (_hJ : StableUnder L J) :
     StableUnder L (commSub J L) := by
   intro l hl i hi
   unfold commSub at hi ⊢
@@ -150,6 +155,7 @@ theorem s16t3_commSub_mem_irrSet_of_natural (hq : CFSG.Open.IsQuasisimple ↥L)
   have hInat := SumOfNatShape.restrict hnat hIJ hstable hIZ
   exact ⟨⟨hcomm, SumOfNatShape.isIrrOn hq hInat⟩, hInat, hIZ⟩
 
+omit [Finite W] in
 theorem s16t3_summands (h : SumOfNatShape L (⊤ : Subgroup W) (fixV L) 3) :
     ∃ I : Fin 3 → Subgroup W, (∀ i, fixV L ≤ I i) ∧
       (∀ i, I i ⊓ (fixV L ⊔ ⨆ (j : Fin 3) (_ : j ≠ i), I j) ≤ fixV L) ∧
@@ -173,18 +179,20 @@ theorem s16t3_summands (h : SumOfNatShape L (⊤ : Subgroup W) (fixV L) 3) :
     exact ⟨I, hZI, hind, hsup, fun i =>
       ⟨n, Or.inr (Or.inr (Or.inr (Or.inr ⟨hS, s16t3_sumOfNat_singleton (hZI i) (hN i)⟩)))⟩⟩
 
-theorem s16t3_isIrr_tilde_of_mem_irrSet (hq : CFSG.Open.IsQuasisimple ↥L)
+omit [Finite W] in
+theorem s16t3_isIrr_tilde_of_mem_irrSet (_hq : CFSG.Open.IsQuasisimple ↥L)
     {I : Subgroup W} (hI : I ∈ irrSet L) :
     XMod.IsIrr ↥L (tilde L (⊤ : Subgroup W) I) := by
   exact (isIrr_tilde (V := W) (X := L) (W := (⊤ : Subgroup W))
     ((s16t3_mem_irrSet_iff' I).1 hI)).1
 
+omit [Finite W] in
 theorem s16t3_lift (hq : CFSG.Open.IsQuasisimple ↥L)
     {Y : Subgroup (W ⧸ modFix L (⊤ : Subgroup W))} (hY : XMod.IsIrr ↥L Y) :
     modComm L (Y.comap (QuotientGroup.mk' (modFix L (⊤ : Subgroup W)))) ∈ irrSet L ∧
       tilde L (⊤ : Subgroup W)
         (modComm L (Y.comap (QuotientGroup.mk' (modFix L (⊤ : Subgroup W))))) = Y := by
-  letI := s16t3_qact W L
+  let := s16t3_qact W L
   have htop : tilde L (⊤ : Subgroup W) (⊤ : Subgroup W) = ⊤ :=
     Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)
   have hle : Y ≤ tilde L (⊤ : Subgroup W) (⊤ : Subgroup W) := by rw [htop]; exact le_top
@@ -210,6 +218,7 @@ private noncomputable def s16t3_irrSetEquiv (hq : CFSG.Open.IsQuasisimple ↥L) 
     apply Subtype.ext
     exact (s16t3_lift hq Y.2).2
 
+omit [Finite W] in
 theorem s16t3_card_irrSet_eq_quot (hq : CFSG.Open.IsQuasisimple ↥L) :
     Nat.card ↥(irrSet L) =
       Nat.card {Y : Subgroup (W ⧸ modFix L (⊤ : Subgroup W)) // XMod.IsIrr ↥L Y} :=

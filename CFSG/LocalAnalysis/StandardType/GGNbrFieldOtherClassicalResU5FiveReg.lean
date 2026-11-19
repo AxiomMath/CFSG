@@ -236,8 +236,8 @@ theorem isSolvable_ggFix_of_regular_U5Five {n : ℕ} {K : Type} [Field K] {A : G
     rintro ⟨r, hr⟩
     obtain ⟨h, rfl⟩ := QuotientGroup.mk_surjective r
     exact ⟨⟨h, hr⟩, rfl⟩
-  haveI := hTsol
-  exact solvable_of_surjective hf
+  have := hTsol
+  exact Group.isSolvable_of_surjective hf
 
 theorem not_isComponentOf_ggFix_of_regular_U5Five {n : ℕ} {K : Type} [Field K]
     {A : GL (Fin 5) K}

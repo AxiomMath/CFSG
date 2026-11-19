@@ -43,11 +43,11 @@ theorem k35Ω_three (hG : Gls3StronglyThreeEmbeddedPlus)
       (p = 3 ∧ (IsSpor X .M11 ∨ LieModel X .PSL 3 2 2)) ∨
       (p = 5 ∧ (LieModel X .Tits 0 2 1 ∨ IsSpor X .Fi22))) := by
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hKs, hKnab, hKn, hKC⟩ := CFSG.RankThree.PartOne.Sec1511.spe_fstar Nat.prime_three hO hN
   set K := CFSG.generalizedFitting X with hKdef
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   obtain ⟨U, hU⟩ := exists_sylow_coe_eq hS
   obtain ⟨g, hg⟩ := hN.exists_conj_ge (CFSG.ABGLocalTools.isSylowOf_iff.1 hS)
   have hN' := hN.conj g
@@ -57,7 +57,7 @@ theorem k35Ω_three (hG : Gls3StronglyThreeEmbeddedPlus)
   have hΓ : gammaCore 3 1 ⊤ (U : Subgroup X) < ⊤ := by
     refine lt_top_iff_ne_top.2 fun h => hN'.1 (top_le_iff.1 ?_)
     rw [← h]
-    exact gammaCore_le_of_isStronglyPEmbedded hN' U.isPGroup' (by rw [hU]; exact hg)
+    exact gammaCore_le_of_isStronglyPEmbedded hN' U.isPGroup (by rw [hU]; exact hg)
   obtain ⟨-, -, hrows⟩ := hG X hX K hKn hKs hKnab hKC U hrk hΓ
   rw [hU] at hrows
   have hXK : ¬ 3 ∣ K.index → K = ⊤ := fun hidx => by

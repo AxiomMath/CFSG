@@ -14,8 +14,8 @@ theorem exists_fixed_involution {F : Type} [Group F] [Finite F] (σ : F →* F)
     ∃ ζ : F, orderOf ζ = 2 ∧ σ ζ = ζ ∧
       ∀ w : F, orderOf w = 2 → ∃ f : F, f * w * f⁻¹ = ζ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hm0 : m ≠ 0 := by
     rintro rfl
     have := Nat.card_pos (α := F)
@@ -84,7 +84,7 @@ theorem exists_fixed_involution {F : Type} [Group F] [Finite F] (σ : F →* F)
     rw [h1, hO] at h2
     rw [← Nat.card_coe_set_eq] at h2
     exact h2
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   let e : Equiv.Perm F := ⟨σ, fun x => σ (σ x), fun x => hσ x, fun x => hσ x⟩
   let e' : Equiv.Perm {x : F // orderOf x = 2} :=
     e.subtypePerm (fun x => by show orderOf (σ x) = 2 ↔ _; rw [hσord])
@@ -228,7 +228,7 @@ theorem exists_normalizing_coset {G : Type} [Group G] [Finite G] (N : Subgroup G
     (hx : ∀ u ∈ U, ∃ u' ∈ U, x * u * x⁻¹ * u'⁻¹ ∈ N) :
     ∃ o ∈ N, o * x ∈ Subgroup.normalizer (U : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set V : Subgroup G := U ⊔ N with hV
   have hUV : U ≤ V := le_sup_left
   have hNV : N ≤ V := le_sup_right
@@ -288,7 +288,7 @@ theorem exists_normalizing_coset {G : Type} [Group G] [Finite G] (N : Subgroup G
     obtain ⟨u, hu, hux⟩ := (Subgroup.mem_subgroupOf.mp h1)
     have h2 : x * u * x⁻¹ = o⁻¹ * a * o := by
       have := hux
-      simp only [MonoidHom.coe_coe, MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv,
+      simp only [MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_inv,
         MulEquiv.coe_toMonoidHom, ← hgo] at this
       rw [this]; group
     have h3 : u = x⁻¹ * (x * u * x⁻¹) * x := by group
@@ -309,7 +309,7 @@ theorem ff79_lift_square {G : Type} [Group G] [Finite G] {L U : Subgroup G} (hUL
     (hβq : β (q ^ 2) = q ^ 2) (hq2 : q ^ 2 ≠ 1) (hq4 : q ^ 4 = 1) :
     ∃ p ∈ L, p ∈ Nor U ∧ p ^ 4 = 1 ∧ p ^ 2 ≠ 1 ∧ b * p ^ 2 * b⁻¹ = p ^ 2 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hconjL : ∀ l, l ∈ L → b * l * b⁻¹ ∈ L := fun l hl =>
     (Subgroup.mem_normalizer_iff.mp hbL l).mp hl
   have hconjU : ∀ u, u ∈ U → b * u * b⁻¹ ∈ U := fun u hu =>

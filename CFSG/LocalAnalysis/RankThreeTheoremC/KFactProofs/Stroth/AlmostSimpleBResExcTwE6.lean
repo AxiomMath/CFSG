@@ -28,11 +28,11 @@ theorem fixesPair_twistedE6 {L : Type} [Group L] [Finite L] {f p : ℕ} (hf : 1 
     (hCEM : ChevalleyExceptionalModel L .twistedE6 2 f) (hp : p.Prime) (hp5 : 5 ≤ p)
     (hrk1 : ¬ RankLE1 p L) (hrk2 : RankLE2 p L) {α : MulAut L} (hαp : α ^ p = 1)
     (hα : α ∉ inner L) : FixesIndepPair p α := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨K₁, hKf₁, hKfin₁, σ₁, hKcard₁, hσ₁, ⟨eK⟩⟩ := exists_mulEquiv_graphFixedRootGroup_E6 hCEM
   have hK₁2 : Nat.card K₁ = 2 ^ (2 * f) := by rw [hKcard₁, ← pow_mul, mul_comm]
-  haveI : Finite (graphFixedRootGroup TwistTag.E6 K₁ σ₁.toRingHom) := Finite.of_equiv L eK.toEquiv
+  have : Finite (graphFixedRootGroup TwistTag.E6 K₁ σ₁.toRingHom) := Finite.of_equiv L eK.toEquiv
   obtain ⟨hα'inn, hα'ord⟩ := congr_noninner_prime hp eK hαp hα
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Θ, hΘ, -⟩, -⟩ :=
     twisted_E6_all_characteristic_exact_automorphism_normal_form Nat.prime_two hf K₁ hKcard₁ σ₁ hσ₁
@@ -49,7 +49,7 @@ theorem fixesPair_twistedE6 {L : Type} [Group L] [Finite L] {f p : ℕ} (hf : 1 
   obtain ⟨K, hKf, hKfin, σ, κ, ε, σ₀, φ, hKcard, hσ, hκ, hε, hσ₀, ⟨s, hs, hcongr⟩, -, hcanon, -,
     ⟨eJ⟩, -⟩ := twistedE6_descent hp hp5 hf₀ hM α hαp hα
   obtain ⟨-, hK₀card, hJC, -, hcomm, -⟩ := hcanon
-  haveI : Finite (fixSubfield κ) := Subtype.finite
+  have : Finite (fixSubfield κ) := Subtype.finite
   have hK2 : Nat.card K = (2 ^ (f₀ * p)) ^ 2 := by rw [hKcard, ← pow_mul]; ring_nf
   have hpK : ¬ p ∣ 2 ^ (f₀ * p) := by
     intro hd

@@ -33,7 +33,7 @@ theorem fpf_core (ha : Ctx4A t L S x₁ x₂ lam rho tau) {p : G}
   obtain ⟨m, hmM, hmconj⟩ :=
     exists_conj_mem_zpowers (ctxM t tau x₁ x₂) ha.card_M hρ1M hρM hρ1_3 hcQ.ord_rho
   have hcL : m * p ∈ ctxLO t tau x₁ x₂ :=
-    mul_mem (M_le_LO hcQ hs hmM) (Subgroup.mem_inf.mp hp).1
+    mul_mem (M_le_LO hmM) (Subgroup.mem_inf.mp hp).1
   have hcrho : (m * p) * rho * (m * p)⁻¹ ∈ zpowers rho := by
     have h : (m * p) * rho * (m * p)⁻¹ = m * (p * rho * p⁻¹) * m⁻¹ := by group
     rw [h]

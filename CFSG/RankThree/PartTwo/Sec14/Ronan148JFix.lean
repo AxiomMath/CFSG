@@ -24,7 +24,7 @@ theorem exists_pow_eq_one_mem_centralizer {X : Type} [Group X] [Finite X] {p : �
     [Fact p.Prime] {P K : Subgroup X} (hP : IsPGroup p P)
     (hPK : P ≤ Subgroup.normalizer (K : Set X)) (hp : p ∣ Nat.card K) :
     ∃ k ∈ K, k ≠ 1 ∧ k ^ p = 1 ∧ k ∈ Subgroup.centralizer (P : Set X) := by
-  letI conj : MulAction (↥P) (↥K) := conjActionOfNormalizes P K hPK
+  let conj : MulAction (↥P) (↥K) := conjActionOfNormalizes P K hPK
   have hfix : ∀ k : ↥K,
       k ∈ MulAction.fixedPoints (↥P) (↥K) ↔ (k : X) ∈ Subgroup.centralizer (P : Set X) := by
     intro k

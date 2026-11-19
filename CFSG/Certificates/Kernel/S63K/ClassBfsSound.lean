@@ -40,13 +40,13 @@ theorem rowF_mono (h : ℕ) :
     intro l c hne
     rw [rowF_succ] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       split at hne
-      · rw [if_pos ‹_›]; exact ih _ _ hne
+      · rw [ite_eq_left ‹_›]; exact ih _ _ hne
       · exact absurd rfl hne
-    · rw [if_neg ‹_›]
+    · rw [ite_eq_right ‹_›]
       split at hne
-      · rw [if_pos ‹_›]; exact Nat.le_of_succ_le (ih _ _ hne)
+      · rw [ite_eq_left ‹_›]; exact Nat.le_of_succ_le (ih _ _ hne)
       · exact absurd rfl hne
 
 theorem runF_succ (cap fuel h c : ℕ) :
@@ -72,12 +72,12 @@ theorem runF_mono (cap : ℕ) :
     intro h c hne
     rw [runF_succ] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       split at hne
       · exact absurd rfl hne
-      · rw [if_neg ‹_›]
+      · rw [ite_eq_right ‹_›]
         exact Nat.le_trans (rowF_mono h ng 0 c ‹_›) (ih _ _ hne)
-    · rw [if_neg ‹_›]
+    · rw [ite_eq_right ‹_›]
 
 theorem rowF_clos (h : ℕ) : ∀ k l c, bfsRowK F P PAR LAB W ng h k l c ≠ 0 →
     ∀ j, l ≤ j → j < l + k → W (h * ng + j) < bfsRowK F P PAR LAB W ng h k l c ∧
@@ -90,19 +90,19 @@ theorem rowF_clos (h : ℕ) : ∀ k l c, bfsRowK F P PAR LAB W ng h k l c ≠ 0 
     rw [rowF_succ] at hne ⊢
     split at hne
     · rename_i hw
-      rw [if_pos hw]
+      rw [ite_eq_left hw]
       split at hne
       · rename_i hp
-        rw [if_pos hp]
+        rw [ite_eq_left hp]
         rcases Nat.eq_or_lt_of_le h1 with rfl | h1
         · exact ⟨Nat.lt_of_lt_of_le hw (rowF_mono h _ _ _ hne), hp⟩
         · exact ih _ _ hne j (by omega) (by omega)
       · exact absurd rfl hne
     · rename_i hw
-      rw [if_neg hw]
+      rw [ite_eq_right hw]
       split at hne
       · rename_i hp
-        rw [if_pos hp]
+        rw [ite_eq_left hp]
         rcases Nat.eq_or_lt_of_le h1 with rfl | h1
         · rw [hp.1]
           exact ⟨Nat.lt_of_lt_of_le (Nat.lt_succ_self c) (rowF_mono h _ _ _ hne), hp.2.1⟩
@@ -122,17 +122,17 @@ theorem runF_clos (cap : ℕ) : ∀ fuel h c, bfsRunK F P PAR LAB W ng cap fuel 
     rw [runF_succ] at hne hcap hlt ⊢
     split at hne
     · rename_i hc
-      rw [if_pos hc] at hcap hlt ⊢
+      rw [ite_eq_left hc] at hcap hlt ⊢
       split at hne
       · exact absurd rfl hne
       · rename_i hr
-        rw [if_neg hr] at hcap hlt ⊢
+        rw [ite_eq_right hr] at hcap hlt ⊢
         rcases Nat.eq_or_lt_of_le hh' with rfl | hh'
         · obtain ⟨h1, h2⟩ := rowF_clos _ ng 0 c hr l (Nat.zero_le _) (by omega)
           exact ⟨Nat.lt_of_lt_of_le h1 (runF_mono cap fuel _ _ hne), h2⟩
         · exact ih _ _ hne hcap h' hh' hlt l hl
     · rename_i hc
-      rw [if_neg hc] at hcap hlt
+      rw [ite_eq_right hc] at hcap hlt
       exact absurd ⟨by omega, hcap⟩ hc
 
 theorem clos_of_run (hr : bfsRunK F P PAR LAB W ng (N + 1) (N + 1) 0 1 = N) (hN : 0 < N) :
@@ -184,10 +184,10 @@ theorem runC_unfold (gs : Array (Array ℕ)) (s : IState) (h : ℕ) :
   unfold outerC withH
   dsimp only
   by_cases hc : h < s.2.1.size
-  · rw [if_pos hc, if_pos hc]
+  · rw [ite_eq_left hc, ite_eq_left hc]
     dsimp only [pure]
     rw [innerC_eq]
-  · rw [if_neg hc, if_neg hc]
+  · rw [ite_eq_right hc, ite_eq_right hc]
     rfl
 
 theorem classBFS_eq_run (gs : Array (Array ℕ)) (x : Array ℕ) :
@@ -227,17 +227,17 @@ theorem rowC_replay {gs : Array (Array ℕ)} (hg : ∀ l < ng, gs[l]! = unpackR 
     unfold stepC
     rw [cj_eq hg _ (by omega)]
     by_cases hw : W (h * ng + l) < c
-    · rw [if_pos hw] at hne hle hmono ⊢
+    · rw [ite_eq_left hw] at hne hle hmono ⊢
       by_cases hp : P (W (h * ng + l)) = cjStepK G (P h) l
-      · rw [if_pos hp] at hne hle hmono ⊢
+      · rw [ite_eq_left hp] at hne hle hmono ⊢
         have hcN : c ≤ N := Nat.le_trans hmono hle
         rw [← hp, hs.seen _ (by omega), decide_eq_true hw]
         exact ih (l + 1) c s (by omega) hhc hs ht hne hle
-      · rw [if_neg hp] at hne
+      · rw [ite_eq_right hp] at hne
         exact absurd rfl hne
-    · rw [if_neg hw] at hne hle hmono ⊢
+    · rw [ite_eq_right hw] at hne hle hmono ⊢
       by_cases hn : W (h * ng + l) = c ∧ P c = cjStepK G (P h) l ∧ PAR c = h ∧ LAB c = l
-      · rw [if_pos hn] at hne hle hmono ⊢
+      · rw [ite_eq_left hn] at hne hle hmono ⊢
         obtain ⟨hwc, hpc, hpar, hlab⟩ := hn
         have hcN : c < N := Nat.lt_of_lt_of_le (Nat.lt_succ_self c)
           (Nat.le_trans (rowF_mono h k (l + 1) (c + 1) hne) hle)
@@ -249,7 +249,7 @@ theorem rowC_replay {gs : Array (Array ℕ)} (hg : ∀ l < ng, gs[l]! = unpackR 
         rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | rfl
         · exact ht i h0 hi
         · exact ⟨by omega, by omega, by rw [hpar, hlab, hpc]⟩
-      · rw [if_neg hn] at hne
+      · rw [ite_eq_right hn] at hne
         exact absurd rfl hne
 
 theorem runC_replay {gs : Array (Array ℕ)} (hng : gs.size = ng)
@@ -273,20 +273,20 @@ theorem runC_replay {gs : Array (Array ℕ)} (hng : gs.size = ng)
     rw [runF_succ] at hr hmono
     by_cases hc : h < c
     · have hc' : h < c ∧ c < N + 1 := ⟨hc, by omega⟩
-      rw [if_pos hc'] at hr hmono
-      rw [if_pos hc]
+      rw [ite_eq_left hc'] at hr hmono
+      rw [ite_eq_left hc]
       by_cases h0 : bfsRowK (cjStepK G) P PAR LAB W ng h ng 0 c = 0
-      · rw [if_pos h0] at hr
+      · rw [ite_eq_left h0] at hr
         omega
-      · rw [if_neg h0] at hr hmono
+      · rw [ite_eq_right h0] at hr hmono
         have hle : bfsRowK (cjStepK G) P PAR LAB W ng h ng 0 c ≤ N :=
           hr ▸ runF_mono (N + 1) fuel (h + 1) _ (by omega)
         rw [hs.pts h hc, hng]
         obtain ⟨hs', ht'⟩ := rowC_replay (W := W) hg hP hinj ng 0 c s (by omega) hc hs ht h0 hle
         exact ih (h + 1) _ _ hle hs' ht' hr
     · have hc' : ¬ (h < c ∧ c < N + 1) := fun e => hc e.1
-      rw [if_neg hc'] at hr
-      rw [if_neg hc]
+      rw [ite_eq_right hc'] at hr
+      rw [ite_eq_right hc]
       subst hr
       exact ⟨hs, ht⟩
 

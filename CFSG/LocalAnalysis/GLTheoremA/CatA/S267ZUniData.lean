@@ -63,8 +63,8 @@ theorem fieldAut_projU_diagU (σ : K ≃+* K) {d : Fin 3 → K} {hn : ∀ i, h.b
     rw [primeFormFieldSU_apply, Subgroup.coe_mul, Units.val_mul, coe_scalarU, coe_diagU,
       diagonal_mul_diagonal, diagonal_apply, diagonal_apply]
     by_cases hij : i = j
-    · rw [if_pos hij, if_pos hij, hσd]
-    · rw [if_neg hij, if_neg hij, map_zero]
+    · rw [ite_eq_left hij, ite_eq_left hij, hσd]
+    · rw [ite_eq_right hij, ite_eq_right hij, map_zero]
   rw [he, map_mul, projU_scalarU, mul_one]
 
 theorem norm_apply_ringEquiv (σ : K ≃+* K) (x : K) : h.norm (σ x) = σ (h.norm x) := by
@@ -120,7 +120,7 @@ theorem dOne_one_eq_two (lam : K) : dOne lam 1 = dOne lam 2 := rfl
 
 theorem dOne_zero_ne_one {lam : K} (hlam0 : lam ≠ 0) (hlam3 : lam ^ 3 ≠ 1) :
     dOne lam 0 ≠ dOne lam 1 := by
-  simp only [dOne, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  simp only [dOne, Matrix.cons_val_zero, Matrix.cons_val_one]
   intro he
   apply hlam3
   have : lam * (lam ^ 2)⁻¹ = lam * lam := by rw [he]
@@ -242,8 +242,8 @@ theorem projU_tTwo_not_mem_zpowers (hp : p.Prime) (hp2 : p ≠ 2) (hζ : IsPrimi
 theorem isElemAbelian_RU [Finite K] (hp : p.Prime) (hp2 : p ≠ 2) (hζ : IsPrimitiveRoot ζ p)
     (hlam3p : lam ^ (3 * p) = 1) (hlam3 : lam ^ 3 ≠ 1) :
     IsElemAbelian p (RU h hlamn hζn) ∧ Nat.card ↥(RU h hlamn hζn) = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (PU h) := Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (PU h) := Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
   have hord : orderOf (projU h (tOne h hlamn)) = p :=
     orderOf_eq_prime (projU_tOne_pow hlamn hlam3p) (projU_tOne_ne_one hlamn hlam3)
   have hA : IsElemAbelian p (Subgroup.zpowers (projU h (tOne h hlamn))) :=
@@ -343,8 +343,8 @@ theorem uU_comm_blockU {g : ↥(SG h)} (hg : g ∈ blockU h blk) : g * uU h = uU
   ext i j
   rw [mul_diagonal, diagonal_mul]
   fin_cases i <;> fin_cases j <;>
-    simp [hg' 0 1 (Or.inl (by simp [mem_blk])), hg' 0 2 (Or.inl (by simp [mem_blk])),
-      hg' 1 0 (Or.inr (by simp [mem_blk])), hg' 2 0 (Or.inr (by simp [mem_blk]))]
+    simp [hg' 0 1 (Or.inl (by simp)), hg' 0 2 (Or.inl (by simp)),
+      hg' 1 0 (Or.inr (by simp)), hg' 2 0 (Or.inr (by simp))]
 
 theorem projU_uU_comm_JU {j : PU h} (hj : j ∈ JU h) : j * projU h (uU h) = projU h (uU h) * j := by
   obtain ⟨g, hg, rfl⟩ := hj
@@ -389,8 +389,8 @@ theorem centMod_RU (hK : Nat.card K = (ℓ ^ f) ^ 2) (hq : 5 ≤ ℓ ^ f) {p : �
     (hs : s ∈ RU h hlamn hζn)
     (hcent : ∀ j ∈ JU h, (fieldAut h σ ^ k * MulAut.conj s) j * j⁻¹ ∈ GLAPPrimeCoreOf p (JU h)) :
     fieldAut h σ ^ k = 1 ∧ s ∈ Subgroup.zpowers (projU h (tOne h hlamn)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (PU h) := Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (PU h) := Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
   have hpJ : p ∣ Nat.card ↥(JU h) :=
     (dvd_card_JU hp hp2 hζ hζn).trans (Subgroup.card_quotient_dvd_card _)
   have hfix := CFSG.LocalAnalysis.GLTheoremA.H81.UniA3.eq_of_mul_inv_mem_glaPPrimeCoreOf hp
@@ -417,7 +417,7 @@ theorem centMod_RU (hK : Nat.card K = (ℓ ^ f) ^ 2) (hq : 5 ≤ ℓ ^ f) {p : �
     have h11 := congrFun (congrFun hc 1) 1
     rw [mul_diagonal] at h00 h11
     simp only [coe_diagU, primeFormFieldSU_apply, diagonal_apply_eq] at h00 h11
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, map_one, one_mul]
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, map_one, one_mul]
       at h00 h11
     rw [← h00, mul_one] at h11
     have hdvd := dvd_of_zpow_apply_eq hp hσ haσ h11.symm

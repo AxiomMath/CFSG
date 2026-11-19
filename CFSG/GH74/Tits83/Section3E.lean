@@ -179,7 +179,7 @@ theorem lemma313_ii (hT : T.Normalized) {u v : G} (hu : u ∈ T.U 2) (hv : v ∈
     (h : ∃ b ∈ T.Uprime 4, ∃ c ∈ T.Uprime 6, ∃ d ∈ T.U 7, ⁅v, u⁆ = b * c * d) :
     u ∈ T.Usec 2 := by
   classical
-  simp only [TitsSystem.Usec, Set.mem_setOf_eq]
+  simp only [TitsSystem.Usec, Set.mem_ofPred_eq]
   obtain ⟨b, hb, c, hc, d7, hd7, hvu⟩ := h
   by_cases hu1 : u = 1
   · exact Or.inl hu1
@@ -410,7 +410,7 @@ theorem lemma313_ii (hT : T.Normalized) {u v : G} (hu : u ∈ T.U 2) (hv : v ∈
 theorem Usec_subset (j : ℤ) : T.Usec j ⊆ (T.U j : Set G) := by
   intro x hx
   have hx' : x = 1 ∨ ∃ u ∈ T.Uprime (j - 8), u ≠ 1 ∧ x = T.nu' (j - 8) u := by
-    simpa only [TitsSystem.Usec, Set.mem_setOf_eq] using hx
+    simpa only [TitsSystem.Usec, Set.mem_ofPred_eq] using hx
   rcases hx' with rfl | ⟨u, hu, hu1, rfl⟩
   · exact (T.U j).one_mem
   · have h := T.nu'_mem (T.Uprime_le (j - 8) hu) hu1
@@ -450,7 +450,7 @@ theorem lemma315 (hT : T.Normalized) {x y : G} (hx : x ∈ T.U 0) (hy : y ∈ T.
   have hay : a * y = y * a :=
     T.Uprime_comm (j := 0) (k := 4) (by norm_num) (by norm_num) ha hy
   have hb' : b = 1 ∨ ∃ w ∈ T.Uprime (0 - 8), w ≠ 1 ∧ b = T.nu' (0 - 8) w := by
-    simpa only [TitsSystem.Usec, Set.mem_setOf_eq] using hb
+    simpa only [TitsSystem.Usec, Set.mem_ofPred_eq] using hb
   rcases hb' with hb1 | ⟨w, hw, hw1, hbw⟩
   · rw [hb1, mul_one]
     exact hay
@@ -518,7 +518,7 @@ theorem comm_Usec_mem (hT : T.Normalized) {u v : G} (hu : u ∈ T.Usec 2) (hv : 
     ∃ b ∈ T.Uprime 4, ∃ c ∈ T.Uprime 6, ∃ d ∈ T.U 7, ⁅u, v⁆ = b * c * d := by
   classical
   have hu' : u = 1 ∨ ∃ w ∈ T.Uprime (2 - 8), w ≠ 1 ∧ u = T.nu' (2 - 8) w := by
-    simpa only [TitsSystem.Usec, Set.mem_setOf_eq] using hu
+    simpa only [TitsSystem.Usec, Set.mem_ofPred_eq] using hu
   by_cases hv1 : v = 1
   · refine ⟨1, (T.Uprime 4).one_mem, 1, (T.Uprime 6).one_mem, 1, (T.U 7).one_mem, ?_⟩
     rw [hv1]
@@ -847,7 +847,7 @@ theorem lemma316_ii (hT : T.Normalized) {j : ℤ} (hj : Even j) {x : G} (hx : x 
     calc x = (x⁻¹)⁻¹ := by group
       _ = (a * b)⁻¹ := by rw [heq]
   have hb' : b = 1 ∨ ∃ w ∈ T.Uprime (j - 8), w ≠ 1 ∧ b = T.nu' (j - 8) w := by
-    simpa only [TitsSystem.Usec, Set.mem_setOf_eq] using hb
+    simpa only [TitsSystem.Usec, Set.mem_ofPred_eq] using hb
   obtain ⟨k, hk⟩ := hj
   have hj8 : Even (j - 8) := ⟨k - 4, by rw [hk]; ring⟩
   refine ⟨a⁻¹, (T.Uprime j).inv_mem ha, ?_⟩

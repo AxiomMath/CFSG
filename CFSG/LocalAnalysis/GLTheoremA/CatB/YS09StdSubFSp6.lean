@@ -67,8 +67,8 @@ theorem UM_mul (p q r s c p' q' r' s' c' : ZMod 2) :
   rw [Matrix.fromBlocks_multiply]
   simp only [Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add]
   congr 1
-  · ext i j; fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three] <;> ring
-  · ext i j; fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+  · ext i j; fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three]
+  · ext i j; fin_cases i <;> fin_cases j <;> simp <;> ring
   · ext i j; fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three] <;> ring
 
 @[expose] def Ux (x : ZMod 2 × ZMod 2 × ZMod 2 × ZMod 2 × ZMod 2) :

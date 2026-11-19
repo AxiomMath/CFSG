@@ -101,7 +101,7 @@ theorem sylowImage_le {G : Type*} [Group G] (M : Subgroup G) (T : Sylow 2 M) :
 
 theorem sylowImage_isPGroup {G : Type*} [Group G] (M : Subgroup G) (T : Sylow 2 M) :
     IsPGroup 2 (sylowImage M T) :=
-  T.isPGroup'.map M.subtype
+  T.isPGroup.map M.subtype
 
 theorem sylowImage_card {G : Type*} [Group G] (M : Subgroup G) (T : Sylow 2 M) :
     Nat.card (sylowImage M T) = Nat.card (T : Subgroup M) :=

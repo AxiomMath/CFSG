@@ -124,7 +124,7 @@ theorem cor2Beta_of_rootType_of
       rw [Subgroup.mem_centralizer_singleton_iff] at h'
       exact h'
     obtain ⟨Q, hGQ, hQc, hQab⟩ := cor2Beta_exists_complement hTI hroot htA ht1 hab hinner
-    haveI := hQab
+    have := hQab
     exact cor2Beta_shape_of_decomp_mul hd hQc hGQ cor2Beta_hasNormalTwoComplement_of_comm
 
 theorem tim77BetaBox_of_nodes (hB7 : Cor2BetaShultDecompStatement)

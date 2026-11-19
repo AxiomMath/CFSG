@@ -25,10 +25,12 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ}
 @[expose] def nilpSpan (E : Subgroup (GL (Fin n) F)) : Submodule F (Matrix (Fin n) (Fin n) F) :=
   Submodule.span F (Set.range fun e : E => nilpOf (e : GL (Fin n) F))
 
+omit [Finite F] [CharP F 2] in
 theorem nilpOf_mem_nilpSpan (E : Subgroup (GL (Fin n) F)) (e : E) :
     nilpOf (e : GL (Fin n) F) ∈ nilpSpan E :=
   Submodule.subset_span ⟨e, rfl⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem nilpSpan_aux_mat_comm {E : Subgroup (GL (Fin n) F)} (hE : IsElemAbelian 2 E)
     (e e' : E) :
     ((e : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *
@@ -37,17 +39,20 @@ private theorem nilpSpan_aux_mat_comm {E : Subgroup (GL (Fin n) F)} (hE : IsElem
         ((e : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) := by
   rw [← Units.val_mul, ← Units.val_mul, hE.comm e.2 e'.2]
 
+omit [Finite F] [CharP F 2] in
 private theorem nilpSpan_aux_mat_sq {E : Subgroup (GL (Fin n) F)} (hE : IsElemAbelian 2 E)
     (e : E) :
     ((e : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) *
         ((e : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) = 1 := by
   rw [← Units.val_mul, hE.mul_self_eq_one e.2, Units.val_one]
 
+omit [Finite F] in
 private theorem nilpSpan_aux_add_self (M : Matrix (Fin n) (Fin n) F) : M + M = 0 := by
   ext i j
   simp only [Matrix.add_apply, Matrix.zero_apply]
   exact CharTwo.add_self_eq_zero _
 
+omit [Finite F] [CharP F 2] in
 private theorem nilpSpan_aux_gen_comm {E : Subgroup (GL (Fin n) F)} (hE : IsElemAbelian 2 E)
     (e e' : E) :
     nilpOf (e : GL (Fin n) F) * nilpOf (e' : GL (Fin n) F) =
@@ -57,6 +62,7 @@ private theorem nilpSpan_aux_gen_comm {E : Subgroup (GL (Fin n) F)} (hE : IsElem
   rw [h]
   abel
 
+omit [Finite F] [CharP F 2] in
 theorem nilpSpan_comm {E : Subgroup (GL (Fin n) F)} (hE : IsElemAbelian 2 E)
     {X Y : Matrix (Fin n) (Fin n) F} (hX : X ∈ nilpSpan E) (hY : Y ∈ nilpSpan E) :
     X * Y = Y * X := by
@@ -78,6 +84,7 @@ theorem nilpSpan_comm {E : Subgroup (GL (Fin n) F)} (hE : IsElemAbelian 2 E)
   | add z w _ _ ihz ihw => rw [mul_add, add_mul, ihz, ihw]
   | smul a z _ ih => rw [mul_smul_comm, smul_mul_assoc, ih]
 
+omit [Finite F] [CharP F 2] in
 theorem nilpSpan_mul_mem {E : Subgroup (GL (Fin n) F)}
     {X Y : Matrix (Fin n) (Fin n) F} (hX : X ∈ nilpSpan E) (hY : Y ∈ nilpSpan E) :
     X * Y ∈ nilpSpan E := by
@@ -108,6 +115,7 @@ theorem nilpSpan_mul_mem {E : Subgroup (GL (Fin n) F)}
   | add z w _ _ ihz ihw => rw [add_mul]; exact add_mem ihz ihw
   | smul a z _ ih => rw [smul_mul_assoc]; exact Submodule.smul_mem _ _ ih
 
+omit [Finite F] in
 theorem nilpSpan_sq {E : Subgroup (GL (Fin n) F)} (hE : IsElemAbelian 2 E)
     {X : Matrix (Fin n) (Fin n) F} (hX : X ∈ nilpSpan E) : X * X = 0 := by
   induction hX using Submodule.span_induction with
@@ -126,13 +134,16 @@ theorem nilpSpan_sq {E : Subgroup (GL (Fin n) F)} (hE : IsElemAbelian 2 E)
     rw [smul_mul_assoc, mul_smul_comm, ih]
     simp
 
+omit [Finite F] in
 private theorem matrix_add_self_aux (M : Matrix (Fin n) (Fin n) F) : M + M = 0 :=
   Matrix.ext fun i j => CharTwo.add_self_eq_zero (M i j)
 
+omit [Finite F] [CharP F 2] in
 private theorem one_add_mul_aux (X Y : Matrix (Fin n) (Fin n) F) :
     (1 + X) * (1 + Y) = 1 + (X + Y + X * Y) := by
   noncomm_ring
 
+omit [Finite F] in
 private theorem one_add_sq_zero_aux (X : Matrix (Fin n) (Fin n) F) (h : X * X = 0) :
     (1 + X) * (1 + X) = 1 := by
   rw [one_add_mul_aux, matrix_add_self_aux X, h, add_zero, add_zero]
@@ -143,6 +154,7 @@ private theorem one_add_sq_zero_aux (X : Matrix (Fin n) (Fin n) F) (h : X * X = 
   val_inv := by exact one_add_sq_zero_aux X h
   inv_val := by exact one_add_sq_zero_aux X h
 
+omit [Finite F] in
 theorem unitOfSqZero_val (X : Matrix (Fin n) (Fin n) F) (h : X * X = 0) :
     ((unitOfSqZero X h : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) = 1 + X := rfl
 
@@ -164,11 +176,13 @@ theorem unitOfSqZero_val (X : Matrix (Fin n) (Fin n) F) (h : X * X = 0) :
     rw [inv_eq_of_mul_eq_one_right hgg]
     exact hg
 
+omit [Finite F] in
 theorem unitOfSqZero_mem_oneAdd (S : Submodule F (Matrix (Fin n) (Fin n) F))
     (hmul : ∀ X ∈ S, ∀ Y ∈ S, X * Y ∈ S) (hsq : ∀ X ∈ S, X * X = 0) {X : Matrix (Fin n) (Fin n) F}
     (hX : X ∈ S) : unitOfSqZero X (hsq X hX) ∈ oneAdd S hmul hsq :=
   ⟨X, hX, rfl⟩
 
+omit [Finite F] in
 theorem isElemAbelian_oneAdd (S : Submodule F (Matrix (Fin n) (Fin n) F))
     (hmul : ∀ X ∈ S, ∀ Y ∈ S, X * Y ∈ S) (hsq : ∀ X ∈ S, X * X = 0)
     (hcomm : ∀ X ∈ S, ∀ Y ∈ S, X * Y = Y * X) : IsElemAbelian 2 (oneAdd S hmul hsq) := by
@@ -186,11 +200,13 @@ theorem isElemAbelian_oneAdd (S : Submodule F (Matrix (Fin n) (Fin n) F))
     rw [pow_two]
     exact hxx
 
+omit [Finite F] [CharP F 2] in
 private theorem conjTr_smul_aux (σ : F ≃+* F) (c : F) (A : Matrix (Fin n) (Fin n) F) :
     conjTr σ (c • A) = σ c • conjTr σ A := by
   ext i j
   simp [conjTr]
 
+omit [Finite F] [CharP F 2] in
 private theorem selfAdjoint_pair_eq {σ : F ≃+* F} {ω : F} (hω : σ ω ≠ ω)
     {a a' b b' : Matrix (Fin n) (Fin n) F} (ha : conjTr σ a = a) (ha' : conjTr σ a' = a')
     (hb : conjTr σ b = b) (hb' : conjTr σ b' = b') (h : a + ω • b = a' + ω • b') :
@@ -216,6 +232,7 @@ private theorem selfAdjoint_pair_eq {σ : F ≃+* F} {ω : F} (hω : σ ω ≠ �
   rw [hb0, smul_zero, add_zero] at h1
   exact ⟨sub_eq_zero.1 h1, sub_eq_zero.1 hb0⟩
 
+omit [Finite F] in
 private theorem unitOfSqZero_inj_aux {X X' : Matrix (Fin n) (Fin n) F} (h : X * X = 0)
     (h' : X' * X' = 0) (e : unitOfSqZero X h = unitOfSqZero X' h') : X = X' := by
   have h1 := congrArg Units.val e
@@ -265,6 +282,7 @@ theorem card_sq_le_pow_of_isElemAbelian_conjTr (σ : F ≃+* F) (hne : ∃ c, σ
   exact CFSG.LinearAlgebra.SchurElemAbelianTwo.card_le_pow_of_isElemAbelian_two
     (isElemAbelian_oneAdd _ _ _ fun _ hX _ hY => nilpSpan_comm hE hX hY)
 
+omit [Finite F] [CharP F 2] in
 theorem conjTr_eq_of_mem_SUid_of_elemAbelian (σ : F ≃+* F) {E : Subgroup (GL (Fin n) F)}
     (hE : IsElemAbelian 2 E) (hle : E ≤ SUid σ n) :
     ∀ e ∈ E, conjTr σ (e : Matrix (Fin n) (Fin n) F) = (e : Matrix (Fin n) (Fin n) F) := by
@@ -299,13 +317,16 @@ private def fσTrace (σ : F ≃+* F) : F →+ F :=
     simp only [map_add]
     ring
 
+omit [Finite F] [CharP F 2] in
 private theorem fσTrace_apply (σ : F ≃+* F) (c : F) : fσTrace σ c = c + σ c := rfl
 
+omit [Finite F] in
 private theorem mem_ker_fσTrace (σ : F ≃+* F) (c : F) :
     c ∈ (fσTrace σ).ker ↔ σ c = c := by
   rw [AddMonoidHom.mem_ker, fσTrace_apply]
   exact ⟨fun h => (CharTwo.add_eq_zero.mp h).symm, fun h => CharTwo.add_eq_zero.mpr h.symm⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem mem_range_fσTrace {σ : F ≃+* F} (hσ : IsUnitaryInvolution σ) (c : F) :
     c ∈ (fσTrace σ).range ↔ σ c = c := by
   rw [AddMonoidHom.mem_range]
@@ -317,6 +338,7 @@ private theorem mem_range_fσTrace {σ : F ≃+* F} (hσ : IsUnitaryInvolution �
     obtain ⟨x, hx⟩ := hσ.trace_surj c h
     exact ⟨x, (fσTrace_apply σ x).trans hx⟩
 
+omit [Finite F] in
 theorem card_Fσ_sq {σ : F ≃+* F} (hσ : IsUnitaryInvolution σ) :
     Nat.card (Fσ σ) ^ 2 = Nat.card F := by
   have hker : (fσTrace σ).ker = (Fσ σ).toAddSubgroup := by
@@ -349,7 +371,7 @@ private theorem odd_card_subgroupOf_scalars_aux {K : Type} [Field K] [Finite K] 
     (hK : Nat.card K = q ^ 2) (hq : Even q) (hq0 : q ≠ 0) (H : Subgroup (GL (Fin d) K)) :
     Odd (Nat.card ((StatedScalars (Fin d) K).subgroupOf H)) := by
   by_contra hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : 2 ∣ Nat.card ((StatedScalars (Fin d) K).subgroupOf H) :=
     even_iff_two_dvd.1 (Nat.not_odd_iff_even.1 hodd)
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 h2

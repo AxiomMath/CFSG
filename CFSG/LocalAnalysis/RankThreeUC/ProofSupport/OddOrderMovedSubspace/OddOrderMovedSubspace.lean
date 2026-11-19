@@ -21,12 +21,14 @@ abbrev moved (t : W ≃ₗ[F] W) : Submodule F W :=
 abbrev fixed (t : W ≃ₗ[F] W) : Submodule F W :=
   LinearMap.ker (t.toLinearMap - LinearMap.id)
 
+omit [FiniteDimensional F W] in
 private lemma toLM_pow (t : W ≃ₗ[F] W) (r : ℕ) (ht : t ^ r = 1) :
     (t.toLinearMap) ^ r = 1 := by
   have := map_pow (LinearEquiv.automorphismGroup.toLinearMapMonoidHom (R := F) (M := W)) t r
   rw [ht, map_one] at this
   exact this.symm
 
+omit [FiniteDimensional F W] in
 private lemma pow_sub_one_apply (t : W ≃ₗ[F] W) (i : ℕ) (x : W) :
     ((t.toLinearMap) ^ i) x - x =
       dd t (∑ j ∈ Finset.range i, ((t.toLinearMap) ^ j) x) := by
@@ -35,7 +37,8 @@ private lemma pow_sub_one_apply (t : W ≃ₗ[F] W) (i : ℕ) (x : W) :
   simpa [LinearMap.sub_apply, LinearMap.sum_apply, Module.End.mul_apply,
     Module.End.one_eq_id] using this.symm
 
-theorem complementary {r : ℕ} (hr : Odd r) (hrF : (r : F) ≠ 0) (t : W ≃ₗ[F] W)
+omit [FiniteDimensional F W] in
+theorem complementary {r : ℕ} (_hr : Odd r) (hrF : (r : F) ≠ 0) (t : W ≃ₗ[F] W)
     (ht : t ^ r = 1) : IsCompl (fixed t) (moved t) := by
   have hT := toLM_pow t r ht
   set T := t.toLinearMap with hTdef
@@ -93,6 +96,7 @@ theorem complementary {r : ℕ} (hr : Odd r) (hrF : (r : F) ≠ 0) (t : W ≃ₗ
       rw [← neg_sub, this, ← map_neg]
       exact ⟨_, rfl⟩
 
+omit [FiniteDimensional F W] in
 theorem diff_inverse_injective_on_moved {r : ℕ} (hr : Odd r) (hrF : (r : F) ≠ 0)
     (t : W ≃ₗ[F] W) (ht : t ^ r = 1) :
     Function.Injective (fun x : moved t => t x - t.symm x) := by
@@ -129,6 +133,7 @@ theorem diff_inverse_injective_on_moved {r : ℕ} (hr : Odd r) (hrF : (r : F) �
   have := (Submodule.disjoint_def.mp hc.disjoint) z hzC hzM
   exact sub_eq_zero.mp (Subtype.ext this) |> fun h => h
 
+omit [FiniteDimensional F W] in
 theorem diff_mem_moved (t : W ≃ₗ[F] W) (x : moved t) : t x - t.symm x ∈ moved t := by
   refine ⟨(x : W) + t.symm x, ?_⟩
   show (t (x + t.symm x) - (x + t.symm x)) = _
@@ -142,7 +147,7 @@ theorem diff_mem_moved (t : W ≃ₗ[F] W) (x : moved t) : t x - t.symm x ∈ mo
 
 @[expose] noncomputable def differenceAut {r : ℕ} (hr : Odd r) (hrF : (r : F) ≠ 0) (t : W ≃ₗ[F] W)
     (ht : t ^ r = 1) : moved t ≃ₗ[F] moved t :=
-  LinearEquiv.ofInjectiveEndo (differenceEnd t) fun x y h =>
+  LinearEquiv.ofInjectiveEndo (differenceEnd t) fun _x _y h =>
     diff_inverse_injective_on_moved hr hrF t ht (congrArg Subtype.val h)
 
 theorem differenceAut_apply {r : ℕ} (hr : Odd r) (hrF : (r : F) ≠ 0) (t : W ≃ₗ[F] W)

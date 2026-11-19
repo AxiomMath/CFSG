@@ -210,7 +210,7 @@ theorem exists_sylow_of_card
   have h1 : Nat.card (SR : Subgroup ↥QP.originalSubgroup) ∣ 20160 := by
     have := Subgroup.card_subgroup_dvd_card (SR : Subgroup ↥QP.originalSubgroup)
     rwa [hP] at this
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 SR.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 SR.isPGroup
   have h64 : 64 ≤ Nat.card (SR : Subgroup ↥QP.originalSubgroup) := by
     have := Subgroup.card_le_of_le hSR
     rwa [hcard] at this

@@ -101,7 +101,7 @@ theorem mem_normalizer_kSub_of_odd (h : NineSettingGen G M 3 Q H E 2)
   rw [Subgroup.mem_normalizer_iff]
   intro n
   unfold kSub
-  rw [if_neg hL]
+  rw [ite_eq_right hL]
   constructor
   · intro hn
     exact conj_mem_sSup (y := x) (fun Y hY => by

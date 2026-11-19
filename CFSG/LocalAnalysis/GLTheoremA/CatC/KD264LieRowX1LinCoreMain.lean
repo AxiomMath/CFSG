@@ -24,12 +24,14 @@ theorem isElemAbelian_le' {G : Type*} [Group G] {p : ℕ} {E F : Subgroup G} (h 
   ⟨⟨⟨fun a b => Subtype.ext (show a.1 * b.1 = b.1 * a.1 from congrArg Subtype.val
       (hE.1.is_comm.comm ⟨a.1, h a.2⟩ ⟨b.1, h b.2⟩))⟩⟩, fun x hx => hE.2 x (h hx)⟩
 
-theorem mul_on_p1 {p₁ p₂ : Fin k} (D : PieceData E X ρf) (hne : p₁ ≠ p₂)
+omit [FiniteDimensional (ZMod 2) V] in
+theorem mul_on_p1 {p₁ p₂ : Fin k} (_D : PieceData E X ρf) (hne : p₁ ≠ p₂)
     {e₁ e₂ : V ≃ₗ[ZMod 2] V} (h₁ : ∀ x ∈ X p₁, e₁ x = ρf p₁ x)
     (h₂' : ∀ j, j ≠ p₂ → ∀ x ∈ X j, e₂ x = x) (x : V) (hx : x ∈ X p₁) :
     (e₁ * e₂) x = ρf p₁ x := by
   rw [LinearEquiv.mul_apply, h₂' p₁ hne x hx, h₁ x hx]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem mul_on_p2 {p₁ p₂ : Fin k} (D : PieceData E X ρf) (hne : p₁ ≠ p₂)
     {e₁ e₂ : V ≃ₗ[ZMod 2] V} (h₂ : ∀ x ∈ X p₂, e₂ x = ρf p₂ x)
     (h₁' : ∀ j, j ≠ p₁ → ∀ x ∈ X j, e₁ x = x) (x : V) (hx : x ∈ X p₂) :
@@ -37,12 +39,14 @@ theorem mul_on_p2 {p₁ p₂ : Fin k} (D : PieceData E X ρf) (hne : p₁ ≠ p�
   rw [LinearEquiv.mul_apply, h₂ x hx, h₁' p₂ (Ne.symm hne) _
     (D.inv p₂ (ρf p₂) (D.gen_mem p₂) x hx)]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem phi_scalar {ψ₁ ψ₂ : Model.F4 →ₗ[ZMod 2] V} {f : V ≃ₗ[ZMod 2] V} {s : Model.F4}
     (h₁ : ∀ a, f (ψ₁ a) = ψ₁ (s * a)) (h₂ : ∀ a, f (ψ₂ a) = ψ₂ (s * a)) (c : Fin 2 → Model.F4) :
     f (phiOf ψ₁ ψ₂ c) = phiOf ψ₁ ψ₂ (s • c) := by
   rw [phiOf_apply, phiOf_apply, map_add, h₁, h₂]
   rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem pow_on_plane (D : PieceData E X ρf) {i : Fin k} (hi : Module.finrank (ZMod 2) (X i) = 2) :
     ∀ g ∈ E, ∃ k : Fin 3, ∀ x ∈ X i, g x = (ρf i ^ (k : ℕ)) x := by
   intro g hg
@@ -272,7 +276,7 @@ theorem core_good (D : PieceData E X ρf) (hdual : DualData E X ρf)
     exact congrArg Subtype.val h
   have hxbar : orderOf (QuotientGroup.mk x : ↥(glueSL hcU phiU).range ⧸
       Subgroup.center ↥(glueSL hcU phiU).range) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     apply orderOf_eq_prime
     · rw [← QuotientGroup.mk_pow, hx3]
       rfl

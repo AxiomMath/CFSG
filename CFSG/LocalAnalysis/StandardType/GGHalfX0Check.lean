@@ -42,20 +42,20 @@ private theorem ggX0Endo_mul
 private instance : Finite (Fin e6Data.d → GaloisField 2 1) := inferInstance
 
 private instance : Finite (Fin e6Data.d →₀ GaloisField 2 1) :=
-  Finite.of_injective (fun v : Fin e6Data.d →₀ GaloisField 2 1 => (v : Fin e6Data.d → GaloisField 2 1))
-    (fun v w h => Finsupp.ext (congrFun h))
+  Finite.of_injective (fun _v : Fin e6Data.d →₀ GaloisField 2 1 => (_v : Fin e6Data.d → GaloisField 2 1))
+    (fun _v _w h => Finsupp.ext (congrFun h))
 
 private instance : Finite (Fin 27 → GaloisField 2 1) := inferInstance
 
 private instance : Finite (Fin 27 →₀ GaloisField 2 1) :=
-  Finite.of_injective (fun v : Fin 27 →₀ GaloisField 2 1 => (v : Fin 27 → GaloisField 2 1))
-    (fun v w h => Finsupp.ext (congrFun h))
+  Finite.of_injective (fun _v : Fin 27 →₀ GaloisField 2 1 => (_v : Fin 27 → GaloisField 2 1))
+    (fun _v _w h => Finsupp.ext (congrFun h))
 
 private instance : Finite (Module.End (GaloisField 2 1) (Fin e6Data.d →₀ GaloisField 2 1)) :=
   Finite.of_injective
-    (fun f : Module.End (GaloisField 2 1) (Fin e6Data.d →₀ GaloisField 2 1) =>
-      (f : (Fin e6Data.d →₀ GaloisField 2 1) → (Fin e6Data.d →₀ GaloisField 2 1)))
-    (fun f g h => LinearMap.ext (congrFun h))
+    (fun _f : Module.End (GaloisField 2 1) (Fin e6Data.d →₀ GaloisField 2 1) =>
+      (_f : (Fin e6Data.d →₀ GaloisField 2 1) → (Fin e6Data.d →₀ GaloisField 2 1)))
+    (fun _f _g h => LinearMap.ext (congrFun h))
 
 private instance : Finite ((Module.End (GaloisField 2 1) (Fin e6Data.d →₀ GaloisField 2 1))ˣ) :=
   Finite.of_injective
@@ -81,7 +81,7 @@ private lemma ggX0_gf2_eq_zero_or_one (x : GaloisField 2 1) : x = 0 ∨ x = 1 :=
   classical
   have hF : Nat.card (GaloisField 2 1) = 2 := by
     simpa using GaloisField.card 2 1 (by norm_num)
-  haveI : Fintype (GaloisField 2 1) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 1) := Fintype.ofFinite _
   have h2 : Fintype.card (GaloisField 2 1) = 2 := by
     rw [← Nat.card_eq_fintype_card]; exact hF
   have hc : ({(0 : GaloisField 2 1), 1} : Finset (GaloisField 2 1)).card = 2 :=
@@ -106,7 +106,7 @@ private theorem card_J0_ge :
     · rw [SpecialLinearGroup.transvection_coeff_zero, map_one]
       exact Subgroup.one_mem (ggHalfM0.J0)
     · have hslE : slE a b = SpecialLinearGroup.transvection hab 1 := by
-        rw [slE, dif_neg hab]
+        rw [slE, dite_eq_right hab]
       rw [← hslE, hθframe a b hab]
       refine Subgroup.subset_closure ⟨GGHalfBlk.lab .L a, GGHalfBlk.lab .L b, ?_, ?_, ?_, ?_, ?_, rfl⟩
       · simpa [GGHalfBlk.lab, GGHalfBlk.off] using ha
@@ -183,9 +183,9 @@ private theorem ggX0GensG_bits
     (hr : ∀ k ∈ D.rWord, k < 72) {i : ℕ} (hi : i < 24) :
     ggE6Bits (ggX0GensG D i) = (ggHalfX0GensBits D).getD i ggHalfIdBits := by
   by_cases h12 : i < 12
-  · rw [ggX0GensG, if_pos h12, ggE6Bits_x (ggX0J0Idx_getD_lt hi),
+  · rw [ggX0GensG, ite_eq_left h12, ggE6Bits_x (ggX0J0Idx_getD_lt hi),
       ggX0GensBits_getD_lt D h12]
-  · rw [ggX0GensG, if_neg h12]
+  · rw [ggX0GensG, ite_eq_right h12]
     rw [ggE6Bits_mul, ggE6Bits_mul, ggE6Bits_x (ggX0J0Idx_getD_lt (i := i - 12) (by omega)),
       ggE6Bits_word hr, ggX0GensBits_getD_ge D (by omega) hi]
 
@@ -537,7 +537,7 @@ private theorem ggX0J0Idx_mem
 private theorem ggX0GensG_J0_mem
     (D : GGHalfX0Data)
     {i : ℕ} (hi : i < 12) : ggX0GensG D i ∈ ggHalfM0.J0 := by
-  rw [ggX0GensG, if_pos hi]
+  rw [ggX0GensG, ite_eq_left hi]
   exact ggX0J0Idx_mem i hi
 
 private theorem ggX0GensG_J0r_mem
@@ -545,7 +545,7 @@ private theorem ggX0GensG_J0r_mem
     (h : ggX0Bounds D) (hc : ggHalfWordBits (D.rWord ++ D.rWord) = ggHalfIdBits)
     {i : ℕ} (h12 : 12 ≤ i) (hi : i < 24) : ggX0GensG D i ∈
       ggHalfM0.J0.map (MulAut.conj (ggHalfWord D.rWord)).toMonoidHom := by
-  rw [ggX0GensG, if_neg (by omega)]
+  rw [ggX0GensG, ite_eq_right (by omega)]
   have hx : ggE6x (e6Certificate.root (ggHalfX0J0Idx.getD (i - 12) 0)) ∈ ggHalfM0.J0 :=
     ggX0J0Idx_mem (i - 12) (by omega)
   have hrinv := ggX0_rWord_inv D h hc
@@ -737,7 +737,7 @@ private theorem ggX0_smul_W0set
     rw [ggE6Bits_apply, ggHalfX0SpanMasks_map_apply, List.mem_map]
     exact ⟨ggHalfVecBits u, hu, rfl⟩
   · intro hv
-    simp only [Set.mem_setOf_eq] at hv
+    simp only [Set.mem_ofPred_eq] at hv
     rw [ggHalfX0SpanMasks_map_apply, List.mem_map] at hv
     obtain ⟨m, hm, hmm⟩ := hv
     refine ⟨ggHalfVecOfBits m, ?_, ?_⟩
@@ -752,7 +752,7 @@ private theorem ggX0_smul_W0set
 private noncomputable def ggX0SubNodesAux
     (gens : List GGE6Two) (gensB : List (List ℕ)) :
     List (GGE6Two × List ℕ) → ℕ → List ℕ → List (GGE6Two × List ℕ)
-  | acc, i, [] => acc.reverse
+  | acc, _i, [] => acc.reverse
   | acc, i, t :: ts =>
     let par := t / 24
     let gen := t % 24
@@ -789,7 +789,7 @@ private theorem ggX0SubNodesAux_map_snd
       ((accB.getD (i - 1 - t / 24) []).map
         (fun b => ggHalfApplyBits (gensB.getD (t % 24) ggHalfIdBits) b) :: accB)
       (i + 1)
-      (by simp only [List.map_cons, List.map_map, Function.comp_apply, hp, h])
+      (by simp only [List.map_cons, hp, h])
     simpa only [List.map_cons] using hmap
 
 private theorem ggX0SubNodes_bases
@@ -955,7 +955,7 @@ private theorem ggX0SubNodes_spec
           = ggHalfX0W0.map id := by
             apply List.map_congr_left
             intro b hb
-            simp only [Function.comp_apply, id_eq]
+            simp only [id_eq]
             rw [ggE6Bits_one]
             exact ggX0ApplyBits_idBits (ggX0W0_mem_lt hb)
         _ = ggHalfX0W0 := List.map_id _
@@ -1065,7 +1065,7 @@ private theorem ggX0SubBas_nodup
 
 private theorem ggX0SubKey_getD
     (D : GGHalfX0Data)
-    (hs : ggX0SubFacts D) (i : Fin 1632) :
+    (_hs : ggX0SubFacts D) (i : Fin 1632) :
     (ggHalfX0SubKeys D).getD i.1 (ggHalfX0SubKeyOfBasis ([] : List ℕ)) = ggX0SubKey D i := by
   have hkfst : (ggX0SubNodes D).map
         (fun p : GGE6Two × List ℕ => ggHalfX0SubKeyOfBasis p.2) = ggHalfX0SubKeys D := by
@@ -1126,7 +1126,7 @@ private theorem ggX0SubKey_eq_of_smul_eq
       rw [hspec_i] at hmi
       have hltm := ggX0MapSpan_lt (ggX0SubGen D i) hmi
       have h := Set.ext_iff.mp hset (ggHalfVecOfBits m)
-      simp only [Set.mem_setOf_eq] at h
+      simp only [Set.mem_ofPred_eq] at h
       rw [ggHalfVecBits_ofBits hltm] at h
       exact h.mp hm
     · intro hm
@@ -1134,7 +1134,7 @@ private theorem ggX0SubKey_eq_of_smul_eq
       rw [hspec_j] at hmj
       have hltm := ggX0MapSpan_lt (ggX0SubGen D j) hmj
       have h := Set.ext_iff.mp hset (ggHalfVecOfBits m)
-      simp only [Set.mem_setOf_eq] at h
+      simp only [Set.mem_ofPred_eq] at h
       rw [ggHalfVecBits_ofBits hltm] at h
       exact h.mpr hm
   exact ggHalfX0SubKeyOfBasis_eq_of_mem_iff (ggX0SubBas_nodup D hs i)
@@ -1157,8 +1157,8 @@ private theorem ggX0_holds_general
   have hcAll : ggX0CheapFacts D := hc
   obtain ⟨hr2, hcomm, hc3, hcne, hcommJ0, hcmove, hdcd, hj0fix, hcfix, hdfix,
     hz17, hzne, hznc, ha60, hb60, har, hbr, hpq, hpq', he3pow, he3ne⟩ := hc
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 17) := ⟨by norm_num⟩
   have haJ0 : ggX0WordG D D.aJ ∈ ggHalfM0.J0 := ggX0GensList_mem_J0 D D.aJ (ggX0Bounds_aJ h)
   have hbJ0 : ggX0WordG D D.bJ ∈ ggHalfM0.J0 := ggX0GensList_mem_J0 D D.bJ (ggX0Bounds_bJ h)
   have harG : ggHalfWord D.rWord * (ggX0WordG D D.aJr * ggHalfWord D.rWord) =
@@ -1373,7 +1373,7 @@ private theorem ggX0_holds_general
     have hsub_c : c • ggX0W0set ⊆ ggX0W0set := by
       intro v hv
       rw [ggX0_smul_W0set c, hcbits] at hv
-      simp only [Set.mem_setOf_eq] at hv
+      simp only [Set.mem_ofPred_eq] at hv
       rw [ggHalfX0SpanMasks_map_apply, List.mem_map] at hv
       obtain ⟨m, hm, hmm⟩ := hv
       change ggHalfVecBits v ∈ ggHalfX0SpanMasks ggHalfX0W0
@@ -1400,7 +1400,7 @@ private theorem ggX0_holds_general
     have hsub_d : d • ggX0W0set ⊆ ggX0W0set := by
       intro v hv
       rw [ggX0_smul_W0set d, hdbits] at hv
-      simp only [Set.mem_setOf_eq] at hv
+      simp only [Set.mem_ofPred_eq] at hv
       rw [ggHalfX0SpanMasks_map_apply, List.mem_map] at hv
       obtain ⟨m, hm, hmm⟩ := hv
       change ggHalfVecBits v ∈ ggHalfX0SpanMasks ggHalfX0W0

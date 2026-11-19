@@ -14,20 +14,24 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F}
 
 @[expose] def PtU (σ : F ≃+* F) : Type := {W : Submodule F (Fin 6 → F) // IsPt σ W}
 
+omit [Finite F] in
 theorem isPt_W₀ : IsPt σ (W₀ F) := isTotIso_W₀
 
 @[expose] noncomputable def ptU (g : SUid σ 6) : PtU σ := ⟨(W₀ F).map (gLin g), isPt_map g isPt_W₀⟩
 
 @[expose] def ColU (x y z : PtU σ) : Prop := finrank F ↥(x.1 ⊓ y.1) = 2 ∧ x.1 ⊓ y.1 ≤ z.1
 
+omit [Finite F] in
 theorem ptU_val (g : SUid σ 6) : (ptU g).1 = (W₀ F).map (gLin g) := rfl
 
+omit [Finite F] in
 theorem ptU_mul_of_mem_Pstab (g : SUid σ 6) {p : SUid σ 6} (hp : p ∈ Pstab σ (W₀ F)) :
     ptU (g * p) = ptU g := by
   have hp' : (W₀ F).map (gLin p) = W₀ F := hp
   apply Subtype.ext
   rw [ptU_val, ptU_val, ← map_map_gLin g p (W₀ F), hp']
 
+omit [Finite F] in
 theorem ptU_eq_iff (g g' : SUid σ 6) : ptU g = ptU g' ↔ g'⁻¹ * g ∈ Pstab σ (W₀ F) := by
   have e1 : gLin (1 : SUid σ 6) = LinearMap.id := LinearMap.ext gLin_one
   constructor

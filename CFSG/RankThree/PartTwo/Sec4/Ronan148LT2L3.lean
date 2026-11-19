@@ -259,7 +259,7 @@ theorem false_of_perfect_diag {M : Subgroup (ProjGenLinGroup (Fin 3) F)} (hM : �
     rw [Units.val_mul, Units.val_one, ← hzk]
     change _ = ((Subgroup.subtype _ z : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) k k
     rw [← hu, Units.val_mul, TauCeti.diagGL_coe]
-    simp [GeneralLinearGroup.scalar, Matrix.diagonal_apply]
+    simp [GeneralLinearGroup.scalar]
   have hcube : ∀ a b : Fˣ, a ^ 2 = b ^ 2 → a ^ 3 = b ^ 3 → a = b := by
     intro a b h2 h3'
     calc a = a ^ 3 * (a ^ 2)⁻¹ := by group
@@ -337,6 +337,7 @@ variable {N : ℕ} [NeZero N]
       abel
     · simp
 
+omit [NeZero N] in
 theorem rotL_ne [Fact (1 < N)] : ∃ v : ZMod N × ZMod N, rotL v ≠ v :=
   ⟨(1, 0), fun h => one_ne_zero (congrArg Prod.snd h)⟩
 
@@ -385,7 +386,7 @@ variable {F : Type} [Field F] [Finite F] {H : Subgroup (GL (Fin 3) F)}
 
 theorem exists_conj_mem_of_sylow {X : Type} [Group X] [Finite X] (P₀ : Sylow 3 X) {h : X}
     (h9 : h ^ 9 = 1) : ∃ g : X, g⁻¹ * h * g ∈ (P₀ : Subgroup X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 (Subgroup.zpowers h) := by
     have hd : Nat.card (Subgroup.zpowers h) ∣ 3 ^ 2 := by
       rw [Nat.card_zpowers]
@@ -398,7 +399,7 @@ theorem exists_conj_mem_of_sylow {X : Type} [Group X] [Finite X] (P₀ : Sylow 3
   have hhQ : h ∈ (Q : Subgroup X) := hQ (Subgroup.mem_zpowers h)
   rw [← hg, Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at hhQ
   convert hhQ using 1
-  simp [MulAut.smul_def, MulAut.conj_apply]
+  simp [MulAut.smul_def]
 
 theorem NoCQAt.of_inv {S : Type} [Group S] [Finite S] {s : S} (h : NoCQAt s⁻¹) : NoCQAt s := by
   intro K hsK hKC hKq hT
@@ -411,15 +412,17 @@ theorem NoCQAt.of_inv {S : Type} [Group S] [Finite S] {s : S} (h : NoCQAt s⁻¹
 @[expose] noncomputable def piH (H : Subgroup (GL (Fin 3) F)) : H →* projImage H :=
   ProjGenLinGroup.mk.subgroupMap H
 
+omit [Finite F] in
 theorem piH_surjective : Function.Surjective (piH H) := MonoidHom.subgroupMap_surjective _ _
 
+omit [Finite F] in
 theorem noCQAt_of_pgl {x : H}
     (hfalse : ∀ M : Subgroup (ProjGenLinGroup (Fin 3) F), ⁅M, M⁆ = M →
       M ≤ Subgroup.centralizer {ProjGenLinGroup.mk (x : GL (Fin 3) F)} →
       ProjGenLinGroup.mk (x : GL (Fin 3) F) ∈ M → False) :
     NoCQAt (piH H x) := by
   intro K hxK hKC hKq _
-  haveI : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K := hKq.1
   have hKK : ⁅K, K⁆ = K := Subgroup.commutator_eq_self
   refine hfalse (K.map (projImage H).subtype) (by rw [← Subgroup.map_commutator, hKK])
     ?_ ⟨_, hxK, rfl⟩
@@ -435,8 +438,8 @@ theorem noCQ425_projImage_three (hH : H ≤ StatedSL 3 F) {a k : ℕ} {ζ : Fˣ}
     (hw : permGL3 ∈ H) (hcard : Nat.card H = 3 ^ (2 * (a + 1) + 1) * k) (hk : ¬ 3 ∣ k) :
     NoCQ425 (projImage H) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (1 < 3 ^ (a + 1)) := ⟨Nat.one_lt_pow (by omega) (by norm_num)⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (1 < 3 ^ (a + 1)) := ⟨Nat.one_lt_pow (by omega) (by norm_num)⟩
   have hζ : ζ ^ (3 ^ (a + 1)) = 1 := by rw [← hζo]; exact pow_orderOf_eq_one ζ
   have hmem : ∀ v, τ3 hζ v ∈ H := by
     intro v

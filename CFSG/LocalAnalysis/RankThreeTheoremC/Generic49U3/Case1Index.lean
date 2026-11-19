@@ -13,10 +13,11 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem relIndex_sup_of_le_normalizer {N K : Subgroup G} (hK : K ≤ normalizer (N : Set G)) :
     N.relIndex (K ⊔ N) = N.relIndex K := by
   have hNA : N ≤ normalizer (N : Set G) := Subgroup.le_normalizer
-  haveI : (N.subgroupOf (normalizer (N : Set G))).Normal :=
+  have : (N.subgroupOf (normalizer (N : Set G))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNA).mpr le_rfl
   have h := Subgroup.relIndex_sup_right (H := K.subgroupOf (normalizer (N : Set G)))
     (K := N.subgroupOf (normalizer (N : Set G)))
@@ -24,6 +25,7 @@ theorem relIndex_sup_of_le_normalizer {N K : Subgroup G} (hK : K ≤ normalizer 
     Subgroup.relIndex_subgroupOf hK] at h
   exact h
 
+omit [Finite G] in
 theorem card_sup_mul_card_inf_of_le_normalizer {N K : Subgroup G}
     (hK : K ≤ normalizer (N : Set G)) :
     Nat.card ↥(N ⊔ K) * Nat.card ↥(N ⊓ K) = Nat.card N * Nat.card K := by

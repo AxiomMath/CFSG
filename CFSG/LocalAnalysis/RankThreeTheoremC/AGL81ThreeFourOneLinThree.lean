@@ -42,7 +42,7 @@ private theorem theta_mem_axisPlane {x : Heis F} (hx : x.a = 0) : theta x ∈ ax
 private theorem axis_mul_comm {x y : Heis F} (hx : x.a = 0) (hy : y.a = 0) : x * y = y * x :=
   Heis.ext (by simp [add_comm]) (by simp [add_comm]) (by simp [hx, hy, add_comm])
 
-private theorem theta_injective : Function.Injective (theta (F := F)) := fun x y h =>
+private theorem theta_injective : Function.Injective (theta (F := F)) := fun _x _y h =>
   heisEquivBar.injective (Subtype.ext h)
 
 private theorem commute_of_commute_theta (p : ℕ) [Fact p.Prime] [CharP F p] (hp2 : p ≠ 2)
@@ -177,7 +177,7 @@ private theorem centralizer_axisPlane_le (p : ℕ) [Fact p.Prime] [CharP F p] (h
     ext i j
     fin_cases i <;> fin_cases j <;>
       simp [heisMat, Matrix.mul_apply, Fin.sum_univ_three, scalar_apply, u, g01, g20, g21, g11',
-        g00', g10, ha0] <;>
+        g00', g10] <;>
       first | exact ha.symm | field_simp
   have hfac : g = scalarElement u hu3 * heisSL ⟨0, (g : Matrix (Fin 3) (Fin 3) F) 1 2 / a,
       (g : Matrix (Fin 3) (Fin 3) F) 0 2 / a⟩ :=
@@ -256,7 +256,7 @@ theorem mulAut_eq_bot_of_isPGroup_of_le_normalizer_projUnitriangular (p : ℕ) [
   obtain ⟨S, hS⟩ := exists_sylow_projUnitriangular (K := F) p (n := 3) (by norm_num)
   have hUp : IsPGroup p (projUnitriangular 3 F) := by
     rw [← hS]
-    exact S.isPGroup'
+    exact S.isPGroup
   have hzU : theta (⟨0, 0, 1⟩ : Heis F) ∈ projUnitriangular 3 F :=
     mem_map_of_mem _ (heisSL_mem_unitriangular _)
   have hUz : projUnitriangular 3 F ≤
@@ -282,7 +282,7 @@ private theorem signalizerThreeOn_of_sylow {p : ℕ} [Fact p.Prime] {M : Type} [
       (∀ u ∈ (S : Subgroup M), MulAut.conj u ∈ normalizer (V : Set (MulAut M))) → V = ⊥)
     {K : Type} [Group K] [Finite K] (e : K ≃* M) : SignalizerThreeOn p K := by
   intro T W hW hTW
-  obtain ⟨Φ, hΦ⟩ := exists_mulEquiv_map_eq_sylow e S.isPGroup' S.not_dvd_index T
+  obtain ⟨Φ, hΦ⟩ := exists_mulEquiv_map_eq_sylow e S.isPGroup S.not_dvd_index T
   set ψ : MulAut K ≃* MulAut M := MulAut.congr Φ.symm with hψ
   have hψc : ∀ r : M, ψ (MulAut.conj (Φ r)) = MulAut.conj r := by
     intro r
@@ -311,7 +311,7 @@ theorem signalizerThreeLinThree_holds : SignalizerThreeLinThree := by
   obtain ⟨x, hv⟩ := d
   change x = _ at hd
   subst hd hqp
-  haveI : Fact q.p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨hp⟩
   let eM : TauCeti.ValidLieTypeIndex.Group ⟨.A 2 q, hv⟩ ≃*
       projectiveSL 3 (GaloisField q.p q.exponent) :=
     (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 q hv).trans

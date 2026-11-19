@@ -31,7 +31,7 @@ theorem crossAtOn_sp_of_model {d : TauCeti.ValidLieTypeIndex} {r : ℕ} (hr : 1 
       (3 ≤ CFSG.Open.pRank p (⊤ : Subgroup L) → ∀ y : L, y ^ p = 1 →
         3 ≤ CFSG.Open.pRank p (centralizer ({y} : Set L))) := by
     intro L _ _ p hp hp5 hS hdp hiso
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ := hmodel L hiso
     have hdp' : q.p ≠ p := by rwa [hchar] at hdp
     have hpK : ¬ p ∣ Nat.card K := by

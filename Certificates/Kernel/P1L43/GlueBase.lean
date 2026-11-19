@@ -20,7 +20,7 @@ open CFSG.ComponentClassification.HarrisLit.P1 CFSG.ComponentClassification.Harr
   CFSG.KC.OrbGroup CFSG.KC.ConjOrb CFSG.KC.LeftOrb CFSG.KC.BfsPin CFSG.Sporadic.SmallOddCore
   CFSG.Sporadic.SmallOddCore.Native CFSG.Sporadic.Th.Native CFSG.Certificates Subgroup
 
-@[expose] noncomputable def pp (P : ℕ) : Equiv.Perm (Fin 80) :=
+noncomputable def pp (P : ℕ) : Equiv.Perm (Fin 80) :=
   CFSG.Monster.B.Co2.permOfArr 80 (unpack 80 7 P)
 
 theorem prep_pp {P Q : ℕ} (h : permOK 80 7 (mask 7) (80 * 7) P Q = true) :
@@ -36,7 +36,7 @@ theorem permOfArr_eq {n : ℕ} {t : Array ℕ} {g : Equiv.Perm (Fin n)}
     rw [h.apply hi, h.apply hj] at hij
     have := g.injective (Fin.ext hij)
     exact congrArg Fin.val this
-  rw [CFSG.Monster.B.Co2.permOfArr, dif_pos hc]
+  rw [CFSG.Monster.B.Co2.permOfArr, dite_eq_left hc]
   exact Equiv.ext fun x => Fin.ext (h x)
 
 theorem tp_of_bind {T : Table} {P : ℕ} {g : Equiv.Perm (Fin 80)} (hb : bindT T P = true)
@@ -201,7 +201,7 @@ theorem rowFacts_of {r : ClassRow} {t : Equiv.Perm (Fin 80)} {G : ℕ → ℕ} {
   have himg : tp 80 '' {x | x ∈ r.centGens.toArray} = (fun k => pp (G k)) '' {k | k < 2} := by
     rw [hgens]
     ext y
-    simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_toArray, List.mem_cons,
+    simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_toArray, List.mem_cons,
       List.not_mem_nil, or_false]
     constructor
     · rintro ⟨x, (rfl | rfl), rfl⟩

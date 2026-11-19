@@ -47,14 +47,14 @@ theorem ff_card_center_dvd_two_psp (hGA : CFSG.Open.GriessAllModelsStatement) {L
   simpa using h
 
 theorem ff_odd_card_oddCore (X : Type) [Group X] [Finite X] : Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
 theorem ff_center_eq_oddCore_of_simple {L : Type} [Group L] [Finite L]
     (hq : CFSG.IsQuasisimple L) (hs : IsSimpleGroup (L ⧸ oddCore L)) :
     center L = oddCore L := by
-  haveI : Group.IsPerfect L := hq.1
+  have : Group.IsPerfect L := hq.1
   have h' : CFSG.Open.IsQuasisimple L := ⟨hq.1.commutator_eq_top, hq.2.1⟩
   have hle : oddCore L ≤ center L :=
     CFSG.ClassicalInvolution.Balance.oddCore_le_center_of_isQuasisimple h'
@@ -63,7 +63,7 @@ theorem ff_center_eq_oddCore_of_simple {L : Type} [Group L] [Finite L]
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center (L ⧸ oddCore L)) with h | h
     · exact h
     · exfalso
-      haveI : IsMulCommutative (L ⧸ oddCore L) := center_eq_top_iff.mp h
+      have : IsMulCommutative (L ⧸ oddCore L) := center_eq_top_iff.mp h
       exact Group.IsPerfect.not_isMulCommutative (L ⧸ oddCore L) inferInstance
   have hxQ : (QuotientGroup.mk x : L ⧸ oddCore L) ∈ center (L ⧸ oddCore L) := by
     refine mem_center_iff.mpr fun q => ?_

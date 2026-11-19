@@ -70,7 +70,7 @@ private theorem ggNbrLSideOrth_exists_ne_zero {K : Type} [Field K] {V : Type} [A
   push Not at hcon
   obtain ⟨U, hU3, -⟩ := hT
   have hpos : 0 < finrank K V := lt_of_lt_of_le (by omega) (hU3 ▸ Submodule.finrank_le U)
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos hpos
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos hpos
   obtain ⟨v, hv⟩ := exists_ne (0 : V)
   refine hv (hQ.1 v fun w => ?_)
   rw [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polar, hcon, hcon, hcon]
@@ -92,7 +92,7 @@ private theorem ggNbrLSideOrth_elt_T {K : Type} [Field K] [Finite K] {V : Type} 
     (hDet : GGNbrLSideClsDet) (hO : CFSG.ComponentClassification.CatLeaf.LieOrderFormulasInput)
     (lab : LargeEvenLabel) : GGNbrLSideDichElt lab (ProjOrthDerived Q) := by
   classical
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hcard
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hcard
   have hchar : ringChar K = 2 := ringChar.eq K 2
   have hf : 1 ≤ f := ggNbrLSideOrth_one_le hcard
   have hinj := CFSG.LocalAnalysis.GLTheoremA.K155XOr.orth_mk'_injective
@@ -109,7 +109,7 @@ private theorem ggNbrLSideOrth_elt_T {K : Type} [Field K] [Finite K] {V : Type} 
   obtain ⟨F', _, _, hF'q, ⟨eF⟩⟩ := hF
   have hF4 : 4 ≤ Nat.card F' := by omega
   rcases hcases with ⟨h, hh, hne1, hq, hJeq⟩ | ⟨F, hFq, hFle, hFn, hJeq⟩
-  · haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  · have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
     have hspecΩ : specialBlock Q (x : V ≃ₗ[K] V) h ≤ orthDerived Q :=
       specialBlock_le_orthDerived_of_perfect hq.1
         ((specialBlock_le_isometryCentralizer h).trans (fun _ hg => (Subgroup.mem_inf.mp hg).1))

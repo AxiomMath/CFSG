@@ -18,7 +18,7 @@ theorem e17_fpf_split {X : Subgroup G} (hX : IsPGroup 2 X)
     ∀ x ∈ X, ∃ c₁ ∈ X, ∃ c₂ ∈ X, u * c₁ = c₁ * u ∧ u * c₂ = c₂ * u ∧
       x = c₁ * (ρ * c₂ * ρ⁻¹) := by
   intro x hx
-  haveI : IsMulCommutative X :=
+  have : IsMulCommutative X :=
     IsMulCommutative.of_comm (fun a b => Subtype.ext (hXc a a.2 b b.2))
   have hρ3' : ρ * ρ * ρ = 1 := by rw [← pow_three']; exact hρ3
   have hρinv : ρ⁻¹ = ρ * ρ := inv_eq_of_mul_eq_one_left hρ3'

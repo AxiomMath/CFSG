@@ -74,8 +74,8 @@ private theorem sp_two_singleton {n : ℕ} (hn : 2 ≤ n) {V : Type} [AddCommGro
     funext s
     have hiff : μ s = 1 ↔ s.val = 0 := (hS s).symm.trans (hS1 s)
     rcases hμ01 s with h0 | h1
-    · rw [h0, if_neg (fun hs => zero_ne_one (h0 ▸ hiff.mpr hs))]
-    · rw [h1, if_pos (hiff.mp h1)]
+    · rw [h0, ite_eq_right (fun hs => zero_ne_one (h0 ▸ hiff.mpr hs))]
+    · rw [h1, ite_eq_left (hiff.mp h1)]
   rw [hμ] at ht
   obtain ⟨β, hβ⟩ := (spCurtisDatum n (ZMod 2)).iso_of_isCurtisType hρ
     (isSimpleRep_sp_matMap (n := n) (by omega : 1 ≤ n) (RingHom.id (ZMod 2))) ht

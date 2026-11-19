@@ -36,7 +36,7 @@ theorem card_modEq_card_fixedPoints {p : ℕ} [Fact p.Prime] {φ : MulAut Q} (h�
     {B : Subgroup Q} [Finite B] (hB : ∀ b ∈ B, φ b ∈ B) :
     Nat.card B ≡ Nat.card (Function.fixedPoints (restrictEnd φ B hB)) [MOD p] := by
   classical
-  haveI := Fintype.ofFinite B
+  have := Fintype.ofFinite B
   have hfp : restrictEnd φ B hB ^ p ^ 1 = 1 := by
     funext b
     apply Subtype.ext
@@ -64,12 +64,12 @@ theorem exists_fixed_ne_one {p : ℕ} [Fact p.Prime] {ψ : MulAut Q} (hψ : ψ ^
   have h := card_modEq_card_fixedPoints hψ hB
   have hdvd : p ∣ Nat.card (Function.fixedPoints (restrictEnd ψ B hB)) :=
     Nat.modEq_zero_iff_dvd.1 (h.symm.trans (Nat.modEq_zero_iff_dvd.2 hp))
-  haveI : Finite (Function.fixedPoints (restrictEnd ψ B hB)) := inferInstance
+  have : Finite (Function.fixedPoints (restrictEnd ψ B hB)) := inferInstance
   have hpos : 0 < Nat.card (Function.fixedPoints (restrictEnd ψ B hB)) :=
     Nat.card_pos_iff.2 ⟨⟨⟨1, (mem_fixedPoints_restrictEnd ψ B hB 1).2 (map_one ψ)⟩⟩, inferInstance⟩
   have h1 : 1 < Nat.card (Function.fixedPoints (restrictEnd ψ B hB)) :=
     lt_of_lt_of_le (Fact.out : p.Prime).one_lt (Nat.le_of_dvd hpos hdvd)
-  haveI := Finite.one_lt_card_iff_nontrivial.1 h1
+  have := Finite.one_lt_card_iff_nontrivial.1 h1
   obtain ⟨⟨b, hb⟩, hb1⟩ := exists_ne
     (⟨1, (mem_fixedPoints_restrictEnd ψ B hB 1).2 (map_one ψ)⟩ :
       Function.fixedPoints (restrictEnd ψ B hB))
@@ -84,6 +84,7 @@ section Invariant
 
 variable {Q : Type*} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem card_eq_two_pow_of_le {Ab B : Subgroup Q} (hcard : Nat.card Ab = 256) (hBA : B ≤ Ab) :
     ∃ k, k ≤ 8 ∧ Nat.card B = 2 ^ k := by
   have h : Nat.card B ∣ 2 ^ 8 := by
@@ -93,13 +94,13 @@ theorem card_eq_two_pow_of_le {Ab B : Subgroup Q} (hcard : Nat.card Ab = 256) (h
 
 theorem le_of_invariant {Ab U B : Subgroup Q} {φ ψ : MulAut Q}
     (hcard : Nat.card Ab = 256) (hφ : φ ^ 5 = 1) (hψ : ψ ^ 2 = 1) (hcomm : φ * ψ = ψ * φ)
-    (hφA : ∀ a ∈ Ab, φ a ∈ Ab) (hψA : ∀ a ∈ Ab, ψ a ∈ Ab)
+    (hφA : ∀ a ∈ Ab, φ a ∈ Ab) (_hψA : ∀ a ∈ Ab, ψ a ∈ Ab)
     (hfpf : ∀ a ∈ Ab, φ a = a → a = 1)
-    (hUA : U ≤ Ab) (hU : ∀ a ∈ Ab, ψ a = a ↔ a ∈ U) (hU16 : Nat.card U = 16)
+    (_hUA : U ≤ Ab) (hU : ∀ a ∈ Ab, ψ a = a ↔ a ∈ U) (hU16 : Nat.card U = 16)
     (hBA : B ≤ Ab) (hφB : ∀ b ∈ B, φ b ∈ B) (hψB : ∀ b ∈ B, ψ b ∈ B) (hB : B ≠ ⊥) :
     U ≤ B := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, -, hk⟩ := card_eq_two_pow_of_le hcard hBA
   have hk0 : k ≠ 0 := by
     rintro rfl
@@ -138,10 +139,10 @@ theorem le_of_invariant {Ab U B : Subgroup Q} {φ ψ : MulAut Q}
   exact inf_le_left
 
 theorem card_eq_of_invariant {Ab B : Subgroup Q} {φ : MulAut Q}
-    (hcard : Nat.card Ab = 256) (hφ : φ ^ 5 = 1) (hφA : ∀ a ∈ Ab, φ a ∈ Ab)
+    (hcard : Nat.card Ab = 256) (hφ : φ ^ 5 = 1) (_hφA : ∀ a ∈ Ab, φ a ∈ Ab)
     (hfpf : ∀ a ∈ Ab, φ a = a → a = 1) (hBA : B ≤ Ab) (hφB : ∀ b ∈ B, φ b ∈ B) :
     Nat.card B = 1 ∨ Nat.card B = 16 ∨ Nat.card B = 256 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨k, hk8, hk⟩ := card_eq_two_pow_of_le hcard hBA
   have hmod : Nat.card B ≡ 1 [MOD 5] :=
     card_modEq_one_of_fpf hφ hφB fun c hc h => hfpf c (hBA hc) h
@@ -154,6 +155,7 @@ section Components
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem isComponentOf_map_mulAut (e : MulAut Q) {K : Subgroup Q} (hK : IsComponentOf K ⊤) :
     IsComponentOf (K.map e.toMonoidHom) ⊤ := by
   have h := G310.isComponentOf_map_mulEquiv e hK
@@ -169,13 +171,15 @@ theorem comm_of_components {K L : Subgroup Q} (hK : IsComponentOf K ⊤) (hL : I
   | 0 => 1
   | j + 1 => partialNorm φ b j * (φ ^ j) b
 
+omit [Finite Q] in
 theorem partialNorm_succ (φ : MulAut Q) (b : Q) (j : ℕ) :
     partialNorm φ b (j + 1) = partialNorm φ b j * (φ ^ j) b := rfl
 
+omit [Finite Q] in
 theorem partialNorm_succ' (φ : MulAut Q) (b : Q) (j : ℕ) :
     partialNorm φ b (j + 1) = b * φ (partialNorm φ b j) := by
   induction j with
-  | zero => simp [partialNorm_succ, partialNorm]
+  | zero => simp [partialNorm]
   | succ j ih =>
     have h1 : partialNorm φ b (j + 1 + 1) = (b * φ (partialNorm φ b j)) * (φ ^ (j + 1)) b := by
       rw [partialNorm_succ φ b (j + 1), ih]
@@ -303,10 +307,10 @@ theorem map_eq_of_involution {ψ : MulAut Q} (hψ : ψ ^ 2 = 1) {K : Subgroup Q}
     rw [map_mul, hψψ]
     exact hcomm (ψ k) ⟨k, k.2, rfl⟩ k k.2
   let g : K →* ↥(fixSub ψ) := f.codRestrict (fixSub ψ) hfix
-  haveI : Group.IsSolvable K :=
-    solvable_of_solvable_injective (f := g) (fun a b h => hfinj (congrArg Subtype.val h))
-  haveI : Nontrivial K := CFSG.ComponentClassification.Quasisimple.nontrivial hK.2.2
-  haveI : Group.IsPerfect K := ⟨hK.2.2.1⟩
+  have : Group.IsSolvable K :=
+    Group.isSolvable_of_isSolvable_injective (f := g) (fun a b h => hfinj (congrArg Subtype.val h))
+  have : Nontrivial K := CFSG.ComponentClassification.Quasisimple.nontrivial hK.2.2
+  have : Group.IsPerfect K := ⟨hK.2.2.1⟩
   exact Group.IsPerfect.not_isSolvable K ‹_›
 
 end Components

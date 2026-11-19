@@ -15,6 +15,7 @@ section OrthMatrix
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
   {Q' : QuadraticForm K (ι → K)} {X : Subgroup (GL ι K)}
 
+omit [DecidableEq ι] in
 theorem exists_perp_vector_map_ne_zero (hQ : (polarBilin Q').Nondegenerate)
     (h3 : 3 ≤ Module.finrank K (ι → K)) {u : ι → K} (hu0 : u ≠ 0) :
     ∃ w : ι → K, polar Q' u w = 0 ∧ Q' w ≠ 0 := by

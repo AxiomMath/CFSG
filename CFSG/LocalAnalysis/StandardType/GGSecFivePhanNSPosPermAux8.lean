@@ -105,8 +105,7 @@ theorem ggNSPosPA_ratio_wd {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Sub
     intro i
     have h2 := congrArg (fun M : Matrix (Fin n) (Fin n) K => M i i) hc
     rw [hzdiag, TauCeti.diagGL_apply] at h2
-    simp only [Matrix.scalar_apply, Matrix.diagonal_apply_eq, if_pos rfl, if_true,
-      Units.val_mul, Units.val_inv_eq_inv_val] at h2
+    simp only [Matrix.scalar_apply, Matrix.diagonal_apply_eq, ite_true] at h2
     exact h2
   have hci' : (u1 a)⁻¹ * u2 a = (u1 b)⁻¹ * u2 b := by
     apply Units.ext

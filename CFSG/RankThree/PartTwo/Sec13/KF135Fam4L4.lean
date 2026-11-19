@@ -59,7 +59,7 @@ variable {S : Type} [Group S] [Finite S] {p : ℕ} {P : Subgroup (MulAut S)} {x 
 theorem psl4_hyp_false {r : ℕ} [Fact r.Prime] (hr3 : 3 < r)
     (φ : S ≃* projSL 4 (GaloisField r 1)) (h : KF135Hyp S p P x u V) : False := by
   set K := GaloisField r 1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKc : Fintype.card K = r := by
     rw [Fintype.card_eq_nat_card, GaloisField.card r 1 one_ne_zero, pow_one]
   have hp : p.Prime := h.prime
@@ -140,7 +140,6 @@ theorem psl4_hyp_false {r : ℕ} [Fact r.Prime] (hr3 : 3 < r)
       apply hK2
       first
         | linear_combination e00 - e22
-        | linear_combination e22 - e00
   ·
     refine false_of_cyclic h hP fun E hE => ?_
     have hEp : IsPGroup p (E.map φ.toMonoidHom) := hE.isPGroup.map _

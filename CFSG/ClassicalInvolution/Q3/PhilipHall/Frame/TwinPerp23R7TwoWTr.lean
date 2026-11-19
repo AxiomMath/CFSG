@@ -93,7 +93,7 @@ theorem exists_centralizer_conj_of_muIsoS4 {Y : Type} [Group Y] [Finite Y] {Ω :
     Subgroup.mem_centralizer_iff.mpr fun w hw =>
       Q3CL.Thompson.commutes_of_mem_WSet hP.hyp hW w hw _ hv
   obtain ⟨m, hmN, hm⟩ := Sec7.control_centralizer_of_weaklyClosed
-    (S₀.isPGroup'.to_le hWS₀) hWC (hWab hzW) (g := x⁻¹) (by rw [inv_inv]; exact hWab hzW₁)
+    (S₀.isPGroup.to_le hWS₀) hWC (hWab hzW) (g := x⁻¹) (by rw [inv_inv]; exact hWab hzW₁)
   refine ⟨x * m, ?_, ?_⟩
   · rw [Subgroup.mem_centralizer_singleton_iff]
     calc x * m * z = x * (m * z * m⁻¹) * m := by group

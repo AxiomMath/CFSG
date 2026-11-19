@@ -16,7 +16,7 @@ noncomputable def i1015oneAct {L B : Subgroup G} (hBN : B ≤ Subgroup.normalize
     ↥B →* MulAut (PSimple 3 L) :=
   (chevAut 3 L).comp (Subgroup.inclusion hBN)
 
-noncomputable def i1015oneImage {L T : Subgroup G} (hTL : T ≤ L) : Subgroup (PSimple 3 L) :=
+noncomputable def i1015oneImage {L T : Subgroup G} (_hTL : T ≤ L) : Subgroup (PSimple 3 L) :=
   (T.subgroupOf L).map (chevQuotHom 3 L)
 
 theorem i1015oneAct_apply_eq_one_iff {X L B : Subgroup G} (hL : GLAPComponent 3 X L)
@@ -43,6 +43,7 @@ theorem i1015oneAct_card_mul {X L B : Subgroup G} (hL : GLAPComponent 3 X L)
   rw [Subgroup.index_ker, hker] at h1
   exact h1
 
+omit [Finite G] in
 theorem i1015oneAct_range_isElemAbelian {L B : Subgroup G}
     (hBN : B ≤ Subgroup.normalizer (L : Set G)) (hB : IsElemAbelian 3 B) :
     IsElemAbelian 3 (i1015oneAct hBN).range := by
@@ -67,12 +68,13 @@ theorem i1015oneAct_card_ge {X L B : Subgroup G} (hL : GLAPComponent 3 X L)
     _ ≤ Nat.card ↥B := hcard
     _ = Nat.card ↥(B ⊓ centModSubgroup 3 L) * Nat.card ↥(i1015oneAct hBN).range := h.symm
 
+omit [Finite G] in
 theorem i1015oneImage_isPGroup {L T : Subgroup G} (hTL : T ≤ L) (hT2 : IsPGroup 2 T) :
     IsPGroup 2 (i1015oneImage hTL) := by
   have hTm : IsPGroup 2 (T.subgroupOf L) := hT2.of_equiv (Subgroup.subgroupOfEquivOfLe hTL).symm
   exact hTm.map (chevQuotHom 3 L)
 
-theorem i1015oneImage_ne_bot {X L T : Subgroup G} (hL : GLAPComponent 3 X L) (hTL : T ≤ L)
+theorem i1015oneImage_ne_bot {X L T : Subgroup G} (_hL : GLAPComponent 3 X L) (hTL : T ≤ L)
     (hT2 : IsPGroup 2 T) (hTn : ¬ T ≤ GLAPPrimeCoreOf 3 L) : i1015oneImage hTL ≠ ⊥ := by
   intro hbot
   apply hTn
@@ -114,6 +116,7 @@ theorem i1015oneImage_ne_bot {X L T : Subgroup G} (hL : GLAPComponent 3 X L) (hT
     exact MonoidHom.mem_ker.2 hz1
   exact (chev_mem_glaPPrimeCoreOf_iff htL).2 hker
 
+omit [Finite G] in
 theorem i1015oneImage_invariant {L B T : Subgroup G} (hBN : B ≤ Subgroup.normalizer (L : Set G))
     (hTL : T ≤ L) (hBT : B ≤ Subgroup.normalizer (T : Set G)) :
     ∀ α ∈ (i1015oneAct hBN).range, ∀ y ∈ i1015oneImage hTL, α y ∈ i1015oneImage hTL := by

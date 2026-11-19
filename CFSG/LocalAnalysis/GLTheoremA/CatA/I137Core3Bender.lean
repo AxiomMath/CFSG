@@ -23,7 +23,7 @@ theorem core3Group_of_benderBorel_of_nonsolvable (hns : List93NonSolvable) {S : 
   intro T A hT2 hT hA Q₀ _ ⟨f, hf⟩ hQ
   exfalso
   refine CFSG.QuasithinUnique.Lin2.false_of_benderBorel hB hT hT2 hA fun hsolv => ?_
-  haveI := hsolv
+  have := hsolv
   exact hns Q₀ hQ (Group.isSolvable_of_surjective hf)
 
 private theorem primePower_p_eq_two {q : PrimePower} {m : ℕ} (h : q.card = 2 ^ (m + 1)) :
@@ -52,7 +52,7 @@ theorem finite_fusionIsBenderGroup_of_SU3cover {Q : Type} [Group Q] {n : ℕ} (h
     (h : FullLinearCover true 3 (2 ^ n) Q) :
     Finite (Q ⧸ Subgroup.center Q) ∧ fusionIsBenderGroup (Q ⧸ Subgroup.center Q) := by
   obtain ⟨K, _, hKfin, hcard, ⟨e⟩⟩ := h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdq : ((3 : ℕ), 2 ^ n) ≠ (3, 2) := by
     intro h
     have h2 : 2 ^ n = 2 := congrArg Prod.snd h
@@ -164,8 +164,8 @@ theorem list93NonSolvable_holds : List93NonSolvable := by
       have hfs := finite_isSimpleGroup_of_lieModel (by norm_num)
         (CFSG.Models.lieModel_twistedA 2 q hv e)
       exact ⟨hfs.1, hfs.2, by simp [hq]⟩
-  haveI := hfin
-  haveI := hsimp
+  have := hfin
+  have := hsimp
   have hchev : IsChevSimple 2 Q₀ := Or.inl ⟨.lie ⟨d, hv⟩, hchar, ⟨e⟩⟩
   obtain ⟨a, b, hab⟩ := CFSG.LocalAnalysis.GLTheoremA.chevTwoNonabelian_holds Q₀ hsimp hchev
   exact fun hsolv => hab (IsSimpleGroup.comm_iff_isSolvable.2 hsolv a b)

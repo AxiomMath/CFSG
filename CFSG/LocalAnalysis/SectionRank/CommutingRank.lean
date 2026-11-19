@@ -73,7 +73,7 @@ theorem pRank_add_card_le_of_commuting {X : Type} [Group X] [Finite X] {q : ℕ}
     (htZ : ∀ i, t i ∉ Subgroup.centralizer (L i : Set X)) :
     k + Nat.card ι ≤ CFSG.Open.pRank q (⊤ : Subgroup X) := by
   classical
-  letI : Fintype ι := Fintype.ofFinite ι
+  let : Fintype ι := Fintype.ofFinite ι
   have hsum := pRank_option_iSup_eq_add (X := X) (q := q) hq L₀ L E hEL t h₀ hL htL hto htZ
   have htiq : ∀ i, t i ^ q = 1 := fun i => by
     rw [← hto i]

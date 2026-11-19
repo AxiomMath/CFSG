@@ -117,7 +117,7 @@ theorem rel_data : CFSG.KD.B4AX.RA.length = 12 ∧ CFSG.KD.B4AX.RA.Nodup ∧
   obtain ⟨h1, h2, h3, h4⟩ := rel_data1
   refine ⟨h1, h2, h3, h4, fun g hg hs hd => ?_, rel_data2⟩
   have hb : Nat.beq (dN2 (CFSG.KD.B4A.RD g)) 33 = true := by
-    rw [hd] <;> first | rfl | decide
+    rw [hd]; first | rfl
   have h := allFromFN_spec rel_loop g hg
   rw [Nat.zero_add, hs, hb] at h
   have hm := (memNB_iff _ _).1 h

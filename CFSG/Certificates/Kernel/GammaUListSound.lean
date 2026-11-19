@@ -32,7 +32,7 @@ theorem appL_lt {l : List ℕ} (hb : ∀ x ∈ l, x < 4096) (n : ℕ) : appL l n
     change Nat.xor (Nat.mul (Nat.mod n 2) r) (appL l (Nat.div n 2)) < 4096
     have hr : n % 2 * r < 2 ^ 12 := by
       have := hb r List.mem_cons_self
-      rcases Nat.mod_two_eq_zero_or_one n with h | h <;> simp [h] <;> omega
+      rcases Nat.mod_two_eq_zero_or_one n with h | h <;> simp [h]; omega
     exact Nat.xor_lt_two_pow hr (ih (fun x hx => hb x (List.mem_cons_of_mem r hx)) _)
 
 theorem appN_eq {g : Array ℕ} (hl : g.toList.length = 12) (hb : ∀ x ∈ g.toList, x < 4096)

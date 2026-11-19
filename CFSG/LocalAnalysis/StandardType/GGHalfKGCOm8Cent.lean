@@ -178,18 +178,18 @@ private lemma ggHalfKGCOm8Cent_glPerm_injective :
   exact h'
 
 private lemma ggHalfKGCOm8Cent_gl2_solvable : Group.IsSolvable (GL (Fin 2) (ZMod 2)) := by
-  haveI : Group.IsSolvable (Equiv.Perm (Fin 2 → ZMod 2)) :=
-    Equiv.Perm.isSolvable (by simp [Nat.card_eq_fintype_card, Fintype.card_fun, ZMod.card])
+  have : Group.IsSolvable (Equiv.Perm (Fin 2 → ZMod 2)) :=
+    Equiv.Perm.isSolvable (by simp [Nat.card_eq_fintype_card, ZMod.card])
   exact Group.isSolvable_of_isSolvable_injective
     (f := ggHalfKGCOm8Cent_glPerm) ggHalfKGCOm8Cent_glPerm_injective
 
 theorem ggKGCOm8_cent_y7_solvable :
     Group.IsSolvable ↥(Subgroup.centralizer ({Om8.y7} : Set Om8)) := by
   show Group.IsSolvable ↥ggHalfKGCOm8Cent_C
-  haveI : Group.IsSolvable ggHalfKGCOm8Cent_plane.ker :=
-    isSolvable_of_comm ggHalfKGCOm8Cent_plane_ker_comm
-  haveI : Group.IsSolvable (GL (Fin 2) (ZMod 2)) := ggHalfKGCOm8Cent_gl2_solvable
-  haveI : Group.IsSolvable (ggHalfKGCOm8Cent_C ⧸ ggHalfKGCOm8Cent_plane.ker) :=
+  have : Group.IsSolvable ggHalfKGCOm8Cent_plane.ker :=
+    _root_.Group.isSolvable_of_comm ggHalfKGCOm8Cent_plane_ker_comm
+  have : Group.IsSolvable (GL (Fin 2) (ZMod 2)) := ggHalfKGCOm8Cent_gl2_solvable
+  have : Group.IsSolvable (ggHalfKGCOm8Cent_C ⧸ ggHalfKGCOm8Cent_plane.ker) :=
     Group.isSolvable_of_isSolvable_injective
       (f := QuotientGroup.kerLift ggHalfKGCOm8Cent_plane)
       (QuotientGroup.kerLift_injective ggHalfKGCOm8Cent_plane)

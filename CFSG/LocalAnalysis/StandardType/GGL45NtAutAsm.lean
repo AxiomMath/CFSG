@@ -16,7 +16,7 @@ open CFSG CFSG.Assembly
 theorem ggL45NtAutAsm_exists_pow_of_cyclic {C : Type*} [Group C] [IsCyclic C]
     {p : ℕ} (hp : p.Prime) {a b : C} (ha : a ^ p = 1) (hb : b ^ p = 1) (ha1 : a ≠ 1)
     (hb1 : b ≠ 1) : ∃ j : ℕ, ¬ p ∣ j ∧ a = b ^ j := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have horda : orderOf a = p := orderOf_eq_prime ha ha1
   have hordb : orderOf b = p := orderOf_eq_prime hb hb1
   have hfinA : Finite (Subgroup.zpowers a) :=
@@ -24,8 +24,8 @@ theorem ggL45NtAutAsm_exists_pow_of_cyclic {C : Type*} [Group C] [IsCyclic C]
   have hfinB : Finite (Subgroup.zpowers b) :=
     finite_zpowers.mpr (isOfFinOrder_iff_pow_eq_one.mpr ⟨p, hp.pos, hb⟩)
   have heq : Subgroup.zpowers a = Subgroup.zpowers b := by
-    haveI := hfinA
-    haveI := hfinB
+    have := hfinA
+    have := hfinB
     rw [IsCyclic.subgroup_eq_iff_card_eq, Nat.card_zpowers, Nat.card_zpowers, horda, hordb]
   have hmem : a ∈ Subgroup.zpowers b := by rw [← heq]; exact Subgroup.mem_zpowers a
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hmem
@@ -50,7 +50,7 @@ theorem ggL45NtAutAsm_isCyclic_quotient {M : Type*} [Group M] {J S : Subgroup M}
     (hN : (J.subgroupOf S).Normal)
     (hgen : ∃ g ∈ S, ∀ s ∈ S, ∃ k : ℤ, g ^ k * s ∈ J) :
     IsCyclic (S ⧸ J.subgroupOf S) := by
-  haveI : (J.subgroupOf S).Normal := hN
+  have : (J.subgroupOf S).Normal := hN
   obtain ⟨g, hg, hgen'⟩ := hgen
   refine ⟨⟨(QuotientGroup.mk (⟨g, hg⟩ : S) : S ⧸ J.subgroupOf S), fun x => ?_⟩⟩
   induction x using QuotientGroup.induction_on with
@@ -102,7 +102,6 @@ theorem ggL45NtAutOn_notD4Three :
         exact hinn r
       · rw [Subgroup.closure_le]
         intro x hx
-        change x ∈ (J' : Set (MulAut R))
         rw [hJ'coe]
         exact hx
     exact hle hmem
@@ -112,7 +111,7 @@ theorem ggL45NtAutOn_notD4Three :
   have hfp : f ^ p = 1 := by rw [← hford]; exact pow_orderOf_eq_one f
   have hfS : f ∈ S := hpS f ⟨1, by simpa using hfp⟩
   let K : Subgroup S := J'.subgroupOf S
-  haveI : K.Normal := hJ'norm
+  have : K.Normal := hJ'norm
   let q : S →* S ⧸ K := QuotientGroup.mk' K
   let a : S := ⟨α, hαS⟩
   let b : S := ⟨f, hfS⟩
@@ -150,7 +149,7 @@ theorem ggL45NtAutOn_notD4Three :
     change (b : MulAut R) ∈ (J' : Set (MulAut R)) at hJ'mem
     rw [hJ'coe] at hJ'mem
     simpa [b] using hJ'mem
-  haveI : IsCyclic (S ⧸ K) := ggL45NtAutAsm_isCyclic_quotient hJ'norm hgen
+  have : IsCyclic (S ⧸ K) := ggL45NtAutAsm_isCyclic_quotient hJ'norm hgen
   obtain ⟨j, hjnd, hqaeq⟩ :=
     ggL45NtAutAsm_exists_pow_of_cyclic hp hqa_pow hqb_pow hqa_ne hqb_ne
   refine ⟨j, hjnd, ?_⟩

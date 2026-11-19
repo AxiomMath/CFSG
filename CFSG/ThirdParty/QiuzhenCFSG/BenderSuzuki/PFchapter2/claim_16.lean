@@ -163,7 +163,7 @@ private theorem chapter2_claim16_disjoint_of_card_three_of_not_le
     Disjoint A B := by
   rw [disjoint_iff_inf_le]
   let K : Subgroup A := (A ⊓ B).subgroupOf A
-  haveI : Fact (Nat.card A).Prime := ⟨by simpa [hAcard] using Nat.prime_three⟩
+  have : Fact (Nat.card A).Prime := ⟨by simpa [hAcard] using Nat.prime_three⟩
   rcases K.eq_bot_or_eq_top_of_prime_card with hK | hK
   · intro x hx
     have hxK : (⟨x, hx.1⟩ : A) ∈ K := hx
@@ -206,7 +206,7 @@ private theorem chapter2_claim16_normal_of_index_eq_prime_of_isPGroup
   have hn_ne : n ≠ 0 := by
     intro hn
     have hcard_one : Nat.card G = 1 := by simpa [hn] using hGcard
-    haveI : Subsingleton G := (Nat.card_eq_one_iff_unique.mp hcard_one).1
+    have : Subsingleton G := (Nat.card_eq_one_iff_unique.mp hcard_one).1
     have hAtop : A = ⊤ := by
       apply le_antisymm le_top
       intro x hx
@@ -344,8 +344,8 @@ private theorem chapter2_claim16_cyclic_order_three_mulAut_eq_id_or_inv
     {C : Type*} [Group C] [Finite C]
     (hcard : Nat.card C = 3) (alpha : MulAut C) :
     alpha = 1 ∨ ∀ x : C, alpha x = x⁻¹ := by
-  letI : IsCyclic C := by
-    letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : IsCyclic C := by
+    let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact isCyclic_of_prime_card hcard
   let u : (ZMod (Nat.card C))ˣ := IsCyclic.mulAutMulEquiv C alpha
   have hu_cases : u = 1 ∨ u = -1 := by
@@ -359,9 +359,9 @@ private theorem chapter2_claim16_cyclic_order_three_mulAut_eq_id_or_inv
     simpa [u] using hu
   · right
     intro x
-    haveI : Fintype C := Fintype.ofFinite _
-    haveI : Fintype (MulAut C) := Fintype.ofFinite _
-    haveI : DecidableEq (MulAut C) := Classical.decEq _
+    have : Fintype C := Fintype.ofFinite _
+    have : Fintype (MulAut C) := Fintype.ofFinite _
+    have : DecidableEq (MulAut C) := Classical.decEq _
     have halpha : alpha = (IsCyclic.mulAutMulEquiv C).symm (-1) := by
       apply (IsCyclic.mulAutMulEquiv C).injective
       simpa [u] using hu
@@ -382,8 +382,8 @@ private theorem chapter2_claim16_cyclic_order_three_mulAut_eq_id_or_inv
           simp
         _ = (IsCyclic.mulAutMulEquiv C) 1 := by rw [h]
         _ = 1 := by simp
-    haveI : IsMulCommutative C := IsCyclic.isMulCommutative
-    letI : CommGroup C := IsMulCommutative.instCommGroup
+    have : IsMulCommutative C := IsCyclic.isMulCommutative
+    let : CommGroup C := IsMulCommutative.instCommGroup
     let inv_aut : MulAut C :=
       { toFun := λ x : C => x⁻¹
         invFun := λ x : C => x⁻¹
@@ -423,7 +423,7 @@ private theorem chapter2_claim16_cyclic_order_three_mulAut_eq_id_or_inv
           _ = 1 := h_zz_one
       have h_dvd2 : orderOf z ∣ 2 := orderOf_dvd_of_pow_eq_one hz_sq_one
       have h_dvd3 : orderOf z ∣ 3 := by
-        haveI : Fintype C := Fintype.ofFinite _
+        have : Fintype C := Fintype.ofFinite _
         have h := orderOf_dvd_card (x := z)
         have h_card3 : Fintype.card C = 3 := by
           simpa [Nat.card_eq_fintype_card] using hcard
@@ -452,7 +452,7 @@ private theorem chapter2_claim16_cyclic_order_three_mulAut_eq_id_or_inv
                 rw [Finset.card_insert_eq_ite]
                 have h_not_mem : 1 ∉ ({inv_aut} : Finset (MulAut C)) := by
                   intro h; apply Ne.symm h_inv_ne_one; simpa using h
-                rw [if_neg h_not_mem]
+                rw [ite_eq_right h_not_mem]
                 norm_num
               rw [h_eq]
         exact h_card_goal
@@ -560,8 +560,8 @@ private theorem chapter2_claim16_claim16_commutative
     change Z1 ⊔ Sigma ≤ Subgroup.centralizer (LV : Set G)
     rw [← hcenter]
     exact inf_le_right
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : IsMulCommutative P := (isCyclic_of_prime_card hPcard).isMulCommutative
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : IsMulCommutative P := (isCyclic_of_prime_card hPcard).isMulCommutative
   have hA_le_CA : A ≤ Subgroup.centralizer (A : Set G) := by
     intro a ha
     rw [Subgroup.mem_centralizer_iff]
@@ -599,7 +599,7 @@ private theorem chapter2_claim16_z_mul_three_element_stronglyReal
     (hXstrong : ∀ x : G, x ∈ X → x ≠ 1 → IsStronglyReal x) :
     ∀ z x : G, z ∈ Z → x ∈ X → x ≠ 1 → IsStronglyReal (z * x) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro z x hz hx hxne
   have hx_not_C : x ∉ Subgroup.centralizer (R : Set G) := by
     intro hxC
@@ -722,13 +722,13 @@ private theorem chapter2_claim16_second_center
       exact hzCenter
   have hAR_normal : AR.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hA_le_R).mpr hR_norm_A
-  letI : AR.Normal := hAR_normal
+  let : AR.Normal := hAR_normal
   have hZR_normal : ZR.Normal := by
     rw [hZR_center]
     infer_instance
-  letI : ZR.Normal := hZR_normal
+  let : ZR.Normal := hZR_normal
   let Abar : Subgroup (R ⧸ ZR) := AR.map (QuotientGroup.mk' ZR)
-  haveI : Abar.Normal := by
+  have : Abar.Normal := by
     dsimp [Abar]
     infer_instance
   have hZR_le_AR : ZR ≤ AR := by
@@ -747,9 +747,9 @@ private theorem chapter2_claim16_second_center
       (s := ZR.subgroupOf AR)
     rw [hARcard, hZR_AR_card] at hmul
     omega
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fact (IsPGroup 3 R) := ⟨hRp⟩
-  letI : Fact (IsPGroup 3 (R ⧸ ZR)) := ⟨hRp.to_quotient ZR⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (IsPGroup 3 R) := ⟨hRp⟩
+  let : Fact (IsPGroup 3 (R ⧸ ZR)) := ⟨hRp.to_quotient ZR⟩
   have hAbar_center : Abar ≤ Subgroup.center (R ⧸ ZR) :=
     normal_subgroup_card_eq_prime_le_center Abar hAbar_card
   intro x y hx hy
@@ -906,7 +906,7 @@ private theorem chapter2_claim16_claim16_second_center
     rw [natCard_subgroupOf_eq LV R2 hLV_le_R2,
       h15.2.2.2.2.2.2.2.1] at hmul
     exact Nat.mul_right_cancel (Nat.card_pos (α := LV)) hmul
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLVnormal : (LV.subgroupOf R2).Normal :=
     chapter2_claim16_normal_of_index_eq_prime_of_isPGroup hR2p (LV.subgroupOf R2) hLVindex
   have hR2_norm_LV : R2 ≤ Subgroup.normalizer (LV : Set G) :=
@@ -1022,7 +1022,7 @@ private theorem chapter2_claim16_claim16_unique
   have hAcomm : IsMulCommutative A := by
     simpa [A] using chapter2_claim16_claim16_commutative P Sigma Z1 (L ⊔ V)
       hPcard (hch.B1.P_le_V.trans le_sup_right) hcenterLV
-  letI : IsMulCommutative A := hAcomm
+  let : IsMulCommutative A := hAcomm
   have hA_le_CA : A ≤ Subgroup.centralizer (A : Set G) :=
     Subgroup.le_centralizer_iff_isMulCommutative.mpr hAcomm
   have hZstrong := chapter2_claim16_Z1_stronglyReal Z1 s t hZ1 hst3
@@ -1228,7 +1228,7 @@ private theorem chapter2_claim16_normalizer_ZPSigma_eq
     rw [natCard_subgroupOf_eq LV R2 hLV_le_R2,
       h15.2.2.2.2.2.2.2.1] at hmul
     exact Nat.mul_right_cancel (Nat.card_pos (α := LV)) hmul
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLVnormal : (LV.subgroupOf R2).Normal :=
     chapter2_claim16_normal_of_index_eq_prime_of_isPGroup hR2p (LV.subgroupOf R2) hLVindex
   have hR2_norm_LV : R2 ≤ Subgroup.normalizer (LV : Set G) :=
@@ -1250,8 +1250,7 @@ private theorem chapter2_claim16_normalizer_ZPSigma_eq
       have hconjpow : (r * x * r⁻¹) ^ 3 = 1 := by
         calc
           (r * x * r⁻¹) ^ 3 = r * x ^ 3 * r⁻¹ := by
-            simpa [MulAut.conj_apply] using
-              (map_pow (MulAut.conj r) x 3).symm
+            simp
           _ = 1 := by rw [hxpow]; simp
       have hmem := (h15.2.2.2.2.2.2.2.2.2 (r * x * r⁻¹) hconjLV).mp hconjpow
       rw [show Z1 ⊔ Sigma ⊔ P = A by dsimp [A]; ac_rfl] at hmem
@@ -1265,8 +1264,7 @@ private theorem chapter2_claim16_normalizer_ZPSigma_eq
         rw [show Z1 ⊔ Sigma ⊔ P = A by dsimp [A]; ac_rfl]
         exact hx
       have hmapPow : (r * x * r⁻¹) ^ 3 = r * x ^ 3 * r⁻¹ := by
-        simpa [MulAut.conj_apply] using
-          (map_pow (MulAut.conj r) x 3).symm
+        simp
       have hconj_xpow : r * x ^ 3 * r⁻¹ = 1 := hmapPow.symm.trans hconjpow
       have hxpow : x ^ 3 = 1 := by
         have h := congrArg (fun z : G => r⁻¹ * z * r) hconj_xpow

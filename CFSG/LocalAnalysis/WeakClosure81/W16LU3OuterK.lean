@@ -19,6 +19,7 @@ private theorem w16l_odd_two_pow_add_one {n : ℕ} (hn : 1 ≤ n) : Odd (2 ^ n +
   intro h
   exact h (Nat.even_pow.mpr ⟨even_two, by omega⟩)
 
+omit [Finite K] in
 private theorem w16l_unitary_index_odd_and_gt_one (h : BenderType K n 3 e) :
     Odd e ∧ 1 < e := by
   rcases h.cases' with ⟨h31, he, hn⟩ | ⟨h32, he, hn⟩ | ⟨-, he, hn⟩

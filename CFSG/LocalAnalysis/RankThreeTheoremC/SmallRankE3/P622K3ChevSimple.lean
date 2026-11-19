@@ -23,7 +23,7 @@ theorem isSimpleGroup_of_isChevSimple_two {S : Type} [Group S]
     | cyclic _ _ => exact absurd hi (by simp [onLie])
     | alternating _ _ => exact absurd hi (by simp [onLie])
     | lie d =>
-      haveI : IsSimpleGroup d.Group := (CFSG.Assembly.lie_finite_simple d).2
+      have : IsSimpleGroup d.Group := (CFSG.Assembly.lie_finite_simple d).2
       exact MulEquiv.isSimpleGroup (e : S ≃* d.Group)
     | sporadic _ => exact absurd hi (by simp [onLie])
   · cases i with
@@ -31,14 +31,14 @@ theorem isSimpleGroup_of_isChevSimple_two {S : Type} [Group S]
     | alternating n _ =>
       simp only [ambiguousChev] at hi
       rcases hi with ⟨rfl, -⟩ | ⟨rfl, -⟩ | ⟨rfl, -⟩
-      · haveI := isSimpleGroup_alt_five_six_eight (n := 5) (Or.inl rfl)
+      · have := isSimpleGroup_alt_five_six_eight (n := 5) (Or.inl rfl)
         exact MulEquiv.isSimpleGroup (e : S ≃* alternatingGroup (Fin 5))
-      · haveI := isSimpleGroup_alt_five_six_eight (n := 6) (Or.inr (Or.inl rfl))
+      · have := isSimpleGroup_alt_five_six_eight (n := 6) (Or.inr (Or.inl rfl))
         exact MulEquiv.isSimpleGroup (e : S ≃* alternatingGroup (Fin 6))
-      · haveI := isSimpleGroup_alt_five_six_eight (n := 8) (Or.inr (Or.inr rfl))
+      · have := isSimpleGroup_alt_five_six_eight (n := 8) (Or.inr (Or.inr rfl))
         exact MulEquiv.isSimpleGroup (e : S ≃* alternatingGroup (Fin 8))
     | lie d =>
-      haveI : IsSimpleGroup d.Group := (CFSG.Assembly.lie_finite_simple d).2
+      have : IsSimpleGroup d.Group := (CFSG.Assembly.lie_finite_simple d).2
       exact MulEquiv.isSimpleGroup (e : S ≃* d.Group)
     | sporadic _ => exact absurd hi (by simp [ambiguousChev])
 

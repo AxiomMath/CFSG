@@ -48,7 +48,7 @@ theorem ggTorsion_twF4_compField
     ∃ (m : ℕ) (lab : LargeEvenLabel), 1 ≤ m ∧ LargeEvenInLambda2 lab ∧ markChar lab = 2 ∧
       markDeg lab = (2 * a + 1) * m ∧ GGHasLabel lab (↥J ⧸ Subgroup.center ↥J) := by
   classical
-  haveI : CharP K 2 := CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow hK
+  have : CharP K 2 := CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow hK
   have hv : (TauCeti.LieTypeIndex.reeF4 a).Valid :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.reeF4_valid ha
   have hcomp : CFSG.LocalAnalysis.GLTheoremA.KD264Lie.CompIdxAt p (.reeF4 a)

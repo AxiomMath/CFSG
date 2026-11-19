@@ -152,6 +152,7 @@ section FiniteCore
 
 variable [IsAlgClosed Ω] [CharP Ω 2]
 
+omit [IsAlgClosed Ω] in
 theorem f4_pair_finite_endpoint_of_descent
     (f : ℕ) (hcard : Nat.card K = 2 ^ f)
     (β : Fin Tag.F4.rank → ℤ)
@@ -274,6 +275,7 @@ section Combined
 
 variable [IsAlgClosed Ω] [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω]
 
+omit [IsAlgClosed Ω] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem f4_entrywiseFrobGL_canonicalRep
     (f : ℕ) (w : WeylGroup Tag.F4) :
     entrywiseFrobGL Tag.F4 Ω 2 f (canonicalRep (coxeterSystem Tag.F4) Ω w) =

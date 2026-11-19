@@ -28,7 +28,7 @@ theorem exists_invariant_component_point (h1 : Sec4.Item4_1LargePrime)
       (K ≤ B → ∃ d ∈ Subgroup.centralizer (B : Set G), d ∈ Subgroup.normalizer (A : Set G) ∧
         (∃ k : ℕ, d ^ 3 ^ k = 1) ∧ ∃ a ∈ A, d * a * d⁻¹ ≠ a) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup G := Subgroup.centralizer (B : Set G) with hCdef
   obtain ⟨Y, hY, hYaut, ⟨a, haA, ha1, haY⟩, hBY⟩ :=
     Sylow155T51.exists_centralizer_component_data h1 h2 h43 hin hT hS hA hBA hB9 hcon

@@ -136,7 +136,7 @@ private theorem focalSubgroupOf_lt_top_of_controlled_fusion
     simpa using congrArg Subtype.val hxeq
   let C : Subgroup P := ⁅N, (⊤ : Subgroup P)⁆
   have hClt : C < N := by
-    exact commutator_lt_of_normal_subgroup_pgroup P.isPGroup' N hNne
+    exact commutator_lt_of_normal_subgroup_pgroup P.isPGroup N hNne
   have hFmap :
       (T : Subgroup H).feitThompsonFocalSubgroup.map f ≤ C.map (P : Subgroup G).subtype := by
     rw [Subgroup.feitThompsonFocalSubgroup_def, Subgroup.map_le_iff_le_comap,
@@ -227,13 +227,13 @@ private theorem hasNormalPComplement_of_controlled_fusion_embedding
   let H0 : Subgroup H := T
   let V : H →* H0 ⧸ H0.feitThompsonFocalSubgroupOf := H0.feitThompsonTransferFocal
   let K : Subgroup H := V.ker
-  haveI : K.Normal := inferInstance
+  have : K.Normal := inferInstance
   have hfoc : H0.feitThompsonFocalSubgroupOf < ⊤ := by
     exact focalSubgroupOf_lt_top_of_controlled_fusion
       f hf P T hTmap hTbot hfusion
   have hfocCard : Nat.card H0.feitThompsonFocalSubgroupOf < Nat.card T := by
-    letI : Fintype H0.feitThompsonFocalSubgroupOf := Fintype.ofFinite _
-    letI : Fintype T := Fintype.ofFinite _
+    let : Fintype H0.feitThompsonFocalSubgroupOf := Fintype.ofFinite _
+    let : Fintype T := Fintype.ofFinite _
     have hnotSurj : ¬ Function.Surjective H0.feitThompsonFocalSubgroupOf.subtype := by
       intro hsurj
       apply hfoc.ne
@@ -247,7 +247,7 @@ private theorem hasNormalPComplement_of_controlled_fusion_embedding
   have hVsurj : Function.Surjective V := by
     intro y
     obtain ⟨x, hx⟩ := hkt_transferFocal_restrict_surjective (S := T) y
-    exact ⟨x, by simpa [V, H0, MonoidHom.restrict_apply] using hx⟩
+    exact ⟨x, by simpa [V, H0, MonoidHom.domRestrict_apply] using hx⟩
   have hkerinf : K ⊓ H0 = H0.feitThompsonFocalSubgroup := by
     simpa [K, V, H0] using
       (Subgroup.ker_feitThompsonTransferFocal_inf_eq_feitThompsonFocalSubgroup (P := T))
@@ -279,7 +279,7 @@ private theorem hasNormalPComplement_of_controlled_fusion_embedding
     hasNormalPComplement_of_controlled_fusion_embedding
       (f.comp K.subtype) (hf.comp K.subtype_injective) P TK hTKmapP hfusion
   have htargetP : IsPGroup p (H0 ⧸ H0.feitThompsonFocalSubgroupOf) :=
-    T.isPGroup'.to_quotient H0.feitThompsonFocalSubgroupOf
+    T.isPGroup.to_quotient H0.feitThompsonFocalSubgroupOf
   let e : H ⧸ K ≃* H0 ⧸ H0.feitThompsonFocalSubgroupOf :=
     QuotientGroup.quotientKerEquivOfSurjective V hVsurj
   have hquotP : IsPGroup p (H ⧸ K) := htargetP.of_equiv e.symm

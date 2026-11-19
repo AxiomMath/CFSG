@@ -19,7 +19,7 @@ variable {X : Type} [Group X] [Finite X] {F : Type} [Field F]
 
 theorem zmod_add_self_eq_zero {N : ℕ} [NeZero N] (i : ZMod (2 * N)) (hi : i + i = 0) :
     i = 0 ∨ i = (N : ZMod (2 * N)) := by
-  haveI : NeZero (2 * N) := ⟨by have := NeZero.ne N; omega⟩
+  have : NeZero (2 * N) := ⟨by have := NeZero.ne N; omega⟩
   have hN : 0 < N := Nat.pos_of_ne_zero (NeZero.ne N)
   have hdvd : 2 * N ∣ i.val + i.val := by
     rw [← ZMod.natCast_eq_zero_iff, Nat.cast_add, ZMod.natCast_zmod_val, hi]
@@ -93,6 +93,7 @@ theorem quaternion_sq_eq_one_iff {N : ℕ} [NeZero N] (x : QuaternionGroup N) :
     · rw [one_mul]
     · exact quaternion_a_mul_self
 
+omit [Finite X] in
 theorem mulAut_conj_conj (n m : X) :
     (MulAut.conj (MulAut.conj n : MulAut X)) (MulAut.conj m) = MulAut.conj (n * m * n⁻¹) := by
   rw [MulAut.conj_apply, ← map_mul, ← map_inv, ← map_mul]
@@ -122,6 +123,7 @@ theorem mulAut_conj_conj (n m : X) :
       exact hg
   conjInj := E.conjInj
 
+omit [Finite X] in
 theorem embConjBy_conj (E : PGamEmb X F) (n x : X) :
     (embConjBy E n).ρ (MulAut.conj x) = E.ρ (MulAut.conj (n * x * n⁻¹)) := by
   change E.ρ ((MulAut.conj (MulAut.conj n : MulAut X)) (MulAut.conj x)) =
@@ -178,17 +180,19 @@ theorem exists_normalized_emb (hs : IsSimpleGroup ↥(genFittingFStar X)) {p f :
     rw [embConjBy_conj]
     exact hzρ⟩⟩
 
-theorem quatInvolution_sq {Q : Subgroup X} {r : ℕ} (hr : 4 ≤ r) (e : ↥Q ≃* QuaternionGroup (2 ^ (r - 2))) :
+omit [Finite X] in
+theorem quatInvolution_sq {Q : Subgroup X} {r : ℕ} (_hr : 4 ≤ r) (e : ↥Q ≃* QuaternionGroup (2 ^ (r - 2))) :
     quatInvolution r e * quatInvolution r e = 1 := by
-  haveI : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
   have h' : e.symm (QuaternionGroup.a ((2 ^ (r - 2) : ℕ) : ZMod (2 * 2 ^ (r - 2)))) *
       e.symm (QuaternionGroup.a ((2 ^ (r - 2) : ℕ) : ZMod (2 * 2 ^ (r - 2)))) = 1 := by
     rw [← map_mul, quaternion_a_mul_self, map_one]
   simpa [quatInvolution, Subgroup.coe_mul] using congrArg (fun z : ↥Q => (z : X)) h'
 
-theorem quatInvolution_ne_one {Q : Subgroup X} {r : ℕ} (hr : 4 ≤ r)
+omit [Finite X] in
+theorem quatInvolution_ne_one {Q : Subgroup X} {r : ℕ} (_hr : 4 ≤ r)
     (e : ↥Q ≃* QuaternionGroup (2 ^ (r - 2))) : quatInvolution r e ≠ 1 := by
-  haveI : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
   intro h
   have h1 : e.symm (QuaternionGroup.a ((2 ^ (r - 2) : ℕ) : ZMod (2 * 2 ^ (r - 2)))) = 1 := by
     apply Subtype.ext
@@ -197,14 +201,16 @@ theorem quatInvolution_ne_one {Q : Subgroup X} {r : ℕ} (hr : 4 ≤ r)
   rw [MulEquiv.apply_symm_apply, map_one] at h2
   exact quaternion_a_ne_one h2
 
-theorem quatInvolution_mem {Q : Subgroup X} {r : ℕ} (hr : 4 ≤ r)
+omit [Finite X] in
+theorem quatInvolution_mem {Q : Subgroup X} {r : ℕ} (_hr : 4 ≤ r)
     (e : ↥Q ≃* QuaternionGroup (2 ^ (r - 2))) : quatInvolution r e ∈ Q :=
   (e.symm (QuaternionGroup.a ((2 ^ (r - 2) : ℕ) : ZMod (2 * 2 ^ (r - 2))))).2
 
-theorem quatInvolution_comm {Q : Subgroup X} {r : ℕ} (hr : 4 ≤ r)
+omit [Finite X] in
+theorem quatInvolution_comm {Q : Subgroup X} {r : ℕ} (_hr : 4 ≤ r)
     (e : ↥Q ≃* QuaternionGroup (2 ^ (r - 2))) {y : X} (hy : y ∈ Q) :
     y * quatInvolution r e = quatInvolution r e * y := by
-  haveI : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
   have hc : ∀ z : ↥Q, z * e.symm (QuaternionGroup.a ((2 ^ (r - 2) : ℕ) : ZMod (2 * 2 ^ (r - 2)))) =
       e.symm (QuaternionGroup.a ((2 ^ (r - 2) : ℕ) : ZMod (2 * 2 ^ (r - 2)))) * z := by
     intro z
@@ -214,10 +220,11 @@ theorem quatInvolution_comm {Q : Subgroup X} {r : ℕ} (hr : 4 ≤ r)
   simpa [quatInvolution, Subgroup.coe_mul] using
     congrArg (fun z : ↥Q => (z : X)) (hc ⟨y, hy⟩)
 
+omit [Finite X] in
 theorem eq_quatInvolution_of_sq {Q : Subgroup X} {r : ℕ} (hr : 4 ≤ r)
     (e : ↥Q ≃* QuaternionGroup (2 ^ (r - 2))) {y : X} (hy : y ∈ Q) (hy2 : y * y = 1) (hy1 : y ≠ 1) :
     y = quatInvolution r e := by
-  haveI : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
   let y' : ↥Q := ⟨y, hy⟩
   let A : ZMod (2 * 2 ^ (r - 2)) := ((2 ^ (r - 2) : ℕ) : ZMod (2 * 2 ^ (r - 2)))
   have hy' : y' * y' = 1 := by
@@ -245,7 +252,7 @@ theorem eq_quatInvolution_of_sq {Q : Subgroup X} {r : ℕ} (hr : 4 ≤ r)
 theorem quatInvolution_mem_fstar (hidx : (genFittingFStar X).index ≤ 2) {Q : Subgroup X} {r : ℕ}
     (hr : 4 ≤ r) (e : ↥Q ≃* QuaternionGroup (2 ^ (r - 2))) :
     quatInvolution r e ∈ genFittingFStar X := by
-  haveI : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨pow_ne_zero _ (by norm_num)⟩
   have hsqN : ∀ x : X, x * x ∈ genFittingFStar X := by
     intro x
     rcases (by omega : (genFittingFStar X).index = 1 ∨ (genFittingFStar X).index = 2 ∨

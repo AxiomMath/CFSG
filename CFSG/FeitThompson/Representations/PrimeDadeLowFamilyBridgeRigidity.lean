@@ -113,7 +113,7 @@ theorem cfInner_tauPrincipalRowSub_tauBridge (hB : h.IsUniformBridgeData σ ζ d
     cfInner (tauPrincipalRowSub hB hA hD) (tauBridge hB hA hD i hj) = (n : ℂ) - 1 := by
   classical
   have hrow : cfInner (h.primeTIbridge σ ζ 1 n i j) (h.primeTIrow σ (principalIrr ↥W₂)) = -1 := by
-    rw [h.cfInner_primeTIbridge_primeTIrow hB i j (principalIrr ↥W₂), if_neg hj, if_pos rfl]
+    rw [h.cfInner_primeTIbridge_primeTIrow hB i j (principalIrr ↥W₂), ite_eq_right hj, ite_eq_left rfl]
     ring
   have hrow' : cfInner (h.primeTIrow σ (principalIrr ↥W₂)) (h.primeTIbridge σ ζ 1 n i j) = -1 := by
     rw [← conj_cfInner, hrow]; simp
@@ -174,8 +174,8 @@ theorem cfInner_primeTIbridge_mem (hB : h.IsUniformBridgeData σ ζ d n 1)
   rw [h.cfInner_primeTIbridge_left, h0 j, h0 (principalIrr ↥W₂),
     cfInner_eq_ite_of_mem_Irr hB.mem_Irr hξIrr]
   by_cases hc : ξ = ζ
-  · rw [if_pos hc, if_pos hc.symm]; ring
-  · rw [if_neg hc, if_neg (fun hcc => hc hcc.symm)]; ring
+  · rw [ite_eq_left hc, ite_eq_left hc.symm]; ring
+  · rw [ite_eq_right hc, ite_eq_right (fun hcc => hc hcc.symm)]; ring
 
 omit [Fintype G] [Fintype ↑(Irr ↥W₁)] [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] [Fintype ↥(W₁ ⊔ W₂)]
   [K.Normal] in
@@ -190,6 +190,7 @@ theorem mem_dadeZDomain_of_mem_charSpanZero
         (fun _ hx => (hS₁ hx).1) hA ⟨f, hf⟩ x hx⟩
 
 omit [Fintype ↑(Irr ↥W₁)] [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] in
+omit [K.Normal] in
 theorem cfInner_tauBridge_nu (hB : h.IsUniformBridgeData σ ζ d n 1)
     (hS₁ : S₁ ⊆ indFam K (Irr ↥K \ {1}) ∩ Irr ↥L)
     (hA : (fun x : ↥L => (x : G)) '' primeTIbridgeSupport K W₁ W₂ ⊆ A₀)
@@ -207,7 +208,7 @@ theorem cfInner_tauBridge_nu (hB : h.IsUniformBridgeData σ ζ d n 1)
     exact hτ₁ _ ⟨f, mem_dadeDomain_of_mem_dadeZDomain hfZ⟩ rfl
   rw [tauBridge_def, hnu, cfInner_dadeZMap]
 
-omit [Fintype ↑(Irr ↥W₁)] [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] in
+omit [Fintype ↑(Irr ↥W₁)] [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] [K.Normal] in
 theorem cfInner_tauBridge_nu_mem (hB : h.IsUniformBridgeData σ ζ d n 1)
     (hS₁ : S₁ ⊆ indFam K (Irr ↥K \ {1}) ∩ Irr ↥L)
     (hA : (fun x : ↥L => (x : G)) '' primeTIbridgeSupport K W₁ W₂ ⊆ A₀)
@@ -310,8 +311,8 @@ theorem isOrthonormalFamily_nu (hS₁ : S₁ ⊆ indFam K (Irr ↥K \ {1}) ∩ I
       Submodule.span ℤ S₁) : ↥L → ℂ) = (f s : ↥L → ℂ) from rfl,
     cfInner_eq_ite_of_mem_Irr hrIrr hsIrr]
   by_cases hrs : r = s
-  · rw [if_pos hrs, if_pos (by rw [hrs])]
-  · rw [if_neg hrs, if_neg fun hc => hrs (hf (Subtype.ext hc))]
+  · rw [ite_eq_left hrs, ite_eq_left (by rw [hrs])]
+  · rw [ite_eq_right hrs, ite_eq_right fun hc => hrs (hf (Subtype.ext hc))]
 
 omit [Group G] [Fintype ↥L] [Fintype ↥(W₁ ⊔ W₂)] [Fintype ↑(Irr ↥W₁)]
   [Fintype ↥((W₁ ⊔ W₂).map L.subtype)] [K.Normal] in
@@ -324,9 +325,9 @@ theorem sum_smul_eq_of_cfInner_eq {N : ℕ} {e : Fin N → G → ℂ} {f : G →
     sub_smul (a : ℂ) (if r = r₁ then (N : ℂ) else 0) (e r), Finset.sum_sub_distrib]
   congr 1
   rw [Finset.sum_eq_single_of_mem r₁ (Finset.mem_univ r₁)]
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
   · intro s _ hs
-    rw [if_neg hs, zero_smul]
+    rw [ite_eq_right hs, zero_smul]
 
 theorem tauBridge_eq_prodCharEta_sub (hodd : Odd (Nat.card G))
     (hB : h.IsUniformBridgeData σ ζ d n 1)
@@ -401,10 +402,10 @@ theorem tauBridge_eq_prodCharEta_sub (hodd : Odd (Nat.card G))
     rw [← her₁, ← hφdef] at hkey
     rw [hedef, hkey, hc, ha]
     by_cases hr : r = r₁
-    · rw [if_pos hr, if_pos ((hindex r).2 hr)]
+    · rw [ite_eq_left hr, ite_eq_left ((hindex r).2 hr)]
       push_cast
       rw [hNC]
-    · rw [if_neg hr, if_neg (fun hcc => hr ((hindex r).1 hcc))]
+    · rw [ite_eq_right hr, ite_eq_right (fun hcc => hr ((hindex r).1 hcc))]
       push_cast
       rw [hNC]
   have hproj : ∑ r, cfInner φ (e r) • e r = (a : ℂ) • (∑ r, e r) - (N : ℂ) • e r₁ :=

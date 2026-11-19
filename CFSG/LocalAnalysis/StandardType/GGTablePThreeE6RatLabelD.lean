@@ -195,8 +195,8 @@ private theorem recogD_ratCat_of_tree
     show rootSpan τ K' (componentRoots (rootCharHom a) i) = _
     rw [hroots, hset]
   rw [hcomp]
-  haveI : Fintype ↥K' := Fintype.ofFinite ↥K'
-  haveI : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
+  have : Fintype ↥K' := Fintype.ofFinite ↥K'
+  have : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
   obtain ⟨f, hprime, hcardK⟩ := FiniteField.card ↥K' (ringChar ↥K')
   have hring : ringChar ↥K' = ringChar L := ringChar_subfield' K'
   rw [hring] at hprime hcardK

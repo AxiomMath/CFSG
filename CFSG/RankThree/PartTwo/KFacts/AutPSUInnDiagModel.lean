@@ -24,7 +24,7 @@ private theorem odd_two_pow_pow_sub_one {n k : ℕ} (hn : 1 ≤ n) (hk : 1 ≤ k
 
 private theorem padicValNat_two_cube_mul {n : ℕ} (hn : 1 ≤ n) {s : ℕ} (hs : Odd s) :
     padicValNat 2 ((2 ^ n) ^ 3 * (((2 ^ n) ^ 2 - 1) * s)) = 3 * n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq3 : (2 ^ n) ^ 3 ≠ 0 := pow_ne_zero _ (by positivity)
   have hodd := odd_two_pow_pow_sub_one hn (by norm_num : 1 ≤ 2)
   have hq21 : (2 ^ n) ^ 2 - 1 ≠ 0 := fun h => Nat.not_odd_zero (h ▸ hodd)
@@ -36,8 +36,8 @@ private theorem padicValNat_two_cube_mul {n : ℕ} (hn : 1 ≤ n) {s : ℕ} (hs 
 
 theorem padicValNat_two_card_psu {K : Type} [Field K] (hu : UnitaryFieldData 2 n K) :
     padicValNat 2 (Nat.card (unitaryPSU hu 3)) = 3 * n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hu.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hu.finite
   have hcard := card_unitaryPSU_three_mul hu
   rw [card_unitarySU_three' hu, mul_assoc] at hcard
   have hM0 : Nat.card (unitaryPSU hu 3) ≠ 0 := Nat.card_pos.ne'
@@ -56,7 +56,7 @@ theorem padicValNat_two_card_psu {K : Type} [Field K] (hu : UnitaryFieldData 2 n
 theorem padicValNat_two_card_psl {K : Type} [Field K] [Finite K] {m : ℕ}
     (hK : Nat.card K = 2 ^ m) (hm : 1 ≤ m) :
     padicValNat 2 (Nat.card (StatedProj (StatedSL 3 K))) = 3 * m := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard := card_psl_three_mul_gcd (K := K)
   rw [hK] at hcard
   have hM0 : Nat.card (StatedProj (StatedSL 3 K)) ≠ 0 := Nat.card_pos.ne'
@@ -100,7 +100,7 @@ theorem exists_unitaryIsom3_of_isProjConjAut {K₁ : Type} [Field K₁]
     ∃ A : unitaryIsom3 hu₁,
       MulAut.congr (e₁.trans (unitaryPSUEquiv hu₁ (by norm_num : 1 ≤ 3)).symm) ψ =
         psuConj hu₁ A := by
-  haveI := hu₁.finite
+  have := hu₁.finite
   have hq : 2 < 2 ^ m :=
     lt_of_lt_of_le (by norm_num) (Nat.pow_le_pow_right (by norm_num) hm)
   have hconj := isConjByGL_of_isProjConjAut (q := 2 ^ m) (F := K₁) hc
@@ -175,7 +175,7 @@ theorem not_exists_psl_model {K : Type} [Field K] (hu : UnitaryFieldData 2 n K) 
     {X : Type} [Group X] [Finite X] (e : X ≃* unitaryPSU hu 3)
     {m : ℕ} {K' : Type} [Field K'] [Finite K'] (hK' : Nat.card K' = 2 ^ m)
     (e' : X ≃* StatedProj (StatedSL 3 K')) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hm1 : 1 ≤ m := by
     rcases Nat.eq_zero_or_pos m with hm0 | hm0
     · subst hm0
@@ -260,12 +260,12 @@ theorem innDiagSubgroup_le_map_range_psuConj {X : Type} [Group X] [Finite X] {n 
       simp [MulAut.congr_apply, MulAut.conj_apply, MulEquiv.trans_apply]
     rw [← hconj]
     exact Subgroup.mem_map_of_mem _ ((stdPinnedPSU3 hu).inn_le ⟨e x, rfl⟩)
-  · letI := hK'f
-    letI := hK'fin
+  · let := hK'f
+    let := hK'fin
     exfalso
     exact not_exists_psl_model hu hn e hK'card e'
-  · letI := hK₁f
-    letI := hK₁fin
+  · let := hK₁f
+    let := hK₁fin
     exact mem_map_range_psuConj_of_isProjConjAut hu hn e hK₁card hc
 
 end CFSG.RankThree.PartTwo.KFacts

@@ -135,7 +135,7 @@ private theorem h74_exists_complement {p : ℕ} (hp : p.Prime) {E D : Subgroup (
     intro h
     rw [h, Subgroup.relIndex_self] at hDr
     exact hp.ne_one hDr.symm
-  obtain ⟨x, hxE, hxD⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hDA hDEne)
+  obtain ⟨x, hxE, hxD⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hDA hDEne)
   have hsup : D ⊔ Subgroup.zpowers x = E :=
     CFSG.LieType.SeitzGeneration.HyperBlocks.sup_zpowers_eq hp hDA hDr hxE hxD
   have hxord : orderOf x = p := by

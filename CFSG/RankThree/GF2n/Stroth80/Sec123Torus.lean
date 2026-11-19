@@ -13,6 +13,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite K] in
 theorem Ctx.torus_model (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) {b : M₀.E}
     (hb0 : b ≠ 0) (hB : ∀ v : M₀.E, v ∈ M₀.img B ↔ ∃ s : K, v = s • b)
     {x : G} (hxX : x ∈ Q ⊔ QB B) (hxZ : x ∈ Subgroup.normalizer (Z : Set G))
@@ -84,6 +85,7 @@ theorem Ctx.torus_model (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀) {
     simp
 
 
+omit [Finite G] [Finite K] in
 theorem GlobalModelData.gamma_inj (h : GlobalModelData M Q Z γ M₀) {z z' : G} (hz : z ∈ Z)
     (hz' : z' ∈ Z) (he : γ z = γ z') : z = z' := by
   have h1 : γ (z⁻¹ * z) = γ z⁻¹ + γ z := h.reg.add _ (Z.inv_mem hz) _ hz
@@ -242,6 +244,7 @@ theorem Ctx.exists_torusOrd (hc : Ctx M Q Z B) :
     omega
 
 
+omit [Finite G] [Finite K] in
 theorem torus_gamma_pow {x : G} (hxZ' : x ∈ Subgroup.normalizer (Z : Set G)) {a : K}
     (hTγ : ∀ z ∈ Z, γ (x * z * x⁻¹) = a * γ z) (j : ℕ) :
     ∀ z ∈ Z, x ^ j * z * (x ^ j)⁻¹ ∈ Z ∧ γ (x ^ j * z * (x ^ j)⁻¹) = a ^ j * γ z := by

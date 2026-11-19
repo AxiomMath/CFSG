@@ -18,11 +18,11 @@ theorem exists_conj_frame_of_card_F4 (K : Type) [Field K] [Finite K] [CharP K 2]
     (hcard : 3 ^ 4 ≤ Nat.card E) :
     ∃ c : adjointGroup .F4 K, E = (tE K).range.map (MulAut.conj c).toMonoidHom := by
   have h3 : 3 ∣ Nat.card (FiniteField.Extension K 2 2) - 1 := three_dvd_natCard_ext_sub_one hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hωo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := FiniteField.Extension K 2 2)
     (p := 3) h3
-  haveI : Finite (adjointGroup .F4 (FiniteField.Extension K 2 2)) := generated_group_finite .F4 _
-  haveI : Finite (adjointGroup .F4 K) := generated_group_finite .F4 K
+  have : Finite (adjointGroup .F4 (FiniteField.Extension K 2 2)) := generated_group_finite .F4 _
+  have : Finite (adjointGroup .F4 K) := generated_group_finite .F4 K
   refine X1F4Conj.exists_conj_eq_of_descent (TableBExcTwo.adjointMap_injective _)
     (X := TableBF4.weylX (FiniteField.Extension K 2 2)) (fun m hm => ?_)
     (TableBF4.not_three_dvd_index_weylX h3) (X1F4Conj.map_conj_range_tE_eq_torusPow hK hωo)

@@ -106,6 +106,7 @@ section Setting
 variable [Finite U] {Q : Subgroup (GLV U)} {v : U} (S : QSetting f q Q v)
 include S
 
+omit [Finite U] in
 theorem Q_fix_v {y : GLV U} (hy : y ∈ Q) : y v = v := by
   obtain ⟨φ, hφv, hφ⟩ := S.hfull.1 y hy
   have := hφ ⟨v, S.hvp⟩
@@ -142,7 +143,7 @@ theorem fixed_of_mem_Q {w : U} (hw : ∀ y ∈ Q, y w = w) : w = 0 ∨ w = v := 
     simp only at h2
     rw [hw y hyQ, h2, hφu, one_smul, map_add, LinearMap.add_apply, hfv] at h1
     have : f u₀ w + 1 = f u₀ w := h1
-    have h3 : (1 : ZMod 2) = 0 := by simpa using this
+    have h3 : (1 : ZMod 2) = 0 := by simp at this
     exact one_ne_zero h3
 
 end Setting
@@ -193,7 +194,7 @@ theorem conj_mem_Q {g : GLV U} (hg : g ∈ orthSub q) (hgv : g v = v) {y : GLV U
   rw [← inv_mul_eq_one.1 hkey]
   exact hy'Q
 
-theorem fix_of_normalizes {g : GLV U} (h1 : ∀ y ∈ Q, g * y * g⁻¹ ∈ Q)
+theorem fix_of_normalizes {g : GLV U} (_h1 : ∀ y ∈ Q, g * y * g⁻¹ ∈ Q)
     (h2 : ∀ y ∈ Q, g⁻¹ * y * g ∈ Q) : g v = v := by
   have hgv : ∀ y ∈ Q, y (g v) = g v := by
     intro y hy

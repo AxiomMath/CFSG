@@ -30,20 +30,20 @@ theorem twE6_model_pow_mem_Γ {L : Type} [Field L] [IsAlgClosed L] {p : ℕ}
     ∃ k : ℕ, ∀ m ∈ S.D.model, m ^ 3 ^ k ∈ S.Γ := by
   classical
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨K, hKcard, -⟩ :=
     CFSG.GH74.GLS.Stage2.Bender.Thm1.mnSyl_exists_subfield (Ω := L) (ℓ := r) (f := e) he
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hKcard]
     exact pow_ne_zero _ (pow_ne_zero _ hr.ne_zero))
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K r := charP_of_card_eq_prime_pow (f := e * 2)
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K r := charP_of_card_eq_prime_pow (f := e * 2)
     (by rw [← Nat.card_eq_fintype_card, hKcard, ← pow_mul])
   have hFr' : ∀ c, Fr c = c ^ (r ^ e) := fun c => by rw [hFr, hq]
   let σ : K →+* K := iterateFrobenius K r e
   have hσ : ∀ c, σ c = c ^ (r ^ e) := fun c => iterateFrobenius_def r e c
   have hq1 : 1 < S.D.q := S.hqpow.1.one_lt
-  haveI : IsAlgClosure K L := ⟨inferInstance, ⟨fun x => by
+  have : IsAlgClosure K L := ⟨inferInstance, ⟨fun x => by
     obtain ⟨n, hn, hx⟩ := hAlg x
     refine ⟨Polynomial.X ^ (S.D.q ^ n) - Polynomial.X,
       FiniteField.X_pow_card_sub_X_ne_zero _ (Nat.one_lt_pow hn.ne' hq1), ?_⟩

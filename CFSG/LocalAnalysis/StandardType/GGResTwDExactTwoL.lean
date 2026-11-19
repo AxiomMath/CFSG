@@ -148,11 +148,11 @@ theorem GGConfig.rootTwo_of_slTwo_centralizing
   classical
   have hp : p.Prime := Fact.out
   have hLq := isQuasisimple_of_largeEvenMarking hM
-  haveI := hLq.2
+  have := hLq.2
   let e : (↥L ⧸ Subgroup.center ↥L) ≃* ↥L :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   have hLs : IsSimpleGroup ↥L := e.symm.isSimpleGroup
-  haveI := hLs
+  have := hLs
   have hnc : ∃ a b : ↥L, a * b ≠ b * a := by
     by_contra h
     push Not at h
@@ -196,7 +196,7 @@ theorem GGConfig.rootTwo_of_slTwo_centralizing
       group
   let θL := θ.codRestrict L fun g => hθL ⟨g, rfl⟩
   let P := θL.range
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card F hq
   have hPperf : ⁅P, P⁆ = P := by
     change ⁅θL.range, θL.range⁆ = θL.range
@@ -256,7 +256,7 @@ theorem GGResHyp.iOne_of_twD_odd_qPlus
     have h4 := h.1.2.1
     obtain ⟨k, hk⟩ := h.2.1
     omega
-  haveI : Group.IsPerfect ↥L := Group.IsPerfect.mk hM.1
+  have : Group.IsPerfect ↥L := Group.IsPerfect.mk hM.1
   have hZ : ∀ lab, (ggTwoCellTwD p lab ∧ Odd lab.rank ∧ 2 ≤ lab.n) →
       GGHasLabel lab (↥L ⧸ Subgroup.center ↥L) → Subgroup.center ↥L = ⊥ := by
     intro lab h hhas

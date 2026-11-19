@@ -34,7 +34,7 @@ theorem btOcSl_spec {w m d kw km mc cnt B Wr lo len : Nat} {G K R C PRE TG : Nat
   have e : Nat.add lo (i - lo) = i := by
     change lo + (i - lo) = i
     omega
-  rw [e, if_pos (Nat.blt_eq.mpr hi)] at h'
+  rw [e, ite_eq_left (Nat.blt_eq.mpr hi)] at h'
   exact h'
 
 theorem btOcK_spec {w d kw km mc cnt B Wr : Nat} {G K R C PRE TG : Nat → Nat} {i : Nat}
@@ -47,15 +47,15 @@ theorem btOcK_spec {w d kw km mc cnt B Wr : Nat} {G K R C PRE TG : Nat → Nat} 
       ∀ t < d, pg w (mask w) (btKey kw km K i) t = pg w (mask w) (C (btTgLab (btTg TG i)))
         (btWalk w (mask w) G R (btTgPar (btTg TG i)) (btPre PRE d (btTgLab (btTg TG i)) t))) := by
   unfold btOcK at h
-  rw [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bIf_eq, if_pos hin,
+  rw [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bIf_eq, ite_eq_left hin,
     CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bIf_eq] at h
   refine ⟨fun h0 => ?_, fun h0 => ?_⟩
-  · rwa [if_pos (Nat.beq_eq.mpr h0)] at h
+  · rwa [ite_eq_left (Nat.beq_eq.mpr h0)] at h
   · have h0' : Nat.beq (btTgDep (btTg TG i)) (nat_lit 0) = false := by
       cases e : Nat.beq (btTgDep (btTg TG i)) (nat_lit 0)
       · rfl
       · exact absurd (Nat.beq_eq.mp e) h0
-    rw [h0', if_neg Bool.false_ne_true, CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.strictB_eq,
+    rw [h0', ite_eq_right Bool.false_ne_true, CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.strictB_eq,
       CFSG.KS.Raw.Orb.strictB_eq] at h
     simp only [CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true] at h
     obtain ⟨h1, h2, h3, h4, h5⟩ := h

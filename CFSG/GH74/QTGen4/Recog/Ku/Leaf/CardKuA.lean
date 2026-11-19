@@ -88,7 +88,7 @@ private theorem coset_of_notMem (h : KuHyp G T M H P z) {u : G} (hu : u ∈ pCor
 private theorem comm_mem_zpowers (h : KuHyp G T M H P z) {u : G} (hu : u ∈ pCoreOf 2 H)
     (hnu : u ∉ P) (hcos : ∀ b ∈ pCoreOf 2 H, (b * u ∈ P ↔ b ∉ P)) {r : G} (hr : r ∈ kuW P H) :
     r * u * r⁻¹ * u⁻¹ ∈ Subgroup.zpowers z := by
-  haveI := h.isEA_quot_P
+  have := h.isEA_quot_P
   have hun : u ∈ Subgroup.normalizer (P : Set G) :=
     h.hNormP (CFSG.LieType.BorelTits.pCoreOf_le 2 H hu)
   have huu : u * u ∈ P := (hcos u hu).mpr hnu
@@ -115,11 +115,12 @@ private theorem comm_mem_zpowers (h : KuHyp G T M H P z) {u : G} (hu : u ∈ pCo
   have := congrArg Subtype.val hn
   simpa using this
 
+omit [Finite G] in
 private theorem sum_orbit_mem (h : KuHyp G T M H P z) {x r : G} (hxH : x ∈ H)
     (hx3 : x ^ 3 = 1) (hfixx : ∀ p ∈ P, x * p * x⁻¹ = p → p ∈ Subgroup.zpowers z)
     (hrP : r ∈ P) (h1P : x * r * x⁻¹ ∈ P) (h2P : x * (x * r * x⁻¹) * x⁻¹ ∈ P) :
     r * (x * r * x⁻¹) * (x * (x * r * x⁻¹) * x⁻¹) ∈ Subgroup.zpowers z := by
-  haveI := h.isEA_quot_P
+  have := h.isEA_quot_P
   have hxN : x ∈ Subgroup.normalizer (P : Set G) := h.hNormP hxH
   have hxC : x ∈ Subgroup.centralizer ({z} : Set G) := by
     rw [← h.hCz]
@@ -150,7 +151,7 @@ private theorem sum_orbit_mem (h : KuHyp G T M H P z) {x r : G} (hxH : x ∈ H)
   simpa using this
 
 theorem exists_mem_kuA_not_mem_P (h : KuHyp G T M H P z) : ∃ u ∈ kuA P H, u ∉ P := by
-  haveI := h.isEA_quot_P
+  have := h.isEA_quot_P
   obtain ⟨x, hxH, hx3o, hfixx⟩ := h.exists_x
   obtain ⟨u, hu, hnu, hxu⟩ := h.exists_fixed_coset hxH hx3o
   have hcos := h.coset_of_notMem hu hnu

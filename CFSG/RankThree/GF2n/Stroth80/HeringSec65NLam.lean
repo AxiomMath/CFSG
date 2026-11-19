@@ -81,6 +81,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {ψ : ↥(Vt M (LB M Q B) B Z t) ⧸ Z.subgroupOf (Vt M (LB M Q B) B Z t) ≃*
     Multiplicative (ι → K)} {u : ι → K}
 
+omit [Finite K] [CharP K 2] in
 theorem OmegaModel.exists_mem_X' (e : Env hc n t m X) (hmod : OmegaModel hc t Q' E φ ψ u)
     {g : GL ι K} (hg : g ∈ X') : ∃ x ∈ X, ∃ hx : x ∈ Rt M (LB M Q B) t, φ ⟨x, hx⟩ = g := by
   rw [← hmod.range] at hg
@@ -103,6 +104,7 @@ theorem OmegaModel.exists_mem_X' (e : Env hc n t m X) (hmod : OmegaModel hc t Q'
   exact h1
 
 
+omit [Finite K] [CharP K 2] in
 theorem OmegaModel.exists_lambda (e : Env hc n t m X) (hX : AddCommutantScalar X')
     (hmod : OmegaModel hc t Q' E φ ψ u) {h : G} (hhM : h ∈ M)
     (hhV : ∀ v ∈ Vt M (LB M Q B) B Z t, h * v * h⁻¹ ∈ Vt M (LB M Q B) B Z t)
@@ -189,6 +191,8 @@ theorem OmegaModel.exists_lambda (e : Env hc n t m X) (hX : AddCommutantScalar X
   exact hc _
 
 
+omit [Finite K] [CharP K 2] in
+omit [Finite G] [Fintype ι] [DecidableEq ι] in
 theorem vecOf_conj_triv {a g : G} (hg : g ∈ Vt M (LB M Q B) B Z t) (hz : ⁅a, g⁆ ∈ Z) :
     a * g * a⁻¹ ∈ Vt M (LB M Q B) B Z t ∧ vecOf ψ (a * g * a⁻¹) = vecOf ψ g := by
   have hxg : a * g * a⁻¹ = ⁅a, g⁆ * g := by simp only [commutatorElement_def]; group
@@ -196,6 +200,7 @@ theorem vecOf_conj_triv {a g : G} (hg : g ∈ Vt M (LB M Q B) B Z t) (hz : ⁅a,
   exact ⟨(Vt M (LB M Q B) B Z t).mul_mem (sec39_Z_le_Vt hz) hg, by
     rw [vecOf_mul ψ (sec39_Z_le_Vt hz) hg, vecOf_of_mem_Z ψ hz sec39_Z_le_Vt, zero_add]⟩
 
+omit [CharP K 2] in
 theorem OmegaModel.mem_CN_of_trivial (I : Inputs) (e : Env hc n t m X)
     (hX : AddCommutantScalar X') (hK : Nat.card K = Nat.card Z)
     (hmod : OmegaModel hc t Q' E φ ψ u) {h : G} (hhM : h ∈ M)
@@ -303,6 +308,7 @@ theorem OmegaModel.mem_CN_of_trivial (I : Inputs) (e : Env hc n t m X)
   exact (hc.CN t).mul_mem haN (hQN hQ1)
 
 
+omit [(Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal] in
 theorem Env.CN_le_H0 (I : Inputs) (e : Env hc n t m X) : hc.CN t ≤ H0 M Z := by
   intro a ha
   have h1 : a ∈ LB M Q B := e.N_le_LB I ha
@@ -312,6 +318,7 @@ theorem Env.CN_le_H0 (I : Inputs) (e : Env hc n t m X) : hc.CN t ≤ H0 M Z := b
     exact this h1
   exact ActionData.Lgen_le_H0 hc h2
 
+omit [CharP K 2] in
 theorem OmegaModel.card_le_of_lambda (I : Inputs) (e : Env hc n t m X)
     (hX : AddCommutantScalar X') (hK : Nat.card K = Nat.card Z)
     (hmod : OmegaModel hc t Q' E φ ψ u) (C : Subgroup G)

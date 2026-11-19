@@ -42,7 +42,7 @@ theorem sec7l77_cent_solvable [Finite G] {N B : Subgroup G}
     {b : G} (hb : b ∈ B) (hb1 : b ≠ 1) :
     Group.IsSolvable ↥(N ⊓ centralizer ({b} : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨φ, hφ1, hφ2, hφ3, hφ4, -⟩ := hφ
   obtain ⟨ρ, hρs, hρk⟩ := hQ
   have hcardN : Nat.card N = 2 ^ 7 * 3 ^ 1 * 5 := by

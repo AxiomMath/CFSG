@@ -191,7 +191,7 @@ theorem exists_conj_mem_preimage_of_wreath [Finite G] [IsSimpleGroup G]
     rw [Sylow.coe_mapSurjective, hQ]
   have hTsyl : IsSylowOf 2 T ⊤ := by
     refine isSylowOf_iff.2 ⟨le_top, ?_, ?_⟩
-    · rw [← hQT]; exact Sylow.isPGroup' _
+    · rw [← hQT]; exact Sylow.isPGroup _
     · rw [Subgroup.relIndex_top_right, ← hQT]; exact Sylow.not_dvd_index _
   have hmemT : ∀ x : G, ∀ hxX : x ∈ X, x ∈ P → piY L1 ⟨x, hxX⟩ ∈ T := fun x hxX hxP =>
     ⟨⟨x, hxX⟩, hxP, rfl⟩

@@ -61,7 +61,7 @@ variable {V : Type} [CommGroup V] {F : Type} [Field F] {d r : ℕ}
     by_cases hk : k = j
     · subst hk
       simp
-    · rw [if_neg hk, v.2 a k hk]
+    · rw [ite_eq_right hk, v.2 a k hk]
   right_inv y := by
     apply Multiplicative.toAdd.injective
     ext a
@@ -69,7 +69,7 @@ variable {V : Type} [CommGroup V] {F : Type} [Field F] {d r : ℕ}
   map_mul' v w := by
     apply Multiplicative.toAdd.injective
     ext a
-    simp [map_mul, toAdd_ofAdd, Matrix.of_apply]
+    simp [map_mul, toAdd_ofAdd]
 
 @[expose] noncomputable def matRowEquiv (β : V ≃* Multiplicative (Matrix (Fin d) (Fin r) F))
     (a : Fin d) : ↥(matRowSub β a) ≃* Multiplicative (Fin r → F) where
@@ -88,7 +88,7 @@ variable {V : Type} [CommGroup V] {F : Type} [Field F] {d r : ℕ}
     by_cases hb : b = a
     · subst hb
       simp
-    · rw [if_neg hb, v.2 b k hb]
+    · rw [ite_eq_right hb, v.2 b k hb]
   right_inv y := by
     apply Multiplicative.toAdd.injective
     ext k
@@ -96,7 +96,7 @@ variable {V : Type} [CommGroup V] {F : Type} [Field F] {d r : ℕ}
   map_mul' v w := by
     apply Multiplicative.toAdd.injective
     ext k
-    simp [map_mul, toAdd_ofAdd, Matrix.of_apply]
+    simp [map_mul, toAdd_ofAdd]
 
 theorem matColEquiv_apply (β : V ≃* Multiplicative (Matrix (Fin d) (Fin r) F)) (j : Fin r)
     (v : ↥(matColSub β j)) (a : Fin d) :
@@ -186,7 +186,7 @@ theorem isIrrOn_matColSub (hM : IsMatModel D X β ρ σ) (hd : 0 < d) (j : Fin r
     have hu : u ∈ matColSub β j := by
       intro a k hk
       simp only [u, MulEquiv.apply_symm_apply, toAdd_ofAdd, M, Matrix.of_apply]
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro ⟨-, hkj⟩
       exact hk hkj
     have hu1 : u = 1 := by

@@ -68,7 +68,7 @@ theorem isIrreducibleMatrixRep_statedSL_two (p : ℕ) [Fact p.Prime] :
     exact AddSubgroup.mem_bot.mp hx'
   · right
     refine top_le_iff.mp fun x hx => ?_
-    have hx' : x ∈ (⊤ : AddSubgroup (Fin 2 → ZMod p)) := by simpa using hx
+    have hx' : x ∈ (⊤ : AddSubgroup (Fin 2 → ZMod p)) := by simp
     rw [← h] at hx'
     exact hx'
 

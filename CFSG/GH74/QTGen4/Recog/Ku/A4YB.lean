@@ -18,6 +18,7 @@ namespace KuHyp
 
 variable [Finite G] {T M H P : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem orbit_conjL_of (h : KuHyp G T M H P z) {w : G} (hw : w ∈ pCoreOf 2 M) (hw1 : w ≠ 1) :
     MulAction.orbit (conjM (oTwoUpper M)) w = (pCoreOf 2 M : Set G) \ {1} := by
   ext v
@@ -141,6 +142,7 @@ theorem conj_inv_mem_kuR_of (h : KuHyp G T M H P z) {g w : G} (hg : g ∈ oTwoUp
   rw [e]
   exact s.2
 
+omit [Finite G] in
 theorem conj_mem_kuV2_core (h : KuHyp G T M H P z) {g : G} (hg : g ∈ oTwoUpper M)
     (hbwd : ∀ r ∈ kuR T M, g⁻¹ * r * g ∈ kuR T M) {v : G} (hv : v ∈ kuV2 T M) :
     g * v * g⁻¹ ∈ kuV2 T M := by

@@ -25,7 +25,7 @@ theorem burnsideF4m_U4_parP2_selfNorm {m : ℕ} {K : Type} [Field K] (h : Unitar
 theorem burnsideF4m_U4_pCore {f : ℕ} {E : Type} [Group E] [Finite E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .U4 2 f Gp M₁ M₂) (hf : 2 ≤ f) :
     pCoreOf 2 M₂ = pCoreOf 2 (Gp ⊓ M₂) := by
-  haveI := hyp.normal
+  have := hyp.normal
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, fK, h, Φ, -, h2⟩ := burnsideF4m_U4_chart hyp.toHypF_4_4g
   set φ : hypSU h 2 0 →* E := Gp.subtype.comp Φ.toMonoidHom with hφdef

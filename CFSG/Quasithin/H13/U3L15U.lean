@@ -399,7 +399,7 @@ theorem exists_T_rho
     have hpT : (p : G) ∈ T := (mem_subgroupOf.1 (show p ∈ (T ⊓ L).subgroupOf L from hp)).1
     exact S.rho_T_mem hpT
   have hQcard : Nat.card (Q : Subgroup ↥J6) = 32 := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Q.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Q.isPGroup
     have h1 := Subgroup.card_mul_index (Q : Subgroup ↥J6)
     rw [hk, card_J6] at h1
     have h2 := Q.not_dvd_index

@@ -81,7 +81,7 @@ theorem exists_psi (h : TransvSetup b₀ K E) (hKC : K ≤ Subgroup.centralizer 
     intro w hw
     rw [Sylow.coe_mapSurjective] at hw
     obtain ⟨x, hx, rfl⟩ := hw
-    obtain ⟨k, hk⟩ := P₀.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P₀.isPGroup ⟨x, hx⟩
     have hx3 : (x : G) ^ 3 ^ k = 1 := by
       have := congrArg (fun y : ↥(P₀ : Subgroup C) => ((y : C) : G)) hk
       simpa using this
@@ -217,7 +217,7 @@ theorem not_mem_commutator_of_psi (h : TransvSetup b₀ K E) (hP : TransvP1 b₀
   have hcommE : ∀ u ∈ Subgroup.zpowers b₀, ∀ v ∈ E ⊓ K, u * v = v * u :=
     fun u hu v hv => h.comm (Subgroup.zpowers_le.mpr h.b0_mem hu) hv.1
   set ψG : G → H := fun g => if hg : g ∈ C then ψ ⟨g, hg⟩ else 1 with hψGdef
-  have hψG : ∀ {g} (hg : g ∈ C), ψG g = ψ ⟨g, hg⟩ := fun hg => dif_pos hg
+  have hψG : ∀ {g} (hg : g ∈ C), ψG g = ψ ⟨g, hg⟩ := fun hg => dite_eq_left hg
   have hψmul : ∀ {x y}, x ∈ C → y ∈ C → ψG (x * y) = ψG x * ψG y := fun hx hy => by
     rw [hψG hx, hψG hy, hψG (C.mul_mem hx hy), ← map_mul]
     rfl
@@ -312,7 +312,7 @@ theorem not_mem_commutator_of_psi (h : TransvSetup b₀ K E) (hP : TransvP1 b₀
   set yOf : G → G := fun m => if hm : ∃ y ∈ B₂, y⁻¹ * m ∈ C then hm.choose else 1 with hyOfdef
   have hyOf : ∀ {m}, (∃ y ∈ B₂, y⁻¹ * m ∈ C) → yOf m ∈ B₂ ∧ (yOf m)⁻¹ * m ∈ C := fun hm => by
     rw [hyOfdef]
-    simp only [dif_pos hm]
+    simp only [dite_eq_left hm]
     exact hm.choose_spec
   set thM : G → H := fun m => ψG ((yOf m)⁻¹ * m) with hthMdef
   have hthM : ∀ {m y}, y ∈ B₂ → y⁻¹ * m ∈ C → thM m = ψG (y⁻¹ * m) := fun hy hym =>
@@ -335,7 +335,7 @@ theorem not_mem_commutator_of_psi (h : TransvSetup b₀ K E) (hP : TransvP1 b₀
   set cOf : G → G := fun g => if hg : ∃ c ∈ CE, c * g ∈ NP then hg.choose else 1 with hcOfdef
   have hcOf : ∀ {g}, (∃ c ∈ CE, c * g ∈ NP) → cOf g ∈ CE ∧ cOf g * g ∈ NP := fun hg => by
     rw [hcOfdef]
-    simp only [dif_pos hg]
+    simp only [dite_eq_left hg]
     exact hg.choose_spec
   set θ : G → H := fun g => thM (cOf g * g) * (ψG (cOf g))⁻¹ with hθdef
   have hθ : ∀ {g c}, g ∈ NE → c ∈ CE → c * g ∈ NP → θ g = thM (c * g) * (ψG c)⁻¹ := by

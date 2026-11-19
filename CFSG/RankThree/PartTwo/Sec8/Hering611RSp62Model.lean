@@ -63,7 +63,7 @@ theorem s0_pow_three : s0 ^ 3 = 1 := by
   rw [map_pow, mat6_s0, S0_pow_three, map_one]
 
 theorem orderOf_x0 : orderOf x0 = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact orderOf_eq_prime x0_pow_five x0_ne_one
 
 @[expose] def Fmat (a0 a1 a3 : V6) : Matrix (Fin 6) (Fin 6) (ZMod 2) :=

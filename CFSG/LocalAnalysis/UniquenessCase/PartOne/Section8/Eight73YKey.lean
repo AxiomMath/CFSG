@@ -131,7 +131,7 @@ theorem false_of_isPSolvable_inf_centralizer {P L Y : Subgroup G} {p : ℕ} (hp 
     (hYp : IsPGroup p Y) (hY : Y ≤ centralizerBar P L)
     (hK : CFSG.HallHigman.IsPSolvable p ↥(L ⊓ centralizer (Y : Set G))) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hYN : Y ≤ Subgroup.normalizer (L : Set G) := by
     intro y hy
     exact mem_normalizer_of_forall_commutator_mem
@@ -210,7 +210,7 @@ theorem normalizer_le_of_forall_maximal {M P : Subgroup G} {p : ℕ} (hp : p.Pri
     {Y : Subgroup G} (hYM : Y ≤ M) (hYp : IsPGroup p Y) (hY : Y ≠ ⊥) :
     normalizer (Y : Set G) ≤ M := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hYN
   let S : Set (Subgroup G) :=
     {Z | Z ≠ ⊥ ∧ Z ≤ M ∧ IsPGroup p Z ∧ ¬ normalizer (Z : Set G) ≤ M}
@@ -247,7 +247,7 @@ theorem normalizer_le_of_forall_maximal {M P : Subgroup G} {p : ℕ} (hp : p.Pri
     intro x hx
     have hconjx : k⁻¹ * x * k ∈ normalizer (Y₁ : Set G) := by
       rw [hNY₁]
-      exact Subgroup.mem_map.mpr ⟨x, hx, by simp [MulAut.conj_apply]⟩
+      exact Subgroup.mem_map.mpr ⟨x, hx, by simp⟩
     have hmem : k⁻¹ * x * k ∈ M := hle hconjx
     have hxeq : x = k * (k⁻¹ * x * k) * k⁻¹ := by group
     rw [hxeq]

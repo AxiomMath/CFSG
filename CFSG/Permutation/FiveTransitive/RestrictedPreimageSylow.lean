@@ -35,7 +35,7 @@ theorem exists_lift
   obtain ⟨P, hP⟩ := hQLp.exists_le_sylow
   let BC := SylowPreimageNormalizer.ambient fC V P
   let B := BC.map C.subtype
-  have hBCp : IsPGroup p BC := P.isPGroup'.map L.subtype
+  have hBCp : IsPGroup p BC := P.isPGroup.map L.subtype
   have hBp : IsPGroup p B := hBCp.map C.subtype
   have hQB : Q ≤ B := by
     intro q hq

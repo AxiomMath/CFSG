@@ -83,8 +83,7 @@ private theorem sq_formula {N : ℕ} {i j : Fin N} (hij : i ≠ j) :
     exact hij
   have hCC : Matrix.single i i (1 : F2) * Matrix.single i i 1 = Matrix.single i i 1 := by
     rw [Matrix.single_mul_single_same, mul_one]
-  simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one,
-    Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add]
+  simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one]
   rw [hAA, hAB, hAC, hBA, hBB, hBC, hCA, hCB, hCC]
   ext r c
   simp only [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
@@ -103,11 +102,11 @@ private theorem mul_single_apply' {N : ℕ} (M : Matrix (Fin N) (Fin N) F2) (i j
     (M * Matrix.single i j c0) r c = if c = j then M r i * c0 else 0 := by
   rw [Matrix.mul_apply, Finset.sum_eq_single i]
   · by_cases hcj : c = j
-    · rw [hcj, Matrix.single_apply_same, if_pos rfl]
-    · rw [if_neg hcj, Matrix.single_apply,
-        if_neg (by rintro ⟨-, h⟩; exact hcj h.symm), mul_zero]
+    · rw [hcj, Matrix.single_apply_same, ite_eq_left rfl]
+    · rw [ite_eq_right hcj, Matrix.single_apply,
+        ite_eq_right (by rintro ⟨-, h⟩; exact hcj h.symm), mul_zero]
   · intro x _ hx
-    rw [Matrix.single_apply, if_neg (by rintro ⟨h, -⟩; exact hx h.symm), mul_zero]
+    rw [Matrix.single_apply, ite_eq_right (by rintro ⟨h, -⟩; exact hx h.symm), mul_zero]
   · intro h
     exact absurd (Finset.mem_univ i) h
 
@@ -116,11 +115,11 @@ private theorem single_mul_apply' {N : ℕ} (M : Matrix (Fin N) (Fin N) F2) (i j
     (Matrix.single i j c0 * M) r c = if r = i then c0 * M j c else 0 := by
   rw [Matrix.mul_apply, Finset.sum_eq_single j]
   · by_cases hri : r = i
-    · rw [hri, Matrix.single_apply_same, if_pos rfl]
-    · rw [if_neg hri, Matrix.single_apply,
-        if_neg (by rintro ⟨h, -⟩; exact hri h.symm), zero_mul]
+    · rw [hri, Matrix.single_apply_same, ite_eq_left rfl]
+    · rw [ite_eq_right hri, Matrix.single_apply,
+        ite_eq_right (by rintro ⟨h, -⟩; exact hri h.symm), zero_mul]
   · intro x _ hx
-    rw [Matrix.single_apply, if_neg (by rintro ⟨-, h⟩; exact hx h.symm), zero_mul]
+    rw [Matrix.single_apply, ite_eq_right (by rintro ⟨-, h⟩; exact hx h.symm), zero_mul]
   · intro h
     exact absurd (Finset.mem_univ j) h
 
@@ -137,45 +136,39 @@ private theorem omega_comm_entries {N : ℕ} {X : Matrix (Fin N) (Fin N) F2} {i 
         (if r = i then X i c else 0) := by
     intro r c
     have hX := h
-    simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one,
-      Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add] at hX
+    simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one] at hX
     have h' := congrFun (congrFun hX r) c
     simp only [Matrix.add_apply, mul_single_apply', single_mul_apply', mul_one, one_mul] at h'
     simpa only [add_assoc] using add_left_cancel (by simpa only [add_assoc] using h')
   have hri : ∀ r, r ≠ i → r ≠ j → X r i = 0 := by
     intro r hr_i hr_j
     have h := hrc r j
-    simp only [if_pos rfl, if_neg hij.symm, if_neg hr_i, if_neg hr_j, if_true, if_false,
-      add_zero, zero_add] at h
+    simp only [ite_eq_right hij.symm, ite_eq_right hr_i, ite_eq_right hr_j, ite_true, add_zero] at h
     exact h
   have hrj : ∀ r, r ≠ i → r ≠ j → X r j = 0 := by
     intro r hr_i hr_j
     have h := hrc r i
-    simp only [if_neg hij, if_pos rfl, if_neg hr_i, if_neg hr_j, if_true, if_false,
-      add_zero, zero_add] at h
+    simp only [ite_eq_right hij, ite_eq_right hr_i, ite_eq_right hr_j, ite_true, add_zero, zero_add] at h
     rw [hri r hr_i hr_j, add_zero] at h
     exact h
   have hic : ∀ c, c ≠ i → c ≠ j → X i c = 0 := by
     intro c hc_i hc_j
     have h := hrc j c
-    simp only [if_neg hc_j, if_neg hc_i, if_neg hij.symm, if_pos rfl, if_true, if_false,
-      add_zero, zero_add] at h
+    simp only [ite_eq_right hc_j, ite_eq_right hc_i, ite_eq_right hij.symm, ite_true, add_zero, zero_add] at h
     exact h.symm
   have hjc : ∀ c, c ≠ i → c ≠ j → X j c = 0 := by
     intro c hc_i hc_j
     have h := hrc i c
-    simp only [if_neg hc_j, if_neg hc_i, if_pos rfl, if_neg hij, if_true, if_false,
-      add_zero, zero_add] at h
+    simp only [ite_eq_right hc_j, ite_eq_right hc_i, ite_eq_right hij, ite_true, add_zero] at h
     rw [hic c hc_i hc_j, add_zero] at h
     exact h.symm
   have hji : X j i = X i j := by
     have h := hrc j j
-    simp only [if_pos rfl, if_neg hij.symm, if_true, if_false, add_zero, zero_add] at h
+    simp only [ite_eq_right hij.symm, ite_true, add_zero, zero_add] at h
     exact h
   have hjj : X j j = X i i + X i j := by
     have h := hrc i j
-    simp only [if_pos rfl, if_neg hij.symm, if_neg hij, if_true, if_false, add_zero,
-      zero_add] at h
+    simp only [ite_eq_right hij.symm, ite_eq_right hij, ite_true, add_zero] at h
     have h2 : X i j + X i j = (0 : F2) := by
       linear_combination (X i j) * gf2_two
     calc X j j = X j j + (X i j + X i j) := by rw [h2, add_zero]
@@ -213,7 +206,7 @@ private theorem slPerm_conj_apply {N : ℕ} (π : Equiv.Perm (Fin N))
   rw [signedPerm_one_mul_apply, mul_signedPerm_one_apply]
   simp only [Equiv.Perm.coe_inv]
 
-private theorem exists_perm_pair {N : ℕ} (hN : 2 ≤ N) {a b c d : Fin N} (hab : a ≠ b)
+private theorem exists_perm_pair {N : ℕ} (_hN : 2 ≤ N) {a b c d : Fin N} (hab : a ≠ b)
     (hcd : c ≠ d) : ∃ π : Equiv.Perm (Fin N), π a = c ∧ π b = d := by
   have hcad : c ≠ Equiv.swap a c b := by
     intro h
@@ -233,7 +226,7 @@ private theorem image_compl_pair {N : ℕ} [NeZero N] (hN : 2 ≤ N) {π : Equiv
     ext i; simp [eq_comm]
   rw [hset, Equiv.image_compl, Set.image_pair, ha, hb]
   ext i
-  simp only [Set.mem_compl_iff, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_setOf_eq]
+  simp only [Set.mem_compl_iff, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_ofPred_eq]
   constructor
   · intro h
     by_contra hc
@@ -272,13 +265,13 @@ private theorem slLower2Hom_range_of_fixes (m : ℕ)
     · obtain rfl : p = 0 := Subsingleton.elim _ _
       obtain rfl : q = 0 := Subsingleton.elim _ _
       simp only [slLowerBlockEquiv_inl, Matrix.fromBlocks_apply₁₁]
-      rw [hfix 0 0 (Or.inl rfl), if_pos rfl, Matrix.one_apply, if_pos rfl]
+      rw [hfix 0 0 (Or.inl rfl), ite_eq_left rfl, Matrix.one_apply, ite_eq_left rfl]
     · obtain rfl : p = 0 := Subsingleton.elim _ _
       simp only [slLowerBlockEquiv_inl, slLowerBlockEquiv_inr, Matrix.fromBlocks_apply₁₂]
-      rw [hfix 0 q.succ (Or.inl rfl), if_neg (Fin.succ_ne_zero q).symm, Matrix.zero_apply]
+      rw [hfix 0 q.succ (Or.inl rfl), ite_eq_right (Fin.succ_ne_zero q).symm, Matrix.zero_apply]
     · obtain rfl : q = 0 := Subsingleton.elim _ _
       simp only [slLowerBlockEquiv_inr, slLowerBlockEquiv_inl, Matrix.fromBlocks_apply₂₁]
-      rw [hfix p.succ 0 (Or.inr (Or.inr (Or.inl rfl))), if_neg (Fin.succ_ne_zero p),
+      rw [hfix p.succ 0 (Or.inr (Or.inr (Or.inl rfl))), ite_eq_right (Fin.succ_ne_zero p),
         Matrix.zero_apply]
     · simp only [slLowerBlockEquiv_inr, Matrix.fromBlocks_apply₂₂]
       obtain ⟨p', rfl⟩ := (slLowerBlockEquiv (m + 1)).surjective p
@@ -288,12 +281,12 @@ private theorem slLower2Hom_range_of_fixes (m : ℕ)
       · obtain rfl : p' = 0 := Subsingleton.elim _ _
         obtain rfl : q' = 0 := Subsingleton.elim _ _
         simp only [slLowerBlockEquiv_inl, Fin.succ_zero_eq_one, Matrix.fromBlocks_apply₁₁]
-        rw [hfix 1 1 (Or.inr (Or.inl rfl)), if_pos rfl, Matrix.one_apply, if_pos rfl]
+        rw [hfix 1 1 (Or.inr (Or.inl rfl)), ite_eq_left rfl, Matrix.one_apply, ite_eq_left rfl]
       · obtain rfl : p' = 0 := Subsingleton.elim _ _
         simp only [slLowerBlockEquiv_inl, slLowerBlockEquiv_inr, Fin.succ_zero_eq_one,
           Matrix.fromBlocks_apply₁₂]
         rw [hfix 1 (q'.succ.succ) (Or.inr (Or.inl rfl)),
-          if_neg (by
+          ite_eq_right (by
             intro h
             have hv := congrArg Fin.val h
             simp only [Fin.coe_ofNat_eq_mod,
@@ -304,7 +297,7 @@ private theorem slLower2Hom_range_of_fixes (m : ℕ)
         simp only [slLowerBlockEquiv_inr, slLowerBlockEquiv_inl, Fin.succ_zero_eq_one,
           Matrix.fromBlocks_apply₂₁]
         rw [hfix (p'.succ.succ) 1 (Or.inr (Or.inr (Or.inr rfl))),
-          if_neg (by
+          ite_eq_right (by
             intro h
             have hv := congrArg Fin.val h
             simp only [Fin.coe_ofNat_eq_mod,
@@ -323,7 +316,7 @@ private theorem slLower2Hom_range_of_fixes (m : ℕ)
     rw [hmat, h2, h1] at hs1
     exact hs1
   refine ⟨⟨wMat, hdet⟩, Subtype.ext ?_⟩
-  simp only [slLower2Hom, MonoidHom.comp_apply, coe_slLowerBlockHom]
+  simp only [slLower2Hom]
   exact hmat.symm
 
 private theorem mem_slOn_of_fixes_pair {m : ℕ} {a b : Fin (m + 1 + 1 + 1)} (hab : a ≠ b)
@@ -333,7 +326,7 @@ private theorem mem_slOn_of_fixes_pair {m : ℕ} {a b : Fin (m + 1 + 1 + 1)} (ha
         if r = c then 1 else 0) :
     s ∈ slOn (m + 1 + 1 + 1) {i | i ≠ a ∧ i ≠ b} := by
   have hN : 2 ≤ m + 1 + 1 + 1 := by omega
-  haveI : NeZero (m + 1 + 1 + 1) := ⟨by omega⟩
+  have : NeZero (m + 1 + 1 + 1) := ⟨by omega⟩
   have h01 : (0 : Fin (m + 1 + 1 + 1)) ≠ 1 := by
     intro h
     have hv := congrArg Fin.val h
@@ -357,8 +350,8 @@ private theorem mem_slOn_of_fixes_pair {m : ℕ} {a b : Fin (m + 1 + 1 + 1)} (ha
       · exact Or.inr (Or.inr (Or.inr (by rw [h, ← hπb, Equiv.symm_apply_apply])))
     rw [hfix (π.symm r) (π.symm c') hmem]
     by_cases hrc : r = c'
-    · rw [if_pos hrc, if_pos (by rw [hrc])]
-    · rw [if_neg hrc, if_neg (fun h => hrc (π.symm.injective h))]
+    · rw [ite_eq_left hrc, ite_eq_left (by rw [hrc])]
+    · rw [ite_eq_right hrc, ite_eq_right (fun h => hrc (π.symm.injective h))]
   have hmem' : slPerm gf2_two π * s * (slPerm gf2_two π)⁻¹ ∈ (slLower2Hom m).range :=
     slLower2Hom_range_of_fixes m _ (by simpa using hfix')
   rw [range_slLower2Hom] at hmem'
@@ -379,7 +372,7 @@ private theorem omega_pow_apply_castSucc_castSucc {n : ℕ} (k : Fin n) {a : ℕ
   have hne : k.castSucc ≠ k.succ := (Fin.castSucc_lt_succ (i := k)).ne
   rcases (show a = 0 ∨ a = 1 ∨ a = 2 by omega) with rfl | rfl | rfl
   · rw [pow_zero, Matrix.SpecialLinearGroup.coe_one]
-    simp [Matrix.one_apply]
+    simp
   · rw [pow_one, coe_omegaBlock_sum]
     simp only [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     grind [gf2_two]
@@ -394,7 +387,7 @@ private theorem omega_pow_apply_castSucc_succ {n : ℕ} (k : Fin n) {a : ℕ} (h
   have hne : k.castSucc ≠ k.succ := (Fin.castSucc_lt_succ (i := k)).ne
   rcases (show a = 0 ∨ a = 1 ∨ a = 2 by omega) with rfl | rfl | rfl
   · rw [pow_zero, Matrix.SpecialLinearGroup.coe_one]
-    simp [Matrix.one_apply, hne]
+    simp [hne]
   · rw [pow_one, coe_omegaBlock_sum]
     simp only [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     grind [gf2_two]
@@ -425,14 +418,14 @@ private theorem fix_pair_of_mul_pow {m : ℕ} (P : Fin (m + 1 + 1))
     (g : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) {p q : F2}
     (hcol : ∀ r, r ≠ P.castSucc → r ≠ P.succ →
       (g : MatN m) r P.castSucc = 0 ∧ (g : MatN m) r P.succ = 0)
-    (hrow : ∀ c, c ≠ P.castSucc → c ≠ P.succ →
+    (_hrow : ∀ c, c ≠ P.castSucc → c ≠ P.succ →
       (g : MatN m) P.castSucc c = 0 ∧ (g : MatN m) P.succ c = 0)
     (hii : (g : MatN m) P.castSucc P.castSucc = p)
     (hij : (g : MatN m) P.castSucc P.succ = q)
     (hji : (g : MatN m) P.succ P.castSucc = q)
     (hjj : (g : MatN m) P.succ P.succ = p + q)
     (hpq : (p, q) ≠ (0, 0))
-    {k : ℕ} (hk : k ≤ 2)
+    {k : ℕ} (_hk : k ≤ 2)
     (hpowii : (((omegaBlock (m + 1 + 1) P) ^ k : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) : MatN m)
       P.castSucc P.castSucc = p + q)
     (hpowij : (((omegaBlock (m + 1 + 1) P) ^ k : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) : MatN m)
@@ -465,8 +458,8 @@ private theorem fix_pair_of_mul_pow {m : ℕ} (P : Fin (m + 1 + 1))
     rw [h, hpowii, hpowij, hii, hji]
     rcases f2_eq_zero_or_one p with hp | hp <;> rcases f2_eq_zero_or_one q with hq | hq
     · exact absurd (by rw [hp, hq]) hpq
-    · rw [hp, hq]; simp [gf2_two, one_add_one_eq_two]
-    · rw [hp, hq]; simp [gf2_two, one_add_one_eq_two]
+    · rw [hp, hq]; simp
+    · rw [hp, hq]; simp
     · rw [hp, hq]; simp [gf2_two, one_add_one_eq_two]
   have hsij : (((omegaBlock (m + 1 + 1) P) ^ k * g : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) : MatN m)
       P.castSucc P.succ = 0 := by
@@ -479,22 +472,22 @@ private theorem fix_pair_of_mul_pow {m : ℕ} (P : Fin (m + 1 + 1))
   by_cases hci : c = P.castSucc
   · subst hci
     by_cases hri : r = P.castSucc
-    · subst hri; rw [hsii, if_pos rfl]
+    · subst hri; rw [hsii, ite_eq_left rfl]
     · by_cases hrj : r = P.succ
-      · subst hrj; rw [hse.2.2.1, hsij, if_neg hij'.symm]
-      · rw [(hse.1 r hri hrj).1, if_neg hri]
+      · subst hrj; rw [hse.2.2.1, hsij, ite_eq_right hij'.symm]
+      · rw [(hse.1 r hri hrj).1, ite_eq_right hri]
   · by_cases hcj : c = P.succ
     · subst hcj
       by_cases hri : r = P.castSucc
-      · subst hri; rw [hsij, if_neg hij']
+      · subst hri; rw [hsij, ite_eq_right hij']
       · by_cases hrj : r = P.succ
         · subst hrj; rw [hse.2.2.2, hsii, hsij]; simp
-        · rw [(hse.1 r hri hrj).2, if_neg hrj]
+        · rw [(hse.1 r hri hrj).2, ite_eq_right hrj]
     · have hz := hse.2.1 c hci hcj
       by_cases hri : r = P.castSucc
-      · subst hri; rw [hz.1, if_neg (fun h => hci h.symm)]
+      · subst hri; rw [hz.1, ite_eq_right (fun h => hci h.symm)]
       · by_cases hrj : r = P.succ
-        · subst hrj; rw [hz.2, if_neg (fun h => hcj h.symm)]
+        · subst hrj; rw [hz.2, ite_eq_right (fun h => hcj h.symm)]
         · exfalso
           rcases hrc with h | h | h | h
           · exact hri h
@@ -562,9 +555,9 @@ theorem mem_centralizer_omegaBlock (m : ℕ) (P : Fin (m + 1 + 1))
       refine fix_pair_of_mul_pow P g hcol hrow hii hijq hjiq hjjq hpq (k := 2) (by norm_num)
         ?_ ?_ ?_
       · rw [omega_pow_apply_castSucc_castSucc P (a := 2) (by norm_num), hp, hq]
-        simp [gf2_two, one_add_one_eq_two]
+        simp
       · rw [omega_pow_apply_castSucc_succ P (a := 2) (by norm_num), hq]
-        simp [gf2_two, one_add_one_eq_two]
+        simp
       · calc (((omegaBlock (m + 1 + 1) P) ^ 2 * g) * omegaBlock (m + 1 + 1) P)
             = (omegaBlock (m + 1 + 1) P) ^ (2 + 1) * g := by
               rw [mul_assoc, hg, ← mul_assoc, ← pow_succ]
@@ -578,9 +571,9 @@ theorem mem_centralizer_omegaBlock (m : ℕ) (P : Fin (m + 1 + 1))
       refine fix_pair_of_mul_pow P g hcol hrow hii hijq hjiq hjjq hpq (k := 0) (by norm_num)
         ?_ ?_ ?_
       · rw [omega_pow_apply_castSucc_castSucc P (a := 0) (by norm_num), hp, hq]
-        simp [gf2_two, one_add_one_eq_two]
+        simp
       · rw [omega_pow_apply_castSucc_succ P (a := 0) (by norm_num), hq]
-        simp [gf2_two, one_add_one_eq_two]
+        simp
       · calc (((omegaBlock (m + 1 + 1) P) ^ 0 * g) * omegaBlock (m + 1 + 1) P)
             = (omegaBlock (m + 1 + 1) P) ^ (0 + 1) * g := by
               rw [mul_assoc, hg, ← mul_assoc, ← pow_succ]
@@ -597,7 +590,7 @@ theorem mem_centralizer_omegaBlock (m : ℕ) (P : Fin (m + 1 + 1))
       · rw [omega_pow_apply_castSucc_castSucc P (a := 1) (by norm_num), hp, hq]
         simp [gf2_two, one_add_one_eq_two]
       · rw [omega_pow_apply_castSucc_succ P (a := 1) (by norm_num), hq]
-        simp [gf2_two, one_add_one_eq_two]
+        simp
       · calc (((omegaBlock (m + 1 + 1) P) ^ 1 * g) * omegaBlock (m + 1 + 1) P)
             = (omegaBlock (m + 1 + 1) P) ^ (1 + 1) * g := by
               rw [mul_assoc, hg, ← mul_assoc, ← pow_succ]

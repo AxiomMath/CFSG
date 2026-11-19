@@ -25,7 +25,7 @@ abbrev lbarInn (c : Counterexample4 G) : Subgroup (MulAut c.Lbar) :=
   (MulAut.conj : c.Lbar →* MulAut c.Lbar).range
 
 theorem disjoint_map_ker_of_isPGroup (c : Counterexample4 G)
-    (hZ : ¬ 3 ∣ Nat.card (Subgroup.center c.Lbar)) {Q : Subgroup G} (hQM : Q ≤ c.S.M)
+    (hZ : ¬ 3 ∣ Nat.card (Subgroup.center c.Lbar)) {Q : Subgroup G} (_hQM : Q ≤ c.S.M)
     (hQ : IsPGroup 3 Q) :
     Disjoint Q ((c.lbarAction).ker.map c.S.M.subtype) := by
   refine Subgroup.disjoint_of_coprime_natCard ?_
@@ -104,10 +104,10 @@ theorem lbarInn_le_range (c : Counterexample4 G) : c.lbarInn ≤ (c.lbarAction).
 
 theorem three_dvd_relIndex_inn (c : Counterexample4 G)
     (hZ : ¬ 3 ∣ Nat.card (Subgroup.center c.Lbar)) {P : Subgroup G} (hPM : P ≤ c.S.M)
-    (hP : IsPGroup 3 P) {y : G} (hyP : y ∈ P) (hyL : y ∉ c.L) (hy3 : orderOf y = 3) :
+    (_hP : IsPGroup 3 P) {y : G} (hyP : y ∈ P) (hyL : y ∉ c.L) (hy3 : orderOf y = 3) :
     3 ∣ (c.lbarInn).relIndex (c.lbarAction).range := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   by_contra h3
   have hyM : y ∈ c.S.M := hPM hyP
   have hord0 : orderOf ((c.lbarAction) ⟨y, hyM⟩) ∣ 3 := by
@@ -125,7 +125,7 @@ theorem three_dvd_relIndex_inn (c : Counterexample4 G)
     rw [h]
     exact hord0
   have hin' : (x : MulAut c.Lbar) ∈ c.lbarInn := by
-    haveI : (c.lbarInn.subgroupOf (c.lbarAction).range).Normal :=
+    have : (c.lbarInn.subgroupOf (c.lbarAction).range).Normal :=
       (Subgroup.normal_subgroupOf_iff (lbarInn_le_range c)).mpr
         (fun h k hh _ => Subgroup.Normal.conj_mem (inferInstance : c.lbarInn.Normal) h hh k)
     have hidx : (c.lbarInn.subgroupOf (c.lbarAction).range).index =
@@ -189,7 +189,7 @@ theorem isSylowOf_map_range (c : Counterexample4 G) {P : Subgroup G}
     CFSG.ABGLocalTools.IsSylowOf 3 ((P.subgroupOf c.S.M).map c.lbarAction)
       (c.lbarAction).range := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨Q, hQ⟩ := hP.exists_sylow_eq_subgroupOf
   refine ⟨Q.mapSurjective (MonoidHom.rangeRestrict_surjective c.lbarAction), ?_⟩
   rw [Sylow.coe_mapSurjective, Subgroup.map_map, hQ]
@@ -263,7 +263,7 @@ theorem isElemAbelian_inf_L_of_L227 (c : Counterexample4 G)
     have h := hK.comap hinj
     rwa [show (f.range).comap f = ⊤ from by
       ext x
-      simp [Subgroup.mem_comap]] at h
+      simp] at h
   have hfinal := htop.map (P ⊓ c.L).subtype
   simpa [Subgroup.map_top, Subgroup.range_subtype] using hfinal
 
@@ -437,7 +437,7 @@ theorem exists_center_eq_zpowers_of_L227 (c : Counterexample4 G)
     (hy3 : orderOf y = 3) :
     ∃ z : G, P ⊓ Subgroup.centralizer (P : Set G) = Subgroup.zpowers z ∧ orderOf z = 3 := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hcard := card_inf_centralizer_self_of_L227 c h811 hK4b h227 hZ hP hyP hyL hy3
   have hdvd : 3 ∣ Nat.card ↥(P ⊓ Subgroup.centralizer (P : Set G)) := by rw [hcard]
   obtain ⟨zC, hzC⟩ :=
@@ -463,7 +463,7 @@ theorem map_not_mem_inn_of_L227 (c : Counterexample4 G)
 
 theorem orderOf_map_of_L227 (c : Counterexample4 G)
     (hZ : ¬ 3 ∣ Nat.card (Subgroup.center c.Lbar)) {P : Subgroup G}
-    (hP : CFSG.ABGLocalTools.IsSylowOf 3 P c.S.M) {x : G} (hxP : x ∈ P) (hxL : x ∉ c.L)
+    (hP : CFSG.ABGLocalTools.IsSylowOf 3 P c.S.M) {x : G} (hxP : x ∈ P) (_hxL : x ∉ c.L)
     (hx3 : orderOf x = 3) : orderOf ((c.lbarAction) ⟨x, hP.le hxP⟩) = 3 := by
   have hdvd : orderOf ((c.lbarAction) ⟨x, hP.le hxP⟩) ∣ 3 := by
     have h1 := orderOf_map_dvd (c.lbarAction) (⟨x, hP.le hxP⟩ : ↥c.S.M)
@@ -678,7 +678,7 @@ theorem mul_conj_not_mem_L_of_L227 (c : Counterexample4 G)
     (hZ : ¬ 3 ∣ Nat.card (Subgroup.center c.Lbar)) {y : G} (hyM : y ∈ c.S.M) (hyL : y ∉ c.L)
     (hy3 : orderOf y = 3) {m : G} (hm : m ∈ c.S.M) : y * (m * y * m⁻¹) ∉ c.L := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   intro hmem
   set l : G := y * (m * y * m⁻¹) with hl
   have hlM : l ∈ c.S.M := c.hyp81.1 hmem

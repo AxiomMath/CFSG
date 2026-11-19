@@ -46,6 +46,7 @@ theorem nonabelian_of_extraspecial {P : Type*} [Group P] (h : IsExtraspecialPGro
   rw [h1, Subgroup.card_bot] at h2
   exact absurd h2 (by norm_num)
 
+omit [Finite G] in
 theorem isZ4Star_of_criticalCentralProduct {z : G} {D E R : Subgroup ↥(Fz z)} {zP : ↥(Fz z)}
     (hzP : (zP : G) = z) (cd : CritData D E R zP) {w : ℕ}
     (h : SymplecticSmallCritical.IsCriticalCentralProduct D zP w) : IsZ4Star z w := by
@@ -89,7 +90,7 @@ theorem shape_small (hz : orderOf z = 2) (hsymp : CFSG.Open.GLASymplecticType (F
     Asc76Shape z := by
   have hF2 : IsPGroup 2 ↥(Fz z) := hsymp.1
   have hch := hsymp.2
-  haveI := nontrivial_Fz hz
+  have := nontrivial_Fz hz
   obtain ⟨E, R, zz, cd⟩ := exists_critData hF2 hch hD
   have hzz : zF z = zz := cd.center_uniq _ (zF_mem_center z) ((orderOf_zF z).trans hz)
   subst hzz
@@ -99,7 +100,7 @@ theorem shape_small (hz : orderOf z = 2) (hsymp : CFSG.Open.GLASymplecticType (F
   subst hz₁
   rcases htri with ⟨hcyc, -⟩ | hext | ⟨w, hw⟩
   ·
-    haveI := hcyc
+    have := hcyc
     have hH : Hz z = Fz z :=
       Hz_eq_Fz_of_mulAut hF2
         (CFSG.TwoRankLowerBound.Helpers.cyclic_two_group_automorphisms_isPGroup _ hF2)

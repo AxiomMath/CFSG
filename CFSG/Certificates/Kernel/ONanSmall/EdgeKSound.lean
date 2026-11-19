@@ -11,6 +11,7 @@ open CFSG.ClassicalInvolution.Q3.TA3.Check
 
 variable {M : Type*} [Group M] [DecidableEq M]
 
+omit [DecidableEq M] in
 theorem conj_comm_iff (g r t : M) :
     g * r * g⁻¹ * t = t * (g * r * g⁻¹) ↔ r * (g⁻¹ * t * g) = g⁻¹ * t * g * r := by
   have e1 : g⁻¹ * (g * r * g⁻¹ * t) * g = r * (g⁻¹ * t * g) := by group
@@ -22,6 +23,7 @@ theorem conj_comm_iff (g r t : M) :
     have : g⁻¹ * (g * r * g⁻¹ * t) * g = g⁻¹ * (t * (g * r * g⁻¹)) * g := by rw [e1, e2, h]
     exact mul_left_cancel (mul_right_cancel this)
 
+omit [DecidableEq M] in
 theorem conj_eq_iff (g r t : M) : g * r * g⁻¹ = t ↔ r = g⁻¹ * t * g := by
   constructor
   · intro h
@@ -39,7 +41,7 @@ theorem edgelessB_of_edgeK {L K : List M} {t a b : M} (hK : ∀ g ∈ L, g⁻¹ 
   intro g hg
   have hs := h _ (hK g hg)
   simp only [Bool.or_eq_true, Bool.not_eq_eq_eq_not, Bool.not_true, List.all_eq_false,
-    decide_eq_false_iff_not, memB, List.any_eq_true, decide_eq_true_eq] at hs ⊢
+    memB, List.any_eq_true, decide_eq_true_eq] at hs ⊢
   rcases hs with ⟨r, hr, hne⟩ | ⟨r, hr, he⟩
   · exact Or.inl ⟨r, hr, fun e => hne ((conj_comm_iff g r t).1 e)⟩
   · exact Or.inr ⟨r, hr, (conj_eq_iff g r t).2 he⟩

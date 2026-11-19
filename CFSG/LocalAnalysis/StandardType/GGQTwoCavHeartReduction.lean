@@ -51,7 +51,7 @@ theorem four_dvd_original_automizer_of_heart_label
     (hsup : Bs ≤ L ⊔ Subgroup.zpowers x) :
     4 ∣ Nat.card (ggAutomizer J Bs) := by
   have hp : p.Prime := by rw [hp3]; exact Nat.prime_three
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨_, lab₀, _, hraw⟩ := hS.2.1
   obtain ⟨_, _, _, _, _, _, _, _, hN₀, _⟩ := largeEvenRawDatum_exists hraw
   have hr : 3 ≤ lab.rank - 1 := QTwoCav.three_le_exponent_of_beta_index hS hp
@@ -68,8 +68,8 @@ theorem four_dvd_original_automizer_of_heart_label
     mem_centralizer_of_le_centralizer hSS.2.2.2.1.1
   obtain ⟨K, hField, hFin, h, hK, θ, hN, Q, hQ, I, hI4, hblock, hfr, hinner, _, hCard, _⟩ :=
     exists_quotient_J_block_of_le_sup_zpowers hS hp3 hq2 htag h3d hd6 hdq hmark hidx hsup hxC
-  letI : Field K := hField
-  letI : Finite K := hFin
+  let : Field K := hField
+  let : Finite K := hFin
   have hfour := four_dvd_ggAutomizer_frameBlock (h := h) (Q := Q) (hQ := hQ)
     hK hd6 h3d hfr hinner hCard I hI4
   rw [← hblock] at hfour

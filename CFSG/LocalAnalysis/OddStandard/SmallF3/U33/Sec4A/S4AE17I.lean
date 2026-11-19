@@ -11,6 +11,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 private theorem map_conj_centralizes {E : Subgroup G} {a c : G}
     (h : ∀ e ∈ E, e * a = a * e) :
     ∀ e ∈ E.map (MulAut.conj c).toMonoidHom,
@@ -19,6 +20,7 @@ private theorem map_conj_centralizes {E : Subgroup G} {a c : G}
   have key := congrArg (MulAut.conj c) (h d hd)
   simpa only [map_mul, MulEquiv.coe_toMonoidHom] using key
 
+omit [Finite G] in
 private theorem mem_conj_map {E : Subgroup G} {c a : G} (ha : a ∈ E) :
     c * a * c⁻¹ ∈ E.map (MulAut.conj c).toMonoidHom :=
   (mem_map_conj (g := c) (E := E)).mpr ⟨a, ha, rfl⟩

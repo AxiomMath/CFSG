@@ -677,7 +677,7 @@ theorem inf_centralizer_T_le_of_linearType_nine (hσ : σ.IsValid) :
     have hPmap : ((P : Subgroup L).map ψ) = (P₀ : Subgroup (CFSG.GorensteinWalter.PSL2 F)) := by
       rw [← Sylow.coe_mapSurjective hψ, hP]
     have hPK : IsPGroup 2 (((P : Subgroup L).map ι).subgroupOf K) :=
-      (P.isPGroup'.map ι).comap_subtype
+      (P.isPGroup.map ι).comap_subtype
     obtain ⟨Q, hQ⟩ := hPK.exists_le_sylow
     have hcommP : ∀ x ∈ (P : Subgroup L), ∀ y ∈ (P : Subgroup L), x * y = y * x := by
       intro x hx y hy

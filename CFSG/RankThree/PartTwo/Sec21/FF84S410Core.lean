@@ -88,7 +88,7 @@ theorem omegaData_of_core [Finite G] {B : Subgroup G} (e : ↥S ≃* Multiplicat
     (hcard : Nat.card ↥(Nor B ⊓ Nor S) ≤ 648) (hE27 : HypOmNormalizerE27) :
     FF84OmegaDataFor S e := by
   classical
-  haveI := hSE.1
+  have := hSE.1
   have hSc : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (IsMulCommutative.is_comm.comm (⟨x, hx⟩ : S) ⟨y, hy⟩)
   have hinv := psi0_preserves_q e hq

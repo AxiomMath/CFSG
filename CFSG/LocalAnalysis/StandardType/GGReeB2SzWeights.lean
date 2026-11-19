@@ -336,22 +336,22 @@ private lemma eigen_factor {K : Type} [Field K] [CharP K 2] [Fintype K] {m : ℕ
   have hs := units_map_pow_eq_wchar1 (K := K) k hK (1 + 2 ^ m) l
   have ht := units_map_pow_eq_wchar1 (K := K) k hK (2 ^ m) l
   fin_cases y
-  · simp only [id_eq, Fin.reduceFinMk]
+  · simp only [Fin.reduceFinMk]
     rw [dSpUnit_zero, szWt_zero, map_pow, hs, wchar1_pow_apply k hK]
     congr 1
     push_cast
     ring
-  · simp only [id_eq, Fin.reduceFinMk]
+  · simp only [Fin.reduceFinMk]
     rw [dSpUnit_one, szWt_one, map_pow, ht, wchar1_pow_apply k hK]
     congr 1
     push_cast
     ring
-  · simp only [id_eq, Fin.reduceFinMk]
+  · simp only [Fin.reduceFinMk]
     rw [dSpUnit_two, szWt_two, map_inv, map_pow, ht, wchar1_pow_apply k hK, wchar1_neg k hK]
     congr 1
     push_cast
     ring
-  · simp only [id_eq, Fin.reduceFinMk]
+  · simp only [Fin.reduceFinMk]
     rw [dSpUnit_three, szWt_three, map_inv, map_pow, hs, wchar1_pow_apply k hK, wchar1_neg k hK]
     congr 1
     push_cast
@@ -400,11 +400,11 @@ private lemma tensorRepS_mulVec_single {K : Type} [Field K] [CharP K 2] [Finite 
   rw [Finset.prod_congr rfl (fun i _ => hd i.val i.property (x i) (ε i)), Fintype.prod_ite_zero]
   by_cases hx : x = ε
   · subst hx
-    rw [if_pos (fun _ => rfl)]
+    rw [ite_eq_left (fun _ => rfl)]
     simp [Pi.single_eq_same]
   · have h : ¬ (∀ i : ↥A, x i = ε i) := fun hh => hx (funext hh)
-    rw [if_neg h]
-    simp [Pi.single_apply, hx]
+    rw [ite_eq_right h]
+    simp [hx]
 
 theorem szT_exists_weight {K : Type} [Field K] [CharP K 2]
     [Fintype K] {m : ℕ} (k : Type) [Field k] [Algebra K k] [CharP k 2]
@@ -431,7 +431,7 @@ theorem szT_exists_weight {K : Type} [Field K] [CharP K 2]
     fun j => if h : j ∈ J then Classical.choose (hεexists j h) else 0
   have hε : ∀ j ∈ J, (1 + 2 ^ m) * c j = szWt m (εfun j) := by
     intro j hj
-    simp only [εfun, dif_pos hj]
+    simp only [εfun, dite_eq_left hj]
     exact Classical.choose_spec (hεexists j hj)
   refine ⟨Pi.single (fun i => epsA m εfun i.val) 1, ?_, ?_⟩
   · intro h0

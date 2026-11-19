@@ -132,8 +132,8 @@ theorem glaPLayer_fixSubgroup_ne_bot_of_quasisimple {K : Type} [Group K] [Finite
   have hle : T ≤ GLAPLayer p (fixSubgroup x) := le_sSup hcomp
   intro hbot
   have hTbot : T = ⊥ := le_bot_iff.1 (hle.trans (le_of_eq hbot))
-  haveI : Nontrivial T := CFSG.LocalCores.isQuasisimple_nontrivial hTq
-  haveI : Subsingleton T := by rw [hTbot]; infer_instance
+  have : Nontrivial T := CFSG.LocalCores.isQuasisimple_nontrivial hTq
+  have : Subsingleton T := by rw [hTbot]; infer_instance
   exact not_subsingleton T inferInstance
 
 theorem glaPLayer_fixSubgroup_ne_bot_of_fieldCoreAt {K : Type} [Group K] [Finite K]
@@ -155,7 +155,7 @@ theorem exists_orderOf_eq_prime_mem_fixSubgroup {S : Type*} [Group S] [Finite S]
     (hp : p.Prime) (x : MulAut S) (hx : x ^ p = 1) (hdvd : p ∣ Nat.card S) :
     ∃ y ∈ fixSubgroup x, orderOf y = p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmod := CFSG.HardMathSupport.Lang.Proving.card_modEq_card_fixedPoints_of_pow_prime x hx
   have hcard : Nat.card {y : S // x y = y} = Nat.card (fixSubgroup x) :=
     Nat.card_congr (Equiv.refl _)

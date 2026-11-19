@@ -42,12 +42,12 @@ public theorem lemma9_maximal_abelian_contains_frattini
     (∀ x : A, x ^ 4 = 1) ∧
       (frattini (⊤ : Subgroup P)).map (⊤ : Subgroup P).subtype ≤ A := by
   classical
-  letI : Finite P := finite_of_isSuzukiTwoGroup _hP
+  let : Finite P := finite_of_isSuzukiTwoGroup _hP
   have hA_lt_top : A < (⊤ : Subgroup P) := by
     refine lt_top_iff_ne_top.mpr ?_
     intro hAtop
     apply _hP.2.1
-    letI : IsMulCommutative A := _hA_abelian
+    let : IsMulCommutative A := _hA_abelian
     refine IsMulCommutative.mk <| Std.Commutative.mk <| fun x y => ?_
     let ax : A := ⟨x, by rw [hAtop]; trivial⟩
     let ay : A := ⟨y, by rw [hAtop]; trivial⟩
@@ -57,7 +57,7 @@ public theorem lemma9_maximal_abelian_contains_frattini
         C.Normal ∧ IsXInvariantSubgroup X C ∧ A < C ∧
           ∀ B : Subgroup P, B.Normal → IsXInvariantSubgroup X B →
             A < B → B < C → False := by
-    letI : Fintype (Subgroup P) := Fintype.ofFinite _
+    let : Fintype (Subgroup P) := Fintype.ofFinite _
     let S : Finset (Subgroup P) :=
       Finset.univ.filter fun C =>
         C.Normal ∧ IsXInvariantSubgroup X C ∧ A < C
@@ -82,18 +82,18 @@ public theorem lemma9_maximal_abelian_contains_frattini
     exact (not_le_of_gt hBC) (hCmin hBmem hBC.le)
   obtain ⟨C, hC_normal, hC_X, hAC, hcover⟩ := hcover_exists
   have hA_exp4 : ∀ x : A, x ^ 4 = 1 := by
-    letI : IsInvariant X P C := ⟨hC_X⟩
+    let : IsInvariant X P C := ⟨hC_X⟩
     let PhiA : Subgroup P := (frattini A).map A.subtype
     let PhiC : Subgroup P := (frattini C).map C.subtype
     let Asq : Subgroup P :=
       Subgroup.closure {x : P | ∃ a : A, (a : P) ^ 2 = x}
     let Ccomm : Subgroup P := (commutator C).map C.subtype
     have hAsq_eq_PhiA : Asq = PhiA := by
-      letI : Finite A := inferInstance
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Fact (IsPGroup 2 A) :=
+      let : Finite A := inferInstance
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (IsPGroup 2 A) :=
         ⟨(isPGroup_of_isSuzukiTwoGroup _hP).to_subgroup A⟩
-      letI : IsMulCommutative A := _hA_abelian
+      let : IsMulCommutative A := _hA_abelian
       have hPhi : frattini A = (powMonoidHom 2 : A →* A).range := by
         have hcomm : commutator A = ⊥ := by
           rw [commutator_eq_bot_iff_center_eq_top]
@@ -130,9 +130,9 @@ public theorem lemma9_maximal_abelian_contains_frattini
         rcases MonoidHom.mem_range.mp hy with ⟨a, rfl⟩
         exact Subgroup.subset_closure ⟨a, by simp [powMonoidHom]⟩
     have hPhiA_le_PhiC : PhiA ≤ PhiC := by
-      letI : Finite C := inferInstance
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : Fact (IsPGroup 2 C) :=
+      let : Finite C := inferInstance
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (IsPGroup 2 C) :=
         ⟨(isPGroup_of_isSuzukiTwoGroup _hP).to_subgroup C⟩
       rw [← hAsq_eq_PhiA]
       change
@@ -183,12 +183,12 @@ public theorem lemma9_maximal_abelian_contains_frattini
       have hsup_le_C : A ⊔ PhiC ≤ C :=
         sup_le hAC.le hPhiC_le_C
       have hsup_normal : (A ⊔ PhiC).Normal := by
-        letI : A.Normal := _hA_normal
-        letI : PhiC.Normal := hPhiC_normal
+        let : A.Normal := _hA_normal
+        let : PhiC.Normal := hPhiC_normal
         infer_instance
       have hsup_X : IsXInvariantSubgroup X (A ⊔ PhiC) := by
-        letI : IsInvariant X P A := ⟨_hA_X⟩
-        letI : IsInvariant X P PhiC := ⟨hPhiC_X⟩
+        let : IsInvariant X P A := ⟨_hA_X⟩
+        let : IsInvariant X P PhiC := ⟨hPhiC_X⟩
         exact (isInvariant_sup A PhiC).invariant
       have hsup_eq_C : A ⊔ PhiC = C := by
         by_contra hne
@@ -277,9 +277,9 @@ public theorem lemma9_maximal_abelian_contains_frattini
           have hpinv := hforward x⁻¹ (x • p) hp
           simpa [smul_smul] using hpinv
       have hCcomm_le_PhiC : Ccomm ≤ PhiC := by
-        letI : Finite C := inferInstance
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-        haveI : Fact (IsPGroup 2 C) :=
+        let : Finite C := inferInstance
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (IsPGroup 2 C) :=
           ⟨(isPGroup_of_isSuzukiTwoGroup _hP).to_subgroup C⟩
         rintro _ ⟨c, hc, rfl⟩
         exact ⟨c, commutator_le_frattini_of_isPGroup
@@ -303,8 +303,8 @@ public theorem lemma9_maximal_abelian_contains_frattini
           _ = 1 := by rw [hA_two x]; simp
   have hPhi_le_A :
       (frattini (⊤ : Subgroup P)).map (⊤ : Subgroup P).subtype ≤ A := by
-    letI : A.Normal := _hA_normal
-    letI : IsInvariant X P A := ⟨_hA_X⟩
+    let : A.Normal := _hA_normal
+    let : IsInvariant X P A := ⟨_hA_X⟩
     let PhiP : Subgroup P :=
       (frattini (⊤ : Subgroup P)).map (⊤ : Subgroup P).subtype
     let Asq : Subgroup P :=
@@ -314,10 +314,10 @@ public theorem lemma9_maximal_abelian_contains_frattini
     change PhiP ≤ A
     by_contra hPhi_not_le
     have hA_ne : A ≠ ⊥ := by
-      letI : Nontrivial P := by
+      let : Nontrivial P := by
         rcases _hP.2.2.1 with ⟨x, y, _hx, _hy, hxy⟩
         exact ⟨⟨x, y, hxy⟩⟩
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hcenter : (⊥ : Subgroup P) < Subgroup.center P :=
         IsPGroup.bot_lt_center (isPGroup_of_isSuzukiTwoGroup _hP)
       intro hAbot
@@ -336,7 +336,7 @@ public theorem lemma9_maximal_abelian_contains_frattini
       refine ⟨cp, hcp, ?_⟩
       simp [cp, MulAut.conjNormal_apply]
     have hPhiP_X : IsXInvariantSubgroup X PhiP := by
-      letI : IsInvariant X P (⊤ : Subgroup P) :=
+      let : IsInvariant X P (⊤ : Subgroup P) :=
         ⟨by intro x p; simp⟩
       have hforward : ∀ x : X, ∀ p : P, p ∈ PhiP → x • p ∈ PhiP := by
         intro x p hp
@@ -366,12 +366,12 @@ public theorem lemma9_maximal_abelian_contains_frattini
         apply hPhi_not_le
         exact le_sup_right.trans (le_of_eq heq.symm)
       have hU_normal : U.Normal := by
-        letI : PhiP.Normal := hPhiP_normal
+        let : PhiP.Normal := hPhiP_normal
         infer_instance
       have hU_X : IsXInvariantSubgroup X U := by
-        letI : IsInvariant X P PhiP := ⟨hPhiP_X⟩
+        let : IsInvariant X P PhiP := ⟨hPhiP_X⟩
         exact (isInvariant_sup A PhiP).invariant
-      letI : Fintype (Subgroup P) := Fintype.ofFinite _
+      let : Fintype (Subgroup P) := Fintype.ofFinite _
       let S : Finset (Subgroup P) :=
         Finset.univ.filter fun D =>
           D.Normal ∧ IsXInvariantSubgroup X D ∧ A < D ∧ D ≤ U
@@ -385,12 +385,12 @@ public theorem lemma9_maximal_abelian_contains_frattini
       have hDdata := (Finset.mem_filter.mp hDmem).2
       let B : Subgroup P := D ⊓ PhiP
       have hB_normal : B.Normal := by
-        letI : D.Normal := hDdata.1
-        letI : PhiP.Normal := hPhiP_normal
+        let : D.Normal := hDdata.1
+        let : PhiP.Normal := hPhiP_normal
         infer_instance
       have hB_X : IsXInvariantSubgroup X B := by
-        letI : IsInvariant X P D := ⟨hDdata.2.1⟩
-        letI : IsInvariant X P PhiP := ⟨hPhiP_X⟩
+        let : IsInvariant X P D := ⟨hDdata.2.1⟩
+        let : IsInvariant X P PhiP := ⟨hPhiP_X⟩
         exact (isInvariant_inf D PhiP).invariant
       have hD_eq : D = A ⊔ B := by
         apply le_antisymm
@@ -436,7 +436,7 @@ public theorem lemma9_maximal_abelian_contains_frattini
           simpa [K] using
             (Subgroup.commutator_le_right (⊤ : Subgroup P) A)) ?_
         intro hKA
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         have hnil : Group.IsNilpotent P :=
           IsPGroup.isNilpotent (isPGroup_of_isSuzukiTwoGroup _hP)
         obtain ⟨n, hn⟩ := Subgroup.nilpotent_iff_lowerCentralSeries.mp hnil
@@ -535,10 +535,10 @@ public theorem lemma9_maximal_abelian_contains_frattini
           exact A4.mul_mem hy' hz'
         · rw [← conj_inv]
           exact A4.inv_mem hy'
-      letI : A4.Normal := hA4_normal
+      let : A4.Normal := hA4_normal
       have hPhiP_le_squares : PhiP ≤ squaresSubgroup P := by
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-        haveI : Fact (IsPGroup 2 (⊤ : Subgroup P)) :=
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (IsPGroup 2 (⊤ : Subgroup P)) :=
           ⟨(isPGroup_of_isSuzukiTwoGroup _hP).to_subgroup ⊤⟩
         have hcomm_le_squares :
             commutator (⊤ : Subgroup P) ≤
@@ -573,7 +573,7 @@ public theorem lemma9_maximal_abelian_contains_frattini
         exact hPhi_top_le hz
       have hsquare_comm_mem_A4 :
           ∀ g : P, ∀ a : A, ⁅g ^ 2, (a : P)⁆ ∈ A4 := by
-        letI : IsMulCommutative A := _hA_abelian
+        let : IsMulCommutative A := _hA_abelian
         have hAsq_eq_range :
             Asq = (powMonoidHom 2 : A →* A).range.map A.subtype := by
           change Subgroup.closure {x : P | ∃ a : A, (a : P) ^ 2 = x} =
@@ -673,7 +673,7 @@ public theorem lemma9_maximal_abelian_contains_frattini
       exact (hGood_iff b).mp
         (hsquares_le_Good (hPhiP_le_squares hb)) a
     have hPhiD_eq_A : (frattini D).map D.subtype = A := by
-      letI : IsInvariant X P D := ⟨hD_X⟩
+      let : IsInvariant X P D := ⟨hD_X⟩
       let PhiD : Subgroup P := (frattini D).map D.subtype
       change PhiD = A
       have hPhiD_normal : PhiD.Normal := by
@@ -715,12 +715,12 @@ public theorem lemma9_maximal_abelian_contains_frattini
         have hsup_le_D : A ⊔ PhiD ≤ D :=
           sup_le hAD.le hPhiD_le_D
         have hsup_normal : (A ⊔ PhiD).Normal := by
-          letI : A.Normal := _hA_normal
-          letI : PhiD.Normal := hPhiD_normal
+          let : A.Normal := _hA_normal
+          let : PhiD.Normal := hPhiD_normal
           infer_instance
         have hsup_X : IsXInvariantSubgroup X (A ⊔ PhiD) := by
-          letI : IsInvariant X P A := ⟨_hA_X⟩
-          letI : IsInvariant X P PhiD := ⟨hPhiD_X⟩
+          let : IsInvariant X P A := ⟨_hA_X⟩
+          let : IsInvariant X P PhiD := ⟨hPhiD_X⟩
           exact (isInvariant_sup A PhiD).invariant
         have hsup_eq_D : A ⊔ PhiD = D := by
           by_contra hne
@@ -745,13 +745,13 @@ public theorem lemma9_maximal_abelian_contains_frattini
           rw [← hADmap, hADtop, htopmap]
         exact hAD.ne hAeqD
       have hPhiD_not_le_Asq : ¬ PhiD ≤ Asq := by
-        obtain ⟨b, hbB, hbA⟩ := SetLike.not_le_iff_exists.mp hB_not_le
+        obtain ⟨b, hbB, hbA⟩ := IsConcreteLE.not_le_iff_exists.mp hB_not_le
         have hbD : b ∈ D := by
           rw [hD_eq]
           exact (le_sup_right : B ≤ A ⊔ B) hbB
         let bD : D := ⟨b, hbD⟩
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-        haveI : Fact (IsPGroup 2 D) :=
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (IsPGroup 2 D) :=
           ⟨(isPGroup_of_isSuzukiTwoGroup _hP).to_subgroup D⟩
         have hb_sq_PhiD : b ^ 2 ∈ PhiD := by
           refine ⟨bD ^ 2,
@@ -786,7 +786,7 @@ public theorem lemma9_maximal_abelian_contains_frattini
           ⟨a ^ (2 ^ t), by simp [pow_succ, pow_mul]⟩
     let Dcomm : Subgroup P := (commutator D).map D.subtype
     have hDcomm_cases : Dcomm ≤ Asq ∨ Dcomm = A := by
-      letI : IsInvariant X P D := ⟨hD_X⟩
+      let : IsInvariant X P D := ⟨hD_X⟩
       have hDcomm_X : IsXInvariantSubgroup X Dcomm := by
         have hforward : ∀ x : X, ∀ p : P, p ∈ Dcomm → x • p ∈ Dcomm := by
           intro x p hp
@@ -803,9 +803,9 @@ public theorem lemma9_maximal_abelian_contains_frattini
           have hpinv := hforward x⁻¹ (x • p) hp
           simpa [smul_smul] using hpinv
       have hDcomm_le_A : Dcomm ≤ A := by
-        letI : Finite D := inferInstance
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-        haveI : Fact (IsPGroup 2 D) :=
+        let : Finite D := inferInstance
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (IsPGroup 2 D) :=
           ⟨(isPGroup_of_isSuzukiTwoGroup _hP).to_subgroup D⟩
         rw [← hPhiD_eq_A]
         rintro _ ⟨d, hd, rfl⟩
@@ -871,8 +871,8 @@ public theorem lemma9_maximal_abelian_contains_frattini
       exact _hmax (Subgroup.center P) (by infer_instance) (by infer_instance)
         (isXInvariantSubgroup_center X P) hlt
     have hclass_two : (⊤ : Subgroup P).lowerCentralSeries 2 = ⊥ := by
-      letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      letI : Group.IsNilpotent P :=
+      let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      let : Group.IsNilpotent P :=
         IsPGroup.isNilpotent (isPGroup_of_isSuzukiTwoGroup _hP)
       have hnontrivial_abelian_unique
           (K : Subgroup P) (hK_ne : K ≠ ⊥) (hK_normal : K.Normal)
@@ -1192,8 +1192,8 @@ public theorem lemma9_maximal_abelian_contains_frattini
       have hPhi_top_le :
           frattini (⊤ : Subgroup P) ≤
             A.comap (⊤ : Subgroup P).subtype := by
-        letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-        haveI : Fact (IsPGroup 2 (⊤ : Subgroup P)) :=
+        let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (IsPGroup 2 (⊤ : Subgroup P)) :=
           ⟨(isPGroup_of_isSuzukiTwoGroup _hP).to_subgroup ⊤⟩
         rw [frattini_eq_closure_commutator_union_powers
           (R := (⊤ : Subgroup P)) (p := 2), Subgroup.closure_le]
@@ -1217,20 +1217,20 @@ public theorem lemma9_minimal_invariant_abelian_exponent_two
       D ≤ B → D = ⊥ ∨ D = B) :
     IsMulCommutative B ∧ ∀ x : B, x ^ 2 = 1 := by
   classical
-  letI : Finite P := finite_of_isSuzukiTwoGroup hP
-  letI : Group.IsNilpotent P :=
+  let : Finite P := finite_of_isSuzukiTwoGroup hP
+  let : Group.IsNilpotent P :=
     IsPGroup.isNilpotent (isPGroup_of_isSuzukiTwoGroup hP)
   have hB_abelian : IsMulCommutative B := by
-    letI : B.Normal := hB_normal
+    let : B.Normal := hB_normal
     let D : Subgroup P := (commutator B).map B.subtype
     have hD_lt : D < B := by
       rw [show D = ⁅B, B⁆ by exact B.map_subtype_commutator]
-      exact IsSolvable.commutator_lt_of_ne_bot hB_ne
+      exact Group.IsSolvable.commutator_lt_of_ne_bot hB_ne
     have hD_normal : D.Normal := by
       dsimp [D]
       infer_instance
     have hD_X : IsXInvariantSubgroup X D := by
-      letI : IsInvariant X P B := ⟨hB_X⟩
+      let : IsInvariant X P B := ⟨hB_X⟩
       have hforward : ∀ x : X, ∀ p : P, p ∈ D → x • p ∈ D := by
         intro x p hp
         rcases hp with ⟨b, hb, rfl⟩
@@ -1257,9 +1257,9 @@ public theorem lemma9_minimal_invariant_abelian_exponent_two
     rw [hD_bot] at hmem
     exact commutatorElement_eq_one_iff_mul_comm.mp (by simpa using hmem)
   have hB_exponent_two : ∀ x : B, x ^ 2 = 1 := by
-    letI : B.Normal := hB_normal
-    letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : Fact (IsPGroup 2 B) :=
+    let : B.Normal := hB_normal
+    let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fact (IsPGroup 2 B) :=
       ⟨(isPGroup_of_isSuzukiTwoGroup hP).to_subgroup B⟩
     let S : Subgroup B := squaresSubgroup B
     have hS_le_frattini : S ≤ frattini B := by
@@ -1291,7 +1291,7 @@ public theorem lemma9_minimal_invariant_abelian_exponent_two
       dsimp [D, S]
       infer_instance
     have hD_X : IsXInvariantSubgroup X D := by
-      letI : IsInvariant X P B := ⟨hB_X⟩
+      let : IsInvariant X P B := ⟨hB_X⟩
       have hforward : ∀ x : X, ∀ p : P, p ∈ D → x • p ∈ D := by
         intro x p hp
         rcases hp with ⟨b, hb, rfl⟩
@@ -1348,8 +1348,8 @@ public theorem lemma9_frattini_abelian_exponent_four
       (frattini (⊤ : Subgroup P)).map (⊤ : Subgroup P).subtype
     IsMulCommutative PhiTop ∧ ∀ x : PhiTop, x ^ 4 = 1 := by
   classical
-  letI : Finite P := finite_of_isSuzukiTwoGroup hP
-  letI : Fintype (Subgroup P) := Fintype.ofFinite _
+  let : Finite P := finite_of_isSuzukiTwoGroup hP
+  let : Fintype (Subgroup P) := Fintype.ofFinite _
   let PhiTop : Subgroup P :=
     (frattini (⊤ : Subgroup P)).map (⊤ : Subgroup P).subtype
   let S : Finset (Subgroup P) :=
@@ -1385,7 +1385,7 @@ public theorem lemma9_frattini_abelian_exponent_four
       hMdata.2.2 hM_max
   have hPhi_le_M : PhiTop ≤ M := hM_result.2
   refine ⟨?_, ?_⟩
-  · letI : IsMulCommutative M := hMdata.2.1
+  · let : IsMulCommutative M := hMdata.2.1
     refine IsMulCommutative.mk <| Std.Commutative.mk <| fun x y => ?_
     let mx : M := ⟨x, hPhi_le_M x.property⟩
     let my : M := ⟨y, hPhi_le_M y.property⟩

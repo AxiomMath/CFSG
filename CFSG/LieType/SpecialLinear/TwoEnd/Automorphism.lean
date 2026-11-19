@@ -118,7 +118,7 @@ theorem e131_rev {m : ℕ} (x : Fin 1 ⊕ (Fin (m+1) ⊕ Fin 1)) :
 theorem reindex131_apply (M : Matrix (Fin (m+3)) (Fin (m+3)) F)
     (x y : Fin 1 ⊕ (Fin (m+1) ⊕ Fin 1)) :
     (Matrix.reindexAlgEquiv F F (e131 m).symm) M x y = M (e131 m x) (e131 m y) := by
-  rw [Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, Matrix.submatrix_apply,
+  rw [Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.submatrix_apply,
     Equiv.symm_symm]
 
 @[expose] def b131_11 {m : ℕ} {F : Type} [Field F] (A : Matrix (Fin (m+3)) (Fin (m+3)) F) :
@@ -259,7 +259,7 @@ theorem b131_22d_mul_inv (A : GL (Fin (m+3)) F) (hA : IsUpperGL A) :
 
 @[simp] theorem one_fin_one_apply (i j : Fin 1) :
     (1 : Matrix (Fin 1) (Fin 1) F) i j = 1 := by
-  rw [Matrix.one_apply, if_pos (Subsingleton.elim i j)]
+  rw [Matrix.one_apply, ite_eq_left (Subsingleton.elim i j)]
 
 theorem reindex_embedMid (g : SpecialLinearGroup (Fin (m+1)) F) :
     (Matrix.reindexAlgEquiv F F (e131 m).symm)

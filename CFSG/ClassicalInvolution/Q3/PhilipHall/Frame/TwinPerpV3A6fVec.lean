@@ -45,7 +45,7 @@ theorem std_comm_wr {v : Fin 8 → ZMod 2} {e : ZMod 2} (hv : ∀ z, v z + v (π
   simp only [π₀_eq, Matrix.cons_val] at h0 h1 h2 h3 h4 h5 h6 h7
   refine Wr.ext (funext fun z => ?_) ?_
   · rw [mul_vec, mul_vec]
-    simp only [mul_vec, g₁_symm_eq, π₀_symm_eq, ind_24_eq]
+    simp only [g₁_symm_eq, π₀_symm_eq, ind_24_eq]
     fin_cases z <;> simp
     all_goals
       clear hv h0 h1 h6 h7

@@ -70,11 +70,11 @@ theorem exists_invariant_halves {m : ℕ} (hm : 2 ≤ m) (T' : Subgroup (Perm (F
       ∀ τ ∈ T', ((τ : Perm (Fin m)) '' B = B ∨ (τ : Perm (Fin m)) '' B = Bᶜ) := by
   obtain ⟨x₀, y₁, hne⟩ : ∃ x₀ y₁ : Fin m, x₀ ≠ y₁ :=
     ⟨⟨0, by omega⟩, ⟨1, by omega⟩, by simp [Fin.ext_iff]⟩
-  haveI : Finite ↥T' := inferInstance
-  haveI : Group.IsNilpotent ↥T' := IsPGroup.isNilpotent hT'
-  haveI : Finite (Subgroup ↥T') :=
+  have : Finite ↥T' := inferInstance
+  have : Group.IsNilpotent ↥T' := IsPGroup.isNilpotent hT'
+  have : Finite (Subgroup ↥T') :=
     Finite.of_injective (fun H : Subgroup ↥T' => (H : Set ↥T')) SetLike.coe_injective
-  haveI : IsCoatomic (Subgroup ↥T') := Finite.to_isCoatomic
+  have : IsCoatomic (Subgroup ↥T') := Finite.to_isCoatomic
   have hstab_ne_top : MulAction.stabilizer ↥T' x₀ ≠ ⊤ := by
     intro htop
     obtain ⟨τ, hτ, hτx⟩ := htrans x₀ y₁

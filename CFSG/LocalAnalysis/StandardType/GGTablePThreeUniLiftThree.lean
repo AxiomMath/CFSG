@@ -176,8 +176,8 @@ theorem uni_lift_of_three_le {K : Type} [Field K] [Finite K] [CharP K 2] {q n : 
   subst hq
   have h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 f K :=
     CFSG.AGLEmbedding.ToralCensus.unitaryFieldData_of_card_eq_sq hK hf
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Nonempty (Fin n) := ⟨⟨0, Nat.pos_of_neZero n⟩⟩
+  have : NeZero n := ⟨by omega⟩
+  have : Nonempty (Fin n) := ⟨⟨0, Nat.pos_of_neZero n⟩⟩
   let Ahat : Subgroup (GL (Fin n) K) :=
     { carrier := {g | IsHermIsometry (2 ^ f) (g : Matrix (Fin n) (Fin n) K) ∧
         ∃ a ∈ Ā, IsConjBy g a}

@@ -34,7 +34,7 @@ theorem bvec_std : bvec 8 1 = Pi.single 0 1 ∧ bvec 8 2 = Pi.single 1 1 ∧
     bvec 8 4 = Pi.single 2 1 ∧ bvec 8 24 = Pi.single 3 1 + Pi.single 4 1 := by
   refine ⟨?_, ?_, ?_, ?_⟩ <;> funext k <;> fin_cases k <;> rfl
 
-@[expose] def a8StdVec : ℕ → Submodule (ZMod 2) V8
+def a8StdVec : ℕ → Submodule (ZMod 2) V8
   | 1 => span (ZMod 2) {bvec 8 1}
   | 2 => span (ZMod 2) {bvec 8 1, bvec 8 2}
   | 3 => span (ZMod 2) {bvec 8 1, bvec 8 2, bvec 8 4}

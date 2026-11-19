@@ -37,7 +37,7 @@ theorem ggTBTorRow_three_of_bounds {lab : LargeEvenLabel} {r m N : ℕ}
     by_contra hq
     have h0 : ggTorEnn 3 lab = 0 := by
       unfold ggTorEnn
-      rw [if_neg hq]
+      rw [ite_eq_right hq]
     omega
   have hpm : 3 ∣ 2 ^ lab.n - 1 → ¬ 3 ∣ 2 ^ lab.n + 1 :=
     not_dvd_two_pow_add_one_of_dvd_sub (by norm_num) (by norm_num)

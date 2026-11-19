@@ -49,7 +49,7 @@ theorem gLAPPrimeCoreOf_eq_bot_of_orbit_bound [Finite S] (hp : p.Prime) {C : Sub
   obtain ⟨Pc⟩ : Nonempty (Sylow p C) := inferInstance
   set P : Subgroup S := (Pc : Subgroup C).map C.subtype with hP
   have hPC : P ≤ C := Subgroup.map_subtype_le _
-  have hPp : IsPGroup p P := Pc.isPGroup'.map C.subtype
+  have hPp : IsPGroup p P := Pc.isPGroup.map C.subtype
   have hPcard : Nat.card P = p ^ a := by
     rw [hP, Subgroup.card_map_of_injective C.subtype_injective, Sylow.card_eq_multiplicity, hC,
       Nat.factorization_mul (pow_ne_zero _ hp.ne_zero) hr0, hp.factorization_pow,

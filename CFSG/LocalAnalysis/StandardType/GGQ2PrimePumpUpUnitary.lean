@@ -16,7 +16,7 @@ private theorem le_inner_of_card_outer_dvd_six {L : Type*} [Group L] [Finite L]
     (hL : Nat.card (Outer L) ∣ 6) {ζ : MulAut L} {Q : Subgroup (MulAut L)}
     (hQ : Nat.card Q = 4) (hζQ : ζ ∈ normalizer (Q : Set (MulAut L)))
     (hfpf : ∀ q ∈ Q, ζ * q * ζ⁻¹ = q → q = 1) : Q ≤ inner L := by
-  haveI : Finite (MulAut L) :=
+  have : Finite (MulAut L) :=
     Finite.of_injective (fun e : MulAut L => (e : L → L)) fun a b h => MulEquiv.ext (congrFun h)
   set π := QuotientGroup.mk' (inner L)
   have hπ : ∀ g, π g = 1 ↔ g ∈ inner L := fun g => QuotientGroup.eq_one_iff g
@@ -54,7 +54,7 @@ private theorem le_inner_of_card_outer_dvd_six {L : Type*} [Group L] [Finite L]
 
 private theorem mem_inner_of_card_outer_dvd_two {L : Type*} [Group L] [Finite L]
     (hL : Nat.card (Outer L) ∣ 2) {ζ : MulAut L} (hζ : ζ ^ 3 = 1) : ζ ∈ inner L := by
-  haveI : Finite (MulAut L) :=
+  have : Finite (MulAut L) :=
     Finite.of_injective (fun e : MulAut L => (e : L → L)) fun a b h => MulEquiv.ext (congrFun h)
   set π := QuotientGroup.mk' (inner L)
   have h3 : π ζ ^ 3 = 1 := by rw [← map_pow, hζ, map_one]
@@ -68,7 +68,7 @@ private theorem mem_inner_of_card_outer_dvd_two {L : Type*} [Group L] [Finite L]
 private theorem sq_eq_one_of_fpf {G : Type*} [Group G] {Q : Subgroup G} (hQ : Nat.card Q = 4)
     {ζ : G} (hζQ : ζ ∈ normalizer (Q : Set G)) (hfpf : ∀ q ∈ Q, ζ * q * ζ⁻¹ = q → q = 1) :
     ∀ q ∈ Q, q ^ 2 = 1 := by
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQ]; norm_num)
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQ]; norm_num)
   intro q hq
   by_contra hq2
   have hdvd : orderOf q ∣ 4 := by
@@ -187,8 +187,8 @@ private theorem false_of_u7_config {L : Type} [Group L]
 theorem pumpUpUnitarySmallInput_holds : PumpUpUnitarySmallInput := by
   intro K _ _ W Wk ζ ξ Q A h hmodel
   classical
-  haveI : Group.IsPerfect K := Group.isPerfect_def.2 h.quasi.1
-  haveI : IsSimpleGroup (K ⧸ center K) := h.quasi.2
+  have : Group.IsPerfect K := Group.isPerfect_def.2 h.quasi.1
+  have : IsSimpleGroup (K ⧸ center K) := h.quasi.2
   let π : K →* K ⧸ center K := QuotientGroup.mk' (center K)
   have hWcl : StatedClassicalModel W .PSU 5 2 1 := by
     obtain ⟨-, hc | ⟨h0, -⟩⟩ := h.W_model
@@ -198,8 +198,8 @@ theorem pumpUpUnitarySmallInput_holds : PumpUpUnitarySmallInput := by
     obtain ⟨-, hc | ⟨h0, -⟩⟩ := h.Wk_model
     · exact hc
     · omega
-  haveI : IsSimpleGroup W := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hWcl
-  haveI : IsSimpleGroup Wk := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hWkcl
+  have : IsSimpleGroup W := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hWcl
+  have : IsSimpleGroup Wk := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hWkcl
   have hWc : Nat.card W = 13685760 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_five_two hWcl
   have hWkc : Nat.card Wk = 25920 :=
@@ -286,8 +286,8 @@ theorem pumpUpUnitarySmallInput_holds : PumpUpUnitarySmallInput := by
     rw [map_pow, ← hqp, ← map_pow, hQ2 q hq, map_one, map_one]
   let Wb : Subgroup (K ⧸ center K) := (π.comp W.subtype).range
   let Wkb : Subgroup (K ⧸ center K) := (π.comp Wk.subtype).range
-  haveI : IsSimpleGroup Wb := (MonoidHom.ofInjective hπW).symm.isSimpleGroup
-  haveI : IsSimpleGroup Wkb := (MonoidHom.ofInjective hπWk).symm.isSimpleGroup
+  have : IsSimpleGroup Wb := (MonoidHom.ofInjective hπW).symm.isSimpleGroup
+  have : IsSimpleGroup Wkb := (MonoidHom.ofInjective hπWk).symm.isSimpleGroup
   have hWbc : Nat.card Wb = 13685760 := by
     rw [← Nat.card_congr (MonoidHom.ofInjective hπW).toEquiv, hWc]
   have hWkbc : Nat.card Wkb = 25920 := by
@@ -404,7 +404,7 @@ theorem pumpUpUnitarySmallInput_holds : PumpUpUnitarySmallInput := by
   have hζ1 : cq ζ ≠ 1 := fun h1 => h.ζ_ne (hcq (h1.trans (map_one cq).symm))
   rcases hcl with h6 | h7
   · obtain ⟨-, K₀, _, _, hK₀, ⟨e₀⟩⟩ := h6
-    haveI : Fintype K₀ := Fintype.ofFinite K₀
+    have : Fintype K₀ := Fintype.ofFinite K₀
     have hc : Fintype.card K₀ = Fintype.card F4 := by
       rw [← Nat.card_eq_fintype_card, hK₀, F4.card]
       norm_num
@@ -413,7 +413,7 @@ theorem pumpUpUnitarySmallInput_holds : PumpUpUnitarySmallInput := by
       hπwWk hP4 hP2 hPWk
   · have h7' := h7
     obtain ⟨-, K₀, _, _, hK₀, ⟨e₀⟩⟩ := h7
-    haveI : Fintype K₀ := Fintype.ofFinite K₀
+    have : Fintype K₀ := Fintype.ofFinite K₀
     have hc : Fintype.card K₀ = Fintype.card F4 := by
       rw [← Nat.card_eq_fintype_card, hK₀, F4.card]
       norm_num

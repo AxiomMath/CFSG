@@ -88,16 +88,16 @@ theorem false_of_fstar_stronglyClosed_four [IsSimpleGroup (genFittingFStar G)]
   obtain ⟨hAF, htype⟩ := goldschmidt_fstar hnab hO S hA1 hAS hAab hcl
   have hC : Subgroup.centralizer (F : Set G) = ⊥ := centralizer_genFittingFStar_eq_bot hnab
   have hTT : TwoTot (Outer ↥F) → False := fun hT => by
-    haveI := hFn
+    have := hFn
     obtain ⟨x, hxF, y, hyF, hxS, hyS, hx2, hy2, hxy⟩ :=
-      hpair hAF (two_group_cases_of_twoTot F hC hT (S : Subgroup G) S.isPGroup')
+      hpair hAF (two_group_cases_of_twoTot F hC hT (S : Subgroup G) S.isPGroup)
     exact hxy (hAc x (hinvA hxS hxF hx2) y (hinvA hyS hyF hy2))
   have hBend : CFSG.BenderSuzuki.IsBenderGroup ↥F → False := fun hB => hTT (twoTot_outer hB)
   have h8 : (∃ k, Odd k ∧ Nat.card F = 8 * k) → False := by
     rintro ⟨k, hk, hFk⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     set Q : Subgroup ↥F := (S : Subgroup G).subgroupOf F with hQ
-    have hQp : IsPGroup 2 Q := S.isPGroup'.comap_of_injective F.subtype F.subtype_injective
+    have hQp : IsPGroup 2 Q := S.isPGroup.comap_of_injective F.subtype F.subtype_injective
     have hQi : ¬ 2 ∣ Q.index := by
       have h1 := Subgroup.relIndex_inf_mul_relIndex (S : Subgroup G) F ⊤
       have h2 := Subgroup.relIndex_inf_mul_relIndex F (S : Subgroup G) ⊤
@@ -137,7 +137,7 @@ theorem false_of_fstar_stronglyClosed_four [IsSimpleGroup (genFittingFStar G)]
   · exact hBend (CFSG.BenderSuzuki.IsBenderGroup.isSuzuki n hn
       (e.trans (MulEquiv.subgroupCongr (CFSG.Models.benderSzModel_eq_sz n).symm)))
   · exact hBend (CFSG.BenderSuzuki.IsBenderGroup.isPSU3 f hf e)
-  · haveI := hp
+  · have := hp
     have hT := twoTot_outer_psl2_odd hpodd (odd_of_pow_mod_eight hpodd hmod)
     exact hTT (TwoTot.of_mulEquiv
       (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).symm hT)
@@ -212,7 +212,7 @@ theorem frameC206_fstar [IsSimpleGroup (genFittingFStar G)]
     have h : Nat.card (Z : Set G) = 4 := by
       rw [Nat.card_coe_set_eq, hset,
         Set.ncard_insert_of_notMem (by simp [ht1.symm, hz1.symm, htz1.symm]),
-        Set.ncard_insert_of_notMem (by simp [htz, htzt.symm, hz1]),
+        Set.ncard_insert_of_notMem (by simp [htz, htzt.symm]),
         Set.ncard_pair htzz.symm]
     exact h
   have ht : t = ρ⁻¹ * z * ρ := by

@@ -417,7 +417,7 @@ theorem inner295At_twistedE6_two
   obtain ⟨hp, he⟩ := Inputs295d.p_eq_two_of_card_two hq2
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
   have hK4 : Nat.card K = 4 := by rw [hK, hp, he]; norm_num
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK4]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK4]; norm_num)
   have hσ2 : ∀ c, σ c = c ^ 2 := fun c => by rw [hσ c, hp, he, pow_one]
   exact inner295At_of_toral (k := 5) (by norm_num)
     ⟨_, _, ⟨eK⟩, exists_elemAbelian_twE6_two hK4 σ hσ2⟩
@@ -437,6 +437,7 @@ open CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.QuasisimpleSolvableNormal
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem mem_fixSubgroup_iff_twE6Two (hK : Nat.card K = 4) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2)
     {g0 : ModGL TwistTag.E6.tag (AlgebraicClosure K)}
     (hg0C : g0 ∈ adjointGroup TwistTag.E6.tag (AlgebraicClosure K))
@@ -515,7 +516,7 @@ theorem five_le_pRank_fixSubgroup_of_toral (hK : Nat.card K = 4) (σ : K ≃+* K
   have hDΓ : ∀ y : Fin 5 → ZMod 3, dV ω (subLin e6InnerVec y) ∈
       (⁅twE6TwoModel (AlgebraicClosure K), twE6TwoModel (AlgebraicClosure K)⁆ :
         Subgroup (ModGL Tag.E6 (AlgebraicClosure K))) := fun y => by
-    haveI : Finite ↥(⁅twE6TwoModel (AlgebraicClosure K), twE6TwoModel (AlgebraicClosure K)⁆ :
+    have : Finite ↥(⁅twE6TwoModel (AlgebraicClosure K), twE6TwoModel (AlgebraicClosure K)⁆ :
         Subgroup (ModGL Tag.E6 (AlgebraicClosure K))) := Finite.of_equiv _ e.toEquiv
     exact dV_subLin_mem hω3 (twE6Two_dV_e6InnerVec_mem_commutator hω3) y
   have hmem : ∀ y : Fin 5 → ZMod 3, m'⁻¹ * dV ω (subLin e6InnerVec y) * m' ∈
@@ -601,11 +602,11 @@ theorem outer295At_twistedE6_two (hexo : Input29_5'LieRest4) (q : TauCeti.PrimeP
   obtain ⟨hp, he⟩ := Inputs295d.p_eq_two_of_card_two hq2
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
   have hK4 : Nat.card K = 4 := by rw [hK, hp, he]; norm_num
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK4]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK4]; norm_num)
   have hσ2 : ∀ c, σ c = c ^ 2 := fun c => by rw [hσ c, hp, he, pow_one]
   have hchar : CharP K 2 := charP_two_of_card_four hK4
   have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (twistedE6RootGroup K σ) := Subtype.finite
   set θ : S ≃* twistedE6RootGroup K σ := e.trans eK with hθ
   refine outerExcl295_of_congr θ α ?_
   set δ := MulAut.congr θ α with hδdef

@@ -153,7 +153,7 @@ theorem card_le_two_of_centralizer_le [Finite X] {Y : Subgroup X} {y : X} (hy : 
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hy'2]; norm_num)
   obtain ⟨T, hT⟩ := hzp.exists_le_sylow
   have hTle : Nat.card ↥(T : Subgroup ↥Y) ≤ 2 := by
-    have hTp : IsPGroup 2 ↥(T : Subgroup ↥Y) := T.isPGroup'
+    have hTp : IsPGroup 2 ↥(T : Subgroup ↥Y) := T.isPGroup
     have hy'T : y' ∈ (T : Subgroup ↥Y) := hT (Subgroup.mem_zpowers y')
     let yT : ↥(T : Subgroup ↥Y) := ⟨y', hy'T⟩
     have hyT1 : yT ≠ 1 := fun h => hy1 (congrArg Subtype.val (congrArg Subtype.val h))

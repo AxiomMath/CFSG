@@ -42,9 +42,9 @@ theorem peq_ne_one {g : JH} (hg : g ≠ 1) :
 
 @[expose] noncomputable def gAB (j : ℕ) : JH := if j = 0 then aJ else bJ
 
-theorem gAB0 : gAB 0 = aJ := if_pos rfl
+theorem gAB0 : gAB 0 = aJ := ite_eq_left rfl
 
-theorem gAB1 : gAB 1 = bJ := if_neg (by norm_num)
+theorem gAB1 : gAB 1 = bJ := ite_eq_right (by norm_num)
 
 theorem arrs_AB : ArrsOK 2 #[arrJ aJ, arrJ bJ] #[arrJ aJ⁻¹, arrJ bJ⁻¹] gAB := by
   intro j hj

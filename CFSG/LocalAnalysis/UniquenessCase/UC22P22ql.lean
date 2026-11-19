@@ -10,7 +10,7 @@ open CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
-@[expose] def R613AutAt (D : Data G) (p : ℕ) (P P₀ : Subgroup G) : Prop :=
+@[expose] def R613AutAt (D : Data G) (_p : ℕ) (P P₀ : Subgroup G) : Prop :=
   ((∀ m ∈ D.M, (∀ x ∈ P ⊓ inftyOf (centralizer (P₀ : Set G)),
       m * x * m⁻¹ * x⁻¹ ∈ CFSG.Open.pCoreOf 2 D.M) →
     m ∈ centralizer (inftyOf (centralizer (P₀ : Set G)) : Set G) ⊔
@@ -37,7 +37,7 @@ theorem uc22p22ql_false_of_T_top (D : Data G) {p : ℕ} (hpP : p.Prime) (hp2 : p
     (hel : IsElemAbelian p P₁) (hcard : p ^ 2 ≤ Nat.card P₁) (hDP : ∀ d ∈ Dd, ∀ a ∈ P₁, d * a = a * d)
     (hP₁C : P₁ ⊓ F11.CTilde D.M V₀ V = ⊥) (hDC : Dd ⊓ F11.CTilde D.M V₀ V = ⊥)
     (hT : P₁ ≤ Dd ⊔ F11.CTilde D.M V₀ V) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hV, hV₀V, hMV₀, -⟩ := uc22p22q_hyp11_unpack D hH
   have hMV : D.M ≤ normalizer (V : Set G) := hV.2.2.1
   have hVR : V ≤ pCoreOf 2 D.M :=
@@ -120,6 +120,7 @@ theorem uc22p22ql_false_of_T_top (D : Data G) {p : ℕ} (hpP : p.Prime) (hp2 : p
   have hle : Nat.card P₁ ≤ Nat.card E := Nat.card_le_card_of_injective g hginj
   exact uc22p22n_not_isCyclic_of_card hpP hElem (hcard.trans hle) hcyc
 
+omit [Finite G] in
 theorem uc22p22ql_decomp {Dd P₁ R : Subgroup G} (hDR : Dd ≤ normalizer (R : Set G))
     (hPR : P₁ ≤ normalizer (R : Set G)) (hDPn : Dd ≤ normalizer (P₁ : Set G))
     (hDP : ∀ d ∈ Dd, ∀ a ∈ P₁, d * a = a * d) {c : G} (hc : c ∈ Dd ⊔ P₁ ⊔ R) :
@@ -216,7 +217,7 @@ theorem uc22p22q_r112_pair (D : Data G) (hstd : Sigma23Std D) (h61 : UC6.R6_1 D)
     rw [D.sig_sub]
     exact Or.inl (Or.inr hH.mem_sig2)
   have hpP : p.Prime := (D.sig_prime p hpσ).1
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   have hp2 : p ≠ 2 := (D.sig_prime p hpσ).2
   have hp5 : 5 ≤ p := by
     rcases (by omega : p = 4 ∨ 5 ≤ p) with rfl | h

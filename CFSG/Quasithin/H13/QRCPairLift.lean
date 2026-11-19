@@ -329,7 +329,7 @@ theorem qrc_original_pair_lift_retains_central_second_factor
     rw [normalizer_eq_top_iff.2 hQn]
     exact mem_top y
   have hDn : (kerIn M ⊤).Normal := inferInstance
-  have hTsyl : IsSylowTwoOf (T : Subgroup H) ⊤ := ⟨le_top, T.isPGroup', by
+  have hTsyl : IsSylowTwoOf (T : Subgroup H) ⊤ := ⟨le_top, T.isPGroup, by
     show ¬ 2 ∣ (T : Subgroup H).relIndex ⊤
     rw [relIndex_top_right]
     exact T.not_dvd_index⟩
@@ -348,7 +348,7 @@ theorem qrc_original_pair_lift_retains_central_second_factor
   have hV2 : ∀ v ∈ V, v * v = 1 := fun v hv => by
     rw [← pow_two]
     exact elemPow_eq_one_of_isElementaryAbelian v hv
-  have hVp : IsPGroup 2 V := (T.isPGroup').to_le hVT
+  have hVp : IsPGroup 2 V := (T.isPGroup).to_le hVT
   have hO2 : IsPGroup 2 (inSubgroup (pCore 2) M) :=
     (pCore_isPGroup (p := 2) (G := M)).map M.subtype
   have hMO : M ≤ normalizer (inSubgroup (pCore 2) M : Set H) :=
@@ -478,7 +478,7 @@ theorem qrc_original_pair_lift_retains_central_second_factor
     rw [hπker, inf_eq_right.2 hDH₀, map_comap_eq_self_of_surjective hπs] at h1
     exact h1.symm
   have hTD : (T : Subgroup H) ⊓ kerIn M ⊤ = Q :=
-    le_antisymm (hD2 _ (T.isPGroup'.to_le inf_le_left) inf_le_right) (le_inf hQT hQD)
+    le_antisymm (hD2 _ (T.isPGroup.to_le inf_le_left) inf_le_right) (le_inf hQT hQD)
   have hT₀map : ((T : Subgroup H) ⊓ (F ⊔ A).comap π).map π = SF ⊔ A := by
     rw [← hSL]
     apply le_antisymm
@@ -515,7 +515,7 @@ theorem qrc_original_pair_lift_retains_central_second_factor
     ring
   have hT₀syl : IsSylowOf 2 ((T : Subgroup H) ⊓ (F ⊔ A).comap π) ((F ⊔ A).comap π) := by
     rw [isSylowOf_iff]
-    refine ⟨inf_le_right, T.isPGroup'.to_le inf_le_left, ?_⟩
+    refine ⟨inf_le_right, T.isPGroup.to_le inf_le_left, ?_⟩
     rw [hidx, Nat.Prime.dvd_mul Nat.prime_two]
     rintro (h | h)
     · exact hDQ h

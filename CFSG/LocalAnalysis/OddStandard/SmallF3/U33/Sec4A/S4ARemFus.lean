@@ -95,7 +95,7 @@ theorem not_conj_z_of_ctx (h : Ctx t L S x₁ x₂ lam rho tau) :
   exact t_not_mem_L h.hyp (by rw [htz]; exact hzL)
 
 private lemma false_of_conj_eq_of_conj_z (h : Ctx t L S x₁ x₂ lam rho tau) {v c : G}
-    (hcL : c ∈ L) (hcv : c * (x₁ * x₂) ^ 2 * c⁻¹ = v) {g : G}
+    (_hcL : c ∈ L) (hcv : c * (x₁ * x₂) ^ 2 * c⁻¹ = v) {g : G}
     (hconj : g * t * g⁻¹ = v) : False :=
   not_conj_z_of_ctx h ⟨c⁻¹ * g, by
     calc (c⁻¹ * g) * t * (c⁻¹ * g)⁻¹

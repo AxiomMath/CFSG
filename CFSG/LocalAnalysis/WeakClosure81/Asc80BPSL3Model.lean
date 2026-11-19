@@ -21,8 +21,8 @@ private theorem normalizer_sylow_data {K : Type} [Field K] [Finite K] {f : ℕ}
       Nat.card (normalizer (S : Set (projectiveSL 3 K))) *
           Nat.gcd 3 (Nat.card K - 1) =
         Nat.card K ^ 3 * (Nat.card K - 1) ^ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
   have hindex : ¬ 2 ∣ S.index := by
     rw [← Subgroup.relIndex_top_right]
     exact hS.not_dvd_relIndex
@@ -39,12 +39,12 @@ private theorem normalizer_sylow_data {K : Type} [Field K] [Finite K] {f : ℕ}
     rw [hx, Subgroup.card_map_of_injective (MulAut.conj x).injective]
   constructor
   · rw [hx]
-    haveI : Group.IsSolvable (upperTriangular 3 K) :=
+    have : Group.IsSolvable (upperTriangular 3 K) :=
       CFSG.LieType.SteinbergBR.isSolvable_upperTriangular_of_card Nat.prime_two hK 3
-    haveI : Group.IsSolvable (projUpperTriangular 3 K) :=
-      solvable_of_surjective
+    have : Group.IsSolvable (projUpperTriangular 3 K) :=
+      Group.isSolvable_of_surjective
         (MonoidHom.subgroupMap_surjective (proj 3 K) (upperTriangular 3 K))
-    exact solvable_of_surjective
+    exact Group.isSolvable_of_surjective
       (MonoidHom.subgroupMap_surjective (MulAut.conj x).toMonoidHom (projUpperTriangular 3 K))
   · rw [hcard]
     exact CFSG.Quasithin.H13.P31X.l3_card_projUpperTriangular
@@ -55,8 +55,8 @@ theorem psl3_graph_involution_model_escape {K : Type} [Field K] [Finite K] {f : 
     (hβ : (conjAut 3 K D * fieldAut 3 K σ * dualAut 3 K) ^ 2 = 1) :
     ∃ x : projectiveSL 3 K, (conjAut 3 K D * fieldAut 3 K σ * dualAut 3 K) x = x ∧
       x ∉ normalizer (S : Set (projectiveSL 3 K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
   obtain ⟨hNsolv, hNcard⟩ := normalizer_sylow_data (K := K) hf hK S hS
   by_contra hcon
   push Not at hcon
@@ -183,7 +183,7 @@ theorem psl3_graph_involution_model_escape {K : Type} [Field K] [Finite K] {f : 
           (γ := conjAut 3 K H) hβeq ⟨P, hPperf, hPeven, hPfix⟩
       have hFN : F ≤ normalizer (S : Set (projectiveSL 3 K)) :=
         fun x hx => hcon x (hFfix x hx)
-      haveI : Group.IsSolvable (normalizer (S : Set (projectiveSL 3 K))) := hNsolv
+      have : Group.IsSolvable (normalizer (S : Set (projectiveSL 3 K))) := hNsolv
       have hFsolv : Group.IsSolvable F :=
         Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hFN)
       have hsub : Subsingleton F := by
@@ -200,8 +200,8 @@ theorem psl3_graph_involution_model_escape {K : Type} [Field K] [Finite K] {f : 
         have hb : b ∈ (⊥ : Subgroup F) := hn ▸ mem_top b
         rw [mem_bot] at ha hb
         rw [ha, hb]
-      haveI : Subsingleton F := hsub
-      haveI : Unique F := uniqueOfSubsingleton 1
+      have : Subsingleton F := hsub
+      have : Unique F := uniqueOfSubsingleton 1
       have hcard1 : Nat.card F = 1 := Nat.card_unique
       rw [hcard1] at hFeven
       exact Nat.not_even_one hFeven

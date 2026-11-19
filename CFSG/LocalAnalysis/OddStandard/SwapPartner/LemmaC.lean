@@ -15,7 +15,7 @@ variable {Y : Type*} [Group Y] [Finite Y]
 
 private theorem eq_of_orderOf_eq_two_of_isCyclic' {P : Type*} [Group P] [Finite P] [IsCyclic P]
     {a b : P} (ha : orderOf a = 2) (hb : orderOf b = 2) : a = b := by
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Fintype P := Fintype.ofFinite P
   have hdvd : 2 ∣ Fintype.card P := by
     rw [← ha]
     exact orderOf_dvd_card
@@ -26,8 +26,8 @@ private theorem eq_of_orderOf_eq_two_of_isCyclic' {P : Type*} [Group P] [Finite 
 
 private theorem perfect_eq_bot_of_solvable {G : Type*} [Group G] {A P : Subgroup G}
     (hA : Group.IsSolvable A) (hP : ⁅P, P⁆ = P) (hPA : P ≤ A) : P = ⊥ := by
-  haveI : Group.IsPerfect P := Subgroup.isPerfect_iff.mpr hP
-  haveI : Group.IsSolvable P :=
+  have : Group.IsPerfect P := Subgroup.isPerfect_iff.mpr hP
+  have : Group.IsSolvable P :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hPA)
   rcases subsingleton_or_nontrivial P with h | h
   · exact Subgroup.eq_bot_of_subsingleton P
@@ -64,15 +64,15 @@ theorem isCyclic_sylow_of_forall_le_inf_centralizer {K : Subgroup Y} {t : Y} (ht
   obtain ⟨S1, hS1⟩ := hp.exists_le_sylow
   let R : Subgroup Y := (S1 : Subgroup K).map K.subtype
   let C : Subgroup Y := centralizer ({t} : Set Y)
-  have hRpg : IsPGroup 2 R := S1.isPGroup'.map K.subtype
+  have hRpg : IsPGroup 2 R := S1.isPGroup.map K.subtype
   have hRK : R ≤ K := map_subtype_le (S1 : Subgroup K)
   have htR : t ∈ R := ⟨tK, hS1 (mem_zpowers tK), rfl⟩
   have hRntriv : Nontrivial R := ⟨⟨⟨t, htR⟩, 1, fun h1 => ht1 (congrArg Subtype.val h1)⟩⟩
   have hCircC : IsCyclic (R ⊓ C : Subgroup Y) :=
     h _ (hRpg.to_le inf_le_left) (inf_le_inf_right C hRK)
   have h2dvd : 2 ∣ Nat.card (Subgroup.center R) := by
-    haveI : Nontrivial R := hRntriv
-    haveI : Nontrivial (Subgroup.center R) := hRpg.center_nontrivial
+    have : Nontrivial R := hRntriv
+    have : Nontrivial (Subgroup.center R) := hRpg.center_nontrivial
     obtain ⟨z, hz1⟩ := exists_ne (1 : Subgroup.center R)
     have hzR1 : (z : R) ≠ 1 := fun h1 => hz1 (Subtype.ext h1)
     have h1 : 2 ∣ orderOf (z : R) := hRpg.dvd_orderOf hzR1
@@ -106,7 +106,7 @@ theorem isCyclic_sylow_of_forall_le_inf_centralizer {K : Subgroup Y} {t : Y} (ht
     have hcomm := Subgroup.mem_center_iff.mp htCent (⟨r, hr⟩ : R)
     exact congrArg Subtype.val hcomm
   have hRcyc : IsCyclic R := by
-    haveI : IsCyclic (R ⊓ C : Subgroup Y) := hCircC
+    have : IsCyclic (R ⊓ C : Subgroup Y) := hCircC
     exact Subgroup.isCyclic_of_le (le_inf le_rfl hRC)
   have hS1cyc : IsCyclic (S1 : Subgroup K) :=
     (Subgroup.equivMapOfInjective (S1 : Subgroup K) K.subtype K.subtype_injective).isCyclic.mpr
@@ -140,7 +140,7 @@ theorem exists_conj_eq_of_isCyclic_sylow {K : Subgroup Y}
   have hwK : orderOf (k * tK * k⁻¹) = 2 := by
     rw [← MulAut.conj_apply k tK, MulEquiv.orderOf_eq]
     exact htK2
-  haveI : IsCyclic (Su : Subgroup K) := hcyc Su
+  have : IsCyclic (Su : Subgroup K) := hcyc Su
   have hword : orderOf (⟨k * tK * k⁻¹, hmem⟩ : (Su : Subgroup K)) = 2 := by
     rw [Subgroup.orderOf_mk]
     exact hwK
@@ -159,13 +159,13 @@ theorem perfect_eq_bot_of_isCyclic_sylow {K P : Subgroup Y}
   obtain ⟨S⟩ : Nonempty (Sylow 2 P) := inferInstance
   have hScyc : IsCyclic (S : Subgroup P) := by
     have hmapcyc : IsCyclic ((S : Subgroup P).map P.subtype) :=
-      isCyclic_of_isPGroup_of_isCyclic_sylow hK (S.isPGroup'.map P.subtype)
+      isCyclic_of_isPGroup_of_isCyclic_sylow hK (S.isPGroup.map P.subtype)
         ((map_subtype_le (S : Subgroup P)).trans hPK)
     exact (Subgroup.equivMapOfInjective (S : Subgroup P) P.subtype
       P.subtype_injective).isCyclic.mpr hmapcyc
   obtain ⟨-, -, -, ⟨hn, hodd, hidx, -⟩, -⟩ := CFSG.cyclic_sylow_normal_odd_complement S hScyc
   have hq : IsPGroup 2 (P ⧸ pPrimeCore 2 P) := by
-    obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
     exact IsPGroup.of_card (n := k) (by rw [← index_eq_card, hidx, hk])
   have := hq.isNilpotent
   have hPtop : ⁅(⊤ : Subgroup P), (⊤ : Subgroup P)⁆ = ⊤ := by

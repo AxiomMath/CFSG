@@ -36,7 +36,7 @@ open CFSG.RankThree.PartOne.OutStructure (OutPNice outPNice_E6_gen outPNice_E7_g
 open CFSG.TauCetiBridge.Even (chevalleyBridgesAll)
 
 
-@[expose] def t263GExcInner (p : ℕ) : TauCeti.CFSGIndex → Prop :=
+@[expose] def t263GExcInner (_p : ℕ) : TauCeti.CFSGIndex → Prop :=
   onLie fun
     | .E7 q | .E8 q | .F4 q | .G2 q => q.p = 2
     | _ => False
@@ -47,7 +47,7 @@ open CFSG.TauCetiBridge.Even (chevalleyBridgesAll)
     | .twistedE6 q => q.p = 2 ∧ ¬ (p = 3 ∧ 3 ∣ q.card + 1)
     | _ => False
 
-@[expose] def t263GTD4Inner (p : ℕ) : TauCeti.CFSGIndex → Prop :=
+@[expose] def t263GTD4Inner (_p : ℕ) : TauCeti.CFSGIndex → Prop :=
   onLie fun
     | .trialityD4 q => q.p = 2
     | _ => False
@@ -78,7 +78,7 @@ private theorem inducesInnerMod_of_model {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
   have hqS : CFSG.Open.IsQuasisimple (PQuot p S) := isQuasisimple_pQuot_of_glaPComponent hp hL
   obtain ⟨labL, hLabQuot, hinDiag⟩ := I141F.innDiagKind_chevAut hx hqS hInn
   have hcen : Subgroup.center (PSimple p S) = ⊥ := Y10F.center_centerQuot_eq_bot hqS
-  haveI : Group.IsPerfect (PQuot p S) := ⟨hqS.1⟩
+  have : Group.IsPerfect (PQuot p S) := ⟨hqS.1⟩
   have hperf : commutator (PSimple p S) = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center (PQuot p S)))
       (QuotientGroup.mk'_surjective _)).commutator_eq_top
@@ -111,7 +111,7 @@ private theorem inducesInnerMod_of_outPNice {p : ℕ} (hp : p.Prime) (hp2 : p �
     (hSq : CFSG.Open.IsQuasisimple ↥S) (hSp : GLAPPrimeCore p ↥S = ⊥) (hxp : x ^ p = 1)
     (hInn : InnDiagOn p (Subgroup.zpowers x) S) (h : OutPNice p (↥S ⧸ Subgroup.center ↥S)) :
     InducesInnerMod p S x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact inducesInnerMod_of_model hp hp2 hSn hSq hSp hxp hInn (MulEquiv.refl _) fun a ha hap =>
     mem_inner_of_mem_innAutDerived_of_outPNice h ha hap
 
@@ -174,8 +174,8 @@ theorem inducesInnerMod_e6Inner {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : T
         refine inducesInnerMod_of_model hp hp2 hSn hSq hSp hxp hInn e fun a ha ha3 => ?_
         obtain ⟨K, hfield, hfin, hK, -, ⟨eA⟩⟩ :=
           exists_catEquiv_adjointGroup chevalleyBridgesAll.e6 q hv
-        letI := hfield
-        letI := hfin
+        let := hfield
+        let := hfin
         have hK' : Nat.card K = q.p ^ q.exponent := hK.trans q.card_def
         have h3K : ¬ 3 ∣ Nat.card K - 1 := by
           rw [hK]
@@ -193,8 +193,8 @@ theorem inducesInnerMod_e6Inner {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : T
     | twistedE6 q =>
       simp only [t263GE6Inner, onLie] at hi
       obtain ⟨K, hfield, σ, hK, hσ, ⟨eC⟩⟩ := exists_catEquiv_twistedE6 q hv
-      letI := hfield
-      haveI : Finite K := Nat.finite_of_card_ne_zero (by
+      let := hfield
+      have : Finite K := Nat.finite_of_card_ne_zero (by
         rw [hK]
         exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
       by_cases hp3 : p = 3
@@ -231,8 +231,8 @@ theorem inducesInnerMod_td4Inner {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Ω : 
     cases d with
     | trialityD4 q =>
       obtain ⟨K, hfield, hfin, σ, hK, hσ, -, ⟨eC⟩⟩ := exists_catEquiv_trialityD4 q hv
-      letI := hfield
-      letI := hfin
+      let := hfield
+      let := hfin
       exact inducesInnerMod_of_model hp hp2 hSn hSq hSp hxp hInn (e.trans eC) fun a ha _ =>
         sup_le le_rfl (t6outtrid4_commutator_le_range q.prime_p q.exponent_pos hK σ hσ) ha
     | _ => exact absurd hi (by simp only [t263GTD4Inner, onLie, not_false_eq_true])
@@ -246,7 +246,7 @@ private theorem t263GExcInner_of_easy {p : ℕ} {i : TauCeti.CFSGIndex} (h : t26
   | lie d =>
     obtain ⟨d, hv⟩ := d
     cases d <;> simp only [t263GExcEasy, t263GExcInner, onLie] at h ⊢ <;>
-      first | exact h.elim | exact h.1
+      exact h.1
   | cyclic r hr => exact h.elim
   | alternating n hn => exact h.elim
   | sporadic s => exact h.elim
@@ -257,7 +257,7 @@ private theorem t263GE6Inner_of_easy {p : ℕ} {i : TauCeti.CFSGIndex} (h : t263
   | lie d =>
     obtain ⟨d, hv⟩ := d
     cases d <;> simp only [t263GE6Easy, t263GE6Inner, onLie] at h ⊢ <;>
-      first | exact h.elim | exact ⟨h.1, h.2.2.2⟩
+      exact ⟨h.1, h.2.2.2⟩
   | cyclic r hr => exact h.elim
   | alternating n hn => exact h.elim
   | sporadic s => exact h.elim
@@ -267,8 +267,8 @@ private theorem t263GTD4Inner_of_easy {p : ℕ} {i : TauCeti.CFSGIndex} (h : t26
   cases i with
   | lie d =>
     obtain ⟨d, hv⟩ := d
-    cases d <;> simp only [t263GTD4Easy, t263GTD4Inner, onLie] at h ⊢ <;>
-      first | exact h.elim | exact h.1
+    cases d <;> simp only [t263GTD4Easy, t263GTD4Inner, onLie] at h ⊢;
+      exact h.1
   | cyclic r hr => exact h.elim
   | alternating n hn => exact h.elim
   | sporadic s => exact h.elim

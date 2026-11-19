@@ -147,7 +147,7 @@ theorem exists_conj_eq_zpowers_of_isSLThreePiAt {G : Type} [Group G] [Finite G] 
       (by rw [hZ3, Nat.card_zpowers, hz'ord])).symm
   have hZP : Subgroup.center N ≤ (P₀ : Subgroup N) :=
     IsPGroup.le_sylow_of_normal (IsPGroup.of_card (n := 1) (by rw [hZ3, pow_one])) P₀
-  obtain ⟨Q, hQ⟩ := (P₀.isPGroup'.map N.subtype).exists_le_sylow
+  obtain ⟨Q, hQ⟩ := (P₀.isPGroup.map N.subtype).exists_le_sylow
   have hzQ : z ∈ (Q : Subgroup G) := hQ (Subgroup.mem_map_of_mem N.subtype (hZP hz'Z))
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G P Q
   have hPQ : (P : Subgroup G).map (MulAut.conj g).toMonoidHom = Q := by

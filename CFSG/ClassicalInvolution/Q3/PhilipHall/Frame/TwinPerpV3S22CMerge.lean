@@ -25,7 +25,7 @@ open CFSG CFSG.Open CFSG.ClassicalInvolution CFSG.ClassicalInvolution.Generic
 
 variable {n : ℕ}
 
-theorem adapted_boundsAllC (hcit : CIT3Below n) (hP : TL4.TightBelowRPlus 3 n) (hT4 : Thm4RTwinBelow 3 n)
+theorem adapted_boundsAllC (_hcit : CIT3Below n) (_hP : TL4.TightBelowRPlus 3 n) (hT4 : Thm4RTwinBelow 3 n)
     (h5 : V3Fourth n) (hαF : V3FourthAlphaF n) (hS : V3Hyp51StarF n) (hG : V3LayerGenAllC n)
     {Y : Type} [Group Y] [Finite Y] {R : Subgroup Y} {S : Sylow 2 R} {t : Y}
     {K K' K₃ : Subgroup Y} {u₁ u₂ u₃ : Y} (hStd : V3Std n Y R S t K K' K₃ u₁ u₂ u₃)

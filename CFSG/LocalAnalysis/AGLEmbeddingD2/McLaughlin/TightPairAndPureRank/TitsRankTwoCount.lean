@@ -89,6 +89,7 @@ section Tits
 variable {G : Type*} [Group G] [Finite G] {B N : Subgroup G} [(cartan B N).Normal]
   {S : Set (WeylGroup B N)}
 
+omit [Group G] in
 theorem card_union_of_disjoint {s t : Set G} (h : Disjoint s t) :
     Nat.card ↥(s ∪ t) = Nat.card ↥s + Nat.card ↥t := by
   simp only [Nat.card_coe_set_eq]
@@ -105,6 +106,7 @@ theorem eq_one_or_eq_of_mem_closure_single {W : Type*} [Group W] {a : W} (haa : 
     · left; rw [h, inv_one]
     · right; rw [h]; exact inv_eq_of_mul_eq_one_right haa
 
+omit [Finite G] in
 theorem coe_parabolic_single (h : CFSG.GroupTheory.TitsSystem.IsBNPair B N S) {a : WeylGroup B N}
     (ha : a ∈ S) :
     ((parabolic B N {a} : Subgroup G) : Set G) = (B : Set G) ∪ dc B N a := by
@@ -121,6 +123,7 @@ theorem coe_parabolic_single (h : CFSG.GroupTheory.TitsSystem.IsBNPair B N S) {a
     · exact ⟨1, one_mem _, mem_dc_one.2 hx⟩
     · exact ⟨a, Subgroup.subset_closure rfl, hx⟩
 
+omit [Finite G] in
 theorem dc_mul_dc_of_ne (h : CFSG.GroupTheory.TitsSystem.IsBNPair B N S) {s t : WeylGroup B N}
     (hs : s ∈ S) (ht : t ∈ S) (hst : s ≠ t) : dc B N s * dc B N t ⊆ dc B N (s * t) := by
   intro x hx
@@ -132,6 +135,7 @@ theorem dc_mul_dc_of_ne (h : CFSG.GroupTheory.TitsSystem.IsBNPair B N S) {s t : 
     · exact h2
     · exact absurd h1 (Set.disjoint_left.1 (h.pairwise_disjoint_dc hst) h2)
 
+omit [Finite G] in
 theorem dc_union_eq_dcoset (h : CFSG.GroupTheory.TitsSystem.IsBNPair B N S) {a : WeylGroup B N}
     (ha : a ∈ S) {w : WeylGroup B N} {n : N} (hn : (n : WeylGroup B N) = w) :
     dc B N w ∪ dc B N (w * a) =
@@ -171,7 +175,7 @@ theorem dc_union_eq_dcoset (h : CFSG.GroupTheory.TitsSystem.IsBNPair B N S) {a :
 
 theorem arith_pow_two {o e : ℕ} (h : 3 * 2 ^ o = 2 + 2 ^ e) (he : 2 ≤ 2 ^ e) : 2 ^ o = 2 := by
   rcases o with _ | _ | o
-  · rcases e with _ | _ | e <;> simp [pow_succ] at h he ⊢ <;> omega
+  · rcases e with _ | _ | e <;> simp [pow_succ] at h he ⊢; omega
   · simp
   · rcases e with _ | _ | e <;> simp [pow_succ] at h he ⊢ <;> omega
 

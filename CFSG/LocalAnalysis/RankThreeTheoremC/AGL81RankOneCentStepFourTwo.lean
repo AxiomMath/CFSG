@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem mulAut_conj_apply_eq {K : Type} [Group K] (σ : MulAut K) (k : K) :
     MulAut.conj (σ k) = σ * MulAut.conj k * σ⁻¹ := by
   ext x
-  simp [MulAut.conj_apply, MulAut.mul_apply, map_mul, map_inv, MulAut.apply_inv_self]
+  simp [MulAut.conj_apply, MulAut.mul_apply, map_mul, map_inv]
 
 theorem mem_normalizer_map_conj {K : Type} [Group K] {T : Subgroup K} {σ : MulAut K}
     (hσ : ∀ t, t ∈ T ↔ σ t ∈ T) :
@@ -28,7 +28,6 @@ theorem mem_normalizer_map_conj {K : Type} [Group K] {T : Subgroup K} {σ : MulA
     exact ⟨σ t, (hσ t).mp ht, by simp [mulAut_conj_apply_eq]⟩
   · rintro ⟨t', ht', he⟩
     refine ⟨σ⁻¹ t', (hσ _).mpr (by rwa [MulAut.apply_inv_self]), ?_⟩
-    change MulAut.conj (σ⁻¹ t') = h
     rw [mulAut_conj_apply_eq, he]
     group
 
@@ -164,7 +163,7 @@ theorem mem_iff_act_mem_normalizer (hI4 : KFactStepThreeMaximal) {P : Sylow p G}
     have hnorm : (T.subtype hTN).toSubgroup.Normal := by
       rw [Sylow.coe_subtype]
       exact Subgroup.normal_in_normalizer
-    haveI := Sylow.unique_of_normal (T.subtype hTN) hnorm
+    have := Sylow.unique_of_normal (T.subtype hTN) hnorm
     have heq : T.subtype hTN = P'.subtype hP'N := Subsingleton.elim _ _
     have hTP : T = P' := Sylow.subtype_injective heq
     intro t ht

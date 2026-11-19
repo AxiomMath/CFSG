@@ -117,10 +117,10 @@ theorem twThirdLine_f4Six (K : Type) [Field K] [Finite K] (hK3 : 3 ≤ Nat.card 
     (hp : p.Prime) (hp5 : 5 ≤ p)
     (hord : orderOf ((Nat.card K : ℕ) : ZMod p) = 6) : TwThirdLine .F4 K p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ℓ, f, hℓ, hchar, hf, hK⟩ := exists_char_pow K
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   have hcm := canonicalRep_mem_monomialSubgroup L (f4Cox ^ 10)
   have hπ : weylQuotientHom .F4 L ⟨canonicalRep (coxeterSystem .F4) L (f4Cox ^ 10), hcm⟩ =
       f4Cox ^ 10 := weylQuotientHom_eq (mapsRootLines_canonicalRep (f4Cox ^ 10))

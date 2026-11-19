@@ -18,11 +18,13 @@ private noncomputable def blockSpOf {r n : ℕ} (σ : Fin r → Fin n)
     (hσ : Function.Injective σ) : Subgroup (StatedSp n F) :=
   (spEmbed σ hσ).range
 
+omit [Finite F] [CharP F 2] in
 private theorem blockSpOf_eq_suppGroup {r n : ℕ} {σ : Fin r → Fin n}
     (hσ : Function.Injective σ) :
     blockSpOf (F := F) σ hσ = suppGroup (K := F) (Set.range (Sum.map σ σ)) := by
   rw [blockSpOf, range_spEmbed]
 
+omit [Finite F] [CharP F 2] in
 private theorem isQuasisimple_blockSpOf {r n : ℕ} {σ : Fin r → Fin n}
     (hσ : Function.Injective σ) (hr : 1 ≤ r) (hF : 4 ≤ Nat.card F) :
     CFSG.IsQuasisimple (blockSpOf (F := F) σ hσ) := by
@@ -31,19 +33,21 @@ private theorem isQuasisimple_blockSpOf {r n : ℕ} {σ : Fin r → Fin n}
   exact CFSG.LocalCores.isQuasisimple_of_mulEquiv
     (MonoidHom.ofInjective (spEmbed_injective hσ)) hQ
 
+omit [Finite F] in
 private theorem center_blockSpOf {r n : ℕ} {σ : Fin r → Fin n}
-    (hσ : Function.Injective σ) (hr : 1 ≤ r) :
+    (hσ : Function.Injective σ) (_hr : 1 ≤ r) :
     Subgroup.center (blockSpOf (F := F) σ hσ) = ⊥ := by
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   exact (center_eq_bot_congr
     (MonoidHom.ofInjective (spEmbed_injective hσ))).2
     (center_statedSp_eq_bot r)
 
+omit [Finite F] [CharP F 2] in
 private theorem dvd_card_blockSpOf {r n : ℕ} {σ : Fin r → Fin n}
-    (hσ : Function.Injective σ) (hr : 1 ≤ r) (hq : q.Prime)
+    (hσ : Function.Injective σ) (hr : 1 ≤ r) (_hq : q.Prime)
     (hqdvd : q ∣ Nat.card F - 1) :
     q ∣ Nat.card (blockSpOf (F := F) σ hσ) := by
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   have hcard : Nat.card (blockSpOf (F := F) σ hσ) = Nat.card (StatedSp r F) :=
     Nat.card_congr
       (MonoidHom.ofInjective (spEmbed_injective hσ)).toEquiv.symm
@@ -53,12 +57,13 @@ private theorem dvd_card_blockSpOf {r n : ℕ} {σ : Fin r → Fin n}
     exact hqdvd
   exact hrt.trans (Subgroup.card_subgroup_dvd_card _)
 
+omit [Finite F] [CharP F 2] in
 private theorem blockSpOf_normal_centralizer_two {r n : ℕ} {σ : Fin r → Fin n}
     (hσ : Function.Injective σ) {i j : Fin n} (hij : i ≠ j)
     (hLi : blockSpOf (F := F) σ hσ ≤ complSp F i)
     (hLj : blockSpOf (F := F) σ hσ ≤ complSp F j)
     (hInf : complSp F i ⊓ complSp F j ≤ blockSpOf (F := F) σ hσ)
-    {ζ : Fˣ} {q : ℕ} (hζ : orderOf ζ = q) (hζ2 : ζ * ζ ≠ 1) :
+    {ζ : Fˣ} {q : ℕ} (_hζ : orderOf ζ = q) (hζ2 : ζ * ζ ≠ 1) :
     ((blockSpOf (F := F) σ hσ).subgroupOf
       (Subgroup.centralizer (symplecticE2Torus (F := F) (n := n) i j ζ :
         Set (StatedSp n F)))).Normal := by
@@ -198,9 +203,10 @@ private theorem range_blockEmbedTwo (hm : 3 ≤ m) :
       (coords (0 : Fin m) ∪ coords (1 : Fin m))ᶜ := by
   ext a
   rcases a with i | i
-  · simpa [Sum.map, exists_blockEmbedTwo_eq_iff hm i, mem_coords, and_assoc]
-  · simpa [Sum.map, exists_blockEmbedTwo_eq_iff hm i, mem_coords, and_assoc]
+  · simp [Sum.map, exists_blockEmbedTwo_eq_iff hm i, mem_coords]
+  · simp [Sum.map, exists_blockEmbedTwo_eq_iff hm i, mem_coords]
 
+omit [Finite F] [CharP F 2] in
 private theorem blockSpTwo_eq_inf (hm : 3 ≤ m) :
     blockSpTwo (F := F) (m := m) =
       complSp F (0 : Fin m) ⊓ complSp F (1 : Fin m) := by
@@ -209,6 +215,7 @@ private theorem blockSpTwo_eq_inf (hm : 3 ≤ m) :
   congr 1
   rw [Set.compl_union]
 
+omit [Finite F] [CharP F 2] in
 private theorem blockSpTwo_le_centralizer (hm : 3 ≤ m) {ζ : Fˣ} :
     blockSpTwo (F := F) (m := m) ≤
       Subgroup.centralizer
@@ -237,8 +244,8 @@ theorem layerData166_statedSp {F : Type} [Field F] [Finite F] [CharP F 2]
     (hq : q.Prime) (hq2 : q ≠ 2) (hqdvd : q ∣ Nat.card F - 1) :
     LayerData166 (StatedSp m F) q m := by
   classical
-  haveI : NeZero m := ⟨by omega⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : NeZero m := ⟨by omega⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hF4 : 4 ≤ Nat.card F := by
     rw [hcard]
     calc 4 = 2 ^ 2 := by norm_num
@@ -314,9 +321,9 @@ theorem layerData166At_B {m n : ℕ} (hm : 3 ≤ m) (hn : 2 ≤ n) :
   intro J _ _ q hK hZ hq hq2 hqn
   obtain ⟨F, hField, hFinite, hChar, hcard, hEquiv⟩ :=
     exists_mulEquiv_statedSp_of_isLabel (K := J) (N := m) (n := n) hK hZ
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   obtain ⟨e⟩ := hEquiv
   have hqn' : q ∣ Nat.card F - 1 := by
     rw [hcard]

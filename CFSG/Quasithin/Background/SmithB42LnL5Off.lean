@@ -77,8 +77,7 @@ theorem fix_R4_upMat (c₃ c₆ c₈ c₉ : ZMod 2) {x : Fin 10 → ZMod 2} (hx 
   have h9 : x 9 = 0 := congrFun hx 3
   funext k
   fin_cases k <;>
-    simp [wedgeMat, pr5, Curtis.upMat, mulVec, dotProduct, Fin.sum_univ_succ, h3, h6, h8, h9] <;>
-    ring
+    simp [wedgeMat, pr5, Curtis.upMat, mulVec, dotProduct, Fin.sum_univ_succ, h3, h6, h8, h9]
 
 theorem card_crdE_zero :
     (Finset.univ.filter fun x : Fin 10 → ZMod 2 => crdE x = 0).card = 64 := by

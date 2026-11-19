@@ -34,6 +34,7 @@ theorem neg_orthRoot_three_mem_longRoots : -TableBF4Two.orthRoot 3 ∈ ReeTag.F4
   ⟨CFSG.LieType.Chevalley.IsRoot.neg (TableBF4Two.isRoot_orthRoot 3),
     ReeTag.lengthParam_eq_prime_iff.2 (by decide +kernel)⟩
 
+omit [Finite K] in
 theorem exists_mulEquiv_nodeElt_eq_torusGen_zero :
     ∃ α : adjointGroup .F4 K ≃* adjointGroup .F4 K, α (nodeElt K) = TableBF4Two.torusGen K 0 := by
   refine ⟨MulAut.conj (nElt K)⁻¹, ?_⟩
@@ -42,6 +43,7 @@ theorem exists_mulEquiv_nodeElt_eq_torusGen_zero :
   rw [MulAut.conj_apply, ← h]
   group
 
+omit [CharP K 2] in
 theorem hasBits_graphAut_nodeElt [CharP K ReeTag.F4.prime] :
     HasBits K (ReeTag.F4.finiteExceptionalAut K (nodeElt K))
       (mul (pack (eltBits 44)) (pack (eltBits 47))) := by

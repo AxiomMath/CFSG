@@ -263,7 +263,7 @@ theorem ug81_fourier_unitary [Fact r.Prime] (h : UnitaryFieldData ℓ f K) (hrq 
     simp
   · have hne : ((k : ℕ) : ZMod r) - ((j : ℕ) : ZMod r) ≠ 0 := fun h0 =>
       hjk (ug81_natCast_inj.mp (sub_eq_zero.mp h0).symm)
-    rw [if_neg hne, if_neg hjk]
+    rw [ite_eq_right hne, ite_eq_right hjk]
 
 theorem ug81_chirp_unitary [NeZero r] (h : UnitaryFieldData ℓ f K) (hrq : r ∣ ℓ ^ f + 1)
     (hζ : IsPrimitiveRoot ζ r) (b : ZMod r) :
@@ -273,7 +273,7 @@ theorem ug81_chirp_unitary [NeZero r] (h : UnitaryFieldData ℓ f K) (hrq : r �
     Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
   congr 1
   funext j
-  simp only [Pi.mul_apply, Pi.one_apply, Function.comp_apply, ug81_bar_psi h hrq hζ]
+  simp only [ug81_bar_psi h hrq hζ]
   rw [← AddChar.map_add_eq_mul, neg_add_cancel, AddChar.map_zero_eq_one]
 
 theorem ug81_unitary_conj {n : ℕ} (h : UnitaryFieldData ℓ f K) (F D : Matrix (Fin n) (Fin n) K)
@@ -490,14 +490,14 @@ theorem ug81_word_entry [Fact r.Prime] (hζ : IsPrimitiveRoot ζ r) (hr : 5 ≤ 
       rw [hc]
       field_simp
       ring
-    rw [if_pos hT0, hE0, AddChar.map_zero_eq_one, if_pos hc]
+    rw [ite_eq_left hT0, hE0, AddChar.map_zero_eq_one, ite_eq_left hc]
     field_simp
   · have hT0 : ug81T kk ((i : ℕ) : ZMod r) ((j : ℕ) : ZMod r) ≠ 0 := by
       intro h0
       have hm := ug81T_mul hkk h2 ((i : ℕ) : ZMod r) ((j : ℕ) : ZMod r)
       rw [h0, zero_mul] at hm
       exact hc (by linear_combination hm)
-    rw [if_neg hT0, if_neg hc]
+    rw [ite_eq_right hT0, ite_eq_right hc]
     simp
 
 theorem ug81_shift_mem (h : UnitaryFieldData ℓ f K) {r : ℕ} [Fact r.Prime] (hr : 5 ≤ r)
@@ -553,8 +553,8 @@ theorem ug81_mult_mem (h : UnitaryFieldData ℓ f K) {r : ℕ} [Fact r.Prime] (h
   simp only [Units.val_mul, ug81GLChirp_val, ug81GLConj_val]
   rw [ug81_word_entry hζ hr hkk i j, Matrix.smul_apply, smul_eq_mul, ug81_perm_entry]
   by_cases hc : ((j : ℕ) : ZMod r) = kk * ((i : ℕ) : ZMod r)
-  · rw [if_pos hc, if_pos ((mulPerm_apply_eq_iff k hk i j).mpr hc)]
-  · rw [if_neg hc, if_neg (fun h' => hc ((mulPerm_apply_eq_iff k hk i j).mp h'))]
+  · rw [ite_eq_left hc, ite_eq_left ((mulPerm_apply_eq_iff k hk i j).mpr hc)]
+  · rw [ite_eq_right hc, ite_eq_right (fun h' => hc ((mulPerm_apply_eq_iff k hk i j).mp h'))]
 
 end Word
 

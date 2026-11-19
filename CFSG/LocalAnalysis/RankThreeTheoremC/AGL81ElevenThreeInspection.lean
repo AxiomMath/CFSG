@@ -55,6 +55,7 @@ variable (G : Type) [Group G] [Finite G]
 
 variable {G}
 
+omit [Finite G] in
 theorem mem_normalizer_inf {M H L : Subgroup G} (hLM : L ≤ M) (hLn : (L.subgroupOf M).Normal)
     {b : G} (hb : b ∈ H ⊓ M) : b ∈ normalizer ((H ⊓ L : Subgroup G) : Set G) := by
   have hbL : b ∈ normalizer (L : Set G) :=
@@ -98,7 +99,7 @@ theorem not_trivOnW_of {M H L : Subgroup G} (hLM : L ≤ M) (hLn : (L.subgroupOf
   exact fun h => hbw (h w hw hwW)
 
 theorem altFive_quasisimple : CFSG.Open.IsQuasisimple (alternatingGroup (Fin 5)) := by
-  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hnc : ¬ IsMulCommutative (alternatingGroup (Fin 5)) := by
     rw [alternatingGroup.isMulCommutative_iff_card_le_three]
     simp
@@ -142,13 +143,14 @@ theorem exists_altFive_of_symFive {Q : Type} [Group Q] (e : Q ≃* Equiv.Perm (F
 theorem exists_altFive_of_symFive_prod {Q : Type} [Group Q] {m : ℕ}
     (e : Q ≃* Equiv.Perm (Fin 5) × Equiv.Perm (Fin m)) :
     ∃ C : Subgroup Q, C.Normal ∧ Nonempty (↥C ≃* alternatingGroup (Fin 5)) := by
-  haveI : (alternatingGroup (Fin 5)).Normal := alternatingGroup.normal
+  have : (alternatingGroup (Fin 5)).Normal := alternatingGroup.normal
   set D : Subgroup (Equiv.Perm (Fin 5) × Equiv.Perm (Fin m)) :=
     (alternatingGroup (Fin 5)).prod ⊥ with hD
   refine ⟨D.map e.symm.toMonoidHom, (Subgroup.prod_normal _ _).map _ e.symm.surjective, ⟨?_⟩⟩
   exact ((equivMapOfInjective D e.symm.toMonoidHom e.symm.injective).symm.trans
     (Subgroup.prodEquiv _ _)).trans MulEquiv.prodUnique
 
+omit [Finite G] in
 theorem quotPCore_congr {M X X' : Subgroup G} (h : barM M X = barM M X') {T : Type} [Group T]
     (e : Nonempty (↥(barM M X') ⧸ CFSG.pCore 2 ↥(barM M X') ≃* T)) :
     Nonempty (↥(barM M X) ⧸ CFSG.pCore 2 ↥(barM M X) ≃* T) := by
@@ -172,7 +174,7 @@ theorem elevenThreeInspection_core (h85 : Asc81bEightFive) (h93 : Asc81bNineThre
     ∃ I₀ ∈ cZero (H ⊓ L), Nonempty (↥I₀ ⧸ CFSG.pCore 2 ↥I₀ ≃* alternatingGroup (Fin 5)) := by
   push Not at hnt
   obtain ⟨b, hb, x, hx, hbx⟩ := hnt
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨i, hi⟩ : ∃ i : ℕ, orderOf b = p ^ i := by
     obtain ⟨k, hk⟩ := hB ⟨b, hb⟩
     have hdvd : orderOf b ∣ p ^ k := by

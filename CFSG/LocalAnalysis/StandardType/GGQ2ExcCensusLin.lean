@@ -245,7 +245,7 @@ private theorem lin_parab_set_a (hT : Chk.tabsOK m T = true)
       {i : Fin (Chk.rkN w.tc w.n) | (fun i : ℕ => i != w.a) i = true} := by
   ext i
   have ha := linOf_a (m := m) (T := T) hT hw
-  simp only [Set.mem_setOf_eq, ha, Fin.ext_iff, bne_iff_ne, ne_eq]
+  simp only [Set.mem_ofPred_eq, ha, Fin.ext_iff, bne_iff_ne, ne_eq]
 
 private theorem lin_parab_set_b (hT : Chk.tabsOK m T = true)
     (hw : Chk.linOK T (nroots m) w = true) :
@@ -253,7 +253,7 @@ private theorem lin_parab_set_b (hT : Chk.tabsOK m T = true)
       {i : Fin (Chk.rkN w.tc w.n) | (fun i : ℕ => i != w.b) i = true} := by
   ext i
   have hb := linOf_b (m := m) (T := T) hT hw
-  simp only [Set.mem_setOf_eq, hb, Fin.ext_iff, bne_iff_ne, ne_eq]
+  simp only [Set.mem_ofPred_eq, hb, Fin.ext_iff, bne_iff_ne, ne_eq]
 
 theorem linOf_parab_eq {p : ℕ → Bool} {c : ℕ} {L : List (ℕ × ℕ)}
     (hg : Chk.genOK T (nroots m) (Chk.nodeMask w p) c L = true) (hb : Chk.notB2 m c = true) :
@@ -263,7 +263,7 @@ theorem linOf_parab_eq {p : ℕ → Bool} {c : ℕ} {L : List (ℕ × ℕ)}
   have hset : nodeRoot m w (typeOK_node_lt (linOK_typeOK hw)) '' {i | p i = true} =
       (ofMask m (Chk.nodeMask w p) : Set (Root m)) := by
     ext t
-    rw (config := { transparency := .all }) [Set.mem_image, Set.mem_setOf_eq, mem_ofMask_nodeMask]
+    rw (config := { transparency := .all }) [Set.mem_image, Set.mem_ofPred_eq, mem_ofMask_nodeMask]
     exact Iff.rfl
   rw [hset, genOK_sound hT hg]
   exact (normalizerGroup_ofMask (m := m) hb).symm

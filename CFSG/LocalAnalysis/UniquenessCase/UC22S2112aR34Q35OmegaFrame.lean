@@ -36,6 +36,7 @@ theorem frameSignGroup_le_omegaGroup (hQ : Q.Nondegenerate) (fr : Sec4IFrame Q) 
   change sec4IMono fr 1 u ∈ omegaGroup hQ
   exact (sec4IMono_mem_omegaGroup_iff hQ fr 1 u).mpr ⟨Equiv.Perm.sign_one, hu⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem isPGroup_frameSignGroup (fr : Sec4IFrame Q) : IsPGroup 2 (frameSignGroup fr) := by
   intro g
   obtain ⟨u, _, hgu⟩ := g.2
@@ -51,6 +52,7 @@ private theorem sec4ISgn_eq_neg_one_of_ne_zero {u : ZMod 2} (hu : u ≠ 0) :
   revert u
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem mem_commSp_sec4IT_iff (fr : Sec4IFrame Q) (s : Fin 7 → ZMod 2) (v : V) :
     v ∈ commSp (sec4IT fr s) ↔ ∀ i, s i = 0 → fr.b.repr v i = 0 := by
   rw [mem_commSp_iff (sec4IT_mul_self fr s)]
@@ -76,6 +78,7 @@ private theorem mem_commSp_sec4IT_iff (fr : Sec4IFrame Q) (s : Fin 7 → ZMod 2)
     · rw [sec4ISgn_eq_neg_one_of_ne_zero hi]
       simp
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem commSp_sec4IT (fr : Sec4IFrame Q) (s : Fin 7 → ZMod 2) :
     commSp (sec4IT fr s) = Submodule.span (ZMod 3) (fr.b '' {i | s i ≠ 0}) := by
   apply le_antisymm
@@ -94,6 +97,7 @@ theorem commSp_sec4IT (fr : Sec4IFrame Q) (s : Fin 7 → ZMod 2) :
       · exact absurd (show s i = 0 from hji.symm ▸ hj) hi
       · rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem mem_fixSp_sec4IT_iff (fr : Sec4IFrame Q) (s : Fin 7 → ZMod 2) (v : V) :
     v ∈ fixSp (sec4IT fr s) ↔ ∀ i, s i ≠ 0 → fr.b.repr v i = 0 := by
   rw [mem_fixSp_iff]
@@ -115,6 +119,7 @@ private theorem mem_fixSp_sec4IT_iff (fr : Sec4IFrame Q) (s : Fin 7 → ZMod 2) 
     · rw [sec4ISgn_eq_neg_one_of_ne_zero hi, hv i hi]
       simp
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fixSp_sec4IT (fr : Sec4IFrame Q) (s : Fin 7 → ZMod 2) :
     fixSp (sec4IT fr s) = Submodule.span (ZMod 3) (fr.b '' {i | s i = 0}) := by
   apply le_antisymm
@@ -160,6 +165,7 @@ private theorem sec4ISgn_add_single_eq_one {a b l : Fin 7} (hla : l ≠ a) (hlb 
   rw [Pi.add_apply, Pi.single_eq_of_ne hla, Pi.single_eq_of_ne hlb, add_zero]
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem repr_sub_sec4IT (fr : Sec4IFrame Q) (s : Fin 7 → ZMod 2) (x : V) (l : Fin 7) :
     fr.b.repr (x - (sec4IT fr s : V ≃ₗ[ZMod 3] V) x) l =
       (1 - ((sec4ISgn (s l) : (ZMod 3)ˣ) : ZMod 3)) * fr.b.repr x l := by
@@ -171,6 +177,7 @@ private theorem zmod3_one_sub_neg_one (a : ZMod 3) :
   revert a
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem frameSign_coord_eq (fr : Sec4IFrame Q) (w : V) (i : Fin 7) :
     (w - (sec4IT fr (Pi.single i 1 + Pi.single (i + 1) 1) : V ≃ₗ[ZMod 3] V) w) -
       (sec4IT fr (Pi.single i 1 + Pi.single (i + 2) 1) : V ≃ₗ[ZMod 3] V)
@@ -191,23 +198,23 @@ private theorem frameSign_coord_eq (fr : Sec4IFrame Q) (w : V) (i : Fin 7) :
   · rw [hli]
     rw [sec4ISgn_add_single_eq_neg (a := i) (b := i + 1) h1 (Or.inl rfl),
       sec4ISgn_add_single_eq_neg (a := i) (b := i + 2) h2 (Or.inl rfl),
-      if_pos rfl, mul_one]
+      ite_eq_left rfl, mul_one]
     exact zmod3_one_sub_neg_one _
   · by_cases hlj : l = i + 1
     · rw [hlj]
       rw [sec4ISgn_add_single_eq_neg (a := i) (b := i + 1) h1 (Or.inr rfl),
         sec4ISgn_add_single_eq_one (a := i) (b := i + 2) (l := i + 1) h1.symm h3,
-        if_neg h1, mul_zero]
+        ite_eq_right h1, mul_zero]
       simp
     · by_cases hlk : l = i + 2
       · rw [hlk]
         rw [sec4ISgn_add_single_eq_one (a := i) (b := i + 1) (l := i + 2) h2.symm h3.symm,
           sec4ISgn_add_single_eq_neg (a := i) (b := i + 2) h2 (Or.inr rfl),
-          if_neg h2, mul_zero]
+          ite_eq_right h2, mul_zero]
         simp
       · rw [sec4ISgn_add_single_eq_one (a := i) (b := i + 1) hli hlj,
           sec4ISgn_add_single_eq_one (a := i) (b := i + 2) hli hlk,
-          if_neg (Ne.symm hli), mul_zero]
+          ite_eq_right (Ne.symm hli), mul_zero]
         simp
 
 private theorem pi_single_indicator (a : Fin 7) :
@@ -216,7 +223,7 @@ private theorem pi_single_indicator (a : Fin 7) :
   by_cases hi : i = a
   · rw [hi]
     simp
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     exact Pi.single_eq_of_ne hi 1
 
 private theorem sum_if_eq_one (a : Fin 7) :
@@ -235,6 +242,7 @@ private theorem isEvenVec_single_add_single (a b : Fin 7) :
   rw [Finset.sum_add_distrib, sum_if_eq_one a, sum_if_eq_one b]
   decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem frameSign_coord_smul_mem (fr : Sec4IFrame Q) {W : Submodule (ZMod 3) V}
     (hW : ∀ g ∈ frameSignGroup fr, ∀ w ∈ W, (g : V ≃ₗ[ZMod 3] V) w ∈ W)
     {w : V} (hw : w ∈ W) (i : Fin 7) :
@@ -255,6 +263,7 @@ private theorem frameSign_coord_smul_mem (fr : Sec4IFrame Q) {W : Submodule (ZMo
       V ≃ₗ[ZMod 3] V) w) ∈ W := W.sub_mem hx (hW _ hB2 _ hx)
   rwa [frameSign_coord_eq fr w i] at hy
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem eq_span_of_frameSignGroup_invariant (fr : Sec4IFrame Q) {W : Submodule (ZMod 3) V}
     (hW : ∀ g ∈ frameSignGroup fr, ∀ w ∈ W, (g : V ≃ₗ[ZMod 3] V) w ∈ W) :
     W = Submodule.span (ZMod 3) (fr.b '' {i | fr.b i ∈ W}) := by
@@ -302,9 +311,9 @@ theorem exists_split_of_frameSignGroup_invariant
     ext i
     show (if fr.b i ∈ W then (1 : ZMod 2) else 0) ≠ 0 ↔ fr.b i ∈ W
     by_cases hi : fr.b i ∈ W
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       simp [hi]
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       simp [hi]
   have hcomm : commSp (sec4IT fr s) = W := by
     rw [commSp_sec4IT, hsupp, ← eq_span_of_frameSignGroup_invariant fr hW]
@@ -352,7 +361,7 @@ theorem exists_split_of_frameSignGroup_invariant
   have hfix_eq : commSp (sec4IT fr (s + sec4IOnes)) = fixSp (sec4IT fr s) := by
     have hset : {i : Fin 7 | (s + sec4IOnes) i ≠ 0} = {i : Fin 7 | s i = 0} := by
       ext i
-      simp only [Set.mem_setOf_eq, Pi.add_apply, sec4IOnes]
+      simp only [Set.mem_ofPred_eq, Pi.add_apply, sec4IOnes]
       exact zmod2_add_one_ne_zero_iff (s i)
     rw [commSp_sec4IT, fixSp_sec4IT, hset]
   have hsignC : Even (vecWeight s) →

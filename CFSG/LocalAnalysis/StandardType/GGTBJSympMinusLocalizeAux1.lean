@@ -15,8 +15,8 @@ open CFSG.LieType.Universal.Symplectic.SpExtras (mat mat_apply mat_injective)
 open Matrix Multiplicative
 
 
-theorem sympMinusLoc_pow_eq_one {p : ℕ} (hp : p ≠ 0) (y : Multiplicative (ZMod p)) : y ^ p = 1 := by
-  haveI : NeZero p := ⟨hp⟩
+theorem sympMinusLoc_pow_eq_one {p : ℕ} (_hp : p ≠ 0) (y : Multiplicative (ZMod p)) : y ^ p = 1 := by
+  have : NeZero p := ⟨_hp⟩
   obtain ⟨z, rfl⟩ : ∃ z : ZMod p, ofAdd z = y := ⟨toAdd y, rfl⟩
   rw [← ofAdd_nsmul, nsmul_eq_mul, ZMod.natCast_self, zero_mul, ofAdd_zero]
 
@@ -28,7 +28,7 @@ theorem sympMinusLoc_gram_eq_planeMat {K : Type} [Field K] {m : ℕ} :
     by_cases hij : i = j <;>
     simp [CFSG.ClassicalInvolution.Models.SymplecticPairs.par,
       CFSG.ClassicalInvolution.Models.SymplecticPairs.sgn, WitSpNs.plane, WitSpNs.side,
-      Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, hij,
+      Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, hij,
       eq_comm]
 
 theorem sympMinusLoc_blk_eq_zero_of_mem_centralizer {K : Type} [Field K] {m : ℕ} [CharP K 2]
@@ -85,11 +85,11 @@ theorem sympMinusLocPlaneProj_transpose {K : Type} [Field K] {m : ℕ} (S : Fins
   ext a b
   rw [Matrix.transpose_apply, sympMinusLocPlaneProj, WitSpNs.planeMat_apply, WitSpNs.planeMat_apply]
   by_cases hab : WitSpNs.plane a = WitSpNs.plane b
-  · rw [hab, if_pos rfl, if_pos rfl]
+  · rw [hab, ite_eq_left rfl, ite_eq_left rfl]
     by_cases hS : WitSpNs.plane b ∈ S
     · simp [hS, Matrix.one_apply, eq_comm]
     · simp [hS]
-  · rw [if_neg hab, if_neg (Ne.symm hab)]
+  · rw [ite_eq_right hab, ite_eq_right (Ne.symm hab)]
 
 theorem sympMinusLocPlaneProj_mul_gram {K : Type} [Field K] {m : ℕ} (S : Finset (Fin m)) :
     sympMinusLocPlaneProj (K := K) (m := m) S * gram K m = gram K m * sympMinusLocPlaneProj S := by
@@ -115,11 +115,11 @@ theorem sympMinusLocPlaneProj_apply_of_mem {K : Type} [Field K] {m : ℕ} {S : F
       (1 : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) z b := by
   rw [sympMinusLocPlaneProj, WitSpNs.planeMat_apply]
   by_cases hz : WitSpNs.plane z = WitSpNs.plane b
-  · rw [if_pos hz, if_pos (hz ▸ hb), Matrix.one_apply, Matrix.one_apply]
+  · rw [ite_eq_left hz, ite_eq_left (hz ▸ hb), Matrix.one_apply, Matrix.one_apply]
     by_cases hs : WitSpNs.side z = WitSpNs.side b
-    · rw [if_pos hs, if_pos (WitSpNs.eq_of_plane_side hz hs)]
-    · rw [if_neg hs, if_neg fun h => hs (by rw [h])]
-  · rw [if_neg hz, Matrix.one_apply, if_neg fun h => hz (by rw [h])]
+    · rw [ite_eq_left hs, ite_eq_left (WitSpNs.eq_of_plane_side hz hs)]
+    · rw [ite_eq_right hs, ite_eq_right fun h => hs (by rw [h])]
+  · rw [ite_eq_right hz, Matrix.one_apply, ite_eq_right fun h => hz (by rw [h])]
 
 theorem sympMinusLocPlaneProj_apply_of_mem_row {K : Type} [Field K] {m : ℕ} {S : Finset (Fin m)}
     {a : Fin m ⊕ Fin m}
@@ -128,11 +128,11 @@ theorem sympMinusLocPlaneProj_apply_of_mem_row {K : Type} [Field K] {m : ℕ} {S
       (1 : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) a z := by
   rw [sympMinusLocPlaneProj, WitSpNs.planeMat_apply]
   by_cases hz : WitSpNs.plane a = WitSpNs.plane z
-  · rw [if_pos hz, if_pos (hz.symm ▸ ha), Matrix.one_apply, Matrix.one_apply]
+  · rw [ite_eq_left hz, ite_eq_left (hz.symm ▸ ha), Matrix.one_apply, Matrix.one_apply]
     by_cases hs : WitSpNs.side a = WitSpNs.side z
-    · rw [if_pos hs, if_pos (WitSpNs.eq_of_plane_side hz hs)]
-    · rw [if_neg hs, if_neg fun h => hs (by rw [h])]
-  · rw [if_neg hz, Matrix.one_apply, if_neg fun h => hz (by rw [h])]
+    · rw [ite_eq_left hs, ite_eq_left (WitSpNs.eq_of_plane_side hz hs)]
+    · rw [ite_eq_right hs, ite_eq_right fun h => hs (by rw [h])]
+  · rw [ite_eq_right hz, Matrix.one_apply, ite_eq_right fun h => hz (by rw [h])]
 
 theorem sympMinusLocPlaneProj_apply_of_notMem {K : Type} [Field K] {m : ℕ} {S : Finset (Fin m)}
     {b : Fin m ⊕ Fin m}
@@ -140,9 +140,9 @@ theorem sympMinusLocPlaneProj_apply_of_notMem {K : Type} [Field K] {m : ℕ} {S 
     sympMinusLocPlaneProj (K := K) (m := m) S z b = 0 := by
   rw [sympMinusLocPlaneProj, WitSpNs.planeMat_apply]
   by_cases hz : WitSpNs.plane z = WitSpNs.plane b
-  · rw [if_pos hz, if_neg hb]
+  · rw [ite_eq_left hz, ite_eq_right hb]
     simp
-  · rw [if_neg hz]
+  · rw [ite_eq_right hz]
 
 theorem sympMinusLocPlaneProj_apply_of_notMem_row {K : Type} [Field K] {m : ℕ} {S : Finset (Fin m)}
     {a : Fin m ⊕ Fin m}
@@ -150,22 +150,22 @@ theorem sympMinusLocPlaneProj_apply_of_notMem_row {K : Type} [Field K] {m : ℕ}
     sympMinusLocPlaneProj (K := K) (m := m) S a z = 0 := by
   rw [sympMinusLocPlaneProj, WitSpNs.planeMat_apply]
   by_cases hz : WitSpNs.plane a = WitSpNs.plane z
-  · rw [if_pos hz, if_neg fun h => ha (hz.symm ▸ h)]
+  · rw [ite_eq_left hz, ite_eq_right fun h => ha (hz.symm ▸ h)]
     simp
-  · rw [if_neg hz]
+  · rw [ite_eq_right hz]
 
 theorem sympMinusLocPlaneProj_mul_apply {K : Type} [Field K] {m : ℕ} (S : Finset (Fin m))
     (H : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) (a b : Fin m ⊕ Fin m) :
     (H * sympMinusLocPlaneProj (K := K) (m := m) S) a b =
       if WitSpNs.plane b ∈ S then H a b else 0 := by
   by_cases hb : WitSpNs.plane b ∈ S
-  · rw [if_pos hb]
+  · rw [ite_eq_left hb]
     calc (H * sympMinusLocPlaneProj (K := K) (m := m) S) a b
         = ∑ z, H a z * sympMinusLocPlaneProj (K := K) (m := m) S z b := Matrix.mul_apply
       _ = ∑ z, H a z * (1 : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) z b :=
             Finset.sum_congr rfl fun z _ => by rw [sympMinusLocPlaneProj_apply_of_mem hb z]
       _ = H a b := by rw [← Matrix.mul_apply, Matrix.mul_one]
-  · rw [if_neg hb]
+  · rw [ite_eq_right hb]
     rw [Matrix.mul_apply]
     refine Finset.sum_eq_zero fun z _ => ?_
     rw [sympMinusLocPlaneProj_apply_of_notMem hb z, mul_zero]
@@ -175,13 +175,13 @@ theorem sympMinusLocPlaneProj_mul_apply' {K : Type} [Field K] {m : ℕ} (S : Fin
     (sympMinusLocPlaneProj (K := K) (m := m) S * H) a b =
       if WitSpNs.plane a ∈ S then H a b else 0 := by
   by_cases ha : WitSpNs.plane a ∈ S
-  · rw [if_pos ha]
+  · rw [ite_eq_left ha]
     calc (sympMinusLocPlaneProj (K := K) (m := m) S * H) a b
         = ∑ z, sympMinusLocPlaneProj (K := K) (m := m) S a z * H z b := Matrix.mul_apply
       _ = ∑ z, (1 : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) a z * H z b :=
             Finset.sum_congr rfl fun z _ => by rw [sympMinusLocPlaneProj_apply_of_mem_row ha z]
       _ = H a b := by rw [← Matrix.mul_apply, Matrix.one_mul]
-  · rw [if_neg ha]
+  · rw [ite_eq_right ha]
     rw [Matrix.mul_apply]
     refine Finset.sum_eq_zero fun z _ => ?_
     rw [sympMinusLocPlaneProj_apply_of_notMem_row ha z, zero_mul]
@@ -194,10 +194,10 @@ theorem sympMinusLocPlaneProj_commute {K : Type} [Field K] {m : ℕ} {S : Finset
   ext a b
   rw [sympMinusLocPlaneProj_mul_apply, sympMinusLocPlaneProj_mul_apply']
   by_cases ha : WitSpNs.plane a ∈ S <;> by_cases hb : WitSpNs.plane b ∈ S
-  · rw [if_pos hb, if_pos ha]
-  · rw [if_neg hb, if_pos ha, hout a b ha hb]
-  · rw [if_pos hb, if_neg ha, hin a b ha hb]
-  · rw [if_neg hb, if_neg ha]
+  · rw [ite_eq_left hb, ite_eq_left ha]
+  · rw [ite_eq_right hb, ite_eq_left ha, hout a b ha hb]
+  · rw [ite_eq_left hb, ite_eq_right ha, hin a b ha hb]
+  · rw [ite_eq_right hb, ite_eq_right ha]
 
 @[expose] noncomputable def sympMinusLocProjSet {K : Type} [Field K] {m : ℕ}
     (A : Set (Fin m ⊕ Fin m))
@@ -217,14 +217,14 @@ theorem sympMinusLocProjSet_isSupp {K : Type} [Field K] {m : ℕ} (A : Set (Fin 
     IsSupp A (sympMinusLocProjSet (K := K) (m := m) A H) := by
   intro x y hxy
   simp only [sympMinusLocProjSet, Matrix.of_apply]
-  rw [if_neg (not_and_or.mpr hxy)]
+  rw [ite_eq_right (not_and_or.mpr hxy)]
 
 theorem sympMinusLocProjSet_pos {K : Type} [Field K] {m : ℕ} {A : Set (Fin m ⊕ Fin m)}
     {H : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K} {x y : Fin m ⊕ Fin m}
     (hx : x ∈ A) (hy : y ∈ A) :
     sympMinusLocProjSet (K := K) (m := m) A H x y = H x y := by
   simp only [sympMinusLocProjSet, Matrix.of_apply]
-  rw [if_pos ⟨hx, hy⟩]
+  rw [ite_eq_left ⟨hx, hy⟩]
 
 theorem sympMinusLocProjSet_neg {K : Type} [Field K] {m : ℕ} {A : Set (Fin m ⊕ Fin m)}
     {H : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K} {x y : Fin m ⊕ Fin m}
@@ -232,7 +232,7 @@ theorem sympMinusLocProjSet_neg {K : Type} [Field K] {m : ℕ} {A : Set (Fin m �
     sympMinusLocProjSet (K := K) (m := m) A H x y =
       (1 : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) x y := by
   simp only [sympMinusLocProjSet, Matrix.of_apply]
-  rw [if_neg h]
+  rw [ite_eq_right h]
 
 theorem sympMinusLocProjMat_eq_projSet {K : Type} [Field K] {m : ℕ} {S : Finset (Fin m)}
     {H : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K}
@@ -242,12 +242,12 @@ theorem sympMinusLocProjMat_eq_projSet {K : Type} [Field K] {m : ℕ} {S : Finse
   rw [sympMinusLocProjMat, Matrix.add_apply, Matrix.sub_apply, sympMinusLocPlaneProj_mul_apply,
     sympMinusLocProjSet, Matrix.of_apply]
   by_cases hb : WitSpNs.plane b ∈ S
-  · rw [if_pos hb, sympMinusLocPlaneProj_apply_of_mem hb a]
+  · rw [ite_eq_left hb, sympMinusLocPlaneProj_apply_of_mem hb a]
     by_cases ha : WitSpNs.plane a ∈ S
-    · rw [if_pos ⟨ha, hb⟩, sub_self, add_zero]
-    · rw [if_neg fun hc => ha hc.1, hcross a b ha hb, Matrix.one_apply,
-        if_neg fun hab => ha (by rw [hab]; exact hb), zero_add, sub_self]
-  · rw [if_neg hb, sympMinusLocPlaneProj_apply_of_notMem hb a, if_neg fun hc => hb hc.2, sub_zero,
+    · rw [ite_eq_left ⟨ha, hb⟩, sub_self, add_zero]
+    · rw [ite_eq_right fun hc => ha hc.1, hcross a b ha hb, Matrix.one_apply,
+        ite_eq_right fun hab => ha (by rw [hab]; exact hb), zero_add, sub_self]
+  · rw [ite_eq_right hb, sympMinusLocPlaneProj_apply_of_notMem hb a, ite_eq_right fun hc => hb hc.2, sub_zero,
       zero_add]
 
 theorem sympMinusLocProjMat_isSupp {K : Type} [Field K] {m : ℕ} {S : Finset (Fin m)}

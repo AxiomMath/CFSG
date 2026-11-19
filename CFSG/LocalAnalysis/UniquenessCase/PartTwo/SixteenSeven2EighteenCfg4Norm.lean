@@ -42,7 +42,7 @@ private theorem not_quasisimple_of_comm {V : Type} [Group V]
     Subgroup.center_eq_top_iff.mpr (IsMulCommutative.of_comm hcomm)
   have hNontriv : Nontrivial (V ⧸ Subgroup.center V) := hq.2.toNontrivial
   rw [hcenter] at hNontriv
-  haveI : Subsingleton (V ⧸ (⊤ : Subgroup V)) :=
+  have : Subsingleton (V ⧸ (⊤ : Subgroup V)) :=
     QuotientGroup.subsingleton_quotient_top
   obtain ⟨a, b, hab⟩ := hNontriv.exists_pair_ne
   exact hab (Subsingleton.elim a b)
@@ -97,7 +97,7 @@ theorem s16c167_cfg4_normal (hW : ∀ w : W, w ^ 2 = 1) {A : Subgroup (MulAut W)
         have h5 := hcyc.2
         omega
       · exfalso
-        haveI : IsExtraspecial 3 ↥L := hpp.1
+        have : IsExtraspecial 3 ↥L := hpp.1
         have h3 : Nat.card (Subgroup.center ↥L) = 3 := IsExtraspecial.center_order_p 3 ↥L
         have h27 : Nat.card (Subgroup.center ↥L) = 27 := by
           rw [hcenterL, Subgroup.card_top]

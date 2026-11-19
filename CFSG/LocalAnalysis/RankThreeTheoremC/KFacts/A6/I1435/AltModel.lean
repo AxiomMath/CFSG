@@ -24,7 +24,7 @@ theorem toPermW_injective : Function.Injective toPermW :=
   map_one' := rfl
   map_mul' f g := by ext <;> simp
 
-theorem baseHom_injective : Function.Injective baseHom := fun f g h =>
+theorem baseHom_injective : Function.Injective baseHom := fun _f _g h =>
   congrArg RegularWreathProduct.left h
 
 theorem toPermW_baseHom_apply (f : M3 → M3) (p : Ω3) :
@@ -131,7 +131,7 @@ theorem not_isPSolvable_altSix (q₀ : M3) :
     decide
   have hnc : ¬ IsMulCommutative (alternatingGroup (offBlock q₀)) := by
     intro hc
-    letI : CommGroup (alternatingGroup (offBlock q₀)) :=
+    let : CommGroup (alternatingGroup (offBlock q₀)) :=
       { (inferInstance : Group (alternatingGroup (offBlock q₀))) with
         mul_comm := fun a b => hc.is_comm.comm a b }
     have := hS.prime_card

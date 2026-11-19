@@ -36,7 +36,7 @@ private theorem a11nf_tvAt0_21 : tvAt 0 (pos 3 2) (pos 3 1) = tv9 (8 : Fin 12) (
 private theorem a11nf_tv9_apply_eq (a b : Fin 12) (ha : a.val < 9) (hb : b.val < 9) (hab : a ≠ b) :
     ((tv9 a b : SL 9) : Matrix (Fin 9) (Fin 9) F2) =
       (1 : Matrix (Fin 9) (Fin 9) F2) + Matrix.single ⟨a.val, ha⟩ ⟨b.val, hb⟩ (1 : F2) := by
-  rw [tv9, dif_pos (show a.val < 9 ∧ b.val < 9 ∧ a ≠ b from ⟨ha, hb, hab⟩)]
+  rw [tv9, dite_eq_left (show a.val < 9 ∧ b.val < 9 ∧ a ≠ b from ⟨ha, hb, hab⟩)]
   exact SpecialLinearGroup.transvection_coe _ _
 
 private theorem a11nf_F0_coe : ((F0 : SL 9) : Matrix (Fin 9) (Fin 9) F2) = F0mat := by
@@ -61,13 +61,12 @@ private theorem blkM0_mul (A B : Matrix (Fin 3) (Fin 3) F2) :
     blkM0 A * blkM0 B = blkM0 (A * B) := by
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [blkM0, Matrix.mul_apply, Fin.sum_univ_succ, Matrix.one_apply,
-      one_add_one_eq_zero_F2, blk, idxIn]
+    simp [blkM0, Matrix.mul_apply, Fin.sum_univ_succ, blk, idxIn]
 
 private theorem a11nf_Fr_Om : Fr * Om = Om * Om * Fr := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Fr, Om, Matrix.mul_apply, Fin.sum_univ_three, pow_two, one_add_one_eq_zero_F2]
+    simp [Fr, Om, Matrix.mul_apply, Fin.sum_univ_three, one_add_one_eq_zero_F2]
 
 private theorem a11nf_F0_T9_0_mat : F0mat * T9mat 0 = T9mat 0 ^ 2 * F0mat := by
   rw [show F0mat = blkM0 Fr from rfl, show T9mat 0 = blkM0 Om from rfl,
@@ -76,8 +75,7 @@ private theorem a11nf_F0_T9_0_mat : F0mat * T9mat 0 = T9mat 0 ^ 2 * F0mat := by
 private theorem a11nf_F0_T9_1_mat : F0mat * T9mat 1 = T9mat 1 * F0mat := by
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [F0mat, Fr, T9mat, Om, blk, idxIn, Matrix.mul_apply, Fin.sum_univ_succ,
-      Matrix.single_apply, Matrix.one_apply, one_add_one_eq_zero_F2]
+    simp [F0mat, Fr, T9mat, Om, blk, idxIn, Matrix.mul_apply, Fin.sum_univ_succ]
 
 private theorem a11nf_F0_T9_0 : F0 * T9 0 = (T9 0) ^ 2 * F0 := by
   apply Subtype.ext
@@ -100,8 +98,7 @@ private theorem a11nf_F0_T9_2 : F0 * T9 2 = T9 2 * F0 := by
   rw [a11nf_F0_coe]
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [F0mat, Fr, T9mat, Om, blk, idxIn, Matrix.mul_apply, Fin.sum_univ_succ,
-      Matrix.single_apply, Matrix.one_apply, one_add_one_eq_zero_F2]
+    simp [F0mat, Fr, T9mat, Om, blk, idxIn, Matrix.mul_apply, Fin.sum_univ_succ]
 
 private theorem a11nf_h01 (z : F2) : z = 0 ∨ z = 1 := by
   have hcard : Nat.card F2 = 2 := by
@@ -154,19 +151,19 @@ private theorem a11nf_Am_mul_Am {i j : Fin 4} (hij : i ≠ j) (M : Matrix (Fin 3
   intro c _
   rw [Matrix.single_apply, Matrix.single_apply]
   by_cases h1 : p.1 = a ∧ p.2 = c
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     by_cases h2 : q.1 = c ∧ q.2 = b
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       exact absurd (h1.2.trans h2.1.symm) hpq
-    · rw [if_neg h2, mul_zero]
-  · rw [if_neg h1, zero_mul]
+    · rw [ite_eq_right h2, mul_zero]
+  · rw [ite_eq_right h1, zero_mul]
 
 private theorem a11nf_sum_Am_apply (i j : Fin 4) (M : Matrix (Fin 3) (Fin 3) F2)
     (a b : Fin 9) : (∑ p : Fin 9 × Fin 9, a11nf_Am i j M p) a b = a11nf_coef i j M (a, b) := by
   rw [Matrix.sum_apply, Finset.sum_eq_single (a, b)]
-  · simp [a11nf_Am, Matrix.single_apply]
+  · simp [a11nf_Am]
   · intro p _ hp
-    rw [a11nf_Am, Matrix.single_apply, if_neg]
+    rw [a11nf_Am, Matrix.single_apply, ite_eq_right]
     intro h
     exact hp (Prod.ext h.1 h.2)
   · intro h
@@ -191,15 +188,15 @@ private theorem a11nf_factor_coe {i j : Fin 4} (hij : i ≠ j) (M : Matrix (Fin 
     ((a11nf_factor i j M p : SL 9) : Matrix (Fin 9) (Fin 9) F2) =
       1 + a11nf_Am i j M p := by
   by_cases h : p.1 ≠ p.2
-  · rw [a11nf_factor, dif_pos h, SpecialLinearGroup.transvection_coe, a11nf_Am]
-  · rw [a11nf_factor, dif_neg h]
+  · rw [a11nf_factor, dite_eq_left h, SpecialLinearGroup.transvection_coe, a11nf_Am]
+  · rw [a11nf_factor, dite_eq_right h]
     change (1 : Matrix (Fin 9) (Fin 9) F2) = 1 + a11nf_Am i j M p
     rw [a11nf_Am, a11nf_coef_eq_zero_of_eq hij (not_ne_iff.mp h), Matrix.single_zero, add_zero]
 
 private noncomputable def a11nf_toMat : SL 9 →* Matrix (Fin 9) (Fin 9) F2 where
   toFun := Subtype.val
   map_one' := rfl
-  map_mul' := fun A B => rfl
+  map_mul' := fun _A _B => rfl
 
 private theorem a11nf_toMat_factor {i j : Fin 4} (hij : i ≠ j) (M : Matrix (Fin 3) (Fin 3) F2)
     (p : Fin 9 × Fin 9) :
@@ -325,10 +322,10 @@ private theorem a11nf_tv9_castLE {p q : Fin 9} (hpq : p ≠ q) :
       ((Fin.castLE (by omega) q : Fin 12)).val < 9 ∧
       (Fin.castLE (by omega) p : Fin 12) ≠ (Fin.castLE (by omega) q : Fin 12) :=
     ⟨by simp, by simp, fun h => hpq (a11nf_castLE_inj h)⟩
-  rw [tv9, dif_pos hcond]
+  rw [tv9, dite_eq_left hcond]
 
 private theorem a11nf_coherent_tv9 {G : Type} [Group G] {Φ : Fin 4 → SL 9 →* G}
-    (hC : Coherent Φ) {k i j : Fin 4} (hk3 : k ≠ 3) (hi3 : i ≠ 3) (hj3 : j ≠ 3)
+    (hC : Coherent Φ) {k i j : Fin 4} (_hk3 : k ≠ 3) (hi3 : i ≠ 3) (hj3 : j ≠ 3)
     (hik : i ≠ k) (hjk : j ≠ k) {p q : Fin 9} (hpq : p ≠ q)
     (hp : blk (Fin.castLE (by omega) p) = i) (hq : blk (Fin.castLE (by omega) q) = j) :
     Φ 3 (SpecialLinearGroup.transvection (i := p) (j := q) hpq (1 : F2)) =
@@ -348,13 +345,13 @@ private theorem a11nf_factor_coh {G : Type} [Group G] {Φ : Fin 4 → SL 9 →* 
     (hik : i ≠ k) (hjk : j ≠ k) (M : Matrix (Fin 3) (Fin 3) F2) (p : Fin 9 × Fin 9) :
     Φ 3 (a11nf_factor i j M p) = Φ k (a11nf_factor i j M p) := by
   by_cases hp : p.1 ≠ p.2
-  · rw [a11nf_factor, dif_pos hp]
+  · rw [a11nf_factor, dite_eq_left hp]
     rcases a11nf_h01 (a11nf_coef i j M p) with hc | hc
     · rw [hc, SpecialLinearGroup.transvection_coeff_zero, map_one, map_one]
     · rw [hc]
       obtain ⟨h1, h2⟩ := a11nf_coef_cond (by rw [hc]; exact one_ne_zero)
       exact a11nf_coherent_tv9 hC hk3 hi3 hj3 hik hjk hp h1 h2
-  · rw [a11nf_factor, dif_neg hp, map_one, map_one]
+  · rw [a11nf_factor, dite_eq_right hp, map_one, map_one]
 
 private noncomputable def a11nf_Fk3 (k : Fin 3) : SL 9 :=
   tvAt k.castSucc (pos 3 1) (pos 3 2) * tvAt k.castSucc (pos 3 2) (pos 3 1)
@@ -414,9 +411,9 @@ private theorem a11nf_Rk_mul_Am {k i j : Fin 3} (hki : k ≠ i)
   intro c _
   rw [Matrix.single_apply]
   by_cases h1 : p.1 = c ∧ p.2 = b
-  · rw [if_pos h1, ← h1.1]
+  · rw [ite_eq_left h1, ← h1.1]
     exact a11nf_Rk_mul_coef hki a
-  · rw [if_neg h1, mul_zero]
+  · rw [ite_eq_right h1, mul_zero]
 
 private theorem a11nf_coef_mul_Rk {k i j : Fin 3} (hkj : k ≠ j)
     {M : Matrix (Fin 3) (Fin 3) F2} {p : Fin 9 × Fin 9} (b : Fin 9) :
@@ -428,7 +425,7 @@ private theorem a11nf_coef_mul_Rk {k i j : Fin 3} (hkj : k ≠ j)
       rw [h2]; exact fun h => hkj (Fin.castSucc_injective _ h.symm)
     have hRk : a11nf_Rk k p.2 b = 0 := by
       rw [a11nf_Rk]; simp only [Matrix.of_apply]
-      exact if_neg (fun hc => hne hc.1)
+      exact ite_eq_right (fun hc => hne hc.1)
     rw [hRk, mul_zero]
 
 private theorem a11nf_Am_mul_Rk {k i j : Fin 3} (hkj : k ≠ j)
@@ -441,9 +438,9 @@ private theorem a11nf_Am_mul_Rk {k i j : Fin 3} (hkj : k ≠ j)
   intro c _
   rw [Matrix.single_apply]
   by_cases h1 : p.1 = a ∧ p.2 = c
-  · rw [if_pos h1, ← h1.2]
+  · rw [ite_eq_left h1, ← h1.2]
     exact a11nf_coef_mul_Rk hkj b
-  · rw [if_neg h1, zero_mul]
+  · rw [ite_eq_right h1, zero_mul]
 
 private theorem a11nf_Fk_comm {i j k : Fin 3} (hki : k ≠ i) (hkj : k ≠ j)
     (M : Matrix (Fin 3) (Fin 3) F2) {g : SL 9}
@@ -691,7 +688,7 @@ theorem a11NbrFrobInput_holds : A11NbrFrobInput := by
   have hpowC_all : ∀ e : ℕ, d ^ e ∈ Clos φ₃ ρ := by
     intro e
     induction e with
-    | zero => simpa using Subgroup.one_mem (Clos φ₃ ρ)
+    | zero => simp
     | succ n ih => rw [pow_succ]; exact Subgroup.mul_mem _ ih hdC
   have hbase : ∀ (e : ℕ) (c : ZMod 7), d ^ e * x * (d ^ e)⁻¹ = ell f c →
       Subgroup.zpowers y' = Subgroup.zpowers (ell f c) → K' ≤ Clos φ₃ ρ := by

@@ -23,7 +23,7 @@ open CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin (conjSL)
 
 private theorem ldich_two_eq_zero {K : Type} [Field K] [Finite K] {n : ℕ}
     (hK : Nat.card K = 2 ^ n) : (2 : K) = 0 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨q, hq, m, hqp, hqcard⟩ := FiniteField.card' K
   rw [Nat.card_eq_fintype_card, hqcard] at hK
   have hdvd : q ∣ 2 ^ n := by
@@ -39,7 +39,7 @@ private theorem ldich_mu_cube {K : Type} [Field K] {d : ℕ} (hd : 1 ≤ d) {A B
     {μ : Kˣ} (hBA : B * A * B⁻¹ = Matrix.GeneralLinearGroup.scalar (Fin d) μ * A) :
     μ ^ 3 = 1 := by
   obtain ⟨c, hc⟩ := hA3
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   have hc0 : c ≠ 0 := by
     intro h0
     have hu : ((A ^ 3 : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) *
@@ -126,10 +126,10 @@ private theorem ldich_main (hDet : GGNbrLSideClsDet)
     exact Subgroup.mem_map.mpr ⟨conjSL B s, hBM₀ s hs, rfl⟩
   obtain ⟨a, E, hEf, hEalg, hEfin, e, ha2, hdim, hμ1, hμ2⟩ :=
     ggNbrLSideLin_block h2 hA3 hμ hM₀comp hBM
-  letI := hEf
-  letI := hEalg
-  haveI := hEfin
-  haveI : Module.Finite K E := Module.Finite.of_finite
+  let := hEf
+  let := hEalg
+  have := hEfin
+  have : Module.Finite K E := Module.Finite.of_finite
   have hn1 : 1 ≤ n := by
     by_contra hn0
     obtain rfl : n = 0 := by omega
@@ -225,7 +225,7 @@ private theorem ldich_main (hDet : GGNbrLSideClsDet)
       rw [ht] at hdim hfr
       omega
     have hμ3 : μ ^ 3 = 1 := ldich_mu_cube (by omega) hA3 hμ
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hord : orderOf μ = 3 := orderOf_eq_prime hμ3 hμne
     have h3dvd : 3 ∣ 2 ^ n - 1 := by
       have h1 : 3 ∣ Nat.card Kˣ := hord ▸ orderOf_dvd_natCard μ

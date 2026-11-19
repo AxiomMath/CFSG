@@ -68,7 +68,7 @@ theorem s16h_sl28_sylow_normalizer_shape
   have hPN : CFSG.ABGLocalTools.IsSylowOf 2 P N :=
     CFSG.ABGLocalTools.IsSylowOf.inf_of_le_normalizer hT inf_le_left hNnorm
   have hcore : P = (P ⊓ A) ⊔ (P ⊓ B) :=
-    s16h_sylow_two_eq_sup_of_aut_card (hW := fun w => s15_Infra_vtil_sq_eq_one ⊥ V hV w)
+    s16h_sylow_two_eq_sup_of_aut_card (_hW := fun w => s15_Infra_vtil_sq_eq_one ⊥ V hV w)
       hPN hAN hBN hNA hNB hAB hSL_A hSL_B hfixA hfixB hsup
   have hP_eq : P = T ⊓ Subgroup.normalizer (A : Set (MulAut W)) := by
     show T ⊓ N = T ⊓ Subgroup.normalizer (A : Set (MulAut W))

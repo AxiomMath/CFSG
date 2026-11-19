@@ -27,7 +27,7 @@ variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G
 theorem sz32_plane_sup {U : Subgroup G} {x w : G} (hUel : IsElemAbelian 5 U) (hUcard : Nat.card U = 5 ^ 2)
     (hxU : x ∈ U) (hwU : w ∈ U) (hx1 : x ≠ 1) (hwx : w ∉ zpowers x) :
     zpowers x ⊔ zpowers w = U := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hxo : orderOf x = 5 := orderOf_eq_prime (hUel.2 x hxU) hx1
   have hle : zpowers x ⊔ zpowers w ≤ U := sup_le (zpowers_le.2 hxU) (zpowers_le.2 hwU)
   have hdvd : Nat.card (zpowers x ⊔ zpowers w : Subgroup G) ∣ 5 ^ 2 := by
@@ -57,7 +57,7 @@ theorem sz32_lemma42 (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G
     ∀ u ∈ U, u ∉ Subgroup.zpowers x → Subgroup.centralizer ({u} : Set G) ≤ M := by
   intro u hu hux
   by_contra hbad
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hfacts : Sz32QFacts (P : Subgroup G) a c y x := hP.facts
   have hVP : sz32Om a c y ≤ (P : Subgroup G) := hfacts.Om_le
   have hVel : IsElemAbelian 5 (sz32Om a c y) := hfacts.Om_elem
@@ -90,7 +90,7 @@ theorem sz32_lemma42 (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G
     have : w ∈ U ⊓ sz32Z a c := ⟨hwU, hwZ⟩
     rw [hUabs.inf_Z] at this
     exact hwx this
-  haveI : IsMulCommutative (sz32Om a c y) := hVel.1
+  have : IsMulCommutative (sz32Om a c y) := hVel.1
   have hVc : ∀ p ∈ sz32Om a c y, ∀ q ∈ sz32Om a c y, p * q = q * p := fun p hp q hq =>
     congrArg Subtype.val (mul_comm' (⟨p, hp⟩ : sz32Om a c y) ⟨q, hq⟩)
   have hxo : orderOf x = 5 := orderOf_eq_prime hxp hx1

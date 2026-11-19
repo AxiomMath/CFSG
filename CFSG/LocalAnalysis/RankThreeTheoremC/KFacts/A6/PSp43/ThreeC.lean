@@ -102,7 +102,7 @@ theorem P3_le_P : P3 ≤ P := gen_words_le_P P3gens
 theorem Q0_le_P3 : Q0 ≤ P3 := by
   apply Subgroup.closure_mono
   intro g hg
-  simp only [Set.mem_setOf_eq, List.mem_map] at hg ⊢
+  simp only [Set.mem_ofPred_eq, List.mem_map] at hg ⊢
   obtain ⟨w, hw, rfl⟩ := hg
   exact ⟨w, by simp [P3gens, Q0gens] at hw ⊢; tauto, rfl⟩
 
@@ -130,7 +130,7 @@ theorem c_mem_P : wperm cW ∈ P := wperm_mem cW
 theorem P3_le_centralizer_c : P3 ≤ centralizer ({wperm cW} : Set (Equiv.Perm (Fin 45))) := by
   rw [Subgroup.closure_le]
   intro g hg
-  simp only [Set.mem_setOf_eq, List.mem_map] at hg
+  simp only [Set.mem_ofPred_eq, List.mem_map] at hg
   obtain ⟨w, hw, rfl⟩ := hg
   have h1 := List.all_eq_true.1 c_central w hw
   rw [commB, beq_iff_eq] at h1
@@ -159,7 +159,7 @@ theorem exists_common_fixed {p : ℕ} [Fact p.Prime] {V : Subgroup (Equiv.Perm (
     have := congrArg (fun σ : Equiv.Perm (Fin 45) => σ j.1) (hcomm v v.2)
     simp only [Equiv.Perm.mul_apply, j.2] at this
     exact this.symm
-  letI : MulAction V {j : Fin 45 // f j = j} :=
+  let : MulAction V {j : Fin 45 // f j = j} :=
     { smul := fun v j => ⟨(v : Equiv.Perm (Fin 45)) j.1, hmem v j⟩
       one_smul := fun j => rfl
       mul_smul := fun v w j => rfl }
@@ -266,7 +266,7 @@ theorem card_ne_108_e0 :
     have hvP : v ∈ P := (hVC hv).1
     have hvP' : c * v * c⁻¹ ∈ P := mul_mem (mul_mem hcP hvP) (inv_mem hcP)
     refine ⟨hvP', (mem_centralizer_tauPerm_iff hvP' 0).2 ?_⟩
-    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, Equiv.Perm.mul_apply]
+    simp only [Equiv.Perm.mul_apply]
     have hcinv : c⁻¹ 0 = j := by
       rw [← hc0', ← Equiv.Perm.mul_apply, inv_mul_cancel, Equiv.Perm.one_apply]
     rw [hcinv, hVj v hv, hc0']

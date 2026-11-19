@@ -18,7 +18,7 @@ theorem injective_of_center_invariants_eq_bot
     (hinv : Representation.invariants (σ.comp (Subgroup.center E).subtype) = ⊥) :
     Function.Injective σ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hpg, -, -, hcard⟩ := hE
   rw [injective_iff_map_eq_one]
   have hK : σ.ker ⊓ Subgroup.center E = ⊥ := by

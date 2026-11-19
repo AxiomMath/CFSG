@@ -35,7 +35,7 @@ theorem centralizer_swap_ne_top {i j : α} (hij : i ≠ j) (h3 : 3 ≤ Fintype.c
   intro htop
   have hlt : ({i, j} : Finset α).card < (Finset.univ : Finset α).card := by
     rw [Finset.card_univ, Finset.card_insert_of_notMem (by simp [hij])]
-    simp [hij]
+    simp
     omega
   obtain ⟨k, _, hk⟩ := Finset.exists_mem_notMem_of_card_lt_card hlt
   have hki : k ≠ i := fun h => hk (by simp [h])
@@ -102,13 +102,12 @@ theorem le_zpowers_swap_of_isPGroup {i j : α} (hij : i ≠ j) (h7 : 7 ≤ Finty
     · rw [Subgroup.mem_centralizer_singleton_iff]
       ext x
       rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply]
-      change (Equiv.Perm.ofSubtype u) (g x) = g ((Equiv.Perm.ofSubtype u) x)
       by_cases hx : x ∈ s
       · have hgx : g x = x := hfix_of_mem_s x hx
         rw [hgx]
         have hux : (Equiv.Perm.ofSubtype u) x ∈ s := by
           rw [Equiv.Perm.ofSubtype_apply_of_mem u hx]
-          simpa [s] using (u ⟨x, hx⟩).2
+          simp [s]
         exact (hfix_of_mem_s _ hux).symm
       · rcases hcompl_of_not_mem_s x hx with hxi | hxj
         · subst x
@@ -216,7 +215,7 @@ theorem le_zpowers_swap_of_isPGroup {i j : α} (hij : i ≠ j) (h7 : 7 ≤ Finty
   have hnt : Nontrivial (Nc.map ρC) :=
     (Subgroup.nontrivial_iff_ne_bot (Nc.map ρC)).mpr hmap_ne_bot
   have hAlt : alternatingGroup s ≤ Nc.map ρC := by
-    haveI : (Nc.map ρC).Normal := hρC_image_normal
+    have : (Nc.map ρC).Normal := hρC_image_normal
     exact Equiv.Perm.alternatingGroup_le_of_normal hcard_s hnt
   have h2lt : 2 < Fintype.card s := by
     rw [← Nat.card_eq_fintype_card]
@@ -346,6 +345,7 @@ theorem centralizer_swap_sup_fixingSubgroup_eq_top {i j k : α} (hij : i ≠ j) 
         rw [Equiv.swap_comm]
         exact hstep hb ha_out hab.symm
 
+omit [Fintype α] in
 theorem swap_mem_fixingSubgroup (i j k : α) :
     Equiv.swap i j ∈ fixingSubgroup (Equiv.Perm α) ({i, j, k}ᶜ : Set α) := by
   rw [mem_fixingSubgroup_iff]
@@ -390,6 +390,7 @@ theorem relIndex_zpowers_swap_fixingSubgroup {i j k : α} (hij : i ≠ j) (hik :
   rw [inf_of_le_left hle, hH, hK] at h
   omega
 
+omit [Fintype α] in
 theorem fixingSubgroup_not_le_normalizer_zpowers_swap {i j k : α} (hij : i ≠ j) (hik : i ≠ k)
     (hjk : j ≠ k) :
     ¬ fixingSubgroup (Equiv.Perm α) ({i, j, k}ᶜ : Set α) ≤
@@ -423,7 +424,7 @@ theorem fixingSubgroup_not_le_normalizer_zpowers_swap {i j k : α} (hij : i ≠ 
   exact hnot hconjmem
 
 theorem isSolvable_fixingSubgroup_compl_triple (i j k : α) :
-    IsSolvable (fixingSubgroup (Equiv.Perm α) ({i, j, k}ᶜ : Set α)) := by
+    Group.IsSolvable (fixingSubgroup (Equiv.Perm α) ({i, j, k}ᶜ : Set α)) := by
   classical
   have hcard_s : Nat.card ({i, j, k} : Set α) ≤ 4 := by
     rw [Nat.card_coe_set_eq]
@@ -436,7 +437,7 @@ theorem isSolvable_fixingSubgroup_compl_triple (i j k : α) :
     (MonoidHom.ofInjective
       (Equiv.Perm.ofSubtype_injective (p := fun x => x ∈ ({i, j, k} : Set α)))).trans
       (MulEquiv.subgroupCongr (fixingSubgroup_compl_eq_range_ofSubtype _).symm)
-  haveI : Group.IsSolvable (Equiv.Perm ({i, j, k} : Set α)) :=
+  have : Group.IsSolvable (Equiv.Perm ({i, j, k} : Set α)) :=
     Equiv.Perm.isSolvable (by omega)
   exact Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom)
     (MulEquiv.injective e.symm)

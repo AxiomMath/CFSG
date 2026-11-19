@@ -14,7 +14,8 @@ namespace L97
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem commutator_sup_le {Γ X N O M : Subgroup G} (hΓM : Γ ≤ M) (hXM : X ≤ M) (hNM : N ≤ M)
+omit [Finite G] in
+theorem commutator_sup_le {Γ X N O M : Subgroup G} (_hΓM : Γ ≤ M) (hXM : X ≤ M) (hNM : N ≤ M)
     (hO : M ≤ Subgroup.normalizer (O : Set G)) (hX : ⁅Γ, X⁆ ≤ O) (hN : ⁅Γ, N⁆ ≤ O) :
     ⁅Γ, X ⊔ N⁆ ≤ O := by
   let C : Subgroup G :=
@@ -48,6 +49,7 @@ theorem commutator_sup_le {Γ X N O M : Subgroup G} (hΓM : Γ ≤ M) (hXM : X �
   intro a ha b hb
   exact (hXNC hb).2 a ha
 
+omit [Finite G] in
 theorem le_normalizer_sup' {X N M : Subgroup G} (hX : M ≤ Subgroup.normalizer (X : Set G))
     (hN : M ≤ Subgroup.normalizer (N : Set G)) : M ≤ Subgroup.normalizer ((X ⊔ N : Subgroup G) : Set G) := by
   intro m hm

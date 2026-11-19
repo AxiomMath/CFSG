@@ -50,17 +50,17 @@ theorem one_ne_of_prim (hζ : IsPrimitiveRoot ζ 3) : (1 : L) ≠ ζ :=
 
 theorem sg_zeta (hζ : IsPrimitiveRoot ζ 3) : sg ζ ζ = 1 := by
   unfold sg
-  rw [if_pos rfl, if_neg (ne_sq_of_prim hζ)]
+  rw [ite_eq_left rfl, ite_eq_right (ne_sq_of_prim hζ)]
   norm_num
 
 theorem sg_zeta_sq (hζ : IsPrimitiveRoot ζ 3) : sg ζ (ζ ^ 2) = -1 := by
   unfold sg
-  rw [if_neg (ne_sq_of_prim hζ).symm, if_pos rfl]
+  rw [ite_eq_right (ne_sq_of_prim hζ).symm, ite_eq_left rfl]
   norm_num
 
 theorem sg_one (hζ : IsPrimitiveRoot ζ 3) : sg ζ 1 = 0 := by
   unfold sg
-  rw [if_neg (one_ne_of_prim hζ), if_neg (one_ne_sq_of_prim hζ)]
+  rw [ite_eq_right (one_ne_of_prim hζ), ite_eq_right (one_ne_sq_of_prim hζ)]
   norm_num
 
 theorem sg_triple (hζ : IsPrimitiveRoot ζ 3) {v : L} (hv : v ^ 3 = 1) :
@@ -74,7 +74,7 @@ theorem sg_triple (hζ : IsPrimitiveRoot ζ 3) {v : L} (hv : v ^ 3 = 1) :
       _ = 1 := hz3
   have hz6 : ζ * ζ ^ 2 = 1 := by rw [mul_comm]; exact hz5
   rcases mu3_cases hζ hv with rfl | rfl | rfl
-  · simp only [one_mul, mul_one]
+  · simp only [mul_one]
     rw [sg_one hζ, sg_zeta hζ, sg_zeta_sq hζ]
     norm_num
   · rw [one_mul, ← pow_two, hz5, sg_zeta hζ, sg_zeta_sq hζ, sg_one hζ]
@@ -82,6 +82,7 @@ theorem sg_triple (hζ : IsPrimitiveRoot ζ 3) {v : L} (hv : v ^ 3 = 1) :
   · rw [one_mul, hz6, hz4, sg_zeta_sq hζ, sg_one hζ, sg_zeta hζ]
     norm_num
 
+omit [Fintype P] in
 theorem char_one {c : P → L} (hcmul : ∀ x y, c (x * y) = c x * c y)
     (hcpow : ∀ x, c x ^ 3 = 1) : c 1 = 1 := by
   have h1 : c 1 = c 1 * c 1 := by rw [← hcmul, mul_one]
@@ -101,6 +102,7 @@ section Triv
 
 variable {ζ : L}
 
+omit [Fintype P] in
 theorem triv_pow (hζ : IsPrimitiveRoot ζ 3) {c d : P → L}
     (hcmul : ∀ x y, c (x * y) = c x * c y) (hcpow : ∀ x, c x ^ 3 = 1)
     (hdmul : ∀ x y, d (x * y) = d x * d y)
@@ -189,6 +191,7 @@ section Symm
 
 variable {ζ : L}
 
+omit [Group P] [Fintype P] in
 theorem sum_sg_eq_zero {d : Fin 7 → P → L}
     (hsymm : ∀ z, (univ.filter fun i => d i z = ζ).card =
       (univ.filter fun i => d i z = ζ ^ 2).card) (z : P) :
@@ -228,14 +231,14 @@ theorem mult_inv_eq (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
     intro i
     simp only [hdmul]
     by_cases htriv : ∀ x, c x = 1 → d i x = 1
-    · rw [if_pos htriv, Finset.sum_mul]
+    · rw [ite_eq_left htriv, Finset.sum_mul]
       apply Finset.sum_congr rfl
       intro x _
       by_cases hcx : c x = 1
       · simp [h, hcx, htriv x hcx]
       · simp [h, hcx]
-    · rw [if_neg htriv]
-      push_neg at htriv
+    · rw [ite_eq_right htriv]
+      push Not at htriv
       obtain ⟨x1, hx1c, hx1d⟩ := htriv
       obtain ⟨t, ht1, htζ⟩ : ∃ t, c t = 1 ∧ d i t = ζ := by
         rcases mu3_cases hζ (hdpow i x1) with h' | h' | h'
@@ -279,7 +282,7 @@ theorem mult_inv_eq (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
         have h2' : d i y = c y ^ 2 := congrFun hB y
         rw [h1, hy] at h2'
         exact ne_sq_of_prim hζ h2'
-      rw [if_pos htriv, if_pos hA, if_neg hB, hA, hy, sg_zeta hζ]
+      rw [ite_eq_left htriv, ite_eq_left hA, ite_eq_right hB, hA, hy, sg_zeta hζ]
       norm_num
     · by_cases hB : d i = fun x => c x ^ 2
       · have htriv : ∀ x, c x = 1 → d i x = 1 := fun x hx => by
@@ -288,11 +291,11 @@ theorem mult_inv_eq (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
         have hdy : d i y = ζ ^ 2 := by
           have this : d i y = c y ^ 2 := congrFun hB y
           rw [this, hy]
-        rw [if_pos htriv, if_neg hA, if_pos hB, hdy, sg_zeta_sq hζ]
+        rw [ite_eq_left htriv, ite_eq_right hA, ite_eq_left hB, hdy, sg_zeta_sq hζ]
         norm_num
-      · rw [if_neg hA, if_neg hB, sub_zero]
+      · rw [ite_eq_right hA, ite_eq_right hB, sub_zero]
         by_cases htriv : ∀ x, c x = 1 → d i x = 1
-        · rw [if_pos htriv]
+        · rw [ite_eq_left htriv]
           rcases mu3_cases hζ (hdpow i y) with h4 | h4 | h4
           · rw [h4, sg_one hζ]
           · exfalso
@@ -306,7 +309,7 @@ theorem mult_inv_eq (hζ : IsPrimitiveRoot ζ 3) {d : Fin 7 → P → L}
             obtain ⟨j, _, hcx, hdx⟩ := triv_pow hζ hcmul hcpow (fun x y => hdmul i x y) hy htriv x
             rw [hdx, h4, hcx]
             ring
-        · rw [if_neg htriv]
+        · rw [ite_eq_right htriv]
   have hsum_eq : ∑ i, ((if d i = c then (1 : ℤ) else 0) -
       (if d i = fun x => c x ^ 2 then 1 else 0)) = 0 :=
     Eq.trans (Finset.sum_congr rfl (fun i _ => (hpt i).symm)) hfin

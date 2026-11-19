@@ -18,7 +18,7 @@ theorem threeCentralCoverOmegaNonabelian'_holds : ThreeCentralCoverOmegaNonabeli
   intro J _ _ hq hZ3 hZ hA S
   obtain hL3 | h6 | h7 | hM | hO := hA
   · obtain ⟨p, e, hp, he, hb, hpi⟩ := hL3
-    haveI := hp
+    have := hp
     exact fa_L3 hq hZ3 hZ he hb hpi S
   · obtain ⟨e⟩ := h6
     exact fa_alt6 hq hZ3 hZ e S

@@ -31,7 +31,7 @@ theorem Psp45Shape.card_eq (hO : LieOrderFormulasInput) {T : Type} [Group T]
   obtain ⟨-, hM, -⟩ := hO T .PSp 2 5 1 h.admissible h
   have hd : lieOrderDivisor .PSp 2 (5 ^ 1) = 2 := by decide
   have hn : lieOrderNumerator .PSp 2 (5 ^ 1) = 9360000 := by
-    simp [lieOrderNumerator, show Finset.Icc 1 2 = {1, 2} by decide, Finset.prod_pair]
+    simp [lieOrderNumerator, show Finset.Icc 1 2 = {1, 2} by decide]
   rw [hd, hn] at hM
   omega
 
@@ -42,15 +42,15 @@ theorem Psp45Shape.two_dvd_card (hO : LieOrderFormulasInput) {T : Type} [Group T
 
 theorem Psp45Shape.exists_not_commute (hO : LieOrderFormulasInput) {T : Type} [Group T]
     (h : Psp45Shape T) : ∃ a b : T, a * b ≠ b * a := by
-  haveI := h.finite
-  haveI : IsSimpleGroup T :=
+  have := h.finite
+  have : IsSimpleGroup T :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp T 2 5 1
       (h.statedClassicalModel (by decide))
   by_contra hcon
   have hcomm : ∀ a b : T, a * b = b * a := fun a b => by
     by_contra hne
     exact hcon ⟨a, b, hne⟩
-  letI : CommGroup T := { ‹Group T› with mul_comm := hcomm }
+  let : CommGroup T := { ‹Group T› with mul_comm := hcomm }
   have hp := IsSimpleGroup.prime_card (α := T)
   rw [h.card_eq hO] at hp
   norm_num at hp
@@ -92,7 +92,7 @@ theorem of_normal {Y : Type} [Group Y] (A : Subgroup Y) [A.Normal] (hA : NoPsp45
 theorem of_commute (hO : LieOrderFormulasInput) {Y : Type} [Group Y] [Finite Y]
     (h : ∀ a b : Y, a * b = b * a) : NoPsp45Factor Y := by
   intro T _ hT hcf
-  haveI := isCompositionFactor_finite hcf
+  have := isCompositionFactor_finite hcf
   obtain ⟨a, b, hab⟩ := hT.exists_not_commute hO
   exact hab (isCompositionFactor_commute h hcf a b)
 
@@ -102,11 +102,11 @@ theorem of_commutator (hO : LieOrderFormulasInput) {Y : Type} [Group Y] [Finite 
 
 theorem of_index_two (hO : LieOrderFormulasInput) {Y : Type} [Group Y] [Finite Y]
     (A : Subgroup Y) (hidx : A.index = 2) (hA : NoPsp45Factor ↥A) : NoPsp45Factor Y := by
-  haveI : A.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : A.Normal := Subgroup.normal_of_index_eq_two hidx
   refine of_normal A hA (of_commute hO ?_)
-  haveI : Fact (Nat.card (Y ⧸ A)).Prime :=
+  have : Fact (Nat.card (Y ⧸ A)).Prime :=
     ⟨by rw [← Subgroup.index_eq_card, hidx]; exact Nat.prime_two⟩
-  haveI : IsCyclic (Y ⧸ A) := isCyclic_of_prime_card rfl
+  have : IsCyclic (Y ⧸ A) := isCyclic_of_prime_card rfl
   exact fun a b => (IsCyclic.commGroup (α := Y ⧸ A)).mul_comm a b
 
 theorem of_not_dvd {Y : Type} [Group Y] [Finite Y]

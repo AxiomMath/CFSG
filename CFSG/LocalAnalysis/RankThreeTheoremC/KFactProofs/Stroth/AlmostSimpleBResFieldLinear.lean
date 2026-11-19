@@ -19,7 +19,7 @@ theorem linear_three_mem_linearAut {K : Type} [Field K] [Finite K] [CharP K 2] {
     (hL : ∀ y : projectiveSL 3 K, ∃ l ∈ L, ψ l = MulAut.conj y) {x : X} (hx : x ^ 3 = 1) :
     ψ x ∈ linearAutGroup 3 K := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hD
   have hn3 : 3 ≤ 3 := le_rfl
   set a : MulAut (projectiveSL 3 K) := ψ x with ha
@@ -28,7 +28,7 @@ theorem linear_three_mem_linearAut {K : Type} [Field K] [Finite K] [CharP K 2] {
   have hao : orderOf a = 3 := orderOf_eq_prime hap ha1
   have haE : a ∈ semilinearAutGroup 3 K :=
     mem_semilinearAutGroup_of_pow_odd hn3 (by decide : Odd 3) hap
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2
   have hcard : Nat.card K = 2 ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hm]
   obtain ⟨-, σ, hσo, ⟨h, hh, hah⟩, -⟩ :=

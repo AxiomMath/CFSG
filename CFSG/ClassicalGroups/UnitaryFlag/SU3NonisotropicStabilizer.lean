@@ -64,7 +64,7 @@ theorem basisMat_conjTranspose_mul (h : UnitaryFieldData 2 n K) {v e f : Fin 3 �
 
 theorem det_gramMat (h : UnitaryFieldData 2 n K) (lam : K) :
     (gramMat lam).det = lam := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   rw [gramMat, Matrix.det_fin_three]
   simp [Matrix.of_apply]
 
@@ -143,14 +143,14 @@ theorem blockDiag_gramMat_eq (h : UnitaryFieldData 2 n K) {lam : K}
   rfl
 
 theorem upperLeft_conjTranspose_gramMat (h : UnitaryFieldData 2 n K) (lam : K)
-    {D : Matrix (Fin 3) (Fin 3) K} (h02 : D 0 2 = 0) (h12 : D 1 2 = 0)
-    (h20 : D 2 0 = 0) (h21 : D 2 1 = 0) (h22 : D 2 2 = 1) :
+    {D : Matrix (Fin 3) (Fin 3) K} (_h02 : D 0 2 = 0) (_h12 : D 1 2 = 0)
+    (h20 : D 2 0 = 0) (h21 : D 2 1 = 0) (_h22 : D 2 2 = 1) :
     upperLeft ((D.map h.bar)ᵀ * gramMat lam * D) =
       ((upperLeft D).map h.bar)ᵀ * planeJ * upperLeft D := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [upperLeft, planeJ, gramMat, Matrix.mul_apply, Matrix.transpose_apply,
-      Fin.sum_univ_three, Fin.sum_univ_two, h02, h12, h20, h21, h22]
+      Fin.sum_univ_three, Fin.sum_univ_two, h20, h21]
 
 theorem gram_apply_two (h : UnitaryFieldData 2 n K) (lam : K) {D : Matrix (Fin 3) (Fin 3) K}
     (h02 : D 0 2 = 0) (h12 : D 1 2 = 0) (h22 : D 2 2 = 1) (j : Fin 3) :
@@ -406,8 +406,8 @@ theorem isL2_of_forall_mem_iff_mulVec_eq {K : Type} [Field K] {n : ℕ}
     {L : Subgroup (StatedSU 3 (2 ^ n) K)}
     (hL : ∀ g, g ∈ L ↔ ((g : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).mulVec v = v) :
     IsL2 L n := by
-  haveI : CharP K 2 := h.charP
-  haveI : Finite K := h.finite
+  have : CharP K 2 := h.charP
+  have : Finite K := h.finite
   classical
   let P : GL (Fin 3) K := basisGL h hv he hf hef hev hfv
   have hPG : ((P : Matrix (Fin 3) (Fin 3) K).map h.bar)ᵀ * P =

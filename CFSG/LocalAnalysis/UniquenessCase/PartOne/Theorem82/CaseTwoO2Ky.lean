@@ -23,8 +23,8 @@ variable {c : Ctx812E G} (t : CaseTwoTransitive c)
 theorem commutator_inf_centralizer_y_Z_ne_bot :
     ⁅c.L ⊓ t.d.N ⊓ Subgroup.centralizer ({t.y} : Set G), t.Z⁆ ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X : Subgroup G := c.L ⊓ t.d.N
   let P₂ : Subgroup G := X ⊓ Subgroup.centralizer ({t.y} : Set G)
   intro hbot
@@ -126,7 +126,7 @@ theorem commutator_inf_centralizer_y_Z_ne_bot :
       have haCommZ : ∀ c' ∈ Subgroup.zpowers z, c' * a = a * c' := by
         intro c' hc'
         have hc'E : c' ∈ E := Subgroup.mem_sup_left hc'
-        haveI : IsMulCommutative ↥E := hEelt.1
+        have : IsMulCommutative ↥E := hEelt.1
         exact congrArg Subtype.val
           ((IsMulCommutative.is_comm (M := ↥E)).comm ⟨c', hc'E⟩ ⟨a, haE⟩)
       have hpairA := CFSG.GroupTheory.isElemAbelian_sup_zpowers_of_commute

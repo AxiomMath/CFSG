@@ -18,6 +18,7 @@ instance instFiniteOrthElementaryGroupPlus {r : ℕ} {K : Type} [Field K] [Finit
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem orthPlus_sl_mulVec_inv_mulVec (C : SL(2, K)) (p : Fin 2 → K) :
     (C : Matrix (Fin 2) (Fin 2) K) *ᵥ (((C⁻¹ : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) *ᵥ p) = p := by
   rw [mulVec_mulVec, ← Matrix.SpecialLinearGroup.coe_mul, mul_inv_cancel,
@@ -54,7 +55,7 @@ variable {r : ℕ}
 theorem two_le_pRank_plusElementary [Finite K] (hr : 3 ≤ r) {ρ : ℕ} (hρ : ρ.Prime)
     (hρK : ρ ∣ Nat.card K ^ 2 - 1) :
     2 ≤ CFSG.Open.pRank ρ (⊤ : Subgroup ↥(orthElementaryGroup (quadPlus r K))) := by
-  haveI : Fact ρ.Prime := ⟨hρ⟩
+  have : Fact ρ.Prime := ⟨hρ⟩
   have hdvd : ρ ∣ Nat.card SL(2, K) := by
     rw [LinearFlag.card_SL_eq (by norm_num : 1 ≤ 2)]
     exact Dvd.dvd.mul_left (hρK.trans (Finset.dvd_prod_of_mem (fun j => Nat.card K ^ j - 1)

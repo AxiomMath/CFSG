@@ -448,7 +448,7 @@ end Dual
 
 section Final
 
-open Dual
+open _root_.CFSG.Quasithin.H13.AS91.M24G.Dual
 
 
 theorem card_triosOf (hU : IsSextet U) : (triosOf U).card = 15 := by

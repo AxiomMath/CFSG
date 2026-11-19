@@ -15,6 +15,7 @@ open CFSG.Assembly (InCatalog)
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem normal_centralizer_of_normal' (C : Subgroup H) [hC : C.Normal] :
     (Subgroup.centralizer (C : Set H)).Normal := by
   refine ⟨fun x hx g => ?_⟩
@@ -28,13 +29,14 @@ theorem normal_centralizer_of_normal' (C : Subgroup H) [hC : C.Normal] :
     _ = g * (x * (g⁻¹ * y * g)) * g⁻¹ := by rw [this]
     _ = (g * x * g⁻¹) * y := by group
 
+omit [Finite H] in
 theorem comp_inCatalog (hK : KCore.KGroupNonab InCatalog H) {C : Subgroup H}
     (hCs : IsSimpleGroup C) (hnab : ∃ a b : C, a * b ≠ b * a) : InCatalog C := by
   have hN : ((⊥ : Subgroup H).subgroupOf C).Normal := by
     rw [Subgroup.bot_subgroupOf]; infer_instance
   let e : C ≃* C ⧸ (⊥ : Subgroup H).subgroupOf C :=
     mulEquivQuotientOfEqBot _ (Subgroup.bot_subgroupOf C)
-  haveI : IsSimpleGroup (C ⧸ (⊥ : Subgroup H).subgroupOf C) := e.symm.isSimpleGroup
+  have : IsSimpleGroup (C ⧸ (⊥ : Subgroup H).subgroupOf C) := e.symm.isSimpleGroup
   have hnab' : ∃ a b : C ⧸ (⊥ : Subgroup H).subgroupOf C, a * b ≠ b * a :=
     KCore.nonabelian_of_mulEquiv e.symm hnab
   exact CFSG.Assembly.inCatalog_isoInvariant e (hK C ⊥ bot_le inferInstance hnab')
@@ -46,7 +48,7 @@ include h
 
 theorem le_pPrimeCore_of_inf_bot {X : Subgroup H} [X.Normal] (hX : P ⊓ X = ⊥) :
     X ≤ pPrimeCore 3 H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := CFSG.QuasithinUnique.exists_sylow_map_eq_inf_of_normal h.toSylow X
   have hS' : Subgroup.map X.subtype (S : Subgroup X) = P ⊓ X := hS
   rw [hX] at hS'
@@ -55,6 +57,7 @@ theorem le_pPrimeCore_of_inf_bot {X : Subgroup H} [X.Normal] (hX : P ⊓ X = ⊥
   have hnd : ¬ 3 ∣ Nat.card X := fun hd => Sylow.ne_bot_of_dvd_card S hd hSbot
   exact le_sSup ⟨inferInstance, (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 hnd⟩
 
+omit [Finite H] h in
 theorem card_comp_sylow {C : Subgroup H} (S : Sylow 3 C)
     (hS : (S : Subgroup C).map C.subtype = P ⊓ C) : Nat.card (S : Subgroup C) = Nat.card ↥(P ⊓ C) := by
   have := Nat.card_congr
@@ -63,9 +66,9 @@ theorem card_comp_sylow {C : Subgroup H} (S : Sylow 3 C)
 
 theorem comp_not_dvd_nine {C : Subgroup H} (hC : IsComponent C) (h3 : Nat.card ↥(P ⊓ C) = 3) :
     ¬ 9 ∣ Nat.card C := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := h.comp_sylow hC
-  have hcard : Nat.card S = 3 := (h.card_comp_sylow S hS).trans h3
+  have hcard : Nat.card S = 3 := (Red3.card_comp_sylow S hS).trans h3
   intro hd
   have := Sylow.pow_dvd_card_of_pow_dvd_card S (n := 2) (by simpa using hd)
   rw [hcard] at this
@@ -74,7 +77,7 @@ theorem comp_not_dvd_nine {C : Subgroup H} (hC : IsComponent C) (h3 : Nat.card �
 theorem comp_card_nine_false (hKF1 : FF84KF1) (hK : KCore.KGroupNonab InCatalog H)
     (hO : pPrimeCore 3 H = ⊥) {C : Subgroup H} (hC : IsComponent C)
     (h9 : Nat.card ↥(P ⊓ C) = 9) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcen := h.comp_center_bot hO hC
   obtain ⟨hCs, hnab⟩ := comp_simple hC hcen
   have hcat := comp_inCatalog hK hCs hnab
@@ -85,7 +88,7 @@ theorem comp_card_nine_false (hKF1 : FF84KF1) (hK : KCore.KGroupNonab InCatalog 
   have hSeq : (S : Subgroup C) = (P ⊓ C).subgroupOf C := by
     rw [← hS]
     exact (Subgroup.comap_map_eq_self_of_injective C.subtype_injective S).symm
-  have hcardS : Nat.card S = 9 := (h.card_comp_sylow S hS).trans h9
+  have hcardS : Nat.card S = 9 := (Red3.card_comp_sylow S hS).trans h9
   have hmemS : ∀ x : C, x ∈ (S : Subgroup C) ↔ (x : H) ∈ P := by
     intro x
     rw [hSeq, Subgroup.mem_subgroupOf]
@@ -129,20 +132,20 @@ theorem comp_card_three (hKS : FF84KSOut) (hK : KCore.KGroupNonab InCatalog H)
     (hO : pPrimeCore 3 H = ⊥) {C : Subgroup H} (hC : IsComponent C)
     (h3 : Nat.card ↥(P ⊓ C) = 3) :
     Subgroup.normalClosure (P₁ : Set H) ⊓ Subgroup.normalClosure (P₂ : Set H) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcen := h.comp_center_bot hO hC
-  haveI hCn : C.Normal := h.comp_normal hO hC
+  have hCn : C.Normal := h.comp_normal hO hC
   obtain ⟨hCs, hnab⟩ := comp_simple hC hcen
   have hcat := comp_inCatalog hK hCs hnab
   set X : Subgroup H := Subgroup.centralizer (C : Set H) with hXdef
-  haveI hXn : X.Normal := normal_centralizer_of_normal' C
+  have hXn : X.Normal := normal_centralizer_of_normal' C
   have hCX : ⁅C, X⁆ = ⊥ := by
     rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
     intro c hc
     rw [Subgroup.mem_centralizer_iff]
     intro x hx
     exact ((Subgroup.mem_centralizer_iff.mp hx) c hc).symm
-  have hCXbot : C ⊓ X = ⊥ := h.comp_inf_eq_bot hcen hCX
+  have hCXbot : C ⊓ X = ⊥ := CFSG.RankThree.PartTwo.Sec21.FF84.Red3.comp_inf_eq_bot hcen hCX
   by_cases hR : P ⊓ X = ⊥
   · exfalso
     have hXle := h.le_pPrimeCore_of_inf_bot hR
@@ -160,7 +163,7 @@ theorem comp_card_three (hKS : FF84KSOut) (hK : KCore.KGroupNonab InCatalog H)
     have h3dvd : 3 ∣ Nat.card C := by
       obtain ⟨S, hS⟩ := h.comp_sylow hC
       have := Subgroup.card_subgroup_dvd_card (S : Subgroup C)
-      rwa [(h.card_comp_sylow S hS).trans h3] at this
+      rwa [(Red3.card_comp_sylow S hS).trans h3] at this
     obtain ⟨c, hc⟩ := hKS C hCs hnab hcat h3dvd (h.comp_not_dvd_nine hC h3) α hα
     have hcx : ∀ y : C, x * (y : H) * x⁻¹ = (c : H) * y * (c : H)⁻¹ := fun y => by
       have := congrArg (fun β : MulAut C => ((β y : C) : H)) hc
@@ -218,7 +221,7 @@ theorem comp_card_three (hKS : FF84KSOut) (hK : KCore.KGroupNonab InCatalog H)
 
 theorem no_comp_case (hO : pPrimeCore 3 H = ⊥) (hno : ∀ C : Subgroup H, ¬ IsComponent C) :
     Subgroup.normalClosure (P₁ : Set H) ⊓ Subgroup.normalClosure (P₂ : Set H) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hlayer : layer H = ⊥ := CFSG.LocalCores.layer_eq_bot_of_forall hno
   have hgf : generalizedFitting H = fittingSubgroup H := by
     rw [generalizedFitting.eq_sup, hlayer, sup_bot_eq]
@@ -235,15 +238,15 @@ theorem no_comp_case (hO : pPrimeCore 3 H = ⊥) (hno : ∀ C : Subgroup H, ¬ I
     rw [hgf] at this
     exact hc.trans this
   have hPeq : P = fittingSubgroup H := le_antisymm hPF hFP
-  haveI hPn : P.Normal := hPeq ▸ inferInstance
+  have hPn : P.Normal := hPeq ▸ inferInstance
   have hnorm : ∀ {Q : Subgroup H}, Q ≤ P → IsStronglyClosedIn P (Q : Set H) → Q.Normal := by
     intro Q hQP hsc
     refine ⟨fun a ha g => ?_⟩
     have hmem : g * a * g⁻¹ ∈ P := hPn.conj_mem a (hQP ha) g
     have := hsc.2 a ha g⁻¹ (by simpa using hmem)
     simpa using this
-  haveI h1 : P₁.Normal := hnorm h.le₁ h.sc₁
-  haveI h2 : P₂.Normal := hnorm h.le₂ h.sc₂
+  have h1 : P₁.Normal := hnorm h.le₁ h.sc₁
+  have h2 : P₂.Normal := hnorm h.le₂ h.sc₂
   rw [Subgroup.normalClosure_eq_self, Subgroup.normalClosure_eq_self]
   exact h.inf
 

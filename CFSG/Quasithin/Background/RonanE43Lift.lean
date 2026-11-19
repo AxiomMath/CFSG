@@ -98,7 +98,7 @@ variable [Finite G] [Finite Γ]
 theorem map_pCoreOf_comap_eq (π : G →* Γ) (hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center G) (hodd : Nat.Coprime (Nat.card π.ker) 2)
     (M : Subgroup Γ) : (pCoreOf 2 (M.comap π)).map π = pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : (pCoreOf 2 (M.comap π)).map π ≤ pCoreOf 2 M := by
     have := CFSG.LieType.BorelTits.map_pCoreOf_le (r := 2) π (M.comap π)
     rwa [Subgroup.map_comap_eq_self_of_surjective hπ] at this
@@ -111,7 +111,7 @@ theorem goodAt_comap (π : G →* Γ) (hπ : Function.Surjective π)
     {T : Subgroup G} (hT : IsPGroup 2 T) {M : Subgroup Γ} (hgood : GoodAt (T.map π) M) :
     GoodAt T (M.comap π) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro Y hYH hYn hYT
   have hpc := map_pCoreOf_comap_eq π hπ hker hodd M
   have hYM : Y.map π ≤ M := by
@@ -160,7 +160,7 @@ theorem pRank_comap_le (π : G →* Γ) (hπ : Function.Surjective π)
     CFSG.Open.pRank 2 (⊤ : Subgroup (↥(M.comap π) ⧸ CFSG.pCore 2 ↥(M.comap π))) ≤
       CFSG.Open.pRank 2 (⊤ : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H : Subgroup G := M.comap π with hH
   let πH : ↥H →* ↥M := (π.comp H.subtype).codRestrict M (fun x => x.2)
   have hπHs : Function.Surjective πH := by
@@ -239,7 +239,7 @@ theorem pRank_comap_le (π : G →* Γ) (hπ : Function.Surjective π)
   unfold CFSG.Open.pRank
   refine csSup_le' ?_
   rintro k ⟨E, -, hE, hEk⟩
-  haveI := hE.1
+  have := hE.1
   have hψE : Function.Injective (ψ.comp E.subtype) := by
     intro a b hab
     have hab' : ψ (a : ↥H ⧸ P) = ψ (b : ↥H ⧸ P) := hab

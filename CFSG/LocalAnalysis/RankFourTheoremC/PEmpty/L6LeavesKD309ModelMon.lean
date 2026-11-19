@@ -65,7 +65,7 @@ theorem card_monSub_mul [Finite C] : Nat.card (monSub C) * Nat.card C = Nat.card
     refine ⟨⟨monT (fun i => if i = 0 then c else 1), monT_mem_PmC _⟩, ?_⟩
     change monDet (monT (fun i : Fin 5 => if i = 0 then c else 1)) = c
     rw [monDet_monT]
-    simp [Fin.prod_univ_five]
+    simp
   have h1 := Subgroup.card_ker_mul_card_range f
   rw [MonoidHom.range_eq_top.mpr hsurj, Subgroup.card_top, card_PmC] at h1
   have h2 : f.ker = (monSub C).subgroupOf (PmC C) := by
@@ -216,7 +216,7 @@ theorem not_comm_monSub {c : C} (hc : c ^ 2 ≠ 1) :
 
 theorem isPGroup_monSub [Finite C] {a : ℕ} (hC : Nat.card C = 5 ^ a) :
     IsPGroup 5 (monSub C) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine IsPGroup.of_card (n := 4 * a + 1) ?_
   rw [card_monSub, hC, ← pow_mul, ← pow_succ, mul_comm]
 

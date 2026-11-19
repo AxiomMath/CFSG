@@ -67,7 +67,7 @@ theorem exists_mulEquiv_map_eq_of_isSylowTwoOf_top
     (hU : IsSylowTwoOf U ⊤) (hU₀ : IsSylowTwoOf U₀ ⊤) :
     ∃ e' : G ≃* G₀, U.map e'.toMonoidHom = U₀ := by
   classical
-  haveI : Finite G₀ := Finite.of_equiv G e.toEquiv
+  have : Finite G₀ := Finite.of_equiv G e.toEquiv
   have hUmap : IsSylowTwoOf (U.map e.toMonoidHom) ⊤ :=
     isSylowTwoOf_top_map_equiv' e hU
   have hidx : ∀ S : Subgroup G₀, IsSylowTwoOf S ⊤ → ¬ 2 ∣ S.index := by

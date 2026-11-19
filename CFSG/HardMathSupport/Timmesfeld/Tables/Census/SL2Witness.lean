@@ -30,7 +30,7 @@ variable {K : Type} [Field K]
 
 theorem uSL_mul_uSL (a b : K) : (uSL a : SL2 K) * uSL b = uSL (a + b) := by
   refine SL2_ext ?_ ?_ ?_ ?_ <;>
-    simp [SpecialLinearGroup.coe_mul, coe_uSL, Matrix.mul_apply, Fin.sum_univ_two, add_comm]
+    simp [coe_uSL, Matrix.mul_apply, Fin.sum_univ_two, add_comm]
 
 theorem uSL_zero : (uSL (0 : K) : SL2 K) = 1 := by
   refine SL2_ext ?_ ?_ ?_ ?_ <;> simp [coe_uSL]
@@ -38,7 +38,7 @@ theorem uSL_zero : (uSL (0 : K) : SL2 K) = 1 := by
 theorem HSL_mul_uSL (t : Kˣ) (s : K) :
     (HSL t : SL2 K) * uSL s = uSL ((t : K) ^ 2 * s) * HSL t := by
   refine SL2_ext ?_ ?_ ?_ ?_ <;>
-    simp [SpecialLinearGroup.coe_mul, coe_uSL, coe_HSL, Matrix.mul_apply, Fin.sum_univ_two]
+    simp [coe_uSL, coe_HSL, Matrix.mul_apply, Fin.sum_univ_two]
   have h0 : (t : K) ≠ 0 := t.ne_zero
   field_simp
 
@@ -51,9 +51,8 @@ theorem HSL_pow_three {t : Kˣ} (ht : t ^ 3 = 1) : (HSL t : SL2 K) ^ 3 = 1 := by
       rw [inv_eq_iff_mul_eq_one, ← pow_succ', ht]
     rw [this, Units.val_pow_eq_pow_val]
   refine SL2_ext ?_ ?_ ?_ ?_ <;>
-    simp [SpecialLinearGroup.coe_mul, coe_HSL, Matrix.mul_apply, Fin.sum_univ_two, h'] <;>
-    first | linear_combination h | linear_combination ((t : K) ^ 3 + 1) * h |
-      linear_combination (-1 : K) * h | linear_combination (-(t : K) ^ 3) * h
+    simp [coe_HSL, Matrix.mul_apply, Fin.sum_univ_two, h'] <;>
+    first | linear_combination h | linear_combination ((t : K) ^ 3 + 1) * h
 
 end Even
 

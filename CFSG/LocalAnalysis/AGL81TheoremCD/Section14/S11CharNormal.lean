@@ -26,6 +26,7 @@ open CFSG.AGLEmbeddingD2.GN
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem gnC_eq_pCoreOf {n : ℕ} (hn : 5 ≤ n) {L R : Subgroup X} (φ : X →* Equiv.Perm (Fin n))
     (hφ : Function.Surjective φ) (hker : φ.ker = CFSG.Open.pCoreOf 2 (⊤ : Subgroup X))
     (hL : L.map φ = alternatingGroup (Fin n)) (hQR : CFSG.Open.pCoreOf 2 (⊤ : Subgroup X) ≤ R)
@@ -35,7 +36,7 @@ theorem gnC_eq_pCoreOf {n : ℕ} (hn : 5 ≤ n) {L R : Subgroup X} (φ : X →* 
     CFSG.AGLEmbeddingD2.GN.pCoreOf_le_gnC_of_le (T := R) hQR
   have hbot : C.map φ = ⊥ := by
     by_contra hne
-    haveI : (C.map φ).Normal := (gnC_normal R).map φ hφ
+    have : (C.map φ).Normal := (gnC_normal R).map φ hφ
     have hnt : Nontrivial ↥(C.map φ) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
     have halt : alternatingGroup (Fin n) ≤ C.map φ :=
       Equiv.Perm.alternatingGroup_le_of_normal (α := Fin n) (by simpa using hn) hnt
@@ -54,6 +55,7 @@ theorem gnC_eq_pCoreOf {n : ℕ} (hn : 5 ≤ n) {L R : Subgroup X} (φ : X →* 
   rw [← hker]
   exact (Subgroup.map_eq_bot_iff C).mp hbot
 
+omit [Finite X] in
 theorem le_of_map_le_map_of_closure_odd {Y : Type*} [Group Y] {L D : Subgroup X} [D.Normal]
     (hLodd : L = Subgroup.closure {x : X | x ∈ L ∧ Odd (orderOf x)}) (φ : X →* Y)
     (hker : IsPGroup 2 φ.ker) (hLD : L.map φ ≤ D.map φ) : L ≤ D := by
@@ -80,7 +82,7 @@ theorem le_of_map_le_map_of_closure_odd {Y : Type*} [Group Y] {L D : Subgroup X}
     exact ⟨fun h => ⟨l.2, h⟩, fun h => h.2⟩
   have hrange : ψ.range = L.map π := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
-  haveI : ((L ⊓ D).subgroupOf L).Normal :=
+  have : ((L ⊓ D).subgroupOf L).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr
       (CFSG.QuasithinUnique.SteinbergBY.inf_le_normalizer Subgroup.le_normalizer
         (Subgroup.le_normalizer_of_normal))
@@ -95,6 +97,7 @@ theorem le_of_map_le_map_of_closure_odd {Y : Type*} [Group Y] {L D : Subgroup X}
   have hmem : (⟨l, hl⟩ : ↥L) ∈ (L ⊓ D).subgroupOf L := htop.symm ▸ Subgroup.mem_top _
   exact (Subgroup.mem_subgroupOf.mp hmem).2
 
+omit [Finite X] in
 theorem normal_of_subgroupOf_characteristic_of_sup_eq_top {C R P : Subgroup X}
     (hCR : C ≤ R) (hchar : (C.subgroupOf R).Characteristic)
     (hsup : Subgroup.normalizer (R : Set X) ⊔ P = ⊤)
@@ -130,10 +133,10 @@ theorem inClassXBlock_of_isChiBlock {L R P K : Subgroup X} (hLn : L.Normal)
   have hQK : ⁅pCoreOf 2 (⊤ : Subgroup X), K⁆ ≤ gnV R :=
     commutator_pCoreOf_le_of_le_pCoreOf hWQ hQP hKchi.1 hKC
   have hKD : K ≤ gnD R := (le_gnD_iff (T := R) (A := K)).mpr hQK
-  haveI hLn' : L.Normal := hLn
-  haveI hWn : (gnV R).Normal := normal_gnV R
-  haveI hDn : (gnD R).Normal := normal_gnD R
-  haveI hDmapN : ((gnD R).map φ).Normal := hDn.map φ hφ
+  have hLn' : L.Normal := hLn
+  have hWn : (gnV R).Normal := normal_gnV R
+  have hDn : (gnD R).Normal := normal_gnD R
+  have hDmapN : ((gnD R).map φ).Normal := hDn.map φ hφ
   have hDmap_ne : (gnD R).map φ ≠ ⊥ := by
     intro hbot
     have hKle : K ≤ φ.ker := by
@@ -190,7 +193,7 @@ theorem exists_char_normal_of_s11
     (hnoX : ¬ CFSG.AGLEmbedding.InClassXBlock L) :
     ∃ T₀ : Subgroup X, T₀ ≠ ⊥ ∧ T₀ ≤ R ∧ (T₀.subgroupOf R).Characteristic ∧ T₀.Normal := by
   classical
-  haveI hQn : (pCoreOf 2 (⊤ : Subgroup X)).Normal := normal_pCoreOf_top
+  have hQn : (pCoreOf 2 (⊤ : Subgroup X)).Normal := normal_pCoreOf_top
   have hL : L.map φ = alternatingGroup (Fin 11) :=
     map_eq_alternatingGroup_of_closure_odd (n := 11) (by norm_num) hLn hLodd φ hφ hLker
   have hRmap : R.map φ = Subgroup.zpowers (Equiv.swap i j) :=
@@ -231,7 +234,7 @@ theorem exists_char_normal_of_s11
         rwa [← hCeq]
       obtain ⟨A, hA, hAR, hAW, hoff⟩ :=
         exists_offender_of_not_thompsonJ_le (R := R) (W := gnV R) hW hWle hJ'
-      haveI hWn : (gnV R).Normal := normal_gnV R
+      have hWn : (gnV R).Normal := normal_gnV R
       have hnat : NaturalSectionOn (gnV R) L ⊤ 11 :=
         naturalSectionOn_top_of_offender (W := gnV R) (L := L) (A := A) (n := 11)
           hW hWn hLn (by norm_num) φ (hker.trans hCeq.symm) hL hA hAW hoff

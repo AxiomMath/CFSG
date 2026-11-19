@@ -17,9 +17,9 @@ theorem isConj_of_mul {G : Type*} [Group G] {x y g : G} (h : x * g = g * y) : Is
   isConj_iff.2 ⟨g⁻¹, by rw [inv_inv, mul_assoc, h, inv_mul_cancel_left]⟩
 
 theorem epM_mem {G : Type*} [Group G] (f : Nat → G) (H : Subgroup G) :
-    ∀ (L : List Nat), (∀ x ∈ L, f x ∈ H) → ∀ (v : Nat) (acc : G), acc ∈ H → epM f 3 L v acc ∈ H
+    ∀ (L : List Nat), (∀ x ∈ L, f x ∈ H) → ∀ (_v : Nat) (_acc : G), _acc ∈ H → epM f 3 L _v _acc ∈ H
   | [], _, _, _, h => h
-  | g :: L, hL, v, acc, h =>
+  | g :: L, hL, _v, _acc, h =>
     epM_mem f H L (fun x hx => hL x (List.mem_cons_of_mem g hx)) _ _
       (H.mul_mem h (H.pow_mem (hL g List.mem_cons_self) _))
 
@@ -237,7 +237,7 @@ theorem gen_D {x : ↥GA} (hx : IsConj (nodeG 10) x) : SporKRestGenerating 3 x :
 
 theorem complete (s : ↥GA) (hs : orderOf s = 3) :
     ∃ r ∈ [eG 721, nodeG 9, nodeG 8, nodeG 10], IsConj r s := by
-  haveI : Finite ↥GA := Co1T.finite_GA
+  have : Finite ↥GA := Co1T.finite_GA
   have hQcard : Nat.card Co1T.Qg = 3 ^ (Nat.card ↥(⊤ : Subgroup ↥GA)).factorization 3 := by
     rw [KernelCo1ThreeK.card_QgK, Co1T.factorization_card_GA]
   obtain ⟨g, -, hgq⟩ := @Co3T.exists_conj_mem_of_full ↥GA (Subgroup.toGroup GA) 3

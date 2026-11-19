@@ -13,7 +13,7 @@ variable {L : Type*} [Group L]
 theorem sylow_le_center_of_not_dvd_card_quotient_center [Finite L] {p : ℕ} [Fact p.Prime]
     (P : Sylow p L) (h : ¬ p ∣ Nat.card (L ⧸ center L)) : (P : Subgroup L) ≤ center L := by
   have hmap : IsPGroup p ((P : Subgroup L).map (QuotientGroup.mk' (center L))) :=
-    P.isPGroup'.map _
+    P.isPGroup.map _
   have hbot : (P : Subgroup L).map (QuotientGroup.mk' (center L)) = ⊥ := by
     rcases hmap.card_eq_or_dvd with h1 | hdvd
     · exact Subgroup.card_eq_one.mp h1
@@ -25,7 +25,7 @@ theorem sylow_eq_bot_of_not_dvd_card_quotient_center [Finite L] [Group.IsPerfect
     (P : Subgroup L) = ⊥ := by
   have hZ := sylow_le_center_of_not_dvd_card_quotient_center P h
   have hle := CFSG.ShultStronglyClosedTI.central_pSubgroup_le_sylow_derived P (P : Subgroup L)
-    hZ P.isPGroup'
+    hZ P.isPGroup
   rw [Subgroup.map_subtype_commutator] at hle
   have hc : ⁅(P : Subgroup L), (P : Subgroup L)⁆ = ⊥ :=
     Subgroup.commutator_eq_bot_iff_le_centralizer.mpr (hZ.trans (Subgroup.center_le_centralizer _))

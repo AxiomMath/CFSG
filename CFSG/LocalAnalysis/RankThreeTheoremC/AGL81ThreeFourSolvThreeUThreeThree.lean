@@ -32,7 +32,7 @@ theorem exists_mul_of_mem_normalizer {K : Subgroup Y} [K.Normal] (hK : IsRankThr
     (hKC : K ⊓ centralizer (K : Set Y) = ⊥) {U : Subgroup Y} (hUK : U ≤ K)
     (hU27 : Nat.card U = 27) {w : Y} (hw : w ∈ normalizer (U : Set Y)) {n : ℕ}
     (hwn : w ^ 3 ^ n = 1) : ∃ k ∈ U, ∃ c ∈ centralizer (K : Set Y), w = k * c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨θ, hθ⟩ : ∃ θ : Y →* MulAut K, θ = MulAut.conjNormal := ⟨_, rfl⟩
   have hθ1 : ∀ a : Y, θ a = 1 ↔ a ∈ centralizer (K : Set Y) := fun a => by
     rw [hθ]; exact conjNormal_eq_one_iff
@@ -76,7 +76,7 @@ theorem le_centralizer_of_symThree (σ : I₀ →* Y)
     (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).map σ ≤
       centralizer (K : Set Y) := by
   set C := centralizer (K : Set Y) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   have hb : IsSymThreeOrSUThreeTwo (I₀ ⧸ CFSG.pCore 2 I₀) := Or.inl ⟨f⟩
   refine oUpperTwo_map_le_of_odd σ fun y hy hodd => ?_
   have hy3 := pow_three_eq_one_of_mem_range_of_odd σ hb hy hodd
@@ -106,9 +106,9 @@ theorem false_of_not_symThree (σ : I₀ →* Y) (hb : IsSymThreeOrSUThreeTwo (I
     (hrkC : CFSG.Open.pRank 3 (centralizer (K : Set Y)) ≤ 1)
     (hσY : σ.range ≤ Y₀) (hUK : U ≤ K) (hU27 : Nat.card U = 27)
     (hY₀U : Y₀ ≤ normalizer (U : Set Y)) (hcond : SolvThreeAutCond Y₀ σ) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := centralizer (K : Set Y) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   obtain ⟨θ, hθ⟩ : ∃ θ : Y →* MulAut K, θ = MulAut.conjNormal := ⟨_, rfl⟩
   have hθ1 : ∀ a : Y, θ a = 1 ↔ a ∈ C := fun a => by
     rw [hθ]; exact conjNormal_eq_one_iff
@@ -126,7 +126,7 @@ theorem false_of_not_symThree (σ : I₀ →* Y) (hb : IsSymThreeOrSUThreeTwo (I
     have hPS : P ≤ σ.range := Subgroup.map_le_range σ _
     have hP3e : ∀ x ∈ P, ∃ n : ℕ, x ^ 3 ^ n = 1 := by
       rintro _ ⟨u, hu, rfl⟩
-      obtain ⟨n, hn⟩ := P₀.isPGroup' ⟨u, hu⟩
+      obtain ⟨n, hn⟩ := P₀.isPGroup ⟨u, hu⟩
       have hun : u ^ 3 ^ n = 1 := by simpa using congrArg Subtype.val hn
       exact ⟨n, by rw [← map_pow, hun, map_one]⟩
     have hP3 : ∀ x ∈ P, x ^ 3 = 1 := by
@@ -153,7 +153,7 @@ theorem false_of_not_symThree (σ : I₀ →* Y) (hb : IsSymThreeOrSUThreeTwo (I
       group
     have hPeq : P.map θ = U.map θ := eq_of_le_of_not_comm hPle hU1 hPnc
     refine ⟨hPeq, fun z hz hzC => ?_⟩
-    have hPp : IsPGroup 3 P := P₀.isPGroup'.map σ
+    have hPp : IsPGroup 3 P := P₀.isPGroup.map σ
     have hPcard : Nat.card P ≤ 27 := by
       have hdvd := card_dvd_card_quotient_of_isPGroup σ hPp hPS
       rw [h216] at hdvd
@@ -170,7 +170,7 @@ theorem false_of_not_symThree (σ : I₀ →* Y) (hb : IsSymThreeOrSUThreeTwo (I
     have h1 : θ.subgroupMap P ⟨z, hz⟩ = 1 := Subtype.ext ((hθ1 z).mpr hzC)
     exact congrArg Subtype.val ((injective_iff_map_eq_one _).mp hbij.1 _ h1)
   set M : Subgroup I₀ := C.comap σ with hM
-  haveI : M.Normal := Subgroup.Normal.comap inferInstance σ
+  have : M.Normal := Subgroup.Normal.comap inferInstance σ
   have hM3 : ¬ 3 ∣ Nat.card M := by
     intro h3
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := M) 3 h3
@@ -183,7 +183,7 @@ theorem false_of_not_symThree (σ : I₀ →* Y) (hb : IsSymThreeOrSUThreeTwo (I
       orderOf_dvd_natCard _
     rw [Subgroup.orderOf_mk, hgo] at hdvd
     exact absurd (Nat.Coprime.eq_one_of_dvd hker hdvd) (by norm_num)
-  haveI : (M.map (QuotientGroup.mk' (CFSG.pCore 2 I₀))).Normal :=
+  have : (M.map (QuotientGroup.mk' (CFSG.pCore 2 I₀))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   have hMbar : M.map (QuotientGroup.mk' (CFSG.pCore 2 I₀)) = ⊥ :=
     SevenFourL34.normal_eq_bot_of_not_three_dvd
@@ -210,11 +210,11 @@ theorem false_of_not_symThree (σ : I₀ →* Y) (hb : IsSymThreeOrSUThreeTwo (I
       inv_mul_cancel]
   have hy₀e : y₀ = σ x₀ * c' := by rw [hc']; group
   have hx₀O : x₀ ∈ CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀) := by
-    obtain ⟨n, hn⟩ := P₀.isPGroup' ⟨x₀, hx₀⟩
+    obtain ⟨n, hn⟩ := P₀.isPGroup ⟨x₀, hx₀⟩
     have hxn : x₀ ^ 3 ^ n = 1 := by simpa using congrArg Subtype.val hn
     exact Subgroup.subset_closure ⟨Subgroup.mem_top x₀,
       Odd.of_dvd_nat (Odd.pow (by decide)) (orderOf_dvd_of_pow_eq_one hxn)⟩
-  haveI := (normal_oUpperTwo_top :
+  have := (normal_oUpperTwo_top :
     (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).Normal)
   have hM' : x₀⁻¹ * α g₁ * x₀ * g₁⁻¹ ∈ M := by
     show σ (x₀⁻¹ * α g₁ * x₀ * g₁⁻¹) ∈ C
@@ -240,8 +240,8 @@ section Certified
 theorem threeFourSolvThreeUThreeThree_holds : ThreeFourSolvThreeUThreeThree := by
   intro q d hq3 hq1 hd Y _ _ K Y₀ E R I₀ _ _ σ hK hKX hZ _ hrkC _ hcomp hER hE hEc hcore hO2
     hker hσY hσs hb hcond _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hK
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hK
   set C := centralizer (K : Set Y) with hCdef
   have hKC := CFSG.QuasithinUnique.RankOneRecog.inf_centralizer_eq_bot_of_center_eq_bot hZ
   have hrkC' : CFSG.Open.pRank 3 C ≤ 1 := by
@@ -296,7 +296,7 @@ theorem threeFourSolvThreeUThreeThree_holds : ThreeFourSolvThreeUThreeThree := b
     omega
   have hKnle : ¬ K ≤ Y₀ := by
     refine hcomp K ?_ le_rfl
-    haveI : Group.IsPerfect K := ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top K hnab⟩
+    have : Group.IsPerfect K := ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top K hnab⟩
     exact ⟨le_top, IsSubnormal.step le_top inferInstance (IsSubnormal.refl ⊤),
       CFSG.ComponentClassification.Quasisimple.simple_of_perfect K⟩
   obtain ⟨hUY, hY₀U⟩ :=

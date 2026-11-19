@@ -33,7 +33,7 @@ theorem f4_exists_a2Frame
     have e21 : σ 2 1 = -σ 1 2 := hfr.neg 1 2
     have e20 : σ 2 0 = -σ 0 2 := hfr.neg 0 2
     ext r
-    simp only [a2Roots, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_setOf_eq]
+    simp only [a2Roots, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨i, j, hij, rfl⟩
       fin_cases i <;> fin_cases j <;>

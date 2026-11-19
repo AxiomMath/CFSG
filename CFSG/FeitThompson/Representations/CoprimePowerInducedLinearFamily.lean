@@ -137,7 +137,7 @@ theorem ne_one_of_mem_indFamLinear {η : L → ℂ} (hη : η ∈ indFamLinear K
   have hres : resClassFun K (1 : L → ℂ) = 1 := by funext x; simp
   have h0 : cfInner (indClassFun K θ) (1 : L → ℂ) = 0 := by
     rw [cfInner_indClassFun K θ (Irr_subset_classFun one_mem_Irr), hres,
-      cfInner_eq_ite_of_mem_Irr hθ.1 one_mem_Irr, if_neg hθ.2.2]
+      cfInner_eq_ite_of_mem_Irr hθ.1 one_mem_Irr, ite_eq_right hθ.2.2]
   intro h
   rw [h, cfInner_def] at h0
   simp [Nat.card_eq_fintype_card, Fintype.card_ne_zero] at h0
@@ -152,7 +152,7 @@ theorem apply_eq_apply_one_of_mem_commutator [K.Normal] {η : L → ℂ} (hη : 
     have hc : t⁻¹ * z * t ∈ (⁅K, K⁆ : Subgroup L) := by
       have := (Subgroup.commutator_normal K K).conj_mem _ hz t⁻¹
       simpa [mul_assoc] using this
-    rw [dif_pos (Subgroup.commutator_le_self K hc)]
+    rw [dite_eq_left (Subgroup.commutator_le_self K hc)]
     exact eq_one_of_mem_commutator hθ ((coe_mem_commutator_iff K).1 hc)
   rw [Finset.sum_congr rfl fun t _ => hall t]
   simp only [Finset.sum_const, Finset.card_univ, nsmul_eq_mul, mul_one,

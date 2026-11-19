@@ -14,6 +14,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {hc : Ctx M Q Z B} {t : G} {Y : Subgroup G}
 
+omit [Finite G] in
 private theorem mem_conj_LB_of_mem_Q (hc : Ctx M Q Z B) {m w : G} (hm : m ∈ M) (hw : w ∈ Q) :
     w ∈ conjSubgroup m (LB M Q B) := by
   rw [mem_conjSubgroup]
@@ -31,6 +32,7 @@ private theorem mem_normalizer_of_conj_mem {H : Subgroup G} {g : G}
   exact conjSubgroup_eq_self_iff.mp
     (Subgroup.eq_of_le_of_card_ge hle (by rw [card_conjSubgroup]))
 
+omit [Finite G] in
 private theorem conj_inv_mem {H : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (H : Set G))
     {x : G} (hx : x ∈ H) : g⁻¹ * x * g ∈ H := by
   have h := (Subgroup.mem_normalizer_iff.mp (Subgroup.inv_mem _ hg) x).mp hx

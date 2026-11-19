@@ -18,8 +18,8 @@ theorem k108big_conj_le {Gh : Type} [Group Gh] [Finite Gh] {X M U : Subgroup Gh}
     (hXg : X ≤ Subgroup.normalizer ((U.map (MulAut.conj g).toMonoidHom : Subgroup Gh) : Set Gh)) :
     U.map (MulAut.conj g).toMonoidHom ≤ M := by
   classical
-  haveI : Fact (Nat.card X).Prime := ⟨hX⟩
-  haveI : IsCyclic X := isCyclic_of_prime_card rfl
+  have : Fact (Nat.card X).Prime := ⟨hX⟩
+  have : IsCyclic X := isCyclic_of_prime_card rfl
   obtain ⟨⟨t, htX⟩, ht⟩ := IsCyclic.exists_generator (α := ↥X)
   have hmem : ∀ x ∈ X, ∃ k : ℤ, t ^ k = x := fun x hx => by
     obtain ⟨k, hk⟩ := ht ⟨x, hx⟩
@@ -53,7 +53,7 @@ theorem k108big_conj_le {Gh : Type} [Group Gh] [Finite Gh] {X M U : Subgroup Gh}
   set P₁ : Subgroup Gh := (P : Subgroup R).map R.subtype with hP₁
   have hXP₁ : X ≤ P₁ := fun x hx => ⟨⟨x, hXU hx⟩, hXP hx, rfl⟩
   have hP₁M : P₁ ≤ M := by
-    haveI : Group.IsNilpotent P₁ := (P.isPGroup'.map R.subtype).isNilpotent
+    have : Group.IsNilpotent P₁ := (P.isPGroup.map R.subtype).isNilpotent
     exact CFSG.SeitzReduction.F4Pilot.le_of_isNilpotent_of_unique (hXM htX) huniq (hXP₁ htX)
   have hm : g * (r : Gh)⁻¹ ∈ M := by
     refine hstar _ fun x hx => ?_
@@ -84,7 +84,7 @@ theorem k108big_le {Gh : Type} [Group Gh] [Finite Gh] (S : Subgroup Gh) [S.Norma
     (hUM : U.map S.subtype ≤ M) (hXM : X ≤ M)
     (hstar : ∀ g : Gh, (∀ x ∈ X, g⁻¹ * x * g ∈ M) → g ∈ M) : S ≤ M := by
   classical
-  haveI : Fact (Nat.card X).Prime := ⟨hX⟩
+  have : Fact (Nat.card X).Prime := ⟨hX⟩
   obtain ⟨n₀, -, hmax⟩ := CFSG.ASVolI.burnsideI25b_exists_max (B := B) (N := N) W W
   have hmax' : ∀ w, wordLength W w ≤ wordLength W (n₀ : WeylGroup B N) := fun w =>
     hmax w (hBN.mem_closure w)

@@ -36,7 +36,7 @@ theorem ggF4Sh_A2A2_baseChange
     (hy : ggF4Sh_A2A2 y) : ggF4Sh_A2A2 z := by
   classical
   obtain ⟨g, hg, a, ha3, h12, hga⟩ := hy
-  letI : Algebra k (AlgebraicClosure K) :=
+  let : Algebra k (AlgebraicClosure K) :=
     ((algebraMap K (AlgebraicClosure K)).comp ι).toAlgebra
   let ῑ : AlgebraicClosure k →ₐ[k] AlgebraicClosure K := IsAlgClosed.lift
   have hcomp : (ῑ : AlgebraicClosure k →+* AlgebraicClosure K).comp
@@ -52,7 +52,7 @@ theorem ggF4Sh_A2A2_baseChange
         (fun i => Units.map (ῑ : AlgebraicClosure k →+* AlgebraicClosure K).toMonoidHom (a i)) =
         rootCharKernel (τ := Tag.F4) a := by
       ext v
-      simp only [rootCharKernel, Set.mem_setOf_eq]
+      simp only [rootCharKernel, Set.mem_ofPred_eq]
       refine and_congr_right fun _ => ?_
       have hv : rootChar (fun i => Units.map (ῑ : AlgebraicClosure k →+* AlgebraicClosure K).toMonoidHom
           (a i)) v = Units.map (ῑ : AlgebraicClosure k →+* AlgebraicClosure K).toMonoidHom
@@ -129,8 +129,8 @@ theorem ggF4Sh_noLineSh
     (K : Type) [Field K] [Finite K] [CharP K 2] (hpq : 3 ∣ Nat.card K + 1) :
     GGTorusNoLineSh 3 3 (TableBF4.RecipeGroup K) (TableBF4.RecipeID K) (ggF4Sh_set K) := by
   classical
-  haveI : Finite (adjointGroup Tag.F4 K) := Subtype.finite
-  haveI : Finite (TableBF4.RecipeGroup K) :=
+  have : Finite (adjointGroup Tag.F4 K) := Subtype.finite
+  have : Finite (TableBF4.RecipeGroup K) :=
     Finite.of_equiv (adjointGroup Tag.F4 K) (TableBF4.recipeEquiv K).toEquiv.symm
   have hZ : Subgroup.center (TableBF4.RecipeGroup K) = ⊥ := TableBF4.center_recipeGroup_eq_bot K
   have hIp : ∀ φ ∈ TableBF4.RecipeID K, φ ^ 3 = 1 →
@@ -316,7 +316,7 @@ private def ggF4Sh_FixOn
 
 private theorem ggF4Sh_FixOn_isRoot
     (K : Type) [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n) {p : ℕ}
-    (hp : 0 < p) : ggF4Sh_FixOn K (IsRoot Tag.F4) n p := by
+    (_hp : 0 < p) : ggF4Sh_FixOn K (IsRoot Tag.F4) n p := by
   suffices h : ∀ H : Subgroup (MarkChev.GLS (IsRoot Tag.F4) K), H = adjointGroup Tag.F4 K →
       ∀ f ∈ RecipeFieldExcInn.markFieldImage (IsRoot Tag.F4) K H, orderOf f = p →
         ∃ (k : Type) (_ : Field k) (_ : Finite k) (ι : k →+* K)
@@ -331,7 +331,7 @@ private theorem ggF4Sh_FixOn_isRoot
   have hσp : orderOf σ = p := by
     rw [← CFSG.RankThree.Chevalley.SteinbergBT.orderOf_entrywiseAdjointAut hr σ, ← hσ,
       MulEquiv.orderOf_eq, hford]
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcharP : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by rw [← Nat.card_eq_fintype_card]; exact hK)
@@ -421,7 +421,7 @@ theorem ggF4Sh_fixStd_explicit
   have hq := chev_isQuasisimple (τ := .F4) (Or.inl rfl) k
   obtain ⟨eR⟩ := centerQuot_chevGroup_equiv k .F4
   have hsimple : IsSimpleGroup (TableBF4.RecipeGroup k) := by
-    haveI : IsSimpleGroup (AdjointQuotient Tag.F4 k) := hq.2.1
+    have : IsSimpleGroup (AdjointQuotient Tag.F4 k) := hq.2.1
     exact eR.isSimpleGroup
   have hnab : ∃ a b : TableBF4.RecipeGroup k, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hq.2.2
@@ -510,7 +510,7 @@ theorem ggF4Sh_fixGeom {R R₀ : Type} [Group R] [Group R₀] {I : Set (MulAut R
     have h2 : (⟨g, hg⟩ : ggFixDer f) = 1 :=
       θ₀.injective (by rw [h1, map_one])
     have hg1 : g = 1 := congrArg Subtype.val h2
-    simpa [hg1]
+    simp [hg1]
 
 theorem ggF4Sh_notCyc
     {K k : Type} [Field K] [Finite K] [CharP K 2] [Field k] [Finite k] (ι : k →+* K)
@@ -583,7 +583,7 @@ theorem ggF4Sh_rawFieldFixSh
       (LargeEvenChevFieldImage LargeEvenCartanF4 K (LargeEvenChevH LargeEvenCartanF4 K false)) := by
   intro hs hna f hf hord
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn3 : 3 ≤ n := Nat.le_of_dvd (by omega) h3n
   have hKchar : CharP K 2 := charP_two_of_card hK
   have hK3 : 3 ∣ Nat.card K + 1 := by rw [hK]; exact h3
@@ -601,7 +601,7 @@ theorem ggF4Sh_rawFieldFixSh
   have hq := chev_isQuasisimple (τ := .F4) (Or.inl rfl) k
   obtain ⟨eR⟩ := centerQuot_chevGroup_equiv k .F4
   have hsimple : IsSimpleGroup (TableBF4.RecipeGroup k) := by
-    haveI : IsSimpleGroup (AdjointQuotient Tag.F4 k) := hq.2.1
+    have : IsSimpleGroup (AdjointQuotient Tag.F4 k) := hq.2.1
     exact eR.isSimpleGroup
   have hnab : ∃ a b : TableBF4.RecipeGroup k, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hq.2.2

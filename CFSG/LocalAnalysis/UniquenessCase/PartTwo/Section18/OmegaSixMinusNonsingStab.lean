@@ -15,6 +15,7 @@ section Orbit
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
 
+omit [Finite F] [CharP F 2] in
 theorem statedQuadMinus_three_kOmMVec :
     StatedQuadMinus 3 F b c (CFSG.SeitzReduction.SymplecticPilot.kOmMVec F 2) = 1 :=
   CFSG.SeitzReduction.SymplecticPilot.kOmM_statedQuadMinus_vec F b c
@@ -23,7 +24,7 @@ noncomputable local instance nonsingStabMulAction :
     MulAction (StatedOmega (StatedQuadMinus 3 F b c)) (SixMinusIdx → F) where
   smul g x := ((g : GL SixMinusIdx F) : Matrix SixMinusIdx SixMinusIdx F) *ᵥ x
   one_smul x := by
-    simp [Matrix.one_mulVec]
+    simp
   mul_smul g h x := by
     change (((g * h : StatedOmega (StatedQuadMinus 3 F b c)) : GL SixMinusIdx F) :
         Matrix SixMinusIdx SixMinusIdx F) *ᵥ x =
@@ -185,7 +186,7 @@ theorem card_norm_one_statedQuadMinus_three (hirr : ∀ s : F, s ^ 2 + b * s + c
     Nat.card {x : SixMinusIdx → F // StatedQuadMinus 3 F b c x = 1} =
       Nat.card F ^ 2 * (Nat.card F ^ 3 + 1) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hbij : Function.Bijective fun p :
       Fˣ × {x : SixMinusIdx → F // StatedQuadMinus 3 F b c x = 1} =>
       (⟨(p.1 : F) • (p.2 : SixMinusIdx → F), by
@@ -271,7 +272,7 @@ section Cardinality
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
 
-theorem arith_stab_sp (q st sp N : ℤ) (hN : N = q ^ 2 * (q ^ 3 + 1)) (hN0 : N ≠ 0)
+theorem arith_stab_sp (q st sp N : ℤ) (_hN : N = q ^ 2 * (q ^ 3 + 1)) (hN0 : N ≠ 0)
     (h1 : st * N = q ^ 6 * (q ^ 3 + 1) * (q ^ 2 - 1) * (q ^ 4 - 1))
     (h2 : sp * N = q ^ 6 * (q ^ 3 + 1) * (q ^ 2 - 1) * (q ^ 4 - 1)) : st = sp := by
   exact mul_right_cancel₀ hN0 (h1.trans h2.symm)
@@ -281,7 +282,7 @@ theorem card_vecStab_eq_card_statedSp (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0
       (CFSG.SeitzReduction.SymplecticPilot.kOmMVec F 2)) =
       Nat.card ↥(StatedSp 2 F) := by
   classical
-  letI : MulAction (StatedOmega (StatedQuadMinus 3 F b c)) (SixMinusIdx → F) := nonsingStabMulAction
+  let : MulAction (StatedOmega (StatedQuadMinus 3 F b c)) (SixMinusIdx → F) := nonsingStabMulAction
   have hidx := MulAction.index_stabilizer (StatedOmega (StatedQuadMinus 3 F b c))
     (CFSG.SeitzReduction.SymplecticPilot.kOmMVec F 2)
   have hcard := Subgroup.card_mul_index
@@ -353,7 +354,7 @@ end Main
 
 section Final
 
-theorem exists_vecStab_OmegaMinus6_nonsing_equiv {n : ℕ} (hn : 2 ≤ n) {F : Type} [Field F]
+theorem exists_vecStab_OmegaMinus6_nonsing_equiv {n : ℕ} (_hn : 2 ≤ n) {F : Type} [Field F]
     [Finite F] (hF : Nat.card F = 2 ^ n) {b c : F}
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     {w : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F}

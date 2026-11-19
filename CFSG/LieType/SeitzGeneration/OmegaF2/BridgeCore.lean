@@ -146,11 +146,11 @@ theorem twistSet_closed (h : P.Orth P') {r : V} (hr : PerpData P P' r)
     rw [map_zero, eichler_zero_right, map_one, one_mul]
     exact H.one_mem
   · intro X X' A A' hXA hXA'
-    simp only [twistSet, Set.mem_setOf_eq] at hXA hXA' ⊢
+    simp only [twistSet, Set.mem_ofPred_eq] at hXA hXA' ⊢
     rw [← theta_mul h hr X X' A A']
     exact H.mul_mem hXA hXA'
   · intro X A hXA
-    simp only [twistSet, Set.mem_setOf_eq] at hXA ⊢
+    simp only [twistSet, Set.mem_ofPred_eq] at hXA ⊢
     have hAA : (A : Matrix (Fin 2) (Fin 2) K) *
         ((A⁻¹ : SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) = 1 := by
       rw [← Matrix.SpecialLinearGroup.coe_mul, mul_inv_cancel, Matrix.SpecialLinearGroup.coe_one]

@@ -18,8 +18,8 @@ theorem mword_congr {S Si S' Si' : Array (Array (Array Nat))} {j : Nat}
     rw [mword, mword, mword_congr hS hSi w fun l' h' => hw l' (List.mem_cons_of_mem _ h'),
       mletter, mletter]
     by_cases hpos : 0 < l
-    · rw [if_pos hpos, if_pos hpos, hS _ (by omega)]
-    · rw [if_neg hpos, if_neg hpos, hSi _ (by omega)]
+    · rw [ite_eq_left hpos, ite_eq_left hpos, hS _ (by omega)]
+    · rw [ite_eq_right hpos, ite_eq_right hpos, hSi _ (by omega)]
 
 theorem ofFn_getElem! {α : Type} [Inhabited α] {n i : Nat} {F : Nat → α} (hi : i < n) :
     (Array.ofFn (n := n) fun k => F k.val)[i]! = F i := by

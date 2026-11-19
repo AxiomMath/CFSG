@@ -216,15 +216,15 @@ theorem exists_tensorCoord_of_natTensor
           (hu : ((π γ : ↥Y) : MulAut W) (u : W) ∈ U),
           β ⟨((π γ : ↥Y) : MulAut W) (u : W), hu⟩ = tensorAct 2 K γ (β u) := by
   obtain ⟨K, hKfield, hKfinite, hKcard, π, hVia⟩ := hNat
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   obtain ⟨β, hβs, hβk, hβe⟩ := FFModel.RealizesVia.coord (D := FFModel.tensorNat 2 K) rfl rfl hVia
   have hβinj : Function.Injective β := by
     rw [injective_iff_map_eq_one]
     intro u hu
     exact Subtype.ext (Subgroup.mem_bot.mp ((hβk u).mp hu))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
     rw [← Nat.card_eq_fintype_card, hKcard])
   have hπinj : Function.Injective π :=
     hVia.injective_of_faithful_on (tensorNat_two_faithful K)
@@ -248,7 +248,7 @@ theorem isTensorModel_of_tensorCoord
     letI := moduleAdditiveSubgroup U (fun u _ => hw2 u)
     ∃ H : Subgroup (GLV (Additive ↥U)),
       H = (restrictActionHom hYU).range ∧ IsTensorModel 2 K H := by
-  letI := moduleAdditiveSubgroup U (fun u _ => hw2 u)
+  let := moduleAdditiveSubgroup U (fun u _ => hw2 u)
   let ρ : ↥Y →* GLV (Additive ↥U) := restrictActionHom hYU
   let H : Subgroup (GLV (Additive ↥U)) := ρ.range
   have hρinj : Function.Injective ρ := restrictActionHom_injective hNat hYU
@@ -301,17 +301,17 @@ theorem exists_isTensorModel_two_four_of_natTensor
     letI := moduleAdditiveSubgroup U (fun u _ => hw2 u)
     ∃ H : Subgroup (GLV (Additive ↥U)),
       H = (restrictActionHom hYU).range ∧ IsTensorModel 2 (GaloisField 2 2) H := by
-  letI : Module (ZMod 2) (Additive ↥U) := moduleAdditiveSubgroup U (fun u _ => hw2 u)
+  let : Module (ZMod 2) (Additive ↥U) := moduleAdditiveSubgroup U (fun u _ => hw2 u)
   obtain ⟨K, hKfield, hKfinite, hKcard, β, hβ, π, hπ, hβe⟩ :=
     exists_tensorCoord_of_natTensor (W := W) (Y := Y) (U := U) hNat
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
     rw [← Nat.card_eq_fintype_card, hKcard]
     rfl)
-  letI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  let : Algebra (ZMod 2) K := ZMod.algebra K 2
   obtain ⟨H, hHrange, hH⟩ := isTensorModel_of_tensorCoord hw2 hNat hYU hβ hπ hβe
   have hcard : Fintype.card K = Fintype.card (GaloisField 2 2) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
@@ -431,7 +431,7 @@ theorem exists_tensorCoord_four_of_natTensor
           ψ ((h : GLV (Additive ↥U)) v) =
             (((φ h).1 : Matrix.GeneralLinearGroup (Fin 2) F₄) : M₄) * ψ v *
               ((((φ h).2 : Matrix.GeneralLinearGroup (Fin 2) F₄) : M₄))ᵀ := by
-  letI : Module (ZMod 2) (Additive ↥U) := moduleAdditiveSubgroup U (fun u _ => hw2 u)
+  let : Module (ZMod 2) (Additive ↥U) := moduleAdditiveSubgroup U (fun u _ => hw2 u)
   obtain ⟨H, hHrange, hH⟩ := exists_isTensorModel_two_four_of_natTensor hw2 hNat hYU
   obtain ⟨φ, ψ, hψ⟩ := hH
   exact ⟨H, φ, ψ, hHrange, hψ⟩

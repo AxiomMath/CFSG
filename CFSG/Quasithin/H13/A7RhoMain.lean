@@ -94,7 +94,7 @@ theorem A7NatConfig.exists_rho (T : Sylow 2 G) {L V K D : Subgroup G}
   have hWK : W ≤ normalizer (K : Set G) := sup_le (hDe.trans hCK) hTK
   have hYK : Y ≤ normalizer (K : Set G) := sup_le hWK le_normalizer
   have hWLT : W ≤ L ⊔ (T : Subgroup G) := sup_le (hDL.trans le_sup_left) le_sup_right
-  have hC2LT := isPGroup_sup_inf_centralizer hC2 T.isPGroup' hTL
+  have hC2LT := isPGroup_sup_inf_centralizer hC2 T.isPGroup hTL
   have hTZ : (T : Subgroup G) ≤ centralizer (Z : Set G) := by
     intro t ht
     rw [mem_centralizer_iff]
@@ -248,7 +248,7 @@ theorem A7NatConfig.exists_rho (T : Sylow 2 G) {L V K D : Subgroup G}
   have hTY : (T : Subgroup G) ≤ Y := le_sup_right.trans le_sup_left
   have hRT : R ≤ T := by
     have h1 := T.maximal_isPGroup.eq_of_ge
-      (hR2.to_sup_of_normal_left' T.isPGroup' (hTY.trans hYR)) le_sup_right
+      (hR2.to_sup_of_normal_left' T.isPGroup (hTY.trans hYR)) le_sup_right
     rw [← h1]
     exact le_sup_left
   set U := VZ (T : Subgroup G) Y with hUdef

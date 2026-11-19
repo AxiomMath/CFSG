@@ -165,7 +165,7 @@ theorem isElemAbelian_parrottE_of_hT3 (h : Tim79a.ParrottHypA w) {E : Subgroup K
     IsElemAbelian 2 E := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K₁, -, -, ⟨X, _, hX, ⟨e⟩⟩, -⟩ := hT3
-  haveI : Finite X := Finite.of_equiv _ e.toEquiv
+  have : Finite X := Finite.of_equiv _ e.toEquiv
   obtain ⟨A, hA, hAcard⟩ := exists_isElemAbelian_card_two_pow_nine_of_lieModel_psu_six hX
   set A₂ : Subgroup K := (A.map e.symm.toMonoidHom).map K₁.subtype with hA₂
   have hA₂ab : IsElemAbelian 2 A₂ := (hA.map e.symm.toMonoidHom).map K₁.subtype

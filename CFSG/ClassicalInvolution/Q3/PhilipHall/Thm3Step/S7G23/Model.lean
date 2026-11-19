@@ -50,11 +50,11 @@ theorem inv_mem_of_mul_closed [Finite G] {S : Set G} (hne : S.Nonempty)
     rw [hm]; exact pow_succ_mem_of_mul_closed hmul hx m
 
 @[expose] def mulClosedSubgroup [Finite G] (S : Set G) (hne : S.Nonempty)
-    (hmul : ∀ x ∈ S, ∀ y ∈ S, x * y ∈ S) : Subgroup G where
+    (hmul : ∀ _x ∈ S, ∀ y ∈ S, _x * y ∈ S) : Subgroup G where
   carrier := S
-  mul_mem' := fun {x y} hx hy => hmul x hx y hy
+  mul_mem' := fun {_x y} hx hy => hmul _x hx y hy
   one_mem' := one_mem_of_mul_closed hne hmul
-  inv_mem' := fun {x} hx => inv_mem_of_mul_closed hne hmul hx
+  inv_mem' := fun {_x} hx => inv_mem_of_mul_closed hne hmul hx
 
 theorem mem_normalizer_of_conj_mem [Finite G] {K : Subgroup G} {n : G}
     (h : ∀ k ∈ K, n * k * n⁻¹ ∈ K) : n ∈ Subgroup.normalizer (K : Set G) := by

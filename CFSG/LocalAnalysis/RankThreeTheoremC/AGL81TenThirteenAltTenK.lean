@@ -48,6 +48,7 @@ theorem pow_odd_swap {B : Finset (Fin 10)} {g : Perm (Fin 10)} (hg : ∀ x, g x 
 
 variable {Y : Type} [Group Y] [Finite Y] {K : Subgroup Y} [K.Normal]
 
+omit [Finite Y] in
 theorem rho_mem_alt_of_odd (eK : ↥K ≃* alternatingGroup (Fin 10)) {y : Y}
     (hy : Odd (orderOf y)) : rho eK y ∈ alternatingGroup (Fin 10) := by
   rw [Perm.mem_alternatingGroup]
@@ -58,6 +59,7 @@ theorem rho_mem_alt_of_odd (eK : ↥K ≃* alternatingGroup (Fin 10)) {y : Y}
   · rw [h, hy.neg_one_pow] at h1
     exact absurd h1 (by decide)
 
+omit [Finite Y] in
 theorem rho_mem_alt_of_perfect (eK : ↥K ≃* alternatingGroup (Fin 10)) {J : Subgroup Y}
     (hJp : ⁅J, J⁆ = J) : ∀ x ∈ J, rho eK x ∈ alternatingGroup (Fin 10) := by
   have hle : ⁅J, J⁆ ≤ (Perm.sign.comp (rho eK)).ker := by
@@ -69,6 +71,7 @@ theorem rho_mem_alt_of_perfect (eK : ↥K ≃* alternatingGroup (Fin 10)) {J : S
   rw [← hJp] at hx
   exact (MonoidHom.mem_ker.mp (hle hx) : Perm.sign (rho eK x) = 1)
 
+omit [Finite Y] in
 theorem exists_mem_of_rho_mem (eK : ↥K ≃* alternatingGroup (Fin 10)) {y : Y}
     (h : rho eK y ∈ alternatingGroup (Fin 10)) :
     ∃ k : ↥K, eK k = ⟨rho eK y, h⟩ ∧ ((k : Y)⁻¹ * y) ∈ centralizer (K : Set Y) := by
@@ -87,7 +90,7 @@ theorem exists_swap_of_altTen (eK : ↥K ≃* alternatingGroup (Fin 10)) {Y₀ J
       (¬ ∀ x ∈ J, (k : Y) * x * (k : Y)⁻¹ ∈ J) ∧
       ∀ i ∈ J, ¬ ∀ x ∈ J, (k : Y) ^ 2 * x * ((k : Y) ^ 2)⁻¹ = i * x * i⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hes : Function.Surjective eK.toMonoidHom := eK.surjective
   set S : Sylow 5 (alternatingGroup (Fin 10)) := T.mapSurjective hes with hS
   obtain ⟨B, hB, hSB, ⟨g, hgN, hgB⟩, hYB⟩ := RankOneCent.kFactAltTenOvergroup_holds S
@@ -223,10 +226,10 @@ theorem exists_swap_of_altTen (eK : ↥K ≃* alternatingGroup (Fin 10)) {Y₀ J
     { carrier := {σ | ∀ x, (σ : Perm (Fin 10)) x ∈ B ↔ x ∈ B}
       one_mem' := by simp
       mul_mem' := fun {a b} ha hb x => by
-        simp only [Set.mem_setOf_eq, Subgroup.coe_mul, Perm.mul_apply] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq, Subgroup.coe_mul, Perm.mul_apply] at ha hb ⊢
         rw [ha, hb]
       inv_mem' := fun {a} ha x => by
-        simp only [Set.mem_setOf_eq, InvMemClass.coe_inv] at ha ⊢
+        simp only [Set.mem_ofPred_eq, InvMemClass.coe_inv] at ha ⊢
         rw [← ha, perm_apply_inv] } with hSt
   have hDn : ((K₁ ⊓ St).subgroupOf K₁).Normal := by
     refine ⟨fun d hd k => ?_⟩

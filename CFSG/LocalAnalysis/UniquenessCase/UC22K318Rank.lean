@@ -65,7 +65,7 @@ theorem three_lt_pRank_of_flag {X : Subgroup L} {q : ℕ} [Fact q.Prime] (hq2 : 
   obtain ⟨P⟩ : Nonempty (Sylow q M) := inferInstance
   let U : Subgroup L := (P : Subgroup M).map M.subtype
   have hUM : U ≤ M := map_subtype_le _
-  have hUq : IsPGroup q U := P.isPGroup'.map M.subtype
+  have hUq : IsPGroup q U := P.isPGroup.map M.subtype
   obtain ⟨t₀, ht₀⟩ := hneg
   have ht₀M : ∀ k ∈ M, t₀ * k * t₀⁻¹ ∈ M := by
     intro k hk
@@ -150,7 +150,7 @@ theorem three_lt_pRank_of_flag {X : Subgroup L} {q : ℕ} [Fact q.Prime] (hq2 : 
     CFSG.Goldschmidt.Sec8.exists_plane hq hq2 (hUq.to_le hYU) hYc
   have hcardV : Nat.card (Multiplicative (Fin 2 ⊕ Fin 2 → ZMod q)) = q ^ 4 := by
     change Nat.card (Fin 2 ⊕ Fin 2 → ZMod q) = q ^ 4
-    simp [Nat.card_fun]
+    simp
   have hcomap : ∀ H : Subgroup (Multiplicative (Fin 2 ⊕ Fin 2 → ZMod q)),
       Nat.card (H.comap π) * q ^ 4 = q ^ 5 * Nat.card H := by
     intro H
@@ -178,7 +178,7 @@ theorem three_lt_pRank_of_flag {X : Subgroup L} {q : ℕ} [Fact q.Prime] (hq2 : 
     have h := Subgroup.card_le_of_le hle
     rw [hEcard, card_map_of_injective D.subtype_injective, hK] at h
     nlinarith [hq.two_le]
-  obtain ⟨y, hyE, hyK⟩ := SetLike.not_le_iff_exists.1 hEK
+  obtain ⟨y, hyE, hyK⟩ := IsConcreteLE.not_le_iff_exists.1 hEK
   have hyY : y ∈ Y := hEY hyE
   have hyt : t * y = y * t := mem_centralizer_iff.1 hyY.2 _ (mem_zpowers _)
   have hyq : y ^ q = 1 := by

@@ -86,7 +86,7 @@ theorem eq_leechQ_of_le (h : GMSLeechCentralizer z) {p k : ℕ} (hp : p.Prime) (
       refine ⟨fun hn => C.mul_mem (C.mul_mem hbz hn) (C.inv_mem hbz), fun hn => ?_⟩
       have h1 := C.mul_mem (C.mul_mem (C.inv_mem hbz) hn) hbz
       simpa [mul_assoc] using h1
-    simp only [SetLike.mem_coe, Subgroup.mem_inf]
+    simp only [Subgroup.mem_inf]
     rw [← SetLike.mem_coe, ← SetLike.mem_coe (x := b * n * b⁻¹)]
     exact and_congr hbR hbC
   have hle := le_leechQ_of_le_normalizer h hp hp2 hrk hB hBc hBz (hR.to_le inf_le_left)

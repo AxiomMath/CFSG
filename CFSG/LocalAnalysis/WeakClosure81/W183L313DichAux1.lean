@@ -15,6 +15,7 @@ open Pointwise
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem w183l313_mem_sylowCenter_subgroupOf {Q S : Subgroup Γ} (hSQ : S ≤ Q) {x : ↥Q} :
     x ∈ sylowCenter (S.subgroupOf Q) ↔ (x : Γ) ∈ sylowCenter S := by
   rw [mem_sylowCenter, mem_sylowCenter]
@@ -27,6 +28,7 @@ theorem w183l313_mem_sylowCenter_subgroupOf {Q S : Subgroup Γ} (hSQ : S ≤ Q) 
     apply Subtype.ext
     exact hxc (y : Γ) (by rwa [Subgroup.mem_subgroupOf] at hy)
 
+omit [Finite Γ] in
 theorem w183l313_odd_conj_eq {S D : Subgroup Γ} (hDodd : Odd (Nat.card D)) {d s : Γ}
     (hd : d ∈ D) (hdN : d ∈ Subgroup.normalizer (S : Set Γ)) (hs : s ∈ S)
     (hP : IsPGroup 2 S) (h : ∀ t ∈ S, d * t * d⁻¹ = s⁻¹ * t * s) :
@@ -75,6 +77,7 @@ theorem w183l313_odd_conj_eq {S D : Subgroup Γ} (hDodd : Odd (Nat.card D)) {d s
   rw [← hct]; group
 
 
+omit [Finite Γ] in
 lemma w183l313_conj_commutator_self {f s : Γ} (hf : f * f = 1) :
     f * (f * s * f⁻¹ * s⁻¹) * f⁻¹ = (f * s * f⁻¹ * s⁻¹)⁻¹ := by
   have hfi : f⁻¹ = f := inv_eq_of_mul_eq_one_right hf

@@ -35,7 +35,7 @@ theorem Lgen_le_H0 (hc : Ctx M Q Z B) : Lgen M (LB M Q B) ≤ H0 M Z := by
 end LgenCentralizer
 
 theorem exists_secEquiv_img {G : Type} [Group G] {Q Z V : Subgroup G} {K : Type} [Field K]
-    {γ : G → K} (M₀ : Tim79.QuadModel Q Z K γ) (hVQ : V ≤ Q) (hZV : Z ≤ V)
+    {γ : G → K} (M₀ : Tim79.QuadModel Q Z K γ) (hVQ : V ≤ Q) (_hZV : Z ≤ V)
     [(Z.subgroupOf V).Normal] {ι F : Type} [Fintype ι] [Field F]
     (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → F)) :
     ∃ Ψ : ↥(M₀.img V) ≃+ (ι → F), ∀ (v : G) (hv : v ∈ V),
@@ -116,7 +116,7 @@ theorem exists_addEquiv_prod_of_isCompl {E : Type} [AddCommGroup E] (E₁ E₂ :
 open CFSG.Open CFSG.Open.StatedAPI Matrix CFSG CFSG.CGT.Timmesfeld75 CFSG.Assembly.LowTwoRank
 
 theorem isCompl_img {G : Type} [Group G] {Q Z V₁ V₂ : Subgroup G} {K : Type} [Field K]
-    {γ : G → K} (M₀ : Tim79.QuadModel Q Z K γ) (hZV₁ : Z ≤ V₁) (hV₁Q : V₁ ≤ Q) (hZV₂ : Z ≤ V₂)
+    {γ : G → K} (M₀ : Tim79.QuadModel Q Z K γ) (_hZV₁ : Z ≤ V₁) (hV₁Q : V₁ ≤ Q) (hZV₂ : Z ≤ V₂)
     (hV₂Q : V₂ ≤ Q) (hinf : V₁ ⊓ V₂ = Z) (hsup : V₁ ⊔ V₂ = Q) :
     IsCompl (M₀.img V₁) (M₀.img V₂) := by
   have hdisj : Disjoint (M₀.img V₁) (M₀.img V₂) := by
@@ -177,8 +177,8 @@ theorem exists_equivariant_coord {G : Type} [Group G] {Q Z V₁ V₂ S : Subgrou
       (∀ e : M₀.E, e ∈ M₀.img V₂ ↔ (Φ e).1 = 0) := by
   obtain ⟨hSN₁, hN₁, ψ₁, hψ₁⟩ := hact₁
   obtain ⟨hSN₂, hN₂, ψ₂, hψ₂⟩ := hact₂
-  haveI := hN₁
-  haveI := hN₂
+  have := hN₁
+  have := hN₂
   obtain ⟨Ψ₁, hΨ₁⟩ := exists_secEquiv_img M₀ hV₁Q hZV₁ ψ₁
   obtain ⟨Ψ₂, hΨ₂⟩ := exists_secEquiv_img M₀ hV₂Q hZV₂ ψ₂
   have hcompl : IsCompl (M₀.img V₁) (M₀.img V₂) :=

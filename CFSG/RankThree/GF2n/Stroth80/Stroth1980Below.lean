@@ -18,7 +18,7 @@ theorem Stroth1980Below.mono {N N' : ℕ} (h : N ≤ N') (hb : Stroth1980Below N
   fun G _ _ hG => hb G (lt_of_lt_of_le hG h)
 
 theorem Stroth1980Below.zero : Stroth1980Below 0 :=
-  fun G _ _ hG => absurd hG (Nat.not_lt_zero _)
+  fun _G _ _ hG => absurd hG (Nat.not_lt_zero _)
 
 theorem stroth1980_of_below (h : ∀ N : ℕ, Stroth1980Below N) : Stroth1980Statement :=
   fun G _ _ M Q Z H B hB hBQ hBZ =>

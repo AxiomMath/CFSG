@@ -311,7 +311,7 @@ public theorem CFSG.commutatorAction_subgroup_conj_map_eq_commutator {G : Type*}
     (H R : Subgroup G) (hRnormH : R ≤ Subgroup.normalizer H) :
     haveI : Subgroup.Normalizes R H := ⟨hRnormH⟩
     (commutatorAction (A := ↥R) (G := ↥H)).map H.subtype = ⁅H, R⁆ := by
-  haveI : Subgroup.Normalizes R H := ⟨hRnormH⟩
+  have : Subgroup.Normalizes R H := ⟨hRnormH⟩
   let SH : Set H := {x : H | ∃ a : R, ∃ h : H, x = h⁻¹ * (a • h)}
   let SG : Set G := {x : G | ∃ a : R, ∃ h : H, x = ⁅(h : G)⁻¹, (a : G)⁆}
   let SC : Set G := {x : G | ∃ h ∈ H, ∃ a ∈ R, ⁅h, a⁆ = x}
@@ -465,7 +465,7 @@ public theorem CFSG.fixedPointSubgroup_subgroup_conj_eq_subgroupCentralizerIn
     (H R : Subgroup G) (hRnormH : R ≤ Subgroup.normalizer H) :
     haveI : Subgroup.Normalizes R H := ⟨hRnormH⟩
     fixedPointSubgroup (↥R) (↥H) = (subgroupCentralizerIn H R).subgroupOf H := by
-  haveI : Subgroup.Normalizes R H := ⟨hRnormH⟩
+  have : Subgroup.Normalizes R H := ⟨hRnormH⟩
   ext x
   constructor
   · intro hx
@@ -500,7 +500,7 @@ public theorem CFSG.fixedPointSubgroup_zpowers_subgroup_conj_eq_elementCentraliz
     haveI : Subgroup.Normalizes R K := ⟨hRK⟩
     fixedPointSubgroup (↥(Subgroup.zpowers r)) (↥K) =
       (elementCentralizerIn K (r : G)).subgroupOf K := by
-  haveI : Subgroup.Normalizes R K := ⟨hRK⟩
+  have : Subgroup.Normalizes R K := ⟨hRK⟩
   ext x
   constructor
   · intro hx
@@ -542,7 +542,7 @@ public theorem CFSG.commutator_eq_bot_of_actsTrivially_subgroup_conj {G : Type*}
     (K R : Subgroup G) (hRK : R ≤ Subgroup.normalizer K) :
     haveI : Subgroup.Normalizes R K := ⟨hRK⟩
     ActsTrivially (A := ↥R) (G := ↥K) → ⁅R, K⁆ = ⊥ := by
-  haveI : Subgroup.Normalizes R K := ⟨hRK⟩
+  have : Subgroup.Normalizes R K := ⟨hRK⟩
   intro htriv
   rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
   intro r hr
@@ -560,7 +560,7 @@ public theorem CFSG.actsTrivially_subgroup_conj_of_commutator_eq_bot {G : Type*}
     (K R : Subgroup G) (hRK : R ≤ Subgroup.normalizer K) :
     haveI : Subgroup.Normalizes R K := ⟨hRK⟩
     ⁅R, K⁆ = ⊥ → ActsTrivially (A := ↥R) (G := ↥K) := by
-  haveI : Subgroup.Normalizes R K := ⟨hRK⟩
+  have : Subgroup.Normalizes R K := ⟨hRK⟩
   intro hcomm r k
   have hcomm_le : R ≤ Subgroup.centralizer (K : Set G) :=
     (Subgroup.commutator_eq_bot_iff_le_centralizer).1 hcomm

@@ -102,7 +102,7 @@ theorem mem_normalizer_sup_zpowers {D : Subgroup G} {r s : G}
       simpa [mul_assoc] using this.symm
     exact this ▸ hh'
 
-theorem StrothFrame.IsD.hB_of_tower (h : F.IsD D dD) {r s : G}
+theorem StrothFrame.IsD.hB_of_tower (_h : F.IsD D dD) {r s : G}
     (hRrs : (F.S : Subgroup G) ⊓ Subgroup.normalizer (D : Set G) ⊓
       Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G) =
         (D ⊔ Subgroup.zpowers r) ⊔ Subgroup.zpowers s)
@@ -141,7 +141,7 @@ theorem StrothFrame.IsD.hB_of_tower (h : F.IsD D dD) {r s : G}
   by_cases hQD' : Q ≤ D'
   ·
     have hidx := relIndex_le_two_of_le_sup_zpowers hrN hr2 hQD'
-    obtain ⟨q₀, hq₀Q, hq₀D⟩ := SetLike.not_le_iff_exists.mp hQD
+    obtain ⟨q₀, hq₀Q, hq₀D⟩ := IsConcreteLE.not_le_iff_exists.mp hQD
     have hq₀ : r⁻¹ * q₀ ∈ D :=
       (mem_or_inv_mul_mem_of_mem_sup_zpowers hrN hr2 (hQD' hq₀Q)).resolve_left hq₀D
     have hCr : D ⊓ Subgroup.centralizer ({dD.uv * x} : Set G) ⊓
@@ -171,7 +171,7 @@ theorem StrothFrame.IsD.hB_of_tower (h : F.IsD D dD) {r s : G}
           Nat.mul_le_mul (Nat.mul_le_mul_left 4 hidx) hcard
       _ < Nat.card D := by omega
   ·
-    obtain ⟨y, hyQ, hyD'⟩ := SetLike.not_le_iff_exists.mp hQD'
+    obtain ⟨y, hyQ, hyD'⟩ := IsConcreteLE.not_le_iff_exists.mp hQD'
     have hidx1 := relIndex_le_two_of_le_sup_zpowers hsN hs2 hQR'
     have hidx2 := relIndex_le_two_of_le_sup_zpowers hrN hr2 (inf_le_left : D' ⊓ Q ≤ D')
     have htower : D.relIndex Q = D.relIndex (D' ⊓ Q) * D'.relIndex Q := by

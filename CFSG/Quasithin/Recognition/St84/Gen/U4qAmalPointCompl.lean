@@ -128,10 +128,10 @@ theorem U4qCoordLeft.toAdd_pointPhi_torus [Finite G] {F K : Type} [Field F] [Fie
     (c₁ : U4qCoordLeft L1 L2 S f F) (c₂ : U4qCoordRight L1 L2 S f K) (hH : Hyp111 L1 L2 S)
     (hD : U4qLocalData L1 L2 S f) (hS : Nat.card S = 2 ^ (6 * f))
     (hT : U4qTorusData L1 L2 S H₀ f) {φ : (Fin 2 → F) →+ K}
-    (hφA : ∀ (a : G) (ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2),
-      φ (Multiplicative.toAdd (c₁.β ⟨a, ha⟩) 1) = (c₂.α ⟨a, ha'⟩ : Matrix (Fin 2) (Fin 2) K) 0 1)
+    (hφA : ∀ (a : G) (_ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2),
+      φ (Multiplicative.toAdd (c₁.β ⟨a, _ha⟩) 1) = (c₂.α ⟨a, ha'⟩ : Matrix (Fin 2) (Fin 2) K) 0 1)
     {h₀ : G} (hh : h₀ ∈ H₀) {c : K}
-    (hc : ∀ (a : G) (ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2) (hha : h₀ * a * h₀⁻¹ ∈ L2),
+    (hc : ∀ (a : G) (_ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2) (hha : h₀ * a * h₀⁻¹ ∈ L2),
       (c₂.α ⟨h₀ * a * h₀⁻¹, hha⟩ : Matrix (Fin 2) (Fin 2) K) 0 1 =
         c * (c₂.α ⟨a, ha'⟩ : Matrix (Fin 2) (Fin 2) K) 0 1)
     (u w : ↥(pCoreOf 2 L1)) (hw : (w : G) = h₀ * u * h₀⁻¹) :
@@ -149,10 +149,10 @@ theorem U4qCoordLeft.pointPhi_conj_eq_radPhi [Finite G] {F K : Type} [Field F] [
     (hD : U4qLocalData L1 L2 S f) (hS : Nat.card S = 2 ^ (6 * f))
     (hT : U4qTorusData L1 L2 S H₀ f) (hU : UnitaryFieldData 2 f K) (ρ : F ≃+* hU.fixedField)
     {φ : (Fin 2 → F) →+ K} (hρ : ∀ (τ : F) (v : Fin 2 → F), φ (τ • v) = (ρ τ : K) * φ v)
-    (hφA : ∀ (a : G) (ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2),
-      φ (Multiplicative.toAdd (c₁.β ⟨a, ha⟩) 1) = (c₂.α ⟨a, ha'⟩ : Matrix (Fin 2) (Fin 2) K) 0 1)
+    (hφA : ∀ (a : G) (_ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2),
+      φ (Multiplicative.toAdd (c₁.β ⟨a, _ha⟩) 1) = (c₂.α ⟨a, ha'⟩ : Matrix (Fin 2) (Fin 2) K) 0 1)
     (κ : ↥H₀ ≃* Kˣ)
-    (hκ : ∀ (h : ↥H₀) (a : G) (ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2)
+    (hκ : ∀ (h : ↥H₀) (a : G) (_ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2)
         (hha : (h : G) * a * (h : G)⁻¹ ∈ L2),
       (c₂.α ⟨(h : G) * a * (h : G)⁻¹, hha⟩ : Matrix (Fin 2) (Fin 2) K) 0 1 =
         (κ h : K) * (c₂.α ⟨a, ha'⟩ : Matrix (Fin 2) (Fin 2) K) 0 1)
@@ -197,10 +197,10 @@ theorem U4qCoordLeft.crossedHomPrincipal_point [Finite G] {F K : Type} [Field F]
     (hD : U4qLocalData L1 L2 S f) (hS : Nat.card S = 2 ^ (6 * f))
     (hT : U4qTorusData L1 L2 S H₀ f) (hU : UnitaryFieldData 2 f K)
     {φ : (Fin 2 → F) →+ K} (hφ : Function.Bijective φ)
-    (hφA : ∀ (a : G) (ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2),
-      φ (Multiplicative.toAdd (c₁.β ⟨a, ha⟩) 1) = (c₂.α ⟨a, ha'⟩ : Matrix (Fin 2) (Fin 2) K) 0 1)
+    (hφA : ∀ (a : G) (_ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2),
+      φ (Multiplicative.toAdd (c₁.β ⟨a, _ha⟩) 1) = (c₂.α ⟨a, ha'⟩ : Matrix (Fin 2) (Fin 2) K) 0 1)
     (κ : ↥H₀ ≃* Kˣ)
-    (hκ : ∀ (h : ↥H₀) (a : G) (ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2)
+    (hκ : ∀ (h : ↥H₀) (a : G) (_ha : a ∈ pCoreOf 2 L1) (ha' : a ∈ L2)
         (hha : (h : G) * a * (h : G)⁻¹ ∈ L2),
       (c₂.α ⟨(h : G) * a * (h : G)⁻¹, hha⟩ : Matrix (Fin 2) (Fin 2) K) 0 1 =
         (κ h : K) * (c₂.α ⟨a, ha'⟩ : Matrix (Fin 2) (Fin 2) K) 0 1)
@@ -218,7 +218,7 @@ theorem U4qCoordLeft.crossedHomPrincipal_point [Finite G] {F K : Type} [Field F]
   have hR'Z : ∀ r ∈ (levHom hU).range ⊔ u4PtTorus hU, ∀ z ∈ zRad hU, r * z * r⁻¹ ∈ zRad hU :=
     fun r hr z hz => conj_mem_zRad_of_mem_normalizer hU r (hR'Q' hr) z hz
   have hZc : ∀ a ∈ zRad hU, ∀ b ∈ zRad hU, a * b = b * a :=
-    fun a ha b hb => zRad_comm_radQ hU a ha b (zRad_le_radQ hU hb)
+    fun a _ha b hb => zRad_comm_radQ hU a _ha b (zRad_le_radQ hU hb)
   have hodd : Odd (Nat.card H₀) := by
     rw [hT.card]
     have h4 : Even (4 ^ f) :=
@@ -231,7 +231,7 @@ theorem U4qCoordLeft.crossedHomPrincipal_point [Finite G] {F K : Type} [Field F]
       mul_inv_cancel_right]
     exact hn
   intro φ' hφZ hφN
-  haveI := hU.charP
+  have := hU.charP
   have hker : (centerOf (pCoreOf 2 L1)).subgroupOf (pCoreOf 2 L1) ≤ φ'.ker := fun v hv =>
     MonoidHom.mem_ker.mpr (hφZ v (Subgroup.mem_subgroupOf.mp hv))
   let χ : Multiplicative (K × K) →* Multiplicative hU.fixedField :=

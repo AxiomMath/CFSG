@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t q tau lam rho u : G} {Z E X W R T : Subgroup G}
 
+omit [Finite G] in
 private lemma fzbs_3j_y_mem (hS : FzbsStr t q tau lam rho u Z E X W R T) {r₃ y : G}
     (hy : y = 1 ∨ y = r₃ ∨ y = rho * r₃ * rho⁻¹ ∨ y = rho ^ 2 * r₃ * (rho ^ 2)⁻¹)
     (hr₃ : r₃ ∈ ⁅R, zpowers rho⁆) : y ∈ ⁅R, zpowers rho⁆ := by
@@ -25,6 +26,7 @@ private lemma fzbs_3j_y_mem (hS : FzbsStr t q tau lam rho u Z E X W R T) {r₃ y
     rw [hh]
     exact fzbs_P_rho hS (fzbs_P_rho hS hr₃)
 
+omit [Finite G] in
 private lemma fzbs_3j_conj_of_comm {s r x : G} (hsr : s * r = r * s)
     (hsx : s * x * s⁻¹ = x) : s * (r * x * r⁻¹) * s⁻¹ = r * x * r⁻¹ := by
   have hsrinv : r⁻¹ * s⁻¹ = s⁻¹ * r⁻¹ := by
@@ -36,6 +38,7 @@ private lemma fzbs_3j_conj_of_comm {s r x : G} (hsr : s * r = r * s)
     _ = r * (s * x * s⁻¹) * r⁻¹ := by group
     _ = r * x * r⁻¹ := by rw [hsx]
 
+omit [Finite G] in
 private lemma fzbs_3j_s_inv_X (hS : FzbsStr t q tau lam rho u Z E X W R T) {s m : G}
     (hs : s = tau ∨ s = q * tau) (hm : m ∈ X) : s * m * s⁻¹ = m⁻¹ := by
   rcases hs with rfl | rfl
@@ -92,6 +95,7 @@ theorem fzbs_s_comm (hS : FzbsStr t q tau lam rho u Z E X W R T) {s r₃ : G}
   rw [hcomm, hS.R_Z y hyR (m ^ 2)⁻¹ (Z.inv_mem hm2Z)]
   exact Z.inv_mem hm2Z
 
+omit [Finite G] in
 theorem fzbs_cent_R_rho (hS : FzbsStr t q tau lam rho u Z E X W R T) {s : G}
     (hs : s = tau ∨ s = q * tau) {c : G} (hc : c ∈ R) (hcr : rho * c * rho⁻¹ = c) :
     c ∈ closure {q, s} := by

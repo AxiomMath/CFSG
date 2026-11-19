@@ -21,6 +21,7 @@ private def m4phi (u : MulAut U) : U →* U where
     rw [map_mul, mul_inv]
     ac_rfl
 
+omit [Finite U] in
 @[simp] private lemma m4phi_apply {u : MulAut U} {w : U} : m4phi u w = u w * w⁻¹ := rfl
 
 private def m4V (u : MulAut U) : Subgroup U := (m4phi u).range
@@ -33,6 +34,7 @@ private def m4p (u : MulAut U) : U →* U where
     rw [map_mul, map_mul]
     ac_rfl
 
+omit [Finite U] in
 @[simp] private lemma m4p_apply {u : MulAut U} {v : U} : m4p u v = u v * (u ^ 4) v := rfl
 
 private def m4q (u : MulAut U) : U →* U where
@@ -44,6 +46,7 @@ private def m4q (u : MulAut U) : U →* U where
     rw [map_mul, map_mul]
     ac_rfl
 
+omit [Finite U] in
 @[simp] private lemma m4q_apply {u : MulAut U} {v : U} :
     m4q u v = (u ^ 2) v * (u ^ 3) v := rfl
 
@@ -57,69 +60,85 @@ private def m4Phi (u : MulAut U) : U →* U where
     rw [map_mul, map_mul, map_mul, map_mul]
     ac_rfl
 
+omit [Finite U] in
 @[simp] private lemma m4Phi_apply {u : MulAut U} {v : U} :
     m4Phi u v = v * u v * (u ^ 2) v * (u ^ 3) v * (u ^ 4) v := rfl
 
+omit [Finite U] in
 private lemma m4u_apply_u {u : MulAut U} (v : U) : u (u v) = (u ^ 2) v := by
   rw [← MulAut.mul_apply, ← pow_two]
 
+omit [Finite U] in
 private lemma m4u_apply_pow {u : MulAut U} (j : ℕ) (v : U) :
     u ((u ^ j) v) = (u ^ (j + 1)) v := by
   rw [← MulAut.mul_apply, ← pow_succ']
 
+omit [Finite U] in
 private lemma m4pow_apply_u {u : MulAut U} (i : ℕ) (v : U) :
     (u ^ i) (u v) = (u ^ (i + 1)) v := by
   rw [← MulAut.mul_apply, ← pow_succ]
 
+omit [Finite U] in
 private lemma m4pow_apply_pow {u : MulAut U} (i j : ℕ) (v : U) :
     (u ^ i) ((u ^ j) v) = (u ^ (i + j)) v := by
   rw [← MulAut.mul_apply, ← pow_add]
 
+omit [Finite U] in
 private lemma m4pow_apply_self {u : MulAut U} {v : U} (h : u v = v) (n : ℕ) :
     (u ^ n) v = v := by
   induction n with
   | zero => rw [pow_zero, MulAut.one_apply]
   | succ n ih => rw [pow_succ', MulAut.mul_apply, ih, h]
 
+omit [Finite U] in
 private lemma m4pow5_apply {u : MulAut U} (hu5 : u ^ 5 = 1) {v : U} : (u ^ 5) v = v := by
   rw [hu5, MulAut.one_apply]
 
+omit [Finite U] in
 private lemma m4pow6_apply {u : MulAut U} (hu5 : u ^ 5 = 1) {v : U} : (u ^ 6) v = u v := by
   rw [show (6 : ℕ) = 5 + 1 by norm_num, pow_add, hu5, one_mul, pow_one]
 
+omit [Finite U] in
 private lemma m4pow7_apply {u : MulAut U} (hu5 : u ^ 5 = 1) {v : U} :
     (u ^ 7) v = (u ^ 2) v := by
   rw [show (7 : ℕ) = 5 + 2 by norm_num, pow_add, hu5, one_mul]
 
+omit [Finite U] in
 private lemma m4pow8_apply {u : MulAut U} (hu5 : u ^ 5 = 1) {v : U} :
     (u ^ 8) v = (u ^ 3) v := by
   rw [show (8 : ℕ) = 5 + 3 by norm_num, pow_add, hu5, one_mul]
 
+omit [Finite U] in
 private lemma m4Phi_apply_u {u : MulAut U} (v : U) :
     m4Phi u (u v) = u v * (u ^ 2) v * (u ^ 3) v * (u ^ 4) v * (u ^ 5) v := by
   rw [m4Phi_apply, m4u_apply_u, m4pow_apply_u 2, m4pow_apply_u 3, m4pow_apply_u 4]
 
+omit [Finite U] in
 private lemma m4Phi_shift {u : MulAut U} (hu5 : u ^ 5 = 1) (v : U) :
     m4Phi u (u v) = m4Phi u v := by
   rw [m4Phi_apply_u, m4Phi_apply, m4pow5_apply hu5]
   ac_rfl
 
+omit [Finite U] in
 private lemma m4Phi_phi {u : MulAut U} (hu5 : u ^ 5 = 1) (w : U) :
     m4Phi u (m4phi u w) = 1 := by
   change m4Phi u (u w * w⁻¹) = 1
   rw [map_mul, map_inv, m4Phi_shift hu5]
   group
 
+omit [Finite U] in
 private lemma m4Phi_memV {u : MulAut U} (hu5 : u ^ 5 = 1) {v : U} (hv : v ∈ m4V u) :
     m4Phi u v = 1 := by
   obtain ⟨w, rfl⟩ := hv
   exact m4Phi_phi hu5 w
 
+omit [Finite U] in
 private lemma m4Phi_eq {u : MulAut U} (v : U) :
     m4Phi u v = v * (m4p u v * m4q u v) := by
   rw [m4Phi_apply, m4p_apply, m4q_apply]
   ac_rfl
 
+omit [Finite U] in
 private lemma m4pq_eq {u : MulAut U} (hU : ∀ w : U, w * w = 1) (hu5 : u ^ 5 = 1)
     {v : U} (hv : v ∈ m4V u) : m4p u v * m4q u v = v := by
   have h := m4Phi_memV hu5 hv
@@ -129,46 +148,54 @@ private lemma m4pq_eq {u : MulAut U} (hU : ∀ w : U, w * w = 1) (hu5 : u ^ 5 = 
     _ = v * 1 := by rw [h]
     _ = v := mul_one v
 
+omit [Finite U] in
 private lemma m4p_m4q_cross {u : MulAut U} (hu5 : u ^ 5 = 1) (v : U) :
     m4p u (m4q u v) = m4p u v * m4q u v := by
-  simp only [m4p_apply, m4q_apply, map_mul, m4u_apply_pow, m4pow_apply_u,
-    m4pow_apply_pow, Nat.reduceAdd]
+  simp only [m4p_apply, m4q_apply, map_mul, m4u_apply_pow, m4pow_apply_pow, Nat.reduceAdd]
   simp only [m4pow6_apply hu5, m4pow7_apply hu5]
   ac_rfl
 
+omit [Finite U] in
 private lemma m4p_m4q {u : MulAut U} (hU : ∀ w : U, w * w = 1) (hu5 : u ^ 5 = 1)
     {v : U} (hv : v ∈ m4V u) : m4p u (m4q u v) = v := by
   rw [m4p_m4q_cross hu5, m4pq_eq hU hu5 hv]
 
+omit [Finite U] in
 private lemma m4p_sq {u : MulAut U} (hU : ∀ w : U, w * w = 1) (hu5 : u ^ 5 = 1) (v : U) :
     m4p u (m4p u v) = m4q u v := by
   simp only [m4p_apply, m4q_apply, map_mul, m4u_apply_u, m4u_apply_pow,
-    m4pow_apply_u, m4pow_apply_pow, Nat.reduceAdd]
+    m4pow_apply_u, Nat.reduceAdd]
   simp only [m4pow5_apply hu5]
   rw [show ((u ^ 4) ^ 2 : MulAut U) = u ^ 8 from by rw [← pow_mul],
       m4pow8_apply hu5, mul_assoc ((u ^ 2) v) v (v * (u ^ 3) v),
       ← mul_assoc v v ((u ^ 3) v), hU v, one_mul]
 
+omit [Finite U] in
 private lemma m4comm_apply {ω : MulAut U} {a : MulAut U} (ha : a * ω = ω * a) (v : U) :
     a (ω v) = ω (a v) := by
   rw [← MulAut.mul_apply, ha, MulAut.mul_apply]
 
+omit [Finite U] in
 private lemma m4omega_u_apply {ω u : MulAut U} (huω : u * ω = ω * u) (v : U) :
     ω (u v) = u (ω v) := by
   rw [← MulAut.mul_apply, ← huω, MulAut.mul_apply]
 
+omit [Finite U] in
 private lemma m4u_p_comm {u : MulAut U} (v : U) : u (m4p u v) = m4p u (u v) := by
   simp only [m4p_apply, map_mul, m4u_apply_u, m4u_apply_pow, m4pow_apply_u]
 
+omit [Finite U] in
 private lemma m4u_q_comm {u : MulAut U} (v : U) : u (m4q u v) = m4q u (u v) := by
-  simp only [m4q_apply, map_mul, m4u_apply_u, m4u_apply_pow, m4pow_apply_u]
+  simp only [m4q_apply, map_mul, m4u_apply_pow, m4pow_apply_u]
 
+omit [Finite U] in
 private lemma m4q_omega {ω u : MulAut U} (huω : u * ω = ω * u) (v : U) :
     m4q u (ω v) = ω (m4q u v) := by
   rw [m4q_apply, m4q_apply, map_mul,
       m4comm_apply ((show Commute u ω from huω).pow_left 2) v,
       m4comm_apply ((show Commute u ω from huω).pow_left 3) v]
 
+omit [Finite U] in
 private lemma m4step1 {ω : MulAut U} (hω3 : ω ^ 3 = 1)
     (hfix : ∀ w : U, ω w = w → w = 1) (w : U) : ω (ω w) * ω w * w = 1 := by
   apply hfix
@@ -179,17 +206,20 @@ private lemma m4step1 {ω : MulAut U} (hω3 : ω ^ 3 = 1)
   rw [map_mul, map_mul, h3w]
   ac_rfl
 
+omit [Finite U] in
 private lemma m4V_u_mem {u : MulAut U} {v : U} (hv : v ∈ m4V u) : u v ∈ m4V u := by
   obtain ⟨w, rfl⟩ := hv
   refine ⟨u w, ?_⟩
   rw [m4phi_apply, m4phi_apply, map_mul, map_inv]
 
+omit [Finite U] in
 private lemma m4V_u2_le {u : MulAut U} : m4V (u ^ 2) ≤ m4V u := by
   rintro x ⟨w, rfl⟩
   refine ⟨u w * w, ?_⟩
   rw [map_mul, m4phi_apply, m4phi_apply, m4phi_apply, m4u_apply_u]
   group
 
+omit [Finite U] in
 private lemma m4V_omega_mem {ω u : MulAut U} (huω : u * ω = ω * u) {v : U}
     (hv : v ∈ m4V u) : ω v ∈ m4V u := by
   obtain ⟨w, rfl⟩ := hv
@@ -197,11 +227,13 @@ private lemma m4V_omega_mem {ω u : MulAut U} (huω : u * ω = ω * u) {v : U}
   rw [m4phi_apply, m4phi_apply, map_mul, map_inv, ← MulAut.mul_apply, huω,
       MulAut.mul_apply]
 
+omit [Finite U] in
 private lemma m4V_q_mem {u : MulAut U} {v : U} (hv : v ∈ m4V u) : m4q u v ∈ m4V u := by
   rw [m4q_apply]
   exact mul_mem (m4V_u_mem (m4V_u_mem hv))
     (m4V_u_mem (m4V_u_mem (m4V_u_mem hv)))
 
+omit [Finite U] in
 private lemma m4V_g_mem {u g : MulAut U} (hg : g * u * g⁻¹ = u ^ 2) {v : U}
     (hv : v ∈ m4V u) : g v ∈ m4V u := by
   obtain ⟨w, rfl⟩ := hv
@@ -212,6 +244,7 @@ private lemma m4V_g_mem {u g : MulAut U} (hg : g * u * g⁻¹ = u ^ 2) {v : U}
   rw [h1]
   exact m4V_u2_le ⟨g w, rfl⟩
 
+omit [Finite U] in
 private lemma m4g_p {u g : MulAut U} (hu5 : u ^ 5 = 1) (hg : g * u * g⁻¹ = u ^ 2)
     (v : U) : g (m4p u v) = m4q u (g v) := by
   have hgu : g * u = u ^ 2 * g := by rw [← hg]; group
@@ -229,6 +262,7 @@ private lemma m4g_p {u g : MulAut U} (hu5 : u ^ 5 = 1) (hg : g * u * g⁻¹ = u 
     rw [← MulAut.mul_apply, hgu4, MulAut.mul_apply]
   rw [m4p_apply, m4q_apply, map_mul, h1, h2]
 
+omit [Finite U] in
 private lemma m4g_q {u g : MulAut U} (hu5 : u ^ 5 = 1) (hg : g * u * g⁻¹ = u ^ 2)
     (v : U) : g (m4q u v) = m4p u (g v) := by
   have hgu2 : g * u ^ 2 = u ^ 4 * g := by
@@ -253,7 +287,8 @@ private lemma m4g_q {u g : MulAut U} (hu5 : u ^ 5 = 1) (hg : g * u * g⁻¹ = u 
   rw [m4q_apply, m4p_apply, map_mul, h1, h2]
   ac_rfl
 
-private lemma m4V_ne_bot {u : MulAut U} (hU : ∀ w : U, w * w = 1) (hu1 : u ≠ 1) :
+omit [Finite U] in
+private lemma m4V_ne_bot {u : MulAut U} (_hU : ∀ w : U, w * w = 1) (hu1 : u ≠ 1) :
     m4V u ≠ ⊥ := by
   intro h
   apply hu1
@@ -265,6 +300,7 @@ private lemma m4V_ne_bot {u : MulAut U} (hU : ∀ w : U, w * w = 1) (hu1 : u ≠
     simpa [m4phi] using this
   simpa using mul_inv_eq_one.mp hm
 
+omit [Finite U] in
 private lemma m4fix_of_memV {u : MulAut U} (hU : ∀ w : U, w * w = 1) (hu5 : u ^ 5 = 1)
     {v : U} (hv : v ∈ m4V u) (h : u v = v) : v = 1 := by
   have hPhi := m4Phi_memV hu5 hv
@@ -298,12 +334,15 @@ private def m4V2 (ω u : MulAut U) : Subgroup U where
     show ω v⁻¹ = m4q u v⁻¹
     rw [map_inv, hv.2, map_inv]⟩
 
+omit [Finite U] in
 private lemma mem_m4V1 {ω u : MulAut U} {v : U} :
     v ∈ m4V1 ω u ↔ v ∈ m4V u ∧ ω v = m4p u v := Iff.rfl
 
+omit [Finite U] in
 private lemma mem_m4V2 {ω u : MulAut U} {v : U} :
     v ∈ m4V2 ω u ↔ v ∈ m4V u ∧ ω v = m4q u v := Iff.rfl
 
+omit [Finite U] in
 private lemma m4V1_inf_m4V2 {ω u : MulAut U} (hU : ∀ w : U, w * w = 1)
     (hfix : ∀ w : U, ω w = w → w = 1) (hu5 : u ^ 5 = 1) :
     m4V1 ω u ⊓ m4V2 ω u = ⊥ := by
@@ -318,12 +357,14 @@ private lemma m4V1_inf_m4V2 {ω u : MulAut U} (hU : ∀ w : U, w * w = 1)
   have hvq : v = m4q u v := h1.symm.trans h2
   exact hfix v (by rw [hqv, ← hvq])
 
+omit [Finite U] in
 private lemma m4eq_of_mul_eq_one (hU : ∀ w : U, w * w = 1) {a b : U} (h : a * b = 1) :
     a = b := by
   calc a = a * (b * b) := by rw [hU b, mul_one]
     _ = (a * b) * b := by group
     _ = b := by rw [h, one_mul]
 
+omit [Finite U] in
 private lemma m4V1_ne_bot_or_m4V2_ne_bot {ω u : MulAut U} (hU : ∀ w : U, w * w = 1)
     (hω3 : ω ^ 3 = 1) (hfix : ∀ w : U, ω w = w → w = 1) (hu5 : u ^ 5 = 1)
     (huω : u * ω = ω * u) (hu1 : u ≠ 1) :
@@ -365,6 +406,7 @@ private lemma m4V1_ne_bot_or_m4V2_ne_bot {ω u : MulAut U} (hU : ∀ w : U, w * 
     · intro hcon
       exact hy (Subtype.ext_iff.mp hcon)
 
+omit [Finite U] in
 private lemma m4V1_g_mem {ω u g : MulAut U} (hu5 : u ^ 5 = 1) (hgω : g * ω = ω * g)
     (hg : g * u * g⁻¹ = u ^ 2) {v : U} (hv : v ∈ m4V1 ω u) : g v ∈ m4V2 ω u := by
   rw [mem_m4V1] at hv
@@ -375,6 +417,7 @@ private lemma m4V1_g_mem {ω u g : MulAut U} (hu5 : u ^ 5 = 1) (hgω : g * ω = 
   rw [← hgω', hv.2]
   exact m4g_p hu5 hg v
 
+omit [Finite U] in
 private lemma m4V2_g_mem {ω u g : MulAut U} (hu5 : u ^ 5 = 1) (hgω : g * ω = ω * g)
     (hg : g * u * g⁻¹ = u ^ 2) {v : U} (hv : v ∈ m4V2 ω u) : g v ∈ m4V1 ω u := by
   rw [mem_m4V2] at hv
@@ -385,6 +428,7 @@ private lemma m4V2_g_mem {ω u g : MulAut U} (hu5 : u ^ 5 = 1) (hgω : g * ω = 
   rw [← hgω', hv.2]
   exact m4g_q hu5 hg v
 
+omit [Finite U] in
 private lemma m4V1_ne_bot_iff_m4V2_ne_bot {ω u g : MulAut U} (hu5 : u ^ 5 = 1)
     (hgω : g * ω = ω * g) (hg : g * u * g⁻¹ = u ^ 2) :
     m4V1 ω u ≠ ⊥ ↔ m4V2 ω u ≠ ⊥ := by
@@ -408,6 +452,7 @@ private lemma m4V1_ne_bot_iff_m4V2_ne_bot {ω u g : MulAut U} (hu5 : u ^ 5 = 1)
     have := congrArg (fun x : U => g⁻¹ x) (Subtype.ext_iff.mp hcon)
     simpa using this
 
+omit [Finite U] in
 private lemma m4V1_u_mem {ω u : MulAut U} (huω : u * ω = ω * u) {v : U}
     (hv : v ∈ m4V1 ω u) : u v ∈ m4V1 ω u := by
   rw [mem_m4V1] at hv ⊢
@@ -415,6 +460,7 @@ private lemma m4V1_u_mem {ω u : MulAut U} (huω : u * ω = ω * u) {v : U}
   rw [m4omega_u_apply huω, hv.2]
   exact m4u_p_comm v
 
+omit [Finite U] in
 private lemma m4V2_u_mem {ω u : MulAut U} (huω : u * ω = ω * u) {v : U}
     (hv : v ∈ m4V2 ω u) : u v ∈ m4V2 ω u := by
   rw [mem_m4V2] at hv ⊢
@@ -422,11 +468,13 @@ private lemma m4V2_u_mem {ω u : MulAut U} (huω : u * ω = ω * u) {v : U}
   rw [m4omega_u_apply huω, hv.2]
   exact m4u_q_comm v
 
+omit [Finite U] in
 private lemma m4V1_fixfree {ω u : MulAut U} (hU : ∀ w : U, w * w = 1) (hu5 : u ^ 5 = 1)
     {v : U} (hv : v ∈ m4V1 ω u) (h : u v = v) : v = 1 := by
   rw [mem_m4V1] at hv
   exact m4fix_of_memV hU hu5 hv.1 h
 
+omit [Finite U] in
 private lemma m4V2_fixfree {ω u : MulAut U} (hU : ∀ w : U, w * w = 1) (hu5 : u ^ 5 = 1)
     {v : U} (hv : v ∈ m4V2 ω u) (h : u v = v) : v = 1 := by
   rw [mem_m4V2] at hv

@@ -16,7 +16,7 @@ theorem D1Extremal.of_le {G : Type*} [Group G] [Finite G] {p : ℕ} {P : Sylow p
   have hRT : R ≤ (T : Subgroup H').map H'.subtype := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hRH']
     exact Subgroup.map_mono hT
-  have hT2 : IsPGroup p ((T : Subgroup H').map H'.subtype) := T.isPGroup'.map _
+  have hT2 : IsPGroup p ((T : Subgroup H').map H'.subtype) := T.isPGroup.map _
   have hNR : (T : Subgroup H').map H'.subtype ⊓ Subgroup.normalizer (R : Set G) ≤ R := by
     have hcard := h.extremal H' hH'.1 hH'M
       (h.three_le_pRank.trans

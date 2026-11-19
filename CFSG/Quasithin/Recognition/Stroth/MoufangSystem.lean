@@ -17,7 +17,7 @@ open scoped Pointwise
 
 theorem moufangRankTwoSystem (n : ℕ) : MoufangRankTwoSystem n := by
   intro V _ Γ _ D _ _ _ _ hn hP hT hM hdeg t ht
-  letI : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
+  let : (cartan (moufangB D Γ n t) (moufangN D Γ n t)).Normal :=
     moufangCartan_normal (t := t) ht hn hP hT
   let P : PreRankTwoSystem ↥(littleGroup D Γ n) n :=
     { B := moufangB D Γ n t

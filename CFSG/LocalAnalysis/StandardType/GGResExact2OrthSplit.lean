@@ -33,7 +33,7 @@ theorem GGResHyp.innerDiag_J_of_orthogonal_split_L
 theorem GGResHyp.nonsingular_row_L_of_orthogonal_split
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
-    (hH : GGResHyp p B Bs x L D J y K)
+    (_hH : GGResHyp p B Bs x L D J y K)
     (hL : GGInnerDiagOnLabel GGCorFourTwoOrthSplitLabel p Bs L) :
     GGInnerDiagOnLabel (fun p lab => GGTBTorCov p lab ∧ ¬ ggSingularBaseLabel p lab)
       p Bs L := by
@@ -106,7 +106,7 @@ theorem GGResHyp.false_of_oneRefl_of_innerDiag_J
       (fun _ _ _ _ _ _ hP => hP.1) hJ1
     obtain ⟨hJperf, lab, -, hraw⟩ := hM
     obtain ⟨R, _, I, F, -, -, θ, ⟨-, hBN, h3⟩, hP'⟩ := largeEvenRawDatum_exists hraw
-    haveI : Finite R := Finite.of_equiv (J ⧸ Subgroup.center J) θ.toEquiv
+    have : Finite R := Finite.of_equiv (J ⧸ Subgroup.center J) θ.toEquiv
     let E := (ggBeta J θ hBN).range
     have hE : IsElemAbelian p E := isElemAbelian_range_ggBeta θ hBs hBN
     have hEsq : p ^ 2 ≤ Nat.card E := by

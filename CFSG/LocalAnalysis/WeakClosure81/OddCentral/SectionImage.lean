@@ -10,7 +10,7 @@ variable (Y M : Type*) [Group Y] [AddCommGroup M] [DistribMulAction Y M]
 
 @[expose] def imgGroup : Subgroup (Equiv.Perm M) := (MulAction.toPermHom Y M).range
 
-@[expose] instance imgAct : DistribMulAction (imgGroup Y M) M :=
+instance imgAct : DistribMulAction (imgGroup Y M) M :=
   { (inferInstance : MulAction (imgGroup Y M) M) with
     smul_zero := fun g => by
       obtain ⟨y, hy⟩ := g.2
@@ -30,7 +30,7 @@ theorem imgHom_smul (y : Y) (m : M) : imgHom Y M y • m = y • m := rfl
 theorem imgHom_surjective : Function.Surjective (imgHom Y M) :=
   MonoidHom.rangeRestrict_surjective _
 
-theorem img_faithful : ∀ g : imgGroup Y M, (∀ m : M, g • m = m) → g = 1 := fun g h =>
+theorem img_faithful : ∀ _g : imgGroup Y M, (∀ m : M, _g • m = m) → _g = 1 := fun _g h =>
   Subtype.ext (Equiv.ext h)
 
 theorem img_irr (hirr : ∀ N : AddSubgroup M, (∀ y : Y, ∀ m ∈ N, y • m ∈ N) → N = ⊥ ∨ N = ⊤) :

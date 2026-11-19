@@ -199,7 +199,7 @@ theorem closure_uniCen_eq_top_of_pair [Finite G] [IsSimpleGroup G] {p e r : ℕ}
   have hE'S : E' ≤ S := by
     intro x hx
     exact ⟨⟨x, hE'M hx⟩, hQ hx, rfl⟩
-  have hSp : IsPGroup p ↥S := Q.isPGroup'.map M.subtype
+  have hSp : IsPGroup p ↥S := Q.isPGroup.map M.subtype
   have hSidx : ¬ p ∣ S.index := by
     have h1 : S.index = (Q : Subgroup ↥M).index * M.index := Subgroup.index_map_subtype _
     rw [h1]
@@ -299,7 +299,7 @@ theorem g2UniNative_even (hmax : MaxSL2SL2G2) (X : Type) [Field X] [Finite X]
   have hE'S : E' ≤ S := by
     intro x hx
     exact ⟨⟨x, hE'M hx⟩, hQ hx, rfl⟩
-  have hSp : IsPGroup p ↥S := Q.isPGroup'.map M.subtype
+  have hSp : IsPGroup p ↥S := Q.isPGroup.map M.subtype
   have hSidx : ¬ p ∣ S.index := by
     have h1 : S.index = (Q : Subgroup ↥M).index * M.index := Subgroup.index_map_subtype _
     rw [h1]
@@ -425,7 +425,7 @@ theorem isSolvable_of_isSolvable_closure_two_pow {H : Type*} [Group H] [Finite H
     Group.IsSolvable H := by
   classical
   set N := Subgroup.closure {x : H | ∃ n : ℕ, x ^ (2 ^ n) = 1} with hN
-  haveI hNn : N.Normal := by
+  have hNn : N.Normal := by
     constructor
     intro n hn g
     induction hn using Subgroup.closure_induction with
@@ -447,7 +447,7 @@ theorem isSolvable_of_isSolvable_closure_two_pow {H : Type*} [Group H] [Finite H
     rw [Nat.odd_iff]
     by_contra h2
     have h2' : 2 ∣ Nat.card (H ⧸ N) := by omega
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 2 h2'
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective y
     obtain ⟨k, m, hm, hom⟩ := Nat.exists_eq_two_pow_mul_odd (orderOf_pos x).ne'
@@ -459,9 +459,9 @@ theorem isSolvable_of_isSolvable_closure_two_pow {H : Type*} [Group H] [Finite H
     have h3 := orderOf_dvd_of_pow_eq_one hym
     rw [hy] at h3
     exact (Nat.not_even_iff_odd.2 hm) (even_iff_two_dvd.2 h3)
-  haveI : Group.IsSolvable (H ⧸ N) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
-  haveI : Group.IsSolvable ↥N := h
-  exact solvable_of_ker_le_range N.subtype (QuotientGroup.mk' N)
+  have : Group.IsSolvable (H ⧸ N) := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
+  have : Group.IsSolvable ↥N := h
+  exact Group.isSolvable_of_ker_le_range N.subtype (QuotientGroup.mk' N)
     (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
 
 theorem not_isSolvable_closure_two_pow_of_le {G : Type*} [Group G] [Finite G] {P : Subgroup G}
@@ -482,8 +482,8 @@ theorem not_isSolvable_closure_two_pow_of_le {G : Type*} [Group G] [Finite G] {P
       (Subgroup.equivMapOfInjective _ P.subtype P.subtype_injective).toMonoidHom
   have hφ : Function.Injective φ :=
     (Subgroup.inclusion_injective hle).comp (MulEquiv.injective _)
-  haveI := hsol
-  exact solvable_of_solvable_injective hφ
+  have := hsol
+  exact Group.isSolvable_of_isSolvable_injective hφ
 
 theorem closure_two_pow_SL_eq_top (n : ℕ) (K : Type) [Field K] [CharP K 2] :
     Subgroup.closure {g : Matrix.SpecialLinearGroup (Fin n) K | ∃ m : ℕ, g ^ (2 ^ m) = 1} = ⊤ := by
@@ -505,7 +505,7 @@ theorem closure_two_pow_eq_top_of_quasisimple {G : Type} [Group G] {X : Subgroup
     (hX : CFSG.IsQuasisimple ↥X) :
     Subgroup.closure {x : ↥X | ∃ n : ℕ, x ^ (2 ^ n) = 1} = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : 2 ∣ Nat.card X := by
     by_contra hodd
     have hs : Group.IsSolvable ↥X :=
@@ -759,7 +759,7 @@ theorem f4ThreeUniNative_even (K : Type) [Field K] [Finite K] [CharP K 2] (hK4 :
   classical
   have : Fact p.Prime := ⟨hp⟩
   have : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f', -, hf'⟩ := FiniteField.card K 2
   have hK : Nat.card K = 2 ^ (f' : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf'
   have hf : 1 ≤ (f' : ℕ) := f'.pos
@@ -796,7 +796,7 @@ theorem e8FiveUniNative_even (K : Type) [Field K] [Finite K] [CharP K 2]
   classical
   have : Fact p.Prime := ⟨hp⟩
   have : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f', -, hf'⟩ := FiniteField.card K 2
   have hK : Nat.card K = 2 ^ (f' : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf'
   have hf : 1 ≤ (f' : ℕ) := f'.pos
@@ -842,7 +842,7 @@ theorem twClassUniNative_even (c : TwClass) (h : TwClassLeaves c) (K : Type) [Fi
       ∃ m : ℕ, k ^ (2 ^ m) = 1} = ⊤ := by
   obtain ⟨D⟩ := h.lang K
   have hb := h.basic K hK D
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact uniClosure_eq_top_of_twSubgroups_even hb.le₁ hb.le₂ hb.comm (h.closing K hK D)
     (h.normalizer K hK D) (h.planeData K hK D p hp hp5 hord) (h.third K hK p hp hp5 hord)
     (twQuasi c K hK D) E hEp hEc
@@ -946,7 +946,7 @@ theorem f4TwoUniNative_even (K : Type) [Field K] [Finite K] [CharP K 2] (p : ℕ
     Subgroup.closure {k | ∃ x ∈ E₀, x ≠ 1 ∧ Commute k x ∧ ∃ m : ℕ, k ^ (2 ^ m) = 1} = ⊤ := by
   classical
   have : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hK : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hn
   have hK4 : 4 ≤ Nat.card K := by
@@ -978,7 +978,7 @@ theorem f4FourUniNative_even (K : Type) [Field K] [Finite K] [CharP K 2] (hK4 : 
     Subgroup.closure {k | ∃ x ∈ E₀, x ≠ 1 ∧ Commute k x ∧ ∃ m : ℕ, k ^ (2 ^ m) = 1} = ⊤ := by
   classical
   have : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hK : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hn
   have hpK : ¬ p ∣ Nat.card K := by
@@ -1030,7 +1030,7 @@ set_option linter.unusedSectionVars false
 theorem not_two_dvd_card_center_spin_quadPlus_even {K : Type} [Field K] [Finite K] [CharP K 2]
     {n : ℕ} (hn : 3 ≤ n) [Finite (spinGroup (quadPlus n K))] :
     ¬ 2 ∣ Nat.card (Subgroup.center (spinGroup (quadPlus n K))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨-, hcomap, hZ⟩ := spinToStatedProj_quadPlus (n := n) (K := K) hn
   refine not_dvd_card_center_of_forall (p := 2) fun x hx hx2 => ?_
@@ -1262,7 +1262,7 @@ theorem e8TwoUniNative_five_even (K : Type) [Field K] [Finite K]
   by_cases hw : ∀ u : Fin Tag.E8.rank → ℤ, D.w • u = -u
   · obtain ⟨k, hk⟩ := exists_conj_le_of_frameDatum hE₀p D
       (e8FiveTwoFrameDatum_holds K hpq D.Fr D.hFr D.w hw)
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     obtain ⟨Ψ, hker, hrange⟩ := exists_psi_D8_E8_of_family (exists_e8D8_family K)
     exact CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs2311f.uniClosure_eq_top_of_two_conj (p := 5)
       (⨆ k, e8D8Chain K k) (e8FrameGroup K)
@@ -1310,7 +1310,7 @@ theorem e8FourUniNative_five_even
   obtain ⟨k, hk⟩ := exists_conj_le_of_frameDatum hE₀p D
     (e8FiveFourFrameDatum_holds K he D.Fr D.hFr D.w
       (e8FiveFourSquare_holds K he E₀ hE₀p hE₀c D hD))
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨Ψ, hker, hrange⟩ := exists_psi_D8_E8_of_family (exists_e8D8_family K)
   exact CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs2311f.uniClosure_eq_top_of_two_conj (p := 5)
     (⨆ k, e8D8Chain K k) (e8D4Group K)
@@ -1486,7 +1486,7 @@ theorem closure_uniCen_spinPlus_even {K : Type} [Field K] [Finite K] [CharP K 2]
   have hp2 : p ≠ 2 := by omega
   have hn3 : 3 ≤ n := by omega
   have hring : ringChar K = 2 := ringChar.eq K 2
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have : Finite (spinGroup (quadPlus n K)) :=
     CFSG.ClassicalInvolution.ModelFacts.finite_spinGroup_of_ker _ coe_ker_spinMatrix_quadPlus
@@ -1654,7 +1654,7 @@ theorem e7TwoUniNative_even (K : Type) [Field K] [Finite K] [CharP K 2] (p : ℕ
     · subst h; exact absurd hpF.out (by norm_num)
     · exfalso
       have : Fintype K := Fintype.ofFinite K
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨f, -, hf⟩ := FiniteField.card K 2
       have hK : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
       rw [hK] at hpq
@@ -1685,7 +1685,7 @@ theorem dvd_sub_one_of_orderOf_eq_one_even {p q : ℕ} (hq : 1 ≤ q)
 
 theorem dvd_add_one_of_orderOf_eq_two_even {p q : ℕ} (hp : p.Prime)
     (h : orderOf ((q : ℕ) : ZMod p) = 2) : p ∣ q + 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have h2 : ((q : ℕ) : ZMod p) ^ 2 = 1 := by rw [← h]; exact pow_orderOf_eq_one _
   have h1 : ((q : ℕ) : ZMod p) ≠ 1 := fun h1 => by rw [h1, orderOf_one] at h; omega
   have hm : (((q : ℕ) : ZMod p) - 1) * (((q : ℕ) : ZMod p) + 1) = 0 := by linear_combination h2
@@ -1694,7 +1694,7 @@ theorem dvd_add_one_of_orderOf_eq_two_even {p q : ℕ} (hp : p.Prime)
 
 theorem prime_eq_of_orderOf_two {p : ℕ} (hp : p.Prime) :
     (orderOf ((2 : ℕ) : ZMod p) = 3 → p = 7) ∧ (orderOf ((2 : ℕ) : ZMod p) = 4 → p ∣ 15) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   refine ⟨fun h => ?_, fun h => ?_⟩
   · have h3 : ((2 : ℕ) : ZMod p) ^ 3 = 1 := by rw [← h]; exact pow_orderOf_eq_one _
     have h7 : ((7 : ℕ) : ZMod p) = 0 := by
@@ -1752,7 +1752,7 @@ theorem uniPlaneGen_cat_even {τ : Tag} {c : PrimePower → LieTypeIndex}
     (hin : InnerPlane ⟨c q, hv⟩ p E) (hn : ¬ NormalizesRSubgroup ⟨c q, hv⟩ E) :
     UniPlaneGen (c q).characteristic E := by
   obtain ⟨K, _, _, hKq, hKchar, ⟨e⟩⟩ := exists_catEquiv_adjointGroup hB q hv
-  haveI : CharP K 2 := hq2 ▸ hKchar
+  have : CharP K 2 := hq2 ▸ hKchar
   rw [hchar, hq2]
   refine CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs2311f.uniPlaneGen_of_native_uniClosure
     (p := p) (r := 2) e
@@ -1783,7 +1783,7 @@ theorem uniSeitzPlanes_G2_inner_even :
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, hp5, ⟨q, hq⟩, hch, hn⟩
   obtain rfl : d = .G2 q := hq
   have hq2 : q.p = 2 := by simpa using hch
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq1 : 1 ≤ q.card := by
     rw [PrimePower.card_def]
     exact Nat.one_le_pow _ _ q.prime_p.pos
@@ -1793,8 +1793,8 @@ theorem uniSeitzPlanes_G2_inner_even :
     LieTypeIndex.characteristic_G2 hv hq2 ?_ hE hc hin hn
   intro K _ _ _ hKq e E₀ hE₀p hE₀c _
   have hm : Nat.card K = 2 ^ q.exponent := by rw [hKq, PrimePower.card_def, hq2]
-  haveI := (finite_isSimpleGroup_cat_G2 hv).2
-  haveI : IsSimpleGroup (adjointGroup .G2 K) := MulEquiv.isSimpleGroup e.symm
+  have := (finite_isSimpleGroup_cat_G2 hv).2
+  have : IsSimpleGroup (adjointGroup .G2 K) := MulEquiv.isSimpleGroup e.symm
   by_cases hpq : p ∣ Nat.card K + 1
   · exact g2UniNative_even (RankThree.PartOne.SEITZ6.maxSL2SL2G2_of_top
       CFSG.Goldschmidt.topStatement) K hp hp5 hm
@@ -1834,7 +1834,7 @@ theorem uniSeitzPlanes_F4_inner_even :
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, hp5, ⟨q, hq, hq57⟩, hch, hn⟩
   obtain rfl : d = .F4 q := hq
   have hq2 : q.p = 2 := by simpa using hch
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq : p ≠ q.p := fun h => hpd (by rw [LieTypeIndex.characteristic_F4]; exact h)
   have hq1 : 1 ≤ q.card := by
     rw [PrimePower.card_def]
@@ -1893,7 +1893,7 @@ theorem uniSeitzPlanes_E8_inner_even :
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, hp5, ⟨q, hq, hcls⟩, hch, hn⟩
   obtain rfl : d = .E8 q := hq
   have hq2 : q.p = 2 := by simpa using hch
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq : p ≠ q.p := fun h => hpd (by rw [LieTypeIndex.characteristic_E8]; exact h)
   have hq1 : 1 ≤ q.card := by
     rw [PrimePower.card_def]
@@ -1958,7 +1958,7 @@ theorem uniSeitzPlanes_E6_inner_even :
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, hp5, ⟨q, hq, hcls⟩, hch, hn⟩
   obtain rfl : d = .E6 q := hq
   have hq2 : q.p = 2 := by simpa using hch
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq : p ≠ q.p := fun h => hpd (by rw [LieTypeIndex.characteristic_E6]; exact h)
   have hq1 : 1 ≤ q.card := by
     rw [PrimePower.card_def]
@@ -1996,7 +1996,7 @@ theorem uniSeitzPlanes_E7_inner_even :
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, hp5, ⟨q, hq, hcls⟩, hch, hn⟩
   obtain rfl : d = .E7 q := hq
   have hq2 : q.p = 2 := by simpa using hch
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq : p ≠ q.p := fun h => hpd (by rw [LieTypeIndex.characteristic_E7]; exact h)
   have hq1 : 1 ≤ q.card := by
     rw [PrimePower.card_def]
@@ -2058,7 +2058,7 @@ theorem uniSeitzPlanes_twE6_inner_vacuous_even :
       ¬ NormalizesRSubgroup d E := by
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, hp5, ⟨q, hq, hcls⟩, hn⟩
   obtain rfl : d = .twistedE6 q := hq
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq : p ≠ q.p := fun h => hpd (by rw [LieTypeIndex.characteristic_twistedE6]; exact h)
   exfalso
   rcases hcls with h1 | hcnt
@@ -2083,7 +2083,7 @@ theorem trialityUni_qplus_even (hmax : Max3D4A1A1Big) {q : PrimePower} (hq : q.p
     Subgroup.closure {k | ∃ x ∈ E₁, x ≠ 1 ∧ Commute k x ∧ ∃ n : ℕ, k ^ (2 ^ n) = 1} = ⊤ := by
   classical
   have : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h4 : 4 ≤ q.card := by
     have := Nat.le_of_dvd (Nat.succ_pos _) hpq
     omega
@@ -2098,10 +2098,10 @@ theorem trialityUni_qplus_even (hmax : Max3D4A1A1Big) {q : PrimePower} (hq : q.p
   have hKcard := card_isoLie_trialityD4 hq hiso
   have : Finite F₃ := Nat.finite_of_card_ne_zero (by rw [hF₃f]; positivity)
   have : Finite F₁ := Nat.finite_of_card_ne_zero (by rw [hF₁f]; positivity)
-  haveI : CharP F₃ 2 :=
+  have : CharP F₃ 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (k := q.exponent * 3) (by have := q.exponent_pos; omega) (by rw [hF₃f, hQ, ← pow_mul])
-  haveI : CharP F₁ 2 :=
+  have : CharP F₁ 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       q.exponent_pos (by rw [hF₁f, hQ])
   have hcardA : Nat.card A = q.card ^ 3 * ((q.card ^ 3) ^ 2 - 1) := by
@@ -2180,15 +2180,15 @@ theorem normalizesRSubgroup_trialityD4_of_dvd_pred (q : PrimePower)
     (hpq : p ∣ q.card - 1) {E : Subgroup (MulAut (Cat ⟨.trialityD4 q, hv⟩))}
     (hEp : IsPGroup p E) (hin : InnerPlane ⟨.trialityD4 q, hv⟩ p E) :
     NormalizesRSubgroup ⟨.trialityD4 q, hv⟩ E := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨K, _, _, σ, hK, hσ, -, ⟨e⟩⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
   have hK3 : Nat.card K = q.p ^ (q.exponent * 3) := by rw [hK, pow_mul]
-  haveI : CharP K q.p :=
+  have : CharP K q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic q.prime_p (by
       have := q.exponent_pos; omega) hK3
-  haveI : Finite (CFSG.Blueprint.Chevalley.ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (CFSG.Blueprint.Chevalley.ModGL TwistTag.D4.tag K) := finite_modGL
   have hZ : Subgroup.center ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) = ⊥ :=
     center_graphFixedRootGroup_eq_bot σ.surjective
   have hinj := conj_injective_of_mulEquiv e
@@ -2223,7 +2223,7 @@ theorem uniSeitzPlanes_triality_inner_even :
         ¬ (p ∣ q.card ^ 2 + q.card + 1 ∨ p ∣ q.card ^ 2 - q.card + 1) := by
   rintro ⟨d, hv⟩ p hp hp2 hpd _ E hE hc ⟨hin, hp5, hch, hn, q, hq, h36⟩
   obtain rfl : d = .trialityD4 q := hq
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq : p ≠ q.p := fun h => hpd (h.trans (LieTypeIndex.characteristic_trialityD4 q).symm)
   have h2 : (LieTypeIndex.trialityD4 q).characteristic = 2 := hch
   have hq2 : q.p = 2 := by rwa [LieTypeIndex.characteristic_trialityD4] at h2
@@ -2232,8 +2232,8 @@ theorem uniSeitzPlanes_triality_inner_even :
   · exact absurd (normalizesRSubgroup_trialityD4_of_dvd_pred q hv hp hp5 hm (IsPGroup.of_card hc)
       hin) hn
   have hfs := finite_isSimpleGroup_cat_trialityD4 hv
-  haveI := hfs.1
-  haveI := hfs.2
+  have := hfs.1
+  have := hfs.2
   have hinj := CFSG.HardMathSupport.Timmesfeld.CrossChar.conj_injective_cat_trialityD4 q hv
   by_cases hp1 : p ∣ q.card + 1
   · show UniPlaneGen (LieTypeIndex.trialityD4 q).characteristic E
@@ -2278,7 +2278,7 @@ set_option linter.unusedSectionVars false
 theorem not_dvd_reeBorel_index_of_dvd_pred {p Q : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hQ : 1 ≤ Q)
     (hpq : p ∣ Q - 1) :
     ¬ p ∣ (Q + 1) ^ 2 * (Q ^ 2 + 1) ^ 2 * (Q ^ 2 - Q + 1) * (Q ^ 4 - Q ^ 2 + 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : (Q : ZMod p) = 1 := by
     have := (ZMod.natCast_eq_zero_iff (Q - 1) p).2 hpq
     rw [Nat.cast_sub hQ, Nat.cast_one, sub_eq_zero] at this
@@ -2303,9 +2303,9 @@ theorem normalizesRSubgroup_reeF4_of_dvd_pred {m : ℕ} (hv : (LieTypeIndex.reeF
     (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : p ∣ 2 ^ (2 * m + 1) - 1)
     {E : Subgroup (MulAut (Cat ⟨.reeF4 m, hv⟩))} (hEp : IsPGroup p E)
     (hin : InnerPlane ⟨.reeF4 m, hv⟩ p E) : NormalizesRSubgroup ⟨.reeF4 m, hv⟩ E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨X, _, _, _, -, hX, -, ⟨e⟩⟩ := exists_reeGamma_equiv_cat hv
-  haveI : Finite (ModGL F4.tag X) := finite_modGL
+  have : Finite (ModGL F4.tag X) := finite_modGL
   have hBΓ : F4.reeFixedBorel X m ≤ F4.reeGamma X m := reeFixedBorel_le_reeGamma
   have hUΓ : F4.reeFixedPosUnipotent X m ≤ F4.reeGamma X m := reeFixedPosUnipotent_le_reeGamma
   have hN := reeGamma_inf_normalizer_reeFixedPosUnipotent (t := F4) (K := X) (a := m)

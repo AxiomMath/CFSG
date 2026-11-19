@@ -51,7 +51,7 @@ theorem charSum_biSup {m : ℕ} {U : Fin m → Submodule F V} (hF : IsPlaneSyste
     (s : Finset (Fin m)) :
     OrdPNsOm.charSum Q (⨆ j ∈ s, U j) = ∏ j ∈ s, OrdPNsOm.charSum Q (U j) := by
   classical
-  haveI : Finite V := Module.finite_of_finite F
+  have : Finite V := Module.finite_of_finite F
   induction s using Finset.induction_on with
   | empty =>
     have hbot : (⨆ j ∈ (∅ : Finset (Fin m)), U j) = ⊥ := by simp
@@ -67,7 +67,7 @@ theorem charSum_biSup {m : ℕ} {U : Fin m → Submodule F V} (hF : IsPlaneSyste
 theorem charSum_iSup_eq_neg_pow {k : ℕ} {U : Fin k → Submodule F V} (hF : IsPlaneSystem Q U) :
     OrdPNsOm.charSum Q (⨆ j, U j) = (-(Nat.card F : ℤ)) ^ k := by
   classical
-  haveI : Finite V := Module.finite_of_finite F
+  have : Finite V := Module.finite_of_finite F
   have huniv : (⨆ j : Fin k, U j) = ⨆ j ∈ (Finset.univ : Finset (Fin k)), U j := by
     apply le_antisymm
     · refine iSup_le fun j => ?_
@@ -97,6 +97,7 @@ theorem charSum_iSup_eq_neg_pow {k : ℕ} {U : Fin k → Submodule F V} (hF : Is
         Finset.prod_congr rfl fun j _ => charSum_aniso_plane (hnd j) (hF.finrank_eq j) (hani j)
     _ = (-(Nat.card F : ℤ)) ^ k := by simp
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem isPlaneSystem_reindex {m k : ℕ} {U : Fin m → Submodule F V} (hF : IsPlaneSystem Q U)
     (φ : Fin k ≃ Fin m) : IsPlaneSystem Q (fun j => U (φ j)) where
   finrank_eq j := hF.finrank_eq (φ j)
@@ -104,6 +105,7 @@ theorem isPlaneSystem_reindex {m k : ℕ} {U : Fin m → Submodule F V} (hF : Is
   not_isPlusType j := hF.not_isPlusType (φ j)
   perp i j hij := hF.perp (φ i) (φ j) fun h => hij (φ.injective h)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem isPlaneFrame_reindex {m k p : ℕ} {U : Fin m → Submodule F V}
     {e : Fin m → ↥(orthDerived Q)} {E : Subgroup ↥(orthDerived Q)}
     (hF : IsPlaneFrame Q p U e E) (φ : Fin k ≃ Fin m) :
@@ -137,7 +139,7 @@ theorem exists_relFrame (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
       f ∈ polarPerp Q (⨆ j, U j) ∧ f' ∈ polarPerp Q (⨆ j, U j) ∧
       Q f = 0 ∧ Q f' = 0 ∧ QuadraticMap.polar Q f f' = 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, U, e, hframe, hdich⟩ :=
     OmNsRootGen.exists_planeFrame_of_selfCentralizing (Q := Q) hQ hp hp2 hpq hdim (by omega) hE hsc
   rcases hdich with ⟨hk, htop⟩ | ⟨hk, f, f', hf, hf', hQf, hQf', hpol⟩
@@ -180,7 +182,7 @@ theorem charSum_qPlusForm_ne {K : Type} [Field K] [Finite K] [CharP K 2] {ℓ : 
   rw [Nat.sub_add_cancel hpos] at hchar
   rw [hchar, hℓ.neg_pow]
   have hq : (Nat.card K : ℤ) ^ ℓ ≠ 0 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     have h2 : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
     rw [h2]
@@ -196,7 +198,7 @@ theorem charSum_qMinusForm_ne {K : Type} [Field K] [Finite K] [CharP K 2] {ℓ :
   rw [Nat.sub_add_cancel (by omega : 1 ≤ ℓ)] at hchar
   rw [hchar, hℓ.neg_pow]
   have hq : (Nat.card K : ℤ) ^ ℓ ≠ 0 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     have h2 : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
     rw [h2]

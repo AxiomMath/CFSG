@@ -46,7 +46,7 @@ private lemma z0Tuple_ne_one {L : Type} [Field L] (A : Lˣ) (hA1 : A ≠ 1) :
 private lemma orderOf_rootDiagUnit_of_pow_three {L : Type} [Field L]
     (b : Fin Tag.D4.rank → Lˣ) (h3 : b ^ 3 = 1) (h1 : b ≠ 1) :
     orderOf (rootDiagUnit Tag.D4 b) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   refine orderOf_eq_prime ?_ ?_
   · rw [rootDiagUnit_pow, h3, rootDiagUnit_one]
   · intro h
@@ -67,7 +67,7 @@ private lemma rootChar_z0Tuple_eq_one_iff {L : Type} [Field L] (A : Lˣ)
     rootChar (τ := Tag.D4) (K := L) (z0Tuple A) v = 1 ↔ 3 ∣ (v 0 + v 1 + v 3) := by
   rw [rootChar_z0Tuple_apply]
   have hAord : orderOf A = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime hA3 hA1
   rw [← orderOf_dvd_iff_zpow_eq_one, hAord]
   norm_num
@@ -75,7 +75,7 @@ private lemma rootChar_z0Tuple_eq_one_iff {L : Type} [Field L] (A : Lˣ)
 private lemma ringChar_ne_three_of_cube_root {L : Type} [Field L] (A : Lˣ)
     (hA3 : A ^ 3 = 1) (hA1 : A ≠ 1) : ringChar L ≠ 3 := by
   intro hchar
-  haveI : CharP L 3 := hchar ▸ ringChar.charP L
+  have : CharP L 3 := hchar ▸ ringChar.charP L
   have hA3' : (A : L) ^ 3 = 1 := by
     have := congrArg Units.val hA3
     simpa using this
@@ -180,7 +180,7 @@ private lemma rootCharKernel_z0
   rw [triD4LineV_image_d4A2Sigma]
   apply Set.ext
   intro α
-  simp only [rootCharKernel, Set.mem_setOf_eq]
+  simp only [rootCharKernel, Set.mem_ofPred_eq]
   rw [rootChar_z0Tuple_eq_one_iff A hA3 hA1]
   exact isRoot_and_three_dvd_iff α
 

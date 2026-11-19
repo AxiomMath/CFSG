@@ -73,7 +73,7 @@ private theorem exists_odd_commute_of_sq_eq_one {α : Type*} [Fintype α] [Decid
     simpa [pow_two] using h
   obtain ⟨a, hxa⟩ : ∃ a, x a ≠ a := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hx1 (Equiv.ext fun a => by simpa using h a)
   have hcomm : swap a (x a) * x = x * swap a (x a) := by
     ext c
@@ -105,7 +105,7 @@ private theorem nat_card_centralizer_perm_sq_one {α : Type*} [Fintype α] [Deci
   have hk : x.cycleType.card ≠ 0 := fun h => hx1 (Equiv.Perm.card_cycleType_eq_zero.mp h)
   rw [Equiv.Perm.nat_card_centralizer, hct]
   simp only [Multiset.sum_replicate, Multiset.prod_replicate, Multiset.toFinset_replicate, hk,
-    ↓reduceIte, Finset.mem_singleton, Finset.prod_singleton, Multiset.count_replicate_self,
+    ↓reduceIte, Finset.prod_singleton, Multiset.count_replicate_self,
     Multiset.card_replicate]
   ring_nf
 

@@ -27,14 +27,14 @@ theorem ggA8Tail_sub_succ (a : Fin 8 → ZMod 3) (l : Fin 8) :
   simp only [ggA8Tail, Fin.val_castSucc, Fin.val_succ]
   rw [← Finset.sum_sub_distrib]
   rw [Finset.sum_eq_single l]
-  · rw [if_pos le_rfl, if_neg (Nat.not_succ_le_self (l : ℕ))]
+  · rw [ite_eq_left le_rfl, ite_eq_right (Nat.not_succ_le_self (l : ℕ))]
     exact sub_zero (a l)
   · intro k _ hk
     have hne : (l : ℕ) ≠ (k : ℕ) := fun h => hk (Fin.ext h.symm)
     rcases Nat.lt_or_gt_of_ne hne with hlt | hlt
-    · rw [if_pos hlt.le, if_pos (by omega : (l : ℕ) + 1 ≤ (k : ℕ)), sub_self]
-    · rw [if_neg (by omega : ¬ (l : ℕ) ≤ (k : ℕ)),
-        if_neg (by omega : ¬ (l : ℕ) + 1 ≤ (k : ℕ)), sub_zero]
+    · rw [ite_eq_left hlt.le, ite_eq_left (by omega : (l : ℕ) + 1 ≤ (k : ℕ)), sub_self]
+    · rw [ite_eq_right (by omega : ¬ (l : ℕ) ≤ (k : ℕ)),
+        ite_eq_right (by omega : ¬ (l : ℕ) + 1 ≤ (k : ℕ)), sub_zero]
   · intro h
     exact absurd (Finset.mem_univ l) h
 
@@ -347,17 +347,17 @@ theorem ggA8Tail_refl {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {h : Fin 8
     rwa [sub_eq_iff_eq_add] at this
   by_cases h1 : i = k.castSucc
   · rw [h1, Equiv.swap_apply_left]
-    simp only [hcs, if_true, if_false]
+    simp only [hcs, ite_true, ite_false]
     rw [hsub]
     ring
   · by_cases h2 : i = k.succ
     · rw [h2, Equiv.swap_apply_right]
       have hsc : k.succ ≠ k.castSucc := hcs.symm
-      simp only [hsc, if_true, if_false]
+      simp only [hsc, ite_true, ite_false]
       rw [hsub]
       ring
     · rw [Equiv.swap_apply_of_ne_of_ne h1 h2]
-      simp only [h1, h2, if_false]
+      simp only [h1, h2, ite_false]
       ring
 
 theorem ggA8Tail_perm {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {h : Fin 8 → V}

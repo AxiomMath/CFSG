@@ -19,6 +19,7 @@ open Subgroup CFSG.Blueprint
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_polar_symm (x y : V) : Q.polarBilin x y = Q.polarBilin y x := by
   simp only [QuadraticMap.polarBilin_apply_apply]
   exact QuadraticMap.polar_comm Q x y
@@ -40,6 +41,7 @@ theorem fg_mem_omegaGroup_of_pow_three (hQ : Q.Nondegenerate)
   rw [orderOf_eq_one_iff] at h1
   exact (QuotientGroup.eq_one_iff g).mp h1
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fg_eichler_elem {ρ : ↥(simGroup Q)}
     (hρ2 : ∀ v, (ρ : V ≃ₗ[ZMod 3] V) ((ρ : V ≃ₗ[ZMod 3] V) v) = v)
     (hρB : ∀ x y, Q.polarBilin ((ρ : V ≃ₗ[ZMod 3] V) x) ((ρ : V ≃ₗ[ZMod 3] V) y) =
@@ -96,7 +98,7 @@ theorem fg_cent_typeIII (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V
     {A : Subgroup (ProjSim Q)}
     (hAJ : ∀ a ∈ A, ∀ j ∈ J, projSimAct Q a (j : ProjOrth Q) = (j : ProjOrth Q)) :
     Nat.card A ≤ 2 := by
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 3) (by rw [hdim]; norm_num)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 3) (by rw [hdim]; norm_num)
   have hpos : 0 < Module.finrank (ZMod 3) V := by rw [hdim]; norm_num
   have hB : Q.polarBilin.Nondegenerate := QuadraticMap.nondegenerate_polar_iff.mpr hQ
   have hρB : ∀ x y, Q.polarBilin ((ρ : V ≃ₗ[ZMod 3] V) x) ((ρ : V ≃ₗ[ZMod 3] V) y) =

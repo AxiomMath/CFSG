@@ -38,8 +38,8 @@ theorem k1419ClsLinBlock_exists {F : Type} [Field F] [Finite F] {n : ℕ} (A : G
     exact hord
   obtain ⟨r, D, d, hFld, hFin, hAlg, Φ, θ, hNZ, hΦinj, _hΦrange, hθinj, hθrange, hθapply⟩ :=
     exists_piMat_commutant (Subgroup.zpowers A) hA
-  letI : ∀ i, Field (D i) := hFld
-  haveI : ∀ i, Finite (D i) := hFin
+  let : ∀ i, Field (D i) := hFld
+  have : ∀ i, Finite (D i) := hFin
   have hcent : Subgroup.centralizer ((Subgroup.zpowers A : Subgroup (GL (Fin n) F)) :
       Set (GL (Fin n) F)) = Subgroup.centralizer ({A} : Set (GL (Fin n) F)) := by
     ext g
@@ -117,7 +117,7 @@ theorem k1419ClsLinBlock_exists {F : Type} [Field F] [Finite F] {n : ℕ} (A : G
     rw [← hTeq, hMmap]
   have hd2 : 2 ≤ d i := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hall : ∀ a ∈ M, a = 1 := by
       intro a ha
       rw [hMeq] at ha

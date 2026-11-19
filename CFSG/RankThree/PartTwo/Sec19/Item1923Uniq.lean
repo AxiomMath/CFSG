@@ -125,13 +125,13 @@ private theorem b8_exists_mul_of_mem_sup_of_comm {H K : Subgroup Y}
 private theorem b8_eq_of_card_nine_of_normal {T : Type*} [Group T] [Finite T]
     (hT : Nat.card T = 72) {E F : Subgroup T} [E.Normal] (hE : Nat.card E = 9)
     (hF : Nat.card F = 9) : E = F := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hFp : IsPGroup 3 F := IsPGroup.of_card (n := 2) (by rw [hF]; norm_num)
   have hEp : IsPGroup 3 E := IsPGroup.of_card (n := 2) (by rw [hE]; norm_num)
   obtain ⟨S, hFS⟩ := hFp.exists_le_sylow
   have hES : E ≤ (S : Subgroup T) := hEp.le_sylow_of_normal S
   have hS : Nat.card (S : Subgroup T) = 9 := by
-    obtain ⟨k, hk⟩ := (S.isPGroup').exists_card_eq
+    obtain ⟨k, hk⟩ := (S.isPGroup).exists_card_eq
     have hdvd : Nat.card (S : Subgroup T) ∣ 72 := hT ▸ Subgroup.card_subgroup_dvd_card _
     have hle : Nat.card F ≤ Nat.card (S : Subgroup T) := Subgroup.card_le_of_le hFS
     rw [hF] at hle
@@ -155,7 +155,7 @@ private theorem b8_eq_of_card_nine_normal_in [Finite Y] {T E F : Subgroup Y}
     (hT : Nat.card T = 72) (hET : E ≤ T) (hFT : F ≤ T)
     (hEn : ∀ g ∈ T, ∀ e ∈ E, g * e * g⁻¹ ∈ E) (hEc : Nat.card E = 9) (hFc : Nat.card F = 9) :
     E = F := by
-  haveI : (E.subgroupOf T).Normal := ⟨fun n hn g => by
+  have : (E.subgroupOf T).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have := hEn (g : Y) g.2 n hn
     simpa using this⟩
@@ -182,10 +182,10 @@ private theorem b8_central_three_eq_bot_of_rank_one {Γ : Type*} [Group Γ] [Fin
     (hperf : commutator Γ = ⊤)
     (hb : ∀ V : Subgroup Γ, CFSG.Open.IsElemAbelian 3 V → Nat.card V ≤ 3)
     (Z : Subgroup Γ) (hZ : Z ≤ Subgroup.center Γ) (hZ3 : IsPGroup 3 Z) : Z = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine central_threeGroup_eq_bot_of_perfect hperf (fun P => ?_) Z hZ hZ3
   apply CFSG.LocalAnalysis.RankThreeUC.OddRankOneQuotient.isCyclic_of_pRank_le_one Nat.prime_three
-    (by norm_num) P.isPGroup'
+    (by norm_num) P.isPGroup
   unfold CFSG.pRank
   apply csSup_le'
   rintro r ⟨V, hV, hcard⟩
@@ -208,6 +208,7 @@ section Core
 private abbrev b8_piM (M : Subgroup G) : M →* (M ⧸ CFSG.pCore 2 M) :=
   QuotientGroup.mk' (CFSG.pCore 2 M)
 
+omit [Finite G] in
 private theorem b8_mem_pCore_subtype_iff {M : Subgroup G} {z : G} (hz : z ∈ M) :
     (⟨z, hz⟩ : M) ∈ CFSG.pCore 2 M ↔ z ∈ CFSG.Open.pCoreOf 2 M := by
   constructor
@@ -219,6 +220,7 @@ private theorem b8_mem_pCore_subtype_iff {M : Subgroup G} {z : G} (hz : z ∈ M)
     rw [← this]
     exact hw
 
+omit [Finite G] in
 private theorem b8_exists_pow_two_pow_eq_one {H : Subgroup G} {x : G}
     (hx : x ∈ CFSG.Open.pCoreOf 2 H) : ∃ m : ℕ, x ^ (2 ^ m) = 1 := by
   obtain ⟨z, hz, rfl⟩ := Subgroup.mem_map.mp hx
@@ -227,6 +229,7 @@ private theorem b8_exists_pow_two_pow_eq_one {H : Subgroup G} {x : G}
   have hm' := congrArg (fun w : ↥(CFSG.pCore 2 H) => ((w : ↥H) : G)) hm
   simpa using hm'
 
+omit [Finite G] in
 private theorem b8_eq_one_of_pow_three_of_pCoreOf {H : Subgroup G} {x : G} (h3 : x ^ 3 = 1)
     (hx : x ∈ CFSG.Open.pCoreOf 2 H) : x = 1 := by
   obtain ⟨m, hm⟩ := b8_exists_pow_two_pow_eq_one hx
@@ -235,6 +238,7 @@ private theorem b8_eq_one_of_pow_three_of_pCoreOf {H : Subgroup G} {x : G} (h3 :
   rw [hcop, pow_one] at hg
   exact hg
 
+omit [Finite G] in
 private theorem b8_mk_commute_of_pCoreOf {M : Subgroup G} {x y : G} (hx : x ∈ M) (hy : y ∈ M)
     (h : x * y * x⁻¹ * y⁻¹ ∈ CFSG.Open.pCoreOf 2 M) :
     b8_piM M ⟨x, hx⟩ * b8_piM M ⟨y, hy⟩ = b8_piM M ⟨y, hy⟩ * b8_piM M ⟨x, hx⟩ := by
@@ -250,6 +254,7 @@ private theorem b8_mk_commute_of_pCoreOf {M : Subgroup G} {x y : G} (hx : x ∈ 
     _ = b8_piM M (⟨y, hy⟩ * ⟨x, hx⟩) := by rw [h1, one_mul]
     _ = b8_piM M ⟨y, hy⟩ * b8_piM M ⟨x, hx⟩ := map_mul _ _ _
 
+omit [Finite G] in
 private theorem b8_barAut_eq_one_of_forall {L : Subgroup G}
     (x : ↥(Subgroup.normalizer (L : Set G)))
     (hx : ∀ y ∈ L, (x : G) * y * (x : G)⁻¹ * y⁻¹ ∈ CFSG.Open.pCoreOf 2 L) :
@@ -295,6 +300,7 @@ end Core
 section Action
 
 
+omit [Finite G] in
 private theorem b8_forall_mem_of_barAut_eq_one {L : Subgroup G}
     (x : ↥(Subgroup.normalizer (L : Set G))) (hx : Sec3.Sims321.barAut L x = 1) :
     ∀ y ∈ L, (x : G) * y * (x : G)⁻¹ * y⁻¹ ∈ CFSG.Open.pCoreOf 2 L := by
@@ -413,7 +419,7 @@ private theorem b8_barAut_eq_one_of_mem_K' (kf6 : KF6) (h : Hyp1921 G A M N L)
       (MulEquiv.surjective _)
   have hHperf : Group.IsPerfect ↥H := by
     rw [hHdef]
-    haveI := hpKN
+    have := hpKN
     exact Group.IsPerfect.map (Sec3.Sims321.barAut L)
   have hsub : Subsingleton ↥H := by
     by_contra hnt
@@ -439,6 +445,7 @@ end Action
 section Main
 
 
+omit [Finite G] in
 private theorem b8_conj_mem_pCoreOf {L : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) {r : G} (hr : r ∈ CFSG.Open.pCoreOf 2 L) :
     g * r * g⁻¹ ∈ CFSG.Open.pCoreOf 2 L := by
@@ -452,6 +459,7 @@ private theorem b8_conj_mem_pCoreOf {L : Subgroup G} {g : G}
   rw [← hval]
   exact Subgroup.mem_map_of_mem L.subtype hσ
 
+omit [Finite G] in
 private theorem b8_eq_one_of_central_quotient {L : Subgroup G}
     (e : (↥L ⧸ CFSG.pCore 2 ↥L) ≃* CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 2 2))
     {y : ↥L ⧸ CFSG.pCore 2 ↥L} (hy : ∀ z : ↥L ⧸ CFSG.pCore 2 ↥L, z * y = y * z) : y = 1 := by
@@ -551,7 +559,7 @@ end Main
 
 theorem item1923_uniqueness
     (kf6 : KF6) (h : Hyp1921 G A M N L) (hF : Facts1922 G A M N L c) (hK : K ∈ scriptJ M N)
-    (h2 : scriptJ M N = {K}) (hcK : c ∈ K) (hAK : A ⊓ K = Subgroup.zpowers c)
+    (h2 : scriptJ M N = {K}) (hcK : c ∈ K) (_hAK : A ⊓ K = Subgroup.zpowers c)
     {K' : Subgroup G} (hK' : K' ∈ oTwoComponentsIn M) (h3 : 3 ∣ Nat.card K') : K' = K := by
   classical
   by_contra hne
@@ -659,7 +667,7 @@ theorem item1923_uniqueness
   have hcb_pow : cb ^ 3 = 1 := by
     rw [hcb, ← map_pow]
     exact congrArg (b8_piM M) (Subtype.ext (by simpa using hc3))
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcb_ne : cb ≠ 1 := by
     intro h1
     have hpc : (⟨c, hcM⟩ : M) ∈ CFSG.pCore 2 M := (QuotientGroup.eq_one_iff _).mp h1
@@ -704,7 +712,7 @@ theorem item1923_uniqueness
         (le_of_eq (by rw [Nat.card_zpowers, Nat.card_zpowers, hrkord, hcb_order]))
     have hcbZ : cb ∈ Subgroup.zpowers rk := hZeq ▸ Subgroup.mem_zpowers cb
     exact hZX hcbZ
-  haveI : Group.IsPerfect ↥(K'.subgroupOf M) := hpM
+  have : Group.IsPerfect ↥(K'.subgroupOf M) := hpM
   have hperfX : Group.IsPerfect ↥Xb := Group.IsPerfect.map (b8_piM M)
   have hcomm_perf : commutator ↥Xb = ⊤ := Group.isPerfect_def.mp hperfX
   have hbΓ : ∀ V : Subgroup ↥Xb, CFSG.Open.IsElemAbelian 3 V → Nat.card V ≤ 3 := by

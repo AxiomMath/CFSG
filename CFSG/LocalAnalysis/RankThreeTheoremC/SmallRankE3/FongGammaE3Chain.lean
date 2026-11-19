@@ -37,7 +37,7 @@ theorem n5_false_of_not_sylow_E3 (c : KQCfg A p Kb Sb Bb Mb z) (hchev : IsChevSi
     (hrk : ∀ ℓ : ℕ, ℓ.Prime → ℓ ≠ 2 → CFSG.Open.pRank ℓ Kb ≤ 3)
     (hcent : ∀ y ∈ Bb, y ∉ zpowers z →
       CFSG.HallHigman.IsPSolvable p ↥(Mb ⊓ centralizer ({y} : Set A))) : False := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   have hK₀par := KGQ.isParabolicTwo_inf c hchev h131 hne
   have hzM : z ∈ Mb := c.cover_Z (Subgroup.le_normalizer (Subgroup.mem_zpowers z))
   have hzK₀ : z ∈ Kb ⊓ Mb := ⟨c.z_mem_K, hzM⟩

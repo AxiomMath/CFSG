@@ -29,7 +29,7 @@ theorem sl2_data {S : Subgroup G} (hQS : Q ≤ S) (hSM : S ≤ M) [(Q.subgroupOf
       IsSimpleGroup ↥(bar M Q S) ∧ ∃ a b : ↥(bar M Q S), a * b ≠ b * a := by
   obtain ⟨K, fK, finK, hKq, ⟨e₀⟩⟩ := hsl
   obtain ⟨ee, hee⟩ := hq2
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hee)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hee)
   have hK4 : 4 ≤ Nat.card K := hKq ▸ hq4
   let eSL : ↥S ⧸ Q.subgroupOf S ≃* Matrix.SpecialLinearGroup (Fin 2) K :=
     e₀.trans (specialLinearGroupEquivStatedSL 2 K).symm
@@ -40,7 +40,7 @@ theorem sl2_data {S : Subgroup G} (hQS : Q ≤ S) (hSM : S ≤ M) [(Q.subgroupOf
   refine ⟨hcard, ?_, ?_, ?_⟩
   · rw [hcard, ← hKq]
     exact (SL2Grp.sl2_card_factorization K).trans (by rw [SL2Grp.sl2_card K])
-  · haveI := SL2Grp.sl2_isSimpleGroup (K := K) hK4
+  · have := SL2Grp.sl2_isSimpleGroup (K := K) hK4
     exact eS.isSimpleGroup
   · obtain ⟨a, b, hab⟩ := SL2Grp.sl2_nonabelian (K := K)
     refine ⟨eS.symm a, eS.symm b, fun h => hab ?_⟩
@@ -70,15 +70,18 @@ theorem conj_Lgen_eq {L : Subgroup G} {g : G} (hg : g ∈ M) :
   obtain ⟨r, hr, rfl⟩ := hy
   exact hle hr
 
+omit [Finite G] in
 theorem Lgen_le_M' {L : Subgroup G} (hL : L ≤ M) (hM : ∀ m ∈ M, conjSubgroup m M = M) :
     Lgen M L ≤ M := by
   refine iSup₂_le fun m hm => ?_
   calc conjSubgroup m L ≤ conjSubgroup m M := Subgroup.map_mono hL
     _ = M := hM m hm
 
+omit [Finite G] in
 theorem Lgen_mono' {L L' : Subgroup G} (h : L ≤ L') : Lgen M L ≤ Lgen M L' :=
-  iSup₂_mono fun m _ => Subgroup.map_mono h
+  iSup₂_mono fun _m _ => Subgroup.map_mono h
 
+omit [Finite G] in
 theorem exists_Cgrp (hc : Ctx M Q Z B) (X : Subgroup G) :
     ∃ C : Subgroup G, ∀ h, h ∈ C ↔ h ∈ H0 M Z ∧ ∀ x ∈ X, ⁅h, x⁆ ∈ Q := by
   have hQn : ∀ a ∈ M, ∀ q ∈ Q, a * q * a⁻¹ ∈ Q := fun a ha q hq =>
@@ -114,7 +117,7 @@ theorem stroth65XNormal_core (I : Inputs) (h63b : Stroth63bStatement)
   intro G _ _ M Q Z B hc n t hs m hm hn hΩ X hQX hXR hNX hNXQ hcen hXsat
   classical
   have e : Env hc n t m X := ⟨hs, hm, hn, hΩ, hQX, hXR, hNX, hNXQ, hcen⟩
-  haveI hQnM : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have hQnM : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have ht := hs.toSec5.mem
   have hQM : Q ≤ M := hc.hyp.Q_normal.1
   have hNM : hc.CN t ≤ M := e.CN_le_M
@@ -129,7 +132,7 @@ theorem stroth65XNormal_core (I : Inputs) (h63b : Stroth63bStatement)
     fun g hg => conj_Lgen_eq hg
   have h64' := h64 G M Q Z B hc n t hs m hm hΩ
   obtain ⟨hSn, hsl⟩ := h64'
-  haveI := hSn
+  have := hSn
   obtain ⟨e', -, he', -⟩ := hc.hyp.cp
   have hq4 := hc.hyp.q4
   obtain ⟨hScard, hsyl, hSsimple, hSnonab⟩ := sl2_data hQS hSM ⟨e', he'⟩ hq4 hsl
@@ -145,7 +148,7 @@ theorem stroth65XNormal_core (I : Inputs) (h63b : Stroth63bStatement)
   have hq4' : 4 ≤ Nat.card (bar M Q (hc.CN t)) := hUcard ▸ hq4
   have hUS : bar M Q (hc.CN t) ≤ bar M Q (Lgen M (hc.CN t)) :=
     bar_mono (le_Lgen_self M (hc.CN t))
-  haveI hSbarnorm : (bar M Q (Lgen M (hc.CN t))).Normal := bar_normal hQM hSnorm
+  have hSbarnorm : (bar M Q (Lgen M (hc.CN t))).Normal := bar_normal hQM hSnorm
   have hCor := e.corBHyp I (h63b G M Q Z B hc n t hs m hm hΩ)
   have hTI : ∀ g : ↥M ⧸ Q.subgroupOf M, bar M Q (hc.CN t) ⊓ conjSubgroup g (bar M Q (hc.CN t)) = ⊥ ∨
       conjSubgroup g (bar M Q (hc.CN t)) = bar M Q (hc.CN t) := by
@@ -161,10 +164,10 @@ theorem stroth65XNormal_core (I : Inputs) (h63b : Stroth63bStatement)
     obtain ⟨b', hb', hb'M, rfl⟩ := (mem_bar b).mp hb
     exact piM_comm_of_comm_mem ha'M hb'M ((e.N_mod_Q I.h34).1 a' ha' b' hb')
   obtain ⟨hXn, hXcomm⟩ := commutator_quot_eq_top hm ⟨e', he'⟩ (hXsat.imp (·.2) (·.2))
-  haveI := hXn
+  have := hXn
   have hYperf : ⁅bar M Q X, bar M Q X⁆ = bar M Q X := by
-    haveI : Group.IsPerfect (↥X ⧸ Q.subgroupOf X) := Group.isPerfect_def.mpr hXcomm
-    haveI : Group.IsPerfect ↥(bar M Q X) :=
+    have : Group.IsPerfect (↥X ⧸ Q.subgroupOf X) := Group.isPerfect_def.mpr hXcomm
+    have : Group.IsPerfect ↥(bar M Q X) :=
       Group.IsPerfect.ofSurjective (f := (barEquiv hQX hXM).toMonoidHom)
         (barEquiv hQX hXM).surjective
     exact Subgroup.isPerfect_iff.mp this

@@ -32,10 +32,10 @@ theorem Wr7.transfer_data (h : Wr7 t P U) {S T : Subgroup G} (hS : RankFacts S)
   ·
     have hnorm : (P.subgroupOf (wrStar t P)).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr (Wr7.le_normalizer_star h)
-    haveI : (P.subgroupOf (wrStar t P)).Normal := hnorm
+    have : (P.subgroupOf (wrStar t P)).Normal := hnorm
     refine ⟨hnorm, ?_⟩
     let N : Subgroup ↥(wrStar t P) := P.subgroupOf (wrStar t P)
-    haveI : N.Normal := hnorm
+    have : N.Normal := hnorm
     have htQ : t ∈ wrStar t P := Subgroup.mem_sup_right (Subgroup.mem_zpowers t)
     let g : ↥(wrStar t P) ⧸ N := QuotientGroup.mk' N ⟨t, htQ⟩
     refine isCyclic_iff_exists_zpowers_eq_top.mpr ⟨g, ?_⟩
@@ -61,7 +61,7 @@ theorem Wr7.transfer_data (h : Wr7 t P U) {S T : Subgroup G} (hS : RankFacts S)
         exact hpN
       have hx_eq : x = p * pt := by
         apply Subtype.ext
-        simp only [p, pt, Subgroup.coe_mul, Subgroup.coe_mk]
+        simp only [p, pt, Subgroup.coe_mul]
         group
       have hmg : QuotientGroup.mk' N x = g := by
         calc QuotientGroup.mk' N x

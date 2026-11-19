@@ -50,9 +50,9 @@ theorem exists_invariant_complement {K Z T : Subgroup G} (hZK : Z ≤ K) (hZ3 : 
     ∃ C : Subgroup G, C ≤ K ∧ C ⊓ Z = ⊥ ∧ C ⊔ Z = K ∧ T ≤ Subgroup.normalizer (C : Set G) ∧
       ∀ x ∈ K, ∀ n : ℕ, x ^ 2 ^ n = 1 → x ∈ C := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic ↥Z := isCyclic_of_prime_card (p := 3) hZ3
-  letI : CommGroup ↥Z := IsCyclic.commGroup
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic ↥Z := isCyclic_of_prime_card (p := 3) hZ3
+  let : CommGroup ↥Z := IsCyclic.commGroup
   let ι : ↥Z →* ↥K := Subgroup.inclusion hZK
   have hι : Function.Injective ι := Subgroup.inclusion_injective hZK
   have hιval : ∀ z : ↥Z, ((ι z : ↥K) : G) = (z : G) := fun z => rfl

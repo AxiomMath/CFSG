@@ -79,7 +79,7 @@ theorem altOn_eq_altFixingMoved {N : ℕ} (π : Equiv.Perm (Fin N)) :
   ext g
   rw [CFSG.OddStandard.AltStdSec.SwapPartner.mem_altFixingMoved, altOn, Subgroup.mem_inf,
     mem_fixingSubgroup_iff]
-  simp only [Set.mem_compl_iff, Set.mem_setOf_eq, Equiv.Perm.smul_def]
+  simp only [Set.mem_compl_iff, Set.mem_ofPred_eq, Equiv.Perm.smul_def]
 
 theorem two_mul_card_altOn {N : ℕ} (π : Equiv.Perm (Fin N))
     (h2 : 2 ≤ Fintype.card {i : Fin N // π i = i}) :
@@ -109,7 +109,7 @@ theorem exists_four_group {N : ℕ} {A : Finset (Fin N)} (hA : A.card = 4) :
       (∀ e ∈ E, ∀ i ∉ A, e i = i) ∧ (∀ e ∈ E, e * e = 1) ∧
       (∀ e ∈ E, ∀ e' ∈ E, e * e' = e' * e) := by
   classical
-  haveI hK := alternatingGroup.kleinFour_isKleinFour (α := Fin 4) (by simp)
+  have hK := alternatingGroup.kleinFour_isKleinFour (α := Fin 4) (by simp)
   let ι : Fin 4 ↪ Fin N := (A.orderEmbOfFin hA).toEmbedding
   have hι : Set.range ι = ↑A := Finset.range_orderEmbOfFin A hA
   let f : alternatingGroup (Fin 4) →* Equiv.Perm (Fin N) :=
@@ -191,7 +191,7 @@ theorem chi_of_mem {N : ℕ} (hN : 7 ≤ N)
       Equiv.Perm (Fin N)) := by
   obtain ⟨x, hx, hxa⟩ := h.map_mem_layerIn ha
   have hxa' : x = (sectHom (bbH₁ G L z v) h.inv₀ h.inv₁).rangeRestrict a := Subtype.ext hxa
-  haveI := Lemma63.instNormalLayer ↥(sectHom (bbH₁ G L z v) h.inv₀ h.inv₁).range
+  have := Lemma63.instNormalLayer ↥(sectHom (bbH₁ G L z v) h.inv₀ h.inv₁).range
   have e1 : h.chi hN φA a = conjPerm _ hN
       (((CFSG.layer ↥(sectHom (bbH₁ G L z v) h.inv₀ h.inv₁).range).equivMapOfInjective
         (sectHom (bbH₁ G L z v) h.inv₀ h.inv₁).range.subtype
@@ -211,10 +211,10 @@ theorem chi_injective {N : ℕ} (hN : 7 ≤ N)
     Function.Injective (h.chi hN φA) := by
   rw [injective_iff_map_eq_one]
   intro g hg
-  haveI := Lemma63.instNormalLayer ↥(sectHom (bbH₁ G L z v) h.inv₀ h.inv₁).range
+  have := Lemma63.instNormalLayer ↥(sectHom (bbH₁ G L z v) h.inv₀ h.inv₁).range
   have hcomm : ∀ a ∈ bbL₀ G L v, (g : GLV V) * a = a * g := by
     intro a ha
-    have haH : a ∈ bbH₁ G L z v := h.L₀_le_H₁ ha
+    have haH : a ∈ bbH₁ G L z v := CFSG.CGT.Foote82.BranchB.Hyp.L₀_le_H₁ ha
     obtain ⟨x, hx, hxa⟩ := h.map_mem_layerIn (a := ⟨a, haH⟩) ha
     have h1 := commute_of_conjPerm_eq_one _ hN _ hg ⟨x, hx⟩
     have h2 := congrArg Subtype.val h1
@@ -282,9 +282,9 @@ theorem equiv_z {N : ℕ} (hN : 7 ≤ N)
     (φA : ↥(layerIn (sectHom (bbH₁ G L z v) h.inv₀ h.inv₁).range) ≃* alternatingGroup (Fin N))
     (ψW : Sect (bbW₀ G L v) (bbW₁ G L v) ≃+ altHeart N) (hψW : h.HeartEquiv φA ψW)
     (y : Sect (bbW₀ G L v) (bbW₁ G L v)) :
-    ψW (sectHom (bbH₁ G L z v) h.inv₀ h.inv₁ ⟨z, h.z_mem_H₁⟩ y) =
-      altAct (h.chi hN φA ⟨z, h.z_mem_H₁⟩) (ψW y) := by
-  obtain ⟨z₁, hz₁⟩ : ∃ z₁ : ↥(bbH₁ G L z v), z₁ = ⟨z, h.z_mem_H₁⟩ := ⟨_, rfl⟩
+    ψW (sectHom (bbH₁ G L z v) h.inv₀ h.inv₁ ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩ y) =
+      altAct (h.chi hN φA ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩) (ψW y) := by
+  obtain ⟨z₁, hz₁⟩ : ∃ z₁ : ↥(bbH₁ G L z v), z₁ = ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩ := ⟨_, rfl⟩
   rw [← hz₁]
   obtain ⟨σ, hσ⟩ : ∃ σ : Equiv.Perm (Fin N), σ = h.chi hN φA z₁ := ⟨_, rfl⟩
   rw [← hσ]
@@ -376,7 +376,7 @@ theorem chi_equivariant {N : ℕ} (hN : 7 ≤ N)
       exact h.equiv_of_mem hN φA ψW hψW ha y
     · intro r hr
       obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 (show (r : GLV V) ∈ Subgroup.zpowers z from hr)
-      have hrk : r = (⟨z, h.z_mem_H₁⟩ : ↥(bbH₁ G L z v)) ^ k :=
+      have hrk : r = (⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩ : ↥(bbH₁ G L z v)) ^ k :=
         Subtype.ext (by rw [Subgroup.coe_zpow]; exact hk.symm)
       rw [hrk]
       refine zpow_mem (fun y => ?_) k
@@ -390,9 +390,9 @@ theorem chi_equivariant {N : ℕ} (hN : 7 ≤ N)
 theorem map_L_eq_altOn {N : ℕ} (f : ↥(bbH₁ G L z v) →* Equiv.Perm (Fin N))
     (hf : Function.Injective f)
     (hA : ((bbL₀ G L v).subgroupOf (bbH₁ G L z v)).map f = alternatingGroup (Fin N)) :
-    5 ≤ Nat.card {i : Fin N // f ⟨z, h.z_mem_H₁⟩ i = i} ∧
-      (L.subgroupOf (bbH₁ G L z v)).map f = altOn {i | f ⟨z, h.z_mem_H₁⟩ i = i} := by
-  obtain ⟨z₁, hz₁⟩ : ∃ z₁ : ↥(bbH₁ G L z v), z₁ = ⟨z, h.z_mem_H₁⟩ := ⟨_, rfl⟩
+    5 ≤ Nat.card {i : Fin N // f ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩ i = i} ∧
+      (L.subgroupOf (bbH₁ G L z v)).map f = altOn {i | f ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩ i = i} := by
+  obtain ⟨z₁, hz₁⟩ : ∃ z₁ : ↥(bbH₁ G L z v), z₁ = ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩ := ⟨_, rfl⟩
   rw [← hz₁]
   have hzz : z₁ * z₁ = 1 := Subtype.ext (by rw [hz₁]; exact h.zz)
   have hσσ : f z₁ * f z₁ = 1 := by rw [← map_mul f z₁ z₁, hzz, map_one f]
@@ -403,7 +403,7 @@ theorem map_L_eq_altOn {N : ℕ} (f : ↥(bbH₁ G L z v) →* Equiv.Perm (Fin N
   have hc₀ : IsComponentOf L
       (bbH₁ G L z v ⊓ Subgroup.centralizer (Subgroup.zpowers z : Set (GLV V))) :=
     isComponentOf_of_le h.setup6₀.component
-      (le_inf h.L_le_H₁ (h.setup6₀.component.1.trans inf_le_right))
+      (le_inf CFSG.CGT.Foote82.BranchB.Hyp.L_le_H₁ (h.setup6₀.component.1.trans inf_le_right))
       (inf_le_inf_right _ h.H₁_le_H₀)
   have hc₁ := isComponentOf_map (isComponentOf_subgroupOf hc₀ inf_le_left) f hf
   have hX : ((bbH₁ G L z v ⊓ Subgroup.centralizer (Subgroup.zpowers z : Set (GLV V))).subgroupOf
@@ -448,7 +448,7 @@ theorem card_fix_eq {N n : ℕ} (hn : 6 ≤ n) (f : ↥(bbH₁ G L z v) →* Equ
     (hA : ((bbL₀ G L v).subgroupOf (bbH₁ G L z v)).map f = alternatingGroup (Fin N))
     (eL : ↥((L.subgroupOf (bbH₁ G L z v)).map (sectHom (bbH₁ G L z v) h.inv₀ h.inv₁)) ≃*
       alternatingGroup (Fin n)) :
-    Fintype.card {i : Fin N // f ⟨z, h.z_mem_H₁⟩ i = i} = n := by
+    Fintype.card {i : Fin N // f ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩ i = i} = n := by
   obtain ⟨h5, hK⟩ := h.map_L_eq_altOn f hf hA
   have c1 : Nat.card ↥((L.subgroupOf (bbH₁ G L z v)).map
       (sectHom (bbH₁ G L z v) h.inv₀ h.inv₁)) = Nat.card ↥(L.subgroupOf (bbH₁ G L z v)) :=
@@ -458,15 +458,15 @@ theorem card_fix_eq {N n : ℕ} (hn : 6 ≤ n) (f : ↥(bbH₁ G L z v) →* Equ
   rw [hK] at c2
   have c3 : Nat.card (alternatingGroup (Fin n)) = Nat.card ↥((L.subgroupOf (bbH₁ G L z v)).map
       (sectHom (bbH₁ G L z v) h.inv₀ h.inv₁)) := (Nat.card_congr eL.toEquiv).symm
-  have h5' : 2 ≤ Fintype.card {i : Fin N // f ⟨z, h.z_mem_H₁⟩ i = i} := by
+  have h5' : 2 ≤ Fintype.card {i : Fin N // f ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩ i = i} := by
     rw [← Nat.card_eq_fintype_card]
     omega
-  have c4 := two_mul_card_altOn (f ⟨z, h.z_mem_H₁⟩) h5'
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have c4 := two_mul_card_altOn (f ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩) h5'
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
   have c5 : 2 * Nat.card (alternatingGroup (Fin n)) = n.factorial := by
     rw [two_mul_nat_card_alternatingGroup, Nat.card_perm, Nat.card_eq_fintype_card,
       Fintype.card_fin]
-  have hfact : (Fintype.card {i : Fin N // f ⟨z, h.z_mem_H₁⟩ i = i}).factorial = n.factorial := by
+  have hfact : (Fintype.card {i : Fin N // f ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩ i = i}).factorial = n.factorial := by
     rw [← c4, ← c5, c3, c1, c2]
   exact (Nat.factorial_inj (by omega)).1 hfact
 
@@ -485,19 +485,19 @@ theorem k_eq_one {n k : ℕ} (hn : 6 ≤ n) (hk : 1 ≤ k)
     hχ ▸ h.chi_map_L₀ hN φA
   have hcard := h.card_fix_eq hn χ hinj hA eL
   obtain ⟨-, hK⟩ := h.map_L_eq_altOn χ hinj hA
-  have hsupp := card_fix_add_card_support (χ ⟨z, h.z_mem_H₁⟩)
+  have hsupp := card_fix_add_card_support (χ ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩)
   rw [hcard] at hsupp
   by_contra hk1
   obtain ⟨A, hAs, hA4⟩ := Finset.exists_subset_card_eq
-    (show 4 ≤ (χ ⟨z, h.z_mem_H₁⟩).support.card by omega)
+    (show 4 ≤ (χ ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩).support.card by omega)
   obtain ⟨E, hE4, hEA, hEfix, hEsq, hEcomm⟩ := exists_four_group hA4
   have hEL : ∀ e ∈ E, ∀ l ∈ L.subgroupOf (bbH₁ G L z v), e * χ l = χ l * e := by
     intro e he l hl
-    have hl' : χ l ∈ altOn {i | χ ⟨z, h.z_mem_H₁⟩ i = i} := hK ▸ ⟨l, hl, rfl⟩
+    have hl' : χ l ∈ altOn {i | χ ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩ i = i} := hK ▸ ⟨l, hl, rfl⟩
     refine (Equiv.Perm.Disjoint.commute fun i => ?_).eq
     by_cases hi : i ∈ A
     · right
-      have hmov : χ ⟨z, h.z_mem_H₁⟩ i ≠ i := Equiv.Perm.mem_support.1 (hAs hi)
+      have hmov : χ ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩ i ≠ i := Equiv.Perm.mem_support.1 (hAs hi)
       exact (mem_fixingSubgroup_iff _).1 hl'.2 i hmov
     · left
       exact hEfix e he i hi
@@ -510,7 +510,7 @@ theorem k_eq_one {n k : ℕ} (hn : 6 ≤ n) (hk : 1 ≤ k)
   have hE₂le : E₂ ≤ G ⊓ Subgroup.centralizer (L : Set (GLV V)) := by
     rintro _ ⟨g, hg, rfl⟩
     refine ⟨h.H₁_le_G g.2, Subgroup.mem_centralizer_iff.2 fun l hl => ?_⟩
-    have hlH : l ∈ bbH₁ G L z v := h.L_le_H₁ hl
+    have hlH : l ∈ bbH₁ G L z v := CFSG.CGT.Foote82.BranchB.Hyp.L_le_H₁ hl
     have h1 := hEL (χ g) hg ⟨l, hlH⟩ hl
     rw [← map_mul χ, ← map_mul χ] at h1
     exact (congrArg Subtype.val (hinj h1)).symm
@@ -543,7 +543,7 @@ theorem caseIData {n : ℕ} (hn : 6 ≤ n)
       φ = sectHom (bbH₁ G L z v) h.inv₀ h.inv₁ := ⟨_, rfl⟩
   obtain ⟨χ, hχ⟩ : ∃ χ : ↥(bbH₁ G L z v) →* Equiv.Perm (Fin (n + 2)),
       χ = h.chi hN φA := ⟨_, rfl⟩
-  obtain ⟨z₁, hz₁⟩ : ∃ z₁ : ↥(bbH₁ G L z v), z₁ = ⟨z, h.z_mem_H₁⟩ := ⟨_, rfl⟩
+  obtain ⟨z₁, hz₁⟩ : ∃ z₁ : ↥(bbH₁ G L z v), z₁ = ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩ := ⟨_, rfl⟩
   have hinj : Function.Injective χ := hχ ▸ h.chi_injective hN φA
   have hA : ((bbL₀ G L v).subgroupOf (bbH₁ G L z v)).map χ = alternatingGroup (Fin (n + 2)) :=
     hχ ▸ h.chi_map_L₀ hN φA
@@ -551,17 +551,17 @@ theorem caseIData {n : ℕ} (hn : 6 ≤ n)
     rw [hφ, hχ]
     exact h.chi_equivariant hN φA ψW hψW g y
   have hcard := h.card_fix_eq hn χ hinj hA eL
-  have hsupp := card_fix_add_card_support (χ ⟨z, h.z_mem_H₁⟩)
+  have hsupp := card_fix_add_card_support (χ ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩)
   rw [hcard] at hsupp
   obtain ⟨a, b, hab, hσ⟩ := Equiv.Perm.card_support_eq_two.1 (show
-    (χ ⟨z, h.z_mem_H₁⟩).support.card = 2 by omega)
+    (χ ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩).support.card = 2 by omega)
   have hb' : Equiv.swap 0 a b ≠ 0 := by
     intro hb0
     apply hab
     have := (Equiv.swap 0 a).injective (hb0.trans (Equiv.swap_apply_right 0 a).symm)
     exact this.symm
   let π : Equiv.Perm (Fin (n + 2)) := Equiv.swap 1 (Equiv.swap 0 a b) * Equiv.swap 0 a
-  have h01 : (0 : Fin (n + 2)) ≠ 1 := by simp [Fin.ext_iff]
+  have h01 : (0 : Fin (n + 2)) ≠ 1 := by simp
   have hπa : π a = 0 := by
     show Equiv.swap 1 (Equiv.swap 0 a b) (Equiv.swap 0 a a) = 0
     rw [Equiv.swap_apply_right, Equiv.swap_apply_of_ne_of_ne h01 hb'.symm]
@@ -585,10 +585,10 @@ theorem caseIData {n : ℕ} (hn : 6 ≤ n)
     MulEquiv.ofBijective ψ₀ ⟨hψ₀inj, hψ₀surj⟩
   have hψψ₀ : ψ.toMonoidHom = ψ₀ := MonoidHom.ext fun _ => rfl
   refine ⟨ψ, ?_⟩
-  have hset : {i : Fin (n + 2) | ψ₀ ⟨z, h.z_mem_H₁⟩ i = i} = {i | i ≠ 0 ∧ i ≠ 1} := by
+  have hset : {i : Fin (n + 2) | ψ₀ ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩ i = i} = {i | i ≠ 0 ∧ i ≠ 1} := by
     rw [← hz₁, hψ₀z]
     ext i
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · intro hi
       refine ⟨fun h0 => ?_, fun h1 => ?_⟩
@@ -600,23 +600,23 @@ theorem caseIData {n : ℕ} (hn : 6 ≤ n)
       exact Equiv.swap_apply_of_ne_of_ne h0 h1
   have hq : CFSG.Open.IsQuasisimple ↥(bbL₀ G L v) :=
     CFSG.Open.IsQuasisimple.of_mulEquiv
-      (((Subgroup.subgroupOfEquivOfLe h.L₀_le_H₁).symm.trans
+      (((Subgroup.subgroupOfEquivOfLe CFSG.CGT.Foote82.BranchB.Hyp.L₀_le_H₁).symm.trans
         (((bbL₀ G L v).subgroupOf (bbH₁ G L z v)).equivMapOfInjective χ hinj)).trans
         (MulEquiv.subgroupCongr hA))
       (CFSG.CGT.PushingUpLit.BHS.isQuasisimple_alternatingGroup (by omega))
   refine
     { le := h.H₁_le_H₀
       six_le := hn
-      z_mem := h.z_mem_H₁
+      z_mem := CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁
       ψ_z := by
-        show ψ₀ ⟨z, h.z_mem_H₁⟩ = _
+        show ψ₀ ⟨z, CFSG.CGT.Foote82.BranchB.Hyp.z_mem_H₁⟩ = _
         rw [← hz₁, hψ₀z]
-      L_le := h.L_le_H₁
+      L_le := CFSG.CGT.Foote82.BranchB.Hyp.L_le_H₁
       ψ_L := by
         rw [hψψ₀, (h.map_L_eq_altOn ψ₀ hψ₀inj hψ₀A).2, hset]
       ψ_H := by
         rw [hψψ₀, ← hψ₀A, Subgroup.comap_map_eq_self_of_injective hψ₀inj,
-          Subgroup.map_subgroupOf_eq_of_le h.L₀_le_H₁]
+          Subgroup.map_subgroupOf_eq_of_le CFSG.CGT.Foote82.BranchB.Hyp.L₀_le_H₁]
       component := ⟨h.L₀_le_H₀, h.isSubnormal_L₀, hq⟩
       heart := ?_ }
   let mk : ↥(bbW₁ G L v) →+ Sect (bbW₀ G L v) (bbW₁ G L v) :=

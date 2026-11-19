@@ -13,7 +13,7 @@ namespace CFSG.RankThree.PartTwo.Sec15.Sylow155L143
 
 theorem l143Rows_M22 :
     L143Rows CFSG.Blueprint.NativeSporadic.M22 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card CFSG.Blueprint.NativeSporadic.M22 = 443520 :=
     CFSG.Sporadic.Mathieu.card_M22
   have hfac : (Nat.card CFSG.Blueprint.NativeSporadic.M22).factorization 3 = 2 :=

@@ -25,7 +25,7 @@ theorem eq_one_of_mem_of_pow_three {U : Subgroup G} (hU : IsPGroup 2 U) {x : G} 
   exact orderOf_eq_one_iff.mp hk
 
 theorem isSylowTwoOf_top_of_sylow [Finite G] (P : Sylow 2 G) : IsSylowTwoOf (P : Subgroup G) ⊤ :=
-  ⟨le_top, P.isPGroup', by
+  ⟨le_top, P.isPGroup, by
     rw [show ((P : Subgroup G).subgroupOf ⊤).index = (P : Subgroup G).index from
       Subgroup.relIndex_top_right _]
     exact P.not_dvd_index⟩

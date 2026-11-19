@@ -110,7 +110,7 @@ theorem psl2_mulAut_pow_gcd_mul_gcd_eq_one_of_mulEquiv {A : Type*} [Group A] [Fi
     rw [hUcoe] at hx ⊢
     obtain ⟨t, ht, rfl⟩ := Subgroup.mem_map.mp hx
     have hcongr : θ (e t) = e (ψ t) := by
-      simp [θ, MulAut.congr]
+      simp [θ]
     refine Subgroup.mem_map.mpr ⟨ψ t, hT t ht, ?_⟩
     exact hcongr.symm
   have hθN : θ ^ N = 1 := by

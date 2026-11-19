@@ -19,19 +19,19 @@ private theorem tfmo_repr_smul_basis {n : ℕ} (b : Module.Basis (Fin n) (ZMod p
   rw [map_smul, Module.Basis.repr_self, Finsupp.smul_apply, Finsupp.single_apply]
   by_cases h : j = i
   · subst h; simp
-  · rw [if_neg (Ne.symm h), smul_zero, if_neg h]
+  · rw [ite_eq_right (Ne.symm h), smul_zero, ite_eq_right h]
 
 private theorem tfmo_pairUnit_self {n : ℕ} {i j : Fin n} (_hij : i ≠ j) (c : (ZMod p)ˣ) :
     pairUnit p i j c i = c := by
-  rw [pairUnit, if_pos rfl]
+  rw [pairUnit, ite_eq_left rfl]
 
 private theorem tfmo_pairUnit_other {n : ℕ} {i j : Fin n} (hij : i ≠ j) (c : (ZMod p)ˣ) :
     pairUnit p i j c j = c⁻¹ := by
-  rw [pairUnit, if_neg (Ne.symm hij), if_pos rfl]
+  rw [pairUnit, ite_eq_right (Ne.symm hij), ite_eq_left rfl]
 
 private theorem tfmo_pairUnit_ne {n : ℕ} {i j k : Fin n} (hki : k ≠ i) (hkj : k ≠ j)
     (c : (ZMod p)ˣ) : pairUnit p i j c k = 1 := by
-  rw [pairUnit, if_neg hki, if_neg hkj]
+  rw [pairUnit, ite_eq_right hki, ite_eq_right hkj]
 
 private theorem tfmo_pairUnit_swap {n : ℕ} {i j : Fin n} (hij : i ≠ j) (c : (ZMod p)ˣ) :
     pairUnit p j i c = pairUnit p i j c⁻¹ := by
@@ -88,12 +88,12 @@ private theorem tfmo_pairUnit_neg_one {n : ℕ} {i j : Fin n} (hij : i ≠ j) :
   funext k
   by_cases hki : k = i
   · subst hki
-    rw [tfmo_pairUnit_self hij (-1), Pi.mul_apply, if_pos rfl, if_neg hij, mul_one]
+    rw [tfmo_pairUnit_self hij (-1), Pi.mul_apply, ite_eq_left rfl, ite_eq_right hij, mul_one]
   · by_cases hkj : k = j
     · subst hkj
-      rw [tfmo_pairUnit_other hij (-1), Pi.mul_apply, if_neg (Ne.symm hij), if_pos rfl,
+      rw [tfmo_pairUnit_other hij (-1), Pi.mul_apply, ite_eq_right (Ne.symm hij), ite_eq_left rfl,
         one_mul, inv_neg, inv_one]
-    · rw [tfmo_pairUnit_ne hki hkj (-1), Pi.mul_apply, if_neg hki, if_neg hkj, mul_one]
+    · rw [tfmo_pairUnit_ne hki hkj (-1), Pi.mul_apply, ite_eq_right hki, ite_eq_right hkj, mul_one]
 
 theorem diagMap_mul_permMap_inj {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V)
     {d d' : Fin n → (ZMod p)ˣ} {σ σ' : Equiv.Perm (Fin n)}
@@ -104,12 +104,12 @@ theorem diagMap_mul_permMap_inj {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V)
       have h1 := congrArg (fun g : V ≃ₗ[ZMod p] V => g (b k)) h
       simpa only [LinearEquiv.mul_apply, diagMap_apply_basis, permMap_apply_basis] using h1
     have h2 := congrArg (fun w : V => b.repr w (σ k)) hk
-    simpa only [tfmo_repr_smul_basis, if_true] using h2
+    simpa only [tfmo_repr_smul_basis, ite_true] using h2
   have hσ : σ = σ' := by
     refine Equiv.ext fun k => ?_
     by_contra hne
     have h0 := hval k
-    rw [if_neg hne] at h0
+    rw [ite_eq_right hne] at h0
     exact (d (σ k)).ne_zero h0
   subst hσ
   refine ⟨?_, rfl⟩
@@ -252,7 +252,7 @@ theorem orderOf_diagMap_pairUnit {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V)
     rw [diagMap_apply_basis, tfmo_pairUnit_self hij u, diagMap_apply_basis,
       tfmo_pairUnit_self hij v] at h
     have h2 := congrArg (fun w : V => b.repr w i) h
-    simp only [tfmo_repr_smul_basis, if_true] at h2
+    simp only [tfmo_repr_smul_basis, ite_true] at h2
     exact Units.ext h2
   exact orderOf_injective φ hinj u
 
@@ -395,7 +395,7 @@ private theorem tfmo_sign_not_mem_gmmn (hp : p ≠ 2) {n : ℕ}
       apply Finset.prod_eq_one
       intro j hj
       simp only [Finset.mem_compl, Finset.mem_singleton] at hj
-      exact if_neg hj
+      exact ite_eq_right hj
     rw [h1, mul_one]; simp
   have hne : (-1 : (ZMod p)ˣ) ≠ 1 := by
     intro h
@@ -487,11 +487,11 @@ private theorem tfmo_exists_sign_or_twist_of_isRefl_mem_g2mmn (hp : p ≠ 2) {n 
 private theorem tfmo_sign_apply_of_ne {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V)
     {k m : Fin n} (hm : m ≠ k) :
     diagMap p b (fun l => if l = k then (-1 : (ZMod p)ˣ) else 1) (b m) = b m := by
-  rw [diagMap_apply_basis, if_neg hm, Units.val_one, one_smul]
+  rw [diagMap_apply_basis, ite_eq_right hm, Units.val_one, one_smul]
 
 private theorem tfmo_sign_apply_self {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V) (k : Fin n) :
     diagMap p b (fun m => if m = k then (-1 : (ZMod p)ˣ) else 1) (b k) = -b k := by
-  rw [diagMap_apply_basis, if_pos rfl]; simp
+  rw [diagMap_apply_basis, ite_eq_left rfl]; simp
 
 private theorem tfmo_diagMap_pow {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V)
     (d : Fin n → (ZMod p)ˣ) (m : ℕ) : (diagMap p b d) ^ m = diagMap p b (d ^ m) := by
@@ -980,11 +980,11 @@ theorem exists_mem_gmmn_polar_eq_zero (hp3 : p = 3) (b : Module.Basis (Fin 4) (Z
       funext m
       by_cases hm₀ : m = i₀
       · subst hm₀
-        rw [tfmo_pairUnit_self hi (-1), if_pos (Or.inl rfl)]
+        rw [tfmo_pairUnit_self hi (-1), ite_eq_left (Or.inl rfl)]
       · by_cases hm₁ : m = i₁
         · subst hm₁
-          rw [tfmo_pairUnit_other hi (-1), if_pos (Or.inr rfl), inv_neg, inv_one]
-        · rw [tfmo_pairUnit_ne hm₀ hm₁ (-1), if_neg (fun h => h.elim hm₀ hm₁)]
+          rw [tfmo_pairUnit_other hi (-1), ite_eq_left (Or.inr rfl), inv_neg, inv_one]
+        · rw [tfmo_pairUnit_ne hm₀ hm₁ (-1), ite_eq_right (fun h => h.elim hm₀ hm₁)]
     refine ⟨diagMap 3 b (pairUnit 3 i₀ i₁ (-1)),
       Subgroup.subset_closure (Or.inr rfl), ?_⟩
     have hcoord : ∀ m, b.repr ((diagMap 3 b (pairUnit 3 i₀ i₁ (-1))) w) m =
@@ -993,8 +993,8 @@ theorem exists_mem_gmmn_polar_eq_zero (hp3 : p = 3) (b : Module.Basis (Fin 4) (Z
       rw [repr_diagMap, hfun]
       dsimp only
       by_cases hm : m = i₀ ∨ m = i₁
-      · rw [if_pos hm, if_pos hm]; simp [x]
-      · rw [if_neg hm, if_neg hm]; simp [x]
+      · rw [ite_eq_left hm, ite_eq_left hm]; simp [x]
+      · rw [ite_eq_right hm, ite_eq_right hm]; simp [x]
     rw [tfmo_polar_basisDiagForm_one,
       Finset.sum_congr rfl (fun m _ => by rw [hcoord m]),
       tfmo_sum_neg_pair_eq_zero_three x hall i₀ i₁ hi, mul_zero]

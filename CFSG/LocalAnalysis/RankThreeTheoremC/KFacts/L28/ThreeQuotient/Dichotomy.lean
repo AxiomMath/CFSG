@@ -23,7 +23,7 @@ open CFSG.RankThree.PartOne.StrongP (HasNoncommPair)
 
 theorem sylow3OmegaLie_of_lieThreeDich (h : LieThreeDich) : Sylow3OmegaLie := by
   intro K _ _ hs hnab hcat hmodel hrank S hS hΩ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases h K hs hnab hcat hmodel with hab | ⟨x, y, hx, hy, hxy, hp⟩ | hr | hv
   · exact hab S
   · exfalso

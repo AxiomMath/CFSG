@@ -452,7 +452,7 @@ private theorem le_of_twoElements_eq_top {L N : Subgroup X} [N.Normal]
       IsPGroup.of_card (by rw [Nat.card_zpowers, hj])
     have hP2X : IsPGroup 2 ((Subgroup.zpowers y).map L.subtype) := hP2.map L.subtype
     obtain ⟨P, hyP⟩ := hP2X.exists_le_sylow
-    exact (le_of_odd_index_of_isPGroup_two (K := N) P.isPGroup' hN)
+    exact (le_of_odd_index_of_isPGroup_two (K := N) P.isPGroup hN)
       (hyP (Subgroup.mem_map_of_mem L.subtype (Subgroup.mem_zpowers y)))
   · simp
   · intro a b _ _ iha ihb

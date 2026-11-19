@@ -11,7 +11,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {NQ : Subgroup G} {N : Subgroup ↥NQ} [N.Normal]
 
 theorem z4j_d17_transport {Vc Vsub : Subgroup ↥NQ} {Vh : Subgroup (↥NQ ⧸ N)}
-    (hVc : Z4JLift N Vc Vh) (hVsub : Vsub ≤ Vc) {b : ↥NQ} (hb : b ∈ Vc)
+    (hVc : Z4JLift N Vc Vh) (_hVsub : Vsub ≤ Vc) {b : ↥NQ} (_hb : b ∈ Vc)
     (h17G : 17 ≤ {x : G | x ∈ Vc.map NQ.subtype ⊓ centralizer ({(b : G)} : Set G) ⊓
       centralizer ((Vsub.map NQ.subtype : Subgroup G) : Set G) ∧ x * x = 1}.ncard) :
     17 ≤ {u : ↥NQ ⧸ N | u ∈ Vh ⊓ centralizer ({z4iπ N b} : Set (↥NQ ⧸ N)) ⊓
@@ -44,7 +44,7 @@ theorem z4j_d17_transport {Vc Vsub : Subgroup ↥NQ} {Vh : Subgroup (↥NQ ⧸ N
     have hx₀eq' : (x₀ : G) = x := hx₀eq
     refine ⟨x₀, ?_, hx₀eq'⟩
     rw [hAxmem]
-    have hb : b * x₀ = x₀ * b := by
+    have _hb : b * x₀ = x₀ * b := by
       apply Subtype.ext
       have h := Subgroup.mem_centralizer_iff.1 hxcb (b : G) (Set.mem_singleton (b : G))
       rw [← hx₀eq'] at h
@@ -61,7 +61,7 @@ theorem z4j_d17_transport {Vc Vsub : Subgroup ↥NQ} {Vh : Subgroup (↥NQ ⧸ N
       show (x₀ : G) * (x₀ : G) = (1 : G)
       rw [hx₀eq']
       exact hxsq
-    exact ⟨hx₀V, hb, hv, hsq⟩
+    exact ⟨hx₀V, _hb, hv, hsq⟩
   have hBsup : (z4iπ N) '' Ax ⊆ B := by
     rintro u ⟨x₀, hx₀, rfl⟩
     rw [hBmem]

@@ -51,7 +51,7 @@ private theorem card_fixedSubgroup_congr_eq {X Y : Type} [Group X] [Group Y] (e 
 
 private theorem isSimpleGroup_of_isQuasisimple_center_eq_bot {G : Type} [Group G]
     (hQ : CFSG.IsQuasisimple G) (hZ : Subgroup.center G = ⊥) : IsSimpleGroup G := by
-  haveI := hQ.2.1
+  have := hQ.2.1
   exact ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.isSimpleGroup
 
 theorem not_isSimpleGroup_projSL_two_three_one :
@@ -70,17 +70,17 @@ theorem not_isSimpleGroup_projSL_two_three_one :
   have hsolv : Group.IsSolvable (projSL 2 (GaloisField 3 1)) :=
     TauCeti.isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two Nat.prime_three
       (a := 2) (b := 1) (by rw [hcard]; norm_num)
-  haveI : IsMulCommutative (projSL 2 (GaloisField 3 1)) :=
+  have : IsMulCommutative (projSL 2 (GaloisField 3 1)) :=
     ⟨⟨(IsSimpleGroup.comm_iff_isSolvable).mpr hsolv⟩⟩
   have hp := Group.is_simple_iff_prime_card.mp hs
   rw [hcard] at hp
   norm_num at hp
 
-theorem noOmega_projSL_two {p e : ℕ} [Fact p.Prime] (hK : 4 ≤ p ^ e) :
+theorem noOmega_projSL_two {p e : ℕ} [Fact p.Prime] (_hK : 4 ≤ p ^ e) :
     NoOmega (projSL 2 (GaloisField p e)) := by
-  clear hK
+  clear _hK
   have e₀ := CFSG.RankThree.PartTwo.Sec4.projSLEquivPSL (GaloisField p e)
-  haveI : Finite (projSL 2 (GaloisField p e)) := Finite.of_equiv _ e₀.toEquiv.symm
+  have : Finite (projSL 2 (GaloisField p e)) := Finite.of_equiv _ e₀.toEquiv.symm
   apply noOmega_of_fixed_facts
   intro σ hσ hσ3
   have hα3 : (MulAut.congr e₀ σ) ^ 3 = 1 := by rw [← map_pow, hσ3, map_one]
@@ -138,26 +138,26 @@ section Cases
 
 private theorem not_three_dvd_outer_j3_of_mulEquiv (S : Type) [Group S] [Finite S]
     (e : S ≃* Blueprint.NativeSporadic.Carrier .J3) : ¬ 3 ∣ Nat.card (Outer S) := by
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .J3) := Finite.of_equiv S e.toEquiv
+  have : Finite (Blueprint.NativeSporadic.Carrier .J3) := Finite.of_equiv S e.toEquiv
   exact not_three_dvd_outer_of_mulEquiv e
     (Sec4.RonanK429H.not_three_dvd_outer_of_le_two Sec4.card_outer_J3)
 
 theorem not_three_dvd_outer_j3 : ¬ 3 ∣ Nat.card (Outer (Sec4.Spor .J3)) := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.J3.nonempty_mulEquiv
   have b' : Blueprint.NativeSporadic.Carrier .J3 ≃* Sec4.Spor .J3 := b
-  haveI : Finite (Sec4.Spor .J3) := CFSG.Sporadic.Presentation.J3.finite_card_le.1
+  have : Finite (Sec4.Spor .J3) := CFSG.Sporadic.Presentation.J3.finite_card_le.1
   exact not_three_dvd_outer_j3_of_mulEquiv (Sec4.Spor .J3) b'.symm
 
 private theorem not_three_dvd_outer_mcl_of_mulEquiv (S : Type) [Group S] [Finite S]
     (e : S ≃* Blueprint.NativeSporadic.Carrier .McL) : ¬ 3 ∣ Nat.card (Outer S) := by
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .McL) := Finite.of_equiv S e.toEquiv
+  have : Finite (Blueprint.NativeSporadic.Carrier .McL) := Finite.of_equiv S e.toEquiv
   exact not_three_dvd_outer_of_mulEquiv e
     (Sec4.RonanK429H.not_three_dvd_outer_of_le_two Sec4.card_outer_McL)
 
 theorem not_three_dvd_outer_mcl : ¬ 3 ∣ Nat.card (Outer (Sec4.Spor .McL)) := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.McL.nonempty_mulEquiv
   have b' : Blueprint.NativeSporadic.Carrier .McL ≃* Sec4.Spor .McL := b
-  haveI : Finite (Sec4.Spor .McL) := CFSG.Sporadic.Presentation.McL.finite_card_le.1
+  have : Finite (Sec4.Spor .McL) := CFSG.Sporadic.Presentation.McL.finite_card_le.1
   exact not_three_dvd_outer_mcl_of_mulEquiv (Sec4.Spor .McL) b'.symm
 
 private theorem not_three_dvd_outer_onan_of_mulEquiv (S : Type) [Group S]
@@ -187,7 +187,7 @@ theorem outerCase_one : OuterCase Alt42One := by
       have h2e : 3 ^ 2 ≤ 3 ^ e := Nat.pow_le_pow_right (by norm_num) (by omega)
       omega
     subst he1
-    haveI := isSimpleGroup_quotient hX
+    have := isSimpleGroup_quotient hX
     exact not_isSimpleGroup_projSL_two_three_one φ.symm.isSimpleGroup
 
 theorem outerCase_two : OuterCase Alt42Two := OuterCase.of_autNoE27 fun S _ _ hP => by
@@ -223,7 +223,7 @@ theorem outerCase_six : OuterCase Alt42Six := by
   intro X _ _ hX P A B c hd hP
   obtain ⟨s, hs, ⟨φ⟩⟩ := hP
   have hq := hd.quotient hX
-  haveI : Finite (Sec4.Spor s) := Finite.of_equiv _ φ.toEquiv
+  have : Finite (Sec4.Spor s) := Finite.of_equiv _ φ.toEquiv
   simp only [Sec4.sporadics42, List.mem_cons, List.not_mem_nil, or_false] at hs
   rcases hs with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   · exact noOuterData_of_not_three_dvd_outer

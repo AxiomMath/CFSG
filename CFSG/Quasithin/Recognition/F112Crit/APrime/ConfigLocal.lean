@@ -12,6 +12,7 @@ open CFSG.Quasithin.CosetGeom
 
 variable {G : Type} [Group G] [Finite G] {G₀ G₁ G₂ T L E : Subgroup G}
 
+omit [Finite G] in
 theorem StarBound.conjSub {E Q H : Subgroup G} (hs : StarBound E Q H) (g : G) :
     StarBound (CFSG.Quasithin.conjSub g E) (CFSG.Quasithin.conjSub g Q)
       (CFSG.Quasithin.conjSub g H) := by

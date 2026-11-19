@@ -131,6 +131,7 @@ section G107
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 private theorem g107_fixed {Γ L : Subgroup (GLV V)} (hirr : IsIrr Γ ⊤)
     (hl : ∃ l ∈ L, l ≠ 1) : fixedSpace (normalClosure Γ L) = ⊥ := by
   have hinv : Invariant Γ (fixedSpace (normalClosure Γ L)) :=
@@ -141,6 +142,7 @@ private theorem g107_fixed {Γ L : Subgroup (GLV V)} (hirr : IsIrr Γ ⊤)
     obtain ⟨l, hlL, hl1⟩ := hl
     exact hl1 (fixedSpace_eq_top_iff.1 h l (le_normalClosure Γ L hlL))
 
+omit [Finite V] in
 private theorem g107_comm {Γ L : Subgroup (GLV V)} (hirr : IsIrr Γ ⊤)
     (hfix : fixedSpace (normalClosure Γ L) = ⊥) : commSpace (normalClosure Γ L) ⊤ = ⊤ := by
   have hinv : Invariant Γ (commSpace (normalClosure Γ L) ⊤) :=
@@ -161,6 +163,7 @@ private theorem g107_sSup {Γ L : Subgroup (GLV V)} (hirr : IsIrr Γ ⊤) :
   refine iSup_le fun γ => le_sSup ?_
   exact hJ.conj_of_normal (normalClosure_normal Γ L) γ.2
 
+omit [Finite V] in
 private theorem g107_isotropic_or_nondeg {B : LinearMap.BilinForm (ZMod 2) V}
     {H : Subgroup (GLV V)} (hHiso : ∀ k ∈ H, ∀ v w, B (k v) (k w) = B v w)
     (hrefl : B.IsRefl) {I : Submodule (ZMod 2) V} (hI : IsIrr H I) :
@@ -195,6 +198,7 @@ private theorem g107_compl_orthogonal {B : LinearMap.BilinForm (ZMod 2) V}
   have := hx y
   exact hrefl _ _ this
 
+omit [Finite V] in
 private theorem g107_disjoint_of_iso {B : LinearMap.BilinForm (ZMod 2) V}
     {H : Subgroup (GLV V)} {I I₂ : Submodule (ZMod 2) V} (hI : IsIrr H I) (hI₂ : IsIrr H I₂)
     (hiso : Isotropic B I) (hnd : NondegOn B (I ⊔ I₂)) : Disjoint I I₂ := by
@@ -215,6 +219,7 @@ private theorem g107_disjoint_of_iso {B : LinearMap.BilinForm (ZMod 2) V}
     rw [hSI] at hw
     exact hiso u hu w hw
 
+omit [Finite V] in
 private theorem g107_disjoint_sup_left {x A R S : Submodule (ZMod 2) V}
     (hA : Disjoint A S) (hx : x ≤ S) (hR : R ≤ S) (hxR : Disjoint x R) :
     Disjoint x (A ⊔ R) := by
@@ -234,6 +239,7 @@ private theorem g107_disjoint_sup_left {x A R S : Submodule (ZMod 2) V}
   have hr0 : r = 0 := (Submodule.disjoint_def.1 hxR) r hrx hr
   rw [hz, hr0]
 
+omit [Finite V] in
 private theorem g107_disjoint_sup_right {x A R S : Submodule (ZMod 2) V}
     (hS : Disjoint S R) (hx : x ≤ S) (hA : A ≤ S) (hxA : Disjoint x A) :
     Disjoint x (A ⊔ R) := by
@@ -253,6 +259,7 @@ private theorem g107_disjoint_sup_right {x A R S : Submodule (ZMod 2) V}
   have ha0 : a = 0 := (Submodule.disjoint_def.1 hxA) a hax ha
   rw [hza, ha0]
 
+omit [Finite V] in
 private theorem g107_iSupIndep_cons {m : ℕ} {A : Submodule (ZMod 2) V}
     {F : Fin m → Submodule (ZMod 2) V} (hF : iSupIndep F) (hA : Disjoint A (⨆ i, F i)) :
     iSupIndep (Fin.cons A F : Fin (m + 1) → Submodule (ZMod 2) V) := by
@@ -285,6 +292,7 @@ private theorem g107_iSupIndep_cons {m : ℕ} {A : Submodule (ZMod 2) V}
     exact Disjoint.mono_right hsub
       (g107_disjoint_sup_left hA (le_iSup F k) hR (iSupIndep_def.1 hF k))
 
+omit [Finite V] in
 private theorem g107_iSup_cons {m : ℕ} (A : Submodule (ZMod 2) V)
     (F : Fin m → Submodule (ZMod 2) V) :
     (⨆ i, (Fin.cons A F : Fin (m + 1) → Submodule (ZMod 2) V) i) = A ⊔ ⨆ i, F i := by
@@ -308,6 +316,7 @@ private theorem g107_iSup_cons {m : ℕ} (A : Submodule (ZMod 2) V)
       rw [Fin.cons_succ] at hk
       exact hk
 
+omit [Finite V] in
 private theorem g107_subtype_one {m : ℕ} (A : Submodule (ZMod 2) V)
     (F : Fin m → Submodule (ZMod 2) V) :
     (⨆ i : {i : Fin (m + 1) // 0 < i.val},
@@ -330,6 +339,7 @@ private theorem g107_subtype_one {m : ℕ} (A : Submodule (ZMod 2) V)
     rw [Fin.cons_succ] at hj
     exact hj
 
+omit [Finite V] in
 private theorem g107_subtype_two {m : ℕ} (A B' : Submodule (ZMod 2) V)
     (F : Fin m → Submodule (ZMod 2) V) :
     (⨆ i : {i : Fin (m + 2) // 2 ≤ i.val},
@@ -690,7 +700,7 @@ private theorem as_G10_normalClosure_conj_mem {V : Type} [AddCommGroup V] [Modul
     rintro x ⟨γ', hγ', l, hl, rfl⟩
     show γ * (γ' * l * γ'⁻¹) * γ⁻¹ ∈ Subgroup.closure _
     apply Subgroup.subset_closure
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     exact ⟨γ * γ', Γ.mul_mem hγ hγ', l, hl, by group⟩
   exact hle hk
 

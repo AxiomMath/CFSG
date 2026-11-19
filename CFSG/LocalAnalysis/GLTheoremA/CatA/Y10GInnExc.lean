@@ -159,7 +159,7 @@ theorem innDiagExc_of_inputs (hRig : GGLabelRigidInput) (hRest : GGInndiagCommRe
   · rw [hKn, show labK.n = 1 by have := hlamK.1; omega]
     exact one_dvd _
   have hq := hasLabel_isQuasisimple hK
-  haveI := hq.2
+  have := hq.2
   have hS : IsSimpleGroup S := (CanonInn.quotCenterEquivOfBot hcen).symm.isSimpleGroup
   by_cases hα1 : α = 1
   · subst hα1
@@ -200,8 +200,8 @@ theorem innDiagExc_of_inputs (hRig : GGLabelRigidInput) (hRest : GGInndiagCommRe
       calc Nat.card ↥J ≤ Nat.card ↥(fixSubgroup α) := Subgroup.card_le_of_le hJ.1
         _ < Nat.card ↥(⊤ : Subgroup S) := Subgroup.card_lt_of_lt (lt_top_iff_ne_top.2 hfix)
         _ = Nat.card S := Subgroup.card_top
-    haveI := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
-    haveI : Nontrivial ↥J :=
+    have := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
+    have : Nontrivial ↥J :=
       (Subgroup.nontrivial_iff_ne_bot J).2 (CFSG.LocalAnalysis.GLTheoremA.glaPComponent_ne_bot' hJ)
     have hperf : commutator ↥J = ⊤ := by
       apply Subgroup.map_injective J.subtype_injective

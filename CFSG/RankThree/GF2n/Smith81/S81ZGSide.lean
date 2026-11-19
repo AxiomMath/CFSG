@@ -17,6 +17,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] in
 theorem finrank_E_eq_of_card (hg : GlobalModelData M Q Z γ M₀) (hZQ : Z ≤ Q) {m : ℕ}
     (hQ : Nat.card Q = Nat.card Z ^ (m + 1)) : finrank K M₀.E = m := by
   have himgQ : M₀.img Q = ⊤ := by
@@ -50,7 +51,7 @@ theorem finrank_le_of_V1 (h34 : Stroth34Statement) (hctx : Ctx M Q Z B)
     (hS2 : ∀ s : Lgen M (LB M Q B), (s : G) ∈ LB M Q B → ∀ w ∈ S,
       ∃ b ∈ B, M₀.π b = T s w - w) :
     finrank K S ≤ n := by
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hZQ : Z ≤ Q := hctx.hyp.Z_normal.1
   have h34' : Conc34 M Q Z B := h34 G M Q Z B hctx n hw hn hno hgen
   obtain ⟨-, -, -, hcard⟩ := stroth_3_5 h34 hctx hw hn hno hgen

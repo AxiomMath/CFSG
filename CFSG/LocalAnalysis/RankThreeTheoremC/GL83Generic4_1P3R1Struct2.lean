@@ -146,7 +146,7 @@ theorem r1s_normalizer_le_centralizer {H : Type*} [Group H] [Finite H] (S : Sylo
     have hp : IsPGroup 3 (zpowers z) :=
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hzo, pow_one])
     exact hp.le_sylow_of_normal S (mem_zpowers z)
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   intro n hn
   set N : Subgroup H := normalizer ((S : Subgroup H) : Set H) with hN
   have hSN : (S : Subgroup H) ≤ N := le_normalizer

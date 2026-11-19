@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem thompsonJ_eq_jOf (T : Subgroup G) : thompsonJ 2 T = jOf T := rfl
 
+omit [Finite G] in
 theorem omegaOne_centerOf_eq (T : Subgroup G) : omegaOne 2 (centerOf T) = omegaOneZ T := rfl
 
 theorem map_tripleOf_zero {X T : Subgroup G} (hTX : T ≤ X) :
@@ -335,7 +336,7 @@ theorem card_inf_eq_nine {X B J : Subgroup G} {b : G} (hB : IsEkIn 3 3 X B) (hbB
 
 theorem isLThreeFour_barOf_barX {X J : Subgroup G} (hJX : J ≤ X) (h : IsLThreeFour (barOf 3 J)) :
     IsLThreeFour (barOf 3 (barX 3 X J)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let A : Subgroup ↥X := J.subgroupOf X
   let e : ↥J ≃* ↥A := (Subgroup.subgroupOfEquivOfLe hJX).symm
   have hker : Nat.Coprime 3
@@ -463,7 +464,7 @@ theorem cover_single
   have hKn := barX_layer_normal X
   have hTK : barX 3 X T ≤
       Subgroup.normalizer (barX 3 X (GLAPLayer 3 X) : Set (↥X ⧸ GLAPPrimeCore 3 ↥X)) := by
-    haveI := hKn
+    have := hKn
     rw [Subgroup.normalizer_eq_top]
     exact le_top
   have hJ34' := isLThreeFour_barOf_barX hJX hJ34
@@ -530,6 +531,7 @@ variable {G : Type} [Group G] [Finite G]
   ∃ K₁ : Subgroup G, GLAPComponent 3 X K₁ ∧ GLBConj b K₁ ≠ K₁ ∧
     GLAPLayer 3 X = K₁ ⊔ GLBConj b K₁ ⊔ GLBConj b (GLBConj b K₁) ∧ IsLThreeFour ↥(barX 3 X K₁)
 
+omit [Finite G] in
 theorem le_normalizer_gLBConj {T L : Subgroup G} {b : G}
     (hbT : b ∈ Subgroup.normalizer (T : Set G)) (hTL : T ≤ Subgroup.normalizer (L : Set G)) :
     T ≤ Subgroup.normalizer (GLBConj b L : Set G) := by
@@ -569,7 +571,7 @@ theorem le_normalizer_of_three {X T : Subgroup G} (hTX : T ≤ X) (hT2 : IsPGrou
       · exact h₂
       · exact h₃
   let α := {L : Subgroup G // GLAPComponent 3 X L}
-  letI : MulAction ↥T α :=
+  let : MulAction ↥T α :=
     { smul := fun t L => ⟨GLBConj (t : G)⁻¹ L.1,
         Inputs1115.glaPComponent_conj_of_mem L.2 (X.inv_mem (hTX t.2))⟩
       one_smul := fun L => Subtype.ext (by
@@ -603,6 +605,7 @@ theorem le_normalizer_of_three {X T : Subgroup G} (hTX : T ≤ X) (hT2 : IsPGrou
   · exact Or.inr (Or.inl (h ▸ hTL))
   · exact Or.inr (Or.inr (h ▸ hTL))
 
+omit [Finite G] in
 theorem barX_gLBConj_le {X N L : Subgroup G} {b : G} (hbX : b ∈ X) (hbN : b ∈ N)
     (h : barX 3 X L ≤ barX 3 X N) : barX 3 X (GLBConj b L) ≤ barX 3 X N := by
   rw [barX_gLBConj_eq 3 hbX]

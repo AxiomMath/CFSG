@@ -71,7 +71,7 @@ theorem l18_U_tQ (hc : Ctx18B t L S x₁ x₂ lam rho tau om 𝒮) {R A : Subgro
     exact l18_U_tG hc hR h𝒮R hA hAN g (by rw [hg]; exact hmem)
 
 private theorem l18_U_tauQ_sq_mem (hc : Ctx18B t L S x₁ x₂ lam rho tau om 𝒮)
-    {R A : Subgroup G} (h𝒮R : 𝒮 ≤ R) (hA : IsE16In R A) (hAN : NormalIn A R) {q : G}
+    {R A : Subgroup G} (h𝒮R : 𝒮 ≤ R) (_hA : IsE16In R A) (hAN : NormalIn A R) {q : G}
     (hq : q ∈ ctxQ t tau x₁ x₂ rho) (hbA : tau * q ∈ A) :
     ∀ q' ∈ ctxQ t tau x₁ x₂ rho, q' ^ 2 ∈ A := by
   intro q' hq'
@@ -133,7 +133,7 @@ private theorem l18_U_tauQ_Y_le_A (hc : Ctx18B t L S x₁ x₂ lam rho tau om �
   exact hmτ
 
 theorem l18_U_tauQ (hc : Ctx18B t L S x₁ x₂ lam rho tau om 𝒮) {R A : Subgroup G}
-    (hR : IsPGroup 2 R) (h𝒮R : 𝒮 ≤ R) (hA : IsE16In R A) (hAN : NormalIn A R) {q : G}
+    (_hR : IsPGroup 2 R) (h𝒮R : 𝒮 ≤ R) (hA : IsE16In R A) (hAN : NormalIn A R) {q : G}
     (hq : q ∈ ctxQ t tau x₁ x₂ rho) : tau * q ∉ A := by
   intro hbA
   have hYA : ctxYq t tau x₁ x₂ rho ≤ A :=

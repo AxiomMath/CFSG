@@ -15,7 +15,7 @@ theorem t6_card_max_sylow {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prim
   obtain ⟨S, hS⟩ := (hQp.of_equiv (Subgroup.subgroupOfEquivOfLe hQC).symm).exists_le_sylow
   have h1 : Nat.card ↥(Q.subgroupOf C) ≤ Nat.card ↥(S : Subgroup ↥C) := Subgroup.card_le_of_le hS
   have h2 : Nat.card ↥(S : Subgroup ↥C) ≤ Nat.card ↥Q := by
-    have := hmax ((S : Subgroup ↥C).map C.subtype) (Subgroup.map_subtype_le _) (S.isPGroup'.map _)
+    have := hmax ((S : Subgroup ↥C).map C.subtype) (Subgroup.map_subtype_le _) (S.isPGroup.map _)
     rwa [Subgroup.card_map_of_injective C.subtype_injective] at this
   have h3 : Nat.card ↥(Q.subgroupOf C) = Nat.card ↥Q :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQC).toEquiv

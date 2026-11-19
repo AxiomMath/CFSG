@@ -49,7 +49,7 @@ theorem uHat7_eq_uHat7S : uHat7 = Certificates.uHat7S := by
   rw [uHat7, Certificates.uHat7S]
   congr 1
   ext g
-  simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_setOf_eq]
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_ofPred_eq]
   have hz : (mkU zeta7 zeta7_det : Matrix (Fin 2) (Fin 2) (ZMod 7)) = !![1, 5; 2, 1] := by
     decide
   have hs : (mkU sigma7 sigma7_det : Matrix (Fin 2) (Fin 2) (ZMod 7)) = !![1, 0; 0, 6] := by

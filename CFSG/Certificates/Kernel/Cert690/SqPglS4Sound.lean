@@ -128,14 +128,14 @@ theorem fB_pq : ∀ n v, v < 64 → v ≤ n → fB g n v = Nat.beq (pqBit F v) 1
     rw [e]
     by_cases h0 : v = 0
     · subst h0
-      rw [if_pos rfl, pqFOK_zero hF]
+      rw [ite_eq_left rfl, pqFOK_zero hF]
       rfl
     · have hlt := lowIdx_xor_lt h0 h64
       have he : 1 <<< lowIdx v < 64 := by
         rw [Nat.one_shiftLeft]
         exact two_pow_lowIdx_lt v
       have hw : v ^^^ (1 <<< lowIdx v) < 64 := by omega
-      rw [if_neg h0, fB_pq n _ hw (by omega), hA _ hw, hA _ he, b0n_pq (pqL6_lt _ _) (pqL6_lt _ _),
+      rw [ite_eq_right h0, fB_pq n _ hw (by omega), hA _ hw, hA _ he, b0n_pq (pqL6_lt _ _) (pqL6_lt _ _),
         b0n_pq hw he]
       have hs := pqFOK_step hF h0 h64
       unfold pqFStep at hs
@@ -226,7 +226,7 @@ theorem guessF_pq {Fu Au T f : ℕ}
     (h : pqInnOK Fu Au T (pqE Fu Au T f) (pqInvQ (pqE Fu Au T f)) f = true) :
     guessF (pqPhi Fu Au T f) = some (pqE Fu Au T f) := by
   unfold guessF
-  rw [if_pos]
+  rw [ite_eq_left]
   · rfl
   · rw [List.all_eq_true]
     intro x hx
@@ -251,7 +251,7 @@ theorem candT_pq {Fr Ar : ℕ} (hFr : pqFOK Fr Ar = true)
     (r₁ : ℕ) (hroot : rootF 1108378656 = 0) {f : ℕ} (hf : f < 64) (b : Bool × Bool) :
     candT r₁ 1108378656 X.1 f b = some (pqVal Fr Ar X (if b.2 then 1 else 0) f) := by
   unfold candT
-  rw [hX.i1, if_neg (by norm_num : (1 : ℕ) ≠ 0)]
+  rw [hX.i1, ite_eq_right (by norm_num : (1 : ℕ) ≠ 0)]
   have hphi : ∀ x < 128, liftF X.1.1 f (liftF X.1.2.2.1 0 (invF 1108378656 1108378656 0
       (invF X.1.2.2.1 X.1.2.2.2 0 x))) = pqPhi X.2.1 X.2.2.1 X.2.2.2.2.2.2.1 f x := by
     intro x hx
@@ -262,7 +262,7 @@ theorem candT_pq {Fr Ar : ℕ} (hFr : pqFOK Fr Ar = true)
   rw [guessF_congr hphi, guessF_pq (hX.inn f hf)]
   dsimp only
   have he := pqE_lt X.2.1 X.2.2.1 X.2.2.2.2.2.2.1 f
-  rw [if_pos he, sOf_pq r₁ hroot b]
+  rw [ite_eq_left he, sOf_pq r₁ hroot b]
   have hs : (if b.2 then 1 else 0) < 128 := by split <;> norm_num
   rw [invF_pq hX.fK hX.aK hX.aK' (by norm_num) he,
     liftF_pq hFr hAr (by norm_num) (pqInv_lt _ _ _ _),
@@ -348,12 +348,12 @@ theorem cm_get_of {w : ℕ × ℕ × ℕ × ℕ} (hw : cmK T W1 W2 K.length M1 M
   split at hw
   · next hi =>
     simp only [Bool.and_eq_true, beq_iff_eq] at hw
-    rw [if_pos hw.1, hw.2, hkL]
+    rw [ite_eq_left hw.1, hw.2, hkL]
     simp [hi]
   · next hi =>
     simp only [Bool.and_eq_true, beq_iff_eq, Bool.not_eq_true'] at hw
     obtain ⟨⟨⟨h1, h2⟩, h3⟩, h4⟩ := hw
-    rw [if_neg (by simp [h2]), if_pos h3, h4, hkL]
+    rw [ite_eq_right (by simp [h2]), ite_eq_left h3, h4, hkL]
     simp [h1]
 
 theorem sq_witMap' : (pglSquareData ()).witMap = witMapOf (sqWitData
@@ -386,7 +386,7 @@ theorem wit_get {w : ℕ × ℕ × ℕ × ℕ} (hw : cmK T W1 W2 K.length M1 M2 
     · cases e
   · rw [hcmw]
     dsimp only
-    rw [if_pos (by simpa using hi)]
+    rw [ite_eq_left (by simpa using hi)]
 
 theorem sq_root : (pglSquareData ()).root = #[rootF 2166376464, rootF 1108378656] := by
   have e : (pglSquareData ()).root =
@@ -452,7 +452,7 @@ theorem s4 (hout : pglOutersOK (pglData ()) = true) {Fr Ar : ℕ} {I0 : List ℕ
     exact (hR.kk u hu).2
   have hr : ∀ u < 64, Code.act (if X.1.2.1 = 0 then 2166376464 else 1108378656)
       (Code.act (if X.1.2.1 = 0 then 2166376464 else 1108378656) u) = u := by
-    rw [hR.i1, if_neg (by norm_num : (1 : ℕ) ≠ 0)]
+    rw [hR.i1, ite_eq_right (by norm_num : (1 : ℕ) ≠ 0)]
     exact hrr
   have hsv : ∀ f ∈ List.range 64, candVal (innTabs ()) (liftTab X.1.1 f) (liftTab X.1.2.2.1 0)
       (compTab (compTab (liftTab X.1.2.2.1 0)
@@ -479,7 +479,7 @@ theorem s4 (hout : pglOutersOK (pglData ()) = true) {Fr Ar : ℕ} {I0 : List ℕ
   dsimp only
   by_cases hv : (pqVal Fr Ar X (if b.2 then 1 else 0) f == 0 ||
     pqVal Fr Ar X (if b.2 then 1 else 0) f == z0N) = true
-  · rw [if_pos hv] at hB2 ⊢
+  · rw [ite_eq_left hv] at hB2 ⊢
     rw [List.getElem!_toArray, getElem!_map_range _ hf']
     have hfx : ((List.range 128).filter fun x => (liftTab X.1.1 f)[x]! == x) =
         (List.range 128).filter fun x => pqLift X.2.1 X.2.2.1 f x == x :=
@@ -506,7 +506,7 @@ theorem s4 (hout : pglOutersOK (pglData ()) = true) {Fr Ar : ℕ} {I0 : List ℕ
         rw [mul_eq_mulF, mul_eq_mulF, mul_eq_mulF, ← oneF_eq,
           Bool.and_comm (w0 != oneF && mulF w0 w0 == oneF)]
         rfl
-      rw [pgl_elems0 h.enum h.enum0, List.filter_toArray, hl, hI0, hcsX]
+      rw [pgl_elems0 h.enum0, List.filter_toArray, hl, hI0, hcsX]
     rw [hfx, hq, hw0, List.all_toArray, List.all_map]
     unfold pqFix at hB2
     dsimp only at hB2
@@ -518,7 +518,7 @@ theorem s4 (hout : pglOutersOK (pglData ()) = true) {Fr Ar : ℕ} {I0 : List ℕ
     apply any_congr_mem
     intro x hx
     rw [hR.cs p hp _ (by have := hmem x hx; omega)]
-  · rw [if_neg hv]
+  · rw [ite_eq_right hv]
 
 end PglHyp
 

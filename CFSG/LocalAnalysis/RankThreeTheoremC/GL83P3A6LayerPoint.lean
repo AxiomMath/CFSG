@@ -16,9 +16,11 @@ section Transport
 
 variable {X Y : Type} [Group X] [Group Y] [Finite X] [Finite Y]
 
+omit [Finite X] [Finite Y] in
 theorem map_Qf (f : X →* Y) (a b c : X) : (Qf a b c).map f = Qf (f a) (f b) (f c) := by
   simp only [Qf, Subgroup.map_sup, MonoidHom.map_zpowers]
 
+omit [Finite X] [Finite Y] in
 theorem vitriple_comap (f : X →* Y) (hf : Function.Injective f) {a b c : X}
     (h : VITriple (f a) (f b) (f c)) : VITriple a b c := by
   have hpow : ∀ z : X, f z ^ 3 = 1 → z ^ 3 = 1 := fun z hz => hf (by rw [map_pow, hz, map_one])
@@ -46,15 +48,16 @@ theorem vitriple_comap (f : X →* Y) (hf : Function.Injective f) {a b c : X}
     rw [h.ind_x, mem_bot] at h1
     exact mem_bot.mpr (hf (h1.trans (map_one f).symm))
 
+omit [Finite Y] [Finite X] in
 theorem vitriple_map (f : X →* Y) {a b c : X} (h : VITriple a b c)
     (hinj : ∀ w ∈ Qf a b c, f w = 1 → w = 1) : VITriple (f a) (f b) (f c) := by
   have hpow : ∀ z : X, z ^ 3 = 1 → f z ^ 3 = 1 := fun z hz => by rw [← map_pow, hz, map_one]
   have hne : ∀ z ∈ Qf a b c, z ≠ 1 → f z ≠ 1 := fun z hz h1 hf1 => h1 (hinj z hz hf1)
   have hcomm : ∀ z w : X, z * w = w * z → f z * f w = f w * f z :=
     fun z w hzw => by rw [← map_mul, ← map_mul, hzw]
-  have haQ : a ∈ Qf a b c := Tri.x_mem h
-  have hbQ : b ∈ Qf a b c := Tri.e₂_mem h
-  have hcQ : c ∈ Qf a b c := Tri.e₃_mem h
+  have haQ : a ∈ Qf a b c := Tri.x_mem
+  have hbQ : b ∈ Qf a b c := Tri.e₂_mem
+  have hcQ : c ∈ Qf a b c := Tri.e₃_mem
   refine ⟨hpow a h.x_pow, hpow b h.e₂_pow, hpow c h.e₃_pow, hne a haQ h.x_ne,
     hne b hbQ h.e₂_ne, hne c hcQ h.e₃_ne, hcomm a b h.comm_x₂, hcomm a c h.comm_x₃,
     hcomm b c h.comm_23, ?_, ?_⟩
@@ -142,7 +145,7 @@ theorem exists_pointData (hS : Setting G) (hU0 : FullCoreLocal G)
     rw [this]; norm_num
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hp hM).1
   obtain ⟨t, e₂, e₃, htP, he₂, he₃, ht3x, he₂D, he₃D, he₂3, he₃3, he₂1, he₃1, hc2x, hc3x, hc23,
-    hind23, hindx, hlines⟩ := vi_lines P.isPGroup' hP81 hxP hx1 hx3 hxJ hQab hQc27 hDcard hfus
+    hind23, hindx, hlines⟩ := vi_lines P.isPGroup hP81 hxP hx1 hx3 hxJ hQab hQc27 hDcard hfus
   have hxJ' : ∀ b : ℤ, x ^ b ∈ J → x ^ b = 1 := by
     intro b hb
     by_contra hb1

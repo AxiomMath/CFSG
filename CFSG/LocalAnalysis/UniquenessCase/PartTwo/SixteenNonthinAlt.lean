@@ -58,7 +58,7 @@ private theorem s16nt_five_le_of_isAlt {G : Type} [Group G] {n : ℕ} (hAlt : Is
     exact (not_nontrivial_iff_subsingleton.2 this) hq.2.toNontrivial
   have hsolv : Group.IsSolvable ↥(alternatingGroup (Fin n)) :=
     alternatingGroup.isSolvable (by rw [Nat.card_fin]; omega)
-  have : Group.IsSolvable G := solvable_of_solvable_injective (f := e.toMonoidHom) e.injective
+  have : Group.IsSolvable G := Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
   exact Group.IsPerfect.not_isSolvable G this
 
 private theorem s16nt_four_le_dim {n : ℕ} (hn : 5 ≤ n) :

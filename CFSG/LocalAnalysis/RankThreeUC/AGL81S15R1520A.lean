@@ -68,8 +68,8 @@ theorem not_dvd_centre_barO2_of_row1512_aux0 {P : Type*} [Group P]
 theorem not_dvd_centre_barO2_of_row1512_aux1 {S : Type} [Group S] (hS : commutator S = ⊤)
     {d : TauCeti.ValidLieTypeIndex} (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) :
     Subgroup.center S = ⊥ := by
-  haveI : Group.IsPerfect S := ⟨hS⟩
-  haveI : Group.IsPerfect (TauCeti.CFSGIndex.lie d).Group :=
+  have : Group.IsPerfect S := ⟨hS⟩
+  have : Group.IsPerfect (TauCeti.CFSGIndex.lie d).Group :=
     Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
   have hG : commutator (TauCeti.CFSGIndex.lie d).Group = ⊤ := Group.IsPerfect.commutator_eq_top
   have hc : Subgroup.center (TauCeti.CFSGIndex.lie d).Group = ⊥ :=
@@ -115,7 +115,7 @@ theorem not_dvd_centre_barO2_of_row1512_aux5 {S : Type} [Group S] {n : ℕ} (hn 
     (e : S ≃* Matrix.SpecialLinearGroup (Fin 3) (GaloisField 2 n)) :
     ∃ (d : TauCeti.ValidLieTypeIndex) (Q : TauCeti.PrimePower), Q.p = 2 ∧ Q.exponent = n ∧
       d.1 = .A 2 Q ∧ Nonempty ((S ⧸ Subgroup.center S) ≃* (TauCeti.CFSGIndex.lie d).Group) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let eP : (S ⧸ Subgroup.center S) ≃*
       Matrix.ProjectiveSpecialLinearGroup (Fin 3) (GaloisField 2 n) :=
     QuotientGroup.congr (Subgroup.center S)
@@ -144,8 +144,8 @@ theorem not_dvd_centre_barO2_of_row1512_aux6 {S : Type} [Group S]
     (e : S ≃* Matrix.SpecialLinearGroup (Fin 3) (GaloisField 2 1)) :
     ∃ (d : TauCeti.ValidLieTypeIndex) (q : TauCeti.PrimePower), q.card = 7 ∧ d.1 = .A 1 q ∧
       Nonempty ((S ⧸ Subgroup.center S) ≃* (TauCeti.CFSGIndex.lie d).Group) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   let eP : (S ⧸ Subgroup.center S) ≃*
       Matrix.ProjectiveSpecialLinearGroup (Fin 3) (GaloisField 2 1) :=
     QuotientGroup.congr (Subgroup.center S)
@@ -248,7 +248,7 @@ theorem not_dvd_centre_barO2_of_row1512 (hKSMOdd : KSMOdd) (hKSMU4 : KSMU4) (hKS
 theorem outTwoGroup_of_isAltSixCoverThree (hKOut : KOut) {S : Type} [Group S] [Finite S]
     (h : IsAltSixCoverThree S) : OutTwoGroup S := by
   obtain ⟨hq, -, ⟨e⟩⟩ := h
-  haveI : Group.IsPerfect S := ⟨hq.1⟩
+  have : Group.IsPerfect S := ⟨hq.1⟩
   intro φ
   set π := CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom S with hπ
   have hlist : IsOutTwoGroupList (S ⧸ Subgroup.center S) := Or.inl ⟨e⟩

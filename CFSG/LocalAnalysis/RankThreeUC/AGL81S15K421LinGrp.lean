@@ -50,7 +50,7 @@ theorem not_isPSolvable_of_simple {S : Type} [Group S] [Finite S] (hS : IsSimple
     (hp : p.Prime) (hdvd : p ∣ Nat.card S) (hne : Nat.card S ≠ p) :
     ¬ CFSG.HallHigman.IsPSolvable p S := by
   intro hsolv
-  haveI := hS
+  have := hS
   have hsimple : IsSimpleGroup (↥(⊤ : Subgroup S) ⧸ (⊥ : Subgroup ↥(⊤ : Subgroup S))) :=
     MulEquiv.isSimpleGroup ((QuotientGroup.quotientBot).trans Subgroup.topEquiv)
   have hidx : (⊥ : Subgroup ↥(⊤ : Subgroup S)).index = Nat.card S := by

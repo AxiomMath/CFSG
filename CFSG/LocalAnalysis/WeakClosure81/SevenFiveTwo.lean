@@ -15,13 +15,15 @@ variable {G : Type} [Group G] [Finite G]
   ⨆ (U' ∈ omegaSet V H E) (_ : ∀ k ∈ kSub V H E, U' ≠ conjSubgroup U k),
     kOrbSub V H E U'
 
+omit [Finite G] in
 theorem kOrbCompl_le_kSub {V H E U : Subgroup G}
     (hEH : E ≤ H) (hEnorm : (E.subgroupOf H).Normal)
     (hOmH : ∀ W ∈ omegaSet V H E, W ≤ H) :
     kOrbCompl V H E U ≤ kSub V H E :=
-  iSup_le fun U' => iSup_le fun hU' => iSup_le fun _ =>
+  iSup_le fun _U' => iSup_le fun hU' => iSup_le fun _ =>
     kOrbSub_le_kSub hEH hEnorm hOmH hU'
 
+omit [Finite G] in
 theorem kSub_eq_kOrbSub_sup_kOrbCompl {V H E U : Subgroup G}
     (hEH : E ≤ H) (hEnorm : (E.subgroupOf H).Normal)
     (hOmH : ∀ W ∈ omegaSet V H E, W ≤ H) (hU : U ∈ omegaSet V H E) :

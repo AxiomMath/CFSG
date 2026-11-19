@@ -50,24 +50,29 @@ theorem mat_nfsSmul {F : Type} [Field F] (scalar : F →+* K)
     (hGU : ∀ g ∈ G, ∀ v ∈ U, g v ∈ U) (γ : ↥G) (u : ↥U) : ↥U :=
   ⟨γ.1 (u : HMod n K), hGU γ.1 γ.2 (u : HMod n K) u.2⟩
 
+omit [Finite K] in
 theorem coe_nfsTransp {G : Subgroup (MulAut (HMod n K))} {U : Subgroup (HMod n K)}
     (hGU : ∀ g ∈ G, ∀ v ∈ U, g v ∈ U) (γ : ↥G) (u : ↥U) :
     ((nfsTransp hGU γ u : ↥U) : HMod n K) = γ.1 (u : HMod n K) := rfl
 
+omit [Finite K] in
 theorem nfsTransp_mul {G : Subgroup (MulAut (HMod n K))} {U : Subgroup (HMod n K)}
     (hGU : ∀ g ∈ G, ∀ v ∈ U, g v ∈ U) (γ δ : ↥G) (u : ↥U) :
     nfsTransp hGU (γ * δ) u = nfsTransp hGU γ (nfsTransp hGU δ u) :=
   Subtype.ext (MulAut.mul_apply (HMod n K) γ.1 δ.1 (u : HMod n K))
 
+omit [Finite K] in
 theorem nfsTransp_one {G : Subgroup (MulAut (HMod n K))} {U : Subgroup (HMod n K)}
     (hGU : ∀ g ∈ G, ∀ v ∈ U, g v ∈ U) (u : ↥U) : nfsTransp hGU 1 u = u :=
   Subtype.ext (MulAut.one_apply (HMod n K) (u : HMod n K))
 
+omit [Finite K] in
 theorem nfsTransp_mul_U {G : Subgroup (MulAut (HMod n K))} {U : Subgroup (HMod n K)}
     (hGU : ∀ g ∈ G, ∀ v ∈ U, g v ∈ U) (γ : ↥G) (u v : ↥U) :
     nfsTransp hGU γ (u * v) = nfsTransp hGU γ u * nfsTransp hGU γ v :=
   Subtype.ext (map_mul γ.1 (u : HMod n K) (v : HMod n K))
 
+omit [Finite K] in
 theorem beta_nfsTransp {F : Type} [Field F] {G : Subgroup (MulAut (HMod n K))}
     {U Z : Subgroup (HMod n K)} {d : ℕ}
     (hGU : ∀ g ∈ G, ∀ v ∈ U, g v ∈ U) (hGZ : ∀ g ∈ G, ∀ v ∈ Z, g v ∈ Z)
@@ -85,6 +90,7 @@ theorem beta_nfsTransp {F : Type} [Field F] {G : Subgroup (MulAut (HMod n K))}
   rw [map_mul, map_inv] at h2
   exact mul_inv_eq_one.mp h2
 
+omit [Finite K] in
 theorem exists_toAdd_eq {F : Type} [Field F] {U : Subgroup (HMod n K)} {d : ℕ}
     (β : ↥U →* Multiplicative (Fin d → F)) (hβs : Function.Surjective β) (x : Fin d → F) :
     ∃ u : ↥U, Multiplicative.toAdd (β u) = x := by
@@ -97,6 +103,7 @@ theorem exists_toAdd_eq {F : Type} [Field F] {U : Subgroup (HMod n K)} {d : ℕ}
     (γ : ↥G) (x : Fin d → F) : Fin d → F :=
   Multiplicative.toAdd (β (nfsTransp hGU γ (Function.surjInv hβs (Multiplicative.ofAdd x))))
 
+omit [Finite K] in
 theorem nfsCoord_spec {F : Type} [Field F] {G : Subgroup (MulAut (HMod n K))}
     {U Z : Subgroup (HMod n K)} {d : ℕ}
     (hGU : ∀ g ∈ G, ∀ v ∈ U, g v ∈ U) (hGZ : ∀ g ∈ G, ∀ v ∈ Z, g v ∈ Z)
@@ -109,6 +116,7 @@ theorem nfsCoord_spec {F : Type} [Field F] {G : Subgroup (MulAut (HMod n K))}
   apply beta_nfsTransp hGU hGZ β hβk γ
   rw [Function.surjInv_eq hβs, ofAdd_toAdd]
 
+omit [Finite K] in
 theorem nfsCoord_comp {F : Type} [Field F] {G : Subgroup (MulAut (HMod n K))}
     {U Z : Subgroup (HMod n K)} {d : ℕ}
     (hGU : ∀ g ∈ G, ∀ v ∈ U, g v ∈ U) (hGZ : ∀ g ∈ G, ∀ v ∈ Z, g v ∈ Z)
@@ -120,6 +128,7 @@ theorem nfsCoord_comp {F : Type} [Field F] {G : Subgroup (MulAut (HMod n K))}
     nfsCoord_spec hGU hGZ β hβs hβk γ (nfsTransp hGU δ u),
     nfsCoord_spec hGU hGZ β hβs hβk (γ * δ) u, nfsTransp_mul hGU γ δ u]
 
+omit [Finite K] in
 theorem nfsCoord_one {F : Type} [Field F] {G : Subgroup (MulAut (HMod n K))}
     {U Z : Subgroup (HMod n K)} {d : ℕ}
     (hGU : ∀ g ∈ G, ∀ v ∈ U, g v ∈ U) (hGZ : ∀ g ∈ G, ∀ v ∈ Z, g v ∈ Z)
@@ -129,6 +138,7 @@ theorem nfsCoord_one {F : Type} [Field F] {G : Subgroup (MulAut (HMod n K))}
   obtain ⟨u, rfl⟩ := exists_toAdd_eq β hβs x
   rw [nfsCoord_spec hGU hGZ β hβs hβk 1 u, nfsTransp_one hGU u]
 
+omit [Finite K] in
 theorem nfsCoord_add {F : Type} [Field F] {G : Subgroup (MulAut (HMod n K))}
     {U Z : Subgroup (HMod n K)} {d : ℕ}
     (hGU : ∀ g ∈ G, ∀ v ∈ U, g v ∈ U) (hGZ : ∀ g ∈ G, ∀ v ∈ Z, g v ∈ Z)

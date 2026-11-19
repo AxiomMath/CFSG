@@ -52,6 +52,7 @@ theorem sec5p510_ab_mem_R (hy : Sec5B59Hyp) (h4 : Asc82FactReflCentQ6)
   · rw [hab.bz h]
     exact hab.ta_mem h
 
+omit [Finite G] in
 theorem sec5p510_E_gens (t a b : G) :
     t ∈ sec5p510_E t a b ∧ a ∈ sec5p510_E t a b ∧ b ∈ sec5p510_E t a b :=
   ⟨Subgroup.subset_closure (by simp), Subgroup.subset_closure (by simp),

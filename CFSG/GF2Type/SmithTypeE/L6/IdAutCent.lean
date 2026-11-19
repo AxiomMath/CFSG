@@ -22,7 +22,7 @@ theorem ac_single_ne_zero (c : Fin 6) : (Pi.single c (1 : ZMod 2) : Fin 6 → ZM
 
 theorem ac_single_apply_of_ne {c j : Fin 6} (h : j.val ≠ c.val) :
     (Pi.single c (1 : ZMod 2) : Fin 6 → ZMod 2) j = 0 := by
-  rw [Pi.single_apply, if_neg]
+  rw [Pi.single_apply, ite_eq_right]
   intro e
   exact h (congrArg Fin.val e)
 
@@ -124,7 +124,7 @@ theorem ac_card_acS : acS.ncard ≤ 2 ^ 9 := by
     Set.finite_univ
   rw [Set.ncard_univ] at h
   have hc : Nat.card (Fin 3 → Fin 3 → ZMod 2) = 2 ^ 9 := by
-    simp [Nat.card_eq_fintype_card, Fintype.card_fun, ZMod.card]
+    simp [Nat.card_eq_fintype_card, ZMod.card]
   rw [hc] at h
   exact h
 
@@ -168,7 +168,7 @@ theorem ac_mem_acS_of_fix {B : SL(6, ZMod 2)} (h : ∀ p ∈ wPlane 0, actPerm B
     · subst h'
       simpa [Matrix.one_apply] using key
     · have h'' : c ≠ r := fun h0 => h' h0.symm
-      simp [Matrix.one_apply, key, h', h'']
+      simp [key, h', h'']
 
 theorem ac_outer (A : SL(6, ZMod 2)) (h : ∀ p ∈ wPlane 0, (actPerm A * swapPerm) p = p) :
     False := by

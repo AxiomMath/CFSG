@@ -150,8 +150,8 @@ theorem centralizer_oddTwTorus_le_blockDiagSL (hF : 4 ≤ Nat.card F)
   apply eq_zero_of_commute_diagonal (coe_ctEmbed_tauSp_rootTorusHom_zero κ₀) hc
   rcases hI with rfl | rfl <;> fin_cases i <;> fin_cases j <;>
     simp [oddTwA] at hij ⊢ <;>
-    first | exact hκ₀ | exact e1 | exact e1.symm | exact e2 | exact e2.symm | exact e3 |
-      exact e3.symm | exact e4 | exact e4.symm
+    first | exact hκ₀ | exact e1.symm |
+      exact e4 | exact e4.symm
 
 omit [Finite F] [CharP F 2] in
 theorem blockSpecialLinear_singleton_eq_bot {n : ℕ} (i : Fin n) :

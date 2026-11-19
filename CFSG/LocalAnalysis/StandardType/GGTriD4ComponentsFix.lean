@@ -120,7 +120,7 @@ theorem ggTriD4_fixedShape_Y
     (hφ : φ ∉ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom) →*
       MulAut ↥(graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom)).range) :
     GGTriD4FixedShape n ↥(fixSubgroup φ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card ↥(fixSubfield Fr) = 2 ^ n :=
     CFSG.RankThree.PartOne.card_fixSubfield_cube_row Nat.prime_two hn hK₃ Fr hFr
   have hG2 : Nonempty (↥(fixSubgroup (fieldActor (t := TwistTag.D4) Fr Fr)) ≃*
@@ -157,7 +157,7 @@ theorem ggTriD4_fixedShape
     (hK : Nat.card K = (2 ^ n) ^ 3) (σ : MulAut (GGTriD4R n K)) (hσ3 : σ ^ 3 = 1)
     (hσ : σ ∉ (MulAut.conj : GGTriD4R n K →* MulAut (GGTriD4R n K)).range) :
     GGTriD4FixedShape n ↥(ggAutFixedSubgroup σ) := by
-  haveI : CharP K 2 := charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
+  have : CharP K 2 := charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
   set σ₀ := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ₀ : ∀ c, σ₀ c = c ^ 2 ^ n := fun c => by
     rw [hσdef, iterateFrobeniusEquiv_apply, iterateFrobenius_def]

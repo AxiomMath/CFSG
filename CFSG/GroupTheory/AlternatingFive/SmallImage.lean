@@ -11,7 +11,7 @@ open CFSG.Quasithin
 
 theorem exists_orderOf_eq_three_of_oTwoQuot_mulEquiv {L : Type} [Group L] [Finite L]
     (e : oTwoQuot L ≃* alternatingGroup (Fin 5)) : ∃ x : L, orderOf x = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h60 : Nat.card (oTwoQuot L) = 60 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     norm_num
@@ -30,10 +30,10 @@ theorem map_eq_one_of_orderOf_eq_three_of_card_lt_sixty
     {x : L} (hx : orderOf x = 3) : φ x = 1 := by
   classical
   let P : Subgroup L := CFSG.pCore 2 L
-  haveI hPnormal : P.Normal := CFSG.pCore_normal
+  have hPnormal : P.Normal := CFSG.pCore_normal
   have hPp : IsPGroup 2 P := CFSG.pCore_isPGroup (G := L) (p := 2)
   let N : Subgroup L := φ.ker
-  haveI hNnormal : N.Normal := φ.normal_ker
+  have hNnormal : N.Normal := φ.normal_ker
   by_cases hNP : N ≤ P
   ·
     let ψ : L ⧸ N →* L ⧸ P :=
@@ -63,9 +63,9 @@ theorem map_eq_one_of_orderOf_eq_three_of_card_lt_sixty
       apply hNP
       rw [← QuotientGroup.ker_mk' P]
       exact (Subgroup.map_eq_bot_iff (H := N) (f := q)).mp hbot
-    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
       alternatingGroup.isSimpleGroup (by simp)
-    haveI : IsSimpleGroup (L ⧸ P) := e.isSimpleGroup
+    have : IsSimpleGroup (L ⧸ P) := e.isSimpleGroup
     have hNmap_top : N.map q = ⊤ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map q) with h | h
       · exact absurd h hNmap_ne

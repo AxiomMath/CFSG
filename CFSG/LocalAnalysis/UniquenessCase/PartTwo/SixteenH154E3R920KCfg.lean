@@ -22,7 +22,7 @@ theorem kCfgL28_of_hyp97 {D : Data G} {L D₃ A : Subgroup G} (c : R920Cfg D L D
     (hSH : CFSG.ABGLocalTools.IsSylowOf 2 S H) :
     KCfgL28 (xbar9 Y H) (wbar9 D Y H)
       ((F09.img9 H S).subgroupOf (F09.img9 H (F09.L9 Y H))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hYH : Y ≤ H := h97.1.2.1.1
   have hLH : L ≤ H := by
     rw [← hY]
@@ -85,7 +85,7 @@ theorem kCfgL28_of_hyp97 {D : Data G} {L D₃ A : Subgroup G} (c : R920Cfg D L D
     have hBbpg : IsPGroup 7 (B.map Kb.subtype) :=
       IsPGroup.of_card (n := 1) (by rw [hBbc, pow_one])
     have hPbpg : IsPGroup 7 (P.map Kb.subtype) := hPpg.map Kb.subtype
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     obtain ⟨B', hB'L, hB'card, hB'img⟩ :=
       exists_le_card_eq_img9_eq hLH hker Nat.prime_seven (by norm_num) hBbpg hBbL
     have hN := normalizer_le_img9_of_pGroup c hLH (p := 7) (Or.inr rfl) hPbpg

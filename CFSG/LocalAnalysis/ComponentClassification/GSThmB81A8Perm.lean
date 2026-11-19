@@ -19,10 +19,10 @@ local notation "P8" => Equiv.Perm (Fin 8)
 theorem tau_ok : tauSwapCheck t15 = true :=
   Certificates.certificate2019.1
 
-theorem mem_t15_of_conj {γ : P8} (hγ : γ ∈ QA8.originalSubgroup)
+theorem mem_t15_of_conj {γ : P8} (_hγ : γ ∈ QA8.originalSubgroup)
     (h2 : s8 * (γ⁻¹ * s8 * γ) * (s8 * (γ⁻¹ * s8 * γ)) = 1) (h1 : s8 * (γ⁻¹ * s8 * γ) ≠ 1) :
     s8 * (γ⁻¹ * s8 * γ) ∈ t15 := by
-  clear hγ
+  clear _hγ
   have hsw : γ⁻¹ * s8 * γ = Equiv.swap (γ⁻¹ 0) (γ⁻¹ 1) := by
     rw [Equiv.swap_apply_apply, inv_inv, ← List.formPerm_pair]
     rfl
@@ -135,10 +135,10 @@ theorem mem_QL8_of_pow_315 {θ : P8} (hθo : θ ^ 315 = 1) (hθs : θ * s8 = s8 
   exact inv_mem hsq
 
 theorem exists_conj_of_odd {t p θ : P8} (ht : t ∈ t15) (hpt : p * p = t)
-    (hps : s8 * p * s8 = p⁻¹) (hθ1 : θ ≠ 1) (hθo : θ ^ 315 = 1) (hθp : θ * p = p * θ)
+    (_hps : s8 * p * s8 = p⁻¹) (hθ1 : θ ≠ 1) (hθo : θ ^ 315 = 1) (hθp : θ * p = p * θ)
     (hθs : θ * s8 = s8 * θ) :
     ∃ π ∈ QA8.originalSubgroup, π * t * π⁻¹ = p * s8 := by
-  clear hps
+  clear _hps
   have hpt' : ∀ i, p (p i) = t i := fun i => by
     rw [← hpt]
     rfl

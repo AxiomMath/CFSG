@@ -58,8 +58,7 @@ theorem eq_scalar_of_commute_diagTau_cycThree {τ : F} (hτ : τ ^ 3 = 1) (hτ1 
     (g : Matrix (Fin 3) (Fin 3) F)) h3) i) i
   have e0 := hent 0
   have e1 := hent 1
-  simp only [coe_diagUnits, diagonal_apply_eq, Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.head_cons] at e0 e1
+  simp only [coe_diagUnits, diagonal_apply_eq, Matrix.cons_val_zero, Matrix.cons_val_one] at e0 e1
   refine ⟨a, Units.ext ?_⟩
   rw [coe_diagUnits, GeneralLinearGroup.coe_scalar, scalar_apply]
   congr 1
@@ -116,7 +115,7 @@ theorem split_case (hf : Odd f) (ρ : F ≃+* F) (hρω : ∀ x : F, x ^ 3 = 1 �
     (hgz : g⁻¹ * (zh : GL (Fin 3) F) * g = diagTau hτ)
     (hgy : g⁻¹ * (y₂ : GL (Fin 3) F) * g = cycThree)
     {E R : Subgroup (unitaryPSU hU 3)}
-    (hEc : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hEs : ∀ x ∈ E, psuField hU ρ x = x)
+    (hEc : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (_hEs : ∀ x ∈ E, psuField hU ρ x = x)
     (hzE : unitaryProj hU 3 zh ∈ E) (hxE : unitaryProj hU 3 y₂ ∈ E)
     (hRz : ∀ r ∈ R, r * unitaryProj hU 3 zh = unitaryProj hU 3 zh * r) (hR3 : ¬ 3 ∣ Nat.card R)
     (hRs : ∀ r ∈ R, psuField hU ρ r = r) (hRE : ∀ e ∈ E, ∀ r ∈ R, e * r * e⁻¹ ∈ R)

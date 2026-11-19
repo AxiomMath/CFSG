@@ -45,9 +45,9 @@ theorem le_pCoreOf_of_perfect_of_not_commutative [Finite G] {p : ℕ} [Fact p.Pr
     exfalso
     have hPsup : Q ⊔ C = P := hN
     let Csub : Subgroup ↥P := C.subgroupOf P
-    haveI hCsubNorm : Csub.Normal := hCnorm
-    haveI hperfP : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hperf
-    haveI hperfQ : Group.IsPerfect (↥P ⧸ Csub) := inferInstance
+    have hCsubNorm : Csub.Normal := hCnorm
+    have hperfP : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hperf
+    have hperfQ : Group.IsPerfect (↥P ⧸ Csub) := inferInstance
     have hquotp : IsPGroup p (↥P ⧸ Csub) := by
       have hQp : IsPGroup p (Q.subgroupOf P) :=
         (pCoreOf_isPGroup (r := p) P).of_equiv
@@ -96,7 +96,7 @@ theorem le_pCoreOf_of_perfect_of_not_commutative [Finite G] {p : ℕ} [Fact p.Pr
         have h := (Subgroup.mem_centralizer_iff.mp (hQC x.2)) (y : G) y.2
         exact h.symm
       exact hQnc hcommQ
-    · haveI : Nontrivial (↥P ⧸ Csub) := not_subsingleton_iff_nontrivial.mp htriv
+    · have : Nontrivial (↥P ⧸ Csub) := not_subsingleton_iff_nontrivial.mp htriv
       exact Group.IsPerfect.not_isNilpotent (↥P ⧸ Csub) hnil
 
 end CFSG.GroupTheory

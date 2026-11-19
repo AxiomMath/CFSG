@@ -23,7 +23,7 @@ theorem goldLayer_sylow_eq_sup
   change (P : Subgroup Y) = Q
   have hPtop : CFSG.ABGLocalTools.IsSylowOf 2 (P : Subgroup Y) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, P.isPGroup', ?_⟩
+    refine ⟨le_top, P.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact P.not_dvd_index
   have hEnorm : (goldschmidtLayer Y).Normal := by
@@ -55,7 +55,7 @@ theorem goldLayer_sylow_eq_sup
       (le_iSup (fun L : {L : Subgroup Y // IsComponentOf L ⊤} =>
         (P : Subgroup Y) ⊓ (L : Subgroup Y)) ⟨L, hL⟩)
   have hA_le_P : CFSG.Open.pCore 2 Y ≤ (P : Subgroup Y) := by
-    haveI : (CFSG.Open.pCore 2 Y).Normal := CFSG.pCore_normal
+    have : (CFSG.Open.pCore 2 Y).Normal := CFSG.pCore_normal
     exact (CFSG.pCore_isPGroup (p := 2) (G := Y)).le_sylow_of_normal P
   have hP_le_Q : (P : Subgroup Y) ≤ Q := by
     have hP_le : (P : Subgroup Y) ≤
@@ -64,7 +64,7 @@ theorem goldLayer_sylow_eq_sup
       have hpE : p ∈ CFSG.Open.pCore 2 Y ⊔ goldschmidtLayer Y := by
         rw [hgen]
         exact Subgroup.mem_top p
-      haveI : (CFSG.Open.pCore 2 Y).Normal := CFSG.pCore_normal
+      have : (CFSG.Open.pCore 2 Y).Normal := CFSG.pCore_normal
       rcases (Subgroup.mem_sup_of_normal_left.mp hpE) with ⟨a, ha, e, he, hae⟩
       have heP : e ∈ (P : Subgroup Y) := by
         have h1 : a⁻¹ * p = e := by rw [← hae]; group
@@ -89,6 +89,7 @@ theorem goldLayer_unique_sylow
   funext L
   exact goldLayer_inf_eq D L.2 hBP
 
+omit [Finite Y] in
 theorem goldLayer_exists_component (hL : goldschmidtLayer Y ≠ ⊥) :
     ∃ L : Subgroup Y, IsComponentOf L ⊤ := by
   by_contra hno
@@ -124,7 +125,7 @@ theorem goldLayer_normalizer
     exact hs'
   · obtain ⟨L, hLc⟩ := goldLayer_exists_component hL
     obtain ⟨y, -, hyN, hy1, hyodd⟩ := goldLayer_exists_odd_normalizer D hLc
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨y, hle hyN⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨y, hle hyN⟩
     have hk' : y ^ (2 ^ k) = 1 := congrArg Subtype.val hk
     have hdvd : orderOf y ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk'
     have h1 : orderOf y = 1 := by

@@ -145,7 +145,7 @@ theorem qp_card_rootsOfUnity_of_odd {m : ℕ} (hm : Odd m) :
     exact (Nat.not_even_iff_odd.2 hm) (even_iff_two_dvd.2 this)
   have : NeZero m := ⟨hm.pos.ne'⟩
   have : NeZero (m : L) := ⟨hm0⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L m
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L m
   exact hζ.card_rootsOfUnity
 
 omit

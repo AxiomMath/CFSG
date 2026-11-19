@@ -68,7 +68,7 @@ theorem sympMinusZ_basis_fixed {K : Type} [Field K] {p m : ℕ}
   have hζ1 : ((ζ (f₀ i) : SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) = 1 := by
     rw [hi, map_one, Matrix.SpecialLinearGroup.coe_one]
   rw [hζ1]
-  fin_cases a <;> simp [Fin.sum_univ_two, Matrix.one_apply]
+  fin_cases a <;> simp [Matrix.one_apply]
 
 @[expose] noncomputable def sympMinusZ_W {K : Type} [Field K] {p m : ℕ}
     (f₀ : Fin m → Multiplicative (ZMod p)) : Submodule K (Fin m ⊕ Fin m → K) :=
@@ -275,15 +275,15 @@ theorem sympMinusZ_blocks {K : Type} [Field K] [Finite K] [CharP K 2] {p m : ℕ
     (hζ : Function.Injective ζ) (f₀ : Fin m → Multiplicative (ZMod p)) (hf0 : f₀ ≠ 1) :
     ∃ f : ℕ, 1 ≤ f ∧ Nat.card K = 2 ^ f ∧
       SpPrimaryBlocks 2 f p (spPlaneTorus m ζ f₀) (proj m K (spPlaneTorus m ζ f₀)) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨f, hf1, hK⟩ : ∃ f : ℕ, 1 ≤ f ∧ Nat.card K = 2 ^ f := by
     obtain ⟨f, -, hf⟩ := FiniteField.card K 2
     exact ⟨f, f.pos, by rw [Nat.card_eq_fintype_card, hf]⟩
   have hm : 1 ≤ m := by
     obtain ⟨i, -⟩ := Function.ne_iff.mp hf0
     exact Nat.succ_le_of_lt (lt_of_le_of_lt (Nat.zero_le i.val) i.isLt)
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hxpow : spPlaneTorus m ζ f₀ ^ p = 1 := sympMinusZ_spPlaneTorus_pow ζ f₀
   have hx1 : spPlaneTorus m ζ f₀ ≠ 1 := sympMinusZ_spPlaneTorus_ne_one ζ hζ f₀ hf0
   have hxo : orderOf (spPlaneTorus m ζ f₀) = p := orderOf_eq_prime hxpow hx1
@@ -321,7 +321,7 @@ theorem sympMinusZ_fixed_dim {K : Type} [Field K] {p m : ℕ}
       fun h => hne0 (Subtype.ext_iff.mp h).symm⟩
   have hpos : 0 < spFixedDim (spPlaneTorus m ζ f₀) := by
     rw [spFixedDim]
-    haveI := hnt
+    have := hnt
     exact Module.finrank_pos
   obtain ⟨s, hs, -⟩ := blocks.rank
   have hs2 : spFixedDim (spPlaneTorus m ζ f₀) = 2 * s := by
@@ -329,12 +329,12 @@ theorem sympMinusZ_fixed_dim {K : Type} [Field K] {p m : ℕ}
   omega
 
 theorem sympMinusZ_fixedFactor_isComponent {K : Type} [Field K] [Finite K] [CharP K 2] {p m : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2)
+    (_hp : p.Prime) (_hp2 : p ≠ 2)
     (ζ : Multiplicative (ZMod p) →* SpecialLinearGroup (Fin 2) K)
     (f₀ : Fin m → Multiplicative (ZMod p))
     (hq : 4 ≤ Nat.card K ∨ (Nat.card K = 2 ∧ 6 ≤ spFixedDim (spPlaneTorus m ζ f₀)))
     {f : ℕ} (hf : 1 ≤ f)
-    (hK : Nat.card K = 2 ^ f) (hf0 : f₀ ≠ 1)
+    (hK : Nat.card K = 2 ^ f) (_hf0 : f₀ ≠ 1)
     (blocks : SpPrimaryBlocks 2 f p (spPlaneTorus m ζ f₀) (proj m K (spPlaneTorus m ζ f₀)))
     (hne : (Finset.univ.filter fun i : Fin m => f₀ i = 1).Nonempty) :
     CFSG.IsQuasisimple ↥(spFixedFactor (spPlaneTorus m ζ f₀)) ∧
@@ -372,7 +372,7 @@ theorem sympMinusZ_d2_false {K : Type} [Field K] [Finite K] [CharP K 2] {p m : �
     (hm : 2 ≤ m) (hp : p.Prime) (hp2 : p ≠ 2)
     (ζ : Multiplicative (ZMod p) →* SpecialLinearGroup (Fin 2) K)
     (hζ : Function.Injective ζ)
-    (f₀ : Fin m → Multiplicative (ZMod p)) {f : ℕ} (hf : 1 ≤ f)
+    (f₀ : Fin m → Multiplicative (ZMod p)) {f : ℕ} (_hf : 1 ≤ f)
     (hK : Nat.card K = 2 ^ f) (hK2 : Nat.card K = 2)
     (hf0 : f₀ ≠ 1)
     (blocks : SpPrimaryBlocks 2 f p (spPlaneTorus m ζ f₀) (proj m K (spPlaneTorus m ζ f₀)))
@@ -396,17 +396,17 @@ theorem sympMinusZ_d2_false {K : Type} [Field K] [Finite K] [CharP K 2] {p m : �
     IsMulCommutative.of_comm fun a b => by
       have h := hcommF.is_comm.comm ⟨a.1, hJle a.2⟩ ⟨b.1, hJle b.2⟩
       exact Subtype.ext (by simpa using congrArg Subtype.val h)
-  haveI : Group.IsSolvable ↥J₀ := inferInstance
-  haveI : Nontrivial (J₀ ⧸ Subgroup.center ↥J₀) := hJ.2.2.2.toNontrivial
-  haveI : Nontrivial ↥J₀ := (QuotientGroup.mk'_surjective (Subgroup.center ↥J₀)).nontrivial
+  have : Group.IsSolvable ↥J₀ := inferInstance
+  have : Nontrivial (J₀ ⧸ Subgroup.center ↥J₀) := hJ.2.2.2.toNontrivial
+  have : Nontrivial ↥J₀ := (QuotientGroup.mk'_surjective (Subgroup.center ↥J₀)).nontrivial
   exact absurd hJ.2.2.1
     (ne_of_lt (Group.IsSolvable.commutator_lt_top_of_nontrivial ↥J₀))
 
 theorem sympMinusZ_d4_a6 {K : Type} [Field K] [Finite K] [CharP K 2] {p m : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2)
+    (_hp : p.Prime) (_hp2 : p ≠ 2)
     (ζ : Multiplicative (ZMod p) →* SpecialLinearGroup (Fin 2) K)
-    (f₀ : Fin m → Multiplicative (ZMod p)) {f : ℕ} (hf : 1 ≤ f)
-    (hK2 : Nat.card K = 2) (hf0 : f₀ ≠ 1)
+    (f₀ : Fin m → Multiplicative (ZMod p)) {f : ℕ} (_hf : 1 ≤ f)
+    (hK2 : Nat.card K = 2) (_hf0 : f₀ ≠ 1)
     (blocks : SpPrimaryBlocks 2 f p (spPlaneTorus m ζ f₀) (proj m K (spPlaneTorus m ζ f₀)))
     (hd4 : spFixedDim (spPlaneTorus m ζ f₀) = 4)
     {J₀ : Subgroup (StatedSp m K)}

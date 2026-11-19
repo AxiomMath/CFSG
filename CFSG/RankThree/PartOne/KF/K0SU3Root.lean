@@ -199,7 +199,7 @@ theorem exists_Rbar_eq_image_aux (hσ : ∀ c, σ (σ c) = c)
     rw [hcardX0, hfac, show 2 ^ (3 * f) = (2 ^ f) ^ 3 by ring]
   set S0 : Sylow 2 (SU σ 3) := Sylow.ofCard X0 hS0 with hS0def
   have hS0coe : (S0 : Subgroup (SU σ 3)) = X0 := rfl
-  have hX0p : IsPGroup 2 ↥X0 := S0.isPGroup'
+  have hX0p : IsPGroup 2 ↥X0 := S0.isPGroup
   set S1 : Sylow 2 M := Sylow.mapSurjective hπ S0 with hS1
   have hS1coe : (S1 : Subgroup M) = X0.map π := rfl
   have : Finite M := Finite.of_surjective π hπ

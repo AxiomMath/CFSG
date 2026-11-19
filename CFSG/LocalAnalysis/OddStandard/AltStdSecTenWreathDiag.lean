@@ -12,6 +12,7 @@ open Subgroup Equiv Equiv.Perm
 
 variable {G : Type} [Group G] [Finite G] {z : G} {ι : Perm (Fin 10) →* G} {x : G}
 
+omit [Finite G] in
 theorem z_mem_centralizer_of_eq (hC : CentData z ι) (hx : x = ι τ₀) :
     z ∈ centralizer ({x} : Set G) := by
   rw [hx, mem_centralizer_singleton_iff]
@@ -26,6 +27,7 @@ theorem z_mem_centralizer_of_eq (hC : CentData z ι) (hx : x = ι τ₀) :
 @[expose] noncomputable def diagSub (hx : x = ι τ₀) : Subgroup (TwoSec x) :=
   (alternatingGroup (Fin 8)).map (sigmaX (ι := ι) hx)
 
+omit [Finite G] in
 theorem sigmaX_injective (hC : CentData z ι) (hx : x = ι τ₀) :
     Function.Injective (sigmaX (ι := ι) hx) := by
   have hx2 : x * x = 1 := by rw [hx, ← map_mul, τ₀_mul_self, map_one]
@@ -46,6 +48,7 @@ theorem sigmaX_injective (hC : CentData z ι) (hx : x = ι τ₀) :
     rw [liftS8_apply_eight] at h3
     simp [τ₀] at h3
 
+omit [Finite G] in
 theorem zbar_comm_sigmaX (hC : CentData z ι) (hx : x = ι τ₀) (ρ : Perm (Fin 8)) :
     zbar hC hx * sigmaX (ι := ι) hx ρ = sigmaX (ι := ι) hx ρ * zbar hC hx := by
   change QuotientGroup.mk (⟨z, z_mem_centralizer_of_eq hC hx⟩ :
@@ -60,6 +63,7 @@ theorem zbar_comm_sigmaX (hC : CentData z ι) (hx : x = ι τ₀) (ρ : Perm (Fi
   rw [Subgroup.coe_mul, Subgroup.coe_mul, liftS8Centralizer_apply]
   exact hC.comm (liftS8 ρ)
 
+omit [Finite G] in
 theorem card_diagSub_inf_centralizer_swap (hC : CentData z ι) (hx : x = ι τ₀) {ρ : Perm (Fin 8)}
     (hρ : ρ.IsSwap) :
     Nat.card ↥(diagSub (ι := ι) hx ⊓
@@ -84,6 +88,7 @@ theorem card_diagSub_inf_centralizer_swap (hC : CentData z ι) (hx : x = ι τ�
   rw [hset, Subgroup.card_map_of_injective (sigmaX_injective hC hx)]
   exact card_alt_inf_centralizer_swap hρ
 
+omit [Finite G] in
 theorem card_diagSub_inf_centralizer_zbar_mul_swap (hC : CentData z ι) (hx : x = ι τ₀)
     {ρ : Perm (Fin 8)} (hρ : ρ.IsSwap) :
     Nat.card ↥(diagSub (ι := ι) hx ⊓

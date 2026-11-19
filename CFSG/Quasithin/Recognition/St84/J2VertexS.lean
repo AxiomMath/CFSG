@@ -57,7 +57,7 @@ theorem inf_eq_bot_of_le_normalizer_of_parAct_eq_ρM {P Q R A : Subgroup G}
   have hx1 : x = 1 := by
     have hsub : (⟨x, hxQ⟩ : ↥Q) = 1 := χ.injective (by rw [hone, map_one])
     simpa using congrArg Subtype.val hsub
-  simpa [hx1]
+  simp [hx1]
 
 theorem map_eq_AJ3_of_card_eq_nine [Finite G] {P Q : Subgroup G}
     (hPQ : P ≤ Subgroup.normalizer (Q : Set G))

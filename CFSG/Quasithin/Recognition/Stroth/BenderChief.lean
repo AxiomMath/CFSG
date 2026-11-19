@@ -12,6 +12,7 @@ open CFSG.Open CFSG.Quasithin
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_centralizerMod_zpowers_iff_of_normalizer {N L : Subgroup G} {t x : G}
     (hNL : N ≤ Subgroup.normalizer (L : Set G))
     (htL : t ∈ Subgroup.normalizer (L : Set G)) (hxN : x ∈ N) :
@@ -51,6 +52,7 @@ theorem mem_centralizerMod_zpowers_iff_of_normalizer {N L : Subgroup G} {t x : G
     · simpa [zpow_natCast] using hpos n
     · simpa [zpow_neg, zpow_natCast] using hneg n
 
+omit [Finite G] in
 theorem relIndex_centralizerMod_eq_index_of_fixedSection
     {H N L : Subgroup G} {t : G} [(L.subgroupOf N).Normal]
     (hHN : H ≤ Subgroup.normalizer (N : Set G))
@@ -163,7 +165,7 @@ theorem sq_le_relIndex_centralizerMod
   have hHL : H ≤ Subgroup.normalizer (L : Set G) := D14.le_normalizer_of_isNormalIn hstep.2.1
   have hHN : H ≤ Subgroup.normalizer (N : Set G) := D14.le_normalizer_of_isNormalIn hstep.1
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := (hstep.1.1.trans hUH).trans hHL
-  haveI : (L.subgroupOf N).Normal :=
+  have : (L.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hstep.2.2.1.le).mpr hNL
   have hnotriv : ∃ h ∈ H, ∃ u ∈ N, h * u * h⁻¹ * u⁻¹ ∉ L := by
     by_contra hcon
@@ -192,9 +194,9 @@ theorem sq_le_relIndex_centralizerMod
       _ = y⁻¹ * x⁻¹ := mul_inv_rev x y
       _ = y * x := by
           rw [inv_eq_of_mul_eq_one_right (hsq x), inv_eq_of_mul_eq_one_right (hsq y)]
-  letI : CommGroup (SectionW N L) :=
+  let : CommGroup (SectionW N L) :=
     { (inferInstance : Group (SectionW N L)) with mul_comm := hWcomm }
-  haveI : Nontrivial (SectionW N L) := hnt
+  have : Nontrivial (SectionW N L) := hnt
   let K : Subgroup (SectionW N L) := fixV (Subgroup.zpowers tL)
   have hKmem : ∀ u : ↥N, QuotientGroup.mk u ∈ K ↔
       tL (QuotientGroup.mk u) = QuotientGroup.mk u :=
@@ -225,6 +227,7 @@ theorem sq_le_relIndex_centralizerMod_of_not_le
       (Subgroup.zpowers_le.mpr htA))
     (Subgroup.index_ne_zero_of_finite)
 
+omit [Finite G] in
 private theorem mul_self_mem_of_mul_self_mem_zpowers {P : Subgroup G} {t a : G}
     (ht : t * t ∈ P) (ha : a ∈ Subgroup.zpowers t) : a * a ∈ P := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha

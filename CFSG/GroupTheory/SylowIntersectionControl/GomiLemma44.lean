@@ -98,7 +98,7 @@ theorem card_center_dvd_six_of_schur
     rw [← CFSG.RankThree.PerfectCover.map_hopfMultiplier_hopfLift q hq hker.le]
     exact Subgroup.card_map_dvd _ _
   have h6 := (hSA 7 (by norm_num)).2
-  rw [if_pos (Or.inr rfl)] at h6
+  rw [ite_eq_left (Or.inr rfl)] at h6
   rwa [hker, h6] at hd
 
 private noncomputable def centerQuotientEquiv (e : Y ≃* Y') :
@@ -129,7 +129,7 @@ private theorem false_of_center_three (h37 : ∀ (W : Type) [CommGroup W] [Finit
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow 2 ↥Y))
   have hS : IsSylowIn 2 ((Q : Subgroup ↥Y).map Y.subtype) Y := by
-    refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, ?_⟩
+    refine ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, ?_⟩
     rw [Subgroup.relIndex, Subgroup.subgroupOf,
       Subgroup.comap_map_eq_self_of_injective Y.subtype_injective]
     exact Q.not_dvd_index

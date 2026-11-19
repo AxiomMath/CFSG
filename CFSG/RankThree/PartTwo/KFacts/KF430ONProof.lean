@@ -139,7 +139,7 @@ private theorem gens_of_card27 {M : Type} [Group M] [Finite M] {A : Subgroup M} 
     have := Subgroup.card_le_of_le hle
     rw [hA27, ha3] at this
     norm_num at this
-  obtain ⟨e₁, he₁A, he₁⟩ := SetLike.not_le_iff_exists.mp hnle1
+  obtain ⟨e₁, he₁A, he₁⟩ := IsConcreteLE.not_le_iff_exists.mp hnle1
   have he₁1 : e₁ ≠ 1 := fun h => he₁ (h ▸ one_mem _)
   have hB₁A : Subgroup.zpowers a ⊔ Subgroup.zpowers e₁ ≤ A :=
     sup_le (Subgroup.zpowers_le.mpr haA) (Subgroup.zpowers_le.mpr he₁A)
@@ -149,7 +149,7 @@ private theorem gens_of_card27 {M : Type} [Group M] [Finite M] {A : Subgroup M} 
     have := Subgroup.card_le_of_le hle
     rw [hA27, hB₁9] at this
     norm_num at this
-  obtain ⟨e₂, he₂A, he₂⟩ := SetLike.not_le_iff_exists.mp hnle2
+  obtain ⟨e₂, he₂A, he₂⟩ := IsConcreteLE.not_le_iff_exists.mp hnle2
   have he₂1 : e₂ ≠ 1 := fun h => he₂ (h ▸ one_mem _)
   refine ⟨e₁, he₁A, e₂, he₂A,
     (Subgroup.eq_of_le_of_card_ge (sup_le hB₁A (Subgroup.zpowers_le.mpr he₂A)) ?_).symm⟩
@@ -160,7 +160,7 @@ private theorem sylow_stable {M : Type} [Group M] [Finite M] {A L : Subgroup M}
     ∃ P : Sylow 3 ↥L, ∀ e (he : e ∈ A), ∀ p ∈ (P : Subgroup ↥L),
       L.normalizerMonoidHom ⟨e, hAL he⟩ p ∈ (P : Subgroup ↥L) := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : MulDistribMulAction ↥A ↥L :=
+  let : MulDistribMulAction ↥A ↥L :=
     MulDistribMulAction.compHom ↥L (Subgroup.inclusion hAL)
   obtain ⟨P, hP⟩ := hAp.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 3 ↥L)
     (not_dvd_card_sylow 3 ↥L)
@@ -233,6 +233,7 @@ private theorem center_map_eq_a (hA3 : ∀ g ∈ A, g ^ 3 = 1)
   apply Subgroup.eq_of_le_of_card_ge hle
   rw [Subgroup.card_map_of_injective L.subtype_injective, hZ3, Nat.card_zpowers, ha3]
 
+omit [Finite M] in
 private theorem inner_of_mem_A
     (ψ : ↥L ≃* GM) (hAc : ∀ g ∈ A, ∀ h ∈ A, g * h = h * g) (haA : a ∈ A)
     (hcen : (Subgroup.center ↥L).map L.subtype = Subgroup.zpowers a)

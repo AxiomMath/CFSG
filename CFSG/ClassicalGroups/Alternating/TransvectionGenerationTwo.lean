@@ -171,7 +171,7 @@ theorem symplecticTransvection_mem_of_isComplExtendGL [FiniteDimensional K V] (h
 
 theorem symplecticTransvection_add_mem_of_isComplExtendGL [FiniteDimensional K V] [Finite K]
     [CharP K 2] (hB : B.IsAlt) {e : V} (he : e ∈ U) {W : Submodule K V}
-    (h : IsCompl U W) (hUW : ∀ x ∈ U, ∀ y ∈ W, B x y = 0)
+    (h : IsCompl U W) (_hUW : ∀ x ∈ U, ∀ y ∈ W, B x y = 0)
     (H : Subgroup (LinearMap.GeneralLinearGroup K V))
     (hext : ∀ g ∈ bilinIsometryGroup (B.restrict W), isComplExtendGL h g ∈ H)
     (hHle : H ≤ bilinIsometryGroup B) (hWnd : (B.restrict W).Nondegenerate)
@@ -211,8 +211,8 @@ theorem pointRadical_le_of_transvections [Finite K] [CharP K 2] (hcard : Nat.car
   have hwe : B e w = 0 := hUW e hes w hw
   have hβ : β = 0 := by
     have h0 := heu
-    simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-      hB.self_eq_zero, hef, mul_one, mul_zero, add_zero] at h0
+    simp only [map_add, map_smul, smul_eq_mul,
+      hB.self_eq_zero, hef, mul_one, mul_zero] at h0
     rw [hwe, add_zero, zero_add] at h0
     exact h0
   rw [hβ, zero_smul, add_zero] at heu ⊢
@@ -251,13 +251,13 @@ theorem exists_card_le_five_closure_eq_two [Finite K] [CharP K 2] [FiniteDimensi
         bilinIsometryGroup B := by
   classical
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (M := V) (by rw [hdim]; norm_num)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (M := V) (by rw [hdim]; norm_num)
   obtain ⟨e₁, he₁⟩ := exists_ne (0 : V)
   obtain ⟨⟨f₁, he₁f₁⟩, hsplit₁⟩ := alternating_hyperbolic_splitting hB hBn he₁
   obtain ⟨-, -, -, hcompl₁, hW₁nd, hW₁dim⟩ := hsplit₁ f₁ he₁f₁
   set W₁ := B.orthogonal (span K {e₁, f₁}) with hW₁def
   have hW₁dim' : finrank K W₁ = 2 := by rw [hW₁dim, hdim]
-  haveI : Nontrivial W₁ := Module.nontrivial_of_finrank_pos (R := K) (M := W₁) (by omega)
+  have : Nontrivial W₁ := Module.nontrivial_of_finrank_pos (R := K) (M := W₁) (by omega)
   obtain ⟨e₂, he₂⟩ := exists_ne (0 : W₁)
   obtain ⟨⟨f₂, he₂f₂⟩, -⟩ := alternating_hyperbolic_splitting (isAlt_restrict hB W₁) hW₁nd he₂
   have hf₁ : f₁ ≠ 0 := by
@@ -398,7 +398,7 @@ theorem exists_card_le_three_closure_eq_two [Finite K] [CharP K 2] [FiniteDimens
       Subgroup.closure ((fun x => symplecticTransvection B hB x 1) '' (s : Set V)) =
         bilinIsometryGroup B := by
   classical
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (M := V) (by omega)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (M := V) (by omega)
   obtain ⟨e, he⟩ := exists_ne (0 : V)
   obtain ⟨⟨f, hef⟩, -⟩ := alternating_hyperbolic_splitting hB hBn he
   have hf : f ≠ 0 := by
@@ -440,7 +440,7 @@ private theorem exists_card_le_closure_eq_aux_two {K : Type u} [Field K] [Finite
       rw [h1 g]
       simp only [Subgroup.mem_bot]
       exact ⟨fun _ => one_mem _, fun _ => trivial⟩
-    · haveI : Nontrivial V := hV
+    · have : Nontrivial V := hV
       have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
       obtain ⟨e, he⟩ := exists_ne (0 : V)
       obtain ⟨⟨f, hef⟩, hsplit⟩ := alternating_hyperbolic_splitting hB hBn he
@@ -466,14 +466,14 @@ private theorem exists_card_le_closure_eq_aux_two {K : Type u} [Field K] [Finite
           ih (m - 2) (by omega) W (B.restrict W) (isAlt_restrict hB W) hWnd hWm
         have hHW : ∀ x ∈ span K {e, f}, ∀ y ∈ W, B x y = 0 := fun x hx y hy => hy x hx
         have hWge : 4 ≤ finrank K W := by rw [hWm]; omega
-        haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (M := W) (by omega)
+        have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (M := W) (by omega)
         obtain ⟨w₀, hw₀ne⟩ := exists_ne (0 : W)
         obtain ⟨⟨g, hw₀g⟩, hsplitW⟩ :=
           alternating_hyperbolic_splitting (isAlt_restrict hB W) hWnd hw₀ne
         obtain ⟨-, -, -, hcomplW, hW₂nd, hW₂dim⟩ := hsplitW g hw₀g
         set W₂ := (B.restrict W).orthogonal (span K {w₀, g}) with hW₂def
         have hW₂dim' : finrank K W₂ = finrank K W - 2 := hW₂dim
-        haveI : Nontrivial W₂ := Module.nontrivial_of_finrank_pos (R := K) (M := W₂) (by omega)
+        have : Nontrivial W₂ := Module.nontrivial_of_finrank_pos (R := K) (M := W₂) (by omega)
         obtain ⟨w₁, hw₁ne⟩ := exists_ne (0 : W₂)
         have hw₁0 : ((w₁ : W₂) : W) ≠ 0 := fun h => hw₁ne (Subtype.ext h)
         have hBw₀w₁ : B (w₀ : V) (((w₁ : W₂) : W) : V) = 0 :=
@@ -572,7 +572,7 @@ private theorem exists_card_le_closure_eq_aux_two {K : Type u} [Field K] [Finite
         have hBsum : B (f + (w₀ : V) + (((w₁ : W₂) : W) : V))
             (e + (w₀ : V) + (((w₁ : W₂) : W) : V)) = 1 := by
           simp only [map_add, LinearMap.add_apply, hB.self_eq_zero, hBfe, hBfw w₀,
-            hBfw ((w₁ : W₂) : W), hw₀e, hBw₀w₁, hw₁e, hw₁w₀, zero_add, add_zero]
+            hBfw ((w₁ : W₂) : W), hw₀e, hBw₀w₁, hw₁e, hw₁w₀, add_zero]
         have hTef : symplecticTransvection B hB (e + f) 1 ∈ H := by
           have hiso := mem_bilinIsometryGroup.mp (hHle hTewsum)
           have hc := SteinbergBQ.symplecticTransvection_conj hB hiso

@@ -21,33 +21,40 @@ variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K :
 
 theorem sixK_k4b_exists_max {Q : Type} [Group Q] [Finite Q] (P : Subgroup Q → Prop)
     {S : Subgroup Q} (hS : P S) : ∃ M : Subgroup Q, S ≤ M ∧ Maximal P M := by
-  haveI : Finite (Subgroup Q) :=
+  have : Finite (Subgroup Q) :=
     Finite.of_injective (fun S : Subgroup Q => (S : Set Q)) SetLike.coe_injective
   exact Finite.exists_le_maximal hS
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k4b_aux_U_le_A : U φ i ≤ A φ i.swap :=
   pull_mono φ (le_trans (FullCenter.rootU_le_center i) (FullCenter.center_le_rootA i.swap))
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k4b_aux_U_le_Mhat (hH : SixHConclusion φ t i) : U φ i ≤ Mhat φ t i i := by
   rw [← hH.center_Mhat_i]
   rintro _ ⟨c, -, rfl⟩
   exact c.2
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k4b_aux_U_le_Kc : U φ i ≤ Kc φ t i.swap :=
   le_trans sixK_k4b_aux_U_le_A le_sup_left
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k4b_aux_Kc_le_Mhat_j (hH : SixHConclusion φ t i) :
     Kc φ t i.swap ≤ Mhat φ t i i.swap := by
   rw [← hH.center_Mhat_j]
   rintro _ ⟨c, -, rfl⟩
   exact c.2
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k4b_aux_Mc_le_Mhat_j : Mc φ t i ≤ Mhat φ t i i.swap :=
   le_sup_left
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k4b_aux_U_le_Mhat_j (hH : SixHConclusion φ t i) : U φ i ≤ Mhat φ t i i.swap :=
   le_trans sixK_k4b_aux_U_le_Kc (sixK_k4b_aux_Kc_le_Mhat_j hH)
 
+omit [IsSimpleGroup G] [Finite K] in
 theorem sixK_k4b (hH : SixHConclusion φ t i) : K4bConcl φ t i := by
   obtain ⟨hN, hmax⟩ := hH.maximal_Dstar
   intro x hxD hx2
@@ -94,14 +101,17 @@ theorem sixK_k4b (hH : SixHConclusion φ t i) : K4bConcl φ t i := by
     right
     rwa [mul_inv_cancel_left] at hmul
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k4_aux_norm (hE : EmbConclusion φ t i) {y : G} (hy : y ∈ Ytilde φ i) {m : G}
     (hm : m ∈ Mhat φ t i i) : y * m * y⁻¹ ∈ Mhat φ t i i :=
   (mem_normalizer_iff.mp (hE.Ytilde_le hy) m).mp hm
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k4_aux_norm' (hE : EmbConclusion φ t i) {y : G} (hy : y ∈ Ytilde φ i) {m : G}
     (hm : m ∈ Mhat φ t i i) : y⁻¹ * m * y ∈ Mhat φ t i i :=
   (mem_normalizer_iff''.mp (hE.Ytilde_le hy) m).mp hm
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k4_aux_dec (hE : EmbConclusion φ t i) {x : G}
     (hx : x ∈ Mhat φ t i i ⊔ (Vtor φ t i i).map (MulAut.conj (w φ i.swap)⁻¹).toMonoidHom) :
     ∃ m ∈ Mhat φ t i i, ∃ v ∈ (Vtor φ t i i).map (MulAut.conj (w φ i.swap)⁻¹).toMonoidHom,
@@ -124,6 +134,7 @@ theorem sixK_k4_aux_dec (hE : EmbConclusion φ t i) {x : G}
     exact ⟨v⁻¹ * m⁻¹ * v⁻¹⁻¹, sixK_k4_aux_norm hE (hE.Vw_le_Ytilde (inv_mem hv)) (inv_mem hm),
       v⁻¹, inv_mem hv, by group⟩
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k4_aux_inv_sq (hE : EmbConclusion φ t i) {m v : G} (hm : m ∈ Mhat φ t i i)
     (hv : v ∈ (Vtor φ t i i).map (MulAut.conj (w φ i.swap)⁻¹).toMonoidHom)
     (hx : m * v * (m * v) = 1) : v * v = 1 := by
@@ -146,31 +157,35 @@ theorem sixK_k4_aux_inv_sq (hE : EmbConclusion φ t i) {m v : G} (hm : m ∈ Mha
   rw [hE.inf_Vw] at hsq
   exact Subgroup.mem_bot.mp hsq
 
+omit [Finite G] [IsSimpleGroup G] [Finite K] in
 theorem sixK_k4_aux_conj_Vw {v : G}
     (hv : v ∈ (Vtor φ t i i).map (MulAut.conj (w φ i.swap)⁻¹).toMonoidHom) :
     w φ i.swap * v * (w φ i.swap)⁻¹ ∈ Vtor φ t i i := by
   obtain ⟨u, hu, hvu⟩ := Subgroup.mem_map.mp hv
   have e : v = (w φ i.swap)⁻¹ * u * w φ i.swap := by
     rw [← hvu]
-    simp [MulAut.conj_apply]
+    simp
   have e' : w φ i.swap * v * (w φ i.swap)⁻¹ = u := by
     rw [e]
     group
   rw [e']
   exact hu
 
+omit [Finite G] [IsSimpleGroup G] [CharP K 2] [Finite K] in
 theorem sixK_k4_aux_conj_Y {y₀ : G} (hy₀ : y₀ ∈ Ytor φ i) :
     (w φ i.swap)⁻¹ * y₀ * w φ i.swap ∈ Ytilde φ i := by
   have e : (w φ i.swap)⁻¹ * y₀ * w φ i.swap = (MulAut.conj (w φ i.swap)⁻¹).toMonoidHom y₀ := by
-    simp [MulAut.conj_apply]
+    simp
   rw [e]
   exact Subgroup.mem_map_of_mem _ hy₀
 
+omit [Finite G] [IsSimpleGroup G] in
 theorem sixK_k4_aux_conj_sq {a g : G} (ha : a * a = 1) : g * a * g⁻¹ * (g * a * g⁻¹) = 1 := by
   calc g * a * g⁻¹ * (g * a * g⁻¹) = g * (a * a) * g⁻¹ := by group
     _ = 1 := by rw [ha]; group
 
-theorem sixK_k4 (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
+omit [IsSimpleGroup G] in
+theorem sixK_k4 (hS : SCSetting L K n φ t i) (_hH : SixHConclusion φ t i)
     (hE : EmbConclusion φ t i) (k4a : K4aConcl φ i) (k4b : K4bConcl φ t i) :
     K4Concl φ t i := by
   intro x hx hx2

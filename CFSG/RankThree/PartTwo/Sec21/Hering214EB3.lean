@@ -18,6 +18,7 @@ open Item211Res2Proof
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem central_of_comp_mk {L : Subgroup G} [Group.IsPerfect L]
     (hθc : aschbacherSolvableCore 3 L ≤ Subgroup.center L) {Q : Type} [Group Q]
     (Φ : lBar L →* Q) (hΦ : Φ.ker ≤ Subgroup.center (lBar L)) :
@@ -45,12 +46,12 @@ theorem item214EvenTypeC_of (h45 : Sec4.Item4_5) (h66 : Sec6.Item6_6) (h213 : It
   classical
   have hPF := Item211LieProof.pairFacts h45 h66 hpair
   have hq := h213 G A E U c L hpair
-  haveI : Group.IsPerfect ↥L := hq.1
+  have : Group.IsPerfect ↥L := hq.1
   have hθc : aschbacherSolvableCore 3 ↥L ≤ Subgroup.center ↥L := by
     obtain ⟨hTs, hTch, -⟩ := solvable_prime_complement_core_characterization (H := ↥L)
       Nat.prime_three
     have : (aschbacherSolvableCore 3 ↥L).Normal := Subgroup.normal_of_characteristic _
-    haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2.1
+    have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2.1
     exact Sec4.Census.le_of_isSolvable_of_normal inferInstance hTs
   have hEA : E = A := Subgroup.eq_of_le_of_card_ge hpair.mem_E.2
     (by rw [hA27, hpair.mem_E.1.2.1]; norm_num)
@@ -92,9 +93,9 @@ theorem item214EvenTypeC_of (h45 : Sec4.Item4_5) (h66 : Sec6.Item6_6) (h213 : It
       exact Hering214.isTypeCSub_of_isTypeCOn hC
     obtain ⟨F, hF, hFin, Φ, g, τ, hFcard, hτ3, hτ1, hpart1, hpart2⟩ :=
       Hering214.exists_typeC_model_sub hC' hn eL
-    haveI : Fintype F := Fintype.ofFinite F
-    haveI : CharP F 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype F := Fintype.ofFinite F
+    have : CharP F 2 := by
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact charP_of_card_eq_prime_pow (p := 2) (f := n)
         (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
     refine hfinish F Φ.toMonoidHom Φ.surjective ?_ g τ hτ1 hpart1 (hpart2 τ 1 hτ3 (one_pow 3))
@@ -109,9 +110,9 @@ theorem item214EvenTypeC_of (h45 : Sec4.Item4_5) (h66 : Sec6.Item6_6) (h213 : It
       omega
     obtain ⟨F, hF, hFin, Φ, hΦ, hker, -, g, τ, hFcard, hτ3, hτ1, hpart1, hpart2⟩ :=
       Hering214.exists_typeCSL_model_sub hC' hn2 eL
-    haveI : Fintype F := Fintype.ofFinite F
-    haveI : CharP F 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype F := Fintype.ofFinite F
+    have : CharP F 2 := by
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact charP_of_card_eq_prime_pow (p := 2) (f := n)
         (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
     exact hfinish F Φ hΦ hker g τ hτ1 hpart1 (hpart2 τ 1 hτ3 (one_pow 3))

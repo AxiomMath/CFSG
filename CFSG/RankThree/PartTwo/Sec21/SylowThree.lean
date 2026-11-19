@@ -32,7 +32,7 @@ theorem rank3II_23_2_four [Finite G] {A N : Subgroup G} (P : Sylow 3 N)
     ∃ S : Sylow 3 G, (S : Subgroup G) = (P : Subgroup N).map N.subtype := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P' := (P : Subgroup N).map N.subtype with hP'def
-  have hP' : IsPGroup 3 P' := P.isPGroup'.map N.subtype
+  have hP' : IsPGroup 3 P' := P.isPGroup.map N.subtype
   obtain ⟨S, hS⟩ := hP'.exists_le_sylow
   refine ⟨S, le_antisymm ?_ hS⟩
   by_contra hSP
@@ -40,7 +40,7 @@ theorem rank3II_23_2_four [Finite G] {A N : Subgroup G} (P : Sylow 3 N)
     refine lt_top_iff_ne_top.mpr fun htop => hSP fun s hs => ?_
     have hs' : (⟨s, hs⟩ : S) ∈ P'.subgroupOf S := htop ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.mp hs'
-  have hnil : Group.IsNilpotent S := S.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent S := S.isPGroup.isNilpotent
   obtain ⟨x, hxN, hxP⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   have hxNG : (x : G) ∈ Subgroup.normalizer (P' : Set G) := by
@@ -62,7 +62,7 @@ theorem rank3II_23_2_four [Finite G] {A N : Subgroup G} (P : Sylow 3 N)
   have hxNN : (x : G) ∈ N := h3 hxA
   set x' : N := ⟨x, hxNN⟩
   have hx'3 : IsPGroup 3 (Subgroup.zpowers x') := by
-    obtain ⟨k, hk⟩ := S.isPGroup' x
+    obtain ⟨k, hk⟩ := S.isPGroup x
     have hk' : x' ^ (3 ^ k) = 1 := Subtype.ext (by simpa [x'] using congrArg Subtype.val hk)
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp (orderOf_dvd_of_pow_eq_one hk')
     exact IsPGroup.of_card (by rw [Nat.card_zpowers, hj])
@@ -73,7 +73,7 @@ theorem rank3II_23_2_four [Finite G] {A N : Subgroup G} (P : Sylow 3 N)
       ← Subgroup.mem_map_iff_mem N.subtype_injective (K := (P : Subgroup N)) (x := x' * y * x'⁻¹)]
     exact Subgroup.mem_normalizer_iff.mp hxNG y
   have hsup : IsPGroup 3 ((P : Subgroup N) ⊔ Subgroup.zpowers x' : Subgroup N) :=
-    P.isPGroup'.to_sup_of_normal_left' hx'3 ((Subgroup.zpowers_le).mpr hx'N)
+    P.isPGroup.to_sup_of_normal_left' hx'3 ((Subgroup.zpowers_le).mpr hx'N)
   have heq := P.maximal_isPGroup.eq_of_ge hsup le_sup_left
   have hx'P : x' ∈ (P : Subgroup N) := by
     rw [← heq]

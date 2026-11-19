@@ -35,7 +35,7 @@ private theorem toMat_foldl_mulArr_inv {n : ℕ} (φ : H →* GL (Fin 14) F4)
       (((φ ((w.map y).prod))⁻¹ : GL (Fin 14) F4) : Matrix (Fin 14) (Fin 14) F4) *
         toMat 14 init := by
   induction w generalizing init with
-  | nil => simp [toMat_one14]
+  | nil => simp
   | cons l w ih =>
     show toMat 14 (List.foldl (fun A l => mulArr 14 (Gi.getD l.val one14) A)
       (mulArr 14 (Gi.getD l.val one14) init) w) = _
@@ -78,10 +78,9 @@ theorem toMat_frobArr (A : Mat) :
   simp only [toMat, frobArr, Matrix.map_apply, Matrix.of_apply,
     Array.getD_eq_getD_getElem?, Array.getElem?_map]
   rcases h : A[i.val]? with _ | r
-  · simp [h]
-  · simp only [Option.map_some, Option.getD_some, Array.getD_eq_getD_getElem?,
-      Array.getElem?_map]
-    rcases hr : r[j.val]? with _ | x <;> simp [hr]
+  · simp
+  · simp only [Option.map_some, Option.getD_some, Array.getElem?_map]
+    rcases hr : r[j.val]? with _ | x <;> simp
 
 theorem matsOf_fst (ws : List Word) (i : ℕ) :
     (matsOf ws).1.getD i one14 = wordArr (ws.getD i []) := by

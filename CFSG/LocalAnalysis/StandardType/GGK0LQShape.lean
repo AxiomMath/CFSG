@@ -130,13 +130,13 @@ private theorem lk0xlqshape_vcoord_eq (T : GGKacType) (v : Fin (absTag T).rank �
     {y : ℕ} (hy : y < (absTag T).rank) :
     lk0xlqshape_vcoord v y = v ⟨y, hy⟩ := by
   unfold lk0xlqshape_vcoord
-  rw [dif_pos hy]
+  rw [dite_eq_left hy]
 
 private theorem lk0xlqshape_vcoord_fin (T : GGKacType) (v : Fin (absTag T).rank → ℤ)
     (j : Fin (absTag T).rank) :
     lk0xlqshape_vcoord v j.val = v j := by
   unfold lk0xlqshape_vcoord
-  rw [dif_pos j.isLt]
+  rw [dite_eq_left j.isLt]
 
 private theorem lk0xlqshape_vcoord_ext (T : GGKacType) (x : ℕ) {y : ℕ}
     (hy : y < (absTag T).rank) :
@@ -151,16 +151,16 @@ private theorem lk0xlqshape_vcoord_add (T : GGKacType) (v u : Fin (absTag T).ran
     lk0xlqshape_vcoord (v + u) x = lk0xlqshape_vcoord v x + lk0xlqshape_vcoord u x := by
   unfold lk0xlqshape_vcoord
   by_cases h : x < (absTag T).rank
-  · rw [dif_pos h, dif_pos h, dif_pos h]; rfl
-  · rw [dif_neg h, dif_neg h, dif_neg h]; ring
+  · rw [dite_eq_left h, dite_eq_left h, dite_eq_left h]; rfl
+  · rw [dite_eq_right h, dite_eq_right h, dite_eq_right h]; ring
 
 private theorem lk0xlqshape_vcoord_smul (T : GGKacType) (a : ℤ)
     (v : Fin (absTag T).rank → ℤ) (x : ℕ) :
     lk0xlqshape_vcoord (a • v) x = a * lk0xlqshape_vcoord v x := by
   unfold lk0xlqshape_vcoord
   by_cases h : x < (absTag T).rank
-  · rw [dif_pos h, dif_pos h]; rfl
-  · rw [dif_neg h, dif_neg h]; ring
+  · rw [dite_eq_left h, dite_eq_left h]; rfl
+  · rw [dite_eq_right h, dite_eq_right h]; ring
 
 private theorem lk0xlqshape_vcoord_zero (T : GGKacType) (x : ℕ) :
     lk0xlqshape_vcoord (0 : Fin (absTag T).rank → ℤ) x = 0 := by
@@ -171,7 +171,7 @@ private theorem lk0xlqshape_headD_mem {α : Type*} (l : List α) (d : α) (h : l
     l.headD d ∈ l := by
   cases l with
   | nil => exact absurd rfl h
-  | cons a t => simp [List.headD_cons]
+  | cons a t => simp
 
 private theorem lk0xlqshape_iOf_mem (T : GGKacType) {c : List ℕ}
     (hproper : ∃ i, i < (k0DiagOf T).marks.length ∧ i ∉ c) :
@@ -224,14 +224,14 @@ private theorem lk0xlqshape_inSpan_eq_true (T : GGKacType) {c : List ℕ} (hc0 :
             lk0xlqshape_vcoord v (lk0xlqshape_iOf (k0DiagOf T).marks.length c - 1) *
               (((k0DiagOf T).marks.getD (j.val + 1) 0 : ℕ) : ℤ) := by
   unfold lk0xlqshape_inSpan
-  rw [dif_pos hc0, Bool.and_eq_true, decide_eq_true_eq, decide_eq_true_eq]
+  rw [dite_eq_left hc0, Bool.and_eq_true, decide_eq_true_eq, decide_eq_true_eq]
 
 private theorem lk0xlqshape_inSpan_eq_true' (T : GGKacType) {c : List ℕ} (hc0 : 0 ∉ c)
     (v : Fin (absTag T).rank → ℤ) :
     lk0xlqshape_inSpan (absTag T) (k0DiagOf T) c v = true ↔
       ∀ j : Fin (absTag T).rank, j.val + 1 ∉ c → v j = 0 := by
   unfold lk0xlqshape_inSpan
-  rw [dif_neg hc0, decide_eq_true_eq]
+  rw [dite_eq_right hc0, decide_eq_true_eq]
 
 private theorem lk0xlqshape_sum_apply (T : GGKacType) (c : List ℕ) (f : ℕ → ℤ)
     (j : Fin (absTag T).rank) :
@@ -248,14 +248,14 @@ private theorem lk0xlqshape_sum_apply (T : GGKacType) (c : List ℕ) (f : ℕ �
     rw [lk0xlqshape_lqExtRoot_apply]
     by_cases hx0 : x = 0
     · subst hx0
-      rw [if_pos rfl, if_neg (Ne.symm ha0), add_zero]
+      rw [ite_eq_left rfl, ite_eq_right (Ne.symm ha0), add_zero]
       exact hA.symm
-    · rw [if_neg hx0]
+    · rw [ite_eq_right hx0]
       by_cases hxa : j.val + 1 = x
       · subst hxa
-        simp [ha0]
-      · rw [if_neg hxa]
-        rw [if_neg hx0, if_neg (fun h : x = j.val + 1 => hxa h.symm)]
+        simp
+      · rw [ite_eq_right hxa]
+        rw [ite_eq_right hx0, ite_eq_right (fun h : x = j.val + 1 => hxa h.symm)]
         ring
   calc
     (∑ x ∈ c.toFinset, f x * lqExtRoot (absTag T) T x j)
@@ -279,7 +279,7 @@ private theorem lk0xlqshape_coeff_zero (T : GGKacType) {c : List ℕ} (hc0 : 0 �
       - lk0xlqshape_vcoord v (lk0xlqshape_iOf (k0DiagOf T).marks.length c - 1) /
         (((k0DiagOf T).marks.getD (lk0xlqshape_iOf (k0DiagOf T).marks.length c) 0 : ℕ) : ℤ) := by
   unfold lk0xlqshape_coeff
-  rw [dif_pos hc0, if_pos rfl]
+  rw [dite_eq_left hc0, ite_eq_left rfl]
 
 private theorem lk0xlqshape_coeff_mem (T : GGKacType) {c : List ℕ} (hc0 : 0 ∈ c)
     (v : Fin (absTag T).rank → ℤ) {x : ℕ} (hx : x ∈ c) (hx0 : x ≠ 0) :
@@ -289,18 +289,18 @@ private theorem lk0xlqshape_coeff_mem (T : GGKacType) {c : List ℕ} (hc0 : 0 �
           (((k0DiagOf T).marks.getD x 0 : ℕ) : ℤ) := by
   rw [lk0xlqshape_coeff_zero T hc0 v]
   unfold lk0xlqshape_coeff
-  rw [dif_pos hc0, if_neg hx0, if_pos hx]
+  rw [dite_eq_left hc0, ite_eq_right hx0, ite_eq_left hx]
 
 private theorem lk0xlqshape_coeff_notMem (T : GGKacType) {c : List ℕ}
     (v : Fin (absTag T).rank → ℤ) {x : ℕ} (hx : x ∉ c) :
     lk0xlqshape_coeff (absTag T) (k0DiagOf T) c v x = 0 := by
   unfold lk0xlqshape_coeff
   by_cases hc0 : 0 ∈ c
-  · rw [dif_pos hc0]
+  · rw [dite_eq_left hc0]
     by_cases hx0 : x = 0
     · exact absurd (hx0 ▸ hc0) hx
-    · rw [if_neg hx0, if_neg (fun h : x ∈ c => hx h)]
-  · rw [dif_neg hc0, if_neg (fun h : x ∈ c => hx h)]
+    · rw [ite_eq_right hx0, ite_eq_right (fun h : x ∈ c => hx h)]
+  · rw [dite_eq_right hc0, ite_eq_right (fun h : x ∈ c => hx h)]
 
 private theorem lk0xlqshape_zero_inSpan (T : GGKacType) (c : List ℕ) :
     lk0xlqshape_inSpan (absTag T) (k0DiagOf T) c 0 = true := by
@@ -365,41 +365,41 @@ private theorem lk0xlqshape_gen_inSpan (T : GGKacType) {c : List ℕ}
     · rw [lk0xlqshape_vcoord_ext T x hi_rank]
       by_cases hx0 : x = 0
       · subst hx0
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
         have hii : lk0xlqshape_iOf (k0DiagOf T).marks.length c - 1 + 1 =
             lk0xlqshape_iOf (k0DiagOf T).marks.length c := Nat.sub_add_cancel hi_pos
         rw [hii]
         exact dvd_neg.mpr (dvd_refl _)
-      · rw [if_neg hx0]
+      · rw [ite_eq_right hx0]
         have hne : lk0xlqshape_iOf (k0DiagOf T).marks.length c - 1 + 1 ≠ x := by
           intro h
           rw [Nat.sub_add_cancel hi_pos] at h
           exact hi_not (h.symm ▸ hx)
-        rw [if_neg hne]
+        rw [ite_eq_right hne]
         exact dvd_zero _
     · intro j hj
       rw [lk0xlqshape_vcoord_ext T x hi_rank]
       by_cases hx0 : x = 0
       · subst hx0
-        rw [if_pos rfl, lk0xlqshape_lqExtRoot_apply, if_pos rfl]
+        rw [ite_eq_left rfl, lk0xlqshape_lqExtRoot_apply, ite_eq_left rfl]
         have hii : lk0xlqshape_iOf (k0DiagOf T).marks.length c - 1 + 1 =
             lk0xlqshape_iOf (k0DiagOf T).marks.length c := Nat.sub_add_cancel hi_pos
         rw [hii]; ring
-      · rw [if_neg hx0, lk0xlqshape_lqExtRoot_apply, if_neg hx0]
+      · rw [ite_eq_right hx0, lk0xlqshape_lqExtRoot_apply, ite_eq_right hx0]
         have hnej : j.val + 1 ≠ x := by intro h; exact hj (h.symm ▸ hx)
         have hix : (lk0xlqshape_iOf (k0DiagOf T).marks.length c - 1) + 1 ≠ x := by
           intro h
           rw [Nat.sub_add_cancel hi_pos] at h
           exact hi_not (h.symm ▸ hx)
-        rw [if_neg hnej, if_neg hix]
+        rw [ite_eq_right hnej, ite_eq_right hix]
         ring
   · rw [lk0xlqshape_inSpan_eq_true' T hc0]
     intro j hj
     rw [lk0xlqshape_lqExtRoot_apply]
     have hx0 : x ≠ 0 := fun h => hc0 (h ▸ hx)
-    rw [if_neg hx0]
+    rw [ite_eq_right hx0]
     have hne : j.val + 1 ≠ x := by intro h; exact hj (h.symm ▸ hx)
-    exact if_neg hne
+    exact ite_eq_right hne
 
 private theorem lk0xlqshape_span_le_inSpan (T : GGKacType) {c : List ℕ}
     (hproper : ∃ i, i < (k0DiagOf T).marks.length ∧ i ∉ c)
@@ -442,16 +442,16 @@ private theorem lk0xlqshape_inSpan_spec (T : GGKacType) {c : List ℕ}
         = - lk0xlqshape_vcoord v (lk0xlqshape_iOf (k0DiagOf T).marks.length c - 1) := by
       rw [lk0xlqshape_coeff_zero T hc0 v]
       exact Int.ediv_mul_cancel (dvd_neg.mpr hdiv)
-    rw [if_pos hc0]
+    rw [ite_eq_left hc0]
     by_cases hj : j.val + 1 ∈ c
-    · rw [if_pos hj]
+    · rw [ite_eq_left hj]
       have hcoeff : lk0xlqshape_coeff (absTag T) (k0DiagOf T) c v (j.val + 1) =
           v j + lk0xlqshape_coeff (absTag T) (k0DiagOf T) c v 0 *
             (((k0DiagOf T).marks.getD (j.val + 1) 0 : ℕ) : ℤ) := by
         rw [lk0xlqshape_coeff_mem T hc0 v hj (by omega : j.val + 1 ≠ 0),
           Nat.add_sub_cancel, lk0xlqshape_vcoord_fin]
       rw [hcoeff]; ring
-    · rw [if_neg hj]
+    · rw [ite_eq_right hj]
       have hgoal : lk0xlqshape_coeff (absTag T) (k0DiagOf T) c v 0 *
           (-(((k0DiagOf T).marks.getD (j.val + 1) 0 : ℕ) : ℤ)) = v j := by
         apply mul_right_cancel₀ hmi_ne
@@ -473,14 +473,14 @@ private theorem lk0xlqshape_inSpan_spec (T : GGKacType) {c : List ℕ}
                 (lk0xlqshape_iOf (k0DiagOf T).marks.length c) 0 : ℕ) : ℤ) := (heq j hj).symm
       rw [hgoal, add_zero]
   · have hin' := (lk0xlqshape_inSpan_eq_true' T hc0 v).mp hin
-    rw [if_neg hc0]
+    rw [ite_eq_right hc0]
     by_cases hj : j.val + 1 ∈ c
-    · rw [if_pos hj]
+    · rw [ite_eq_left hj]
       have hcoeff : lk0xlqshape_coeff (absTag T) (k0DiagOf T) c v (j.val + 1) = v j := by
         unfold lk0xlqshape_coeff
-        rw [dif_neg hc0, if_pos hj, Nat.add_sub_cancel, lk0xlqshape_vcoord_fin]
+        rw [dite_eq_right hc0, ite_eq_left hj, Nat.add_sub_cancel, lk0xlqshape_vcoord_fin]
       rw [hcoeff, zero_add]
-    · rw [if_neg hj]
+    · rw [ite_eq_right hj]
       simp [hin' j hj]
 
 private theorem lk0xlqshape_inSpan_iff_span (T : GGKacType) {c : List ℕ}
@@ -649,7 +649,7 @@ theorem lq_shape_table (τ : Tag) (T : GGKacType)
       ↑((rootFinset (absTag T)).filter (fun v =>
           lk0xlqshape_inSpan (absTag T) (k0DiagOf T) c v = true)) := by
     ext v
-    simp only [Set.mem_setOf_eq, Finset.mem_filter, Finset.mem_coe, mem_rootFinset]
+    simp only [Set.mem_ofPred_eq, Finset.mem_filter, Finset.mem_coe, mem_rootFinset]
     exact ⟨fun ⟨h1, h2⟩ => ⟨h1, (lk0xlqshape_inSpan_iff_span T hproper' v).mpr h2⟩,
       fun ⟨h1, h2⟩ => ⟨h1, (lk0xlqshape_inSpan_iff_span T hproper' v).mp h2⟩⟩
   rw [hset, Set.ncard_coe_finset]

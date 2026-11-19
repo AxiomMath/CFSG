@@ -23,7 +23,7 @@ namespace CFSG.BenderSuzuki
 namespace PFchapter4section3
 
 open PFchapter1section1 PFAppendixIII PFchapter1section3
-open PFchapter3section1 PFchapter3section3 MatrixGroups
+open PFchapter3section1 PFchapter3section3 _root_.CFSG.BenderSuzuki.MatrixGroups
 open scoped LinearAlgebra.Projectivization
 
 universe u v w
@@ -46,7 +46,7 @@ private theorem exists_standardHermitianForm
     exact hcard
   have hsigma_involutive : Function.Involutive sigma := by
     intro x
-    letI : Fintype E := Fintype.ofFinite E
+    let : Fintype E := Fintype.ofFinite E
     calc
       sigma (sigma x) = (sigma x) ^ Nat.card F := hsigmaPow (sigma x)
       _ = (x ^ Nat.card F) ^ Nat.card F := by rw [hsigmaPow]
@@ -169,11 +169,11 @@ private theorem unitaryModelEquiv_of_rankOneCoordinates
   rcases External.huppert_II_10_12 J q hEcard hfixedCard hJstandard with
     ⟨_hXcard, rho, pinf, hrho, hnatural, _hUcard, hroot,
       htwo, _hGcard, _hthree⟩
-  letI : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
+  let : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
     Finite.of_injective rho hrho
-  letI : MulAction (ProjectiveSpecialUnitaryMatrixGroup J) X :=
+  let : MulAction (ProjectiveSpecialUnitaryMatrixGroup J) X :=
     MulAction.compHom X rho
-  letI : FaithfulSMul (ProjectiveSpecialUnitaryMatrixGroup J) X :=
+  let : FaithfulSMul (ProjectiveSpecialUnitaryMatrixGroup J) X :=
     faithfulSMul_iff.mpr (by
       intro g hg
       apply hrho
@@ -194,8 +194,8 @@ private theorem unitaryModelEquiv_of_rankOneCoordinates
     ⟨R, H, hRle, hHle, hnormalizer, _hRinfH, hRsupH,
       _hHcyclic, hRcard, _hRcomm, _hRcommCard, _hHcard,
       hRregular, hcoords, hHcoords, _hHcoordsSurj⟩
-  letI : Group R := Subgroup.toGroup R
-  letI : DivisionMonoid R := Group.toDivisionMonoid
+  let : Group R := Subgroup.toGroup R
+  let : DivisionMonoid R := Group.toDivisionMonoid
   rcases hcoords with ⟨coordR, hcoordRMatrix⟩
   let rootPSU := External.hermitianUnipotentPSU J hJstandard
   have hcoordR_eq_root (z : External.hermitianUnipotentCoord J) :
@@ -406,7 +406,7 @@ private theorem unitaryModelEquiv_of_rankOneCoordinates
     · rw [← hRsupHU]
       exact sup_le le_sup_left
         (fun _ hh => Subgroup.mem_sup_right (hHleDt hh))
-  letI : (R.subgroupOf U).Normal :=
+  let : (R.subgroupOf U).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hnormalizerU
   obtain ⟨cTarget, hcTarget_apply⟩ :=
     PFchapter4section1.exists_rankOneCoordinateEquiv U R Dt T pinf0 htwo' rfl
@@ -508,7 +508,7 @@ private theorem unitaryModelEquiv_of_rankOneCoordinates
     exact PFchapter4section1.rankOneNormalClosure_le_generated
       U R Dt T pinf0 htwo' rfl hT_involution hT_not_U rfl
       (inferInstance : (R.subgroupOf U).Normal) hRdisjointDt hRsupDt
-  letI : IsSimpleGroup (ProjectiveSpecialUnitaryMatrixGroup J) :=
+  let : IsSimpleGroup (ProjectiveSpecialUnitaryMatrixGroup J) :=
     External.huppert_II_10_13 J q hq hEcard hfixedCard
   have hR_ne_bot : R ≠ ⊥ := by
     rw [← Subgroup.one_lt_card_iff_ne_bot, hRcard]
@@ -824,10 +824,10 @@ private theorem corollary_1_core
       hfinrank, hcardF, hthetaOdd, hsigmaF, hsigmaFrob, hK1, hW1ne,
       hW1norm, hW1inv, hphiThetaOne, hphiThetaNe, hcoordMul, hrho,
       hrho1, hmodelS, hmodelKW, hmapK, hmapW, hs⟩
-  letI : Field E := hEField
-  letI : Finite E := hEFinite
-  letI : CharP E 2 := hEChar
-  letI : Group S1 := hS1Group
+  let : Field E := hEField
+  let : Finite E := hEFinite
+  let : CharP E 2 := hEChar
+  let : Group S1 := hS1Group
   have hphi_zero_left : ∀ x : E, phi 0 x = 0 := by
     intro x
     by_cases htheta : theta = 1
@@ -1230,12 +1230,12 @@ private theorem corollary_1_core
           _ = q⁻¹ * (q * (q * y * q⁻¹)) := by rw [hcomm]
           _ = q * y * q⁻¹ := by group
       rwa [hy_eq]
-  letI : Q0Q.Normal := hQ0Q_normal
+  let : Q0Q.Normal := hQ0Q_normal
   have hKW_normalizes_Q : K ⊔ W ≤ Subgroup.normalizer Q :=
     hKW_le_D.trans hA1.D_le_H |>.trans
       ((Subgroup.normal_subgroupOf_iff_le_normalizer hA1.Q_le_H).1
         hA1.Q_normal_in_H)
-  letI : MulDistribMulAction (K ⊔ W : Subgroup G) Q :=
+  let : MulDistribMulAction (K ⊔ W : Subgroup G) Q :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer
       (G := G) (K ⊔ W) Q hKW_normalizes_Q
   have hKW_smul_coe : ∀ (d : (K ⊔ W : Subgroup G)) (q : Q),
@@ -1258,10 +1258,10 @@ private theorem corollary_1_core
     · intro hdq
       have hinv : d⁻¹ • (d • q) ∈ Q0Q := hforward d⁻¹ (d • q) hdq
       simpa using hinv
-  letI : MulAction.QuotientAction (K ⊔ W : Subgroup G) Q0Q :=
+  let : MulAction.QuotientAction (K ⊔ W : Subgroup G) Q0Q :=
     quotientAction_of_isInvariant (A := (K ⊔ W : Subgroup G))
       (G := Q) Q0Q hQ0Q_invariant
-  letI : MulDistribMulAction (K ⊔ W : Subgroup G) (Q ⧸ Q0Q) :=
+  let : MulDistribMulAction (K ⊔ W : Subgroup G) (Q ⧸ Q0Q) :=
     quotientMulDistribMulAction (A := (K ⊔ W : Subgroup G))
       (G := Q) Q0Q hQ0Q_invariant
   have hquotient_card : Nat.card (Q ⧸ Q0Q) = Nat.card Q0 ^ 2 := by
@@ -1310,7 +1310,7 @@ private theorem corollary_1_core
       simpa only [Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv,
         hsmul, div_eq_mul_inv, rightConjugateElem, inv_inv, mul_assoc] using hdivG
   let QuotientNontrivial := {qbar : Q ⧸ Q0Q // qbar ≠ 1}
-  letI : MulAction (K ⊔ W : Subgroup G) QuotientNontrivial :=
+  let : MulAction (K ⊔ W : Subgroup G) QuotientNontrivial :=
     { smul := fun d qbar => ⟨d • (qbar : Q ⧸ Q0Q), by
         intro hone
         apply qbar.property
@@ -1472,8 +1472,8 @@ private theorem corollary_1_core
     MulAction.selfEquivOrbitsQuotientProd hstab
   have hcardQuotientNontrivial :
       Nat.card QuotientNontrivial = Nat.card (Q ⧸ Q0Q) - 1 := by
-    letI : Fintype (Q ⧸ Q0Q) := Fintype.ofFinite (Q ⧸ Q0Q)
-    letI : Fintype QuotientNontrivial := Fintype.ofFinite QuotientNontrivial
+    let : Fintype (Q ⧸ Q0Q) := Fintype.ofFinite (Q ⧸ Q0Q)
+    let : Fintype QuotientNontrivial := Fintype.ofFinite QuotientNontrivial
     simp [QuotientNontrivial, Nat.card_eq_fintype_card]
   have horbit_card :
       n * ((Nat.card Q0 - 1) * Nat.card W) = Nat.card Q0 ^ 2 - 1 := by
@@ -1527,7 +1527,7 @@ private theorem corollary_1_core
         _ = (Nat.card Q0 + 1) * (Nat.card Q0 - 1) := hfactor
     apply Nat.mul_right_cancel (by omega : 0 < Nat.card Q0 - 1)
     exact hcancel
-  letI : IsCyclic W := hW_cyclic
+  let : IsCyclic W := hW_cyclic
   obtain ⟨zeta0, hzeta0_zpowers⟩ :=
     (W.isCyclic_iff_exists_zpowers_eq_top).mp (inferInstance : IsCyclic W)
   have hzeta0 : zeta0 ∈ W := by
@@ -1541,7 +1541,7 @@ private theorem corollary_1_core
   have hzeta0_gen : Subgroup.closure ({zeta0} : Set G) = W := by
     rw [← Subgroup.zpowers_eq_closure]
     exact hzeta0_zpowers
-  letI : Fintype OrbitIndex := Fintype.ofFinite OrbitIndex
+  let : Fintype OrbitIndex := Fintype.ofFinite OrbitIndex
   let orbitFin : OrbitIndex ≃ Fin n := by
     simpa [n, Nat.card_eq_fintype_card] using Fintype.equivFin OrbitIndex
   let repSharp (i : Fin n) : QuotientNontrivial :=
@@ -1931,7 +1931,7 @@ private theorem corollary_1_core
     ⟨homegaSeed_valid, homegaSeed_complete, homegaSeed_distinct⟩
   have hmem_F_of_frobenius_fixed (y : E)
       (hy : y ^ Nat.card F = y) : y ∈ F := by
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     let fr : E ≃ₐ[F] E := FiniteField.frobeniusAlgEquivOfAlgebraic F E
     have hyfr : fr y = y := by
       simpa [fr, Nat.card_eq_fintype_card] using hy
@@ -1965,7 +1965,7 @@ private theorem corollary_1_core
       calc
         sigma y = -y := eq_neg_of_add_eq_zero_right hy
         _ = y := (eq_neg_of_add_eq_zero_left hyadd).symm
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     let fr : E ≃ₐ[F] E := FiniteField.frobeniusAlgEquivOfAlgebraic F E
     have hfrfixed : fr y = y := by
       calc
@@ -2216,7 +2216,7 @@ private theorem corollary_1_core
       kcoord zeta ^ Nat.card F = (kcoord zeta)⁻¹ := by
     apply eq_inv_of_mul_eq_one_left
     simpa [pow_succ] using hzeta_coord_norm
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   let fr : E ≃ₐ[F] E := FiniteField.frobeniusAlgEquivOfAlgebraic F E
   have hfr_zeta : fr (kcoord zeta) = (kcoord zeta)⁻¹ := by
     calc
@@ -4043,7 +4043,7 @@ private theorem corollary_1_core
     · have htQ : t ∈ Q := by
         simpa [mk, hvalid] using hmkQ
       exact False.elim (ht_not_mem_Q htQ)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Pambient, hPambient_le_Q⟩ :=
     PFchapter1section1.proposition_1_c H D Q t hA1
   have hQ_eq_Pambient : Q = (Pambient : Subgroup G) :=
@@ -4194,7 +4194,7 @@ private theorem corollary_1_core
             (qCoord x).1.2⁻¹) := by
           rw [hqCoord_apply]
   obtain ⟨rankOneBase, hHrankOneBase⟩ := hA1.point_stabilizer
-  letI : FaithfulSMul G Omega := hsection3.section2.hA.A2
+  let : FaithfulSMul G Omega := hsection3.section2.hA.A2
   have hresidualIso :
       Nonempty (twoPrimeResidual G ≃*
         ProjectiveSpecialUnitaryMatrixGroup J) :=
@@ -4218,7 +4218,7 @@ private theorem corollary_1_core
       hfixedCard, hqQ0, hresidualIso⟩ := hcorollary
   have hFcard_data :
       ∃ n : ℕ+, Nat.Prime 2 ∧ Nat.card F = 2 ^ (n : ℕ) := by
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     obtain ⟨nF, hprime_two, hFcard_pow⟩ := FiniteField.card F 2
     exact ⟨nF, hprime_two, by
       simpa [Nat.card_eq_fintype_card] using hFcard_pow⟩
@@ -4233,7 +4233,7 @@ private theorem corollary_1_core
     rw [hqQ0]
     omega
   let L : Subgroup G := twoPrimeResidual G
-  letI : L.Normal := by
+  let : L.Normal := by
     simpa [L] using
       (PFchapter1section3.twoPrimeResidual_normal (G := G))
   have hodd : Odd (Nat.card (G ⧸ L)) := by
@@ -4245,7 +4245,7 @@ private theorem corollary_1_core
     rw [twoPrimeResidual]
     exact le_iSup (fun P : Sylow 2 G => (P : Subgroup G)) Pambient
   obtain ⟨base, hHbase⟩ := hA1.point_stabilizer
-  letI : MulAction.IsPreprimitive G Omega :=
+  let : MulAction.IsPreprimitive G Omega :=
     MulAction.isPreprimitive_of_is_two_pretransitive hA1.two_transitive
   have hL_fixed_ne_univ : MulAction.fixedPoints L Omega ≠ Set.univ := by
     intro hfixed
@@ -4261,7 +4261,7 @@ private theorem corollary_1_core
     apply FaithfulSMul.eq_of_smul_eq_smul (α := Omega)
     intro x
     simpa using hsfix x
-  letI : MulAction.IsPretransitive L Omega :=
+  let : MulAction.IsPretransitive L Omega :=
     MulAction.IsQuasiPreprimitive.isPretransitive_of_normal hL_fixed_ne_univ
   let QL : Subgroup L := Q.subgroupOf L
   have hnormalizer_QL_iff : ∀ l : L,
@@ -4311,18 +4311,18 @@ private theorem corollary_1_core
     ⟨_hXcard, rhoU, pinf, hrhoU_injective, hnatural,
       _hUcard, hroot_exists, htwo_target, _hPSUcard,
       _hthree_fixed⟩
-  letI : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
+  let : Finite (ProjectiveSpecialUnitaryMatrixGroup J) :=
     Finite.of_injective rhoU hrhoU_injective
-  letI : MulAction (ProjectiveSpecialUnitaryMatrixGroup J) X :=
+  let : MulAction (ProjectiveSpecialUnitaryMatrixGroup J) X :=
     MulAction.compHom X rhoU
   have htwo_target' : MulAction.IsMultiplyPretransitive
       (ProjectiveSpecialUnitaryMatrixGroup J) X 2 := by
     rw [MulAction.is_two_pretransitive_iff]
     intro a b c d hab hcd
     exact htwo_target a b c d hab hcd
-  letI : MulAction.IsMultiplyPretransitive
+  let : MulAction.IsMultiplyPretransitive
       (ProjectiveSpecialUnitaryMatrixGroup J) X 2 := htwo_target'
-  letI : MulAction.IsPretransitive
+  let : MulAction.IsPretransitive
       (ProjectiveSpecialUnitaryMatrixGroup J) X :=
     MulAction.isPretransitive_of_is_two_pretransitive
   rcases hroot_exists with

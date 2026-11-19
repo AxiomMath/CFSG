@@ -11,8 +11,8 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 private theorem s16h_e3_finite_mulAut (W : Type) [Group W] [Finite W] : Finite (MulAut W) :=
-  Finite.of_injective (fun f : MulAut W => (f : W → W))
-    (fun f g h => MulEquiv.ext (congrFun h))
+  Finite.of_injective (fun _f : MulAut W => (_f : W → W))
+    (fun _f _g h => MulEquiv.ext (congrFun h))
 
 private theorem s16h_e3_centerless_elem {W : Type} [CommGroup W] {L : Subgroup (MulAut W)}
     (hL : IsL3 ↥L 1) : ∀ a ∈ L, (∀ b ∈ L, a * b = b * a) → a = 1 := by
@@ -94,14 +94,14 @@ theorem s16h_e3_l3_three_asm {W : Type} [CommGroup W] [Finite W]
     (hsum : SumOfNat (fun H V Z => BinaryNaturalSL H V Z 3 1) L U ⊥ 3)
     (htrans : ∀ I₁ ∈ irrSet L, ∀ I₂ ∈ irrSet L,
       ∃ g ∈ X ⊓ normalizer (L : Set (MulAut W)), I₂ = I₁.map g.toMonoidHom)
-    (hrank : ∀ E : Subgroup (MulAut W), E ≤ X → IsElemAbelian 3 E → Nat.card ↥E ≤ 27)
+    (_hrank : ∀ E : Subgroup (MulAut W), E ≤ X → IsElemAbelian 3 E → Nat.card ↥E ≤ 27)
     (hrk3 : ∃ E : Subgroup (MulAut W), E ≤ X ∧ IsElemAbelian 3 E ∧ Nat.card ↥E = 27) :
     ∀ w ∈ U, w ≠ 1 → ∃ E : Subgroup (MulAut W), E ≤ X ∧ IsElemAbelian 3 E ∧ 9 ≤ Nat.card ↥E ∧
       ∀ e ∈ E, e w = w := by
   intro w hwU hw1
   classical
-  haveI : Finite (MulAut W) := s16h_e3_finite_mulAut W
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut W) := s16h_e3_finite_mulAut W
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hno
   have hbadw : ∀ E : Subgroup (MulAut W), E ≤ X → IsElemAbelian 3 E →
       (∀ e ∈ E, e w = w) → Nat.card ↥E ≤ 3 := by

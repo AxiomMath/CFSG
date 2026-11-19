@@ -33,7 +33,7 @@ structure LangMatData (τ : Tag) (K : Type) [Field K] [Finite K] where
     g0 * canonicalRep (coxeterSystem τ) (AlgebraicClosure K) w
 
 theorem e6_normalized_of_fixedRoot
-    (K : Type) [Field K] [Finite K] (hK3 : ringChar K ≠ 3) {ι : Type} (xs : ι → ModGL Tag.E6 K)
+    (K : Type) [Field K] [Finite K] (_hK3 : ringChar K ≠ 3) {ι : Type} (xs : ι → ModGL Tag.E6 K)
     (hxsN : ∀ i, ∀ g ∈ adjointGroup Tag.E6 K, xs i * g * (xs i)⁻¹ ∈ adjointGroup Tag.E6 K)
     (D : LangMatData Tag.E6 K)
     (hxs : ∀ i, baseChangeGL (algebraMap K (AlgebraicClosure K)) (xs i) ∈
@@ -44,7 +44,7 @@ theorem e6_normalized_of_fixedRoot
       IsPGroup (ringChar K) R ∧ ∀ i, ∀ r ∈ R, xs i * r * (xs i)⁻¹ ∈ R := by
   classical
   obtain ⟨e, he, hcard⟩ := card_eq_pow_ringChar K
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   set L := AlgebraicClosure K with hL
   have hFrEq : D.Fr = iterateFrobenius L (ringChar K) e :=
     RingHom.ext fun c => by rw [D.hFr c, iterateFrobenius_def, hcard]
@@ -265,7 +265,7 @@ theorem e6NormalizesR_of_matrix {K : Type} [Field K] [Finite K]
     simp
 
 theorem matrix_of_e6NormalizesR {K : Type} [Field K] [Finite K]
-    (E : Subgroup (MulAut (adjointGroup Tag.E6 K))) (hE : E ≤ e6Inndiag K)
+    (E : Subgroup (MulAut (adjointGroup Tag.E6 K))) (_hE : E ≤ e6Inndiag K)
     (h : E6NormalizesR K E) :
     ∃ R : Subgroup (ModGL Tag.E6 K), R ≤ adjointGroup Tag.E6 K ∧ R ≠ ⊥ ∧
       IsPGroup (ringChar K) R ∧ e6PlanePre K E ≤ Subgroup.normalizer (R : Set (ModGL Tag.E6 K)) := by
@@ -334,7 +334,7 @@ theorem e6DiagRegularOuter_of_fixedRoot (hR : E6RegularOuterFixedRoot) : E6DiagR
   · exact hRp.map _
   · rintro x hx _ ⟨r, hr, rfl⟩
     refine ⟨D.c * x * D.c⁻¹ * r * (D.c * x * D.c⁻¹)⁻¹, hRn ⟨x, hx⟩ r hr, ?_⟩
-    simp [MulAut.conj_apply]
+    simp
     group
 
 @[expose] def E6InndiagCentralizerGeneration : Prop :=
@@ -353,8 +353,8 @@ theorem e6InndiagParabolic_of_generic (hG : E6InndiagCentralizerGeneration) :
   have hK4 := four_le_card_of_not_innerAut K hK3 E hE hnin
   have hinj := e6InndiagConj_injective K hK4
   obtain ⟨R, hRC, hR1, hRp, hRn⟩ := matrix_of_e6NormalizesR E hE hnorm
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   have hAle : e6PlanePre K E ≤ e6InndiagGL K := by
     rintro _ hx
     obtain ⟨g, rfl, -⟩ := (mem_e6PlanePre_iff K E _).1 hx
@@ -429,7 +429,7 @@ open CFSG.HardMathSupport.Dickson.LocalTwoBalance.Cross (E6DiagIsotropic Twisted
     ∀ E : Subgroup (MulAut (twistedE6RootGroup K σ)),
       E ≤ twistedE6Inn K σ ⊔ twistedE6Diag K σ → CFSG.IsElementaryAbelian 3 E →
       Nat.card E = 3 ^ 2 → ¬ E ≤ innerAut (twistedE6RootGroup K σ) →
-      (∃ D : TwLangData K σ q (twPlanePre K σ E), ∃ x ∈ twPlanePre K σ E,
+      (∃ _D : TwLangData K σ q (twPlanePre K σ E), ∃ x ∈ twPlanePre K σ E,
           x ∉ twistedE6RootGroup K σ) ∨ TwE6NormalizesR K σ E
 
 @[expose] def TwE6InndiagParabolic' : Prop :=
@@ -592,7 +592,7 @@ open CFSG.LieType.SeitzGeneration CFSG.HardMathSupport.Timmesfeld.CrossChar
 
 theorem matrix_of_twE6NormalizesR {K : Type} [Field K] [Finite K] (σ : K ≃+* K)
     (E : Subgroup (MulAut (twistedE6RootGroup K σ)))
-    (hE : E ≤ twistedE6Inn K σ ⊔ twistedE6Diag K σ) (h : TwE6NormalizesR K σ E) :
+    (_hE : E ≤ twistedE6Inn K σ ⊔ twistedE6Diag K σ) (h : TwE6NormalizesR K σ E) :
     ∃ R : Subgroup (ModGL TwistTag.E6.tag K), R ≤ twistedE6RootGroup K σ ∧ R ≠ ⊥ ∧
       IsPGroup (ringChar K) R ∧
       twPlanePre K σ E ≤ Subgroup.normalizer (R : Set (ModGL TwistTag.E6.tag K)) := by
@@ -640,8 +640,8 @@ theorem twE6InndiagParabolic'_of_generic (hG : TwE6InndiagCentralizerGeneration)
       omega)
   have hinj := twistedE6InndiagConj_injective hp hf hK σ hσ
   obtain ⟨R, hRC, hR1, hRp, hRn⟩ := matrix_of_twE6NormalizesR σ E hE hnorm
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hp⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   have hAle : twPlanePre K σ E ≤ twistedE6InndiagGL K σ := by
     rintro _ hx
     obtain ⟨g, rfl, -⟩ := (mem_twPlanePre_iff K σ E _).1 hx
@@ -760,9 +760,9 @@ structure E6HeisenbergFrame (K : Type) [Field K] [Finite K]
 
 theorem exists_e6HeisenbergFrame {K : Type} [Field K] [Finite K] (hK3 : ringChar K ≠ 3)
     (hK4 : 4 ≤ Nat.card K) (K₁ : IntermediateField K (AlgebraicClosure K)) [Finite K₁]
-    (hroot : ∀ c : Kˣ, ∃ u : K₁ˣ, u ^ 3 = Units.map (algebraMap K K₁).toMonoidHom c)
+    (_hroot : ∀ c : Kˣ, ∃ u : K₁ˣ, u ^ 3 = Units.map (algebraMap K K₁).toMonoidHom c)
     (E : Subgroup (MulAut (adjointGroup Tag.E6 K))) (hE : CFSG.IsElementaryAbelian 3 E)
-    (hcard : Nat.card E = 3 ^ 2) (hd : E ≤ e6Inndiag K) (hnoniso : ¬ E6DiagIsotropic K K₁ E) :
+    (hcard : Nat.card E = 3 ^ 2) (_hd : E ≤ e6Inndiag K) (hnoniso : ¬ E6DiagIsotropic K K₁ E) :
     Nonempty (E6HeisenbergFrame K E) := by
   classical
   have : Fintype K := Fintype.ofFinite K
@@ -955,9 +955,9 @@ structure TwE6HeisenbergFrame (K : Type) [Field K] [Finite K] (σ : K ≃+* K) (
 theorem exists_twE6HeisenbergFrame (ℓ f : ℕ) (hℓ : ℓ.Prime) (hℓ3 : ℓ ≠ 3) (hf : 1 ≤ f)
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = (ℓ ^ f) ^ 2) (σ : K ≃+* K)
     (hσ : ∀ c, σ c = c ^ (ℓ ^ f)) (K₁ : IntermediateField K (AlgebraicClosure K)) [Finite K₁]
-    (hroot : ∀ c : Kˣ, ∃ u : K₁ˣ, u ^ 3 = Units.map (algebraMap K K₁).toMonoidHom c)
+    (_hroot : ∀ c : Kˣ, ∃ u : K₁ˣ, u ^ 3 = Units.map (algebraMap K K₁).toMonoidHom c)
     (E : Subgroup (MulAut (twistedE6RootGroup K σ))) (hE : CFSG.IsElementaryAbelian 3 E)
-    (hcard : Nat.card E = 3 ^ 2) (hd : E ≤ twistedE6Inn K σ ⊔ twistedE6Diag K σ)
+    (hcard : Nat.card E = 3 ^ 2) (_hd : E ≤ twistedE6Inn K σ ⊔ twistedE6Diag K σ)
     (hnoniso : ¬ TwistedE6DiagIsotropic K σ K₁ E) :
     Nonempty (TwE6HeisenbergFrame K σ (ℓ ^ f) E) := by
   classical
@@ -1051,7 +1051,7 @@ theorem exists_twE6HeisenbergFrame (ℓ f : ℕ) (hℓ : ℓ.Prime) (hℓ3 : ℓ
         ((e6Isogeny K₁ (s ^ k) : adjointGroup Tag.E6 K₁) : ModGL Tag.E6 K₁) := by
       rw [← ht1, hk, map_zpow (e6Isogeny K₁) s k, Subgroup.coe_zpow, ← hs1]
       simp [map_zpow]
-      <;> rfl
+      rfl
     have hz1 := hker t (s ^ k) hπ
     have hsz : Commute s ((s ^ k)⁻¹ * t) := Subgroup.mem_center_iff.1 hz1 s
     have hsk : Commute s (s ^ k) := (Commute.refl s).zpow_right k
@@ -1067,7 +1067,7 @@ theorem exists_twE6HeisenbergFrame (ℓ f : ℕ) (hℓ : ℓ.Prime) (hℓ3 : ℓ
           ModGL Tag.E6 K₁) := by
       rw [← hs1, hg1]
       simp
-      <;> rfl
+      rfl
     have hz1 := hker s 1 hπ
     have hs_c : s ∈ Subgroup.center ↥(e6Data_valid.minGroup K₁) := by simpa using hz1
     exact hst (Subgroup.mem_center_iff.1 hs_c t).symm
@@ -1173,7 +1173,7 @@ theorem langGL_rootChar_frob {K : Type} [Field K] [Finite K] {A : Subgroup (ModG
     rootChar a (D.w • v) = rootChar a v ^ Nat.card K := by
   classical
   obtain ⟨e, he, hcard⟩ := card_eq_pow_ringChar K
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   have hFrEq : D.Fr = iterateFrobenius (AlgebraicClosure K) (ringChar K) e :=
     RingHom.ext fun c => by rw [D.hFr c, iterateFrobenius_def, hcard]
   have hFrob : ∀ g : ModGL Tag.E6 (AlgebraicClosure K),
@@ -1216,11 +1216,11 @@ theorem langGL_mem_rootCharStabilizer {K : Type} [Field K] [Finite K] {A : Subgr
   obtain ⟨m, hm⟩ := h3
   have hq : Nat.card K = 1 + 3 * m := by omega
   have hcube : (rootChar a v) ^ 3 = 1 := by
-    simp only [rootChar, ← prod_zpow_eq_zpow_sum_of_group]
+    simp only [rootChar]
     rw [← Finset.prod_pow]
     refine Finset.prod_eq_one fun i _ => ?_
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul]
-    simp [← zpow_natCast, ha3 i]
+    simp [ha3 i]
   rw [hq, pow_add, pow_mul, hcube, one_pow, pow_one, mul_one]
 
 theorem four_le_card_of_outer_matrix (K : Type) [Field K] [Finite K] (hK3 : ringChar K ≠ 3)

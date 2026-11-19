@@ -421,7 +421,7 @@ theorem exists_mem_SHat_of_mem_pointRadical
   have hTS : (T : Subgroup ↥Ph).map Ph.subtype ≤ sec3SHat (Q₀ ⊔ Q) Zs :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 ((map_subtype_le _).trans hPhC)
       (fun c hc => CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
-        (T : Subgroup ↥Ph) (hCPh hc)) (T.isPGroup'.map _)
+        (T : Subgroup ↥Ph) (hCPh hc)) (T.isPGroup.map _)
   have hTall : ∀ p : ↥Ph, ∀ n : ℕ, p ^ 2 ^ n = 1 → p ∈ (T : Subgroup ↥Ph) := by
     intro p n hn
     obtain ⟨T', hT'⟩ := (AS76b.isPGroup_zpowers_of_pow_eq_one hn).exists_le_sylow

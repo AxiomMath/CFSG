@@ -41,6 +41,7 @@ variable {Ω : Set (Subgroup G)} {u : G}
   (Chart.permSub.comap ((AE.aeSub 6).subtype.comp c.ψ.toMonoidHom)).map
     (pSpan (Generic.centMembers Ω u)).subtype
 
+omit [Finite G] in
 theorem Chart.mem_H0 (c : Chart Ω u) (g : G) :
     g ∈ c.H0 ↔ ∃ hg : g ∈ pSpan (Generic.centMembers Ω u),
       (c.ψ ⟨g, hg⟩ : AE.Wr 6).vec = 0 ∧
@@ -55,12 +56,14 @@ theorem Chart.mem_H0 (c : Chart Ω u) (g : G) :
     ↥(pSpan (Generic.centMembers Ω u)) →* Equiv.Perm (Fin 6) :=
   (AE.permHom 6).comp ((AE.aeSub 6).subtype.comp c.ψ.toMonoidHom)
 
+omit [Finite G] in
 theorem Chart.permHomY_apply (c : Chart Ω u) (y : ↥(pSpan (Generic.centMembers Ω u))) :
     c.permHomY y = (c.ψ y : AE.Wr 6).perm := rfl
 
 @[expose] def Chart.H0Y (c : Chart Ω u) : Subgroup ↥(pSpan (Generic.centMembers Ω u)) :=
   Chart.permSub.comap ((AE.aeSub 6).subtype.comp c.ψ.toMonoidHom)
 
+omit [Finite G] in
 theorem Chart.H0Y_ker (c : Chart Ω u) (x : ↥(pSpan (Generic.centMembers Ω u)))
     (hx : x ∈ c.H0Y) (h1 : c.permHomY x = 1) : x = 1 := by
   have hv : (c.ψ x : AE.Wr 6).vec = 0 := hx.1
@@ -73,6 +76,7 @@ theorem Chart.H0Y_ker (c : Chart Ω u) (x : ↥(pSpan (Generic.centMembers Ω u)
   rw [hψ, map_one]
   rfl
 
+omit [Finite G] in
 theorem Chart.H0Y_surj (c : Chart Ω u) (τ : Equiv.Perm (Fin 6))
     (hτ : τ ∈ alternatingGroup (Fin 6)) : ∃ x ∈ c.H0Y, c.permHomY x = τ := by
   have hmem : (AE.Wr.ofPerm τ : AE.Wr 6) ∈ AE.aeSub 6 := by
@@ -101,7 +105,7 @@ theorem ae8j_cycle3_ne_two_pow (k : ℕ) :
   intro h
   have hc3 : (Equiv.swap (0 : Fin 6) 1 * Equiv.swap (1 : Fin 6) 2) ^ 3 = 1 := by decide
   have hc1 : Equiv.swap (0 : Fin 6) 1 * Equiv.swap (1 : Fin 6) 2 ≠ 1 := by decide
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord := orderOf_eq_prime hc3 hc1
   have hdvd := orderOf_dvd_of_pow_eq_one h
   rw [hord] at hdvd
@@ -143,7 +147,7 @@ theorem Chart.perm_one_of_normal_isPGroup (N : Subgroup ↥(AE.aeSub 6)) [N.Norm
     intro τ
     exact ⟨⟨AE.Wr.ofPerm (τ : Equiv.Perm (Fin 6)),
       ae8b1_ofPerm_mem (Equiv.Perm.mem_alternatingGroup.mp τ.2)⟩, Subtype.ext rfl⟩
-  haveI : (N.map ρ).Normal := Subgroup.Normal.map ‹N.Normal› ρ hρ
+  have : (N.map ρ).Normal := Subgroup.Normal.map ‹N.Normal› ρ hρ
   rcases alternatingGroup.normal_subgroup_eq_bot_or_eq_top (α := Fin 6) (by simp)
       (N := N.map ρ) with h | h
   · intro n hn
@@ -159,7 +163,7 @@ theorem Chart.perm_one_of_normal_isPGroup (N : Subgroup ↥(AE.aeSub 6)) [N.Norm
     obtain ⟨k, hk⟩ := (h2.map ρ) ⟨_, hc⟩
     have h4 := congrArg (fun x : ↥(N.map ρ) => ((x : alternatingGroup (Fin 6)) :
       Equiv.Perm (Fin 6))) hk
-    simp only [Subgroup.coe_pow, Subgroup.coe_mk, Subgroup.coe_one] at h4
+    simp only [Subgroup.coe_pow, Subgroup.coe_one] at h4
     exact ae8j_cycle3_ne_two_pow k h4
 
 theorem Chart.H0_inf_zGroup (H : End18.Hyp Ω) (c : Chart Ω u) : c.H0 ⊓ zGroup Ω = ⊥ := by
@@ -171,6 +175,7 @@ theorem Chart.H0_inf_zGroup (H : End18.Hyp Ω) (c : Chart Ω u) : c.H0 ⊓ zGrou
     exact (c.mem_zGroup_iff H y).mp hgD
   simp [c.H0Y_ker y hy h1]
 
+omit [Finite G] in
 theorem ae8j_pi_eq_extPerm {c : Chart Ω u} (pt : Points u) (ι : Fin 6 ↪ Fin 8)
     (hι : ∀ y : ↥(pSpan (Generic.centMembers Ω u)),
       (∀ i : Fin 6, pt.π (y : G) (ι i) = ι ((c.ψ y : AE.Wr 6).perm i)) ∧
@@ -183,6 +188,7 @@ theorem ae8j_pi_eq_extPerm {c : Chart Ω u} (pt : Points u) (ι : Fin 6 ↪ Fin 
     rw [Amalg.extPerm_apply_mem, (hι y).1 i]
   · rw [Amalg.extPerm_apply_not_mem ι _ hx, (hι y).2 x hx]
 
+omit [Finite G] in
 theorem Points.map_H0_eq_altOn (H : End18.Hyp Ω) {c : Chart Ω u} {co : Coords c}
     (cl : Classes co) (pt : Points u) :
     ∃ ι : Fin 6 ↪ Fin 8, c.H0.map pt.π = altOn (Finset.univ.image ι) := by
@@ -205,7 +211,8 @@ theorem Points.map_H0_eq_altOn (H : End18.Hyp Ω) {c : Chart Ω u} {co : Coords 
     refine ⟨x.1, Subgroup.mem_map_of_mem _ hx, ?_⟩
     rw [ae8j_pi_eq_extPerm pt ι hι x, hxσ']
 
-theorem Points.ker_eq_centralizer (H : End18.Hyp Ω) {c : Chart Ω u} {co : Coords c}
+omit [Finite G] in
+theorem Points.ker_eq_centralizer (_H : End18.Hyp Ω) {c : Chart Ω u} {co : Coords c}
     (cl : Classes co) (pt : Points u) :
     pt.π.ker = Subgroup.centralizer (zGroup Ω : Set G) := by
   ext g
@@ -250,6 +257,7 @@ theorem Points.ker_eq_centralizer (H : End18.Hyp Ω) {c : Chart Ω u} {co : Coor
       rfl
     exact ExistsUnique.unique (T8_exists_perm (Equiv.refl _) (fun _ _ => Iff.rfl)) h1 h2
 
+omit [Finite G] in
 theorem commutator_eq_top (H : End18.Hyp Ω) (c : Chart Ω u) : commutator G = ⊤ := by
   have hYle : pSpan (Generic.centMembers Ω u) ≤ commutator G := by
     have h1 : (commutator ↥(pSpan (Generic.centMembers Ω u))).map
@@ -276,7 +284,7 @@ theorem pCore_eq_zGroup (H : End18.Hyp Ω) {c : Chart Ω u} {co : Coords c}
     (cl : Classes co) (pt : Points u) : pCore 2 G = zGroup Ω := by
   classical
   have hΩ : ConjInvariant Ω := H.endHyp.thmD.hyp.conjInvariant
-  haveI hDn : (zGroup Ω).Normal := Chart.ae8b2_zGroup_normal hΩ
+  have hDn : (zGroup Ω).Normal := Chart.ae8b2_zGroup_normal hΩ
   have hQK : pCore 2 G = pt.π.ker := by
     rw [Points.ker_eq_centralizer H cl pt, H.centralizer_zGroup_eq_pCore]
   have hDK : zGroup Ω ≤ pt.π.ker := by
@@ -322,9 +330,9 @@ theorem pCore_eq_zGroup (H : End18.Hyp Ω) {c : Chart Ω u} {co : Coords c}
   let K : Subgroup ↥(pSpan (Generic.centMembers Ω u)) :=
     (pCore 2 G).subgroupOf (pSpan (Generic.centMembers Ω u))
   have hK2 : IsPGroup 2 K := IsPGroup.comap_subtype (CFSG.pCore_isPGroup (p := 2) (G := G))
-  haveI hKn : K.Normal := inferInstance
+  have hKn : K.Normal := inferInstance
   let N : Subgroup ↥(AE.aeSub 6) := K.map c.ψ.toMonoidHom
-  haveI hNn : N.Normal := Subgroup.Normal.map hKn c.ψ.toMonoidHom c.ψ.surjective
+  have hNn : N.Normal := Subgroup.Normal.map hKn c.ψ.toMonoidHom c.ψ.surjective
   have hN2 : IsPGroup 2 N := hK2.map c.ψ.toMonoidHom
   have hpermN : ∀ n ∈ N, (n : AE.Wr 6).perm = 1 := Chart.perm_one_of_normal_isPGroup N hN2
   obtain ⟨ι, hι⟩ := Points.map_H0_eq_altOn H cl pt

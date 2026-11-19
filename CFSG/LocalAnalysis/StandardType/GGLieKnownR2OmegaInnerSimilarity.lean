@@ -15,7 +15,7 @@ theorem exists_sq_factor_units {F : Type} [Field F] [Finite F] [CharP F 2] (μ :
   obtain ⟨r, hr⟩ := FiniteField.isSquare_of_char_two (ringChar.eq F 2) (μ : F)
   have hr0 : r ≠ 0 := by
     rintro rfl
-    exact Units.ne_zero μ (by simpa using hr)
+    exact Units.ne_zero μ (by simp at hr)
   refine ⟨Units.mk0 r hr0, ?_⟩
   apply Units.ext
   rw [Units.val_mul, Units.val_mk0]

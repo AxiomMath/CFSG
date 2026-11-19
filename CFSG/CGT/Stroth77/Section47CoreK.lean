@@ -73,7 +73,7 @@ theorem t200k_g_conj_t (hrel_e : Rel34i dD e (2 ^ (m + 1))) (hrel_f : Rel34inv d
     t200iAction_φe, ← mul_assoc, ← dD.ofTorus_add, torusDiag_ofInt, ← Torus.ofInt_add]
   congr 3
   funext i
-  fin_cases i <;> simp <;> ring
+  fin_cases i <;> simp; ring
 
 theorem t200k_e_comm_c₁ (hrel_e : Rel34i dD e (2 ^ (m + 1))) :
     e * (dD.c : G) ^ 2 ^ (m - 1) = (dD.c : G) ^ 2 ^ (m - 1) * e := by

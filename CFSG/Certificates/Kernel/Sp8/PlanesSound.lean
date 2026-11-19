@@ -92,17 +92,17 @@ theorem blk_zE (a : Fin 4 → ZMod 3) (q p : Fin 4) :
 theorem blk_zE_mul (a : Fin 4 → ZMod 3) (M : M8) (q p : Fin 4) :
     blk (zE a * M) q p = bp (a q) * blk M q p := by
   rw [blk_mul]
-  simp only [blk_zE, ite_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+  simp only [blk_zE, ite_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
 
 theorem blk_mul_zE (a : Fin 4 → ZMod 3) (M : M8) (q p : Fin 4) :
     blk (M * zE a) q p = blk M q p * bp (a p) := by
   rw [blk_mul]
-  simp only [blk_zE, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [blk_zE, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 theorem zE_add (a b : Fin 4 → ZMod 3) : zE (a + b) = zE a * zE b := by
   refine blk_ext fun q p => ?_
   rw [blk_mul, blk_zE]
-  simp only [blk_zE, ite_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+  simp only [blk_zE, ite_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
   split_ifs with h
   · rw [h, Pi.add_apply, bp_add]
   · rfl

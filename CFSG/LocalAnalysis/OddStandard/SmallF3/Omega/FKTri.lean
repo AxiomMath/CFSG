@@ -33,7 +33,7 @@ theorem fkNode_three : fkNode 3 = ((fr 𝔽₃).longSL2 ne23 true true).range :=
   ∀ k : Fin 4, (fkNode k).map ρ.toMonoidHom = fkNode (triPerm k)
 
 theorem fkTri_exists : ∃ ρ : MulAut Spin₈, FKTri ρ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.ClassicalInvolution.ModelFacts.TG3.exists_triality3 ⟨Nat.prime_three, le_rfl, le_rfl⟩
 
 theorem FKTri.apply_z0 {ρ : MulAut Spin₈} (h : FKTri ρ) : ρ (z0 𝔽₃) = z2 𝔽₃ :=

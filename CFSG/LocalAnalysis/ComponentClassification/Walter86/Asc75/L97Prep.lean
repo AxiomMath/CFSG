@@ -80,7 +80,7 @@ theorem glaubermanAt_holds (X : Type) [Group X] [Finite X] : GlaubermanAt X := b
       exact (Nat.not_even_iff_odd.mpr hodd) heven
   have hKle : K ≤ CFSG.ClassicalInvolution.sylowFixingAut (S : Subgroup X) :=
     fun α hα => CFSG.ClassicalInvolution.mem_sylowFixingAut.2 (hfix α hα)
-  haveI : Group.IsSolvable (CFSG.ClassicalInvolution.sylowFixingAut (S : Subgroup X)) :=
+  have : Group.IsSolvable (CFSG.ClassicalInvolution.sylowFixingAut (S : Subgroup X)) :=
     CFSG.ClassicalInvolution.glaubermanSylowFixingSolvable X hcore S
   have hsolv : Group.IsSolvable K :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hKle)

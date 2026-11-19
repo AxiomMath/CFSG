@@ -29,6 +29,7 @@ structure IsLocalRegGrp (G₁ G₂ X : Subgroup G) (p : ℕ) : Prop where
   sup_eq : X ⊔ (G₁ ⊓ G₂) = G₂
   not_le : ¬ G₁ ⊓ G₂ ≤ coreIn (G₁ ⊓ G₂) G₂
 
+omit [Finite G] in
 theorem IsLocalRegGrp.isLocalReg (hc : CritAmalgam G₀ G₁ G₂ T Z) {X : Subgroup G} {p : ℕ}
     (h : IsLocalRegGrp G₁ G₂ X p) : IsLocalReg (γ₁ G₀ G₁ G₂) p X := by
   have hG := hc.amalgam.gen
@@ -86,7 +87,7 @@ theorem IsLocalRegGrp.isLocalReg (hc : CritAmalgam G₀ G₁ G₂ T Z) {X : Subg
     rw [← mul_smul, e, mul_smul, hk]
   · intro γ hγ
     obtain ⟨g, hgG₂, rfl⟩ := hnb γ hγ
-    obtain ⟨m, hm, hmN⟩ := SetLike.not_le_iff_exists.mp h.not_le
+    obtain ⟨m, hm, hmN⟩ := IsConcreteLE.not_le_iff_exists.mp h.not_le
     refine ⟨(g : G) * m * (g : G)⁻¹, ⟨?_, ?_⟩, ?_⟩
     · rw [hst]; exact G₂.mul_mem (G₂.mul_mem hgG₂ hm.2) (G₂.inv_mem hgG₂)
     · rw [CosetGeom.stab_smul, hst₀]

@@ -23,7 +23,7 @@ namespace K1Lin
 theorem pRank_three_projSL_le_two {F : Type} [Field F] [Finite F] (hF : ¬ 3 ∣ Nat.card F)
     {n : ℕ} (hn3 : ¬ 3 ∣ n) (hlt : n / orderOf (Nat.card F : ZMod 3) < 3) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (StatedProj (StatedSL n F))) ≤ 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hF' : ¬ 3 ∣ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
   have hq : 1 < Fintype.card F := Fintype.one_lt_card
   have hmod : Fintype.card F % 3 = 1 ∨ Fintype.card F % 3 = 2 := by
@@ -83,7 +83,7 @@ theorem pRank_three_projSU_le_two {L : Type} [Field L] [Finite L] {ℓ f n : ℕ
     (hL : Nat.card L = (ℓ ^ f) ^ 2) (hq3 : ¬ 3 ∣ ℓ ^ f) (hn : 1 ≤ n) (hn3 : ¬ 3 ∣ n)
     (hlt : n / orderOf (-((ℓ ^ f : ℕ) : ZMod 3)) < 3) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (StatedProj (StatedSU n (ℓ ^ f) L))) ≤ 2 := by
-  haveI : Fintype L := Fintype.ofFinite L
+  have : Fintype L := Fintype.ofFinite L
   have hLc : Fintype.card L = (ℓ ^ f) ^ 2 := by rwa [← Nat.card_eq_fintype_card]
   have hq2 : 2 ≤ ℓ ^ f := by
     have h1 : 2 ≤ (ℓ ^ f) ^ 2 := by rw [← hLc]; exact Fintype.one_lt_card
@@ -133,7 +133,7 @@ theorem pRank_three_projSU_le_two {L : Type} [Field L] [Finite L] {ℓ f n : ℕ
 
 theorem pRank_three_projSp_two_le_two {F : Type} [Field F] [Finite F] (hF : ¬ 3 ∣ Nat.card F) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (StatedProj (StatedSp 2 F))) ≤ 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hF' : ¬ 3 ∣ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
   have hq : 1 < Fintype.card F := Fintype.one_lt_card
   have hmod : Fintype.card F % 3 = 1 ∨ Fintype.card F % 3 = 2 := by
@@ -373,8 +373,8 @@ private theorem crossChar_twistedA_mod1_ge_seven (X : Type) [Group X] [Finite X]
     (hq1 : q.p ^ q.exponent % 3 = 1) : CrossCharConcl X := by
   obtain ⟨-, F, hFld, hFin, hF, ⟨φ⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv e
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI : CharP F q.p :=
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : CharP F q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic q.prime_p
       (k := q.exponent * 2) (by have := q.exponent_pos; omega) (by rw [hF, ← pow_mul])
   exfalso
@@ -425,7 +425,7 @@ private theorem crossChar_twistedA_mod2 (X : Type) [Group X] [Finite X] (r : ℕ
     (q : PrimePower) (hv : (LieTypeIndex.twistedA r q).Valid)
     (e : X ≃* (CFSGIndex.lie ⟨.twistedA r q, hv⟩).Group)
     (hrk : CFSG.Open.pRank 3 (⊤ : Subgroup X) = 3) (hr : 3 ≤ r)
-    (hq2 : q.card % 3 = 2) (hq3' : ¬ 3 ∣ q.p ^ q.exponent) : CrossCharConcl X := by
+    (hq2 : q.card % 3 = 2) (_hq3' : ¬ 3 ∣ q.p ^ q.exponent) : CrossCharConcl X := by
   have hq2' : q.p ^ q.exponent % 3 = 2 := by rwa [← PrimePower.card_def]
   have hdvd2 : 3 ∣ q.card + 1 := by omega
   have hdvd2' : 3 ∣ q.p ^ q.exponent + 1 := by rwa [PrimePower.card_def] at hdvd2
@@ -603,16 +603,16 @@ theorem k34odd_lie_classical_crossChar
   | C r q => exact crossChar_C X r q hv e hrk hch
   | D r q => exact crossChar_D X r q hv e hrk hch
   | twistedD r q => exact crossChar_twistedD X r q hv e hrk hch
-  | E6 q => exfalso; simpa using hcl
-  | E7 q => exfalso; simpa using hcl
-  | E8 q => exfalso; simpa using hcl
-  | F4 q => exfalso; simpa using hcl
-  | G2 q => exfalso; simpa using hcl
-  | twistedE6 q => exfalso; simpa using hcl
-  | trialityD4 q => exfalso; simpa using hcl
-  | suzuki k => exfalso; simpa using hcl
-  | reeG2 k => exfalso; simpa using hcl
-  | reeF4 k => exfalso; simpa using hcl
-  | tits => exfalso; simpa using hcl
+  | E6 q => exfalso; simp at hcl
+  | E7 q => exfalso; simp at hcl
+  | E8 q => exfalso; simp at hcl
+  | F4 q => exfalso; simp at hcl
+  | G2 q => exfalso; simp at hcl
+  | twistedE6 q => exfalso; simp at hcl
+  | trialityD4 q => exfalso; simp at hcl
+  | suzuki k => exfalso; simp at hcl
+  | reeG2 k => exfalso; simp at hcl
+  | reeF4 k => exfalso; simp at hcl
+  | tits => exfalso; simp at hcl
 
 end CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82

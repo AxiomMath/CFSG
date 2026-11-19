@@ -60,7 +60,7 @@ theorem spST_spec (w m : ℕ) : ∀ n,
       rw [nlor, nshl, Nat.testBit_or, ih2 y, Nat.testBit_shiftLeft, bitN_toNat, ih1]
       by_cases hy : y = n
       · subst hy
-        cases hm : m.testBit (flt (fun i => w.testBit i) y).length <;> simp [hw, hm]
+        cases hm : m.testBit (flt (fun i => w.testBit i) y).length <;> simp [hw]
       · have hb : ((m.testBit (flt (fun i => w.testBit i) n).length).toNat).testBit (y - n) =
             false ∨ ¬ y ≥ n := by
           by_cases hge : y ≥ n

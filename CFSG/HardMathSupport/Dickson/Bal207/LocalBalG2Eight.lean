@@ -21,7 +21,7 @@ theorem sl2Eight_eq_one_of_commute {K : Type} [Field K] [Finite K] (hK : Nat.car
     {A B : SL2 K} (hA3 : A ^ 3 = 1) (hA1 : A ≠ 1) (hB7 : B ^ 7 = 1) (hAB : A * B = B * A) :
     B = 1 := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   set D := (HSLHom K).range with hD
   have hDcard : Nat.card D = 7 := by
     rw [hD, ← Nat.card_congr (MonoidHom.ofInjective (f := HSLHom K) HSLHom_injective).toEquiv,
@@ -131,10 +131,10 @@ theorem noNormalPPrime_centralizer_g2Short_eight (hK : Nat.card K = 8)
     KS11Lie7Proof.isQuasisimple_centralizer_threeA h3 (by norm_num [hK]) hzS hz3 hz1
   have hK8 : Nat.card K = 2 ^ 3 := hK.trans (by norm_num)
   have hZ : Nat.card (Subgroup.center C) = 3 := by
-    haveI : CharP K 2 :=
+    have : CharP K 2 :=
       LocalTwoBalance.Cross.G2Aux.charP_two_of_even_natCard K (by rw [hK]; decide)
     obtain ⟨L, _, _, _, -, hdeg, -⟩ := exists_quadratic_ext' K
-    haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+    have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
     obtain ⟨e⟩ := KS11Lie7Proof.nonempty_centralizer_mulEquiv_statedSU (p := 2) (f := 3)
       hK8 h3 hdeg hzS hz3 hz1
     rw [Nat.card_congr (Subgroup.centerCongr e).toEquiv]

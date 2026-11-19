@@ -36,13 +36,13 @@ theorem E_not_le_K : ¬ c.E ≤ c.K := by
   intro hE
   have hRE_K : c.R ⊔ c.E ≤ c.K := sup_le c.R_le_K hE
   obtain ⟨φ, hφs, hφk⟩ := c.K_quot
-  haveI hs := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
+  have hs := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
   let N : Subgroup ↥c.K := (c.R ⊔ c.E).subgroupOf c.K
-  haveI hNn : N.Normal :=
+  have hNn : N.Normal :=
     ⟨fun n hn k => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using c.RE_conj k.2 hn⟩
-  haveI : (N.map φ).Normal := hNn.map φ hφs
+  have : (N.map φ).Normal := hNn.map φ hφs
   have hkerN : φ.ker ≤ N := by
     rw [hφk]
     intro x hx

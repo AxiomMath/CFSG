@@ -18,6 +18,7 @@ open CFSG.Blueprint
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma blockHom_snd_apply {s : OGroup Q} (hs : s * s = 1)
     (p : OGroup (Q.restrict (fixSp s)) × OGroup (Q.restrict (commSp s))) (x : commSp s) :
     (((p.2 : commSp s ≃ₗ[ZMod 3] commSp s) x : commSp s) : V) =
@@ -25,6 +26,7 @@ private lemma blockHom_snd_apply {s : OGroup Q} (hs : s * s = 1)
   have h := blockHom_apply hs p (0 : fixSp s) x
   simpa using h.symm
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma snd_eq_piOrth_of_apply_eq_neg {s g : OGroup Q} (hs : s * s = 1)
     {p : OGroup (Q.restrict (fixSp s)) × OGroup (Q.restrict (commSp s))}
     (hp : blockHom hs p = g)
@@ -37,6 +39,7 @@ private lemma snd_eq_piOrth_of_apply_eq_neg {s g : OGroup Q} (hs : s * s = 1)
   rw [blockHom_snd_apply hs p x, hp, h x, coe_piOrth_apply]
   simp
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma snd_eq_one_of_apply_eq_self {s g : OGroup Q} (hs : s * s = 1)
     {p : OGroup (Q.restrict (fixSp s)) × OGroup (Q.restrict (commSp s))}
     (hp : blockHom hs p = g)
@@ -49,6 +52,7 @@ private lemma snd_eq_one_of_apply_eq_self {s g : OGroup Q} (hs : s * s = 1)
   rw [blockHom_snd_apply hs p x, hp, h x]
   simp
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma blockInr_mul_comm_blockHom {s : OGroup Q} (hs : s * s = 1)
     (p : OGroup (Q.restrict (fixSp s)) × OGroup (Q.restrict (commSp s)))
     (hc : p.2 ∈ Subgroup.center (OGroup (Q.restrict (commSp s))))
@@ -59,7 +63,7 @@ private lemma blockInr_mul_comm_blockHom {s : OGroup Q} (hs : s * s = 1)
   ext <;> simp [Subgroup.mem_center_iff.mp hc b]
 
 theorem sec4FD_component_omega5 (hQ : Q.Nondegenerate) {t : OGroup Q} (htt : t * t = 1)
-    {u s' : OGroup Q} (hu : u ∈ Sec4FDDt hQ t) (hs's' : s' * s' = 1) (hts' : t * s' = s' * t)
+    {u s' : OGroup Q} (_hu : u ∈ Sec4FDDt hQ t) (hs's' : s' * s' = 1) (hts' : t * s' = s' * t)
     (hneg : commSp s' ≤ commSp t) (h5 : Module.finrank (ZMod 3) (commSp s') = 5)
     (hus' : u * s' = s' * u)
     (hsign : (∀ x ∈ commSp s', (u : V ≃ₗ[ZMod 3] V) x = x) ∨
@@ -68,8 +72,8 @@ theorem sec4FD_component_omega5 (hQ : Q.Nondegenerate) {t : OGroup Q} (htt : t *
     ∃ K : Subgroup (OGroup Q),
       IsComponentIn K (Sec4FDDt hQ t ⊓ Subgroup.centralizer ({u} : Set (OGroup Q))) ∧
         oddCore ↥K = ⊥ ∧ LieModel ↥K .PSp 2 3 1 := by
-  haveI : NeZero (2 : ZMod 3) := ⟨(isUnit_of_invertible (2 : ZMod 3)).ne_zero⟩
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : NeZero (2 : ZMod 3) := ⟨(isUnit_of_invertible (2 : ZMod 3)).ne_zero⟩
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
   have hW : (Q.restrict (commSp s')).Nondegenerate := nondegenerate_restrict_commSp hQ hs's'
   let ΩW : Subgroup (OGroup (Q.restrict (commSp s'))) := omegaGroup hW
   let K : Subgroup (OGroup Q) := ΩW.map (blockInr hs's')

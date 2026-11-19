@@ -115,7 +115,7 @@ theorem D1Sp62Data.card_sylow (h : D1Sp62Data P M H R V) (h84 : Asc81bEightFour)
     rw [card_barM_of_isPGroup Nat.prime_three (by norm_num) h3.le_M h3.isPGroup_R, h.card_R]
   have h81 : 3 ^ 4 ∣ Nat.card PL := hcR ▸ Subgroup.card_dvd_of_le hRPL
   have hge : 3 ^ 4 ∣ Nat.card (Q : Subgroup PL) := Q.pow_dvd_card_of_pow_dvd_card h81
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp Q.isPGroup
   have hQH : 3 ^ n ∣ Nat.card H := hn ▸ (Subgroup.card_subgroup_dvd_card _).trans hPLH
   have hRH : CFSG.ABGLocalTools.IsSylowOf 3 R H := h3.isSylow
   rw [CFSG.ABGLocalTools.isSylowOf_iff] at hRH

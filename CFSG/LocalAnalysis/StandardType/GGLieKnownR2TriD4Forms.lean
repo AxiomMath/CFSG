@@ -96,7 +96,7 @@ theorem ggRootNoCentralAt_triD4
     exact odd_one
   have hσ3 : ∀ c : F, σ (σ (σ c)) = c :=
     CFSG.LieType.Steinberg.TwistedD4.sigma_three_of_card hcard hσ
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega : 1 ≤ g * 3) (by rw [hcard, ← pow_mul])
   have hβroot : β ∈ (triD4Universal F σ).D.roots := tforms_GGLongRoot_mem_roots hl

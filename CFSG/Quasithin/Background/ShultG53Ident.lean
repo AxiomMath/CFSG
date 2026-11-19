@@ -47,7 +47,7 @@ theorem identify_module (V : Md ↥(alternatingGroup (Fin 6))) (hirr : V.IsIrred
     ∃ (k : Fin 2) (e : V.carrier ≃+ V4),
       ∀ (g : ↥(alternatingGroup (Fin 6))) m, e (V.ρ g m) = ρk k g (e m) := by
   obtain ⟨hnt, hS⟩ := hirr
-  haveI := hnt
+  have := hnt
   obtain ⟨i, f, hf⟩ := a6_complete V.ρ hS
   have hi : i = 1 ∨ i = 2 := by
     have h1 : Nat.card V.carrier = Nat.card (D i) := Nat.card_congr f.toEquiv

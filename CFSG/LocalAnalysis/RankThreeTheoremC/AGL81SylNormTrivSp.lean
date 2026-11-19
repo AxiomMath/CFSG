@@ -18,7 +18,7 @@ variable {K Y : Type*} [Group K] [Finite K] [Group Y] {D : UniversalRootDatum K}
 
 theorem BorelQuotient.normalizer_eq_of_one (h : BorelQuotient D n H π 1) (T : Sylow 2 Y) :
     Subgroup.normalizer ((T : Subgroup Y) : Set Y) = T := by
-  haveI : Finite Y := Finite.of_surjective π h.surj
+  have : Finite Y := Finite.of_surjective π h.surj
   obtain ⟨π', hπ', hker, hT⟩ := h.exists_conj_eq T
   have hQ : BorelQuotient D n H π' 1 :=
     { ct := h.ct, extras := h.extras, pGroup := h.pGroup, surj := hπ', odd := h.odd
@@ -46,8 +46,8 @@ theorem normalizer_sylow_statedProj_statedSp {r : ℕ} {F : Type} [Field F] [Fin
     (hF : Nat.card F = 2) (T : Sylow 2 (StatedProj (StatedSp r F))) :
     normalizer ((T : Subgroup (StatedProj (StatedSp r F))) : Set (StatedProj (StatedSp r F))) =
       T := by
-  haveI : CharP F 2 := by
-    letI : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := by
+    let : Fintype F := Fintype.ofFinite F
     exact charP_of_card_eq_prime_pow (f := 1) (by rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hQ := CFSG.AGLEmbedding.ParabHub.borelQuotient_sp (n := r) (F := F)
     (Y := StatedProj (StatedSp r F)) (MulEquiv.refl _)
@@ -60,10 +60,10 @@ theorem mulAut_eq_one_of_mulEquiv_statedProj_statedSp {r : ℕ} (hr : 3 ≤ r) {
     (α : MulAut X) (hα : Odd (orderOf α)) {S : Subgroup X} (hS : IsPGroup 2 S)
     (hSi : ¬ 2 ∣ S.index) (hαS : S.map α.toMonoidHom = S) : α = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (StatedProj (StatedSp r F)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (StatedProj (StatedSp r F)) :=
     CFSG.ClassicalGroups.Symplectic.finite_statedProj_statedSp r F
-  haveI : Finite X := Finite.of_surjective e.symm.toMonoidHom e.symm.surjective
+  have : Finite X := Finite.of_surjective e.symm.toMonoidHom e.symm.surjective
   let α' : MulAut (StatedProj (StatedSp r F)) := e.symm.trans (α.trans e)
   obtain ⟨g', hg'⟩ :=
     CFSG.SeitzReduction.SporadicRefine.allInner_statedProjSp_of_card_two (r := r) (K := F) hr hF α'
@@ -147,9 +147,9 @@ theorem kFactSylNormTrivSp : KFactSylNormTrivSp := by
   have hFperf : Group.IsPerfect (StatedProj (StatedSp k F)) :=
     CFSG.ClassicalGroups.Symplectic.symplectic_projective_perfect k F
       (Or.inr (Or.inr ⟨hF2, hk3⟩))
-  haveI : IsSimpleGroup (StatedProj (StatedSp k F)) := hFsimple
-  haveI : Group.IsPerfect (StatedProj (StatedSp k F)) := hFperf
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.B k q, hdv⟩).Group :=
+  have : IsSimpleGroup (StatedProj (StatedSp k F)) := hFsimple
+  have : Group.IsPerfect (StatedProj (StatedSp k F)) := hFperf
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.B k q, hdv⟩).Group :=
     MulEquiv.isSimpleGroup f
   have hncSp : ∃ a b : StatedProj (StatedSp k F), a * b ≠ b * a := by
     have h := Group.IsPerfect.not_isMulCommutative (StatedProj (StatedSp k F))

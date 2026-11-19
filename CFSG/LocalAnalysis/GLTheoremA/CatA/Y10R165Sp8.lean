@@ -27,6 +27,7 @@ namespace SpEngine
 
 variable {F V : Type*} [Field F] [AddCommGroup V] [Module F V] [FiniteDimensional F V]
 
+omit [FiniteDimensional F V] in
 theorem exists_ordered_three_blocks (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] {p : ℕ}
     (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A)
     (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1) [Finite (V ≃ₗ[F] V)] {k : ℕ}
@@ -98,13 +99,12 @@ theorem exists_elemAbelian_qTorus_pointwiseStab {F V : Type} [Field F] [Finite F
     rwa [hrank]
 
 theorem spModel165At_holds : SpModel165At := by
-  intro ℓ n p q F hField hFinite hChar hcard hm0 h2l hp hp2 hq hq2 hqp hqsplit
-  intro A hAe hmax hA3
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
+  intro ℓ n p q F hField hFinite hChar hcard hm0 h2l hp hp2 hq hq2 hqp hqsplit A hAe hmax hA3
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdimV : Module.finrank F (Fin ℓ ⊕ Fin ℓ → F) = 2 * ℓ :=
     CFSG.ClassicalGroups.Symplectic.finrank_spSpace
   have hn1 : 1 ≤ n := by
@@ -128,10 +128,10 @@ theorem spModel165At_holds : SpModel165At := by
   have hBnd : B.Nondegenerate := CFSG.RankThree.SubgroupLists.spForm_nondegenerate
   let e : StatedSp ℓ F ≃* H := statedSpEquivLinIsometryGroup ℓ F
   let Ã : Subgroup H := A.map e.toMonoidHom
-  haveI : Finite ((Fin ℓ ⊕ Fin ℓ → F) ≃ₗ[F] (Fin ℓ ⊕ Fin ℓ → F)) :=
+  have : Finite ((Fin ℓ ⊕ Fin ℓ → F) ≃ₗ[F] (Fin ℓ ⊕ Fin ℓ → F)) :=
     CFSG.LocalAnalysis.GLTheoremA.Y10F.finite_linearEquiv_self
-  haveI : Finite ↥H := Subtype.finite
-  haveI : Fintype ↥Ã := Fintype.ofFinite _
+  have : Finite ↥H := Subtype.finite
+  have : Fintype ↥Ã := Fintype.ofFinite _
   have hÃe : IsElemAbelian p Ã := CFSG.SectionRank.isElemAbelian_map hAe e.toMonoidHom
   have hÃrank : CFSG.Open.pRank p Ã = CFSG.Open.pRank p A := by
     have htop : (⊤ : Subgroup A).map (e.toMonoidHom.comp A.subtype) = Ã := by
@@ -147,7 +147,7 @@ theorem spModel165At_holds : SpModel165At := by
     rw [hÃrank]
     exact hA3
   let Ã' : Subgroup ((Fin ℓ ⊕ Fin ℓ → F) ≃ₗ[F] (Fin ℓ ⊕ Fin ℓ → F)) := Ã.map H.subtype
-  haveI : Fintype ↥Ã' := Fintype.ofFinite _
+  have : Fintype ↥Ã' := Fintype.ofFinite _
   have hÃ'e : IsElemAbelian p Ã' := CFSG.SectionRank.isElemAbelian_map hÃe H.subtype
   have hÃ'rank : CFSG.Open.pRank p Ã' = CFSG.Open.pRank p Ã := by
     have htop : (⊤ : Subgroup Ã).map (H.subtype.comp Ã.subtype) = Ã' := by

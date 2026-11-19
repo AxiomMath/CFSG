@@ -94,7 +94,7 @@ theorem isConj_mul_of_isConj_central (S : Sylow 2 G) {z v r : G}
     (hzS : (S : Subgroup G) ≤ Subgroup.centralizer {z})
     (hfact : ∀ r' ∈ (S : Subgroup G), r' * r' = 1 → r' ≠ 1 → r' ≠ z →
       ∃ q ∈ (S : Subgroup G), q⁻¹ * r' * q = r' * z)
-    (hvz : IsConj v z) (hrS : r ∈ (S : Subgroup G)) (hvS : v ∈ (S : Subgroup G))
+    (hvz : IsConj v z) (hrS : r ∈ (S : Subgroup G)) (_hvS : v ∈ (S : Subgroup G))
     (hrv : r * v = v * r) (hr2 : r * r = 1) (hr1 : r ≠ 1) (hne : r ≠ v) :
     IsConj r (r * v) := by
   obtain ⟨g₀, hg₀⟩ := isConj_iff.1 hvz

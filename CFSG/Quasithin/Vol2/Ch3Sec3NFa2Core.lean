@@ -55,8 +55,8 @@ theorem leaf_E1a_of (hLS1 : Leaf_LS1) (h9 : Stmt3_3_9) (hGA : GriessAllModelsSta
     rw [Subgroup.map_le_iff_le_comap]
     intro d hd
     exact Subgroup.mem_comap.2 ((hiff d).2 (hDZ (Subgroup.mem_subgroupOf.1 hd)))
-  haveI : IsSimpleGroup L3321.SL4 := FLc.isSimpleGroup_SLt (n := 4) (by norm_num)
-  haveI : (((coreIn H (L ⊔ T) ⊓ L).subgroupOf L).map α).Normal :=
+  have : IsSimpleGroup L3321.SL4 := FLc.isSimpleGroup_SLt (n := 4) (by norm_num)
+  have : (((coreIn H (L ⊔ T) ⊓ L).subgroupOf L).map α).Normal :=
     Subgroup.Normal.map hDn α hαs
   have hDcore : coreIn H (L ⊔ T) ⊓ L ≤ pCoreOf 2 L := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal

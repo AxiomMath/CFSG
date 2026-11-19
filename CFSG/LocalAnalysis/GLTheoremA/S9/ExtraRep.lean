@@ -17,11 +17,12 @@ section PGroupFacts
 
 variable {P : Type*} [Group P] [Finite P]
 
+omit [Finite P] in
 theorem commutator_le_of_isCoatom [Group.IsNilpotent P] {M : Subgroup P} (hM : IsCoatom M) :
     _root_.commutator P ≤ M := by
-  haveI : M.Normal :=
+  have : M.Normal :=
     Subgroup.NormalizerCondition.normal_of_coatom M Group.normalizerCondition_of_isNilpotent hM
-  haveI : IsSimpleGroup (P ⧸ M) := Group.isSimpleGroup_of_isCoatom hM
+  have : IsSimpleGroup (P ⧸ M) := Group.isSimpleGroup_of_isCoatom hM
   have hcomm : ∀ u v : P ⧸ M, u * v = v * u := fun u v => mul_comm u v
   rw [commutator_def, Subgroup.commutator_le]
   intro a _ b _
@@ -61,11 +62,11 @@ theorem exists_fixed_mem_coset (N : Subgroup P) (hN : Odd (Nat.card N)) (σ : P 
     apply Subtype.ext
     show n₀ * σ (n₀ * σ n) = n
     rw [map_mul, hσσ, ← mul_assoc, hn₀σ, one_mul]
-  haveI : Fintype N := Fintype.ofFinite N
+  have : Fintype N := Fintype.ofFinite N
   have hodd : ¬ 2 ∣ Fintype.card N := by
     rw [← Nat.card_eq_fintype_card]
     exact hN.not_two_dvd_nat
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hperm : (hτ.toPerm τ) ^ 2 ^ 1 = 1 := by
     ext n
     simp [pow_two, hτ n]
@@ -101,7 +102,7 @@ theorem finrank_eq_pow_of_irreducible (q : ℕ) [Fact q.Prime] (hq2 : q ≠ 2) {
   have hzcard : Nat.card (Subgroup.zpowers z) = 2 := by
     rw [← hz]; exact hT.2.2.2
   have hzord : orderOf z = 2 := by rw [← Nat.card_zpowers]; exact hzcard
-  haveI hEndfin : Finite (Module.End (ZMod q) V) :=
+  have hEndfin : Finite (Module.End (ZMod q) V) :=
     Finite.of_injective (fun f : Module.End (ZMod q) V => (f : V → V)) DFunLike.coe_injective
   obtain ⟨R, hRmem, hRle⟩ : ∃ R : Subalgebra (ZMod q) (Module.End (ZMod q) V),
       (∀ t : T, ρ t ∈ R) ∧
@@ -114,7 +115,7 @@ theorem finrank_eq_pow_of_irreducible (q : ℕ) [Fact q.Prime] (hq2 : q ≠ 2) {
     obtain ⟨t, rfl⟩ := hx'
     exact Submodule.subset_span ⟨t, rfl⟩
   have hRdim : Module.finrank (ZMod q) R ≤ 2 ^ (2 * n) := by
-    letI : Fintype (T ⧸ Subgroup.zpowers z) := Fintype.ofFinite _
+    let : Fintype (T ⧸ Subgroup.zpowers z) := Fintype.ofFinite _
     let f : T ⧸ Subgroup.zpowers z → Module.End (ZMod q) V := fun c => ρ (Quotient.out c)
     have hspan : Submodule.span (ZMod q) (Set.range ρ) ≤
         Submodule.span (ZMod q) (Set.range f) := by
@@ -148,7 +149,7 @@ theorem finrank_eq_pow_of_irreducible (q : ℕ) [Fact q.Prime] (hq2 : q ≠ 2) {
       rw [hcard, hzcard, pow_add, pow_one] at h4
       omega
     omega
-  haveI hsimple : IsSimpleModule R V := by
+  have hsimple : IsSimpleModule R V := by
     refine (isSimpleModule_iff R V).mpr { eq_bot_or_eq_top := fun W => ?_ }
     let W' : Submodule (ZMod q) V :=
       { carrier := W
@@ -166,9 +167,9 @@ theorem finrank_eq_pow_of_irreducible (q : ℕ) [Fact q.Prime] (hq2 : q ≠ 2) {
     · right
       rw [Submodule.eq_top_iff'] at h ⊢
       exact fun x => h x
-  haveI hFfin : Finite (Module.End R V) :=
+  have hFfin : Finite (Module.End R V) :=
     Finite.of_injective (fun f : Module.End R V => (f : V → V)) DFunLike.coe_injective
-  haveI hVfinF : Module.Finite (Module.End R V) V := Module.Finite.of_finite
+  have hVfinF : Module.Finite (Module.End R V) V := Module.Finite.of_finite
   have hcomm : ∀ (f : Module.End R V) (t : T) (v : V), f (ρ t v) = ρ t (f v) := by
     intro f t v
     exact f.map_smul (⟨ρ t, hRmem t⟩ : R) v
@@ -214,7 +215,7 @@ theorem finrank_eq_pow_of_irreducible (q : ℕ) [Fact q.Prime] (hq2 : q ≠ 2) {
     apply Nat.pow_right_injective hq1
     simp only
     rw [← hcardV_K, hcardV_F, hkF, ← pow_mul]
-  haveI hfreeF : Module.Free (Module.End R V) V := by
+  have hfreeF : Module.Free (Module.End R V) V := by
     exact Module.Free.of_divisionRing (Module.End R V) V
   have hcardEnd : Nat.card (Module.End (Module.End R V) V) = q ^ (k * (m * m)) := by
     let b := Module.finBasis (Module.End R V) V
@@ -225,7 +226,7 @@ theorem finrank_eq_pow_of_irreducible (q : ℕ) [Fact q.Prime] (hq2 : q ≠ 2) {
   have hsurj := Module.Finite.toModuleEnd_moduleEnd_surjective (R := R) (M := V)
   have hle1 : Nat.card (Module.End (Module.End R V) V) ≤ Nat.card R :=
     Nat.card_le_card_of_surjective _ hsurj
-  haveI : Module.Finite (ZMod q) R := Module.Finite.of_finite
+  have : Module.Finite (ZMod q) R := Module.Finite.of_finite
   have hcardR : Nat.card R = q ^ Module.finrank (ZMod q) R := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod q), Nat.card_zmod]
   have hkmm : k * (m * m) ≤ 2 ^ (2 * n) := by
@@ -462,7 +463,7 @@ theorem conj_mem_commutator {Q : Subgroup G} {w : G} (hw : w ∈ Subgroup.normal
 
 theorem irr_of_minimal [Finite G] {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {Q T : Subgroup G} {z : G}
     (hzT : z ∈ T) (hzc : ∀ t ∈ T, z * t = t * z) (hz2 : z ^ 2 = 1)
-    (hTN : T ≤ Subgroup.normalizer (Q : Set G)) (hexp : ∀ g ∈ Q, g ^ q = 1)
+    (_hTN : T ≤ Subgroup.normalizer (Q : Set G)) (hexp : ∀ g ∈ Q, g ^ q = 1)
     (hkey : ∀ u : ↥Q, z * (u : G) * z * u ∈ ⁅Q, Q⁆)
     (hmin : ∀ Q' : Subgroup G, Q' ≤ Q → Q' ≠ ⊥ → T ≤ Subgroup.normalizer (Q' : Set G) →
       (⁅Q', Subgroup.zpowers z⁆ : Subgroup G) = Q' → Q' = Q)
@@ -715,6 +716,7 @@ section Lift
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem repQ_neg_one {q : ℕ} {Q T : Subgroup G} {z : G} (hzT : z ∈ T) (hz2 : z ^ 2 = 1)
     (hTN : T ≤ Subgroup.normalizer (Q : Set G)) [Module (ZMod q) (QA Q)]
     (hkey : ∀ u : ↥Q, z * (u : G) * z * u ∈ ⁅Q, Q⁆) :
@@ -736,7 +738,7 @@ theorem lift_fixed {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {Q : Subgroup G} (he
     (hx : repQ Q q T hTN ⟨t, htT⟩ (piQ Q x) = piQ Q x) :
     ∃ y : ↥Q, t * (y : G) = (y : G) * t ∧ piQ Q y = piQ Q x := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set σ : ↥Q →* ↥Q := conjQ Q (hTN htT) with hσdef
   have hσσ : σ.comp σ = MonoidHom.id ↥Q := by
     rw [hσdef, ← conjQ_mul]
@@ -776,6 +778,7 @@ section Count
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_centralizer_pair_iff {t g : G} : g ∈ Subgroup.centralizer ({t} : Set G) ↔ t * g = g * t := by
   constructor
   · intro hg
@@ -792,7 +795,7 @@ theorem card_centralizer_eq {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {Q T : Subg
       Nat.card ↥(Q ⊓ Subgroup.centralizer ({t} : Set G) ⊓ ⁅Q, Q⁆) *
         q ^ Module.finrank (ZMod q) ↥(Module.End.eigenspace (repQ Q q T hTN ⟨t, htT⟩) (1 : ZMod q)) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set C : Subgroup G := Q ⊓ Subgroup.centralizer ({t} : Set G) with hC
   set E := Module.End.eigenspace (repQ Q q T hTN ⟨t, htT⟩) (1 : ZMod q) with hE
   let ψ : ↥C →* Abelianization ↥Q := (Abelianization.of).comp (Subgroup.inclusion inf_le_left)
@@ -861,11 +864,13 @@ section Glue
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem map_commutator_subtype_eq (Q : Subgroup G) :
     (_root_.commutator ↥Q).map Q.subtype = ⁅Q, Q⁆ := by
   show ((⁅(⊤ : Subgroup ↥Q), (⊤ : Subgroup ↥Q)⁆ : Subgroup ↥Q)).map Q.subtype = ⁅Q, Q⁆
   rw [Subgroup.map_commutator, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
 
+omit [Finite G] in
 theorem card_Q_eq (Q : Subgroup G) :
     Nat.card ↥Q = Nat.card (QA Q) * Nat.card ↥(⁅Q, Q⁆ : Subgroup G) := by
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (_root_.commutator ↥Q)
@@ -876,6 +881,7 @@ theorem card_Q_eq (Q : Subgroup G) :
     Nat.card_congr (Additive.toMul : QA Q ≃ Abelianization ↥Q)
   rw [h1, h2, h3]
 
+omit [Finite G] in
 theorem exists_ne_one_of_card_eq {Z : Subgroup G} (h : Nat.card ↥Z = 2 ^ 3) : ∃ e ∈ Z, e ≠ 1 := by
   by_contra hcon
   have hbot : Z = ⊥ := eq_bot_iff.2 (fun e he => by
@@ -884,6 +890,7 @@ theorem exists_ne_one_of_card_eq {Z : Subgroup G} (h : Nat.card ↥Z = 2 ^ 3) : 
   rw [hbot, Subgroup.card_bot] at h
   norm_num at h
 
+omit [Finite G] in
 theorem sq_eq_one_of_center {T : Subgroup G} {n : ℕ} (hT : IsExtraspecialTwo T n) {z : G}
     (hzT : z ∈ T ⊓ Subgroup.centralizer (T : Set G)) : z ^ 2 = 1 := by
   have hc : Nat.card (Subgroup.center ↥T) = 2 := hT.1.2.2.2
@@ -910,7 +917,7 @@ theorem two_ne_zero_zmod {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) : (2 : ZMod q)
 theorem extraspecialRepAt_holds : CFSG.LocalAnalysis.GLTheoremA.ExtraspecialRepAt := by
   unfold CFSG.LocalAnalysis.GLTheoremA.ExtraspecialRepAt
   intro G _ _ q n T Q z hq hq2 hT hzT hz1 hexp hcl hTN hQne hQz hmin
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hz2 : z ^ 2 = 1 := sq_eq_one_of_center hT hzT
   have hzT' : z ∈ T := hzT.1
   have hzN : z ∈ Subgroup.normalizer (Q : Set G) := hTN hzT'
@@ -933,17 +940,17 @@ theorem extraspecialRepAt_holds : CFSG.LocalAnalysis.GLTheoremA.ExtraspecialRepA
     have hle : Subgroup.zpowers (⟨z, hzT'⟩ : ↥T) ≤ Subgroup.center ↥T :=
       Subgroup.zpowers_le.2 hzc'
     exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hT.1.2.2.2, hcz])).symm
-  haveI : Module (ZMod q) (QA Q) := AddCommGroup.zmodModule (qA_exp hexp)
-  haveI : Finite (QA Q) := inferInstance
+  have : Module (ZMod q) (QA Q) := AddCommGroup.zmodModule (qA_exp hexp)
+  have : Finite (QA Q) := inferInstance
   have hP : IsPGroup q ↥Q := fun g => ⟨1, Subtype.ext (by simpa using hexp g g.2)⟩
-  haveI : Group.IsNilpotent ↥Q := hP.isNilpotent
-  haveI : Nontrivial (QA Q) := by
+  have : Group.IsNilpotent ↥Q := hP.isNilpotent
+  have : Nontrivial (QA Q) := by
     have hQnt : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).2 hQne
     obtain ⟨x, hx⟩ : ∃ x : ↥Q, x ∉ _root_.commutator ↥Q := by
       by_contra hcon
       push Not at hcon
       have htop : _root_.commutator ↥Q = ⊤ := eq_top_iff.2 (fun x _ => hcon x)
-      have hlt := IsSolvable.commutator_lt_top_of_nontrivial (G := ↥Q)
+      have hlt := Group.IsSolvable.commutator_lt_top_of_nontrivial (G := ↥Q)
       rw [htop] at hlt
       exact lt_irrefl _ hlt
     exact ⟨⟨piQ Q x, 0, fun h => hx ((mem_commutator_iff Q x).2 ((piQ_eq_zero_iff Q x).1 h))⟩⟩
@@ -1000,9 +1007,9 @@ theorem faithful_of {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {Q T : Subgroup G} 
     [Module (ZMod q) (QA Q)] (hTN : T ≤ Subgroup.normalizer (Q : Set G))
     (hfaith : T ⊓ Subgroup.centralizer (Q : Set G) = ⊥) {e : G} (heT : e ∈ T) (he2 : e ^ 2 = 1)
     (hact : repQ Q q T hTN ⟨e, heT⟩ = 1) : e = 1 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hP : IsPGroup q ↥Q := fun g => ⟨1, Subtype.ext (by simpa using hexp g g.2)⟩
-  haveI : Group.IsNilpotent ↥Q := hP.isNilpotent
+  have : Group.IsNilpotent ↥Q := hP.isNilpotent
   set H : Subgroup ↥Q := (Subgroup.centralizer ({e} : Set G)).subgroupOf Q with hH
   have hcover : H ⊔ _root_.commutator ↥Q = ⊤ := by
     rw [Subgroup.eq_top_iff']
@@ -1173,6 +1180,7 @@ section KernelCard
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem cenV0_mem_iff {q : ℕ} {Q T : Subgroup G} [Module (ZMod q) (QA Q)]
     (hTN : T ≤ Subgroup.normalizer (Q : Set G)) (W : Submodule (ZMod q) (QA Q)) (g : G) :
     g ∈ cenV0 hTN W ↔ ∃ hg : g ∈ T ⊓ Subgroup.centralizer (T : Set G),
@@ -1182,7 +1190,7 @@ theorem cenV0_mem_iff {q : ℕ} {Q T : Subgroup G} [Module (ZMod q) (QA Q)]
 theorem cenV0_card {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {Q T : Subgroup G}
     [Module (ZMod q) (QA Q)] (hTN : T ≤ Subgroup.normalizer (Q : Set G))
     (hT2 : IsPGroup 2 T) (hZcard : Nat.card ↥(T ⊓ Subgroup.centralizer (T : Set G)) = 2 ^ 3)
-    {e₀ : G} (he₀ : e₀ ∈ T ⊓ Subgroup.centralizer (T : Set G)) (he₀1 : e₀ ≠ 1)
+    {e₀ : G} (he₀ : e₀ ∈ T ⊓ Subgroup.centralizer (T : Set G)) (_he₀1 : e₀ ≠ 1)
     (he₀2 : e₀ ^ 2 = 1) (W : Submodule (ZMod q) (QA Q)) (hW0 : W ≠ ⊥)
     (hWU : W ≤ LinearMap.range (repQ Q q T hTN ⟨e₀, mem_T_of_inf he₀⟩ - 1))
     (hscal : ∀ e : G, ∀ he : e ∈ T ⊓ Subgroup.centralizer (T : Set G),
@@ -1190,7 +1198,7 @@ theorem cenV0_card {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {Q T : Subgroup G}
     Nat.card ↥(cenV0 hTN W) = 4 ∧ e₀ ∉ cenV0 hTN W ∧
       cenV0 hTN W ≤ T ⊓ Subgroup.centralizer (T : Set G) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hh : (2 : ZMod q) ≠ 0 := two_ne_zero_zmod hq hq2
   set Z : Subgroup G := T ⊓ Subgroup.centralizer (T : Set G) with hZ
   set V₀ : Subgroup G := cenV0 hTN W with hV₀
@@ -1291,6 +1299,7 @@ variable {G : Type} [Group G] [Finite G]
   (⨅ g : V₀, Module.End.eigenspace (repQ Q q T hTN ⟨(g : G), mem_T_of_inf (hV g.2)⟩) (1 : ZMod q)) ⊓
     Module.End.eigenspace (repQ Q q T hTN ⟨e₀, mem_T_of_inf he₀⟩) (-1 : ZMod q)
 
+omit [Finite G] in
 theorem mem_cenE (q : ℕ) {Q T : Subgroup G} [Module (ZMod q) (QA Q)]
     (hTN : T ≤ Subgroup.normalizer (Q : Set G)) (V₀ : Subgroup G)
     (hV : V₀ ≤ T ⊓ Subgroup.centralizer (T : Set G))
@@ -1301,6 +1310,7 @@ theorem mem_cenE (q : ℕ) {Q T : Subgroup G} [Module (ZMod q) (QA Q)]
   rw [Submodule.mem_inf, Submodule.mem_iInf]
   simp only [Module.End.mem_eigenspace_iff, one_smul, neg_one_smul]
 
+omit [Finite G] in
 theorem cenE_invariant (q : ℕ) {Q T : Subgroup G} [Module (ZMod q) (QA Q)]
     (hTN : T ≤ Subgroup.normalizer (Q : Set G)) (V₀ : Subgroup G)
     (hV : V₀ ≤ T ⊓ Subgroup.centralizer (T : Set G))
@@ -1337,9 +1347,9 @@ theorem cen_lower_bound {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {Q T : Subgroup
     (hWE : ∀ w ∈ W, w ∈ cenE q hTN V₀ hV0 he₀) :
     2 ^ 3 ≤ Module.finrank (ZMod q) (cenE q hTN V₀ hV0 he₀) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨E', hgrp, π0, hπs, hπk0, hEext, hEcard⟩ := hV V₀ hV0 hV0card
-  haveI : Finite E' := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
+  have : Finite E' := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
   let π : ↥T →* E' := { toFun := π0, map_one' := π0.map_one, map_mul' := π0.map_mul }
   have hπk : π.ker = V₀.subgroupOf T := hπk0
   have hπs' : Function.Surjective π := hπs
@@ -1404,7 +1414,7 @@ theorem cen_lower_bound {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {Q T : Subgroup
     apply Subtype.ext
     exact ((mem_cenE q hTN V₀ hV0 he₀ v.1).1 v.2).2
   obtain ⟨w0, hw0, hw00⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hW0
-  haveI : Nontrivial E := ⟨⟨⟨w0, hWE w0 hw0⟩, 0, fun h => hw00 (by simpa using congrArg Subtype.val h)⟩⟩
+  have : Nontrivial E := ⟨⟨⟨w0, hWE w0 hw0⟩, 0, fun h => hw00 (by simpa using congrArg Subtype.val h)⟩⟩
   have hcardE' : Nat.card E' = 2 ^ (1 + 2 * 3) := by
     rw [hEcard]
   exact (CFSG.RankThree.GroupTheory.extraspecial_two_minus_module_bound (K := ZMod q) (V := E)
@@ -1416,6 +1426,7 @@ section Final
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem comm_repQ {q : ℕ} {Q T : Subgroup G} [Module (ZMod q) (QA Q)]
     (hTN : T ≤ Subgroup.normalizer (Q : Set G)) {x y : G}
     (hx : x ∈ T ⊓ Subgroup.centralizer (T : Set G)) (hy : y ∈ T ⊓ Subgroup.centralizer (T : Set G)) :
@@ -1426,6 +1437,7 @@ theorem comm_repQ {q : ℕ} {Q T : Subgroup G} [Module (ZMod q) (QA Q)]
   apply Subtype.ext
   exact Subgroup.mem_centralizer_iff.1 hy.2 x (mem_T_of_inf hx)
 
+omit [Finite G] in
 theorem repQ_sq_apply {q : ℕ} {Q T : Subgroup G} [Module (ZMod q) (QA Q)]
     (hTN : T ≤ Subgroup.normalizer (Q : Set G)) {e₀ : G} (he₀ : e₀ ∈ T ⊓ Subgroup.centralizer (T : Set G))
     (he₀2 : e₀ ^ 2 = 1) (v : QA Q) :
@@ -1435,6 +1447,7 @@ theorem repQ_sq_apply {q : ℕ} {Q T : Subgroup G} [Module (ZMod q) (QA Q)]
     Subtype.ext (by simpa [sq] using he₀2)
   rw [e, map_one, Module.End.one_apply]
 
+omit [Finite G] in
 theorem neg_on_range {q : ℕ} {Q T : Subgroup G} [Module (ZMod q) (QA Q)]
     (hTN : T ≤ Subgroup.normalizer (Q : Set G)) {e₀ : G} (he₀ : e₀ ∈ T ⊓ Subgroup.centralizer (T : Set G))
     (he₀2 : e₀ ^ 2 = 1) {u : QA Q}
@@ -1444,6 +1457,7 @@ theorem neg_on_range {q : ℕ} {Q T : Subgroup G} [Module (ZMod q) (QA Q)]
   simp only [LinearMap.sub_apply, Module.End.one_apply, map_sub, repQ_sq_apply hTN he₀ he₀2]
   abel
 
+omit [Finite G] in
 theorem exists_ne_one_of_one_lt_card {Z : Subgroup G} (h : 1 < Nat.card ↥Z) :
     ∃ e ∈ Z, e ≠ 1 := by
   by_contra hcon
@@ -1456,9 +1470,9 @@ theorem exists_ne_one_of_one_lt_card {Z : Subgroup G} (h : 1 < Nat.card ↥Z) :
 theorem extraspecialRepCenterAt_holds : CFSG.LocalAnalysis.GLTheoremA.ExtraspecialRepCenterAt := by
   unfold CFSG.LocalAnalysis.GLTheoremA.ExtraspecialRepCenterAt
   intro G _ _ q T Q hq hq2 hT2 hZcard hZsq hV hexp hcl hTN hfaith
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Module (ZMod q) (QA Q) := AddCommGroup.zmodModule (qA_exp hexp)
-  haveI : Finite (QA Q) := inferInstance
+  have : Fact q.Prime := ⟨hq⟩
+  have : Module (ZMod q) (QA Q) := AddCommGroup.zmodModule (qA_exp hexp)
+  have : Finite (QA Q) := inferInstance
   obtain ⟨e₀, he₀Z, he₀1⟩ := exists_ne_one_of_card_eq hZcard
   have he₀2 : e₀ ^ 2 = 1 := hZsq e₀ he₀Z
   have hρe₀ : repQ Q q T hTN ⟨e₀, mem_T_of_inf he₀Z⟩ ≠ 1 := fun h =>

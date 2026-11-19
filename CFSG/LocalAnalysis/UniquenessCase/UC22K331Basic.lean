@@ -36,6 +36,7 @@ theorem nat_card_alt_eight : Nat.card (alternatingGroup (Fin 8)) = 20160 := by
   rw [nat_card_alternatingGroup, Nat.card_fin]
   rfl
 
+omit [Finite L] in
 theorem dvd_card_of_isAlt_eight {K : Subgroup L} (hK : IsAlt (Bar2 K) 8) :
     20160 ∣ Nat.card K := by
   obtain ⟨e⟩ := hK

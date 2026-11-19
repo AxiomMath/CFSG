@@ -33,7 +33,7 @@ theorem IsNatSecOf.exists_isNatSecCoord {L E N : Subgroup G} {α : ↥L →* SL(
   obtain ⟨β, hsurj, hker, heq⟩ := h
   let v : G → Fin 2 → F := fun x =>
     if hx : x ∈ E then Multiplicative.toAdd (β ⟨x, hx⟩) else 0
-  have hv : ∀ x (hx : x ∈ E), v x = Multiplicative.toAdd (β ⟨x, hx⟩) := fun x hx => dif_pos hx
+  have hv : ∀ x (hx : x ∈ E), v x = Multiplicative.toAdd (β ⟨x, hx⟩) := fun x hx => dite_eq_left hx
   refine ⟨v, ⟨fun x hx y hy => ?_, fun x hx => ?_, fun u => ?_,
     fun ℓ x hx => hE ℓ ℓ.2 x hx, fun ℓ x hx => ?_⟩⟩
   · rw [hv x hx, hv y hy, hv (x * y) (mul_mem hx hy), ← toAdd_mul, ← map_mul]

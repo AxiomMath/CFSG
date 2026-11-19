@@ -18,7 +18,7 @@ variable {B : V →ₛₗ[h.bar] V →ₗ[K] K}
 
 theorem four_le_orderOf_neg_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : ¬ p ∣ 3) :
     4 ≤ orderOf (-(2 : ZMod p)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx0 : (-(2 : ZMod p)) ≠ 0 := by
     intro h
     have h2 : (2 : ZMod p) = 0 := by rw [← neg_eq_zero]; exact h

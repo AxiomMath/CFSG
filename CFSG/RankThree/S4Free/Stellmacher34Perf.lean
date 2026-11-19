@@ -21,6 +21,7 @@ variable [Finite Λ] {T W R : Subgroup Λ} {a : ℕ} {K : Type} [Field K] [Finit
 
 open CFSG.RankThree.S4Free.Stell33.LCfg (Wu A B X)
 
+omit [Finite Λ] in
 theorem comm_mem_A (h : SzCfg T W R φ) {r : Λ} (hr : r ∈ R) {w : Λ} (hw : w ∈ W) :
     r⁻¹ * w⁻¹ * r * w ∈ A W (oTwo Λ) := by
   have h1 : r⁻¹ * w⁻¹ * r * w ∈ W := by
@@ -35,9 +36,10 @@ theorem comm_mem_A (h : SzCfg T W R φ) {r : Λ} (hr : r ∈ R) {w : Λ} (hw : w
     rwa [show r⁻¹ * (w⁻¹ * r * w) = r⁻¹ * w⁻¹ * r * w by group] at h3
   exact ⟨h1, h.inf_ker_le_oTwo ⟨h1, h2⟩⟩
 
+omit [Finite Λ] in
 theorem comm_mem_X (h : SzCfg T W R φ) {u : Λ} (hc : LCfgCore (⊤ : Subgroup Λ) W (oTwo Λ) u)
     {r : Λ} (hr : r ∈ R) (g : Λ) : r⁻¹ * g⁻¹ * r * g ∈ X W (oTwo Λ) u := by
-  haveI : (X W (oTwo Λ) u).Normal :=
+  have : (X W (oTwo Λ) u).Normal :=
     normalizer_eq_top_iff.mp (top_le_iff.mp hc.L_le_normalizer_X)
   set C : Subgroup Λ := (centralizer {(QuotientGroup.mk' (X W (oTwo Λ) u) r)}).comap
     (QuotientGroup.mk' (X W (oTwo Λ) u)) with hC
@@ -94,7 +96,7 @@ theorem map_W_eq_center (h : SzCfg T W R φ) :
     with h1 | h1 | h1
   · exfalso
     have hWR : W ≤ R := h.ker_eq ▸ (Subgroup.map_eq_bot_iff W).mp h1
-    haveI := h.normal_R
+    have := h.normal_R
     exact h.R_ne_top (h.eq_top_of_le hWR)
   · rw [h1, hcoe]
   · exfalso
@@ -116,7 +118,7 @@ theorem map_W_eq_center (h : SzCfg T W R φ) :
     nlinarith
 
 theorem le_commutator_sup (h : SzCfg T W R φ) {u : Λ}
-    (hc : LCfgCore (⊤ : Subgroup Λ) W (oTwo Λ) u) : W ≤ commutator Λ ⊔ X W (oTwo Λ) u := by
+    (_hc : LCfgCore (⊤ : Subgroup Λ) W (oTwo Λ) u) : W ≤ commutator Λ ⊔ X W (oTwo Λ) u := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set TS := h.sylowT.mapSurjective h.surjective with hTS
   have hcoe : (TS : Subgroup (suzukiGroup a K)) = T.map φ := h.coe_sylowT_map
@@ -167,9 +169,9 @@ theorem le_commutator_sup (h : SzCfg T W R φ) {u : Λ}
 
 theorem commutator_sup_eq_top (h : SzCfg T W R φ) {u : Λ}
     (hc : LCfgCore (⊤ : Subgroup Λ) W (oTwo Λ) u) : commutator Λ ⊔ X W (oTwo Λ) u = ⊤ := by
-  haveI : (X W (oTwo Λ) u).Normal :=
+  have : (X W (oTwo Λ) u).Normal :=
     normalizer_eq_top_iff.mp (top_le_iff.mp hc.L_le_normalizer_X)
-  haveI : (commutator Λ ⊔ X W (oTwo Λ) u).Normal := Subgroup.sup_normal _ _
+  have : (commutator Λ ⊔ X W (oTwo Λ) u).Normal := Subgroup.sup_normal _ _
   exact h.eq_top_of_le (h.le_commutator_sup hc)
 
 theorem eq_oTwo_and_eq_X (h : SzCfg T W R φ) {u : Λ}
@@ -177,12 +179,12 @@ theorem eq_oTwo_and_eq_X (h : SzCfg T W R φ) {u : Λ}
     R = oTwo Λ ∧ oTwo Λ = X W (oTwo Λ) u := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Xs := X W (oTwo Λ) u with hXs
-  haveI hXn : Xs.Normal := normalizer_eq_top_iff.mp (top_le_iff.mp hc.L_le_normalizer_X)
-  haveI hRn : R.Normal := h.normal_R
-  have hXR : Xs ≤ R := hc.X_le_P.trans h.oTwo_le
+  have hXn : Xs.Normal := normalizer_eq_top_iff.mp (top_le_iff.mp hc.L_le_normalizer_X)
+  have hRn : R.Normal := h.normal_R
+  have hXR : Xs ≤ R := CFSG.RankThree.S4Free.Stell33.LCfgCore.X_le_P.trans h.oTwo_le
   set π := QuotientGroup.mk' Xs with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective Xs
-  haveI : (R.map π).Normal := hRn.map π hπs
+  have : (R.map π).Normal := hRn.map π hπs
   have hZc : R.map π ≤ center (Λ ⧸ Xs) := by
     rintro _ ⟨r, hr, rfl⟩
     rw [mem_center_iff]
@@ -224,16 +226,16 @@ theorem eq_oTwo_and_eq_X (h : SzCfg T W R φ) {u : Λ}
       have h2 : π r ∈ W.map π := h1 (mem_map_of_mem π hr)
       rw [← mem_comap, comap_map_eq, hπ, QuotientGroup.ker_mk'] at h2
       exact h2
-    have hWX2 : W ⊔ Xs ≤ T := sup_le h.W_le_T (hc.X_le_P.trans h.oTwo_le_T)
+    have hWX2 : W ⊔ Xs ≤ T := sup_le h.W_le_T (CFSG.RankThree.S4Free.Stell33.LCfgCore.X_le_P.trans h.oTwo_le_T)
     have hR2 : IsPGroup 2 R := h.isPGroup_T.to_le (hRle.trans hWX2)
     have hReq : R = oTwo Λ := le_antisymm (Stell.le_oTwo hR2) h.oTwo_le
-    refine ⟨hReq, le_antisymm ?_ hc.X_le_P⟩
+    refine ⟨hReq, le_antisymm ?_ CFSG.RankThree.S4Free.Stell33.LCfgCore.X_le_P⟩
     intro g hg
     have hg' : g ∈ W ⊔ Xs := hRle (h.oTwo_le hg)
     rw [← SetLike.mem_coe, Subgroup.mul_normal W Xs] at hg'
     obtain ⟨w, hw, x, hx, rfl⟩ := hg'
     have hwO : w ∈ oTwo Λ := by
-      have := mul_mem hg (inv_mem (hc.X_le_P hx))
+      have := mul_mem hg (inv_mem (CFSG.RankThree.S4Free.Stell33.LCfgCore.X_le_P hx))
       rwa [mul_inv_cancel_right] at this
     exact mul_mem (mem_sup_left ⟨hw, hwO⟩) hx
   ·

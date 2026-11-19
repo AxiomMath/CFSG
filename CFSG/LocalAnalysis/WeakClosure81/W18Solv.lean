@@ -22,7 +22,7 @@ theorem mBarGT_two (c : MinCex183 D V₀ V H i) : MBarGT D.M V₀ V 2 := by
   · exact (not_concl181_iff.mp h1).2.1
   · exact MBarGT.mono (not_concl182_iff.mp h2).2.1 (by omega)
 
-theorem not_isSolvable (c : MinCex183 D V₀ V H i) (h172 : W3Thm172Weak G) : ¬ IsSolvable ↥H := by
+theorem not_isSolvable (c : MinCex183 D V₀ V H i) (h172 : W3Thm172Weak G) : ¬ Group.IsSolvable ↥H := by
   intro hsolv
   have hm : MBarGT D.M V₀ V 2 := c.mBarGT_two
   have hN : normalizer (E3.wClos V 1 D.T : Set G) ≤ D.M := by

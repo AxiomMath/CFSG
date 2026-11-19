@@ -71,7 +71,7 @@ theorem w4Thm14_2_caseTwo (hSmall2 : K14_2Small)
       Odd (Nat.card (Subgroup.center ↥L)) ∧ fixV L = ⊥ ∧ commV L = ⊤ ∧
       rk ↥(⊤ : Subgroup W) ≤ 12 := by
   classical
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   have hqL : CFSG.Open.IsQuasisimple ↥L := hs.elim (fun h => h.1) (fun h => h.1)
   have hcomp : IsComponentOf L Y :=
@@ -335,7 +335,7 @@ theorem w4Thm14_2_sl3Four (hSmall2 : K14_2Small)
       Odd (Nat.card (Subgroup.center ↥L)) ∧ fixV L = ⊥ ∧ commV L = ⊤ ∧
       rk ↥(⊤ : Subgroup W) ≤ 12 := by
   classical
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
   have hqL : CFSG.Open.IsQuasisimple ↥L := hs.elim (fun h => h.1) (fun h => h.1)
   have hcomp : IsComponentOf L Y :=
@@ -353,7 +353,7 @@ theorem w4Thm14_2_sl3Four (hSmall2 : K14_2Small)
 theorem w4Thm14_2Used_of (hSmall2 : K14_2Small)
     (hCent : K14_2Cent) : W4Thm14_2Used := by
   intro W _ _ hW Y L _ hO2 hB hLY hLn hs hT hm p hp hp3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hTY, hTsyl, hsw⟩ := hT
   obtain ⟨hSL3, hZne, hZodd, hfix, hcomm, hrk⟩ :=
     w4Thm14_2_sl3Four hSmall2 hW hO2 hB hLY hLn hs hTY hTsyl hsw hm

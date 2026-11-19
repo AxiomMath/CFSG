@@ -25,7 +25,7 @@ theorem burnsideJ4NP_Mx_gJ_inv (hM : MatFacts) :
 theorem burnsideJ4NP_piVecs_get {k : ℕ} (hk : k < 31) :
     (burnsideJ4NP_piVecs ())[k]?.getD V2.zero =
       frApply (frTable (burnsideJ4NP_gInvRows ())) (kwVecs.getD k V2.zero) := by
-  simp [burnsideJ4NP_piVecs, Array.getElem?_range, hk]
+  simp [burnsideJ4NP_piVecs, hk]
 
 theorem burnsideJ4NP_piRow_eq (hM : MatFacts) {k : ℕ} (hk : k < 31) :
     burnsideJ4NP_piRow k = gJ • kwRow k := by

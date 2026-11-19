@@ -508,9 +508,9 @@ theorem fw_unit (D i : Nat) (hi : i < D) : fw D (fun j => if j = i then 1 else 0
   | succ D ih =>
     rw [fw_succ_last]
     rcases Nat.lt_or_ge i D with h | h
-    · rw [ih h, if_neg (by omega), Nat.mul_zero, Nat.add_zero]
+    · rw [ih h, ite_eq_right (by omega), Nat.mul_zero, Nat.add_zero]
     · obtain rfl : i = D := by omega
-      rw [fw_eq_zero i _ (fun j hj => if_neg (by omega)), if_pos rfl]
+      rw [fw_eq_zero i _ (fun j hj => ite_eq_right (by omega)), ite_eq_left rfl]
       ring
 
 theorem shiftLeft_unit (P : Pt) {i : Nat} (hi : i < P.D) :

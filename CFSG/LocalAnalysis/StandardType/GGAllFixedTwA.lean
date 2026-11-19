@@ -58,7 +58,7 @@ theorem largeEvenLabelAll_twA_fullFixedSolvable_of_hasNormalPComplement
     have hF : Nat.card K = (2 ^ f) ^ 2 := hK
     have h : UnitaryFieldData 2 f K :=
       ⟨Nat.prime_two, hf, by rw [hF, ← pow_mul, mul_comm]⟩
-    haveI : CharP K 2 := charP_two_of_card (m := f * 2) (by rw [hF, pow_mul])
+    have : CharP K 2 := charP_two_of_card (m := f * 2) (by rw [hF, pow_mul])
     intro E hEI hE hEab
     let R : Type := LargeEvenProj (LargeEvenSUGroup (Fin (l + 1)) K (2 ^ f))
     let I : Set (MulAut R) :=
@@ -131,8 +131,8 @@ theorem largeEvenLabelAll_twA_fullFixedSolvable_of_hasNormalPComplement
       simpa [MpStdSU.rangeProj] using
         MpStdSU.stdEquiv_rangeProj (F := K) (K := K) (f := f) (n := d) hF hF τ P hP ψ
           hd3 (MpStdSU.ne_three_two hd) hker u
-    letI : Finite R := inferInstance
-    letI : Finite G := Finite.of_equiv (R × E) SemidirectProduct.equivProd.symm
+    let : Finite R := inferInstance
+    let : Finite G := Finite.of_equiv (R × E) SemidirectProduct.equivProd.symm
     have hN : ∀ e' ∈ E', e' ∈ Subgroup.normalizer (ψ.range : Set G) := by
       intro e' he'
       obtain ⟨e, rfl⟩ := MonoidHom.mem_range.mp he'
@@ -243,7 +243,7 @@ theorem largeEvenLabelAll_twA_fullFixedSolvable_of_hasNormalPComplement
         ↥(ψ.range ⊓ Subgroup.centralizer (E' : Set G)) :=
       isSolvable_unitary_centralizer_of_hasNormalPComplement_field (m := l) h hF hd hker hp hp2 hpq hE' hdiag hNPC'
     rw [hfix] at hsolvG
-    letI : Group.IsSolvable ↥(F0.map inl) := hsolvG
+    let : Group.IsSolvable ↥(F0.map inl) := hsolvG
     exact Group.isSolvable_of_isSolvable_injective
       (f := MonoidHom.subgroupMap (inl : R →* G) F0)
       (MonoidHom.subgroupMap_injective (inl : R →* G) F0 SemidirectProduct.inl_injective)

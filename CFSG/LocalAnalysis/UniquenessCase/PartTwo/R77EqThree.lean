@@ -20,8 +20,8 @@ theorem r77Eq_dataOfSetup (hSE : StronglyEmbeddedFive) (hSE3 : StronglyEmbeddedT
     UC22.F07.R77Eq (dataOfSetup hS S) := by
   intro _ p hp hp2 hsp r hr hr2 hrσ X hXM hXp hnc hexp hcl h2 _
   have hpP : p.Prime := ((dataOfSetup hS S).sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpP⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hpP⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hpr : p ≠ r := fun h => hrσ (h ▸ hp)
   have hXr : CFSG.Open.pRank r X ≤ CFSG.Open.pRank r S.M :=
     CFSG.SectionRank.pRank_mono hr.one_lt hXM
@@ -51,7 +51,6 @@ theorem r77Eq_dataOfSetup (hSE : StronglyEmbeddedFive) (hSE3 : StronglyEmbeddedT
         | exact absurd hr h6
         | exact absurd hpP h4
         | exact absurd hpP h6
-        | exact ⟨rfl, rfl⟩
     obtain ⟨rfl, rfl⟩ := hp35
     have := CFSG.LocalAnalysis.RankThreeTheoremC.rankThreeLocalRank_lt_three_of_sigmaA_three
       hS.rank hp.1 Nat.prime_five (by norm_num)

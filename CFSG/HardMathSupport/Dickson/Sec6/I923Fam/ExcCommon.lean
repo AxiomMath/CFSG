@@ -42,7 +42,7 @@ theorem noL2Layer_entrywise {τ : Tag} {K : Type} [Field K] [Finite K] (σ : K �
     (adjointGroup τ (fixSubfield σ)).equivMapOfInjective _ hinj
   let e : ↥S ≃* ↥(adjointGroup τ (fixSubfield σ)) :=
     (Subgroup.subgroupOfEquivOfLe hJC).trans eJ.symm
-  haveI : IsSimpleGroup ↥S := e.isSimpleGroup
+  have : IsSimpleGroup ↥S := e.isSimpleGroup
   refine noL2_of_simple_normal_comm _ S ?_ ?_ inferInstance ?_ ?_
   · rw [fixSubgroup_entrywiseAdjointAut]
     intro x hx

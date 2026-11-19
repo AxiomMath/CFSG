@@ -143,7 +143,7 @@ theorem exists_fixed_cube_root (hf : Odd f) {σ : K ≃+* K} (hσ : orderOf σ =
 @[expose] noncomputable def aS (ω : Kˣ) (hω3 : ω ^ 3 = 1) (hωq : ω ^ (2 ^ f + 1) = 1) : S3 h :=
   dS h ![1, ω, ω ^ 2]
     (by simp only [Fin.prod_univ_three]; simp; rw [← pow_succ']; exact hω3)
-    (by funext i; fin_cases i <;> simp [hωq] <;> rw [← pow_mul, mul_comm, pow_mul, hωq, one_pow])
+    (by funext i; fin_cases i <;> simp [hωq]; rw [← pow_mul, mul_comm, pow_mul, hωq, one_pow])
 
 theorem zS_pow_three (ω : Kˣ) (hω3 : ω ^ 3 = 1) (hωq : ω ^ (2 ^ f + 1) = 1) :
     zS h ω hω3 hωq ^ 3 = 1 := by
@@ -161,7 +161,7 @@ theorem aS_pow_three (ω : Kˣ) (hω3 : ω ^ 3 = 1) (hωq : ω ^ (2 ^ f + 1) = 1
   rw [← map_pow, ← map_one (torusDiag (ι := Fin 3) (K := K))]
   congr 1
   funext i
-  fin_cases i <;> simp [hω3] <;> rw [← pow_mul, mul_comm, pow_mul, hω3, one_pow]
+  fin_cases i <;> simp [hω3]; rw [← pow_mul, mul_comm, pow_mul, hω3, one_pow]
 
 theorem zS_comm (ω : Kˣ) (hω3 : ω ^ 3 = 1) (hωq : ω ^ (2 ^ f + 1) = 1) :
     zS h ω hω3 hωq * aS h ω hω3 hωq = aS h ω hω3 hωq * zS h ω hω3 hωq := by

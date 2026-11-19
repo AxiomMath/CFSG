@@ -49,9 +49,9 @@ theorem isChevSimple_two_of_alt_comp (hb : LieOrderBridge) {p n : ℕ} (hp : p.P
         simp [CFSG.HardMathSupport.Solomon.Coordinator.mem_fixSubgroup]
       have hItop : GLAPComponent 3 (⊤ : Subgroup S) I := by
         rwa [hfix] at hI
-      haveI : IsSimpleGroup (alternatingGroup (Fin 9)) :=
+      have : IsSimpleGroup (alternatingGroup (Fin 9)) :=
         alternatingGroup.isSimpleGroup (by simp)
-      haveI : IsSimpleGroup S := MulEquiv.isSimpleGroup e
+      have : IsSimpleGroup S := MulEquiv.isSimpleGroup e
       have hnc : ∃ a b : S, a * b ≠ b * a := by
         obtain ⟨a, b, hab⟩ := alternatingGroup_fin_nine_nonabelian
         exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩

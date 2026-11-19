@@ -25,14 +25,15 @@ variable {G : Type} [Group G] [Finite G]
     {ρ : ↥(ggAInf 3 B Bs x L D J) ≃* ↥Abar}
 
 include ι in
+omit [Module (ZMod 3) V] in
 theorem qTwoGlobLin_finite : Finite V :=
   Finite.of_equiv (Additive ↥Bs) ι.toEquiv
 
 include ι in
 theorem qTwoGlobLin_finrank {m : ℕ} (hLM : QTwoLocalModel m Bs L x) :
     Module.finrank (ZMod 3) V = m := by
-  letI : Finite V := qTwoGlobLin_finite (ι := ι)
-  letI : Fintype V := Fintype.ofFinite V
+  let : Finite V := qTwoGlobLin_finite (ι := ι)
+  let : Fintype V := Fintype.ofFinite V
   have hc : Nat.card V = 3 ^ m := by
     calc Nat.card V = Nat.card (Additive ↥Bs) := (Nat.card_congr ι.toEquiv).symm
       _ = Nat.card ↥Bs := Nat.card_congr Additive.toMul
@@ -61,8 +62,8 @@ theorem qTwoGlobLin_orth_four {𝒦 : Finset (Subgroup G)}
     (hcase : (∀ g, g ∈ Abar ↔ ZS.IsIsom 3 Q g) ∨
       (∃ c : ZMod 3, c ≠ 0 ∧ Abar = Subgroup.closure (ZS.ClassRefl 3 Q c)))
     (hd : Module.finrank (ZMod 3) U = 4) : ZS.LinWeyl 3 Abar := by
-  letI : Finite V := qTwoGlobLin_finite (ι := ι)
-  letI : Module.Finite (ZMod 3) U := Module.Finite.of_finite
+  let : Finite V := qTwoGlobLin_finite (ι := ι)
+  let : Module.Finite (ZMod 3) U := Module.Finite.of_finite
   have hm5 : m = 5 := by omega
   have hfac := qTwoGlobSel_factorial_dvd_card_Abar hcfg (by omega : 1 ≤ N) hA hD
   obtain ⟨hN, hc⟩ := qTwoGlobFour_selected_card Q hQ hd
@@ -93,8 +94,8 @@ theorem qTwoGlobLin_distinguished_five {𝒦 : Finset (Subgroup G)}
     (hd : Module.finrank (ZMod 3) U = 5) :
     ∃ u : U, u ≠ 0 ∧
       Nat.card {g : Abar // (g : ↥U ≃ₗ[ZMod 3] ↥U) u = u} ≤ 240 := by
-  letI : Finite V := qTwoGlobLin_finite (ι := ι)
-  letI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  let : Finite V := qTwoGlobLin_finite (ι := ι)
+  let : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have htop : U = ⊤ := Submodule.eq_top_of_finrank_eq
     (hd.trans (qTwoGlobLin_finrank (ι := ι) hLM).symm)
   let v : V := ι (Additive.ofMul (⟨x, hLM.mem⟩ : ↥Bs))
@@ -115,8 +116,8 @@ theorem qTwoGlobLin_orth_commutators
     (hd : 5 ≤ Module.finrank (ZMod 3) U) :
     ∀ g h : ↥U ≃ₗ[ZMod 3] ↥U, ZS.IsIsom 3 Q g → ZS.IsIsom 3 Q h →
       g * h * g⁻¹ * h⁻¹ ∈ Abar := by
-  letI : Finite V := qTwoGlobLin_finite (ι := ι)
-  letI : Module.Finite (ZMod 3) U := Module.Finite.of_finite
+  let : Finite V := qTwoGlobLin_finite (ι := ι)
+  let : Module.Finite (ZMod 3) U := Module.Finite.of_finite
   rcases hcase with hf | ⟨c, hc, heq⟩
   · intro g h hg hh
     apply (hf _).mpr
@@ -139,8 +140,8 @@ theorem qTwoGlobLin_slpm {m : ℕ} (hm : 5 ≤ m)
     (hD : GGSecFiveBarData 3 B Bs x L D J ι U Abar ρ)
     (hSL : ∀ g : ↥U ≃ₗ[ZMod 3] ↥U,
       g ∈ Abar ↔ (LinearEquiv.det g = 1 ∨ LinearEquiv.det g = -1)) : False := by
-  letI : Finite V := qTwoGlobLin_finite (ι := ι)
-  letI : Module.Finite (ZMod 3) U := Module.Finite.of_finite
+  let : Finite V := qTwoGlobLin_finite (ι := ι)
+  let : Module.Finite (ZMod 3) U := Module.Finite.of_finite
   let z := LinearEquiv.det (LinearEquiv.neg (ZMod 3) : ↥U ≃ₗ[ZMod 3] ↥U)
   have hz : z = 1 ∨ z = -1 := by
     rcases CFSG.LinearAlgebra.zmod_three_eq_one_or_neg_one
@@ -169,8 +170,8 @@ theorem qTwoGlobLin_orth {𝒦 : Finset (Subgroup G)}
     (hcase : (∀ g, g ∈ Abar ↔ ZS.IsIsom 3 Q g) ∨
       (∃ c : ZMod 3, c ≠ 0 ∧ Abar = Subgroup.closure (ZS.ClassRefl 3 Q c))) :
     ZS.LinWeyl 3 Abar := by
-  letI : Finite V := qTwoGlobLin_finite (ι := ι)
-  letI : Module.Finite (ZMod 3) U := Module.Finite.of_finite
+  let : Finite V := qTwoGlobLin_finite (ι := ι)
+  let : Module.Finite (ZMod 3) U := Module.Finite.of_finite
   have hd4 : 4 ≤ Module.finrank (ZMod 3) U := by omega
   by_cases h4 : Module.finrank (ZMod 3) U = 4
   · exact qTwoGlobLin_orth_four hcfg hm hN1 hN2 hA hLM hD hdim Q hQ hcase h4
@@ -216,8 +217,8 @@ theorem qTwo_family_linWeyl
     (hdim : Module.finrank (ZMod 3) U = m ∨ Module.finrank (ZMod 3) U + 1 = m)
     (hFam : ZS.Family 3 Abar) :
     ZS.LinWeyl 3 Abar := by
-  letI : Finite V := qTwoGlobLin_finite (ι := ι)
-  letI : Module.Finite (ZMod 3) U := Module.Finite.of_finite
+  let : Finite V := qTwoGlobLin_finite (ι := ι)
+  let : Module.Finite (ZMod 3) U := Module.Finite.of_finite
   have hd4 : 4 ≤ Module.finrank (ZMod 3) U := by omega
   cases hFam with
   | weyl hW => exact hW

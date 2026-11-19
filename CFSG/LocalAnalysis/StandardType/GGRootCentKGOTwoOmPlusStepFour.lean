@@ -57,7 +57,7 @@ theorem c_longRoot_highest_of_tri {K : Type} [Field K] [Finite K] [CharP K 2]
       ![0, 1, 1, 1] := by
     cases ε with
     | false => simpa using hiter k
-    | true => rw [if_pos rfl, hrefl]; exact hiter k
+    | true => rw [ite_eq_left rfl, hrefl]; exact hiter k
   have hxr : Triality.xr (![0, 1, 1, 1] : Fin 4 → ℤ) (1 : K) =
       (plusFrame 4 K Triality.three_le_four).longRoot (i := ⟨1, by omega⟩)
         (j := ⟨2, by omega⟩) (by simp) true true (.ofAdd 1) :=

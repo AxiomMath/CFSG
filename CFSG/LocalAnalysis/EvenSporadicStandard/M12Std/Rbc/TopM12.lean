@@ -50,7 +50,7 @@ theorem topIsM12
     CFSG.EvenSporadicStandard.TwoSuz.twoSuz_not_standard_unconditional hX h2
   have hMJ : IsSporadic (↥X ⧸ center ↥X) .M12 ∨ IsSporadic (↥X ⧸ center ↥X) .J2 →
       center X = ⊥ := fun hQ => by
-    haveI := hX.simple
+    have := hX.simple
     obtain ⟨S, hS⟩ := hX.cyclicSylow
     exact CFSG.ComponentClassification.StandardRecognition.center_eq_bot_of_m12_or_j2
       CFSG.ComponentClassification.StandardRecognition.m12J2DoubleCoverExclusion

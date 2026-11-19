@@ -39,7 +39,7 @@ theorem mem_of_pow_eq_one_of_index_dvd_two {G : Type*} [Group G] {E : Subgroup G
     β ∈ E := by
   rcases (Nat.dvd_prime Nat.prime_two).mp hidx with h | h
   · rw [Subgroup.index_eq_one.mp h]; exact Subgroup.mem_top _
-  · haveI : E.Normal := Subgroup.normal_of_index_eq_two h
+  · have : E.Normal := Subgroup.normal_of_index_eq_two h
     exact mem_of_pow_eq_one_of_relIndex_dvd_two (H := E) (D := ⊤)
       (by rw [Subgroup.relIndex_top_right, h]) hp hp2 (Subgroup.mem_top _) hβp
 
@@ -70,7 +70,7 @@ theorem outerFixedOrderBoundAt_PSp : OuterFixedOrderBoundAt .PSp := by
   have hβE : β ∈ spSemilinearAutGroup n F := mem_of_pow_eq_one_of_index_dvd_two hidx hp hp2 hβp
   by_cases hD : β ∈ spLinearAutGroup n F
   · exfalso
-    haveI := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal (StatedProj (StatedSp n F))
+    have := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal (StatedProj (StatedSp n F))
     exact hβout (mem_of_pow_eq_one_of_relIndex_dvd_two
       (H := CFSG.ComponentClassification.OuterAutomorphisms.inner (StatedProj (StatedSp n F)))
       (D := spLinearAutGroup n F) (hDH.trans (Nat.gcd_dvd_left 2 _)) hp hp2 hD hβp)

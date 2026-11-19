@@ -87,6 +87,7 @@ theorem isInvA_word {w : List Nat} (hw : ∀ j ∈ w, j < 13) :
   rw [jWordArr_get w hw i hi, invCand_word hw hl, invWord_word invPair w hw i hi]
   simp [hl]
 
+set_option exponentiation.threshold 273780 in
 theorem labelCoord_eq (y : Nat) : labelCoord y = lcF y := by
   have h := kLC
   unfold lcChk at h

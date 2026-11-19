@@ -67,7 +67,7 @@ theorem stroth6SLDim_of_34 (h34 : Stroth34Statement) : Stroth6SLDimStatement := 
       group
     rw [hconj]
     exact T.mul_mem (show ⁅u, x⁆ ∈ T from Subgroup.mem_sup_right hcomm) hx
-  haveI : ((Tt Q Z V t).subgroupOf (Ut Q Z t)).Normal :=
+  have : ((Tt Q Z V t).subgroupOf (Ut Q Z t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hUN
   have hchi : IsChiIso Q (Rt M (LB M Q B) t) W U T t := hc.isChiIso_Wt_Ut_Tt hs.mem hVT
   have h1 : Nat.card Q * Nat.card T = Nat.card W * Nat.card U :=
@@ -80,7 +80,7 @@ theorem stroth6SLDim_of_34 (h34 : Stroth34Statement) : Stroth6SLDimStatement := 
     obtain ⟨y, -, rfl⟩ := hx
     exact y.2
   have hQ1Q : Q1 hc t ≤ Q := fun x hx => ((hc.mem_Q1_iff htM).mp hx).1
-  haveI : (Z.subgroupOf (Ut Q Z t)).Normal :=
+  have : (Z.subgroupOf (Ut Q Z t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       (hUQ.trans (hc.hyp.Q_normal.1.trans hc.hyp.Z_normal.2))
   have hchi' : IsChiIso Q (Rt M (LB M Q B) t) (Q1 hc t) U Z t := hc.isChiIso_Q1_Ut hs.mem

@@ -221,10 +221,10 @@ theorem exists_intertwiner_family [NeZero d] (σ : Representation ℂ H (Fin d �
   refine ⟨fun u => if u = 1 then 1 else B u, by simp, fun u => ?_, fun u h => ?_⟩
   · by_cases hu : u = 1
     · simp [hu]
-    · simp only [if_neg hu]; exact hBu u
+    · simp only [ite_eq_right hu]; exact hBu u
   · by_cases hu : u = 1
     · subst hu; simp
-    · simp only [if_neg hu]; exact hBint u h
+    · simp only [ite_eq_right hu]; exact hBint u h
 
 omit [Finite L] in
 theorem exists_factorSet [NeZero d] (σ : Representation ℂ H (Fin d → ℂ))

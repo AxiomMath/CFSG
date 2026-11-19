@@ -307,7 +307,7 @@ theorem T_relIndex_odd (h : T6Ctx N u p) (hR : T6RFacts N p) (hΩ : T6Omega1 N u
   have hTp : IsPGroup 2 ↥T := twoPart_isPGroup _ _
   obtain ⟨S₂, hS₂⟩ := (hTp.of_equiv (Subgroup.subgroupOfEquivOfLe hTM).symm).exists_le_sylow
   set T'' : Subgroup G := (S₂ : Subgroup ↥M).map M.subtype with hT''
-  have hT''p : IsPGroup 2 ↥T'' := S₂.isPGroup'.map _
+  have hT''p : IsPGroup 2 ↥T'' := S₂.isPGroup.map _
   have hT''M : T'' ≤ M := Subgroup.map_subtype_le _
   have hTT'' : T ≤ T'' := fun t ht => ⟨⟨t, hTM ht⟩, hS₂ (Subgroup.mem_subgroupOf.2 ht), rfl⟩
   have hT''T : T'' ≤ T := by

@@ -93,7 +93,7 @@ private theorem exists_dominant (hC : TauCeti.IsFiniteType C) (x : ι → ℤ) :
   linarith
 
 private theorem exists_neg_vector (hC : TauCeti.IsFiniteType C) (t : (coxeterMatrix hC).Group)
-    (ht : t * t = 1) (hdim : Module.finrank ℚ
+    (_ht : t * t = 1) (hdim : Module.finrank ℚ
       (LinearMap.ker (Matrix.toLin' ((ggWeylMat hC t).map (Int.castRingHom ℚ) + 1))) = 1) :
     ∃ x : ι → ℤ, x ≠ 0 ∧ weylAction hC t x = -x ∧ toRat x ∈ negKer hC t ∧
       ∀ y : ι → ℚ, y ∈ negKer hC t → ∃ c : ℚ, y = c • toRat x := by
@@ -217,7 +217,6 @@ private theorem eq_conj_simple_of_root_smul (hC : TauCeti.IsFiniteType C)
       2 * form hC (toRat x) (toRat v) / form hC (toRat x) (toRat x) := by
     rw [h1, h2]
     field_simp
-    try ring
   rw [smul_smul, hcoef]
 
 private theorem form_neg_of_nonpos (hC : TauCeti.IsFiniteType C)
@@ -302,8 +301,8 @@ private theorem exists_v₀ (hC : TauCeti.IsFiniteType C) (x : ι → ℤ) (hx0 
 
 private theorem false_of_no_root_smul (hC : TauCeti.IsFiniteType C)
     (t : (coxeterMatrix hC).Group) (x : ι → ℤ) (hx0 : x ≠ 0)
-    (hxK : toRat x ∈ negKer hC t)
-    (hspan : ∀ y : ι → ℚ, y ∈ negKer hC t → ∃ c : ℚ, y = c • toRat x)
+    (_hxK : toRat x ∈ negKer hC t)
+    (_hspan : ∀ y : ι → ℚ, y ∈ negKer hC t → ∃ c : ℚ, y = c • toRat x)
     (htx : weylAction hC t x = -x)
     (hform : ∀ v : ι → ℤ, toRat (weylAction hC t v) =
       toRat v - (2 * form hC (toRat x) (toRat v) / form hC (toRat x) (toRat x)) • toRat x)

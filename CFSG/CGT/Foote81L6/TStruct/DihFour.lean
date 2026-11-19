@@ -129,7 +129,7 @@ theorem mem_dihFour_of_comm {i : ZMod (2 ^ k)} {x : DihedralGroup (2 ^ k)}
 include hk in
 theorem eq_dihFour {V : Subgroup (DihedralGroup (2 ^ k))} (hV2 : ∀ x ∈ V, x * x = 1)
     (hV4 : Nat.card V = 4) : ∃ i, V = dihFour k i := by
-  haveI : NeZero (2 ^ k) := ⟨by positivity⟩
+  have : NeZero (2 ^ k) := ⟨by positivity⟩
   have hrefl : ∃ i, sr i ∈ V := by
     by_contra hno
     have hle : V ≤ zpowers (zc k) := by
@@ -164,7 +164,7 @@ theorem dihFour_eq_iff {i j : ZMod (2 ^ k)} :
       exact Or.inr (sr.inj h1)
   · rintro (rfl | rfl)
     · rfl
-    · haveI : NeZero (2 ^ k) := ⟨by positivity⟩
+    · have : NeZero (2 ^ k) := ⟨by positivity⟩
       have hle : dihFour k (i + ((2 ^ (k - 1) : ℕ) : ZMod (2 ^ k))) ≤ dihFour k i := by
         refine sup_le (zpowers_le.2 ?_) (zpowers_le.2 (zc_mem_dihFour i))
         rw [mem_dihFour hk, zc_eq_r hk, sr_mul_r]
@@ -301,7 +301,7 @@ variable {k : ℕ} (hk : 2 ≤ k)
 
 include hk in
 theorem quarter_ne_zero : quarter k ≠ 0 := by
-  haveI : NeZero (2 ^ k) := ⟨by positivity⟩
+  have : NeZero (2 ^ k) := ⟨by positivity⟩
   intro h
   have hv := congrArg ZMod.val h
   rw [quarter, ZMod.val_natCast_of_lt (Nat.pow_lt_pow_right (by norm_num) (by omega)),
@@ -310,7 +310,7 @@ theorem quarter_ne_zero : quarter k ≠ 0 := by
 
 include hk in
 theorem quarter_ne_half : quarter k ≠ ((2 ^ (k - 1) : ℕ) : ZMod (2 ^ k)) := by
-  haveI : NeZero (2 ^ k) := ⟨by positivity⟩
+  have : NeZero (2 ^ k) := ⟨by positivity⟩
   intro h
   have hv := congrArg ZMod.val h
   rw [quarter, ZMod.val_natCast_of_lt (Nat.pow_lt_pow_right (by norm_num) (by omega)),
@@ -398,7 +398,7 @@ theorem card_normalizer_dihFour (i : ZMod (2 ^ k)) :
 theorem nonempty_dihedralFour_of_card {R : Type*} [Group R] (h8 : Nat.card R = 8) {s t : R}
     (hs : s * s = 1) (ht : t * t = 1) (hst : orderOf (s * t) = 4) :
     Nonempty (DihedralGroup 4 ≃* R) := by
-  haveI : Finite R := Nat.finite_of_card_ne_zero (by rw [h8]; norm_num)
+  have : Finite R := Nat.finite_of_card_ne_zero (by rw [h8]; norm_num)
   have hs1 : s ≠ 1 := by
     rintro rfl
     rw [one_mul] at hst
@@ -455,7 +455,7 @@ theorem nonempty_dihedralFour_of_card {R : Type*} [Group R] (h8 : Nat.card R = 8
 include hk in
 theorem nonempty_normalizer_dihFour_equiv (i : ZMod (2 ^ k)) :
     Nonempty (DihedralGroup 4 ≃* normalizer (dihFour k i : Set (DihedralGroup (2 ^ k)))) := by
-  haveI : NeZero (2 ^ k) := ⟨by positivity⟩
+  have : NeZero (2 ^ k) := ⟨by positivity⟩
   set N := normalizer (dihFour k i : Set (DihedralGroup (2 ^ k)))
   have hsN : sr i ∈ N := le_normalizer (sr_mem_dihFour i)
   have hdN := sr_quarter_mem_normalizer hk i

@@ -37,7 +37,7 @@ theorem conclK_M24
 
 theorem forK_M24 :
     ForK (fun S _ => Nonempty (S ≃* NativeSporadic.Carrier .M24)) := by
-  haveI : Finite (NativeSporadic.Carrier .M24) := by
+  have : Finite (NativeSporadic.Carrier .M24) := by
     dsimp [NativeSporadic.Carrier]
     infer_instance
   refine forK_of_kConfig ?_ (fun L V MK h => conclK_M24 h)

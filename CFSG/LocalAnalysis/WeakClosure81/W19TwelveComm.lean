@@ -45,7 +45,7 @@ theorem commutator_mem_of_card_four {I V₀ : Subgroup G} {t : G} (hI : Nat.card
       exact mul_inv_mem_of_notMem_of_index_two hVidx haV hbV
   rw [Subgroup.mem_subgroupOf] at hmem
   have hcoe : (((⟨a, ha⟩ : I) * (⟨t * a * t⁻¹, hb⟩ : I)⁻¹ : I) : G) = ⁅a, t⁆ := by
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk, commutatorElement_def]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]
     group
   simpa [hcoe] using hmem
 
@@ -68,7 +68,7 @@ theorem commutator_mem_of_mem_conjClosure {H O I V₀ : Subgroup G} (hIH : I ≤
     rw [hfix]
     exact hw
   · intro o _
-    simpa using (V₀.one_mem)
+    simp
   · intro x y hx hy ihx ihy o ho
     have hxH : x ∈ H :=
       conjClosure_le_of_le hIH (show x ∈ CFSG.Quasithin.conjClosure I H from hx)

@@ -15,6 +15,7 @@ open CFSG.GH74.Uniqueness.Bender
 variable {G : Type} [Group G] [Finite G] {A M : Subgroup G} {n : ℕ}
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem Setting12Two.exists_cartan_lifts (h : Setting12Two A M n)
     (hA : IsElemAbelian 2 A) (ρ : G →* LGL 2 V) (hq : RepQuad ρ A) :
     ∃ C : Subgroup (G ⧸ CFSG.Quasithin.kerIn M ⊤),
@@ -82,7 +83,7 @@ theorem Setting12Two.two_pow_le_card_quotient
   change 2 ^ n ≤ Nat.card (SecMod P Q)
   let K : Subgroup G := CFSG.Quasithin.kerIn M ⊤
   let π : G →* G ⧸ K := QuotientGroup.mk' K
-  haveI hKnormal : K.Normal := kerIn_top_normal12 M
+  have hKnormal : K.Normal := kerIn_top_normal12 M
   have hKM : K ≤ M := CFSG.Quasithin.kerIn_le
   obtain ⟨C, hCle, hCcard, hClift⟩ := Setting12Two.exists_cartan_lifts h hA ρ hq
   let L : Subgroup G := C.comap π
@@ -123,7 +124,7 @@ theorem Setting12Two.two_pow_le_card_quotient
     rw [← hkg]
     exact hQ k (hKM hk) w hw
   let σK : (K.map ρ) →* LGL 2 (SecMod P Q) := sectionRep (K.map ρ).subtype P Q hKP hKQ
-  obtain ⟨-, p, hpP, hpQ⟩ := SetLike.lt_iff_le_and_exists.mp hQP
+  obtain ⟨-, p, hpP, hpQ⟩ := IsConcreteLE.lt_iff_le_and_exists.mp hQP
   have hqne : (Submodule.Quotient.mk (⟨p, hpP⟩ : ↥P) : SecMod P Q) ≠ 0 := by
     intro h
     apply hpQ
@@ -135,7 +136,7 @@ theorem Setting12Two.two_pow_le_card_quotient
         (⊥ : Submodule (ZMod 2) (SecMod P Q)) := by
       rw [← hbot]; exact Submodule.mem_top
     exact hqne (by simpa using hmem)
-  haveI : Finite (SecMod P Q) :=
+  have : Finite (SecMod P Q) :=
     Finite.of_surjective (Submodule.Quotient.mk : ↥P → SecMod P Q)
       (Submodule.Quotient.mk_surjective _)
   obtain ⟨b, -, hbne, hbfixK⟩ :=
@@ -202,7 +203,7 @@ theorem Setting12Two.two_pow_le_card_quotient
       have hdiff_pow : ∀ i : ℕ, ((ρ m) ^ i) p₀ - p₀ ∈ Q := by
         intro i
         induction i with
-        | zero => simpa using (Q.zero_mem)
+        | zero => simp
         | succ i ih =>
           have hstep : ((ρ m) ^ (i + 1)) p₀ - p₀ =
               ρ m (((ρ m) ^ i) p₀ - p₀) + (ρ m p₀ - p₀) := by
@@ -299,8 +300,8 @@ theorem Setting12Two.two_pow_le_card_quotient
   have hle : Nat.card ↥C ≤ Nat.card {w : SecMod P Q // w ≠ 0} :=
     Nat.card_le_card_of_injective F hF_inj
   have hcard_ne : Nat.card {w : SecMod P Q // w ≠ 0} + 1 = Nat.card (SecMod P Q) := by
-    haveI : Fintype (SecMod P Q) := Fintype.ofFinite _
-    haveI : Fintype {w : SecMod P Q // w ≠ 0} := Fintype.ofFinite _
+    have : Fintype (SecMod P Q) := Fintype.ofFinite _
+    have : Fintype {w : SecMod P Q // w ≠ 0} := Fintype.ofFinite _
     have h : Fintype.card {w : SecMod P Q // w ≠ 0} = Fintype.card (SecMod P Q) - 1 := by
       rw [Fintype.card_subtype_compl (p := fun w : SecMod P Q => w = 0),
         Fintype.card_subtype_eq (0 : SecMod P Q)]

@@ -14,7 +14,7 @@ private theorem exists_noncomm_of_simple_of_four_dvd {G : Type} [Group G] [Finit
     [IsSimpleGroup G] (h : 2 ^ 2 ∣ Nat.card G) : ∃ a b : G, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  haveI : IsMulCommutative G := ⟨⟨fun a b => hcon a b⟩⟩
+  have : IsMulCommutative G := ⟨⟨fun a b => hcon a b⟩⟩
   have hprime : (Nat.card G).Prime := Group.is_simple_iff_prime_card.mp inferInstance
   have hpd : 2 ∣ Nat.card G := (dvd_pow_self 2 (by norm_num)).trans h
   rcases (Nat.dvd_prime hprime).1 hpd with h1 | h1
@@ -36,8 +36,8 @@ private theorem center_eq_bot_of_lieModel {Q : Type} [Group Q] {t : StatedLieTag
   obtain ⟨hfin, -, hsimp⟩ :=
     CFSG.LieType.Simplicity.fam_classical_converse Q
       ⟨t, n, p, f, GH74.statedClassicalModel_of_lieModel hn h⟩
-  haveI : Finite Q := hfin
-  haveI : IsSimpleGroup Q := hsimp
+  have : Finite Q := hfin
+  have : IsSimpleGroup Q := hsimp
   exact center_eq_bot_of_simple' (exists_noncomm_of_simple_of_four_dvd (by simpa using h4))
 
 private theorem lieModel_fusionZStar_of_lieModel {X : Type} [Group X] {t : StatedLieTag}

@@ -221,7 +221,7 @@ theorem centralizer_centDer_facts {n : ℕ} (hK : Nat.card K = 2 ^ n) (hn : Odd 
         have hpow : (y : Om8 K) ^ 3 = 1 ↔ (Ψ y).1 ^ 3 = 1 ∧ (Ψ y).2 ^ 3 = 1 := by
           rw [← SubgroupClass.coe_pow, OneMemClass.coe_eq_one, ← Ψ.injective.eq_iff, map_pow,
             map_one, Prod.ext_iff, Prod.pow_fst, Prod.pow_snd, Prod.fst_one, Prod.snd_one]
-        rw [Set.mem_setOf_eq, hchar y, hpow]
+        rw [Set.mem_ofPred_eq, hchar y, hpow]
         tauto
     rw [hR3, card_scal_mem_unitaryIsom3_pow_three hU h3 hω] at hc
     exact hc

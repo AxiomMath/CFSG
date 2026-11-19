@@ -32,10 +32,10 @@ theorem gC_ok (k : ℕ) :
     canon14 (gensC.getD k one14) = true ∧ pk (gensC.getD k one14) = s7Gen GA k := by
   unfold s7Gen
   rcases Nat.lt_or_ge k 4 with hk | hk
-  · rw [Nat.blt_eq.mpr hk, cond_true]
+  · rw [Nat.blt_eq.mpr hk, _root_.Bool.cond_true]
     exact gA_ok k hk
   · have hb : Nat.blt k 4 = false := Bool.eq_false_iff.mpr fun h => absurd (Nat.blt_eq.mp h) (by omega)
-    rw [hb, cond_false, List.getD_eq_default _ _ (by simp [gensC]; omega)]
+    rw [hb, Bool.cond_false, List.getD_eq_default _ _ (by simp [gensC]; omega)]
     exact ⟨canon14_one14, bone⟩
 
 theorem foldl_pk (w : List ℕ) (f : ℕ → List ℕ) (F : ℕ → ℕ)
@@ -174,7 +174,7 @@ theorem classStepC_pk {i j u : List ℕ} (hi : canon14 i = true) (hj : canon14 j
     inSpanC_pk hi' hj' hu, inSpanC_pk hi hj hi', inSpanC_pk hi hj hj', normC_pk hi hj hi',
     normC_pk hi hj hj', bone]
   simp only [pkm (canon14_mul14 _ _) hx, pkm (canon14_mul14 _ _) hxi, pkm hx hi, pkm hx hj,
-    pkm hx hxi, pkm hx hz, pkm hw hx, pkm hi hi, pkm hu hu]
+    pkm hx hxi, pkm hx hz, pkm hi hi, pkm hu hu]
 
 theorem classCheckC_pk {i j : List ℕ} (hi : canon14 i = true) (hj : canon14 j = true)
     {S : List (List ℕ)} (hS : ∀ c ∈ S, canon14 c = true) (X : List (List ℕ)) :

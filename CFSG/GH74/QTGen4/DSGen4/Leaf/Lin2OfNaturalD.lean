@@ -114,7 +114,7 @@ theorem isLin2Type_of_natural {G : Type} [Group G] [Finite G]
     (linMul κ (TU : Mat4)).comp (Mdl.F.φ.comp (Subgroup.inclusion hBQ))
   let α : ↥L →* Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 2) :=
     χ.toMonoidHom.comp (QuotientGroup.mk' (CFSG.pCore 2 ↥L))
-  haveI : Finite (GaloisField 2 2) := inferInstance
+  have : Finite (GaloisField 2 2) := inferInstance
   refine ⟨GaloisField 2 2, inferInstance, @Fintype.ofFinite (GaloisField 2 2) inferInstance, ?_, α,
     ?_, ?_, β, ?_, ?_, ?_⟩
   · rw [Fintype.card_eq_nat_card]

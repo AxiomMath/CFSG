@@ -22,7 +22,7 @@ theorem sz_two_element_of_comm (hK : Nat.card K = 2 ^ (2 * a + 1)) {t : suzukiGr
   have hd : d ∈ (S : Subgroup (suzukiGroup a K)) := by
     rw [hS]
     exact Subgroup.mem_centralizer_singleton_iff.2 hc
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup') ⟨d, hd⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup) ⟨d, hd⟩
   exact ⟨k, by rw [← hk]; exact (Subgroup.orderOf_mk d hd).symm⟩
 
 omit [Finite K] in

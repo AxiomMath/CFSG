@@ -134,7 +134,7 @@ theorem ggN2ExcPairRK_holds
   obtain ⟨⟨hp3, hn, hlabJ⟩, hpair⟩ := hr
   subst hp3
   subst hlabJ
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨D, hDval, ha⟩ := ltrn2c_excKacDatum hB hd hΛX hpair hhX
   have hfix : ggFixSub σ = ggAutFixedSubgroup σ := ltrn2c_fixSub_eq σ
   have hJfix : IsComponentOf J (ggFixSub σ) := by

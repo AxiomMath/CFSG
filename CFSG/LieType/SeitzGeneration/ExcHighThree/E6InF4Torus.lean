@@ -100,7 +100,7 @@ theorem dOmega_eq_torus (K : Type) [Field K] (ω : Kˣ) (hω : orderOf ω = 3) :
   have hd : dOmega ω j = ω ^ (if j = node4 then (1 : ℤ) else 0) := by
     by_cases hj : j = node4
     · simp [dOmega, hj]
-    · simp [dOmega, hj, Pi.mulSingle_eq_of_ne hj]
+    · simp [dOmega, hj]
   have h1 : ∀ c : ℤ, (ω ^ 2) ^ c = ω ^ (2 * c) := by
     intro c
     rw [← zpow_natCast, ← zpow_mul]
@@ -195,7 +195,7 @@ theorem orbitWord_f4_one' :
 
 theorem dOmega_node4 {K : Type} [Field K] (ω : Kˣ) : dOmega ω node4 = ω := by
   unfold dOmega
-  rw [Pi.mulSingle_apply, if_pos rfl]
+  rw [Pi.mulSingle_apply, ite_eq_left rfl]
 
 theorem dOmega_node4_val {K : Type} [Field K] (ω : Kˣ) :
     ((dOmega ω node4 : Kˣ) : K) = (ω : K) := by
@@ -372,8 +372,7 @@ theorem embE6F4_zSplit (K : Type) [Field K] [Finite K] (ω : Kˣ) (hω : orderOf
       ((((e6FixedF4EquivAll K).symm (zSplit K ω)) : twistedFixedGroup TwistTag.E6 K (RingHom.id K)) :
         ModGL TwistTag.E6.tag K) := by
     unfold embE6F4 isoE6F4
-    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.trans_apply,
-      Subgroup.coe_subtype]
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, Subgroup.coe_subtype]
     rfl
   rw [h1, hT]
   rfl

@@ -78,12 +78,14 @@ theorem isExtraspecial2_J0 : CFSG.LargeExtraspecial.Timmesfeld.IsExtraspecial2 (
 
 end Hyp
 
+omit [Finite G] in
 theorem conj_mem_J {g j : G} (hg : g ∈ H z) (hj : j ∈ J z) : g * j * g⁻¹ ∈ J z := by
   have hjH : j ∈ H z := J_le_H hj
   have h := (J_subgroupOf_normal z).conj_mem ⟨j, hjH⟩ (Subgroup.mem_subgroupOf.mpr hj) ⟨g, hg⟩
   rw [Subgroup.mem_subgroupOf] at h
   simpa using h
 
+omit [Finite G] in
 theorem mem_CJ_conj_iff {g σ : G} (hg : g ∈ H z) (hgσ : g * σ = σ * g) (a : G) :
     a ∈ CJ z σ ↔ g * a * g⁻¹ ∈ CJ z σ := by
   have hgσ' : g⁻¹ * σ = σ * g⁻¹ := by

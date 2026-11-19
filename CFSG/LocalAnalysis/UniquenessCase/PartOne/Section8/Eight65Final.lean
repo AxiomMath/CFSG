@@ -42,6 +42,7 @@ theorem eight65_false_of_invariant_centralizer
     exact (CFSG.Open.pCoreOf 2 L).inv_mem h1
   exact hnot (Subgroup.commutator_le.mpr fun y hy x hx => hmem x hx y hy)
 
+omit [Finite G] in
 theorem map_conj_eq_of_centralizes {X : Subgroup G} {t : G}
     (hX : ∀ x ∈ X, t * x * t⁻¹ = x) :
     X.map (MulAut.conj t).toMonoidHom = X := by
@@ -56,6 +57,7 @@ theorem map_conj_eq_of_centralizes {X : Subgroup G} {t : G}
     change MulAut.conj t y = y
     rw [MulAut.conj_apply, hX y hy]
 
+omit [Finite G] in
 theorem map_conj_eq_of_inverts {Z : Subgroup G} {t : G}
     (hZ : ∀ z ∈ Z, t * z * t⁻¹ = z⁻¹) :
     Z.map (MulAut.conj t).toMonoidHom = Z := by

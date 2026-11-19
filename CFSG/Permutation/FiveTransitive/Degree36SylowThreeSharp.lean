@@ -29,7 +29,7 @@ theorem card_le_eighty_one
       (fixingSubgroup P s).subtype Subtype.val_injective).toEquiv.symm
   rw [← hQcard]
   exact Degree36ThreeOrbitSharpBound.card_le_eighty_one P hcard h5 hnotAlt Q
-    (S.isPGroup'.map (fixingSubgroup P s).subtype) hfixed
+    (S.isPGroup.map (fixingSubgroup P s).subtype) hfixed
     (Degree36SylowThreeStructure.orbit_card_three P hcard h5 hnotAlt s hs S hS)
 
 end FiveTransitive.Degree36SylowThreeSharp

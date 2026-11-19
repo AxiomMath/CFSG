@@ -46,7 +46,7 @@ section Ys05Cat6
 
 
 theorem ys05_of_cat6_inputs
-    (h3 : CFSG.HardMathSupport.Solomon.Coordinator.LieComp.LieComp)
+    (h3 : CFSG.HardMathSupport.Solomon.Coordinator.LieComp.LieCompAll)
     (h5 : ∀ p : ℕ, p.Prime → 5 ≤ p → ∀ F,
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.LieCompsOn p F)
     (hLQ : ∀ p : ℕ, p.Prime → p ≠ 2 →

@@ -18,7 +18,7 @@ theorem map_invClosure {G H : Type*} [Group G] [Group H] (f : G →* H) (hf : Fu
   rw [MonoidHom.map_closure]
   congr 1
   ext y
-  simp only [Set.mem_image, Set.mem_setOf_eq, Subgroup.mem_map]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Subgroup.mem_map]
   constructor
   · rintro ⟨x, ⟨hx, ho⟩, rfl⟩
     exact ⟨⟨x, hx, rfl⟩, by rw [orderOf_injective f hf x, ho]⟩

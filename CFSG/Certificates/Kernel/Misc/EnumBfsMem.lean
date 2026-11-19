@@ -55,8 +55,8 @@ theorem enumBfs_mem {n : ℕ} {gs : Array (Array ℕ)} {ps : List ℕ} {c : ArrC
   have hnd : c.pts.toList.Nodup := by
     rw [List.nodup_iff_injective_get]
     intro a b e
-    have ha : (a : ℕ) < c.pts.size := by simpa using a.2
-    have hb : (b : ℕ) < c.pts.size := by simpa using b.2
+    have ha : (a : ℕ) < c.pts.size := by simp
+    have hb : (b : ℕ) < c.pts.size := by simp
     have e' : c.pts[(a : ℕ)]! = c.pts[(b : ℕ)]! := by
       rw [getElem!_pos c.pts _ ha, getElem!_pos c.pts _ hb]
       simpa using e

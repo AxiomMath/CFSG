@@ -63,7 +63,7 @@ theorem gTwo_threeA_false
     (h3 : 3 ∣ Nat.card K + 1) {z : adjointGroup .G2 K} (hzS : z ∈ KS11Lie4Proof.g2ShortSL2 K)
     (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) : ¬ PullDatum (MulAut.conj z) := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Fintype K := Fintype.ofFinite K
   have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   obtain ⟨L, _, _, _, -, hdeg, -⟩ := KS11Lie4Proof.exists_quadratic_ext' K

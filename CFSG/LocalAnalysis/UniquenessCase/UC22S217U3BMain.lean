@@ -20,6 +20,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7 (Conclusion76)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem uc22s217u3b_conjClosure_le {M L : Subgroup G} (hLM : L ≤ M) :
     conjClosure M L ≤ M := by
   refine iSup₂_le fun K hK => ?_
@@ -118,7 +119,7 @@ theorem uc22s217u3b_false_of
       ∃ W : Subgroup G, W ≤ D.M ⊓ centralizer (zpowers y : Set G) ∧ IsElemAbelian q W ∧
         Nat.card W = q ^ 2) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hr5 : 5 ≤ r := UC6S898.prime_ne_two_three_of_dvd hr hs hrs
   have hr2 : r ≠ 2 := by omega
   have hZr : ∀ {K : Subgroup G}, IsSU3 (Bar2 K) n → ¬ r ∣ Nat.card (center (Bar2 K)) :=
@@ -148,7 +149,7 @@ theorem uc22s217u3b_false_of
   have hrank3 : CFSG.Open.pRank r D.M ≤ 3 := s21_15_pRank_le_three hSg hr hr2 hL hnsp
   have hnN' : ¬ D.M ≤ normalizer (L : Set G) := fun h =>
     hnN ((Subgroup.normal_subgroupOf_iff_le_normalizer hLM).2 h)
-  obtain ⟨m, hmM, hmN⟩ := SetLike.not_le_iff_exists.1 hnN'
+  obtain ⟨m, hmM, hmN⟩ := IsConcreteLE.not_le_iff_exists.1 hnN'
   let f : MulAut G := MulAut.conj m
   have hMf : D.M.map f.toMonoidHom = D.M :=
     UC6S846.mem_normalizer_iff_map_conj.1 (Subgroup.le_normalizer hmM)

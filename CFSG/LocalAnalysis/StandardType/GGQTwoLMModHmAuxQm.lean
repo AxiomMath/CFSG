@@ -37,7 +37,7 @@ theorem qTwoLMH_mem_zpowers_perm {m : ℕ} (w : Fin m → Multiplicative (ZMod 3
 theorem qTwoLMH_card_zpowers_perm {m : ℕ} (hm : 1 ≤ m) :
     Nat.card (Subgroup.zpowers (fun _ : Fin m => ofAdd (1 : ZMod 3))) = 3 := by
   rw [Nat.card_zpowers]
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   apply orderOf_eq_prime
   · funext i
     rw [Pi.pow_apply, qTwoLMH_ofAdd_one_pow, ZMod.natCast_self, Pi.one_apply]
@@ -54,7 +54,7 @@ theorem qTwoLMH_card_of_qmodel {m : ℕ} {V : Type} [Group V]
   obtain ⟨π, hsurj, hker, -⟩ := h.ex
   by_cases hm : m = 0
   · subst hm
-    haveI : Subsingleton V := ⟨fun a b => by
+    have : Subsingleton V := ⟨fun a b => by
       obtain ⟨x, rfl⟩ := hsurj a
       obtain ⟨y, rfl⟩ := hsurj b
       rw [Subsingleton.elim x y]⟩
@@ -73,7 +73,7 @@ theorem qTwoLMH_card_of_qmodel {m : ℕ} {V : Type} [Group V]
     exact Nat.mul_right_cancel (by norm_num : 0 < 3) hEq
 
 theorem qTwoLMH_fixed_qmodel {m : ℕ} {V : Type} [Group V]
-    {ρ : Equiv.Perm (Fin m) →* MulAut V} (h : IsQmModel m V ρ) (h3 : 3 ∣ m) (hm : 5 ≤ m) :
+    {ρ : Equiv.Perm (Fin m) →* MulAut V} (h : IsQmModel m V ρ) (_h3 : 3 ∣ m) (_hm : 5 ≤ m) :
     ∀ v : V, (∀ σ, ρ σ v = v) → v = 1 := by
   obtain ⟨π, hsurj, hker, heq⟩ := h.ex
   intro v hv
@@ -99,7 +99,7 @@ theorem qTwoLMH_fixed_qmodel {m : ℕ} {V : Type} [Group V]
       rw [Pi.mul_apply, Pi.inv_apply, Equiv.swap_inv, Equiv.swap_apply_right, toAdd_mul,
         toAdd_inv]
       exact (sub_eq_add_neg (toAdd (w i)) (toAdd (w j))).symm
-    have h3 : toAdd (w j) - toAdd (w i) = -(toAdd (w j) - toAdd (w i)) := by
+    have _h3 : toAdd (w j) - toAdd (w i) = -(toAdd (w j) - toAdd (w i)) := by
       calc toAdd (w j) - toAdd (w i)
           = toAdd (((fun k => w ((Equiv.swap i j)⁻¹ k)) * w⁻¹) i) := h1.symm
         _ = toAdd (((fun k => w ((Equiv.swap i j)⁻¹ k)) * w⁻¹) j) := hconst i j
@@ -107,7 +107,7 @@ theorem qTwoLMH_fixed_qmodel {m : ℕ} {V : Type} [Group V]
         _ = -(toAdd (w j) - toAdd (w i)) :=
           (neg_sub (toAdd (w j)) (toAdd (w i))).symm
     have h4 : toAdd (w j) - toAdd (w i) = 0 :=
-      coord_eq_zero_of_eq_neg (p := 3) (by norm_num) (by norm_num) h3
+      coord_eq_zero_of_eq_neg (p := 3) (by norm_num) (by norm_num) _h3
     exact (toAdd.injective (sub_eq_zero.mp h4)).symm
 
 theorem qTwoLMH_faithful_qmodel {m : ℕ} {V : Type} [Group V]
@@ -118,7 +118,7 @@ theorem qTwoLMH_faithful_qmodel {m : ℕ} {V : Type} [Group V]
   by_contra hne
   obtain ⟨a, ha⟩ : ∃ a, σ a ≠ a := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hne (Equiv.ext hcon)
   obtain ⟨c, hca, hcσa, hcσia⟩ := qTwoLMH_exists_ne_three (by omega : 4 ≤ m) a (σ a) (σ⁻¹ a)
   have hσia : σ⁻¹ a ≠ a := by

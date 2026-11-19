@@ -60,7 +60,7 @@ theorem suzRow_of_facts {z : ℕ} (hz : z = 3 ∨ z = 9) (hAD : KDAltDown) (hb :
     · exact Or.inl ⟨.sporadic .Suz, rfl, ⟨e⟩⟩
     · rw [hZ, Subgroup.card_bot, one_mul] at hineq
       have h12 := card_center_dvd_twelve hSpM hq .Fi22 e
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hpg := (IsPGroup.iff_card).1 (isPGroup_center_pQuot Nat.prime_three K)
       rcases hz with rfl | rfl
       · exact Or.inr (Or.inl ⟨⟨.sporadic .Fi22, rfl, ⟨e⟩⟩, rfl,

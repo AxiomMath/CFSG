@@ -26,9 +26,9 @@ theorem sylow_five_fixedPoints_card_eq_nine_or_fourteen
     Nat.card (sylowFixedPoints X P s S) = 9 ∨
       Nat.card (sylowFixedPoints X P s S) = 14 := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
-  letI : IsCyclic S :=
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
   obtain ⟨u, huRaw⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S)
@@ -144,7 +144,7 @@ theorem sylow_five_local_normalizer_lower_cases
           (Subgroup.normalizer
             (S : Set (fixingSubgroup P s)))) := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let N : Subgroup P := sylowNormalizer X P s S
   let SN : Subgroup N := sylowInNormalizer X P s S
@@ -200,7 +200,7 @@ theorem sylow_five_local_normalizer_lower_cases
           (MulAction.toPermHom J F))
     have hAltCard :
         Nat.card (alternatingGroup F) = 181440 := by
-      letI : Nontrivial F :=
+      let : Nontrivial F :=
         Fintype.one_lt_card_iff_nontrivial.mp (by
           rw [hFtype]
           norm_num)
@@ -230,7 +230,7 @@ theorem sylow_five_local_normalizer_lower_cases
       Subgroup.card_dvd_of_le hAlt
     have hAltCard :
         Nat.card (alternatingGroup F) = 43589145600 := by
-      letI : Nontrivial F :=
+      let : Nontrivial F :=
         Fintype.one_lt_card_iff_nontrivial.mp (by
           rw [hFtype]
           norm_num)

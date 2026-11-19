@@ -61,7 +61,7 @@ theorem hSet_nonempty_of_pushingUp (hS : Standing4 G)
     by_contra hHM
     exact hempty ⟨H, hTH, hHM, hS.charTwo H hH⟩
   obtain ⟨T', hTT'⟩ := hTG.isPGroup.exists_le_sylow
-  have hTeq : (T' : Subgroup G) = T := hTG.eq_of_le hTT' le_top T'.isPGroup'
+  have hTeq : (T' : Subgroup G) = T := hTG.eq_of_le hTT' le_top T'.isPGroup
   have hK : CFSG.Assembly.KProper CFSG.Assembly.InCatalog G :=
     (CFSG.Assembly.kProper_inCatalog_iff_isKProper G).2 hS.kProper
   have hc : CFSG.Assembly.IsCharTwoType G := (CFSG.Assembly.isCharTwoType_iff_open G).2 hS.charTwo
@@ -71,7 +71,7 @@ theorem hSet_nonempty_of_pushingUp (hS : Standing4 G)
         normalizer (T₁ : Set G) ≤ M := by
     intro T₁ hT₁1 hT₁S hT₁char
     have hT₁2 : IsPGroup 2 T₁ :=
-      (T'.isPGroup'.to_le (CFSG.RankThree.PartOne.Sec15Final.pushingUpS_le _)).to_le hT₁S
+      (T'.isPGroup.to_le (CFSG.RankThree.PartOne.Sec15Final.pushingUpS_le _)).to_le hT₁S
     have hTN : T ≤ normalizer (T₁ : Set G) := hTeq ▸
       (le_normalizer.trans (CFSG.RankThree.PartOne.Sec15Final.normalizer_le_normalizer_pushingUpS
         _)).trans (CFSG.RankThree.PartOne.Sec15Final.normalizer_le_normalizer_of_characteristic
@@ -82,7 +82,7 @@ theorem hSet_nonempty_of_pushingUp (hS : Standing4 G)
         centralizer (T₂ : Set G) ≤ M := by
     intro T₂ hT₂1 hT₂le
     have hT₂2 : IsPGroup 2 T₂ :=
-      T'.isPGroup'.to_le (hT₂le.trans (CFSG.RankThree.PartOne.Sec15Final.omegaOneCenterIn_le _))
+      T'.isPGroup.to_le (hT₂le.trans (CFSG.RankThree.PartOne.Sec15Final.omegaOneCenterIn_le _))
     have hTC : T ≤ centralizer (T₂ : Set G) := hTeq ▸
       (CFSG.LocalAnalysis.RankThreeUC.le_centralizer_omegaOneCenterIn _).trans
         (centralizer_le fun _ hx => hT₂le hx)

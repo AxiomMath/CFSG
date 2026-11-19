@@ -54,9 +54,9 @@ theorem card_eq_sixteen_of_irreducible {V Z L : Subgroup G}
       normal := hnormalZV
       min := fun N hZN hNV hLN => hirr N hZN hNV hLN }
   obtain ⟨W, hWadd, hWmod, hWfin, ⟨s⟩⟩ := exists_secRep hsecHyp
-  letI : AddCommGroup W := hWadd
-  letI : Module (ZMod 2) W := hWmod
-  letI : Finite W := hWfin
+  let : AddCommGroup W := hWadd
+  let : Module (ZMod 2) W := hWmod
+  let : Finite W := hWfin
   have hfix : s.ρ l₀' (s.cl v₀') ≠ s.cl v₀' := by
     intro h
     exact hne₀ ((SecRep.fix_iff hsecHyp s l₀' v₀').mp h)
@@ -88,13 +88,13 @@ theorem card_eq_sixteen_of_irreducible {V Z L : Subgroup G}
       map_mul' := fun g h => by rw [map_mul]; rfl }
   have hΦ_mk : ∀ l : ↥L, Φ (eSL (e (q l))) = s.ρ l := by
     intro l
-    simp [Φ, bar, q, QuotientGroup.lift_mk']
+    simp [Φ, bar, q]
   have hρSL_mk : ∀ l : ↥L, ρSL (eSL (e (q l))) = (s.ρ l).toLinearMap := by
     intro l
     rw [show ρSL (eSL (e (q l))) = (Φ (eSL (e (q l)))).toLinearMap from rfl, hΦ_mk l]
-  haveI : Nontrivial W := ⟨s.ρ l₀' (s.cl v₀'), s.cl v₀', hfix⟩
+  have : Nontrivial W := ⟨s.ρ l₀' (s.cl v₀'), s.cl v₀', hfix⟩
   have hirrSL : ρSL.IsIrreducible := by
-    haveI : Nontrivial (Subrepresentation ρSL) := by
+    have : Nontrivial (Subrepresentation ρSL) := by
       refine ⟨⊥, ⊤, ?_⟩
       intro h
       exact bot_ne_top (α := Submodule (ZMod 2) W)
@@ -138,7 +138,7 @@ theorem card_eq_sixteen_of_irreducible {V Z L : Subgroup G}
   have hker : s.cls.ker = Z.subgroupOf V := by
     ext n
     rw [MonoidHom.mem_ker, s.ker n, Subgroup.mem_subgroupOf]
-  haveI hNZV : (Z.subgroupOf V).Normal :=
+  have hNZV : (Z.subgroupOf V).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hVZ).mpr hnormalZV
   have hquotW : Nat.card (↥V ⧸ Z.subgroupOf V) = Nat.card W := by
     have eW : (↥V ⧸ Z.subgroupOf V) ≃* Multiplicative W :=

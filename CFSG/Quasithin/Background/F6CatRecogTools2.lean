@@ -220,7 +220,7 @@ theorem walter_cases
     have hn8 : ¬ 8 ∣ Nat.card (Q : Subgroup (TwoResidualQuot D)) := fun h => by
       exact not_eight_dvd_card_psl_two h8 (hcard ▸ h.trans (Subgroup.card_subgroup_dvd_card _))
     have h4 := (not_isCyclic_sylow_two hnonab Q).2
-    obtain ⟨k, hk⟩ := Q.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := Q.isPGroup.exists_card_eq
     have hQ4 : Nat.card (Q : Subgroup (TwoResidualQuot D)) = 4 := by
       rw [hk] at h4 hn8 ⊢
       have hk2 : 2 ≤ k := by

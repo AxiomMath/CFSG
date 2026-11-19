@@ -197,7 +197,7 @@ theorem catalog_suzuki_almost_simple_odd_core_vanishing {X : Type} [Group X] [Fi
     rw [hS, hCF]
   refine ⟨⟨S', hS'⟩, ?_⟩
   set Cz := centralizer ({z} : Set X) with hCz
-  have hQp : IsPGroup 2 (Cz.subgroupOf F) := hS' ▸ S'.isPGroup'
+  have hQp : IsPGroup 2 (Cz.subgroupOf F) := hS' ▸ S'.isPGroup
   have hodd := CFSG.ComponentClassification.SmallLocal.odd_card_oddCore (H := Cz)
   have htriv : ∀ d : Cz, d ∈ oddCore Cz → (d : X) ∈ F → d = 1 := by
     intro d hd hdF

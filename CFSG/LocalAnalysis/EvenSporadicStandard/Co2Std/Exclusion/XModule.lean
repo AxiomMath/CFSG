@@ -16,7 +16,7 @@ private theorem XHyp.isComplement' (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) : V₁.
   refine Subgroup.isComplement'_of_disjoint_and_mul_eq_univ ?_ ?_
   · rw [disjoint_iff]
     exact h.inf_eq_bot
-  · letI : IsMulCommutative V := h.elemAb.toIsMulCommutative
+  · let : IsMulCommutative V := h.elemAb.toIsMulCommutative
     ext v
     simp only [Set.mem_mul, Set.mem_univ, iff_true]
     have hv : v ∈ V₁ ⊔ V₂ := by rw [h.sup_eq_top]; exact Subgroup.mem_top v
@@ -265,7 +265,7 @@ private theorem XHyp.finite (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) : Finite V :=
 
 private theorem XHyp.symm_mem₁ (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) {σ : MulAut V}
     (hσ : ∀ v ∈ V₁, σ v ∈ V₁) : ∀ v ∈ V₁, σ.symm v ∈ V₁ := by
-  haveI : Finite V := h.finite
+  have : Finite V := h.finite
   intro v hv
   have hle : V₁.map σ.toMonoidHom ≤ V₁ := by
     rintro _ ⟨w, hw, rfl⟩
@@ -478,7 +478,7 @@ private theorem XHyp.eq_V₂_of_inf₁_bot (h : XHyp ρ Q V₁ V₂ z Q₁ t₁)
     exact this.1
   apply le_antisymm _ hV₂U
   intro x hx
-  letI : IsMulCommutative V := h.elemAb.toIsMulCommutative
+  let : IsMulCommutative V := h.elemAb.toIsMulCommutative
   have hxsup : x ∈ V₁ ⊔ V₂ := by rw [h.sup_eq_top]; exact Subgroup.mem_top x
   obtain ⟨a, ha, b, hb, hab⟩ :=
     (Subgroup.mem_sup_of_normal_right (s := V₁) (t := V₂)).1 hxsup
@@ -505,7 +505,7 @@ private theorem XHyp.eq_V₁_of_inf₂_bot (h : XHyp ρ Q V₁ V₂ z Q₁ t₁)
     exact this.1
   apply le_antisymm _ hV₁U
   intro x hx
-  letI : IsMulCommutative V := h.elemAb.toIsMulCommutative
+  let : IsMulCommutative V := h.elemAb.toIsMulCommutative
   have hxsup : x ∈ V₁ ⊔ V₂ := by rw [h.sup_eq_top]; exact Subgroup.mem_top x
   obtain ⟨a, ha, b, hb, hab⟩ :=
     (Subgroup.mem_sup_of_normal_right (s := V₁) (t := V₂)).1 hxsup
@@ -541,9 +541,9 @@ private theorem XHyp.eq_top_of_inf_eq (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) {U :
 private theorem XHyp.graph_case (h : XHyp ρ Q V₁ V₂ z Q₁ t₁) {U : Subgroup V}
     (hU : ∀ g ∈ ⁅Q, Q⁆, ∀ u ∈ U, ρ g u ∈ U)
     (h1 : U ⊓ V₁ = ⊥) (h2 : U ⊓ V₂ = ⊥)
-    (hP₁ : U.map h.proj₁ = V₁) (hP₂ : U.map h.proj₂ = V₂) :
+    (hP₁ : U.map h.proj₁ = V₁) (_hP₂ : U.map h.proj₂ = V₂) :
     ∀ v : V, v ∈ U ↔ ρ z v = v := by
-  letI : IsMulCommutative V := h.elemAb.toIsMulCommutative
+  let : IsMulCommutative V := h.elemAb.toIsMulCommutative
   let π : U →* ↥V₁ := h.proj₁'.comp U.subtype
   have hπsurj : Function.Surjective π := by
     intro x

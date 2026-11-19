@@ -17,7 +17,7 @@ theorem s16h_hyp154_of_pgroup (D : Data G) (S : s16h_Std D)
     (h4 : 3 < CFSG.Open.evenRank G) (hσ : D.sig = D.sig1)
     {V₀ V L : Subgroup G} (h : Setting16 D V₀ V L)
     (hs : 1 < s15 D.M V₀ V h.hyp151.isElemAbelian L)
-    (hnot : ¬ Concl164 D V₀ V h.hyp151.isElemAbelian L)
+    (_hnot : ¬ Concl164 D V₀ V h.hyp151.isElemAbelian L)
     (hδ : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2 →
       delta15 D.M V₀ V h.hyp151.isElemAbelian L < gamma15 D.M V₀ V h.hyp151.isElemAbelian L - 1)
     {t : MulAut (Vtil V₀ V h.hyp151.isElemAbelian)} (ht : t ∈ Mbar D.M V₀ V h.hyp151.isElemAbelian)

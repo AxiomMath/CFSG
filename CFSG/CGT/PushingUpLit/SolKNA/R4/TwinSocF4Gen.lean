@@ -17,7 +17,7 @@ variable {A : Type*} [Group A]
 
 theorem perfectCore_eq_of_perfect [Finite A] {H J : Subgroup A} (hJH : J ≤ H) (hHJ : ⁅H, H⁆ ≤ J)
     (hJ : Group.IsPerfect ↥J) : ⁅H, H⁆ = J ∧ perfectCore H = J := by
-  haveI := hJ
+  have := hJ
   have hJJ : ⁅J, J⁆ = J := Subgroup.commutator_eq_self
   have h1 : ⁅H, H⁆ = J := le_antisymm hHJ (by
     calc J = ⁅J, J⁆ := hJJ.symm
@@ -105,11 +105,11 @@ section Odd
 
 theorem odd_relIndex_of_two_elts {G : Type*} [Group G] [Finite G] {N Y : Subgroup G}
     (h2 : ∀ s ∈ Y, ∀ k : ℕ, s ^ 2 ^ k = 1 → s ∈ N) : Odd (N.relIndex Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥Y) := inferInstance
   have hP : (P : Subgroup ↥Y) ≤ N.subgroupOf Y := by
     intro x hx
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
     rw [Subgroup.mem_subgroupOf]
     refine h2 x x.2 k ?_
     have h1 := congrArg (fun y : ↥P => ((y : ↥Y) : G)) hk
@@ -166,7 +166,7 @@ theorem z_mem_of_comm2 {r : ℕ} (hr : 4 ≤ r) {A : Type} [Group A] [Finite A] 
   obtain ⟨x, b, hx, hb, hq, hxz⟩ := exists_qrel8_of_datum hr hd hc
   have hz2 : z * z = 1 := by rw [← pow_two, ← hd.order, pow_orderOf_eq_one]
   have hzS : z ∈ sylowSet S := hxz ▸ (sylowSet S).pow_mem hx 4
-  have hP : IsPGroup 2 (sylowSet S) := S.isPGroup'.map _
+  have hP : IsPGroup 2 (sylowSet S) := S.isPGroup.map _
   have hle := hcomm A T ‹T.Normal› ⟨MulEquiv.refl _⟩ hC (sylowSet S) hP
   have hcm : ⁅b, x ^ 2⁆ ∈ T :=
     hle (Subgroup.commutator_mem_commutator hb ((sylowSet S).pow_mem hx 2))

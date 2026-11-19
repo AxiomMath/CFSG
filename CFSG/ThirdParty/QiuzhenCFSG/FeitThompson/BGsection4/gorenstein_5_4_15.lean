@@ -2258,12 +2258,12 @@ private theorem CFSG.intermediate_nilpotencyClassLe_two_of_closure_omega_normal
       exact z.2.1
     exact setLike_mul_comm (s := A) hyA hzA
   have hcomm_le_B : _root_.commutator M ≤ Bsub := by
-    haveI : IsMulCommutative Csub := hCsubcomm
+    have : IsMulCommutative Csub := hCsubcomm
     exact
       Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
         (N := Bsub) (H := Csub) hBC_top
   have hcomm_le_C : _root_.commutator M ≤ Csub := by
-    haveI : IsMulCommutative Bsub := hBsubcomm
+    have : IsMulCommutative Bsub := hBsubcomm
     exact
       Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
         (N := Csub) (H := Bsub) hCB_top

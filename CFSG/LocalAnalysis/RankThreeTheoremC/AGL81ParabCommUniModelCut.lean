@@ -117,7 +117,7 @@ theorem cutPat_orth_of_smul (hε : ε ≤ 1) {r : ℕ} {t : ℕ} (ht : t ≤ r)
     (hN : N • posFlag r ε K t = posFlag r ε K t) :
     CutPat (2 * r + ε - t) (N : Matrix (HypIndex r ε) (HypIndex r ε) K) := by
   refine cutPat_of_mulVec_mem fun x hx => ?_
-  rw [← orthogonal_isoFlag h hε ht, isoFlag_eq_posFlag ht, Submodule.mem_orthogonalBilin_iff]
+  rw [← orthogonal_isoFlag h hε ht, isoFlag_eq_posFlag ht, Submodule.mem_orthogonalBilin]
     at hx ⊢
   intro y hy
   have hy' : y ∈ N • posFlag r ε K t := by

@@ -22,6 +22,7 @@ open CFSG.Open (IsElemAbelian)
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L : Subgroup G}
 
+omit [Finite G] in
 theorem eq_or_eq_inv_of_mem_zpowers {x : G} (hb : orderOf b = 3) (hx : x ∈ Subgroup.zpowers b)
     (hx1 : x ≠ 1) : x = b ∨ x = b⁻¹ := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -39,6 +40,7 @@ theorem mem_nor_of_gen {S : Set G} {n : G} (h : ∀ x ∈ S, n * x * n⁻¹ ∈ 
     n ∈ Nor (Subgroup.closure S) :=
   Subgroup.mem_normalizer_fintype fun _ hw => conj_mem_of_closure h hw
 
+omit [Finite G] in
 theorem conj_eq_inv_of_closure {S : Set G} {i : G}
     (hc : ∀ x ∈ Subgroup.closure S, ∀ y ∈ Subgroup.closure S, x * y = y * x)
     (hS : ∀ x ∈ S, i * x * i⁻¹ = x⁻¹) {x : G} (hx : x ∈ Subgroup.closure S) :
@@ -51,6 +53,7 @@ theorem conj_eq_inv_of_closure {S : Set G} {i : G}
       hc y hy z hz, mul_inv_rev]
   | inv y hy ihy => rw [show i * y⁻¹ * i⁻¹ = (i * y * i⁻¹)⁻¹ by group, ihy]
 
+omit [Finite G] in
 theorem closure_four_eq (b b₁ b₂ b₃ : G) :
     Subgroup.closure ({b, b₁, b₂, b₃} : Set G) =
       Subgroup.zpowers b ⊔ Subgroup.closure ({b₁, b₂, b₃} : Set G) := by
@@ -86,7 +89,7 @@ theorem FF81Hyp.odd_cenS (h : FF81Hyp b L) (hTF : KF_Sp6TorusFree)
       Nat.card E ≤ 27)
     {B : Subgroup G} (hB : IsElemAb 3 4 B) (hbB : b ∈ B) (hBC : B ≤ Cen b) :
     Odd (Nat.card (CenS B)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hodd
   rw [Nat.not_odd_iff_even] at hodd
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥(CenS B)) 2 (even_iff_two_dvd.mp hodd)
@@ -103,11 +106,13 @@ theorem FF81Hyp.odd_cenS (h : FF81Hyp b L) (hTF : KF_Sp6TorusFree)
     (fun x hx => Subgroup.centralizer_le_normalizer _ (cen_le_cenS_zpowers_of_cen
       (Subgroup.mem_centralizer_singleton_iff.mpr (Subgroup.mem_centralizer_iff.mp t.2 x hx))))
 
+omit [Finite G] in
 theorem le_of_selfcen {B B₁ : Subgroup G} (hB : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x)
     (hB₁B : B₁ ≤ B) (hself : L ⊓ CenS B₁ = B₁) {x : G} (hx : x ∈ B) (hxL : x ∈ L) : x ∈ B₁ := by
   rw [← hself]
   exact ⟨hxL, Subgroup.mem_centralizer_iff.mpr fun y hy => hB y (hB₁B hy) x hx⟩
 
+omit [Finite G] in
 theorem mem_of_cenS_decomp {B B₁ : Subgroup G} (hB₁B : B₁ ≤ B) (hB₁L : B₁ ≤ L)
     (hself : L ⊓ CenS B₁ = B₁) {x l : G} (hx : x ∈ CenS B) (hl : l ∈ L)
     (hd : l⁻¹ * x ∈ CenS L) : l ∈ B₁ := by
@@ -131,9 +136,9 @@ theorem FF81Hyp.opp_comm (h : FF81Hyp b L) {o l : G}
     rw [Opp, CFSG.inSubgroup, Subgroup.card_map_of_injective (Cen b).subtype_injective]
     exact CFSG.pPrimeCore_coprime_card
   have hOL : Opp 3 (Cen b) ⊓ L = ⊥ := by
-    haveI : IsSimpleGroup L :=
+    have : IsSimpleGroup L :=
       CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp L 3 2 1 h.model
-    haveI : ((Opp 3 (Cen b) ⊓ L).subgroupOf L).Normal := ⟨fun n hn g => by
+    have : ((Opp 3 (Cen b) ⊓ L).subgroupOf L).Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact ⟨inSubgroup_conj_mem hON (h.hLC g.2) hn.1,
         L.mul_mem (L.mul_mem g.2 hn.2) (L.inv_mem g.2)⟩⟩
@@ -162,7 +167,7 @@ theorem FF81Hyp.opp_comm (h : FF81Hyp b L) {o l : G}
 
 theorem FF81Hyp.closure_involutions (h : FF81Hyp b L) :
     Subgroup.closure {x | x ∈ L ∧ x * x = 1} = L := by
-  haveI : IsSimpleGroup L :=
+  have : IsSimpleGroup L :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp L 3 2 1 h.model
   set K := Subgroup.closure {x | x ∈ L ∧ x * x = 1}
   have hKL : K ≤ L := (Subgroup.closure_le _).mpr fun x hx => hx.1
@@ -175,7 +180,7 @@ theorem FF81Hyp.closure_involutions (h : FF81Hyp b L) :
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     exact conj_mem_of_closure (hS g g.2) hn⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) 2 (by rw [h.card_L]; norm_num)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K.subgroupOf L) with h0 | h0
   · exfalso

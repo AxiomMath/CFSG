@@ -17,6 +17,7 @@ private theorem goldschmidtOddCore_eq_pPrimeCore_local (H : Type*) [Group H] :
   ext N
   simp only [Set.mem_ofPred_eq, Nat.coprime_two_left]
 
+omit [Finite X] in
 private lemma normal_map_subtype_of_characteristic {M : Subgroup X} [M.Normal]
     {O : Subgroup ↥M} (hO : O.Characteristic) : (O.map M.subtype).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -31,7 +32,7 @@ private lemma normal_map_subtype_of_characteristic {M : Subgroup X} [M.Normal]
 theorem goldschmidtOddCore_eq_bot_of_normal {M : Subgroup X} [M.Normal]
     (hodd : ∀ P : Subgroup X, P.Normal → Odd (Nat.card P) → P = ⊥) :
     goldschmidtOddCore ↥M = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : (goldschmidtOddCore ↥M).Characteristic := by
     rw [goldschmidtOddCore_eq_pPrimeCore_local]
     infer_instance
@@ -47,9 +48,11 @@ theorem goldschmidtOddCore_eq_bot_of_normal {M : Subgroup X} [M.Normal]
   exact (Subgroup.map_eq_bot_iff_of_injective (goldschmidtOddCore ↥M)
     M.subtype_injective).mp hbot
 
+omit [Finite X] in
 theorem pCoreOf_normal {M : Subgroup X} [M.Normal] : (pCoreOf 2 M).Normal := by
   exact normal_map_subtype_of_characteristic (M := M) (O := CFSG.pCore 2 ↥M) inferInstance
 
+omit [Finite X] in
 theorem isPGroup_pCoreOf (M : Subgroup X) : IsPGroup 2 (pCoreOf 2 M) := by
   exact (CFSG.pCore_isPGroup (p := 2) (G := ↥M)).map M.subtype
 

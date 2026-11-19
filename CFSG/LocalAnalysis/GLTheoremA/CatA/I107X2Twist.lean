@@ -25,15 +25,16 @@ variable {K : Type} [Field K] [CharP K 2]
     funext j
     simp only [Pi.mul_apply, toAdd_mul, map_add, ofAdd_add]
 
+omit [CharP K 2] in
 theorem paramTwist_mulSingle (σ : K →+* K) {k : ℕ} (π : Equiv.Perm (Fin k)) [DecidableEq (Fin k)]
     (i : Fin k) (c : Multiplicative K) :
     paramTwist σ π (Pi.mulSingle i c) = Pi.mulSingle (π i) (Multiplicative.ofAdd (σ (Multiplicative.toAdd c))) := by
   funext j
   by_cases h : j = π i
   · subst h
-    simp [paramTwist, Pi.mulSingle_apply]
+    simp [paramTwist]
   · have h' : π.symm j ≠ i := fun e => h (by rw [← e, Equiv.apply_symm_apply])
-    simp [paramTwist, Pi.mulSingle_apply, h, h']
+    simp [paramTwist, h, h']
 
 theorem twistC_rootHom {t : TwistTag} (σ : K →+* K) (α : Root t.tag) (c : Multiplicative K) :
     twistC t K σ (rootHom α c) =
@@ -50,6 +51,7 @@ theorem twistC_rootHom {t : TwistTag} (σ : K →+* K) (α : Root t.tag) (c : Mu
   rw [h, hε1, one_mul]
   rfl
 
+omit [CharP K 2] in
 theorem hom_ext_mulSingle {ι : Type} [Fintype ι] [DecidableEq ι] {N : Type*} [Monoid N]
     (g h : (ι → Multiplicative K) →* N)
     (H : ∀ (i : ι) (c : Multiplicative K), g (Pi.mulSingle i c) = h (Pi.mulSingle i c)) : g = h := by
@@ -131,7 +133,6 @@ theorem le_pRank_of_twistedWitness (σ : K →+* K)
     rintro _ ⟨b, rfl⟩
     have hb : paramTwist σ π b.1 = b.1 := hB b.2
     apply hU _ (hUΦ b.1)
-    change twistC t K σ (Φ b.1) = Φ b.1
     have h1 : (twistC t K σ).comp Φ b.1 = Φ.comp (paramTwist σ π) b.1 := by rw [hFΦ]
     rw [MonoidHom.comp_apply, MonoidHom.comp_apply, hb] at h1
     exact h1

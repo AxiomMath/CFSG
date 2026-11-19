@@ -78,7 +78,7 @@ theorem goodZ_of_heis {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {X : Type*} [Grou
     rw [h, Subgroup.card_bot] at hcard
     exact (Nat.one_lt_pow (by norm_num) hp.one_lt).ne hcard
   have hNR : N = Subgroup.normalizer ((R : Subgroup X) : Set X) := by
-    rcases hmax N (hN.normalizer_le hR1 R.isPGroup' hRN) with h | h
+    rcases hmax N (hN.normalizer_le hR1 R.isPGroup hRN) with h | h
     · exact h
     · exact absurd h hN.1
   have hle : ∀ {A : Subgroup X}, A ≤ N → IsPGroup p A → A ≤ R := by
@@ -90,7 +90,7 @@ theorem goodZ_of_heis {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {X : Type*} [Grou
   · exfalso
     have hAR := hle hAN hA.isPGroup
     have htn : t ∈ Subgroup.normalizer ((R : Subgroup X) : Set X) := hNR ▸ htN
-    haveI := hA.1
+    have := hA.1
     have hAcomm : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := fun x hx y hy =>
       congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : A) ⟨y, hy⟩)
     obtain ⟨a, haA, haZ⟩ : ∃ a ∈ A, a ∉ (R : Subgroup X) ⊓

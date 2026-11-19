@@ -49,7 +49,7 @@ theorem psi_eq_one (hB : CaseB D) {K : Subgroup X} (hK : gComp D.E K) (hEK : D.E
     rw [SubgroupClass.coe_pow]
     exact pow_mem hm r
   have hR : IsPGroup 2 (D.E ⊔ zpowers ((m ^ r : normalizer (D.E : Set X)) : X) : Subgroup X) :=
-    IsPGroup.to_sup_of_normal_left' (D.T.isPGroup'.to_le D.E_le_T) hp
+    IsPGroup.to_sup_of_normal_left' (D.T.isPGroup.to_le D.E_le_T) hp
       (zpowers_le.mpr (m ^ r).2)
   have hEq := ((hB.comp_facts hK).2 hEK).2 _ hR le_sup_left (sup_le hEK (zpowers_le.mpr hmK))
   have hmE : ((m ^ r : normalizer (D.E : Set X)) : X) ∈ D.E :=

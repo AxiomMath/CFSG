@@ -115,7 +115,6 @@ theorem vmF_xorT (d M a b : Nat) : vmF d M (a ^^^ b) = vmF d M a ^^^ vmF d M b :
     cases a.testBit k <;> cases b.testBit k <;> simp only [Bool.false_xor, Bool.true_xor,
       Bool.not_false, Bool.false_eq_true, ↓reduceIte, Bool.xor_self] <;>
       first
-      | rfl
       | exact (Nat.xor_assoc _ _ _).symm
       | exact hl _ _ _
       | exact hc _ _ _

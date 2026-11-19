@@ -148,10 +148,10 @@ private theorem a1413Adapt_commV_zpowers_le_fixV {V : Type*} [CommGroup V]
 
 private theorem a1413Adapt_apply (h64o : Asch6_4Odd) (h64s : Asch6_4Seven)
     {Q : Type} [Group Q] [Finite Q] {X A G : Subgroup Q} {z : Q}
-    (hXG : X ≤ G) (hAG : A ≤ G) (hsup : G ≤ X ⊔ A)
+    (hXG : X ≤ G) (hAG : A ≤ G) (_hsup : G ≤ X ⊔ A)
     (hz2 : orderOf z = 2) (hzX : z ∈ X) (hXperf : ⁅X, X⁆ = X)
     (hZX : ∀ x ∈ X, (∀ y ∈ X, x * y = y * x) ↔ x ∈ zpowers z)
-    (hzA : ∀ a ∈ A, a * z = z * a)
+    (_hzA : ∀ a ∈ A, a * z = z * a)
     (hXnormal : G ≤ Subgroup.normalizer (X : Set Q))
     (hA : Nat.card A = 4) (hAe : IsElemAbelian 2 A)
     (hAC : ∀ a ∈ A, (∀ x ∈ X, a * x = x * a) → a = 1)
@@ -166,7 +166,7 @@ private theorem a1413Adapt_apply (h64o : Asch6_4Odd) (h64s : Asch6_4Seven)
     p = 7 ∧ ∀ a ∈ A, ∃ x ∈ X, ∃ c ∈ centralizer (X : Set Q), a = x * c := by
   classical
   let K : Subgroup ↥G := ρ''.ker
-  haveI hKnormal : K.Normal := inferInstance
+  have hKnormal : K.Normal := inferInstance
   let π : ↥G →* (↥G ⧸ K) := QuotientGroup.mk' K
   let ρ' : (↥G ⧸ K) →* MulAut V'' := QuotientGroup.kerLift ρ''
   have hρ'inj : Function.Injective ρ' := QuotientGroup.kerLift_injective ρ''
@@ -175,7 +175,7 @@ private theorem a1413Adapt_apply (h64o : Asch6_4Odd) (h64s : Asch6_4Seven)
   let AG : Subgroup ↥G := A.subgroupOf G
   let L' : Subgroup (↥G ⧸ K) := XG.map π
   let A' : Subgroup (↥G ⧸ K) := AG.map π
-  haveI hXGnormal : XG.Normal :=
+  have hXGnormal : XG.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hXG).mpr hXnormal
   have hL'normal : L'.Normal := hXGnormal.map π (QuotientGroup.mk'_surjective K)
   have hzG : z ∈ G := hXG hzX
@@ -224,7 +224,7 @@ private theorem a1413Adapt_apply (h64o : Asch6_4Odd) (h64s : Asch6_4Seven)
       rw [hcQ]
       simpa using congrArg Subtype.val hcomm
   have hXGperf : Group.IsPerfect ↥XG := by
-    haveI : Group.IsPerfect ↥X := Subgroup.isPerfect_iff.mpr hXperf
+    have : Group.IsPerfect ↥X := Subgroup.isPerfect_iff.mpr hXperf
     exact Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hXG).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hXG).symm.surjective
@@ -414,7 +414,7 @@ private theorem a1413Adapt_apply (h64o : Asch6_4Odd) (h64s : Asch6_4Seven)
   have hL2' : F6.IsL2 p 1 ↥L' :=
     CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv eL.symm hmod
   have hL2p : F6.IsL2 p 1 ↥L' := hL2'
-  haveI hL'simple : IsSimpleGroup ↥L' :=
+  have hL'simple : IsSimpleGroup ↥L' :=
     CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel_psl_two hL2'
   obtain ⟨-, F, _, _, hF, ⟨eF⟩⟩ := hL2'
   have hFne2 : Nat.card F ≠ 2 := by rw [hF, pow_one]; omega

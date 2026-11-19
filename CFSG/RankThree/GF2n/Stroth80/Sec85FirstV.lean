@@ -18,11 +18,12 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec8_irred_V (hc : Ctx M Q Z B) {t : G} {m : ℕ} (hmSp : SpMNat hc t m) :
     ∀ U : Subgroup G, Z ≤ U → U ≤ Vt M (LB M Q B) B Z t →
       (∀ ρ ∈ Rt M (LB M Q B) t, conjSubgroup ρ U = U) → U = Z ∨ U = Vt M (LB M Q B) B Z t := by
   obtain ⟨K, fK, finK, hK, hrep⟩ := hmSp
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   intro U hZU hUV hinv
@@ -64,9 +65,9 @@ theorem sec8_comm_V1_mem_Z (h310chi : Stroth310ChiStatement) (h53 : Stroth53Stat
   have hVQ : Vt M (LB M Q B) B Z t ≤ Q := hc.Vt_le_Q t
   have hZV : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
   obtain ⟨K, iF, iFin, hchar, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  haveI : CharP K 2 := hchar
-  haveI hEfin : Module.Finite K M₀.E := M₀.fin
-  haveI hEfinite : Finite M₀.E := Module.finite_of_finite K
+  have : CharP K 2 := hchar
+  have hEfin : Module.Finite K M₀.E := M₀.fin
+  have hEfinite : Finite M₀.E := Module.finite_of_finite K
   obtain ⟨A, A₀, hAmem, hA₀mem, hA₀A, hdim⟩ := sec8_exists_codim_one h310chi h53.1 hc hs hr hD
   obtain ⟨φ, hφπ, hφker, hφQ⟩ := exists_actionHom_H0 hc.hyp hD
   set xH : ↥(H0 M Z) := ⟨x, hxH⟩ with hxHdef
@@ -237,8 +238,8 @@ theorem sec8_comm_W1_mem_V1 (h34 : Stroth34Statement) (hRoot : Stroth310RootStat
     · exact ⟨4, Or.inr ⟨h1, rfl⟩, h2⟩
   have hm2 : 2 ≤ m := by omega
   obtain ⟨K, fK, finK, hchar, φ, hn, ψ, u, u', hpts, -⟩ := sec8_natdata h34 hRoot hs hr hmSp
-  haveI := hn
-  haveI := hchar
+  have := hn
+  have := hchar
   have hInv := fun ρ hρ => sec8InvStatement_holds G M Q Z B hc n t hs r hr ρ hρ
   have hP : ∀ ρ ∈ Rt M (LB M Q B) t, ∀ y ∈ Sec8W1 M Q Z B t r,
       ρ * y * ρ⁻¹ ∈ Sec8W1 M Q Z B t r :=

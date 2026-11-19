@@ -173,7 +173,7 @@ private def s16c167_idx {W : Type} [CommGroup W] [DecidableEq (Subgroup W)]
   if I = J₀ then 0 else if I = J₁ then 1 else 2
 
 private lemma s16c167_idx_eq_zero {W : Type} [CommGroup W] [DecidableEq (Subgroup W)]
-    {J₀ J₁ I : Subgroup W} (h : J₀ ≠ J₁) : s16c167_idx J₀ J₁ I = 0 ↔ I = J₀ := by
+    {J₀ J₁ I : Subgroup W} (_h : J₀ ≠ J₁) : s16c167_idx J₀ J₁ I = 0 ↔ I = J₀ := by
   unfold s16c167_idx
   split_ifs with h0 h1
   · exact iff_of_true rfl h0
@@ -285,7 +285,7 @@ theorem s16c167_irr_three_abs {W : Type} [CommGroup W] [Finite W] {X L K : Subgr
           (hIrrmem (I : Subgroup W) I.2) (hIrrmem (I' : Subgroup W) I'.2)
           hle₀ hle₁ hI.1 hI.2 hI'.1 hI'.2)
   have hfinS : Finite ↥(irrSet L) := Finite.of_injective _ hg_inj
-  haveI : Fintype ↥(irrSet L) := Fintype.ofFinite ↥(irrSet L)
+  have : Fintype ↥(irrSet L) := Fintype.ofFinite ↥(irrSet L)
   have hcardS_le : Fintype.card ↥(irrSet L) ≤ 3 := by
     have h := Fintype.card_le_of_injective
       (fun I : ↥(irrSet L) => s16c167_idx J₀ J₁ (I : Subgroup W)) hg_inj
@@ -319,7 +319,7 @@ theorem s16c167_irr_three_abs {W : Type} [CommGroup W] [Finite W] {X L K : Subgr
     rwa [mul_inv_eq_one] at h2
   obtain ⟨eK⟩ := hK
   have hfinK : Finite ↥K := Finite.of_injective (eK : ↥K → Equiv.Perm (Fin 3)) eK.injective
-  haveI : Fintype ↥K := Fintype.ofFinite ↥K
+  have : Fintype ↥K := Fintype.ofFinite ↥K
   have hcardK : Fintype.card ↥K = 6 := by
     have h1 : Fintype.card ↥K = Fintype.card (Equiv.Perm (Fin 3)) :=
       Fintype.card_congr eK.toEquiv

@@ -144,7 +144,7 @@ theorem exists_normal_index_two_of_E6_field_even {f : ℕ} (hfe : Even f) (hf : 
         rw [← Subgroup.orderOf_coe, MonoidHom.coe_rangeRestrict]
       rw [← h1, hyz, Subgroup.orderOf_coe, hz, hTPcard]
     have hw2 : IsPGroup 2 (zpowers (ρ y)) := by
-      have h1 : IsPGroup 2 (zpowers y) := T.isPGroup'.to_le (zpowers_le.2 hyT)
+      have h1 : IsPGroup 2 (zpowers y) := T.isPGroup.to_le (zpowers_le.2 hyT)
       have h2 := h1.map ρ
       rwa [MonoidHom.map_zpowers] at h2
     have hI : (MulAut.conj : adjointGroup .E6 K₂ →* MulAut (adjointGroup .E6 K₂)).range ≤

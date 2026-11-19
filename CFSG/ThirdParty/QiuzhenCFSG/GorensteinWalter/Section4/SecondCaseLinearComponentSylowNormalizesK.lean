@@ -247,7 +247,6 @@ public theorem secondCase_linear_componentSylow_le_normalizer_K
       constructor
       · intro hy
         have hyT : y ∈ T := hUEbar_le_T' (by
-          change y ∈ UEbar
           exact hy)
         have hcomm := hTcomm a y ha hyT
         have hconj : a * y * a⁻¹ = y := by
@@ -364,7 +363,6 @@ public theorem secondCase_linear_componentSylow_le_normalizer_K
     let cfE : d.E := ⟨cf, hcfE⟩
     have hqcfUE : q cfE ∈ UEbar := by
       have hqcf : q cfE = q yE * (q iE)⁻¹ := by
-        change q (cfE : d.E) = q yE * (q iE)⁻¹
         rw [show (cfE : d.E) = yE * iE⁻¹ by
           apply Subtype.ext
           change cf = ((a : G) * x * (a : G)⁻¹) * i⁻¹
@@ -441,7 +439,7 @@ public theorem secondCase_linear_componentSylow_le_normalizer_K
       simpa [cfE, iE, xE, yE, hiG] using hyi
     have haPow : ∃ n : ℕ, orderOf a = 2 ^ n :=
       by
-        rcases (IsPGroup.iff_orderOf.mp SE.isPGroup')
+        rcases (IsPGroup.iff_orderOf.mp SE.isPGroup)
             (⟨a, ha⟩ : SE) with ⟨n, hn⟩
         refine ⟨n, ?_⟩
         simpa using hn
@@ -508,8 +506,7 @@ public theorem secondCase_linear_componentSylow_le_normalizer_K
             _ = x := by rw [hs_sq]; simp
         have hinv_inv :
             sG * x⁻¹ * sG⁻¹ = x := by
-          simpa [hKinv x⁻¹ (K.inv_mem hx)] using
-            (show (x⁻¹)⁻¹ = x by simp)
+          simp [hKinv x⁻¹ (K.inv_mem hx)]
         have hxI : sG * x * sG⁻¹ ∈ invertedElements X sG :=
           ⟨hsX x (hKleX hx), by
             calc

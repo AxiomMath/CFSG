@@ -32,8 +32,8 @@ theorem polar_pv (σ τ : Fin 3 → Bool) :
     polar (coordinateQuadPlus 4 K) (pv K σ) (pv K τ) = if τ = (fun i => !σ i) then 1 else 0 := by
   rw [AutOm.polar_pvec]
   by_cases hτ : τ = (fun i => !σ i)
-  · rw [if_pos ((fr_dual_iff σ τ).2 hτ), if_pos hτ]
-  · rw [if_neg (fun hc => hτ ((fr_dual_iff σ τ).1 hc)), if_neg hτ]
+  · rw [ite_eq_left ((fr_dual_iff σ τ).2 hτ), ite_eq_left hτ]
+  · rw [ite_eq_right (fun hc => hτ ((fr_dual_iff σ τ).1 hc)), ite_eq_right hτ]
 
 private theorem linearIndependent_frame {V : Type} [AddCommGroup V] [Module K V]
     (Q : QuadraticForm K V) (v : (Fin 3 → Bool) → V)
@@ -59,7 +59,7 @@ private theorem linearIndependent_frame {V : Type} [AddCommGroup V] [Module K V]
       rw [polarBilin_apply_apply, QuadraticMap.polar_smul_left]
   rw [hcalc] at h
   simp only [hpol, hnot, smul_eq_mul, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', hτ, if_pos] at h
+    Finset.sum_ite_eq', hτ, ite_eq_left] at h
   exact h
 
 theorem span_eq_top_of_frame {V : Type} [AddCommGroup V] [Module K V]
@@ -159,7 +159,7 @@ private theorem X8_action_of_frame {γ : Fin 4 → ℤ} {i j : Fin 4} (hij : i �
     have hflip : pv K (flipAt α σ) = AutOm.pvec i s := by
       change AutOm.pvec (fr (flipAt α σ)).1 (fr (flipAt α σ)).2 = AutOm.pvec i s
       rw [(hc σ).2.1 h1]
-    rw [if_pos h1', if_neg h2', if_pos hsrc, hflip]
+    rw [ite_eq_left h1', ite_eq_right h2', ite_eq_left hsrc, hflip]
     simp
   · by_cases h2 : fr σ = (i, !s)
     · have h2' : (fr σ).1 = i ∧ (fr σ).2 = !s := Prod.ext_iff.1 h2
@@ -172,7 +172,7 @@ private theorem X8_action_of_frame {γ : Fin 4 → ℤ} {i j : Fin 4} (hij : i �
       have hflip : pv K (flipAt α σ) = AutOm.pvec j t := by
         change AutOm.pvec (fr (flipAt α σ)).1 (fr (flipAt α σ)).2 = AutOm.pvec j t
         rw [(hc σ).2.2 h2]
-      rw [if_neg h1', if_pos h2', if_pos hsrc, hflip]
+      rw [ite_eq_right h1', ite_eq_left h2', ite_eq_left hsrc, hflip]
       simp
     · have hsrc : ¬ IsSrc α σ := by
         intro hs
@@ -181,7 +181,7 @@ private theorem X8_action_of_frame {γ : Fin 4 → ℤ} {i j : Fin 4} (hij : i �
         · exact h2 h
       have h1' : ¬ ((fr σ).1 = j ∧ (fr σ).2 = !t) := fun hc' => h1 (Prod.ext_iff.2 hc')
       have h2' : ¬ ((fr σ).1 = i ∧ (fr σ).2 = !s) := fun hc' => h2 (Prod.ext_iff.2 hc')
-      rw [if_neg h1', if_neg h2', if_neg hsrc]
+      rw [ite_eq_right h1', ite_eq_right h2', ite_eq_right hsrc]
       simp
 
 private theorem X8_fromStd_mem_spinSeven {i j : Fin 4} {s t : Bool} (hij : i ≠ j)

@@ -70,7 +70,7 @@ theorem sigmaOf_eq_of_hElt {β : StabU K} {σ : K ≃+* K}
   have h1 := congrArg (β : MulAut (adjointGroup Tag.D4 K)) (hElt_mul_zElt μ 1)
   rw [map_mul, map_mul, map_inv, h μ, ha 1, ha ((μ : K) * 1), hElt_mul_zElt] at h1
   have h2 := zElt_injective h1
-  simp only [mul_one, map_one, Units.coe_map, RingHom.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+  simp only [mul_one, map_one, Units.coe_map, RingHom.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
     RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom, map_one] at h2
   have hμ : (μ : K) = x := rfl
   rw [hμ] at h2

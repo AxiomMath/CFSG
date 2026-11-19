@@ -62,11 +62,11 @@ theorem pow_three_eq_one_of_mul {P Y : Subgroup G} (hYP : Y ≤ P)
     (hPY : P ≤ Subgroup.normalizer (Y : Set G)) (hY3 : IsPGroup 3 Y) (hYc : IsCyclic Y)
     {v y : G} (hv : v ∈ P) (hv3 : v ^ 3 = 1) (hy : y ∈ Y) (h : (v * y) ^ 3 = 1) :
     y ^ 3 = 1 := by
-  haveI : (Y.subgroupOf P).Normal :=
+  have : (Y.subgroupOf P).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYP).mpr hPY
   have e : Y.subgroupOf P ≃* Y := Subgroup.subgroupOfEquivOfLe hYP
-  haveI := hYc
-  haveI : IsCyclic (Y.subgroupOf P) := isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
+  have := hYc
+  have : IsCyclic (Y.subgroupOf P) := isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
   have hY3' : IsPGroup 3 (Y.subgroupOf P) := hY3.of_equiv e.symm
   have key := KFacts.pow_three_mul_eq_one_iff (P := P) (X₀ := Y.subgroupOf P) hY3'
     (σ := ⟨v, hv⟩) (Subtype.ext (by simpa using hv3)) (y := ⟨y, hYP hy⟩)

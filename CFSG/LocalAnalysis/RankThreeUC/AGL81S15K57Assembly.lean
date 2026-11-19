@@ -23,7 +23,7 @@ theorem exists_center_ne_one {F : Type*} [Field F] [Finite F] {n : ℕ}
     ∃ z ∈ Subgroup.center (Matrix.SpecialLinearGroup (Fin 3) F), z ≠ 1 := by
   classical
   obtain ⟨k, hk⟩ := hn
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h3 : 3 ∣ Nat.card Fˣ := by
     have hc : Nat.card Fˣ = 2 ^ n - 1 := by
       rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hF]
@@ -31,7 +31,7 @@ theorem exists_center_ne_one {F : Type*} [Field F] [Finite F] {n : ℕ}
     have := Nat.sub_one_dvd_pow_sub_one (2 ^ 2) k
     norm_num at this ⊢
     exact this
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' 3 h3
   have hω3 : ((ω : F)) ^ Fintype.card (Fin 3) = 1 := by
     rw [Fintype.card_fin, ← Units.val_pow_eq_pow_val, ← hω, pow_orderOf_eq_one]
@@ -146,7 +146,7 @@ theorem K57_of_count (hcount : K541CountEven) : K57 := by
       congrArg Subtype.val (Subgroup.mem_center_iff.mp hyc ⟨m, hm⟩)
     rwa [hyz'] at h1
   have hV : IsElemAbelian 2 (gnV T) := isElemAbelian_gnV T hGN
-  letI : Module (ZMod 2) (Additive (IntMod (gnV T) hV)) :=
+  let : Module (ZMod 2) (Additive (IntMod (gnV T) hV)) :=
     binModule (fun v : IntMod (gnV T) hV => IntMod.sq_eq_one v)
   have hUL := isInv_range_of_commute (gnRep hV) Ls hzcL
   have hUM := isInv_range_of_commute (gnRep hV) M hzcM

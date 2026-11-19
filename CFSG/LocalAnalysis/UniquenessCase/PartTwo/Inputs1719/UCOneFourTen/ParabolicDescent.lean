@@ -88,7 +88,7 @@ theorem exists_radicalSz_quotient_center {K : Type} [Group K] [Finite K]
     rw [hZdef]
     exact hodd.coprime_two_right
   have hUZ : U ⊓ Z = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     obtain ⟨k, hk⟩ := hU2.exists_card_eq
     rw [hk]
     exact hZcop.symm.pow_left k

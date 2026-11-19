@@ -19,7 +19,7 @@ private theorem hdRo7CTrickAux_conj_linRefl {p : ℕ} [Fact p.Prime] {W : Type}
       have hcomp : (g * r * g⁻¹).toLinearMap - LinearMap.id =
           g.toLinearMap.comp ((r.toLinearMap - LinearMap.id).comp g⁻¹.toLinearMap) := by
         ext v
-        simp [LinearEquiv.mul_apply, map_sub]
+        simp [map_sub]
       rw [hcomp, LinearMap.range_comp, LinearMap.range_comp,
         LinearMap.range_eq_top.mpr g⁻¹.surjective, Submodule.map_top]
     rw [hmap]

@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem twoResidual_le_of_le_sup_two {J S P : Subgroup G} (hSJ : S ≤ Subgroup.normalizer (J : Set G))
     (hS2 : IsPGroup 2 S) (hP : P ≤ J ⊔ S) : twoResidual P ≤ J := by
   have hJS : J ⊔ S ≤ Subgroup.normalizer (J : Set G) := sup_le Subgroup.le_normalizer hSJ
@@ -61,7 +62,7 @@ theorem P_le_cov_E1 {X T J : Subgroup G} (hR : E111Reduced G X T) (hJ : IsComp X
     exact twoResidual_le_of_le_sup_two hSN hS2 hPH
   obtain ⟨Z, hZA, hZV, hZVA⟩ := exists_compl hAab (inf_le_left : V ≤ A)
   have hset : DiagSetting X T A J Z := ⟨hR, hAT, hAab, hJ, hZA, hZV⟩
-  haveI : Fintype ↥Z := Fintype.ofFinite _
+  have : Fintype ↥Z := Fintype.ofFinite _
   have hEP : actE T A J ≤ P := by
     intro e he
     obtain ⟨heT, heN, heA⟩ := mem_actE_iff.mp he

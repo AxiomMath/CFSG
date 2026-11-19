@@ -91,9 +91,9 @@ theorem exc_maxRank_of_data {τ : Tag} {w : WeylGroup τ}
   have h2L : ((2 : ℕ) : L) = 0 := by
     have := S.hqpow.2
     rwa [hq2] at this
-  haveI : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2L
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Algebra (ZMod 2) L := ZMod.algebra L 2
+  have : CharP L 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2L
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra (ZMod 2) L := ZMod.algebra L 2
   have hK4 : Nat.card (GaloisField 2 2) = 4 := by
     rw [GaloisField.card 2 2 (by norm_num)]
     norm_num
@@ -107,9 +107,9 @@ theorem exc_maxRank_of_data {τ : Tag} {w : WeylGroup τ}
   have hφ₄inj : Function.Injective φ₄ :=
     (baseChangeGL_injective ι).comp (Subgroup.subtype_injective _)
   obtain ⟨ζ, hζ, hζ'⟩ := exists_cube_root_unity L (natCast_three_ne_zero_of_q_two S hq2)
-  haveI : Finite (torus3 τ L) :=
+  have : Finite (torus3 τ L) :=
     Nat.finite_of_card_ne_zero (by rw [card_torus3 hζ hζ']; positivity)
-  haveI : Finite (torusPow τ (GaloisField 2 2) 3) :=
+  have : Finite (torusPow τ (GaloisField 2 2) 3) :=
     Nat.finite_of_card_ne_zero (by rw [hV]; positivity)
   have hT3 : torus3 τ L ≤ S.D.model := by
     rintro _ ⟨a, ha, rfl⟩
@@ -129,7 +129,7 @@ theorem exc_maxRank_of_data {τ : Tag} {w : WeylGroup τ}
     rw [← Nat.card_congr φ.toEquiv]
     exact hΓcard
   have hm0 : m ≠ 0 := fun h => hm3 (h ▸ dvd_zero 3)
-  haveI : Finite S.Γ := Nat.finite_of_card_ne_zero (by
+  have : Finite S.Γ := Nat.finite_of_card_ne_zero (by
     rw [hΓcard']
     exact mul_ne_zero (by positivity) hm0)
   have hidx : ¬ 3 ∣ (P₁.subgroupOf S.Γ).index := by
@@ -184,7 +184,7 @@ theorem card_galoisField_two_two [Fact (Nat.Prime 2)] : Nat.card (GaloisField 2 
   norm_num
 
 theorem exc_maxRank_E7 : ExcMaxRank Tag.E7 e7Neg := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine exc_maxRank_of_data (w := e7Neg) e7Neg_smul
     CFSG.StandardType.TableBExc.Three.modelHomE7.range 4 ?_ ?_
     CFSG.StandardType.TableBExc.Three.cartan_symm_E7 ?_ ?_
@@ -199,7 +199,7 @@ theorem exc_maxRank_E7 : ExcMaxRank Tag.E7 e7Neg := by
     norm_num at h
     exact h
   · intro K _ _ hK
-    haveI := charP_two_of_card_two' hK
+    have := charP_two_of_card_two' hK
     have hH := CFSG.Timmesfeld.ExceptionalOrders.card_torusGroup_E7 (K := K)
     rw [hK] at hH
     norm_num at hH
@@ -209,7 +209,7 @@ theorem exc_maxRank_E7 : ExcMaxRank Tag.E7 e7Neg := by
     exact (Nat.mul_div_cancel' (by decide +kernel)).symm
 
 theorem exc_maxRank_E8 : ExcMaxRank Tag.E8 e8Neg := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine exc_maxRank_of_data (w := e8Neg) e8Neg_smul
     CFSG.StandardType.TableBExc.Three.modelHomE8.range 5 ?_ ?_
     CFSG.StandardType.TableBExc.Three.cartan_symm_E8 ?_ ?_

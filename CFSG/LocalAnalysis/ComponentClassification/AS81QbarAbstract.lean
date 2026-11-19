@@ -215,7 +215,7 @@ theorem exists_cyclic_transitive_of_card_eight (hW : Nat.card W = 8)
     exact (Nat.mul_dvd_mul_iff_left (by norm_num : 0 < 7)).mp (by simpa using h63)
   obtain ⟨P⟩ : Nonempty (Sylow 7 Γ₀) := inferInstance
   have hP7 : Nat.card (P : Subgroup Γ₀) = 7 := by
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     have hkd : 7 ^ k ∣ 63 := hk ▸ (Subgroup.card_subgroup_dvd_card (P : Subgroup Γ₀)).trans h63
     have hk1 : k ≤ 1 := by
       by_contra hk2

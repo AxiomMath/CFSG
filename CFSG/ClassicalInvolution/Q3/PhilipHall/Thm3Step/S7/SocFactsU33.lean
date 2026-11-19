@@ -76,7 +76,7 @@ open SocU33 in
 theorem u33Q8Classes_proved :
     U33Q8Classes := by
   intro G _ _ N hN hC hL T₁ T₂ h₁ h₂ hne
-  haveI := hN
+  have := hN
   obtain ⟨e⟩ := U33.equiv_of_lieModel hL
   obtain ⟨M, hMP, hMA⟩ := U33.autModel e
   have hPA : M.P ≤ M.A := by

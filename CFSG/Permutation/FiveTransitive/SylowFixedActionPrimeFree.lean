@@ -111,7 +111,7 @@ theorem fixed_degree_modEq
   let SP : Subgroup P := sylowImage X P s S
   let N : Subgroup P := sylowNormalizer X P s S
   let SN : Subgroup N := sylowInNormalizer X P s S
-  have hSP : IsPGroup p SP := S.isPGroup'.map H.subtype
+  have hSP : IsPGroup p SP := S.isPGroup.map H.subtype
   let e : SN ≃* SP := Subgroup.subgroupOfEquivOfLe SP.le_normalizer
   have hSN : IsPGroup p SN := hSP.of_injective e.toMonoidHom e.injective
   exact hSN.card_modEq_card_fixedPoints X

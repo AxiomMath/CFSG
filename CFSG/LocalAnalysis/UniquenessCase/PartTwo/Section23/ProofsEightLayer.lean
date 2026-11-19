@@ -43,7 +43,7 @@ theorem barImage_injOn_calC {M K K' : Subgroup G} (hK : K ∈ calC M) (hK' : K' 
 
 theorem normal_of_barImage_normal {M K : Subgroup G} (hK : K ∈ calC M)
     (h : (barImage M K).Normal) : (K.subgroupOf M).Normal := by
-  haveI := h
+  have := h
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer hK.1.le]
   intro m hm
   have hKm : CFSG.Open.uniqueFourConj m K ∈ calC M :=
@@ -69,6 +69,7 @@ theorem normal_of_barImage_normal {M K : Subgroup G} (hK : K ∈ calC M)
       (Subgroup.mem_normalizer_iff_map_conj_eq.mpr heq)
   simpa using (Subgroup.normalizer (K : Set G)).inv_mem hmnorm
 
+omit [Finite G] in
 private theorem normal_opp_layer (M : Subgroup G) (p : ℕ) :
     (Opp p (CFSG.layer (Bar2 M))).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -176,10 +177,12 @@ theorem mem_component_of_mem_layer_of_three_power {Q : Type} [Group Q] [Finite Q
   rw [← hks]
   exact C₀.mul_mem (y K₀).2 hsC
 
+omit [Finite G] in
 private theorem opp_mono {X Y : Subgroup G} (h : X ≤ Y) (p : ℕ) : Opp p X ≤ Opp p Y := by
   unfold Opp CFSG.RankThree.PartOne.pElementSubgroup
   exact Subgroup.closure_mono fun x hx => ⟨h hx.1, hx.2⟩
 
+omit [Finite G] in
 private theorem not_three_dvd_card_barImage_of_calC {M K K' : Subgroup G} (hK' : K' ∈ calC M)
     (hK'ne : K' ≠ K) (hother : ∀ K' ∈ calC M, K' ≠ K → ¬ 3 ∣ Nat.card K') :
     ¬ 3 ∣ Nat.card (barImage M K') := by
@@ -210,14 +213,14 @@ theorem barImage_eq_opp_three_layer {M K : Subgroup G} (hK : K ∈ calC M)
     exact h3
   have h3Kbar : 3 ∣ Nat.card ↥Kbar :=
     h3bar.trans (Subgroup.card_quotient_dvd_card (Subgroup.center ↥Kbar))
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨z, hzpow, hzcenter⟩ :=
     CFSG.RankThree.PartOne.exists_pow_eq_one_not_mem_center_of_isPerfect
       (p := 3) (by norm_num) hKbar.1.1 h3Kbar
   have hzord : orderOf z = 3 := by
     refine orderOf_eq_prime hzpow ?_
     intro hz1
-    exact hzcenter (by simpa [hz1] using Subgroup.one_mem (Subgroup.center ↥Kbar))
+    exact hzcenter (by simp [hz1])
   have hOppKbar : Opp 3 Kbar = Kbar :=
     CFSG.RankThree.PartOne.KFOUT3.pElementSubgroup_eq_of_quasisimple hKbar.1 z.2
       (by rw [Subgroup.orderOf_coe]; exact hzord) (by simpa using hzcenter)

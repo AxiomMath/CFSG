@@ -91,13 +91,13 @@ theorem lineGen_of_cube_abstract {X : Type} [Group X] {E : Subgroup (MulAut X)}
       le_sup_left
   by_cases hCJ : fixedPoints (Subgroup.zpowers f) ≤ J
   · exact hCJ.trans hJle
-  obtain ⟨y₀, hy₀C, hy₀J⟩ := SetLike.not_le_iff_exists.1 hCJ
+  obtain ⟨y₀, hy₀C, hy₀J⟩ := IsConcreteLE.not_le_iff_exists.1 hCJ
   have hidx3 : J.relIndex (fixedPoints (Subgroup.zpowers f)) = 3 := by
     rcases (Nat.dvd_prime Nat.prime_three).1 hidx with h | h
     · exact absurd (Subgroup.relIndex_eq_one.1 h) hCJ
     · exact h
   have hy₀3 : y₀ ^ 3 ∈ J := by
-    haveI : (J.subgroupOf (fixedPoints (Subgroup.zpowers f))).Normal :=
+    have : (J.subgroupOf (fixedPoints (Subgroup.zpowers f))).Normal :=
       ⟨fun n hn g => hnorm g g.2 n hn⟩
     have h := Subgroup.pow_index_mem (J.subgroupOf (fixedPoints (Subgroup.zpowers f)))
       (⟨y₀, hy₀C⟩ : fixedPoints (Subgroup.zpowers f))

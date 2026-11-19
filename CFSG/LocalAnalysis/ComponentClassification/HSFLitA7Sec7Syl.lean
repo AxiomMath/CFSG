@@ -32,7 +32,7 @@ theorem exists_mem_normalizer_of_lt {H P : Subgroup X} (hP : IsPGroup 2 P) (hHP 
 theorem eq_sylow_of_normalizer {S : Subgroup X} {P : Sylow 2 X} (hSP : S ≤ P)
     (h : ∀ x ∈ (P : Subgroup X), x ∈ normalizer (S : Set X) → x ∈ S) : S = P := by
   by_contra hne
-  obtain ⟨x, hxP, hxS, hxN⟩ := exists_mem_normalizer_of_lt P.isPGroup' hSP hne
+  obtain ⟨x, hxP, hxS, hxN⟩ := exists_mem_normalizer_of_lt P.isPGroup hSP hne
   exact hxS (h x hxP hxN)
 
 omit [Finite X] in
@@ -121,7 +121,7 @@ theorem eq_of_mem_center (C : Setup S) (P : Sylow 2 X) {a b : X} (ha : a ∈ (P 
     have hcE : g⁻¹ * c * g ∈ S.E (C.F.xF * C.F.yF) := by
       have hle : ((P₀ : Subgroup X) ⊓ centralizer (S.E (C.F.xF * C.F.yF) : Set X)) ≤
           S.E (C.F.xF * C.F.yF) :=
-        le_E_of_le_centralizer (isRefl_xyF C.F) (P₀.isPGroup'.to_le inf_le_left) inf_le_right
+        le_E_of_le_centralizer (isRefl_xyF C.F) (P₀.isPGroup.to_le inf_le_left) inf_le_right
       exact hle ⟨hcP₀, mem_centralizer_iff.mpr fun e he => (hS e (hES he)).symm⟩
     have hconj : ∀ s ∈ C.D₂.S₁, s * (g⁻¹ * c * g) * s⁻¹ = g⁻¹ * c * g := fun s hs =>
       by rw [← hS s hs, mul_inv_cancel_right]
@@ -176,7 +176,7 @@ theorem false_of_normalizer_le
     have hxE := h x (C.mem_normalizer_Q₁_of_mem_normalizer_S₁ hxN)
     have hle : C.D₁.S₁ ⊔ zpowers x ≤ normalizer (C.E₁ : Set X) :=
       sup_le C.D₁.S₁_le (zpowers_le.mpr hxE)
-    have heq := C.D₁.S₁_maximal _ (isPGroup_sup_zpowers P.isPGroup' hP hxP) le_sup_left hle
+    have heq := C.D₁.S₁_maximal _ (isPGroup_sup_zpowers P.isPGroup hP hxP) le_sup_left hle
     rw [← heq]
     exact mem_sup_right (mem_zpowers x)
   have hzP : S.z ∈ (P : Subgroup X) := by

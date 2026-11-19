@@ -13,7 +13,7 @@ open scoped commutatorElement
 
 theorem linearIndependent {F : Type*} [Field F]
     {W : Type*} [AddCommGroup W] [Module F W] [Nontrivial W]
-    {q : ℕ} (hq : q.Prime)
+    {q : ℕ} (_hq : q.Prime)
     {E : Type*} [Group E] [Finite E] (hE : CFSG.IsExtraspecialPGroup q E)
     (σ : Representation F E W) (χ : Subgroup.center E →* Fˣ)
     (hχ : Function.Injective χ)

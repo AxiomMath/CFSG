@@ -73,14 +73,14 @@ theorem burnsideF429a_two_le_L3 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : S
     (hyp : HypF_4_4 .L3 2 f Gp M₁ M₂) (hf : Odd f) :
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 → r ∈ Gp := by
   intro r hr k hk
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .L3) hyp.toHypF_4_4g
   have hK : Nat.card marking.field = 2 ^ f := by simpa using marking.field_card
-  haveI : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
+  have : CharP marking.field 2 := burnsideF4gSp_charP_of_card hK
   have e0 := burnsideF429a_L3_parabolic marking false
   have e1 := burnsideF429a_L3_parabolic marking true
-  simp only [Bool.false_eq_true, if_false, if_true] at e0 e1
+  simp only [Bool.false_eq_true, ite_false, ite_true] at e0 e1
   refine burnsideF429a_mem_of_model₂ hyp.centralizer_trivial (burnsideF429a_L3_Psi marking)
     (h1.trans e0) (h2.trans e1) hr (fun β hβ₁ hβ₂ hβr => ?_)
   exact burnsideF429a_L3_inner_of_odd hK hf hβ₁ hβ₂

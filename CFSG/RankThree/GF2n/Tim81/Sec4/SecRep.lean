@@ -21,7 +21,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] {V H : Subgroup G} {N N₀ : Subgroup G}
 variable [(N₀.subgroupOf N).Normal]
 
-abbrev SecMod (hs : QuotMod.Hyp H N N₀) : Type :=
+abbrev SecMod (_hs : QuotMod.Hyp H N N₀) : Type :=
   Additive (↥N ⧸ N₀.subgroupOf N)
 
 namespace SecMod
@@ -113,7 +113,7 @@ namespace SecMod
     rw [SecMod.secConjAdd_mk, SecMod.secConjAdd_mk, SecMod.secConjAdd_mk]
     congr 1
     ext
-    simp [QuotMod.conjN, mul_assoc]
+    simp [mul_assoc]
 
 end SecMod
 
@@ -268,8 +268,7 @@ noncomputable def subgroupOfSubSec (U : Submodule (ZMod 2) (SecMod hs)) : Subgro
 
 private theorem mem_subgroupOfSubSec {U : Submodule (ZMod 2) (SecMod hs)} {g : G} :
     g ∈ subgroupOfSubSec hs U ↔ ∃ hg : g ∈ N, SecMod.mk hs ⟨g, hg⟩ ∈ U := by
-  simp [subgroupOfSubSec, SecMod.mk, QuotMod.mk, Subgroup.mem_map, Subgroup.mem_comap,
-    Submodule.mem_toAddSubgroup]
+  simp [subgroupOfSubSec, SecMod.mk, QuotMod.mk, Subgroup.mem_map, Subgroup.mem_comap]
 
 theorem subSec_subgroupOfSubSec (U : Submodule (ZMod 2) (SecMod hs)) :
     subSec hs (subgroupOfSubSec hs U) = U := by
@@ -289,6 +288,7 @@ theorem subSec_subgroupOfSubSec (U : Submodule (ZMod 2) (SecMod hs)) :
       ⟨n, ⟨(mem_subgroupOfSubSec hs).2 ⟨n.2, hv⟩, n.2⟩⟩
     exact ⟨n', congrArg (SecMod.mk hs) (Subtype.ext rfl)⟩
 
+omit [(N₀.subgroupOf N).Normal] in
 private theorem le_normalizer_N₀ (hs : QuotMod.Hyp H N N₀) :
     N ≤ Subgroup.normalizer (N₀ : Set G) := by
   intro n hn
@@ -301,10 +301,11 @@ private theorem le_normalizer_N₀ (hs : QuotMod.Hyp H N N₀) :
     have h : n⁻¹ * (n * m * n⁻¹) * n = m := by group
     simpa only [inv_inv, h] using this
 
-noncomputable def secCent (hs : QuotMod.Hyp H N N₀) (S : Subgroup G) (hS : S ≤ H) :
+noncomputable def secCent (hs : QuotMod.Hyp H N N₀) (S : Subgroup G) (_hS : S ≤ H) :
     Subgroup G :=
   ⨅ s ∈ S, commMemSubgroup N N₀ (le_normalizer_N₀ hs) s
 
+omit [(N₀.subgroupOf N).Normal] in
 theorem mem_secCent (hs : QuotMod.Hyp H N N₀) {S : Subgroup G} (hS : S ≤ H) {n : G} :
     n ∈ secCent hs S hS ↔ n ∈ N ∧ ∀ s ∈ S, ⁅n, s⁆ ∈ N₀ := by
   simp only [secCent, Subgroup.mem_iInf, mem_commMemSubgroup]
@@ -314,6 +315,7 @@ theorem mem_secCent (hs : QuotMod.Hyp H N N₀) {S : Subgroup G} (hS : S ≤ H) 
   · rintro ⟨hn, h⟩ s hsS
     exact ⟨hn, h s hsS⟩
 
+omit [(N₀.subgroupOf N).Normal] in
 theorem le_secCent (hs : QuotMod.Hyp H N N₀) {S : Subgroup G} (hS : S ≤ H) :
     N₀ ≤ secCent hs S hS := by
   intro n hn
@@ -412,7 +414,7 @@ theorem natCard_secMod : Nat.card (SecMod hs) * Nat.card N₀ = Nat.card N := by
 
 theorem card_subSec_eq_two_pow [Finite G] (E : Subgroup G) :
     Nat.card (subSec hs E) = 2 ^ Module.finrank (ZMod 2) (subSec hs E) := by
-  letI : Fintype (subSec hs E) := Fintype.ofFinite _
+  let : Fintype (subSec hs E) := Fintype.ofFinite _
   have h := Module.card_eq_pow_finrank (K := ZMod 2) (V := subSec hs E)
   rw [ZMod.card] at h
   rw [Nat.card_eq_fintype_card]
@@ -520,7 +522,7 @@ theorem fixedSub_repSec
       exact (SecMod.mk_eq_zero_iff hs _).1 this.symm
     rw [show ⁅(n : G), (z : G)⁆ = ((z : G) * n * (z : G)⁻¹ * n⁻¹)⁻¹ from by
       rw [commutatorElement_def]
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [Subgroup.coe_inv]
       group]
     exact N₀.inv_mem hconj
   · intro hv

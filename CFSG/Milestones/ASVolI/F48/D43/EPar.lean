@@ -33,9 +33,9 @@ theorem burnsideF48dE_σ_sh (i : Fin 17) :
   unfold burnsideF48dE_sh
   split_ifs with h
   · rw [burnsideF48dE_σ_ne (show ((⟨i, by omega⟩ : Fin 18) : ℕ) ≠ 2 by simp only; omega)]
-    simp only [h, if_true]
+    simp only [h, ite_true]
   · rw [burnsideF48dE_σ_ne (show ((⟨i + 1, by omega⟩ : Fin 18) : ℕ) ≠ 2 by simp only; omega)]
-    simp only [show ¬((i : ℕ) + 1 < 2) by omega, if_false, Nat.add_sub_cancel]
+    simp only [show ¬((i : ℕ) + 1 < 2) by omega, ite_false, Nat.add_sub_cancel]
 
 theorem burnsideF48dE_ι_L (i : Fin 17) :
     burnsideF48dE_ι (burnsideF48d_L i) = burnsideF48dE_L (burnsideF48dE_sh i) :=

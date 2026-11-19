@@ -18,11 +18,12 @@ namespace MinCex172
 
 variable {D : Data G} {V₀ V H : Subgroup G}
 
+omit [Finite G] in
 private theorem w172_d3_commutator_mul {e₁ a z : G} (hz : z * e₁ = e₁ * z) :
     ⁅e₁, a * z⁆ = ⁅e₁, a⁆ := by
   have hz' : z * e₁⁻¹ = e₁⁻¹ * z := by
     have h := congrArg (fun y => e₁⁻¹ * y * e₁⁻¹) hz
-    simp only [mul_assoc, inv_mul_cancel_left, mul_inv_cancel_right] at h
+    simp only [mul_assoc, inv_mul_cancel_left] at h
     simpa [mul_assoc] using h.symm
   calc ⁅e₁, a * z⁆ = e₁ * a * (z * e₁⁻¹) * z⁻¹ * a⁻¹ := by
         rw [commutatorElement_def]; group

@@ -29,7 +29,7 @@ theorem isPerfect_of_isSimpleGroup_of_not_prime {H : Type} [Group H] [Finite H] 
         Subgroup.commutator_mem_commutator (Subgroup.mem_top a) (Subgroup.mem_top b)
       rw [_root_.commutator_def, hb, Subgroup.mem_bot] at hm
       exact commutatorElement_eq_one_iff_mul_comm.1 hm
-    letI : CommGroup H := { (inferInstance : Group H) with mul_comm := hcomm }
+    let : CommGroup H := { (inferInstance : Group H) with mul_comm := hcomm }
     exact hp (IsSimpleGroup.prime_card (α := H))
   · rw [_root_.commutator_def]
     exact ht
@@ -58,7 +58,7 @@ theorem commutator_g2Two {k : Type} [Field k] [Finite k]
   have hs : IsSimpleGroup ↥(_root_.commutator ↥(adjointGroup .G2 k)) := eD.isSimpleGroup
   have hcardD : Nat.card ↥(_root_.commutator ↥(adjointGroup .G2 k)) = 6048 := by
     rw [Nat.card_congr eD.toEquiv, hcard]
-  haveI : Finite ↥(_root_.commutator ↥(adjointGroup .G2 k)) :=
+  have : Finite ↥(_root_.commutator ↥(adjointGroup .G2 k)) :=
     Nat.finite_of_card_ne_zero (by rw [hcardD]; norm_num)
   refine ⟨Subgroup.isPerfect_iff.1 (isPerfect_of_isSimpleGroup_of_not_prime ?_), hcardD⟩
   rw [hcardD]
@@ -125,7 +125,7 @@ theorem exists_fixedGroup_of_outer_four (hK : Nat.card K = 4)
     fixedGroup_mulEquiv_of_outer (e := 1) (by rw [hK]; norm_num) le_rfl hβo hβ
   have hk2 : Nat.card k = 2 := by rw [hk]; norm_num
   have hkfin : Finite k := Nat.finite_of_card_ne_zero (by rw [hk2]; norm_num)
-  haveI : CharP k 2 := ProductEndAux.charP_two_of_card_two_pow (by norm_num) hk
+  have : CharP k 2 := ProductEndAux.charP_two_of_card_two_pow (by norm_num) hk
   set Dg : Subgroup (adjointGroup .G2 K) := β.toMonoidHom.eqLocus (MonoidHom.id _)
   obtain ⟨hJperf, hJcard⟩ := commutator_g2Two hk2
   obtain ⟨Ek, hEk, -, hEkcard⟩ := ProductEndAux.exists_isElemAbelian_of_mul_self (K := k)
@@ -154,7 +154,7 @@ theorem inner_or_outer_aux_four (hK : Nat.card K = 4) {β : MulAut (adjointGroup
     have ha : a * a = 1 := Model.conj_injective (by rw [map_mul, hβ2, map_one])
     obtain ⟨E, hE, haE, hcard⟩ := ProductEndAux.exists_isElemAbelian_of_mul_self ha
     refine ⟨E, hE, by rw [hcard, hK], fun g hg => ?_⟩
-    haveI := hE.1
+    have := hE.1
     have hc : a * g = g * a := congrArg Subtype.val (mul_comm' (⟨a, haE⟩ : E) ⟨g, hg⟩)
     rw [MulAut.conj_apply, hc, mul_inv_cancel_right]
   · exact Or.inr (exists_fixedGroup_of_outer_four hK hβ2 hin)
@@ -163,7 +163,7 @@ end ProductEndFourAux
 
 namespace Setup
 
-theorem inner_or_outer_G2_four (h : Setup G L f t) (d : G2Data L K) (hK4 : Nat.card K = 4)
+theorem inner_or_outer_G2_four (_h : Setup G L f t) (d : G2Data L K) (hK4 : Nat.card K = 4)
     {X : Subgroup G} (e : L ≃* X) {x : G} (hxX : x ∈ normalizer (X : Set G)) (hx2 : x * x = 1) :
     (∃ E : Subgroup G, E ≤ X ∧ E ≤ centralizer ({x} : Set G) ∧ IsElemAbelian 2 E ∧
         Nat.card E = 4 ^ 3) ∨
@@ -305,7 +305,7 @@ theorem false_of_productConfig_four (h : Setup G L f t) (d : G2Data L K)
   have htt := h.t_mul_t
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_right htt
   obtain ⟨-, e, -⟩ := h.yamada_7_20 hcomm hL
-  haveI hLq : IsSimpleGroup (L ⧸ center L) := h.std.1.2
+  have hLq : IsSimpleGroup (L ⧸ center L) := h.std.1.2
   have hLs : IsSimpleGroup L :=
     ((QuotientGroup.quotientMulEquivOfEq h.center_eq).trans
       QuotientGroup.quotientBot).symm.isSimpleGroup

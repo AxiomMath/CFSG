@@ -21,8 +21,8 @@ abbrev VG (G : Subgroup (LGL 2 V)) : Type := Multiplicative V ⋊[linearAction G
 variable {G : Subgroup (LGL 2 V)}
 
 instance : Finite (VG G) :=
-  Finite.of_injective (fun x : VG G => (x.left, x.right))
-    fun x y h => SemidirectProduct.ext (congrArg Prod.fst h) (congrArg Prod.snd h)
+  Finite.of_injective (fun _x : VG G => (_x.left, _x.right))
+    fun _x _y h => SemidirectProduct.ext (congrArg Prod.fst h) (congrArg Prod.snd h)
 
 @[expose] def wHat (G : Subgroup (LGL 2 V)) (W : Submodule (ZMod 2) V) : Subgroup (VG G) :=
   (AddSubgroup.toSubgroup W.toAddSubgroup).map SemidirectProduct.inl
@@ -40,6 +40,7 @@ instance : Finite (VG G) :=
     Subgroup (VG G) :=
   wHat G (VA A) ⊔ aHat G A
 
+omit [Finite V] in
 theorem mem_wHat {W : Submodule (ZMod 2) V} {x : VG G} :
     x ∈ wHat G W ↔ ∃ v ∈ W, x = SemidirectProduct.inl (Multiplicative.ofAdd v) := by
   unfold wHat
@@ -49,6 +50,7 @@ theorem mem_wHat {W : Submodule (ZMod 2) V} {x : VG G} :
   · rintro ⟨v, hv, rfl⟩
     exact ⟨Multiplicative.ofAdd v, hv, rfl⟩
 
+omit [Finite V] in
 theorem mem_aHat {A : Subgroup (LGL 2 V)} {x : VG G} :
     x ∈ aHat G A ↔ ∃ g : G, (g : LGL 2 V) ∈ A ∧ x = SemidirectProduct.inr g := by
   unfold aHat
@@ -58,14 +60,17 @@ theorem mem_aHat {A : Subgroup (LGL 2 V)} {x : VG G} :
   · rintro ⟨g, hg, rfl⟩
     exact ⟨g, hg, rfl⟩
 
+omit [Finite V] in
 @[simp] theorem projG_inl (v : V) :
     projG G (SemidirectProduct.inl (Multiplicative.ofAdd v) : VG G) = 1 := by
   simp [projG]
 
+omit [Finite V] in
 @[simp] theorem projG_inr (g : G) :
     projG G (SemidirectProduct.inr g : VG G) = (g : LGL 2 V) := by
   simp [projG]
 
+omit [Finite V] in
 theorem inr_mul_inl_mul_inr_inv (g : G) (v : V) :
     (SemidirectProduct.inr g : VG G) * SemidirectProduct.inl (Multiplicative.ofAdd v) *
         (SemidirectProduct.inr g : VG G)⁻¹ =
@@ -73,17 +78,20 @@ theorem inr_mul_inl_mul_inr_inv (g : G) (v : V) :
   rw [← map_inv, ← SemidirectProduct.inl_aut]
   rfl
 
+omit [Finite V] in
 theorem exists_eq_inl_mul_inr (x : VG G) :
     ∃ (v : V) (g : G),
       x = SemidirectProduct.inl (Multiplicative.ofAdd v) * SemidirectProduct.inr g := by
   exact ⟨Multiplicative.toAdd x.left, x.right, by
     rw [ofAdd_toAdd]; exact (SemidirectProduct.inl_left_mul_inr_right x).symm⟩
 
+omit [Finite V] in
 theorem wHat_mono {W W' : Submodule (ZMod 2) V} (h : W ≤ W') : wHat G W ≤ wHat G W' := by
   intro x hx
   obtain ⟨v, hv, rfl⟩ := mem_wHat.mp hx
   exact mem_wHat.mpr ⟨v, h hv, rfl⟩
 
+omit [Finite V] in
 @[simp] theorem wHat_bot : wHat G (⊥ : Submodule (ZMod 2) V) = ⊥ := by
   rw [eq_bot_iff]
   intro x hx
@@ -92,6 +100,7 @@ theorem wHat_mono {W W' : Submodule (ZMod 2) V} (h : W ≤ W') : wHat G W ≤ wH
   subst hv
   simp
 
+omit [Finite V] in
 theorem wHat_eq_bot_iff {W : Submodule (ZMod 2) V} : wHat G W = ⊥ ↔ W = ⊥ := by
   constructor
   · intro h
@@ -105,9 +114,11 @@ theorem wHat_eq_bot_iff {W : Submodule (ZMod 2) V} : wHat G W = ⊥ ↔ W = ⊥ 
   · rintro rfl
     exact wHat_bot
 
+omit [Finite V] in
 theorem wHat_le_vHat (W : Submodule (ZMod 2) V) : wHat G W ≤ vHat G :=
   wHat_mono le_top
 
+omit [Finite V] in
 theorem normal_vHat : (vHat G).Normal := by
   have h : vHat G = (SemidirectProduct.rightHom : VG G →* G).ker := by
     ext x
@@ -124,6 +135,7 @@ theorem normal_vHat : (vHat G).Normal := by
   rw [h]
   exact MonoidHom.normal_ker _
 
+omit [Finite V] in
 theorem isElemAbelian_wHat (W : Submodule (ZMod 2) V) : IsElemAbelian 2 (wHat G W) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
   · obtain ⟨v, hv, hav⟩ := mem_wHat.mp a.2
@@ -136,12 +148,14 @@ theorem isElemAbelian_wHat (W : Submodule (ZMod 2) V) : IsElemAbelian 2 (wHat G 
     rw [pow_two, ← map_mul, ← ofAdd_add, ZModModule.add_self]
     simp
 
+omit [Finite V] in
 theorem wHat_le_pCoreOf (W : Submodule (ZMod 2) V) :
     wHat G W ≤ pCoreOf 2 (⊤ : Subgroup (VG G)) := by
   refine le_trans (wHat_le_vHat W) ?_
   exact CFSG.LieType.BorelTits.le_pCoreOf 2 le_top (normal_vHat.subgroupOf _)
     (isElemAbelian_wHat ⊤).isPGroup
 
+omit [Finite V] in
 theorem aHat_eq_bot_iff {A : Subgroup (LGL 2 V)} (hA : A ≤ G) : aHat G A = ⊥ ↔ A = ⊥ := by
   constructor
   · intro h
@@ -160,17 +174,20 @@ theorem aHat_eq_bot_iff {A : Subgroup (LGL 2 V)} (hA : A ≤ G) : aHat G A = ⊥
     have : g = 1 := Subtype.ext hg
     simp [this]
 
+omit [Finite V] in
 theorem isElemAbelian_aHat {A : Subgroup (LGL 2 V)} (h : IsElemAbelian 2 A) :
     IsElemAbelian 2 (aHat G A) := by
   unfold aHat
   exact (h.subgroupOf G).map SemidirectProduct.inr
 
+omit [Finite V] in
 theorem map_projG_wHat (W : Submodule (ZMod 2) V) : (wHat G W).map (projG G) = ⊥ := by
   rw [eq_bot_iff]
   rintro x ⟨y, hy, rfl⟩
   obtain ⟨v, -, rfl⟩ := mem_wHat.mp hy
   simp [projG]
 
+omit [Finite V] in
 theorem map_projG_aHat {A : Subgroup (LGL 2 V)} (hA : A ≤ G) : (aHat G A).map (projG G) = A := by
   unfold aHat
   rw [Subgroup.map_map]
@@ -179,6 +196,7 @@ theorem map_projG_aHat {A : Subgroup (LGL 2 V)} (hA : A ≤ G) : (aHat G A).map 
   rw [this]
   exact Subgroup.map_subgroupOf_eq_of_le hA
 
+omit [Finite V] in
 theorem map_projG_pCoreOf_le :
     (pCoreOf 2 (⊤ : Subgroup (VG G))).map (projG G) ≤ pCoreOf 2 G := by
   let f : (⊤ : Subgroup (VG G)) →* G :=
@@ -192,6 +210,7 @@ theorem map_projG_pCoreOf_le :
   rw [this, ← Subgroup.map_map]
   exact Subgroup.map_mono h1
 
+omit [Finite V] in
 private theorem aHat_le_normalizer_wHat {W : Submodule (ZMod 2) V} {A : Subgroup (LGL 2 V)}
     (hstab : ∀ a ∈ A, conjSub a W = W) :
     aHat G A ≤ Subgroup.normalizer ((wHat G W : Subgroup (VG G)) : Set (VG G)) := by
@@ -219,6 +238,7 @@ private theorem aHat_le_normalizer_wHat {W : Submodule (ZMod 2) V} {A : Subgroup
     rw [hy2, hw', h3]
     exact mem_wHat.mpr ⟨_, key g⁻¹ (by simpa using A.inv_mem hg) w hw, rfl⟩
 
+omit [Finite V] in
 theorem mem_wHat_sup_aHat {W : Submodule (ZMod 2) V} {A : Subgroup (LGL 2 V)}
     (hstab : ∀ a ∈ A, conjSub a W = W) {x : VG G} :
     x ∈ wHat G W ⊔ aHat G A ↔
@@ -235,10 +255,12 @@ theorem mem_wHat_sup_aHat {W : Submodule (ZMod 2) V} {A : Subgroup (LGL 2 V)}
   · rintro ⟨v, hv, g, hg, rfl⟩
     exact ⟨_, mem_wHat.mpr ⟨v, hv, rfl⟩, _, mem_aHat.mpr ⟨g, hg, rfl⟩, rfl⟩
 
+omit [Finite V] in
 theorem map_projG_wHat_sup_aHat {W : Submodule (ZMod 2) V} {A : Subgroup (LGL 2 V)}
     (hA : A ≤ G) : (wHat G W ⊔ aHat G A).map (projG G) = A := by
   rw [Subgroup.map_sup, map_projG_wHat, map_projG_aHat hA, bot_sup_eq]
 
+omit [Finite V] in
 private theorem inl_mul_inr_mul_inl_inv (u : V) (a : G) :
     (SemidirectProduct.inl (Multiplicative.ofAdd u) : VG G) * SemidirectProduct.inr a *
         (SemidirectProduct.inl (Multiplicative.ofAdd u) : VG G)⁻¹ =
@@ -253,6 +275,7 @@ private theorem inl_mul_inr_mul_inl_inv (u : V) (a : G) :
   rw [← map_inv SemidirectProduct.inl, mul_assoc, ← ofAdd_neg, h2, ← mul_assoc,
     ← map_mul SemidirectProduct.inl, ← ofAdd_add, map_neg, ← sub_eq_add_neg]
 
+omit [Finite V] in
 theorem vHat_le_normalizer_wHat_sup_aHat {W : Submodule (ZMod 2) V} {A : Subgroup (LGL 2 V)}
     (hcomm : commSub A ≤ W) :
     vHat G ≤ Subgroup.normalizer ((wHat G W ⊔ aHat G A : Subgroup (VG G)) : Set (VG G)) := by
@@ -307,6 +330,7 @@ theorem vHat_le_normalizer_wHat_sup_aHat {W : Submodule (ZMod 2) V} {A : Subgrou
       group
     rwa [e] at h
 
+omit [Finite V] in
 theorem isElemAbelian_wHat_sup_aHat {W : Submodule (ZMod 2) V} {A : Subgroup (LGL 2 V)}
     (hAab : IsElemAbelian 2 A) (hfix : W ≤ fixSub A) :
     IsElemAbelian 2 (wHat G W ⊔ aHat G A) := by
@@ -347,6 +371,7 @@ theorem two_lt_card_wHat_sup_aHat {W : Submodule (ZMod 2) V} {A : Subgroup (LGL 
   · simp at h2
   · nlinarith
 
+omit [Finite V] in
 private theorem map_conj_wHat (W : Submodule (ZMod 2) V) (g : G) :
     (wHat G W).map (MulAut.conj (SemidirectProduct.inr g : VG G)).toMonoidHom =
       wHat G (conjSub (g : LGL 2 V) W) := by
@@ -366,6 +391,7 @@ private theorem map_conj_wHat (W : Submodule (ZMod 2) V) (g : G) :
     rw [inr_mul_inl_mul_inr_inv]
     simp
 
+omit [Finite V] in
 private theorem map_conj_aHat (A : Subgroup (LGL 2 V)) (g : G) :
     (aHat G A).map (MulAut.conj (SemidirectProduct.inr g : VG G)).toMonoidHom =
       aHat G (cj (g : LGL 2 V) A) := by
@@ -386,6 +412,7 @@ private theorem map_conj_aHat (A : Subgroup (LGL 2 V)) (g : G) :
       rw [this]; exact ha
     · simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite V] in
 theorem conjSubgroup_wHat_sup_aHat_inr_inv (W : Submodule (ZMod 2) V) (A : Subgroup (LGL 2 V))
     (g : G) :
     conjSubgroup (wHat G W ⊔ aHat G A) (SemidirectProduct.inr g⁻¹ : VG G) =
@@ -396,6 +423,7 @@ theorem conjSubgroup_wHat_sup_aHat_inr_inv (W : Submodule (ZMod 2) V) (A : Subgr
     rw [← map_inv SemidirectProduct.inr g⁻¹, inv_inv]
   rw [key, Subgroup.map_sup, map_conj_wHat, map_conj_aHat]
 
+omit [Finite V] in
 theorem exists_conjSubgroup_eq_inr {U : Subgroup (VG G)}
     (hU : vHat G ≤ Subgroup.normalizer (U : Set (VG G))) (y : VG G) :
     ∃ r : G, conjSubgroup U y = conjSubgroup U (SemidirectProduct.inr r : VG G) := by

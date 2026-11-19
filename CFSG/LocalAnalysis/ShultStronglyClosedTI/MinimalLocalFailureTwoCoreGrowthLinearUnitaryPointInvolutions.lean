@@ -22,7 +22,7 @@ theorem mem_normal_sylow_of_pow_eq_one
   have hX : IsPGroup p (Subgroup.zpowers x) :=
     CFSG.IsElementaryAbelian.isPGroup p (Subgroup.zpowers x)
   have hsup : IsPGroup p ((S : Subgroup G) ⊔ Subgroup.zpowers x : Subgroup G) :=
-    S.isPGroup'.to_sup_of_normal_left hX
+    S.isPGroup.to_sup_of_normal_left hX
   have heq : (S : Subgroup G) ⊔ Subgroup.zpowers x = (S : Subgroup G) :=
     S.maximal_isPGroup.eq_of_ge hsup le_sup_left
   have hmem : x ∈ (S : Subgroup G) ⊔ Subgroup.zpowers x :=

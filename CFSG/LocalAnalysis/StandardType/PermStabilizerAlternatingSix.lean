@@ -78,7 +78,7 @@ theorem permSixHom_mem_alternatingGroup {α : Type} (M : Subgroup (Equiv.Perm α
     (hperf : commutator ↥M = ⊤) (m : ↥M) :
     permSixHom M o ho hstab m ∈ alternatingGroup (Fin 6) := by
   rw [Equiv.Perm.mem_alternatingGroup]
-  haveI : IsMulCommutative ℤˣ :=
+  have : IsMulCommutative ℤˣ :=
     IsMulCommutative.of_comm (fun a b => mul_comm a b)
   have hle := Abelianization.commutator_subset_ker
     (Equiv.Perm.sign.comp (permSixHom M o ho hstab))

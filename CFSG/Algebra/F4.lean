@@ -89,11 +89,11 @@ instance : CommRing F4 where
   | zero => rfl
   | succ n ih =>
       rw [Nat.cast_succ, ih]
-      ext <;> simp [add_comm]
+      ext <;> simp
 
 @[simp] theorem intCast_def (n : ℤ) : (n : F4) = ⟨n, 0⟩ := by
   cases n with
-  | ofNat n => simpa using natCast_def n
+  | ofNat n => simp
   | negSucc n =>
       rw [Int.cast_negSucc, natCast_def]
       ext <;> simp [add_comm]

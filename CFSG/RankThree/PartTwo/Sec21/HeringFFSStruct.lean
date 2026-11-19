@@ -23,9 +23,9 @@ theorem ffs_decomp {G : Type} [Group G] [Finite G] {C X B : Subgroup G}
     (hI : ∀ b ∈ B, ∃ x ∈ X, x⁻¹ * b ∈ Subgroup.centralizer (X : Set G)) :
     IsElemAbelian 3 (B ⊓ X) ∧ Nat.card ↥(B ⊓ X) = 9 ∧
       ∀ b ∈ B, ∃ t ∈ B ⊓ X, ∃ s ∈ B ⊓ Subgroup.centralizer (X : Set G), b = t * s := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBC : B ≤ C := hPB ▸ Subgroup.map_subtype_le _
-  have hB3 : IsPGroup 3 B := hPB ▸ P.isPGroup'.map C.subtype
+  have hB3 : IsPGroup 3 B := hPB ▸ P.isPGroup.map C.subtype
   have hBN : B ≤ Subgroup.normalizer (X : Set G) := hBC.trans hCN
   obtain ⟨E, hEX, hEab, hE9⟩ := hE
   obtain ⟨c, hcC, hc⟩ := ffs_exists_conj_map_le P (hEX.trans hXC) hEab.isPGroup

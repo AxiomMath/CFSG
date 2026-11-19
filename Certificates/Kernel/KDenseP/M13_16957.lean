@@ -114,7 +114,7 @@ theorem conj_bP : ∀ i < 24, gw genD13W1 * rhoG (bP i) = rhoG (iP i) * gw genD1
     simp only at this
     rw [show (Native.Gen.rho (basisT i) :: genD13W1) = [Native.Gen.rho (basisT i)] ++ genD13W1 from
       rfl, gw_append, gw_append] at this
-    simp only [bP, iP, if_pos h12]
+    simp only [bP, iP, ite_eq_left h12]
     exact this
   · have h' : i - 12 < 12 := by omega
     have := agreeAll_sound hagree _
@@ -122,7 +122,7 @@ theorem conj_bP : ∀ i < 24, gw genD13W1 * rhoG (bP i) = rhoG (iP i) * gw genD1
     simp only at this
     rw [show (Native.Gen.rho (basisD (i - 12)) :: genD13W1) =
       [Native.Gen.rho (basisD (i - 12))] ++ genD13W1 from rfl, gw_append, gw_append] at this
-    simp only [bP, iP, if_neg h12]
+    simp only [bP, iP, ite_eq_right h12]
     exact this
 
 theorem conj_z13 : gw genD13W1 * rhoG (true, 0, 0) = rhoG (true, 0, 0) * gw genD13W1 :=
@@ -202,11 +202,10 @@ theorem c16957 :
     have hD : (t.2.2 : ℕ) = t'.2.2 := by omega
     have htt : t = t' := Prod.ext hs (Prod.ext (Fin.ext hA) (Fin.ext hD))
     apply Subtype.ext
-    change (e : Gmat) = (e' : Gmat)
     rw [← ht, ← ht', htt]
   calc Nat.card ↥(rhoQ.subgroupOf Gmat ⊓ Subgroup.centralizer {x}) ≤ Nat.card (Bool × F) :=
         Nat.card_le_card_of_injective g hginj
-    _ = 2 * F.card := by simp [Nat.card_prod]
+    _ = 2 * F.card := by simp
     _ ≤ 2 := by omega
 
 end CertificateChecks.KernelKDenseP.M13.E16957

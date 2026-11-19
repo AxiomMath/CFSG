@@ -19,10 +19,10 @@ abbrev s16h_l3RowSpace (m : s16h_l3Mat) : Submodule (ZMod 2) s16h_l3Vec :=
   Submodule.span (ZMod 2) (Set.range m)
 
 abbrev s16h_l3RowSub (R : Submodule (ZMod 2) s16h_l3Vec) : AddSubgroup s16h_l3Mat where
-  carrier := {h | ∀ i, h i ∈ R}
-  add_mem' := fun ha hb i => R.add_mem (ha i) (hb i)
-  zero_mem' := fun i => R.zero_mem
-  neg_mem' := fun ha i => R.neg_mem (ha i)
+  carrier := {h | ∀ _i, h _i ∈ R}
+  add_mem' := fun ha hb _i => R.add_mem (ha _i) (hb _i)
+  zero_mem' := fun _i => R.zero_mem
+  neg_mem' := fun ha _i => R.neg_mem (ha _i)
 
 @[simp] theorem s16h_l3RowSub_mem {R : Submodule (ZMod 2) s16h_l3Vec} {h : s16h_l3Mat} :
     h ∈ s16h_l3RowSub R ↔ ∀ i, h i ∈ R := Iff.rfl
@@ -61,7 +61,6 @@ private def s16h_l3OrbitClosure (m : s16h_l3Mat) : AddSubgroup s16h_l3Mat :=
 
 private theorem s16h_l3E_mul_mem_closure_of_ne (m : s16h_l3Mat) {i j : Fin 3} (hij : i ≠ j) :
     s16h_l3E i j * m ∈ s16h_l3OrbitClosure m := by
-  change s16h_l3E i j * m ∈ s16h_l3OrbitClosure m
   have h1 : ((1 : s16h_l3Mat) + s16h_l3E i j) * m ∈ s16h_l3OrbitClosure m := by
     apply AddSubgroup.subset_closure
     refine ⟨Matrix.GeneralLinearGroup.transvection i j hij (1 : ZMod 2), ?_⟩
@@ -97,8 +96,7 @@ private theorem s16h_l3E_mul_mem_closure_self (m : s16h_l3Mat) (i : Fin 3) :
     s16h_l3E_mul_mem_closure_of_ne m hki
   have hGmat : (G : s16h_l3Mat) = 1 + s16h_l3E i k + s16h_l3E k i + s16h_l3E i i := by
     simp only [G, Units.val_mul, Matrix.GeneralLinearGroup.transvection, Matrix.transvection,
-      s16h_l3E, Matrix.mul_add, Matrix.add_mul, Matrix.one_mul, Matrix.mul_one,
-      Matrix.single_mul_single_same, mul_one]
+      s16h_l3E, Matrix.mul_add, Matrix.add_mul, Matrix.one_mul, Matrix.single_mul_single_same, mul_one]
     abel
   have hGmul : (G : s16h_l3Mat) * m =
       m + s16h_l3E i k * m + s16h_l3E k i * m + s16h_l3E i i * m := by
@@ -235,7 +233,7 @@ theorem s16h_l3RowSub_ne_bot {r : s16h_l3Vec} (hr : r ≠ 0) :
     congrFun (congrFun hzero 0) j
   exact hj (by simpa using h0j)
 
-theorem s16h_l3SpanSingleton_eq_of_le {r : s16h_l3Vec} (hr : r ≠ 0)
+theorem s16h_l3SpanSingleton_eq_of_le {r : s16h_l3Vec} (_hr : r ≠ 0)
     {S : Submodule (ZMod 2) s16h_l3Vec} (hS : S ≤ Submodule.span (ZMod 2) {r})
     (hne : S ≠ ⊥) : S = Submodule.span (ZMod 2) {r} := by
   obtain ⟨v, hvS, hvne⟩ : ∃ v ∈ S, v ≠ 0 := by
@@ -261,7 +259,7 @@ theorem s16h_l3SpanSingleton_eq_of_le {r : s16h_l3Vec} (hr : r ≠ 0)
     rw [hrv]
     exact hvS
 
-theorem s16h_l3RowSub_injective {r r' : s16h_l3Vec} (hr : r ≠ 0) (hr' : r' ≠ 0)
+theorem s16h_l3RowSub_injective {r r' : s16h_l3Vec} (hr : r ≠ 0) (_hr' : r' ≠ 0)
     (h : s16h_l3RowSub (Submodule.span (ZMod 2) {r}) =
       s16h_l3RowSub (Submodule.span (ZMod 2) {r'})) : r = r' := by
   have hT : s16h_l3SingleRow 0 r ∈ s16h_l3RowSub (Submodule.span (ZMod 2) {r}) := by

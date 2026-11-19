@@ -11,7 +11,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.L6LeavesKF64iiNPC
 
 theorem exists_orderOf_eq_pow_of_mem_sylow {G : Type*} [Group G] {p : ℕ} [hp : Fact p.Prime]
     (S : Sylow p G) {x : G} (hx : x ∈ (S : Subgroup G)) : ∃ a : ℕ, orderOf x = p ^ a := by
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx⟩
   have h1 : x ^ (p ^ k) = 1 := by simpa using congrArg Subtype.val hk
   obtain ⟨a, -, ha⟩ := (Nat.dvd_prime_pow hp.out).1 (orderOf_dvd_of_pow_eq_one h1)
   exact ⟨a, ha⟩
@@ -93,7 +93,7 @@ theorem exists_centralizing_normalizing
       Subgroup.Normal.conj_mem inferInstance z hz.2 s⟩
   have hScomm : ∀ s ∈ (S : Subgroup G), s * r₀ = r₀ * s := by
     intro s hs
-    obtain ⟨c, hc⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨c, hc⟩ := S.isPGroup ⟨s, hs⟩
     have hsc : s ^ (p ^ c) = 1 := by simpa using congrArg Subtype.val hc
     refine commute_of_pow_prime_pow hr₀ord (hnorm s (hSnorm s hs)) (c := c) ?_
     rw [hsc, one_mul, mul_one]

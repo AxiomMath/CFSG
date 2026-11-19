@@ -20,7 +20,7 @@ open scoped commutatorElement
 private theorem ggLieA3Br_mem_center_of_commutators {A : Type} [Group A]
     (hperf : commutator A = ⊤) {N : Subgroup A} (hN : N ≤ Subgroup.center A) {x : A}
     (hx : ∀ z, ⁅x, z⁆ ∈ N) : x ∈ Subgroup.center A := by
-  haveI : Group.IsPerfect A := ⟨hperf⟩
+  have : Group.IsPerfect A := ⟨hperf⟩
   have hstep : x ∈ Subgroup.upperCentralSeriesStep (Subgroup.center A) := fun z => hN (hx z)
   have h2 : Subgroup.upperCentralSeries A 2 = Subgroup.center A :=
     Group.IsPerfect.upperCentralSeries_eq_center A (by norm_num)

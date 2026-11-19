@@ -182,7 +182,7 @@ private theorem cs6_Kdata_body
         ((CK (Sum.inr a0) (Sum.inl (τ i)) : ℤ) : ZMod 3) = (cs6PatPair jj pi i).2) ∧
       Nat.card MK.Group ≤ 3840 ∧ (cs6PatDet jj pi = 6 → Nat.card MK.Group ≤ 720) := by
   classical
-  haveI hsub : Subsingleton Λa := (Nat.card_eq_one_iff_unique.mp hΛa).1
+  have hsub : Subsingleton Λa := (Nat.card_eq_one_iff_unique.mp hΛa).1
   let a0 : Λa := Classical.choice (Nat.card_eq_one_iff_unique.mp hΛa).2
   have ha0 : ∀ a : Λa, a = a0 := fun a => Subsingleton.elim a a0
   let τ : Fin 4 ≃ {i : Λ // i ∉ S} := Equiv.ofBijective

@@ -21,19 +21,19 @@ variable {n d : ℕ} {k : Type} [Field k]
   perf := SU.commutator_su h hd hn
   cent := SU.mem_scalars_of_commute_su h hd
   det_one g hg := ((SU.mem_su_iff h).mp hg).2
-  map_mem σ g hg := SU.map_mem_su h σ hg
+  map_mem σ g hg := SU.map_mem_su σ hg
   conj_mem x hx g hg := SU.conj_mem_su h hx hg
   scalar_mem c := SU.scalar_mem_cu h c
   map_memA σ x hx := SU.map_mem_cu h σ hx
 
-theorem pow_card_eq_one_of_mem_field_su (h : UnitaryFieldData 2 n k)
+theorem pow_card_eq_one_of_mem_field_su (_h : UnitaryFieldData 2 n k)
     {f : MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) k (2 ^ n)))}
     (hf : f ∈ LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) k (2 ^ n)))) :
     f ^ Nat.card (k ≃+* k) = 1 := by
   obtain ⟨σ, hσ⟩ := hf
   have hg := YS09Field.graph_pow (S := k ≃+* k) (LargeEvenSUGroup (Fin d) k (2 ^ n))
     (LargeEvenProjMk _) (fun τ g => Matrix.GeneralLinearGroup.map τ.toRingHom g)
-    YS09Field.glMap_one YS09Field.glMap_mul (fun τ g => SU.map_mem_su h τ g.2)
+    YS09Field.glMap_one YS09Field.glMap_mul (fun τ g => SU.map_mem_su τ g.2)
     (fun τ g g' => ((g' : GL (Fin d) k) : Matrix (Fin d) (Fin d) k) =
       ((g : GL (Fin d) k) : Matrix (Fin d) (Fin d) k).map τ.toRingHom)
     (fun τ g g' => by rw [Units.ext_iff, YS09Field.coe_glMap]) σ f hσ (Nat.card (k ≃+* k))
@@ -45,7 +45,7 @@ theorem pow_card_eq_one_of_mem_field_su (h : UnitaryFieldData 2 n k)
 
 private theorem dvd_Q₀_sub_one {p n : ℕ} (hp : p.Prime) (hpn : p ∣ n)
     (hq : (p : ℤ) ∣ 2 ^ n + 1) : (p : ℤ) ∣ ((2 ^ (2 * n / p) : ℕ) : ℤ) - 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rw [← ZMod.intCast_zmod_eq_zero_iff_dvd] at hq ⊢
   push_cast at hq ⊢
   obtain ⟨m, rfl⟩ := hpn
@@ -75,7 +75,7 @@ theorem ggL45H4Raw_unitary [Finite k] (hn : 1 ≤ n) (hk : Nat.card k = (2 ^ n) 
         (LargeEvenGUSet (Fin d) k (2 ^ n)))
       (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) k (2 ^ n)))) := by
   have hu : UnitaryFieldData 2 n k := unitaryFieldData_of_card hn hk
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdq : (d, 2 ^ n) ≠ (3, 2) := fun h3 => hq ⟨congrArg Prod.fst h3, congrArg Prod.snd h3⟩
   exact ggL45H4Raw_of_aut hp
     (fun _ => CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU k 2 n hk d hd hdq)
@@ -85,7 +85,7 @@ theorem ggL45H4Raw_unitary [Finite k] (hn : 1 ≤ n) (hk : Nat.card k = (2 ^ n) 
 
 private theorem dvd_two_pow_div_add_one {p n : ℕ} (hp : p.Prime) (hpn : p ∣ n)
     (hq : (p : ℤ) ∣ 2 ^ n + 1) : (p : ℤ) ∣ 2 ^ (n / p) + 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rw [← ZMod.intCast_zmod_eq_zero_iff_dvd] at hq ⊢
   push_cast at hq ⊢
   obtain ⟨m, rfl⟩ := hpn
@@ -139,7 +139,7 @@ theorem ggL45TorusHRaw_unitary_case2
   obtain ⟨σ, hσ, hσp, hσ1⟩ := exists_field_of_orderOf (D := D) hp hrig hf hford
   obtain ⟨τ, hτ, hτp, hτ1⟩ := exists_frobPow_of_dvd (k := k) hp hk2 (dvd_mul_of_dvd_right hpn 2)
     (by omega)
-  haveI : IsCyclic (k ≃+* k) := (card_ringAut_and_isCyclic Nat.prime_two k hk2).2
+  have : IsCyclic (k ≃+* k) := (card_ringAut_and_isCyclic Nat.prime_two k hk2).2
   obtain ⟨j, hj, hσj⟩ := ggL45NtAutAsm_exists_pow_of_cyclic hp hσp hτp hσ1 hτ1
   obtain ⟨j', -, hjj'⟩ := Nat.exists_mul_mod_eq_one_of_coprime (k := p) (n := j)
     (hp.coprime_iff_not_dvd.mpr hj).symm hp.one_lt
@@ -167,7 +167,7 @@ theorem ggL45TorusHRaw_unitary_case2
   have hF : ∀ g ∈ LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) k (2 ^ lab.n))),
       ∀ m : ℕ, g ^ m ∈
         LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) k (2 ^ lab.n))) :=
-    fun g hg m => YS09Field.matField_pow_closed _ (fun σ h hh => SU.map_mem_su hu σ hh) _ g hg m
+    fun g hg m => YS09Field.matField_pow_closed _ (fun σ h hh => SU.map_mem_su σ hh) _ g hg m
   have hyp₂ := ggL45TorusKGHyp_pow hp hF hj' hyp₁
   have hψ₂R : SemilinImpl (D := D) (LargeEvenProjMk D.H)
       (ggInducedAut θ ((ũ⁻¹ * ψ * ũ) ^ j')) 1 τ := by

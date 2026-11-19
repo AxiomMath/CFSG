@@ -43,7 +43,7 @@ theorem eq_of_le_of_isTypeL2Even
   have hUp' : IsPGroup 2 (U.subgroupOf J) := hUp.of_equiv (Subgroup.subgroupOfEquivOfLe hUJ).symm
   obtain ⟨P, hUP⟩ := hUp'.exists_le_sylow
   have hPU : (P : Subgroup J).map J.subtype = U := hUmax _ (Subgroup.map_subtype_le _)
-    (P.isPGroup'.map _)
+    (P.isPGroup.map _)
     (fun x hx => ⟨⟨x, hUJ hx⟩, hUP (Subgroup.mem_subgroupOf.mpr hx), rfl⟩)
   have hPL : (P : Subgroup J) ≤ L.subgroupOf J := fun x hx =>
     Subgroup.mem_subgroupOf.mpr (hUL (hPU ▸ ⟨x, hx, rfl⟩))
@@ -127,7 +127,7 @@ theorem componentLayerOf_eq
     have hUp' : IsPGroup 2 (U.subgroupOf X) :=
       hUp.of_equiv (Subgroup.subgroupOfEquivOfLe hUX).symm
     obtain ⟨S, hUS⟩ := hUp'.exists_le_sylow
-    have hSU : (S : Subgroup X).map X.subtype = U := hUmax _ (S.isPGroup'.map _)
+    have hSU : (S : Subgroup X).map X.subtype = U := hUmax _ (S.isPGroup.map _)
       (fun x hx => ⟨⟨x, hUX hx⟩, hUS (Subgroup.mem_subgroupOf.mpr hx), rfl⟩)
       (Subgroup.map_subtype_le _)
     have h2 : 2 ∣ Nat.card (J.subgroupOf X) := by
@@ -188,7 +188,7 @@ theorem inf_eq_bot
       ((T : Subgroup G) ⊓ Subgroup.centralizer (L : Set G)) = ⊥ := by
   by_contra hne
   obtain ⟨w, hw, hw2⟩ := exists_orderOf_eq_two_of_ne_bot
-    (T.isPGroup'.to_le (inf_le_left.trans inf_le_left)) hne
+    (T.isPGroup.to_le (inf_le_left.trans inf_le_left)) hne
   have h1 := Bender44.benderM_eq_singleton hG ht hH T htT hK (Or.inr hG.noJRComponents) hw.1 hw2
   have h2 := Bender44.benderM_eq_singleton hG hs hM T hsT hL (Or.inr hG.noJRComponents) hw.2 hw2
   exact hMH (Set.singleton_eq_singleton_iff.mp (h2.symm.trans h1))
@@ -209,7 +209,7 @@ theorem not_componentLayerOf_le
   have hTH := hG.sylow_le_of_mem_benderM T htT hH
   have hTM := hG.sylow_le_of_mem_benderM T hsT hM
   set U := (T : Subgroup G) ⊓ Subgroup.centralizer (K : Set G) with hUdef
-  have hUp : IsPGroup 2 U := T.isPGroup'.to_le inf_le_left
+  have hUp : IsPGroup 2 U := T.isPGroup.to_le inf_le_left
   have hUab : IsMulCommutative U := ⟨⟨fun a b => Subtype.ext (hTc _ a.2.1 _ b.2.1)⟩⟩
   obtain ⟨U₀, hU₀U, hU₀⟩ :=
     exists_isKleinFour_le_of_not_isCyclic hUp hUab (Bender44.not_isCyclic hG ht hH T htT hK)
@@ -245,7 +245,7 @@ theorem le_generalizedFittingSubgroupOf_centralizer
   set U := (T : Subgroup G) ⊓ Subgroup.centralizer (K : Set G) with hUdef
   set X := Subgroup.centralizer (R : Set G) with hXdef
   set CK := Subgroup.centralizer (K : Set G) with hCK
-  have hUp : IsPGroup 2 U := T.isPGroup'.to_le inf_le_left
+  have hUp : IsPGroup 2 U := T.isPGroup.to_le inf_le_left
   have hUab : IsMulCommutative U := ⟨⟨fun a b => Subtype.ext (hTc _ a.2.1 _ b.2.1)⟩⟩
   obtain ⟨U₀, hU₀U, hU₀⟩ :=
     exists_isKleinFour_le_of_not_isCyclic hUp hUab (Bender44.not_isCyclic hG ht hH T htT hK)
@@ -379,7 +379,7 @@ theorem eq_of_isPGroup_of_le_centralizer
   have hHA := hG.isAStar_of_isCoatom (isCoatom_of_mem_benderM hH)
   have hTH := hG.sylow_le_of_mem_benderM T htT hH
   set U := (T : Subgroup G) ⊓ Subgroup.centralizer (K : Set G) with hUdef
-  have hUp : IsPGroup 2 U := T.isPGroup'.to_le inf_le_left
+  have hUp : IsPGroup 2 U := T.isPGroup.to_le inf_le_left
   have hUab : IsMulCommutative U := ⟨⟨fun a b => Subtype.ext (hTc _ a.2.1 _ b.2.1)⟩⟩
   obtain ⟨U₀, hU₀U, hU₀⟩ :=
     exists_isKleinFour_le_of_not_isCyclic hUp hUab (Bender44.not_isCyclic hG ht hH T htT hK)
@@ -574,7 +574,7 @@ theorem false_of_le_normalizer
         ((T : Subgroup G) ⊓ L) :=
       ⟨hVQ ▸ hcommQ r hr y hy.1, ((T : Subgroup G) ⊓ L).mul_mem (hRTL r hr y hy)
         (((T : Subgroup G) ⊓ L).inv_mem hy)⟩
-    rw [inf_inf_eq_bot T.isPGroup' hLQ, Subgroup.mem_bot, mul_inv_eq_one] at h1
+    rw [inf_inf_eq_bot T.isPGroup hLQ, Subgroup.mem_bot, mul_inv_eq_one] at h1
     exact h1
   obtain ⟨SL, hSL⟩ := component_exists_sylow hL T hTM
   have hRCL : R ≤ Subgroup.centralizer (L : Set G) := by
@@ -623,7 +623,7 @@ theorem false_of_le_normalizer
     rw [eq_bot_iff, ← hUV]
     exact le_inf inf_le_left (le_inf (inf_le_left.trans inf_le_left) inf_le_right)
   have hUp : IsPGroup 2 ((T : Subgroup G) ⊓ Subgroup.centralizer (K : Set G) : Subgroup G) :=
-    T.isPGroup'.to_le inf_le_left
+    T.isPGroup.to_le inf_le_left
   have hUab : IsMulCommutative ((T : Subgroup G) ⊓ Subgroup.centralizer (K : Set G) :
       Subgroup G) := ⟨⟨fun a b => Subtype.ext (hTc _ a.2.1 _ b.2.1)⟩⟩
   obtain ⟨U₀, hU₀U, hU₀⟩ :=

@@ -34,7 +34,7 @@ theorem rowOf427_f42
     RowOf427 (TauCeti.CFSGIndex.lie CFSG.Assembly.RankThreeEven.f4TwoIndex).Group := by
   refine rowOf427_of_noCfgS fun S _ _ _ _ ⟨e⟩ => ?_
   obtain ⟨K, _, _, hK, ⟨φ⟩⟩ := Item434F42.exists_model e
-  haveI : Finite (adjointGroup ReeTag.F4.tag K) := Finite.of_equiv S φ.toEquiv
+  have : Finite (adjointGroup ReeTag.F4.tag K) := Finite.of_equiv S φ.toEquiv
   have hG : Nat.card (adjointGroup ReeTag.F4.tag K) = 3311126603366400 := by
     have h := CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_F4 (K := K)
     rw [hK] at h

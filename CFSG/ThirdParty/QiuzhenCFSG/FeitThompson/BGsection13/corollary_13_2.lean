@@ -253,7 +253,7 @@ public theorem CFSG.section13_prime_mem_tau13_of_cyclic_sylow_E
   classical
   have hpE : p ∈ subgroupPrimeSet E :=
     section8_prime_mem_subgroupPrimeSet_of_nontrivial_pSubgroup
-      (A := E) (B := (P : Subgroup E)) P.isPGroup' hPne
+      (A := E) (B := (P : Subgroup E)) P.isPGroup hPne
   have hpτ :
       p ∈ section12Tau1Primes M ∪ section12Tau2Primes M ∪
         section12Tau3Primes M :=
@@ -417,7 +417,7 @@ public theorem CFSG.corollary_13_2_b
       hQ_le_X.trans hX_le_Minf
     have hQp : IsPGroup q.val Q := by
       simpa [Q] using
-        IsPGroup.map (p := q.val) (H := (S : Subgroup X)) S.isPGroup' X.subtype
+        IsPGroup.map (p := q.val) (H := (S : Subgroup X)) S.isPGroup X.subtype
     have hqE : q ∈ subgroupPrimeSet E :=
       section8_subgroupPrimeSet_mono hX_le_E hqX
     have hqMstar : q ∈ subgroupPrimeSet Mstar :=

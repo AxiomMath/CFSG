@@ -54,11 +54,11 @@ theorem isPSolvable_of_isSubnormal {p : ℕ} {X : Type*} [Group X]
       rw [this]; exact hH
   let ψ : ↥H ≃* ↥H' := Subgroup.equivMapOfInjective H Y.subtype Y.subtype_injective
   have hψ : Function.Surjective ψ.toMonoidHom := ψ.surjective
-  haveI hTn : (T.map ψ.toMonoidHom).Normal := Subgroup.Normal.map hT _ hψ
+  have hTn : (T.map ψ.toMonoidHom).Normal := Subgroup.Normal.map hT _ hψ
   have hiso : (↥H ⧸ T) ≃* (↥H' ⧸ T.map ψ.toMonoidHom) :=
     QuotientGroup.congr T (T.map ψ.toMonoidHom) ψ rfl
   have hs' : IsSimpleGroup (↥H' ⧸ T.map ψ.toMonoidHom) := by
-    haveI := hs
+    have := hs
     exact hiso.symm.isSimpleGroup
   have key := hX H' hsub (T.map ψ.toMonoidHom) hs'
   have hidx : (T.map ψ.toMonoidHom).index = T.index := by

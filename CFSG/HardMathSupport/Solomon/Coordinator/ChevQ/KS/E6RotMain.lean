@@ -211,7 +211,7 @@ theorem normalized_of_u3_component_reduced
     have hrr : r' = 1 := Nat.pow_right_injective (by norm_num : 2 ≤ 3) (hrel'.symm.trans hrel)
     have haa : a' = a := Nat.pow_right_injective (by norm_num : 2 ≤ 3) (hHa'.symm.trans hHa)
     subst hrr haa
-    obtain ⟨x, hxB, hxn⟩ := SetLike.not_le_iff_exists.1 hnL
+    obtain ⟨x, hxB, hxn⟩ := IsConcreteLE.not_le_iff_exists.1 hnL
     let ψX : unitarySU 2 3 F 3 →* X := J.subtype.comp ψ.toMonoidHom
     have hψX : Function.Injective ψX := J.subtype_injective.comp ψ.injective
     have hψXr : ψX.range = J := by

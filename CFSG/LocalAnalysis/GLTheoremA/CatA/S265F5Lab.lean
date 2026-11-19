@@ -69,7 +69,7 @@ theorem exists_label_of_fieldOn_prime {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
   have hEc := glaPComponent_chevTransfer hp hF.1 hap hJ₀
   obtain ⟨e₁⟩ := nonempty_pSimple_equiv_chevTransfer hp hF.1 hap hJ₀
   obtain ⟨e₂⟩ := FR.nonempty_pSimple_equiv_of_simple hp hE hna hEc
-  haveI := hE
+  have := hE
   obtain ⟨u, v, huv⟩ := hna
   have hZE : Subgroup.center ↥(chevTransfer p S J₀) = ⊥ := FR.center_eq_bot_of_simple_nonab huv
   have hEtop : commutator ↥(chevTransfer p S J₀) = ⊤ := by

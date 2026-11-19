@@ -14,13 +14,14 @@ section Module
 
 variable {Γ Ω : Type*} [Group Γ] [Finite Γ] [Fintype Ω]
 
+omit [Finite Γ] in
 theorem nineThree_perm_fixed (σ : Γ →* Equiv.Perm Ω) (hodd : Odd (Fintype.card Ω))
     (htrans : ∀ a b : Ω, ∃ γ : Γ, σ γ a = b) (v : Ω) (Q : Subgroup Γ) (hQ : IsPGroup 2 Q)
     (hQv : ∀ q ∈ Q, σ q v = v) (hQt : ∀ a b : Ω, a ≠ v → b ≠ v → ∃ q ∈ Q, σ q a = b)
     {M : Type*} [AddCommGroup M] [Module (ZMod 2) M]
     (ρ : Γ →* LinearMap.GeneralLinearGroup (ZMod 2) M) (m : Ω → M)
     (hm : ∀ γ ω, (ρ γ : M →ₗ[ZMod 2] M) (m ω) = m (σ γ ω))
-    (hspan : Submodule.span (ZMod 2) (Set.range m) = ⊤) (hne : ∃ a b, m a ≠ m b)
+    (_hspan : Submodule.span (ZMod 2) (Set.range m) = ⊤) (hne : ∃ a b, m a ≠ m b)
     (f : Ω → ZMod 2)
     (hf : ∀ q ∈ Q, (ρ q : M →ₗ[ZMod 2] M) (Fintype.linearCombination (ZMod 2) m f) =
       Fintype.linearCombination (ZMod 2) m f) :
@@ -93,16 +94,16 @@ theorem nineThree_group_not_fixed {W W₀ L Q V : Subgroup G} {Δ : Set (Subgrou
     (hQt : ∀ B ∈ Δ, B ≠ V → ∀ B' ∈ Δ, B' ≠ V → ∃ q ∈ Q, conjSubgroup B q = B')
     (h6 : 6 ≤ Nat.card Δ)
     {B₁ B₂ B₃ B₄ : Subgroup G} (h₁ : B₁ ∈ Δ) (h₂ : B₂ ∈ Δ) (h₃ : B₃ ∈ Δ) (h₄ : B₄ ∈ Δ)
-    (h₁V : B₁ ≠ V) (h₂V : B₂ ≠ V) (h₃V : B₃ ≠ V) (h₄V : B₄ ≠ V)
-    (h₁₂ : B₁ ≠ B₂) (h₁₃ : B₁ ≠ B₃) (h₁₄ : B₁ ≠ B₄) (h₂₃ : B₂ ≠ B₃) (h₂₄ : B₂ ≠ B₄)
-    (h₃₄ : B₃ ≠ B₄)
+    (h₁V : B₁ ≠ V) (_h₂V : B₂ ≠ V) (_h₃V : B₃ ≠ V) (_h₄V : B₄ ≠ V)
+    (h₁₂ : B₁ ≠ B₂) (h₁₃ : B₁ ≠ B₃) (h₁₄ : B₁ ≠ B₄) (_h₂₃ : B₂ ≠ B₃) (_h₂₄ : B₂ ≠ B₄)
+    (_h₃₄ : B₃ ≠ B₄)
     {c₁ c₂ c₃ c₄ : G} (hc₁ : c₁ ∈ B₁) (hc₂ : c₂ ∈ B₂) (hc₃ : c₃ ∈ B₃) (hc₄ : c₄ ∈ B₄)
     (hc₁W : c₁ ∉ W₀) (hc₂W : c₂ ∉ W₀) (hc₃W : c₃ ∉ W₀) (hc₄W : c₄ ∉ W₀) :
     ∃ q ∈ Q, ⁅c₁ * c₂ * c₃ * c₄, q⁆ ∉ W₀ := by
   classical
   obtain ⟨M, _, _, ρ, π, hsurj, hker, hequiv⟩ := nineThree_exists_rep hW hW₀ hLW hLW₀
-  haveI : Finite M := Finite.of_surjective π hsurj
-  haveI : Fintype ↥Δ := Fintype.ofFinite _
+  have : Finite M := Finite.of_surjective π hsurj
+  have : Fintype ↥Δ := Fintype.ofFinite _
   let σ : ↥L →* Equiv.Perm ↥Δ :=
     { toFun := fun l =>
         { toFun := fun B => ⟨conjSubgroup B.1 (l : G)⁻¹, hperm B.1 B.2 _ (L.inv_mem l.2)⟩
@@ -164,11 +165,11 @@ theorem nineThree_group_not_fixed {W W₀ L Q V : Subgroup G} {Δ : Set (Subgrou
     let T : Subgroup ↥W :=
       { carrier := {w | π (Additive.ofMul w) ∈ Submodule.span (ZMod 2) (Set.range m)}
         mul_mem' := fun {a b} ha hb => by
-          simp only [Set.mem_setOf_eq, ofMul_mul, map_add]
+          simp only [Set.mem_ofPred_eq, ofMul_mul, map_add]
           exact Submodule.add_mem _ ha hb
         one_mem' := by simp
         inv_mem' := fun {a} ha => by
-          simp only [Set.mem_setOf_eq, ofMul_inv, map_neg]
+          simp only [Set.mem_ofPred_eq, ofMul_inv, map_neg]
           exact Submodule.neg_mem _ ha }
     have hBT : ∀ B ∈ Δ, B ≤ T.map W.subtype := by
       intro B hB x hx
@@ -305,11 +306,11 @@ theorem nineThree_group_not_fixed {W W₀ L Q V : Subgroup G} {Δ : Set (Subgrou
   have hfB₁ : f ⟨B₁, h₁⟩ = 1 := by
     simp only [f, Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne (hneq h₁ h₂ h₁₂),
       Pi.single_eq_of_ne (hneq h₁ h₃ h₁₃), Pi.single_eq_of_ne (hneq h₁ h₄ h₁₄),
-      add_zero, zero_add]
+      add_zero]
   have hfB : f ⟨B, hB⟩ = 0 := by
     simp only [f, Pi.add_apply, Pi.single_eq_of_ne (hneq hB h₁ hBB₁),
       Pi.single_eq_of_ne (hneq hB h₂ hBB₂), Pi.single_eq_of_ne (hneq hB h₃ hBB₃),
-      Pi.single_eq_of_ne (hneq hB h₄ hBB₄), add_zero, zero_add]
+      Pi.single_eq_of_ne (hneq hB h₄ hBB₄), add_zero]
   have hVB₁ : (⟨B₁, h₁⟩ : ↥Δ) ≠ ⟨V, hV⟩ := fun h => h₁V (congrArg Subtype.val h)
   have hVB : (⟨B, hB⟩ : ↥Δ) ≠ ⟨V, hV⟩ := fun h => hBV (congrArg Subtype.val h)
   obtain ⟨q, hq, hqB⟩ := hQt' ⟨B₁, h₁⟩ ⟨B, hB⟩ hVB₁ hVB

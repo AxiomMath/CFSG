@@ -47,8 +47,8 @@ theorem concA_of_twistedA {q : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B : Su
     (h3 : 3 ∣ Q.card - 1) : S267ConcA 3 S B := by
   obtain ⟨⟨hp, hf, hn, hq⟩, K, _, _, hK, ⟨e₁⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r Q hv e
-  haveI : Fact Q.p.Prime := ⟨hp⟩
-  haveI : CharP K Q.p := CFSG.LieType.Steinberg.charP_of_card_eq_sq_pow hp hK
+  have : Fact Q.p.Prime := ⟨hp⟩
+  have : CharP K Q.p := CFSG.LieType.Steinberg.charP_of_card_eq_sq_pow hp hK
   have hp2 : Q.p ≠ 2 := hQq ▸ H.two
   have hp3 : Q.p ≠ 3 := hQq ▸ H.three
   have h31 : 3 ∣ Q.p ^ Q.exponent - 1 := by rwa [TauCeti.PrimePower.card_def] at h3

@@ -28,7 +28,7 @@ open scoped Matrix
 theorem conjugatedRootRange_one_le_range_phiA1_pos
     {Ω : Type} [Field Ω] [CharP Ω 2]
     {k : Type} [Field k] [Algebra k Ω] (z : ModGL Tag.F4 Ω) {γ : Fin Tag.F4.rank → ℤ}
-    (hγ : IsRoot Tag.F4 γ) :
+    (_hγ : IsRoot Tag.F4 γ) :
     conjugatedRootRange (k := k) z γ 1 ≤ (phiA1 (k := k) z γ).range := by
   intro x hx
   rw [mem_conjugatedRootRange_iff (k := k) z γ 1 x] at hx

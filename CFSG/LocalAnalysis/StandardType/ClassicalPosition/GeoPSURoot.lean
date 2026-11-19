@@ -84,7 +84,7 @@ private theorem gPSUr_toStd_apply_of_even {n : ℕ} (he : Even n) (v : Fin (n / 
     (a : Fin (n / 2)) :
     toStd n v a = (if a.val + 1 = n / 2 then 2 else 1) * v a -
       (if h : 0 < a.val then v ⟨a.val - 1, by omega⟩ else 0) := by
-  rw [toStd, if_pos he]
+  rw [toStd, ite_eq_left he]
   rfl
 
 private theorem gPSUr_exists_highest {n : ℕ} (hn : 2 ≤ n) :
@@ -100,7 +100,7 @@ private theorem gPSUr_exists_highest {n : ℕ} (hn : 2 ≤ n) :
     · have : a = ⟨0, hm⟩ := Fin.ext h0
       subst this
       simp
-      split_ifs <;> simp_all <;> omega
+      split_ifs <;> simp_all
     · have h1 : 0 < a.val := Nat.pos_of_ne_zero h0
       have hne : ¬ (a = ⟨0, hm⟩) := fun e => h0 (by rw [e])
       simp [h1, hne]
@@ -108,7 +108,7 @@ private theorem gPSUr_exists_highest {n : ℕ} (hn : 2 ≤ n) :
   · refine ⟨fun _ => 2, ?_⟩
     funext a
     rw [gPSUr_weight_lowIdx, Pi.smul_apply, Pi.single_apply, nsmul_eq_mul]
-    simp only [toStd, if_neg he]
+    simp only [toStd, ite_eq_right he]
     by_cases h0 : a.val = 0
     · have : a = ⟨0, hm⟩ := Fin.ext h0
       subst this
@@ -199,10 +199,10 @@ private theorem gPSUr_toStd_neg (n : ℕ) (v : Fin (n / 2) → ℤ) :
     toStd n (-v) = -toStd n v := by
   by_cases he : Even n
   · funext a
-    simp only [toStd, if_pos he, CFSG.LieType.Universal.Symplectic.toStd, Pi.neg_apply]
+    simp only [toStd, ite_eq_left he, CFSG.LieType.Universal.Symplectic.toStd, Pi.neg_apply]
     split_ifs <;> ring
   · funext a
-    simp only [toStd, if_neg he, Pi.neg_apply]
+    simp only [toStd, ite_eq_right he, Pi.neg_apply]
     split_ifs <;> ring
 
 theorem toStd_neg_eq_two_weight_rev {n : ℕ} {γ : Fin (n / 2) → ℤ} {i : Fin n}
@@ -212,7 +212,7 @@ theorem toStd_neg_eq_two_weight_rev {n : ℕ} {γ : Fin (n / 2) → ℤ} {i : Fi
 
 theorem exists_conj_rootGroup_eq_unitTransvGroup_PSU_of_toStd
     {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
-    (hc : Nat.card F = (2 ^ f) ^ 2) (n : ℕ) (hn : 2 ≤ n)
+    (hc : Nat.card F = (2 ^ f) ^ 2) (n : ℕ) (_hn : 2 ≤ n)
     (i : Fin n) (hi : i ≠ Fin.rev i) (γ : Fin (n / 2) → ℤ)
     (hβi : toStd n γ = 2 • weight n i) (v w : Fin n → F)
     (hv : Matrix.vecMul (fun i => (CFSG.LieType.BorelTits.unitaryInvolution F 2 f) (v i))
@@ -350,18 +350,18 @@ private theorem gPSUr_pairGen {F : Type} [Field F] {n : ℕ} (σ : F ≃+* F) (a
     intro p q
     ext x y
     by_cases hx : x = p <;> by_cases hy : y = q <;>
-      simp_all [Matrix.vecMulVec, Pi.single_apply, Matrix.single_apply, eq_comm]
+      simp_all [Matrix.vecMulVec, Pi.single_apply, eq_comm]
   rw [hvs a b, hvs (Fin.rev b) (Fin.rev a)]
   rw [show c • (Matrix.single a b 1 : Matrix (Fin n) (Fin n) F) = Matrix.single a b c from by
     ext x y
     by_cases hx : x = a <;> by_cases hy : y = b <;>
-      simp [Matrix.smul_apply, Matrix.single_apply, smul_eq_mul, hx, hy, eq_comm]]
+      simp [Matrix.smul_apply, Matrix.single_apply, smul_eq_mul, hx, hy]]
   rw [show σ.toRingHom c • (Matrix.single (Fin.rev b) (Fin.rev a) 1 :
         Matrix (Fin n) (Fin n) F) =
       Matrix.single (Fin.rev b) (Fin.rev a) (σ.toRingHom c) from by
     ext x y
     by_cases hx : x = Fin.rev b <;> by_cases hy : y = Fin.rev a <;>
-      simp [Matrix.smul_apply, Matrix.single_apply, smul_eq_mul, hx, hy, eq_comm]]
+      simp [Matrix.smul_apply, smul_eq_mul, hx, hy, eq_comm]]
   rw [rootMatrix]
   rfl
 
@@ -371,7 +371,7 @@ private theorem gPSUr_suElt_matrix {F : Type} [Field F] {n : ℕ} (σ : F ≃+* 
         Matrix (Fin n) (Fin n) F) =
       rootMatrix σ (lowIdx k) (lowIdx j) c := by
   unfold suElt
-  rw [dif_pos (by simpa [idx] using hkj)]
+  rw [dite_eq_left (by simpa [idx] using hkj)]
   rfl
 
 private theorem gPSUr_rootGroup_map_subtype_short {F : Type} [Field F] {n : ℕ}
@@ -412,9 +412,9 @@ private theorem gPSUr_two_nsmul_single_notMem_roots {n : ℕ} {k : Fin (n / 2)}
     rw [gPSUr_weight_lowIdx]
     simp
   have ha2 : weight n (lowIdx k) ⟨k.val + 1, hk⟩ = 0 := by
-    rw [gPSUr_weight_lowIdx, Pi.single_apply, if_neg (Ne.symm hne)]
+    rw [gPSUr_weight_lowIdx, Pi.single_apply, ite_eq_right (Ne.symm hne)]
   have hb1 : weight n (lowIdx ⟨k.val + 1, hk⟩) k = 0 := by
-    rw [gPSUr_weight_lowIdx, Pi.single_apply, if_neg hne]
+    rw [gPSUr_weight_lowIdx, Pi.single_apply, ite_eq_right hne]
   have hb2 : weight n (lowIdx ⟨k.val + 1, hk⟩) ⟨k.val + 1, hk⟩ = 1 := by
     rw [gPSUr_weight_lowIdx]
     simp
@@ -437,7 +437,7 @@ private theorem gPSUr_two_nsmul_single_notMem_roots {n : ℕ} {k : Fin (n / 2)}
       have hc := congrFun hw ⟨k.val + 1, hk⟩
       rw [Pi.sub_apply, ha2, hb2, zero_sub] at hc
       rw [weight_apply'] at hc
-      split_ifs at hc <;> omega
+      split_ifs at hc; omega
     omega
   · rw [hstd] at h
     have h1 : weight n i k = 1 := by
@@ -455,7 +455,7 @@ private theorem gPSUr_two_nsmul_single_notMem_roots {n : ℕ} {k : Fin (n / 2)}
       split_ifs at h1 <;> omega
     have hik1 : i.val + (k.val + 1) + 1 = n := by
       rw [weight_apply'] at h2
-      split_ifs at h2 <;> omega
+      split_ifs at h2; omega
     omega
   · rw [hstd] at h
     have h1 : weight n i k = 2 := by
@@ -584,7 +584,7 @@ private theorem gPSUr_pairGen_conj {F : Type} [Field F] {n : ℕ} (σ : F ≃+* 
     rw [hrow x]
     rfl
   simp only [Matrix.mul_add, Matrix.mul_sub, Matrix.mul_smul, Matrix.mul_one, Matrix.add_mul,
-    Matrix.sub_mul, Matrix.smul_mul, hUV, Matrix.one_mul, hN1, hN2]
+    Matrix.sub_mul, Matrix.smul_mul, hUV, hN1, hN2]
 
 private theorem gPSUr_unitPairGroup_conj {F : Type} [Field F] {n : ℕ} (σ : F ≃+* F)
     (u : Unitary.SU σ n) (x y : Fin n → F) :
@@ -635,8 +635,7 @@ private theorem gPSUr_unitPairGroup_conj {F : Type} [Field F] {n : ℕ} (σ : F 
       have hux : ((((u : GL (Fin n) F)) : Matrix (Fin n) (Fin n) F))⁻¹ *
           (((u : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) = 1 := by
         have h : ((u : GL (Fin n) F))⁻¹ * (u : GL (Fin n) F) = 1 := inv_mul_cancel _
-        simpa [Units.val_mul, Units.val_one, Units.val_inv_eq_inv_val] using
-          congrArg (fun w : GL (Fin n) F => ((w : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) h
+        simp
       have hx : Matrix.mulVec ((((u : GL (Fin n) F)) : Matrix (Fin n) (Fin n) F))⁻¹
           (Matrix.mulVec (((u : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) x) = x := by
         rw [Matrix.mulVec_mulVec, hux, Matrix.one_mulVec]
@@ -663,14 +662,14 @@ private theorem gPSUr_map_conj_subtype {F : Type} [Field F] {n : ℕ} (σ : F �
       Subgroup.mem_map.2 ⟨x, hx, rfl⟩, ?_⟩
     change MulAut.conj ((u : GL (Fin n) F)) ((x : GL (Fin n) F)) =
       (Unitary.SU σ n).subtype ((MulAut.conj u) x)
-    simp [MulAut.conj_apply, Units.val_mul]
+    simp [MulAut.conj_apply]
   · rintro g ⟨y, hy, rfl⟩
     obtain ⟨x, hx, rfl⟩ := hy
     refine Subgroup.mem_map.2 ⟨(MulAut.conj u) x, ?_, ?_⟩
     · exact Subgroup.mem_map.2 ⟨x, hx, rfl⟩
     · change (Unitary.SU σ n).subtype ((MulAut.conj u) x) =
         MulAut.conj ((u : GL (Fin n) F)) ((x : GL (Fin n) F))
-      simp [MulAut.conj_apply, Units.val_mul]
+      simp [MulAut.conj_apply]
 
 private theorem gPSUr_short {F : Type} [Field F] [Finite F] [CharP F 2]
     {f : ℕ} (hc : Nat.card F = (2 ^ f) ^ 2) (n : ℕ) (hn : 4 ≤ n) (v₁ w₁ v₂ w₂ : Fin n → F)

@@ -13,12 +13,13 @@ open CFSG.Yardstones.Md0ec50421ce4 (catalogIs onLie)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem not_isSolvable_of_simpleSection {H N : Subgroup G} (hs : S622IsSimpleSection H N) :
     ¬ Group.IsSolvable ↥H := by
   intro hsol
-  haveI : (N.subgroupOf H).Normal := hs.2.1
-  haveI : IsSimpleGroup (↥H ⧸ N.subgroupOf H) := L613.isSimpleGroup_quotient_of_section hs
-  haveI : Group.IsSolvable (↥H ⧸ N.subgroupOf H) := inferInstance
+  have : (N.subgroupOf H).Normal := hs.2.1
+  have : IsSimpleGroup (↥H ⧸ N.subgroupOf H) := L613.isSimpleGroup_quotient_of_section hs
+  have : Group.IsSolvable (↥H ⧸ N.subgroupOf H) := inferInstance
   exact L613.not_comm_quotient_of_section hs (IsSimpleGroup.comm_iff_isSolvable.mpr this)
 
 namespace KxCfg
@@ -37,13 +38,13 @@ theorem false_of_ree (hL613 : L613) (hE : KFactReeSylowTwo) (h27 : KFactReeL28)
     (hB : KFactReeBorel) (c : KxCfg p P M x z T S L) (h : catalogIs ↥L (onLie IsReeIndex)) :
     False := by
   have hp := c.conf.config.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 : 5 ≤ p := c.conf.config.situation.p_ge
   set R : Subgroup G := ⁅zpowers z, S⁆ with hR
   have hzR : z ∈ normalizer (R : Set G) := c.conf.z_le_normalizer_R (mem_zpowers z)
   have hRM : R ≤ M := c.conf.R_le_S.trans c.conf.S_le_M
   obtain ⟨E, hEsyl, hRE⟩ := exists_isSylowOf_ge (f := 2) c.commutator_le c.conf.R_isPGroup
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hEcard⟩ := hE G L E c.isSimple h hEsyl
   have hRcard : Nat.card R ∣ 8 := hEcard ▸ Subgroup.card_dvd_of_le hRE
   obtain ⟨hp7, hR8⟩ := eq_seven_of_not_centralizes hp5 c.orderOf_z hzR hRcard c.exists_not_commute
@@ -56,7 +57,7 @@ theorem false_of_ree (hL613 : L613) (hE : KFactReeSylowTwo) (h27 : KFactReeL28)
   have hsE : GLBStronglyEmbedded 3 M :=
     c.stronglyEmbedded hL613 hHL hHM hs hzH hzN Nat.prime_three (by norm_num)
       (by omega) h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3H : 3 ∣ Nat.card H :=
     h3.trans ((Subgroup.index_dvd_card (N.subgroupOf H)))
   obtain ⟨e, he⟩ := exists_prime_orderOf_dvd_card' (G := ↥H) 3 h3H
@@ -83,8 +84,8 @@ theorem false_of_ree (hL613 : L613) (hE : KFactReeSylowTwo) (h27 : KFactReeL28)
   have hJ1 : normalizer (E₃ : Set G) ⊓ L ≤ M ⊓ L := inf_le_inf_right L hNM
   rcases hmax (M ⊓ L) hJ1 inf_le_right with hJ | hJ
   · have hHJ : H ≤ normalizer (E₃ : Set G) ⊓ L := hJ ▸ le_inf hHM hHL
-    haveI := hsol
-    haveI : Group.IsSolvable ↥H := Group.isSolvable_of_isSolvable_injective
+    have := hsol
+    have : Group.IsSolvable ↥H := Group.isSolvable_of_isSolvable_injective
       (Subgroup.inclusion_injective hHJ)
     exact not_isSolvable_of_simpleSection hs this
   · exact c.not_le (hJ ▸ inf_le_left)

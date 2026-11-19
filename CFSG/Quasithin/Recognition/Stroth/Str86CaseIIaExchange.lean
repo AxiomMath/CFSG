@@ -12,11 +12,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem relIndex_cjSub {A B : Subgroup G} (g : G) :
     (cjSub g A).relIndex (cjSub g B) = A.relIndex B := by
   unfold cjSub
   exact Subgroup.relIndex_map_map_of_injective A B (MulAut.conj g).injective
 
+omit [Finite G] in
 private theorem relIndex_mul_relIndex_of_inf_eq {A B B1 : Subgroup G}
     (hB1B : B1 ≤ B) (h : A ⊓ B1 = A ⊓ B) :
     A.relIndex B = A.relIndex B1 * B1.relIndex B := by

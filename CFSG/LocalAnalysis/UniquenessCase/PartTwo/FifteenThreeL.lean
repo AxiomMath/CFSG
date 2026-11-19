@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s15_Three_cocycle_fixes {V V₁ : Subgroup G} (hV : IsElemAbelian 2 V) (hV₁ : V₁ ≤ V)
     {v q : G} (hq1 : ∀ w ∈ V₁, q * w * q⁻¹ = w) (hq3 : ∃ n : ℕ, q ^ (3 ^ n) = 1)
     (hqv : q * v * q⁻¹ * v⁻¹ ∈ V₁) : q * v * q⁻¹ = v := by
@@ -39,8 +40,8 @@ theorem s15_Three_cocycle_fixes {V V₁ : Subgroup G} (hV : IsElemAbelian 2 V) (
 
 theorem s15_Three_two_le_pRank {H Q : Subgroup G} (hQH : Q ≤ H) (hQ : IsPGroup 3 Q)
     (hnc : ¬ IsCyclic Q) : 2 ≤ CFSG.Open.pRank 3 H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (IsPGroup 3 ↥Q) := ⟨hQ⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (IsPGroup 3 ↥Q) := ⟨hQ⟩
   obtain ⟨E, -, hcard, hel⟩ := CFSG.lemma_4_5_a (p := 3) (by norm_num) hnc
   have hE : CFSG.Open.IsElemAbelian 3 E :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 E).mp hel
@@ -63,14 +64,14 @@ theorem s15_Three_lift_sylow {S A : Type} [Group S] [Finite S] [Group A] (ρ : S
     {E : Subgroup A} (hE : E ≤ ρ.range) (hE3 : IsPGroup 3 E) (hnc : ¬ IsCyclic E) :
     ∃ Q : Subgroup S, IsPGroup 3 Q ∧ ¬ IsCyclic Q ∧ Q ≤ E.comap ρ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set T : Subgroup S := E.comap ρ with hT
   let f : T →* E := (ρ.domRestrict T).codRestrict E (fun t => t.2)
   have hf : Function.Surjective f := by
     rintro ⟨a, ha⟩
     obtain ⟨s, hs⟩ := hE ha
     exact ⟨⟨s, by rw [hT, Subgroup.mem_comap, hs]; exact ha⟩, Subtype.ext hs⟩
-  haveI : Finite E := Finite.of_surjective f hf
+  have : Finite E := Finite.of_surjective f hf
   have htop : IsPGroup 3 (⊤ : Subgroup ↥E) := by
     intro x
     obtain ⟨k, hk⟩ := hE3 x.1
@@ -80,7 +81,7 @@ theorem s15_Three_lift_sylow {S A : Type} [Group S] [Finite S] [Group A] (ρ : S
   have hPtop : (P : Subgroup ↥T).map f = ⊤ := by
     have := congrArg (fun R : Sylow 3 ↥E => (R : Subgroup ↥E)) hP
     simpa using this
-  refine ⟨(P : Subgroup ↥T).map T.subtype, P.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(P : Subgroup ↥T).map T.subtype, P.isPGroup.map _, ?_, ?_⟩
   · intro hcyc
     have hPc : IsCyclic (P : Subgroup ↥T) := s15_Three_isCyclic_of_map hcyc
     have hsurj : Function.Surjective (f.domRestrict (P : Subgroup ↥T)) := by

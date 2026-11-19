@@ -27,7 +27,7 @@ theorem d4ThreeFieldPlanes_of_eight (h8 : D4SubfieldMaximalEight) : D4ThreeField
   intro K _ _ _hK3 E hE hEc hex
   obtain ⟨α, hαE, g, a, σ, ε, -, hσ3, ⟨hε0, hσ1⟩, hα⟩ := hex
   classical
-  haveI := hE
+  have := hE
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K (ringChar K)
   have : Fact (ringChar K).Prime := ⟨hℓ⟩

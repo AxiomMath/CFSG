@@ -81,7 +81,7 @@ theorem ggA6_center_le
       have hg : (g : X) ∈ ψ.range := by rw [hr]; exact g.2
       obtain ⟨a, ha⟩ := hg
       exact ⟨a, Subtype.ext ha⟩
-    haveI : Group.IsPerfect (ggU t n f).K := hKperf
+    have : Group.IsPerfect (ggU t n f).K := hKperf
     exact Group.isPerfect_def.mp (Group.IsPerfect.ofSurjective
       (f := ψ.codRestrict G₀ (fun a => hr ▸ ⟨a, rfl⟩)) hsurj)
   have hpres : GGPresentsG0 G₀ (ggU t n f).D t n f ψ :=

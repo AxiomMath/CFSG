@@ -198,7 +198,7 @@ theorem k0_le : Om1Facts.G A.k0W ≤ Subgroup.closure
   have l4 : ∀ r ∈ wS1.reverse, r < 240 := elW_lt _ (by decide)
   have l12 : ∀ r ∈ wS1 ++ wI0, r < 240 := fun r hr => (List.mem_append.1 hr).elim (l1 r) (l2 r)
   have l13 : ∀ r ∈ wS1 ++ wJ0, r < 240 := fun r hr => (List.mem_append.1 hr).elim (l1 r) (l3 r)
-  simp only [A.k0W, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hw
+  simp only [A.k0W, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hw
   rcases hw with rfl | rfl | rfl | rfl
   · exact hR _ i0_mem
   · exact hR _ j0_mem

@@ -20,7 +20,7 @@ theorem ggTwE6FieldCentInvInput_of_core (hRK : RootKill) (h5 : SubfieldLangDatum
     (h3 : SubfieldLangDatumThree) (h34 : SubfieldLangDatumThreeFour) :
     GGTwE6FieldCentInvInput := by
   intro K _ _ n p hn hK hp hpq hp3 _ f hf hord A B hA _ hfix hBA hB5 ⟨V, hV1, hV2, hVB⟩
-  haveI : CharP K 2 := charP_two_of_card_sq hK
+  have : CharP K 2 := charP_two_of_card_sq hK
   obtain ⟨σ, hσ⟩ : ∃ σ : K ≃+* K, ∀ c, σ c = c ^ 2 ^ n :=
     ⟨iterateFrobeniusEquiv K 2 n, fun c => by
       rw [iterateFrobeniusEquiv_apply, iterateFrobenius_def]⟩
@@ -38,7 +38,7 @@ theorem ggTwE6FieldCentInvInput_of_core (hRK : RootKill) (h5 : SubfieldLangDatum
     rw [MulEquiv.symm_apply_apply] at h1
     exact congrArg Subtype.val (ε.injective h1)
   have hr : p ^ (if p = 3 then 4 else 5) ≤ Nat.card (eltMat σ ε B) :=
-    le_of_eq (by rw [if_neg hp3, card_eltMat, hB5])
+    le_of_eq (by rw [ite_eq_right hp3, card_eltMat, hB5])
   obtain ⟨u, hu, hu1, ⟨k, hk⟩, hδu, hcomm⟩ := exists_fixed_two_of_entrywise hRK h5 h3 h34 hn hK
     hσ hp hpq δ hδ (eltMat_le σ ε B) (isElemAbelian_eltMat σ ε (hA.mono hBA)) hr hXδ
     (twNormTwo_eltMat σ ε hV1 hV2 hBN)

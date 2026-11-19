@@ -162,7 +162,7 @@ theorem widthLe_transpositionsFin_of_six_le {m : ℕ} (hm : 6 ≤ m) :
   have := hwidth S hsub hpair
   omega
 
-theorem widthLe_transpositionsFin_iff {m : ℕ} (hm : 2 ≤ m) :
+theorem widthLe_transpositionsFin_iff {m : ℕ} (_hm : 2 ≤ m) :
     WidthLe (transpositionsFin m) 2 ↔ m ≤ 5 := by
   by_cases h : m ≤ 5
   · exact ⟨fun _ => h, fun _ => widthLe_transpositionsFin_of_le h⟩

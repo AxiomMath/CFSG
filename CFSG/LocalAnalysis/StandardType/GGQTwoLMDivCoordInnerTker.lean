@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G]
 
 private lemma qTwoLMDivCoordInner_tker_two_group_eq_one {L : Type} [Group L] {H : Subgroup L}
     (hH : IsPGroup 2 H) {z : L} (hz : z ∈ H) (hz3 : z ^ 3 = 1) : z = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hH.exists_orderOf_eq_pow ⟨z, hz⟩
   have hkz : orderOf z = 2 ^ k := by rwa [Subgroup.orderOf_mk] at hk
   have hdvd : 2 ^ k ∣ 3 := by

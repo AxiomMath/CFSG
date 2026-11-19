@@ -27,9 +27,9 @@ theorem isLieQuot_of_f42CompType {Y : Type} [Group Y]
   let d : TauCeti.ValidLieTypeIndex := ⟨.B 3 q, hv⟩
   let eT : d.Group ≃* StatedProj (StatedSp 3 ↥d.fixedField) :=
     CFSG.RankThree.PartTwo.Census.Carrier.SpinB.typeBGroupEquivStatedProj 3 q hv rfl le_rfl
-  haveI : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
-  haveI : Fintype d.fixedField := Fintype.ofFinite _
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Fintype d.fixedField := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite E
   have hcard : Fintype.card E = Fintype.card d.fixedField := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       TauCeti.ValidLieTypeIndex.card_fixedField, hE]
@@ -55,11 +55,11 @@ theorem exists_conj_of_pow_three {K : Type} [Field K] [Finite K] (hK : Nat.card 
     (β : MulAut ↥(adjointGroup Tag.F4 K)) (hβ : β ^ 3 = 1) :
     ∃ x : ↥(adjointGroup Tag.F4 K), MulAut.conj x = β := by
   have h2 : ∀ y : Multiplicative (ZMod (2 * 1)), y ^ 2 = 1 := by decide
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 1)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 1)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
-  haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
+  have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := inferInstanceAs (CharP K 2)
   obtain ⟨-, -, ⟨Θ, -, -, hΘker⟩, -⟩ :=
     even_F4_exact_automorphism_normal_form (f := 1) le_rfl K (by rw [hK]; norm_num)
   have hk : β ∈ Θ.ker := eq_one_of_pow_three_of_exp_two Θ h2 hβ

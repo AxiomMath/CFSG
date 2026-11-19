@@ -20,16 +20,16 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem isSimple_notSolvable_of_isPSL_cs5 {n : ℕ} (hn : 2 ≤ n) {X : Type} [Group X]
     (hX : IsPSL 2 2 n X) : IsSimpleGroup X ∧ ¬ Group.IsSolvable X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.Adapters.RankTwoModelTransports.nonempty_mulEquiv_psl_galoisField X 2 2 n hX
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hF : 4 ≤ Nat.card (GaloisField 2 n) := by
     rw [GaloisField.card 2 n (by omega)]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
   obtain ⟨hs, hns⟩ := CFSG.SignalizerFunctorTheorem.CatalogBridge.psl2_simple_not_isSolvable hF
   refine ⟨e.isSimpleGroup_congr.mpr hs, fun hsol => hns ?_⟩
-  haveI := hsol
+  have := hsol
   exact Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
 
 theorem center_eq_bot_of_isPSL_cs5 {n : ℕ} (hn : 2 ≤ n) {X : Type} [Group X]
@@ -39,7 +39,7 @@ theorem center_eq_bot_of_isPSL_cs5 {n : ℕ} (hn : 2 ≤ n) {X : Type} [Group X]
   · exact h
   · exfalso
     apply hns
-    refine isSolvable_of_comm fun a b => ?_
+    refine _root_.Group.isSolvable_of_comm fun a b => ?_
     have ha : a ∈ Subgroup.center X := h ▸ Subgroup.mem_top a
     exact (Subgroup.mem_center_iff.mp ha b).symm
 
@@ -65,11 +65,11 @@ theorem not_isSolvable_star_cs5 {H I M : Subgroup G} (hIH : I ≤ H)
     exact ⟨(kerIn_le h1).2, I.mul_mem (I.mul_mem hb hx.1) (I.inv_mem hb)⟩
   have hP2 : IsPGroup 2 (I ⊓ kerIn (H ⊓ M) H : Subgroup G) :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 I).to_le hIJ
-  haveI : Group.IsNilpotent ↥(I ⊓ kerIn (H ⊓ M) H) := hP2.isNilpotent
-  haveI : Group.IsSolvable ↥(I ⊓ kerIn (H ⊓ M) H) := inferInstance
-  haveI := hsol
+  have : Group.IsNilpotent ↥(I ⊓ kerIn (H ⊓ M) H) := hP2.isNilpotent
+  have : Group.IsSolvable ↥(I ⊓ kerIn (H ⊓ M) H) := inferInstance
+  have := hsol
   have hIsol : Group.IsSolvable ↥I := by
-    refine solvable_of_ker_le_range (Subgroup.inclusion (inf_le_left : I ⊓ kerIn (H ⊓ M) H ≤ I)) g ?_
+    refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion (inf_le_left : I ⊓ kerIn (H ⊓ M) H ≤ I)) g ?_
     intro a ha
     rw [MonoidHom.mem_ker] at ha
     have h1 : π (Subgroup.inclusion hIH a) = 1 := by
@@ -134,12 +134,12 @@ theorem l2_branch_cs5 {H T M K V : Subgroup G} {h : G} {n : ℕ}
   have hIH : ch82I V h ≤ H := ch82I_le_829 hVH hh
   have hKH : K ≤ H := hHK ▸ le_sup_left
   have hT2 : IsPGroup 2 T := hT.2.1
-  haveI hXn : (E2.star (H ⊓ M) H K).Normal := star_normal_cs5 hHK hTK
+  have hXn : (E2.star (H ⊓ M) H K).Normal := star_normal_cs5 hHK hTK
   have hYX : IsPGroup 2 (E2.StarQuot (H ⊓ M) H ⧸ E2.star (H ⊓ M) H K) :=
     isPGroup_starQuot_quotient_cs5 hT2 hHK hTK
   have hO2 : ∀ N : Subgroup (E2.StarQuot (H ⊓ M) H), N.Normal → IsPGroup 2 N → N = ⊥ :=
     fun N hN hN2 => by
-      haveI := hN
+      have := hN
       exact normal_twoGroup_starQuot_eq_bot_cs5 hT hTM N hN2
   have hC := eq_one_of_centralizes_normal_cs5 (center_eq_bot_of_isPSL_cs5 hn hKs) hYX hO2
   obtain ⟨S, hS, hB⟩ := hBor
@@ -194,7 +194,7 @@ theorem l2_branch_cs5 {H T M K V : Subgroup G} {h : G} {n : ℕ}
     exact this
   have hX60 : Nat.card ↥(E2.star (H ⊓ M) H K) = 60 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_two_two hKs
-  haveI hsimple : IsSimpleGroup ↥(E2.star (H ⊓ M) H K) :=
+  have hsimple : IsSimpleGroup ↥(E2.star (H ⊓ M) H K) :=
     (isSimple_notSolvable_of_isPSL_cs5 (le_refl 2) hKs).1
   have hWtop : W.subgroupOf (E2.star (H ⊓ M) H K) = ⊤ := by
     refine eq_top_of_simple_card_sixty_cs5 hX60 ?_

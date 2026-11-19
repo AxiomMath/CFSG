@@ -279,7 +279,7 @@ public theorem claim_8
       have hphi0_inj : Function.Injective phi0 := fun u v huv =>
         hphi_inj (congrArg Subtype.val huv)
       have hcardWne : Nat.card {w : W // w ≠ 1} = Nat.card W - 1 := by
-        letI := Fintype.ofFinite W
+        let := Fintype.ofFinite W
         calc
           Nat.card {w : W // w ≠ 1} = Fintype.card {w : W // w ≠ 1} := by simp
           _ = Fintype.card W - 1 := by
@@ -328,10 +328,10 @@ public theorem claim_8
           (cover q).property.2.1, (cover q).property.2.2.1,
           (cover q).property.2.2.2⟩⟩⟩
   let forget : AllFib → Q0 := fun p => ⟨p.2, p.2.property.1⟩
-  letI : Fintype J := by
+  let : Fintype J := by
     dsimp [J]
     infer_instance
-  letI : Finite AllFib := by
+  let : Finite AllFib := by
     dsimp [AllFib]
     infer_instance
   have hleft : Function.LeftInverse forget embed := by
@@ -530,8 +530,8 @@ public theorem claim_8_exists_crossing_in_K
       u.property.1 v.property.1 (hqOf u) (hqOf v) hd_u hd_v huv_val
       (heqOf u) (heqOf v)
     exact hnot ⟨(kOf u)⁻¹ * kOf v, hkdiff, hdcos⟩
-  letI := Fintype.ofFinite Fiber
-  letI := Fintype.ofFinite W
+  let := Fintype.ofFinite Fiber
+  let := Fintype.ofFinite W
   have hphi_bij : Function.Bijective phi :=
     (Fintype.bijective_iff_injective_and_card phi).2 ⟨hphi_inj, by
       simpa [Nat.card_eq_fintype_card] using hcardFiber.trans hWorder⟩

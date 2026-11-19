@@ -67,7 +67,7 @@ theorem not_dMinDeg_le_mBar {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
     (hmin : ∀ B : Subgroup G, B ≤ A → c.N ≤ Subgroup.normalizer (B : Set G) →
       B = ⊥ ∨ B = A)
     (hK : K ∈ calC c.L) (hgen : c.L = ⨆ t : D.T, K.map (MulAut.conj (t : G)).toMonoidHom)
-    (hP : MinTInvParabolic D.T D.M c.L P) (hL0P : c.L0 = Hinf P)
+    (hP : MinTInvParabolic D.T D.M c.L P) (_hL0P : c.L0 = Hinf P)
     (hn : NParam (Hinf P) c.n) (hn2 : 2 < c.n) (hshape : S20_7Shape (Bar2 c.L)) :
     ¬ dMinDeg ↥(barSub ⊥ A hA K) ≤ mBar c.N ⊥ A hA := by
   intro hle
@@ -82,7 +82,7 @@ theorem not_dMinDeg_le_mBar {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
     barSub_pCoreOf_eq_bot_of_isComponentOf c h208 h1930 hA hAV hK
   have hcomp : IsComponentOf (barSub ⊥ A hA K) (Mbar c.N ⊥ A hA) :=
     isComponentOf_barSub_of_sup_conj c h208 h1930 hA hAV hAN hAne hK hgen
-  haveI : Nontrivial ↥(barSub ⊥ A hA K) :=
+  have : Nontrivial ↥(barSub ⊥ A hA K) :=
     CFSG.LocalCores.isQuasisimple_nontrivial
       (CFSG.Quasithin.A3.isQuasisimple_iff_open.mpr hcomp.2.2)
   have hsurj : Function.Surjective (barSubBar2Hom (V₀ := ⊥) hA hKstab h2) :=
@@ -297,8 +297,8 @@ theorem eq_of_isQuasisimple_of_isComponentOf {W : Type} [CommGroup W] [Finite W]
       apply Subtype.ext
       simpa using (Subgroup.mem_center_iff.mp (hcen a.2) (b : H)).symm
     have hsolvSub : Group.IsSolvable ↥(L.subgroupOf H) := Group.isSolvable_of_comm hcomm
-    haveI : Group.IsPerfect ↥(L.subgroupOf H) := (Group.isPerfect_def).mpr hqSub.1
-    haveI : Nontrivial ↥(L.subgroupOf H) :=
+    have : Group.IsPerfect ↥(L.subgroupOf H) := (Group.isPerfect_def).mpr hqSub.1
+    have : Nontrivial ↥(L.subgroupOf H) :=
       CFSG.LocalCores.isQuasisimple_nontrivial
         ((CFSG.Quasithin.A3.isQuasisimple_iff_open).mpr hqSub)
     exact Group.IsPerfect.not_isSolvable ↥(L.subgroupOf H) hsolvSub
@@ -346,8 +346,8 @@ theorem natural_of_case_two_three {W : Type} [CommGroup W] [Finite W]
       exact hnormH
 
 theorem natural_of_case_two_three_barSub {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
-    {A K : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V)
-    (hK : K ∈ calC c.L) {H : Subgroup (MulAut (Vtil ⊥ A hA))}
+    {A K : Subgroup G} (hA : IsElemAbelian 2 A) (_hAV : A ≤ c.V)
+    (_hK : K ∈ calC c.L) {H : Subgroup (MulAut (Vtil ⊥ A hA))}
     (hH : H = ⨆ X ∈ conjSet (barSub ⊥ A hA K) (Mbar c.N ⊥ A hA), X)
     (hLA : barSub ⊥ A hA c.L = H)
     (hYH : Mbar c.N ⊥ A hA ≤ Subgroup.normalizer (H : Set (MulAut (Vtil ⊥ A hA))))

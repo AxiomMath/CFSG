@@ -49,6 +49,7 @@ theorem dualTriple_polar_sum_right {ι : Type*} [Fintype ι] (x : V) (c : ι →
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [_root_.map_smul, polarBilin_apply_apply, smul_eq_mul]
 
+omit [CharP K 2] in
 theorem exists_dualTriple [FiniteDimensional K V]
     (hnd : ∀ x : V, (∀ y, polar Qf x y = 0) → x = 0) {U : Submodule K V}
     (hU3 : finrank K U = 3) : ∃ t g : Fin 3 → V, DualTriple Qf U t g := by
@@ -62,6 +63,7 @@ theorem exists_dualTriple [FiniteDimensional K V]
   obtain ⟨g, hg⟩ := exists_dual_family (nondegenerate_polarBilin hnd) ht
   exact ⟨fun i => (b i : V), g, ⟨hspan, fun i j => hg i j⟩⟩
 
+omit [CharP K 2] in
 theorem DualTriple.eq_sum {U : Submodule K V} {t g : Fin 3 → V} (h : DualTriple Qf U t g) {v : V}
     (hv : v ∈ U) : v = ∑ k, polar Qf v (g k) • t k := by
   have hv' : v ∈ Submodule.span K (Set.range t) := by
@@ -75,12 +77,14 @@ theorem DualTriple.eq_sum {U : Submodule K V} {t g : Fin 3 → V} (h : DualTripl
   simp only [hcoef]
   exact hc.symm
 
+omit [CharP K 2] in
 theorem DualTriple.eq_zero_of_polar_eq_zero {U : Submodule K V} {t g : Fin 3 → V}
     (h : DualTriple Qf U t g) {z : V} (hz : z ∈ U) (h0 : ∀ k, polar Qf z (g k) = 0) : z = 0 := by
   have hz' := h.eq_sum hz
   simp only [h0, zero_smul, Finset.sum_const_zero] at hz'
   exact hz'
 
+omit [CharP K 2] in
 theorem DualTriple.map_eq_sum {U : Submodule K V} {t g : Fin 3 → V} (h : DualTriple Qf U t g)
     {φ : V →ₗ[K] V} (hφ : φ ∈ altEnd Qf U) (x : V) :
     φ x = ∑ j, polar Qf (t j) x • φ (g j) := by
@@ -101,6 +105,7 @@ theorem DualTriple.map_eq_sum {U : Submodule K V} {t g : Fin 3 → V} (h : DualT
   simp only [_root_.map_smul] at hφy
   exact sub_eq_zero.mp hφy
 
+omit [CharP K 2] in
 theorem DualTriple.eq_zero_of_coords {U : Submodule K V} {t g : Fin 3 → V}
     (h : DualTriple Qf U t g) {φ : V →ₗ[K] V} (hφ : φ ∈ altEnd Qf U)
     (h0 : ∀ j k, polar Qf (φ (g j)) (g k) = 0) : φ = 0 := by
@@ -149,7 +154,7 @@ theorem eq_zero_of_finrank_range_eq_one [FiniteDimensional K V]
   rw [polar_comm]
   exact (mul_eq_zero.mp h3.symm).resolve_left hc₁0
 
-theorem rootEnd_mem_altEnd {U : Submodule K V} (hU : ∀ w ∈ U, Qf w = 0) {a b : V} (ha : a ∈ U)
+theorem rootEnd_mem_altEnd {U : Submodule K V} (_hU : ∀ w ∈ U, Qf w = 0) {a b : V} (ha : a ∈ U)
     (hb : b ∈ U) : rootEnd Qf a b ∈ altEnd Qf U := by
   refine ⟨fun x => ?_, fun x hx => ?_, fun x => polar_self_rootEnd Qf a b x⟩
   · rw [rootEnd_apply]
@@ -222,15 +227,15 @@ theorem DualTriple.altCoord_surjective {U : Submodule K V} {t g : Fin 3 → V}
   have c01 : altCoord Qf U g E01 = ![1, 0, 0] := by
     ext i
     fin_cases i <;>
-      simp [altCoord, hE01, rootEnd_apply, polar_add_left, polar_smul_left, hd, h.dual]
+      simp [altCoord, hE01, rootEnd_apply, hd, h.dual]
   have c02 : altCoord Qf U g E02 = ![0, 1, 0] := by
     ext i
     fin_cases i <;>
-      simp [altCoord, hE02, rootEnd_apply, polar_add_left, polar_smul_left, hd, h.dual]
+      simp [altCoord, hE02, rootEnd_apply, hd, h.dual]
   have c12 : altCoord Qf U g E12 = ![0, 0, 1] := by
     ext i
     fin_cases i <;>
-      simp [altCoord, hE12, rootEnd_apply, polar_add_left, polar_smul_left, hd, h.dual]
+      simp [altCoord, hE12, rootEnd_apply, hd, h.dual]
   intro c
   refine ⟨c 0 • E01 + c 1 • E02 + c 2 • E12, ?_⟩
   rw [map_add, map_add, map_smul, map_smul, map_smul, c01, c02, c12]
@@ -319,6 +324,7 @@ theorem DualTriple.finrank_range_eq_two [FiniteDimensional K V]
     hφ0 (eq_zero_of_finrank_range_eq_one hnd halt h1)
   omega
 
+omit [CharP K 2] in
 theorem comp_eq_zero_of_mem_altEnd {U : Submodule K V} (hU : ∀ w ∈ U, Qf w = 0)
     {φ ψ : V →ₗ[K] V} (hφ : φ ∈ altEnd Qf U) (hψ : ψ ∈ altEnd Qf U) (x : V) : φ (ψ x) = 0 :=
   hφ.2.1 _ (le_orthogonal_of_totallySingular hU (hψ.1 x))
@@ -468,6 +474,7 @@ theorem sigmaGroup_mul_comm (hnd : ∀ x : V, (∀ y, polar Qf x y = 0) → x = 
     map_add, map_add, comp_eq_zero_of_mem_altEnd hU hφ hψ, comp_eq_zero_of_mem_altEnd hU hψ hφ]
   abel
 
+omit [CharP K 2] in
 theorem isLongRootElement_mem_sigmaGroup {U : Submodule K V} {s : V ≃ₗ[K] V}
     (hs : IsLongRootElement Qf s) (hU : movedSpace s ≤ U) : s ∈ sigmaGroup Qf U :=
   Subgroup.subset_closure ⟨hs, hU⟩

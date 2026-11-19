@@ -501,7 +501,7 @@ theorem not_three_dvd_relIndex [Finite F] [CharP F 2] {ω : F} (hω1 : ω ≠ 1)
         simpa [hd, coe_dZero] using this)))
   obtain ⟨RB, hRB⟩ := hz3.exists_le_sylow
   set R := (RB : Subgroup B).map B.subtype with hR
-  have hRB3 : IsPGroup 3 R := RB.isPGroup'.map _
+  have hRB3 : IsPGroup 3 R := RB.isPGroup.map _
   have hRle : R ≤ B := Subgroup.map_subtype_le _
   have hdR : d ∈ R := ⟨⟨d, hdB⟩, hRB (Subgroup.mem_zpowers _), rfl⟩
   have hU2 : IsPGroup 2 (unitriangular 3 F) := by
@@ -528,13 +528,13 @@ theorem not_three_dvd_relIndex [Finite F] [CharP F 2] {ω : F} (hω1 : ω ≠ 1)
     refine Sec4.entry_eq_zero_of_commute_diagonal hc ?_
     fin_cases a <;> fin_cases b <;> simp at hab ⊢ <;>
       first
-      | exact hωω2 | exact hωω2.symm | exact hω1 | exact (Ne.symm hω1) | exact hω21
+      | exact hωω2 | exact hωω2.symm | exact hω1 | exact (Ne.symm hω1)
       | exact (Ne.symm hω21) | exact ⟨hω1, by rw [CharTwo.neg_eq]; exact hω1⟩
   have hRP : R ≤ P := hRle.trans hBP
   have hRP3 : IsPGroup 3 (R.subgroupOf P) := hRB3.comap_subtype
   obtain ⟨RP, hRPle⟩ := hRP3.exists_le_sylow
   set R' := (RP : Subgroup P).map P.subtype with hR'
-  have hR'3 : IsPGroup 3 R' := RP.isPGroup'.map _
+  have hR'3 : IsPGroup 3 R' := RP.isPGroup.map _
   have hRR' : R ≤ R' := fun r hr => ⟨⟨r, hRP hr⟩, hRPle (Subgroup.mem_subgroupOf.mpr hr), rfl⟩
   have hR'P : R' ≤ P := Subgroup.map_subtype_le _
   have hcardR : Nat.card R = 3 ^ (Nat.card B).factorization 3 := by

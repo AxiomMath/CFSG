@@ -11,7 +11,8 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem y7a_sq_subgroup {M V : Subgroup G} (hVM : V ≤ M)
+omit [Finite G] in
+theorem y7a_sq_subgroup {M V : Subgroup G} (_hVM : V ≤ M)
     (hVc : ∀ m ∈ M, ∀ v ∈ V, m * v = v * m) (hcomm : ∀ x ∈ M, ∀ y ∈ M, ⁅x, y⁆ ∈ V) :
     ∃ K : Subgroup G, K ≤ M ∧ ∀ m, m ∈ K ↔ m ∈ M ∧ m ^ 2 ∈ V := by
   refine ⟨{ carrier := {m | m ∈ M ∧ m ^ 2 ∈ V}
@@ -45,7 +46,7 @@ theorem y7a_secProp_of_sq {M V : Subgroup G} (hVM : V ≤ M)
     SecProp M V (fun Y _ _ _ => IsElemAbelian 2 (⊤ : Subgroup Y)) := by
   have hN : (V.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff hVM).mpr (fun v m hv hm => hVn m hm v hv)
-  haveI := hN
+  have := hN
   have hQ : ∀ g h : (↥M ⧸ V.subgroupOf M), g * h = h * g := by
     intro g h
     obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (V.subgroupOf M) g
@@ -70,7 +71,7 @@ theorem y7a_sq_of_secProp {M V : Subgroup G}
     (h : SecProp M V (fun Y _ _ _ => IsElemAbelian 2 (⊤ : Subgroup Y))) :
     ∀ m ∈ M, m ^ 2 ∈ V := by
   obtain ⟨hN, hEA⟩ := h
-  haveI := hN
+  have := hN
   intro m hm
   have hsq : (QuotientGroup.mk' (V.subgroupOf M) (⟨m, hm⟩ : ↥M)) ^ 2 = 1 :=
     hEA.2 (QuotientGroup.mk' (V.subgroupOf M) (⟨m, hm⟩ : ↥M)) (Subgroup.mem_top _)
@@ -82,6 +83,7 @@ theorem y7a_sq_of_secProp {M V : Subgroup G}
   rw [Subgroup.mem_subgroupOf] at hmem
   simpa using hmem
 
+omit [Finite G] in
 theorem y7a_comm_le_of_gen {C M N : Subgroup G} {t : G} (hC : C = M ⊔ zpowers t)
     (hN : ∀ c ∈ C, ∀ n ∈ N, c * n * c⁻¹ ∈ N)
     (hMM : ∀ m ∈ M, ∀ m' ∈ M, ⁅m, m'⁆ ∈ N) (hMt : ∀ m ∈ M, ⁅m, t⁆ ∈ N) :
@@ -100,11 +102,11 @@ theorem y7a_comm_le_of_gen {C M N : Subgroup G} {t : G} (hC : C = M ⊔ zpowers 
       · exact hMt a haM
       · have h1 := N.inv_mem (hMt b hbM)
         simpa [commutatorElement_inv] using h1
-      · simpa using N.one_mem
+      · simp
     · intro a ha
-      simpa using N.one_mem
+      simp
     · intro a ha
-      simpa using N.one_mem
+      simp
     · intro a b c ha hb hc hac hbc
       have ha' : a ∈ C := hCcl ▸ ha
       have h1 : a * ⁅b, c⁆ * a⁻¹ ∈ N := hN a ha' ⁅b, c⁆ hbc

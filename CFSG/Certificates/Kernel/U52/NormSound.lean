@@ -291,7 +291,7 @@ theorem treeGo_spec {m : Nat} {LP : Nat → Nat} {ok : Nat → Bool} {nodes : Li
   | _, _ :: _, [], _, h, _, _ => by simp [treeGo] at h
   | _, _ :: _, _ :: _, [], h, _, _ => by simp [treeGo] at h
 
-theorem treeOK_sound (hn : n < 16777216) (hw : n + 1 < 2 ^ w) {LP : Nat → Nat}
+theorem treeOK_sound (_hn : n < 16777216) (_hw : n + 1 < 2 ^ w) {LP : Nat → Nat}
     {ok : Nat → Bool} {g : Nat → Equiv.Perm (Fin n)} (H : Subgroup (Equiv.Perm (Fin n)))
     (hg : ∀ c, ok c = true → PRep n w (LP c) (g c) ∧ g c ∈ H) {F : List Nat}
     {nodes : List (List Nat)} {par gen : List Nat}

@@ -116,7 +116,7 @@ structure I22Facts : Prop where
 theorem i22Check_sound (hck : i22Check () = true) : I22Facts := by
   have hx : ∀ i, Co2.Rep 22 (covData.xa i) (covData.x i) := fun i => covData.xa_rep i
   unfold i22Check at hck
-  simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, Bool.not_eq_true'] at hck
+  simp only [Bool.and_eq_true, beq_iff_eq, Bool.not_eq_true'] at hck
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨hnV, hinv⟩, hcomm⟩, hcube⟩, hne⟩, haV⟩, huniq⟩, haaV⟩, hcore⟩, hainv⟩, hacomm⟩,
     hxinv⟩, hnorm⟩ := hck
   have hrep : ∀ v, v < covData.nV → Co2.Rep 22 covData.elaTab[v]! (i22el v) :=

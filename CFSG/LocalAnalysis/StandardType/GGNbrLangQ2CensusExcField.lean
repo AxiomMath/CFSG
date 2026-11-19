@@ -19,7 +19,7 @@ private theorem q2cExcF_inndiagConj {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ 
     {u : MulAut (TableBExc.RecipeGroup τ K)} (hu : u ∈ TableBExc.RecipeID τ K) :
     ∃ h ∈ inndiagGroup τ K, ∀ c : adjointGroup τ K,
       (MulAut.congr (TableBExc.recipeEquiv τ K) u c : ModGL τ K) = h * c * h⁻¹ := by
-  haveI : CharP K 2 := hK2 ▸ ringChar.charP K
+  have : CharP K 2 := hK2 ▸ ringChar.charP K
   rcases hτ with rfl | rfl | rfl
   · obtain ⟨w, hw⟩ := (E6ThreeModel.recipeID_iff_hatAut u).mp hu
     refine ⟨(w : ModGL .E6 K), E6IDB.mem_hatGroup_iff_mem_inndiagGroup.1 w.2, ?_⟩
@@ -70,7 +70,6 @@ private theorem q2cExcF_transport {τ : Tag} (hτ : τ = .E6 ∨ τ = .E7 ∨ τ
     intro h
     have hu1 : u = 1 := by
       apply (MulAut.congr e).injective
-      change (MulAut.congr e) u = (MulAut.congr e) 1
       rw [map_one]
       exact h
     have hp1 : p = 1 := by rw [← huo, hu1, orderOf_one]
@@ -112,7 +111,7 @@ theorem q2c_exc_field_E7 {p d m : ℕ} {lab : LargeEvenLabel} (hlab : lab.tag = 
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, _, _, hKcard, hQ'⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card hKcard
+  have : CharP K 2 := charP_two_of_card hKcard
   refine ⟨K, inferInstance, inferInstance, hKcard, hQ', ?_⟩
   intro hd5 u hu huo J hJ K' _ _ hK'card hθ
   obtain ⟨θ⟩ := hθ
@@ -135,7 +134,7 @@ theorem q2c_exc_field_E8 {p d m : ℕ} {lab : LargeEvenLabel} (hlab : lab.tag = 
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, _, _, hKcard, hQ'⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card hKcard
+  have : CharP K 2 := charP_two_of_card hKcard
   refine ⟨K, inferInstance, inferInstance, hKcard, hQ', ?_⟩
   intro hd5 u hu huo J hJ K' _ _ hK'card hθ
   obtain ⟨θ⟩ := hθ
@@ -158,7 +157,7 @@ theorem q2c_exc_field_E6 {p d m : ℕ} {lab : LargeEvenLabel} (hlab : lab.tag = 
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, _, _, hKcard, hQ'⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card hKcard
+  have : CharP K 2 := charP_two_of_card hKcard
   refine ⟨K, inferInstance, inferInstance, hKcard, hQ', ?_⟩
   intro hd5 u hu huo J hJ K' _ _ hK'card hθ
   obtain ⟨θ⟩ := hθ

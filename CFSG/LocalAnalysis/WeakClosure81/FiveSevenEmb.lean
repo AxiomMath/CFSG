@@ -10,6 +10,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22 Equiv
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_embedding_of_forall_mem_range {H A : Subgroup G} {n : ℕ} (hn : 4 ≤ n)
     (hHA : H = Fstar H ⊔ A)
     (e : ↥(Fstar H) ≃* alternatingGroup (Fin n))

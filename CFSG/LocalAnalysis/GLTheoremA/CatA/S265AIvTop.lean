@@ -111,7 +111,7 @@ private theorem three_dvd_card {K : Subgroup Ω} (hK : catalogIs (PSimple 3 K) S
 
 private theorem center_pQuot_eq_bot_of_oddSchur {X J : Subgroup Ω} (hJ : GLAPComponent 3 X J)
     (hS : OddSchurTrivial (PSimple 3 J)) : Subgroup.center (PQuot 3 J) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ
   have hodd : Odd (Nat.card ↥(QuotientGroup.mk' (Subgroup.center (PQuot 3 J))).ker) := by
     rw [QuotientGroup.ker_mk']

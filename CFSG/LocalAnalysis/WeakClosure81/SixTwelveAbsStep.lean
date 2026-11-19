@@ -19,11 +19,13 @@ namespace Abs612
 
 variable {T T₁ Z E : Subgroup X}
 
+omit [Finite X] in
 theorem conjSubgroup_le_E_of_fix (h : Abs612 T T₁ Z E) {s : X} (hs : s ∈ T₁) (hs1 : s ≠ 1)
     {x : X} (hx : conjSubgroup s (conjSubgroup x T) = conjSubgroup x T) :
     conjSubgroup x T ≤ E := by
   exact h.le_E s hs hs1 x (CFSG.RankThree.GF2n.conjSubgroup_eq_self_iff.1 hx)
 
+omit [Finite X] in
 theorem commute_of_fix (h : Abs612 T T₁ Z E) {s : X} (hs : s ∈ T₁) (hs1 : s ≠ 1) {x : X}
     (hx : conjSubgroup s (conjSubgroup x T) = conjSubgroup x T) {a : X}
     (ha : a ∈ conjSubgroup x T) : s * a = a * s := by

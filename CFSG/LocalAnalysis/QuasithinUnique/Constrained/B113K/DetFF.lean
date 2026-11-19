@@ -27,8 +27,8 @@ theorem ffConclusion_of_mulAut_of_isKGroup
     (hO2 : pCoreOf 2 G = ⊥) (hA : IsFFStarOffender G A)
     (hL : CFSG.Open.IsComponentOf L G) (hLA : ⁅L, A⁆ = L) :
     CFSG.HardMathSupport.Cooperstein.Coordinator.FFConclusion (↥L ⧸ Subgroup.center ↥L) := by
-  letI : Module (ZMod 2) (Additive V) := CFSG.RankThree.FFModules.moduleOfSq hV
-  haveI : Finite (MulAut V) := inferInstanceAs (Finite (V ≃* V))
+  let : Module (ZMod 2) (Additive V) := CFSG.RankThree.FFModules.moduleOfSq hV
+  have : Finite (MulAut V) := inferInstanceAs (Finite (V ≃* V))
   obtain ⟨hAG, -, hAel0, hAmax⟩ := hA
   obtain ⟨hLG, hsn, hq⟩ := hL
   obtain ⟨hcomm, hsq⟩ := hAel0
@@ -85,7 +85,7 @@ theorem ffConclusion_of_mulAut_of_isKGroup
     rw [htop] at h1
     exact h1
   have hLbot : L ≠ ⊥ := by
-    haveI := hq.2.toNontrivial
+    have := hq.2.toNontrivial
     exact (Subgroup.nontrivial_iff_ne_bot L).mp
       (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
   have hLA' : ⁅L.subgroupOf G, A.subgroupOf G⁆ ≠ ⊥ := by

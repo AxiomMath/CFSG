@@ -23,6 +23,7 @@ section Blocks
 variable {K : Type} [Field K] {ι κ : Type} [Fintype ι] [DecidableEq ι] [Fintype κ]
   [DecidableEq κ]
 
+omit [DecidableEq ι] [DecidableEq κ] in
 theorem l4_submatrix_mul {A B : Matrix ι ι K} (f : κ → ι) (hf : Function.Injective f)
     (hA : ∀ i k, (∀ l, f l ≠ k) → A (f i) k = 0) :
     (A * B).submatrix f f = A.submatrix f f * B.submatrix f f := by
@@ -206,7 +207,7 @@ theorem l4_good429_three_one [Finite K] {G : Subgroup (GL (Fin 4) K)}
     (h23 : d 2 ≠ d 3) (hdet : (D : Matrix (Fin 4) (Fin 4) K).det = 1) (hD3 : D ^ 3 = 1) :
     Good429 (Subgroup.centralizer ({D} : Set (GL (Fin 4) K)) ⊓ G) := by
   intro L hLC hLp hLs
-  haveI := hLp
+  have := hLp
   set H := Subgroup.centralizer ({D} : Set (GL (Fin 4) K)) with hH
   set C := H ⊓ G with hC
   have hd : ∀ i : Fin 3, d (Fin.castSucc i) = d 0 := by
@@ -277,7 +278,7 @@ theorem l4_good429_three_one [Finite K] {G : Subgroup (GL (Fin 4) K)}
     ext i j
     simp [mul_diagonal, diagonal_mul, mul_comm]
   have hzo : orderOf z = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     apply orderOf_eq_prime
     · have hD3' : Dc ^ 3 = 1 := Subtype.ext hD3
       rw [hz, ← map_pow, hD3', map_one]

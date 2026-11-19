@@ -20,8 +20,8 @@ theorem sylowAutBoundAll_of_untwisted {τ : Tag}
     (hτ : τ = .G2 ∨ τ = .D4 ∨ τ = .F4) {S : Type} [Group S] [Finite S] {K : Type} [Field K]
     [Finite K] (e : S ≃* AdjointQuotient τ K) (hK : ¬ 11 ∣ Nat.card K) :
     SylowAutBoundAll 11 (if τ = .G2 then 6 else 24) S := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Finite (ModGL τ K) := finite_modGL
   have h0 : SylowAutBoundAll 11 (if τ = .G2 then 6 else 24) (adjointGroup τ K) :=
     sylowAutBoundAll_adjointGroup hτ hK
   have h1 : SylowAutBoundAll 11 (if τ = .G2 then 6 else 24) (AdjointQuotient τ K) :=
@@ -34,21 +34,21 @@ theorem sylowAutBoundAll_of_derived {τ : Tag}
     [Finite K] {H : Subgroup (ModGL τ K)} (hH : H ≤ adjointGroup τ K)
     (e : S ≃* DerivedCentralQuotient H) (hK : ¬ 11 ∣ Nat.card K) :
     SylowAutBoundAll 11 24 S := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have h1 : SylowAutBoundAll 11 24 (DerivedCentralQuotient H) :=
     sylowAutBoundAll_derivedCentralQuotient hτ hK hH
   exact SylowAutBoundAll.of_injective e.toMonoidHom e.injective h1
 
 theorem lieSylow11Exc_holds : LieSylow11Exc := by
   intro S _ _ f h
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have key : SylowAutBoundAll 11 1152 S := by
     rcases h with h | h | h
     ·
       have h' : UntwistedChevalleyModel S .G2 (2 ^ f) := h.2
       obtain ⟨K, hKf, hKfin, hcard, ⟨e⟩⟩ := h'
-      letI := hKf
-      haveI := hKfin
+      let := hKf
+      have := hKfin
       have hK : ¬ 11 ∣ Nat.card K := by
         rw [hcard]
         exact not_eleven_dvd_two_pow f
@@ -57,8 +57,8 @@ theorem lieSylow11Exc_holds : LieSylow11Exc := by
     ·
       have h' : TwistedChevalleyModel S TwistTag.D4 (2 ^ f) := h.2
       obtain ⟨K, hKf, hKfin, hcard, σ, -, ⟨e⟩⟩ := h'
-      letI := hKf
-      haveI := hKfin
+      let := hKf
+      have := hKfin
       have hK : ¬ 11 ∣ Nat.card K := by
         rw [hcard, ← pow_mul]
         exact not_eleven_dvd_two_pow _
@@ -67,8 +67,8 @@ theorem lieSylow11Exc_holds : LieSylow11Exc := by
     ·
       obtain ⟨a, -, hR⟩ := h.2
       obtain ⟨K, hKf, hKfin, hcard, ⟨e⟩⟩ := hR
-      letI := hKf
-      haveI := hKfin
+      let := hKf
+      have := hKfin
       have hK : ¬ 11 ∣ Nat.card K := by
         rw [hcard]
         exact not_eleven_dvd_two_pow f
@@ -79,12 +79,12 @@ theorem lieSylow11Exc_holds : LieSylow11Exc := by
 
 theorem ltqtk_conj2_G2 (S : Type) [Group S] [Finite S] (p : ℕ)
     (hp11 : p ≠ 11) (h : ChevalleyExceptionalModel S .G2 p 1) : SylowAutBound 11 24 S := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hp : p.Prime := h.1.1
   have h' : UntwistedChevalleyModel S .G2 (p ^ 1) := h.2
   obtain ⟨K, hKf, hKfin, hcard, ⟨e⟩⟩ := h'
-  letI := hKf
-  haveI := hKfin
+  let := hKf
+  have := hKfin
   have hK : ¬ 11 ∣ Nat.card K := by
     rw [hcard, pow_one]
     intro hd

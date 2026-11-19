@@ -23,7 +23,7 @@ private theorem ggL45NtRecExTw_center_eq_bot_of_simple {Q : Type} [Group Q] [IsS
 private theorem ggL45NtRecExTw_centerPrime_of_schur {p : ℕ} {R : Type} [Group R]
     (hp : p.Prime) (hZR : Subgroup.center R = ⊥)
     (hS : ∀ (X : Type) [Group X] [Finite X], commutator X = ⊤ →
-      ∀ θ : X ⧸ Subgroup.center X ≃* R, Subgroup.center X = ⊥) :
+      ∀ _θ : X ⧸ Subgroup.center X ≃* R, Subgroup.center X = ⊥) :
     GGCenterPrime p R := by
   intro L' _ _ ψ hψ hker hperf hdvd
   have hZL : Subgroup.center L' ≤ ψ.ker := by
@@ -77,7 +77,7 @@ theorem ggL45NtRecOn_exTw :
     have ha : 1 ≤ (n - 1) / 2 := by omega
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeTwF4] at hQ ⊢
     obtain ⟨K, hf, hfin, hK, hQ'⟩ := hQ
-    haveI : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := CFSG.StandardType.charP_two_of_card hK
+    have : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := CFSG.StandardType.charP_two_of_card hK
     obtain ⟨eR⟩ := gff_nonempty_centerQuot_equiv_reeGamma (K := K) (a := (n - 1) / 2) ha hK
     have hZree :
         Subgroup.center (↥(CFSG.LieType.Ree.ReeTag.F4.reeGamma K ((n - 1) / 2))) = ⊥ :=

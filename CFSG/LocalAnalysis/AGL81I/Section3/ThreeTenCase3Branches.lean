@@ -21,7 +21,7 @@ theorem eq_one_of_odd_order_of_fixes_normal_and_quotient {X : Type} [Group X] [F
     (hquot : ∀ x : X, (QuotientGroup.mk (α x) : X ⧸ N) = QuotientGroup.mk x)
     (hodd : Odd (orderOf α)) : α = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   ext x
   have hmem : α x * x⁻¹ ∈ N := by
     simpa [div_eq_mul_inv] using (QuotientGroup.eq_iff_div_mem).mp (hquot x)
@@ -254,7 +254,7 @@ theorem alt6_eq_top_of_index_le_five {H : Subgroup (alternatingGroup (Fin 6))}
     (Γ := alternatingGroup (Fin 6)) (X := alternatingGroup (Fin 6) ⧸ H)
     (MulEquiv.refl _) x
   have hstab : MulAction.stabilizer (alternatingGroup (Fin 6)) x = H := by
-    simpa [x] using MulAction.stabilizer_quotient H
+    simp [x]
   have hidx : H.index = (MulAction.orbit (alternatingGroup (Fin 6)) x).ncard := by
     rw [← MulAction.index_stabilizer (G := alternatingGroup (Fin 6)) (x := x), hstab]
   rcases hcases with h1 | ⟨h6, -⟩
@@ -316,9 +316,9 @@ theorem natCard_sylow_five_of_z5_extension {X : Type} [Group X] [Finite X]
   classical
   have hXcard : Nat.card X = 160 := natCard_of_isExtNotation_zmod_five_q8d8 hX
   obtain ⟨N, hNnormal, hBN, hAN, hno⟩ := hX
-  haveI := hNnormal
+  have := hNnormal
   have hNcard : Nat.card N = 32 := natCard_of_isQ8D8Type hBN
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨P⟩ : Nonempty (Sylow 5 X) := inferInstance
   have hPcard : Nat.card (P : Subgroup X) = 5 := by
     have h := P.card_eq_multiplicity
@@ -333,15 +333,15 @@ theorem natCard_sylow_five_of_z5_extension {X : Type} [Group X] [Finite X]
   have hmod := card_sylow_modEq_one 5 X
   have hne1 : Nat.card (Sylow 5 X) ≠ 1 := by
     intro h1
-    haveI : Subsingleton (Sylow 5 X) := (Nat.card_eq_one_iff_unique.mp h1).1
+    have : Subsingleton (Sylow 5 X) := (Nat.card_eq_one_iff_unique.mp h1).1
     have hPnormal : (P : Subgroup X).Normal := Sylow.normal_of_subsingleton P
     have hPN : N ⊓ (P : Subgroup X) = ⊥ := by
-      apply Subgroup.inf_eq_bot_of_coprime
+      apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
       rw [hNcard, hPcard]
       norm_num
     have hsup : N ⊔ (P : Subgroup X) = ⊤ := by
       have hcard := CFSG.ABGLocalTools.card_sup_of_coprime (p := 5) (N := N)
-        (Q := (P : Subgroup X)) (by rw [hNcard]; norm_num) P.isPGroup'
+        (Q := (P : Subgroup X)) (by rw [hNcard]; norm_num) P.isPGroup
       apply Subgroup.eq_top_of_card_eq
       rw [hcard, hPcard, hNcard, hXcard]
     exact hno ⟨(P : Subgroup X), hPnormal, hPN, hsup⟩
@@ -366,12 +366,12 @@ theorem threeTenCase3Z5AutInput_holds : ThreeTenCase3Z5AutInput := by
   have hXcard : Nat.card X = 160 := natCard_of_isExtNotation_zmod_five_q8d8 hX
   have hSylowCard : Nat.card (Sylow 5 X) = 16 := natCard_sylow_five_of_z5_extension hX
   obtain ⟨N, hNnormal, hBN, hAN, hno⟩ := hX
-  haveI := hNnormal
+  have := hNnormal
   have hNtype : IsQ8D8Type N := hBN
   have hNcard : Nat.card N = 32 := natCard_of_isQ8D8Type hNtype
   have hNp : IsPGroup 2 N := IsPGroup.of_card (n := 5) (by rw [hNcard]; norm_num)
   have hNchar : N.Characteristic := characteristic_of_isQ8D8Type_of_card hNtype hXcard
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨α, hαd⟩ := exists_prime_orderOf_dvd_card' d hdvd
   have hα1 : α ≠ 1 := by
     intro h
@@ -381,9 +381,9 @@ theorem threeTenCase3Z5AutInput_holds : ThreeTenCase3Z5AutInput := by
     Subgroup.characteristic_iff_map_eq.mp hNchar α
   let αN : MulAut N := restrictAutTo α hNmap
   let αq : MulAut (X ⧸ N) := quotientAutOf α hNmap
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic (X ⧸ N) := isCyclic_of_card_dvd_prime (p := 5) (by rw [hAN])
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic (X ⧸ N) := isCyclic_of_card_dvd_prime (p := 5) (by rw [hAN])
   have hcardAutQuot : Nat.card (MulAut (X ⧸ N)) = 4 := by
     rw [IsCyclic.card_mulAut, hAN, Nat.totient_prime Nat.prime_five]
   have hαqpow : αq ^ d = 1 := by
@@ -466,7 +466,7 @@ theorem threeTenCase3Z5AutInput_holds : ThreeTenCase3Z5AutInput := by
     have h0 : Nat.card (MulAction.fixedPoints QAut (Sylow 5 X)) = 0 := by omega
     rw [hSylowCard, h0] at hmodFix
     norm_num at hmodFix
-  haveI : Nonempty (MulAction.fixedPoints QAut (Sylow 5 X)) :=
+  have : Nonempty (MulAction.fixedPoints QAut (Sylow 5 X)) :=
     Finite.card_pos_iff.mp hfixpos
   obtain ⟨K, hK⟩ := Classical.choice
     (inferInstance : Nonempty (MulAction.fixedPoints QAut (Sylow 5 X)))
@@ -530,7 +530,7 @@ theorem threeTenCase3Z5AutInput_holds : ThreeTenCase3Z5AutInput := by
   let β : MulAut N := ρ (k0 : X)
   have hβapply : ∀ n : N, ((β n : N) : X) = (k0 : X) * (n : X) * (k0 : X)⁻¹ := by
     intro n
-    simpa [β, ρ] using MulAut.conjNormal_apply (H := N) (k0 : X) n
+    simp [β, ρ]
   have hk0pow : (k0 : (K : Subgroup X)) ^ 5 = 1 := by
     have h := pow_card_eq_one' (G := (K : Subgroup X)) (x := k0)
     rwa [hKcard] at h
@@ -593,7 +593,7 @@ theorem threeTenCase3Z5AutInput_holds : ThreeTenCase3Z5AutInput := by
         rwa [← hconj]
     have hNKsup : N ⊔ (K : Subgroup X) = ⊤ := by
       have hcard := CFSG.ABGLocalTools.card_sup_of_coprime (p := 5) (N := N)
-        (Q := (K : Subgroup X)) (by rw [hNcard]; norm_num) (K : Sylow 5 X).isPGroup'
+        (Q := (K : Subgroup X)) (by rw [hNcard]; norm_num) (K : Sylow 5 X).isPGroup
       apply Subgroup.eq_top_of_card_eq
       rw [hcard, hKcard, hNcard, hXcard]
     have hKnormal : (K : Subgroup X).Normal := by
@@ -602,7 +602,7 @@ theorem threeTenCase3Z5AutInput_holds : ThreeTenCase3Z5AutInput := by
       rw [← hNKsup]
       exact sup_le hNnormK Subgroup.le_normalizer
     have hNKbot : N ⊓ (K : Subgroup X) = ⊥ := by
-      apply Subgroup.inf_eq_bot_of_coprime
+      apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
       rw [hNcard, hKcard]
       norm_num
     exact hno ⟨(K : Subgroup X), hKnormal, hNKbot, hNKsup⟩
@@ -637,7 +637,7 @@ theorem threeTenCase3A5Q8D8FiniteInput_holds : ThreeTenCase3A5Q8D8FiniteInput :=
       norm_num
     · exact threeTenCase4ExtFiniteInput.1 X hX d hd hd2 hd3 hdvd
   · intro X _ _ P E d hX hd hd2 hd5 hP hE
-    haveI : Fact d.Prime := ⟨hd⟩
+    have : Fact d.Prime := ⟨hd⟩
     have hcardX : Nat.card X = 1920 :=
       natCard_of_isExtNotation_alternating_five_q8d8_ext hX
     by_cases hEbot : E = ⊥
@@ -676,12 +676,12 @@ theorem normalizer_sup_eq_top_of_isExtNotation_alternating_six_two {X : Type} [G
   classical
   have hXcard : Nat.card X = 720 := natCard_of_isExtNotation_alternating_six_two hX
   obtain ⟨N, hNnormal, hBN, hAN, hno⟩ := hX
-  haveI := hNnormal
+  have := hNnormal
   obtain ⟨e⟩ := hAN
   have hNcard : Nat.card N = 2 := hBN
   have hNcenter : N ≤ Subgroup.center X := normal_card_two_le_center hNcard
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPcard : Nat.card P = 5 := by
     have h := hP.card_eq
     rw [Subgroup.card_top, hXcard] at h
@@ -697,11 +697,11 @@ theorem normalizer_sup_eq_top_of_isExtNotation_alternating_six_two {X : Type} [G
   have hPleW : P ≤ W := Subgroup.le_normalizer.trans le_sup_left
   have hEleW : E ≤ W := Subgroup.le_normalizer.trans le_sup_right
   have hPN : P ⊓ N = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     rw [hPcard, hNcard]
     norm_num
   have hEN : E ⊓ N = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     rw [hEcard, hNcard]
     norm_num
   let q : X →* X ⧸ N := QuotientGroup.mk' N
@@ -774,7 +774,7 @@ theorem dvd_card_of_isExtNotation_alternating_six_two {X : Type} [Group X] [Fini
   classical
   have hXcard : Nat.card X = 720 := natCard_of_isExtNotation_alternating_six_two hX
   obtain ⟨N, hNnormal, hBN, hAN, hno⟩ := hX
-  haveI := hNnormal
+  have := hNnormal
   obtain ⟨e⟩ := hAN
   have hNcard : Nat.card N = 2 := hBN
   have hNp : IsPGroup 2 N := IsPGroup.of_card (n := 1) (by rw [hNcard]; norm_num)
@@ -785,13 +785,13 @@ theorem dvd_card_of_isExtNotation_alternating_six_two {X : Type} [Group X] [Fini
       rw [natCard_alternatingGroup_six]
       norm_num
     exact absurd (Nat.prime_three.dvd_of_dvd_pow (h3'.trans hn)) (by norm_num)
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have hcore : CFSG.pCore 2 X = N :=
     pCore_two_eq_of_normal_isPGroup_of_simple_quotient hNp hQ e
   have hNchar : N.Characteristic := by
     rw [← hcore]
     infer_instance
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨α, hαd⟩ := exists_prime_orderOf_dvd_card' d hdvd
   have hα1 : α ≠ 1 := by
     intro h
@@ -799,7 +799,7 @@ theorem dvd_card_of_isExtNotation_alternating_six_two {X : Type} [Group X] [Fini
     exact hd.ne_one hαd.symm
   have hNmap : N.map α.toMonoidHom = N :=
     Subgroup.characteristic_iff_map_eq.mp hNchar α
-  haveI : Subsingleton (MulAut N) := subsingleton_mulAut_of_natCard_two hNcard
+  have : Subsingleton (MulAut N) := subsingleton_mulAut_of_natCard_two hNcard
   have hαN1 : restrictAutTo α hNmap = 1 := Subsingleton.elim _ _
   have hfixN : ∀ n : N, α n = n := by
     intro n
@@ -850,7 +850,7 @@ theorem threeTenCase3A6TwoFiniteInput_holds : ThreeTenCase3A6TwoFiniteInput := b
   · intro X _ _ hX d hd hd2 hd5 hdvd
     exact dvd_card_of_isExtNotation_alternating_six_two hX hd hd2 hd5 hdvd
   · intro X _ _ P E d hX hd hd2 hd5 hP hE
-    haveI : Fact d.Prime := ⟨hd⟩
+    have : Fact d.Prime := ⟨hd⟩
     have hcardX : Nat.card X = 720 :=
       natCard_of_isExtNotation_alternating_six_two hX
     by_cases hEbot : E = ⊥

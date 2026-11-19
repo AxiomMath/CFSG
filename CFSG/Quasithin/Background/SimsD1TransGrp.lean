@@ -346,13 +346,13 @@ theorem isUniqueMaxOver_map_iff (f : A →* B) (hf : Function.Injective f) (H T 
 
 theorem mem_uFam_map_iff (f : A →* B) (hf : Function.Injective f) (H P X : Subgroup A) :
     P.map f ∈ uFam (H.map f) (X.map f) ↔ P ∈ uFam H X := by
-  simp only [uFam, Set.mem_setOf_eq]
+  simp only [uFam, Set.mem_ofPred_eq]
   rw [Subgroup.map_le_map_iff_of_injective hf, Subgroup.map_lt_map_iff_of_injective hf,
     maxOver_map_eq f hf, Set.ncard_image_of_injective _ (Subgroup.map_injective hf)]
 
 theorem mem_uFamHat_map_iff (f : A →* B) (hf : Function.Injective f) (H P X : Subgroup A) :
     P.map f ∈ uFamHat (H.map f) (X.map f) ↔ P ∈ uFamHat H X := by
-  simp only [uFamHat, Set.mem_setOf_eq]
+  simp only [uFamHat, Set.mem_ofPred_eq]
   rw [mem_uFam_map_iff f hf, le_normalizer_map_iff f hf]
 
 theorem isMinParabolicOf_map_iff (f : A →* B) (hf : Function.Injective f) (H P : Subgroup A) :

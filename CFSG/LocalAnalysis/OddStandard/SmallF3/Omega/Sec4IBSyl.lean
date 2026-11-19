@@ -150,7 +150,7 @@ theorem sec4I_exists_good (fr : Sec4IFrame Sec4IQ) :
     rw [← Subgroup.map_subgroupOf_eq_of_le hB0N]
     exact Subgroup.map_mono (f := (sec4IN sec4IQ_nondegenerate fr).subtype) hB0T
   have hRpg : IsPGroup 2 R :=
-    (T.isPGroup').of_equiv (Subgroup.equivMapOfInjective
+    (T.isPGroup).of_equiv (Subgroup.equivMapOfInjective
       (T : Subgroup ↥(sec4IN sec4IQ_nondegenerate fr))
       (sec4IN sec4IQ_nondegenerate fr).subtype
       (sec4IN sec4IQ_nondegenerate fr).subtype_injective)

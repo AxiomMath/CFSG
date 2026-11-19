@@ -193,18 +193,18 @@ theorem hinv : ∀ c < 12, ivL INVM c < 12 ∧ onX (ivL INVM c) = (onX c)⁻¹ :
   refine ⟨ivl_lt hc, ?_⟩
   rw [inv_eq c hc]
   by_cases h : c % 2 = 0
-  · rw [if_pos h]
-    simp only [onX, if_pos hc, if_pos (by omega : c + 1 < 12), if_pos h,
-      if_neg (by omega : ¬ (c + 1) % 2 = 0), lGen_congr (by omega : (c + 1) / 2 = c / 2)]
-  · rw [if_neg h]
-    simp only [onX, if_pos hc, if_pos (by omega : c - 1 < 12), if_neg h,
-      if_pos (by omega : (c - 1) % 2 = 0), inv_inv, lGen_congr (by omega : (c - 1) / 2 = c / 2)]
+  · rw [ite_eq_left h]
+    simp only [onX, ite_eq_left hc, ite_eq_left (by omega : c + 1 < 12), ite_eq_left h,
+      ite_eq_right (by omega : ¬ (c + 1) % 2 = 0), lGen_congr (by omega : (c + 1) / 2 = c / 2)]
+  · rw [ite_eq_right h]
+    simp only [onX, ite_eq_left hc, ite_eq_left (by omega : c - 1 < 12), ite_eq_right h,
+      ite_eq_left (by omega : (c - 1) % 2 = 0), inv_inv, lGen_congr (by omega : (c - 1) / 2 = c / 2)]
 
 theorem a3Gens_mem (i : Fin 6) : a3Gens i ∈ phanR := Subgroup.subset_closure ⟨i, rfl⟩
 
 theorem hxH : ∀ c < 12, onX c ∈ phanR := by
   intro c hc
-  rw [onX, if_pos hc]
+  rw [onX, ite_eq_left hc]
   split_ifs
   · exact a3Gens_mem _
   · exact phanR.inv_mem (a3Gens_mem _)
@@ -218,8 +218,8 @@ theorem a3_eq : (PresentedGroup.of 6 : PC) =
     PresentedGroup.of 2 * onT * (PresentedGroup.of 2)⁻¹ * onT := by
   have h := rel_of (w := [4, 14, 5, 14, 13])
     (l := [(2, true), (7, true), (2, false), (7, true), (6, false)]) (by decide) (by decide)
-  simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, cond_true,
-    cond_false, mul_one] at h
+  simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, _root_.Bool.cond_true,
+    Bool.cond_false, mul_one] at h
   calc (PresentedGroup.of 6 : PC) =
         ((PresentedGroup.of 2 : PC) * (PresentedGroup.of 7 * ((PresentedGroup.of 2)⁻¹ *
           (PresentedGroup.of 7 * (PresentedGroup.of 6)⁻¹))))⁻¹ *
@@ -237,29 +237,29 @@ theorem comm_t {i : Fin 8} (h : (PresentedGroup.of i : PC) * (PresentedGroup.of 
 theorem comm_a0 : (PresentedGroup.of 0 : PC) * onT = onT * PresentedGroup.of 0 := by
   have h := rel_of (w := [0, 14, 1, 15]) (l := [(0, true), (7, true), (0, false), (7, false)])
     (by decide) (by decide)
-  simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, cond_true,
-    cond_false] at h
+  simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, _root_.Bool.cond_true,
+    Bool.cond_false] at h
   exact comm_t h
 
 theorem comm_b0 : (PresentedGroup.of 1 : PC) * onT = onT * PresentedGroup.of 1 := by
   have h := rel_of (w := [2, 14, 3, 15]) (l := [(1, true), (7, true), (1, false), (7, false)])
     (by decide) (by decide)
-  simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, cond_true,
-    cond_false] at h
+  simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, _root_.Bool.cond_true,
+    Bool.cond_false] at h
   exact comm_t h
 
 theorem comm_a2 : (PresentedGroup.of 4 : PC) * onT = onT * PresentedGroup.of 4 := by
   have h := rel_of (w := [8, 14, 9, 15]) (l := [(4, true), (7, true), (4, false), (7, false)])
     (by decide) (by decide)
-  simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, cond_true,
-    cond_false] at h
+  simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, _root_.Bool.cond_true,
+    Bool.cond_false] at h
   exact comm_t h
 
 theorem comm_b2 : (PresentedGroup.of 5 : PC) * onT = onT * PresentedGroup.of 5 := by
   have h := rel_of (w := [10, 14, 11, 15]) (l := [(5, true), (7, true), (5, false), (7, false)])
     (by decide) (by decide)
-  simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, cond_true,
-    cond_false] at h
+  simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, _root_.Bool.cond_true,
+    Bool.cond_false] at h
   exact comm_t h
 
 theorem onX_0 : onX 0 = (PresentedGroup.of 0 : PC) := rfl
@@ -325,7 +325,7 @@ theorem top_one : ∀ r ∈ topCodes, evalWord (wdVal onX onT) r = 1 := by
   rcases hr with rfl | rfl | rfl | rfl
   · have h := rel_of (w := [14, 14, 14]) (l := [(7, true), (7, true), (7, true)]) (by decide)
       (by decide)
-    simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, cond_true,
+    simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, _root_.Bool.cond_true,
       mul_one] at h
     simp only [evalWord, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one,
       wdVal_12]
@@ -333,16 +333,16 @@ theorem top_one : ∀ r ∈ topCodes, evalWord (wdVal onX onT) r = 1 := by
   · have h := rel_of (w := [6, 14, 7, 14, 6, 15])
       (l := [(3, true), (7, true), (3, false), (7, true), (3, true), (7, false)]) (by decide)
       (by decide)
-    simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, cond_true,
-      cond_false, mul_one] at h
+    simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, _root_.Bool.cond_true,
+      Bool.cond_false, mul_one] at h
     simp only [evalWord, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one,
       wdVal_12, wdVal_13, wdVal_lt (by norm_num : 10 < 12), wdVal_lt (by norm_num : 11 < 12),
       onX_10, onX_11]
     exact h
   · have h := rel_of (w := [4, 12, 5, 13])
       (l := [(2, true), (6, true), (2, false), (6, false)]) (by decide) (by decide)
-    simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, cond_true,
-      cond_false, mul_one] at h
+    simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, _root_.Bool.cond_true,
+      Bool.cond_false, mul_one] at h
     rw [a3_eq] at h
     simp only [evalWord, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one,
       wdVal_12, wdVal_13, wdVal_lt (by norm_num : 8 < 12), wdVal_lt (by norm_num : 9 < 12),
@@ -351,8 +351,8 @@ theorem top_one : ∀ r ∈ topCodes, evalWord (wdVal onX onT) r = 1 := by
     group
   · have h := rel_of (w := [4, 13, 7, 12, 7])
       (l := [(2, true), (6, false), (3, false), (6, true), (3, false)]) (by decide) (by decide)
-    simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, cond_true,
-      cond_false, mul_one] at h
+    simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, letterVal, _root_.Bool.cond_true,
+      Bool.cond_false, mul_one] at h
     rw [a3_eq] at h
     simp only [evalWord, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one,
       wdVal_12, wdVal_13, wdVal_lt (by norm_num : 8 < 12), wdVal_lt (by norm_num : 9 < 12),
@@ -474,11 +474,11 @@ theorem tb_inv : ∀ c < 12, ∀ p < NP, fieldAt PB' (Tb (ivL INVM c)) (fieldAt 
 theorem letterVal_apply (l : Fin 6 × Bool) (p : Fin NP) :
     ((letterVal (gT hL) l).unop p).val = fieldAt PB' (Tb (a3Letter l)) p.val := by
   obtain ⟨i, _ | _⟩ := l
-  · simp only [letterVal, cond_false, a3Letter, gT, MulOpposite.unop_inv, MulOpposite.unop_op,
+  · simp only [letterVal, Bool.cond_false, a3Letter, gT, MulOpposite.unop_inv, MulOpposite.unop_op,
       Equiv.Perm.inv_def]
     rw [← hcode_inv i]
     rfl
-  · simp only [letterVal, cond_true, a3Letter, gT, MulOpposite.unop_op, Nat.add_zero]
+  · simp only [letterVal, _root_.Bool.cond_true, a3Letter, gT, MulOpposite.unop_op, Nat.add_zero]
     rfl
 
 theorem wordVal_apply : ∀ (w : List (Fin 6 × Bool)) (p : Fin NP),
@@ -500,7 +500,7 @@ theorem wordVal_gT_one {w : List (Fin 6 × Bool)} (hw : w ∈ phanA3Rels ++ [pha
   exact (CFSG.Certificates.TwDce3.relsOK_sound hR codes_len _ (codes_mem hw)).2 p p.2
 
 @[expose] noncomputable def rhoT : PhanA3Group →* (Equiv.Perm (Fin NP))ᵐᵒᵖ :=
-  assignHom (gT hL) fun w hw => wordVal_gT_one hL hR (List.mem_append_left _ hw)
+  assignHom (gT hL) fun _w hw => wordVal_gT_one hL hR (List.mem_append_left _ hw)
 
 include hR in
 theorem rhoT_u1 : rhoT hL hR u1 = 1 :=
@@ -607,7 +607,7 @@ variable {PB' NP : ℕ} {Tb : ℕ → ℕ} (hL : lettersOK PB' Tb INVM 12 NP = t
 
 theorem ptT_of_lt (q : QB) {p : ℕ} (hp : p < NP) :
     ptT hL hR q p = ((rhoB hL hR q).unop ⟨p, hp⟩).val :=
-  dif_pos hp
+  dite_eq_left hp
 
 theorem ptT_lt (q : QB) {p : ℕ} (hp : p < NP) : ptT hL hR q p < NP := by
   rw [ptT_of_lt _ _ _ hp]
@@ -617,7 +617,7 @@ theorem ptT_one (p : ℕ) : ptT hL hR 1 p = p := by
   by_cases h : p < NP
   · rw [ptT_of_lt _ _ _ h, map_one]
     rfl
-  · exact dif_neg h
+  · exact dite_eq_right h
 
 theorem ptT_mul (a b : QB) (p : ℕ) : ptT hL hR (a * b) p = ptT hL hR b (ptT hL hR a p) := by
   by_cases h : p < NP
@@ -627,7 +627,7 @@ theorem ptT_mul (a b : QB) (p : ℕ) : ptT hL hR (a * b) p = ptT hL hR b (ptT hL
 
 theorem hxT : ∀ c < 12, ∀ p < NP, fieldAt PB' (Tb c) p = ptT hL hR (xD c) p := by
   intro c hc p hp
-  rw [ptT_of_lt _ _ _ hp, xD, rhoB, QuotientGroup.lift_mk, xQ, if_pos hc]
+  rw [ptT_of_lt _ _ _ hp, xD, rhoB, QuotientGroup.lift_mk, xQ, ite_eq_left hc]
   have e := hcode_lGen c hc
   split_ifs with h
   · rw [rhoT, assignHom, PresentedGroup.toGroup.of]

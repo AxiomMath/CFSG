@@ -99,7 +99,7 @@ private theorem s15Small_not_perf_of_cyclic (hSimple : RSimple153) {V : Type} [C
     obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.1 (hg a)
     obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.1 (hg b)
     rw [← zpow_add, ← zpow_add, add_comm]
-  haveI : Subsingleton (X ⧸ Subgroup.center X) := by
+  have : Subsingleton (X ⧸ Subgroup.center X) := by
     refine ⟨fun a b => ?_⟩
     induction a using QuotientGroup.induction_on
     induction b using QuotientGroup.induction_on

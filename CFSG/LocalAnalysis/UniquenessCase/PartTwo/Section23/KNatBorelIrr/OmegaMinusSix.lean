@@ -300,7 +300,7 @@ theorem orthExtendGL_torusSL_two {K : Type} [Field K] (u : Kˣ) :
   rw [extendMat_orthBlockIdx_zero_two_L23,
     Matrix.SpecialLinearGroup.coe_GL_coe_matrix]
   fin_cases p <;> fin_cases q <;>
-    simp [torusSL, rootTorusUnits, diagGL, Matrix.diagonal_apply]
+    simp [torusSL, rootTorusUnits, diagGL]
 
 section Levi
 
@@ -331,9 +331,9 @@ theorem orthLeviGL_two_mem_orthElementaryGroup (hirr : ∀ s : K, s ^ 2 + b * s 
         (1 : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) ∈
       TauCeti.QuadraticMap.orthogonalGroup (quadTail 2 (minusTailForm K b c))
     exact dMap_mem_orthogonalGroup _ (one_mem _)
-  haveI : Group.IsPerfect (SL(2, K)) :=
+  have : Group.IsPerfect (SL(2, K)) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK
-  haveI : Group.IsPerfect ↥ρ.range := Group.IsPerfect.range ρ
+  have : Group.IsPerfect ↥ρ.range := Group.IsPerfect.range ρ
   have hle : ρ.range ≤ ⁅TauCeti.QuadraticMap.orthogonalGroup (quadTail 2 (minusTailForm K b c)),
       TauCeti.QuadraticMap.orthogonalGroup (quadTail 2 (minusTailForm K b c))⁆ := by
     calc ρ.range = ⁅ρ.range, ρ.range⁆ := (Subgroup.commutator_eq_self).symm
@@ -371,7 +371,7 @@ theorem hasRootSL2_omegaMinusSix {K : Type} [Field K] [Finite K] [CharP K 2] {b 
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (hK : 4 ≤ Nat.card K) :
     HasRootSL2 (StatedOmega (StatedQuadMinus 3 K b c))
       (Pi.single (Sum.inl ⟨0, by omega⟩) 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine hasRootSL2_of_leastParabolic
     (G := ↥(orthElementaryGroup (quadTail 2 (minusTailForm K b c))))
     ((minusPhi hirr 0).symm) (t2Sylow K b c hirr)

@@ -63,19 +63,24 @@ variable (T L V) in
   secHom (UU T L V) (quasithinOmegaOneCenter T) (HH T) (HH_le_normalizer_UU T L V)
     (HH_le_normalizer_Z T)
 
+omit [Finite G] in
 theorem rep_mk (x : ↥(HH T)) (u : ↥(UU T L V)) :
     rep T L V x (tmk T L V u) = tmk T L V (conjU (UU T L V) x (HH_le_normalizer_UU T L V x.2) u) :=
   secHom_mk _ _ _ _ _ x u
 
+omit [Finite G] in
 theorem rep_eq_one_iff (x : ↥(HH T)) : rep T L V x = 1 ↔ (x : G) ∈ CHU T L V :=
   secHom_eq_one_iff _ _ _ _ _ x
 
+omit [Finite G] in
 theorem tmk_mul (u v : ↥(UU T L V)) : tmk T L V (u * v) = tmk T L V u * tmk T L V v :=
   Sec.mk_mul _ _ u v
 
+omit [Finite G] in
 theorem tmk_inv (u : ↥(UU T L V)) : tmk T L V u⁻¹ = (tmk T L V u)⁻¹ :=
   QuotientGroup.mk_inv _ u
 
+omit [Finite G] in
 theorem tmk_eq_one_iff (u : ↥(UU T L V)) : tmk T L V u = 1 ↔ (u : G) ∈ quasithinOmegaOneCenter T :=
   Sec.mk_eq_one_iff _ _ u
 

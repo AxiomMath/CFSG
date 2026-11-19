@@ -244,7 +244,7 @@ theorem orbitTr_facts (G : Subgroup (Equiv.Perm (Fin 2300))) (steps : Array (Arr
       obtain ⟨σ, hσ, hg⟩ := hs j hj
       split
       · rename_i hy
-        simp only [Bool.not_eq_true', Bool.not_eq_eq_eq_not, Bool.not_true] at hy
+        simp only [Bool.not_eq_eq_eq_not, Bool.not_true] at hy
         rw [← hx] at hy
         have hP := inv_push hI' hσ hg
           (by rw [getElem!_pos steps j hj]; exact Array.getElem_mem hj) ha' ha'.le hy
@@ -256,7 +256,7 @@ theorem orbitTr_facts (G : Subgroup (Equiv.Perm (Fin 2300))) (steps : Array (Arr
           · exact Array.getElem!_set!_self _ _ _
               (by rw [hI'.seen_size]; exact hg.lt (by rw [← hx]; exact (hI'.pt a ha').1))
       · rename_i hy
-        simp only [Bool.not_eq_true', Bool.not_eq_eq_eq_not, Bool.not_false] at hy
+        simp only [Bool.not_eq_eq_eq_not] at hy
         refine ⟨hI', ha', hx, htx, fun j' hj' => ?_⟩
         rcases Nat.lt_succ_iff_lt_or_eq.1 hj' with hj' | rfl
         · exact hcl j' hj'

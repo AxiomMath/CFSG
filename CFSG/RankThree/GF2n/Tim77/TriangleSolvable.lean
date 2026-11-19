@@ -39,7 +39,7 @@ theorem tri77_solvable_of_mulEquiv {G' : Type*} [Group G'] (e : G ≃* G')
 
 theorem tri77_solvable_closure_of_comm {S : Set G}
     (hS : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) : Group.IsSolvable (Subgroup.closure S) := by
-  haveI : IsMulCommutative (Subgroup.closure S) :=
+  have : IsMulCommutative (Subgroup.closure S) :=
     Subgroup.isMulCommutative_closure fun x hx y hy _ => hS x hx y hy
   exact Group.isSolvable_of_comm fun u v => mul_comm' u v
 
@@ -155,7 +155,7 @@ theorem tri77_pair_three {x y : G} (hx : x ^ 3 = 1) (hy : y ^ 3 = 1) (hxy : (x *
         (Subgroup.inv_mem _ (Subgroup.subset_closure (by simp)))
     · exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.subset_closure (by simp))
         (Subgroup.subset_closure (by simp))) (Subgroup.subset_closure (by simp))
-  haveI hnorm : (T.subgroupOf (Subgroup.closure ({x, y} : Set G))).Normal :=
+  have hnorm : (T.subgroupOf (Subgroup.closure ({x, y} : Set G))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hTR).mpr hRN
   have hTsolv : Group.IsSolvable T :=
     tri77_solvable_closure_of_comm (S := ({y * x⁻¹, x * y * x} : Set G)) (by
@@ -163,7 +163,7 @@ theorem tri77_pair_three {x y : G} (hx : x ^ 3 = 1) (hy : y ^ 3 = 1) (hxy : (x *
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hp hq
       rcases hp with rfl | rfl <;> rcases hq with rfl | rfl <;>
         first | rfl | exact hcomm | exact hcomm.symm)
-  haveI : Group.IsSolvable (T.subgroupOf (Subgroup.closure ({x, y} : Set G))) :=
+  have : Group.IsSolvable (T.subgroupOf (Subgroup.closure ({x, y} : Set G))) :=
     tri77_solvable_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hTR)
   refine tri77_solvable_of_normal_cyclic (T.subgroupOf (Subgroup.closure ({x, y} : Set G)))
     ⟨x, Subgroup.subset_closure (by simp)⟩ ?_
@@ -190,7 +190,7 @@ theorem tri77_pair_three {x y : G} (hx : x ^ 3 = 1) (hy : y ^ 3 = 1) (hxy : (x *
 theorem tri77_pair_two {x y : G} (hx : x ^ 3 = 1) (hy : y ^ 2 = 1) (hxy : (x * y) ^ 3 = 1) :
     Group.IsSolvable ↥(Subgroup.closure ({x, y} : Set G)) := by
   have hx3 : x * x * x = 1 := by rw [← hx]; simp [pow_succ, mul_assoc]
-  have hy2 : y * y = 1 := by rw [← hy]; simp [pow_succ, mul_assoc]
+  have hy2 : y * y = 1 := by rw [← hy]; simp [pow_succ]
   have hxy3 : (x * y) * (x * y) * (x * y) = 1 := by rw [← hxy]; simp [pow_succ, mul_assoc]
   have hxi : x⁻¹ = x * x := (eq_inv_of_mul_eq_one_left hx3).symm
   have hyi : y⁻¹ = y := inv_eq_of_mul_eq_one_right hy2
@@ -257,7 +257,7 @@ theorem tri77_pair_two {x y : G} (hx : x ^ 3 = 1) (hy : y ^ 2 = 1) (hxy : (x * y
     · exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.subset_closure (by simp))
         (Subgroup.subset_closure (by simp)))
         (Subgroup.inv_mem _ (Subgroup.subset_closure (by simp)))
-  haveI hnorm : (V.subgroupOf (Subgroup.closure ({x, y} : Set G))).Normal :=
+  have hnorm : (V.subgroupOf (Subgroup.closure ({x, y} : Set G))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hVR).mpr hRN
   have hVsolv : Group.IsSolvable V :=
     tri77_solvable_closure_of_comm (S := ({y, x * y * x⁻¹} : Set G)) (by
@@ -265,7 +265,7 @@ theorem tri77_pair_two {x y : G} (hx : x ^ 3 = 1) (hy : y ^ 2 = 1) (hxy : (x * y
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hp hq
       rcases hp with rfl | rfl <;> rcases hq with rfl | rfl <;>
         first | rfl | exact hcomm | exact hcomm.symm)
-  haveI : Group.IsSolvable (V.subgroupOf (Subgroup.closure ({x, y} : Set G))) :=
+  have : Group.IsSolvable (V.subgroupOf (Subgroup.closure ({x, y} : Set G))) :=
     tri77_solvable_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hVR)
   refine tri77_solvable_of_normal_cyclic (V.subgroupOf (Subgroup.closure ({x, y} : Set G)))
     ⟨x, Subgroup.subset_closure (by simp)⟩ ?_
@@ -350,14 +350,14 @@ theorem isSolvable_closure_of_triangle {a b c : G} (ha : a * a = 1) (hb : b * b 
     · exact tri77_normalizer_involution ha (tri77_conj_mem_closure _ hcA)
     · exact tri77_normalizer_involution hb (tri77_conj_mem_closure _ hbB)
     · exact tri77_normalizer_involution hc (tri77_conj_mem_closure _ hcC)
-  haveI hRnorm : ((Subgroup.closure ({a * b, b * c} : Set G)).subgroupOf
+  have hRnorm : ((Subgroup.closure ({a * b, b * c} : Set G)).subgroupOf
       (Subgroup.closure ({a, b, c} : Set G))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hRW).mpr hWN
   have hRsolv : Group.IsSolvable ↥(Subgroup.closure ({a * b, b * c} : Set G)) := by
     rcases hbc with h3 | h2
     · exact tri77_pair_three hab h3 hxy3
     · exact tri77_pair_two hab h2 hxy3
-  haveI : Group.IsSolvable ((Subgroup.closure ({a * b, b * c} : Set G)).subgroupOf
+  have : Group.IsSolvable ((Subgroup.closure ({a * b, b * c} : Set G)).subgroupOf
       (Subgroup.closure ({a, b, c} : Set G))) :=
     tri77_solvable_of_mulEquiv (Subgroup.subgroupOfEquivOfLe hRW)
   refine tri77_solvable_of_normal_cyclic

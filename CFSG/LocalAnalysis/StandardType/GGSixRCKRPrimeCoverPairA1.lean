@@ -88,7 +88,7 @@ private theorem sl2_map_injective {F L : Type*} [Field F] [Field L] {ι : F →+
   ext i j
   have h := congrArg (fun X : Matrix.SpecialLinearGroup (Fin 2) L =>
     (X : Matrix (Fin 2) (Fin 2) L) i j) hAB
-  simp only [Matrix.SpecialLinearGroup.map_apply_coe, Matrix.map_apply] at h
+  simp only [Matrix.SpecialLinearGroup.map_apply_coe] at h
   exact hι h
 
 private theorem step_conj_pinnedX
@@ -189,7 +189,7 @@ private theorem map_mem_rationalSpan
         z * g * z⁻¹ ∈ rootSpan τ GGL (componentRoots (rootCharHom a) j))
     (hz : ∀ g ∈ rootSpan τ GGL (componentRoots (rootCharHom a) i),
       iterHom S.D.step s (z * g * z⁻¹) = z * frobGL σ g * z⁻¹)
-    {F : Type} [Field F] (ι : F →+* GGL) (hιfix : ∀ c : F, σ (ι c) = ι c)
+    {F : Type} [Field F] (ι : F →+* GGL) (_hιfix : ∀ c : F, σ (ι c) = ι c)
     (hσmap : ∀ A : Matrix.SpecialLinearGroup (Fin 2) F,
       Matrix.SpecialLinearGroup.map σ.toRingHom (Matrix.SpecialLinearGroup.map ι A) =
         Matrix.SpecialLinearGroup.map ι A)
@@ -275,9 +275,9 @@ private theorem nonempty_ringEquiv_fixSubfield
     Nonempty (GaloisField 2 (h * s) ≃+* ↥(fixSubfield σ)) := by
   classical
   obtain ⟨hKfin, hKcard⟩ := exists_fixSubfield_fintype S hs0 hσ
-  haveI : Finite ↥(fixSubfield σ) := hKfin
-  haveI : Fintype ↥(fixSubfield σ) := Fintype.ofFinite _
-  haveI : Fintype (GaloisField 2 (h * s)) := Fintype.ofFinite _
+  have : Finite ↥(fixSubfield σ) := hKfin
+  have : Fintype ↥(fixSubfield σ) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (h * s)) := Fintype.ofFinite _
   have hGcard : Fintype.card (GaloisField 2 (h * s)) = 2 ^ (h * s) := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 (h * s) (by omega)]
   have hFcard : Fintype.card ↥(fixSubfield σ) = 2 ^ (h * s) := by
@@ -298,8 +298,8 @@ private theorem range_eq_of_card
   have hRle : rationalComponent S.ρ S.Γ (rootCharHom a) i ≤ S.D.model :=
     (Subgroup.commutator_le_self _).trans
       (inf_le_right.trans (Subgroup.commutator_le_self _))
-  haveI : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
-    haveI : Finite ↥S.D.model := S.finite
+  have : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
+    have : Finite ↥S.D.model := S.finite
     exact Finite.of_injective (Subgroup.inclusion hRle) (Subgroup.inclusion_injective hRle)
   have hinj₀ : Function.Injective φ₀ := by
     rw [← MonoidHom.ker_eq_bot_iff φ₀]
@@ -429,7 +429,7 @@ private theorem pairClause_beta
     {i : KernelComponent (rootCharHom a)} {s : ℕ} {β : Fin τ.rank → ℤ}
     {σ : GGL ≃+* GGL} {z : ModGL τ GGL} {h : ℕ}
     (hβmem : β ∈ componentRoots (rootCharHom a) i)
-    (hnegβmem : -β ∈ componentRoots (rootCharHom a) i)
+    (_hnegβmem : -β ∈ componentRoots (rootCharHom a) i)
     (hzZ : z ∈ torusGroup τ GGL ⊔ rootSpan τ GGL (kernelRoots (rootCharHom a)))
     (κ : GaloisField 2 (h * s) ≃+* ↥(fixSubfield σ))
     (Φ : Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 (h * s)) →* ModGL τ GGL)
@@ -463,7 +463,7 @@ private theorem pairClause_neg_beta
     {τ : Tag} {p₀ : ℕ} {S : LangSetup τ GGL p₀} {a : Fin τ.rank → GGLˣ}
     {i : KernelComponent (rootCharHom a)} {s : ℕ} {β : Fin τ.rank → ℤ}
     {σ : GGL ≃+* GGL} {z : ModGL τ GGL} {h : ℕ}
-    (hβmem : β ∈ componentRoots (rootCharHom a) i)
+    (_hβmem : β ∈ componentRoots (rootCharHom a) i)
     (hnegβmem : -β ∈ componentRoots (rootCharHom a) i)
     (hzZ : z ∈ torusGroup τ GGL ⊔ rootSpan τ GGL (kernelRoots (rootCharHom a)))
     (κ : GaloisField 2 (h * s) ≃+* ↥(fixSubfield σ))
@@ -590,7 +590,7 @@ theorem rckPairA1_holds :
   obtain ⟨β, hβ, hΨ⟩ := rckA1_componentRoots_eq_pair i h1
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   have hinner : twistInner (componentRoots (rootCharHom a) i)
       ((S.ρ : (Fin τ.rank → ℤ) → _)^[s]) := by
     have hs' := hs

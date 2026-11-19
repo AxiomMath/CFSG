@@ -64,7 +64,7 @@ theorem S45Conf.two_subgroup_elementary (h : S45Conf x K T) {v : G} (hvT : v ∈
     (S₀.maximal_isPGroup.eq_of_le (hP.to_subgroup ⊤) le_top).symm
   obtain ⟨T₀, hT₀⟩ := exists_sylow_map_eq f' hf' S₀
   let Q : Subgroup G := ((T₀ : Subgroup ↥Pt).map Pt.subtype).map Y.subtype
-  have hQ2 : IsPGroup 2 ↥Q := (T₀.isPGroup'.map Pt.subtype).map Y.subtype
+  have hQ2 : IsPGroup 2 ↥Q := (T₀.isPGroup.map Pt.subtype).map Y.subtype
   have hQY : Q ≤ Y := by
     rintro _ ⟨_, _, rfl⟩
     exact (Subtype.property _)
@@ -143,16 +143,16 @@ theorem S45Conf.exists_two_central (h : S45Conf x K T) {v : G} (hvT : v ∈ T) (
   obtain ⟨Q, hTQ⟩ := h.sylow.isPGroup.exists_le_sylow
   have hS₀syl : IsSylowOf 2 (Q : Subgroup G) ⊤ := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, Q.isPGroup', ?_⟩
+    refine ⟨le_top, Q.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact Q.not_dvd_index
   have hTne : T ≠ (Q : Subgroup G) := fun hTS => h.not_sylow (hTS ▸ hS₀syl)
   have hxnot : x ∉ Pre x K := (h.fusion x h.x_mem).1 ⟨1, by simp⟩
   have hx1 : x ≠ 1 := fun h1 => hxnot (h1 ▸ one_mem (Pre x K))
   have hnt : Nontrivial ↥(Q : Subgroup G) := ⟨⟨⟨x, hTQ h.x_mem⟩, 1, fun h1 => hx1 (congrArg Subtype.val h1)⟩⟩
-  have hcn : Nontrivial ↥(Subgroup.center ↥(Q : Subgroup G)) := Q.isPGroup'.center_nontrivial
+  have hcn : Nontrivial ↥(Subgroup.center ↥(Q : Subgroup G)) := Q.isPGroup.center_nontrivial
   have hZ2 : 2 ∣ Nat.card ↥(Subgroup.center ↥(Q : Subgroup G)) := by
-    have hZp : IsPGroup 2 ↥(Subgroup.center ↥(Q : Subgroup G)) := Q.isPGroup'.to_subgroup _
+    have hZp : IsPGroup 2 ↥(Subgroup.center ↥(Q : Subgroup G)) := Q.isPGroup.to_subgroup _
     obtain ⟨m, hm⟩ := hZp.exists_card_eq
     rcases m with _ | m
     · exfalso
@@ -192,7 +192,7 @@ theorem S45Conf.exists_two_central (h : S45Conf x K T) {v : G} (hvT : v ∈ T) (
     have hUQ : U ≤ (Q : Subgroup G) := sup_le hTQ ((zpowers_le).2 hzQ)
     have hUC : U ≤ centralizer ({x} : Set G) :=
       sup_le h.sylow.le ((zpowers_le).2 hzC)
-    have hU2 : IsPGroup 2 ↥U := Q.isPGroup'.to_le hUQ
+    have hU2 : IsPGroup 2 ↥U := Q.isPGroup.to_le hUQ
     have := h.sylow.eq_of_le le_sup_left hUC hU2
     rw [← this]
     exact Subgroup.mem_sup_right (mem_zpowers z)
@@ -209,7 +209,7 @@ theorem S45Conf.exists_two_central (h : S45Conf x K T) {v : G} (hvT : v ∈ T) (
     have hdvd : Nat.card ↥(Q : Subgroup G) ∣ Nat.card ↥(centralizer ({x} : Set G)) := by
       rw [← hcard1]
       exact Subgroup.card_dvd_of_le hQC
-    obtain ⟨m, hm⟩ := Q.isPGroup'.exists_card_eq
+    obtain ⟨m, hm⟩ := Q.isPGroup.exists_card_eq
     have hcx : Nat.card ↥T = 2 ^ (Nat.card ↥(centralizer ({x} : Set G))).factorization 2 :=
       h.sylow.card_eq
     have hmle : m ≤ (Nat.card ↥(centralizer ({x} : Set G))).factorization 2 := by
@@ -226,7 +226,7 @@ theorem S45Conf.exists_two_central (h : S45Conf x K T) {v : G} (hvT : v ∈ T) (
   have hnv : n * z * n⁻¹ = v := congrArg Subtype.val hfz
   refine ⟨((n • Q : Sylow 2 G) : Subgroup G), ?_, ?_, ?_⟩
   · rw [isSylowOf_iff]
-    refine ⟨le_top, (n • Q).isPGroup', ?_⟩
+    refine ⟨le_top, (n • Q).isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact (n • Q).not_dvd_index
   · have h1 : ((n • Q : Sylow 2 G) : Subgroup G) = MulAut.conj n • (Q : Subgroup G) :=

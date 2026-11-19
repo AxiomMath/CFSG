@@ -306,7 +306,7 @@ theorem TightSetting.false_of_goldschmidt [IsSimpleGroup F] (hnab : ∃ a b : F,
   obtain ⟨R, hR⟩ := ABGLocalTools.exists_isSylowOf 2 (cliqueSub K z)
   obtain ⟨T, hRT⟩ := hR.isPGroup.exists_le_sylow
   have hTs : ∀ s ∈ (T : Subgroup F), s ∈ Subgroup.normalizer (Zset K z) :=
-    S.mem_normalizer_of_sylow hR T.isPGroup' hRT
+    S.mem_normalizer_of_sylow hR T.isPGroup hRT
   have hZR : ∀ w ∈ Zset K z, w ∈ R := by
     intro w hw
     have hSyl := hR.inf_of_le_normalizer (memb_le_cliqueSub hw) (S.cliqueSub_le_normalizer hw)

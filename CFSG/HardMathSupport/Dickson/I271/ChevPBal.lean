@@ -39,7 +39,7 @@ theorem exists_faithful_noncyclic {X : Type} [Group X] [Finite X] {p : ℕ} {K B
     (hp : p.Prime) (hBel : IsElemAbelian p B) (hBN : B ≤ Subgroup.normalizer (K : Set X))
     (h2 : p ^ 2 ≤ autOrderIn B K) :
     ∃ A : Subgroup X, A ≤ B ∧ ¬ IsCyclic ↥A ∧ A ⊓ Subgroup.centralizer (K : Set X) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨C, hCB, hdisj, -, hcard⟩ := i224_exists_complement hBel
     (inf_le_left : B ⊓ Subgroup.centralizer (K : Set X) ≤ B)
   have hrel : autOrderIn B K * Nat.card (B ⊓ Subgroup.centralizer (K : Set X) : Subgroup X) =

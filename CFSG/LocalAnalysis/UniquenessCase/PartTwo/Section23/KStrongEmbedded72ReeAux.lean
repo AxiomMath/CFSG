@@ -10,7 +10,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.UC22
 open scoped MatrixGroups
 
 theorem card_centralizer_of_isReeType_one {L : Type} [Group L] [Finite L]
-    (h : F07.IsReeType L 1) {t : L} (ht : orderOf t = 2)
+    (_h : F07.IsReeType L 1) {t : L} (_ht : orderOf t = 2)
     (F : Type) [Field F] [Fintype F] (hF : Fintype.card F = 3)
     (e : ↥(Subgroup.centralizer ({t} : Set L)) ≃*
       (Multiplicative (ZMod 2) × PSL(2, F))) :
@@ -35,13 +35,13 @@ theorem card_sylow_two_of_isReeType_one {L : Type} [Group L] [Finite L]
     (h : F07.IsReeType L 1) (S : Sylow 2 L) : Nat.card (S : Subgroup L) = 8 := by
   have hcomm : ∀ S : Sylow 2 L, IsMulCommutative (S : Subgroup L) := h.2.1
   obtain ⟨t, ht, F, hField, hFintype, hFcard, hcent⟩ := h.2.2
-  letI : Field F := hField
-  letI : Fintype F := hFintype
+  let : Field F := hField
+  let : Fintype F := hFintype
   have hF : Fintype.card F = 3 := by simpa using hFcard
   obtain ⟨e⟩ := hcent
   have hC : Nat.card ↥(Subgroup.centralizer ({t} : Set L)) = 24 :=
     card_centralizer_of_isReeType_one h ht F hF e
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hzpow : IsPGroup 2 (Subgroup.zpowers t) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ht]; norm_num)
   obtain ⟨S', hzS'⟩ := IsPGroup.exists_le_sylow hzpow
@@ -88,9 +88,9 @@ theorem isMulCommutative_sylow_two_of_le {X : Type} [Group X] [Finite X]
     (hKL : K ≤ L) (hLab : ∀ S : Sylow 2 ↥L, IsMulCommutative (S : Subgroup ↥L))
     (S : Sylow 2 ↥K) : IsMulCommutative (S : Subgroup ↥K) := by
   have hSmap : IsPGroup 2 ((S : Subgroup ↥K).map (Subgroup.inclusion hKL)) :=
-    S.isPGroup'.map (Subgroup.inclusion hKL)
+    S.isPGroup.map (Subgroup.inclusion hKL)
   obtain ⟨SL, hle⟩ := hSmap.exists_le_sylow
-  haveI : IsMulCommutative (SL : Subgroup ↥L) := hLab SL
+  have : IsMulCommutative (SL : Subgroup ↥L) := hLab SL
   refine IsMulCommutative.of_comm fun x y => ?_
   apply Subtype.ext
   apply Subgroup.inclusion_injective hKL

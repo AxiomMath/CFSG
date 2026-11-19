@@ -56,7 +56,7 @@ theorem OLCfg.false_of_twoInvCent (hcfg : OLCfg P L Q) (h : TwoInvCent ↥L) : F
     { toFun := fun p => conjAut (hcfg.normL p.2)
       map_one' := (conjAut_eq_one_iff _).mpr fun l _ => by simp
       map_mul' := fun p q => conjAut_mul (hcfg.normL p.2) (hcfg.normL q.2) }
-  letI : MulDistribMulAction ↥P ↥L := MulDistribMulAction.compHom ↥L φ
+  let : MulDistribMulAction ↥P ↥L := MulDistribMulAction.compHom ↥L φ
   have hPp : IsPGroup 3 P := fun x => ⟨1, Subtype.ext (by simpa using hcfg.e27.1.2 x x.2)⟩
   obtain ⟨T, hT⟩ : ∃ T : Sylow 3 ↥L, ∀ p : ↥P, p • T = T := by
     have h1 := hPp.card_modEq_card_fixedPoints (Sylow 3 ↥L)
@@ -78,7 +78,7 @@ theorem OLCfg.false_of_twoInvCent (hcfg : OLCfg P L Q) (h : TwoInvCent ↥L) : F
       rw [← h1]
       exact Subgroup.smul_mem_pointwise_smul t' _ _ ht'
     exact ⟨_, h2, coe_conjAut_apply (hcfg.normL hp) t'⟩
-  have hTXp : IsPGroup 3 TX := T.isPGroup'.map L.subtype
+  have hTXp : IsPGroup 3 TX := T.isPGroup.map L.subtype
   have hPTX : P ≤ Subgroup.normalizer (TX : Set X) := le_normalizer_of_conj_mem' hTX
   have hsup : IsPGroup 3 (TX ⊔ P : Subgroup X) := IsPGroup.to_sup_of_normal_left' hTXp hPp hPTX
   obtain ⟨-, hcomm⟩ := commutator_mem_center_of_isPGroup hcfg.triple hsup
@@ -131,6 +131,7 @@ section Lift
 
 variable {G : Type} [Group G] [Finite G] {Z : Subgroup G} [Z.Normal]
 
+omit [Finite G] in
 theorem commute_of_mk_commute (hZ : Z ≤ Subgroup.center G) (h3 : Nat.card Z = 3) {g x : G}
     (hg : g ^ 2 = 1)
     (hgx : (g : G ⧸ Z) * (x : G ⧸ Z) = (x : G ⧸ Z) * (g : G ⧸ Z)) : g * x = x * g := by
@@ -169,6 +170,7 @@ theorem commute_of_mk_commute (hZ : Z ≤ Subgroup.center G) (h3 : Nat.card Z = 
     _ = c * x * g := by rw [h1]
     _ = x * g := by rw [hc1, one_mul]
 
+omit [Finite G] in
 theorem exists_invSub_lift (hZ : Z ≤ Subgroup.center G) (h3 : Nat.card Z = 3) (x : G)
     (R : Subgroup (G ⧸ Z))
     (hR : ∀ g, g ∈ R ↔ g * (x : G ⧸ Z) = (x : G ⧸ Z) * g ∧ g ^ 2 = 1) (hc : Nat.card R = 4) :
@@ -217,7 +219,7 @@ theorem exists_invSub_lift (hZ : Z ≤ Subgroup.center G) (h3 : Nat.card Z = 3) 
       inv_mem' := by
         rintro g ⟨hg1, hg2⟩
         have hgi : g⁻¹ = g := by rw [inv_eq_iff_mul_eq_one, ← pow_two, hg2]
-        rw [Set.mem_setOf_eq, hgi]
+        rw [Set.mem_ofPred_eq, hgi]
         exact ⟨hg1, hg2⟩ }
   have hmem : ∀ g, g ∈ R' ↔ g * x = x * g ∧ g ^ 2 = 1 := fun g => Iff.rfl
   let f : ↥R' → ↥R := fun g => ⟨(g : G), hRmk g ((hmem g).mp g.2).1 ((hmem g).mp g.2).2⟩

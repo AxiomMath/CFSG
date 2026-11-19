@@ -13,6 +13,7 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 variable {G : Type} [Group G] [Finite G] {a z : G}
 
+omit [Finite G] in
 private theorem gamma_mem_gamma_of_inv (H : GammaHyps a z) {t : G} (ht : IsConj a t)
     (h : ∃ s : G, orderOf s = 2 ∧ s ∈ Gxy a t) : t ∈ gammaSet a z a :=
   (H.hOdd.self).gamma_of_inv a t (IsConj.refl a) ht h

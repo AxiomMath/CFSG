@@ -95,7 +95,7 @@ theorem levTwoS2b_short_short_step (n : ℕ) (hn : 1 ≤ n) {γ β : Fin n → �
   have hss : s * s = 1 := by rcases hs with rfl | rfl <;> norm_num
   by_cases hab : a = b
   · subst hab
-    rw [if_pos rfl] at h2
+    rw [ite_eq_left rfl] at h2
     rw [hcβ, hcγ]
     have hst : t * s = 1 ∨ t * s = -1 := by
       rcases hs with rfl | rfl <;> rcases ht with rfl | rfl <;> norm_num
@@ -112,7 +112,7 @@ theorem levTwoS2b_short_short_step (n : ℕ) (hn : 1 ≤ n) {γ β : Fin n → �
       rw [h1, one_smul]
     · right
       rw [h1, neg_one_smul]
-  · rw [if_neg hab] at h2
+  · rw [ite_eq_right hab] at h2
     exact absurd rfl h2
 
 theorem levTwoS2b_no_short (n : ℕ) (hn : 2 ≤ n) (p : ℕ) (_hp : p.Prime) (_hp2 : p ≠ 2)
@@ -255,7 +255,7 @@ theorem levTwoS2b_eps_sub_mem (n : ℕ) (p : ℕ) (c : Fin n → ZMod p) {a b : 
     (hab : a ≠ b) :
     levTwoS2b_ofCoord n (Pi.single a 1 - Pi.single b 1) ∈ levTwoS2b_PhiCase3 n p c ↔
       levTwoS2b_D c a = levTwoS2b_D c b := by
-  simp only [levTwoS2b_PhiCase3, Set.mem_setOf_eq]
+  simp only [levTwoS2b_PhiCase3, Set.mem_ofPred_eq]
   constructor
   · intro hv
     have h0 : levTwoS2b_D c a - levTwoS2b_D c b = 0 := by
@@ -270,7 +270,7 @@ theorem levTwoS2b_eps_add_mem (n : ℕ) (p : ℕ) (c : Fin n → ZMod p) {a b : 
     (hab : a ≠ b) :
     levTwoS2b_ofCoord n (Pi.single a 1 + Pi.single b 1) ∈ levTwoS2b_PhiCase3 n p c ↔
       levTwoS2b_D c a = - levTwoS2b_D c b := by
-  simp only [levTwoS2b_PhiCase3, Set.mem_setOf_eq]
+  simp only [levTwoS2b_PhiCase3, Set.mem_ofPred_eq]
   constructor
   · intro hv
     have h0 : levTwoS2b_D c a + levTwoS2b_D c b = 0 := by
@@ -286,7 +286,7 @@ theorem levTwoS2b_allLong_of_D_zero (n : ℕ) (p : ℕ) (c : Fin n → ZMod p)
     (hD : ∀ a : Fin n, levTwoS2b_D c a = 0) :
     levTwoS2b_PhiCase3 n p c = levTwoS2b_allLong n := by
   ext v
-  simp only [levTwoS2b_PhiCase3, levTwoS2b_allLong, Set.mem_setOf_eq]
+  simp only [levTwoS2b_PhiCase3, levTwoS2b_allLong, Set.mem_ofPred_eq]
   constructor
   · intro hv
     exact ⟨hv.1, hv.2.1⟩
@@ -332,7 +332,7 @@ theorem levTwoS2b_case2_of_single_nonzero (n : ℕ) (p : ℕ) (hp : p.Prime) (c 
     levTwoS2b_PhiCase3 n p c = levTwoS2b_PhiCase2 n k := by
   have : Fact p.Prime := ⟨hp⟩
   ext v
-  simp only [levTwoS2b_PhiCase3, levTwoS2b_PhiCase2, Set.mem_setOf_eq]
+  simp only [levTwoS2b_PhiCase3, levTwoS2b_PhiCase2, Set.mem_ofPred_eq]
   have hlam : ∀ w : Fin n → ℤ,
       lam c w = (levTwoS2b_coord n w k : ZMod p) * levTwoS2b_D c k := by
     intro w

@@ -31,8 +31,8 @@ private theorem l02qf1_recipeLinear_field_pow {d N e : ℕ} (he : 1 ≤ e) (hN :
     {Q : LargeEvenRawCont} (h : LargeEvenRecipeLinear d N Q) :
     LargeEvenRecipeLinear d N fun R _ I F => Q R I F ∧ ∀ f ∈ F, f ^ e = 1 := by
   obtain ⟨K, hF, hfin, hK, hQ⟩ := h
-  letI := hF
-  haveI := hfin
+  let := hF
+  have := hfin
   exact ⟨K, inferInstance, inferInstance, hK, hQ, fun f hf =>
     NbrLangRest.pow_eq_one_of_mem_field_linear he (hK.trans hN) hf⟩
 
@@ -41,8 +41,8 @@ private theorem l02qf1_recipeSymplectic_field_pow {m N e : ℕ} (he : 1 ≤ e) (
     LargeEvenRecipeSymplectic m N false fun R _ I F => Q R I F ∧ ∀ f ∈ F, f ^ e = 1 := by
   dsimp only [LargeEvenRecipeSymplectic] at h ⊢
   obtain ⟨K, hF, hfin, hK, hQ⟩ := h
-  letI := hF
-  haveI := hfin
+  let := hF
+  have := hfin
   refine ⟨K, inferInstance, inferInstance, hK, hQ, fun f hf => ?_⟩
   exact NbrLangRest.pow_eq_one_of_mem_field_symplectic he (hK.trans hN) hf
 
@@ -50,8 +50,8 @@ private theorem l02qf1_recipeOmegaPlus_field_pow {m N e : ℕ} (hm : 1 ≤ m) (h
     (hN : N = 2 ^ e) {Q : LargeEvenRawCont} (h : LargeEvenRecipeOmegaPlus m N Q) :
     LargeEvenRecipeOmegaPlus m N fun R _ I F => Q R I F ∧ ∀ f ∈ F, f ^ e = 1 := by
   obtain ⟨K, hF, hfin, hK, hQ⟩ := h
-  letI := hF
-  haveI := hfin
+  let := hF
+  have := hfin
   exact ⟨K, inferInstance, inferInstance, hK, hQ, fun f hf =>
     NbrLangRest.pow_eq_one_of_mem_field_omegaPlus hm he (hK.trans hN) hf⟩
 
@@ -74,20 +74,20 @@ private theorem l02qf1_recipeUnitary_field_pow {d n : ℕ} (hn : 1 ≤ n) (hd : 
     {Q : LargeEvenRawCont} (h : LargeEvenRecipeUnitary d (2 ^ n) Q) :
     LargeEvenRecipeUnitary d (2 ^ n) fun R _ I F => Q R I F ∧ ∀ f ∈ F, f ^ (2 * n) = 1 := by
   obtain ⟨K, hF, hfin, hK, hQ⟩ := h
-  letI := hF
-  haveI := hfin
+  let := hF
+  have := hfin
   have hUFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n K :=
     unitaryFieldData_of_card hn hK
   exact ⟨K, inferInstance, inferInstance, hK, hQ, fun f hf =>
     l02qf1_pow_unitary (K := K) hUFD hd hn hK hf⟩
 
 private theorem l02qf1_pow_phiQ {m n : ℕ} {K : Type} [Field K] [Finite K]
-    (hm : 3 ≤ m) (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n) {b c : K}
+    (hm : 3 ≤ m) (_hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n) {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {f : MulAut (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c)))}
     (hf : f ∈ LargeEvenPhiQ m b c (LargeEvenProjMk (LargeEvenOmega (LargeEvenQMinus m b c)))) :
     f ^ (2 * n) = 1 := by
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   obtain ⟨k, hk⟩ :=
     RecipeFieldOmega.congr_minusEquiv_of_mem_phi (n := m + 1) (b := b) (c := c) (by omega) hirr hf
   have hfrob : AutOm.frobAut (K := K) (n := m + 1) (b := b) (c := c) (by omega) hirr ^
@@ -101,8 +101,8 @@ private theorem l02qf1_recipeOmegaMinus_field_pow {m n : ℕ} (hm : 3 ≤ m) (hn
     {Q : LargeEvenRawCont} (h : LargeEvenRecipeOmegaMinus m (2 ^ n) Q) :
     LargeEvenRecipeOmegaMinus m (2 ^ n) fun R _ I F => Q R I F ∧ ∀ f ∈ F, f ^ (2 * n) = 1 := by
   obtain ⟨K, hF, hfin, hK, b, c, hirr, hQ⟩ := h
-  letI := hF
-  haveI := hfin
+  let := hF
+  have := hfin
   exact ⟨K, inferInstance, inferInstance, hK, b, c, hirr, hQ, fun f hf =>
     l02qf1_pow_phiQ (m := m) (n := n) hm hn hK hirr hf⟩
 
@@ -123,28 +123,28 @@ private theorem l02qf1_raw_linear {d : ℕ} (K : Type) [Field K] [Finite K] {p f
     · exact CFSG.Open.StatedAPI.isPerfect_statedSL_of_three_le h3 K
   have hperfProj : Group.IsPerfect (CFSG.Open.StatedProj (CFSG.Open.StatedSL d K)) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-  haveI : IsSimpleGroup (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) := by
+  have : IsSimpleGroup (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) := by
     rw [largeEvenSLGroup_eq_statedSL]
     exact hs
-  haveI : Group.IsPerfect (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) := by
+  have : Group.IsPerfect (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) := by
     rw [largeEvenSLGroup_eq_statedSL]
     exact hperfProj
   exact ⟨inferInstance, l02qf1_noncomm_of_perfect⟩
 
 private theorem l02qf1_raw_unitary {d n : ℕ} (K : Type) [Field K] [Finite K]
-    (hn : 1 ≤ n) (hd : 3 ≤ d) (hnq : (d, 2 ^ n) ≠ (3, 2))
+    (_hn : 1 ≤ n) (hd : 3 ≤ d) (hnq : (d, 2 ^ n) ≠ (3, 2))
     (hK : Nat.card K = (2 ^ n) ^ 2) :
     IsSimpleGroup (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))) ∧
       ∃ a b : LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)), a * b ≠ b * a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hs : IsSimpleGroup (CFSG.Open.StatedProj (CFSG.Open.StatedSU d (2 ^ n) K)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 n hK d hd hnq
   have hperfSU : Group.IsPerfect (CFSG.Open.StatedSU d (2 ^ n) K) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 2) (f := n) hK hd hnq
   have hperfProj : Group.IsPerfect (CFSG.Open.StatedProj (CFSG.Open.StatedSU d (2 ^ n) K)) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-  haveI : IsSimpleGroup (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))) := hs
-  haveI : Group.IsPerfect (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))) := hperfProj
+  have : IsSimpleGroup (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))) := hs
+  have : Group.IsPerfect (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))) := hperfProj
   exact ⟨inferInstance, l02qf1_noncomm_of_perfect⟩
 
 private theorem l02qf1_raw_symplectic {m n : ℕ} (K : Type) [Field K] [Finite K]
@@ -174,7 +174,7 @@ private theorem l02qf1_raw_symplectic {m n : ℕ} (K : Type) [Field K] [Finite K
       · exact absurd (hmn hm2) (by omega)
       · exact hm3
     · left
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       have h4 : 4 ≤ Nat.card K := by
         rw [hK]
         calc 4 = 2 ^ 2 := by norm_num
@@ -185,12 +185,12 @@ private theorem l02qf1_raw_symplectic {m n : ℕ} (K : Type) [Field K] [Finite K
       exact ⟨s, hs4⟩
   have hperfProj : Group.IsPerfect (CFSG.Open.StatedProj (CFSG.Open.StatedSp m K)) :=
     CFSG.ClassicalGroups.Symplectic.symplectic_projective_perfect (n := m) (K := K) hcondPerf
-  haveI : IsSimpleGroup (LargeEvenProj (LargeEvenSpGroup K m)) := hs
-  haveI : Group.IsPerfect (LargeEvenProj (LargeEvenSpGroup K m)) := hperfProj
+  have : IsSimpleGroup (LargeEvenProj (LargeEvenSpGroup K m)) := hs
+  have : Group.IsPerfect (LargeEvenProj (LargeEvenSpGroup K m)) := hperfProj
   exact ⟨inferInstance, l02qf1_noncomm_of_perfect⟩
 
 private theorem l02qf1_raw_omegaPlus {m n : ℕ} (K : Type) [Field K] [Finite K]
-    (hn : 1 ≤ n) (hm : 4 ≤ m) (hK : Nat.card K = 2 ^ n) :
+    (_hn : 1 ≤ n) (hm : 4 ≤ m) (_hK : Nat.card K = 2 ^ n) :
     IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) ∧
       ∃ a b : LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m)), a * b ≠ b * a := by
   have hs : IsSimpleGroup
@@ -202,29 +202,29 @@ private theorem l02qf1_raw_omegaPlus {m n : ℕ} (K : Type) [Field K] [Finite K]
   have hperfProj : Group.IsPerfect
       (CFSG.Open.StatedProj (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus m K))) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-  haveI : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) := hs
-  haveI : Group.IsPerfect (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) := hperfProj
+  have : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) := hs
+  have : Group.IsPerfect (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) := hperfProj
   exact ⟨inferInstance, l02qf1_noncomm_of_perfect⟩
 
 private theorem l02qf1_raw_omegaMinus {m n : ℕ} (K : Type) [Field K] [Finite K]
-    (hm : 3 ≤ m) (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n) {b c : K}
+    (hm : 3 ≤ m) (_hn : 1 ≤ n) (_hK : Nat.card K = 2 ^ n) {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) ∧
       ∃ a b' : LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c)), a * b' ≠ b' * a := by
-  haveI hsS : IsSimpleGroup
+  have hsS : IsSimpleGroup
       (CFSG.Open.StatedProj (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus (m + 1) K b c))) :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_statedProj_statedOmega_quadMinus
       (n := m + 1) (K := K) (b := b) (c := c) (by omega) hirr
-  haveI hperfΩ : Group.IsPerfect
+  have hperfΩ : Group.IsPerfect
       (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus (m + 1) K b c)) :=
     CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadMinus
       (n := m + 1) (K := K) (b := b) (c := c) (by omega) hirr
-  haveI hperfProj : Group.IsPerfect
+  have hperfProj : Group.IsPerfect
       (CFSG.Open.StatedProj (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus (m + 1) K b c))) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-  haveI : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) :=
+  have : IsSimpleGroup (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) :=
     (omegaMinusProjEquiv (K := K) (m + 1) b c).isSimpleGroup
-  haveI : Group.IsPerfect (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) :=
+  have : Group.IsPerfect (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) :=
     Group.IsPerfect.ofSurjective
       (f := (omegaMinusProjEquiv (K := K) (m + 1) b c).symm.toMonoidHom)
       (omegaMinusProjEquiv (K := K) (m + 1) b c).symm.surjective
@@ -237,8 +237,8 @@ private theorem l02qf1_recipeLinear_simple {d N p f : ℕ} (hp : p.Prime) (hf : 
     LargeEvenRecipeLinear d N fun R _ I F => Q R I F ∧
       (IsSimpleGroup R ∧ ∃ a b : R, a * b ≠ b * a) := by
   obtain ⟨K, hF, hfin, hK, hQ⟩ := h
-  letI := hF
-  haveI := hfin
+  let := hF
+  have := hfin
   exact ⟨K, inferInstance, inferInstance, hK, hQ,
     l02qf1_raw_linear (K := K) hp hf (hK.trans hN) hd hq4 h22 h23⟩
 
@@ -248,8 +248,8 @@ private theorem l02qf1_recipeUnitary_simple {d n : ℕ} (hn : 1 ≤ n) (hd : 3 �
     LargeEvenRecipeUnitary d (2 ^ n) fun R _ I F => Q R I F ∧
       (IsSimpleGroup R ∧ ∃ a b : R, a * b ≠ b * a) := by
   obtain ⟨K, hF, hfin, hK, hQ⟩ := h
-  letI := hF
-  haveI := hfin
+  let := hF
+  have := hfin
   exact ⟨K, inferInstance, inferInstance, hK, hQ,
     l02qf1_raw_unitary (n := n) K hn hd hnq hK⟩
 
@@ -260,8 +260,8 @@ private theorem l02qf1_recipeSymplectic_simple {m n : ℕ} (hn : 1 ≤ n) (hm : 
       (IsSimpleGroup R ∧ ∃ a b : R, a * b ≠ b * a) := by
   dsimp only [LargeEvenRecipeSymplectic] at h ⊢
   obtain ⟨K, hF, hfin, hK, hQ⟩ := h
-  letI := hF
-  haveI := hfin
+  let := hF
+  have := hfin
   refine ⟨K, inferInstance, inferInstance, hK, hQ, ?_⟩
   exact l02qf1_raw_symplectic (m := m) (n := n) K hn hm hmn hK
 
@@ -270,8 +270,8 @@ private theorem l02qf1_recipeOmegaPlus_simple {m n : ℕ} (hn : 1 ≤ n) (hm : 4
     LargeEvenRecipeOmegaPlus m (2 ^ n) fun R _ I F => Q R I F ∧
       (IsSimpleGroup R ∧ ∃ a b : R, a * b ≠ b * a) := by
   obtain ⟨K, hF, hfin, hK, hQ⟩ := h
-  letI := hF
-  haveI := hfin
+  let := hF
+  have := hfin
   exact ⟨K, inferInstance, inferInstance, hK, hQ,
     l02qf1_raw_omegaPlus (m := m) (n := n) K hn hm hK⟩
 
@@ -280,8 +280,8 @@ private theorem l02qf1_recipeOmegaMinus_simple {m n : ℕ} (hm : 3 ≤ m) (hn : 
     LargeEvenRecipeOmegaMinus m (2 ^ n) fun R _ I F => Q R I F ∧
       (IsSimpleGroup R ∧ ∃ a b : R, a * b ≠ b * a) := by
   obtain ⟨K, hF, hfin, hK, b, c, hirr, hQ⟩ := h
-  letI := hF
-  haveI := hfin
+  let := hF
+  have := hfin
   exact ⟨K, inferInstance, inferInstance, hK, b, c, hirr, hQ,
     l02qf1_raw_omegaMinus (m := m) (n := n) K hm hn hK hirr⟩
 

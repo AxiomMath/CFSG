@@ -58,7 +58,7 @@ theorem le_of_threeRank [Finite G] {X K C L₁ : Subgroup G}
   have hC0 : CFSG.Open.pRank 3 C = 0 := by omega
   have h3C : ¬ 3 ∣ Nat.card C := by
     intro hdvd
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := ↥C) 3 hdvd
     have hxord : orderOf (c : G) = 3 := by rw [Subgroup.orderOf_coe, hc]
     have hEC : Subgroup.zpowers (c : G) ≤ C := Subgroup.zpowers_le.2 c.2
@@ -116,7 +116,7 @@ theorem le_of_threeRank [Finite G] {X K C L₁ : Subgroup G}
 @[expose] def commProj (A B T : Subgroup G) (hcomm : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     Subgroup G where
   carrier := {a | a ∈ A ∧ ∃ b ∈ B, a * b ∈ T}
-  one_mem' := ⟨A.one_mem, 1, B.one_mem, by simpa using T.one_mem⟩
+  one_mem' := ⟨A.one_mem, 1, B.one_mem, by simp⟩
   mul_mem' := by
     rintro a b' ⟨ha, c, hc, hac⟩ ⟨hb, d, hd, hbd⟩
     refine ⟨A.mul_mem ha hb, c * d, B.mul_mem hc hd, ?_⟩

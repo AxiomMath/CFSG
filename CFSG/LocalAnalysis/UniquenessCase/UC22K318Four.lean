@@ -36,9 +36,9 @@ theorem k318s_of_irreducible_four (hIII : MitchellPartThree) [Group.IsPerfect L]
   have hq : q.Prime := Fact.out
   obtain ⟨τ, c, hτc, hτS, hX3, hD⟩ := exists_sympSection hrank hcs
   obtain ⟨hRn, ⟨e⟩⟩ := exists_range_quotient_equiv φ X hφ
-  haveI : Group.IsPerfect φ.range := Group.IsPerfect.range φ
+  have : Group.IsPerfect φ.range := Group.IsPerfect.range φ
   have hRs : Group.IsSolvable (X.map φ.rangeRestrict) := by
-    haveI := hXs
+    have := hXs
     exact Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective φ.rangeRestrict X)
   have hsP : IsSimpleGroup (φ.range ⧸ X.map φ.rangeRestrict) :=
     (MulEquiv.isSimpleGroup_congr e).2 hs

@@ -14,10 +14,10 @@ open CFSG.GroupTheory.ThreeTranspositions (HasE9)
 theorem kFactL2EvenThreeElts_holds : KFactL2EvenThreeElts := by
   classical
   intro Z _ _ X n hXn _ hL2 hrank z hz
-  haveI : X.Normal := hXn
+  have : X.Normal := hXn
   let O : Subgroup ↥X := CFSG.pCore 2 ↥X
   let Ō : Subgroup Z := O.map X.subtype
-  haveI hŌn : Ō.Normal :=
+  have hŌn : Ō.Normal :=
     ConjAct.normal_of_characteristic_of_normal (H := X) (K := O)
   have hŌle : Ō ≤ X := Subgroup.map_subtype_le O
   have hŌ2 : IsPGroup 2 Ō := (CFSG.pCore_isPGroup (p := 2) (G := ↥X)).map X.subtype
@@ -27,7 +27,7 @@ theorem kFactL2EvenThreeElts_holds : KFactL2EvenThreeElts := by
     exact absurd (Nat.prime_three.dvd_of_dvd_pow (h3.trans hk)) (by norm_num)
   let mk : Z →* Z ⧸ Ō := QuotientGroup.mk' Ō
   let X' : Subgroup (Z ⧸ Ō) := X.map mk
-  haveI hX'n : X'.Normal := hXn.map mk (QuotientGroup.mk'_surjective Ō)
+  have hX'n : X'.Normal := hXn.map mk (QuotientGroup.mk'_surjective Ō)
   let φ : ↥X →* Z ⧸ Ō := mk.comp X.subtype
   let f : ↥X →* ↥X' := φ.codRestrict X' (fun x => Subgroup.mem_map_of_mem mk x.2)
   have hfsurj : Function.Surjective f := by

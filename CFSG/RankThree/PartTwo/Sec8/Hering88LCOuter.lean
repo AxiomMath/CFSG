@@ -98,10 +98,10 @@ theorem outer_residual_triality {Y : Subgroup G} {d : G}
     obtain ⟨e₂⟩ := he₂
     obtain ⟨F, _, _, hF, ⟨e₃⟩⟩ := kF82D4SecondCentY0_holds 1 odd_one K σ hK hσ
     have hPi : Sec4.PiField false 2 1 F := ⟨Nat.prime_two, le_rfl, hF⟩
-    haveI := Sec13.isSolvable_projImage_glPi_two hPi (by norm_num)
+    have := Sec13.isSolvable_projImage_glPi_two hPi (by norm_num)
     have ε := φ.trans (e₂.trans e₃)
     exact HeringD4.inSubgroup_perfectResidual_eq_bot_of_solvable C
-      (solvable_of_solvable_injective (f := ε.toMonoidHom) ε.injective)
+      (Group.isSolvable_of_isSolvable_injective (f := ε.toMonoidHom) ε.injective)
 
 theorem outer_residual {Y : Subgroup G} {d : G} (hY : YbarOne (Y ⧸ aschbacherSolvableCore 3 Y))
     (hd3 : d ^ 3 = 1) (hout : Sec4.InducesOuterTheta d Y) :

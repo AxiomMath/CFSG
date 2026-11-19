@@ -14,7 +14,7 @@ theorem singer_seq_no_reflection {F : Type} [Field F] {p : ℕ} (hp5 : 5 ≤ p)
     {n n₀ : F} (hn : n ≠ 0) (hn2 : n ^ 2 ≠ 1) (hn₀ : n₀ ≠ 0) {N : ZMod p → F}
     (h0 : N 0 = n₀) (hk : ∀ k : ℕ, 2 ≤ k → k < p → N (k : ZMod p) = n ^ (p - k) * n₀) :
     ¬ ∃ r : ZMod p, ∀ j : ZMod p, N j = N (r - j) := by
-  haveI : NeZero p := ⟨by omega⟩
+  have : NeZero p := ⟨by omega⟩
   rintro ⟨r, hr⟩
   have hval : ∀ x : ZMod p, x ≠ 0 → x ≠ 1 →
       2 ≤ x.val ∧ x.val < p ∧ N x = n ^ (p - x.val) * n₀ := by
@@ -124,7 +124,7 @@ theorem singerU_exists_norm_one_eval_ne (h : UnitaryFieldData ℓ f K) {P : Poly
   classical
   by_contra hcon
   push Not at hcon
-  haveI := h.finite
+  have := h.finite
   have hℓ := h.prime.two_le
   have hf := h.one_le
   have hq2 : 2 ≤ ℓ ^ f := le_trans hℓ (Nat.le_self_pow (by omega) ℓ)
@@ -168,7 +168,7 @@ theorem singerU_exists_norm_one_eval_ne (h : UnitaryFieldData ℓ f K) {P : Poly
 
 theorem singerU_exists_norm_eq_of_fixed (h : UnitaryFieldData ℓ f K) {n : K}
     (hn : h.bar n = n) (hn0 : n ≠ 0) : ∃ ε : K, ε ≠ 0 ∧ h.norm ε = n := by
-  haveI := h.finite
+  have := h.finite
   have hℓ := h.prime.two_le
   have hf := h.one_le
   have hq2 : 2 ≤ ℓ ^ f := le_trans hℓ (Nat.le_self_pow (by omega) ℓ)
@@ -292,7 +292,7 @@ theorem singerU_exists_norm_one_good (h : UnitaryFieldData ℓ f K) (hq : 10 ≤
 theorem singerU_exists_unique_inv_pow (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : p.Prime)
     (hp5 : 5 ≤ p) (hpq : p ∣ ℓ ^ f + 1) {M : K} (hM : h.bar M = M) (hM0 : M ≠ 0) :
     ∃! n : K, h.bar n = n ∧ n ≠ 0 ∧ n⁻¹ ^ p = M := by
-  haveI := h.finite
+  have := h.finite
   have hinj : Function.Injective (fun y : h.fixedField ˣ => y ^ p) := by
     intro y y' hyy
     simp only at hyy
@@ -369,7 +369,7 @@ theorem singerU_ne_one_neg_one_of_inv_pow {p : ℕ} (hp : p.Prime)
     rw [← hnp, inv_neg, inv_one, hodd.neg_one_pow]
 
 theorem singerU_exists_norm_eq_good (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : p.Prime)
-    (hlt : p < ℓ ^ f + 1) {c : K} (hc : h.norm c = 1) {n : K} (hn : h.bar n = n) (hn0 : n ≠ 0) :
+    (hlt : p < ℓ ^ f + 1) {c : K} (_hc : h.norm c = 1) {n : K} (hn : h.bar n = n) (hn0 : n ≠ 0) :
     ∃ ε : K, h.norm ε = n ∧ h.bar ε ^ (p - 1) + c * ε ≠ 0 := by
   obtain ⟨ε₀, hε₀0, hε₀⟩ := singerU_exists_norm_eq_of_fixed h hn hn0
   have hbar0 : h.bar ε₀ ≠ 0 := (map_ne_zero h.bar).2 hε₀0
@@ -469,7 +469,7 @@ theorem singerU_diagonal_mulVec_single {m : ℕ} (c : Fin m → K) (i : Fin m) :
   by_cases hk : k = i
   · subst hk
     simp
-  · simp [Pi.single_apply, hk]
+  · simp [hk]
 
 theorem singerU_monomial_diag_of_cubic {n : ℕ} {a b : K} (hab : a * b = 1)
     (h0 : a + b ≠ 0) (h1 : a + b + 1 ≠ 0) (h2 : a + b + 2 ≠ 0)
@@ -500,7 +500,7 @@ theorem singerU_monomial_diag_of_cubic {n : ℕ} {a b : K} (hab : a * b = 1)
     by_cases hi : i = σ k
     · subst hi
       simp
-    · rw [hz k i hi, Pi.single_apply, if_neg hi, mul_zero]
+    · rw [hz k i hi, Pi.single_apply, ite_eq_right hi, mul_zero]
   have hσinj : Function.Injective σ := by
     intro k k' hkk
     by_contra hne
@@ -509,7 +509,7 @@ theorem singerU_monomial_diag_of_cubic {n : ℕ} {a b : K} (hab : a * b = 1)
         smul_smul, smul_smul, mul_comm, sub_self]
     have hc := congrFun (hinj _ hv) k'
     rw [Pi.sub_apply, Pi.smul_apply, Pi.smul_apply, Pi.single_apply, Pi.single_apply,
-      if_neg (Ne.symm hne), if_pos rfl, smul_eq_mul, smul_eq_mul] at hc
+      ite_eq_right (Ne.symm hne), ite_eq_left rfl, smul_eq_mul, smul_eq_mul] at hc
     exact hσ k (by simpa using hc)
   have hvec : ∀ x : Fin n, (g - a • (1 : Matrix (Fin n) (Fin n) K)) *ᵥ
       ((g - b • 1) *ᵥ ((g - 1) *ᵥ Pi.single x 1)) = 0 := by
@@ -546,8 +546,7 @@ theorem singerU_monomial_diag_of_cubic {n : ℕ} {a b : K} (hab : a * b = 1)
     ·
       have eX := hcoord x x
       have eS := hcoord x (σ x)
-      simp only [h2x, hx, hx', ↓reduceIte, eq_self_iff_true, mul_one, mul_zero, zero_mul,
-        add_zero, zero_add, sub_zero, zero_sub] at eX eS
+      simp only [h2x, hx, hx', ↓reduceIte, mul_one, mul_zero, add_zero, sub_zero, zero_sub] at eX eS
       have hD : g (σ x) x * (g x (σ x) * g (σ x) x + (a + b + a * b)) = 0 := by
         linear_combination eS
       have hD' := (mul_eq_zero.1 hD).resolve_left (hσ x)
@@ -562,8 +561,8 @@ theorem singerU_monomial_diag_of_cubic {n : ℕ} {a b : K} (hab : a * b = 1)
       ·
         have hne12 : σ (σ x) ≠ σ x := fun h => hx' (hσinj h.symm)
         have eS := hcoord x (σ x)
-        simp only [h3x, hne12, Ne.symm hne12, hx, ↓reduceIte, eq_self_iff_true, mul_one,
-          mul_zero, zero_mul, add_zero, zero_add, sub_zero, zero_sub] at eS
+        simp only [h3x, Ne.symm hne12, hx, ↓reduceIte, mul_one,
+          mul_zero, zero_add, sub_zero] at eS
         have hc : (a + b + a * b) * g (σ x) x = 0 := by
           linear_combination eS
         have hc' := (mul_eq_zero.1 hc).resolve_right (hσ x)
@@ -572,8 +571,8 @@ theorem singerU_monomial_diag_of_cubic {n : ℕ} {a b : K} (hab : a * b = 1)
         have eX := hcoord x x
         have h2x' : x ≠ σ (σ x) := Ne.symm h2x
         have h3x' : x ≠ σ (σ (σ x)) := Ne.symm h3x
-        simp only [h2x', h3x', hx', hx, ↓reduceIte, eq_self_iff_true, mul_one, mul_zero,
-          zero_mul, add_zero, zero_add, sub_zero, zero_sub] at eX
+        simp only [h2x', h3x', hx', ↓reduceIte, mul_one, mul_zero,
+          add_zero, sub_zero, zero_sub] at eX
         exact one_ne_zero (by linear_combination -hab - eX)
   refine ⟨fun k => g k k, ?_⟩
   ext i k
@@ -737,7 +736,7 @@ theorem singerU_monomial_conj_column {n : ℕ} {ζ : K} (hodd : Odd (orderOf ζ)
       by_cases hk : k = a0
       · subst hk
         simp
-      · rw [Pi.smul_apply, smul_eq_mul, Pi.single_apply, if_neg hk, mul_zero]
+      · rw [Pi.smul_apply, smul_eq_mul, Pi.single_apply, ite_eq_right hk, mul_zero]
         exact hcol_i i hi k hk
     calc Pi.single i 1 = yi *ᵥ (y *ᵥ Pi.single i 1) := (hyiy _).symm
       _ = yi *ᵥ ((y *ᵥ Pi.single i 1) a0 • Pi.single a0 1) := by rw [← hu]
@@ -750,9 +749,9 @@ theorem singerU_monomial_conj_column {n : ℕ} {ζ : K} (hodd : Odd (orderOf ζ)
     have c1 := congrFun e1 i
     have c2 := congrFun e1 j
     have c3 := congrFun e2 j
-    rw [Pi.single_apply, if_pos rfl, Pi.smul_apply, smul_eq_mul] at c1
-    rw [Pi.single_apply, if_neg (Ne.symm hij), Pi.smul_apply, smul_eq_mul] at c2
-    rw [Pi.single_apply, if_pos rfl, Pi.smul_apply, smul_eq_mul] at c3
+    rw [Pi.single_apply, ite_eq_left rfl, Pi.smul_apply, smul_eq_mul] at c1
+    rw [Pi.single_apply, ite_eq_right (Ne.symm hij), Pi.smul_apply, smul_eq_mul] at c2
+    rw [Pi.single_apply, ite_eq_left rfl, Pi.smul_apply, smul_eq_mul] at c3
     have hvj : v j ≠ 0 := by
       intro h0j
       rw [h0j, mul_zero] at c3

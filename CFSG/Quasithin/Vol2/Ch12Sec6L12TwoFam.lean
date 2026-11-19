@@ -57,7 +57,7 @@ theorem false_of_lt16 {X : Type} [Group X] [Finite X] {Y F : Subgroup X}
   omega
 
 theorem card_alt_fin (m : ℕ) (hm : 2 ≤ m) : Nat.card (alternatingGroup (Fin m)) = m.factorial / 2 := by
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr hm
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr hm
   rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
 
 theorem false_of_alt_fin {X : Type} [Group X] [Finite X] {Y F : Subgroup X} (hD : XData Y F)

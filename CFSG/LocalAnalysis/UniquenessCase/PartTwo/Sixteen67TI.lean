@@ -29,6 +29,7 @@ theorem s1667_centralizer_le_of_four_le_card (D : Data G) (hSg : UC6S846.SigmaSt
   exact (Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr hF'F)).trans
     (s1665_centralizer_le_of_card_four D hSg h61 h1217 hS hs h0 (hF'F.trans hFV) hF'card)
 
+omit [Finite G] in
 private theorem mem_centralizer_sup {W₁ W₂ V : Subgroup G} (hsup : W₁ ⊔ W₂ = V) {a : G}
     (h₁ : a ∈ Subgroup.centralizer (W₁ : Set G))
     (h₂ : a ∈ Subgroup.centralizer (W₂ : Set G)) :
@@ -51,8 +52,8 @@ private theorem isKleinFour_of_card_four_of_sq {W : Subgroup G} (hcard : Nat.car
     (hsq : ∀ x ∈ W, x ^ 2 = 1) : IsKleinFour ↥W where
   card_four := hcard
   exponent_two := by
-    haveI : Fintype ↥W := Fintype.ofFinite ↥W
-    haveI : Nontrivial ↥W := by
+    have : Fintype ↥W := Fintype.ofFinite ↥W
+    have : Nontrivial ↥W := by
       rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card, hcard]
       norm_num
     rw [Monoid.exponent_eq_prime_iff (by norm_num : Nat.Prime 2)]
@@ -64,7 +65,7 @@ private theorem isKleinFour_of_card_four_of_sq {W : Subgroup G} (hcard : Nat.car
 private theorem relIndex_centralizer_le_three_of_kleinFour {W R : Subgroup G}
     (hW : IsKleinFour ↥W) (hRW : R ≤ Subgroup.normalizer (W : Set G)) (hR : IsPGroup 3 ↥R) :
     (Subgroup.centralizer (W : Set G)).relIndex R ≤ 3 := by
-  haveI : IsKleinFour ↥W := hW
+  have : IsKleinFour ↥W := hW
   let ψ : ↥R →* MulAut ↥W :=
     (Subgroup.normalizerMonoidHom (H := W)).comp (Subgroup.inclusion hRW)
   have hker : ψ.ker = (Subgroup.centralizer (W : Set G)).subgroupOf R := by

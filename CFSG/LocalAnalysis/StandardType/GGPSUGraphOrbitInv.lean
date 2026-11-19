@@ -87,7 +87,7 @@ private theorem psuA4k_kind_congr {f n : ℕ} {K : Type} [Field K]
     · have hP2 : ¬ (psuPsi h X e' = e') := fun hx => hP1 (hPsi.mpr hx)
       by_cases hE1 : psuPsi h X e = psuDag h e
       · have hE2 : psuPsi h X e' = psuDag h e' := hE.mp hE1
-        simp [hD1, hD2, hP1, hP2, hE1, hE2]
+        simp [hD1, hD2, hE1, hE2]
       · have hE2 : ¬ (psuPsi h X e' = psuDag h e') := fun hx => hE1 (hE.mpr hx)
         simp [hD1, hD2, hP1, hP2, hE1, hE2]
 
@@ -378,7 +378,7 @@ private lemma psuA4r_card_to_finrank {ι F : Type} [Fintype ι] [DecidableEq ι]
       Nat.card {x // x ∈ (Subalgebra.toSubmodule A).map (LinearMap.mulRight F e')}) :
     blockDegree A e = blockDegree A e' := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   let Me : Submodule F (Matrix ι ι F) :=
     (Subalgebra.toSubmodule A).map (LinearMap.mulRight F e)
   let Me' : Submodule F (Matrix ι ι F) :=

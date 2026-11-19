@@ -154,7 +154,7 @@ theorem ggDk_prime_dvd_card_block {m : ℕ} {F : Type} [Field F] (hm : 2 ≤ m) 
     {a c : Fin (m + 1)} (ha : a ∈ I) (hc : c ∈ I) (hac : a ≠ c) :
     p ∣ Nat.card ↥((blockSpecialLinear I).map ψ) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hka, hkc⟩ := Fin.exists_ne_and_ne_of_two_lt a c (by omega)
   set e : Fin (m + 1) → Fˣ := Pi.mulSingle a ζ * Pi.mulSingle c ζ⁻¹ with he
   have hea : e a = ζ := by

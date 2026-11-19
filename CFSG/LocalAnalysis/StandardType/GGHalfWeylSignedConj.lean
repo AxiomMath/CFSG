@@ -75,7 +75,7 @@ private theorem coordInv_mulSingle_self {p k : ℕ} (i : Fin k) :
     coordInv k p i (Pi.mulSingle i (Multiplicative.ofAdd 1)) =
       (Pi.mulSingle i (Multiplicative.ofAdd 1))⁻¹ := by
   funext t
-  by_cases ht : t = i <;> simp [coordInv_apply, Pi.mulSingle_apply, ht]
+  by_cases ht : t = i <;> simp [coordInv_apply, ht]
 
 private theorem coordInv_mulSingle_of_ne {p k : ℕ} {i j : Fin k} (hij : i ≠ j) :
     coordInv k p j (Pi.mulSingle i (Multiplicative.ofAdd 1)) =
@@ -206,7 +206,7 @@ private theorem conj_coordInv (n : ℕ)
       ((Φ (Pi.mulSingle j (Multiplicative.ofAdd 1)) : ↥(halfTorus n)) :
         SpecialLinearGroup (Fin (n + 1)) F2) =
         omegaBlock n ⟨2 * j.val, two_mul_lt_of_lt_half j.isLt⟩)
-    (j : Fin ((n + 1) / 2)) (hj : ¬ j.val + 1 < (n + 1) / 2) :
+    (j : Fin ((n + 1) / 2)) (_hj : ¬ j.val + 1 < (n + 1) / 2) :
     ∃ e : SpecialLinearGroup (Fin (n + 1)) F2,
       ∀ a, e * (Φ a : SpecialLinearGroup (Fin (n + 1)) F2) * e⁻¹ =
         (Φ (coordInv ((n + 1) / 2) 3 j a) :

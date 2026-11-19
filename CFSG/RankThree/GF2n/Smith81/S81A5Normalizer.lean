@@ -22,7 +22,7 @@ private theorem n1_sub_one_ne_zero {a b : Fin 6} (hab : a.val + 1 = b.val ∨ b.
   have hR : rho K (transvGL K a b hne 1) = 1 := sub_eq_zero.mp h
   have hc : b ∈ I.val ∧ a ∉ I.val := ⟨hb, ha⟩
   have key := rho_transvGL_cubeBasis (K := K) hab hne (1 : K) I
-  rw [hR, Module.End.one_apply, dif_pos hc, one_smul] at key
+  rw [hR, Module.End.one_apply, dite_eq_left hc, one_smul] at key
   have h1 : cubeBasis K I + 0 = cubeBasis K I + cubeBasis K (replSet I a b hb ha) := by
     rw [add_zero]
     exact key
@@ -150,8 +150,7 @@ theorem toGL_map_transvection {a b : Fin 6} (hne : a ≠ b) (σ : K ≃+* K) (t 
   rw [transvGL_val]
   ext i j
   by_cases hij : i = j <;> by_cases hia : i = a <;> by_cases hjb : j = b <;>
-    simp_all [Matrix.transvection, Matrix.SpecialLinearGroup.transvection_coe, Matrix.one_apply,
-      Matrix.single_apply, apply_ite]
+    simp_all [Matrix.transvection, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply, apply_ite]
 
 theorem toGL_map_dual_transvection [CharP K 2] {a b : Fin 6} (hne : a ≠ b) (σ : K ≃+* K) (t : K) :
     SpecialLinearGroup.toGL (SpecialLinearGroup.map σ.toRingHom
@@ -167,8 +166,7 @@ theorem toGL_map_dual_transvection [CharP K 2] {a b : Fin 6} (hne : a ≠ b) (σ
   rw [transvGL_val, hinv]
   ext i j
   by_cases hij : i = j <;> by_cases hia : j = a <;> by_cases hjb : i = b <;>
-    simp_all [Matrix.transvection, Matrix.SpecialLinearGroup.transvection_coe, Matrix.one_apply,
-      Matrix.single_apply, apply_ite]
+    simp_all [Matrix.transvection, Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply, apply_ite]
 
 private theorem n3_map_one_eq (X : SpecialLinearGroup (Fin 6) K) :
     SpecialLinearGroup.map (1 : K ≃+* K).toRingHom X = X := by

@@ -28,9 +28,9 @@ private theorem pPrimeCore_sup_sylow_normal {H : Type*} [Group H] [Finite H] {p 
     Sylow.coe_mapSurjective _ _
   have hSbar_comm : IsMulCommutative (Sbar : Subgroup (H ⧸ Q)) := by
     rw [hSbar_coe]
-    letI : IsMulCommutative (S : Subgroup H) := hab
+    let : IsMulCommutative (S : Subgroup H) := hab
     infer_instance
-  haveI : IsMulCommutative (Sbar : Subgroup (H ⧸ Q)) := hSbar_comm
+  have : IsMulCommutative (Sbar : Subgroup (H ⧸ Q)) := hSbar_comm
   have hsolvQ : Group.IsSolvable (H ⧸ Q) := by infer_instance
   have hcoreQ : pPrimeCore p (H ⧸ Q) = ⊥ := by
     simpa [Q] using pPrimeCore_quotient_pPrimeCore_eq_bot (G := H) p
@@ -67,7 +67,7 @@ theorem frob4P_sylow_sup_primeCore_normal {p : ℕ} [Fact p.Prime] {M P : Subgro
     rw [uniqueFourPrimeCore]; exact relPPrimeCore_le M
   have hS_comm : IsMulCommutative (S : Subgroup ↥M) := by
     rw [hS]
-    letI : IsMulCommutative P := hab
+    let : IsMulCommutative P := hab
     infer_instance
   have hnorm : (pPrimeCore p ↥M ⊔ (S : Subgroup ↥M)).Normal :=
     pPrimeCore_sup_sylow_normal (H := ↥M) hM S hS_comm
@@ -92,7 +92,7 @@ theorem frob4P_primeCore_sup_normal {p : ℕ} [Fact p.Prime] {M P P₀ : Subgrou
     rw [uniqueFourPrimeCore]; exact relPPrimeCore_le M
   have hS_comm : IsMulCommutative (S : Subgroup ↥M) := by
     rw [hS]
-    letI : IsMulCommutative P := hab
+    let : IsMulCommutative P := hab
     infer_instance
   have hnorm : (pPrimeCore p ↥M ⊔ (S : Subgroup ↥M)).Normal :=
     pPrimeCore_sup_sylow_normal (H := ↥M) hM S hS_comm

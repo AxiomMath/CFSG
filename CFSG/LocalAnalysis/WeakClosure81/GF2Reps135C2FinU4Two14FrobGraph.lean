@@ -68,6 +68,7 @@ section Unitary
 
 variable {K E : Type} [Field K] [Finite K] [CharP K 2] [Field E] [CharP E 2]
 
+omit [CharP E 2] in
 theorem su4_map_sq_eq (φ : K →+* E) (x : SU4 K 1) :
     ((twistHom 1 φ x : SL(4, E)) : Matrix (Fin 4) (Fin 4) E).map (fun c => c ^ 2) =
       antidiag 4 *
@@ -84,7 +85,7 @@ theorem su4_map_sq_eq (φ : K →+* E) (x : SU4 K 1) :
   have hconj : (conjTr (CFSG.LieType.BorelTits.unitaryInvolution K 2 1) A).map φ =
       ((A.map φ).map (fun c => c ^ 2))ᵀ := by
     ext i j
-    simp [conjTr, unitaryInvolution_apply, map_pow, frobenius_def]
+    simp [conjTr, map_pow, frobenius_def]
   rw [hconj] at h1
   rw [hG] at hmul ⊢
   set G : Matrix (Fin 4) (Fin 4) E := A.map φ with hGdef
@@ -104,6 +105,7 @@ theorem su4_map_sq_eq (φ : K →+* E) (x : SU4 K 1) :
     _ = antidiag 4 * Giᵀ * antidiag 4 := by
         simp only [Matrix.transpose_mul, antidiag_four_transpose, Matrix.mul_assoc]
 
+omit [CharP E 2] in
 theorem twistHom_frobPair (φ : K →+* E) {Z : Matrix (Fin 4) (Fin 4) K} {x y : SU4 K 1}
     (h : FinU4FrobPair Z x y) :
     ((twistHom 1 φ y : SL(4, E)) : Matrix (Fin 4) (Fin 4) E) =
@@ -120,6 +122,7 @@ theorem twistHom_frobPair (φ : K →+* E) {Z : Matrix (Fin 4) (Fin 4) K} {x y :
   rw [hcomm] at h'
   exact h'
 
+omit [CharP E 2] in
 theorem finU4FrobPair_conj (φ : K →+* E) {Z : Matrix (Fin 4) (Fin 4) K} {x y : SU4 K 1}
     (h : FinU4FrobPair Z x y) (hZ : Z.map φ * Z.map φ = 1) (W : SL(4, E))
     (hW : (W : Matrix (Fin 4) (Fin 4) E) = Z.map φ * antidiag 4) :

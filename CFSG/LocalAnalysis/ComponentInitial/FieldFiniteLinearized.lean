@@ -120,8 +120,8 @@ theorem finrank_addMonoidHom {n : ℕ} (hK : Nat.card K = p ^ n) :
   rw [hK, Nat.card_zmod] at h
   rw [(addMonoidHomLinearEquiv K p).finrank_eq]
   have hdim : Module.finrank K (K →ₗ[ZMod p] K) = Module.finrank (ZMod p) K := by
-    haveI : Module.Finite (ZMod p) K := Module.Finite.of_finite
-    haveI : Module.Free (ZMod p) K := Module.Free.of_divisionRing (ZMod p) K
+    have : Module.Finite (ZMod p) K := Module.Finite.of_finite
+    have : Module.Free (ZMod p) K := Module.Free.of_divisionRing (ZMod p) K
     have e := (Module.Basis.constr (Module.finBasis (ZMod p) K) K :
       (Fin (Module.finrank (ZMod p) K) → K) ≃ₗ[K] (K →ₗ[ZMod p] K))
     rw [← e.finrank_eq, Module.finrank_fin_fun]
@@ -138,8 +138,8 @@ theorem finrank_addMonoidHom₂ {n : ℕ} (hK : Nat.card K = p ^ n) :
   rw [(addMonoidHom₂LinearEquiv K p).finrank_eq]
   have hdim : Module.finrank K (K →ₗ[ZMod p] K →ₗ[ZMod p] K) =
       Module.finrank (ZMod p) K ^ 2 := by
-    haveI : Module.Finite (ZMod p) K := Module.Finite.of_finite
-    haveI : Module.Free (ZMod p) K := Module.Free.of_divisionRing (ZMod p) K
+    have : Module.Finite (ZMod p) K := Module.Finite.of_finite
+    have : Module.Free (ZMod p) K := Module.Free.of_divisionRing (ZMod p) K
     have e := (Module.Basis.constr (Module.finBasis (ZMod p) K) K :
       (Fin (Module.finrank (ZMod p) K) → K) ≃ₗ[K] (K →ₗ[ZMod p] K))
     have e₂ := (Module.Basis.constr (Module.finBasis (ZMod p) K) K :
@@ -147,8 +147,7 @@ theorem finrank_addMonoidHom₂ {n : ℕ} (hK : Nat.card K = p ^ n) :
         (K →ₗ[ZMod p] K →ₗ[ZMod p] K))
     rw [← e₂.finrank_eq, ← (LinearEquiv.piCongrRight fun _ => e).finrank_eq,
       Module.finrank_pi_fintype]
-    simp [Module.finrank_fin_fun, Finset.sum_const, Finset.card_univ, Fintype.card_fin,
-      nsmul_eq_mul, sq]
+    simp [Finset.sum_const, Finset.card_univ, Fintype.card_fin, sq]
   rw [hdim]
   exact congrArg (· ^ 2) (Nat.pow_right_injective hp.two_le h).symm
 

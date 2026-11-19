@@ -86,7 +86,7 @@ end Equivariant
 theorem card_subtype_ne_one (B : Type*) [Group B] [Finite B] :
     Nat.card {b : B // b ≠ 1} = Nat.card B - 1 := by
   classical
-  haveI := Fintype.ofFinite B
+  have := Fintype.ofFinite B
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
   convert Fintype.card_subtype_compl (fun b : B => b = 1) using 2
   simp
@@ -208,7 +208,7 @@ theorem eq_one_of_card_lt [Finite Δ] [Finite B] (ψ : H →* Monoid.End M) (rad
   classical
   by_contra hx1
   obtain ⟨s, hs, hgood⟩ := exists_good_translate hc Γ hΓ
-  haveI : Fintype B := Fintype.ofFinite B
+  have : Fintype B := Fintype.ofFinite B
   have hx' : ψ s x ∈ supported rad (φ s '' Γ) := map_mem_supported φ ψ rad hmap hx s
   have hx'1 : ψ s x ≠ 1 := by
     intro h

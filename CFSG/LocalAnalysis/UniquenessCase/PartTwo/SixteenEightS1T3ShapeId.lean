@@ -54,7 +54,7 @@ private theorem s16t3_odd_pow_add_one {q m : ℕ} (hq : Even q) (hm : 1 ≤ m) :
 private theorem s16t3_card_statedSL_eq_two_pow_mul_odd
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) (n : ℕ) :
     ∃ O : ℕ, Odd O ∧ Nat.card (StatedSL n K) = 2 ^ (n * (n - 1) / 2) * O := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   by_cases hn : n = 0
   · subst hn
     have hGL : Nat.card (GL (Fin 0) K) = 1 := by
@@ -86,7 +86,7 @@ private theorem s16t3_card_omegaPlus_eq_two_pow_mul_odd
     ∃ O : ℕ, Odd O ∧
       Nat.card (StatedProj (StatedOmega (StatedQuadPlus m K))) =
         2 ^ (m * (m - 1)) * O := by
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
     (f := 1) (by simpa using hK)
   have hq1 : 1 ≤ Nat.card K := Nat.card_pos
   have hq : Even (Nat.card K) := by rw [hK]; norm_num
@@ -120,7 +120,7 @@ private theorem s16t3_card_omegaMinus_eq_two_pow_mul_odd
     ∃ O : ℕ, Odd O ∧
       Nat.card (StatedProj (StatedOmega (StatedQuadMinus m K b c))) =
         2 ^ (m * (m - 1)) * O := by
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
     (f := 1) (by simpa using hK)
   have hq1 : 1 ≤ Nat.card K := Nat.card_pos
   have hq : Even (Nat.card K) := by rw [hK]; norm_num
@@ -179,7 +179,7 @@ private theorem s16t3_three_pow_four_not_dvd_card_omegaPlus_small
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {m : ℕ} (hm : m ≤ 2) :
     ¬ 3 ^ 4 ∣ Nat.card (StatedProj (StatedOmega (StatedQuadPlus m K))) := by
   intro h81
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
     (f := 1) (by simpa using hK)
   rcases Nat.lt_or_ge m 2 with h2 | h2
   · have hle := s16t3_card_statedProj_le_pow (K := K) (ι := Fin m ⊕ Fin m)
@@ -212,7 +212,7 @@ private theorem s16t3_three_pow_four_not_dvd_card_omegaMinus_small
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (hm : m ≤ 2) :
     ¬ 3 ^ 4 ∣ Nat.card (StatedProj (StatedOmega (StatedQuadMinus m K b c))) := by
   intro h81
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
     (f := 1) (by simpa using hK)
   rcases Nat.lt_or_ge m 2 with h2 | h2
   · have hle := s16t3_card_statedProj_le_pow (K := K)
@@ -370,8 +370,8 @@ private theorem s16t3_alt_card_ne {X : Type} [Group X] {n N : ℕ} (h : UC22.IsA
           s16t3_prime_le_of_dvd_factorial_div_two (by norm_num) hn2 hdiv
         omega
       · have hn1 : n ≤ 1 := by omega
-        haveI : Subsingleton (Fin n) := ⟨fun a b => Fin.ext (by omega)⟩
-        haveI : Subsingleton (alternatingGroup (Fin n)) :=
+        have : Subsingleton (Fin n) := ⟨fun a b => Fin.ext (by omega)⟩
+        have : Subsingleton (alternatingGroup (Fin n)) :=
           ⟨fun a b => Subtype.ext (Equiv.ext fun x => Subsingleton.elim _ _)⟩
         have h1 : Nat.card (alternatingGroup (Fin n)) = 1 :=
           Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨1⟩⟩
@@ -403,8 +403,8 @@ private theorem s16t3_alt_card_ne_25920 {X : Type} [Group X] {n : ℕ}
         exact h
       omega
     · have hn1 : n ≤ 1 := by omega
-      haveI : Subsingleton (Fin n) := ⟨fun a b => Fin.ext (by omega)⟩
-      haveI : Subsingleton (alternatingGroup (Fin n)) :=
+      have : Subsingleton (Fin n) := ⟨fun a b => Fin.ext (by omega)⟩
+      have : Subsingleton (alternatingGroup (Fin n)) :=
         ⟨fun a b => Subtype.ext (Equiv.ext fun x => Subsingleton.elim _ _)⟩
       have h1 : Nat.card (alternatingGroup (Fin n)) = 1 :=
         Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨1⟩⟩
@@ -420,16 +420,16 @@ private theorem s16t3_shape_branch_sl_aux
     (h17 : ¬ 17 ∣ Nat.card ↥L) :
     SumOfNat (fun H U Z => BinaryNaturalSL H U Z n 1) L U Z k := by
   obtain ⟨K, hF, hFin, hK, ⟨eL⟩⟩ := hL
-  letI : Field K := hF
-  letI : Finite K := hFin
+  let : Field K := hF
+  let : Finite K := hFin
   have hK2 : Nat.card K = 2 := by simpa using hK
   obtain ⟨O0, hO0, hcard0⟩ := s16t3_card_statedSL_eq_two_pow_mul_odd (K := K) hK2 n
   have hcardL0 : Nat.card ↥L = Nat.card (StatedSL n K) := Nat.card_congr eL.toEquiv
   obtain ⟨n', h | h | h | h | h⟩ := hs
   · obtain ⟨hSL, hsum⟩ := h
     obtain ⟨K', hF', hFin', hK', ⟨e'⟩⟩ := hSL
-    letI : Field K' := hF'
-    letI : Finite K' := hFin'
+    let : Field K' := hF'
+    let : Finite K' := hFin'
     have hK'2 : Nat.card K' = 2 := by simpa using hK'
     obtain ⟨O1, hO1, hcard1⟩ := s16t3_card_statedSL_eq_two_pow_mul_odd (K := K') hK'2 n'
     have hcards : Nat.card (StatedSL n K) = Nat.card (StatedSL n' K') := by
@@ -448,8 +448,8 @@ private theorem s16t3_shape_branch_sl_aux
       simpa [hn'] using hsum
   · obtain ⟨hSp, hsum⟩ := h
     obtain ⟨hEven, K', hF', hFin', hK', ⟨e'⟩⟩ := hSp
-    letI : Field K' := hF'
-    letI : Finite K' := hFin'
+    let : Field K' := hF'
+    let : Finite K' := hFin'
     have hK'2 : Nat.card K' = 2 := by simpa using hK'
     obtain ⟨O1, hO1, hcard1⟩ := s16t3_card_statedSp_eq_two_pow_mul_odd (K := K') hK'2 (n' / 2)
     have hcards : Nat.card (StatedSL n K) = Nat.card (StatedSp (n' / 2) K') := by
@@ -467,8 +467,8 @@ private theorem s16t3_shape_branch_sl_aux
   · obtain ⟨hOP, hsum⟩ := h
     have hOP' := hOP
     obtain ⟨hEven, K', hF', hFin', hK', ⟨e'⟩⟩ := hOP
-    letI : Field K' := hF'
-    letI : Finite K' := hFin'
+    let : Field K' := hF'
+    let : Finite K' := hFin'
     have hK'2 : Nat.card K' = 2 := by simpa using hK'
     have hcards : Nat.card (StatedSL n K) =
         Nat.card (StatedProj (StatedOmega (StatedQuadPlus (n' / 2) K'))) := by
@@ -503,8 +503,8 @@ private theorem s16t3_shape_branch_sl_aux
   · obtain ⟨hOM, hsum⟩ := h
     have hOM' := hOM
     obtain ⟨hEven, K', hF', hFin', b', c', hK', hirr, ⟨e'⟩⟩ := hOM
-    letI : Field K' := hF'
-    letI : Finite K' := hFin'
+    let : Field K' := hF'
+    let : Finite K' := hFin'
     have hK'2 : Nat.card K' = 2 := by simpa using hK'
     have hcards : Nat.card (StatedSL n K) =
         Nat.card (StatedProj (StatedOmega (StatedQuadMinus (n' / 2) K' b' c'))) := by
@@ -546,28 +546,28 @@ private theorem s16t3_shape_branch_sl_aux
 
 private theorem s16t3_cardSL_six {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     Nat.card (StatedSL 6 K) = 20158709760 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [CFSG.Open.StatedAPI.card_statedSL, Matrix.card_SL_field, Fin.prod_univ_six,
     ← Nat.card_eq_fintype_card, hK]
   rfl
 
 private theorem s16t3_cardSL_seven {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     Nat.card (StatedSL 7 K) = 163849992929280 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [CFSG.Open.StatedAPI.card_statedSL, Matrix.card_SL_field, Fin.prod_univ_seven,
     ← Nat.card_eq_fintype_card, hK]
   rfl
 
 private theorem s16t3_shape_branch_omegaMinus_aux
-    (hs : SumOfNatShape L U Z k) (hL : IsOmegaMinus ↥L 6 1)
+    (hs : SumOfNatShape L U Z k) (_hL : IsOmegaMinus ↥L 6 1)
     (hcardL : Nat.card ↥L = 25920) :
     SumOfNat (fun H U Z => NatOmegaMinus H U Z 6 1) L U Z k := by
   have h81 : 3 ^ 4 ∣ Nat.card ↥L := by rw [hcardL]; norm_num
   obtain ⟨n', h | h | h | h | h⟩ := hs
   · obtain ⟨hSL, hsum⟩ := h
     obtain ⟨K', hF', hFin', hK', ⟨e'⟩⟩ := hSL
-    letI : Field K' := hF'
-    letI : Finite K' := hFin'
+    let : Field K' := hF'
+    let : Finite K' := hFin'
     have hK'2 : Nat.card K' = 2 := by simpa using hK'
     obtain ⟨O1, hO1, hcard1⟩ := s16t3_card_statedSL_eq_two_pow_mul_odd (K := K') hK'2 n'
     have hcards : Nat.card (StatedSL n' K') = 25920 := by
@@ -586,8 +586,8 @@ private theorem s16t3_shape_branch_omegaMinus_aux
     norm_num at hcards
   · obtain ⟨hSp, hsum⟩ := h
     obtain ⟨hEven, K', hF', hFin', hK', ⟨e'⟩⟩ := hSp
-    letI : Field K' := hF'
-    letI : Finite K' := hFin'
+    let : Field K' := hF'
+    let : Finite K' := hFin'
     have hK'2 : Nat.card K' = 2 := by simpa using hK'
     obtain ⟨O1, hO1, hcard1⟩ := s16t3_card_statedSp_eq_two_pow_mul_odd (K := K') hK'2 (n' / 2)
     have hcards : Nat.card (StatedSp (n' / 2) K') = 25920 := by
@@ -602,8 +602,8 @@ private theorem s16t3_shape_branch_omegaMinus_aux
   · obtain ⟨hOP, hsum⟩ := h
     have hOP' := hOP
     obtain ⟨hEven, K', hF', hFin', hK', ⟨e'⟩⟩ := hOP
-    letI : Field K' := hF'
-    letI : Finite K' := hFin'
+    let : Field K' := hF'
+    let : Finite K' := hFin'
     have hK'2 : Nat.card K' = 2 := by simpa using hK'
     have hcards : Nat.card (StatedProj (StatedOmega (StatedQuadPlus (n' / 2) K'))) = 25920 := by
       rw [← hcardL]
@@ -636,8 +636,8 @@ private theorem s16t3_shape_branch_omegaMinus_aux
   · obtain ⟨hOM, hsum⟩ := h
     have hOM' := hOM
     obtain ⟨hEven, K', hF', hFin', b', c', hK', hirr, ⟨e'⟩⟩ := hOM
-    letI : Field K' := hF'
-    letI : Finite K' := hFin'
+    let : Field K' := hF'
+    let : Finite K' := hFin'
     have hK'2 : Nat.card K' = 2 := by simpa using hK'
     have hcards : Nat.card (StatedProj (StatedOmega (StatedQuadMinus (n' / 2) K' b' c'))) =
         25920 := by
@@ -675,8 +675,8 @@ theorem s16t3_shape_branch_sl (hs : SumOfNatShape L U Z k) {n : ℕ} (hn : n = 6
   rcases hn with rfl | rfl
   · have hL' := hL
     obtain ⟨K, hF, hFin, hK, ⟨eL⟩⟩ := hL
-    letI : Field K := hF
-    letI : Finite K := hFin
+    let : Field K := hF
+    let : Finite K := hFin
     have hK2 : Nat.card K = 2 := by simpa using hK
     have hcardL : Nat.card ↥L = 20158709760 := by
       rw [Nat.card_congr eL.toEquiv]
@@ -686,8 +686,8 @@ theorem s16t3_shape_branch_sl (hs : SumOfNatShape L U Z k) {n : ℕ} (hn : n = 6
       (by rw [hcardL]; norm_num)
   · have hL' := hL
     obtain ⟨K, hF, hFin, hK, ⟨eL⟩⟩ := hL
-    letI : Field K := hF
-    letI : Finite K := hFin
+    let : Field K := hF
+    let : Finite K := hFin
     have hK2 : Nat.card K = 2 := by simpa using hK
     have hcardL : Nat.card ↥L = 163849992929280 := by
       rw [Nat.card_congr eL.toEquiv]

@@ -19,7 +19,7 @@ theorem exists_l2_sylow (m : Mz614 G) (h620 : m.C620) (hL : LieModel ↥m.L .PSL
     ∃ P : Sylow m.r ↥m.L, IsSylowOf m.r (P : Subgroup ↥m.L) ⊤ ∧
       (m.A ⊓ m.L).subgroupOf m.L = (P : Subgroup ↥m.L) := by
   classical
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hS0card : Nat.card ((m.A ⊓ m.L).subgroupOf m.L) = m.r ^ 2 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv]
     exact m.card_A_inf_L h620
@@ -27,7 +27,7 @@ theorem exists_l2_sylow (m : Mz614 G) (h620 : m.C620) (hL : LieModel ↥m.L .PSL
   obtain ⟨P, hSP⟩ := hS0p.exists_le_sylow
   have hPsyl : IsSylowOf m.r (P : Subgroup ↥m.L) ⊤ := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, P.isPGroup', ?_⟩
+    refine ⟨le_top, P.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact P.not_dvd_index
   have hPcard := (UC22.uc22p22q_psl2_sylow_elem m.hr m.d.odd hL hPsyl).2

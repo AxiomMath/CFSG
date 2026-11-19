@@ -30,7 +30,7 @@ theorem not_two_pow_five_dvd_MGriess
         Subgroup.centralizer ({d} : Set MGriess))) :
     ¬ 2 ^ 5 ∣ Nat.card ↥(Subgroup.centralizer ({z} : Set MGriess)) := by
   obtain ⟨⟨hfin, -, -, -⟩, -⟩ := id hE
-  haveI : Finite MGriess := hfin
+  have : Finite MGriess := hfin
   refine tabMSeven_not_dvd_of_involutions (by norm_num) fun v hvz hv => ?_
   have hzv : v * z = z * v := Subgroup.mem_centralizer_singleton_iff.1 hvz
   rcases hcls_of_existence hE hB v hv with hvA | hvB
@@ -79,7 +79,7 @@ theorem tabMSeven_not_two_pow_five_dvd
   let e : MGriess ≃* ↥Gmat :=
     CFSG.YGroups.Y443.griessEquivGmat CFSG.Blueprint.NativeSporadic.MonsterModel.gmat_eq_griess
   have hdG : orderOf dG = 7 := by
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     exact orderOf_eq_prime CFSG.AGLEmbedding.Norton.MON5_7.dG_pow
       CFSG.AGLEmbedding.Norton.MON5_7.dG_ne_one
   have h := not_two_pow_five_dvd_MGriess hE hB (z := e.symm z) (d := e.symm dG)

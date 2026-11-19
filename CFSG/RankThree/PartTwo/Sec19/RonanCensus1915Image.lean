@@ -63,9 +63,9 @@ theorem census1915Image_of_rowsS (R : Sec4.RonanK429.K429RowsS) (h41 : Sec4.Item
       Group.isSolvable_of_surjective (K.subtype.subgroupMap_surjective _)
     have hLsol : Group.IsSolvable L :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hLθ)
-    haveI : Nontrivial (L ⧸ CFSG.pCore 2 L) := hLs.toNontrivial
-    haveI : Nontrivial L := (QuotientGroup.mk'_surjective (CFSG.pCore 2 L)).nontrivial
-    haveI := hLp
+    have : Nontrivial (L ⧸ CFSG.pCore 2 L) := hLs.toNontrivial
+    have : Nontrivial L := (QuotientGroup.mk'_surjective (CFSG.pCore 2 L)).nontrivial
+    have := hLp
     exact Group.IsPerfect.not_isSolvable L hLsol
   have hcomap := Census1915ImageProof.comap_pCore_eq_of_surjective_of_perfect ψ hψs hJp hLs
   have eL : L ⧸ CFSG.pCore 2 L ≃* J ⧸ CFSG.pCore 2 J :=
@@ -134,9 +134,9 @@ theorem census1915Image_of_rowsS (R : Sec4.RonanK429.K429RowsS) (h41 : Sec4.Item
     · exact Or.inl ⟨p, e, hp, he, Sec4.RonanK429.isoLThreePi_of_mulEquiv eL.symm hiso⟩
     · exact Or.inr (Or.inr (Or.inl ⟨eL.symm.trans φ⟩))
   have hZJ : Subgroup.center (J ⧸ CFSG.pCore 2 J) = ⊥ := by
-    haveI := hLs
-    haveI : IsSimpleGroup (J ⧸ CFSG.pCore 2 J) := MulEquiv.isSimpleGroup eL.symm
-    haveI := hJp
+    have := hLs
+    have : IsSimpleGroup (J ⧸ CFSG.pCore 2 J) := MulEquiv.isSimpleGroup eL.symm
+    have := hJp
     exact Sec4.RonanK429.center_eq_bot_of_isSimpleGroup_of_isPerfect
   have hZ3 : IsPGroup 3 (Subgroup.center (lOne K A)) :=
     Sec4.RonanK429.isPGroup_center_of_isComponent hθX hL₁
@@ -160,12 +160,12 @@ theorem census1915Image_of_rowsS (R : Sec4.RonanK429.K429RowsS) (h41 : Sec4.Item
       (Sec4.RonanK429.equivBar hJL₁ hJZ).symm, h2, Subgroup.map_bot]
   have eJ : J ≃* L ⧸ CFSG.pCore 2 L :=
     ((QuotientGroup.quotientMulEquivOfEq h3).trans QuotientGroup.quotientBot).symm.trans eL.symm
-  haveI := hLs
-  haveI : IsSimpleGroup J := MulEquiv.isSimpleGroup eJ
+  have := hLs
+  have : IsSimpleGroup J := MulEquiv.isSimpleGroup eJ
   have hna : ∃ a b : J, a * b ≠ b * a := by
     by_contra hcon
-    push_neg at hcon
-    haveI := hJp
+    push Not at hcon
+    have := hJp
     exact Group.IsPerfect.not_isMulCommutative J ⟨⟨hcon⟩⟩
   exact LocalCores.isQuasisimple_of_mulEquiv eIJ.symm
     (LocalCores.isQuasisimple_of_isSimpleGroup hna).1

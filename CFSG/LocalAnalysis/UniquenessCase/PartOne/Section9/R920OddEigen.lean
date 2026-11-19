@@ -53,7 +53,7 @@ theorem orderOf_le_finrank_of_conj_of_ne_one {k M : Type*} [Field k] [AddCommGro
     by_contra h
     push Not at h
     exact hc1 (LinearMap.ext fun v => by rw [h v, Module.End.one_apply])
-  haveI : Nontrivial W := ⟨⟨⟨(c - 1) v, LinearMap.mem_range_self _ v⟩, 0, fun h => hv (by
+  have : Nontrivial W := ⟨⟨⟨(c - 1) v, LinearMap.mem_range_self _ v⟩, 0, fun h => hv (by
     have h' : (c - 1) v = 0 := congrArg Subtype.val h
     rwa [LinearMap.sub_apply, Module.End.one_apply, sub_eq_zero] at h')⟩⟩
   calc orderOf (lam : ZMod p) ≤ Module.finrank k W :=

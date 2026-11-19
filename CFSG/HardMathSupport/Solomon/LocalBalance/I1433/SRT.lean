@@ -137,11 +137,11 @@ theorem I1433SCfg.false_of_inner (c : I1433SCfg Q x J q) (hZ : Subgroup.center S
 theorem I1433SCfg.false_of_isSolvable (c : I1433SCfg Q x J q)
     (h : Group.IsSolvable ↥(Subgroup.centralizer ({x} : Set S))) : False := by
   have hcomp := c.comp
-  haveI : Group.IsSolvable ↥J :=
+  have : Group.IsSolvable ↥J :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hcomp.1)
       (Subgroup.inclusion_injective hcomp.1)
-  haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr (glaPComponent_perfect hcomp)
-  haveI : Nontrivial ↥J := ⟨⟨⟨x, c.mem⟩, 1, fun h1 => c.ne_one (congrArg Subtype.val h1)⟩⟩
+  have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr (glaPComponent_perfect hcomp)
+  have : Nontrivial ↥J := ⟨⟨⟨x, c.mem⟩, 1, fun h1 => c.ne_one (congrArg Subtype.val h1)⟩⟩
   exact Group.IsPerfect.not_isSolvable ↥J inferInstance
 
 section Families
@@ -156,7 +156,7 @@ theorem reeF4_commutator_le_inner {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] 
   obtain ⟨-, -, -, hcyc, -⟩ :=
     CFSG.ComponentClassification.UnbalancedCatalog.large_Ree_full_inner_field_automorphism_normal_form
       a ha K hK
-  letI : CommGroup (Outer (ReeTag.F4.reeGamma K a)) := IsCyclic.commGroup
+  let : CommGroup (Outer (ReeTag.F4.reeGamma K a)) := IsCyclic.commGroup
   rw [_root_.commutator_def, Subgroup.commutator_le]
   intro g₁ _ g₂ _
   rw [← QuotientGroup.eq_one_iff]
@@ -183,9 +183,9 @@ theorem reeF4_centralizer_isQuasisimple {a : ℕ} (ha : 1 ≤ a) {K : Type} [Fie
     (e : S ≃* ReeTag.F4.reeGamma K a) {x : S} (hx : orderOf x = 3) :
     CFSG.Open.IsQuasisimple ↥(Subgroup.centralizer ({x} : Set S)) := by
   classical
-  haveI : Finite (CFSG.Blueprint.Chevalley.ModGL ReeTag.F4.tag K) :=
+  have : Finite (CFSG.Blueprint.Chevalley.ModGL ReeTag.F4.tag K) :=
     CFSG.LieType.Chevalley.finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   have hex : orderOf (e x) = 3 := by
     rw [MulEquiv.orderOf_eq]
     exact hx
@@ -214,7 +214,7 @@ theorem reeF4_centralizer_isQuasisimple {a : ℕ} (ha : 1 ≤ a) {K : Type} [Fie
 
 theorem nonD4LieContraS_suzukiReeTits : NonD4LieContraS .suzukiReeTits := by
   intro S _ _ hs hna p hp hp3 idx hF hidx he hD Q x J q c
-  haveI := hs
+  have := hs
   have hZ : Subgroup.center S = ⊥ := b3Lie_center_eq_bot hna
   obtain ⟨d, hv⟩ := idx
   have hx3 : MulAut.conj x ^ 3 = 1 := by

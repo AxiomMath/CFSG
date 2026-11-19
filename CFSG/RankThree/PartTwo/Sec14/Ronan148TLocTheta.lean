@@ -65,7 +65,7 @@ theorem core_invariant {E : Subgroup (MulAut X)} [Finite X] (hEc : ∀ a ∈ E, 
   rwa [← pPrimeCoreOf_map_mulAut, hmap] at h1
 
 theorem finite_mulAut [Finite X] : Finite (MulAut X) :=
-  Finite.of_injective (fun σ : MulAut X => (σ : X → X)) fun a b h => MulEquiv.ext (congrFun h)
+  Finite.of_injective (fun σ : MulAut X => (σ : X → X)) fun _a _b h => MulEquiv.ext (congrFun h)
 
 theorem mem_fixE_of_autFix [Finite X] {E : Subgroup (MulAut X)} (hE9 : Nat.card E = 9)
     (hE3 : ∀ ε ∈ E, ε ^ 3 = 1) {ε₀ ε₁ : MulAut X} (h₀ : ε₀ ∈ E) (h₀1 : ε₀ ≠ 1) (h₁ : ε₁ ∈ E)
@@ -74,8 +74,8 @@ theorem mem_fixE_of_autFix [Finite X] {E : Subgroup (MulAut X)} (hE9 : Nat.card 
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Finite (MulAut X) := finite_mulAut
   have hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := fun a ha b hb =>
-    congrArg Subtype.val (IsPGroup.commutative_of_card_eq_prime_sq (p := 3)
-      (by rw [hE9]; norm_num) ⟨a, ha⟩ ⟨b, hb⟩)
+    congrArg Subtype.val ((IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3)
+      (by rw [hE9]; norm_num)).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   set F := Subgroup.zpowers ε₀ ⊔ Subgroup.zpowers ε₁ with hF
   have hFE : F ≤ E := sup_le (Subgroup.zpowers_le.mpr h₀) (Subgroup.zpowers_le.mpr h₁)
   have hz₀ : Nat.card (Subgroup.zpowers ε₀) = 3 := by
@@ -172,8 +172,8 @@ theorem eq_bot_of_loc [Finite X] {E : Subgroup (MulAut X)} (hE9 : Nat.card E = 9
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Finite (MulAut X) := finite_mulAut
   have hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := fun a ha b hb =>
-    congrArg Subtype.val (IsPGroup.commutative_of_card_eq_prime_sq (p := 3)
-      (by rw [hE9]; norm_num) ⟨a, ha⟩ ⟨b, hb⟩)
+    congrArg Subtype.val ((IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3)
+      (by rw [hE9]; norm_num)).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   by_contra hN1
   obtain ⟨ε₀, hε₀, hε₀1, hN0⟩ := hloc N hN3 hNE
   have hNfix : ¬ N ≤ fixE E := by
@@ -232,7 +232,7 @@ theorem eq_bot_of_loc [Finite X] {E : Subgroup (MulAut X)} (hE9 : Nat.card E = 9
   have hsol : Group.IsSolvable K :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hKT)
       (Subgroup.inclusion_injective hKT)
-  haveI := hKp
+  have := hKp
   have : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hK1
   exact Group.IsPerfect.not_isSolvable K hsol
 
@@ -297,8 +297,8 @@ theorem faithful_of_loc [Finite X] {E : Subgroup (MulAut X)} (hE9 : Nat.card E =
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Finite (MulAut X) := finite_mulAut
   have hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := fun a ha b hb =>
-    congrArg Subtype.val (IsPGroup.commutative_of_card_eq_prime_sq (p := 3)
-      (by rw [hE9]; norm_num) ⟨a, ha⟩ ⟨b, hb⟩)
+    congrArg Subtype.val ((IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3)
+      (by rw [hE9]; norm_num)).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   intro hK0
   have hO : pPrimeCoreOf 3 K = ⊥ := by
     refine eq_bot_of_loc hE9 hE3 hloc hfix hKE hKp hK1 hgen
@@ -323,7 +323,7 @@ theorem faithful_of_loc [Finite X] {E : Subgroup (MulAut X)} (hE9 : Nat.card E =
   have hsol : Group.IsSolvable K := by
     have := hP.isNilpotent
     infer_instance
-  haveI := hKp
+  have := hKp
   have : Nontrivial K := (Subgroup.nontrivial_iff_ne_bot K).mpr hK1
   exact Group.IsPerfect.not_isSolvable K hsol
 

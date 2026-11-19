@@ -53,8 +53,8 @@ theorem exists_e7_parent_le_phiTwoComp_of_prime_with_fixed_character
         iota (CFSG.SeitzReduction.E8Pilot.e7MinEquivAdjoint K y) = rootDiagUnit .E7 a →
         rootChar a beta = 1 := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : NeZero p := ⟨hp.ne_zero⟩
+  let : Fact p.Prime := ⟨hp⟩
+  let : NeZero p := ⟨hp.ne_zero⟩
   let theta := CFSG.SeitzReduction.E8Pilot.e7MinEquivAdjoint K
   let psi : adjointGroup .E7 K →* G := lambda.comp theta.symm.toMonoidHom
   have hlambda : Function.Injective lambda := by
@@ -132,13 +132,13 @@ theorem exists_e7_parent_le_phiTwoComp_of_prime_with_fixed_character
   let P : Subgroup (adjointGroup .E7 K) := R.map theta.toMonoidHom
   obtain ⟨phi, hphiinj, hphirange, -, -⟩ :=
     CFSG.ClassicalInvolution.Phan.PhanE.exists_e7_primitive_simpleNode (k := K) j
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K) := by
-    letI := Fintype.ofFinite K
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K) := by
+    let := Fintype.ofFinite K
     obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq
       (show 4 ≤ (Finset.univ : Finset K).card by
         simpa only [Finset.card_univ, ← Nat.card_eq_fintype_card] using hK)
     exact CFSG.LinearGroups.special_linear_dimension_two_perfect ⟨s, hs⟩
-  haveI : Group.IsPerfect R := by
+  have : Group.IsPerfect R := by
     rw [show R = phi.range from hphirange.symm]
     exact Group.IsPerfect.range (f := phi)
   have hperf : ⁅P, P⁆ = P := Subgroup.isPerfect_iff.mp
@@ -172,7 +172,7 @@ theorem exists_e7_parent_le_phiTwoComp_of_prime_with_fixed_character
       intro he
       have hh := congrArg (fun B : Matrix.SpecialLinearGroup (Fin 2) K =>
         (B : Matrix (Fin 2) (Fin 2) K) 0 1) he
-      simpa [A, CFSG.LieType.Steinberg.sl2Upper] using hh
+      simp [A, CFSG.LieType.Steinberg.sl2Upper] at hh
     intro he
     have hphiA : phi A ∈ R := by
       rw [show R = phi.range from hphirange.symm]
@@ -259,7 +259,7 @@ theorem exists_e7_parent_eq_phiTwoComp_of_prime_with_fixed_character
       (∀ x ∈ X, Units.map (entrywiseHom sigma.toRingHom) x = x) →
       X ≤ (adjointGroup .E7 K).map (baseChangeGL (algebraMap K (AlgebraicClosure K))) := by
     intro X hX hXC hXF
-    letI := hX
+    let := hX
     exact finite_fixed_le_map_adjointGroup_E7 sigma.toRingHom hsigma X hXC hXF
   obtain ⟨e⟩ := nonempty_mulEquiv_phiTwoComp hsigma hrat S.D.g0_mem hlang hbeta hwbeta
   let R := rankOne (e7Datum K).rootGroup j

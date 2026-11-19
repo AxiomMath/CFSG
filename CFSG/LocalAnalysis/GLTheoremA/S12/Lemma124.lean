@@ -26,7 +26,7 @@ theorem hyperplane_cases (h : Cfg12 G m p B x L D K) {B' : Subgroup G}
     (hB' : B' ∈ CFSG.SignalizerFunctorTheorem.Coprime.hyperplanes p D) :
     B' = Subgroup.zpowers x ∨ ∃ y ∈ D, y ∉ Subgroup.zpowers x ∧ B' = Subgroup.zpowers y := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card B' = p := by
     have h1 := hB'.2
     rw [h.card_D, sq] at h1
@@ -65,7 +65,7 @@ theorem hyper_data (h : Cfg12 G m p B x L D K) {y : G} (hy : y ∈ D) {T : Subgr
   refine ⟨hT₁2.to_le hle, hle.trans inf_le_right, le_normalizer_commutator hDT₁ hDx, ?_⟩
   exact (commutator_commutator_eq_of_isPGroup h.prime (isPGroup_zpowers_of_mem h.elem h.xD) hT₁2 h.odd hxN).symm
 
-theorem T_normalizes {y : G} {T : Subgroup G} (hTy : T ≤ Subgroup.centralizer ({y} : Set G)) (hxy : x ∈ Subgroup.centralizer ({y} : Set G))
+theorem T_normalizes {y : G} {T : Subgroup G} (hTy : T ≤ Subgroup.centralizer ({y} : Set G)) (_hxy : x ∈ Subgroup.centralizer ({y} : Set G))
     (hx : ∀ M : Subgroup G, GLAPComponent p (Subgroup.centralizer ({y} : Set G)) M → x ∈ Subgroup.normalizer (M : Set G))
     (hTx : T = ⁅T, Subgroup.zpowers x⁆) {M : Subgroup G}
     (hM : GLAPComponent p (Subgroup.centralizer ({y} : Set G)) M) : T ≤ Subgroup.normalizer (M : Set G) := by
@@ -99,6 +99,7 @@ theorem T_normalizes {y : G} {T : Subgroup G} (hTy : T ≤ Subgroup.centralizer 
   rw [commutatorElement_def]
   exact hcomm t (hTy ht) g hg M hM
 
+omit [Finite G] in
 theorem cover_X {X' M A : Subgroup G} (hM : GLAPComponent p X' M) (hAM : A ≤ M)
     (hcov : M = A ⊔ GLAPPrimeCoreOf p M) : A ⊔ Xc p M = M := by
   have hOM : GLAPPrimeCoreOf p M ≤ M := Subgroup.map_subtype_le _
@@ -109,6 +110,7 @@ theorem cover_X {X' M A : Subgroup G} (hM : GLAPComponent p X' M) (hAM : A ≤ M
   refine le_antisymm (sup_le hAM ((comm_primeCore_le_core M).trans hOM)) ?_
   exact L62.le_sup_of_perfect_cover (glaPComponent_perfect hM) hAM hcov.symm hOM hJO hJX le_rfl
 
+omit [Finite G] in
 theorem comm_le_of_cover {K M X V : Subgroup G} (hKX : K ⊔ X = M) (hKN : K ≤ Subgroup.normalizer (X : Set G))
     (hVN : V ≤ Subgroup.normalizer (X : Set G)) (hKV : ∀ k ∈ K, ∀ y ∈ V, k * y = y * k) :
     (⁅M, V⁆ : Subgroup G) ≤ X := by
@@ -131,6 +133,7 @@ theorem comm_le_of_cover {K M X V : Subgroup G} (hKX : K ⊔ X = M) (hKN : K ≤
     exact mul_mem hu h1
   exact (Subgroup.mem_normalizer_iff.1 (hKN hk) _).1 hu'
 
+omit [Finite G] in
 theorem comm_M_T {M T : Subgroup G} (hKx : K ≤ Subgroup.centralizer ({x} : Set G)) (hKX : K ⊔ Xc p M = M)
     (hxM : x ∈ Subgroup.normalizer (M : Set G)) (hTM : T ≤ Subgroup.normalizer (M : Set G))
     (hTx : T = ⁅T, Subgroup.zpowers x⁆) : (⁅M, T⁆ : Subgroup G) ≤ Xc p M := by
@@ -166,7 +169,7 @@ theorem cover_cs {M T : Subgroup G} (hT2 : IsPGroup 2 T) (hp : p.Prime) (hDp : I
     (hKX : K ⊔ Xc p M = M) (hTM : T ≤ Subgroup.normalizer (M : Set G)) (hDM : D ≤ Subgroup.normalizer (M : Set G))
     (hodd : Odd (Nat.card ↥(Xc p M))) (hMT : (⁅M, T⁆ : Subgroup G) ≤ Xc p M) :
     M = (M ⊓ Subgroup.centralizer ((T ⊔ D : Subgroup G) : Set G)) ⊔ Xc p M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hNO : Subgroup.normalizer (M : Set G) ≤ Subgroup.normalizer (GLAPPrimeCoreOf p M : Set G) :=
     normalizer_le_normalizer_glaPPrimeCoreOf p M
   have hMX : M ≤ Subgroup.normalizer ((Xc p M : Subgroup G) : Set G) :=
@@ -303,7 +306,7 @@ theorem F_le_K (h : Cfg12 G m p B x L D K) (hin : CommonInputs G p) {M A : Subgr
     (hKM : K ≤ M) (hcov : M = K ⊔ GLAPPrimeCoreOf p M) (hDA : D ≤ A) :
     GLAPLayer p (M ⊓ Subgroup.centralizer (A : Set G)) ≤ K := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Y := Subgroup.centralizer (D : Set G) with hY
   set O := GLAPPrimeCoreOf p M with hO
   set F := GLAPLayer p (M ⊓ Subgroup.centralizer (A : Set G)) with hF
@@ -437,7 +440,7 @@ theorem lemma124 (h : Cfg12 G m p B x L D K) (hin : Inputs124 G p) (hnn : NoNbr1
     rw [hn]
     exact Nat.Coprime.pow_right n ((Nat.coprime_primes hp Nat.prime_two).2 h.odd)
   have hsolv : Group.IsSolvable T := by
-    haveI := IsPGroup.isNilpotent hT2
+    have := IsPGroup.isNilpotent hT2
     infer_instance
   have hgen := CFSG.SignalizerFunctorTheorem.Coprime.commutator_eq_iSup_hyperplanes hp h.elem
     (by rw [h.card_D]) hTD hcop hsolv h.xD

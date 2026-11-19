@@ -186,7 +186,7 @@ theorem index_of_frame (hF : GGExcKGToralFrame) (hR0 : GGExcRegimeInput) {t : St
   classical
   have hp : p.Prime := hctx.prime
   have hp2 : p ≠ 2 := hctx.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hks : GGKnownSetting t n f ψ := ggKnownSetting_of_ctx hctx s1
   have hreg : GGExcRegime p f := hR0 G p B Bs x L D J t n f ψ ht hctx s1
   have hcard : p ^ 4 ≤ Nat.card Bs :=

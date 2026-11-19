@@ -76,7 +76,7 @@ private theorem fixes_image_of_centralizes_mod_pCore {L Q A : Subgroup G} {H : T
     (Subgroup.mem_normalizer_iff.mp hcL (a : G)).mp a.2⟩
   have hy : y = q * a := by
     apply Subtype.ext
-    simp only [y, q, Subgroup.coe_mul, Subgroup.coe_mk]
+    simp only [y, q, Subgroup.coe_mul]
     group
   have hαq : α q = 1 := (hker q).mpr (by simpa [q] using hcA (a : G) haA)
   have h := hθ a y rfl
@@ -131,8 +131,7 @@ theorem exists_mul_inv_commutator_mem_pCoreOf_of_isL2Quot_of_commutator_mem {L T
   have hmem : ((y * x⁻¹ : ↥L) : G) ∈ Q :=
     (hker (y * x⁻¹)).mp (by rw [map_mul, map_inv, hαy, mul_inv_cancel])
   have hval : ((y * x⁻¹ : ↥L) : G) = ⁅c * (a : G)⁻¹, l⁆ := by
-    simp only [y, z, x, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk,
-      inv_inv, commutatorElement_def]
+    simp only [y, z, x, Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]
     group
   rw [hval] at hmem
   simpa [Q] using hmem
@@ -145,6 +144,6 @@ theorem exists_mul_inv_commutator_mem_pCoreOf_of_isL2Quot {L T A : Subgroup G} [
   refine exists_mul_inv_commutator_mem_pCoreOf_of_isL2Quot_of_commutator_mem hq hT hA hAT hcL
     (fun a ha => ?_)
   have h : c * a * c⁻¹ * a⁻¹ = 1 := by rw [hcA a ha]; group
-  simpa [h] using (pCoreOf 2 L).one_mem
+  simp [h]
 
 end CFSG.Quasithin.F112R.St84

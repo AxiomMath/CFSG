@@ -206,7 +206,7 @@ theorem twin_eq {g : AE6Om} (hg : g ∈ CZ) : ∃ p ∈ twinPairs (), ∀ x : AE
   refine ⟨p, hp, fun x => ?_⟩
   rw [mem_conjSub_K0_iff, ← hpe, conjSub_mul, CFSG.ClassicalInvolution.Asc77.conjSub_closure_pair,
     CFSG.ClassicalInvolution.Asc77.conjSub_closure_pair]
-  simp only [mul_assoc, inv_mul_cancel_left, mul_inv_rev, inv_inv]
+  simp only [mul_assoc, inv_mul_cancel_left, inv_inv]
 
 theorem ncard_twins_le :
     Set.ncard {J' | ∃ c ∈ CZ, conjSub c ae6ModelK = J'} ≤ 4 := by

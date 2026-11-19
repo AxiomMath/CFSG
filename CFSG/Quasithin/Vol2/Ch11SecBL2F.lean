@@ -67,7 +67,7 @@ theorem l2Faithful_holds : L2Faithful := by
   have hKV : K ≤ Subgroup.centralizer (conjClosure Z H : Set G) := by
     rw [Subgroup.commutator_comm] at hVK
     exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp hVK
-  have hHV := le_centralizer_of_isTwoReducedIn hV hS.gen S.isPGroup' hKV
+  have hHV := le_centralizer_of_isTwoReducedIn hV hS.gen S.isPGroup hKV
   have hZH : Z ≤ Subgroup.centralizer (H : Set G) :=
     (le_conjClosure Z H).trans (Subgroup.le_centralizer_iff.mp hHV)
   exact Subgroup.commutator_eq_bot_iff_le_centralizer.mpr hZH

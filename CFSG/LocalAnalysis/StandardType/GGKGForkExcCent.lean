@@ -40,17 +40,17 @@ private noncomputable def ggKGEx_w0 (τ : Tag) : WeylGroup τ :=
 private theorem ggKGEx_w0_smul_E7
     (i : Fin Tag.E7.rank) :
     ggKGEx_w0 .E7 • (Pi.single i 1 : Fin Tag.E7.rank → ℤ) = -Pi.single i 1 := by
-  fin_cases i <;> (rw [ggKGEx_w0, wordProd_smul] <;> decide +kernel)
+  fin_cases i <;> (rw [ggKGEx_w0, wordProd_smul]; decide +kernel)
 
 private theorem ggKGEx_w0_smul_E8
     (i : Fin Tag.E8.rank) :
     ggKGEx_w0 .E8 • (Pi.single i 1 : Fin Tag.E8.rank → ℤ) = -Pi.single i 1 := by
-  fin_cases i <;> (rw [ggKGEx_w0, wordProd_smul] <;> decide +kernel)
+  fin_cases i <;> (rw [ggKGEx_w0, wordProd_smul]; decide +kernel)
 
 private theorem ggKGEx_w0_smul_F4
     (i : Fin Tag.F4.rank) :
     ggKGEx_w0 .F4 • (Pi.single i 1 : Fin Tag.F4.rank → ℤ) = -Pi.single i 1 := by
-  fin_cases i <;> (rw [ggKGEx_w0, wordProd_smul] <;> decide +kernel)
+  fin_cases i <;> (rw [ggKGEx_w0, wordProd_smul]; decide +kernel)
 
 def ggKGEx_phi : Equiv.Perm (Fin Tag.E6.rank) :=
   Equiv.swap ⟨0, by decide⟩ ⟨5, by decide⟩ * Equiv.swap ⟨2, by decide⟩ ⟨4, by decide⟩
@@ -59,7 +59,7 @@ private theorem ggKGEx_w0_smul_E6
     (i : Fin Tag.E6.rank) :
     ggKGEx_w0 .E6 • (Pi.single i 1 : Fin Tag.E6.rank → ℤ) = -Pi.single (ggKGEx_phi i) 1 := by
   fin_cases i <;>
-    (rw [ggKGEx_w0, wordProd_smul] <;> decide +kernel)
+    (rw [ggKGEx_w0, wordProd_smul]; decide +kernel)
 
 private theorem ggKGEx_w0_reversesSigns
     (τ : Tag) (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8 ∨ τ = .F4) :
@@ -163,7 +163,7 @@ private theorem ggKGEx_mem_image_of_fixed_pow
       rcases (Nat.dvd_prime hp).1 (orderOf_dvd_of_pow_eq_one hrp) with h | h
       · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h, pow_zero])
       · exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h, pow_one])
-    haveI : Finite X := hXfin
+    have : Finite X := hXfin
     obtain ⟨-, hgrp⟩ := finite_fixed_subgroup_rational 3 (Or.inl ⟨rfl, rfl⟩) Fr hFr X hXC hXF
     have := hτ6 rfl
     exact hgrp p hp (by omega) X le_rfl hXp (Subgroup.mem_zpowers r)
@@ -182,7 +182,7 @@ private theorem ggKGEx_mem_image_of_fixed_pow
       rcases (Nat.dvd_prime hp).1 (orderOf_dvd_of_pow_eq_one hrp) with h | h
       · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h, pow_zero])
       · exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h, pow_one])
-    haveI : Finite X := hXfin
+    have : Finite X := hXfin
     obtain ⟨hidx, -⟩ :=
       finite_fixed_subgroup_rational 2 (Or.inr (Or.inl ⟨rfl, rfl⟩)) Fr hFr X hXC hXF
     exact ggKGEx_le_of_relIndex_dvd hp (by omega) hXp (Or.inr rfl) hidx (Subgroup.mem_zpowers r)
@@ -201,7 +201,7 @@ private theorem ggKGEx_mem_image_of_fixed_pow
       rcases (Nat.dvd_prime hp).1 (orderOf_dvd_of_pow_eq_one hrp) with h | h
       · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h, pow_zero])
       · exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h, pow_one])
-    haveI : Finite X := hXfin
+    have : Finite X := hXfin
     obtain ⟨hidx, -⟩ :=
       finite_fixed_subgroup_rational 1 (Or.inr (Or.inr ⟨rfl, rfl⟩)) Fr hFr X hXC hXF
     exact ggKGEx_le_of_relIndex_dvd hp (by omega) hXp (Or.inl rfl) hidx (Subgroup.mem_zpowers r)
@@ -287,7 +287,7 @@ theorem ggKGEx_hact_w_one
   funext i
   obtain ⟨k, hk⟩ := hpq
   have hpos : 0 < Nat.card K := by
-    haveI : Nonempty K := ⟨0⟩
+    have : Nonempty K := ⟨0⟩
     exact Nat.card_pos
   have hq : Nat.card K = p * k + 1 := by omega
   rw [ggKGEx_units_map_fr_eq_pow Fr hFr (b i), hq, pow_add, pow_mul, hb i, one_pow, one_mul,
@@ -305,7 +305,7 @@ theorem ggKGEx_hact_w_neg
   funext i
   obtain ⟨k, hk⟩ := hpq
   have hpos : 0 < Nat.card K := by
-    haveI : Nonempty K := ⟨0⟩
+    have : Nonempty K := ⟨0⟩
     exact Nat.card_pos
   have hq : Nat.card K = p * k - 1 := by omega
   have hpk : 1 ≤ p * k := by omega
@@ -322,7 +322,7 @@ theorem ggKGEx_hact_w_phi
   funext i
   obtain ⟨k, hk⟩ := hpq
   have hpos : 0 < Nat.card K := by
-    haveI : Nonempty K := ⟨0⟩
+    have : Nonempty K := ⟨0⟩
     exact Nat.card_pos
   have hq : Nat.card K = p * k - 1 := by omega
   have hpk : 1 ≤ p * k := by omega
@@ -444,7 +444,7 @@ theorem ggKGExc_centralizer_eq
         mul_mem (mul_mem (inv_mem F.D.g0_mem)
           (CFSG.LieType.Chevalley.baseChangeGL_mem_adjointGroup (algebraMap K (AlgebraicClosure K))
             x.property)) F.D.g0_mem
-      haveI : CharP (AlgebraicClosure K) 2 :=
+      have : CharP (AlgebraicClosure K) 2 :=
         charP_of_injective_ringHom (algebraMap K (AlgebraicClosure K)).injective 2
       obtain ⟨ζu, hζu⟩ :=
         CFSG.LieType.SeitzGeneration.exists_primitiveRoot_units (L := AlgebraicClosure K) (ℓ := 2)

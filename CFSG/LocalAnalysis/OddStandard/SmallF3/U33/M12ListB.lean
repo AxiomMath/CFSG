@@ -89,16 +89,13 @@ private lemma four_inv_check :
 private lemma pow_mx1_even_mem (a : Fin 4) (ha : a = 0 ∨ a = 2) :
     mx₁ ^ a.val ∈ fourGrp mx₁ mx₂ := by
   rcases ha with rfl | rfl
-  · change mx₁ ^ (0 : Fin 4).val ∈ fourGrp mx₁ mx₂
-    simp
-  · change mx₁ ^ (2 : Fin 4).val ∈ fourGrp mx₁ mx₂
-    exact Subgroup.subset_closure (by simp)
+  · simp
+  · exact Subgroup.subset_closure (by simp)
 
 private lemma pow_mx2_even_mem (b : Fin 4) (hb : b = 0 ∨ b = 2) :
     mx₂ ^ b.val ∈ fourGrp mx₁ mx₂ := by
   rcases hb with rfl | rfl
-  · change mx₂ ^ (0 : Fin 4).val ∈ fourGrp mx₁ mx₂
-    simp
+  · simp
   · change mx₂ ^ 2 ∈ fourGrp mx₁ mx₂
     have h2 : mx₂ ^ 2 = (mx₁ * mx₂) ^ 2 * mx₁ ^ 2 := by decide +kernel
     rw [h2]

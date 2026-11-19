@@ -81,9 +81,9 @@ theorem three_mul_lieOrderNumerator_psu_dvd {n : ℕ} (hn : 2 ≤ n) (x : ℕ) :
       (if Even i then (x ^ 3) ^ i - 1 else (x ^ 3) ^ i + 1) := by
     intro i
     by_cases hi : Even i
-    · simp only [hi, if_true]
+    · simp only [hi, ite_true]
       simpa [← pow_mul, mul_comm] using Nat.sub_dvd_pow_sub_pow (x ^ i) 1 3
-    · simp only [hi, if_false]
+    · simp only [hi, ite_false]
       simpa [← pow_mul, mul_comm] using
         Odd.nat_add_dvd_pow_add_pow (x ^ i) 1 (n := 3) (by decide)
   rw [lieOrderNumerator_psu, lieOrderNumerator_psu]

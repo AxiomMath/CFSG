@@ -50,7 +50,7 @@ private lemma ggQ2nP2_cube {V : Type*} [AddCommGroup V] [Module (ZMod 3) V]
 private lemma ggQ2nP2_odd {G : Type*} [Group G] [Finite G]
     (K : Subgroup G) (hK : ∀ x ∈ K, x ^ 3 = 1) : ¬ 2 ∣ Nat.card ↥K := by
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 2 h2
   have hx3 : orderOf x ∣ 3 := by
     apply orderOf_dvd_of_pow_eq_one
@@ -109,7 +109,7 @@ private lemma ggQ2nP2_Zspan {V : Type*} [AddCommGroup V] [Module (ZMod 3) V] [Fi
 private lemma ggQ2nP2_finite_le {V : Type*} [AddCommGroup V] [Module (ZMod 3) V] [Finite V] :
     Finite (V ≃ₗ[ZMod 3] V) :=
   Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
-    (fun e₁ e₂ h => LinearEquiv.ext (fun x => congrFun h x))
+    (fun _e₁ _e₂ h => LinearEquiv.ext (fun x => congrFun h x))
 
 private lemma ggQ2nP2_case_two {V : Type*} [AddCommGroup V] [Module (ZMod 3) V] [Finite V]
     (Z F : Submodule (ZMod 3) V) (H : Subgroup (V ≃ₗ[ZMod 3] V))
@@ -118,7 +118,7 @@ private lemma ggQ2nP2_case_two {V : Type*} [AddCommGroup V] [Module (ZMod 3) V] 
     (u : V) (huZ : u ∈ Z) (hu_notmem : u ∉ Submodule.span (ZMod 3) ({w} : Set V))
     (hZ2 : Module.finrank (ZMod 3) Z = 2) :
     padicValNat 2 (Nat.card ↥H) ≤ 1 := by
-  haveI : Finite (V ≃ₗ[ZMod 3] V) := ggQ2nP2_finite_le
+  have : Finite (V ≃ₗ[ZMod 3] V) := ggQ2nP2_finite_le
   have hZspan : Z = Submodule.span (ZMod 3) ({w, u} : Set V) :=
     ggQ2nP2_Zspan Z w u hwZ huZ hw0 hu_notmem hZ2
   obtain ⟨lam, hlamw, hlamu⟩ := ggQ2nP2_functional w u hu_notmem
@@ -153,8 +153,7 @@ private lemma ggQ2nP2_case_two {V : Type*} [AddCommGroup V] [Module (ZMod 3) V] 
     obtain ⟨a, b, hab⟩ := Submodule.mem_span_pair.mp (hνu_span ν)
     have hb : b = 0 := by
       have h := congrArg (fun x => lam x) hab
-      simp only [map_add, map_smul, hlamw, hlamu, smul_zero, zero_add,
-        smul_eq_mul, mul_one] at h
+      simp only [map_add, map_smul, hlamw, hlamu, smul_eq_mul, mul_one] at h
       rw [h0] at h
       simpa using h
     apply hνu_notmem ν
@@ -174,14 +173,14 @@ private lemma ggQ2nP2_case_two {V : Type*} [AddCommGroup V] [Module (ZMod 3) V] 
       have hν₁w : ν₁.1 w = w := (hH ν₁.1 ν₁.2).2 w hwF
       have hlam₂ : lam (ν₂.1 u) = b₂ := by
         have h := congrArg (fun x => lam x) hab₂
-        simp only [map_add, map_smul, hlamw, hlamu, smul_zero, mul_zero,
+        simp only [map_add, map_smul, hlamw, hlamu, mul_zero,
           zero_add, smul_eq_mul, mul_one] at h
         exact h.symm
       have hLHS : lam ((ν₁ * ν₂).1 u) = b₂ * lam (ν₁.1 u) := by
         have hcomp : (ν₁ * ν₂).1 u = ν₁.1 (ν₂.1 u) := rfl
         rw [hcomp, ← hab₂]
-        simp only [map_add, map_smul, hν₁w, hlamw, hlamu, smul_zero, mul_zero,
-          zero_add, smul_eq_mul, mul_one]
+        simp only [map_add, map_smul, hν₁w, hlamw, mul_zero,
+          zero_add, smul_eq_mul]
       rw [hLHS, hlam₂]
       ring }
   have hker_cube : ∀ x ∈ χ.ker, x ^ 3 = 1 := by
@@ -195,8 +194,7 @@ private lemma ggQ2nP2_case_two {V : Type*} [AddCommGroup V] [Module (ZMod 3) V] 
       obtain ⟨a, b, hab⟩ := Submodule.mem_span_pair.mp (hνu_span x)
       have hb : b = 1 := by
         have h := congrArg (fun y => lam y) hab
-        simp only [map_add, map_smul, hlamw, hlamu, smul_zero, zero_add,
-          smul_eq_mul, mul_one] at h
+        simp only [map_add, map_smul, hlamw, hlamu, smul_eq_mul, mul_one] at h
         rw [hlam1] at h
         simpa using h
       have hNw : ((x.1 : V →ₗ[ZMod 3] V) - 1) w = 0 := by
@@ -228,7 +226,7 @@ private lemma ggQ2nP2_case_two {V : Type*} [AddCommGroup V] [Module (ZMod 3) V] 
     exact Nat.card_ne_zero.mpr ⟨hne, inferInstance⟩
   have h2units : Nat.card ((ZMod 3)ˣ) = 2 := by
     rw [Nat.card_eq_fintype_card]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     simpa using ZMod.card_units 3
   have hR_dvd : Nat.card ↥χ.range ∣ 2 := by
     have h := Subgroup.card_subgroup_dvd_card χ.range
@@ -246,7 +244,7 @@ private lemma ggQ2nP2_case_one {V : Type*} [AddCommGroup V] [Module (ZMod 3) V] 
     (w : V) (hwZ : w ∈ Z) (hwF : w ∈ F) (hw0 : w ≠ 0)
     (hZ1 : Module.finrank (ZMod 3) Z = 1) :
     padicValNat 2 (Nat.card ↥H) ≤ 1 := by
-  haveI : Finite (V ≃ₗ[ZMod 3] V) := ggQ2nP2_finite_le
+  have : Finite (V ≃ₗ[ZMod 3] V) := ggQ2nP2_finite_le
   have hZspan : Z = Submodule.span (ZMod 3) ({w} : Set V) :=
     eq_span_singleton_of_mem_of_finrank_eq_one hZ1 hwZ hw0
   have hcube : ∀ ν ∈ H, ν ^ 3 = 1 := by

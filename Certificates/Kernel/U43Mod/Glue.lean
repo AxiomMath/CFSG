@@ -41,7 +41,7 @@ theorem surjB_letters : ∀ l ∈ surjB, l.1 < 5 := by decide
 
 @[expose] noncomputable def m4 (i : ℕ) : Equiv.Perm (Fin 820) := if i < 4 then m5 i else 1
 
-theorem m4_eq {i : ℕ} (hi : i < 4) : m4 i = m5 i := if_pos hi
+theorem m4_eq {i : ℕ} (hi : i < 4) : m4 i = m5 i := ite_eq_left hi
 
 theorem evalG_m4 {w : List (ℕ × Bool)} (hw : ∀ l ∈ w, l.1 < 4) : evalG m4 w = evalG m5 w :=
   evalG_congr w fun l hl => m4_eq (hw l hl)
@@ -210,7 +210,7 @@ theorem sig_facts : m5 1 ^ 3 = 1 ∧ m5 1 * evalG m5 sig2W = evalG m5 sig2W * m5
   have h3 := rel4 cube_mem
   have hc := rel4 commW_mem
   simp only [evalG, commW, sig2W, List.map, letterVal, List.prod_cons, List.prod_nil,
-    if_true, if_false, Bool.false_eq_true, ↓reduceIte, mul_one] at h3 hc ⊢
+    Bool.false_eq_true, ↓reduceIte, mul_one] at h3 hc ⊢
   refine ⟨by rw [pow_three]; exact h3, ?_⟩
   set s := m5 1
   set u := m5 2
@@ -223,8 +223,7 @@ theorem card_H4 : Nat.card H4 = 1152 := by
   have hs : m5 1 ∈ H4 := by rw [← m4_eq (by norm_num)]; exact m4_mem_H4 (by norm_num)
   have ht : evalG m5 sig2W ∈ H4 := evalG_mem_H4 (by decide)
   have ht3 : evalG m5 sig2W ^ 3 = 1 := by
-    simp only [evalG, sig2W, List.map, letterVal, List.prod_cons, List.prod_nil, if_true,
-      Bool.false_eq_true, ↓reduceIte, mul_one]
+    simp only [evalG, sig2W, List.map, letterVal, List.prod_cons, List.prod_nil, Bool.false_eq_true, ↓reduceIte, mul_one]
     have e : ((m5 2)⁻¹ * (m5 1 * m5 2)) ^ 3 = (m5 2)⁻¹ * m5 1 ^ 3 * m5 2 := by
       simp only [pow_three]
       group

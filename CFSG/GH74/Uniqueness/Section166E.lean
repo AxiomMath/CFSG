@@ -249,7 +249,7 @@ theorem cor166e
   have hcyc : ∀ Sy : Sylow 2 ↥Y, IsCyclic (Sy : Subgroup ↥Y) := by
     intro Sy
     have hmap : IsCyclic ((Sy : Subgroup ↥Y).map Y.subtype) :=
-      isCyclic_of_isPGroup S c h163 h164 h165 hB (Sy.isPGroup'.map Y.subtype) (fun x hx => by
+      isCyclic_of_isPGroup S c h163 h164 h165 hB (Sy.isPGroup.map Y.subtype) (fun x hx => by
         obtain ⟨y, -, rfl⟩ := hx
         exact hYZ y y.2)
     exact isCyclic_of_surjective

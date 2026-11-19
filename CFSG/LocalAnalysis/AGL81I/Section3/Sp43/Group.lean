@@ -60,7 +60,7 @@ theorem symp_mulF {a b : ℕ} (ha : Symp a) (hb : Symp b) : Symp (mulF a b) := b
 theorem coe_ofCode {c : ℕ} (hc : Symp c) :
     ((ofCode c : G) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) (ZMod 3)) = toM c := by
   unfold ofCode
-  rw [dif_pos hc]
+  rw [dite_eq_left hc]
 
 theorem ofCode_oneC : ofCode oneC = 1 := by
   apply Subtype.ext

@@ -151,9 +151,9 @@ private def a5ConjSub {X : Type} [Group X] {K : Subgroup X} {e : X}
   { toFun := fun k => ⟨e * (k : X) * e⁻¹, (Subgroup.mem_set_normalizer_iff.mp heK (k : X)).mp k.2⟩
     invFun := fun k =>
       ⟨e⁻¹ * (k : X) * e, (Subgroup.mem_set_normalizer_iff''.mp heK (k : X)).mp k.2⟩
-    left_inv := fun k => by ext; simp only [Subgroup.coe_mk]; group
-    right_inv := fun k => by ext; simp only [Subgroup.coe_mk]; group
-    map_mul' := fun k l => by ext; simp only [Subgroup.coe_mk, Subgroup.coe_mul]; group }
+    left_inv := fun k => by ext; simp only; group
+    right_inv := fun k => by ext; simp only; group
+    map_mul' := fun k l => by ext; simp only [Subgroup.coe_mul]; group }
 
 private theorem a5_conjSub_apply {X : Type} [Group X] {K : Subgroup X} {e : X}
     (heK : e ∈ Subgroup.normalizer (K : Set X)) (k : ↥K) :
@@ -293,7 +293,7 @@ theorem eq_top_of_forall_commutator_le_a5 {K : Type} [Group K] [Finite K]
     rwa [a5_comm_C2] at h
   set H' : Subgroup (alternatingGroup (Fin 5)) := H.map ψ.toMonoidHom
   have hp3 : 3 ∣ Nat.card H' := a5_prime_dvd (mul_mem hA1 hC2) a5_p3 a5_p3_ne
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hp5 : 5 ∣ Nat.card H' := a5_prime_dvd (mul_mem hA1 hA2) a5_p5 a5_p5_ne
   have hW1 : a5W1 ≤ H' := by
     intro x hx

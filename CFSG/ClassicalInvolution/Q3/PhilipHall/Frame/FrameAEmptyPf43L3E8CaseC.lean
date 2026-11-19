@@ -56,7 +56,7 @@ theorem normalizer_rightConjugate_ht_le (cfg : L3E8Cfg K z J zJ H Q E S) (x : T)
     rw [Subgroup.mem_normalizer_iff] at hy ⊢
     intro w
     have := hy (x⁻¹ * w * x)
-    simp only [SetLike.mem_coe, mem_rightConjugate_iff] at this ⊢
+    simp only [mem_rightConjugate_iff] at this ⊢
     rw [show x * (x⁻¹ * w * x) * x⁻¹ = w by group,
       show x * (y * (x⁻¹ * w * x) * y⁻¹) * x⁻¹ = x * y * x⁻¹ * w * (x * y * x⁻¹)⁻¹ by group]
       at this
@@ -65,7 +65,7 @@ theorem normalizer_rightConjugate_ht_le (cfg : L3E8Cfg K z J zJ H Q E S) (x : T)
   rw [Subgroup.mem_normalizer_iff] at h2 ⊢
   intro w
   have := h2 (x * w * x⁻¹)
-  simp only [SetLike.mem_coe, mem_rightConjugate_iff] at this ⊢
+  simp only [mem_rightConjugate_iff] at this ⊢
   rw [show x * y * x⁻¹ * (x * w * x⁻¹) * (x * y * x⁻¹)⁻¹ = x * (y * w * y⁻¹) * x⁻¹ by group]
     at this
   exact this
@@ -74,7 +74,7 @@ private theorem exists_involution_comm_of_mem_normalizer {A : Subgroup T} {y : T
     (hy2 : IsPGroup 2 (Subgroup.zpowers y)) (hyN : y ∈ Subgroup.normalizer (A : Set T))
     (hA : 2 ∣ Nat.card A) : ∃ f ∈ A, f * f = 1 ∧ f ≠ 1 ∧ f * y = y * f := by
   have hle : Subgroup.zpowers y ≤ Subgroup.normalizer (A : Set T) := Subgroup.zpowers_le.mpr hyN
-  letI : MulDistribMulAction (Subgroup.zpowers y) A :=
+  let : MulDistribMulAction (Subgroup.zpowers y) A :=
     MulDistribMulAction.compHom A (Subgroup.inclusion hle)
   have hdvd : 2 ∣ Nat.card (FixedPoints.subgroup (Subgroup.zpowers y) A) :=
     Nat.modEq_zero_iff_dvd.mp ((hy2.card_modEq_card_fixedPoints A).symm.trans hA.modEq_zero_nat)

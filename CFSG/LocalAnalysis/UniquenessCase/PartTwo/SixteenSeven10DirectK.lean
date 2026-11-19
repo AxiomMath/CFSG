@@ -11,7 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 variable {T : Type} [CommGroup T] [Finite T]
 
 private theorem s16c1610_dK_dParam_three : dParam 3 = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold dParam
   exact orderOf_eq_prime (by decide) (by decide)
 
@@ -31,6 +31,7 @@ private theorem s16c1610_dK_rank_comm_pow {p n : ℕ} {P : Type} [Group P]
     ext i
     simp
 
+omit [Finite T] in
 private theorem s16c1610_dK_eq_one_of_fix_summands {ι : Type} {Y : ι → Subgroup T}
     (hsup : ⨆ i, Y i = ⊤) {x : MulAut T} (h : ∀ i, ∀ v ∈ Y i, x v = v) : x = 1 := by
   have hle : (⨆ i, Y i) ≤ fixV (Subgroup.zpowers x) :=
@@ -180,6 +181,7 @@ private theorem s16c1610_dK_fix_of_conj_eq {ι : Type} {Y : ι → Subgroup T} {
   · rw [← hca_apply y, hay]
   · exact haz
 
+omit [Finite T] in
 private theorem s16c1610_dK_phi_fix {ι : Type} {A : Subgroup (MulAut T)} {Y : ι → Subgroup T}
     (hAY : ∀ a ∈ A, ∀ s, (Y s).map a.toMonoidHom = Y s) {c : MulAut T} {a : ↥A} {s : ι}
     (hcl : ∀ v ∈ Y s, c v = v) :
@@ -199,6 +201,7 @@ private theorem s16c1610_dK_phi_fix {ι : Type} {A : Subgroup (MulAut T)} {Y : �
   rw [show c ((a : MulAut T) v) = (a : MulAut T) v from hcl _ hav]
   simp
 
+omit [Finite T] in
 private theorem s16c1610_dK_conj_mem {ι : Type} {A X : Subgroup (MulAut T)}
     {Y : ι → Subgroup T}
     (hAn : ∀ m ∈ X, ∀ a ∈ A, m * a * m⁻¹ ∈ A)
@@ -218,6 +221,7 @@ private theorem s16c1610_dK_conj_mem {ι : Type} {A X : Subgroup (MulAut T)}
     _ = g v0 := by rw [hfixv0]
     _ = v := hgv0
 
+omit [Finite T] in
 private theorem s16c1610_dK_conj_mem_iff {ι : Type} {A X : Subgroup (MulAut T)}
     {Y : ι → Subgroup T}
     (hAn : ∀ m ∈ X, ∀ a ∈ A, m * a * m⁻¹ ∈ A)
@@ -231,7 +235,7 @@ private theorem s16c1610_dK_conj_mem_iff {ι : Type} {A X : Subgroup (MulAut T)}
     have hgt : (Y t).map (g⁻¹).toMonoidHom = Y s := by
       have hcomp : (g⁻¹).toMonoidHom.comp g.toMonoidHom = MonoidHom.id T := by
         ext x
-        simp [MulAut.mul_apply]
+        simp
       rw [← hgst, Subgroup.map_map, hcomp, Subgroup.map_id]
     have hA' : g * a * g⁻¹ ∈ A := hAn g hg a ha
     have h2 := (s16c1610_dK_conj_mem hAn (X.inv_mem hg) hgt hA' h).2
@@ -240,10 +244,10 @@ private theorem s16c1610_dK_conj_mem_iff {ι : Type} {A X : Subgroup (MulAut T)}
 
 theorem s16c1610_false_of_involution_on_two (hT : ∀ t : T, t ^ 2 = 1) {ι : Type} [Fintype ι]
     {Y : ι → Subgroup T} {X A : Subgroup (MulAut T)} (hY : SymSumFamily X Y 3 2)
-    (hA : IsElemAbelianOfRank 3 3 ↥A) (hAX : A ≤ X)
+    (hA : IsElemAbelianOfRank 3 3 ↥A) (_hAX : A ≤ X)
     (hAn : ∀ m ∈ X, ∀ a ∈ A, m * a * m⁻¹ ∈ A) (hAY : ∀ a ∈ A, ∀ s, (Y s).map a.toMonoidHom = Y s)
     {c : MulAut T} (hcX : c ∈ X) (hc2 : c ^ 2 = 1) (hcY : ∀ s, (Y s).map c.toMonoidHom = Y s)
-    {i j l m : ι} (hij : i ≠ j) (hil : i ≠ l) (him : i ≠ m) (hjl : j ≠ l) (hjm : j ≠ m)
+    {i j l m : ι} (hij : i ≠ j) (_hil : i ≠ l) (_him : i ≠ m) (_hjl : j ≠ l) (_hjm : j ≠ m)
     (hlm : l ≠ m) (hci : ∃ y ∈ Y i, c y ≠ y) (hcj : ∃ y ∈ Y j, c y ≠ y)
     (hcl : ∀ y ∈ Y l, c y = y) (hcm : ∀ y ∈ Y m, c y = y) : False := by
   classical
@@ -411,7 +415,7 @@ theorem s16c1610_false_of_involution_on_two (hT : ∀ t : T, t ^ 2 = 1) {ι : Ty
       exact (mem_centSub.mp (Subgroup.mem_inf.mp hat).2) v hv
     have h1 : Nat.card ↥(A ⊓ centSub (Y s)) = 1 := by rw [hbot]; simp
     exact absurd h1 (by rw [hAs_card s]; norm_num)
-  letI : CommGroup ↥A := { (inferInstance : Group ↥A) with mul_comm := hAcomm }
+  let : CommGroup ↥A := { (inferInstance : Group ↥A) with mul_comm := hAcomm }
   let conj : ↥A →* ↥A :=
     { toFun := fun a => ⟨c * (a : MulAut T) * c⁻¹, hAn c hcX a.1 a.2⟩
       map_one' := by ext; simp

@@ -32,6 +32,7 @@ variable (π : G →* Q) (hker : π.ker ≤ Subgroup.center G) (α : MulAut G) (
   (hαβ : ∀ k, π (α k) = β (π k)) (hπ : Function.Surjective π)
 include hker hαβ hπ
 
+omit [Finite G] [Finite Q] hπ in
 theorem i253_conjFix {k : G} (hk : π k ∈ fixSubgroup β) : ∃ e : ↥(fixSubgroup α) ≃* ↥(fixSubgroup α),
     ∀ f, ((e f : ↥(fixSubgroup α)) : G) = k * f * k⁻¹ := by
   have hk' : π k⁻¹ ∈ fixSubgroup β := by
@@ -44,6 +45,7 @@ theorem i253_conjFix {k : G} (hk : π k ∈ fixSubgroup β) : ∃ e : ↥(fixSub
             right_inv := fun f => Subtype.ext (by simp [mul_assoc])
             map_mul' := fun f g => Subtype.ext (by simp [mul_assoc]) }, fun f => rfl⟩
 
+omit [Finite Q] in
 theorem i253_map_primeCoreOf {y : G} (hy : y ∈ GLAPPrimeCoreOf 3 (fixSubgroup α)) :
     π y ∈ GLAPPrimeCoreOf 3 (fixSubgroup β) := by
   obtain ⟨y0, hy0, rfl⟩ := hy
@@ -56,7 +58,7 @@ theorem i253_map_primeCoreOf {y : G} (hy : y ∈ GLAPPrimeCoreOf 3 (fixSubgroup 
     obtain ⟨s0, hs0, rfl⟩ := hs
     obtain ⟨k, hk⟩ := hπ (g : Q)
     have hkF : π k ∈ fixSubgroup β := by rw [hk]; exact g.2
-    obtain ⟨e, he⟩ := i253_conjFix π hker α β hαβ hπ hkF
+    obtain ⟨e, he⟩ := i253_conjFix π hker α β hαβ hkF
     have hmap := CFSG.pPrimeCore_map_iso 3 e
     have hes : e s0 ∈ GLAPPrimeCore 3 ↥(fixSubgroup α) := by
       change e s0 ∈ CFSG.pPrimeCore 3 ↥(fixSubgroup α)
@@ -87,7 +89,7 @@ theorem i253_b3_step (hB : B3Quasi) {G : Type} [Group G] [Finite G]
   have hαβ : ∀ k, π (α k) = β (π k) := fun k => rfl
   have hQb : CFSG.Open.IsQuasisimple (G ⧸ O) := i253_isQuasisimple_of_surj hq π hπ hker
   have hOb : GLAPPrimeCore 3 (G ⧸ O) = ⊥ := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     show CFSG.pPrimeCore 3 (G ⧸ O) = ⊥
     rw [pPrimeCore_eq_map_of_central 3 π hπ hker]
     exact QuotientGroup.map_mk'_self O

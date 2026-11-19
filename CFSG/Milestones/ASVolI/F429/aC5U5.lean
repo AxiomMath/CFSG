@@ -149,7 +149,7 @@ theorem burnsideF429a_U5_rkOneW_mul_self : rkOneW h * rkOneW h = 1 := by
 
 theorem burnsideF429a_U5_rkOneQElt_pow {a b : K} (hab : h.norm a + h.trace b = 0) :
     rkOneQElt h a b hab ^ 2 ^ 2 = 1 := by
-  haveI := h.charP
+  have := h.charP
   have e : rkOneQElt h a b hab ^ 2 ^ 2 = rkOneQElt h a b hab * rkOneQElt h a b hab *
       (rkOneQElt h a b hab * rkOneQElt h a b hab) := by
     rw [show (2 : ℕ) ^ 2 = 2 + 2 from rfl, pow_add, sq]
@@ -157,14 +157,14 @@ theorem burnsideF429a_U5_rkOneQElt_pow {a b : K} (hab : h.norm a + h.trace b = 0
   apply Subtype.ext
   apply Units.ext
   show rkOneQ h a b * rkOneQ h a b * (rkOneQ h a b * rkOneQ h a b) = 1
-  simp only [rkOneQ_mul, CharTwo.add_self_eq_zero, map_zero, mul_zero, zero_mul, sub_self,
-    sub_zero, zero_sub, add_zero]
+  simp only [rkOneQ_mul, CharTwo.add_self_eq_zero, map_zero, mul_zero, sub_self,
+    zero_sub]
   rw [rkOneQ, CFSG.LinearGroups.heisenbergMatrix_zero_zero, Matrix.submatrix_one_equiv]
 
 theorem burnsideF429a_U5_bruhat {a γ : K} (hγ : γ ≠ 0) (hab : h.norm a + h.trace γ = 0) :
     rkOneQ h (a / γ) γ⁻¹ * rkOneD h (h.bar γ)⁻¹ * rkOneWMat * rkOneQ h (a / h.bar γ) γ⁻¹ =
       rkOneWMat * rkOneQ h a γ * rkOneWMat := by
-  haveI := h.charP
+  have := h.charP
   have hbγ : h.bar γ ≠ 0 := (map_ne_zero h.bar).mpr hγ
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have hab' : a * h.bar a + (γ + h.bar γ) = 0 := hab
@@ -194,7 +194,7 @@ theorem burnsideF429a_U5_two_mem_oPPrime {g : hypSU h 1 1} {k : ℕ} (hg : g ^ 2
 theorem burnsideF429a_U5_rkOneD_mem_of {γ : K} (hγ : γ ≠ 0) (hD : (h.bar γ)⁻¹ ≠ 0) :
     rkOneDHomSU h (Units.mk0 (h.bar γ)⁻¹ hD) ∈
       (oPPrime 2 (u5PtP h)).comap ((hypProj h 2 1).comp (embSU h)) := by
-  haveI := h.charP
+  have := h.charP
   obtain ⟨a, ha⟩ := CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.exists_norm_eq h
     (c := -h.trace γ) (by rw [map_neg, UnitaryFieldData.trace, map_add, h.bar_bar, add_comm])
   have hab : h.norm a + h.trace γ = 0 := by rw [ha, neg_add_cancel]
@@ -325,7 +325,7 @@ theorem burnsideF429a_U5_pt_family :
 
 theorem burnsideF429a_U5_leviSU_diagSL_mem (c : Kˣ) :
     hypProj h 2 1 (leviSU h 1 (diagSL c)) ∈ oPPrime 2 (u5LnP h) := by
-  haveI := h.charP
+  have := h.charP
   have hdet : ∀ c : Kˣ, (!![0, (c : K); ((c⁻¹ : Kˣ) : K), 0] : Matrix (Fin 2) (Fin 2) K).det = 1 := by
     intro c
     rw [Matrix.det_fin_two_of, zero_mul, zero_sub, Units.mul_inv, CharTwo.neg_eq]
@@ -407,7 +407,7 @@ theorem burnsideF429a_key1_U5 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 →
       (∀ b ∈ oPPrime 2 (Gp ⊓ M₁) ⊓ (M₁ ⊓ M₂),
         r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨K, _, hK, Ψ, hB, h₁, -⟩ := burnsideF429a_U5_setup5 hyp
   obtain ⟨hH₀, hH₀H, hdet⟩ := burnsideF429a_U5_pt_family hK
   exact burnsideF429a_key_of_model_family hyp.centralizer_trivial Ψ hB
@@ -419,7 +419,7 @@ theorem burnsideF429a_key2_U5 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 →
       (∀ b ∈ oPPrime 2 (Gp ⊓ M₂) ⊓ (M₁ ⊓ M₂),
         r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨K, _, hK, Ψ, hB, -, h₂⟩ := burnsideF429a_U5_setup5 hyp
   obtain ⟨hH₀, hH₀H, hdet⟩ := burnsideF429a_U5_ln_family hK
   exact burnsideF429a_key_of_model_family hyp.centralizer_trivial Ψ hB
@@ -429,8 +429,8 @@ theorem burnsideF429a_key2_U5 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
 theorem burnsideF429a_c5_U5 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .U5 2 f Gp M₁ M₂) {T : Subgroup E}
     (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) : burnsideF429_C5 .U5 Gp M₁ M₂ hyp T := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨K, _, hK, Ψ, hB, -, -⟩ := burnsideF429a_U5_setup5 hyp
   have hSG : ChF.IsSylowOf 2 (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) Gp := by
     set φ : hypPSU hK 2 1 →* E := Gp.subtype.comp Ψ.toMonoidHom with hφdef

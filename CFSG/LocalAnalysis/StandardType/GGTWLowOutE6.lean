@@ -126,7 +126,7 @@ theorem ggTWLE6_sound {news : List GGDepANPair} (hnews : ∀ q ∈ news, GGTWNVa
         ggTWNGen_valid (p := 3) (N := 6) (by norm_num) (by norm_num) hnews
           (by have := i.isLt; simp only [Nat.reduceSub]; omega)
       have hgen : ggTWNGen 3 6 news i.val = (ggTWNH 3 6 i.val, ggTWNA 3 6 i.val) := by
-        simp only [ggTWNGen, if_pos hiv]
+        simp only [ggTWNGen, ite_eq_left hiv]
       have hlin : ggTWLMatLin 3 5 (Tg.getD i.val []) =
           ggTWRefl (ggTWh 3 6 i) (ggTWα 3 6 i) := by
         rw [l05nL6_Tg_getD (by have := i.isLt; simp only [Nat.reduceSub]; omega),
@@ -145,7 +145,7 @@ theorem ggTWLE6_sound {news : List GGDepANPair} (hnews : ∀ q ∈ news, GGTWNVa
       have hgv : GGTWNValid 3 6 (ggTWNGen 3 6 news g) :=
         ggTWNGen_valid (p := 3) (N := 6) (by norm_num) (by norm_num) hnews (by simpa using hglt)
       have hgen : ggTWNGen 3 6 news g = news[k] := by
-        rw [hgdef, ggTWNGen, if_neg (by omega),
+        rw [hgdef, ggTWNGen, ite_eq_right (by omega),
           show 5 + k + 1 - 6 = k by omega, List.getD_eq_getElem _ _ hk]
       have hlin : ggTWLMatLin 3 5 (Tg.getD g []) =
           ggTWRefl (ggTWNToZ 3 6 (news[k]).1) (ggTWNToZ 3 6 (news[k]).2) := by
@@ -186,7 +186,7 @@ theorem ggTWLE6_sound {news : List GGDepANPair} (hnews : ∀ q ∈ news, GGTWNVa
         _ = ggTWLMatLin 3 5 (ggTWLMatOne 5) := heq
         _ = 1 := hOneLin
     rwa [l05nL6_e6M i j] at hmain
-  haveI : Finite (Module.End (ZMod 3) (GGTWE 3 6)) :=
+  have : Finite (Module.End (ZMod 3) (GGTWE 3 6)) :=
     Finite.of_injective (fun f : Module.End (ZMod 3) (GGTWE 3 6) => (f : GGTWE 3 6 → GGTWE 3 6))
       (fun a b hab => LinearMap.ext (congrFun hab))
   have hframe_card : 720 ≤ Nat.card (Submonoid.closure (ggTWFrameGens 3 6)) :=

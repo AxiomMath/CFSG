@@ -14,7 +14,7 @@ open scoped commutatorElement
 private lemma isKGroup_of_isSolvable_self (M : Type*) [Group M] [Group.IsSolvable M] :
     CFSG.Open.IsKGroup M := by
   intro K L _ hN hsimple hnab
-  haveI := hsimple
+  have := hsimple
   obtain ⟨a, b, hab⟩ := hnab
   exact (hab ((IsSimpleGroup.comm_iff_isSolvable).mpr inferInstance a b)).elim
 
@@ -24,8 +24,8 @@ lemma exists_invariant_sylow_conjNormal {Γ : Type} [Group Γ] [Finite Γ]
     (q : ℕ) (hq : q.Prime) :
     ∃ Q : Sylow q ↥Kbar,
       (Q : Subgroup ↥Kbar).map (MulAut.conjNormal d).toMonoidHom = Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime q) := ⟨hq⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime q) := ⟨hq⟩
   obtain ⟨Q, hQinv⟩ :=
     CFSG.OrderReductions.InvariantSylow.exists_invariant_sylow_of_coprime
       (actor := ↥Dbar) (group := ↥Kbar) 3 q
@@ -69,7 +69,7 @@ lemma conjNormal_eq_self_of_mem_invariant_sylow {Γ : Type} [Group Γ] [Finite �
     (Q : Subgroup ↥Kbar).mul_mem ((Q : Subgroup ↥Kbar).inv_mem hx) hσx
   obtain ⟨m, hm⟩ :=
     exists_orderOf_inv_mul_conjNormal_dvd_two d hdmem hD hpair hsolv hcop x
-  obtain ⟨n, hn⟩ := IsPGroup.exists_orderOf_dvd_pow Q.isPGroup'
+  obtain ⟨n, hn⟩ := IsPGroup.exists_orderOf_dvd_pow Q.isPGroup
     (⟨x⁻¹ * MulAut.conjNormal d x, hyQ⟩ : ↥(Q : Subgroup ↥Kbar))
   have hn' : orderOf (x⁻¹ * MulAut.conjNormal d x) ∣ q ^ n := by
     rw [Subgroup.orderOf_mk] at hn
@@ -100,7 +100,7 @@ lemma commSub_isPGroup_two (hAbs : K22p.K22pAbs) (hSz1 : SimpleThreePrimeIsSz)
       K22p.FixesSylow (MulAut.conjNormal d : MulAut ↥Kbar) q) :
     IsPGroup 2 (K22p.commSub (MulAut.conjNormal d : MulAut ↥Kbar)) := by
   have hKgroup : CFSG.Open.IsKGroup ↥Kbar := by
-    haveI : Group.IsSolvable ↥Kbar := hsolv
+    have : Group.IsSolvable ↥Kbar := hsolv
     exact isKGroup_of_isSolvable_self ↥Kbar
   have hprime : ∀ r, r.Prime →
       r ∣ Nat.card (K22p.commSub (MulAut.conjNormal d : MulAut ↥Kbar)) → r = 2 := by
@@ -138,12 +138,12 @@ lemma eq_pCoreOf_of_commutator_top {Γ : Type} [Group Γ] [Finite Γ] {Dbar Kbar
     rw [CFSG.openPCoreOf_eq_map_pCore] at hx
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.1 hx
     refine Subgroup.mem_map.2 ⟨MulAut.conjNormal g y, ?_, ?_⟩
-    · haveI : (CFSG.pCore 2 ↥Kbar).Characteristic := inferInstance
+    · have : (CFSG.pCore 2 ↥Kbar).Characteristic := inferInstance
       have h := (Subgroup.characteristic_iff_map_le.1
         (inferInstance : (CFSG.pCore 2 ↥Kbar).Characteristic)) (MulAut.conjNormal g)
       exact h ⟨y, hy, rfl⟩
     · simp [MulAut.conjNormal_apply]
-  haveI : (CFSG.Open.pCoreOf 2 Kbar).Normal := hO_normal
+  have : (CFSG.Open.pCoreOf 2 Kbar).Normal := hO_normal
   apply le_antisymm
   · calc Kbar = ⁅Kbar, (⊤ : Subgroup Γ)⁆ := hperf.symm
       _ = Subgroup.normalClosure ((⁅Kbar, Dbar⁆ : Subgroup Γ) : Set Γ) :=
@@ -156,7 +156,7 @@ lemma eq_pCoreOf_of_commutator_top {Γ : Type} [Group Γ] [Finite Γ] {Dbar Kbar
 theorem core2_of (hAbs : K22p.K22pAbs) (hSz1 : SimpleThreePrimeIsSz) (hSz2 : SzOrder3Aut) :
     Core2 := by
   intro Γ _ _ Dbar Kbar _ hD hgen hsolv hcop hperf hpair
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d, hd⟩ : ∃ d : Γ, Dbar = Subgroup.zpowers d := by
     have hcyc : IsCyclic ↥Dbar := isCyclic_of_prime_card hD
     obtain ⟨g, hg⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top Dbar).mp hcyc

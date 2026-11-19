@@ -32,7 +32,7 @@ theorem three_dvd_two_pow_add_one {k : ℕ} (hk : Odd k) : 3 ∣ 2 ^ k + 1 := by
 
 theorem center_eq_bot_of_simple_nonabelian {S : Type} [Group S] (hs : IsSimpleGroup S)
     (hna : ∃ a b : S, a * b ≠ b * a) : Subgroup.center S = ⊥ := by
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
   · exact h
   · exfalso
@@ -83,7 +83,7 @@ theorem exists_unit_cube_root {k : ℕ} {F : Type} [Field F] (h : UnitaryFieldDa
 
 theorem exists_e27_unitarySU {k : ℕ} {F : Type} [Field F] (h : UnitaryFieldData 2 k F)
     (h3 : 3 ∣ 2 ^ k + 1) : ∃ E : Subgroup (unitarySU 2 k F 4), Late.IsE27 E := by
-  haveI := h.finite
+  have := h.finite
   have hle : torusSU 3 4 F ≤ unitarySU 2 k F 4 :=
     CFSG.RankThree.PartOne.KFU.torusSU_le_unitarySU h h3
   refine ⟨(torusSU 3 4 F).subgroupOf (unitarySU 2 k F 4),
@@ -97,7 +97,7 @@ section One
 
 
 theorem rowOf425_projSU_four_two_one : RowOf425 (projSU 4 2 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hv : (TauCeti.LieTypeIndex.twistedA 3 ⟨2, 1, Fact.out, Nat.one_pos⟩).Valid :=
     Ronan148L.valid_twistedA (by norm_num) (by omega)
   refine Ronan148L.rowOf425_of_lie_card ⟨_, hv⟩
@@ -138,12 +138,12 @@ theorem noCC425_of_projSU_four_even {S : Type} [Group S] [Finite S] {n : ℕ} (h
     rcases hJ with hJ1 | hJ2
     · obtain ⟨eJ⟩ := hJ1
       obtain ⟨h2, h3⟩ := hcard n (by omega) hn
-      haveI := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (GaloisField 2 n) le_rfl
+      have := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (GaloisField 2 n) le_rfl
         (Or.inr h2) (Or.inr h3)
       exact eJ.isSimpleGroup
     · obtain ⟨eJ⟩ := hJ2
       obtain ⟨h2, h3⟩ := hcard (2 * n) (by omega) (by omega)
-      haveI := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (GaloisField 2 (2 * n)) le_rfl
+      have := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (GaloisField 2 (2 * n)) le_rfl
         (Or.inr h2) (Or.inr h3)
       exact eJ.isSimpleGroup
   have hperf : ⁅K, K⁆ = K := Subgroup.isPerfect_iff.mp hcc.isQuasisimple.1
@@ -169,7 +169,7 @@ theorem noCC425_of_projSU_four_even {S : Type} [Group S] [Finite S] {n : ℕ} (h
       intro y
       apply Subtype.ext
       exact (Subgroup.mem_centralizer_singleton_iff.mp (hcc.le_centralizer (hJK y.2)))
-    haveI := hJs
+    have := hJs
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center J) with hZ | hZ
     · apply hs1
       rw [hZ, Subgroup.mem_bot] at hsZ
@@ -201,6 +201,7 @@ open CFSG.RankThree.PartOne.KFU (torusSU torusVec diagU diagUHom diagU_injective
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem nonempty_quotCenter_mulEquiv {n : ℕ} (hZ : Subgroup.center S = ⊥)
     (e : S ≃* projSU 4 2 n) [Fact (Nat.Prime 2)] :
     Nonempty (S ⧸ Subgroup.center S ≃* StatedProj (StatedSU 4 (2 ^ n) (GaloisField 2 (2 * n)))) :=
@@ -210,7 +211,7 @@ theorem nonempty_quotCenter_mulEquiv {n : ℕ} (hZ : Subgroup.center S = ⊥)
 theorem exists_e27_of_projSU_four_odd (hs : IsSimpleGroup S) (hna : ∃ a b : S, a * b ≠ b * a)
     {n : ℕ} (hn : 1 ≤ n) (hodd : Odd n) (e : S ≃* projSU 4 2 n) :
     ∃ E : Subgroup S, Late.IsE27 E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 (2 * n)) = (2 ^ n) ^ 2 := by
     rw [GaloisField.card 2 (2 * n) (by omega), ← pow_mul, mul_comm]
   have hU : UnitaryFieldData 2 n (GaloisField 2 (2 * n)) :=
@@ -227,7 +228,7 @@ theorem exists_e27_of_projSU_four_odd (hs : IsSimpleGroup S) (hna : ∃ a b : S,
 
 theorem e27Move_of_projSU_four_odd (hs : IsSimpleGroup S) (hna : ∃ a b : S, a * b ≠ b * a)
     {n : ℕ} (hn : 1 ≤ n) (hodd : Odd n) (e : S ≃* projSU 4 2 n) : Ronan148L.E27Move S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K := GaloisField 2 (2 * n) with hKdef
   have hK : Nat.card K = (2 ^ n) ^ 2 := by
     rw [GaloisField.card 2 (2 * n) (by omega), ← pow_mul, mul_comm]
@@ -318,7 +319,7 @@ theorem e27Move_of_projSU_four_odd (hs : IsSimpleGroup S) (hna : ∃ a b : S, a 
 
 
 theorem noThreeCover_projSU_four_two {n : ℕ} (hn : 2 ≤ n) : NoThreeCover (projSU 4 2 n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hadm : CFSG.Open.StatedLieAdmissible .PSU 4 2 n :=
     ⟨Nat.prime_two, by omega, by norm_num, by simp⟩
   have hSU := CFSG.PGLModel.statedClassicalModel_of_mulEquiv_projSU hadm (MulEquiv.refl _)

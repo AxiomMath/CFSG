@@ -100,7 +100,7 @@ structure S23_9_AdjData (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D Ch)
 
 @[expose] def S23_9_ASem (D : Data G) (Ch : Choice2011 G) : Prop :=
   H1930 D → ∀ c : Ctx23L D Ch, ∀ d : S23_9_A0Data D Ch c,
-    ∀ b (hb : b ∈ c.B0) (r : ℕ), r.Prime → r ≠ 2 → orderOf b = r →
+    ∀ b (_hb : b ∈ c.B0) (r : ℕ), r.Prime → r ≠ 2 → orderOf b = r →
       b ∉ Subgroup.centralizer (D.Z : Set G) →
         d.fixV (barImage D.M (Subgroup.zpowers b)) = ⊥ ∧ r ≠ d.q
 
@@ -120,7 +120,7 @@ structure S23_9_AdjData (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D Ch)
     ∀ b (hb : b ∈ c.B0) (r : ℕ), r.Prime → r ≠ 2 → orderOf b = r →
       (∃ s : ℕ, s ∣ c.n ∧ Odd s ∧ 1 < s ∧ r ∣ 2 ^ s - 1) →
       d.fixV (barImage D.M (Subgroup.zpowers b)) = ⊥ → r ≠ d.q →
-      ∀ a : S23_9_AdjData D Ch c hV d b hb r,
+      ∀ _a : S23_9_AdjData D Ch c hV d b hb r,
         ¬ (∃ k : ℕ, c.n = 2 ^ k) → False
 
 @[expose] def S23_9_A4 (D : Data G) (Ch : Choice2011 G) : Prop :=
@@ -129,7 +129,7 @@ structure S23_9_AdjData (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D Ch)
     ∀ b (hb : b ∈ c.B0) (r : ℕ), r.Prime → r ≠ 2 → orderOf b = r → r = 3 →
       d.fixV (barImage D.M (Subgroup.zpowers b)) = ⊥ → r ≠ d.q →
       (∃ k : ℕ, c.n = 2 ^ k) → ¬ S23_9_SU44 D Ch c hV →
-      ∀ a : S23_9_AdjData D Ch c hV d b hb r,
+      ∀ _a : S23_9_AdjData D Ch c hV d b hb r,
         CFSG.LocalAnalysis.UniquenessCase.UCK.K462 → False
 
 @[expose] def S23_9_A5 (D : Data G) (Ch : Choice2011 G) : Prop :=

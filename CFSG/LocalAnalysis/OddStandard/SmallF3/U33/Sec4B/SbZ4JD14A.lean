@@ -15,17 +15,22 @@ variable {H : Type} [Group H] [Finite H] {Q Y V V' B : Subgroup H} {ρ t τ l y 
 @[expose] def zjVh (Mc : Subgroup H) (t τ l : H) : Subgroup H :=
   Mc ⊔ closure ({t, τ, l} : Set H)
 
+omit [Finite H] in
 theorem Mc_le_zjVh (Mc : Subgroup H) (t τ l : H) : Mc ≤ zjVh Mc t τ l := le_sup_left
 
+omit [Finite H] in
 theorem t_mem_zjVh (Mc : Subgroup H) (t τ l : H) : t ∈ zjVh Mc t τ l :=
   Subgroup.mem_sup_right (Subgroup.subset_closure (by simp))
 
+omit [Finite H] in
 theorem tau_mem_zjVh (Mc : Subgroup H) (t τ l : H) : τ ∈ zjVh Mc t τ l :=
   Subgroup.mem_sup_right (Subgroup.subset_closure (by simp))
 
+omit [Finite H] in
 theorem l_mem_zjVh (Mc : Subgroup H) (t τ l : H) : l ∈ zjVh Mc t τ l :=
   Subgroup.mem_sup_right (Subgroup.subset_closure (by simp))
 
+omit [Finite H] in
 theorem card_sup_of_le_normalizer {A B : Subgroup H} (hB : B ≤ normalizer (A : Set H))
     (hAB : A ⊓ B = ⊥) : Nat.card ↥(A ⊔ B) = Nat.card A * Nat.card B := by
   let f : A × B → ↥(A ⊔ B) := fun x => ⟨x.1 * x.2, Subgroup.mul_mem_sup x.1.2 x.2.2⟩

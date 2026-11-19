@@ -30,6 +30,7 @@ private lemma qTwoDegFalse_ofNat_ne (n : ℕ) [NeZero n] (a b : ℕ) (ha : a < n
 
 variable {n : ℕ} [NeZero n]
 
+omit [NeZero n] in
 private lemma qTwoDegFalse_support_cyc3_subset {a b c : Fin n} (hab : a ≠ b) (hac : a ≠ c) :
     (Equiv.swap a b * Equiv.swap a c).support ⊆ ({a, b, c} : Finset (Fin n)) := by
   refine (Equiv.Perm.support_mul_le _ _).trans ?_
@@ -39,18 +40,21 @@ private lemma qTwoDegFalse_support_cyc3_subset {a b c : Fin n} (hab : a ≠ b) (
   simp only [Finset.mem_union, Finset.mem_insert, Finset.mem_singleton] at hx ⊢
   tauto
 
-private lemma qTwoDegFalse_cyc3_mem_support_left {a b c : Fin n} (hab : a ≠ b) (hac : a ≠ c)
+omit [NeZero n] in
+private lemma qTwoDegFalse_cyc3_mem_support_left {a b c : Fin n} (_hab : a ≠ b) (hac : a ≠ c)
     (hbc : b ≠ c) : a ∈ (Equiv.swap a b * Equiv.swap a c).support := by
   rw [Equiv.Perm.mem_support, Equiv.Perm.mul_apply, Equiv.swap_apply_left,
     Equiv.swap_apply_of_ne_of_ne (Ne.symm hac) (Ne.symm hbc)]
   exact Ne.symm hac
 
+omit [NeZero n] in
 private lemma qTwoDegFalse_not_mem_triple {a b c x : Fin n} (hxa : x ≠ a) (hxb : x ≠ b)
     (hxc : x ≠ c) : x ∉ ({a, b, c} : Finset (Fin n)) := by
   intro h
   simp only [Finset.mem_insert, Finset.mem_singleton] at h
   tauto
 
+omit [NeZero n] in
 private lemma qTwoDegFalse_disjoint_triples {a b c d e f : Fin n}
     (had : a ≠ d) (hae : a ≠ e) (haf : a ≠ f) (hbd : b ≠ d) (hbe : b ≠ e) (hbf : b ≠ f)
     (hcd : c ≠ d) (hce : c ≠ e) (hcf : c ≠ f) :
@@ -63,7 +67,7 @@ private lemma qTwoDegFalse_disjoint_triples {a b c d e f : Fin n}
 
 private lemma qTwoDegFalse_exists_noncyclic_perm (n : ℕ) (hn : 6 ≤ n) :
     ∃ P : Subgroup (Equiv.Perm (Fin n)), IsPGroup 3 P ∧ ¬ IsCyclic P := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   set x : Equiv.Perm (Fin n) := Equiv.swap 0 1 * Equiv.swap 0 2 with hx
   set y : Equiv.Perm (Fin n) := Equiv.swap 3 4 * Equiv.swap 3 5 with hy
   have hx3 : x.IsThreeCycle := by
@@ -147,7 +151,7 @@ theorem qTwoDegFalse_exists_noncyclic {Bs L : Subgroup G} {m : ℕ} (hm : 6 ≤ 
   obtain ⟨QSyl, hQle⟩ := IsPGroup.exists_le_sylow hQp
   have hQSyl_nc : ¬ IsCyclic ↥(QSyl : Subgroup ↥(ggAutomizer L Bs)) := by
     intro hcyc
-    haveI := hcyc
+    have := hcyc
     exact hQnc (Subgroup.isCyclic_of_le hQle)
   let H : Subgroup G := L ⊓ Subgroup.normalizer (Bs : Set G)
   let f : ↥H →* ↥(ggAutomizer L Bs) :=
@@ -173,7 +177,7 @@ theorem qTwoDegFalse_exists_noncyclic {Bs L : Subgroup G} {m : ℕ} (hm : 6 ≤ 
     rw [← hPSyl, Sylow.coe_mapSurjective]
   have hPSyl_nc : ¬ IsCyclic ↥(PSyl : Subgroup ↥H) := by
     intro hcyc
-    haveI := hcyc
+    have := hcyc
     apply hQSyl_nc
     have hsurj : Function.Surjective
         ((f.comp (PSyl : Subgroup ↥H).subtype).codRestrict
@@ -191,10 +195,10 @@ theorem qTwoDegFalse_exists_noncyclic {Bs L : Subgroup G} {m : ℕ} (hm : 6 ≤ 
   have hSL : S ≤ L := by
     rintro g ⟨x, hx, rfl⟩
     exact x.2.1
-  have hSp : IsPGroup 3 S := (PSyl.isPGroup').map (Subgroup.subtype H)
+  have hSp : IsPGroup 3 S := (PSyl.isPGroup).map (Subgroup.subtype H)
   have hSnc : ¬ IsCyclic S := by
     intro hcyc
-    haveI := hcyc
+    have := hcyc
     exact hPSyl_nc (isCyclic_of_surjective
       ((PSyl : Subgroup ↥H).equivMapOfInjective (Subgroup.subtype H)
         (Subgroup.subtype_injective H)).symm (MulEquiv.surjective _))
@@ -221,11 +225,11 @@ open scoped commutatorElement in
 theorem qTwoDeg_false_of_equal_degree
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {𝒦 : Finset (Subgroup G)}
     (hcfg : GGSecFiveRouteCfg 3 B Bs x L D J 𝒦)
-    {k : QTwoRowKind} {m d c : ℕ} (hrow : QTwoRowData k m d c Bs L x) (hm : 5 ≤ m)
+    {k : QTwoRowKind} {m d c : ℕ} (hrow : QTwoRowData k m d c Bs L x) (_hm : 5 ≤ m)
     {ι : Type} {M : CoxeterMatrix ι} {e : M.Group ≃* ↥(ggAutomizerJoin L Bs 𝒦)}
-    (hP : GGCoxeterPres 3 (ggAutomizerJoin L Bs 𝒦) M e)
+    (_hP : GGCoxeterPres 3 (ggAutomizerJoin L Bs 𝒦) M e)
     {N : ℕ} (hN : 6 ≤ N) {e' : Fin (N - 1) ≃ ι}
-    (hM : M = (CoxeterMatrix.A (N - 1)).reindex e')
+    (_hM : M = (CoxeterMatrix.A (N - 1)).reindex e')
     (hNm : N = m)
     (hrm : ∀ (y : G) (K' : Subgroup G), GGNbr 3 B x D J y K' →
       ggAutomizer K' Bs ≤ ggAutomizer L Bs)

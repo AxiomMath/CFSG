@@ -78,7 +78,7 @@ theorem exists_plusBlocks (hQ : (polarBilin Q).Nondegenerate) (hdim : finrank K 
         ∃ (π : Equiv.Perm (Fin 3)) (ε : Fin 3 → ZMod p), (∀ i, ε i = 1 ∨ ε i = -1) ∧
           ∀ f f', g * τ f * g⁻¹ = τ f' → ∀ i, toAdd (f' (π i)) = ε i * toAdd (f i) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hbound : ∀ E' : Subgroup ↥(orthDerived Q), CFSG.Open.IsElemAbelian p E' →
       Nat.card E' ≤ p ^ 3 := fun E' hE' =>
     CFSG.LocalAnalysis.GLTheoremA.S172C.Rank.card_le_pow_pred_of_isElemAbelian_orthDerived hQ
@@ -147,7 +147,7 @@ theorem exists_plusBlocks (hQ : (polarBilin Q).Nondegenerate) (hdim : finrank K 
       by_cases hj : j' = j
       · subst hj
         simp [s, ha]
-      · simp [s, Pi.mulSingle_eq_of_ne hj, hj]
+      · simp [s, hj]
     constructor
     · intro h u hu
       rw [polarBilin_apply_apply]
@@ -422,11 +422,12 @@ section Layer
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [CharP K 2] in
 theorem eq_one_of_pow_eq_one_of_dvd_add_one {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card K + 1) : ∀ c : K, c ^ p = 1 → c = 1 := by
   classical
   intro c hc
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hc0 : c ≠ 0 := by
     rintro rfl
     rw [zero_pow hp.ne_zero] at hc
@@ -445,6 +446,7 @@ theorem eq_one_of_pow_eq_one_of_dvd_add_one {p : ℕ} (hp : p.Prime) (hp2 : p �
   have h := (pow_gcd_eq_one (a := c) (m := p) (n := Nat.card K - 1)).mpr ⟨hc, hq⟩
   rwa [hcop.gcd_eq_one, pow_one] at h
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem oddOrderIsometry_of_orthDerived (hQ : (polarBilin Q).Nondegenerate) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) {t : orthDerived Q} (htp : t ^ p = 1) :
     OddOrderIsometry Q p (t : V ≃ₗ[K] V) :=
@@ -469,6 +471,7 @@ theorem isPlusType_fixedSpace_of_commSpace_two (hdim : finrank K V = 8) (hminus 
   have hk1 : k = 1 := by omega
   exact (htype (by omega)).mpr (iff_of_false hminus (by rw [hk1]; decide))
 
+omit [Finite K] [CharP K 2] in
 theorem exists_three_of_isPlusType {W : Type} [AddCommGroup W] [Module K W] [FiniteDimensional K W]
     {R : QuadraticForm K W} (hW : finrank K W = 6) (h : IsPlusType R) :
     ∃ U : Submodule K W, finrank K U = 3 ∧ ∀ u ∈ U, R u = 0 := by
@@ -523,7 +526,7 @@ theorem dvd_card_orthDerived_of_dvd {W : Type} [AddCommGroup W] [Module K W]
     (hW : 6 ≤ finrank K W) {ℓ : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2)
     (hdvd : ℓ ∣ Nat.card (TauCeti.QuadraticMap.orthogonalGroup R)) :
     ℓ ∣ Nat.card (orthDerived R) := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' ℓ hdvd
   have hgℓ : (g : W ≃ₗ[K] W) ^ ℓ = 1 := by
     have h1 := pow_orderOf_eq_one g

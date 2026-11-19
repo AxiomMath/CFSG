@@ -14,7 +14,7 @@ open scoped commutatorElement
 theorem center_eq_bot_of_ker_eq_center {S Q : Type*} [Group S] [Group Q]
     (hperf : commutator S = ⊤) (Ψ : S →* Q) (hΨ : Function.Surjective Ψ)
     (hk : Ψ.ker = Subgroup.center S) : Subgroup.center Q = ⊥ := by
-  haveI : Group.IsPerfect S := ⟨hperf⟩
+  have : Group.IsPerfect S := ⟨hperf⟩
   let e : (S ⧸ Subgroup.center S) ≃* Q :=
     (QuotientGroup.quotientMulEquivOfEq hk.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective Ψ hΨ)
@@ -56,7 +56,7 @@ theorem range_le_of_perfect_of_quotient {S Y K : Type} [Group S] [Group Y] [Grou
     (hΦ : Φ.ker ≤ Subgroup.center S) (N : Subgroup Y) [N.Normal] (Ψ : S →* Y ⧸ N)
     (hΨ : Function.Surjective Ψ) (hΨk : Ψ.ker = Subgroup.center S) (ι : Y →* K)
     (hι : Function.Injective ι) (hle : ι.range ≤ Φ.range) : Φ.range ≤ ι.range := by
-  haveI : Group.IsPerfect S := ⟨hperf⟩
+  have : Group.IsPerfect S := ⟨hperf⟩
   set S₁ : Subgroup S := ι.range.comap Φ with hS₁
   have hker_le : Φ.ker ≤ S₁ := by
     intro x hx

@@ -164,6 +164,7 @@ open scoped Pointwise commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {D : Data G} {V₀ V : Subgroup G} {L : Subgroup G}
 
+omit [Finite G] in
 private theorem oUpperTwo_subgroupOf_normal {M X : Subgroup G} (hXM : X ≤ M)
     (hXN : (X.subgroupOf M).Normal) :
     ((CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.oUpperTwo X).subgroupOf M).Normal := by

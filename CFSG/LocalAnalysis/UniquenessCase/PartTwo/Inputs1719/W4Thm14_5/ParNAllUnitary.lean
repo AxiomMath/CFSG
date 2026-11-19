@@ -95,7 +95,7 @@ theorem nParam_eq_of_natSU4 {H S P : Subgroup (MulAut W)} {k n : ℕ}
   obtain ⟨-, -, -, -, -, hSU4, -⟩ :=
     kTab23b_holds W H k hnat hperf hS.toSylow ((hS.toSylow : Subgroup ↥H).map H.subtype)
       ((Subgroup.map_subtype_le _).trans Subgroup.le_normalizer)
-      ((hS.toSylow.isPGroup').map H.subtype) le_rfl
+      ((hS.toSylow.isPGroup).map H.subtype) le_rfl
   have hline := hSU4 h
   obtain ⟨a, hka, hSU, K, _, _, hK, hreal⟩ := h
   have hF : UnitaryFieldData 2 a K := unitaryFieldDataOfCard hK
@@ -132,7 +132,7 @@ theorem nParam_eq_of_natOmegaMinusSix {H S P : Subgroup (MulAut W)} {k n : ℕ}
   obtain ⟨-, -, -, -, -, -, hO6m, -⟩ :=
     kTab23b_holds W H k hnat hperf hS.toSylow ((hS.toSylow : Subgroup ↥H).map H.subtype)
       ((Subgroup.map_subtype_le _).trans Subgroup.le_normalizer)
-      ((hS.toSylow.isPGroup').map H.subtype) le_rfl
+      ((hS.toSylow.isPGroup).map H.subtype) le_rfl
   have hline := hO6m h
   obtain ⟨-, K, _, _, b, c, hK, hirr, hreal⟩ := h.2
   have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hK

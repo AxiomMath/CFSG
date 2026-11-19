@@ -40,8 +40,8 @@ private theorem ggQ2hV_psi_ne_zero {G : Type} [Group G] [Finite G] {Bs L : Subgr
 private theorem ggQ2hV_ker_card {G : Type} [Group G] [Finite G] {Bs L : Subgroup G} {x : G}
     {M : GGQ2LDatum 3 Bs L x} (D : GGHeartDict M) (hx0 : M.xV ≠ 0) :
     Nat.card (LinearMap.ker D.Ψ) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite M.V := ggQ2hV_finiteV M
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite M.V := ggQ2hV_finiteV M
   rw [D.ker_eq, ← FiniteField.pow_finrank_eq_natCard 3
       ↥(Submodule.span (ZMod 3) {M.xV}), finrank_span_singleton hx0]
   norm_num
@@ -50,7 +50,7 @@ private theorem ggQ2hV_comap_card {G : Type} [Group G] [Finite G] {Bs L : Subgro
     {M : GGQ2LDatum 3 Bs L x} (D : GGHeartDict M) (SK : Submodule (ZMod 3) E6Heart.H) :
     Nat.card ↥(Submodule.comap D.Ψ SK) =
       Nat.card (LinearMap.ker D.Ψ) * Nat.card ↥SK := by
-  haveI : Finite M.V := ggQ2hV_finiteV M
+  have : Finite M.V := ggQ2hV_finiteV M
   let g : ↥(Submodule.comap D.Ψ SK) →ₗ[ZMod 3] SK :=
     LinearMap.codRestrict SK (D.Ψ.comp (Submodule.comap D.Ψ SK).subtype) (fun w => w.2)
   have hsurj : Function.Surjective g := by
@@ -81,7 +81,7 @@ private theorem ggQ2hV_card_F {G : Type} [Group G] [Finite G] {Bs L : Subgroup G
       D.Ψ ⁻¹' E6Heart.compKernel (D.Ψ yV) c')
     (hker3 : Nat.card (E6Heart.compKernel (D.Ψ yV) c') = 3) :
     Nat.card {v : M.V // ∀ a : c.supp, M.rootForm a.1.1 v = 0} = 9 := by
-  haveI : Finite M.V := ggQ2hV_finiteV M
+  have : Finite M.V := ggQ2hV_finiteV M
   let SK : Submodule (ZMod 3) E6Heart.H :=
     ⨅ (a : {a : E6Heart.Phi (D.Ψ yV) // a ∈ c'.supp}), LinearMap.ker (E6Heart.alpha a.1.1)
   have hSK : (SK : Set E6Heart.H) = E6Heart.compKernel (D.Ψ yV) c' := by
@@ -127,7 +127,7 @@ theorem ggQ2_heartB_i1 (hJ : GGQ2HeartJCentralizes) {G : Type}
     (hmark : LargeEvenMarking L (fun lab _ _ _ _ _ => lab = labL)) (M : GGQ2LDatum 3 Bs L x)
     (hW : GGQ2LabelWeyl labL M.coxeter) (hB : M.ShapeB) : GGQTwoI1 Bs D J := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Dd⟩ := ggQ2_heartDict htag M hW hB
   have hstdPre : LargeEvenStdSubPre 3 B x L D J := hS.1.1.2.2.1
   have hBstar : GGBstar 3 B Bs := hS.1.1.2.1
@@ -175,7 +175,7 @@ theorem ggQ2_heartB_i1 (hJ : GGQ2HeartJCentralizes) {G : Type}
     · intro h j hj; exact (h j hj).symm
     · intro h j hj; exact (h j hj).symm
   have hCle : Nat.card ↥C ≤ 9 := by
-    haveI : Finite ↥F := Nat.finite_of_card_ne_zero (by rw [hFcard]; norm_num)
+    have : Finite ↥F := Nat.finite_of_card_ne_zero (by rw [hFcard]; norm_num)
     have hinj : Function.Injective (fun b : ↥C => (⟨eBsV b.1, by
         rw [heval]
         exact fun a => hcent b.1 ((hmemC b.1).mp b.2) a⟩ : ↥F)) := by

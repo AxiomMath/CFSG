@@ -20,14 +20,14 @@ variable {m : ℕ}
 theorem ggDSimple_chain {k : Fin m} (hk : k.val + 1 < m) :
     ggDSimple 3 m k = dBasis m k - dBasis m ⟨k.val + 1, hk⟩ := by
   funext j
-  simp only [ggDSimple, if_pos hk, Pi.sub_apply, dBasis, Pi.basisFun_apply, Pi.single_apply,
+  simp only [ggDSimple, ite_eq_left hk, Pi.sub_apply, dBasis, Pi.basisFun_apply, Pi.single_apply,
     Fin.ext_iff]
   split_ifs <;> first | (exfalso; omega) | simp
 
 theorem ggDSimple_fork {k : Fin m} (hk : ¬ k.val + 1 < m) (hm : 2 ≤ m) :
     ggDSimple 3 m k = dBasis m ⟨m - 2, by omega⟩ + dBasis m ⟨m - 1, by omega⟩ := by
   funext j
-  simp only [ggDSimple, if_neg hk, Pi.add_apply, dBasis, Pi.basisFun_apply, Pi.single_apply,
+  simp only [ggDSimple, ite_eq_right hk, Pi.add_apply, dBasis, Pi.basisFun_apply, Pi.single_apply,
     Fin.ext_iff]
   split_ifs <;> first | (exfalso; omega) | simp
 

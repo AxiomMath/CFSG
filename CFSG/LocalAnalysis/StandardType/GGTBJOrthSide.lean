@@ -68,7 +68,7 @@ theorem ggTBJOrth_nf_sideDatum_with_fixed_centralizer (hp2 : p ≠ 2) (hBs : IsE
     {ΘA : (Fin r → Multiplicative (ZMod p)) ≃* ↥(ggGamma X hBsN).range}
     (hψσ : ∀ f, ψ₀ (σ f) = eR.symm (Δ.τΩ hE f))
     (hΘA : ∀ f, ((ΘA f : ↥(ggGamma X hBsN).range) : MulAut ↥X) = MulAut.conj (σ f))
-    (hWeyl : ∀ n : ↥X, MulAut.conj n ∈ Subgroup.normalizer
+    (_hWeyl : ∀ n : ↥X, MulAut.conj n ∈ Subgroup.normalizer
       ((ggGamma X hBsN).range : Set (MulAut ↥X)) → GGTorusWeylElt p (ggGamma X hBsN).range n)
     (hnf : ∀ v : V, (∀ a ∈ E, a v = v) → v = 0) (hr : 4 ≤ r)
     {y : MulAut ↥X} (hy : y ∈ (ggGamma X hBsN).range) (hy1 : y ≠ 1) (hJX : J ≤ X)
@@ -168,7 +168,7 @@ theorem ggTBJOrth_fixed_sideDatum_with_fixed_centralizer (hp2 : p ≠ 2) (hBs : 
     {ΘA : (Fin r → Multiplicative (ZMod p)) ≃* ↥(ggGamma X hBsN).range}
     (hψσ : ∀ f, ψ₀ (σ f) = eR.symm (Δ.τΩ hE f))
     (hΘA : ∀ f, ((ΘA f : ↥(ggGamma X hBsN).range) : MulAut ↥X) = MulAut.conj (σ f))
-    (hWeyl : ∀ n : ↥X, MulAut.conj n ∈ Subgroup.normalizer
+    (_hWeyl : ∀ n : ↥X, MulAut.conj n ∈ Subgroup.normalizer
       ((ggGamma X hBsN).range : Set (MulAut ↥X)) → GGTorusWeylElt p (ggGamma X hBsN).range n)
     (hW : ∃ v : V, v ≠ 0 ∧ ∀ a ∈ E, a v = v) (hr : 2 ≤ r)
     {y : MulAut ↥X} (hy : y ∈ (ggGamma X hBsN).range) (hy1 : y ≠ 1) (hJX : J ≤ X)

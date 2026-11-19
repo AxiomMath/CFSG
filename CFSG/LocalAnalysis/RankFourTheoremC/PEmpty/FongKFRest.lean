@@ -29,7 +29,7 @@ theorem kdL64I246Rest_of_co1
   intro p hp hp5 Z _ _ hcat hpc L hL hcases P hPL hPp hPidx hrk Y hY2 hY1
   have hLq : Open.IsQuasisimple ↥L := hL.2.2
   have hQ := GL83.CompFam.quasisimple_quotient_nonabelian hLq
-  haveI : IsSimpleGroup (↥L ⧸ center ↥L) := hLq.2
+  have : IsSimpleGroup (↥L ⧸ center ↥L) := hLq.2
   rcases hcases with ⟨K, _, _, hpK, ⟨e⟩⟩ | ⟨q, K, _, _, hKq, hq, ⟨e⟩⟩ | ⟨rfl, hCo⟩
   · obtain ⟨d, ⟨eQ⟩, hpd, hexc⟩ := FongKF.lieIndex_of_statedPSL hp hp5 K hpK e
     exact FongKF.le_of_seitzGen hp L P Y hLq hPL hPp hPidx hrk

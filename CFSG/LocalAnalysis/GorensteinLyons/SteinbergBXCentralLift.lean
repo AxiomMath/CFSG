@@ -4,7 +4,7 @@ public import CFSG.ThirdParty.QiuzhenCFSG.FeitThompson.ElementaryAbelian
 public import CFSG.CharacterTheory.Semidihedral.Principal.CoprimeFixedPointLifting
 public import CFSG.LocalAnalysis.ComponentInitial.GroupAlternatingCoverLocal
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Order.CompletePartialOrder
 
 public section

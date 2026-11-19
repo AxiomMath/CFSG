@@ -41,19 +41,18 @@ private theorem rckM3eq_map_surjective {R S : Type*} [CommRing R] [CommRing S]
   · rw [← RingEquiv.map_det σ.symm (B : Matrix n n S), B.2, map_one]
   · apply Matrix.SpecialLinearGroup.ext
     intro i j
-    simp only [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply,
-      RingEquiv.mapMatrix_apply, Matrix.map_apply]
+    simp only [RingEquiv.mapMatrix_apply]
     exact σ.apply_symm_apply _
 
 private theorem rckM3eq_solvable_SL_two_of_card_two {F : Type} [Field F] [Finite F]
     (hcard : Nat.card F = 2) :
     Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) F) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hF : Fintype.card F = 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard
   obtain ⟨e⟩ := TauCeti.nonempty_mulEquiv_permFinThree hF
-  haveI : Group.IsSolvable (Equiv.Perm (Fin 3)) :=
+  have : Group.IsSolvable (Equiv.Perm (Fin 3)) :=
     Equiv.Perm.isSolvable (by norm_num)
   have hGL : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) F) :=
     Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
@@ -94,11 +93,11 @@ theorem rckM3_PSL_equiv (m g : ℕ) (hg : 1 ≤ g) (S : Set (GL (Fin (m + 1)) (G
   let a : ℕ := blockDegree (Algebra.adjoin (GaloisField 2 g) (Units.val '' S)) e
   obtain ⟨K, hKfield, hKfin, hKalg, hKmod, hKtower, π, hπ⟩ :=
     rckBlockCoord_exists S hS hodd he
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : Algebra (GaloisField 2 g) K := hKalg
-  letI : Module K (LinearMap.range (Matrix.mulVecLin e)) := hKmod
-  letI : IsScalarTower (GaloisField 2 g) K (LinearMap.range (Matrix.mulVecLin e)) := hKtower
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : Algebra (GaloisField 2 g) K := hKalg
+  let : Module K (LinearMap.range (Matrix.mulVecLin e)) := hKmod
+  let : IsScalarTower (GaloisField 2 g) K (LinearMap.range (Matrix.mulVecLin e)) := hKtower
   have hKcard : Nat.card K = 2 ^ (g * a) := by
     rw [hπ.2.2, GaloisField.card 2 g (by omega), ← pow_mul]
   have hKge2 : 2 ≤ Nat.card K := Nat.succ_le_iff.mpr Finite.one_lt_card
@@ -108,12 +107,12 @@ theorem rckM3_PSL_equiv (m g : ℕ) (hg : 1 ≤ g) (S : Set (GL (Fin (m + 1)) (G
     have h0 : g * a = 0 := by omega
     rw [h0, pow_zero] at h2
     omega
-  haveI hWfin : Module.Finite K (LinearMap.range (Matrix.mulVecLin e)) :=
+  have hWfin : Module.Finite K (LinearMap.range (Matrix.mulVecLin e)) :=
     Module.Finite.of_restrictScalars_finite (GaloisField 2 g) K
       (LinearMap.range (Matrix.mulVecLin e))
   have hWne : LinearMap.range (Matrix.mulVecLin e) ≠ ⊥ :=
     rckM3eq_range_mulVecLin_ne_bot he.2.2.1
-  haveI hWnt : Nontrivial (LinearMap.range (Matrix.mulVecLin e)) :=
+  have hWnt : Nontrivial (LinearMap.range (Matrix.mulVecLin e)) :=
     (Submodule.nontrivial_iff_ne_bot).mpr hWne
   have hfinpos : 0 < Module.finrank K (LinearMap.range (Matrix.mulVecLin e)) :=
     Module.finrank_pos_iff.mpr hWnt
@@ -149,7 +148,7 @@ theorem rckM3_PSL_equiv (m g : ℕ) (hg : 1 ≤ g) (S : Set (GL (Fin (m + 1)) (G
   by_cases hsmall : k + 1 = 1 ∨ (k + 1 = 2 ∧ Nat.card K = 2)
   · exfalso
     rcases hsmall with hk1 | ⟨hk2, hK2⟩
-    · haveI hsub1 : Subsingleton (Matrix.SpecialLinearGroup (Fin (k + 1)) K) := by
+    · have hsub1 : Subsingleton (Matrix.SpecialLinearGroup (Fin (k + 1)) K) := by
         rw [hk1]
         exact Matrix.SpecialLinearGroup.subsingleton_of_subsingleton
       have hρbot : ρ.range = ⊥ := by
@@ -162,24 +161,24 @@ theorem rckM3_PSL_equiv (m g : ℕ) (hg : 1 ≤ g) (S : Set (GL (Fin (m + 1)) (G
           glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e⁆ = ⊥ :=
         le_bot_iff.mp (hρcomm.trans (le_of_eq hρbot))
       have hJbot : J' = ⊥ := le_bot_iff.mp (hJe.1.trans (le_of_eq hHbot))
-      haveI hnt : Nontrivial J' := CFSG.ComponentClassification.Quasisimple.nontrivial hJe.2.2
+      have hnt : Nontrivial J' := CFSG.ComponentClassification.Quasisimple.nontrivial hJe.2.2
       rw [hJbot] at hnt
       exact not_nontrivial_iff_subsingleton.mpr inferInstance hnt
-    · haveI hsol : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin (k + 1)) K) := by
+    · have hsol : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin (k + 1)) K) := by
         rw [hk2]
         exact rckM3eq_solvable_SL_two_of_card_two hK2
-      haveI hsolRange : Group.IsSolvable ρ.range :=
+      have hsolRange : Group.IsSolvable ρ.range :=
         Group.isSolvable_of_surjective (f := (MonoidHom.ofInjective hρinj).toMonoidHom)
           (MonoidHom.ofInjective hρinj).surjective
-      haveI hsolH : Group.IsSolvable ↥⁅glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e,
+      have hsolH : Group.IsSolvable ↥⁅glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e,
           glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e⁆ :=
         Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hρcomm)
           (fun _ _ h => (Subgroup.inclusion_inj hρcomm).mp h)
-      haveI hsolJ : Group.IsSolvable J' :=
+      have hsolJ : Group.IsSolvable J' :=
         Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJe.1)
           (fun _ _ h => (Subgroup.inclusion_inj hJe.1).mp h)
-      haveI hnt : Nontrivial J' := CFSG.ComponentClassification.Quasisimple.nontrivial hJe.2.2
-      haveI hperf : Group.IsPerfect J' := ⟨hJe.2.2.1⟩
+      have hnt : Nontrivial J' := CFSG.ComponentClassification.Quasisimple.nontrivial hJe.2.2
+      have hperf : Group.IsPerfect J' := ⟨hJe.2.2.1⟩
       exact (Group.IsPerfect.not_isSolvable J') hsolJ
   · have hk2ge : 2 ≤ k + 1 := by
       have h1 : k + 1 ≠ 1 := fun h => hsmall (Or.inl h)
@@ -195,9 +194,9 @@ theorem rckM3_PSL_equiv (m g : ℕ) (hg : 1 ≤ g) (S : Set (GL (Fin (m + 1)) (G
           (k + 1) K hk2ge (Or.inl hk2) (Or.inl hk2)
     have hSLq : CFSG.Open.IsQuasisimple (Matrix.SpecialLinearGroup (Fin (k + 1)) K) :=
       ⟨hqs.1.commutator_eq_top, hqs.2.1⟩
-    haveI hperfSL : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin (k + 1)) K) :=
+    have hperfSL : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin (k + 1)) K) :=
       Group.IsPerfect.mk hSLq.1
-    haveI hperfR : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
+    have hperfR : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
     have hρrange : ρ.range = ⁅glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e,
         glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e⁆ := by
       apply le_antisymm
@@ -216,9 +215,9 @@ theorem rckM3_PSL_equiv (m g : ℕ) (hg : 1 ≤ g) (S : Set (GL (Fin (m + 1)) (G
       have h := CFSG.Open.IsSubnormal.of_mathlib
         (CFSG.Assembly.IsSubnormal.subgroupOf hJe.2.1)
       rwa [← hρrange] at h
-    haveI hntJ : Nontrivial J' := CFSG.ComponentClassification.Quasisimple.nontrivial hJe.2.2
-    haveI hperfJ : Group.IsPerfect J' := ⟨hJe.2.2.1⟩
-    haveI hperfSub : Group.IsPerfect (J'.subgroupOf ρ.range) := by
+    have hntJ : Nontrivial J' := CFSG.ComponentClassification.Quasisimple.nontrivial hJe.2.2
+    have hperfJ : Group.IsPerfect J' := ⟨hJe.2.2.1⟩
+    have hperfSub : Group.IsPerfect (J'.subgroupOf ρ.range) := by
       have h : Group.IsPerfect (J'.subgroupOf ⁅glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e,
           glBlockCentralizer Matrix.SpecialLinearGroup.toGL S e⁆) :=
         Group.IsPerfect.ofSurjective
@@ -258,7 +257,7 @@ theorem rckM3_PSL_equiv (m g : ℕ) (hg : 1 ≤ g) (S : Set (GL (Fin (m + 1)) (G
           (u : Matrix (Fin (k + 1)) (Fin (k + 1)) K) := by
       intro u
       ext i j
-      simp [Matrix.GeneralLinearGroup.map_apply, RingHom.mapMatrix_apply]
+      simp [RingHom.mapMatrix_apply]
     have hstep : (σ.toRingHom).mapMatrix
         (((InnerDiagA.conjSL (Matrix.GeneralLinearGroup.map σ.symm.toRingHom t₀) y :
           Matrix.SpecialLinearGroup (Fin (k + 1)) (GaloisField 2 (g * a))) :

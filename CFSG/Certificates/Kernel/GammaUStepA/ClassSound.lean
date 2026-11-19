@@ -267,11 +267,11 @@ theorem cls_spec (hpin : pinOK = true) (hspan : spanOK = true) (hcomm : commOK =
     constructor
     · intro hl
       have h' := h2 (Subgroup.mem_map_of_mem _ hl)
-      simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv] at h'
+      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv] at h'
       exact h'
     · intro hl
       have h' := h1 (Subgroup.mem_map_of_mem _ hl)
-      simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at h'
+      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at h'
       have e : V * (V⁻¹ * l * V) * V⁻¹ = l := by group
       rwa [e] at h'
 

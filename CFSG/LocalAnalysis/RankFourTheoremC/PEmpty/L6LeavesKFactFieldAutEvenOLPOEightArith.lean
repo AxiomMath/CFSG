@@ -27,7 +27,7 @@ theorem two_pow_six_mul_mod_27 {p : ℕ} (hp : p % 6 = 1 ∨ p % 6 = 5) :
 
 theorem padicValNat_three_sub_one_two {X : ℕ} (hX : 1 ≤ X) (h : X % 27 = 10 ∨ X % 27 = 19) :
     padicValNat 3 (X - 1) = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne : X - 1 ≠ 0 := by omega
   have h1 : 2 ≤ padicValNat 3 (X - 1) :=
     (padicValNat_dvd_iff_le hne).mp (by norm_num; omega)
@@ -45,18 +45,18 @@ theorem padicValNat_three_two_pow_mul_sub_one_le_six {p k : ℕ} (hp : p % 6 = 1
     (hk1 : 1 ≤ k) (hk6 : k ≤ 6) :
     padicValNat 3 (2 ^ (p * k) - 1) = if k = 6 then 2 else (k + 1) % 2 := by
   rcases Nat.lt_or_ge k 6 with h | h
-  · rw [if_neg (by omega)]
+  · rw [ite_eq_right (by omega)]
     exact OLThreeAdic.padicValNat_three_two_pow_mul_sub_one hp hk1 (by omega)
   · have hk : k = 6 := by omega
     subst hk
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact padicValNat_three_two_pow_six_sub_one hp
 
 theorem padicValNat_three_prod_gl_le_six {p : ℕ} (hp : p % 6 = 1 ∨ p % 6 = 5) {a : ℕ}
     (ha : a ≤ 6) :
     padicValNat 3 (∏ i : Fin a, ((2 ^ p) ^ a - (2 ^ p) ^ (i : ℕ))) =
       if a = 6 then 4 else a / 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp1 : 1 ≤ p := by omega
   have hfac : ∀ i : Fin a, (2 ^ p) ^ a - (2 ^ p) ^ (i : ℕ) =
       2 ^ (p * (i : ℕ)) * (2 ^ (p * (a - i)) - 1) := fun i => by
@@ -88,7 +88,7 @@ variable {F : Type*} [Field F] [Finite F]
 theorem natCard_GL (a : ℕ) :
     Nat.card (GL (Fin a) F) = ∏ i : Fin a, (Nat.card F ^ a - Nat.card F ^ (i : ℕ)) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   rw [Matrix.card_GL_field, Nat.card_eq_fintype_card (α := F)]
 
 theorem padicValNat_three_card_GL_le_six {p : ℕ} (hq : Nat.card F = 2 ^ p)
@@ -114,7 +114,7 @@ theorem lieOrderDivisor_POmegaPlus_four : lieOrderDivisor .POmegaPlus 4 (2 ^ 1) 
 
 theorem five_le_padicValNat_numerator_POmegaPlus_four :
     5 ≤ padicValNat 3 (lieOrderNumerator .POmegaPlus 4 (2 ^ 1)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h : lieOrderNumerator .POmegaPlus 4 (2 ^ 1) = 2 ^ 12 * 15 * (3 * 15 * 63) := by decide
   have hne : lieOrderNumerator .POmegaPlus 4 (2 ^ 1) ≠ 0 := by rw [h]; norm_num
   exact (padicValNat_dvd_iff_le hne).mp (by rw [h]; norm_num)

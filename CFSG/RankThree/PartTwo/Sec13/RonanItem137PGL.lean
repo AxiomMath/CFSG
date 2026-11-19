@@ -340,14 +340,14 @@ private theorem commutator_le_of_card [Finite G] {S Z : Subgroup G} (hZS : Z ≤
   have hSN : S ≤ Subgroup.normalizer (Z : Set G) := fun x hx =>
     Subgroup.centralizer_le_normalizer _
       (Subgroup.mem_centralizer_iff.mpr fun z hz => (hc x hx z hz).symm)
-  haveI : (Z.subgroupOf S).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hZS).mpr hSN
+  have : (Z.subgroupOf S).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hZS).mpr hSN
   have hZ' : Nat.card (Z.subgroupOf S) = 3 :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZS).toEquiv).trans hZ
   have hQ : Nat.card (↥S ⧸ Z.subgroupOf S) = 3 ^ 2 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (Z.subgroupOf S)
     rw [hS, hZ'] at h
     omega
-  haveI : IsMulCommutative (↥S ⧸ Z.subgroupOf S) :=
+  have : IsMulCommutative (↥S ⧸ Z.subgroupOf S) :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq hQ
   have hle : _root_.commutator ↥S ≤ Z.subgroupOf S :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mp this
@@ -367,12 +367,15 @@ section Group
 
 variable [Finite K] {τ : K} (hτ : τ ^ 3 = 1) (hτ0 : τ ≠ 0) (hτ1 : τ ≠ 1)
 
+omit [Finite K] in
 private theorem dBar_mem_sylow0 : dBar hτ ∈ sylow0 hτ hτ0 :=
   Subgroup.mem_sup_left (Subgroup.mem_sup_left (Subgroup.mem_zpowers _))
 
+omit [Finite K] in
 private theorem yBar_mem_sylow0 : (yBar : PGL3 K) ∈ sylow0 hτ hτ0 :=
   Subgroup.mem_sup_left (Subgroup.mem_sup_right (Subgroup.mem_zpowers _))
 
+omit [Finite K] in
 private theorem uBar_mem_sylow0 : uBar hτ0 ∈ sylow0 hτ hτ0 :=
   Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
 
@@ -422,6 +425,7 @@ theorem card_sylow0 : Nat.card (sylow0 hτ hτ0) = 27 := by
   rw [hinf, Subgroup.card_bot, mul_one, card_hessian hτ hτ1, Nat.card_zpowers, hord] at h
   exact h
 
+omit [Finite K] in
 theorem commute_dBar_of_mem_sylow0 {x : PGL3 K} (hx : x ∈ sylow0 hτ hτ0) :
     x * dBar hτ = dBar hτ * x := by
   have hle : sylow0 hτ hτ0 ≤ Subgroup.centralizer {dBar hτ} := by
@@ -481,7 +485,7 @@ theorem exists_inverting_of_card_twentySeven (hK : PiField π p f K) (hq : ModTh
       (∀ z ∈ ⁅S, S⁆, σ * z * σ⁻¹ = z⁻¹) ∧ (∀ z ∈ ⁅S, S⁆, ∀ x ∈ S, x * z = z * x) := by
   have hπ : π = false → LocalAnalysis.ComponentInitial.UnitaryFieldData p f K :=
     fun h => by subst h; exact hK.unitary
-  haveI : Finite K := hK.finite
+  have : Finite K := hK.finite
   obtain ⟨τ, hτ, hτ1⟩ := Sec4.exists_tau hK hq
   have hτ0 : τ ≠ 0 := by
     rintro rfl

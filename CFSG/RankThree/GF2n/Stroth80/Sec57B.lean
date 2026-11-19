@@ -51,6 +51,7 @@ theorem Ctx.exists_conj_eq_mul_of_not_caseA (hc : Ctx M Q Z B) {t : G} (ht : t �
     _ = t * u * c⁻¹ * c := by rw [key]
     _ = t * u := by group
 
+omit [Finite G] in
 theorem Ctx.conj_mem_Ut (hc : Ctx M Q Z B) {t m : G} (hmM : m ∈ M) (hmt : m * t = t * m)
     {u : G} (hu : u ∈ Ut Q Z t) : m * u * m⁻¹ ∈ Ut Q Z t := by
   have hle : Ut Q Z t ≤ (Ut Q Z t).comap (MulAut.conj m).toMonoidHom := by
@@ -145,6 +146,7 @@ theorem Ctx.pow_le_card_Lambda (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n :
   rw [h2, pow_succ] at h1
   exact Nat.le_of_mul_le_mul_right h1 Nat.card_pos
 
+omit [Finite G] in
 theorem Ctx.inf_Lambda_Q (hc : Ctx M Q Z B) {Y : Subgroup G} :
     (QB B ⊓ QB Y ⊓ M) ⊓ Q = Q ⊓ QB Y ⊓ QB B := by
   ext x

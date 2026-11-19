@@ -17,8 +17,8 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Assembly.LowTwoRank
 
 private theorem isSolvable_of_le_isSolvable {X : Type} [Group X] {S R : Subgroup X}
     (hS : Group.IsSolvable ↥S) (hR : R ≤ S) : Group.IsSolvable ↥R := by
-  haveI := hS
-  exact solvable_of_solvable_injective (f := Subgroup.inclusion hR)
+  have := hS
+  exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hR)
     (Subgroup.inclusion_injective hR)
 
 private theorem not_quotSat_of_isSolvable {G : Type} [Group G] {S N : Subgroup G}
@@ -26,9 +26,9 @@ private theorem not_quotSat_of_isSolvable {G : Type} [Group G] {S N : Subgroup G
     (hS : Group.IsSolvable ↥S) (hP : ∀ (X : Type) [Group X], P X → ¬ Group.IsSolvable X) :
     ¬ QuotSat S N P := by
   rintro ⟨hN, hPX⟩
-  haveI := hS
-  haveI : Group.IsSolvable (↥S ⧸ N.subgroupOf S) :=
-    solvable_of_surjective (QuotientGroup.mk'_surjective (N.subgroupOf S))
+  have := hS
+  have : Group.IsSolvable (↥S ⧸ N.subgroupOf S) :=
+    Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective (N.subgroupOf S))
   exact hP _ hPX this
 
 private theorem not_isSolvable_of_isOmegaPlus (hCL : ClassicalNonsolvableStatement) {m q : ℕ}
@@ -36,55 +36,55 @@ private theorem not_isSolvable_of_isOmegaPlus (hCL : ClassicalNonsolvableStateme
     ∀ (X : Type) [Group X], IsOmegaPlus m q X → ¬ Group.IsSolvable X := by
   rintro X _ ⟨K, hF, hFin, hKq, ⟨e⟩⟩ hX
   obtain ⟨j, hj⟩ := hq2
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hj)
-  haveI : Group.IsSolvable X := hX
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hj)
+  have : Group.IsSolvable X := hX
   have h4K : 4 ≤ Nat.card K := by rw [hKq]; exact hq4
-  exact (hCL K h4K).2.2.1 m hm (solvable_of_surjective (f := e.toMonoidHom) e.surjective)
+  exact (hCL K h4K).2.2.1 m hm (Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective)
 
 private theorem not_isSolvable_of_isOmegaMinus (hCL : ClassicalNonsolvableStatement) {m q : ℕ}
     (hm : 2 ≤ m) (hq4 : 4 ≤ q) (hq2 : ∃ j : ℕ, q = 2 ^ j) :
     ∀ (X : Type) [Group X], IsOmegaMinus m q X → ¬ Group.IsSolvable X := by
   rintro X _ ⟨K, hF, hFin, hKq, b, c, hirr, ⟨e⟩⟩ hX
   obtain ⟨j, hj⟩ := hq2
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hj)
-  haveI : Group.IsSolvable X := hX
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hj)
+  have : Group.IsSolvable X := hX
   have h4K : 4 ≤ Nat.card K := by rw [hKq]; exact hq4
-  exact (hCL K h4K).2.2.2 m b c hm hirr (solvable_of_surjective (f := e.toMonoidHom) e.surjective)
+  exact (hCL K h4K).2.2.2 m b c hm hirr (Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective)
 
 private theorem not_isSolvable_of_isPSUModel {j q : ℕ} (hq : q = 2 ^ j) :
     ∀ (X : Type) [Group X], IsPSUModel 6 q X → ¬ Group.IsSolvable X := by
   subst hq
   rintro X _ ⟨K, hF, hFin, hKq, ⟨e⟩⟩ hX
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable X := hX
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsSolvable X := hX
   have hnq : ((6 : ℕ), (2 : ℕ) ^ j) ≠ (3, 2) := by
     intro h
     exact absurd (congrArg Prod.fst h) (by norm_num)
-  haveI := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 j hKq 6
+  have := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 j hKq 6
     (by norm_num) hnq
-  haveI : Nontrivial (StatedProj (StatedSU 6 (2 ^ j) K)) := IsSimpleGroup.toNontrivial
-  haveI := CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (K := K) (p := 2) (f := j) hKq
+  have : Nontrivial (StatedProj (StatedSU 6 (2 ^ j) K)) := IsSimpleGroup.toNontrivial
+  have := CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (K := K) (p := 2) (f := j) hKq
     (n := 6) (by norm_num) hnq
-  haveI : Group.IsPerfect (StatedProj (StatedSU 6 (2 ^ j) K)) :=
+  have : Group.IsPerfect (StatedProj (StatedSU 6 (2 ^ j) K)) :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective _)
   exact Group.IsPerfect.not_isSolvable (StatedProj (StatedSU 6 (2 ^ j) K))
-    (solvable_of_surjective (f := e.toMonoidHom) e.surjective)
+    (Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective)
 
 private theorem not_isSolvable_of_isPSLModel {q : ℕ} (hq4 : 4 ≤ q) :
     ∀ (X : Type) [Group X], IsPSLModel 6 q X → ¬ Group.IsSolvable X := by
   rintro X _ ⟨K, hF, hFin, hKq, ⟨e⟩⟩ hX
-  haveI : Group.IsSolvable X := hX
+  have : Group.IsSolvable X := hX
   have h4K : 4 ≤ Nat.card K := by rw [hKq]; exact hq4
-  haveI : IsSimpleGroup (StatedProj (StatedSL 6 K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSL 6 K)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (by norm_num)
       (Or.inl (by norm_num)) (Or.inl (by norm_num))
-  haveI : Nontrivial (StatedProj (StatedSL 6 K)) := IsSimpleGroup.toNontrivial
-  haveI : Group.IsPerfect (StatedSL 6 K) :=
+  have : Nontrivial (StatedProj (StatedSL 6 K)) := IsSimpleGroup.toNontrivial
+  have : Group.IsPerfect (StatedSL 6 K) :=
     (statedSL_quasisimple_of_card 6 K (by norm_num) h4K).1
-  haveI : Group.IsPerfect (StatedProj (StatedSL 6 K)) :=
+  have : Group.IsPerfect (StatedProj (StatedSL 6 K)) :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective _)
   exact Group.IsPerfect.not_isSolvable (StatedProj (StatedSL 6 K))
-    (solvable_of_surjective (f := e.toMonoidHom) e.surjective)
+    (Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective)
 
 private theorem eq_one_of_mem_statedSL {K : Type} [Field K] {n : ℕ} (hn : n ≤ 1)
     {g : Matrix.GeneralLinearGroup (Fin n) K} (hg : g ∈ StatedSL n K) : g = 1 := by
@@ -160,10 +160,10 @@ private theorem not_isSolvable_lgen {G : Type} [Group G] [Finite G]
         rw [hLQ, conjSubgroup_eq_self_iff.mpr (hyp.Q_normal.2 hm), inf_idem]
       ·
         have hSL : Group.IsSolvable ↥(StatedSL n K) := by
-          haveI := hS
+          have := hS
           rw [← hφ]
-          exact solvable_of_surjective φ.rangeRestrict_surjective
-        haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hj)
+          exact Group.isSolvable_of_surjective φ.rangeRestrict_surjective
+        have : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hj)
         have h4K : 4 ≤ Nat.card K := by rw [hKq]; exact hq4
         exact (hCL K h4K).1 n hn hSL
     · exact not_quotSat_isSLModel_of_solvable hCL hq4 hq2 (le_refl 2) hS hD2.2
@@ -173,7 +173,7 @@ theorem not_stronglyEmbedded_fstar {G : Type} [Group G] [Finite G]
     ¬ ∃ M' : Subgroup (FStar G), CFSG.IsStronglyEmbedded M' := by
   rintro ⟨H, hH⟩
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfus : CFSG.Open.fusionStronglyEmbedded H := hH
   have hCL : ClassicalNonsolvableStatement :=
     classicalNonsolvable_of_quasisimple classicalQuasisimpleStatement_holds
@@ -182,7 +182,7 @@ theorem not_stronglyEmbedded_fstar {G : Type} [Group G] [Finite G]
   obtain ⟨K, hK, hFK, hZK⟩ := exists_component_eq_generalizedFitting hyp
   obtain ⟨hsimple, -⟩ := Tim81.component_isSimple hF hK
   subst hFK
-  haveI : IsSimpleGroup ↥(generalizedFitting G) := hsimple
+  have : IsSimpleGroup ↥(generalizedFitting G) := hsimple
   have hXn : (generalizedFitting G).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic).2
   have hQX : Q ≤ generalizedFitting G := Q_le_generalizedFitting hyp
@@ -208,7 +208,7 @@ theorem not_stronglyEmbedded_fstar {G : Type} [Group G] [Finite G]
     rwa [orderOf_eq_prime hzX2 hzX1] at this
   have hO : ∀ R : Subgroup (FStar G), R.Normal → Odd (Nat.card R) → R = ⊥ := by
     intro R hRn hRodd
-    haveI := hRn
+    have := hRn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal R with h | h
     · exact h
     · exfalso
@@ -226,7 +226,7 @@ theorem not_stronglyEmbedded_fstar {G : Type} [Group G] [Finite G]
     have hvZ : ((v : FStar G) : G) ∈ Z := Subgroup.mem_subgroupOf.mp (hVZ hv)
     apply Subtype.ext
     simpa using sq_eq_one_of_cp hcp _ hvZ
-  haveI hHs : Group.IsSolvable ↥H :=
+  have hHs : Group.IsSolvable ↥H :=
     CFSG.Holt.isSolvable_of_fusionStronglyEmbedded hfus hO hV4 hV2
   obtain ⟨P, hPH⟩ := CFSG.Timmesfeld.Bridge.exists_sylow_le hfus
   have hZx2 : IsPGroup 2 (Z.subgroupOf (generalizedFitting G)) := IsPGroup.of_card hZxcard
@@ -291,9 +291,9 @@ theorem not_stronglyEmbedded_fstar {G : Type} [Group G] [Finite G]
     intro x y hxy
     have h1 : c * (x.1 : FStar G) * c⁻¹ = c * (y.1 : FStar G) * c⁻¹ := congrArg Subtype.val hxy
     exact Subtype.ext (mul_left_cancel (mul_right_cancel h1))
-  haveI hSxs : Group.IsSolvable ↥Sx := solvable_of_solvable_injective hf
-  haveI hLs : Group.IsSolvable ↥(Lgen M (LB M Q B)) :=
-    solvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hLX).toMonoidHom)
+  have hSxs : Group.IsSolvable ↥Sx := Group.isSolvable_of_isSolvable_injective hf
+  have hLs : Group.IsSolvable ↥(Lgen M (LB M Q B)) :=
+    Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hLX).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hLX).surjective
   exact not_isSolvable_lgen hCL hc hLs
 

@@ -455,9 +455,8 @@ theorem case10_of_lt_card (h211 : Item211) (h213 : Item213)
   rcases h211 G A E U c L hpair with ⟨-, -, h27, -⟩ | ⟨-, h27, -⟩ | ⟨-, h27, -⟩ |
       ⟨-, h27, -⟩ | ⟨-, h27, -⟩ | ⟨-, h27, -⟩ | ⟨-, h27, -⟩ | ⟨-, h27, -⟩ | ⟨-, h27, -⟩ |
       h10 | ⟨hJ, -⟩ | ⟨-, h27, -⟩ | ⟨hP, -⟩
-  all_goals first
+  all_goals try first
     | (exfalso; rw [h27] at hA; norm_num at hA)
-    | skip
   · exact h10
   · exact (false_of_J3 (h213 G A E U c L hpair) (h217 G A E U c L hpair) hJ).elim
   · exact (h2116 G A E U c L hpair (Or.inr (Or.inr hP))).elim

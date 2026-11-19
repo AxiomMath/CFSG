@@ -76,7 +76,7 @@ theorem der_of_head {n w kS kO nb BP : ℕ} {PS PSI : ℕ → ℕ} {D : List (Li
   unfold headK at hh
   simp only [Orb.bAnd_eq, Bool.and_eq_true] at hh
   have hd := Orb.allN_iff.1 hh.2.2.2.2.2.1 j h2
-  rw [Orb.bIf_eq, if_neg (by rw [Orb.blt_dec, decide_eq_true_iff]; omega), Orb.strictB_eq,
+  rw [Orb.bIf_eq, ite_eq_right (by rw [Orb.blt_dec, decide_eq_true_iff]; omega), Orb.strictB_eq,
     Bool.and_eq_true, Orb.beq_dec, decide_eq_true_iff, Orb.dword_eq h1] at hd
   exact hd.2
 
@@ -216,13 +216,11 @@ theorem card_psi_le : Nat.card (Subgroup.closure (Set.range fun j : Fin 62 =>
     (τ := fun j : Fin 62 => permOfArr 128 S128[psiRx j.val]!) (oFin ov_ok)
     (fun j a b c hc => by
       have hj : j.val < 0 + 62 := by have := j.isLt; omega
-      beta_reduce
       rw [sigma_val j.isLt, sigma_val j.isLt, sigma_val j.isLt, hc,
         laneK_spec lane_ok (Nat.zero_le _) hj _ (xor_lt2048 a b),
         laneK_spec lane_ok (Nat.zero_le _) hj _ a.isLt,
         laneK_spec lane_ok (Nat.zero_le _) hj _ b.isLt, xorMasks_xor])
     (fun j k => Fin.ext (by
-      beta_reduce
       rw [sigma_val j.isLt]
       change pg 12 (mask 12) (P2.S j.val) (psiOv k.val) = psiOv (permOfArr 128 S128[psiRx j.val]! k).val
       rw [tau_val j.isLt]

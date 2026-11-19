@@ -109,8 +109,8 @@ private theorem exists_generator_of_prime_free
     rw [he,mem_bot] at hh
     rw [hh,orderOf_one] at hu
     norm_num at hu
-  have hScard := card_eq_thirteen P hn hfree (S : Subgroup P) S.isPGroup' hSne
-  have hSfix := fixed_card P hn hfree (S : Subgroup P) S.isPGroup' hSne
+  have hScard := card_eq_thirteen P hn hfree (S : Subgroup P) S.isPGroup hSne
+  have hSfix := fixed_card P hn hfree (S : Subgroup P) S.isPGroup hSne
   have heq : zpowers u = (S : Subgroup P) := Subgroup.eq_of_le_of_card_ge hRS
     (by rw [Nat.card_zpowers,hu,hScard])
   refine ⟨u,hu,?_,?_⟩

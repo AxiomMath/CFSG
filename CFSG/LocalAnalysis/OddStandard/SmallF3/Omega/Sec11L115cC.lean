@@ -83,7 +83,7 @@ theorem comm_mod [Finite G] (hS : Sec11cSplit t z K1 K2) {E : Subgroup G}
         = x⁻¹ * (d * x * d⁻¹ * q * (d * x * d⁻¹)⁻¹) * (d * x * d⁻¹) := by group
       _ = x⁻¹ * (x * q * x⁻¹) * (d * x * d⁻¹) := by rw [hmain]
       _ = q * (x⁻¹ * (d * x * d⁻¹)) := by group
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y hx hy ihx ihy =>
     have hyK0 : y ∈ secK0 t z := hE hy
     have e : (x * y)⁻¹ * (d * (x * y) * d⁻¹) =
@@ -98,7 +98,7 @@ theorem comm_mod [Finite G] (hS : Sec11cSplit t z K1 K2) {E : Subgroup G}
     rw [e]
     exact sec11_conj_mem_oddCoreIn (Subgroup.le_normalizer hxK0) (Subgroup.inv_mem _ ihx)
 
-theorem inf_le_oddCore [Finite G] (hS : Sec11cSplit t z K1 K2) {E : Subgroup G}
+theorem inf_le_oddCore [Finite G] (_hS : Sec11cSplit t z K1 K2) {E : Subgroup G}
     (hE : secKD E ≤ secK0 t z) :
     secKD E ⊓ oddCoreIn (secK0 t z) ≤ oddCoreIn (secKD E) := by
   have hN : ((secKD E ⊓ oddCoreIn (secK0 t z)).subgroupOf (secKD E)).Normal := by

@@ -15,6 +15,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 
+omit [Finite G] in
 private lemma w16l_le_of_sp_le {J E : Subgroup G} (D : ModDataE J E) {A B : Subgroup G}
     (hA : A ≤ E) (h : D.sp A ≤ D.sp B) : A ≤ B := by
   intro x hx
@@ -24,6 +25,7 @@ private lemma w16l_le_of_sp_le {J E : Subgroup G} (D : ModDataE J E) {A B : Subg
   have hyx : y = x := D.ι_injOn hy.2 hxE hiy
   simpa [hyx] using hy.1
 
+omit [Finite G] in
 private lemma w16l_subgroup_eq_of_sp_eq {J E : Subgroup G} (D : ModDataE J E) {A B : Subgroup G}
     (hA : A ≤ E) (hB : B ≤ E) (h : D.sp A = D.sp B) : A = B :=
   le_antisymm (w16l_le_of_sp_le D hA (le_of_eq h))

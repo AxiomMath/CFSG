@@ -58,7 +58,7 @@ theorem le_centralizer_of_perfect_of_le_sup1412 {W Q M : Subgroup G} [Q.Normal]
     have hqN : q ∈ N := hQW hq
     refine ⟨⟨q, hqN⟩, hq, ?_⟩
     ext w
-    simp only [hρ, Subgroup.normalizerMonoidHom_apply_apply_coe]
+    simp only [hρ]
     have hcw : ∀ v ∈ W, c * v * c⁻¹ = v := fun v hv => by
       rw [← (Subgroup.mem_centralizer_iff.mp hc) v hv, mul_inv_cancel_right]
     change q * (w : G) * q⁻¹ = (m : G) * w * (m : G)⁻¹
@@ -144,7 +144,7 @@ theorem omegaG_jG_le_of_mem_famG_zero1412 {T A : Subgroup G} (hA : A ∈ Sec3.fa
   have hcard := Sec3.card_sup_mul_card_inf_of_commute hcomm
   rw [hinf, Subgroup.card_bot, mul_one, hA.2.2, hzp, Nat.sub_zero] at hcard
   rw [hcard] at hle
-  have : 2 ^ CFSG.pRank 2 T * 2 ≤ 2 ^ CFSG.pRank 2 T * 1 := by simpa using hle
+  have : 2 ^ CFSG.pRank 2 T * 2 ≤ 2 ^ CFSG.pRank 2 T * 1 := by simp at hle
   have hpos : 0 < 2 ^ CFSG.pRank 2 T := by positivity
   nlinarith
 
@@ -155,11 +155,13 @@ section Star
 
 variable {X : Type} [Group X] [Finite X] {L S : Subgroup X}
 
+omit [Finite X] in
 theorem relIndex_eq_card_map1412 (hK : CFSG.pPrimeCore 3 X = CFSG.pCore 2 X) (A : Subgroup X) :
     (CFSG.pCore 2 X).relIndex A =
       Nat.card (A.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 X))) := by
   rw [← relIndex_ker, QuotientGroup.ker_mk', hK]
 
+omit [Finite X] in
 theorem isElemTwo_map1412 {Y : Type*} [Group Y] (f : X →* Y) {A : Subgroup X}
     (hA : Sec3.IsElemTwo A) : Sec3.IsElemTwo (A.map f) := by
   refine ⟨?_, ?_⟩
@@ -329,10 +331,12 @@ section PY
 variable (hK : CFSG.pPrimeCore 3 X = CFSG.pCore 2 X) {a : X}
 include hK
 
+omit [Finite X] in
 theorem mk'_eq_one_iff1412 (x : X) :
     QuotientGroup.mk' (CFSG.pPrimeCore 3 X) x = 1 ↔ x ∈ CFSG.pCore 2 X := by
   rw [← MonoidHom.mem_ker, QuotientGroup.ker_mk', hK]
 
+omit [Finite X] in
 theorem pCore_le_comap_zpowers1412 :
     CFSG.pCore 2 X ≤ (zpowers (QuotientGroup.mk' (CFSG.pPrimeCore 3 X) a)).comap
       (QuotientGroup.mk' (CFSG.pPrimeCore 3 X)) := by
@@ -340,6 +344,7 @@ theorem pCore_le_comap_zpowers1412 :
   rw [mem_comap, (mk'_eq_one_iff1412 hK q).2 hq]
   exact one_mem _
 
+omit [Finite X] in
 theorem comap_zpowers_le1412 (haS : a ∈ S) (hQS : CFSG.pCore 2 X ≤ S) :
     (zpowers (QuotientGroup.mk' (CFSG.pPrimeCore 3 X) a)).comap
       (QuotientGroup.mk' (CFSG.pPrimeCore 3 X)) ≤ S := by
@@ -353,6 +358,7 @@ theorem comap_zpowers_le1412 (haS : a ∈ S) (hQS : CFSG.pCore 2 X ≤ S) :
   exact mul_mem (zpow_mem haS n) (hQS hk)
 
 omit hK in
+omit [Finite X] in
 theorem comap_zpowers_le_comap_centralizer1412 :
     (zpowers (QuotientGroup.mk' (CFSG.pPrimeCore 3 X) a)).comap
       (QuotientGroup.mk' (CFSG.pPrimeCore 3 X)) ≤
@@ -378,6 +384,7 @@ theorem comap_centralizer_le_normalizer1412 :
   exact zpow_mem (mem_zpowers _) n
 
 omit hK in
+omit [Finite X] in
 theorem map_comap_centralizer1412 :
     ((centralizer ({QuotientGroup.mk' (CFSG.pPrimeCore 3 X) a} :
         Set (X ⧸ CFSG.pPrimeCore 3 X))).comap (QuotientGroup.mk' (CFSG.pPrimeCore 3 X))).map

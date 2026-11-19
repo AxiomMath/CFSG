@@ -188,6 +188,7 @@ end SL6
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] [CharP F 2] in
 theorem isPrimitiveRoot_root {q : F[X]} [Fact (Irreducible q)] (hdeg : q.natDegree = 2)
     (hdvd : q ∣ (X : F[X]) ^ 5 - 1) : IsPrimitiveRoot (AdjoinRoot.root q) 5 := by
   have hζ5 : AdjoinRoot.root q ^ 5 = 1 := by
@@ -203,9 +204,10 @@ theorem isPrimitiveRoot_root {q : F[X]} [Fact (Irreducible q)] (hdeg : q.natDegr
     have hd1 := Polynomial.natDegree_eq_of_degree_eq_some (n := 1)
       (by rw [Nat.cast_one]; exact Polynomial.degree_eq_one_of_irreducible_of_root Fact.out hroot)
     omega
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact orderOf_eq_prime hζ5 hζ1 ▸ IsPrimitiveRoot.orderOf _
 
+omit [CharP F 2] in
 theorem finrank_fixed_mod_four_of_irreducible {a b g : Matrix.SpecialLinearGroup (Fin 6) F}
     (ha : orderOf a = 5) (hb : orderOf b = 5) (hab : Commute a b)
     (hirr : Irreducible (minpoly F (sl6End F a))) (hdeg : (minpoly F (sl6End F a)).natDegree = 2)
@@ -214,7 +216,7 @@ theorem finrank_fixed_mod_four_of_irreducible {a b g : Matrix.SpecialLinearGroup
   classical
   obtain ⟨q, hq⟩ : ∃ q, minpoly F (sl6End F a) = q := ⟨_, rfl⟩
   rw [hq] at hirr hdeg
-  haveI : Fact (Irreducible q) := ⟨hirr⟩
+  have : Fact (Irreducible q) := ⟨hirr⟩
   have hq0 : q ≠ 0 := hirr.ne_zero
   have htop : primaryComponent (sl6End F a) q = ⊤ := by
     refine eq_top_iff.mpr fun v _ => mem_primaryComponent.mpr ?_
@@ -268,7 +270,7 @@ theorem finrank_fixed_mod_four_of_irreducible {a b g : Matrix.SpecialLinearGroup
   have hι : Function.Injective ι := fun u v h => Subtype.ext (Subtype.ext h)
   have hFE : finrank F (AdjoinRoot q) = 2 := by
     rw [(AdjoinRoot.powerBasis hq0).finrank, AdjoinRoot.powerBasis_dim, hdeg]
-  haveI : Module.Free (AdjoinRoot q) S := Module.Free.of_divisionRing (AdjoinRoot q) S
+  have : Module.Free (AdjoinRoot q) S := Module.Free.of_divisionRing (AdjoinRoot q) S
   have hfinrank : finrank F (sl6End F b).fixedSubmodule = 2 * finrank (AdjoinRoot q) S := by
     rw [hfix, LinearMap.finrank_range_of_inj hι, ← Module.finrank_mul_finrank F (AdjoinRoot q) S,
       hFE]
@@ -334,7 +336,7 @@ theorem range_le_fixedSubmodule_or_mem_zpowers (hF : Nat.card F = 4)
     rw [h1, orderOf_one] at ha
     norm_num at ha
   obtain ⟨-, hdeg⟩ := (primaryFactor_degree_of_orderFive hF ha hq).resolve_left hq1
-  haveI : Fact (Irreducible q) := ⟨irreducible_of_mem_primaryFactors hq⟩
+  have : Fact (Irreducible q) := ⟨irreducible_of_mem_primaryFactors hq⟩
   have hζ : IsPrimitiveRoot (AdjoinRoot.root q) 5 :=
     isPrimitiveRoot_root hdeg ((mem_primaryFactors.mp hq).2.2.trans (sl6End_minpoly_dvd ha))
   have hrootn : ∀ (n : ℕ) (w : primaryComponent (sl6End F a) q),
@@ -560,12 +562,12 @@ theorem exists_conj_eq_inv_of_mulEquiv_sl3 {K : Type} [Field K] [Finite K] (hK :
         ext A : 1
         apply Subtype.ext
         refine Matrix.ext fun i j => ?_
-        simp [Matrix.SpecialLinearGroup.map_apply_coe])
+        simp)
       (by
         ext A : 1
         apply Subtype.ext
         refine Matrix.ext fun i j => ?_
-        simp [Matrix.SpecialLinearGroup.map_apply_coe])
+        simp)
   let ψ : H ≃* Matrix.SpecialLinearGroup (Fin 3) FieldFour := e.trans Φ
   obtain ⟨x, hx⟩ := SL3Four.exists_conj_mem_zpowers_h0 (ψ t) (by rw [MulEquiv.orderOf_eq, ht])
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hx

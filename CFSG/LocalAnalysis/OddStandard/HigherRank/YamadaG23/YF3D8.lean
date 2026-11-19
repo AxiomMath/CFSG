@@ -71,7 +71,7 @@ private theorem d8_data {D : Type} [Group D] [Finite D] (hD : Nat.card D = 8)
       · exact absurd h hlt
     exact Subgroup.index_eq_one.mp hidx
   have hrel : K₁.relIndex K₂ = 2 := by
-    haveI := hnorm1
+    have := hnorm1
     rw [← Subgroup.relIndex_sup_right (H := K₂) (K := K₁), sup_comm, hsup,
       Subgroup.relIndex_top_right, hidx1]
   have hinfcard : Nat.card ↥(K₁ ⊓ K₂) = 2 := by
@@ -88,7 +88,7 @@ private theorem d8_data {D : Type} [Group D] [Finite D] (hD : Nat.card D = 8)
     intro hbot
     have h1c : Nat.card ↥(K₁ ⊓ K₂) = 1 := by rw [hbot]; exact Subgroup.card_bot
     omega
-  haveI hnt : Nontrivial ↥(K₁ ⊓ K₂) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne_bot
+  have hnt : Nontrivial ↥(K₁ ⊓ K₂) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne_bot
   obtain ⟨c, hc, hc_ne⟩ := Subgroup.exists_ne_one_of_nontrivial (K₁ ⊓ K₂)
   have hcK1 : c ∈ K₁ := hc.1
   have hcK2 : c ∈ K₂ := hc.2
@@ -101,13 +101,13 @@ private theorem d8_data {D : Type} [Group D] [Finite D] (hD : Nat.card D = 8)
   have hnotle1 : ¬ K₁ ≤ K₂ := by
     intro hle
     exact hne (Subgroup.eq_of_le_of_card_ge hle (by rw [h2card, h1card]))
-  obtain ⟨a, haK1, ha_notK2⟩ := SetLike.not_le_iff_exists.mp hnotle1
+  obtain ⟨a, haK1, ha_notK2⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle1
   have ha2 : a ^ 2 = 1 := isE_sq_eq_one h₁ haK1
   have ha_ne : a ≠ 1 := fun h => ha_notK2 (h ▸ K₂.one_mem)
   have hnotle2 : ¬ K₂ ≤ K₁ := by
     intro hle
     exact hne (Subgroup.eq_of_le_of_card_ge hle (by rw [h1card, h2card])).symm
-  obtain ⟨b, hbK2, hb_notK1⟩ := SetLike.not_le_iff_exists.mp hnotle2
+  obtain ⟨b, hbK2, hb_notK1⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle2
   have hb2 : b ^ 2 = 1 := isE_sq_eq_one h₂ hbK2
   have hb_ne : b ≠ 1 := fun h => hb_notK1 (h ▸ K₁.one_mem)
   have hcomm1 : ∀ y ∈ K₁, c * y = y * c := by
@@ -222,7 +222,7 @@ private theorem d8_data {D : Type} [Group D] [Finite D] (hD : Nat.card D = 8)
       · exact (hc_comm b).symm
       · exact hc_comm a
       · exact hc_comm b
-    haveI hcommC : IsMulCommutative ↥(Subgroup.closure ({a, b, c} : Set D)) :=
+    have hcommC : IsMulCommutative ↥(Subgroup.closure ({a, b, c} : Set D)) :=
       Subgroup.isMulCommutative_closure hpair
     obtain ⟨x, y, hxy⟩ := hnc
     have hx : x ∈ Subgroup.closure ({a, b, c} : Set D) := htop_abc ▸ Subgroup.mem_top x
@@ -334,7 +334,7 @@ theorem d8_klein_all {D : Type} [Group D] [Finite D] (hD : Nat.card D = 8)
     rw [hba_sq, Set.pair_comm, ← hK2_eq]
   have hmax' : maxElemAbelian (⊤ : Subgroup D) = {K₁, K₂} := by rw [hmax, hQ1, hQ2]
   ext K
-  simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · intro hK
     have hKel : IsElemAbelian 2 K := by

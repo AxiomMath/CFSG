@@ -58,7 +58,7 @@ theorem exists_isSylowIn_ge [Finite G] (p : ℕ) [Fact p.Prime] {H P : Subgroup 
       rwa [← this]
     · intro hx
       exact ⟨x, hx, rfl⟩
-  refine ⟨(Q : Subgroup H).map H.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, ?_⟩, ?_⟩
+  refine ⟨(Q : Subgroup H).map H.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, ?_⟩, ?_⟩
   · change ¬ p ∣ (((Q : Subgroup H).map H.subtype).subgroupOf H).index
     rw [hsub]
     exact Sylow.not_dvd_index Q

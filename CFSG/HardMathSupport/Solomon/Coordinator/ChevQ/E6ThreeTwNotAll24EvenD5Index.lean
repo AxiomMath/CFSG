@@ -20,7 +20,7 @@ set_option linter.unusedSectionVars false
 theorem nonempty_ringEquiv_fixedField_idx {K : Type} [Field K] [Fintype K]
     (d : ValidLieTypeIndex)
     (hK : Fintype.card K = d.fieldOrder) : Nonempty (K ≃+* ↥d.fixedField) := by
-  haveI : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Finite d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
   let _ : Fintype d.fixedField := Fintype.ofFinite _
   have hcard : Fintype.card K = Fintype.card d.fixedField := by
     rw [← Nat.card_eq_fintype_card (α := d.fixedField), ValidLieTypeIndex.card_fixedField]
@@ -43,7 +43,7 @@ theorem exists_twistedD_of_statedProj_minus {K : Type} [Field K] [Fintype K] (n 
       n q hv
   obtain ⟨φ⟩ := nonempty_ringEquiv_fixedField_idx (K := K) ⟨.twistedD n q, hv⟩ (by
     simp [ValidLieTypeIndex.fieldOrder, q, hcard])
-  haveI : Finite ↥(ValidLieTypeIndex.fixedField ⟨.twistedD n q, hv⟩) :=
+  have : Finite ↥(ValidLieTypeIndex.fixedField ⟨.twistedD n q, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   obtain ⟨e2⟩ := CFSG.Blueprint.EvenSource.nonempty_statedOmegaMinus_equiv (n := n) (by omega)
     (CFSG.ClassicalInvolution.Upgrade.irreducible_map φ hirr) hirr₀
@@ -64,7 +64,7 @@ theorem exists_lieIndex_of_pominus {G : Type} [Group G] {n r e : ℕ}
   have hf : 0 < e := hadm.2.1
   rcases h with ⟨-, hmod⟩ | ⟨hn0, ht, -⟩ | ⟨hn0, ht, -⟩ | ⟨hn0, ht, -⟩
   · obtain ⟨-, K, _, _, hK, b, c, hirr, ⟨eG⟩⟩ := hmod
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hring : ringChar K = r :=
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ringChar_eq_of_natCard_eq_pow hp hK hf
     obtain ⟨q, hv, hqp, ⟨eq⟩⟩ := exists_twistedD_of_statedProj_minus (K := K) n hn4 hirr

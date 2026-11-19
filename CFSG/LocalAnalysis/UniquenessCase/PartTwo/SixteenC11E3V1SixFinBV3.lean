@@ -42,7 +42,7 @@ private theorem s1611e3_foldl_testBit (l : List Nat) (p : Nat → Bool) (acc m :
     rw [List.foldl_cons, ih, s1611e3_testBit_ite_shiftLeft]
     by_cases hmk : m = k
     · rw [hmk]
-      cases hp : p k <;> simp [hp]
+      cases hp : p k <;> simp
     · simp [decide_eq_false hmk]
 
 theorem s1611e3_testBit_sixProf (K : Bool) (t m : Nat) :

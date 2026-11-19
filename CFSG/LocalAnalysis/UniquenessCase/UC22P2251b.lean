@@ -38,20 +38,24 @@ theorem of_mulEquiv (h : LayerShape22 X) (e : X ≃* Y) : LayerShape22 Y := by
 
 variable [Finite X]
 
+omit [Finite X] in
 theorem isSimpleGroup (h : LayerShape22 X) : IsSimpleGroup X := by
   rcases h with ⟨n, hn, h⟩ | h
   · exact P22y.isSimpleGroup_of_isL2Ev h hn
   · exact PartTwo.isSimpleGroup_of_isL3 h
 
+omit [Finite X] in
 theorem center_eq_bot (h : LayerShape22 X) : center X = ⊥ := by
   rcases h with ⟨n, -, h⟩ | h
   · exact P22y.center_eq_bot_of_isL2Ev h
   · exact PartTwo.center_eq_bot_of_isL3 h
 
+omit [Finite X] in
 theorem isQuasisimple (h : LayerShape22 X) : CFSG.Open.IsQuasisimple X := by
-  haveI := h.isSimpleGroup
+  have := h.isSimpleGroup
   exact P22y.isQuasisimple_of_isSimpleGroup h.center_eq_bot
 
+omit [Finite X] in
 theorem three_dvd_card (h : LayerShape22 X) : 3 ∣ Nat.card X := by
   rcases h with ⟨n, -, h⟩ | h
   · exact P22y.three_dvd_card_of_isL2Ev h
@@ -62,9 +66,9 @@ theorem isCyclic_of_isPGroup (h : LayerShape22 X) {q : ℕ} (hq : q.Prime) (hq2 
     (hP : IsPGroup q P) : IsCyclic P := by
   rcases h with ⟨n, -, h⟩ | h
   · exact P22y.isCyclic_of_isPGroup_of_isL2Ev h hq hq2 P hP
-  · haveI : Fact q.Prime := ⟨hq⟩
+  · have : Fact q.Prime := ⟨hq⟩
     rcases (Nat.dvd_prime hq).1 (PartTwo.card_pGroup_dvd_of_isL3 h hq hq2 hP) with h1 | h1
-    · haveI := (Nat.card_eq_one_iff_unique.1 h1).1
+    · have := (Nat.card_eq_one_iff_unique.1 h1).1
       infer_instance
     · exact isCyclic_of_prime_card h1
 
@@ -98,8 +102,8 @@ theorem card [Finite X] (h : BadShape22 X) : Nat.card X = 60 ∨ Nat.card X = 16
 theorem nonempty_mulEquiv_alt_five_of_isL2Ev_two (h : IsL2Ev X 2) :
     Nonempty (X ≃* alternatingGroup (Fin 5)) := by
   obtain ⟨F, _, _, _, hF, ⟨e⟩⟩ := P22y.exists_equiv_sl2 h
-  haveI := Fintype.ofFinite F
-  haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  have := Fintype.ofFinite F
+  have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have hcard : Fintype.card F = Fintype.card (GaloisField 2 2) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hF, GaloisField.card 2 2 two_ne_zero]
   obtain ⟨e₂⟩ := CFSG.Quasithin.S146zX.nonempty_mulEquiv_sl_two_four_of_alt_five
@@ -204,11 +208,11 @@ theorem normal_commutator_subgroupOf (Y : Subgroup X) : (⁅Y, Y⁆.subgroupOf Y
 theorem ker_eq_bot_of_layerShape {Y : Type} [Group Y] [Finite X] (hX : commutator X = ⊤)
     (hO : CFSG.pCore 2 X = ⊥) (ψ : X →* Y) (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ center X)
     (hY : LayerShape22 Y) : ψ.ker = ⊥ := by
-  haveI : Group.IsPerfect X := ⟨hX⟩
-  haveI : Finite Y := Finite.of_surjective ψ hψ
+  have : Group.IsPerfect X := ⟨hX⟩
+  have : Finite Y := Finite.of_surjective ψ hψ
   let e : X ⧸ ψ.ker ≃* Y := QuotientGroup.quotientKerEquivOfSurjective ψ hψ
   refine CFSG.RankThree.PartTwo.KFacts.KS14.eq_bot_of_isPerfect_of_isCyclic_sylow hker fun q hq hqZ Q => ?_
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq2 : q ≠ 2 := by
     rintro rfl
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ψ.ker) 2 hqZ
@@ -221,7 +225,7 @@ theorem ker_eq_bot_of_layerShape {Y : Type} [Group Y] [Finite X] (hX : commutato
     rw [hO, le_bot_iff, zpowers_eq_bot] at hle
     rw [hle, orderOf_one] at hzo
     exact absurd hzo (by norm_num)
-  haveI := hY.isCyclic_of_isPGroup hq hq2 ((Q : Subgroup (X ⧸ ψ.ker)).map e.toMonoidHom) (Q.isPGroup'.map _)
+  have := hY.isCyclic_of_isPGroup hq hq2 ((Q : Subgroup (X ⧸ ψ.ker)).map e.toMonoidHom) (Q.isPGroup.map _)
   exact isCyclic_of_injective ((Q : Subgroup (X ⧸ ψ.ker)).equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom
     ((Q : Subgroup (X ⧸ ψ.ker)).equivMapOfInjective e.toMonoidHom e.injective).injective
 
@@ -257,7 +261,7 @@ theorem uc22p2251b_exists_lift (D : Data G) (hx : DataExt D) (h61 : UC6.R6_1 D) 
     rw [hKb]
     exact hsh
   have hne : mbarImage D.M D.U K ≠ ⊥ := by
-    haveI := hsh'.isSimpleGroup
+    have := hsh'.isSimpleGroup
     exact (nontrivial_iff_ne_bot _).1 inferInstance
   obtain ⟨ψ, hψs, hψk, -⟩ := uc22p22wa_onto D hK hne
   have hbot := ker_eq_bot_of_layerShape hK.2.2.1 CFSG.ABGLocalTools.pCore_quotient_pCore_eq_bot ψ hψs hψk hsh'
@@ -283,7 +287,7 @@ theorem uc22p2251b_ne (D : Data G) {m : ℕ} {Nb : Fin m → Subgroup (MBar D.M 
     exact (Subgroup.commutator_le_self _).trans
       (le_iSup₂_of_le (f := fun k (_ : k ∈ {k | k ≠ i}) => Nb k) j (Ne.symm hij) le_rfl)
   rw [hNb.1.2.2 i, le_bot_iff] at hle
-  haveI := (layerShape_commutator (hNb.2 i) hi).isSimpleGroup
+  have := (layerShape_commutator (hNb.2 i) hi).isSimpleGroup
   exact (nontrivial_iff_ne_bot _).1 inferInstance hle
 
 theorem uc22p2251b_normal (D : Data G) {Ch : Choice2011 G} (h17 : S21_17 D Ch) (hH : H1930 D) (c : Ctx21 D Ch)
@@ -314,8 +318,8 @@ theorem uc22p2251b_exists_bad (D : Data G) {Ch : Choice2011 G} (hx : DataExt D) 
 
 theorem uc22p2251b_isCyclic_of_isPGroup {K : Subgroup G} (hK : LayerShape22 (Bar2 K)) {q : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) {P : Subgroup G} (hPK : P ≤ K) (hP : IsPGroup q P) : IsCyclic P := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P' : Subgroup ↥K := P.subgroupOf K with hP'
   have hP'q : IsPGroup q P' := hP.comap_subtype
   have hdisj : Disjoint P' (CFSG.pCore 2 ↥K) :=
@@ -328,14 +332,14 @@ theorem uc22p2251b_isCyclic_of_isPGroup {K : Subgroup G} (hK : LayerShape22 (Bar
     have hmem : (x : ↥K) ∈ P' ⊓ CFSG.pCore 2 ↥K := ⟨x.2, hxk⟩
     rw [disjoint_iff.1 hdisj, mem_bot] at hmem
     exact Subtype.ext hmem
-  haveI := hK.isCyclic_of_isPGroup hq hq2 f.range (hP'q.of_surjective f.rangeRestrict f.rangeRestrict_surjective)
-  haveI : IsCyclic ↥P' := isCyclic_of_injective f.rangeRestrict (by rwa [MonoidHom.rangeRestrict_injective_iff])
+  have := hK.isCyclic_of_isPGroup hq hq2 f.range (hP'q.of_surjective f.rangeRestrict f.rangeRestrict_surjective)
+  have : IsCyclic ↥P' := isCyclic_of_injective f.rangeRestrict (by rwa [MonoidHom.rangeRestrict_injective_iff])
   exact isCyclic_of_injective (subgroupOfEquivOfLe hPK).symm.toMonoidHom (subgroupOfEquivOfLe hPK).symm.injective
 
 theorem uc22p2251b_thin8 {K : Subgroup G} (hK : LayerShape22 (Bar2 K)) : F08.Thin8 K := by
   intro q hq hq2
   refine CFSG.SectionRank.pRank_le hq.one_lt fun E hEK hE => ?_
-  haveI := uc22p2251b_isCyclic_of_isPGroup hK hq hq2 hEK (PartTwo.isPGroup_of_isElemAbelian hq hE)
+  have := uc22p2251b_isCyclic_of_isPGroup hK hq hq2 hEK (PartTwo.isPGroup_of_isElemAbelian hq hE)
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥E)
   have hgq : g ^ q = 1 := Subtype.ext (by rw [Subgroup.coe_pow, Subgroup.coe_one]; exact hE.2 g g.2)
   rw [pow_one, ← orderOf_eq_card_of_forall_mem_zpowers hg]

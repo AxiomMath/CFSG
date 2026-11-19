@@ -78,7 +78,7 @@ theorem owR53_neg_half (w : Fin 3 → ZMod 5) (h0 : w 0 ≠ 0) (h1 : w 1 ≠ 0) 
     rw [hs0, hs1, hs2]
     exact owR53_neg_prod w h0 h1 h2 c hc hsq v
   refine ⟨?_, ?_⟩
-  · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
   · rw [← hprod]
     exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.subset_closure hmem0)

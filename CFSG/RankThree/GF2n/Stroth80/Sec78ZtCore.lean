@@ -16,6 +16,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec7ctr_Rt_eq_sup (hc : Ctx M Q Z B) {t r : G} (hr : Sec7A hc t r) :
     Rt M (LB M Q B) t = conjSubgroup 1 (LB M Q B) ⊔ conjSubgroup r (LB M Q B) := by
   rw [conjSubgroup_one, ← hc.LB_conj (hc.Rt_le_M t hr.mem)]
@@ -64,7 +65,7 @@ theorem sec7ctr_zt_core (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec5Hyp hc n 
     rw [← commutatorElement_inv]
     exact Z.inv_mem (hW s hsZ w hw)
   have hUt := sec7ctr_card_Ut_le hc hRM hsR hsc hZW hWQ hWs
-  haveI : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
+  have : (Z.subgroupOf (Vt M (LB M Q B) B Z t)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (fun v hv =>
       hc.hyp.Z_normal.2 (hc.hyp.Q_normal.1 (hVQ hv)))
   have hcardχ := card_mul_card_of_isChiIso hchi hWQ hZV
@@ -92,6 +93,7 @@ theorem sec7ctr_Rt_le_of_56 (hc : Ctx M Q Z B) {t s : G}
   rw [hc.conj_LB_eq_of_conj_BZ hm (hc.Rt_le_M t hρ) hBZ]
   exact hc.conj_LB_le_Rt ht hρ
 
+omit [Finite G] in
 theorem sec7ctr_Vgen_of_56 {t : G}
     (h56 : ∀ m ∈ M, conjSubgroup m B ⊔ Z ≤ Vt M (LB M Q B) B Z t →
       ∃ r ∈ Rt M (LB M Q B) t, conjSubgroup m B ⊔ Z = conjSubgroup r B ⊔ Z) :

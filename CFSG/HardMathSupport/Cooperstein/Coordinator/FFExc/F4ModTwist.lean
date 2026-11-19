@@ -197,9 +197,9 @@ theorem permF4_nodeK (k : ℕ) : permF4 (nodeK k) = nodeK (k + 1) := by
   unfold nodeK
   by_cases h : k % 2 = 0
   · have h' : ¬ (k + 1) % 2 = 0 := by omega
-    rw [if_pos h, if_neg h']; decide
+    rw [ite_eq_left h, ite_eq_right h']; decide
   · have h' : (k + 1) % 2 = 0 := by omega
-    rw [if_neg h, if_pos h']; decide
+    rw [ite_eq_right h, ite_eq_left h']; decide
 
 theorem exists_chi_m26Phi (k : ℕ) :
     ∃ χ : adjointGroup Tag.F4 K → K, ∀ h ∈ (DF4 K).H, m26Phi K k h (y26 K) = χ h • y26 K := by
@@ -208,7 +208,7 @@ theorem exists_chi_m26Phi (k : ℕ) :
     else 0, fun h hh => ?_⟩
   show m26Phi K k h (y26 K) = (if hh : h ∈ (DF4 K).H then
     (m26Rep_H_scalar K (phiPow_mem_H K k hh)).choose else 0) • y26 K
-  rw [dif_pos hh, m26Phi_apply]
+  rw [dite_eq_left hh, m26Phi_apply]
   exact (m26Rep_H_scalar K (phiPow_mem_H K k hh)).choose_spec
 
 theorem m26Phi_isChevType (k : ℕ) (χ : adjointGroup Tag.F4 K → K)

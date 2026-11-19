@@ -36,7 +36,7 @@ theorem isElemAbelian_of_le' {M : Type} [Group M] {A B : Subgroup M} (hAB : A �
 theorem natCountMod_lin2 {F : Type} [Field F] [Fintype F] {n : ℕ} (hn : 2 ≤ n)
     (hcard : Fintype.card F = 2 ^ n) :
     NatCountMod (Multiplicative (Fin 2 → F)) (slAct F).range := by
-  haveI : CharP F 2 := charP_two_of_card (by omega) hcard
+  have : CharP F 2 := charP_two_of_card (by omega) hcard
   have hq4 : 4 ≤ Fintype.card F := by
     rw [hcard]
     calc 4 = 2 ^ 2 := by norm_num

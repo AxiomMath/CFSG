@@ -216,7 +216,7 @@ private theorem exists_frame [FiniteDimensional (ZMod 2) W] (hW : finrank (ZMod 
   have hψ' : ∀ (v u : W) (a b : ZMod 2), ψ (v - a • x₀) (u - b • x₀) = ψ v u := by
     intro v u a b
     simp only [map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply, hx₀ψ, hsymm v x₀,
-      smul_zero, sub_zero, zero_sub, neg_zero, smul_eq_mul, mul_zero, zero_add, add_zero]
+      sub_zero, smul_eq_mul, mul_zero]
   have hα' : ∀ v : W, α₀ (v - α₀ v • x₀) = 0 := fun v => by
     rw [map_sub, map_smul, hα₀, smul_eq_mul, mul_one, sub_self]
   refine ⟨e₁ - α₀ e₁ • x₀, f₁ - α₀ f₁ • x₀, e₂ - α₀ e₂ • x₀, f₂ - α₀ f₂ • x₀,
@@ -249,16 +249,16 @@ private def wedge (ψ : W →ₗ[ZMod 2] W →ₗ[ZMod 2] ZMod 2) (α : Module.D
     W →ₗ[ZMod 2] W →ₗ[ZMod 2] W →ₗ[ZMod 2] ZMod 2 :=
   LinearMap.mk₂ (ZMod 2) (fun x y => ψ x y • α + α x • ψ y + α y • ψ.flip x)
     (fun x x' y => by
-      simp only [map_add, LinearMap.add_apply, LinearMap.flip_apply, add_smul, smul_add]
+      simp only [map_add, LinearMap.add_apply, add_smul, smul_add]
       abel)
     (fun c x y => by
-      simp only [map_smul, LinearMap.smul_apply, LinearMap.flip_apply, smul_eq_mul, smul_add,
+      simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, smul_add,
         smul_smul, mul_comm])
     (fun x y y' => by
-      simp only [map_add, LinearMap.add_apply, LinearMap.flip_apply, add_smul, smul_add]
+      simp only [map_add, add_smul, smul_add]
       abel)
     (fun c x y => by
-      simp only [map_smul, LinearMap.smul_apply, LinearMap.flip_apply, smul_eq_mul, smul_add,
+      simp only [map_smul, smul_eq_mul, smul_add,
         smul_smul, mul_comm])
 
 private theorem wedge_apply (ψ : W →ₗ[ZMod 2] W →ₗ[ZMod 2] ZMod 2) (α : Module.Dual (ZMod 2) W)

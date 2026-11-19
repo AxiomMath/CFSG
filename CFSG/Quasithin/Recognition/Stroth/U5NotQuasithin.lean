@@ -17,14 +17,14 @@ open CFSG.Open CFSG.QuasithinUnique CFSG.Quasithin.F112R CFSG.ClassicalGroups.Un
 private theorem pRank_eq_of_subgroupMulEquiv {G H : Type*} [Group G] [Finite G] [Group H] [Finite H]
     {A : Subgroup G} {B : Subgroup H} (e : ↥A ≃* ↥B) {p : ℕ} (hp : p.Prime) :
     CFSG.Open.pRank p A = CFSG.Open.pRank p B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [← CFSG.Quasithin.pRank_top_subtype A, ← CFSG.Quasithin.pRank_top_subtype B]
   exact CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt e
 
 private theorem pRank_map_of_injective {G H : Type*} [Group G] [Finite G] [Group H] [Finite H]
     {A : Subgroup G} (f : G →* H) (hf : Function.Injective f) {p : ℕ} (hp : p.Prime) :
     CFSG.Open.pRank p (A.map f) = CFSG.Open.pRank p A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [← CFSG.Quasithin.pRank_top_subtype (A.map f), ← CFSG.Quasithin.pRank_top_subtype A]
   exact (CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt
     (Subgroup.equivMapOfInjective A f hf)).symm
@@ -90,10 +90,10 @@ theorem eq_two_of_isAmalgamOfGroup_psu5 {G : Type} [Group G] [Finite G]
   have hcard : Nat.card K = 2 ^ (2 * n) := by
     rw [hK, ← pow_mul, Nat.mul_comm n 2]
   have h : UnitaryFieldData 2 n K := ⟨Nat.prime_two, hn, hcard⟩
-  haveI : Finite (hypPSU h 2 1) := finite_hypPSU_five h
+  have : Finite (hypPSU h 2 1) := finite_hypPSU_five h
   obtain ⟨R, hR⟩ := exists_isHypTransport (r := 2) (ε := 1) h
   let e' : hypPSU h 2 1 ≃* Y := (hypPSUEquivStatedProj h hR (by norm_num)).trans eS.symm
-  haveI : Finite Y := Finite.of_injective e'.symm.toMonoidHom e'.symm.injective
+  have : Finite Y := Finite.of_injective e'.symm.toMonoidHom e'.symm.injective
   obtain ⟨c, -, hPc⟩ := (u5_yamStd (h := h)).pair e'.symm hpair
   obtain ⟨p, hp, hp2, hp5, hpd, h3⟩ := exists_prime_three_le_pRank_u5PtP h hn2
   have hconj : ∀ A : Subgroup (hypPSU h 2 1),

@@ -34,13 +34,13 @@ namespace CFSG.LocalAnalysis.GLTheoremA.KD264Lie
 private theorem outerIdxAt_tits {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {hv : TauCeti.LieTypeIndex.tits.Valid} :
     OuterIdxAt p .tits (CFSG.LieType.SeitzGeneration.Cat ⟨.tits, hv⟩) := by
-  haveI : Finite (CFSG.LieType.SeitzGeneration.Cat ⟨.tits, hv⟩) :=
+  have : Finite (CFSG.LieType.SeitzGeneration.Cat ⟨.tits, hv⟩) :=
     Nat.finite_of_card_ne_zero (by
       rw [CFSG.LieType.SeitzGeneration.card_cat_tits hv]; norm_num)
   refine outerIdxAt_of_idxCoreAt hp ?_
   intro x hxp hxout
   exfalso
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmodel : CFSG.Blueprint.ReeTitsModel
       (CFSG.LieType.SeitzGeneration.Cat ⟨TauCeti.LieTypeIndex.tits, hv⟩) .Tits 2 1 :=
     CFSG.RankThree.PartOne.CTP.reeTitsModel_tits
@@ -77,7 +77,7 @@ private theorem outerIdxAt_suzukiGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     OuterIdxAt p (.suzuki a) (CFSG.Blueprint.suzukiGroup a F) := by
   refine outerIdxAt_of_idxCoreAt hp ?_
   intro x hxp hxout
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxinner : x ∉ inner (CFSG.Blueprint.suzukiGroup a F) :=
     fun hx => hxout (inner_le_innAutDerived _ hx)
   have hx1 : x ≠ 1 := fun h1 => hxout (by rw [h1]; exact one_mem _)
@@ -170,7 +170,7 @@ private theorem outerIdxAt_reeG2Model {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
     OuterIdxAt p (.reeG2 a) (ReeTag.G2.reeGamma K a) := by
   refine outerIdxAt_of_idxCoreAt hp ?_
   intro α hαp hαout
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hαinner : α ∉ inner (ReeTag.G2.reeGamma K a) :=
     fun hα => hαout (inner_le_innAutDerived _ hα)
   obtain ⟨hpdvdm, δ, σ, hσp, hconj, hkcard, hfixed⟩ :=
@@ -235,7 +235,7 @@ private theorem outerIdxAt_reeG2Model {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
   obtain ⟨hs, hnc, -⟩ :=
     CFSG.ComponentClassification.CatalogueBSmallRee.small_Ree_whole_group_p_components
       b (fixSubfield σ) hbcard
-  haveI : IsSimpleGroup (commutator (ReeTag.G2.reeGamma (fixSubfield σ) b)) := hs
+  have : IsSimpleGroup (commutator (ReeTag.G2.reeGamma (fixSubfield σ) b)) := hs
   have hqk : CFSG.IsQuasisimple (commutator (ReeTag.G2.reeGamma (fixSubfield σ) b)) :=
     CFSG.ClassicalInvolution.Asc77.T3Core.isQuasisimple_of_simple_nonabelian hnc
   have hTq : CFSG.IsQuasisimple T :=
@@ -248,7 +248,7 @@ private theorem outerIdxAt_reeG2Model {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
     refine ⟨⟨f, hf⟩ * t * ⟨f, hf⟩⁻¹,
       (inferInstance : (commutator J).Normal).conj_mem t ht ⟨f, hf⟩, ?_⟩
     simp
-  haveI : IsSimpleGroup T := eTT.symm.isSimpleGroup
+  have : IsSimpleGroup T := eTT.symm.isSimpleGroup
   have hncT : ∃ u v : T, u * v ≠ v * u := by
     obtain ⟨u, v, huv⟩ := hnc
     exact ⟨eTT u, eTT v, fun h => huv (eTT.injective (by simpa using h))⟩
@@ -352,7 +352,7 @@ private theorem outerIdxAt_reeF4Model {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     OuterIdxAt p (.reeF4 a) (ReeTag.F4.reeGamma K a) := by
   refine outerIdxAt_of_idxCoreAt hp ?_
   intro α hαp hαout
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hαinner : α ∉ inner (ReeTag.F4.reeGamma K a) :=
     fun hα => hαout (inner_le_innAutDerived _ hα)
   have hα1 : α ≠ 1 := fun h1 => hαout (by rw [h1]; exact one_mem _)
@@ -460,8 +460,8 @@ private theorem outerIdxAt_reeF4Model {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         have hk2 : Nat.card (fixSubfield σ) = 2 := by simpa using hkcard
         obtain ⟨hs, hnc, ⟨e⟩⟩ :=
           CFSG.HardMathSupport.Solomon.Coordinator.LieComp.commutator_reeGamma_F4_zero_data hk2
-        haveI : IsSimpleGroup (commutator (ReeTag.F4.reeGamma (fixSubfield σ) 0)) := hs
-        haveI : IsSimpleGroup T := eTT.symm.isSimpleGroup
+        have : IsSimpleGroup (commutator (ReeTag.F4.reeGamma (fixSubfield σ) 0)) := hs
+        have : IsSimpleGroup T := eTT.symm.isSimpleGroup
         have hncT : ∃ u v : T, u * v ≠ v * u := by
           obtain ⟨u, v, huv⟩ := hnc
           exact ⟨eTT u, eTT v, fun h => huv (eTT.injective (by simpa using h))⟩
@@ -488,7 +488,7 @@ private theorem outerIdxAt_reeF4Model {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         obtain ⟨eCat⟩ :=
           CFSG.HardMathSupport.Solomon.Coordinator.SeitzOuterCube.Exc.reeGamma_equiv_cat_of_card
             hb1 hv' hkcard
-        haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.reeF4 b, hv'⟩).Group :=
+        have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.reeF4 b, hv'⟩).Group :=
           (CFSG.LieType.SeitzGeneration.finite_isSimpleGroup_cat_reeF4 hv').2
         have htop : commutator (ReeTag.F4.reeGamma (fixSubfield σ) b) = ⊤ :=
           ReeTag.commutator_reeGamma_eq_top (t := ReeTag.F4) hb1 hkcard
@@ -496,13 +496,13 @@ private theorem outerIdxAt_reeF4Model {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
           ⟨eTT.symm.trans ((MulEquiv.subgroupCongr htop).trans Subgroup.topEquiv) |>.trans
             eCat.symm⟩
         obtain ⟨eTcat⟩ := hTcat
-        haveI : IsSimpleGroup T := eTcat.isSimpleGroup
+        have : IsSimpleGroup T := eTcat.isSimpleGroup
         have hncT : ∃ u v : T, u * v ≠ v * u := by
           by_contra h
           push Not at h
           have hcom : ∀ u v : T, u * v = v * u := fun u v => h u v
-          haveI : IsMulCommutative T := ⟨⟨hcom⟩⟩
-          haveI : IsMulCommutative (T ⧸ Subgroup.center T) := inferInstance
+          have : IsMulCommutative T := ⟨⟨hcom⟩⟩
+          have : IsMulCommutative (T ⧸ Subgroup.center T) := inferInstance
           obtain ⟨u, v, huv⟩ := hTq.2.2
           exact huv (mul_comm u v)
         have hZT : Subgroup.center T = ⊥ := by
@@ -543,7 +543,7 @@ private theorem outerIdxAt_twistedE6Model {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
     OuterIdxAt p (.twistedE6 q) (twistedE6RootGroup K σ) := by
   refine outerIdxAt_of_idxCoreAt hp ?_
   intro α hαp hαout
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hαinner : α ∉ inner (twistedE6RootGroup K σ) :=
     fun hα => hαout (inner_le_innAutDerived _ hα)
   have hα1 : α ≠ 1 := fun h1 => hαout (by rw [h1]; exact one_mem _)
@@ -641,14 +641,14 @@ private theorem outerIdxAt_twistedE6Model {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
       ⟨.twistedE6 q₀, TauCeti.LieTypeIndex.valid_twistedE6 q₀⟩).Group) :=
     ⟨eT0.trans eCat0.symm⟩
   obtain ⟨eTcat⟩ := hTcat
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie
       ⟨.twistedE6 q₀, TauCeti.LieTypeIndex.valid_twistedE6 q₀⟩).Group :=
     isSimpleGroup_cat_twistedE6' _
-  haveI : IsSimpleGroup T := eTcat.isSimpleGroup
+  have : IsSimpleGroup T := eTcat.isSimpleGroup
   have hncT : ∃ u v : T, u * v ≠ v * u := by
     by_contra h
     push Not at h
-    haveI : IsMulCommutative T := ⟨⟨fun u v => h u v⟩⟩
+    have : IsMulCommutative T := ⟨⟨fun u v => h u v⟩⟩
     have hprime : Nat.Prime (Nat.card T) :=
       (Group.is_simple_iff_prime_card (α := T)).1 inferInstance
     have h3 : 3 ∣ Nat.card T := dvd_trans (by norm_num : 3 ∣ 27) h27T
@@ -704,7 +704,7 @@ private theorem outerIdxAt_twistedE6 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     OuterIdxAt p (.twistedE6 q) (CFSG.LieType.SeitzGeneration.Cat ⟨.twistedE6 q, hv⟩) := by
   obtain ⟨K, _, σ, hK, hσ, ⟨e0⟩⟩ :=
     CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite K :=
+  have : Finite K :=
     Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
   have hK' : Nat.card K = q.card ^ 2 := by
     rw [hK, TauCeti.PrimePower.card_def]

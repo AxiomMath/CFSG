@@ -604,14 +604,14 @@ theorem F1_mul_self (hS : Setting h L η t Q T) : ∀ f ∈ miyamotoF1G h L η t
         exact mem_top _
       exact mem_subgroupOf.1 this
     exact absurd (card_le_of_le hle) (not_le.2 hcard)
-  have : Group.IsNilpotent (S₀ : Subgroup G) := S₀.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (S₀ : Subgroup G) := S₀.isPGroup.isNilpotent
   obtain ⟨y, hyN, hyT⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   have hyN' : (y : G) ∈ normalizer ((miyamotoF1G h L η t ⊔ T : Subgroup G) : Set G) :=
     mem_normalizer_fintype fun n hn =>
       mem_subgroupOf.1 ((mem_normalizer_iff.1 hyN ⟨n, hTS₀ hn⟩).1 (mem_subgroupOf.2 hn))
   have hyT' : (y : G) ∉ miyamotoF1G h L η t ⊔ T := fun e => hyT (mem_subgroupOf.2 e)
   have hXp : IsPGroup 2 ((miyamotoF1G h L η t ⊔ T) ⊔ zpowers (y : G) : Subgroup G) :=
-    S₀.isPGroup'.to_le (sup_le hTS₀ (zpowers_le.2 y.2))
+    S₀.isPGroup.to_le (sup_le hTS₀ (zpowers_le.2 y.2))
   have hXN : (miyamotoF1G h L η t ⊔ T) ⊔ zpowers (y : G) ≤
       normalizer (miyamotoB1 h L η t : Set G) :=
     sup_le (le_normalizer.trans hNT) (zpowers_le.2 (hNT hyN'))

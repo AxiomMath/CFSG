@@ -92,6 +92,7 @@ theorem exists_lift_of_fix (S : Setting G) {a b : G} (ha : a ∈ S.QG) (hb : b �
         group
       rw [e1, hX, hut, mul_assoc, hz2, mul_one]
 
+omit [Finite G] in
 theorem pCoreOf_eq_of {p : ℕ} {H P : Subgroup G} (hPH : P ≤ H) (hn : (P.subgroupOf H).Normal)
     (hp : IsPGroup p P)
     (hmax : ∀ X : Subgroup ↥H, X.Normal → IsPGroup p X → X ≤ P.subgroupOf H) :
@@ -105,6 +106,7 @@ theorem pCoreOf_eq_of {p : ℕ} {H P : Subgroup G} (hPH : P ≤ H) (hn : (P.subg
     have hle : P.subgroupOf H ≤ CFSG.pCore p ↥H := le_sSup ⟨hn, hp'⟩
     exact ⟨⟨x, hPH hx⟩, hle (mem_subgroupOf.mpr hx), rfl⟩
 
+omit [Finite G] in
 theorem comm_of_conj_eq {s r : G} (h : s * r * s⁻¹ = r) : r * s = s * r := by
   calc r * s = s * r * s⁻¹ * s := by rw [h]
     _ = s * r := by group
@@ -117,7 +119,7 @@ variable {z : G} {h : HypJ4 G z} (D : Data41 h)
   centralizer (Zinf (h := h) g₁ s₀ : Set G) ⊓ pre h.setting (Two.p2Grp.comap D.Φo)
 
 theorem centralizer_le_M {g₁ : G} {s₀ : h.setting.M} (hz : z ∈ Zinf (h := h) g₁ s₀) :
-    centralizer (Zinf (h := h) g₁ s₀ : Set G) ≤ h.setting.M := fun x hx =>
+    centralizer (Zinf (h := h) g₁ s₀ : Set G) ≤ h.setting.M := fun _x hx =>
   h.setting.mem_M_iff.mpr (mem_centralizer_iff.mp hx z hz).symm
 
 include D in
@@ -145,7 +147,7 @@ theorem Φo_mem_gammaZ {x : G} (hx : x ∈ centralizer (Zinf (h := h) g₁ s₀ 
   · rw [← D.ψV_cl_rep 3, Φo_apply_ψV, h.setting.ρ_cl _ (D.rep_mem 3)]
     show D.ψV (h.setting.cl (x * D.rep 3 * x⁻¹)) = _
     rw [hc _ (D.rep3_mem_Zinf hOut hTw hg₁ hs₀)]
-  · rw [← D.ψV_cl_conj_rep3 hOut hTw hg₁ hs₀, Φo_apply_ψV,
+  · rw [← D.ψV_cl_conj_rep3 hs₀, Φo_apply_ψV,
       h.setting.ρ_cl _ (h.setting.conj_mem_QG s₀.2 (D.rep_mem 3))]
     show D.ψV (h.setting.cl (x * ((s₀ : G) * D.rep 3 * (s₀ : G)⁻¹) * x⁻¹)) = _
     rw [hc _ (D.conj_rep3_mem_Zinf hOut hTw hg₁ hs₀)]
@@ -164,7 +166,7 @@ theorem exists_psi : ∃ ψ : ↥(centralizer (Zinf (h := h) g₁ s₀ : Set G))
   have hb := h.setting.conj_mem_QG s₀.2 (D.rep_mem 3)
   obtain ⟨-, ha1, haz⟩ := D.rep_props vecOf_three_ne q0_three
   have hca := D.ψV_cl_rep 3
-  have hcb := D.ψV_cl_conj_rep3 hOut hTw hg₁ hs₀
+  have hcb := D.ψV_cl_conj_rep3 hs₀
   have h192 : vecOf 192 ≠ 0 := fun h0 =>
     absurd (vecOf_inj (by norm_num) (by norm_num) (h0.trans vecOf_zero.symm)) (by norm_num)
   have h3192 : vecOf 3 ≠ vecOf 192 := fun e =>
@@ -221,6 +223,8 @@ theorem card_Qa_inf_centralizer_Zinf :
   rw [e] at h1
   omega
 
+omit hg₁ hs₀ in
+include D in
 theorem card_gammaZ : Nat.card ↥Two.gammaZ = 1920 := by
   rw [← Two.gZGrp_eq_gammaZ (D.stabIn_three hOut hTw), Two.card_gZGrp]
 
@@ -243,7 +247,7 @@ theorem card_centralizer_Zinf :
       rfl
   have h1 := Subgroup.card_mul_index ψ.ker
   rw [Subgroup.index_ker, MonoidHom.range_eq_top.mpr hψs, Subgroup.card_top,
-    D.card_gammaZ hOut hTw hg₁ hs₀, hker, card_subgroupOf_eq, inf_of_le_right inf_le_right,
+    D.card_gammaZ hOut hTw, hker, card_subgroupOf_eq, inf_of_le_right inf_le_right,
     D.card_QG_inf_centralizer_Zinf hOut hTw hg₁ hs₀] at h1
   exact h1.symm
 
@@ -262,6 +266,7 @@ theorem exists_phiS : ∃ φ : ↥(centralizer (Zinf (h := h) g₁ s₀ : Set G)
   · intro hxB
     exact rho_mem_of_mem_pre (Subgroup.mem_inf.mp hxB).2 _
 
+omit hOut hTw hg₁ hs₀ in
 theorem Bgrp_le_centralizer : D.Bgrp g₁ s₀ ≤ centralizer (Zinf (h := h) g₁ s₀ : Set G) :=
   inf_le_left
 
@@ -270,7 +275,7 @@ theorem card_Bgrp : Nat.card (D.Bgrp g₁ s₀) = 2 ^ 15 := by
   have h1 := Subgroup.card_mul_index φ.ker
   rw [Subgroup.index_ker, MonoidHom.range_eq_top.mpr hφs, Subgroup.card_top, Nat.card_perm,
     Nat.card_fin, show Nat.factorial 5 = 120 from rfl, hφk, card_subgroupOf_eq,
-    inf_of_le_right (D.Bgrp_le_centralizer hOut hTw hg₁ hs₀),
+    inf_of_le_right (D.Bgrp_le_centralizer),
     D.card_centralizer_Zinf hOut hTw hg₁ hs₀] at h1
   omega
 
@@ -298,6 +303,7 @@ theorem Bgrp_normal_S : ((D.Bgrp g₁ s₀).subgroupOf
   rw [← hφk]
   exact φ.normal_ker
 
+omit hOut hTw hg₁ hs₀ in
 theorem conj_mem_centralizer {n : G} (hn : n ∈ normalizer (Zinf (h := h) g₁ s₀ : Set G)) {x : G}
     (hx : x ∈ centralizer (Zinf (h := h) g₁ s₀ : Set G)) :
     n * x * n⁻¹ ∈ centralizer (Zinf (h := h) g₁ s₀ : Set G) := by
@@ -315,21 +321,21 @@ theorem conj_mem_Bgrp {n : G} (hn : n ∈ normalizer (Zinf (h := h) g₁ s₀ : 
   set P := (D.Bgrp g₁ s₀).map (MulAut.conj n).toMonoidHom with hP
   have hPS : P ≤ centralizer (Zinf (h := h) g₁ s₀ : Set G) := by
     rintro _ ⟨x, hx, rfl⟩
-    exact D.conj_mem_centralizer hOut hTw hg₁ hs₀ hn (D.Bgrp_le_centralizer hOut hTw hg₁ hs₀ hx)
+    exact CFSG.Quasithin.H13.AS91.Data41.conj_mem_centralizer hn (D.Bgrp_le_centralizer hx)
   have hnorm : (P.subgroupOf (centralizer (Zinf (h := h) g₁ s₀ : Set G))).Normal := by
     refine ⟨fun x hx s => ?_⟩
     rw [mem_subgroupOf] at hx ⊢
     obtain ⟨y, hy, hyx⟩ := hx
     have hs' : n⁻¹ * (s : G) * n⁻¹⁻¹ ∈ centralizer (Zinf (h := h) g₁ s₀ : Set G) :=
-      D.conj_mem_centralizer hOut hTw hg₁ hs₀ (inv_mem hn) s.2
+      CFSG.Quasithin.H13.AS91.Data41.conj_mem_centralizer (inv_mem hn) s.2
     have hBS := D.Bgrp_normal_S hOut hTw hg₁ hs₀
     have hy' : (n⁻¹ * (s : G) * n⁻¹⁻¹) * y * (n⁻¹ * (s : G) * n⁻¹⁻¹)⁻¹ ∈ D.Bgrp g₁ s₀ := by
-      have := hBS.conj_mem ⟨y, D.Bgrp_le_centralizer hOut hTw hg₁ hs₀ hy⟩ (mem_subgroupOf.mpr hy)
+      have := hBS.conj_mem ⟨y, D.Bgrp_le_centralizer hy⟩ (mem_subgroupOf.mpr hy)
         ⟨_, hs'⟩
       rw [mem_subgroupOf] at this
       exact this
     refine ⟨_, hy', ?_⟩
-    simp only [MonoidHom.coe_coe, MulAut.conj_apply, MulEquiv.coe_toMonoidHom, coe_mul,
+    simp only [MulAut.conj_apply, MulEquiv.coe_toMonoidHom, coe_mul,
       Subgroup.coe_inv] at hyx ⊢
     rw [← hyx]
     group
@@ -339,6 +345,7 @@ theorem conj_mem_Bgrp {n : G} (hn : n ∈ normalizer (Zinf (h := h) g₁ s₀ : 
       D.card_Bgrp hOut hTw hg₁ hs₀]
   exact D.le_Bgrp_of_normal hOut hTw hg₁ hs₀ hPS hnorm hp ⟨b, hb, rfl⟩
 
+omit hOut hTw hg₁ hs₀ in
 theorem QG_inf_le_Bgrp :
     h.setting.QG ⊓ centralizer (Zinf (h := h) g₁ s₀ : Set G) ≤ D.Bgrp g₁ s₀ := by
   rintro x ⟨hxQ, hxS⟩
@@ -376,7 +383,7 @@ theorem commutator_mem_Bgrp {k : G} (hk : k ∈ Kgrp (h := h) g₁ s₀) {s : G}
       exact mul_mem (mul_mem hnN hqN) (inv_mem hnN)
     · show n * q * n⁻¹ * s * (n * q * n⁻¹)⁻¹ * s⁻¹ ∈ _
       have hs' : n⁻¹ * s * n⁻¹⁻¹ ∈ centralizer (Zinf (h := h) g₁ s₀ : Set G) :=
-        D.conj_mem_centralizer hOut hTw hg₁ hs₀ (inv_mem hnN) hs
+        CFSG.Quasithin.H13.AS91.Data41.conj_mem_centralizer (inv_mem hnN) hs
       set s' := n⁻¹ * s * n⁻¹⁻¹ with hs'def
       have hcQ : q * s' * q⁻¹ * s'⁻¹ ∈ h.setting.QG := by
         rw [mul_assoc q s', mul_assoc q]
@@ -384,13 +391,13 @@ theorem commutator_mem_Bgrp {k : G} (hk : k ∈ Kgrp (h := h) g₁ s₀) {s : G}
         have := h.setting.conj_mem_QG (D.hSM hOut hTw hg₁ hs₀ hs') (h.setting.QG.inv_mem hq)
         simpa [mul_assoc] using this
       have hcS : q * s' * q⁻¹ * s'⁻¹ ∈ centralizer (Zinf (h := h) g₁ s₀ : Set G) :=
-        mul_mem (D.conj_mem_centralizer hOut hTw hg₁ hs₀ hqN hs') (inv_mem hs')
+        mul_mem (CFSG.Quasithin.H13.AS91.Data41.conj_mem_centralizer hqN hs') (inv_mem hs')
       have e : n * q * n⁻¹ * s * (n * q * n⁻¹)⁻¹ * s⁻¹ =
           n * (q * s' * q⁻¹ * s'⁻¹) * n⁻¹ := by
         rw [hs'def]
         group
       rw [e]
-      exact D.conj_mem_Bgrp hOut hTw hg₁ hs₀ hnN (D.QG_inf_le_Bgrp hOut hTw hg₁ hs₀ ⟨hcQ, hcS⟩)
+      exact D.conj_mem_Bgrp hOut hTw hg₁ hs₀ hnN (D.QG_inf_le_Bgrp ⟨hcQ, hcS⟩)
   exact (hKC hk).2 s hs
 
 theorem Kgrp_inf_le_Bgrp :
@@ -429,7 +436,7 @@ theorem Bgrp_le_Kgrp : D.Bgrp g₁ s₀ ≤ Kgrp (h := h) g₁ s₀ := by
       rw [(h.setting.conjBy g₁).mem_M_iff, Setting.conjBy_z, h.setting_z, hg₁]
       exact (mem_centralizer_iff.mp s.2 _ (D.rep3_mem_Zinf hOut hTw hg₁ hs₀)).symm
     refine ⟨(h.setting.conjBy g₁).conj_mem_QG hsr hyQ, ?_⟩
-    exact D.conj_mem_centralizer hOut hTw hg₁ hs₀
+    exact CFSG.Quasithin.H13.AS91.Data41.conj_mem_centralizer
       (centralizer_le_normalizer _ s.2) hyS
   have hYp : IsPGroup 2 Y :=
     ((h.setting.conjBy g₁).extraspecial.1.map _).to_le inf_le_left
@@ -484,7 +491,7 @@ theorem Bgrp_le_Kgrp : D.Bgrp g₁ s₀ ≤ Kgrp (h := h) g₁ s₀ := by
 theorem Kgrp_inf_eq_Bgrp :
     Kgrp (h := h) g₁ s₀ ⊓ centralizer (Zinf (h := h) g₁ s₀ : Set G) = D.Bgrp g₁ s₀ :=
   le_antisymm (D.Kgrp_inf_le_Bgrp hOut hTw hg₁ hs₀)
-    (le_inf (D.Bgrp_le_Kgrp hOut hTw hg₁ hs₀) (D.Bgrp_le_centralizer hOut hTw hg₁ hs₀))
+    (le_inf (D.Bgrp_le_Kgrp hOut hTw hg₁ hs₀) (D.Bgrp_le_centralizer))
 
 end FourS
 

@@ -30,7 +30,7 @@ theorem IsE9Pair.three_le (h : IsE9Pair L a b) {x : X} (hx3 : x ^ 3 = 1) (hxL : 
 theorem IsE9Pair.elemAbelian (h : IsE9Pair L a b) :
     IsElemAbelian 3 (zpowers a ⊔ zpowers b) ∧ Nat.card ↥(zpowers a ⊔ zpowers b) = 9 ∧
       zpowers a ⊔ zpowers b ≤ L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨haL, hbL, ha3, hb3, hab, ha1, hb⟩ := h
   have hel : ∀ c : X, c ^ 3 = 1 → IsElemAbelian 3 (zpowers c) := fun c hc => by
     rw [Subgroup.zpowers_eq_closure]
@@ -222,7 +222,7 @@ theorem map_eq_one_of_mem_statedScalars (M : LModel L π p f K ν)
     (hs : (s : GL (Fin 3) K) ∈ StatedScalars (Fin 3) K) : ν s = 1 :=
   hproj s (M.mem_center_of_mem_statedScalars hs)
 
-theorem isE9Pair_of_exact (M : LModel L π p f K ν) (hinj : Function.Injective ν)
+theorem isE9Pair_of_exact (_M : LModel L π p f K ν) (hinj : Function.Injective ν)
     {s₁ s₂ : ↥(slPi π 3 (p ^ f) K)} (h : IsPairExact (s₁ : GL (Fin 3) K) s₂) :
     IsE9Pair L ((ν s₁ : ↥L) : X) ((ν s₂ : ↥L) : X) := by
   obtain ⟨h1, h2, h12, hs, hk⟩ := h

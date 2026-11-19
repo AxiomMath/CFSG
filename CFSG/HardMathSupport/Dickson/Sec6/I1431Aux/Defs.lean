@@ -34,7 +34,7 @@ theorem mem_stabAut {J : Subgroup Y} {η : MulAut Y} : η ∈ stabAut J ↔ ∀ 
   toFun j := ⟨η (j : Y), (h (j : Y)).2 j.2⟩
   invFun j := ⟨η⁻¹ (j : Y), by
     refine (h (η⁻¹ (j : Y))).1 ?_
-    simpa using j.2⟩
+    simp⟩
   left_inv j := Subtype.ext (by simp)
   right_inv j := Subtype.ext (by simp)
   map_mul' a b := Subtype.ext (map_mul η (a : Y) (b : Y))

@@ -391,7 +391,7 @@ private theorem map_qtwoStdW_conjTau (m : ℕ) (hm : 3 ≤ m)
   · exact map_qtwoStdW_conjTau_of_lt E m hm hij hM
   · have hne : i ≠ j := by
       rintro rfl
-      rw [CFSG.StandardType.ggCoxeterMatrixD_apply, if_pos rfl] at hM
+      rw [CFSG.StandardType.ggCoxeterMatrixD_apply, ite_eq_left rfl] at hM
       omega
     have hji : j < i := lt_of_le_of_ne (le_of_not_gt hij) (Ne.symm hne)
     have hM' : CFSG.StandardType.ggCoxeterMatrixD (m + 1) j i = 3 := by
@@ -419,11 +419,11 @@ private theorem map_range_qTwoStdTheta_of_three (m : ℕ) (hm : 3 ≤ m)
         (Subgroup.subtype (CFSG.RankThree.Classical2.orthDerived (Qn E (m + 1)))) =
       qtwoStdW E m hm i j := by
   unfold qtwoStdW
-  rw [if_pos hM]
+  rw [ite_eq_left hM]
   by_cases hij : i < j
-  · rw [if_pos hij, qTwoStdTheta, if_pos hij]
+  · rw [ite_eq_left hij, qTwoStdTheta, ite_eq_left hij]
     exact map_range_qTwoStdTheta₀ E m hm i j
-  · rw [if_neg hij, qTwoStdTheta, if_neg hij]
+  · rw [ite_eq_right hij, qTwoStdTheta, ite_eq_right hij]
     rw [MonoidHom.range_comp, Subgroup.map_map,
       MonoidHom.range_eq_top.mpr (revSU3 K 2 1).surjective, Subgroup.map_top,
       ← MonoidHom.map_range]

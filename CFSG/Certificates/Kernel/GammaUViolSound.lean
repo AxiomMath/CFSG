@@ -31,11 +31,11 @@ theorem exists_row_subQ {P : List Nat} {gs : List (Array ℕ)}
     cases hb : Nat.beq (m % 2) 1
     · obtain ⟨x, hx, hxv⟩ := ih (acc ++ acc.map (mulR g)) y (List.mem_append_left _ hy) (m / 2)
       refine ⟨x, hx, fun v => ?_⟩
-      rw [subQ_cons, hb, cond_false, linP_mulP, linP_idP, hxv]
+      rw [subQ_cons, hb, Bool.cond_false, linP_mulP, linP_idP, hxv]
     · obtain ⟨x, hx, hxv⟩ := ih (acc ++ acc.map (mulR g)) (mulR g y)
         (List.mem_append_right _ (List.mem_map.2 ⟨y, hy, rfl⟩)) (m / 2)
       refine ⟨x, hx, fun v => ?_⟩
-      rw [subQ_cons, hb, cond_true, linP_mulP, hxv, linOfRows_mulR, hpg]
+      rw [subQ_cons, hb, _root_.Bool.cond_true, linP_mulP, hxv, linOfRows_mulR, hpg]
 
 theorem exists_subQ_of_mem {P : List Nat} {gs : List (Array ℕ)}
     (h : List.Forall₂ (fun p g => ∀ v, linP p v = linOfRows g v) P gs) :
@@ -56,14 +56,14 @@ theorem exists_subQ_of_mem {P : List Nat} {gs : List (Array ℕ)}
       have h2 : Nat.beq (2 * m % 2) 1 = false := by
         rw [Nat.mul_mod_right]
         rfl
-      rw [subQ_cons, h2, cond_false, linP_mulP, linP_idP, hxv, Nat.mul_div_cancel_left _ (by omega)]
+      rw [subQ_cons, h2, Bool.cond_false, linP_mulP, linP_idP, hxv, Nat.mul_div_cancel_left _ (by omega)]
     · obtain ⟨y, hy0, rfl⟩ := List.mem_map.1 hy
       refine ⟨y, hy0, 2 * m + 1, hlt, fun v => ?_⟩
       have h2 : Nat.beq ((2 * m + 1) % 2) 1 = true := by
         rw [Nat.add_mod, Nat.mul_mod_right]
         rfl
       have h3 : (2 * m + 1) / 2 = m := by omega
-      rw [subQ_cons, h2, cond_true, linP_mulP, h3, hxv, linOfRows_mulR, hpg]
+      rw [subQ_cons, h2, _root_.Bool.cond_true, linP_mulP, h3, hxv, linOfRows_mulR, hpg]
 
 theorem mem_subsetProducts_iff {P : List Nat} {gs : List (Array ℕ)}
     (h : List.Forall₂ (fun p g => ∀ v, linP p v = linOfRows g v) P gs) :

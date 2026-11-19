@@ -20,7 +20,7 @@ variable {G T : Type} [Group G] [Group T]
 
 theorem ct_index_abstract {C R X N Q : Subgroup G} {O Ω : Subgroup T} [Finite T]
     (Θ : ↥C →* T) (hRC : R ≤ C) (hXR : X ≤ R) (hNR : N ≤ R) (hQN : Q ≤ N)
-    (hXC : X ≤ C) (hQC : Q ≤ C)
+    (hXC : X ≤ C) (_hQC : Q ≤ C)
     (hRNX : ∀ r ∈ R, ∃ n ∈ N, ∃ x ∈ X, r = n * x)
     (hX : X = ⁅R, R⁆ ⊔ Q)
     (hΩO : Ω ≤ O) (hΩ : Ω = ⁅O, O⁆) (hcard : Nat.card O = 2 * Nat.card Ω)
@@ -194,7 +194,7 @@ theorem scalar_one_of {ι : Type} [Fintype ι] [DecidableEq ι] [CharP K 2]
   have hsq : s * s = 1 := by
     obtain ⟨i, j, hij⟩ : ∃ i j, P i j ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hP0 (Matrix.ext fun i j => h i j)
     have h2 := congrArg (fun M : Matrix ι ι K => M i j) hss
     simp only [Matrix.smul_apply, smul_eq_mul] at h2
@@ -249,7 +249,7 @@ theorem glEquiv_mulVec (A : GL ι K) (w : ι → K) :
     glEquiv A w = (A : Matrix ι ι K) *ᵥ w := by
   unfold glEquiv
   rw [MulEquiv.trans_apply]
-  simp [LinearMap.GeneralLinearGroup.generalLinearEquiv, Matrix.GeneralLinearGroup.toLin_apply]
+  simp [LinearMap.GeneralLinearGroup.generalLinearEquiv]
 
 @[expose] noncomputable def restrV {G : Type} [Group G] {V : Submodule K S.E}
     (ψ : G → (S.E ≃ₗ[K] S.E)) (c : G) (hc : V.map (ψ c : S.E →ₗ[K] S.E) = V) : V ≃ₗ[K] V :=
@@ -259,9 +259,11 @@ theorem glEquiv_mulVec (A : GL ι K) (w : ι → K) :
     (e : V ≃ₗ[K] V) : (ι → K) ≃ₗ[K] (ι → K) :=
   cV.symm.trans (e.trans cV)
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem repV_apply {V : Submodule K S.E} (cV : V ≃ₗ[K] (ι → K)) (e : V ≃ₗ[K] V)
     (x : ι → K) : repV S cV e x = cV (e (cV.symm x)) := rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem repV_mul {V : Submodule K S.E} (cV : V ≃ₗ[K] (ι → K)) (e f : V ≃ₗ[K] V) :
     repV S cV (e * f) = repV S cV e * repV S cV f := by
   ext x
@@ -423,9 +425,9 @@ section Unip
 variable {K : Type} [Field K]
 
 theorem comm_fixes {G : Type} [Group G] {S : QSpace K} {V : Submodule K S.E}
-    (ψ : G → (S.E ≃ₗ[K] S.E)) (C R X : Subgroup G) (hψ1 : ψ 1 = 1)
+    (ψ : G → (S.E ≃ₗ[K] S.E)) (C _R X : Subgroup G) (hψ1 : ψ 1 = 1)
     (hmul : ∀ c ∈ C, ∀ d ∈ C, ψ (c * d) = ψ c * ψ d)
-    (hV : ∀ c ∈ C, ∀ v ∈ V, ψ c v ∈ V) (hXC : X ≤ C) (x c : G) (hx : x ∈ C) (hc : c ∈ C)
+    (hV : ∀ c ∈ C, ∀ v ∈ V, ψ c v ∈ V) (_hXC : X ≤ C) (x c : G) (hx : x ∈ C) (hc : c ∈ C)
     (hcfix : ∀ v ∈ V, ψ c v = v) (v : S.E) (hv : v ∈ V) :
     ψ ⁅x, c⁆ v = v := by
   have hinv : ∀ w ∈ V, ψ c⁻¹ w = w := by
@@ -469,7 +471,7 @@ theorem commute_of_unipotent {G : Type} [Group G] {S : QSpace K} {V : Submodule 
     (ψ : G → (S.E ≃ₗ[K] S.E)) (C R X N Q : Subgroup G) (hψ1 : ψ 1 = 1)
     (hmul : ∀ c ∈ C, ∀ d ∈ C, ψ (c * d) = ψ c * ψ d)
     (hV : ∀ c ∈ C, ∀ v ∈ V, ψ c v ∈ V)
-    (hXC : X ≤ C) (hXR : X ≤ R) (hRC : R ≤ C) (hQX : Q ≤ X)
+    (hXC : X ≤ C) (hXR : X ≤ R) (_hRC : R ≤ C) (hQX : Q ≤ X)
     (hperf : ⁅X, X⁆ ⊔ Q = X)
     (hcx : ∀ c ∈ C, ∀ x ∈ X, c * x * c⁻¹ ∈ X)
     (hQnorm : ∀ c ∈ C, ∀ q ∈ Q, c * q * c⁻¹ ∈ Q)
@@ -499,7 +501,7 @@ theorem commute_of_unipotent {G : Type} [Group G] {S : QSpace K} {V : Submodule 
   let lam : G → K := fun x => if h : x ∈ X then Classical.choose (hex x h) else 0
   have hlam : ∀ x (hx : x ∈ X) e, ψ ⁅x, c⁆ e = e + lam x • β e := by
     intro x hx e
-    simp only [lam, dif_pos hx]
+    simp only [lam, dite_eq_left hx]
     exact Classical.choose_spec (hex x hx) e
   have hmulL : ∀ x ∈ X, ∀ y ∈ X, lam (x * y) = lam x + lam y := by
     intro x hx y hy
@@ -572,7 +574,7 @@ variable {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι]
 
 theorem unip_line {G : Type} [Group G] {S : QSpace K} {V : Submodule K S.E}
     {β : S.E →ₗ[K] S.E} (hβ : BetaProps S V β) {σ : V →ₗ[K] S.E}
-    (hσ : ∀ v : V, β (σ v) = v) (hTS : S.IsTS V)
+    (hσ : ∀ v : V, β (σ v) = v) (_hTS : S.IsTS V)
     (hpar : ∀ g : S.E ≃ₗ[K] S.E, g ∈ S.U V ↔ ∃ β' : S.E →ₗ[K] S.E,
       (∀ e, β' e ∈ V) ∧ (∀ v ∈ V, β' v = 0) ∧ (∀ e, S.B e (β' e) = 0) ∧ ∀ e, g e = e + β' e)
     (ψ : G → (S.E ≃ₗ[K] S.E)) (C X : Subgroup G) (hO : ∀ c ∈ C, ψ c ∈ S.O)
@@ -752,7 +754,7 @@ end Final
 theorem phiG_mem {G : Type} [Group G] {M Q Z : Subgroup G} (AM : ActionModel M Q Z) {g : G}
     (h : g ∈ H0 M Z) : phiG AM g = AM.φ ⟨g, h⟩ := by
   unfold phiG
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem phiG_one {G : Type} [Group G] {M Q Z : Subgroup G} (AM : ActionModel M Q Z) :
     phiG AM 1 = 1 := by

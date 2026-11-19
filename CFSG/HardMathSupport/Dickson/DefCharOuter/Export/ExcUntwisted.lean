@@ -152,7 +152,7 @@ theorem outerCentData_entrywise (τ : Tag) {ℓ : ℕ} (hℓ : ℓ.Prime) {K : T
     refine Subtype.ext ?_
     rw [coe_entrywiseAdjointAut]
     exact (hJΓ ((hmemJ x).1 hx)).2
-  haveI hJn : (J.subgroupOf (fixSubgroup β)).Normal := by
+  have hJn : (J.subgroupOf (fixSubgroup β)).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf, hmemJ] at hn ⊢
     have h1 := hnormal.conj_mem ⟨((n : ↥(adjointGroup τ K)) : ModGL τ K), hΓ n⟩
@@ -160,7 +160,7 @@ theorem outerCentData_entrywise (τ : Tag) {ℓ : ℕ} (hℓ : ℓ.Prime) {K : T
     simpa using Subgroup.mem_subgroupOf.1 h1
   let eJ : ↥J ≃* adjointGroup τ (fixSubfield σ) :=
     (Subgroup.subgroupOfEquivOfLe hJA).trans (fixedFieldImageEquiv σ).symm
-  haveI := hs
+  have := hs
   have hsJ : IsSimpleGroup ↥J := eJ.isSimpleGroup
   have hncJ : ∃ x y : ↥J, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
@@ -228,8 +228,8 @@ theorem stab_adjoint (τ : Tag) (hτ : τ = .G2 ∨ τ = .F4 ∨ τ = .E6 ∨ τ
       (∀ j : adjointGroup τ K, (j : ModGL τ K) ∈ fixedFieldImage τ σ → w j = j) →
         w ∈ Subgroup.zpowers (entrywiseAdjointAut τ σ) := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ :=
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
   have hofNF : (∀ η : MulAut (adjointGroup τ K), ∃ gβ : adjointGroup τ K × (K ≃+* K),
       η = MulAut.conj gβ.1 * entrywiseAdjointAut τ gβ.2) →
@@ -332,8 +332,8 @@ theorem outerCentData_adjoint
     (hK : Nat.card K = ℓ ^ f) (α : MulAut (adjointGroup τ K)) (hα : orderOf α = ℓ)
     (hout : α ∉ innerAut (adjointGroup τ K)) : OuterCentData ℓ α := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ :=
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
   have : Finite (ModGL τ K) := finite_modGL
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K ℓ]; exact hℓ2
@@ -404,7 +404,7 @@ end Tags
 end ExcUntwisted
 
 theorem outerCentData_excUntwisted
-    (S : Type) [Group S] [Finite S] (hS : IsSimpleGroup S) (hnc : ∃ a b : S, a * b ≠ b * a)
+    (S : Type) [Group S] [Finite S] (_hS : IsSimpleGroup S) (_hnc : ∃ a b : S, a * b ≠ b * a)
     (idx : TauCeti.ValidLieTypeIndex)
     (htag : ∃ q : TauCeti.PrimePower, idx.1 = .G2 q ∨ idx.1 = .F4 q ∨ idx.1 = .E6 q ∨
       idx.1 = .E7 q ∨ idx.1 = .E8 q)

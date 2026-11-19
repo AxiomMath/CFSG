@@ -45,9 +45,9 @@ theorem uc22s217u3a_eq_two_of_five_dvd {n : ℕ} (hn : IsPowTwo n) (hn2 : 2 ≤ 
 theorem uc22s217u3a_not_dvd_card {n s r : ℕ} (hn : IsPowTwo n) (hs : Odd s) (hr : r.Prime)
     (hrs : r ∣ 2 ^ s - 1) :
     ¬ r ∣ (2 ^ n) ^ 3 * (((2 ^ n) ^ 2 - 1) * ((2 ^ n) ^ 3 + 1)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr5 : 5 ≤ r := UC6S898.prime_ne_two_three_of_dvd hr hs hrs
-  haveI : Fact (2 < r) := ⟨by omega⟩
+  have : Fact (2 < r) := ⟨by omega⟩
   obtain ⟨k, rfl⟩ := hn
   have h2s : (2 : ZMod r) ^ s = 1 := by
     have h1 : ((2 ^ s - 1 : ℕ) : ZMod r) = 0 := (ZMod.natCast_eq_zero_iff _ _).2 hrs
@@ -105,7 +105,7 @@ theorem uc22s217u3a_not_dvd_card_of (hCen : UCK.U3Center) {X : Type} [Group X] [
 theorem uc22s217u3a_exists_card_eq {K : Subgroup G} {n : ℕ} (hX : IsSU3 (Bar2 K) n) {r : ℕ}
     (hr : r.Prime) (hr3 : r ≠ 3) (hrn : r ∣ (2 ^ n) ^ 2 - 1) :
     ∃ X₀ : Subgroup G, X₀ ≤ K ∧ Nat.card X₀ = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have h1 : r ∣ Nat.card (Bar2 K ⧸ center (Bar2 K)) * Nat.gcd 3 (2 ^ n + 1) := by
     rw [StatedAPI.card_mul_gcd_of_statedClassicalModel_psu_three
       (CFSG.SeitzReduction.RankOne.statedClassicalModel_of_lieModel_psu3 hX.2)]
@@ -161,7 +161,7 @@ theorem uc22s217u3a_centralizesBar (hCen : UCK.U3Center) {K : Subgroup G} {n : �
     (hX : IsSU3 (Bar2 K) n) (hn : IsPowTwo n) {r : ℕ} (hr : r.Prime) (hr5 : 5 ≤ r)
     (hrn : ¬ r ∣ (2 ^ n) ^ 3 * (((2 ^ n) ^ 2 - 1) * ((2 ^ n) ^ 3 + 1))) {y : G}
     (hyN : y ∈ normalizer (K : Set G)) (hyr : orderOf y = r) : CentralizesBar y K := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := by omega
   have hr3 : r ≠ 3 := by omega
   obtain ⟨hαr, hα⟩ := uc22s217u3a_inner hX hn hr hr2 hr3 hyN hyr
@@ -177,6 +177,7 @@ theorem uc22s217u3a_centralizesBar (hCen : UCK.U3Center) {K : Subgroup G} {n : �
   refine ⟨hyN, fun l hl => ?_⟩
   exact (rhoL_fix_iff K ⟨y, hyN⟩ ⟨l, hl⟩).1 (by rw [hρ]; rfl)
 
+omit [Finite G] in
 theorem uc22s217u3a_le_conjClosure {M L K : Subgroup G} (hK : K ∈ conjSetOf M L) :
     K ≤ conjClosure M L :=
   le_iSup₂_of_le (f := fun A (_ : A ∈ conjSetOf M L) => A) K hK le_rfl
@@ -205,7 +206,7 @@ theorem uc22s217u3a_two_pow_twelve_dvd (hCen : UCK.U3Center) {M L : Subgroup G}
   have hLM : L ≤ M := hL.1.le
   have hnN' : ¬ M ≤ normalizer (L : Set G) := fun h =>
     hnN ((Subgroup.normal_subgroupOf_iff_le_normalizer hLM).2 h)
-  obtain ⟨m, hmM, hmN⟩ := SetLike.not_le_iff_exists.1 hnN'
+  obtain ⟨m, hmM, hmN⟩ := IsConcreteLE.not_le_iff_exists.1 hnN'
   let f : MulAut G := MulAut.conj m
   have hMf : M.map f.toMonoidHom = M :=
     UC6S846.mem_normalizer_iff_map_conj.1 (Subgroup.le_normalizer hmM)
@@ -286,7 +287,7 @@ theorem uc22s217u3a_two_pow_twelve_dvd (hCen : UCK.U3Center) {M L : Subgroup G}
 
 theorem uc22s217u3a_false_of_sp (D : Data G) (Ch : Choice2011 G) (hH : H1930 D) (c : Ctx21 D Ch)
     {p : ℕ} (hp : p.Prime) (hpn : p ∣ 2 ^ c.n - 1) (hsp : IsStronglyPEmbedded p D.M) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpB : p ∣ Nat.card c.B0 := by
     have : p ∈ piSet c.B0 := by rw [c.hpi]; exact ⟨hp, hpn⟩
     exact this.2

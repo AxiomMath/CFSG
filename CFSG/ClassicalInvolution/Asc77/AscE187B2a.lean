@@ -34,12 +34,12 @@ theorem MinCex.exists_config_sylow (c : MinCex p f Ω K S R W H)
   have hq : 5 ≤ p ^ f := c.stand.five
   have hΩ : HypOmegaMod p f Ω := c.stand.hyp
   obtain ⟨hRR, hRK, hRS⟩ := c.stand.hR
-  have hRR' : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup'.to_le (sup_le hRS hR'S)
+  have hRR' : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup.to_le (sup_le hRS hR'S)
   obtain ⟨P, hP, hRRP⟩ := IsSylow2In.exists_ge hRR' hRX
   obtain ⟨S', hPS'⟩ := IsPGroup.exists_le_sylow hP.2.1
   have hSyl : IsSylow2In ((S' : Subgroup G) ⊓ X) X := by
     have hle : P ≤ (S' : Subgroup G) ⊓ X := le_inf hPS' hP.1
-    have hp2 : IsPGroup 2 ↥((S' : Subgroup G) ⊓ X) := S'.isPGroup'.to_le inf_le_left
+    have hp2 : IsPGroup 2 ↥((S' : Subgroup G) ⊓ X) := S'.isPGroup.to_le inf_le_left
     have heq := hP.eq_of_le hp2 inf_le_right hle
     rw [heq]
     exact hP

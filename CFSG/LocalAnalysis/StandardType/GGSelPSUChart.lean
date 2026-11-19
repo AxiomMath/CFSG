@@ -23,11 +23,11 @@ theorem fin_two_cases (a : Fin 2) : a = 0 ∨ a = 1 := by
 
 theorem pairCoord_zero (i₀ : Fin n) : pairCoord i₀ 0 = i₀ := by
   show (if (0 : Fin 2) = 0 then i₀ else Fin.rev i₀) = i₀
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem pairCoord_one (i₀ : Fin n) : pairCoord i₀ 1 = Fin.rev i₀ := by
   show (if (1 : Fin 2) = 0 then i₀ else Fin.rev i₀) = Fin.rev i₀
-  rw [if_neg (show ¬ ((1 : Fin 2) = 0) by decide)]
+  rw [ite_eq_right (show ¬ ((1 : Fin 2) = 0) by decide)]
 
 theorem pairCoord_injective {i₀ : Fin n} (h : i₀ ≠ Fin.rev i₀) :
     Function.Injective (pairCoord i₀) := by
@@ -78,16 +78,16 @@ theorem sl2_isometry (σ : F ≃+* F) (k : Subfield F) (h2 : (2 : F) = 0)
   have r1 : Fin.rev (1 : Fin 2) = 0 := by decide
   have a00 : (antidiag 2 : Matrix (Fin 2) (Fin 2) F) 0 0 = 0 := by
     show (if (0 : Fin 2) = Fin.rev 0 then (1 : F) else 0) = 0
-    rw [r0, if_neg (show ¬ ((0 : Fin 2) = 1) by decide)]
+    rw [r0, ite_eq_right (show ¬ ((0 : Fin 2) = 1) by decide)]
   have a01 : (antidiag 2 : Matrix (Fin 2) (Fin 2) F) 0 1 = 1 := by
     show (if (1 : Fin 2) = Fin.rev 0 then (1 : F) else 0) = 1
-    rw [r0, if_pos rfl]
+    rw [r0, ite_eq_left rfl]
   have a10 : (antidiag 2 : Matrix (Fin 2) (Fin 2) F) 1 0 = 1 := by
     show (if (0 : Fin 2) = Fin.rev 1 then (1 : F) else 0) = 1
-    rw [r1, if_pos rfl]
+    rw [r1, ite_eq_left rfl]
   have a11 : (antidiag 2 : Matrix (Fin 2) (Fin 2) F) 1 1 = 0 := by
     show (if (1 : Fin 2) = Fin.rev 1 then (1 : F) else 0) = 0
-    rw [r1, if_neg (show ¬ ((1 : Fin 2) = 0) by decide)]
+    rw [r1, ite_eq_right (show ¬ ((1 : Fin 2) = 0) by decide)]
   have key : ∀ i j : Fin 2, (Mᵀ * (antidiag 2 : Matrix (Fin 2) (Fin 2) F) * M) i j =
       M 0 i * M 1 j + M 1 i * M 0 j := by
     intro i j
@@ -170,13 +170,12 @@ theorem chart_upper (τ : k) :
   apply eq_embM_of_entries (pairCoord_injective hne)
   · intro r s
     rcases fin_two_cases r with rfl | rfl <;> rcases fin_two_cases s with rfl | rfl <;>
-      simp [longRootMatrix, pairCoord_zero, pairCoord_one, Matrix.one_apply, Matrix.single_apply,
-        hne, hne.symm, coe_sl2Upper]
+      simp [longRootMatrix, pairCoord_zero, pairCoord_one, hne, hne.symm, coe_sl2Upper]
   · intro x y hxy
     have hx : ¬(i₀ = x ∧ Fin.rev i₀ = y) := by
       rintro ⟨rfl, rfl⟩
       exact hxy ⟨mem_range_pairCoord.mpr (Or.inl rfl), mem_range_pairCoord.mpr (Or.inr rfl)⟩
-    rw [longRootMatrix, Matrix.add_apply, Matrix.single_apply, if_neg hx, add_zero]
+    rw [longRootMatrix, Matrix.add_apply, Matrix.single_apply, ite_eq_right hx, add_zero]
 
 theorem chart_lower (τ : k) :
     chart σ k (pairCoord_injective hne) (pairCoord_rev i₀) h2 hk (sl2Lower τ) =
@@ -189,13 +188,12 @@ theorem chart_lower (τ : k) :
   apply eq_embM_of_entries (pairCoord_injective hne)
   · intro r s
     rcases fin_two_cases r with rfl | rfl <;> rcases fin_two_cases s with rfl | rfl <;>
-      simp [longRootMatrix, pairCoord_zero, pairCoord_one, Matrix.one_apply, Matrix.single_apply,
-        hne, hne.symm, Fin.rev_rev, coe_sl2Lower]
+      simp [longRootMatrix, pairCoord_zero, pairCoord_one, hne, hne.symm, Fin.rev_rev, coe_sl2Lower]
   · intro x y hxy
     have hx : ¬(Fin.rev i₀ = x ∧ i₀ = y) := by
       rintro ⟨rfl, rfl⟩
       exact hxy ⟨mem_range_pairCoord.mpr (Or.inr rfl), mem_range_pairCoord.mpr (Or.inl rfl)⟩
-    rw [longRootMatrix, Fin.rev_rev, Matrix.add_apply, Matrix.single_apply, if_neg hx, add_zero]
+    rw [longRootMatrix, Fin.rev_rev, Matrix.add_apply, Matrix.single_apply, ite_eq_right hx, add_zero]
 
 @[expose] def dgn (a : kˣ) (i₀ : Fin n) : Fin n → F := fun s =>
   if s = i₀ then (((a : kˣ) : k) : F) else
@@ -234,7 +232,7 @@ theorem chart_sl2Diag_mat (a : kˣ) :
   apply eq_embM_of_entries (pairCoord_injective hne)
   · intro r s
     rcases fin_two_cases r with rfl | rfl <;> rcases fin_two_cases s with rfl | rfl <;>
-      simp [dgn, pairCoord_zero, pairCoord_one, Matrix.diagonal_apply, hne, hne.symm,
+      simp [dgn, pairCoord_zero, pairCoord_one, hne, hne.symm,
         coe_sl2Diag]
   · intro x y hxy
     by_cases hxy' : x = y

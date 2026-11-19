@@ -41,7 +41,7 @@ private theorem inner_involution_centralizer_aux {K : Type} [Field K] [Finite K]
       refine ⟨U, s, w, h1, ?_, h3, h4, h5, h6, h7, h8, h9, h10 hqodd⟩
       rw [h2]
       unfold outerTorusOrder
-      rw [if_pos h]
+      rw [ite_eq_left h]
       have hpos : 0 < Nat.card K := Nat.card_pos
       omega
     · obtain ⟨U, s, w, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10⟩ :=
@@ -49,7 +49,7 @@ private theorem inner_involution_centralizer_aux {K : Type} [Field K] [Finite K]
       refine ⟨U, s, w, h1, ?_, h3, h4, h5, h6, h7, h8, h9, h10 hqodd⟩
       rw [h2]
       unfold outerTorusOrder
-      rw [if_neg h]
+      rw [ite_eq_right h]
       have hpos : 0 < Nat.card K := Nat.card_pos
       omega
   have hUJc : ¬ U ≤ commutator (PGL2 K) := by rwa [hcomm]
@@ -60,7 +60,7 @@ private theorem inner_involution_centralizer_aux {K : Type} [Field K] [Finite K]
     · have hU4 : Nat.card U = 4 * j := by
         rw [hUcard, hj]
         unfold outerTorusOrder
-        rw [if_pos (by omega : (4 * j + 1) % 4 = 1)]
+        rw [ite_eq_left (by omega : (4 * j + 1) % 4 = 1)]
         omega
       refine pgl2_torus_involution_mem_commutator hJindex U hUc hsU hss hs1
         (m := 2 * j) ?_ ⟨j, ?_⟩ hUJc
@@ -69,7 +69,7 @@ private theorem inner_involution_centralizer_aux {K : Type} [Field K] [Finite K]
     · have hU4 : Nat.card U = 4 * j + 4 := by
         rw [hUcard, hj]
         unfold outerTorusOrder
-        rw [if_neg (by omega : ¬ (4 * j + 3) % 4 = 1)]
+        rw [ite_eq_right (by omega : ¬ (4 * j + 3) % 4 = 1)]
         omega
       refine pgl2_torus_involution_mem_commutator hJindex U hUc hsU hss hs1
         (m := 2 * (j + 1)) ?_ ⟨j + 1, ?_⟩ hUJc
@@ -175,7 +175,7 @@ theorem exists_inverted_of_inner {K : Type} [Field K] [Finite K]
   have hwt : w * t = t * w := Subgroup.mem_centralizer_singleton_iff.mp hwC
   have hex : ∃ β : PGL2 K, β * β = 1 ∧ β ∉ pslRange K ∧ t * β = β * t := by
     by_cases hwJ : w ∈ pslRange K
-    · obtain ⟨z₀, hz₀Z, hz₀J⟩ := SetLike.not_le_iff_exists.mp hZJ
+    · obtain ⟨z₀, hz₀Z, hz₀J⟩ := IsConcreteLE.not_le_iff_exists.mp hZJ
       have hz₀t : z₀ * t = t * z₀ :=
         congrArg Subtype.val (hZc.commGroup.mul_comm ⟨z₀, hz₀Z⟩ ⟨t, htZ⟩)
       refine ⟨z₀ * w, ?_, ?_, ?_⟩

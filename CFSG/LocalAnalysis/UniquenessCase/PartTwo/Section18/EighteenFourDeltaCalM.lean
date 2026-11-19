@@ -27,7 +27,7 @@ theorem barImage_deltaB (D : Data G) :
   exact Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective _) _
 
 theorem barSub_LKB_rank {D : Data G} {V₀ V L K : Subgroup G} (hK : A5Pair18 D V₀ V L K)
-    (hV₀ : V₀ ≠ ⊥) (h61 : UC6.R6_1 D) (h127 : R127 D) :
+    (_hV₀ : V₀ ≠ ⊥) (h61 : UC6.R6_1 D) (h127 : R127 D) :
     2 ≤ CFSG.Open.pRank 5
       (barSub V₀ V hK.data.hyp.hyp125.isElemAbelian (L ⊔ K ⊔ deltaB D)) := by
   classical
@@ -126,7 +126,7 @@ theorem barSub_LKB_rank {D : Data G} {V₀ V L K : Subgroup G} (hK : A5Pair18 D 
 
 theorem gap_18_4_Mbar_image_of (h61 : UC6.R6_1 D) (h127 : R127 D) :
     Gap_18_4_Mbar_image D V₀ V L :=
-  fun K hK hV₀ => barSub_LKB_rank hK hV₀ h61 h127
+  fun _K hK hV₀ => barSub_LKB_rank hK hV₀ h61 h127
 
 theorem deltaCalMOf_of (h61 : UC6.R6_1 D) (himg : Gap_18_4_Mbar_image D V₀ V L)
     (hV₀ : V₀ ≠ ⊥) {K : Subgroup G} (hK : A5Pair18 D V₀ V L K)

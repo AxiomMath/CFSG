@@ -12,7 +12,7 @@ open Finset
 theorem exists_fixed_of_order_p {H : Type*} [Group H] [Finite H] {p : ℕ} (hp : p.Prime)
     (α : MulAut H) (hα : α ^ p = 1) (hH : p ∣ Nat.card H) :
     ∃ x : H, orderOf x = p ∧ α x = x := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hP : IsPGroup p (Subgroup.zpowers α) := by
     refine IsPGroup.of_card (n := (orderOf α).factorization p) ?_
     rw [Nat.card_zpowers]
@@ -23,14 +23,14 @@ theorem exists_fixed_of_order_p {H : Type*} [Group H] [Finite H] {p : ℕ} (hp :
     (Nat.modEq_zero_iff_dvd.1 (hmod.symm.trans (Nat.modEq_zero_iff_dvd.2 hH)))
   let C : Subgroup H := FixedPoints.subgroup (Subgroup.zpowers α) H
   have hC : p ∣ Nat.card C := hfix
-  haveI : Fintype C := Fintype.ofFinite _
+  have : Fintype C := Fintype.ofFinite _
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card p (by rwa [Nat.card_eq_fintype_card] at hC)
   refine ⟨x, by rw [Subgroup.orderOf_coe]; exact hx, ?_⟩
   exact x.2 ⟨α, Subgroup.mem_zpowers α⟩
 
 theorem geom_sum_eq_prime_mul {p N : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hN : N ≡ 1 [MOD p]) :
     ∃ u, ∑ i ∈ range p, N ^ i = p * u ∧ ¬ p ∣ u := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hodd : Odd p := hp.odd_of_ne_two hp2
   rcases lt_trichotomy N 1 with h0 | rfl | h1
   · obtain rfl : N = 0 := by omega
@@ -66,7 +66,7 @@ theorem geom_sum_eq_prime_mul {p N : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hN : N
     have := (padicValNat_dvd_iff_le hS0).1 this
     omega
 
-theorem pow_eq_one_and_omega_one_le_agemo {A : Type*} [Monoid A] {p v : ℕ} (hv : 1 ≤ v)
+theorem pow_eq_one_and_omega_one_le_agemo {A : Type*} [Monoid A] {p v : ℕ} (_hv : 1 ≤ v)
     (h : ∀ a : A, a ^ p ^ v = 1 ↔ ∃ b, a = b ^ p) :
     (∀ a : A, a ^ p ^ (v + 1) = 1) ∧ ∀ a : A, a ^ p = 1 → ∃ b, a = b ^ p ^ v := by
   refine ⟨fun a => ?_, fun a ha => ?_⟩
@@ -94,7 +94,7 @@ theorem homocyclic_of_norm_surjective {A : Type*} [CommGroup A] [Finite A] {p N 
     (hnorm : ∀ a : A, a ^ N = a → ∃ b : A, a = ∏ i ∈ range p, b ^ N ^ i) :
     ∃ s, 2 ≤ s ∧ (∃ k : ℕ, ¬ p ∣ k ∧ N ≡ 1 + p ^ (s - 1) * k [MOD p ^ s]) ∧
       (∀ a : A, a ^ p ^ s = 1) ∧ ∀ a : A, a ^ p = 1 → ∃ b, a = b ^ p ^ (s - 1) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hN2 : 2 ≤ N := by
     rcases Nat.lt_or_ge N 2 with h | h
     · interval_cases N

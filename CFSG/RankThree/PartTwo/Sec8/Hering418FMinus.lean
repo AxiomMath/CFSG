@@ -38,7 +38,7 @@ theorem isPGroup_three_closure_pair {M : Type*} [Group M] {s t : M} (hs : s ^ 3 
 
 theorem isSimpleGroup_of_isQuasisimple_of_center_bot {X : Type} [Group X]
     (hq : IsQuasisimple X) (hZ : Subgroup.center X = ⊥) : IsSimpleGroup X := by
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2.1
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2.1
   exact ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.isSimpleGroup
 
 theorem bound_inner_of_hom {X Y : Type} [Group X] [Group Y] [Finite X] [Finite Y]
@@ -158,10 +158,10 @@ theorem kF418OuterOn_minusPiSix : KF418OuterOn (fun X _ => IsMinusPiSix X) := by
     exact hi
   exact c.false_of_outer_core hZ hinn hC
 
-theorem kF418ModelOn_minusPiSix : KF418ModelOn (fun X _ => IsMinusPiSix X) :=
+theorem kF418ModelOn_minusPiSix : KF418ModelOn (fun _X _ => IsMinusPiSix _X) :=
   kF418ModelOn_of_outer
-    (fun X _ _ ⟨n, hn, hX⟩ => bound_inner_isoLThreeMinusPi hn hX)
-    (fun G _ _ L hL ⟨n, hn, hX⟩ x hx3 hout =>
+    (fun _X _ _ ⟨_n, hn, hX⟩ => bound_inner_isoLThreeMinusPi hn hX)
+    (fun _G _ _ _L _hL ⟨_n, hn, hX⟩ _x hx3 hout =>
       Or.inl (inducesStdKind_field_of_isoLThreeMinusPi hn hX hx3 hout))
     kF418OuterOn_minusPiSix
 

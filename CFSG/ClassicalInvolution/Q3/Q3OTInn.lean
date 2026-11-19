@@ -90,7 +90,7 @@ theorem mem_fixed_iff_commutes (L : Subgroup H) (a : ↥(inducedAutOn L)) (t : �
   have h1 : (a : MulAut ↥L) * MulAut.conj t * (a : MulAut ↥L)⁻¹ =
       MulAut.conj ((a : MulAut ↥L) t) := mul_conj_mul_inv _ _
   rw [← h1, mul_inv_eq_iff_eq_mul]
-  first | exact Iff.rfl | exact eq_comm
+  exact eq_comm
 
 theorem oddCoreIn_centralizer_inf_inn_eq_bot (L : Subgroup H) (a : ↥(inducedAutOn L))
     (h : oddCoreIn (fixedSubgroup (autToCentralQuotient ↥L (a : MulAut ↥L))) = ⊥) :

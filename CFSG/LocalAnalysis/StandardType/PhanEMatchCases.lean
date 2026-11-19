@@ -50,7 +50,7 @@ private theorem plh_range_add {α : Type*} (m n : ℕ) (σ : Fin (m + n) → α)
   constructor
   · rintro ⟨i, rfl⟩
     rcases lt_or_ge i.val m with h | h
-    · exact Or.inl ⟨⟨i.val, h⟩, congrArg σ (Fin.ext (by simp [Fin.val_castAdd]))⟩
+    · exact Or.inl ⟨⟨i.val, h⟩, congrArg σ (Fin.ext (by simp))⟩
     · exact Or.inr ⟨⟨i.val - m, by omega⟩,
         congrArg σ (Fin.ext (by simp only [Fin.val_natAdd]; omega))⟩
   · rintro (⟨k, rfl⟩ | ⟨k, rfl⟩)
@@ -156,7 +156,7 @@ theorem residueModel_prod (hK : Nat.card Fld = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
         if k = l then 2 else if k.val + 1 = l.val ∨ l.val + 1 = k.val then -1 else 0 := by
       intro k l
       have hkl : k = l := Subsingleton.elim k l
-      rw [if_pos hkl, hkl]
+      rw [ite_eq_left hkl, hkl]
       exact D.isFiniteType.apply_self _
     obtain ⟨L₂, hL₂⟩ := charts 1 σ₂ (by norm_num) (by norm_num) hinj₂ hcart₂
     have hrange_sum : Set.range σ = Set.range σ₁ ∪ Set.range σ₂ :=

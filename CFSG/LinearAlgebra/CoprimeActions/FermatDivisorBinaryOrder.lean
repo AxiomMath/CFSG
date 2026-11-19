@@ -21,8 +21,8 @@ theorem order_eq {k q : ℕ} (hk : 1 ≤ k) (hq : q.Prime)
       have h2 : Even (2 ^ (2 ^ (k - 1))) := (Nat.even_pow.2 ⟨even_two, by positivity⟩)
       exact (Nat.not_even_iff_odd.2 (h2.add_one)) this
     · exact h
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd := odd_of_dvd (k := k) hq hdvd
   obtain ⟨m, rfl⟩ : ∃ m, k = m + 1 := ⟨k - 1, by omega⟩
   simp only [Nat.add_sub_cancel] at hdvd

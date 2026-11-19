@@ -18,6 +18,7 @@ open scoped Pointwise
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem f112sa_bigB_le_normalizer_L2 {L1 L2 S : Subgroup H} (hF : F112HypW L1 L2 S) :
     bigB L1 L2 S ≤ Subgroup.normalizer (L2 : Set H) :=
   sup_le (sup_le hF.1.h2.borel_le

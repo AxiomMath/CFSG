@@ -118,7 +118,7 @@ theorem diag_chars {L : Type} [Field L] [IsAlgClosed L] {ψ : SL(3, L) →* ModG
     {b : Fin Tag.F4.rank → Lˣ} (hb : ψ (diagSL3 l hl) = rootDiagUnit Tag.F4 b) (v : V4) :
     rootChar b v = l 0 ^ (lab1 σ κ v + lab2 σ κ v) * l 1 ^ lab2 σ κ v :=
   frame_diag_chars hψ (T := frameRoots τ)
-    (fun t ⟨i, j, hij, ht⟩ => ht ▸ h.τ_root i j hij) h.comm h.hdec hb v
+    (fun _t ⟨i, j, hij, ht⟩ => ht ▸ h.τ_root i j hij) h.comm h.hdec hb v
 
 theorem commute_frames {L : Type} [Field L] (h : A2Pair σ τ κ κ')
     {ψ ψ' : SL(3, L) →* ModGL Tag.F4 L} (hψ : IsA2Frame ψ σ) (hψ' : IsA2Frame ψ' τ)

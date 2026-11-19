@@ -28,7 +28,7 @@ theorem range_EW [CharP K 2] {β : Fin (Tag.rank .E7) → ℤ} (hβ : β ∈ Per
     rw [Finsupp.mem_supported']
     intro b hb
     have hb' : ¬ pr (b : Fin e7Data.d) β = 1 := fun h => hb h
-    rw [EW_apply, if_neg hb']
+    rw [EW_apply, ite_eq_right hb']
   · intro w hw
     rw [Finsupp.mem_supported'] at hw
     refine ⟨Finsupp.equivFunOnFinite.symm
@@ -36,7 +36,7 @@ theorem range_EW [CharP K 2] {β : Fin (Tag.rank .E7) → ℤ} (hβ : β ∈ Per
     ext b
     rw [EW_apply]
     by_cases hb : pr (b : Fin e7Data.d) β = 1
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       have h2 : pr (b : Fin e7Data.d) (-β) = -1 := by rw [pr_neg, hb]
       have h3 : pr ((shiftW (-β) b : Idx0) : Fin e7Data.d) β = -1 := by
         rw [shiftW_val hnβ h2]
@@ -45,8 +45,8 @@ theorem range_EW [CharP K 2] {β : Fin (Tag.rank .E7) → ℤ} (hβ : β ∈ Per
         apply Subtype.ext
         rw [shiftW_val hβ h3, shiftW_val hnβ h2, shift_shift_neg hβ.1 hb]
       simp only [Finsupp.equivFunOnFinite_symm_apply_apply]
-      rw [if_pos h3, h4]
-    · rw [if_neg hb]
+      rw [ite_eq_left h3, h4]
+    · rw [ite_eq_right hb]
       have hb'' : b ∉ {b : Idx0 | pr (b : Fin e7Data.d) β = 1} := hb
       exact (hw b hb'').symm
 

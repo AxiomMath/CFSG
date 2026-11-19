@@ -128,7 +128,7 @@ theorem exists_inverted_centralizing_witness [Finite G] (T : Subgroup G) [IsKlei
   obtain ⟨Q, huQ, hTQ⟩ := StationaryScalarCoverage.exists_invariant_sylow_containing hr T X
     (Subgroup.zpowers u) hT2 hXodd hTX (Subgroup.zpowers_le.mpr huX) hup hTu
   set QG := (Q : Subgroup X).map X.subtype with hQG
-  have hQGp : IsPGroup r QG := Q.isPGroup'.map X.subtype
+  have hQGp : IsPGroup r QG := Q.isPGroup.map X.subtype
   obtain ⟨c, hc, hwle⟩ :=
     CFSG.Semidihedral.StationaryOddLocalization.invariant_pgroup_le_fixed_conjugate_sylow
       hr T X (Subgroup.zpowers w) hT2 hTX hXodd Q hTQ (Subgroup.zpowers_le.mpr hwX) hwp hTw
@@ -323,7 +323,7 @@ theorem canonical_lift
       exact (J ⊔ R).mul_mem (Subgroup.mem_sup_left ((inferInstance : J.Normal).conj_mem' j hj s))
         (Subgroup.mem_sup_right hr)
     have hpg : IsPGroup 2 (N ⧸ (J ⊔ R)) :=
-      (centralizerSylow n hn S e).isPGroup'.of_surjective φ hφ
+      (centralizerSylow n hn S e).isPGroup.of_surjective φ hφ
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hpg
     exact ⟨k, hk⟩
 

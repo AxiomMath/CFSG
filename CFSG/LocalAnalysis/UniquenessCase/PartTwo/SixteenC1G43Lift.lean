@@ -38,6 +38,7 @@ theorem s16c1G43_relIndex_cent {D : Data G} {V L : Subgroup G} {hV : IsElemAbeli
         ((s16c7_actTil_eq_one_iff_mem_centralizer V hV ⟨b, hBst hbB⟩).2 hcent)
   rw [← hset, hcard, hB16]
 
+omit [Finite G] in
 private theorem s16c1G43_actTil_mk_val {V : Subgroup G} {hV : IsElemAbelian 2 V}
     {b : G} (hb : b ∈ stabTil (⊥ : Subgroup G) V) {v : G} (hv : v ∈ V) :
     actTil (⊥ : Subgroup G) V hV ⟨b, hb⟩ (mkTil ⊥ V hV (IntMod.mk hV ⟨v, hv⟩)) =
@@ -49,6 +50,7 @@ private theorem s16c1G43_actTil_mk_val {V : Subgroup G} {hV : IsElemAbelian 2 V}
   rw [actStab_apply_val]
   rfl
 
+omit [Finite G] in
 private theorem s16c1G43_actTil_val_eq_iff {V : Subgroup G} {hV : IsElemAbelian 2 V}
     {b : G} (hb : b ∈ stabTil (⊥ : Subgroup G) V) {v : G} (hv : v ∈ V)
     (w : IntMod V hV) :

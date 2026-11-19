@@ -43,7 +43,7 @@ theorem smith1979WidthSix_of_core (h77 : AschbacherFSmith1977Statement)
   rcases hcore G hK (setting hz hext hcard') hS6 hex hirr with
     ⟨q, hq, hiso⟩ | ⟨-, hnc⟩ | ⟨hJ1, hJ2⟩
   ·
-    haveI : (generalizedFitting (Subgroup.centralizer ({z} : Set G))).Normal :=
+    have : (generalizedFitting (Subgroup.centralizer ({z} : Set G))).Normal :=
       CFSG.Holt.General.NoRelevant.generalizedFitting_normal
     set Mbar := Subgroup.centralizer ({z} : Set G) ⧸
       generalizedFitting (Subgroup.centralizer ({z} : Set G)) with hMbardef

@@ -250,7 +250,7 @@ theorem false_of_E81 (hK : KS125TypeCInvol) (hFE : partTwoF G = partTwoE G) {c :
     intro h hh
     exact hcomm _ (hF₀F hh) _ hwF
   exact false_of_le_E81 hFE ⟨hF₀c, hF₀e⟩ (by rw [hF₀27, hB9]) hS0
-    (S.isPGroup'.map Phat.subtype) hSN hwc hwo hwF₀
+    (S.isPGroup.map Phat.subtype) hSN hwc hwo hwF₀
 
 end Item125Diag
 

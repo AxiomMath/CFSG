@@ -50,8 +50,8 @@ private theorem cycW_congr {n : Nat} {f g : Nat → Nat} (hf : ∀ x < n, f x < 
     intro p c hp
     rw [cycW, cycW, ← h p hp]
     by_cases hfp : f p = i
-    · rw [if_pos hfp, if_pos hfp]
-    · rw [if_neg hfp, if_neg hfp]
+    · rw [ite_eq_left hfp, ite_eq_left hfp]
+    · rw [ite_eq_right hfp, ite_eq_right hfp]
       exact ih (f p) (c + 1) (hf p hp)
 
 theorem cycF_congr {n : Nat} {f g : Nat → Nat} (hf : ∀ x < n, f x < n) (h : ∀ x < n, f x = g x)
@@ -109,8 +109,8 @@ private theorem cycW_conj {n : Nat} {f g : Nat → Nat} (hf : ∀ x < n, f x < n
         cycW (fun x => g (f (finv n g x))) (g i) k (g (f (finv n g (g p)))) (c + 1)) = _
     rw [h1]
     by_cases h : f p = i
-    · rw [if_pos (congrArg g h), if_pos h]
-    · rw [if_neg (fun e => h (hg.2 _ hfp _ hi e)), if_neg h]
+    · rw [ite_eq_left (congrArg g h), ite_eq_left h]
+    · rw [ite_eq_right (fun e => h (hg.2 _ hfp _ hi e)), ite_eq_right h]
       exact ih (f p) (c + 1) hfp
 
 theorem cycF_conj {n : Nat} {f g : Nat → Nat} (hf : ∀ x < n, f x < n) (hg : IsPermN n g) {i : Nat}

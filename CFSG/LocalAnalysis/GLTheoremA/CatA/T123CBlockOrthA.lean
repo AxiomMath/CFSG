@@ -15,6 +15,7 @@ section Regular
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {W : Type} [AddCommGroup W] [Module K W]
   [FiniteDimensional K W]
 
+omit [CharP K 2] in
 private theorem finite_orthogonalGroup (Q : QuadraticForm K W) :
     Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := by
   have : Finite W := Module.finite_of_finite K
@@ -22,6 +23,7 @@ private theorem finite_orthogonalGroup (Q : QuadraticForm K W) :
     Finite.of_injective (fun g : W ≃ₗ[K] W => (g : W → W)) DFunLike.coe_injective
   infer_instance
 
+omit [CharP K 2] in
 theorem isSolvable_orthogonalGroup_of_card_two_of_plus (Q : QuadraticForm K W)
     (hQ : (polarBilin Q).Nondegenerate) (hK : Nat.card K = 2) (h4 : finrank K W = 4)
     (hplus : CFSG.GroupTheory.WeirSylow.IsPlusType Q) :
@@ -35,10 +37,11 @@ theorem isSolvable_orthogonalGroup_of_card_two_of_plus (Q : QuadraticForm K W)
       decide
     exact_mod_cast h1
   have := finite_orthogonalGroup Q
-  letI := Fintype.ofFinite ↥(TauCeti.QuadraticMap.orthogonalGroup Q)
+  let := Fintype.ofFinite ↥(TauCeti.QuadraticMap.orthogonalGroup Q)
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
     Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card, h72])
 
+omit [Finite K] in
 theorem four_le_finrank_of_not_isSolvable (Q : QuadraticForm K W)
     (hQ : (polarBilin Q).Nondegenerate)
     (hns : ¬ Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup Q)) : 4 ≤ finrank K W := by
@@ -108,7 +111,7 @@ theorem dvd_card_orthDerived_of_not_isSolvable (Q : QuadraticForm K W)
     (hns : ¬ Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup Q)) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hdvd : p ∣ Nat.card K + 1) : p ∣ Nat.card ↥(orthDerived Q) := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have h4 := four_le_finrank_of_not_isSolvable Q hQ hns
   obtain ⟨k, hk⟩ := CFSG.ComponentClassification.UnbalancedCatalog.even_finrank_of_charTwo Q hQ
   obtain ⟨m, rfl⟩ : ∃ m, k = m + 1 + 1 := ⟨k - 2, by omega⟩
@@ -204,7 +207,7 @@ theorem isSolvable_supportedBlock_of_bad (hx : OddOrderIsometry Q p x) (hp2 : Od
     Group.IsSolvable ↥(supportedBlock Q x h) := by
   classical
   have hne := primaryComponent_ne_bot hx.squarefree_minpoly hh
-  haveI : Nontrivial ↥(primaryComponent x.toLinearMap h) :=
+  have : Nontrivial ↥(primaryComponent x.toLinearMap h) :=
     Submodule.nontrivial_iff_ne_bot.mpr hne
   have hm1 : 0 < primaryMultiplicity x.toLinearMap h := Module.finrank_pos
   have hS : Group.IsSolvable ↥(specialBlock Q x h) := by
@@ -249,7 +252,7 @@ theorem isSolvable_supportedBlock_of_bad (hx : OddOrderIsometry Q p x) (hp2 : Od
     have : Finite V := Module.finite_of_finite K
     have : Finite (V ≃ₗ[K] V) :=
       Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V)) DFunLike.coe_injective
-    letI := Fintype.ofFinite ↥(specialBlock Q x h)
+    let := Fintype.ofFinite ↥(specialBlock Q x h)
     exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
       Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card, hab])
   let ι : ↥(specialBlock Q x h) →* ↥(supportedBlock Q x h) :=

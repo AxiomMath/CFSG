@@ -87,7 +87,7 @@ theorem twE6Three_not_common_component_of_le_inndiag {ℓ f : ℕ} (hℓ : ℓ.P
     four_le_of_not_three_dvd (le_trans hℓ.two_le (Nat.le_self_pow (by omega) ℓ)) h3 hq2
   have hinj := twistedE6InndiagConj_injective hℓ hf hK σ hσ
   obtain ⟨K₁, hK₁, hroot⟩ := exists_cubeExt K
-  haveI : Finite K₁ := hK₁
+  have : Finite K₁ := hK₁
   have hJfix : ∀ x ∈ E, ∀ c ∈ J, x c = c := fun x hx c hc => by
     by_cases hx1 : x = 1
     · rw [hx1, MulAut.one_apply]
@@ -116,7 +116,7 @@ theorem twE6Three_not_common_component_of_le_inndiag {ℓ f : ℕ} (hℓ : ℓ.P
       (MulAut.conj g0⁻¹).toMonoidHom.comp
         ((baseChangeGL (algebraMap K L)).comp (twistedE6InndiagGL K σ).subtype)
     have hθ : ∀ x, θ x = g0⁻¹ * baseChangeGL (algebraMap K L) (x : ModGL TwistTag.E6.tag K) * g0 :=
-      fun x => by simp [θ, MulAut.conj_apply]
+      fun x => by simp [θ]
     have hθinj : Function.Injective θ :=
       (MulAut.conj g0⁻¹).injective.comp
         ((baseChangeGL_injective _).comp Subtype.val_injective)

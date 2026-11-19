@@ -74,7 +74,7 @@ theorem Holds.of_quotient {G : Type*} [Group G] [Finite G] {r : ℕ} [Fact r.Pri
   · rw [normalizer_eq_comap_normalizer_map Z hZ hZr hUr]
     exact Subgroup.comap_mono hNbar
   · exact pCoreOf_normalizer_le_comap_clift Z hZ hZr hUr hcorebar
-  · rw [normalizer_eq_comap_normalizer_map Z hZ hZr S.isPGroup', hSmap]
+  · rw [normalizer_eq_comap_normalizer_map Z hZ hZr S.isPGroup, hSmap]
     exact Subgroup.comap_mono hSbar
 
 theorem Holds.of_quotient_center {G : Type*} [Group G] [Finite G] {r : ℕ} [Fact r.Prime]

@@ -52,14 +52,14 @@ theorem l3_model (hf : f < 28)
 
 theorem l3M_even {a c : Nat} : l3M f (2 * a) (2 * c) = 2 * wm wrSM wrAC a c := by
   have h : ¬ 2 * a % 2 = 1 := by omega
-  rw [l3M, tm_eq, if_neg h, Nat.mul_div_cancel_left a (by omega),
+  rw [l3M, tm_eq, ite_eq_right h, Nat.mul_div_cancel_left a (by omega),
     Nat.mul_div_cancel_left c (by omega), Nat.mul_mod_right, Nat.add_zero]
 
 theorem l3M_one {c : Nat} (hc : c < 8192) : l3M f (2 * c) 1 = 2 * c + 1 := by
   have h : ¬ 2 * c % 2 = 1 := by omega
   have e1 : (1 : Nat) / 2 = 0 := by norm_num
   have e2 : (1 : Nat) % 2 = 1 := by norm_num
-  rw [l3M, tm_eq, if_neg h, Nat.mul_div_cancel_left c (by omega), e1, e2, wr_mul_zero hc]
+  rw [l3M, tm_eq, ite_eq_right h, Nat.mul_div_cancel_left c (by omega), e1, e2, wr_mul_zero hc]
 
 theorem l3M_two {k : Nat} (hk : k < 16384) : l3M f 2 k = k ^^^ 2 := by
   have h : ¬ 2 % 2 = 1 := by omega
@@ -67,7 +67,7 @@ theorem l3M_two {k : Nat} (hk : k < 16384) : l3M f 2 k = k ^^^ 2 := by
   have hz := Nat.eq_of_beq_eq_true (allB_eq_true.1 ch36408_l3z k hk)
   have e3 : Nat.land k 1 = k % 2 := Nat.and_one_is_mod k
   rw [shr1, e3] at hz
-  rw [l3M, tm_eq, if_neg h, e1]
+  rw [l3M, tm_eq, ite_eq_right h, e1]
   exact hz
 
 theorem l3_fam (hf : f < 28)
@@ -77,20 +77,20 @@ theorem l3_fam (hf : f < 28)
     (hβ : ∀ i < 4, β (dec2 D subModel_wr.decW (2 * l16 wGS i)) =
       dec2 D subModel_wr.decW (l16 (Nat.shiftRight (l3P f) 48) i))
     (hb : β (dec2 D subModel_wr.decW 1) = dec2 D subModel_wr.decW (l16 (l3P f) 2)) :
-    ∀ j < 16, ∀ k < 16384, (bitS (l3S f j) k = true ↔
-      dec2 D subModel_wr.decW 2 ^ xbit (l3X f j) k *
-          (dec2 D subModel_wr.decW k * β (dec2 D subModel_wr.decW k)) =
+    ∀ j < 16, ∀ _k < 16384, (bitS (l3S f j) _k = true ↔
+      dec2 D subModel_wr.decW 2 ^ xbit (l3X f j) _k *
+          (dec2 D subModel_wr.decW _k * β (dec2 D subModel_wr.decW _k)) =
         dec2 D subModel_wr.decW (l3H f j)) :=
   famB_sound (l3_model D hf hFA hdg) ch36408_tree (fun _ _ _ _ => l3M_even) (fun _ hc => l3M_one hc)
     (fun _ hk => l3M_two hk) (ch36408_l3_all hf)
-    (fun j hj k h => bitS_union 16 j hj h) β hβ hb
+    (fun j hj _k h => bitS_union 16 j hj h) β hβ hb
 
 theorem l3_chi (hf : f < 28)
     (hFA : ∀ c < 8192, l16 (wrA (Nat.add 2 (l16 (l3P f) 0))) c < 8192 ∧
       D.α (subModel_wr.decW c) = subModel_wr.decW (l16 (wrA (Nat.add 2 (l16 (l3P f) 0))) c))
     {j : Nat} (hj : j < 16) {a b : Nat} (ha : a < 16384) (hb : b < 16384) :
     xbit (l3X f j) (l3M f a b) = xbit (l3X f j) a ^^^ xbit (l3X f j) b :=
-  xbit_tm ch36408_par (fun i hi => ch36408_chw_all hi)
+  xbit_tm ch36408_par (fun _i hi => ch36408_chw_all hi)
     (allB_eq_true.1 (ch36408_l3x_all hf) j hj) wr_model ch36408_tree D.α.toMonoidHom
     (fun c hc => hFA c hc) (l3_g_lt hf) ha hb
 

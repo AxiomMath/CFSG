@@ -101,7 +101,7 @@ theorem liftPair_of_twinsY (hPerp : PerpHypS n G R S t)
       (fun hP => secAut_fix_secImg hΩ hc2' hP hxc hxJ)
       (fun hP => secAut_fix_secImg hΩ hc2' hP hxc hxJ')
   have hH : IsSubnormal (coreHull (CoreAssembly.conjClass (tightCore R)) c) ⊤ := by
-    haveI := normal_coreHull hΩ hc2'
+    have := normal_coreHull hΩ hc2'
     exact isSubnormal_of_normal_subgroupOf le_top inferInstance
   obtain ⟨M₁, hM₁, hM₁a, hM₁b, hM₁c⟩ :=
     exists_sectionMember_of_lift3 hH (t := ⟨t, htC⟩) htH hsq' hL₁

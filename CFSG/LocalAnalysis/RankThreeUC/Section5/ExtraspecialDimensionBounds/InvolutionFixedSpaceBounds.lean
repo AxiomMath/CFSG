@@ -25,7 +25,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem exists_inverted {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {P : Subgroup G}
     (hP : CFSG.IsExtraspecialPGroup p ↥P) (hexp : Monoid.exponent ↥P = p)
-    (hcard : Nat.card ↥P = p ^ (1 + 2 * n)) {t : G} (ht : orderOf t = 2)
+    (_hcard : Nat.card ↥P = p ^ (1 + 2 * n)) {t : G} (ht : orderOf t = 2)
     (htN : t ∈ Subgroup.normalizer (P : Set G)) (hPt : ⁅P, Subgroup.zpowers t⁆ ≠ ⊥) :
     ∃ X : Subgroup G, X ≤ P ∧ Nat.card ↥X = p ∧ X ≠ centerP P ∧
       ∀ x ∈ X, t * x * t⁻¹ = x⁻¹ :=

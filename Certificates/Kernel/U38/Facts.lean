@@ -108,7 +108,7 @@ theorem pg7i : permB 513 10 (pinvS 513 10 (mask 10) (UH.F 7)) = true :=
   permB_pinvS hw (pH (by norm_num))
 
 theorem invG7 : invCand 513 gensO[7]! = unpack 513 10 (pinvS 513 10 (mask 10) (UH.F 7)) := by
-  rw [gO (by norm_num), inv_unpack hw (pH (by norm_num))]
+  rw [gO (by norm_num), inv_unpack (pH (by norm_num))]
 
 theorem sylowSift : allLt 3 (fun j => pgu38SiftX (compA 513 pgu38SylowGens[j]!
     (CFSG.Monster.B.Mathieu.powArr 513 (invCand 513 gensO[7]!) pgu38SylowExp[j]!))) = true := by
@@ -202,7 +202,7 @@ theorem frobOK : allLt 5 (fun r => decide (pgu38RepIdx[r]! < 10) &&
   rw [hi1, reps hi2, frobConj hr, invG7, gO (show 8 < 9 by norm_num), decide_eq_true hi2,
     CFSG.KC.BfsPin.validA_unpack p23, pow_unpack hw pg7i, hex,
     comp_unpack hw p23 (permB_ppow hw pg7i _), siftX hs, conj_unpack hw p8 pR,
-    conj_unpack hw p23 pc, inv_unpack hw pR,
+    conj_unpack hw p23 pc, inv_unpack pR,
     eqA_unpack hw (permB_pcomp hw p23 (permB_pcomp hw pc (permB_pinvS hw p23))) pR,
     eqA_unpack hw (permB_pcomp hw p23 (permB_pcomp hw pc (permB_pinvS hw p23)))
       (permB_pinvS hw pR)]

@@ -90,9 +90,10 @@ omit [Finite G] in
 private theorem torA_T_le_P (P : Sylow p G) (x : G) (J : Subgroup G) : u3T P x J ≤ (P : Subgroup G) :=
   inf_le_left.trans inf_le_left
 
+omit [Finite G] in
 private theorem torA_isPGroup_T (P : Sylow p G) (x : G) (J : Subgroup G) :
     IsPGroup p ((u3T P x J).subgroupOf J) :=
-  (P.isPGroup'.to_le (torA_T_le_P P x J)).comap_subtype
+  (P.isPGroup.to_le (torA_T_le_P P x J)).comap_subtype
 
 private theorem torA_ker_coprime (p : ℕ) (J : Subgroup G) {Q : Type} [Group Q] (ψ : ↥J →* Q)
     (hker : ψ.ker = (rankThreePrimeCore p J).subgroupOf J) : Nat.Coprime p (Nat.card ψ.ker) := by
@@ -105,7 +106,7 @@ theorem u3_normalizer_onto_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (h
       ψ.ker = (rankThreePrimeCore p J).subgroupOf J ∧ Typ p Q ∧
       ∀ q ∈ Subgroup.normalizer (((u3T P x J).subgroupOf J).map ψ : Set Q),
         ∃ n ∈ Subgroup.normalizer ((u3T P x J : Subgroup G) : Set G) ⊓ J, ∃ hn : n ∈ J, ψ ⟨n, hn⟩ = q := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   obtain ⟨Q, iQ, ψ, hsurj, hker, hU3⟩ := hc.typ
   refine ⟨Q, iQ, ψ, hsurj, hker, hU3, ?_⟩
   intro q hq
@@ -119,26 +120,31 @@ theorem u3_normalizer_onto_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (h
 private noncomputable def torA_ext {Q : Type} [Group Q] (J : Subgroup G) (ψ : ↥J →* Q) (g : G) : Q :=
   open Classical in if h : g ∈ J then ψ ⟨g, h⟩ else 1
 
+omit [Finite G] in
 private theorem torA_ext_of_mem {Q : Type} [Group Q] (J : Subgroup G) (ψ : ↥J →* Q) {g : G}
     (hg : g ∈ J) : torA_ext J ψ g = ψ ⟨g, hg⟩ := by
   unfold torA_ext
-  rw [dif_pos hg]
+  rw [dite_eq_left hg]
 
+omit [Finite G] in
 private theorem torA_ext_mul {Q : Type} [Group Q] (J : Subgroup G) (ψ : ↥J →* Q) {a b : G}
     (ha : a ∈ J) (hb : b ∈ J) : torA_ext J ψ (a * b) = torA_ext J ψ a * torA_ext J ψ b := by
   rw [torA_ext_of_mem J ψ ha, torA_ext_of_mem J ψ hb, torA_ext_of_mem J ψ (J.mul_mem ha hb)]
   exact map_mul ψ ⟨a, ha⟩ ⟨b, hb⟩
 
+omit [Finite G] in
 private theorem torA_ext_inv {Q : Type} [Group Q] (J : Subgroup G) (ψ : ↥J →* Q) {a : G}
     (ha : a ∈ J) : torA_ext J ψ a⁻¹ = (torA_ext J ψ a)⁻¹ := by
   rw [torA_ext_of_mem J ψ ha, torA_ext_of_mem J ψ (J.inv_mem ha)]
   exact map_inv ψ ⟨a, ha⟩
 
+omit [Finite G] in
 private theorem torA_ext_one {Q : Type} [Group Q] (J : Subgroup G) (ψ : ↥J →* Q) :
     torA_ext J ψ 1 = 1 := by
   rw [torA_ext_of_mem J ψ J.one_mem]
   exact map_one ψ
 
+omit [Finite G] in
 private theorem torA_ext_pow {Q : Type} [Group Q] (J : Subgroup G) (ψ : ↥J →* Q) {a : G}
     (ha : a ∈ J) (k : ℕ) : torA_ext J ψ (a ^ k) = (torA_ext J ψ a) ^ k := by
   rw [torA_ext_of_mem J ψ ha, torA_ext_of_mem J ψ (J.pow_mem ha k)]
@@ -146,9 +152,9 @@ private theorem torA_ext_pow {Q : Type} [Group Q] (J : Subgroup G) (ψ : ↥J �
 
 theorem u3_torusProps_NJ_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hc : PointConfig Typ G p P M x J) (hIrr : TypeTorusIrred Typ p) (hFpf : TypeTorusFpf Typ p) (hOn : TypeTorusOnCenter Typ p) :
     TorusProps p (u3T P x J) (Subgroup.normalizer ((u3T P x J : Subgroup G) : Set G) ⊓ J) := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   obtain ⟨Q, iQ, ψ, hsurj, hker, hU3, hnorm⟩ := u3_normalizer_onto_gen hc
-  haveI : Finite Q := Finite.of_surjective ψ hsurj
+  have : Finite Q := Finite.of_surjective ψ hsurj
   have hTJ : u3T P x J ≤ J := torA_T_le_J P x J
   have hcop : Nat.Coprime p (Nat.card ψ.ker) := torA_ker_coprime p J ψ hker
   have hsyl : CFSG.ABGLocalTools.IsSylowOf p (u3T P x J) J :=

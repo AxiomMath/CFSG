@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w16f_stableUnder_le_stabSub {X : Subgroup (MulAut W)} {U : Subgroup W}
     (h : StableUnder X U) : X ≤ stabSub U := by
   intro x hx
@@ -21,15 +22,18 @@ private theorem w16f_stableUnder_le_stabSub {X : Subgroup (MulAut W)} {U : Subgr
     have h1 := h x⁻¹ (X.inv_mem hx) (x u) hxu
     rwa [MulAut.inv_apply_self] at h1, h x hx u⟩
 
+omit [Finite W] in
 private theorem w16f_stableUnder_of_le_stabSub {X : Subgroup (MulAut W)} {U : Subgroup W}
     (h : X ≤ stabSub U) : StableUnder X U :=
-  fun x hx u hu => (mem_stabSub.mp (h hx) u).mpr hu
+  fun _x hx u hu => (mem_stabSub.mp (h hx) u).mpr hu
 
+omit [Finite W] in
 private theorem w16f_stableUnder_sup {X Y : Subgroup (MulAut W)} {U : Subgroup W}
     (hX : StableUnder X U) (hY : StableUnder Y U) : StableUnder (X ⊔ Y) U :=
   w16f_stableUnder_of_le_stabSub
     (sup_le (w16f_stableUnder_le_stabSub hX) (w16f_stableUnder_le_stabSub hY))
 
+omit [Finite W] in
 private theorem w16f_map_eq_self_of_mem_stabSub {U : Subgroup W} {g : MulAut W}
     (hg : g ∈ stabSub U) : U.map g.toMonoidHom = U := by
   ext u
@@ -41,6 +45,7 @@ private theorem w16f_map_eq_self_of_mem_stabSub {U : Subgroup W} {g : MulAut W}
     exact ⟨g⁻¹ u, (mem_stabSub.mp hg (g⁻¹ u)).mp (by simpa using hu),
       MulEquiv.apply_symm_apply g u⟩
 
+omit [Finite W] in
 private theorem w16f_mem_stabSub_of_map_eq {U : Subgroup W} {g : MulAut W}
     (h : U.map g.toMonoidHom = U) : g ∈ stabSub U := by
   rw [mem_stabSub]
@@ -54,6 +59,7 @@ private theorem w16f_mem_stabSub_of_map_eq {U : Subgroup W} {g : MulAut W}
     have : g u ∈ U.map g.toMonoidHom := Subgroup.mem_map.mpr ⟨u, hu, rfl⟩
     rwa [h] at this
 
+omit [Finite W] in
 private theorem w16f_conj_conj_apply {t : MulAut W} (ht : t * t = 1) (a : MulAut W) :
     MulAut.conj t (MulAut.conj t a) = a := by
   rw [MulAut.conj_apply, MulAut.conj_apply]
@@ -62,6 +68,7 @@ private theorem w16f_conj_conj_apply {t : MulAut W} (ht : t * t = 1) (a : MulAut
   calc t * (t * a * t) * t = (t * t) * a * (t * t) := by group
     _ = a := by rw [ht]; simp
 
+omit [Finite W] in
 private theorem w16f_map_conj_conj {X : Subgroup (MulAut W)} {t : MulAut W}
     (ht : t * t = 1) :
     (X.map (MulAut.conj t).toMonoidHom).map (MulAut.conj t).toMonoidHom = X := by
@@ -72,6 +79,7 @@ private theorem w16f_map_conj_conj {X : Subgroup (MulAut W)} {t : MulAut W}
     exact w16f_conj_conj_apply ht a
   rw [hcomp, Subgroup.map_id]
 
+omit [Finite W] in
 private theorem w16f_map_map_self {S : Subgroup W} {t : MulAut W} (ht : t * t = 1) :
     (S.map t.toMonoidHom).map t.toMonoidHom = S := by
   rw [Subgroup.map_map]
@@ -81,12 +89,14 @@ private theorem w16f_map_map_self {S : Subgroup W} {t : MulAut W} (ht : t * t = 
     rw [← MulAut.mul_apply, ht, MulAut.one_apply]
   rw [hcomp, Subgroup.map_id]
 
+omit [Finite W] in
 private theorem w16f_comm_of_commutator_eq_bot {A B : Subgroup (MulAut W)}
     (h : ⁅A, B⁆ = ⊥) {a b : MulAut W} (ha : a ∈ A) (hb : b ∈ B) : a * b = b * a := by
   have hle := Subgroup.commutator_eq_bot_iff_le_centralizer.mp h
   have hm : a ∈ Subgroup.centralizer (B : Set (MulAut W)) := hle ha
   exact (Subgroup.mem_centralizer_iff.mp hm b hb).symm
 
+omit [Finite W] in
 private theorem w16f_mem_conj_of_map_eq {X : Subgroup (MulAut W)} {g x : MulAut W}
     (hX : X.map (MulAut.conj g).toMonoidHom = X) (hx : x ∈ X) : g * x * g⁻¹ ∈ X := by
   have h : MulAut.conj g x ∈ X.map (MulAut.conj g).toMonoidHom :=
@@ -119,6 +129,7 @@ private def w16f_secKer (S C : Subgroup W) : Subgroup (MulAut W) where
     rw [he]
     exact C.inv_mem h
 
+omit [Finite W] in
 private theorem w16f_conj_mem_secKer {S C : Subgroup W} {g k : MulAut W}
     (hgS : g ∈ stabSub S) (hgC : ∀ c ∈ C, g c ∈ C) (hk : k ∈ w16f_secKer S C) :
     g * k * g⁻¹ ∈ w16f_secKer S C := by
@@ -131,17 +142,20 @@ private theorem w16f_conj_mem_secKer {S C : Subgroup W} {g k : MulAut W}
     simp only [map_mul, map_inv, MulAut.mul_apply, MulAut.apply_inv_self]
   rwa [he] at h
 
+omit [Finite W] in
 private theorem w16f_commSub_le_of_le_secKer {X : Subgroup (MulAut W)} {S C : Subgroup W}
     (hX : X ≤ w16f_secKer S C) : commSub S X ≤ C := by
   rw [commSub, Subgroup.closure_le]
   rintro _ ⟨x, hx, u, hu, rfl⟩
   exact (hX hx).2 u hu
 
+omit [Finite W] in
 private theorem w16f_E_symm {S C : Subgroup W} {x y : MulAut W}
     (h : x * y⁻¹ ∈ w16f_secKer S C) : y * x⁻¹ ∈ w16f_secKer S C := by
   have h' := (w16f_secKer S C).inv_mem h
   simpa [mul_inv_rev] using h'
 
+omit [Finite W] in
 private theorem w16f_E_trans {S C : Subgroup W} {x y z : MulAut W}
     (h1 : x * y⁻¹ ∈ w16f_secKer S C) (h2 : y * z⁻¹ ∈ w16f_secKer S C) :
     x * z⁻¹ ∈ w16f_secKer S C := by
@@ -149,12 +163,14 @@ private theorem w16f_E_trans {S C : Subgroup W} {x y z : MulAut W}
   have heq : x * y⁻¹ * (y * z⁻¹) = x * z⁻¹ := by group
   rwa [heq] at hm
 
+omit [Finite W] in
 private theorem w16f_E_mul_right {S C : Subgroup W} {x y : MulAut W}
     (h : x * y⁻¹ ∈ w16f_secKer S C) (z : MulAut W) :
     x * z * (y * z)⁻¹ ∈ w16f_secKer S C := by
   have heq : x * z * (y * z)⁻¹ = x * y⁻¹ := by group
   rwa [heq]
 
+omit [Finite W] in
 private theorem w16f_E_mul_left {S C : Subgroup W} {x y : MulAut W}
     (h : x * y⁻¹ ∈ w16f_secKer S C) {z : MulAut W}
     (hzS : z ∈ stabSub S) (hzC : ∀ c ∈ C, z c ∈ C) :
@@ -163,6 +179,7 @@ private theorem w16f_E_mul_left {S C : Subgroup W} {x y : MulAut W}
   have heq : z * x * (z * y)⁻¹ = z * (x * y⁻¹) * z⁻¹ := by group
   rwa [heq]
 
+omit [Finite W] in
 private theorem w16f_commutator_mem_secKer
     {K K' : Subgroup (MulAut W)} {t : MulAut W} {S U₀ : Subgroup W}
     (hKmap : K.map (MulAut.conj t).toMonoidHom = K')
@@ -214,6 +231,7 @@ private theorem w16f_commutator_mem_secKer
     group
   rwa [heq]
 
+omit [Finite W] in
 private theorem w16f_K_le_secKer_of_diag
     {K K' : Subgroup (MulAut W)} {t : MulAut W} {S U₀ : Subgroup W}
     (hK : ⁅K, K⁆ = K) (hKmap : K.map (MulAut.conj t).toMonoidHom = K')
@@ -225,6 +243,7 @@ private theorem w16f_K_le_secKer_of_diag
   refine Subgroup.commutator_le.mpr fun a ha b hb => ?_
   exact w16f_commutator_mem_secKer hKmap hcomm hSstab hU₀stab hD ha hb
 
+omit [Finite W] in
 private theorem w16f_diag_mem_secKer
     {K K' : Subgroup (MulAut W)} {t : MulAut W} (ht2 : t * t = 1)
     (hKmap : K.map (MulAut.conj t).toMonoidHom = K')
@@ -295,6 +314,7 @@ private theorem w16f_diag_mem_secKer
     have hmem : (a * (t * a * t⁻¹)) s * s⁻¹ ∈ S ⊓ S.map t.toMonoidHom := ⟨huS, hutS⟩
     rwa [hScap] at hmem
 
+omit [Finite W] in
 private theorem w16f_commSub_sup (A B : Subgroup W) (X : Subgroup (MulAut W)) :
     commSub (A ⊔ B) X = commSub A X ⊔ commSub B X := by
   refine le_antisymm ?_ ?_

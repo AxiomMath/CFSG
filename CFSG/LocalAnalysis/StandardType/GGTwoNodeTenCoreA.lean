@@ -44,7 +44,7 @@ theorem ggTen_faithful {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Finite V
     (hV : Module.finrank (ZMod 3) V ≤ Module.finrank (ZMod 3) (Submodule.span (ZMod 3) (Set.range h)) + 1) :
     ∀ g ∈ A, (∀ u ∈ Submodule.span (ZMod 3) (Set.range h), g u = u) → g = 1 := by
   intro g hg hfix
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hker_ge : Submodule.span (ZMod 3) (Set.range h) ≤
       LinearMap.ker (g.toLinearMap - LinearMap.id) := by
     intro u hu

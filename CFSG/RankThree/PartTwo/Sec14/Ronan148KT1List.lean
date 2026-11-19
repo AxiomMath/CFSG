@@ -85,8 +85,8 @@ theorem three_dvd_card_quot_center_of_isComponent_quot {C : Type} [Group C] [Fin
     exact Subgroup.mem_center_iff.mp hx g
   obtain ⟨N, hNn, hcop, hquot⟩ :=
     CFSG.exists_normal_coprime_subgroup_and_pgroup_quotient_of_sylow_le_center_normalizer 3 S hS
-  haveI : Group.IsPerfect ↥K := hK.1.1
-  haveI := hNn
+  have : Group.IsPerfect ↥K := hK.1.1
+  have := hNn
   have hsub : Subsingleton (↥K ⧸ N) := by
     by_contra hnt
     rw [not_subsingleton_iff_nontrivial] at hnt

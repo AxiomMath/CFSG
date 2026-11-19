@@ -10,13 +10,13 @@ namespace CFSG.RankThree.Native
 
 open CFSG.Sporadic.Ly CFSG.Sporadic.Ly.Native Matrix
 
-@[expose] def lyA0 : Equiv.Perm (Fin lyN) := MulAction.toPerm (a : J)
+def lyA0 : Equiv.Perm (Fin lyN) := MulAction.toPerm (a : J)
 
-@[expose] def lyA1 : Equiv.Perm (Fin lyN) := MulAction.toPerm (b : J)
+def lyA1 : Equiv.Perm (Fin lyN) := MulAction.toPerm (b : J)
 
-@[expose] def lyP : Subgroup (Equiv.Perm (Fin lyN)) := Subgroup.closure {lyA0, lyA1}
+def lyP : Subgroup (Equiv.Perm (Fin lyN)) := Subgroup.closure {lyA0, lyA1}
 
-@[expose] def lyPhi : J →* Equiv.Perm (Fin lyN) := MulAction.toPermHom J (Fin lyN)
+def lyPhi : J →* Equiv.Perm (Fin lyN) := MulAction.toPermHom J (Fin lyN)
 
 theorem lyPhi_apply (g : J) (i : Fin lyN) : lyPhi g i = g • i := rfl
 
@@ -32,7 +32,7 @@ theorem lyPhi_mem (g : J) : lyPhi g ∈ lyP := by
   rw [← lyPhi_range]
   exact ⟨g, rfl⟩
 
-@[expose] def lyPhiP : J →* lyP := lyPhi.codRestrict lyP lyPhi_mem
+def lyPhiP : J →* lyP := lyPhi.codRestrict lyP lyPhi_mem
 
 theorem lyPhiP_apply (g : J) : (lyPhiP g : Equiv.Perm (Fin lyN)) = lyPhi g := rfl
 

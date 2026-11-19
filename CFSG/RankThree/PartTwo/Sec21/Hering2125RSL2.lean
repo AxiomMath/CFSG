@@ -44,10 +44,10 @@ theorem sl2_quot_card {J : Type} [Group J] [Finite J] {F : Type} [Field F] [Fini
     rw [Nat.card_congr e.toEquiv, CFSG.SL2MinimalFaithful.card_specialLinearGroup_fin_two]
   have hT12 : Nat.card (aschbacherSolvableCore 3 J) = 1 ∨
       Nat.card (aschbacherSolvableCore 3 J) = 2 := by omega
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨p, hpF⟩ := CharP.exists F
-  haveI := hpF
-  haveI : Fact p.Prime := ⟨CharP.char_is_prime F p⟩
+  have := hpF
+  have : Fact p.Prime := ⟨CharP.char_is_prime F p⟩
   obtain ⟨k, hp, hk⟩ := FiniteField.card F p
   have hcardF : Nat.card F = p ^ (k : ℕ) := by rw [Nat.card_eq_fintype_card, hk]
   have hk1 : 1 ≤ (k : ℕ) := k.pos

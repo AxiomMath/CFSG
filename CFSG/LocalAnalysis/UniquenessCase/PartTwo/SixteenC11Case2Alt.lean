@@ -13,7 +13,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 theorem s16c11_altSix_pairs :
     ∃ (T₁ : Subgroup (FFModel.altDn 6).Gam) (N : ℕ), IsPGroup 2 ↥T₁ ∧ ¬ 2 ∣ T₁.index ∧
       Odd (S16C11ModelPairs (FFModel.altDn_isActionModel 6) T₁ N).ncard := by
-  haveI : Finite (FFModel.altDn 6).Gam := inferInstanceAs (Finite ↥(alternatingGroup (Fin 6)))
+  have : Finite (FFModel.altDn 6).Gam := inferInstanceAs (Finite ↥(alternatingGroup (Fin 6)))
   obtain ⟨T₁, N, y₀, a, b, hT, hidx, hF, hTS, h3, hmov⟩ := s16c11_altSix_forced
   refine ⟨T₁, N, hT, hidx, ?_⟩
   have hcard : (S16C11ModelPairs (FFModel.altDn_isActionModel 6) T₁ N).ncard = 1 := by
@@ -26,7 +26,7 @@ theorem s16c11_altSix_pairs :
 theorem s16c11_altSeven_pairs :
     ∃ (T₁ : Subgroup (FFModel.altDn 7).Gam) (N : ℕ), IsPGroup 2 ↥T₁ ∧ ¬ 2 ∣ T₁.index ∧
       Odd (S16C11ModelPairs (FFModel.altDn_isActionModel 7) T₁ N).ncard := by
-  haveI : Finite (FFModel.altDn 7).Gam := inferInstanceAs (Finite ↥(alternatingGroup (Fin 7)))
+  have : Finite (FFModel.altDn 7).Gam := inferInstanceAs (Finite ↥(alternatingGroup (Fin 7)))
   obtain ⟨T₁, N, y₀, a, b, hT, hidx, hF, hcard⟩ := s16c11_altSeven_forced
   refine ⟨T₁, N, hT, hidx, ?_⟩
   have h3 : (S16C11ModelPairs (FFModel.altDn_isActionModel 7) T₁ N).ncard = 3 := by
@@ -38,7 +38,7 @@ theorem s16c11_altSeven_pairs :
 theorem s16c11_altEight_pairs :
     ∃ (T₁ : Subgroup (FFModel.altDn 8).Gam) (N : ℕ), IsPGroup 2 ↥T₁ ∧ ¬ 2 ∣ T₁.index ∧
       Odd (S16C11ModelPairs (FFModel.altDn_isActionModel 8) T₁ N).ncard := by
-  haveI : Finite (FFModel.altDn 8).Gam := inferInstanceAs (Finite ↥(alternatingGroup (Fin 8)))
+  have : Finite (FFModel.altDn 8).Gam := inferInstanceAs (Finite ↥(alternatingGroup (Fin 8)))
   obtain ⟨T₁, N, y₀, a, b, hT, hidx, hF, hTS, h3, hmov⟩ := s16c11_altEight_forced
   refine ⟨T₁, N, hT, hidx, ?_⟩
   have hcard : (S16C11ModelPairs (FFModel.altDn_isActionModel 8) T₁ N).ncard = 1 := by

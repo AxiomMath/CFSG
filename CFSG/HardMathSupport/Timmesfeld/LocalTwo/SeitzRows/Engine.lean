@@ -118,15 +118,15 @@ theorem innerPlaneBalance_of_frames
   have hnc₁ : ∃ u v : M₁, u * v ≠ v * u := by
     by_contra hcon
     push Not at hcon
-    haveI : IsMulCommutative M₁ := ⟨⟨hcon⟩⟩
-    haveI := hperf₁
+    have : IsMulCommutative M₁ := ⟨⟨hcon⟩⟩
+    have := hperf₁
     have : Subsingleton M₁ := Group.IsPerfect.subsingleton_of_isMulCommutative
     exact ha1 (Subsingleton.elim _ _)
   have hnc₂ : ∃ u v : M₂, u * v ≠ v * u := by
     by_contra hcon
     push Not at hcon
-    haveI : IsMulCommutative M₂ := ⟨⟨hcon⟩⟩
-    haveI := hperf₂
+    have : IsMulCommutative M₂ := ⟨⟨hcon⟩⟩
+    have := hperf₂
     have : Subsingleton M₂ := Group.IsPerfect.subsingleton_of_isMulCommutative
     exact hb1 (Subsingleton.elim _ _)
   have hlayA : LayerAt p (ψA a) := by
@@ -139,8 +139,8 @@ theorem innerPlaneBalance_of_frames
       (Subgroup.mem_centralizer_singleton_iff.2 (hcomm a v).symm.eq)
   have hrangeB : ψB.range ≤ ⁅Subgroup.centralizer ({ψA a} : Set G),
       Subgroup.centralizer ({ψA a} : Set G)⁆ := by
-    haveI : Group.IsPerfect M₂ := hperf₂
-    haveI : Group.IsPerfect ψB.range := Group.IsPerfect.range ψB
+    have : Group.IsPerfect M₂ := hperf₂
+    have : Group.IsPerfect ψB.range := Group.IsPerfect.range ψB
     have hle : ψB.range ≤ Subgroup.centralizer ({ψA a} : Set G) := by
       rintro _ ⟨u, rfl⟩
       exact Subgroup.mem_centralizer_singleton_iff.2 (hcomm a u).symm.eq
@@ -157,8 +157,8 @@ theorem innerPlaneBalance_of_frames
       (Subgroup.mem_centralizer_singleton_iff.2 (hcomm v b).eq)
   have hrangeA : ψA.range ≤ ⁅Subgroup.centralizer ({ψB b} : Set G),
       Subgroup.centralizer ({ψB b} : Set G)⁆ := by
-    haveI : Group.IsPerfect M₁ := hperf₁
-    haveI : Group.IsPerfect ψA.range := Group.IsPerfect.range ψA
+    have : Group.IsPerfect M₁ := hperf₁
+    have : Group.IsPerfect ψA.range := Group.IsPerfect.range ψA
     have hle : ψA.range ≤ Subgroup.centralizer ({ψB b} : Set G) := by
       rintro _ ⟨u, rfl⟩
       exact Subgroup.mem_centralizer_singleton_iff.2 (hcomm u b).eq

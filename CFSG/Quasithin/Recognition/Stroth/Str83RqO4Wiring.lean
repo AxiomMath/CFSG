@@ -21,6 +21,7 @@ open CFSG.Quasithin.Stroth.G5 CFSG.QuasithinUnique.Setup.Campbell
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem wr_centerOf_subgroupOf_eq_center (H : Subgroup G) :
     (centerOf H).subgroupOf H = Subgroup.center H := by
   ext h
@@ -32,6 +33,7 @@ private theorem wr_centerOf_subgroupOf_eq_center (H : Subgroup G) :
     refine ⟨h.2, Subgroup.mem_centralizer_iff.mpr fun k hk => ?_⟩
     exact congrArg Subtype.val (hh ⟨k, hk⟩)
 
+omit [Finite G] in
 private theorem wr_ne_bot_of_sz {a : ℕ} {H T : Subgroup G}
     (hSz : Nonempty (oTwoQuot ↥H ≃* Sz a)) (hT : IsSylowTwoOf T H) : T ≠ ⊥ := by
   rintro rfl
@@ -50,15 +52,15 @@ private theorem wr_ne_bot_of_sz {a : ℕ} {H T : Subgroup G}
 theorem not_noCharNormal_of_sz {a : ℕ} (ha : 1 ≤ a)
     {H T : Subgroup G} (hSz : Nonempty (oTwoQuot ↥H ≃* Sz a)) (hC : CharTwo H)
     (hT : IsSylowTwoOf T H) : ¬ NoCharNormal T H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hnc
   have hT1 := wr_ne_bot_of_sz hSz hT
   have hTp : IsPGroup 2 T := hT.2.1
   rcases Stroth.le_normalizer_centerOf_or_le_normalizer_thompsonJ ha hSz hC hT with h | h
   · refine hnc (centerOf T) inf_le_left ?_ ?_ h
     · intro hbot
-      haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hT1
-      haveI := hTp.center_nontrivial
+      have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).mpr hT1
+      have := hTp.center_nontrivial
       obtain ⟨z, hz⟩ := exists_ne (1 : Subgroup.center ↥T)
       apply hz
       have hz' : (z : ↥T) ∈ (centerOf T).subgroupOf T := by
@@ -84,7 +86,7 @@ theorem ArcSzMax.noCharNormal_of_frame
 theorem not_arcSz_QT_of_frame
     {a f : ℕ} (hfr : Frame L1 L2 S a f) : ¬ t.ArcSz t.QT := by
   intro hQ
-  refine Track.not_arcSz_QT t (a := a) (f := f) hQ
+  refine Track.not_arcSz_QT t (a := a) (_f := f) hQ
     (fun Y hY => ArcSzMax.noCharNormal_of_frame t hfr hY) (fun Y hY => ?_)
     (fun Y hY hY2 hcov => ArcSz.structure_LX_zero t hfr hY hY2 hcov)
     (fun H T hSz hC hT => not_noCharNormal_of_sz hfr.ha hSz hC hT)
@@ -103,7 +105,7 @@ theorem arcL_QT_of_ne_bot {a f : ℕ}
       L2 ≤ t.MX t.QT 1 ⊔ t.Qv 1 :=
     t.pair_or_le_sup_Qv_one hfr inf_le_right
       (le_inf t.K_le_normalizer_pCoreOf_GT (t.K_le_Gv 1))
-      ⟨t.x₂_mem_normalizer_pCoreOf_GT, t.x₂_mem_Gv_one⟩ (by simpa using (t.Gv 0).one_mem)
+      ⟨t.x₂_mem_normalizer_pCoreOf_GT, t.x₂_mem_Gv_one⟩ (by simp)
   exact (Track.arcL_or_arcSz_QT t hfr hQ hSz hL).resolve_right (t.not_arcSz_QT_of_frame hfr)
 
 theorem ArcLMax.noCharNormal_of_frame

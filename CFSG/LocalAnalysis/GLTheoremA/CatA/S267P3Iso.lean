@@ -33,7 +33,7 @@ theorem P3Hyp.center_eq_bot_of_multiplier (H : P3Hyp q S B) {T : Type} [Group T]
     ((psimpleEquivCenterQuot H).symm.trans e)
   have hp := CFSG.LocalAnalysis.GLTheoremA.SFM5.isPGroup_center_of_glaPPrimeCore_eq_bot H.core
   by_contra hne
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hp
   have hk0 : k ≠ 0 := by
     rintro rfl

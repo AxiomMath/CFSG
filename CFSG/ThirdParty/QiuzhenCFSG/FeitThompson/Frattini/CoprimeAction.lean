@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 public import Mathlib.Data.Nat.Prime.Defs
 public import Mathlib.GroupTheory.Frattini
 public import Mathlib.GroupTheory.Solvable
@@ -30,8 +30,8 @@ public theorem CFSG.actsTrivially_quotient_commutatorAction
     ActsTrivially (A := A) (G := G ⧸ H) := by
   let H : Subgroup G := commutatorAction (A := A) (G := G)
   let hHinv : IsInvariant A G H := commutatorAction_isInvariant (G := G) (A := A)
-  letI : H.Normal := commutatorAction_normal (G := G) (A := A)
-  letI : MulDistribMulAction A (G ⧸ H) :=
+  let : H.Normal := commutatorAction_normal (G := G) (A := A)
+  let : MulDistribMulAction A (G ⧸ H) :=
     quotientMulDistribMulAction (A := A) (G := G) H hHinv
   change ∀ a : A, ∀ q : G ⧸ H, a • q = q
   intro a q
@@ -59,8 +59,8 @@ public theorem CFSG.fixedPointSubgroup_sup_commutatorAction_eq_top_of_fixedPoint
   let H : Subgroup G := commutatorAction (A := A) (G := G)
   have hHnorm : H.Normal := commutatorAction_normal (G := G) (A := A)
   have hHinv : IsInvariant A G H := commutatorAction_isInvariant (G := G) (A := A)
-  letI : H.Normal := hHnorm
-  letI : MulDistribMulAction A (G ⧸ H) :=
+  let : H.Normal := hHnorm
+  let : MulDistribMulAction A (G ⧸ H) :=
     quotientMulDistribMulAction (A := A) (G := G) H hHinv
   have htriv_quot : ActsTrivially (A := A) (G := G ⧸ H) :=
     actsTrivially_quotient_commutatorAction (G := G) (A := A)
@@ -96,13 +96,13 @@ public theorem CFSG.commutatorAction₂_eq_commutatorAction_of_coprime
     (hcoprime : Nat.Coprime (Nat.card A) (Nat.card G)) :
     commutatorAction₂ (A := A) (G := G) = commutatorAction (A := A) (G := G) := by
   let H : Subgroup G := commutatorAction (A := A) (G := G)
-  letI : IsInvariant A G H := commutatorAction_isInvariant (G := G) (A := A)
+  let : IsInvariant A G H := commutatorAction_isInvariant (G := G) (A := A)
   let Csub : Subgroup H := commutatorAction (A := A) (G := H)
-  letI : Csub.Normal := commutatorAction_normal (G := H) (A := A)
-  letI : MulAction.QuotientAction A Csub :=
+  let : Csub.Normal := commutatorAction_normal (G := H) (A := A)
+  let : MulAction.QuotientAction A Csub :=
     quotientAction_of_isInvariant (A := A) (G := H) Csub
       (commutatorAction_isInvariant (G := H) (A := A))
-  letI : MulDistribMulAction A (H ⧸ Csub) :=
+  let : MulDistribMulAction A (H ⧸ Csub) :=
     quotientMulDistribMulAction (A := A) (G := H) Csub
       (commutatorAction_isInvariant (G := H) (A := A))
   let qH : H →* H ⧸ Csub := QuotientGroup.mk' Csub
@@ -180,8 +180,8 @@ public theorem CFSG.isCompl_fixedPointSubgroup_commutatorAction_of_sup_eq_top_of
     (hcoprime : Nat.Coprime (Nat.card A) (Nat.card G))
     (hcomm : IsMulCommutative G) :
     IsCompl (fixedPointSubgroup A G) (commutatorAction (A := A) (G := G)) := by
-  letI : IsMulCommutative G := hcomm
-  letI : Fintype A := Fintype.ofFinite A
+  let : IsMulCommutative G := hcomm
+  let : Fintype A := Fintype.ofFinite A
   let N : G →* G := by
     refine
       { toFun := fun g => ∏ a : A, a • g
@@ -255,7 +255,7 @@ public theorem CFSG.actsTrivially_of_trivial_quotient_frattini_of_sup_eq_top
           (isInvariant_of_characteristic (A := A) (G := R) (frattini R))
       ActsTrivially (A := A) (G := R ⧸ frattini R)) :
     ActsTrivially (A := A) (G := R) := by
-  letI : MulDistribMulAction A (R ⧸ frattini R) :=
+  let : MulDistribMulAction A (R ⧸ frattini R) :=
     quotientMulDistribMulAction (A := A) (G := R) (frattini R)
       (isInvariant_of_characteristic (A := A) (G := R) (frattini R))
   have hquot' : ActsTrivially (A := A) (G := R ⧸ frattini R) := by

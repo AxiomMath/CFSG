@@ -48,7 +48,7 @@ theorem core_free_maximal_normal_sylow {G : Type*} [Group G] [Finite G] {M : Sub
       exact hP1 ((Subgroup.map_eq_bot_iff_of_injective _ M.subtype_injective).1 hbot)
     · exact heq.symm
   refine ⟨hnorm, ?_⟩
-  have hpP : IsPGroup p P' := P.isPGroup'.map M.subtype
+  have hpP : IsPGroup p P' := P.isPGroup.map M.subtype
   obtain ⟨Q, hPQ⟩ := hpP.exists_le_sylow
   refine ⟨Q, le_antisymm ?_ hPQ⟩
   by_contra hQP
@@ -56,13 +56,13 @@ theorem core_free_maximal_normal_sylow {G : Type*} [Group G] [Finite G] {M : Sub
     refine lt_top_iff_ne_top.2 fun h => hQP fun q hq => ?_
     have : (⟨q, hq⟩ : Q) ∈ P'.subgroupOf Q := h ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.1 this
-  have : Group.IsNilpotent Q := Q.isPGroup'.isNilpotent
+  have : Group.IsNilpotent Q := Q.isPGroup.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (P'.subgroupOf Q) hlt
   rw [← Subgroup.subgroupOf_normalizer_eq hPQ] at hnc
   obtain ⟨⟨x, hxQ⟩, hxN, hxP⟩ := IsConcreteLE.exists_of_lt hnc
   rw [Subgroup.mem_subgroupOf] at hxN hxP
   have hxM : x ∈ M := hnorm ▸ hxN
-  have hK : IsPGroup p (Q ⊓ M : Subgroup G) := Q.isPGroup'.to_le inf_le_left
+  have hK : IsPGroup p (Q ⊓ M : Subgroup G) := Q.isPGroup.to_le inf_le_left
   have hsup : IsPGroup p (P' ⊔ (Q ⊓ M) : Subgroup G) :=
     hpP.to_sup_of_normal_left' hK (hnorm ▸ inf_le_right)
   have hsupM : P' ⊔ (Q ⊓ M) ≤ M := sup_le hle inf_le_right

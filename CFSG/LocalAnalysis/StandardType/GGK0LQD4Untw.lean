@@ -211,7 +211,7 @@ private abbrev lk0xlqd4un_es {τ : Tag} (p : Fin τ.rank) : Fin τ.rank → ℤ 
 
 private theorem lk0xlqd4un_leaf_mem {τ : Tag} {p : Fin τ.rank} (hp : p.val ∈ ({1, 2, 4} : Set ℕ)) :
     p ∈ d4Nodes τ := by
-  simp only [d4Nodes, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff] at hp ⊢
+  simp only [d4Nodes, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff] at hp ⊢
   omega
 
 private theorem lk0xlqd4un_single_mem {τ : Tag} {i : Fin τ.rank} (hi : i ∈ d4Nodes τ) :

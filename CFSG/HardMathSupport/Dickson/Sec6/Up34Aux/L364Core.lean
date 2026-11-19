@@ -59,11 +59,11 @@ theorem exists_perfect_lift {Y Q : Type*} [Group Y] [Group Q] (π : Y →* Q)
 theorem isCyclic_of_image {D B : Type*} [Group D] [Finite D] [Group B] (f : D →* B)
     (hf : Function.Surjective f) (hcyc : ∀ R : Subgroup D, IsPGroup 3 R → IsCyclic R)
     {E : Subgroup B} (hE : IsPGroup 3 E) : IsCyclic E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite B := Finite.of_surjective f hf
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite B := Finite.of_surjective f hf
   obtain ⟨R, hER⟩ := hE.exists_le_sylow
   obtain ⟨R₀, hR₀⟩ := Sylow.mapSurjective_surjective hf 3 R
-  have hcyc₀ : IsCyclic (R₀ : Subgroup D) := hcyc _ R₀.isPGroup'
+  have hcyc₀ : IsCyclic (R₀ : Subgroup D) := hcyc _ R₀.isPGroup
   have hmap : (R₀ : Subgroup D).map f = (R : Subgroup B) := by
     have := congrArg (fun P : Sylow 3 B => (P : Subgroup B)) hR₀
     simpa using this
@@ -88,7 +88,7 @@ theorem l364_core {K : Type} [Field K] [Finite K] (hK : Nat.card K % 3 = 1)
     (h34 : IsLThreeFour (↥A ⧸ GLAPPrimeCore 3 ↥A)) : False := by
   classical
   obtain ⟨g, -, hgφ⟩ := hφ
-  haveI hSLn : (StatedSL 3 K).Normal := by
+  have hSLn : (StatedSL 3 K).Normal := by
     rw [CFSG.Open.StatedAPI.statedSL_eq_ker_det]
     infer_instance
   let π₀ : ↥(StatedSL 3 K) →* StatedProj (StatedSL 3 K) := QuotientGroup.mk' _

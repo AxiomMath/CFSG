@@ -59,7 +59,7 @@ theorem conjTr_unipotentMat {K : Type} [Field K] {n : ℕ} (σ : K ≃+* K) {a :
     conjTr σ (unipotentMat a) = unipotentMat a := by
   have hmat_inv : (a : Matrix (Fin n) (Fin n) K) * ((a⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) =
       1 := by
-    simpa using congrArg (fun u : GL (Fin n) K => (u : Matrix (Fin n) (Fin n) K)) (mul_inv_cancel a)
+    simp
   have hga : (a⁻¹ : GL (Fin n) K) = a := by
     calc a⁻¹ = a⁻¹ * 1 := (mul_one _).symm
       _ = a⁻¹ * (a * a) := by rw [hsq]
@@ -85,7 +85,7 @@ theorem card_selfadjoint_le_pow_finrank {K : Type} [Field K] [Finite K] {n : ℕ
     Nat.card {x : D // conjTr σ ((x : D) : Matrix (Fin n) (Fin n) K) =
       ((x : D) : Matrix (Fin n) (Fin n) K)} ≤ q ^ finrank K D := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hstar : ∀ z : ι → K,
       conjTr σ (↑(∑ i, z i • b i) : Matrix (Fin n) (Fin n) K) = ↑(∑ i, σ (z i) • b i) := by
     intro z
@@ -126,7 +126,7 @@ theorem card_selfadjoint_le_pow_finrank {K : Type} [Field K] [Finite K] {n : ℕ
       congrArg (fun z : {z : ι → K // ∀ i, σ (z i) = z i} => (z : ι → K)) hxy
     exact Subtype.ext (b.equivFun.injective h1)
   have hpos : 0 < Nat.card {c : K // σ c = c} := by
-    haveI : Nonempty {c : K // σ c = c} := ⟨⟨0, map_zero σ⟩⟩
+    have : Nonempty {c : K // σ c = c} := ⟨⟨0, map_zero σ⟩⟩
     exact Nat.card_pos
   calc Nat.card {x : D // conjTr σ ((x : D) : Matrix (Fin n) (Fin n) K) =
         ((x : D) : Matrix _ _ K)}
@@ -172,7 +172,7 @@ theorem card_fixed_le_pow {K : Type} [Field K] [Finite K] {q : ℕ} (hq : 2 ≤ 
     (hσq : ∀ c : K, σ c = c ↔ c ^ q = c) :
     Nat.card {c : K // σ c = c} ≤ q := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let Z : Finset K := Finset.univ.filter fun c => σ c = c
   have hZ : Nat.card {c : K // σ c = c} = Z.card :=
     Nat.subtype_card Z fun x => by simp [Z]
@@ -203,7 +203,7 @@ theorem toLinAlgEquiv'_unipotentMat {K : Type} [Field K] {n : ℕ} (a : GL (Fin 
       (glNaturalRep n K a : Module.End K (Fin n → K)) z =
         (a : Matrix (Fin n) (Fin n) K).mulVec z := by
     intro z
-    simpa [glNaturalRep, Matrix.mulVecLin_apply] using Matrix.GeneralLinearGroup.toLin_apply a z
+    simp [glNaturalRep]
   refine LinearMap.ext fun z => ?_
   simp only [Matrix.toLinAlgEquiv'_apply, unipotentMat, unipotentEnd, LinearMap.sub_apply,
     Matrix.sub_mulVec, Matrix.one_mulVec, End.one_apply, hz z]
@@ -225,9 +225,9 @@ theorem card_le_pow_finrank_unipotentAlgebra_of_le_statedSU {K : Type} [Field K]
     (hAS : A ≤ StatedSU m (2 ^ f) K) (hA : IsElemAbelian 2 A) :
     Nat.card A ≤ (2 ^ f) ^ finrank K (unipotentAlgebra A) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow (r := 2) (n := f * 2) Nat.prime_two
       (by rw [hK, pow_mul])
   have huni : ∀ a ∈ A,
@@ -290,8 +290,8 @@ theorem card_le_pow_fix_mul_of_le_statedSU {K : Type} [Field K] [Finite K]
     (hAS : A ≤ StatedSU m (2 ^ f) K) (hA : IsElemAbelian 2 A) :
     Nat.card A ≤ (2 ^ f) ^ (finrank K (fixSubGen (glNaturalRep m K) A) *
       (m - finrank K (fixSubGen (glNaturalRep m K) A))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow (r := 2) (n := f * 2) Nat.prime_two
       (by rw [hK, pow_mul])
   have h1 := card_le_pow_finrank_unipotentAlgebra_of_le_statedSU hK hAS hA

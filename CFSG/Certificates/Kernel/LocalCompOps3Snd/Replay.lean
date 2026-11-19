@@ -262,19 +262,19 @@ theorem ops3_check_seed {c : Lay} {d : Nat} (hc : c.ok = true) (hp : c.p = 3) (h
     rw [hRk, hRn]
     by_cases h0 : r = 0
     · subst h0
-      simp only [if_true]
+      simp only [ite_true]
       refine ⟨Or.inr (by norm_num), wfb_rowsOf c.d D.seedA, ?_⟩
       change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.rowsOf c.d D.seedA) = mat3 c (Vk 0)
       exact ((spec3 c.d).toMat_decode D.seedA).trans
         (by rw [hsA]; exact hA.2.symm)
     by_cases h01 : r = 1
     · subst h01
-      simp only [if_false, if_true, one_ne_zero]
+      simp only [ite_false, ite_true, one_ne_zero]
       refine ⟨Or.inr (by norm_num), wfb_rowsOf c.d D.seedB, ?_⟩
       change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.rowsOf c.d D.seedB) = mat3 c (Vk 1)
       exact ((spec3 c.d).toMat_decode D.seedB).trans
         (by rw [hsB]; exact hB.2.symm)
-    · simp only [h0, h01, if_false]
+    · simp only [h0, h01, ite_false]
       refine ⟨Or.inr (by norm_num), wfb_idM c.d, ?_⟩
       change CFSG.F3.Native.toMat c.d (CFSG.F3.Native.idM c.d) = mat3 c (Vk 2)
       rw [CFSG.F3.Native.toMat_idM, hV.two]

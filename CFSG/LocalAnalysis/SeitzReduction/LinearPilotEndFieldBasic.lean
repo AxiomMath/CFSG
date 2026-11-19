@@ -263,7 +263,7 @@ theorem exists_conj_mem_innerStd [CharP F 2] (hn : 3 ≤ n)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₀⟩ : Nonempty (Sylow 2 (innerStd n F)) := inferInstance
   set P := (S₀ : Subgroup (innerStd n F)).map (innerStd n F).subtype with hP
-  have hPp : IsPGroup 2 P := S₀.isPGroup'.map _
+  have hPp : IsPGroup 2 P := S₀.isPGroup.map _
   have hPidx : ¬ 2 ∣ P.index := by
     rw [hP, Subgroup.index_map_subtype]
     exact (Fact.out : (2 : ℕ).Prime).not_dvd_mul S₀.not_dvd_index (two_not_dvd_index_innerStd hn)

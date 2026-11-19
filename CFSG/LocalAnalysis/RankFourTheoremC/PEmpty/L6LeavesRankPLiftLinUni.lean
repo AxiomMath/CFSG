@@ -24,14 +24,14 @@ section CertificateInstances
 
 theorem gl83I66Two_of_linUni (h : GL83I66TwoLinUni) : GL83I66Two := by
   intro K _ _ f hf hf5 hK hq K' _ φ hsurj hker z hz hcen
-  haveI := Fact.mk hf
+  have := Fact.mk hf
   by_cases hfZ : f ∣ Nat.card (center K)
   ·
     obtain ⟨N, hNle, hNd, hNexp⟩ :=
       CFSG.RankThree.PartOne.Mult.exists_central_p_complement (K := K) f
-    haveI : N.Normal := Subgroup.normal_of_le_center hNle
+    have : N.Normal := Subgroup.normal_of_le_center hNle
     obtain ⟨hqN, hcomap, -⟩ := CFSG.LocalCores.quasisimple_central_quotient hq N hNle
-    haveI : Finite (K ⧸ N) := Finite.of_surjective _ (QuotientGroup.mk'_surjective N)
+    have : Finite (K ⧸ N) := Finite.of_surjective _ (QuotientGroup.mk'_surjective N)
     have key : ∀ y : K, QuotientGroup.mk' N y ∈ center (K ⧸ N) ↔ y ∈ center K := fun y => by
       rw [← hcomap, Subgroup.mem_comap]
     have hpgrp : IsPGroup f (center (K ⧸ N)) := by
@@ -65,7 +65,7 @@ theorem gl83I66Two_of_linUni (h : GL83I66TwoLinUni) : GL83I66Two := by
       obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective N t
       rw [MonoidHom.mem_ker, hφ₁, key y, ← hker, MonoidHom.mem_ker]
     have hK1 := CFSG.KCore.KGroupNonab.quotient isoInvariant_isCatalogGroup' hK N
-    haveI : IsSimpleGroup ((K ⧸ N) ⧸ center (K ⧸ N)) := hqN.2.1
+    have : IsSimpleGroup ((K ⧸ N) ⧸ center (K ⧸ N)) := hqN.2.1
     obtain ⟨φt, hφt⟩ : ∃ φt : (⊤ : Subgroup (K ⧸ N)) →* (K ⧸ N) ⧸ center (K ⧸ N),
         Function.Surjective φt :=
       ⟨(QuotientGroup.mk' (center (K ⧸ N))).comp

@@ -95,9 +95,9 @@ theorem ggIndep_x_notComm_of_dep (hFix : GGTBFixInput) {G : Type} [Group G] [Fin
     (hdep : ¬ LinearIndependent (ZMod p) h) :
     x ∉ (ggBstarComm L Bs).map Bs.subtype := by
   classical
-  haveI : Fintype ↥Bs := Fintype.ofFinite ↥Bs
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Fintype ↥Bs := Fintype.ofFinite ↥Bs
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have F := ggXDatumA_frame hFix hp2 hH hx hN hpN e hML hCL hφ hpair hAL hdep
   have hnot := (ggDepA_relation F).2.1
   rintro ⟨c, hc, hcx⟩

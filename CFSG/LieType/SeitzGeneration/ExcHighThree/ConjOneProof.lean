@@ -115,7 +115,7 @@ theorem conjOne_of_innerIsotropic (hIso : E6InnerIsotropic) : ConjOne := by
   have hc1 : D.c = 1 := rfl
   have hAmem : ∀ x ∈ E₀, (x : ModGL Tag.E6 K) ∈ A := fun x hx => ⟨x, hx, rfl⟩
   have hnt : Nontrivial A := by
-    haveI : Fintype A := Fintype.ofFinite A
+    have : Fintype A := Fintype.ofFinite A
     rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card, hAcard]
     norm_num
   obtain ⟨x₁, hx₁⟩ := exists_ne (1 : A)

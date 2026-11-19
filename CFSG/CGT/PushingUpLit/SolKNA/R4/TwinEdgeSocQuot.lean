@@ -111,7 +111,7 @@ variable {r : ℕ} {G : Type} [Group G] [Finite G] {J L L₀ : Subgroup G}
 theorem F2ConfigR.soc_commutator_le_of_comm2 (hc : F2ConfigR r J L L₀)
     (hF : SocleComm2 ↥(socleOf L₀)) {P : Subgroup G} (hP : IsPGroup 2 ↥P) :
     ⁅P, P⁆ ≤ L₀ ⊔ Subgroup.center G := by
-  haveI := hc.normal
+  have := hc.normal
   have h := hF (G ⧸ Subgroup.center G) (socleOf L₀) inferInstance ⟨MulEquiv.refl _⟩
     (centralizer_socle_eq_bot hc.isComp.1 hc.centralizerEq)
     (P.map (QuotientGroup.mk' (Subgroup.center G))) (hP.map _)

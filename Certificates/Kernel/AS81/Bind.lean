@@ -37,7 +37,7 @@ theorem xor_lt8 {a b : Nat} (ha : a < 256) (hb : b < 256) : a ^^^ b < 256 :=
   Nat.xor_lt_two_pow (n := 8) ha hb
 
 theorem toNat_mul_lt {c : Bool} {w : Nat} (hw : w < 256) : c.toNat * w < 256 := by
-  cases c <;> simp <;> omega
+  cases c <;> simp; omega
 
 theorem eichK_lt {u w x : Nat} (hu : u < 256) (hw : w < 256) (hx : x < 256) :
     CFSG.KC.O8.eichK false u w x < 256 := by

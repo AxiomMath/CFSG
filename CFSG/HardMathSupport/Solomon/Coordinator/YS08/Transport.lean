@@ -26,7 +26,7 @@ theorem i253α_pow_three_of_cube_mem_centralizer {Y : Type*} [Group Y] (K : Subg
 
 theorem barEquiv_of_mulEquiv {A B : Type} [Group A] [Group B] [Finite A] [Finite B] (e : A ≃* B) :
     Nonempty ((A ⧸ GLAPPrimeCore 3 A) ≃* (B ⧸ GLAPPrimeCore 3 B)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 : (GLAPPrimeCore 3 A).map e.toMonoidHom ≤ GLAPPrimeCore 3 B :=
     CFSG.map_pPrimeCore_le e.toMonoidHom e.surjective
   have h2 : (GLAPPrimeCore 3 B).map e.symm.toMonoidHom ≤ GLAPPrimeCore 3 A :=

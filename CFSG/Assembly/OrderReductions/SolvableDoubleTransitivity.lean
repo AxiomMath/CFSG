@@ -37,7 +37,7 @@ theorem double_transitive_of_regular_pair
   let initial_image := (initial_sylow : Subgroup (pairSubgroup initial_first initial_second)).map
     (pairSubgroup initial_first initial_second).subtype
   have initial_three : ThreePointPrime (points := Component group) prime initial_image :=
-    ⟨initial_sylow.isPGroup'.map _, pRegular_pair_sylow_three_fixed prime initial_first initial_second
+    ⟨initial_sylow.isPGroup.map _, pRegular_pair_sylow_three_fixed prime initial_first initial_second
       initial_distinct regular initial_sylow⟩
   obtain ⟨subgroup, initial_contains, maximal⟩ := Finite.exists_le_maximal initial_three
   obtain ⟨point, point_fixed, point_even⟩ := ambient_rule prime (Fact.out : Nat.Prime prime) subgroup maximal

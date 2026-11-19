@@ -77,7 +77,7 @@ theorem ff6p_cent_B_sylow (hc : FF6PCls) :
       rw [hθs', hzb, ← hc, inv_mul_cancel]
     exact (ff6p_theta_eq_one_iff h hQ hdim hsgn e hgN).mp hθ
 
-theorem ff6p_no_normal_z4 (hc : FF6PCls) :
+theorem ff6p_no_normal_z4 (_hc : FF6PCls) :
     ∀ (G : Type) [Group G] [Finite G] (L : Subgroup G), IsOm6P L →
     ∀ H S₁ : Subgroup G, L ≤ H → H ≤ normalizer (L : Set G) → IsSylow2Of S₁ H →
       ∀ w ∈ S₁, w ^ 4 ∈ centralizer (L : Set G) → w ^ 2 ∉ centralizer (L : Set G) →
@@ -111,12 +111,12 @@ theorem ff6p_no_normal_z4 (hc : FF6PCls) :
     rw [← hz_def]
     exact Subgroup.mem_zpowers z
   have hcent_mem : Subgroup.centralizer (L : Set G) ≤ Ũ := by
-    intro c hc
+    intro c _hc
     have hcN : c ∈ Subgroup.normalizer (L : Set G) :=
-      Subgroup.centralizer_le_normalizer (L : Set G) hc
+      Subgroup.centralizer_le_normalizer (L : Set G) _hc
     refine Subgroup.mem_map.mpr ⟨⟨c, hcN⟩, ?_, rfl⟩
     change ffTheta6P hQ hdim hsgn e ⟨c, hcN⟩ ∈ Subgroup.zpowers z
-    rw [(ff6p_theta_eq_one_iff h hQ hdim hsgn e hcN).mpr hc]
+    rw [(ff6p_theta_eq_one_iff h hQ hdim hsgn e hcN).mpr _hc]
     exact Subgroup.one_mem _
   have hnorm_le : Subgroup.zpowers w ⊔ Subgroup.centralizer (L : Set G) ≤
       Subgroup.normalizer (L : Set G) :=

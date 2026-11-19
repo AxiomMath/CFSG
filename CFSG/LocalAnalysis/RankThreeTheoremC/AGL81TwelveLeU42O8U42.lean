@@ -227,7 +227,7 @@ theorem card_le_nine_of_parabolic
     {A : Type} [Group A] [Finite A] {Y P : Subgroup A}
     (e : ↥Y ≃* CFSG.Quasithin.H13.F431.U42.Y) (hP : IsParabolicTwo Y P) (hne : P ≠ Y)
     {T : Subgroup A} (hTP : T ≤ P) (hT : IsPGroup 3 T) : Nat.card T ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hT
   rcases Nat.lt_or_ge n 3 with h | h
   · rw [hn]

@@ -114,12 +114,12 @@ theorem u8_beq {n m : Nat} (hn : n < 256) (hm : m < 256) :
   · have : UInt8.ofNat n ≠ UInt8.ofNat m := by
       intro e
       have := congrArg UInt8.toNat e
-      simp [UInt8.toNat_ofNat, Nat.mod_eq_of_lt hn, Nat.mod_eq_of_lt hm] at this
+      simp [Nat.mod_eq_of_lt hn, Nat.mod_eq_of_lt hm] at this
       exact h this
     simp [h, this]
 
 theorem u8_toNat {n : Nat} (hn : n < 256) : (UInt8.ofNat n).toNat = n := by
-  simp [UInt8.toNat_ofNat, Nat.mod_eq_of_lt hn]
+  simp [Nat.mod_eq_of_lt hn]
 
 theorem nlStepA_toA (s : NLL) {n : Nat} (hn : n < 128) :
     nlStepA (toA s) (UInt8.ofNat n) = toA (nlStepL s n) := by
@@ -145,27 +145,27 @@ theorem nlStepA_toA (s : NLL) {n : Nat} (hn : n < 128) :
   unfold nlStepA nlStepL toA
   simp only [h10, h35, hge, hle, decide_eq_true_eq, Bool.and_eq_true]
   by_cases hc : comment = true
-  · simp only [hc, if_true]
+  · simp only [hc, ite_true]
     by_cases hn10 : n = 10 <;> simp [hn10]
-  · simp only [hc, Bool.false_eq_true, if_false]
+  · simp only [hc, Bool.false_eq_true, ite_false]
     by_cases hs : atStart = true ∧ n = 35
-    · simp only [hs, if_true, and_self]
-    · simp only [hs, if_false]
+    · simp only [hs, ite_true, and_self]
+    · simp only [hs, ite_false]
       by_cases hd : 48 ≤ n ∧ n ≤ 57
-      · simp only [hd, if_true, and_self]
+      · simp only [hd, ite_true, and_self]
         rw [hsub hd.1]
         simp [UInt32.ofNat_add, UInt32.ofNat_mul]
-      · simp only [hd, if_false]
+      · simp only [hd, ite_false]
         by_cases hi : inNum = true
-        · simp only [hi, if_true]
+        · simp only [hi, ite_true]
           by_cases hn10 : n = 10
-          · simp [hn10, toArr_cons, toArr_isEmpty, toArr]
+          · simp [hn10, toArr]
           · simp [hn10, toArr_cons]
-        · simp only [hi, Bool.false_eq_true, if_false]
+        · simp only [hi, Bool.false_eq_true, ite_false]
           by_cases hn10 : n = 10
           · by_cases hcur : cur = []
             · simp [hn10, hcur, toArr]
-            · simp [hn10, hcur, toArr_isEmpty, toArr]
+            · simp [hn10, hcur, toArr]
           · simp [hn10]
 
 theorem nlFinA_toA (s : NLL) :
@@ -173,10 +173,10 @@ theorem nlFinA_toA (s : NLL) :
   obtain ⟨out, cur, num, inNum, comment, atStart⟩ := s
   unfold nlFinA nlFinL toA
   by_cases hi : inNum = true
-  · simp [hi, toArr_cons, toArr]
+  · simp [hi, toArr]
   · by_cases hcur : cur = []
     · simp [hi, hcur, toArr]
-    · simp [hi, hcur, toArr_isEmpty, toArr]
+    · simp [hi, hcur, toArr]
 
 theorem foldl_toA : ∀ (ns : List Nat) (s : NLL), (∀ n ∈ ns, n < 128) →
     (ns.map UInt8.ofNat).foldl nlStepA (toA s) = toA (ns.foldl nlStepL s)
@@ -245,9 +245,8 @@ theorem nlChk_sound : ∀ (ns : List Nat) (L P num iN cm sa : Nat)
   | n :: ns, L, P, num, iN, cm, sa, fin, h => by
     rw [nlChk_cons] at h
     simp only [bif'_eq, forceN_eq, Nat.blt_eq, Nat.beq_eq, Nat.ble_eq, Bool.and_eq_true,
-      decide_eq_true_eq, Nat.add_eq, Nat.mul_eq, Nat.sub_eq, Nat.succ_eq_add_one] at h
+      Nat.add_eq, Nat.mul_eq, Nat.sub_eq, Nat.succ_eq_add_one] at h
     split_ifs at h with h128 hcm h10 hat hd hi he h10' hP h10'' hP0 hPL
-    all_goals try exact (Bool.false_ne_true h).elim
     all_goals
       obtain ⟨hasc, L', P', num', iN', cm', sa', hf, hfold⟩ := nlChk_sound ns _ _ _ _ _ _ fin h
       refine ⟨fun m hm => ?_, L', P', num', iN', cm', sa', hf, ?_⟩
@@ -257,16 +256,14 @@ theorem nlChk_sound : ∀ (ns : List Nat) (L P num iN cm sa : Nat)
       · rw [List.foldl_cons, ← hfold]
         congr 1
         clear hfold hf h hasc
-        try simp only [rowL] at *
         by_cases hs : sa = 1 <;>
         first
           | (simp_all [nlStepL, stN, rowL, List.range_succ]; done)
-          | (rw [← hP]; simp_all [nlStepL, stN, rowL, List.range_succ]; done)
           | (simp_all [nlStepL, stN, rowL, List.range_succ]
              rw [← hP, List.range_succ]
-             simp [he]; done)
-          | (simp_all [nlStepL, stN, rowL, List.range_succ]
-             rw [if_neg (by omega)]
+             simp [he])
+          | (simp_all [nlStepL, stN]
+             rw [ite_eq_right (by omega)]
              simp [hi])
 
 theorem nlLines_of_chk {ns : List Nat} {nl : Nat}
@@ -313,11 +310,11 @@ theorem numLines_of_chk {cs : List Char} {nl : Nat}
       ((((List.range nl).map (rowL E lens)).map fun l => (l.map UInt32.ofNat).toArray).toArray)[k]! =
       ((rowL E lens k).map UInt32.ofNat).toArray := by
     rw [getElem!_pos _ _ (by simpa using hk)]
-    simp [hk]
+    simp
   rw [e]
   refine ⟨by simp [rowL], fun p hp => ?_⟩
   rw [getElem!_pos _ _ (by simpa [rowL] using hp)]
-  simp [rowL, hp]
+  simp [rowL]
 
 end Chk2
 

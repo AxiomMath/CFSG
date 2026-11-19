@@ -29,7 +29,7 @@ private def e8T3ZKernelB : Set (Fin Tag.E8.rank → ℤ) :=
 
 private theorem e8T3ZKernel_eq_B : e8T3ZKernel = e8T3ZKernelB := by
   ext v
-  simp only [e8T3ZKernel, e8T3ZKernelB, Set.mem_setOf_eq,
+  simp only [e8T3ZKernel, e8T3ZKernelB, Set.mem_ofPred_eq,
     CFSG.LieType.Chevalley.RootOps.isRootB_iff]
   tauto
 
@@ -85,7 +85,7 @@ private theorem e8T3ZKernelList_subset :
   exact hv'
 
 private theorem finite_e8T3ZKernel : e8T3ZKernel.Finite :=
-  (finite_setOf_isRoot Tag.E8).subset fun v hv => hv.1
+  (finite_setOf_isRoot Tag.E8).subset fun _v hv => hv.1
 
 private theorem ncard_e8T3ZKernel : e8T3ZKernel.ncard = 30 := by
   rw [show e8T3ZKernel = {v : Fin Tag.E8.rank → ℤ |
@@ -141,7 +141,7 @@ private theorem e8T3ZKernel_cases {P : (Fin Tag.E8.rank → ℤ) → Prop}
   have hmem : α ∈ e8T3ZKernelList := by
     have h : α ∈ ({v : Fin Tag.E8.rank → ℤ | v ∈ e8T3ZKernelList} : Set _) := by
       rw [← e8T3ZKernel_eq_list]; exact hα
-    simpa only [Set.mem_setOf_eq] using h
+    simpa only [Set.mem_ofPred_eq] using h
   simp only [e8T3ZKernelList, List.mem_cons, List.not_mem_nil, or_false] at hmem
   rcases hmem with
     rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl |
@@ -167,7 +167,7 @@ private theorem ncard_add_e8T3ZKernel_eq_count (α : Fin Tag.E8.rank → ℤ) :
       have hβlist : β ∈ e8T3ZKernelList := by
         have h := hβZK
         rw [e8T3ZKernel_eq_list] at h
-        simpa only [Set.mem_setOf_eq] using h
+        simpa only [Set.mem_ofPred_eq] using h
       exact List.mem_toFinset.mpr
         (List.mem_filter.mpr ⟨hβlist, CFSG.LieType.Chevalley.RootOps.isRootB_iff.mpr hβroot⟩)
     · intro hβ
@@ -419,7 +419,7 @@ theorem iform_e8A2Roots_eq_zero_of_mem_e8T3ZKernel
       · rfl
     exact hαS (e8A2RootsB_iff.1 h1)
   obtain ⟨h1, h2, h3⟩ := horth α hα hb
-  simp only [e8A2Roots, Set.mem_setOf_eq] at hβ
+  simp only [e8A2Roots, Set.mem_ofPred_eq] at hβ
   rcases hβ with rfl | rfl | rfl | rfl | rfl | rfl
   · exact h1
   · rw [iform_neg_right, h1, neg_zero]
@@ -441,9 +441,9 @@ theorem commute_e8A2Roots_of_mem_e8T3ZKernel {L : Type} [Field L]
   have hne' : α ≠ -β := fun h => hαS (h ▸ neg_mem_e8A2Roots hβ)
   have hnot : ¬ IsRoot Tag.E8 (α + β) :=
     CFSG.LieType.Chevalley.SimplyLacedCover.not_isRoot_add (fun i => by
-      simpa [show Tag.E8.symmetrizer =
+      simp [show Tag.E8.symmetrizer =
         (1 : Matrix (Fin Tag.E8.rank) (Fin Tag.E8.rank) ℤ) from rfl]) hαroot hβroot
-      (by simpa [h0] using (le_refl (0 : ℤ)))
+      (by simp [h0])
   exact commute_of_forall_not_isRoot hαroot hβroot hne hne'
     (fun a b ha hb => not_isRoot_nsmul_add_nsmul hαroot hβroot h0 hnot ha hb) L
 
@@ -522,7 +522,7 @@ theorem familyCentralizer_e8T3ZColumn_le_normalizer_rootSpan {L : Type} [Field L
   · intro w hw α hα
     have hw' : w ∈ rootCharStabilizer (fun i => ζ ^ (e8T3ZColumn ε q i).val) := by
       have h := hw
-      simp only [familyStabilizer, Set.mem_setOf_eq] at h
+      simp only [familyStabilizer, Set.mem_ofPred_eq] at h
       exact h ()
     have hker' : rootCharKernel (fun i => ζ ^ (e8T3ZColumn ε q i).val) = e8T3ZKernel := by
       rw [← hker]

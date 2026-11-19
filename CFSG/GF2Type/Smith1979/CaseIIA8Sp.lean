@@ -18,17 +18,20 @@ section GL3Perfect
 
 variable {X : Type*} [AddCommGroup X] [Module (ZMod 2) X] [FiniteDimensional (ZMod 2) X]
 
+omit [FiniteDimensional (ZMod 2) X] in
 theorem transvection_mul_self {φ : Module.Dual (ZMod 2) X} {c : X} (h : φ c = 0) :
     LinearEquiv.transvection h * LinearEquiv.transvection h = 1 := by
   refine LinearEquiv.ext fun x => ?_
   simp only [LinearEquiv.mul_apply, LinearEquiv.transvection.apply, map_add, map_smul, h,
-    smul_zero, zero_smul, add_zero, LinearEquiv.coe_one, id_eq, smul_eq_mul, mul_zero]
+    zero_smul, add_zero, LinearEquiv.coe_one, id_eq]
   rw [add_assoc, ← smul_add, vec_add_self, smul_zero, add_zero]
 
+omit [FiniteDimensional (ZMod 2) X] in
 theorem transvection_inv {φ : Module.Dual (ZMod 2) X} {c : X} (h : φ c = 0) :
     (LinearEquiv.transvection h)⁻¹ = LinearEquiv.transvection h :=
   inv_eq_of_mul_eq_one_right (transvection_mul_self h)
 
+omit [FiniteDimensional (ZMod 2) X] in
 theorem commutator_transvection {φ ψ : Module.Dual (ZMod 2) X} {u w : X} (hφu : φ u = 0)
     (hψw : ψ w = 0) (hψu : ψ u = 0) (hφw : φ w = 1) :
     ⁅LinearEquiv.transvection hφu, LinearEquiv.transvection hψw⁆ =
@@ -36,7 +39,7 @@ theorem commutator_transvection {φ ψ : Module.Dual (ZMod 2) X} {u w : X} (hφu
   rw [commutatorElement_def, transvection_inv hφu, transvection_inv hψw]
   refine LinearEquiv.ext fun x => ?_
   simp only [LinearEquiv.mul_apply, LinearEquiv.transvection.apply, map_add, map_smul, hφu, hψw,
-    hψu, hφw, smul_zero, zero_smul, add_zero, smul_eq_mul, mul_zero, mul_one]
+    hψu, hφw, zero_smul, add_zero]
   simp only [one_smul, smul_add]
   have h1 := vec_add_self (φ x • u)
   have h2 := vec_add_self (ψ x • w)
@@ -49,7 +52,7 @@ theorem transvection_mem_commutator (hX : finrank (ZMod 2) X = 3) {ψ : Module.D
   by_cases hu : u = 0
   · subst hu
     have : LinearEquiv.transvection h = 1 :=
-      LinearEquiv.ext fun x => by simp [LinearEquiv.transvection.apply]
+      LinearEquiv.ext fun x => by simp
     rw [this]
     exact one_mem _
   obtain ⟨φ', hφ'u, -⟩ := exists_dual_of_notMem (p := ⊥) (x := u) (by simpa using hu)
@@ -65,6 +68,7 @@ theorem transvection_mem_commutator (hX : finrank (ZMod 2) X = 3) {ψ : Module.D
   rw [← this]
   exact Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _)
 
+omit [FiniteDimensional (ZMod 2) X] in
 theorem dilatransvection_mem_transvections (d : X ≃ₗ[ZMod 2] X)
     (hd : d ∈ LinearEquiv.dilatransvections (ZMod 2) X) :
     d ∈ LinearEquiv.transvections (ZMod 2) X := by
@@ -84,13 +88,14 @@ theorem dilatransvection_mem_transvections (d : X ≃ₗ[ZMod 2] X)
   have := congrArg (fun m : X →ₗ[ZMod 2] X => m x) hfv
   simpa [LinearEquiv.transvection.apply, LinearMap.transvection.apply] using this
 
+omit [FiniteDimensional (ZMod 2) X] in
 theorem not_isExceptional (e : X ≃ₗ[ZMod 2] X) : ¬ LinearEquiv.IsExceptional e := by
   rintro ⟨h1, h2, a, ha⟩
   rcases zmod2_cases a with rfl | rfl
   · have hz : ∀ x : X ⧸ e.fixedSubmodule, x = 0 := fun x => by
       have : e.fixedReduce x = e.fixedReduce 0 := by rw [ha, zero_smul, map_zero]
       exact e.fixedReduce.injective this
-    haveI : Subsingleton (X ⧸ e.fixedSubmodule) := ⟨fun x y => by rw [hz x, hz y]⟩
+    have : Subsingleton (X ⧸ e.fixedSubmodule) := ⟨fun x y => by rw [hz x, hz y]⟩
     have := Module.finrank_zero_of_subsingleton (R := ZMod 2) (M := X ⧸ e.fixedSubmodule)
     omega
   · apply h2
@@ -131,12 +136,14 @@ variable {ω : LinearMap.BilinForm (ZMod 2) W} {V : Submodule (ZMod 2) W}
 @[expose] def xacMap (ω : LinearMap.BilinForm (ZMod 2) W) (a c : W) : W →ₗ[ZMod 2] W :=
   LinearMap.id + (ω.flip a).smulRight c + (ω.flip c).smulRight a
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem xacMap_apply (ω : LinearMap.BilinForm (ZMod 2) W) (a c u : W) :
     xacMap ω a c u = u + ω u a • c + ω u c • a := rfl
 
 variable (D : SpData ω V)
 include D
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem omega_xacMap_left (a c : V) (u : W) :
     ω (ω u a • (c : W) + ω u c • (a : W)) a = 0 ∧ ω (ω u a • (c : W) + ω u c • (a : W)) c = 0 := by
   have h1 := D.iso (c : W) c.2 (a : W) a.2
@@ -149,6 +156,7 @@ theorem omega_xacMap_left (a c : V) (u : W) :
   · simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, h3, h4,
       mul_zero, add_zero]
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem xacMap_invol (a c : V) (u : W) : xacMap ω a c (xacMap ω a c u) = u := by
   obtain ⟨hpa, hpc⟩ := omega_xacMap_left D a c u
   rw [xacMap_apply ω a c u]
@@ -164,9 +172,11 @@ theorem xacMap_invol (a c : V) (u : W) : xacMap ω a c (xacMap ω a c u) = u := 
 @[expose] noncomputable def xac (a c : V) : W ≃ₗ[ZMod 2] W :=
   LinearEquiv.ofInvolutive (xacMap ω a c) (xacMap_invol D a c)
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem xac_apply (a c : V) (u : W) :
     xac D a c u = u + ω u a • (c : W) + ω u c • (a : W) := rfl
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem xac_isF (a c : V) : IsF ω V (xac D a c) where
   isom u v := by
     have hcc := D.iso (c : W) c.2 (c : W) c.2
@@ -182,6 +192,7 @@ theorem xac_isF (a c : V) : IsF ω V (xac D a c) where
     rw [xac_apply, D.iso v hv a a.2, D.iso v hv c c.2]
     simp
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem xac_alt (a c : V) (u : W) : ω (xac D a c u - u) u = 0 := by
   have : xac D a c u - u = ω u a • (c : W) + ω u c • (a : W) := by
     rw [xac_apply]
@@ -194,6 +205,7 @@ theorem xac_alt (a c : V) (u : W) : ω (xac D a c u - u) u = 0 := by
 
 theorem xac_mem_alt (a c : V) : xac D a c ∈ AltGrp ω V D := ⟨xac_isF D a c, xac_alt D a c⟩
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem xac_sub_apply (a c : V) (u w : W) :
     ω (xac D a c u - u) w = ω u a * ω (c : W) w + ω u c * ω (a : W) w := by
   have : xac D a c u - u = ω u a • (c : W) + ω u c • (a : W) := by
@@ -202,6 +214,7 @@ theorem xac_sub_apply (a c : V) (u w : W) :
   rw [this]
   simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul]
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem conj_xac {γ : W ≃ₗ[ZMod 2] W} (hγ : ∀ u v, ω (γ u) (γ v) = ω u v)
     (hγV : ∀ v ∈ V, γ v ∈ V) (a c : V) :
     γ * xac D a c * γ⁻¹ = xac D ⟨γ a, hγV a a.2⟩ ⟨γ c, hγV c c.2⟩ := by
@@ -218,6 +231,7 @@ theorem conj_xac {γ : W ≃ₗ[ZMod 2] W} (hγ : ∀ u v, ω (γ u) (γ v) = ω
   rw [xac_apply, xac_apply, map_add, map_add, map_smul, map_smul, h1, h2,
     LinearEquiv.apply_symm_apply]
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem xac_mul (a c c' : V) : xac D a c * xac D a c' = xac D a (c + c') := by
   refine LinearEquiv.ext fun u => ?_
   have hp : ω u a • (c' : W) + ω u c' • (a : W) ∈ V :=
@@ -271,20 +285,22 @@ variable (hΓ : IsGamma ω V Γ)
 
 @[expose] noncomputable def IsGamma.resHom : ↥Γ →* (V ≃ₗ[ZMod 2] V) where
   toFun γ := hΓ.res γ.2
-  map_one' := LinearEquiv.ext fun v => Subtype.ext rfl
-  map_mul' γ δ := LinearEquiv.ext fun v => Subtype.ext rfl
+  map_one' := LinearEquiv.ext fun _v => Subtype.ext rfl
+  map_mul' _γ _δ := LinearEquiv.ext fun _v => Subtype.ext rfl
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem IsGamma.resHom_surjective : Function.Surjective hΓ.resHom := by
   intro h
   obtain ⟨γ, hγ, hγh⟩ := hΓ.onto h
   exact ⟨⟨γ, hγ⟩, LinearEquiv.ext fun v => Subtype.ext (hγh v)⟩
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem xac_self (D : SpData ω V) (a c : V) : xac D a c * xac D a c = 1 :=
   LinearEquiv.ext fun u => xacMap_invol D a c u
 
 theorem IsGamma.xac_mem_commutator (hΓ : IsGamma ω V Γ) (D : SpData ω V)
     (hAlt : AltGrp ω V D ≤ Γ)
-    (a b : V) (hab : b ∉ Submodule.span (ZMod 2) {a}) :
+    (a b : V) (_hab : b ∉ Submodule.span (ZMod 2) {a}) :
     xac D a b ∈ (commutator ↥Γ).map Γ.subtype := by
   obtain ⟨c, hc⟩ := exists_notMem_span_pair D.finrank_V a b
   have hca : c ∉ Submodule.span (ZMod 2) {a} := fun h =>
@@ -326,18 +342,21 @@ theorem gram_mul (D : SpData ω V) (e : Fin 3 → W) (k l : Fin 3) {y z : W ≃�
 
 @[expose] def pw (x : W ≃ₗ[ZMod 2] W) (ε : ZMod 2) : W ≃ₗ[ZMod 2] W := if ε = 0 then 1 else x
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem pw_isF {x : W ≃ₗ[ZMod 2] W} (hx : IsF ω V x) (ε : ZMod 2) : IsF ω V (pw x ε) := by
   unfold pw
   split_ifs
   · exact IsF.one
   · exact hx
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem gram_pw (e : Fin 3 → W) (k l : Fin 3) (x : W ≃ₗ[ZMod 2] W) (ε : ZMod 2) :
     gram ω e k l (pw x ε) = ε * gram ω e k l x := by
   rcases zmod2_cases ε with rfl | rfl
   · simp [pw, gram]
   · simp [pw]
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem pw_mem {Q : Subgroup (W ≃ₗ[ZMod 2] W)} {x : W ≃ₗ[ZMod 2] W} (hx : x ∈ Q) (ε : ZMod 2) :
     pw x ε ∈ Q := by
   unfold pw
@@ -359,7 +378,7 @@ theorem IsGamma.alt_le_commutator (hΓ : IsGamma ω V Γ) (D : SpData ω V)
     intro i j hij hmem
     obtain ⟨r, hr⟩ := Submodule.mem_span_singleton.mp hmem
     have := congrArg (a.coord j) hr
-    simp [Basis.coord_apply, Basis.repr_self, Finsupp.single_apply, hij.symm, hij] at this
+    simp [Basis.coord_apply, Basis.repr_self, hij.symm] at this
   have h01 := hΓ.xac_mem_commutator D hAlt (a 0) (a 1) (hind 0 1 (by decide))
   have h02 := hΓ.xac_mem_commutator D hAlt (a 0) (a 2) (hind 0 2 (by decide))
   have h12 := hΓ.xac_mem_commutator D hAlt (a 1) (a 2) (hind 1 2 (by decide))

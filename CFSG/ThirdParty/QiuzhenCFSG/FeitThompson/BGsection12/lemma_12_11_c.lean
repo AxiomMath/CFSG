@@ -322,7 +322,7 @@ public theorem CFSG.lemma_12_11_c
   let SqG : Subgroup G := section10AmbientSylowSubgroup Mtwo Sq
   have hSqG_p : IsPGroup q.val SqG := by
     change IsPGroup q.val ((Sq : Subgroup Mtwo).map Mtwo.subtype)
-    exact IsPGroup.map Sq.isPGroup' Mtwo.subtype
+    exact IsPGroup.map Sq.isPGroup Mtwo.subtype
   have hSqG_le_Mtwo : SqG ≤ Mtwo := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, _hy, rfl⟩
@@ -380,7 +380,7 @@ public theorem CFSG.lemma_12_11_c
         (theorem_10_2_b (G := G) hMstar.1).2
     let PsubMstar : Subgroup Mstar := (Pσ : Subgroup Sσ).map Sσ.subtype
     have hPsubMstar_p : IsPGroup p.val PsubMstar := by
-      exact IsPGroup.map (p := p.val) (H := (Pσ : Subgroup Sσ)) Pσ.isPGroup' Sσ.subtype
+      exact IsPGroup.map (p := p.val) (H := (Pσ : Subgroup Sσ)) Pσ.isPGroup Sσ.subtype
     have hp_not_Sσ_index : ¬ p.val ∣ Sσ.index := by
       intro hp_dvd
       exact (hHallσ.p_in_pi_of_p_dvd_index p hp_dvd) hpσstar
@@ -483,7 +483,7 @@ public theorem CFSG.lemma_12_11_c
     let QE : Subgroup G := section10AmbientSylowSubgroup E Qe
     have hQE_p : IsPGroup q.val QE := by
       change IsPGroup q.val ((Qe : Subgroup E).map E.subtype)
-      exact IsPGroup.map Qe.isPGroup' E.subtype
+      exact IsPGroup.map Qe.isPGroup E.subtype
     have hQE_le_E : QE ≤ E := by
       intro x hx
       rcases Subgroup.mem_map.mp hx with ⟨y, _hy, rfl⟩

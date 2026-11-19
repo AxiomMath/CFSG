@@ -11,7 +11,7 @@ theorem not_mem_commutator_of_mem_center {C : Type*} [Group C] [Finite C] {p : �
     (P : Sylow p C) (hP : IsMulCommutative ↥P) {s : C} (hs : s ∈ Subgroup.center C)
     (hsp : orderOf s = p) : s ∉ commutator C := by
   intro hscomm
-  letI : CommGroup ↥P := IsMulCommutative.instCommGroup
+  let : CommGroup ↥P := IsMulCommutative.instCommGroup
   let tr : C →* ↥P := MonoidHom.transfer (MonoidHom.id ↥P)
   have key : ∀ k : ℕ, ∀ g₀ : C,
       g₀⁻¹ * s ^ k * g₀ ∈ (P : Subgroup C) → g₀⁻¹ * s ^ k * g₀ = s ^ k := by
@@ -58,7 +58,7 @@ theorem not_mem_commutator_of_relIndex {X : Type*} [Group X] {C H : Subgroup X} 
   have hH'ne : H'.index ≠ 0 := by
     rintro h0
     exact hidx (by rw [← hH'index, h0]; exact dvd_zero p)
-  haveI : H'.FiniteIndex := Subgroup.FiniteIndex.mk hH'ne
+  have : H'.FiniteIndex := Subgroup.FiniteIndex.mk hH'ne
   let s' : ↥C := ⟨s, hC⟩
   have hsc : s' ∈ Subgroup.center ↥C := by
     rw [Subgroup.mem_center_iff]

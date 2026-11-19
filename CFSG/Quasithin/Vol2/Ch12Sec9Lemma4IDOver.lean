@@ -56,7 +56,7 @@ theorem lemma12_9_4Overgroup_of
   have hB : K ∈ CFSG.Quasithin.lFamily T := hKf.1.2.1
   have hG' := CFSG.Quasithin.sqtkHyp_quotient_of_pCoreOf_ne_bot hyp.qtke hyp.simple
     hyp.nonabelian hfKp.1.2.2.2
-  haveI : Group.IsPerfect ↥K := CFSG.Quasithin.A36A.isPerfect_of_mem_cComp hKf.1.2.1
+  have : Group.IsPerfect ↥K := CFSG.Quasithin.A36A.isPerfect_of_mem_cComp hKf.1.2.1
   have hBLs : CFSG.Quasithin.modO2Image (Kp ⊔ T) K ≤ CFSG.Quasithin.modO2Image (Kp ⊔ T) Kp :=
     Subgroup.map_mono fun x hx => hKKp hx
   have h4 : IsPSL 4 2 1 (CFSG.Quasithin.ModO2 (CFSG.Quasithin.modO2Image (Kp ⊔ T) K)) := by

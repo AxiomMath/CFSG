@@ -21,12 +21,12 @@ theorem su6_heis_row_rev_of_col {x : SU σ n} {a u : Fin n} {c c' : F} (hcc : σ
     mat σ n x (Fin.rev u) b = if b = Fin.rev a then c' else 0 := by
   have h := sum_mat_mul_mat x a b
   rw [Finset.sum_eq_single u] at h
-  · rw [hcol u, if_pos rfl] at h
+  · rw [hcol u, ite_eq_left rfl] at h
     split_ifs at h ⊢ with hb
     · linear_combination c' * h - mat σ n x (Fin.rev u) b * hcc
     · linear_combination c' * h - mat σ n x (Fin.rev u) b * hcc
   · intro t _ ht
-    rw [hcol t, if_neg ht, map_zero, zero_mul]
+    rw [hcol t, ite_eq_right ht, map_zero, zero_mul]
   · simp
 
 variable [CharP F 2]
@@ -87,31 +87,31 @@ theorem su6_heis_mat_shortSwap :
   have hcolp : ∀ u, mat σ n x u p = if u = q then 1 else 0 := by
     intro u
     by_cases huq : u = q
-    · rw [huq, hqp0, if_pos rfl]
+    · rw [huq, hqp0, ite_eq_left rfl]
     · by_cases hup : u = p
-      · rw [hup, hpp, if_neg hpq]
-      · rw [(hout u p (Or.inl rfl) hup huq).1, if_neg huq]
+      · rw [hup, hpp, ite_eq_right hpq]
+      · rw [(hout u p (Or.inl rfl) hup huq).1, ite_eq_right huq]
   have hcolq : ∀ u, mat σ n x u q = if u = p then 1 else 0 := by
     intro u
     by_cases hup : u = p
-    · rw [hup, hpq0, if_pos rfl]
+    · rw [hup, hpq0, ite_eq_left rfl]
     · by_cases huq : u = q
-      · rw [huq, hqq, if_neg hpq.symm]
-      · rw [(hout u q (Or.inr rfl) hup huq).1, if_neg hup]
+      · rw [huq, hqq, ite_eq_right hpq.symm]
+      · rw [(hout u q (Or.inr rfl) hup huq).1, ite_eq_right hup]
   have hrowp : ∀ b, mat σ n x p b = if b = q then 1 else 0 := by
     intro b
     by_cases hbq : b = q
-    · rw [hbq, hpq0, if_pos rfl]
+    · rw [hbq, hpq0, ite_eq_left rfl]
     · by_cases hbp : b = p
-      · rw [hbp, hpp, if_neg hpq]
-      · rw [(hout b p (Or.inl rfl) hbp hbq).2, if_neg hbq]
+      · rw [hbp, hpp, ite_eq_right hpq]
+      · rw [(hout b p (Or.inl rfl) hbp hbq).2, ite_eq_right hbq]
   have hrowq : ∀ b, mat σ n x q b = if b = p then 1 else 0 := by
     intro b
     by_cases hbp : b = p
-    · rw [hbp, hqp0, if_pos rfl]
+    · rw [hbp, hqp0, ite_eq_left rfl]
     · by_cases hbq : b = q
-      · rw [hbq, hqq, if_neg hpq.symm]
-      · rw [(hout b q (Or.inr rfl) hbp hbq).2, if_neg hbp]
+      · rw [hbq, hqq, ite_eq_right hpq.symm]
+      · rw [(hout b q (Or.inr rfl) hbp hbq).2, ite_eq_right hbp]
   have hrowp' : ∀ b, mat σ n x (Fin.rev p) b = if b = Fin.rev q then 1 else 0 :=
     su6_heis_row_rev_of_col (a := q) (u := p) (c := 1) (c' := 1) (by rw [map_one, one_mul]) hcolq
   have hrowq' : ∀ b, mat σ n x (Fin.rev q) b = if b = Fin.rev p then 1 else 0 :=
@@ -121,7 +121,7 @@ theorem su6_heis_mat_shortSwap :
     intro u b h1 h2 h3 h4
     refine hblk u b fun h => h.2 ?_
     unfold blkShort
-    rw [if_neg (by tauto), if_neg (by tauto)]
+    rw [ite_eq_right (by tauto), ite_eq_right (by tauto)]
   have key : ∀ (c : F) (a b : Fin n), (if b = a then c else 0) = if a = b then c else 0 := by
     intro c a b
     by_cases h : b = a
@@ -282,13 +282,13 @@ theorem su6_heis_core {ω : F} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) (hσω : σ
       by_cases ht : t = 0
       · subst ht
         simp
-      · rw [if_neg (Ne.symm ht), if_neg ht]
+      · rw [ite_eq_right (Ne.symm ht), ite_eq_right ht]
     · intro t
       rw [hamat, Matrix.diagonal_apply]
       by_cases ht : t = 1
       · subst ht
         simp
-      · rw [if_neg ht, if_neg ht]
+      · rw [ite_eq_right ht, ite_eq_right ht]
   · intro i z hz hbz
     have hcz : ∀ g : SU σ 6, g * z = z * g := Subgroup.mem_center_iff.1 hz
     have hcomm_ab : a * b = b * a := by

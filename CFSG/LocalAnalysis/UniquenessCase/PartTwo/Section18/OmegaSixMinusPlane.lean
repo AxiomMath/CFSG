@@ -45,7 +45,7 @@ theorem exists_fixed_singular_plane_of_mem_aSet {W : Type} [CommGroup W] [Finite
           Matrix (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2)
             (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F)).mulVec u = u := by
   classical
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow (r := 2) (n := n)
       Nat.prime_two hF
   let Q := StatedQuadMinus 3 F b c
@@ -112,7 +112,7 @@ theorem exists_fixed_singular_plane_of_mem_aSet {W : Type} [CommGroup W] [Finite
           Nat.card_mono (Set.finite_range _) hsub
       _ ≤ Nat.card F := Finite.card_range_le _
       _ = 2 ^ n := hF
-  letI : MulAction ↥E W := MulAction.compHom W E.subtype
+  let : MulAction ↥E W := MulAction.compHom W E.subtype
   have hstab : (stabAt E vW).subgroupOf E = MulAction.stabilizer ↥E vW := by
     rw [eq_comm]
     ext e

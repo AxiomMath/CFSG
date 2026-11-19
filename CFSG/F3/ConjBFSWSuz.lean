@@ -22,7 +22,7 @@ theorem ofNat_ne_none32 {v : Nat} (hv : v < 4294967295) : (UInt32.ofNat v == non
 theorem getT_push_lt {t : Table} {v : UInt32} {i : Nat} (h : i < t.size) :
     getT (t.push v) i = getT t i := by
   unfold getT
-  rw [Array.getElem?_push, if_neg (by omega)]
+  rw [Array.getElem?_push, ite_eq_right (by omega)]
 
 theorem getT_push_none (t : Table) (i : Nat) :
     getT (t.push none32) i = if i < t.size then getT t i else none := by
@@ -31,19 +31,19 @@ theorem getT_push_none (t : Table) (i : Nat) :
   · rename_i hi
     unfold getT
     by_cases e : i = t.size
-    · rw [Array.getElem?_push, if_pos e]
+    · rw [Array.getElem?_push, ite_eq_left e]
       simp
-    · rw [Array.getElem?_push, if_neg e, Array.getElem?_eq_none (by omega)]
+    · rw [Array.getElem?_push, ite_eq_right e, Array.getElem?_eq_none (by omega)]
 
 theorem getT_set {t : Table} {i v k : Nat} (h : i < t.size) (hv : v < 4294967295) :
     getT (t.set! i (UInt32.ofNat v)) k = if i = k then some v else getT t k := by
   unfold getT
   rw [Array.set!_eq_setIfInBounds, Array.getElem?_setIfInBounds]
   by_cases e : i = k
-  · rw [if_pos e, if_pos h, if_pos e]
+  · rw [ite_eq_left e, ite_eq_left h, ite_eq_left e]
     simp only [ofNat_ne_none32 hv, Bool.false_eq_true, ↓reduceIte]
     rw [UInt32.toNat_ofNat_of_lt' (by change v < 4294967296; omega)]
-  · rw [if_neg e, if_neg e]
+  · rw [ite_eq_right e, ite_eq_right e]
 
 theorem size_set' (t : Table) (i : Nat) (v : UInt32) : (t.set! i v).size = t.size := by
   rw [Array.set!_eq_setIfInBounds, Array.size_setIfInBounds]
@@ -208,15 +208,15 @@ theorem kw_new {O : WOrbit} {n : Nat} {keys : Array (Array W)}
     · rw [hne i h1]
       exact hi1 i h1
     · have e : i = n := by omega
-      rw [e, beq_self_eq_true, if_pos rfl, hs]
+      rw [e, beq_self_eq_true, ite_eq_left rfl, hs]
   · rw [Std.HashMap.getElem?_insert] at hZ
     by_cases hz : (O.keys[n]! == Z) = true
-    · rw [if_pos hz] at hZ
+    · rw [ite_eq_left hz] at hZ
       rw [beq_iff_eq] at hz
       rw [hs] at hZ
       cases hZ
       exact ⟨by omega, hz⟩
-    · rw [if_neg hz] at hZ
+    · rw [ite_eq_right hz] at hZ
       have := hi2 Z i hZ
       exact ⟨by omega, this.2⟩
   · rcases Nat.lt_or_ge i n with h1 | h1
@@ -298,37 +298,37 @@ theorem stepA_found {O : WOrbit} (hO : Hyp O) {h n : Nat} {al bi : Table}
     fun k hk => ?_, hm2⟩
   · rw [hget]
     by_cases e1 : ap O.alpha h = k
-    · rw [if_pos e1]
+    · rw [ite_eq_left e1]
       subst e1
       exact Or.inr ⟨by rw [hinv], by rw [hinv]; exact hhn⟩
-    · rw [if_neg e1]
+    · rw [ite_eq_right e1]
       by_cases e2 : h = k
-      · rw [if_pos e2]
+      · rw [ite_eq_left e2]
         subst e2
         exact Or.inr ⟨rfl, hfa⟩
-      · rw [if_neg e2]
+      · rw [ite_eq_right e2]
         exact ha3 k hk
   · rw [hget]
     by_cases e1 : ap O.alpha h = k
-    · rw [if_pos e1]
+    · rw [ite_eq_left e1]
       subst e1
       rw [hinv]
-    · rw [if_neg e1]
+    · rw [ite_eq_right e1]
       by_cases e2 : h = k
-      · rw [if_pos e2]
+      · rw [ite_eq_left e2]
         subst e2
         rfl
-      · rw [if_neg e2]
+      · rw [ite_eq_right e2]
         exact ha4 k (by omega)
   · rw [hget]
     by_cases e1 : ap O.alpha h = k
-    · rw [if_pos e1]
+    · rw [ite_eq_left e1]
       rfl
-    · rw [if_neg e1]
+    · rw [ite_eq_right e1]
       by_cases e2 : h = k
-      · rw [if_pos e2]
+      · rw [ite_eq_left e2]
         rfl
-      · rw [if_neg e2]
+      · rw [ite_eq_right e2]
         exact hm1 k hk
 
 theorem stepA_new {O : WOrbit} (hO : Hyp O) {h n : Nat} {al bi : Table}
@@ -360,43 +360,43 @@ theorem stepA_new {O : WOrbit} (hO : Hyp O) {h n : Nat} {al bi : Table}
     fun k hk => ?_, fun k p hkp => ?_⟩
   · rw [hget]
     by_cases e1 : n = k
-    · rw [if_pos e1]
+    · rw [ite_eq_left e1]
       subst e1
       exact Or.inr ⟨by rw [hinv], by rw [hinv]; omega⟩
-    · rw [if_neg e1]
+    · rw [ite_eq_right e1]
       by_cases e2 : h = k
-      · rw [if_pos e2]
+      · rw [ite_eq_left e2]
         subst e2
         exact Or.inr ⟨by rw [hfa], by rw [hfa]; omega⟩
-      · rw [if_neg e2, if_pos (by omega : k < n)]
+      · rw [ite_eq_right e2, ite_eq_left (by omega : k < n)]
         rcases ha3 k (by omega) with e | e
         · exact Or.inl e
         · exact Or.inr ⟨e.1, by omega⟩
-  · rw [hget, if_neg (by omega : ¬ n = k)]
+  · rw [hget, ite_eq_right (by omega : ¬ n = k)]
     by_cases e2 : h = k
-    · rw [if_pos e2]
+    · rw [ite_eq_left e2]
       subst e2
       rw [hfa]
-    · rw [if_neg e2, if_pos (by omega : k < n)]
+    · rw [ite_eq_right e2, ite_eq_left (by omega : k < n)]
       exact ha4 k (by omega)
   · rw [getT_push_lt (by rw [hb1]; omega)]
     exact hb2 k hk
   · rw [getT_push_none] at hkp
     by_cases e : k < binv.size
-    · rw [if_pos e] at hkp
+    · rw [ite_eq_left e] at hkp
       exact hc2 k p hkp
-    · rw [if_neg e] at hkp
+    · rw [ite_eq_right e] at hkp
       simp at hkp
   · rw [hget]
     by_cases e1 : n = k
-    · rw [if_pos e1]
+    · rw [ite_eq_left e1]
       rfl
-    · rw [if_neg e1]
+    · rw [ite_eq_right e1]
       by_cases e2 : h = k
-      · rw [if_pos e2]
+      · rw [ite_eq_left e2]
         rfl
       · have := getT_isSome_lt (hm1 k hk)
-        rw [if_neg e2, if_pos (by omega : k < n)]
+        rw [ite_eq_right e2, ite_eq_left (by omega : k < n)]
         exact hm1 k hk
   · have e := hm2 k p hkp
     rw [getT_push_lt (getT_lt e)]
@@ -420,10 +420,10 @@ theorem stepB_derived {O : WOrbit} (hO : Hyp O) {h n : Nat} {al bi : Table}
     fun k q hkq => ?_, hm1, hm2⟩, hbr, hr1⟩
   · rw [getT_set (by rw [hb1]; exact hhn) (by omega)]
     by_cases e : h = k
-    · rw [if_pos e]
+    · rw [ite_eq_left e]
       subst e
       rw [hbr]
-    · rw [if_neg e]
+    · rw [ite_eq_right e]
       exact hb2 k (by omega)
   · have := hc2 k q hkq
     exact ⟨by omega, this.2⟩
@@ -441,27 +441,27 @@ theorem stepB_found {O : WOrbit} (hO : Hyp O) {h n : Nat} {al bi : Table}
     fun k q hkq => ?_, hm1, fun k q hkq => ?_⟩
   · rw [getT_set (by rw [hb1]; exact hhn) (by omega)]
     by_cases e : h = k
-    · rw [if_pos e]
+    · rw [ite_eq_left e]
       subst e
       rfl
-    · rw [if_neg e]
+    · rw [ite_eq_right e]
       exact hb2 k (by omega)
   · rw [getT_set (by rw [hc1]; exact hfb) (by omega)] at hkq
     by_cases e : ap O.beta h = k
-    · rw [if_pos e] at hkq
+    · rw [ite_eq_left e] at hkq
       cases hkq
       exact ⟨by omega, e⟩
-    · rw [if_neg e] at hkq
+    · rw [ite_eq_right e] at hkq
       have := hc2 k q hkq
       exact ⟨by omega, this.2⟩
   · have e1 := hm2 k q hkq
     rw [getT_set (by rw [hc1]; exact hfb) (by omega)]
     by_cases e : ap O.beta h = k
-    · rw [if_pos e]
+    · rw [ite_eq_left e]
       obtain ⟨hq1, hq2⟩ := hc2 k q e1
       have := hO.binj (by omega) (by omega) (hq2.trans e.symm)
       rw [this]
-    · rw [if_neg e]
+    · rw [ite_eq_right e]
       exact e1
 
 theorem stepB_new {O : WOrbit} (hO : Hyp O) {h n : Nat} {al bi : Table}
@@ -485,37 +485,37 @@ theorem stepB_new {O : WOrbit} (hO : Hyp O) {h n : Nat} {al bi : Table}
     by rw [size_set', Array.size_push, hc1], fun k q hkq => ?_, fun k hk => ?_, fun k q hkq => ?_⟩
   · rw [getT_push_none, hsa]
     by_cases e : k < n
-    · rw [if_pos e]
+    · rw [ite_eq_left e]
       rcases ha3 k e with e' | e'
       · exact Or.inl e'
       · exact Or.inr ⟨e'.1, by omega⟩
-    · rw [if_neg e]
+    · rw [ite_eq_right e]
       exact Or.inl rfl
   · rw [getT_push_lt (by rw [hsa]; omega)]
     exact ha4 k hk
   · rw [getT_set (by rw [Array.size_push, hb1]; omega) (by omega)]
     by_cases e : h = k
-    · rw [if_pos e]
+    · rw [ite_eq_left e]
       subst e
       rw [hfb]
-    · rw [if_neg e, getT_push_lt (by rw [hb1]; omega)]
+    · rw [ite_eq_right e, getT_push_lt (by rw [hb1]; omega)]
       exact hb2 k (by omega)
   · rw [getT_set (by rw [Array.size_push, hc1]; omega) (by omega), getT_push_none, hc1] at hkq
     by_cases e : n = k
-    · rw [if_pos e] at hkq
+    · rw [ite_eq_left e] at hkq
       cases hkq
       exact ⟨by omega, by rw [hfb]; exact e⟩
-    · rw [if_neg e] at hkq
+    · rw [ite_eq_right e] at hkq
       by_cases e2 : k < n
-      · rw [if_pos e2] at hkq
+      · rw [ite_eq_left e2] at hkq
         have := hc2 k q hkq
         exact ⟨by omega, this.2⟩
-      · rw [if_neg e2] at hkq
+      · rw [ite_eq_right e2] at hkq
         cases hkq
   · exact getT_push_some _ (hm1 k hk)
   · have e1 := hm2 k q hkq
     have hk := getT_lt e1
-    rw [getT_set (by rw [Array.size_push, hc1]; omega) (by omega), if_neg (by omega),
+    rw [getT_set (by rw [Array.size_push, hc1]; omega) (by omega), ite_eq_right (by omega),
       getT_push_lt hk]
     exact e1
 
@@ -596,9 +596,9 @@ theorem bfs_facts {fa fb fp fl : Nat → Nat} {N : Nat} (hbfs : bfsOrderOK fa fb
   have hqn : q < cnt fa fb fp fl q := by
     by_cases hqn : q < cnt fa fb fp fl q
     · exact hqn
-    · rw [if_neg hqn] at hCs
+    · rw [ite_eq_right hqn] at hCs
       exact absurd hCs hn0
-  rw [if_pos hqn] at hCs
+  rw [ite_eq_left hqn] at hCs
   have hn1z : bfsHit fp fl q 1 (fa q) (cnt fa fb fp fl q) ≠ 0 := by
     intro e
     rw [e, bfsHit_zero] at hCs
@@ -774,7 +774,7 @@ theorem conjBFSW_eq_of {d cap chunks : Nat} {R A Ai B Bi : Array W} {O : WOrbit}
       obtain ⟨hlo, hS, hD⟩ := hI
       have hks : keys.size = cnt fa fb fp fl lo := hS.1.1
       by_cases hlt : lo < keys.size
-      · rw [if_pos hlt]
+      · rw [ite_eq_left hlt]
         have hloN : lo < O.keys.size := by
           rcases Nat.lt_or_ge lo O.keys.size with h | h
           · exact h
@@ -814,7 +814,7 @@ theorem conjBFSW_eq_of {d cap chunks : Nat} {R A Ai B Bi : Array W} {O : WOrbit}
             have hnN : cnt fa fb fp fl (lo + i) ≤ O.keys.size := (cnt_le hbfs (by omega)).2
             rw [hkeys0 _ (by omega), hA _ hq, hB _ hq]
             by_cases hc : (getT alpha' (lo + i)).isNone = true
-            · rw [if_pos hc, imgA_some hI.2.2.2.2.2.2.2.2.1 hc]
+            · rw [ite_eq_left hc, imgA_some hI.2.2.2.2.2.2.2.2.1 hc]
               simp only [Option.getD_some]
               split
               · rename_i k hk
@@ -840,7 +840,7 @@ theorem conjBFSW_eq_of {d cap chunks : Nat} {R A Ai B Bi : Array W} {O : WOrbit}
                   ((hlab _ hcN _ hfl).trans rfl)
                 rw [← e1] at H1
                 phaseB
-            · rw [if_neg hc]
+            · rw [ite_eq_right hc]
               have hs : (getT alpha' (lo + i)).isSome := by
                 cases e : getT alpha' (lo + i)
                 · rw [e] at hc
@@ -871,7 +871,7 @@ theorem conjBFSW_eq_of {d cap chunks : Nat} {R A Ai B Bi : Array W} {O : WOrbit}
               have hm := cnt_mono hbfs (a := fp k + 1) (lo - (fp k + 1)) (by omega)
               rw [Nat.add_sub_cancel' (by omega)] at hm
               omega
-      · rw [if_neg hlt]
+      · rw [ite_eq_right hlt]
         have e : lo = O.keys.size := by
           rcases Nat.lt_or_ge lo O.keys.size with h | h
           · have := (hF lo h).1
@@ -908,13 +908,13 @@ theorem conjBFSW_eq_of {d cap chunks : Nat} {R A Ai B Bi : Array W} {O : WOrbit}
         rfl
       · have hi0 : i = 0 := by omega
         subst hi0
-        rw [hR, Std.HashMap.getElem?_insert, beq_self_eq_true, if_pos rfl]
+        rw [hR, Std.HashMap.getElem?_insert, beq_self_eq_true, ite_eq_left rfl]
       · rw [Std.HashMap.getElem?_insert, Std.HashMap.getElem?_empty] at hZ
         by_cases hz : (R == Z) = true
-        · rw [if_pos hz] at hZ
+        · rw [ite_eq_left hz] at hZ
           cases hZ
           exact ⟨by omega, by rw [hR]; exact beq_iff_eq.1 hz⟩
-        · rw [if_neg hz] at hZ
+        · rw [ite_eq_right hz] at hZ
           cases hZ
       · have hi0 : i = 0 := by omega
         subst hi0

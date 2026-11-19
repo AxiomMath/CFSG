@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem isSylowIn_T_sup {D : Data G} {L : Subgroup G} (hLM : L ≤ D.M) :
     CFSG.Quasithin.IsSylowIn 2 D.T (L ⊔ D.T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTsyl : CFSG.Quasithin.IsSylowIn 2 D.T D.M :=
     (CFSG.ABGLocalTools.isSylowOf_iff (p := 2)).1 D.sylowM
   exact CFSG.LocalAnalysis.WeakClosure81.isSylowIn_of_le_of_le hTsyl le_sup_right
@@ -25,7 +25,7 @@ theorem isSylowIn_barSub_T_sup {D : Data G} {V₀ V L : Subgroup G} (h : Hyp125 
     (hLM : L ≤ D.M) :
     CFSG.Quasithin.IsSylowIn 2 (barSub V₀ V h.isElemAbelian D.T)
       (barSub V₀ V h.isElemAbelian (L ⊔ D.T)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : L ⊔ D.T ≤ stabTil V₀ V := (sup_le hLM D.sylowM.le).trans
     (le_stabTil h.pairFacts.le_normalizer h.pairFacts.le_normalizer₀)
   have h1 : CFSG.ABGLocalTools.IsSylowOf 2 (D.T.subgroupOf (stabTil V₀ V))

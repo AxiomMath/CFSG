@@ -13,6 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 
 variable {T M H P : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem comm_of_mem_pCoreOf (h : KuHyp G T M H P z) {p q : G} (hp : p ∈ pCoreOf 2 M)
     (hq : q ∈ pCoreOf 2 M) : p * q = q * p :=
   congrArg Subtype.val (h.vElem.1.is_comm.comm ⟨p, hp⟩ ⟨q, hq⟩)

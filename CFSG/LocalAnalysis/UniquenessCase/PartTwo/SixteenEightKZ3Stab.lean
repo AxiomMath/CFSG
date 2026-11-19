@@ -204,7 +204,7 @@ private lemma s16kPlane_mem (i : Fin 3) (v : s16kV) :
 private lemma s16k_pair_mod (i : Fin 3) (a : Fin 2) :
     (⟨(2 * i.val + a.val) % 2, by omega⟩ : Fin 2) = a := by
   apply Fin.ext
-  simp only [Fin.val_mk]
+  simp only
   rw [Nat.add_comm, Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt a.isLt]
 
 private lemma s16kBlockHom_surjective (i : Fin 3) : Function.Surjective (s16kBlockHom i) := by
@@ -216,17 +216,17 @@ private lemma s16kBlockHom_surjective (i : Fin 3) : Function.Surjective (s16kBlo
   show (if (2 * i.val + a.val) / 2 = i.val then
       Multiplicative.toAdd w ⟨(2 * i.val + a.val) % 2, by omega⟩ else 0) =
     Multiplicative.toAdd w a
-  rw [if_pos (by omega : (2 * i.val + a.val) / 2 = i.val), s16k_pair_mod i a]
+  rw [ite_eq_left (by omega : (2 * i.val + a.val) / 2 = i.val), s16k_pair_mod i a]
 
 private lemma s16kCardV : Nat.card s16kV = 64 := by
   rw [← Nat.card_congr (Multiplicative.ofAdd : (Fin 6 → ZMod 2) ≃ s16kV)]
   rw [Nat.card_eq_fintype_card]
-  simp [Fintype.card_fun, ZMod.card]
+  simp [ZMod.card]
 
 private lemma s16kCardBlock : Nat.card (Multiplicative (Fin 2 → ZMod 2)) = 4 := by
   rw [← Nat.card_congr (Multiplicative.ofAdd : (Fin 2 → ZMod 2) ≃ _)]
   rw [Nat.card_eq_fintype_card]
-  simp [Fintype.card_fun, ZMod.card]
+  simp [ZMod.card]
 
 private lemma s16kPlane_card (i : Fin 3) : Nat.card (s16kPlane i) = 16 := by
   have h := Subgroup.card_ker_mul_card_of_surjective (s16kBlockHom_surjective i)
@@ -338,7 +338,7 @@ private lemma s16kF0_iff (v : Fin 6 → ZMod 2) :
 private lemma s16k_card_omega_invariant (H : Subgroup s16kV)
     (hH : ∀ v ∈ H, s16kMV s16kOmega v ∈ H) : Nat.card H ≡ 1 [MOD 3] := by
   classical
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype H := Fintype.ofFinite H
   let f : Function.End H := fun x => ⟨s16kMV s16kOmega (x : s16kV), hH x x.2⟩
   have hf3 : f ^ 3 = 1 := by
     funext x
@@ -487,7 +487,7 @@ private lemma s16kMV_di_apply (i : Fin 3) (x : s16kV) :
     s16kMV (s16kDi i) x = Multiplicative.ofAdd
       (s16kMVec (s16kBlockMat i) (Multiplicative.toAdd x)) := by
   rw [s16kMV_eq_ofAdd_MVec]
-  simp only [toAdd_ofAdd, s16kDi_val]
+  simp only [s16kDi_val]
 
 private lemma s16kMV_omega_apply (x : s16kV) :
     s16kMV s16kOmega x = Multiplicative.ofAdd
@@ -516,11 +516,11 @@ private def s16kEqSub (u v : S16kGL6) : Subgroup s16kV where
   one_mem' := by simp
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, map_mul, ha, hb]
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, map_inv, ha]
 
 private lemma s16k_eq_of_eq_on_lines {u v : S16kGL6}
@@ -679,7 +679,7 @@ private lemma s16k_conj_omega_inv {g : S16kGL6}
     simp
 
 private lemma s16k_stab_image_sub {g : S16kGL6}
-    (hg : g ∈ Subgroup.normalizer (s16kScal : Set S16kGL6))
+    (_hg : g ∈ Subgroup.normalizer (s16kScal : Set S16kGL6))
     (hF : ∀ f ∈ s16kF0, (g : Matrix (Fin 6) (Fin 6) (ZMod 2)).mulVec f ∈ s16kF0)
     (i : Fin 3) :
     ((s16kPlane i).map (s16kMV g) : Set s16kV) ⊆

@@ -28,7 +28,7 @@ theorem central {G : Type*} [Group G] [Finite G]
         (UniversalOrbitBlock.conjugate second actor).subtype := by
   let overlap := UniversalOrbitBlock.conjugate second actor ⊓ UniversalOrbitBlock.normalizer component
   let acting := (sylow : Subgroup overlap).map overlap.subtype
-  have htwo : IsPGroup 2 acting := sylow.isPGroup'.map overlap.subtype
+  have htwo : IsPGroup 2 acting := sylow.isPGroup.map overlap.subtype
   have hcontained : acting ≤ overlap := Subgroup.map_subtype_le _
   obtain ⟨first, hfirst, hfixed⟩ := OddBlockSylowAbelian.fixed_factor component heven huniversal hquasisimple hodd
     acting htwo (hcontained.trans inf_le_right)

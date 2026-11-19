@@ -38,7 +38,7 @@ theorem s16h_e3_l3_two_rank_normalizer
     (hτn : τ ∈ Subgroup.normalizer (lBar ⊥ V h.hyp151.isElemAbelian L :
       Set (MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)))) :
     4 ≤ rk ↥(commSub (⊤ : Subgroup (Vtil ⊥ V h.hyp151.isElemAbelian)) (Subgroup.zpowers τ)) := by
-  haveI : Finite (Vtil ⊥ V h.hyp151.isElemAbelian) := inferInstance
+  have : Finite (Vtil ⊥ V h.hyp151.isElemAbelian) := inferInstance
   have hle : commSub (commSub (⊤ : Subgroup (Vtil ⊥ V h.hyp151.isElemAbelian))
         (lBar ⊥ V h.hyp151.isElemAbelian L)) (Subgroup.zpowers τ) ≤
       commSub (⊤ : Subgroup (Vtil ⊥ V h.hyp151.isElemAbelian)) (Subgroup.zpowers τ) :=

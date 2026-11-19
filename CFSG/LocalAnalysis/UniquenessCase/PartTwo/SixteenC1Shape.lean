@@ -61,7 +61,7 @@ theorem mBar_le_normalizer_lBar (D : Data G) {V₀ V L : Subgroup G} {hV : IsEle
   exact hS.ne_bot hLbot
 
 private theorem s16c1_inf_centralizer_le (D : Data G) {V₀ V L : Subgroup G}
-    {hV : IsElemAbelian 2 V} (hS : Sect16 D V₀ V L hV) (hc : Case167_1 D V₀ V hV L) :
+    {hV : IsElemAbelian 2 V} (_hS : Sect16 D V₀ V L hV) (hc : Case167_1 D V₀ V hV L) :
     V ⊓ centralizer (L : Set G) ≤ V₀ := by
   intro x hx
   obtain ⟨hxV, hxc⟩ := Subgroup.mem_inf.1 hx
@@ -84,24 +84,24 @@ private theorem s16c1_inf_centralizer_le (D : Data G) {V₀ V L : Subgroup G}
   exact hq1
 
 private theorem s16c1_lBar_commutator_eq_self (D : Data G) {V₀ V L : Subgroup G}
-    {hV : IsElemAbelian 2 V} (hS : Sect16 D V₀ V L hV) (hc : Case167_1 D V₀ V hV L) :
+    {hV : IsElemAbelian 2 V} (_hS : Sect16 D V₀ V L hV) (hc : Case167_1 D V₀ V hV L) :
     ⁅barSub V₀ V hV L, barSub V₀ V hV L⁆ = barSub V₀ V hV L := by
-  haveI : Group.IsPerfect ↥(barSub V₀ V hV L) := by
+  have : Group.IsPerfect ↥(barSub V₀ V hV L) := by
     obtain ⟨-, K, hKfield, hKfinite, b, c, hcard, hirr, ⟨e⟩⟩ := hc.1
-    letI : Field K := hKfield
-    letI : Finite K := hKfinite
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : Fintype K := Fintype.ofFinite K
+    let : Field K := hKfield
+    let : Finite K := hKfinite
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fintype K := Fintype.ofFinite K
     have hcard2 : Fintype.card K = 2 := by
       rw [Fintype.card_eq_nat_card, hcard]
       norm_num
-    haveI : CharP K 2 := charP_of_card_eq_prime (p := 2) hcard2
+    have : CharP K 2 := charP_of_card_eq_prime (p := 2) hcard2
     have hfacts :=
       CFSG.ComponentClassification.RankTwoClassical.isSimpleGroup_statedOmega_quadMinus_small
         (n := 6 / 2) (b := b) (c := c) (Or.inr (by norm_num)) hirr
-    haveI : Group.IsPerfect (StatedOmega (StatedQuadMinus (6 / 2) K b c)) :=
+    have : Group.IsPerfect (StatedOmega (StatedQuadMinus (6 / 2) K b c)) :=
       Group.isPerfect_def.2 hfacts.2.1
-    haveI : Group.IsPerfect (StatedProj (StatedOmega (StatedQuadMinus (6 / 2) K b c))) :=
+    have : Group.IsPerfect (StatedProj (StatedOmega (StatedQuadMinus (6 / 2) K b c))) :=
       inferInstance
     refine Group.isPerfect_def.2 ?_
     exact CFSG.ComponentClassification.RankTwoClassical.commutator_eq_top_of_mulEquiv e
@@ -196,7 +196,7 @@ private theorem s16c1_family_eq_singleton (D : Data G) {V₀ V L : Subgroup G}
         Z = commSub ⊤ (barSub V₀ V hV (conjSubgroup L m))} =
       {⊤} := by
   ext Z
-  rw [Set.mem_setOf_eq, Set.mem_singleton_iff]
+  rw [Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨m, hm, rfl⟩
     exact s16c1_commSub_barSub_conj_eq_top D hS hc hm

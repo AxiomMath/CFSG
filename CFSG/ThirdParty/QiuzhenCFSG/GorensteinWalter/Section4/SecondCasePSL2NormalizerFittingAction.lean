@@ -50,16 +50,16 @@ two-group quotient `N/O₂'(N)` is trivial, so the component lies in the odd
 core, contradicting its perfectness. -/
 public theorem secondCase_psl2_normalizer_fitting_action_two_quotient_impossible
     {G : Type u} [Group G] [Finite G]
-    (hmin : IsMinimalCounterexample G)
+    (_hmin : IsMinimalCounterexample G)
     (c : CentralizerSetup G) (w : SecondCaseWitness c)
     (d : SecondCaseComponentData w)
     (K : Type u) [Field K] [Finite K]
-    (hK : IsOddPrimePower (Nat.card K))
-    (e : Nonempty ((d.E ⧸ Subgroup.center d.E) ≃* PSL2 K))
+    (_hK : IsOddPrimePower (Nat.card K))
+    (_e : Nonempty ((d.E ⧸ Subgroup.center d.E) ≃* PSL2 K))
     (F X : Subgroup G)
-    (hFleFU : F ≤ c.FU) (hFleM : F ≤ w.M)
+    (_hFleFU : F ≤ c.FU) (_hFleM : F ≤ w.M)
     (hFcentE : F ≤ Subgroup.centralizer (d.E : Set G))
-    (hXne : X ≠ ⊥) (hXleF : X ≤ F)
+    (_hXne : X ≠ ⊥) (hXleF : X ≤ F)
     (hQ : IsPGroup 2 (Subgroup.normalizer (X : Set G) ⧸
       pPrimeCore 2 (Subgroup.normalizer (X : Set G)))) :
     False := by

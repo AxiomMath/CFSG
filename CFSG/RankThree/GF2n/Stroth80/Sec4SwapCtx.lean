@@ -72,7 +72,7 @@ theorem Ctx.false_of_swap_centralized (h34 : Stroth34Statement) (h310 : Stroth31
     rw [hKN, Subgroup.mem_bot] at h2
     exact Subtype.ext h2
   have hEn : (layer (Mbar M Q)).Normal := by
-    haveI := CFSG.LocalCores.layer_characteristic (G := Mbar M Q)
+    have := CFSG.LocalCores.layer_characteristic (G := Mbar M Q)
     infer_instance
   have hZE : Zc ≤ layer (Mbar M Q) := CFSG.LocalCores.component_le_layer hZ
   have hZ'E : Zc' ≤ layer (Mbar M Q) := CFSG.LocalCores.component_le_layer hZ'c
@@ -87,9 +87,9 @@ theorem Ctx.false_of_swap_centralized (h34 : Stroth34Statement) (h310 : Stroth31
       ((Subgroup.mem_normalizer_iff.mp (CFSG.LocalCores.layer_le_normalizer hZ'c he) b).mp hb)
   have hns : ¬ Group.IsSolvable ↥KK := by
     intro hs
-    haveI := hs
+    have := hs
     exact not_isSolvable_of_isQuasisimple hZ.1
-      (solvable_of_solvable_injective (f := Subgroup.inclusion (le_sup_left : Zc ≤ KK))
+      (Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion (le_sup_left : Zc ≤ KK))
         (Subgroup.inclusion_injective _))
   rcases subnormal_embedding_cases hSL2K (R := R) (H := R ⊓ layer (Mbar M Q)) (X := KK) π hπs
     hshape (le_inf hKR hKE) inf_le_left (fun h hh k hk => hnorm h hh.2 k hk)
@@ -130,8 +130,8 @@ theorem Ctx.false_of_swap_centralized (h34 : Stroth34Statement) (h310 : Stroth31
     exact Subgroup.mem_bot.mpr h2
   ·
     obtain ⟨e⟩ := he
-    haveI : IsSimpleGroup ↥(StatedSL 2 K) := isSimpleGroup_statedSL_two hSL2K
-    haveI : IsSimpleGroup ↥KK := (MulEquiv.isSimpleGroup_congr e).mpr inferInstance
+    have : IsSimpleGroup ↥(StatedSL 2 K) := isSimpleGroup_statedSL_two hSL2K
+    have : IsSimpleGroup ↥KK := (MulEquiv.isSimpleGroup_congr e).mpr inferInstance
     have hnormZ : KK ≤ Subgroup.normalizer (Zc : Set (Mbar M Q)) :=
       sup_le_normalizer_of_commute hcomm
     have hZn : (Zc.subgroupOf KK).Normal :=

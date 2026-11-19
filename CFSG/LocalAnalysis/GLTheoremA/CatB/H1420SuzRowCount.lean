@@ -10,15 +10,15 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4
 
 theorem card_center_pQuot_dvd_mul {p : ℕ} (hp : p.Prime) {A B C : Type} [Group A] [Group B]
     [Group C] [Finite A] [Finite B] (Φ : A →* B) (hΦ : Nat.Coprime p (Nat.card Φ.ker))
-    (hZ : IsPGroup p (Subgroup.center B)) (f : A →* C) (hf : Function.Surjective f)
+    (_hZ : IsPGroup p (Subgroup.center B)) (f : A →* C) (hf : Function.Surjective f)
     (hker : ∀ x, f x = 1 → Φ x ∈ Subgroup.center B)
     (hA : CFSG.Open.IsQuasisimple (A ⧸ GLAPPrimeCore p A))
     (hZA : IsPGroup p (Subgroup.center (A ⧸ GLAPPrimeCore p A)))
     (hC : Nontrivial (C ⧸ GLAPPrimeCore p C)) :
     Nat.card (Subgroup.center (A ⧸ GLAPPrimeCore p A)) ∣
       Nat.card (Subgroup.center (C ⧸ GLAPPrimeCore p C)) * Nat.card (Subgroup.center B) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite C := Finite.of_surjective f hf
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite C := Finite.of_surjective f hf
   have hgs : Function.Surjective (pQuotMapOfSurjective hp f hf) :=
     pQuotMapOfSurjective_surjective hp f hf
   set g := pQuotMapOfSurjective hp f hf with hg

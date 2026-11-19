@@ -58,7 +58,7 @@ theorem mem_secD_of_normal (hΩ : HypOmegaGen Ω) (hc2 : IsPGroup 2 (Subgroup.zp
   intro N hN
   obtain ⟨η, hη, rfl⟩ := id hV
   have hV2 : IsPGroup 2 ↥(⨆ U ∈ η, U) := isPGroup_of_mem_WSet hV
-  haveI : (⨆ U ∈ η, U).Normal := normal_of_conj_eq hVn
+  have : (⨆ U ∈ η, U).Normal := normal_of_conj_eq hVn
   have hVPb : (⨆ U ∈ η, U) ≤ (Pb : Subgroup _) := hV2.le_sylow_of_normal Pb
   obtain ⟨R, hR, -⟩ := IsSylow2In.exists_ge (T := ⊥) IsPGroup.of_bot (bot_le : ⊥ ≤ N)
   obtain ⟨S', hS'⟩ := hR.2.1.exists_le_sylow

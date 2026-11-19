@@ -18,8 +18,8 @@ theorem forall_fix_vStar_of_case4 (hSU : RSU4NatFix) {D : Data G} {V₀ V L : Su
     (hV : IsElemAbelian 2 V) (hc : Case167_4 D V₀ V hV L) :
     ∀ w : vStar D.M V₀ V hV L, ∃ φ ∈ lStar D.M V₀ V hV L, orderOf φ = 3 ∧ φ w = w := by
   obtain ⟨K, hKfield, hKfinite, hKcard, hR⟩ := hc.2.1
-  letI := hKfield
-  letI := hKfinite
+  let := hKfield
+  let := hKfinite
   have hK4 : Nat.card K = 4 := by
     rw [hKcard]
     norm_num

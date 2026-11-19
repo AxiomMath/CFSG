@@ -48,7 +48,7 @@ public theorem exists_centralizing_involution_of_even_normalized
   let : Fintype T := Fintype.ofFinite T
   let : Nontrivial T :=
     (Subgroup.nontrivial_iff_ne_bot (T : Subgroup D)).mpr hTne
-  obtain ⟨z, hzord, hzcent⟩ := BenderGlauberman.exists_central_involution T.isPGroup'
+  obtain ⟨z, hzord, hzcent⟩ := BenderGlauberman.exists_central_involution T.isPGroup
   let a : G := (z : D)
   have haD : a ∈ D := (z : D).2
   have ha2 : a * a = 1 := by
@@ -95,7 +95,7 @@ public theorem exists_centralizing_involution_of_even_normalized
     have hba : b = a := by
       calc
         b = 1 * b := by simp
-        _ = (a * b) * b := by simpa [hw]
+        _ = (a * b) * b := by simp [hw]
         _ = a * (b * b) := by simp [mul_assoc]
         _ = a := by rw [hb2]; simp
     have hfix : y * a * y⁻¹ = a := by simpa [b, bD, hba]

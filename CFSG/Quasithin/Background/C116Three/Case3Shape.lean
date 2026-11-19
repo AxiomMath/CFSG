@@ -44,11 +44,13 @@ private theorem case3_perm5_perfect_normal_eq (N : Subgroup (Equiv.Perm (Fin 5))
     exact h'
   · exact le_antisymm hle (Subgroup.subgroupOf_eq_top.mp h)
 
+omit [Finite V] in
 private theorem case3_normal_of_jn {X L : Subgroup (MulAut V)}
     (hJn : ∀ x ∈ ffJ X, x ∈ Subgroup.normalizer (L : Set (MulAut V))) :
     ∀ x ∈ ffJ X, ∀ k ∈ L, x * k * x⁻¹ ∈ L :=
   fun x hx k hk => (Subgroup.mem_normalizer_iff.mp (hJn x hx) k).mp hk
 
+omit [Finite V] in
 private theorem case3_ne_bot_of_qs {K : Subgroup (MulAut V)} (hK : CFSG.IsQuasisimple ↥K) :
     K ≠ ⊥ := by
   intro h
@@ -56,33 +58,38 @@ private theorem case3_ne_bot_of_qs {K : Subgroup (MulAut V)} (hK : CFSG.IsQuasis
   rw [h, Subgroup.mem_bot] at ha hb
   rw [ha, hb]
 
+omit [Finite V] in
 private theorem case3_isPerfect {L : Subgroup (MulAut V)} (hq : CFSG.IsQuasisimple ↥L) :
     Group.IsPerfect ↥L :=
   hq.1
 
+omit [Finite V] in
 private theorem case3_not_solvable {L : Subgroup (MulAut V)} (hq : CFSG.IsQuasisimple ↥L) :
     ¬ Group.IsSolvable ↥L := by
-  haveI : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).mpr (case3_ne_bot_of_qs hq)
-  haveI : Group.IsPerfect ↥L := case3_isPerfect hq
+  have : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).mpr (case3_ne_bot_of_qs hq)
+  have : Group.IsPerfect ↥L := case3_isPerfect hq
   exact Group.IsPerfect.not_isSolvable ↥L
 
+omit [Finite V] in
 private theorem case3_false_of_card_six {G L : Subgroup (MulAut V)} (hG : Nat.card ↥G = 6)
     (hLG : L ≤ G) (hq : CFSG.IsQuasisimple ↥L) : False := by
-  haveI : Group.IsSolvable ↥G := twoG_isSolvable_of_card_six hG
+  have : Group.IsSolvable ↥G := twoG_isSolvable_of_card_six hG
   have : Group.IsSolvable ↥L :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hLG)
       (Subgroup.inclusion_injective hLG)
   exact case3_not_solvable hq this
 
+omit [Finite V] in
 private theorem case3_subgroupOf_normal {G L : Subgroup (MulAut V)}
     (hn : ∀ x ∈ G, ∀ k ∈ L, x * k * x⁻¹ ∈ L) : (L.subgroupOf G).Normal :=
   ⟨fun n hn' g => by
     rw [Subgroup.mem_subgroupOf] at hn' ⊢
     simpa using hn g.1 g.2 n.1 hn'⟩
 
+omit [Finite V] in
 private theorem case3_simple_eq {G L : Subgroup (MulAut V)} (hG : IsSimpleGroup ↥G)
     (hLG : L ≤ G) (hn : ∀ x ∈ G, ∀ k ∈ L, x * k * x⁻¹ ∈ L) (hL : L ≠ ⊥) : G = L := by
-  haveI := case3_subgroupOf_normal hn
+  have := case3_subgroupOf_normal hn
   rcases Subgroup.Normal.eq_bot_or_eq_top (L.subgroupOf G) with h | h
   · exfalso
     apply hL
@@ -91,23 +98,25 @@ private theorem case3_simple_eq {G L : Subgroup (MulAut V)} (hG : IsSimpleGroup 
     exact h'
   · exact le_antisymm (Subgroup.subgroupOf_eq_top.mp h) hLG
 
+omit [Finite V] in
 private theorem case3_perm5_map {G L : Subgroup (MulAut V)} (e : ↥G ≃* Equiv.Perm (Fin 5))
     (hLG : L ≤ G) (hn : ∀ x ∈ G, ∀ k ∈ L, x * k * x⁻¹ ∈ L) (hq : CFSG.IsQuasisimple ↥L) :
     (L.subgroupOf G).map e.toMonoidHom = alternatingGroup (Fin 5) := by
-  haveI : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).mpr (case3_ne_bot_of_qs hq)
-  haveI : Group.IsPerfect ↥L := case3_isPerfect hq
-  haveI hNn := case3_subgroupOf_normal hn
+  have : Nontrivial ↥L := (Subgroup.nontrivial_iff_ne_bot L).mpr (case3_ne_bot_of_qs hq)
+  have : Group.IsPerfect ↥L := case3_isPerfect hq
+  have hNn := case3_subgroupOf_normal hn
   let eLM : ↥L ≃* ↥((L.subgroupOf G).map e.toMonoidHom) :=
     (Subgroup.subgroupOfEquivOfLe hLG).symm.trans (MulEquiv.subgroupMap e (L.subgroupOf G))
-  haveI : Group.IsPerfect ↥((L.subgroupOf G).map e.toMonoidHom) :=
+  have : Group.IsPerfect ↥((L.subgroupOf G).map e.toMonoidHom) :=
     Group.IsPerfect.ofSurjective (f := eLM.toMonoidHom) eLM.surjective
-  haveI : ((L.subgroupOf G).map e.toMonoidHom).Normal :=
+  have : ((L.subgroupOf G).map e.toMonoidHom).Normal :=
     Subgroup.Normal.map hNn e.toMonoidHom e.surjective
   have hne : (L.subgroupOf G).map e.toMonoidHom ≠ ⊥ := by
-    haveI : Nontrivial ↥((L.subgroupOf G).map e.toMonoidHom) := eLM.toEquiv.symm.nontrivial
+    have : Nontrivial ↥((L.subgroupOf G).map e.toMonoidHom) := eLM.toEquiv.symm.nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot _).mp inferInstance
   exact case3_perm5_perfect_normal_eq _ hne
 
+omit [Finite V] in
 private theorem case3_perm5_card {G L : Subgroup (MulAut V)} (e : ↥G ≃* Equiv.Perm (Fin 5))
     (hLG : L ≤ G) (hn : ∀ x ∈ G, ∀ k ∈ L, x * k * x⁻¹ ∈ L) (hq : CFSG.IsQuasisimple ↥L) :
     Nat.card ↥L = 60 := by
@@ -118,28 +127,32 @@ private theorem case3_perm5_card {G L : Subgroup (MulAut V)} (e : ↥G ≃* Equi
   rw [hcard, hmap, nat_card_alternatingGroup]
   simp [Nat.factorial]
 
+omit [Finite V] in
 private theorem case3_sl2_one_card {G : Subgroup (MulAut V)} {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ 1) (e : ↥G ≃* ↥(StatedSL 2 K)) : Nat.card ↥G = 6 := by
   rw [Nat.card_congr e.toEquiv, twoG_card_statedSL_two, hK]
   norm_num
 
+omit [Finite V] in
 private theorem case3_sl2_simple {G : Subgroup (MulAut V)} {K : Type} [Field K] [Finite K]
     {n : ℕ} (hn : 2 ≤ n) (hK : Nat.card K = 2 ^ n) (e : ↥G ≃* ↥(StatedSL 2 K)) :
     IsSimpleGroup ↥G := by
-  haveI := twoG_charP_two hK
+  have := twoG_charP_two hK
   have h4 : 4 ≤ Nat.card K := by
     rw [hK]
     calc (4 : ℕ) = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI := CFSG.Quasithin.H13.NQRigid.isSimpleGroup_statedSL_two_charTwo h4
+  have := CFSG.Quasithin.H13.NQRigid.isSimpleGroup_statedSL_two_charTwo h4
   exact e.isSimpleGroup
 
+omit [Finite V] in
 private theorem case3_sl3_simple {G : Subgroup (MulAut V)} {K : Type} [Field K] [Finite K]
     {m : ℕ} (hK : Nat.card K = 2 ^ m) (hm : Odd m) (e : ↥G ≃* ↥(StatedSL 3 K)) :
     IsSimpleGroup ↥G := by
-  haveI := CFSG.Quasithin.H13.NQRigid.isSimpleGroup_statedSL_three_odd hK hm
+  have := CFSG.Quasithin.H13.NQRigid.isSimpleGroup_statedSL_three_odd hK hm
   exact e.isSimpleGroup
 
+omit [Finite V] in
 private theorem case3_factor_kind {G : Subgroup (MulAut V)} (hF : B56FactorList ↥G) :
     Nat.card ↥G = 6 ∨ IsSimpleGroup ↥G ∨ Nonempty (↥G ≃* Equiv.Perm (Fin 5)) := by
   rcases hF with ⟨n, K, _, _, hn, hK, ⟨e⟩⟩ | e | ⟨m, K, _, _, hm, hodd, hK, ⟨e⟩⟩
@@ -163,12 +176,14 @@ private theorem case3_lin2Cover_of_sl2 {L : Type} [Group L] {K : Type} [Field K]
     Lin2Cover L :=
   ⟨K, inferInstance, inferInstance, n, hn, hK, ⟨e⟩⟩
 
+omit [Finite V] in
 private theorem case3_perm5_iso {G L : Subgroup (MulAut V)} (e : ↥G ≃* Equiv.Perm (Fin 5))
     (hLG : L ≤ G) (hn : ∀ x ∈ G, ∀ k ∈ L, x * k * x⁻¹ ∈ L) (hq : CFSG.IsQuasisimple ↥L) :
     Nonempty (↥L ≃* ↥(alternatingGroup (Fin 5))) :=
   ⟨(Subgroup.subgroupOfEquivOfLe hLG).symm.trans ((MulEquiv.subgroupMap e (L.subgroupOf G)).trans
     (MulEquiv.subgroupCongr (case3_perm5_map e hLG hn hq)))⟩
 
+omit [Finite V] in
 private theorem case3_core {G L : Subgroup (MulAut V)} (hF : B56FactorList ↥G) (hLG : L ≤ G)
     (hn : ∀ x ∈ G, ∀ k ∈ L, x * k * x⁻¹ ∈ L) (hq : CFSG.IsQuasisimple ↥L) :
     (G = L ∨ (Nonempty (↥G ≃* Equiv.Perm (Fin 5)) ∧ Nat.card ↥L = 60)) ∧
@@ -192,6 +207,7 @@ private theorem case3_core {G L : Subgroup (MulAut V)} (hF : B56FactorList ↥G)
     exact ⟨Or.inl heq, Or.inr ⟨m, K, inferInstance, inferInstance, hm, hodd, hK,
       ⟨(MulEquiv.subgroupCongr heq).symm.trans e⟩⟩⟩
 
+omit [Finite V] in
 private theorem case3_eq_of_subgroupOf_eq {G L₁ L₂ : Subgroup (MulAut V)} (hL₁ : L₁ ≤ G)
     (hL₂ : L₂ ≤ G) (h : L₁.subgroupOf G = L₂.subgroupOf G) : L₁ = L₂ := by
   have e1 : L₁ = (L₁.subgroupOf G).map G.subtype := by
@@ -202,6 +218,7 @@ private theorem case3_eq_of_subgroupOf_eq {G L₁ L₂ : Subgroup (MulAut V)} (h
     _ = (L₂.subgroupOf G).map G.subtype := by rw [h]
     _ = L₂ := e2.symm
 
+omit [Finite V] in
 private theorem case3_same_eq {G L₁ L₂ : Subgroup (MulAut V)} (hF : B56FactorList ↥G)
     (hL₁ : L₁ ≤ G) (hL₂ : L₂ ≤ G) (hn₁ : ∀ x ∈ G, ∀ k ∈ L₁, x * k * x⁻¹ ∈ L₁)
     (hn₂ : ∀ x ∈ G, ∀ k ∈ L₂, x * k * x⁻¹ ∈ L₂) (hq₁ : CFSG.IsQuasisimple ↥L₁)
@@ -216,11 +233,13 @@ private theorem case3_same_eq {G L₁ L₂ : Subgroup (MulAut V)} (hF : B56Facto
     have hinj : Function.Injective e.toMonoidHom := fun a b hab => e.injective hab
     exact case3_eq_of_subgroupOf_eq hL₁ hL₂ (Subgroup.map_injective hinj hmap)
 
+omit [Finite V] in
 private theorem case3_false_of_eq {L₁ L₂ : Subgroup (MulAut V)} (hq : CFSG.IsQuasisimple ↥L₁)
     (hcomm : ∀ a ∈ L₁, ∀ b ∈ L₂, a * b = b * a) (h : L₁ = L₂) : False := by
   subst h
   exact CFSG.Quasithin.InternalSec.not_commute_of_isQuasisimple hq hcomm
 
+omit [Finite V] in
 private theorem case3_conj_part {X L₁ L₂ : Subgroup (MulAut V)} {τ : MulAut V}
     (hconj : L₂ = L₁.map (MulAut.conj τ).toMonoidHom)
     (hτN : τ ∈ Subgroup.normalizer (ffJ X : Set (MulAut V)))
@@ -248,6 +267,7 @@ private theorem case3_conj_part {X L₁ L₂ : Subgroup (MulAut V)} {τ : MulAut
     rw [e, hconj]
     exact Subgroup.mem_map_of_mem (MulAut.conj τ).toMonoidHom hy
 
+omit [Finite V] in
 private theorem case3_good {X L₁ L₂ G₁ G₂ : Subgroup (MulAut V)} {W₁ W₂ : Subgroup V}
     (hsup : G₁ ⊔ G₂ = ffJ X) (hdisj : G₁ ⊓ G₂ = ⊥) (hcomm : ∀ a ∈ G₁, ∀ b ∈ G₂, a * b = b * a)
     (hL₁ : L₁ ≤ G₁) (hL₂ : L₂ ≤ G₂) (hF₁ : B56FactorList ↥G₁) (hF₂ : B56FactorList ↥G₂)
@@ -276,7 +296,7 @@ private theorem case3_good {X L₁ L₂ G₁ G₂ : Subgroup (MulAut V)} {W₁ W
   · exact Or.inl ⟨hgen, hl⟩
   · exact Or.inr ⟨hinv, hl3⟩
 
-theorem case3_shape (hV : ∀ v : V, v ^ 2 = 1) {X L₁ L₂ : Subgroup (MulAut V)} {τ : MulAut V}
+theorem case3_shape (_hV : ∀ v : V, v ^ 2 = 1) {X L₁ L₂ : Subgroup (MulAut V)} {τ : MulAut V}
     (P : JPair X L₁ L₂ τ) (h3 : B56Case3 (ffJ X)) : TypeTwo X L₁ L₂ ∨ TypeThree X L₁ L₂ := by
   obtain ⟨A₁, A₂, hsupA, hdisjA, hcommA, hFA₁, hFA₂, W₁, W₂, hfix₁, hfix₂, hinv₁, hinv₂,
     hW, hWI, hP₁, hP₂⟩ := h3

@@ -63,7 +63,7 @@ theorem sk_goodOrBad_factor {f p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf : 1 �
       change h0 = X - 1 at h1
       subst h1
       obtain ⟨φ, -⟩ := blocks.fixedFactor hm
-      haveI : Nontrivial (primaryComponent (spEnd x) (X - 1)) :=
+      have : Nontrivial (primaryComponent (spEnd x) (X - 1)) :=
         Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hm)
       rcases sk_goodOrBad_alt (B := (spForm r K).restrict (primaryComponent (spEnd x) (X - 1)))
         (fun v => spForm_isAlt (v : Fin r ⊕ Fin r → K)) blocks.fixed_nondegenerate hp hp2 hK3 with hg | hb
@@ -89,8 +89,8 @@ theorem sk_goodOrBad_factor {f p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hf : 1 �
     have h4 : 4 ≤ Nat.card (AdjoinRoot (h : K[X])) := by
       rw [hP.card_field]
       exact sk_four_le_of_dvd_sub_one hp hp2 hN hP.dvd
-    haveI : Finite (AdjoinRoot (h : K[X])) := Nat.finite_of_card_ne_zero (by omega)
-    haveI : CharP (AdjoinRoot (h : K[X])) 2 :=
+    have : Finite (AdjoinRoot (h : K[X])) := Nat.finite_of_card_ne_zero (by omega)
+    have : CharP (AdjoinRoot (h : K[X])) 2 :=
       charP_of_injective_algebraMap (algebraMap K (AdjoinRoot (h : K[X]))).injective 2
     by_cases hm : 2 ≤ primaryMultiplicity (spEnd x) (h : K[X])
     · exact Or.inl (skGood_of_mulEquiv φ (skGood_GL hm h4 hp hpq))
@@ -108,8 +108,8 @@ theorem famSel_symplectic (hr : 1 ≤ r) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     SD.FamSel p ↥(StatedSp r K)
       (fun φ => φ ∈ Set.range (MulAut.conj : ↥(StatedSp r K) →* MulAut ↥(StatedSp r K))) := by
   classical
-  haveI : NeZero r := ⟨by omega⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : NeZero r := ⟨by omega⟩
+  have : Fact p.Prime := ⟨hp⟩
   have := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 2
   have hK : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
@@ -126,7 +126,7 @@ theorem famSel_symplectic (hr : 1 ≤ r) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
   have blocks := (symplectic_cross_prime_primary_centralizer_blocks Nat.prime_two hf hK hp hp2 hp2 hr _
     ha).2 g rfl hord
   have hsq := (altPrimaryData_spLin hpK hgp).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd g)) := (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
+  have : Finite (reciprocalOrbits (spEnd g)) := (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, hind, hjoin⟩ := blocks.directProduct
   have hY2' : ∀ y ∈ Y, ∃ k : ℕ, y ^ 2 ^ k = 1 := fun y hy => by
     obtain ⟨k, hk⟩ := hY2 ⟨y, hy⟩

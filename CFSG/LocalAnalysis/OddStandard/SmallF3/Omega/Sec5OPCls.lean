@@ -104,7 +104,7 @@ theorem sec5op_cls_surjective {t z : G} {T : Subgroup G}
     exact sec5op_Y_normal t z g.1 g.2 n.1 hn
   have hYb_normal : (((sec5op_Y t z).subgroupOf (centralizer ({z} : Set G))).map π).Normal :=
     hYsub_normal.map π hyp.surj
-  haveI : (((sec5op_Y t z).subgroupOf (centralizer ({z} : Set G))).map π).Normal := hYb_normal
+  have : (((sec5op_Y t z).subgroupOf (centralizer ({z} : Set G))).map π).Normal := hYb_normal
   have hTYb : sec5op_Tb z T π ≤
       ((sec5op_Y t z).subgroupOf (centralizer ({z} : Set G))).map π := by
     intro a ha

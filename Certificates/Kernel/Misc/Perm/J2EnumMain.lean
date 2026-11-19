@@ -123,7 +123,7 @@ theorem inWU (i : ℕ) (hi : i < 3) {p : ℕ} (hp : permB 315 9 p = true) :
 
 theorem inE0U {p : ℕ} (hp : permB 315 9 p = true) : inE 0 (unpack 315 9 p) = memL AEK p := by
   unfold inE bArr memL AEK
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
   simp only [aeU, List.any_flatMap, List.any_map, Function.comp_def]
   exact any_congr_mem fun a _ => any_congr_mem fun c _ => eqU hp (pcm (ppw pZ a) (ppw pX c))
 

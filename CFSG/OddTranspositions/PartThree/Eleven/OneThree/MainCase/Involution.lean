@@ -18,7 +18,7 @@ theorem pCore_le_twoOddCore (X : Type) [Group X] [Finite X] :
 
 theorem mem_pCore_of_mem_twoOddCore_of_mul_self_eq_one {X : Type} [Group X] [Finite X] {k : X}
     (hk : k ∈ EightOne.twoOddCore X) (hk2 : k * k = 1) : k ∈ CFSG.pCore 2 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hk' : QuotientGroup.mk' (CFSG.pCore 2 X) k ∈
       CFSG.oddCore (X ⧸ CFSG.pCore 2 X) := by
     simpa [EightOne.twoOddCore] using hk
@@ -40,10 +40,11 @@ theorem mem_pCore_of_mem_twoOddCore_of_mul_self_eq_one {X : Type} [Group X] [Fin
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem commute_of_mul_sq_mem_pCore (hC : HypothesisC D) {c d : Halpha D hC.alpha}
     (hc : (c : G) ∈ D) (hd : (d : G) ∈ D)
     (hcd : (c * d) ^ 2 ∈ CFSG.pCore 2 (Halpha D hC.alpha)) : Commute (c : G) (d : G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc2 : (c : G) * (c : G) = 1 := hC.setup.oddT.mul_self_eq_one hc
   have hd2 : (d : G) * (d : G) = 1 := hC.setup.oddT.mul_self_eq_one hd
   let z : CFSG.pCore 2 (Halpha D hC.alpha) := ⟨(c * d) ^ 2, hcd⟩
@@ -80,7 +81,7 @@ theorem commute_of_mul_sq_mem_pCore (hC : HypothesisC D) {c d : Halpha D hC.alph
     have hceq : c = d := by
       calc c = d⁻¹ := eq_inv_of_mul_eq_one_left hcd1
         _ = d := inv_eq_of_mul_eq_one_right hd2H
-    simpa [hceq]
+    simp [hceq]
 
 theorem mul_mem_pCore_of_mul_mem_twoOddCore (hC : HypothesisC D) {c v : Halpha D hC.alpha}
     (hc : (c : G) ∈ D) (hv : (v : G) ∈ D) (hcv : Commute (c : G) (v : G))

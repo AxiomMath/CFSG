@@ -269,7 +269,7 @@ theorem cent : s5oCentOK = true := by
   have hy : s5oY = unpack 100 7 (OX.F 5) := oTab_eq (by norm_num)
   have hv : validA 100 s5oY = true := by rw [hy]; exact validO (by norm_num)
   have h0 : (s5oY[0]! == 0) = true := by
-    rw [hy, CFSG.KC.BfsPin.unpack_getElem!, if_pos (by norm_num), beq_iff_eq]
+    rw [hy, CFSG.KC.BfsPin.unpack_getElem!, ite_eq_left (by norm_num), beq_iff_eq]
     exact Nat.eq_of_beq_eq_true S5O.fix0
   have hf : (fixLevCount 100 s5Levels s5oY 0 == 30) = true := by
     unfold s5Levels

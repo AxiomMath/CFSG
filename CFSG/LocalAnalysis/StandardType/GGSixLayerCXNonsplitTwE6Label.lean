@@ -52,7 +52,7 @@ theorem markedModel_top_graphFixedRootGroup (f : ℕ) (hf : 1 ≤ f)
     (hX : IsComponentOf X ⊤) :
     MarkedModel (⟨.twE6, 0, f⟩ : LargeEvenLabel)
       (↥X ⧸ Subgroup.center ↥X) := by
-  haveI : Finite (↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))) :=
+  have : Finite (↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))) :=
     Subtype.finite
   have hXtop := ExcNonsplit.eq_top_of_isComponentOf_top
     (isQuasisimple_graphFixedRootGroup f hf) hX
@@ -72,8 +72,8 @@ theorem markedModel_top_twistedE6Group (f : ℕ) (hf : 1 ≤ f)
     {X : Subgroup (twistedE6Group 2 f)} (hX : IsComponentOf X ⊤) :
     MarkedModel (⟨.twE6, 0, f⟩ : LargeEvenLabel)
       (↥X ⧸ Subgroup.center ↥X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (twistedE6Group 2 f) := Subtype.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (twistedE6Group 2 f) := Subtype.finite
   have hQ : CFSG.IsQuasisimple (twistedE6Group 2 f) :=
     CFSG.LieType.CurtisTits.isQuasisimple_twistedE6 (p := 2) (f := f) hf
   have hXtop := ExcNonsplit.eq_top_of_isComponentOf_top hQ hX

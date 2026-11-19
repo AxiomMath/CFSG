@@ -89,7 +89,7 @@ theorem kd264KSpor_of_S (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (h : KD264SporS
   | alternating n h' => exact hi.elim
   | lie d => exact hi.elim
   | sporadic s =>
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     set π : K →* (TauCeti.CFSGIndex.sporadic s).Group :=
       eK.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K)) with hπdef
     have hπ : Function.Surjective π := eK.surjective.comp (QuotientGroup.mk'_surjective _)

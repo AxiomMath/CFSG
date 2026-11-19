@@ -95,10 +95,10 @@ theorem innerConcl_of_special_four (S : FourData Q p A) (h4 : 4 ≤ Nat.card K)
     {h : K[X]} (hh : h ∈ primaryFactors a.toLinearMap) (hne : h ≠ X - 1)
     (hX : D ≤ ⁅supportedBlock Q a h, supportedBlock Q a h⁆) : InnerConcl A D := by
   classical
-  haveI : Fact p.Prime := ⟨S.prime⟩
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact p.Prime := ⟨S.prime⟩
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := finite_linearEquiv
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hpK : (p : K) ≠ 0 := natCast_ne_zero_of_odd S.prime S.odd
   have hIso : IsoGroup (QuadraticMap.polarBilin Q) p A :=
     isoGroup_of_le S.regular S.le_omega S.elem

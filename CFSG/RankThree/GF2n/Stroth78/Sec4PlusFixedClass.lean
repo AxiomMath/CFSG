@@ -15,7 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
-@[expose] noncomputable def CHbar (S : Setting z E F) (a : G) : Subgroup (Hbar z) :=
+@[expose] noncomputable def CHbar (_S : Setting z E F) (a : G) : Subgroup (Hbar z) :=
   ((Subgroup.centralizer ({a} : Set G)).subgroupOf (H z)).map
     (QuotientGroup.mk' ((Q z).subgroupOf (H z)))
 

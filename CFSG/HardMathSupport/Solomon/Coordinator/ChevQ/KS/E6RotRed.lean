@@ -40,8 +40,8 @@ theorem isSimpleGroup_unitaryPSU {F : Type} [Field F] (h : UnitaryFieldData 2 3 
     IsSimpleGroup (unitaryPSU h 3) := by
   have hF : Nat.card F = (2 ^ 3) ^ 2 := by rw [h.card, ← pow_mul]
   have := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := h.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := h.charP
   have hs := CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 3 hF 3 le_rfl
     (by simp)
   exact (unitaryPSUEquiv h (by norm_num : 1 ≤ 3)).isSimpleGroup
@@ -57,7 +57,7 @@ theorem normalized_of_u3_component {X : Type} [Group X] [Finite X]
   have _ := hKG
   obtain ⟨F, _, h, ⟨e⟩⟩ := u3_model hJL
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   set N : Subgroup X := CFSG.Open.GLAPPrimeCore 3 X with hNdef
   set ψ : X →* X ⧸ N := QuotientGroup.mk' N with hψdef
   have hNc : Nat.Coprime 3 (Nat.card N) := CFSG.pPrimeCore_coprime_card
@@ -75,19 +75,19 @@ theorem normalized_of_u3_component {X : Type} [Group X] [Finite X]
   have hperf : commutator ↥J = ⊤ :=
     (Subgroup.isPerfect_iff.2 (glaPComponent_perfect hJ)).commutator_eq_top
   have hJq : CFSG.Open.IsQuasisimple ↥J :=
-    ⟨hperf, by haveI := isSimpleGroup_unitaryPSU h; exact e.isSimpleGroup⟩
+    ⟨hperf, by have := isSimpleGroup_unitaryPSU h; exact e.isSimpleGroup⟩
   have hnJ : ¬ J ≤ N := by
     intro hJN
     have hbot : J.map ψ = ⊥ := by
       rw [eq_bot_iff]
       rintro _ ⟨j, hj, rfl⟩
       exact (QuotientGroup.eq_one_iff j).2 (hJN hj)
-    haveI := hqb.2
-    haveI : Subsingleton ↥(J.map ψ) := by rw [hbot]; infer_instance
+    have := hqb.2
+    have : Subsingleton ↥(J.map ψ) := by rw [hbot]; infer_instance
     exact not_subsingleton (↥(J.map ψ) ⧸ Subgroup.center ↥(J.map ψ))
       (Function.Surjective.subsingleton (QuotientGroup.mk'_surjective _))
   have hW : (N.subgroupOf J) ≠ ⊤ := fun h1 => hnJ (Subgroup.subgroupOf_eq_top.1 h1)
-  haveI : (N.subgroupOf J).Normal := inferInstance
+  have : (N.subgroupOf J).Normal := inferInstance
   have hkerJ : (ψ.subgroupMap J).ker ≤ Subgroup.center ↥J := by
     refine le_trans (le_of_eq ?_)
       (CFSG.LocalAnalysis.GLTheoremB.MovingAround.l119_normal_le_center hJq hW)

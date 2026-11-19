@@ -41,7 +41,7 @@ theorem qPerf_of_congr {S T : Type} [Group S] [Group T] {q : ℕ} (e : S ≃* T)
 
 theorem mem_of_isPGroup_two_quotient {G : Type*} [Group G] {J : Subgroup G} [J.Normal]
     (h2 : IsPGroup 2 (G ⧸ J)) {g : G} (hodd : Odd (orderOf g)) : g ∈ J := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp h2 (g : G ⧸ J)
   have hdvd : orderOf (g : G ⧸ J) ∣ orderOf g := orderOf_map_dvd (QuotientGroup.mk' J) g
   rw [hk] at hdvd
@@ -52,7 +52,7 @@ theorem mem_of_isPGroup_two_quotient {G : Type*} [Group G] {J : Subgroup G} [J.N
   rw [hk0, pow_zero, orderOf_eq_one_iff] at hk
   exact (QuotientGroup.eq_one_iff g).1 hk
 
-theorem mem_of_isPGroup_two_quotient' {G : Type*} [Group G] {N J : Subgroup G} (hJN : J ≤ N)
+theorem mem_of_isPGroup_two_quotient' {G : Type*} [Group G] {N J : Subgroup G} (_hJN : J ≤ N)
     [(J.subgroupOf N).Normal] (h2 : IsPGroup 2 (↥N ⧸ J.subgroupOf N)) {g : G} (hg : g ∈ N)
     (hodd : Odd (orderOf g)) : g ∈ J := by
   have hodd' : Odd (orderOf (⟨g, hg⟩ : N)) := by rwa [← Subgroup.orderOf_coe]
@@ -81,7 +81,7 @@ private theorem qPerf_fieldAutT (S : SubfieldSetup k Q₀ Q σ p) (hd0 : 0 < d) 
     CFSG.IsQuasisimple.of_mulEquiv (inclEquiv k S.hext hd0).symm
       (CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.isQuasisimple_of_isSimpleGroup hsimp
         hnonab)
-  haveI hJn := subfieldDerivedImage_normal k S.hext
+  have hJn := subfieldDerivedImage_normal k S.hext
   have hquot := fixedGroup_quotient_isPGroup k S.hext S.hnd₀ S.hT₀
   have hfix : fixSubgroup (fieldAutT Q σ S.hQσ) = subfieldFixedGroup k Q₀ Q :=
     Subgroup.ext fun t => fieldAutT_apply_iff S t
@@ -136,12 +136,13 @@ theorem eq_one_of_pow_char_pow {E : Type*} [Field E] {ℓ : ℕ} [hℓ : Fact �
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem mem_specialBlock_of_pow {ℓ : ℕ} (hℓ : ℓ.Prime) (hK : ringChar K = ℓ) {h : K[X]}
     [Fact (Irreducible h)] {g : V ≃ₗ[K] V} (hg : g ∈ supportedBlock Q x h) {n : ℕ}
     (hn : g ^ ℓ ^ n = 1) : g ∈ specialBlock Q x h := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := hK ▸ ringChar.charP K
-  haveI : CharP (AdjoinRoot h) ℓ :=
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := hK ▸ ringChar.charP K
+  have : CharP (AdjoinRoot h) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot h)).injective ℓ
   refine mem_specialBlock.mpr ⟨hg, eq_one_of_pow_char_pow (n := n) ?_⟩
   have e1 : (⟨g, hg⟩ : ↥(supportedBlock Q x h)) ^ ℓ ^ n = 1 := Subtype.ext (by simpa using hn)
@@ -208,6 +209,7 @@ theorem isQuasisimple_specialBlock_of_four_le (hx : OddOrderIsometry Q p x) (hp 
       ((Matrix.SpecialLinearGroup.toLin_equiv b).trans e₁.symm)
       (CFSG.RankThree.CALinearPlane.isQuasisimple_SL_of_two_le hm h4')
 
+omit [Finite K] in
 theorem eq_one_of_pow_of_finrank_le_two {W : Type*} [AddCommGroup W] [Module K W]
     [FiniteDimensional K W] {R : QuadraticForm K W} (hR : R.polarBilin.Nondegenerate) {ℓ : ℕ}
     (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hK : ringChar K = ℓ) (hW : finrank K W ≤ 2)
@@ -223,10 +225,10 @@ theorem eq_one_of_pow_of_finrank_le_two {W : Type*} [AddCommGroup W] [Module K W
       obtain ⟨m, hm⟩ := hev
       omega
     have htop : commSpace (g : W ≃ₗ[K] W) = ⊤ := Submodule.eq_top_of_finrank_eq h2
-    haveI : Fact ℓ.Prime := ⟨hℓ⟩
-    haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
-    haveI : CharP K ℓ := hK ▸ ringChar.charP K
-    haveI : CharP (Module.End K W) ℓ :=
+    have : Fact ℓ.Prime := ⟨hℓ⟩
+    have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+    have : CharP K ℓ := hK ▸ ringChar.charP K
+    have : CharP (Module.End K W) ℓ :=
       charP_of_injective_algebraMap (algebraMap K (Module.End K W)).injective ℓ
     set N : Module.End K W := ((g : W ≃ₗ[K] W) : W →ₗ[K] W) - 1 with hNdef
     have hgn : ((g : W ≃ₗ[K] W) : W →ₗ[K] W) ^ ℓ ^ n = 1 := by
@@ -312,7 +314,7 @@ private theorem mem_of_supportedBlock_of_pow {p : ℕ} {x : V ≃ₗ[K] V} (hx :
   have hoddK : Odd (Nat.card K) := by
     rw [hKcard]
     exact (hℓ.odd_of_ne_two hℓ2).pow
-  haveI : Fact (Irreducible (r : K[X])) := ⟨irreducible_of_mem_primaryFactors (hRep.1 r.2)⟩
+  have : Fact (Irreducible (r : K[X])) := ⟨irreducible_of_mem_primaryFactors (hRep.1 r.2)⟩
   by_cases hr1 : (r : K[X]) = X - 1
   · have hg' : g ∈ supportedBlock Q x (X - 1) := hr1 ▸ hg
     have hwO : restrictFixed Q x ⟨g, hg'⟩ ∈
@@ -354,8 +356,8 @@ theorem exists_perfect_isometryCentralizer {p : ℕ} {x : V ≃ₗ[K] V} (hx : O
     ∃ P₀ : Subgroup (V ≃ₗ[K] V), P₀ ≤ orthDerived Q ∧ P₀ ≤ isometryCentralizer Q x ∧ ⁅P₀, P₀⁆ = P₀ ∧
       ∀ y ∈ isometryCentralizer Q x, (∃ n : ℕ, y ^ ℓ ^ n = 1) → y ∈ P₀ := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   obtain ⟨Rep, hRep⟩ := hx.exists_orbitRepresentatives
   obtain ⟨m, F, hF, hFsup, -⟩ :=
@@ -389,9 +391,9 @@ theorem qPerf_conj_projOrth (hQ : (polarBilin Q).Nondegenerate)
     (hT : ∃ U : Submodule K V, finrank K U = 3 ∧ ∀ u ∈ U, Q u = 0) {ℓ : ℕ} (hℓ : ℓ.Prime)
     (h5 : 5 ≤ ℓ) (hKℓ : ringChar K = ℓ) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpl : p ≠ ℓ)
     (a : ProjOrthDerived Q) (ha : orderOf a = p) : QPerf ℓ (MulAut.conj a) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hℓ2 : ℓ ≠ 2 := by omega
   obtain ⟨-, hcenter, hZ2, -, -, -, -, -, hlift⟩ :=
@@ -479,13 +481,13 @@ theorem qGen_omega {t : StatedLieTag} (ht : t = .POmegaOdd ∨ t = .POmegaPlus �
     · exact hG.1.1
     · exact hG.1.1
     · exact hG.1.1
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Finite G := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite G := Finite.of_equiv _ e.symm.toEquiv
   obtain ⟨-, -, -, hsimple, hnonab, -⟩ :=
     CFSG.RankThree.Classical.orthogonal_high_Witt_derived_quotient_and_odd_lifts hQ hT
-  haveI := hsimple
+  have := hsimple
   have hZ : Subgroup.center (ProjOrthDerived Q) = ⊥ :=
     CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_center_eq_bot hnonab
   have hβp : β ^ p = 1 := by rw [← hβ]; exact pow_orderOf_eq_one β
@@ -584,7 +586,7 @@ private theorem qElemNormal_of_isQuasisimple {q : ℕ} {C : Type} [Group C] (h :
 private theorem qGen_of_fixGood {S : Type} [Group S] {q : ℕ} {β : MulAut S}
     (h : FixGood q ↥(fixSubgroup β)) : Inputs256e.QGen q β := by
   obtain ⟨hc, J, hJn, hJq, hJ⟩ := h
-  haveI := hJn
+  have := hJn
   have hJc : IsComponentOf J (⊤ : Subgroup ↥(fixSubgroup β)) :=
     ⟨le_top, IsSubnormal.step le_top inferInstance (IsSubnormal.refl _),
       CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.open_isQuasisimple hJq⟩
@@ -650,24 +652,24 @@ private theorem mem_projImage_slPi_of_pow {π : Bool} {p f : ℕ} {F : Type} [Fi
     (hF : Sec4.PiField π p f F) {x : ↥(projImage (Sec4.glPi π 3 (p ^ f) F))} {n : ℕ}
     (hx : x ^ p ^ n = 1) : (x : Matrix.ProjGenLinGroup (Fin 3) F) ∈ projImage (Sec4.slPi π 3 (p ^ f) F) := by
   classical
-  haveI := hF.finite
+  have := hF.finite
   have hp := hF.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hπ : π = false → CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f F := fun h => by
     subst h; exact hF.unitary
   have hcharF : ringChar F = p := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     have hcard : Fintype.card F = p ^ (cond π f (2 * f)) := by
       rw [← Nat.card_eq_fintype_card, hF.card]
       cases π
       · simp [Sec4.piCard, ← pow_mul, mul_comm]
       · simp [Sec4.piCard]
-    haveI : CharP F p := charP_of_card_eq_prime_pow hcard
+    have : CharP F p := charP_of_card_eq_prime_pow hcard
     exact ringChar.eq F p
   let ρ : ↥(Sec4.glPi π 3 (p ^ f) F) →* ↥(projImage (Sec4.glPi π 3 (p ^ f) F)) :=
     (Matrix.ProjGenLinGroup.mk : GL (Fin 3) F →* _).subgroupMap (Sec4.glPi π 3 (p ^ f) F)
   have hρ : Function.Surjective ρ := MonoidHom.subgroupMap_surjective _ _
-  haveI : Finite (GL (Fin 3) F) := inferInstance
+  have : Finite (GL (Fin 3) F) := inferInstance
   have hcop : Nat.Coprime (Nat.card ρ.ker) p := by
     refine Inputs256e.coprime_card_of_pow_eq_one hp (Inputs256e.coprime_card_units hp hcharF)
       fun z hz => ?_
@@ -700,6 +702,7 @@ section FieldAut
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 private theorem torus_pow_card_sub_one {τ : Tag} {t : ModGL τ F} (ht : t ∈ torusGroup τ F) :
     t ^ (Nat.card F - 1) = 1 := by
   obtain ⟨c, rfl⟩ := CFSG.GH74.GLS.Stage2.Bender.Thm1.mem_torusGroup_iff_cartanChar.1 ht
@@ -715,8 +718,8 @@ private theorem qElemNormal_entrywiseAdjointAut (τ : Tag) {ℓ : ℕ} (hℓ : �
     (σ : F ≃+* F) (hG2 : τ = .G2 → 3 ≤ Nat.card (fixSubfield σ)) :
     QElemNormal ℓ ↥(fixSubgroup (entrywiseAdjointAut τ σ)) := by
   classical
-  haveI : Finite (ModGL τ F) := finite_modGL
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (ModGL τ F) := finite_modGL
+  have : Finite (fixSubfield σ) := Subtype.finite
   obtain ⟨-, hinj, -, hJΓ, hΓeq, hJnormal, -⟩ :=
     Chevalley_coordinate_field_fixed_normal_subgroup τ F σ
   have hperf := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ExcCopy.isPerfect_adjointGroup τ
@@ -782,7 +785,7 @@ end FieldAut
 private theorem fixGood_projImage_glPi {π : Bool} {p f : ℕ} {F : Type} [Field F]
     (hF : Sec4.PiField π p f F) (hq5 : 5 ≤ p ^ f) : FixGood p ↥(projImage (Sec4.glPi π 3 (p ^ f) F)) := by
   classical
-  haveI := hF.finite
+  have := hF.finite
   have hq2 : 2 < p ^ f := by omega
   have hπ : π = false → CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f F := fun h => by
     subst h; exact hF.unitary
@@ -801,7 +804,7 @@ private theorem fixGood_projImage_glPi {π : Bool} {p f : ℕ} {F : Type} [Field
       ← Matrix.det_mul, ← Units.val_mul, mul_inv_cancel, Units.val_one, Matrix.det_one]
   · have hs := CFSG.RankThree.PartTwo.Sec8.Item8KFacts2Proof.isSimpleGroup_projImage_slPi hF hq2
     have hperf := CFSG.RankThree.PartTwo.Sec13.isPerfect_projImage_slPi hF hq2
-    haveI := hs
+    have := hs
     exact CFSG.IsQuasisimple.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hSP)
       (CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.isQuasisimple_of_isSimpleGroup hs
         (CFSG.RankThree.PartTwo.Sec8.Item8KFacts2Proof.exists_ne_comm_of_isPerfect hperf))
@@ -811,7 +814,7 @@ variable {F : Type} [Field F] [Finite F]
 private theorem fixGood_entrywiseAdjointAut_D4 {ℓ : ℕ} (hℓ : ℓ.Prime) (hFℓ : ringChar F = ℓ)
     (σ : F ≃+* F) : FixGood ℓ ↥(fixSubgroup (entrywiseAdjointAut Tag.D4 σ)) := by
   classical
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   have hperf := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ExcCopy.isPerfect_adjointGroup .D4
     (fixSubfield σ) (fun h => absurd h (by decide))
   obtain ⟨hs, hnc⟩ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ExcCopy.isSimpleGroup_adjointGroup_of_perfect
@@ -854,14 +857,14 @@ private theorem fixGood_twistedEntrywiseAut_D4 {ℓ e : ℕ} [Fact ℓ.Prime] [C
   · rw [h]
     obtain ⟨hs, hnc, ⟨eF⟩⟩ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.exists_fixSubgroup_twistedOne_equiv
       he hK T 1 (Or.inl rfl) (fun c => by rw [hT, pow_one])
-    haveI := hs
+    have := hs
     exact qElemNormal_of_mulEquiv eF (qElemNormal_of_isQuasisimple
       (CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.isQuasisimple_of_isSimpleGroup hs hnc))
   · rw [h]
     have hfix := fixedSubgroup_twistedEntrywiseAut_D4_two T
     obtain ⟨hs, hnc, ⟨eF⟩⟩ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.exists_fixSubgroup_twistedOne_equiv
       he hK T⁻¹ 2 (Or.inr rfl) hinv
-    haveI := hs
+    have := hs
     exact qElemNormal_of_mulEquiv ((MulEquiv.subgroupCongr hfix).trans eF) (qElemNormal_of_isQuasisimple
       (CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.isQuasisimple_of_isSimpleGroup hs hnc))
 
@@ -871,8 +874,8 @@ private theorem fixGood_d4_graph {ℓ f : ℕ} [Fact ℓ.Prime] (h5 : 5 ≤ ℓ)
     FixGood ℓ ↥(fixSubgroup α) := by
   classical
   have hℓ : ℓ.Prime := Fact.out
-  haveI : CharP F ℓ := by
-    haveI := Fintype.ofFinite F
+  have : CharP F ℓ := by
+    have := Fintype.ofFinite F
     exact charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hF])
   have hFℓ : ringChar F = ℓ := ringChar.eq F ℓ
   have hF5 : 5 ≤ Nat.card F := by
@@ -914,6 +917,7 @@ private theorem fixGood_d4_graph {ℓ f : ℕ} [Fact ℓ.Prime] (h5 : 5 ≤ ℓ)
     exact fixGood_of_mulEquiv (MulEquiv.subgroupCongr
       (CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.fixSubgroup_inv_eq _)) hB
 
+omit [Finite F] in
 private theorem d4Graph_zero_eq : d4Graph F 0 = 1 :=
   MulEquiv.ext fun h => Subtype.ext (by
     rw [coe_d4Graph, pow_zero, one_mul, inv_one, mul_one]; rfl)
@@ -924,8 +928,8 @@ theorem qGen_d4_outer {ℓ f : ℕ} [Fact ℓ.Prime] (h5 : 5 ≤ ℓ) (hf : 1 �
   classical
   refine qGen_of_fixGood ?_
   have hℓ : ℓ.Prime := Fact.out
-  haveI : CharP F ℓ := by
-    haveI := Fintype.ofFinite F
+  have : CharP F ℓ := by
+    have := Fintype.ofFinite F
     exact charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hF])
   have hFℓ : ringChar F = ℓ := ringChar.eq F ℓ
   have hchar : ringChar F ≠ 3 := by rw [hFℓ]; omega
@@ -973,7 +977,7 @@ theorem qGenD4Three_holds : QGenD4Three := by
   intro G _ _ ℓ f hG h5 β hβ hout
   obtain ⟨⟨hℓ, hf, -⟩, F, _, _, hF, ⟨eG⟩⟩ := hG
   obtain ⟨eC⟩ := CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup F
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   let e₂ : G ≃* ↥(adjointGroup Tag.D4 F) := eG.trans eC
   refine Inputs256e.qGen_of_congr e₂ β (qGen_d4_outer h5 hf hF _ ?_ fun h hh => ?_)
   · rw [← map_pow, ← hβ, pow_orderOf_eq_one, map_one]
@@ -1176,7 +1180,7 @@ private theorem qPerf_triD4_outer {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f
     (hφout : φ ∉ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) →*
       MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range) : QPerf ℓ φ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, -, Θ, hΘ, -⟩ := CFSG.RankThree.Chevalley.triality_normal_form_data hℓ hf K hK σ hσ
   have hK3 : Nat.card K = ℓ ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
   obtain ⟨hηord, hpf, ⟨h₀, hh₀⟩, -⟩ :=
@@ -1218,14 +1222,14 @@ private theorem qPerf_triD4_outer {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f
   obtain ⟨-, -, -, -, -, -, hfixJ, hsimpJ, hncJ, -⟩ :=
     CFSG.RankThree.Chevalley.triality_canonical_field_full_centralizer_and_pointwise_kernel hℓ hd
       hp.two_le hm3 K hK' σ hσ' δc hδc
-  haveI := hsimpJ
+  have := hsimpJ
   have e3 : ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ δc)) ≃* ↥(trialityFieldImage σ δc) :=
     (Subgroup.equivMapOfInjective _ (graphFixedRootGroup TwistTag.D4 K σ.toRingHom).subtype
       (graphFixedRootGroup TwistTag.D4 K σ.toRingHom).subtype_injective).trans
       (MulEquiv.subgroupCongr hfixJ)
-  haveI hsimE : IsSimpleGroup ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ δc)) := e3.isSimpleGroup
+  have hsimE : IsSimpleGroup ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ δc)) := e3.isSimpleGroup
   have hncE : ∃ a b : ↥(fixSubgroup (fieldActor (t := TwistTag.D4) σ δc)), a * b ≠ b * a := by
-    simp only [not_forall, ne_eq] at hncJ
+    simp only [not_forall] at hncJ
     obtain ⟨a, b, hab⟩ := hncJ
     refine ⟨e3.symm a, e3.symm b, fun h => hab ?_⟩
     have h' := congrArg e3 h
@@ -1250,8 +1254,8 @@ private theorem fixGood_triD4_G2 {ℓ f : ℕ} [Fact ℓ.Prime] (h5 : 5 ≤ ℓ)
   have hℓ : ℓ.Prime := Fact.out
   obtain ⟨e⟩ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.nonempty_fixSubgroup_fieldActor_equiv_G2
     (by omega) hf (Or.inr h5) hK σ hσ
-  haveI : CharP K ℓ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.charP_of_card_pow_three hℓ hf hK
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : CharP K ℓ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.charP_of_card_pow_three hℓ hf hK
+  have : Finite (fixSubfield σ) := Subtype.finite
   have hk : 3 ≤ Nat.card (fixSubfield σ) := by
     obtain ⟨q', hq'p, hq'c⟩ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.exists_primePower_card_subfield
       (ringChar.eq K ℓ) (fixSubfield σ)
@@ -1276,7 +1280,7 @@ theorem qGenTriD4_of_rest (h : QGenTriD4Rest) : QGenTriD4 := by
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
   refine Inputs256e.qGen_of_congr eK β ?_
   have hα : orderOf (MulAut.congr eK β) = p := by rw [orderOf_congr]; exact hβ
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   by_cases hin : MulAut.congr eK β ∈ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) →*
       MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range ∨
       (p = 3 ∧ ¬ ∃ γ : MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom),
@@ -1335,10 +1339,10 @@ private theorem qPerf_twE6_field {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ3 : ℓ �
   set J := CFSG.RankThree.Chevalley.subfieldRootGroupImage TwistTag.E6 (fixSubfield κ)
     (fixSubfieldRestrict T κ) with hJdef
   set δ := fieldActor (t := TwistTag.E6) σ ε with hδdef
-  haveI : Finite (fixSubfield κ) := Subtype.finite
+  have : Finite (fixSubfield κ) := Subtype.finite
   have hder' : ⁅fixSubgroup δ, fixSubgroup δ⁆ = J.subgroupOf (twistedE6RootGroup K σ) := hder
   have eJC : J.subgroupOf (twistedE6RootGroup K σ) ≃* J := Subgroup.subgroupOfEquivOfLe hJC
-  haveI := hsimpleJ
+  have := hsimpleJ
   have hJs : IsSimpleGroup (J.subgroupOf (twistedE6RootGroup K σ)) := eJC.isSimpleGroup
   have hJn : ∃ x y : J.subgroupOf (twistedE6RootGroup K σ), x * y ≠ y * x := by
     by_contra hcon
@@ -1407,7 +1411,7 @@ theorem qGenTwE6_of_inndiag (h : QGenTwE6Inndiag) : QGenTwE6 := by
   change Inputs256e.QGen (TauCeti.LieTypeIndex.twistedE6 q).characteristic β
   rw [TauCeti.LieTypeIndex.characteristic_twistedE6] at hd5 hpd ⊢
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
   refine Inputs256e.qGen_of_congr eK β ?_

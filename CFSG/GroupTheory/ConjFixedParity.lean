@@ -12,10 +12,10 @@ theorem ncard_modEq_ncard_fixed {T : Subgroup G} (hT : IsPGroup 2 T) {𝒜 : Set
     (h𝒜 : ∀ x ∈ T, ∀ C ∈ 𝒜, C.map (MulAut.conj x).toMonoidHom ∈ 𝒜) :
     𝒜.ncard ≡ {C ∈ 𝒜 | ∀ x ∈ T, C.map (MulAut.conj x).toMonoidHom = C}.ncard [MOD 2] := by
   classical
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) (fun H K h =>
       Subgroup.ext (Set.ext_iff.mp h))
-  haveI : Finite ↥𝒜 := Finite.of_injective (fun C : ↥𝒜 => (C.1 : Set G)) (fun C D h =>
+  have : Finite ↥𝒜 := Finite.of_injective (fun C : ↥𝒜 => (C.1 : Set G)) (fun C D h =>
     Subtype.ext (Subgroup.ext (Set.ext_iff.mp h)))
   let _ : MulAction ↥T ↥𝒜 :=
     { smul := fun x C => ⟨C.1.map (MulAut.conj (x : G)).toMonoidHom, h𝒜 x x.2 C.1 C.2⟩

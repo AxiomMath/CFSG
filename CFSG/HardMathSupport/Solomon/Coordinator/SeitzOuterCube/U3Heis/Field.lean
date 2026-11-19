@@ -122,7 +122,7 @@ theorem five_le_q0 (hσ : orderOf σ = 3) (h3 : 3 ∣ ℓ ^ f + 1) (hq2 : 2 < �
   by_contra hlt
   push Not at hlt
   generalize ℓ ^ (f / 3) = a at hq2 hq8 h30 hlt
-  interval_cases a <;> simp_all <;> omega
+  interval_cases a <;> simp_all
 
 include h in
 theorem three_ne_zero' (h3 : 3 ∣ ℓ ^ f + 1) : (3 : F) ≠ 0 := by

@@ -60,7 +60,7 @@ private theorem ggOmW6cB_card_plusCompl_le_two {K : Type} [Field K] [Finite K] [
     Nat.card (AutOm.plusCompl (K := K) (by omega : 1 ≤ n)) ≤ 2 := by
   classical
   have h01 : ∀ x : K, x = 0 ∨ x = 1 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hcard : Fintype.card K = 2 := by
       rw [← Nat.card_eq_fintype_card]
       exact hK
@@ -245,7 +245,7 @@ private theorem ggOmW6cC_commutative_of_semilinear {K : Type} [Field K] [Finite 
       ∀ y ∈ Subgroup.centralizer ({b} : Set (matrixDerived (coordinateQuadPlus n K))),
         x * y = y * x := by
   intro x hx y hy
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hn3 : 3 ≤ n := by omega
   have hodd' : Odd (orderOf (b.val : GL (Fin (2 * n)) K)) := by
     simpa [Subgroup.orderOf_coe] using hodd
@@ -409,7 +409,7 @@ private theorem ggOmW6c_field_false {K : Type} [Field K] [Finite K] [CharP K 2] 
     False := by
   obtain ⟨L, hL⟩ := hL
   have hcomm := ggOmW6c_field_centralizer_commutative hn4 b hodd α hα2 hfix u σ hσσ hσ1 hα
-  haveI : IsMulCommutative
+  have : IsMulCommutative
       ↥(Subgroup.centralizer ({b} : Set (matrixDerived (coordinateQuadPlus n K)))) :=
     ⟨⟨fun x y => Subtype.ext (hcomm x x.2 y y.2)⟩⟩
   exact ggGraphInv_component_false_of_solvable (inferInstance) hL
@@ -464,7 +464,6 @@ private theorem ggOmW6c_graph_clauses {K : Type} [Field K] [Finite K] [CharP K 2
       apply Subtype.ext
       first
         | simpa using (Subgroup.mem_centralizer_singleton_iff.mp hg.1)
-        | simpa using (Subgroup.mem_centralizer_singleton_iff.mp hg.1).symm
     have hcomm := ggGraphInv_conjBy_commute (coordinateQuadPlus n K) α s hconj g'
       (hfix g' hg')
     simpa [g'] using hcomm

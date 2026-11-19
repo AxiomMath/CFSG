@@ -146,8 +146,10 @@ variable {Ω : Set (Subgroup G)} {K J K' W : Subgroup G} {z j u v : G} {R R' T :
   (d : Data Ω K J K' W z j u v R R' T)
 include d
 
+omit [Finite G] d in
 theorem W_le_M : W ≤ 𝕄 := Subgroup.le_comap_map _ _
 
+omit [Finite G] in
 theorem mk_comm {a b : G} (ha : a ∈ 𝕄) (hb : b ∈ 𝕄) : πN a * πN b = πN b * πN a := by
   obtain ⟨wa, hwa, ea⟩ := Subgroup.mem_comap.mp ha
   obtain ⟨wb, hwb, eb⟩ := Subgroup.mem_comap.mp hb
@@ -187,7 +189,7 @@ theorem mem_X_of_conj {A : Subgroup G} (hEA : IsSylow2In 𝕌𝕍 A) (hAX : A �
     have hmem : (x⁻¹ * y) * e * (x⁻¹ * y)⁻¹ ∈ 𝕌𝕍 := by
       have := conj_mem_conjSub (n := x⁻¹ * y) he
       rwa [hy'N] at this
-    have hxe : πN x * πN e = πN e * πN x := d.mk_comm (hAM hxA) (d.W_le_M (d.UV_le_W he))
+    have hxe : πN x * πN e = πN e * πN x := d.mk_comm (hAM hxA) (CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.FrameAEmptyPf.WR1.Data.W_le_M (d.UV_le_W he))
     have hπ : πN ((x⁻¹ * y) * e * (x⁻¹ * y)⁻¹) = πN e := by
       simp only [map_mul, map_inv]
       exact conj_eq_of_comm (hyc e he) hxe
@@ -203,14 +205,14 @@ theorem inf_le_X : 𝕐𝕐 ⊓ 𝕄 ≤ 𝕏𝕏 := by
   intro h hh
   have hEX : 𝕌𝕍 ≤ 𝕏𝕏 := d.tor.UV_le_X
   have hEA : 𝕌𝕍 ≤ (𝕐𝕐 ⊓ 𝕄) ⊓ 𝕏𝕏 :=
-    le_inf (le_inf (hEX.trans d.tor.hXY) (d.UV_le_W.trans d.W_le_M)) hEX
+    le_inf (le_inf (hEX.trans d.tor.hXY) (d.UV_le_W.trans CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.FrameAEmptyPf.WR1.Data.W_le_M)) hEX
   have hsyl := d.isSylow2In_UV hEA (inf_le_left.trans inf_le_left)
     (inf_le_left.trans inf_le_right)
   refine d.mem_X_of_conj hsyl inf_le_right (inf_le_left.trans inf_le_right) hh.1 ?_ ?_
   · rw [conjSub_inf, conjSub_eq_self_of_mem hh,
       mem_normalizer_iff_conjSub_eq.mp (d.tor.hYX hh.1)]
   · intro e he
-    exact d.mk_comm hh.2 (d.W_le_M (d.UV_le_W he))
+    exact d.mk_comm hh.2 (CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.FrameAEmptyPf.WR1.Data.W_le_M (d.UV_le_W he))
 
 theorem index [(W.map πN).Normal]
     (hD : Nonempty (((G ⧸ classicalInvolutionOddCore G) ⧸ W.map πN) ≃* DihedralGroup 6)) :

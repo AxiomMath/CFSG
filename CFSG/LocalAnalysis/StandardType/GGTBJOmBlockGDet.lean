@@ -19,9 +19,9 @@ variable {K : Type} [Field K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K 
 theorem mem_specialBlock_of_pow_two_pow {h : K[X]} (hh : Irreducible h) {g : V ≃ₗ[K] V}
     (hg : g ∈ supportedBlock Q x h) {e : ℕ} (hge : g ^ (2 ^ e) = 1) :
     g ∈ specialBlock Q x h := by
-  haveI : Fact (Irreducible h) := ⟨hh⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (AdjoinRoot h) 2 :=
+  have : Fact (Irreducible h) := ⟨hh⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (AdjoinRoot h) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot h)).injective 2
   refine mem_specialBlock.mpr ⟨hg, ?_⟩
   have h1 : (⟨g, hg⟩ : ↥(supportedBlock Q x h)) ^ 2 ^ e = 1 :=

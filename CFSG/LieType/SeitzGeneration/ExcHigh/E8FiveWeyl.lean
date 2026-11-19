@@ -122,7 +122,7 @@ theorem pow_twentyFive_eq_one {z₀ z₁ : Fin Tag.E8.rank → ZMod 5}
     (hreg : ∀ α, IsRoot Tag.E8 α → charVal z₀ α = 0 → charVal z₁ α = 0 → False)
     {V : WeylGroup Tag.E8} (hV₀ : V ∈ dualWeylStabilizer z₀) (hV₁ : V ∈ dualWeylStabilizer z₁) :
     V ^ 25 = 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have : Fintype (WeylGroup Tag.E8) := Fintype.ofFinite _
   have hW : Nat.card (WeylGroup Tag.E8) = 25 * 27869184 := by
     have := (CFSG.RankThree.Chevalley.E8_weyl_length_polynomial).2

@@ -261,7 +261,7 @@ structure Cfg113 (G : Type) [Group G] [Finite G] (m : ℕ) (B M E A : Subgroup G
     IsCyclic ↥(centBar 3 Q K) ∧ omegaOne 3 Q = E ⊔ A ∧ E = thompsonJ 3 Q ∧
     ∃ g : G, GLBConj g (Subgroup.zpowers e) ≤ Q ∧ GLBConj g (Subgroup.zpowers e) ≠ Subgroup.zpowers e
 
-@[expose] def Claim113C (E A Q : Subgroup G) : Prop :=
+@[expose] def Claim113C (E _A Q : Subgroup G) : Prop :=
   IsSylowIn 3 (Subgroup.centralizer (E : Set G)) E ∧ Nat.card Q = 3 ^ 5 ∧
     ∃ R : Subgroup G, IsSylowIn 3 (Subgroup.normalizer (E : Set G)) R ∧ Q ≤ R ∧ Nat.card R = 3 ^ 8 ∧
       E = thompsonJ 3 R ∧ IsSylowIn 3 ⊤ R

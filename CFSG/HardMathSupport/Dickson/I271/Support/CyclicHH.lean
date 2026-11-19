@@ -18,6 +18,7 @@ theorem sq_eq_zero_of_isNilpotent (hV : Module.finrank F V = 2) {N : Module.End 
   rw [h] at h2
   simpa using h2
 
+omit [FiniteDimensional F V] in
 theorem exists_eq_add_smul_of_commute (hV : Module.finrank F V = 2) {N : Module.End F V}
     (hN0 : N ≠ 0) (hN2 : N ^ 2 = 0) {t : Module.End F V} (ht : t * N = N * t) :
     ∃ α β : F, t = α • (1 : Module.End F V) + β • N := by
@@ -73,6 +74,7 @@ theorem exists_eq_add_smul_of_commute (hV : Module.finrank F V = 2) {N : Module.
   have := sub_eq_zero.1 (by simpa [sub_sub] using hs)
   simpa using this
 
+omit [FiniteDimensional F V] in
 theorem pow_add_smul_of_sq_eq_zero {N : Module.End F V} (hN2 : N ^ 2 = 0) (α β : F) (n : ℕ) :
     (α • (1 : Module.End F V) + β • N) ^ (n + 1) =
       α ^ (n + 1) • (1 : Module.End F V) + (((n + 1 : ℕ) : F) * α ^ n * β) • N := by
@@ -88,12 +90,13 @@ theorem pow_add_smul_of_sq_eq_zero {N : Module.End F V} (hN2 : N ^ 2 = 0) (α β
 
 variable {p : ℕ}
 
+omit [FiniteDimensional F V] in
 theorem coeff_eq_zero_of_pow_eq_one [CharP F p] (hV : Module.finrank F V = 2) {N : Module.End F V}
     (hN0 : N ≠ 0) (hN2 : N ^ 2 = 0) {α β : F} {m : ℕ} (hm : 0 < m) (hpm : ¬ p ∣ m)
     (h : (α • (1 : Module.End F V) + β • N) ^ m = 1) : β = 0 := by
   obtain ⟨n, rfl⟩ : ∃ n, m = n + 1 := ⟨m - 1, by omega⟩
   rw [pow_add_smul_of_sq_eq_zero hN2] at h
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := F) (by rw [hV]; norm_num)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := F) (by rw [hV]; norm_num)
   have hnot : ∀ c d : F, c • N = d • (1 : Module.End F V) → c = 0 ∧ d = 0 := by
     intro c d hcd
     by_cases hc : c = 0
@@ -136,6 +139,7 @@ theorem coeff_eq_zero_of_pow_eq_one [CharP F p] (hV : Module.finrank F V = 2) {N
     · exact absurd h'' (pow_ne_zero n hα0)
   · exact h'
 
+omit [FiniteDimensional F V] in
 theorem exists_smul_one_of_commute [CharP F p] (hV : Module.finrank F V = 2) {N : Module.End F V}
     (hN0 : N ≠ 0) (hN2 : N ^ 2 = 0) {t : (Module.End F V)ˣ} (hp : ¬ p ∣ orderOf t)
     (ht : (t : Module.End F V) * N = N * (t : Module.End F V)) :
@@ -156,15 +160,16 @@ section PSolv
 
 variable {G : Type*} [Group G] [Finite G] {p : ℕ} [hp : Fact p.Prime]
 
+omit [Finite G] in
 theorem isPSolvable_of_normal_index_dvd {N : Subgroup G} [N.Normal] (hN : ¬ p ∣ Nat.card N)
     (hidx : N.index ∣ p) : CFSG.HallHigman.IsPSolvable p G := by
   classical
   intro H _ T hT hs
   set M : Subgroup ↥H := N.subgroupOf H with hM
-  haveI : M.Normal := inferInstance
+  have : M.Normal := inferInstance
   set f : ↥H →* ↥H ⧸ T := QuotientGroup.mk' T with hf
   have hfs : Function.Surjective f := QuotientGroup.mk'_surjective T
-  haveI : (M.map f).Normal := Subgroup.Normal.map inferInstance f hfs
+  have : (M.map f).Normal := Subgroup.Normal.map inferInstance f hfs
   have hMidx : M.index ∣ p := (Subgroup.relIndex_dvd_index_of_normal (H := N) (K := H)).trans hidx
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (M.map f) with hbot | htop
   ·
@@ -212,10 +217,10 @@ theorem piCore_eq_bot_or_commute {N : Subgroup G} [N.Normal] (hN : ¬ p ∣ Nat.
   · exact Or.inl hP
   right
   set P : Subgroup G := CFSG.piCore {q : Nat.Primes | q.val = p} G with hPdef
-  haveI : P.Normal := inferInstance
+  have : P.Normal := inferInstance
   have hset : {q : Nat.Primes | q.val = p} = {(⟨p, hp.out⟩ : Nat.Primes)} := by
     ext q
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq]
     exact ⟨fun h => Subtype.ext h, fun h => by rw [h]⟩
   have hPπ : IsPiSubgroup {(⟨p, hp.out⟩ : Nat.Primes)} P := by
     rw [← hset]
@@ -328,6 +333,7 @@ theorem mem_normalizer_of_pow_eq_one {M : Type*} [Group M] {x : M} {Tt : Subgrou
   rwa [h3] at h2
 
 open Polynomial in
+omit [Finite F] in
 theorem sub_one_pow_eq_zero {M : Type*} [Ring M] [Algebra F M] {x : M} (hxp : x ^ p = 1) :
     (x - 1) ^ p = 0 := by
   have h1 : ((X - 1 : F[X])) ^ p = X ^ p - 1 := by
@@ -357,7 +363,7 @@ theorem scalar_of_normalized_unipotent (hp5 : 5 ≤ p) (x : (Module.End F (Fin 2
     exact mem_normalizer_of_pow_eq_one hp.out.pos hxp hnorm
   set G : Subgroup (Module.End F (Fin 2 → F))ˣ := Subgroup.zpowers x ⊔ Tt with hG
   set NG : Subgroup ↥G := Tt.subgroupOf G with hNG
-  haveI : NG.Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hle
+  have : NG.Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hle
   have hxG : x ∈ G := Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
   have hTG : Tt ≤ G := le_sup_right
   have hidx : NG.index ∣ p := by

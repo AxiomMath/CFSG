@@ -49,9 +49,9 @@ theorem exists_tau (hV : 2 ∣ H.V.index) :
       ∃ τ ∈ (T : Subgroup G), τ ∈ normalizer (H.V : Set G) ∧ τ ∉ H.V := by
     by_contra hcon
     push Not at hcon
-    exact hne (eq_of_inf_normalizer_le T.isPGroup' hVT hcon)
+    exact hne (eq_of_inf_normalizer_le T.isPGroup hVT hcon)
   have hex : ∃ j : ℕ, τ₀ ^ (2 ^ j) ∈ H.V := by
-    obtain ⟨a, ha⟩ := IsPGroup.iff_orderOf.1 T.isPGroup' ⟨τ₀, hτ₀T⟩
+    obtain ⟨a, ha⟩ := IsPGroup.iff_orderOf.1 T.isPGroup ⟨τ₀, hτ₀T⟩
     refine ⟨a, ?_⟩
     have : τ₀ ^ (2 ^ a) = 1 := by
       have h1 : orderOf τ₀ = 2 ^ a :=
@@ -151,7 +151,7 @@ theorem exists_stage_one (hV : 2 ∣ H.V.index) : Stage H H.V H.E := by
   have henot : ¬ IsConj H.z e := by
     intro hconj
     set P : Subgroup G := centralizer ({e} : Set G) ⊓ (T : Subgroup G) with hP
-    have hPp : IsPGroup 2 P := T.isPGroup'.to_inf_right
+    have hPp : IsPGroup 2 P := T.isPGroup.to_inf_right
     have hVP : H.V ≤ P := fun v hv => ⟨mem_centralizer_singleton_iff.2
       (H.V_comm hv (H.E_le_V heE)), hVT hv⟩
     have hτP : τ ∈ P := ⟨mem_centralizer_singleton_iff.2 (by
@@ -177,7 +177,7 @@ theorem exists_stage_one (hV : 2 ∣ H.V.index) : Stage H H.V H.E := by
       calc τ * H.z = τ * H.z * τ⁻¹ * τ := by group
         _ = H.z * τ := by rw [hw])⟩
     set P : Subgroup G := H.B ⊓ (T : Subgroup G) with hP
-    have hPp : IsPGroup 2 P := T.isPGroup'.to_inf_right
+    have hPp : IsPGroup 2 P := T.isPGroup.to_inf_right
     have hVP : H.V ≤ P := le_inf H.V_le_B hVT
     exact hτV (H.le_V_of_pgroup_B hPp inf_le_left hVP ⟨hτB, hτT⟩)
   have hwconj : IsConj H.z (τ * H.z * τ⁻¹) := isConj_iff.2 ⟨τ, rfl⟩

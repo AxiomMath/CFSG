@@ -34,10 +34,10 @@ theorem s3_S_inf_cent (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L))
   exact s3_inj_on_S s hS hZ hxS (Subgroup.one_mem s.fr.S)
     (actsAs_of_mem_centralizer L hxC) (actsAs_one L)
 
-theorem s3_R_eq_SQ (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L))) :
+theorem s3_R_eq_SQ (hS : HRSetting G L) (_hZ : Odd (Nat.card ↥(center ↥L))) :
     ∀ r ∈ s.R, ∃ x ∈ s.fr.S, ∃ q ∈ s.T ⊓ centralizer (L : Set G), r = x * q := by
   intro r hr
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   have hT : s.T ≤ normalizer (L : Set G) := s3_T_le_N s hS
   have hrT : r ∈ s.T := s.R_le_T hr
   have hjR : jOn L hT ⟨r, hrT⟩ ∈ jSub L s.R :=
@@ -54,13 +54,13 @@ theorem s3_R_eq_SQ (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L))) :
   have hqC : x⁻¹ * r ∈ centralizer (L : Set G) := (actsAs_one_iff L).mp hqActs
   exact ⟨x, hxS, x⁻¹ * r, Subgroup.mem_inf.mpr ⟨hqT, hqC⟩, by group⟩
 
-theorem s3_cen_T_le_R (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
+theorem s3_cen_T_le_R (hS : HRSetting G L) (_hZ : Odd (Nat.card ↥(center ↥L)))
     (hOut : (innerAut (L ⧸ center L)).index = 2) : cen s.T ≤ s.R := by
   by_cases hRT : s.R = s.T
   · rw [hRT]
     exact inf_le_left
   · intro c hc
-    haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+    have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
     obtain ⟨hcT, hccent⟩ := Subgroup.mem_inf.mp hc
     have hT : s.T ≤ normalizer (L : Set G) := s3_T_le_N s hS
     let jc : MulAut (L ⧸ center L) := jOn L hT ⟨c, hcT⟩

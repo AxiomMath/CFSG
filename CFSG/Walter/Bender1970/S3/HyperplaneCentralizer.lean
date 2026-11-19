@@ -110,7 +110,7 @@ theorem bender1970_3_4 (T : Sylow 2 G) (hT : IsMulCommutative (T : Subgroup G)) 
     (htD : ⁅Subgroup.zpowers t, D⁆ ≠ ⊥) :
     ∃ R ≤ (T : Subgroup G), rank R = rank (T : Subgroup G) - 1 ∧
       ⁅Subgroup.zpowers t, D ⊓ Subgroup.centralizer (R : Set G)⁆ ≠ ⊥ :=
-  exists_rank_eq_commutator_ne_bot T.isPGroup'
+  exists_rank_eq_commutator_ne_bot T.isPGroup
     (fun x hx y hy => congrArg Subtype.val (hT.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)) htT ht hTD hDodd htD
 
 end CFSG.Walter

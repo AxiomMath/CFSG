@@ -106,7 +106,7 @@ theorem z4j_card_tG_elem16 {F : Subgroup G} (hFab : ∀ a ∈ F, ∀ b ∈ F, a 
       _ ≤ 4 := hbound
   · have hempty : {u : G | u ∈ F ∧ ∃ g : G, u = g * t * g⁻¹} = ∅ := by
       ext u
-      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
       exact fun h => hne ⟨u, h.1, h.2⟩
     rw [hempty]
     simp

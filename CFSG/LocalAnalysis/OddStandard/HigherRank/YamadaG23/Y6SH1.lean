@@ -47,7 +47,7 @@ private theorem y6_inf_zpowers_t_eq_bot (s : Setting3 G L) (h31 : s.Fact31) {V :
 theorem y6_card_NLA {s : Setting3 G L} {e : Setting3.Ext s} (hH : F33Hyp s e) :
     Nat.card ↥(normIn L s.fr.A) = 576 := by
   obtain ⟨hn, hfrob⟩ := hH.hLF.fact18.1.2.1
-  haveI := hn
+  have := hn
   have hq : Nat.card (↥(normIn L s.fr.A) ⧸
       (zL L ⊔ s.fr.A).subgroupOf (normIn L s.fr.A)) = 18 := hfrob.1
   have hZ : zL L ⊔ s.fr.A = s.fr.A := by rw [f3_zL_eq_bot hH, bot_sup_eq]

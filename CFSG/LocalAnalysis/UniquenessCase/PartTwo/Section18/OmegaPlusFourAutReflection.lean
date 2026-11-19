@@ -26,17 +26,20 @@ open scoped Matrix MatrixGroups
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Field K] [Finite K] [CharP K 2] in
 theorem o4p_toMat_injective : Function.Injective (OmegaModel.toMat (K := K)) := by
   intro x y h
   have := congrArg (OmegaModel.ofMat) h
   simpa only [OmegaModel.ofMat_toMat] using this
 
+omit [Finite K] in
 theorem o4p_quadPlus_eq_det (v : Fin 2 ⊕ Fin 2 → K) :
     StatedQuadPlus 2 K v = (OmegaModel.toMat v).det := by
-  simp only [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, OmegaModel.toMat,
+  simp only [StatedQuadPlus, OmegaModel.toMat,
     Fin.sum_univ_two, Matrix.det_fin_two_of]
   rw [sub_eq_add_neg, CharTwo.neg_eq]
 
+omit [Finite K] in
 theorem polQ_eq_polar_det (v w : Fin 2 ⊕ Fin 2 → K) :
     polQ v w = QuadraticMap.polar (determinantForm K) (OmegaModel.toMat v)
       (OmegaModel.toMat w) := by
@@ -90,27 +93,32 @@ theorem exists_toMat_reflection_eq_adj {r : MulAut (StdMod (Fin 2 ⊕ Fin 2) K)}
     rw [hr', OmegaModel.toMat_add, OmegaModel.toMat_smul, polQ_eq_polar_det]
     exact refl_det_eq _ _ (by rw [← o4p_quadPlus_eq_det, hQe'])
 
+omit [Finite K] [CharP K 2] in
 theorem adjugate_eq_inv_of_det_eq_one' {S : Matrix (Fin 2) (Fin 2) K} (hS : S.det = 1) :
     S.adjugate = S⁻¹ := by
   have h1 : S * S.adjugate = 1 := by
     rw [Matrix.mul_adjugate, hS, one_smul]
   exact (Matrix.inv_eq_right_inv h1).symm
 
+omit [Finite K] [CharP K 2] in
 theorem adjugate_coe_sl2 (x : Matrix.SpecialLinearGroup (Fin 2) K) :
     ((x : Matrix (Fin 2) (Fin 2) K).adjugate) =
       ((x⁻¹ : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) := by
-  simpa only [Matrix.SpecialLinearGroup.coe_inv] using adjugate_eq_inv_of_det_eq_one' x.2
+  simp only [Matrix.SpecialLinearGroup.coe_inv]
 
+omit [Finite K] [CharP K 2] in
 theorem adjugate_coe_sl2_inv (x : Matrix.SpecialLinearGroup (Fin 2) K) :
     (((x⁻¹ : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K).adjugate) =
       ((x : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) := by
   rw [adjugate_coe_sl2, inv_inv]
 
+omit [Finite K] [CharP K 2] in
 theorem o4p_coe_inv_sl2 (x : Matrix.SpecialLinearGroup (Fin 2) K) :
     ((x⁻¹ : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) =
       ((x : Matrix (Fin 2) (Fin 2) K))⁻¹ := by
   rw [Matrix.SpecialLinearGroup.coe_inv, adjugate_eq_inv_of_det_eq_one' x.2]
 
+omit [Finite K] [CharP K 2] in
 theorem coe_mul_inv_sl2 (S x : Matrix.SpecialLinearGroup (Fin 2) K) :
     ((S * x * S⁻¹ : Matrix.SpecialLinearGroup (Fin 2) K) :
         Matrix (Fin 2) (Fin 2) K) =
@@ -118,6 +126,7 @@ theorem coe_mul_inv_sl2 (S x : Matrix.SpecialLinearGroup (Fin 2) K) :
         (S : Matrix (Fin 2) (Fin 2) K)⁻¹ := by
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, o4p_coe_inv_sl2]
 
+omit [Finite K] [CharP K 2] in
 theorem coe_inv_mul_sl2 (S x : Matrix.SpecialLinearGroup (Fin 2) K) :
     ((S⁻¹ * x * S : Matrix.SpecialLinearGroup (Fin 2) K) :
         Matrix (Fin 2) (Fin 2) K) =
@@ -125,6 +134,7 @@ theorem coe_inv_mul_sl2 (S x : Matrix.SpecialLinearGroup (Fin 2) K) :
         (S : Matrix (Fin 2) (Fin 2) K) := by
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, o4p_coe_inv_sl2]
 
+omit [Finite K] [CharP K 2] in
 theorem o4p_reflection_mul_self {r : MulAut (StdMod (Fin 2 ⊕ Fin 2) K)}
     {S : Matrix (Fin 2) (Fin 2) K} (hS : S.det = 1)
     (hR : ∀ v, OmegaModel.toMat (toAddMap r v) =
@@ -145,6 +155,7 @@ theorem o4p_reflection_mul_self {r : MulAut (StdMod (Fin 2 ⊕ Fin 2) K)}
       = (S * S⁻¹) * OmegaModel.toMat v * (S⁻¹ * S) := by noncomm_ring
     _ = OmegaModel.toMat v := by rw [hSS, hSiS]; simp
 
+omit [Finite K] in
 theorem om4_toMat_eq_omegaToMat (v : Fin 2 ⊕ Fin 2 → K) :
     CFSG.Quasithin.G11.P3Ortho.Om4.toMat K v = OmegaModel.toMat v := by
   ext i j
@@ -321,10 +332,12 @@ theorem toMat_semilinearAut_sigma_inv (h4 : 4 ≤ Nat.card K)
         noncomm_ring
     _ = (OmegaModel.toMat (toAddMap A⁻¹ v)).map σ := by rw [hg₁, hg₂]; simp
 
+omit [Finite K] [CharP K 2] in
 theorem o4p_coe_slFieldAut (σ : K ≃+* K) (x : Matrix.SpecialLinearGroup (Fin 2) K) :
     ((slFieldAut σ x : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) =
       (x : Matrix (Fin 2) (Fin 2) K).map σ := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem coe_conj_slFieldAut (p : Matrix.SpecialLinearGroup (Fin 2) K) (σ : K ≃+* K)
     (x : Matrix.SpecialLinearGroup (Fin 2) K) :
     (((MulAut.conj p * slFieldAut σ) x : Matrix.SpecialLinearGroup (Fin 2) K) :
@@ -334,6 +347,7 @@ theorem coe_conj_slFieldAut (p : Matrix.SpecialLinearGroup (Fin 2) K) (σ : K �
   rw [MulAut.mul_apply, MulAut.conj_apply, Matrix.SpecialLinearGroup.coe_mul,
     Matrix.SpecialLinearGroup.coe_mul, o4p_coe_inv_sl2, o4p_coe_slFieldAut]
 
+omit [Finite K] [CharP K 2] in
 theorem map_coe_inv_sl2 (σ : K ≃+* K) (x : Matrix.SpecialLinearGroup (Fin 2) K) :
     ((((x⁻¹ : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K)).map σ) =
       (((x : Matrix (Fin 2) (Fin 2) K)).map σ)⁻¹ := by
@@ -351,6 +365,7 @@ theorem map_coe_inv_sl2 (σ : K ≃+* K) (x : Matrix.SpecialLinearGroup (Fin 2) 
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.adjugate_fin_two, Matrix.map_apply]
 
+omit [Finite K] [CharP K 2] in
 theorem coe_inv_conj_slFieldAut (q : Matrix.SpecialLinearGroup (Fin 2) K) (σ : K ≃+* K)
     (a : Matrix.SpecialLinearGroup (Fin 2) K) :
     ((((MulAut.conj q * slFieldAut σ) a)⁻¹ :
@@ -424,6 +439,7 @@ theorem semilinearAut_conj_coords (h4 : 4 ≤ Nat.card K)
   exact toAddMap_injective (g := natAut (StatedOmega (StatedQuadPlus 2 K)) δ)
     (h := A * natAut (StatedOmega (StatedQuadPlus 2 K)) γ * A⁻¹) haction
 
+omit [Finite K] in
 theorem exists_sl2_trace_eq (t : K) :
     ∃ x : Matrix.SpecialLinearGroup (Fin 2) K, (x : Matrix (Fin 2) (Fin 2) K).trace = t := by
   refine ⟨⟨!![(0 : K), 1; 1, t], ?_⟩, ?_⟩
@@ -432,6 +448,7 @@ theorem exists_sl2_trace_eq (t : K) :
   · rw [Matrix.trace_fin_two]
     simp
 
+omit [Finite K] [CharP K 2] in
 theorem trace_conj_det_one {S : Matrix (Fin 2) (Fin 2) K} (hS : S.det = 1)
     (M : Matrix (Fin 2) (Fin 2) K) :
     (S * M * S⁻¹).trace = M.trace := by
@@ -440,6 +457,7 @@ theorem trace_conj_det_one {S : Matrix (Fin 2) (Fin 2) K} (hS : S.det = 1)
     _ = ((S⁻¹ * S) * M).trace := by rw [Matrix.mul_assoc]
     _ = M.trace := by rw [Matrix.nonsing_inv_mul S hSunit, Matrix.one_mul]
 
+omit [Finite K] [CharP K 2] in
 theorem trace_conj_inv_det_one {S : Matrix (Fin 2) (Fin 2) K} (hS : S.det = 1)
     (M : Matrix (Fin 2) (Fin 2) K) :
     (S⁻¹ * M * S).trace = M.trace := by
@@ -448,6 +466,7 @@ theorem trace_conj_inv_det_one {S : Matrix (Fin 2) (Fin 2) K} (hS : S.det = 1)
     _ = ((S * S⁻¹) * M).trace := by rw [Matrix.mul_assoc]
     _ = M.trace := by rw [Matrix.mul_nonsing_inv S hSunit, Matrix.one_mul]
 
+omit [Finite K] [CharP K 2] in
 theorem trace_coe_conj_slFieldAut (g : Matrix.SpecialLinearGroup (Fin 2) K) (σ : K ≃+* K)
     (x : Matrix.SpecialLinearGroup (Fin 2) K) :
     ((((MulAut.conj g * slFieldAut σ) x : Matrix.SpecialLinearGroup (Fin 2) K) :
@@ -523,6 +542,7 @@ theorem reflCoords_relation (h4 : 4 ≤ Nat.card K)
         simp [α, MulAut.congr_apply]]
     _ = reflCoords S₀ (α x) := by rw [hγ]
 
+omit [Finite K] [CharP K 2] in
 theorem mem_natNorm_of_conj {A : MulAut (StdMod (Fin 2 ⊕ Fin 2) K)}
     {θ : MulAut ↥(StatedOmega (StatedQuadPlus 2 K))}
     (h : ∀ γ : ↥(StatedOmega (StatedQuadPlus 2 K)),
@@ -544,6 +564,7 @@ theorem mem_natNorm_of_conj {A : MulAut (StdMod (Fin 2 ⊕ Fin 2) K)}
       simpa [mul_assoc] using congrArg (fun z => A⁻¹ * z * A) hEq
     exact ⟨θ.symm γ, this.symm⟩
 
+omit [Finite K] [CharP K 2] in
 theorem conj_slFieldAut_mul_inv_left (g S x : Matrix.SpecialLinearGroup (Fin 2) K)
     (σ : K ≃+* K) :
     (MulAut.conj (g * (slFieldAut σ S)⁻¹) * slFieldAut σ) (S * x * S⁻¹) =
@@ -552,6 +573,7 @@ theorem conj_slFieldAut_mul_inv_left (g S x : Matrix.SpecialLinearGroup (Fin 2) 
   group
   rw [MulAut.mul_apply, MulAut.conj_apply, _root_.zpow_neg_one]
 
+omit [Finite K] [CharP K 2] in
 theorem conj_slFieldAut_mul_right (g S x : Matrix.SpecialLinearGroup (Fin 2) K)
     (σ : K ≃+* K) :
     (MulAut.conj (g * slFieldAut σ S) * slFieldAut σ) (S⁻¹ * x * S) =

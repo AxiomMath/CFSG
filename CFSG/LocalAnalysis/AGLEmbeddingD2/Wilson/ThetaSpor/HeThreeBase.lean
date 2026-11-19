@@ -25,7 +25,7 @@ open CFSG.Sporadic.HeldB CFSG.Certificates CFSG.Sporadic.Schreier CFSG.Monster.B
   CFSG.Sporadic.Schreier.PairNative CFSG.Sporadic.HeldB.Native
 open CFSG.AGLEmbeddingD2.Wilson.ThetaSpor
 
-@[expose] def heThrees : Set (Equiv.Perm (Fin 8330)) := {x | x ∈ heP ∧ orderOf x = 3}
+def heThrees : Set (Equiv.Perm (Fin 8330)) := {x | x ∈ heP ∧ orderOf x = 3}
 
 theorem heThrees_conj {x : Equiv.Perm (Fin 8330)} (hx : x ∈ heThrees)
     {h : Equiv.Perm (Fin 8330)} (hh : h ∈ heP) : h * x * h⁻¹ ∈ heThrees :=

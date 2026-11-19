@@ -99,8 +99,8 @@ theorem ggNbrLSideNoPSL3_twF4
           (CFSG.HardMathSupport.Dickson.SuzukiReeB.fixSubgroup_conj y)).trans eSU))
   have hCq : CFSG.IsQuasisimple ↥(fixSubgroup φ) :=
     CFSG.IsQuasisimple.of_mulEquiv E hq
-  haveI : Finite ↥(ReeTag.F4.reeGamma K' a) := Subtype.finite
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenTwF4H a K)) :=
+  have : Finite ↥(ReeTag.F4.reeGamma K' a) := Subtype.finite
+  have : Finite (LargeEvenCenterQuot (LargeEvenTwF4H a K)) :=
     Finite.of_injective eR eR.injective
   have hJC : J = fixSubgroup φ :=
     CFSG.HardMathSupport.Solomon.Coordinator.component_eq_of_normal_quasisimple hJ le_rfl

@@ -44,7 +44,7 @@ private theorem bg_solvable_of_fixXiY {X H : Subgroup G} [Finite G] {p : ℕ} [F
     Group.IsSolvable ↥H := by
   classical
   let actN := actHom hHN ((pCoreOf 2 X).subgroupOf X) (N_map_conj X)
-  haveI : Finite (MulAut (↥X ⧸ (pCoreOf 2 X).subgroupOf X)) :=
+  have : Finite (MulAut (↥X ⧸ (pCoreOf 2 X).subgroupOf X)) :=
     Finite.of_injective (fun f : MulAut (↥X ⧸ (pCoreOf 2 X).subgroupOf X) =>
       (f : (↥X ⧸ (pCoreOf 2 X).subgroupOf X) → (↥X ⧸ (pCoreOf 2 X).subgroupOf X)))
       (fun f g h => MulEquiv.ext (fun x => congrFun h x))
@@ -57,8 +57,8 @@ private theorem bg_solvable_of_fixXiY {X H : Subgroup G} [Finite G] {p : ℕ} [F
     apply Subtype.ext
     rw [SubgroupClass.coe_pow, ← hs]
     exact bg_actN_pow_eq_one hHN hS s (hall s)
-  haveI : Group.IsNilpotent ↥actN.range := IsPGroup.isNilpotent hRP
-  haveI : Group.IsSolvable ↥actN.range := inferInstance
+  have : Group.IsNilpotent ↥actN.range := IsPGroup.isNilpotent hRP
+  have : Group.IsSolvable ↥actN.range := inferInstance
   have hKer : Group.IsSolvable ↥actN.ker := by
     have hK'H : actN.ker.map H.subtype ≤ H := Subgroup.map_subtype_le _
     have hcomm : ⁅actN.ker.map H.subtype, X⁆ ≤ pCoreOf 2 X := by
@@ -82,7 +82,7 @@ private theorem bg_solvable_of_fixXiY {X H : Subgroup G} [Finite G] {p : ℕ} [F
       rw [commutatorElement_def]
       exact h3
     have hK' : Group.IsSolvable ↥(actN.ker.map H.subtype) := hK5 _ hK'H hcomm
-    haveI := hK'
+    have := hK'
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.equivMapOfInjective actN.ker H.subtype H.subtype_injective).toMonoidHom)
       (Subgroup.equivMapOfInjective actN.ker H.subtype H.subtype_injective).injective
@@ -121,7 +121,7 @@ private theorem bg_index_Yof {X : Subgroup G} {p : ℕ} [Fact p.Prime] {E : Type
   have hsurj : Function.Surjective ψ := fun e => by
     obtain ⟨x, hx⟩ := hq_surj (Multiplicative.toAdd e)
     exact ⟨x, by show Multiplicative.ofAdd (q x) = e; rw [hx]; rfl⟩
-  haveI : Module.Finite (ZMod p) E := (Module.finite_iff_finite (R := ZMod p)).mpr inferInstance
+  have : Module.Finite (ZMod p) E := (Module.finite_iff_finite (R := ZMod p)).mpr inferInstance
   rw [← hker, Subgroup.index_ker, ψ.range_eq_top_of_surjective hsurj, Subgroup.card_top]
   show Nat.card E = p ^ 2
   rw [Module.natCard_eq_pow_finrank (K := ZMod p) (V := E), Nat.card_zmod, hE]
@@ -129,7 +129,7 @@ private theorem bg_index_Yof {X : Subgroup G} {p : ℕ} [Fact p.Prime] {E : Type
 theorem not_solvable_range_K {G : Type} [Group G] [Finite G] {T X K U V X₁ W₀ W₁ : Subgroup G}
     {v : G}
     (h : CFSG.Quasithin.H13.L827X.LBDefs.XiHyp T X K U V X₁ W₀ W₁ v) {p : ℕ} [Fact p.Prime]
-    (hp2 : p ≠ 2)
+    (_hp2 : p ≠ 2)
     {E : Type} [AddCommGroup E] [Module (ZMod p) E] [Finite E]
     (hE : Module.finrank (ZMod p) E = 2)
     (q : X → E) (hq_add : ∀ x y : X, q (x * y) = q x + q y) (hq_surj : Function.Surjective q)
@@ -198,8 +198,8 @@ theorem not_solvable_range_K {G : Type} [Group G] [Finite G] {T X K U V X₁ W�
     rw [MonoidHom.ker_rangeRestrict, Subgroup.range_subtype]
   have hKsolv : Group.IsSolvable ↥K :=
     Group.isSolvable_of_ker_le_range φ.ker.subtype φ.rangeRestrict hmap
-  haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKperf
-  haveI : Nontrivial ↥K := (Subgroup.nontrivial_iff_ne_bot K).mpr hKne
+  have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKperf
+  have : Nontrivial ↥K := (Subgroup.nontrivial_iff_ne_bot K).mpr hKne
   exact Group.IsPerfect.not_isSolvable ↥K hKsolv
 
 private noncomputable def bgDualHom (p : ℕ) {E : Type} [AddCommGroup E] [Module (ZMod p) E] :
@@ -249,7 +249,7 @@ private def bgEval (p : ℕ) {E : Type} [AddCommGroup E] [Module (ZMod p) E] (y 
 private theorem bg_finrank_ker_eval {p : ℕ} [Fact p.Prime] {E : Type} [AddCommGroup E]
     [Module (ZMod p) E] [Finite E] (hE : Module.finrank (ZMod p) E = 2) {y : E} (hy : y ≠ 0) :
     Module.finrank (ZMod p) (LinearMap.ker (bgEval p y)) = 1 := by
-  haveI : Module.Finite (ZMod p) E := (Module.finite_iff_finite (R := ZMod p)).mpr inferInstance
+  have : Module.Finite (ZMod p) E := (Module.finite_iff_finite (R := ZMod p)).mpr inferInstance
   have hdual : Module.finrank (ZMod p) (Module.Dual (ZMod p) E) = 2 := by
     rw [Subspace.dual_finrank_eq, hE]
   obtain ⟨f0, hf0⟩ : ∃ f0 : Module.Dual (ZMod p) E, f0 y ≠ 0 := by
@@ -279,8 +279,8 @@ theorem dual_orbit_facts {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
       3 * Set.ncard ({g | ∃ γ : Γ, CFSG.Quasithin.H13.L827X.LBCoreB.dualAct (σ γ) f = g} ∩
         {g | g y = 0}) ≤
         Set.ncard {g | ∃ γ : Γ, CFSG.Quasithin.H13.L827X.LBCoreB.dualAct (σ γ) f = g}) := by
-  haveI : Module.Finite (ZMod p) E := (Module.finite_iff_finite (R := ZMod p)).mpr inferInstance
-  haveI : Finite (Module.Dual (ZMod p) E) := Module.finite_of_finite (ZMod p)
+  have : Module.Finite (ZMod p) E := (Module.finite_iff_finite (R := ZMod p)).mpr inferInstance
+  have : Finite (Module.Dual (ZMod p) E) := Module.finite_of_finite (ZMod p)
   have hDinj : Function.Injective (bgDualHom p (E := E)) := bgDualHom_injective p
   let e := Subgroup.equivMapOfInjective σ.range (bgDualHom p (E := E)) hDinj
   have hPerf : Group.IsPerfect ↥(σ.range.map (bgDualHom p (E := E))) :=

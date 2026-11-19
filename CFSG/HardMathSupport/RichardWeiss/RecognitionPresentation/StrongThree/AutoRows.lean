@@ -27,7 +27,7 @@ theorem exists_cyclic_sylow_two_of_card_eq {X : Type*} [Group X] [Finite X] {Γ 
       simp [Nat.Prime.factorization_self Nat.prime_two,
         Nat.factorization_eq_zero_of_not_dvd (by norm_num : ¬ 2 ∣ 9)]
     rw [this]; norm_num
-  refine ⟨(T₀ : Subgroup ↥Γ).map Γ.subtype, hTΓ, T₀.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(T₀ : Subgroup ↥Γ).map Γ.subtype, hTΓ, T₀.isPGroup.map _, ?_, ?_⟩
   · show ¬ 2 ∣ (((T₀ : Subgroup ↥Γ).map Γ.subtype).subgroupOf Γ).index
     rw [hsub]; exact T₀.not_dvd_index
   · have hc : Nat.card ↥((T₀ : Subgroup ↥Γ).map Γ.subtype) = 2 :=

@@ -193,7 +193,7 @@ theorem isCyclic_D2 : IsCyclic (D2 P D) := by
   classical
   by_contra hnc
   have hp := hc.prime
-  have hQp : IsPGroup p (D2 P D) := P.isPGroup'.to_le inf_le_left
+  have hQp : IsPGroup p (D2 P D) := P.isPGroup.to_le inf_le_left
   have h2 := two_le_pRank_of_not_isCyclic hp hc.odd hQp hnc
   obtain ⟨E, hE, hEe, hEc⟩ := pRank_attained p (D2 P D) (by omega)
   have hEZ : E ≤ (center D).map D.subtype := fun a ha => hc.mem_Z_of_mem_D2 (hE ha) (hEe.2 a ha)
@@ -242,7 +242,7 @@ theorem commute_of_mem_sup {y z : G} (hy : y ∈ (P : Subgroup G)) (hyp : y ^ p 
   have : Fact p.Prime := ⟨hprime⟩
   set H : Subgroup G := D2 P D ⊔ zpowers y with hH
   have hHP : H ≤ (P : Subgroup G) := sup_le inf_le_left (zpowers_le.mpr hy)
-  have hHp : IsPGroup p H := P.isPGroup'.to_le hHP
+  have hHp : IsPGroup p H := P.isPGroup.to_le hHP
   have hyH : y ∈ H := mem_sup_right (mem_zpowers y)
   by_cases hcyc : IsCyclic H
   · exact congrArg Subtype.val

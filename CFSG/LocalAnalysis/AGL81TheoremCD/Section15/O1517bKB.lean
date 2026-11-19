@@ -68,12 +68,12 @@ private lemma gammaCore_le_subgroupOf {L : Type} [Group L] [Finite L]
 private lemma inner_conj_data {L : Type} [Group L] (hLsimple : IsSimpleGroup L)
     (hLnonab : ∃ a b : L, a * b ≠ b * a) {X₀ : Subgroup (MulAut L)}
     (hInn : (MulAut.conj : L →* MulAut L).range ≤ X₀) :
-    ∃ (K : Subgroup ↥X₀) (eK : ↥K ≃* L),
+    ∃ (K : Subgroup ↥X₀) (_eK : ↥K ≃* L),
       K = (MulAut.conj : L →* MulAut L).range.subgroupOf X₀ ∧ K.Normal ∧
       IsSimpleGroup ↥K ∧ (∃ a b : ↥K, a * b ≠ b * a) ∧
       Subgroup.centralizer (K : Set ↥X₀) = ⊥ := by
   classical
-  letI : IsSimpleGroup L := hLsimple
+  let : IsSimpleGroup L := hLsimple
   let K : Subgroup ↥X₀ := (MulAut.conj : L →* MulAut L).range.subgroupOf X₀
   have hZL : Subgroup.center L = ⊥ := by
     rcases (inferInstance : (Subgroup.center L).Normal).eq_bot_or_eq_top with h | h
@@ -81,15 +81,15 @@ private lemma inner_conj_data {L : Type} [Group L] (hLsimple : IsSimpleGroup L)
     · exfalso
       obtain ⟨a, b, hab⟩ := hLnonab
       exact hab ((isMulCommutative_iff.mp (Subgroup.center_eq_top_iff.mp h)) a b)
-  let eK : ↥K ≃* L :=
+  let _eK : ↥K ≃* L :=
     (Subgroup.subgroupOfEquivOfLe hInn).trans
       (MonoidHom.ofInjective
         (CFSG.LocalAnalysis.RankThreeTheoremC.RankOneCent.conj_injective_of_center hZL)).symm
-  have hKsimple : IsSimpleGroup ↥K := eK.isSimpleGroup
+  have hKsimple : IsSimpleGroup ↥K := _eK.isSimpleGroup
   have hKnonab : ∃ a b : ↥K, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hLnonab
-    refine ⟨eK.symm a, eK.symm b, fun h => hab ?_⟩
-    have := congrArg eK h
+    refine ⟨_eK.symm a, _eK.symm b, fun h => hab ?_⟩
+    have := congrArg _eK h
     simpa using this
   have hKnormal : K.Normal :=
     CFSG.LocalAnalysis.RankThreeTheoremC.RankOneCent.conj_range_normal.subgroupOf X₀
@@ -109,7 +109,7 @@ private lemma inner_conj_data {L : Type} [Group L] (hLsimple : IsSimpleGroup L)
       exact congrArg Subtype.val hcomm
     rw [hCrange] at hx'
     exact Subgroup.mem_bot.mp hx'
-  exact ⟨K, eK, (show K = (MulAut.conj : L →* MulAut L).range.subgroupOf X₀ from rfl),
+  exact ⟨K, _eK, (show K = (MulAut.conj : L →* MulAut L).range.subgroupOf X₀ from rfl),
     hKnormal, hKsimple, hKnonab, hKc⟩
 
 private lemma gls3_conclusion_of_aut (h : Gls3StronglyThreeEmbeddedPlus)
@@ -130,7 +130,7 @@ private lemma gls3_conclusion_of_aut (h : Gls3StronglyThreeEmbeddedPlus)
       Nonempty (↥K ≃* L) ∧
       Gls3ConclusionPlus ↥X₀ K (P : Subgroup ↥X₀) := by
   classical
-  haveI : Finite (MulAut L) :=
+  have : Finite (MulAut L) :=
     Finite.of_injective (fun f : MulAut L => (f : L → L)) fun _ _ h => MulEquiv.ext (congrFun h)
   obtain ⟨K, eK, hKdef, hKnormal, hKsimple, hKnonab, hKc⟩ :=
     inner_conj_data hLsimple hLnonab hInn
@@ -164,7 +164,7 @@ private lemma gls3_conclusion_of_aut (h : Gls3StronglyThreeEmbeddedPlus)
 private lemma card_dvd_gamma_mul_index {X : Type} [Group X] [Finite X]
     {K Y : Subgroup X} (hK : K.Normal) {Γ : Subgroup X} (hΓ : Γ = Y ⊓ K) :
     Nat.card Y ∣ Nat.card Γ * K.index := by
-  letI : K.Normal := hK
+  let : K.Normal := hK
   have hΓleY : Γ ≤ Y := hΓ.le.trans inf_le_left
   have hcard : Nat.card Y = Γ.relIndex Y * Nat.card Γ := by
     have h := Subgroup.relIndex_mul_card Γ Y
@@ -194,7 +194,7 @@ private lemma not_five_dvd_card_gamma_of_partition {X : Type} [Group X] [Finite 
         A.image (φ k : Equiv.Perm (Fin 6)) = Aᶜ) :
     ¬ 5 ∣ Nat.card Γ := by
   intro h5
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨g, hgord⟩ := exists_prime_orderOf_dvd_card' (G := Γ) 5 h5
   let k : ↥K := Subgroup.inclusion hΓK g
   have hkord : orderOf k = 5 := by
@@ -227,7 +227,7 @@ private lemma not_five_dvd_card_gamma_of_partition {X : Type} [Group X] [Finite 
 private lemma row_A1_false {X : Type} [Group X] {K P : Subgroup X} {q : PrimePower}
     (hPcard : Nat.card P = 9) (hq3 : q.p = 3) (hv : (LieTypeIndex.A 1 q).Valid)
     (hQcard : Nat.card (P ⊓ K : Subgroup X) = q.card) : False := by
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hPcard]; norm_num)
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hPcard]; norm_num)
   have hle : q.card ≤ 9 := by
     rw [← hQcard, ← hPcard]
     exact Subgroup.card_le_of_le inf_le_left
@@ -236,15 +236,15 @@ private lemma row_A1_false {X : Type} [Group X] {K P : Subgroup X} {q : PrimePow
 
 private lemma row_twistedA_false {X : Type} [Group X] {K P : Subgroup X}
     (hPea : IsElemAbelian 3 P)
-    (hQnab : ¬ (∀ a ∈ P ⊓ K, ∀ b ∈ P ⊓ K, a * b = b * a)) : False :=
-  hQnab fun a ha b hb =>
+    (hQnab : ¬ (∀ _a ∈ P ⊓ K, ∀ _b ∈ P ⊓ K, _a * _b = _b * _a)) : False :=
+  hQnab fun _a ha _b hb =>
     hPea.comm ((inf_le_left : P ⊓ K ≤ P) ha) ((inf_le_left : P ⊓ K ≤ P) hb)
 
 private lemma row_reeG2_false {X : Type} [Group X] {K P E : Subgroup X} {m : ℕ}
     (hPcard : Nat.card P = 9) (hEQ : E ≤ P ⊓ K)
     (hEcard : Nat.card E = 3 ^ (2 * m + 1))
     (hv : (LieTypeIndex.reeG2 m).Valid) : False := by
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hPcard]; norm_num)
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hPcard]; norm_num)
   have hm := one_le_of_valid_reeG2 hv
   have hcardle : Nat.card E ≤ Nat.card P :=
     Subgroup.card_le_of_le (hEQ.trans inf_le_left)
@@ -321,7 +321,7 @@ private lemma row_M11_gamma_primes {X : Type} [Group X] [Finite X] {K P : Subgro
     rw [eq_bot_iff]
     intro x hx
     have hxQ : x ∈ Subgroup.centralizer ((P ⊓ K : Subgroup X) : Set X) := by
-      letI : IsMulCommutative (P ⊓ K : Subgroup X) := hQea.1
+      let : IsMulCommutative (P ⊓ K : Subgroup X) := hQea.1
       exact (Subgroup.le_centralizer (H := (P ⊓ K : Subgroup X))) hx.1
     have : x ∈ S ⊓ Subgroup.centralizer ((P ⊓ K : Subgroup X) : Set X) := ⟨hx.2, hxQ⟩
     rwa [hC] at this
@@ -426,7 +426,7 @@ theorem kFactE9AutTwoThree_of_gls3
     KFactE9AutTwoThree := by
   classical
   intro L _ _ hLsimple hLnonab X₀ P₀ Y₀ hInn hcat hSyl hE hPcard hYX hNorm hnotY r hr hrdvd
-  haveI : Finite (MulAut L) :=
+  have : Finite (MulAut L) :=
     Finite.of_injective (fun f : MulAut L => (f : L → L)) fun _ _ h => MulEquiv.ext (congrFun h)
   obtain ⟨K, P, hKdef, hPdef, hPcard9, hPea, hKnormal, ⟨eK⟩, hconc⟩ :=
     gls3_conclusion_of_aut h hLsimple hLnonab hInn hcat hSyl hE hPcard hNorm hnotY

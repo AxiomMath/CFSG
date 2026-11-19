@@ -16,7 +16,7 @@ theorem inf_centralizer_sup_eq_of_isPGroup {p : ℕ} (hp : p.Prime) {L P : Subgr
     (hP : IsPGroup p P) (hPL : P ≤ centModSubgroup p L) :
     (L ⊓ Subgroup.centralizer (P : Set G)) ⊔ GLAPPrimeCoreOf p L = L := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := GLAPPrimeCoreOf p L with hO
   apply le_antisymm (sup_le inf_le_left (Subgroup.map_subtype_le _))
   intro l hl
@@ -31,7 +31,7 @@ theorem inf_centralizer_sup_eq_of_isPGroup {p : ℕ} (hp : p.Prime) {L P : Subgr
       group
     rw [h3]
     exact O.mul_mem h1 h2
-  letI act : MulAction P O :=
+  let act : MulAction P O :=
     { smul := fun g o => ⟨l⁻¹ * ((g : G) * (l * (o : G)) * (g : G)⁻¹), hmem g g.2 o o.2⟩
       one_smul := fun o => Subtype.ext (show l⁻¹ * (((1 : P) : G) * (l * (o : G)) *
           ((1 : P) : G)⁻¹) = (o : G) by simp)
@@ -113,13 +113,14 @@ theorem glaPLayer_le_of_isSubnormal {p : ℕ} (hp : p.Prime) {Y X : Subgroup G}
 private theorem pgc_eq_bot_of_commutator_eq_self {p : ℕ} (hp : p.Prime)
     {Q : Type*} [Group Q] [Finite Q] (hQ : IsPGroup p Q) (H : Subgroup Q)
     (hH : ⁅H, H⁆ = H) : H = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsNilpotent Q := hQ.isNilpotent
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsNilpotent Q := hQ.isNilpotent
   by_contra hne
   have h := Group.IsSolvable.commutator_lt_of_ne_bot hne
   rw [hH] at h
   exact lt_irrefl _ h
 
+omit [Finite G] in
 private theorem pgc_isPGroup_quotient_sup {p : ℕ} {X P : Subgroup G}
     [(X.subgroupOf (X ⊔ P)).Normal] (hP : IsPGroup p P)
     (hPX : P ≤ Subgroup.normalizer (X : Set G)) :
@@ -145,7 +146,7 @@ private theorem pgc_isPGroup_quotient_sup {p : ℕ} {X P : Subgroup G}
 private theorem pgc_le_of_glaPComponent_sup {p : ℕ} (hp : p.Prime) {X P K : Subgroup G}
     (hP : IsPGroup p P) (hPX : P ≤ Subgroup.normalizer (X : Set G))
     (hK : GLAPComponent p (X ⊔ P) K) : K ≤ X := by
-  haveI : (X.subgroupOf (X ⊔ P)).Normal :=
+  have : (X.subgroupOf (X ⊔ P)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).2
       (sup_le Subgroup.le_normalizer hPX)
   have hQ : IsPGroup p (↥(X ⊔ P) ⧸ X.subgroupOf (X ⊔ P)) := pgc_isPGroup_quotient_sup hP hPX
@@ -164,6 +165,7 @@ theorem glaPComponent_of_sup_isPGroup {p : ℕ} (hp : p.Prime) {X P K : Subgroup
     (hK : GLAPComponent p (X ⊔ P) K) : GLAPComponent p X K := by
   exact glaPComponent_of_le hp hK (pgc_le_of_glaPComponent_sup hp hP hPX hK) le_sup_left
 
+omit [Finite G] in
 private theorem pgc_conj_mem_centralizer {P : Subgroup G} {g c : G}
     (hg : g ∈ Subgroup.centralizer (P : Set G)) (hc : c ∈ Subgroup.centralizer (P : Set G)) :
     g * c * g⁻¹ ∈ Subgroup.centralizer (P : Set G) := by
@@ -183,6 +185,7 @@ private theorem pgc_conj_mem_centralizer {P : Subgroup G} {g c : G}
     _ = (g * c) * (g⁻¹ * s) := by rw [h1]
     _ = (g * c * g⁻¹) * s := by group
 
+omit [Finite G] in
 private theorem pgc_isSubnormal_inf_centralizer {P X : Subgroup G}
     (hPX : P ≤ Subgroup.normalizer (X : Set G)) :
     IsSubnormal (X ⊓ Subgroup.centralizer (P : Set G))

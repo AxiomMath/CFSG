@@ -16,6 +16,7 @@ open Matrix CFSG.Open CFSG.Quasithin
 
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private lemma s16g_conj_mulVec_eq (A b : Matrix.GeneralLinearGroup ι K) (x : ι → K) :
     (((A * b * A⁻¹ : Matrix.GeneralLinearGroup ι K) : Matrix ι ι K)) *ᵥ x =
       (A : Matrix ι ι K) *ᵥ ((b : Matrix ι ι K) *ᵥ
@@ -72,7 +73,6 @@ theorem s16g_fixNc_of_conj (Γ : Subgroup (Matrix.GeneralLinearGroup ι K)) {p :
       rw [← hAw, Matrix.mulVec_mulVec, ← Units.val_mul, inv_mul_cancel, Units.val_one,
         Matrix.one_mulVec]
     have hyval : ((y : ↥Γ) : Matrix.GeneralLinearGroup ι K) = A * b * A⁻¹ := by
-      change (y.val : Matrix.GeneralLinearGroup ι K) = A * b * A⁻¹
       rw [← hby]
       change (MulAut.conj A) b = A * b * A⁻¹
       rw [MulAut.conj_apply]
@@ -102,7 +102,7 @@ theorem s16g_fixNc_of_orthogonal [CharP K 2] (Q : QuadraticForm K (ι → K))
     (hc : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hcard : p ^ 3 ≤ Nat.card E) : FixNc Γ p := by
   have hpK : ¬ p ∣ Nat.card K := by
     intro hdvd
-    letI := Fintype.ofFinite K
+    let := Fintype.ofFinite K
     obtain ⟨n, _hn2, hcardK⟩ := FiniteField.card K 2
     rw [Nat.card_eq_fintype_card, hcardK] at hdvd
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp (hp.dvd_of_dvd_pow hdvd))

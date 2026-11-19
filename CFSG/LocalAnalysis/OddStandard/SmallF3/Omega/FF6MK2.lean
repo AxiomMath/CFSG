@@ -17,6 +17,7 @@ open Subgroup
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ff6m_piOrth_mul_t_eq_blockHom {t : OGroup Q} (htt : t * t = 1) :
     (piOrth Q * t : OGroup Q) =
       blockHom htt (piOrth (Q.restrict (fixSp t)), 1) := by
@@ -141,10 +142,10 @@ theorem ff6m_K2_cover (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V =
     rw [ff6m_piOrth_mul_t_eq_blockHom htt, ← map_mul]
     congr 1
     refine Prod.ext ?_ ?_
-    · simp only [Prod.mk_mul_mk, mul_one, one_mul]
+    · simp only [Prod.mk_mul_mk, mul_one]
       rw [show a' = piOrth (Q.restrict (fixSp t)) * r from rfl, ← mul_assoc,
         piOrth_mul_self, one_mul]
-    · simp only [Prod.mk_mul_mk, mul_one, one_mul]
+    · simp only [Prod.mk_mul_mk, mul_one]
   have hptw2 : (piOrth Q * t * wv) * (piOrth Q * t * wv) = 1 := by
     rw [hptw, ← map_mul, Prod.mk_mul_mk, hr2, mul_one]
     exact map_one (blockHom htt)

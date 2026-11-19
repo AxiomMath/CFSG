@@ -58,7 +58,7 @@ private theorem onanL_ncard_biUnion_diffs {Ω : Type*} [Finite Ω] (Γ : Ω → 
   have hdiff : ∀ q ∈ Γ u v, (Γ p q \ {p}).ncard = s := by
     intro q hq
     have hpq : p ≠ q := fun h => hp (h ▸ hq)
-    rw [Set.ncard_diff_singleton_of_mem (hmem p q hpq).1, hcard p q hpq]
+    rw [Set.ncard_sdiff_singleton_of_mem (hmem p q hpq).1, hcard p q hpq]
     omega
   have hcount : (⋃ q ∈ Γ u v, (Γ p q \ {p})).ncard =
       ∑ᶠ q ∈ Γ u v, (Γ p q \ {p}).ncard :=
@@ -80,7 +80,7 @@ theorem mul_add_one_le_natCard_of_lines {Ω : Type*} [Finite Ω] (Γ : Ω → Ω
     {u v w : Ω} (huv : u ≠ v) (hw : w ∉ Γ u v) :
     (s + 1) * s + 1 ≤ Nat.card Ω := by
   classical
-  haveI : Nonempty Ω := ⟨w⟩
+  have : Nonempty Ω := ⟨w⟩
   have hUcard := onanL_ncard_biUnion_diffs Γ hmem hsymm hline hcard huv hw
   have hsub : (⋃ q ∈ Γ u v, (Γ w q \ {w})) ⊆ ({w}ᶜ : Set Ω) := by
     rintro x hx
@@ -104,7 +104,7 @@ private def onanL_conjAt {X Ω : Type*} [Group X] [MulAction X Ω] (α : Ω) (A 
     group
   one_mem' := by
     intro g _
-    simpa using A.one_mem
+    simp
   inv_mem' := by
     intro x hx g hg
     have h := A.inv_mem (hx g hg)

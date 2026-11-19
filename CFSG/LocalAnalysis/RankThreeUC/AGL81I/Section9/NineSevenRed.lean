@@ -63,7 +63,7 @@ theorem le_normalizer_E (h : NineSevenRed p X E Y S) {L : Subgroup X}
 
 theorem mem_of_mem_centralizer (h : NineSevenRed p X E Y S) {z : X}
     (hz : z ∈ Subgroup.centralizer (E : Set X)) : z ∈ Y := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨e, heE, he1⟩ : ∃ e ∈ E, e ≠ 1 := by
     by_contra hcon
     push Not at hcon
@@ -112,7 +112,7 @@ theorem pow_mem_center_of_inner {L : Subgroup X} {e k : X} (hkL : k ∈ L) (hep 
 theorem mem_of_inner (hp : p.Prime) (hE : IsElemAbelian p E) {L : Subgroup X} {e k : X}
     (heE : e ∈ E) (he1 : e ≠ 1) (hγ : rankThreeGamma 1 p E ≤ Y) (hkL : k ∈ L)
     (hrel : ∀ y ∈ L, e * y * e⁻¹ = k * y * k⁻¹) : k ∈ Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hkC : k ∈ Subgroup.centralizer ({e} : Set X) := by
     rw [Subgroup.mem_centralizer_iff]
     intro y hy
@@ -128,7 +128,7 @@ theorem not_mem_center_of_inner (hp : p.Prime) (hE : IsElemAbelian p E) {L : Sub
     {e k : X} (heE : e ∈ E) (he1 : e ≠ 1) (hγ : rankThreeGamma 1 p E ≤ Y) (hkL : k ∈ L)
     (hrel : ∀ y ∈ L, e * y * e⁻¹ = k * y * k⁻¹) (hLY : ¬ L ≤ Y) :
     (⟨k, hkL⟩ : L) ∉ Subgroup.center ↥L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hkZ
   have hEL : L ≤ Subgroup.centralizer ({e} : Set X) := by
     intro y hy
@@ -156,7 +156,7 @@ theorem le_normalizer_of_moved (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup X}
     (hkZ : (⟨k, hkL⟩ : L) ∉ Subgroup.center ↥L)
     (hconj : ∀ s ∈ S, k * s * k⁻¹ * s⁻¹ ∈ S) :
     S ≤ Subgroup.normalizer (L : Set X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro s hs
   by_contra hsN
   let Ls : Subgroup X := L.map (MulAut.conj s).toMonoidHom
@@ -210,7 +210,7 @@ theorem exists_inner_or_dvd_center (h : NineSevenRed p X E Y S) {L L' : Subgroup
     (hEL : E ≤ Subgroup.normalizer (L : Set X)) (hEL' : E ≤ Subgroup.normalizer (L' : Set X)) :
     (∃ e ∈ E, e ≠ 1 ∧ ∃ k ∈ L, ∀ y ∈ L, e * y * e⁻¹ = k * y * k⁻¹) ∨
       p ∣ Nat.card (Subgroup.center ↥L) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hEp : IsPGroup p E := h.elem_E.isPGroup
   have hpL : p ∣ Nat.card L :=
     CFSG.LocalAnalysis.RankThreeTheoremC.thc_dvd_card h.prime h.core hL
@@ -302,7 +302,7 @@ theorem not_dvd_card_center_of_moved (h : NineSevenRed p X E Y S)
     {s : X} (hne : L ≠ L.map (MulAut.conj s).toMonoidHom) :
     ¬ p ∣ Nat.card (Subgroup.center ↥L) := by
   intro hdvd
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hK : CFSG.Open.IsKGroup X :=
     CFSG.AGLEmbedding.catalogSimpleSections_iff_isKGroup.mp h.catalog
   have h3L : 3 ≤ CFSG.Open.pRank p L := h5c X hK L hL p h.prime h5 hdvd
@@ -364,7 +364,7 @@ theorem le_normalizer_S (h : NineSevenRed p X E Y S) (h5c : KFactCenterRankFive)
     {L : Subgroup X} (hL : CFSG.IsComponent L) (hLY : ¬ L ≤ Y) :
     S ≤ Subgroup.normalizer (L : Set X) := by
   by_contra hSN
-  obtain ⟨s, hsS, hsN⟩ := SetLike.not_le_iff_exists.mp hSN
+  obtain ⟨s, hsS, hsN⟩ := IsConcreteLE.not_le_iff_exists.mp hSN
   let L' : Subgroup X := L.map (MulAut.conj s).toMonoidHom
   have hL' : CFSG.IsComponent L' := CFSG.LocalCores.isComponent_map_mulEquiv (MulAut.conj s) hL
   have hne : L ≠ L' := fun heq => hsN (Subgroup.mem_normalizer_iff_map_conj_eq.mpr heq.symm)
@@ -392,7 +392,7 @@ theorem le_normalizer_S (h : NineSevenRed p X E Y S) (h5c : KFactCenterRankFive)
 theorem pPrimeCore_subgroupOf_normalizer_eq_bot (h : NineSevenRed p X E Y S) {L : Subgroup X}
     (hL : CFSG.IsComponent L) :
     CFSG.pPrimeCore p ↥(L.subgroupOf (Subgroup.normalizer (L : Set X))) = ⊥ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let X' : Subgroup X := Subgroup.normalizer (L : Set X)
   have hLX' : L ≤ X' := Subgroup.le_normalizer
   have hcoreL : CFSG.pPrimeCore p ↥L = ⊥ := by

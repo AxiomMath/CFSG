@@ -158,7 +158,7 @@ theorem exists_sylow_ge_of_mem_WSet {W : Subgroup G} (hW : W ∈ WSet Ω) :
 
 theorem isPGroup_of_mem_WSet [Finite G] {W : Subgroup G} (hW : W ∈ WSet Ω) : IsPGroup 2 W := by
   obtain ⟨S, hS⟩ := exists_sylow_ge_of_mem_WSet hW
-  exact S.isPGroup'.to_le hS
+  exact S.isPGroup.to_le hS
 
 theorem inf_W_of_mem_D [Finite G] (hp : p ≠ 2) (hq : 5 ≤ p ^ f) (hΩ : HypOmegaMod p f Ω)
     {W : Subgroup G} (hW : W ∈ WSet Ω) {R K : Subgroup G} (hR : R ∈ DSet Ω W) (hK : K ∈ Ω)
@@ -183,7 +183,7 @@ theorem inf_W_of_mem_D [Finite G] (hp : p ≠ 2) (hq : 5 ≤ p ^ f) (hΩ : HypOm
     obtain ⟨S₀, hηS₀, -⟩ := hη
     exact (hηS₀.1 h611).1
   have hKS : K ⊓ (S' : Subgroup G) = R :=
-    hRK.eq_of_le (S'.isPGroup'.to_inf_right) inf_le_left hRle
+    hRK.eq_of_le (S'.isPGroup.to_inf_right) inf_le_left hRle
   have hKWR : K ⊓ W ≤ R := by
     rw [← hKS]
     exact inf_le_inf_left K hWS'

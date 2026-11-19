@@ -11,7 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type*} [Group G]
 
-theorem le_normalizer_commutator_sup {H E₁ X O V₀ : Subgroup G} (hXH : X ≤ H) (hOH : O ≤ H)
+theorem le_normalizer_commutator_sup {H E₁ X O V₀ : Subgroup G} (hXH : X ≤ H) (_hOH : O ≤ H)
     (hE₁ : H ≤ normalizer (E₁ : Set G)) (hVE : V₀ ≤ E₁)
     (hV₀ : ∀ h ∈ H, ∀ v ∈ V₀, h * v = v * h)
     (hK : H ≤ normalizer ((X ⊔ O : Subgroup G) : Set G))

@@ -10,7 +10,7 @@ open CFSG.Quasithin
 
 theorem pResidual_two_idem (G : Type) [Group G] [Finite G] (N : Subgroup ↥(pResidual 2 G))
     [N.Normal] (hN : IsPGroup 2 (↥(pResidual 2 G) ⧸ N)) : N = ⊤ := by
-  haveI : (pResidual 2 G).Normal := G6.pResidual_normal_aux 2
+  have : (pResidual 2 G).Normal := G6.pResidual_normal_aux 2
   obtain ⟨n, hn⟩ := hN.exists_card_eq
   have hK : ∀ x : G, ∃ k : ℕ, x ^ 2 ^ k ∈ (N.map (pResidual 2 G).subtype).normalCore := by
     intro x

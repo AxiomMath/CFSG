@@ -534,7 +534,7 @@ theorem sylow_setup {G : Type*} [Group G] [Finite G] {z : G} (hz : orderOf z = 2
   have hatns' : ∀ r ∈ R, r ≠ 1 → a * r * a⁻¹ ≠ r := fun r hr hr1 => hatns r (hRH hr) hr1
   obtain ⟨P, hP⟩ := hRp.exists_le_sylow
   have hPR : (P : Subgroup G) = R :=
-    (D.le_of_isPGroup hRC hcard P.isPGroup' hP).antisymm hP
+    (D.le_of_isPGroup hRC hcard P.isPGroup hP).antisymm hP
   refine ⟨P, by rw [hPR]; exact hR25, by rw [hPR]; exact hR5, ?_⟩
   intro s hs hs1
   rw [hPR] at hs

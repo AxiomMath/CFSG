@@ -21,7 +21,7 @@ theorem exists_pSub_card_eq_relIndex {P : Subgroup G} {p : ℕ} [hp : Fact p.Pri
     ∃ R : Subgroup G, R ≤ P ∧ IsPGroup p R ∧ Nat.card R = (pCoreOf 2 P).relIndex P := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q⟩ : Nonempty (Sylow p ↥P) := inferInstance
-  refine ⟨(Q : Subgroup ↥P).map P.subtype, map_subtype_le _, Q.isPGroup'.map _, ?_⟩
+  refine ⟨(Q : Subgroup ↥P).map P.subtype, map_subtype_le _, Q.isPGroup.map _, ?_⟩
   rw [Subgroup.card_map_of_injective P.subtype_injective, Q.card_eq_multiplicity, hidx]
   congr 1
   obtain ⟨a, ha⟩ := (LieType.BorelTits.pCoreOf_isPGroup 2 P).exists_card_eq

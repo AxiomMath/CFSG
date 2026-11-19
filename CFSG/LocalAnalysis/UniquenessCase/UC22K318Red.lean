@@ -54,9 +54,9 @@ theorem exists_criticalSection [Group.IsPerfect L] (X : Subgroup L) [X.Normal]
     intro x hx
     rw [SetLike.mem_coe, mem_bot] at hx
     rw [hx, one_mul, mul_one]
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let Q : Subgroup L := (CFSG.pCore q X).map X.subtype
-  haveI : Q.Normal := ConjAct.normal_of_characteristic_of_normal
+  have : Q.Normal := ConjAct.normal_of_characteristic_of_normal
   have hQp : IsPGroup q Q := (CFSG.pCore_isPGroup (p := q) (G := X)).map X.subtype
   have hQX : Q ≤ X := map_subtype_le _
   have hQnt : Nontrivial Q := by

@@ -45,12 +45,12 @@ theorem centralizer_le_of_conj {G : Type*} [Group G] {S0 Q : Subgroup G} {g : G}
 
 theorem center_eq_bot_of_simple_card {S X : Type*} [Group S] [Group X] [Finite X]
     [IsSimpleGroup X] (e : S ≃* X) (hX : ¬ (Nat.card X).Prime) : Subgroup.center S = ⊥ := by
-  haveI : IsSimpleGroup S := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup S := MulEquiv.isSimpleGroup e
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
   · exact h
   · exfalso
-    letI : CommGroup S := Group.commGroupOfCenterEqTop h
-    haveI : Finite S := Finite.of_equiv X e.symm.toEquiv
+    let : CommGroup S := Group.commGroupOfCenterEqTop h
+    have : Finite S := Finite.of_equiv X e.symm.toEquiv
     exact hX (by rw [← Nat.card_congr e.toEquiv]; exact IsSimpleGroup.prime_card)
 
 theorem isPGroup_map_of_equiv {G H : Type*} [Group G] [Group H] (θ : G ≃* H) {p : ℕ}

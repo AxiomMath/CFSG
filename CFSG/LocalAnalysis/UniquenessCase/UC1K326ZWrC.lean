@@ -86,6 +86,7 @@ theorem zwr_centralizer_abelian_of_not_mem_base (hn : 1 ≤ n) {y : ZWr n} (hy :
   exact MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center
     (RegularWreathProduct.rightHom.comp C.subtype) hker
 
+omit [Finite P] in
 theorem zwr_centralizer_of_mem_J (hn : 1 ≤ n) (e : P ≃* ZWr n) {a : P}
     (ha : a ∈ CFSG.elemThompson P 3) (ha2 : a ∉ Subgroup.upperCentralSeries P 2) :
     IsMulCommutative (Subgroup.centralizer ({a} : Set P)) ∧
@@ -114,7 +115,7 @@ theorem zwr_centralizer_of_mem_J (hn : 1 ≤ n) (e : P ≃* ZWr n) {a : P}
       exact base_comm hx (omegaBase_le_base ha')
   have hCcomm : IsMulCommutative (Subgroup.centralizer ({a} : Set P)) := by
     rw [hCeq]
-    haveI : IsMulCommutative (base n) := ⟨⟨fun x y => Subtype.ext (base_comm x.2 y.2)⟩⟩
+    have : IsMulCommutative (base n) := ⟨⟨fun x y => Subtype.ext (base_comm x.2 y.2)⟩⟩
     exact Subgroup.comap_injective_isMulCommutative (base n) e.injective
   have hCidx : (Subgroup.centralizer ({a} : Set P)).index = 3 := by
     rw [hCeq, Subgroup.index_comap_of_surjective (H := base n) e.surjective, base_index]
@@ -133,6 +134,7 @@ theorem zwr_centralizer_of_mem_J (hn : 1 ≤ n) (e : P ≃* ZWr n) {a : P}
     simpa using congrArg e (Subgroup.mem_center_iff.mp hcomm w)
   exact hZcommut (e x) hx' hmap
 
+omit [Finite P] in
 theorem zwr_no_commuting_nonabelian (hn : 1 ≤ n) (e : P ≃* ZWr n) {T₁ T₂ : Subgroup P}
     (h : ∀ x ∈ T₁, ∀ y ∈ T₂, x * y = y * x) :
     IsMulCommutative T₁ ∨ IsMulCommutative T₂ := by
@@ -142,12 +144,12 @@ theorem zwr_no_commuting_nonabelian (hn : 1 ≤ n) (e : P ≃* ZWr n) {T₁ T₂
     have hT2notbase : ¬ T₂ ≤ (base n).comap e.toMonoidHom := by
       intro hle
       apply h2
-      haveI : IsMulCommutative (base n) := ⟨⟨fun x y => Subtype.ext (base_comm x.2 y.2)⟩⟩
-      haveI : IsMulCommutative ((base n).comap e.toMonoidHom) :=
+      have : IsMulCommutative (base n) := ⟨⟨fun x y => Subtype.ext (base_comm x.2 y.2)⟩⟩
+      have : IsMulCommutative ((base n).comap e.toMonoidHom) :=
         Subgroup.comap_injective_isMulCommutative (base n) e.injective
       exact isMulCommutative_anti hle
     obtain ⟨y, hyT2, hybase⟩ : ∃ y, y ∈ T₂ ∧ e y ∉ base n := by
-      rw [SetLike.le_def] at hT2notbase
+      rw [_root_.IsConcreteLE.le_iff] at hT2notbase
       push Not at hT2notbase
       obtain ⟨y, hy, hynot⟩ := hT2notbase
       exact ⟨y, hy, by simpa using hynot⟩
@@ -163,12 +165,12 @@ theorem zwr_no_commuting_nonabelian (hn : 1 ≤ n) (e : P ≃* ZWr n) {T₁ T₂
       · intro hx; exact e.injective (by simpa using hx)
     have hCcomm : IsMulCommutative (Subgroup.centralizer ({y} : Set P)) := by
       rw [hCeq]
-      haveI := hCyZwr
+      have := hCyZwr
       exact Subgroup.comap_injective_isMulCommutative
         (Subgroup.centralizer ({e y} : Set (ZWr n))) e.injective
     have hT1le : T₁ ≤ Subgroup.centralizer ({y} : Set P) := fun x hx =>
       Subgroup.mem_centralizer_singleton_iff.mpr (h x hx y hyT2)
-    haveI := hCcomm
+    have := hCcomm
     exact isMulCommutative_anti hT1le
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.InS3.UC326

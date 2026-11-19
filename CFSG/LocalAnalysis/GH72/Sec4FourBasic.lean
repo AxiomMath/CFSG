@@ -199,7 +199,7 @@ theorem isPGroup_of_isSylowOf_le_centralizer (hO : CFSG.oddCore Y = ⊥) {J C P 
   have hNodd' : Odd (Nat.card N) := Nat.odd_iff.2 (Nat.two_dvd_ne_zero.1 hNodd)
   have hQodd : ∀ q ∈ (Q : Subgroup C), Odd (orderOf q) → q = 1 := by
     intro q hq hodd
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 Q.isPGroup' ⟨q, hq⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 Q.isPGroup ⟨q, hq⟩
     rw [Subgroup.orderOf_mk] at hk
     rw [hk] at hodd
     rcases k with _ | k
@@ -247,9 +247,9 @@ theorem isPGroup_of_isSylowOf_le_centralizer (hO : CFSG.oddCore Y = ⊥) {J C P 
     have h1 : (n : Y) ∈ N.map C.subtype := ⟨n, hn, rfl⟩
     rw [hNbot, mem_bot] at h1
     exact (mem_bot).2 (Subtype.ext h1)
-  have hcard := hNc.card_mul
+  have hcard := hNc.card_mul_card
   rw [hN1, card_bot, one_mul] at hcard
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Q.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Q.isPGroup
   exact IsPGroup.of_card (n := k) (by rw [← hcard, hk])
 
 theorem le_centralizer_of_isIsolatedIn {Y : Type} [Group Y] [Finite Y] {F : Subgroup Y} {t : Y}

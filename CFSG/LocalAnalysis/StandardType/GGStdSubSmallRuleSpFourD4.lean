@@ -15,6 +15,7 @@ open CFSG.Open (StatedSp)
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {m : ℕ}
 
+omit [CharP K 2] in
 theorem exists_ne_one_fixing {x : StatedSp m K} {G : Subgroup (StatedSp m K)}
     (hGc : ∀ g ∈ G, ∀ h ∈ G, g * h = h * g) (hGx : ∀ g ∈ G, g * x = x * g)
     (hG3 : ∀ g ∈ G, g ^ 3 = 1) (hcard : 4 ≤ Nat.card G)
@@ -23,7 +24,7 @@ theorem exists_ne_one_fixing {x : StatedSp m K} {G : Subgroup (StatedSp m K)}
   classical
   by_contra hcon
   push Not at hcon
-  haveI := SpFin.finite_statedSp_group (K := K) (m := m)
+  have := SpFin.finite_statedSp_group (K := K) (m := m)
   obtain ⟨y₀, hy₀G, hy₀1⟩ : ∃ y₀ ∈ G, y₀ ≠ 1 := by
     by_contra h
     push Not at h
@@ -58,6 +59,7 @@ theorem exists_ne_one_fixing {x : StatedSp m K} {G : Subgroup (StatedSp m K)}
   refine hcon _ hgG hg1 u huW hu0 ?_
   rw [spEnd_mul, Module.End.mul_apply, hzu, spEnd_inv_spEnd]
 
+omit [Finite K] in
 theorem spFixedDim_eq_six {x y₁ : StatedSp 4 K} (hx3 : x ^ 3 = 1) (hy₁3 : y₁ ^ 3 = 1)
     (hy₁1 : y₁ ≠ 1) (blocks₁ : SpPrimaryBlocks 2 1 3 y₁ (proj 4 K y₁))
     (hrk : finrank K (LinearMap.range (spEnd x - 1)) = 4)
@@ -113,7 +115,7 @@ theorem false_of_four (hK : Nat.card K = 2) {Ã : Subgroup (StatedSp 4 K)}
     (blocks : SpPrimaryBlocks 2 1 3 x (proj 4 K x)) (hd : spFixedDim x = 4)
     (hEN : EndNodeAt Ã x) (hRule : RuleAt Ã x) : False := by
   classical
-  haveI := SpFin.finite_statedSp_group (K := K) (m := 4)
+  have := SpFin.finite_statedSp_group (K := K) (m := 4)
   have hx3 : x ^ 3 = 1 := hÃ.2 x hx
   have hx3' : spLin 4 K x ^ 3 = 1 := by rw [← map_pow, hx3, map_one]
   have hbx : ∀ b ∈ Ã, b * x = x * b := fun b hb => TableB.IsElemAbelian.comm hÃ hb hx

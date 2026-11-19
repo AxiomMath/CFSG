@@ -88,9 +88,9 @@ theorem exists_representation {V : Type u} [Group V] [Finite V] (hVc : ∀ v w :
       (∀ b : B, ρ b = 1 ↔ ρ' b = 1) ∧
       ∀ b : B, Nat.card (fixedSubgroup (ρ b)) =
         3 ^ Module.finrank (ZMod 3) (LinearMap.ker (ρ' b - 1)) := by
-  letI hCG : CommGroup V := { ‹Group V› with mul_comm := hVc }
+  let hCG : CommGroup V := { ‹Group V› with mul_comm := hVc }
   have h3 : ∀ x : Additive V, (3 : ℕ) • x = 0 := br_nsmul_eq_zero hV3
-  letI hMod : Module (ZMod 3) (Additive V) := AddCommGroup.zmodModule h3
+  let hMod : Module (ZMod 3) (Additive V) := AddCommGroup.zmodModule h3
   exact ⟨Additive V, inferInstance, inferInstance, inferInstance, br_rep ρ,
     fun b => br_iff (ρ b), fun b => br_card (ρ b)⟩
 

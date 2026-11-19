@@ -57,6 +57,7 @@ theorem exists_lift_of_mem_barCentralizer {K : Subgroup G} {a : G}
   obtain ⟨k, hk, rfl⟩ := hy
   exact ⟨k, (Subgroup.mem_subgroupOf.mp hk).2, rfl⟩
 
+omit [Finite G] in
 theorem coe_pow_mem_centralizer {K : Subgroup G} {a : G} {k : K}
     (hk : (k : G) ∈ Subgroup.centralizer ({a} : Set G)) (r : ℕ) :
     ((k ^ r : K) : G) ∈ Subgroup.centralizer ({a} : Set G) := by
@@ -141,6 +142,7 @@ theorem lift_noncomm_three {K : Subgroup G} {a : G}
   rw [← hk]
   exact ((Commute.zpow_left hcomm k) : _)
 
+omit [Finite G] in
 theorem commutator_not_mem_theta {K : Subgroup G} {u p : K}
     (h : QuotientGroup.mk' (aschbacherSolvableCore 3 K) u *
         QuotientGroup.mk' (aschbacherSolvableCore 3 K) p ≠

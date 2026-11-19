@@ -17,7 +17,7 @@ theorem relIndex_inf_stabilizer_eq_ncard_orbit {W : Type*} [CommGroup W]
 theorem mem_gammaCheck_of_orbit_subset {W : Type*} [CommGroup W] [Finite W]
     {P : Subgroup (MulAut W)} (hP : IsPGroup 2 P) {k : ℕ} {w : W} {S : Set W}
     (hS : ∀ g ∈ P, g w ∈ S) (hcard : S.ncard ≤ 2 ^ k) : w ∈ E3.gammaCheck k P := by
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
+  have : Finite (MulAut W) := MulEquiv.finite_left
   have hXP : P ⊓ MulAction.stabilizer (MulAut W) w ≤ P := inf_le_left
   have hw : w ∈ fixV (P ⊓ MulAction.stabilizer (MulAut W) w) := fun x hx =>
     MulAction.mem_stabilizer_iff.1 (Subgroup.mem_inf.1 hx).2

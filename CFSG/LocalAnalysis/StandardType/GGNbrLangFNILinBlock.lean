@@ -49,7 +49,7 @@ private theorem l02qfnb_ne_zero_of_map_eq_smul {N : ℕ} {K : Type} [Field K]
     rw [hM0, zero_mul] at h1
     exact h1
   have := congrFun (congrFun h01 ⟨0, hN⟩) ⟨0, hN⟩
-  simpa using this
+  simp at this
 
 private noncomputable def l02qfnb_statedSLCenterQuotEquivProjective {m : ℕ} {E : Type} [Field E] :
     StatedSL m E ⧸ Subgroup.center (StatedSL m E) ≃*
@@ -120,8 +120,8 @@ private theorem l02qfnb_data {N : ℕ} {K : Type} [Field K] [Finite K] (M : GL (
     exact hord
   obtain ⟨r, D, d, hFld, hFin, hAlg, Φ, θ, hNZ, hΦinj, hΦrange, hθinj, hθrange, hθapply⟩ :=
     exists_piMat_commutant (Subgroup.zpowers M) hA
-  letI : ∀ i, Field (D i) := hFld
-  haveI : ∀ i, Finite (D i) := hFin
+  let : ∀ i, Field (D i) := hFld
+  have : ∀ i, Finite (D i) := hFin
   have hcent : Subgroup.centralizer ((Subgroup.zpowers M : Subgroup (GL (Fin N) K)) :
       Set (GL (Fin N) K)) = Subgroup.centralizer ({M} : Set (GL (Fin N) K)) := by
     ext g
@@ -231,7 +231,7 @@ private theorem l02qfnb_sl_map_val {n : ℕ} {K : Type} [Field K] (τ : K ≃+* 
     ((Matrix.SpecialLinearGroup.map (τ : K →+* K) g : Matrix.SpecialLinearGroup (Fin n) K) :
       Matrix (Fin n) (Fin n) K) = (g : Matrix (Fin n) (Fin n) K).map τ := by
   ext i j
-  simp [Matrix.GeneralLinearGroup.map_apply]
+  simp
 
 private theorem l02qfnb_commute_zpowers {N : ℕ} {K : Type} [Field K] (M : GL (Fin N) K)
     {X : Matrix (Fin N) (Fin N) K}
@@ -391,9 +391,9 @@ theorem fniLin_block {N : ℕ} (hN : 2 ≤ N) {K : Type} [Field K] [Finite K] [C
     exact (CFSG.Assembly.isComponentOf_iff_open).1 hM''
   obtain ⟨r, D, d, hFld, hFin, hAlg, Φ, θ, hd1, hΦinj, hΦrange, hθinj, hθrange, hθapply,
     i, hd2, hCeq⟩ := l02qfnb_data M hord C hM_comp
-  letI : ∀ j, Field (D j) := hFld
-  haveI : ∀ j, Finite (D j) := hFin
-  letI : ∀ j, Algebra K (D j) := hAlg
+  let : ∀ j, Field (D j) := hFld
+  have : ∀ j, Finite (D j) := hFin
+  let : ∀ j, Algebra K (D j) := hAlg
   obtain ⟨μ, hμ⟩ := hMσ
   have hμ0 : μ ≠ 0 := l02qfnb_ne_zero_of_map_eq_smul (by omega : 0 < N) M hμ
   let Mσ : Matrix (Fin N) (Fin N) K ≃+* Matrix (Fin N) (Fin N) K :=
@@ -450,7 +450,7 @@ theorem fniLin_block {N : ℕ} (hN : 2 ≤ N) {K : Type} [Field K] [Finite K] [C
     have h1 : Mσ (Φ a) = Mσ (Φ b) := by
       rw [← hsFun_spec a, ← hsFun_spec b, hab]
     exact hΦinj (Mσ.injective h1)
-  haveI : Finite (∀ j, Matrix (Fin (d j)) (Fin (d j)) (D j)) := inferInstance
+  have : Finite (∀ j, Matrix (Fin (d j)) (Fin (d j)) (D j)) := inferInstance
   let s : (∀ j, Matrix (Fin (d j)) (Fin (d j)) (D j)) ≃+*
       (∀ j, Matrix (Fin (d j)) (Fin (d j)) (D j)) :=
     RingEquiv.ofBijective sHom ⟨hsHom_inj, Finite.injective_iff_surjective.mp hsHom_inj⟩

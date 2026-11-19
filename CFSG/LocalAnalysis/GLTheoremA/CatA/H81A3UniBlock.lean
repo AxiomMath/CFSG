@@ -55,7 +55,7 @@ theorem coe_toSLU (g : ↥(SG h)) :
   rfl
 
 variable (h) in
-theorem toSLU_injective : Function.Injective (toSLU h) := fun a b hab =>
+theorem toSLU_injective : Function.Injective (toSLU h) := fun _a _b hab =>
   Subtype.ext (Units.ext (congrArg (fun x : SpecialLinearGroup (Fin 4) K =>
     (x : Matrix (Fin 4) (Fin 4) K)) hab))
 

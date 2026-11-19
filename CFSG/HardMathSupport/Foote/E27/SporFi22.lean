@@ -161,7 +161,7 @@ theorem killOK_parts :
 theorem e27_fi22S0_table :
     ∃ T : Subgroup J, Nat.card T = 3 ^ (Nat.card J).factorization 3 ∧
       ∀ s ∈ T, orderOf s = 3 → 81 ∣ Nat.card ↥(T ⊓ centralizer ({s} : Set J)) := by
-  haveI := finite_J
+  have := finite_J
   obtain ⟨T, hT, -⟩ := tabData.exists_subgroup (by unfold nS; norm_num : 0 < nS)
   refine ⟨T, tabData.sylow_kill hT ?_ killOK_parts⟩
   rw [factorization_J]

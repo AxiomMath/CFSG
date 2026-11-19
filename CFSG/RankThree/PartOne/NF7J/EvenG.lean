@@ -21,6 +21,7 @@ variable {G : Type} [Group G] [Finite G] (p : ℕ) (E : Subgroup G)
 
 variable {p E}
 
+omit [Finite G] in
 theorem conj_Zset_sub {w : G} (hw : w ∈ Subgroup.normalizer (E : Set G)) (t : MulAut E) :
     (MulAut.conj w) '' Zset p E t ⊆ Zset p E (conjAut E w hw * t * (conjAut E w hw)⁻¹) := by
   rintro _ ⟨x, ⟨hxK, hxC, hx3⟩, rfl⟩
@@ -41,12 +42,14 @@ theorem conj_Zset_sub {w : G} (hw : w ∈ Subgroup.normalizer (E : Set G)) (t : 
     rw [conj_pow, hx3]
     group
 
+omit [Finite G] in
 theorem Ft_conj_le {w : G} (hw : w ∈ Subgroup.normalizer (E : Set G)) (t : MulAut E) :
     conjBy w (Ft p E t) ≤ Ft p E (conjAut E w hw * t * (conjAut E w hw)⁻¹) := by
   unfold conjBy Ft
   rw [MonoidHom.map_closure]
   exact Subgroup.closure_mono (conj_Zset_sub hw t)
 
+omit [Finite G] in
 theorem Ft_conj {w : G} (hw : w ∈ Subgroup.normalizer (E : Set G)) (t : MulAut E) :
     conjBy w (Ft p E t) = Ft p E (conjAut E w hw * t * (conjAut E w hw)⁻¹) := by
   apply le_antisymm (Ft_conj_le hw t)
@@ -195,7 +198,6 @@ theorem dg_central (x : Kˣ × Kˣ) : F.dg x ∈ Subgroup.centralizer (E : Set G
         rw [hg] at this
         exact this.symm
       rw [hz', dg_apply, ← map_mul, ← map_mul]
-      congr 1
       rw [← map_mul, ← map_mul, mul_comm]
   rw [Subgroup.mem_centralizer_iff]
   intro e he
@@ -215,7 +217,7 @@ omit [Finite K] [CharP K 2] in
 theorem hmat_one' : (hmat (1 : Kˣ) : Matrix.SpecialLinearGroup (Fin 2) K) = 1 := by
   simpa using (hmat_pow (K := K) 1 0).symm
 
-theorem Zset_r₀_sub (hp : p.Prime) (h5 : 5 ≤ p) {x : G} (hx : x ∈ Zset p E F.r₀) :
+theorem Zset_r₀_sub (_hp : p.Prime) (h5 : 5 ≤ p) {x : G} (hx : x ∈ Zset p E F.r₀) :
     ∃ u : Kˣ, u ^ 3 = 1 ∧ x = F.dg (u, 1) := by
   obtain ⟨hxK, hxC, hx3⟩ := hx
   have hxK' : x ∈ F.phi₀.range := by rw [F.phi₀_range]; exact hxK
@@ -234,7 +236,7 @@ theorem Zset_r₀_sub (hp : p.Prime) (h5 : 5 ≤ p) {x : G} (hx : x ∈ Zset p E
   rw [hmat_pow, ← hmat_one'] at h2
   exact hmat_injective h2
 
-theorem Zset_r₁_sub (hp : p.Prime) (h5 : 5 ≤ p) {x : G} (hx : x ∈ Zset p E F.r₁) :
+theorem Zset_r₁_sub (_hp : p.Prime) (h5 : 5 ≤ p) {x : G} (hx : x ∈ Zset p E F.r₁) :
     ∃ u : Kˣ, u ^ 3 = 1 ∧ x = F.dg (u, u⁻¹) := by
   obtain ⟨hxK, hxC, hx3⟩ := hx
   have hxK' : x ∈ F.phi₁.range := by rw [F.phi₁_range]; exact hxK
@@ -253,6 +255,7 @@ theorem Zset_r₁_sub (hp : p.Prime) (h5 : 5 ≤ p) {x : G} (hx : x ∈ Zset p E
   rw [hmat_pow, ← hmat_one'] at h2
   exact hmat_injective h2
 
+omit [Finite K] [CharP K 2] in
 theorem cube_of_primitive {ω : Kˣ} (hω : IsPrimitiveRoot ω 3) {u : Kˣ} (hu : u ^ 3 = 1) :
     ∃ i : ℕ, ω ^ i = u := by
   have hωK : IsPrimitiveRoot (ω : K) 3 := hω.map_of_injective (f := Units.coeHom K) Units.val_injective

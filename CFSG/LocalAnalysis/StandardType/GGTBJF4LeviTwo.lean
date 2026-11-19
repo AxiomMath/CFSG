@@ -37,17 +37,17 @@ theorem f4Two_hA2
     · exact ⟨2, 3, ⟨1, rfl⟩, ⟨0, rfl⟩, by decide, by decide, by decide⟩
   have hpar : ∀ l ∈ J, (Pi.single l 1 : Fin Tag.F4.rank → ℤ) ∈ parabolicRoots Tag.F4 J :=
     fun l hl => ⟨isRoot_single Tag.F4 l, fun m hm => by
-      rw [Pi.single_apply, if_neg (show m ≠ l from fun h => hm (by rw [h]; exact hl))]⟩
+      rw [Pi.single_apply, ite_eq_right (show m ≠ l from fun h => hm (by rw [h]; exact hl))]⟩
   have hmem : ∀ l ∈ J, v • (Pi.single l 1 : Fin Tag.F4.rank → ℤ) ∈ componentRoots χ i :=
     fun l hl => by rw [hroots]; exact ⟨_, hpar l hl, rfl⟩
   refine ⟨v • Pi.single j 1, hmem j hj, v • Pi.single k 1, hmem k hk, ?_, ?_, ?_, ?_⟩
   · intro h
     have h' := congrFun (MulAction.injective v h) k
-    simp [Pi.single_apply, hjk.symm] at h'
+    simp [hjk.symm] at h'
   · intro h
     rw [← smul_neg] at h
     have h' := congrFun (MulAction.injective v h) k
-    simp [Pi.single_apply, hjk.symm] at h'
+    simp [hjk.symm] at h'
   · rw [iform_smul, iform_smul]
     exact hlen
   · rw [iform_smul]
@@ -119,12 +119,12 @@ theorem f4Two_leviFrame
     (hSC : ∀ g : adjointGroup .F4 K, (∀ c ∈ E, g * c = c * g) → g ^ 3 = 1 → g ∈ E)
     (h4 : 3 ^ 4 ≤ Nat.card E) : GGF4LeviFrame 3 E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpK : 3 ∣ Nat.card K + 1 := by rw [hK]
   obtain ⟨ζ, hζ, ιT, nk, S, ι, hζo, hιTinj, hιTrange, hact, hSq, hιinj, hιrange, hιιT, hT, hρ,
     wt, hwn, hwt⟩ := f4Enn_frame (K := K) hpK E hE hSC (Or.inr ⟨rfl, h4⟩)
   have hq2 : S.D.q = 2 := by rw [hSq, hK]
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   refine ⟨AlgebraicClosure K, inferInstance, ζ, hζ, ιT, nk, _, wt, hζo, hιTinj, hιTrange, hact,
     hwn, hwt, fun t ht Y hY => ?_⟩
@@ -137,19 +137,19 @@ theorem f4Two_leviFrame
   have hRns : ¬ Group.IsSolvable ↥(rationalComponent S.ρ S.Γ
       (rootCharHom (TableBExc.E6Three.zetaVec ζ hζ (ExcFrames.frameCoord .F4 3 t))) i) := by
     intro hs
-    have hYs : Group.IsSolvable ↥Y := solvable_of_solvable_injective
+    have hYs : Group.IsSolvable ↥Y := Group.isSolvable_of_isSolvable_injective
       (f := ((Y.equivMapOfInjective ι hιinj).trans (MulEquiv.subgroupCongr hi)).toMonoidHom)
       ((Y.equivMapOfInjective ι hιinj).trans (MulEquiv.subgroupCongr hi)).injective
     obtain ⟨-, -, hperf, hsimp⟩ := hY
     have htop :=
       CFSG.Timmesfeld.Bridge.Asc72.top_eq_bot_of_isSolvable_of_commutator_eq_top hYs hperf
-    haveI : Subsingleton ↥Y := by
+    have : Subsingleton ↥Y := by
       refine ⟨fun a b => ?_⟩
       have ha : a ∈ (⊥ : Subgroup ↥Y) := htop ▸ Subgroup.mem_top a
       have hb : b ∈ (⊥ : Subgroup ↥Y) := htop ▸ Subgroup.mem_top b
       rw [Subgroup.mem_bot] at ha hb
       rw [ha, hb]
-    haveI : Subsingleton (↥Y ⧸ Subgroup.center ↥Y) := inferInstance
+    have : Subsingleton (↥Y ⧸ Subgroup.center ↥Y) := inferInstance
     exact hsimp.toNontrivial.exists_pair_ne.elim fun a ⟨b, hab⟩ => hab (Subsingleton.elim a b)
   have h1 : rootDiagUnit .F4 (TableBExc.E6Three.zetaVec ζ hζ (ExcFrames.frameCoord .F4 3 t)) ≠
       1 := by
@@ -252,7 +252,7 @@ theorem f4Two_center_pow_eq_one
     ∀ z ∈ Subgroup.center X, z ^ p = 1 → z = 1 := by
   intro z hz hzp
   by_contra hz1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hle : Nat.card π.ker ≤ 2 :=
     CFSG.LieType.Steinberg.CentralExt.F4Two.f4_two_card_ker_le_two hFq π hπ hker.le
   have hzk : z ∈ π.ker := hker ▸ hz
@@ -290,7 +290,7 @@ theorem ggTBJF4LeviLThreeTwoCover_holds
   obtain ⟨Fq, _, _, _, hFq, π, hπ, hker, hperf, hN, hinner⟩ :=
     ggF4_quotModel hRig hΛ hH.2.2.1.1 hhas
   have hFq2 : Nat.card Fq = 2 := by rw [hFq, pow_one]
-  haveI := hperf
+  have := hperf
   have hZp : ∀ z ∈ Subgroup.center ↥L, z ^ 3 = 1 → z = 1 :=
     f4Two_center_pow_eq_one hFq2 π hπ hker Nat.prime_three (by norm_num)
   obtain ⟨E, hE, hEcard, hEsc, hA⟩ := ggCover_innerModel hH.1.2.1.2.1 hH.1.2.1.2.2.2 hN hZp π hπ
@@ -309,7 +309,7 @@ theorem ggTBJF4LeviKThreeTwoCover_holds
   have hinn : GGInnerDiagOn Bs K := hH.2.2.1.2 y K hH.2.2.2.2.1
   obtain ⟨Fq, _, _, _, hFq, π, hπ, hker, hperf, hN, hinner⟩ := ggF4_quotModel hRig hΛ hinn hhas
   have hFq2 : Nat.card Fq = 2 := by rw [hFq, pow_one]
-  haveI := hperf
+  have := hperf
   have hZp : ∀ z ∈ Subgroup.center ↥K, z ^ 3 = 1 → z = 1 :=
     f4Two_center_pow_eq_one hFq2 π hπ hker Nat.prime_three (by norm_num)
   obtain ⟨E, hE, hEcard, hEsc, hA⟩ := ggCover_innerModel hH.1.2.1.2.1 hH.1.2.1.2.2.2 hN hZp π hπ

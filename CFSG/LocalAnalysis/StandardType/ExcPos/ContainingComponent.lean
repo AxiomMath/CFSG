@@ -182,7 +182,7 @@ theorem componentOrbitLength_eq_minimalPeriod (ρ : Equiv.Perm (Fin τ.rank → 
   rw [componentOrbitLength, Function.minimalPeriod_eq_sInf_n_pos_IsPeriodicPt]
   congr 1
   ext n
-  simp only [Set.mem_setOf_eq, Function.IsPeriodicPt, Function.IsFixedPt, Set.image_iterate_eq]
+  simp only [Set.mem_ofPred_eq, Function.IsPeriodicPt, Function.IsFixedPt, Set.image_iterate_eq]
 
 theorem componentOrbitLength_componentRoots_pos {χ : Multiplicative (Fin τ.rank → ℤ) →* M}
     {ρ : Equiv.Perm (Fin τ.rank → ℤ)} (hρ : Set.MapsTo ρ (kernelRoots χ) (kernelRoots χ))

@@ -21,7 +21,7 @@ theorem exists_ne_of_sylow_of_card_dvd {X : Type*} [Group X] [Finite X] (α : Mu
 
 theorem isCyclic_sylow_subgroup {X : Type*} [Group X] {p : ℕ} [Fact p.Prime] (C : Subgroup X)
     (hcyc : ∀ P : Sylow p X, IsCyclic P) (P : Sylow p C) : IsCyclic P := by
-  obtain ⟨S, hS⟩ := (P.isPGroup'.map C.subtype).exists_le_sylow
+  obtain ⟨S, hS⟩ := (P.isPGroup.map C.subtype).exists_le_sylow
   have := hcyc S
   have e : (P : Subgroup C) ≃* ((P : Subgroup C).map C.subtype).subgroupOf (S : Subgroup X) :=
     (Subgroup.equivMapOfInjective _ _ C.subtype_injective).trans

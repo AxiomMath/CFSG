@@ -69,7 +69,7 @@ theorem wt_e7Shift {β : Fin (Tag.rank .E7) → ℤ} {a b : Fin e7Data.d}
     e7Shift β a = b := by
   classical
   have h : ∃ b : Fin e7Data.d, e7Data.wt b = e7Data.wt a + MinData.toWeight β := ⟨b, hb⟩
-  rw [e7Shift, dif_pos h]
+  rw [e7Shift, dite_eq_left h]
   exact e7Data_valid.wt_injective (h.choose_spec.trans hb.symm)
 
 theorem exists_wt_eq_of_dotProduct {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7 β)
@@ -93,8 +93,8 @@ theorem e7Rep56_pinnedElt_single {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot
         if e7Data.wt a ⬝ᵥ β = -1 then Finsupp.single (e7Shift β a) 1 else 0 := by
   rw [e7Rep56_pinnedElt_apply hβ, one_smul]
   rcases rootOp_single_cases (K := K) hβ a with ⟨h1, h2⟩ | ⟨h1, b, hb, h2⟩
-  · rw [h2, if_neg h1, add_zero]
-  · rw [h2, if_pos h1, wt_e7Shift hb]
+  · rw [h2, ite_eq_right h1, add_zero]
+  · rw [h2, ite_eq_left h1, wt_e7Shift hb]
 
 theorem e7Rep56_nC_single (i : Fin (Tag.rank .E7)) (a : Fin e7Data.d) :
     e7Rep56 K (nC .E7 K i) (Finsupp.single a 1) = Finsupp.single (e7Data_valid.sRefl i a) 1 := by

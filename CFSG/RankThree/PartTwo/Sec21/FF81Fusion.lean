@@ -14,6 +14,7 @@ open CFSG.RankThree.PartTwo.Sec21.FF79
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAb_conjBy {p k : ℕ} {B : Subgroup G} (hB : IsElemAb p k B) (g : G) :
     IsElemAb p k (conjBy g B) :=
   ⟨CFSG.IsElementaryAbelian.subgroup_map hB.1 _,

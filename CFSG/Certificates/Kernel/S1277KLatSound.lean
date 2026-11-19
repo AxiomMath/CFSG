@@ -199,7 +199,7 @@ theorem oxF_mem_aux {M : Mdl} {nm cr : List ℕ} : ∀ (ts : List ℕ) (s x : �
         have hy : t % 4096 < 2 ^ (12 + x) :=
           lt_of_lt_of_le (Nat.mod_lt _ (by norm_num))
             (by rw [show (4096 : ℕ) = 2 ^ 12 by norm_num]; exact Nat.pow_le_pow_right two_pos (by omega))
-        simp only [cond_true] at hx'
+        simp only [_root_.Bool.cond_true] at hx'
         rw [Nat.testBit_shiftRight, Nat.testBit_or, Nat.testBit_lt_two_pow hy, Bool.or_false,
           Nat.testBit_shiftLeft, Nat.add_sub_cancel_left] at hx'
         simp only [ge_iff_le, Nat.le_add_right, decide_true, Bool.true_and] at hx'
@@ -286,7 +286,7 @@ theorem join1_spec {M : Mdl} {nm : List ℕ} {ngs : List (List ℕ)} {m c : ℕ}
   cases hb : Nat.beq (nm.getD (c >>> 12) 0 ||| m) m with
   | true => exact Or.inl fun x hx => testBit_of_or_eq (Nat.eq_of_beq_eq_true hb) hx
   | false =>
-    rw [hb, cond_false] at h
+    rw [hb, Bool.cond_false] at h
     right
     match d, h with
     | J :: ds, h =>
@@ -487,6 +487,7 @@ section OPart
 
 variable {G : Type} [Group G] [Finite G] {K : Subgroup G} {M : Mdl} {κ : G → ℕ}
 
+omit [Finite G] in
 theorem mul_assoc_codes (hκ : MCod K M κ) {a b c : ℕ} (ha : a < M.nb * 64) (hb : b < M.nb * 64)
     (hc : c < M.nb * 64) : M.mul (M.mul a b) c = M.mul a (M.mul b c) := by
   obtain ⟨x, hx, rfl⟩ := hκ.surj a ha
@@ -495,6 +496,7 @@ theorem mul_assoc_codes (hκ : MCod K M κ) {a b c : ℕ} (ha : a < M.nb * 64) (
   rw [← hκ.mul x hx y hy, ← hκ.mul _ (K.mul_mem hx hy) z hz, ← hκ.mul y hy z hz,
     ← hκ.mul x hx _ (K.mul_mem hy hz), mul_assoc]
 
+omit [Finite G] in
 theorem node_mul (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e : ℕ}
     (hN : nodeChk M kg m gs ts e = true) {a b : ℕ} (ha : m.testBit a = true)
     (hb : m.testBit b = true) : m.testBit (M.mul a b) = true := by
@@ -545,6 +547,7 @@ theorem node_mul (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e : ℕ}
       exact hrg _ (hP a ha) g hg)
   exact (key b hb).2 a ha
 
+omit [Finite G] in
 theorem codes_lt (hκ : MCod K M κ) {gs ts : List ℕ} {m : ℕ} (htree : treeF M gs ts (idM M) = m)
     (hm : m ≠ 0) {x : ℕ} (hx : m.testBit x = true) : x < M.nb * 64 := by
   rcases ((treeF_bits htree hm).1 x).1 hx with hx | hx
@@ -675,6 +678,7 @@ theorem node_subgroup (hκ : MCod K M κ) {kg kt nm nxs : List ℕ} {ngs nts : L
       List.toFinset_card_of_nodup hLnd, hL, List.length_cons, List.length_map]
   exact ⟨O, hOn, hOmem, by rw [hcardO, Nat.eq_of_beq_eq_true hcnt]⟩
 
+omit [Finite G] in
 theorem card_K (hκ : MCod K M κ) : Nat.card K = M.nb * 64 := by
   have hbij : Function.Bijective (fun x : K => (⟨κ x.1, hκ.lt x.1 x.2⟩ : Fin (M.nb * 64))) := by
     constructor

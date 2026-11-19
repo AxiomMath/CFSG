@@ -11,11 +11,13 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s15_Twelve_conjSubgroup_sup (A B : Subgroup G) (g : G) :
     conjSubgroup (A ⊔ B) g = conjSubgroup A g ⊔ conjSubgroup B g := by
   unfold conjSubgroup
   rw [Subgroup.map_sup]
 
+omit [Finite G] in
 private theorem s15_Twelve_mem_sup_of_commute {H K : Subgroup G}
     (hcomm : ∀ x ∈ H, ∀ y ∈ K, x * y = y * x) {x : G} :
     x ∈ H ⊔ K ↔ ∃ y ∈ H, ∃ z ∈ K, y * z = x := by
@@ -38,6 +40,7 @@ private theorem s15_Twelve_mem_sup_of_commute {H K : Subgroup G}
   · rintro ⟨y, hy, z, hz, rfl⟩
     exact H.mul_mem_sup hy hz
 
+omit [Finite G] in
 private theorem s15_Twelve_eq_of_imgTil_eq {V₁ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {U U' : Subgroup G} (hU : U ≤ V) (hU' : U' ≤ V) (hV₁U : V₁ ≤ U) (hV₁U' : V₁ ≤ U')
     (h : imgTil V₁ V hV U = imgTil V₁ V hV U') : U = U' := by

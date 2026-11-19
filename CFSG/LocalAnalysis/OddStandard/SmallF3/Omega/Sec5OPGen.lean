@@ -11,7 +11,7 @@ open Subgroup
 
 theorem sec5op_odd_comm_trick {G : Type*} [Group G] {z y h : G} {N : Subgroup G}
     (hz : z * z = 1) (hyz : y * z = z * y) (hNz : ∀ n ∈ N, n * z = z * n)
-    (hNy : ∀ n ∈ N, y * n * y⁻¹ ∈ N) (hN : Odd (Nat.card N)) (hy : Odd (orderOf y))
+    (hNy : ∀ n ∈ N, y * n * y⁻¹ ∈ N) (_hN : Odd (Nat.card N)) (hy : Odd (orderOf y))
     (hc : ∃ (e : ℕ) (n : G), n ∈ N ∧ y * h * y⁻¹ * h⁻¹ = z ^ e * n) :
     y * h * y⁻¹ * h⁻¹ ∈ N := by
   obtain ⟨e, n, hnN, he⟩ := hc
@@ -67,7 +67,7 @@ theorem sec5op_odd_comm_trick {G : Type*} [Group G] {z y h : G} {N : Subgroup G}
   exact N.mul_mem hzeN hnN
 
 theorem sec5op_eq_top_of_odd_sylow {C : Type*} [Group C] [Finite C] (F P : Subgroup C)
-    (hP : IsPGroup 2 P) (hidx : Odd P.index) (hPF : P ≤ F)
+    (_hP : IsPGroup 2 P) (hidx : Odd P.index) (hPF : P ≤ F)
     (hodd : ∀ c : C, Odd (orderOf c) → c ∈ F) : F = ⊤ := by
   let S : Set C := {c | Odd (orderOf c)}
   let K : Subgroup C := Subgroup.normalClosure S

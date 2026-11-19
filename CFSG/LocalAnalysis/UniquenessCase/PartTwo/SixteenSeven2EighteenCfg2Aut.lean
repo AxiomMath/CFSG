@@ -31,16 +31,16 @@ theorem s16c167_cfg2_perf_fixed [Finite W] (hW : ∀ w : W, w ^ 2 = 1) {L : Subg
     calc Nat.card ↥U = 2 ^ rk ↥U := card_eq_two_pow hW U
       _ ≤ 2 ^ 2 := Nat.pow_le_pow_right (n := 2) (by norm_num) hr
       _ = 4 := by norm_num
-  haveI : Group.IsSolvable (MulAut ↥U) :=
+  have : Group.IsSolvable (MulAut ↥U) :=
     haveI : Group.IsSolvable (Equiv.Perm ↥U) := Equiv.Perm.isSolvable hcard
     Group.isSolvable_of_isSolvable_injective (f := MulAut.toPerm ↥U)
       MulEquiv.toEquiv_injective
   let ρ : ↥L →* MulAut ↥U := (resHom U).comp (Subgroup.inclusion hA)
-  haveI : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hperf
+  have : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hperf
   have hbot : ρ.range = ⊥ := by
     by_contra hne
     have hlt := Group.IsSolvable.commutator_lt_of_ne_bot hne
-    haveI : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
+    have : Group.IsPerfect ρ.range := Group.IsPerfect.range ρ
     rw [Subgroup.commutator_eq_self] at hlt
     exact (lt_irrefl ρ.range) hlt
   intro u hu

@@ -16,7 +16,7 @@ universe u
 private def restrictAutL125 {G : Type u} [Group G] (R : Subgroup G) (γ : MulAut G)
     (h : ∀ g : G, g ∈ R ↔ γ g ∈ R) : MulAut R where
   toFun r := ⟨γ r.1, (h r.1).mp r.2⟩
-  invFun r := ⟨γ.symm r.1, (h _).mpr (by simpa using r.2)⟩
+  invFun r := ⟨γ.symm r.1, (h _).mpr (by simp)⟩
   left_inv r := Subtype.ext (γ.symm_apply_apply _)
   right_inv r := Subtype.ext (γ.apply_symm_apply _)
   map_mul' a b := Subtype.ext (map_mul γ a.1 b.1)

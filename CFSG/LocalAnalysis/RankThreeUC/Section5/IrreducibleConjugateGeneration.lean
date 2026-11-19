@@ -74,10 +74,10 @@ private theorem complement {E : Type} [Group E] [Finite E] {p : ℕ} (hp : p.Pri
     (hHD : ∀ h : H, D.map h.val.toMonoidHom = D) :
     ∃ R : Subgroup E, R ⊓ D = ⊥ ∧ R ⊔ D = ⊤ ∧
       ∀ h : H, R.map h.val.toMonoidHom = R := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : CommGroup E := { ‹Group E› with mul_comm := fun a b => IsMulCommutative.is_comm.comm a b }
-  letI := CFSG.LinearAlgebra.CoprimeActions.ElementaryAbelianHyperplaneCounts.moduleOf hE
-  haveI : NeZero (Nat.card H : ZMod p) := by
+  have : Fact p.Prime := ⟨hp⟩
+  let : CommGroup E := { ‹Group E› with mul_comm := fun a b => IsMulCommutative.is_comm.comm a b }
+  let := CFSG.LinearAlgebra.CoprimeActions.ElementaryAbelianHyperplaneCounts.moduleOf hE
+  have : NeZero (Nat.card H : ZMod p) := by
     refine ⟨?_⟩
     rw [Ne, ZMod.natCast_eq_zero_iff]
     intro h
@@ -282,7 +282,7 @@ theorem irreducible_generated {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     · rintro y ⟨s, hs, q, hq, rfl⟩
       have := hgen (t * s) (mul_mem ht hs) q hq
       simpa [mul_assoc] using this
-    · simpa using P1.one_mem
+    · simp
     · intro y z _ _ hy hz
       have := P1.mul_mem hy hz
       simpa [mul_assoc] using this
@@ -311,7 +311,7 @@ theorem irreducible_generated {p : ℕ} {P T B : Subgroup G} {e : ℕ}
           _ = _ := by group
       show t * (s * q * s⁻¹) * t⁻¹ ∈ P1
       rw [← e]; exact this
-    · simpa using P1.one_mem
+    · simp
     · intro y z _ _ hy hz
       have := P1.mul_mem hy hz
       simpa [mul_assoc] using this

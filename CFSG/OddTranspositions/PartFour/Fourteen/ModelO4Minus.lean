@@ -186,7 +186,7 @@ noncomputable def coords (A : Matrix (Fin 2) (Fin 2) K) : Ix → D.F :=
 
 theorem toHerm_coords {A : Matrix (Fin 2) (Fin 2) K} (hA : D.IsHerm A) :
     D.toHerm (D.coords A) = A := by
-  rw [coords, dif_pos hA]
+  rw [coords, dite_eq_left hA]
   exact Classical.choose_spec (D.herm_exists hA)
 
 theorem det_toHerm (v : Ix → D.F) :

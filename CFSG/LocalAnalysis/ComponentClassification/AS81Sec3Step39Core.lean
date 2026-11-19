@@ -25,7 +25,7 @@ theorem le_sup_oddCoreIn_of_le_centralizer {C₁ : Subgroup G}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Sylow 2 ↥C₁ := default
   have hPz : (P : Subgroup ↥C₁).map C₁.subtype ≤ zpowers z :=
-    H.le_zpowers_of_le_centralizer (P.isPGroup'.map _) ((map_subtype_le _).trans hC₁)
+    H.le_zpowers_of_le_centralizer (P.isPGroup.map _) ((map_subtype_le _).trans hC₁)
   have hPc : ∀ p ∈ (P : Subgroup ↥C₁), ∀ c : ↥C₁, c * p = p * c := by
     intro p hp c
     have hpz : (p : G) ∈ zpowers z := hPz ⟨p, hp, rfl⟩

@@ -41,7 +41,7 @@ theorem ggQ2_shapeFull_linear {p : ℕ} [Fact p.Prime] {Λ : Type} [Fintype Λ] 
     have hvec : D.mulVec c = 0 := by
       ext i
       have h := congrArg (α i) hc
-      simp only [map_sum, map_smul, hpair, hv i, map_zero] at h
+      simp only [map_sum, map_smul, hpair, hv i] at h
       simpa [D, Matrix.mulVec, dotProduct, mul_comm, smul_eq_mul] using h
     have hc0 : c = 0 := Matrix.eq_zero_of_mulVec_eq_zero hDdet hvec
     apply hv0
@@ -112,10 +112,10 @@ theorem exists_ggQ2LDatum_shapeFull {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {G 
       Module.finrank (ZMod p) D.V = Fintype.card D.Λ + 1 := by
   classical
   obtain ⟨V, iadd, imod, ⟨ιV⟩⟩ := exists_ggLinData (p := p) hBs
-  letI : AddCommGroup V := iadd
-  letI : Module (ZMod p) V := imod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  let : AddCommGroup V := iadd
+  let : Module (ZMod p) V := imod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hVcard : Nat.card V = p ^ (Fintype.card Λ + 1) := by
     rw [← card_eq_of_ggLin ιV, hcard]
   have hdim : Module.finrank (ZMod p) V = Fintype.card Λ + 1 := by

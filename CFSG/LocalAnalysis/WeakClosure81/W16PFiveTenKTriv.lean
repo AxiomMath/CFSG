@@ -15,6 +15,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 
+omit [Finite G] in
 private theorem mem_center_of_bar_eq {K : Subgroup G} {X : Type} [Group X]
     {φ : ↥K →* X} (hsurj : Function.Surjective φ) {y y' : X}
     (h : ∀ k : ↥K, y * φ k * y⁻¹ = y' * φ k * y'⁻¹) :
@@ -109,11 +110,11 @@ theorem IsMinFam16.hom_conj_eq (h1 : W16One G) (hS : Std15 G) (h : Cex16 M V₀ 
     (hw1 : ∀ a, w a ∈ SevenK.barSub (conjClosure V H) φ V)
     (hw : ∀ (a : ↥(conjSubgroup V x)) (k k' : ↥(conjClosure V H)),
       (k' : G) = (a : G) * k * (a : G)⁻¹ → φ k' = w a * φ k * (w a)⁻¹)
-    {u : ↥(conjClosure V H)} (hu : (u : G) ∈ normalizer (conjSubgroup V x : Set G))
+    {u : ↥(conjClosure V H)} (_hu : (u : G) ∈ normalizer (conjSubgroup V x : Set G))
     {a a' : ↥(conjSubgroup V x)} (haa : (a' : G) = (u : G) * (a : G) * (u : G)⁻¹) :
     w a' = φ u * w a * (φ u)⁻¹ := by
   classical
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   have hSH : S ≤ H := hH.1.1
   have hAH : conjSubgroup V x ≤ H := hxS.trans hSH
   have hnormK : H ≤ Subgroup.normalizer (conjClosure V H : Set G) :=

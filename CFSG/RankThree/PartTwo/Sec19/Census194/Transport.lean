@@ -9,7 +9,7 @@ namespace CFSG.RankThree.PartTwo.Sec19
 open CFSG CFSG.RankThree CFSG.RankThree.PartTwo
 
 theorem exists_overgroup_quotient_center {Y : Type} [Group Y] [Finite Y] (T : Sylow 2 Y)
-    {J : Subgroup Y} (hodd : Odd (Nat.card (Subgroup.center Y))) (hJtop : J ≠ ⊤)
+    {J : Subgroup Y} (_hodd : Odd (Nat.card (Subgroup.center Y))) (hJtop : J ≠ ⊤)
     (hNJ : Subgroup.normalizer ((T : Subgroup Y) : Set Y) ≤ J)
     (hJ : J ≠ Subgroup.normalizer ((T : Subgroup Y) : Set Y)) :
     ∃ (T' : Sylow 2 (Y ⧸ Subgroup.center Y)) (J' : Subgroup (Y ⧸ Subgroup.center Y)),

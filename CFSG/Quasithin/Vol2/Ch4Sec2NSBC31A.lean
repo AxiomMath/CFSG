@@ -64,14 +64,14 @@ theorem ratio_of_hom [Finite X] {B : Type} [Group B] [Finite B] (φ : X →* B)
     ∃ e : ℕ, Nat.card (B ⧸ N) = Nat.card (X ⧸ CFSG.pCore 2 X) * 2 ^ e ∧
       (Nat.card (B ⧸ N) = Nat.card (X ⧸ CFSG.pCore 2 X) → CFSG.pCore 2 X = N.comap φ) := by
   have hNh : IsPGroup 2 ↥(N.comap φ) := isPGroup_comap φ N hN hK
-  haveI : (N.comap φ).Normal := inferInstance
+  have : (N.comap φ).Normal := inferInstance
   obtain ⟨-, e, hcard, hcon⟩ := ratio_pCore (N.comap φ) hNh
   refine ⟨e, ?_, fun heq => hcon ((card_quot_comap φ hφ N).trans heq)⟩
   rw [← card_quot_comap φ hφ N]
   exact hcard
 
 theorem card_le_of_pCore_eq [Finite X] {B : Type} [Group B] [Finite B] (φ : X →* B)
-    (hφ : Function.Surjective φ) (N : Subgroup B) (hO : CFSG.pCore 2 X = N.comap φ)
+    (_hφ : Function.Surjective φ) (N : Subgroup B) (hO : CFSG.pCore 2 X = N.comap φ)
     (W : Subgroup X) (hW : W ≤ CFSG.pCore 2 X)
     (hWφ : ∀ w ∈ W, φ w = 1 → w = 1) : Nat.card W ≤ Nat.card N := by
   have hmem : ∀ w ∈ W, φ w ∈ N := fun w hw => by

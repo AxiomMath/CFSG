@@ -16,7 +16,7 @@ namespace HStdList
 theorem centerQuot_equiv_of_pSimple {G : Type} [Group G] [Finite G] {L : Subgroup G}
     (hL : CFSG.Open.IsQuasisimple ↥L) {S : Type} [Group S] [Nontrivial S] (f : PSimple 3 L ≃* S) :
     Nonempty (↥L ⧸ Subgroup.center ↥L ≃* S) := by
-  haveI : Nontrivial (PSimple 3 L) := f.symm.injective.nontrivial
+  have : Nontrivial (PSimple 3 L) := f.symm.injective.nontrivial
   obtain ⟨ψ⟩ := hstd_pSimple_equiv_center hL (hstd_ne_top_of_one_lt Finite.one_lt_card)
   exact ⟨ψ.symm.trans f⟩
 
@@ -29,7 +29,7 @@ theorem stdCovListAt_holds : StdCovListAt := by
   rintro X _ _ L hL hchev hev ⟨E, hE, hE3⟩
   have hGA : CFSG.Open.GriessAllModelsStatement :=
     CFSG.Milestones.cl_lit_griess_schur_multipliers_all_models_statement
-  haveI : Group.IsPerfect ↥L := ⟨hL.1⟩
+  have : Group.IsPerfect ↥L := ⟨hL.1⟩
   set β := CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom ↥L with hβ
   have hE' : IsElemAbelian 3 (E.map β) := isElemAbelian_map β hE
   have hE'3 : 3 ^ 3 ≤ Nat.card (E.map β) := by
@@ -41,7 +41,7 @@ theorem stdCovListAt_holds : StdCovListAt := by
     cases j with
     | lie d =>
       have hc : d.1.characteristic = 2 := hj
-      haveI : Nontrivial (TauCeti.CFSGIndex.lie d).Group :=
+      have : Nontrivial (TauCeti.CFSGIndex.lie d).Group :=
         (CFSG.Assembly.lie_finite_simple d).2.toNontrivial
       obtain ⟨e⟩ := HStdList.centerQuot_equiv_of_pSimple hL f
       rcases evenLie hGA hL hev d hc e with h | h
@@ -54,13 +54,13 @@ theorem stdCovListAt_holds : StdCovListAt := by
       have h5 : n = 5 ∨ n = 6 ∨ n = 8 := by
         simp only [ambiguousChev] at hj
         rcases hj with ⟨h1, -⟩ | ⟨h1, -⟩ | ⟨h1, -⟩ <;> simp [h1]
-      haveI : Nontrivial (TauCeti.CFSGIndex.alternating n h).Group :=
+      have : Nontrivial (TauCeti.CFSGIndex.alternating n h).Group :=
         alternatingGroup.nontrivial_of_three_le_card (by rw [Nat.card_fin]; omega)
       obtain ⟨e⟩ := HStdList.centerQuot_equiv_of_pSimple hL f
       exact (no_seven Nat.prime_three (by norm_num)
         (Or.inr (Or.inr (Or.inr (Or.inr ⟨n, h, rfl, h5⟩)))) e hE' hE'3).elim
     | lie d =>
-      haveI : Nontrivial (TauCeti.CFSGIndex.lie d).Group :=
+      have : Nontrivial (TauCeti.CFSGIndex.lie d).Group :=
         (CFSG.Assembly.lie_finite_simple d).2.toNontrivial
       obtain ⟨e⟩ := HStdList.centerQuot_equiv_of_pSimple hL f
       obtain ⟨d, hv⟩ := d

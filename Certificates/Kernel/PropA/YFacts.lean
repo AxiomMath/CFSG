@@ -18,7 +18,7 @@ theorem pa450010_clXR : pa450010cl false 2 pa450010wXR = zpowers pa450010x := by
   unfold pa450010cl
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨j, hj, rfl⟩
     have hj0 : j = 0 := by
@@ -135,7 +135,7 @@ theorem pa450010_clTX (b : Bool) :
   unfold pa450010cl
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   have h0 : pa450010wv b 4 pa450010wTX[0]! = pT := by
     have e : pa450010gK b 3 = pT := by simp [pa450010gK]
     rw [← e, ← pa450010wv_wK b 3 (by norm_num)]

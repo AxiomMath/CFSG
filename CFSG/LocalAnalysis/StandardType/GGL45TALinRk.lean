@@ -82,13 +82,13 @@ theorem diagGL_conj_rootSL {n : ℕ} {i j : Fin n} (hij : i ≠ j) (t : Fin n �
   by_cases hab : a = b
   · subst hab
     have : ¬ (i = a ∧ j = a) := fun h => hij (h.1.trans h.2.symm)
-    simp only [if_true, this, if_false, add_zero, mul_one]
+    simp only [ite_true, this, ite_false, add_zero, mul_one]
     exact ht a
-  · simp only [hab, if_false, zero_add, mul_zero]
+  · simp only [hab, ite_false, zero_add]
     by_cases hia : i = a ∧ j = b
     · obtain ⟨rfl, rfl⟩ := hia
-      simp only [and_self, if_true, Units.val_inv_eq_inv_val]
-    · simp only [hia, if_false, mul_zero, zero_mul]
+      simp only [and_self, ite_true, Units.val_inv_eq_inv_val]
+    · simp only [hia, ite_false, mul_zero, zero_mul]
 
 namespace LinSetting
 
@@ -99,9 +99,9 @@ theorem rk_bound (S : LinSetting p q₀ d k K ψ E) : p ^ (d - 2) * p ≤ Nat.ca
   classical
   obtain ⟨m, rfl⟩ : ∃ m, d = m + 2 := ⟨d - 2, by have := S.three_le; omega⟩
   rw [show m + 2 - 2 = m by omega]
-  haveI : CharP k 2 := S.char_two
-  haveI : Finite K := Finite.of_surjective S.π S.surj
-  haveI : NeZero p := ⟨S.hp.ne_zero⟩
+  have : CharP k 2 := S.char_two
+  have : Finite K := Finite.of_surjective S.π S.surj
+  have : NeZero p := ⟨S.hp.ne_zero⟩
   obtain ⟨ζ, hζ⟩ := S.exists_primitive
   have hζp : ζ ^ p = 1 := hζ.pow_eq_one
   let i₀ : Fin (m + 2) := Fin.castSucc (Fin.last m)

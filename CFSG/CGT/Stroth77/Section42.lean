@@ -75,7 +75,7 @@ theorem StrothFrame.IsD.false_of_split {F : StrothFrame G} {D : Subgroup G}
       Subgroup.centralizer {(dD.c : G) ^ 2 ^ j} → IsMulCommutative X →
         Nat.card X = Nat.card D → X = D) :
     False := by
-  haveI := F.simple
+  have := F.simple
   set U := Subgroup.closure {(dD.c : G) ^ 2, (dD.a : G), (dD.b : G), dD.uv, dD.t, dD.u} with hU
   set P := Subgroup.closure {dD.uv, dD.t, dD.u} with hP
   set z := (dD.c : G) ^ 2 ^ j with hz

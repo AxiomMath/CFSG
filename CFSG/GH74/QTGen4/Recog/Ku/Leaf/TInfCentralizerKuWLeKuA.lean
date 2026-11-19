@@ -18,7 +18,7 @@ variable {G : Type} [Group G]
 private theorem mem_of_orderOf_three_of_three_dvd [Finite G] {H D : Subgroup G} {x : G}
     (hH : Nat.card H = 384) (hDH : D ≤ H) (hDn : H ≤ Subgroup.normalizer (D : Set G))
     (hxH : x ∈ H) (hx3 : orderOf x = 3) (h3 : 3 ∣ Nat.card D) : x ∈ D := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hfacH : (Nat.card H).factorization 3 = 1 := by
     rw [hH, show (384 : ℕ) = 3 * 2 ^ 7 by norm_num,
       Nat.factorization_mul (by norm_num) (by positivity), Finsupp.add_apply,
@@ -46,6 +46,7 @@ namespace KuHyp
 
 variable [Finite G] {T M H P : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem H_le_normalizer_inf_centralizer_kuW (h : KuHyp G T M H P z) :
     H ≤ Subgroup.normalizer ((H ⊓ Subgroup.centralizer (kuW P H : Set G) : Subgroup G) : Set G) :=
   le_normalizer_inf_of Subgroup.le_normalizer (le_normalizer_centralizer_of h.H_le_normalizer_kuW)
@@ -77,8 +78,7 @@ theorem H_inf_centralizer_kuW_le_pCore (h : KuHyp G T M H P z) :
 end KuHyp
 
 theorem leafTInfCentralizerKuWLeKuA : LeafTInfCentralizerKuWLeKuA := by
-  intro G _ _ T M H P z h
-  intro x hx
+  intro G _ _ T M H P z h x hx
   have hxT : x ∈ T := (Subgroup.mem_inf.mp hx).1
   have hxC : x ∈ Subgroup.centralizer (kuW P H : Set G) := (Subgroup.mem_inf.mp hx).2
   have hxH : x ∈ H ⊓ Subgroup.centralizer (kuW P H : Set G) :=

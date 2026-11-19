@@ -103,7 +103,7 @@ theorem isInnerAut_psuConj_of_eigenvector (h : UnitaryFieldData 2 3 K) (A : unit
 theorem isInnerAut_psuConj_of_fixed_two_elt (h : UnitaryFieldData 2 3 K) (A : unitaryIsom3 h)
     (hA3 : psuConj h A ^ 3 = 1) {u : unitaryPSU h 3} (hu : psuConj h A u = u) (hu4 : u ^ 4 = 1)
     (hu2 : u ^ 2 ≠ 1) : IsInnerAut (psuConj h A) := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   obtain ⟨g, hg⟩ := unitaryProj_surjective h 3 u
   subst hg
   have hu9 : (unitaryProj h 3 g) ^ 9 = unitaryProj h 3 g := by

@@ -125,6 +125,7 @@ private theorem castLin_eichlerLin (h : k ≤ m) (u w : (F × F) × (Fin k → K
     · rw [castLin_snd_of_not_lt (h := h) (g := eichlerLin (normHypForm E k) u w) (v := x) hj]
       simp [qTwoFill, hj]
 
+omit [Finite K] [CharP K 2] in
 private theorem castEquiv_one (h : k ≤ m) :
     castEquiv h (1 : ((F × F) × (Fin k → K)) ≃ₗ[F] ((F × F) × (Fin k → K))) = 1 := by
   refine LinearEquiv.ext fun x => ?_

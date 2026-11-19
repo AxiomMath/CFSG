@@ -136,7 +136,7 @@ theorem signalizer_le_glbPrimeCore_of_hasPrimeConstraint [Finite G] {p : ℕ} (h
     (hYH : Y ≤ H) (hY : p.Coprime (Nat.card Y))
     (hRY : (R : Subgroup H).map H.subtype ≤ Subgroup.normalizer (Y : Set G)) :
     Y ≤ GLBPrimeCore p H :=
-  signalizer_le_glbPrimeCore_of_contains hp hp2 hH (R.isPGroup'.map H.subtype)
+  signalizer_le_glbPrimeCore_of_contains hp hp2 hH (R.isPGroup.map H.subtype)
     (Subgroup.map_subtype_le _) (sylow_contains_centralizing_order_prime R) hYH hY hRY
 
 theorem signalizer_le_glbPrimeCore_of_full_rank [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)

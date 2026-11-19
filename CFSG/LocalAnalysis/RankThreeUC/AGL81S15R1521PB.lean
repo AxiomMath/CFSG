@@ -22,11 +22,13 @@ theorem commute_barO2_of_commute_star_aux_perfect {G : Type*} [Group G] {H : Sub
   have h1 : ⁅H, H⁆ = H := Subgroup.isPerfect_iff.mp (Group.isPerfect_def.mpr h)
   exact h1.ge
 
+omit [Finite X] in
 theorem commute_barO2_of_commute_star_aux_conj {L : Subgroup X} (hL : IsC2 L) (x : X) :
     barO2 (L.map (MulAut.conj x).toMonoidHom) ≤
       ⁅barO2 (L.map (MulAut.conj x).toMonoidHom), barO2 (L.map (MulAut.conj x).toMonoidHom)⁆ :=
   commute_barO2_of_commute_star_aux_perfect (liftOf_conj_aux4 hL x).component.2.2.1
 
+omit [Finite X] in
 theorem commute_barO2_of_commute_star_aux_normalClosure {L : Subgroup X}
     {P : Subgroup (X ⧸ CFSG.pCore 2 X)}
     (h : ∀ x : X, barO2 (L.map (MulAut.conj x).toMonoidHom) ≤ P) :
@@ -38,6 +40,7 @@ theorem commute_barO2_of_commute_star_aux_normalClosure {L : Subgroup X}
   obtain ⟨c, rfl⟩ := isConj_iff.1 hab
   exact h c (Subgroup.mem_map_of_mem _ ⟨a, ha, by simp [MulAut.conj_apply]⟩)
 
+omit [Finite X] in
 theorem commute_barO2_of_commute_star_aux_le {L : Subgroup X} (x : X) :
     L.map (MulAut.conj x).toMonoidHom ≤ Subgroup.normalClosure (L : Set X) := by
   rintro _ ⟨e, he, rfl⟩
@@ -85,9 +88,9 @@ theorem commute_barO2_of_commute_star_gen {T T₁ T₂ : Subgroup X} {Ls : Subgr
     {L : Subgroup X} (hl : LiftCtxGen X T T₁ T₂ Ls L) {A : Subgroup X}
     (h : ⁅gnImg T (Subgroup.normalClosure (L : Set X)), gnImg T A⁆ = ⊥) :
     ⁅barO2 (Subgroup.normalClosure (L : Set X)), barO2 A⁆ = ⊥ := by
-  haveI hJn : (Subgroup.normalClosure (L : Set X)).Normal := Subgroup.normalClosure_normal
+  have hJn : (Subgroup.normalClosure (L : Set X)).Normal := Subgroup.normalClosure_normal
   set J : Subgroup X := Subgroup.normalClosure (L : Set X) with hJ
-  haveI hNn : (J ⊓ gnC T).Normal := inferInstance
+  have hNn : (J ⊓ gnC T).Normal := inferInstance
   have hJA : ⁅J, A⁆ ≤ J ⊓ gnC T := by
     refine le_inf (Subgroup.commutator_le_left J A) ?_
     have h2 : (⁅J, A⁆).map (toStar T) = ⊥ := by
@@ -362,6 +365,7 @@ theorem pRank_centre_barO2_normalClosure_le_one (hT : LieOddRankTable) (hKSMAlt 
     CFSG.Open.pRank 3 (Subgroup.center ↥(barO2 (Subgroup.normalClosure (L : Set X)))) ≤ 1 :=
   pRank_centre_barO2_normalClosure_le_one_gen hT hKSMAlt hKSMOdd hKSMU4 hKSML3 hl.toGen h15
 
+omit [Finite X] in
 theorem xlevel_1521_S1_aux_inf {A J : Subgroup X} [J.Normal] (hA : IsElemAbelian 3 A)
     (h : A ⊓ J = ⊥) : barO2 A ⊓ barO2 J = ⊥ := by
   rw [eq_bot_iff]
@@ -389,7 +393,7 @@ theorem xlevel_1521_S1_aux_rank_gen {T T₁ T₂ R A : Subgroup X} {Ls : Subgrou
     (hbot : A ⊓ Subgroup.normalClosure (L : Set X) = ⊥)
     (hbar : ⁅barO2 (Subgroup.normalClosure (L : Set X)), barO2 A⁆ = ⊥) :
     CFSG.Open.pRank 3 (Subgroup.normalClosure (L : Set X)) ≤ 1 := by
-  haveI hJn : (Subgroup.normalClosure (L : Set X)).Normal := Subgroup.normalClosure_normal
+  have hJn : (Subgroup.normalClosure (L : Set X)).Normal := Subgroup.normalClosure_normal
   have hperm : ∀ a ∈ barO2 A, ∀ b ∈ barO2 (Subgroup.normalClosure (L : Set X)), a * b = b * a := by
     intro a ha b hb
     have hb' := Subgroup.commutator_eq_bot_iff_le_centralizer.1 hbar hb
@@ -429,7 +433,7 @@ theorem xlevel_1521_S1_aux_le_gen (hT : LieOddRankTable) (hKSMAlt : KSMAlt) (hKS
     {L : Subgroup X} (hl : LiftCtxGen X T T₁ T₂ Ls L) (hA : AConfig T R A) (h15 : Shape1515 L)
     (hAJ : A ≤ Subgroup.normalClosure (L : Set X))
     (hbar : ⁅barO2 (Subgroup.normalClosure (L : Set X)), barO2 A⁆ = ⊥) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hperm : ∀ a ∈ barO2 A, ∀ b ∈ barO2 (Subgroup.normalClosure (L : Set X)), a * b = b * a := by
     intro a ha b hb
     have hb' := Subgroup.commutator_eq_bot_iff_le_centralizer.1 hbar hb
@@ -457,7 +461,7 @@ theorem xlevel_1521_S1_aux_le_gen (hT : LieOddRankTable) (hKSMAlt : KSMAlt) (hKS
     apply Subtype.ext
     exact (hperm _ ⟨a, a.2, rfl⟩ g g.2).symm
   have hcomm : ∀ a b : ↥A, a * b = b * a := by
-    haveI := hA.elemAbelian.1
+    have := hA.elemAbelian.1
     exact fun a b => mul_comm' a b
   have h2le : 2 ≤ CFSG.Open.pRank 3
       (Subgroup.center ↥(barO2 (Subgroup.normalClosure (L : Set X)))) :=
@@ -478,7 +482,7 @@ theorem xlevel_1521_S1_gen (hT : LieOddRankTable) (hKSMAlt : KSMAlt) (hKSMOdd : 
     {L : Subgroup X} (hl : LiftCtxGen X T T₁ T₂ Ls L) (hA : AConfig T R A) (h15 : Shape1515 L)
     (hcomm : ⁅gnImg T (Subgroup.normalClosure (L : Set X)), gnImg T A⁆ = ⊥) :
     L.Normal ∧ IsLThreeOdd ↥Ls := by
-  haveI hJn : (Subgroup.normalClosure (L : Set X)).Normal := Subgroup.normalClosure_normal
+  have hJn : (Subgroup.normalClosure (L : Set X)).Normal := Subgroup.normalClosure_normal
   have hbar := commute_barO2_of_commute_star_gen hl hcomm
   have hbot : A ⊓ Subgroup.normalClosure (L : Set X) = ⊥ := by
     rcases hA.inf_eq_bot_or_le (K := Subgroup.normalClosure (L : Set X))

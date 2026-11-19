@@ -68,7 +68,7 @@ theorem g0Mat_isometry : ((g0Mat (K := K)).map h.bar)ᵀ * hypGram 1 0 K * g0Mat
   have h2 := two_eq_zero h
   ext a b
   rcases a with i | k | i <;> rcases b with j | l | j
-  all_goals first | exact Fin.elim0 ‹Fin 0› | skip
+  all_goals try exact Fin.elim0 ‹Fin 0›
   all_goals simp [Matrix.mul_apply, Fintype.sum_sum_type, g0Mat, hypTwoEquiv, hypGram_apply, hypPartner]
   all_goals first | exact Subsingleton.elim _ _ | linear_combination h2
 
@@ -92,7 +92,7 @@ theorem g0_pow_three : g0 h ^ 3 = 1 := by
   rw [coe_g0_pow]
   ext a b
   rcases a with i | k | i <;> rcases b with j | l | j
-  all_goals first | exact Fin.elim0 ‹Fin 0› | skip
+  all_goals try exact Fin.elim0 ‹Fin 0›
   all_goals simp [pow_succ, Matrix.mul_apply, Fintype.sum_sum_type, g0Mat, hypTwoEquiv, one_apply]
   all_goals first
     | exact Subsingleton.elim _ _

@@ -132,7 +132,7 @@ some Sylow `2`-subgroup of `F°` has its normalizer in `F` contained in `M`. -/
 @[expose] public def Corollary713SolvableConclusion
     {X : Type u} [Group X] [Finite X]
     (M F : Subgroup X) : Prop :=
-  IsSolvable (involutionCoreIn F) ∧
+  Group.IsSolvable (involutionCoreIn F) ∧
     ∃ u : X,
       u ∈ F ⊓ M ∧ IsInvolution u ∧
         (∀ v : X, v ∈ F ⊓ M → IsInvolution v → v = u) ∧
@@ -288,7 +288,7 @@ conclusion for `Y₀`; parts (c)--(d) for `Y` are vacuous in this branch. -/
 `2`-normalizer. -/
 @[expose] public def IsBorelSubgroup
     {G : Type u} [Group G] [Finite G] (B : Subgroup G) : Prop :=
-  IsSolvable B ∧
+  Group.IsSolvable B ∧
     ∃ S : Sylow 2 G,
       B = Subgroup.normalizer ((S : Subgroup G) : Set G)
 

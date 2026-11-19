@@ -10,6 +10,7 @@ open CFSG.ClassicalGroups.Unitary
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem card_fixedField_mul_self {σ : F ≃+* F} (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) = 0) :
     Nat.card {c : F // σ c = c} * Nat.card {c : F // σ c = c} = Nat.card F := by
   obtain ⟨ω, hω⟩ := hσ.trace_surj 1 (map_one σ)

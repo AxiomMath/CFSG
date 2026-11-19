@@ -24,38 +24,44 @@ private lemma a₀_inv_pow (m : ℕ) (hm : m ≤ 5) : (a₀ ^ m)⁻¹ = a₀ ^ (
   apply inv_eq_of_mul_eq_one_right
   rw [← pow_add, Nat.add_sub_of_le hm, a₀_pow_five]
 
+omit [Finite V] in
 private lemma σ_conj (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (g h : A5 × A5) :
     σ g * σ h * (σ g)⁻¹ = σ (g * h * g⁻¹) := by
   rw [← map_mul, ← map_inv, ← map_mul]
 
+omit [Finite V] in
 private lemma σ_mul_comm_apply (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (g h : A5 × A5)
     (hgh : g * h = h * g) (v : V) : σ g (σ h v) = σ h (σ g v) := by
   have h1 : σ g * σ h = σ h * σ g := by rw [← map_mul, ← map_mul, hgh]
   rw [← LinearEquiv.mul_apply, h1, LinearEquiv.mul_apply]
 
+omit [Finite V] in
 private lemma σ_fixed_conj (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) {g h : A5 × A5} {v : V}
     (hv : σ h v = v) : σ (g * h * g⁻¹) (σ g v) = σ g v := by
   rw [← σ_conj]
   simp only [LinearEquiv.mul_apply]
   rw [show (σ g)⁻¹ ((σ g) v) = v from LinearEquiv.symm_apply_apply (σ g) v, hv]
 
+omit [Finite V] in
 private lemma fixed_of_inv_fixed {z : V ≃ₗ[ZMod 2] V} {w : V} (h : z⁻¹ w = w) : z w = w := by
   have h2 : z (z⁻¹ w) = z w := congrArg z h
   rw [show z (z⁻¹ w) = w from LinearEquiv.apply_symm_apply z w] at h2
   exact h2.symm
 
+omit [Finite V] in
 private lemma σ_pow_mul (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (m : ℕ) :
     σ (a₀ ^ m, a₀) = σ (a₀, 1) ^ m * σ (1, a₀) := by
   have hge : (((a₀, (1 : A5)) : A5 × A5) ^ m) * (1, a₀) = (a₀ ^ m, a₀) := by
-    ext <;> simp [Prod.pow_fst, Prod.pow_snd]
+    ext <;> simp
   calc σ (a₀ ^ m, a₀) = σ ((((a₀, (1 : A5)) : A5 × A5) ^ m) * (1, a₀)) := by rw [hge]
     _ = σ (((a₀, (1 : A5)) : A5 × A5) ^ m) * σ (1, a₀) := map_mul σ _ _
     _ = σ (a₀, 1) ^ m * σ (1, a₀) := by rw [map_pow]
 
+omit [Finite V] in
 private lemma σ_alpha_pow_five (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) :
     (σ (a₀, 1)) ^ 5 = 1 := by
   have h1 : (((a₀, (1 : A5)) : A5 × A5) ^ 5) = 1 := by
-    ext <;> simp [Prod.pow_fst, Prod.pow_snd, a₀_pow_five]
+    ext <;> simp [a₀_pow_five]
   calc (σ (a₀, 1)) ^ 5 = σ (((a₀, (1 : A5)) : A5 × A5) ^ 5) := (map_pow σ _ _).symm
     _ = σ 1 := by rw [h1]
     _ = 1 := map_one σ
@@ -123,7 +129,7 @@ theorem exists_eigenData (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (hS : StdHyp 
     exact hvk
   have hα5 : α ^ 5 = 1 := by
     have h1 : (((a₀, (1 : A5)) : A5 × A5) ^ 5) = 1 := by
-      ext <;> simp [Prod.pow_fst, Prod.pow_snd, a₀_pow_five]
+      ext <;> simp [a₀_pow_five]
     calc α ^ 5 = φ (a₀, 1) ^ 5 := rfl
       _ = φ (((a₀, (1 : A5)) : A5 × A5) ^ 5) := (map_pow φ _ _).symm
       _ = φ 1 := by rw [h1]
@@ -286,6 +292,7 @@ theorem exists_eigenData (σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)) (hS : StdHyp 
 
 variable {σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)} {c : ℕ} {Fp Fm : Submodule (ZMod 2) V}
 
+omit [Finite V] in
 theorem EigenData.alpha_mem (hE : EigenData σ c Fp Fm) :
     (∀ v ∈ Fp, σ (a₀, 1) v ∈ Fp) ∧ (∀ v ∈ Fm, σ (a₀, 1) v ∈ Fm) := by
   constructor
@@ -316,6 +323,7 @@ theorem EigenData.alpha_mem (hE : EigenData σ c Fp Fm) :
           σ_mul_comm_apply σ (a₀ ^ c, a₀) (a₀, 1) hcomm v
       _ = σ (a₀, 1) v := by rw [(hE.mem_minus v).mp hv]
 
+omit [Finite V] in
 theorem EigenData.beta_eq (hE : EigenData σ c Fp Fm) :
     (∀ v ∈ Fp, σ (1, a₀) v = (σ (a₀, 1) ^ c) v) ∧
       (∀ v ∈ Fm, σ (1, a₀) v = (σ (a₀, 1) ^ (5 - c)) v) := by
@@ -352,6 +360,7 @@ theorem EigenData.beta_eq (hE : EigenData σ c Fp Fm) :
       exact h
     rwa [hαc_inv] at h2
 
+omit [Finite V] in
 theorem EigenData.nu₁_mem (hE : EigenData σ c Fp Fm) :
     (∀ v ∈ Fp, σ (n₀, 1) v ∈ Fm) ∧ (∀ v ∈ Fm, σ (n₀, 1) v ∈ Fp) := by
   have hc4 : c ≤ 4 := hE.le_four
@@ -381,6 +390,7 @@ theorem EigenData.nu₁_mem (hE : EigenData σ c Fp Fm) :
     have h1 := σ_fixed_conj σ (g := (n₀, 1)) (h := (a₀ ^ c, a₀)) hv'
     rwa [hge2] at h1
 
+omit [Finite V] in
 theorem EigenData.nu₂_mem (hE : EigenData σ c Fp Fm) :
     (∀ v ∈ Fp, σ (1, n₀) v ∈ Fm) ∧ (∀ v ∈ Fm, σ (1, n₀) v ∈ Fp) := by
   have hc4 : c ≤ 4 := hE.le_four

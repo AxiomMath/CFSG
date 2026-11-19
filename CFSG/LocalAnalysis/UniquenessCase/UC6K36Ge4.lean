@@ -33,7 +33,7 @@ theorem oracle_of_ltStar (IH : K36LtStar (Nat.card G)) (hK : CFSG.Open.IsKGroup 
     exact K36Concl.toConclIn (IH ↥X hlt (hK.subgroup X) _ p _ (h.subgroupOf hEX hXM hQX) hSX)
   star_comp K hKc hne := h.star36_comp hS hKc hne
   star_cent Λ hΛ := by
-    haveI := hΛ
+    have := hΛ
     exact h.star36_cent_or_le hS Λ
 
 end Hyp36

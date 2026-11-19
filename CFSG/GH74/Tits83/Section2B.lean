@@ -69,7 +69,7 @@ private theorem Vni_le_normalizer_Kleft {i : ℤ} {Vni : Subgroup G} (hi : 0 < i
       simp only [commutatorElement_def]
       group
     rw [e]
-    refine SetLike.le_def.mp ?_ hinv
+    refine _root_.IsConcreteLE.le_iff.mp ?_ hinv
     refine iSup₂_le fun t ht => ?_
     have ht' : k < t ∧ t < n - i := ht
     exact le_iSup₂_of_le t ⟨by omega, by omega⟩ le_rfl
@@ -101,7 +101,7 @@ private theorem Vi_le_normalizer_Kright {i : ℤ} {Vi : Subgroup G} (hi : 0 < i)
   have hle : T.U k ≤ Kright T i := le_iSup₂_of_le k ⟨hk'.1, hk'.2⟩ le_rfl
   have hcomm : ⁅c, f k⁆ ∈ Kright T i := by
     have h := T.comm i k (by omega) (by omega) c hc' (f k) hfk
-    refine SetLike.le_def.mp ?_ h
+    refine _root_.IsConcreteLE.le_iff.mp ?_ h
     refine iSup₂_le fun t ht => ?_
     have ht' : i < t ∧ t < k := ht
     exact le_iSup₂_of_le t ⟨by omega, by omega⟩ le_rfl
@@ -138,7 +138,7 @@ private theorem Vni_le_normalizer_Wmid {i : ℤ} {Vni : Subgroup G} (hi : 0 < i)
       simp only [commutatorElement_def]
       group
     rw [e]
-    refine SetLike.le_def.mp ?_ hinv
+    refine _root_.IsConcreteLE.le_iff.mp ?_ hinv
     refine iSup₂_le fun t ht => ?_
     have ht' : k < t ∧ t < n - i := ht
     exact le_iSup₂_of_le t ⟨by omega, by omega⟩ le_rfl
@@ -170,7 +170,7 @@ private theorem Vi_le_normalizer_Wmid_sup_Vni {i : ℤ} {Vi Vni : Subgroup G} (h
     have hcomm : ⁅c, x⁆ ∈ Wmid T i := by
       have h := T.comm i (n - i) (by omega) (by omega) c (hVi hc) x hx'
       have h' : c * x * c⁻¹ * x⁻¹ ∈ Wmid T i := by
-        refine SetLike.le_def.mp ?_ h
+        refine _root_.IsConcreteLE.le_iff.mp ?_ h
         refine iSup₂_le fun t ht => ?_
         have ht' : i < t ∧ t < n - i := ht
         exact le_iSup₂_of_le t ⟨by omega, by omega⟩ le_rfl
@@ -247,7 +247,7 @@ private theorem Vsub_map_conj_le_Aleft {i : ℤ} {Vi Vni : Subgroup G} (hi : 0 <
     have ha' : a ∈ T.U i := hVi ha
     have hcomm : ⁅g, a⁆ ∈ Kleft T i := by
       have h := T.comm 0 i hi (by omega) g hg a ha'
-      refine SetLike.le_def.mp ?_ h
+      refine _root_.IsConcreteLE.le_iff.mp ?_ h
       refine iSup₂_le fun t ht => ?_
       have ht' : 0 < t ∧ t < i := ht
       exact le_iSup₂_of_le t ⟨by omega, by omega⟩ le_rfl
@@ -263,7 +263,7 @@ private theorem Vsub_map_conj_le_Aleft {i : ℤ} {Vi Vni : Subgroup G} (hi : 0 <
     have hk' : i + 1 ≤ k ∧ k ≤ n - i - 1 := hk
     have hcomm : ⁅g, x⁆ ∈ Kleft T i := by
       have h := T.comm 0 k (by omega) (by omega) g hg x hx
-      refine SetLike.le_def.mp ?_ h
+      refine _root_.IsConcreteLE.le_iff.mp ?_ h
       refine iSup₂_le fun t ht => ?_
       have ht' : 0 < t ∧ t < k := ht
       exact le_iSup₂_of_le t ⟨by omega, by omega⟩ le_rfl
@@ -278,7 +278,7 @@ private theorem Vsub_map_conj_le_Aleft {i : ℤ} {Vi Vni : Subgroup G} (hi : 0 <
     have hc' : c ∈ T.U (n - i) := hVni hc
     have hcomm : ⁅g, c⁆ ∈ Kleft T i := by
       have h := T.comm 0 (n - i) (by omega) (by omega) g hg c hc'
-      refine SetLike.le_def.mp ?_ h
+      refine _root_.IsConcreteLE.le_iff.mp ?_ h
       refine iSup₂_le fun t ht => ?_
       have ht' : 0 < t ∧ t < n - i := ht
       exact le_iSup₂_of_le t ⟨by omega, by omega⟩ le_rfl
@@ -300,7 +300,7 @@ private theorem Vsub_map_conj_le_Bright {i : ℤ} {Vi Vni : Subgroup G} (hi : 0 
     have hcomm : ⁅g, a⁆ ∈ Kright T i := by
       have h := T.comm i n (by omega) (by omega) a ha' g hg
       have h' : a * g * a⁻¹ * g⁻¹ ∈ Kright T i := by
-        refine SetLike.le_def.mp ?_ h
+        refine _root_.IsConcreteLE.le_iff.mp ?_ h
         refine iSup₂_le fun t ht => ?_
         have ht' : i < t ∧ t < n := ht
         exact le_iSup₂_of_le t ⟨by omega, by omega⟩ le_rfl
@@ -324,7 +324,7 @@ private theorem Vsub_map_conj_le_Bright {i : ℤ} {Vi Vni : Subgroup G} (hi : 0 
     have hcomm : ⁅g, x⁆ ∈ Kright T i := by
       have h := T.comm k n (by omega) (by omega) x hx g hg
       have h' : x * g * x⁻¹ * g⁻¹ ∈ Kright T i := by
-        refine SetLike.le_def.mp ?_ h
+        refine _root_.IsConcreteLE.le_iff.mp ?_ h
         refine iSup₂_le fun t ht => ?_
         have ht' : k < t ∧ t < n := ht
         exact le_iSup₂_of_le t ⟨by omega, by omega⟩ le_rfl
@@ -347,7 +347,7 @@ private theorem Vsub_map_conj_le_Bright {i : ℤ} {Vi Vni : Subgroup G} (hi : 0 
     have hcomm : ⁅g, c⁆ ∈ Kright T i := by
       have h := T.comm (n - i) n (by omega) (by omega) c hc' g hg
       have h' : c * g * c⁻¹ * g⁻¹ ∈ Kright T i := by
-        refine SetLike.le_def.mp ?_ h
+        refine _root_.IsConcreteLE.le_iff.mp ?_ h
         refine iSup₂_le fun t ht => ?_
         have ht' : n - i < t ∧ t < n := ht
         exact le_iSup₂_of_le t ⟨by omega, by omega⟩ le_rfl
@@ -367,8 +367,8 @@ private theorem Vsub_map_conj_le_Bright {i : ℤ} {Vi Vni : Subgroup G} (hi : 0 
   rw [Vsub, Subgroup.map_sup, Subgroup.map_sup]
   exact sup_le (sup_le hViMap hWMap) hVniMap
 
-private theorem Vsub_map_mu_zero_le (hn : 3 ≤ n) {i : ℤ} {Vi Vni : Subgroup G} (hi : 0 < i)
-    (hi2 : 2 * i < n) (hVi : Vi ≤ T.U i) (hVni : Vni ≤ T.U (n - i))
+private theorem Vsub_map_mu_zero_le (hn : 3 ≤ n) {i : ℤ} {Vi Vni : Subgroup G} (_hi : 0 < i)
+    (_hi2 : 2 * i < n) (_hVi : Vi ≤ T.U i) (_hVni : Vni ≤ T.U (n - i))
     (hconj : ∀ u ∈ T.U 0, u ≠ 1 →
       Vi.map (MulAut.conj (T.mu 0 u)).toMonoidHom = Vni)
     {v : G} (hv : v ∈ T.U 0) (hv1 : v ≠ 1) :

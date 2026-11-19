@@ -53,7 +53,7 @@ theorem extra_of_d2Heis {i : TauCeti.CFSGIndex} {p : ℕ} (hp : p.Prime)
     (∀ (K : Type) [Group K] [Finite K], T p K → NoOuterP p K) ∧
     (∀ (K : Type) [Group K] [Finite K], T p K → NormalizerMaximal p K) ∧
     (∀ (K : Type) [Group K] [Finite K], T p K → NormalizerIrreducibleQuotient p K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨?_, ?_, ?_, ?_⟩
   · intro K _ _ hK S
     obtain ⟨hKe, hcen⟩ := hT K hK

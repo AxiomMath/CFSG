@@ -59,7 +59,7 @@ namespace Sp44
 
 theorem exists_orderOf_eq_three_of_isL2Quot [Finite G] {L : Subgroup G}
     (h : IsL2Quot 2 (oTwoQuot ↥L)) : ∃ x ∈ L, orderOf x = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h60 : Nat.card (oTwoQuot ↥L) = 60 := by
     rw [CFSG.Quasithin.IsL2Quot.card (by norm_num : 1 ≤ 2) h]
     norm_num
@@ -74,7 +74,7 @@ theorem exists_orderOf_eq_three_of_isL2Quot [Finite G] {L : Subgroup G}
 theorem oTwo_eq [Finite G] {L P : Subgroup G} (hLP : L ≤ P)
     (hPn : P ≤ Subgroup.normalizer (L : Set G)) (hidx : L.relIndex P = 3) :
     pCoreOf 2 P = pCoreOf 2 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPL : pCoreOf 2 P ≤ L :=
     CFSG.Quasithin.MS93.pCoreOf_le_of_odd_relIndex hLP (by rw [hidx]; norm_num)
   refine le_antisymm ?_ ?_
@@ -114,7 +114,7 @@ theorem Sp44LocalData.side_left [Finite G]
     {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S) (h1 : VA5 L1)
     (hD : Sp44LocalData L1 L2 S) :
     Sp44.Sp44Side L1 (L1 ⊔ bigB L1 L2 S) S (pCoreOf 2 L2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   have hP : L1 ⊔ bigB L1 L2 S ≤ Subgroup.normalizer (L1 : Set G) :=
     F1.parabolic_le_normalizer hR
@@ -170,7 +170,7 @@ theorem Sp44LocalData.side_left [Finite G]
       card_inf := hD.card_inf }
 
 theorem Sp44LocalData.side_right [Finite G]
-    {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S) (h1 : VA5 L1) (h2 : VA5 L2)
+    {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S) (_h1 : VA5 L1) (h2 : VA5 L2)
     (hD : Sp44LocalData L1 L2 S) :
     Sp44.Sp44Side L2 (L2 ⊔ bigB L1 L2 S) S (pCoreOf 2 L1) := by
   have h := Sp44LocalData.side_left (L1 := L2) (L2 := L1) (S := S) hF.symm h2 hD.symm
@@ -203,7 +203,7 @@ theorem Sp44Side.sup_eq {L P S Q' : Subgroup G} [Finite G] (h : Sp44Side L P S Q
 end Sp44
 
 theorem Sp44LocalData.parabolic_inf [Finite G]
-    {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S) (hD : Sp44LocalData L1 L2 S) :
+    {L1 L2 S : Subgroup G} (hF : F112HypW L1 L2 S) (_hD : Sp44LocalData L1 L2 S) :
     (L1 ⊔ bigB L1 L2 S) ⊓ (L2 ⊔ bigB L1 L2 S) = bigB L1 L2 S := by
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   exact F1.parabolic_inf_parabolic hR

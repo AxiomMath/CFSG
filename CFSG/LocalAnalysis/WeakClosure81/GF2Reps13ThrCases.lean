@@ -122,7 +122,7 @@ theorem s13_case_four_N (h : Cfg133 A t 3)
   have hcardP : Nat.card P = 81 := by
     rcases h4 with hZ | hWr
     · obtain ⟨H, hinstH, hPext, ⟨e⟩⟩ := hZ
-      letI := hinstH
+      let := hinstH
       rw [Nat.card_congr e.toEquiv, Nat.card_prod, hPext.2.1]
       norm_num
     · exact hWr.1

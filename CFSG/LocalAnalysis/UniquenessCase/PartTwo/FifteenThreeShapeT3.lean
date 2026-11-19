@@ -48,7 +48,7 @@ theorem commSub_top_eq_map_autSub {𝒲 : Set (Subgroup V)} (h𝒲 : sSupIndep �
     (hfix : ∀ k ∈ K, ∀ v : V, k v * v⁻¹ ∈ W) :
     commSub ⊤ K = (commSub ⊤ (autSub K W)).map W.subtype := by
   have hsup : W ⊔ sSup (𝒲 \ {W}) = ⊤ := by
-    rw [← sSup_insert, Set.insert_diff_singleton, Set.insert_eq_of_mem hW, htop]
+    rw [← sSup_insert, Set.insert_sdiff_singleton, Set.insert_eq_of_mem hW, htop]
   apply le_antisymm
   · rw [commSub, Subgroup.closure_le]
     rintro _ ⟨k, hk, v, -, rfl⟩

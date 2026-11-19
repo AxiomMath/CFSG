@@ -23,7 +23,7 @@ open CFSG.QuasithinUnique
 
 private theorem nonempty_mulEquiv_projectiveSL_of_isL5Two {S : Type} [Group S] (h : IsL5Two S) :
     Nonempty (S ≃* LinearFlag.projectiveSL 5 (ZMod 2)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨i, hv⟩, ⟨q, hq, hd⟩, ⟨e⟩⟩ := h
   have hd' : i = .A 4 q := hd
   subst hd'
@@ -37,7 +37,7 @@ private theorem nonempty_mulEquiv_projectiveSL_of_isL5Two {S : Type} [Group S] (
 
 private theorem inf_normalizer_le_of_isL5Two {G : Type} [Group G] [Finite G] {M S : Subgroup G}
     (h : IsL5Two ↥M) (hS : IsSylowTwoOf S M) : M ⊓ Subgroup.normalizer (S : Set G) ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := nonempty_mulEquiv_projectiveSL_of_isL5Two h
   obtain ⟨P₀, hP₀⟩ := LinearFlag.exists_sylow_projUnitriangular (K := ZMod 2) 2
     (show 1 ≤ 5 by norm_num)

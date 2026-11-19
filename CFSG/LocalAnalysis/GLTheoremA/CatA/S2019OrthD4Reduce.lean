@@ -25,7 +25,7 @@ theorem s2019OrthD4Outer_of_graph (h : S2019OrthD4Graph) : S2019OrthD4Outer := b
       matrixProjectiveImage (coordinateQuadPlus 4 K)
   · exact s2019FixCentralizes_omega_plus_of_mem_E hG hq2 Nat.prime_three (by norm_num) hK e β hβ
       hnot hE
-  · haveI : Finite G := Finite.of_equiv _ e.toEquiv.symm
+  · have : Finite G := Finite.of_equiv _ e.toEquiv.symm
     exact s2019FixCentralizes_of_congr Nat.prime_three (coordinatePlusWitnessEquiv K e) β
       (h K q f hq hq2 hq3 hK _ (by rw [← map_pow, hβ, map_one]) hE)
 

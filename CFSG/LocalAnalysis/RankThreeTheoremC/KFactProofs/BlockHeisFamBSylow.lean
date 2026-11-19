@@ -14,7 +14,7 @@ theorem heisB_exists_elemAbelian_of_sigmaModel {p : ℕ} (hp : p.Prime) {G : Typ
     [Finite G] {e a N : ℕ} (ha : 1 ≤ a) (hm : p ≤ N / e)
     (h : ∀ P : Sylow p G, Nonempty (P ≃* sigmaModel p e a N)) :
     ∃ A : Subgroup G, IsMulCommutative A ∧ (∀ x ∈ A, x ^ p = 1) ∧ Nat.card A = p ^ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hL : 1 < (Nat.digits p (N / e)).length := by
     rw [Nat.lt_digits_length_iff hp.one_lt]
     simpa using hm

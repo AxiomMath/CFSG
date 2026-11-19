@@ -139,7 +139,7 @@ theorem sylow_equiv (P : Sylow 2 S) :
       rw [Subgroup.orderOf_coe]
       exact v.2
     rw [h.eq_of_orderOf_eq_two hu, h.eq_of_orderOf_eq_two hv]
-  rcases rank_one_two_cyclic_or_quaternion P.isPGroup' hrank with hc | ⟨e, he1, ⟨ε⟩⟩
+  rcases rank_one_two_cyclic_or_quaternion P.isPGroup hrank with hc | ⟨e, he1, ⟨ε⟩⟩
   · exfalso
     obtain ⟨g, hg⟩ := hc.exists_ofOrder_eq_natCard
     rw [hcard] at hg

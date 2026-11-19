@@ -13,12 +13,12 @@ open Subgroup
 theorem s16c1_G47_perfect_trivial {P W : Type*} [Group P] [Group W] [Finite W]
     [Group.IsPerfect P] (hW : Nat.card W ≤ 4) (ρ : P →* MulAut W) (g : P) : ρ g = 1 := by
   set φ : P →* Equiv.Perm W := (MulAut.toPerm W).comp ρ with hφ
-  haveI : Group.IsSolvable (Equiv.Perm W) := Equiv.Perm.isSolvable hW
-  haveI : Group.IsPerfect φ.range := Group.IsPerfect.range φ
-  haveI : Group.IsSolvable φ.range := inferInstance
+  have : Group.IsSolvable (Equiv.Perm W) := Equiv.Perm.isSolvable hW
+  have : Group.IsPerfect φ.range := Group.IsPerfect.range φ
+  have : Group.IsSolvable φ.range := inferInstance
   have hsub : Subsingleton φ.range := by
     by_contra hns
-    haveI : Nontrivial φ.range := not_subsingleton_iff_nontrivial.mp hns
+    have : Nontrivial φ.range := not_subsingleton_iff_nontrivial.mp hns
     exact Group.IsPerfect.not_isSolvable (G := φ.range) inferInstance
   have h1 : φ g = 1 := by
     have := Subsingleton.elim (⟨φ g, g, rfl⟩ : φ.range) 1
@@ -66,7 +66,7 @@ theorem s16c1_G47_cent_trivial {Hs : Type} [Group Hs] {Ys B Vs : Subgroup Hs}
         _ = b * n * b⁻¹ := by group
     rw [h2]
     exact hbn
-  haveI hCn : C.Normal := ⟨fun n hn g => hconj n hn g⟩
+  have hCn : C.Normal := ⟨fun n hn g => hconj n hn g⟩
   have hCp : IsPGroup 2 C := hV2.to_le inf_le_left
   have hCle : C ≤ CFSG.pCore 2 Hs := le_sSup ⟨hCn, hCp⟩
   rw [hO2] at hCle

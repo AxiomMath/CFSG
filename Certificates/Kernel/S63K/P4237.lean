@@ -184,7 +184,7 @@ theorem pa_all : ∀ h < 2464, ∀ j < 12, paK h j = true := by
   intro h hh j hj
   have := I21111.blocks (f := fun h => bIf(Nat.blt h 2464, allN 12 fun j => paK h j, true))
     (n := 81) (m := 31) (fun b hb => pAll b hb) (by norm_num) h (by omega)
-  rw [bIf_eq, if_pos (Nat.blt_eq.mpr hh)] at this
+  rw [bIf_eq, ite_eq_left (Nat.blt_eq.mpr hh)] at this
   exact MatL.allN_iff.1 this j hj
 
 theorem beq_nat' (a b : ℕ) : (a == b) = Nat.beq a b := HD.beq_nat a b
@@ -632,12 +632,11 @@ theorem pw_eq : locPairWit CZ A21112.DQ = (pwV, pwA, pwB) := by
       rw [bAnd_eq', Bool.and_eq_true] at p5
       rw [cond_eq hv, p5.1, cz_mem_zero (qp_lt _ hv) (beqT p5.2)]
       rfl
-    rw [if_pos hc]
+    rw [ite_eq_left hc]
     rw [forIn_first (k := pwA) (r := (pwV, pwA, pwB)) ?_ ha ?_]
     · rfl
     · intro i hi
       have h := MatL.allN_iff.1 p6 i hi
-      try dsimp only
       rw [bIf_eq] at h
       have hi5 : i < 512 := by omega
       split at h
@@ -645,10 +644,9 @@ theorem pw_eq : locPairWit CZ A21112.DQ = (pwV, pwA, pwB) := by
         have hcm' : locComm A21112.DQ.El[i]! A21112.DQ.El[pwV]! = true := by
           rw [q_el' hi5, q_el' hv, comm_eq]
           exact hcm
-        rw [if_pos hcm', forIn_none]
+        rw [ite_eq_left hcm', forIn_none]
         · rfl
         · intro j hj
-          try dsimp only
           have hj' := MatL.allN_iff.1 h j hj
           rw [bIf_eq] at hj'
           split at hj'
@@ -663,15 +661,13 @@ theorem pw_eq : locPairWit CZ A21112.DQ = (pwV, pwA, pwB) := by
           simpa using hcm
         rw [hcm']
         rfl
-    · try dsimp only
-      have hcm' : locComm A21112.DQ.El[pwA]! A21112.DQ.El[pwV]! = true := by
+    · have hcm' : locComm A21112.DQ.El[pwA]! A21112.DQ.El[pwV]! = true := by
         rw [q_el' ha, q_el' hv, comm_eq]
         exact p7
-      rw [if_pos hcm']
+      rw [ite_eq_left hcm']
       rw [forIn_first (k := pwB) (r := (pwV, pwA, pwB)) ?_ hb ?_]
       · rfl
       · intro j hj
-        try dsimp only
         have hj' := MatL.allN_iff.1 p8 j hj
         rw [bIf_eq] at hj'
         split at hj'
@@ -680,8 +676,7 @@ theorem pw_eq : locPairWit CZ A21112.DQ = (pwV, pwA, pwB) := by
           simp only [Bool.not_eq_true] at ht
           rw [test_eq ha (by omega) hv, ht]
           rfl
-      · try dsimp only
-        rw [test_eq ha hb hv, p9]
+      · rw [test_eq ha hb hv, p9]
         rfl
 
 theorem qCheck6 : locPairWitOK CZ A21112.DQ (locPairWit CZ A21112.DQ) = true := by

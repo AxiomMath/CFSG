@@ -413,7 +413,7 @@ theorem mem_closure_hyperRSet_of_a5_plane_n
     obtain ⟨g, hg⟩ := hPψ u u.2
     exact ⟨⟨g, Subgroup.mem_comap.2 (by rw [hg]; exact u.2)⟩, Subtype.ext hg⟩
   have hLperf : Group.IsPerfect L := by
-    haveI := hPperf
+    have := hPperf
     exact Group.IsPerfect.ofSurjective (f := (MulEquiv.ofBijective _ hψLbij).symm.toMonoidHom)
       (MulEquiv.ofBijective _ hψLbij).symm.surjective
   have hρLker : ∀ z ∈ ρL.ker, ∀ u : L, z * u = u * z := by
@@ -759,7 +759,7 @@ theorem mem_closure_hyperRSet_of_a5_line_n
   let ψ₁ : adjointGroup .E7 K →* ModGL Tag.E7 L :=
     (MulAut.conj V⁻¹).toMonoidHom.comp (psiC F.g0 c)
   have hψ₁ : ∀ x, ψ₁ x = V⁻¹ * psiC F.g0 c x * V := fun x => by
-    simp [ψ₁, MulAut.conj_apply]
+    simp [ψ₁]
   have hθfix : ∀ m : ModGL Tag.E7 L, F.n * Φ m * F.n⁻¹ = m → θ (V⁻¹ * m * V) = V⁻¹ * m * V := by
     intro m hm
     have := (mem_twistedFixedPoints_conj (Φ := Φ) (n := F.n) hΦV (x := V⁻¹ * m * V)).2
@@ -875,12 +875,12 @@ theorem mem_closure_hyperRSet_of_a5_line_n
         refine sup_le (fun t ht => ?_) (fun g hg => ?_)
         · rw [Subgroup.mem_comap]
           have : (MulAut.conj V⁻¹).toMonoidHom t = V⁻¹ * t * V := by
-            simp [MulAut.conj_apply]
+            simp
           rw [this]
           exact Subgroup.mem_sup_left (hInvH ht)
         · rw [Subgroup.mem_comap]
           have : (MulAut.conj V⁻¹).toMonoidHom g = V⁻¹ * g * V := by
-            simp [MulAut.conj_apply]
+            simp
           rw [this]
           exact Subgroup.mem_sup_right (hVconj g hg)
       have := hle h1

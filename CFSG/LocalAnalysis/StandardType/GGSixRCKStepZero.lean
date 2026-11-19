@@ -37,8 +37,8 @@ private theorem rckSZ_finite {p : ℕ} (hp : p.Prime) {G : Type*} [Group G] {A :
 theorem rckSZ_card_le_pow_four {p : ℕ} (hp : p.Prime) {G : Type*} [Group G]
     {A : Subgroup G} (hel : IsElemAbelian p A) (h4 : p ^ 4 ≤ Nat.card A)
     (h5 : ¬ p ^ 5 ≤ Nat.card A) : Nat.card A ≤ p ^ 4 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite ↥A := rckSZ_finite hp h4
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite ↥A := rckSZ_finite hp h4
   have hpg : IsPGroup p ↥A := fun x =>
     ⟨1, by rw [pow_one]; exact Subtype.ext (hel.2 x x.2)⟩
   obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq (p := p) hpg

@@ -34,6 +34,7 @@ section Elem
 
 variable {p : ℕ} [Fact p.Prime] {B A : Subgroup Ω}
 
+omit [Fact (Nat.Prime p)] in
 private theorem comm_of_le {B P Q : Subgroup Ω} (hB : CFSG.Open.IsElemAbelian p B) (hP : P ≤ B)
     (hQ : Q ≤ B) : ∀ x ∈ P, ∀ y ∈ Q, x * y = y * x := fun x hx y hy =>
   congrArg Subtype.val (hB.1.is_comm.comm (⟨x, hP hx⟩ : ↥B) ⟨y, hQ hy⟩)
@@ -57,7 +58,7 @@ theorem i224_split (hB : CFSG.Open.IsElemAbelian p B) (hAB : A ≤ B) {s : Ω} (
   have hsp : orderOf s = p := orderOf_eq_prime (hB.2 s hs) hs1
   have hScard : Nat.card S = p := by rw [hS, Nat.card_zpowers, hsp]
   have hAS : A ⊓ S = ⊥ := by
-    haveI : Fact (Nat.card ↥S).Prime := ⟨hScard ▸ Fact.out⟩
+    have : Fact (Nat.card ↥S).Prime := ⟨hScard ▸ Fact.out⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card ((A ⊓ S).subgroupOf S) with h | h
     · rw [eq_bot_iff]
       intro x hx

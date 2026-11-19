@@ -67,13 +67,13 @@ theorem stabilizer_factor_arithmetic :
     ∀ a : Fin 13, ∀ b : Fin 7,
       ∀ c : Fin 3, ∀ d : Fin 2,
         stabilizerFactorArithmeticPredicate a b c d := by
-  letI (a : Fin 13) (b : Fin 7)
+  let (a : Fin 13) (b : Fin 7)
       (c : Fin 3) (d : Fin 2) :
       Decidable
         (stabilizerFactorArithmeticPredicate a b c d) := by
     dsimp only [stabilizerFactorArithmeticPredicate]
     infer_instance
-  letI : Decidable
+  let : Decidable
       (∀ a : Fin 13, ∀ b : Fin 7,
         ∀ c : Fin 3, ∀ d : Fin 2,
           stabilizerFactorArithmeticPredicate a b c d) :=

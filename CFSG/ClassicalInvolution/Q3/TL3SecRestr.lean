@@ -48,7 +48,7 @@ theorem TightDatum.exists_sylow_le_centralizer (hd : TightDatum R S t) {B : Subg
       (Subgroup.inclusion (inf_le_left : H ≤ R)) with hφ
   have hsurj : Function.Surjective φ := S19B.surjective_mk_inf_centralizer hB2 hBR
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 ↥H))
-  have hP2 : IsPGroup 2 ↥((P : Subgroup H).map H.subtype) := P.isPGroup'.map _
+  have hP2 : IsPGroup 2 ↥((P : Subgroup H).map H.subtype) := P.isPGroup.map _
   have hPR : (P : Subgroup H).map H.subtype ≤ R :=
     (Subgroup.map_subtype_le _).trans inf_le_left
   have hcardQ : Nat.card (↥R ⧸ classicalInvolutionOddCore ↥R) =

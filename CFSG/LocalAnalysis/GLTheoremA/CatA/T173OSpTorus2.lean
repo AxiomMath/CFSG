@@ -20,6 +20,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {ℓ n p : ℕ}
 @[expose] noncomputable def coordSpan (X : Set (Fin ℓ ⊕ Fin ℓ)) : Submodule F (Fin ℓ ⊕ Fin ℓ → F) :=
   Submodule.span F ((fun b => Pi.single b (1 : F)) '' X)
 
+omit [Finite F] [CharP F 2] in
 private theorem sum_smul_single (v : Fin ℓ ⊕ Fin ℓ → F) :
     (∑ b, v b • (Pi.single b (1 : F) : Fin ℓ ⊕ Fin ℓ → F)) = v := by
   rw [show (∑ b, v b • (Pi.single b (1 : F) : Fin ℓ ⊕ Fin ℓ → F)) =
@@ -28,6 +29,7 @@ private theorem sum_smul_single (v : Fin ℓ ⊕ Fin ℓ → F) :
     rw [← Pi.single_smul (f := fun _ : Fin ℓ ⊕ Fin ℓ => F), smul_eq_mul, mul_one],
     Finset.univ_sum_single]
 
+omit [Finite F] [CharP F 2] in
 theorem mem_coordSpan_iff {X : Set (Fin ℓ ⊕ Fin ℓ)} {v : Fin ℓ ⊕ Fin ℓ → F} :
     v ∈ coordSpan X ↔ ∀ b ∉ X, v b = 0 := by
   let T : Submodule F (Fin ℓ ⊕ Fin ℓ → F) :=
@@ -52,10 +54,12 @@ theorem mem_coordSpan_iff {X : Set (Fin ℓ ⊕ Fin ℓ)} {v : Fin ℓ ⊕ Fin �
     · exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨b, hb, rfl⟩)
     · rw [hv b hb, zero_smul]; exact Submodule.zero_mem _
 
+omit [Finite F] [CharP F 2] in
 private theorem coordSpan_mono {X Y : Set (Fin ℓ ⊕ Fin ℓ)} (h : X ⊆ Y) :
     coordSpan (F := F) X ≤ coordSpan (F := F) Y :=
   Submodule.span_mono (Set.image_mono h)
 
+omit [Finite F] [CharP F 2] in
 theorem coordSpan_inter (X Y : Set (Fin ℓ ⊕ Fin ℓ)) :
     coordSpan (F := F) (X ∩ Y) = coordSpan (F := F) X ⊓ coordSpan (F := F) Y := by
   refine le_antisymm (le_inf (coordSpan_mono Set.inter_subset_left)
@@ -70,11 +74,13 @@ theorem coordSpan_inter (X Y : Set (Fin ℓ ⊕ Fin ℓ)) :
   · exact hv.1 b hb
   · exact hv.2 b hb
 
+omit [Finite F] [CharP F 2] in
 theorem coordSpan_singleton (b : Fin ℓ ⊕ Fin ℓ) :
     coordSpan (F := F) ({b} : Set (Fin ℓ ⊕ Fin ℓ)) =
       Submodule.span F {Pi.single b (1 : F)} := by
   rw [coordSpan, Set.image_singleton]
 
+omit [Finite F] [CharP F 2] in
 theorem coordSpan_pair (i : Fin ℓ) :
     coordSpan (F := F) ({Sum.inl i, Sum.inr i} : Set (Fin ℓ ⊕ Fin ℓ)) = plane F i := by
   unfold coordSpan plane
@@ -83,6 +89,7 @@ theorem coordSpan_pair (i : Fin ℓ) :
 @[expose] def coordSupport (W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)) : Set (Fin ℓ ⊕ Fin ℓ) :=
   {b | ∃ w ∈ W, w b ≠ 0}
 
+omit [CharP F 2] in
 theorem eq_coordSpan_coordSupport (hn : Nat.card F = 2 ^ n) (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ 2 ^ n - 1) {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)}
     (hWV : ∀ g ∈ CFSG.LocalAnalysis.GLTheoremA.Y10F.symplecticQTorus (F := F) (ℓ := ℓ) p,
@@ -128,12 +135,14 @@ theorem CommutesPar.symm {τ : Equiv.Perm (Fin ℓ ⊕ Fin ℓ)} (hτ : Commutes
   have h := congrArg τ.symm (hτ (τ.symm a))
   simpa using h.symm
 
+omit [Finite F] [CharP F 2] in
 theorem isMonomial_mul {g h : ↥(StatedSp ℓ F)} {τ σ : Equiv.Perm (Fin ℓ ⊕ Fin ℓ)}
     (hg : IsMonomial g τ) (hh : IsMonomial h σ) : IsMonomial (g * h) (τ * σ) := by
   intro b
   rw [spEnd_mul, Module.End.mul_apply, hh, hg]
   rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem coordSpan_map_isMonomial {g : ↥(StatedSp ℓ F)} {τ : Equiv.Perm (Fin ℓ ⊕ Fin ℓ)}
     (hg : IsMonomial g τ) (X : Set (Fin ℓ ⊕ Fin ℓ)) :
     (coordSpan (F := F) X).map (spEnd g) = coordSpan (F := F) (τ '' X) := by
@@ -173,16 +182,19 @@ theorem commutesPar_pairSwap (i : Fin ℓ) : CommutesPar (pairSwap i) := by
         Equiv.swap_apply_of_ne_of_ne (a := Sum.inl i) (b := Sum.inr i) Sum.inr_ne_inl
           (fun h' => h (Sum.inr_injective h')), par_inr]
 
+omit [Finite F] [CharP F 2] in
 theorem isMonomial_permSp (σ : Equiv.Perm (Fin ℓ)) :
     IsMonomial (permSp F σ) (Equiv.Perm.sumCongr σ σ) := by
   intro b
   rw [permSp_spEnd_single]
   rfl
 
+omit [Finite F] in
 theorem isMonomial_spSwapSp (i : Fin ℓ) :
     IsMonomial (spSwapSp (K := F) i) (pairSwap i) :=
   spSwapSp_spEnd_single i
 
+omit [Finite F] in
 theorem isMonomial_kfcl_permSp {τ : Equiv.Perm (Fin ℓ ⊕ Fin ℓ)}
     (hτ : τ ∈ CFSG.RankThree.PartOne.KFCL.Sp.Hp ℓ) :
     IsMonomial (CFSG.RankThree.PartOne.KFCL.Sp.permSp (K := F) τ hτ) τ := by
@@ -192,8 +204,8 @@ theorem isMonomial_kfcl_permSp {τ : Equiv.Perm (Fin ℓ ⊕ Fin ℓ)}
   funext a
   rw [Function.comp_apply, Pi.single_apply, Pi.single_apply]
   by_cases h : a = τ b
-  · rw [if_pos h, if_pos (by rw [h]; simp)]
-  · rw [if_neg h, if_neg (by intro h'; exact h (by rw [← h']; simp))]
+  · rw [ite_eq_left h, ite_eq_left (by rw [h]; simp)]
+  · rw [ite_eq_right h, ite_eq_right (by intro h'; exact h (by rw [← h']; simp))]
 
 def sAll (ℓ : ℕ) : Equiv.Perm (Fin ℓ ⊕ Fin ℓ) := Equiv.sumComm (Fin ℓ) (Fin ℓ)
 
@@ -208,9 +220,11 @@ theorem mem_Hp_sAll : sAll ℓ ∈ CFSG.RankThree.PartOne.KFCL.Sp.Hp ℓ := by
 @[expose] noncomputable def sAllSp : ↥(StatedSp ℓ F) :=
   CFSG.RankThree.PartOne.KFCL.Sp.permSp (K := F) (sAll ℓ) mem_Hp_sAll
 
+omit [Finite F] in
 theorem isMonomial_sAllSp : IsMonomial (sAllSp (F := F) (ℓ := ℓ)) (sAll ℓ) :=
   isMonomial_kfcl_permSp (F := F) mem_Hp_sAll
 
+omit [Finite F] in
 theorem sAllSp_mem_normalizer (hp0 : p ≠ 0) :
     sAllSp (F := F) (ℓ := ℓ) ∈ Subgroup.normalizer
       (CFSG.LocalAnalysis.GLTheoremA.Y10F.symplecticQTorus (F := F) (ℓ := ℓ) p :
@@ -219,6 +233,7 @@ theorem sAllSp_mem_normalizer (hp0 : p ≠ 0) :
   exact CFSG.RankThree.PartOne.KFCL.Sp.spWeyl_le_normalizer
     (CFSG.RankThree.PartOne.KFCL.Sp.mem_spWeyl_iff.mpr ⟨_, mem_Hp_sAll, rfl⟩)
 
+omit [Finite F] [CharP F 2] in
 theorem coordSpan_image_invariant {K : Subgroup ↥(StatedSp ℓ F)}
     {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)} {S : Set (Fin ℓ ⊕ Fin ℓ)}
     (hWK : ∀ n ∈ Subgroup.normalizer
@@ -252,6 +267,7 @@ theorem CommutesPar.mul {τ σ : Equiv.Perm (Fin ℓ ⊕ Fin ℓ)} (hτ : Commut
   intro a
   rw [Equiv.Perm.mul_apply, Equiv.Perm.mul_apply, hσ, hτ]
 
+omit [Finite F] in
 theorem exists_isMonomial_map_inl (hp : p.Prime) (hp2 : p ≠ 2) (hn : Nat.card F = 2 ^ n)
     (hpq : p ∣ 2 ^ n - 1) (i : Fin ℓ) (b : Fin ℓ ⊕ Fin ℓ) :
     ∃ (g : ↥(StatedSp ℓ F)) (τ : Equiv.Perm (Fin ℓ ⊕ Fin ℓ)),
@@ -278,6 +294,7 @@ theorem exists_isMonomial_map_inl (hp : p.Prime) (hp2 : p ≠ 2) (hn : Nat.card 
     show pairSwap k (Equiv.Perm.sumCongr (Equiv.swap i k) (Equiv.swap i k) (Sum.inl i)) = Sum.inr k
     simp [pairSwap]
 
+omit [Finite F] in
 theorem exists_isMonomial_map_inr (hp : p.Prime) (hp2 : p ≠ 2) (hn : Nat.card F = 2 ^ n)
     (hpq : p ∣ 2 ^ n - 1) (i : Fin ℓ) (b : Fin ℓ ⊕ Fin ℓ) :
     ∃ (g : ↥(StatedSp ℓ F)) (τ : Equiv.Perm (Fin ℓ ⊕ Fin ℓ)),

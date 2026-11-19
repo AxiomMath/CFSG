@@ -74,7 +74,7 @@ theorem eq_bot_of_babyInv_zero (hC : C0Seven) {v x : NativeSporadic.B} (hv : Bab
     (hKn : ∀ g ∈ Subgroup.centralizer ({x} : Set NativeSporadic.B) ⊓
       Subgroup.centralizer ({v} : Set NativeSporadic.B), ∀ k ∈ K, g * k * g⁻¹ ∈ K)
     (hodd : Odd (Nat.card K)) (hK7 : ¬ 7 ∣ Nat.card K) : K = ⊥ := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨ψ⟩ := nonempty_centralizer_mulEquiv_Eam CFSG.Monster.Existence.babyTableIII hv
   obtain ⟨hidx, -, hcen, hcen', hZ2, ⟨φ⟩, -⟩ :=
     CFSG.Monster.B.TwoA.Amalgam.short_F4_derived_standard_perfect_cover
@@ -91,7 +91,7 @@ theorem eq_bot_of_babyInv_one (hC : Co2Seven) {t x : NativeSporadic.B} (ht : Bab
     (hK : K ≤ Subgroup.centralizer ({x} : Set NativeSporadic.B) ⊓
       Subgroup.centralizer ({t} : Set NativeSporadic.B))
     (hodd : Odd (Nat.card K)) (hK7 : ¬ 7 ∣ Nat.card K) : K = ⊥ := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨F, -, hF⟩ := exists_hom_centralizer_xB
   obtain ⟨c, hc⟩ :=
     isConj_iff.1 (CFSG.Monster.Existence.babyTableIII.2 1 t xB ht babyInv_one_xB)
@@ -113,7 +113,7 @@ theorem le_center_of_babyInv_zero (hC : C0Seven) {α x : NativeSporadic.B} (hα 
     (hKn : ∀ g ∈ Subgroup.centralizer ({x} : Set NativeSporadic.B) ⊓
       Subgroup.centralizer ({α} : Set NativeSporadic.B), ∀ k ∈ K, g * k * g⁻¹ ∈ K)
     (hK7 : ¬ 7 ∣ Nat.card K) : ∀ k ∈ K, k = 1 ∨ k = α := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨ψ⟩ := nonempty_centralizer_mulEquiv_Eam CFSG.Monster.Existence.babyTableIII hα
   obtain ⟨hidx, -, hcen, hcen', hZ2, ⟨φ⟩, -⟩ :=
     CFSG.Monster.B.TwoA.Amalgam.short_F4_derived_standard_perfect_cover
@@ -146,7 +146,7 @@ theorem card_gLAPPrimeCoreOf_B_le_two (hC0 : C0Seven) (hCo2 : Co2Seven)
       w ^ 3 = a ∧ a * y * a⁻¹ * y⁻¹ ≠ 1 ∧ a * y * a⁻¹ * y⁻¹ ≠ α) :
     ∀ x : NativeSporadic.B, orderOf x = 7 →
       Nat.card (GLAPPrimeCoreOf 7 (Subgroup.centralizer ({x} : Set NativeSporadic.B))) ≤ 2 := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨p, -, hconj⟩ := hcensus
   obtain ⟨x₀, α, y, a, b, w, hx₀, hα, hαx, ha, hb, hab, hax, hbx, habc, hab1, -, haα1, -, hyx,
     hyα, hwx, hwα, hw6, hw2, hw3, hay1, hayα⟩ := helems

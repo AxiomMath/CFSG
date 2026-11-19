@@ -73,7 +73,7 @@ theorem two_pow_card_isZ4StarExtra2_kz3 {V : Type} [Group V] [Finite V] (h : IsZ
 
 theorem two_mul_card_alternatingGroup_kz3 (n : ℕ) (hn : 2 ≤ n) :
     2 * Nat.card (alternatingGroup (Fin n)) = n.factorial := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
   rw [two_mul_nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_perm,
     Fintype.card_fin]
 
@@ -157,7 +157,7 @@ theorem two_and_seventeen_dvd_card_psp_kz3 {E : Type} [Group E] {m : ℕ}
     exact Dvd.dvd.mul_left (Dvd.dvd.mul_left h17 _) _
 
 theorem card_statedSL_three_zmod_three_kz3 : Nat.card (StatedSL 3 (ZMod 3)) = 5616 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   rw [CFSG.Open.StatedAPI.card_statedSL_eq_prod (by norm_num : 1 ≤ 3), Nat.card_zmod]
   norm_num [Finset.prod_Icc_succ_top]
 
@@ -242,7 +242,7 @@ theorem isQuasisimple_of_mulEquiv_kz3 {X Y : Type} [Group X] [Group Y] (e : X �
   have hZ : (Subgroup.center X).map (e.toMonoidHom) = Subgroup.center Y :=
     Subgroup.map_center_eq e
   let e' : X ⧸ Subgroup.center X ≃* Y ⧸ Subgroup.center Y := QuotientGroup.congr (Subgroup.center X) (Subgroup.center Y) e hZ
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hs
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hs
   have hsY : IsSimpleGroup (Y ⧸ Subgroup.center Y) := MulEquiv.isSimpleGroup e'.symm
   exact ⟨⟨hcY⟩, hsY, e' a, e' b, fun h => hab (e'.injective (by rw [map_mul, map_mul]; exact h))⟩
 

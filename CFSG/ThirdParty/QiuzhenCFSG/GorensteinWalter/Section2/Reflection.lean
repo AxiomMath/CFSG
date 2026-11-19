@@ -128,7 +128,7 @@ public theorem centralizerSetup_reflection_isInvolution
   have hsne : s ≠ 1 := by
     intro h
     apply hs.2
-    simpa [h] using c.S0.one_mem
+    simp [h]
   by_cases hm1 : c.m = 1
   · have hsq : s ^ 2 = 1 := by
       have he_sq : (e sS) ^ 2 = 1 := by
@@ -142,7 +142,7 @@ public theorem centralizerSetup_reflection_isInvolution
               apply (ZMod.natCast_eq_zero_iff _ _).2
               have hdiv2 : 2 ∣ i.val + i.val := by
                 have hi_lt : i.val < 2 := by simpa [hm1] using ZMod.val_lt i
-                interval_cases h : i.val <;> simp [h]
+                interval_cases h : i.val <;> simp
               simpa [hm1] using hdiv2
             calc
               DihedralGroup.r (i + i) = DihedralGroup.r 0 := congrArg DihedralGroup.r hi0
@@ -179,9 +179,9 @@ public theorem centralizerSetup_reflection_isInvolution
           orderOf s = orderOf sS := by
             have horder := orderOf_injective (c.S : Subgroup G).subtype
               (c.S : Subgroup G).subtype_injective sS
-            simpa [sS] using horder.symm
+            simp [sS]
           _ = orderOf (e sS) := (e.orderOf_eq sS).symm
           _ = 2 := by rw [hi, DihedralGroup.orderOf_sr]
-      exact (orderOf_dvd_iff_pow_eq_one).mp (by simpa [hord])
+      exact (orderOf_dvd_iff_pow_eq_one).mp (by simp [hord])
 
 end CFSG.GorensteinWalter

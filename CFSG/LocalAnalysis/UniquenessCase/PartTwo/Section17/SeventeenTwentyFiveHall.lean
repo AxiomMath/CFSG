@@ -17,7 +17,7 @@ open scoped Pointwise commutatorElement
 variable {G : Type} [Group G] [Finite G]
 
 theorem isSylowOf_T_sup_centSection {D : Data G} {V₀ V L : Subgroup G}
-    (c : Ctx17_17 D V₀ V L) (hNL : D.M ≤ Subgroup.normalizer (L : Set G)) :
+    (_c : Ctx17_17 D V₀ V L) (hNL : D.M ≤ Subgroup.normalizer (L : Set G)) :
     CFSG.ABGLocalTools.IsSylowOf 2 D.T (D.T ⊔ centSection D.M L (pCoreOf 2 L)) := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -127,7 +127,7 @@ theorem exists_H2_of_J2
     intro h2
     have hmul := Subgroup.relIndex_mul_index (H := D.T.subgroupOf Y) (K := R) hTR
     have hrel : (D.T.subgroupOf Y).relIndex R = ((D.T.subgroupOf Y).subgroupOf R).index := by
-      simp [Subgroup.relIndex, sup_eq_right.mpr hTR]
+      simp [Subgroup.relIndex]
     rw [hrel] at hmul
     exact hTYindex (h2.trans (hmul ▸ dvd_mul_right _ _ : _ ∣ (D.T.subgroupOf Y).index))
   have hRbar_rank : CFSG.Open.pRank 5 (⊤ : Subgroup Rbar) ≤ 1 := by

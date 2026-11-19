@@ -34,7 +34,7 @@ section TitsOddPrimes
 
 theorem k_titsOddPrimes_holds : K_TitsOddPrimes := by
   intro X _ _ hT hC q hq hq2 hdvd
-  haveI : (CFSG.Open.genFittingFStar X).Normal :=
+  have : (CFSG.Open.genFittingFStar X).Normal :=
     CFSG.ComponentClassification.GeneralizedFitting.normal X
   obtain ⟨e⟩ := CFSG.Sporadic.Schreier.Tits.titsModelEquiv _ 2 1
     (CFSG.Blueprint.LieModel.reeTitsModel hT (by decide)).2

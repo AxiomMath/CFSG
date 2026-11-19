@@ -39,13 +39,13 @@ theorem quadG [Finite G] (hYD : Y ≤ D) (hDcomm : ∀ x ∈ D, ∀ y ∈ D, x *
     (hnt₁ : ∃ (g : G) (hg : g ∈ U₁), e₁ ⟨g, hU₁ hg⟩ ≠ 1)
     (hnt₂ : ∃ (g : G) (hg : g ∈ U₂), e₂ ⟨g, hU₂ hg⟩ ≠ 1)
     (c1 : Nat.card (liftFixG D Y Γ₁) = 2 ^ 12) (c2 : Nat.card (liftFixG D Y Γ₂) = 2 ^ 12)
-    (c3 : liftFixG D Y Γ₁ ⊔ liftFixG D Y Γ₂ = D) (c4 : liftFixG D Y Γ₁ ⊓ liftFixG D Y Γ₂ = Y)
+    (_c3 : liftFixG D Y Γ₁ ⊔ liftFixG D Y Γ₂ = D) (c4 : liftFixG D Y Γ₁ ⊓ liftFixG D Y Γ₂ = Y)
     (hplus : Nat.card (liftFixG D Y (U₁ ⊔ U₂)) = 2 ^ 12) :
     (∀ u ∈ U₁, ∀ x ∈ D, u * x * u⁻¹ * x⁻¹ ∈ liftFixG D Y (U₁ ⊔ U₂)) ∧
       (∀ u ∈ U₂, ∀ x ∈ D, u * x * u⁻¹ * x⁻¹ ∈ liftFixG D Y (U₁ ⊔ U₂)) ∧
       (∀ c ∈ liftFixG D Y (U₁ ⊔ U₂), ∃ u₁ ∈ U₁, ∃ u₂ ∈ U₂, ∃ x₁ ∈ D, ∃ x₂ ∈ D, ∃ y ∈ Y,
         c = (u₁ * x₁ * u₁⁻¹ * x₁⁻¹) * (u₂ * x₂ * u₂⁻¹ * x₂⁻¹) * y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN₁ : U₁ ≤ normDY D Y := hU₁.trans hΓ₁
   have hN₂ : U₂ ≤ normDY D Y := hU₂.trans hΓ₂
   have hYpos : 0 < Nat.card Y := by rw [hYcard]; norm_num

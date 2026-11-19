@@ -28,11 +28,12 @@ open scoped commutatorElement Pointwise
 variable {G : Type} [Group G] [Finite G]
 variable {M H N E Q J : Subgroup G}
 
+omit [Finite G] in
 private theorem card_oTwoZStar (J : Subgroup G) :
     Nat.card (oTwoZStar J) =
       Nat.card (Subgroup.center (threeStar J)) * Nat.card (CFSG.pPrimeCore 3 ↥J) := by
   classical
-  haveI : (CFSG.pPrimeCore 3 ↥J).Normal := CFSG.pPrimeCore_normal
+  have : (CFSG.pPrimeCore 3 ↥J).Normal := CFSG.pPrimeCore_normal
   let q : ↥J →* threeStar J := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J)
   let H : Subgroup G := oTwoZStar J
   let D : Subgroup G := (CFSG.pPrimeCore 3 ↥J).map J.subtype
@@ -91,6 +92,7 @@ private theorem card_oTwoZStar (J : Subgroup G) :
   rw [← hcard]
   ring
 
+omit [Finite G] in
 theorem relIndex_oTwoZStar (J : Subgroup G) :
     (oTwoZStar J).relIndex J = (Subgroup.center (threeStar J)).index := by
   classical
@@ -115,6 +117,7 @@ theorem relIndex_oTwoZStar (J : Subgroup G) :
     _ = (Subgroup.center (threeStar J)).index :=
         Subgroup.index_comap_of_surjective _ (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 private theorem center_index_of_isL34Type {A : Subgroup G} (h : IsL34Type (threeStar A)) :
     (Subgroup.center (threeStar A)).index = 20160 := by
   obtain ⟨e⟩ := nonempty_mulEquiv_projSL_quotient_center_of_isL34Type h
@@ -123,6 +126,7 @@ private theorem center_index_of_isL34Type {A : Subgroup G} (h : IsL34Type (three
       = Nat.card (CFSG.PGLModel.projSL 3 (GaloisField 2 2)) := Nat.card_congr e.toEquiv
     _ = 20160 := CFSG.PGLModel.card_projSL_three_four
 
+omit [Finite G] in
 private theorem center_index_of_is3A6Star {A : Subgroup G} (h : Is3A6Star A) :
     (Subgroup.center (threeStar A)).index = 360 := by
   have hmul := Subgroup.card_mul_index (Subgroup.center (threeStar A))
@@ -188,8 +192,8 @@ private theorem false_of_is3A6Star {N₁ A : Subgroup G}
   have hAXn : A ≤ Subgroup.normalizer (X : Set G) := hAN.trans hXn
   have hJXn : J ≤ Subgroup.normalizer (X : Set G) := hJN.trans hXn
   have hJXleAX : J ⊔ X ≤ A ⊔ X := sup_le hJsup le_sup_right
-  haveI : X.IsFiniteRelIndex (A ⊔ X) := Subgroup.isFiniteRelIndex_of_finiteIndex
-  haveI : (J ⊓ X).IsFiniteRelIndex J := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : X.IsFiniteRelIndex (A ⊔ X) := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : (J ⊓ X).IsFiniteRelIndex J := Subgroup.isFiniteRelIndex_of_finiteIndex
   have hrelJ : X.relIndex (J ⊔ X) = (J ⊓ X).relIndex J :=
     (CFSG.GroupTheory.relIndex_sup_eq_relIndex_inf_of_le_normalizer hJXn).2
   have hrelA : X.relIndex (A ⊔ X) = (A ⊓ X).relIndex A :=
@@ -208,6 +212,7 @@ private theorem false_of_is3A6Star {N₁ A : Subgroup G}
     rwa [relIndex_oTwoZStar, center_index_of_isL34Type hJSL.1] at hle
   omega
 
+omit [Finite G] in
 private theorem oTwoZStar_eq_map_pPrimeCore_of_center_eq_bot {J : Subgroup G}
     (h : Subgroup.center (threeStar J) = ⊥) :
     oTwoZStar J = (CFSG.pPrimeCore 3 ↥J).map J.subtype := by
@@ -267,7 +272,7 @@ private theorem exists_three_mem_quotientCentralizer_not_mem
     hAN.trans (by
       simpa [X] using le_normalizer_quotientCentralizer (N := N₁) (L := A)
         (CFSG.pPrimeCore 3 ↥A) hAN hNA)
-  haveI : (A.subgroupOf (A ⊔ X)).Normal :=
+  have : (A.subgroupOf (A ⊔ X)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr
       (hAXleN₁.trans hNA)
   have hsAX : s ∈ A ⊔ X := hJsup hsJ
@@ -385,7 +390,7 @@ private theorem false_of_isA11Star
   have hfE : f ∉ E ⊔ D := by
     intro hf
     exact hfA (sup_le hEA (Subgroup.map_subtype_le _) hf)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hrank4 : 4 ≤ CFSG.Open.pRank 3 N₁ := by
     have h := CFSG.Quasithin.succ_le_pRank_of_commute_mod (p := 3) (X := N₁)
       (Q := D) (E := E) (a := 3) (f := f) hD3
@@ -412,9 +417,9 @@ private theorem inf_eq_oTwoZStar_and_sup_eq_of_l34 {N₁ A : Subgroup G}
   have hAXn : A ≤ Subgroup.normalizer (X : Set G) := hAN.trans hXn
   have hJXn : J ≤ Subgroup.normalizer (X : Set G) := hJN.trans hXn
   have hJXleAX : J ⊔ X ≤ A ⊔ X := sup_le hJsup le_sup_right
-  haveI : X.IsFiniteRelIndex (A ⊔ X) := Subgroup.isFiniteRelIndex_of_finiteIndex
-  haveI : (J ⊓ X).IsFiniteRelIndex J := Subgroup.isFiniteRelIndex_of_finiteIndex
-  haveI : (J ⊔ X).IsFiniteRelIndex (A ⊔ X) :=
+  have : X.IsFiniteRelIndex (A ⊔ X) := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : (J ⊓ X).IsFiniteRelIndex J := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : (J ⊔ X).IsFiniteRelIndex (A ⊔ X) :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   have hrelJ : X.relIndex (J ⊔ X) = (J ⊓ X).relIndex J :=
     (CFSG.GroupTheory.relIndex_sup_eq_relIndex_inf_of_le_normalizer hJXn).2
@@ -436,7 +441,7 @@ private theorem inf_eq_oTwoZStar_and_sup_eq_of_l34 {N₁ A : Subgroup G}
     rw [relIndex_oTwoZStar, center_index_of_isL34Type hJSL.1]
     omega
   have hO_le_J : oTwoZStar J ≤ J := Subgroup.map_subtype_le _
-  haveI : (oTwoZStar J).IsFiniteRelIndex J := Subgroup.isFiniteRelIndex_of_finiteIndex
+  have : (oTwoZStar J).IsFiniteRelIndex J := Subgroup.isFiniteRelIndex_of_finiteIndex
   have hinf : J ⊓ X = oTwoZStar J := by
     have hmul := Subgroup.relIndex_mul_relIndex (J ⊓ X) (oTwoZStar J) J
       hJinf_le hO_le_J
@@ -466,6 +471,7 @@ private theorem inf_eq_oTwoZStar_and_sup_eq_of_l34 {N₁ A : Subgroup G}
     exact le_antisymm hJXleAX (Subgroup.relIndex_eq_one.mp h1)
   exact ⟨hinf, hsup⟩
 
+omit [Finite G] in
 private theorem q0_commutator_mem_X {N₁ A Q₀ X : Subgroup G}
     (hJsup : A ≤ J ⊔ X) (hJXn : J ≤ Subgroup.normalizer (X : Set G))
     (hQ0J : ⁅Q₀, J⁆ ≤ X) {p a : G} (hpQ0 : p ∈ Q₀) (hpN₁ : p ∈ N₁)
@@ -498,7 +504,7 @@ private theorem q0_le_quotientCentralizer
     {N₁ A Q₀ : Subgroup G}
     (hqJ : CFSG.IsQuasisimple (↥J ⧸ CFSG.pCore 2 ↥J)) (hA' : IsKComp M N A)
     (hAN : A ≤ N₁) (hNA : N₁ ≤ Subgroup.normalizer (A : Set G))
-    (hJ : IsKComp M H J) (hJSL : IsSL34Star J)
+    (_hJ : IsKComp M H J) (hJSL : IsSL34Star J)
     (hQ0Q : Q₀ ≤ Q) (hQ0J : ⁅Q₀, J⁆ ≤ CFSG.Open.pCoreOf 2 J)
     (hQN : Q ≤ N₁) (hJN : J ≤ N₁)
     (hJsup : A ≤ J ⊔ Xhat N₁ A hAN hNA)
@@ -569,9 +575,10 @@ private theorem q0_le_quotientCentralizer
     have hceq' : c = ⟨p * (a : G) * p⁻¹ * (a : G)⁻¹, A.mul_mem hpaA (A.inv_mem a.2)⟩ :=
       Subtype.ext hceq
     rwa [hceq'] at hc'
-  haveI : Group.IsPerfect (threeStar A) := hA'.isQuasisimple.1
+  have : Group.IsPerfect (threeStar A) := hA'.isQuasisimple.1
   exact CFSG.ComponentClassification.PerfectAutomorphisms.onCenterQuotient_eq_one_imp β hquot
 
+omit [Finite G] in
 private theorem mem_oTwoZStar_of_commutator_le {J : Subgroup G} (hJSL : IsSL34Star J)
     {s : G} (hsJ : s ∈ J)
     (hcomm : ∀ j ∈ J, s * j * s⁻¹ * j⁻¹ ∈ oTwoZStar J) : s ∈ oTwoZStar J := by
@@ -625,11 +632,12 @@ private theorem mem_oTwoZStar_of_commutator_le {J : Subgroup G} (hJSL : IsSL34St
   rw [hbar_ker] at hker
   exact Subgroup.mem_subgroupOf.mp hker
 
+omit [Finite G] in
 private theorem S_inf_A_le_center {N₁ A S : Subgroup G}
-    (hJSL : IsSL34Star J) (hS_def : S = Q ⊓ J)
+    (hJSL : IsSL34Star J) (_hS_def : S = Q ⊓ J)
     (hJA_le : J ⊓ A ≤ oTwoZStar J)
     (hNA : N₁ ≤ Subgroup.normalizer (A : Set G)) (hJN : J ≤ N₁)
-    (hSleJ : S ≤ J) (hQN_J : Q ≤ Subgroup.normalizer (J : Set G))
+    (hSleJ : S ≤ J) (_hQN_J : Q ≤ Subgroup.normalizer (J : Set G))
     (hScenter : S ⊓ oTwoZStar J = (Subgroup.center ↥S).map S.subtype) :
     S ⊓ A ≤ (Subgroup.center ↥S).map S.subtype := by
   intro s hs
@@ -694,6 +702,7 @@ private theorem eq_sup_Q0_S {Q Q₀ S Z : Subgroup G}
     Subgroup.eq_of_le_of_card_ge hle (by rw [hQcard, hsupcard]; norm_num)
   exact heq.symm
 
+omit [Finite G] in
 private theorem le_normalizer_oTwoZStar_of_le_normalizer_J {Q J : Subgroup G}
     (hQ : Q ≤ Subgroup.normalizer (J : Set G)) :
     Q ≤ Subgroup.normalizer (oTwoZStar J : Set G) := by
@@ -707,7 +716,7 @@ private theorem le_normalizer_oTwoZStar_of_le_normalizer_J {Q J : Subgroup G}
   rw [← hmap]
   exact hQ.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic H)
 
-private theorem inf_A_le_center_of_l34 {N₁ A Q₀ S X ZQ : Subgroup G}
+private theorem inf_A_le_center_of_l34 {_N₁ A Q₀ S X ZQ : Subgroup G}
     (hJSL : IsSL34Star J) (hQeq : Q = Q₀ ⊔ S) (hS_eq : S = Q ⊓ J)
     (hQ0Q : Q₀ ≤ Q)
     (hQ0C : Q₀ ≤ Subgroup.centralizer (S : Set G))
@@ -820,7 +829,7 @@ private theorem commutator_le_map_center_of_card_27 {S : Subgroup G}
     (⟨x, hx⟩ : ↥S) (⟨y, hy⟩ : ↥S) z
   exact (commutatorElement_eq_one_iff_mul_comm.mp h).symm
 
-private theorem center_S_eq_center_Q_of_l34 {Q Q₀ S ZQ : Subgroup G}
+private theorem center_S_eq_center_Q_of_l34 {_Q _Q₀ S ZQ : Subgroup G}
     (hScard : Nat.card ↥S = 27) (hZsCard : Nat.card ↥((Subgroup.center ↥S).map S.subtype) = 3)
     (hZQcard : Nat.card ↥ZQ = 3)
     (hcenter_le_comm : ZQ ≤ ⁅S, S⁆) :
@@ -834,7 +843,7 @@ private theorem exists_elemAbelian_nine_le_of_l34 {A : Subgroup G}
     (hA' : IsKComp M N A) (h34 : IsL34Type (threeStar A)) :
     ∃ E : Subgroup G, E ≤ A ∧ IsElemAbelian 3 E ∧ Nat.card E = 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h2 := CFSG.LocalAnalysis.RankThreeUC.AGL81C.kFactThreeRankL34_holds
     (threeStar A) hA'.isQuasisimple h34
   rw [CFSG.SectionRank.pRank_coe_eq_openPRank 3 (⊤ : Subgroup (threeStar A))] at h2
@@ -855,8 +864,8 @@ private theorem inf_eq_bot_of_not_center_le {Q A : Subgroup G} (hQp : IsPGroup 3
     (hZQcard : Nat.card ((Subgroup.center ↥Q).map Q.subtype) = 3)
     (hZA : ¬ (Subgroup.center ↥Q).map Q.subtype ≤ A) : Q ⊓ A = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (A.subgroupOf Q).Normal := by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (A.subgroupOf Q).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact (Subgroup.mem_normalizer_iff.mp (hQA g.2) (n : G)).mp hn
@@ -883,7 +892,7 @@ private theorem inf_eq_bot_of_not_center_le {Q A : Subgroup G} (hQp : IsPGroup 3
   exact Subgroup.zpowers_le.mpr hzA
 
 private theorem exists_elemAbelian_nine_inf_eq_bot_of_not_center_le
-    {N₁ A Q Q₀ X : Subgroup G} (hQp : IsPGroup 3 Q) (hQ0Q : Q₀ ≤ Q)
+    {_N₁ A Q Q₀ X : Subgroup G} (hQp : IsPGroup 3 Q) (hQ0Q : Q₀ ≤ Q)
     (hQ0card : Nat.card Q₀ = 27) (hQexp : ∀ x ∈ Q, x ^ 3 = 1)
     (hQ0_le_X : Q₀ ≤ X) (hQA : Q ≤ Subgroup.normalizer (A : Set G))
     (hZQcard : Nat.card ((Subgroup.center ↥Q).map Q.subtype) = 3)
@@ -946,7 +955,7 @@ private theorem four_le_pRank_of_l34 {N₁ A E F : Subgroup G}
     (hFcard : Nat.card F = 9) (hFA : F ⊓ A = ⊥) :
     4 ≤ CFSG.Open.pRank 3 N₁ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let D : Subgroup G := (CFSG.pPrimeCore 3 ↥A).map A.subtype
   have hXleN₁ : Xhat N₁ A hAN hNA ≤ N₁ := quotientCentralizer_le N₁ A _ hAN hNA
   have hD3 : ¬ 3 ∣ Nat.card D := by
@@ -1072,16 +1081,16 @@ private theorem false_of_l34
     by_cases hZA : ZQ ≤ A
     · have hQinfA : Q ⊓ A = ZQ := by
         have hZS : (Subgroup.center ↥S).map S.subtype = ZQ :=
-          center_S_eq_center_Q_of_l34 (Q := Q) (Q₀ := Q₀) hScard hScenterCard hZQcard
+          center_S_eq_center_Q_of_l34 (_Q := Q) (_Q₀ := Q₀) hScard hScenterCard hZQcard
             (c.center_le_commutator h142)
-        have hle := inf_A_le_center_of_l34 (N₁ := N₁) (A := A) (Q₀ := Q₀) (S := S)
+        have hle := inf_A_le_center_of_l34 (_N₁ := N₁) (A := A) (Q₀ := Q₀) (S := S)
           (X := X) (ZQ := ZQ) hJSL hQeq rfl hQ0Q hQ0C hQNJ (hJN.trans hNA)
           hQ0J hcore_le
           hJA_le hQ0_le_X hXinfA hScenter hZS hZQcard hAQ0 hZA h.sylow.isPGroup h9A
         exact le_antisymm hle (le_inf (hAQ0.trans hQ0Q) hZA)
       exact exists_elemAbelian_nine_inf_eq_bot_of_center_le hAN hNA hQAX
         h.sylow.isPGroup hQexp hQQeq hZQcard hZA hQinfA hQcard h9A
-    · exact exists_elemAbelian_nine_inf_eq_bot_of_not_center_le (N₁ := N₁) (A := A)
+    · exact exists_elemAbelian_nine_inf_eq_bot_of_not_center_le (_N₁ := N₁) (A := A)
         (Q := Q) (Q₀ := Q₀) (X := X) h.sylow.isPGroup hQ0Q
         hQ0card hQexp hQ0_le_X (hQN.trans hNA) hZQcard hZA
   obtain ⟨F, hFX, hFelem, hFcard, hFA⟩ := hFexists

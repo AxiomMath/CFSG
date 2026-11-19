@@ -244,9 +244,9 @@ theorem pinnedX_mem_commutator_F4_of_two_ne_zero (h2 : (2 : K) ≠ 0) (i : Kerne
     rwa [mul_one, ← mul_assoc, mul_inv_cancel₀ hC₁K, one_mul] at h1
 
 theorem isPerfect_componentRootSpan_F4_of_two_ne_zero (h2 : (2 : K) ≠ 0) (i : KernelComponent χ)
-    (hbig : ∃ α ∈ componentRoots χ i, ∃ δ ∈ componentRoots χ i, δ ≠ α ∧ δ ≠ -α) :
+    (hbig : ∃ _α ∈ componentRoots χ i, ∃ δ ∈ componentRoots χ i, δ ≠ _α ∧ δ ≠ -_α) :
     Group.IsPerfect (componentRootSpan K χ i) :=
-  isPerfect_componentRootSpan_of_forall i fun α hα t =>
+  isPerfect_componentRootSpan_of_forall i fun _α hα t =>
     pinnedX_mem_commutator_F4_of_two_ne_zero h2 i hbig hα t
 
 end F4Odd

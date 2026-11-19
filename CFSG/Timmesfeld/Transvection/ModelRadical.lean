@@ -216,7 +216,7 @@ theorem mulVec_spTrans_prod [CharP F 2] {a w : Fin n ⊕ Fin n → F} (haw : spF
   have hwa : spForm w a = 0 := spForm_eq_zero_comm haw
   rw [spTrans_mulVec, spTrans_mulVec, spTrans_mulVec]
   simp only [spForm_add_left, spForm_add_right, spForm_smul_right', spForm_self, haw, hwa,
-    mul_zero, add_zero, zero_add, one_mul]
+    mul_zero, add_zero, one_mul]
   have h2 := two_smul_vec_eq_zero (spForm a x • a + spForm w x • w)
   linear_combination (norm := module) h2
 

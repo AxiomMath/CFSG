@@ -62,7 +62,7 @@ private theorem hdRo7CKCoordAux_supported_eq_spPull
       {ChoiceTwo.phi3 (GaloisField 2 1)})
     (hbig : 4 ≤ (F.suppSet c).card) :
     J' = CFSG.RankThree.PartOne.spPull (F.tor c) (ChoiceTwo.phi3 (GaloisField 2 1)) := by
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hK : Nat.card (GaloisField 2 1) = 2 := by
     simpa using CFSG.LieType.Catalog.card_galoisField 2 1 (by norm_num)
   have hq : CFSG.IsQuasisimple
@@ -83,7 +83,7 @@ private theorem hdRo7CKCoordAux_spPull_commutator_eq
         {ChoiceTwo.phi3 (GaloisField 2 1)}⁆ =
       CFSG.RankThree.PartOne.spPull (F.tor c) (ChoiceTwo.phi3 (GaloisField 2 1)) := by
   classical
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hK : Nat.card (GaloisField 2 1) = 2 := by
     simpa using CFSG.LieType.Catalog.card_galoisField 2 1 (by norm_num)
   have hq : CFSG.IsQuasisimple
@@ -122,7 +122,7 @@ private theorem hdRo7CKCoordAux_spPull_model
     ggK1CCo_Kind.Model 1 (ggK1CCo_Kind.su (F.suppSet c).card)
       (CFSG.RankThree.PartOne.spPull (F.tor c) (ChoiceTwo.phi3 (GaloisField 2 1))) := by
   classical
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hK : Nat.card (GaloisField 2 1) = 2 := by
     simpa using CFSG.LieType.Catalog.card_galoisField 2 1 (by norm_num)
   have hK' : Nat.card (GaloisField 2 1) = 2 ^ 1 := by simpa using hK
@@ -151,12 +151,12 @@ private theorem hdRo7CKCoordAux_spPull_model
     rw [ChoiceTwo.natDegree_phi3] at h
     omega
   subst hd1
-  haveI : Fact (Irreducible ((⟨ChoiceTwo.phi3 (GaloisField 2 1), hmem⟩ :
+  have : Fact (Irreducible ((⟨ChoiceTwo.phi3 (GaloisField 2 1), hmem⟩ :
       primaryFactors (spEnd (F.tor c))) : (GaloisField 2 1)[X])) :=
     ⟨ChoiceTwo.phi3_irreducible hK⟩
-  haveI : Finite (AdjoinRoot ((⟨ChoiceTwo.phi3 (GaloisField 2 1), hmem⟩ :
+  have : Finite (AdjoinRoot ((⟨ChoiceTwo.phi3 (GaloisField 2 1), hmem⟩ :
       primaryFactors (spEnd (F.tor c))) : (GaloisField 2 1)[X])) := hE.finite
-  haveI : Fintype (AdjoinRoot ((⟨ChoiceTwo.phi3 (GaloisField 2 1), hmem⟩ :
+  have : Fintype (AdjoinRoot ((⟨ChoiceTwo.phi3 (GaloisField 2 1), hmem⟩ :
       primaryFactors (spEnd (F.tor c))) : (GaloisField 2 1)[X])) := Fintype.ofFinite _
   have hmul : primaryMultiplicity (spEnd (F.tor c)) (ChoiceTwo.phi3 (GaloisField 2 1)) =
       (F.suppSet c).card := F.mult_phi3_tor hK hζ hdim c
@@ -223,7 +223,7 @@ private theorem hdRo7CKCoordAux_spPull_hasLabel
         ⧸ Subgroup.center ↥(CFSG.RankThree.PartOne.spPull (F.tor c)
           (ChoiceTwo.phi3 (GaloisField 2 1)))) := by
   classical
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hK : Nat.card (GaloisField 2 1) = 2 := by
     simpa using CFSG.LieType.Catalog.card_galoisField 2 1 (by norm_num)
   have hK' : Nat.card (GaloisField 2 1) = 2 ^ 1 := by simpa using hK
@@ -259,7 +259,7 @@ theorem hdRo7CKCoordAux_supported_false_core
       {ChoiceTwo.phi3 (GaloisField 2 1)}) :
     False := by
   classical
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   by_cases hsmall : (F.suppSet c).card ≤ 3
   ·
     have hq : CFSG.IsQuasisimple ↥J' :=

@@ -49,7 +49,7 @@ theorem vPairs_nonempty_of_hsCover_of_mem
   have huP : u' ∈ (P : Subgroup ↥Cu) := hTP huT
   set S : Subgroup H := (P : Subgroup ↥Cu).map Cu.subtype with hS
   have hSCu : S ≤ Cu := Subgroup.map_subtype_le _
-  have hSp : IsPGroup 2 S := P.isPGroup'.map Cu.subtype
+  have hSp : IsPGroup 2 S := P.isPGroup.map Cu.subtype
   have hScard : Nat.card S = 2 ^ 11 := by
     rw [hS, Subgroup.card_map_of_injective Cu.subtype_injective, P.card_eq_multiplicity, hCuCard,
       factorization_two_177408000']
@@ -84,7 +84,7 @@ theorem vPairs_nonempty_of_hsCover_of_mem
     · right
       have h' := hu'tE.trans h.symm
       exact (congrArg (fun w : ↥E => ((w : ↥Cu) : H)) h').symm
-  · have hinf := inf_eq_map_T0 M hcardE P.isPGroup' hTP
+  · have hinf := inf_eq_map_T0 M hcardE P.isPGroup hTP
     have hSK : S ⊓ K = (M.T0.map E.subtype).map Cu.subtype := by
       rw [← hinf, Subgroup.map_inf _ _ _ Cu.subtype_injective, hKE]
     have h1 : Nat.card ↥(S ⊓ K) = 2 ^ 10 := by

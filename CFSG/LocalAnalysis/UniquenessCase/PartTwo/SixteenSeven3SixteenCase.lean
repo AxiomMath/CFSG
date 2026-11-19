@@ -31,13 +31,13 @@ theorem s16c167_card_Mbar_le_of_case168_8 (D : Data G) {V₀ V : Subgroup G}
     (hV : IsElemAbelian 2 V) (h8 : Case168_8 D V₀ V hV) :
     Nat.card ↥(Mbar D.M V₀ V hV) ≤ 432 := by
   classical
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   let Mb : Subgroup (MulAut (Vtil V₀ V hV)) := Mbar D.M V₀ V hV
   let F₀ : Subgroup ↥Mb := genFittingFStar ↥Mb
-  haveI : Finite ↥Mb := Subtype.finite
+  have : Finite ↥Mb := Subtype.finite
   have hnorm : F₀.Normal := CFSG.ClassicalInvolution.Q3.genFittingFStar_isNormal
   have hself : centralizer (F₀ : Set ↥Mb) ≤ F₀ :=
-    CFSG.Open.Open.generalized_fitting_self_centralizing ↥Mb
+    CFSG.Open.Thm.generalized_fitting_self_centralizing ↥Mb
   obtain ⟨e'⟩ := h8.1
   let e₀ : ↥F₀ ≃* Multiplicative (Fin 2 → ZMod 3) :=
     (Subgroup.equivMapOfInjective F₀ Mb.subtype Mb.subtype_injective).trans e'
@@ -46,7 +46,7 @@ theorem s16c167_card_Mbar_le_of_case168_8 (D : Data G) {V₀ V : Subgroup G}
 theorem s16c167_card_lBar_le_of_case168_8 (D : Data G) {V₀ V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hLM : L ≤ D.M) (h8 : Case168_8 D V₀ V hV) :
     Nat.card ↥(lBar V₀ V hV L) ≤ 432 := by
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   exact (Subgroup.card_le_of_le (barSub_mono V₀ V hV hLM)).trans
     (s16c167_card_Mbar_le_of_case168_8 D hV h8)
 

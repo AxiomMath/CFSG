@@ -27,7 +27,7 @@ theorem natCard_linearEquiv [Finite F] :
     Nat.card (U ≃ₗ[F] U) =
       ∏ i : Fin (Module.finrank F U), (Nat.card F ^ Module.finrank F U - Nat.card F ^ (i : ℕ)) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   rw [Nat.card_congr (linearEquivEquivGL (F := F) (U := U)), Matrix.card_GL_field,
     Nat.card_eq_fintype_card (α := F)]
 
@@ -114,7 +114,7 @@ theorem padicValNat_card_le_of_invariant {p : ℕ} (hq : Nat.card F = 2 ^ p)
     (hp : p % 6 = 1 ∨ p % 6 = 5) (hV : Module.finrank F V = 6) (Q : Subgroup (V ≃ₗ[F] V))
     (hQ : IsPGroup 3 Q) (W : Submodule F V) (hW : ∀ g ∈ Q, ∀ v ∈ W, g v ∈ W) (hW0 : W ≠ ⊥)
     (hW1 : W ≠ ⊤) : padicValNat 3 (Nat.card Q) ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmap : ∀ g ∈ Q, W.map (g : V →ₗ[F] V) = W := fun g hg => by
     apply le_antisymm
     · rintro _ ⟨v, hv, rfl⟩
@@ -128,7 +128,7 @@ theorem padicValNat_card_le_of_invariant {p : ℕ} (hq : Nat.card F = 2 ^ p)
     rw [← Nat.card_prod]
     exact Subgroup.card_dvd_of_injective _ hinj
   have ha1 : 1 ≤ Module.finrank F W := by
-    haveI : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr hW0
+    have : Nontrivial W := Submodule.nontrivial_iff_ne_bot.mpr hW0
     exact Module.finrank_pos
   have ha5 : Module.finrank F W ≤ 5 := by
     have := Submodule.finrank_lt hW1
@@ -162,7 +162,7 @@ theorem exists_two_subgroup_normalized {G : Type*} [Group G] [Finite G] (Z : Sub
     ∃ R' : Subgroup G, IsPGroup 2 R' ∧ R' ≠ ⊥ ∧
       (Subgroup.normalizer (R : Set (G ⧸ Z))).comap (QuotientGroup.mk' Z) ≤
         Subgroup.normalizer (R' : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Rt : Subgroup G := R.comap (QuotientGroup.mk' Z) with hRt
   refine ⟨pCoreOf 2 Rt, CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 Rt,
     exists_two_subgroup_preimage Z hZc R hR2 hR1, fun g hg => ?_⟩
@@ -183,8 +183,8 @@ theorem padicValNat_three_card_normalizer_le {ι : Type} [Fintype ι] [Decidable
     (R : Subgroup (StatedProj H)) (hR2 : IsPGroup 2 R) (hR1 : R ≠ ⊥) :
     padicValNat 3 (Nat.card (Subgroup.normalizer (R : Set (StatedProj H)))) ≤ 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Nonempty ι := Fintype.card_pos_iff.mp (by omega)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Nonempty ι := Fintype.card_pos_iff.mp (by omega)
   obtain ⟨hZc, -⟩ := scalars_subgroupOf_facts ι F H
   obtain ⟨R', hR'2, hR'1, hRN⟩ := exists_two_subgroup_normalized
     ((StatedScalars ι F).subgroupOf H) hZc R hR2 hR1
@@ -196,7 +196,7 @@ theorem padicValNat_three_card_normalizer_le {ι : Type} [Fintype ι] [Decidable
   let θ : ↥Ñ →* ((ι → F) ≃ₗ[F] (ι → F)) := ρ.comp Ñ.subtype
   have hθ : Function.Injective θ := hρ.comp Ñ.subtype_injective
   let Q : Subgroup ((ι → F) ≃ₗ[F] (ι → F)) := (P : Subgroup Ñ).map θ
-  have hQ : IsPGroup 3 Q := P.isPGroup'.map θ
+  have hQ : IsPGroup 3 Q := P.isPGroup.map θ
   let W : Submodule F (ι → F) := fixedSpace (R'.map ρ)
   have hWmem : ∀ w : ι → F, w ∈ W ↔ ∀ y ∈ R', ρ y w = w := fun w => by
     constructor
@@ -224,7 +224,7 @@ theorem padicValNat_three_card_normalizer_le {ι : Type} [Fintype ι] [Decidable
     show ρ y (ρ n v) = ρ n v
     rw [h2, h1]
   have hW0 : W ≠ ⊥ := by
-    haveI : Nontrivial (ι → F) := inferInstance
+    have : Nontrivial (ι → F) := inferInstance
     obtain ⟨v, hv0, hv⟩ := exists_ne_zero_fixed (R'.map ρ) (hR'2.map ρ)
     intro hbot
     have : v ∈ W := fun x hx => hv x hx

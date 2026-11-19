@@ -33,7 +33,7 @@ theorem inCatalog_of_extraspecial
     (hext : IsExtraspecialPGroup 2 ↥(CFSG.Open.pCoreOf 2 (CGOf x)))
     (hcard : Nat.card ↥(CFSG.Open.pCoreOf 2 (CGOf x)) = 2 ^ (1 + 2 * 3)) :
     CFSG.Assembly.InCatalog G := by
-  haveI := C.S.simple
+  have := C.S.simple
   have hF : inSubgroup generalizedFitting (Subgroup.centralizer ({x} : Set G)) =
       CFSG.Open.pCoreOf 2 (CGOf x) := by
     unfold inSubgroup
@@ -46,7 +46,7 @@ theorem inCatalog_of_extraspecial
     (hSmith3 G C.S.nonab C.S.charTwo C.S.kProper x hord hext 3 hcard rfl)
 
 theorem inCatalog_of_yamaki (hYamaki : YamakiSp62CharTwo)
-    {C : Cfg G M X 6} (D : C.PiData) (hR2 : Nat.card ↥(Rc X) = 2)
+    {C : Cfg G M X 6} (_D : C.PiData) (hR2 : Nat.card ↥(Rc X) = 2)
     (hsurj : Function.Surjective C.θ) (e : ↥M ≃* YamakiHat) : CFSG.Assembly.InCatalog G := by
   obtain ⟨S, hSM⟩ := exists_sylow_le_M (C := C) hR2 hsurj
   have hR : Nat.card ↥(Rc X) ≤ 2 := hR2.le
@@ -66,7 +66,7 @@ theorem inCatalog_of_yamaki (hYamaki : YamakiSp62CharTwo)
       rw [C.S.normalizer_Q_eq]
       exact hSM
     have h2 : IsPGroup 2 (CFSG.Open.pCoreOf 2 M ⊔ (S : Subgroup G) : Subgroup G) :=
-      (isPGroup_pCoreOf' M).to_sup_of_normal_left' S.isPGroup' hN
+      (isPGroup_pCoreOf' M).to_sup_of_normal_left' S.isPGroup hN
     rw [← S.maximal_isPGroup.eq_of_ge h2 le_sup_right]
     exact le_sup_left
   have hcomm : ∀ s ∈ (S : Subgroup G), s * r = r * s := fun s hs => by
@@ -133,7 +133,7 @@ theorem inCatalog_of_sym_of_residual
       exact D.inCatalog_of_yamaki hYamaki hR2 hsurj e
     · push Not at hT
       exfalso
-      refine D.false_of_forall_sup_eq_T2 hR2 hsurj hQ (fun y hy a b hab hπy hKy => ?_) hx hij hI
+      refine D.false_of_forall_sup_eq_T2 hR2 hsurj (fun y hy a b hab hπy hKy => ?_) hx hij hI
         hK
       rcases D.sup_eq_cases hR hsurj hQ hy hab hπy hKy with h | h | h
       · exact h

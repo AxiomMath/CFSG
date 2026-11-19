@@ -66,8 +66,7 @@ theorem suTorusStmt_holds (hσ : ∀ c, σ (σ c) = c) : SUTorusStmt σ m := by
       ((μ⁻¹ - 1) * uForm σ v x) • v' := by
     intro x
     simp only [hMdef, ← mulVec_mulVec, one_add_smul_vecMulVec_uRow_mulVec, uForm_add_right,
-      uForm_smul_right, haa, hdd, hvv, hv'v', hav, hav', hdv, hdv', hva, hv'a, hvd, hv'd,
-      mul_zero, add_zero]
+      uForm_smul_right, hdd, hv'v', hav, hav', hdv, hdv', mul_zero, add_zero]
     abel
   have hdet : M.det = 1 := by
     rw [hMdef, det_mul, det_mul, det_mul, det_one_add_smul_vecMulVec_uRow,
@@ -80,7 +79,7 @@ theorem suTorusStmt_holds (hσ : ∀ c, σ (σ c) = c) : SUTorusStmt σ m := by
     rw [hM, hM]
     simp only [uForm_add_left, uForm_add_right, uForm_smul_left, uForm_smul_right, haa, hdd,
       had, hda, hvv, hv'v', hvv', hv'v, hav, hav', hdv, hdv', hva, hv'a, hvd, hv'd, map_mul,
-      map_sub, map_one, map_inv₀, hσ, mul_zero, zero_mul, add_zero, zero_add, mul_one]
+      map_sub, map_one, map_inv₀, hσ, mul_zero, add_zero, mul_one]
     rw [← uForm_conj σ hσ a x, ← uForm_conj σ hσ d x, ← uForm_conj σ hσ v x,
       ← uForm_conj σ hσ v' x]
     have h1 : μ * μ⁻¹ = 1 := mul_inv_cancel₀ hμ

@@ -411,7 +411,7 @@ theorem exists_index_two_C0 : ∃ K : Subgroup C0, K.index = 2 := by
   let J := CFSG.pCore 2 C0 ⊔ sylow3C
   refine ⟨J, ?_⟩
   have hinf : CFSG.pCore 2 C0 ⊓ sylow3C = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     rw [card_pCore_C0, card_sigma]
     norm_num
   have hnorm : sylow3C ≤ Subgroup.normalizer (CFSG.pCore 2 C0 : Set C0) := by
@@ -433,7 +433,7 @@ theorem eq_bot_of_normal_of_odd_card_C0 (K : Subgroup C0) [K.Normal] (hK : Odd (
     rw [card_pCore_C0]
     simpa only [show (32 : ℕ) = 2 ^ 5 by norm_num] using
       (Nat.coprime_two_right.mpr hK).pow_right 5
-  have hinf : K ⊓ CFSG.pCore 2 C0 = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hinf : K ⊓ CFSG.pCore 2 C0 = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hcomm : ⁅K, CFSG.pCore 2 C0⁆ = ⊥ := by
     rw [eq_bot_iff]
     exact (Subgroup.commutator_le_inf K (CFSG.pCore 2 C0)).trans hinf.le

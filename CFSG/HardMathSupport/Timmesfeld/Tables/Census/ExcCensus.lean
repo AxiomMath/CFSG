@@ -121,23 +121,23 @@ theorem exceptionalLieCensus_of_rest
   obtain ⟨idx, hv⟩ := d
   rcases hcov with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   ·
-    cases idx <;> simp only [NamesTag] at hnames <;>
+    cases idx <;> simp only [NamesTag] at hnames;
     exact Or.inl (threeTwoWitness_of_untwistedBridge (c := LieTypeIndex.G2)
       Even.chevalleyBridgesAll.g2 (by decide) e)
   ·
-    cases idx <;> simp only [NamesTag] at hnames <;>
+    cases idx <;> simp only [NamesTag] at hnames;
     exact Or.inl (threeTwoWitness_of_untwistedBridge (c := LieTypeIndex.F4)
       Even.chevalleyBridgesAll.f4 (by decide) e)
   ·
-    cases idx <;> simp only [NamesTag] at hnames <;>
+    cases idx <;> simp only [NamesTag] at hnames;
     exact Or.inl (threeTwoWitness_of_untwistedBridge (c := LieTypeIndex.E6)
       Even.chevalleyBridgesAll.e6 (by decide) e)
   ·
-    cases idx <;> simp only [NamesTag] at hnames <;>
+    cases idx <;> simp only [NamesTag] at hnames;
     exact Or.inl (threeTwoWitness_of_untwistedBridge (c := LieTypeIndex.E7)
       Even.chevalleyBridgesAll.e7 (by decide) e)
   ·
-    cases idx <;> simp only [NamesTag] at hnames <;>
+    cases idx <;> simp only [NamesTag] at hnames;
     exact Or.inl (threeTwoWitness_of_untwistedBridge (c := LieTypeIndex.E8)
       Even.chevalleyBridgesAll.e8 (by decide) e)
   ·

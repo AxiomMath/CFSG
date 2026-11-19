@@ -119,7 +119,7 @@ theorem noCardComp_suzM
         have hz1 : (⟨fuseXA, aX_mem⟩ : ↥aSub) ≠ 1 :=
           fun h => fuseXA_ne_one (congrArg Subtype.val h)
         have hord : orderOf (⟨fuseXA, aX_mem⟩ : ↥aSub) = 3 := orderOf_eq_prime hz3 hz1
-        haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+        have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         refine noCardComp_of_centralizer_equiv e' hq ?_ (by rw [card_aSub]; norm_num) ?_
         · have h3 : IsPGroup 3 ↥(Subgroup.zpowers (⟨fuseXA, aX_mem⟩ : ↥aSub)) :=
             IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord, pow_one])
@@ -154,7 +154,7 @@ theorem cardRow_suz
   have hc : Nat.card ↥suzM = 448345497600 := by
     rw [← Nat.card_congr e.toEquiv]
     exact CFSG.Sporadic.Suz.card_Suz
-  haveI : IsSimpleGroup ↥suzM :=
+  have : IsSimpleGroup ↥suzM :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Suz.isSimpleGroup_Suz e.symm
   exact cardRow_of_model (s := .Suz) (Q := ↥suzM) hOut (e.symm.trans (hbr .Suz).some)
     (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))
@@ -213,7 +213,7 @@ theorem cardRow_co3
   have hc : Nat.card ↥co3P = 495766656000 := by
     rw [← Nat.card_congr e.toEquiv]
     exact CFSG.Sporadic.Co3.card_Co3
-  haveI : IsSimpleGroup ↥co3P :=
+  have : IsSimpleGroup ↥co3P :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Co3.isSimpleGroup_Co3 e.symm
   exact cardRow_of_model (s := .Co3) (Q := ↥co3P) hOut (e.symm.trans (hbr .Co3).some)
     (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))
@@ -229,10 +229,10 @@ open scoped commutatorElement
 set_option maxRecDepth 4000 in
 theorem noCardComp_s1'
     {n : ℕ} (hn : n ≠ 181440) : NoCardComp n (sJ 0) := by
-  haveI : Finite ↥JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
+  have : Finite ↥JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
   obtain ⟨-, -, hcomm⟩ := CJ_s1_structure
   have hder := commutator_CJ_s1
-  haveI hsimple : IsSimpleGroup ↥L1J := by
+  have hsimple : IsSimpleGroup ↥L1J := by
     have := alt3_simple
     exact MulEquiv.isSimpleGroup (alt3.equivMapOfInjective iotaA iotaA_injective).symm
   have hcard : Nat.card ↥L1J = 181440 := by
@@ -266,7 +266,7 @@ theorem noCardComp_s1'
 theorem noCardComp_JH'
     {n : ℕ} (hn : n ≠ 181440) (k : ↥JH) (hk : orderOf k = 3) :
     NoCardComp n k := by
-  haveI : Finite ↥JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
+  have : Finite ↥JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
   rcases (order_three_classes k).1 hk with h | h
   · obtain ⟨g, hg⟩ := isConj_iff.1 h
     rw [← hg]
@@ -280,9 +280,9 @@ set_option maxRecDepth 100000 in
 theorem cardRow_hn
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo)
     {n : ℕ} (hn : n ≠ 181440) : CardRow n .HN := by
-  haveI : Finite ↥JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
-  haveI hHN : IsSimpleGroup NativeSporadic.HN := CFSG.Sporadic.HN.isSimpleGroup_HN
-  haveI : IsSimpleGroup ↥JH := @MulEquiv.isSimpleGroup _ _ _ _ hHN hnEquivJ.symm
+  have : Finite ↥JH := Nat.finite_of_card_ne_zero (by rw [card_JH]; norm_num)
+  have hHN : IsSimpleGroup NativeSporadic.HN := CFSG.Sporadic.HN.isSimpleGroup_HN
+  have : IsSimpleGroup ↥JH := @MulEquiv.isSimpleGroup _ _ _ _ hHN hnEquivJ.symm
   obtain ⟨e⟩ := CFSG.Sporadic.Bridge.HN.nonempty_mulEquiv
   have hp : ¬ (Nat.card ↥JH).Prime := by rw [card_JH]; norm_num
   have hnc : ∃ x y : ↥JH, x * y ≠ y * x :=

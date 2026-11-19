@@ -81,6 +81,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace TwelveShort
 
+omit [Finite G] in
 theorem mBarGT_mono {M V₀ V : Subgroup G} {m n : ℕ} (h : MBarGT M V₀ V n) (hmn : m ≤ n) :
     MBarGT M V₀ V m :=
   uc22br4_mBarGT_mono M V₀ V h hmn
@@ -98,13 +99,16 @@ theorem one_le_k (D : Data G) : 1 ≤ D.k := by
       exact IntMod.val_injective (mul_inv_eq_one.1 h1),
      mkTil_surjective (⊥ : Subgroup G) V hV⟩
 
+omit [Finite G] in
 theorem mkTilEquiv_apply (V : Subgroup G) (hV : IsElemAbelian 2 V) (x : IntMod V hV) :
     mkTilEquiv V hV x = mkTil (⊥ : Subgroup G) V hV x := rfl
 
+omit [Finite G] in
 theorem actStab_bot_eq_convI (V : Subgroup G) (hV : IsElemAbelian 2 V)
     (g : stabTil (⊥ : Subgroup G) V) :
     actStab (⊥ : Subgroup G) V hV g = convI hV ⟨(g : G), g.2.1⟩ := rfl
 
+omit [Finite G] in
 theorem actTil_bot_eq_congr (V : Subgroup G) (hV : IsElemAbelian 2 V)
     (g : stabTil (⊥ : Subgroup G) V) :
     actTil (⊥ : Subgroup G) V hV g =
@@ -117,6 +121,7 @@ theorem actTil_bot_eq_congr (V : Subgroup G) (hV : IsElemAbelian 2 V)
     exact (mkTilEquiv V hV).symm_apply_apply x
   rw [hsymm, mkTilEquiv_apply, actStab_bot_eq_convI]
 
+omit [Finite G] in
 theorem barSub_bot_eq_map_congr (M V : Subgroup G) (hV : IsElemAbelian 2 V)
     (hMn : M = normalizer (V : Set G)) :
     barSub (⊥ : Subgroup G) V hV M =
@@ -183,7 +188,8 @@ theorem isSylowIn_of_le (D : Data G) {H : Subgroup G} (hTH : D.T ≤ H) :
   have hmul := Subgroup.relIndex_mul_relIndex D.T H ⊤ hTH le_top
   refine ⟨hTH, hT2, fun h2 => hndvd (hmul ▸ dvd_mul_of_dvd_left h2 _)⟩
 
-theorem eq_mul_of_le_sup {H S C N E : Subgroup G} (hCH : C ≤ H) (hNH : N ≤ H) (hSN : S ≤ N)
+omit [Finite G] in
+theorem eq_mul_of_le_sup {H S C N E : Subgroup G} (hCH : C ≤ H) (_hNH : N ≤ H) (hSN : S ≤ N)
     (hSC : S ≤ normalizer (C : Set G)) (hE : E ≤ C ⊔ S)
     (hprod : (H : Set G) = (E : Set G) * (N : Set G)) :
     (H : Set G) = (C : Set G) * (N : Set G) := by
@@ -201,11 +207,12 @@ theorem eq_mul_of_le_sup {H S C N E : Subgroup G} (hCH : C ≤ H) (hNH : N ≤ H
     obtain ⟨e, he, n', hn', rfl⟩ := hcH
     exact ⟨e, he, n' * n, N.mul_mem hn' hn, by group⟩
 
+omit [Finite G] in
 theorem eq_of_isPGroup_of_ne_bot {p q : ℕ} (hp : p.Prime) (hq : q.Prime) {X : Subgroup G}
     (hX : X ≠ ⊥) (hXp : IsPGroup p X) (hXq : IsPGroup q X) : p = q := by
   obtain ⟨x, hx⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hX
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨k, hk⟩ := IsPGroup.exists_orderOf_eq_pow hXp x
   obtain ⟨l, hl⟩ := IsPGroup.exists_orderOf_eq_pow hXq x
   have hord : orderOf x ≠ 1 := fun h => hx (orderOf_eq_one_iff.1 h)
@@ -238,7 +245,7 @@ theorem wClos_zero_ne_bot (D : Data G) {V : Subgroup G} (hV : InCalV D.M V) :
 
 theorem inCalU_of_inP11 (D : Data G) (h63 : UC6.R6_3 D) {X : Subgroup G} {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hXM : X ≤ D.M) (hXp : IsPGroup p X)
-    (hexp : ∀ x ∈ X, x ^ p = 1) (hΓ : rankThreeGamma 1 p X ≤ D.M) :
+    (_hexp : ∀ x ∈ X, x ^ p = 1) (hΓ : rankThreeGamma 1 p X ≤ D.M) :
     ∀ Y : Subgroup G, Y ≤ X → ¬ IsCyclic Y → InCalU D.M Y := by
   intro Y hYX hYnc
   obtain ⟨E, hEY, hE, hEcard⟩ :=

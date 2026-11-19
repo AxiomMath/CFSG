@@ -145,7 +145,7 @@ theorem uc22s217u3b8_lift_pow {K : Subgroup G} {r q : ℕ} (hr : r.Prime) (hr2 :
     ∃ a : G, ∃ haK : a ∈ K, a ∈ centralizer (zpowers y : Set G) ∧ a ^ (q ^ e) = 1 ∧
       QuotientGroup.mk' (CFSG.pCore 2 ↥K) ⟨a, haK⟩ = u := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨m, -, hm⟩ := (Nat.dvd_prime_pow hq).1 (orderOf_dvd_of_pow_eq_one hue)
   have huc : Nat.card (zpowers u) = q ^ m := by rw [Nat.card_zpowers, hm]
   obtain ⟨A, hAK, hAc, hAmap, hAcard, -⟩ := uc22s217u3b_lift hr hr2 hq hq2 hyN hyr (zpowers u)

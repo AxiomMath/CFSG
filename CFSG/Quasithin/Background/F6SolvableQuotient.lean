@@ -55,7 +55,7 @@ theorem exists_pow_mem_centralizer_pCore_three {Ĝ : Type*} [Group Ĝ] [Finite �
     obtain ⟨y, hy, hym⟩ := himg (φ m) hm
     refine ⟨n * y, Subgroup.mul_mem _ hn (Subgroup.le_normalizer hy), ?_⟩
     rw [map_mul, map_mul, hym]
-  have hP3 : IsPGroup 3 ↥P' := P.isPGroup'.map N.subtype
+  have hP3 : IsPGroup 3 ↥P' := P.isPGroup.map N.subtype
   have hrP : CFSG.Open.pRank 3 (⊤ : Subgroup ↥P') ≤ 2 := by
     rw [pRank_top_subtype]
     exact (CFSG.SectionRank.pRank_mono Nat.prime_three.one_lt le_top).trans hr
@@ -137,7 +137,7 @@ theorem mem_pCoreOf_of_isNilpotent {p : ℕ} [Fact p.Prime] {H : Subgroup D}
     exact h2
   obtain ⟨P, hP⟩ := hz.exists_le_sylow
   have hPn : (P : Subgroup H).Normal := inferInstance
-  have hle : (P : Subgroup H) ≤ Open.pCore p H := le_pCore p hPn P.isPGroup'
+  have hle : (P : Subgroup H) ≤ Open.pCore p H := le_pCore p hPn P.isPGroup
   exact ⟨⟨x, hx⟩, hle (hP (Subgroup.mem_zpowers _)), rfl⟩
 
 theorem exists_pow_coprime_six (z : D) :

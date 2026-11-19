@@ -81,7 +81,7 @@ theorem markedModel_g2_of_catalog {S : Type} [Group S] {n : ℕ}
 
 theorem tag_eq_G2_of_markTag {lab : LargeEvenLabel} (h : markTag lab = .G2) : lab.tag = .G2 := by
   obtain ⟨tg, r, m⟩ := lab
-  cases tg <;> first | rfl | (dsimp only [markTag] at h; (try split_ifs at h) <;> cases h)
+  cases tg <;> first | rfl | (dsimp only [markTag] at h; (try split_ifs at h); try cases h)
 
 theorem label_eq_g2_of_char_two {R : Type} [Group R] {lab : LargeEvenLabel} {n : ℕ}
     (hl : CFSG.Assembly.LargeEvenInLambda2 lab) (hc : markChar lab = 2)

@@ -63,7 +63,7 @@ theorem isSylowOf_of_forall_card_le [Finite X] {p : ℕ} [Fact p.Prime] {P K : S
     intro x hx
     exact ⟨⟨x, hPK hx⟩, hS hx, rfl⟩
   have hSK : S' ≤ K := map_subtype_le _
-  have hcard : Nat.card S' ≤ Nat.card P := h S' hSK (S.isPGroup'.map K.subtype)
+  have hcard : Nat.card S' ≤ Nat.card P := h S' hSK (S.isPGroup.map K.subtype)
   have heq : P = S' := Subgroup.eq_of_le_of_card_ge hPS hcard
   exact ⟨S, heq.symm⟩
 

@@ -70,7 +70,7 @@ theorem sl5_overgroup_parabolic :
       rw [← Matrix.SpecialLinearGroup.coe_mul, inv_mul_cancel, Matrix.SpecialLinearGroup.coe_one]
     have h2 : (g : Mat5) * ((g⁻¹ : SL5) : Mat5) = 1 := by
       rw [← Matrix.SpecialLinearGroup.coe_mul, mul_inv_cancel, Matrix.SpecialLinearGroup.coe_one]
-    letI : Invertible (g : Mat5) := ⟨((g⁻¹ : SL5) : Mat5), h1, h2⟩
+    let : Invertible (g : Mat5) := ⟨((g⁻¹ : SL5) : Mat5), h1, h2⟩
     have hinv := Matrix.blockTriangular_inv_of_blockTriangular (b := id) hut
     rw [Matrix.inv_eq_left_inv h1] at hinv
     exact hinv (show id j < id i from hji)

@@ -14,7 +14,7 @@ open scoped commutatorElement
 
 @[expose] def SmithE6FourClauseBelow (N : ℕ) : Prop :=
   ∀ (X : Type) [Group X] [Finite X], Nat.card X < N →
-  ∀ (M Q Z B : Subgroup X) (hc : Ctx M Q Z B),
+  ∀ (M Q Z B : Subgroup X) (_hc : Ctx M Q Z B),
     StrothConclusion M Q Z B → ¬ IsTIMod M Q (LB M Q B) →
     CFSG.RankThree.GF2n.Smith81.CaseE6 M Q Z B 4 →
       IsPSLModel 6 (Nat.card Z) ↥(generalizedFitting X)
@@ -44,7 +44,7 @@ theorem stroth12Omega6PlusStepB_of_below {N : ℕ}
       FStarL6 M Q Z := by
   intro G _ _ hG M Q Z B hN hc n h12 t ht htQ hp hsub hE6
   obtain ⟨hNH, hall⟩ := hE6
-  haveI := hNH
+  have := hNH
   obtain ⟨hNq, hSatz⟩ := ConfigSatz.of_subConfigSatz hsub
   obtain ⟨B₂, hcB₂, hConcl⟩ := ConfigSatz.exists_ctx hSatz
   have hSecond := hall B₂ hcB₂

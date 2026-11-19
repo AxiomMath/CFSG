@@ -16,13 +16,14 @@ variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : Subgroup Ω} 
 theorem isPerfect_K (hcfg : Cfg173 p S B N D K x) : Group.IsPerfect ↥K :=
   ⟨hcfg.std.2.2.2.2.2.1.2.2.1⟩
 
+omit [Finite Ω] in
 theorem isPerfect_closureIn {K H : Subgroup Ω} (hK : Group.IsPerfect ↥K) : Group.IsPerfect ↥(closureIn K H) := by
   rw [Subgroup.isPerfect_iff]
   apply le_antisymm (Subgroup.commutator_le_self _)
   unfold closureIn
   refine iSup₂_le fun a ha => ?_
   have hperf : Group.IsPerfect ↥(K.map (MulAut.conj a).toMonoidHom) := by
-    haveI : Group.IsPerfect ↥K := hK
+    have : Group.IsPerfect ↥K := hK
     exact Group.IsPerfect.map (MulAut.conj a).toMonoidHom
   rw [← Subgroup.isPerfect_iff.mp hperf]
   exact Subgroup.commutator_mono (le_biSup (fun b => K.map (MulAut.conj b).toMonoidHom) ha)
@@ -37,6 +38,7 @@ private noncomputable def nonempty_pSimple_equiv_conj_aux1 {G G' : Type} [Group 
   exact QuotientGroup.congr (Subgroup.center (PQuot p J)) (Subgroup.center (PQuot p J')) φ
     (Subgroup.map_center_eq φ)
 
+omit [Finite Ω] in
 theorem nonempty_pSimple_equiv_conj (p : ℕ) (K : Subgroup Ω) (ν : Ω) :
     Nonempty (PSimple p (K.map (MulAut.conj ν).toMonoidHom) ≃* PSimple p K) :=
   ⟨(nonempty_pSimple_equiv_conj_aux1
@@ -44,8 +46,8 @@ theorem nonempty_pSimple_equiv_conj (p : ℕ) (K : Subgroup Ω) (ν : Ω) :
 
 theorem nonempty_pSimple_equiv_piImg (M : S172X.S172Model S B G₀) (hp : p.Prime) {K' : Subgroup Ω} (hK'S : K' ≤ S)
     (hK' : Group.IsPerfect ↥K') : Nonempty (PSimple p K' ≃* PSimple p (piImg M K')) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hperfS : Group.IsPerfect ↥(K'.subgroupOf S) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have hperfS : Group.IsPerfect ↥(K'.subgroupOf S) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hK'S).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hK'S).symm.surjective
   obtain ⟨eπ⟩ := M.nonempty_pSimple_equiv_map p (K := K'.subgroupOf S) hperfS
@@ -71,7 +73,7 @@ private theorem exists_std_elt_aux2 {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω]
     (hmem : x ∈ B) (hne : x ≠ 1) (helem : IsElemAbelian p B) (hp : p.Prime)
     {D' : Subgroup Ω} (hD'B : D' ≤ B) (hxD' : x ∈ D') (hcard : Nat.card D' = p ^ 2) :
     Nat.card (M.img D') = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 := M.card_img_mul_card_inf hD'B
   rw [exists_std_elt_aux1 hcent hD'B hxD', Nat.card_zpowers,
     orderOf_eq_prime (helem.2 x hmem) hne, hcard] at h1
@@ -98,7 +100,7 @@ theorem exists_std_elt (hcfg : Cfg173 p S B N D K x) (M : S172X.S172Model S B G�
     (h' : GLAStdSubPre p B x S D' K') :
     ∃ d : G₀, IsStdElt p M.β.range d ∧ M.img D' = Subgroup.zpowers d ∧ piImg M K' = stdLayer d := by
   have hp := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hDB, hDe, hDc, hxmem, hKeq, hKc, hDK⟩ := h'
   have hcard : Nat.card (M.img D') = p :=
     exists_std_elt_aux2 M hcfg.cent hcfg.mem hcfg.ne_one hcfg.elem hp hDB hxmem hDc
@@ -188,12 +190,14 @@ theorem glaStdSubPre_conj (hcfg : Cfg173 p S B N D K x) {ν : Ω} (hν : ν ∈ 
   · rw [hDK, Subgroup.map_inf B (Subgroup.centralizer (K : Set Ω)) (MulAut.conj ν).toMonoidHom
       (MulAut.conj ν).injective, hBmap, glaStdSubPre_conj_aux1 (MulAut.conj ν) K]
 
+omit [Finite Ω] in
 private lemma piImg_mono (M : S172X.S172Model S B G₀) {X Y : Subgroup Ω} (h : X ≤ Y) :
     piImg M X ≤ piImg M Y := by
   unfold piImg
   exact Subgroup.map_mono (Subgroup.subgroupOf_mono S h)
 
-private lemma piImg_map_conj_le (M : S172X.S172Model S B G₀) (hS : S.Normal) {X : Subgroup Ω}
+omit [Finite Ω] in
+private lemma piImg_map_conj_le (M : S172X.S172Model S B G₀) (_hS : S.Normal) {X : Subgroup Ω}
     (s : ↥S) :
     (piImg M X).map (MulAut.conj (M.π s)).toMonoidHom ≤
       piImg M (X.map (MulAut.conj (s : Ω)).toMonoidHom) := by
@@ -235,6 +239,7 @@ theorem innerClosure_le_piImg (hcfg : Cfg173 p S B N D K x) (M : S172X.S172Model
     _ ≤ piImg M (closureIn K N) :=
         piImg_mono M (le_biSup (fun a => K.map (MulAut.conj a).toMonoidHom) hsN)
 
+omit [Finite Ω] in
 private lemma piImg_iSup_le (M : S172X.S172Model S B G₀) {ι : Sort*} (f : ι → Subgroup Ω)
     (hf : ∀ i, f i ≤ S) : piImg M (⨆ i, f i) ≤ ⨆ i, piImg M (f i) := by
   have hEq : (⨆ i, f i).subgroupOf S = ⨆ i, (f i).subgroupOf S := by
@@ -262,7 +267,7 @@ theorem piImg_closureIn_le_stdFamily (hcfg : Cfg173 p S B N D K x) (M : S172X.S1
     (fun _ => hKνS ν)).trans (iSup_le fun hν => ?_)
   obtain ⟨dν, hstdν, -, hdν⟩ := exists_std_elt hcfg M (glaStdSubPre_conj hcfg hν)
   have hperfKν : Group.IsPerfect ↥(K.map (MulAut.conj ν).toMonoidHom) := by
-    haveI : Group.IsPerfect ↥K := isPerfect_K hcfg
+    have : Group.IsPerfect ↥K := isPerfect_K hcfg
     exact Group.IsPerfect.map (MulAut.conj ν).toMonoidHom
   have htype : Nonempty (PSimple p (stdLayer dν) ≃* PSimple p (stdLayer d)) := by
     rw [← hdν, ← hd]

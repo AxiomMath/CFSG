@@ -65,8 +65,8 @@ theorem reeF4_noSz {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
         (Y.subgroupOf C).IsSubnormal → Group.IsPerfect ↥Y → ¬ 3 ∣ Nat.card Y → Y = ⊥ := by
   classical
   intro β hβ C Y hC hYC hsub hp h3
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   have hZ : Subgroup.center (ReeTag.F4.reeGamma K a) = ⊥ :=
     ReeTag.large_Ree_fixed_group_center_trivial a K hK
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
@@ -113,10 +113,10 @@ theorem reeF4_noSz {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
       ⟨orderOf_eq_prime hβ hβ1, hin⟩
     obtain ⟨b, hkcard, hchar, ⟨eC⟩⟩ := exists_fixSubgroup_fieldAut_equiv hK Nat.prime_three
       (by norm_num) σ hσ
-    haveI := hchar
-    haveI : Finite (fixSubfield σ) := Subtype.finite
-    haveI : Finite (ModGL ReeTag.F4.tag (fixSubfield σ)) := finite_modGL
-    haveI : Finite ↥(ReeTag.F4.reeGamma (fixSubfield σ) b) := Subtype.finite
+    have := hchar
+    have : Finite (fixSubfield σ) := Subtype.finite
+    have : Finite (ModGL ReeTag.F4.tag (fixSubfield σ)) := finite_modGL
+    have : Finite ↥(ReeTag.F4.reeGamma (fixSubfield σ) b) := Subtype.finite
     set δ := ReeTag.F4.reeGammaFieldAut K a σ with hδ
     have hCeq : C = Sec4.autFix (MulAut.conj g * δ * (MulAut.conj g)⁻¹) :=
       Subgroup.ext fun z => (hC z).trans (by rw [hg]; exact Sec4.mem_autFix.symm)
@@ -136,9 +136,9 @@ theorem reeF4_noSz {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
         eCδ.trans (ReeTag.reeFixedEquivReeGamma (fixSubfield σ) 0).symm
       have hT := (CFSG.LieType.Simplicity.titsData (fixSubfield σ) hk2).isQuasisimple hk2
       obtain ⟨eT⟩ := nonempty_commutator_reeFixed_equiv_cat_tits hk2 hv
-      haveI : Finite ↥(reeFixed ReeTag.F4 (fixSubfield σ) 0) := Subtype.finite
+      have : Finite ↥(reeFixed ReeTag.F4 (fixSubfield σ) 0) := Subtype.finite
       have h3T : 3 ∣ Nat.card ↥(commutator ↥(reeFixed ReeTag.F4 (fixSubfield σ) 0)) := by
-        haveI : Finite ↥(commutator ↥(reeFixed ReeTag.F4 (fixSubfield σ) 0)) := Subtype.finite
+        have : Finite ↥(commutator ↥(reeFixed ReeTag.F4 (fixSubfield σ) 0)) := Subtype.finite
         exact three_dvd_card_of_lie lieOrderBridge_holds ⟨.tits, hv⟩
           (fun m h => by cases h) ⟨eT⟩
       refine eq_bot_of_equiv_comm eR hT h3T (fun x y => ?_) hYC hsub hp h3

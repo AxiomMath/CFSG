@@ -26,7 +26,7 @@ variable {F : Type} [Field F] [Fintype F] [CharP F 2] {k : Type} [Field k] [Char
     ⟨insert s.succ (((btop ε p : Set.powersetCard (Fin (m + 1)) (bdeg ε p)) :
         Finset (Fin (m + 1))).erase s.castSucc), by
       have hb : bdeg ε p = (s.succ : ℕ) := by
-        rw [bdeg, h.1, if_pos h.2]
+        rw [bdeg, h.1, ite_eq_left h.2]
       have hmem : s.castSucc ∈ ((btop ε p : Set.powersetCard (Fin (m + 1)) (bdeg ε p)) :
           Finset (Fin (m + 1))) := by
         rw [btop, ktop, mem_initSeg (bdeg_le ε p), hb]
@@ -67,13 +67,13 @@ theorem bShiftSet_of_mem (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m)
   have h : (r, s.succ).2 = s.succ ∧ s.succ ∈ ε (r, s.succ).1 := by
     refine ⟨rfl, ?_⟩
     simpa [bR0] using hr
-  rw [bShiftSet, dif_pos h]
+  rw [bShiftSet, dite_eq_left h]
 
 theorem bdeg_succ_of_mem (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m) {r : Fin f}
     (hr : r ∈ bR0 ε s) : bdeg ε (r, s.succ) = (s.succ : ℕ) := by
   rw [bdeg]
   have h : s.succ ∈ ε r := by simpa [bR0] using hr
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 theorem succ_notMem_btop (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m) {r : Fin f}
     (hr : r ∈ bR0 ε s) :
@@ -119,19 +119,19 @@ theorem move_iff (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m)
     have hj : p.2 ∈ ε p.1 := by
       by_contra hj
       unfold bdeg at hb
-      rw [if_neg hj] at hb
+      rw [ite_eq_right hj] at hb
       omega
     refine ⟨?_, ?_⟩
     · ext
       have hp : (p.2 : ℕ) = (s.succ : ℕ) := by
         unfold bdeg at hb
-        rw [if_pos hj] at hb
+        rw [ite_eq_left hj] at hb
         exact hb
       exact hp
     · have hp2 : p.2 = s.succ := by
         have hp : (p.2 : ℕ) = (s.succ : ℕ) := by
           unfold bdeg at hb
-          rw [if_pos hj] at hb
+          rw [ite_eq_left hj] at hb
           exact hb
         exact Fin.ext hp
       rw [bR0]
@@ -141,7 +141,7 @@ theorem move_iff (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m)
     have hj : s.succ ∈ ε p.1 := by simpa [bR0] using hr0
     have hb : bdeg ε p = (s.succ : ℕ) := by
       unfold bdeg
-      rw [hp2, if_pos hj]
+      rw [hp2, ite_eq_left hj]
     constructor
     · rw [btop, ktop, mem_initSeg (bdeg_le ε p), hb]
       exact Nat.lt_succ_self _
@@ -157,7 +157,7 @@ theorem bShiftSet_eq_insert (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m)
   have h : p.2 = s.succ ∧ s.succ ∈ ε p.1 := by
     refine ⟨hp.1, ?_⟩
     simpa [bR0] using hp.2
-  rw [bShiftSet, dif_pos h]
+  rw [bShiftSet, dite_eq_left h]
 
 omit [CharP k 2] in
 theorem prod_factor_bShift (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m) (x : Fin f → k)
@@ -172,7 +172,7 @@ theorem prod_factor_bShift (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m) (x 
       have hp : (r, s.succ).2 = s.succ ∧ r ∈ S := ⟨rfl, hr⟩
       rw [bShift_apply_of_mem ε s hp]
       simp only [hS hr, true_and]
-      rw [if_neg]
+      rw [ite_eq_right]
       · rfl
       · exact bShiftSet_ne_btop ε s (hS hr)
     · intro r _ r' _ h
@@ -220,10 +220,10 @@ theorem prod_factor_eq (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m) (x : Fi
       (∏ r ∈ bShiftSubset ε s u, x r) *
         (if u = bShift ε s (bShiftSubset ε s u) then 1 else 0) := by
   by_cases hu : u = bShift ε s (bShiftSubset ε s u)
-  · rw [if_pos hu, mul_one]
+  · rw [ite_eq_left hu, mul_one]
     conv_lhs => rw [hu]
     exact prod_factor_bShift ε s x (bShiftSubset_subset ε s u)
-  · rw [if_neg hu, mul_zero]
+  · rw [ite_eq_right hu, mul_zero]
     by_contra hprod
     apply hu
     have hfac : ∀ p : Fin f × Fin (m + 1),
@@ -241,7 +241,7 @@ theorem prod_factor_eq (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m) (x : Fi
     · rw [bShift_apply_of_not_mem ε s hp]
       by_contra hne
       have h0 := hfac p
-      rw [if_neg hne] at h0
+      rw [ite_eq_right hne] at h0
       by_cases hcond : p.2 = s.succ ∧ p.1 ∈ bR0 ε s ∧ u p = bShiftSet ε s p
       · obtain ⟨hp2, hp0, hpt⟩ := hcond
         apply hp
@@ -251,7 +251,7 @@ theorem prod_factor_eq (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m) (x : Fi
         have hp' : (p.1, s.succ) = p := Prod.ext rfl hp2.symm
         rw [← hp'] at hpt
         exact hpt
-      · exact h0 (if_neg hcond)
+      · exact h0 (ite_eq_right hcond)
 
 theorem factor_iff (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m) (u : BIdx ε)
     (p : Fin f × Fin (m + 1)) :
@@ -304,8 +304,8 @@ theorem bMat_lower_mulVec_bvec (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m)
           Finset (Fin (m + 1))).erase s.castSucc) then x p.1 else 0)) := by
     refine Finset.prod_congr rfl fun p _ => ?_
     by_cases hu0 : u p = btop ε p
-    · rw [if_pos hu0, if_pos hu0]
-    · rw [if_neg hu0, if_neg hu0]
+    · rw [ite_eq_left hu0, ite_eq_left hu0]
+    · rw [ite_eq_right hu0, ite_eq_right hu0]
       simp only [factor_iff ε s u p, Subtype.ext_iff]
   rw [← hprod, prod_factor_eq ε s x u]
   simp only [Finset.sum_apply, Pi.smul_apply, Pi.single_apply, smul_eq_mul]
@@ -321,7 +321,7 @@ theorem bMat_lower_mulVec_bvec (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m)
       apply hne
       rw [h]
       exact (bShiftSubset_bShift ε s (Finset.mem_filter.mp hR).2).symm
-    rw [if_neg hne']
+    rw [ite_eq_right hne']
     simp
   rw [Finset.sum_eq_single_of_mem (bShiftSubset ε s u) hS hother]
 
@@ -334,7 +334,7 @@ theorem initSeg_map_swap (d : ℕ) (hd : d ≤ m + 1) (s : Fin m) :
     else ((initSeg hd : Set.powersetCard (Fin (m + 1)) d) : Finset (Fin (m + 1))) := by
   classical
   by_cases hd' : d = (s.succ : ℕ)
-  · rw [if_pos hd']
+  · rw [ite_eq_left hd']
     have hmem : s.castSucc ∈ ((initSeg hd : Set.powersetCard (Fin (m + 1)) d) :
         Finset (Fin (m + 1))) := by
       rw [mem_initSeg, hd']
@@ -371,7 +371,7 @@ theorem initSeg_map_swap (d : ℕ) (hd : d ≤ m + 1) (s : Fin m) :
     rw [← Finset.insert_erase hmem, Finset.map_insert, hfix]
     simp only [Equiv.toEmbedding_apply, Equiv.swap_apply_left]
     rw [Finset.erase_insert (Finset.notMem_erase _ _)]
-  · rw [if_neg hd']
+  · rw [ite_eq_right hd']
     by_cases hle : d ≤ (s : ℕ)
     · refine Finset.map_eq_of_subset ?_
       intro a ha
@@ -434,7 +434,7 @@ theorem bShift_map_swap (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m)
       have hj : s.succ ∈ ε p.1 := by simpa [bR0] using hmove.2
       simp [bdeg, hmove.1, hj]
     have h := btop_map_swap ε s p
-    rw [if_pos hb] at h
+    rw [ite_eq_left hb] at h
     rw [bShift_apply_of_mem ε s hmove, bShiftSet_eq_insert ε s hmove]
     rw [← h]
     rw [Finset.map_map]
@@ -445,11 +445,11 @@ theorem bShift_map_swap (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m)
       intro hd
       have hj : p.2 ∈ ε p.1 := by
         by_contra hj
-        rw [bdeg, if_neg hj, Fin.val_succ] at hd
+        rw [bdeg, ite_eq_right hj, Fin.val_succ] at hd
         omega
       have hp2 : p.2 = s.succ := by
         have hval : (p.2 : ℕ) = (s.succ : ℕ) := by
-          rw [bdeg, if_pos hj] at hd
+          rw [bdeg, ite_eq_left hj] at hd
           exact hd
         exact Fin.ext hval
       have hp0 : p.1 ∈ bR0 ε s := by
@@ -459,7 +459,7 @@ theorem bShift_map_swap (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m)
       exact hnot ⟨hp2, hp0⟩
     rw [bShift_apply_of_not_mem ε s hnot]
     have h := btop_map_swap ε s p
-    rw [if_neg hdne] at h
+    rw [ite_eq_right hdne] at h
     exact h
 
 theorem bMat_weyl_mulVec_bvec (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m) :
@@ -481,11 +481,11 @@ theorem bMat_weyl_mulVec_bvec (ε : Fin f → Finset (Fin (m + 1))) (s : Fin m) 
     ext y
     simp
   by_cases hu : u = bShift ε s (bR0 ε s)
-  · rw [if_pos hu, if_pos]
+  · rw [ite_eq_left hu, ite_eq_left]
     intro p
     rw [hu]
     exact bShift_map_swap ε s p
-  · rw [if_neg hu, if_neg]
+  · rw [ite_eq_right hu, ite_eq_right]
     intro h
     apply hu
     funext p
@@ -608,7 +608,7 @@ theorem sum_algebraMap_pow (hF : Fintype.card F = 2 ^ f) {e : ℕ} (he : e < 2 ^
     (∑ c : F, (algebraMap F k c) ^ e) = if e = 2 ^ f - 1 then 1 else 0 := by
   classical
   by_cases h : e = 2 ^ f - 1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hsum : (∑ c : F, c ^ e) = -1 := by
       rw [h, ← hF]
       exact sum_pow_card_sub_one F
@@ -618,7 +618,7 @@ theorem sum_algebraMap_pow (hF : Fintype.card F = 2 ^ f) {e : ℕ} (he : e < 2 ^
           exact Finset.sum_congr rfl fun c _ => (map_pow _ _ _).symm
       _ = algebraMap F k (-1) := by rw [hsum]
       _ = 1 := by rw [map_neg, map_one, CharTwo.neg_eq]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hlt : e < Fintype.card F - 1 := by
       rw [hF]
       omega
@@ -650,8 +650,8 @@ theorem sum_frob_prod (hF : Fintype.card F = 2 ^ f) (R : Finset (Fin f)) :
       _ < 2 ^ f := Nat.sub_lt (pow_pos (by norm_num : (0:ℕ) < 2) f) (by norm_num)
   rw [sum_algebraMap_pow (k := k) hF hlt]
   by_cases hR : R = Finset.univ
-  · rw [if_pos hR, hR, sum_fin_two_pow_eq, if_pos rfl]
-  · rw [if_neg hR, if_neg]
+  · rw [ite_eq_left hR, hR, sum_fin_two_pow_eq, ite_eq_left rfl]
+  · rw [ite_eq_right hR, ite_eq_right]
     intro he
     apply hR
     have himg : R.image (Fin.val : Fin f → ℕ) = Finset.range f := by

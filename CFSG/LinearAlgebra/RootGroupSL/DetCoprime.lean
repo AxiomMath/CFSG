@@ -29,6 +29,7 @@ private theorem pow_bijective_of_coprime {k : Type} [Field k] [Finite k] {n : �
     exact h.symm
   simpa only using h'.pow_left_bijective
 
+omit [Module.Finite k V] in
 theorem exists_specialLinear_smul_eq (hcop : Nat.Coprime (Module.finrank k V) (Nat.card k - 1))
     (z : V ≃ₗ[k] V) :
     ∃ (h : SpecialLinearGroup k V) (μ : k), μ ≠ 0 ∧ ∀ v, h v = μ • z v := by

@@ -129,19 +129,19 @@ theorem not_surv1a_sz {G : Type} [Group G] [Finite G] {H T M K : Subgroup G}
   have htR : (twoResidual (⊤ : Subgroup ↥H)).Normal := by
     have h := le_normalizer_twoResidual (⊤ : Subgroup ↥H)
     exact Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h)
-  haveI hRn : R.Normal := htR.map _ (QuotientGroup.mk'_surjective _)
+  have hRn : R.Normal := htR.map _ (QuotientGroup.mk'_surjective _)
   have hRsub : IsSubnormal R ⊤ :=
     IsSubnormal.step le_top (by infer_instance) (IsSubnormal.refl ⊤)
   have hNiso : ∀ i : Th, Nonempty (↥L ≃* ↥(N i)) := fun i => conjSub_mulEquiv i.1 L
   have hNs : ∀ i : Th, IsSimpleGroup ↥(N i) := fun i => by
     obtain ⟨e⟩ := hNiso i
-    haveI := hLs
+    have := hLs
     exact e.isSimpleGroup_congr.mp inferInstance
   have hNnc : ∀ i : Th, ¬ IsMulCommutative ↥(N i) := fun i => by
     obtain ⟨e⟩ := hNiso i
     exact not_isMulCommutative_of_mulEquiv e hLnc
   have hNc : ∀ i, IsComponentOf (N i) ⊤ := fun i => by
-    haveI := hNs i
+    have := hNs i
     exact ⟨le_top, IsSubnormal.step (hNR i) (hNn i) hRsub,
       isQuasisimple_of_simple_nonabelian _ (hNnc i)⟩
   have hNcard : ∀ i : Th, Nat.card ↥(N i) = Nat.card ↥L := fun i => by

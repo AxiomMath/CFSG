@@ -154,7 +154,7 @@ theorem A7_alternating_six_seven_odd_cover_cubic_Sylow {n : ℕ} (hn : n = 6 ∨
   have hZcard : Nat.card ((center P).map (P : Subgroup E).subtype) ≤ 3 := by
     rw [card_map_of_injective (P : Subgroup E).subtype_injective]
     have hdvd : Nat.card (center P) ∣ 27 := hP27 ▸ card_subgroup_dvd_card (center P)
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 (P.isPGroup'.to_subgroup (center P))
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 (P.isPGroup.to_subgroup (center P))
     rw [hk] at hdvd ⊢
     have hk3 : k ≤ 3 := by
       rw [show (27 : ℕ) = 3 ^ 3 by norm_num] at hdvd

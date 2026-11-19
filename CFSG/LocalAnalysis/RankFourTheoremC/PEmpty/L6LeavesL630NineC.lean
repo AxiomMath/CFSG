@@ -57,17 +57,17 @@ theorem comm_inv_of_comm' {a x : G} (h : a * x = x * a) : a⁻¹ * x = x * a⁻�
 
 theorem false_of_mem_fivePart {Q : Type} [Group Q] [Finite Q] {M : Subgroup G} [Finite G] {x z : G}
     (N : Subgroup G) (hX1N : M ⊓ centralizer ({x} : Set G) ≤ N) (Φ : N →* Q)
-    (hΦ : Function.Surjective Φ) (S : Subgroup Q) [S.Normal] [IsSimpleGroup S]
+    (_hΦ : Function.Surjective Φ) (S : Subgroup Q) [S.Normal] [IsSimpleGroup S]
     (hnab : ¬ ∀ a b : S, a * b = b * a) (h2 : 2 ∣ Nat.card S) (h5 : 5 ∣ Nat.card S)
     (hidx : S.index ∣ 2)
     (hSX : S ≤ ((M ⊓ centralizer ({x} : Set G)).subgroupOf N).map Φ)
     (hzX : z ∈ M ⊓ centralizer ({x} : Set G)) (hzΦ : Φ ⟨z, hX1N hzX⟩ ≠ 1) (hz5 : z ^ 5 = 1)
     (R T : Subgroup G) (hRn : ∀ m ∈ M, ∀ r ∈ R, m * r * m⁻¹ ∈ R)
-    (hTn : ∀ m ∈ M, ∀ t ∈ T, m * t * m⁻¹ ∈ T) (hTM : T ≤ M)
+    (hTn : ∀ m ∈ M, ∀ t ∈ T, m * t * m⁻¹ ∈ T) (_hTM : T ≤ M)
     (hTcard : Nat.Coprime 5 (Nat.card T))
     (hRT : ∀ r ∈ R, ∃ n : ℕ, r ^ (5 ^ n) ∈ T) (hzR : z ∈ R) : False := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set X1 : Subgroup G := M ⊓ centralizer ({x} : Set G) with hX1def
   have hX1cl : ∀ g ∈ X1, ∀ h ∈ X1, g * h * g⁻¹ ∈ X1 := by
     intro g hg h hh
@@ -250,7 +250,7 @@ theorem false_of_mem_fivePart {Q : Type} [Group Q] [Finite Q] {M : Subgroup G} [
         rw [ht]
         exact Subgroup.mem_top a
       exact (Subgroup.mem_center_iff.mp ha b).symm
-  · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     have hmk1 : QuotientGroup.mk' S zq ≠ 1 := by
       rw [QuotientGroup.mk'_apply, Ne, QuotientGroup.eq_one_iff]
       exact hzqS

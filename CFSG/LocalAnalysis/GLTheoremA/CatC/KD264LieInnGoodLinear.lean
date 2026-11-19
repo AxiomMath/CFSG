@@ -152,7 +152,7 @@ theorem perfect_fixSubgroup_blockProj {n : ℕ} {k : Type} [Field k] {M : GL (Fi
       rw [← hcomm]; group
     have h1 := congrArg Units.val h2
     simpa using h1
-  · haveI : Group.IsPerfect ↥(blockProj hsq h) := (blockProj_isQuasisimple hgood).1
+  · have : Group.IsPerfect ↥(blockProj hsq h) := (blockProj_isQuasisimple hgood).1
     exact Subgroup.commutator_eq_self
 
 theorem exists_perfect_fixSubgroup_of_goodBlock_of_primitiveRoot {p : ℕ} (hp : p.Prime)
@@ -165,7 +165,7 @@ theorem exists_perfect_fixSubgroup_of_goodBlock_of_primitiveRoot {p : ℕ} (hp :
   ⟨blockProj hsq h, (perfect_fixSubgroup_blockProj hx hgood).1,
     (perfect_fixSubgroup_blockProj hx hgood).2, dvd_card_blockProj hp hp2 hgood hω⟩
 
-theorem exists_perfect_fixSubgroup_of_goodBlock_of_dvd {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem exists_perfect_fixSubgroup_of_goodBlock_of_dvd {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     {n : ℕ} {k : Type} [Field k] {M : GL (Fin n) k} {x : Module.End k (Fin n → k)}
     (hx : Matrix.toLin' (M : Matrix (Fin n) (Fin n) k) = x)
     {hsq : Squarefree (minpoly k x)} {h : primaryFactors x} (hgood : GoodBlock h)
@@ -214,7 +214,7 @@ theorem exists_perfect_fixSubgroup_of_diagonal_eq {p : ℕ} (hp : p.Prime) (hp2 
   obtain ⟨ω, hω⟩ := exists_primitiveRoot_of_dvd hp hpq
   exact exists_perfect_fixSubgroup_of_goodBlock_of_primitiveRoot (hsq := hsq) hp hp2 rfl hgood hω
 
-private theorem exists_sl_lift_of_dvd_of_modEq {p m : ℕ} (hp : p.Prime) {n : ℕ}
+private theorem exists_sl_lift_of_dvd_of_modEq {p m : ℕ} (_hp : p.Prime) {n : ℕ}
     {k : Type} [Field k] [Finite k] {A : GL (Fin n) k}
     (hdvd : (Nat.card k - 1) ∣ m) (hmod : m ≡ 1 [MOD p])
     (hA : ∃ a : kˣ, A ^ p = GeneralLinearGroup.scalar (Fin n) a) :
@@ -310,7 +310,7 @@ private theorem exists_sl_plane {p m : ℕ} (hp : p.Prime) {n : ℕ} (hn : 2 ≤
       (∀ a : E₀, conjAut n k (SpecialLinearGroup.toGL (a : SpecialLinearGroup (Fin n) k)) ∈
         Subgroup.closure {conjAut n k A, conjAut n k B}) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨A₁, hA₁p, hA₁toGL, hcA⟩ := exists_sl_lift_of_dvd_of_modEq hp hdvd hmod hA
   obtain ⟨B₁, hB₁p, hB₁toGL, hcB⟩ := exists_sl_lift_of_dvd_of_modEq hp hdvd hmod hB
   have hA₁B₁ : A₁ * B₁ = B₁ * A₁ := by
@@ -341,7 +341,7 @@ private theorem exists_sl_plane {p m : ℕ} (hp : p.Prime) {n : ℕ} (hn : 2 ≤
     have hE₀eq : Subgroup.zpowers A₁ ⊔ Subgroup.zpowers B₁ =
         Subgroup.closure ({A₁, B₁} : Set (SpecialLinearGroup (Fin n) k)) :=
       (CFSG.StandardType.closure_pair_eq_sup A₁ B₁).symm
-    haveI hmc : IsMulCommutative ↥(Subgroup.zpowers A₁ ⊔ Subgroup.zpowers B₁) :=
+    have hmc : IsMulCommutative ↥(Subgroup.zpowers A₁ ⊔ Subgroup.zpowers B₁) :=
       isMulCommutative_iff.2 fun (x y : ↥(Subgroup.zpowers A₁ ⊔ Subgroup.zpowers B₁)) =>
         Subtype.ext (hcommCl (x : SpecialLinearGroup (Fin n) k) (by rw [← hE₀eq]; exact x.2)
           (y : SpecialLinearGroup (Fin n) k) (by rw [← hE₀eq]; exact y.2))
@@ -404,7 +404,7 @@ private theorem exists_good_of_elementary_plane {p : ℕ} (hp : p.Prime) (hp2 : 
     exact hgoal ⟨_, hmem ⟨a, ha⟩, hne ⟨a, ha⟩ ha1', Q, hQfix, hQperf, hQp⟩
   have htop := eq_top_of_good_blocks_le' hp hp4 hpK hpk hpq E₀ hE₀card
     (⊥ : Subgroup (SpecialLinearGroup (Fin n) k)) hblocks
-  haveI hnt : Nontrivial (SpecialLinearGroup (Fin n) k) := by
+  have hnt : Nontrivial (SpecialLinearGroup (Fin n) k) := by
     obtain ⟨i, j, hij⟩ : ∃ i j : Fin n, i ≠ j :=
       ⟨⟨0, by omega⟩, ⟨1, by omega⟩, by simp⟩
     refine ⟨SpecialLinearGroup.transvection hij 1, 1, ?_⟩
@@ -454,7 +454,7 @@ private theorem exists_good_of_not_dvd_sub_one {p : ℕ} (hp : p.Prime) (hp2 : p
   obtain ⟨m, hdvd, hmod⟩ := exists_dvd_and_modEq_one hp hpq
   obtain ⟨A₁, B₁, E₀, hA₁p, hB₁p, hcA, hcB, hE₀def, hE₀card, hE₀el, hker, hmem⟩ :=
     exists_sl_plane (m := m) hp hn hdvd hmod hpq hAB hA hB hA1 hBA
-  haveI := hE₀el
+  have := hE₀el
   refine exists_good_of_elementary_plane hp hp2 hn hpk hpq hp4 hZ E₀ hE₀card ?_ ?_
   · intro a
     exact hmem a
@@ -483,7 +483,7 @@ private theorem exists_good_of_split {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {n
     ∃ β ∈ Subgroup.closure {conjAut n k A, conjAut n k B}, β ≠ 1 ∧
       ∃ Q : Subgroup (projectiveSL n k), Q ≤ fixSubgroup β ∧ ⁅Q, Q⁆ = Q ∧ p ∣ Nat.card Q := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, ha⟩ := hAs
   obtain ⟨b, hb⟩ := hBs
   obtain ⟨hA'p, hcA⟩ := glRescale_lift (n := n) (p := p) (A := A) (a := a) ha

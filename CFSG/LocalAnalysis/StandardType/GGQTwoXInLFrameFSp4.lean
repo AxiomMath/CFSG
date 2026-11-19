@@ -248,7 +248,7 @@ theorem QTwoSpFrame.no_fixed_coordinate {K : Type} [Field K] [Finite K] [CharP K
           by_cases hl : l = i
           · subst hl
             dsimp [f]
-            rw [Pi.mulSingle_eq_same, toAdd_ofAdd, ZMod.val_one, pow_one, if_pos rfl]
+            rw [Pi.mulSingle_eq_same, toAdd_ofAdd, ZMod.val_one, pow_one, ite_eq_left rfl]
           · dsimp [f]
             rw [Pi.mulSingle_eq_of_ne (M := fun _ => Multiplicative (ZMod 3)) hl]
             simp [hl]

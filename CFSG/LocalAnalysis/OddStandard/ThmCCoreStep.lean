@@ -202,7 +202,7 @@ theorem frob_step (hS2 : O2Structure) (hT : IsT (T : Subgroup X))
     (hBD : ¬ B ≤ (T : Subgroup X) ⊓ L) {x : X} (hxL : x ∈ L) (hxN : x ∈ nzr Q)
     (hxodd : Odd (orderOf x)) : ∀ q ∈ Q, x * q * x⁻¹ = q := by
   have hQT : Q ≤ T := fun q hq => (hQD hq).1
-  have hQ2 : IsPGroup 2 Q := T.isPGroup'.to_le hQT
+  have hQ2 : IsPGroup 2 Q := T.isPGroup.to_le hQT
   have hZD : Z ≤ (T : Subgroup X) ⊓ L := hZQ.trans hQD
   rcases localStructure hS2 T hT hTA Q (ne_bot_of_center_le hTA hZQ) hQT
     (normalized_of_center_le hTA hZQ hQT) with halt | ⟨hQAB, -⟩
@@ -216,9 +216,9 @@ theorem frob_step (hS2 : O2Structure) (hT : IsT (T : Subgroup X))
     have hmjK : m ^ (orderOf x) ∈ oddCoreIn (nzr Q) :=
       pow_mem_of_pow_mul_eq_one hKn hmH hk _ (by rw [← hxmk]; exact pow_orderOf_eq_one x)
     have hmj : ∀ s ∈ (T : Subgroup X), m ^ (orderOf x) * s * (m ^ (orderOf x))⁻¹ = s :=
-      commute_of_mem_oddCore T.isPGroup' hTH (pow_mem hmT _) hmjK
+      commute_of_mem_oddCore T.isPGroup hTH (pow_mem hmT _) hmjK
     have hD : ∀ s ∈ (T : Subgroup X), m * s * m⁻¹ * s⁻¹ ∈ (T : Subgroup X) ⊓ L := fun s hs =>
-      comm_mem_inf T.isPGroup' hTH hKn hKodd hxL hxN hk hxmk.symm hmT hs
+      comm_mem_inf T.isPGroup hTH hKn hKodd hxL hxN hk hxmk.symm hmT hs
     have key := oa_trivial hT hTA hmT hxodd hmj hZD hAD hBD hD
     intro q hq
     have h1 := oddCoreIn_centralizes hQ2 Subgroup.le_normalizer normalizes_of_mem_nzr hk hq
@@ -236,7 +236,7 @@ theorem u1_step (hS2 : O2Structure) (hT : IsT (T : Subgroup X))
     (hBD : ¬ B ≤ (T : Subgroup X) ⊓ L) {w n : X} (hwQ : w ∈ Q) (hwA : w ∉ A)
     (hnN : n ∈ nzr Q) : n⁻¹ * w * n ∈ (T : Subgroup X) ⊓ L ∧ n⁻¹ * w * n ∉ A := by
   have hQT : Q ≤ T := fun q hq => (hQD hq).1
-  have hQ2 : IsPGroup 2 Q := T.isPGroup'.to_le hQT
+  have hQ2 : IsPGroup 2 Q := T.isPGroup.to_le hQT
   rcases localStructure hS2 T hT hTA Q (ne_bot_of_center_le hTA hZQ) hQT
     (normalized_of_center_le hTA hZQ hQT) with halt | ⟨hQAB, -⟩
   · obtain ⟨m, hmT, hmH, k, hk, hxmk⟩ := halt n⁻¹ ((nzr Q).inv_mem hnN)
@@ -269,7 +269,7 @@ theorem abel_step (hS2 : O2Structure) (hT : IsT (T : Subgroup X))
   have hAT : A ≤ T := hTA.A_le_S
   have hZA : Z ≤ A := hTA.Z_le_A
   have hAL : A ≤ L := hAD ▸ inf_le_right
-  have hA2 : IsPGroup 2 A := T.isPGroup'.to_le hAT
+  have hA2 : IsPGroup 2 A := T.isPGroup.to_le hAT
   have hidx : ¬ 2 ∣ A.relIndex L := by
     rw [hAD]
     exact CFSG.OddStandard.ThmC.O2.sylow_inf_normal_relIndex_odd T L
@@ -289,10 +289,10 @@ theorem abel_step (hS2 : O2Structure) (hT : IsT (T : Subgroup X))
     have hmjK : m ^ j' ∈ oddCoreIn (nzr A) :=
       pow_mem_of_pow_mul_eq_one hKn hmH hk _ (by rw [← hg'mk]; exact hg'j')
     have hmj : ∀ s ∈ (T : Subgroup X), m ^ j' * s * (m ^ j')⁻¹ = s :=
-      commute_of_mem_oddCore T.isPGroup' hTH (pow_mem hmT _) hmjK
+      commute_of_mem_oddCore T.isPGroup hTH (pow_mem hmT _) hmjK
     have hD : ∀ s ∈ (T : Subgroup X), m * s * m⁻¹ * s⁻¹ ∈ A := fun s hs => by
       rw [hAD]
-      exact comm_mem_inf T.isPGroup' hTH hKn hKodd hg'L hg'N hk hg'mk.symm hmT hs
+      exact comm_mem_inf T.isPGroup hTH hKn hKodd hg'L hg'N hk hg'mk.symm hmT hs
     obtain ⟨hact, hcube⟩ := oa_cube hT hTA hmT hj' hmj hD
     have hag' : ∀ x ∈ A, g' * x * g'⁻¹ = m * x * m⁻¹ := fun x hx => by
       have h1 := oddCoreIn_centralizes hA2 Subgroup.le_normalizer normalizes_of_mem_nzr hk hx

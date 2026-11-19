@@ -23,7 +23,7 @@ theorem thmU_val_add_one (k : Fin p) :
   rw [Fin.val_add_one]
   by_cases hk : k = Fin.last m
   · have hkm : (k : ℕ) = m := by rw [hk, Fin.val_last]
-    simp [hk, hkm]
+    simp [hk]
   · have hkm : (k : ℕ) ≠ m := fun h => hk (Fin.ext (by rw [h, Fin.val_last]))
     have hlt : (k : ℕ) < m := lt_of_le_of_ne (Nat.lt_succ_iff.mp k.isLt) hkm
     simp [hk, hkm]
@@ -36,7 +36,7 @@ theorem thmU_add_one_eq_zero_iff (k : Fin p) : k + 1 = 0 ↔ (k : ℕ) = p - 1 :
   · intro h
     have h2 : ((k + 1 : Fin p) : ℕ) = 0 := by rw [h, hz]
     rw [hv] at h2
-    split_ifs at h2 with h3 <;> omega
+    split_ifs at h2 with h3; omega
   · intro h
     apply Fin.ext
     rw [hv, hz]
@@ -61,7 +61,7 @@ theorem thmU_companionMat_mulVec (c : K) (w : Fin p → K) (k : Fin p) :
   rw [Finset.sum_eq_single (k - 1)]
   · simp [sub_add_cancel]
   · intro l _ hl
-    rw [if_neg, zero_mul]
+    rw [ite_eq_right, zero_mul]
     intro hk
     apply hl
     rw [hk, add_sub_cancel_right]
@@ -99,19 +99,19 @@ theorem thmU_companionMat_pow_apply (c : K) (j : ℕ) (hj : j ≤ p) (i k : Fin 
     simp only [Nat.cast_zero, sub_zero, zero_le, ite_true]
     by_cases h : i = k
     · subst h; simp
-    · rw [if_neg h, if_neg (Ne.symm h)]
+    · rw [ite_eq_right h, ite_eq_right (Ne.symm h)]
   | succ j ih =>
     have hj' : j ≤ p := by omega
     have hjp : j < p := by omega
     have hkey : (k = i - ((j + 1 : ℕ) : Fin p)) ↔ (k + 1 = i - (j : Fin p)) := by
       rw [Nat.cast_succ, ← sub_sub, eq_sub_iff_add_eq]
     rw [pow_succ, mul_apply, Finset.sum_eq_single (k + 1)]
-    · rw [ih hj' (k + 1), thmU_companionMat_apply, if_pos rfl]
+    · rw [ih hj' (k + 1), thmU_companionMat_apply, ite_eq_left rfl]
       by_cases h : k + 1 = i - (j : Fin p)
-      · rw [if_pos h, if_pos (hkey.mpr h), thmU_wrap_step c i k hjp h]
-      · rw [if_neg h, if_neg (fun h' => h (hkey.mp h')), zero_mul]
+      · rw [ite_eq_left h, ite_eq_left (hkey.mpr h), thmU_wrap_step c i k hjp h]
+      · rw [ite_eq_right h, ite_eq_right (fun h' => h (hkey.mp h')), zero_mul]
     · intro l _ hl
-      rw [thmU_companionMat_apply, if_neg hl, mul_zero]
+      rw [thmU_companionMat_apply, ite_eq_right hl, mul_zero]
     · intro h
       exact absurd (Finset.mem_univ _) h
 
@@ -125,8 +125,8 @@ theorem thmU_companionMat_pow_mulVec_single (c : K) {j : ℕ} (hj : j < p) :
     · intro h; rw [h, sub_self]
   by_cases h : i = (j : Fin p)
   · have hval : (i : ℕ) = j := by rw [h, Fin.val_natCast, Nat.mod_eq_of_lt hj]
-    rw [if_pos (hiff.mpr h), if_pos (by omega), Pi.single_apply, if_pos h]
-  · rw [Pi.single_apply, if_neg h]
+    rw [ite_eq_left (hiff.mpr h), ite_eq_left (by omega), Pi.single_apply, ite_eq_left h]
+  · rw [Pi.single_apply, ite_eq_right h]
     split_ifs <;> first | rfl | (exfalso; exact h (hiff.mp ‹_›))
 
 theorem thmU_companionMat_mul_diagonal (c : K) (u : Fin p → K) :
@@ -135,9 +135,9 @@ theorem thmU_companionMat_mul_diagonal (c : K) (u : Fin p → K) :
   rw [mul_diagonal, diagonal_mul, thmU_companionMat_apply]
   by_cases h : i = k + 1
   · subst h
-    rw [if_pos rfl, add_sub_cancel_right]
+    rw [ite_eq_left rfl, add_sub_cancel_right]
     split_ifs <;> ring
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     simp
 
 theorem thmU_companionMat_inv_mul_diagonal (c : K) (hdet : IsUnit (companionMat p c).det)
@@ -190,6 +190,7 @@ theorem thmU_pairing_apply (b : Matrix (Fin p) (Fin p) K) (s : Fin p → K) (m :
   simp only [mulVec_diagonal]
   refine Finset.sum_congr rfl fun j _ => by ring
 
+omit [NeZero p] in
 theorem thmU_val_sub_le_iff (m j : Fin p) :
     ((m - j : Fin p) : ℕ) ≤ (m : ℕ) ↔ (j : ℕ) ≤ (m : ℕ) := by
   have hj := j.isLt
@@ -208,9 +209,9 @@ theorem thmU_pairing_symm (c : K) {b : Matrix (Fin p) (Fin p) K}
     sub_sub_cancel]
   have hiff := thmU_val_sub_le_iff m j
   by_cases h : (j : ℕ) ≤ (m : ℕ)
-  · rw [if_pos h, if_pos (hiff.mpr h)]
+  · rw [ite_eq_left h, ite_eq_left (hiff.mpr h)]
     ring
-  · rw [if_neg h, if_neg (fun h' => h (hiff.mp h'))]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h (hiff.mp h'))]
     ring
 
 end Companion
@@ -232,8 +233,8 @@ theorem thmU_norm_one_pow_mul_pow (h : UnitaryFieldData ℓ f K) {p : ℕ} [hp :
     {c : K} (hcu : h.bar c * c = 1) (hc : ¬ ∃ μ : K, μ ^ p = c) {d : K} (hd : h.bar d * d = 1) :
     ∃ m : ℕ, m < p ∧ ∃ x : K, h.bar x * x = 1 ∧ d = c ^ m * x ^ p := by
   classical
-  haveI : Finite K := h.finite
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : Finite K := h.finite
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   let G : Subgroup Kˣ := (powMonoidHom (ℓ ^ f + 1) : Kˣ →* Kˣ).ker
   have hG : ∀ x : K, (hx : h.bar x * x = 1) → Units.mk0 x (thmU_norm_one_facts h hx).1 ∈ G := by
     intro x hx
@@ -295,7 +296,7 @@ theorem thmU_unitary_det_class (h : UnitaryFieldData ℓ f K) {p : ℕ} [hp : Fa
     {b : Matrix (Fin p) (Fin p) K} (hb : (b.map h.bar)ᵀ * b = 1) :
     ∃ m : ℕ, m < p ∧ ∃ x : K, h.bar x * x = 1 ∧
       (x⁻¹ • ((companionMat p c ^ m)⁻¹ * b)).det = 1 := by
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   have hdet : h.bar b.det * b.det = 1 := by
     have h1 := congrArg Matrix.det hb
     have h2 : h.bar b.det = (b.map h.bar).det := RingHom.map_det h.bar b
@@ -355,13 +356,14 @@ theorem thmU_companionMat_pow_p (c : K) :
   ext i k
   have hi := i.isLt
   have hnot : ¬ (p ≤ (i : ℕ)) := by omega
-  rw [thmU_companionMat_pow_apply c p le_rfl i k, Fin.natCast_self, sub_zero, if_neg hnot,
+  rw [thmU_companionMat_pow_apply c p le_rfl i k, Fin.natCast_self, sub_zero, ite_eq_right hnot,
     Matrix.smul_apply, Matrix.one_apply, smul_eq_mul]
   by_cases h : k = i
   · subst h
     simp
-  · rw [if_neg h, if_neg (Ne.symm h), mul_zero]
+  · rw [ite_eq_right h, ite_eq_right (Ne.symm h), mul_zero]
 
+omit [NeZero p] in
 theorem thmU_companionMat_isUnit_det (hodd : Odd p) {c : K} (hc : c ≠ 0) :
     IsUnit (companionMat p c).det := by
   rw [det_companionMat hodd]
@@ -480,16 +482,16 @@ theorem thmU_companionMat_unitary (h : UnitaryFieldData ℓ f K) {p : ℕ} [NeZe
     ((companionMat p c).map h.bar)ᵀ * companionMat p c = 1 := by
   ext k l
   rw [mul_apply, one_apply, Finset.sum_eq_single (k + 1)]
-  · rw [transpose_apply, map_apply, thmU_companionMat_apply, if_pos rfl, thmU_companionMat_apply]
+  · rw [transpose_apply, map_apply, thmU_companionMat_apply, ite_eq_left rfl, thmU_companionMat_apply]
     by_cases hkl : k = l
     · subst hkl
-      rw [if_pos rfl, if_pos rfl]
+      rw [ite_eq_left rfl, ite_eq_left rfl]
       split_ifs
       · exact hc
       · simp
-    · rw [if_neg (fun h' => hkl (add_right_cancel h')), mul_zero, if_neg hkl]
+    · rw [ite_eq_right (fun h' => hkl (add_right_cancel h')), mul_zero, ite_eq_right hkl]
   · intro i _ hi
-    rw [transpose_apply, map_apply, thmU_companionMat_apply, if_neg hi, map_zero, zero_mul]
+    rw [transpose_apply, map_apply, thmU_companionMat_apply, ite_eq_right hi, map_zero, zero_mul]
   · intro h'
     exact absurd (Finset.mem_univ _) h'
 
@@ -529,7 +531,7 @@ theorem thmU_decomp (h : UnitaryFieldData ℓ f K) {p : ℕ} [hp : Fact p.Prime]
     (hbC : Commute cG b) :
     ∃ (m : ℕ) (σ b₁ : GL (Fin p) K), (∀ g : GL (Fin p) K, σ * g = g * σ) ∧
       b = σ * (cG ^ m * b₁) ∧ b₁ ∈ unitarySU ℓ f K p ∧ Commute cG b₁ := by
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   obtain ⟨m, hm, x, hx, hdet⟩ := thmU_unitary_det_class h hodd hcu hc hb
   have hx0 : x ≠ 0 := (thmU_norm_one_facts h hx).1
   have hcG_u : ((cG : Matrix (Fin p) (Fin p) K).map h.bar)ᵀ * (cG : Matrix (Fin p) (Fin p) K) = 1 := by
@@ -610,7 +612,7 @@ theorem thmU_sq_conj_mem (h : UnitaryFieldData ℓ f K) {p : ℕ} [hp : Fact p.P
     (z : GL (Fin p) K) (hz : z ∈ unitarySU ℓ f K p)
     (hzd : ∃ t : Fin p → K, (z : Matrix (Fin p) (Fin p) K) = diagonal t) :
     (b * s * b)⁻¹ * z * (b * s * b) ∈ H ∧ (b * s * b) * z * (b * s * b)⁻¹ ∈ H := by
-  haveI : NeZero p := ⟨hp.out.ne_zero⟩
+  have : NeZero p := ⟨hp.out.ne_zero⟩
   obtain ⟨hU, hPd, hUi, hPdi⟩ := thmU_companion_gl_data h hodd hcu cG hcG
   have hbCG : Commute cG b := by
     refine Units.ext ?_
@@ -710,7 +712,7 @@ theorem thmU_gens_conj_mem (h : UnitaryFieldData ℓ f K) {p : ℕ} [NeZero p] (
     (hcu : h.bar c * c = 1) (cG : GL (Fin p) K)
     (hcG : (cG : Matrix (Fin p) (Fin p) K) = companionMat p c)
     (x : GL (Fin p) K) (hx : x ∈ thmU_gens ℓ f K p c) : cG * x * cG⁻¹ ∈ thmU_gens ℓ f K p c := by
-  simp only [thmU_gens, Set.mem_setOf_eq] at hx ⊢
+  simp only [thmU_gens, Set.mem_ofPred_eq] at hx ⊢
   obtain ⟨hxU, hxd⟩ := hx
   obtain ⟨hU, hPd, -, -⟩ := thmU_companion_gl_data h hodd hcu cG hcG
   rcases hxd with hdiag | hcomm
@@ -777,6 +779,7 @@ theorem thmU_cayleyQ_mul_add (hodd : Odd p) (c d : K) :
   rw [e1, e2, e3] at key
   exact key
 
+omit [NeZero p] in
 theorem thmU_cayleyQ_commute (c d : K) :
     Commute (thmU_cayleyQ p c d) (companionMat p c) := by
   unfold thmU_cayleyQ
@@ -851,6 +854,7 @@ section CayleyUnitary
 
 variable {ℓ f : ℕ} {K : Type} [Field K] {p : ℕ} [NeZero p]
 
+omit [NeZero p] in
 theorem thmU_add_pow_ne (h : UnitaryFieldData ℓ f K) {c : K} (hodd : Odd p)
     (hc : ¬ ∃ μ : K, μ ^ p = c) (ε : K) : c + h.bar ε ^ p ≠ 0 := by
   intro h0
@@ -886,8 +890,8 @@ theorem thmU_cayley_unitary (h : UnitaryFieldData ℓ f K) (ε : K) (hodd : Odd 
     ext i j
     by_cases hij : j = i
     · subst hij
-      simp [apply_ite h.bar, Matrix.map_apply, Matrix.transpose_apply, Matrix.one_apply]
-    · simp [apply_ite h.bar, Matrix.map_apply, Matrix.transpose_apply, Matrix.one_apply, hij,
+      simp [Matrix.map_apply, Matrix.transpose_apply]
+    · simp [Matrix.map_apply, Matrix.transpose_apply, hij,
         Ne.symm hij]
   have hstarY : ((1 + h.bar ε • (companionMat p c)⁻¹).map h.bar)ᵀ =
       1 + ε • companionMat p c := by
@@ -895,9 +899,8 @@ theorem thmU_cayley_unitary (h : UnitaryFieldData ℓ f K) (ε : K) (hodd : Odd 
     ext i j
     by_cases hij : j = i
     · subst hij
-      simp [apply_ite h.bar, Matrix.map_apply, Matrix.transpose_apply, Matrix.one_apply,
-        UnitaryFieldData.bar_bar]
-    · simp [apply_ite h.bar, Matrix.map_apply, Matrix.transpose_apply, Matrix.one_apply, hij,
+      simp [Matrix.map_apply, Matrix.transpose_apply, UnitaryFieldData.bar_bar]
+    · simp [Matrix.map_apply, Matrix.transpose_apply, hij,
         Ne.symm hij, UnitaryFieldData.bar_bar]
   have hMQ := thmU_cayleyQ_mul_add' hodd c (h.bar ε)
   have hMu : IsUnit (companionMat p c + h.bar ε • (1 : Matrix (Fin p) (Fin p) K)) := by
@@ -958,10 +961,10 @@ theorem thmU_cayleyQ_mulVec_zero (c d : K) (j : Fin p) :
   have hj := j.isLt
   rw [Finset.sum_eq_single (j : ℕ)]
   · rw [thmU_companionMat_pow_apply c (j : ℕ) (by omega) j 0, Fin.cast_val_eq_self, sub_self,
-      if_pos rfl, if_pos (le_refl _), mul_one]
+      ite_eq_left rfl, ite_eq_left (le_refl _), mul_one]
   · intro i hi hne
     have hi' : i < p := Finset.mem_range.mp hi
-    rw [thmU_companionMat_pow_apply c i hi'.le j 0, if_neg, mul_zero]
+    rw [thmU_companionMat_pow_apply c i hi'.le j 0, ite_eq_right, mul_zero]
     intro h0
     apply hne
     have h1 := congrArg Fin.val (sub_eq_zero.mp h0.symm)
@@ -1011,37 +1014,37 @@ theorem thmU_cayleyMat_apply_zero (h : UnitaryFieldData ℓ f K) (hodd : Odd p) 
   by_cases h0 : (k : ℕ) = 0
   · have hkF : k = 0 := Fin.ext (by rw [h0, Fin.val_zero])
     have e1 : ((k - 1 : Fin p) : ℕ) = p - 1 := by
-      rw [thmU_val_sub_one hp1, if_pos h0]
+      rw [thmU_val_sub_one hp1, ite_eq_left h0]
     have e2 : (((k - 1) - 1 : Fin p) : ℕ) = p - 1 - 1 := by
-      rw [thmU_val_sub_one hp1, e1, if_neg (by omega)]
+      rw [thmU_val_sub_one hp1, e1, ite_eq_right (by omega)]
     have hkne1 : (k - 1 : Fin p) ≠ 0 := fun h' => by
       have := congrArg Fin.val h'
       rw [e1, Fin.val_zero] at this
       omega
-    rw [if_pos hkF, if_neg hkne1, e1, e2, if_pos h0, show p - 1 - (p - 1) = 0 by omega,
+    rw [ite_eq_left hkF, ite_eq_right hkne1, e1, e2, ite_eq_left h0, show p - 1 - (p - 1) = 0 by omega,
       show p - 1 - (p - 1 - 1) = 1 by omega, pow_zero, pow_one, add_comm (h.bar ε ^ p) c]
     ring
   · by_cases h1 : (k : ℕ) = 1
     · have hk0' : (k : ℕ) ≠ 0 := by omega
       have hkne0 : k ≠ 0 := fun h' => hk0' (by rw [h', Fin.val_zero])
       have e1 : ((k - 1 : Fin p) : ℕ) = 0 := by
-        rw [thmU_val_sub_one hp1, if_neg hk0', h1]
+        rw [thmU_val_sub_one hp1, ite_eq_right hk0', h1]
       have e2 : (((k - 1) - 1 : Fin p) : ℕ) = p - 1 := by
-        rw [thmU_val_sub_one hp1, e1, if_pos rfl]
+        rw [thmU_val_sub_one hp1, e1, ite_eq_left rfl]
       have hk1F : k - 1 = 0 := Fin.ext (by rw [e1, Fin.val_zero])
-      rw [if_neg hkne0, if_pos hk1F, e1, e2, if_neg h0, if_pos h1, Nat.sub_zero,
+      rw [ite_eq_right hkne0, ite_eq_left hk1F, e1, e2, ite_eq_right h0, ite_eq_left h1, Nat.sub_zero,
         Nat.sub_self, pow_zero, mul_one, one_mul, hevenp.neg_pow, add_comm (h.bar ε ^ p) c]
       ring
     · have hkne0 : k ≠ 0 := fun h' => h0 (by rw [h', Fin.val_zero])
       have e1 : ((k - 1 : Fin p) : ℕ) = (k : ℕ) - 1 := by
-        rw [thmU_val_sub_one hp1, if_neg h0]
+        rw [thmU_val_sub_one hp1, ite_eq_right h0]
       have hk1ne : (k - 1 : Fin p) ≠ 0 := fun h' => by
         have := congrArg Fin.val h'
         rw [e1, Fin.val_zero] at this
         omega
       have e2 : (((k - 1) - 1 : Fin p) : ℕ) = (k : ℕ) - 2 := by
-        rw [thmU_val_sub_one hp1, e1, if_neg (by omega), show (k : ℕ) - 1 - 1 = (k : ℕ) - 2 by omega]
-      rw [if_neg hkne0, if_neg hk1ne, e1, e2, if_neg h0, if_neg h1]
+        rw [thmU_val_sub_one hp1, e1, ite_eq_right (by omega), show (k : ℕ) - 1 - 1 = (k : ℕ) - 2 by omega]
+      rw [ite_eq_right hkne0, ite_eq_right hk1ne, e1, e2, ite_eq_right h0, ite_eq_right h1]
       have hk2 : 2 ≤ (k : ℕ) := by omega
       have hexp1 : p - 1 - ((k : ℕ) - 1) = p - (k : ℕ) := by omega
       have hexp2 : p - 1 - ((k : ℕ) - 2) = (p - (k : ℕ)) + 1 := by omega

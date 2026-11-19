@@ -70,7 +70,7 @@ private theorem exists_conj_cartan_of_complement {K : Type} [Group K] [Finite K]
   let N : Subgroup K := borel P
   have hPle : P ≤ N := le_borel P
   have hHle : H ≤ N := hH
-  letI : (P.subgroupOf N).Normal := Subgroup.normal_in_normalizer
+  let : (P.subgroupOf N).Normal := Subgroup.normal_in_normalizer
   have hPHinf : P ⊓ H = ⊥ := CFSG.Quasithin.RonanF13.inf_eq_bot_of_odd hP2 hHodd
   have hDle : cartan P t ≤ N := cartan_le_borel P t
   have hcompH : (P.subgroupOf N).IsComplement' (H.subgroupOf N) := by
@@ -236,7 +236,7 @@ private theorem unitary_cocycle_mul
     {K : Type} [Group K] {Q Z : Subgroup K} {σ : MulAut K}
     (hσQ : ∀ x ∈ Q, σ x ∈ Q) (hZQ : Z ≤ Q)
     (hcentral : ∀ {z : K}, z ∈ Z → ∀ q ∈ Q, q * z = z * q)
-    {x y : K} (hxQ : x ∈ Q) (hyQ : y ∈ Q)
+    {x y : K} (_hxQ : x ∈ Q) (hyQ : y ∈ Q)
     (hxZ : x⁻¹ * σ x ∈ Z) (hyZ : y⁻¹ * σ y ∈ Z) :
     (x * y)⁻¹ * σ (x * y) = (x⁻¹ * σ x) * (y⁻¹ * σ y) := by
   have hxσy : (x⁻¹ * σ x) * σ y = σ y * (x⁻¹ * σ x) :=
@@ -279,8 +279,8 @@ private theorem quotient_congr_pow_eq_one
 
 private theorem unitary_fixed_cosets
     {K : Type} [Group K] [Finite K] {n e : ℕ}
-    (h : BenderType K n 3 e) (Q : Sylow 2 K) {t : K} (ht : t * t = 1)
-    (htQ : t ∉ borel (Q : Subgroup K)) (σ : MulAut K)
+    (_h : BenderType K n 3 e) (Q : Sylow 2 K) {t : K} (_ht : t * t = 1)
+    (_htQ : t ∉ borel (Q : Subgroup K)) (σ : MulAut K)
     (hσQ : ∀ x ∈ (Q : Subgroup K), σ x ∈ (Q : Subgroup K))
     (hσD : ∀ d ∈ cartan (Q : Subgroup K) t, σ d = d)
     (hZfix : ∀ z ∈ rootCenter (Q : Subgroup K), σ z = z) :
@@ -324,7 +324,7 @@ private theorem unitary_fixed_cosets
   · intro z hz
     refine ⟨rootCenter_le _ hz, ?_⟩
     rw [hZfix z hz]
-    simpa using Z.one_mem
+    simp
   · exact fun _ hx => hx.1
   · intro d hd w hw
     have hdN : d ∈ Subgroup.normalizer ((Q : Subgroup K) : Set K) :=
@@ -416,8 +416,8 @@ private theorem unitary_sylow_quotient_aut
 
 private theorem unitary_exists_fixed_coset
     {K : Type} [Group K] [Finite K] {n e : ℕ}
-    (h : BenderType K n 3 e) (Q : Sylow 2 K) {t : K} (ht : t * t = 1)
-    (htQ : t ∉ borel (Q : Subgroup K)) (σ : MulAut K)
+    (h : BenderType K n 3 e) (Q : Sylow 2 K) {t : K} (_ht : t * t = 1)
+    (_htQ : t ∉ borel (Q : Subgroup K)) (σ : MulAut K)
     (hσ : ∃ k : ℕ, σ ^ (2 ^ k) = 1)
     (hσQ : ∀ x ∈ (Q : Subgroup K), σ x ∈ (Q : Subgroup K))
     (hZfix : ∀ z ∈ rootCenter (Q : Subgroup K), σ z = z) :
@@ -494,8 +494,8 @@ private theorem unitary_fixed_cosets_eq_top
 
 private theorem unitary_cocycle_hom_data
     {K : Type} [Group K] [Finite K] {n e : ℕ}
-    (h : BenderType K n 3 e) (Q : Sylow 2 K) {t : K} (ht : t * t = 1)
-    (htQ : t ∉ borel (Q : Subgroup K)) (σ : MulAut K)
+    (_h : BenderType K n 3 e) (Q : Sylow 2 K) {t : K} (_ht : t * t = 1)
+    (_htQ : t ∉ borel (Q : Subgroup K)) (σ : MulAut K)
     (hσQ : ∀ x ∈ (Q : Subgroup K), σ x ∈ (Q : Subgroup K))
     (hσD : ∀ d ∈ cartan (Q : Subgroup K) t, σ d = d)
     (hZfix : ∀ z ∈ rootCenter (Q : Subgroup K), σ z = z)
@@ -692,7 +692,7 @@ private theorem aut_eq_one_of_benderType
   classical
   obtain ⟨t, hc⟩ := h.exists_benderCore T
   obtain ⟨g, hgT, hHconj⟩ :=
-    exists_conj_cartan_of_complement hc T.isPGroup' hH hHodd hTH
+    exists_conj_cartan_of_complement hc T.isPGroup hH hHodd hTH
   let c : MulAut K := MulAut.conj g
   let σ' : MulAut K := c⁻¹ * σ * c
   have hσ'app : ∀ x : K, σ' x = g⁻¹ * σ (g * x * g⁻¹) * g := by
@@ -846,7 +846,7 @@ private noncomputable def statedSU_quotient_action
       rw [hTbar, ← Subgroup.map_sup]
     rw [hsup, hTH]
     exact CFSG.GroupTheory.normal_coprime_quotient_normalizer 2 ZX
-      hZodd.not_two_dvd_nat (T : Subgroup X) T.isPGroup'
+      hZodd.not_two_dvd_nat (T : Subgroup X) T.isPGroup
   let σbar : MulAut (X ⧸ ZX) :=
     QuotientGroup.congr ZX ZX σ (Subgroup.map_center_eq σ)
   have hσbar_mk : ∀ x : X, σbar (QuotientGroup.mk x) = QuotientGroup.mk (σ x) :=
@@ -923,9 +923,9 @@ private theorem aut_eq_one_of_statedSU
     CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (F := F) (p := 2) (f := n)
       hF (by norm_num) hnq
   have hperfX : Group.IsPerfect X := by
-    haveI : Group.IsPerfect (CFSG.Open.StatedSU 3 (2 ^ n) F) := hYdata.1.1
+    have : Group.IsPerfect (CFSG.Open.StatedSU 3 (2 ^ n) F) := hYdata.1.1
     exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
-  haveI : Group.IsPerfect X := hperfX
+  have : Group.IsPerfect X := hperfX
   have hσid : σ.toMonoidHom = MonoidHom.id X :=
     CFSG.ComponentClassification.PerfectAutomorphisms.hom_eq_id_of_central_displacement
       σ.toMonoidHom hcentral
@@ -952,12 +952,12 @@ theorem mulAut_eq_one_of_fixes_borel_complement
       (.suzuki a ha (e.trans (MulEquiv.subgroupCongr (szModel_eq_open_sz a).symm)))
       T hH hHodd hTH σ hσ hσT hσH
   · obtain ⟨n, hn, F, hField, hFinite, hF, hSU | hPSU⟩ := hU
-    · letI : Field F := hField
-      letI : Finite F := hFinite
+    · let : Field F := hField
+      let : Finite F := hFinite
       obtain ⟨e⟩ := hSU
       exact aut_eq_one_of_statedSU hn hF e T hH hHodd hTH σ hσ hσT hσH
-    · letI : Field F := hField
-      letI : Finite F := hFinite
+    · let : Field F := hField
+      let : Finite F := hFinite
       obtain ⟨e⟩ := hPSU
       obtain ⟨e', hB⟩ := CFSG.Quasithin.benderType_statedProj hn hF
       exact aut_eq_one_of_benderType (hB.of_mulEquiv e.symm) T hH hHodd hTH σ hσ hσT hσH

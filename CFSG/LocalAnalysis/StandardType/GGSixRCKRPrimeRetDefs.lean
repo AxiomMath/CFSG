@@ -11,7 +11,7 @@ open CFSG.Assembly CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Universa
   CFSG.LieType.AlgebraicGroups CFSG.Timmesfeld
   CFSG.HardMathSupport.Solomon.Coordinator.LieComp
 
-@[expose] noncomputable abbrev RetH
+noncomputable abbrev RetH
     (τ : Tag) (β : Fin 6 → Fin τ.rank → ℤ) : Subgroup (ModGL τ GGL) :=
   rootSpan τ GGL (rootsOfFam β Set.univ)
 

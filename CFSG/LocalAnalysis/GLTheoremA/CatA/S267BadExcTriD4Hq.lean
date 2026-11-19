@@ -22,15 +22,15 @@ theorem false_of_badExcLie_trialityD4_hq {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p
     (e : PSimple p S ≃* (TauCeti.CFSGIndex.lie ⟨.trialityD4 Q, hv⟩).Group)
     (hHq : ∃ (K' : Type) (_ : Group K') (_ : Finite K'),
       Nonempty (PQuot p (⊤ : Subgroup K') ≃* ↥S) ∧ GLATwoLocalRank Q.p K' ≤ CFSG.Open.pRank p B) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, _, _, σ, hK, hσ, ⟨Θ, hΘ⟩, ⟨ec⟩⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 Q hv
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := by
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := by
     have : Finite (Module.End K (RootModule TwistTag.D4.tag K)) := Module.finite_of_finite K
     infer_instance
   have hK3 : Nat.card K = Q.p ^ (3 * Q.exponent) := by rw [hK, ← pow_mul, mul_comm]
   have hf3 : 1 ≤ 3 * Q.exponent := by have := Q.exponent_pos; omega
-  haveI : CharP K Q.p :=
+  have : CharP K Q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Q.prime_p hf3 hK3
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K Q.p]; exact hQ2
   have hσ3 : σ ^ 3 = 1 := CFSG.LocalAnalysis.GLTheoremA.S267.P3.triD4_sigma_cube hK hσ
@@ -40,7 +40,7 @@ theorem false_of_badExcLie_trialityD4_hq {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p
       IsElemAbelian p F → Nat.card F ≤ p ^ 2 :=
     CFSG.LieType.SeitzGeneration.RankLE2.of_mulEquiv ec
       (CFSG.HardMathSupport.Timmesfeld.CrossChar.rankLE2_cat_trialityD4 Q hv hp hp5 (Ne.symm hQp))
-  haveI : IsCyclic (K ≃+* K) :=
+  have : IsCyclic (K ≃+* K) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   have hrk := pRank_mulAut_le_of_cyclic hZ hp hX Θ hΘ
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt (MulAut.congr (e.trans ec).symm)] at hrk

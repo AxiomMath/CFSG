@@ -92,8 +92,8 @@ theorem ggD4OddCentFieldInput_of_kg5 (h : GGD4FieldCentralizerInput) : GGD4OddCe
     obtain ⟨rfl, rfl⟩ := hD
     refine ⟨hperf, ⟨.D, 4, n⟩, hlab, ?_⟩
     unfold LargeEvenRawDatumLegacy at hraw ⊢
-    rw [if_neg (by norm_num : ¬ (4 : ℕ) = 3)] at hraw
-    rw [if_neg (by norm_num : ¬ (4 : ℕ) = 3)]
+    rw [ite_eq_right (by norm_num : ¬ (4 : ℕ) = 3)] at hraw
+    rw [ite_eq_right (by norm_num : ¬ (4 : ℕ) = 3)]
     obtain ⟨F₁, i1, i2, hF₁, hs, hna, θ, hPθ⟩ := hraw
     exact ⟨F₁, i1, i2, hF₁, hs, hna, θ, hPθ, fun hdat hinn hout =>
       ggD4OddCentField_core h hK hloc hA hF₁ θ hdat hinn hout⟩

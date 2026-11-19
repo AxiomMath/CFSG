@@ -90,7 +90,7 @@ private theorem xPar_simple_local
     {K : Type} [Field K] (F : RootOperatorFamily .F4)
     (i : Fin Tag.F4.rank) (c : K) :
     xPar F (Pi.single i 1) c = F.eltElement (simpleRoot .F4 i) c :=
-  dif_pos (isRoot_single .F4 i)
+  dite_eq_left (isRoot_single .F4 i)
 
 theorem f4_xPar_simple_scalar_of_mem_ggTorus
     (K : Type) [Field K] [CharP K 2] (i : Fin Tag.F4.rank)
@@ -110,7 +110,7 @@ theorem f4_xPar_simple_scalar_of_mem_ggTorus
     rw [show rootGroup F K (Pi.single i 1) =
         (if h : IsRoot .F4 (Pi.single i 1) then F.rootSubgroup K ⟨Pi.single i 1, h⟩ else ⊥)
         from rfl,
-      dif_pos (isRoot_single .F4 i)]
+      dite_eq_left (isRoot_single .F4 i)]
     congr 1
   have hroot_neg : D.rootGroup (-Pi.single i 1) = F.rootSubgroup K (-simpleRoot .F4 i) := by
     classical
@@ -118,7 +118,7 @@ theorem f4_xPar_simple_scalar_of_mem_ggTorus
     rw [show rootGroup F K (-Pi.single i 1) =
         (if h : IsRoot .F4 (-Pi.single i 1) then
           F.rootSubgroup K ⟨-Pi.single i 1, h⟩ else ⊥) from rfl,
-      dif_pos (isRoot_neg_single .F4 i)]
+      dite_eq_left (isRoot_neg_single .F4 i)]
     congr 1
   have hpos : ∀ c : K, ∃ c' : K,
       (h : ModGL .F4 K) * xUnit .F4 K i c * (h : ModGL .F4 K)⁻¹ = xUnit .F4 K i c' := by
@@ -177,16 +177,19 @@ def conjAction {K B : Subgroup X}
     (hBN : B ≤ Subgroup.normalizer (K : Set X)) : B →* MulAut ↥K :=
   K.normalizerMonoidHom.comp (Subgroup.inclusion hBN)
 
+omit [Finite X] in
 theorem conjAction_apply {K B : Subgroup X} (hBN : B ≤ Subgroup.normalizer (K : Set X))
     (b : B) (y : ↥K) :
     ((conjAction hBN b y : ↥K) : X) = (b : X) * (y : X) * (b : X)⁻¹ :=
   rfl
 
+omit [Finite X] in
 theorem conjAction_isElemAbelian {K B : Subgroup X} (hBN : B ≤ Subgroup.normalizer (K : Set X))
     (hBel : IsElemAbelian p B) : IsElemAbelian p (conjAction hBN).range := by
   have h := (hBel.subgroupOf B).map (conjAction hBN)
   rwa [Subgroup.subgroupOf_self, ← MonoidHom.range_eq_map] at h
 
+omit [Finite X] in
 theorem conjAction_ker {K B : Subgroup X} (hBN : B ≤ Subgroup.normalizer (K : Set X)) :
     (conjAction hBN).ker = (B ⊓ Subgroup.centralizer (K : Set X)).subgroupOf B := by
   ext b

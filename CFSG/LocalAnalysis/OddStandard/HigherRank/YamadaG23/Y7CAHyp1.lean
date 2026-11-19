@@ -22,7 +22,7 @@ theorem y7c_J_isTwoComponent (c : K7Abs ρ t J Q P M6 M7) :
     change J ≤ Subgroup.centralizer ((Subgroup.zpowers t : Subgroup Γ) : Set Γ)
     rw [Subgroup.le_centralizer_iff, Subgroup.zpowers_le, Subgroup.mem_centralizer_iff]
     exact c.J_cent
-  haveI hJsimple : IsSimpleGroup ↥J := y7c_J_simple c
+  have hJsimple : IsSimpleGroup ↥J := y7c_J_simple c
   have hLnormal : (J.subgroupOf C).Normal := by
     refine (Subgroup.normal_subgroupOf_iff hJC).mpr ?_
     intro h k hh hk

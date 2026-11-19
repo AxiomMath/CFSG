@@ -183,6 +183,7 @@ theorem exists_minimal_stable {W : Submodule K V} (hW : W ≠ ⊥) (hWst : EStab
     exact hSmin S' ⟨hS'S.trans hSW, hS'0, hS'st⟩ (lt_of_le_of_ne hS'S hne)
 
 omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem polarNondegOn_of_minimal (hK : KernelLineData Q p E) (hp : 0 < p)
     (hNS : OrthNoInvariantSingular Q E) {S : Submodule K V} (hS0 : S ≠ ⊥)
     (hSV : Disjoint S (planeFixSpace E)) (hst : EStable E S)
@@ -320,7 +321,7 @@ theorem exists_piece_decomposition (hQ : (polarBilin Q).Nondegenerate) (hp : p.P
       (∀ i j, i ≠ j → OrthSep Q (P i) (P j)) ∧ (∀ i, OrthSep Q (planeFixSpace E) (P i)) ∧
       (⊤ : Submodule K V) ≤ planeFixSpace E ⊔ ⨆ i, P i := by
   classical
-  haveI : Nontrivial V := nontrivial_of_card_sq hp.one_lt hcard
+  have : Nontrivial V := nontrivial_of_card_sq hp.one_lt hcard
   obtain ⟨hK, -⟩ := exists_kernelLineData_of_le hQ hp hp2 hpl E hcomm hexp hcard
   have hV0 := polarNondegOn_planeFixSpace hK
   have hWst : EStable E (OrthBlk.perp Q (planeFixSpace E)) :=
@@ -338,8 +339,9 @@ section SmallFacts
 
 variable {E : Subgroup (orthDerived Q)}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem exists_pieces_diff_lines (hK : KernelLineData Q p E) (hp : p.Prime)
-    (hpl : p ≠ ringChar K) {n : ℕ} {P : Fin n → Submodule K V} (hP : ∀ i, IsPiece Q E (P i))
+    (_hpl : p ≠ ringChar K) {n : ℕ} {P : Fin n → Submodule K V} (hP : ∀ i, IsPiece Q E (P i))
     (hspan : (⊤ : Submodule K V) ≤ planeFixSpace E ⊔ ⨆ i, P i)
     {M : Fin n → Subgroup E} (hM : ∀ i, Nat.card (M i) = p ∧ P i ≤ lineSpace (M i)) :
     ∃ i j, M i ≠ M j := by
@@ -351,12 +353,12 @@ theorem exists_pieces_diff_lines (hK : KernelLineData Q p E) (hp : p.Prime)
   obtain ⟨x₀, hx₀1, hx₀⟩ : ∃ x₀ : E, x₀ ≠ 1 ∧
       ∀ i, ∀ u ∈ P i, ((x₀ : orthDerived Q) : V ≃ₗ[K] V) u = u := by
     rcases Nat.eq_zero_or_pos n with rfl | hn
-    · haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp (by
+    · have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp (by
         rw [hK.card]; exact Nat.one_lt_pow two_ne_zero hp.one_lt)
       obtain ⟨a, ha⟩ := exists_ne (1 : E)
       exact ⟨a, ha, fun i => i.elim0⟩
     · let i₀ : Fin n := ⟨0, hn⟩
-      haveI : Nontrivial (M i₀) := Finite.one_lt_card_iff_nontrivial.mp (by
+      have : Nontrivial (M i₀) := Finite.one_lt_card_iff_nontrivial.mp (by
         rw [(hM i₀).1]; exact hp.one_lt)
       obtain ⟨m, hm⟩ := exists_ne (1 : M i₀)
       refine ⟨(m : E), fun h => hm (Subtype.ext h), fun i u hu => ?_⟩
@@ -379,6 +381,7 @@ open Polynomial
 
 variable {K : Type} [Field K] {W : Type} [AddCommGroup W] [Module K W] [FiniteDimensional K W]
 
+omit [FiniteDimensional K W] in
 theorem exists_irreducible_of_simple_endomorphism [Nontrivial W] {p : ℕ} (hp : 0 < p)
     (g : Module.End K W)
     (hpow : g ^ p = 1) (hfix : ∀ v, g v = v → v = 0)
@@ -386,8 +389,8 @@ theorem exists_irreducible_of_simple_endomorphism [Nontrivial W] {p : ℕ} (hp :
     ∃ h : K[X], h.Monic ∧ Irreducible h ∧ h ∣ X ^ p - 1 ∧ h ≠ X - 1 ∧ aeval g h = 0 ∧
       finrank K W = h.natDegree := by
   classical
-  haveI : Nontrivial (AEval' g) := (AEval.of K W g).toEquiv.symm.nontrivial
-  haveI hso : IsSimpleOrder (Submodule K[X] (AEval' g)) :=
+  have : Nontrivial (AEval' g) := (AEval.of K W g).toEquiv.symm.nontrivial
+  have hso : IsSimpleOrder (Submodule K[X] (AEval' g)) :=
     { eq_bot_or_eq_top := fun N => by
         let S : Submodule K W := (N.restrictScalars K).comap (AEval.of K W g : W →ₗ[K] AEval' g)
         have hSst : ∀ s ∈ S, g s ∈ S := fun s hs => by
@@ -411,7 +414,7 @@ theorem exists_irreducible_of_simple_endomorphism [Nontrivial W] {p : ℕ} (hp :
           have : (AEval.of K W g).symm z ∈ S := by rw [h1]; trivial
           have h2 : (AEval.of K W g) ((AEval.of K W g).symm z) ∈ N := this
           simpa using h2 }
-  haveI : IsSimpleModule K[X] (AEval' g) := ⟨⟩
+  have : IsSimpleModule K[X] (AEval' g) := ⟨⟩
   obtain ⟨I, hI, ⟨e⟩⟩ := isSimpleModule_iff_quot_maximal.mp ‹IsSimpleModule K[X] (AEval' g)›
   set h₀ : K[X] := Submodule.IsPrincipal.generator I with hh₀
   have hI0 : I = Ideal.span {h₀} := (Ideal.span_singleton_generator I).symm
@@ -480,10 +483,10 @@ theorem natDegree_eq_orderOf_of_dvd [Finite K] {p : ℕ} (hp : p.Prime) (hpl : p
     {h : K[X]} (hmon : h.Monic) (hirr : Irreducible h) (hdvd : h ∣ X ^ p - 1)
     (hne : h ≠ X - 1) : h.natDegree = orderOf ((Nat.card K : ℕ) : ZMod p) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
   have hℓ : (ringChar K).Prime := CharP.char_is_prime K _
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
   obtain ⟨n, -, hcard⟩ := FiniteField.card K (ringChar K)
   have hcop : (ringChar K).Coprime p := (Nat.coprime_primes hℓ hp).mpr (Ne.symm hpl)
   have hdvdΦ : h ∣ cyclotomic p K := by
@@ -544,6 +547,7 @@ theorem avgOp_mem_of_eStable {D : Subgroup E} [Fintype D] {S : Submodule K V} (h
   refine S.smul_mem _ (Submodule.sum_mem _ fun d _ => ?_)
   exact hS d d.1.2 x hx
 
+omit [FiniteDimensional K V] in
 theorem IsPiece.exists_lineSpace_le (hK : KernelLineData Q p E) (hp : p.Prime)
     (hpl : p ≠ ringChar K) (hP : IsPiece Q E P) :
     ∃ M : Subgroup E, Nat.card M = p ∧ P ≤ lineSpace M := by
@@ -551,7 +555,7 @@ theorem IsPiece.exists_lineSpace_le (hK : KernelLineData Q p E) (hp : p.Prime)
   have hQ := nondegenerate_of_kernelLineData hK
   have hfinE : Finite E :=
     Nat.finite_of_card_ne_zero (by rw [hK.card]; exact pow_ne_zero 2 hp.ne_zero)
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   have hpK : (p : K) ≠ 0 := natCast_ne_zero_of_ne_ringChar hp hpl
   have hsum := sum_lineIdem (K := K) (V := V) (ρ := orthRep E) hp hK.exp hK.card hpK
   obtain ⟨x, hxP, hx0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hP.ne_bot
@@ -707,7 +711,7 @@ theorem IsPiece.exists_primary (hK : KernelLineData Q p E) (hp : p.Prime) (hpl :
   classical
   set T : Module.End K V := (((a : E) : orthDerived Q) : V ≃ₗ[K] V).toLinearMap with hT
   have hTP : ∀ x ∈ P, T x ∈ P := fun x hx => hP.eStable a a.2 x hx
-  haveI : Nontrivial P := Submodule.nontrivial_iff_ne_bot.mpr hP.ne_bot
+  have : Nontrivial P := Submodule.nontrivial_iff_ne_bot.mpr hP.ne_bot
   have hmove : ∃ u ∈ P, ((a : orthDerived Q) : V ≃ₗ[K] V) u ≠ u := by
     by_contra hcon
     push Not at hcon
@@ -798,7 +802,7 @@ theorem noSingular_ord (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime) (hp2 :
     (hcard : Nat.card E = p ^ 2) (hNS : OrthNoInvariantSingular Q E) :
     2 ≤ orderOf ((Nat.card K : ℕ) : ZMod p) ∧ Even (orderOf ((Nat.card K : ℕ) : ZMod p)) := by
   classical
-  haveI : Nontrivial V := nontrivial_of_card_sq hp.one_lt hcard
+  have : Nontrivial V := nontrivial_of_card_sq hp.one_lt hcard
   obtain ⟨hK, -⟩ := exists_kernelLineData_of_le hQ hp hp2 hpl E hcomm hexp hcard
   obtain ⟨n, P, hP, -, -, hPsp⟩ :=
     exists_piece_decomposition hQ hp hp2 hpl E hcomm hexp hcard hNS
@@ -808,7 +812,7 @@ theorem noSingular_ord (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime) (hp2 :
     subst hn0
     have hfinE : Finite E :=
       Nat.finite_of_card_ne_zero (by rw [hcard]; exact pow_ne_zero 2 hp.ne_zero)
-    haveI : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp (by
+    have : Nontrivial E := Finite.one_lt_card_iff_nontrivial.mp (by
       rw [hcard]; exact Nat.one_lt_pow two_ne_zero hp.one_lt)
     obtain ⟨a, ha⟩ := exists_ne (1 : E)
     refine ha (Subtype.ext (Subtype.ext (LinearEquiv.ext fun v => ?_)))
@@ -825,7 +829,7 @@ variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [Finite
   {Q : QuadraticForm K V} {p : ℕ}
 
 theorem hasSelfDualFactor_restrict {E : Subgroup (orthDerived Q)} (hK : KernelLineData Q p E)
-    (hp : p.Prime) (hpl : p ≠ ringChar K) {U : Submodule K V} (hU : PolarNondegOn Q U)
+    (hp : p.Prime) (hpl : p ≠ ringChar K) {U : Submodule K V} (_hU : PolarNondegOn Q U)
     (ρ : E →* orthDerived (Q.comp U.subtype))
     (hρ : ∀ (x : E) (u : U), (((ρ x : orthDerived (Q.comp U.subtype)) : U ≃ₗ[K] U) u : V) =
       ((x : orthDerived Q) : V ≃ₗ[K] V) u)
@@ -863,6 +867,7 @@ variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [Finite
   {Q : QuadraticForm K V} {p : ℕ} {E : Subgroup (orthDerived Q)} {P : Submodule K V}
 
 omit [FiniteDimensional K V] in
+omit [Finite K] in
 theorem dvd_card_sub_one_of_root {ζ : K} (hp : p.Prime) (hζ : ζ ^ p = 1) (hζ1 : ζ ≠ 1) :
     p ∣ Nat.card K - 1 := by
   have hne : ζ ≠ 0 := by

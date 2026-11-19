@@ -27,18 +27,18 @@ theorem uc22p2213b_hyp2120_134 (D : Data G) (Ch : Choice2011 G) (h12 : S22_12 D 
         P ≤ normalizer (c.B : Set G)) ∧
     (∀ p ∈ D.sig, 1 < CFSG.Open.pRank p (barPreimage D.M (centE D.M)) →
       ¬ InvertedIn D.M c.B) := by
-  haveI : (CFSG.layer (Bar2 D.M)).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hEn : (centE D.M).Normal := uc22p21c_normal_centralizer (CFSG.layer (Bar2 D.M))
+  have : (CFSG.layer (Bar2 D.M)).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hEn : (centE D.M).Normal := uc22p21c_normal_centralizer (CFSG.layer (Bar2 D.M))
   refine ⟨?_, fun p hp => ?_, fun p hp hrk => ?_⟩
   ·
     obtain ⟨p, hp⟩ := hsig
-    haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+    have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
     obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (barPreimage D.M (centE D.M))
     have hPL := (h12 h1930 c p hp P hP).1.2.1
     rw [uc22p21c_commutator_bar_eq_bot_iff, hPL, Subgroup.commutator_comm]
     exact CFSG.LocalCores.fitting_layer_commute
   ·
-    haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+    have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
     obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (barPreimage D.M (centE D.M))
     obtain ⟨g, hg, hcomm⟩ := (h12 h1930 c p hp P hP).2
     have hgX : (barPreimage D.M (centE D.M)).map (MulAut.conj g).toMonoidHom =
@@ -53,7 +53,7 @@ theorem uc22p2213b_hyp2120_134 (D : Data G) (Ch : Choice2011 G) (h12 : S22_12 D 
   ·
     exfalso
     have hpp : p.Prime := (D.sig_prime p hp).1
-    haveI : Fact p.Prime := ⟨hpp⟩
+    have : Fact p.Prime := ⟨hpp⟩
     obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (barPreimage D.M (centE D.M))
     have hcyc := (h12 h1930 c p hp P hP).1.2.2.2.2
     have := (uc22p22q_pRank_le_sylow hP).trans (CFSG.SectionRank.pRank_le_one_of_isCyclic hpp hcyc)

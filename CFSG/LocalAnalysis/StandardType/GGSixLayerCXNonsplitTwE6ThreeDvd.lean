@@ -76,10 +76,10 @@ theorem dvd_card_of_isComponentOf_twE6_of_phiThree
   have : Fact p.Prime := ⟨hp⟩
   have hpq : p ∣ (2 ^ f) ^ 2 + 2 ^ f + 1 := E6Nonsplit.dvd_phiThree_nat hpf
   let Ω := AlgebraicClosure K
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (twistedE6RootGroup K σ) := inferInstance
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (twistedE6RootGroup K σ) := inferInstance
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 f
   have hFr : ∀ c, Fr c = c ^ (2 ^ f) := fun c => iterateFrobenius_def 2 f c
   obtain ⟨g, hg, hgn⟩ := exists_inv_mul_twistE6_eq (ℓ := 2) (f := f) hf hFr

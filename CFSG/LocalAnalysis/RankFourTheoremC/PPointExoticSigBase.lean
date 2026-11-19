@@ -101,22 +101,22 @@ theorem centralizes_of_sylow_weakTI {G : Type*} [Group G] [Finite G] {p : ℕ} (
     (R₀ : Sylow p G) (hR₀ : WeakTI (R₀ : Subgroup G)) {B Y : Subgroup G}
     (hB : IsElemAbelian p B) (hBc : Nat.card B = p ^ 2) (hY : ¬ p ∣ Nat.card Y)
     (hBY : B ≤ normalizer (Y : Set G)) : B ≤ centralizer (Y : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBp : IsPGroup p B := fun b => ⟨1, by simpa using Subtype.ext (hB.2 b b.2)⟩
   obtain ⟨R, hBR⟩ := hBp.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G R₀ R
   have hRe : (R : Subgroup G) = (R₀ : Subgroup G).map (MulAut.conj g).toMonoidHom := by
     rw [← hg, Sylow.coe_subgroup_smul]
     rfl
-  exact centralizes_of_weakTI hp R.isPGroup' (by rw [hRe]; exact hR₀.conj g) hBR hB hBc hY hBY
+  exact centralizes_of_weakTI hp R.isPGroup (by rw [hRe]; exact hR₀.conj g) hBR hB hBc hY hBY
 
 theorem centralizes_of_equiv_weakTI {G X : Type*} [Group G] [Group X] [Finite X] {p : ℕ}
     (hp : p.Prime) (ι : X ≃* G) {R : Subgroup X}
     (hR : Nat.card R = p ^ (Nat.card X).factorization p) (hTI : WeakTI R) {B Y : Subgroup G}
     (hB : IsElemAbelian p B) (hBc : Nat.card B = p ^ 2) (hY : ¬ p ∣ Nat.card Y)
     (hBY : B ≤ normalizer (Y : Set G)) : B ≤ centralizer (Y : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite G := Finite.of_equiv X ι.toEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite G := Finite.of_equiv X ι.toEquiv
   have hcardG : Nat.card G = Nat.card X := (Nat.card_congr ι.toEquiv).symm
   have hRmap : Nat.card (R.map ι.toMonoidHom) = p ^ (Nat.card G).factorization p := by
     rw [Subgroup.card_map_of_injective ι.injective, hR, hcardG]

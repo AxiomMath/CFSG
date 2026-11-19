@@ -29,7 +29,7 @@ theorem s16h_nat_fix_of_mem_normalizer
     (hPa : ∀ p ∈ P, p a = a) {y : MulAut W} (hyL : y ∈ L)
     (hyN : y ∈ normalizer (P : Set (MulAut W))) (hy3 : orderOf y = 3) : y a = a := by
   classical
-  haveI : Nontrivial (alternatingGroup (Fin 5)) :=
+  have : Nontrivial (alternatingGroup (Fin 5)) :=
     alternatingGroup.nontrivial_of_three_le_card (by simp)
   obtain ⟨π, hπ⟩ := hJ
   obtain ⟨f, hfs, hfk, hfe⟩ :=
@@ -42,12 +42,12 @@ theorem s16h_nat_fix_of_mem_normalizer
   have hπinj : Function.Injective π := by
     have hs5 : IsSimpleGroup (alternatingGroup (Fin 5)) :=
       alternatingGroup.isSimpleGroup (by simp)
-    haveI : IsSimpleGroup (FFModel.altDn 5).Gam := hs5
+    have : IsSimpleGroup (FFModel.altDn 5).Gam := hs5
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal π.ker with hk | hk
     · exact (MonoidHom.ker_eq_bot_iff π).mp hk
     · exfalso
       obtain ⟨eL⟩ := hL
-      haveI : Nontrivial ↥L := Equiv.nontrivial (eL : ↥L ≃ alternatingGroup (Fin 5))
+      have : Nontrivial ↥L := Equiv.nontrivial (eL : ↥L ≃ alternatingGroup (Fin 5))
       obtain ⟨z, hz⟩ := exists_ne (1 : ↥L)
       obtain ⟨σ, hσ⟩ := hπ.1 z
       have hmem : π σ = 1 := by

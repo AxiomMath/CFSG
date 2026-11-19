@@ -100,14 +100,14 @@ theorem blk222_e222 (x : Fin 2 ⊕ (Fin c ⊕ Fin 2)) : blk222 c (e222 c x) = bl
   rcases x with a | (s | k)
   · rw [e222_inl, blkSum222]
     show (if ((a : ℕ)) < 2 then (0 : Fin 3) else if ((a : ℕ)) < c + 2 then 1 else 2) = 0
-    rw [if_pos a.isLt]
+    rw [ite_eq_left a.isLt]
   · rw [e222_inr_inl, blkSum222]
     show (if ((s : ℕ) + 2) < 2 then (0 : Fin 3) else if ((s : ℕ) + 2) < c + 2 then 1 else 2) = 1
-    rw [if_neg (by omega), if_pos (by omega)]
+    rw [ite_eq_right (by omega), ite_eq_left (by omega)]
   · rw [e222_inr_inr, blkSum222]
     show (if ((c : ℕ) + 2 + (k : ℕ)) < 2 then (0 : Fin 3)
       else if ((c : ℕ) + 2 + (k : ℕ)) < c + 2 then 1 else 2) = 2
-    rw [if_neg (by omega), if_neg (by omega)]
+    rw [ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem blk222_le_of_le {i j : Fin (c + 4)} (h : i ≤ j) : blk222 c i ≤ blk222 c j := by
   simp only [blk222]
@@ -366,8 +366,8 @@ theorem reindexAlgEquiv_diagonal (d : Fin 2 ⊕ (Fin c ⊕ Fin 2) → F) :
   rw [Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, Matrix.submatrix_apply,
     Matrix.diagonal_apply, Matrix.diagonal_apply]
   by_cases h : i = j
-  · rw [if_pos h, if_pos (by rw [h])]
-  · rw [if_neg h, if_neg (fun hh => h ((e222 c).symm.injective hh))]
+  · rw [ite_eq_left h, ite_eq_left (by rw [h])]
+  · rw [ite_eq_right h, ite_eq_right (fun hh => h ((e222 c).symm.injective hh))]
 
 theorem fin_castSucc_zero_eq : ((0 : Fin 1).castSucc : Fin 2) = 0 := Fin.ext rfl
 

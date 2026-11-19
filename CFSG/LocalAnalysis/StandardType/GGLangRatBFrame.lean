@@ -83,7 +83,7 @@ private theorem langRatBF_kac_normal_form
       ∀ i : KernelComponent (rootCharHom a), ∃ x, K.IsZ m μ x ∧
         componentRoots (rootCharHom a) i = (fun α => v • α) '' K.rootsOf (K.comp m μ x) := by
   have : NeZero (m : L) := ⟨hmL⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L m
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L m
   have hu : IsUnit ζ := hζ.isUnit hm.ne'
   exact K.exists_smul_rootsOf hK hm (ζ := hu.unit) (by simpa using hζ) a
     (pow_eq_one_of_rootDiagUnit_pow hTm)

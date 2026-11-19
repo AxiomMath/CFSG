@@ -116,7 +116,7 @@ theorem case3_of_mem (h : Conf684 A c L Y) {K : Subgroup G}
   · exfalso
     obtain ⟨inst5, ⟨eSU⟩⟩ := h.case3.1
     obtain ⟨eA7⟩ := h2.1
-    haveI := inst5
+    have := inst5
     have hcard : Nat.card (alternatingGroup (Fin 7)) =
         Nat.card (CFSG.Assembly.RankThreeEven.projSU 3 5 1) :=
       Nat.card_congr (eA7.symm.trans eSU).toEquiv

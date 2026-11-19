@@ -103,7 +103,7 @@ theorem addSubgroup_eq_bot_or_top {L : Subgroup (GLV V)} (hL : IsIrr L ⊤) (S :
       zero_mem' := S.zero_mem
       smul_mem' := fun c v hv => by
         rcases zmod2_eq_zero_or_one c with rfl | rfl
-        · simpa using S.zero_mem
+        · simp
         · simpa using hv }
   rcases hL.2.2 U hS bot_le le_top with h | h
   · left

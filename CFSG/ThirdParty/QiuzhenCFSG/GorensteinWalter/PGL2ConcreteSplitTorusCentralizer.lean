@@ -60,7 +60,7 @@ private lemma two_ne_zero_of_odd_card (K : Type u) [Field K] [Finite K]
             have hsub : Subsingleton K := (ringChar.ringChar_eq_one (R := K)).mp hrc1
             exact not_subsingleton K hsub
   have hdvd_card : 2 ∣ Fintype.card K :=
-    (prime_dvd_char_iff_dvd_card (R := K) (p := 2)).mp (by simpa [hchar2])
+    (prime_dvd_char_iff_dvd_card (R := K) (p := 2)).mp (by simp [hchar2])
   have hprime_dvd : (2 : ℕ) ∣ Nat.card K := by
     simpa [Nat.card_eq_fintype_card] using hdvd_card
   exact hodd.not_two_dvd_nat hprime_dvd
@@ -286,14 +286,14 @@ public theorem pgl2_fullSplitTorus_centralizer_data
         have hval : (A : Matrix (Fin 2) (Fin 2) K).det = a * d - b * c := by
           simp [a, b, c, d, Matrix.det_fin_two]
         rw [hval, hb0, hc0, ha0] at hdet
-        simpa using hdet
+        simp at hdet
       have hd_ne : d ≠ 0 := by
         intro hd0
         have hdet : (A : Matrix (Fin 2) (Fin 2) K).det ≠ 0 := A.det_ne_zero
         have hval : (A : Matrix (Fin 2) (Fin 2) K).det = a * d - b * c := by
           simp [a, b, c, d, Matrix.det_fin_two]
         rw [hval, hb0, hc0, hd0] at hdet
-        simpa using hdet
+        simp at hdet
       have hA_diag : (A : Matrix (Fin 2) (Fin 2) K) =
           Matrix.diagonal ![a, d] := by
         ext i j
@@ -308,7 +308,7 @@ public theorem pgl2_fullSplitTorus_centralizer_data
         intro i j
         fin_cases i <;> fin_cases j <;>
           simp [diagHom, diagGL, k, hA_diag, Matrix.GeneralLinearGroup.scalar,
-            Matrix.mul_apply, Fin.sum_univ_two, div_eq_mul_inv, hd_ne, inv_ne_zero]
+            Matrix.mul_apply, Fin.sum_univ_two, div_eq_mul_inv, hd_ne]
       exact (le_sup_left : U ≤ U ⊔ Subgroup.zpowers w)
         ⟨k, hmk.symm⟩
     · have ha0 : a = 0 := by
@@ -329,23 +329,23 @@ public theorem pgl2_fullSplitTorus_centralizer_data
         have hval : (A : Matrix (Fin 2) (Fin 2) K).det = a * d - b * c := by
           simp [a, b, c, d, Matrix.det_fin_two]
         rw [hval, ha0, hd0, hb0] at hdet
-        simpa using hdet
+        simp at hdet
       have hc_ne : c ≠ 0 := by
         intro hc0
         have hdet : (A : Matrix (Fin 2) (Fin 2) K).det ≠ 0 := A.det_ne_zero
         have hval : (A : Matrix (Fin 2) (Fin 2) K).det = a * d - b * c := by
           simp [a, b, c, d, Matrix.det_fin_two]
         rw [hval, ha0, hd0, hc0] at hdet
-        simpa using hdet
+        simp at hdet
       have hA_anti : A =
           Matrix.GeneralLinearGroup.scalar (Fin 2) (Units.mk0 b hb_ne) *
             (wGL * diagGL (Units.mk0 (c / b) (div_ne_zero hc_ne hb_ne))) := by
         apply Matrix.GeneralLinearGroup.ext
         intro i j
         fin_cases i <;> fin_cases j <;>
-          simp [a, b, c, d, wGL, diagGL, diagHom, ha0, hd0,
+          simp [a, b, c, d, wGL, diagGL, ha0, hd0,
             Matrix.GeneralLinearGroup.scalar, Matrix.mul_apply,
-            Matrix.vecMul, Fin.sum_univ_two, div_eq_mul_inv, hb_ne]
+            Matrix.vecMul, Fin.sum_univ_two, div_eq_mul_inv]
         all_goals field_simp [b, hb_ne]
       let k : Kˣ := Units.mk0 (c / b) (div_ne_zero hc_ne hb_ne)
       have hmk' : Matrix.ProjGenLinGroup.mk A =
@@ -391,7 +391,7 @@ public theorem pgl2_fullSplitTorus_centralizer_data
   have hw_ne_one : w ≠ 1 := by
     intro h
     apply hw_not_mem
-    simpa [h]
+    simp [h]
   have hw_order : orderOf w = 2 := by
     exact orderOf_eq_prime (x := w) (p := 2)
       (by simpa [pow_two] using hw_sq) hw_ne_one

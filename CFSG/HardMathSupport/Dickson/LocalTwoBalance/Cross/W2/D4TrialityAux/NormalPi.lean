@@ -14,6 +14,7 @@ section NormalPi
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem normalGraph_mem (a : Fin Tag.D4.rank → Kˣ) (σ : K ≃+* K) (ε : ℕ) :
     exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε ∈ unipotentPairAut Tag.D4 K :=
   mul_mem (exactNormalAut_mem _ _ _) (d4Graph_mem ε)
@@ -30,6 +31,7 @@ theorem simplePermHom_normalGraph (a : Fin Tag.D4.rank → Kˣ) (σ : K ≃+* K)
       (fun d => ⟨σ.symm ((((a ((d4Rho ^ ε) i))⁻¹ : Kˣ) : K) * d), by simp⟩)
       (fun c => normalGraph_apply_adjX a σ ε i c))
 
+omit [Finite K] in
 theorem simplePermHom_conj {h : adjointGroup Tag.D4 K}
     (hA : MulAut.conj h ∈ unipotentPairAut Tag.D4 K) :
     simplePermHom Tag.D4 K ⟨MulAut.conj h, hA⟩ = 1 := by

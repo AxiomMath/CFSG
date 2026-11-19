@@ -6,7 +6,7 @@ public import CFSG.GroupTheory.ConjQuot
 public import CFSG.GroupTheory.CoprimeCosetFixed
 public import CFSG.LocalAnalysis.UniquenessCase.PartTwo.SixteenT3AInsNoInv
 public import CFSG.ThirdParty.QiuzhenCFSG.Glauberman.pStability
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Tactic.ENatToNat
 
 public section
@@ -17,10 +17,12 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Group G] [Finite G] in
 private lemma finset_card_sdiff_eq [DecidableEq G] (C D : Finset G) :
     (D \ C).card = D.card - (C ∩ D).card :=
   Finset.card_sdiff
 
+omit [Group G] [Finite G] in
 private lemma finset_card_sdiff_ge [DecidableEq G] {C D : Finset G} (h : 2 * C.card ≤ D.card) :
     C.card ≤ (D \ C).card := by
   rw [finset_card_sdiff_eq]
@@ -28,6 +30,7 @@ private lemma finset_card_sdiff_ge [DecidableEq G] {C D : Finset G} (h : 2 * C.c
     Finset.card_le_card Finset.inter_subset_left
   omega
 
+omit [Group G] [Finite G] in
 private lemma finset_biUnion_sdiff_subset [DecidableEq G] {Q C : Finset G} {D : Fin 7 → Finset G}
     (hDQ : ∀ k, D k ⊆ Q) :
     Finset.univ.biUnion (fun k => D k \ C) ⊆ Q \ C := by
@@ -36,6 +39,7 @@ private lemma finset_biUnion_sdiff_subset [DecidableEq G] {Q C : Finset G} {D : 
   obtain ⟨k, hk⟩ := hx
   exact ⟨hDQ k hk.1, hk.2⟩
 
+omit [Group G] [Finite G] in
 private lemma finset_card_sdiff_eq_seven [DecidableEq G] {Q C : Finset G}
     (hCQ : C ⊆ Q) (hcardQ : Q.card = 8 * C.card) :
     (Q \ C).card = 7 * C.card := by
@@ -45,6 +49,7 @@ private lemma finset_card_sdiff_eq_seven [DecidableEq G] {Q C : Finset G}
   rw [hInter, hcardQ]
   omega
 
+omit [Group G] [Finite G] in
 private lemma finset_seven_cover_eq [DecidableEq G] {Q C : Finset G} {D : Fin 7 → Finset G}
     (hS : (Q \ C).card = 7 * C.card)
     (hlower : ∀ k, C.card ≤ (D k \ C).card)
@@ -79,9 +84,10 @@ private lemma finset_seven_cover_eq [DecidableEq G] {Q C : Finset G} {D : Fin 7 
     rw [← hsum, show ∑ k : Fin 7, (D k \ C).card = 7 * C.card by simp [hEq], hS]
   exact Finset.eq_of_subset_of_card_le hsub (le_of_eq hcardEq.symm)
 
+omit [Group G] [Finite G] in
 private lemma finset_seven_cover_card_and_subset [DecidableEq G] {Q C : Finset G}
     {D : Fin 7 → Finset G}
-    (hCQ : C ⊆ Q) (hDlarge : ∀ k, 2 * C.card ≤ (D k).card)
+    (_hCQ : C ⊆ Q) (hDlarge : ∀ k, 2 * C.card ≤ (D k).card)
     (hTcard : ∀ k, (D k \ C).card = C.card) :
     (∀ k, (D k).card = 2 * C.card) ∧ (∀ k, C ⊆ D k) := by
   have hInter_le : ∀ k, (C ∩ D k).card ≤ C.card := fun k =>
@@ -105,6 +111,7 @@ private lemma finset_seven_cover_card_and_subset [DecidableEq G] {Q C : Finset G
   rw [← heq]
   exact Finset.inter_subset_right
 
+omit [Finite G] in
 private lemma finset_pairwiseDisjoint_sdiff_of_subgroup [DecidableEq G]
     {C : Subgroup G} {D : Fin 7 → Subgroup G} {Cf : Finset G} {Df : Fin 7 → Finset G}
     (hCf : ∀ x, x ∈ Cf ↔ x ∈ C) (hDf : ∀ k x, x ∈ Df k ↔ x ∈ D k)
@@ -119,6 +126,7 @@ private lemma finset_pairwiseDisjoint_sdiff_of_subgroup [DecidableEq G]
   have hxC : x ∈ C := hdisj i j hij ⟨(hDf i x).mp hxi.1, (hDf j x).mp hxj.1⟩
   exact hxi.2 ((hCf x).mpr hxC)
 
+omit [Finite G] in
 private theorem finset_seven_cover_to_subgroup [DecidableEq G]
     {Q C : Subgroup G} {D : Fin 7 → Subgroup G} {Cf Qf : Finset G} {Df : Fin 7 → Finset G}
     (hCQ : C ≤ Q) (hCfcard : Cf.card = Nat.card C)
@@ -163,17 +171,17 @@ theorem card_eq_two_mul_of_seven_cover {Q C : Subgroup G} {D : Fin 7 → Subgrou
       (∀ k, C ≤ D k) ∧
       (∀ q ∈ Q, q ∈ C ∨ ∃ k, q ∈ D k) := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   let Cf : Finset G := (C : Set G).toFinset
   let Qf : Finset G := (Q : Set G).toFinset
   let Df : Fin 7 → Finset G := fun k => (D k : Set G).toFinset
   have hCfcard : Cf.card = Nat.card C := by
-    simp [Cf, Set.toFinset_card, Nat.card_coe_set_eq]
+    simp [Cf, Set.toFinset_card]
   have hQfcard : Qf.card = Nat.card Q := by
-    simp [Qf, Set.toFinset_card, Nat.card_coe_set_eq]
+    simp [Qf, Set.toFinset_card]
   have hDfcard : ∀ k, (Df k).card = Nat.card (D k) := by
     intro k
-    simp [Df, Set.toFinset_card, Nat.card_coe_set_eq]
+    simp [Df, Set.toFinset_card]
   have hCsubQ : Cf ⊆ Qf := by
     intro x hx
     simp only [Cf, Qf, Set.mem_toFinset] at hx ⊢
@@ -205,6 +213,7 @@ theorem card_eq_two_mul_of_seven_cover {Q C : Subgroup G} {D : Fin 7 → Subgrou
   exact finset_seven_cover_to_subgroup hCQ hCfcard hDfcard hCfmem hQfmem hDfmem
     hDlargeF hTcard hUnion
 
+omit [Finite G] in
 private lemma conj_involution_mul {y w : G} (hw : w ^ 2 = 1) (hwy : w * y * w⁻¹ = y⁻¹)
     {a b : ℕ} (hab : a ≤ b) :
     (y ^ b * w * (y ^ b)⁻¹) * (y ^ a * w * (y ^ a)⁻¹) = y ^ (2 * (b - a)) := by
@@ -276,6 +285,7 @@ private lemma index_eq_one_or_seven_eight {p r : ℕ} (hpprime : p.Prime) (hp : 
         · exact Or.inr h5'
     omega
 
+omit [Finite G] in
 private lemma involution_mul_conj_eq_inv_mul_inv {y w : G} (hw : w ^ 2 = 1)
     (hwy : w * y * w⁻¹ = y⁻¹) : w * (y * w * y⁻¹) = y⁻¹ * y⁻¹ := by
   have hw2 : w * w = 1 := by simpa [pow_two] using hw
@@ -289,12 +299,14 @@ private lemma involution_mul_conj_eq_inv_mul_inv {y w : G} (hw : w ^ 2 = 1)
     _ = y⁻¹ * (w * w) * y⁻¹ := by group
     _ = y⁻¹ * y⁻¹ := by rw [hw2]; group
 
+omit [Finite G] in
 private lemma commute_inv_sq_to_sq {x y : G} (h : Commute x (y⁻¹ * y⁻¹)) :
     Commute x (y ^ 2) := by
   have h3 : y⁻¹ * y⁻¹ = (y ^ 2)⁻¹ := by group
   rw [h3] at h
   simpa using h.inv_right
 
+omit [Finite G] in
 private lemma commute_of_commute_sq {x y : G} {p : ℕ} (hy : orderOf y = p) (hpodd : Odd p)
     (h : Commute x (y ^ 2)) : Commute x y := by
   have hy_mem_sq : y ∈ Subgroup.zpowers (y ^ 2) := by
@@ -304,6 +316,7 @@ private lemma commute_of_commute_sq {x y : G} {p : ℕ} (hy : orderOf y = p) (hp
   have := h.zpow_right m
   rwa [hm] at this
 
+omit [Finite G] in
 private theorem relIndex_inf_centralizer_conj_le_four {Q : Subgroup G} {a w : G}
     (haQ : a ∈ Subgroup.normalizer (Q : Set G))
     (hidx : (Subgroup.centralizer ({w} : Set G)).relIndex Q ≤ 4) :
@@ -338,6 +351,7 @@ private theorem relIndex_inf_centralizer_conj_le_four {Q : Subgroup G} {a w : G}
   rw [h]
   exact hDrel
 
+omit [Finite G] in
 private theorem inf_centralizer_inf_conj_le {p : ℕ} [Fact p.Prime] (hp : 7 ≤ p)
     {Q : Subgroup G} {y w : G} (hy : orderOf y = p) (hw : w ^ 2 = 1)
     (hwy : w * y * w⁻¹ = y⁻¹) :
@@ -444,6 +458,7 @@ private theorem exists_pow_two_index {Q C : Subgroup G} (hQ : IsPGroup 2 Q)
   have := Nat.pow_le_pow_right (by norm_num : 0 < 2) h5
   omega
 
+omit [Finite G] in
 private theorem seven_cover_card_large {Q C : Subgroup G} {y w : G}
     (hyQ : y ∈ Subgroup.normalizer (Q : Set G))
     (hcardQ : Nat.card Q = 8 * Nat.card C)
@@ -472,6 +487,7 @@ private theorem seven_cover_card_large {Q C : Subgroup G} {y w : G}
   have : 2 * Nat.card C ≤ Nat.card D := by omega
   simpa [D, a] using this
 
+omit [Finite G] in
 private theorem seven_cover_pairwise_inter_nat {Q C : Subgroup G} {y w : G}
     (hy7 : orderOf y = 7) (hw : w ^ 2 = 1) (hwy : w * y * w⁻¹ = y⁻¹)
     (hC : C = Q ⊓ Subgroup.centralizer ({y} : Set G)) {a b : ℕ} (hab : a < b) (hb7 : b < 7) :
@@ -504,6 +520,7 @@ private theorem seven_cover_pairwise_inter_nat {Q C : Subgroup G} {y w : G}
   rw [hC]
   exact ⟨hxQ, Subgroup.mem_centralizer_singleton_iff.mpr hxy⟩
 
+omit [Finite G] in
 private theorem seven_cover_pairwise_inter {Q C : Subgroup G} {y w : G}
     (hy7 : orderOf y = 7) (hw : w ^ 2 = 1) (hwy : w * y * w⁻¹ = y⁻¹)
     (hC : C = Q ⊓ Subgroup.centralizer ({y} : Set G)) :
@@ -548,7 +565,7 @@ private theorem seven_cover_square {Q C : Subgroup G} {D : Fin 7 → Subgroup G}
       rw [inf_eq_left.mpr (hCD k), hDcard k] at hm
       have hCpos : 0 < Nat.card C := Nat.card_pos
       nlinarith
-    haveI : (C.subgroupOf (D k)).Normal := Subgroup.normal_of_index_eq_two hrel
+    have : (C.subgroupOf (D k)).Normal := Subgroup.normal_of_index_eq_two hrel
     have hpow := Subgroup.pow_index_mem (C.subgroupOf (D k)) (⟨q, hqk⟩ : D k)
     have hpow' : ((⟨q, hqk⟩ : D k) ^ 2) ∈ C.subgroupOf (D k) := by
       simpa [hrel] using hpow
@@ -566,6 +583,7 @@ private theorem exp_two_comm {V : Type*} [Group V] (h : ∀ v : V, v ^ 2 = 1) :
     _ = b⁻¹ * a⁻¹ := mul_inv_rev a b
     _ = b * a := by rw [hainv, hbinv]
 
+omit [Finite G] in
 private theorem quotient_exp_two {Q C : Subgroup G} [(C.subgroupOf Q).Normal]
     (hexp : ∀ q : ↥Q, (q : ↥Q) ^ 2 ∈ C.subgroupOf Q) :
     ∀ v : (↥Q ⧸ C.subgroupOf Q), v ^ 2 = 1 := by
@@ -589,6 +607,7 @@ private theorem coprime_seven_card_subgroupOf_of_isPGroup_two {Q C : Subgroup G}
   have h72 : 7 ∣ 2 := (by norm_num : Nat.Prime 7).dvd_of_dvd_pow h7Q
   norm_num at h72
 
+omit [Finite G] in
 private theorem exists_inverting_actions {Q C : Subgroup G} [(C.subgroupOf Q).Normal]
     {y w : G} (hyQ : y ∈ Subgroup.normalizer (Q : Set G))
     (hwQ : w ∈ Subgroup.normalizer (Q : Set G))
@@ -711,6 +730,7 @@ private theorem index_one_case {Q C : Subgroup G} {y : G}
     exact inf_le_right
   rwa [hCeqQ] at hCcent
 
+omit [Finite G] in
 private theorem y_mem_normalizer_inf_centralizer {Q : Subgroup G} {y : G} :
     y ∈ Subgroup.normalizer (Q ⊓ Subgroup.centralizer ({y} : Set G) : Set G) := by
   apply Subgroup.centralizer_le_normalizer
@@ -718,6 +738,7 @@ private theorem y_mem_normalizer_inf_centralizer {Q : Subgroup G} {y : G} :
   intro c hc
   exact Subgroup.mem_centralizer_singleton_iff.mp (Subgroup.mem_inf.mp hc).2
 
+omit [Finite G] in
 private theorem mem_normalizer_of_le_inf_centralizer {C Q : Subgroup G} {w : G}
     (h : C ≤ Q ⊓ Subgroup.centralizer ({w} : Set G)) :
     w ∈ Subgroup.normalizer (C : Set G) := by
@@ -764,7 +785,7 @@ private theorem exceptional_case {p : ℕ} [Fact p.Prime] {Q : Subgroup G} {y w 
     card_eq_two_mul_of_seven_cover hCQ (fun k => inf_le_left) hcardQ hDlarge hdisj
   have hCnormal : Q ≤ Subgroup.normalizer (C : Set G) := seven_cover_normal hDcard hCD hcover
   have hsq : ∀ q ∈ Q, q ^ 2 ∈ C := seven_cover_square hDcard hCD hcover
-  haveI : (C.subgroupOf Q).Normal :=
+  have : (C.subgroupOf Q).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCQ).mpr hCnormal
   let V := ↥Q ⧸ C.subgroupOf Q
   have hVcard : Nat.card V = 8 := by
@@ -773,7 +794,7 @@ private theorem exceptional_case {p : ℕ} [Fact p.Prime] {Q : Subgroup G} {y w 
   have hVexp : ∀ v : V, v ^ 2 = 1 :=
     quotient_exp_two (Q := Q) (C := C) (fun q => Subgroup.mem_subgroupOf.mpr (hsq q q.2))
   have hcommV : ∀ a b : V, a * b = b * a := exp_two_comm hVexp
-  letI : CommGroup V := { (inferInstance : Group V) with mul_comm := hcommV }
+  let : CommGroup V := { (inferInstance : Group V) with mul_comm := hcommV }
   have hyC : y ∈ Subgroup.normalizer (C : Set G) := by
     simpa [C] using y_mem_normalizer_inf_centralizer (Q := Q) (y := y)
   have hC_le_D : C ≤ Q ⊓ Subgroup.centralizer ({w} : Set G) := by

@@ -20,7 +20,7 @@ theorem exists_root_gf8 : ∃ s : GaloisField 2 3, s ^ 3 + s + 1 = 0 := by
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   have hcard : Nat.card F = 8 := by simpa using GaloisField.card 2 3 (by norm_num)
   have h7 : 7 ∣ Nat.card Fˣ := by rw [Nat.card_units, hcard]
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 7 h7
   have hg7 : (g : F) ^ 7 = 1 := by
     have h := pow_orderOf_eq_one g

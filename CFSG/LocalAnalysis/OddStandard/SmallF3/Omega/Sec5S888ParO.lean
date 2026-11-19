@@ -38,7 +38,7 @@ private lemma s888_not_parNt_apply {g : G} {i : Fin 4} (h : ¬ ParNt K z g i) {q
     (hq : q ∈ twoCoreIn (K i)) :
     g⁻¹ * q * g = q ∨ g⁻¹ * q * g = q * z := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   exact h ⟨q, hq, hc.1, hc.2⟩
 
 private lemma s888_inv_conj_z {g : G} (hgz : g * z = z * g) : g⁻¹ * z * g = z := by
@@ -53,7 +53,7 @@ private lemma s888_conj_inj {k x y : G} (h : k * x * k⁻¹ = k * y * k⁻¹) : 
       _ = k * y := by group
   exact mul_left_cancel h'
 
-private lemma s888_cancel_conj {k a b : G} (hzk : z * k = k * z) (hz2 : z * z = 1)
+private lemma s888_cancel_conj {k a b : G} (hzk : z * k = k * z) (_hz2 : z * z = 1)
     (h : k * a * k⁻¹ = k * b * k⁻¹ ∨ k * a * k⁻¹ = (k * b * k⁻¹) * z) :
     a = b ∨ a = b * z := by
   rcases h with h | h
@@ -89,7 +89,7 @@ private lemma s888_conj_mul_z_cancel {u X : G} (hz2 : z * z = 1) (hzu : z * u = 
     _ = u * X * u⁻¹ := by rw [hz2, mul_one]
 
 private lemma s888_not_nt_not_out [Finite G] (hq : Sec5B517Quad K z) (i : Fin 4) {g : G}
-    (hgz : g * z = z * g) (hgK : CFSG.conjugate (K i) g = K i)
+    (_hgz : g * z = z * g) (hgK : CFSG.conjugate (K i) g = K i)
     (hNT : ¬ ParNt K z g i) :
     ∀ k ∈ K i, g⁻¹ * k * g * k⁻¹ ∈ twoCoreIn (K i) := by
   intro k hk
@@ -298,7 +298,7 @@ theorem par_outer_iff [Finite G] (hq : Sec5B517Quad K z) (i : Fin 4) {g : G}
     exact hne (s888_not_nt_not_out hq i hgz hgK hNT k hk)
   · intro hNT
     by_contra hOUT
-    push_neg at hOUT
+    push Not at hOUT
     exact s888_not_out_not_nt hq i hgz hgK hg2 hOUT hNT
 
 end CFSG.OddStandard.SmallF3.Omega

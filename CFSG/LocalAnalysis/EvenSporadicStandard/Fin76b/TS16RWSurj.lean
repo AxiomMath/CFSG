@@ -224,7 +224,7 @@ theorem tree_walk {r : ℕ} (hr : r < 10) (hT : treeOK r = true) (S : Subgroup �
     intro hk
     rcases Nat.eq_zero_or_pos k with rfl | hpos
     · refine ⟨1, S.one_mem, ?_⟩
-      have h00 : ((treeData[r]!)[0]!)[0]! = 0 := by rw [h0] <;> rfl
+      have h00 : ((treeData[r]!)[0]!)[0]! = 0 := by rw [h0]; rfl
       rw [one_smul, h00]
     · obtain ⟨k', rfl⟩ : ∃ k', k = k' + 1 := ⟨k - 1, by omega⟩
       obtain ⟨-, hp1, hc2, hpos216, hppos, hsm⟩ := hrow k' (by omega)

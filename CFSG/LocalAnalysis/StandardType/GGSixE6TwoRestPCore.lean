@@ -60,14 +60,14 @@ private theorem e6pc_z0_commute
 private theorem e6pc_qE_le_pCore :
     qE ≤ pCoreOf 2 (Subgroup.normalizer (rE : Set EC)) :=
   GGRootNorm.le_pCoreOf_of_normalized qE_le_normalizer_rE qE_isPGroup
-    (fun m hm t ht =>
+    (fun _m hm t ht =>
       (Subgroup.mem_normalizer_iff.mp (normalizer_rE_le_normalizer_qE hm) t).mp ht)
 
 private theorem e6pc_pCore_commutator_mem_z0E :
     ∀ t ∈ pCoreOf 2 (Subgroup.normalizer (rE : Set EC)), ∀ q ∈ qE, ⁅t, q⁆ ∈ z0E :=
   commutator_le_z0E_of_pCore (T := pCoreOf 2 (Subgroup.normalizer (rE : Set EC)))
     (GGRootNorm.isPGroup_pCoreOf _) (GGRootNorm.pCoreOf_le _)
-    (fun n hn t ht =>
+    (fun _n hn t ht =>
       (Subgroup.mem_normalizer_iff.mp (GGRootNorm.le_normalizer_pCoreOf _ hn) t).mp ht)
 
 private theorem e6pc_commutator_centralizes

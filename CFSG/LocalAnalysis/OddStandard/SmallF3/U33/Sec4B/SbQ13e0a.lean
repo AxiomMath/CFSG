@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private lemma e0a_closure_pair_iff {a b u : G} (ha : a * a = 1) (hb : b * b = 1)
     (hab : a * b = b * a) :
     u ∈ closure ({a, b} : Set G) ↔ u = 1 ∨ u = a ∨ u = b ∨ u = a * b := by
@@ -52,6 +53,7 @@ private lemma e0a_y_z_comm (h : Q13Om t L S x₁ x₂ lam rho tau om) :
   CFSG.Open.IsElemAbelian.comm (WreathRel.fourGrp_eq_omega h.c11.wreath).2.1
     (Subgroup.subset_closure (by simp)) (Subgroup.subset_closure (by simp))
 
+omit [Finite G] in
 private lemma e0a_conj_tau_eq_sq_mul_tau {a : G} (hinv : tau * a * tau⁻¹ = a⁻¹) :
     a * tau * a⁻¹ = a ^ 2 * tau := by
   calc a * tau * a⁻¹
@@ -61,6 +63,7 @@ private lemma e0a_conj_tau_eq_sq_mul_tau {a : G} (hinv : tau * a * tau⁻¹ = a�
     _ = a * (a⁻¹)⁻¹ * tau := by rw [hinv]
     _ = a ^ 2 * tau := by rw [inv_inv, pow_two]
 
+omit [Finite G] in
 theorem q13e_t_mem_L : t ∈ q13L t tau x₁ x₂ rho om := by
   change t ∈ normalizer ((q13E0 t tau x₁ x₂ rho om : Subgroup G) : Set G)
   exact Subgroup.le_normalizer (Subgroup.mem_sup_right (Subgroup.mem_zpowers t))

@@ -57,7 +57,7 @@ private theorem step6_final (h : Sec17Std G A c L Y₀) {Z₁ E : Subgroup G}
   classical
   obtain ⟨S, Z', hSle, hS2, hSyl, hAS, hSNQ, hZ', hZ'3, hZ'M, hEZZ', hSZ', hTZ', hEeq, hv⟩ :=
     hcomp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set M := Subgroup.normalizer (Y₀ : Set G) with hM
   set Q₀ := CFSG.Open.pCoreOf 2 Y₀ with hQ₀
   have hEM : E ≤ M := fun x hx => (hEC hx).1
@@ -146,7 +146,7 @@ private theorem step6_comp (h : Sec17Std G A c L Y₀) (hgen : Gen166 A c)
           (Nat.card ↥(perpOf Z₁ E)).factorization 2 := by
   classical
   subst hE
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ₁' : Z₁ ∈ scriptY3 A (lB A) := hZ₁.prop
   have hAZ : A ≤ Subgroup.normalizer (Z₁ : Set G) := hZ₁.prop.1.1.2
   obtain ⟨S, hSle, hS2, hSyl, hAS⟩ :=
@@ -162,7 +162,7 @@ private theorem step6_comp (h : Sec17Std G A c L Y₀) (hgen : Gen166 A c)
       hSle hS2 hSyl hAS
   have hZ'ns : ¬ Group.IsSolvable ↥Z' := by
     intro hs
-    haveI := hs
+    have := hs
     exact hEns (Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion hEZZ') (Subgroup.inclusion_injective hEZZ'))
   have hEE' : (sSup (thetaComponentsIn Z₁) : Subgroup G) ≤
@@ -222,7 +222,7 @@ theorem omega166Three_of_ne (h : Sec17Std G A c L Y₀) (hgen : Gen166 A c)
     Proof17Res14.not_isSolvable_of_suzukiModel_quot (CFSG.pCore 2 ↥K₀) hm
   have hZns : ¬ Group.IsSolvable ↥Z := by
     intro hs
-    haveI := hs
+    have := hs
     exact hK₀ns (Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion hK₀Z) (Subgroup.inclusion_injective hK₀Z))
   exact le_M_of_three h hgen hnosz h146 h149 hQ0 hne hZ hZ3 hZns

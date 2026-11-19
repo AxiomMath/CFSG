@@ -18,7 +18,7 @@ variable {K : Type} [Field K] [Finite K]
 
 theorem two_ne_zero_of_ringChar (hodd : ringChar K ≠ 2) : (2 : K) ≠ 0 := by
   intro h
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hp, -⟩ := FiniteField.card K (ringChar K)
   have h2 : ((2 : ℕ) : K) = 0 := by exact_mod_cast h
   have hdvd : ringChar K ∣ 2 := (CharP.cast_eq_zero_iff K (ringChar K) 2).1 h2
@@ -41,7 +41,7 @@ theorem span_emb_onDeg1 {K L : Type} [Field K] [Field L] [Algebra K L]
 theorem main (hK : 3 ≤ Nat.card K) (hodd : ringChar K ≠ 2) (D : LangLevi Tag.F4 K wF) :
     TwIrred (D.frame TwClass.f4Six.S₁) (D.frame TwClass.f4Six.S₂) := by
   classical
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   intro W hWV hst
   by_cases hW0 : W = ⊥
   · exact Or.inl hW0

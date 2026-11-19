@@ -686,7 +686,7 @@ theorem card_oddCore_eq_one_of_extension
     rw [hπHs h hh, map_one]
   have hθS : ∀ c : C t, (c : G) ∈ (S : Subgroup G) → θ c = 1 := by
     intro c hc
-    obtain ⟨k, hk⟩ := (S.isPGroup') ⟨c, hc⟩
+    obtain ⟨k, hk⟩ := (S.isPGroup) ⟨c, hc⟩
     have hck : c ^ 2 ^ k = 1 := Subtype.ext (by
       have := congrArg Subtype.val hk
       simpa using this)

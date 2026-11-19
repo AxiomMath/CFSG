@@ -128,6 +128,7 @@ private theorem hasSL2Node_e6tw_orbitNode
     rw [show (sl2Lower c : Matrix.SpecialLinearGroup (Fin 2) k) = slLower k c from rfl,
       slOrbitHom_slLower, rho_neg_single, hρ, twistSign_neg_single, Int.cast_one, one_mul]
 
+omit [Finite k] in
 private theorem hasInvolThree_e6tw
     (hθ : ∀ c, θ (θ c) = c) (hK4 : 4 ≤ Nat.card k) :
     ∀ i : Fin (Tag.rank .F4), HasInvolThree (twistedDatum k θ) i := by

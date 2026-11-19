@@ -106,7 +106,7 @@ theorem card_le_card_iInf_mul_pow [Finite G] {B : Subgroup G} (hB : IsMulCommuta
     (S : Set (Subgroup G)) (hS : S.Finite)
     (hcl : ∀ J ∈ S, ∀ g ∈ B, GLBConj g J ∈ S)
     (hidx : ∀ J ∈ S, (Subgroup.normalizer (J : Set G)).relIndex B = 3)
-    (K : Subgroup G → Subgroup G) (hKB : ∀ J ∈ S, K J ≤ B)
+    (K : Subgroup G → Subgroup G) (_hKB : ∀ J ∈ S, K J ≤ B)
     (hKconj : ∀ J ∈ S, ∀ g ∈ B, K (GLBConj g J) = K J)
     (hK27 : ∀ J ∈ S, (K J).relIndex B ≤ 27) :
     Nat.card B ≤ Nat.card ↥(B ⊓ ⨅ J ∈ S, K J) * 3 ^ hS.toFinset.card := by

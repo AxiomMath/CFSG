@@ -70,12 +70,14 @@ def HasP (ω : K) (g : ModGL Tag.E6 K) (P : ℕ) : Prop :=
 
 variable {K} {ω : K}
 
+omit [CharP K 2] in
 theorem hasBits2_congr {g : ModGL Tag.E6 K} {X Y : Bits2} (h : HasBits2 K ω g X)
     (ha : X.a % 2 ^ 6084 = Y.a % 2 ^ 6084) (hb : X.b % 2 ^ 6084 = Y.b % 2 ^ 6084) :
     HasBits2 K ω g Y := by
   unfold HasBits2 TwBits.toEnd2 at *
   rw [h, (E6Bits.toEnd_eq_toEnd_iff (K := K) _ _).2 ha, (E6Bits.toEnd_eq_toEnd_iff (K := K) _ _).2 hb]
 
+omit [CharP K 2] in
 theorem hasP_of_bits2 {g : ModGL Tag.E6 K} {X : Bits2} {P : ℕ} (h : HasBits2 K ω g X)
     (e : X.a % 2 ^ 6084 = fa P / 2 ^ 192 % 2 ^ 6084 ∧
       X.b % 2 ^ 6084 = fb P / 2 ^ 192 % 2 ^ 6084) : HasP K ω g P :=
@@ -97,6 +99,7 @@ theorem HasP.eq_iff (hω : ω ^ 2 + ω + 1 = 0) {g h : ModGL Tag.E6 K} {P Q : �
   rw [HasBits2.eq_iff hω hg hh, eq2_iff]
   rfl
 
+omit [CharP K 2] in
 theorem HasP.of_eq2 {g : ModGL Tag.E6 K} {P Q : ℕ} (hg : HasP K ω g P) (e : eq2 P Q = true) :
     HasP K ω g Q :=
   hasBits2_congr hg ((eq2_iff P Q).1 e).1 ((eq2_iff P Q).1 e).2
@@ -110,6 +113,7 @@ theorem hasP_one : HasP K ω 1 one2 := by
   · rw [one2, fa_pr, lane_mod, oneS_div, one_a]
   · rw [one2, fb_pr, Nat.zero_div, one_b]
 
+omit [CharP K 2] in
 theorem hasP_pr {g : ModGL Tag.E6 K} {A : ℕ} (h : HasBits2 K ω g ⟨A / 2 ^ 192, 0⟩) :
     HasP K ω g (pr A 0) := by
   refine hasBits2_congr h ?_ ?_
@@ -123,25 +127,28 @@ section Rows
 variable {k K : Type} [Field k] [Finite k] [Field K] [Finite K] [Algebra k K] [CharP k 2] [CharP K 2]
   (σ : K ≃+* K) (S : Setup k K σ)
 
+omit [Finite k] [Finite K] in
 theorem hasP_iota {x : adjointGroup Tag.F4 k} {A : ℕ} (h : HasBitsS k (embE6F4 k x) A) :
     HasP K S.ω (tmat (iota σ S.hfix x)) (pr A 0) :=
   hasP_pr (hasBits2_iota σ S.hfix S.ω h)
 
+omit [Finite k] in
 theorem hasP_letP {IP X8 X9 : ℕ} (hI : ∀ c < 8, HasBitsS k (iotaL k c) (letT IP c))
     (h8 : HasP K S.ω (tmat (Xw0 σ S.hK S.hσ S.ω)) X8)
     (h9 : HasP K S.ω (tmat (Xw1 σ S.hK S.hσ S.ω)) X9) (c : ℕ) :
     HasP K S.ω (tmat (eltT σ S c)) (letP IP X8 X9 c) := by
   unfold eltT letP
   by_cases h1 : c < 8
-  · rw [if_pos h1, blt_true h1]
+  · rw [ite_eq_left h1, blt_true h1]
     exact hasP_iota σ S (hI c h1)
-  · rw [if_neg h1, blt_false h1]
+  · rw [ite_eq_right h1, blt_false h1]
     by_cases h2 : c = 8
     · subst h2
       exact h8
-    · rw [if_neg h2, Bool.eq_false_iff.2 fun hb => h2 (Nat.eq_of_beq_eq_true hb)]
+    · rw [ite_eq_right h2, Bool.eq_false_iff.2 fun hb => h2 (Nat.eq_of_beq_eq_true hb)]
       exact h9
 
+omit [Finite k] [Finite K] [CharP k 2] in
 theorem hasP_wordPAux (f : ℕ → twistedE6RootGroup K σ) {IP X8 X9 : ℕ}
     (hL : ∀ c, HasP K S.ω (tmat (f c)) (letP IP X8 X9 c)) (W : ℕ) :
     ∀ (m : ℕ) {g : twistedE6RootGroup K σ} {acc : ℕ}, HasP K S.ω (tmat g) acc →
@@ -161,6 +168,7 @@ theorem hasP_wordPAux (f : ℕ → twistedE6RootGroup K σ) {IP X8 X9 : ℕ}
     rw [e1, e]
     exact hasP_wordPAux f hL W m (HasP.mul S.hω (hL _) h)
 
+omit [Finite k] in
 theorem hasP_wordP {IP X8 X9 : ℕ} (hI : ∀ c < 8, HasBitsS k (iotaL k c) (letT IP c))
     (h8 : HasP K S.ω (tmat (Xw0 σ S.hK S.hσ S.ω)) X8)
     (h9 : HasP K S.ω (tmat (Xw1 σ S.hK S.hσ S.ω)) X9) (W L : ℕ) :
@@ -170,6 +178,7 @@ theorem hasP_wordP {IP X8 X9 : ℕ} (hI : ∀ c < 8, HasBitsS k (iotaL k c) (let
   rw [mul_one] at h
   exact h
 
+omit [Finite k] in
 theorem rowT_sound {IP X8 X9 : ℕ} (hI : ∀ c < 8, HasBitsS k (iotaL k c) (letT IP c))
     (h8 : HasP K S.ω (tmat (Xw0 σ S.hK S.hσ S.ω)) X8)
     (h9 : HasP K S.ω (tmat (Xw1 σ S.hK S.hσ S.ω)) X9)
@@ -255,6 +264,7 @@ theorem rowT_sound {IP X8 X9 : ℕ} (hI : ∀ c < 8, HasBitsS k (iotaL k c) (let
   exact eq_top_of_orbit σ Sg (oX_mem σ S Sg hrange (hz _ _ _ h8 hz1) (hz _ _ _ h9 hz2))
     (fun a c' hc' => hrange _ (oXY_mem_range σ S.hfix a c' hc').2)
 
+omit [Finite k] in
 theorem rowAtT_sound {IP X8 X9 : ℕ} (hI : ∀ c < 8, HasBitsS k (iotaL k c) (letT IP c))
     (h8 : HasP K S.ω (tmat (Xw0 σ S.hK S.hσ S.ω)) X8)
     (h9 : HasP K S.ω (tmat (Xw1 σ S.hK S.hσ S.ω)) X9)

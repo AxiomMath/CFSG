@@ -28,7 +28,7 @@ theorem ggNbrG2Off_conj_torsion
       ∀ y ∈ E, ((g * y * g⁻¹ : adjointGroup Tag.G2 K) : ModGL Tag.G2 K) ∈ torusTorsion K 3 := by
   classical
   have hring : ringChar K = 2 := by
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : CharP K 2 := charP_two_of_card hK
     exact ringChar.eq K 2
   obtain ⟨m, rfl⟩ := h6
   have hpow : Nat.card ↥(fixSubfield σ) ^ 3 = 2 ^ (6 * m) := by
@@ -47,7 +47,7 @@ theorem ggNbrG2Off_conj_torsion
   let E₀ : Subgroup (adjointGroup Tag.G2 ↥(fixSubfield σ)) := E.comap (g2Incl σ)
   have hEcomm : ∀ a b : E, a * b = b * a := by
     intro a b
-    haveI : IsMulCommutative E := hE.1
+    have : IsMulCommutative E := hE.1
     exact mul_comm' a b
   have hE0_3 : ∀ x ∈ E₀, x ^ 3 = 1 := by
     intro x hx

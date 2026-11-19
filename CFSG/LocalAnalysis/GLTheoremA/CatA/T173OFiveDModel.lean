@@ -29,7 +29,7 @@ private lemma mem_centralizer_of_β_eq_one [Finite Ω] {p : ℕ} {N D K : Subgro
     (hb : M.β b = 1) : (b : Ω) ∈ Subgroup.centralizer (S : Set Ω) := by
   have hN : B ≤ Subgroup.normalizer (S : Set Ω) :=
     le_normalizer_of_splitInnerDiagMarking16 hcfg.split
-  haveI : Group.IsPerfect ↥S := ⟨hcfg.split.1⟩
+  have : Group.IsPerfect ↥S := ⟨hcfg.split.1⟩
   have hmem : ∀ t : ↥S, (b : Ω)⁻¹ * (t : Ω) * (b : Ω) ∈ S := by
     intro t
     simpa using
@@ -139,7 +139,7 @@ theorem coe_β_eq_coe_π (M : S172DModel S B G₀ Ghat) {b : ↥B} {s : ↥S}
 theorem card_eq_mul_card_barB [Finite Ω] {p : ℕ} {N D K : Subgroup Ω} {x : Ω}
     (hcfg : Cfg173 p S B N D K x) (M : S172DModel S B G₀ Ghat) :
     Nat.card B = p * Nat.card M.barB := by
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨hcfg.prime⟩
   have hx : orderOf x = p := orderOf_eq_prime (hcfg.elem.2 x hcfg.mem) hcfg.ne_one
   have hker : Nat.card M.β.ker = p := by
     rw [ker_β hcfg M,
@@ -192,10 +192,10 @@ private lemma conjEnd_mem_Ghat {g : Γ} (hg : g ∈ Ghat) {x : Γ} (hx : x ∈ G
     Ghat.mul_mem (Ghat.mul_mem hg hx) (Ghat.inv_mem hg)
 
 private def conjG₀ (g : Γ) (hgN : g ∈ Subgroup.normalizer (G₀ : Set Γ)) :
-    ↥G₀ →* ↥G₀ := conjOn g fun x hx => conjEnd_mem_G₀ hgN hx
+    ↥G₀ →* ↥G₀ := conjOn g fun _x hx => conjEnd_mem_G₀ hgN hx
 
 private def conjGhat (g : Γ) (hg : g ∈ Ghat) : ↥Ghat →* ↥Ghat :=
-  conjOn g fun x hx => conjEnd_mem_Ghat hg hx
+  conjOn g fun _x hx => conjEnd_mem_Ghat hg hx
 
 private lemma conjG₀_surj (M : S172DModel S B G₀ Ghat) {g : Γ}
     (hgN : g ∈ Subgroup.normalizer (G₀ : Set Γ)) :
@@ -213,7 +213,7 @@ private lemma conjG₀_ker (M : S172DModel S B G₀ Ghat) {g : Γ}
     (hgN : g ∈ Subgroup.normalizer (G₀ : Set Γ)) :
     ((conjG₀ g hgN).comp M.π).ker = Subgroup.center ↥S :=
   (MonoidHom.ker_comp_of_injective M.π _
-    (conjOn_injective (H := G₀) (hmem := fun x hx => conjEnd_mem_G₀ hgN hx))).trans M.ker_π
+    (conjOn_injective (H := G₀) (hmem := fun _x hx => conjEnd_mem_G₀ hgN hx))).trans M.ker_π
 
 private lemma conjG₀_conj (M : S172DModel S B G₀ Ghat) {g : Γ}
     (hg : g ∈ Ghat) (hgN : g ∈ Subgroup.normalizer (G₀ : Set Γ)) :

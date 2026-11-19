@@ -14,6 +14,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF84
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem op2_conjBy_ge (g : G) (H : Subgroup G) : conjBy g (Op 2 H) ≤ Op 2 (conjBy g H) := by
   refine op2_of_normal (conjBy_le_iff.2 (op2_le H)) ?_ ((op2_isPGroup H).map (MulAut.conj g).toMonoidHom)
   refine normal_subgroupOf_of ?_ (conjBy_le_iff.2 (op2_le H))
@@ -21,6 +22,7 @@ theorem op2_conjBy_ge (g : G) (H : Subgroup G) : conjBy g (Op 2 H) ≤ Op 2 (con
   rw [mem_nor_conjBy]
   exact le_nor_op2 H (mem_conjBy_iff.1 hh)
 
+omit [Finite G] in
 theorem op2_conjBy (g : G) (H : Subgroup G) : Op 2 (conjBy g H) = conjBy g (Op 2 H) := by
   refine le_antisymm ?_ (op2_conjBy_ge g H)
   have h := op2_conjBy_ge g⁻¹ (conjBy g H)
@@ -28,8 +30,10 @@ theorem op2_conjBy (g : G) (H : Subgroup G) : Op 2 (conjBy g H) = conjBy g (Op 2
   have h2 := conjBy_le_iff (g := g) |>.2 h
   rwa [conjBy_conjBy_inv] at h2
 
+omit [Finite G] in
 theorem cen_conjBy (g x : G) : Cen (g * x * g⁻¹) = conjBy g (Cen x) := conjBy_cen.symm
 
+omit [Finite G] in
 theorem cen_le_nor_conj {S : Subgroup G} {g : G} (hg : g ∈ Nor S) (x : G) :
     Cen (g * x * g⁻¹) ≤ Nor S ↔ Cen x ≤ Nor S := by
   constructor
@@ -51,8 +55,8 @@ theorem order5_move {S : Subgroup G} (hS : IsElemAb 2 6 S) {y : G} (hy : orderOf
     (h1 : (1 : G) ∉ X) : ∃ u ∈ X, y * u * y⁻¹ ∉ X := by
   classical
   by_contra hcon
-  push_neg at hcon
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  push Not at hcon
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hy5 : y ^ 5 = 1 := hy ▸ pow_orderOf_eq_one y
   have hcard := B_order5_fixed hS hy hn hnc
   let f0 : ↥X → ↥X := fun u => ⟨y * u * y⁻¹, hcon u.1 u.2⟩
@@ -72,7 +76,7 @@ theorem order5_move {S : Subgroup G} (hS : IsElemAb 2 6 S) {y : G} (hy : orderOf
     apply Subtype.ext
     rw [hfk, pow_one, hy5]
     simp
-  haveI : Fintype ↥X := Fintype.ofFinite _
+  have : Fintype ↥X := Fintype.ofFinite _
   have hmod := Equiv.Perm.card_fixedPoints_modEq (p := 5) (n := 1) hf
   rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card] at hmod
   have hX : Nat.card ↥X = 9 := by
@@ -80,7 +84,7 @@ theorem order5_move {S : Subgroup G} (hS : IsElemAb 2 6 S) {y : G} (hy : orderOf
   have hfix : Nat.card f.fixedPoints ≤ 3 := by
     set T : Set G := ((S ⊓ Cen y : Subgroup G) : Set G) \ {1} with hT
     have hT3 : T.ncard = 3 := by
-      rw [hT, Set.ncard_diff_singleton_of_mem (one_mem (S ⊓ Cen y))]
+      rw [hT, Set.ncard_sdiff_singleton_of_mem (one_mem (S ⊓ Cen y))]
       have : ((S ⊓ Cen y : Subgroup G) : Set G).ncard = 4 := by
         rw [← Nat.card_coe_set_eq]
         exact hcard

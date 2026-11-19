@@ -15,7 +15,7 @@ variable {ℓ f n p : ℕ} {K : Type} [Field K]
 
 theorem planeGen_isPrimitiveRoot {c : K} {p : ℕ} (hp : p.Prime) (hcp : c ^ p = 1) (hc1 : c ≠ 1) :
     IsPrimitiveRoot c p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [← orderOf_eq_prime hcp hc1]
   exact IsPrimitiveRoot.orderOf c
 
@@ -51,10 +51,10 @@ theorem closure_centralizers_statedProj_su_p
     Subgroup.closure {k : StatedProj (StatedSU n (ℓ ^ f) K) |
       ∃ z ∈ E, z ≠ 1 ∧ k * z = z * k} = ⊤ := by
   classical
-  haveI := h.finite
-  haveI : Fact ℓ.Prime := ⟨h.prime⟩
-  haveI : CharP K ℓ := h.charP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := h.finite
+  have : Fact ℓ.Prime := ⟨h.prime⟩
+  have : CharP K ℓ := h.charP
+  have : Fact p.Prime := ⟨hp⟩
   have hn0 : 0 < n := by omega
   have hp2 : p ≠ 2 := by omega
   have hT : TorusFourierGenU h p := torusFourierGenU_of_prime h hp5 hpq

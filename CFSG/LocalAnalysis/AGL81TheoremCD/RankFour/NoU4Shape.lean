@@ -22,8 +22,8 @@ instance finiteGroupTwistedA3 {q : TauCeti.PrimePower}
       ⟨TauCeti.LieTypeIndex.twistedA 3 q, hv⟩) := by
   obtain ⟨-, K, hKfield, hKfinite, -, ⟨ψ⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 3 q hv (MulEquiv.refl _)
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   exact Finite.of_equiv _ ψ.symm.toEquiv
 
 theorem pRank_unitaryFour_le {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
@@ -31,14 +31,14 @@ theorem pRank_unitaryFour_le {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hv : (TauCeti.LieTypeIndex.twistedA 3 q).Valid) :
     CFSG.Open.pRank r (⊤ : Subgroup
       (TauCeti.ValidLieTypeIndex.Group ⟨TauCeti.LieTypeIndex.twistedA 3 q, hv⟩)) ≤ 3 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hm : CFSG.Open.StatedClassicalModel
       (TauCeti.ValidLieTypeIndex.Group ⟨TauCeti.LieTypeIndex.twistedA 3 q, hv⟩)
       .PSU 4 q.p q.exponent :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 3 q hv (MulEquiv.refl _)
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨ψ⟩⟩ := hm
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hKcard2 : Nat.card K = 2 ^ (2 * q.exponent) := by
     rw [hKcard, hq, ← pow_mul]
     congr 1
@@ -83,7 +83,7 @@ theorem pRank_unitaryFour_le {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
 theorem pRank_le_three_of_u4Shape {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {M : Subgroup G} (h : CFSG.LocalAnalysis.RankThreeUC.U4Shape p M) :
     CFSG.Open.pRank p M ≤ 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨d, ⟨q, hq, hd, -⟩, ⟨φ⟩⟩ := h
   have hv : (TauCeti.LieTypeIndex.twistedA 3 q).Valid := hd ▸ d.2
   have hd' : d = (⟨TauCeti.LieTypeIndex.twistedA 3 q, hv⟩ : TauCeti.ValidLieTypeIndex) :=

@@ -207,7 +207,7 @@ theorem MoveFrame.exists_sylow_conj_normalizes_L [Finite X] (F : MoveFrame B φ 
     rintro _ ⟨c, -, rfl⟩
     exact c.2
   have hT₀2 : IsPGroup 2 (Subgroup.map (Rb ⊓ centralizer ({h * z * h⁻¹} : Set X)).subtype T₀) :=
-    T₀.isPGroup'.map _
+    T₀.isPGroup.map _
   have hT₀Rh : Subgroup.map (Rb ⊓ centralizer ({h * z * h⁻¹} : Set X)).subtype T₀ ≤
       conjSubgroup h Rb := by
     intro c hc

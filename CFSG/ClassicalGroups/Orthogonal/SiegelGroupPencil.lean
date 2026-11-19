@@ -79,7 +79,7 @@ theorem IsSiegelGroup.qf_eq_zero_of_mem_commutatorSpace :
     obtain ⟨A', hA', hw⟩ := Set.mem_iUnion₂.mp hw
     exact hE.polar_eq_zero_of_mem_axes hnd hA hA' hu hw
 
-omit [FiniteDimensional K V] hnd in
+omit [FiniteDimensional K V] hnd [CharP K 2] in
 theorem IsSiegelGroup.le_piGroup {P : Submodule K V} (hP : ∀ A ∈ axes E, P ≤ A) :
     E ≤ piGroup Qf P (commutatorSpace E) := by
   intro s hs
@@ -89,7 +89,7 @@ theorem IsSiegelGroup.le_piGroup {P : Submodule K V} (hP : ∀ A ∈ axes E, P �
   · exact isLongRootElement_mem_piGroup (hE.siegel s hs h1) (hP _ ⟨s, hs, h1, rfl⟩)
       (movedSpace_le_commutatorSpace hs)
 
-omit [FiniteDimensional K V] hnd in
+omit [FiniteDimensional K V] hnd [CharP K 2] in
 theorem IsSiegelGroup.le_sigmaGroup : E ≤ sigmaGroup Qf (commutatorSpace E) := by
   intro s hs
   by_cases h1 : s = 1

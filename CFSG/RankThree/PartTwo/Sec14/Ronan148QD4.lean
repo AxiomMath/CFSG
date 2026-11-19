@@ -33,7 +33,7 @@ theorem step148D4Q_of_kf (hKF : KF148D4Comm) (h422 : Sec4.Item4_22) (h45 : Sec4.
     (h142 : Item142AllS14) (h134 : Item134) (h48 : Sec4.Item4_8) (h415 : Sec4.Item4_15)
     (h143 : Item143NNHJ) : Step148D4 := by
   intro G _ _ A c L h Y hY hs hYB B Q e K Le hP hkt he J hJ hKJ hAJ h4
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   obtain ⟨n, hn, hK2, hJm, hind⟩ := h4
   have hA : Late.IsE27 A := h.isE27
   have hAF : A ∈ partTwoF G := h.mem_partTwoF

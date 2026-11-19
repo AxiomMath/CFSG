@@ -128,9 +128,9 @@ theorem ggNormalizerOvergroupsChar_statedProj_of_borelInterface [Finite K] (p : 
     (hQn : Q.polarBilin.Nondegenerate) (hV : 5 ≤ Module.finrank K (ι → K)) {r : ℕ}
     {F : Fin r → Submodule K (ι → K)} (hI : BorelInterface p Q0 F) :
     GGNormalizerOvergroupsChar p (StatedProj (StatedOmega Q0)) := by
-  haveI : Finite (GL ι K) :=
+  have : Finite (GL ι K) :=
     Finite.of_injective (fun g : GL ι K => (g : Matrix ι ι K)) Units.val_injective
-  haveI : Finite (StatedProj (StatedOmega Q0)) := inferInstance
+  have : Finite (StatedProj (StatedOmega Q0)) := inferInstance
   obtain ⟨hF, ⟨U, hU⟩, -, hcoatom, -⟩ := hI
   refine ggNormalizerOvergroupsChar_of_borel p _ U hU fun M hM hBM => ?_
   obtain ⟨i, rfl⟩ := hcoatom M hM hBM
@@ -155,11 +155,11 @@ theorem ggLieParabolicCharInputOn_B :
   obtain rfl : d = ⟨.B r q, hv⟩ := Subtype.ext hm
   have hr : 2 ≤ r :=
     ((TauCeti.LieTypeIndex.inStandardRange_iff _).1 ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1).1
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   rcases (show r = 2 ∨ 3 ≤ r by omega) with rfl | hr3
   · obtain ⟨-, K', _, _, hcard, ⟨φ⟩⟩ := QuasithinUnique.SQTK.statedClassicalModel_typeB2 q hv e
-    haveI := Fintype.ofFinite K'
-    haveI : CharP K' q.p := charP_of_card_eq_prime_pow (f := q.exponent)
+    have := Fintype.ofFinite K'
+    have : CharP K' q.p := charP_of_card_eq_prime_pow (f := q.exponent)
       (by rw [← Nat.card_eq_fintype_card, hcard])
     exact (GGNormalizerOvergroupsChar.of_mulEquiv φ
       (ggNormalizerOvergroupsChar_statedProjSp q.p (by omega))) S X hS hSi hNX hX
@@ -167,8 +167,8 @@ theorem ggLieParabolicCharInputOn_B :
     have hI := orthogonal_geometry_tail_model_Borel_overgroup_interface K .POmegaOdd (Or.inl rfl)
       r q.p q.exponent hmodel
     obtain ⟨-, K', _, _, hcard, ⟨φ⟩⟩ := hmodel
-    haveI := Fintype.ofFinite K'
-    haveI : CharP K' q.p := charP_of_card_eq_prime_pow (f := q.exponent)
+    have := Fintype.ofFinite K'
+    have : CharP K' q.p := charP_of_card_eq_prime_pow (f := q.exponent)
       (by rw [← Nat.card_eq_fintype_card, hcard])
     have h2 : (2 : K') ≠ 0 := two_ne_zero_of_charP q.p hp2
     exact (GGNormalizerOvergroupsChar.of_mulEquiv φ
@@ -187,13 +187,13 @@ theorem ggLieParabolicCharInputOn_twistedD :
   rw [hp] at hp2 hS hSi ⊢
   have hv : (TauCeti.LieTypeIndex.twistedD r q).Valid := hm ▸ d.2
   obtain rfl : d = ⟨.twistedD r q, hv⟩ := Subtype.ext hm
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hmodel := CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeTwistedD r q hv e
   have hI := orthogonal_geometry_tail_model_Borel_overgroup_interface K .POmegaMinus (Or.inr rfl)
     r q.p q.exponent hmodel
   obtain ⟨hadm, K', _, _, hcard, b, c, hirr, ⟨φ⟩⟩ := hmodel
-  haveI := Fintype.ofFinite K'
-  haveI : CharP K' q.p := charP_of_card_eq_prime_pow (f := q.exponent)
+  have := Fintype.ofFinite K'
+  have : CharP K' q.p := charP_of_card_eq_prime_pow (f := q.exponent)
     (by rw [← Nat.card_eq_fintype_card, hcard])
   have hr4 : 4 ≤ r := hadm.2.2
   exact (GGNormalizerOvergroupsChar.of_mulEquiv φ

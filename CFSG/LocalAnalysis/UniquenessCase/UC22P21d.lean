@@ -10,9 +10,11 @@ open CFSG.Open CFSG.LocalAnalysis.RankThreeUC Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p21d_pCoreOf_le (L : Subgroup G) : pCoreOf 2 L ≤ L :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem uc22p21d_conj_mem_pCoreOf {x : G} {L : Subgroup G} (hx : CentralizesBar x L) {q : G}
     (hq : q ∈ pCoreOf 2 L) : x * q * x⁻¹ ∈ pCoreOf 2 L := by
   have h := hx.2 q (uc22p21d_pCoreOf_le L hq)
@@ -20,6 +22,7 @@ theorem uc22p21d_conj_mem_pCoreOf {x : G} {L : Subgroup G} (hx : CentralizesBar 
   rw [e]
   exact (pCoreOf 2 L).mul_mem h hq
 
+omit [Finite G] in
 theorem uc22p21d_centralizesBar_mul {x y : G} {L : Subgroup G} (hx : CentralizesBar x L)
     (hy : CentralizesBar y L) : CentralizesBar (x * y) L := by
   refine ⟨(normalizer (L : Set G)).mul_mem hx.1 hy.1, fun l hl => ?_⟩
@@ -28,9 +31,11 @@ theorem uc22p21d_centralizesBar_mul {x y : G} {L : Subgroup G} (hx : Centralizes
   rw [e]
   exact (pCoreOf 2 L).mul_mem (uc22p21d_conj_mem_pCoreOf hx (hy.2 l hl)) (hx.2 l hl)
 
+omit [Finite G] in
 theorem uc22p21d_centralizesBar_one (L : Subgroup G) : CentralizesBar (1 : G) L :=
-  ⟨(normalizer (L : Set G)).one_mem, fun l _ => by simpa using (pCoreOf 2 L).one_mem⟩
+  ⟨(normalizer (L : Set G)).one_mem, fun l _ => by simp⟩
 
+omit [Finite G] in
 theorem uc22p21d_centralizesBar_pow {x : G} {L : Subgroup G} (hx : CentralizesBar x L) (n : ℕ) :
     CentralizesBar (x ^ n) L := by
   induction n with
@@ -67,7 +72,7 @@ theorem uc22p21d_centralizesBar_iff {x : G} {L : Subgroup G} :
 theorem uc22p21d_sup_pCore_eq {L A : Subgroup G} {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hA : Nat.card A = r) (hAc : ∀ a ∈ A, CentralizesBar a L) :
     (L ⊓ centralizer (A : Set G)) ⊔ pCoreOf 2 L = L := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hAL : A ≤ normalizer (L : Set G) := fun a ha => (hAc a ha).1
   let α : ↥A →* MulAut ↥L := L.normalizerMonoidHom.comp (Subgroup.inclusion hAL)
   have hα : ∀ (a : ↥A) (l : ↥L), ((α a l : ↥L) : G) = (a : G) * (l : G) * (a : G)⁻¹ :=
@@ -128,6 +133,7 @@ theorem uc22p21d_sup_pCore_eq {L A : Subgroup G} {r : ℕ} (hr : r.Prime) (hr2 :
     have := (hNmem _).1 hcx
     simpa using this
 
+omit [Finite G] in
 theorem uc22p21d_odd_orderOf_of_mem_calB1 {T M L B : Subgroup G} (hB : B ∈ calB1 T M L) {x : G}
     (hx : x ∈ B) : Odd (orderOf x) := by
   obtain ⟨_, hcomm, B', C', hB', _, hCodd, _, hBeq, _⟩ := hB

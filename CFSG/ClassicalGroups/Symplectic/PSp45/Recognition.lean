@@ -12,7 +12,7 @@ open CFSG.CosetTable CFSG.Open
 
 
 theorem exists_presented_mulEquiv :
-    ∃ φ : PG 8 pspRels ≃* PSp45, ∀ i, φ (PresentedGroup.of i) = psp45GenP i := by
+    ∃ φ : PG 8 pspRels ≃* CFSG.ClassicalGroups.Symplectic.PSp45, ∀ i, φ (PresentedGroup.of i) = psp45GenP i := by
   obtain ⟨_, hle⟩ := finite_card_presented_le
   let p : PG 8 pspRels →* PSp45 := PresentedGroup.toGroup (f := psp45GenP) (by
     intro r hr
@@ -33,7 +33,7 @@ theorem exists_presented_mulEquiv :
 
 theorem exists_closure_mulEquiv {X : Type*} [Group X] (x : Fin 8 → X)
     (hx : ∀ r ∈ pspRels, FreeGroup.lift x (FreeGroup.mk r) = 1) (hne : ∃ i, x i ≠ 1) :
-    ∃ ψ : Subgroup.closure (Set.range x) ≃* PSp45,
+    ∃ ψ : Subgroup.closure (Set.range x) ≃* CFSG.ClassicalGroups.Symplectic.PSp45,
       ∀ i, ψ ⟨x i, Subgroup.subset_closure (Set.mem_range_self i)⟩ = psp45GenP i := by
   have hx' : ∀ r ∈ {r : FreeGroup (Fin 8) | r ∈ pspRels.map FreeGroup.mk},
       FreeGroup.lift x r = 1 := by
@@ -58,9 +58,9 @@ theorem exists_closure_mulEquiv {X : Type*} [Group X] (x : Fin 8 → X)
     · rintro ⟨i, rfl⟩
       exact ⟨PresentedGroup.of i, ⟨i, rfl⟩, hq i⟩
   obtain ⟨e, he⟩ := exists_presented_mulEquiv
-  haveI : IsSimpleGroup PSp45 :=
+  have : IsSimpleGroup PSp45 :=
     isSimpleGroup_statedProj_statedSp (ZMod 5) 2 (by norm_num) (Or.inl (Or.inr (by simp)))
-  haveI : IsSimpleGroup (PG 8 pspRels) := e.isSimpleGroup
+  have : IsSimpleGroup (PG 8 pspRels) := e.isSimpleGroup
   have hker : q.ker = ⊥ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top q.ker with h | h
     · exact h
@@ -80,7 +80,7 @@ theorem exists_closure_mulEquiv {X : Type*} [Group X] (x : Fin 8 → X)
 
 theorem nonempty_closure_mulEquiv {X : Type*} [Group X] (x : Fin 8 → X)
     (hx : ∀ r ∈ pspRels, FreeGroup.lift x (FreeGroup.mk r) = 1) (hne : ∃ i, x i ≠ 1) :
-    Nonempty (Subgroup.closure (Set.range x) ≃* PSp45) :=
+    Nonempty (Subgroup.closure (Set.range x) ≃* CFSG.ClassicalGroups.Symplectic.PSp45) :=
   (exists_closure_mulEquiv x hx hne).elim fun ψ _ => ⟨ψ⟩
 
 theorem statedClassicalModel_closure {X : Type} [Group X] (x : Fin 8 → X)

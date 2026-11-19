@@ -41,7 +41,7 @@ theorem not_le_centralizer_pCore_of_equiv {X : Type} [Group X] [Finite X] {V : S
     rw [hV] at h
     exact orderOf_dvd_iff_pow_eq_one.mp h
   have h4 : Nat.card (Fin 4) = 4 := by simp
-  haveI : (alternatingGroup.kleinFour (Fin 4)).Normal := alternatingGroup.normal_kleinFour h4
+  have : (alternatingGroup.kleinFour (Fin 4)).Normal := alternatingGroup.normal_kleinFour h4
   set W : Subgroup S3A4 :=
     (⊥ : Subgroup (Equiv.Perm (Fin 3))).prod (alternatingGroup.kleinFour (Fin 4))
   have hWn : W.Normal := Subgroup.prod_normal _ _

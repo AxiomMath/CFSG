@@ -164,8 +164,8 @@ theorem exists_twoPart [Finite G] (hker : φ.ker ≤ Subgroup.center G) {H : Sub
   have hR2 : IsPGroup 2 ψ₀.range := by
     rw [hrange]
     exact hH
-  haveI : Finite ↥ψ₀.range := Finite.of_surjective ψ hψs
-  haveI : Group.IsNilpotent ↥ψ₀.range := hR2.isNilpotent
+  have : Finite ↥ψ₀.range := Finite.of_surjective ψ hψs
+  have : Group.IsNilpotent ↥ψ₀.range := hR2.isNilpotent
   have hkerψ : ψ.ker ≤ Subgroup.center ↥H := by
     intro x hx
     rw [Subgroup.mem_center_iff]
@@ -175,10 +175,10 @@ theorem exists_twoPart [Finite G] (hker : φ.ker ≤ Subgroup.center G) {H : Sub
       have := congrArg Subtype.val hx
       simpa [hψ, hψ₀] using this
     exact Subtype.ext (Subgroup.mem_center_iff.1 (hker hx') y)
-  haveI : Group.IsNilpotent ↥H := Subgroup.isNilpotent_of_ker_le_center ψ hkerψ
+  have : Group.IsNilpotent ↥H := Subgroup.isNilpotent_of_ker_le_center ψ hkerψ
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥H) := Sylow.nonempty
-  letI : Unique (Sylow 2 ↥H) := Sylow.unique_of_normal P inferInstance
-  refine ⟨(P : Subgroup ↥H).map H.subtype, Subgroup.map_subtype_le _, P.isPGroup'.map _, ?_, ?_⟩
+  let : Unique (Sylow 2 ↥H) := Sylow.unique_of_normal P inferInstance
+  refine ⟨(P : Subgroup ↥H).map H.subtype, Subgroup.map_subtype_le _, P.isPGroup.map _, ?_, ?_⟩
   · apply le_antisymm
     · exact Subgroup.map_mono (Subgroup.map_subtype_le _)
     · have htop : (P.mapSurjective hψs : Subgroup ↥ψ₀.range) = ⊤ := by

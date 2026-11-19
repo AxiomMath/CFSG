@@ -23,9 +23,9 @@ theorem IsNatSumModule.exists_eq_sub_of_cocycle_of_le
     ∃ v : N, (∀ x ∈ A, σ x v = v) ∧ ∀ g, f g = σ g v - v := by
   classical
   have hvan := IsNatSumModule.cocycle_eq_zero_of_le hσ hF ha hf hA2 hA hA₁A hA₁ hf₁
-  haveI : Finite F := Finite.of_fintype F
-  haveI : Finite (Matrix (Fin 2) (Fin 2) F) := Finite.of_fintype _
-  haveI : Finite SL(2, F) := Finite.of_injective
+  have : Finite F := Finite.of_fintype F
+  have : Finite (Matrix (Fin 2) (Fin 2) F) := Finite.of_fintype _
+  have : Finite SL(2, F) := Finite.of_injective
     (fun A : SL(2, F) => (A : Matrix (Fin 2) (Fin 2) F)) Subtype.coe_injective
   let μ : SL(2, F) →* AddMonoid.End N :=
     { toFun := fun g => (σ g).toAddMonoidHom

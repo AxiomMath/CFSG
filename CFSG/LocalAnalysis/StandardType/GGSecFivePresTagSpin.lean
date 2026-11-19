@@ -64,7 +64,7 @@ section Tag
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem ggTagFacts_POmegaPlus {n f : ℕ} (hadm : StatedLieAdmissible .POmegaPlus n 2 f)
+theorem ggTagFacts_POmegaPlus {n f : ℕ} (_hadm : StatedLieAdmissible .POmegaPlus n 2 f)
     (hrank : 3 ≤ bnRank .POmegaPlus n) : GGTagFacts .POmegaPlus n f := by
   have hn : 3 ≤ n := by simpa only [bnRank] using hrank
   have h2 : (2 : GaloisField 2 f) = 0 := by
@@ -94,7 +94,7 @@ theorem ggSecFivePres_of_psi_POmegaPlus {p : ℕ} {B : Subgroup G} {x : G} {L D 
   ggSecFivePres_of_psi_of_tagFacts hadm hrank (ggTagFacts_POmegaPlus hadm hrank) ψ hker hrange
 
 theorem ggTagFacts_POmegaMinus {n f : ℕ} (hadm : StatedLieAdmissible .POmegaMinus n 2 f)
-    (hrank : 3 ≤ bnRank .POmegaMinus n) : GGTagFacts .POmegaMinus n f := by
+    (_hrank : 3 ≤ bnRank .POmegaMinus n) : GGTagFacts .POmegaMinus n f := by
   have hn : 4 ≤ n := hadm.2.2
   have h2 : (2 : GaloisField 2 f) = 0 := by
     exact_mod_cast CharP.cast_eq_zero (GaloisField 2 f) 2

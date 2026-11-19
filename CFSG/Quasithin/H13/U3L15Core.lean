@@ -673,7 +673,7 @@ theorem pRank_CV2_open : CFSG.Open.pRank 3 (centralizer (V₂ : Set G)) ≤ 1 :=
       have hpP : (⟨p, mem_sup_left hpX⟩ : ↥B) ∈ (P : Subgroup ↥B) := by
         convert hbx using 1
       exact mul_mem (mul_mem (mul_mem hpP heP) (inv_mem hpP)) (inv_mem heP)
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨_, hcP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨_, hcP⟩
     have hk' : c ^ 3 ^ k = 1 := by
       have := congrArg (fun z : ↥(P : Subgroup ↥B) => ((z : ↥B) : G)) hk
       simpa [hc] using this

@@ -43,6 +43,7 @@ theorem card_mod_three_of_inv (h : ZEData Q Y V V' B K ρ t τ l) {R : Subgroup 
   have h1 := z4i_card_mod_three_of_fpf ρQ hρQ3 hfpfQ (R.subgroupOf Q) hCinv
   rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRQ).toEquiv] at h1
 
+omit [Finite H] in
 theorem rho_norm_F (h : ZEData Q Y V V' B K ρ t τ l) :
     ∀ x ∈ z4iF K t τ, ρ * x * ρ⁻¹ ∈ z4iF K t τ := by
   have ht : Commute ρ t := h.t_rho.symm
@@ -61,7 +62,7 @@ theorem rho_norm_F (h : ZEData Q Y V V' B K ρ t τ l) :
 
 theorem F_comm_le_Q (h : ZEData Q Y V V' B K ρ t τ l) :
     ⁅z4iF K t τ, z4iF K t τ⁆ ≤ Q := by
-  haveI : Q.Normal := ⟨fun n hn g => h.normal_Q g n hn⟩
+  have : Q.Normal := ⟨fun n hn g => h.normal_Q g n hn⟩
   refine Subgroup.commutator_le.mpr fun x hx y hy => ?_
   obtain ⟨k, hk, a, b, rfl⟩ := (mem_F_iff h).mp hx
   obtain ⟨k', hk', a', b', rfl⟩ := (mem_F_iff h).mp hy
@@ -125,6 +126,7 @@ theorem F_comm_le_Q (h : ZEData Q Y V V' B K ρ t τ l) :
   rw [map_commutatorElement, commutatorElement_eq_one_iff_commute]
   exact hcomm
 
+omit [Finite H] in
 theorem rho_norm_F_comm (h : ZEData Q Y V V' B K ρ t τ l) :
     ∀ x ∈ ⁅z4iF K t τ, z4iF K t τ⁆, ρ * x * ρ⁻¹ ∈ ⁅z4iF K t τ, z4iF K t τ⁆ := by
   intro x hx
@@ -146,7 +148,7 @@ theorem exists_F_comm_not_Y (h : ZEData Q Y V V' B K ρ t τ l) :
     have hcard : Nat.card Q = Nat.card K := by rw [heq]
     rw [h.card_Q, h.card_K] at hcard
     norm_num at hcard
-  obtain ⟨x, hxK, hxQ⟩ := SetLike.exists_of_lt hQK
+  obtain ⟨x, hxK, hxQ⟩ := _root_.IsConcreteLE.exists_of_lt hQK
   refine ⟨⁅t, x⁆, ?_, ?_⟩
   · exact Subgroup.commutator_mem_commutator
       (Subgroup.mem_sup_right (Subgroup.subset_closure (by simp)))

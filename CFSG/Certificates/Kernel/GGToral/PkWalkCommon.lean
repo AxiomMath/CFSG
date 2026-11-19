@@ -342,7 +342,6 @@ theorem bodyK_spec {H : Hd} {pts ms s : List ℕ} (h : bodyK H pts ms s = true) 
     ∃ tg, TabFacts H pts tg ∧ ∀ a ∈ pts, CaseOK H tg ms a := by
   obtain ⟨nt, s1, h⟩ := rd_spec h
   obtain ⟨T, s2, h⟩ := rdN_spec h
-  beta_reduce at h
   cases h0 : Nat.beq nt 0 with
   | true =>
     rw [h0] at h

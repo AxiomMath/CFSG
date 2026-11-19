@@ -48,10 +48,10 @@ theorem five_hord {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hK : Nat.card
     (Nat.card ↥(twistedE6RootGroup K σ)).factorization 5 ≤
       (Nat.card (SL(2, RingHom.eqLocusField σ.toRingHom (RingHom.id K)) ×
         unitarySL σ.toRingHom)).factorization 5 := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK' : Nat.card K = ℓ ^ (2 * f) := by rw [hK, ← pow_mul, mul_comm]
   have hU : UnitaryFieldData ℓ f K := ⟨hℓ, hf, hK'⟩
-  haveI : CharP K ℓ := hU.charP
+  have : CharP K ℓ := hU.charP
   have hσ' : ∀ c, σ.toRingHom c = c ^ (ℓ ^ f) := hσ
   have hG :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.factorization_five_card_twistedE6_of_dvd_add_one
@@ -79,15 +79,15 @@ theorem hasTwoCovers_five {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (K : T
     (hK : Nat.card K = (ℓ ^ f) ^ 2) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (ℓ ^ f))
     (h5 : 5 ∣ ℓ ^ f + 1) :
     HasTwoCovers (twistedE6RootGroup K σ) 5 fun E₀ => ¬ NormalizesRGroup ℓ E₀ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK' : Nat.card K = ℓ ^ (2 * f) := by rw [hK, ← pow_mul, mul_comm]
   have hU : UnitaryFieldData ℓ f K := ⟨hℓ, hf, hK'⟩
-  haveI : CharP K ℓ := hU.charP
+  have : CharP K ℓ := hU.charP
   have hσ' : ∀ c, σ.toRingHom c = c ^ (ℓ ^ f) := hσ
   obtain ⟨ψ₁, hk₁, hH₁, hX₁⟩ := twE6SU6Cover_five K σ ℓ f hℓ hf hK hσ 5 le_rfl h5
   obtain ⟨H₂, _, _, ψ₂, hk₂, hH₂, hX₂⟩ := twE6D4Cover_five K σ ℓ f hℓ hf hK hσ 5 le_rfl h5
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have hX₁' : ∀ y : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom),
       y ∈ leviRootGroups σ.toRingHom → y ∈ ψ₁.range := fun y hy =>
     hX₁ (Subgroup.mem_sup_right hy)

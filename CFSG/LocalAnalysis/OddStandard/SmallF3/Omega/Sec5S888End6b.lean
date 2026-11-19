@@ -36,16 +36,16 @@ theorem component_classification {Y : Type} [Group Y] [Finite Y] (hY : IsGoldSem
   classical
   have hZY : Subgroup.center Y = ⊥ := GoldY.center_eq_bot hY.o2 hY.odd hY.layer
   have hZJ : Subgroup.center ↥J = ⊥ := GoldY.component_center_eq_bot hZY hY.layer hJ
-  haveI hJnorm : J.Normal := GoldY.component_normal hY.layer hJ
+  have hJnorm : J.Normal := GoldY.component_normal hY.layer hJ
   let eJ : ↥J ⧸ Subgroup.center ↥J ≃* ↥J :=
     (QuotientGroup.quotientMulEquivOfEq hZJ).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
-  haveI : IsSimpleGroup ↥J := eJ.symm.isSimpleGroup
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
+  have : IsSimpleGroup ↥J := eJ.symm.isSimpleGroup
   have htype : goldschmidtSimpleType ↥J :=
     s888b_goldschmidtSimpleType_of_mulEquiv (hY.comps J hJ) eJ
   have hT : CFSG.ABGLocalTools.IsSylowOf 2 (D : Subgroup Y) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, D.isPGroup', by rw [Subgroup.relIndex_top_right]; exact D.not_dvd_index⟩
+    exact ⟨le_top, D.isPGroup, by rw [Subgroup.relIndex_top_right]; exact D.not_dvd_index⟩
   obtain ⟨S, hS⟩ := hT.inf_of_le_normalizer (N := J) le_top
     (by rw [Subgroup.normalizer_eq_top])
   have hcardS : Nat.card (S : Subgroup ↥J) = 4 ^ m := by

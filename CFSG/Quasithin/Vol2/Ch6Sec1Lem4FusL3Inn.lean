@@ -75,7 +75,7 @@ private theorem locFusL3_inn_bridge614 {Q : Type} [Group Q] [Finite Q]
       ψ.range.Normal → (∀ v : MulAut Q, (∀ n ∈ ψ.range, v * n = n * v) → v = 1) →
       L3FusFacts ψ.range p) :
     LocFusL3 (MulAut Q) (MulAut.conj : Q →* MulAut Q).range := by
-  haveI : Finite (MulAut Q) := finite_mulAut614Inn Q
+  have : Finite (MulAut Q) := finite_mulAut614Inn Q
   have hZ : Subgroup.center Q ≤ (MulAut.conj : Q →* MulAut Q).ker := by
     rw [ker_conj_eq_center614Inn Q]
   let innEmb : Q ⧸ Subgroup.center Q →* MulAut Q :=

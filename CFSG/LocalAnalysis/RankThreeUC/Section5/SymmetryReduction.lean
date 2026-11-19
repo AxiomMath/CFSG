@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_ne_self {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {K : Subgroup G} (hK : IsPGroup p K)
     {t x : G} (ht2 : t * t = 1) (hcK : x⁻¹ * t * x * t⁻¹ ∈ K) (hxt : x * t ≠ t * x) :
     t * (x⁻¹ * t * x * t⁻¹) * t⁻¹ ≠ x⁻¹ * t * x * t⁻¹ := by
@@ -49,7 +50,7 @@ theorem exists_special {p : ℕ} {P T B : Subgroup G} {e : ℕ}
       ∃ y₀ ∈ Q, y₀ * t * y₀⁻¹ * t⁻¹ ∉ P := by
   classical
   have hS := hc.oddPrimeClassTwoAction.setting
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   have hp2 : p ≠ 2 := by
     intro h
     have hodd := hS.odd
@@ -77,8 +78,8 @@ theorem exists_special {p : ℕ} {P T B : Subgroup G} {e : ℕ}
   have hPO : P ≤ O := fun x hx =>
     ⟨⟨x, trivial⟩, CFSG.LieType.BorelTits.le_pCore p (hPn.subgroupOf _) hS.pGroup.comap_subtype hx, rfl⟩
   set R : Subgroup G := O ⊓ Subgroup.centralizer (P : Set G) ⊓ commutator G with hRdef
-  haveI : P.Normal := hPn
-  haveI : O.Normal := hOn
+  have : P.Normal := hPn
+  have : O.Normal := hOn
   have hRn : R.Normal := inferInstance
   have hRp : IsPGroup p R := hOp.to_le (inf_le_left.trans inf_le_left)
   have hRP : R ≤ Subgroup.centralizer (P : Set G) := inf_le_left.trans inf_le_right
@@ -111,8 +112,8 @@ theorem exists_special {p : ℕ} {P T B : Subgroup G} {e : ℕ}
   set Q : Subgroup G := Ω.map R.subtype with hQdef
   have hQR : Q ≤ R := Subgroup.map_subtype_le _
   have hQn : Q.Normal := by
-    haveI : R.Normal := hRn
-    haveI : Ω.Characteristic := hΩchar
+    have : R.Normal := hRn
+    have : Ω.Characteristic := hΩchar
     exact ConjAct.normal_of_characteristic_of_normal
   have hQP : Q ≤ Subgroup.centralizer (P : Set G) := hQR.trans hRP
   have hΩQ : ∀ ω ∈ Ω, (ω : G) ∈ Q := fun ω hω => ⟨ω, hω, rfl⟩
@@ -158,7 +159,7 @@ theorem exists_special {p : ℕ} {P T B : Subgroup G} {e : ℕ}
   have hQcb : ∀ b ∈ B, b ≠ 1 → IsCyclic ↥(Q ⊓ Subgroup.centralizer ({b} : Set G)) := fun b hb hb1 =>
     hc.cyclicCentralizersAndFewComponentConjugates.cyclic_centralizer p hpα Q hQsQ b hb hb1
   set Zc : Subgroup G := Q ⊓ Subgroup.centralizer (Q : Set G) with hZcdef
-  haveI : Q.Normal := hQn
+  have : Q.Normal := hQn
   have hZcn : Zc.Normal := inferInstance
   have hZcel : CFSG.Open.IsElemAbelian p Zc := by
     refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, fun x hx => hQexp x hx.1⟩
@@ -167,7 +168,7 @@ theorem exists_special {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     (Subgroup.mem_centralizer_iff.1 (hQP hy) u hu).symm⟩
   have hZcyc : ∀ b ∈ B, b ≠ 1 → IsCyclic ↥(Zc ⊓ Subgroup.centralizer ({b} : Set G)) := by
     intro b hb hb1
-    haveI := hQcb b hb hb1
+    have := hQcb b hb hb1
     exact Subgroup.isCyclic_of_le (inf_le_inf_right _ inf_le_left)
   have hZcP := InvariantElemAbelianFixed.eq_of_normal_of_le hc hZcn hZcel hPZc hZcyc
   have hcenter : ∀ x ∈ Q, (∀ y ∈ Q, x * y = y * x) → x ∈ P := by
@@ -182,7 +183,7 @@ theorem exists_special {p : ℕ} {P T B : Subgroup G} {e : ℕ}
   have hnontriv : ∃ y ∈ Q, y * t ≠ t * y := by
     by_contra hno
     push Not at hno
-    haveI : R.Normal := hRn
+    have : R.Normal := hRn
     set φ : MulAut ↥R := MulAut.conjNormal t with hφ
     have hφ2 : φ ^ 2 = 1 := by
       rw [hφ, ← map_pow, pow_two, ht2, map_one]

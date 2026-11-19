@@ -138,7 +138,7 @@ theorem su3_eq_zero_of_conj_single {n : ℕ} (hn : 2 ≤ n) (A : GL (Fin n) L)
     rw [← hc, Matrix.mul_assoc, Matrix.mul_assoc, ← Units.val_mul, inv_mul_cancel, Units.val_one,
       Matrix.mul_one]
   have e2 := congrFun (congrFun e1 r) i
-  simp only [Matrix.mul_sub, Matrix.mul_one, Matrix.add_mul, Matrix.one_mul, Matrix.sub_apply,
+  simp only [Matrix.mul_sub, Matrix.add_mul, Matrix.one_mul, Matrix.sub_apply,
     Matrix.add_apply, Matrix.mul_single_apply_same, Matrix.single_mul_apply_of_ne _ _ _ _ _ hrj,
     mul_one] at e2
   linear_combination -e2
@@ -222,7 +222,7 @@ theorem exists_a2Twist {L : Type} [Field L] (Fr : L →+* L) (hFr : Function.Bij
   have hgen : ∀ (i j : Fin 3) (hij : i ≠ j) (t : L),
       rhoSigmaE8 L a2W (Matrix.SpecialLinearGroup.transvection hij t) =
         pinnedX Tag.E8 L (sigmaRootE8 a2W i j) ((ε' i j : L) * t) := fun i j hij t => by
-    simp only [ε', dif_neg hij]
+    simp only [ε', dite_eq_right hij]
     exact hε i j hij t
   obtain ⟨Φ', hΦ', b, hshape⟩ := exists_aut_of_rootData_n (τ := Tag.E8) (ν := 3)
     (rhoSigmaE8 L a2W) (rhoSigmaE8_injective a2W) (sigmaRootE8 a2W) ε' hgen Fr hFr n

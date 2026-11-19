@@ -15,6 +15,7 @@ namespace ZJBase
 variable {Q Y V V' B : Subgroup H} {ρ t τ l y z v₁ v₂ : H}
 variable (h : ZJBase Q Y V V' B ρ t τ l y z v₁ v₂) include h
 
+omit [Finite H] in
 theorem mat_t : zjMat y z v₁ v₂ t = ZJFin.T := by
   have hyV : y ∈ V := by
     rw [h.V_eq]
@@ -32,26 +33,26 @@ theorem mat_t : zjMat y z v₁ v₂ t = ZJFin.T := by
     have hx := h.vec_xor (n := 4) (m := 1) (by norm_num) (by norm_num)
     rw [show (4 : ℕ) ^^^ 1 = 5 by decide] at hx
     calc v₁ * y = zjVec y z v₁ v₂ 4 * zjVec y z v₁ v₂ 1 := by
-          rw [(h.vec_basis).2.2.2.1, (h.vec_basis).2.1]
+          rw [(CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).2.2.2.1, (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).2.1]
       _ = zjVec y z v₁ v₂ 5 := hx.symm
   have hvz11 : v₂ * (y * z) = zjVec y z v₁ v₂ 11 := by
     have hyz3 : y * z = zjVec y z v₁ v₂ 3 := by
       have hx := h.vec_xor (n := 1) (m := 2) (by norm_num) (by norm_num)
       rw [show (1 : ℕ) ^^^ 2 = 3 by decide] at hx
       calc y * z = zjVec y z v₁ v₂ 1 * zjVec y z v₁ v₂ 2 := by
-            rw [(h.vec_basis).2.1, (h.vec_basis).2.2.1]
+            rw [(CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).2.1, (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).2.2.1]
         _ = zjVec y z v₁ v₂ 3 := hx.symm
     have hx := h.vec_xor (n := 8) (m := 3) (by norm_num) (by norm_num)
     rw [show (8 : ℕ) ^^^ 3 = 11 by decide] at hx
     calc v₂ * (y * z) = zjVec y z v₁ v₂ 8 * zjVec y z v₁ v₂ 3 := by
-          rw [(h.vec_basis).2.2.2.2, hyz3]
+          rw [(CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).2.2.2.2, hyz3]
       _ = zjVec y z v₁ v₂ 11 := hx.symm
   have key_y : zjCode y z v₁ v₂ (t * y * t⁻¹) = 1 := by
     rw [hty]
-    exact (by simpa [(h.vec_basis).2.1] using h.code_vec (n := 1) (by norm_num))
+    exact (by simpa [(CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis).2.1] using h.code_vec (n := 1) (by norm_num))
   have key_z : zjCode y z v₁ v₂ (t * z * t⁻¹) = 2 := by
     rw [htz]
-    exact (by simpa [(h.vec_basis).2.2.1] using h.code_vec (n := 2) (by norm_num))
+    exact (by simpa [(CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis).2.2.1] using h.code_vec (n := 2) (by norm_num))
   have key_v₁ : zjCode y z v₁ v₂ (t * v₁ * t⁻¹) = 5 := by
     rw [h.t_v₁, hvy5]
     exact h.code_vec (n := 5) (by norm_num)
@@ -62,31 +63,32 @@ theorem mat_t : zjMat y z v₁ v₂ t = ZJFin.T := by
   rw [key_y, key_z, key_v₁, key_v₂, ZJFin.T]
   decide
 
+omit [Finite H] in
 theorem mat_l : zjMat y z v₁ v₂ l = ZJFin.L := by
   have hyz3 : y * z = zjVec y z v₁ v₂ 3 := by
     have hx := h.vec_xor (n := 1) (m := 2) (by norm_num) (by norm_num)
     rw [show (1 : ℕ) ^^^ 2 = 3 by decide] at hx
     calc y * z = zjVec y z v₁ v₂ 1 * zjVec y z v₁ v₂ 2 := by
-          rw [(h.vec_basis).2.1, (h.vec_basis).2.2.1]
+          rw [(CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).2.1, (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).2.2.1]
       _ = zjVec y z v₁ v₂ 3 := hx.symm
   have hvy5 : v₁ * y = zjVec y z v₁ v₂ 5 := by
     have hx := h.vec_xor (n := 4) (m := 1) (by norm_num) (by norm_num)
     rw [show (4 : ℕ) ^^^ 1 = 5 by decide] at hx
     calc v₁ * y = zjVec y z v₁ v₂ 4 * zjVec y z v₁ v₂ 1 := by
-          rw [(h.vec_basis).2.2.2.1, (h.vec_basis).2.1]
+          rw [(CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).2.2.2.1, (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).2.1]
       _ = zjVec y z v₁ v₂ 5 := hx.symm
   have hvz11 : v₂ * (y * z) = zjVec y z v₁ v₂ 11 := by
     have hx := h.vec_xor (n := 8) (m := 3) (by norm_num) (by norm_num)
     rw [show (8 : ℕ) ^^^ 3 = 11 by decide] at hx
     calc v₂ * (y * z) = zjVec y z v₁ v₂ 8 * zjVec y z v₁ v₂ 3 := by
-          rw [(h.vec_basis).2.2.2.2, hyz3]
+          rw [(CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).2.2.2.2, hyz3]
       _ = zjVec y z v₁ v₂ 11 := hx.symm
   have key_y : zjCode y z v₁ v₂ (l * y * l⁻¹) = 3 := by
     rw [h.l_y, hyz3]
     exact h.code_vec (n := 3) (by norm_num)
   have key_z : zjCode y z v₁ v₂ (l * z * l⁻¹) = 2 := by
     rw [h.l_z]
-    exact (by simpa [(h.vec_basis).2.2.1] using h.code_vec (n := 2) (by norm_num))
+    exact (by simpa [(CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis).2.2.1] using h.code_vec (n := 2) (by norm_num))
   have ha_yz : (l * v₁ * l⁻¹) * (y * z) = v₂ := by
     have hstep : (l * t) * v₁ * (l * t)⁻¹ = (l * v₁ * l⁻¹) * (y * z) := by
       rw [show (l * t) * v₁ * (l * t)⁻¹ = l * (t * v₁ * t⁻¹) * l⁻¹ by group, h.t_v₁]
@@ -140,6 +142,7 @@ theorem mat_l : zjMat y z v₁ v₂ l = ZJFin.L := by
   rw [key_y, key_z, key_v₁, key_v₂, ZJFin.L]
   decide
 
+omit [Finite H] in
 theorem mat_rho : zjMat y z v₁ v₂ ρ = ZJFin.R ∨ zjMat y z v₁ v₂ ρ = ZJFin.R2 := by
   have h1 : ZJFin.mmul ZJFin.T (zjMat y z v₁ v₂ ρ) =
       ZJFin.mmul (zjMat y z v₁ v₂ ρ) ZJFin.T := by
@@ -191,19 +194,19 @@ theorem mat_rho : zjMat y z v₁ v₂ ρ = ZJFin.R ∨ zjMat y z v₁ v₂ ρ = 
     · rw [h.mat_app (n := 4) (by norm_num) ρ]
       exact (h.code_and_three_iff (h.rho_norm_Y _ (h.vec_mem 4))).2
         (h.rho_norm_V' _ (by
-          rw [h.V'_eq, (h.vec_basis).2.2.2.1]
+          rw [h.V'_eq, (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).2.2.2.1]
           exact Subgroup.subset_closure (by simp)))
     · rw [h.mat_app (n := 8) (by norm_num) ρ]
       exact (h.code_and_three_iff (h.rho_norm_Y _ (h.vec_mem 8))).2
         (h.rho_norm_V' _ (by
-          rw [h.V'_eq, (h.vec_basis).2.2.2.2]
+          rw [h.V'_eq, (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).2.2.2.2]
           exact Subgroup.subset_closure (by simp)))
     · rw [h.mat_app (n := 12) (by norm_num) ρ]
       exact (h.code_and_three_iff (h.rho_norm_Y _ (h.vec_mem 12))).2
         (h.rho_norm_V' _ (by
           have hx := h.vec_xor (n := 4) (m := 8) (by norm_num) (by norm_num)
           rw [show (4 : ℕ) ^^^ 8 = 12 by decide] at hx
-          rw [hx, (h.vec_basis).2.2.2.1, (h.vec_basis).2.2.2.2]
+          rw [hx, (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).2.2.2.1, (CFSG.OddStandard.SmallF3.HarrisU33.S4B.ZJBase.vec_basis (y := y) (z := z) (v₁ := v₁) (v₂ := v₂)).2.2.2.2]
           exact mul_mem
             (by rw [h.V'_eq]; exact Subgroup.subset_closure (by simp))
             (by rw [h.V'_eq]; exact Subgroup.subset_closure (by simp))))

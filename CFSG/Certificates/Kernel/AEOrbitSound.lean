@@ -33,7 +33,7 @@ theorem testBit_imgM : ∀ (t : List ℕ) (M j : ℕ),
         have hM : M % 2 = 1 := by
           rw [Nat.testBit_zero] at h1
           simpa using h1
-        rw [if_pos hM, Nat.testBit_two_pow, decide_eq_true_eq]
+        rw [ite_eq_left hM, Nat.testBit_two_pow, decide_eq_true_eq]
         simpa using h2
       | succ i =>
         right
@@ -67,7 +67,7 @@ theorem tab_lt (σ : Equiv.Perm (Fin m)) : ∀ a ∈ tab σ, a < m := by
   obtain ⟨i, -, rfl⟩ := ha
   exact (σ i).isLt
 
-theorem movesT_sub (hs : ∀ σ ∈ cands m, Equiv.Perm.sign σ = 1) {a : ℕ} (ha : a < 2 ^ m) :
+theorem movesT_sub (hs : ∀ σ ∈ cands m, Equiv.Perm.sign σ = 1) {a : ℕ} (_ha : a < 2 ^ m) :
     ∀ t ∈ movesT ((cands m).map tab) a, ∃ σ ∈ moves m (dec m a), t = tab σ := by
   intro t ht
   simp only [movesT, List.mem_filter, List.mem_map, beq_iff_eq] at ht

@@ -296,7 +296,7 @@ private theorem r10h7_exists_plane_in_centre {E C : Subgroup G} (hE : IsElemAbel
 
 theorem rank_two_enlarge {P : Sylow 3 G} {M : Subgroup G} {x z : G} (h : Setup65A G P M x z)
     (hK1 : KFactRankTwoUniqueness) {f : ℕ} (hf : f.Prime) (hf5 : 5 ≤ f) {F Fs R : Subgroup G}
-    (hF : IsPGroup f F) (hF1 : F ≠ ⊥) (hBF : zpowers x ⊔ zpowers z ≤ normalizer (F : Set G))
+    (_hF : IsPGroup f F) (hF1 : F ≠ ⊥) (hBF : zpowers x ⊔ zpowers z ≤ normalizer (F : Set G))
     (hHM : ¬ normalizer (F : Set G) ≤ M) (hFs : IsPGroup f Fs)
     (hFsD : Fs ≤ rankThreePrimeCore 3 M)
     (hsyl : ¬ f ∣ (Fs.subgroupOf (rankThreePrimeCore 3 M)).index)

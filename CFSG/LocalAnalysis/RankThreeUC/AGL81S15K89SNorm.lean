@@ -15,7 +15,7 @@ open scoped Pointwise
 theorem exists_conj_ge {G : Type*} [Group G] [Finite G] {K S T : Subgroup G}
     (hS : IsSylowOf 2 S K) (hT : T ≤ K) (hTp : IsPGroup 2 T) :
     ∃ k ∈ K, T ≤ S.map (MulAut.conj k).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hS.exists_sylow_eq_subgroupOf
   have hT' : IsPGroup 2 (T.subgroupOf K) := hTp.comap_subtype
   obtain ⟨Q', hQ'⟩ := hT'.exists_le_sylow
@@ -41,9 +41,9 @@ theorem normalizer_inf_sup_le (hCat : CFSG.AGLEmbedding.CatalogOuterSolvable)
     (S : Subgroup G) (hS : IsSylowOf 2 S ⊤) (hSN : S ≤ N) :
     Subgroup.normalizer (S : Set G) ⊓ (I ⊔ N) ≤ N := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hI
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hI
   have hY3 : 3 ∣ Nat.card Y :=
     (isLThreeTwo_three_dvd_card hY).trans
       (Subgroup.card_dvd_of_surjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥Y)))
@@ -151,11 +151,11 @@ theorem mem_map_conj_inv {K : Type*} [Group K] (Sb : Subgroup K) (c y : K) :
   · rintro ⟨z, hz, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hz
   · intro hy
-    exact ⟨c * y * c⁻¹, hy, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨c * y * c⁻¹, hy, by simp [mul_assoc]⟩
 
 theorem conj_map_apply {K L : Type*} [Group K] [Group L] (f : K →* L) (x z : K) :
     (MulAut.conj (f x)⁻¹ : MulAut L) (f z) = f (x⁻¹ * z * x) := by
-  simp [MulAut.conj_apply, map_mul, map_inv]
+  simp [map_mul, map_inv]
 
 theorem conj_id_one {K : Type*} [Group K] (k z : K) : k⁻¹ * (k * z * k⁻¹) * k = z := by group
 
@@ -170,8 +170,8 @@ theorem normalizer_le_of_spe (hCat : CFSG.AGLEmbedding.CatalogOuterSolvable)
     (S : Subgroup G) (hS : IsSylowOf 2 S ⊤) (hSN : S ≤ N) :
     Subgroup.normalizer (S : Set G) ≤ N := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcyc : ∀ R : Subgroup G, IsPGroup 3 R → IsCyclic R := fun R hR => isCyclic_of_spe hN hr hR
   set I : Subgroup G := CFSG.pPrimeCore 3 G with hIdef
   have hcop : Nat.Coprime 3 (Nat.card I) := CFSG.pPrimeCore_coprime_card
@@ -226,7 +226,7 @@ theorem normalizer_le_of_spe (hCat : CFSG.AGLEmbedding.CatalogOuterSolvable)
       exact ⟨⟨(y : G), hAX (Subgroup.mem_subgroupOf.mp hy), hAY (Subgroup.mem_subgroupOf.mp hy)⟩,
         rfl⟩)
     (isLThreeTwo_range hA hAX hAY hY) hWtop
-  haveI := hXn
+  have := hXn
   have hS0syl : IsSylowOf 2 (S ⊓ X0) X0 :=
     hS.inf_of_le_normalizer le_top (fun x _ => by
       rw [Subgroup.mem_normalizer_iff]

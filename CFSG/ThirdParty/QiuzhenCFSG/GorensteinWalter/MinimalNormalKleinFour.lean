@@ -305,7 +305,7 @@ public theorem exists_complement_of_minimalNormal_kleinFour
       rw [hHAcard, hHAindex] at hmul
       omega
     have hPcard : Nat.card P = 3 := by
-      have hmul := hcompA.card_mul
+      have hmul := hcompA.card_mul_card
       rw [hHAcard, hAcard] at hmul
       omega
     have hPthree : IsPGroup 3 P :=

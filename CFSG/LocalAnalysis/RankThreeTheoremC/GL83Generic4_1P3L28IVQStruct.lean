@@ -34,7 +34,7 @@ theorem l28iv_eq_one_of_mk_eq_one {P : Sylow 3 G} {x : G} (c : ↥(centralizer (
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcO : c ∈ primeComplementCore (G := centralizer ({x} : Set G)) 3 :=
     (QuotientGroup.eq_one_iff c).mp h1
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨(c : G), hcP⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨(c : G), hcP⟩
   have hk' : orderOf c = 3 ^ k := by
     rw [← hk, Subgroup.orderOf_mk (c : G) hcP, Subgroup.orderOf_coe]
   have h2 : orderOf c ∣ Nat.card (primeComplementCore (G := centralizer ({x} : Set G)) 3) :=
@@ -155,7 +155,7 @@ theorem l28iv_card_le (hS : Setting G) (hU0 : FullCoreLocal G) (hK1 : KFactL28Th
         _ = a * k := by group
     rw [hKc] at hac
     exact mem_bot.mp hac
-  have hAp : IsPGroup 3 (Q'.map π) := (P.isPGroup'.comap_subtype).map π
+  have hAp : IsPGroup 3 (Q'.map π) := (P.isPGroup.comap_subtype).map π
   have himg : Nat.card (Q'.map π) ≤ 27 := by
     have hcardA : Nat.card (MulAut ↥K) = 1512 := l28m_card_mulAut hKL
     obtain ⟨k, hk⟩ := (hAp.map χ).exists_card_eq
@@ -197,7 +197,7 @@ theorem l28iv_mem_sup_of_hom_mem (hS : Setting G) (hU0 : FullCoreLocal G) (hK1 :
     · exact mem_subgroupOf.mpr (mem_subgroupOf.mp ht).2
   have hAp : IsPGroup 3 ↥(((P : Subgroup G).subgroupOf (centralizer ({x} : Set G))).map
       (l34Hom x J) ⊓ l34Img x J J) :=
-    ((P.isPGroup'.comap_subtype).map (l34Hom x J)).to_le inf_le_left
+    ((P.isPGroup.comap_subtype).map (l34Hom x J)).to_le inf_le_left
   have heq := hsyl.eq_of_le hTA inf_le_right hAp
   have hcA : l34Hom x J c ∈ ((P : Subgroup G).subgroupOf (centralizer ({x} : Set G))).map
       (l34Hom x J) ⊓ l34Img x J J := ⟨⟨c, mem_subgroupOf.mpr hcP, rfl⟩, hcK⟩
@@ -275,7 +275,7 @@ theorem l28iv_exists_moved (hS : Setting G) (hU0 : FullCoreLocal G) (hK1 : KFact
     hq (l28iv_mem_sup_of_hom_mem hS hU0 hK1 hp hM hgen hJ (c := qc) hqP h)
   set a : L34Quot x J := l34Hom x J qc with ha
   set α : MulAut ↥K := MulAut.conjNormal a with hα
-  obtain ⟨mq, hmq⟩ := P.isPGroup' ⟨q, hqP⟩
+  obtain ⟨mq, hmq⟩ := P.isPGroup ⟨q, hqP⟩
   have hq3 : q ^ (3 ^ mq) = 1 := congrArg Subtype.val hmq
   have hα3 : α ^ (3 ^ mq) = 1 := by
     have h3 : a ^ (3 ^ mq) = 1 := by

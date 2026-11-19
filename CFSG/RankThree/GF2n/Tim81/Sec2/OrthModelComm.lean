@@ -14,6 +14,7 @@ open CFSG.QuasithinUnique.Setup.X7
 variable {F : Type} [Field F] [Fintype F] [CharP F 2] [Algebra (ZMod 2) F]
   {l : ℕ} (hF : Fintype.card F = 2 ^ (2 * l))
 
+omit [CharP F 2] [Algebra (ZMod 2) F] in
 theorem mul_pow_fix (hF : Fintype.card F = 2 ^ (2 * l)) (b : F) :
     (b * b ^ 2 ^ l) ^ 2 ^ l = b * b ^ 2 ^ l := by
   rw [mul_pow]
@@ -21,21 +22,23 @@ theorem mul_pow_fix (hF : Fintype.card F = 2 ^ (2 * l)) (b : F) :
     rw [← pow_mul, ← pow_add, ← two_mul, ← hF, FiniteField.pow_card]
   rw [h, mul_comm]
 
-@[expose] def hermDiag (l : ℕ) (hF : Fintype.card F = 2 ^ (2 * l)) (a : F)
+@[expose] def hermDiag (l : ℕ) (_hF : Fintype.card F = 2 ^ (2 * l)) (a : F)
     (ha : a ^ 2 ^ l = a) : ↥(hermA l F) :=
   ⟨!![a, 0; 0, 0], by
     refine mem_hermA_of fun i j => ?_
     fin_cases i <;> fin_cases j <;> simp [sig_apply, ha]⟩
 
+omit [Algebra (ZMod 2) F] in
 theorem hermDiag_coe (a : F) (ha : a ^ 2 ^ l = a) :
     (hermDiag l hF a ha : Matrix (Fin 2) (Fin 2) F) = !![a, 0; 0, 0] := rfl
 
-@[expose] def hermDiag11 (l : ℕ) (hF : Fintype.card F = 2 ^ (2 * l)) (a : F)
+@[expose] def hermDiag11 (l : ℕ) (_hF : Fintype.card F = 2 ^ (2 * l)) (a : F)
     (ha : a ^ 2 ^ l = a) : ↥(hermA l F) :=
   ⟨!![0, 0; 0, a], by
     refine mem_hermA_of fun i j => ?_
     fin_cases i <;> fin_cases j <;> simp [sig_apply, ha]⟩
 
+omit [Algebra (ZMod 2) F] in
 theorem hermDiag11_coe (a : F) (ha : a ^ 2 ^ l = a) :
     (hermDiag11 l hF a ha : Matrix (Fin 2) (Fin 2) F) = !![0, 0; 0, a] := rfl
 
@@ -46,12 +49,14 @@ theorem hermDiag11_coe (a : F) (ha : a ^ 2 ^ l = a) :
     refine mem_hermA_of fun i j => ?_
     fin_cases i <;> fin_cases j <;> simp [sig_apply, hb]⟩
 
+omit [Algebra (ZMod 2) F] in
 theorem hermOff_coe (b : F) :
     (hermOff l hF b : Matrix (Fin 2) (Fin 2) F) = !![0, b; b ^ 2 ^ l, 0] := rfl
 
 @[expose] def hermE11 (l : ℕ) (hF : Fintype.card F = 2 ^ (2 * l)) : ↥(hermA l F) :=
   hermDiag11 l hF 1 (by simp)
 
+omit [Algebra (ZMod 2) F] in
 theorem hermE11_coe :
     (hermE11 l hF : Matrix (Fin 2) (Fin 2) F) = !![0, 0; 0, 1] :=
   hermDiag11_coe (hF := hF) (1 : F) (by simp)
@@ -59,9 +64,11 @@ theorem hermE11_coe :
 @[expose] def hermP (l : ℕ) (hF : Fintype.card F = 2 ^ (2 * l)) : ↥(hermA l F) :=
   hermOff l hF 1
 
+omit [Algebra (ZMod 2) F] in
 theorem hermP_coe : (hermP l hF : Matrix (Fin 2) (Fin 2) F) = !![0, 1; 1, 0] := by
   rw [hermP, hermOff_coe, one_pow]
 
+omit [Algebra (ZMod 2) F] in
 theorem eq_hermDiag_of_mem_herm1101 (X : ↥(hermA l F))
     (hX : X ∈ herm1101 l F) :
     X = hermDiag l hF ((X : Matrix (Fin 2) (Fin 2) F) 0 0) (hermA_00 (a := l) X) := by
@@ -71,6 +78,7 @@ theorem eq_hermDiag_of_mem_herm1101 (X : ↥(hermA l F))
   · rw [h01]; rfl
   · rw [h11]; rfl
 
+omit [Algebra (ZMod 2) F] in
 theorem hermDiag_mem_herm1101 (a : F) (ha : a ^ 2 ^ l = a) :
     hermDiag l hF a ha ∈ herm1101 l F := by
   refine ⟨?_, ?_⟩
@@ -79,6 +87,7 @@ theorem hermDiag_mem_herm1101 (a : F) (ha : a ^ 2 ^ l = a) :
   · rw [hermDiag_coe]
     rfl
 
+omit [Algebra (ZMod 2) F] in
 theorem eq_hermDiag_add_offdiag_of_herm11 (X : ↥(hermA l F))
     (h11 : (X : Matrix (Fin 2) (Fin 2) F) 1 1 = 0) :
     X = hermDiag l hF ((X : Matrix (Fin 2) (Fin 2) F) 0 0) (hermA_00 (a := l) X) +
@@ -93,6 +102,7 @@ theorem eq_hermDiag_add_offdiag_of_herm11 (X : ↥(hermA l F))
   fin_cases i <;> fin_cases j <;>
     simp [AddSubgroup.coe_add, Matrix.add_apply, hD, hO, h11, hermA_10 (a := l) X, sig_apply]
 
+omit [Algebra (ZMod 2) F] in
 theorem eq_hermDiag_add_diag_add_offdiag (X : ↥(hermA l F)) :
     X = hermDiag l hF ((X : Matrix (Fin 2) (Fin 2) F) 0 0) (hermA_00 (a := l) X) +
       hermDiag11 l hF ((X : Matrix (Fin 2) (Fin 2) F) 1 1) (hermA_11 (a := l) X) +
@@ -115,6 +125,7 @@ theorem eq_hermDiag_add_diag_add_offdiag (X : ↥(hermA l F)) :
 @[expose] def hermV (l : ℕ) (hF : Fintype.card F = 2 ^ (2 * l)) (b : F) : ↥(hermA l F) :=
   hermAct l (sig_sig hF) (uMat b) (hermE11 l hF) - hermE11 l hF
 
+omit [Algebra (ZMod 2) F] in
 theorem hermV_coe (b : F) :
     (hermV l hF b : Matrix (Fin 2) (Fin 2) F) = !![b * b ^ 2 ^ l, b; b ^ 2 ^ l, 0] := by
   rw [hermV, hermAct_uMat_sub l hF b (hermE11 l hF), hermE11_coe]
@@ -126,6 +137,7 @@ theorem hermV_mem_commSub (b : F) :
   rw [hermV]
   exact range_le_commSub (mem_upperSylow_iff.mpr ⟨b, rfl⟩) ⟨hermE11 l hF, rfl⟩
 
+omit [Algebra (ZMod 2) F] in
 theorem hermV_eq_diag_add_offdiag (b : F) :
     hermV l hF b = hermDiag l hF (b * b ^ 2 ^ l) (mul_pow_fix hF b) +
       hermOff l hF b := by
@@ -181,6 +193,7 @@ theorem commSub_map_sub_le (a : SL(2, F)) (ha : a ∈ upperSylow) :
   AddSubgroup.closure {x | ∃ a ∈ upperSylow, ∃ b ∈ upperSylow,
     x = (hermRep l hF a - 1) ((hermRep l hF b - 1) w)}
 
+omit [Algebra (ZMod 2) F] in
 theorem hermA_11_mul_add_pow_fixed (hF' : Fintype.card F = 2 ^ (2 * l))
     (w : ↥(hermA l F)) (t : F) :
     (((w : Matrix (Fin 2) (Fin 2) F) 1 1 * (t ^ 2 ^ l + t)) ^ 2 ^ l) =
@@ -209,7 +222,7 @@ theorem doubleCommSub_uMat_one (w : ↥(hermA l F)) (t : F) :
   apply Subtype.ext
   rw [hstep, hermAct_uMat_sub l hF t Y, hY, hermAct_uMat_sub l hF 1 w, hermDiag_coe]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp <;> ring
+  fin_cases i <;> fin_cases j <;> simp; ring
 
 theorem doubleCommSub_le_herm1101 (w : ↥(hermA l F)) :
     doubleCommSub l hF w ≤ herm1101 l F := by

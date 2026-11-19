@@ -15,12 +15,13 @@ open scoped MatrixGroups commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {M V H : Subgroup G} {h₀ : G}
 
+omit [Finite G] in
 theorem Sec45Shape.card_xOf_eq_pow_four (hS : Sec45Shape M V H h₀) :
     Nat.card (Tim79a.xOf V H) = Nat.card V ^ 4 := by
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   rw [hw.card_W, hw.card_V, ← pow_mul]
   congr 1
   omega
@@ -56,12 +57,14 @@ theorem Sec45Shape.mul_self_mem_kOf_and_mem_centralizer (h : RootHyp M V)
     exact h
   exact ⟨hcc, hS.mem_centralizer_xOf_of_commutator_mem_kOf h hcK hpow⟩
 
+omit [Finite G] in
 private theorem commutator_commutator_mul_sq {b : G} (hb2 : b * b = 1) (x : G) :
     ⁅b, ⁅b, x⁆⁆ * (⁅b, x⁆ * ⁅b, x⁆) = 1 := by
   rw [show ⁅b, ⁅b, x⁆⁆ * (⁅b, x⁆ * ⁅b, x⁆) = (b * b) * x * (b * b)⁻¹ * x⁻¹ by
     simp only [commutatorElement_def]; group, hb2]
   group
 
+omit [Finite G] in
 private theorem commutator_mem_Pc_of_mem (h : Hyp M V) {b p : G} (hbM : b ∈ M)
     (hp : p ∈ Pc M V) : ⁅b, p⁆ ∈ Pc M V := by
   rw [commutatorElement_def]
@@ -176,12 +179,12 @@ theorem Sec45Shape.exists_mem_kOf_commutator_correction (h : RootHyp M V)
       ∀ x ∈ H, ⁅c, x⁆⁻¹ * ⁅x, κ⁆ ∈ Tim79a.xOf V H := by
   classical
   obtain ⟨F, hField, hFintype, hCharP, l, hl, ψ, hw⟩ := hS.shape
-  letI := hField
-  letI := hFintype
-  letI := hCharP
+  let := hField
+  let := hFintype
+  let := hCharP
   have hs : QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H) := hS.quotModHyp h
-  haveI : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hs.normal
-  haveI hmod : Module (ZMod 2) (SecMod hs) := SecMod.module hs hw.sq_mem
+  have : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hs.normal
+  have hmod : Module (ZMod 2) (SecMod hs) := SecMod.module hs hw.sq_mem
   have hσ := hw.natSum hs hmod
   let π : ↥H →* SL(2, F) := ψ.toMonoidHom.comp (piK V H)
   have hπ : Function.Surjective π := fun s => by
@@ -199,7 +202,7 @@ theorem Sec45Shape.exists_mem_kOf_commutator_correction (h : RootHyp M V)
         (SecMod.mk hs ⟨⁅c, (z' : G)⁆, hcK z' z'.2⟩)
     rw [repSec_apply_piK_mk, ← SecMod.mk_mul hs]
     exact congrArg (SecMod.mk hs) (Subtype.ext (by
-      simp only [Subgroup.coe_mul, Subgroup.coe_mk, commutatorElement_def]
+      simp only [Subgroup.coe_mul, commutatorElement_def]
       group))
   have hker : ∀ z, π z = 1 → Fc z = 0 := fun z hz =>
     (SecMod.mk_eq_zero_iff hs _).mpr (hcKW _ ((piK_eq_one_iff z).mp
@@ -234,6 +237,7 @@ theorem Sec45Shape.exists_mem_kOf_commutator_correction (h : RootHyp M V)
   have h2 := (QuotMod.mk_eq_mk_iff (N := kOf V H) (N₀ := Tim79a.xOf V H) _ _).1 h1
   simpa [commutatorElement_def, mul_assoc] using h2
 
+omit [Finite G] in
 private theorem commutator_mul_mem_of_hyp {H K W : Subgroup G} (hs : QuotMod.Hyp H K W)
     {κ c x : G} (hκ : κ ∈ K) (hcx : ⁅c, x⁆ ∈ K) (hcorr : ⁅c, x⁆⁻¹ * ⁅x, κ⁆ ∈ W) :
     ⁅κ * c, x⁆ ∈ W := by

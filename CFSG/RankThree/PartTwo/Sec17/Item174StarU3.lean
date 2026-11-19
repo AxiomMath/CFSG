@@ -38,7 +38,7 @@ theorem U3.starCore_hypSU [Finite K] (h : UnitaryFieldData p f K) (hq : p ^ f % 
   apply hcomm
   obtain ⟨ω, hω, hωb⟩ := exists_omega h hq
   set c := tau h ω with hc
-  have hoc : orderOf c = 3 := orderOf_tau_omega h hω hωb
+  have hoc : orderOf c = 3 := orderOf_tau_omega h hω
   obtain ⟨g, hg⟩ := exists_conj_eq_of_card_eq_three hcyc
     (show Nat.card (Subgroup.zpowers c) = 3 by rw [Nat.card_zpowers, hoc])
     (show Nat.card (Subgroup.zpowers t) = 3 by rw [Nat.card_zpowers, ht])
@@ -51,7 +51,7 @@ theorem U3.starCore_hypSU [Finite K] (h : UnitaryFieldData p f K) (hq : p ^ f % 
       rw [hg, ← Subgroup.map_equiv_normalizer_eq]
       exact ⟨x, hx, rfl⟩)))
   have hsc : sSU h * c * (sSU h)⁻¹ = c⁻¹ := by
-    rw [hc, sSU_mul_tau_omega h hω hωb, mul_inv_cancel_right]
+    rw [hc, sSU_mul_tau_omega h hωb, mul_inv_cancel_right]
   have hsc' : (sSU h)⁻¹ * c * sSU h = c⁻¹ := by
     have := congrArg (fun k => (sSU h)⁻¹ * k⁻¹ * sSU h) hsc
     simp only [inv_inv] at this

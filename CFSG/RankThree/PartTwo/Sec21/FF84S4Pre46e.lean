@@ -20,8 +20,8 @@ theorem tau_comm_d : a8d * swap 6 7 = swap 6 7 * a8d := by
   unfold a8d
   decide +kernel
 
-theorem B_le_cenS (h : FF84Sec4 b L B K b₁ b₂) : B ≤ CenS B := fun x hx =>
-  Subgroup.mem_centralizer_iff.2 fun y hy => (comm_of_mem h hy hx).eq
+theorem B_le_cenS (h : FF84Sec4 b L B K b₁ b₂) : B ≤ CenS B := fun _x hx =>
+  Subgroup.mem_centralizer_iff.2 fun _y hy => (comm_of_mem h hy hx).eq
 
 theorem cenS_of_gens (h : FF84Sec4 b L B K b₁ b₂) {g : G} (hb : g * b = b * g)
     (hb₁ : g * b₁ = b₁ * g) (hb₂ : g * b₂ = b₂ * g) : g ∈ CenS B := by

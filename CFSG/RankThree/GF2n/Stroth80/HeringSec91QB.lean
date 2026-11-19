@@ -31,8 +31,8 @@ theorem card_QB_inf_Wt_of_data (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec5Hy
       (hc.hyp.toHyp79.V_central hz (hVQ hv)).symm
   have hn_gt : 2 < n := hs.n_gt
   obtain ⟨K, hKf, hKfin, hch, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hKZ : Nat.card K = Nat.card Z := hD.card
   have hK2 : 1 < Nat.card K := by
     rw [hKZ]
@@ -212,7 +212,7 @@ theorem step91OrderQB_of (h34 : Stroth34Statement) : Step91OrderQBStatement := b
   subst hV hW
   have hs5 := hs.toSec5
   obtain ⟨K, fK, finK, hch, E, hn, φ, ψ, u, P⟩ := HS9.exists_pts91 h34 hs
-  haveI := hn
+  have := hn
   have hQB := HS9.card_QB_inf_Wt_of_data hc hs5 (m := 2) le_rfl hs.card_V
     (HS9.card_Vt_inf_QB_plus4 P)
   have hQQB : Nat.card ↥(Q ⊓ QB B) = Nat.card Z ^ (n + 1) :=

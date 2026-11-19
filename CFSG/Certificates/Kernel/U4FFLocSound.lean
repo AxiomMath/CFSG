@@ -120,10 +120,10 @@ theorem kronCol_bit (d ca : ℕ) (hd : 0 < d) (hca : ∀ a, d ≤ a → bitF ca 
     by_cases hx : x < d
     · have h1 : x / d = 0 := Nat.div_eq_of_lt hx
       have h2 : x % d = x := Nat.mod_eq_of_lt hx
-      rw [if_pos hx, h1, h2, bitF_zero_eq]
+      rw [ite_eq_left hx, h1, h2, bitF_zero_eq]
       by_cases hc : cb % 2 = 1 <;> simp [hc]
     · obtain ⟨y, rfl⟩ : ∃ y, x = y + d := ⟨x - d, by omega⟩
-      rw [if_neg hx, hca (y + d) (by omega), Nat.add_sub_cancel, ih, Nat.add_div_right y hd,
+      rw [ite_eq_right hx, hca (y + d) (by omega), Nat.add_sub_cancel, ih, Nat.add_div_right y hd,
         Nat.add_mod_right, bitF_div_two]
       by_cases hc : cb % 2 = 1
       · simp [hc]
@@ -188,7 +188,7 @@ theorem tabDK_rep (i j : Fin 4) :
     rcases x with _ | x
     · by_cases hr : r = 0 <;> simp [tabDK, entD, dimL, hr, bitF, Nat.testBit_zero]
     · have h1 : ¬ (x + 1 < dimL []) := by simp [dimL]
-      rw [if_neg h1]
+      rw [ite_eq_right h1]
       by_cases hr : r = 0 <;> simp [tabDK, hr, bitF, Nat.testBit_succ]
   | K :: fs, r => by
     have hP := tabDK_rep i j fs r
@@ -205,7 +205,7 @@ theorem tabDK_rep (i j : Fin 4) :
     rw [List.getD_eq_getElem _ _ hlen]
     simp only [tabDK, kronStep, List.getElem_map, List.getElem_range]
     rw [bitF_xor, bitF_ite_zero,
-      kronCol_bit _ _ hd (fun a ha => by rw [bitF_one_shiftLeft, if_neg (by omega)]),
+      kronCol_bit _ _ hd (fun a ha => by rw [bitF_one_shiftLeft, ite_eq_right (by omega)]),
       kronCol_bit _ _ hd (fun a ha => by
         rw [derL_rep K i j _ hym]
         simp [derN, Nat.not_lt.mpr ha])]
@@ -213,11 +213,11 @@ theorem tabDK_rep (i j : Fin 4) :
     have hxd : x < K.dim * dimL fs ↔ x / K.dim < dimL fs := by
       rw [Nat.div_lt_iff_lt_mul hd, Nat.mul_comm]
     by_cases hx : x / K.dim < dimL fs
-    · rw [if_pos (hxd.mpr hx), if_pos hx, if_pos hx, if_pos hx, entD]
+    · rw [ite_eq_left (hxd.mpr hx), ite_eq_left hx, ite_eq_left hx, ite_eq_left hx, entD]
       by_cases hr : r = 0
       · simp [hr, mul_comm]
       · simp [hr, mul_comm, Nat.not_le.mpr hx]
-    · rw [if_neg (fun h => hx (hxd.mp h)), if_neg hx, if_neg hx]
+    · rw [ite_eq_right (fun h => hx (hxd.mp h)), ite_eq_right hx, ite_eq_right hx]
       simp
 
 theorem sum_split {R : Type*} [CommRing R] {m : ℕ} (r : ℕ) (D I : Fin (m + 1) → R) :
@@ -231,7 +231,7 @@ theorem sum_split {R : Type*} [CommRing R] {m : ℕ} (r : ℕ) (D I : Fin (m + 1
       powersetCard k univ := by
     intro n k
     ext S
-    simp [mem_powersetCard_univ]
+    simp
   rw [hf, hf, hf]
   have h1 : ∀ T : Finset (Fin m), ∏ f, (if f ∈ T.map (Fin.succEmb m) then D f else I f) =
       I 0 * ∏ f, (if f ∈ T then D f.succ else I f.succ) := by
@@ -256,7 +256,7 @@ theorem sum_split {R : Type*} [CommRing R] {m : ℕ} (r : ℕ) (D I : Fin (m + 1
         powersetCard (s + 1) (insert 0 (univ.map (Fin.succEmb m))) := congrArg _ hu
     rw [hpc, powersetCard_succ_insert h0, sum_union, sum_image, powersetCard_map, powersetCard_map,
       sum_map, sum_map]
-    · rw [if_neg (Nat.succ_ne_zero s), Nat.add_sub_cancel, mul_sum, mul_sum]
+    · rw [ite_eq_right (Nat.succ_ne_zero s), Nat.add_sub_cancel, mul_sum, mul_sum]
       congr 1
       · exact sum_congr rfl fun T _ => h1 T
       · exact sum_congr rfl fun T _ => h2 T
@@ -297,7 +297,6 @@ theorem ambEq_cons (K : FK) (fs : List FK) (u : AmbIdx (K :: fs)) :
         Fin.prod_univ_succ]
       first
         | rfl
-        | simp
     rw [hP]
     ring
 
@@ -318,7 +317,7 @@ theorem ambD_eq_entD (i j : Fin 4) :
     · have hr' : ¬ ((∅ : Finset (Fin ([] : List FK).length)).card = r) := by
         rw [Finset.card_empty]
         exact fun h => hr h.symm
-      rw [if_neg hr']
+      rw [ite_eq_right hr']
       simp [entD, hr]
   | K :: fs, r, u, v => by
     have hE : ∀ r', ∑ T ∈ (univ : Finset (Finset (Fin fs.length))).filter (fun T => T.card = r'),
@@ -353,7 +352,7 @@ theorem ambD_eq_entD (i j : Fin 4) :
       rw [Matrix.one_apply]
       exact if_congr Fin.val_inj.symm rfl rfl
     have hD : derK ((K :: fs).get 0) i j (u 0) (v 0) = derN K i j (u 0) (v 0) := by
-      rw [derN, dif_pos (And.intro hu0 hv0)]
+      rw [derN, dite_eq_left (And.intro hu0 hv0)]
       rfl
     rw [hI, hD]
 
@@ -366,14 +365,14 @@ theorem tabD_rep (fs : List FK) (i j : Fin 4) (r : ℕ) :
     simp [tabD, Array.getD_eq_getD_getElem?, tab_size, hy]
   rw [hcol, tab_eq_tabR, getD_tabR (ambDF fs i j r) ⟨y, hy⟩]
   by_cases hx : x < ambDim fs
-  · rw [if_pos hx]
+  · rw [ite_eq_left hx]
     have := bitF_foldl_tab (ambDF fs i j r) ⟨y, hy⟩ ⟨x, hx⟩ (List.finRange (ambDim fs)) 0
     simp only at this
     rw [this, bitF_zero]
     simp only [List.mem_finRange, true_and]
     rw [zmod2_ite_self, ambDF, Matrix.submatrix_apply, ambD_eq_entD]
     simp
-  · rw [if_neg hx]
+  · rw [ite_eq_right hx]
     have key : ∀ (L : List (Fin (ambDim fs))) (acc : ℕ), bitF acc x = 0 →
         bitF (L.foldl (fun acc x' => if ambDF fs i j r x' ⟨y, hy⟩ = 1 then
           acc ||| (1 <<< (x' : ℕ)) else acc) acc) x = 0 := by
@@ -385,7 +384,7 @@ theorem tabD_rep (fs : List FK) (i j : Fin 4) (r : ℕ) :
         rw [List.foldl_cons]
         apply ih
         split_ifs
-        · rw [bitF_or_shift, if_neg (by omega)]
+        · rw [bitF_or_shift, ite_eq_right (by omega)]
           exact h
         · exact h
     exact key _ 0 (bitF_zero x)

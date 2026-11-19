@@ -150,7 +150,7 @@ theorem y₂_conj_u (hII : II4_4_4_center) (hq : II4_4_quat)
     _ = v₁ * (v₂ * z) := by rw [hv₂inv]
     _ = (v₁ * v₂) * z := by rw [← mul_assoc]
 
-theorem z₁_cases (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) :
+theorem z₁_cases (_hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) :
     h⁻¹ * z * h = u ∨ h⁻¹ * z * h = u * z := by
   have hz'U : h⁻¹ * z * h ∈ U := hs.hz_inv_mem_U
   have hz'1 : h⁻¹ * z * h ≠ 1 := by

@@ -113,7 +113,7 @@ theorem comap_normalizer_le_glbCore (R : Sylow p X) {K : Subgroup X} [K.Normal] 
     apply hQbot
     rw [← hQmap, h, Subgroup.map_bot]
   obtain ⟨s, hsQ, hso⟩ :=
-    exists_mem_orderOf_eq_of_isPGroup_ne_bot (S.isPGroup'.to_le inf_le_right) hQne
+    exists_mem_orderOf_eq_of_isPGroup_ne_bot (S.isPGroup.to_le inf_le_right) hQne
   have haord : orderOf (s : X) = p := by rw [Subgroup.orderOf_coe, hso]
   have hap : (s : X) ^ p = 1 := by rw [← haord]; exact pow_orderOf_eq_one _
   have hsK : (s : X) ∈ K := s.2
@@ -138,7 +138,7 @@ theorem comap_normalizer_le_glbCore (R : Sylow p X) {K : Subgroup X} [K.Normal] 
   have hn' : ρ n ∈ normalizer (Q : Set M) := hn
   have hnormQ : n ∈ normalizer (Qp : Set K) := by
     have hconj : ∀ m : K, ρ m ∈ normalizer (Q : Set M) → ∀ x ∈ Qp, m * x * m⁻¹ ∈ Qp :=
-      fun m hm x hx => conj_mem_comap_inf_of_central_kernel ρ hc hZ S.isPGroup' hQS hm hx
+      fun m hm x hx => conj_mem_comap_inf_of_central_kernel ρ hc hZ S.isPGroup hQS hm hx
     rw [Subgroup.mem_normalizer_iff]
     intro h
     refine ⟨fun hh => hconj n hn' h hh, fun hh => ?_⟩
@@ -169,7 +169,7 @@ theorem le_glbCore_two_of_central_cover [Nontrivial M] (R : Sylow p X) {K : Subg
     (hΓ : ∀ T : Sylow p M, GLBCore p 1 (T : Subgroup M) = ⊤) :
     K ≤ GLBCore p 2 (R : Subgroup X) := by
   set A : Subgroup X := (R : Subgroup X) ⊓ centralizer (K : Set X)
-  have hAp : IsPGroup p A := R.isPGroup'.to_inf_left
+  have hAp : IsPGroup p A := R.isPGroup.to_inf_left
   obtain ⟨z, hzA, hzo⟩ := exists_mem_orderOf_eq_of_isPGroup_ne_bot hAp hRK
   obtain ⟨hzR, hzC⟩ := Subgroup.mem_inf.1 hzA
   have hZ' : ¬ p ∣ Nat.card ρ.ker := by rw [hker]; exact hZ
@@ -231,13 +231,13 @@ theorem le_glbCore_two_of_gamma_one_of_kernelTrivial (R : Sylow p X) {K : Subgro
   have hq : Open.IsQuasisimple K := hK.2.2
   have : Group.IsPerfect K := ⟨hq.1⟩
   have : IsSimpleGroup (K ⧸ center K) := hq.2
-  haveI : Nontrivial M := e.injective.nontrivial
+  have : Nontrivial M := e.injective.nontrivial
   let ρ : K →* M := e.toMonoidHom.comp (QuotientGroup.mk' (center K))
   have hρ : Function.Surjective ρ := e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : ρ.ker = center K := by
     ext x
     simp [ρ]
-  haveI : Group.IsPerfect M := Group.IsPerfect.ofSurjective hρ
+  have : Group.IsPerfect M := Group.IsPerfect.ofSurjective hρ
   have hZ : ¬ p ∣ Nat.card (center K) := by
     have h1 := card_ker_dvd_card_hopfMultiplier ρ hρ hker.le
     rw [hker] at h1
@@ -257,8 +257,8 @@ theorem le_glbCore_of_monster {X : Type} [Group X] [Finite X] {p : ℕ}
     (e : K ⧸ center K ≃* (TauCeti.CFSGIndex.sporadic .M).Group) :
     K ≤ GLBCore p 2 (R : Subgroup X) := by
   have hpp : p.Prime := by rcases hp with rfl | rfl <;> norm_num
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Finite (TauCeti.CFSGIndex.sporadic .M).Group := Finite.of_equiv _ e.toEquiv
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Finite (TauCeti.CFSGIndex.sporadic .M).Group := Finite.of_equiv _ e.toEquiv
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Y443.nonempty_mulEquiv
   have hkt : KernelTrivialAt (TauCeti.CFSGIndex.sporadic .M).Group p := by
     rcases hp with rfl | rfl

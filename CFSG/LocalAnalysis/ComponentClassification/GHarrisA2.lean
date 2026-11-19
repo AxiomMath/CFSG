@@ -57,7 +57,7 @@ theorem le_ker_sylowConj_of_normal [Fact p.Prime] {P : Subgroup Y} [P.Normal]
   rw [mem_ker_sylowConj]
   intro T t ht
   set T' : Subgroup Y := (T : Subgroup ↥N).map N.subtype
-  have hT' : IsPGroup p T' := T.isPGroup'.map _
+  have hT' : IsPGroup p T' := T.isPGroup.map _
   have hPT : IsPGroup p ↥(P ⊔ T') := hP.to_sup_of_normal_left hT'
   have hle : (T : Subgroup ↥N) ≤ (P ⊔ T').subgroupOf N := fun s hs =>
     mem_subgroupOf.mpr (mem_sup_right ⟨s, hs, rfl⟩)

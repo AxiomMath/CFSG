@@ -194,8 +194,8 @@ theorem f112_kernel_centralizes_of_u3 {G : Type} [Group G]
     ∀ t ∈ (f112K1 L1 L2 S).map (L1 ⊔ bigB L1 L2 S).subtype, ∀ l ∈ L1,
       l * t * l⁻¹ * t⁻¹ ∈ pCoreOf 2 L1 := by
   obtain ⟨k, hk, F, hField, hFin, hFc, hU3⟩ := hU
-  letI : Field F := hField
-  haveI : Finite F := hFin
+  let : Field F := hField
+  have : Finite F := hFin
   have hq : CFSG.IsQuasisimple (oTwoQuot ↥L1) := isQuasisimple_oTwoQuot_of_u3 hk hFc hU3
   refine comm_mem_pCoreOf_of_isQuasisimple (L := L1)
     (K := (f112K1 L1 L2 S).map (L1 ⊔ bigB L1 L2 S).subtype) hq ?_ ?_ ?_
@@ -211,7 +211,7 @@ theorem f112_exists_normal_iso_psu3_left {G : Type} [Group G]
     ∃ N : Subgroup (↥(L1 ⊔ bigB L1 L2 S) ⧸ f112K1 L1 L2 S),
       N.Normal ∧ Nonempty (↥N ≃* StatedProj (StatedSU 3 (2 ^ k) F)) := by
   classical
-  haveI : (f112K1 L1 L2 S).Normal := f112K1_normal L1 L2 S
+  have : (f112K1 L1 L2 S).Normal := f112K1_normal L1 L2 S
   let P1 := L1 ⊔ bigB L1 L2 S
   let K : Subgroup G := (f112K1 L1 L2 S).map P1.subtype
   let Nsub : Subgroup G := L1 ⊓ K

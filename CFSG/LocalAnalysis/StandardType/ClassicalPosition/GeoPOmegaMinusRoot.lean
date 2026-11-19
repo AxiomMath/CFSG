@@ -122,7 +122,7 @@ theorem exists_conj_rootGroup_eq_siegelGroup_POmegaMinus (n : ℕ) {F : Type} [F
     rw [show a = g a₀ from rfl, ← hg k,
       CFSG.ClassicalGroups.Orthogonal.polar_map_of_mem hgO, QuadraticMap.polar_comm]
     fin_cases k <;>
-      simp only [w, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+      simp only [w]
     · exact (ha₀ t).2
     · exact (ha₀ s).1
     · exact (ha₀ (!t)).2

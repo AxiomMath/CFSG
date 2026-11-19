@@ -34,7 +34,7 @@ private theorem s1614_ae_altPair_ne_one {i j : Fin n} (hij : i ≠ j) :
   intro h
   have h' := congrArg (fun v : PermMod n => Multiplicative.toAdd v i) h
   rw [s1614_ae_altPair_toAdd_self hij] at h'
-  have hz : (1 : ZMod 2) = 0 := by simpa using h'
+  have hz : (1 : ZMod 2) = 0 := by simp at h'
   exact one_ne_zero hz
 
 private theorem s1614_ae_altPair_symm (n : ℕ) (i j : Fin n) :
@@ -138,8 +138,8 @@ theorem s1614_altKlein_card {a b c : Fin n} (hab : a ≠ b) (hac : a ≠ c) (hbc
   rw [hK]
   exact hcard
 
-theorem s1614_altKlein_inf_ker (hn : 6 ≤ n) {a b c : Fin n} (hab : a ≠ b) (hac : a ≠ c)
-    (hbc : b ≠ c) :
+theorem s1614_altKlein_inf_ker (hn : 6 ≤ n) {a b c : Fin n} (_hab : a ≠ b) (_hac : a ≠ c)
+    (_hbc : b ≠ c) :
     s1614_altKlein n a b c ⊓ (Subgroup.zpowers (allOnes n) ⊓ coreMod n) = ⊥ := by
   have hlt : ({a, b, c} : Finset (Fin n)).card <
       (Finset.univ : Finset (Fin n)).card := by

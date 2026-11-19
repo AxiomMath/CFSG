@@ -131,7 +131,7 @@ theorem Q_eq : Q = P 4 := by
     have hx : (⟨x24, x24_mem_A⟩ : ↥A) ∈ Q := by rw [h]; trivial
     exact x24_not_mem hx
   interval_cases j
-  all_goals first | (exfalso; revert hdvd; decide) | skip
+  all_goals try (exfalso; revert hdvd; decide)
   · exact hQj
   · exact absurd (Subgroup.eq_top_of_card_eq _ (by rw [hcQ, card_A]; rfl)) hQ
 
@@ -149,7 +149,7 @@ theorem eq_P4 {W : Subgroup ↥A} (hU : U ≤ W)
   obtain ⟨j, hj, hWj, hcW⟩ := overgroups W hU
   rw [hc] at hcW
   interval_cases j
-  all_goals first | (exfalso; revert hcW; decide) | skip
+  all_goals try (exfalso; revert hcW; decide)
   exact hWj
 
 theorem eq_P1 {W : Subgroup ↥A} (hU : U ≤ W)
@@ -157,7 +157,7 @@ theorem eq_P1 {W : Subgroup ↥A} (hU : U ≤ W)
   obtain ⟨j, hj, hWj, hcW⟩ := overgroups W hU
   rw [hc] at hcW
   interval_cases j
-  all_goals first | (exfalso; revert hcW; decide) | skip
+  all_goals try (exfalso; revert hcW; decide)
   · exact hWj
   · exact absurd (hWj ▸ P_le_P4 (Or.inl rfl)) hW
   · exact absurd (hWj ▸ P_le_P4 (Or.inr rfl)) hW
@@ -179,7 +179,7 @@ theorem sup_eq_top : P 4 ⊔ P 1 = ⊤ := by
   have hdvd : Nat.card (P 4) ∣ Nat.card ↥(P 4 ⊔ P 1) := Subgroup.card_dvd_of_le le_sup_left
   rw [card_P (by norm_num), hcW] at hdvd
   interval_cases j
-  all_goals first | (exfalso; revert hdvd; decide) | skip
+  all_goals try (exfalso; revert hdvd; decide)
   · exact absurd (hWj ▸ (le_sup_right : P 1 ≤ P 4 ⊔ P 1)) P1_not_le
   · exact Subgroup.eq_top_of_card_eq _ (by rw [hcW, card_A]; rfl)
 

@@ -72,15 +72,15 @@ private theorem q2cFS_cutBlock_eq_self {d : List ℕ} (hd : IsCut n d) {b j : �
   omega
 
 private theorem q2cFS_Vsub_le_psiSub (hd : IsCut n d) (pol : List Bool) {x : FlagK K n}
-    (hx : x ∈ refSet K n d) {b s : ℕ} (hb : b + 1 < d.length) (hs : s ≤ blockSize d b) :
+    (hx : x ∈ refSet K n d) {b s : ℕ} (hb : b + 1 < d.length) (_hs : s ≤ blockSize d b) :
     Vsub n (d.getD b 0) ≤ psiSub f n d pol x.E b s := by
   have hb' : b < d.length := by omega
   have hle : d.getD b 0 ≤ d.getD (b + 1) 0 := le_of_lt (hd.strict b hb)
   rw [psiSub]
   by_cases hp : pol.getD b false = true
-  · rw [if_pos hp]
+  · rw [ite_eq_left hp]
     exact le_inf (q2cFS_le_perpB_of_Vsub _) (Vsub_mono hle)
-  · rw [if_neg hp]
+  · rw [ite_eq_right hp]
     calc Vsub n (d.getD b 0) = sgS K f n (Vsub n (d.getD b 0)) := (sgS_Vsub _).symm
       _ = sgS K f n (x.E (d.getD b 0)) := by rw [hx b hb']
       _ ≤ sgS K f n (x.E (d.getD b 0 + s)) := sgS_mono (x.mono (Nat.le_add_right _ _))
@@ -92,8 +92,8 @@ private theorem q2cFS_psiSub_le_Vsub (hd : IsCut n d) (pol : List Bool) {x : Fla
   have hs' : d.getD b 0 + s ≤ d.getD (b + 1) 0 := by have h := hs; simp only [blockSize] at h; omega
   rw [psiSub]
   by_cases hp : pol.getD b false = true
-  · rw [if_pos hp]; exact inf_le_right
-  · rw [if_neg hp]
+  · rw [ite_eq_left hp]; exact inf_le_right
+  · rw [ite_eq_right hp]
     calc sgS K f n (x.E (d.getD b 0 + s)) ≤ sgS K f n (x.E (d.getD (b + 1) 0)) :=
           sgS_mono (x.mono hs')
       _ = sgS K f n (Vsub n (d.getD (b + 1) 0)) := by rw [hx (b + 1) hb]
@@ -106,11 +106,11 @@ private theorem q2cFS_psiSub_zero (hd : IsCut n d) (pol : List Bool) {x : FlagK 
   have hle : d.getD b 0 ≤ d.getD (b + 1) 0 := le_of_lt (hd.strict b hb)
   rw [psiSub]
   by_cases hp : pol.getD b false = true
-  · rw [if_pos hp]
+  · rw [ite_eq_left hp]
     have harg : d.getD b 0 + (blockSize d b - 0) = d.getD (b + 1) 0 := by
       simp only [blockSize]; omega
     rw [harg, hx (b + 1) hb, inf_comm, q2cFS_perpB_Vsub_inf hle]
-  · rw [if_neg hp, Nat.add_zero, hx b hb', sgS_Vsub]
+  · rw [ite_eq_right hp, Nat.add_zero, hx b hb', sgS_Vsub]
 
 private theorem q2cFS_psiSub_last (hd : IsCut n d) (pol : List Bool) {x : FlagK K n}
     (hx : x ∈ refSet K n d) {b : ℕ} (hb : b + 1 < d.length) :
@@ -119,11 +119,11 @@ private theorem q2cFS_psiSub_last (hd : IsCut n d) (pol : List Bool) {x : FlagK 
   have hle : d.getD b 0 ≤ d.getD (b + 1) 0 := le_of_lt (hd.strict b hb)
   rw [psiSub]
   by_cases hp : pol.getD b false = true
-  · rw [if_pos hp, Nat.sub_self]
+  · rw [ite_eq_left hp, Nat.sub_self]
     change perpB K f n (d.getD b 0) (d.getD (b + 1) 0) (x.E (d.getD b 0)) ⊓
       Vsub n (d.getD (b + 1) 0) = Vsub n (d.getD (b + 1) 0)
     rw [hx b hb', q2cFS_perpB_Vsub_lo_eq_top, top_inf_eq]
-  · rw [if_neg hp]
+  · rw [ite_eq_right hp]
     have harg : d.getD b 0 + blockSize d b = d.getD (b + 1) 0 := by
       simp only [blockSize]; omega
     rw [harg, hx (b + 1) hb, sgS_Vsub]
@@ -137,7 +137,7 @@ private theorem q2cFS_finrank_psiSub (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut
   have hbn : d.getD (b + 1) 0 ≤ n := q2cFS_getD_le hd hb
   rw [psiSub]
   by_cases hp : pol.getD b false = true
-  · rw [if_pos hp]
+  · rw [ite_eq_left hp]
     have hlo : Vsub n (d.getD b 0) ≤ x.E (d.getD b 0 + (blockSize d b - s)) :=
       le_trans (hx b hb').ge (x.mono (Nat.le_add_right _ _))
     have hhi : x.E (d.getD b 0 + (blockSize d b - s)) ≤ Vsub n (d.getD (b + 1) 0) :=
@@ -146,18 +146,18 @@ private theorem q2cFS_finrank_psiSub (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut
         hle hbn hlo hhi,
       x.dim (d.getD b 0 + (blockSize d b - s)) (by simp only [blockSize]; omega)]
     have h := hs; simp only [blockSize] at h ⊢; omega
-  · rw [if_neg hp, finrank_sgS hK,
+  · rw [ite_eq_right hp, finrank_sgS hK,
       x.dim (d.getD b 0 + s) (by have h := hs; simp only [blockSize] at h; omega)]
 
-private theorem q2cFS_psiSub_mono (hd : IsCut n d) (pol : List Bool) {x : FlagK K n}
-    (hx : x ∈ refSet K n d) {b s s' : ℕ} (hss' : s ≤ s') (hs' : s' ≤ blockSize d b) :
+private theorem q2cFS_psiSub_mono (_hd : IsCut n d) (pol : List Bool) {x : FlagK K n}
+    (_hx : x ∈ refSet K n d) {b s s' : ℕ} (hss' : s ≤ s') (hs' : s' ≤ blockSize d b) :
     psiSub f n d pol x.E b s ≤ psiSub f n d pol x.E b s' := by
   rw [psiSub, psiSub]
   by_cases hp : pol.getD b false = true
-  · rw [if_pos hp, if_pos hp]
+  · rw [ite_eq_left hp, ite_eq_left hp]
     exact inf_le_inf (q2cFS_perpB_antitone (x.mono (show d.getD b 0 + (blockSize d b - s') ≤
       d.getD b 0 + (blockSize d b - s) by omega))) (le_refl _)
-  · rw [if_neg hp, if_neg hp]
+  · rw [ite_eq_right hp, ite_eq_right hp]
     exact sgS_mono (x.mono (by omega))
 
 theorem exists_flagPsi (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d) (pol : List Bool)
@@ -176,10 +176,10 @@ theorem exists_flagPsi (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d) (pol : L
         by_contra h
         rw [show i = d.length - 1 from by omega, hd.last] at hin
         omega
-      rw [hyE, if_pos hin, q2cFS_cutBlock_eq_self hd hi1 le_rfl (hd.strict i hi1),
+      rw [hyE, ite_eq_left hin, q2cFS_cutBlock_eq_self hd hi1 le_rfl (hd.strict i hi1),
         Nat.sub_self, q2cFS_psiSub_zero hd pol hx hi1]
     · rw [show d.getD i 0 = n from by have := q2cFS_getD_le hd hi; omega, hyE,
-        if_neg (by omega : ¬ n < n)]
+        ite_eq_right (by omega : ¬ n < n)]
   have hmain : ∀ b s, b + 1 < d.length → s ≤ blockSize d b →
       yE (d.getD b 0 + s) = psiSub f n d pol x.E b s := by
     intro b s hb hs
@@ -194,7 +194,7 @@ theorem exists_flagPsi (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d) (pol : L
     · have hslt : s < blockSize d b := lt_of_le_of_ne hs hsm
       have hjn : d.getD b 0 + s < n := by
         have := hbn; simp only [blockSize] at hslt; omega
-      rw [hyE, if_pos hjn,
+      rw [hyE, ite_eq_left hjn,
         q2cFS_cutBlock_eq_self hd hb (j := d.getD b 0 + s) (Nat.le_add_right _ _)
           (by have h := hslt; simp only [blockSize] at h; omega),
         show d.getD b 0 + s - d.getD b 0 = s by omega]
@@ -202,7 +202,7 @@ theorem exists_flagPsi (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d) (pol : L
     refine monotone_nat_of_le_succ fun j => ?_
     by_cases hjn : j + 1 < n
     · have hj : j < n := by omega
-      rw [hyE, hyE, if_pos hj, if_pos hjn]
+      rw [hyE, hyE, ite_eq_left hj, ite_eq_left hjn]
       by_cases heq : q2cFS_cutBlock d j = q2cFS_cutBlock d (j + 1)
       · rw [heq]
         have hb1 : q2cFS_cutBlock d (j + 1) + 1 < d.length := by
@@ -229,22 +229,22 @@ theorem exists_flagPsi (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d) (pol : L
               (Nat.findGreatest_le _)))
             (q2cFS_Vsub_le_psiSub hd pol hx hb2 (by simp only [blockSize]; omega)))
     · have htop : yE (j + 1) = ⊤ := by
-        rw [hyE, if_neg (by omega : ¬ j + 1 < n), Vsub_self]
+        rw [hyE, ite_eq_right (by omega : ¬ j + 1 < n), Vsub_self]
       rw [htop]
       exact le_top
   have hdim : ∀ j, j ≤ n → finrank K (yE j) = j := by
     intro j hj
     by_cases hjn : j < n
-    · rw [hyE, if_pos hjn]
+    · rw [hyE, ite_eq_left hjn]
       have hb : q2cFS_cutBlock d j + 1 < d.length := by
         have := q2cFS_cutBlock_lt_of_lt hd hjn; omega
       have hcle := q2cFS_cutBlock_le hd j
       have hlt := q2cFS_lt_cutBlock_succ hd hjn
       rw [q2cFS_finrank_psiSub hK hd pol hx hb (by simp only [blockSize]; omega)]
       omega
-    · rw [hyE, if_neg hjn, show j = n from by omega, finrank_Vsub le_rfl]
+    · rw [hyE, ite_eq_right hjn, show j = n from by omega, finrank_Vsub le_rfl]
   refine ⟨⟨yE, hmono, hdim, fun j hj => by
-    rw [hyE, if_neg (by omega : ¬ j < n), Vsub_self]⟩, ?_, hmain⟩
+    rw [hyE, ite_eq_right (by omega : ¬ j < n), Vsub_self]⟩, ?_, hmain⟩
   exact hyE_cut
 
 @[expose] noncomputable def flagPsi (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d)
@@ -254,14 +254,14 @@ theorem exists_flagPsi (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d) (pol : L
 
 theorem flagPsi_mem (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d) (pol : List Bool)
     {x : FlagK K n} (hx : x ∈ refSet K n d) : flagPsi hK hd pol x ∈ refSet K n d := by
-  rw [flagPsi, dif_pos hx]
+  rw [flagPsi, dite_eq_left hx]
   exact (Classical.choose_spec (exists_flagPsi hK hd pol hx)).1
 
 theorem flagPsi_E (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n d) (pol : List Bool)
     {x : FlagK K n} (hx : x ∈ refSet K n d) {b s : ℕ} (hb : b + 1 < d.length)
     (hs : s ≤ blockSize d b) :
     (flagPsi hK hd pol x).E (d.getD b 0 + s) = psiSub f n d pol x.E b s := by
-  rw [flagPsi, dif_pos hx]
+  rw [flagPsi, dite_eq_left hx]
   exact (Classical.choose_spec (exists_flagPsi hK hd pol hx)).2 b s hb hs
 
 @[expose] noncomputable def flagPsi' (K : Type) [Field K] [Finite K] (f : ℕ) [CharP K 2]

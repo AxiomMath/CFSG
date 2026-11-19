@@ -55,7 +55,7 @@ theorem splitShapeAt_of_subgroup_data (x : ↥P) (L : Subgroup G)
     (hk : Nat.card ↥(Subgroup.centralizer ({(x : G)} : Set G) ⊓ P) = Nat.card ↥L * 3 ^ k)
     (hsplit : A6Split3 (L.comap P.subtype)) : SplitShapeAt 3 x := by
   have hLP : L ≤ P := fun l hl => (hLC hl).2
-  haveI : Finite ↥L :=
+  have : Finite ↥L :=
     Finite.of_injective (Subgroup.inclusion hLP) (Subgroup.inclusion_injective hLP)
   let C' : Subgroup ↥P := Subgroup.centralizer ({x} : Set ↥P)
   let L' : Subgroup ↥P := L.comap P.subtype
@@ -74,7 +74,7 @@ theorem splitShapeAt_of_subgroup_data (x : ↥P) (L : Subgroup G)
       rw [← hmapC]
       exact ⟨g, g.2, rfl⟩
     exact hLn _ hgC _ he
-  haveI := hEn
+  have := hEn
   have hEmap : E.map C'.subtype = L' := Subgroup.map_subgroupOf_eq_of_le hL'C
   have eL' : ↥L' ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLP
   have eE : ↥E ≃* alternatingGroup (Fin 6) :=
@@ -87,7 +87,7 @@ theorem splitShapeAt_of_subgroup_data (x : ↥P) (L : Subgroup G)
       rw [← Subgroup.card_map_of_injective C'.subtype_injective, hEmap]
       exact Nat.card_congr eL'.toEquiv
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup E
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine IsPGroup.of_card (n := k) ?_
     have hpos : 0 < Nat.card ↥L := Nat.card_pos
     rw [hcardC, hcardE] at h1

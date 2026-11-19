@@ -89,7 +89,7 @@ theorem exists_commuting_pow_lift [Finite K] [CharP K 2] {H : Subgroup (GL ι K)
     ∃ (yh : H) (b : ℕ), yh ^ (23 ^ b) = 1 ∧ (QuotientGroup.mk yh : StatedProj H) ≠ 1 ∧
       Commute th yh := by
   classical
-  haveI : Fact (Nat.Prime 23) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 23) := ⟨by norm_num⟩
   obtain ⟨y', hy'⟩ := exists_prime_orderOf_dvd_card' 23 h23
   set y : StatedProj H := (y' : StatedProj H) with hy
   have hyo : orderOf y = 23 := by rw [hy, Subgroup.orderOf_coe, hy']
@@ -109,7 +109,7 @@ theorem eightynine_dvd_of_commute {H : Subgroup (GL ι K)} (th zh : H) (hc : Com
     89 ∣ Nat.card ↥(centralizer ({(QuotientGroup.mk th : StatedProj H)} : Set (StatedProj H))) := by
   set z : StatedProj H := QuotientGroup.mk zh with hz
   have hz89 : z ^ 89 = 1 := by rw [hz, ← QuotientGroup.mk_pow, h89, QuotientGroup.mk_one]
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   have hzo : orderOf z = 89 := orderOf_eq_prime hz89 h1
   have hzC : z ∈ centralizer ({(QuotientGroup.mk th : StatedProj H)} : Set (StatedProj H)) := by
     rw [Subgroup.mem_centralizer_singleton_iff, hz, ← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul,

@@ -37,14 +37,14 @@ public theorem firstCase_cyclic_normalizer_le_M_of_le_B_inter_M_of_componentLaye
     (hmin : IsMinimalCounterexample G)
     (c : CentralizerSetup G)
     (od : FirstCaseOrientedPrimeData c)
-    (hfirst : FirstCase c) (hHhat : c.Hhat = c.H)
+    (_hfirst : FirstCase c) (_hHhat : c.Hhat = c.H)
     (M : Subgroup G) (hMmax : IsCoatom M)
-    (hSM : (c.S : Subgroup G) ≤ M)
+    (_hSM : (c.S : Subgroup G) ≤ M)
     (fd : FirstCaseFourData c od.d)
     (hV2 : fd.V2 ≤ componentLayerOf M)
-    (hA7 : Nonempty ((componentLayerOf M) ⧸
+    (_hA7 : Nonempty ((componentLayerOf M) ⧸
       pPrimeCore 2 (componentLayerOf M) ≃* alternatingGroup (Fin 7)))
-    (X : Subgroup G) (hXne : X ≠ ⊥) (hXle : X ≤ od.d.bg.B ⊓ M)
+    (X : Subgroup G) (_hXne : X ≠ ⊥) (_hXle : X ≤ od.d.bg.B ⊓ M)
     (hEeq : componentLayerOf (Subgroup.normalizer (X : Set G)) =
       componentLayerOf M) :
     Subgroup.normalizer (X : Set G) ≤ M := by

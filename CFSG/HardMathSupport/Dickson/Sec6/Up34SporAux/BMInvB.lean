@@ -20,7 +20,7 @@ section Inverted
 
 theorem noL3Comp_B_of_inverted {s d : NativeSporadic.B} (hs : orderOf s = 3) (hd : BabyInv 0 d)
     (hinv : d * s * d⁻¹ = s⁻¹) : NoL3Comp (Subgroup.centralizer ({s} : Set NativeSporadic.B)) := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have hO := gLAPPrimeCoreOf_B_eq_bot_of_inverted_by_babyInv_zero hs hd hinv
   obtain ⟨H, hH, -, hcard, hHd, hHs, hHn, hCQ⟩ := B_inverted_data hs hd hinv
   have hdd : d * d = 1 := by

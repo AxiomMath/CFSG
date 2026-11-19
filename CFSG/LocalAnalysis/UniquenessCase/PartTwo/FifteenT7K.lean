@@ -63,7 +63,7 @@ theorem s15_T7_transv_struct (hW : ∀ w : W, w ^ 2 = 1) {Hy : Subgroup W}
 
 theorem s15_T7_fixV_eq_bot (hW : ∀ w : W, w ^ 2 = 1) {E : Subgroup (MulAut W)}
     (hE : IsElemAbelian 3 E) (hc : commSub (⊤ : Subgroup W) E = ⊤) : fixV E = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hodd : Odd (Nat.card E) := by
     obtain ⟨n, hn⟩ := hE.isPGroup.exists_card_eq
     rw [hn]
@@ -71,6 +71,7 @@ theorem s15_T7_fixV_eq_bot (hW : ∀ w : W, w ^ 2 = 1) {E : Subgroup (MulAut W)}
   have := CFSG.Quasithin.EmptyFaithfulMultiple.L15412.fixV_inf_commSub_eq_bot hW hodd
   rwa [hc, inf_top_eq] at this
 
+omit [Finite W] in
 theorem s15_T7_commSub_stable {X : Subgroup (MulAut W)} {g : MulAut W}
     (hg : ∀ θ ∈ X, g * θ * g⁻¹ ∈ X) {r : W} (hr : r ∈ commSub (⊤ : Subgroup W) X) :
     g r ∈ commSub (⊤ : Subgroup W) X := by
@@ -115,6 +116,7 @@ theorem s15_T7_not_centralize (hW : ∀ w : W, w ^ 2 = 1) {E : Subgroup (MulAut 
   rw [s15_T7_fixV_eq_bot hW hE hc] at hcE
   exact hc1 hcE
 
+omit [Finite W] in
 theorem s15_T7_commSub_zpowers_stable {e g : MulAut W} (hg : g * e * g⁻¹ ∈ Subgroup.zpowers e)
     {r : W} (hr : r ∈ commSub (⊤ : Subgroup W) (Subgroup.zpowers e)) :
     g r ∈ commSub (⊤ : Subgroup W) (Subgroup.zpowers e) := by
@@ -127,7 +129,7 @@ theorem s15_T7_no_mixed (hW : ∀ w : W, w ^ 2 = 1) {Hy : Subgroup W}
     (hHy : E3.mQuot ⊤ Hy ≤ 1) {a b : MulAut W} (ha : ∀ h ∈ Hy, a h = h) (ha1 : a ≠ 1)
     (hb : ∀ h ∈ Hy, b h = h) {e : MulAut W} (he1 : e ≠ 1) (he3 : e ^ 3 = 1)
     (hae : a * e * a⁻¹ = e) (hbe : b * e * b⁻¹ = e⁻¹) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨c, hcHy, hc1, hfixa, hacts⟩ := s15_T7_transv_struct hW hHy ha ha1
   have hord : orderOf e = 3 := orderOf_eq_prime he3 he1
   have hodd : Odd (Nat.card (Subgroup.zpowers e)) := by
@@ -142,7 +144,7 @@ theorem s15_T7_no_mixed (hW : ∀ w : W, w ^ 2 = 1) {Hy : Subgroup W}
     exact this
   have hRe : ∀ r ∈ commSub (⊤ : Subgroup W) (Subgroup.zpowers e),
       e r ∈ commSub (⊤ : Subgroup W) (Subgroup.zpowers e) := fun r hr =>
-    s15_T7_commSub_zpowers_stable (by simpa using Subgroup.mem_zpowers e) hr
+    s15_T7_commSub_zpowers_stable (by simp) hr
   have hRa : ∀ r ∈ commSub (⊤ : Subgroup W) (Subgroup.zpowers e),
       a r ∈ commSub (⊤ : Subgroup W) (Subgroup.zpowers e) := fun r hr =>
     s15_T7_commSub_zpowers_stable (by rw [hae]; exact Subgroup.mem_zpowers e) hr
@@ -324,7 +326,7 @@ theorem s15_T7_no_two_transvections (hW : ∀ w : W, w ^ 2 = 1) {E : Subgroup (M
     · rw [hqi, hq2]
 
 theorem s15_T7_card_le_two_of_unique {A : Type*} [Group A] {Q : Subgroup A} {q₀ : A}
-    (hall : ∀ q ∈ Q, q = 1 ∨ q = q₀) (hq₀ : q₀ ≠ 1) : Nat.card ↥Q ≤ 2 := by
+    (hall : ∀ q ∈ Q, q = 1 ∨ q = q₀) (_hq₀ : q₀ ≠ 1) : Nat.card ↥Q ≤ 2 := by
   classical
   have hinj : Function.Injective (fun q : ↥Q => decide ((q : A) = 1)) := by
     intro x y hxy
@@ -369,7 +371,7 @@ theorem s15_T7_mQuot_top_subgroupOf {A : Type*} [Group A] (U B : Subgroup A) :
 theorem s15_T7_rk_le_one_of_card_le_two {X : Type*} [Group X] [Finite X]
     (h : Nat.card X ≤ 2) : rk X ≤ 1 := by
   have h1 : 0 < Nat.card X := Nat.card_pos
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold rk
   interval_cases hX : Nat.card X
   · simp

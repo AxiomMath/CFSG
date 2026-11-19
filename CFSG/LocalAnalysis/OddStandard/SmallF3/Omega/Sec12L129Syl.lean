@@ -61,7 +61,7 @@ theorem sec12_isSylow2Of_top_of_normalizes [Finite G] {R0 Y : Subgroup G}
     (hR0 : IsSylow2Of R0 (normalizer (Y : Set G)))
     (hnorm : ∀ x ∈ normalizer (R0 : Set G), x ∈ normalizer (Y : Set G)) :
     IsSylow2Of R0 ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Pstar, hPstar_le⟩ := hR0.2.1.exists_le_sylow
   have hPeq : R0 = Pstar := by
     by_contra hne
@@ -71,9 +71,9 @@ theorem sec12_isSylow2Of_top_of_normalizes [Finite G] {R0 Y : Subgroup G}
       rw [lt_top_iff_ne_top]
       intro htop
       exact hne (le_antisymm hPstar_le (Subgroup.subgroupOf_eq_top.mp htop))
-    haveI : Group.IsNilpotent ↥Pstar := Pstar.isPGroup'.isNilpotent
+    have : Group.IsNilpotent ↥Pstar := Pstar.isPGroup.isNilpotent
     have hnc := Group.normalizerCondition_of_isNilpotent (G := ↥Pstar)
-    obtain ⟨x, hxnorm, hxH⟩ := SetLike.exists_of_lt (hnc H hHlt)
+    obtain ⟨x, hxnorm, hxH⟩ := _root_.IsConcreteLE.exists_of_lt (hnc H hHlt)
     have hxPstar : (x : G) ∈ Pstar := x.2
     have hxnormR0 : (x : G) ∈ normalizer (R0 : Set G) := by
       have hmap := Subgroup.le_normalizer_map (f := (Pstar : Subgroup G).subtype) (H := H)
@@ -86,7 +86,7 @@ theorem sec12_isSylow2Of_top_of_normalizes [Finite G] {R0 Y : Subgroup G}
     have hsup_le : J ≤ normalizer (Y : Set G) :=
       sup_le hR0.1 (Subgroup.zpowers_le.mpr hxN)
     have hzp2 : IsPGroup 2 (Subgroup.zpowers (x : G)) :=
-      Pstar.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxPstar)
+      Pstar.isPGroup.to_le (Subgroup.zpowers_le.mpr hxPstar)
     have hsup2 : IsPGroup 2 J :=
       hR0.2.1.to_sup_of_normal_left' hzp2 (Subgroup.zpowers_le.mpr hxnormR0)
     have hJeq : J = R0 := hR0.eq_of_le hsup_le hsup2 le_sup_left

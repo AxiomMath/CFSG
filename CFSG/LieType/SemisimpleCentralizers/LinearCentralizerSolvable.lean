@@ -41,10 +41,10 @@ theorem isSolvable_centralizer_of_hasNormalPComplement
       CFSG.hasNormalPComplement_of_le p hKleD hNPC'
     have hpK : p ∣ Nat.card K :=
       LayerPDiv.dvd_card_of_isComponentOf_sl hker hp hp2 hpF hE hEA hK
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Group.IsPerfect ↥K := LayerFacts.ggIsPerfect_of_commutator_eq hKperf
+    have : Fact p.Prime := ⟨hp⟩
+    have : Group.IsPerfect ↥K := LayerFacts.ggIsPerfect_of_commutator_eq hKperf
     obtain ⟨N, hN, hcop, hpg⟩ := hNPCK
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     have hNtop : N = ⊤ :=
       CFSG.ComponentClassification.LiteratureLocal.eq_top_of_isPGroup_quotient_of_perfect N hpg
     have hcardN : Nat.card ↥N = Nat.card ↥K := by rw [hNtop, Subgroup.card_top]

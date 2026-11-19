@@ -77,7 +77,7 @@ theorem l34abel_mem_sup {M : Subgroup G} {P : Sylow 3 G} {x : G} {J : Subgroup G
       have h2 : (MulAut.conj y) (QuotientGroup.mk' O c ^ 3) = 1 := by rw [map_pow, hpbb', hb]
       rw [map_pow]
       exact (MulEquiv.map_eq_one_iff _).mp h2
-    obtain ⟨n, hn⟩ := P.isPGroup' ⟨c, hcP'⟩
+    obtain ⟨n, hn⟩ := P.isPGroup ⟨c, hcP'⟩
     have hn' : (c : G) ^ 3 ^ n = 1 := by simpa using congrArg Subtype.val hn
     have h4 : ((c ^ 3 : C) : G) ^ 3 ^ n = 1 := by
       rw [Subgroup.coe_pow, ← pow_mul, mul_comm, pow_mul, hn', one_pow]

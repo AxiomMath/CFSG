@@ -15,6 +15,7 @@ open scoped commutatorElement
 variable {X G : Type} [Group X] [Finite X] [Group G] [Finite G] {Z A : Subgroup X}
   {π : X →* G} {M : Subgroup G} {H : Subgroup X}
 
+omit [Finite X] [Finite G] in
 theorem l2_mem_bar (S : L2Setup Z A π M H) {a : X} (ha : a ∈ A) : l2Mu X a ∈ l2Bar H := by
   have hpa : π a ∈ M := S.A_le (Subgroup.mem_map.mpr ⟨a, ha, rfl⟩)
   rw [← S.map_H] at hpa
@@ -35,6 +36,7 @@ theorem l2_mem_bar (S : L2Setup Z A π M H) {a : X} (ha : a ∈ A) : l2Mu X a �
       (QuotientGroup.eq_one_iff (N := CFSG.oddCore X) o).mpr ho
   rw [ho1, mul_one]
 
+omit [Finite X] [Finite G] in
 theorem l2_lift (S : L2Setup Z A π M H) {ρ : ↥(l2Bar H) →* ↥M}
     (hρ : ∀ (x : ↥(l2Bar H)) (y : X), (x : X ⧸ CFSG.oddCore X) = l2Mu X y → (ρ x : G) = π y)
     (x : ↥(l2Bar H)) (hx : (ρ x : G) ∈ A.map π) :
@@ -59,6 +61,7 @@ theorem l2_lift (S : L2Setup Z A π M H) {ρ : ↥(l2Bar H) →* ↥M}
       (QuotientGroup.eq_one_iff (N := CFSG.oddCore X) o).mpr ho
   rw [ho1, mul_one]
 
+omit [Finite X] in
 private theorem l2_comm_eq {a b : X} (x y : ↥(l2Bar H))
     (hx : (x : X ⧸ CFSG.oddCore X) = l2Mu X a)
     (hy : (y : X ⧸ CFSG.oddCore X) = l2Mu X b) :
@@ -68,6 +71,7 @@ private theorem l2_comm_eq {a b : X} (x y : ↥(l2Bar H))
     map_commutatorElement (f := Subgroup.subtype (l2Bar H)) x y
   rw [h1, hx, hy, map_commutatorElement (f := l2Mu X)]
 
+omit [Finite G] in
 theorem l2_pauli (S : L2Setup Z A π M H) (hform : L2Form Z A) {ρ : ↥(l2Bar H) →* ↥M}
     (hρ : ∀ (x : ↥(l2Bar H)) (y : X), (x : X ⧸ CFSG.oddCore X) = l2Mu X y → (ρ x : G) = π y) :
     L2Pauli ρ ((A.map π).subgroupOf M) := by

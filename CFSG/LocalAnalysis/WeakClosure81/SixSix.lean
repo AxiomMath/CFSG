@@ -12,6 +12,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizesMod_conj (V₀ V : Subgroup G) (m g : G) :
     CentralizesMod (conjSubgroup V₀ g) (conjSubgroup V g) (g⁻¹ * m * g) ↔
       CentralizesMod V₀ V m := by
@@ -22,18 +23,20 @@ theorem centralizesMod_conj (V₀ V : Subgroup G) (m g : G) :
       mem_conjSubgroup_iff.2 (by rw [show g * (g⁻¹ * v * g) * g⁻¹ = v by group]; exact hv)
     have h1 := h (g⁻¹ * v * g) hw
     rw [mem_conjSubgroup_iff] at h1
-    convert h1 using 1 <;> group
+    convert h1 using 1; group
   · intro h w hw
     rw [mem_conjSubgroup_iff] at hw ⊢
     have h1 := h (g * w * g⁻¹) hw
-    convert h1 using 1 <;> group
+    convert h1 using 1; group
 
+omit [Finite G] in
 theorem centralizesMod_conj' (V₀ V : Subgroup G) (m' g : G) :
     CentralizesMod (conjSubgroup V₀ g) (conjSubgroup V g) m' ↔
       CentralizesMod V₀ V (g * m' * g⁻¹) := by
   have h := centralizesMod_conj V₀ V (g * m' * g⁻¹) g
   rwa [show g⁻¹ * (g * m' * g⁻¹) * g = m' by group] at h
 
+omit [Finite G] in
 theorem mem_centMod_conj {V₀ V : Subgroup G} {m g x : G} :
     x ∈ centMod (conjSubgroup V₀ g) (conjSubgroup V g) (g⁻¹ * m * g) ↔
       g * x * g⁻¹ ∈ centMod V₀ V m := by
@@ -42,16 +45,17 @@ theorem mem_centMod_conj {V₀ V : Subgroup G} {m g x : G} :
   · rintro ⟨hxV, hx⟩
     refine ⟨?_, ?_⟩
     · rw [mem_conjSubgroup_iff] at hxV
-      convert hxV using 1 <;> group
+      convert hxV using 1
     · rw [mem_conjSubgroup_iff] at hx
-      convert hx using 1 <;> group
+      convert hx using 1; group
   · rintro ⟨hyV, hy⟩
     refine ⟨?_, ?_⟩
     · rw [mem_conjSubgroup_iff]
-      convert hyV using 1 <;> group
+      convert hyV using 1
     · rw [mem_conjSubgroup_iff]
-      convert hy using 1 <;> group
+      convert hy using 1; group
 
+omit [Finite G] in
 theorem centMod_conj_card (V₀ V : Subgroup G) (m g : G) :
     Nat.card (centMod (conjSubgroup V₀ g) (conjSubgroup V g) (g⁻¹ * m * g)) =
       Nat.card (centMod V₀ V m) := by
@@ -65,24 +69,28 @@ theorem centMod_conj_card (V₀ V : Subgroup G) (m g : G) :
   convert y.2 using 1
   group
 
+omit [Finite G] in
 theorem centMod_conj'_card (V₀ V : Subgroup G) (m' g : G) :
     Nat.card (centMod (conjSubgroup V₀ g) (conjSubgroup V g) m') =
       Nat.card (centMod V₀ V (g * m' * g⁻¹)) := by
   have h := centMod_conj_card V₀ V (g * m' * g⁻¹) g
   rwa [show g⁻¹ * (g * m' * g⁻¹) * g = m' by group] at h
 
+omit [Finite G] in
 theorem centralizesMod_sq_conj (V₀ V : Subgroup G) (m g : G) :
     CentralizesMod (conjSubgroup V₀ g) (conjSubgroup V g) ((g⁻¹ * m * g) * (g⁻¹ * m * g)) ↔
       CentralizesMod V₀ V (m * m) := by
   have h := centralizesMod_conj V₀ V (m * m) g
   rwa [show g⁻¹ * (m * m) * g = (g⁻¹ * m * g) * (g⁻¹ * m * g) by group] at h
 
+omit [Finite G] in
 theorem centralizesMod_sq_conj' (V₀ V : Subgroup G) (m' g : G) :
     CentralizesMod (conjSubgroup V₀ g) (conjSubgroup V g) (m' * m') ↔
       CentralizesMod V₀ V ((g * m' * g⁻¹) * (g * m' * g⁻¹)) := by
   have h := centralizesMod_conj' V₀ V (m' * m') g
   rwa [show g * (m' * m') * g⁻¹ = (g * m' * g⁻¹) * (g * m' * g⁻¹) by group] at h
 
+omit [Finite G] in
 theorem mBarGT_conj (M V₀ V : Subgroup G) (g : G) (n : ℕ) :
     MBarGT (conjSubgroup M g) (conjSubgroup V₀ g) (conjSubgroup V g) n ↔ MBarGT M V₀ V n := by
   unfold MBarGT
@@ -153,7 +161,7 @@ theorem mBar_conj (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (hV₀ : V₀
         hMg hM₀g n).2 (by simpa [hn] using hle)
     have ha : MBarGT M V₀ V n := (mBarGT_conj M V₀ V g n).1 hb
     have : n < mBar M V₀ V hV := (mBarGT_iff_lt_mBar M V₀ V hV hV₀ hM hM₀ n).1 ha
-    exact lt_irrefl n (by simpa [hn] using this)
+    exact lt_irrefl n (by simp [hn] at this)
   · by_contra hle
     rw [not_le] at hle
     set n := mBar (conjSubgroup M g) (conjSubgroup V₀ g) (conjSubgroup V g) hVg with hn
@@ -164,7 +172,7 @@ theorem mBar_conj (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (hV₀ : V₀
     have : n < mBar (conjSubgroup M g) (conjSubgroup V₀ g) (conjSubgroup V g) hVg :=
       (mBarGT_iff_lt_mBar (conjSubgroup M g) (conjSubgroup V₀ g) (conjSubgroup V g) hVg hV₀g
         hMg hM₀g n).1 hb
-    exact lt_irrefl n (by simpa [hn] using this)
+    exact lt_irrefl n (by simp [hn] at this)
 
 theorem oneFirst_of_lt_mBar {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hV₀ : V₀ ≤ V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer (V₀ : Set G))
@@ -185,7 +193,7 @@ theorem oneFirst_of_lt_mBar {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hV
   have hC2 : CentralizesMod V₀ V (x * x) := by
     rw [hx2]
     intro v _
-    simpa using V₀.one_mem
+    simp
   have hcard := hGT.1 x hxM hnot hC2
   set U := V ⊓ conjSubgroup M g with hU
   have hUleV : U ≤ V := inf_le_left

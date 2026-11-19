@@ -12,6 +12,7 @@ open CFSG.Open CFSG.AGLEmbedding Subgroup
 
 variable {R : Type} [Group R] [Finite R]
 
+omit [Finite R] in
 theorem HasLeviCensus.exists_levi_quotient (h : HasLeviCensus R IsWBlock) :
     ∃ (k : ℕ) (G : Fin k → Type) (_ : ∀ j, Group (G j)) (_ : ∀ j, Finite (G j))
       (S : ∀ j, Subgroup (G j)) (Λ : Subgroup (∀ j, G j)) (ψ : ↥Λ →* R ⧸ CFSG.pCore 2 R),
@@ -22,10 +23,10 @@ theorem HasLeviCensus.exists_levi_quotient (h : HasLeviCensus R IsWBlock) :
   classical
   obtain ⟨Q, hQgroup, hQfin, σ, k, G, hGgroup, hGfin, S, β, hσ, hc, ho, hβ, hle, hn, hi, hS,
     hZ⟩ := h
-  letI : Group Q := hQgroup
-  letI : Finite Q := hQfin
-  letI : ∀ j, Group (G j) := hGgroup
-  letI : ∀ j, Finite (G j) := hGfin
+  let : Group Q := hQgroup
+  let : Finite Q := hQfin
+  let : ∀ j, Group (G j) := hGgroup
+  let : ∀ j, Finite (G j) := hGfin
   let Λ : Subgroup (∀ j, G j) := β.range
   let Rhat := R ⧸ CFSG.pCore 2 R
   have hodd : Odd ((Subgroup.pi Set.univ S).relIndex Λ) := by
@@ -63,8 +64,8 @@ theorem HasLeviCensus.normal_of_subnormal_symThree (h : HasLeviCensus R IsWBlock
   classical
   obtain ⟨k, G, hGgroup, hGfin, S, Λ, ψ, hψsurj, hψcen, hψodd, hSΛ, hΛS, hoddS, hS⟩ :=
     h.exists_levi_quotient
-  letI : ∀ j, Group (G j) := hGgroup
-  letI : ∀ j, Finite (G j) := hGfin
+  let : ∀ j, Group (G j) := hGgroup
+  let : ∀ j, Finite (G j) := hGfin
   obtain ⟨eX⟩ := hX
   let V : Subgroup ↥Λ := X.comap ψ
   have hVs : IsSubnormal V ⊤ := by
@@ -72,7 +73,7 @@ theorem HasLeviCensus.normal_of_subnormal_symThree (h : HasLeviCensus R IsWBlock
     rwa [Subgroup.comap_top] at h'
   let f : ↥V →* Equiv.Perm (Fin 3) := eX.toMonoidHom.comp (ψ.subgroupComap X)
   have hf : Function.Surjective f :=
-    eX.surjective.comp (ψ.subgroupComap_surjective_of_surjective X hψsurj)
+    eX.surjective.comp (ψ.subgroupComap_surjective X hψsurj)
   have hfker : ∀ x : ↥V, x ∈ f.ker ↔ (x : ↥Λ) ∈ ψ.ker := by
     intro x
     rw [MonoidHom.mem_ker, MonoidHom.mem_ker, MonoidHom.comp_apply,

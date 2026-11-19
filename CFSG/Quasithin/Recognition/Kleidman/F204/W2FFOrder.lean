@@ -155,7 +155,7 @@ theorem exists_five_noncentral {G : Type*} [Group G] {V L : Subgroup G}
   simp only [not_exists, not_and, not_not] at hcon
   have hx0c : x0 ∈ (@centV G _ V L) := fun v hv => hcon v hv
   have hM : (@centV G _ V L).map φ = ⊤ := by
-    haveI : ((@centV G _ V L).map φ).Normal := (centV_normal hLV).map φ hφ
+    have : ((@centV G _ V L).map φ).Normal := (centV_normal hLV).map φ hφ
     refine (Subgroup.Normal.eq_bot_or_eq_top _).resolve_left ?_
     intro h
     have hmem : φ x0 ∈ (@centV G _ V L).map φ := mem_map_of_mem φ hx0c

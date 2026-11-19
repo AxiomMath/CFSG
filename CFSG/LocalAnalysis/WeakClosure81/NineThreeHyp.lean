@@ -11,6 +11,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ}
 
+omit [Finite G] in
 theorem nineThree_A_le_S (h9 : Hyp9 V T) (hA : IsGConj V A) (hAT : A ≤ T)
     (htau : E1.tauOf (normalizer (V : Set G)) T A ≤ S) : A ≤ S := by
   have hAab : IsMulCommutative ↥A := by
@@ -28,6 +29,7 @@ theorem nineThree_A_le_S (h9 : Hyp9 V T) (hA : IsGConj V A) (hAT : A ≤ T)
     rw [h1]
     exact Subgroup.one_mem _
 
+omit [Finite G] in
 theorem nineThree_centralizer_le_S (h9 : Hyp9 V T)
     (htau : E1.tauOf (normalizer (V : Set G)) T A ≤ S) :
     T ⊓ centralizer (A : Set G) ≤ S := by
@@ -45,7 +47,7 @@ theorem nineThree_centralizer_le_S (h9 : Hyp9 V T)
 theorem TwoPTwo.commutator_mem_pCoreOf (h : TwoPTwo K S X p) {Y : Subgroup G} (hYX : Y ≤ X)
     (hY : ∀ s ∈ S ⊓ normalizer (X : Set G), ∀ y ∈ Y, s * y * s⁻¹ ∈ Y) {r y : G}
     (hr : r ∈ pCoreOf 2 (S ⊔ Y)) (hy : y ∈ Y) : ⁅y, r⁆ ∈ pCoreOf 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K₀ := S ⊔ Y
   let R₀ := pCoreOf 2 K₀
   let L := pCoreOf 2 K ⊔ Y
@@ -73,9 +75,9 @@ theorem TwoPTwo.commutator_mem_pCoreOf (h : TwoPTwo K S X p) {Y : Subgroup G} (h
 private theorem nineThree_inf_center_ne_bot {T U : Subgroup G} (hT : IsPGroup 2 T)
     (hUT : U ≤ T) (hUn : T ≤ Subgroup.normalizer (U : Set G)) (hU : U ≠ ⊥) :
     U ⊓ (T ⊓ Subgroup.centralizer (T : Set G)) ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent T := hT.isNilpotent
-  haveI : (U.subgroupOf T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hUn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent T := hT.isNilpotent
+  have : (U.subgroupOf T).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hUn
   have hne : U.subgroupOf T ≠ ⊥ := by
     intro h
     apply hU
@@ -95,14 +97,14 @@ theorem nineThree_witness (h9 : Hyp9 V T)
     (h1 : ¬ normalizer (E3.wClos V 1 T : Set G) ≤ normalizer (V : Set G)) :
     ∃ b ∈ E3.cClos V 1 T, b ≠ 1 ∧
       ∀ Y ∈ calP V, Y ≤ centralizer ({b} : Set G) → Y = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVnorm : (V.subgroupOf (normalizer (V : Set G))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer Subgroup.le_normalizer).2 le_rfl
   have hVp : IsPGroup 2 V := B2F.isPGroup_of_isElemAbelian h9.hyp7.1
   have hVT : V ≤ T := h9.sylow.le_of_normal Subgroup.le_normalizer hVnorm hVp
   have hVW : V ≤ E3.wClos V 1 T := E3.le_wClos_of_mQuot_le_self h9.hyp7.1 hVT le_rfl
     (k := 1) (by rw [E3.mQuot_self]; norm_num) (by have := h9.rk_gt; omega)
-  obtain ⟨h, hhN, hhM⟩ := SetLike.not_le_iff_exists.1 h1
+  obtain ⟨h, hhN, hhM⟩ := IsConcreteLE.not_le_iff_exists.1 h1
   have hW1h : conjSubgroup (E3.wClos V 1 T) h = E3.wClos V 1 T :=
     (conjSubgroup_eq_iff_mem_normalizer).2 hhN
   have hVhW1 : conjSubgroup V h ≤ E3.wClos V 1 T := by
@@ -203,6 +205,7 @@ theorem Nine3Seed.notW (h : Nine3Seed V T A K S X p) {Y : Subgroup G}
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hWK₀ hN hW2
   exact h.not_le_pCoreOf hY (hAW.trans hW)
 
+omit [Finite G] in
 theorem nineThree_le_twoResidual {H Y : Subgroup G} (hp : p.Prime) (hp2 : p ≠ 2)
     (hY : IsPGroup p Y) (hYH : Y ≤ H) : Y ≤ twoResidual H := by
   intro x hx

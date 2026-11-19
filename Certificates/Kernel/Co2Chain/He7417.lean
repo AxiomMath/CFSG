@@ -16,7 +16,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KS.Prim CFSG.KC.BfsPin CFSG.KC.PermTo
 open CFSG.Monster.B.Co2.Native CFSG.Sporadic.HeldB CFSG.Quasithin.F7Two
 open CertificateChecks.KernelLC.HeFix
 
-@[expose] noncomputable abbrev pc (p q : Nat) : Nat := pcomp 8330 14 (mask 14) p q
+noncomputable abbrev pc (p q : Nat) : Nat := pcomp 8330 14 (mask 14) p q
 
 @[expose] noncomputable def commK (y yi x xi : Nat) : Nat := pc (pc y x) (pc yi xi)
 
@@ -24,9 +24,9 @@ open CertificateChecks.KernelLC.HeFix
   bAnd(Nat.beq (powK 8330 14 c e) (pidn 8330 14),
     bIf(Nat.beq (powK 8330 14 c f) (pidn 8330 14), false, true))
 
-@[expose] noncomputable abbrev BA : Nat := pc (HG.F 1) (HG.F 0)
+noncomputable abbrev BA : Nat := pc (HG.F 1) (HG.F 0)
 
-@[expose] noncomputable abbrev IAB : Nat := pc G0I G1I
+noncomputable abbrev IAB : Nat := pc G0I G1I
 
 theorem kInv : bAnd(invEqK 8330 14 (mask 14) (8330 * 14) (HG.F 0) G0I,
     bAnd(invEqK 8330 14 (mask 14) (8330 * 14) (HG.F 1) G1I,

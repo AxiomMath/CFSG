@@ -66,13 +66,13 @@ theorem exists_orthFrameCore_of_marking {G : Type} [Group G] [Finite G] {p : ℕ
     hcard, hring, hT, hdim, hplus, himage, hcompat0⟩ :=
     OrthKExactTwo.exists_quadratic_image_of_orthogonal_marking hRig hp2 hmarkK hBs hSC
       hΛ hhas htag hrank
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
-  letI : AddCommGroup V := hAdd
-  letI : Module F V := hMod
-  letI : FiniteDimensional F V := hFinDim
-  letI : Nontrivial V := hNontrivial
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
+  let : AddCommGroup V := hAdd
+  let : Module F V := hMod
+  let : FiniteDimensional F V := hFinDim
+  let : Nontrivial V := hNontrivial
   have hdim' : Module.finrank F V = 2 * rank := hdim
   have hcard' : Nat.card F = 2 ^ n := hcard
   let σ : (↥K ⧸ Subgroup.center ↥K) ≃* ↥(orthDerived Q) :=
@@ -102,7 +102,7 @@ theorem exists_orthFrameCore_of_marking {G : Type} [Group G] [Finite G] {p : ℕ
   let κ' : ↥K ⧸ Z →* ↥K := QuotientGroup.lift Z (MonoidHom.id ↥K) hker
   have hκ'mk : ∀ z : ↥K, κ' (QuotientGroup.mk z) = z := by
     intro z
-    simpa [κ'] using QuotientGroup.lift_mk' (N := Z) (φ := MonoidHom.id ↥K) hker z
+    simp [κ']
   have hκ'inj : Function.Injective κ' := by
     intro x y hxy
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective x
@@ -195,9 +195,9 @@ theorem exists_orthFrameCore_of_marking {G : Type} [Group G] [Finite G] {p : ℕ
     hnoFixed, hexFixed⟩ :=
     exists_torus_blocks (K := F) (V := V) (Q := Q) (p := p) (A := A)
       hp2 (Or.inr hpqF) hQ hT hAΩ hApow hAcomm hmax hne
-  letI : AddCommGroup D := hDadd
-  letI : Module F D := hDmod
-  letI : FiniteDimensional F D := hDfin
+  let : AddCommGroup D := hDadd
+  let : Module F D := hDmod
+  let : FiniteDimensional F D := hDfin
   let Δ : TBJOmData Q p A r :=
     { τ := τ
       F := Fframe
@@ -338,7 +338,7 @@ theorem exists_orthWeakFrame_of_marking {G : Type} [Group G] [Finite G] {p : ℕ
     (hact : ∀ hN : Bs ≤ Subgroup.normalizer (K : Set G), ∃ b : ↥Bs, ggGamma K hN b ≠ 1) :
     ∃ Φ : OrthWeakFrame p Bs K, Φ.Recognized := by
   classical
-  haveI hperf : Group.IsPerfect ↥K := Group.IsPerfect.mk hmark.1
+  have hperf : Group.IsPerfect ↥K := Group.IsPerfect.mk hmark.1
   have hZK : ∀ lab : LargeEvenLabel, (ggRowP_EOmP p lab ∨ ggRowP_EOmM p lab) ∧ 2 ≤ lab.n →
       GGHasLabel lab (↥K ⧸ Subgroup.center ↥K) → Subgroup.center ↥K = ⊥ := by
     rintro ⟨tag, rank, n⟩ ⟨hrow, hn2⟩ hhas

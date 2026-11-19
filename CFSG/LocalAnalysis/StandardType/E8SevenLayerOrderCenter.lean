@@ -62,7 +62,7 @@ theorem seven_sq_dvd_card_rootSpan_inf_twistedFixedPoints {L : Type} [Field L] [
     rw [CharP.cast_eq_zero L 2]
     simp
   rcases hJ with rfl | rfl
-  · haveI : Fintype ↥(e6Nodes Tag.E8) := Fintype.ofFinite _
+  · have : Fintype ↥(e6Nodes Tag.E8) := Fintype.ofFinite _
     obtain ⟨E, hE, hcard⟩ := exists_subgroup_le_rootSpan_inf_twistedFixedPoints (τ := Tag.E8)
       (Ω := L) (J := e6Nodes Tag.E8) rfl hFr n hnm hmaps hrel
       (by rw [det_cartanBlock_e6Nodes]; norm_num) hq
@@ -73,7 +73,7 @@ theorem seven_sq_dvd_card_rootSpan_inf_twistedFixedPoints {L : Type} [Field L] [
         norm_num
       exact Nat.pow_left_injective (by norm_num) h
     exact (by rw [h343]; norm_num : 7 ^ 2 ∣ Nat.card E).trans (Subgroup.card_dvd_of_le hE)
-  · haveI : Fintype ↥(d4Nodes Tag.E8) := Fintype.ofFinite _
+  · have : Fintype ↥(d4Nodes Tag.E8) := Fintype.ofFinite _
     obtain ⟨E, hE, hcard⟩ := exists_subgroup_le_rootSpan_inf_twistedFixedPoints (τ := Tag.E8)
       (Ω := L) (J := d4Nodes Tag.E8) rfl hFr n hnm hmaps hrel
       (by rw [det_cartanBlock_d4Nodes]; norm_num) hq
@@ -93,10 +93,10 @@ theorem eq_one_of_pow_seven_of_mem_center_rootSpan {L : Type} [Field L]
     (hz7 : z ^ 7 = 1) : z = 1 := by
   classical
   rcases hJ with rfl | rfl
-  · haveI : Fintype ↥(e6Nodes Tag.E8) := Fintype.ofFinite _
+  · have : Fintype ↥(e6Nodes Tag.E8) := Fintype.ofFinite _
     exact eq_one_of_pow_eq_one_of_mem_center_rootSpan (J := e6Nodes Tag.E8) rfl hzQ hzC
       (by rw [det_cartanBlock_e6Nodes]; decide) hz7
-  · haveI : Fintype ↥(d4Nodes Tag.E8) := Fintype.ofFinite _
+  · have : Fintype ↥(d4Nodes Tag.E8) := Fintype.ofFinite _
     exact eq_one_of_pow_eq_one_of_mem_center_rootSpan (J := d4Nodes Tag.E8) rfl hzQ hzC
       (by rw [det_cartanBlock_d4Nodes]; decide) hz7
 

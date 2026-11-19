@@ -18,7 +18,7 @@ section TorsionOrth
 
 private theorem tor_center_eq_bot {R : Type} [Group R] (hs : IsSimpleGroup R)
     (hna : ∃ a b : R, a * b ≠ b * a) : Subgroup.center R = ⊥ := by
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center R) with h | h
   · exact h
   · obtain ⟨a, b, hab⟩ := hna
@@ -52,13 +52,13 @@ theorem ggTorsionKnownOver_typeD :
       exact ⟨hs, hna, θ, rfl, hI⟩
     exact h'
   · dsimp only [LargeEvenRawDatumLegacy] at hraw
-    rw [if_neg hr3] at hraw
+    rw [ite_eq_right hr3] at hraw
     obtain ⟨K, _, _, hK, hs, hna, θ, ⟨-, hI⟩, hM⟩ := hraw
     have hM' : CFSG.Open.StatedClassicalModel
         (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K r))) .POmegaPlus r 2 n := by
       have h0 := hM
       dsimp only [MarkedModel, markTag, markRank, markChar, markDeg] at h0
-      rw [if_neg hr3, if_neg hr3] at h0
+      rw [ite_eq_right hr3, ite_eq_right hr3] at h0
       exact h0.statedClassicalModel_of_ne_zero (by omega)
     have hδp' : ggInducedAut θ δ ^ p = 1 := by rw [← map_pow, hδp, map_one]
     have hJ' := ggTorsion_isComponentOf_image θ hcomp
@@ -110,13 +110,13 @@ theorem ggTorsionKnownOver_typeTwD :
         exact ⟨hs, hna, θ, rfl, hI⟩
       exact h'
     · dsimp only [LargeEvenRawDatumLegacy] at hraw
-      rw [if_neg hr2', if_neg hr3] at hraw
+      rw [ite_eq_right hr2', ite_eq_right hr3] at hraw
       obtain ⟨K, _, _, hK, b, c, hbc, hs, hna, θ, ⟨-, hI⟩, hM⟩ := hraw
       have hM' : CFSG.Open.StatedClassicalModel
           (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (r - 1) b c))) .POmegaMinus r 2 n := by
         have h0 := hM
         dsimp only [MarkedModel, markTag, markRank, markChar, markDeg] at h0
-        rw [if_neg hr2', if_neg hr3, if_neg hr2', if_neg hr3, if_neg hr2'] at h0
+        rw [ite_eq_right hr2', ite_eq_right hr3, ite_eq_right hr2', ite_eq_right hr3, ite_eq_right hr2'] at h0
         exact h0.statedClassicalModel_of_ne_zero (by omega)
       have hδp' : ggInducedAut θ δ ^ p = 1 := by rw [← map_pow, hδp, map_one]
       have hJ' := ggTorsion_isComponentOf_image θ hcomp

@@ -8,7 +8,7 @@ namespace CFSG.LocalAnalysis.WeakClosure81
 
 open CFSG.LieType.SpecialLinear.ExteriorModel
 
-private def c2slout6r_hl : (3 : ℕ) ≤ 6 := by norm_num
+private theorem c2slout6r_hl : (3 : ℕ) ≤ 6 := by norm_num
 
 private def c2slout6r_S : Fin 6 → Set.powersetCard (Fin 6) 3 :=
   ![Set.powersetCard.ofCard (s := ({0, 1, 4} : Finset (Fin 6))) (by decide),
@@ -53,7 +53,7 @@ private lemma c2slout6r_revMap_single {K : Type*} [CommRing K]
   by_cases h : t = s
   · subst h
     simp
-  · rw [if_neg h, if_neg]
+  · rw [ite_eq_right h, ite_eq_right]
     intro hh
     exact h (F.injective hh)
 
@@ -69,7 +69,7 @@ private lemma c2slout6r_S'_ne_S (i : Fin 6) : c2slout6r_S' i ≠ c2slout6r_S i :
   fin_cases i <;> decide
 
 theorem w135c2_six_three_rank {K : Type} [Field K] [Fintype K] [CharP K 2]
-    (hK : Fintype.card K = 2) (B : Matrix (Fin 6) (Fin 6) K)
+    (_hK : Fintype.card K = 2) (B : Matrix (Fin 6) (Fin 6) K)
     (hB0 : ∀ i j : Fin 6, j < i → B i j = 0) (hB1 : ∀ i : Fin 6, B i i = 1) :
     6 ≤ Module.finrank K (LinearMap.range
       (Matrix.mulVecLin (minor B : Matrix (Set.powersetCard (Fin 6) 3)
@@ -119,12 +119,12 @@ theorem w135c2_six_three_rank {K : Type} [Field K] [Fintype K] [CharP K 2]
       refine minor_eq_zero_of_upper (g := B) hB0 ?_
       rw [c2slout6r_sum_S' b, c2slout6r_sum_S' a]
       omega
-    rw [hzero, if_neg hne, sub_zero]
+    rw [hzero, ite_eq_right hne, sub_zero]
   have hN_diag : ∀ a : Fin 6, N a a = 1 := by
     intro a
     dsimp only [N]
     rw [c2slout6r_minor_self (B := B) hB0 hB1 (c2slout6r_S' a),
-      if_neg (c2slout6r_S'_ne_S a), sub_zero]
+      ite_eq_right (c2slout6r_S'_ne_S a), sub_zero]
   have hNdet : N.det = 1 := by
     rw [Matrix.det_of_isUpperTriangular hN_upper]
     exact Finset.prod_eq_one fun a _ => hN_diag a

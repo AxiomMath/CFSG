@@ -20,28 +20,35 @@ variable (B : Subgroup (OGroup Q))
 @[expose] def fgT (g : ↥B) : Module.End (ZMod 3) V :=
   ((g : OGroup Q) : V ≃ₗ[ZMod 3] V).toLinearMap
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fgT_mul (g h : ↥B) : fgT B (g * h) = fgT B g * fgT B h :=
   LinearMap.ext fun _ => rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fgT_one : fgT B 1 = 1 :=
   LinearMap.ext fun _ => rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fgT_injective : Function.Injective (fgT B) := by
   intro g g' h
   exact Subtype.ext (Subtype.ext (LinearEquiv.ext fun v => LinearMap.congr_fun h v))
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fgT_map (g : ↥B) (v : V) : Q (fgT B g v) = Q v :=
   TauCeti.QuadraticMap.map_app_of_mem_orthogonalGroup (g : OGroup Q).2 v
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fgT_polar (g : ↥B) (x y : V) :
     QuadraticMap.polar Q (fgT B g x) (fgT B g y) = QuadraticMap.polar Q x y := by
   simp only [QuadraticMap.polar]
   rw [← map_add, fgT_map, fgT_map, fgT_map]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fgT_sq (hB : IsElemAb2 B 4) (g : ↥B) : fgT B g * fgT B g = 1 := by
   have h : g * g = 1 := Subtype.ext (by simpa [pow_two] using hB.1.2 g g.2)
   rw [← fgT_mul, h, fgT_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fgT_comm (hB : IsElemAb2 B 4) (g h : ↥B) : Commute (fgT B g) (fgT B h) := by
   have h' : g * h = h * g := hB.1.1.is_comm.comm g h
   show fgT B g * fgT B h = fgT B h * fgT B g
@@ -53,6 +60,7 @@ section Weights
 
 variable (B : Subgroup (OGroup Q)) [Fintype ↥B] [DecidableEq ↥B]
 
+omit [Fintype ↥B] [DecidableEq ↥B] in
 theorem fgT_eq_of_weights (hB : IsElemAb2 B 4) (g g' : ↥B)
     (h : ∀ χ : ↥B → ZMod 3, fgWt (fgT B) χ ≠ ⊥ → χ g = χ g') : g = g' := by
   have hle : ∀ χ : ↥B → ZMod 3, fgWt (fgT B) χ ≤ LinearMap.eqLocus (fgT B g) (fgT B g') := by
@@ -100,16 +108,17 @@ theorem fg_four_le_card_weights (hB : IsElemAb2 B 4) :
     norm_num
   rw [h16] at hcard
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h3 : 2 ^ W.card ≤ 2 ^ 3 := Nat.pow_le_pow_right (by norm_num) (by omega)
   omega
 
+omit [FiniteDimensional (ZMod 3) V] [DecidableEq ↥B] in
 theorem fgWt_polar_eq_zero (hB : IsElemAb2 B 4) {χ χ' : ↥B → ZMod 3}
     (hχ : fgWt (fgT B) χ ≠ ⊥) (hχ' : fgWt (fgT B) χ' ≠ ⊥) (hne : χ ≠ χ') {x y : V}
     (hx : x ∈ fgWt (fgT B) χ) (hy : y ∈ fgWt (fgT B) χ') : QuadraticMap.polar Q x y = 0 := by
   obtain ⟨g, hg⟩ : ∃ g, χ g ≠ χ' g := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (funext h)
   have h1 := fgWt_sq (fgT B) (fgT_sq B hB) hχ g
   have h2 := fgWt_sq (fgT B) (fgT_sq B hB) hχ' g

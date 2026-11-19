@@ -118,11 +118,13 @@ private theorem isU0_or_isU1_or_isA (i : Fin (2 * 5)) : IsU0 i ∨ IsU1 i ∨ Is
   · rcases fin4_cases k with rfl | rfl | rfl | rfl <;> simp [IsU0, IsU1, ldF]
   · fin_cases t <;> simp [IsA, ldAL, ldAR, anisoCoordLeft, anisoCoordRight]
 
+omit [Finite F] [CharP F 2] in
 theorem polar_cPair_e (k : Fin 4) (v : Fin (2 * 5) → F) :
     polar (Qc F b c) (cPair F b c k).e v = v (ldF k) := by
   simp only [cPair]
   exact (isHypCoord_coordinateQuadMinus (K := F) (n := 5) (by norm_num) b c k).polar_left v
 
+omit [Finite F] [CharP F 2] in
 theorem polar_cPair_f (k : Fin 4) (v : Fin (2 * 5) → F) :
     polar (Qc F b c) (cPair F b c k).f v = v (ldE k) := by
   simp only [cPair]
@@ -138,6 +140,7 @@ theorem single_apply_eq_zero_iff {d : ℕ} {K : Type} [Field K] {i j : Fin d} :
   · intro h
     exact Pi.single_eq_of_ne (M := fun _ => K) (Ne.symm h) 1
 
+omit [Finite F] [CharP F 2] in
 theorem inW_cPair_single_iff (a₁ a₂ : Fin 4) (i : Fin (2 * 5)) :
     InW (cPair F b c a₁) (cPair F b c a₂) (Pi.single i (1 : F)) ↔
       (i ≠ ldF a₁ ∧ i ≠ ldE a₁ ∧ i ≠ ldF a₂ ∧ i ≠ ldE a₂) := by
@@ -147,6 +150,7 @@ theorem inW_cPair_single_iff (a₁ a₂ : Fin 4) (i : Fin (2 * 5)) :
 @[expose] def basisSet (P : Fin (2 * 5) → Prop) : Set (Fin (2 * 5) → F) :=
   {v | ∃ i, P i ∧ v = Pi.single i (1 : F)}
 
+omit [Finite F] [CharP F 2] in
 private theorem mem_basisSet {P : Fin (2 * 5) → Prop} {i : Fin (2 * 5)} :
     Pi.single i (1 : F) ∈ basisSet (F := F) P ↔ P i := by
   constructor
@@ -161,15 +165,18 @@ private theorem mem_basisSet {P : Fin (2 * 5) → Prop} {i : Fin (2 * 5)} :
   · intro h
     exact ⟨i, h, rfl⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem basisSet_mono {P Q : Fin (2 * 5) → Prop} (h : ∀ i, P i → Q i) :
     basisSet (F := F) P ⊆ basisSet (F := F) Q := by
   rintro v ⟨i, hi, rfl⟩
   exact ⟨i, h i hi, rfl⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem coordFix_anti {T₁ T₂ : Set (Fin (2 * 5) → F)} (h : T₂ ⊆ T₁) :
     fixPtSub (K := F) T₁ ≤ fixPtSub (K := F) T₂ :=
   fun _ hx v hv => hx v (h hv)
 
+omit [Finite F] in
 private theorem fix_sup {hQ' : ∃ v, Qc F b c v ≠ 0} {T : Set (Fin (2 * 5) → F)}
     {A B : Subgroup (matrixProjectiveDerived (Qc F b c))}
     (hA : ∀ x ∈ A, projLiftHom hQ' x ∈ fixPtSub (K := F) T)
@@ -207,12 +214,14 @@ theorem linearEquiv_eq_one_of_fix_single {d : ℕ} {K : Type} [Field K]
   rw [Finset.sum_congr rfl (fun i _ => h2 i)]
   exact hx.symm
 
+omit [Finite F] in
 private theorem eq_one_of_fix_all {hQ' : ∃ v, Qc F b c v ≠ 0}
     {x : matrixProjectiveDerived (Qc F b c)}
     (h : ∀ i, projLiftHom hQ' x (Pi.single i (1 : F)) = Pi.single i (1 : F)) : x = 1 := by
   have hY : projLiftHom hQ' x = 1 := linearEquiv_eq_one_of_fix_single h
   exact projLiftHom_injective hQ' (hY.trans (map_one _).symm)
 
+omit [Finite F] in
 private theorem fix_zpow {hQ' : ∃ v, Qc F b c v ≠ 0}
     {g : matrixProjectiveDerived (Qc F b c)} {v : Fin (2 * 5) → F}
     (hg : projLiftHom hQ' g v = v) (k : ℤ) : projLiftHom hQ' (g ^ k) v = v := by
@@ -228,6 +237,7 @@ private theorem fix_zpow {hQ' : ∃ v, Qc F b c v ≠ 0}
   exact (mem_fixPtSub.1 ((Subgroup.mem_comap).1 (hle (Subgroup.zpow_mem_zpowers g k)))) _
     (Set.mem_singleton v)
 
+omit [Finite F] in
 private theorem fix_of_mem_zpowers {hQ' : ∃ v, Qc F b c v ≠ 0}
     {g x : matrixProjectiveDerived (Qc F b c)} {v : Fin (2 * 5) → F}
     (hg : projLiftHom hQ' g v = v) (hx : x ∈ Subgroup.zpowers g) :
@@ -235,6 +245,7 @@ private theorem fix_of_mem_zpowers {hQ' : ∃ v, Qc F b c v ≠ 0}
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
   exact fix_zpow hg k
 
+omit [Finite F] in
 private theorem fix_zpowers_set {hQ' : ∃ v, Qc F b c v ≠ 0}
     {g : matrixProjectiveDerived (Qc F b c)} {P : Fin (2 * 5) → Prop}
     (hg : ∀ i, P i → projLiftHom hQ' g (Pi.single i (1 : F)) = Pi.single i (1 : F)) :
@@ -244,7 +255,8 @@ private theorem fix_zpowers_set {hQ' : ∃ v, Qc F b c v ≠ 0}
   rintro v ⟨i, hi, rfl⟩
   exact fix_of_mem_zpowers (hg i hi) hx
 
-private theorem fix_g0_of (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
+omit [Finite F] in
+private theorem fix_g0_of (_hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     (hQ' : ∃ v, Qc F b c v ≠ 0)
     (X : LayerQGenerators (F := F) (b := b) (c := c) (q := q))
     {i : Fin (2 * 5)} (hi : IsU1 i ∨ IsA i) :
@@ -272,7 +284,8 @@ private theorem fix_g0_of (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
         Ne.symm (ldE_ne_ldAR 1)⟩
   exact leviFixBar_lift_fixes (F := F) (b := b) (c := c) (hQ' := hQ') X.mem_g0 key
 
-private theorem fix_g2_of (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
+omit [Finite F] in
+private theorem fix_g2_of (_hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     (hQ' : ∃ v, Qc F b c v ≠ 0)
     (X : LayerQGenerators (F := F) (b := b) (c := c) (q := q))
     {i : Fin (2 * 5)} (hi : IsU0 i ∨ IsA i) :
@@ -300,11 +313,13 @@ private theorem fix_g2_of (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
         Ne.symm (ldE_ne_ldAR 3)⟩
   exact leviFixBar_lift_fixes (F := F) (b := b) (c := c) (hQ' := hQ') X.mem_g2 key
 
+omit [Finite F] [CharP F 2] in
 private theorem inW_flip_right {P₁ P₂ : HypPair (Qc F b c)} {v : Fin (2 * 5) → F}
     (h : InW P₁ P₂ v) : InW P₁ (flipPair P₂) v :=
   ⟨h.1, h.2.1, h.2.2.2, h.2.2.1⟩
 
-private theorem fix_g3_of (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
+omit [Finite F] in
+private theorem fix_g3_of (_hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     (hQ' : ∃ v, Qc F b c v ≠ 0)
     (X : LayerQGenerators (F := F) (b := b) (c := c) (q := q))
     {i : Fin (2 * 5)} (hi : IsU0 i ∨ IsA i) :
@@ -354,6 +369,7 @@ private theorem fix_u_of (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
   · subst h; exact (key 3).1
   · subst h; exact (key 3).2
 
+omit [Finite F] in
 private theorem disjoint_zp0_sup23 (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     (hQ' : ∃ v, Qc F b c v ≠ 0)
     (X : LayerQGenerators (F := F) (b := b) (c := c) (q := q)) :
@@ -433,6 +449,7 @@ private theorem disjoint_sup023_zpu (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
   · exact (mem_fixPtSub.1 (hu x hxu)) _ ((mem_basisSet).2 (Or.inr h))
   · exact (mem_fixPtSub.1 (hsup x hxS)) _ ((mem_basisSet).2 h)
 
+omit [CharP F 2] in
 private theorem card_sup_eq_mul_of_disjoint {A B : Subgroup (matrixProjectiveDerived (Qc F b c))}
     (hAB : A ⊓ B = ⊥) (hc : ∀ a ∈ A, ∀ bb ∈ B, a * bb = bb * a) :
     Nat.card ↥(A ⊔ B) = Nat.card A * Nat.card B := by

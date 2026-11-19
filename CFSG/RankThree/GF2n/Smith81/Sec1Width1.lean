@@ -64,7 +64,7 @@ theorem exists_hyp_basis (M₀ : Tim79.QuadModel Q Z K γ) (h2 : Module.finrank 
     intro e
     have he : e ∈ Submodule.span K (Set.range ![s₁, s₂]) := by rw [hspan]; trivial
     have hr : Set.range ![s₁, s₂] = {s₁, s₂} := by
-      ext y; simp [Fin.exists_fin_two, eq_comm, or_comm]
+      ext y; simp [eq_comm, or_comm]
     rw [hr, Submodule.mem_span_pair] at he
     obtain ⟨a, b, hab⟩ := he
     exact ⟨a, b, hab.symm⟩
@@ -235,13 +235,15 @@ section Width1
 
 variable [Finite G] {M Q Z X : Subgroup G} {x : G}
 
-theorem Sit.x_cent_of_mem (hs : Sit M Q Z X x) (h12 : Post12 M Q Z X) {w : G} (hw : w ∈ X) :
+omit [Finite G] in
+theorem Sit.x_cent_of_mem (_hs : Sit M Q Z X x) (h12 : Post12 M Q Z X) {w : G} (hw : w ∈ X) :
     ∀ z ∈ Z, w * z * w⁻¹ = z := by
   intro z hz
   have := Subgroup.mem_centralizer_iff.mp (h12.1 hw).2 z hz
   rw [mul_inv_eq_iff_eq_mul]
   exact this.symm
 
+omit [Finite G] in
 theorem card_Q_eq {K : Type} [Field K] [Finite K] {γ : G → K} (M₀ : Tim79.QuadModel Q Z K γ)
     (hZQ : Z ≤ Q) : Nat.card Q = Nat.card M₀.E * Nat.card Z := by
   have h := card_preimageSub hZQ (⊤ : Submodule K M₀.E)

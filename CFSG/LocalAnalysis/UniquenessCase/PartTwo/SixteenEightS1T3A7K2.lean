@@ -14,11 +14,12 @@ open scoped Pointwise
 variable {G : Type} [Group G] [Finite G] {D : Data G} {V₀ V L : Subgroup G}
   {hV : IsElemAbelian 2 V}
 
+omit [Finite G] in
 private theorem s16t3_exists_mul_of_mem_sup {M YL YK : Subgroup G}
     (hYLM : (YL.subgroupOf M).Normal) (hYLM' : YL ≤ M) (hYKM' : YK ≤ M) {x : G}
     (hx : x ∈ YL ⊔ YK) : ∃ y ∈ YL, ∃ k ∈ YK, y * k = x := by
   have hxM : x ∈ M := (sup_le hYLM' hYKM') hx
-  haveI : (YL.subgroupOf M).Normal := hYLM
+  have : (YL.subgroupOf M).Normal := hYLM
   have hx' : (⟨x, hxM⟩ : ↥M) ∈ (YL.subgroupOf M) ⊔ (YK.subgroupOf M) := by
     rw [← Subgroup.subgroupOf_sup hYLM' hYKM']
     exact hx
@@ -33,7 +34,7 @@ private theorem s16t3_prime_dvd_card_of_sup_of_normal {A : Type*} [Group A] [Fin
   by_cases hq2 : q = 2
   · exact Or.inl hq2
   · right
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' q (G := ↥H) hqH
     have hxsup : (x : A) ∈ N ⊔ P := by rw [hsup]; exact Subgroup.mem_top _
     obtain ⟨n, hn, p, hp, hx⟩ := (Subgroup.mem_sup_of_normal_left (s := N) (t := P)).1 hxsup
@@ -170,6 +171,7 @@ private theorem s16t3_inf_Y_eq_pgroup (hset : Setting16 D V₀ V L)
       (le_trans inf_le_left (hYLle.trans hMstab))
   exact hYKC.to_le (le_inf inf_le_right hRleC)
 
+omit [Finite G] in
 theorem s16t3_barSub_sup {X Y : Subgroup G} (hX : X ≤ stabTil V₀ V)
     (hY : Y ≤ stabTil V₀ V) :
     barSub V₀ V hV (X ⊔ Y) = barSub V₀ V hV X ⊔ barSub V₀ V hV Y := by
@@ -180,7 +182,7 @@ theorem s16t3_prime_dvd_card_of_sup_of_normal_amb {N P H : Subgroup G}
     (hN : (N.subgroupOf (N ⊔ P)).Normal) (hNH : H ≤ N ⊔ P)
     (hNp : ∀ q : ℕ, q.Prime → q ∣ Nat.card ↥(N ⊓ H) → q = 2 ∨ q = 3)
     (hP : IsPGroup 2 ↥P) {q : ℕ} (hq : q.Prime) (hqH : q ∣ Nat.card ↥H) : q = 2 ∨ q = 3 := by
-  haveI := hN
+  have := hN
   have hsup : N.subgroupOf (N ⊔ P) ⊔ P.subgroupOf (N ⊔ P) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup le_sup_left le_sup_right, Subgroup.subgroupOf_self]
   have hNp' : ∀ r : ℕ, r.Prime →
@@ -232,7 +234,7 @@ public theorem s16t3_barSub_sup_eq_Mbar (hset : Setting16 D V₀ V L)
     · intro x hx
       rcases hx with ⟨hxLK, hxN⟩
       have hxM : x ∈ Mbar D.M V₀ V hV := (sup_le hLbarM hKbarM) hxLK
-      haveI := hLbarNorm
+      have := hLbarNorm
       have hx' : (⟨x, hxM⟩ : ↥(Mbar D.M V₀ V hV)) ∈
           ((lBar V₀ V hV L).subgroupOf (Mbar D.M V₀ V hV)) ⊔
             ((s1t3KBar (Mbar D.M V₀ V hV) (lBar V₀ V hV L)).subgroupOf
@@ -315,9 +317,9 @@ public theorem s16t3_prime_dvd_card_inf_cTilde (hset : Setting16 D V₀ V L)
     refine ⟨fun c hc m => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hc ⊢
     simpa using uc22p22q_ctilde_conj_mem hMnorm hMnorm₀ m.2 hc
-  haveI hYLn : (YL.subgroupOf D.M).Normal := hYL.2.1
-  haveI hCn : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := hCnorm
-  haveI hYKn : (YK.subgroupOf D.M).Normal := hYK.2.1
+  have hYLn : (YL.subgroupOf D.M).Normal := hYL.2.1
+  have hCn : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := hCnorm
+  have hYKn : (YK.subgroupOf D.M).Normal := hYK.2.1
   have hXleM : YL ⊓ F11.CTilde D.M V₀ V ≤ D.M := inf_le_left.trans hYL.1
   have hYleM : YK ⊓ F11.CTilde D.M V₀ V ≤ D.M := inf_le_left.trans hYK.1
   have hXMnorm : ((YL ⊓ F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := by
@@ -336,7 +338,7 @@ public theorem s16t3_prime_dvd_card_inf_cTilde (hset : Setting16 D V₀ V L)
   have hjoin : ∀ q : ℕ, q.Prime →
       q ∣ Nat.card ↥((YL ⊓ F11.CTilde D.M V₀ V) ⊔ (YK ⊓ F11.CTilde D.M V₀ V)) →
       q = 2 ∨ q = 3 := by
-    haveI := hXnorm'
+    have := hXnorm'
     have hsup : ((YL ⊓ F11.CTilde D.M V₀ V).subgroupOf
           ((YL ⊓ F11.CTilde D.M V₀ V) ⊔ (YK ⊓ F11.CTilde D.M V₀ V))) ⊔
         ((YK ⊓ F11.CTilde D.M V₀ V).subgroupOf

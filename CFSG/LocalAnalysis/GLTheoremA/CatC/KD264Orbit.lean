@@ -71,7 +71,7 @@ theorem index_inf_finset_le {Q : Type*} [Group Q] {ι : Type*} [DecidableEq ι] 
     rw [Finset.inf_insert, Finset.prod_insert ha]
     exact (Subgroup.index_inf_le).trans (Nat.mul_le_mul_left _ ih)
 
-theorem exists_rep (P : Subgroup (Perm (Fin n))) (hcomm : ∀ g h : P, g * h = h * g) (s : Fin n) :
+theorem exists_rep (P : Subgroup (Perm (Fin n))) (_hcomm : ∀ g h : P, g * h = h * g) (s : Fin n) :
     ∃ r : Fin n, (∀ g : P, r ≤ (g : Perm (Fin n)) r) ∧ s ∈ orbF P r := by
   have hne : (orbF P s).Nonempty := ⟨s, (mem_orbF P).2 ⟨1, by simp⟩⟩
   obtain ⟨r, hr, hmin⟩ := Finset.exists_min_image (orbF P s) id hne
@@ -85,7 +85,7 @@ theorem exists_rep (P : Subgroup (Perm (Fin n))) (hcomm : ∀ g h : P, g * h = h
   refine ⟨g * h, ?_⟩
   rw [← hh, Subgroup.coe_mul, Equiv.Perm.mul_apply]
 
-theorem rep_unique (P : Subgroup (Perm (Fin n))) (hcomm : ∀ g h : P, g * h = h * g) {r r' : Fin n}
+theorem rep_unique (P : Subgroup (Perm (Fin n))) (_hcomm : ∀ g h : P, g * h = h * g) {r r' : Fin n}
     (hr : ∀ g : P, r ≤ (g : Perm (Fin n)) r) (hr' : ∀ g : P, r' ≤ (g : Perm (Fin n)) r')
     {s : Fin n} (hs : s ∈ orbF P r) (hs' : s ∈ orbF P r') : r = r' := by
   obtain ⟨g, hg⟩ := (mem_orbF P).1 hs
@@ -129,10 +129,10 @@ theorem sum_card_orbF_le (P : Subgroup (Perm (Fin n))) (R : Finset (Fin n))
 theorem mul_add_le_pow {p : ℕ} (hp : 3 ≤ p) (j : ℕ) :
     p * j + p * (if 2 ≤ j then 1 else 0) ≤ p ^ j := by
   by_cases hj : 2 ≤ j
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     have := pow_ge_mul_add hp j hj
     linarith
-  · rw [if_neg hj]
+  · rw [ite_eq_right hj]
     interval_cases j
     · simp
     · simp
@@ -148,7 +148,7 @@ theorem pcycle_of_rep {p : ℕ} (hp : p.Prime) (P : Subgroup (Perm (Fin n)))
     ∃ a : P, a ≠ 1 ∧ ∀ j : ℕ, ¬ p ∣ j → ∀ t : Fin n,
       ((a ^ j : P) : Perm (Fin n)) t ≠ t ↔ t ∈ orbF P r₁ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨a, ha⟩, ha1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).1 hQne
   have ha1' : a ≠ 1 := fun h => ha1 (Subtype.ext h)
   have hap : a ^ p = 1 := by
@@ -203,7 +203,7 @@ theorem orbit_pCycles {p : ℕ} (hp : p.Prime) (hp3 : 3 ≤ p)
   obtain ⟨k, hk⟩ : ∃ k, k = n / p := ⟨_, rfl⟩
   rw [← hk] at hcard ⊢
   have hcomm : ∀ g h : P, g * h = h * g := fun g h => hP.1.is_comm.comm g h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpgrp : IsPGroup p P := by
     intro g
     refine ⟨1, ?_⟩

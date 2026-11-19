@@ -96,7 +96,7 @@ theorem exists_involution_of_conj_eq_mul (h11b : C19_11bTmp p f)
       rw [S1911.card_inf_eq_card hd]
       exact S1911.four_le_card hd
     obtain ⟨w, hw, hw2⟩ := exists_mul_self_eq_of_isCyclic hI inf_le_left hUcyc
-      (S.isPGroup'.to_le (inf_le_right.trans hd.hWS)) hU4
+      (S.isPGroup.to_le (inf_le_right.trans hd.hWS)) hU4
     have hcw : c * w = w * c := hcU w hw
     refine ⟨c * w, (S : Subgroup G).mul_mem hcS (hd.hWS hw.2), ?_, fun x hx => ?_,
       fun x hx => ?_⟩

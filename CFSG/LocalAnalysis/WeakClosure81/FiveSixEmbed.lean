@@ -12,6 +12,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22 CFSG.Quasithin Equiv
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ncard_maxOver_map_subgroupOf {H T : Subgroup G} (hTH : T ≤ H) {Q : Type*} [Group Q]
     (ι : ↥H →* Q) (hι : Function.Injective ι) :
     (maxOver ((⊤ : Subgroup ↥H).map ι) ((T.subgroupOf H).map ι)).ncard = (maxOver H T).ncard := by

@@ -165,7 +165,7 @@ theorem q2RowSolver_e7Seven_holds : Q2RowSolverInput .e7Seven := by
   have hQ' : Nat.card K = 2 ^ n := hQ
   have hn : 2 ≤ n := q2li_two_le_n (n := n) hp hΛ.1 (by rw [← hQ']; exact hpq)
   obtain ⟨KL, _, _, hKL, -, -, θL, -⟩ := hraw
-  haveI : CharP KL 2 := charP_two_of_card hKL
+  have : CharP KL 2 := charP_two_of_card hKL
   have hpKL : 7 ∣ Nat.card KL - 1 := by
     rw [show Nat.card KL = Nat.card K from hKL.trans hQ'.symm]
     exact hpq
@@ -187,7 +187,7 @@ theorem q2RowSolver_e8Three_holds : Q2RowSolverInput .e8Three := by
   have hQ' : Nat.card K = 2 ^ n := hQ
   have hn : 2 ≤ n := q2li_two_le_n (n := n) hp hΛ.1 (by rw [← hQ']; exact hpq)
   obtain ⟨KL, _, _, hKL, -, -, θL, -⟩ := hraw
-  haveI : CharP KL 2 := charP_two_of_card hKL
+  have : CharP KL 2 := charP_two_of_card hKL
   have hpKL : 3 ∣ Nat.card KL - 1 := by
     rw [show Nat.card KL = Nat.card K from hKL.trans hQ'.symm]
     exact hpq
@@ -209,7 +209,7 @@ theorem q2RowSolver_e6Three_holds : Q2RowSolverInput .e6Three := by
   have hQ' : Nat.card K = 2 ^ n := hQ
   have hn : 2 ≤ n := q2li_two_le_n (n := n) hp hΛ.1 (by rw [← hQ']; exact hpq)
   obtain ⟨KL, _, _, hKL, -, -, θL, -⟩ := hraw
-  haveI : CharP KL 2 := charP_two_of_card hKL
+  have : CharP KL 2 := charP_two_of_card hKL
   have hpKL : 3 ∣ Nat.card KL - 1 := by
     rw [show Nat.card KL = Nat.card K from hKL.trans hQ'.symm]
     exact hpq

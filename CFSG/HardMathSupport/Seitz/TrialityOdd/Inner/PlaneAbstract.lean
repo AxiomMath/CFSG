@@ -16,7 +16,7 @@ theorem eq_of_pow_eq_one_of_sylowShape [Finite G] {p e : ℕ} [Fact p.Prime]
     (hshape : SylowShape p 2 e G) (S : Sylow p G) {E₀ : Subgroup G} (hE₀S : E₀ ≤ (S : Subgroup G))
     (hE₀c : Nat.card E₀ = p ^ 2) (hE₀p : ∀ x ∈ E₀, x ^ p = 1) :
     ∀ x ∈ (S : Subgroup G), x ^ p = 1 → x ∈ E₀ := by
-  obtain ⟨φ⟩ := hshape (S : Subgroup G) S.isPGroup' (Sylow.not_dvd_index S)
+  obtain ⟨φ⟩ := hshape (S : Subgroup G) S.isPGroup (Sylow.not_dvd_index S)
   intro x hx hxp
   have hcomm : ∀ a ∈ (S : Subgroup G), ∀ b ∈ (S : Subgroup G), a * b = b * a := by
     intro a ha b hb

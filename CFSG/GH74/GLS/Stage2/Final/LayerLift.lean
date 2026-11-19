@@ -171,7 +171,7 @@ theorem layerTimesSylow_inf_oddCore_eq_bot {z : G} {S : Subgroup G} (hS : IsPGro
   set N' : Subgroup ↥C := pPrimeCore 2 ↥C with hN'
   have hchar : E'.Characteristic := CFSG.LocalCores.layer_characteristic
   have hnormE : E'.Normal := by
-    haveI := hchar
+    have := hchar
     infer_instance
   rw [eq_bot_iff]
   intro x hx

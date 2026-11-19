@@ -18,13 +18,13 @@ theorem nine3_centralizer_A_eq_J (hc : Nine3Choice V T A K S X p g x)
     nineI V K ⊓ Subgroup.centralizer (A : Set G) =
       ⨆ B ∈ nineOmegaIn V K S, B ⊓ pCoreOf 2 K := by
   classical
-  haveI : IsMulCommutative ↥(nineI V K) := hI.abelian.1
+  have : IsMulCommutative ↥(nineI V K) := hI.abelian.1
   let R := pCoreOf 2 K
   let I := nineI V K
   let J := ⨆ B ∈ nineOmegaIn V K S, B ⊓ R
   let U := conjSubgroup A x
   obtain ⟨a, P, ha, haR, hPK, hPcard, hXP, hPclosure, hinv⟩ := nine3_exists_inverted_P hc hI
-  haveI : Fintype ↥P := Fintype.ofFinite _
+  have : Fintype ↥P := Fintype.ofFinite _
   have hPodd : Odd (Nat.card ↥P) := by
     rw [hPcard]
     exact hc.core.hyp.base.prime.odd_of_ne_two hc.core.hyp.base.odd

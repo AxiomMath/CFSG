@@ -25,7 +25,7 @@ theorem y7b_AM5_le_SM5 (c : Ctx7 G L) : AM5 c.e ≤ SM5 c.e := by
   unfold AM5 SM5
   exact sup_le_sup_right (s3_A_le_S c.s) _
 
-theorem y7b_BM5_le_SM5 (c : Ctx7 G L) (hb : B5Std c) : BM5 c.e ≤ SM5 c.e := by
+theorem y7b_BM5_le_SM5 (c : Ctx7 G L) (_hb : B5Std c) : BM5 c.e ≤ SM5 c.e := by
   unfold BM5 SM5
   exact sup_le_sup_right (s3_B_le_S c.s) _
 

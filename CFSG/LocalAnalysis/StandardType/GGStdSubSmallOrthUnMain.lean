@@ -42,8 +42,8 @@ theorem bigConcl_of_normalizes (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) 
     (hE : EndData p (orthDerived Q) A D a) (hcard : p ^ (n - 1) ≤ Nat.card A)
     (hU : NormalizesTwoGroup (orthDerived Q) A) : BigConcl p A D := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := finite_linearEquiv
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := finite_linearEquiv
   have hpK : (p : K) ≠ 0 := natCast_ne_zero_of_odd hp hp2
   have hIso : IsoGroup (QuadraticMap.polarBilin Q) p A :=
     isoGroup_of_le hQ hE.A_le hE.A_elem

@@ -17,9 +17,9 @@ private theorem omegaInner_aux
     (t : StatedLieTag) (ht : t = .POmegaPlus ∨ t = .POmegaMinus) (n f : ℕ) (X : Type)
     [Group X] [Finite X] (ψ : (ggU t n f).K →* X) (p : ℕ) (G₀ D : Subgroup X)
     (hrange : ψ.range = G₀) (hker : ψ.ker ≤ Subgroup.center (ggU t n f).K)
-    (hLie : LieModel (↥G₀ ⧸ Subgroup.center ↥G₀) t n 2 f) (hp : p.Prime) (hp2 : p ≠ 2)
+    (hLie : LieModel (↥G₀ ⧸ Subgroup.center ↥G₀) t n 2 f) (_hp : p.Prime) (_hp2 : p ≠ 2)
     (hDN : D ≤ Subgroup.normalizer (G₀ : Set X))
-    (hdiag : ∀ d ∈ D, GGPsiInnerDiag (ggU t n f).D ψ d) (hab : IsElemAbelian p D)
+    (hdiag : ∀ d ∈ D, GGPsiInnerDiag (ggU t n f).D ψ d) (_hab : IsElemAbelian p D)
     (hcard : Nat.card D = p ^ 2) (hZK : Subgroup.center (ggU t n f).K = ⊥)
     (hpres : GGPresentsG0 G₀ (ggU t n f).D t n f ψ) :
     Subgroup.center ↥G₀ = ⊥ ∧ ∃ P₀ : Subgroup X, P₀ ≤ G₀ ∧ IsPGroup p ↥P₀ ∧
@@ -143,9 +143,9 @@ private theorem omegaInner_aux
         _ = ((e : X) * (h : X)) * (gd e : X) := by rw [← heh]
         _ = (e : X) * ((h : X) * (gd e : X)) := by group
     rw [Subgroup.mem_centralizer_iff]
-    intro p hp
-    simp only [P₀, Subgroup.mem_map] at hp
-    obtain ⟨d, -, rfl⟩ := hp
+    intro p _hp
+    simp only [P₀] at _hp
+    obtain ⟨d, -, rfl⟩ := _hp
     simpa [φ] using hgd_comm d⁻¹
   ·
     intro h hh
@@ -209,7 +209,7 @@ theorem ggA6_omega_inner
         have hg : (g : X) ∈ ψ.range := by rw [hrange]; exact g.2
         obtain ⟨a, ha⟩ := hg
         exact ⟨a, Subtype.ext ha⟩
-      haveI : Group.IsPerfect (ggU .POmegaPlus n f).K := hperfK
+      have : Group.IsPerfect (ggU .POmegaPlus n f).K := hperfK
       exact Group.isPerfect_def.mp (Group.IsPerfect.ofSurjective
         (f := ψ.codRestrict G₀ (fun a => hrange ▸ ⟨a, rfl⟩)) hsurj)
     have hrank : 2 ≤ (ggU .POmegaPlus n f).D.rank := by
@@ -242,7 +242,7 @@ theorem ggA6_omega_inner
         have hg : (g : X) ∈ ψ.range := by rw [hrange]; exact g.2
         obtain ⟨a, ha⟩ := hg
         exact ⟨a, Subtype.ext ha⟩
-      haveI : Group.IsPerfect (ggU .POmegaMinus n f).K := hperfK
+      have : Group.IsPerfect (ggU .POmegaMinus n f).K := hperfK
       exact Group.isPerfect_def.mp (Group.IsPerfect.ofSurjective
         (f := ψ.codRestrict G₀ (fun a => hrange ▸ ⟨a, rfl⟩)) hsurj)
     have hrank : 2 ≤ (ggU .POmegaMinus n f).D.rank := by

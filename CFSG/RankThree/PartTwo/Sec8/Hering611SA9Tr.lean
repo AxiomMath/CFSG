@@ -48,8 +48,8 @@ theorem alt9_fusion {M : Type*} [Group M] (e : M ≃* alternatingGroup (Fin 9)) 
     (hE9 : Nat.card Eb = 9) :
     ∃ w : M, (∀ y ∈ Subgroup.zpowers x ⊔ Eb, w * y * w⁻¹ ∈ Subgroup.zpowers x ⊔ Eb) ∧
       w * x * w⁻¹ ∈ Eb ∧ w * x * w⁻¹ ≠ 1 := by
-  haveI : Finite M := Finite.of_injective e e.injective
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite M := Finite.of_injective e e.injective
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h5 : 5 ∣ Nat.card P := (by norm_num : (5 : ℕ) ∣ 360).trans h360
   obtain ⟨p, hp5⟩ := exists_prime_orderOf_dvd_card' (G := ↥P) 5 h5
   have hy5 : orderOf (e (p : M)) = 5 := by

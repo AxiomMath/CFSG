@@ -26,7 +26,7 @@ theorem exists_mem_not_mem_zpowers {X : Type} [Group X] {E : Subgroup (MulAut X)
   by_contra hcon
   push Not at hcon
   have hfin : IsOfFinOrder f := isOfFinOrder_iff_pow_eq_one.2 ⟨3, by norm_num, hf3⟩
-  haveI : Finite (Subgroup.zpowers f) :=
+  have : Finite (Subgroup.zpowers f) :=
     Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers]; exact hfin.orderOf_pos.ne')
   have hle : Nat.card E ≤ Nat.card (Subgroup.zpowers f) := Subgroup.card_le_of_le hcon
   have hord : orderOf f ≤ 3 := Nat.le_of_dvd (by norm_num) (orderOf_dvd_of_pow_eq_one hf3)

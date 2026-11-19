@@ -55,7 +55,7 @@ private theorem a1l_exists_noncomm_of_isQuasisimple {R : Type*} [Group R] {J : S
   have hc : Subgroup.center (↥J) = ⊤ :=
     (Subgroup.eq_top_iff' _).2 fun a => Subgroup.mem_center_iff.2 fun b =>
       Subtype.ext (h (b : R) (a : R))
-  haveI hnt : Nontrivial (↥J ⧸ Subgroup.center (↥J)) := hJq.2.toNontrivial
+  have hnt : Nontrivial (↥J ⧸ Subgroup.center (↥J)) := hJq.2.toNontrivial
   obtain ⟨x, y, hxy⟩ := exists_pair_ne (↥J ⧸ Subgroup.center (↥J))
   obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective x
   obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective y
@@ -68,7 +68,7 @@ private theorem a1l_linNoB2der_of_guard {R : Type} [Group R] [Finite R]
       (fun R _ I _ => ∀ β ∈ I, CFSG.LocalAnalysis.GLTheoremA.Y10GField.InnDiagKind R lab β) R I F)
     (hsimple : IsSimpleGroup R) (hRig : GGLabelRigidInput) : NoB2derProp R I F := by
   intro φ _ hφ3 hφI J hJ hlab
-  haveI : IsSimpleGroup R := hsimple
+  have : IsSimpleGroup R := hsimple
   have hna : ∃ a b : R, a * b ≠ b * a := a1l_exists_noncomm_of_isQuasisimple hJ.2.2
   have hcen : Subgroup.center R = ⊥ := center_eq_bot_of_simple_nonabelian hna
   have hin : CFSG.LocalAnalysis.GLTheoremA.Y10GField.InnDiagKind R lab φ :=
@@ -92,7 +92,7 @@ private theorem a1l_uniNoB2der_of_guard {R : Type} [Group R] [Finite R]
       (fun R _ I _ => ∀ β ∈ I, CFSG.LocalAnalysis.GLTheoremA.Y10GField.InnDiagKind R lab β) R I F)
     (hsimple : IsSimpleGroup R) (hRig : GGLabelRigidInput) : NoB2derProp R I F := by
   intro φ _ hφ3 hφI J hJ hlab
-  haveI : IsSimpleGroup R := hsimple
+  have : IsSimpleGroup R := hsimple
   have hna : ∃ a b : R, a * b ≠ b * a := a1l_exists_noncomm_of_isQuasisimple hJ.2.2
   have hcen : Subgroup.center R = ⊥ := center_eq_bot_of_simple_nonabelian hna
   have hin : CFSG.LocalAnalysis.GLTheoremA.Y10GField.InnDiagKind R lab φ :=
@@ -125,9 +125,9 @@ theorem linNoB2der_recipe
   dsimp only [CFSG.StandardType.LargeEvenRawDatum] at hmodel
   obtain ⟨K, hKf, hKfin, hcard, hQK, hguard⟩ := hmodel
   refine ⟨K, hKf, hKfin, hcard, hQK, ?_⟩
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI hRfin : Finite (LargeEvenProj (LargeEvenSLGroup (Fin (r + 1)) K)) :=
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have hRfin : Finite (LargeEvenProj (LargeEvenSLGroup (Fin (r + 1)) K)) :=
     CFSG.StandardType.TCJ.tcjDatum_finite_proj _
   have hsimple : IsSimpleGroup (LargeEvenProj (LargeEvenSLGroup (Fin (r + 1)) K)) := by
     have h22 : r + 1 ≠ 2 ∨ Nat.card K ≠ 2 := by
@@ -150,7 +150,7 @@ theorem linNoB2der_recipe
           simpa using Nat.pow_le_pow_right (by norm_num : 0 < 2) hn2
         omega
       · exact Or.inl h
-    haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin (r + 1)) K) :=
+    have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin (r + 1)) K) :=
       CFSG.BenderSuzuki.External.huppert_II_6_13 (K := K) (r + 1) (by omega) h22 h23
     exact MulEquiv.isSimpleGroup
       ((CFSG.StandardType.TypeA.recipeEquiv (r + 1) K).trans
@@ -175,9 +175,9 @@ theorem uniNoB2der_recipe
   dsimp only [CFSG.StandardType.LargeEvenRawDatum] at hmodel
   obtain ⟨K, hKf, hKfin, hcard, hQK, hguard⟩ := hmodel
   refine ⟨K, hKf, hKfin, hcard, hQK, ?_⟩
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  haveI hRfin : Finite (LargeEvenProj (LargeEvenSUGroup (Fin (r + 1)) K (2 ^ n))) :=
+  let : Field K := hKf
+  let : Finite K := hKfin
+  have hRfin : Finite (LargeEvenProj (LargeEvenSUGroup (Fin (r + 1)) K (2 ^ n))) :=
     CFSG.StandardType.TCJ.tcjDatum_finite_proj _
   have hsimple : IsSimpleGroup (LargeEvenProj (LargeEvenSUGroup (Fin (r + 1)) K (2 ^ n))) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 n hcard

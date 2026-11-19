@@ -55,7 +55,7 @@ theorem propOne_of_catalogueQ1 (hQ : CatalogueQ1) : PropOne := by
     have h9 := hR.card
     rw [le_bot_iff.mp hR1, Subgroup.card_bot] at h9
     omega
-  haveI := hsimp
+  have := hsimp
   have hcat : InCatalog (PropOne.Ksec R) :=
     CFSG.ComponentClassification.CatalogueKProper.simple_image_of_surjective G hK
       (PropOne.ktil R) hne (PropOne.Ksec R) (PropOne.ktilHom R) (PropOne.ktilHom_surjective R)

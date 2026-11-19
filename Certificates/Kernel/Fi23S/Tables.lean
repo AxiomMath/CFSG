@@ -29,10 +29,10 @@ theorem wF_succ (L : Nat → Nat → Nat) (PAR LAB : Nat → Nat) (f k x : Nat) 
   rw [bAnd_eq]
   by_cases hc : 0 < k ∧ r32 PAR k < k
   · have e : (Nat.blt 0 k && Nat.blt (r32 PAR k) k) = true := by simp [Nat.blt_eq, hc]
-    rw [if_pos hc, e]
+    rw [ite_eq_left hc, e]
   · have e : (Nat.blt 0 k && Nat.blt (r32 PAR k) k) = false :=
       Bool.eq_false_iff.2 fun h => hc (by simpa [Nat.blt_eq] using h)
-    rw [if_neg hc, e]
+    rw [ite_eq_right hc, e]
 
 theorem walkF_one (L : Nat → Nat → Nat) (PAR LAB : Nat → Nat) :
     ∀ f k x, walkF L PAR LAB f k [x] = [wF L PAR LAB f k x]
@@ -127,7 +127,7 @@ theorem movB_spec {f : Nat → Nat} (h : movB f = true) : ∃ b < 6, f b ≠ b :
   unfold movB at h
   rw [Bool.not_eq_true'] at h
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have : allN 6 (fun b => Nat.beq (f b) b) = true :=
     allN_iff.2 fun b hb => by rw [Nat.beq_eq]; exact hc b hb
   rw [this] at h

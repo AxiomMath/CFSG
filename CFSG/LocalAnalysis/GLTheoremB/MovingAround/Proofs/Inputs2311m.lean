@@ -80,11 +80,11 @@ theorem le_uniPlaneClosure_of_invariant_pGroup {G : Type*} [Group G] [Finite G] 
     (hinv : ∀ e ∈ E, R.map (e : MulAut G).toMonoidHom = R) :
     R ≤ uniPlaneClosure r E := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  letI : CommGroup ↥E :=
+  have : Fact r.Prime := ⟨hr⟩
+  let : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with
       mul_comm := fun a b => hEa.toIsMulCommutative.is_comm.comm a b }
-  haveI : Finite (MulAut G) := inferInstance
+  have : Finite (MulAut G) := inferInstance
   set α : ↥E →* MulAut G := E.subtype with hα
   have hαR : CFSG.SolvableSignalizer.IsInvariant α R := fun a => hinv (a : MulAut G) a.2
   set β := CFSG.SolvableSignalizer.restrictAction α R hαR with hβ
@@ -136,7 +136,7 @@ theorem exists_rGen_escape_of_isPGLPiThree {α : MulAut G} {q r : ℕ} (hq5 : 5 
   classical
   obtain ⟨π, p, f, K, _, hK, rfl, hmod, ⟨e⟩⟩ := hC
   have := hK.finite
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hπ : π = false → CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f K :=
     fun h => by subst h; exact hK.unitary
   set P := CFSG.PGLModel.projImage (Sec4.glPi π 3 (p ^ f) K) with hP
@@ -174,8 +174,8 @@ theorem exists_rGen_escape_of_isPGLPiThree {α : MulAut G} {q r : ℕ} (hq5 : 5 
     obtain ⟨m, hm⟩ := exists_pow_eq_self_of_coprime hcop
     rw [hM, Subgroup.mem_subgroupOf, ← hm, Subgroup.coe_pow, Subgroup.coe_pow]
     exact Subgroup.pow_mem _ (hcube _ z.2) m
-  haveI hSs : IsSimpleGroup ↥S := Sec4.RonanK429Lie.isSimpleGroup_projImage_slPi hK (Or.inr hq2)
-  haveI hMs : IsSimpleGroup ↥M := MulEquiv.isSimpleGroup (Subgroup.subgroupOfEquivOfLe hSP)
+  have hSs : IsSimpleGroup ↥S := Sec4.RonanK429Lie.isSimpleGroup_projImage_slPi hK (Or.inr hq2)
+  have hMs : IsSimpleGroup ↥M := MulEquiv.isSimpleGroup (Subgroup.subgroupOfEquivOfLe hSP)
   set Rset : Set ↥P := {z | ∃ n : ℕ, z ^ (r ^ n) = 1} with hRset
   set Rgp : Subgroup ↥P := Subgroup.closure Rset with hRgp
   have hRn : Rgp.Normal := by
@@ -296,7 +296,7 @@ theorem exists_rGen_escape_of_isPGLPiThree {α : MulAut G} {q r : ℕ} (hq5 : 5 
     exact ⟨n, by rw [← map_pow, hn, map_one]⟩
   ·
     intro hsimp
-    haveI : IsSimpleGroup ↥P := MulEquiv.isSimpleGroup e.symm
+    have : IsSimpleGroup ↥P := MulEquiv.isSimpleGroup e.symm
     have hMn : M.Normal := by
       rw [hM, ← Sec13.commutator_projImage_glPi hK hq2]
       infer_instance
@@ -388,7 +388,7 @@ theorem uniPlaneClosure_eq_top_frameDiag [Finite K] (hK2 : ringChar K ≠ 2) (hK
     hK3 hK5 (orderThreeSL K) hB3 (orderThreeSL_ne_one K)
   obtain ⟨⟨w, hαw, hwΔ, hgen⟩, ⟨y₀, hαy₀, hy₀1, hy₀r⟩, hns⟩ :=
     exists_rGen_escape_of_isPGLPiThree hK5 hfix hrp hK3 hrK hαΔ hΔ3
-  haveI hGs : IsSimpleGroup ↥(adjointGroup Tag.D4 K) :=
+  have hGs : IsSimpleGroup ↥(adjointGroup Tag.D4 K) :=
     CFSG.LieType.SeitzGeneration.ExcWideThree.isSimpleGroup_adjointGroup_D4 K
   have hα1 : gammaP K (orderThreeSL K) ≠ 1 := by
     intro h
@@ -492,7 +492,7 @@ theorem uniSeitzPlanes_dFour_graphA2Frame :
   have hchar : (TauCeti.LieTypeIndex.D 4 q).characteristic = q.p := by
     simp [TauCeti.LieTypeIndex.characteristic_D]
   have hK' : Nat.card K = q.p ^ q.exponent := by rw [hK, TauCeti.PrimePower.card_def]
-  haveI : CharP K q.p :=
+  have : CharP K q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic q.prime_p
       q.exponent_pos hK'
   have hring : ringChar K = q.p := ringChar.eq K q.p
@@ -522,16 +522,16 @@ theorem uniSeitzPlanes_triality_borelPair :
   have hchar : (TauCeti.LieTypeIndex.trialityD4 q).characteristic = q.p := by
     simp [TauCeti.LieTypeIndex.characteristic_trialityD4]
   have hK3 : Nat.card K = q.p ^ (q.exponent * 3) := by rw [hK, pow_mul]
-  haveI : CharP K q.p :=
+  have : CharP K q.p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic q.prime_p
       (by have := q.exponent_pos; omega) hK3
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hpq : p ≠ q.p := fun h => hpd (h.trans hchar.symm)
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
   have hE'el : IsElemAbelian p (E.map (MulAut.congr e).toMonoidHom) := isElemAbelian_map_congr e hE
   have hE'c : Nat.card ↥(E.map (MulAut.congr e).toMonoidHom) = p ^ 2 := by
     rw [Subgroup.card_map_of_injective (MulAut.congr e).injective, hc]
-  haveI : CFSG.IsElementaryAbelian p ↥(E.map (MulAut.congr e).toMonoidHom) :=
+  have : CFSG.IsElementaryAbelian p ↥(E.map (MulAut.congr e).toMonoidHom) :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p _).mpr hE'el
   have hposp : IsPGroup q.p ↥((graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom).subgroupOf
       (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) :=

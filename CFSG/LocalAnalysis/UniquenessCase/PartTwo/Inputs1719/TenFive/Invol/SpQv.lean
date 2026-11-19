@@ -143,7 +143,7 @@ private theorem exists_orth_notMem_span (hr : 2 ≤ r) {v : Fin r ⊕ Fin r → 
     rw [finrank_span_singleton hv]
     omega
   obtain ⟨-, e, he1, he2⟩ :=
-    SetLike.lt_iff_le_and_exists.mp (Submodule.lt_of_le_of_finrank_lt_finrank hle hlt)
+    IsConcreteLE.lt_iff_le_and_exists.mp (Submodule.lt_of_le_of_finrank_lt_finrank hle hlt)
   exact ⟨e, by rw [← hφ]; exact LinearMap.mem_ker.mp he1, he2⟩
 
 theorem unipSp_congr {N N' : Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K} (h : N = N')

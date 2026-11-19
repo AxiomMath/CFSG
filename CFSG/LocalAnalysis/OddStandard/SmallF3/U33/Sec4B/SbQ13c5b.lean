@@ -36,6 +36,7 @@ private lemma map_conj_S_le_cent (h : Q13Om t L S x₁ x₂ lam rho tau om) {c :
       _ = (c * (x₁ * x₂) ^ 2 * c⁻¹) * (c * s * c⁻¹) := by group
       _ = lam * (c * s * c⁻¹) := by rw [hcz]
 
+omit [Finite G] in
 private lemma map_conj_eq_cent_of_conj (ht : t * t = 1) {g : G}
     (hg : g * t * g⁻¹ = t * lam) :
     (invCent t ⊓ centralizer ({g⁻¹ * t * g} : Set G)).map (MulAut.conj g).toMonoidHom =

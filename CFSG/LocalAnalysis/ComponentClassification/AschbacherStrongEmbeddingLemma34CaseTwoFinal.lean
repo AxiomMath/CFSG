@@ -134,7 +134,7 @@ theorem eight_le_card (hnd : ¬ (IsDihedralTwoGroup A₁ ∨ IsSemidihedralTwoGr
     8 ≤ Nat.card A₁ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h4 := four_le_card_of_two_le_pRank c.hyp.rank_one
-  have hA2 : IsPGroup 2 A₁ := S.isPGroup'.to_le c.hyp.le_one
+  have hA2 : IsPGroup 2 A₁ := S.isPGroup.to_le c.hyp.le_one
   obtain ⟨k, hk⟩ := hA2.exists_card_eq
   have hne : Nat.card A₁ ≠ 4 := fun h4' =>
     hnd (Or.inl (isDihedral_of_card_four hA2 h4' c.hyp.rank_one))
@@ -187,8 +187,8 @@ theorem false_of_twist_order_four (IH : Statement (Nat.card G - 1))
   have h12 := c.not_le₁₂
   have h21 := c.not_le₂₁
   have hnd₂ := c.not_dihedral_two hnd
-  have hA₁2 : IsPGroup 2 A₁ := S.isPGroup'.to_le h.le_one
-  have hA₂2 : IsPGroup 2 A₂ := S.isPGroup'.to_le h.le_two
+  have hA₁2 : IsPGroup 2 A₁ := S.isPGroup.to_le h.le_one
+  have hA₂2 : IsPGroup 2 A₂ := S.isPGroup.to_le h.le_two
   have hSH := h.sylow_le_overlapClosure h12 h21
   have huA : u ∉ A₂ := fun h' => c.not_mem_inf_of_mul_self hI2 huu ⟨hu, h'⟩
   obtain ⟨w, hw⟩ : ∃ w, t * u * t = w := ⟨_, rfl⟩
@@ -312,13 +312,13 @@ theorem false_of_twist_order_four (IH : Statement (Nat.card G - 1))
   have hB := h.conj g
   have hsmall : Nat.card (rightConjugate A₁ g ⊓ Subgroup.centralizer ({twist t u} : Set G) :
       Subgroup G) ≤ 2 := by
-    refine card_le_two_of_lt_four ((conjSylow S g).isPGroup'.to_le (inf_le_left.trans
+    refine card_le_two_of_lt_four ((conjSylow S g).isPGroup.to_le (inf_le_left.trans
       hB.le_one)) ?_
     by_contra hcon
     exact h.choice_not_le_conj h12 h21 hg (fun x hx => Or.inl (Subgroup.mem_inf.mp hx).1)
       (not_lt.mp hcon) (fun x hx => hCY (Subgroup.mem_inf.mp hx).2)
   have hdB := isDihedral_of_involution_small_centralizer
-    ((conjSylow S g).isPGroup'.to_le hB.le_one) hB.rank_one hYY hYN hsmall
+    ((conjSylow S g).isPGroup.to_le hB.le_one) hB.rank_one hYY hYN hsmall
   exact hnd (dihedral_of_mulEquiv (rightConjugateEquiv A₁ g).symm (Or.inl hdB))
 
 theorem false (hD : ¬ DihedralCase (S : Subgroup G) A₁ A₂) (IH : Statement (Nat.card G - 1))
@@ -330,7 +330,7 @@ theorem false (hD : ¬ DihedralCase (S : Subgroup G) A₁ A₂) (IH : Statement 
   have hxx : twist t v * twist t v = 1 := c.twist_mul_self hv (by rw [hvv]; exact A₂.one_mem)
   have hx1 : twist t v ≠ 1 := c.twist_ne_one hv hvA
   have hx2 : orderOf (twist t v) = 2 := orderOf_eq_prime (by rw [sq]; exact hxx) hx1
-  have hRp : IsPGroup 2 c.twistHom.range := S.isPGroup'.to_le c.twistHom_range_le_sylow
+  have hRp : IsPGroup 2 c.twistHom.range := S.isPGroup.to_le c.twistHom_range_le_sylow
   have hsq : ∀ r ∈ c.twistHom.range, r * r ≠ twist t v := fun r hr =>
     c.twist_not_sq hv hvA hvv (c.twistHom_range_le_centralizer hr)
   obtain ⟨y, hyR, hy2, hyx, hxy⟩ :=
@@ -345,7 +345,7 @@ theorem false (hD : ¬ DihedralCase (S : Subgroup G) A₁ A₂) (IH : Statement 
       Subgroup.centralizer ({t} : Set G) :=
     sup_le (Subgroup.zpowers_le.mpr (c.twist_mem_centralizer hv))
       (Subgroup.zpowers_le.mpr (c.twist_mem_centralizer hu))
-  obtain ⟨g, hg, hVT⟩ := c.rechoice _ (S.isPGroup'.to_le hVS) hVC
+  obtain ⟨g, hg, hVT⟩ := c.rechoice _ (S.isPGroup.to_le hVS) hVC
   have hxT : twist t v ∈ rightConjugate (S : Subgroup G) g :=
     hVT (Subgroup.mem_sup_left (Subgroup.mem_zpowers _))
   have hyT : twist t u ∈ rightConjugate (S : Subgroup G) g :=

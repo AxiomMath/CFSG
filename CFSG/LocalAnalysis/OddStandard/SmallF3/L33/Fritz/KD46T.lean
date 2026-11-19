@@ -148,6 +148,7 @@ theorem z_sq : S.z ^ 2 = 1 :=
 
 theorem z_inv : S.z⁻¹ = S.z := by rw [inv_eq_iff_mul_eq_one, ← pow_two, z_sq]
 
+omit [Finite X] in
 theorem conj_mem_R {g r : X} (hg : g ∈ A.T) (hr : r ∈ A.R) : g * r * g⁻¹ ∈ A.R :=
   SD.conj_mem_R_of_mem_T hg hr
 

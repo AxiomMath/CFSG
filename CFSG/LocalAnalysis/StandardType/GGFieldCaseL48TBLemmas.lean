@@ -37,7 +37,7 @@ theorem not_mem_closure_weyl {p : ℕ} {B Bs : Subgroup G} {x : G}
     x ∉ Subgroup.closure (⋃ n ∈ W, (fun s => n * s * n⁻¹) '' (S : Set G)) := by
   intro hx
   have hp : p.Prime := hS.1.1.1.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨-, hcan, hX1, hX2, hX3, hX4, hX5⟩, -, -, -, -, h44, h45, hID, hNU⟩ := id hS
   obtain ⟨hDd, hd1, hNbr, hyd, -⟩ := h44
   obtain ⟨hUC, hUp, hUmax, -⟩ := h45
@@ -82,7 +82,7 @@ theorem mem_sup_of_comm_mem_centralizer {p : ℕ} {B Bs : Subgroup G} {x : G}
       (Subgroup.centralizer ({x} : Set G) ⊓ Subgroup.centralizer (L : Set G)) := by
   have hp : p.Prime := hS.1.1.1.2.2.2.2.2.1.1
   have hp2 : p ≠ 2 := hS.1.1.1.2.2.2.2.2.1.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsS := hS.1.1.1.2.2.2.2.2.2.1
   have hx1 : x ≠ 1 := hsS.2.2.1
   have hLx : L ≤ Subgroup.centralizer ({x} : Set G) := hsS.2.2.2.1.1
@@ -217,7 +217,6 @@ theorem mem_sup_of_comm_mem_centralizer {p : ℕ} {B Bs : Subgroup G} {x : G}
       rw [hm]; exact hSQ ⟨b, hb, by simp [MulAut.conj_apply]⟩
     first
       | rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at hq
-      | rw [Sylow.coe_smul, Set.mem_smul_set_iff_inv_smul_mem] at hq
     have hq' : (m : G)⁻¹ * (g * b * g⁻¹) * m ∈ P := by
       have := hq
       rw [hSP, IsPGroup.toSylow_coe] at this
@@ -232,7 +231,7 @@ theorem mem_sup_of_comm_mem_centralizer {p : ℕ} {B Bs : Subgroup G} {x : G}
   have hg'H : g' ∈ H := H.mul_mem (H.inv_mem hoH) hgH
   have hg'x : g' * x * g'⁻¹ = x := by
     have := mem_centralizer_singleton_iff.mp hg'H
-    rw [show g' * x = x * g' from by first | exact this | exact this.symm]; group
+    rw [show g' * x = x * g' from by first | exact this]; group
   have hg'Bs : g' ∈ Subgroup.normalizer (Bs : Set G) := by
     apply GGL48TW.Cent.mem_normalizer_of_conj_mem
     have hle : B₁ ⊔ zpowers x ≤ Bs.comap (MulAut.conj g').toMonoidHom := by

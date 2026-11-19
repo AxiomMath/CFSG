@@ -35,11 +35,11 @@ private theorem comm_mem_centerIn {p : ℕ} {H : Subgroup G} (hH : CFSG.IsExtras
   refine Subgroup.mem_map.mpr ⟨⁅(⟨g, hg⟩ : H), (⟨w, hw⟩ : H)⁆, h1, ?_⟩
   simp [commutatorElement_def]
 
-theorem k_elementary [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (H : Subgroup G)
-    (hH : CFSG.IsExtraspecialPGroup p H) (hexp : Monoid.exponent H = p)
-    (X : Subgroup G) (hXH : X ≤ H) (hXp : Nat.card X = p) (hXZ : X ≠ centerIn H) :
+theorem k_elementary [Finite G] {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (H : Subgroup G)
+    (_hH : CFSG.IsExtraspecialPGroup p H) (hexp : Monoid.exponent H = p)
+    (X : Subgroup G) (hXH : X ≤ H) (hXp : Nat.card X = p) (_hXZ : X ≠ centerIn H) :
     CFSG.Open.IsElemAbelian p (X ⊔ centerIn H) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hXc : IsMulCommutative X := by
     have := isCyclic_of_prime_card (α := X) hXp
     infer_instance
@@ -62,9 +62,9 @@ theorem k_elementary [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (H : Su
     rw [hexp] at this
     simpa using congrArg Subtype.val this
 
-theorem conjClass_transport [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (H : Subgroup G)
-    (hH : CFSG.IsExtraspecialPGroup p H) (hexp : Monoid.exponent H = p)
-    (X : Subgroup G) (hXH : X ≤ H) (hXp : Nat.card X = p) (hXZ : X ≠ centerIn H)
+theorem conjClass_transport [Finite G] {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2) (H : Subgroup G)
+    (hH : CFSG.IsExtraspecialPGroup p H) (_hexp : Monoid.exponent H = p)
+    (X : Subgroup G) (hXH : X ≤ H) (_hXp : Nat.card X = p) (_hXZ : X ≠ centerIn H)
     {Y : Subgroup G} (hY : Y ∈ conjClass H X) :
     ∃ h ∈ H, Y = X.map (MulAut.conj h).toMonoidHom ∧ Y ≤ X ⊔ centerIn H ∧
       Y ⊔ centerIn H = X ⊔ centerIn H := by
@@ -145,8 +145,8 @@ private theorem exists_conj_ne [Finite G] {p : ℕ} (hp : p.Prime) {H : Subgroup
     exact mul_inv_eq_iff_eq_mul.mp (mul_inv_eq_one.mp h2)
   exact hXZ (Subgroup.eq_of_le_of_card_ge hle (by rw [card_center hH, hXp]))
 
-theorem k_card [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (H : Subgroup G)
-    (hH : CFSG.IsExtraspecialPGroup p H) (hexp : Monoid.exponent H = p)
+theorem k_card [Finite G] {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (H : Subgroup G)
+    (hH : CFSG.IsExtraspecialPGroup p H) (_hexp : Monoid.exponent H = p)
     (X : Subgroup G) (hXH : X ≤ H) (hXp : Nat.card X = p) (hXZ : X ≠ centerIn H) :
     Nat.card ↥(X ⊔ centerIn H) = p ^ 2 := by
   have hbot := inf_center_eq_bot hp hH hXp hXZ
@@ -202,14 +202,14 @@ theorem k_card [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (H : Subgroup
   rw [← Nat.card_eq_of_bijective f hf, Nat.card_prod, hXp, hZ, sq]
 
 open scoped Pointwise in
-private noncomputable def conjAct (H : Subgroup G) : MulAction H (Subgroup G) :=
+@[instance_reducible] private noncomputable def conjAct (H : Subgroup G) : MulAction H (Subgroup G) :=
   MulAction.compHom (Subgroup G) ((MulAut.conj : G →* MulAut G).comp H.subtype)
 
 open scoped Pointwise in
 private theorem orbit_eq (H X : Subgroup G) :
     letI := conjAct H
     MulAction.orbit H X = conjClass H X := by
-  letI := conjAct H
+  let := conjAct H
   ext Y
   constructor
   · rintro ⟨h, rfl⟩
@@ -245,7 +245,7 @@ theorem conjClass_card [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (H : 
     (hH : CFSG.IsExtraspecialPGroup p H) (hexp : Monoid.exponent H = p)
     (X : Subgroup G) (hXH : X ≤ H) (hXp : Nat.card X = p) (hXZ : X ≠ centerIn H) :
     (conjClass H X).ncard = p := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hsub := sub_hyperplanes hp hp2 H hH hexp X hXH hXp hXZ
   have hcard : Nat.card (hyperplanes p (X ⊔ centerIn H)) = p + 1 := by
     rw [CFSG.LinearAlgebra.CoprimeActions.ElementaryAbelianHyperplaneCounts.card_hyperplanes (k_elementary hp hp2 H hH hexp X hXH hXp hXZ) (n := 2) (by norm_num)
@@ -261,8 +261,8 @@ theorem conjClass_card [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (H : 
     rw [hcard] at h1
     omega
   obtain ⟨n, hn⟩ : ∃ n, Nat.card (conjClass H X) = p ^ n := by
-    letI := conjAct H
-    haveI : Finite (MulAction.orbit H X) := Set.toFinite _
+    let := conjAct H
+    have : Finite (MulAction.orbit H X) := Set.toFinite _
     have := hH.1.card_orbit (α := Subgroup G) X
     rwa [orbit_eq] at this
   rw [Nat.card_coe_set_eq] at hn
@@ -286,7 +286,7 @@ theorem hyperplanes_eq [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (H : 
     (hH : CFSG.IsExtraspecialPGroup p H) (hexp : Monoid.exponent H = p)
     (X : Subgroup G) (hXH : X ≤ H) (hXp : Nat.card X = p) (hXZ : X ≠ centerIn H) :
     hyperplanes p (X ⊔ centerIn H) = {centerIn H} ∪ conjClass H X := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hsub := sub_hyperplanes hp hp2 H hH hexp X hXH hXp hXZ
   have hcard : Nat.card (hyperplanes p (X ⊔ centerIn H)) = p + 1 := by
     rw [CFSG.LinearAlgebra.CoprimeActions.ElementaryAbelianHyperplaneCounts.card_hyperplanes (k_elementary hp hp2 H hH hexp X hXH hXp hXZ) (n := 2) (by norm_num)

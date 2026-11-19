@@ -145,15 +145,15 @@ theorem a2_eq : (frameOf m).a₂ = wordG m a2W := by
 
 theorem gen5_eq {s : ℕ} (hs : s < 7) : gen5 m s = wordG m (g5W s) := by
   interval_cases s
-  · simp only [gen5, if_pos (show 0 < 5 by norm_num), sGen_zero]
+  · simp only [gen5, ite_eq_left (show 0 < 5 by norm_num), sGen_zero]
     exact a1_eq m
-  · simp only [gen5, if_pos (show 1 < 5 by norm_num), sGen_one]
+  · simp only [gen5, ite_eq_left (show 1 < 5 by norm_num), sGen_one]
     exact b1_eq m
-  · simp only [gen5, if_pos (show 2 < 5 by norm_num), sGen_two]
+  · simp only [gen5, ite_eq_left (show 2 < 5 by norm_num), sGen_two]
     exact a2_eq m
-  · simp only [gen5, if_pos (show 3 < 5 by norm_num), sGen_three]
+  · simp only [gen5, ite_eq_left (show 3 < 5 by norm_num), sGen_three]
     exact b2_eq m
-  · simp only [gen5, if_pos (show 4 < 5 by norm_num), sGen_four]
+  · simp only [gen5, ite_eq_left (show 4 < 5 by norm_num), sGen_four]
     exact h0_eq m
   · simp [gen5, g5W]
   · simp [gen5, g5W]
@@ -227,6 +227,7 @@ theorem enc_uE {i : ℕ} (hi : i < 34) : Enc m.ρ (Q5U i) (uE m i) := by
   · rw [Nat.add_comm 8 j]
     exact q5U_defs j (by rw [hl] at hj; exact hj)
 
+omit [Finite G] in
 private theorem getD_mem {K : Subgroup G} {acc : List G} (h : ∀ x ∈ acc, x ∈ K) (i : ℕ) :
     acc.getD i 1 ∈ K := by
   rw [List.getD_eq_getElem?_getD]
@@ -234,6 +235,7 @@ private theorem getD_mem {K : Subgroup G} {acc : List G} (h : ∀ x ∈ acc, x �
   | none => exact K.one_mem
   | some x => exact h x (List.mem_of_getElem? hx)
 
+omit [Finite G] in
 private theorem mem_fold (K : Subgroup G) :
     ∀ (ds : List (ℕ × ℕ)) (acc : List G), (∀ x ∈ acc, x ∈ K) → ∀ x ∈ ds.foldl stepU acc, x ∈ K
   | [], _, h => h
@@ -378,7 +380,7 @@ theorem F_eq : closure ((fun s => uE m (s + 8)) '' {s | s < 3}) = (frameOf m).F 
   have e : (fun s => uE m (s + 8)) '' {s | s < 3} =
       {(frameOf m).a₁ * (frameOf m).a₂, (frameOf m).b₁ * (frameOf m).b₂, (frameOf m).z} := by
     ext x
-    simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨s, hs, rfl⟩
       interval_cases s
@@ -430,12 +432,14 @@ theorem clos_tab {X Gd POS PA PB SRT SRI : ℕ → ℕ} {n k hi1 hi2 hi3 : ℕ} 
   have ht := tab_closure m.inj hn hg h0 hcl (parK_at hp h1)
   exact ⟨ht, tab_card m.inj ht (sort_inj hs h3), sort_inj hs h3⟩
 
+omit [Finite G] in
 theorem cent_closure (S : Set G) : centralizer (closure S : Set G) = centralizer S := by
   refine le_antisymm (centralizer_le subset_closure) (fun g hg => ?_)
   have hle : closure S ≤ centralizer ({g} : Set G) := (closure_le _).mpr fun s hs =>
     mem_centralizer_singleton_iff.mpr (mem_centralizer_iff.mp hg s hs)
   exact mem_centralizer_iff.mpr fun h hh => mem_centralizer_singleton_iff.mp (hle hh)
 
+omit [Group G] [Finite G] in
 theorem img_lt {f : ℕ → G} {k : ℕ} (x : G) : x ∈ f '' {s | s < k} ↔ ∃ s < k, f s = x := by
   simp
 
@@ -607,7 +611,7 @@ theorem card_B : Nat.card (frameOf m).B = 32 := by
     (fun _ _ => enc_uE m (by norm_num)) (by norm_num)
   have e : (fun _ => uE m 9) '' {s : ℕ | s < 1} = {uE m 9} := by
     ext x
-    simp [eq_comm]
+    simp
   rw [e, S_eq, Nat.eq_of_beq_eq_true q5_cntB] at h
   rw [B_eq_cent, ← h]
 
@@ -699,9 +703,9 @@ theorem cen_B_uE : cen (frameOf m).B = closure {uE m 9, uE m 10} := by
   let v : Fin 4 → closure ({uE m 9, uE m 10} : Set G) := fun i =>
     ⟨pwG g 3 (2 * i.val), by
       fin_cases i
-      · simp only [Fin.val_zero, Nat.mul_zero, p0]
+      · simp only [Nat.mul_zero, p0]
         exact one_mem _
-      · simp only [Fin.mk_one, Fin.val_one, Nat.mul_one, p2]
+      · simp only [Nat.mul_one, p2]
         exact subset_closure (by simp)
       · simp only [show 2 * (⟨2, by norm_num⟩ : Fin 4).val = 4 from rfl, p4]
         exact subset_closure (by simp)
@@ -792,6 +796,7 @@ theorem q5P7 : ∀ j < 7, ∀ i < j, Q5P7I (j * (j - 1) / 2 + i) = i ∧
   interval_cases j <;> interval_cases i
   all_goals exact ⟨Nat.eq_of_beq_eq_true (by quickRfl), Nat.eq_of_beq_eq_true (by quickRfl)⟩
 
+omit [Finite G] in
 theorem conjSub_pair (c a b : G) :
     conjSub c (closure {a, b}) = closure {c * a * c⁻¹, c * b * c⁻¹} := by
   rw [conjSub, MonoidHom.map_closure, Set.image_pair]
@@ -923,6 +928,7 @@ theorem tabY : TabOf m.ρ Q5Y 8 (closure ((fun s => uE m (Q5YG s)) '' {s | s < 3
 
 theorem shl1 (n : ℕ) : Nat.shiftLeft 1 n = 2 ^ n := Nat.one_shiftLeft n
 
+omit [Group G] [Finite G] in
 theorem image3 {f : ℕ → G} {a b c : G} (h0 : f 0 = a) (h1 : f 1 = b) (h2 : f 2 = c) :
     f '' {s | s < 3} = {a, b, c} := by
   ext x
@@ -1251,6 +1257,7 @@ theorem tau_ne : uE m 20 ≠ 1 := by
 
 theorem tau_order : orderOf (uE m 20) = 3 := orderOf_eq_prime (tau_cube m) (tau_ne m)
 
+omit [Finite G] in
 theorem sylow3 {V : Subgroup G} {τ : G} (hτ : τ ∈ V) (h3 : orderOf τ = 3) {n : ℕ}
     (hV : Nat.card V = 3 * n) (hn : ¬ 3 ∣ n) : IsSylowIn 3 V (zpowers τ) := by
   have hc : Nat.card (zpowers τ) = 3 := by rw [Nat.card_zpowers, h3]
@@ -1276,6 +1283,7 @@ theorem tabJ : TabOf m.ρ Q5J 16 (closure (gJ m '' {s | s < 2}) : Set G) ∧
     (fun s hs => enc_uE m (q5JG_lt s hs)) q5_ones.2.2.2.2.2.2.2.1 q5_J (by norm_num)
     (by norm_num) (by norm_num)
 
+omit [Group G] [Finite G] in
 theorem image2 {f : ℕ → G} {a b : G} (h0 : f 0 = a) (h1 : f 1 = b) :
     f '' {s | s < 2} = {a, b} := by
   ext x

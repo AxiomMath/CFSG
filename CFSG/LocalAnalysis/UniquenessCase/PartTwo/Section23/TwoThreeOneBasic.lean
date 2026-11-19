@@ -78,6 +78,7 @@ theorem centralizer_le_M (c : Ctx23L D Ch) {V X : Subgroup G}
   rw [hy]
   exact hX u.2
 
+omit [Finite G] in
 theorem aParam_autI_eq_aBar {W : Subgroup G} (hW : IsElemAbelian 2 W) (X : Subgroup G) :
     E3.aParam (autI hW X) = aBar X ⊥ W hW := by
   show E3.aParam (autI hW X) = E3.aParam (barSub (⊥ : Subgroup G) W hW X)

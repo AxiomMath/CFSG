@@ -264,8 +264,8 @@ theorem center_eq_bot_of_rootLineShape
     exact CFSG.Quasithin.H13.center_eq_bot_of_isSimpleGroup_of_four_dvd h4
   · obtain ⟨-, K, hKf, hKfin, -, ⟨e⟩⟩ :=
       CFSG.Blueprint.LieModel.chevalleyExceptionalModel hG2 (by decide)
-    letI : Field K := hKf
-    letI : Finite K := hKfin
+    let : Field K := hKf
+    let : Finite K := hKfin
     exact CFSG.HardMathSupport.Meierfrankenfeld.LieOdd.center_eq_bot_of_mulEquiv e
       (CFSG.HardMathSupport.Meierfrankenfeld.LieOdd.center_adjointQuotient_eq_bot .G2 K)
 

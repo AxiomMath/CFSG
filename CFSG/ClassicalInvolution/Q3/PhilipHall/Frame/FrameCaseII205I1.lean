@@ -47,7 +47,7 @@ theorem twinSet_K' : twinSet (CoreAssembly.conjClass K) K' = {K', K} := by
     rw [d.twins]; exact Or.inr rfl
   rw [twinSet_eq_of_mem_twinSet d.viol.hzK h, d.twins, Set.pair_comm]
 
-theorem exists_sq_of_aviol {B L : Subgroup G} {zB s : G} (hB : B ∈ CoreAssembly.conjClass K)
+theorem exists_sq_of_aviol {B L : Subgroup G} {zB s : G} (_hB : B ∈ CoreAssembly.conjClass K)
     (hBz : IsUniqueInvolution B z) (h : AViol (CoreAssembly.conjClass K) B L zB s) :
     ∃ u ∈ sec20X (CoreAssembly.conjClass K) z K K', u * u = s ∧ u ^ 4 = 1 ∧ u * u ≠ 1 := by
   obtain ⟨-, -, U, hU, hUL, hUN⟩ := h.star

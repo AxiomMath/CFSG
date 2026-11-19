@@ -81,7 +81,7 @@ private theorem orthReflSet_three_eq {m : ℕ}
     (f : LinearMap.BilinForm (ZMod 3) (Fin m → ZMod 3)) :
     orthReflSet 3 m f = F3.reflSet f := by
   ext g
-  simp only [orthReflSet, F3.reflSet, fischerTransvections, Set.mem_setOf_eq,
+  simp only [orthReflSet, F3.reflSet, fischerTransvections, Set.mem_ofPred_eq,
     show (-2 : ZMod 3) = 1 by decide]
 
 theorem exists_sevenNine_of_reflQuot {G : Type} [Group G] {m : ℕ} (hm : 7 ≤ m)

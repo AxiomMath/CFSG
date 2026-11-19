@@ -58,7 +58,7 @@ theorem uc22s2121e3_two_members_r847E3
       hB h1 hL hK hne hpL hpK hn hX hm hY
     obtain ⟨hK2, hpm⟩ := uc22s2121e3_isL2_of_Sp_r847E3 hSE hThin hS S hS13 hSig h847T h847S hp hp5
       hB h1 hK hL hne.symm hpK hpL hm hY hn (Or.inl hL2)
-    haveI : Fact p.Prime := ⟨hpp⟩
+    have : Fact p.Prime := ⟨hpp⟩
     rw [← (InS3.k337_holds p hpp hp2 n m hn hm).2.1 (S15.nt1_pow_eq_neg_one hpn)
       (S15.nt1_pow_eq_neg_one hpm)] at hK2
     exact ⟨n, hn, hpn, hK2, Or.inl ⟨hL2, by omega⟩⟩

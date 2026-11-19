@@ -13,11 +13,13 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 private theorem nineThree_conj_iSup {ι : Sort*} (B : ι → Subgroup G) (g : G) :
     conjSubgroup (⨆ i, B i) g = ⨆ i, conjSubgroup (B i) g := by
   simp only [CFSG.Quasithin.conjSubgroup]
   exact Subgroup.map_iSup _ _
 
+omit [Finite G] in
 theorem conjSubgroup_nineD (K A : Subgroup G) (x : G) {r : G} (hr : r ∈ pCoreOf 2 K) :
     conjSubgroup (nineD K A x) r = nineD K A x := by
   have hle : ∀ s ∈ pCoreOf 2 K, conjSubgroup (nineD K A x) s ≤ nineD K A x := by

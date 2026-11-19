@@ -34,36 +34,47 @@ def frameW2 (F : FrameData Q) : Submodule K V :=
 
 variable (F : FrameData Q)
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameU1_e0_mem : F.e 0 ∈ frameU1 F :=
   Submodule.subset_span ⟨0, by simp⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameU1_e1_mem : F.e 1 ∈ frameU1 F :=
   Submodule.subset_span ⟨1, by simp⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameU2_e2_mem : F.e 2 ∈ frameU2 F :=
   Submodule.subset_span ⟨0, by simp⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameU2_e3_mem : F.e 3 ∈ frameU2 F :=
   Submodule.subset_span ⟨1, by simp⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameW1_e0_mem : F.e 0 ∈ frameW1 F :=
   Submodule.subset_span ⟨0, by simp⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameW1_e1_mem : F.e 1 ∈ frameW1 F :=
   Submodule.subset_span ⟨1, by simp⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameW1_e4_mem : F.e 4 ∈ frameW1 F :=
   Submodule.subset_span ⟨2, by simp⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameW2_e2_mem : F.e 2 ∈ frameW2 F :=
   Submodule.subset_span ⟨0, by simp⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameW2_e3_mem : F.e 3 ∈ frameW2 F :=
   Submodule.subset_span ⟨1, by simp⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameW2_e4_mem : F.e 4 ∈ frameW2 F :=
   Submodule.subset_span ⟨2, by simp⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameU1_le_frameW1 : frameU1 F ≤ frameW1 F := by
   rw [frameU1, frameW1, Submodule.span_le]
   rintro _ ⟨i, rfl⟩
@@ -71,6 +82,7 @@ private theorem frameU1_le_frameW1 : frameU1 F ≤ frameW1 F := by
   · exact frameW1_e0_mem F
   · exact frameW1_e1_mem F
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameU2_le_frameW2 : frameU2 F ≤ frameW2 F := by
   rw [frameU2, frameW2, Submodule.span_le]
   rintro _ ⟨i, rfl⟩
@@ -78,12 +90,15 @@ private theorem frameU2_le_frameW2 : frameU2 F ≤ frameW2 F := by
   · exact frameW2_e2_mem F
   · exact frameW2_e3_mem F
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem span_e4_le_frameW1 : Submodule.span K {F.e 4} ≤ frameW1 F :=
   Submodule.span_le.mpr (Set.singleton_subset_iff.mpr (frameW1_e4_mem F))
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem span_e4_le_frameW2 : Submodule.span K {F.e 4} ≤ frameW2 F :=
   Submodule.span_le.mpr (Set.singleton_subset_iff.mpr (frameW2_e4_mem F))
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameW1_eq_sup : frameW1 F = frameU1 F ⊔ Submodule.span K {F.e 4} := by
   apply le_antisymm
   · rw [frameW1, Submodule.span_le]
@@ -94,6 +109,7 @@ private theorem frameW1_eq_sup : frameW1 F = frameU1 F ⊔ Submodule.span K {F.e
     · exact Submodule.mem_sup_right (Submodule.subset_span rfl)
   · exact sup_le (frameU1_le_frameW1 F) (span_e4_le_frameW1 F)
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameW2_eq_sup : frameW2 F = frameU2 F ⊔ Submodule.span K {F.e 4} := by
   apply le_antisymm
   · rw [frameW2, Submodule.span_le]
@@ -104,6 +120,8 @@ private theorem frameW2_eq_sup : frameW2 F = frameU2 F ⊔ Submodule.span K {F.e
     · exact Submodule.mem_sup_right (Submodule.subset_span rfl)
   · exact sup_le (frameU2_le_frameW2 F) (span_e4_le_frameW2 F)
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem t_fixes_frameW2 (F : FrameData Q) {v : V} (hv : v ∈ frameW2 F) :
     F.t v = v := by
   rw [frameW2] at hv
@@ -116,6 +134,8 @@ private theorem t_fixes_frameW2 (F : FrameData Q) {v : V} (hv : v ∈ frameW2 F)
   · intro c a ha hta
     rw [map_smul, hta]
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem t_negates_frameU1 (F : FrameData Q) {u : V} (hu : u ∈ frameU1 F) :
     F.t u = -u := by
   rw [frameU1] at hu
@@ -128,6 +148,7 @@ private theorem t_negates_frameU1 (F : FrameData Q) {u : V} (hu : u ∈ frameU1 
   · intro c a ha hta
     rw [map_smul, hta, smul_neg]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem polar_frameU1_frameU2 {u₁ : V} (hu₁ : u₁ ∈ frameU1 F) {u₂ : V}
     (hu₂ : u₂ ∈ frameU2 F) : polar Q u₁ u₂ = 0 := by
   have h : ∀ x ∈ frameU1 F, ∀ y ∈ frameU2 F, polar Q x y = 0 := by
@@ -140,11 +161,8 @@ private theorem polar_frameU1_frameU2 {u₁ : V} (hu₁ : u₁ ∈ frameU1 F) {u
       · intro z hz
         obtain ⟨j, rfl⟩ := hz
         fin_cases i <;> fin_cases j <;>
-          simp [F.orth 0 1 (by norm_num), F.orth 0 2 (by norm_num),
-            F.orth 0 3 (by norm_num), F.orth 1 0 (by norm_num),
-            F.orth 1 2 (by norm_num), F.orth 1 3 (by norm_num),
-            F.orth 2 0 (by norm_num), F.orth 2 1 (by norm_num),
-            F.orth 3 0 (by norm_num), F.orth 3 1 (by norm_num)]
+          simp [F.orth 0 2 (by norm_num),
+            F.orth 0 3 (by norm_num), F.orth 1 2 (by norm_num), F.orth 1 3 (by norm_num)]
       · simp
       · intro a b _ _ ha hb
         rw [polar_add_right, ha, hb, add_zero]
@@ -157,6 +175,7 @@ private theorem polar_frameU1_frameU2 {u₁ : V} (hu₁ : u₁ ∈ frameU1 F) {u
       rw [polar_smul_left, ha y hy, smul_zero]
   exact h u₁ hu₁ u₂ hu₂
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem polar_frameU1_e4 {u : V} (hu : u ∈ frameU1 F) : polar Q u (F.e 4) = 0 := by
   refine Submodule.span_induction (p := fun x _ => polar Q x (F.e 4) = 0) ?_ ?_ ?_ ?_ hu
   · intro x hx
@@ -169,6 +188,7 @@ private theorem polar_frameU1_e4 {u : V} (hu : u ∈ frameU1 F) : polar Q u (F.e
   · intro c a _ ha
     rw [polar_smul_left, ha, smul_zero]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem polar_frameU2_e4 {u : V} (hu : u ∈ frameU2 F) : polar Q u (F.e 4) = 0 := by
   refine Submodule.span_induction (p := fun x _ => polar Q x (F.e 4) = 0) ?_ ?_ ?_ ?_ hu
   · intro x hx
@@ -181,6 +201,7 @@ private theorem polar_frameU2_e4 {u : V} (hu : u ∈ frameU2 F) : polar Q u (F.e
   · intro c a _ ha
     rw [polar_smul_left, ha, smul_zero]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameU2_le_orthPerp_frameW1 :
     frameU2 F ≤ CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q (frameW1 F) := by
   intro u₂ hu₂
@@ -199,6 +220,7 @@ private theorem frameU2_le_orthPerp_frameW1 :
   · intro c a _ ha
     rw [polar_smul_left, ha, smul_zero]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameU1_le_orthPerp_frameW2 :
     frameU1 F ≤ CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q (frameW2 F) := by
   intro u₁ hu₁
@@ -217,6 +239,7 @@ private theorem frameU1_le_orthPerp_frameW2 :
   · intro c a _ ha
     rw [polar_smul_left, ha, smul_zero]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameW2_le_orthPerp_frameU1 :
     frameW2 F ≤ CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q (frameU1 F) := by
   intro w hw
@@ -226,6 +249,7 @@ private theorem frameW2_le_orthPerp_frameU1 :
   exact (CFSG.RankThree.PartOne.KCOrthogonal.mem_orthPerp.mp
     (frameU1_le_orthPerp_frameW2 F hu)) w hw
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameW1_le_orthPerp_frameU2 :
     frameW1 F ≤ CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q (frameU2 F) := by
   intro w hw
@@ -235,6 +259,7 @@ private theorem frameW1_le_orthPerp_frameU2 :
   exact (CFSG.RankThree.PartOne.KCOrthogonal.mem_orthPerp.mp
     (frameU2_le_orthPerp_frameW1 F hu)) w hw
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameU1_polar_nondegenerate :
     (Q.comp (frameU1 F).subtype).polarBilin.Nondegenerate := by
   rw [CFSG.RankThree.PartOne.KCOrthogonal.polarBilin_comp_subtype]
@@ -246,6 +271,7 @@ private theorem frameU1_polar_nondegenerate :
   · intro i
     fin_cases i <;> simp [F.norm]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameU2_polar_nondegenerate :
     (Q.comp (frameU2 F).subtype).polarBilin.Nondegenerate := by
   rw [CFSG.RankThree.PartOne.KCOrthogonal.polarBilin_comp_subtype]
@@ -257,6 +283,7 @@ private theorem frameU2_polar_nondegenerate :
   · intro i
     fin_cases i <;> simp [F.norm]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameW1_polar_nondegenerate :
     (Q.comp (frameW1 F).subtype).polarBilin.Nondegenerate := by
   rw [CFSG.RankThree.PartOne.KCOrthogonal.polarBilin_comp_subtype]
@@ -271,6 +298,7 @@ private theorem frameW1_polar_nondegenerate :
   · intro i
     fin_cases i <;> simp [F.norm, F.last]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameW2_polar_nondegenerate :
     (Q.comp (frameW2 F).subtype).polarBilin.Nondegenerate := by
   rw [CFSG.RankThree.PartOne.KCOrthogonal.polarBilin_comp_subtype]
@@ -285,26 +313,31 @@ private theorem frameW2_polar_nondegenerate :
   · intro i
     fin_cases i <;> simp [F.norm, F.last]
 
+omit [Finite K] in
 private theorem frameU1_isCompl :
     IsCompl (frameU1 F)
       (CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q (frameU1 F)) :=
   CFSG.RankThree.PartOne.KCOrthogonal.isCompl_orthPerp (frameU1_polar_nondegenerate F)
 
+omit [Finite K] in
 private theorem frameU2_isCompl :
     IsCompl (frameU2 F)
       (CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q (frameU2 F)) :=
   CFSG.RankThree.PartOne.KCOrthogonal.isCompl_orthPerp (frameU2_polar_nondegenerate F)
 
+omit [Finite K] in
 private theorem frameW1_isCompl :
     IsCompl (frameW1 F)
       (CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q (frameW1 F)) :=
   CFSG.RankThree.PartOne.KCOrthogonal.isCompl_orthPerp (frameW1_polar_nondegenerate F)
 
+omit [Finite K] in
 private theorem frameW2_isCompl :
     IsCompl (frameW2 F)
       (CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q (frameW2 F)) :=
   CFSG.RankThree.PartOne.KCOrthogonal.isCompl_orthPerp (frameW2_polar_nondegenerate F)
 
+omit [Finite K] in
 private theorem sq_roots_card_le_two [Fintype K] [DecidableEq K] (d : K) :
     (Finset.univ.filter (fun t : K => t ^ 2 = d)).card ≤ 2 := by
   classical
@@ -332,6 +365,7 @@ private theorem sq_roots_card_le_two [Fintype K] [DecidableEq K] (d : K) :
     rw [hempty]
     simp
 
+omit [Finite K] in
 private theorem not_both_sq_neg_one [Fintype K] [DecidableEq K] {c : K} (hc : c ≠ 0)
     (hneg : ¬ IsSquare (-1 : K)) :
     (Finset.univ.filter (fun t : K => t ^ 2 = c) = ∅) ∨
@@ -352,6 +386,7 @@ private theorem not_both_sq_neg_one [Fintype K] [DecidableEq K] {c : K} (hc : c 
   field_simp [ht1ne]
   rw [ht1', ht2']
 
+omit [Finite K] in
 private theorem exists_scalar_choice_aux [Fintype K] [DecidableEq K]
     (h2 : (2 : K) ≠ 0) (hq5 : 5 ≤ Nat.card K) (c : K) :
     ∃ a b : K, b ^ 2 - a ^ 2 = c ∧ b ≠ 0 ∧ (a ≠ 0 ∨ IsSquare (-1 : K)) := by
@@ -473,13 +508,14 @@ private theorem exists_scalar_choice_aux [Fintype K] [DecidableEq K]
           linear_combination hdiff
         exact htc hsq
 
-private theorem exists_scalar_choice [Finite K] (h2 : (2 : K) ≠ 0)
+private theorem exists_scalar_choice (h2 : (2 : K) ≠ 0)
     (hq5 : 5 ≤ Nat.card K) (c : K) :
     ∃ a b : K, b ^ 2 - a ^ 2 = c ∧ b ≠ 0 ∧ (a ≠ 0 ∨ IsSquare (-1 : K)) := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   exact exists_scalar_choice_aux h2 hq5 c
 
+omit [Finite K] in
 private theorem mem_map_extendHom_of_preserves {R : Submodule K V}
     (hR : IsCompl R (CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q R))
     {b : V ≃ₗ[K] V} (hbO : b ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
@@ -523,18 +559,21 @@ private noncomputable def orthImage {R : Submodule K V}
   (TauCeti.QuadraticMap.orthogonalGroup (Q.comp R.subtype)).map
     (CFSG.LocalAnalysis.ComponentInitial.orthExtend hR)
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem mem_orthImage {R : Submodule K V}
     {hR : IsCompl R (CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q R)} {b : V ≃ₗ[K] V} :
     b ∈ orthImage hR ↔ ∃ g ∈ TauCeti.QuadraticMap.orthogonalGroup (Q.comp R.subtype),
       CFSG.LocalAnalysis.ComponentInitial.orthExtend hR g = b :=
   Iff.rfl
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem orthImage_extendHom {R : Submodule K V}
     {hR : IsCompl R (CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q R)}
     (g : ↥(TauCeti.QuadraticMap.orthogonalGroup (Q.comp R.subtype))) :
     CFSG.RankThree.PartOne.KCOrthogonal.extendHom hR g ∈ orthImage hR :=
   ⟨g, g.2, rfl⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem map_extendHom_top {R : Submodule K V}
     (hR : IsCompl R (CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q R)) :
     Subgroup.map (CFSG.RankThree.PartOne.KCOrthogonal.extendHom hR)
@@ -552,6 +591,7 @@ private theorem map_extendHom_top {R : Submodule K V}
   · intro hx
     exact ⟨⟨x, hx⟩, Subgroup.mem_top _, rfl⟩
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem orthImage_le_orthogonalGroup {R : Submodule K V}
     {hR : IsCompl R (CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q R)} :
     orthImage hR ≤ TauCeti.QuadraticMap.orthogonalGroup Q := by
@@ -559,6 +599,7 @@ private theorem orthImage_le_orthogonalGroup {R : Submodule K V}
   exact (CFSG.LocalAnalysis.ComponentInitial.orthogonal_complement_elementary_embedding Q hR
     CFSG.RankThree.PartOne.KCOrthogonal.orth_orthPerp).2.1 g hg
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem orthImage_fix {R : Submodule K V}
     {hR : IsCompl R (CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q R)} {b : V ≃ₗ[K] V}
     (hb : b ∈ orthImage hR) {w : V}
@@ -568,6 +609,7 @@ private theorem orthImage_fix {R : Submodule K V}
     CFSG.RankThree.PartOne.KCOrthogonal.extendHom hR ⟨g, hg⟩ from rfl,
     CFSG.RankThree.PartOne.KCOrthogonal.extendHom_fix hR ⟨g, hg⟩ hw]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem orthImage_maps {R : Submodule K V}
     {hR : IsCompl R (CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q R)} {b : V ≃ₗ[K] V}
     (hb : b ∈ orthImage hR) {r : V} (hr : r ∈ R) : b r ∈ R := by
@@ -575,8 +617,9 @@ private theorem orthImage_maps {R : Submodule K V}
   rw [show CFSG.LocalAnalysis.ComponentInitial.orthExtend hR g =
     CFSG.RankThree.PartOne.KCOrthogonal.extendHom hR ⟨g, hg⟩ from rfl,
     CFSG.RankThree.PartOne.KCOrthogonal.extendHom_apply_mem hR ⟨g, hg⟩ ⟨r, hr⟩]
-  simpa using (g ⟨r, hr⟩).2
+  simp
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem orthDerived_le_orthogonalGroup (R : Submodule K V) :
     CFSG.RankThree.Classical2.orthDerived (Q.comp R.subtype) ≤
       TauCeti.QuadraticMap.orthogonalGroup (Q.comp R.subtype) := by
@@ -584,12 +627,14 @@ private theorem orthDerived_le_orthogonalGroup (R : Submodule K V) :
   rintro x ⟨y, -, rfl⟩
   exact y.2
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem supportedOrthDerived_le_orthImage {R : Submodule K V}
     (hR : IsCompl R (CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q R)) :
     CFSG.RankThree.PartOne.KCOrthogonal.supportedOrthDerived Q R ≤ orthImage hR := by
   rw [CFSG.RankThree.PartOne.KCOrthogonal.supportedOrthDerived_eq_map hR]
   exact Subgroup.map_mono (orthDerived_le_orthogonalGroup R)
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem commutator_orthImage_eq_supported {R : Submodule K V}
     (hR : IsCompl R (CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q R)) :
     ⁅orthImage hR, orthImage hR⁆ =
@@ -600,6 +645,7 @@ private theorem commutator_orthImage_eq_supported {R : Submodule K V}
       CFSG.RankThree.PartOne.KCOrthogonal.supportedOrthDerived Q R
   rw [CFSG.RankThree.PartOne.KCOrthogonal.supportedOrthDerived_eq_map hR]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem reflect_maps_of_mem {R : Submodule K V} {u : V} (hu : u ∈ R) :
     ∀ x ∈ R, reflect Q u x ∈ R := by
   intro x hx
@@ -609,6 +655,7 @@ private theorem reflect_maps_of_mem {R : Submodule K V} {u : V} (hu : u ∈ R) :
   · rw [CFSG.ClassicalGroups.Orthogonal.reflect_apply hQu]
     exact Submodule.sub_mem R hx (Submodule.smul_mem R _ hu)
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem extendHom_reflect {R : Submodule K V}
     (hR : IsCompl R (CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q R)) {u : V} (hu : u ∈ R) :
     CFSG.RankThree.PartOne.KCOrthogonal.extendHom hR
@@ -659,6 +706,7 @@ private noncomputable def frameB2 (F : FrameData Q) : Subgroup (V ≃ₗ[K] V) :
 @[expose] noncomputable def frameX2 (F : FrameData Q) : Subgroup (V ≃ₗ[K] V) :=
   CFSG.RankThree.PartOne.KCOrthogonal.supportedOrthDerived Q (frameW2 F)
 
+omit [Finite K] in
 private theorem frameB1_le_frameO1 (F : FrameData Q) : frameB1 F ≤ frameO1 F := by
   intro b hb
   have h := mem_map_extendHom_of_preserves (R := frameW1 F) (frameW1_isCompl F)
@@ -678,6 +726,7 @@ private theorem frameB1_le_frameO1 (F : FrameData Q) : frameB1 F ≤ frameO1 F :
       fun u hu => CFSG.RankThree.PartOne.KCOrthogonal.mem_orthPerp.mp hw u
         (frameU1_le_frameW1 F hu))
 
+omit [Finite K] in
 private theorem frameB2_le_frameO2 (F : FrameData Q) : frameB2 F ≤ frameO2 F := by
   intro b hb
   have h := mem_map_extendHom_of_preserves (R := frameW2 F) (frameW2_isCompl F)
@@ -697,20 +746,25 @@ private theorem frameB2_le_frameO2 (F : FrameData Q) : frameB2 F ≤ frameO2 F :
       fun u hu => CFSG.RankThree.PartOne.KCOrthogonal.mem_orthPerp.mp hw u
         (frameU2_le_frameW2 F hu))
 
+omit [Finite K] in
 private theorem frameX1_le_frameO1 (F : FrameData Q) : frameX1 F ≤ frameO1 F :=
   supportedOrthDerived_le_orthImage (frameW1_isCompl F)
 
+omit [Finite K] in
 private theorem frameX2_le_frameO2 (F : FrameData Q) : frameX2 F ≤ frameO2 F :=
   supportedOrthDerived_le_orthImage (frameW2_isCompl F)
 
+omit [Finite K] in
 private theorem commutator_frameO1_eq_frameX1 (F : FrameData Q) :
     ⁅frameO1 F, frameO1 F⁆ = frameX1 F :=
   commutator_orthImage_eq_supported (frameW1_isCompl F)
 
+omit [Finite K] in
 private theorem commutator_frameO2_eq_frameX2 (F : FrameData Q) :
     ⁅frameO2 F, frameO2 F⁆ = frameX2 F :=
   commutator_orthImage_eq_supported (frameW2_isCompl F)
 
+omit [FiniteDimensional K V] in
 private theorem exists_mem_frameU1_norm (F : FrameData Q) (c : K) :
     ∃ u ∈ frameU1 F, Q u = c := by
   have hchar : ringChar K ≠ 2 := by
@@ -728,6 +782,7 @@ private theorem exists_mem_frameU1_norm (F : FrameData Q) (c : K) :
     simp [F.orth]
     simpa [pow_two] using hab
 
+omit [FiniteDimensional K V] in
 private theorem exists_mem_frameU2_norm (F : FrameData Q) (c : K) :
     ∃ u ∈ frameU2 F, Q u = c := by
   have hchar : ringChar K ≠ 2 := by
@@ -927,6 +982,7 @@ private theorem frameO2_le_sup_frameX2_frameB2 (F : FrameData Q) :
         rintro _ ⟨x, ⟨v, rfl⟩, rfl⟩
         exact frameW2_reflect_mem_sup F v
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameW2_singular_nonzero (F : FrameData Q) (hneg : IsSquare (-1 : K)) :
     ∃ u ∈ frameU2 F, Q u = 0 ∧ u ≠ 0 := by
   obtain ⟨i, hi⟩ := hneg
@@ -948,6 +1004,7 @@ private theorem frameW2_singular_nonzero (F : FrameData Q) (hneg : IsSquare (-1 
     have hcoord := congrArg (fun w : V => F.coord w 2) hu
     simp [F.coord_e, map_add, map_smul, Pi.single] at hcoord
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frame_decompose (F : FrameData Q) (v : V) :
     ∃ u1 ∈ frameU1 F, ∃ u2 ∈ frameU2 F, ∃ a : K, v = u1 + u2 + a • F.e 4 := by
   let c := F.coord v
@@ -964,6 +1021,7 @@ private theorem frame_decompose (F : FrameData Q) (v : V) :
     fin_cases i <;>
       simp [u1, u2, a, F.coord_e, map_add, map_smul, Pi.single] <;> rfl
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem coord_frameU2_four (F : FrameData Q) {u : V} (hu : u ∈ frameU2 F) :
     F.coord u 4 = 0 := by
   refine Submodule.span_induction (p := fun x _ => F.coord x 4 = 0) ?_ ?_ ?_ ?_ hu
@@ -979,6 +1037,7 @@ private theorem coord_frameU2_four (F : FrameData Q) {u : V} (hu : u ∈ frameU2
     show c * (F.coord a) 4 = 0
     rw [ha, mul_zero]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameU2_add_smul_e4_ne_zero (F : FrameData Q) {u : V}
     (hu : u ∈ frameU2 F) {a : K} (ha : a ≠ 0) : u + a • F.e 4 ≠ 0 := by
   intro hzero
@@ -986,6 +1045,7 @@ private theorem frameU2_add_smul_e4_ne_zero (F : FrameData Q) {u : V}
   simp [map_add, map_smul, coord_frameU2_four F hu, F.coord_e] at hcoord
   exact ha hcoord
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem Q_add_smul_e4_frameU1 (F : FrameData Q) {u : V}
     (hu : u ∈ frameU1 F) (a : K) :
     Q (u + a • F.e 4) = Q u + a ^ 2 * Q (F.e 4) := by
@@ -998,6 +1058,7 @@ private theorem Q_add_smul_e4_frameU1 (F : FrameData Q) {u : V}
   rw [QuadraticMap.map_add Q, hp, hq]
   ring
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem Q_add_smul_e4_frameU2 (F : FrameData Q) {u : V}
     (hu : u ∈ frameU2 F) (a : K) :
     Q (u + a • F.e 4) = Q u + a ^ 2 * Q (F.e 4) := by
@@ -1191,6 +1252,7 @@ private theorem frame_move_to_W2 (F : FrameData Q) (hq5 : 5 ≤ Nat.card K)
       frame_move_to_W2_of_ne_zero F hq5 hu1 hu2 a0 hw2
     exact ⟨g, hg, by rw [hvdecomp]; exact hgy⟩
 
+omit [Finite K] in
 private theorem reflect_mem_frameO2 (F : FrameData Q) {w : V} (hw : w ∈ frameW2 F) :
     reflect Q w ∈ frameO2 F := by
   have h := mem_map_extendHom_of_preserves (R := frameW2 F) (frameW2_isCompl F)
@@ -1230,22 +1292,27 @@ private theorem frameO1_sup_frameO2_eq_orthogonalGroup (F : FrameData Q)
             exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.inv_mem _ hg)
               (Subgroup.mem_sup_right href)) hg
 
+omit [Finite K] in
 private theorem frameB1_fix_frameW2 (F : FrameData Q) {b : V ≃ₗ[K] V}
     (hb : b ∈ frameB1 F) {w : V} (hw : w ∈ frameW2 F) : b w = w :=
   orthImage_fix (R := frameU1 F) hb (frameW2_le_orthPerp_frameU1 F hw)
 
+omit [Finite K] in
 private theorem frameB2_fix_frameW1 (F : FrameData Q) {b : V ≃ₗ[K] V}
     (hb : b ∈ frameB2 F) {w : V} (hw : w ∈ frameW1 F) : b w = w :=
   orthImage_fix (R := frameU2 F) hb (frameW1_le_orthPerp_frameU2 F hw)
 
+omit [Finite K] in
 private theorem frameX2_fix_frameU1 (F : FrameData Q) {x : V ≃ₗ[K] V}
     (hx : x ∈ frameX2 F) {u : V} (hu : u ∈ frameU1 F) : x u = u :=
   orthImage_fix (R := frameW2 F) (frameX2_le_frameO2 F hx) (frameU1_le_orthPerp_frameW2 F hu)
 
+omit [Finite K] in
 private theorem frameX1_fix_frameU2 (F : FrameData Q) {x : V ≃ₗ[K] V}
     (hx : x ∈ frameX1 F) {u : V} (hu : u ∈ frameU2 F) : x u = u :=
   orthImage_fix (R := frameW1 F) (frameX1_le_frameO1 F hx) (frameU2_le_orthPerp_frameW1 F hu)
 
+omit [Finite K] in
 private theorem frameB1_centralizes_frameX2 (F : FrameData Q) :
     ∀ b ∈ frameB1 F, ∀ x ∈ frameX2 F, b * x = x * b := by
   intro b hb x hx
@@ -1278,6 +1345,7 @@ private theorem frameB1_centralizes_frameX2 (F : FrameData Q) :
         frameB1_fix_frameW2 F hb (hxW2 (F.e 4) (frameW2_e4_mem F))]
   exact LinearMap.congr_fun h v
 
+omit [Finite K] in
 private theorem frameB2_centralizes_frameX1 (F : FrameData Q) :
     ∀ b ∈ frameB2 F, ∀ x ∈ frameX1 F, b * x = x * b := by
   intro b hb x hx
@@ -1310,6 +1378,7 @@ private theorem frameB2_centralizes_frameX1 (F : FrameData Q) :
         frameB2_fix_frameW1 F hb (hxW1 (F.e 4) (frameW1_e4_mem F))]
   exact LinearMap.congr_fun h v
 
+omit [Finite K] in
 private theorem frameB1_commutes_frameB2 (F : FrameData Q) :
     ∀ b ∈ frameB1 F, ∀ c ∈ frameB2 F, b * c = c * b := by
   intro b hb c hc
@@ -1357,6 +1426,7 @@ private theorem frameO2_eq_sup_frameX2_frameB2 (F : FrameData Q) :
 private noncomputable def frameH (F : FrameData Q) : Subgroup (V ≃ₗ[K] V) :=
   frameX1 F ⊔ frameX2 F
 
+omit [Finite K] in
 private theorem frameB1_le_normalizer_frameX1 (F : FrameData Q) :
     frameB1 F ≤ Subgroup.normalizer (frameX1 F : Set (V ≃ₗ[K] V)) := by
   calc frameB1 F ≤ frameO1 F := frameB1_le_frameO1 F
@@ -1364,6 +1434,7 @@ private theorem frameB1_le_normalizer_frameX1 (F : FrameData Q) :
         rw [← commutator_frameO1_eq_frameX1 F]
         exact Subgroup.normalizer_commutator_ge_left (frameO1 F) (frameO1 F)
 
+omit [Finite K] in
 private theorem frameB2_le_normalizer_frameX2 (F : FrameData Q) :
     frameB2 F ≤ Subgroup.normalizer (frameX2 F : Set (V ≃ₗ[K] V)) := by
   calc frameB2 F ≤ frameO2 F := frameB2_le_frameO2 F
@@ -1371,6 +1442,7 @@ private theorem frameB2_le_normalizer_frameX2 (F : FrameData Q) :
         rw [← commutator_frameO2_eq_frameX2 F]
         exact Subgroup.normalizer_commutator_ge_left (frameO2 F) (frameO2 F)
 
+omit [Finite K] in
 private theorem frameB1_le_normalizer_frameX2 (F : FrameData Q) :
     frameB1 F ≤ Subgroup.normalizer (frameX2 F : Set (V ≃ₗ[K] V)) := by
   refine Subgroup.le_normalizer_iff.mpr ?_
@@ -1379,6 +1451,7 @@ private theorem frameB1_le_normalizer_frameX2 (F : FrameData Q) :
   have hconj : b * x * b⁻¹ = x := by rw [hcomm]; group
   rwa [hconj]
 
+omit [Finite K] in
 private theorem frameB2_le_normalizer_frameX1 (F : FrameData Q) :
     frameB2 F ≤ Subgroup.normalizer (frameX1 F : Set (V ≃ₗ[K] V)) := by
   refine Subgroup.le_normalizer_iff.mpr ?_
@@ -1387,6 +1460,7 @@ private theorem frameB2_le_normalizer_frameX1 (F : FrameData Q) :
   have hconj : b * x * b⁻¹ = x := by rw [hcomm]; group
   rwa [hconj]
 
+omit [Finite K] in
 private theorem frameB1_le_normalizer_frameH (F : FrameData Q) :
     frameB1 F ≤ Subgroup.normalizer (frameH F : Set (V ≃ₗ[K] V)) := by
   have h := le_inf (frameB1_le_normalizer_frameX1 F) (frameB1_le_normalizer_frameX2 F)
@@ -1394,6 +1468,7 @@ private theorem frameB1_le_normalizer_frameH (F : FrameData Q) :
   dsimp [frameH]
   exact Subgroup.inf_normalizer_le_normalizer_sup (frameX1 F) (frameX2 F)
 
+omit [Finite K] in
 private theorem frameB2_le_normalizer_frameH (F : FrameData Q) :
     frameB2 F ≤ Subgroup.normalizer (frameH F : Set (V ≃ₗ[K] V)) := by
   have h := le_inf (frameB2_le_normalizer_frameX1 F) (frameB2_le_normalizer_frameX2 F)
@@ -1401,11 +1476,13 @@ private theorem frameB2_le_normalizer_frameH (F : FrameData Q) :
   dsimp [frameH]
   exact Subgroup.inf_normalizer_le_normalizer_sup (frameX1 F) (frameX2 F)
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameX1_le_normalizer_frameH (F : FrameData Q) :
     frameX1 F ≤ Subgroup.normalizer (frameH F : Set (V ≃ₗ[K] V)) := by
   have h : frameX1 F ≤ frameH F := by dsimp [frameH]; exact le_sup_left
   exact h.trans Subgroup.le_normalizer
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem frameX2_le_normalizer_frameH (F : FrameData Q) :
     frameX2 F ≤ Subgroup.normalizer (frameH F : Set (V ≃ₗ[K] V)) := by
   have h : frameX2 F ≤ frameH F := by dsimp [frameH]; exact le_sup_right
@@ -1432,6 +1509,7 @@ private theorem frameO_normalizes_frameH (F : FrameData Q) (hq5 : 5 ≤ Nat.card
       g * h * g⁻¹ ∈ frameH F :=
   Subgroup.le_normalizer_iff.mp (frameO_le_normalizer_frameH F hq5)
 
+omit [Finite K] in
 private theorem frameX1_le_orthDerived (F : FrameData Q) :
     frameX1 F ≤ CFSG.RankThree.Classical2.orthDerived Q := by
   change frameX1 F ≤
@@ -1440,6 +1518,7 @@ private theorem frameX1_le_orthDerived (F : FrameData Q) :
   exact Subgroup.commutator_mono (orthImage_le_orthogonalGroup (R := frameW1 F))
     (orthImage_le_orthogonalGroup (R := frameW1 F))
 
+omit [Finite K] in
 private theorem frameX2_le_orthDerived (F : FrameData Q) :
     frameX2 F ≤ CFSG.RankThree.Classical2.orthDerived Q := by
   change frameX2 F ≤
@@ -1521,13 +1600,15 @@ private theorem frameX1_sup_frameX2_eq_orthDerived (F : FrameData Q) (hq5 : 5 �
   · exact sup_le (frameX1_le_orthDerived F) (frameX2_le_orthDerived F)
   · simpa [CFSG.RankThree.Classical2.orthDerived, O, frameH] using hcommle
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem frameW2_eq_t_eigenspace (F : FrameData Q) :
     frameW2 F = Module.End.eigenspace (F.t : V →ₗ[K] V) 1 := by
   apply le_antisymm
   · rw [frameW2]
     refine Submodule.span_le.mpr ?_
     rintro _ ⟨i, rfl⟩
-    fin_cases i <;> simp [Module.End.mem_eigenspace_iff]
+    fin_cases i <;> simp
   · intro v hv
     have hv' : F.t v = v := by simpa [Module.End.mem_eigenspace_iff] using hv
     obtain ⟨u1, hu1, u2, hu2, a, hvdecomp⟩ := frame_decompose F v
@@ -1555,37 +1636,47 @@ theorem frameW2_eq_t_eigenspace (F : FrameData Q) :
     exact Submodule.add_mem _ (frameU2_le_frameW2 F hu2)
       (span_e4_le_frameW2 F (Submodule.smul_mem _ _ (Submodule.subset_span rfl)))
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem s_maps_frameW2 (F : FrameData Q) {v : V} (hv : v ∈ frameW2 F) :
     F.s v ∈ frameW1 F := by
   rw [frameW2] at hv
   refine Submodule.span_induction (p := fun x _ => F.s x ∈ frameW1 F) ?_ ?_ ?_ ?_ hv
   · rintro _ ⟨i, rfl⟩
     fin_cases i <;> simp [F.s_e, frameW1_e0_mem, frameW1_e1_mem, frameW1_e4_mem]
-  · simpa using (frameW1 F).zero_mem
+  · simp
   · intro a b ha hb hsa hsb
     simpa [map_add] using (frameW1 F).add_mem hsa hsb
   · intro c a ha hsa
     simpa [map_smul] using (frameW1 F).smul_mem c hsa
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem s_maps_frameW1 (F : FrameData Q) {v : V} (hv : v ∈ frameW1 F) :
     F.s v ∈ frameW2 F := by
   rw [frameW1] at hv
   refine Submodule.span_induction (p := fun x _ => F.s x ∈ frameW2 F) ?_ ?_ ?_ ?_ hv
   · rintro _ ⟨i, rfl⟩
     fin_cases i <;> simp [F.s_e, frameW2_e2_mem, frameW2_e3_mem, frameW2_e4_mem]
-  · simpa using (frameW2 F).zero_mem
+  · simp
   · intro a b ha hb hsa hsb
     simpa [map_add] using (frameW2 F).add_mem hsa hsb
   · intro c a ha hsa
     simpa [map_smul] using (frameW2 F).smul_mem c hsa
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem s_inv_eq_self (F : FrameData Q) : F.s⁻¹ = F.s :=
   inv_eq_of_mul_eq_one_right F.s_mul_self
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem s_apply_apply (F : FrameData Q) (v : V) : F.s (F.s v) = v := by
   rw [← LinearEquiv.mul_apply, F.s_mul_self]
   rfl
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem s_orthPerp_frameW1 (F : FrameData Q) {w : V}
     (hw : w ∈ CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q (frameW1 F)) :
     F.s w ∈ CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q (frameW2 F) := by
@@ -1599,6 +1690,8 @@ private theorem s_orthPerp_frameW1 (F : FrameData Q) {w : V}
   rw [hss] at hp
   rwa [← hp]
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem s_orthPerp_frameW2 (F : FrameData Q) {w : V}
     (hw : w ∈ CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q (frameW2 F)) :
     F.s w ∈ CFSG.RankThree.PartOne.KCOrthogonal.orthPerp Q (frameW1 F) := by
@@ -1612,6 +1705,7 @@ private theorem s_orthPerp_frameW2 (F : FrameData Q) {w : V}
   rw [hss] at hp
   rwa [← hp]
 
+omit [Finite K] in
 private theorem frameO2_map_conj_s (F : FrameData Q) :
     (frameO2 F).map (MulAut.conj F.s).toMonoidHom = frameO1 F := by
   apply le_antisymm
@@ -1665,11 +1759,13 @@ private theorem frameO2_map_conj_s (F : FrameData Q) :
           _ = b := by rw [F.s_mul_self]; simp
       exact h
 
+omit [Finite K] in
 private theorem frameX2_map_conj_s (F : FrameData Q) :
     (frameX2 F).map (MulAut.conj F.s).toMonoidHom = frameX1 F := by
   rw [← commutator_frameO2_eq_frameX2 F, ← commutator_frameO1_eq_frameX1 F,
     Subgroup.map_commutator, frameO2_map_conj_s F]
 
+omit [Finite K] in
 theorem supportedOrthDerived_frameW2_map_conj_s (F : FrameData Q) :
     (CFSG.RankThree.PartOne.KCOrthogonal.supportedOrthDerived Q (frameW2 F)).map
         (MulAut.conj F.s).toMonoidHom =

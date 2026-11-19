@@ -78,11 +78,11 @@ theorem e_at {i : Nat} (hi : i < 2880) :
   rw [hi0] at this
   have e1 : ((H78D.w.drop (Nat.mul (Nat.add (Nat.mul (i / 360) 8) ((i / 45) % 8)) 45)).take
       45).getD (i % 45) [] = H78D.w.getD i [] := by
-    rw [List.getD_eq_getElem?_getD, List.getElem?_take, if_pos (Nat.mod_lt _ (by norm_num)),
+    rw [List.getD_eq_getElem?_getD, List.getElem?_take, ite_eq_left (Nat.mod_lt _ (by norm_num)),
       List.getElem?_drop, hi0, ← List.getD_eq_getElem?_getD]
   have e2 : ((H78D.cj.drop (Nat.mul (Nat.add (Nat.mul (i / 360) 8) ((i / 45) % 8)) 45)).take
       45).getD (i % 45) [] = H78D.cj.getD i [] := by
-    rw [List.getD_eq_getElem?_getD, List.getElem?_take, if_pos (Nat.mod_lt _ (by norm_num)),
+    rw [List.getD_eq_getElem?_getD, List.getElem?_take, ite_eq_left (Nat.mod_lt _ (by norm_num)),
       List.getElem?_drop, hi0, ← List.getD_eq_getElem?_getD]
   rwa [e1, e2] at this
 
@@ -370,7 +370,6 @@ theorem Tsyl_enum : ∀ x ∈ Tsyl, ∃ j < 64, x = (eT 0)⁻¹ * eT j := by
   have e : eT i * gT l = eT (tM (i * 4 + l)) :=
     eq_of_key (mul_mem (Tsyl_le (eT_mem i)) (Tsyl_le (gT_mem l))) (Tsyl_le (eT_mem _))
       ((eT_rep i).comp (gT_rep l)) (eT_rep _) (hk.trans (tAt_parts hm).1)
-  beta_reduce
   rw [mul_assoc, e]
 
 theorem card_Tsyl : Nat.card Tsyl = 64 := by

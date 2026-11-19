@@ -15,7 +15,7 @@ open Equiv CFSG.Permutation.FinPack
 
 @[expose] def fin4F (n : ℕ) : Fin 4 := ⟨n % 4, Nat.mod_lt _ (by norm_num)⟩
 
-@[expose] def labF (c0 c1 c2 : Fin 6) : Fin 4 :=
+@[expose] def labF (c0 c1 _c2 : Fin 6) : Fin 4 :=
   fin4F (2 * (if (c0 : ℕ) < 3 then 0 else 1) + (if ((c1 : ℕ) + 6 - (c0 : ℕ)) % 3 = 1 then 0 else 1))
 
 @[expose] def actF (g : Perm (Fin 6)) : Fin 4 → Fin 4 :=
@@ -25,7 +25,7 @@ open Equiv CFSG.Permutation.FinPack
   encF (fun i => if h : i < 4 then (f ⟨i, h⟩ : ℕ) else 0) 4
 
 theorem rd_fc (f : Fin 4 → Fin 4) (i : Fin 4) : rd (fc f) i = f i := by
-  rw [fc, rd_encF (fun j hj => by rw [dif_pos hj]; exact lt_of_lt_of_le (Fin.isLt _) (by norm_num))
+  rw [fc, rd_encF (fun j hj => by rw [dite_eq_left hj]; exact lt_of_lt_of_le (Fin.isLt _) (by norm_num))
     i.isLt]
   simp
 
@@ -37,7 +37,7 @@ theorem fc_comp (f g : Fin 4 → Fin 4) : fc (fun z => f (g z)) = mulK 4 (fc f) 
   conv_lhs => rw [fc]
   refine encF_congr fun i hi => ?_
   have h1 : rd (fc g) i = g ⟨i, hi⟩ := rd_fc g ⟨i, hi⟩
-  rw [dif_pos hi, h1, rd_fc f]
+  rw [dite_eq_left hi, h1, rd_fc f]
 
 theorem fc_id : fc id = 12816 := by decide +kernel
 
@@ -45,7 +45,7 @@ theorem beq_fc_iff {f g : Fin 4 → Fin 4} {c : ℕ} (h : fc g = c) : Nat.beq (f
   rw [Nat.beq_eq, ← h]
   exact ⟨fc_inj, congrArg fc⟩
 
-@[expose] def labK (a b c : ℕ) : ℕ :=
+@[expose] def labK (a b _c : ℕ) : ℕ :=
   Nat.add (Bool.rec (motive := fun _ => ℕ) 2 0 (Nat.blt a 3))
     (Bool.rec (motive := fun _ => ℕ) 1 0 (Nat.beq (Nat.mod (Nat.sub (Nat.add b 6) a) 3) 1))
 
@@ -62,17 +62,17 @@ theorem brec_blt (x y u v : ℕ) :
     (Bool.rec (motive := fun _ => ℕ) u v (Nat.blt x y) : ℕ) = if x < y then v else u := by
   by_cases h : x < y
   · have hb : Nat.blt x y = true := by rw [Nat.blt_eq]; exact h
-    rw [hb, if_pos h]
+    rw [hb, ite_eq_left h]
   · have hb : Nat.blt x y = false := Bool.eq_false_iff.2 fun e => h (by rw [Nat.blt_eq] at e; exact e)
-    rw [hb, if_neg h]
+    rw [hb, ite_eq_right h]
 
 theorem brec_beq (x y u v : ℕ) :
     (Bool.rec (motive := fun _ => ℕ) u v (Nat.beq x y) : ℕ) = if x = y then v else u := by
   by_cases h : x = y
   · have hb : Nat.beq x y = true := by rw [Nat.beq_eq]; exact h
-    rw [hb, if_pos h]
+    rw [hb, ite_eq_left h]
   · have hb : Nat.beq x y = false := Bool.eq_false_iff.2 fun e => h (by rw [Nat.beq_eq] at e; exact e)
-    rw [hb, if_neg h]
+    rw [hb, ite_eq_right h]
 
 theorem lab_eq (c0 c1 c2 : Fin 6) : (labF c0 c1 c2 : ℕ) = labK c0 c1 c2 := by
   have hm : Nat.mod (Nat.sub (Nat.add (c1 : ℕ) 6) c0) 3 = ((c1 : ℕ) + 6 - c0) % 3 := rfl
@@ -85,7 +85,7 @@ theorem rd_enc6 (g : Perm (Fin 6)) (i : Fin 6) : rd (enc g) i = g i := rd_enc (b
 theorem fc_actF (g : Perm (Fin 6)) : fc (actF g) = actK (enc g) := by
   rw [fc, actK]
   refine encF_congr fun i hi => ?_
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
   interval_cases i
   · have e : actF g ⟨0, hi⟩ = labF (g 0) (g 1) (g 2) := rfl
     rw [e, lab_eq, ← rd_enc6 g 0, ← rd_enc6 g 1, ← rd_enc6 g 2]

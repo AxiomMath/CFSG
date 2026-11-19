@@ -34,7 +34,7 @@ theorem stroth311a_of_inputs (h34 : Stroth34Statement) (h310 : Stroth310Statemen
   · exact absurd hRL hR
   have hq4 : 4 ≤ Nat.card K := hK ▸ hc.hyp.q4
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
   rcases hfam with ⟨m, hm, hnat⟩ | ⟨m, hm, hnat⟩ | ⟨m, hm, hnat⟩ | ⟨m, b, c, hm, hirr, hnat⟩
   · exact absurd (stroth310SL_of_34 h34 G M Q Z B hc n t hs ⟨K, fK, finK, hK, m, hm, hnat⟩) hV
   · have hm2 : 2 ≤ m := by

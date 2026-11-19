@@ -48,6 +48,7 @@ theorem card_antiUnipotent [Finite K] : Nat.card (antiUnipotent K) = Nat.card K 
   simp only [Nat.card_prod]
   ring
 
+omit [CharP K 2] in
 theorem natCard_eq_pow_three {R : Subgroup (antiSp K)} {f : K × K × K → antiSp K}
     (hf : ∀ p, f p ∈ R) (hinj : Function.Injective f) (hsurj : ∀ g ∈ R, ∃ p, f p = g) :
     Nat.card R = Nat.card K ^ 3 := by

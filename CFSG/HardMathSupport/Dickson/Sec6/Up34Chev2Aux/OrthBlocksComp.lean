@@ -33,7 +33,7 @@ theorem exists_eq_of_isComponentOf_le_iSup {N : Subgroup T} {ι : Type*} (G : ι
       rw [Subgroup.mem_center_iff]
       intro g
       exact Subtype.ext ((Subgroup.mem_centralizer_iff.1 (hIcI z.2)) g g.2)
-    haveI := hI.2.2.2
+    have := hI.2.2.2
     obtain ⟨x, y, hxy⟩ := exists_pair_ne (↥I ⧸ Subgroup.center ↥I)
     apply hxy
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective x
@@ -47,7 +47,7 @@ theorem exists_eq_of_isComponentOf_le_iSup {N : Subgroup T} {ι : Type*} (G : ι
   have hGp : ⁅G j, G j⁆ = G j := Subgroup.isPerfect_iff.1 ⟨hGq.1⟩
   have hGne : G j ≠ ⊥ := by
     intro h
-    haveI := hGq.2
+    have := hGq.2
     obtain ⟨x, y, hxy⟩ := exists_pair_ne (↥(G j) ⧸ Subgroup.center ↥(G j))
     apply hxy
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective x
@@ -132,7 +132,7 @@ theorem isComponentOf_centralizerImage_cases
       exact hx.normal_fixedComponentImage
     · have := hC.2 hlist
       subst this
-      simp only [iSup_of_empty, Subgroup.subgroupOf_bot_eq_bot]
+      simp only [iSup_of_empty]
       infer_instance
   have hENeq : EN = (⨆ h : ι₁, componentImage Q xe h.1) ⊔ ⨆ i, C i := by
     rw [hEN, iSup_sum]
@@ -161,7 +161,7 @@ theorem isComponentOf_centralizerImage_cases
     rw [← (hC.1 hlist).1]
     exact iSup_le fun i => le_iSup G (Sum.inr i)
   obtain ⟨S₀, hS₀N, hS₀sol, hcomm⟩ := exists_solvable_comm_le hQ hp hp2 x hx hRep EN hJ hfix
-  haveI := hS₀sol
+  have := hS₀sol
   have hIperf : ⁅I, I⁆ = I := Subgroup.isPerfect_iff.1 ⟨hI.2.2.1⟩
   have hIEN : I ≤ EN :=
     perfect_le_of_le_sup_solvable hENN hS₀N hENn hcomm hI.1 hIperf

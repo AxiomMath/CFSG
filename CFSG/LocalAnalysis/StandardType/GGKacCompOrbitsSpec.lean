@@ -25,7 +25,7 @@ private theorem k0CompOrbit_go_eq (img : List ℕ → List ℕ) (c : List ℕ) {
         simp [k0CompOrbit.go, hper]
       · have hmlt : m < k := by omega
         have hne : img^[m] c ≠ c := hmin m hm1 hmlt
-        rw [k0CompOrbit.go, if_neg hne]
+        rw [k0CompOrbit.go, ite_eq_right hne]
         rw [show img (img^[m] c) = img^[m + 1] c from
           (Function.iterate_succ_apply' img m c).symm]
         rw [ih (m + 1) (acc ++ [img^[m] c]) (by omega) (by omega) (by omega)]
@@ -275,7 +275,7 @@ private theorem k0CompOrbits_aux {img : List ℕ → List ℕ} {cs : List (List 
       have hl' : rest ⊆ cs := fun x hx => hl (List.mem_cons_of_mem c hx)
       rw [k0CompOrbits]
       by_cases hcseen : c ∈ seen
-      · rw [if_pos hcseen]
+      · rw [ite_eq_left hcseen]
         have hcover' : ∀ x ∈ cs, x ∈ rest ∨ x ∈ seen := by
           intro x hx
           rcases hcover x hx with h | h
@@ -284,7 +284,7 @@ private theorem k0CompOrbits_aux {img : List ℕ → List ℕ} {cs : List (List 
             · exact Or.inl h
           · exact Or.inr h
         exact ih seen hl' hseen_sub hseen_nd hclosed hcover'
-      · rw [if_neg hcseen]
+      · rw [ite_eq_right hcseen]
         have hc : c ∈ cs := hl (List.mem_cons_self ..)
         have hfacts := k0CompOrbits_orbit_facts hnd hmap hinj hfuel hc
         obtain ⟨hmem_o, hclosed_o, hseen', hsub', hclosed', _, hcover'⟩ :=

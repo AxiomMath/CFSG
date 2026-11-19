@@ -32,14 +32,14 @@ theorem isPerfect_normOmega [Finite F] (E : QuadExt F K (unitaryInvolution K 2 f
   have : CharP F 2 := (algebraMap F K).charP (algebraMap F K).injective 2
   rcases Nat.even_or_odd k with hke | hko
   · obtain ⟨e⟩ := nonempty_normOmega_mulEquiv_plus E hke
-    haveI : Group.IsPerfect
+    have : Group.IsPerfect
         ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus (k + 1) F)) :=
       CFSG.LieType.Universal.Spin.isPerfect_statedOmega_quadPlus (K := F) (n := k + 1)
         (by obtain ⟨j, rfl⟩ := hke; omega)
     exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   · obtain ⟨b, c, hirr⟩ := CFSG.GroupTheory.WeirSylow.exists_irreducible_quadratic F
     obtain ⟨e⟩ := nonempty_normOmega_mulEquiv_minus E hko hirr
-    haveI : Group.IsPerfect
+    have : Group.IsPerfect
         ↥(CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus (k + 1) F b c)) :=
       ⟨CFSG.ComponentClassification.RankTwoClassical.ORigid.commutator_statedOmega_quadMinus_eq_top
         (m := k + 1) (by omega) hirr⟩
@@ -49,9 +49,9 @@ theorem isSimpleGroup_normBlock
     (E : QuadExt F K (unitaryInvolution K 2 f)) {r : ℕ} (hr : 3 ≤ r)
     (S : Finset (Fin r)) (hS : S.Nonempty) :
     IsSimpleGroup ↥(normBlock E r S) := by
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
   obtain ⟨e⟩ := nonempty_normOmega_mulEquiv_normBlock E hr S
-  haveI : IsSimpleGroup ↥(normOmega E S.card) :=
+  have : IsSimpleGroup ↥(normOmega E S.card) :=
     isSimpleGroup_normOmega E (by
       have := Finset.card_pos.mpr hS
       omega)
@@ -61,9 +61,9 @@ theorem isPerfect_normBlock
     (E : QuadExt F K (unitaryInvolution K 2 f)) {r : ℕ} (hr : 3 ≤ r)
     (S : Finset (Fin r)) (hS : S.Nonempty) :
     Group.IsPerfect ↥(normBlock E r S) := by
-  haveI : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
+  have : Finite F := Finite.of_injective (algebraMap F K) (algebraMap F K).injective
   obtain ⟨e⟩ := nonempty_normOmega_mulEquiv_normBlock E hr S
-  haveI : Group.IsPerfect ↥(normOmega E S.card) :=
+  have : Group.IsPerfect ↥(normOmega E S.card) :=
     isPerfect_normOmega E (by
       have := Finset.card_pos.mpr hS
       omega)

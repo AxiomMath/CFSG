@@ -37,7 +37,7 @@ theorem vecOf_xsel_mem {S : Set V12} : ∀ {B : List ℕ}, (∀ b ∈ B, vecOf b
     rw [vecOf_xor]
     refine add_mem ?_ (vecOf_xsel_mem (fun b' hb' => h b' (List.mem_cons_of_mem _ hb')) _)
     cases Nat.beq (c % 2) 1
-    · rw [cond_false, vecOf_zero]
+    · rw [Bool.cond_false, vecOf_zero]
       exact zero_mem _
     · exact Submodule.subset_span (h b List.mem_cons_self)
 

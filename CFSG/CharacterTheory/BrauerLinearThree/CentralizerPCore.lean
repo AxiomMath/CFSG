@@ -79,7 +79,7 @@ theorem exists_pcore_of_mem_rootX₁ [Finite G] {Q : G} (hQ : Q ∈ rootX₁ φ)
     exact conj_eq_of_mem_centerSub φ hZ hZodd h2 hJ hcard ha g hg
   obtain ⟨P⟩ : Nonempty (Sylow (ringChar F) H) := inferInstance
   have hPn := sylow_normal_of_complement_without_fusion A' hcop hcardH hfus P
-  refine ⟨(P : Subgroup H).map H.subtype, Subgroup.map_subtype_le _, P.isPGroup'.map _, ?_⟩
+  refine ⟨(P : Subgroup H).map H.subtype, Subgroup.map_subtype_le _, P.isPGroup.map _, ?_⟩
   intro x hx j hxj
   have hx' : (⟨x, hx⟩ : H) ^ (ringChar F ^ j) = 1 := Subtype.ext (by simpa using hxj)
   exact ⟨⟨x, hx⟩, mem_of_normal_sylow P hPn hx', rfl⟩

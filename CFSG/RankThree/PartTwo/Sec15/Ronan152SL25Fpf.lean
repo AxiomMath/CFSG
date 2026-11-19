@@ -115,6 +115,7 @@ theorem mem_of_le_centralizer {A : Subgroup G} {LB : Subgroup G → Subgroup G} 
 
 end Theta
 
+omit [Finite G] in
 theorem exists_mem_oThreeWPre {A : Subgroup G} {τ : MulAut ↥A} (hτ : τ ∈ oThreeWStar A) :
     ∃ (π : G) (hπ : π ∈ Subgroup.normalizer (A : Set G)), π ∈ oThreeWPre A ∧
       A.normalizerMonoidHom ⟨π, hπ⟩ = τ := by

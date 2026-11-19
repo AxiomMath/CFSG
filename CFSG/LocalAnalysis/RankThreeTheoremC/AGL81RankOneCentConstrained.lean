@@ -37,6 +37,7 @@ variable {G : Type} [Group G] [Finite G]
     rw [this]
     exact h
 
+omit [Finite G] in
 theorem conj_mem_centralModTwo {L : Subgroup G} {g x : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) (hx : x ∈ centralModTwo L) :
     g * x * g⁻¹ ∈ centralModTwo L := by
@@ -76,7 +77,7 @@ theorem mem_of_cyclic_center {p : ℕ} [Fact p.Prime] {B N : Subgroup G} (hBp : 
   have hne := CFSG.Goldschmidt75.inf_centralizer_ne_bot hBp hNB hBN hN
   set D := N ⊓ Subgroup.centralizer (B : Set G) with hD
   have hDp : IsPGroup p D := hBp.to_le (inf_le_left.trans hNB)
-  haveI : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+  have : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
   obtain ⟨n, hn⟩ := hDp.nontrivial_iff_card.mp inferInstance
   obtain ⟨c, hco⟩ := exists_prime_orderOf_dvd_card' (G := ↥D) p (by
     rw [hn.2]
@@ -162,7 +163,7 @@ theorem commutator_le_of_cyclic_center {p : ℕ} [Fact p.Prime] {M L B : Subgrou
     (Subgroup.mem_centralizer_singleton_iff.mp (hBC.le hx)).symm
   have hBsylM : CFSG.ABGLocalTools.IsSylowOf p B M := by
     obtain ⟨Q, hQ⟩ := (hBp.comap_subtype (K := M)).exists_le_sylow
-    have hQp : IsPGroup p ((Q : Subgroup M).map M.subtype) := Q.isPGroup'.map _
+    have hQp : IsPGroup p ((Q : Subgroup M).map M.subtype) := Q.isPGroup.map _
     have hBQ : B ≤ (Q : Subgroup M).map M.subtype := fun x hx => ⟨⟨x, hBM hx⟩, hQ hx, rfl⟩
     have := eq_of_cyclic_center hBC hcyc hbB hbo hQp hBQ
     exact ⟨Q, this⟩

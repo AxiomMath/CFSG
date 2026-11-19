@@ -27,8 +27,8 @@ theorem exists_block_step_of_maximal (hBs : ∀ x y, B x y = B y x) (hB : B.Nond
         F = E ⊓ ptw W) ∧
       E = (E ⊓ ptw W) ⊔ Subgroup.zpowers b ∧ Nat.card E = p * Nat.card ↥(E ⊓ ptw W) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
   have hpo : Odd p := hp.odd_of_ne_two hp2
   have hkey : ∀ k : ℕ, k + k * (p - 1) = p * k := fun k => by
     obtain ⟨q, hq⟩ : ∃ q, p = q + 1 := ⟨p - 1, by have := hp.one_lt; omega⟩
@@ -62,7 +62,7 @@ theorem exists_block_step_of_maximal (hBs : ∀ x y, B x y = B y x) (hB : B.Nond
   obtain ⟨hWU, hW0, hWnd, hWE, hWC⟩ := hWS
   have hWc : IsCompl W (B.orthogonal W) := isCompl_of_nondeg hBs hWnd
   have hWperpE : ∀ g ∈ E, ∀ x ∈ B.orthogonal W, g x ∈ B.orthogonal W := fun g hg x hx =>
-    apply_mem_orth_of_invariant hBs (hEiso g hg) (hWE g hg) hx
+    apply_mem_orth_of_invariant (hEiso g hg) (hWE g hg) hx
   have hA : ∀ g ∈ E, (∃ w ∈ W, g w ≠ w) → ∀ w ∈ W, g w = w → w = 0 := by
     intro g hg hmov
     by_cases h : W ⊓ fixSp g.toLinearMap = ⊥
@@ -243,7 +243,7 @@ theorem exists_block_step_of_maximal (hBs : ∀ x y, B x y = B y x) (hB : B.Nond
         · rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hFW f hf _ (hWE b hbE w hw),
             hFW f hf w hw]
         · rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hbW x hx,
-            hbW _ (apply_mem_orth_of_ptw hBs hfiso (hFW f hf) hx)]
+            hbW _ (apply_mem_orth_of_ptw hfiso (hFW f hf) hx)]
       obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.1 hd
       exact ((Commute.zpow_right h1) j).eq
     have hle : F ⊔ Subgroup.zpowers b ≤ G ⊓ ptw (B.orthogonal U) :=

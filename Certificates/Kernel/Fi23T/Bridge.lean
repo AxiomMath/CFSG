@@ -53,9 +53,9 @@ theorem filter_range_len (f : ℕ → Bool) :
     rw [List.range_succ, List.filter_append, List.length_append, filter_range_len f n,
       Finset.range_add_one, Finset.filter_insert]
     by_cases h : f n = true
-    · rw [if_pos h, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_left h, Finset.card_insert_of_notMem (by simp)]
       simp [h]
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       simp [h]
 
 section
@@ -131,23 +131,23 @@ theorem tsys : TSys A0 tau where
 
 theorem lP_val {p : ℕ} (hp : Ltr p) (y : Fin 31671) : (lP p y).val = lJ G p y.val := by
   rcases hp with hp | rfl | rfl
-  · rw [lP, if_pos hp, lJ_pt _ hp, cJ_cp hp y.isLt]
-  · rw [lP, if_neg (by norm_num), if_pos rfl, lJ_reg _ (by norm_num)]
+  · rw [lP, ite_eq_left hp, lJ_pt _ hp, cJ_cp hp y.isLt]
+  · rw [lP, ite_eq_right (by norm_num), ite_eq_left rfl, lJ_reg _ (by norm_num)]
     exact phiX_wα y.val y.isLt
-  · rw [lP, if_neg (by norm_num), if_neg (by norm_num), lJ_reg _ (by norm_num)]
+  · rw [lP, ite_eq_right (by norm_num), ite_eq_right (by norm_num), lJ_reg _ (by norm_num)]
     exact phiX_wβ y.val y.isLt
 
 theorem lP_mem {p : ℕ} (hp : Ltr p) : lP p ∈ A0 := by
   rcases hp with hp | rfl | rfl
-  · rw [lP, if_pos hp]
+  · rw [lP, ite_eq_left hp]
     exact cp_A0 p hp
-  · rw [lP, if_neg (by norm_num), if_pos rfl]
+  · rw [lP, ite_eq_right (by norm_num), ite_eq_left rfl]
     exact alpha_mem
-  · rw [lP, if_neg (by norm_num), if_neg (by norm_num)]
+  · rw [lP, ite_eq_right (by norm_num), ite_eq_right (by norm_num)]
     exact beta_mem
 
 theorem lP_pt {p : ℕ} (hp : p < 31671) : lP p = tau (fp p) := by
-  rw [lP, if_pos hp, tau, fp_val hp]
+  rw [lP, ite_eq_left hp, tau, fp_val hp]
 
 theorem wP_cons (p : ℕ) (w : List ℕ) : wP (p :: w) = lP p * wP w := by
   rw [wP, wP, List.map_cons, List.prod_cons]
@@ -301,7 +301,7 @@ theorem mem_band {b : ℕ} {dom : ℕ → Bool} {lo hi : ℕ} {x : Fin 31671} :
   rw [band, Finset.mem_filter]
   exact ⟨fun h => h.2, fun h => ⟨Finset.mem_univ _, h⟩⟩
 
-theorem band_card {b gr ng : ℕ} {dom : ℕ → Bool} {lo hi : ℕ} (hlh : lo ≤ hi)
+theorem band_card {b gr ng : ℕ} {dom : ℕ → Bool} {lo hi : ℕ} (_hlh : lo ≤ hi)
     (hN : ∀ j, lo ≤ j → j < hi → ∃ s, NodeOK b gr ng dom s j)
     (hcov : ∀ x < 31671, dom x = true → tb H b (tb H (b + 3) x) = x) :
     (band b dom lo hi).card = hi - lo := by

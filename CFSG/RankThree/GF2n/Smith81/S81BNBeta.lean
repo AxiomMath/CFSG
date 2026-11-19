@@ -28,7 +28,7 @@ theorem bilinear_eq_smul_beta (B' : Cube K →ₗ[K] Cube K →ₗ[K] K)
       (g : Matrix (Fin 6) (Fin 6) K).det = 1 →
         ∀ u v : Cube K, B' (rho K g u) (rho K g v) = B' u v) :
     ∃ lam : K, ∀ u v : Cube K, B' u v = lam * beta K u v := by
-  haveI : FiniteDimensional K (Cube K) := Module.Finite.of_basis (cubeBasis K)
+  have : FiniteDimensional K (Cube K) := Module.Finite.of_basis (cubeBasis K)
   have rho_one_QF1 : rho K (1 : GL (Fin 6) K) = 1 := map_one (TauCeti.extPowerRep K 6 3)
   have hinj : Function.Injective (beta K).flip := by
     rw [injective_iff_map_eq_zero]

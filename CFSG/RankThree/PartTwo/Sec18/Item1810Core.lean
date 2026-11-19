@@ -19,11 +19,13 @@ section Aux
 variable {D : Subgroup G} {V : Type*} [AddCommGroup V] [Module (ZMod 3) V]
   (f : Multiplicative V ≃* D)
 
+omit [Finite G] [Module (ZMod 3) V] in
 private theorem coordVec_congr {y z : G} (hy : y ∈ D) (hz : z ∈ D) (h : y = z) :
     Sec12.coordVec f ⟨y, hy⟩ = Sec12.coordVec f ⟨z, hz⟩ := by
   subst h
   rfl
 
+omit [Finite G] in
 private theorem coordVec_inv {y : G} (hy : y ∈ D) :
     Sec12.coordVec f ⟨y⁻¹, D.inv_mem hy⟩ = -Sec12.coordVec f ⟨y, hy⟩ := by
   have h := coordVec_zpow f hy (-1)
@@ -33,12 +35,14 @@ private theorem coordVec_inv {y : G} (hy : y ∈ D) :
   rw [h2, h]
   simp
 
+omit [Finite G] in
 private theorem wAction_coordVec_zpow (n : Subgroup.normalizer (D : Set G)) {y z : G}
     (hy : y ∈ D) (hz : z ∈ D) {i : ℤ} (h : (n : G) * y * (n : G)⁻¹ = z ^ i) :
     Sec12.wAction f n (Sec12.coordVec f ⟨y, hy⟩) = (i : ZMod 3) • Sec12.coordVec f ⟨z, hz⟩ := by
   rw [wAction_coordVec f n hy, ← coordVec_zpow f hz i]
   exact coordVec_congr f _ _ h
 
+omit [Finite G] in
 private theorem wAction_mem_of_mem_sup {A B : Subgroup G}
     (hAN : A ≤ Subgroup.normalizer (D : Set G)) (hBN : B ≤ Subgroup.normalizer (D : Set G))
     (H : Subgroup (V ≃ₗ[ZMod 3] V))
@@ -51,6 +55,7 @@ private theorem wAction_mem_of_mem_sup {A B : Subgroup G}
     exact sup_le (fun n hn => hA n hn) (fun n hn => hB n hn)
   exact hle (Subgroup.mem_subgroupOf.mpr hk)
 
+omit [Finite G] in
 private theorem exists_wAction_eq_of_mem_closure {A B : Subgroup G}
     (hAN : A ≤ Subgroup.normalizer (D : Set G)) (hBN : B ≤ Subgroup.normalizer (D : Set G))
     {a₀ b₀ : G} (ha₀ : a₀ ∈ A) (hb₀ : b₀ ∈ B) {z : V ≃ₗ[ZMod 3] V}
@@ -77,7 +82,7 @@ private theorem exists_mem_normalizer_of_conj_le {A K : Subgroup G} (hA3 : IsPGr
       A.map (MulAut.conj g).toMonoidHom ≤ R → A.map (MulAut.conj g).toMonoidHom = A)
     {g : G} (hg : A.map (MulAut.conj g).toMonoidHom ≤ K) :
     ∃ m ∈ K, m⁻¹ * g ∈ Subgroup.normalizer (A : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS, hAS⟩ := exists_isSylowOf_ge hAK hA3
   obtain ⟨m, hmK, hm⟩ := exists_conj_le_of_isSylowOf hS hg (hA3.map _)
   refine ⟨m, hmK, ?_⟩
@@ -130,6 +135,7 @@ variable {D : Subgroup G} {V : Type*} [AddCommGroup V] [Module (ZMod 3) V] [Fini
   (hV : Module.finrank (ZMod 3) V = 3) (f : Multiplicative V ≃* D)
 
 include hV in
+omit [Finite G] in
 private theorem exists_transv {E : Subgroup G}
     (hEc : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hE3 : ∀ x ∈ E, x ^ 3 = 1)
     (hEN : E ≤ Subgroup.normalizer (D : Set G)) (hED9 : Nat.card (E ⊓ D : Subgroup G) = 9)
@@ -138,8 +144,8 @@ private theorem exists_transv {E : Subgroup G}
       CFSG.RankThree.Classical.IsTransvectionWith (Sec12.wAction f ⟨e₀, hEN he₀⟩) v α ∧
         ∀ (y : G) (hy : y ∈ D), y ∈ E ↔ α (Sec12.coordVec f ⟨y, hy⟩) = 0 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : FiniteDimensional (ZMod 3) V := Module.finite_of_finrank_pos (by omega)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : FiniteDimensional (ZMod 3) V := Module.finite_of_finrank_pos (by omega)
   set t := Sec12.wAction f ⟨e₀, hEN he₀⟩ with ht
   have ht3 : t ^ 3 = 1 := by
     rw [ht, ← map_pow]
@@ -241,8 +247,8 @@ private theorem false_of_transvection_pair_aux {A B : Subgroup G} {c d x : G}
       A.map (MulAut.conj g).toMonoidHom ≤ R → A.map (MulAut.conj g).toMonoidHom = A)
     (hcomm : ∀ a ∈ A, ∀ e ∈ D, a * e * a⁻¹ * e⁻¹ ≠ c) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : FiniteDimensional (ZMod 3) V := Module.finite_of_finrank_pos (by omega)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : FiniteDimensional (ZMod 3) V := Module.finite_of_finrank_pos (by omega)
   have hAc : ∀ a ∈ A, ∀ a' ∈ A, a * a' = a' * a := fun a ha a' ha' =>
     congrArg Subtype.val (hA.1.is_comm.comm ⟨a, ha⟩ ⟨a', ha'⟩)
   have hDc : ∀ y ∈ D, ∀ z ∈ D, y * z = z * y := fun y hy z hz =>

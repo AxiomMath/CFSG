@@ -33,7 +33,7 @@ private theorem cartanRow_single (p : ℕ) (i : Fin Tag.F4.rank) :
     revert i
     decide
   simp only [cartanRow, LinearMap.coe_mk, AddHom.coe_mk, Pi.single_apply, mul_ite, mul_one,
-    mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true, hii]
+    mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true, hii]
   norm_num
 
 theorem exists_involFrame_torusAct_F4
@@ -43,8 +43,8 @@ theorem exists_involFrame_torusAct_F4
       e (ofAdd (TableBExc.torusAct .F4 p (simple .F4 i) s))) :
     ∃ s₁ ∈ NbrTableBExc.ggTorusInvolSet p e, ∃ s₂ ∈ NbrTableBExc.ggTorusInvolSet p e,
       4 ∣ orderOf (s₁ * s₂) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hmem : ∀ i, ExcWeylOuter.torusMulAut .F4 p (simple .F4 i) ∈
       NbrTableBExc.ggTorusInvolSet p e := by
     intro i

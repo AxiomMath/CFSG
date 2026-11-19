@@ -37,7 +37,7 @@ private lemma rckSUb_suZ_inv (hk : 4 ≤ k) (v : Fin 4 → ZMod 2) :
     rw [hv, suZ_zero]
   exact inv_eq_of_mul_eq_one_right h2
 
-private lemma rckSUb_center_eq_one_of_sq_eq_one (hk : 4 ≤ k) {x : SUG k}
+private lemma rckSUb_center_eq_one_of_sq_eq_one (_hk : 4 ≤ k) {x : SUG k}
     (hx : x ∈ Subgroup.center (SUG k)) (hx2 : x ^ 2 = 1) : x = 1 := by
   have hodd : Odd (orderOf x) := odd_orderOf_of_mem_center_SU SUσ hx
   have hdvd2 : orderOf x ∣ 2 := (orderOf_dvd_iff_pow_eq_one).mpr hx2

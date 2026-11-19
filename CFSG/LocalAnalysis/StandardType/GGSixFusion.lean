@@ -147,7 +147,7 @@ theorem exists_sylow_two_map_eq_of_odd_relIndex [Finite G] {G₀ M : Subgroup G}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P : Subgroup G := (T : Subgroup G₀).map G₀.subtype with hPdef
   have hPG₀ : P ≤ G₀ := Subgroup.map_subtype_le _
-  have hPp : IsPGroup 2 P := T.isPGroup'.map G₀.subtype
+  have hPp : IsPGroup 2 P := T.isPGroup.map G₀.subtype
   have hP'p : IsPGroup 2 (P.subgroupOf M) :=
     hPp.comap_of_injective M.subtype Subtype.coe_injective
   have hPT : P.subgroupOf G₀ = (T : Subgroup G₀) :=
@@ -222,7 +222,7 @@ theorem exists_mem_normalizer_conj_eq [Finite G] {p : ℕ} [Fact p.Prime] {Bs : 
       exact Subgroup.smul_mem_pointwise_smul _ _ _ haS₂
     rw [hc] at hmem
     exact Subgroup.mem_map.mpr ⟨_, hmem, by simp [MulAut.conj_apply]⟩
-  obtain ⟨P', hP'⟩ := (S.isPGroup'.map C.subtype).exists_le_sylow
+  obtain ⟨P', hP'⟩ := (S.isPGroup.map C.subtype).exists_le_sylow
   obtain ⟨h, hh⟩ := MulAction.exists_smul_eq G P' P
   have key : ∀ E : Subgroup G, E ≤ (P' : Subgroup G) →
       E.map (MulAut.conj h).toMonoidHom ≤ (P : Subgroup G) := by
@@ -307,7 +307,7 @@ theorem exists_sylow_eq_map_of_normalizer_le [Finite G] {p : ℕ} [Fact p.Prime]
     (hN : Subgroup.normalizer (((P : Subgroup M).map M.subtype : Subgroup G) : Set G) ≤ M) :
     ∃ Q : Sylow p G, (Q : Subgroup G) = (P : Subgroup M).map M.subtype := by
   set P₀ : Subgroup G := (P : Subgroup M).map M.subtype with hP₀
-  have hP₀p : IsPGroup p P₀ := P.isPGroup'.map M.subtype
+  have hP₀p : IsPGroup p P₀ := P.isPGroup.map M.subtype
   obtain ⟨n, hn⟩ := hP₀p.exists_card_eq
   have hmod := Sylow.card_quotient_normalizer_modEq_card_quotient hn
   have hPM : P₀.subgroupOf M = (P : Subgroup M) :=

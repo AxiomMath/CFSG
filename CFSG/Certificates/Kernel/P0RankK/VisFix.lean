@@ -95,11 +95,11 @@ theorem testBit_maskB (f : ℕ → Bool) : ∀ n k, (maskB f n).testBit k = (dec
     rw [Nat.testBit_or, testBit_maskB f n k]
     by_cases hk : k = n
     · subst hk
-      cases h : f k <;> simp [h, Nat.shiftLeft_eq, Nat.testBit_two_pow_self]
+      cases h : f k <;> simp [Nat.shiftLeft_eq, Nat.testBit_two_pow_self]
     · have h1 : (bif f n then 1 <<< n else 0).testBit k = false := by
         cases f n
         · simp
-        · simp only [cond_true, Nat.shiftLeft_eq, Nat.one_mul, Nat.testBit_two_pow]
+        · simp only [_root_.Bool.cond_true, Nat.shiftLeft_eq, Nat.one_mul, Nat.testBit_two_pow]
           simpa using Ne.symm hk
       rw [h1, Bool.or_false]
       by_cases hkn : k < n
@@ -178,13 +178,13 @@ theorem testBit_cuN (FB e κ : ℕ) : ∀ n, (cuN FB e n).testBit κ = true ↔
       refine ⟨hκ, fun z hz' he => ?_⟩
       rcases Nat.lt_succ_iff_lt_or_eq.1 hz' with hlt | rfl
       · exact hz z hlt he
-      · rwa [he, cond_true] at hn
+      · rwa [he, _root_.Bool.cond_true] at hn
     · rintro ⟨hκ, hz⟩
       refine ⟨⟨hκ, fun z hz' he => hz z (by omega) he⟩, ?_⟩
       cases he : e.testBit n
-      · rw [cond_false, testBit_m1024]
+      · rw [Bool.cond_false, testBit_m1024]
         simpa using hκ
-      · rw [cond_true]
+      · rw [_root_.Bool.cond_true]
         exact hz n (by omega) he
 
 theorem testBit_cuOf (FB e κ : ℕ) : (cuOf FB e).testBit κ = true ↔
@@ -213,9 +213,9 @@ theorem ygEnts_spec {YE FB s : ℕ} : ∀ (es : List YEnt) (i j : ℕ), ygEnts Y
     simp only [ygEnts] at h
     cases hc : (Nat.beq e.1 i && Nat.beq (pc (fld YE (32 * i) m32)) (2 ^ s) &&
         Nat.beq e.2.1 (cuOf FB (fld YE (32 * i) m32)) && Nat.beq e.2.2 (pc e.2.1)) with
-    | false => rw [hc, cond_false] at h; exact absurd h (by simp)
+    | false => rw [hc, Bool.cond_false] at h; exact absurd h (by simp)
     | true =>
-      rw [hc, cond_true] at h
+      rw [hc, _root_.Bool.cond_true] at h
       simp only [Bool.and_eq_true, Nat.beq_eq] at hc
       obtain ⟨⟨⟨he1, hpc⟩, hcu⟩, hcnt⟩ := hc
       obtain ⟨hj, hrest⟩ := ygEnts_spec es (i + 1) j h

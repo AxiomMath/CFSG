@@ -56,7 +56,7 @@ theorem LeviN.inv {G : Type} [Group G] {u v : G} (h : LeviN ⊤ u v) (hc : u * v
     rw [← Subgroup.closure_inv]
     congr 1
     ext x
-    simp [Set.mem_inv]
+    simp
   rwa [hcl]
 
 theorem mem_normalizer_of_conj_mem {G : Type} [Group G] [Finite G] {S : Set G} {y : G}

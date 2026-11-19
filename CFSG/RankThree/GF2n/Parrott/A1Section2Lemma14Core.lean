@@ -23,6 +23,7 @@ theorem card_le_of_isSylowOf {p : ℕ} [Fact p.Prime] {P S K : Subgroup G} (hS :
   rw [h1, hS.card_eq, ← Sylow.card_eq_multiplicity Q]
   exact Subgroup.card_le_of_le hPQ
 
+omit [Finite G] in
 theorem CJ_conj_eq_of_mem_normalizer {g σ : G} (hg : g ∈ H z)
     (hn : g ∈ Subgroup.normalizer (CJ z σ : Set G)) : CJ z (g * σ * g⁻¹) = CJ z σ := by
   ext a

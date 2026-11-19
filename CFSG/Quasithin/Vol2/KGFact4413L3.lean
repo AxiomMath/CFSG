@@ -109,7 +109,7 @@ theorem odd_card_dL3 : Odd (Nat.card (dL3 F)) := by
 theorem isPGroup_projUnitriangular_three : IsPGroup 2 (projUnitriangular 3 F) := by
   obtain ⟨P, hP⟩ := exists_sylow_projUnitriangular (K := F) 2 (n := 3) (by norm_num)
   rw [← hP]
-  exact P.isPGroup'
+  exact P.isPGroup
 
 theorem dL3_inf : dL3 F ⊓ projUnitriangular 3 F = ⊥ :=
   E2.BorelLift.inf_eq_bot_of_odd odd_card_dL3 isPGroup_projUnitriangular_three

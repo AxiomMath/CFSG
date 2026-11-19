@@ -17,6 +17,7 @@ section Counting
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 private theorem card_sup_mul_card_inf_of_comm (L R : Subgroup K)
     (hc : ∀ x ∈ L, ∀ y ∈ R, x * y = y * x) :
     Nat.card (L ⊔ R : Subgroup K) * Nat.card (L ⊓ R : Subgroup K) = Nat.card L * Nat.card R := by
@@ -53,12 +54,12 @@ private theorem card_inf_eq_of_normal {A B N : Subgroup K} (hNB : N ≤ B)
     (hn : ∀ b ∈ B, ∀ n ∈ N, b * n * b⁻¹ ∈ N)
     (hAB : Nat.card ↥(A ⊓ B) = 2 ^ (Nat.card ↥B).factorization 2) :
     Nat.card ↥(A ⊓ N) = 2 ^ (Nat.card ↥N).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : Nat.card ↥((A ⊓ B).subgroupOf B) = 2 ^ (Nat.card ↥B).factorization 2 := by
     rw [← hAB]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv
   let S : Sylow 2 ↥B := Sylow.ofCard _ hS
-  haveI : (N.subgroupOf B).Normal :=
+  have : (N.subgroupOf B).Normal :=
     ⟨fun x hx g => by
       rw [Subgroup.mem_subgroupOf] at hx ⊢
       exact hn g g.2 x hx⟩
@@ -87,7 +88,7 @@ variable {K : Type} [Group K] [Finite K]
 
 private theorem card_sylow_inf_of_le (P : Sylow 2 K) {C : Subgroup K} (hPC : (P : Subgroup K) ≤ C) :
     Nat.card ↥((P : Subgroup K) ⊓ C) = 2 ^ (Nat.card ↥C).factorization 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [inf_of_le_left hPC]
   have h := Sylow.card_eq_multiplicity (P.subtype hPC)
   rw [← h]
@@ -97,7 +98,7 @@ private theorem quatIn_of_sylow_sl2 {q : ℕ} (hq : Odd q) {E₁ Q₁ : Subgroup
     (hsl2 : HasSL2Model ↥E₁ (fun r => r = q)) (hQE : Q₁ ≤ E₁)
     (hQcard : Nat.card ↥Q₁ = 2 ^ (Nat.card ↥E₁).factorization 2) (hzQ : z ∈ Q₁)
     (hz2 : z * z = 1) (hz1 : z ≠ 1) : QuatIn z Q₁ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨F, iF, fF, hF, ⟨e⟩⟩ := hsl2
   have hFodd : Odd (Nat.card F) := by rw [show Nat.card F = q from hF]; exact hq
   let e' : ↥E₁ ≃* Matrix.SpecialLinearGroup (Fin 2) F :=
@@ -137,7 +138,7 @@ theorem reflTransGen_commFourAdj_of_dat410 {q : ℕ} (hq : Odd q) (P : Sylow 2 K
     (hcomm : ∀ a ∈ E₁, ∀ b ∈ E₂, a * b = b * a) {F G : Subgroup K} (hF : IsKleinFour F)
     (hFP : F ≤ P) (hG : IsKleinFour G) (hGP : G ≤ P) :
     Relation.ReflTransGen (CommFourAdj K) F G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz : z ∈ E₁ ∧ z ∈ E₂ := by
     have : z ∈ E₁ ⊓ E₂ := by rw [hint]; exact mem_zpowers z
     exact this
@@ -511,7 +512,7 @@ theorem sylowFourJoined_of_lieModel_PSp_three {X : Type} [Group X] [Finite X]
       (CFSG.Adapters.RankTwoModelTransports.glCongr φ)
       (CFSG.ClassicalInvolution.Upgrade.glCongr_statedSp φ 2)
       (CFSG.Adapters.RankTwoModelTransports.glCongr_statedScalars φ)
-  haveI : Finite PSp43 := Finite.of_equiv X (e.trans e₁).toEquiv
+  have : Finite PSp43 := Finite.of_equiv X (e.trans e₁).toEquiv
   exact SylowFourJoined.of_mulEquiv (e.trans e₁).symm sylowFourJoined_PSp43
 
 end Three

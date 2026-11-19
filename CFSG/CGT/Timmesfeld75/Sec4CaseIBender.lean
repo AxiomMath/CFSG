@@ -40,7 +40,7 @@ theorem inf_sylow_eq_bot (hK : IsBenderGroup B) {Q Q' : Sylow 2 B} (hne : Q ≠ 
   have hnt : Nontrivial ↥((Q : Subgroup B) ⊓ (Q' : Subgroup B)) :=
     (Subgroup.nontrivial_iff_ne_bot _).2 hbot
   have hP : IsPGroup 2 ↥((Q : Subgroup B) ⊓ (Q' : Subgroup B)) :=
-    Q.isPGroup'.to_inf_left
+    Q.isPGroup.to_inf_left
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdvd : 2 ∣ Nat.card ↥((Q : Subgroup B) ⊓ (Q' : Subgroup B)) := by
     obtain ⟨n, hn⟩ := hP.exists_card_eq
@@ -70,8 +70,8 @@ theorem inf_sylow_eq_bot (hK : IsBenderGroup B) {Q Q' : Sylow 2 B} (hne : Q ≠ 
       ((CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.commute_of_mul_self_eq_one hK Q' hvQ' hvv y
         hy).eq.symm)
   have hle : (Q' : Subgroup B) ≤ (Q : Subgroup B) :=
-    le_of_isPGroup_of_le_normalizer Q'.isPGroup' Q (hQ'C.trans hC)
-  exact hne (Sylow.ext (Q'.maximal_isPGroup.eq_of_le Q.isPGroup' hle)).symm
+    le_of_isPGroup_of_le_normalizer Q'.isPGroup Q (hQ'C.trans hC)
+  exact hne (Sylow.ext (Q'.maximal_isPGroup.eq_of_le Q.isPGroup hle)).symm
 
 omit [Finite B] in
 theorem coe_smul_sylow (g : B) (Q : Sylow 2 B) :
@@ -130,7 +130,7 @@ theorem exists_card_conj_gt (hK : IsBenderGroup B) {q k : ℕ} (hB : fusionBende
       Sylow.smul_eq_iff_mem_normalizer.1 h2
     have h4 : (u : B)⁻¹ * (u' : B) ∈ (Q : Subgroup B) := Q.mul_mem (Q.inv_mem u.2) u'.2
     have hP : IsPGroup 2 ↥((Q : Subgroup B) ⊓
-        Subgroup.normalizer ((g • Q : Sylow 2 B) : Set B)) := Q.isPGroup'.to_inf_left
+        Subgroup.normalizer ((g • Q : Sylow 2 B) : Set B)) := Q.isPGroup.to_inf_left
     have h5 : (Q : Subgroup B) ⊓ Subgroup.normalizer ((g • Q : Sylow 2 B) : Set B) ≤
         ((g • Q : Sylow 2 B) : Subgroup B) :=
       le_of_isPGroup_of_le_normalizer hP (g • Q) inf_le_right

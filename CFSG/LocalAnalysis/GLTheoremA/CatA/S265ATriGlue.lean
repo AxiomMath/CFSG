@@ -25,9 +25,9 @@ section Center
 
 private theorem center_pQuot_eq_bot_of_d4two {X J : Subgroup Ω} (hJ : GLAPComponent 3 X J)
     (hT : catalogIs (PSimple 3 J) S9.isD4two) : Subgroup.center (PQuot 3 J) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, F, _, _, hF, ⟨e⟩⟩ := D4XF.statedModel_of_d4two hT
-  haveI := CFSG.SeitzReduction.SeitzQ2.charTwo_of_natCard_eq_two_pow hF
+  have := CFSG.SeitzReduction.SeitzQ2.charTwo_of_natCard_eq_two_pow hF
   have hS := (CFSG.SeitzReduction.SeitzQ2.oddSchurTrivial_statedProj_omegaPlus (by norm_num)
     F).of_mulEquiv e.symm
   have hq := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ
@@ -50,8 +50,8 @@ theorem QSNL.false_of_d4two_outer (h : QSNL 3 S B T x D K)
     (hJ : catalogIs (PSimple 3 K) S9.isD4two)
     (hout : ¬ ∀ e ∈ B, ∀ he : e ∈ Subgroup.normalizer (K : Set Ω),
       chevAut 3 K ⟨e, he⟩ ∈ D4T.innerAut (PSimple 3 K)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hout' : ∃ e ∈ B, ∃ he : e ∈ Subgroup.normalizer (K : Set Ω),
       chevAut 3 K ⟨e, he⟩ ∉ D4T.innerAut (PSimple 3 K) := by

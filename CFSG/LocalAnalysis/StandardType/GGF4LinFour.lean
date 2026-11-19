@@ -27,10 +27,10 @@ theorem ggF4Orig_fix_four {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prim
     (b : ↥Bs) (hb : ∀ k, t k b = b) : b = 1 := by
   classical
   obtain ⟨V, iAV, iMV, ⟨ι⟩⟩ := exists_ggLinData (p := p) hBs
-  haveI hB : Finite ↥Bs := Finite.of_injective (Subtype.val : ↥Bs → G) Subtype.val_injective
-  haveI : Finite (Additive ↥Bs) := hB
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have hB : Finite ↥Bs := Finite.of_injective (Subtype.val : ↥Bs → G) Subtype.val_injective
+  have : Finite (Additive ↥Bs) := hB
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hVcard : Nat.card V = p ^ Module.finrank (ZMod p) V := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod p) (V := V)
     rw [Nat.card_zmod] at h

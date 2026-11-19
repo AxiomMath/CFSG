@@ -19,7 +19,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21
 theorem ff79Extraspecial_of5 (h13 : FF79_1_3) (hA : FF79TheoremA_simpleK5) (h43 : FF79_4_3)
     (h44 : FF79_4_4X) : FF79Extraspecial := by
   intro G _ _ _ hnab hchar hkp b hb J hJ hmod hcyc hnsc hrk
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hyp : FF79Hyp 5 b J := ⟨hb, hJ, hmod, hcyc, hnsc, hrk⟩
   obtain ⟨B, hB⟩ := exists_isSylowOf 3 (Cen b)
   have hconj := hA G b J inferInstance hnab hkp hyp

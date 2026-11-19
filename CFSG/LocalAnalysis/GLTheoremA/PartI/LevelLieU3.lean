@@ -96,14 +96,14 @@ theorem caseA_components (I : Subgroup M5) (hI : GLAPComponent 3 (Subgroup.centr
   rcases CFSG.Open.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hsub hsimp with h | h
   · exact absurd h (glaPComponent_ne_bot' hI)
   · rw [h]
-    haveI := hsimp
+    have := hsimp
     obtain ⟨e⟩ := pSimple_equiv_of_simple Kb hnc h3
     rw [kLevel_congr 3 e]
     exact kLevel_le_two_of_chev (Or.inr (catalog_ambiguous_of_u4two hcat))
 
 theorem not_comp_of_solvable {X I : Subgroup M5} (hsolv : Group.IsSolvable ↥X)
     (hI : GLAPComponent 3 X I) : False := by
-  haveI := hsolv
+  have := hsolv
   have hJX : I ≤ X := hI.1
   have hperf : ⁅I, I⁆ = I := glaPComponent_perfect hI
   have hne : I ≠ ⊥ := glaPComponent_ne_bot' hI
@@ -126,13 +126,13 @@ theorem isSolvable_centralizer_of_equiv (τ : M5 ≃* M5) (s : M5)
   have h' : Group.IsSolvable ↥((Subgroup.centralizer {s}).map τ.toMonoidHom) := by
     rw [map_centralizer_equiv]
     exact h
-  haveI := h'
+  have := h'
   let e := (Subgroup.centralizer {s}).equivMapOfInjective τ.toMonoidHom τ.injective
   exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
 
 theorem isSimpleGroup_M5 : IsSimpleGroup M5 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (StatedProj (StatedSU 5 (2 ^ 1) F4)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup (StatedProj (StatedSU 5 (2 ^ 1) F4)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F4 2 1 hF4card 5
       (by norm_num) (by norm_num)
   let projM5 : StatedProj (StatedSU 5 (2 ^ 1) F4) ≃* M5 :=
@@ -144,12 +144,12 @@ theorem kLevel_le_two_of_k2 {p : ℕ} {S : Type} [Group S] (h : catalogIs S (k2 
     kLevel p S ≤ 2 := by
   unfold kLevel
   by_cases h1 : IsChevSimple p S
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     norm_num
-  · rw [if_neg h1, if_pos h]
+  · rw [ite_eq_right h1, ite_eq_left h]
 
 theorem downLe_M5_of (hk : kLevel 3 M5 ≤ 2) : DownLe 3 2 M5 := by
-  haveI := isSimpleGroup_M5
+  have := isSimpleGroup_M5
   intro α hα I hI
   obtain ⟨s, rfl⟩ := exists_conj_of_pow_three α hα
   rw [fixSubgroup_conj_eq] at hI
@@ -168,7 +168,7 @@ theorem downLe_M5_of (hk : kLevel 3 M5 ≤ 2) : DownLe 3 2 M5 := by
       · exact absurd h (glaPComponent_ne_bot' hI)
       · exact h
     rw [hIt]
-    haveI : IsSimpleGroup (⊤ : Subgroup M5) := Subgroup.topEquiv.isSimpleGroup
+    have : IsSimpleGroup (⊤ : Subgroup M5) := Subgroup.topEquiv.isSimpleGroup
     have hnc : ¬ IsMulCommutative (⊤ : Subgroup M5) := by
       intro h
       apply su_ne_us

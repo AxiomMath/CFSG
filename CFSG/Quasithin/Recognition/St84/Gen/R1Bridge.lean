@@ -41,8 +41,8 @@ variable {G : Type} [Group G] [Finite G] {L1 L2 S Z : Subgroup G} {n : ℕ}
 
 private theorem sup_perfectCore_pCoreOf_eq {H : Subgroup G} {m : ℕ} (hm : 2 ≤ m)
     (h : IsL2Quot m (oTwoQuot ↥H)) : perfectCore H ⊔ pCoreOf 2 H = H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hperf : Group.IsPerfect (oTwoQuot ↥H) := isPerfect_of_isL2Quot hm h
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hperf : Group.IsPerfect (oTwoQuot ↥H) := isPerfect_of_isL2Quot hm h
   let π : ↥H →* oTwoQuot ↥H := QuotientGroup.mk' (CFSG.pCore 2 ↥H)
   have hsurj : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hKtop : (perfectCore (⊤ : Subgroup ↥H)).map π = ⊤ := by
@@ -175,10 +175,10 @@ private theorem isSylowTwoOf_inf_L1' (hF : F112Hyp L1 L2 S) (h1 : VS3 L1) :
 
 private theorem isSolvable_L1_sup_S (hF : F112Hyp L1 L2 S) (h1 : VS3 L1) :
     Group.IsSolvable ↥(L1 ⊔ S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable ↥L1 := H13.S125Gam.isSolvable_of_perm3 h1
-  haveI : Group.IsSolvable ↥S := by
-    haveI : Group.IsNilpotent ↥S := hF.1.h1.pgroup.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsSolvable ↥L1 := H13.S125Gam.isSolvable_of_perm3 h1
+  have : Group.IsSolvable ↥S := by
+    have : Group.IsNilpotent ↥S := hF.1.h1.pgroup.isNilpotent
     infer_instance
   exact A3.isSolvable_sup_of_le_normalizer hF.1.h1.normalizes
 
@@ -405,20 +405,20 @@ private theorem mem_cComp_perfectCore (hF : F112Hyp L1 L2 S) (hn : 2 ≤ n)
     intro hbot
     have hsolv : Group.IsSolvable ↥(perfectCore L2) := by rw [hbot]; infer_instance
     exact not_isSolvable_of_isL2Quot hn (isL2Quot_perfectCore hn h2) hsolv
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hsimple : IsSimpleGroup (OTwoQuot (perfectCore L2)) := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hsimple : IsSimpleGroup (OTwoQuot (perfectCore L2)) := by
     obtain ⟨e⟩ := isL2Quot_perfectCore hn h2
     have hcard : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
     have h4 : 4 ≤ Nat.card (GaloisField 2 n) := by
       rw [hcard]
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-    haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n)) :=
+    have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 n)) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
     exact e.isSimpleGroup
   have hker : Group.IsSolvable ↥(QuotientGroup.mk' (CFSG.pCore 2 ↥(perfectCore L2))).ker := by
     rw [QuotientGroup.ker_mk']
-    haveI : Group.IsNilpotent ↥(CFSG.pCore 2 ↥(perfectCore L2)) :=
+    have : Group.IsNilpotent ↥(CFSG.pCore 2 ↥(perfectCore L2)) :=
       (CFSG.pCore_isPGroup (G := ↥(perfectCore L2)) (p := 2)).isNilpotent
     infer_instance
   have hmem : perfectCore L2 ∈ cComp (perfectCore L2) :=
@@ -461,6 +461,7 @@ private theorem Z_cent_pCoreOf_L1' (hF : F112Hyp L1 L2 S) (h1 : VS3 L1)
   rw [pCoreOf_L1'_eq hF]
   exact hZ.Z_cent_S.trans (Subgroup.centralizer_le (pCoreOf_P1_le_S hF h1))
 
+omit [Finite G] in
 private theorem Z_not_norm_L1' (hZ : S3L2ZData L1 L2 S Z) :
     ¬ (L1 ⊔ pCoreOf 2 (L1 ⊔ bigB L1 L2 S)) ≤ Subgroup.normalizer (Z : Set G) := by
   intro hle

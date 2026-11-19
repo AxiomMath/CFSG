@@ -18,7 +18,7 @@ theorem le_barSub_commConjSup (h : Hyp73 V H E J) {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) J φ) {L : Subgroup X} {p : ℕ}
     {Yb Zb : Subgroup X} (hc : SevenNineConfig L (barSub (kSub V H E) φ V) p Yb Zb) :
     Zb ≤ barSub (kSub V H E) φ (commConjSup V H E) := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   let K : Subgroup G := kSub V H E
   have hKH : K ≤ H := kSub_le_of_forall_le h.omega_le
   have hJH : J ≤ H := h.pcore_le.trans (CFSG.LieType.BorelTits.pCoreOf_le 2 H)
@@ -72,8 +72,8 @@ theorem exists_sevenNineCompl (h : Hyp73 V H E J) {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) J φ) {L : Subgroup X} {p : ℕ}
     {Yb Zb : Subgroup X} (hc : SevenNineConfig L (barSub (kSub V H E) φ V) p Yb Zb) {v : G}
     (hvV : v ∈ V) (hvJ : v ∉ J) : ∃ P : Subgroup G, SevenNineCompl (kSub V H E) J φ Yb v P := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   let K : Subgroup G := kSub V H E
   let Y : Subgroup G := barPre K φ Yb
   let C : Subgroup G := Y ⊓ J
@@ -89,7 +89,7 @@ theorem exists_sevenNineCompl (h : Hyp73 V H E J) {X : Type} [Group X]
   have hYK : Y ≤ K := barPre_le K φ Yb
   have hYH : Y ≤ H := hYK.trans hKH
   have hYnormJ : Y ≤ Subgroup.normalizer (J : Set G) := hYH.trans hHJ
-  haveI hCnorm : (C.subgroupOf Y).Normal := by
+  have hCnorm : (C.subgroupOf Y).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer (show C ≤ Y from inf_le_left)]
     intro y hy
     rw [Subgroup.mem_normalizer_iff]
@@ -114,7 +114,7 @@ theorem exists_sevenNineCompl (h : Hyp73 V H E J) {X : Type} [Group X]
       exact (Subgroup.inf_relIndex_right (H := J) (K := Y)).symm
     rw [h1, h2]
     exact relIndex_barPre inf_le_left hφ' Yb
-  haveI : Fact p.Prime := Fact.mk hc.prime
+  have : Fact p.Prime := Fact.mk hc.prime
   have hYbP : IsPGroup p Yb := fun x => ⟨1, by
     apply Subtype.ext
     simpa using hc.elemAbelian.2 (x : X) x.2⟩
@@ -149,7 +149,7 @@ theorem exists_sevenNineCompl (h : Hyp73 V H E J) {X : Type} [Group X]
       rw [hEq, map_mul, map_inv, map_mul, map_mul]
       rw [hcommYb]
       group
-  haveI hCcomm : IsMulCommutative (↥Y ⧸ C.subgroupOf Y) := IsMulCommutative.of_comm hcommq
+  have hCcomm : IsMulCommutative (↥Y ⧸ C.subgroupOf Y) := IsMulCommutative.of_comm hcommq
   have hnil : Group.IsNilpotent (↥Y ⧸ C.subgroupOf Y) := inferInstance
   have hv2 : v * v = 1 := elemAbelian_mul_self h.elemAbelian hvV
   have hvN : v ∈ Subgroup.normalizer (Y : Set G) :=

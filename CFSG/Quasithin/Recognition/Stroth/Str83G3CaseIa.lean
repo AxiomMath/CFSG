@@ -40,7 +40,7 @@ theorem str83_natural_bottom_of_not_le_q1
   let F := GaloisField 2 (2 * a + 1)
   let q : ℕ := 2 ^ (2 * a + 1)
   let W := Additive (Ch3z.chiefMod ⊥ Y)
-  haveI : Fintype F := Fintype.ofFinite _
+  have : Fintype F := Fintype.ofFinite _
   have hm2 : 2 ≤ 2 * a + 1 := by omega
   have hn1 : 1 ≤ 2 * a + 1 := by omega
   have hFcardFin : Fintype.card F = 2 ^ (2 * a + 1) := by
@@ -79,14 +79,14 @@ theorem str83_natural_bottom_of_not_le_q1
   have hnc : ¬ IsCentralStep (L2 ⊔ S) ⊥ Y :=
     not_isCentralStep_bot_of_caseI hF hB ha hSz hL2 hZI hstepZ
   let hE := CFSG.Quasithin.isElemAbelian_chiefMod hstep hYH hV.isPGroup
-  letI _cg : CommGroup ↥(Ch3z.chiefMod ⊥ Y) := l2ChiefSectionCommGroup hE
-  letI _mod : Module (ZMod 2) W := l2ChiefSectionModule hE
+  let _cg : CommGroup ↥(Ch3z.chiefMod ⊥ Y) := l2ChiefSectionCommGroup hE
+  let _mod : Module (ZMod 2) W := l2ChiefSectionModule hE
   let e₀ := hL2sup.some
   let e : oTwoQuot ↥(L2 ⊔ S) ≃* SL(2, F) :=
     e₀.trans (CFSG.CGT.Timmesfeld75.pslMulEquivSL (F := F))
   let ρ := l2ChiefSectionRep hstep hYH hE e
   have hρirr : Fact ρ.IsIrreducible := ⟨l2ChiefSectionRep_irreducible hstep hYH hE e⟩
-  haveI : Fact ρ.IsIrreducible := hρirr
+  have : Fact ρ.IsIrreducible := hρirr
   have hρnt : ∃ g, ρ g ≠ 1 := l2ChiefSectionRep_nontrivial hstep hYH hE e hnc
   have hρcompat : ∀ (h : ↥(L2 ⊔ S)) (w : Ch3z.chiefMod ⊥ Y),
       ρ (e (QuotientGroup.mk h)) (Additive.ofMul w) =

@@ -169,10 +169,10 @@ theorem edgeF_sound {C : BConsts} {G : ℕ → ℕ} {cj : List ℕ} {l Mp Mo : �
   rw [bIf_eq] at h
   by_cases hl : l < 8
   · have hb : Nat.blt l 8 = true := Nat.blt_eq.mpr hl
-    rw [if_pos hb, letB_eq] at h
+    rw [ite_eq_left hb, letB_eq] at h
     exact ⟨fun _ => beq_eq h, fun h' => absurd hl h'⟩
   · have hb : ¬ Nat.blt l 8 = true := fun e => hl (Nat.blt_eq.mp e)
-    rw [if_neg hb] at h
+    rw [ite_eq_right hb] at h
     exact ⟨fun h' => absurd h' hl, fun _ => beq_eq h⟩
 
 @[expose] def TreeRec (C : BConsts) (G : ℕ → ℕ) (TB cj rt : List ℕ) (i : ℕ) : Prop :=
@@ -236,7 +236,7 @@ theorem treeGo_sound {C : BConsts} {G : ℕ → ℕ} {TB cj rt : List ℕ} {NT :
             exact hinv (epp ▸ hp8)
           refine ⟨ho', Or.inr ⟨hl100, Nat.blt_eq.mp hpi, Nat.blt_eq.mp hl11, ?_⟩⟩
           rw [← eM]
-          first | exact he | skip
+          first | exact he
         · exact treeGo_sound f (i + 1) pp Mp hinv h i' hge (by omega) h3
       · have hpp' : Nat.beq (recF TB i 14 13) pp = false := Bool.eq_false_iff.mpr hpp
         rw [hpp', letB_eq] at h
@@ -287,16 +287,16 @@ theorem posOK_sound {TB PB : List ℕ} {NT : ℕ} (h : posOK TB PB NT = true) :
   rw [letB_eq, bIf_eq] at h1
   by_cases hq : posF PB n = 16383
   · have hb : Nat.beq (posF PB n) 16383 = true := by rw [hq]; rfl
-    rw [if_pos hb, bIf_eq] at h1
+    rw [ite_eq_left hb, bIf_eq] at h1
     refine ⟨fun _ => ?_, fun h' => absurd hq h'⟩
     by_cases h0 : n = 0
     · exact Or.inl h0
     · have hb0 : ¬ Nat.beq n 0 = true := fun e => h0 (beq_eq e)
-      rw [if_neg hb0] at h1
+      rw [ite_eq_right hb0] at h1
       obtain ⟨a1, a2⟩ := bAnd_true h1
       exact Or.inr ⟨Nat.le_of_ble_eq_true a1, beq_eq a2⟩
   · have hb : ¬ Nat.beq (posF PB n) 16383 = true := fun e => hq (beq_eq e)
-    rw [if_neg hb] at h1
+    rw [ite_eq_right hb] at h1
     obtain ⟨a1, a2⟩ := bAnd_true h1
     exact ⟨fun h' => absurd h' hq, fun _ => ⟨Nat.blt_eq.mp a1, beq_eq a2⟩⟩
 
@@ -309,7 +309,7 @@ theorem baseBlk_sound {C : BConsts} {G : ℕ → ℕ} {PB : List ℕ} {c : ℕ} 
     25 h t ht
   change baseF C G PB (3125 * (1 + c / 25) + 5 * (25 * (c % 25) + t)) = true at h1
   unfold baseF at h1
-  rw [bIf_eq, if_pos (by rw [hpos]; rfl)] at h1
+  rw [bIf_eq, ite_eq_left (by rw [hpos]; rfl)] at h1
   intro e
   rw [e, Nat.beq_refl] at h1
   exact absurd h1 (by decide)

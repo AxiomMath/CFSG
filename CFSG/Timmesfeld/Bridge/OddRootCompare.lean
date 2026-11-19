@@ -83,6 +83,7 @@ private theorem conjDefect_mem_Wof
   · rw [conjDefect, hEq]
     exact hQmem
 
+omit [Finite G] in
 private theorem conjDefect_mul {s u v : G} (hss : s * s = 1) :
     conjDefect s (u * v) = u * conjDefect s v * u⁻¹ * conjDefect s u := by
   unfold conjDefect
@@ -176,6 +177,7 @@ private theorem map_conjSubgroup_sylow {C : Subgroup G} (SC : Sylow 2 ↥C) {g :
   rw [hcomp, ← Subgroup.map_map]
   rfl
 
+omit [Finite G] in
 private theorem conj_sylow_le_rootGroup {x : G} {S : Subgroup G} {n₀ : G}
     (hn₀S : ∀ s ∈ S, s ≠ 1 → n₀ * s * n₀⁻¹ ∈ rootSet D x) :
     conjSubgroup n₀ S ≤ rootGroup D x := by
@@ -354,6 +356,7 @@ private theorem conjDefect_eq_one_imp_mem_Z
   exact ⟨huWd.1, hu.1⟩
 
 
+omit [Finite G] in
 private theorem isMulCommutative_Wof {d x : G} (hd : d ∈ D) :
     IsMulCommutative ↥(Wof D d x) :=
   IsMulCommutative.of_comm (fun a b =>
@@ -455,7 +458,7 @@ private theorem card_quotient_Z_eq
       Nat.card ↥(rootGroup D d ⊓ rootGroup D x) := by
     rw [← hcardZd]
     exact Subgroup.card_eq_card_quotient_mul_card_subgroup _
-  haveI : Nonempty ↥(rootGroup D d ⊓ rootGroup D x) :=
+  have : Nonempty ↥(rootGroup D d ⊓ rootGroup D x) :=
     ⟨1, (rootGroup D d ⊓ rootGroup D x).one_mem⟩
   exact Nat.mul_right_cancel Nat.card_pos (h1.symm.trans h2)
 
@@ -469,8 +472,8 @@ private theorem exists_conjDefect_mul_mem_Z
     {s : G} (hsS : s ∈ S) (hs1 : s ≠ 1) {w : G} (hw : w ∈ Wof D d x) :
     ∃ u ∈ Wof D x d, ∃ z ∈ rootGroup D d ⊓ rootGroup D x,
       w = conjDefect s u * z := by
-  haveI hWd : IsMulCommutative ↥(Wof D d x) := isMulCommutative_Wof hd
-  haveI hWx : IsMulCommutative ↥(Wof D x d) :=
+  have hWd : IsMulCommutative ↥(Wof D d x) := isMulCommutative_Wof hd
+  have hWx : IsMulCommutative ↥(Wof D x d) :=
     isMulCommutative_Wof (d := x) (x := d) hx
   let Z := rootGroup D d ⊓ rootGroup D x
   let Zx : Subgroup ↥(Wof D x d) := Z.subgroupOf (Wof D x d)
@@ -485,8 +488,8 @@ private theorem exists_conjDefect_mul_mem_Z
     exact (QuotientGroup.injective_lift_iff Zx φ (by rw [hker])).mpr hker.symm
   have hcard := card_quotient_Z_eq h hd hx hdx hpx hpx' hn₀W
   have hsurj : Function.Surjective F := by
-    haveI : Fintype (↥(Wof D x d) ⧸ Zx) := Fintype.ofFinite _
-    haveI : Fintype (↥(Wof D d x) ⧸ Zd) := Fintype.ofFinite _
+    have : Fintype (↥(Wof D x d) ⧸ Zx) := Fintype.ofFinite _
+    have : Fintype (↥(Wof D d x) ⧸ Zd) := Fintype.ofFinite _
     have hcard' : Fintype.card (↥(Wof D x d) ⧸ Zx) =
         Fintype.card (↥(Wof D d x) ⧸ Zd) := by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]

@@ -35,6 +35,7 @@ noncomputable def toQA45 {hN : ((J z).subgroupOf (H z)).Normal}
 
 end QuotientData
 
+omit [Finite G] in
 theorem parrottQuotientDataExists (h : Tim79a.ParrottHyp z) :
     ∃ (hN : ((J z).subgroupOf (H z)).Normal), Nonempty (QuotientData z hN) := by
   classical

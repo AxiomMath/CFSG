@@ -56,6 +56,7 @@ section PropO
 
 variable {H : Type*} [Group H] [MulAction H V] {Γ : SimpleGraph V} [GraphAction H Γ]
 
+omit [GraphAction H Γ] in
 theorem eq_one_of_odd {n : ℕ} (hn : 1 ≤ n)
     (hedge : ∀ (x y : V) (g : H), Γ.Adj x y →
       (∀ w, Γ.Adj x w → g • w = w) → (∀ w, Γ.Adj y w → g • w = w) →
@@ -83,14 +84,14 @@ theorem eq_one_of_odd {n : ℕ} (hn : 1 ≤ n)
       exact hfix j (by omega)
 
 theorem weissFreeHat_of_odd (α : RankTwoAmalgam.{u}) {n : ℕ} (hn : 1 ≤ n)
-    (hedge : ∀ (x y : α.Γhat) (g : ↥(α.Ghat1 ⊔ α.Ghat2)), α.graphHat.Adj x y →
-      (∀ w, α.graphHat.Adj x w → g • w = w) →
-      (∀ w, α.graphHat.Adj y w → g • w = w) → ∃ k, orderOf g = 2 ^ k)
-    (hpath : ∀ (g : ↥(α.Ghat1 ⊔ α.Ghat2)) (q : GPath α.graphHat (n + 1)), q.NoBack →
-      (∀ i, i ≤ n + 1 → g • q i = q i) → (∃ k, orderOf g = 2 ^ k) → g = 1)
+    (hedge : ∀ (x y : α.Γhat) (_g : ↥(α.Ghat1 ⊔ α.Ghat2)), α.graphHat.Adj x y →
+      (∀ w, α.graphHat.Adj x w → _g • w = w) →
+      (∀ w, α.graphHat.Adj y w → _g • w = w) → ∃ k, orderOf _g = 2 ^ k)
+    (hpath : ∀ (_g : ↥(α.Ghat1 ⊔ α.Ghat2)) (q : GPath α.graphHat (n + 1)), q.NoBack →
+      (∀ i, i ≤ n + 1 → _g • q i = q i) → (∃ k, orderOf _g = 2 ^ k) → _g = 1)
     (hne : ∀ v w : α.Γhat, α.graphHat.Adj v w → ∃ u, α.graphHat.Adj v u ∧ u ≠ w) :
     WeissFreeHat α n :=
-  fun p hp g hfix h0 h1 => eq_one_of_odd hn hedge hpath hne hp hfix h0 h1
+  fun _p hp _g hfix h0 h1 => eq_one_of_odd hn hedge hpath hne hp hfix h0 h1
 
 end PropO
 
@@ -158,7 +159,7 @@ theorem exists_smul_of_isLocallyTrans {s : ℕ} (hs : 3 ≤ s) (hLT : IsLocallyT
     intro g hg
     rw [MulAction.mem_stabilizer_iff]
     exact hg 0 (Nat.zero_le t)
-  haveI hKfin : Finite ↥K := Finite.of_injective
+  have hKfin : Finite ↥K := Finite.of_injective
     (fun k : ↥K => (⟨(k : H), hKle k.2⟩ : ↥(MulAction.stabilizer H (p 0))))
     (fun a b hab => Subtype.ext
       (congrArg (fun z : ↥(MulAction.stabilizer H (p 0)) => (z : H)) hab))
@@ -170,7 +171,7 @@ theorem exists_smul_of_isLocallyTrans {s : ℕ} (hs : 3 ≤ s) (hLT : IsLocallyT
     refine (Nat.card_ne_zero.mp ?_).2
     rw [show Nat.card E = 2 ^ k from hk]
     exact pow_ne_zero k (by norm_num)
-  letI : MulAction ↥K E :=
+  let : MulAction ↥K E :=
     { smul := fun k y => ⟨(k : H) • y.1, by
         obtain ⟨hy1, hy2⟩ := y.2
         refine ⟨?_, ?_⟩
@@ -224,7 +225,7 @@ theorem exists_smul_of_isLocallyTrans {s : ℕ} (hs : 3 ≤ s) (hLT : IsLocallyT
   refine ⟨((k : ↥K) : H), ?_, ?_, ?_⟩
   · intro i hi1 hit
     have h2pow : ∃ n, orderOf (((k : ↥K) : H)) = 2 ^ n := by
-      obtain ⟨n, hn⟩ := Sylow.isPGroup' P k
+      obtain ⟨n, hn⟩ := Sylow.isPGroup P k
       have hinj : Function.Injective (fun z : ↥P => (((z : ↥K) : H))) := by
         intro a b hab
         exact Subtype.ext (Subtype.ext hab)

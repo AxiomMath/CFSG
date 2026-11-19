@@ -152,7 +152,7 @@ theorem reeAut_mem_parabolicRadical {A : Set (Fin ReeTag.F4.tag.rank)}
     ((ReeTag.F4.finiteReeAut K a x : ↥(adjointGroup ReeTag.F4.tag K)) : ModGL ReeTag.F4.tag K) ∈
       parabolicRadical ReeTag.F4.tag K A :=
   reeAut_mem_rootSpan (a := a) (S := parabolicRadicalRoots ReeTag.F4.tag A)
-    (fun γ hγ => ⟨(mem_parabolicRadicalRoots_iff.1 hγ).1, reeDualRoot_mem_radicalRoots hA hγ⟩) hx
+    (fun _γ hγ => ⟨(mem_parabolicRadicalRoots_iff.1 hγ).1, reeDualRoot_mem_radicalRoots hA hγ⟩) hx
 
 theorem reeAut_mem_oppRadical {A : Set (Fin ReeTag.F4.tag.rank)}
     (hA : ∀ i, ReeTag.F4.perm i ∈ A ↔ i ∈ A) {x : ↥(adjointGroup ReeTag.F4.tag K)}
@@ -170,6 +170,7 @@ variable (K) in
   Set.range (fun p : Fin ReeTag.F4.tag.rank × Kˣ => torusElt ReeTag.F4.tag K p.1 p.2) ∪
     {g | ∃ j ∈ A, ∃ c : K, g = xUnit ReeTag.F4.tag K j c ∨ g = yUnit ReeTag.F4.tag K j c}
 
+omit [Finite K] [CharP K ReeTag.F4.prime] in
 theorem parabolicLevi_eq_closure (A : Set (Fin ReeTag.F4.tag.rank)) :
     parabolicLevi ReeTag.F4.tag K A = Subgroup.closure (leviGens K A) := by
   rw [leviGens, Subgroup.closure_union]
@@ -370,7 +371,7 @@ theorem autCentralizer_inf_radRee_eq_bot (hK : Nat.card K = 2 ^ (2 * a + 1))
       (ReeTag.F4.reeGamma K a) = ⊥ := by
   classical
   have hfinM : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI hK2 : CharP K 2 := ‹CharP K ReeTag.F4.prime›
+  have hK2 : CharP K 2 := ‹CharP K ReeTag.F4.prime›
   have : Fact p.Prime := ⟨hp⟩
   by_contra hne
   obtain ⟨⟨w₁, hw⟩, hw1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hne
@@ -536,8 +537,8 @@ theorem oppositeFixedAt_reeGamma (hK : Nat.card K = 2 ^ (2 * a + 1))
     ∀ p : ℕ, p.Prime → p ≠ 2 → ∀ R : Subgroup (MulAut ↥(ReeTag.F4.reeGamma K a)),
       IsPGroup p R → Pr R → ∀ Q : Subgroup ↥(ReeTag.F4.reeGamma K a), OppositeFixedAt R Q := by
   classical
-  haveI hfinM : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI hK2 : CharP K 2 := ‹CharP K ReeTag.F4.prime›
+  have hfinM : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have hK2 : CharP K 2 := ‹CharP K ReeTag.F4.prime›
   refine oppositeFixedAt_of_family_pred
     (fun j => (parabolicRadical ReeTag.F4.tag K (A j)).subgroupOf (ReeTag.F4.reeGamma K a))
     (fun j => (parabolicSubgroup ReeTag.F4.tag K (A j)).subgroupOf (ReeTag.F4.reeGamma K a))

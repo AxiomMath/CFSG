@@ -91,17 +91,17 @@ theorem eq_smul_single_of_dEvenStab_fix {j : Fin 6} {v : DVec 6}
       funext i
       rw [dSign_apply_vec]
       by_cases hi : i = k ∨ i = l
-      · rw [if_pos hi]
+      · rw [ite_eq_left hi]
         have hij : i ≠ j := by
           rcases hi with rfl | rfl
           · exact hk
           · exact hlj
-        simp [Pi.single_apply, hij]
-      · rw [if_neg hi]
+        simp [hij]
+      · rw [ite_eq_right hi]
     have h1 := congrFun (hv _ hmem) k
-    rw [dSign_apply_vec, if_pos (Or.inl rfl)] at h1
+    rw [dSign_apply_vec, ite_eq_left (Or.inl rfl)] at h1
     have h0 : v k = 0 := (by decide : ∀ x : ZMod 3, -x = x → x = 0) _ h1
-    simp [h0, Pi.single_apply, hk]
+    simp [h0, hk]
 
 variable {G : Type} [Group G] [Finite G]
 
@@ -117,7 +117,7 @@ theorem qtwoFar_dEvenStab_le_of_frame {L Bs X : Subgroup G} {𝒦 : Finset (Subg
     ∃ j : Fin (n + 1), dEvenStab (n + 1) (Pi.single j 1) ≤
       (ggAutomizer X Bs).map (ggLin (p := 3) β) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨w₀, hw₀⟩ := hframe
   set W₀ := ggLin (p := 3) β ((e w₀ : ↥(ggAutomizerJoin L Bs 𝒦)) : MulAut ↥Bs) with hW₀
   have hW₀mem : W₀ ∈ dEven (n + 1) := by
@@ -143,7 +143,7 @@ theorem qtwoFar_dEvenStab_le_of_frame {L Bs X : Subgroup G} {𝒦 : Finset (Subg
     refine ⟨W₀ * dTau (n + 1) (decide (t.val + 1 = n + 1)) (OrthTorus.simpleLo t)
       (OrthTorus.simpleHi t) * W₀⁻¹, ⟨_, hw₀ t (fun h => ht (Fin.ext h)), ?_⟩, ?_⟩
     · simp only [map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv, hdt t, ← hW₀]
-    · simp [MulAut.conj_apply, mul_assoc]
+    · simp [mul_assoc]
   obtain ⟨σ, c, hc, -, hact⟩ := id hW₀mem
   refine ⟨σ 0, fun w hw => ?_⟩
   have hw2 : w (dBasis (n + 1) (σ 0)) = dBasis (n + 1) (σ 0) := by
@@ -159,6 +159,7 @@ theorem qtwoFar_dEvenStab_le_of_frame {L Bs X : Subgroup G} {𝒦 : Finset (Subg
   rw [← mul_left_cancel (mul_right_cancel hhw')]
   exact hh
 
+omit [Finite G] in
 theorem qtwoFarUnit_le_centralizer {Bs Y J₁ : Subgroup G} (Φ : OrthTorus.OrthFrameCore 3 Bs Y)
     (hΦr : Φ.r = 5) (hcard : Nat.card ↥Bs = 3 ^ 6) {βL : Additive ↥Bs ≃+ DVec 6} {a c : Fin 6}
     (hac : a ≠ c)
@@ -229,8 +230,8 @@ theorem qtwoFarUnit_le_centralizer {Bs Y J₁ : Subgroup G} (Φ : OrthTorus.Orth
     have h2 := hs₂ a (hmem a hac) k (hmem k hkc)
     have h3 := congrFun hsα a
     have h4 := congrFun hsα k
-    rw [dSign_apply_vec, if_pos (Or.inl rfl)] at h3
-    rw [dSign_apply_vec, if_neg (by rintro (h | h) <;> contradiction)] at h4
+    rw [dSign_apply_vec, ite_eq_left (Or.inl rfl)] at h3
+    rw [dSign_apply_vec, ite_eq_right (by rintro (h | h) <;> contradiction)] at h4
     have h5 : βL (Additive.ofMul s) k = -βL (Additive.ofMul s) k :=
       calc βL (Additive.ofMul s) k = βL (Additive.ofMul s) a := h1.symm
         _ = -βL (Additive.ofMul (α⁻¹ s)) a := h3
@@ -243,7 +244,7 @@ theorem qtwoFarUnit_le_centralizer {Bs Y J₁ : Subgroup G} (Φ : OrthTorus.Orth
     · subst hi
       simp
     · rw [hs₁ i (hmem i hi) k (hmem k hkc), hk0]
-      simp [Pi.single_apply, hi]
+      simp [hi]
   obtain ⟨μ, hv⟩ : ∃ μ : ZMod 3, βL (Additive.ofMul s) = μ • Pi.single c 1 := ⟨_, hv⟩
   have hμ : μ ≠ 0 := by
     rintro rfl
@@ -261,6 +262,7 @@ theorem qtwoFarUnit_le_centralizer {Bs Y J₁ : Subgroup G} (Φ : OrthTorus.Orth
   rw [hb's, SubmonoidClass.coe_pow]
   exact ((Commute.pow_left (hsY y hy) _)).eq
 
+omit [Finite G] in
 theorem qtwoFarUnit_hamb {L Bs X Y : Subgroup G} {𝒦 : Finset (Subgroup G)} {ι : Type}
     {M : CoxeterMatrix ι} {e : M.Group ≃* ↥(ggAutomizerJoin L Bs 𝒦)} {e' : Fin 6 ≃ ι}
     (hM : M = (ggCoxeterMatrixD 6).reindex e') (β : Additive ↥Bs ≃+ DVec 6)
@@ -276,7 +278,7 @@ theorem qtwoFarUnit_hamb {L Bs X Y : Subgroup G} {𝒦 : Finset (Subgroup G)} {�
     ∀ r ∈ ggAutomizer Y Bs, r ∈ ggCoxRefl M e → ∀ r' ∈ ggAutomizer Y Bs,
       r' ∈ ggCoxRefl M e → r * r' ≠ r' * r → ggRankTwo Bs r r' = ggRankTwoIn Y Bs r r' := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hX : ∀ r ∈ ggAutomizer Y Bs, r ∈ ggCoxRefl M e → r ∈ ggAutomizer X Bs := by
     intro r hrY hrC
     obtain ⟨w, i, rfl⟩ := hrC

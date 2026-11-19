@@ -160,7 +160,7 @@ theorem ss_get {j : Nat} (hj : j < 7) : cpSs[j]! = unpackR 24 (getL 0 G7 j) := b
 
 theorem tms_get {i k : Nat} (hi : i < 3) :
     cpTMget i k = ((cpTw i).map (cpWord cpSs))[k]! := by
-  rw [cpTMget, if_pos hi]
+  rw [cpTMget, ite_eq_left hi]
   interval_cases i <;> rfl
 
 theorem tm_get' {i : Nat} (hi : i < 3) {TW : List (List Nat)} (htw : cpTw i = TW.toArray)
@@ -188,7 +188,7 @@ theorem tm_get {i k : Nat} (h : i < 3 → k < cpN i) : cpTMget i k = unpackR 24 
       rw [Bool.eq_false_iff]
       intro e
       exact absurd (Eq.mp Nat.blt_eq e) (by omega)
-    rw [cpTMget, if_neg (by omega), one_eq]
+    rw [cpTMget, ite_eq_right (by omega), one_eq]
     change _ = unpackR 24 (Bool.rec (motive := fun _ => Nat) oneK (P.M (Nat.add (offK i) k)) (Nat.blt i 3))
     rw [hlt]
 
@@ -196,7 +196,7 @@ theorem cpN_pos (j : Nat) : 0 < cpN j := by
   unfold cpN
   rcases j with _ | _ | _ | _ | _ | j <;> simp
 
-theorem level_ok {i : Nat} (hi : i < 3) {TW : List (List Nat)} {D : List Nat}
+theorem level_ok {i : Nat} (_hi : i < 3) {TW : List (List Nat)} {D : List Nat}
     (htw : cpTw i = TW.toArray) (hdec : cpDec i = D.toArray) (hlen : TW.length = cpN i)
     (hhead : TW.head? = some []) (hk : wordsK P.M G7 (cpF i) 7 (offK i) TW 0 = true)
     (hD : D.length = cpN i * (7 - cpF i)) (hlev : levK P.M i D 0 = true) (hF : cpF i < 7) :

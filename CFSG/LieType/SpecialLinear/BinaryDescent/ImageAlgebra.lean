@@ -118,10 +118,10 @@ theorem smul_single_diagonal_mem [Fintype F] (hi : 1 ≤ i) {b0 : Fin n}
           rintro ⟨hsub, -⟩
           exact hts (Subtype.ext (Finset.eq_of_subset_of_card_le hsub (by
             rw [Set.powersetCard.card_eq, Set.powersetCard.card_eq])).symm)
-        rw [if_neg hst, if_neg hnot]
+        rw [ite_eq_right hst, ite_eq_right hnot]
         simp
     · have hst : ¬ (s = t ∧ s = u) := fun h => htu (h.1.symm.trans h.2)
-      rw [if_neg htu, if_neg hst]
+      rw [ite_eq_right htu, ite_eq_right hst]
   rw [hdiag] at hmem
   exact hmem
 
@@ -148,7 +148,7 @@ theorem extUnit_mul_single {a b : Fin n} {s t : Set.powersetCard (Fin n) i}
       simp [Ne.symm hws]
     · intro h; exact absurd (Finset.mem_univ s) h
   · rw [Finset.sum_eq_zero]
-    · rw [Matrix.single_apply, if_neg]
+    · rw [Matrix.single_apply, ite_eq_right]
       rintro ⟨rfl, rfl⟩
       exact hv rfl
     · intro w _

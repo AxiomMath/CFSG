@@ -77,7 +77,7 @@ theorem primeStableAction_of_normal_sylow {actor : Type u} {acted : Type v}
   have : (image : Subgroup (actor ⧸ action.ker)).Normal := himageNormal
   have hcoreEq : pCore prime (actor ⧸ action.ker) = image := by
     apply le_antisymm (pCore_le_sylow prime image)
-    exact le_pCore_of_normal prime (image : Subgroup (actor ⧸ action.ker)) himageNormal image.isPGroup'
+    exact le_pCore_of_normal prime (image : Subgroup (actor ⧸ action.ker)) himageNormal image.isPGroup
   intro member hquadratic
   obtain ⟨dimension, hpower⟩ := quadratic_automorphism_pow_eq_one_of_pGroup prime hprime hpgroup
     (action member) hquadratic

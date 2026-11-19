@@ -45,6 +45,7 @@ theorem perfect_of_isProdOfCalC {M L : Subgroup G} (h : F08.IsProdOfCalC M L) : 
       calc S i = ⁅S i, S i⁆ := (hS i).2.1.symm
         _ ≤ ⁅L, L⁆ := Subgroup.commutator_mono (hle _ hA) (hle _ hA)
 
+omit [Finite G] in
 theorem map_subgroupOf_eq_top {L Y : Subgroup G} (hYL : Y ≤ L) (hY : Y ⊔ pCoreOf 2 L = L) :
     (Y.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) = ⊤ := by
   have h1 : Y.subgroupOf L ⊔ CFSG.pCore 2 ↥L = ⊤ := by
@@ -56,6 +57,7 @@ theorem map_subgroupOf_eq_top {L Y : Subgroup G} (hYL : Y ≤ L) (hY : Y ⊔ pCo
   rwa [Subgroup.map_sup, Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _),
     (Subgroup.map_eq_bot_iff _).2 (QuotientGroup.ker_mk' _).ge, sup_bot_eq] at h2
 
+omit [Finite G] in
 theorem bar2_perfect {L : Subgroup G} (hL : ⁅L, L⁆ = L) :
     ⁅(⊤ : Subgroup (Bar2 L)), (⊤ : Subgroup (Bar2 L))⁆ = ⊤ := by
   have h1 : ⁅(⊤ : Subgroup ↥L), (⊤ : Subgroup ↥L)⁆ = ⊤ := by
@@ -67,7 +69,7 @@ theorem bar2_perfect {L : Subgroup G} (hL : ⁅L, L⁆ = L) :
 
 theorem dvd_card_bar2 {L : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h : 1 ≤ CFSG.Open.pRank p L) : p ∣ Nat.card (Bar2 L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E, hEL, -, hcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt L
   have h1 : p ∣ Nat.card L := by
     have hE : p ∣ Nat.card E := by
@@ -82,7 +84,7 @@ theorem dvd_card_bar2 {L : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
 
 theorem pRank_le_of_sup_pCore {L Y : Subgroup G} (hYL : Y ≤ L) (hY : Y ⊔ pCoreOf 2 L = L)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : CFSG.Open.pRank p L ≤ CFSG.Open.pRank p Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnot : ¬ p ∣ (Y.subgroupOf L).index := by
     intro hd
     have h1 : Nat.card (Bar2 L) ∣ Nat.card (Y.subgroupOf L) := by
@@ -154,7 +156,7 @@ theorem r869NS5_dataOfSetup4 (hSS : StronglyEmbeddedSolvable) (hSE : StronglyEmb
   rintro L hLM hML hprod ⟨p, hp, h2, h5⟩ r hr hr2 A hAM hAr hY
   have hpp : p.Prime := hp.1.1
   have hp2 : p ≠ 2 := hp.1.2.1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hLperf := R869S.perfect_of_isProdOfCalC hprod
   have hL1 : L ≠ ⊥ := by
     rintro rfl
@@ -181,8 +183,8 @@ theorem r869NS5_dataOfSetup4 (hSS : StronglyEmbeddedSolvable) (hSE : StronglyEmb
       (CFSG.SectionRank.pRank_mono hpp.one_lt (le_inf hYH hYM)))
   have htop : normalizer (A : Set G) ≠ ⊤ := by
     intro htop
-    haveI : A.Normal := Subgroup.normalizer_eq_top_iff.1 htop
-    haveI := hS.simple
+    have : A.Normal := Subgroup.normalizer_eq_top_iff.1 htop
+    have := hS.simple
     rcases (inferInstance : A.Normal).eq_bot_or_eq_top with h | h
     · rw [h, Subgroup.card_bot] at hAr
       exact hr.one_lt.ne hAr
@@ -199,7 +201,7 @@ theorem r869NS5_dataOfSetup4 (hSS : StronglyEmbeddedSolvable) (hSE : StronglyEmb
   rcases k.solvable_or_of_stronglyEmbeddedSolvable h5k h3 hConf (k.step75 h5k hSE) hSS with
     hsol | ⟨hp5, -, hle⟩
   ·
-    haveI : Group.IsSolvable ↥(((normalizer (A : Set G) ⊓ k.M).subgroupOf
+    have : Group.IsSolvable ↥(((normalizer (A : Set G) ⊓ k.M).subgroupOf
         (normalizer (A : Set G))).map
           (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥(normalizer (A : Set G))))) := hsol
     have hsY : Group.IsSolvable ↥(((L ⊓ centralizer (A : Set G)).subgroupOf

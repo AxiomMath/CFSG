@@ -109,8 +109,8 @@ theorem ratCatExp_of_tree
     show rootSpan τ K' (componentRoots (rootCharHom a) i) = _
     rw [hroots, hset]
   rw [hcomp]
-  haveI : Fintype ↥K' := Fintype.ofFinite ↥K'
-  haveI : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
+  have : Fintype ↥K' := Fintype.ofFinite ↥K'
+  have : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
   obtain ⟨f, hprime, hcardK⟩ := FiniteField.card ↥K' (ringChar ↥K')
   have hring : ringChar ↥K' = ringChar L := ringChar_subfield' K'
   rw [hring] at hprime hcardK
@@ -346,8 +346,8 @@ theorem ratCatExp_of_f4Levi_class_any
     show rootSpan Tag.F4 K' (componentRoots (rootCharHom a) i) = _
     rw [hroots]
   rw [hcomp]
-  haveI : Fintype ↥K' := Fintype.ofFinite ↥K'
-  haveI : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
+  have : Fintype ↥K' := Fintype.ofFinite ↥K'
+  have : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
   obtain ⟨f, hprime, hcardf⟩ := FiniteField.card ↥K' (ringChar ↥K')
   have hring : ringChar ↥K' = ringChar L := ringChar_subfield' K'
   rw [hring] at hprime hcardf
@@ -379,8 +379,8 @@ theorem ratCatExp_of_f4B2_class
     show rootSpan Tag.F4 K' (componentRoots (rootCharHom a) i) = _
     rw [hroots]
   rw [hcomp]
-  haveI : Fintype ↥K' := Fintype.ofFinite ↥K'
-  haveI : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
+  have : Fintype ↥K' := Fintype.ofFinite ↥K'
+  have : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
   obtain ⟨f, hprime, hcardf⟩ := FiniteField.card ↥K' (ringChar ↥K')
   have hring : ringChar ↥K' = ringChar L := ringChar_subfield' K'
   rw [hring] at hprime hcardf
@@ -412,7 +412,7 @@ theorem ratCatExp_of_f4B2_two
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   obtain ⟨K', hfin, C, D, hC, hD, hcard, f, hf1, hker, hf2⟩ :=
     exists_inner_cover_derived_two S hT i hinner hQ
-  haveI : Fintype ↥K' := Fintype.ofFinite _
+  have : Fintype ↥K' := Fintype.ofFinite _
   have hcard' : Fintype.card ↥K' = 2 := by rw [← Nat.card_eq_fintype_card]; exact hcard
   have hch : ringChar L = 2 := by
     have h2 := ringChar_eq_of_natCard_eq_pow Nat.prime_two (K := ↥K') (f := 1)
@@ -476,7 +476,7 @@ theorem ratCatExp_of_f4B2_two
     intro h
     have hsimple : IsSimpleGroup (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := hqs.2.1
-    haveI := hsimple.toNontrivial
+    have := hsimple.toNontrivial
     obtain ⟨x, hx⟩ := exists_ne (1 : ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))
     obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective x

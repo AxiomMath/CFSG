@@ -52,7 +52,6 @@ theorem not_exists_twoLocal_aschCore_of_pRank_gt_three (he : evenRank G = 3) {q 
     rw [hQ]
     exact SteinbergBY.assembly_pRank_map_mulEquiv hq1 (MulAut.conj g) _
   have h4 : 4 ≤ CFSG.Assembly.pRank q (Q : Subgroup G) := by
-    change 4 ≤ CFSG.Open.pRank q (Q : Subgroup G)
     rw [hQrank]
     omega
   have hcore : Subgroup.normalizer (Q : Set G) ≤ aschCore 2 q (Q : Subgroup G) := by

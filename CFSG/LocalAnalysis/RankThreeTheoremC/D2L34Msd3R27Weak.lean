@@ -52,7 +52,7 @@ theorem D2NonExtremalL34At.exists_weakConf [D2Amb3 G] {T : Subgroup G}
     omega
   have hEK' : (E.subgroupOf N).map (QuotientGroup.mk' (primeComplementCore (G := N) 3)) ≤ K' := by
     rw [← hEbar]
-    exact le_of_isPGroup_of_not_dvd_index Nat.prime_three hidx3 Ebar.isPGroup'
+    exact le_of_isPGroup_of_not_dvd_index Nat.prime_three hidx3 Ebar.isPGroup
   exact ⟨d', Ebar, K', hd', hesc, hEbar, hK', hi, hEK'⟩
 
 private theorem D2L34WeakConf3.exists_isSylowTwoOf_glbPrimeCore_inf

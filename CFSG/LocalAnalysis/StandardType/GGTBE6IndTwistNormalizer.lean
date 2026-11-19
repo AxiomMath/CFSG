@@ -17,6 +17,7 @@ variable (K : Type) [Field K] [Finite K] [CharP K 2]
   (θ : K ≃+* K) (hθ : ∀ c, θ.toRingHom (θ.toRingHom c) = c)
   (l : K) (hl : θ.toRingHom l = l + 1)
 
+omit [CharP K 2] in
 theorem normalizer_langPFrame {f p : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
     (hθq : ∀ c, θ.toRingHom c = c ^ (2 ^ f)) (hp : p.Prime) (hp3 : p ≠ 3) [NeZero p]
     (ζ : CFSG.LieType.Steinberg.normOne θ) (hζ : ζ ^ p = 1) (hζo : orderOf (ζ : Kˣ) = p)
@@ -57,7 +58,7 @@ theorem normalizer_langPFrame {f p : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (2 ^
     have hzy : z * chevTorus .E6 (ζ : Kˣ) hζ' a * z⁻¹ =
         chevTorus .E6 (ζ : Kˣ) hζ' a' := by
       apply Subtype.ext
-      convert he'.symm using 1 <;> simp only [z, g, Subgroup.coe_mul, Subgroup.coe_inv] <;> group
+      convert he'.symm using 1; simp only [g]; group
     rw [hzy, ← hr]
     exact ⟨a', rfl⟩
   have hnorm' : z ∈ Subgroup.normalizer ((torusPow .E6 K p : Subgroup (adjointGroup .E6 K)) : Set _) := by

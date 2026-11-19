@@ -104,7 +104,7 @@ theorem map_conj_conjClosure_le {L S : Subgroup G} {g : G} (hL : ∀ x ∈ L, g 
 variable [Finite G]
 
 theorem eq_or_eq_of_isCompIn_le_sup {D M₁ M₂ W : Subgroup G} (h₁ : IsCompIn M₁ D)
-    (h₂ : IsCompIn M₂ D) (hne : M₁ ≠ M₂) (hW : IsCompIn W D) (hle : W ≤ M₁ ⊔ M₂) :
+    (h₂ : IsCompIn M₂ D) (_hne : M₁ ≠ M₂) (hW : IsCompIn W D) (hle : W ≤ M₁ ⊔ M₂) :
     W = M₁ ∨ W = M₂ := by
   by_contra hcon
   push Not at hcon
@@ -142,7 +142,7 @@ theorem card_le_two_mul_card_inf_normalizer_of_map_conj {S M M' : Subgroup G}
     rw [← Induction.map_conj_map_conj M b a⁻¹, hmapM b hb hbnot, ← hmapM a ha hanot,
       Induction.map_conj_map_conj, inv_mul_cancel]
     ext x
-    simp [MulAut.conj_apply]
+    simp
   exact ⟨S.mul_mem (S.inv_mem ha) hb, Solomon78.mem_normalizer_iff_map_conj_eq.2 hab⟩
 
 theorem mul_conj_mem_of_ltF_ne {K L : Subgroup G} {s t : G} (hs : orderOf s = 2)
@@ -169,6 +169,7 @@ theorem mul_conj_mem_of_ltF_ne {K L : Subgroup G} {s t : G} (hs : orderOf s = 2)
   rw [hKeq]
   exact ⟨⟨m, hm⟩, rfl⟩
 
+omit [Finite G] in
 theorem commute_of_fixes_mul_conj {M : Subgroup G} {s p : G} (hperf : ⁅M, M⁆ = M)
     (hc : ∀ a ∈ M, ∀ b ∈ M.map (MulAut.conj s).toMonoidHom, a * b = b * a)
     (hpM : p ∈ normalizer (M : Set G))
@@ -209,7 +210,7 @@ theorem commute_of_fixes_mul_conj {M : Subgroup G} {s p : G} (hperf : ⁅M, M⁆
       _ = ((m : G)⁻¹ * (p * (m : G) * p⁻¹) * (n : G)⁻¹) * (p * n * p⁻¹) := by rw [hcn]
       _ = _ := by group)
   have hψ1 : ∀ m : ↥M, ψ m = 1 := by
-    haveI : Group.IsPerfect ↥M := Subgroup.isPerfect_iff.2 hperf
+    have : Group.IsPerfect ↥M := Subgroup.isPerfect_iff.2 hperf
     refine map_eq_one_of_isPerfect_of_commute ψ (fun x y => ?_)
     show (x : G)⁻¹ * (p * (x : G) * p⁻¹) * ((y : G)⁻¹ * (p * (y : G) * p⁻¹)) =
       (y : G)⁻¹ * (p * (y : G) * p⁻¹) * ((x : G)⁻¹ * (p * (x : G) * p⁻¹))

@@ -17,8 +17,8 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 theorem y7b_quotModIso (c : Ctx7 G L) (hb : B5Std c) :
     QuotModIso (normIn c.s.H c.s.fr.B) (M7 c.s) (c.s.fr.B ⊔ M3 c.s) c.s.fr.B c.s.fr.F := by
   have hM7X7 : M7 c.s ≤ X7 c.s := (y7b_M7_le_C7 c hb).trans (y7b_C7_le_X7 c hb)
-  haveI hNM : ((M3 c.s).subgroupOf (y7bBM c.s)).Normal := y7b_M3_normal_BM c hb
-  haveI hFN : (c.s.fr.F.subgroupOf c.s.fr.B).Normal := by
+  have hNM : ((M3 c.s).subgroupOf (y7bBM c.s)).Normal := y7b_M3_normal_BM c hb
+  have hFN : (c.s.fr.F.subgroupOf c.s.fr.B).Normal := by
     rw [Subgroup.normal_subgroupOf_iff (y54_F_le_B hb.hH)]
     intro h k hh hk
     rw [← y7b_B_inf_M3 c hb, Subgroup.mem_inf] at hh ⊢

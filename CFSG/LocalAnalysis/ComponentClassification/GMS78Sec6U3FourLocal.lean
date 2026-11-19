@@ -138,7 +138,7 @@ theorem pow_mem_centralizer_of_mem_K (h3 : Sec3 G L T) {f : ℕ} (hf : 2 ≤ f)
       exact ⟨⟨x, hx⟩, rfl⟩
     · rintro ⟨x, rfl⟩
       exact ⟨⟨x, hP.le x.2⟩, x.2, rfl⟩
-  have hRp : IsPGroup 2 (unitaryCoverRoot J hJ) := hS ▸ S.isPGroup'
+  have hRp : IsPGroup 2 (unitaryCoverRoot J hJ) := hS ▸ S.isPGroup
   have hPZ : P' ⊓ center L = ⊥ :=
     AschbacherTightEmbedding.two_subgroup_of_odd_eq_bot _ (center L) hP'.to_inf_left hZ
       inf_le_right

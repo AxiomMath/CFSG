@@ -18,6 +18,7 @@ open Polynomial Module QuadraticMap CFSG.RankThree.Classical2 CFSG.RankThree.Par
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [Finite F] [CharP F 2] in
 private theorem i167COrth_type_of_dim_aux1 {g : V ≃ₗ[F] V} {P : Submodule F V} (hP : RegOn Q P)
     (hgP : ∀ y ∈ P, g y ∈ P) (hgP' : ∀ y ∈ polarPerp Q P, g y ∈ polarPerp Q P)
     (hfix : ∀ y ∈ P, g y = y → y = 0) : fixedSpace g ≤ polarPerp Q P := by

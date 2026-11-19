@@ -93,8 +93,8 @@ theorem burnsideB49_gaschutz_section (ρW : Γ →* (W ≃ₗ[ZMod 2] W)) (ρV :
     ∃ Φ' : W →ₗ[ZMod 2] V, (∀ x, q (Φ' x) = x) ∧ ∀ g x, Φ' (ρW g x) = ρV g (Φ' x) := by
   classical
   have hfin : S.FiniteIndex := ⟨hodd.pos.ne'⟩
-  haveI : Finite (Γ ⧸ S) := Subgroup.finite_quotient_of_finiteIndex
-  haveI : Fintype (Γ ⧸ S) := Fintype.ofFinite _
+  have : Finite (Γ ⧸ S) := Subgroup.finite_quotient_of_finiteIndex
+  have : Fintype (Γ ⧸ S) := Fintype.ofFinite _
   let Ψ : Γ → (W →ₗ[ZMod 2] V) := fun g =>
     ((ρV g : V ≃ₗ[ZMod 2] V) : V →ₗ[ZMod 2] V) ∘ₗ Φ ∘ₗ ((ρW g⁻¹ : W ≃ₗ[ZMod 2] W) : W →ₗ[ZMod 2] W)
   have hΨapp : ∀ g y, Ψ g y = ρV g (Φ (ρW g⁻¹ y)) := fun g y => rfl
@@ -143,8 +143,8 @@ theorem burnsideB49_fixed_of_odd_index {X : Type*} [AddCommGroup X] [Module (ZMo
     ∃ x : X, x + x₁ ∈ Y ∧ ∀ γ, ρ γ x = x := by
   classical
   have hfin : S.FiniteIndex := ⟨hodd.pos.ne'⟩
-  haveI : Finite (Γ ⧸ S) := Subgroup.finite_quotient_of_finiteIndex
-  haveI : Fintype (Γ ⧸ S) := Fintype.ofFinite _
+  have : Finite (Γ ⧸ S) := Subgroup.finite_quotient_of_finiteIndex
+  have : Fintype (Γ ⧸ S) := Fintype.ofFinite _
   let δ : Γ → X := fun γ => ρ γ x₁ + x₁
   have hδS : ∀ g, ∀ s ∈ S, δ (g * s) = δ g := by
     intro g s hs
@@ -261,7 +261,7 @@ theorem burnsideB49_conj_tv {φ : Module.Dual (ZMod 2) W} {w : W} (h : φ w = 0)
 
 theorem burnsideB49_stab_index_odd [FiniteDimensional (ZMod 2) W] {φ : Module.Dual (ZMod 2) W}
     (hφ : φ ≠ 0) : Odd (burnsideB49_stab φ).index := by
-  letI : MulAction (W ≃ₗ[ZMod 2] W) (Module.Dual (ZMod 2) W) :=
+  let : MulAction (W ≃ₗ[ZMod 2] W) (Module.Dual (ZMod 2) W) :=
     { smul := fun g f => f ∘ₗ (g.symm : W →ₗ[ZMod 2] W)
       one_smul := fun f => by ext x; rfl
       mul_smul := fun g h f => by ext x; rfl }
@@ -283,7 +283,7 @@ theorem burnsideB49_stab_index_odd [FiniteDimensional (ZMod 2) W] {φ : Module.D
       exact this.symm
   have horbit : MulAction.orbit (W ≃ₗ[ZMod 2] W) φ = {ψ : Module.Dual (ZMod 2) W | ψ ≠ 0} := by
     ext ψ
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨g, rfl⟩ h0
       apply hφ
@@ -303,7 +303,7 @@ theorem burnsideB49_stab_index_odd [FiniteDimensional (ZMod 2) W] {φ : Module.D
   rw [← hstab, MulAction.index_stabilizer, horbit]
   have hne : ({0}ᶜ : Set (Module.Dual (ZMod 2) W)) = {ψ | ψ ≠ 0} := by
     ext ψ; simp
-  haveI : Finite (Module.Dual (ZMod 2) W) := Module.finite_of_finite (ZMod 2)
+  have : Finite (Module.Dual (ZMod 2) W) := Module.finite_of_finite (ZMod 2)
   rw [← hne, Set.ncard_compl _, Set.ncard_singleton]
   have hcard : Nat.card (Module.Dual (ZMod 2) W) =
       2 ^ Module.finrank (ZMod 2) (Module.Dual (ZMod 2) W) := by
@@ -545,7 +545,7 @@ theorem burnsideB49_section_of_kfix
   classical
   let a : W → V := fun y => if h : φ y = 0 then ρ (burnsideB49_tv φ y h) v - v else 0
   have ha : ∀ y (h : φ y = 0), a y = ρ (burnsideB49_tv φ y h) v - v := fun y h => by
-    simp only [a, dif_pos h]
+    simp only [a, dite_eq_left h]
   let p : W → W := fun x => x + φ x • w₀
   have hp0 : ∀ x, φ (p x) = 0 := fun x => by
     simp only [p, map_add, map_smul, hw₀, smul_eq_mul, mul_one]
@@ -781,7 +781,7 @@ theorem burnsideB49_extendLin_one (x : W) :
 
 @[expose] noncomputable def burnsideB49_extend (T : ↥(LinearMap.ker φ) ≃ₗ[ZMod 2] ↥(LinearMap.ker φ)) :
     W ≃ₗ[ZMod 2] W :=
-  LinearEquiv.ofLinear (burnsideB49_extendLin φ hw₀ T.toLinearMap)
+  LinearEquiv.ofLinearMap (burnsideB49_extendLin φ hw₀ T.toLinearMap)
     (burnsideB49_extendLin φ hw₀ T.symm.toLinearMap)
     (LinearMap.ext fun x => by
       rw [LinearMap.comp_apply, burnsideB49_extendLin_comp]
@@ -981,8 +981,8 @@ theorem burnsideB49_kfix_dual [FiniteDimensional (ZMod 2) W] [Finite V]
     (hθ' : ∀ g w (u u' : ↥(LinearMap.ker q)), ρ g (u' : V) = (u : V) → θ' (g w) u = θ' w u') :
     ∃ v : V, q v = w₀ ∧ ∀ k : W ≃ₗ[ZMod 2] W, (∀ x, φ (k x) = φ x) → k w₀ = w₀ → ρ k v = v := by
   have hker := burnsideB49_finrank_ker φ hw₀
-  haveI : Finite ↥(LinearMap.ker q) := inferInstance
-  haveI : FiniteDimensional (ZMod 2) ↥(LinearMap.ker q) := Module.Finite.of_finite
+  have : Finite ↥(LinearMap.ker q) := inferInstance
+  have : FiniteDimensional (ZMod 2) ↥(LinearMap.ker q) := Module.Finite.of_finite
   let Θ : ↥(LinearMap.ker q) ≃ₗ[ZMod 2] Module.Dual (ZMod 2) W :=
     (Module.evalEquiv (ZMod 2) ↥(LinearMap.ker q)).trans θ'.dualMap
   have hΘ : ∀ u w, Θ u w = θ' w u := fun u w => rfl
@@ -1030,7 +1030,7 @@ theorem burnsideB49_kfix_dual [FiniteDimensional (ZMod 2) W] [Finite V]
     simp only [δE, LinearMap.comp_apply, Submodule.subtype_apply, LinearMap.add_apply,
       burnsideB49_KresDual_apply, hδcoc, burnsideB49_Kres_symm_apply]
   have hdE : 4 ≤ Module.finrank (ZMod 2) ↥(LinearMap.ker φ) := by omega
-  haveI : FiniteDimensional (ZMod 2) ↥(LinearMap.ker φ) := inferInstance
+  have : FiniteDimensional (ZMod 2) ↥(LinearMap.ker φ) := inferInstance
   have hρ : ∀ (f' : Module.Dual (ZMod 2) (Module.Dual (ZMod 2) ↥(LinearMap.ker φ)))
       (d' : Module.Dual (ZMod 2) ↥(LinearMap.ker φ)) (h : f' d' = 0),
       ∃ k : ↥(burnsideB49_K φ w₀), burnsideB49_KresDual φ w₀ k = LinearEquiv.transvection h := by
@@ -1242,7 +1242,6 @@ theorem burnsideB49_map_eq (g : ↥G) : U.map ((g : MulAut V) : V ≃* V).toMono
     exact hG g g.2 u hu
   · intro hy
     refine ⟨(g : MulAut V)⁻¹ y, hG g⁻¹ (G.inv_mem g.2) y hy, ?_⟩
-    change (g : MulAut V) ((g : MulAut V)⁻¹ y) = y
     rw [← MulAut.mul_apply, mul_inv_cancel]
     rfl
 
@@ -1544,7 +1543,7 @@ open CFSG.Quasithin
 
 theorem burnsideB49_card_GL_eq {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) (n : ℕ) :
     Nat.card (GL (Fin n) K) = Nat.card (GL (Fin n) (ZMod 2)) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
   rw [Matrix.card_GL_field, Matrix.card_GL_field, hK', ZMod.card]
 
@@ -1568,9 +1567,11 @@ theorem burnsideB49_finrank_W (hK : Nat.card K = 2)
   rw [Nat.card_zmod, hcardW] at h2
   exact (Nat.pow_right_injective le_rfl h2).symm
 
+omit [Finite V] [Finite K] in
 theorem burnsideB49_hG (hreal : (FFModel.nat (StatedSL n K)).RealizesVia G U ⊥ π) :
     ∀ g ∈ G, ∀ u ∈ U, (g : MulAut V) u ∈ U := fun g hg u hu => hreal.2.2.2.1 ⟨g, hg⟩ u hu
 
+omit [Finite V] [Finite K] in
 theorem burnsideB49_iota_injective
     (hreal : (FFModel.nat (StatedSL n K)).RealizesVia G U ⊥ π)
     (hquot : CFSG.ASVolI.ChB.QuotIsoSub G U ∨ CFSG.ASVolI.ChB.QuotIsoDual G U) :
@@ -1611,10 +1612,10 @@ theorem burnsideB49_iota_bijective (hK : Nat.card K = 2)
     Function.Bijective (burnsideB49_iota hV U G (burnsideB49_hG hreal)) := by
   have hinj := burnsideB49_iota_injective hV hreal hquot
   refine ⟨hinj, ?_⟩
-  haveI : Finite (burnsideB49_W hV U ≃ₗ[ZMod 2] burnsideB49_W hV U) :=
+  have : Finite (burnsideB49_W hV U ≃ₗ[ZMod 2] burnsideB49_W hV U) :=
     Finite.of_injective (fun f : burnsideB49_W hV U ≃ₗ[ZMod 2] burnsideB49_W hV U =>
       (f : burnsideB49_W hV U → burnsideB49_W hV U)) fun _ _ h => LinearEquiv.ext (congrFun h)
-  haveI : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
   have hfr := burnsideB49_finrank_W hV hK hreal hquot
   have hcardGL : Nat.card (burnsideB49_W hV U ≃ₗ[ZMod 2] burnsideB49_W hV U) =
       Nat.card (GL (Fin n) (ZMod 2)) :=
@@ -1725,6 +1726,7 @@ section QuotRange
 
 variable {V : Type} [CommGroup V] [Finite V] (U : Subgroup V)
 
+omit [Finite V] in
 theorem burnsideB49_card_range (R : Subgroup V) (hUR : U ≤ R) :
     Nat.card ↥R = Nat.card ((QuotientGroup.mk' U).comp R.subtype).range * Nat.card ↥U := by
   set φR : ↥R →* V ⧸ U := (QuotientGroup.mk' U).comp R.subtype with hφR
@@ -1823,6 +1825,7 @@ variable {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V, v ^ 2 = 1) (U : Su
   (burnsideB49_autLin hV).toMonoidHom.comp
     (G.subtype.comp (MulEquiv.ofBijective (burnsideB49_iota hV U G hG) hb).symm.toMonoidHom)
 
+omit [Finite V] in
 theorem burnsideB49_rho_iota (hb : Function.Bijective (burnsideB49_iota hV U G hG)) (g : ↥G) :
     burnsideB49_rho hV U G hG hb (burnsideB49_iota hV U G hG g) =
       burnsideB49_autLin hV (g : MulAut V) := by
@@ -1833,6 +1836,7 @@ theorem burnsideB49_rho_iota (hb : Function.Bijective (burnsideB49_iota hV U G h
   simp only [burnsideB49_rho, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, Subgroup.subtype_apply]
   rw [this]
 
+omit [Finite V] in
 theorem burnsideB49_q_rho (hb : Function.Bijective (burnsideB49_iota hV U G hG))
     (g' : burnsideB49_W hV U ≃ₗ[ZMod 2] burnsideB49_W hV U) (x : F2Vec V hV) :
     burnsideB49_q hV U (burnsideB49_rho hV U G hG hb g' x) = g' (burnsideB49_q hV U x) := by
@@ -1840,6 +1844,7 @@ theorem burnsideB49_q_rho (hb : Function.Bijective (burnsideB49_iota hV U G hG))
   rw [burnsideB49_rho_iota]
   exact burnsideB49_q_equiv hV U G hG g x
 
+omit [Finite V] in
 theorem burnsideB49_iota_fix_iff (g : ↥G) (v : V) :
     burnsideB49_iota hV U G hG g (F2Vec.ofV (burnsideB49_hW hV U) (QuotientGroup.mk v)) =
         F2Vec.ofV (burnsideB49_hW hV U) (QuotientGroup.mk v) ↔
@@ -1863,6 +1868,7 @@ theorem burnsideB49_iota_fix_iff (g : ↥G) (v : V) :
     rw [mul_inv, inv_inv] at this
     exact this
 
+omit [Finite V] in
 theorem burnsideB49_toV_sub (a b : F2Vec V hV) :
     F2Vec.toV hV (a - b) = F2Vec.toV hV a * (F2Vec.toV hV b)⁻¹ := by
   rw [← div_eq_mul_inv]
@@ -1958,7 +1964,8 @@ variable {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V, v ^ 2 = 1) (U : Su
     rw [this]
     exact ha
 
-theorem burnsideB49_splits_of_complement (hG : ∀ g ∈ G, ∀ u ∈ U, g u ∈ U)
+omit [Finite V] in
+theorem burnsideB49_splits_of_complement (_hG : ∀ g ∈ G, ∀ u ∈ U, g u ∈ U)
     (U' : Submodule (ZMod 2) (F2Vec V hV))
     (hinv : ∀ g : ↥G, ∀ x ∈ U', burnsideB49_autLin hV (g : MulAut V) x ∈ U')
     (hc : IsCompl (LinearMap.ker (burnsideB49_q hV U)) U') :
@@ -2000,8 +2007,8 @@ theorem burnsideB49_part1_big (hn : 5 ≤ n) (hK : Nat.card K = 2)
   set hG := burnsideB49_hG hreal with hGdef
   set hb := burnsideB49_iota_bijective hV hK hreal hquot with hbdef
   obtain ⟨E', hE4, φ, hφ0, hEtr, hEquad⟩ := burnsideB49_E_data hV U G hK hreal hquot E hE hq
-  haveI : Finite (burnsideB49_W hV U) := inferInstance
-  haveI : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
+  have : Finite (burnsideB49_W hV U) := inferInstance
+  have : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
   have hdim : 5 ≤ Module.finrank (ZMod 2) (burnsideB49_W hV U) := by
     rw [burnsideB49_finrank_W hV hK hreal hquot]
     exact hn
@@ -2263,8 +2270,8 @@ theorem burnsideB49_part1_three (hn : n = 3) (hK : Nat.card K = 2)
   set hG := burnsideB49_hG hreal with hGdef
   set hb := burnsideB49_iota_bijective hV hK hreal hquot with hbdef
   obtain ⟨E', hE4, φ, hφ0, hEtr, hEquad⟩ := burnsideB49_E_data hV U G hK hreal hquot E hE hq
-  haveI : Finite (burnsideB49_W hV U) := inferInstance
-  haveI : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
+  have : Finite (burnsideB49_W hV U) := inferInstance
+  have : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
   have hdim : Module.finrank (ZMod 2) (burnsideB49_W hV U) = 3 := by
     rw [burnsideB49_finrank_W hV hK hreal hquot]
     exact hn
@@ -2590,7 +2597,7 @@ theorem burnsideB49_kfix_four_nat [FiniteDimensional (ZMod 2) W]
     exact congrArg Subtype.val this
   have h0 : f (κ aK) = μU (κ aK) 0 - 0 := by
     apply Subtype.ext
-    simp only [f, Submodule.coe_add, MulEquiv.symm_apply_apply, map_zero, sub_zero]
+    simp only [f, MulEquiv.symm_apply_apply, map_zero, sub_zero]
     change ρ a x₁ + x₁ = 0
     rw [hax₁]
     exact two_add_self x₁
@@ -2644,8 +2651,8 @@ theorem burnsideB49_kfix_four_dual [FiniteDimensional (ZMod 2) W]
   have hdI : Module.finrank (ZMod 2) ↥(LinearMap.ker φ) = 3 := by omega
   obtain ⟨a, x₁, haK, ha1, ha2, hx₁q, hax₁⟩ :=
     burnsideB49_fourSetup ρ q hqs hq hφ hw₀ (by omega) hQ
-  haveI : Finite ↥(LinearMap.ker q) := inferInstance
-  haveI : FiniteDimensional (ZMod 2) ↥(LinearMap.ker q) := Module.Finite.of_finite
+  have : Finite ↥(LinearMap.ker q) := inferInstance
+  have : FiniteDimensional (ZMod 2) ↥(LinearMap.ker q) := Module.Finite.of_finite
   let Θ : ↥(LinearMap.ker q) ≃ₗ[ZMod 2] Module.Dual (ZMod 2) W :=
     (Module.evalEquiv (ZMod 2) ↥(LinearMap.ker q)).trans θ'.dualMap
   have hΘ : ∀ u w, Θ u w = θ' w u := fun u w => rfl
@@ -2766,7 +2773,7 @@ theorem burnsideB49_kfix_four_dual [FiniteDimensional (ZMod 2) W]
     exact congrArg Subtype.val this
   have h0 : f (κt aK) = μU (κt aK) 0 - 0 := by
     apply Subtype.ext
-    simp only [f, Submodule.coe_add, MulEquiv.symm_apply_apply, map_zero, sub_zero]
+    simp only [f, MulEquiv.symm_apply_apply, map_zero, sub_zero]
     change ρ a x₁ + x₁ = 0
     rw [hax₁]
     exact two_add_self x₁
@@ -2852,8 +2859,8 @@ theorem burnsideB49_part1_f1 (hn : 3 ≤ n) (hK : Nat.card K = 2)
   set hG := burnsideB49_hG hreal with hGdef
   set hb := burnsideB49_iota_bijective hV hK hreal hquot with hbdef
   obtain ⟨E', hE4, φ, hφ0, hEtr, hEquad⟩ := burnsideB49_E_data hV U G hK hreal hquot E hE hq
-  haveI : Finite (burnsideB49_W hV U) := inferInstance
-  haveI : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
+  have : Finite (burnsideB49_W hV U) := inferInstance
+  have : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
   have hdim : 3 ≤ Module.finrank (ZMod 2) (burnsideB49_W hV U) := by
     rw [burnsideB49_finrank_W hV hK hreal hquot]
     exact hn
@@ -2916,8 +2923,8 @@ theorem burnsideB49_gaschutz_add (hV : ∀ x : V, x + x = 0)
     ∃ Φ' : W →+ V, (∀ x, q (Φ' x) = x) ∧ ∀ g x, Φ' (ρW g x) = ρV g (Φ' x) := by
   classical
   have hfin : S.FiniteIndex := ⟨hodd.pos.ne'⟩
-  haveI : Finite (Γ ⧸ S) := Subgroup.finite_quotient_of_finiteIndex
-  haveI : Fintype (Γ ⧸ S) := Fintype.ofFinite _
+  have : Finite (Γ ⧸ S) := Subgroup.finite_quotient_of_finiteIndex
+  have : Fintype (Γ ⧸ S) := Fintype.ofFinite _
   let Ψ : Γ → (W →+ V) := fun g =>
     (ρV g).comp (Φ.comp (ρW g⁻¹))
   have hΨapp : ∀ g y, Ψ g y = ρV g (Φ (ρW g⁻¹ y)) := fun g y => rfl
@@ -2954,7 +2961,7 @@ theorem burnsideB49_gaschutz_add (hV : ∀ x : V, x + x = 0)
     rw [hΨapp, hq, hΦ, ← burnsideB49_end_mul_apply, ← map_mul, mul_inv_cancel, map_one]
     rfl
   refine ⟨∑ x : Γ ⧸ S, Ψ' x, fun y => ?_, fun g y => ?_⟩
-  · rw [AddMonoidHom.finset_sum_apply, map_sum]
+  · rw [_root_.AddMonoidHom.finsetSum_apply, map_sum]
     have h1 : ∀ x : Γ ⧸ S, q (Ψ' x y) = y := fun x => by
       induction x using QuotientGroup.induction_on with
       | H g => exact hq1 g y
@@ -2965,7 +2972,7 @@ theorem burnsideB49_gaschutz_add (hV : ∀ x : V, x + x = 0)
       have h2 := congrArg q this
       rw [map_add, map_zero, hΦ] at h2
       exact h2) hodd y
-  · rw [AddMonoidHom.finset_sum_apply, AddMonoidHom.finset_sum_apply, map_sum]
+  · rw [_root_.AddMonoidHom.finsetSum_apply, _root_.AddMonoidHom.finsetSum_apply, map_sum]
     rw [Finset.sum_congr rfl (fun x _ => hΨh g x y)]
     exact Fintype.sum_equiv (MulAction.toPerm g⁻¹) _ _ (fun x => rfl)
 
@@ -2975,8 +2982,8 @@ theorem burnsideB49_fixed_add {X : Type*} [AddCommGroup X] (hX : ∀ x : X, x + 
     ∃ x : X, x + x₁ ∈ Y ∧ ∀ γ, ρ γ x = x := by
   classical
   have hfin : S.FiniteIndex := ⟨hodd.pos.ne'⟩
-  haveI : Finite (Γ ⧸ S) := Subgroup.finite_quotient_of_finiteIndex
-  haveI : Fintype (Γ ⧸ S) := Fintype.ofFinite _
+  have : Finite (Γ ⧸ S) := Subgroup.finite_quotient_of_finiteIndex
+  have : Fintype (Γ ⧸ S) := Fintype.ofFinite _
   let δ : Γ → X := fun γ => ρ γ x₁ + x₁
   have hδS : ∀ g, ∀ s ∈ S, δ (g * s) = δ g := by
     intro g s hs
@@ -3036,14 +3043,17 @@ variable {F : Type*} [Field F]
 
 @[expose] def burnsideB49_ysub (x : Fin 3 → F) : Fin 2 → F := ![x 0, x 1]
 
+omit [Field F] in
 theorem burnsideB49_vec3_ysub (x : Fin 3 → F) :
     burnsideB49_vec3 (burnsideB49_ysub x) (x 2) = x := by
   funext i
   fin_cases i <;> simp [burnsideB49_vec3, burnsideB49_ysub]
 
+omit [Field F] in
 theorem burnsideB49_vec3_zero2 (y : Fin 2 → F) (c : F) :
     burnsideB49_vec3 y c 2 = c := by simp [burnsideB49_vec3]
 
+omit [Field F] in
 theorem burnsideB49_ysub_vec3 (y : Fin 2 → F) (c : F) :
     burnsideB49_ysub (burnsideB49_vec3 y c) = y := by
   funext i
@@ -3054,6 +3064,7 @@ theorem burnsideB49_vec3_add (y y' : Fin 2 → F) (c c' : F) :
   funext i
   fin_cases i <;> simp [burnsideB49_vec3]
 
+omit [Field F] in
 theorem burnsideB49_vec3_ext {x x' : Fin 3 → F} (h : burnsideB49_ysub x = burnsideB49_ysub x')
     (h2 : x 2 = x' 2) : x = x' := by
   rw [← burnsideB49_vec3_ysub x, ← burnsideB49_vec3_ysub x', h, h2]
@@ -3180,7 +3191,7 @@ theorem burnsideB49_shear_add (a b : F) :
   rw [Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [burnsideB49_shear, burnsideB49_sl2, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+    simp [burnsideB49_shear, burnsideB49_sl2, Matrix.mul_apply, Fin.sum_univ_two]; ring
 
 theorem burnsideB49_shear_injective : Function.Injective (burnsideB49_shear (F := F)) := by
   intro a b h
@@ -3191,7 +3202,7 @@ theorem burnsideB49_shear_injective : Function.Injective (burnsideB49_shear (F :
 @[expose] def burnsideB49_shearHom : Multiplicative F →* Matrix.SpecialLinearGroup (Fin 2) F where
   toFun a := burnsideB49_shear (Multiplicative.toAdd a)
   map_one' := burnsideB49_shear_zero
-  map_mul' a b := burnsideB49_shear_add _ _
+  map_mul' _a _b := burnsideB49_shear_add _ _
 
 theorem burnsideB49_card_sl2 {F : Type} [Field F] [Finite F] :
     Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) = Nat.card F * (Nat.card F ^ 2 - 1) := by
@@ -3364,7 +3375,7 @@ theorem burnsideB49_rho_one_apply (D : burnsideB49_Core3 F A) (a : A) : D.ρ 1 a
   D.ρ (burnsideB49_tau w) z - z
 
 theorem burnsideB49_Dz_zero (D : burnsideB49_Core3 F A) (z : A) : burnsideB49_Dz D z 0 = 0 := by
-  simp [burnsideB49_Dz, burnsideB49_tau_zero, burnsideB49_rho_one_apply]
+  simp [burnsideB49_Dz, burnsideB49_tau_zero]
 
 theorem burnsideB49_Dz_add_arg (D : burnsideB49_Core3 F A) (hQ : burnsideB49_QuadHyp D) (z : A)
     (w w' : Fin 2 → F) :
@@ -3475,9 +3486,8 @@ theorem burnsideB49_Pfix_lift (D : burnsideB49_Core3 F A) (hQ : burnsideB49_Quad
   · rw [map_sub, D.hq, hy]
     apply burnsideB49_vec3_ext
     · funext i
-      fin_cases i <;> simp [burnsideB49_ysub, burnsideB49_gM, burnsideB49_vec3, Matrix.mulVec,
-        dotProduct, Fin.sum_univ_three]
-    · simp [burnsideB49_gM, burnsideB49_vec3, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+      fin_cases i <;> simp [burnsideB49_ysub, burnsideB49_gM, burnsideB49_vec3]
+    · simp [burnsideB49_gM, burnsideB49_vec3]
   · rw [hk a]
     have := burnsideB49_c3_quad_conj D hQ burnsideB49_cyc ![0, a] ![c, 0] y
     rw [← hg] at this
@@ -3518,6 +3528,7 @@ theorem burnsideB49_vec3_sub (y y' : Fin 2 → F) (c c' : F) :
   funext i
   fin_cases i <;> simp [burnsideB49_vec3]
 
+omit [Field F] in
 theorem burnsideB49_vec3_two (i : Fin 3) (y : Fin 2 → F) (c : F) :
     burnsideB49_vec3 y c i = ![y 0, y 1, c] i := rfl
 
@@ -3534,7 +3545,7 @@ theorem burnsideB49_c3_Kfix [Finite F] [CharP F 2] (D : burnsideB49_Core3 F A)
       ∀ M : Matrix.SpecialLinearGroup (Fin 2) F, D.ρ (burnsideB49_kap M) z = z := by
   obtain ⟨x₁, hx₁q, hx₁⟩ := burnsideB49_Pfix_lift D hQ c
   have hF : Even (Nat.card F) := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     obtain ⟨n, hp, hn⟩ := FiniteField.card F 2
     rw [Nat.card_eq_fintype_card, hn]
     exact (Nat.even_pow.2 ⟨even_two, n.pos.ne'⟩)
@@ -3735,7 +3746,7 @@ theorem burnsideB49_invT_tau_mulVec (w : Fin 2 → F) (b : Fin 3 → F) :
   funext i
   fin_cases i <;>
     simp [burnsideB49_tau, burnsideB49_tauM, Matrix.mulVec, dotProduct, Fin.sum_univ_three,
-      Matrix.transpose_apply] <;> ring
+      Matrix.transpose_apply]; ring
 
 theorem burnsideB49_invT_kap_mulVec (M : Matrix.SpecialLinearGroup (Fin 2) F) (t : F) :
     ((CFSG.Quasithin.JonesParshall.invTransposeSL 3 F (burnsideB49_kap M) :
@@ -3750,7 +3761,7 @@ theorem burnsideB49_invT_kap_mulVec (M : Matrix.SpecialLinearGroup (Fin 2) F) (t
       Fin.sum_univ_three, Matrix.transpose_apply]
 
 theorem burnsideB49_c3_match_dual [CharP F 2] (D : burnsideB49_Core3 F A)
-    (hQ : burnsideB49_QuadHyp D) (hA : ∀ a : A, a + a = 0)
+    (hQ : burnsideB49_QuadHyp D) (_hA : ∀ a : A, a + a = 0)
     (hτ : ∀ s, D.τ s = CFSG.Quasithin.JonesParshall.invTransposeSL 3 F s)
     (z₁ : A) (hz₁q : D.q z₁ = burnsideB49_vec3 0 1)
     (hz₁K : ∀ M : Matrix.SpecialLinearGroup (Fin 2) F, D.ρ (burnsideB49_kap M) z₁ = z₁)
@@ -3836,12 +3847,12 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 theorem burnsideB49_exists_add_section {G H : Type*} [AddCommGroup G] [AddCommGroup H]
     (hG : ∀ x : G, x + x = 0) (f : G →+ H) (hf : Function.Surjective f) :
     ∃ s : H →+ G, ∀ x, f (s x) = x := by
-  letI : Module (ZMod 2) G := AddCommGroup.zmodModule (n := 2) (fun x => by
+  let : Module (ZMod 2) G := AddCommGroup.zmodModule (n := 2) (fun x => by
     rw [two_nsmul]; exact hG x)
   have hH : ∀ x : H, 2 • x = 0 := fun x => by
     obtain ⟨g, rfl⟩ := hf x
     rw [← map_nsmul, two_nsmul, hG g, map_zero]
-  letI : Module (ZMod 2) H := AddCommGroup.zmodModule (n := 2) hH
+  let : Module (ZMod 2) H := AddCommGroup.zmodModule (n := 2) hH
   have hrange : LinearMap.range (AddMonoidHom.toZModLinearMap 2 f) = ⊤ := by
     rw [LinearMap.range_eq_top]
     exact hf
@@ -3854,7 +3865,7 @@ theorem burnsideB49_exists_add_section {G H : Type*} [AddCommGroup G] [AddCommGr
 variable {F : Type} [Field F] {A : Type} [AddCommGroup A]
 
 theorem burnsideB49_even_card [Finite F] [CharP F 2] : Even (Nat.card F) := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, hp, hn⟩ := FiniteField.card F 2
   rw [Nat.card_eq_fintype_card, hn]
   exact (Nat.even_pow.2 ⟨even_two, n.pos.ne'⟩)
@@ -4107,14 +4118,14 @@ open Classical in
     have hu2 : Additive.toMul (u + u') ∈ U := by
       rw [toMul_add]
       exact U.mul_mem hu1 hu1'
-    rw [dif_pos hu2, dif_pos hu1, dif_pos hu1']
+    rw [dite_eq_left hu2, dite_eq_left hu1, dite_eq_left hu1']
     have : (⟨Additive.toMul (u + u'), hu2⟩ : ↥U) = ⟨Additive.toMul u, hu1⟩ * ⟨Additive.toMul u', hu1'⟩ :=
       Subtype.ext (toMul_add u u')
     rw [this, map_mul, toAdd_mul]
   hβ_inj := fun u u' hu hu' h => by
     have hu1 : Additive.toMul u ∈ U := (C.hker _).1 hu
     have hu1' : Additive.toMul u' ∈ U := (C.hker _).1 hu'
-    rw [dif_pos hu1, dif_pos hu1'] at h
+    rw [dite_eq_left hu1, dite_eq_left hu1'] at h
     have h2 := Multiplicative.toAdd.injective h
     have h3 := C.hβb.1 h2
     have h4 := congrArg Subtype.val h3
@@ -4126,7 +4137,7 @@ open Classical in
       rw [(C.hker _).2 u₀.2]
       rfl
     · have hm : Additive.toMul (Additive.ofMul (u₀ : V)) ∈ U := u₀.2
-      rw [dif_pos hm]
+      rw [dite_eq_left hm]
       change Multiplicative.toAdd (C.β₀ ⟨(u₀ : V), hm⟩) = x
       rw [hu₀]
       rfl
@@ -4144,7 +4155,7 @@ open Classical in
         ((π (burnsideB49_slToStated 3 K (C.σ s)) : ↥G) : MulAut V) (Additive.toMul u) := rfl
     have hmem' : Additive.toMul (((burnsideB49_addEnd.comp (G.subtype.comp
         (π.comp ((burnsideB49_slToStated 3 K).comp C.σ)))) s) u) ∈ U := by rw [hρ]; exact hmem
-    rw [dif_pos hmem', dif_pos hu1]
+    rw [dite_eq_left hmem', dite_eq_left hu1]
     simp only [hρ]
     rw [C.hβe (C.σ s) ⟨Additive.toMul u, hu1⟩ hmem]
     rfl
@@ -4220,8 +4231,7 @@ theorem burnsideB49_mulVec_inj (g : Matrix.SpecialLinearGroup (Fin 3) F) {x y : 
     refine ⟨u, ?_, ?_⟩
     · change (g : Matrix (Fin 3) (Fin 3) F).mulVec (D.q u) = 0
       rw [hu, Matrix.mulVec_zero]
-    · change ((D.τ g : Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F).mulVec (D.β u) = x
-      rw [hβu, burnsideB49_mulVec_mulVec_sl, mul_inv_cancel, burnsideB49_mulVec_one_sl]
+    · rw [hβu, burnsideB49_mulVec_mulVec_sl, mul_inv_cancel, burnsideB49_mulVec_one_sl]
   hβ := fun s u hu => by
     have hu1 : D.q u = 0 := by
       apply burnsideB49_mulVec_inj g
@@ -4230,8 +4240,6 @@ theorem burnsideB49_mulVec_inj (g : Matrix.SpecialLinearGroup (Fin 3) F) {x y : 
     change ((D.τ g : Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F).mulVec
       (D.β (D.ρ (g⁻¹ * s * g⁻¹⁻¹) u)) = _
     rw [D.hβ _ _ hu1, burnsideB49_mulVec_mulVec_sl, inv_inv]
-    change _ = ((D.τ s : Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F).mulVec
-      (((D.τ g : Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F).mulVec (D.β u))
     rw [burnsideB49_mulVec_mulVec_sl]
     rw [map_mul, map_mul, map_inv]
     have e : D.τ g * ((D.τ g)⁻¹ * D.τ s * D.τ g) = D.τ s * D.τ g := by group
@@ -4711,7 +4719,7 @@ theorem burnsideB49_axisPre_rhoHat (C : burnsideB49_Coord3 G U K π)
       {v | (s : Matrix (Fin 3) (Fin 3) K).mulVec (Multiplicative.toAdd (C.qV v)) =
         Multiplicative.toAdd (C.qV v)} := by
   ext v
-  simp only [CFSG.ASVolI.ChB.axisPre, Set.mem_setOf_eq]
+  simp only [CFSG.ASVolI.ChB.axisPre, Set.mem_ofPred_eq]
   rw [← C.hker, map_mul, map_inv, burnsideB49_qV_rhoHat, mul_inv_eq_one]
   constructor
   · intro h
@@ -4730,6 +4738,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 variable {V : Type} [CommGroup V] [Finite V] {G : Subgroup (MulAut V)} {U : Subgroup V}
   {K : Type} [Field K] [Finite K] {π : ↥(StatedSL 3 K) →* ↥G}
 
+omit [Finite V] [Finite K] in
 theorem burnsideB49_card_sup_ker (C : burnsideB49_Coord3 G U K π) (H : Subgroup V) :
     Nat.card ↥(H ⊔ U) = Nat.card ↥U * Nat.card ↥(H.map C.qV) := by
   set H' : Subgroup V := H ⊔ U with hH'
@@ -4761,17 +4770,20 @@ theorem burnsideB49_card_sup_ker (C : burnsideB49_Coord3 G U K π) (H : Subgroup
   MonoidHom.mk' (fun v => e v * v⁻¹) (fun a b => by
     rw [map_mul, mul_inv, mul_mul_mul_comm])
 
+omit [Finite V] in
 theorem burnsideB49_Te_apply (e : MulAut V) (v : V) : burnsideB49_Te e v = e v * v⁻¹ := rfl
 
 @[expose] def burnsideB49_Wn (s : Matrix.SpecialLinearGroup (Fin 3) K) : Submodule K (Fin 3 → K) :=
   LinearMap.range (Matrix.mulVecLin ((s : Matrix (Fin 3) (Fin 3) K) - 1))
 
+omit [Finite K] in
 theorem burnsideB49_mem_Wn (s : Matrix.SpecialLinearGroup (Fin 3) K) (w : Fin 3 → K) :
     w ∈ burnsideB49_Wn s ↔ ∃ y, (s : Matrix (Fin 3) (Fin 3) K).mulVec y - y = w := by
   unfold burnsideB49_Wn
   rw [LinearMap.mem_range]
-  simp [Matrix.sub_mulVec]
+  simp
 
+omit [Finite V] [Finite K] in
 theorem burnsideB49_map_Te (C : burnsideB49_Coord3 G U K π) (s : Matrix.SpecialLinearGroup (Fin 3) K) :
     ((burnsideB49_Te (burnsideB49_rhoHat C s)).range.map C.qV : Set (Multiplicative (Fin 3 → K))) =
       Multiplicative.ofAdd '' (burnsideB49_Wn s : Set (Fin 3 → K)) := by
@@ -4790,6 +4802,7 @@ theorem burnsideB49_map_Te (C : burnsideB49_Coord3 G U K π) (s : Matrix.Special
     rw [burnsideB49_Te_apply, map_mul, map_inv, burnsideB49_qV_rhoHat, hv, ofAdd_sub, toAdd_ofAdd]
     rw [div_eq_mul_inv]
 
+omit [Finite V] [Finite K] in
 theorem burnsideB49_card_Wn (C : burnsideB49_Coord3 G U K π) (s : Matrix.SpecialLinearGroup (Fin 3) K) :
     Nat.card ↥((burnsideB49_Te (burnsideB49_rhoHat C s)).range.map C.qV) =
       Nat.card ↥(burnsideB49_Wn s) := by
@@ -4809,12 +4822,13 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem burnsideB49_det_rank_one (M : Matrix (Fin 3) (Fin 3) K) (u r : Fin 3 → K)
     (h : ∀ x, M.mulVec x = x + (r ⬝ᵥ x) • u) : M.det = 1 + r ⬝ᵥ u := by
   have hM : M = 1 + Matrix.replicateCol Unit u * Matrix.replicateRow Unit r := by
     ext i j
     have := congrFun (h (Pi.single j 1)) i
-    simp [Matrix.mulVec_single_one, Matrix.one_apply, Pi.single_apply, Matrix.mul_apply,
+    simp [Matrix.one_apply, Pi.single_apply, Matrix.mul_apply,
       Matrix.replicateCol, Matrix.replicateRow] at this ⊢
     rw [this]
     ring
@@ -4828,14 +4842,14 @@ theorem burnsideB49_rank_one_of_card (s : Matrix.SpecialLinearGroup (Fin 3) K) (
   have hpow := Module.natCard_eq_pow_finrank (K := K) (V := ↥(burnsideB49_Wn s))
   have hle : Module.finrank K ↥(burnsideB49_Wn s) ≤ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have : Nat.card K ^ 2 ≤ Nat.card K ^ Module.finrank K ↥(burnsideB49_Wn s) :=
       Nat.pow_le_pow_right (by omega) hcon
     rw [← hpow] at this
     nlinarith
   have hne : ∃ y, (s : Matrix (Fin 3) (Fin 3) K).mulVec y ≠ y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hs
     apply Subtype.ext
     exact burnsideB49_eq_one_of_mulVec hcon
@@ -4858,7 +4872,7 @@ theorem burnsideB49_rank_one_of_card (s : Matrix.SpecialLinearGroup (Fin 3) K) (
     exact ⟨c, congrArg Subtype.val hc⟩
   obtain ⟨i₀, hi₀⟩ : ∃ i, u i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hu0 (funext h)
   let r : Fin 3 → K := fun j => ((s : Matrix (Fin 3) (Fin 3) K) i₀ j - (1 : Matrix (Fin 3) (Fin 3) K) i₀ j) / u i₀
   have hx : ∀ x, (s : Matrix (Fin 3) (Fin 3) K).mulVec x = x + (r ⬝ᵥ x) • u := by
@@ -4927,6 +4941,7 @@ theorem burnsideB49_transv_rank (C : burnsideB49_Coord3 G U K π) {f : ℕ} (hf 
     exact (add_left_cancel h2).symm
   exact this
 
+omit [Finite V] [Finite K] in
 theorem burnsideB49_quad_R (C : burnsideB49_Coord3 G U K π) (E : Subgroup (MulAut V))
     (hq : CFSG.Quasithin.IsQuadratic E) (s s' : Matrix.SpecialLinearGroup (Fin 3) K)
     (hs : burnsideB49_rhoHat C s ∈ E) (hs' : burnsideB49_rhoHat C s' ∈ E) (a : Additive V) :
@@ -4947,6 +4962,7 @@ theorem burnsideB49_quad_R (C : burnsideB49_Coord3 G U K π) (E : Subgroup (MulA
     Subgroup (Matrix.SpecialLinearGroup (Fin 3) K) :=
   E.comap (burnsideB49_rhoHat C)
 
+omit [Finite V] [Finite K] in
 theorem burnsideB49_card_Etil (C : burnsideB49_Coord3 G U K π)
     (hreal : (CFSG.Quasithin.FFModel.nat (StatedSL 3 K)).RealizesVia G U ⊥ π)
     (E : Subgroup (MulAut V)) (hEG : E ≤ G) :
@@ -5008,15 +5024,17 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem burnsideB49_exists_dot_one (r : Fin 3 → K) (hr : r ≠ 0) : ∃ x : Fin 3 → K, r ⬝ᵥ x = 1 := by
   obtain ⟨i, hi⟩ : ∃ i, r i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hr (funext h)
   refine ⟨Pi.single i (r i)⁻¹, ?_⟩
   rw [dotProduct_single]
   exact mul_inv_cancel₀ hi
 
+omit [Finite K] in
 theorem burnsideB49_normalize (Et : Subgroup (Matrix.SpecialLinearGroup (Fin 3) K))
     (hnt : ∃ s ∈ Et, s ≠ 1)
     (hrk : ∀ s ∈ Et, s ≠ 1 → ∃ u r : Fin 3 → K, u ≠ 0 ∧ r ≠ 0 ∧
@@ -5299,8 +5317,7 @@ theorem burnsideB49_rootConj_of_line (S : Set (Matrix.SpecialLinearGroup (Fin 3)
     apply Subtype.ext
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [burnsideB49_tau, burnsideB49_tauM, burnsideB49_rootElt, Matrix.transvection,
-        Matrix.single_apply]
+      simp [burnsideB49_tau, burnsideB49_tauM, burnsideB49_rootElt, Matrix.transvection]
   calc (g⁻¹ * burnsideB49_kap M)⁻¹ * s * (g⁻¹ * burnsideB49_kap M)
       = (burnsideB49_kap M)⁻¹ * (g * s * g⁻¹) * burnsideB49_kap M := by group
     _ = (burnsideB49_kap M)⁻¹ * burnsideB49_tau (w s) * burnsideB49_kap M := by rw [hw s hs]
@@ -5316,13 +5333,13 @@ theorem burnsideB49_indep_of_not_root (S : Set (Matrix.SpecialLinearGroup (Fin 3
     (hw : ∀ s ∈ S, g * s * g⁻¹ = burnsideB49_tau (w s)) (hnr : ¬ burnsideB49_RootConj S) :
     ∃ s₁ ∈ S, ∃ s₂ ∈ S, w s₁ 0 * w s₂ 1 - w s₁ 1 * w s₂ 0 ≠ 0 := by
   by_contra h
-  push_neg at h
+  push Not at h
   apply hnr
   by_cases hex : ∃ s₁ ∈ S, w s₁ ≠ 0
   · obtain ⟨s₁, hs₁, hne⟩ := hex
     exact burnsideB49_rootConj_of_line S g w hw (w s₁) (fun s hs =>
       (burnsideB49_proportional_of_det_zero (w s₁) (w s) hne (h s₁ hs₁ s hs)))
-  · push_neg at hex
+  · push Not at hex
     exact burnsideB49_rootConj_of_line S g w hw 0 (fun s hs => ⟨0, by rw [hex s hs]; simp⟩)
 
 end RootLine
@@ -5344,12 +5361,12 @@ theorem burnsideB49_QuadHyp_iff (D : burnsideB49_Core3 F A) :
 theorem burnsideB49_Rel_zero_left (D : burnsideB49_Core3 F A) (w' : Fin 2 → F) :
     burnsideB49_Rel D 0 w' := by
   intro a
-  simp [burnsideB49_tau_zero, burnsideB49_rho_one_apply]
+  simp [burnsideB49_tau_zero]
 
 theorem burnsideB49_Rel_zero_right (D : burnsideB49_Core3 F A) (w : Fin 2 → F) :
     burnsideB49_Rel D w 0 := by
   intro a
-  simp [burnsideB49_tau_zero, burnsideB49_rho_one_apply]
+  simp [burnsideB49_tau_zero]
 
 theorem burnsideB49_Rel_add_right (D : burnsideB49_Core3 F A) {w w₁ w₂ : Fin 2 → F}
     (h₁ : burnsideB49_Rel D w w₁) (h₂ : burnsideB49_Rel D w w₂) :
@@ -5581,7 +5598,7 @@ theorem burnsideB49_cubes_span (h8 : 8 ≤ Nat.card F) :
     induction n with
     | zero => simpa using hone
     | succ n ih => rw [pow_succ]; exact hmul _ ih _ hx
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hinv : ∀ x ∈ S, x ≠ 0 → x⁻¹ ∈ S := by
     intro x hx hx0
     have h1 : x ^ (Fintype.card F - 1) = 1 := FiniteField.pow_card_sub_one_eq_one x hx0
@@ -5644,7 +5661,7 @@ theorem burnsideB49_cubes_span (h8 : 8 ≤ Nat.card F) :
   by_contra hne
   have hex : ∃ t : F, t ∉ S := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hne (eq_top_iff.2 fun x _ => h x)
   obtain ⟨t, ht⟩ := hex
   have hinj : Function.Injective (fun p : S × S => (p.1 : F) + (p.2 : F) * t) := by
@@ -5678,11 +5695,13 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {A : Type} [AddCommGroup A]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideB49_det2_add (u y y' : Fin 2 → F) :
     burnsideB49_det2 u (y + y') = burnsideB49_det2 u y + burnsideB49_det2 u y' := by
   simp only [burnsideB49_det2, Pi.add_apply]
   ring
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideB49_det2_smul (u y : Fin 2 → F) (c : F) :
     burnsideB49_det2 u (c • y) = c * burnsideB49_det2 u y := by
   simp only [burnsideB49_det2, Pi.smul_apply, smul_eq_mul]
@@ -5728,7 +5747,7 @@ theorem burnsideB49_spread (D : burnsideB49_Core3 F A) (h8 : 8 ≤ Nat.card F)
         obtain ⟨d, hd, rfl⟩ := hx
         rw [mul_comm]
         exact hBd d hd
-      | zero => simpa using (Bsub.map δ).zero_mem
+      | zero => simp
       | add x y _ _ hx hy => rw [mul_add]; exact (Bsub.map δ).add_mem hx hy
       | neg x _ hx => rw [mul_neg]; exact (Bsub.map δ).neg_mem hx
     intro z
@@ -5784,6 +5803,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 variable {V : Type} [CommGroup V] [Finite V] {G : Subgroup (MulAut V)} {U : Subgroup V}
   {K : Type} [Field K] [Finite K] [CharP K 2] {π : ↥(StatedSL 3 K) →* ↥G}
 
+omit [CharP K 2] in
 theorem burnsideB49_E_normal (C : burnsideB49_Coord3 G U K π)
     (hreal : (CFSG.Quasithin.FFModel.nat (StatedSL 3 K)).RealizesVia G U ⊥ π) {f : ℕ}
     (hf : Nat.card K = 2 ^ f) (E : Subgroup (MulAut V))
@@ -5800,7 +5820,7 @@ theorem burnsideB49_E_normal (C : burnsideB49_Coord3 G U K π)
     rw [h, map_one]
   apply burnsideB49_normalize
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have : burnsideB49_Etil C E = ⊥ := by
       rw [eq_bot_iff]
       intro s hs
@@ -5821,7 +5841,7 @@ theorem burnsideB49_E_normal (C : burnsideB49_Coord3 G U K π)
         Multiplicative.toAdd (C.qV v)} ↔ v ∈ {v | (s' : Matrix (Fin 3) (Fin 3) K).mulVec
           (Multiplicative.toAdd (C.qV v)) = Multiplicative.toAdd (C.qV v)} := by
       rw [h1, h2]
-    simp only [Set.mem_setOf_eq, hv, toAdd_ofAdd] at h3
+    simp only [Set.mem_ofPred_eq, hv, toAdd_ofAdd] at h3
     exact h3
 
 theorem burnsideB49_quadHyp_of_E (C : burnsideB49_Coord3 G U K π)
@@ -5857,8 +5877,8 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 theorem burnsideB49_charP_two {K : Type} [Field K] [Finite K] {f : ℕ} (hf : 1 ≤ f)
     (hK : Nat.card K = 2 ^ f) : CharP K 2 := by
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, rfl⟩ : ∃ g, f = g + 1 := ⟨f - 1, by omega⟩
   exact charP_of_card_eq_prime_pow (p := 2) (f := g + 1) (by rw [← Nat.card_eq_fintype_card]; exact hK)
 
@@ -5872,7 +5892,7 @@ theorem burnsideB49_part1_three_big (hV : ∀ v : V, v ^ 2 = 1) {f : ℕ} (hf3 :
     (E : Subgroup (MulAut V)) (hE : CFSG.ASVolI.ChB.IsTransvFourGrpFixedAxis G U f E)
     (hq : CFSG.Quasithin.IsQuadratic E) (hnr : ¬ CFSG.ASVolI.ChB.InRootGroup G π E) :
     CFSG.ASVolI.ChB.SplitsOver G U := by
-  haveI := burnsideB49_charP_two (K := K) (by omega) hK
+  have := burnsideB49_charP_two (K := K) (by omega) hK
   obtain ⟨C⟩ := burnsideB49_coord3_exists hreal hquot
   have h8 : 8 ≤ Nat.card K := by
     rw [hK]
@@ -5890,6 +5910,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {V : Type} [CommGroup V] [Finite V]
 
+omit [Finite V] in
 theorem burnsideB49_commV_zpowers (e : MulAut V) :
     CFSG.Quasithin.commV (Subgroup.zpowers e) = (burnsideB49_Te e).range := by
   apply le_antisymm
@@ -5941,6 +5962,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 variable {V : Type} [CommGroup V] [Finite V] {G : Subgroup (MulAut V)} {U : Subgroup V}
   {K : Type} [Field K] [Finite K] {π : ↥(StatedSL 3 K) →* ↥G}
 
+omit [Finite K] in
 theorem burnsideB49_card_Wn_rank_one (s : Matrix.SpecialLinearGroup (Fin 3) K) (u r : Fin 3 → K)
     (hu : u ≠ 0) (hr : r ≠ 0)
     (hx : ∀ x, (s : Matrix (Fin 3) (Fin 3) K).mulVec x = x + (r ⬝ᵥ x) • u) :
@@ -5966,6 +5988,7 @@ theorem burnsideB49_card_Wn_rank_one (s : Matrix.SpecialLinearGroup (Fin 3) K) (
     rw [hx z]
     simp
 
+omit [Finite V] [Finite K] in
 theorem burnsideB49_isTransv_of_rank_one (C : burnsideB49_Coord3 G U K π) {f : ℕ}
     (hf : Nat.card K = 2 ^ f) (s : Matrix.SpecialLinearGroup (Fin 3) K) (u r : Fin 3 → K)
     (hu : u ≠ 0) (hr : r ≠ 0)
@@ -5984,6 +6007,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem burnsideB49_tau_injective : Function.Injective (burnsideB49_tau (F := K)) := by
   intro w w' h
   have h1 := congrArg (fun s : Matrix.SpecialLinearGroup (Fin 3) K =>
@@ -6129,15 +6153,18 @@ variable {V : Type} [CommGroup V] [Finite V] {G : Subgroup (MulAut V)} {U : Subg
     Subgroup (MulAut V) :=
   ((burnsideB49_rhoHat C).comp (burnsideB49_psi x y)).range
 
+omit [Finite V] [Finite K] in
 theorem burnsideB49_Ep_mem_iff (C : burnsideB49_Coord3 G U K π) (x y : Fin 2 → K)
     (e : MulAut V) :
     e ∈ burnsideB49_Ep C x y ↔ ∃ m, burnsideB49_rhoHat C (burnsideB49_psi x y m) = e := Iff.rfl
 
+omit [Finite V] [Finite K] in
 theorem burnsideB49_Ep_le (C : burnsideB49_Coord3 G U K π) (x y : Fin 2 → K) :
     burnsideB49_Ep C x y ≤ G := by
   rintro e ⟨m, rfl⟩
   exact burnsideB49_rhoHat_mem C _
 
+omit [Finite V] [Finite K] in
 theorem burnsideB49_Ep_card (C : burnsideB49_Coord3 G U K π)
     (hreal : (CFSG.Quasithin.FFModel.nat (StatedSL 3 K)).RealizesVia G U ⊥ π)
     (x y : Fin 2 → K) (hΔ : burnsideB49_det2 x y ≠ 0) : Nat.card ↥(burnsideB49_Ep C x y) = 4 := by
@@ -6146,18 +6173,21 @@ theorem burnsideB49_Ep_card (C : burnsideB49_Coord3 G U K π)
   rw [burnsideB49_Ep, ← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv,
     Nat.card_congr Multiplicative.toAdd, Nat.card_prod, Nat.card_zmod]
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideB49_tau_ne_zero_of (w : Fin 2 → K) (h : burnsideB49_tau w ≠ 1) : w ≠ 0 := by
   intro hw
   apply h
   rw [hw, burnsideB49_tau_zero]
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideB49_tau_rank_one (w : Fin 2 → K) (z : Fin 3 → K) :
     ((burnsideB49_tau w : Matrix.SpecialLinearGroup (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).mulVec z =
       z + ((Pi.single 2 (1 : K) : Fin 3 → K) ⬝ᵥ z) • burnsideB49_vec3 w 0 := by
   rw [burnsideB49_tau_mulVec]
   funext i
-  fin_cases i <;> simp [burnsideB49_vec3, burnsideB49_ysub, dotProduct_single]
+  fin_cases i <;> simp [burnsideB49_vec3, burnsideB49_ysub]
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideB49_vec3_ne_zero (w : Fin 2 → K) (hw : w ≠ 0) : burnsideB49_vec3 w 0 ≠ 0 := by
   intro h
   apply hw
@@ -6165,11 +6195,13 @@ theorem burnsideB49_vec3_ne_zero (w : Fin 2 → K) (hw : w ≠ 0) : burnsideB49_
   have := congrFun h (Fin.castSucc i)
   fin_cases i <;> simpa [burnsideB49_vec3] using this
 
+omit [Finite K] [CharP K 2] in
 theorem burnsideB49_single_ne_zero : (Pi.single 2 (1 : K) : Fin 3 → K) ≠ 0 := by
   intro h
   have := congrFun h 2
   simp at this
 
+omit [Finite V] [Finite K] in
 theorem burnsideB49_Ep_isTransv (C : burnsideB49_Coord3 G U K π)
     (hreal : (CFSG.Quasithin.FFModel.nat (StatedSL 3 K)).RealizesVia G U ⊥ π) {f : ℕ}
     (hf : Nat.card K = 2 ^ f) (x y : Fin 2 → K) (hΔ : burnsideB49_det2 x y ≠ 0) :
@@ -6195,7 +6227,7 @@ theorem burnsideB49_Ep_isTransv (C : burnsideB49_Coord3 G U K π)
     change CFSG.ASVolI.ChB.axisPre U (burnsideB49_rhoHat C (burnsideB49_psi x y m)) = _
     rw [burnsideB49_axisPre_rhoHat]
     ext v
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [burnsideB49_psi_apply, burnsideB49_tau_rank_one]
     constructor
     · intro h
@@ -6222,16 +6254,19 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 variable {V : Type} [CommGroup V] [Finite V] {G : Subgroup (MulAut V)} {U : Subgroup V}
   {K : Type} [Field K] [Finite K] [CharP K 2] {π : ↥(StatedSL 3 K) →* ↥G}
 
+omit [Finite K] in
 theorem burnsideB49_psi_one_zero (x y : Fin 2 → K) :
     burnsideB49_psi x y (Multiplicative.ofAdd ((1 : ZMod 2), (0 : ZMod 2))) = burnsideB49_tau x := by
   rw [burnsideB49_psi_apply, toAdd_ofAdd]
   simp [burnsideB49_wxy]
 
+omit [Finite K] in
 theorem burnsideB49_psi_zero_one (x y : Fin 2 → K) :
     burnsideB49_psi x y (Multiplicative.ofAdd ((0 : ZMod 2), (1 : ZMod 2))) = burnsideB49_tau y := by
   rw [burnsideB49_psi_apply, toAdd_ofAdd]
   simp [burnsideB49_wxy]
 
+omit [Finite V] [Finite K] in
 theorem burnsideB49_Ep_not_root (C : burnsideB49_Coord3 G U K π)
     (hreal : (CFSG.Quasithin.FFModel.nat (StatedSL 3 K)).RealizesVia G U ⊥ π)
     (x y : Fin 2 → K) (hΔ : burnsideB49_det2 x y ≠ 0) :
@@ -6249,6 +6284,7 @@ theorem burnsideB49_Ep_not_root (C : burnsideB49_Coord3 G U K π)
   apply hΔ
   exact burnsideB49_dep_of_root _ 1 h h1 h2 (w₁ := x) (w₂ := y) (by simp) (by simp)
 
+omit [Finite V] [Finite K] in
 theorem burnsideB49_Ep_Rel (C : burnsideB49_Coord3 G U K π) (x y : Fin 2 → K)
     (hq : CFSG.Quasithin.IsQuadratic (burnsideB49_Ep C x y)) :
     burnsideB49_Rel C.toCore3 x y := by
@@ -6270,6 +6306,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {A : Type} [AddCommGroup A]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideB49_exists_det2_ne (x : Fin 2 → F) (hx : x ≠ 0) : ∃ z : Fin 2 → F, burnsideB49_det2 x z ≠ 0 := by
   by_cases h0 : x 0 = 0
   · have h1 : x 1 ≠ 0 := by
@@ -6284,6 +6321,7 @@ theorem burnsideB49_exists_det2_ne (x : Fin 2 → F) (hx : x ≠ 0) : ∃ z : Fi
   · refine ⟨![0, 1], ?_⟩
     simp [burnsideB49_det2, h0]
 
+omit [Finite F] [CharP F 2] in
 theorem burnsideB49_spread2 (D : burnsideB49_Core3 F A)
     (hind : ∀ x y : Fin 2 → F, burnsideB49_det2 x y ≠ 0 → burnsideB49_Rel D x y) :
     burnsideB49_QuadHyp D := by
@@ -6320,13 +6358,14 @@ theorem burnsideB49_QuadHyp_conj_one {F : Type} [Field F] {A : Type} [AddCommGro
 variable {V : Type} [CommGroup V] [Finite V] {G : Subgroup (MulAut V)} {U : Subgroup V}
   {K : Type} [Field K] [Finite K] {π : ↥(StatedSL 3 K) →* ↥G}
 
+omit [Finite V] in
 theorem burnsideB49_part1_three_two (hV : ∀ v : V, v ^ 2 = 1) (hK : Nat.card K = 2 ^ 2)
     (hreal : (CFSG.Quasithin.FFModel.nat (StatedSL 3 K)).RealizesVia G U ⊥ π)
     (hquot : CFSG.ASVolI.ChB.QuotIsoSub G U ∨ CFSG.ASVolI.ChB.QuotIsoDual G U)
     (hE2 : ∀ E' : Subgroup (MulAut V), CFSG.ASVolI.ChB.IsTransvFourGrpFixedAxis G U 2 E' →
       ¬ CFSG.ASVolI.ChB.InRootGroup G π E' → CFSG.Quasithin.IsQuadratic E') :
     CFSG.ASVolI.ChB.SplitsOver G U := by
-  haveI := burnsideB49_charP_two (K := K) (f := 2) (by omega) hK
+  have := burnsideB49_charP_two (K := K) (f := 2) (by omega) hK
   obtain ⟨C⟩ := burnsideB49_coord3_exists hreal hquot
   have hind : ∀ x y : Fin 2 → K, burnsideB49_det2 x y ≠ 0 → burnsideB49_Rel C.toCore3 x y :=
     fun x y hΔ => burnsideB49_Ep_Rel C x y

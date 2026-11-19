@@ -45,7 +45,7 @@ theorem toMat_unlane_lane (X : Nat) : toMat 253 (unlane 253 (lane X)) = mat3 253
 theorem keyW_succ (f k : Nat) (hk : k ≠ 0) : keyW (f + 1) k =
     if tb G 92 k = 1 then conjW 253 matA matA (keyW f (tb G 91 k))
     else conjW 253 matB matBi (keyW f (tb G 91 k)) := by
-  rw [keyW, if_neg hk]
+  rw [keyW, ite_eq_right hk]
 
 theorem tb92_3 : tb G 92 3 = 2 := by decide +kernel
 theorem tb91_3 : tb G 91 3 = 1 := by decide +kernel
@@ -55,19 +55,19 @@ theorem tb92_5 : tb G 92 5 = 2 := by decide +kernel
 theorem tb91_5 : tb G 91 5 = 2 := by decide +kernel
 
 theorem keyf1 (f : Nat) : keyW (f + 1) 1 = conjW 253 matA matA matD := by
-  rw [keyW_succ f 1 (by decide), if_pos tb92_1, tb91_1, keyW_zero]
+  rw [keyW_succ f 1 (by decide), ite_eq_left tb92_1, tb91_1, keyW_zero]
 
 theorem keyf2 (f : Nat) : keyW (f + 1) 2 = conjW 253 matB matBi matD := by
-  rw [keyW_succ f 2 (by decide), if_neg (by rw [tb92_2]; decide), tb91_2, keyW_zero]
+  rw [keyW_succ f 2 (by decide), ite_eq_right (by rw [tb92_2]; decide), tb91_2, keyW_zero]
 
 theorem key3 : keyW 200 3 = conjW 253 matB matBi (conjW 253 matA matA matD) := by
-  rw [keyW_succ 199 3 (by decide), if_neg (by rw [tb92_3]; decide), tb91_3, keyf1]
+  rw [keyW_succ 199 3 (by decide), ite_eq_right (by rw [tb92_3]; decide), tb91_3, keyf1]
 
 theorem key4 : keyW 200 4 = conjW 253 matA matA (conjW 253 matB matBi matD) := by
-  rw [keyW_succ 199 4 (by decide), if_pos tb92_4, tb91_4, keyf2]
+  rw [keyW_succ 199 4 (by decide), ite_eq_left tb92_4, tb91_4, keyf2]
 
 theorem key5 : keyW 200 5 = conjW 253 matB matBi (conjW 253 matB matBi matD) := by
-  rw [keyW_succ 199 5 (by decide), if_neg (by rw [tb92_5]; decide), tb91_5, keyf2]
+  rw [keyW_succ 199 5 (by decide), ite_eq_right (by rw [tb92_5]; decide), tb91_5, keyf2]
 
 theorem conj_facts {g gi X : Array W} (hgs : g.size = 253) (hg : RowsWF (toVM g))
     (hgi : RowsWF (toVM gi)) (hgc : canonM 253 (toVM gi) = true) (hX : RowsWF (toVM X)) :

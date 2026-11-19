@@ -35,6 +35,7 @@ variable {K : Type} [Field K] {n d p : ℕ} [NeZero p] {u : Kˣ}
     congr 1
     abel
 
+omit [NeZero p] in
 @[simp] theorem ggTBJsuC_Phi_apply (I : Finset (Fin d)) (i₀ : Fin d)
     (f : ↥(sumZero d p)) (i : ↥(I.erase i₀)) :
     ggTBJsuC_Phi I i₀ f i = Multiplicative.ofAdd (crd f i - crd f i₀) :=
@@ -52,12 +53,12 @@ variable {K : Type} [Field K] {n d p : ℕ} [NeZero p] {u : Kˣ}
     intro f hf i hi j hj
     rw [crd_inv, crd_inv, hf i hi j hj]
 
+omit [NeZero p] in
 theorem ggTBJsuC_S0_eq_ker {I : Finset (Fin d)} {i₀ : Fin d} (hi₀ : i₀ ∈ I) :
     ggTBJsuC_S0 (p := p) I = (ggTBJsuC_Phi (d := d) (p := p) I i₀).ker := by
   ext f
   constructor
   · intro hf
-    change f ∈ (ggTBJsuC_Phi (d := d) (p := p) I i₀).ker
     rw [MonoidHom.mem_ker]
     funext i
     have hi : (i : Fin d) ∈ I.erase i₀ := i.2
@@ -84,6 +85,7 @@ theorem ggTBJsuC_S0_eq_ker {I : Finset (Fin d)} {i₀ : Fin d} (hi₀ : i₀ ∈
       · exact key j (Finset.mem_erase.mpr ⟨hjj, hj⟩)
     exact hi'.trans hj'.symm
 
+omit [NeZero p] in
 theorem ggTBJsuC_card_target {I : Finset (Fin d)} {i₀ : Fin d} (hi₀ : i₀ ∈ I) :
     Nat.card (↥(I.erase i₀) → Multiplicative (ZMod p)) = p ^ (I.card - 1) := by
   rw [Nat.card_fun, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
@@ -120,7 +122,8 @@ theorem ggTBJsuC_card_S0_ge {I : Finset (Fin d)} (hp : p.Prime) (hne : I.Nonempt
     exact Nat.mul_le_mul_right _ hle'
   exact Nat.le_of_mul_le_mul_left hle_mul (pow_pos hp.pos _)
 
-theorem ggTBJsuC_ker_coordDiffHom {i j : Fin d} (hij : i ≠ j) :
+omit [NeZero p] in
+theorem ggTBJsuC_ker_coordDiffHom {i j : Fin d} (_hij : i ≠ j) :
     (ggTBJsuC_coordDiffHom (d := d) (p := p) i j).ker =
       {f : ↥(sumZero d p) | permAutV (Equiv.swap i j) f = f} := by
   ext f
@@ -151,6 +154,7 @@ theorem ggTBJsuC_ker_coordDiffHom {i j : Fin d} (hij : i ≠ j) :
     change Multiplicative.ofAdd (crd f i - crd f j) = 1
     rw [heq, sub_self, ofAdd_zero]
 
+omit [NeZero p] in
 theorem ggTBJsuC_card_range_coordDiffHom {i j : Fin d} (hp : p.Prime) (hp2 : p ≠ 2) (hij : i ≠ j) :
     Nat.card (ggTBJsuC_coordDiffHom (d := d) (p := p) i j).range = p := by
   let δ := ggTBJsuC_coordDiffHom (d := d) (p := p) i j

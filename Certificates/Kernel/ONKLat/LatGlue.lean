@@ -47,7 +47,7 @@ theorem cl_mGens : cl mGens = onM120Chain.originalSubgroup := by
   rw [onM120Chain, smallChain_sub, m120_gens_size, cl]
   congr 1
   ext g
-  simp only [mGens, List.mem_cons, Set.mem_setOf_eq, Set.mem_image, List.not_mem_nil, or_false]
+  simp only [mGens, List.mem_cons, Set.mem_ofPred_eq, Set.mem_image, List.not_mem_nil, or_false]
   constructor
   · rintro (rfl | rfl)
     · exact ⟨0, by norm_num, rfl⟩
@@ -149,7 +149,7 @@ theorem joinAt_of {i : ℕ} (hi : i < 9) : joinAt (joinW.getD i []) = true := by
   exact h
 
 theorem join_words_R {i a o : ℕ} (hi : i < 9)
-    (habc : getW (joinW.getD i []) 0 = [a, 2, 2]) (ho : o = 3) (hla : lenL a = 3) :
+    (habc : getW (joinW.getD i []) 0 = [a, 2, 2]) (_ho : o = 3) (hla : lenL a = 3) :
     ∀ k < 3, ∃ g ∈ cl mGens, wcode 7 g = LG a k := by
   have h := joinAt_of hi
   unfold joinAt at h
@@ -164,7 +164,7 @@ theorem join_words_R {i a o : ℕ} (hi : i < 9)
     rw [hla] at hw2
     exact hw2
   have hLG : ∀ j < mGens.length, LG 2 j = wcode 7 (mGens.getD j 1) := fun j hj => hMG j hj
-  subst ho
+  subst _ho
   exact of_wordsAt mGens hLG hw'
 
 theorem join2 : getW (joinW.getD 2 []) 0 = [0, 2, 2] := by decide +kernel
@@ -188,7 +188,7 @@ theorem gen_spec {t k : ℕ} (ht : t < 2) (hk : k < 3) :
     interval_cases t
     · exact tGen_ex k hk
     · exact hGen_ex k hk
-  rw [gen, dif_pos hex, cl_mGens]
+  rw [gen, dite_eq_left hex, cl_mGens]
   exact hex.choose_spec
 
 @[expose] noncomputable def Lgens (t : ℕ) : List (Perm (Fin 120)) :=
@@ -200,13 +200,13 @@ theorem gen_spec {t k : ℕ} (ht : t < 2) (hk : k < 3) :
 @[expose] noncomputable def tGens : List (Perm (Fin 120)) := Lgens 0
 
 theorem Lgens_zero : Lgens 0 = [gen 0 0, gen 0 1, gen 0 2] := by
-  rw [Lgens, if_pos rfl]
+  rw [Lgens, ite_eq_left rfl]
 
 theorem Lgens_one : Lgens 1 = [gen 1 0, gen 1 1, gen 1 2] := by
-  rw [Lgens, if_neg (by norm_num), if_pos rfl]
+  rw [Lgens, ite_eq_right (by norm_num), ite_eq_left rfl]
 
 theorem Lgens_two : Lgens 2 = mGens := by
-  rw [Lgens, if_neg (by norm_num), if_neg (by norm_num)]
+  rw [Lgens, ite_eq_right (by norm_num), ite_eq_right (by norm_num)]
 
 theorem lenL_zero : lenL 0 = 3 := rfl
 
@@ -281,7 +281,7 @@ theorem ρ_code : ∀ a < 10, wcode 7 (ρ a) = RC a := fun a ha => by
   have hex : ∃ g ∈ onM120Chain.originalSubgroup, wcode 7 g = RC a := by
     rw [← cl_mGens]
     exact rep_ex a ha
-  rw [ρ, dif_pos hex]
+  rw [ρ, dite_eq_left hex]
   exact hex.choose_spec.2
 
 theorem hUE0 : Nat.beq (UE 0) one120 = true := (andB_eq_true ch812105u).1

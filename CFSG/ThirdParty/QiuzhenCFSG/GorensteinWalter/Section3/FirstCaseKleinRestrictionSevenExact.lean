@@ -172,7 +172,7 @@ public theorem firstCase_klein_restrictionSeven_exact
       refine ⟨?_, ?_⟩
       · intro hw1
         apply hwH
-        simpa [hw1] using c.Hhat.one_mem
+        simp [hw1]
       · dsimp [w]
         have hs2 : s * s = 1 := by simpa [pow_two] using hsI.2
         have hy2 : y * y = 1 := by simpa [pow_two] using hy.2
@@ -273,7 +273,7 @@ public theorem firstCase_klein_restrictionSeven_exact
         refine ⟨?_, ?_⟩
         · intro hw1
           apply hwH
-          simpa [hw1] using c.Hhat.one_mem
+          simp [hw1]
         · dsimp [w]
           calc
             (s * y) ^ 2 = s * (y * s) * y := by simp [pow_two, mul_assoc]
@@ -875,7 +875,7 @@ public theorem firstCase_klein_restrictionSeven_exact
             Nat.card (E.subgroupOf A') := by
           intro heq
           have hEqSub : E.subgroupOf A' = Subgroup.normalizer (P : Set (↥A')) :=
-            Subgroup.eq_of_le_of_card_ge hEsub_le (by simpa [heq])
+            Subgroup.eq_of_le_of_card_ge hEsub_le (by simp [heq])
           exact hy_not_Esub (by rw [hEqSub]; exact hySub_mem)
         rw [hEsubcard] at hNPAcard_ge hNPAne
         obtain ⟨k, hk⟩ := h18dvdN
@@ -990,13 +990,13 @@ public theorem firstCase_klein_restrictionSeven_exact
         have hdiv : Nat.card O ∣ Nat.card X := Subgroup.card_dvd_of_le hOleX
         rw [hOcard, hXcard] at hdiv
         norm_num at hdiv
-      push_neg at hnotall
+      push Not at hnotall
       rcases hnotall with ⟨v, hv1, hvnot⟩
       have hexmem : ∃ q : G, q ∈
           (fixedPointSubgroup (↥(Subgroup.zpowers v)) (↥O)).map O.subtype ∧
           q ∉ X := by
         by_contra h
-        push_neg at h
+        push Not at h
         exact hvnot h
       rcases hexmem with ⟨z, hzmap, hzx⟩
       rcases Subgroup.mem_map.mp hzmap with ⟨zO, hzfix, rfl⟩
@@ -1006,7 +1006,7 @@ public theorem firstCase_klein_restrictionSeven_exact
       have hzne : zG ≠ 1 := by
         intro hz1
         apply hzxG
-        simpa [hz1] using X.one_mem
+        simp [hz1]
       have hzfix' := hzfix ⟨v, Subgroup.mem_zpowers v⟩
       have hvz : (v : G) * zG * (v : G)⁻¹ = zG := by
         have hcoe := congrArg Subtype.val hzfix'
@@ -1015,7 +1015,7 @@ public theorem firstCase_klein_restrictionSeven_exact
         exact hformula.symm.trans hcoe
       let : IsMulCommutative (↥O) := by
         apply IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3)
-        simpa [hOcard]
+        simp [hOcard]
       let : CommGroup (↥O) := IsMulCommutative.instCommGroup
       have hconj_eq_of_memO : ∀ a b : G, a ∈ O → b ∈ O →
           a * b * a⁻¹ = b := by
@@ -1739,7 +1739,7 @@ public theorem firstCase_klein_restrictionSeven_N_eq_bot
           Nat.card (E.subgroupOf A') := by
         intro heq
         have hEqSub : E.subgroupOf A' = Subgroup.normalizer (P : Set (↥A')) :=
-          Subgroup.eq_of_le_of_card_ge hEsub_le (by simpa [heq])
+          Subgroup.eq_of_le_of_card_ge hEsub_le (by simp [heq])
         exact hy_not_Esub (by rw [hEqSub]; exact hySub_mem)
       rw [hEsubcard] at hNPAcard_ge hNPAne
       obtain ⟨k, hk⟩ := h18dvdN
@@ -1854,13 +1854,13 @@ public theorem firstCase_klein_restrictionSeven_N_eq_bot
       have hdiv : Nat.card O ∣ Nat.card X := Subgroup.card_dvd_of_le hOleX
       rw [hOcard, hXcard] at hdiv
       norm_num at hdiv
-    push_neg at hnotall
+    push Not at hnotall
     rcases hnotall with ⟨v, hv1, hvnot⟩
     have hexmem : ∃ q : G, q ∈
         (fixedPointSubgroup (↥(Subgroup.zpowers v)) (↥O)).map O.subtype ∧
         q ∉ X := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hvnot h
     rcases hexmem with ⟨z, hzmap, hzx⟩
     rcases Subgroup.mem_map.mp hzmap with ⟨zO, hzfix, rfl⟩
@@ -1870,7 +1870,7 @@ public theorem firstCase_klein_restrictionSeven_N_eq_bot
     have hzne : zG ≠ 1 := by
       intro hz1
       apply hzxG
-      simpa [hz1] using X.one_mem
+      simp [hz1]
     have hzfix' := hzfix ⟨v, Subgroup.mem_zpowers v⟩
     have hvz : (v : G) * zG * (v : G)⁻¹ = zG := by
       have hcoe := congrArg Subtype.val hzfix'
@@ -1879,7 +1879,7 @@ public theorem firstCase_klein_restrictionSeven_N_eq_bot
       exact hformula.symm.trans hcoe
     let : IsMulCommutative (↥O) := by
       apply IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3)
-      simpa [hOcard]
+      simp [hOcard]
     let : CommGroup (↥O) := IsMulCommutative.instCommGroup
     have hconj_eq_of_memO : ∀ a b : G, a ∈ O → b ∈ O →
         a * b * a⁻¹ = b := by

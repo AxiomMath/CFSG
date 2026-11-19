@@ -205,7 +205,7 @@ theorem popK_eq (X : Nat) : ∀ n, popK X n = ((Finset.range n).filter (fun i =>
     rw [popK_eq X n, fld1_eq, Finset.range_add_one, Finset.filter_insert]
     cases h : X.testBit n
     · simp
-    · rw [if_pos rfl, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_left rfl, Finset.card_insert_of_notMem (by simp)]
       rfl
 
 theorem extK_testBit (QM X x t : Nat) : ∀ q, (extK QM q X x).testBit t = true ↔

@@ -32,7 +32,7 @@ theorem noL34Layer_entrywise {τ : Tag} {K : Type} [Field K] [Finite K] (σ : K 
     (adjointGroup τ (fixSubfield σ)).equivMapOfInjective _ hinj
   let e : ↥S ≃* ↥(adjointGroup τ (fixSubfield σ)) :=
     (Subgroup.subgroupOfEquivOfLe hJC).trans eJ.symm
-  haveI : IsSimpleGroup ↥S := e.isSimpleGroup
+  have : IsSimpleGroup ↥S := e.isSimpleGroup
   refine noL34_of_simple_normal_comm _ S ?_ ?_ inferInstance ?_ ?_
   · rw [fixSubgroup_entrywiseAdjointAut]
     intro x hx
@@ -75,7 +75,7 @@ theorem noL34OuterAt_g2 (hO : ComponentClassification.CatLeaf.LieOrderFormulasIn
   intro P _ _ t n p f hadm ht hF hp5 hm ψ hψ3 hψ
   have hp2 : p ≠ 2 := by omega
   obtain rfl := hF
-  haveI : Fact p.Prime := ⟨hadm.1⟩
+  have : Fact p.Prime := ⟨hadm.1⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .G2 (p ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -92,7 +92,7 @@ theorem noL34OuterAt_g2 (hO : ComponentClassification.CatLeaf.LieOrderFormulasIn
   refine noL34Layer_congr θ (noL34Layer_of_conj_pow (r := 1) (j := 1) (by simp)
     (by simpa using hδ) ?_)
   have hd : 1 ≤ d := by omega
-  haveI : Finite ↥(fixSubfield T) := Subtype.finite
+  have : Finite ↥(fixSubfield T) := Subtype.finite
   have h3 : 3 ≤ p ^ d := by
     have h2 := hadm.1.two_le
     have : 3 ≤ p := by omega
@@ -115,7 +115,7 @@ theorem noL34OuterAt_f4 (hO : ComponentClassification.CatLeaf.LieOrderFormulasIn
   intro P _ _ t n p f hadm ht hF hp5 hm ψ hψ3 hψ
   have hp2 : p ≠ 2 := by omega
   obtain rfl := hF
-  haveI : Fact p.Prime := ⟨hadm.1⟩
+  have : Fact p.Prime := ⟨hadm.1⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .F4 (p ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -131,7 +131,7 @@ theorem noL34OuterAt_f4 (hO : ComponentClassification.CatLeaf.LieOrderFormulasIn
   refine noL34Layer_congr θ (noL34Layer_of_conj_pow (r := 1) (j := 1) (by simp)
     (by simpa using hδ) ?_)
   have hd : 1 ≤ d := by omega
-  haveI : Finite ↥(fixSubfield T) := Subtype.finite
+  have : Finite ↥(fixSubfield T) := Subtype.finite
   have h3 : 3 ≤ p ^ d := by
     have h2 := hadm.1.two_le
     have : 3 ≤ p := by omega
@@ -154,7 +154,7 @@ theorem noL34OuterAt_e7 (hO : ComponentClassification.CatLeaf.LieOrderFormulasIn
   intro P _ _ t n p f hadm ht hF hp5 hm ψ hψ3 hψ
   have hp2 : p ≠ 2 := by omega
   obtain rfl := hF
-  haveI : Fact p.Prime := ⟨hadm.1⟩
+  have : Fact p.Prime := ⟨hadm.1⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .E7 (p ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -174,7 +174,7 @@ theorem noL34OuterAt_e7 (hO : ComponentClassification.CatLeaf.LieOrderFormulasIn
       (by norm_num) hdet _ hβ3 hβinn
   refine noL34Layer_congr θ (noL34Layer_of_conj_pow hrj hδ ?_)
   have hd : 1 ≤ d := by omega
-  haveI : Finite ↥(fixSubfield T) := Subtype.finite
+  have : Finite ↥(fixSubfield T) := Subtype.finite
   have h3 : 3 ≤ p ^ d := by
     have h2 := hadm.1.two_le
     have : 3 ≤ p := by omega
@@ -197,7 +197,7 @@ theorem noL34OuterAt_e8 (hO : ComponentClassification.CatLeaf.LieOrderFormulasIn
   intro P _ _ t n p f hadm ht hF hp5 hm ψ hψ3 hψ
   have hp2 : p ≠ 2 := by omega
   obtain rfl := hF
-  haveI : Fact p.Prime := ⟨hadm.1⟩
+  have : Fact p.Prime := ⟨hadm.1⟩
   have hf : 1 ≤ f := hadm.2.1
   have hU : UntwistedChevalleyModel P .E8 (p ^ f) := by
     rcases hm with ⟨ht', -⟩ | ⟨-, -, hE⟩ | ⟨-, ht', -⟩ | ⟨-, ht', -⟩
@@ -217,7 +217,7 @@ theorem noL34OuterAt_e8 (hO : ComponentClassification.CatLeaf.LieOrderFormulasIn
       (by norm_num) hdet _ hβ3 hβinn
   refine noL34Layer_congr θ (noL34Layer_of_conj_pow hrj hδ ?_)
   have hd : 1 ≤ d := by omega
-  haveI : Finite ↥(fixSubfield T) := Subtype.finite
+  have : Finite ↥(fixSubfield T) := Subtype.finite
   have h3 : 3 ≤ p ^ d := by
     have h2 := hadm.1.two_le
     have : 3 ≤ p := by omega

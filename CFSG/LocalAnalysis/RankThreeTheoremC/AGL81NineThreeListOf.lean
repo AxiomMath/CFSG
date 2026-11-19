@@ -41,6 +41,7 @@ theorem pRank_le_of_sylow_inf [Fact p.Prime] (R : Sylow p X) {L : Subgroup X}
     L.subtype_injective]
   exact hTop
 
+omit [Finite X] in
 theorem center_sup_eq_bot_of_le_centralizer {L₀ L₁ : Subgroup X}
     (h₁₀ : L₁ ≤ Subgroup.centralizer (L₀ : Set X)) (hZ₀ : Subgroup.center L₀ = ⊥)
     (hZ₁ : Subgroup.center L₁ = ⊥) : Subgroup.center (L₀ ⊔ L₁ : Subgroup X) = ⊥ := by
@@ -104,7 +105,7 @@ theorem cores_le_d1X0 {p : ℕ} {P : Sylow p G} {M H₁ R₁ : Subgroup G}
           (QuotientGroup.mk' (primeComplementCore (G := N) p)))
         else GLBCore p 1 E) ≤ d1X0 p M N := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := primeComplementCore (G := N) p
   set π := QuotientGroup.mk' O with hπ
   have hO : p.Coprime (Nat.card O) := primeComplementCore_coprime p
@@ -116,7 +117,7 @@ theorem cores_le_d1X0 {p : ℕ} {P : Sylow p G} {M H₁ R₁ : Subgroup G}
   · obtain ⟨E, hER, hE, hEcard⟩ := CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank
       (p := p) (k := 2) (H := (R.subgroupOf N).map π) (by omega)
     refine ⟨E, hER, hE, hEcard, ?_⟩
-    rw [if_pos h3]
+    rw [ite_eq_left h3]
     exact weakCore_le_d1X0_of_escape he hR.le hRM hR.isPGroup
   ·
     obtain ⟨-, -, hB3 | ⟨E, hEB, hE, hEc, hΓ⟩⟩ := hB
@@ -133,7 +134,7 @@ theorem cores_le_d1X0 {p : ℕ} {P : Sylow p G} {M H₁ R₁ : Subgroup G}
         (isElemAbelian_subgroupOf hE N) π, ?_, ?_⟩
     · rw [card_map_mk_of_isPGroup hp O hO hEp, ← hEc]
       exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEN).toEquiv
-    · rw [if_neg h3]
+    · rw [ite_eq_right h3]
       exact gammaOne_le_d1X0 hp hEN (hR.isPGroup.to_le (hEB.trans hBR)) hΓ
 
 theorem exists_threeOneIndex_of_component (h31 : KFactThreeOne) (hKP : CFSG.Open.IsKProper G)
@@ -144,7 +145,7 @@ theorem exists_threeOneIndex_of_component (h31 : KFactThreeOne) (hKP : CFSG.Open
     (∃ i : TauCeti.CFSGIndex, IsThreeOneIndex p i ∧ Nonempty (L ≃* i.Group)) ∧
       Subgroup.center L = ⊥ := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := primeComplementCore (G := N) p
   set π := QuotientGroup.mk' O with hπ
   have hO : p.Coprime (Nat.card O) := primeComplementCore_coprime p
@@ -172,7 +173,7 @@ theorem exists_threeOneIndex_of_component (h31 : KFactThreeOne) (hKP : CFSG.Open
     Subgroup.le_normalizer le_rfl hL.2.2 (isKGroup_component hKP hNtop L)
     (primeComplementCore_component_eq_bot (primeComplementCore_quotient_eq_bot p) hL)
     (hR2.trans (CFSG.PreuniquenessRankFour.Helpers.pRank_mono p hp hRbL))
-    ⟨hRbL, Rb.isPGroup', fun hdvd => Rb.not_dvd_index
+    ⟨hRbL, Rb.isPGroup, fun hdvd => Rb.not_dvd_index
       (hdvd.trans (Subgroup.relIndex_dvd_index_of_le hRbL))⟩ hER hE hEcard
     fun h => hLX (h.trans hcore)
 
@@ -185,7 +186,7 @@ theorem exists_nineThreeIndex_of_component (h31 : KFactThreeOne) (h75 : KFactSev
   have hp := he.prime
   obtain ⟨⟨i, hi, hiL⟩, hZ⟩ := exists_threeOneIndex_of_component h31 hKP he hB hBN hNtop hL hLX
   have hLs : IsSimpleGroup L := by
-    haveI : IsSimpleGroup (L ⧸ Subgroup.center L) := hL.2.2.2
+    have : IsSimpleGroup (L ⧸ Subgroup.center L) := hL.2.2.2
     exact ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.isSimpleGroup
   rcases hi with hi | ⟨hp5, rfl⟩ | ⟨n, hn, rfl, hn2 | hn3⟩
   · exact ⟨i, hi, hiL⟩
@@ -241,7 +242,7 @@ theorem d1KBar_eq_or_eq_sup_of_escape {p : ℕ} {P : Sylow p G} {M H₁ R₁ : S
           ¬ L₁ ≤ d1X0 p M N ∧ L₀ ≠ L₁ ∧ d1KBar p M N = L₀ ⊔ L₁ ∧
           CFSG.Open.pRank p L₀ ≤ 1 ∧ CFSG.Open.pRank p L₁ ≤ 1) := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := primeComplementCore (G := N) p
   obtain ⟨Rb, -, -, hC, hu⟩ := exists_sylow_d1X0_of_escape he hB hBN
   obtain ⟨L₀, hL₀, hL₀X⟩ := exists_component_of_d1KBar_ne_bot hK
@@ -348,10 +349,10 @@ theorem factor_of_escape (hOut : KFactNineThreeOutPClosed) {p : ℕ} {P : Sylow 
     ∀ x ∈ N, ∃ m ∈ N ⊓ M, ∃ k : N,
       QuotientGroup.mk' (primeComplementCore (G := N) p) k ∈ d1KBar p M N ∧ x = m * k := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hKn : (d1KBar p M N).Normal := d1KBar_normal_of_escape he hB hBN hK
+  have : Fact p.Prime := ⟨hp⟩
+  have hKn : (d1KBar p M N).Normal := d1KBar_normal_of_escape he hB hBN hK
   obtain ⟨Rb, hRbX, hNRb, -, -⟩ := exists_sylow_d1X0_of_escape he hB hBN
-  haveI := hOut p _ (d1KBar p M N) hp he.ne_two hKn hlist Rb
+  have := hOut p _ (d1KBar p M N) hp he.ne_two hKn hlist Rb
   have htop := Sylow.normalizer_sup_eq_top' Rb
     (le_sup_left : (Rb : Subgroup (N ⧸ primeComplementCore (G := N) p)) ≤
       (Rb : Subgroup (N ⧸ primeComplementCore (G := N) p)) ⊔ (d1KBar p M N ⊔

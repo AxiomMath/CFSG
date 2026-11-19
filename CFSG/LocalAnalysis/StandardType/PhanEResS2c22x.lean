@@ -33,12 +33,14 @@ private theorem pls22_pi_mul_self : pls22_pi * pls22_pi = (1 : Equiv.Perm (Fin 4
   intro i
   fin_cases i <;> decide
 
+omit [Finite K] [CharP K 2] in
 private theorem pls22_conj_apply (M : Matrix (Fin 4) (Fin 4) K) (i j : Fin 4) :
     (swap22 K * M * swap22 K) i j = M (pls22_pi i) (pls22_pi j) := by
   rw [show swap22 K = pls22_pi.toPEquiv.toMatrix from rfl,
     PEquiv.toMatrix_toPEquiv_mul, PEquiv.mul_toMatrix_toPEquiv, pls22_pi_symm]
   rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem pls22_BDA_cross {A : Matrix (Fin 4) (Fin 4) K}
     (hA : BlockDiag [0, 2, 4] A) :
     A 0 2 = 0 ∧ A 0 3 = 0 ∧ A 1 2 = 0 ∧ A 1 3 = 0 ∧
@@ -69,22 +71,18 @@ private theorem pls22_blockDiag_conj {A : Matrix (Fin 4) (Fin 4) K}
     rcases hb' with rfl | rfl
     · rw [hd0, hd01] at hi hj
       fin_cases i <;> fin_cases j <;>
-        simp_all [pls22_pi_zero, pls22_pi_one, pls22_pi_two, pls22_pi_three,
-          h02, h03, h12, h13, h20, h30, h21, h31]
+        simp_all [pls22_pi_zero, pls22_pi_one, pls22_pi_two, pls22_pi_three]
     · rw [hd1, hd11] at hi hj
       fin_cases i <;> fin_cases j <;>
-        simp_all [pls22_pi_zero, pls22_pi_one, pls22_pi_two, pls22_pi_three,
-          h02, h03, h12, h13, h20, h30, h21, h31]
+        simp_all [pls22_pi_zero, pls22_pi_one, pls22_pi_two, pls22_pi_three]
   · rw [hentry]
     rcases hb' with rfl | rfl
     · rw [hd0, hd01] at hi hj
       fin_cases i <;> fin_cases j <;>
-        simp_all [pls22_pi_zero, pls22_pi_one, pls22_pi_two, pls22_pi_three,
-          h02, h03, h12, h13, h20, h30, h21, h31]
+        simp_all [pls22_pi_zero, pls22_pi_one, pls22_pi_two, pls22_pi_three]
     · rw [hd1, hd11] at hi hj
       fin_cases i <;> fin_cases j <;>
-        simp_all [pls22_pi_zero, pls22_pi_one, pls22_pi_two, pls22_pi_three,
-          h02, h03, h12, h13, h20, h30, h21, h31]
+        simp_all [pls22_pi_zero, pls22_pi_one, pls22_pi_two, pls22_pi_three]
 
 theorem swap22_mul_self (K : Type) [Field K] : swap22 K * swap22 K = 1 := by
   calc swap22 K * swap22 K = pls22_pi.permMatrix K * pls22_pi.permMatrix K := rfl
@@ -100,8 +98,7 @@ private theorem pls22_jShiftInv_mulVec {A B : Matrix (Fin 4) (Fin 4) K}
   fin_cases i <;>
     simp [Matrix.mulVec_apply_eq_sum, Fin.sum_univ_four, hB, pls22_pi_zero, pls22_pi_one,
       pls22_pi_two, pls22_pi_three, h02, h03, h12, h13, h20, h21, h30, h31, jShiftInv,
-      map_add, map_mul] <;>
-    ring
+      map_add, map_mul]
 
 private theorem pls22_jShift_mulVec {A B : Matrix (Fin 4) (Fin 4) K}
     (hA : BlockDiag [0, 2, 4] A)
@@ -112,8 +109,7 @@ private theorem pls22_jShift_mulVec {A B : Matrix (Fin 4) (Fin 4) K}
   fin_cases i <;>
     simp [Matrix.mulVec_apply_eq_sum, Fin.sum_univ_four, hB, pls22_pi_zero, pls22_pi_one,
       pls22_pi_two, pls22_pi_three, h02, h03, h12, h13, h20, h21, h30, h31, jShift,
-      map_add, map_mul] <;>
-    ring
+      map_add, map_mul]
 
 private theorem pls22_jShiftInv_smul (c : K) (v : Fin 4 → K) :
     jShiftInv K f (c • v) = sg K f c • jShiftInv K f v := by
@@ -140,10 +136,10 @@ private theorem pls22_span_jShiftInv_Vsub3 (hK : Nat.card K = (2 ^ f) ^ 2) :
     refine Submodule.subset_span
       ⟨sg K f (w 0) • (Pi.single (2 : Fin 4) (1 : K) : Fin 4 → K), ?_, ?_⟩
     · intro j hj
-      fin_cases j <;> simp_all [Pi.single_apply]
+      fin_cases j <;> simp_all
     · rw [pls22_jShiftInv_smul, pls22_jShiftInv_e2, sg_sg hK]
       funext j
-      fin_cases j <;> simp [Pi.smul_apply, Pi.single_apply, hw1, hw2, hw3]
+      fin_cases j <;> simp [Pi.smul_apply, hw1, hw2, hw3]
 
 private theorem pls22_span_jShift_Vsub1 :
     Submodule.span K (jShift K f '' (Vsub (K := K) 4 1 : Set (Fin 4 → K))) =
@@ -155,17 +151,18 @@ private theorem pls22_span_jShift_Vsub1 :
     have hval : jShift K f v =
         sg K f (v 0) • (Pi.single (2 : Fin 4) (1 : K) : Fin 4 → K) := by
       funext j
-      fin_cases j <;> simp [jShift, Pi.single_apply, hv1]
+      fin_cases j <;> simp [jShift, hv1]
     rw [hval]
     exact Submodule.smul_mem _ _ (Submodule.subset_span rfl)
   · rw [Submodule.span_le, Set.singleton_subset_iff]
     refine Submodule.subset_span ?_
     refine ⟨(Pi.single (0 : Fin 4) (1 : K) : Fin 4 → K), ?_, ?_⟩
     · intro j hj
-      fin_cases j <;> simp_all [Pi.single_apply]
+      fin_cases j <;> simp_all
     · funext j
-      fin_cases j <;> simp [jShift, Pi.single_apply]
+      fin_cases j <;> simp [jShift]
 
+omit [Finite K] [CharP K 2] in
 private theorem pls22_sup_Vsub2_span_e2 :
     Vsub (K := K) 4 2 ⊔
         Submodule.span K {(Pi.single (2 : Fin 4) (1 : K) : Fin 4 → K)} =
@@ -174,30 +171,30 @@ private theorem pls22_sup_Vsub2_span_e2 :
   · refine sup_le (Vsub_mono (by norm_num)) ?_
     rw [Submodule.span_le, Set.singleton_subset_iff]
     intro j hj
-    fin_cases j <;> simp_all [Pi.single_apply]
+    fin_cases j <;> simp_all
   · intro v hv
     have hv3 : v 3 = 0 := hv 3 (by norm_num)
     have hdecomp : v = (v 0) • (Pi.single (0 : Fin 4) (1 : K) : Fin 4 → K) +
         (v 1) • (Pi.single (1 : Fin 4) (1 : K) : Fin 4 → K) +
           (v 2) • (Pi.single (2 : Fin 4) (1 : K) : Fin 4 → K) := by
       funext j
-      fin_cases j <;> simp_all [Pi.single_apply]
+      fin_cases j <;> simp_all
     have h0 : (v 0) • (Pi.single (0 : Fin 4) (1 : K) : Fin 4 → K) ∈
         Vsub (K := K) 4 2 := by
       intro j hj
       fin_cases j
       · exact absurd hj (by norm_num)
       · exact absurd hj (by norm_num)
-      · simp [Pi.smul_apply, Pi.single_apply]
-      · simp [Pi.smul_apply, Pi.single_apply]
+      · simp [Pi.smul_apply]
+      · simp [Pi.smul_apply]
     have h1 : (v 1) • (Pi.single (1 : Fin 4) (1 : K) : Fin 4 → K) ∈
         Vsub (K := K) 4 2 := by
       intro j hj
       fin_cases j
       · exact absurd hj (by norm_num)
       · exact absurd hj (by norm_num)
-      · simp [Pi.smul_apply, Pi.single_apply]
-      · simp [Pi.smul_apply, Pi.single_apply]
+      · simp [Pi.smul_apply]
+      · simp [Pi.smul_apply]
     rw [hdecomp]
     exact Submodule.mem_sup.mpr
       ⟨(v 0) • (Pi.single (0 : Fin 4) (1 : K) : Fin 4 → K) +
@@ -225,8 +222,9 @@ private theorem pls22_kapMat_mat (P : SpecialLinearGroup (Fin 4) K)
     rw [SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply]
   rw [h1, hPinv]
   simp only [map_mul, GeneralLinearGroup.coe_mul, SpecialLinearGroup.coe_GL_coe_matrix,
-    SpecialLinearGroup.coe_mul, hP, hmid]
+    hP, hmid]
 
+omit [Finite K] [CharP K 2] in
 private theorem pls22_flagAct_E (g : GL (Fin 4) K) (x : FlagK K 4) (j : ℕ) :
     (flagAct g x).E j = (x.E j).map (glLin g).toLinearMap :=
   flagMap_E (glLin g) x j

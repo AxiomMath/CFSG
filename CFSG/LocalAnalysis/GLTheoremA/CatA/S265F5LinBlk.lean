@@ -152,7 +152,7 @@ theorem glaPLayer_ne_bot_of_diagonal_block [CharP k 2] {p : ℕ} (hp : p.Prime) 
     {a a' c : Fin p} (haa' : a ≠ a') (hda : d a = d a') (hdc : d c ≠ d a) :
     GLAPLayer p (fixSubgroup (fieldAut p k σ) ⊓ fixSubgroup (LinearFlag.conjAut p k X)) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set k₀ := semilinearFixedSubfield σ with hk₀def
   have hσk₀ : ∀ x ∈ k₀, σ x = x := fun x hx => RingHom.mem_eqLocusField.mp hx
   have hk₀4 : 4 ≤ Nat.card k₀ := by
@@ -223,7 +223,7 @@ theorem glaPLayer_ne_bot_of_diagonal_block [CharP k 2] {p : ℕ} (hp : p.Prime) 
     have hgc := mem_coordBlockSL_iff.1 g.2 c c (Or.inl hcJ)
     have hν1 : (ν : k) = 1 := by
       have h := congrFun (congrFun hν c) c
-      rw [Matrix.scalar_apply, Matrix.diagonal_apply_eq, hιapp, hgc, if_pos rfl] at h
+      rw [Matrix.scalar_apply, Matrix.diagonal_apply_eq, hιapp, hgc, ite_eq_left rfl] at h
       simpa using h.symm
     have hι1 : SpecialLinearGroup.map k₀.subtype (g : SpecialLinearGroup (Fin p) k₀) = 1 := by
       ext i j
@@ -330,13 +330,13 @@ theorem glaPLayer_ne_bot_of_diagonal_block [CharP k 2] {p : ℕ} (hp : p.Prime) 
   obtain ⟨ζ, hζ⟩ := CFSG.RankThree.PartOne.CTP.exists_primitiveRoot_of_dvd (F := k₀) hp hpk₀
   have hζ0 : ζ ≠ 0 := hζ.ne_zero hp.ne_zero
   set f : Fin p → k₀ := fun l => if l = a then ζ else if l = a' then ζ⁻¹ else 1 with hf
-  have hfa : f a = ζ := if_pos rfl
+  have hfa : f a = ζ := ite_eq_left rfl
   have hfa' : f a' = ζ⁻¹ := by
     show (if a' = a then ζ else if a' = a' then ζ⁻¹ else 1) = ζ⁻¹
-    rw [if_neg haa'.symm, if_pos rfl]
+    rw [ite_eq_right haa'.symm, ite_eq_left rfl]
   have hfo : ∀ l, l ≠ a → l ≠ a' → f l = 1 := fun l h1 h2 => by
     show (if l = a then ζ else if l = a' then ζ⁻¹ else 1) = 1
-    rw [if_neg h1, if_neg h2]
+    rw [ite_eq_right h1, ite_eq_right h2]
   have hfdet : ∏ l, f l = 1 := by
     have hsub : ∀ l ∈ (Finset.univ : Finset (Fin p)), l ∉ ({a, a'} : Finset (Fin p)) → f l = 1 := by
       intro l _ hl
@@ -359,10 +359,10 @@ theorem glaPLayer_ne_bot_of_diagonal_block [CharP k 2] {p : ℕ} (hp : p.Prime) 
     rw [hg₁m]
     by_cases h : i = j
     · subst h
-      rw [diagonal_apply_eq, if_pos rfl]
+      rw [diagonal_apply_eq, ite_eq_left rfl]
       have hi : i ∉ J := by tauto
       exact hfo i (fun h' => hi (h' ▸ haJ)) (fun h' => hi (h' ▸ ha'J))
-    · rw [diagonal_apply_ne _ h, if_neg h]
+    · rw [diagonal_apply_ne _ h, ite_eq_right h]
   have hg₁p : g₁ ^ p = 1 := by
     apply Subtype.ext
     rw [Matrix.SpecialLinearGroup.coe_pow, Matrix.SpecialLinearGroup.coe_one, hg₁m, diagonal_pow,
@@ -378,7 +378,7 @@ theorem glaPLayer_ne_bot_of_diagonal_block [CharP k 2] {p : ℕ} (hp : p.Prime) 
       (A : Matrix (Fin p) (Fin p) k₀) a a') h
     simp only [Matrix.SpecialLinearGroup.coe_mul, hg₁m,
       CFSG.ClassicalInvolution.RouteD.Gaps.coe_transvection_eq, diagonal_mul, mul_diagonal] at h'
-    simp [Matrix.add_apply, Matrix.one_apply, haa', Matrix.single_apply] at h'
+    simp [Matrix.add_apply, haa'] at h'
     rw [hfa, hfa'] at h'
     have hζ2 : ζ ^ 2 = 1 := by
       rw [sq]

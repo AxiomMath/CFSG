@@ -44,8 +44,8 @@ theorem twistInner_of_shape {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p�
   · exact hin
   · have hkind : twistKind S.ρ (rootCharHom a) i = .inner := by
       unfold twistKind
-      rw [if_neg hin]
-      rw [if_neg (by
+      rw [ite_eq_right hin]
+      rw [ite_eq_right (by
         rintro (⟨h1, h2⟩ | ⟨h1, h2, -⟩)
         · rw [hr] at h1
           rw [hn] at h2
@@ -53,10 +53,10 @@ theorem twistInner_of_shape {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p�
         · rw [hr] at h1
           rw [hn] at h2
           exact h4 ⟨h1, h2⟩)]
-      rw [if_neg (fun h => by
+      rw [ite_eq_right (fun h => by
         rw [hr, hn] at h
         exact hD h)]
-      rw [if_neg (fun h => by
+      rw [ite_eq_right (fun h => by
         rw [hr, hn] at h
         exact hA h)]
     exact twistInner_of_twistKind_eq_innerT S rootAutIsWeyl_holds hT i hkind
@@ -89,7 +89,7 @@ theorem rationalLieType_of_outer_E7 {L : Type} [Field L] [IsAlgClosed L] {p₀ p
       (by rw [e7_card c hc, hc6]) h72
     refine rationalLieType_of_e6_outer S hTor i v ?_ hout
     rw [hroots, hCeq, rootsOf_eq_parabolicRoots kacE7 facts_E7 (J := e6Nodes Tag.E7)
-      (by decide) (fun j => by simp only [e6Nodes, Set.mem_setOf_eq]; revert j; decide)]
+      (by decide) (fun j => by simp only [e6Nodes, Set.mem_ofPred_eq]; revert j; decide)]
   ·
     exfalso
     apply hout
@@ -124,7 +124,7 @@ theorem rationalLieType_of_outer_E8 {L : Type} [Field L] [IsAlgClosed L] {p₀ p
       (by rw [e8_card c hc, hc6]) h72
     refine rationalLieType_of_e6_outer S hTor i v ?_ hout
     rw [hroots, hCeq, rootsOf_eq_parabolicRoots kacE8 facts_E8 (J := e6Nodes Tag.E8)
-      (by decide) (fun j => by simp only [e6Nodes, Set.mem_setOf_eq]; revert j; decide)]
+      (by decide) (fun j => by simp only [e6Nodes, Set.mem_ofPred_eq]; revert j; decide)]
   ·
     exfalso
     apply hout

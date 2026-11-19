@@ -47,14 +47,17 @@ namespace MinCex
 variable {M V Q P H : Subgroup G} [Finite G] (hc : MinCex M V Q P H)
 include hc
 
+omit [Finite G] in
 theorem V_ne_bot : V ≠ ⊥ := by
   intro h
   have h4 := hc.four
   rw [h] at h4
   simp at h4
 
+omit [Finite G] in
 theorem isPGroup_V : IsPGroup 2 V := CFSG.CGT.Timmesfeld75.isPGroup_two_of_isElemAbelian hc.elemAb
 
+omit [Finite G] in
 theorem normalizer_eq : Subgroup.normalizer (V : Set G) = M := by
   by_contra hne
   exact hc.maxLocal.2 _ (lt_of_le_of_ne hc.maxAb.prop.2.1 (Ne.symm hne))
@@ -65,6 +68,7 @@ theorem V_le_Q : V ≤ Q := by
   exact le_of_isMulCommutative_normal hc.fitting hc.maxAb.prop.1 hc.maxAb.prop.2.1
     hc.maxAb.prop.2.2
 
+omit [Finite G] in
 theorem P_le_Q : P ≤ Q := hc.hP ▸ inf_le_left
 
 theorem V_le_P : V ≤ P := by
@@ -72,10 +76,12 @@ theorem V_le_P : V ≤ P := by
   refine le_inf hc.V_le_Q ?_
   exact Subgroup.le_centralizer_iff_isMulCommutative.mpr hc.maxAb.prop.2.2
 
+omit [Finite G] in
 theorem isPGroup_P : IsPGroup 2 P := by
   have hQ2 := (inSubgroup_pCore_two M).1
   exact (hc.hQ ▸ hQ2 : IsPGroup 2 Q).to_le hc.P_le_Q
 
+omit [Finite G] in
 theorem M_le_normalizer_P : M ≤ Subgroup.normalizer (P : Set G) := fun m hm => by
   rw [hc.hP, hc.hQ]
   exact mem_normalizer_inf ((inSubgroup_pCore_two M).2.2 hm)

@@ -92,7 +92,7 @@ theorem solvablePrimeComplementCore_covers_central_kernel_quotient {G : Type u}
   classical
   have : Fact prime.Prime := ⟨hprime⟩
   let sylow : Sylow prime G := Classical.choice inferInstance
-  have hmappedPGroup := sylow.isPGroup'.map homomorphism
+  have hmappedPGroup := sylow.isPGroup.map homomorphism
   have hmappedCard : Nat.card ((sylow : Subgroup G).map homomorphism) = 1 := by
     rcases hmappedPGroup.card_eq_or_dvd with hone | hdiv
     · exact hone

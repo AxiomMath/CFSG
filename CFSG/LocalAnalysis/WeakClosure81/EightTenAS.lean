@@ -15,6 +15,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22.F12 (HasCompFactor)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem HasQuotShape.mono' {K : Subgroup G} {N : Set G}
     {P Q : ∀ (X : Type) [Group X], Prop} (h : HasQuotShape K N P)
     (hPQ : ∀ (X : Type) [Group X], P X → Q X) : HasQuotShape K N Q := by

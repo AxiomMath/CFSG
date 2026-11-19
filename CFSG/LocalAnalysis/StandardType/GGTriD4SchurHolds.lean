@@ -13,7 +13,7 @@ section SchurHolds
 
 theorem ggTriD4SchurInput_holds : GGTriD4SchurInput := by
   intro n hn K _ _ hK _ X _ _ hX θ
-  haveI : CharP K 2 := charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
+  have : CharP K 2 := charP_two_of_card (m := n * 3) (by rw [hK, pow_mul])
   set σ := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by
     rw [hσdef, iterateFrobeniusEquiv_apply, iterateFrobenius_def]
@@ -35,8 +35,8 @@ theorem ggTriD4SchurInput_holds : GGTriD4SchurInput := by
       Θ.toMonoidHom Θ.injective, QuotientGroup.ker_mk']
   obtain ⟨ψ, hψ⟩ :=
     CFSG.EvenSporadicStandard.M24Std.exists_surjective_hopfMultiplier hX π hπ hker.le
-  haveI : Subsingleton (CFSG.Open.griessHopfMultiplier D) := hM
-  haveI : Subsingleton π.ker := hψ.subsingleton
+  have : Subsingleton (CFSG.Open.griessHopfMultiplier D) := hM
+  have : Subsingleton π.ker := hψ.subsingleton
   rw [← hker]
   exact Subgroup.eq_bot_of_subsingleton π.ker
 

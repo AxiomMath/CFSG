@@ -41,7 +41,7 @@ theorem conjAction_mem_blockZ_subgroupOf (K : Subgroup X) (k : K) {z : blockU K}
   QuotientGroup.map ((blockZ K).subgroupOf (blockU K))
     ((blockZ K).subgroupOf (blockU K))
     (CFSG.SL2MinimalFaithful.conjAction (le_normalizer_blockU K) k).toMonoidHom
-    (fun z hz => conjAction_mem_blockZ_subgroupOf K k hz)
+    (fun _z hz => conjAction_mem_blockZ_subgroupOf K k hz)
 
 @[simp] theorem conjEndUZ_mk (K : Subgroup X) (k : K) (u : blockU K) :
     conjEndUZ K k (QuotientGroup.mk u) =
@@ -55,7 +55,6 @@ theorem conjAction_mem_blockZ_subgroupOf (K : Subgroup X) (k : K) {z : blockU K}
     intro q
     induction q using QuotientGroup.induction_on with
     | H u =>
-      change conjEndUZ K k⁻¹ (conjEndUZ K k (QuotientGroup.mk u)) = QuotientGroup.mk u
       rw [conjEndUZ_mk, conjEndUZ_mk]
       have h : (CFSG.SL2MinimalFaithful.conjAction (le_normalizer_blockU K) k⁻¹)
           ((CFSG.SL2MinimalFaithful.conjAction (le_normalizer_blockU K) k) u) = u := by
@@ -69,7 +68,6 @@ theorem conjAction_mem_blockZ_subgroupOf (K : Subgroup X) (k : K) {z : blockU K}
     intro q
     induction q using QuotientGroup.induction_on with
     | H u =>
-      change conjEndUZ K k (conjEndUZ K k⁻¹ (QuotientGroup.mk u)) = QuotientGroup.mk u
       rw [conjEndUZ_mk, conjEndUZ_mk]
       have h : (CFSG.SL2MinimalFaithful.conjAction (le_normalizer_blockU K) k)
           ((CFSG.SL2MinimalFaithful.conjAction (le_normalizer_blockU K) k⁻¹) u) = u := by
@@ -168,6 +166,7 @@ theorem exists_threeCycle_action_ne_one {K : Subgroup X} (h : IsAltType K 3) :
   rw [hstep] at hone
   exact hone
 
+omit [Finite X] in
 theorem card_UZ_eq_four {K : Subgroup X} (h : IsAltType K 3) : Nat.card (UZ K) = 4 := by
   obtain ⟨-, -, -, β, hβsurj, hβker, -⟩ := h
   have eA : UZ K ≃* Multiplicative ↥(evenWeight 3) :=

@@ -55,7 +55,7 @@ theorem eq_bot_of_odd_of_le_centralizer_layer {G : Type} [Group G] [Finite G]
     exact (Nat.not_even_iff_odd.mpr hPodd) (Nat.even_pow.mpr ⟨even_two, m.succ_ne_zero⟩)
 
 theorem le_normalizer_component_of_odd {G : Type} [Group G] [Finite G] {a : G}
-    {P F : Subgroup G} (hPodd : Odd (Nat.card P)) (hPa : P ≤ centralizer ({a} : Set G))
+    {P F : Subgroup G} (hPodd : Odd (Nat.card P)) (_hPa : P ≤ centralizer ({a} : Set G))
     (hPn : centralizer ({a} : Set G) ≤ normalizer (P : Set G)) (hF : IsComponent F)
     {c : G} (hcF : c ∈ F) (hca : c ∈ centralizer ({a} : Set G)) {m : ℕ} (hc2 : c ^ (2 ^ m) = 1)
     (hcZ : c ∉ centralizer (F : Set G)) : P ≤ normalizer (F : Set G) := by
@@ -411,7 +411,7 @@ private theorem oddCoreOf_inf_cen_le
 
 theorem sec6_lemmaT
     {X : Type} [Group X] [Finite X] {n : ℕ} {t b : X}
-    (hS : Sec6Setting X n t) (hb : b ∈ Sec6M X n (cen t)) (hb2 : orderOf b = 2) :
+    (_hS : Sec6Setting X n t) (hb : b ∈ Sec6M X n (cen t)) (hb2 : orderOf b = 2) :
     oddCoreOf (cen t ⊓ cen b) ≤ oddCoreOf (cen t) :=
   oddCoreOf_inf_cen_le (𝓐 := {M | Sec6MComp X n (cen t) M}) (fun _ hM => ⟨hM.1.1, hM.1.2.1⟩) hb
     (by rw [← hb2, pow_orderOf_eq_one])

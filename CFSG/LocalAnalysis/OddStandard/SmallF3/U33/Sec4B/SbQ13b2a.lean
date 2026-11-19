@@ -11,6 +11,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 theorem q13b_tau_comm_aux {t om tau f : G} {V : Subgroup G}
     (ht : t * t = 1) (hom : om * om = 1) (hto : om * t * om⁻¹ = t * tau)
     (hVc : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) (hV2 : ∀ a ∈ V, a * a = 1)
@@ -149,6 +150,7 @@ private theorem q13b_card_conj_orbit {H P : Type*} [Group H] [Group P] (σ : H �
       _ = σ a * ((σ a)⁻¹ * σ b * F) * (σ b)⁻¹ := by rw [h]
       _ = σ b * F * (σ b)⁻¹ := by group
 
+omit [Finite G] in
 private theorem q13b_card_le_mul_card_orbit {H : Subgroup G} (x : G) {n : ℕ}
     (hn : Nat.card (Set.range fun h : H => (h : G) * x * (h : G)⁻¹) ≤ n) :
     Nat.card H ≤ n * Nat.card ↥(H ⊓ centralizer ({x} : Set G)) := by
@@ -186,8 +188,8 @@ theorem q13b_omega1_A (h : Q13Om t L S x₁ x₂ lam rho tau om) :
     ∀ a ∈ q13A t tau x₁ x₂ rho, a * a = 1 → a ∈ fourGrp x₁ x₂ := by
   classical
   intro a haA haa
-  haveI hAfin : Fintype ↥(q13A t tau x₁ x₂ rho) := Fintype.ofFinite _
-  haveI hVfin : Fintype ↥(fourGrp x₁ x₂) := Fintype.ofFinite _
+  have hAfin : Fintype ↥(q13A t tau x₁ x₂ rho) := Fintype.ofFinite _
+  have hVfin : Fintype ↥(fourGrp x₁ x₂) := Fintype.ofFinite _
   have hVleA : fourGrp x₁ x₂ ≤ q13A t tau x₁ x₂ rho := q13a_V_le_A h
   have hVexp : ∀ v ∈ fourGrp x₁ x₂, v * v = 1 := by
     intro v hv

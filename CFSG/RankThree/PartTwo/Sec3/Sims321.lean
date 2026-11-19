@@ -120,12 +120,14 @@ variable (hLN : X ≤ Subgroup.normalizer (L : Set G))
   (φ : L ⧸ CFSG.pCore 2 L ≃* CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 2 n))
 
 include φ in
+omit [Finite G] in
 theorem isSimpleGroup_quot : IsSimpleGroup (L ⧸ CFSG.pCore 2 L) := by
   have : IsSimpleGroup (projectiveSL 3 (GaloisField 2 n)) :=
     CFSG.RankThree.PartOne.KCLinearSubfield.isSimpleGroup_projectiveSL (n := 3) le_rfl
   exact (φ.trans (CFSG.RankThree.PartTwo.KFacts.L34.projSLEquivProjectiveSL 3 _)).isSimpleGroup
 
 include φ in
+omit [Finite G] in
 theorem center_quot_eq_bot : Subgroup.center (L ⧸ CFSG.pCore 2 L) = ⊥ := by
   set e := φ.trans (CFSG.RankThree.PartTwo.KFacts.L34.projSLEquivProjectiveSL 3 (GaloisField 2 n))
   rw [eq_bot_iff]
@@ -139,6 +141,7 @@ theorem center_quot_eq_bot : Subgroup.center (L ⧸ CFSG.pCore 2 L) = ⊥ := by
   rw [Subgroup.mem_bot]
   exact e.injective (hez.trans (map_one e).symm)
 
+omit [Finite G] in
 theorem rhoX_eq_conj (x : X) (l : L) (h : (x : G) = l) :
     rhoX hLN φ x = MulAut.conj (psi φ l) :=
   rho_eq_conj φ ⟨x, hLN x.2⟩ l h
@@ -182,6 +185,7 @@ theorem conj_eq_of_rhoX_eq (hL : L ∈ oTwoComponentsIn X)
 @[expose] noncomputable def imgSL (H : Subgroup G) : Subgroup SL(3, GaloisField 2 n) :=
   ((H.subgroupOf X).map (rhoX hLN φ)).comap (theta n)
 
+omit [Finite G] in
 theorem mem_imgSL {H : Subgroup G} {g : SL(3, GaloisField 2 n)} :
     g ∈ imgSL hLN φ H ↔ ∃ a : X, (a : G) ∈ H ∧ rhoX hLN φ a = theta n g := by
   simp only [imgSL, Subgroup.mem_comap, Subgroup.mem_map, Subgroup.mem_subgroupOf]
@@ -219,6 +223,7 @@ theorem card_imgSL (hL : L ∈ oTwoComponentsIn X) (hT : CFSG.ABGLocalTools.IsSy
   rw [h1, hK, ← Subgroup.relIndex_ker, hker, Subgroup.relIndex_subgroupOf hHX,
     Subgroup.inf_relIndex_left]
 
+omit [Finite G] in
 theorem imgSL_elem (hn : Odd n) {H : Subgroup G} (hH : IsElemTwo H) :
     (∀ g ∈ imgSL hLN φ H, g * g = 1) ∧
       ∀ g ∈ imgSL hLN φ H, ∀ g' ∈ imgSL hLN φ H, g * g' = g' * g := by
@@ -262,6 +267,7 @@ theorem rhoX_outer (hL : L ∈ oTwoComponentsIn X) (hT : CFSG.ABGLocalTools.IsSy
   change (rhoX hLN φ x) ^ 2 ^ a = 1
   rw [← map_pow, hxa, map_one]
 
+omit [Finite G] in
 theorem le_of_isSylowOf' {T X : Subgroup G} (hT : CFSG.ABGLocalTools.IsSylowOf 2 T X) : T ≤ X := by
   obtain ⟨S, rfl⟩ := hT
   exact Subgroup.map_subtype_le _
@@ -298,11 +304,11 @@ theorem relIndex_inf_sup_le_two (hL : L ∈ oTwoComponentsIn X)
     | H a =>
       by_cases ha : (a : G) ∈ L ⊔ CFSG.Open.pCoreOf 2 X
       · refine ⟨false, ?_⟩
-        simp only [Bool.false_eq_true, if_false]
+        simp only [Bool.false_eq_true, ite_false]
         rw [QuotientGroup.eq, inv_one, one_mul, Subgroup.mem_subgroupOf]
         exact ⟨a.2, ha⟩
       · refine ⟨true, ?_⟩
-        simp only [if_true]
+        simp only [ite_true]
         rw [QuotientGroup.eq, Subgroup.mem_subgroupOf]
         have hk := key a a.2 ha
         have hc : t⁻¹ * a = a * t⁻¹ := by
@@ -317,8 +323,9 @@ theorem relIndex_inf_sup_le_two (hL : L ∈ oTwoComponentsIn X)
     _ = 2 := by simp
 
 include hLN φ in
-theorem card_imgSL_lt (hL : L ∈ oTwoComponentsIn X) (hT : CFSG.ABGLocalTools.IsSylowOf 2 T X)
-    (hLT : L ⊔ T = X) (hn : Odd n) [Fintype (GaloisField 2 n)] {A : Subgroup G}
+omit [Finite G] in
+theorem card_imgSL_lt (_hL : L ∈ oTwoComponentsIn X) (_hT : CFSG.ABGLocalTools.IsSylowOf 2 T X)
+    (_hLT : L ⊔ T = X) (hn : Odd n) [Fintype (GaloisField 2 n)] {A : Subgroup G}
     (hA : A ∈ famG T 0) {t : G} (htA : t ∈ A) (htX : t ∈ X) {B : GL (Fin 3) (GaloisField 2 n)}
     (htB : rhoX hLN φ ⟨t, htX⟩ = conjAut 3 _ B * dualAut 3 _) :
     Nat.card (imgSL hLN φ (A ⊓ (L ⊔ CFSG.Open.pCoreOf 2 X))) <
@@ -400,7 +407,7 @@ theorem relIndex_le_of_outer (hL : L ∈ oTwoComponentsIn X)
     (htB : rhoX hLN φ ⟨t, htX⟩ = conjAut 3 _ B * dualAut 3 _) :
     (A ⊓ CFSG.Open.pCoreOf 2 X).relIndex A ≤ 2 ^ (2 * n) := by
   classical
-  letI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have hn0 : n ≠ 0 := by obtain ⟨k, rfl⟩ := hn; omega
   obtain ⟨hAT, hA2, -⟩ := mem_famG.mp hA
   set H := A ⊓ (L ⊔ CFSG.Open.pCoreOf 2 X) with hH
@@ -442,7 +449,7 @@ theorem caseOuter (hL : L ∈ oTwoComponentsIn X)
     (hV : ⁅omegaZOf (CFSG.Open.pCoreOf 2 X), L⁆ ≠ ⊥) {A : Subgroup G} (hA : A ∈ famG T 0)
     (hAQ : ¬ A ≤ L ⊔ CFSG.Open.pCoreOf 2 X) : False := by
   classical
-  letI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have hn0 : n ≠ 0 := by obtain ⟨k, rfl⟩ := hn; omega
   obtain ⟨hAT, hA2, -⟩ := mem_famG.mp hA
   have hLX : L ≤ X := le_of_mem_oTwoComponentsIn hL
@@ -484,7 +491,7 @@ theorem caseOuter (hL : L ∈ oTwoComponentsIn X)
     simpa using this
   have hy1 : ∃ v ∈ omegaZOf (CFSG.Open.pCoreOf 2 X), (y : G) * v * (y : G)⁻¹ ≠ v := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hyQ := mem_pCoreOf_of_centralizes_omegaZOf hL hLN hT hLT (isSimpleGroup_quot φ) hV
       (hLX y.2) hcon
     have h1 : psi φ y = 1 :=
@@ -536,7 +543,7 @@ theorem lower_of_symm (hL : L ∈ oTwoComponentsIn X) (hT : CFSG.ABGLocalTools.I
   have hXV := le_normalizer_omegaZOf X
   obtain ⟨x, hxT, hxLQ⟩ : ∃ x ∈ T, x ∉ L ⊔ CFSG.Open.pCoreOf 2 X := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hLQ
     refine le_antisymm (sup_le hLX (CFSG.LieType.BorelTits.pCoreOf_le 2 X)) ?_
     calc X = L ⊔ T := hLT.symm
@@ -566,7 +573,7 @@ theorem lower_of_symm (hL : L ∈ oTwoComponentsIn X) (hT : CFSG.ABGLocalTools.I
     simpa using this
   have hy1 : ∃ v ∈ omegaZOf (CFSG.Open.pCoreOf 2 X), (y : G) * v * (y : G)⁻¹ ≠ v := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hyQ := mem_pCoreOf_of_centralizes_omegaZOf hL hLN hT hLT (isSimpleGroup_quot φ) hV
       (hLX y.2) hcon
     have h1 : psi φ y = 1 :=
@@ -664,6 +671,7 @@ theorem relIndex_le_cube (hL : L ∈ oTwoComponentsIn X) (hT : CFSG.ABGLocalTool
         exact Nat.mul_le_mul (Nat.mul_le_mul hzA hzA) hzA
 
 include hLN φ in
+omit [Finite G] in
 theorem map_imgSL_le {A : Subgroup G} (g₁ : X) (h : SL(3, GaloisField 2 n))
     (A₀ : GL (Fin 3) (GaloisField 2 n))
     (hg₁ : rhoX hLN φ g₁ = MulAut.conj (proj 3 _ h) *
@@ -689,6 +697,7 @@ theorem finrank_map_sl {F : Type*} [Field F] (h : SL(3, F)) (W : Submodule F (Fi
       Module.finrank F W :=
   CFSG.RankThree.PartTwo.Sec20.Res7.finrank_map_gl (Matrix.SpecialLinearGroup.toGL h) W
 
+omit [Finite G] in
 theorem imgSL_mono {H₁ H₂ : Subgroup G} (h : H₁ ≤ H₂) : imgSL hLN φ H₁ ≤ imgSL hLN φ H₂ :=
   Subgroup.comap_mono (Subgroup.map_mono fun _ hx => h hx)
 
@@ -699,7 +708,7 @@ theorem caseInner (hL : L ∈ oTwoComponentsIn X)
     (hLQ : L ⊔ CFSG.Open.pCoreOf 2 X ≠ X) {A : Subgroup G} (hA : A ∈ famG T 0)
     (hAQ : ¬ A ≤ CFSG.Open.pCoreOf 2 X) (hALQ : A ≤ L ⊔ CFSG.Open.pCoreOf 2 X) : False := by
   classical
-  letI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  let : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   have hn0 : n ≠ 0 := by obtain ⟨k, rfl⟩ := hn; omega
   obtain ⟨hAT, hA2, -⟩ := mem_famG.mp hA
   have hLX : L ≤ X := le_of_mem_oTwoComponentsIn hL
@@ -723,7 +732,7 @@ theorem caseInner (hL : L ∈ oTwoComponentsIn X)
     rw [hcardE]; exact hoff.trans hoff'
   obtain ⟨τ, hτE, hτ1⟩ : ∃ τ ∈ imgSL hLN φ A, τ ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : imgSL hLN φ A = ⊥ := eq_bot_iff.mpr fun g hg => (Subgroup.mem_bot).mpr (hcon g hg)
     rw [hbot, Subgroup.card_bot, eq_comm, Subgroup.relIndex_eq_one] at hcardE
     exact hAQ (hcardE.trans inf_le_right)
@@ -746,7 +755,7 @@ theorem caseInner (hL : L ∈ oTwoComponentsIn X)
   have hEq : Nat.card (imgSL hLN φ A) = Fintype.card (GaloisField 2 n) ^ 2 := by
     refine le_antisymm hEle ?_
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h1 : Nat.card (imgSL hLN φ A) ^ 3 < (Fintype.card (GaloisField 2 n) ^ 2) ^ 3 :=
       Nat.pow_lt_pow_left hlt (by norm_num)
     rw [card_galoisField hn0, ← pow_mul, ← pow_mul] at h1
@@ -757,7 +766,7 @@ theorem caseInner (hL : L ∈ oTwoComponentsIn X)
   obtain ⟨S, hSd, hES⟩ := eq_transvectionGroup_of_card hE2 hEc hEq
   obtain ⟨x, hxT, hxLQ⟩ : ∃ x ∈ T, x ∉ L ⊔ CFSG.Open.pCoreOf 2 X := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hLQ
     refine le_antisymm (sup_le hLX (CFSG.LieType.BorelTits.pCoreOf_le 2 X)) ?_
     calc X = L ⊔ T := hLT.symm

@@ -23,14 +23,14 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
     (hι : IsProjGQ c ι A) [FiniteDimensional K A] {ℓ : ℕ}
     (hsec : HasConstantSecants c ι A ℓ) (hℓ : 2 ≤ ℓ) (h5 : finrank K A = 5)
-    {X : Submodule K W} (hX1 : finrank K X = 1) (hXA : X ≤ A)
+    {X : Submodule K W} (hX1 : finrank K X = 1) (_hXA : X ≤ A)
     (hXP : ¬ ∃ v, c v = 0 ∧ ι v = X) {y : V} (hyX : y ∈ collar c ι X) :
     (fullLinesThrough Γ (collar c ι X) y).ncard * ℓ = s + ℓ := by
   classical
   have hy0 : c y = 0 := hyX.1
   have hXH : X ≤ perpSpan c ι y := hyX.2
   have hHA : perpSpan c ι y ≤ A := perpSpan_le_ambient hι y
-  haveI : FiniteDimensional K (perpSpan c ι y) := Submodule.finiteDimensional_of_le hHA
+  have : FiniteDimensional K (perpSpan c ι y) := Submodule.finiteDimensional_of_le hHA
   have hHdim := finrank_perpSpan_add_one hP hT hι hy0
   have hH4 : finrank K (perpSpan c ι y) = 4 := by omega
   have hs : 2 ≤ s := two_le_s hP hT c hdeg
@@ -48,7 +48,7 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
     have hEq : Mset = {M : Submodule K W | T ≤ M ∧ M ≤ H ∧
         finrank K M = finrank K T + 1} := by
       ext M
-      simp only [Mset, Set.mem_setOf_eq, hT2]
+      simp only [Mset, Set.mem_ofPred_eq, hT2]
     have h1 : Nat.card {M : Submodule K W // T ≤ M ∧ M ≤ H ∧
         finrank K M = finrank K T + 1} = s + 1 := by
       rw [h, card_field_eq_of_isProjGQ hP hT c hdeg hι]
@@ -57,17 +57,17 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
       rw [← Nat.card_coe_set_eq]
       exact h1
     rw [hEq, h2]
-  haveI : Finite A := Module.finite_of_finite K
-  haveI hfinSub : Finite {M : Submodule K W // M ≤ A} := by
-    haveI : Finite (Submodule K A) :=
+  have : Finite A := Module.finite_of_finite K
+  have hfinSub : Finite {M : Submodule K W // M ≤ A} := by
+    have : Finite (Submodule K A) :=
       Finite.of_injective (fun L : Submodule K A => (L : Set A)) SetLike.coe_injective
     exact Finite.of_equiv (Submodule K A) (Submodule.MapSubtype.orderIso A).toEquiv
-  haveI : Finite Mset :=
+  have : Finite Mset :=
     Finite.of_injective (fun M : Mset => (⟨M.1, M.2.2.1.trans hHA⟩ :
       {M : Submodule K W // M ≤ A}))
       (fun a b h => Subtype.ext
         (congrArg (fun x : {M : Submodule K W // M ≤ A} => (x : Submodule K W)) h))
-  letI : Fintype Mset := Fintype.ofFinite Mset
+  let : Fintype Mset := Fintype.ofFinite Mset
   let Lset : Set V := {L | c L = 1 ∧ Γ.Adj y L}
   have hLsetcard : Lset.ncard = t + 1 := by
     have hEq : Lset = Γ.neighborSet y := by
@@ -77,8 +77,8 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
         exact h
       · intro h
         exact ⟨color_eq_one_of_adj_of_color_eq_zero hy0 h, h⟩
-    rw [hEq, ncard_neighborSet, hdeg y, if_pos hy0]
-  letI : Fintype Lset := Fintype.ofFinite Lset
+    rw [hEq, ncard_neighborSet, hdeg y, ite_eq_left hy0]
+  let : Fintype Lset := Fintype.ofFinite Lset
   let k : Submodule K W → ℕ := fun M => {L : V | L ∈ Lset ∧ ι L ≤ M}.ncard
   have hrow : ∀ L : Lset, (Finset.univ.bipartiteAbove
       (fun (L : Lset) (M : Mset) => ι L.1 ≤ M.1) L).card = 1 := by
@@ -100,7 +100,7 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
         exact le_iSup_of_le L.1 (le_iSup_of_le (by simpa using hyL) le_rfl)
     have huniq : ∀ M : Submodule K W, M ∈ Mset → ι L.1 ≤ M → M = X ⊔ ι L.1 := by
       intro M hM hle
-      haveI : FiniteDimensional K M := Submodule.finiteDimensional_of_le (hM.2.1.trans hHA)
+      have : FiniteDimensional K M := Submodule.finiteDimensional_of_le (hM.2.1.trans hHA)
       have hsup : X ⊔ ι L.1 ≤ M :=
         sup_le (le_trans le_sup_left hM.1) hle
       exact (Submodule.eq_of_le_of_finrank_eq hsup (by rw [hM.2.2, hM0dim])).symm
@@ -157,7 +157,7 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
   have hk2 : ∀ M ∈ Mset, 2 ≤ k M → k M = ℓ + 1 := by
     intro M hM hkge
     obtain ⟨hTM, hMH, hM3⟩ := hM
-    haveI : FiniteDimensional K M := Submodule.finiteDimensional_of_le (hMH.trans hHA)
+    have : FiniteDimensional K M := Submodule.finiteDimensional_of_le (hMH.trans hHA)
     obtain ⟨C, hC⟩ := Submodule.exists_isCompl (ι y)
     let R : Submodule K W := C ⊓ M
     have hRleM : R ≤ M := inf_le_right
@@ -182,8 +182,8 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
       exact Submodule.mem_sup.mpr ⟨a, ha, c, ⟨hc, hcM⟩, hac⟩
     have hRdim : finrank K R = 2 := by
       have hy1 : finrank K (ι y) = 1 := hι.finrank_point y hy0
-      haveI : FiniteDimensional K (ι y) := Module.finite_of_finrank_pos (by rw [hy1]; norm_num)
-      haveI : FiniteDimensional K R := Submodule.finiteDimensional_of_le hRleM
+      have : FiniteDimensional K (ι y) := Module.finite_of_finrank_pos (by rw [hy1]; norm_num)
+      have : FiniteDimensional K R := Submodule.finiteDimensional_of_le hRleM
       have h := Submodule.finrank_sup_add_finrank_inf_eq (ι y) R
       rw [hRsup, hM3, hRdisj, finrank_bot, hy1] at h
       omega
@@ -199,7 +199,7 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
     have hRnotline : ∀ L, c L = 1 → ι L ≠ R := by
       intro L hL1 hEq
       have hdegL : Γ.degree L = s + 1 := by
-        rw [hdeg L, if_neg (by rw [hL1]; decide)]
+        rw [hdeg L, ite_eq_right (by rw [hL1]; decide)]
       have h1lt : 1 < (Γ.neighborSet L).ncard := by
         rw [ncard_neighborSet]
         omega
@@ -242,12 +242,12 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
       intro L hL1 hyL hLM
       have hyLle : ι y ≤ ι L := (hι.adj_iff y L hy0 hL1).1 hyL
       have hL2 : finrank K (ι L) = 2 := hι.finrank_line L hL1
-      haveI : FiniteDimensional K (ι L) := Module.finite_of_finrank_pos (by rw [hL2]; norm_num)
+      have : FiniteDimensional K (ι L) := Module.finite_of_finrank_pos (by rw [hL2]; norm_num)
       have hnotle : ¬ ι L ≤ R := by
         intro hle
         exact hRnoty (hyLle.trans hle)
       have hsup_le : ι L ⊔ R ≤ M := sup_le hLM hRleM
-      haveI : FiniteDimensional K ↥(ι L ⊔ R) := Submodule.finiteDimensional_of_le hsup_le
+      have : FiniteDimensional K ↥(ι L ⊔ R) := Submodule.finiteDimensional_of_le hsup_le
       have hsup_dim : finrank K ↥(ι L ⊔ R) ≤ 3 := by
         have := Submodule.finrank_mono hsup_le
         rwa [hM3] at this
@@ -316,7 +316,7 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
         have hspec := hf L hLmem
         have hxle : ι x ≤ ι L ⊓ R := le_inf ((hι.adj_iff x L hx0 hL1).1 hxL) hxR
         have hx1 : finrank K (ι x) = 1 := hι.finrank_point x hx0
-        haveI : FiniteDimensional K ↥(ι L ⊓ R) := Submodule.finiteDimensional_of_le inf_le_right
+        have : FiniteDimensional K ↥(ι L ⊓ R) := Submodule.finiteDimensional_of_le inf_le_right
         have heq : ι L ⊓ R = ι x :=
           (Submodule.eq_of_le_of_finrank_eq hxle (by rw [hdimL, hx1])).symm
         have hfeq : f L hLmem = x := by
@@ -336,7 +336,7 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
       ∀ y', Γ.Adj L y' → y' ≠ y → M = perpSpan c ι y ⊓ perpSpan c ι y' := by
     intro M hM hk L hL1 hyL hLM y' hy'L hy'ne
     obtain ⟨hTM, hMH, hM3⟩ := hM
-    haveI : FiniteDimensional K M := Submodule.finiteDimensional_of_le (hMH.trans hHA)
+    have : FiniteDimensional K M := Submodule.finiteDimensional_of_le (hMH.trans hHA)
     have hy'0 : c y' = 0 := color_eq_zero_of_adj_of_color_eq_one hL1 hy'L
     by_cases hle : M ≤ perpSpan c ι y'
     · have hdim : finrank K ↥(perpSpan c ι y ⊓ perpSpan c ι y') = 3 := by
@@ -346,7 +346,7 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
     · exfalso
       have hsup : perpSpan c ι y' ⊔ M = A :=
         perpSpan_sup_eq_of_not_le hP hT hι hy'0 (hMH.trans hHA) hle
-      haveI : FiniteDimensional K (perpSpan c ι y') :=
+      have : FiniteDimensional K (perpSpan c ι y') :=
         Submodule.finiteDimensional_of_le (perpSpan_le_ambient hι y')
       have hintdim : finrank K ↥(M ⊓ perpSpan c ι y') = 2 := by
         have h := Submodule.finrank_sup_add_finrank_inf_eq M (perpSpan c ι y')
@@ -357,9 +357,9 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
         refine le_inf hLM ?_
         rw [perpSpan_eq_iSup_neighborFinset hP hT hι hy'0]
         exact le_iSup_of_le L (le_iSup_of_le (by simpa using hy'L.symm) le_rfl)
-      haveI : FiniteDimensional K (ι L) :=
+      have : FiniteDimensional K (ι L) :=
         Module.finite_of_finrank_pos (by rw [hι.finrank_line L hL1]; norm_num)
-      haveI : FiniteDimensional K ↥(M ⊓ perpSpan c ι y') :=
+      have : FiniteDimensional K ↥(M ⊓ perpSpan c ι y') :=
         Submodule.finiteDimensional_of_le inf_le_left
       have hInt : M ⊓ perpSpan c ι y' = ι L :=
         (Submodule.eq_of_le_of_finrank_eq hLle
@@ -384,7 +384,7 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
       have hNlt : 1 < Nset.ncard := by
         rw [hNsetcard']
         omega
-      haveI : Finite ↥Nset :=
+      have : Finite ↥Nset :=
         Finite.of_injective (fun N : Nset =>
           (⟨N.1, N.2.2.1.trans (hMH.trans hHA)⟩ : {T : Submodule K W // T ≤ A}))
           (fun a b h => Subtype.ext
@@ -443,7 +443,7 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
     intro L hL
     have hL1 : c L = 1 := color_eq_one_of_adj_of_color_eq_zero hy0 hL.1
     have hdegL : Γ.degree L = s + 1 := by
-      rw [hdeg L, if_neg (by rw [hL1]; decide)]
+      rw [hdeg L, ite_eq_right (by rw [hL1]; decide)]
     have h1lt : 1 < (Γ.neighborSet L).ncard := by
       rw [ncard_neighborSet]
       omega
@@ -494,7 +494,7 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
       constructor
       · rintro ⟨⟨hL₂1, hyL₂⟩, hL₂le⟩
         have hdegL₂ : Γ.degree L₂ = s + 1 := by
-          rw [hdeg L₂, if_neg (by rw [hL₂1]; decide)]
+          rw [hdeg L₂, ite_eq_right (by rw [hL₂1]; decide)]
         have h1lt : 1 < (Γ.neighborSet L₂).ncard := by
           rw [ncard_neighborSet]
           omega
@@ -531,7 +531,7 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
       rw [← hMof_sec L hL, ← hMof_sec L' hL', hval]
     have hL1 : c L = 1 := color_eq_one_of_adj_of_color_eq_zero hy0 hL.1
     have hdegL : Γ.degree L = s + 1 := by
-      rw [hdeg L, if_neg (by rw [hL1]; decide)]
+      rw [hdeg L, ite_eq_right (by rw [hL1]; decide)]
     have h1lt : 1 < (Γ.neighborSet L).ncard := by
       rw [ncard_neighborSet]
       omega
@@ -549,7 +549,7 @@ theorem ncard_fullLinesThrough_collar_mul (hP : IsGeneralizedPolygon Γ 4) (hT :
     obtain ⟨L, hLmem⟩ := (Set.ncard_pos (s := {L : V | L ∈ Lset ∧ ι L ≤ M.1})).mp hpos
     obtain ⟨⟨hL1, hyL⟩, hLM⟩ := hLmem
     have hdegL : Γ.degree L = s + 1 := by
-      rw [hdeg L, if_neg (by rw [hL1]; decide)]
+      rw [hdeg L, ite_eq_right (by rw [hL1]; decide)]
     have h1lt : 1 < (Γ.neighborSet L).ncard := by
       rw [ncard_neighborSet]
       omega

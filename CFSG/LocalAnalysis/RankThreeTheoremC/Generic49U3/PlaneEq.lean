@@ -16,9 +16,11 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x : G}
   {J : Subgroup G}
 
+omit [Finite G] in
 private theorem mem_u3T_iff {a : G} : a ∈ u3T P x J ↔ a ∈ u3S P x ∧ a ∈ J :=
   Subgroup.mem_inf
 
+omit [Finite G] in
 private theorem u3_O_eq_one (hcop : Nat.Coprime p (Nat.card (rankThreePrimeCore p J)))
     {g : G} (hg : g ∈ rankThreePrimeCore p J) (hgp : g ^ p = 1) : g = 1 := by
   have hk : orderOf (⟨g, hg⟩ : rankThreePrimeCore p J) ∣ p := by
@@ -31,6 +33,7 @@ private theorem u3_O_eq_one (hcop : Nat.Coprime p (Nat.card (rankThreePrimeCore 
     Nat.eq_one_of_dvd_coprimes hcop hk hk2
   exact congrArg Subtype.val (orderOf_eq_one_iff.mp h1)
 
+omit [Finite G] in
 private theorem u3_false_of_O_sq (hodd : Odd (Nat.card (rankThreePrimeCore p J))) {g : G}
     (hg : g ∈ rankThreePrimeCore p J) (hg2 : g ^ 2 = 1) (hg1 : g ≠ 1) : False := by
   have hord : orderOf (⟨g, hg⟩ : rankThreePrimeCore p J) = 2 := by
@@ -60,9 +63,9 @@ private theorem u3_central_of_involution (hc : U3Config G p P M x J)
     {z a : G} (hzJ : z ∈ J) (hz1 : z ≠ 1) (hz2 : z ^ 2 = 1)
     (haT : a ∈ u3T P x J) (ha1 : a ≠ 1) (hza : z * a = a * z) :
     a ∈ u3ZT P x J := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   obtain ⟨Q, instQ, ψ, hψsurj, hker, hU3⟩ := hc.u3
-  haveI : Finite Q := Finite.of_surjective ψ hψsurj
+  have : Finite Q := Finite.of_surjective ψ hψsurj
   have hOlem : ∀ g ∈ rankThreePrimeCore p J, g ^ p = 1 → g = 1 :=
     fun g hg hgp => u3_O_eq_one hcop hg hgp
   have haJ : a ∈ J := (mem_u3T_iff.mp haT).2
@@ -134,7 +137,7 @@ theorem u3_plane_eq (hS : Setting G) (hD1 : TheoremD1 G) (hc : U3Config G p P M 
     {z : G} (hzJ : z ∈ J) (hz1 : z ≠ 1) (hz2 : z ^ 2 = 1) {R : Subgroup G}
     (hRP : R ≤ (P : Subgroup G)) (hRe : IsElemAbelian p R) (hRc : Nat.card R = p ^ 2) (hxR : x ∈ R)
     (hRz : R ≤ Subgroup.centralizer ({z} : Set G)) : R = u3U0 P x J := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   obtain ⟨-, hodd⟩ := u3main_core_facts hS hD1 hc.sigma hc.core hc.generic hc.le_cent hc.cent_le
   have hcop : Nat.Coprime p (Nat.card (rankThreePrimeCore p J)) :=
     (CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec p J).2.2

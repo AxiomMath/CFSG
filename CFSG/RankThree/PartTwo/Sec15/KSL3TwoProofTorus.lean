@@ -213,7 +213,7 @@ theorem exists_frame (hK : PiField π p f K) {r : ℕ} (hr : r.Prime) (hr3 : r �
   have hrL : (r : L) ≠ 0 := by
     rw [← map_natCast (algebraMap K L)]
     exact (map_ne_zero _).mpr hrK
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L r
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L r
   set ι : GL (Fin 3) K →* GL (Fin 3) L := GeneralLinearGroup.map (algebraMap K L) with hι
   have hιm : ∀ g : GL (Fin 3) K, ((ι g : GL (Fin 3) L) : Matrix (Fin 3) (Fin 3) L) =
       (g : Matrix (Fin 3) (Fin 3) K).map (algebraMap K L) := fun g => rfl

@@ -13,16 +13,17 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sec4F_exists_sylow_M {A : Subgroup G} (hA2 : IsPGroup 2 A) :
     ∃ P : Subgroup G, A ≤ P ∧ P ≤ normalizer (A : Set G) ∧ IsPGroup 2 P ∧
       ∀ P' : Subgroup G, P ≤ P' → P' ≤ normalizer (A : Set G) → IsPGroup 2 P' → P' = P := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let M : Subgroup G := normalizer (A : Set G)
   have hAM : A ≤ M := Subgroup.le_normalizer
   have hA2' : IsPGroup 2 (A.subgroupOf M) :=
     hA2.of_equiv (Subgroup.subgroupOfEquivOfLe hAM).symm
-  haveI : (A.subgroupOf M).Normal :=
+  have : (A.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hAM).mpr le_rfl
   obtain ⟨Ps⟩ := Sylow.nonempty (p := 2) (G := ↥M)
   have hAlePs : A.subgroupOf M ≤ (Ps : Subgroup ↥M) := hA2'.le_sylow_of_normal Ps
@@ -31,7 +32,7 @@ theorem sec4F_exists_sylow_M {A : Subgroup G} (hA2 : IsPGroup 2 A) :
   have hAP₀ : A ≤ P₀ := by
     intro a ha
     exact ⟨⟨a, hAM ha⟩, hAlePs (Subgroup.mem_subgroupOf.mpr ha), rfl⟩
-  have hP₀2 : IsPGroup 2 P₀ := Ps.isPGroup'.map M.subtype
+  have hP₀2 : IsPGroup 2 P₀ := Ps.isPGroup.map M.subtype
   refine ⟨P₀, hAP₀, hP₀_le_M, hP₀2, ?_⟩
   intro P' hP₀P' hP'M hP'2
   have hK2 : IsPGroup 2 (P'.subgroupOf M) :=
@@ -46,22 +47,22 @@ theorem sec4F_exists_normalizer_elt {P : Subgroup G} (hP2 : IsPGroup 2 P)
     (hS : ¬ IsSylow2Of P ⊤) :
     ∃ x : G, x ∈ normalizer (P : Set G) ∧ x ∉ P ∧ x * x ∈ P ∧ IsPGroup 2 ↥(P ⊔ zpowers x) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hPQ⟩ := hP2.exists_le_sylow
   have hPQne : P ≠ (Q : Subgroup G) := by
     intro hEq
     apply hS
     refine ⟨le_top, ?_, ?_⟩
-    · rw [hEq]; exact Q.isPGroup'
+    · rw [hEq]; exact Q.isPGroup
     · rw [Subgroup.relIndex_top_right, hEq]; exact Q.not_dvd_index
   let H : Subgroup ↥Q := P.subgroupOf Q
   have hHlt : H < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro htop
     exact hPQne (le_antisymm hPQ (Subgroup.subgroupOf_eq_top.mp htop))
-  haveI : Group.IsNilpotent ↥Q := Q.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥Q := Q.isPGroup.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := ↥Q)
-  obtain ⟨y, hy_norm, hy_H⟩ := SetLike.exists_of_lt (hnc H hHlt)
+  obtain ⟨y, hy_norm, hy_H⟩ := _root_.IsConcreteLE.exists_of_lt (hnc H hHlt)
   have hyQ : (y : G) ∈ Q := y.2
   have hy_normP : (y : G) ∈ normalizer (P : Set G) := by
     have hmap := Subgroup.le_normalizer_map (f := (Q : Subgroup G).subtype) (H := H)
@@ -70,7 +71,7 @@ theorem sec4F_exists_normalizer_elt {P : Subgroup G} (hP2 : IsPGroup 2 P)
     have hthis := hmap hy_mem
     rwa [Subgroup.map_subgroupOf_eq_of_le hPQ] at hthis
   have hyP : (y : G) ∉ P := fun hyP => hy_H (Subgroup.mem_subgroupOf.mpr hyP)
-  obtain ⟨n, hn⟩ := Q.isPGroup' y
+  obtain ⟨n, hn⟩ := Q.isPGroup y
   have hn1 : (y : G) ^ 2 ^ n = 1 := by
     have := congrArg (Subtype.val) hn
     simpa using this
@@ -92,7 +93,7 @@ theorem sec4F_exists_normalizer_elt {P : Subgroup G} (hP2 : IsPGroup 2 P)
       ring
     rw [heq, ← hj]
     exact hkP
-  · exact Q.isPGroup'.to_le
+  · exact Q.isPGroup.to_le
       (sup_le hPQ (Subgroup.zpowers_le.mpr (pow_mem hyQ (2 ^ j))))
 
 end CFSG.OddStandard.SmallF3.Omega

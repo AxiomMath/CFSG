@@ -27,7 +27,7 @@ scoped instance : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
 
 theorem fiveWeight_castSucc (k : ℕ) (ε : Bool) (i : Fin k) :
     fiveWeight k ε i.castSucc = 1 := by
-  simp only [fiveWeight, if_neg (Fin.castSucc_ne_last i)]
+  simp only [fiveWeight, ite_eq_right (Fin.castSucc_ne_last i)]
 
 theorem fiveWeight_last (k : ℕ) (ε : Bool) :
     fiveWeight k ε (Fin.last k) = -(if ε then 1 else 2) := by
@@ -49,7 +49,7 @@ theorem fiveQ_polar (k : ℕ) (ε : Bool) (x y : Fin (k + 1) → ZMod 5) :
   ring
 
 theorem fiveQ_nondegenerate (k : ℕ) (ε : Bool) : (fiveQ k ε).Nondegenerate := by
-  letI : Invertible (2 : ZMod 5) :=
+  let : Invertible (2 : ZMod 5) :=
     invertibleOfNonzero (show (2 : ZMod 5) ≠ 0 by decide)
   rw [fiveQ]
   refine QuadraticMap.nondegenerate_weightedSumSquares (w := fiveWeight k ε) fun i => ?_

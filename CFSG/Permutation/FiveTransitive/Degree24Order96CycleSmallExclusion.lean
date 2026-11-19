@@ -138,7 +138,7 @@ theorem alternatingGroup_le_of_order96_cycle_range_small
     refine ⟨q, ?_⟩
     ext i
     exact congrArg Subtype.val (hc i)
-  letI :
+  let :
       MulAction.IsMultiplyPretransitive Q F 5 :=
     hQ5
   have hQdegree :
@@ -157,7 +157,7 @@ theorem alternatingGroup_le_of_order96_cycle_range_small
       alternatingGroup F ≤ ρ.range := by
     rw [hRangeTop]
     exact le_top
-  letI : Nontrivial F :=
+  let : Nontrivial F :=
     Fintype.one_lt_card_iff_nontrivial.mp (by
       rw [← Nat.card_eq_fintype_card, hFcard]
       norm_num)
@@ -170,7 +170,7 @@ theorem alternatingGroup_le_of_order96_cycle_range_small
   have hRcard : Nat.card R = 3 := by
     rw [Nat.card_zpowers]
     simpa only [uP] using u.2.1
-  letI : IsCyclic R := by
+  let : IsCyclic R := by
     dsimp only [R]
     infer_instance
   have hAutCard :

@@ -39,7 +39,7 @@ section Props
 
 variable {G : Type} [Group G] [Finite G]
 
-@[expose] def OmegaProp (M Q Z : Subgroup G) : Prop :=
+@[expose] def OmegaProp (_M Q Z : Subgroup G) : Prop :=
   ∀ A C : Subgroup G, (∃ g : G, A = conjSubgroup g Z) → (∃ g : G, C = conjSubgroup g Z) →
     A ≤ Q → C ≤ Q → A ≠ Z → C ≠ Z → (∀ a ∈ A, ∀ c ∈ C, a * c = c * a) → A ≤ C ⊔ Z
 

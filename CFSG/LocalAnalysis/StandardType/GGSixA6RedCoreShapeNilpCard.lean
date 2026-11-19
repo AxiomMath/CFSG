@@ -44,7 +44,7 @@ private theorem eq_smul_matE_of_corner {r : ℕ} {D : Fin r → Type} [∀ i, Fi
   have hmain : ggA6cs_matE D d b * y * ggA6cs_matE D d b =
       (Pi.single b (Matrix.single (0 : Fin (d b)) 0 (y b 0 0)) : PiMat D d) := by
     rw [ggA6cs_matE, single_mul_eq, mul_single_eq, Pi.single_eq_same]
-    simp only [Pi.single_eq_same, Matrix.single_mul_mul_single, one_mul, mul_one]
+    simp only [Matrix.single_mul_mul_single, one_mul, mul_one]
   conv_lhs => rw [← hy]
   exact hmain
 
@@ -62,7 +62,7 @@ private theorem eq_zero_or_one_of_nat_card_eq_two {F : Type} [Field F] [Finite F
 private theorem nat_card_field_eq_two_of_char_two {F : Type} [Field F] [Finite F] [CharP F 2]
     (hF : Nat.card F < 4) : Nat.card F = 2 := by
   classical
-  letI := Fintype.ofFinite F
+  let := Fintype.ofFinite F
   obtain ⟨n, _hnprime, hncard⟩ := FiniteField.card F 2
   have hcard : Nat.card F = Fintype.card F := Nat.card_eq_fintype_card
   have hnle : (n : ℕ) ≤ 1 := by
@@ -194,7 +194,7 @@ private theorem mulVec_mulVec_of_comm {K : Type} [Field K] {ι : Type} [Fintype 
 
 private theorem ggA6cs_coe_inv_mul_self {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι]
     (u : GL ι K) : (((u⁻¹ : GL ι K) : Matrix ι ι K)) * (u : Matrix ι ι K) = 1 := by
-  simpa [Matrix.GeneralLinearGroup.coe_inv] using congrArg Units.val (inv_mul_cancel u)
+  simp
 
 
 private theorem ggA6cs_exists_mulVec_ne_zero {K : Type} [Field K] {ι : Type} [Fintype ι]
@@ -224,7 +224,7 @@ theorem card_ge_four_of_nilpotent_free {K : Type} [Field K] [Finite K] [CharP K 
   · have hle : Nat.card K ≤ Nat.card (D b) := nat_card_le_of_algebraMap_injective
     omega
   · have hKlt : Nat.card K < 4 := by omega
-    haveI : CharP (D b) 2 :=
+    have : CharP (D b) 2 :=
       charP_of_injective_algebraMap (RingHom.injective (algebraMap K (D b))) 2
     have hD2 : Nat.card (D b) = 2 := nat_card_field_eq_two_of_char_two hDlt
     let e : PiMat D d := ggA6cs_matE D d b

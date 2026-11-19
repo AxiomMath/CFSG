@@ -42,7 +42,7 @@ private theorem aux_mu (hA : A2Core σ d q) {μ : Kˣ} (hm : (d : K) * σ (μ : 
   rw [map_mul, hc]
   linear_combination ((d : K) ^ 2 * c) * hm - (σ (μ : K) * c) * h3
 
-private theorem aux_muinv (hA : A2Core σ d q) {μ : Kˣ} (hm : (d : K) * σ (μ : K) = μ) {c : K}
+private theorem aux_muinv (_hA : A2Core σ d q) {μ : Kˣ} (hm : (d : K) * σ (μ : K) = μ) {c : K}
     (hc : σ c = c) :
     σ (((μ⁻¹ : Kˣ) : K) * c) = (d : K) * (((μ⁻¹ : Kˣ) : K) * c) := by
   have hμ : (μ : K) * ((μ⁻¹ : Kˣ) : K) = 1 := by

@@ -156,16 +156,16 @@ theorem xi_eq_wSet {B : Subgroup (MulAut PV)}
     have hx0 : Multiplicative.toAdd x.2 0 = 0 := mem_wSet.mp hx
     obtain ⟨v, w, rfl⟩ : ∃ v w, x = mk v w := ⟨_, _, eq_mk x⟩
     have hw : w 0 = 0 := hx0
-    have hp1 : unitVec3 1 0 = 0 := by simp [unitVec3, Pi.single_apply]
-    have hp2 : unitVec3 2 0 = 0 := by simp [unitVec3, Pi.single_apply]
+    have hp1 : unitVec3 1 0 = 0 := by simp [unitVec3]
+    have hp2 : unitVec3 2 0 = 0 := by simp [unitVec3]
     have ht1 : trv0 (unitVec3 1) hp1 ∈ B := hB' (unitVec3 1) hp1
     have ht2 : trv0 (unitVec3 2) hp2 ∈ B := hB' (unitVec3 2) hp2
     have ht1ne : trv0 (unitVec3 1) hp1 ≠ 1 := trv0_ne_one hp1 (unitVec3_ne_zero 1)
     have ht2ne : trv0 (unitVec3 2) hp2 ≠ 1 := trv0_ne_one hp2 (unitVec3_ne_zero 2)
     have hdotA : unitVec3 2 ⬝ᵥ (v 0 • e0 + v 1 • unitVec3 1) = 0 := by
-      simp [unitVec3, e0, single_dotProduct, Pi.single_apply]
+      simp [unitVec3, e0]
     have hdotB : unitVec3 1 ⬝ᵥ (v 2 • unitVec3 2) = 0 := by
-      simp [unitVec3, single_dotProduct, Pi.single_apply]
+      simp [unitVec3]
     have hdot0 : unitVec3 1 ⬝ᵥ (0 : Fin 3 → ZMod 2) = 0 := by
       simp
     have hfixA : mk (v 0 • e0 + v 1 • unitVec3 1) 0 ∈
@@ -183,7 +183,7 @@ theorem xi_eq_wSet {B : Subgroup (MulAut PV)}
       simp only [mk_mul, mk_inj]
       refine ⟨?_, by simp⟩
       funext j
-      fin_cases j <;> simp [e0, unitVec3, Pi.single_apply]
+      fin_cases j <;> simp [e0, unitVec3]
     rw [key]
     exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (fixV_le_xi ht2 ht2ne hfixA)
       (fixV_le_xi ht1 ht1ne hfixB)) (fixV_le_xi ht1 ht1ne hfixC)

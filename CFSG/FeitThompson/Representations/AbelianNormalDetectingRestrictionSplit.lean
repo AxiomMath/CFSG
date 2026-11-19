@@ -48,11 +48,11 @@ theorem exists_intCast_finsetSum_of_mem_span_Irr {X : Type*} [Group X] [Fintype 
   refine ⟨fun θ => if h : θ ∈ Irr X then n ⟨θ, h⟩ else 0, ?_, ?_⟩
   · rw [Finset.sum_subtype (irrFinset X) (fun _ => mem_irrFinset)
       (fun θ : X → ℂ => ((if h : θ ∈ Irr X then n ⟨θ, h⟩ else 0 : ℤ) : ℂ) • θ), hn]
-    exact Finset.sum_congr rfl fun θ _ => by rw [dif_pos θ.2]
+    exact Finset.sum_congr rfl fun θ _ => by rw [dite_eq_left θ.2]
   · intro θ hθ
     rw [mem_irrFinset] at hθ
     change cfInner f θ = ((if h : θ ∈ Irr X then n ⟨θ, h⟩ else 0 : ℤ) : ℂ)
-    rw [dif_pos hθ, hn]
+    rw [dite_eq_left hθ, hn]
     exact cfInner_intCast_sum_Irr_coe n ⟨θ, hθ⟩
 
 theorem resClassFun_eq_cfInner_self_smul_sum {L : Type*} [Group L] [Fintype L] {H : Subgroup L}
@@ -70,17 +70,17 @@ theorem resClassFun_eq_cfInner_self_smul_sum {L : Type*} [Group L] [Fintype L] {
         (fun θ : ↥H → ℂ => if indClassFun H θ = ζ then cfInner ζ ζ • θ else 0)]
     refine Finset.sum_congr rfl fun θ _ => ?_
     by_cases h : indClassFun H ((θ : Irr ↥H) : ↥H → ℂ) = ζ
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       congr 1
       rw [← conj_cfInner, ← cfInner_indClassFun H _ hcf, h, conj_cfInner]
-    · rw [if_neg h, ← conj_cfInner, ← cfInner_indClassFun H _ hcf,
+    · rw [ite_eq_right h, ← conj_cfInner, ← cfInner_indClassFun H _ hcf,
         NormalInducedFamily.cfInner_eq_zero_of_mem_indFam H
           (indClassFun_mem_indFam H θ.2) hζ h, map_zero, zero_smul]
   rw [step, Finset.sum_filter, Finset.smul_sum]
   refine Finset.sum_congr rfl fun θ _ => ?_
   by_cases h : indClassFun H θ = ζ
-  · rw [if_pos h, if_pos h]
-  · rw [if_neg h, if_neg h, smul_zero]
+  · rw [ite_eq_left h, ite_eq_left h]
+  · rw [ite_eq_right h, ite_eq_right h, smul_zero]
 
 section Detect
 
@@ -129,6 +129,7 @@ theorem exists_pos_cfInner_self_of_mem_indFamDetect [H.Normal] {ζ : ↥S → �
     Nat.pos_of_ne_zero (NormalInducedFamily.relIndex_inertiaGroup_ne_zero H θ),
     cfInner_self_indClassFun H hθ⟩
 
+omit [Fintype ↥S] in
 theorem resClassFun_resClassFun_mem_span_Irr [Finite G] {χ : G → ℂ}
     (hχ : χ ∈ Submodule.span ℤ (Irr G)) :
     resClassFun H (resClassFun S χ) ∈ Submodule.span ℤ (Irr ↥H) := by
@@ -166,7 +167,7 @@ theorem exists_intCast_eq_on_sdiff_one_of_cfInner_eq_zero
   set b : (↥H → ℂ) → ℤ := fun θ =>
     if (P.subgroupOf H : Set ↥H) ⊆ charValueKernel θ then m θ - m θ₀ else 0 with hb
   refine ⟨a, n, b, hnpos, ha, hn, apply_one_eq_index_of_mem_indFamDetect hζ,
-    fun θ hθ => by simp only [hb, if_neg hθ], ?_⟩
+    fun θ hθ => by simp only [hb, ite_eq_right hθ], ?_⟩
   have hfrob : ∀ θ ∈ irrFinset ↥H,
       cfInner (indClassFun H θ) (resClassFun S χ) = (m θ : ℂ) := by
     intro θ hθ
@@ -202,12 +203,12 @@ theorem exists_intCast_eq_on_sdiff_one_of_cfInner_eq_zero
     rw [horth ξ₀ hξ₀T hξ₀ne, sub_zero, cfInner_sub_left, hfrob θ hθ, ← hθ₀ind,
       hfrob θ₀ (mem_irrFinset.2 hθ₀)] at hd
     by_cases hzeta : indClassFun H θ = ζ
-    · rw [if_pos hzeta]
+    · rw [ite_eq_left hzeta]
       have hval : cfInner (ν ⟨indClassFun H θ, Submodule.subset_span hξ⟩ : G → ℂ) χ = (a : ℂ) := by
         subst hzeta; convert ha using 3
       rw [hval] at hd
       linear_combination -hd
-    · rw [if_neg hzeta, add_zero]
+    · rw [ite_eq_right hzeta, add_zero]
       rw [horth _ hξ hzeta] at hd
       linear_combination -hd
   have hcoef : ∀ θ ∈ irrFinset ↥H, (m θ : ℂ)
@@ -217,10 +218,10 @@ theorem exists_intCast_eq_on_sdiff_one_of_cfInner_eq_zero
     · have hne : indClassFun H θ ≠ ζ := by
         intro h
         exact ((indClassFun_mem_indFamDetect_iff hPH (mem_irrFinset.1 hθ)).1 (h ▸ hζ)) hdet
-      simp only [hb, if_pos hdet, if_neg hne]
+      simp only [hb, ite_eq_left hdet, ite_eq_right hne]
       push_cast
       ring
-    · simp only [hb, if_neg hdet]
+    · simp only [hb, ite_eq_right hdet]
       rw [hdetect θ hθ hdet]
       push_cast
       ring
@@ -241,8 +242,8 @@ theorem exists_intCast_eq_on_sdiff_one_of_cfInner_eq_zero
       rw [Finset.sum_filter]
       refine Finset.sum_congr rfl fun θ _ => ?_
       by_cases hh : indClassFun H θ = ζ
-      · rw [if_pos hh, if_pos hh, one_mul]
-      · rw [if_neg hh, if_neg hh, zero_mul]
+      · rw [ite_eq_left hh, ite_eq_left hh, one_mul]
+      · rw [ite_eq_right hh, ite_eq_right hh, zero_mul]
     rw [hfilt, eq_div_iff hnne, mul_comm]
     exact h.symm
   rw [hres, Finset.sum_congr rfl (g := fun θ : ↥H → ℂ =>
@@ -257,8 +258,8 @@ theorem exists_intCast_eq_on_sdiff_one_of_cfInner_eq_zero
     rw [Finset.mul_sum, Finset.mul_sum, ← Finset.sum_add_distrib, ← Finset.sum_add_distrib]
     refine Finset.sum_congr rfl fun θ _ => ?_
     by_cases h : indClassFun H θ = ζ
-    · simp only [if_pos h]; ring
-    · simp only [if_neg h]; ring
+    · simp only [ite_eq_left h]; ring
+    · simp only [ite_eq_right h]; ring
   rw [expand, hzero, hζsum, mul_zero, add_zero]
   field_simp
   ring

@@ -33,7 +33,7 @@ theorem gl83StronglyEmbeddedThreeSolvable_of_kFactStrongThreeSolv
   have hKo : CFSG.Open.IsKGroup X := CFSG.KCore.KGroupAllSimple.kGroupNonab hK
   by_cases hab : ∀ a b : H ⧸ T, a * b = b * a
   ·
-    letI : CommGroup (H ⧸ T) := { (inferInstance : Group (H ⧸ T)) with mul_comm := hab }
+    let : CommGroup (H ⧸ T) := { (inferInstance : Group (H ⧸ T)) with mul_comm := hab }
     have hp : (Nat.card (H ⧸ T)).Prime := IsSimpleGroup.prime_card (α := H ⧸ T)
     by_cases h3 : 3 ∣ Nat.card (H ⧸ T)
     · left

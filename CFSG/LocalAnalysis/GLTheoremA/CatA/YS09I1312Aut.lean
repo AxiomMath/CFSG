@@ -9,7 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -52,7 +52,7 @@ def i1312FixSet {P X : Type} [Group P] [MulAction P X] (M : Subgroup P) : Set X 
 theorem i1312_index_stab {P X : Type} [Group P] [Finite P] [Finite X] [MulAction P X] {p : ℕ}
     (hp : p.Prime) (hp3 : 3 ≤ p) (hP : IsPGroup p P) (hX : Nat.card X ≤ 8) (x : X) :
     (stabilizer P x).index = 1 ∨ (stabilizer P x).index = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : (stabilizer P x).index ∣ Nat.card P := Subgroup.index_dvd_card _
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hP
   rw [hk] at hdvd
@@ -81,11 +81,11 @@ theorem i1312_card_le_of_fix {P X : Type} [Group P] [Finite P] [Finite X] [MulAc
     (hX : Nat.card X ∣ 8) (hfaith : ∀ g : P, (∀ x : X, g • x = x) → g = 1)
     (hfix : ∀ M : Subgroup P, Nat.card (i1312FixSet (X := X) M) ∣ 8) : Nat.card P ≤ p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := Fintype.ofFinite X
-  haveI := Fintype.ofFinite P
+  have : Fact p.Prime := ⟨hp⟩
+  have := Fintype.ofFinite X
+  have := Fintype.ofFinite P
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hX8 : Nat.card X ≤ 8 := Nat.le_of_dvd (by norm_num) hX
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hP
   have hk2 : 2 ≤ k := by
@@ -177,7 +177,7 @@ theorem i1312_card_le_of_fix {P X : Type} [Group P] [Finite P] [Finite X] [MulAc
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
     congr 1
     ext x
-    simp only [i1312FixSet, Set.mem_setOf_eq, Finset.mem_filter, Finset.mem_univ, true_and]
+    simp only [i1312FixSet, Set.mem_ofPred, Finset.mem_filter, Finset.mem_univ, true_and]
   have hfixcard : ∀ M ∈ 𝓜, Nat.card (i1312FixSet (X := X) M) = X₀.card + (A M).card := by
     intro M hM
     have hset : (Finset.univ.filter fun x : X => ∀ m ∈ M, m • x = x) = X₀ ∪ A M := by
@@ -275,7 +275,7 @@ theorem i1312_card_le_of_fix {P X : Type} [Group P] [Finite P] [Finite X] [MulAc
       simp at hmem
     have hone : ∀ g : P, g = 1 := fun g =>
       hfaith g fun x => MulAction.mem_stabilizer_iff.1 (by rw [hall x]; exact Subgroup.mem_top g)
-    haveI : Subsingleton P := ⟨fun a b => by rw [hone a, hone b]⟩
+    have : Subsingleton P := ⟨fun a b => by rw [hone a, hone b]⟩
     rw [Nat.card_of_subsingleton (1 : P)] at hlt
     omega
   ·
@@ -331,17 +331,17 @@ theorem i1312_card_le_of_fix {P X : Type} [Group P] [Finite P] [Finite X] [MulAc
 def i1312FixSub {T : Type} [Group T] (N : Subgroup (MulAut T)) : Subgroup T where
   carrier := {x | ∀ m ∈ N, m x = x}
   mul_mem' := fun {a b} ha hb m hm => by
-    simp only [Set.mem_setOf_eq, map_mul] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, map_mul] at ha hb ⊢
     rw [ha m hm, hb m hm]
   one_mem' := fun m _ => map_one m
   inv_mem' := fun {a} ha m hm => by
-    simp only [Set.mem_setOf_eq, map_inv] at ha ⊢
+    simp only [Set.mem_ofPred_eq, map_inv] at ha ⊢
     rw [ha m hm]
 
 theorem i1312_card_le_mulAut {T : Type} [Group T] [Finite T] {p : ℕ} (hp : p.Prime) (hp3 : 3 ≤ p)
     (hT : Nat.card T ∣ 8) (P : Subgroup (MulAut T)) (hP : IsPGroup p P)
     (hcomm : ∀ x ∈ P, ∀ y ∈ P, x * y = y * x) : Nat.card P ≤ p := by
-  letI : MulAction P T := MulAction.compHom T P.subtype
+  let : MulAction P T := MulAction.compHom T P.subtype
   have hsm : ∀ (g : P) (x : T), g • x = (g : MulAut T) x := fun g x => rfl
   refine i1312_card_le_of_fix hp hp3 hP ?_ hT ?_ ?_
   · intro x y
@@ -375,7 +375,7 @@ theorem i1312_exists_ker_card_le {B T : Type} [Group B] [Finite B] [Group T] [Fi
     (hp : p.Prime) (hp3 : 3 ≤ p) (hB : IsPGroup p B) (hBc : ∀ x y : B, x * y = y * x)
     (hT : Nat.card T ∣ 8) (φ : B →* MulAut T) :
     ∃ K : Subgroup B, Nat.card B ≤ p * Nat.card K ∧ ∀ c ∈ K, φ c = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨φ.ker, ?_, fun c hc => hc⟩
   have hsplit : Nat.card B = Nat.card φ.range * Nat.card φ.ker := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup φ.ker,

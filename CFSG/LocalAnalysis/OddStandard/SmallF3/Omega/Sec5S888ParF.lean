@@ -16,6 +16,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z r : G}
   {B A K₁ K₂ : Subgroup G} {h : G}
 
+omit [Finite G] in
 private lemma s888parF_zpow_eq_one_or_self {a : G} (ha : a * a = 1) {x : G}
     (hx : x ∈ zpowers a) : x = 1 ∨ x = a := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -100,7 +101,7 @@ theorem par_inf_cent_le (h52a : Asc82Lemma52a) (h37 : Asc82Lemma37)
     ⟨⟨ht, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩, par_t_mem_centralizer c⟩
   by_contra hcon
   push Not at hcon
-  haveI : Fintype ↥(E ⊓ D) := Fintype.ofFinite _
+  have : Fintype ↥(E ⊓ D) := Fintype.ofFinite _
   have h1t : (⟨1, one_mem _⟩ : ↥(E ⊓ D)) ≠ ⟨t, htED⟩ := fun h =>
     c.t_ne_one (congrArg Subtype.val h).symm
   have h1x : (⟨1, one_mem _⟩ : ↥(E ⊓ D)) ≠ ⟨x, hxED⟩ := fun h =>

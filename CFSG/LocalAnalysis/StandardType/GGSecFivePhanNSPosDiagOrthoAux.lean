@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.Uni
 
 open scoped MatrixGroups
 
-private noncomputable def ggNSPosPE3_ufd {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G}
+private theorem ggNSPosPE3_ufd {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G}
     {K : Type} [Field K] [Finite K] [CharP K 2] {f n : ℕ} {ψ : Su K 2 f n →* G}
     (h : GGNSLocalHyp p B Bs K f n ψ) : UnitaryFieldData 2 f K where
   prime := Nat.prime_two
@@ -85,13 +85,13 @@ private lemma ggNSPosPE3_diag_conj_diag {K : Type} [Field K] {n : ℕ}
     rw [Matrix.diagonal_apply]
     by_cases h : i = j
     · subst h; simp
-    · rw [if_neg h]; exact hA h
+    · rw [ite_eq_right h]; exact hA h
   rw [hA']
   ext i j
   rw [Matrix.mul_diagonal, Matrix.diagonal_mul, Matrix.diagonal_apply]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl, mul_assoc, mul_comm (A i i) (d i), ← mul_assoc, inv_mul_cancel₀ (hd i), one_mul]
+    rw [ite_eq_left rfl, mul_assoc, mul_comm (A i i) (d i), ← mul_assoc, inv_mul_cancel₀ (hd i), one_mul]
   · simp [hij]
 
 private lemma ggNSPosPE3_diagonal_mul_diagonal {K : Type} [Field K] {n : ℕ} (a b : Fin n → K) :
@@ -191,9 +191,9 @@ theorem ggNSPosPE3_orthonormal_diag {G : Type} [Group G] [Finite G] {p : ℕ} {B
     intro i
     by_cases hi : i = i0
     · subst hi
-      simp only [d0, if_pos rfl]
+      simp only [d0, ite_eq_left rfl]
       exact hδσinv
-    · simp only [d0, if_neg hi, map_one, one_mul]
+    · simp only [d0, ite_eq_right hi, map_one, one_mul]
   have hDunitary : conjTr (unitaryInvolution K 2 f) Dmat * Dmat = 1 := by
     have h1 : conjTr (unitaryInvolution K 2 f) Dmat =
         Matrix.diagonal (fun i => unitaryInvolution K 2 f (d0 i)) := by
@@ -244,7 +244,7 @@ theorem ggNSPosPE3_orthonormal_diag {G : Type} [Group G] [Finite G] {p : ℕ} {B
     rw [Matrix.diagonal_apply]
     by_cases hij : i = j
     · subst hij; simp
-    · rw [if_neg hij]; exact hA hij)
+    · rw [ite_eq_right hij]; exact hA hij)
 
 end CFSG.StandardType
 

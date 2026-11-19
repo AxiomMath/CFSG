@@ -196,10 +196,10 @@ theorem IsExtraspecialPlusByA5WrTwoWith.pCore_eq {C : Type} [Group C] {Q : Subgr
     obtain ⟨e⟩ := h.quotient
     have hmap : (CFSG.pCore 2 C).map π = ⊥ := by
       have hsub : ((CFSG.pCore 2 C).map π).map e.toMonoidHom = ⊥ := by
-        haveI : ((CFSG.pCore 2 C).map π).Normal :=
+        have : ((CFSG.pCore 2 C).map π).Normal :=
           Subgroup.Normal.map (inferInstance : (CFSG.pCore 2 C).Normal) π
             (QuotientGroup.mk'_surjective Q)
-        haveI : (((CFSG.pCore 2 C).map π).map e.toMonoidHom).Normal :=
+        have : (((CFSG.pCore 2 C).map π).map e.toMonoidHom).Normal :=
           Subgroup.Normal.map ‹((CFSG.pCore 2 C).map π).Normal› e.toMonoidHom e.surjective
         exact A5WrTwo.eq_bot_of_normal_isPGroup _
           (((CFSG.pCore_isPGroup (p := 2) (G := C)).map π).map e.toMonoidHom)
@@ -260,7 +260,7 @@ theorem mem_Qz_of_shape (hC : CSideFacts) {G : Type} [Group G] {w a : G}
     (hw : IsExtraspecialPlusByA5WrTwo (Subgroup.centralizer ({w} : Set G))) (ha : a ∈ Gx w)
     (ha2 : a ^ 2 = 1) (hsh : IsShapeTwoTwoSixS5 ↥(Gxy a w)) : a ∈ Qz w := by
   obtain ⟨Q, hQ, hQW, hQz⟩ := exists_Qz_eq hw
-  haveI : Q.Normal := hQ
+  have : Q.Normal := hQ
   have haQ : (⟨a, ha⟩ : ↥(Gx w)) ∈ Q :=
     hC.mem_Q_of_cent ↥(Gx w) Q hQW ⟨a, ha⟩
       (by ext; simpa using ha2)
@@ -280,7 +280,7 @@ theorem isConj_mul_of_mem_Qz {G : Type} [Group G] {w a : G}
     (hw : IsExtraspecialPlusByA5WrTwo (Subgroup.centralizer ({w} : Set G))) (hw2 : orderOf w = 2)
     (ha2 : orderOf a = 2) (haw : a ≠ w) (haQ : a ∈ Qz w) : IsConj a (a * w) := by
   obtain ⟨Q, hQ, hQW, hQz⟩ := exists_Qz_eq hw
-  haveI : Q.Normal := hQ
+  have : Q.Normal := hQ
   have hwmem : w ∈ Gx w := self_mem_Gx w
   have hwC_cent : (⟨w, hwmem⟩ : ↥(Gx w)) ∈ Subgroup.centralizer (Q : Set ↥(Gx w)) := by
     rw [Subgroup.mem_centralizer_iff]
@@ -296,7 +296,7 @@ theorem isConj_mul_of_mem_Qz {G : Type} [Group G] {w a : G}
   let Qgrp := ↥Q
   let wQ : Qgrp := ⟨⟨w, hwmem⟩, hwQmem⟩
   let aQ : Qgrp := ⟨⟨a, haC⟩, haQmem⟩
-  haveI hExt : CFSG.IsExtraspecial 2 Qgrp := hQW.plus.1
+  have hExt : CFSG.IsExtraspecial 2 Qgrp := hQW.plus.1
   have hcard : Nat.card (Subgroup.center Qgrp) = 2 := hExt.center_order_p
   have hwQ_ne : wQ ≠ 1 := by
     intro h1
@@ -321,7 +321,7 @@ theorem isConj_mul_of_mem_Qz {G : Type} [Group G] {w a : G}
       simpa [aQ, wQ] using congrArg (fun t : Qgrp => ((t : ↥(Gx w)) : G)) hEq)
   have hcomm_le : _root_.commutator Qgrp ≤ Subgroup.center Qgrp := by
     rw [← Subgroup.Normal.quotient_commutative_iff_commutator_le]
-    haveI := hExt.quotient_elementary_abelian
+    have := hExt.quotient_elementary_abelian
     infer_instance
   have hex : ∃ z : Qgrp, ⁅z, aQ⁆ ≠ 1 := by
     by_contra h
@@ -369,11 +369,11 @@ private lemma pCore_le_of_normal_quotient_perm5 {X : Type*} [Group X] {N : Subgr
   let π : X →* X ⧸ N := QuotientGroup.mk' N
   obtain ⟨e⟩ := hq
   have hmap : (CFSG.pCore 2 X).map π = ⊥ := by
-    haveI : ((CFSG.pCore 2 X).map π).Normal :=
+    have : ((CFSG.pCore 2 X).map π).Normal :=
       Subgroup.Normal.map (inferInstance : (CFSG.pCore 2 X).Normal) π
         (QuotientGroup.mk'_surjective N)
     have hsub : ((CFSG.pCore 2 X).map π).map e.toMonoidHom = ⊥ := by
-      haveI : (((CFSG.pCore 2 X).map π).map e.toMonoidHom).Normal :=
+      have : (((CFSG.pCore 2 X).map π).map e.toMonoidHom).Normal :=
         Subgroup.Normal.map ‹((CFSG.pCore 2 X).map π).Normal› e.toMonoidHom e.surjective
       exact eq_bot_of_normal_isPGroup_perm5 _
         (((CFSG.pCore_isPGroup (p := 2) (G := X)).map π).map e.toMonoidHom)
@@ -443,7 +443,7 @@ theorem pCoreOf_Gxy_eq {G : Type} [Group G] {w a : G}
     (ha2 : orderOf a = 2) (haw : a ≠ w) (haQ : a ∈ Qz w) (hsh : IsShapeTwoTwoSixS5 ↥(Gxy a w)) :
     CFSG.Open.pCoreOf 2 (Gxy a w) = Qz w ⊓ Gx a := by
   obtain ⟨Q, hQ, hQW, hQz⟩ := exists_Qz_eq hw
-  haveI : Q.Normal := hQ
+  have : Q.Normal := hQ
   have hExtQ : CFSG.IsExtraspecial 2 ↥Q := hQW.plus.1
   have hQcard : Nat.card Q = 2 ^ 9 := by
     have hc := hQW.plus.2.1
@@ -511,8 +511,8 @@ theorem pCoreOf_Gxy_eq {G : Type} [Group G] {w a : G}
     exact hmap
   have hle : CFSG.Open.pCoreOf 2 (Gxy a w) ≤ Qz w ⊓ Gx a := by
     obtain ⟨V, N, hVnorm, hNnorm, hVN, hVshape, hNVshape, hXshape⟩ := hsh
-    haveI : V.Normal := hVnorm
-    haveI : N.Normal := hNnorm
+    have : V.Normal := hVnorm
+    have : N.Normal := hNnorm
     have hpCoreN : CFSG.pCore 2 ↥(Gxy a w) ≤ N :=
       pCore_le_of_normal_quotient_perm5 hXshape
     have hNcard : Nat.card N = 2 ^ 8 := by
@@ -534,11 +534,11 @@ theorem pCoreOf_Gxy_eq {G : Type} [Group G] {w a : G}
     have hRle : CFSG.Open.pCoreOf 2 (Gxy a w) ≤ N.map (Gxy a w).subtype :=
       Subgroup.map_mono (f := (Gxy a w).subtype) hpCoreN
     have hLcard : Nat.card ↥(Qz w ⊓ Gx a) = 2 ^ 8 := by
-      haveI : Finite ↥(Qz w) := Nat.finite_of_card_ne_zero (by rw [hQzcard]; norm_num)
+      have : Finite ↥(Qz w) := Nat.finite_of_card_ne_zero (by rw [hQzcard]; norm_num)
       have hcentQz : Nat.card (Subgroup.center ↥(Qz w)) = 2 := hExtQz.center_order_p
       have hcommQz : _root_.commutator ↥(Qz w) ≤ Subgroup.center ↥(Qz w) := by
         rw [← Subgroup.Normal.quotient_commutative_iff_commutator_le]
-        haveI := hExtQz.quotient_elementary_abelian
+        have := hExtQz.quotient_elementary_abelian
         infer_instance
       have hwHz : (⟨w, hwQz⟩ : ↥(Qz w)) ∈ Subgroup.center ↥(Qz w) := by
         rw [Subgroup.mem_center_iff]
@@ -586,9 +586,9 @@ theorem pCoreOf_Gxy_eq {G : Type} [Group G] {w a : G}
         (Subgroup.centralizer ({(⟨a, haQ⟩ : ↥(Qz w))} : Set ↥(Qz w)))
         (Qz w).subtype Subtype.coe_injective).toEquiv]
       exact hcent_card
-    haveI : Finite ↥(N.map (Gxy a w).subtype) :=
+    have : Finite ↥(N.map (Gxy a w).subtype) :=
       Nat.finite_of_card_ne_zero (by rw [hNmap_card]; norm_num)
-    haveI : Finite ↥(CFSG.Open.pCoreOf 2 (Gxy a w)) :=
+    have : Finite ↥(CFSG.Open.pCoreOf 2 (Gxy a w)) :=
       Finite.of_injective (Subgroup.inclusion hRle) (Subgroup.inclusion_injective hRle)
     have hRcard_le : Nat.card ↥(CFSG.Open.pCoreOf 2 (Gxy a w)) ≤ Nat.card ↥(Qz w ⊓ Gx a) := by
       rw [hLcard]

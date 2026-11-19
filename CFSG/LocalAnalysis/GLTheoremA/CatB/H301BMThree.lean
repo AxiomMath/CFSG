@@ -74,7 +74,7 @@ private theorem not_fix_two_planes {K : Subgroup ↥GA} (hKE : K ≤ ElemThree.E
     (hw : w ∈ plane j) (hu : u ∈ plane k) (hw0 : w ≠ 0) (hu0 : u ≠ 0)
     (hwK : ∀ x ∈ K, ((x : GL24) : Matrix (Fin 24) (Fin 24) (ZMod 2)) *ᵥ w = w)
     (huK : ∀ x ∈ K, ((x : GL24) : Matrix (Fin 24) (Fin 24) (ZMod 2)) *ᵥ u = u) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨i, hi⟩ := Function.ne_iff.mp (γ_injective.ne hjk)
   have hq : Nat.card (↥(ElemThree.E.subgroupOf GA) ⧸ K.subgroupOf (ElemThree.E.subgroupOf GA)) =
       3 := by
@@ -85,7 +85,7 @@ private theorem not_fix_two_planes {K : Subgroup ↥GA} (hKE : K ≤ ElemThree.E
       rw [h0] at hKc
       norm_num at hKc
     exact Nat.eq_of_mul_eq_mul_left hpos (h1.trans hKc.symm)
-  haveI : Finite (↥(ElemThree.E.subgroupOf GA) ⧸ K.subgroupOf (ElemThree.E.subgroupOf GA)) :=
+  have : Finite (↥(ElemThree.E.subgroupOf GA) ⧸ K.subgroupOf (ElemThree.E.subgroupOf GA)) :=
     Nat.finite_of_card_ne_zero (by rw [hq]; norm_num)
   have hninj : ¬ Function.Injective fun p : ZMod 3 × ZMod 3 => (QuotientGroup.mk (elt i p) :
       ↥(ElemThree.E.subgroupOf GA) ⧸ K.subgroupOf (ElemThree.E.subgroupOf GA)) := fun hinj => by
@@ -146,8 +146,8 @@ theorem card_fixed_le_of_hyperplane_three_six {F H : Subgroup ↥CFSG.Sporadic.C
     (hHc : Nat.card H * 3 = Nat.card F) :
     Nat.card {v : Fin 24 → ZMod 2 // ∀ j ∈ H,
       ((j : GL (Fin 24) (ZMod 2)) : Matrix (Fin 24) (Fin 24) (ZMod 2)) *ᵥ v = v} ≤ 2 ^ 2 := by
-  haveI : Finite ↥GA := Co1T.finite_GA
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥GA := Co1T.finite_GA
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ : Nat.card Co1T.Qg = 3 ^ (Nat.card ↥GA).factorization 3 := by
     rw [Co1T.card_Qg, ← Subgroup.card_top (G := ↥GA), Co1T.factorization_card_GA]
   obtain ⟨g, hg⟩ :=

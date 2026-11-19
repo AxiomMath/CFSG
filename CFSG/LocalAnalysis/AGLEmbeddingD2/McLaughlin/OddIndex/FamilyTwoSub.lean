@@ -46,7 +46,7 @@ theorem exists_noncomm_two_subgroup_of_isLThreeTwo {K : Type} [Group K] [Finite 
     exact CFSG.pCore_isPGroup
   have hR' : IsPGroup 2 ((S₀ : Subgroup (↥Y ⧸ CFSG.pCore 2 ↥Y)).comap
       (QuotientGroup.mk' (CFSG.pCore 2 ↥Y))) :=
-    IsPGroup.comap_of_ker_isPGroup S₀.isPGroup' _ hker
+    IsPGroup.comap_of_ker_isPGroup S₀.isPGroup _ hker
   refine ⟨((S₀ : Subgroup (↥Y ⧸ CFSG.pCore 2 ↥Y)).comap
       (QuotientGroup.mk' (CFSG.pCore 2 ↥Y))).map Y.subtype, Subgroup.map_subtype_le _,
     hR'.map _, (a' : K), Subgroup.mem_map.mpr ⟨a', ha, rfl⟩, (b' : K),

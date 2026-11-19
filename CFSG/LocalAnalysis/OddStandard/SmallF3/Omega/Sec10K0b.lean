@@ -58,7 +58,7 @@ theorem sec10K0_oddCore_le_centralizer [Finite G] {t z : G} {L : Subgroup G} (hL
     (hz : z ∈ L) (hz2 : orderOf z = 2) (hLle : L ≤ centralizer ({t} : Set G))
     (hN : centralizer ({t} : Set G) ≤ normalizer (L : Set G)) :
     oddCoreIn (centralizer ({t} : Set G)) ≤ centralizer (L : Set G) := by
-  haveI : IsSimpleGroup ↥L := isSimpleGroup_of_isPSp43 hL
+  have : IsSimpleGroup ↥L := isSimpleGroup_of_isPSp43 hL
   intro o ho
   rw [Subgroup.mem_centralizer_iff]
   intro l hl
@@ -92,7 +92,7 @@ theorem sec10K0_oddCore_le_centralizer [Finite G] {t z : G} {L : Subgroup G} (hL
           (hLle (L.inv_mem hg)) hn.2
         rw [inv_inv] at h
         exact h
-  haveI := hMnormal
+  have := hMnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal M with hM | hM
   · have hw1 : o * l * o⁻¹ * l⁻¹ = 1 := by
       have hmemM : (⟨o * l * o⁻¹ * l⁻¹, hwL⟩ : ↥L) ∈ M :=

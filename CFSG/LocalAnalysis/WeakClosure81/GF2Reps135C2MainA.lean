@@ -30,14 +30,14 @@ theorem w135c2_rows_of_idx (h : Chev135Rows) {t : StatedLieTag} {n f D : ℕ}
   obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8⟩ := h
   unfold Chev2RowIdx at hi
   split at hi
-  · subst_vars; exact h1
-  · subst_vars; exact h2
-  · subst_vars; exact h3
-  · subst_vars; exact h4
-  · subst_vars; exact h5
-  · subst_vars; exact h6
-  · subst_vars; exact h7
-  · subst_vars; exact h8
+  · exact h1
+  · exact h2
+  · exact h3
+  · exact h4
+  · exact h5
+  · exact h6
+  · exact h7
+  · exact h8
   · exact hi.elim
 
 theorem w135c2_three_le_gs03Bound {S : Type} [Group S] {t : StatedLieTag} {n f : ℕ}

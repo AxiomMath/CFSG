@@ -95,9 +95,9 @@ private theorem exists_generator
     rw [hrS,orderOf_one] at hr
     norm_num at hr
   have hScard := Degree29ThirteenSubgroup.card_eq_thirteen P hcard h5 hnotAlt
-    (S : Subgroup P) S.isPGroup' hSne
+    (S : Subgroup P) S.isPGroup hSne
   have hSfixed := Degree29ThirteenSubgroup.fixed_card_eq_three P hcard h5 hnotAlt
-    (S : Subgroup P) S.isPGroup' hSne
+    (S : Subgroup P) S.isPGroup hSne
   have heq : zpowers r = (S : Subgroup P) := Subgroup.eq_of_le_of_card_ge hRS (by
     rw [Nat.card_zpowers,hr,hScard])
   refine ⟨r,hr,Degree29ThirteenSubgroup.order_thirteen_cycle_type P hcard h5 hnotAlt r hr,?_,?_⟩

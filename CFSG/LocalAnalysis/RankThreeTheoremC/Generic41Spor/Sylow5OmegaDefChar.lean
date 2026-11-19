@@ -105,7 +105,7 @@ private theorem classical_eq_psl_two_five {t : StatedLieTag} {n f N : ℕ} (hN :
 theorem defCharCase_holds :
     DefCharCase := by
   intro K _ _ t n f hadm hmodel S hS
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hK0 : Nat.card K ≠ 0 := Nat.card_pos.ne'
   have hfac : (Nat.card K).factorization 5 = 5 := by
     have h := S.card_eq_multiplicity

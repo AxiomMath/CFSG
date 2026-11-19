@@ -57,7 +57,7 @@ theorem exists_a0El {k : ℕ} (hk : k < 64) :
 
 theorem code_a0El {k : ℕ} (hk : k < 64) :
     code ((a0El k : ↥A0) : StatedSp 3 (ZMod 2)) = (enumA0 ()).elems[k]! := by
-  rw [a0El, dif_pos hk]
+  rw [a0El, dite_eq_left hk]
   exact (exists_a0El hk).choose_spec
 
 theorem a0Pos_a0El {k : ℕ} (hk : k < 64) : a0Pos (a0El k) = k := by
@@ -128,7 +128,7 @@ section Gen
 
 theorem ysp_mem_N0 {i : ℕ} (hi : i ∈ idxN0) : ysp i ∈ N0 := by
   obtain ⟨h12, h⟩ := idxN0_spec hi
-  rw [ysp, dif_pos h12]
+  rw [ysp, dite_eq_left h12]
   refine yamakiSp_mem_N0 ?_
   rcases h with h | h | h
   · exact Or.inl h
@@ -139,7 +139,7 @@ theorem ysp_mem_N0 {i : ℕ} (hi : i ∈ idxN0) : ysp i ∈ N0 := by
   if h : i ∈ idxN0 then conjA0 ⟨ysp i, ysp_mem_N0 h⟩ else 1
 
 theorem glEl_eq {i : ℕ} (hi : i ∈ idxN0) : glEl i = conjA0 ⟨ysp i, ysp_mem_N0 hi⟩ := by
-  rw [glEl, dif_pos hi]
+  rw [glEl, dite_eq_left hi]
 
 theorem glEl_mem_Lbar {i : ℕ} (hi : i ∈ idxN0) : glEl i ∈ Lbar :=
   ⟨⟨ysp i, ysp_mem_N0 hi⟩, (glEl_eq hi).symm⟩
@@ -162,9 +162,9 @@ theorem z6GsL_get : ∀ j < (z6GsL ()).size, (z6GsL ())[j]! = autArr (lS j) := b
   have hj2 : j < 2 := by simpa only [z6GsL, List.size_toArray, List.length_cons,
     List.length_nil] using hj
   interval_cases j
-  · rw [lS, if_pos rfl, autArr_glEl (i := 0) (by decide)]
+  · rw [lS, ite_eq_left rfl, autArr_glEl (i := 0) (by decide)]
     rfl
-  · rw [lS, if_neg (by decide), isArrCode_autArr.mul, autArr_glEl (i := 9) (by decide),
+  · rw [lS, ite_eq_right (by decide), isArrCode_autArr.mul, autArr_glEl (i := 9) (by decide),
       autArr_glEl (i := 10) (by decide)]
     rfl
 
@@ -293,7 +293,7 @@ theorem a0Pos_one : a0Pos 1 = 0 := by
 
 theorem code_a0GenEl {j : ℕ} (hj : j < (gA0 ()).size) :
     code ((a0GenEl j : ↥A0) : StatedSp 3 (ZMod 2)) = (gA0 ())[j]! := by
-  rw [a0GenEl, dif_pos hj, gA0_get j hj]
+  rw [a0GenEl, dite_eq_left hj, gA0_get j hj]
 
 theorem size_gA0' : (gA0 ()).size = 6 := size_gA0
 
@@ -331,7 +331,7 @@ theorem exists_lEl {m : ℕ} (hm : m < 168) :
   if h : m < 168 then (exists_lEl h).choose else 1
 
 theorem autArr_lEl {m : ℕ} (hm : m < 168) : autArr (lEl m) = (z6EnumL ()).elems[m]! := by
-  rw [lEl, dif_pos hm]
+  rw [lEl, dite_eq_left hm]
   exact (exists_lEl hm).choose_spec.2
 
 theorem lEl_zero : lEl 0 = 1 := by

@@ -257,9 +257,9 @@ private theorem l10se2b2_rad_centralizer
       x = 1 := by
   have hθ : ∀ c, θ (θ c) = c := CFSG.SeitzReduction.F4Pilot.involutive_of_natCard_eq hK hσ
   have hf1 : 1 ≤ f := by omega
-  haveI : Finite ↥(e6Data_valid.minGroup k) :=
+  have : Finite ↥(e6Data_valid.minGroup k) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid k
-  haveI : Finite (fixedGroup k θ) := Subtype.finite
+  have : Finite (fixedGroup k θ) := Subtype.finite
   intro x hx hxt
   obtain ⟨y, hy, rfl⟩ := hx
   have hle : twE6Rad θ ≤ (twE6Rad θ).comap (MulAut.conj (twE6LevelTorus θ μ)).toMonoidHom := by

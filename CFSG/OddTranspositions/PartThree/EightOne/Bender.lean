@@ -323,7 +323,7 @@ theorem exists_commuting_involution_avoiding {L : Type*} [Group L]
     have h3 : ({s₁ * t} : Set L).ncard = 1 := Set.ncard_singleton _
     omega
   have hXleS : X.ncard ≤ S.ncard := Set.ncard_le_ncard hXsub
-  have hdiff : (S \ X).ncard = S.ncard - X.ncard := Set.ncard_diff hXsub
+  have hdiff : (S \ X).ncard = S.ncard - X.ncard := Set.ncard_sdiff hXsub
   have hbig : 1 < (S \ X).ncard := by omega
   obtain ⟨s₂, hs₂X, -⟩ := Set.exists_ne_of_one_lt_ncard hbig t
   have hs₂S : s₂ ∈ S := hs₂X.1

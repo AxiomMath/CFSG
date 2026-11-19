@@ -173,7 +173,7 @@ theorem exists_commute_not_mem_zpowers [Finite K] {X : Subgroup K} (hX : Group.I
   have hz'S : z' ∈ (S : Subgroup X) := hS (mem_zpowers z')
   have hnt : Nontrivial (S : Subgroup X) :=
     ⟨⟨⟨z', hz'S⟩, 1, fun h => hz'1 (congrArg Subtype.val h)⟩⟩
-  have hcn := S.isPGroup'.center_nontrivial
+  have hcn := S.isPGroup.center_nontrivial
   obtain ⟨c, hc1⟩ := exists_ne (1 : Subgroup.center (S : Subgroup X))
   have hcz : ((c : S) : X) = z' := by
     have hcomm : ((c : S) : X) * z' = z' * ((c : S) : X) := by

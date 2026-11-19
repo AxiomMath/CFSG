@@ -58,7 +58,7 @@ theorem exists_sylow_preimage_of_unique (P : Sylow 3 S.Nbar)
       (∀ a ∈ M', ∀ b ∈ M', a * b = b * a) → Nat.card M' = 81 → M' = S.Mg) :
     ∃ Q : Sylow 3 G, (Q : Subgroup G) = S.preimageNbar (P : Subgroup S.Nbar) := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  obtain ⟨j, hj⟩ := (IsPGroup.iff_card).mp P.isPGroup'
+  obtain ⟨j, hj⟩ := (IsPGroup.iff_card).mp P.isPGroup
   have hpre : ∀ w : ↥S.Ng, (w : G) ∈ S.preimageNbar (P : Subgroup S.Nbar) ↔
       S.piN w ∈ (P : Subgroup S.Nbar) := by
     intro w

@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 omit [Finite G] in
 theorem isSylowIn_map (p : ℕ) (H : Subgroup G) (P : Sylow p H) :
     IsSylowIn p ((P : Subgroup H).map H.subtype) H := by
-  refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map H.subtype, ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, P.isPGroup.map H.subtype, ?_⟩
   intro Q hQ hQp hPQ
   have hPQ' : (P : Subgroup H) ≤ Q.subgroupOf H := by
     intro x hx
@@ -34,7 +34,7 @@ theorem isSylowIn_iff_exists_sylow (p : ℕ) (P H : Subgroup G) :
     have hPp' : IsPGroup p (P.subgroupOf H) :=
       hPp.of_equiv (Subgroup.subgroupOfEquivOfLe hPH).symm
     obtain ⟨Q, hQ⟩ := hPp'.exists_le_sylow
-    refine ⟨Q, hmax _ (Subgroup.map_subtype_le _) (Q.isPGroup'.map H.subtype) ?_⟩
+    refine ⟨Q, hmax _ (Subgroup.map_subtype_le _) (Q.isPGroup.map H.subtype) ?_⟩
     rw [← Subgroup.map_subgroupOf_eq_of_le hPH]
     exact Subgroup.map_mono hQ
   · rintro ⟨Q, rfl⟩

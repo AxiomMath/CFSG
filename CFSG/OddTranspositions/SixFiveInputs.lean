@@ -10,6 +10,7 @@ open CFSG.Timmesfeld CFSG.Timmesfeld.Bridge CFSG.Timmesfeld.Bridge.Asc72
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem commute_of_mul_mem_of_isPGroup (hD : IsOddTransp D) {Q : Subgroup G}
     (hQ : IsPGroup 2 Q) {x y : G} (hx : x ∈ D) (hy : y ∈ D) (hxy : x * y ∈ Q) :
     Commute x y := by
@@ -34,6 +35,7 @@ theorem commute_of_mul_mem_of_isPGroup (hD : IsOddTransp D) {Q : Subgroup G}
 
 def commSetQ (D : Set G) (Q : Subgroup G) (u : G) : Set G := {y | y ∈ D ∧ y * u ∈ Q}
 
+omit [Finite G] in
 theorem commute_of_mem_commSetQ (hD : IsOddTransp D) {Q : Subgroup G} (hQ : IsPGroup 2 Q)
     {u y z : G} (hu : u ∈ D) (hy : y ∈ commSetQ D Q u) (hz : z ∈ commSetQ D Q u) :
     Commute y z := by
@@ -50,6 +52,7 @@ theorem commute_of_mem_commSetQ (hD : IsOddTransp D) {Q : Subgroup G} (hQ : IsPG
   rw [this]
   exact Q.mul_mem hy.2 (Q.inv_mem hz.2)
 
+omit [Finite G] in
 theorem closure_commSetQ_le_centralizer (hD : IsOddTransp D) {Q : Subgroup G}
     (hQ : IsPGroup 2 Q) {u : G} (hu : u ∈ D) :
     Subgroup.closure (commSetQ D Q u) ≤
@@ -69,9 +72,11 @@ theorem closure_commSetQ_le_centralizer (hD : IsOddTransp D) {Q : Subgroup G}
   rw [Subgroup.mem_centralizer_iff] at this
   exact (this y hy).symm
 
+omit [Finite G] in
 theorem mem_commSetQ_self (hD : IsOddTransp D) {Q : Subgroup G} {u : G} (hu : u ∈ D) :
     u ∈ commSetQ D Q u := ⟨hu, by rw [hD.mul_self_eq_one hu]; exact Q.one_mem⟩
 
+omit [Finite G] in
 theorem commutator_zpowers_le_closure_commSetQ (hD : IsOddTransp D)
     (hN : ∀ g x : G, x ∈ D → g * x * g⁻¹ ∈ D) {Q : Subgroup G} (hQn : Q.Normal) {u : G}
     (hu : u ∈ D) : ⁅Q, Subgroup.zpowers u⁆ ≤ Subgroup.closure (commSetQ D Q u) := by
@@ -91,6 +96,7 @@ theorem commutator_zpowers_le_closure_commSetQ (hD : IsOddTransp D)
     rw [this]
     exact Q.mul_mem hq (hQn.conj_mem _ (Q.inv_mem hq) u)
 
+omit [Finite G] in
 theorem sixFive_hZc (hS : Setup G D) {Q : Subgroup G} (hQn : Q.Normal) (hQp : IsPGroup 2 Q)
     {u w : G} (hu : u ∈ D) (hw : w ∈ D)
     (hgenQ : Q ⊔ Subgroup.closure ({u, w} : Set G) = ⊤)
@@ -140,6 +146,7 @@ open CFSG.Timmesfeld CFSG.Timmesfeld.Bridge CFSG.Timmesfeld.Bridge.Asc72
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem commute_of_mem_commutator_zpowers (hD : IsOddTransp D)
     (hN : ∀ g x : G, x ∈ D → g * x * g⁻¹ ∈ D) {Q : Subgroup G} (hQn : Q.Normal)
     (hQp : IsPGroup 2 Q) {u p : G} (hu : u ∈ D) (hp : p ∈ ⁅Q, Subgroup.zpowers u⁆) :
@@ -149,6 +156,7 @@ theorem commute_of_mem_commutator_zpowers (hD : IsOddTransp D)
   rw [Subgroup.mem_centralizer_iff] at this
   exact (this u (Subgroup.subset_closure (mem_commSetQ_self hD hu))).symm
 
+omit [Finite G] in
 theorem centralizer_inf_le_commutator_zpowers (hS : Setup G D) {Q : Subgroup G}
     (hQn : Q.Normal) (hQp : IsPGroup 2 Q) {u w : G} (hu : u ∈ D) (hw : w ∈ D)
     (hnc : ¬ Commute u w) (hQF : Q = ⁅Q, Subgroup.zpowers u⁆ ⊔ ⁅Q, Subgroup.zpowers w⁆) :
@@ -200,6 +208,7 @@ open CFSG.Timmesfeld CFSG.Timmesfeld.Bridge CFSG.Timmesfeld.Bridge.Asc72
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem zpow_eq_one_of_zpow_two_mul {c : G} (hodd : Odd (orderOf c)) {k : ℤ}
     (h : c ^ (2 * k) = 1) : c ^ k = 1 := by
   have h1 : (orderOf c : ℤ) ∣ 2 * k := orderOf_dvd_iff_zpow_eq_one.mpr h
@@ -209,6 +218,7 @@ theorem zpow_eq_one_of_zpow_two_mul {c : G} (hodd : Odd (orderOf c)) {k : ℤ}
   have h3 : orderOf c ∣ k.natAbs := (hodd.coprime_two_right.dvd_mul_left).mp h2
   exact orderOf_dvd_iff_zpow_eq_one.mp (Int.natCast_dvd.mpr h3)
 
+omit [Finite G] in
 theorem mul_zpow_conj {u w : G} (hu2 : u * u = 1) (hw2 : w * w = 1) (l : ℤ) :
     u * (u * w) ^ l = (u * w) ^ (-l) * u := by
   have hui : u⁻¹ = u := inv_eq_of_mul_eq_one_right hu2
@@ -222,6 +232,7 @@ theorem mul_zpow_conj {u w : G} (hu2 : u * u = 1) (hw2 : w * w = 1) (l : ℤ) :
   calc u * (u * w) ^ l = (u * (u * w) ^ l * u⁻¹) * u := by group
     _ = (u * w) ^ (-l) * u := by rw [h2]
 
+omit [Finite G] in
 theorem closure_pair_normal_form {u w : G} (hu2 : u * u = 1) (hw2 : w * w = 1) {a : G}
     (ha : a ∈ Subgroup.closure ({u, w} : Set G)) :
     ∃ k : ℤ, a = (u * w) ^ k ∨ a = (u * w) ^ k * u := by
@@ -252,6 +263,7 @@ theorem closure_pair_normal_form {u w : G} (hu2 : u * u = 1) (hw2 : w * w = 1) {
     · refine ⟨k, Or.inr ?_⟩
       rw [mul_inv_rev, hui, ← zpow_neg, hc, neg_neg]
 
+omit [Finite G] in
 theorem eq_one_or_eq_of_mem_closure_pair (hD : IsOddTransp D) {u w : G} (hu : u ∈ D)
     (hw : w ∈ D) (hnc : ¬ Commute u w) {a : G} (ha : a ∈ Subgroup.closure ({u, w} : Set G))
     (hau : Commute a u) : a = 1 ∨ a = u := by
@@ -279,6 +291,7 @@ theorem eq_one_or_eq_of_mem_closure_pair (hD : IsOddTransp D) {u w : G} (hu : u 
         _ = u * (u * w) ^ k := by rw [hu2, mul_one]
     rw [key k h2, one_mul]
 
+omit [Finite G] in
 theorem sixFive_hZtop (hS : Setup G D) {Q : Subgroup G} (hQn : Q.Normal) (hQp : IsPGroup 2 Q)
     {u w : G} (hu : u ∈ D) (hw : w ∈ D) (hnc : ¬ Commute u w)
     (hgenQ : Q ⊔ Subgroup.closure ({u, w} : Set G) = ⊤)
@@ -288,7 +301,7 @@ theorem sixFive_hZtop (hS : Setup G D) {Q : Subgroup G} (hQn : Q.Normal) (hQp : 
   rw [Subgroup.mem_center_iff] at hz
   have hzmem : z ∈ ((Q ⊔ Subgroup.closure ({u, w} : Set G) : Subgroup G) : Set G) := by
     rw [hgenQ]; trivial
-  haveI := hQn
+  have := hQn
   rw [Subgroup.normal_mul] at hzmem
   obtain ⟨q, hq, a, ha, rfl⟩ := hzmem
   have hAQ := inf_closure_pair_eq_bot hS hQn hQp hu hw hnc
@@ -335,6 +348,7 @@ open CFSG.Timmesfeld CFSG.Timmesfeld.Bridge CFSG.Timmesfeld.Bridge.Asc72
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem D_inter_centralizer_eq_conj_Q (hS : Setup G D) {Q : Subgroup G} (hQn : Q.Normal)
     (hQp : IsPGroup 2 Q) {u w : G} (hu : u ∈ D) (hw : w ∈ D) (hnc : ¬ Commute u w)
     (hgenQ : Q ⊔ Subgroup.closure ({u, w} : Set G) = ⊤) :
@@ -349,7 +363,7 @@ theorem D_inter_centralizer_eq_conj_Q (hS : Setup G D) {Q : Subgroup G} (hQn : Q
     obtain ⟨g, hg⟩ := isConj_iff.mp (isConj_of_isClass hS.isClass hu hdD)
     have hgmem : g ∈ ((Q ⊔ Subgroup.closure ({u, w} : Set G) : Subgroup G) : Set G) := by
       rw [hgenQ]; trivial
-    haveI := hQn
+    have := hQn
     rw [Subgroup.normal_mul] at hgmem
     obtain ⟨q, hq, a, ha, rfl⟩ := hgmem
     set v := a * u * a⁻¹ with hv
@@ -390,6 +404,7 @@ theorem D_inter_centralizer_eq_conj_Q (hS : Setup G D) {Q : Subgroup G} (hQn : Q
       rw [this]; exact Q.mul_mem hq (hQn.conj_mem _ (Q.inv_mem hq) u))
     exact h.eq
 
+omit [Finite G] in
 theorem ncard_mul_card_commutator_zpowers (hS : Setup G D) {Q : Subgroup G} (hQn : Q.Normal)
     (hQp : IsPGroup 2 Q) {u w : G} (hu : u ∈ D) (hw : w ∈ D) (hnc : ¬ Commute u w)
     (hgenQ : Q ⊔ Subgroup.closure ({u, w} : Set G) = ⊤)

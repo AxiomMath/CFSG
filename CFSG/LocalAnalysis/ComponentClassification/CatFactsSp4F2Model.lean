@@ -194,7 +194,7 @@ theorem f2_main {K₀ : Type} [Group K₀] [Finite K₀] {p f : ℕ} (hp : p.Pri
   have hQdvd : Nat.card Q ∣ Nat.card C := Subgroup.card_dvd_of_le hQC
   obtain ⟨T, hT⟩ := hQS
   have hQ2 : IsPGroup 2 Q := by
-    have h := T.isPGroup'
+    have h := T.isPGroup
     rw [hT] at h
     exact h.of_equiv (subgroupOfEquivOfLe hQC)
   obtain ⟨n, hn⟩ := hQ2.exists_card_eq

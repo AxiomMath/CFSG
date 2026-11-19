@@ -28,69 +28,59 @@ include hω h2
 
 theorem mA_mAi : mA ω * mAi ω = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [mA, mAi, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply] <;> grind
+  fin_cases i <;> fin_cases j <;> simp [mA, mAi, Matrix.mul_apply, Fin.sum_univ_three] <;> grind
 
 theorem mAi_mA : mAi ω * mA ω = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [mA, mAi, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply] <;> grind
+  fin_cases i <;> fin_cases j <;> simp [mA, mAi, Matrix.mul_apply, Fin.sum_univ_three] <;> grind
 
 omit hω h2 in
 theorem mP_mPi : (mP : Matrix (Fin 3) (Fin 3) K) * mPi = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [mP, mPi, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [mP, mPi, Matrix.mul_apply, Fin.sum_univ_three]
 
 omit hω h2 in
 theorem mPi_mP : (mPi : Matrix (Fin 3) (Fin 3) K) * mP = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [mP, mPi, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [mP, mPi, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem mF_mFi : mF ω * mFi ω = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [mF, mFi, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply] <;> grind
+  fin_cases i <;> fin_cases j <;> simp [mF, mFi, Matrix.mul_apply, Fin.sum_univ_three] <;> grind
 
 theorem mFi_mF : mFi ω * mF ω = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [mF, mFi, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply] <;> grind
+  fin_cases i <;> fin_cases j <;> simp [mF, mFi, Matrix.mul_apply, Fin.sum_univ_three] <;> grind
 
 theorem mQ_mQi : mQ ω * mQi ω = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [mQ, mQi, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply] <;> grind
+  fin_cases i <;> fin_cases j <;> simp [mQ, mQi, Matrix.mul_apply, Fin.sum_univ_three]; grind
 
 theorem mQi_mQ : mQi ω * mQ ω = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [mQ, mQi, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply] <;> grind
+  fin_cases i <;> fin_cases j <;> simp [mQ, mQi, Matrix.mul_apply, Fin.sum_univ_three]; grind
 
 theorem mR_mRi : mR ω * mRi ω = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [mR, mRi, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply] <;> grind
+  fin_cases i <;> fin_cases j <;> simp [mR, mRi, Matrix.mul_apply, Fin.sum_univ_three]; grind
 
 theorem mRi_mR : mRi ω * mR ω = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [mR, mRi, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply] <;> grind
+  fin_cases i <;> fin_cases j <;> simp [mR, mRi, Matrix.mul_apply, Fin.sum_univ_three]; grind
 
 theorem mA_mP : mA ω * mP = ω • (mP * mA ω) := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [mA, mP, Matrix.mul_apply, Fin.sum_univ_three] <;> grind
 
+omit hω h2 in
 theorem mA_mP_eq_conj_Q : mA ω * mP = mQ ω * mP * mQi ω := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [mA, mP, mQ, mQi, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    grind
+  fin_cases i <;> fin_cases j <;> simp [mA, mP, mQ, mQi, Matrix.mul_apply, Fin.sum_univ_three]
 
+omit hω h2 in
 theorem mA_mP_sq_eq_conj_R : mA ω * (mP * mP) = mR ω * (mP * mP) * mRi ω := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [mA, mP, mR, mRi, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    grind
+  fin_cases i <;> fin_cases j <;> simp [mA, mP, mR, mRi, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem mF_mP : mF ω * mP = mA ω * mF ω := by
   ext i j
@@ -125,29 +115,29 @@ theorem unitary_mA : ((mA ω).map bar)ᵀ * mA ω = 1 := by
   have h4 : bar (ω ^ 2) = ω := map_bar_pow2 ω hω h2 bar hb
   ext i j
   fin_cases i <;> fin_cases j <;> simp [mA, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply, h4, hb] <;> grind
+    h4, hb] <;> grind
 
+omit hω h2 hb in
 theorem unitary_mP : (((mP : Matrix (Fin 3) (Fin 3) K)).map bar)ᵀ * mP = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [mP, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [mP, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem unitary_mF : ((mF ω).map bar)ᵀ * mF ω = 1 := by
   have h4 : bar (ω ^ 2) = ω := map_bar_pow2 ω hω h2 bar hb
   ext i j
   fin_cases i <;> fin_cases j <;> simp [mF, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply, h4, hb] <;> grind
+    h4, hb] <;> grind
 
 theorem unitary_mQ : ((mQ ω).map bar)ᵀ * mQ ω = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [mQ, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply, hb] <;> grind
+    hb]; grind
 
 theorem unitary_mR : ((mR ω).map bar)ᵀ * mR ω = 1 := by
   have h4 : bar (ω ^ 2) = ω := map_bar_pow2 ω hω h2 bar hb
   ext i j
   fin_cases i <;> fin_cases j <;> simp [mR, Matrix.mul_apply, Fin.sum_univ_three,
-    Matrix.one_apply, h4, hb] <;> grind
+    h4]; grind
 
 end Unitary
 

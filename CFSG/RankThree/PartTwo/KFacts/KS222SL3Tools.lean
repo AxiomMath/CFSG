@@ -321,7 +321,7 @@ theorem perfectResidual_centralizer_of_conj [Finite K] [CharP K 2] {n : ℕ}
       simp only [Units.val_mul, coe_diagUnits] at hc'
       apply entry_eq_zero_of_commute_diagonal hc'
       fin_cases i <;> fin_cases j <;> simp at hij ⊢ <;>
-        first | exact h1s | exact h1s.symm | exact h1t | exact h1t.symm | exact hst2 |
+        first | exact h1s | exact h1t | exact hst2 |
           exact hst2.symm | exact hs1 | exact ht1
     have h2 : ¬ 2 ∣ Nat.card ↥(slPi true 3 (2 ^ n) K ⊓ Subgroup.centralizer {y}) := by
       rw [hX, Subgroup.card_map_of_injective (MulAut.conj g).injective]

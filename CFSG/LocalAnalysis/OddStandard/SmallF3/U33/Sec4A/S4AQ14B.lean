@@ -45,7 +45,7 @@ theorem q14_card_pCore {M : Subgroup G} {e : ℕ} (hM : Nat.card M = 2 ^ e * 3) 
           refine Subgroup.mem_map.mpr ⟨⟨n, hn⟩ * y' * ⟨n, hn⟩⁻¹,
             (Subgroup.normalCore_normal ((P : Subgroup ↥M))).conj_mem y' hy' ⟨n, hn⟩, ?_⟩
           simp
-        · exact ((P.isPGroup' : IsPGroup 2 (P : Subgroup ↥M)).map M.subtype).to_le
+        · exact ((P.isPGroup : IsPGroup 2 (P : Subgroup ↥M)).map M.subtype).to_le
             (Subgroup.map_mono (Subgroup.normalCore_le ((P : Subgroup ↥M))))
       exact hQ'le (Subgroup.mem_map.mpr ⟨y, hy, rfl⟩)
     exact (Subgroup.index_dvd_of_le hle).trans hdvd
@@ -82,6 +82,7 @@ theorem q14_card_pCore {M : Subgroup G} {e : ℕ} (hM : Nat.card M = 2 ^ e * 3) 
     rw [← hcard', hidx, hcardQm]
     exact Nat.mul_comm _ _
 
+omit [Finite G] in
 private lemma zpowers_eq_one_or_self {t : G} (ht2 : t * t = 1) (ht1 : t ≠ 1) :
     ∀ x ∈ zpowers t, x = 1 ∨ x = t := by
   intro x hx
@@ -96,9 +97,9 @@ private lemma zpowers_eq_one_or_self {t : G} (ht2 : t * t = 1) (ht1 : t ≠ 1) :
 theorem q14_eq_zpowers_of_cent {P : Subgroup G} (hP : IsPGroup 2 P) {t : G} (htP : t ∈ P)
     (ht1 : t ≠ 1) (ht2 : t * t = 1) (hc : ∀ x ∈ P, x * t = t * x → x ∈ zpowers t) :
     P = zpowers t := by
-  haveI : Nontrivial ↥P :=
+  have : Nontrivial ↥P :=
     ⟨⟨t, htP⟩, 1, fun h => ht1 (by simpa using congrArg Subtype.val h)⟩
-  haveI hZnt : Nontrivial (Subgroup.center ↥P) := IsPGroup.center_nontrivial hP
+  have hZnt : Nontrivial (Subgroup.center ↥P) := IsPGroup.center_nontrivial hP
   obtain ⟨z, hz_ne⟩ := exists_ne (1 : Subgroup.center ↥P)
   have hz_mem : (z : ↥P) ∈ Subgroup.center ↥P := z.2
   have hz_ne' : (z : ↥P) ≠ 1 := fun h => hz_ne (Subtype.ext h)
@@ -120,6 +121,7 @@ theorem q14_eq_zpowers_of_cent {P : Subgroup G} (hP : IsPGroup 2 P) {t : G} (htP
       simpa using this)
   · exact Subgroup.zpowers_le.mpr htP
 
+omit [Finite G] in
 theorem q14_inf_eq_bot_of_sigma3 {K D : Subgroup G} (e : ↥K ≃* Equiv.Perm (Fin 3))
     (hD : IsPGroup 2 D) (hKD : ∀ k ∈ K, ∀ d ∈ D, k * d * k⁻¹ ∈ D) : D ⊓ K = ⊥ := by
   rw [Subgroup.eq_bot_iff_forall]
@@ -154,7 +156,7 @@ theorem q14_inf_eq_bot_of_sigma3 {K D : Subgroup G} (e : ↥K ≃* Equiv.Perm (F
   obtain ⟨π, hπ3, hπ1, hπc3, hπc1⟩ := hfin σ hσ1 hσ2
   obtain ⟨kK, hkK⟩ := e.surjective π
   set kg : G := (kK : G) with hkgdef
-  have hkgK : kg ∈ K := by simpa [hkgdef] using kK.2
+  have hkgK : kg ∈ K := by simp [hkgdef]
   set c : G := kg * x * kg⁻¹ * x⁻¹ with hcdef
   have hcD : c ∈ D := by
     rw [hcdef]

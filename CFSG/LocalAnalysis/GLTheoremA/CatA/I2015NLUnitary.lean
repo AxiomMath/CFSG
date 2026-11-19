@@ -40,14 +40,14 @@ theorem unitary_nlWitness (hd : 3 ≤ d) (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ 
     exact hq ⟨hd3, by rw [← Nat.div_mul_cancel hpn, h1, one_mul]⟩
   have hinj := subfieldPSU_injective h h₀ hbar d hd1
   let eJ := MonoidHom.ofInjective hinj
-  haveI := isSimpleGroup_primeFormP_one h₀ hd hq₀
+  have := isSimpleGroup_primeFormP_one h₀ hd hq₀
   have hs : IsSimpleGroup ↥(subfieldPSU h h₀ hbar d).range := eJ.isSimpleGroup_congr.1 inferInstance
   have hna : ∃ x y : ↥(subfieldPSU h h₀ hbar d).range, x * y ≠ y * x := by
     by_contra hcon
     push Not at hcon
     exact not_commute_primeFormP_one h₀ hd hq₀ fun x y =>
       eJ.injective (by rw [map_mul, map_mul]; exact hcon _ _)
-  haveI : Finite (primeFormP h ((1 : GL (Fin d) K) : Matrix (Fin d) (Fin d) K)) :=
+  have : Finite (primeFormP h ((1 : GL (Fin d) K) : Matrix (Fin d) (Fin d) K)) :=
     Finite.of_equiv _ (projEquiv h hd1).toEquiv
   refine nlWitness_of_nonLocalized (projEquiv h hd1) hs hna
     (CFSG.SignalizerFunctorTheorem.NonLocal.nonLocalized_unitarySubfield h h₀ hbar hd hq₀) ?_
@@ -87,7 +87,7 @@ theorem i2015NLOnUnitary_holds : I2015NLOnUnitary := by
     · have hdiv : n / p = 1 := by rw [hnp]; exact Nat.div_self hp.pos
       dsimp only at hdat
       rw [hdiv] at hdat
-      haveI := hfinR
+      have := hfinR
       obtain ⟨J, hJ⟩ := hJ
       exact false_of_component_of_solvable hD (FR.Res.solvable_twA21 D hdat) hJ
     · rcases hexc' with ⟨h1, -⟩ | ⟨h1, -⟩ <;> cases h1
@@ -109,8 +109,8 @@ theorem i2015NLOnTwD3_holds : I2015NLOnTwD3 := by
   subst ht
   have hn : 1 ≤ n := hlab.1
   intro Q hQ
-  simp only [CFSG.Assembly.LargeEvenRawDatum, show ¬((3 : ℕ) = 2) from by decide, if_false,
-    if_true] at hQ ⊢
+  simp only [CFSG.Assembly.LargeEvenRawDatum, show ¬((3 : ℕ) = 2) from by decide, ite_false,
+    ite_true] at hQ ⊢
   obtain ⟨K, hF, hfin, hK, hQ'⟩ := hQ
   refine ⟨K, hF, hfin, hK, hQ', fun _ _ _ f hf hord _ _ => ?_⟩
   exact unitary_nlWitness (d := 4) (by norm_num) hn hK (by omega) hp hp2 (by omega) hf hord

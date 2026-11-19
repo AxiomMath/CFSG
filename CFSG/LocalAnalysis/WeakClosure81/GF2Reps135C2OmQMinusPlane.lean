@@ -14,7 +14,7 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.Thm14_5.SmallO8mTorus
 theorem omq_exists_shortField_embedding {K : Type} [Field K] (b c : K) {k : Type} [Field k]
     [IsAlgClosed k] (ι : K →+* k) :
     ∃ ι' : ShortField b c →+* k, ∀ x : K, ι' (algebraMap K (ShortField b c) x) = ι x := by
-  letI : Algebra K k := ι.toAlgebra
+  let : Algebra K k := ι.toAlgebra
   have hdeg : (Polynomial.C (1 : k) * Polynomial.X ^ 2 + Polynomial.C (-(ι b)) * Polynomial.X +
       Polynomial.C (ι c)).degree ≠ 0 := by
     rw [Polynomial.degree_quadratic one_ne_zero]
@@ -32,7 +32,7 @@ theorem omq_exists_shortField_embedding {K : Type} [Field K] (b c : K) {k : Type
 theorem omq_shortField_pow_card_succ {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (x : ShortField b c) :
     x ^ (Nat.card K + 1) = algebraMap K (ShortField b c) (QuadraticAlgebra.norm x) := by
-  haveI := fact_shortField hirr
+  have := fact_shortField hirr
   let σ : ShortField b c ≃ₐ[K] ShortField b c :=
     { toFun := star
       invFun := star
@@ -94,9 +94,9 @@ private theorem c2slomqmw1_planeVec_one {n : ℕ} {K : Type*} [Field K] {b c : K
     planeVec n (fieldCoord (1 : ShortField b c)) = (Pi.single (.inr (.inr 0)) 1 : Vm n K) := by
   funext x
   rcases x with i | i | t
-  · simp [planeVec, Pi.single_apply]
-  · simp [planeVec, Pi.single_apply]
-  · fin_cases t <;> simp [planeVec, fieldCoord, Pi.single_apply] <;> rfl
+  · simp [planeVec]
+  · simp [planeVec]
+  · fin_cases t <;> simp [planeVec, fieldCoord] <;> rfl
 
 theorem OmqMinusToral.omqMinusZ_eq {n : ℕ} {K : Type*} [Field K] {b c : K}
     {g : spinGroup (quadMinus n K b c)} {t : Fin (n - 1) → Kˣ} {z : ShortField b c}
@@ -140,7 +140,7 @@ theorem omq_omMinus_toral_longTorus {n : ℕ} {K : Type*} [Field K] {b c : K} {i
     by_cases h1 : l = i
     · simp [h1, longCoroot, succ_ne_of_lt n hi]
     · by_cases h2 : l = ⟨i.val + 1, hi⟩
-      · simp [h1, h2, h3, longCoroot]
+      · simp [h2, h3, longCoroot]
       · simp [h1, h2, longCoroot]
   · rw [one_mul]
     exact spinAction_longTorus_planeVec n (succ_ne_of_lt n hi) true false a _
@@ -150,7 +150,7 @@ theorem omq_omMinus_toral_shortTorusHom {n : ℕ} {K : Type} [Field K] [Finite K
     OmqMinusToral n (shortTorusHom n hirr i u)
       (fun l => if l = i then Units.map QuadraticAlgebra.norm u else 1)
       ((u : ShortField b c) / star (u : ShortField b c)) := by
-  haveI := fact_shortField hirr
+  have := fact_shortField hirr
   have ha : fieldCoord (u : ShortField b c) ≠ 0 := fieldCoord_ne_zero u.ne_zero
   have hN : QuadraticAlgebra.norm (u : ShortField b c) ≠ 0 :=
     (QuadraticAlgebra.norm_eq_zero_iff_eq_zero).not.mpr u.ne_zero

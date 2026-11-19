@@ -181,7 +181,7 @@ theorem inducesInnerMod_iff_barAut_mem_inner {p : ℕ} {L : Subgroup G} {a : G}
 theorem chevAut_eq_one_iff [Finite G] {p : ℕ} (hp : p.Prime) {X K : Subgroup G} (hK : GLAPComponent p X K)
     {a : G} (ha : a ∈ Subgroup.normalizer (K : Set G)) :
     chevAut p K ⟨a, ha⟩ = 1 ↔ CentMod p K a := by
-  haveI : Group.IsPerfect (PQuot p K) := ⟨(isQuasisimple_pQuot_of_glaPComponent hp hK).1⟩
+  have : Group.IsPerfect (PQuot p K) := ⟨(isQuasisimple_pQuot_of_glaPComponent hp hK).1⟩
   rw [← chev_barAut_eq_one_iff_centMod ha]
   show centerQuotientHom (PQuot p K) (barAut p K ⟨a, ha⟩) = 1 ↔ _
   rw [← map_one (centerQuotientHom (PQuot p K))]
@@ -190,7 +190,7 @@ theorem chevAut_eq_one_iff [Finite G] {p : ℕ} (hp : p.Prime) {X K : Subgroup G
 theorem chevAut_mem_inner_iff [Finite G] {p : ℕ} (hp : p.Prime) {X K : Subgroup G}
     (hK : GLAPComponent p X K) {a : G} (ha : a ∈ Subgroup.normalizer (K : Set G)) :
     chevAut p K ⟨a, ha⟩ ∈ inner (PSimple p K) ↔ InducesInnerMod p K a := by
-  haveI : Group.IsPerfect (PQuot p K) := ⟨(isQuasisimple_pQuot_of_glaPComponent hp hK).1⟩
+  have : Group.IsPerfect (PQuot p K) := ⟨(isQuasisimple_pQuot_of_glaPComponent hp hK).1⟩
   rw [inducesInnerMod_iff_barAut_mem_inner ha]
   constructor
   · intro h
@@ -231,11 +231,11 @@ theorem chevAut_pow_eq_one (p : ℕ) (K : Subgroup G) {a : G}
 
 theorem exists_mul_mem_centralizer_of_commutator_mem [Finite G] {p : ℕ}
     (hp : p.Prime) {L : Subgroup G} {a l : G} (ha : IsPGroup p (Subgroup.zpowers a))
-    (haL : a ∈ Subgroup.normalizer (L : Set G)) (hl : l ∈ L)
+    (haL : a ∈ Subgroup.normalizer (L : Set G)) (_hl : l ∈ L)
     (hc : ⁅l⁻¹, a⁆ ∈ GLAPPrimeCoreOf p L) :
     ∃ o ∈ GLAPPrimeCoreOf p L, l * o ∈ Subgroup.centralizer ({a} : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O := GLAPPrimeCoreOf p L with hO
   set P := Subgroup.zpowers a with hP
   have hPC : P ≤ centModAt p L l⁻¹ := Subgroup.zpowers_le.2 ⟨haL, hc⟩
@@ -250,7 +250,7 @@ theorem exists_mul_mem_centralizer_of_commutator_mem [Finite G] {p : ℕ}
       group
     rw [h3]
     exact O.mul_mem h1 h2
-  letI act : MulAction P O :=
+  let act : MulAction P O :=
     { smul := fun g o => ⟨l⁻¹ * ((g : G) * (l * (o : G)) * (g : G)⁻¹), hmem g g.2 o o.2⟩
       one_smul := fun o => Subtype.ext (show l⁻¹ * (((1 : P) : G) * (l * (o : G)) *
           ((1 : P) : G)⁻¹) = (o : G) by simp)
@@ -319,9 +319,9 @@ theorem nonempty_pSimple_equiv_of_surjective [Finite A] [Finite B] (hp : p.Prime
     (hB : CFSG.Open.IsQuasisimple (B ⧸ GLAPPrimeCore p B)) :
     Nonempty (((A ⧸ GLAPPrimeCore p A) ⧸ Subgroup.center (A ⧸ GLAPPrimeCore p A)) ≃*
       ((B ⧸ GLAPPrimeCore p B) ⧸ Subgroup.center (B ⧸ GLAPPrimeCore p B))) := by
-  haveI : IsSimpleGroup ((A ⧸ GLAPPrimeCore p A) ⧸ Subgroup.center (A ⧸ GLAPPrimeCore p A)) :=
+  have : IsSimpleGroup ((A ⧸ GLAPPrimeCore p A) ⧸ Subgroup.center (A ⧸ GLAPPrimeCore p A)) :=
     hA.2
-  haveI : IsSimpleGroup ((B ⧸ GLAPPrimeCore p B) ⧸ Subgroup.center (B ⧸ GLAPPrimeCore p B)) :=
+  have : IsSimpleGroup ((B ⧸ GLAPPrimeCore p B) ⧸ Subgroup.center (B ⧸ GLAPPrimeCore p B)) :=
     hB.2
   have hinj : Function.Injective (pSimpleMapOfSurjective hp f hf) := by
     rw [← MonoidHom.ker_eq_bot_iff]
@@ -415,6 +415,7 @@ section Transfer
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem fixSubgroup_normalizerMonoidHom {K : Subgroup G} {a : G}
     (ha : a ∈ Subgroup.normalizer (K : Set G)) :
     fixSubgroup (K.normalizerMonoidHom ⟨a, ha⟩) =
@@ -470,7 +471,7 @@ theorem map_fixSubgroup_pQuotHom (hp : p.Prime) {K : Subgroup G} {a : G}
 
 theorem coprime_card_inf_ker_pQuotHom (hp : p.Prime) (K : Subgroup G) (X : Subgroup ↥K) :
     Nat.Coprime p (Nat.card ↥(X ⊓ (pQuotHom p K).ker)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine Nat.Coprime.coprime_dvd_right (Subgroup.card_dvd_of_le inf_le_right) ?_
   rw [ker_pQuotHom]
   exact CFSG.pPrimeCore_coprime_card
@@ -478,6 +479,7 @@ theorem coprime_card_inf_ker_pQuotHom (hp : p.Prime) (K : Subgroup G) (X : Subgr
 @[expose] noncomputable def chevTransfer (p : ℕ) (K J : Subgroup G) : Subgroup (PSimple p K) :=
   (J.subgroupOf K).map (chevQuotHom p K)
 
+omit [Finite G] in
 theorem chevTransfer_eq (p : ℕ) (K J : Subgroup G) :
     chevTransfer p K J =
       ((J.subgroupOf K).map (pQuotHom p K)).map
@@ -607,6 +609,7 @@ section Balance
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem chev_commute_conj_iff {c y h : G} (hcy : Commute c y) :
     Commute c (y * h * y⁻¹) ↔ Commute c h := by
   constructor
@@ -616,6 +619,7 @@ theorem chev_commute_conj_iff {c y h : G} (hcy : Commute c y) :
   · intro H
     exact (hcy.mul_right H).mul_right hcy.inv_right
 
+omit [Finite G] in
 theorem chev_inf_centralizer_le_normalizer {Y K : Subgroup G}
     (hYK : Y ≤ Subgroup.normalizer (K : Set G)) (A : Subgroup G) :
     Y ⊓ Subgroup.centralizer (A : Set G) ≤
@@ -742,7 +746,7 @@ theorem inf_glaPPrimeCoreOf_le (hp : p.Prime) {H K : Subgroup G} (hHK : H ≤ K)
   have hcop : Nat.Coprime p (Nat.card N0) :=
     (Nat.Prime.coprime_iff_not_dvd hp).2 fun hd =>
       CFSG.LocalAnalysis.GLTheoremB.not_dvd_card_glaPPrimeCoreOf hp K (hd.trans hdvd)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hle : N0 ≤ GLAPPrimeCore p ↥H := le_sSup ⟨hnorm, hcop⟩
   intro x hx
   exact ⟨⟨x, hx.1⟩, hle ((Subgroup.mem_subgroupOf).2 hx.2), rfl⟩
@@ -756,15 +760,16 @@ theorem centMod_of_le (hp : p.Prime) {K₁ K : Subgroup G} (hK₁K : K₁ ≤ K)
     simpa [commutatorElement_def, mul_assoc] using this
   exact inf_glaPPrimeCoreOf_le hp hK₁K ⟨h1, (centMod_iff.1 hbK).2 l (hK₁K hl)⟩
 
+omit [Finite G] in
 theorem centMod_of_le_centralizer {K₁ : Subgroup G} {a : G}
     (h : K₁ ≤ Subgroup.centralizer ({a} : Set G)) : CentMod p K₁ a :=
-  centMod_of_mem_centralizer (Subgroup.mem_centralizer_iff.2 fun k hk =>
+  centMod_of_mem_centralizer (Subgroup.mem_centralizer_iff.2 fun _k hk =>
     Subgroup.mem_centralizer_singleton_iff.1 (h hk))
 
 theorem inf_centModSubgroup_le (hp : p.Prime) {K K₁ A : Subgroup G} {a : G}
     (hK₁ : K₁ ≤ K ⊓ Subgroup.centralizer ({a} : Set G))
     (hA : A ≤ Subgroup.normalizer (K₁ : Set G)) :
-    A ⊓ centModSubgroup p K ≤ A ⊓ centModSubgroup p K₁ := fun b hb =>
+    A ⊓ centModSubgroup p K ≤ A ⊓ centModSubgroup p K₁ := fun _b hb =>
   ⟨hb.1, centMod_iff.1 (centMod_of_le hp (hK₁.trans inf_le_left) (hA hb.1)
     (centMod_iff.2 hb.2))⟩
 

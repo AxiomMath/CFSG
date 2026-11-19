@@ -1202,7 +1202,7 @@ public theorem CFSG.section12_not_alpha_in_prop_12_4_pre
   let Z : Subgroup G := section10OmegaOneCenter p Pamb
   have hZ_ne : Z ≠ ⊥ := by
     have hPamb_p : IsPGroup p.val Pamb := by
-      exact P.isPGroup'.of_equiv
+      exact P.isPGroup.of_equiv
         (Subgroup.equivMapOfInjective (f := (section10Msigma M).subtype)
           (P : Subgroup (section10Msigma M)) (section10Msigma M).subtype_injective)
     have hPamb_ne : Pamb ≠ ⊥ := by
@@ -1343,7 +1343,7 @@ public theorem CFSG.section12_prop_12_4_hard_branch_pre
   let Pamb : Subgroup G := section10AmbientSylowSubgroup (section10Msigma M) P
   let Z : Subgroup G := section10OmegaOneCenter p Pamb
   have hPamb_p : IsPGroup p.val Pamb := by
-    exact P.isPGroup'.of_equiv
+    exact P.isPGroup.of_equiv
       (Subgroup.equivMapOfInjective (f := (section10Msigma M).subtype)
         (P : Subgroup (section10Msigma M)) (section10Msigma M).subtype_injective)
   have hPamb_ne : Pamb ≠ ⊥ := by

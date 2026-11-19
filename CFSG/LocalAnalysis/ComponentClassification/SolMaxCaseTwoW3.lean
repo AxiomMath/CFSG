@@ -424,7 +424,7 @@ theorem eq_of_ρ_eq [Finite X] {L : Subgroup ↥(permGrp H w)} {Syl : Sylow 2 �
     rw [← orderOf_coe]
     exact hodd
   exact inv_mul_eq_one.mp
-    (eq_one_of_odd_of_isPGroup Syl.isPGroup' (mul_mem (inv_mem hs) hs') hodd')
+    (eq_one_of_odd_of_isPGroup Syl.isPGroup (mul_mem (inv_mem hs) hs') hodd')
 
 theorem card_center_le_seven [Finite X] (hc₀ : ∃ c₀ : X, c₀ * w = w * c₀ ∧ c₀ ∉ H)
     {x₁ x₂ c p : ↥(centralizer ({w} : Set X))} (cfg : S.Config x₁ x₂ c p)
@@ -597,7 +597,7 @@ theorem false_of_unitary [Finite X] (hc₀ : ∃ c₀ : X, c₀ * w = w * c₀ �
   have hx₁2 : (x₁ : X) * x₁ = 1 := congrArg Subtype.val cfg.sq₁
   let T : Subgroup X :=
     (P : Subgroup ↥(centralizer ({w} : Set X))).map (centralizer ({w} : Set X)).subtype
-  have hT2 : IsPGroup 2 T := P.isPGroup'.map _
+  have hT2 : IsPGroup 2 T := P.isPGroup.map _
   have hPT : ∀ u ∈ (P : Subgroup ↥(centralizer ({w} : Set X))), (u : X) ∈ T :=
     fun u hu => ⟨u, hu, rfl⟩
   have hTH : T ≤ H := S.le_of_isPGroup hT2 (hPT x₁ hx₁P) cfg.h₁ hx₁2 cfg.four₁
@@ -629,13 +629,13 @@ theorem false_of_unitary [Finite X] (hc₀ : ∃ c₀ : X, c₀ * w = w * c₀ �
     exact (toPermGrp_mem_stabilizer_iff u).mpr (hTH (hPT u hu))
   have hS'S : (S' : Subgroup ↥L) ≤ Syl := by
     have h : (S' : Subgroup ↥L) ⊓ normalizer ((Syl : Subgroup ↥L) : Set ↥L) =
-        (S' : Subgroup ↥L) ⊓ Syl := S'.isPGroup'.inf_normalizer_sylow Syl
+        (S' : Subgroup ↥L) ⊓ Syl := S'.isPGroup.inf_normalizer_sylow Syl
     intro s hs
     have hmem : s ∈ (S' : Subgroup ↥L) ⊓ normalizer ((Syl : Subgroup ↥L) : Set ↥L) :=
       ⟨hs, hS'N hs⟩
     rw [h] at hmem
     exact hmem.2
-  have hSS' : (Syl : Subgroup ↥L) = S' := (S'.maximal_isPGroup.eq_of_le Syl.isPGroup' hS'S).symm
+  have hSS' : (Syl : Subgroup ↥L) = S' := (S'.maximal_isPGroup.eq_of_le Syl.isPGroup hS'S).symm
   have hlift : ∀ s ∈ (Syl : Subgroup ↥L),
       ∃ u ∈ (P : Subgroup ↥(centralizer ({w} : Set X))), toPermGrp H w u = s := by
     intro s hs
@@ -699,7 +699,7 @@ theorem false_of_unitary [Finite X] (hc₀ : ∃ c₀ : X, c₀ * w = w * c₀ �
     have hgS : g ∈ (Syl : Subgroup ↥L) := hmemSyl _ hvP hvL
     have hg1 : g ≠ 1 := fun h => hne (by rw [sq, ← map_mul]; exact congrArg Subtype.val h)
     have hgo : orderOf g ≠ 0 := (orderOf_pos g).ne'
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Syl.isPGroup') ⟨g, hgS⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Syl.isPGroup) ⟨g, hgS⟩
     rw [orderOf_mk] at hk
     have h2 : 2 ∣ orderOf g := by
       rcases k with _ | k
@@ -750,7 +750,7 @@ theorem false_of_unitary [Finite X] (hc₀ : ∃ c₀ : X, c₀ * w = w * c₀ �
         exact (mem_baseSubgroup.mp hyb).1.apply_of_ge hi
     have h2k : ∃ j : ℕ, ((((u * u) ^ (orderOf g / 2) : ↥(centralizer ({w} : Set X))) : X)) ^
         2 ^ j = 1 := by
-      obtain ⟨j, hj⟩ := P.isPGroup' ⟨_, pow_mem hvP (orderOf g / 2)⟩
+      obtain ⟨j, hj⟩ := P.isPGroup ⟨_, pow_mem hvP (orderOf g / 2)⟩
       exact ⟨j, by simpa using congrArg (fun a : ↥(P : Subgroup ↥(centralizer ({w} : Set X))) =>
         ((a : ↥(centralizer ({w} : Set X))) : X)) hj⟩
     have hv1 := S.eq_one_of_ρ_eq_one hvNH h2k hρ1

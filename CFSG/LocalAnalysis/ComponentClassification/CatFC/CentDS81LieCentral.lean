@@ -120,7 +120,7 @@ theorem commutator_le_range :
     rw [mem_centralizer_singleton_iff]
     have : ⁅a, b⁆ * h * (⁅a, b⁆)⁻¹ * h⁻¹ = 1 := hz'
     rw [mul_inv_eq_one, mul_inv_eq_iff_eq_mul] at this
-    exact this.symm ▸ (by simp [mul_assoc])
+    exact this.symm ▸ (by simp)
   refine ⟨⟨⁅a, b⁆, hx⟩, ?_⟩
   apply Subtype.ext
   show π ⁅a, b⁆ = ⁅(g₁ : X), (g₂ : X)⁆
@@ -129,7 +129,7 @@ theorem commutator_le_range :
 theorem isSolvable_centralizer_of_cover
     (hs : Group.IsSolvable (centralizer ({h} : Set H))) :
     Group.IsSolvable (centralizer ({π h} : Set X)) := by
-  haveI := centralizerMap_range_normal hπ hker h
+  have := centralizerMap_range_normal hπ hker h
   have hcomm : ∀ a b : centralizer ({π h} : Set X) ⧸ (centralizerMap π h).range,
       a * b = b * a := by
     intro a b
@@ -144,15 +144,15 @@ theorem isSolvable_centralizer_of_cover
         exact commutator_le_range hπ hker h (by
           rw [commutator_def]
           exact Subgroup.commutator_mem_commutator (mem_top _) (mem_top _))
-  haveI : Group.IsSolvable (centralizer ({π h} : Set X) ⧸ (centralizerMap π h).range) :=
-    isSolvable_of_comm hcomm
-  haveI := hs
-  exact solvable_of_ker_le_range (centralizerMap π h)
+  have : Group.IsSolvable (centralizer ({π h} : Set X) ⧸ (centralizerMap π h).range) :=
+    _root_.Group.isSolvable_of_comm hcomm
+  have := hs
+  exact Group.isSolvable_of_ker_le_range (centralizerMap π h)
     (QuotientGroup.mk' (centralizerMap π h).range) (by rw [QuotientGroup.ker_mk'])
 
 theorem exists_isComponent_of_cover {M : Subgroup (centralizer ({h} : Set H))}
     (hM : IsComponent M) : ∃ K : Subgroup (centralizer ({π h} : Set X)), IsComponent K := by
-  haveI := centralizerMap_range_normal hπ hker h
+  have := centralizerMap_range_normal hπ hker h
   set ρ := centralizerMap π h with hρ
   have hker' : ρ.ker ≤ center (centralizer ({h} : Set H)) := by
     intro c hc

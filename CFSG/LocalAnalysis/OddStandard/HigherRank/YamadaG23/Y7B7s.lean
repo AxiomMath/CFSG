@@ -121,7 +121,7 @@ theorem y7b_M4_le_M7_of_R_eq_T (c : Ctx7 G L) (hb : B5Std c) (hRT : c.s.R = c.s.
   intro m hmM4
   refine y7b_cent_V2_le_M7 c hb m
     (y7b_X7_eq_C7_of_R_eq_T c hb hRT m (y7b_M4_le_X7 c hb hmM4)) (fun v hv => ?_)
-  haveI : IsMulCommutative ↥(M4 c.e) := (hb.h72.2.1).1
+  have : IsMulCommutative ↥(M4 c.e) := (hb.h72.2.1).1
   exact congrArg Subtype.val
     (mul_comm' (⟨m, hmM4⟩ : ↥(M4 c.e)) ⟨v, (Subgroup.mem_inf.mp hv).2⟩)
 
@@ -131,13 +131,13 @@ theorem y7b_M4_cases_M7_g (c : Ctx7 G L) (hb : B5Std c) (hRT : c.s.R ≠ c.s.T) 
   rcases y7b_X7_cases_C7_g c hb hRT m (y7b_M4_le_X7 c hb hmM4) with hmC7 | hmgC7
   · left
     refine y7b_cent_V2_le_M7 c hb m hmC7 (fun v hv => ?_)
-    haveI : IsMulCommutative ↥(M4 c.e) := (hb.h72.2.1).1
+    have : IsMulCommutative ↥(M4 c.e) := (hb.h72.2.1).1
     exact congrArg Subtype.val
       (mul_comm' (⟨m, hmM4⟩ : ↥(M4 c.e)) ⟨v, (Subgroup.mem_inf.mp hv).2⟩)
   · right
     refine y7b_cent_V2_le_M7 c hb (m * c.g) hmgC7 (fun v hv => ?_)
     have hmv : m * v = v * m := by
-      haveI : IsMulCommutative ↥(M4 c.e) := (hb.h72.2.1).1
+      have : IsMulCommutative ↥(M4 c.e) := (hb.h72.2.1).1
       exact congrArg Subtype.val
         (mul_comm' (⟨m, hmM4⟩ : ↥(M4 c.e)) ⟨v, (Subgroup.mem_inf.mp hv).2⟩)
     have hgv : c.g * v = v * c.g := by

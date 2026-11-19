@@ -98,7 +98,7 @@ theorem isPGroup_two_of_normal_of_twoElements_commute (hodd : pPrimeCore 2 X = �
   have hT : Subgroup.normalizer ((T : Subgroup N) : Set N) ≤
       Subgroup.centralizer ((T : Subgroup N) : Set N) := by
     intro g _ t ht
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨t, ht⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨t, ht⟩
     have hk' : (t : X) ^ 2 ^ k = 1 := by
       simpa using congrArg (fun y : (T : Subgroup N) => ((y : N) : X)) hk
     exact Subtype.ext (hcomm t t.property k hk' g g.property).eq
@@ -112,7 +112,7 @@ theorem isPGroup_two_of_normal_of_twoElements_commute (hodd : pPrimeCore 2 X = �
   have hker := CFSG.pPrimeCore_eq_bot_iff.mp hcoreN _ inferInstance hcop
   rw [hker, Subgroup.isComplement'_bot_left] at hcomp
   intro g
-  obtain ⟨k, hk⟩ := T.isPGroup' ⟨g, hcomp ▸ Subgroup.mem_top g⟩
+  obtain ⟨k, hk⟩ := T.isPGroup ⟨g, hcomp ▸ Subgroup.mem_top g⟩
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
 theorem exists_orderOf_eq_two_pow_of_pow_eq_one {Y : Type*} [Group Y] {n : Y} {k : ℕ}

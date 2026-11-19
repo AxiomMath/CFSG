@@ -53,7 +53,7 @@ theorem memN_false {x : Nat} : ∀ {L : List Nat}, x ∉ L → memN x L = false
     have hxy : x ≠ y := fun e => h (e ▸ List.mem_cons_self)
     have ih := memN_false (L := L) fun hm => h (List.mem_cons_of_mem _ hm)
     change Bool.rec (motive := fun _ => Bool) (memN x L) true (Nat.beq x y) = false
-    rw [PK.bIf_eq, if_neg (by simpa using hxy), ih]
+    rw [PK.bIf_eq, ite_eq_right (by simpa using hxy), ih]
 
 theorem fam_split {f : Nat → Bool} {k m : Nat} (hA : ∀ i < k, f (Nat.add 0 i) = true)
     (hB : ∀ i < m, f (Nat.add k i) = true) : ∀ c < k + m, f c = true := by
@@ -172,6 +172,7 @@ theorem act_tp (h : Ru4120.H.Ctx a b) (o t : Nat) {q : Nat} (hq : q < 4060) :
 
 variable [Finite Γ]
 
+omit [Finite Γ] in
 theorem edge_mem (h : Ru4120.H.Ctx a b) {u n it : Nat} (hu : u < 7)
     (hX : ∀ c ∈ unW (RW u n), c < 10) (he : edgeK LC IL (RG u) (RW u) Bs (nr u) n it = true) :
     Nat.land it 4095 < n ∧
@@ -190,6 +191,7 @@ theorem edge_mem (h : Ru4120.H.Ctx a b) {u n it : Nat} (hu : u < 7)
   rw [e]
   exact epE_mem _ _ _ _ _ fun l hl => Lab.gen_mem hl
 
+omit [Finite Γ] in
 theorem good_root (h : Ru4120.H.Ctx a b) {u : Nat} (hu : u < 7) (hF : RF a b u)
     (hX : ∀ c ∈ unW (RW u 0), c < 10) :
     Good (Rv a b u) (Ru4120.H.RX a b) (wE a b (RW u 0)) := by
@@ -230,6 +232,7 @@ theorem good_root (h : Ru4120.H.Ctx a b) {u : Nat} (hu : u < 7) (hF : RF a b u)
   exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hg
     (Subgroup.mem_sup_left ((hF.mem _ hkr).2.2 hpr))) (Subgroup.inv_mem _ hg)
 
+omit [Finite Γ] in
 theorem good_reps (h : Ru4120.H.Ctx a b) {u : Nat} (hu : u < 7) (hF : RF a b u)
     (hRW : ∀ i < nR u, ∀ c ∈ unW (RW u i), c < 10) :
     ∀ n < nR u, Good (Rv a b u) (Ru4120.H.RX a b) (wE a b (RW u n)) := by
@@ -243,6 +246,7 @@ theorem good_reps (h : Ru4120.H.Ctx a b) {u : Nat} (hu : u < 7) (hF : RF a b u)
       obtain ⟨hd, hm⟩ := edge_mem h hu (hRW n hn) he
       exact good_of_mem hm (ih _ hd (by omega))
 
+omit [Finite Γ] in
 theorem match_good (h : Ru4120.H.Ctx a b) {u p it : Nat} (hF : RF a b u)
     (hgood : ∀ i < nR u, Good (Rv a b u) (Ru4120.H.RX a b) (wE a b (RW u i)))
     (hm : matchK LC (RW u) XW psi Ru4120.TF Ru4120.eu Ru4120.ev Bs (nR u) (vm u) (tau u) p it =
@@ -273,6 +277,7 @@ theorem match_good (h : Ru4120.H.Ctx a b) {u p it : Nat} (hF : RF a b u)
     (Subgroup.mem_sup_left ((hF.mem _ hk1).2.2 hp1)) (mem_sup_zpowers _ _))
     (Subgroup.mem_sup_left ((hF.mem _ hk2).2.2 hp2))
 
+omit [Finite Γ] in
 theorem good_pos (h : Ru4120.H.Ctx a b) {u : Nat} (hu : u < 7) (hF : RF a b u)
     (hRW : ∀ i < nR u, ∀ c ∈ unW (RW u i), c < 10) {p : Nat} (hp : p < 1678) (hex : p ∉ ex u) :
     Good (Rv a b u) (Ru4120.H.RX a b)
@@ -292,7 +297,7 @@ theorem good_x (h : Ru4120.H.Ctx a b) (hc : Nat.card (Ru4120.H.RX a b) = 2 ^ 14)
     change (2 * j) >>> 1 = j
     rw [Nat.shiftRight_eq_div_pow]
     omega
-  rw [e1, e2, if_neg (by decide), one_mul] at g
+  rw [e1, e2, ite_eq_right (by decide), one_mul] at g
   exact g
 
 theorem good_tx (h : Ru4120.H.Ctx a b) (hc : Nat.card (Ru4120.H.RX a b) = 2 ^ 14) {u : Nat}
@@ -308,7 +313,7 @@ theorem good_tx (h : Ru4120.H.Ctx a b) (hc : Nat.card (Ru4120.H.RX a b) = 2 ^ 14
     change ((2 * j + 1) >>> 1) = j
     rw [Nat.shiftRight_eq_div_pow]
     omega
-  rw [e1, e2, if_pos rfl] at g
+  rw [e1, e2, ite_eq_left rfl] at g
   exact g
 
 end Group

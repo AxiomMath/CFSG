@@ -36,12 +36,16 @@ variable {c : Y} {X E : Subgroup Y} {ρ : Y → AEQ 6} (S : EStr c X E ρ)
 
 include S
 
+omit [Finite Y] in
 theorem E_le_X {e : Y} (he : e ∈ E) : e ∈ X := ((S.E_iff e).1 he).1
 
+omit [Finite Y] in
 theorem E_le_C {e : Y} (he : e ∈ E) : e ∈ Subgroup.centralizer ({c} : Set Y) := S.XC (S.E_le_X he)
 
+omit [Finite Y] in
 theorem c_mem_E : c ∈ E := (S.E_iff c).2 ⟨S.c_mem, by rw [S.rho_c, map_one]⟩
 
+omit [Finite Y] in
 theorem E_comm {x y : Y} (hx : x ∈ E) (hy : y ∈ E) : x * y = y * x := by
   have h := S.E_sq (x * y) (E.mul_mem hx hy)
   have hxi : x⁻¹ = x := inv_eq_of_mul_eq_one_right (S.E_sq x hx)
@@ -51,34 +55,42 @@ theorem E_comm {x y : Y} (hx : x ∈ E) (hy : y ∈ E) : x * y = y * x := by
     _ = y⁻¹ * x⁻¹ := mul_inv_rev x y
     _ = y * x := by rw [hxi, hyi]
 
+omit [Finite Y] in
 theorem rho_inv {g : Y} (hg : g ∈ Subgroup.centralizer ({c} : Set Y)) : ρ g⁻¹ = (ρ g)⁻¹ := by
   have h : ρ g * ρ g⁻¹ = 1 := by
     rw [← S.rho_mul g hg g⁻¹ (Subgroup.inv_mem _ hg), mul_inv_cancel, S.rho_one]
   exact eq_inv_of_mul_eq_one_right h
 
+omit [Finite Y] in
 theorem rho_conj {g y : Y} (hg : g ∈ Subgroup.centralizer ({c} : Set Y))
     (hy : y ∈ Subgroup.centralizer ({c} : Set Y)) : ρ (g * y * g⁻¹) = ρ g * ρ y * (ρ g)⁻¹ := by
   rw [S.rho_mul _ (Subgroup.mul_mem _ hg hy) _ (Subgroup.inv_mem _ hg), S.rho_mul _ hg _ hy,
     S.rho_inv hg]
 
+omit [Finite Y] in
 theorem rho_comm_el {g h : Y} (hg : g ∈ Subgroup.centralizer ({c} : Set Y))
     (hh : h ∈ Subgroup.centralizer ({c} : Set Y)) :
     ρ (g * h * g⁻¹ * h⁻¹) = ρ g * ρ h * (ρ g)⁻¹ * (ρ h)⁻¹ := by
   rw [S.rho_mul _ (Subgroup.mul_mem _ (Subgroup.mul_mem _ hg hh) (Subgroup.inv_mem _ hg)) _
     (Subgroup.inv_mem _ hh), S.rho_conj hg hh, S.rho_inv hh]
 
+omit [Finite Y] in
 theorem rho_comm {g h : Y} (hg : g ∈ Subgroup.centralizer ({c} : Set Y))
     (hh : h ∈ Subgroup.centralizer ({c} : Set Y)) (e : g * h = h * g) : ρ g * ρ h = ρ h * ρ g := by
   rw [← S.rho_mul g hg h hh, ← S.rho_mul h hh g hg, e]
 
+omit [Finite Y] in
 theorem rho_E {e : Y} (he : e ∈ E) : InU (ρ e) := ⟨S.rho_ae e (S.E_le_X he), ((S.E_iff e).1 he).2⟩
 
+omit [Finite Y] in
 theorem E_surj {x : AEQ 6} (hx : InU x) : ∃ e ∈ E, ρ e = x := by
   obtain ⟨y, hy, hyx⟩ := S.rho_surj x hx.1
   exact ⟨y, (S.E_iff y).2 ⟨hy, by rw [hyx]; exact hx.2⟩, hyx⟩
 
+omit [Finite Y] in
 theorem ker_E {z : Y} (hz : z ∈ E) (h1 : ρ z = 1) : z = 1 ∨ z = c := S.rho_ker z (S.E_le_X hz) h1
 
+omit [Finite Y] in
 theorem exists_four (a b d e : Y) : ∃ x ∈ E, x ≠ a ∧ x ≠ b ∧ x ≠ d ∧ x ≠ e := by
   classical
   by_contra hcon
@@ -102,6 +114,7 @@ theorem exists_four (a b d e : Y) : ∃ x ∈ E, x ≠ a ∧ x ≠ b ∧ x ≠ d
   have := S.E_card
   omega
 
+omit [Finite Y] in
 theorem cent_of_V (F : AE6Fin) {g : Y} (hg : g ∈ Subgroup.centralizer ({c} : Set Y))
     (hgV : TC.Thin.permQ 6 (ρ g) = 1) : ∀ e ∈ E, g * e = e * g := by
   classical

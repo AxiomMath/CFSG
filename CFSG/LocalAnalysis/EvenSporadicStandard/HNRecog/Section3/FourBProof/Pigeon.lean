@@ -84,8 +84,8 @@ theorem fourB_mul_mem_of_orbit {G : Type} [Group G] (K : Subgroup G) (S S' : Set
 theorem fourB_exists_fixed_of_odd {G : Type} [Group G] (T : Set G) (q : G) (hq : q * q = 1)
     (hT : ∀ t ∈ T, q * t * q⁻¹ ∈ T) (hodd : Odd (Nat.card ↥T)) : ∃ t ∈ T, q * t = t * q := by
   classical
-  haveI : Finite ↥T := Nat.finite_of_card_ne_zero hodd.pos.ne'
-  haveI : Fintype ↥T := Fintype.ofFinite ↥T
+  have : Finite ↥T := Nat.finite_of_card_ne_zero hodd.pos.ne'
+  have : Fintype ↥T := Fintype.ofFinite ↥T
   have hqinv : q⁻¹ = q := inv_eq_of_mul_eq_one_right hq
   let c : ↥T → ↥T := fun t => ⟨q * (t : G) * q⁻¹, hT t t.2⟩
   have hc2 : ∀ t : ↥T, c (c t) = t := by

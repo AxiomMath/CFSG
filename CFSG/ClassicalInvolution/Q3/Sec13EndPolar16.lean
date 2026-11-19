@@ -32,7 +32,7 @@ private theorem p16_four_pow : ∀ (n : ℕ) (G : Type _) [CommGroup G] [Finite 
   intro G _ _ B hcard hB
   by_cases hx : ∃ x : G, x ≠ 1
   swap
-  · push_neg at hx
+  · push Not at hx
     have h1 : Nat.card G = 1 := by
       rw [Nat.card_eq_one_iff_unique]
       exact ⟨⟨fun a b => by rw [hx a, hx b]⟩, ⟨1⟩⟩
@@ -44,7 +44,7 @@ private theorem p16_four_pow : ∀ (n : ℕ) (G : Type _) [CommGroup G] [Finite 
     exact h)
   obtain ⟨y, hy⟩ : ∃ y : G, B x y ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hx1 (hB.nondeg x hcon)
   have hxy : B x y = 1 := (p16_zmod2_cases _).resolve_left hy
   have hyx : B y x = 1 := (hB.symm x y).symm.trans hxy
@@ -299,8 +299,10 @@ theorem mul_mem_nbr [Finite V] (hB : SympForm B) (hS : PointSet B S a) {p x : V}
   · intro h
     exact hp1 (mul_eq_right.1 h)
 
+omit [CommGroup V] in
 private theorem mem_nbr_iff {p x : V} : x ∈ nbr B S p ↔ x ∈ S ∧ x ≠ p ∧ B p x = 0 := Iff.rfl
 
+omit [CommGroup V] in
 private theorem mem_far_iff {z s : V} : s ∈ far B S z ↔ s ∈ S ∧ B z s = 1 := Iff.rfl
 
 private theorem mem_qPairs_iff {z j y : V} : (j, y) ∈ qPairs B S z ↔
@@ -407,7 +409,7 @@ theorem card_far_nbr [Finite V] (hB : SympForm B) (hS : PointSet B S a) {z j : V
 theorem card_far_mul [Finite V] (hB : SympForm B) (hS : PointSet B S a) {z : V} (hz : z ∈ S) :
     a * (far B S z).ncard + (qPairs B S z).ncard + 4 * a = 4 * a * a := by
   classical
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   set N : Finset V := Finset.univ.filter (fun j => j ∈ nbr B S z) with hNdef
   set F : Finset V := Finset.univ.filter (fun s => s ∈ far B S z) with hFdef
   set Q : Finset (V × V) := Finset.univ.filter (fun q => q ∈ qPairs B S z) with hQdef
@@ -432,7 +434,7 @@ theorem card_far_mul [Finite V] (hB : SympForm B) (hS : PointSet B S a) {z : V} 
     · rw [Finset.card_filter]
     · apply Finset.sum_eq_zero
       intro y _
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hq
       exact hj ((mem_qPairs_iff).1 hq).1
   have hdc := Finset.sum_card_bipartiteAbove_eq_sum_card_bipartiteBelow
@@ -587,7 +589,7 @@ private theorem p16_B_L_inv [Finite V] {z u v j y : V} (hB : SympForm B) (hS : P
 theorem eight_dvd_card_qPairs [Finite V] (hB : SympForm B) (hS : PointSet B S a) {z : V}
     (hz : z ∈ S) : 8 ∣ (qPairs B S z).ncard := by
   classical
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   have hz1 : z ≠ 1 := fun h => hS.one_notMem (by rw [← h]; exact hz)
   set Q : Finset (V × V) := Finset.univ.filter (fun q => q ∈ qPairs B S z) with hQdef
   have hQc : (qPairs B S z).ncard = Q.card := p16_ncard_eq (fun q => q ∈ qPairs B S z)
@@ -665,7 +667,7 @@ private theorem p16_mul_mem_nbr_far [Finite V] (hB : SympForm B) (hS : PointSet 
     decide
 
 private theorem p16_card_far_nbr_far [Finite V] (hB : SympForm B) (hS : PointSet B S a) {z s : V}
-    (hz : z ∈ S) (hs : s ∈ far B S z) :
+    (_hz : z ∈ S) (hs : s ∈ far B S z) :
     {t | t ∈ far B S z ∧ B s t = 0 ∧ t ≠ s}.ncard = a := by
   have hsS : s ∈ S := (mem_far_iff.1 hs).1
   have hBsz : B s z = 1 := by rw [hB.symm]; exact (mem_far_iff.1 hs).2
@@ -769,7 +771,7 @@ theorem natCard_le_of_qPairs_eq_empty [Finite V] (hB : SympForm B) (hS : PointSe
     (hspan : Subgroup.closure S = ⊤) {z : V} (hz : z ∈ S) (hq : qPairs B S z = ∅) (ha : 2 ≤ a) :
     Nat.card V ≤ 2 ^ (a + 2) := by
   classical
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   have hsq : ∀ g : V, g * g = 1 := hB.sq_eq_one
   have hz1 : z ≠ 1 := fun h => hS.one_notMem (by rw [← h]; exact hz)
   set E : Subgroup V := Subgroup.closure (insert z (nbr B S z : Set V)) with hEdef
@@ -820,7 +822,7 @@ theorem natCard_le_of_qPairs_eq_empty [Finite V] (hB : SympForm B) (hS : PointSe
       rw [e]
       exact E.mul_mem hsy hyxE
     by_contra hcontra
-    push_neg at hcontra
+    push Not at hcontra
     obtain ⟨x1, hx1, hx1E⟩ := hcontra
     have hx1B : x1 ∈ Bs := ⟨hx1, hx1E⟩
     have hAc := p16_component_card hB hS hz hq (by omega) A (fun x hx => hx.1) hAcl hsA
@@ -1310,9 +1312,9 @@ theorem card_nbr_inter_sigma (hB : SympForm B) (hS : PointSet B S a) (hG : GridD
   have hWall : ∀ r ∈ lineW z t, r = z ∨ r = t ∨ r = z * t := fun r hr => mem_W_iff.1 hr
   rcases (p16_sigma_legPts_iff hS hG).1 hy with hW | hPz | hPt | hPzt
   · have hdisj : Disjoint (lineW z t \ {y}) (legPts x y) :=
-      Set.disjoint_of_subset_left Set.diff_subset (p16_disj_W_legPts hS hB hG hW)
-    rw [p16_nbr_W hB hS hG hW, Set.ncard_union_eq hdisj (p16_finite_W.subset Set.diff_subset)
-      (p16_finite_legPts x y), Set.ncard_diff_singleton_of_mem hW,
+      Set.disjoint_of_subset_left Set.sdiff_subset (p16_disj_W_legPts hS hB hG hW)
+    rw [p16_nbr_W hB hS hG hW, Set.ncard_union_eq hdisj (p16_finite_W.subset Set.sdiff_subset)
+      (p16_finite_legPts x y), Set.ncard_sdiff_singleton_of_mem hW,
       p16_W_ncard hS hG, p16_legPts_ncard hS hG hW]
   · exact p16_nbr_leg hB hS hG hz ht hzt hG.z_ne_t.symm hzt_z hzt_t hWall hPz
   · exact p16_nbr_leg hB hS hG ht hz hzt hG.z_ne_t hzt_t hzt_z
@@ -1323,7 +1325,7 @@ theorem card_nbr_inter_sigma (hB : SympForm B) (hS : PointSet B S a) (hG : GridD
 theorem edge_count [Finite V] (hB : SympForm B) (hS : PointSet B S a)
     (hG : GridData B S z t e x) : (S.ncard - 9) * a + 36 = 18 * a ∧ 9 ≤ S.ncard ∧ 2 ≤ a := by
   classical
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   have hz : z ∈ S := hG.z_mem
   have hSgc : (sigma B S e).ncard = 9 := card_sigma hB hS hG
   have hSgS : sigma B S e ⊆ S := fun y hy => hy.1
@@ -1380,7 +1382,7 @@ theorem edge_count [Finite V] (hB : SympForm B) (hS : PointSet B S a)
     have hyS : y ∈ S := hySg.1
     have hyn := hS.card_nbr y hyS
     have hI := card_nbr_inter_sigma hB hS hG hySg
-    have hD := Set.ncard_inter_add_ncard_diff_eq_ncard (nbr B S y) (sigma B S e)
+    have hD := Set.ncard_inter_add_ncard_sdiff_eq_ncard (nbr B S y) (sigma B S e)
     have hset : (Of.filter (fun w => B y w = 0)).card =
         (nbr B S y \ sigma B S e).ncard := by
       have h := p16_ncard_eq (fun w => w ∈ nbr B S y ∧ w ∉ sigma B S e)
@@ -1388,8 +1390,7 @@ theorem edge_count [Finite V] (hB : SympForm B) (hS : PointSet B S a)
       rw [hdiff, h]
       congr 1
       ext w
-      simp only [hOf, hOut, Finset.mem_filter, Finset.mem_univ, true_and, Set.mem_diff,
-        Set.mem_setOf_eq]
+      simp only [hOf, hOut, Finset.mem_filter, Finset.mem_univ, true_and, Set.mem_sdiff]
       constructor
       · rintro ⟨⟨hwS, hwSg⟩, hyw⟩
         have hwy : w ≠ y := fun h => hwSg (h ▸ hySg)
@@ -1656,7 +1657,7 @@ theorem residue_six_false :
   have hor : ∀ l ∈ L, A ∈ l ∨ B ∈ l := by
     intro l hl
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h1 := H3 l hl
     rw [Finset.card_eq_one] at h1
     obtain ⟨x, hx⟩ := h1
@@ -1743,7 +1744,7 @@ private theorem p16r_tri_orth {B : V → V → ZMod 2} (hB : SympForm B) {j y v 
   · exact hjjj
 
 private theorem p16r_qPair_mul_nbr [Finite V] {B : V → V → ZMod 2} {S : Set V} {a : ℕ} {z j y : V}
-    (hB : SympForm B) (hS : PointSet B S a) (hz : z ∈ S) (hq : (j, y) ∈ qPairs B S z) :
+    (hB : SympForm B) (hS : PointSet B S a) (_hz : z ∈ S) (hq : (j, y) ∈ qPairs B S z) :
     j * y ∈ nbr B S z := by
   obtain ⟨hj, hy, hjy, hne, hne'⟩ := (PointSet.mem_qPairs_iff).1 hq
   have hjS : j ∈ S := ((PointSet.mem_nbr_iff).1 hj).1
@@ -2028,7 +2029,7 @@ private theorem p16r_planes_inter [Finite V] {B : V → V → ZMod 2} {S : Set V
     {q q' : V × V} (hq : q ∈ qPairs B S z) (hq' : q' ∈ qPairs B S z)
     (hne : p16Pl g q ≠ p16Pl g q') : (p16Pl g q ∩ p16Pl g q').card ≤ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨i, hi, j, hj, hij⟩ := Finset.one_lt_card.1 hcon
   obtain ⟨hiP, hiP'⟩ := Finset.mem_inter.1 hi
   obtain ⟨hjP, hjP'⟩ := Finset.mem_inter.1 hj
@@ -2126,7 +2127,7 @@ private theorem p16r_card_fam [Finite V] {B : V → V → ZMod 2} {S : Set V} {a
         ((Set.toFinite (nbr B S z)).toFinset.filter fun u => g u = p1) ×ˢ
           ((Set.toFinite (nbr B S z)).toFinset.filter fun u => g u = p2) := by
       ext ⟨x, y⟩
-      simp only [Finset.mem_filter, Finset.mem_product, Finset.mem_univ, true_and, hQf,
+      simp only [Finset.mem_filter, Finset.mem_product, hQf,
         Prod.mk.injEq, Set.Finite.mem_toFinset]
       constructor
       · rintro ⟨hq, hgx, hgy⟩
@@ -2239,14 +2240,14 @@ private theorem p16r_exists_g [Finite V] {B : V → V → ZMod 2} {S : Set V} {z
       Finset.mem_image_of_mem _ (Set.Finite.mem_toFinset _ |>.2 hu)
     have hw' : ({w, z * w} : Finset V) ∈ Λ :=
       Finset.mem_image_of_mem _ (Set.Finite.mem_toFinset _ |>.2 hw)
-    simp only [dif_pos hu', dif_pos hw', eΛ.injective.eq_iff, Subtype.mk.injEq]
+    simp only [dite_eq_left hu', dite_eq_left hw', eΛ.injective.eq_iff, Subtype.mk.injEq]
   · intro i
     obtain ⟨P, hP⟩ := eΛ.surjective i
     obtain ⟨u, hu, hPu⟩ := Finset.mem_image.1 P.2
     have hmemu : ({u, z * u} : Finset V) ∈ Λ := Finset.mem_image_of_mem _ hu
     refine ⟨u, Set.Finite.mem_toFinset _ |>.1 hu, ?_⟩
     show (if h : ({u, z * u} : Finset V) ∈ Λ then eΛ ⟨_, h⟩ else 0) = i
-    rw [dif_pos hmemu, ← hP]
+    rw [dite_eq_left hmemu, ← hP]
     congr 1
     exact Subtype.ext hPu
 
@@ -2305,7 +2306,7 @@ theorem false_of_a_six [Finite V] {B : V → V → ZMod 2} (hB : SympForm B) {S 
     (hS : PointSet B S 6) {z t e : V} {x : V → V} (hG : GridData B S z t e x)
     (hq : (qPairs B S z).ncard = 72) : False := by
   classical
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   obtain ⟨g, ⟨R⟩⟩ := p16r_exists_g hB hS hG.z_mem
   set Qf : Finset (V × V) := (Set.toFinite (qPairs B S z)).toFinset with hQfdef
   have hQf : ∀ q, q ∈ Qf ↔ q ∈ qPairs B S z := fun q => Set.Finite.mem_toFinset _
@@ -2404,7 +2405,7 @@ theorem false_of_gridData [Finite V] {B : V → V → ZMod 2} (hB : SympForm B) 
     (hS : PointSet B S a) (hspan : Subgroup.closure S = ⊤) (hcard : 64 ≤ Nat.card V)
     {z t e : V} {x : V → V} (hG : GridData B S z t e x) : False := by
   classical
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   have hz : z ∈ S := hG.z_mem
   obtain ⟨hE2, h9, ha2⟩ := GridData.edge_count hB hS hG
   have hcm := PointSet.card_mul hB hS hz
@@ -2435,7 +2436,7 @@ theorem false_of_gridData [Finite V] {B : V → V → ZMod 2} (hB : SympForm B) 
     exact (Nat.dvd_add_right (dvd_mul_left a (S.ncard - 9))).1 h1
   have hle36 : a ≤ 36 := Nat.le_of_dvd (by norm_num) hdvd
   have hcases : a = 2 ∨ a = 3 ∨ a = 4 ∨ a = 6 ∨ a = 9 ∨ a = 12 ∨ a = 18 ∨ a = 36 := by
-    interval_cases a <;> first | omega | norm_num at hdvd
+    interval_cases a <;> first | omega
   rcases hcases with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   ·
     have hS9 : S.ncard = 9 := by omega

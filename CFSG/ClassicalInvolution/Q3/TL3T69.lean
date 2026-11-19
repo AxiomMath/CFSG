@@ -67,6 +67,7 @@ variable {I : AEIdent (orbOf (TC.nbrAdj Ω) K J) n} (ctx : LabCtx I)
   transLab (globEmb₁ n)
     (((conjSub ctx.E.g⁻¹ M).subgroupOf (pSpan (centMembers Ω ctx.D.u))).map ctx.D.IY.φ)
 
+omit [Finite G] in
 theorem lab₁_injOn (hn : 5 ≤ n) {M M' : Subgroup G} (hM : M ∈ centMembers Ω ctx.D.u)
     (hM' : M' ∈ centMembers Ω ctx.D.u) (h : ctx.lab₁ M = ctx.lab₁ M') : M = M' := by
   have hg : ctx.E.g⁻¹ ∈ pSpan (centMembers Ω ctx.D.u) := Subgroup.inv_mem _ ctx.E.hgY
@@ -82,6 +83,7 @@ theorem lab₁_injOn (hn : 5 ≤ n) {M M' : Subgroup G} (hM : M ∈ centMembers 
       (memBar_mem_memLabels _ _ _) (memBar_mem_memLabels _ _ _) h
   exact conjSub_injective _ e
 
+omit [Finite G] in
 theorem lab₁_mem (hn : 5 ≤ n) {M : Subgroup G} (hM : M ∈ centMembers Ω ctx.D.u) :
     ctx.lab₁ M ∈ memLabelsOn (Set.range (globEmb₁ n)) := by
   have hg : ctx.E.g⁻¹ ∈ pSpan (centMembers Ω ctx.D.u) := Subgroup.inv_mem _ ctx.E.hgY
@@ -90,6 +92,7 @@ theorem lab₁_mem (hn : 5 ≤ n) {M : Subgroup G} (hM : M ∈ centMembers Ω ct
   rw [hlab]
   exact transLab_mem_memLabelsOn (by omega) _ (memBar_mem_memLabels _ _ _)
 
+omit [Finite G] in
 theorem exists_lab₁_eq (hn : 5 ≤ n) {μ : Subgroup (AEQ (n + 4))}
     (hμ : μ ∈ memLabelsOn (Set.range (globEmb₁ n))) :
     ∃ M ∈ centMembers Ω ctx.D.u, ctx.lab₁ M = μ := by
@@ -100,6 +103,7 @@ theorem exists_lab₁_eq (hn : 5 ≤ n) {μ : Subgroup (AEQ (n + 4))}
   unfold lab₁
   rw [conjSub_inv_conjSub, hlab]
 
+omit [Finite G] in
 theorem lab₁_conj (hn : 5 ≤ n) {σ : alternatingGroup (Fin (n + 4))}
     (hσ : ∀ x ∈ missing₁ n, (σ : Equiv.Perm (Fin (n + 4))) x = x) {M : Subgroup G}
     (hM : M ∈ centMembers Ω ctx.D.u) :
@@ -132,6 +136,7 @@ theorem lab₁_conj (hn : 5 ≤ n) {σ : alternatingGroup (Fin (n + 4))}
   exact transLab_permAct (by omega) (strictMono_globEmb₁ n) _
     (memBar_mem_memLabels _ _ _)
 
+omit [Finite G] in
 theorem lab₁_loc (hn : 5 ≤ n) {L : Subgroup G} (hL : L ∈ centMembers Ω ctx.D.u) {l : G}
     (hl : l ∈ L) :
     ∃ x ∈ ctx.lab₁ L, ∀ M' ∈ centMembers Ω ctx.D.u, conjSub l M' ∈ centMembers Ω ctx.D.u ∧

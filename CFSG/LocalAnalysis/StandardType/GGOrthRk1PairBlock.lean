@@ -27,6 +27,7 @@ private theorem q2cO4b_fin3_cover :
     ∀ c a b l : Fin 3, a ≠ c → b ≠ c → a ≠ b → l ≠ c → l = a ∨ l = b := by
   decide
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 private theorem q2cO4b_orthDerived_le_orthogonalGroup (Q : QuadraticForm K V) :
     orthDerived Q ≤ TauCeti.QuadraticMap.orthogonalGroup Q := by
   rw [orthDerived, Subgroup.commutator_le]
@@ -40,7 +41,7 @@ private theorem q2cO4b_orthDerived_le_orthogonalGroup (Q : QuadraticForm K V) :
 
 private theorem q2cO4b_block_eq_rankOne {Q : QuadraticForm K V} {p : ℕ} [Fact p.Prime]
     (hp2 : p ≠ 2) {A : Subgroup (V ≃ₗ[K] V)} (hAΩ : A ≤ orthDerived Q) {r : ℕ}
-    (Δ : TBJOmData Q p A r) (hr : 3 ≤ r)
+    (Δ : TBJOmData Q p A r) (_hr : 3 ≤ r)
     (hfix : ∀ v : V, (∀ a ∈ A, a v = v) → v = 0)
     (f : ℕ) (hf : Nat.card K = 2 ^ f) (K' : Type) [Field K'] [Finite K'] [CharP K' 2]
     [Algebra K K'] (hK' : Nat.card K' = (2 ^ f) ^ 2)
@@ -60,11 +61,11 @@ private theorem q2cO4b_block_eq_rankOne {Q : QuadraticForm K V} {p : ℕ} [Fact 
     intro g hg
     rw [Subgroup.mem_centralizer_iff]
     intro h hh
-    simp only [TBJOmData.reflFixed, Subgroup.mem_map] at hh
+    simp only [TBJOmData.reflFixed] at hh
     obtain ⟨g₀, hg₀, rfl⟩ := hh
     have hg₀eq : g₀ (idx a) = g₀ (idx b) := by
       have hmem := hg₀
-      simp only [reflFixedCoord, MonoidHom.mem_ker, MonoidHom.div_apply] at hmem
+      simp only [reflFixedCoord] at hmem
       simpa using (div_eq_one.mp hmem)
     simp only [B, MonoidHom.mem_range] at hg
     obtain ⟨A₀, rfl⟩ := hg
@@ -116,8 +117,8 @@ private theorem q2cO4b_block_eq_rankOne {Q : QuadraticForm K V} {p : ℕ} [Fact 
     rintro y ⟨g, hg, rfl⟩
     exact ⟨⟨hcenter g hg.1, homega g hg.1⟩,
       ⟨1, by rw [show (2 : ℕ) ^ 1 = 2 by norm_num, ← map_pow, hg.2, map_one]⟩⟩
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V)) DFunLike.coe_injective
   have hcardBmap : Nat.card (B.map θ) = Nat.card (Matrix.SpecialLinearGroup (Fin 2) K) := by
     rw [Subgroup.card_map_of_injective (T.toEmbedding hσ).theta_injective]
@@ -149,7 +150,7 @@ theorem TBJOmData.exists_pair_blocks {Q : QuadraticForm K V} {p : ℕ} [Fact p.P
         ((Δ.reflFixed i j ⊓ Δ.reflFixed j k : Subgroup (V ≃ₗ[K] V)) : Set (V ≃ₗ[K] V)) := by
   obtain ⟨inst, T, ζ, hT⟩ :=
     Δ.exists_normTriple hp2 hAΩ hf hpq K' hK' i j k hij hjk hik
-  letI : Algebra K K' := inst
+  let : Algebra K K' := inst
   have hσ : IsUnitaryInvolution (unitaryInvolution K' 2 f) :=
     CFSG.ClassicalGroups.Unitary.isUnitaryInvolution_unitaryInvolution hK'
   let idx : Fin 3 → Fin r := ![i, j, k]

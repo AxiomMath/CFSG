@@ -52,7 +52,6 @@ theorem eq_of_degree_eq_of_three {ι : Type*} (d : ι → ℕ) {χ₁ χ₂ χ�
   rcases hc with h | h | h <;> rcases hc' with h' | h' | h' <;> rw [h, h'] at hcc' <;>
     rw [h, h'] <;>
     first
-    | rfl
     | (rw [hf₁, hf₂] at hcc'; exact absurd hcc' hA)
     | (rw [hf₂, hf₁] at hcc'; exact absurd hcc'.symm hA)
     | (rw [hf₁, hf₃] at hcc'; exact absurd hcc' hB)

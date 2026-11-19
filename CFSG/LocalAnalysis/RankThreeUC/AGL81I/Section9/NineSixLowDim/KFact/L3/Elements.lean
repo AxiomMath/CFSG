@@ -18,7 +18,7 @@ private theorem diagSign_apply (i j : Fin 3) :
 theorem diagSign_ne_one (hF2 : (2 : F) ≠ 0) (i : Fin 3) : (diagSign i : GL (Fin 3) F) ≠ 1 := by
   intro h
   have := diagSign_apply (F := F) i (i + 1)
-  rw [h, Units.val_one, one_apply_eq, if_neg (by fin_cases i <;> decide)] at this
+  rw [h, Units.val_one, one_apply_eq, ite_eq_right (by fin_cases i <;> decide)] at this
   apply hF2
   linear_combination this
 
@@ -78,7 +78,7 @@ private theorem fourierMat_sq (hF3 : (3 : F) ≠ 0) {w : F} (hw3 : w ^ 3 = 1) (k
     fourierMat w k * fourierMat w k = 1 := by
   obtain ⟨h3, h4, -, h6, -, h8, -⟩ := pow_reduce hw3
   fin_cases k <;> ext i j <;> fin_cases i <;> fin_cases j <;>
-    simp [fourierMat, mul_apply, Fin.sum_univ_three, Fin.coe_sub, fin3_neg_two] <;>
+    simp [fourierMat, mul_apply, Fin.sum_univ_three, _root_.Fin.val_sub, fin3_neg_two] <;>
     field_simp <;> ring_nf <;> simp only [h3, h4, h6, h8] <;> ring_nf
 
 private theorem fourierMat_det (hF3 : (3 : F) ≠ 0) {w : F} (hw3 : w ^ 3 = 1) (k : Fin 3) :
@@ -90,7 +90,7 @@ private theorem fourierMat_det (hF3 : (3 : F) ≠ 0) {w : F} (hw3 : w ^ 3 = 1) (
 private theorem cycMatrix_mul_fourierMat (w : F) (k : Fin 3) :
     cycMatrix 1 * fourierMat w k = fourierMat w k * cycMatrix 1 := by
   fin_cases k <;> ext i j <;> fin_cases i <;> fin_cases j <;>
-    simp [fourierMat, cycMatrix, mul_apply, Fin.sum_univ_three, Fin.coe_sub, fin3_neg_two]
+    simp [fourierMat, cycMatrix, mul_apply, Fin.sum_univ_three, _root_.Fin.val_sub, fin3_neg_two]
 
 private theorem fourierMat_apply_ne (hF2 : (2 : F) ≠ 0) (hF3 : (3 : F) ≠ 0) {w : F}
     (hw : w ≠ 0) (k i : Fin 3) : fourierMat w k i (i + 1) ≠ 0 := by
@@ -120,8 +120,8 @@ theorem diagSign_mul_fourierMat_ne (hF2 : (2 : F) ≠ 0) (hF3 : (3 : F) ≠ 0) {
     simp only [diagSign, diagThree]
     congr 1; funext j; split_ifs <;> simp
   have h1 := congrFun (congrFun h i) (i + 1)
-  rw [hs, diagonal_mul, mul_diagonal, if_pos rfl,
-    if_neg (by fin_cases i <;> decide)] at h1
+  rw [hs, diagonal_mul, mul_diagonal, ite_eq_left rfl,
+    ite_eq_right (by fin_cases i <;> decide)] at h1
   have h2 : 2 * fourierMat (ω : F) k i (i + 1) = 0 := by linear_combination h1
   exact fourierMat_apply_ne hF2 hF3 ω.ne_zero k i ((mul_eq_zero.mp h2).resolve_left hF2)
 

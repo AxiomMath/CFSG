@@ -16,7 +16,7 @@ theorem exists_cent_lift_outer {L : Subgroup G} {b : G}
     (hx : (QuotientGroup.mk (conjL L b hb x) : PQuot 3 L) = QuotientGroup.mk x) :
     ∃ x' : ↥L, (x' : G) * b = b * (x' : G) ∧
       (QuotientGroup.mk x' : PQuot 3 L) = QuotientGroup.mk x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N : Subgroup G := GLAPPrimeCoreOf 3 L with hN
   set H : Subgroup G := L ⊔ Subgroup.zpowers b with hH
   have hLH : L ≤ H := le_sup_left
@@ -26,7 +26,7 @@ theorem exists_cent_lift_outer {L : Subgroup G} {b : G}
     refine sup_le (le_normalizer_glaPPrimeCoreOf 3 L) ?_
     rw [Subgroup.zpowers_le]
     exact normalizer_le_normalizer_primeCoreOf 3 L hb
-  haveI hNormal : (N.subgroupOf H).Normal := by
+  have hNormal : (N.subgroupOf H).Normal := by
     refine ⟨fun n hn g => ?_⟩
     have h1 := (Subgroup.mem_normalizer_iff.1 (hNnorm g.2) (n : G)).1 hn
     exact h1

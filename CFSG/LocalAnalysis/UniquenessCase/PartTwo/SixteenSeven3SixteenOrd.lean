@@ -20,7 +20,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 theorem s16c167_two_mul_card_isAlt {X : Type} [Group X] {n : ℕ} (hn : 2 ≤ n)
     (h : UC22.IsAlt X n) : 2 * Nat.card X = Nat.factorial n := by
   obtain ⟨e⟩ := h
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 hn
   rw [Nat.card_congr e.toEquiv]
   have h2 : 2 * Nat.card (alternatingGroup (Fin n)) = Nat.card (Equiv.Perm (Fin n)) :=
     two_mul_nat_card_alternatingGroup
@@ -53,7 +53,7 @@ theorem s16c167_card_isOmegaMinus_six {X : Type} [Group X] (h : IsOmegaMinus X 6
   have hv : ∃ v, (quadMinus (6 / 2) K b c) v ≠ 0 := by
     refine ⟨fun i => if i = Sum.inr (Sum.inr 0) then 1 else 0, ?_⟩
     rw [coe_quadMinus]
-    simp [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore]
+    simp [StatedQuadMinus]
   rw [Nat.card_congr e.toEquiv,
     CFSG.Timmesfeld.ClassicalOrders.card_statedProj_statedOmega (coe_quadMinus (6 / 2) K b c) hv,
     show (6 / 2 : ℕ) = 3 from rfl,
@@ -82,7 +82,7 @@ theorem s16c167_card_le_of_selfCentralizing {H : Type} [Group H] [Finite H] {F :
       simpa only [φ, MulAut.one_apply, MulAut.conjNormal_apply, Subtype.coe_mk] using h
     calc f * x = x * f * x⁻¹ * x := by rw [h2]
       _ = x * f := by group
-  haveI : Finite (MulAut F) := MulEquiv.finite_left
+  have : Finite (MulAut F) := MulEquiv.finite_left
   have h1 : Nat.card φ.ker * Nat.card φ.range = Nat.card H := by
     rw [← Subgroup.card_mul_index φ.ker, Subgroup.index_ker]
   have h2 : Nat.card φ.ker ≤ Nat.card F := Subgroup.card_le_of_le hker
@@ -94,7 +94,7 @@ theorem s16c167_card_le_of_selfCentralizing {H : Type} [Group H] [Finite H] {F :
 theorem s16c167_card_mulAut_E9 {X : Type} [Group X] (h : IsElemAbelianOfRank 3 2 X) :
     Nat.card (MulAut X) = 48 := by
   obtain ⟨e⟩ := h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Nat.card_congr (MulAut.congr e).toEquiv,
     Nat.card_congr (CFSG.Sporadic.RuSchreier.ruMulAutEquivGL (p := 3) 2).toEquiv]
   exact CFSG.RankThree.Asc83Table.card_GL23

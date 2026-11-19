@@ -34,7 +34,7 @@ theorem s1611e3_normalizer_le_of_case8 (D : Data G) (h61 : UC6.R6_1 D) (h1610 : 
     (h169 : R16_9 D) {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
     (hc : Counterex16 D V₀ V L hV) (h8 : Case168_8 D V₀ V hV) :
     normalizer (E3.wClos V 0 D.T : Set G) ≤ D.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp : 3 ∈ D.sig := by
     rw [h8.2.2]
     exact Set.mem_singleton 3
@@ -44,7 +44,7 @@ theorem s1611e3_normalizer_le_of_case8 (D : Data G) (h61 : UC6.R6_1 D) (h1610 : 
   have hcard : Nat.card ↥(Fstar (Mbar D.M V₀ V hV)) = 3 ^ 2 :=
     s1611e3_card_of_isElemAbelianOfRank h8.1
   have hdvd : 3 ^ 2 ∣ Nat.card ↥(Fstar (Mbar D.M V₀ V hV)) := by
-    simpa [hcard] using pow_dvd_pow 3 (le_refl 2)
+    simp [hcard]
   refine s16c11_normalizer_le_of_routeF_normal D h61 h1610 h169 hV hc hp hF.1
     (IsPGroup.of_card hcard)
     (s16c11_not_isCyclic_of_exponent (by norm_num) hexp hdvd) ?_

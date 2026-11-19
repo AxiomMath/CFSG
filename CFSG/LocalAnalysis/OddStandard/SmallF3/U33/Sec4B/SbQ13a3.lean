@@ -211,7 +211,7 @@ theorem q13a_elt_sq_ne (h : Q13Om t L S x₁ x₂ lam rho tau om) :
 
 theorem q13a_elt_order (h : Q13Om t L S x₁ x₂ lam rho tau om) :
     orderOf (x₁ * (om * x₁ * om⁻¹)) = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h4 : (x₁ * (om * x₁ * om⁻¹)) ^ 4 = 1 := by
     rw [show (4 : ℕ) = 2 * 2 by norm_num, pow_mul, q13a_sq_eq_comm h, q13a_comm_sq h]
   have h2 : (x₁ * (om * x₁ * om⁻¹)) ^ 2 ≠ 1 := q13a_elt_sq_ne h

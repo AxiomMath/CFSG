@@ -82,7 +82,7 @@ theorem exists_mulEquiv_SG_of_cover {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Q 
     (hcat : catalogIs (M ⧸ Subgroup.center M) (onLie (· = .twistedA 2 Q))) :
     p = 3 ∧ ∃ (K : Type) (_ : Field K) (_ : Finite K) (h : UnitaryFieldData Q.p Q.exponent K),
       3 ∣ Q.p ^ Q.exponent + 1 ∧ Nonempty (M ≃* ↥(SG h)) := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   obtain ⟨i, hi, ⟨e₀⟩⟩ := hcat
   rcases i with _ | _ | ⟨⟨d, hv⟩⟩ | _
   · exact absurd hi id
@@ -95,9 +95,9 @@ theorem exists_mulEquiv_SG_of_cover {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Q 
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 2 Q hv e₀
   have h : UnitaryFieldData Q.p Q.exponent K :=
     ⟨Q.prime_p, Q.exponent_pos, by rw [hK, ← pow_mul, mul_comm]⟩
-  haveI : CharP K Q.p := h.charP
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hperf : Group.IsPerfect M := ⟨hM.1⟩
+  have : CharP K Q.p := h.charP
+  have : Fact p.Prime := ⟨hp⟩
+  have hperf : Group.IsPerfect M := ⟨hM.1⟩
   have hZp : IsPGroup p (Subgroup.center M) :=
     CFSG.HardMathSupport.Solomon.Coordinator.isPGroup_center_of_pPrimeCore_eq_bot hp hO
   have hodd : Odd (Nat.card (Subgroup.center M)) := by

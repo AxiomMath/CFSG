@@ -775,7 +775,7 @@ theorem GGResQTwoResidualCellTag.lineJDatum_B2
       fin_cases i <;> fin_cases j <;>
         (simp [A, H, A0, H0, f, lam, b2Idx, hL, hCe, hC',
           GGResLineJType.cartan, CartanMatrix.B_two, smul_eq_mul]
-         <;> (first | exact hz1 | exact hz2))
+        ; try (first | exact hz1 | exact hz2))
     · have hC' : C = !![2, -1, 0; -1, 2, -1; 0, -2, 2] := by
         have h1 : C = CartanMatrix.C 3 := by
           simpa [ggResQTwoResidualData] using hC

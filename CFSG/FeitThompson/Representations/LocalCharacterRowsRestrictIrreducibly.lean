@@ -101,14 +101,14 @@ theorem sum_inflateLeft [Fintype L] [Fintype ↑(Irr ↥W₁)] (h : IsPrimeCycli
   rw [hleft]
   by_cases hw1 : (⟨w, hw⟩ : ↥W₁) = 1
   · have hw' : w = 1 := by simpa using congrArg Subtype.val hw1
-    rw [if_pos hw1, hw', mul_one, NormalInducedFamily.indClassFun_one_apply_of_mem K hk, hindex]
+    rw [ite_eq_left hw1, hw', mul_one, NormalInducedFamily.indClassFun_one_apply_of_mem K hk, hindex]
   · have hwK : w ∉ K := by
       intro hcon
       have hmem : w ∈ K ⊓ W₁ := Subgroup.mem_inf.2 ⟨hcon, hw⟩
       rw [h.inf_eq_bot] at hmem
       exact hw1 (Subtype.ext (Subgroup.mem_bot.1 hmem))
     have hnot : k * w ∉ K := fun hcon => hwK (by simpa using K.mul_mem (K.inv_mem hk) hcon)
-    rw [if_neg hw1, indClassFun_eq_zero_of_notMem K 1 hnot]
+    rw [ite_eq_right hw1, indClassFun_eq_zero_of_notMem K 1 hnot]
 
 section Fintype
 
@@ -153,8 +153,8 @@ theorem cfInner_self_primeTIrow [Fintype ↑(Irr ↥W₁)] (h : IsPrimeCyclicTIH
   have hterm : ∀ i : ↑(Irr ↥W₁), cfInner (h.primeTIirr σ i j) (h.primeTIrow σ j) = 1 := by
     intro i
     rw [primeTIrow_def, cfInner_sum_right, Finset.sum_eq_single_of_mem i (Finset.mem_univ i)
-      (fun k _ hki => by rw [h.cfInner_primeTIirr hσ, if_neg (by simp [Ne.symm hki])]),
-      h.cfInner_primeTIirr hσ, if_pos ⟨rfl, rfl⟩]
+      (fun k _ hki => by rw [h.cfInner_primeTIirr hσ, ite_eq_right (by simp [Ne.symm hki])]),
+      h.cfInner_primeTIirr hσ, ite_eq_left ⟨rfl, rfl⟩]
   calc cfInner (h.primeTIrow σ j) (h.primeTIrow σ j)
       = ∑ _i : ↑(Irr ↥W₁), (1 : ℂ) := by
         rw [primeTIrow_def, cfInner_sum_left]

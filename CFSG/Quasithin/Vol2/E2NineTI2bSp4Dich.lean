@@ -18,16 +18,17 @@ variable {k : Type} [Field k] [CharP k 2]
   map_one' := rfl
   map_mul' _ _ := rfl
 
+omit [CharP k 2] in
 theorem ρ4_injective : Function.Injective (ρ4 k) := fun _ _ h => antiSp_ext h
 
+omit [CharP k 2] in
 private theorem ρ4_apply (g : antiSp k) : ρ4 k g = glMat (g : GL (Fin 4) k) := rfl
 
 private theorem ρ4_long_sub_one_mulVec (t : k) (x : Fin 4 → k) :
     (ρ4 k (uElt 0 0 t 0) - 1) *ᵥ x = (t * x 3) • (Pi.single 0 1 : Fin 4 → k) := by
   rw [ρ4_apply, CFSG.Quasithin.SteinbergBS.glMat_uElt_long]
   ext i
-  fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_four, Pi.single_apply,
-    Matrix.single_apply]
+  fin_cases i <;> simp [Matrix.mulVec, dotProduct, Matrix.single_apply]
 
 theorem dich_rootLong [Finite k] (hk : 4 ≤ Nat.card k) {Y : Subgroup (antiSp k)}
     (hY : rootLong k ≤ Y) : Dich (rootLong k) Y := by

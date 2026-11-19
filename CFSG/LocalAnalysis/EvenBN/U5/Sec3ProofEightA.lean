@@ -324,7 +324,7 @@ theorem Hyp.sec38a1_card_ET (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd :
   exact h
 
 theorem Hyp.sec38a1_T_le_normalizer_B₆ (hGMS : GMSK.GMSUnitarySharpKRankOneStatement)
-    (hd : d.Hyp) : d.T ≤ normalizer (d.B₆ : Set G) := fun s hs =>
+    (hd : d.Hyp) : d.T ≤ normalizer (d.B₆ : Set G) := fun _s hs =>
   d.normalizer_le_normalizer_B₆
     (Common.mem_normalizer_sup (hd.T_le_normalizer_F hGMS hs) (hd.T_le_normalizer_B₃ hs))
 

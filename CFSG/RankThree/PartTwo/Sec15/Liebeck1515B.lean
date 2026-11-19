@@ -155,6 +155,7 @@ private theorem mul_comm_of_sq_eq_one {G : Type*} [Group G] {R : Subgroup G}
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem eq_one_of_map_eq_one {H M K : Subgroup G} {Q : Type*} [Group Q] {ρ : ↥H →* Q}
     (hker : ρ.ker = M.subgroupOf H) (hKM : K ⊓ M = ⊥) {x : ↥H} (hxK : (x : G) ∈ K)
     (hx : ρ x = 1) : x = 1 := by
@@ -310,7 +311,7 @@ theorem false_of_ctxB
     have hker : (⟨e, he⟩ : ↥H) ∈ ρ.ker := orderOf_eq_one_iff.mp h1'
     rw [hρk, Subgroup.mem_subgroupOf] at hker
     exact hker
-  set cE : ↥E := ⟨c, h.mem_E_c⟩ with hcEdef
+  set cE : ↥E := ⟨c, CFSG.RankThree.PartTwo.Sec15.Liebeck1515B.CtxB.mem_E_c⟩ with hcEdef
   have hc3 : orderOf c = 3 := hD.orderOf_eq
   have hcE3 : cE ^ 3 = 1 := Subtype.ext (by
     simp only [hcEdef, SubmonoidClass.mk_pow, OneMemClass.coe_one]
@@ -372,7 +373,7 @@ theorem false_of_ctxB
   have hcyc : ∀ S : Subgroup ↥E, IsPGroup 3 S → IsCyclic ↥S := by
     intro S hS
     have hS' : IsPGroup 3 ↥(S.map E.subtype) := hS.map _
-    haveI := h.isCyclic_of_isPGroup_three h152 h153 (S.map E.subtype)
+    have := h.isCyclic_of_isPGroup_three h152 h153 (S.map E.subtype)
       ((Subgroup.map_subtype_le S).trans hEJ) hS'
     exact isCyclic_of_surjective (S.equivMapOfInjective E.subtype Subtype.val_injective).symm
       (MulEquiv.surjective _)
@@ -455,7 +456,7 @@ theorem false_of_ctxB
   have hA4 : CFSG.Quasithin.S14110.A4Data (R ⊔ Subgroup.zpowers c) R c :=
     CFSG.Quasithin.H13.A5.A4Data.of_fpf hR4 hRsq (mul_comm_of_sq_eq_one hRsq) hc3 hcR hfpf
   set Γ₀ : Subgroup ↥E := (R ⊔ Subgroup.zpowers c).subgroupOf E with hΓ₀
-  have hRcE : R ⊔ Subgroup.zpowers c ≤ E := sup_le hRE (Subgroup.zpowers_le.mpr h.mem_E_c)
+  have hRcE : R ⊔ Subgroup.zpowers c ≤ E := sup_le hRE (Subgroup.zpowers_le.mpr CFSG.RankThree.PartTwo.Sec15.Liebeck1515B.CtxB.mem_E_c)
   have h12 : Nat.card (Γ₀.map κ) = 12 := by
     have hle : Nat.card (Γ₀.map κ) ≤ 12 := by
       rw [← hA4.card_X, ← Nat.card_congr (Subgroup.subgroupOfEquivOfLe hRcE).toEquiv]
@@ -547,7 +548,7 @@ theorem false_of_ctxB
         (Subgroup.centralizer_le_normalizer _))
         (sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.mpr hcR)))
     have hEZc : EZ = ⁅EZ, Subgroup.zpowers c⁆ :=
-      eq_commutator_of_generated h.mem_E_c hc3 (h.eq_closure_E h152 h153).le hEZE hEZn hEZ3 hRE
+      eq_commutator_of_generated CFSG.RankThree.PartTwo.Sec15.Liebeck1515B.CtxB.mem_E_c hc3 (h.eq_closure_E h152 h153).le hEZE hEZn hEZ3 hRE
         hRn hcomm hEZR hdec
     have hA : Late.IsE27 A := Late.isE27_of_mem_partTwoE hD.mem_partTwoE
     obtain ⟨F, hFΩ, hFAL⟩ := h.meet
@@ -560,7 +561,7 @@ theorem false_of_ctxB
     have hEZπ : IsPiSubgroup (piCompl 3) EZ :=
       (isPiSubgroup_piCompl_iff Nat.prime_three EZ).mpr hEZ3
     have hAEZ : A ≤ Subgroup.normalizer (EZ : Set G) :=
-      Late.le_normalizer_inf (hD.le_normalizer.trans h.le_normalizer_E)
+      Late.le_normalizer_inf (hD.le_normalizer.trans CFSG.RankThree.PartTwo.Sec15.Liebeck1515B.CtxB.le_normalizer_E)
         ((hAd.trans (le_inf hCH hCM)).trans hK₀n)
     have hQ := Sec17.Proof17Q0.inf_centralizer_mem_scriptQ_of_concl142 hA h142 hFΩ hEZπ hAEZ
     have hEZa : EZ ⊓ Subgroup.centralizer ({a} : Set G) = EZ := by
@@ -600,7 +601,7 @@ theorem false_of_ctxB
       exact hA4
     have hEN' : E ≤ N := hEJ.trans (Subgroup.centralizer_le_normalizer _)
     have hblock :=
-      LiebeckA4.isScriptLBlock_of_a4Data_of_le_normalizer hA4E hEN' h.le_normalizer_E
+      LiebeckA4.isScriptLBlock_of_a4Data_of_le_normalizer hA4E hEN' CFSG.RankThree.PartTwo.Sec15.Liebeck1515B.CtxB.le_normalizer_E
     have hNmax : CFSG.IsMaximalTwoLocal N := by
       rw [hN, Proof15Res10.normalizer_eq_n155 h.conf h152 h153]
       exact (n155_mem_maximalTwoLocalsContaining h153 h.conf.mem_scriptY0Star).1
@@ -622,7 +623,7 @@ theorem false_of_ctxB
       have hJchar := h.isCharacteristicP_centralizer h152 h153
       have hEn : (E.subgroupOf J).Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hEJ).mpr
-          ((Subgroup.centralizer_le_normalizer _).trans h.le_normalizer_E)
+          ((Subgroup.centralizer_le_normalizer _).trans CFSG.RankThree.PartTwo.Sec15.Liebeck1515B.CtxB.le_normalizer_E)
       exact Sec14.isCharacteristicP_of_mulEquiv' (Subgroup.subgroupOfEquivOfLe hEJ)
         (Sec14.isCharacteristicP_of_normal _ hJchar)
     have hRP : R' ≤ Subgroup.centralizer (P : Set ↥E) := by

@@ -292,7 +292,7 @@ theorem exists_involution_commute {N : Subgroup G} {a : G} (ha : orderOf a = 2)
   obtain ⟨P, hP⟩ := hP0.exists_le_sylow
   set S := (P : Subgroup H).map H.subtype with hS
   have hSp : IsPGroup 2 S := by
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     exact IsPGroup.of_card (n := k)
       (by rw [Subgroup.card_map_of_injective H.subtype_injective, hk])
   have haS : a ∈ S := ⟨⟨a, haH⟩, hP (mem_subgroupOf.mpr (mem_zpowers a)), rfl⟩

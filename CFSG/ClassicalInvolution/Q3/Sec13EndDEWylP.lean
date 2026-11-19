@@ -20,6 +20,7 @@ variable {Ω : Set (Subgroup G)} (h : DE4Hyp Ω)
 include h
 
 omit h in
+omit [Finite G] in
 private theorem dewp1_image_mul (q a : G) (X : Set (Subgroup G)) :
     conjSub (q * a) '' X = conjSub q '' (conjSub a '' X) := by
   rw [Set.image_image]
@@ -28,6 +29,7 @@ private theorem dewp1_image_mul (q a : G) (X : Set (Subgroup G)) :
   exact conjSub_mul q a K
 
 omit h in
+omit [Finite G] in
 private theorem dewp1_conjSub_one_image (X : Set (Subgroup G)) : conjSub (1 : G) '' X = X := by
   rw [show conjSub (1 : G) = id from funext conjSub_one, Set.image_id]
 
@@ -58,9 +60,10 @@ private theorem dewp1_fix {S : TwinShift Ω} {b : Lab2} (hb : b ≠ 0) {X : Set 
   exact hsub hn
 
 omit h in
+omit [Finite G] in
 private theorem dewp1_dual_add {f g : G → ZMod 2} (hf : f ∈ DE2Hyp.deq2Dual Ω)
     (hg : g ∈ DE2Hyp.deq2Dual Ω) : f + g ∈ DE2Hyp.deq2Dual Ω := by
-  simp only [DE2Hyp.deq2Dual, Set.mem_setOf_eq] at hf hg ⊢
+  simp only [DE2Hyp.deq2Dual, Set.mem_ofPred_eq] at hf hg ⊢
   obtain ⟨hf1, hf0, hfm⟩ := hf
   obtain ⟨hg1, hg0, hgm⟩ := hg
   refine ⟨?_, ?_, ?_⟩
@@ -72,7 +75,7 @@ private theorem dewp1_dual_add {f g : G → ZMod 2} (hf : f ∈ DE2Hyp.deq2Dual 
     ring
 
 private theorem dewp1_dual_sep {w u : G} (hw : w ∈ zGroup Ω) (hu : u ∈ zGroup Ω)
-    (hw1 : w ≠ 1) (hu1 : u ≠ 1) (hwu : w ≠ u) :
+    (_hw1 : w ≠ 1) (hu1 : u ≠ 1) (hwu : w ≠ u) :
     ∃ φ ∈ DE2Hyp.deq2Dual Ω, φ w = 0 ∧ φ u = 1 := by
   obtain ⟨f, hf, hfne⟩ := h.exists_dual_ne hu (one_mem _) hu1
   obtain ⟨g, hg, hgne⟩ := h.exists_dual_ne hw hu hwu
@@ -102,6 +105,7 @@ private theorem dewp1_dual_sep {w u : G} (hw : w ∈ zGroup Ω) (hu : u ∈ zGro
         decide
 
 omit h in
+omit [Finite G] in
 private theorem dewp1_conjSub_eq_of_comm {g : G} {L : Subgroup G}
     (hc : ∀ y ∈ L, y * g = g * y) : conjSub g L = L := by
   ext y
@@ -122,6 +126,7 @@ private theorem dewp1_conjSub_eq_of_comm {g : G} {L : Subgroup G}
     exact hy
 
 omit h in
+omit [Finite G] in
 private theorem dewp1_shift_mem {S : TwinShift Ω} {b : Lab2} {K : Subgroup G} (hK : K ∈ Ω)
     {u : G} (hu : IsUniqueInvolution K u) : S.shift b K ∈ dew1V Ω u := by
   obtain ⟨hsΩ, z, hKz, hsz⟩ := S.shift_mem b K hK
@@ -131,6 +136,7 @@ private theorem dewp1_shift_mem {S : TwinShift Ω} {b : Lab2} {K : Subgroup G} (
   exact ⟨hsΩ, hsz⟩
 
 omit h in
+omit [Finite G] in
 private theorem dewp1_dewDelta_le {S : TwinShift Ω} {b : Lab2} {X : Set (Subgroup G)}
     (hX : IsDewPoint S b X) {K : Subgroup G} (hK : K ∈ X) :
     dewDelta K (S.shift b K) ≤ pSpan X := by
@@ -161,7 +167,7 @@ private theorem dewp1_conj_elt {S : TwinShift Ω} {b : Lab2} {X : Set (Subgroup 
   have hφu1 : φ u₁ ≠ 0 := by
     rw [hφu]
     decide
-  rw [if_neg hφu1] at hku
+  rw [ite_eq_right hφu1] at hku
   rw [hku]
   calc u₁ * u₂ * u₁ = u₁ * (u₂ * u₁) := mul_assoc _ _ _
     _ = u₁ * (u₁ * u₂) := by rw [← hc]
@@ -270,7 +276,7 @@ theorem de2Hyp_point (S : TwinShift Ω) {b : Lab2} (hb : b ≠ 0) {X : Set (Subg
     have hxN : (x : G) ∈ Subgroup.normalizer (K : Set G) := h.dNorm K (hXΩ K hK) hx
     rw [Subgroup.mem_normalizer_iff] at hxN ⊢
     intro y
-    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
     exact hxN y.1
   have hperp : Perp9 (restrictFamily X (pSpan X)) := by
     rintro _ ⟨K, hK, -, rfl⟩ _ ⟨K', hK', -, rfl⟩ hc z j hz hj
@@ -546,8 +552,8 @@ private theorem dewp2_sigma_stab {α : Finset (Fin 7)} (h : α.card = 4) {σ : E
       have hv := congrArg (fun a => AE.Wr.vec a y) h1
       have hyr : y ∈ Set.range (AE.emb α h) := by rw [AE.range_emb]; exact hy
       have hmr : σ.symm y ∈ Set.range (AE.emb α h) := by rw [AE.range_emb]; exact hmem
-      simp only [AE.Wr.mul_vec, AE.zOf_vec_apply, AE.zOf_perm, AE.Wr.ofPerm, AE.Wr.allOnes,
-        AE.Wr.one_perm, Equiv.Perm.one_apply, hyr, hmr, if_true, Pi.zero_apply, zero_add,
+      simp only [AE.Wr.mul_vec, AE.zOf_vec_apply, AE.Wr.ofPerm, AE.Wr.allOnes,
+        hyr, hmr, ite_true, Pi.zero_apply, zero_add,
         add_zero] at hv
       exact absurd hv (by decide)
     have hsub : α.map σ.symm.toEmbedding ⊆ αᶜ := by
@@ -649,7 +655,7 @@ private theorem dewp2_count {α : Finset (Fin 7)} (h : α.card = 4)
     rfl
   rw [hcard, Nat.card_range_of_injective he_inj, Nat.card_eq_fintype_card, Fintype.card_fin]
 
-omit h in
+omit h [Finite G] in
 private theorem dewp2_conj_involution {Ω : Set (Subgroup G)} (S : TwinShift Ω) {b : Lab2}
     {K : Subgroup G} {z g : G} (hKΩ : K ∈ Ω) (hz : IsUniqueInvolution K z)
     (hz' : IsUniqueInvolution (S.shift b K) z) (hg : g ∈ dewA S b) : g * z * g⁻¹ = z := by

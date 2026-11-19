@@ -108,7 +108,7 @@ open CFSG.RankThree.PartTwo.KFacts.KS21.U58 (K hK card_K)
 
 theorem pow_four_of_mem_fixField {φ : K ≃+* K} (hφ : orderOf φ = 3) {x : K}
     (hx : x ∈ fixField φ) : x ^ 4 = x := by
-  haveI := Fintype.ofFinite (fixField φ)
+  have := Fintype.ofFinite (fixField φ)
   have h4 := FiniteField.pow_card (⟨x, hx⟩ : fixField φ)
   rw [← Nat.card_eq_fintype_card, card_fixField hφ] at h4
   simpa using congrArg Subtype.val h4
@@ -132,7 +132,7 @@ theorem map_tvMat_fix {φ : K ≃+* K} (hφ : orderOf φ = 3) (v : Fin 4 → fix
   by_cases hij : i = j
   · subst hij
     simp [tvMat, wMat, hb]
-  · simp [tvMat, wMat, Matrix.one_apply, hij, hb]
+  · simp [tvMat, wMat, hij, hb]
 
 end FieldFix
 
@@ -155,7 +155,7 @@ theorem u48CentInvFieldAt_holds (G : Type) [Group G] [Finite G] : U48CentInvFiel
     set φ := fieldFactor4 γ with hφdef
     have hφ3 : φ ^ 3 = 1 := by rw [hφdef, ← map_pow, hγ3, map_one]
     have hφord : orderOf φ = 3 := by
-      haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       exact orderOf_eq_prime hφ3 hff
     have hζ : CenIn 2 (lModel hcat ⟨z, hzL⟩) :=
       CenIn.congr (lModel hcat) ((isCentralIn_iff_cenIn 2 L hzL).mp hzC)
@@ -180,7 +180,7 @@ theorem u48CentInvFieldAt_holds (G : Type) [Group G] [Finite G] : U48CentInvFiel
       have := CenIn.congr (MulAut.conj h₀⁻¹) hζ
       rw [hz'def]
       convert this using 1
-      simp [MulAut.conj_apply]
+      simp
     rcases (cenIn_two_iff hK (eSU4 z')).mp (CenIn.congr eSU4 hz'C) with h1 | ⟨w, c, hw, hc0, hcb, hwc⟩
     · have hz'1 : z' = 1 := Subtype.ext (by simpa using h1)
       have hζ1 : ζ = 1 := by rw [← hζz', hz'1, mul_one, mul_inv_cancel]

@@ -144,7 +144,7 @@ theorem le_centralizer_x0 (hR : RSmall S) (hrbot : rOf M X = ⊥)
       push Not at h
       exact S.W_ne_bot (eq_bot_iff.2 fun w hw => Subgroup.mem_bot.2 (h w hw))
     exact ⟨⟨⟨w, hWT hw⟩, 1, fun h => hw1 (congrArg Subtype.val h)⟩⟩
-  have hcen := T.isPGroup'.center_nontrivial
+  have hcen := T.isPGroup.center_nontrivial
   obtain ⟨⟨z, hzc⟩, hz1⟩ := exists_ne (1 : ↥(Subgroup.center ↥(T : Subgroup G)))
   have hzcomm : ∀ t ∈ (T : Subgroup G), (z : G) * t = t * z := fun t ht => by
     have := Subgroup.mem_center_iff.1 hzc ⟨t, ht⟩

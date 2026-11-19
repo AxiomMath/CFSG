@@ -12,6 +12,7 @@ open CFSG.CGT.Stroth77.L4Sylow CFSG.GH74.GLS.Stage1.Thm3.Sec8 CFSG.ABGLocalTools
 
 variable {G : Type} [Group G] [Finite G] {n : ℕ}
 
+omit [Finite G] in
 theorem mul_self_of_conj_eq {ι : L4Model n →* G} (hι : Function.Injective ι) {a b : L4Model n}
     (ha : a * a = 1) {g : G} (hg : g * ι a * g⁻¹ = ι b) : b * b = 1 := by
   apply hι

@@ -45,6 +45,7 @@ theorem map_theta_P0 : (SX1 ⊓ SX2).map (theta : SL3.S ≃* SL3.S).toMonoidHom 
   rw [Subgroup.map_inf _ _ (theta : SL3.S ≃* SL3.S).toMonoidHom theta.injective, map_theta_X1,
     map_theta_X2, inf_comm]
 
+omit [Finite G] in
 theorem le_pCoreOf_of_two {Y H : Subgroup G} (hYH : Y ≤ H)
     (hN : H ≤ Subgroup.normalizer (Y : Set G)) (hY : ∀ y ∈ Y, ∃ k : ℕ, y ^ 2 ^ k = 1) :
     Y ≤ pCoreOf 2 H := by
@@ -68,7 +69,7 @@ theorem exists_pi_good {S : Setting4 G T L V}
     (h139 : Stmt13_3_9) (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h1334 : Stmt13_3_4)
     (hS : S.Hyp138) (hhat : IsHatA6 L) {H K : Subgroup G} (hH : H ∈ S.Hz) (hK : K ∈ cComp H)
     (hKn : H ≤ Subgroup.normalizer (K : Set G)) (hP : IsPSL 3 2 1 (↥K ⧸ CFSG.pCore 2 ↥K))
-    (hHK : H = K ⊔ (S.L1 ⊔ T)) :
+    (_hHK : H = K ⊔ (S.L1 ⊔ T)) :
     ∃ π : ↥K →* SL3.S, Function.Surjective π ∧ (∀ k : ↥K, π k = 1 ↔ (k : G) ∈ pCoreOf 2 K) ∧
       (∀ e ∈ L32HatM.E₀, ∃ k : ↥K, (k : G) ∈ pCoreOf 2 (S.L1 ⊔ T) ∧ π k = e) ∧
       (∀ a ∈ L32HatM.A₀, ∃ k : ↥K, (k : G) ∈ l0 L ∧ π k = a) := by
@@ -212,7 +213,7 @@ theorem exists_pi_good {S : Setting4 G T L V}
       L32HatStep.P0_le_normalizer_image hD hL0K
         (fun t ht z hz => (Subgroup.mem_normalizer_iff.mp (hTl0 ht) z).mp hz)
     have hO : ((l0 L).subgroupOf K).map π ≤ oTwoUpper (((l0 L).subgroupOf K).map π) :=
-      L32HatStep.image_le_oTwoUpper hL0K (le_of_eq (S.oTwoUpper_l0).symm)
+      L32HatStep.image_le_oTwoUpper hL0K (le_of_eq ((CFSG.Quasithin.H13.A6.Setting4.oTwoUpper_l0 (G := G) (L := L))).symm)
     have hY0 : ((l0 L).subgroupOf K).map π ≠ ⊥ := by
       intro hbot
       have hmem : π ⟨c, hcK⟩ ∈ ((l0 L).subgroupOf K).map π :=

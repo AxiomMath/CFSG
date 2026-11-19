@@ -52,7 +52,7 @@ theorem gamma3_le_of_index_two {U V O : Subgroup G} {l : G} (hV : NormalIn V U) 
     (hlU : l ∈ U) (hl : l * l ∈ V) (hOc : ∀ a ∈ O, ∀ b ∈ O, a * b * a⁻¹ * b⁻¹ ∈ V)
     (hOsq : ∀ a ∈ O, a * a ∈ V) (hOn : ∀ a ∈ O, l * a * l⁻¹ ∈ O)
     (hgen : ∀ h ∈ U, h ∈ O ∨ ∃ a ∈ O, h = a * l) : ⁅⁅U, U⁆, U⁆ ≤ V := by
-  haveI : (V.subgroupOf U).Normal :=
+  have : (V.subgroupOf U).Normal :=
     (Subgroup.normal_subgroupOf_iff hV.1).mpr (fun v u hv hu => hV.2 u hu v hv)
   have key : ∀ x y z : ↥U,
       (x * y * x⁻¹ * y⁻¹) * z * (x * y * x⁻¹ * y⁻¹)⁻¹ * z⁻¹ ∈ V.subgroupOf U := by

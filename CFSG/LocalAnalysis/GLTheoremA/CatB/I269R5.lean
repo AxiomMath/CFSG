@@ -17,7 +17,7 @@ theorem exists_noncomm_of_simple_not_prime {S : Type} [Group S] [IsSimpleGroup S
     (hc : ¬ (Nat.card S).Prime) : ∃ a b : S, a * b ≠ b * a := by
   by_contra h
   simp only [not_exists, ne_eq, not_not] at h
-  letI : CommGroup S := { ‹Group S› with mul_comm := fun a b => h a b }
+  let : CommGroup S := { ‹Group S› with mul_comm := fun a b => h a b }
   exact hc ((CommGroup.is_simple_iff_prime_card (α := S)).1 ‹IsSimpleGroup S›)
 
 theorem center_eq_bot_of_simple {T : Type} [Group T] [IsSimpleGroup T]
@@ -45,7 +45,7 @@ theorem e9Solv_d4two (S : Type) [Group S] (h : catalogIs S S9.isD4two) : E9Solv 
     have := (CFSG.Timmesfeld.card_statedClassicalModel_two hmodel).2.2.2.1 rfl
     rw [this]
     decide +kernel
-  haveI : Finite S := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite S := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   obtain ⟨-, hsimp⟩ :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_of_statedClassicalModel_POmegaPlus S 4 2 1 hmodel
   have hZ : Subgroup.center S = ⊥ :=

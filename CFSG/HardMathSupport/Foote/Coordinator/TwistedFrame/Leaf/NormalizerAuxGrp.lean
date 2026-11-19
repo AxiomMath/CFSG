@@ -68,9 +68,9 @@ noncomputable def centerQuotientQuotientEquiv [Group.IsPerfect G] {Z₀ : Subgro
 theorem outer_solvable_of_central_quotient [Group.IsPerfect G] {Z₀ : Subgroup G} [Z₀.Normal]
     (hZ : Z₀ ≤ center G) (h : Group.IsSolvable (Outer (G ⧸ center G))) :
     Group.IsSolvable (Outer (G ⧸ Z₀)) := by
-  haveI : Group.IsPerfect (G ⧸ Z₀) := inferInstance
-  haveI : Group.IsSolvable (Outer (G ⧸ center G)) := h
-  haveI : Group.IsSolvable (Outer ((G ⧸ Z₀) ⧸ center (G ⧸ Z₀))) :=
+  have : Group.IsPerfect (G ⧸ Z₀) := inferInstance
+  have : Group.IsSolvable (Outer (G ⧸ center G)) := h
+  have : Group.IsSolvable (Outer ((G ⧸ Z₀) ⧸ center (G ⧸ Z₀))) :=
     solvable_of_equiv (centerQuotientQuotientEquiv hZ).symm
   exact solvable_of_centerQuotient _
 
@@ -99,12 +99,12 @@ theorem isSolvable_out_projectiveSL (hn : 3 ≤ n) :
 
 theorem isSolvable_out_SL_centerQuotient (hn : 3 ≤ n) :
     Group.IsSolvable (Outer (SL(n, K) ⧸ center SL(n, K))) := by
-  haveI := isSolvable_out_projectiveSL (K := K) hn
+  have := isSolvable_out_projectiveSL (K := K) hn
   exact solvable_of_equiv (QuotientGroup.quotientMulEquivOfEq (scalars_eq_center n K))
 
 theorem outer_solvable_SL_quotient (hn : 3 ≤ n) {Z₀ : Subgroup SL(n, K)} [Z₀.Normal]
     (hZ : Z₀ ≤ center SL(n, K)) : Group.IsSolvable (Outer (SL(n, K) ⧸ Z₀)) := by
-  haveI : Group.IsPerfect SL(n, K) := (isQuasisimple_SL hn).1
+  have : Group.IsPerfect SL(n, K) := (isQuasisimple_SL hn).1
   exact outer_solvable_of_central_quotient hZ (isSolvable_out_SL_centerQuotient hn)
 
 end SL

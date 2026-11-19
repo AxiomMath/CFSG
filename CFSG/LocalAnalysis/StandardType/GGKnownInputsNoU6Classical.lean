@@ -145,7 +145,7 @@ theorem largeEvenLabelAll_noU6_D {lab : LargeEvenLabel} (hlab : LargeEvenInLambd
     exact not_ordTwistedA_five_dvd_ordA hg hn hgn (by norm_num) (by norm_num) hdvd
   · have hM : LieModel R .POmegaPlus l 2 g := by
       have := hq.2
-      simpa only [MarkedModel, markTag, markRank, markChar, markDeg, h3, if_false] using this
+      simpa only [MarkedModel, markTag, markRank, markChar, markDeg, h3, ite_false] using this
     have hcard : Nat.card R = ordD l (2 ^ g) :=
       CFSG.SeitzReduction.F4Pilot.card_eq_evenLieOrder_of_mem_classicalTags (by decide) hM
     refine noU6_of_not_dvd_card fun n hn hgn hdvd => ?_

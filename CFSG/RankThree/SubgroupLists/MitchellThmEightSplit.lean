@@ -23,6 +23,7 @@ variable {K : Type} [Field K]
 theorem pmCoord_mul (M N : Matrix V₄ V₄ K) : pmCoord (M * N) = pmCoord M * pmCoord N :=
   (Matrix.submatrix_mul_equiv M N pmSwap pmSwap pmSwap).symm
 
+omit [Field K] in
 theorem pmCoord_pmCoord (M : Matrix V₄ V₄ K) : pmCoord (pmCoord M) = M := by
   ext i j
   simp [pmCoord, pmSwap]
@@ -37,7 +38,7 @@ theorem pmCoord_smul (c : K) (M : Matrix V₄ V₄ K) : pmCoord (c • M) = c �
 theorem pmCoord_tStdMat : pmCoord (tStdMat : Matrix V₄ V₄ K) = fromBlocks 1 0 0 (-1) := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [pmCoord, pmSwap, tStdMat, stdSign, Matrix.one_apply, Equiv.swap_apply_def]
+    simp [pmCoord, pmSwap, tStdMat, stdSign, Equiv.swap_apply_def]
 
 @[expose] def offBlock' (M : Matrix V₄ V₄ K) : Matrix (Fin 2) (Fin 2) K :=
   !![M (Sum.inl 1) (Sum.inl 0), M (Sum.inl 1) (Sum.inr 0);
@@ -80,7 +81,7 @@ theorem pmCoord_fromBlocks_scalar (a b c d : K) :
       fromBlocks !![a, b; c, d] 0 0 !![a, b; c, d] := by
   ext i j
   rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
-    simp [pmCoord, pmSwap, Equiv.swap_apply_def, Matrix.one_apply]
+    simp [pmCoord, pmSwap, Equiv.swap_apply_def]
 
 variable [Finite K]
 
@@ -179,7 +180,7 @@ theorem cliffB_tStd_of_thm_eight (p : ℕ) [Fact p.Prime] [CharP K p] (hp2 : p �
   have hdiag : ∀ c : K, c • (1 : Matrix (Fin 2) (Fin 2) K) = !![c, 0; 0, c] := by
     intro c
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply]
+    fin_cases i <;> fin_cases j <;> simp
   have hz'' : ((Pgl⁻¹ * z * Pgl : GL V₄ K) : Matrix V₄ V₄ K) =
       fromBlocks !![lam, 0; 0, eps] 0 0 !![lam', 0; 0, eps] := by
     rw [hconj, hpmconj, pmCoord_of_commute_tStd h2 hzt, hzm, hPmi, hPm,
@@ -194,7 +195,7 @@ theorem cliffB_tStd_of_thm_eight (p : ℕ) [Fact p.Prime] [CharP K p] (hp2 : p �
       simp only [Matrix.smul_mul, Matrix.mul_smul, Matrix.mul_one]
       rw [e2']
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply] <;> field_simp
+      fin_cases i <;> fin_cases j <;> simp <;> field_simp
     rw [e1, e2, pmCoord_fromBlocks_diag]
   have hpmw : pmCoord (w : Matrix V₄ V₄ K) =
       fromBlocks (β • 1) A A' (-β • (1 : Matrix (Fin 2) (Fin 2) K)) := by
@@ -218,7 +219,7 @@ theorem cliffB_tStd_of_thm_eight (p : ℕ) [Fact p.Prime] [CharP K p] (hp2 : p �
       simp only [Matrix.smul_mul, Matrix.mul_smul, Matrix.mul_one]
       rw [e2]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [Matrix.one_apply] <;> field_simp
+      fin_cases i <;> fin_cases j <;> simp <;> field_simp
     rw [e1, e2, e3, e4, pmCoord_fromBlocks_scalar]
   have hzG'' : Pgl⁻¹ * z * Pgl ∈ G'' := by
     rw [mem_map_conj, inv_inv]

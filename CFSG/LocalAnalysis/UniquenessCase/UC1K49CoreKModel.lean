@@ -18,8 +18,7 @@ theorem isQ8D8_card_inf_centralizer {N : Subgroup G} (h : IsQ8D8 N) :
   obtain ⟨-, ζ, hζN, hζ1, hcen, -⟩ := h.facts
   have hset : (N ⊓ Subgroup.centralizer (N : Set G) : Set G) = {1, ζ} := by
     ext x
-    simp only [Set.mem_inter_iff, Set.mem_setOf_eq, Subgroup.mem_centralizer_iff,
-      Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨hxN, hx⟩
       exact (hcen x hxN).mp fun m hm => (hx m hm).symm
@@ -93,10 +92,10 @@ theorem isQ8D8_commutator_le_inf_centralizer {N : Subgroup G} (h : IsQ8D8 N) :
   exact Z.mul_mem (Z.mul_mem hab2 ha2) hb2
 
 theorem pCore_alt5_eq_bot : CFSG.pCore 2 (alternatingGroup (Fin 5)) = ⊥ := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  haveI : Group.IsPerfect (alternatingGroup (Fin 5)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  have : Group.IsPerfect (alternatingGroup (Fin 5)) :=
     Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (α := Fin 5) (by simp))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (CFSG.pCore 2 (alternatingGroup (Fin 5))) with h | h
   · exact h
@@ -105,7 +104,7 @@ theorem pCore_alt5_eq_bot : CFSG.pCore 2 (alternatingGroup (Fin 5)) = ⊥ := by
       have hpc := CFSG.pCore_isPGroup (p := 2) (G := alternatingGroup (Fin 5))
       rw [h] at hpc
       exact hpc.of_equiv Subgroup.topEquiv
-    haveI : Group.IsNilpotent (alternatingGroup (Fin 5)) := hP.isNilpotent
+    have : Group.IsNilpotent (alternatingGroup (Fin 5)) := hP.isNilpotent
     exact Group.IsPerfect.not_isSolvable (alternatingGroup (Fin 5)) inferInstance
 
 theorem pCore_quotient_alt5_eq_bot {Q : Type*} [Group Q] [Finite Q]
@@ -118,7 +117,7 @@ theorem pCore_quotient_alt5_eq_bot {Q : Type*} [Group Q] [Finite Q]
 theorem pCore_eq_of_q8d8_alt5 {K : Subgroup G} {V₀ : Subgroup ↥K} (hV₀n : V₀.Normal)
     (hV₀q8 : IsQ8D8 (⊤ : Subgroup V₀)) (hV₀alt : CFSG.Quasithin.IsAlt 5 (↥K ⧸ V₀)) :
     V₀ = CFSG.pCore 2 ↥K := by
-  haveI : V₀.Normal := hV₀n
+  have : V₀.Normal := hV₀n
   have hcard : Nat.card V₀ = 32 := by
     have h := hV₀q8.facts.1
     rwa [Nat.card_congr Subgroup.topEquiv.toEquiv] at h
@@ -135,6 +134,7 @@ theorem pCore_eq_of_q8d8_alt5 {K : Subgroup G} {V₀ : Subgroup ↥K} (hV₀n : 
     have hle : N ≤ π.ker := (Subgroup.map_eq_bot_iff N).mp (le_bot_iff.mp hNmap_le)
     rwa [QuotientGroup.ker_mk'] at hle
 
+omit [Finite G] in
 private theorem kmodel_zeta_mem_inf_centralizer_iff {W : Subgroup G} {ζ : G} (hζW : ζ ∈ W)
     (hcen : ∀ n ∈ W, (∀ m ∈ W, n * m = m * n) ↔ (n = 1 ∨ n = ζ)) :
     ∀ z : G, z ∈ W ⊓ Subgroup.centralizer (W : Set G) ↔ z = 1 ∨ z = ζ := by
@@ -152,6 +152,7 @@ private theorem kmodel_zeta_mem_inf_centralizer_iff {W : Subgroup G} {ζ : G} (h
       intro m hm
       exact ((hcen ζ hζW).mpr (Or.inr rfl) m hm).symm
 
+omit [Finite G] in
 private theorem kmodel_conj_mem_inf_centralizer_of_normalizer {K W : Subgroup G}
     (hWn : K ≤ Subgroup.normalizer (W : Set G)) :
     ∀ k ∈ K, ∀ z ∈ W ⊓ Subgroup.centralizer (W : Set G),
@@ -234,12 +235,14 @@ private def kmodel_fixingSubgroup (K W Z : Subgroup G)
       rw [h2]
       exact h1 }
 
+omit [Finite G] in
 private theorem kmodel_subgroupOf_le_fixingSubgroup {K W Z : Subgroup G}
     (hZcentK : K ≤ Subgroup.centralizer (Z : Set G)) (hWW : ⁅W, W⁆ ≤ Z) :
     W.subgroupOf K ≤ kmodel_fixingSubgroup K W Z hZcentK := by
   intro x hx w hw
   exact hWW (Subgroup.commutator_mem_commutator hw hx)
 
+omit [Finite G] in
 private theorem kmodel_fixingSubgroup_normal {K W Z : Subgroup G}
     (hWn : K ≤ Subgroup.normalizer (W : Set G))
     (hZcentK : K ≤ Subgroup.centralizer (Z : Set G)) :
@@ -295,8 +298,8 @@ theorem section_centralizer_le_of_perfect {K W : Subgroup G} (hperf : ⁅K, K⁆
   have hSnormal : S.Normal := kmodel_fixingSubgroup_normal hWn hZcentK
   have hSmap : (S.map (QuotientGroup.mk' (W.subgroupOf K))).Normal :=
     hSnormal.map _ (QuotientGroup.mk'_surjective _)
-  haveI := hsimple
-  haveI := hSmap
+  have := hsimple
+  have := hSmap
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (S.map (QuotientGroup.mk' (W.subgroupOf K))) with h | h
   · exfalso
@@ -341,7 +344,7 @@ theorem exists_orderOf_eq_five_of_alt5 {K W : Subgroup G}
     have h1 := Subgroup.card_mul_index (W.subgroupOf K)
     rw [Subgroup.index_eq_card, hcardW, hcard_quot] at h1
     omega
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 5 (by rw [hcardK]; norm_num)
   exact ⟨(b : G), b.2, by rw [Subgroup.orderOf_coe]; exact hb⟩
 
@@ -360,7 +363,7 @@ theorem exists_orderOf_eq_three_of_alt5 {K W : Subgroup G}
     have h1 := Subgroup.card_mul_index (W.subgroupOf K)
     rw [Subgroup.index_eq_card, hcardW, hcard_quot] at h1
     omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 3 (by rw [hcardK]; norm_num)
   exact ⟨(b : G), b.2, by rw [Subgroup.orderOf_coe]; exact hb⟩
 
@@ -393,6 +396,7 @@ private abbrev kmodel_conjEnd (E : Subgroup G) (w : G)
           = w * ((n.1 : G) * (n.1 : G)) * w⁻¹ := by group
         _ = 1 := by rw [hn]; group⟩
 
+omit [Finite G] in
 private theorem kmodel_conjEnd_pow_three (E : Subgroup G) (w : G)
     (hwN : w ∈ Subgroup.normalizer (E : Set G)) (h3 : w ^ 3 = 1) :
     (kmodel_conjEnd E w hwN) ^ 3 = 1 := by
@@ -408,6 +412,7 @@ private theorem kmodel_conjEnd_pow_three (E : Subgroup G) (w : G)
               _ = 1 := h3
           rw [hw3]; group
 
+omit [Finite G] in
 private theorem kmodel_fixedPoints_card_conjEnd {E : Subgroup G} {w : G}
     (hwN : w ∈ Subgroup.normalizer (E : Set G))
     (h2 : Nat.card ↥(E ⊓ Subgroup.centralizer ({w} : Set G)) = 2) :
@@ -506,10 +511,10 @@ theorem card_inf_centralizer_singleton_eq_eight (hI : Inputs49) {K E : Subgroup 
         E ⊓ Subgroup.centralizer (E : Set G) :=
       kmodel_inf_centralizer_singleton_eq_inf_centralizer hZcent hw h2 hZcard
     let S : Type := {n : E // n * n = 1}
-    haveI : Fintype S := Fintype.ofFinite S
+    have : Fintype S := Fintype.ofFinite S
     have hcardS : Nat.card S = 12 := hI.2.1 G E hEq8
     have hf : (kmodel_conjEnd E w hwN) ^ 3 = 1 := kmodel_conjEnd_pow_three E w hwN h3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hmodS := Equiv.Perm.card_fixedPoints_modEq (p := 3) (n := 1) hf
     have hfixcard : Nat.card ↥((kmodel_conjEnd E w hwN).fixedPoints) = 2 :=
       kmodel_fixedPoints_card_conjEnd hwN h2
@@ -538,6 +543,7 @@ theorem isQ8D8_commutator_eq_inf_centralizer {N : Subgroup G} (h : IsQ8D8 N) :
     · exact h2
   exact Subgroup.eq_of_le_of_card_ge hle (by rw [hZcard, hcard])
 
+omit [Finite G] in
 theorem commutator_sup_eq_of_le_centralizer {Y Z : Subgroup G}
     (hZ : Z ≤ Subgroup.centralizer ((Y ⊔ Z : Subgroup G) : Set G)) :
     ⁅Y ⊔ Z, Y ⊔ Z⁆ = ⁅Y, Y⁆ := by
@@ -575,6 +581,7 @@ private lemma invariant_subgroups_eq_le_center {Z Y : Subgroup G} (hZcard : Nat.
   · exact Or.inl ((Subgroup.eq_bot_iff_card Y).mpr h1)
   · exact Or.inr (Subgroup.eq_of_le_of_card_ge hYZ (by rw [hZcard, h2]))
 
+omit [Finite G] in
 private lemma invariant_subgroups_eq_conj_mem_sup {K Y Z U : Subgroup G}
     (hUdef : U = Y ⊔ Z) (hYZU : ∀ a ∈ Y, ∀ b ∈ Z, a * b = b * a)
     (hYn : K ≤ Subgroup.normalizer (Y : Set G))
@@ -589,6 +596,7 @@ private lemma invariant_subgroups_eq_conj_mem_sup {K Y Z U : Subgroup G}
   rw [show k * (a * b) * k⁻¹ = (k * a * k⁻¹) * (k * b * k⁻¹) by group]
   exact Subgroup.mul_mem_sup h1 h2
 
+omit [Finite G] in
 private lemma invariant_subgroups_eq_normalizer_of_conj_mem {K U : Subgroup G}
     (h : ∀ k ∈ K, ∀ u ∈ U, k * u * k⁻¹ ∈ U) :
     K ≤ Subgroup.normalizer (U : Set G) := by
@@ -599,6 +607,7 @@ private lemma invariant_subgroups_eq_normalizer_of_conj_mem {K U : Subgroup G}
     have hh := h k⁻¹ (K.inv_mem hk) (k * u * k⁻¹) hu
     rwa [show k⁻¹ * (k * u * k⁻¹) * k⁻¹⁻¹ = u by group] at hh⟩
 
+omit [Finite G] in
 private lemma invariant_subgroups_eq_le_of_commutator_sup_eq {Y Z U E : Subgroup G}
     (hUdef : U = Y ⊔ Z) (hUE : U = E) (hEE : ⁅E, E⁆ = Z)
     (hZleU : Z ≤ Subgroup.centralizer (U : Set G)) : Y = E := by
@@ -610,6 +619,7 @@ private lemma invariant_subgroups_eq_le_of_commutator_sup_eq {Y Z U E : Subgroup
       exact Y.mul_mem (Y.mul_mem (Y.mul_mem ha hb) (Y.inv_mem ha)) (Y.inv_mem hb)
   rw [← hUE, hUdef, sup_eq_left.mpr hZleY]
 
+omit [Finite G] in
 private lemma invariant_subgroups_eq_T_mul_mem {K E U Z : Subgroup G}
     (hZcent : Z ≤ Subgroup.centralizer (K : Set G))
     (hUn_fwd : ∀ k ∈ K, ∀ u ∈ U, k * u * k⁻¹ ∈ U)
@@ -636,6 +646,7 @@ private lemma invariant_subgroups_eq_T_mul_mem {K E U Z : Subgroup G}
     rw [show ⁅e, a⁆ * a * ⁅e, b'⁆ * a⁻¹ = ⁅e, a⁆ * (a * ⁅e, b'⁆ * a⁻¹) by group]
     exact U.mul_mem h1 h3
 
+omit [Finite G] in
 private lemma invariant_subgroups_eq_T_inv_mem {K E U Z : Subgroup G}
     (hZcent : Z ≤ Subgroup.centralizer (K : Set G))
     (hUn_fwd : ∀ k ∈ K, ∀ u ∈ U, k * u * k⁻¹ ∈ U)
@@ -658,6 +669,7 @@ private lemma invariant_subgroups_eq_T_inv_mem {K E U Z : Subgroup G}
     have hh := hUn_fwd a⁻¹ (K.inv_mem haK) ⁅a, e⁆ h1
     simpa using hh
 
+omit [Finite G] in
 private lemma invariant_subgroups_eq_le_T {K E U Z : Subgroup G}
     (hEle : E ≤ K) (hEE : ⁅E, E⁆ = Z) (hZU : Z ≤ U) (hUle : U ≤ E) :
     ∀ e ∈ E, e ∈ K ∧ (∀ u ∈ U, ⁅u, e⁆ ∈ Z) ∧ (∀ e' ∈ E, ⁅e', e⁆ ∈ U) := by
@@ -671,6 +683,7 @@ private lemma invariant_subgroups_eq_le_T {K E U Z : Subgroup G}
     rw [hEE] at h
     exact hZU h
 
+omit [Finite G] in
 private lemma invariant_subgroups_eq_b_mem_T {K E U Z : Subgroup G} {b : G}
     (hbK : b ∈ K) (hUle : U ≤ E) (hEb' : ∀ e ∈ E, e * b = b * e) :
     b ∈ K ∧ (∀ u ∈ U, ⁅u, b⁆ ∈ Z) ∧ (∀ e ∈ E, ⁅e, b⁆ ∈ U) := by
@@ -683,6 +696,7 @@ private lemma invariant_subgroups_eq_b_mem_T {K E U Z : Subgroup G} {b : G}
     have : ⁅e, b⁆ = 1 := commutatorElement_eq_one_iff_mul_comm.mpr (hEb' e he)
     rw [this]; exact U.one_mem
 
+omit [Finite G] in
 private lemma invariant_subgroups_eq_conj_mem_T {K E U Z : Subgroup G}
     (hZcent : Z ≤ Subgroup.centralizer (K : Set G))
     (hEn : K ≤ Subgroup.normalizer (E : Set G))
@@ -714,6 +728,7 @@ private lemma invariant_subgroups_eq_conj_mem_T {K E U Z : Subgroup G}
       simp only [commutatorElement_def]; group
     rw [hgoal]; exact h2
 
+omit [Finite G] in
 private lemma invariant_subgroups_eq_normalizer_T {K T : Subgroup G}
     (h : ∀ k ∈ K, ∀ t ∈ T, k * t * k⁻¹ ∈ T) :
     K ≤ Subgroup.normalizer (T : Set G) := by
@@ -746,6 +761,7 @@ private lemma invariant_subgroups_eq_centralizer_order_five {K E U Z : Subgroup 
       hbU hbE hb5' hZb
   exact fun e he => (Subgroup.mem_centralizer_iff.mp (hEb he) b (Set.mem_singleton b)).symm
 
+omit [Finite G] in
 private lemma invariant_subgroups_eq_order_five_not_mem {E : Subgroup G} {b : G}
     (hbord : orderOf b = 5) (hEcard : Nat.card E = 32) : b ∉ E := by
   intro hbE
@@ -753,12 +769,13 @@ private lemma invariant_subgroups_eq_order_five_not_mem {E : Subgroup G} {b : G}
   rw [hbord, hEcard] at hdvd
   omega
 
+omit [Finite G] in
 private theorem invariant_subgroups_eq_T_eq_K {K E T : Subgroup G} {b : G}
     (hTle : T ≤ K) (hEle_T : E ≤ T) (hTn : K ≤ Subgroup.normalizer (T : Set G))
     (hbT : b ∈ T) (hbK : b ∈ K) (hbord : orderOf b = 5) (hEcard : Nat.card E = 32)
     [(E.subgroupOf K).Normal]
     (hsimple : IsSimpleGroup (↥K ⧸ E.subgroupOf K)) : T = K := by
-  haveI hTKn : (T.subgroupOf K).Normal :=
+  have hTKn : (T.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hTle).mpr hTn
   have hb_ne : (QuotientGroup.mk' (E.subgroupOf K)) ⟨b, hbK⟩ ≠ 1 := by
     intro h1
@@ -766,7 +783,7 @@ private theorem invariant_subgroups_eq_T_eq_K {K E T : Subgroup G} {b : G}
       ((QuotientGroup.eq_one_iff (⟨b, hbK⟩ : ↥K)).mp h1)
   have hTimg : ((T.subgroupOf K).map (QuotientGroup.mk' (E.subgroupOf K))).Normal :=
     hTKn.map _ (QuotientGroup.mk'_surjective _)
-  haveI := hTimg
+  have := hTimg
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     ((T.subgroupOf K).map (QuotientGroup.mk' (E.subgroupOf K))) with h | h
   · exfalso
@@ -788,6 +805,7 @@ private theorem invariant_subgroups_eq_T_eq_K {K E T : Subgroup G} {b : G}
     have := T.mul_mem hs (hEle_T hker)
     simpa using this
 
+omit [Finite G] in
 private lemma invariant_subgroups_eq_bot_of_commutator_le {K E U Z : Subgroup G}
     (hperf : ⁅K, K⁆ = K) (hEle : E ≤ K) (hKZ : ⁅K, Z⁆ = ⊥)
     (hEK_U : ⁅E, K⁆ ≤ U) (hUK_Z : ⁅U, K⁆ ≤ Z)
@@ -813,6 +831,7 @@ private lemma invariant_subgroups_eq_bot_of_commutator_le {K E U Z : Subgroup G}
   rw [hEEbot] at hZcard
   simp at hZcard
 
+omit [Finite G] in
 private theorem invariant_subgroups_eq_bot_of_T {K E U Z T : Subgroup G} {b : G}
     (hperf : ⁅K, K⁆ = K) (hEle : E ≤ K) (hKZ : ⁅K, Z⁆ = ⊥)
     (hEE : ⁅E, E⁆ = Z) (hZcard : Nat.card Z = 2)
@@ -886,7 +905,7 @@ private theorem invariant_subgroups_eq_of_not_le_center {K E Y Z : Subgroup G}
     (hEE : ⁅E, E⁆ = Z) (hZE : Z ≤ E)
     (hYle : Y ≤ E) (hYn : K ≤ Subgroup.normalizer (Y : Set G)) (hYZ : ¬ Y ≤ Z) :
     Y = ⊥ ∨ Y = Z ∨ Y = E := by
-  rw [SetLike.le_def] at hYZ
+  rw [_root_.IsConcreteLE.le_iff] at hYZ
   push Not at hYZ
   obtain ⟨y, hyY, hyZ⟩ := hYZ
   set U : Subgroup G := Y ⊔ Z with hUdef
@@ -913,7 +932,7 @@ private theorem invariant_subgroups_eq_of_not_le_center {K E Y Z : Subgroup G}
     exact invariant_subgroups_eq_contradiction_of_sup_ne hperf hEle hEn hEq8 hsimple hb5
       hZcard hZcent hKZ hEE hUle hZU hUZ hUE hUn_fwd hUn
 
-theorem invariant_subgroups_eq (hI : Inputs49) {K E : Subgroup G}
+theorem invariant_subgroups_eq (_hI : Inputs49) {K E : Subgroup G}
     (hperf : ⁅K, K⁆ = K) (hEle : E ≤ K) (hEn : K ≤ Subgroup.normalizer (E : Set G))
     (hEq8 : IsQ8D8 E) [(E.subgroupOf K).Normal]
     (hsimple : IsSimpleGroup (↥K ⧸ E.subgroupOf K))
@@ -943,7 +962,7 @@ private theorem kmodel49_setup {K : Subgroup G} {V₀ : Subgroup ↥K} (hV₀n :
     (hV₀alt : CFSG.Quasithin.IsAlt 5 (↥K ⧸ V₀)) :
     ∃ W : Subgroup G, W ≤ K ∧ K ≤ Subgroup.normalizer (W : Set G) ∧ IsQ8D8 W ∧
       W = CFSG.Open.pCoreOf 2 K ∧ W.subgroupOf K = V₀ := by
-  haveI : V₀.Normal := hV₀n
+  have : V₀.Normal := hV₀n
   set W : Subgroup G := V₀.map K.subtype with hWdef
   have hWq8 : IsQ8D8 W := by
     rw [hWdef]
@@ -962,6 +981,7 @@ private theorem kmodel49_setup {K : Subgroup G} {V₀ : Subgroup ↥K} (hV₀n :
     rfl
   exact ⟨W, hWle, hWnormal, hWq8, hWpCore, hWsub⟩
 
+omit [Finite G] in
 private theorem kmodel49_centre_le_centralizer_singleton {K W : Subgroup G} {d : G}
     (hZcentW : W ⊓ Subgroup.centralizer (W : Set G) ≤ Subgroup.centralizer (K : Set G))
     (hdK : d ∈ K) :
@@ -1083,7 +1103,7 @@ theorem kmodel49 (hI : Inputs49) {K : Subgroup G}
   unfold CFSG.Quasithin.IsExt at hK
   obtain ⟨V₀, hV₀n, hV₀q8, hV₀alt⟩ := hK
   obtain ⟨W, hWle, hWnormal, hWq8, hWpCore, hWsub⟩ := kmodel49_setup hV₀n hV₀q8 hV₀alt
-  haveI : (W.subgroupOf K).Normal :=
+  have : (W.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWle).mpr hWnormal
   have hWalt : CFSG.Quasithin.IsAlt 5 (↥K ⧸ W.subgroupOf K) := by
     obtain ⟨e⟩ := hV₀alt

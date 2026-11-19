@@ -45,10 +45,10 @@ theorem residual_of_d4 (h : I1431D4Rest) : Input14_31_4Residual innAutDerivedVoc
       hA' hfld
     have := h _ _ _ _ _ hcfg hd (barAut 3 I ⟨a, haN⟩) (mem_ahat.2 ⟨a, ha, haN, rfl⟩)
     show barAut 3 I ⟨a, haN⟩ ∈ d4Vocab.innDiag (barOf 3 I)
-    simp only [d4Vocab, if_pos hd]
+    simp only [d4Vocab, ite_eq_left hd]
     exact this
   · show barAut 3 I ⟨a, haN⟩ ∈ d4Vocab.innDiag (barOf 3 I)
-    simp only [d4Vocab, if_neg hd]
+    simp only [d4Vocab, ite_eq_right hd]
     exact hmem
 
 section Dispatch
@@ -61,7 +61,7 @@ theorem y1431_of_rest (h5 : I1431SporRest) (h6 : I1431LieRest) : Y1431 d4Vocab :
   have hq := c.quasisimple
   obtain ⟨q0, hq0, hqq⟩ := cfg_cube hU hF c
   have hξ3 : ξ ^ 3 = 1 := c.elemAbelian.2 ξ c.mem
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hq.2
   have hnab := CFSG.HardMathSupport.Dickson.Sec6.I923.exists_not_comm_of_quasisimple hq
   have hcat : Catalog (Y ⧸ Subgroup.center Y) :=
     CFSG.RankThree.PartOne.TCB.tauCetiCatalogBridge _ hnab

@@ -45,7 +45,7 @@ theorem e27Move_a11 (A : Subgroup A11) (hA : CFSG.Assembly.IsElemAbelian 3 A)
     (hA27 : Nat.card A = 27) (s : A11) (hs : s ∈ A) (hs1 : s ≠ 1) :
     ∃ n ∈ Subgroup.normalizer (A : Set A11), n ∉ Subgroup.normalizer
       ((Subgroup.zpowers s : Subgroup A11) : Set A11) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : (Nat.card A11).factorization 3 = 4 := by
     rw [card_a11]
     exact CFSG.RankThree.Asc83Table.factorization_eq_of_eq Nat.prime_three
@@ -53,7 +53,7 @@ theorem e27Move_a11 (A : Subgroup A11) (hA : CFSG.Assembly.IsElemAbelian 3 A)
   let Q : Sylow 3 A11 := Sylow.ofCard a11P0 (by rw [a11P0_spec.1, h3]; norm_num)
   have hAp : IsPGroup 3 A := IsPGroup.of_card (n := 3) (by rw [hA27]; norm_num)
   obtain ⟨P, hAP⟩ := hAp.exists_le_sylow
-  haveI : Finite (Sylow 3 A11) := Sylow.finite_of_finiteIndex Q
+  have : Finite (Sylow 3 A11) := Sylow.finite_of_finiteIndex Q
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq A11 Q P
   have hPg : (P : Subgroup A11) = a11P0.map (MulAut.conj g).toMonoidHom := by
     have h := congrArg (fun R : Sylow 3 A11 => (R : Subgroup A11)) hg

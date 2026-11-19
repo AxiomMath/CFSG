@@ -18,7 +18,7 @@ namespace G2
 theorem eq_of_isPerfect_of_isSubnormal_of_isQuasisimple {X : Type*} [Group X] [Finite X]
     {C L : Subgroup X} (hC : IsQuasisimple C) (hLC : L ≤ C) (hLp : Group.IsPerfect L)
     (hLs : (L.subgroupOf C).IsSubnormal) (hL1 : L ≠ ⊥) : L = C := by
-  haveI := hLp
+  have := hLp
   have hP : Group.IsPerfect (L.subgroupOf C) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hLC).symm.toMonoidHom)
       (MulEquiv.surjective _)
@@ -158,17 +158,17 @@ theorem g2_perfect_subnormal_centralizer (hK2 : ringChar K = 2) (hK4 : 4 ≤ Nat
     (hLc : L ≤ Subgroup.centralizer ({c} : Set _))
     (hLsn : (L.subgroupOf (Subgroup.centralizer ({c} : Set _))).IsSubnormal)
     (hLp : Group.IsPerfect L) (hcL : c ∈ L)
-    (hE : ∃ B : Subgroup _, B ≤ L ∧ CFSG.Open.IsElemAbelian 3 B ∧ Nat.card B = 9) :
+    (_hE : ∃ B : Subgroup _, B ≤ L ∧ CFSG.Open.IsElemAbelian 3 B ∧ Nat.card B = 9) :
     IsQuasisimple L ∧ Nat.card K ^ 3 ∣ Nat.card L := by
-  clear hE
+  clear _hE
   have hK3 : ringChar K ≠ 3 := by rw [hK2]; decide
   have hc3 : c ^ 3 = 1 := by rw [← hc]; exact pow_orderOf_eq_one c
   have hc1 : c ≠ 1 := by
     rintro rfl
     rw [orderOf_one] at hc
     omega
-  haveI : Finite (ModGL .G2 K) := CFSG.LieType.Chevalley.finite_modGL
-  haveI : Finite (adjointGroup .G2 K) := Subtype.finite
+  have : Finite (ModGL .G2 K) := CFSG.LieType.Chevalley.finite_modGL
+  have : Finite (adjointGroup .G2 K) := Subtype.finite
   obtain ⟨g, hg⟩ := KS11Lie4Proof.g2ThreeConjSL2_of_minus
     KS11Lie7Proof.g2ThreeConjSL2Minus_holds K hK3 hK4 c hc3 hc1
   have hc'3 : (g * c * g⁻¹) ^ 3 = 1 := by rw [conj_pow, hc3, mul_one, mul_inv_cancel]

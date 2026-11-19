@@ -40,6 +40,7 @@ theorem two_le_pRank_of_subgroupOf {A : Subgroup W} (hA : A ≤ L)
 variable {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {M : ℕ}
   {π : K →* ↥L ⧸ Subgroup.center ↥L}
 
+omit [Finite K] in
 theorem two_le_pRank_of_badPair (hbq : BorelQuotient D n H π M) (hdiv : D.divisible = ∅)
     (hodd : ∀ i, OddNode (rankOne D.rootGroup i) 3) {A : Subgroup W} (hA : A ≤ L) {i j : Fin D.rank}
     (hb : BadPair D i j) (hi : NodeIn L A π i) (hj : NodeIn L A π j) :

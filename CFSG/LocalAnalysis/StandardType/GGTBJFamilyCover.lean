@@ -83,7 +83,7 @@ theorem ggTBJOrdinaryLabel_cover {p : ℕ} (hp : p.Prime) {lab : LargeEvenLabel}
     · exact hLinM ⟨rfl, hr5, hpl⟩
     refine hNine (Or.inl ⟨Or.inl ⟨rfl, by dsimp only; omega⟩, fun j hj hj3 => ?_⟩)
     have hj1 : j = 1 := by
-      simp only [reduceCtorEq, if_false] at hj3
+      simp only [reduceCtorEq, ite_false] at hj3
       omega
     subst hj1
     simpa only [pow_one] using hplus hpl
@@ -135,7 +135,7 @@ theorem ggTBJOrdinaryLabel_cover {p : ℕ} (hp : p.Prime) {lab : LargeEvenLabel}
       · exact hSplitA ⟨Or.inr ⟨rfl, rfl⟩, le_rfl, hm⟩
       refine hNine (Or.inl ⟨Or.inr ⟨rfl, rfl⟩, fun j hj hj3 => ?_⟩)
       have hj1 : j = 1 := by
-        simp only [if_true] at hj3
+        simp only [ite_true] at hj3
         omega
       subst hj1
       simpa only [pow_one] using hplus hpl

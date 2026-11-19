@@ -22,11 +22,13 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def suppFix (Δ : Set (Subgroup G)) (t : G) : Set (Subgroup G) :=
   {D | D ∈ suppAct Δ t ∧ conjSubgroup D t = D}
 
+omit [Finite G] in
 private theorem mem_Y_comm {Y : Subgroup G} (hY : IsElemAbelian 2 Y) {a b : G}
     (ha : a ∈ Y) (hb : b ∈ Y) : a * b = b * a := by
-  haveI := hY.1
+  have := hY.1
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : Y) ⟨b, hb⟩)
 
+omit [Finite G] in
 private theorem conjSubgroup_sSup (Δ : Set (Subgroup G)) (t : G) :
     conjSubgroup (sSup Δ) t = sSup ((fun D => conjSubgroup D t) '' Δ) := by
   have h : conjSubgroup (sSup Δ) t =
@@ -34,6 +36,7 @@ private theorem conjSubgroup_sSup (Δ : Set (Subgroup G)) (t : G) :
   rw [h, sSup_eq_iSup', Subgroup.map_iSup, sSup_image, ← iSup_subtype'']
   simp only [conjSubgroup]
 
+omit [Finite G] in
 private theorem conjSubgroup_sSup_eq_self {Y : Subgroup G} {Δ : Set (Subgroup G)}
     (hspan : sSup Δ = Y) {t : G} (ht : t * t = 1)
     (hperm : ∀ D ∈ Δ, conjSubgroup D t ∈ Δ) : conjSubgroup Y t = Y := by
@@ -49,6 +52,7 @@ private theorem conjSubgroup_sSup_eq_self {Y : Subgroup G} {Δ : Set (Subgroup G
     E3.conjSubgroup_mono_left t hle
   rwa [h2] at h3
 
+omit [Finite G] in
 private theorem mem_comm_conj {Y : Subgroup G} {Δ : Set (Subgroup G)}
     (hspan : sSup Δ = Y) {t : G} (ht : t * t = 1)
     (hperm : ∀ D ∈ Δ, conjSubgroup D t ∈ Δ) {y : G} (hy : y ∈ Y) :
@@ -66,6 +70,7 @@ private theorem mem_comm_conj {Y : Subgroup G} {Δ : Set (Subgroup G)}
   rw [show y * t * y⁻¹ * t⁻¹ = y * (t * y⁻¹ * t⁻¹) by group]
   exact Y.mul_mem hy hx
 
+omit [Finite G] in
 private theorem eq_of_mul_eq_mul {D₀ D₁ : Subgroup G} (hinf : D₀ ⊓ D₁ = ⊥)
     {p q r s : G} (hp : p ∈ D₀) (hq : q ∈ D₁) (hr : r ∈ D₀) (hs : s ∈ D₁)
     (h : p * q = r * s) : p = r ∧ q = s := by
@@ -81,12 +86,13 @@ private theorem eq_of_mul_eq_mul {D₀ D₁ : Subgroup G} (hinf : D₀ ⊓ D₁ 
   rw [hpr] at h
   exact mul_left_cancel h
 
+omit [Finite G] in
 private theorem rk_subgroupOf_eq {U V : Subgroup G} (h : U ≤ V) :
     rk ↥(U.subgroupOf V) = rk ↥U := by
   unfold rk
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe h).toEquiv]
 
-private theorem mQuot_inf_eq_rk_sub {Y : Subgroup G} (hY : IsPGroup 2 Y) (C : Subgroup G) :
+private theorem mQuot_inf_eq_rk_sub {Y : Subgroup G} (_hY : IsPGroup 2 Y) (C : Subgroup G) :
     E3.mQuot Y (Y ⊓ C) = rk ↥Y - rk ↥(Y ⊓ C) := by
   have hgoal : E3.mQuot Y (Y ⊓ C) = rkIdx ((Y ⊓ C).subgroupOf Y) :=
     E3.mQuot_eq_rkIdx Y (Y ⊓ C)
@@ -95,6 +101,7 @@ private theorem mQuot_inf_eq_rk_sub {Y : Subgroup G} (hY : IsPGroup 2 Y) (C : Su
   rw [rkIdx, rk_subgroupOf_eq inf_le_left] at h
   omega
 
+omit [Finite G] in
 private theorem mem_sup_of_comm {H K : Subgroup G}
     (hcomm : ∀ x ∈ H, ∀ y ∈ K, x * y = y * x) (z : G) :
     z ∈ H ⊔ K ↔ ∃ a ∈ H, ∃ b ∈ K, a * b = z := by
@@ -117,6 +124,7 @@ private theorem mem_sup_of_comm {H K : Subgroup G}
   · rintro ⟨y, hy, z, hz, rfl⟩
     exact Subgroup.mul_mem_sup hy hz
 
+omit [Finite G] in
 private theorem card_sup_of_comm {H K : Subgroup G}
     (hcomm : ∀ x ∈ H, ∀ y ∈ K, x * y = y * x) (hinf : H ⊓ K = ⊥) :
     Nat.card ↥(H ⊔ K) = Nat.card ↥H * Nat.card ↥K := by
@@ -214,6 +222,7 @@ private theorem mQuot_inf_sup {Y Y₁ Y₂ : Subgroup G} (hY : IsElemAbelian 2 Y
   rw [hrkY, hrkC]
   omega
 
+omit [Finite G] in
 private theorem rk_inf_centralizer_sup_eq {Y D₀ D₁ : Subgroup G} (hY : IsElemAbelian 2 Y)
     (hD₀ : D₀ ≤ Y) (hD₁ : D₁ ≤ Y) (hinf : D₀ ⊓ D₁ = ⊥) {t : G} (ht : t * t = 1)
     (hst₀ : ∀ a ∈ D₀, t * a * t⁻¹ ∈ D₁) (hst₁ : ∀ b ∈ D₁, t * b * t⁻¹ ∈ D₀) :
@@ -271,6 +280,7 @@ private theorem rk_inf_centralizer_sup_eq {Y D₀ D₁ : Subgroup G} (hY : IsEle
   unfold rk
   rw [hcard]
 
+omit [Finite G] in
 private theorem sSup_sdiff_pair_inf_sup_eq_bot {Δ : Set (Subgroup G)} (hind : sSupIndep Δ)
     {D₀ D₁ : Subgroup G} (hD₀ : D₀ ∈ Δ) (hD₁ : D₁ ∈ Δ) (hne : D₁ ≠ D₀)
     (hcomm : ∀ x ∈ D₀, ∀ y ∈ D₁, x * y = y * x) :
@@ -469,7 +479,7 @@ private theorem s15_Support_rank_formula_aux :
           congr 1
           by_cases h : D₀ ∈ suppFix Δ t
           · have hc : D₀ ∈ suppFix Δ' t ∪ (suppFix Δ t ∩ {D₀}) := Or.inr ⟨h, rfl⟩
-            rw [if_pos hc]
+            rw [ite_eq_left hc]
             have hsingle : suppFix Δ t ∩ {D₀} = {D₀} := by
               ext D; constructor
               · rintro ⟨-, h0⟩; exact h0
@@ -479,7 +489,7 @@ private theorem s15_Support_rank_formula_aux :
               rintro (h1 | ⟨h2, -⟩)
               · exact hD'not h1
               · exact h h2
-            rw [if_neg hc]
+            rw [ite_eq_right hc]
             have hempty : suppFix Δ t ∩ {D₀} = ∅ := by
               rw [Set.eq_empty_iff_forall_notMem]
               rintro D ⟨hD, h0⟩
@@ -496,8 +506,8 @@ private theorem s15_Support_rank_formula_aux :
               E3.mQuot D₀ (D₀ ⊓ centralizer ({t} : Set G)) else 0) =
             E3.mQuot D₀ (D₀ ⊓ centralizer ({t} : Set G)) := by
           by_cases h : D₀ ∈ suppFix Δ t
-          · rw [if_pos h]
-          · rw [if_neg h, hzero h]
+          · rw [ite_eq_left h]
+          · rw [ite_eq_right h, hzero h]
         refine ⟨by rw [hmoved]; exact heven', ?_⟩
         rw [hadd, hform', hY₀m, hfixsum, hz, hmoved]
         ring
@@ -611,6 +621,7 @@ theorem s15_Support_rank_formula {Y : Subgroup G} (hY : IsElemAbelian 2 Y)
           γ * ((suppMoved Δ t).ncard / 2) :=
   s15_Support_rank_formula_aux Δ.ncard Y Δ γ t rfl hY hind hspan hγ ht hperm
 
+omit [Finite G] in
 theorem s15_Support_comm_mem {Y : Subgroup G} (hY : IsElemAbelian 2 Y)
     {Δ : Set (Subgroup G)} (hspan : sSup Δ = Y) {t : G} (ht : t * t = 1)
     (hperm : ∀ D ∈ Δ, conjSubgroup D t ∈ Δ) {y : G} (hy : y ∈ Y) :
@@ -690,6 +701,7 @@ theorem s15_Support_comm_mem {Y : Subgroup G} (hY : IsElemAbelian 2 Y)
     exact sSup_le fun D hD => fun x hx => hmem D hD x hx
   exact (hYH hy).2
 
+omit [Finite G] in
 theorem s15_Support_act_eq (Δ : Set (Subgroup G)) (t : G) :
     suppAct Δ t = suppFix Δ t ∪ suppMoved Δ t := by
   ext D
@@ -722,6 +734,7 @@ theorem s15_Support_act_eq (Δ : Set (Subgroup G)) (t : G) :
         rw [this]
         exact hx
 
+omit [Finite G] in
 theorem s15_Support_disjoint (Δ : Set (Subgroup G)) (t : G) :
     Disjoint (suppFix Δ t) (suppMoved Δ t) := by
   rw [Set.disjoint_left]

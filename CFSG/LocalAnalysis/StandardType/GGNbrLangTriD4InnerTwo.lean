@@ -43,10 +43,10 @@ private theorem ggNbrLangTriD4InnerTwoAux_label_arith {lab : LargeEvenLabel}
   case twD =>
     by_cases hl2 : l = 2
     · subst hl2
-      simp only [if_true] at h3
+      simp only [ite_true] at h3
       omega
     · by_cases hl3 : l = 3
-      · simp [hl2, hl3] at h2
+      · simp [hl3] at h2
       · simp [hl2, hl3] at h2
 
 private theorem ggNbrLangTriD4InnerTwoAux_labelAll_innerComp (hIC : GGTriD4InnerCompInput) :
@@ -177,7 +177,7 @@ theorem ggNbrLangAxisInnerOn_t3Two (hsub : GGNbrSubcomponentInput) (hKG : GGTriD
       Subgroup.centralizer ({r} : Set R) := by
     rw [← hr]
     ext y
-    simp only [ggAutFixedSubgroup, Set.mem_setOf_eq, Subgroup.mem_centralizer_singleton_iff,
+    simp only [ggAutFixedSubgroup, Subgroup.mem_centralizer_singleton_iff,
       MulAut.conj_apply]
     constructor
     · intro h
@@ -188,8 +188,8 @@ theorem ggNbrLangAxisInnerOn_t3Two (hsub : GGNbrSubcomponentInput) (hKG : GGTriD
         _ = y := by group
   have hQr : IsComponentOf Q (Subgroup.centralizer ({r} : Set R)) := hfix ▸ hQ
   obtain ⟨E, hEfield, hEfin, hEcard, heQ⟩ := hInnerComp r hr1 hr3 Q hQr
-  letI : Field E := hEfield
-  letI : Finite E := hEfin
+  let : Field E := hEfield
+  let : Finite E := hEfin
   obtain ⟨eQ⟩ := heQ
   have hIDL : GGInnerDiagOnLab (fun _ _ => True) 3 B L :=
       ggInnerDiagOnLab_of_cover (fun _ _ _ _ => trivial) hI
@@ -273,7 +273,7 @@ theorem ggNbrLangAxisInnerOn_t3Two (hsub : GGNbrSubcomponentInput) (hKG : GGTriD
     have huniq : ggLAut J θ_J g = ψ := by
       refine ggNbrLangTriD4InnerTwoAux_induces_unique θ_J (fun l => ?_) hαind hψind
       have hlg : ((J.normalizerMonoidHom g l : J) : G) = ((b : ↥B) : G)⁻¹ * l * b := by
-        simpa [g] using normalizerMonoidHom_coe J g l
+        simp [g]
       refine ⟨J.normalizerMonoidHom g l, hlg, ?_⟩
       intro y hy
       exact Subtype.ext (hy.trans hlg.symm)
@@ -307,7 +307,7 @@ theorem ggNbrLangAxisInnerOn_t3Two (hsub : GGNbrSubcomponentInput) (hKG : GGTriD
         _ ≤ 3 ^ 2 * Nat.card α.range := Nat.mul_le_mul_right _ hker_card
     exact Nat.le_of_mul_le_mul_left h (by norm_num)
   have hK0char : CharP K0 2 := charP_two_of_card (m := 3) (by simpa using hK0card)
-  haveI : CharP K0 2 := hK0char
+  have : CharP K0 2 := hK0char
   have hE3 : Nat.card α.range ≤ 3 :=
     NbrLangRest.card_le_of_forall_mem_conjImage_two (p := 3) Nat.prime_three (by norm_num)
       hs_J hna_J α.range hE_ab hE_I

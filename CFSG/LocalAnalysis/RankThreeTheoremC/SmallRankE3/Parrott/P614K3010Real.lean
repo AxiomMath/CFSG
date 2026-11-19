@@ -17,11 +17,11 @@ open Subgroup
 
 theorem exists_conj_eq_inv {X : Type*} [Group X] [Finite X] [hX : Group.IsPerfect X]
     (h9 : ¬ 9 ∣ Nat.card X) {g : X} (hg : orderOf g = 3) : ∃ h : X, h * g * h⁻¹ = g⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard0 : Nat.card (zpowers g) = 3 := by rw [Nat.card_zpowers, hg]
   have hP0 : IsPGroup 3 (zpowers g) := IsPGroup.of_card (n := 1) (by rw [hcard0, pow_one])
   obtain ⟨P, hP⟩ := hP0.exists_le_sylow
-  obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
   have hdvd : Nat.card (P : Subgroup X) ∣ Nat.card X := Subgroup.card_subgroup_dvd_card _
   have h3 : 3 ∣ Nat.card (P : Subgroup X) := by
     have h := Subgroup.card_dvd_of_le hP
@@ -113,7 +113,7 @@ theorem toGL_surjective_three :
     Matrix.GeneralLinearGroup.ext fun _ _ => rfl⟩
 
 theorem isPerfect_GL_three_two : Group.IsPerfect (GL (Fin 3) (ZMod 2)) := by
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_of_three_le (K := ZMod 2) (n := 3) (by norm_num)
   exact Group.IsPerfect.ofSurjective toGL_surjective_three
 
@@ -123,12 +123,12 @@ theorem card_GL_three_two : Nat.card (GL (Fin 3) (ZMod 2)) = 168 := by
 
 theorem alternatingGroup_five_exists_conj_eq_inv {g : alternatingGroup (Fin 5)}
     (hg : orderOf g = 3) : ∃ h, h * g * h⁻¹ = g⁻¹ := by
-  haveI := isPerfect_alternatingGroup_five
+  have := isPerfect_alternatingGroup_five
   exact exists_conj_eq_inv (by rw [card_alternatingGroup_five]; decide) hg
 
 theorem GL_three_two_exists_conj_eq_inv {g : GL (Fin 3) (ZMod 2)} (hg : orderOf g = 3) :
     ∃ h, h * g * h⁻¹ = g⁻¹ := by
-  haveI := isPerfect_GL_three_two
+  have := isPerfect_GL_three_two
   exact exists_conj_eq_inv (by rw [card_GL_three_two]; decide) hg
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.SmallRankE3.Parrott.P614.P614K3010

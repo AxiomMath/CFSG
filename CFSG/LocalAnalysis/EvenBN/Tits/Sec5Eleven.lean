@@ -46,7 +46,7 @@ theorem index_sylow_two_eq_three {K : Type*} [Group K] [Finite K] (P : Sylow 2 K
     (h : Nat.card K = 2 ^ k * 3) : (P : Subgroup K).index = 3 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx := (P : Subgroup K).card_mul_index
-  obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 P.isPGroup'
+  obtain ⟨m, hm⟩ := IsPGroup.iff_card.1 P.isPGroup
   rw [hm, h] at hidx
   have hc : Nat.Coprime (P : Subgroup K).index (2 ^ k) :=
     Nat.Coprime.pow_right _ (Nat.coprime_comm.1
@@ -188,7 +188,7 @@ theorem Hyp.thm511
   have hker : φ.ker = P₀ := by
     rw [hφ, ← normalCore_eq_ker]
     apply le_antisymm
-    · exact le_sSup ⟨inferInstance, P.isPGroup'.to_le (normalCore_le _)⟩
+    · exact le_sSup ⟨inferInstance, P.isPGroup.to_le (normalCore_le _)⟩
     · exact normal_le_normalCore.2 hP₀P
   have hperm : Nat.card (Equiv.Perm (d.N ⧸ (P : Subgroup d.N))) = 6 := by
     rw [Nat.card_perm]

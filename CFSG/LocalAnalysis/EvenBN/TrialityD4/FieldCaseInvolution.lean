@@ -160,7 +160,7 @@ theorem fixed_of_normalizing_involutions {Q : Type} [Group Q] [Finite Q]
     (hbΓ : b ∈ Subgroup.normalizer (Γ : Set (MulAut Q)))
     (ha1 : ∃ z, a z ≠ z) : ∀ z, a z = z → b z = z := by
   classical
-  letI : CommGroup Q := { ‹Group Q› with mul_comm := hcomm }
+  let : CommGroup Q := { ‹Group Q› with mul_comm := hcomm }
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : IsPGroup 2 Q := fun q => ⟨1, by simpa [pow_two] using hsq q⟩
   obtain ⟨e, he⟩ := (IsPGroup.iff_card (p := 2)).1 hP
@@ -607,6 +607,7 @@ end TrialityD4Data
 
 namespace FieldInvolutionAux
 
+omit [Finite G] in
 theorem sylowJ₀_map_eq {q : ℕ} (d : TrialityD4Data L q) :
     d.sylowJ₀.map L.subtype = d.S.map L.subtype ⊓
       centralizer ((d.J₀.map L.subtype : Subgroup G) : Set G) := by
@@ -617,6 +618,7 @@ theorem sylowJ₀_map_eq {q : ℕ} (d : TrialityD4Data L q) :
   · rintro ⟨⟨l, hlS, rfl⟩, hlC⟩
     exact ⟨l, ⟨hlS, Setup.mem_centralizer_of_coe_mem hlC⟩, rfl⟩
 
+omit [Finite G] in
 theorem not_forall_fix (d : TrialityD4Data L (2 ^ f)) (hf : 2 ≤ f) (hfe : Even f)
     (hfix : ∀ a : d.Γ₀, a ^ 2 ^ (3 * f / 2) = a) : False := by
   obtain ⟨e, rfl⟩ := hfe

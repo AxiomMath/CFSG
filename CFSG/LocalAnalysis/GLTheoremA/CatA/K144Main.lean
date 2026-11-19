@@ -32,6 +32,7 @@ open CFSG.LocalAnalysis.GLTheoremA.Y10F
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizer_inv_eq (a : G) :
     Subgroup.centralizer ({a⁻¹} : Set G) = Subgroup.centralizer ({a} : Set G) := by
   ext g
@@ -41,7 +42,7 @@ theorem centralizer_inv_eq (a : G) :
 theorem i144One_of_facts (hIn : I144InnFact) (hOut : I144OutFact) : I144oneAt G := by
   intro b' a Kstar K hab ha3 hKc hqK hchev hNa hKa hcat _
   have hp3 : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   obtain ⟨eP⟩ := S9.nonempty_pSimple_equiv hp3 hKc hqK
   have hchevZ : IsChevSimple 2 (↥Kstar ⧸ Subgroup.center ↥Kstar) :=
     isChevSimple_two_of_equiv' eP.symm hchev

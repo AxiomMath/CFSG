@@ -33,7 +33,7 @@ theorem isSimpleGroup_of_isPSp43 [Finite G] {L : Subgroup G} (h : IsPSp43 L) :
 
 theorem inf_centralizer_eq_bot_of_psp43 [Finite G] {L : Subgroup G} (hq : IsQuasisimple ↥L)
     (h : IsPSp43 L) : L ⊓ centralizer (L : Set G) = ⊥ := by
-  haveI : IsSimpleGroup ↥L := isSimpleGroup_of_isPSp43 h
+  have : IsSimpleGroup ↥L := isSimpleGroup_of_isPSp43 h
   have hcenter : Subgroup.center ↥L = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥L) with hc | hc
     · exact hc

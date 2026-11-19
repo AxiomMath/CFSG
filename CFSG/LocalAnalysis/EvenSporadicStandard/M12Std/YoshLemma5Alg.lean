@@ -26,10 +26,10 @@ theorem conj_lift_substW {m : ℕ} (z : H) (g : Fin m → H) (W : Fin m → List
     have h2 : z⁻¹ * FreeGroup.lift g (FreeGroup.mk [(i, b)]) * z =
         FreeGroup.lift g (FreeGroup.mk (if b then W i else invW (W i))) := by
       cases b
-      · simp only [Bool.false_eq_true, if_false, lift_mk_invW]
+      · simp only [Bool.false_eq_true, ite_false, lift_mk_invW]
         rw [← hW i]
         simp [mul_assoc]
-      · simp only [if_true]
+      · simp only [ite_true]
         rw [← hW i]
         simp
     calc z⁻¹ * (FreeGroup.lift g (FreeGroup.mk [(i, b)]) * FreeGroup.lift g (FreeGroup.mk w)) * z

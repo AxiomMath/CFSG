@@ -19,10 +19,10 @@ open CFSG.Quasithin.SteinbergCB.I16 (Vec4 Mat4 indep_W fixed_eq_zero_of_fourGrou
   one_mem' := by simp
   mul_mem' := by
     rintro x y ⟨hx₁, hx₂⟩ ⟨hy₁, hy₂⟩
-    simp only [Set.mem_setOf_eq, toAdd_mul, mulVec_add, hx₁, hx₂, hy₁, hy₂, and_self]
+    simp only [Set.mem_ofPred_eq, toAdd_mul, mulVec_add, hx₁, hx₂, hy₁, hy₂, and_self]
   inv_mem' := by
     rintro x ⟨hx₁, hx₂⟩
-    simp only [Set.mem_setOf_eq, toAdd_inv, mulVec_neg, hx₁, hx₂, and_self]
+    simp only [Set.mem_ofPred_eq, toAdd_inv, mulVec_neg, hx₁, hx₂, and_self]
 
 theorem a7d35_mem_fixSub {E₁ E₂ : Mat4} {x : Multiplicative Vec4} :
     x ∈ a7d35FixSub E₁ E₂ ↔ E₁ *ᵥ Multiplicative.toAdd x = Multiplicative.toAdd x ∧

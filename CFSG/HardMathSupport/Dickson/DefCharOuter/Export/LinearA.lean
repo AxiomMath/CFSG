@@ -51,9 +51,9 @@ theorem exists_conj_fieldAut_of_outer {n p f : ℕ} (hn : 3 ≤ n) (hp : p.Prime
     {β : MulAut (projectiveSL n K)} (hβ : β ^ p = 1) (hout : β ∉ innerAut (projectiveSL n K)) :
     ∃ (τ : K ≃+* K) (h : MulAut (projectiveSL n K)), orderOf τ = p ∧
       β = h * fieldAut n K τ * h⁻¹ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ hp.ne_zero)
-  haveI : CharP K p := finite_field_prime_power_characteristic hp hf hK
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ hp.ne_zero)
+  have : CharP K p := finite_field_prime_power_characteristic hp hf hK
   have hdesc := CFSG.RankThree.LinearDescent.higher_linear_prime_semilinear_field_descent
     (ℓ := p) (f := f) hp hf hn hK
   by_cases hlin : β ∈ LinearFlag.linearAutGroup n K
@@ -85,7 +85,7 @@ theorem outerCentData_projectiveSL_of_three_le {n p f : ℕ} (hn : 3 ≤ n) (hp 
     (hp2 : p ≠ 2) (hf : 1 ≤ f) {K : Type} [Field K] (hK : Nat.card K = p ^ f)
     {β : MulAut (projectiveSL n K)} (hβ : orderOf β = p) (hout : β ∉ innerAut (projectiveSL n K)) :
     OuterCentData p β := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ hp.ne_zero)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ hp.ne_zero)
   have hβp : β ^ p = 1 := hβ ▸ pow_orderOf_eq_one β
   obtain ⟨τ, h, hτ, rfl⟩ := exists_conj_fieldAut_of_outer hn hp hp2 hf hK hβp hout
   refine OuterCentData.of_conj hp h⁻¹ _ ?_
@@ -103,7 +103,7 @@ theorem outerCentData_A_of_two_le {r : ℕ} (hr : 2 ≤ r) (q : TauCeti.PrimePow
     (hpq : p = q.p) {β : MulAut S} (hβ : orderOf β = p) (hout : β ∉ innerAut S) :
     OuterCentData p β := by
   subst hpq
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let e' : S ≃* projectiveSL (r + 1) (GaloisField q.p q.exponent) :=
     e.trans ((CFSG.ClassicalModels.linearCatalogCandidateEquivPSL r q hv).trans
       (LinearCover.projectiveSpecialLinearEquivProjectiveSL (r + 1) _))
@@ -130,7 +130,7 @@ theorem carrier_A (r : ℕ) (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex
     Finite (TauCeti.CFSGIndex.lie ⟨.A r q, hv⟩).Group ∧
       IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.A r q, hv⟩).Group ∧
       ∃ a b : (TauCeti.CFSGIndex.lie ⟨.A r q, hv⟩).Group, a * b ≠ b * a := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hr := (TauCeti.LieTypeIndex.inStandardRange_iff _).mp
     ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
   have hK : Nat.card (GaloisField q.p q.exponent) = q.p ^ q.exponent :=
@@ -141,7 +141,7 @@ theorem carrier_A (r : ℕ) (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex
       have h1 : r = 1 := by omega
       have h4 : 4 ≤ q.card := hr.2 h1
       rw [TauCeti.PrimePower.card_def, ← hK] at h4
-      haveI : Fintype (GaloisField q.p q.exponent) := Fintype.ofFinite _
+      have : Fintype (GaloisField q.p q.exponent) := Fintype.ofFinite _
       rw [Nat.card_eq_fintype_card, ← Finset.card_univ] at h4
       obtain ⟨t, -, ht⟩ := Finset.exists_subset_card_eq h4
       exact ⟨t, ht⟩
@@ -152,7 +152,7 @@ theorem carrier_A (r : ℕ) (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex
   have hperf := CFSG.LinearGroups.linear_projective_perfect (K := GaloisField q.p q.exponent)
     (n := r + 1) (by omega) hcond
   let e := CFSG.ClassicalModels.linearCatalogCandidateEquivPSL r q hv
-  haveI := hnt
+  have := hnt
   refine ⟨Finite.of_equiv _ e.symm.toEquiv, e.isSimpleGroup, ?_⟩
   obtain ⟨a, b, hab⟩ := exists_noncomm_of_isPerfect hperf
   exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩

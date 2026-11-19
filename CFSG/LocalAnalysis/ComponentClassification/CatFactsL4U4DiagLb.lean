@@ -170,7 +170,7 @@ theorem exists_mul_eq_mul_kZero {l : F} (hns : ¬ IsSquare l) {X : Matrix (Fin 4
   set col : Fin 4 → Fin 4 → F := ![v₁, X *ᵥ v₁, v₂, X *ᵥ v₂] with hcol
   set P : Matrix (Fin 4) (Fin 4) F := Matrix.of fun i j => col j i with hP
   refine ⟨P, ?_, ?_⟩
-  · rw [← Matrix.isUnit_iff_isUnit_det, ← Matrix.linearIndependent_cols_iff_isUnit]
+  · rw [← Matrix.isUnit_iff_isUnit_det, ← Matrix.linearIndependent_col_iff_isUnit]
     rw [Fintype.linearIndependent_iff]
     intro g hg
     have hg' : g 0 • v₁ + g 1 • (X *ᵥ v₁) + (g 2 • v₂ + g 3 • (X *ᵥ v₂)) = 0 := by

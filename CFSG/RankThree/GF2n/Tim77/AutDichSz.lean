@@ -20,7 +20,7 @@ open CFSG.BenderSuzuki (SzModel)
 
 theorem invAut_inner_of_suzuki_one {X : Type} [Group X] [Finite X]
     {a : ℕ} (ha : 1 ≤ a) (e : X ≃* SzModel a) (σ : MulAut X) (hσ2 : σ * σ = 1) {t : X}
-    (ht : orderOf t = 2) (hfix : σ t = t) :
+    (_ht : orderOf t = 2) (hfix : σ t = t) :
     ∃ s : X, s * s = 1 ∧ s * t = t * s ∧ ∀ z : X, σ z = s * z * s⁻¹ := by
   have hK : CFSG.BenderSuzuki.IsBenderGroup X := CFSG.BenderSuzuki.IsBenderGroup.isSuzuki a ha e
   obtain ⟨b, hb⟩ :=

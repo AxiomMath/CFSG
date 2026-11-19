@@ -15,6 +15,7 @@ open Subgroup
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem toProj_eq_or_eq_piOrth {a b : OGroup Q} (h : toProj Q a = toProj Q b) :
     a = b ∨ a = piOrth Q * b := by
   have hmem : a / b ∈ piGroup Q := by
@@ -143,7 +144,6 @@ theorem conj_of_simHasType_even (hQ : Q.Nondegenerate)
   refine ⟨⟨toProj Q c, (mem_omegaProj_iff hQ).mpr ⟨c, hc, rfl⟩⟩, ?_⟩
   apply Subtype.ext
   simp only [Subgroup.coe_mul, Subgroup.coe_inv]
-  change (toProj Q c) * (u : ProjOrth Q) * (toProj Q c)⁻¹ = (u' : ProjOrth Q)
   rw [htu, htu', ← map_mul, ← map_inv, ← map_mul, hcj]
 
 end CFSG.OddStandard.SmallF3.Omega

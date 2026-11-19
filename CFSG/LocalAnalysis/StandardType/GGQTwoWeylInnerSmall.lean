@@ -19,7 +19,7 @@ private lemma ggQ2wis_mul_refl_apply {n : ℕ} (C : Matrix (Fin n) (Fin n) ℤ) 
     (P : Matrix (Fin n) (Fin n) (ZMod 3)) (i b : Fin n) :
     (P * ggQ2wisRefl C j) i b = P i b - P i j * ((C j b : ℤ) : ZMod 3) := by
   simp only [Matrix.mul_apply, ggQ2wisRefl, Matrix.of_apply, mul_sub, Finset.sum_sub_distrib,
-    mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 theorem ggQ2wis_inner_of_check {n : ℕ} (C : Matrix (Fin n) (Fin n) ℤ)
     (hdiag : ∀ j, ((C j j : ℤ) : ZMod 3) = 2) (R : Fin n → Matrix (Fin n) (Fin n) (ZMod 3))

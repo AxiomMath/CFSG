@@ -20,7 +20,7 @@ open CFSG.LocalAnalysis.GLTheoremA.S265BU8 (exists_perm_of_support eq_of_mul_dia
 variable {K : Type} [Field K]
 
 private theorem units_pow_three' (h : UnitaryFieldData 2 1 K) (u : Kˣ) : u ^ 3 = 1 := by
-  haveI := h.finite
+  have := h.finite
   have hc : Nat.card Kˣ = 3 := by
     have := Nat.card_units K
     rw [h.card] at this
@@ -69,7 +69,7 @@ private theorem diag_pair_of_frames (h : UnitaryFieldData 2 1 K) {ω : K}
   set k := π.symm i₀ with hkdef
   have hδ : ∀ j, δ j = if j = k then μ else ν := fun j => by
     rw [← hπ j, hkdef]
-    exact if_congr (Equiv.apply_eq_iff_eq_symm_apply π) rfl rfl
+    exact if_congr ((Iff.symm (_root_.Equiv.eq_symm_apply π))) rfl rfl
   have hc3 : (Q⁻¹ * D * Q) ^ 3 = 1 := by
     have e := conj_pow (a := Q⁻¹) (b := D) (i := 3)
     rw [inv_inv] at e
@@ -81,13 +81,13 @@ private theorem diag_pair_of_frames (h : UnitaryFieldData 2 1 K) {ω : K}
       Units.val_one, diagonal_apply_eq, one_apply_eq, Pi.pow_apply] at e
     exact e
   obtain ⟨j₀, hj₀⟩ := exists_ne k
-  have hν3 : ν ^ 3 = 1 := by simpa [hδ j₀, if_neg hj₀] using hδ3 j₀
+  have hν3 : ν ^ 3 = 1 := by simpa [hδ j₀, ite_eq_right hj₀] using hδ3 j₀
   have hμ3 : μ ^ 3 = 1 := by simpa [hδ k] using hδ3 k
   have hν0 : ν ≠ 0 := fun h0 => by simp [h0] at hν3
   have hω1 : ω ≠ 1 := fun h1 => by
     rw [h1] at hω
     have h2 : (2 : K) = 0 := by
-      haveI := h.charP
+      have := h.charP
       exact_mod_cast CharP.cast_eq_zero K 2
     exact one_ne_zero (α := K) (by linear_combination hω - h2)
   obtain ⟨X, hX, k', hkk', hQX⟩ : ∃ X ∈ ({X₁, X₂} : Set (primeFormUnitary h (idGram K 6))),
@@ -121,8 +121,8 @@ private theorem diag_pair_of_frames (h : UnitaryFieldData 2 1 K) {ω : K}
     have h1 := eq_one_of_commute_diagonal_pair_six hK
       (by rw [← Units.val_pow_eq_pow_val, ← Subgroup.coe_pow, hY'11, Subgroup.coe_one,
         Units.val_one]) (hmat hDY hQD) (hmat hXY' hQX) hkk'
-      (fun i hi => by rw [hδ i, hδ k, if_neg hi, if_pos rfl]; exact hνμ)
-      (fun i hi => by rw [if_neg hi, if_pos rfl]; exact hω1.symm)
+      (fun i hi => by rw [hδ i, hδ k, ite_eq_right hi, ite_eq_left rfl]; exact hνμ)
+      (fun i hi => by rw [ite_eq_right hi, ite_eq_left rfl]; exact hω1.symm)
     have h2 : Q⁻¹ * Y * Q = 1 := Subtype.ext (Units.ext h1)
     calc Y = Q * (Q⁻¹ * Y * Q) * Q⁻¹ := by group
       _ = 1 := by rw [h2, mul_one, mul_inv_cancel]

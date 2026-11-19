@@ -173,8 +173,8 @@ theorem rckTriC_hQ
         pCoreOf 2 (Subgroup.normalizer
           ((twistedDatum σ).rootGroup (highRoot .G2) : Set (twistedGroup σ)))⁆ ≤
       (twistedDatum σ).rootGroup (highRoot .G2) := by
-  haveI hchar : CharP F 2 := by
-    haveI : Fintype F := Fintype.ofFinite F
+  have hchar : CharP F 2 := by
+    have : Fintype F := Fintype.ofFinite F
     have h0 : ((Fintype.card F : ℕ) : F) = 0 := FiniteField.cast_card_eq_zero F
     rw [← Nat.card_eq_fintype_card, hF.2.1, ← pow_mul] at h0
     rw [Nat.cast_pow, Nat.cast_ofNat] at h0

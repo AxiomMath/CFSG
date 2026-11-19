@@ -199,7 +199,7 @@ variable {t v : G} {J : Subgroup G} (h : TwoCfg t v J)
 
 include h
 
-theorem centralizerDerived_eq (htop : centralizer ({t} : Set G) ≠ ⊤) :
+theorem centralizerDerived_eq (_htop : centralizer ({t} : Set G) ≠ ⊤) :
     centralizerDerived t = ⁅J, J⁆ := by
   have hCC : centralizerDerived t =
       ⁅centralizer ({t} : Set G), centralizer ({t} : Set G)⁆ :=

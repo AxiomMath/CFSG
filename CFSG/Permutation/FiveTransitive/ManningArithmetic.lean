@@ -35,7 +35,7 @@ private theorem three_cycle_polynomial_positive (k x : ℤ) (hk : 1 ≤ k) (hx :
   rw [he]
   omega
 
-theorem large_cycle_inequality_bound (m n : ℕ) (hm : 8 ≤ m) (hmn : m ≤ n)
+theorem large_cycle_inequality_bound (m n : ℕ) (hm : 8 ≤ m) (_hmn : m ≤ n)
     (h : m*((n-3)*(n-4)) + 2*(m-3)*(n-4) + (m-2)*(m-3)*(m-4) +
       2*(m-1)*(n-4) + (m-1)*(m-2)*(m-6) ≤
         3*((n-3)*(n-4)) + 3*(m-1)*(m-3)*(n-4)) : n < 2*m := by

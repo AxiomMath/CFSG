@@ -13,9 +13,9 @@ open Subgroup
 theorem sevenOneOne_holds :
     SevenOneOne := by
   intro X _ _ hX L hL hLnorm
-  haveI : L.Normal := hLnorm
+  have : L.Normal := hLnorm
   let S := ↥L ⧸ center ↥L
-  haveI hSsimple : IsSimpleGroup S := hL.1.2.1
+  have hSsimple : IsSimpleGroup S := hL.1.2.1
   have hnonab : ∃ a b : S, a * b ≠ b * a := hL.1.2.2
   have hcat : CFSG.Open.IsCatalogGroup S :=
     CFSG.Open.IsKGroup.isCatalogGroup_of_surjective hX L hnonab

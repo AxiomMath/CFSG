@@ -113,8 +113,8 @@ theorem kgLangT3_model_lang_cyclic (k K : Type) [Field k] [Field K] [Algebra k K
     (hzc : z₀ ∈ Subgroup.center (TriD4LineX k K)) (x : TriD4LineX k K)
     (hx3 : x * triD4LineSigma k K σ x * triD4LineSigma k K (σ ^ 2) x = 1) :
     ∃ y : TriD4LineX k K, y * (x * triD4LineSigma k K σ y * x⁻¹)⁻¹ = z₀ := by
-  haveI : Finite k := Finite.of_injective _ (algebraMap k K).injective
-  haveI : FiniteDimensional k K := Module.Finite.of_finite
+  have : Finite k := Finite.of_injective _ (algebraMap k K).injective
+  have : FiniteDimensional k K := Module.Finite.of_finite
   obtain ⟨ζ, hζ3, hζne, hzdet, hzeq⟩ :=
     triD4Line_eq_mk_of_mem_center k K h3 hzc hz₀
   obtain ⟨gx, cx, hx, rfl⟩ := triD4LineMk_surjective k K x

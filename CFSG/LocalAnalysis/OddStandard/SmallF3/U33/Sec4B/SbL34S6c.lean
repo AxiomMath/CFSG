@@ -38,7 +38,7 @@ theorem exists_conj_Sp_S : ∃ g : G, g * (t * lam) * g⁻¹ = t ∧
     have hxS' : g₀ * x * g₀⁻¹ ∈ ctxSp t tau x₁ x₂ lam v := by
       have := (S4B.mem_cj (H := ctxSp t tau x₁ x₂ lam v)).mp hx
       simpa [inv_inv] using this
-    have hxc := Sp_le_cent hc hv hxS'
+    have hxc := Sp_le_cent hv hxS'
     rw [Subgroup.mem_centralizer_iff] at hxc
     have hq := hxc (t * lam) (Set.mem_singleton (t * lam))
     have hconj := congrArg (fun z => g₀⁻¹ * z * g₀) hq
@@ -48,7 +48,7 @@ theorem exists_conj_Sp_S : ∃ g : G, g * (t * lam) * g⁻¹ = t ∧
       rw [hg₁']; group
     exact e1.symm.trans (hconj.trans e2)
   have hD2 : IsPGroup 2 (S4B.cj g₀⁻¹ (ctxSp t tau x₁ x₂ lam v)) :=
-    S4B.isPGroup_cj (Sp_isPGroup hc hv)
+    S4B.isPGroup_cj (Sp_isPGroup hv)
   have hcard : Nat.card S ≤ Nat.card (S4B.cj g₀⁻¹ (ctxSp t tau x₁ x₂ lam v)) := by
     rw [Ctx4.card_S_seven hc.toCtx4, S4B.card_cj]
     exact le_card_Sp hc hv
@@ -70,12 +70,12 @@ theorem exists_conj_Sp_S : ∃ g : G, g * (t * lam) * g⁻¹ = t ∧
     · intro hx; exact S4B.conj_mem_cj hx
     · intro hx
       have := (S4B.mem_cj (H := S)).mp hx
-      convert this using 1 <;> group
+      convert this using 1; group
   rw [h1, hcj]
   rw [S4B.mem_cj (H := ctxSp t tau x₁ x₂ lam v)]
   constructor
-  · intro hx; convert hx using 1 <;> group
-  · intro hx; convert hx using 1 <;> group
+  · intro hx; convert hx using 1; group
+  · intro hx; convert hx using 1; group
 
 end Conj
 
@@ -86,12 +86,12 @@ variable (hc : Ctx4L t L S x₁ x₂ lam rho tau) {W : Subgroup G} {v : G}
   (hn : NormalIn (ctxN ω x₁ x₂) (ctxLO t tau x₁ x₂))
 include hc hv hω hn
 
-theorem conj_omega_mem_V {g : G} (hg1 : g * (t * lam) * g⁻¹ = t)
+theorem conj_omega_mem_V {g : G} (_hg1 : g * (t * lam) * g⁻¹ = t)
     (hg2 : ∀ x : G, x ∈ S ↔ g⁻¹ * x * g ∈ ctxSp t tau x₁ x₂ lam v) :
     g * ω * g⁻¹ ∈ fourGrp x₁ x₂ := by
   have hDle : S4B.cj g (ctxD ω x₁ x₂) ≤ S := by
     intro x hx
-    exact (hg2 x).mpr (D_le_Sp hc hv hω ((S4B.mem_cj (H := ctxD ω x₁ x₂)).mp hx))
+    exact (hg2 x).mpr (D_le_Sp hc hω ((S4B.mem_cj (H := ctxD ω x₁ x₂)).mp hx))
   have hDnorm : NormalIn (S4B.cj g (ctxD ω x₁ x₂)) S := by
     refine ⟨hDle, ?_⟩
     intro s hs k hk
@@ -99,7 +99,7 @@ theorem conj_omega_mem_V {g : G} (hg1 : g * (t * lam) * g⁻¹ = t)
     have hsk : g⁻¹ * s * g ∈ ctxSp t tau x₁ x₂ lam v := (hg2 s).mp hs
     have hkD : g⁻¹ * k * g ∈ ctxD ω x₁ x₂ := (S4B.mem_cj (H := ctxD ω x₁ x₂)).mp hk
     have hkey := (D_normal_Sp hc hv hω hn).2 (g⁻¹ * s * g) hsk (g⁻¹ * k * g) hkD
-    convert hkey using 1 <;> group
+    convert hkey using 1; group
   have hD2 : CFSG.Open.IsElemAbelian 2 (S4B.cj g (ctxD ω x₁ x₂)) :=
     S4B.isElemAbelian_cj (D_elemAbelian hc.toCtx4Q hω)
   have hcard : Nat.card (S4B.cj g (ctxD ω x₁ x₂)) = 4 := by
@@ -109,7 +109,7 @@ theorem conj_omega_mem_V {g : G} (hg1 : g * (t * lam) * g⁻¹ = t)
     have hd : g⁻¹ * a * g ∈ ctxD ω x₁ x₂ := (S4B.mem_cj (H := ctxD ω x₁ x₂)).mp ha
     exact D_tG hc hω (g⁻¹ * g') (g⁻¹ * a * g) hd (by
       have := congrArg (fun z => g⁻¹ * z * g) h
-      convert this using 1 <;> group)
+      convert this using 1; group)
   have hEq : S4B.cj g (ctxD ω x₁ x₂) = fourGrp x₁ x₂ :=
     (hc.l45 (S4B.cj g (ctxD ω x₁ x₂)) hDnorm hD2 hcard hfree).1
   have hωD : ω ∈ ctxD ω x₁ x₂ := Subgroup.subset_closure (by simp)
@@ -137,6 +137,7 @@ theorem q_omega_mem_tG : ∃ h : G, h * t * h⁻¹ = (t * lam) * ω := by
     _ = (g⁻¹ * t * g) * (g⁻¹ * (g * ω * g⁻¹) * g) := by group
     _ = (t * lam) * ω := by rw [ht_eq, hω_eq]
 
+omit hv hn in
 theorem q_omega_not_mem_tG : ¬ ∃ h : G, h * t * h⁻¹ = (t * lam) * ω := by
   rintro ⟨h, hh⟩
   have htau : tau * tau = 1 := by rw [← pow_two]; exact hc.l44.1
@@ -194,6 +195,6 @@ namespace CFSG.OddStandard.SmallF3.HarrisU33
 
 theorem l34_s6 : L34S6Stmt := by
   intro G _ _ t L S x₁ x₂ lam rho tau W v hG hB hc hv ω hω hn
-  exact L34.q_omega_not_mem_tG hc hv hω hn (L34.q_omega_mem_tG hc hv hω hn)
+  exact L34.q_omega_not_mem_tG hc hω (L34.q_omega_mem_tG hc hv hω hn)
 
 end CFSG.OddStandard.SmallF3.HarrisU33

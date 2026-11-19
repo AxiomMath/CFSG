@@ -66,7 +66,7 @@ theorem largeEvenLabelAll_not_marking_twA_five_of_card_lt {lab : LargeEvenLabel}
     LargeEvenLabelAll lab fun R _ _ _ => ∀ (J₁ : Subgroup R) (n : ℕ), J₁ ≠ ⊤ → lab.n ∣ n →
       ¬ LargeEvenMarking ↥J₁ (fun lab' _ _ _ _ _ => lab' = ⟨.twA, 5, n⟩) :=
   h.mono fun _ _ _ _ hR J₁ _ _ hgn => by
-    haveI := hR.1
+    have := hR.1
     exact not_largeEvenMarking_twA_five_of_card_lt hR.2 J₁ hgn
 
 theorem largeEvenLabelAll_not_marking_twA_five_plainOrder {lab : LargeEvenLabel}

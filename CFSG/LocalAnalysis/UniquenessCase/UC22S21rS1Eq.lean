@@ -24,7 +24,7 @@ theorem uc22s21rq_gamma_le_eq (D : Data G) (hr77 : F07.R77Eq D) (hσ1 : D.sig �
     {X : Subgroup (Bar2 D.M)} [X.Normal] (hXq : IsPGroup q X) (hXnc : ¬ IsCyclic X)
     (hXexp : ∀ x ∈ X, x ^ q = 1) (hXcl : ⁅⁅X, X⁆, X⁆ = ⊥) {Q : Subgroup G}
     (hQ : IsSylowOf q Q (barPreimage D.M X)) : rankThreeGamma 1 q Q ≤ D.M := by
-  haveI := Fact.mk hq
+  have := Fact.mk hq
   obtain ⟨hQM, hXQ, hdisj⟩ := uc22s21rq_barImage_sylow D.M hq hq2 hXq hQ
   have hle := uc22s21rq_pRank_le D.M hp hp2 hq hpq hXq hQ
   have heq : CFSG.Open.pRank p D.M = CFSG.Open.pRank p (D.M ⊓ normalizer (Q : Set G)) :=
@@ -97,7 +97,7 @@ theorem uc22s21rs1_hinf_commutator_le_eq (D : Data G) (st : Standing22 D) (hr77 
   classical
   rw [uc22p21c_commutator_bar_eq_bot_iff, Subgroup.commutator_eq_bot_iff_le_centralizer]
   by_contra hKF
-  haveI hKperf : Group.IsPerfect ↥(CFSG.perfectResidual (Bar2 D.M)) :=
+  have hKperf : Group.IsPerfect ↥(CFSG.perfectResidual (Bar2 D.M)) :=
     CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidual_isPerfect
   have hK : ⁅CFSG.perfectResidual (Bar2 D.M), CFSG.perfectResidual (Bar2 D.M)⁆ =
       CFSG.perfectResidual (Bar2 D.M) := Subgroup.isPerfect_iff.mp hKperf
@@ -105,11 +105,11 @@ theorem uc22s21rs1_hinf_commutator_le_eq (D : Data G) (st : Standing22 D) (hr77 
     CFSG.ABGLocalTools.pCore_quotient_pCore_eq_bot (H := ↥D.M) (p := 2)
   obtain ⟨q, hq, hq2, X, hXq, hXn, -, hXexp, hXcl, hnt, hXnc⟩ :=
     uc22s21rh_exists_supercritical_of_fitting h2 hK hKF
-  haveI : X.Normal := hXn
+  have : X.Normal := hXn
   have hXp : IsPGroup q ↥X := CFSG.pCore_isPGroup.to_le hXq
   have hns : ¬ Group.IsSolvable ↥D.M := by
     intro hs
-    haveI : Group.IsSolvable (Bar2 D.M) := inferInstance
+    have : Group.IsSolvable (Bar2 D.M) := inferInstance
     apply hKF
     have hbot : CFSG.perfectResidual (Bar2 D.M) = ⊥ :=
       CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidual_eq_bot_iff_solvable.2 this

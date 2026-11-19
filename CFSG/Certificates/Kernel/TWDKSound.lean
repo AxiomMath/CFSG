@@ -121,9 +121,9 @@ theorem twDot_single_left (k : Fin N) (v : GGDepAE p N) :
 
 @[expose] def vAt (v : GGDepAE p N) (k : ℕ) : ZMod p := if h : k < N then v ⟨k, h⟩ else 0
 
-theorem vAt_val (v : GGDepAE p N) (j : Fin N) : vAt v j.val = v j := dif_pos j.isLt
+theorem vAt_val (v : GGDepAE p N) (j : Fin N) : vAt v j.val = v j := dite_eq_left j.isLt
 
-theorem vAt_lt (v : GGDepAE p N) {k : ℕ} (hk : k < N) : vAt v k = v ⟨k, hk⟩ := dif_pos hk
+theorem vAt_lt (v : GGDepAE p N) {k : ℕ} (hk : k < N) : vAt v k = v ⟨k, hk⟩ := dite_eq_left hk
 
 theorem vAt_add (f g : GGDepAE p N) (k : ℕ) : vAt (f + g) k = vAt f k + vAt g k := by
   unfold vAt; split_ifs <;> simp
@@ -138,14 +138,14 @@ theorem twH_short (i : Fin (N - 1)) (hi : i.val + 2 < N) :
     ggDepAh p N i = Pi.single (⟨i.val, by omega⟩ : Fin N) 1 - Pi.single ⟨i.val + 1, by omega⟩ 1 := by
   have := i.isLt
   funext j
-  simp only [ggDepAh, Pi.sub_apply, Pi.single_apply, Fin.ext_iff, Fin.val_mk]
+  simp only [ggDepAh, Pi.sub_apply, Pi.single_apply, Fin.ext_iff]
   split_ifs <;> first | (exfalso; omega) | simp
 
 theorem twA_short (i : Fin (N - 1)) (hi : i.val + 2 < N) :
     ggDepAα p N i = Pi.single (⟨i.val, by omega⟩ : Fin N) 1 - Pi.single ⟨i.val + 1, by omega⟩ 1 := by
   have := i.isLt
   funext j
-  simp only [ggDepAα, Pi.sub_apply, Pi.single_apply, Fin.ext_iff, Fin.val_mk]
+  simp only [ggDepAα, Pi.sub_apply, Pi.single_apply, Fin.ext_iff]
   split_ifs <;> first | (exfalso; omega) | simp
 
 theorem twDot_h_short (f : GGDepAE p N) (i : Fin (N - 1)) (hi : i.val + 2 < N) :
@@ -172,7 +172,7 @@ theorem twVec_dot_h (hpN : p ∣ N) (hN : 2 ≤ N) (a b : ZMod p) (i : Fin (N - 
   by_cases hi : i.val + 2 < N
   · rw [twDot_h_short _ i hi, vAt_twVec (N := N) a b (k := i.val) (by omega),
       vAt_twVec (N := N) a b (k := i.val + 1) (by omega),
-      if_neg (show ¬ (i.val + 1 = N) by omega), if_neg (show ¬ (i.val + 1 + 1 = N) by omega),
+      ite_eq_right (show ¬ (i.val + 1 = N) by omega), ite_eq_right (show ¬ (i.val + 1 + 1 = N) by omega),
       sub_self]
   · have hi' : i.val + 2 = N := by omega
     have hN0 : (N : ZMod p) = 0 := by
@@ -183,12 +183,12 @@ theorem twVec_dot_h (hpN : p ∣ N) (hN : 2 ≤ N) (a b : ZMod p) (i : Fin (N - 
           (if j = (⟨N - 2, by omega⟩ : Fin N) then a else 0) := by
       intro j
       have := j.isLt
-      simp only [twVec, ggDepAh, Fin.ext_iff, Fin.val_mk]
+      simp only [twVec, ggDepAh, Fin.ext_iff]
       split_ifs <;> first | (exfalso; omega) | ring
     rw [ggDepAdot, Finset.sum_congr rfl (fun j _ => hsum j), Finset.sum_add_distrib,
       Finset.sum_sub_distrib]
     simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true, hN0]
+      Finset.sum_ite_eq', Finset.mem_univ, ite_true, hN0]
     ring
 
 @[expose] def twT (ψ : GGDepAE p N) : Module.End (ZMod p) (GGDepAE p N) :=
@@ -302,7 +302,7 @@ theorem twNorm [Fact p.Prime] (hpN : p ∣ N) (hN : 5 ≤ N) (α : GGDepAE p N)
   have hsi : s * s⁻¹ = 1 := mul_inv_cancel₀ hx
   have hN1 : 1 ≤ N := by omega
   have hl : ∀ a b : ZMod p, vAt (twVec (N := N) a b) (N - 1) = b := fun a b => by
-    rw [vAt_twVec (N := N) a b (k := N - 1) (by omega), if_pos (show N - 1 + 1 = N by omega)]
+    rw [vAt_twVec (N := N) a b (k := N - 1) (by omega), ite_eq_left (show N - 1 + 1 = N by omega)]
   have hed : twT (N := N) (twVec a0 (s - 1)) * twT (twVec (-(a0 * s⁻¹)) (s⁻¹ - 1)) = 1 := by
     apply twT_comp
     rw [twDot_x hN1, hl]
@@ -332,7 +332,7 @@ theorem twNorm [Fact p.Prime] (hpN : p ∣ N) (hN : 5 ≤ N) (α : GGDepAE p N)
   · refine ⟨α + s • twVec (-(a0 * s⁻¹)) (s⁻¹ - 1), fun v => ?_, ?_, ?_⟩
     · rw [twDot_twT, twDot_x hN1, hs]
     · rw [vAt_add, vAt_smul, vAt_twVec (N := N) _ _ (k := 0) (by omega),
-        if_neg (show ¬ (0 + 1 = N) by omega), ha0]
+        ite_eq_right (show ¬ (0 + 1 = N) by omega), ha0]
       linear_combination (-a0) * hsi
     · rw [vAt_add, vAt_smul, hl, hs]
       linear_combination hsi
@@ -345,7 +345,7 @@ theorem twChain_eq (f : ℕ → ZMod p) (lo len c0 : ℕ) (n : ZMod p) (hc0 : lo
   | zero =>
     intro _
     rcases hc0 with hc | hc
-    · rw [Nat.add_zero, if_neg (show ¬ c0 < lo by omega), sub_zero]
+    · rw [Nat.add_zero, ite_eq_right (show ¬ c0 < lo by omega), sub_zero]
     · rw [hc, Nat.add_zero]; simp
   | succ d ih =>
     intro hd
@@ -390,17 +390,17 @@ theorem kVec_complete_gen [Fact p.Prime] (hN : 5 ≤ N) (pos lo nc c0 n : ℕ) (
   rw [kVec_toZ]
   have hj := j.isLt
   by_cases hl : j.val + 1 = N
-  · rw [if_pos hl, ZMod.natCast_zmod_val, show N - 1 = j.val by omega, vAt_val]
-  · rw [if_neg hl]
+  · rw [ite_eq_left hl, ZMod.natCast_zmod_val, show N - 1 = j.val by omega, vAt_val]
+  · rw [ite_eq_right hl]
     by_cases hc : kChain N pos j.val = true
-    · rw [if_pos hc, ZMod.natCast_zmod_val]
+    · rw [ite_eq_left hc, ZMod.natCast_zmod_val]
       have hjc := (hch j.val).mp hc
       have hch' := twChain_eq (vAt v) lo (N - 3) c0 (n : ZMod p) hc0
         (fun k hk1 hk2 => h k ((hch k).mpr (by omega)) ((hch (k + 1)).mpr (by omega)))
         (j.val - lo) (by omega)
       rw [show lo + (j.val - lo) = j.val by omega, vAt_val] at hch'
       exact hch'.symm
-    · rw [if_neg hc, ZMod.natCast_zmod_val,
+    · rw [ite_eq_right hc, ZMod.natCast_zmod_val,
         ← hnc j.val (by omega) (by simpa using hc), vAt_val]
 
 @[expose] def kLo : GGTWPos → ℕ
@@ -422,10 +422,10 @@ theorem kVec_complete [Fact p.Prime] (hN : 5 ≤ N) (pos : GGTWPos) (c0 n : ℕ)
       (vAt v (N - 1)).val) = v := by
   cases pos
   · exact kVec_complete_gen hN _ 1 0 c0 n v
-      (fun j => by simp [kChain, ggTWPosNat] <;> omega)
+      (fun j => by simp [kChain, ggTWPosNat]; omega)
       (fun j hj hc => by simp [kChain, ggTWPosNat] at hc; omega) hc0 h
   · exact kVec_complete_gen hN _ 0 (N - 2) c0 n v
-      (fun j => by simp [kChain, ggTWPosNat] <;> omega)
+      (fun j => by simp [kChain, ggTWPosNat])
       (fun j hj hc => by simp [kChain, ggTWPosNat] at hc; omega) hc0 h
 
 theorem kAN_complete [Fact p.Prime] (hN : 5 ≤ N) (pos : GGTWPos) (c0 m : ℕ) (v : GGDepAE p N)
@@ -446,7 +446,7 @@ theorem kAN_complete [Fact p.Prime] (hN : 5 ≤ N) (pos : GGTWPos) (c0 m : ℕ) 
     simp only [kNc, kLo, h0, ZMod.val_zero] at hv
     simpa [kAN, ggTWPosNat] using hv
 
-theorem twInJ_of_chain (hN : 5 ≤ N) (pos : GGTWPos) (k : ℕ)
+theorem twInJ_of_chain (_hN : 5 ≤ N) (pos : GGTWPos) (k : ℕ)
     (h1 : kChain N (ggTWPosNat pos) k = true) (h2 : kChain N (ggTWPosNat pos) (k + 1) = true) :
     ggTWInJ N pos k ∧ k + 2 < N := by
   cases pos <;> simp [kChain, ggTWPosNat, ggTWInJ] at h1 h2 ⊢ <;> omega
@@ -509,7 +509,7 @@ theorem mem_kOuter {pos c a b t a' b' : ℕ} (ha : a < p) (hb : b < p) (ht : t <
     (kVec p N pos c ((p - 1) % p) a b t, kVec p N pos c ((p - 1) % p) a' b' 0) ∈
       kOuter p N pos c := by
   simp only [kOuter, List.mem_flatMap, List.mem_range, List.mem_filterMap]
-  exact ⟨a, ha, b, hb, t, ht, a', ha', b', hb', by rw [if_pos (beq_iff_eq.mpr hd)]⟩
+  exact ⟨a, ha, b, hb, t, ht, a', ha', b', hb', by rw [ite_eq_left (beq_iff_eq.mpr hd)]⟩
 
 theorem mem_kInner {pos : ℕ} {o : GGDepANPair} {a b t u : ℕ} (ha : a < p) (hb : b < p)
     (ht : t < p) (hu : u < p)
@@ -519,7 +519,7 @@ theorem mem_kInner {pos : ℕ} {o : GGDepANPair} {a b t u : ℕ} (ha : a < p) (h
     (kVec p N pos 0 0 a b t, kAN p N pos 0 0 u) ∈ kInner p N pos o := by
   simp only [kInner, List.mem_flatMap, List.mem_range]
   refine ⟨a, ha, b, hb, t, ht, ?_⟩
-  rw [if_pos (beq_iff_eq.mpr h1), List.mem_filterMap]
+  rw [ite_eq_left (beq_iff_eq.mpr h1), List.mem_filterMap]
   exact ⟨u, List.mem_range.mpr hu, by simp [h2, h3]⟩
 
 theorem twPat1_wit {pos : GGTWPos} {c0 : ℕ} {m n : ℤ} (h : GGTWPat1 N pos c0 m n) :
@@ -564,7 +564,6 @@ theorem twdk_cells1 [Fact p.Prime] (hp2 : p ≠ 2) (hpN : p ∣ N) (hN : 5 ≤ N
   have hmem : (lh, la) ∈ kCells1 p N (ggTWPosNat pos) c0.val mi ni :=
     mem_kCells1 (ZMod.val_lt _) (ZMod.val_lt _) (ZMod.val_lt _) hu hd2
   obtain ⟨i, hi⟩ := kAll2_mem _ _ idx hchk _ hmem
-  try dsimp only at hi
   have hval : GGTWDValid p N (lh, la) := ⟨kVec_length _ _ _ _ _ _, kAN_length _ _ _ _, hd2⟩
   have htv := kTest_sound hp2 hN hF (news := [(lh, la)])
     (fun q hq => by rw [List.mem_singleton] at hq; subst hq; exact hval) _ hi
@@ -590,7 +589,7 @@ theorem twdk_res2 [Fact p.Prime] (hp2 : p ≠ 2) (hpN : p ∣ N) (hN : 5 ≤ N)
   obtain ⟨e, d, hed, hde, hfr, hdh, hea, hd0, α', hα', hα0, hα1⟩ := twNorm hpN hN αa2 hx2
   have hα1d : ∀ v, ggDepAdot αa1 v = ggDepAdot αa1 (d v) := fun v => (hd0 αa1 hx1 v).symm
   obtain ⟨hb, h12, h21, h11, h22⟩ := hpair
-  simp only [reduceCtorEq, if_false, if_true, eq_self_iff_true] at hb h12 h21
+  simp only [reduceCtorEq, ite_false, ite_true] at hb h12 h21
   have hH1 := kVec_complete hN pos c.val ((p - 1) % p) (e ha1) (Or.inl hJ)
     (twChainH hN pos c.val _ (e ha1) fun c' hc' => by
       rw [hea, (hb c' hc').2.1, twCast_neg_one]
@@ -649,11 +648,10 @@ theorem twdk_res2 [Fact p.Prime] (hp2 : p ≠ 2) (hpN : p ∣ N) (hN : 5 ≤ N)
       exact Set.mem_union_right _ (Set.mem_insert_of_mem _ (Set.mem_singleton _))
   have hv1 : GGTWDValid p N (lh1, la1) := ⟨kVec_length _ _ _ _ _ _, kVec_length _ _ _ _ _ _, d11⟩
   by_cases h0 : en.1 = 0
-  · rw [if_pos h0] at hen
+  · rw [ite_eq_left h0] at hen
     have hmemI : (lh2, la2) ∈ kInner p N (ggTWPosNat pos) (lh1, la1) :=
       mem_kInner (ZMod.val_lt _) (ZMod.val_lt _) (ZMod.val_lt _) hu d12 d22 d21
     obtain ⟨j, hj⟩ := kAll2_mem _ _ _ hen _ hmemI
-    try dsimp only at hj
     have hv2 : GGTWDValid p N (lh2, la2) := ⟨kVec_length _ _ _ _ _ _, kAN_length _ _ _ _, d22⟩
     refine hback _ (fun q hq => ?_) (kTest_sound hp2 hN hF ?_ _ hj)
     · simp only [List.mem_cons, List.not_mem_nil, or_false] at hq
@@ -663,7 +661,7 @@ theorem twdk_res2 [Fact p.Prime] (hp2 : p ≠ 2) (hpN : p ∣ N) (hN : 5 ≤ N)
       rcases hq with rfl | rfl
       · exact hv1
       · exact hv2
-  · rw [if_neg h0] at hen
+  · rw [ite_eq_right h0] at hen
     refine hback _ (fun q hq => ?_) (kTest_sound hp2 hN hF ?_ _ hen)
     · rw [List.mem_singleton] at hq
       exact Or.inl hq

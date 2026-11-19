@@ -169,7 +169,7 @@ private theorem l02qq2lb_recipeEquiv_symm_linConjAut {d : ℕ} {K : Type} [Field
     ((CFSG.StandardType.TypeA.recipeEquiv d K).symm z)
   rw [h, MulEquiv.apply_symm_apply, MulEquiv.apply_symm_apply]
 
-theorem q2Lin_block {N : ℕ} (hN : 2 ≤ N) {K : Type} [Field K] [Finite K] [CharP K 2]
+theorem q2Lin_block {N : ℕ} (_hN : 2 ≤ N) {K : Type} [Field K] [Finite K] [CharP K 2]
     (g : GL (Fin N) K) (hg : Odd (orderOf g)) (C : Subgroup (GL (Fin N) K))
     (hC : CFSG.Assembly.IsComponentOf C (Subgroup.centralizer ({g} : Set (GL (Fin N) K))))
     (hCSL : C ≤ LargeEvenSLGroup (Fin N) K)
@@ -199,9 +199,9 @@ theorem q2Lin_block {N : ℕ} (hN : 2 ≤ N) {K : Type} [Field K] [Finite K] [Ch
     exact (CFSG.Assembly.isComponentOf_iff_open).1 hM''
   obtain ⟨r, D, d, hFld, hFin, hAlg, Φ, θ, hd1, hΦinj, hθinj, hθrange, hθapply, i, hd2, hMeq⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.K1419.k1419ClsLinBlock_exists g hord C hM
-  letI : ∀ j, Field (D j) := hFld
-  haveI : ∀ j, Finite (D j) := hFin
-  letI : ∀ j, Algebra K (D j) := hAlg
+  let : ∀ j, Field (D j) := hFld
+  have : ∀ j, Finite (D j) := hFin
+  let : ∀ j, Algebra K (D j) := hAlg
   let mulI : GL (Fin (d i)) (D i) →* (∀ j, GL (Fin (d j)) (D j)) :=
     MonoidHom.mulSingle (fun j => GL (Fin (d j)) (D j)) i
   have hmulI_inj : Function.Injective mulI := by

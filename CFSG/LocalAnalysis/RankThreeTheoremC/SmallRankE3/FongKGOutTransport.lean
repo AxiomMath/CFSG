@@ -24,7 +24,7 @@ theorem kg_symm_apply {K K' : Type} [Group K] [Group K'] (e : K ≃* K') (σ' : 
 theorem kg_fix_eq {K K' : Type} [Group K] [Group K'] (e : K ≃* K') (σ' : MulAut K') :
     {k : K | (MulAut.congr e).symm σ' k = k} = e.symm '' {k' : K' | σ' k' = k'} := by
   ext k
-  simp only [Set.mem_setOf_eq, Set.mem_image, kg_symm_apply]
+  simp only [Set.mem_ofPred_eq, Set.mem_image, kg_symm_apply]
   constructor
   · intro hk
     exact ⟨e k, e.symm_apply_eq.mp hk, e.symm_apply_apply k⟩

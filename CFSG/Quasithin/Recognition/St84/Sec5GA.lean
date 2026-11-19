@@ -105,19 +105,19 @@ private theorem exists_mem_centralizer_coset_Q_one (Y : Setup Γ G) (H : Y.Sec5H
     {X : Subgroup G} (hQX : Y.Q 1 ≤ X) (hXL : X ≤ Y.L 1)
     (hKX : Y.K ≤ Subgroup.normalizer (X : Set G)) {x : G} (hx : x ∈ X) :
     ∃ c ∈ X ⊓ Subgroup.centralizer (Y.K : Set G), c⁻¹ * x ∈ Y.Q 1 := by
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hXfin : Finite ↥X :=
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hXfin : Finite ↥X :=
     finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := X) (hXL.trans (Y.L_le_Gi 1))
-  haveI hKfin : Finite ↥(Y.K) :=
+  have hKfin : Finite ↥(Y.K) :=
     finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := Y.K) (Y.K_le_Gi 1)
-  haveI hKnorm : Y.K.Normalizes X := ⟨hKX⟩
+  have hKnorm : Y.K.Normalizes X := ⟨hKX⟩
   let N : Subgroup ↥X := (Y.Q 1).subgroupOf X
   have hLN : X ≤ Subgroup.normalizer (Y.Q 1 : Set G) :=
     hXL.trans ((Y.L_le_Gi 1).trans
       (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (Y.Gi 1)))
   have hNnormal : N.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQX).mpr hLN
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hNinv : CFSG.IsInvariant ↥Y.K ↥X N := by
     refine ⟨fun k y => ⟨fun hy => ?_, fun hy => ?_⟩⟩
     · rw [Subgroup.mem_subgroupOf, Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe]
@@ -130,19 +130,19 @@ private theorem exists_mem_centralizer_coset_Q_one (Y : Setup Γ G) (H : Y.Sec5H
       exact (Subgroup.mem_normalizer_iff.mp
         (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (Y.Gi 1) (Y.K_le_Gi 1 k.2))
         (y : G)).mpr hy'
-  haveI hQfin : Finite ↥(Y.Q 1) :=
+  have hQfin : Finite ↥(Y.Q 1) :=
     Finite.of_injective (Subgroup.inclusion (Y.Q_le_Gi 1)) (Subgroup.inclusion_injective _)
   have hNcard : Nat.card ↥N = Nat.card ↥(Y.Q 1) :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQX).toEquiv
-  haveI hNfin : Finite ↥N :=
+  have hNfin : Finite ↥N :=
     Finite.of_injective (Subgroup.subtype N) (Subgroup.subtype_injective N)
   have hNp : IsPGroup 2 ↥N := by
     have h := pCoreOf_isPGroup' (Y.Gi 1)
     rw [IsPGroup.iff_card] at h ⊢
     obtain ⟨a, ha⟩ := h
     exact ⟨a, by rw [hNcard, ha]⟩
-  haveI hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hNnil : Group.IsNilpotent ↥N := IsPGroup.isNilpotent (p := 2) hNp
+  have hfact : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hNnil : Group.IsNilpotent ↥N := IsPGroup.isNilpotent (p := 2) hNp
   have hNsolv : Group.IsSolvable ↥N := inferInstance
   have hKodd : Odd (Nat.card ↥Y.K) := Y.odd_card_K
   obtain ⟨a, ha⟩ := (pCoreOf_isPGroup' (Y.Gi 1)).exists_card_eq
@@ -226,7 +226,7 @@ private theorem card_S_centralizer (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
 
 private theorem Gi0_relIndex_M (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     (Y.Gi 0).relIndex (Y.N ⊓ Y.Gi 1) = 3 := by
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
   have hrel := FanTree.relIndex_stabilizer_eq_ncard_orbit (G := G) (V := V)
     (H := Y.N ⊓ Y.Gi 1) (b := Y.vert 0)
   have horb : MulAction.orbit (↥(Y.N ⊓ Y.Gi 1)) (Y.vert 0) =
@@ -257,8 +257,8 @@ private theorem L_one_eq_centralizer_sup_Q (Y : Setup Γ G) (H : Y.Sec5Hyp s n�
 
 private theorem Q_one_relIndex_L_centralizer (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     (Y.Q 1).relIndex (Y.L 1 ⊓ Subgroup.centralizer (Y.K : Set G)) = 6 := by
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hLfin : Finite ↥(Y.L 1) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi 1)
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hLfin : Finite ↥(Y.L 1) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi 1)
   have hT' : Y.L 1 ⊓ Subgroup.centralizer (Y.K : Set G) ≤
       Subgroup.normalizer (Y.Q 1 : Set G) :=
     inf_le_left.trans ((Y.L_le_Gi 1).trans
@@ -266,7 +266,7 @@ private theorem Q_one_relIndex_L_centralizer (Y : Setup Γ G) (H : Y.Sec5Hyp s n
   rw [← F1.relIndex_sup_eq_of_le_normalizer (D := Y.Q 1) hT',
     L_one_eq_centralizer_sup_Q Y H]
   have hLcard : Nat.card ↥(Y.L 1) = 6 * Nat.card ↥(Y.Q 1) := card_L_one Y H
-  haveI hQfin : Finite ↥(Y.Q 1) :=
+  have hQfin : Finite ↥(Y.Q 1) :=
     Finite.of_injective (Subgroup.inclusion (Y.Q_le_Gi 1)) (Subgroup.inclusion_injective _)
   have hqpos : 0 < Nat.card ↥(Y.Q 1) := Nat.card_pos
   have h := Subgroup.relIndex_mul_card (H := Y.Q 1) (K := Y.L 1)
@@ -289,7 +289,7 @@ private theorem M_inf_Gi0_eq (Y : Setup Γ G) :
     exact Y.K_inf_edgeSylow 0
   have hLHS : Y.N ⊓ Y.Gi 1 ⊓ Y.Gi 0 = Y.N ⊓ (Y.Gi 0 ⊓ Y.Gi 1) := by
     rw [inf_assoc, inf_comm (Y.Gi 1) (Y.Gi 0)]
-  haveI hSnormal01 : (Y.S.subgroupOf (Y.Gi 0 ⊓ Y.Gi 1)).Normal :=
+  have hSnormal01 : (Y.S.subgroupOf (Y.Gi 0 ⊓ Y.Gi 1)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hSle).mpr
       (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (Y.Gi 0 ⊓ Y.Gi 1))
   refine le_antisymm ?_ ?_
@@ -362,12 +362,12 @@ private theorem S_centralizer_le_Gi_one (Y : Setup Γ G) :
 
 private theorem card_normalizer_K_inf_Gi_one (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     Nat.card ↥(Y.N ⊓ Y.Gi 1) = 6 * Nat.card ↥(Y.Qs 1) * Nat.card ↥Y.K := by
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hMfin : Finite ↥(Y.N ⊓ Y.Gi 1) :=
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hMfin : Finite ↥(Y.N ⊓ Y.Gi 1) :=
     Finite.of_injective (Subgroup.inclusion inf_le_right) (Subgroup.inclusion_injective _)
-  haveI hKfin : Finite ↥Y.K :=
+  have hKfin : Finite ↥Y.K :=
     finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := Y.K) (Y.K_le_Gi 1)
-  haveI hCfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
+  have hCfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
     finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := _)
       (S_centralizer_le_Gi_one Y)
   have hKNS : Y.K ≤ Subgroup.normalizer (Y.S : Set G) :=
@@ -430,8 +430,8 @@ private theorem S_centralizer_not_normal_of_trans (Y : Setup Γ G) (H : Y.Sec5Hy
     {A : Subgroup G} (hA : ∀ w : V, Γ.Adj (Y.vert 1) w → ∃ m ∈ A, m • Y.vert 0 = w) :
     ¬ A ≤ Subgroup.normalizer ((Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) : Set G) := by
   intro hN
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hQfin : Finite ↥(Y.Qs 1) :=
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hQfin : Finite ↥(Y.Qs 1) :=
     Finite.of_injective (Subgroup.inclusion ((inf_le_left).trans (Y.Q_le_Gi 1)))
       (Subgroup.inclusion_injective _)
   have hfix : ∀ x ∈ Y.S ⊓ Subgroup.centralizer (Y.K : Set G), ∀ w : V,
@@ -522,10 +522,10 @@ private theorem eq_two_or_eq_six_of_dvd_six {x : ℕ} (hx : x ∣ 6) (h2 : 2 ∣
 
 private theorem J_eq_L_centralizer (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     Y.J 1 = Y.L 1 ⊓ Subgroup.centralizer (Y.K : Set G) := by
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hLfin : Finite ↥(Y.L 1) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi 1)
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hLfin : Finite ↥(Y.L 1) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi 1)
   have hJle : Y.J 1 ≤ Y.L 1 ⊓ Subgroup.centralizer (Y.K : Set G) := J_le_L_and_C Y H
-  haveI hJfin : Finite ↥(Y.J 1) :=
+  have hJfin : Finite ↥(Y.J 1) :=
     Finite.of_injective (Subgroup.inclusion (hJle.trans inf_le_left))
       (Subgroup.inclusion_injective _)
   have hMS : Y.S ⊓ Subgroup.centralizer (Y.K : Set G) ≤ Y.N ⊓ Y.Gi 1 :=
@@ -536,10 +536,10 @@ private theorem J_eq_L_centralizer (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
   have hQsS : Y.Qs 1 ≤ Y.S ⊓ Subgroup.centralizer (Y.K : Set G) :=
     Qs_one_le_S_centralizer Y
   have hQsX : Y.Qs 1 ≤ Y.L 1 ⊓ Subgroup.centralizer (Y.K : Set G) := hQsJ.trans hJle
-  haveI hQfin : Finite ↥(Y.Qs 1) :=
+  have hQfin : Finite ↥(Y.Qs 1) :=
     Finite.of_injective (Subgroup.inclusion ((inf_le_left).trans (Y.Q_le_Gi 1)))
       (Subgroup.inclusion_injective _)
-  haveI hXfin : Finite ↥(Y.L 1 ⊓ Subgroup.centralizer (Y.K : Set G)) :=
+  have hXfin : Finite ↥(Y.L 1 ⊓ Subgroup.centralizer (Y.K : Set G)) :=
     finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := _) (inf_le_left.trans (Y.L_le_Gi 1))
   have hdvd : (Y.Qs 1).relIndex (Y.J 1) ∣ 6 := by
     refine ⟨(Y.J 1).relIndex (Y.L 1 ⊓ Subgroup.centralizer (Y.K : Set G)), ?_⟩
@@ -563,7 +563,7 @@ private theorem J_eq_L_centralizer (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
       have h := Subgroup.relIndex_mul_card (H := Y.Qs 1) (K := Y.J 1)
       rw [inf_eq_left.mpr hQsJ, h2] at h
       exact h.symm
-    haveI hCfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
+    have hCfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
       finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := _)
         (S_centralizer_le_Gi_one Y)
     have heqS' : Y.S ⊓ Subgroup.centralizer (Y.K : Set G) = Y.J 1 := by
@@ -591,10 +591,10 @@ private theorem J_eq_L_centralizer (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
 
 private theorem S_centralizer_sylow_M (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     IsSylowTwoOf (Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) (Y.N ⊓ Y.Gi 1) := by
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hMfin : Finite ↥(Y.N ⊓ Y.Gi 1) :=
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hMfin : Finite ↥(Y.N ⊓ Y.Gi 1) :=
     Finite.of_injective (Subgroup.inclusion inf_le_right) (Subgroup.inclusion_injective _)
-  haveI hCfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
+  have hCfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
     finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := _)
       (S_centralizer_le_Gi_one Y)
   have hle : Y.S ⊓ Subgroup.centralizer (Y.K : Set G) ≤ Y.N ⊓ Y.Gi 1 := by
@@ -604,10 +604,10 @@ private theorem S_centralizer_sylow_M (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
         (Y.L_le_Gi 1) ((S_le_L_one Y) hx.1)⟩
   refine ⟨hle, isPGroup_S_centralizer Y, ?_⟩
   · intro h2
-    haveI hQfin : Finite ↥(Y.Qs 1) :=
+    have hQfin : Finite ↥(Y.Qs 1) :=
       Finite.of_injective (Subgroup.inclusion ((inf_le_left).trans (Y.Q_le_Gi 1)))
         (Subgroup.inclusion_injective _)
-    haveI hKfin : Finite ↥Y.K :=
+    have hKfin : Finite ↥Y.K :=
       finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := Y.K) (Y.K_le_Gi 1)
     have hm := Subgroup.relIndex_mul_card (H := Y.S ⊓ Subgroup.centralizer (Y.K : Set G))
       (K := Y.N ⊓ Y.Gi 1)
@@ -628,10 +628,10 @@ private theorem S_centralizer_sylow_M (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
 
 private theorem pCoreOf_M_le_S_centralizer (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     pCoreOf 2 (Y.N ⊓ Y.Gi 1) ≤ Y.S ⊓ Subgroup.centralizer (Y.K : Set G) := by
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hMfin : Finite ↥(Y.N ⊓ Y.Gi 1) :=
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hMfin : Finite ↥(Y.N ⊓ Y.Gi 1) :=
     Finite.of_injective (Subgroup.inclusion inf_le_right) (Subgroup.inclusion_injective _)
-  haveI hCfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
+  have hCfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
     finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := _)
       (S_centralizer_le_Gi_one Y)
   have hSp : IsPGroup 2 ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
@@ -644,7 +644,7 @@ private theorem pCoreOf_M_le_S_centralizer (Y : Setup Γ G) (H : Y.Sec5Hyp s n�
   have hQH : pCoreOf 2 (Y.N ⊓ Y.Gi 1) ⊔ Y.S ⊓ Subgroup.centralizer (Y.K : Set G) ≤
       Y.N ⊓ Y.Gi 1 :=
     sup_le (CFSG.LieType.BorelTits.pCoreOf_le 2 (Y.N ⊓ Y.Gi 1)) (S_centralizer_le_M Y)
-  haveI hQfin2 : Finite ↥(pCoreOf 2 (Y.N ⊓ Y.Gi 1) ⊔
+  have hQfin2 : Finite ↥(pCoreOf 2 (Y.N ⊓ Y.Gi 1) ⊔
       Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
     Finite.of_injective (Subgroup.inclusion hQH) (Subgroup.inclusion_injective _)
   have heq := CFSG.GroupTheory.eq_of_isSylowTwoOf_of_le (S_centralizer_sylow_M Y H) hQp
@@ -658,18 +658,18 @@ private theorem Qs_relIndex_J (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
 
 theorem pCoreOf_J (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     pCoreOf 2 (Y.J 1) = Y.Qs 1 := by
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hLfin : Finite ↥(Y.L 1) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi 1)
-  haveI hJfin : Finite ↥(Y.J 1) :=
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hLfin : Finite ↥(Y.L 1) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi 1)
+  have hJfin : Finite ↥(Y.J 1) :=
     Finite.of_injective
       (Subgroup.inclusion (Y.J_le_L 1))
       (Subgroup.inclusion_injective _)
-  haveI hMfin : Finite ↥(Y.N ⊓ Y.Gi 1) :=
+  have hMfin : Finite ↥(Y.N ⊓ Y.Gi 1) :=
     Finite.of_injective (Subgroup.inclusion inf_le_right) (Subgroup.inclusion_injective _)
-  haveI hCfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
+  have hCfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
     finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := _)
       (S_centralizer_le_Gi_one Y)
-  haveI hQfin : Finite ↥(Y.Qs 1) :=
+  have hQfin : Finite ↥(Y.Qs 1) :=
     Finite.of_injective (Subgroup.inclusion ((inf_le_left).trans (Y.Q_le_Gi 1)))
       (Subgroup.inclusion_injective _)
   have hQs_le : Y.Qs 1 ≤ pCoreOf 2 (Y.J 1) := by
@@ -723,7 +723,7 @@ theorem pCoreOf_J (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
 theorem J_trans (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     ∀ a b : V, Γ.Adj (Y.vert 1) a → Γ.Adj (Y.vert 1) b → ∃ g ∈ Y.J 1, g • a = b := by
   intro a b ha hb
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
   obtain ⟨l, hl, hlab⟩ := (Y.hyp.isLocL2_oTwoPrime (Y.vert 1)).trans a b ha hb
   obtain ⟨c, hc, hcl⟩ := exists_mem_centralizer_coset_Q_one Y H (Y.Q_le_L 1) le_rfl
     ((Y.K_le_Gi 1).trans (le_normalizer_oTwoPrime (Y.Gi 1))) hl
@@ -909,13 +909,13 @@ theorem St_sylow (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     IsSylowTwoOf (Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) (Y.J 1) ∧
       (Y.Qs 1).relIndex (Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) = 2 ∧
       (Y.S ⊓ Subgroup.centralizer (Y.K : Set G)).relIndex (Y.J 1) = 3 := by
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hLfin : Finite ↥(Y.L 1) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi 1)
-  haveI hJfin : Finite ↥(Y.J 1) :=
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hLfin : Finite ↥(Y.L 1) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi 1)
+  have hJfin : Finite ↥(Y.J 1) :=
     Finite.of_injective
       (Subgroup.inclusion (Y.J_le_L 1))
       (Subgroup.inclusion_injective _)
-  haveI hCfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
+  have hCfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
     finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := _)
       (S_centralizer_le_Gi_one Y)
   have hSJ : Y.S ⊓ Subgroup.centralizer (Y.K : Set G) ≤ Y.J 1 := S_centralizer_le_J Y
@@ -938,20 +938,20 @@ theorem St_sylow (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
 
 theorem exists_J_three (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     ∃ d ∈ Y.J 1, orderOf d = 3 := by
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hLfin : Finite ↥(Y.L 1) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi 1)
-  haveI hJfin : Finite ↥(Y.J 1) :=
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hLfin : Finite ↥(Y.L 1) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi 1)
+  have hJfin : Finite ↥(Y.J 1) :=
     Finite.of_injective
       (Subgroup.inclusion (Y.J_le_L 1))
       (Subgroup.inclusion_injective _)
-  haveI hQfin : Finite ↥(Y.Qs 1) :=
+  have hQfin : Finite ↥(Y.Qs 1) :=
     Finite.of_injective (Subgroup.inclusion ((inf_le_left).trans (Y.Q_le_Gi 1)))
       (Subgroup.inclusion_injective _)
   have h3dvd : 3 ∣ Nat.card ↥(Y.J 1) := by
     have hm := Subgroup.relIndex_mul_card (H := Y.Qs 1) (K := Y.J 1)
     rw [inf_eq_left.mpr (Qs_le_J Y), Qs_relIndex_J Y H] at hm
     exact ⟨2 * Nat.card ↥(Y.Qs 1), by rw [← hm]; ring⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d, hd⟩ := exists_prime_orderOf_dvd_card' 3 h3dvd
   refine ⟨(d : G), d.2, ?_⟩
   rw [← hd]
@@ -1005,7 +1005,7 @@ private theorem S_centralizer_le_Gi_neg_one (Y : Setup Γ G) (H : Y.Sec5Hyp s n�
 private theorem S_centralizer_sup_zpowers_eq_J (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {d : G}
     (hd : d ∈ Y.J 1) (hd3 : orderOf d = 3) :
     Y.S ⊓ Subgroup.centralizer (Y.K : Set G) ⊔ Subgroup.zpowers d = Y.J 1 := by
-  haveI hStfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
+  have hStfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
     finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := _) (S_centralizer_le_Gi_one Y)
   have hStJ : Y.S ⊓ Subgroup.centralizer (Y.K : Set G) ≤ Y.J 1 := (St_sylow Y H).1.1
   have hStrel : (Y.S ⊓ Subgroup.centralizer (Y.K : Set G)).relIndex (Y.J 1) = 3 :=
@@ -1053,8 +1053,8 @@ private theorem S_centralizer_sup_zpowers_eq_J (Y : Setup Γ G) (H : Y.Sec5Hyp s
 private theorem J_one_le_normalizer_Qs_sup_zpowers (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     {d : G} (hd : d ∈ Y.J 1) (hd3 : orderOf d = 3) :
     Y.J 1 ≤ Subgroup.normalizer ((Y.Qs 1 ⊔ Subgroup.zpowers d : Subgroup G) : Set G) := by
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hQfin : Finite ↥(Y.Qs 1) :=
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hQfin : Finite ↥(Y.Qs 1) :=
     Finite.of_injective (Subgroup.inclusion ((inf_le_left).trans (Y.Q_le_Gi 1)))
       (Subgroup.inclusion_injective _)
   have hQsJ : Y.Qs 1 ≤ Y.J 1 := Qs_le_J Y
@@ -1137,7 +1137,7 @@ private theorem mem_normalizer_S_centralizer (Y : Setup Γ G) (H : Y.Sec5Hyp s n
     {t d q : G} (ht : t ∈ Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) (htQs : t ∉ Y.Qs 1)
     (hd : d ∈ Y.J 1) (hq : q ∈ Y.Qs 1) (htd : t * d * t⁻¹ = q * d) :
     d ∈ Subgroup.normalizer ((Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) : Set G) := by
-  haveI hStfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
+  have hStfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
     finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := _) (S_centralizer_le_Gi_one Y)
   have hSt_eq := S_centralizer_eq_Qs_sup_zpowers Y H ht htQs
   have hQsN : Y.J 1 ≤ Subgroup.normalizer (Y.Qs 1 : Set G) := J_one_le_normalizer_Qs_one Y H
@@ -1201,12 +1201,12 @@ private theorem Qs_neg_one_eq (Y : Setup Γ G) :
 private theorem S_centralizer_relIndex_J_neg_one (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     Y.S ⊓ Subgroup.centralizer (Y.K : Set G) ≤ Y.J (-1) ∧
       (Y.S ⊓ Subgroup.centralizer (Y.K : Set G)).relIndex (Y.J (-1)) = 3 := by
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hJfin : Finite ↥(Y.J 1) :=
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hJfin : Finite ↥(Y.J 1) :=
     Finite.of_injective
       (Subgroup.inclusion (Y.J_le_L 1 |>.trans (Y.L_le_Gi 1)))
       (Subgroup.inclusion_injective _)
-  haveI hStfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
+  have hStfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
     finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := _) (S_centralizer_le_Gi_one Y)
   have hSt2 : IsPGroup 2 ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
     (St_sylow Y H).1.2.1
@@ -1244,14 +1244,14 @@ private theorem S_centralizer_relIndex_J_neg_one (Y : Setup Γ G) (H : Y.Sec5Hyp
 
 private theorem Qs_neg_one_le_S_centralizer (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     Y.Qs (-1) ≤ Y.S ⊓ Subgroup.centralizer (Y.K : Set G) := by
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hJfin : Finite ↥(Y.J 1) :=
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hJfin : Finite ↥(Y.J 1) :=
     Finite.of_injective
       (Subgroup.inclusion (Y.J_le_L 1 |>.trans (Y.L_le_Gi 1)))
       (Subgroup.inclusion_injective _)
-  haveI hStfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
+  have hStfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
     finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := _) (S_centralizer_le_Gi_one Y)
-  haveI hJnegfin : Finite ↥(Y.J (-1)) := by
+  have hJnegfin : Finite ↥(Y.J (-1)) := by
     have hcard : Nat.card ↥(Y.J (-1)) = Nat.card ↥(Y.J 1) := by
       rw [J_neg_one_eq Y]
       exact Subgroup.card_map_of_injective (MulAut.conj (Y.τ ^ (-1 : ℤ))).injective
@@ -1289,7 +1289,7 @@ private theorem Qs_neg_one_le_S_centralizer (Y : Setup Γ G) (H : Y.Sec5Hyp s n�
       (L := Y.J (-1)) le_sup_right hsupJ
     rw [hrelSt_neg] at h
     exact ⟨_, h.symm⟩
-  haveI hsupfin : Finite ↥(Y.Qs (-1) ⊔ (Y.S ⊓ Subgroup.centralizer (Y.K : Set G))) :=
+  have hsupfin : Finite ↥(Y.Qs (-1) ⊔ (Y.S ⊓ Subgroup.centralizer (Y.K : Set G))) :=
     Finite.of_injective (Subgroup.inclusion hsupJ) (Subgroup.inclusion_injective _)
   obtain ⟨k, hk⟩ := hsup2.exists_card_eq
   have hdiv2 : (Y.S ⊓ Subgroup.centralizer (Y.K : Set G)).relIndex
@@ -1338,18 +1338,18 @@ theorem J_sup_Q_and_inv (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
   · rw [J_eq_L_centralizer Y H]
     exact (L_one_eq_centralizer_sup_Q Y H).symm
   · intro t htSt htQs d hdJ hd3
-    haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-    haveI hJfin : Finite ↥(Y.J 1) :=
+    have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+    have hJfin : Finite ↥(Y.J 1) :=
       Finite.of_injective
         (Subgroup.inclusion (Y.J_le_L 1 |>.trans (Y.L_le_Gi 1)))
         (Subgroup.inclusion_injective _)
-    haveI hQfin : Finite ↥(Y.Qs 1) :=
+    have hQfin : Finite ↥(Y.Qs 1) :=
       Finite.of_injective (Subgroup.inclusion ((inf_le_left).trans (Y.Q_le_Gi 1)))
         (Subgroup.inclusion_injective _)
-    haveI hStfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
+    have hStfin : Finite ↥(Y.S ⊓ Subgroup.centralizer (Y.K : Set G)) :=
       finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := _)
         (S_centralizer_le_Gi_one Y)
-    haveI : Finite ↥(Y.Q 1 ⊓ Subgroup.centralizer (Y.K : Set G)) := hQfin
+    have : Finite ↥(Y.Q 1 ⊓ Subgroup.centralizer (Y.K : Set G)) := hQfin
     have hQsJ : Y.Qs 1 ≤ Y.J 1 := Qs_le_J Y
     have hQsN : Y.J 1 ≤ Subgroup.normalizer (Y.Qs 1 : Set G) := J_one_le_normalizer_Qs_one Y H
     have hStJ : Y.S ⊓ Subgroup.centralizer (Y.K : Set G) ≤ Y.J 1 := (St_sylow Y H).1.1
@@ -1369,7 +1369,7 @@ theorem J_sup_Q_and_inv (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     have hsub_sup : (Y.Qs 1).subgroupOf A ⊔ (Subgroup.zpowers d).subgroupOf A = ⊤ := by
       rw [← Subgroup.subgroupOf_sup le_sup_left le_sup_right]
       exact Subgroup.subgroupOf_self A
-    haveI hQsnormalA : ((Y.Qs 1).subgroupOf A).Normal :=
+    have hQsnormalA : ((Y.Qs 1).subgroupOf A).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr (hAJ.trans hQsN)
     have hmemA : (⟨t * d * t⁻¹, htdt⟩ : ↥A) ∈
         (Y.Qs 1).subgroupOf A ⊔ (Subgroup.zpowers d).subgroupOf A := by
@@ -1450,19 +1450,19 @@ theorem goldschmidt_small_apply (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {d : G}
             Nat.card ↥(⁅Y.Qs 1, Subgroup.zpowers d⁆ ⊓
               Subgroup.centralizer ({t} : Set G)) = 2) := by
   set St : Subgroup G := Y.S ⊓ Subgroup.centralizer (Y.K : Set G) with hStdef
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hJfin : Finite ↥(Y.J 1) :=
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hJfin : Finite ↥(Y.J 1) :=
     Finite.of_injective
       (Subgroup.inclusion (Y.J_le_L 1 |>.trans (Y.L_le_Gi 1)))
       (Subgroup.inclusion_injective _)
-  haveI hCfin : Finite ↥St := by
+  have hCfin : Finite ↥St := by
     rw [hStdef]
     exact finite_of_le_stabilizer Y.hyp (α := Y.vert 1) (H := _) (S_centralizer_le_Gi_one Y)
-  haveI hGnegfin : Finite ↥(Y.Gi (-1)) := Y.hyp.finite_stab (Y.vert (-1))
-  haveI hQfin : Finite ↥(Y.Qs 1) :=
+  have hGnegfin : Finite ↥(Y.Gi (-1)) := Y.hyp.finite_stab (Y.vert (-1))
+  have hQfin : Finite ↥(Y.Qs 1) :=
     Finite.of_injective (Subgroup.inclusion ((inf_le_left).trans (Y.Q_le_Gi 1)))
       (Subgroup.inclusion_injective _)
-  haveI hQsnegfin : Finite ↥(Y.Qs (-1)) :=
+  have hQsnegfin : Finite ↥(Y.Qs (-1)) :=
     Finite.of_injective (Subgroup.inclusion ((inf_le_left).trans (Y.Q_le_Gi (-1))))
       (Subgroup.inclusion_injective _)
   have hSt2 : IsPGroup 2 ↥St := (St_sylow Y H).1.2.1
@@ -1517,8 +1517,8 @@ theorem goldschmidt_small_apply (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {d : G}
 theorem card_Qs_inf_centralizer (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) {d : G}
     (hd : d ∈ Y.J 1) (hd3 : orderOf d = 3) :
     Nat.card ↥(Y.Qs 1 ⊓ Subgroup.centralizer ({d} : Set G)) ≤ 2 := by
-  haveI hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-  haveI hQfin : Finite ↥(Y.Qs 1) :=
+  have hGfin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hQfin : Finite ↥(Y.Qs 1) :=
     Finite.of_injective (Subgroup.inclusion ((inf_le_left).trans (Y.Q_le_Gi 1)))
       (Subgroup.inclusion_injective _)
   by_cases h4 : 4 ≤ Nat.card (Y.Qs 1)

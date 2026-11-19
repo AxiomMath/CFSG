@@ -25,7 +25,7 @@ private theorem frobenius_algebraMap {K Ω : Type} [Field K] [Finite K] [Field �
     Fr (algebraMap K Ω c) = algebraMap K Ω c := by
   rw [hFr, ← map_pow]
   have hpow : c ^ Nat.card K = c := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
   rw [hpow]
@@ -77,7 +77,7 @@ private theorem mapRange_rootVec {K Ω : Type} [Field K] [Field Ω] (ι : K →+
     Finsupp.mapRange ι ι.map_zero (rootVec Tag.E6 K β) = rootVec Tag.E6 Ω β := by
   rw [rootVec_eq_single_of_isRoot hβ, rootVec_eq_single_of_isRoot hβ]
   ext b
-  simp [Finsupp.mapRange_apply]
+  simp
 
 private theorem mapsRootLines_baseChangeGL {K Ω : Type} [Field K] [Field Ω] (ι : K →+* Ω)
     {g : ModGL Tag.E6 K} {w : WeylGroup Tag.E6} (hg : MapsRootLines g w) :
@@ -123,10 +123,10 @@ private theorem a2BlockSplit_i2 {K : Type} [Field K] [Finite K] [CharP K 2]
   classical
   let Ω := AlgebraicClosure K
   let ι : K →+* Ω := algebraMap K Ω
-  haveI : IsAlgClosure K Ω := inferInstance
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
-  haveI : Fintype K := Fintype.ofFinite K
+  have : IsAlgClosure K Ω := inferInstance
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hkcard⟩ := FiniteField.card K 2
   have hk : Nat.card K = 2 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hkcard]
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 (n : ℕ)
@@ -180,7 +180,7 @@ end Helpers
 
 theorem a2BlockSplit_holds {K : Type} [Field K] [Finite K] [CharP K 2] (h3 : 3 ∣ Nat.card K - 1)
     {ζ : Kˣ} (hζ : ζ ^ 3 = 1) (hζo : orderOf ζ = 3) (i : Fin 3)
-    {E : Subgroup (ModGL Tag.E6 K)} (hE : CFSG.Open.IsElemAbelian 3 E) (hEH : E ≤ hatGroup Tag.E6 K)
+    {E : Subgroup (ModGL Tag.E6 K)} (hE : CFSG.Open.IsElemAbelian 3 E) (_hEH : E ≤ hatGroup Tag.E6 K)
     (hEX : E ≤ xHat Tag.E6 K (Subgroup.zpowers (gE6 i))) :
     ∃ z ∈ hatGroup Tag.E6 K, ∀ e ∈ E, ∃ v, z * e * z⁻¹ = rootDiagUnit Tag.E6 (zetaVec ζ hζ v) := by
   classical

@@ -45,7 +45,7 @@ theorem sSupIndep_image_map {G H : Type*} [Group G] [Group H] (f : G →* H)
   rintro _ ⟨a, ha, rfl⟩
   have hinj : Function.Injective (Subgroup.map f) := Subgroup.map_injective hf
   have hset : (Subgroup.map f) '' 𝒞 \ {Subgroup.map f a} = (Subgroup.map f) '' (𝒞 \ {a}) := by
-    rw [Set.image_diff hinj, Set.image_singleton]
+    rw [Set.image_sdiff hinj, Set.image_singleton]
   rw [hset, sSup_image, ← (Subgroup.gc_map_comap f).l_sSup]
   exact Subgroup.disjoint_map hf (h ha)
 
@@ -68,7 +68,7 @@ private theorem orbit_fibre (H : Subgroup (MulAut V)) (W : Subgroup V) (C : Subg
     rw [← Subgroup.map_map, map_subtype_map_resHom, Subgroup.map_map, hes]
     rfl
   ext Y
-  simp only [Set.mem_setOf_eq, Set.mem_image]
+  simp only [Set.mem_ofPred_eq, Set.mem_image]
   constructor
   · rintro ⟨e, he, hWe, rfl⟩
     have hs : e₀⁻¹ * e ∈ stabSub W := by
@@ -98,7 +98,7 @@ theorem sSupIndep_orbit_of_autSub (H : Subgroup (MulAut V)) (W : Subgroup V) (C 
   have hunion : (⋃ Z ∈ {Z : Subgroup V | ∃ e ∈ H, Z = W.map e.toMonoidHom}, 𝒴 Z) =
       {Y : Subgroup V | ∃ e ∈ H, Y = (C.map W.subtype).map e.toMonoidHom} := by
     ext Y
-    simp only [Set.mem_iUnion, Set.mem_setOf_eq, exists_prop, 𝒴]
+    simp only [Set.mem_iUnion, Set.mem_ofPred_eq, exists_prop, 𝒴]
     constructor
     · rintro ⟨Z, -, e, he, -, hY⟩
       exact ⟨e, he, hY⟩

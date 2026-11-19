@@ -29,14 +29,16 @@ noncomputable def chiefModBotMulEquiv (W : Subgroup G) :
       _ = 1 * (y : G) := by rw [h2]
       _ = (y : G) := by group)
 
+omit [Finite G] in
 theorem chiefModBotMulEquiv_apply (W : Subgroup G) (w : ↥W) :
     chiefModBotMulEquiv W w =
       Ch3z.chiefIota (by rw [Subgroup.normalizer_eq_top]; exact le_top) w := by
   unfold chiefModBotMulEquiv
   rfl
 
+omit [Finite G] in
 theorem chiefModBotMulEquiv_conj {H U W : Subgroup G} (hstep : IsChiefStep H U ⊥ W)
-    (hUH : U ≤ H) (hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)) (h : ↥H) (w : ↥W) :
+    (_hUH : U ≤ H) (hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)) (h : ↥H) (w : ↥W) :
     letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
     l2ChiefSectionAction hstep hE h (chiefModBotMulEquiv W w) =
       chiefModBotMulEquiv W
@@ -67,8 +69,8 @@ theorem mem_fixSub_chiefMod_bot_iff {H U W : Subgroup G} {m : ℕ}
         (l2ChiefSectionRep hstep hUH hE e)
         ((P.map (QuotientGroup.mk' (pCore 2 ↥H))).map e.toMonoidHom) ↔
       (w : G) ∈ Subgroup.centralizer ((P.map H.subtype : Subgroup G) : Set G) := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   intro w
   rw [CFSG.RankThree.FFModules.mem_fixSub, Subgroup.mem_centralizer_iff]
   constructor
@@ -122,8 +124,8 @@ theorem fixSub_chiefMod_bot_card {H U W : Subgroup G} {m : ℕ}
     Nat.card (CFSG.RankThree.FFModules.fixSub (l2ChiefSectionRep hstep hUH hE e)
       ((P.map (QuotientGroup.mk' (pCore 2 ↥H))).map e.toMonoidHom)) =
     Nat.card ↥(W ⊓ Subgroup.centralizer ((P.map H.subtype : Subgroup G) : Set G)) := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let C : Subgroup G := Subgroup.centralizer ((P.map H.subtype : Subgroup G) : Set G)
   let A : Subgroup (SL(2, GaloisField 2 m)) :=
     (P.map (QuotientGroup.mk' (pCore 2 ↥H))).map e.toMonoidHom
@@ -148,7 +150,7 @@ theorem fixSub_chiefMod_bot_card {H U W : Subgroup G} {m : ℕ}
       have hw : chiefModBotMulEquiv W ((chiefModBotMulEquiv W).symm x.1.toMul) = x.1.toMul :=
         MulEquiv.apply_symm_apply _ _
       rw [hw]
-      simpa using x.2)
+      simp)
   · exact (key w).mpr (Subgroup.mem_inf.mp y.2).2
   · intro x
     apply Subtype.ext

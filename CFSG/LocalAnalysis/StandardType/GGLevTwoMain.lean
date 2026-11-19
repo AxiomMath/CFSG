@@ -60,7 +60,7 @@ theorem levTwoFamilyOfHtc {B : Type} [Group B] (A AL : Subgroup B) (Rf : Set B)
   let Kof : B → Subgroup B := fun t => if h : t ∈ T then Classical.choose (hex t h) else ⊥
   have hKof : ∀ t ∈ T, Kof t ∈ 𝒮 ∧ t ∈ Kof t := by
     intro t ht
-    simp only [Kof, dif_pos ht]
+    simp only [Kof, dite_eq_left ht]
     exact Classical.choose_spec (hex t ht)
   refine ⟨T'.image Kof, ?_, Finset.card_image_le.trans hcard, ?_⟩
   · intro K hK
@@ -153,7 +153,7 @@ theorem _root_.CFSG.StandardType.ggSecFiveLevTwoInput'_holds :
     (levTwoHtcOfTwoCover (A.subtype.comp ρ.toMonoidHom) (Wsub T.rootFT Φ) (Refl T.rootFT) htc AL hAL' _ ?_)
     𝒮 (fun K hK => ⟨(h𝒮 K hK).1, ?_⟩)
   · ext a
-    simp only [Set.mem_setOf_eq, Set.mem_image]
+    simp only [Set.mem_ofPred_eq, Set.mem_image]
     constructor
     · intro ha
       obtain ⟨g, hg, hga⟩ := (hdict a).1 ha

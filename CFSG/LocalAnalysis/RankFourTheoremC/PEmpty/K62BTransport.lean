@@ -13,7 +13,7 @@ variable {p : ℕ} {X : Type} [Group X] [Finite X]
 
 theorem eq_one_of_mk_eq_one (hp : p.Prime) {Q : Subgroup X} (hQ : IsPGroup p Q) {g : X}
     (hg : g ∈ Q) (h1 : (g : X ⧸ primeComplementCore (G := X) p) = 1) : g = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hgD : g ∈ primeComplementCore (G := X) p := (QuotientGroup.eq_one_iff g).mp h1
   have hD3 : ¬ p ∣ Nat.card (primeComplementCore (G := X) p) :=
     (Nat.Prime.coprime_iff_not_dvd hp).mp (primeComplementCore_coprime p)
@@ -52,13 +52,13 @@ theorem card_map_mk_eq (hp : p.Prime) {Q : Subgroup X} (hQ : IsPGroup p Q) :
 theorem isSylowOf_map_core (hp : p.Prime) (P : Sylow p X) :
     CFSG.ABGLocalTools.IsSylowOf p
       ((P : Subgroup X).map (QuotientGroup.mk' (primeComplementCore (G := X) p))) ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set D : Subgroup X := primeComplementCore (G := X) p with hD
   let Q0 : Sylow p (X ⧸ D) := P.mapSurjective (QuotientGroup.mk'_surjective D)
   have hQ0 : (Q0 : Subgroup (X ⧸ D)) = (P : Subgroup X).map (QuotientGroup.mk' D) :=
     Sylow.coe_mapSurjective _ _
   rw [← hQ0]
-  refine (CFSG.ABGLocalTools.isSylowOf_iff).2 ⟨le_top, Q0.isPGroup', ?_⟩
+  refine (CFSG.ABGLocalTools.isSylowOf_iff).2 ⟨le_top, Q0.isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right]
   exact Q0.not_dvd_index
 
@@ -66,10 +66,10 @@ theorem cfg_of_plane63 {P : Sylow p X} {x z : X} (hpl : Plane63 p X P x z) :
     Cfg p ((P : Subgroup X).map (QuotientGroup.mk' (primeComplementCore (G := X) p)))
       (x : X ⧸ primeComplementCore (G := X) p) (z : X ⧸ primeComplementCore (G := X) p) := by
   have hprime := hpl.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   set D : Subgroup X := primeComplementCore (G := X) p with hD
   set π : X →* X ⧸ D := QuotientGroup.mk' D with hπ
-  have hPp : IsPGroup p (P : Subgroup X) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup X) := P.isPGroup
   have hB : IsPGroup p (zpowers x ⊔ zpowers z : Subgroup X) :=
     IsPGroup.of_card (n := 2) hpl.plane.card_eq
   have hxB : x ∈ (zpowers x ⊔ zpowers z : Subgroup X) := Subgroup.mem_sup_left (mem_zpowers x)
@@ -191,7 +191,7 @@ theorem cfg_of_plane63 {P : Sylow p X} {x z : X} (hpl : Plane63 p X P x z) :
       have h4 : a * x = x * a := by
         calc a * x = (a * x * a⁻¹ * x⁻¹) * (x * a) := by group
           _ = x * a := by rw [h3, one_mul]
-      first | exact h4 | exact h4.symm
+      first | exact h4
     have hsurj : Function.Surjective (fun a : E' => (⟨π a, hE'map a a.2⟩ : E)) := by
       rintro ⟨e, he⟩
       obtain ⟨g, hg, rfl⟩ := hcentE e he

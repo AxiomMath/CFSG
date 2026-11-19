@@ -194,7 +194,7 @@ private theorem s16k_rot_comm {p q : Fin m} (hpq : p ≠ q) (x : Fin m ⊕ Fin m
 private theorem s16k_rot_orderOf {p : Fin m} {g : GL (Fin m ⊕ Fin m) K}
     (hgx : ∀ x, (g : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ x = s16k_rot p x) :
     orderOf g = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hg3 : g ^ 3 = 1 := by
     apply Units.ext
     simp only [pow_succ, pow_zero, one_mul, Units.val_mul, Units.val_one]
@@ -234,8 +234,8 @@ private theorem s16k_exists_symB_ne_zero_of_W {i₀ : Fin m} {u : Fin m ⊕ Fin 
   obtain ⟨p, hp⟩ := exists_symB_ne_zero hu
   refine ⟨p - p (Sum.inl i₀) • s16k_e (K := K) i₀ - p (Sum.inr i₀) • s16k_f (K := K) i₀,
     ?_, ?_, ?_⟩
-  · simp [s16k_e, s16k_f, Pi.single_apply, Pi.sub_apply, Pi.smul_apply]
-  · simp [s16k_e, s16k_f, Pi.single_apply, Pi.sub_apply, Pi.smul_apply]
+  · simp [s16k_e, s16k_f, Pi.sub_apply, Pi.smul_apply]
+  · simp [s16k_e, s16k_f, Pi.sub_apply, Pi.smul_apply]
   · rw [symB_sub_right, symB_sub_right, symB_smul_right, symB_smul_right,
       s16k_symB_e, s16k_symB_f, hu₁, hu₀]
     simpa using hp
@@ -316,8 +316,8 @@ private theorem s16k_close {K : Type} [Field K] [Finite K] {m : ℕ}
     (hR₁w : R₁ • w = w) (hR₂w : R₂ • w = w) :
     ∃ B : Subgroup ↥(StatedSp m K), IsPGroup 3 B ∧ ¬ IsCyclic ↥B ∧ ∀ g ∈ B,
       natAct (StatedSp m K) g a = a ∧ natAct (StatedSp m K) g b = b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥(StatedSp m K) := by infer_instance
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥(StatedSp m K) := by infer_instance
   obtain ⟨hT₁3', hT₂3', hTcomm', hTnot'⟩ :=
     s16c13bcA_pair_conj hR₁3 hR₂3 hRcomm hRnot k⁻¹
   set T₁ : ↥(StatedSp m K) := k⁻¹ * R₁ * k with hT₁
@@ -368,11 +368,11 @@ private theorem s16k_close {K : Type} [Field K] [Finite K] {m : ℕ}
   intro g hg
   exact hle hg
 
-theorem s16k_sp_pair_fix {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {m : ℕ}
+theorem s16k_sp_pair_fix {K : Type} [Field K] [Finite K] (_hK : Nat.card K = 2) {m : ℕ}
     (hm : 4 ≤ m) (a b : Multiplicative (Fin m ⊕ Fin m → K)) (hab : a ≠ 1 ∨ b ≠ 1) :
     ∃ B : Subgroup ↥(StatedSp m K), IsPGroup 3 B ∧ ¬ IsCyclic ↥B ∧ ∀ g ∈ B,
       natAct (StatedSp m K) g a = a ∧ natAct (StatedSp m K) g b = b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsp : spGroup m K ≤ StatedSp m K := s16k_spGroup_le_statedSp m K
   let i₀ : Fin m := ⟨0, by omega⟩
   let i₁ : Fin m := ⟨1, by omega⟩
@@ -424,32 +424,32 @@ theorem s16k_sp_pair_fix {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {
     change (r₁ : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ e₀ = e₀
     rw [he₀, hr₁x]
     exact s16k_rot_eq_self (by simp [s16k_e, i₀, i₁, Fin.ext_iff])
-      (by simp [s16k_e, i₀, i₁, Fin.ext_iff])
+      (by simp [s16k_e, i₀, i₁])
   have hR₂e₀ : R₂ • e₀ = e₀ := by
     change (r₂ : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ e₀ = e₀
     rw [he₀, hr₂x]
     exact s16k_rot_eq_self (by simp [s16k_e, i₀, i₂, Fin.ext_iff])
-      (by simp [s16k_e, i₀, i₂, Fin.ext_iff])
+      (by simp [s16k_e, i₀, i₂])
   have hR₁f₀ : R₁ • f₀ = f₀ := by
     change (r₁ : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ f₀ = f₀
     rw [hf₀, hr₁x]
-    exact s16k_rot_eq_self (by simp [s16k_f, i₀, i₁, Fin.ext_iff])
+    exact s16k_rot_eq_self (by simp [s16k_f, i₀, i₁])
       (by simp [s16k_f, i₀, i₁, Fin.ext_iff])
   have hR₂f₀ : R₂ • f₀ = f₀ := by
     change (r₂ : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ f₀ = f₀
     rw [hf₀, hr₂x]
-    exact s16k_rot_eq_self (by simp [s16k_f, i₀, i₂, Fin.ext_iff])
+    exact s16k_rot_eq_self (by simp [s16k_f, i₀, i₂])
       (by simp [s16k_f, i₀, i₂, Fin.ext_iff])
   have hR₁e₃ : R₁ • e₃ = e₃ := by
     change (r₁ : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ e₃ = e₃
     rw [he₃, hr₁x]
     exact s16k_rot_eq_self (by simp [s16k_e, i₁, i₃, Fin.ext_iff])
-      (by simp [s16k_e, i₁, i₃, Fin.ext_iff])
+      (by simp [s16k_e, i₁, i₃])
   have hR₂e₃ : R₂ • e₃ = e₃ := by
     change (r₂ : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ e₃ = e₃
     rw [he₃, hr₂x]
     exact s16k_rot_eq_self (by simp [s16k_e, i₂, i₃, Fin.ext_iff])
-      (by simp [s16k_e, i₂, i₃, Fin.ext_iff])
+      (by simp [s16k_e, i₂, i₃])
   have hmain : ∀ (a b : Multiplicative (Fin m ⊕ Fin m → K)), a ≠ 1 →
       ∃ B : Subgroup ↥(StatedSp m K), IsPGroup 3 B ∧ ¬ IsCyclic ↥B ∧ ∀ g ∈ B,
         natAct (StatedSp m K) g a = a ∧ natAct (StatedSp m K) g b = b := by
@@ -472,10 +472,10 @@ theorem s16k_sp_pair_fix {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {
     have hbp_decomp : bp = c • e₀ + d • f₀ + y := by rw [hy]; abel
     have hy_inl : y (Sum.inl i₀) = 0 := by
       rw [hy]
-      simp [hc, hd, he₀, hf₀, s16k_e, s16k_f, Pi.single_apply, Pi.sub_apply, Pi.smul_apply]
+      simp [hc, hd, he₀, hf₀, s16k_e, s16k_f, Pi.sub_apply, Pi.smul_apply]
     have hy_inr : y (Sum.inr i₀) = 0 := by
       rw [hy]
-      simp [hc, hd, he₀, hf₀, s16k_e, s16k_f, Pi.single_apply, Pi.sub_apply, Pi.smul_apply]
+      simp [hc, hd, he₀, hf₀, s16k_e, s16k_f, Pi.sub_apply, Pi.smul_apply]
     by_cases hy0 : y = 0
     · have hbp_eq : bp = c • e₀ + d • f₀ := by rw [hbp_decomp, hy0, add_zero]
       have hR₁w : R₁ • bp = bp := by
@@ -487,7 +487,7 @@ theorem s16k_sp_pair_fix {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {
     · have he₃_inl : e₃ (Sum.inl i₀) = 0 := by
         simp [he₃, s16k_e, i₀, i₃, Fin.ext_iff]
       have he₃_inr : e₃ (Sum.inr i₀) = 0 := by
-        simp [he₃, s16k_e, i₀, i₃, Fin.ext_iff]
+        simp [he₃, s16k_e, i₀, i₃]
       obtain ⟨hA, hhA, hhy, hhe₀, hhf₀⟩ :=
         s16k_exists_spGroup_mulVec_eq_of_W hy_inl hy_inr hy0 he₃_inl he₃_inr (s16k_e_ne_zero i₃)
       let h : ↥(StatedSp m K) := ⟨hA, hsp hhA⟩

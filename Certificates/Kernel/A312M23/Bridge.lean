@@ -66,7 +66,7 @@ theorem rep_AB : ∀ i < AB.length, Rep 23 AB i (abE i) := by
   intro p hp
   have e := rep_tabs (l := i) (by omega) p hp
   have e1 : tf AB i p = tf CFSG.KD.M23Dc.J.tabs i p := by
-    simp [tf, AB, List.getD_eq_getElem?_getD, List.getElem?_take, hi]
+    simp [tf, AB, List.getD_eq_getElem?_getD, hi]
   have e2 : (m23GenA :: m23GenB :: CFSG.KD.M23Dc.sl).getD i 1 = abE i := by
     interval_cases i <;> rfl
   rw [e1, e, e2]
@@ -88,7 +88,7 @@ theorem rep_Sg : ∀ i < Sg.length, Rep 23 Sg i (sgE i) := by
   have e := rep_tabs (l := 2 + i) (by omega) p hp
   have e1 : tf Sg i p = tf CFSG.KD.M23Dc.J.tabs (2 + i) p := by
     simp only [tf, Sg, List.getD_eq_getElem?_getD, List.getElem?_take, List.getElem?_drop,
-      if_pos hi]
+      ite_eq_left hi]
   have e2 : (m23GenA :: m23GenB :: CFSG.KD.M23Dc.sl).getD (2 + i) 1 = sgE i := by
     interval_cases i <;> simp [CFSG.KD.M23Dc.sl, sgE]
   rw [e1, e, e2]
@@ -113,12 +113,12 @@ theorem YT_eq {j : ℕ} (hj1 : 1 ≤ j) (hj : j ≤ 9) {T : List (List ℕ)}
   rw [YT, m23Member, hw]
   congr 1
   ext g
-  simp only [Set.mem_setOf_eq, List.mem_append, List.mem_map, List.mem_singleton]
+  simp only [Set.mem_ofPred_eq, List.mem_append, List.mem_map, List.mem_singleton]
   have hgl : (gw j).length = 1 := by rw [hg, hw]; rfl
   rw [hgl, hS]
   have hsg : m23Sg = [sgE 0, sgE 1, sgE 2] := m23Sg_eq
   have h3 : letE Sg (gw j) sgE abE 3 = wordElt m23GenA m23GenB w := by
-    rw [letE, if_neg (by omega), hS, hg, hw]
+    rw [letE, ite_eq_right (by omega), hS, hg, hw]
     simp only [Nat.sub_self, List.getD_cons_zero, wordElt, evalElt]
     congr 1
     refine List.map_congr_left fun a _ => ?_
@@ -128,7 +128,7 @@ theorem YT_eq {j : ℕ} (hj1 : 1 ≤ j) (hj : j ≤ 9) {T : List (List ℕ)}
     rw [hel l (by omega)]
     rcases (by omega : l < 3 ∨ l = 3) with h | rfl
     · left
-      rw [letE, if_pos (by omega), hsg]
+      rw [letE, ite_eq_left (by omega), hsg]
       interval_cases l <;> simp
     · right
       exact ⟨w, rfl, h3.symm⟩
@@ -136,9 +136,9 @@ theorem YT_eq {j : ℕ} (hj1 : 1 ≤ j) (hj : j ≤ 9) {T : List (List ℕ)}
     · rw [hsg] at h
       simp only [List.mem_cons, List.not_mem_nil, or_false] at h
       rcases h with rfl | rfl | rfl
-      · exact ⟨0, by omega, by rw [hel 0 (by omega), letE, if_pos (by omega)]⟩
-      · exact ⟨1, by omega, by rw [hel 1 (by omega), letE, if_pos (by omega)]⟩
-      · exact ⟨2, by omega, by rw [hel 2 (by omega), letE, if_pos (by omega)]⟩
+      · exact ⟨0, by omega, by rw [hel 0 (by omega), letE, ite_eq_left (by omega)]⟩
+      · exact ⟨1, by omega, by rw [hel 1 (by omega), letE, ite_eq_left (by omega)]⟩
+      · exact ⟨2, by omega, by rw [hel 2 (by omega), letE, ite_eq_left (by omega)]⟩
     · exact ⟨3, by omega, by rw [hel 3 (by omega), h3]⟩
 
 end CFSG.KD.A312M23

@@ -34,7 +34,7 @@ theorem conjOrbit_eq_of_mem {H : Subgroup G} {a y : G} (hy : y ∈ conjOrbit H a
 theorem ncard_range_conj_mul_card {Γ : Type*} [Group Γ] (f : Γ →* G) (a : G) :
     (Set.range fun γ : Γ => f γ * a * (f γ)⁻¹).ncard *
       Nat.card {γ : Γ // f γ * a * (f γ)⁻¹ = a} = Nat.card Γ := by
-  letI : MulAction Γ G :=
+  let : MulAction Γ G :=
     { smul := fun γ x => f γ * x * (f γ)⁻¹
       one_smul := fun x => by
         show f 1 * x * (f 1)⁻¹ = x

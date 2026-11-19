@@ -37,7 +37,7 @@ structure Asc82Notation {G : Type} [Group G] (t : G) (L : Subgroup G) (S : Subgr
 theorem IsSylow2Of.exists_sylow {S H : Subgroup G} (h : IsSylow2Of S H) :
     ∃ P : Sylow 2 ↥H, (P : Subgroup ↥H).map H.subtype = S := by
   obtain ⟨hle, hp, hndvd⟩ := h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP0 : IsPGroup 2 ↥(S.subgroupOf H) :=
     hp.of_equiv (Subgroup.subgroupOfEquivOfLe hle).symm
   have hnd : ¬ 2 ∣ (S.subgroupOf H).index := hndvd
@@ -48,7 +48,7 @@ theorem IsSylow2Of.exists_sylow {S H : Subgroup G} (h : IsSylow2Of S H) :
 theorem isSylow2Of_map_sylow [Finite G] {H : Subgroup G} (P : Sylow 2 ↥H) :
     IsSylow2Of ((P : Subgroup ↥H).map H.subtype) H := by
   refine ⟨Subgroup.map_subtype_le _, ?_, ?_⟩
-  · exact (P.isPGroup').of_equiv (Subgroup.equivMapOfInjective _ H.subtype H.subtype_injective)
+  · exact (P.isPGroup).of_equiv (Subgroup.equivMapOfInjective _ H.subtype H.subtype_injective)
   · have h : ((P : Subgroup ↥H).map H.subtype).subgroupOf H = (P : Subgroup ↥H) :=
       Subgroup.comap_map_eq_self_of_injective H.subtype_injective _
     rw [Subgroup.relIndex, h]

@@ -66,6 +66,7 @@ section Factors
 
 variable {r : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem eq_X_sub_one_or_cyc3' (hK : Nat.card K = 2) {x : StatedSp r K} (hx3 : x ^ 3 = 1)
     {h : K[X]} (hh : h ∈ primaryFactors (spEnd x)) : h = X - 1 ∨ h = cyc3' K := by
   have hdvd : h ∣ X ^ 3 - 1 := (mem_primaryFactors.mp hh).2.2.trans
@@ -127,7 +128,7 @@ theorem noNormalPPrime_three_centralizer_statedSp (hK : Nat.card K = 2) (hr : 3 
   classical
   have blocks := spBlocks_three_two hK hr hx3 hx1
   obtain ⟨hcomm, hind, hsup⟩ := blocks.directProduct
-  haveI : Finite (reciprocalOrbits (spEnd x)) := ((Finset.finite_toSet _).image _).to_subtype
+  have : Finite (reciprocalOrbits (spEnd x)) := ((Finset.finite_toSet _).image _).to_subtype
   rw [← hsup]
   refine noNormalPPrime_iSup (fun i j hij a b ha hb => ?_) hind (fun i => ?_)
   · exact hcomm i.1 i.2 j.1 j.2 (fun h => hij (Subtype.ext h)) a ha b hb

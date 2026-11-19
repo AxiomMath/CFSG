@@ -10,7 +10,7 @@ namespace CFSG.LocalAnalysis.RankThreeUC.AGL81C
 open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.LocalAnalysis.RankThreeUC.S15
 
 abbrev NineSevenTwoInputConclusion (G : Type) [Group G] [Finite G]
-    (M Q H E : Subgroup G) : Prop :=
+    (M _Q H _E : Subgroup G) : Prop :=
   pCoreOf 2 (H ⊓ M) ≠ pCoreOf 2 H →
   ∃ L : Subgroup (↥H ⧸ CFSG.pPrimeCore 3 ↥H), CFSG.IsComponent L ∧ ¬ L ≤ barInf 3 M H ∧
     (IsL34Type ↥L ∨ IsA11Type ↥L)
@@ -26,7 +26,7 @@ abbrev NineSevenTwoInputConclusion (G : Type) [Group G] [Finite G]
     NineSevenTwoInputConclusion G M Q H E
 
 abbrev NineSixInputConclusion (G : Type) [Group G] [Finite G]
-    (M Q H E : Subgroup G) : Prop :=
+    (M _Q H _E : Subgroup G) : Prop :=
   (∃ L : Subgroup (↥H ⧸ CFSG.pPrimeCore 3 ↥H), CFSG.IsComponent L ∧ ¬ L ≤ barInf 3 M H ∧
     (IsL34Type ↥L ∨ IsA11Type ↥L)) →
   {C : Subgroup (↥H ⧸ CFSG.pPrimeCore 3 ↥H) |
@@ -41,7 +41,7 @@ abbrev NineSixInputConclusion (G : Type) [Group G] [Finite G]
     NineSixInputConclusion G M Q H E
 
 abbrev ThreeFiveA11InputConclusion (G : Type) [Group G] [Finite G]
-    (M Q H E : Subgroup G) : Prop :=
+    (M _Q H _E : Subgroup G) : Prop :=
   (∃ L : Subgroup (↥H ⧸ CFSG.pPrimeCore 3 ↥H), CFSG.IsComponent L ∧ ¬ L ≤ barInf 3 M H ∧
     IsA11Type ↥L) → 5 ∣ Nat.card (barInf 3 M H)
 

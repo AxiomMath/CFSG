@@ -52,7 +52,7 @@ theorem eInvNine_of_sylow (hZ : Subgroup.center Y = ⊥)
     (hinv : ∀ e ∈ E₀, ∀ w ∈ W₀, e * w * e⁻¹ ∈ W₀)
     (hmove : ∃ e ∈ E₀, ∃ w ∈ W₀, e * w * e⁻¹ ≠ w) : EInvNine Y := by
   intro Ē hE3 hE9
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hconjinj : Function.Injective (MulAut.conj : Y →* MulAut Y) :=
     Item211LieProof.conj_injective_of_center_eq_bot hZ
   have hEcube : ∀ α ∈ Ē, α ^ 3 = 1 := fun α hα => hE3.2 α hα
@@ -223,7 +223,7 @@ theorem eInvNine_of_card_bound {N : ℕ} (hZ : Subgroup.center Y = ⊥)
     (hvb₂ : Four4 u₁ u₂ vb₂) (ha₁ : a * u₁ = va₁ * a) (ha₂ : a * u₂ = va₂ * a)
     (hb₁ : b * u₁ = vb₁ * b) (hb₂ : b * u₂ = vb₂ * b) (hmove : a * u₁ ≠ u₁ * a) :
     EInvNine Y :=
-  eInvNine_of_explicit_hout hZ (fun α hα => exists_conj_of_pow_three_of_card_le hZ hcard hα)
+  eInvNine_of_explicit_hout hZ (fun _α hα => exists_conj_of_pow_three_of_card_le hZ hcard hα)
     (card_sylow_three_of_padicValNat hY hN) ha3 hb3 hab hdist hu₁ hu₂ hu hu₁1 hu₂1 hu₁₂ hva₁
     hva₂ hvb₁ hvb₂ ha₁ ha₂ hb₁ hb₂ hmove
 

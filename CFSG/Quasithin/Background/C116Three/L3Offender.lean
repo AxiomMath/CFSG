@@ -37,6 +37,7 @@ theorem card_sup_mul_inf_V (H K : Subgroup V) :
     Nat.card ↥(H ⊔ K) * Nat.card ↥(H ⊓ K) = Nat.card H * Nat.card K :=
   card_sup_mul_inf_of_comm fun x _ y _ => mul_comm x y
 
+omit [Finite V] in
 theorem le_projSub_sup {G₁ G₂ A : Subgroup (MulAut V)}
     (hcomm : ∀ a ∈ G₁, ∀ b ∈ G₂, a * b = b * a) (hAG : A ≤ G₁ ⊔ G₂) :
     A ≤ R3c23.projSub G₁ G₂ A hcomm ⊔
@@ -178,6 +179,7 @@ theorem card_fixV_direct {G₁ G₂ : Subgroup (MulAut V)} {W₁ W₂ C : Subgro
   rw [← h1]
   exact Nat.mul_le_mul_right _ hle
 
+omit [Finite V] in
 theorem fixV_inf_projSub {G₁ G₂ : Subgroup (MulAut V)} {W₁ W₂ C : Subgroup V}
     (P : PairData G₁ G₂ W₁ W₂ C) {A : Subgroup (MulAut V)} (hAG : A ≤ G₁ ⊔ G₂) :
     fixV A ⊓ W₁ = fixV (R3c23.projSub G₁ G₂ A P.comm) ⊓ W₁ := by
@@ -199,7 +201,7 @@ theorem fixV_inf_projSub {G₁ G₂ : Subgroup (MulAut V)} {W₁ W₂ C : Subgro
     exact mem_fixV.mp hvA x hxA
 
 theorem nat_tight_aux {x y w₁ w₂ : ℕ} (hx : x ≤ w₁) (hy : y ≤ w₂) (h : w₁ * w₂ ≤ x * y)
-    (h1 : 0 < w₁) (h2 : 0 < w₂) : x = w₁ := by
+    (_h1 : 0 < w₁) (h2 : 0 < w₂) : x = w₁ := by
   by_contra hne
   have hlt : x < w₁ := lt_of_le_of_ne hx hne
   have h3 : x * y < w₁ * w₂ := by
@@ -208,7 +210,7 @@ theorem nat_tight_aux {x y w₁ w₂ : ℕ} (hx : x ≤ w₁) (hy : y ≤ w₂) 
   omega
 
 theorem offender_arith {a a₁ a₂ f c v w₁ w₂ z₁ z₂ y₁ y₂ : ℕ}
-    (hc : 0 < c) (hw₁ : 0 < w₁) (hw₂ : 0 < w₂)
+    (_hc : 0 < c) (hw₁ : 0 < w₁) (hw₂ : 0 < w₂)
     (hVC : v * c = w₁ * w₂) (hcard : v ≤ a * f)
     (hE3 : f * c ≤ z₁ * y₂) (hE4 : f * c ≤ z₂ * y₁)
     (hdir : a = a₁ * a₂ → f * c ≤ z₁ * z₂) (hdich : a = a₁ * a₂ ∨ 2 * a ≤ a₁ * a₂)

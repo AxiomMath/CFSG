@@ -11,7 +11,7 @@ namespace CFSG.RankThree.GF2n.Stroth80
 open Module
 
 theorem ker_sub_one_eq_orthogonal_range {F E : Type} [Field F] [AddCommGroup E] [Module F E]
-    (β : LinearMap.BilinForm F E) (hnd : β.Nondegenerate) (hrefl : β.IsRefl)
+    (β : LinearMap.BilinForm F E) (hnd : β.Nondegenerate) (_hrefl : β.IsRefl)
     (x : E →ₗ[F] E) (hiso : ∀ u v, β (x u) (x v) = β u v) (hsurj : Function.Surjective x) :
     LinearMap.ker (x - 1) = β.orthogonal (LinearMap.range (x - 1)) := by
   have key : ∀ u v : E, β ((x - 1) u) v = β (x u) (v - x v) := by
@@ -40,7 +40,7 @@ theorem ker_sub_one_eq_orthogonal_range {F E : Type} [Field F] [AddCommGroup E] 
     exact sub_eq_zero.mpr (sub_eq_zero.mp hw).symm
 
 theorem lemmaD_core {F E : Type} [Field F] [AddCommGroup E] [Module F E] [FiniteDimensional F E]
-    (β : LinearMap.BilinForm F E) (hnd : β.Nondegenerate) (hrefl : β.IsRefl)
+    (β : LinearMap.BilinForm F E) (hnd : β.Nondegenerate) (_hrefl : β.IsRefl)
     (ψ : E →ₗ[F] E) (A : Submodule F E)
     (hker : LinearMap.ker ψ = β.orthogonal (LinearMap.range ψ))
     (hW : ∀ w ∈ β.orthogonal A, ψ w ∈ A) :

@@ -200,7 +200,7 @@ theorem mem_X [Finite Γ] (h : Ctx a b) {g : Γ} (hg : g ∈ RX a b) : ∃ k < 1
   have hstep : ∀ s ∈ {y | y ∈ gs.map (G.E a b)}, ∀ k < 16384, ∃ k' < 16384,
       X a b k' = s * X a b k := by
     intro s hs k hk
-    rw [Set.mem_setOf_eq] at hs
+    rw [Set.mem_ofPred_eq] at hs
     obtain ⟨g, hg, rfl⟩ := List.mem_map.1 hs
     obtain ⟨c, hc, rfl⟩ := List.getElem_of_mem hg
     have hc3 : c < 3 := hc
@@ -403,14 +403,14 @@ theorem ct_spec (h : Ctx a b) {i : Nat} (hi : i < 687) {j : Nat} (hj : j < 687) 
     rw [← hct, ct_lt h hlt hi hp, fixc_symm]
 
 theorem hall [Finite Γ] (h : Ctx a b) :
-    ∀ E : Subgroup Γ, E ≤ RX a b → (∀ x ∈ E, ∀ y ∈ E, x * y = y * x) → (∀ x ∈ E, x * x = 1) →
+    ∀ E : Subgroup Γ, E ≤ RX a b → (∀ _x ∈ E, ∀ y ∈ E, _x * y = y * _x) → (∀ _x ∈ E, _x * _x = 1) →
       Nat.card E = 16 → ¬ PairFibersAllowed (Fin 4060) E :=
   hall_of_dfs_of_specs (Fin 4060) 687 (V a b) pr ct NB
-    (fun x hx hxx hx1 => V_list h hx hxx hx1)
-    (fun i hi j hj he => V_inj h hi hj he)
-    (fun i hi j hj hij hc => V_pr h hi hj hij hc)
-    (fun i hi j hj hij hc => (nb_spec hi j).2 ⟨hj, (V_pr h hi hj hij hc).1⟩)
-    (fun i hi j hj hij hp => ct_spec h hi hj hij hp) dfs_ok
+    (fun _x hx hxx hx1 => V_list h hx hxx hx1)
+    (fun _i hi _j hj he => V_inj h hi hj he)
+    (fun _i hi _j hj hij hc => V_pr h hi hj hij hc)
+    (fun _i hi _j hj hij hc => (nb_spec hi _j).2 ⟨hj, (V_pr h hi hj hij hc).1⟩)
+    (fun _i hi _j hj hij hp => ct_spec h hi hj hij hp) dfs_ok
 
 end Group
 

@@ -49,12 +49,12 @@ theorem w183b2_core_k_caseB {k : Type} [Field k] [IsAlgClosed k] [CharP k 2] {G 
     (hB : ∀ U : Submodule k Q, w183b2SimpleSub ρ (A₁ ⊔ A₂) U → ∃ d ∈ Δ, U.map (ρ d) ≠ U) :
     Nat.card ↥Δ ≤ 2 := by
   classical
-  haveI hnt : Nontrivial Q :=
+  have hnt : Nontrivial Q :=
     ((CFSG.LocalAnalysis.ComponentInitial.PairedTensorOrbits.isIrreducible_iff ρ).1 h.irr).1
   by_contra hle
   have hgt : 2 < Nat.card ↥Δ := not_le.1 hle
-  haveI : Finite ↥Δ := Finite.of_injective (Subtype.val : ↥Δ → G) Subtype.val_injective
-  haveI : Fintype ↥Δ := Fintype.ofFinite ↥Δ
+  have : Finite ↥Δ := Finite.of_injective (Subtype.val : ↥Δ → G) Subtype.val_injective
+  have : Fintype ↥Δ := Fintype.ofFinite ↥Δ
   have hcard : 2 < Fintype.card ↥Δ := by
     rwa [Nat.card_eq_fintype_card] at hgt
   have hscard : 1 < ((Finset.univ : Finset ↥Δ).erase 1).card := by
@@ -100,15 +100,14 @@ theorem w183b2_core_k_caseB {k : Type} [Field k] [IsAlgClosed k] [CharP k 2] {G 
   have he_mem : ∀ i, e i ∈ Δ := by
     intro i
     fin_cases i
-    · simpa [e] using (Δ.one_mem : (1 : G) ∈ Δ)
+    · simp [e]
     · simpa [e] using hd
     · simpa [e] using hd'
     · simpa [e] using Δ.mul_mem hd hd'
   have he_inj : Function.Injective e := by
     intro i j hij
     fin_cases i <;> fin_cases j <;>
-      simp only [e, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two,
-        Matrix.cons_val_three, Matrix.vecHead, Matrix.vecTail] at hij
+      simp only [e] at hij
     all_goals first
       | rfl
       | exact absurd hij hd1

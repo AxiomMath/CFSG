@@ -168,7 +168,7 @@ theorem Res3Ctx.theorem90 {G : Type} [Group G] [Finite G]
       intro g
       have hg : g ∈ Subgroup.centralizer ({x} : Set G) := htop ▸ Subgroup.mem_top g
       exact Subgroup.mem_centralizer_singleton_iff.mp hg
-    haveI := hT4.isSimpleGroup
+    have := hT4.isSimpleGroup
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center G) with hb | ht
     · rw [hb, Subgroup.mem_bot] at hxz
       exact hx1 hxz

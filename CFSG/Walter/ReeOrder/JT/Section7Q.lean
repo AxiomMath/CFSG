@@ -92,7 +92,7 @@ theorem not_isCyclic_of_ne
     (hT₀P : c.T₀ ≤ Subgroup.normalizer ((P : Subgroup G) : Set G))
     (hne : c.Cp p ≠ (P : Subgroup G)) : ¬ IsCyclic (P : Subgroup G) := by
   intro hc
-  have hPp := P.isPGroup'
+  have hPp := P.isPGroup
   have hpC : p ∣ Nat.card c.C := by
     have := c.card_C
     have hq : (h.q - 1) / 2 = Nat.card c.C := by omega
@@ -200,7 +200,7 @@ theorem lemma_7_8_card
     rwa [hV.card_four] at this
   have hP1 : (P : Subgroup G) ≠ ⊥ := fun h0 => hnc (by rw [h0]; infer_instance)
   exact ⟨h4, h.not_nine_dvd_card hp3 (h.isSolvable_normalizer_of_isPGroup_pi hp3 hpq
-    P.isPGroup' hP1) h4⟩
+    P.isPGroup hP1) h4⟩
 
 end JTHyp
 

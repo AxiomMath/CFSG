@@ -38,7 +38,7 @@ theorem isL2Gp_commutator {X : Type} [Group X] [Finite X] {n : ℕ} (hn : 2 ≤ 
     ⟨commutator_eq_top_of_isL2Gp hn hX⟩
   have hsup : commutator X ⊔ Subgroup.center X = ⊤ :=
     CFSG.RankThree.PartOne.U5K.commutator_sup_center_eq_top hperf
-  haveI : Group.IsPerfect ↥(commutator X) :=
+  have : Group.IsPerfect ↥(commutator X) :=
     CFSG.RankThree.PartOne.U5K.isPerfect_commutator hperf
   have hXkeep := hX
   obtain ⟨F, _, _, hcard, ⟨e₀⟩⟩ := hX
@@ -72,7 +72,7 @@ theorem isL2Gp_commutator {X : Type} [Group X] [Finite X] {n : ℕ} (hn : 2 ≤ 
       Subgroup.center ↥(commutator X) :=
     Subgroup.comap_center_le_center (f := (commutator X).subtype)
       (commutator X).subtype_injective
-  haveI : ((Subgroup.center X).subgroupOf (commutator X)).Normal :=
+  have : ((Subgroup.center X).subgroupOf (commutator X)).Normal :=
     Subgroup.Normal.subgroupOf inferInstance (commutator X)
   have hDp : IsPGroup 2 ((Subgroup.center X).subgroupOf (commutator X)) :=
     isPGroup_two_of_mulEquiv_stated_psl_two_even
@@ -101,7 +101,7 @@ theorem l2RootCommutatorRank_of_irreducible (hSt : L2IrreducibleRank) : L2RootCo
   · have hS : IsSimpleGroup (X ⧸ Subgroup.center X) := isSimpleGroup_of_isL2Gp hge hX
     have hperf : Group.IsPerfect (X ⧸ Subgroup.center X) :=
       ⟨commutator_eq_top_of_isL2Gp hge hX⟩
-    haveI : Finite X := Finite.of_surjective φ hφ.surjective
+    have : Finite X := Finite.of_surjective φ hφ.surjective
     have hvc : φ v ∉ Subgroup.center X := bar_involution_not_mem_center hφ hv hv1
     obtain ⟨hvX, F, _, _, _, σ, hσ, hσ1, hrank⟩ :=
       exists_irreducible_section_of_bar hI hK hC hφ hS hperf hv hvc

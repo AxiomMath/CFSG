@@ -65,10 +65,10 @@ theorem exists_center3_of_factorization3W
     P.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hPM))
   obtain ⟨A₀, hA₀W, hA₀el, hA₀c⟩ := exists_elemAbelian_le_sylow_pow hWM hWp hWidx h3
   have hmax : ∀ A : Subgroup G, A ≤ W → IsElemAbelian 3 A → Nat.card A ≤ 27 := fun A hAW hA =>
-    card_le_of_isElemAbelian_of_pRank hPM P.isPGroup' hPidx hP3 (hAW.trans hWM) hA
+    card_le_of_isElemAbelian_of_pRank hPM P.isPGroup hPidx hP3 (hAW.trans hWM) hA
   set D₀ : Subgroup G := (S : Subgroup ↥(ffC M T)).map (ffC M T).subtype with hD₀
   have hD₀C : D₀ ≤ ffC M T := Subgroup.map_subtype_le _
-  have hD₀p : IsPGroup 3 D₀ := S.isPGroup'.map _
+  have hD₀p : IsPGroup 3 D₀ := S.isPGroup.map _
   obtain ⟨hD₀el, hD₀le⟩ := hsmall D₀ hD₀C hD₀p
   have hD₀9 : Nat.card D₀ = 9 :=
     le_antisymm hD₀le (Nat.le_of_dvd Nat.card_pos (nine_dvd_card_of_not_isCyclic hD₀p hS))

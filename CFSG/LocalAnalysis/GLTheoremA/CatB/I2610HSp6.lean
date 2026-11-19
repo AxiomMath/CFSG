@@ -124,8 +124,8 @@ theorem not_catalogIs_isL2prime_of_quot_sp6 {L : Type} [Group L] [Finite L]
     ¬ catalogIs (PSimple 3 J) isL2prime := by
   classical
   intro hcat
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 :=
     charP_of_card_eq_prime (p := 2) (by rw [← Nat.card_eq_fintype_card]; exact hF)
   have hcenter : Subgroup.center (StatedSp 3 F) = ⊥ :=
     CFSG.Timmesfeld.LieEmbed.center_statedSp_eq_bot (K := F)
@@ -135,8 +135,8 @@ theorem not_catalogIs_isL2prime_of_quot_sp6 {L : Type} [Group L] [Finite L]
     e.trans ((QuotientGroup.quotientMulEquivOfEq hcenter).trans
       (QuotientGroup.quotientBot.trans
         (CFSG.Monster.Existence.Compat.statedProjEquivOfBot (StatedSp 3 F) hscal).symm))
-  haveI hLsimple : IsSimpleGroup (L ⧸ Subgroup.center L) := hL.2
-  haveI hPsimple : IsSimpleGroup (StatedProj (StatedSp 3 F)) := ψ.symm.isSimpleGroup
+  have hLsimple : IsSimpleGroup (L ⧸ Subgroup.center L) := hL.2
+  have hPsimple : IsSimpleGroup (StatedProj (StatedSp 3 F)) := ψ.symm.isSimpleGroup
   let π : L →* StatedProj (StatedSp 3 F) :=
     ψ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center L))
   have hπsurj : Function.Surjective π :=

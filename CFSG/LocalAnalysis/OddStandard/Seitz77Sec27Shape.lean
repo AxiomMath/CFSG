@@ -367,7 +367,7 @@ theorem cent_two27 : padicValNat 2 (Nat.card ↥(centralizer ({H.ttilde27} :
   obtain ⟨T⟩ : Nonempty (Sylow 2 Z) := inferInstance
   have hT : (T : Subgroup Z).map Z.subtype ≤ zpowers H.ttilde27 := by
     rintro _ ⟨y, hy, rfl⟩
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp T.isPGroup' ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp T.isPGroup ⟨y, hy⟩
     have hk' : orderOf (y : Ntil27 (Sy ⊓ Wt)) = 2 ^ k := by
       rw [Subgroup.orderOf_coe, ← Subgroup.orderOf_mk y hy]
       exact hk

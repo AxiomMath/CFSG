@@ -83,7 +83,7 @@ theorem hw_probe {K : Type} [Field K] [CharP K 2] [Fintype K]
     (hX₂ : ∀ x ∈ szUp m K, ρ (𝔇.φ₂ x) u = u)
     (κ : ZMod (2 ^ (2 * m + 1) - 1) × ZMod (2 ^ (2 * m + 1) - 1))
     (hκ : u ∈ weightSpace (ρ.comp 𝔇.tau) (wchar (K := K) k κ.1 κ.2))
-    (h1 : κ.1 ≠ 0) (h2 : κ.2 ≠ 0) :
+    (_h1 : κ.1 ≠ 0) (h2 : κ.2 ≠ 0) :
     ∃ I J : Finset (Fin (2 * m + 1)), hw m I = κ.1 ∧ hw m J = κ.2 ∧
       ∀ x ∈ wtSet m I, ∀ y ∈ wtSet m J, (x, y) ∈ 𝔇.wt k ρ := by
   have hσ₁ : ∀ l : Kˣ, (ρ.comp 𝔇.φ₁) (szD K m l) u =

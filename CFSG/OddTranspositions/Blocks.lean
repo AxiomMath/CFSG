@@ -131,7 +131,7 @@ theorem IsBlock.conj {D α : Set G} (hN : IsNormalSet D) (h : IsBlock D α) (g :
     have hd := (MulAction.isBlock_iff_disjoint_smul_of_ne.mp (h.isBlock.translate g)) hne
     exact hd.symm
 
-theorem DalphaStar_subset {D α : Set G} (h : IsBlock D α) : DalphaStar D α ⊆ D := by
+theorem DalphaStar_subset {D α : Set G} (_h : IsBlock D α) : DalphaStar D α ⊆ D := by
   rintro x ⟨β, hβ, hxβ⟩
   exact hβ.2.1 hxβ
 
@@ -197,7 +197,7 @@ theorem subset_DalphaStar {D α : Set G} {β : Set G} (hβ : β ∈ Dalpha D α)
 theorem commute_of_isOddTransp_invariant_partition {T P Q : Set G} (hodd : IsOddTransp T)
     (hPT : P ⊆ T) (hQT : Q ⊆ T)
     (hP : ∀ g ∈ Subgroup.closure T, ∀ x ∈ P, g * x * g⁻¹ ∈ P)
-    (hQ : ∀ g ∈ Subgroup.closure T, ∀ x ∈ Q, g * x * g⁻¹ ∈ Q)
+    (_hQ : ∀ g ∈ Subgroup.closure T, ∀ x ∈ Q, g * x * g⁻¹ ∈ Q)
     (hdisj : Disjoint P Q) :
     ∀ x ∈ P, ∀ y ∈ Q, Commute x y := by
   intro x hx y hy
@@ -425,7 +425,7 @@ theorem Halpha_le_normalizer {D α : Set G} (hN : IsNormalSet D) :
         · intro ha
           refine ⟨a, ha, ?_⟩
           have hax : x * a = a * x := (hx a ha).symm.eq
-          simpa [hax]
+          simp [hax]
       have hinj : Function.Injective (fun y : G => x * y * x⁻¹) := by
         intro y z hyz
         have hyz' : x * y * x⁻¹ = x * z * x⁻¹ := by simpa using hyz
@@ -472,7 +472,7 @@ theorem normalizer_conj_mem_Halpha {D α : Set G} (hN : IsNormalSet D) {g : G}
     g * y * g⁻¹ ∈ Halpha D α :=
   Subgroup.closure_induction (p := fun z _ => g * z * g⁻¹ ∈ Halpha D α)
     (fun x hx => Subgroup.subset_closure (DalphaStar.invariant_normalizer hN hg x hx))
-    (by simpa using Subgroup.one_mem (Halpha D α))
+    (by simp)
     (fun x z _ _ hx hz => by
       rw [show g * (x * z) * g⁻¹ = (g * x * g⁻¹) * (g * z * g⁻¹) by group]
       exact Subgroup.mul_mem _ hx hz)

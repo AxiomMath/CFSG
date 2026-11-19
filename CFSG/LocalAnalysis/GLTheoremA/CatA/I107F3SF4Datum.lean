@@ -12,8 +12,8 @@ open CFSG.AGLEmbedding CFSG.AGLEmbedding.R3 CFSG.Assembly CFSG.Blueprint.Chevall
 
 theorem charP_two_of_card_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     CharP K 2 := by
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hK)
 
 section Spec0

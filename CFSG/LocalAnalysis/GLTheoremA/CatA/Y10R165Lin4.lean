@@ -30,8 +30,8 @@ theorem i165On_famA_of_engine (hE : SL165EngineFamA) : I165On i165FamA := by
   obtain ⟨hQ, hlam, hMo⟩ := rk2_model_of_isLabel hK
   obtain ⟨F, hField, hFinite, hcard, ⟨e⟩⟩ :=
     exists_model_psl_of_isLabel (n := n) (d := l + 1) hMo rfl rfl rfl rfl
-  letI : Field F := hField
-  letI : Fintype F := Fintype.ofFinite F
+  let : Field F := hField
+  let : Fintype F := Fintype.ofFinite F
   have hFcard : Fintype.card F = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card]; exact hcard
   have hqdiv : q ∣ 2 ^ n - 1 ∨ n = 1 ∧ q = 3 := by

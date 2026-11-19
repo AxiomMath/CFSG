@@ -429,8 +429,6 @@ theorem exists_sep (i j : Fin 5) (hij : i ≠ j) :
     | exact ⟨v0, hv0, by rw [e0]; simpa using hB.symm⟩
     | exact ⟨v1, hv1, by rw [e1]; simpa using hA⟩
     | exact ⟨v1, hv1, by rw [e1]; simpa using hA.symm⟩
-    | exact ⟨v1, hv1, by rw [e1]; simpa using hB⟩
-    | exact ⟨v1, hv1, by rw [e1]; simpa using hB.symm⟩
     | exact ⟨v2, hv2, by rw [e2]; simpa using hA⟩
     | exact ⟨v2, hv2, by rw [e2]; simpa using hA.symm⟩
 

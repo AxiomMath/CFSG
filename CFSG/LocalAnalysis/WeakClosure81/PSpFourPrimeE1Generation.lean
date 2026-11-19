@@ -41,9 +41,9 @@ theorem almostSimpleData_conjNormal
     let psi := MulAut.conjNormal (H := F0)
     AlmostSimpleData F0 psi.range (T.map psi) := by
   let F0 := CFSG.generalizedFitting Q
-  letI : F0.Normal := by
+  let : F0.Normal := by
     simpa [F0] using (CFSG.LocalCores.generalized_fitting_characteristic (G := Q)).2
-  haveI : IsSimpleGroup F0 := by simpa [F0] using hs
+  have : IsSimpleGroup F0 := by simpa [F0] using hs
   let psi : Q →* MulAut F0 := MulAut.conjNormal (H := F0)
   have hC : Subgroup.centralizer (F0 : Set Q) ≤ F0 := by
     simpa [F0] using CFSG.centralizer_generalizedFitting_le Q
@@ -53,8 +53,7 @@ theorem almostSimpleData_conjNormal
     simpa [psi] using (Subgroup.conjNormal_injective_of_centralizer_le (N := F0) hC hZ)
   have hconj : psi.comp F0.subtype = (MulAut.conj : F0 →* MulAut F0) := by
     ext x y
-    simpa [psi] using congrArg (fun f : MulAut F0 => (f : F0 → F0) y)
-      (MulAut.conjNormal_val (H := F0) (h := x))
+    simp [psi]
   have hinn : F0.map psi = innAutOf F0 := by
     rw [innAutOf, ← hconj, MonoidHom.range_comp, Subgroup.range_subtype]
   exact ⟨by rw [← hinn]; exact Subgroup.map_le_range psi F0,
@@ -91,9 +90,9 @@ theorem exists_orthogonal_representation_of_fitting_simple
       IsSylowIn 2 (Saut.map ρ) (B.map ρ) ∧
       commutator (TauCeti.QuadraticMap.orthogonalGroup Q) ⊔ Saut.map ρ = B.map ρ := by
   let F0 := CFSG.generalizedFitting Qgrp
-  letI : F0.Normal := by
+  let : F0.Normal := by
     simpa [F0] using (CFSG.LocalCores.generalized_fitting_characteristic (G := Qgrp)).2
-  haveI : IsSimpleGroup F0 := by simpa [F0] using hs
+  have : IsSimpleGroup F0 := by simpa [F0] using hs
   let psi : Qgrp →* MulAut F0 := MulAut.conjNormal (H := F0)
   let B := psi.range
   let Saut := T.map psi
@@ -152,9 +151,9 @@ theorem exists_aboveFiveSetup
     (hFT : CFSG.generalizedFitting Qgrp ⊔ T = ⊤) :
     Nonempty (AboveFiveSetup (K := K) (V := V) Q Qgrp T) := by
   let F0 := CFSG.generalizedFitting Qgrp
-  letI : F0.Normal := by
+  let : F0.Normal := by
     simpa [F0] using (CFSG.LocalCores.generalized_fitting_characteristic (G := Qgrp)).2
-  haveI : IsSimpleGroup F0 := by simpa [F0] using hs
+  have : IsSimpleGroup F0 := by simpa [F0] using hs
   let psi : Qgrp →* MulAut F0 := MulAut.conjNormal (H := F0)
   let B := psi.range
   let Saut := T.map psi
@@ -174,8 +173,7 @@ theorem exists_aboveFiveSetup
     simpa [psi] using (Subgroup.conjNormal_injective_of_centralizer_le (N := F0) hC hZ)
   have hconj : psi.comp F0.subtype = (MulAut.conj : F0 →* MulAut F0) := by
     ext x y
-    simpa [psi] using congrArg (fun f : MulAut F0 => (f : F0 → F0) y)
-      (MulAut.conjNormal_val (H := F0) (h := x))
+    simp [psi]
   have hinn : F0.map psi = innAutOf F0 := by
     rw [innAutOf, ← hconj, MonoidHom.range_comp, Subgroup.range_subtype]
   have hphi : Function.Injective phi := by
@@ -306,7 +304,7 @@ theorem sup_normal_eq_top_of_isSylowIn_conj
     {G : Type*} [Group G] [Finite G] {L T T₀ : Subgroup G} [hL : L.Normal]
     (hT : IsSylowIn 2 T ⊤) (hT₀ : IsSylowIn 2 T₀ ⊤)
     (hsup : L ⊔ T = ⊤) : L ⊔ T₀ = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, -, hconj⟩ := CFSG.Quasithin.B6.isSylowTwoOf_exists_conj
     (S := T) (T := T₀) hT hT₀
   have hgL : g ∈ Subgroup.normalizer (L : Set G) := by
@@ -334,8 +332,8 @@ theorem aboveFive_inE_of_setup
       eGen 1 ⊤ T₀ Ω ⊔
         (⊤ ⊓ Subgroup.normalizer (weakClosure T₀ Ω)) = ⊤) :
     InE 1 (⊤ : Subgroup Qgrp) := by
-  haveI : Finite ↥S.G := Finite.of_surjective S.e.toMonoidHom S.e.surjective
-  haveI hsimple : IsSimpleGroup ↥(CFSG.generalizedFitting S.G) := setupFstar_simple S hs
+  have : Finite ↥S.G := Finite.of_surjective S.e.toMonoidHom S.e.surjective
+  have hsimple : IsSimpleGroup ↥(CFSG.generalizedFitting S.G) := setupFstar_simple S hs
   have hFstarTop : CFSG.generalizedFitting S.G ⊔ T₀ = ⊤ := by
     rw [S.hFstar]
     exact hsupT₀
@@ -368,7 +366,7 @@ theorem pgl2_join_of_surjective
     (S.map π) ⊔
       (⨆ I ∈ {I : Subgroup (CFSG.GorensteinWalter.PGL2 K) |
         IsE 1 ⊤ (S.map π) (B.map π) I}, I) = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSmap : IsSylowIn 2 (S.map π) ⊤ := isSylowIn_two_map_top hπ hS
   have hBSmap : B.map π ≤ S.map π := Subgroup.map_mono hBS
   exact CFSG.Quasithin.E22L2.pgl2_prime_sup_isE_one_eq_top_of_elemAbelian
@@ -464,9 +462,9 @@ theorem exists_aboveFiveFixedFrame
       F hodd hQ hdim S.G S.hL S.hGSO
   let P : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Qform) :=
     (T₀ : Subgroup S.G).map S.G.subtype
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT₀ : IsSylowIn 2 (T₀ : Subgroup S.G) ⊤ := by
-    refine ⟨le_top, T₀.isPGroup', ?_⟩
+    refine ⟨le_top, T₀.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact T₀.not_dvd_index
   let P0 : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Qform) :=
@@ -483,10 +481,10 @@ theorem exists_aboveFiveFixedFrame
   have hsupTg : (commutator (TauCeti.QuadraticMap.orthogonalGroup Qform)).subgroupOf S.G ⊔
       P0.subgroupOf S.G = ⊤ := by
     rw [← Subgroup.subgroupOf_sup S.hL hP0le, S.hsup, Subgroup.subgroupOf_self]
-  haveI : (commutator (TauCeti.QuadraticMap.orthogonalGroup Qform)).Normal := by
+  have : (commutator (TauCeti.QuadraticMap.orthogonalGroup Qform)).Normal := by
     rw [commutator_def]
     exact Subgroup.commutator_normal ⊤ ⊤
-  haveI : ((commutator (TauCeti.QuadraticMap.orthogonalGroup Qform)).subgroupOf S.G).Normal :=
+  have : ((commutator (TauCeti.QuadraticMap.orthogonalGroup Qform)).subgroupOf S.G).Normal :=
     Subgroup.Normal.subgroupOf inferInstance S.G
   have hsup := sup_normal_eq_top_of_isSylowIn_conj hTg hT₀ hsupTg
   exact ⟨{
@@ -604,7 +602,7 @@ theorem eGen_sup_normalizer_eq_top_of_localPackage
     {p : ℕ} [Finite K] [FiniteDimensional K V] [Fact p.Prime]
     (S : AboveFiveSetup (K := K) (V := V) Qform Qgrp T)
     (FF : AboveFiveFixedFrame S)
-    (hodd : Odd (Nat.card K)) (hq5 : 5 ≤ Nat.card K)
+    (_hodd : Odd (Nat.card K)) (_hq5 : 5 ≤ Nat.card K)
     (hK : Nat.card K = p) (hp : 5 < p)
     {Ω : Set (Subgroup S.G)} (hΩ : E1.IsInvColl ⊤ Ω)
     {A' : Subgroup S.G} (hA'Ω : A' ∈ Ω) (hA'T : A' ≤ (FF.T₀ : Subgroup S.G))
@@ -628,7 +626,7 @@ theorem eGen_sup_normalizer_eq_top_of_localPackage
   let Bmap : Subgroup (CFSG.GorensteinWalter.PGL2 K) := (A'.subgroupOf Kloc).map π
   let N : Subgroup S.G :=
     E1.eGen 1 ⊤ T0 Ω ⊔ (⊤ ⊓ Subgroup.normalizer (E1.weakClosure T0 Ω))
-  haveI : Finite ↥S.G := Finite.of_surjective S.e.toMonoidHom S.e.surjective
+  have : Finite ↥S.G := Finite.of_surjective S.e.toMonoidHom S.e.surjective
   have hT0 : IsSylowIn 2 T0 ⊤ := by simpa [T0] using FF.hT₀
   have hA'T0 : A' ≤ T0 := by simpa [T0] using hA'T
   have hjoin' : T0 ⊔ Y = ⊤ := by simpa [T0] using hjoin
@@ -639,7 +637,7 @@ theorem eGen_sup_normalizer_eq_top_of_localPackage
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact Subgroup.mem_inf.mpr ⟨hA'T0 hx, x.property⟩
   have hSsub : IsSylowIn 2 (P.subgroupOf Kloc) ⊤ := by
-    have hPle : P ≤ Kloc := by simpa [P] using (inf_le_right : T0 ⊓ Kloc ≤ Kloc)
+    have hPle : P ≤ Kloc := by simp [P]
     have h := (E1.isSylowIn_subgroupOf_iff (p := 2) (P := P) (K := Kloc)
       (H := Kloc) hPle le_rfl).mpr hSyl'
     simpa [P] using h
@@ -793,7 +791,7 @@ theorem localS_sylowIn_centralizer_tz
     refine ⟨?_, ?_⟩
     · exact inf_le_left.trans inf_le_left
     · exact inf_le_right
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS0 : CFSG.Quasithin.IsSylowIn 2
       (CFSG.ClassicalGroups.Orthogonal.FiveDimensionalTPositiveSylow.localS FF.F FF.W S.G)
       (CFSG.ClassicalGroups.Orthogonal.FiveDimensionalTPositiveSylow.localCG FF.F S.G) :=
@@ -829,7 +827,7 @@ theorem exists_actualFusionData
           ({h * FF.F.tO * h⁻¹} :
             Set (TauCeti.QuadraticMap.orthogonalGroup Qform)) := by
   classical
-  haveI : Finite S.G := Finite.of_surjective S.e.toMonoidHom S.e.surjective
+  have : Finite S.G := Finite.of_surjective S.e.toMonoidHom S.e.surjective
   let O := TauCeti.QuadraticMap.orthogonalGroup Qform
   let zO : O := FF.F.zO
   let zG : S.G := ⟨zO, fixedFrame_z_mem_G S FF⟩
@@ -896,7 +894,7 @@ theorem exists_actualFusionData
     ext x
     constructor
     · rintro ⟨y, -, rfl⟩
-      exact ⟨by simpa [incl] using y.val.property, by
+      exact ⟨by simp [incl], by
         change incl y ∈ Subgroup.centralizer ({aO} : Set O)
         rw [Subgroup.mem_centralizer_singleton_iff]
         have hc : (y.val : H) * aHG = aHG * (y.val : H) :=
@@ -912,9 +910,9 @@ theorem exists_actualFusionData
       exact ⟨⟨xH, hxCa⟩, Subgroup.mem_top _, rfl⟩
   have hR_sylow : IsSylowIn 2 R
       (H ⊓ Subgroup.centralizer ({aO} : Set O)) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hs : IsSylowIn 2 (Rin : Subgroup Ca) ⊤ := by
-      refine ⟨le_top, Rin.isPGroup', ?_⟩
+      refine ⟨le_top, Rin.isPGroup, ?_⟩
       rw [Subgroup.relIndex_top_right]
       exact Rin.not_dvd_index
     have h := (CFSG.Quasithin.E1.isSylowIn_map_of_injective hincl (f := incl)
@@ -957,12 +955,12 @@ theorem setup_pCore_bot
     (hnab : ∃ a b : ↥(CFSG.generalizedFitting Qgrp), a * b ≠ b * a) :
     CFSG.Open.pCoreOf 2 (⊤ : Subgroup S.G) = ⊥ := by
   classical
-  haveI : Finite S.G := Finite.of_surjective S.e.toMonoidHom S.e.surjective
+  have : Finite S.G := Finite.of_surjective S.e.toMonoidHom S.e.surjective
   let L : Subgroup S.G := CFSG.generalizedFitting S.G
-  haveI : L.Normal := by
+  have : L.Normal := by
     simpa [L, S.hFstar] using
       (CFSG.LocalCores.generalized_fitting_characteristic (G := S.G)).2
-  haveI : IsSimpleGroup ↥L := by
+  have : IsSimpleGroup ↥L := by
     simpa [L] using setupFstar_simple S hs
   have hnc : ∃ a b : ↥L, a * b ≠ b * a := by
     simpa [L] using setupFstar_nonab S hnab
@@ -985,7 +983,7 @@ theorem fixedFrame_P_isPGroup
     (S : AboveFiveSetup (K := K) (V := V) Qform Qgrp T)
     (FF : AboveFiveFixedFrame S) : IsPGroup 2 FF.P := by
   rw [FF.hP]
-  exact FF.T₀.isPGroup'.map S.G.subtype
+  exact FF.T₀.isPGroup.map S.G.subtype
 
 theorem fixedFrame_P_le_H
     [Finite K] [FiniteDimensional K V]
@@ -1029,7 +1027,7 @@ theorem exists_normalized_A
         (CFSG.ClassicalGroups.Orthogonal.FiveDimensionalTPositiveSylow.localS
           FF.F FF.W S.G).subgroupOf S.G := by
   classical
-  haveI : Finite S.G := Finite.of_surjective S.e.toMonoidHom S.e.surjective
+  have : Finite S.G := Finite.of_surjective S.e.toMonoidHom S.e.surjective
   let O := TauCeti.QuadraticMap.orthogonalGroup Qform
   let zO : O := FF.F.zO
   let tO : O := FF.F.tO
@@ -1371,7 +1369,7 @@ theorem base_or_conj_localImage_ne_bot
     (S : AboveFiveSetup (K := K) (V := V) Qform Qgrp T)
     (FF : AboveFiveFixedFrame S)
     (hodd : Odd (Nat.card K)) (hq5 : 5 ≤ Nat.card K)
-    {A' : Subgroup S.G} (hA'ab : CFSG.Open.IsElemAbelian 2 A')
+    {A' : Subgroup S.G} (_hA'ab : CFSG.Open.IsElemAbelian 2 A')
     (hA4 : 4 ≤ Nat.card A')
     (hA'S : A' ≤ (CFSG.ClassicalGroups.Orthogonal.FiveDimensionalTPositiveSylow.localS
       FF.F FF.W S.G).subgroupOf S.G) :
@@ -1496,7 +1494,7 @@ theorem conjLocalImage_eq
     [Finite K] [FiniteDimensional K V]
     (S : AboveFiveSetup (K := K) (V := V) Qform Qgrp T)
     (FF : AboveFiveFixedFrame S)
-    (hodd : Odd (Nat.card K)) (hq5 : 5 ≤ Nat.card K)
+    (_hodd : Odd (Nat.card K)) (_hq5 : 5 ≤ Nat.card K)
     (A' : Subgroup S.G) :
     let KO := CFSG.ClassicalGroups.Orthogonal.FiveDimensionalTPositiveSylow.localKConj
       FF.F FF.W S.G
@@ -1643,7 +1641,7 @@ theorem aboveFive_nonzero_branch
 theorem asch4_12ASAboveFive_holds :
     Asch4_12ASAboveFive := by
   intro Q _ _ T p hp hp5 hs hnab hLie hT hFT
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let K := ZMod p
   let V := ↥(CFSG.ComponentClassification.CatalogueBOrthogonalFive.selfAdjointSubmodule K)
   let Qform : QuadraticForm K V :=

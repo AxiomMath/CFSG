@@ -27,28 +27,28 @@ theorem isG2D4_congr {X X' : Type} [Group X] [Group X'] (e : X ≃* X') {r : Tau
 theorem aschbacherSolvableCore_eq_pCore_two {Y : Type} [Group Y] [Finite Y]
     {r : TauCeti.PrimePower} {δ : ℕ} (h : IsG2D4 (Y ⧸ CFSG.pCore 2 Y) r δ) :
     aschbacherSolvableCore 3 Y = CFSG.pCore 2 Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hθsol, hθchar, -, -, -, -, hpc⟩ :=
     solvable_prime_complement_core_characterization (H := Y) Nat.prime_three
-  haveI hS : IsSimpleGroup (Y ⧸ CFSG.pCore 2 Y) := Hering129KModels.isSimpleGroup_of_isG2D4 h
+  have hS : IsSimpleGroup (Y ⧸ CFSG.pCore 2 Y) := Hering129KModels.isSimpleGroup_of_isG2D4 h
   apply le_antisymm
   · set P := CFSG.pCore 2 Y with hP
-    haveI : P.Normal := CFSG.pCore_normal
-    haveI := hθsol
+    have : P.Normal := CFSG.pCore_normal
+    have := hθsol
     set M := (aschbacherSolvableCore 3 Y).map (QuotientGroup.mk' P) with hM
-    haveI hMn : M.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
+    have hMn : M.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
     have hMsolv : Group.IsSolvable M :=
-      solvable_of_surjective ((QuotientGroup.mk' P).subgroupMap_surjective _)
+      Group.isSolvable_of_surjective ((QuotientGroup.mk' P).subgroupMap_surjective _)
     rcases hS.eq_bot_or_eq_top_of_normal M with h0 | h1
     · intro y hy
       have : QuotientGroup.mk' P y ∈ M := Subgroup.mem_map_of_mem _ hy
       rw [h0, Subgroup.mem_bot] at this
       exact (QuotientGroup.eq_one_iff y).mp this
     · exfalso
-      haveI : Group.IsSolvable (Y ⧸ P) :=
-        solvable_of_surjective (f := M.subtype) (fun y => ⟨⟨y, h1 ▸ trivial⟩, rfl⟩)
-      haveI : Group.IsPerfect (Y ⧸ P) := Hering129KModels.isPerfect_of_isG2D4 h
-      haveI : Nontrivial (Y ⧸ P) := hS.toNontrivial
+      have : Group.IsSolvable (Y ⧸ P) :=
+        Group.isSolvable_of_surjective (f := M.subtype) (fun y => ⟨⟨y, h1 ▸ trivial⟩, rfl⟩)
+      have : Group.IsPerfect (Y ⧸ P) := Hering129KModels.isPerfect_of_isG2D4 h
+      have : Nontrivial (Y ⧸ P) := hS.toNontrivial
       exact Group.IsPerfect.not_isSolvable _ ‹_›
   · exact hpc 2 Nat.prime_two (by norm_num)
 
@@ -82,7 +82,7 @@ theorem not_nonempty_projSL_two_eight {X : Type} [Group X] {r : TauCeti.PrimePow
     (h : IsG2D4 X r δ) (hr : 4 ≤ r.card) :
     ¬ Nonempty (X ≃* CFSG.Assembly.RankThreeEven.projSL 2 (GaloisField 2 3)) := by
   rintro ⟨e⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 := Sec11.KSListsProof.card_projSL_two_mul (GaloisField 2 3)
   have hK : Nat.card (GaloisField 2 3) = 8 := by
     rw [GaloisField.card 2 3 (by norm_num)]

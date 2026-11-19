@@ -81,7 +81,7 @@ theorem zS_testBit (k : Nat) : ∀ (bs : List Nat) (A acc : Nat), (zS bs A acc).
       constructor
       · rintro ⟨h2, h3⟩
         by_cases ha : A % 2 = 1
-        · rw [if_pos ha] at h2
+        · rw [ite_eq_left ha] at h2
           change (acc &&& b).testBit k = true at h2
           rw [Nat.testBit_and, Bool.and_eq_true] at h2
           refine ⟨h2.1, fun j hj hAj => ?_⟩
@@ -90,7 +90,7 @@ theorem zS_testBit (k : Nat) : ∀ (bs : List Nat) (A acc : Nat), (zS bs A acc).
           | succ j =>
             rw [List.getD_cons_succ]
             exact h3 j (by simpa using hj) (by rwa [← Nat.testBit_succ])
-        · rw [if_neg ha] at h2
+        · rw [ite_eq_right ha] at h2
           refine ⟨h2, fun j hj hAj => ?_⟩
           cases j with
           | zero =>
@@ -102,13 +102,13 @@ theorem zS_testBit (k : Nat) : ∀ (bs : List Nat) (A acc : Nat), (zS bs A acc).
       · rintro ⟨h2, h3⟩
         refine ⟨?_, fun j hj hAj => ?_⟩
         · by_cases ha : A % 2 = 1
-          · rw [if_pos ha]
+          · rw [ite_eq_left ha]
             change (acc &&& b).testBit k = true
             rw [Nat.testBit_and, Bool.and_eq_true]
             refine ⟨h2, ?_⟩
             have := h3 0 (by simp) (by rw [Nat.testBit_zero]; exact decide_eq_true ha)
             simpa using this
-          · rw [if_neg ha]
+          · rw [ite_eq_right ha]
             exact h2
         · have := h3 (j + 1) (by simpa using hj) (by rwa [Nat.testBit_succ])
           rwa [List.getD_cons_succ] at this
@@ -166,7 +166,7 @@ theorem testBit_maskR (p : Nat → Bool) (k : Nat) : ∀ n,
     rw [maskR, Nat.testBit_or, testBit_maskR p k n]
     by_cases hk : k = n
     · subst hk
-      cases hp : p k <;> simp [hp]
+      cases hp : p k <;> simp
     · have h1 : (if p n = true then 2 ^ n else 0 : Nat).testBit k = false := by
         split_ifs
         · rw [Nat.testBit_two_pow]
@@ -252,9 +252,9 @@ theorem fixBoundAt_of_members {gens : List (List Nat)} {B gs ys : List Nat}
       rw [Finset.card_filter]
       refine Finset.sum_congr rfl fun j _ => ?_
       by_cases h : memY Y j
-      · rw [if_pos h, decide_eq_true h]
+      · rw [ite_eq_left h, decide_eq_true h]
         rfl
-      · rw [if_neg h, decide_eq_false h]
+      · rw [ite_eq_right h, decide_eq_false h]
         rfl
     rw [e1, ← Nat.card_eq_finsetCard]
     have hf : ∀ x : ((Finset.range m).filter (memY Y)), (x : Nat) < m := fun x =>

@@ -38,7 +38,7 @@ theorem Xi_decomp [Finite G] (hs : Sec11dSet t z K1 K2 R) (hKi : Ki ≤ K1 ⊔ K
 
 theorem oddCore_le [Finite G] (hs : Sec11dSet t z K1 K2 R) :
     oddCoreIn (secKD (secD K1 K2 R)) ≤ oddCoreIn (secK0 t z) :=
-  hs.split.oddCore_le hs.KD_le fun e he q hq =>
+  hs.split.oddCore_le hs.KD_le fun _e he q hq =>
     (Subgroup.mem_centralizer_iff.mp he.1 q hq).symm
 
 end Sec11dSet

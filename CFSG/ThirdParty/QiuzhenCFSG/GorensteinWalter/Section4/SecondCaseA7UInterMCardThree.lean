@@ -58,7 +58,7 @@ public theorem secondCase_a7_u_inter_m_quotient_card_dvd_three
     exact orderOf_eq_prime htMi.2 htMi.1
   have hTp : IsPGroup 2 T := by
     apply IsPGroup.of_card (G := T) (n := 1)
-    simpa [hTcard]
+    simp [hTcard]
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let : Fact (IsPGroup 2 (↥T)) := ⟨hTp⟩
   have hOcop : Nat.Coprime 2 (Nat.card O) :=
@@ -74,7 +74,7 @@ public theorem secondCase_a7_u_inter_m_quotient_card_dvd_three
     dsimp [T]
     rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
   have hqT : T.map q = Subgroup.zpowers (q tM) := by
-    simpa [T] using MonoidHom.map_zpowers q tM
+    simp [T]
   have hTqsingle : Subgroup.centralizer
       ((T.map q : Subgroup (M ⧸ O)) : Set (M ⧸ O)) =
       Subgroup.centralizer ({q tM} : Set (M ⧸ O)) := by
@@ -157,7 +157,7 @@ public theorem secondCase_a7_u_inter_m_quotient_card_dvd_three
       exact Subgroup.orderOf_dvd_natCard _ hbq_mem
     rw [hTqsingle] at hdiv
     have hord : orderOf (eQ.symm b) = orderOf b := by
-      simpa using (MulEquiv.orderOf_eq eQ (eQ.symm b)).symm
+      simp
     rw [hord, hb_order] at hdiv
     exact hdiv
   let C0 : Subgroup M := Subgroup.centralizer ({tM} : Set M)
@@ -190,7 +190,7 @@ public theorem secondCase_a7_u_inter_m_quotient_card_dvd_three
   have hQne : (Q : Subgroup Cq) ≠ ⊥ := by
     intro hbot
     have hQcard : Nat.card (Q : Subgroup Cq) = 1 := by
-      simpa [hbot]
+      simp [hbot]
     have hmul := Subgroup.card_mul_index (Q : Subgroup Cq)
     rw [hQcard] at hmul
     simp at hmul
@@ -199,7 +199,7 @@ public theorem secondCase_a7_u_inter_m_quotient_card_dvd_three
       exact hCqcard3
     exact Q.not_dvd_index h3idx
   have hQ3 : 3 ∣ Nat.card (Q : Subgroup Cq) := by
-    obtain ⟨n, hn⟩ := Q.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := Q.isPGroup.exists_card_eq
     have hnne : n ≠ 0 := by
       intro hn0
       apply hQne
@@ -217,7 +217,7 @@ public theorem secondCase_a7_u_inter_m_quotient_card_dvd_three
       rfl
     dsimp [Qamb, PM]
     rw [hQmap]
-    simpa [hfrcomp, Subgroup.map_map]
+    simp [hfrcomp, Subgroup.map_map]
   have hQamb3 : 3 ∣ Nat.card Qamb := by
     have hcard : Nat.card Qamb = Nat.card (Q : Subgroup Cq) :=
       Subgroup.card_map_of_injective Cq.subtype_injective
@@ -230,7 +230,7 @@ public theorem secondCase_a7_u_inter_m_quotient_card_dvd_three
     rw [c.H_eq_centralizer, Subgroup.mem_centralizer_singleton_iff]
     simpa [tM] using congrArg Subtype.val hcomm
   have hPodd : Odd (Nat.card (P : Subgroup C0)) := by
-    obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
     exact hn ▸ Odd.pow (by decide)
   have hPMleU : PM.map M.subtype ≤ c.U := by
     exact odd_order_subgroup_le_U_of_H_eq_SU hmin c

@@ -37,7 +37,7 @@ theorem s168e3_three_not_dvd_centralizer_of_component_three_rank
       ¬ 3 ∣ Nat.card (Subgroup.center Q)) :
     ¬ 3 ∣ Nat.card ↥(s1t3KBar (Mbar D.M V₀ V hV) (lBar V₀ V hV L)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let A : Subgroup (MulAut (Vtil V₀ V hV)) := Mbar D.M V₀ V hV
   let B : Subgroup (MulAut (Vtil V₀ V hV)) := lBar V₀ V hV L
   let K : Subgroup (MulAut (Vtil V₀ V hV)) := s1t3KBar A B
@@ -183,12 +183,12 @@ theorem s168e3_three_not_dvd_kBar_of_sl_six_seven
     s16c167_cfg2_simple_ln (s16k_isLn_of_isSLn hn3 hSL)
   have hcover := cover_center_three_free_of_isSLn hn5 hSL
   obtain ⟨K, hKfield, hKfinite, hKcard, ⟨eSL⟩⟩ := hSL
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  let : Fintype K := Fintype.ofFinite K
   have hK2 : Nat.card K = 2 := by simpa using hKcard
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime (p := 2) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime (p := 2) (by
     rw [Fintype.card_eq_nat_card, hK2])
   obtain ⟨fproj⟩ := s15k_jp_projEquiv hK2 (StatedSL n K)
   let eProj : ↥(lBar V₀ V hV L) ≃* StatedProj (StatedSL n K) := eSL.trans fproj.symm
@@ -205,12 +205,12 @@ theorem s168e3_three_not_dvd_kBar_of_sp_six
     ¬ 3 ∣ Nat.card ↥(s1t3KBar (Mbar D.M V₀ V hV) (lBar V₀ V hV L)) := by
   have hsimple : IsSimpleGroup ↥(lBar V₀ V hV L) := s16c167_cfg2_simple_sp hSp
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨eSp⟩⟩ := hSp
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  let : Fintype K := Fintype.ofFinite K
   have hK2 : Nat.card K = 2 := by simpa using hKcard
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime (p := 2) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime (p := 2) (by
     rw [Fintype.card_eq_nat_card, hK2])
   have hSp3 : ↥(lBar V₀ V hV L) ≃* ↥(StatedSp 3 K) := by simpa using eSp
   have hrank : 3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup ↥(lBar V₀ V hV L)) := by
@@ -222,7 +222,7 @@ theorem s168e3_three_not_dvd_kBar_of_sp_six
       Nonempty ((Q ⧸ Subgroup.center Q) ≃* ↥(lBar V₀ V hV L)) →
       ¬ 3 ∣ Nat.card (Subgroup.center Q) := by
     intro Q _ _ hQ ⟨eQ⟩
-    haveI : Group.IsPerfect Q := ⟨hQ.1⟩
+    have : Group.IsPerfect Q := ⟨hQ.1⟩
     exact s16lc_sp_center_three_free (F := K) (m := 3) (by norm_num) (Q := Q)
       (e := eQ.trans hSp3)
   exact s168e3_three_not_dvd_centralizer_of_component_three_rank c hcomp hsimple hrank hcover
@@ -236,12 +236,12 @@ theorem s168e3_three_not_dvd_kBar_of_omega_minus_eight
   have hsimple : IsSimpleGroup ↥(lBar V₀ V hV L) :=
     s16c167_cfg2_simple_omegaMinus_eight hOm
   obtain ⟨-, K, hKfield, hKfinite, b, c₀, hKcard, hirr, ⟨eOm⟩⟩ := hOm
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  let : Fintype K := Fintype.ofFinite K
   have hK2 : Nat.card K = 2 := by simpa using hKcard
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime (p := 2) (by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime (p := 2) (by
     rw [Fintype.card_eq_nat_card, hK2])
   have hOm4 : ↥(lBar V₀ V hV L) ≃*
       StatedProj (StatedOmega (StatedQuadMinus 4 K b c₀)) := by simpa using eOm
@@ -254,7 +254,7 @@ theorem s168e3_three_not_dvd_kBar_of_omega_minus_eight
       Nonempty ((Q ⧸ Subgroup.center Q) ≃* ↥(lBar V₀ V hV L)) →
       ¬ 3 ∣ Nat.card (Subgroup.center Q) := by
     intro Q _ _ hQ ⟨eQ⟩
-    haveI : Group.IsPerfect Q := ⟨hQ.1⟩
+    have : Group.IsPerfect Q := ⟨hQ.1⟩
     exact s16lc_omegaMinus_center_three_free (F := K) (m := 4) (b := b) (d := c₀)
       (by norm_num) hirr (Q := Q) (e := eQ.trans hOm4)
   exact s168e3_three_not_dvd_centralizer_of_component_three_rank c hcomp hsimple hrank hcover
@@ -277,7 +277,7 @@ theorem s168e3_three_not_dvd_kBar_of_alt_nine_to_eleven
       Nonempty ((Q ⧸ Subgroup.center Q) ≃* ↥(lBar V₀ V hV L)) →
       ¬ 3 ∣ Nat.card (Subgroup.center Q) := by
     intro Q _ _ hQ ⟨eQ⟩
-    haveI : Group.IsPerfect Q := ⟨hQ.1⟩
+    have : Group.IsPerfect Q := ⟨hQ.1⟩
     have hZle : Nat.card (Subgroup.center Q) ≤ 2 :=
       CFSG.OddStandard.GlueAlt.card_center_le_two_of_alt (n := n) (by omega) (eQ.trans eA)
     intro h3

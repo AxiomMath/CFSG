@@ -21,12 +21,14 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem pCore_subgroupOf_eq_of_pCoreOf_eq {X R : Subgroup G} (hR : R ≤ X)
     (h : pCoreOf 2 X = R) : pCore 2 ↥X = R.subgroupOf X := by
   apply Subgroup.map_injective X.subtype_injective
   rw [Subgroup.map_subgroupOf_eq_of_le hR]
   exact h
 
+omit [Finite G] in
 private theorem isL2Quot_of_sup_quot_eq {X Q L : Subgroup G} {n : ℕ}
     (hXQ : pCoreOf 2 X = X ⊓ Q) (hLQ : pCoreOf 2 L = L ⊓ Q)
     (hXnorm : X ≤ Subgroup.normalizer (Q : Set G))
@@ -43,13 +45,13 @@ private theorem isL2Quot_of_sup_quot_eq {X Q L : Subgroup G} {n : ℕ}
   have hpL : pCore 2 ↥L = Q.subgroupOf L := by
     rw [hpL', Subgroup.subgroupOf_inj]
     simpa using inf_comm L Q
-  haveI hNX : (Q.subgroupOf X).Normal :=
+  have hNX : (Q.subgroupOf X).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hXnorm
-  haveI hNL : (Q.subgroupOf L).Normal :=
+  have hNL : (Q.subgroupOf L).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hLnorm
-  haveI hNXsup : (Q.subgroupOf (X ⊔ Q)).Normal :=
+  have hNXsup : (Q.subgroupOf (X ⊔ Q)).Normal :=
     Subgroup.normal_subgroupOf_sup_of_le_normalizer hXnorm
-  haveI hNLsup : (Q.subgroupOf (L ⊔ Q)).Normal :=
+  have hNLsup : (Q.subgroupOf (L ⊔ Q)).Normal :=
     Subgroup.normal_subgroupOf_sup_of_le_normalizer hLnorm
   let eX : oTwoQuot ↥X ≃* (↥X ⧸ Q.subgroupOf X) :=
     QuotientGroup.quotientMulEquivOfEq hpX
@@ -81,6 +83,7 @@ private theorem isL2Quot_of_sup_quot_eq {X Q L : Subgroup G} {n : ℕ}
   obtain ⟨eP⟩ := h
   exact ⟨(eX.trans (e2.trans (e3.trans (e4.symm.trans eL.symm)))).trans eP⟩
 
+omit [Finite G] in
 private theorem conjJoin_eq_conjJoinOf (A Z : Subgroup G) :
     F53Push.conjJoin A Z = conjJoinOf A Z := by
   rw [F53Push.conjJoin, conjJoinOf]
@@ -103,6 +106,7 @@ private theorem exists_odd_mem_diff_borel {L1 L2 S : Subgroup G} (hF : F112HypW 
     exact sup_le hS1le hOle
   exact (not_le_of_gt (CFSG.Quasithin.F1.lt_borelOf hR111)) hL1le
 
+omit [Finite G] in
 private theorem le_normalizer_conjClosure_of_le_normalizer {K A X : Subgroup G}
     (hKX : K ≤ Subgroup.normalizer (X : Set G))
     (hKA : K ≤ Subgroup.normalizer (A : Set G)) :
@@ -114,6 +118,7 @@ private theorem le_normalizer_conjClosure_of_le_normalizer {K A X : Subgroup G}
   exact ⟨k * h * k⁻¹, (Subgroup.mem_normalizer_iff.mp (hKX hk) h).mp hh,
     k * a * k⁻¹, (Subgroup.mem_normalizer_iff.mp (hKA hk) a).mp ha, by group⟩
 
+omit [Finite G] in
 private theorem conj_mem_conjJoinOf_conj {b o : G} {Z : Subgroup G} {s : G}
     (hbZ : b ∈ Subgroup.normalizer (Z : Set G))
     (hs : s ∈ conjJoinOf (Subgroup.zpowers o) Z) :
@@ -163,7 +168,7 @@ theorem bruhatCovering_of_sylowTwoTI {L1 L2 S : Subgroup G}
       Nat.card (((S ⊓ L1).subgroupOf L1).map (QuotientGroup.mk' (pCore 2 ↥L1))) + 1) :
     Str86BruhatCovering L1 L2 S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR111 : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   have exists_g : ∃ g : G, g ∈ L1 ∧ Odd (orderOf g) ∧ g ∉ bigB L1 L2 S := by
     by_contra hcon
@@ -302,7 +307,7 @@ theorem bruhatCovering_of_sylowTwoTI {L1 L2 S : Subgroup G}
         hN2elem _ hzN hconj2
       have hmemTy : u⁻¹ * u' ∈ T.map (MulAut.conj (π ⟨g, hgL1⟩)).toMonoidHom := by
         refine Subgroup.mem_map.mpr ⟨(π ⟨g, hgL1⟩)⁻¹ * (u⁻¹ * u') * π ⟨g, hgL1⟩, hconjT, ?_⟩
-        simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, mul_inv_rev, inv_inv]
+        simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
         group
       have hbot : u⁻¹ * u' ∈ (⊥ : Subgroup M) := by
         rw [← hInf]
@@ -408,8 +413,8 @@ theorem str86_bruhatCovering {L1 L2 S : Subgroup G}
       (str86_oTwoQuot_sylowTwoTI (Or.inl ⟨a, ha, ⟨e⟩⟩)) hidx
   ·
     obtain ⟨k, hk, F, hFld, hFin, hFc, hU3iso⟩ := hU3
-    letI : Field F := hFld
-    haveI : Finite F := hFin
+    let : Field F := hFld
+    have : Finite F := hFin
     let q : ℕ := 2 ^ k
     have hTcard : Nat.card T = q ^ 3 := by
       rcases hU3iso with ⟨⟨eSU⟩⟩ | ⟨⟨ePSU⟩⟩
@@ -422,7 +427,7 @@ theorem str86_bruhatCovering {L1 L2 S : Subgroup G}
         let Tsyl : Sylow 2 (StatedSU 3 (2 ^ k) F) := hT'p.toSylow hT'idx
         have hcard' : Nat.card T' = q ^ 3 := by
           have hc := Sylow.card_eq_multiplicity Tsyl
-          haveI : CharP F 2 :=
+          have : CharP F 2 :=
             CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := k) hFc
           have h2part := CFSG.Quasithin.H.SU3.card_statedSU_two (n := k) (K := F)
             (by omega) hFc
@@ -478,7 +483,7 @@ theorem str86_false_of_pushUp {L1 L2 S : Subgroup G}
     (hR : P2 L1 L2 S ≤ Subgroup.normalizer ((P ⊓ Q2 L1 L2 S : Subgroup G) : Set G)) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hR111 : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   set B : Subgroup G := bigB L1 L2 S with hBdef
   set P₁ : Subgroup G := P1 L1 L2 S with hP₁def

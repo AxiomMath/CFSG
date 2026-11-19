@@ -17,7 +17,7 @@ theorem catalog_of_qtH13_of_localDoubleEmbeddingExclusion (hD : LocalDoubleEmbed
     (hnonab : ∃ a b : G, a * b ≠ b * a) (hQ : quasithinIsQTKECat G) (T : Sylow 2 G)
     (hLf : ∃ L : Subgroup G, CFSG.Open.quasithinIsFaithfulLocal (T : Subgroup G) L) :
     CFSG.Blueprint.Catalog G := by
-  have hT : quasithinIsSylowTwo (T : Subgroup G) := ⟨T.isPGroup', T.not_dvd_index⟩
+  have hT : quasithinIsSylowTwo (T : Subgroup G) := ⟨T.isPGroup, T.not_dvd_index⟩
   rcases excluded_or_preferred_local hD inferInstance hnonab hQ hT
       (faithful_maximal_local_nonempty hD inferInstance hnonab hQ hT hLf) with h | ⟨L, hL, hH⟩
   · exact h

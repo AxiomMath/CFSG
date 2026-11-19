@@ -40,9 +40,9 @@ theorem foldl_sim (o w : ℕ) (Q0 : List (ℕ × ℕ)) :
   | g :: L, R, B, M => by
     rw [List.foldl_cons, List.foldl_cons, bfsAdd_eq]
     by_cases h : M.testBit (cconj mul inv g o) = true
-    · simp only [recAdd, h, if_true]
+    · simp only [recAdd, h, ite_true]
       exact foldl_sim o w Q0 L R B M
-    · simp only [recAdd, h, Bool.false_eq_true, if_false]
+    · simp only [recAdd, h, Bool.false_eq_true, ite_false]
       have e := foldl_sim o w Q0 L ((cconj mul inv g o, mul g w) :: R)
         ((cconj mul inv g o, mul g w) :: B) (M ||| 2 ^ cconj mul inv g o)
       rw [List.reverse_cons, ← List.append_assoc] at e
@@ -108,13 +108,13 @@ theorem foldl_add_post (o w : ℕ) : ∀ (L : List ℕ) (R B : List (ℕ × ℕ)
   | g :: L, R, B, M, hM => by
     rw [List.foldl_cons, bfsAdd_eq]
     by_cases h : M.testBit (cconj mul inv g o) = true
-    · simp only [h, if_true]
+    · simp only [h, ite_true]
       obtain ⟨h1, h2, h3, h4, h5⟩ := foldl_add_post o w L R B M hM
       refine ⟨h1, h2, h3, fun g' hg' => ?_, h5⟩
       rcases List.mem_cons.1 hg' with rfl | hg'
       · exact h2 _ ((hM _).1 h)
       · exact h4 g' hg'
-    · simp only [h, Bool.false_eq_true, if_false]
+    · simp only [h, Bool.false_eq_true, ite_false]
       have hM' : Tracks (M ||| 2 ^ cconj mul inv g o) ((cconj mul inv g o, mul g w) :: R) := by
         intro x
         rw [Nat.testBit_or, Nat.testBit_two_pow, Bool.or_eq_true, hM, List.map_cons,

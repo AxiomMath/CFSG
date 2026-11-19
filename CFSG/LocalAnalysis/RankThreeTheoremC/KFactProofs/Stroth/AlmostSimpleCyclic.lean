@@ -38,7 +38,7 @@ private lemma dvd_sub_one_of_conj_eq {X : Type} [Group X] {p : ℕ} (hp : p.Prim
     rw [zpow_sub, h1, zpow_one, mul_inv_cancel]
   have h3 : (orderOf g : ℤ) ∣ u ^ p ^ j - 1 := orderOf_dvd_iff_zpow_eq_one.mpr h2
   have h4 : (p : ℤ) ∣ u ^ p ^ j - 1 := (Int.natCast_dvd_natCast.mpr hpn).trans h3
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have h5 : (u : ZMod p) ^ p ^ j = 1 := by
     have h6 : ((u ^ p ^ j - 1 : ℤ) : ZMod p) = 0 :=
       (ZMod.intCast_zmod_eq_zero_iff_dvd _ p).mpr h4
@@ -73,7 +73,7 @@ private lemma le_normalizer_inf_normal {X : Type} [Group X] {S L : Subgroup X} [
   intro d hd
   rw [Subgroup.mem_normalizer_iff]
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   constructor
   · rintro ⟨hh, hhL⟩
     exact ⟨S.mul_mem (S.mul_mem hd hh) (S.inv_mem hd),
@@ -100,7 +100,7 @@ private lemma exists_pGroup_sylow_inf {X : Type} [Group X] [Finite X] {p : ℕ} 
   have hS : CFSG.ABGLocalTools.IsSylowOf p ((Q₀ : Subgroup ↥(L ⊔ D)).map (L ⊔ D).subtype)
       (L ⊔ D) :=
     ⟨Q₀, rfl⟩
-  refine ⟨(Q₀ : Subgroup ↥(L ⊔ D)).map (L ⊔ D).subtype, Q₀.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(Q₀ : Subgroup ↥(L ⊔ D)).map (L ⊔ D).subtype, Q₀.isPGroup.map _, ?_, ?_⟩
   · intro d hd
     have hdLD : d ∈ L ⊔ D := (le_sup_right : D ≤ L ⊔ D) hd
     have hmem : (⟨d, hdLD⟩ : ↥(L ⊔ D)) ∈ D.comap (L ⊔ D).subtype := hd
@@ -110,9 +110,9 @@ private lemma exists_pGroup_sylow_inf {X : Type} [Group X] [Finite X] {p : ℕ} 
 theorem false_of_cyclic_sylow_ge_sq {X : Type} [Group X] [Finite X] {p : ℕ} {L D : Subgroup X}
     [L.Normal] (hF : ThompsonFrame p D) (hE : NormalizerExponent p D) (P₀ : Sylow p L)
     (hc : IsCyclic (P₀ : Subgroup L)) (hP : p ^ 2 ∣ Nat.card (P₀ : Subgroup L)) : False := by
-  haveI : Fact p.Prime := ⟨hF.prime⟩
+  have : Fact p.Prime := ⟨hF.prime⟩
   have hp : p.Prime := hF.prime
-  haveI : Finite (Sylow p L) :=
+  have : Finite (Sylow p L) :=
     Finite.of_injective (fun Q : Sylow p L => ((Q : Subgroup L) : Set L))
       (fun P Q h => Sylow.ext (SetLike.coe_injective h))
   have hDp : IsPGroup p D := IsPGroup.of_card hF.card
@@ -135,7 +135,7 @@ theorem false_of_cyclic_sylow_ge_sq {X : Type} [Group X] [Finite X] {p : ℕ} {L
   obtain ⟨g, hgP, hgen, hord⟩ : ∃ g : X, g ∈ (S ⊓ L : Subgroup X) ∧
       (∀ x ∈ (S ⊓ L : Subgroup X), ∃ k : ℤ, g ^ k = x) ∧
       orderOf g = Nat.card (S ⊓ L : Subgroup X) := by
-    haveI := hcycP
+    have := hcycP
     obtain ⟨g₁, hg₁⟩ := IsCyclic.exists_generator (α := (S ⊓ L : Subgroup X))
     refine ⟨(g₁ : X), g₁.2, fun x hx => ?_, ?_⟩
     · obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp (hg₁ ⟨x, hx⟩)

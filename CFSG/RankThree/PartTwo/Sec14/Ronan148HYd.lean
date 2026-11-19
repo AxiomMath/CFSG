@@ -49,17 +49,17 @@ variable {Q R : Type*} [Group Q] [Group R] [Finite Q]
 theorem map_theta_eq_of_ker_le (f : Q →* R) (hf : Function.Surjective f)
     (hker : f.ker ≤ aschbacherSolvableCore 3 Q) :
     (aschbacherSolvableCore 3 Q).map f = aschbacherSolvableCore 3 R := by
-  haveI : Finite R := Finite.of_surjective f hf
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite R := Finite.of_surjective f hf
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hθs, hθc, hθ3, hθmax, -⟩ :=
     solvable_prime_complement_core_characterization (H := Q) Nat.prime_three
   obtain ⟨hθs', hθc', hθ3', hθmax', -⟩ :=
     solvable_prime_complement_core_characterization (H := R) Nat.prime_three
-  haveI : (aschbacherSolvableCore 3 Q).Normal := by haveI := hθc; infer_instance
-  haveI : (aschbacherSolvableCore 3 R).Normal := by haveI := hθc'; infer_instance
+  have : (aschbacherSolvableCore 3 Q).Normal := by have := hθc; infer_instance
+  have : (aschbacherSolvableCore 3 R).Normal := by have := hθc'; infer_instance
   apply le_antisymm
   · refine hθmax' _ ((inferInstance : (aschbacherSolvableCore 3 Q).Normal).map f hf) ?_ ?_
-    · haveI := hθs
+    · have := hθs
       exact Group.isSolvable_of_surjective (f := f.subgroupMap (aschbacherSolvableCore 3 Q))
         (f.subgroupMap_surjective _)
     · intro h3
@@ -69,11 +69,11 @@ theorem map_theta_eq_of_ker_le (f : Q →* R) (hf : Function.Surjective f)
     have hkerT : f.ker ≤ T := fun x hx => by
       rw [hT, Subgroup.mem_comap, MonoidHom.mem_ker.mp hx]; exact Subgroup.one_mem _
     have hTs : Group.IsSolvable T := by
-      haveI := hθs'
-      haveI : Group.IsSolvable f.ker :=
+      have := hθs'
+      have : Group.IsSolvable f.ker :=
         Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hker)
           (Subgroup.inclusion_injective _)
-      haveI := hθs
+      have := hθs
       refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion hkerT)
         ((f.comp T.subtype).codRestrict (aschbacherSolvableCore 3 R) fun t => t.2) ?_
       intro t ht
@@ -105,13 +105,13 @@ theorem map_theta_eq_of_ker_le (f : Q →* R) (hf : Function.Surjective f)
 theorem nonempty_thetaQuot_equiv_of_ker_le (f : Q →* R) (hf : Function.Surjective f)
     (hker : f.ker ≤ aschbacherSolvableCore 3 Q) :
     Nonempty (Q ⧸ aschbacherSolvableCore 3 Q ≃* R ⧸ aschbacherSolvableCore 3 R) := by
-  haveI : Finite R := Finite.of_surjective f hf
+  have : Finite R := Finite.of_surjective f hf
   obtain ⟨-, hθc, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := Q) Nat.prime_three
   obtain ⟨-, hθc', -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := R) Nat.prime_three
-  haveI : (aschbacherSolvableCore 3 Q).Normal := by haveI := hθc; infer_instance
-  haveI : (aschbacherSolvableCore 3 R).Normal := by haveI := hθc'; infer_instance
+  have : (aschbacherSolvableCore 3 Q).Normal := by have := hθc; infer_instance
+  have : (aschbacherSolvableCore 3 R).Normal := by have := hθc'; infer_instance
   set g := (QuotientGroup.mk' (aschbacherSolvableCore 3 R)).comp f with hg
   have hgs : Function.Surjective g := (QuotientGroup.mk'_surjective _).comp hf
   have hgker : g.ker = aschbacherSolvableCore 3 Q := by
@@ -135,7 +135,7 @@ theorem comap_theta_le {C : Type*} [Group C] [Finite C] (ι : Q →* C) (hι : F
     solvable_prime_complement_core_characterization (H := Q) Nat.prime_three
   obtain ⟨hθs', hθc', hθ3', -, -⟩ :=
     solvable_prime_complement_core_characterization (H := C) Nat.prime_three
-  haveI : (aschbacherSolvableCore 3 C).Normal := by haveI := hθc'; infer_instance
+  have : (aschbacherSolvableCore 3 C).Normal := by have := hθc'; infer_instance
   set T := (aschbacherSolvableCore 3 C).comap ι with hT
   have hTn : T.Normal := (inferInstance : (aschbacherSolvableCore 3 C).Normal).comap ι
   let j : T →* aschbacherSolvableCore 3 C :=
@@ -145,22 +145,22 @@ theorem comap_theta_le {C : Type*} [Group C] [Finite C] (ι : Q →* C) (hι : F
   have hj : Function.Injective j := fun x y hxy =>
     Subtype.ext (hι (congrArg Subtype.val hxy))
   have hTs : Group.IsSolvable T := by
-    haveI := hθs'
+    have := hθs'
     exact Group.isSolvable_of_isSolvable_injective hj
   have hT3 : ¬ 3 ∣ Nat.card T := fun h3 =>
     hθ3' (h3.trans (Subgroup.card_dvd_of_injective j hj))
   exact hθmax T hTn hTs hT3
 
 theorem theta_thetaQuot_eq_bot : aschbacherSolvableCore 3 (Q ⧸ aschbacherSolvableCore 3 Q) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hθs, hθc, hθ3, hθmax, -⟩ :=
     solvable_prime_complement_core_characterization (H := Q) Nat.prime_three
-  haveI : (aschbacherSolvableCore 3 Q).Normal := by haveI := hθc; infer_instance
+  have : (aschbacherSolvableCore 3 Q).Normal := by have := hθc; infer_instance
   set N := aschbacherSolvableCore 3 Q with hN
   set π := QuotientGroup.mk' N with hπ
   obtain ⟨hTs, hTc, hT3, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := Q ⧸ N) Nat.prime_three
-  haveI : (aschbacherSolvableCore 3 (Q ⧸ N)).Normal := by haveI := hTc; infer_instance
+  have : (aschbacherSolvableCore 3 (Q ⧸ N)).Normal := by have := hTc; infer_instance
   set T := aschbacherSolvableCore 3 (Q ⧸ N) with hT
   set T' := T.comap π with hT'
   have hNT' : N ≤ T' := fun x hx => by
@@ -168,8 +168,8 @@ theorem theta_thetaQuot_eq_bot : aschbacherSolvableCore 3 (Q ⧸ aschbacherSolva
     exact T.one_mem
   have hT'n : T'.Normal := (inferInstance : T.Normal).comap π
   have hT's : Group.IsSolvable T' := by
-    haveI := hθs
-    haveI := hTs
+    have := hθs
+    have := hTs
     refine Group.isSolvable_of_ker_le_range (Subgroup.inclusion hNT')
       ((π.comp T'.subtype).codRestrict T fun t => t.2) ?_
     intro t ht
@@ -251,7 +251,7 @@ theorem le_map_of_le_sup {d : G} {K Z : Subgroup G}
   set C := Subgroup.centralizer ({d} : Set G) with hC
   set θC := aschbacherSolvableCore 3 ↥C with hθC
   obtain ⟨-, hθc, -, -, -⟩ := solvable_prime_complement_core_characterization (H := ↥C) Nat.prime_three
-  haveI : θC.Normal := by haveI := hθc; infer_instance
+  have : θC.Normal := by have := hθc; infer_instance
   have hmap : (K.subgroupOf C ⊔ θC).map C.subtype = K ⊔ inSubgroup (aschbacherSolvableCore 3) C := by
     rw [Subgroup.map_sup, Subgroup.subgroupOf_map_subtype, inf_of_le_left hKC]
     rfl
@@ -295,7 +295,7 @@ theorem isTripleCover_yd_of_core (Φ : ∀ (T : Type) [Group T], Prop)
   set θC := aschbacherSolvableCore 3 ↥C with hθC
   obtain ⟨hθCs, hθCc, hθC3, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := ↥C) Nat.prime_three
-  haveI : θC.Normal := by haveI := hθCc; infer_instance
+  have : θC.Normal := by have := hθCc; infer_instance
   set ρ := QuotientGroup.mk' θC with hρ
   obtain ⟨hKC, hK'⟩ := (mem_thetaComponentsIn_iff (H := C)).mp
     ((thetaComponentsAt_eq_thetaComponentsIn d) ▸ hK)
@@ -306,7 +306,7 @@ theorem isTripleCover_yd_of_core (Φ : ∀ (T : Type) [Group T], Prop)
   have hONX : Sec4.IsTripleCover ↥X CFSG.Blueprint.NativeSporadic.ON :=
     Sec13.isTripleCover_of_mulEquiv ((thetaQuotEquiv eK).symm.trans η) hON
   have hXp : Group.IsPerfect ↥X := by
-    haveI : Group.IsPerfect ↥K' := hK'.1
+    have : Group.IsPerfect ↥K' := hK'.1
     exact Group.IsPerfect.ofSurjective (f := ρ.subgroupMap K') (ρ.subgroupMap_surjective K')
   have hAC : A ≤ C := hAK.trans hKC
   have hYBC : YB ≤ C := hYBYd.trans hYdC

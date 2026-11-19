@@ -224,7 +224,7 @@ theorem mul_le_pRank_of_surjective_pi [Finite F] [IsSimpleGroup F] (hnc : ∃ a 
       set P' : Subgroup X := (P : Subgroup φ.ker).map φ.ker.subtype with hP'def
       have hfr : normalizer (P' : Set X) ⊔ φ.ker = ⊤ := Sylow.normalizer_sup_eq_top P
       have hP'Y : P' ≤ φ.ker := map_subtype_le _
-      obtain ⟨m', hm⟩ := IsPGroup.iff_card.1 (P.isPGroup'.map φ.ker.subtype)
+      obtain ⟨m', hm⟩ := IsPGroup.iff_card.1 (P.isPGroup.map φ.ker.subtype)
       have hP'q : ¬ q ∣ Nat.card P' := by
         rw [hm]
         intro h
@@ -400,13 +400,13 @@ theorem exists_factor_hom {Y : Subgroup G} {𝒞 : Set (Subgroup G)}
       exact hs
     simp only [hΦdef, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, h1, MulEquiv.apply_symm_apply]
   · have h1 : γ.codRestrict ι.range hrange ⟨x, hx⟩ = 1 := Subtype.ext (hγL' L' hL' hne x hxL')
-    simp only [hΦdef, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, h1, map_one]
+    simp only [hΦdef, MonoidHom.comp_apply, h1, map_one]
 
 theorem inputD4ThreeRank_holds :
     Claims1110i.InputD4ThreeRank := by
   intro G _ _ Y _ 𝒞 h𝒞
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set J : Subgroup G := ⨆ L ∈ 𝒞, L with hJdef
   have hΦ : ∀ L : ↥𝒞, ∃ Φ : ↥J →* ↥CFSG.EvenSmallLie.OmegaEight.omegaT,
       (∀ a, ∃ (l : G) (hl : l ∈ J), l ∈ (L : Subgroup G) ∧ Φ ⟨l, hl⟩ = a) ∧
@@ -439,7 +439,7 @@ theorem inputD4ThreeRank_holds :
     CFSG.EvenSmallLie.OmegaEight.statedClassicalModel_omegaT
   obtain ⟨-, hsimple⟩ :=
     CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_of_statedClassicalModel_POmegaPlus _ 4 2 1 hS
-  haveI := hsimple
+  have := hsimple
   have hLie : CFSG.Models.LieModel ↥CFSG.EvenSmallLie.OmegaEight.omegaT .POmegaPlus 4 2 1 :=
     ⟨hS.1, Or.inl hS⟩
   obtain ⟨hperfF, ⟨eH⟩⟩ :=

@@ -50,7 +50,7 @@ theorem exists_cyclic_of_exponent {A : Type*} [Group A] {B : Subgroup G} (φ : �
     ∃ X : Subgroup G, X ≤ B ∧ IsCyclic ↥X ∧ Nat.card ↥X = Nat.card ↥φ.range ∧
       ∀ a ∈ φ.range, ∃ x : ↥B, (x : G) ∈ X ∧ φ x = a := by
   classical
-  haveI : Finite ↥φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+  have : Finite ↥φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
   obtain ⟨ξ, hξ⟩ := hcyc.exists_generator
   obtain ⟨b, hb⟩ : ∃ b : ↥B, φ b = (ξ : A) := ξ.2
   set d := Nat.card ↥φ.range with hd
@@ -110,13 +110,13 @@ theorem exists_complement_of_coprime {A : Type*} [Group A] {B : Subgroup G} (φ 
     ∃ X : Subgroup G, X ≤ B ∧ IsCyclic ↥X ∧ Nat.card ↥X = Nat.card ↥φ.range ∧
       ∀ a ∈ φ.range, ∃ x : ↥B, (x : G) ∈ X ∧ φ x = a := by
   classical
-  haveI : Finite ↥φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+  have : Finite ↥φ.range := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
   have hidx : φ.ker.index = Nat.card ↥φ.range := by
     rw [← Nat.card_congr (QuotientGroup.quotientKerEquivRange φ).toEquiv]
     rfl
   obtain ⟨H, hH⟩ := Subgroup.exists_right_complement'_of_coprime (N := φ.ker)
     (by rw [hidx]; exact hcop)
-  have hcard : Nat.card ↥φ.ker * Nat.card ↥H = Nat.card ↥B := hH.card_mul
+  have hcard : Nat.card ↥φ.ker * Nat.card ↥H = Nat.card ↥B := hH.card_mul_card
   have hdisj : Disjoint φ.ker H := hH.disjoint
   have hker : Nat.card ↥φ.ker * Nat.card ↥φ.range = Nat.card ↥B := by
     rw [← hidx, mul_comm]

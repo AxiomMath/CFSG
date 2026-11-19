@@ -29,7 +29,7 @@ theorem map_letterSub {A : Set (Fin 8)} {L : List ℕ} (hL : ∀ i ∈ L, i < 8)
   rw [ae6LetterSub, MonoidHom.map_closure]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq, mem_eGens_iff hL]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, mem_eGens_iff hL]
   constructor
   · rintro ⟨_, ⟨i, hi, rfl⟩, rfl⟩
     exact ⟨i, (hA i).mp hi, rfl⟩

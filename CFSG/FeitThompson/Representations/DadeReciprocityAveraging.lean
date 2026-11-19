@@ -53,7 +53,7 @@ variable {L : Subgroup G} {A : Set G} {H : G → Subgroup G} {f χ : G → ℂ} 
 
 private theorem dadeWeight_eq_zero (h : x ∉ dadeCosetUnion A H) : dadeWeight A H f x = 0 := by
   classical
-  rw [dadeWeight, if_neg h]
+  rw [dadeWeight, ite_eq_right h]
 
 private theorem sum_dadeTerm_right [Fintype G] (A : Set G) (H : G → Subgroup G) (f χ : G → ℂ)
     (a : G) : ∑ y : G, dadeTerm A H f χ a y = A.indicator f a * conj (dadeAverage A H χ a) := by
@@ -66,17 +66,17 @@ private theorem sum_dadeTerm_right [Fintype G] (A : Set G) (H : G → Subgroup G
       have he : (Equiv.mulRight a) v = v * a := rfl
       rw [he, dadeTerm]
       by_cases hv : v ∈ H a
-      · rw [if_pos hv, if_pos (⟨ha, mul_mem_dadeCoset hv⟩ : a ∈ A ∧ v * a ∈ dadeCoset H a)]
-      · rw [if_neg hv, if_neg (show ¬(a ∈ A ∧ v * a ∈ dadeCoset H a) from
+      · rw [ite_eq_left hv, ite_eq_left (⟨ha, mul_mem_dadeCoset hv⟩ : a ∈ A ∧ v * a ∈ dadeCoset H a)]
+      · rw [ite_eq_right hv, ite_eq_right (show ¬(a ∈ A ∧ v * a ∈ dadeCoset H a) from
           fun hc => hv (by simpa using mem_dadeCoset_iff.1 hc.2))]
     rw [hre, map_mul, map_inv₀, Complex.conj_natCast, map_sum, Finset.mul_sum, Finset.mul_sum]
     refine Finset.sum_congr rfl fun v _ => ?_
     by_cases hv : v ∈ H a
-    · rw [if_pos hv, if_pos hv]; ring
-    · rw [if_neg hv, if_neg hv]; simp
+    · rw [ite_eq_left hv, ite_eq_left hv]; ring
+    · rw [ite_eq_right hv, ite_eq_right hv]; simp
   · rw [Set.indicator_of_notMem ha, zero_mul, Finset.sum_eq_zero]
     intro y _
-    rw [dadeTerm, if_neg (fun hc => ha hc.1)]
+    rw [dadeTerm, ite_eq_right (fun hc => ha hc.1)]
 
 variable [Finite G]
 
@@ -85,7 +85,7 @@ private theorem dadeWeight_of_mem_dadeSupport (hD : IsDadeData L A H)
     (ha : a ∈ A) {y : G} (hy : y ∈ dadeCosetUnion A H) (hya : y ∈ dadeSupport H a) :
     dadeWeight A H f y = (Nat.card ↥(H a) : ℂ)⁻¹ * f a := by
   classical
-  rw [dadeWeight, if_pos hy]
+  rw [dadeWeight, ite_eq_left hy]
   have hyD : y ∈ totalDadeSupport A H := dadeCosetUnion_subset_totalDadeSupport A H hy
   obtain ⟨l, hl, hlab⟩ := hD.exists_conj_of_dadeSupport_inter_nonempty ha (dadeRep_mem hyD)
     ⟨y, hya, mem_dadeSupport_dadeRep hyD⟩
@@ -218,17 +218,17 @@ private theorem sum_dadeTerm_left (hD : IsDadeData L A H)
   classical
   by_cases hy : y ∈ dadeCosetUnion A H
   · obtain ⟨c, hc, hyc⟩ := mem_dadeCosetUnion_iff.1 hy
-    rw [Finset.sum_eq_single c, dadeTerm, if_pos ⟨hc, hyc⟩,
+    rw [Finset.sum_eq_single c, dadeTerm, ite_eq_left ⟨hc, hyc⟩,
       dadeWeight_of_mem_dadeSupport hD hf hc hy (dadeCoset_subset_dadeSupport H c hyc)]
     · intro b _ hbc
-      rw [dadeTerm, if_neg (fun hcc => hbc (hD.eq_of_mem_dadeCoset hcc.1 hc hcc.2 hyc))]
+      rw [dadeTerm, ite_eq_right (fun hcc => hbc (hD.eq_of_mem_dadeCoset hcc.1 hc hcc.2 hyc))]
     · intro h; exact absurd (Finset.mem_univ c) h
   · rw [dadeWeight_eq_zero hy, zero_mul, Finset.sum_eq_zero]
     intro c _
     rw [dadeTerm]
     by_cases hcc : c ∈ A ∧ y ∈ dadeCoset H c
     · exact absurd (mem_dadeCosetUnion_of_mem_dadeCoset hcc.1 hcc.2) hy
-    · rw [if_neg hcc]
+    · rw [ite_eq_right hcc]
 
 private theorem sum_dadeWeight_conj (hD : IsDadeData L A H)
     (hf : ∀ ⦃b : G⦄, b ∈ A → ∀ ⦃l : G⦄, l ∈ L → f (l * b * l⁻¹) = f b) (x : G) :
@@ -243,11 +243,11 @@ private theorem sum_dadeWeight_conj (hD : IsDadeData L A H)
         = if j * x * j⁻¹ ∈ dadeCosetUnion A H then (Nat.card ↥(H a) : ℂ)⁻¹ * f a else 0 := by
       intro j
       by_cases hj : j * x * j⁻¹ ∈ dadeCosetUnion A H
-      · rw [if_pos hj]
+      · rw [ite_eq_left hj]
         refine dadeWeight_of_mem_dadeSupport hD hf ha hj ?_
         have h2 := conj_mem_dadeSupport hxa j⁻¹
         rwa [show j⁻¹⁻¹ * x * j⁻¹ = j * x * j⁻¹ by group] at h2
-      · rw [if_neg hj, dadeWeight_eq_zero hj]
+      · rw [ite_eq_right hj, dadeWeight_eq_zero hj]
     rw [Finset.sum_congr rfl (fun j _ => hterm j), ← Finset.sum_filter, Finset.sum_const,
       nsmul_eq_mul]
     have hcard : (Finset.card (Finset.filter (fun j : G => j * x * j⁻¹ ∈ dadeCosetUnion A H)

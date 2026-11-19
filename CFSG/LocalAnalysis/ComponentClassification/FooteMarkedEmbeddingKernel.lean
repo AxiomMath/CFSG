@@ -64,7 +64,7 @@ theorem oddCore_sup_twoLayerIn_centralizer_le_of_marked_topRank
     {t : G} {k : ℕ} (htk : t ^ (2 ^ k) = 1) (ht1 : t ≠ 1)
     (htK : t ∈ coreActionKernel K) (hTrank : 2 ≤ CFSG.pRank 2 T) :
     oddCoreIn (centralizer ({t} : Set G)) ⊔ twoLayerIn (centralizer ({t} : Set G)) ≤ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨eK⟩ := hKmarked.2.1
   have hKrank : 2 ≤ CFSG.Open.pRank 2 K := by
     have hker : ¬ 2 ∣ Nat.card (pPrimeCore 2 ↥K) :=

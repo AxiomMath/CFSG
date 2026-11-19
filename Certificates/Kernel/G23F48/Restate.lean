@@ -13,7 +13,7 @@ namespace CFSG.KC.G23F48
 open CFSG.ASVolI CFSG.KC.Enum CFSG.KS CFSG.KS.Raw CFSG.KC.Misc.ArrEnum CFSG.KD.G23A22
 open CFSG.Sporadic.HNOddCore (arrGen)
 
-open Certificates in
+open _root_.CFSG.Certificates in
 open CFSG CFSG.ASVolI in
 theorem facts7760 : (∀ i < 728, ((burnsideF48t_g23Pts ())[i]!).size = 14 ∧
       (((burnsideF48t_g23Pts ())[i]!).all fun x => decide (x < 3)) = true ∧
@@ -73,7 +73,7 @@ theorem B_closure : burnsideF48t_g23B' =
     rintro _ (rfl | rfl)
     exacts [ab_mem_B.1, ab_mem_B.2]
 
-open Certificates in
+open _root_.CFSG.Certificates in
 open CFSG CFSG.ASVolI in
 theorem facts7762 : burnsideF48t_g23X = Subgroup.closure (Set.range fun i : Fin 4 => burnsideF48t_g23γ i) ∧
     burnsideF48t_g23P1' =

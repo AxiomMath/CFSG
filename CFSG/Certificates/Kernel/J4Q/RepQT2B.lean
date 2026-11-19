@@ -553,7 +553,7 @@ theorem v2N_getElem! (_hK : Consts c rm one pad t0 t1 t2 t3 t4 t5 t6) {X : Array
     · have hdiv : (i * 128 + j) / 128 = i := by omega
       have hmod : (i * 128 + j) % 128 = j := by omega
       have hbound : i * 128 + j < 128 * 112 := by omega
-      rw [if_pos hbound, hdiv, hmod]
+      rw [ite_eq_left hbound, hdiv, hmod]
       rw [Array.getElem!_eq_getD]
       rfl
     · have hlarge : X.size ≤ i := by rw [_hX.1]; omega
@@ -562,7 +562,7 @@ theorem v2N_getElem! (_hK : Consts c rm one pad t0 t1 t2 t3 t4 t5 t6) {X : Array
           Array.getElem?_eq_none hlarge, Option.getD_none]
         rfl
       have hbound : ¬i * 128 + j < 128 * 112 := by omega
-      rw [if_neg hbound, hzero, v2N_eq_toNat]
+      rw [ite_eq_right hbound, hzero, v2N_eq_toNat]
       simp [V2.toNat, V2.zero]
   · have hle : 2 ^ 112 ≤ 2 ^ j := Nat.pow_le_pow_right (by norm_num) (by omega)
     rw [show decide (j < 112) = false by simp [hj], Bool.and_false,
@@ -679,7 +679,7 @@ theorem enc_addRows {X Y : Array V2} (_hX : WfA X) (_hY : WfA Y) :
     rw [Nat.xor_eq, Nat.testBit_xor, hbit _ huv 112 (Nat.le_refl 112),
       hbit u hu 112 (Nat.le_refl 112), hbit v hv 112 (Nat.le_refl 112)]
     by_cases hj : j < 128 * 112
-    · simp only [if_pos hj, Nat.xor_eq, Nat.testBit_xor]
+    · simp only [ite_eq_left hj, Nat.xor_eq, Nat.testBit_xor]
     · simp [hj]
   have henc (Z : Array V2) (hZ : WfA Z) :
       encR Z = rowsJ (fun i => v2N (Z[i]?.getD V2.zero)) := by
@@ -956,12 +956,10 @@ theorem triOK_of (vs : Array V2) (ps : Array Nat) (_h : triK (vs.toList.map v2N)
   have hvget (k : Nat) (hk : k < vs.size) :
       getN 0 (vs.toList.map v2N) k = v2N vs[k]! := by
     rw [hget]
-    simp [List.getD_eq_getElem?_getD, Array.getElem!_eq_getD,
-      Array.getD_eq_getD_getElem?, hk]
+    simp [List.getD_eq_getElem?_getD, hk]
   have hpget (k : Nat) (hk : k < ps.size) : getN 0 ps.toList k = ps[k]! := by
     rw [hget]
-    simp [List.getD_eq_getElem?_getD, Array.getElem!_eq_getD,
-      Array.getD_eq_getD_getElem?, hk]
+    simp [List.getD_eq_getElem?_getD, hk]
   unfold triK at _h
   rw [andB_eq, Bool.and_eq_true] at _h
   have hs : vs.size = ps.size := by

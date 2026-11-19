@@ -163,7 +163,7 @@ theorem pop_byte (x i : ℕ) : fd 4 popT (fd 8 x i) =
     exact Nat.mod_lt _ (by norm_num)
   rw [popT_spec _ hl, fd_eq, bits8_mod]
 
-theorem pop32_spec {x : ℕ} (hx : x < 2 ^ 32) :
+theorem pop32_spec {x : ℕ} (_hx : x < 2 ^ 32) :
     pop32 x = ((Finset.range 32).filter fun v => x.testBit v).card := by
   rw [Finset.card_filter]
   have h32 : (32 : ℕ) = 8 + (8 + (8 + 8)) := rfl
@@ -285,7 +285,7 @@ theorem spr_eq (A k : ℕ) :
     · simp [h5]
   · simp [hn]
 
-theorem termBit (A B k i j : ℕ) (hk : k < 5) (hi : i < 5) (hj : j < 5) :
+theorem termBit (A B k i j : ℕ) (_hk : k < 5) (hi : i < 5) (hj : j < 5) :
     (((A >>> k) &&& 1082401) * ((B >>> (5 * k)) &&& 31)).testBit (5 * i + j) =
       (A.testBit (5 * i + k) && B.testBit (5 * k + j)) := by
   have h31 : (31 : ℕ) = 2 ^ 5 - 1 := rfl
@@ -725,7 +725,7 @@ theorem matOf_inj {a b : ℕ} (ha : a < 2 ^ 25) (hb : b < 2 ^ 25) (h : matOf a =
   intro q
   by_cases hq : q < 25
   · have h1 := congrFun (congrFun h ⟨q / 5, by omega⟩) ⟨q % 5, by omega⟩
-    simp only [matOf, Matrix.of_apply, Fin.val_mk] at h1
+    simp only [matOf, Matrix.of_apply] at h1
     have e : 5 * (q / 5) + q % 5 = q := by omega
     rw [e] at h1
     exact ite_inj2 h1
@@ -1077,7 +1077,7 @@ theorem fd25_prodL (M MT : ℕ) {z : ℕ} (hz : z < 191) :
     intro k hk
     have h31 : (31 : ℕ) < 2 ^ 25 := by norm_num
     rw [lane_mul]
-    · rw [fd25_and_rep h31, if_pos hz, fd25_shr_and]
+    · rw [fd25_and_rep h31, ite_eq_left hz, fd25_shr_and]
       exact lt_of_lt_of_le (by norm_num : (31 : ℕ) < 2 ^ 5)
         (Nat.pow_le_pow_right (by norm_num) (by omega))
     · intro y
@@ -1114,7 +1114,7 @@ theorem fd25_prodR (M MT : ℕ) {z : ℕ} (hz : z < 191) :
     intro k hk
     have h1 : (1082401 : ℕ) < 2 ^ 25 := by norm_num
     rw [Nat.mul_comm, lane_mul, Nat.mul_comm]
-    · rw [fd25_and_rep h1, if_pos hz, fd25_shr_and]
+    · rw [fd25_and_rep h1, ite_eq_left hz, fd25_shr_and]
       exact lt_of_lt_of_le (by norm_num : (1082401 : ℕ) < 2 ^ 21)
         (Nat.pow_le_pow_right (by norm_num) (by omega))
     · intro y
@@ -1300,7 +1300,7 @@ theorem recOK_spec {MT r : ℕ} (h : recOK MT r = true) :
         ((rfixT r).testBit v = true ↔ vm (rM r) v = v)) := by
   unfold recOK at h
   simp only [letB_eq, andB_eq, Bool.and_eq_true, allN_spec, eqB_eq, impB_eq, notB_eq, bitB_eq,
-    beq_rec01, Nat.beq_eq, Nat.blt_eq, land_eq, xor_eq, Nat.mul_eq] at h
+    beq_rec01, Nat.beq_eq, land_eq, xor_eq, Nat.mul_eq] at h
   obtain ⟨⟨h1, h2, h3, h4, h5⟩, h6, h7⟩ := h
   have key : ∀ (a : Bool) {x y : ℕ}, (a == Nat.beq x y) = true → (a = true ↔ x = y) := by
     intro a x y hab
@@ -1464,7 +1464,7 @@ theorem singMask_spec {p : ℕ} (hp : p < 2 ^ 15) (h : singMask.testBit p) :
       rw [Nat.testBit_lt_two_pow hlt] at hi
       exact absurd hi (by simp)
     have h1 := congrFun h0 ⟨i, hi5⟩
-    simp only [vdec, hi, if_true, Pi.zero_apply] at h1
+    simp only [vdec, hi, ite_true, Pi.zero_apply] at h1
     exact absurd h1 (by decide)
   · funext i
     rw [row_eq hp, hz i i.2]
@@ -1548,12 +1548,12 @@ theorem filterP_eq (r Ym' : ℕ) (nw l : List ℕ) :
     · rw [hc]
       change z :: filterP r Ym' nw l = _
       rw [ih]
-      simp [List.filter_cons, hc]
+      simp [hc]
     · rw [Bool.not_eq_true] at hc
       rw [hc]
       change filterP r Ym' nw l = _
       rw [ih]
-      simp [List.filter_cons, hc]
+      simp [hc]
 
 theorem canonZ_spec (z : ℕ) (nw : List ℕ) :
     canonZ z nw = true ↔ ∀ w ∈ nw, rx z < rowAt z w := by
@@ -1840,8 +1840,7 @@ theorem walk_sound {MT S : ℕ} {RL : List ℕ} (hR : recsOK MT RL = true)
             · exact Or.inl h
         have hY5' : (appendL (newOnly (recAt RL b) Yl) Yl).length + 1 = 2 ^ (b :: Bi).length := by
           rw [appendL_eq, newOnly_eq]
-          simp only [List.length_append, List.length_map, List.length_singleton,
-            List.length_cons, List.length_nil, pow_succ]
+          simp only [List.length_append, List.length_map, List.length_cons, List.length_nil, pow_succ]
           omega
         have hB1' : ∀ c ∈ b :: Bi, c ∈ appendL (newOnly (recAt RL b) Yl) Yl := by
           intro c hc
@@ -1922,7 +1921,7 @@ theorem walk_sound {MT S : ℕ} {RL : List ℕ} (hR : recsOK MT RL = true)
           apply hzc w
           rw [appendL_eq]
           exact List.mem_append_left _ hw
-        simp only [Function.comp_apply, hc1, hc2, hc3, andB_eq, notB_eq, Bool.not_false,
+        simp only [hc1, hc2, hc3, andB_eq, notB_eq, Bool.not_false,
           Bool.and_self]
   have h0 := main 7 [] [] 0 4294967295 4294967295 (List.range 191)
     (by simp) List.nodup_nil

@@ -280,7 +280,7 @@ theorem orthTwo_inner {S : Type} [Group S] {t : StatedLieTag} {n : ℕ}
     (ht : t = .POmegaPlus ∨ t = .POmegaMinus) (hn : 5 ≤ n) (hS : StatedClassicalModel S t n 2 1)
     {β : MulAut S} (hβ : β ^ 3 = 1) : ∃ s : S, MulAut.conj s = β := by
   by_contra h
-  push_neg at h
+  push Not at h
   have := orth_outer_dvd ht hn hS Nat.prime_three (by norm_num) hβ h
   omega
 

@@ -83,7 +83,7 @@ theorem exists_eq_add_smul_of_commute {A B : Matrix (Fin 2) (Fin 2) F}
         rw [hc] at h10
         have : B 1 0 * (A 0 0 - A 1 1) = 0 := by linear_combination -h10
         simpa [hd] using this
-      ext i j; fin_cases i <;> fin_cases j <;> simp [hb, hc, hB01, hB10] <;> field_simp <;> ring
+      ext i j; fin_cases i <;> fin_cases j <;> simp [hb, hc, hB01, hB10]; field_simp; ring
     · have hf : B 0 1 = 0 := by
         rw [hb] at h00
         have : B 0 1 * A 1 0 = 0 := by linear_combination -h00
@@ -120,7 +120,7 @@ theorem nonscalar_of_ne_one {t : GL (Fin 2) F} (ht : ProjGenLinGroup.mk t ≠ 1)
   have ha : a ≠ 0 := by
     rintro rfl
     have := t.ne_zero
-    exact this (by simpa using h)
+    exact this (by simp at h)
   apply ht
   have : t = GeneralLinearGroup.scalar (Fin 2) (Units.mk0 a ha) := by
     apply Units.ext

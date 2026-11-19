@@ -70,13 +70,12 @@ private lemma wedgeM_single_diag {F : Type} [Field F] {a b : Om6Idx} (h : a ≠ 
 private lemma inner_sum_inl {F : Type} [Field F] (j : Fin 14) :
     (∑ i : Fin 2, wedgeM (Pi.single (adjIdx j).1 (1 : F)) (Pi.single (adjIdx j).2 1)
         (Sum.inl i) (Sum.inr (Sum.inl i))) = if j = 5 then (1 : F) else 0 := by
-  fin_cases j <;> simp [adjIdx, wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply, Pi.single_apply,
-    Fin.sum_univ_two]
+  fin_cases j <;> simp [adjIdx, wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply, Pi.single_apply]
 
 private lemma inner_sum_b {F : Type} [Field F] (j : Fin 14) :
     wedgeM (Pi.single (adjIdx j).1 (1 : F)) (Pi.single (adjIdx j).2 1)
         (Sum.inr (Sum.inr 0)) (Sum.inr (Sum.inr 1)) = if j = 13 then (1 : F) else 0 := by
-  fin_cases j <;> simp [adjIdx, wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply, Pi.single_apply]
+  fin_cases j <;> simp [adjIdx, wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply]
 
 private lemma adjOfCoord_functional (F : Type) [Field F] (b : F) (v : Fin 14 → F) :
     (∑ i : Fin 2, adjOfCoord F b v (Sum.inl i) (Sum.inr (Sum.inl i)))
@@ -89,8 +88,7 @@ private lemma adjOfCoord_functional (F : Type) [Field F] (b : F) (v : Fin 14 →
     rw [Finset.sum_comm]
     simp only [← Finset.mul_sum]
     rw [Finset.sum_eq_single 5]
-    · simp [adjIdx, wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply, Pi.single_apply,
-        Fin.sum_univ_two]
+    · simp [adjIdx, wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply, Pi.single_apply]
     · intro j _ hj
       simp [inner_sum_inl j, hj]
     · intro h5
@@ -98,18 +96,18 @@ private lemma adjOfCoord_functional (F : Type) [Field F] (b : F) (v : Fin 14 →
   have h2 : (∑ x : Fin 2, wedgeM (Pi.single (Sum.inl 0 : Om6Idx) (1 : F))
       (Pi.single (Sum.inr (Sum.inl 0)) 1) (Sum.inl x) (Sum.inr (Sum.inl x))) = 1 := by
     rw [Fin.sum_univ_two]
-    simp [wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply, Pi.single_apply]
+    simp [wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply]
   have h3 : (∑ j : Fin 14, v j * wedgeM (Pi.single (adjIdx j).1 (1 : F))
       (Pi.single (adjIdx j).2 1) (Sum.inr (Sum.inr 0)) (Sum.inr (Sum.inr 1))) = v 13 := by
     rw [Finset.sum_eq_single 13]
-    · simp [adjIdx, wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply, Pi.single_apply]
+    · simp [adjIdx, wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply]
     · intro j _ hj
       simp [inner_sum_b j, hj]
     · intro h13
       simp at h13
   have h4 : wedgeM (Pi.single (Sum.inl 0 : Om6Idx) (1 : F))
       (Pi.single (Sum.inr (Sum.inl 0)) 1) (Sum.inr (Sum.inr 0)) (Sum.inr (Sum.inr 1)) = 0 := by
-    simp [wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply, Pi.single_apply]
+    simp [wedgeM, Matrix.add_apply, Matrix.vecMulVec_apply]
   rw [h1]
   rw [← Finset.mul_sum, h2]
   rw [h3, h4]
@@ -225,7 +223,7 @@ theorem adjOfCoord_adjCoord {F : Type} [Field F] {b : F} {X : Matrix Om6Idx Om6I
   invFun v := ⟨adjOfCoord F b v, adjOfCoord_mem F b v⟩
   left_inv X := Subtype.ext (adjOfCoord_adjCoord X.2)
   right_inv v := adjCoord_adjOfCoord F b v
-  map_add' X Y := rfl
+  map_add' _X _Y := rfl
 
 private lemma adjOfCoord_zero (F : Type) [Field F] (b : F) : adjOfCoord F b 0 = 0 :=
   congrArg Subtype.val ((adjCoordEquiv F b).symm.map_zero)
@@ -346,7 +344,7 @@ theorem adjMat_map {F F' : Type} [Field F] [Field F'] (f : F →+* F') (b : F)
   have hsingle : (fun j_1 : Fin 14 => f (((Pi.single j (1 : F) : Fin 14 → F) j_1))) =
       (Pi.single j (1 : F') : Fin 14 → F') := by
     funext k
-    by_cases h : k = j <;> simp [Pi.single_apply, h]
+    by_cases h : k = j <;> simp [h]
   rw [hsingle]
 
 theorem adjMat_one (F : Type) [Field F] (b : F) : adjMat F b 1 = 1 := by

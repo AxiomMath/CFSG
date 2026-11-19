@@ -176,7 +176,7 @@ theorem stmtUnitaryBorel_of (hKU2 : KFactUnitarySylowStructure)
       have hwWU : w ∈ W ⊓ Ub := ⟨hw, hCU hwC⟩
       rwa [hWU] at hwWU
     · right
-      have hUbp : IsPGroup p Ub := hUbdef ▸ Rb.isPGroup'.to_inf_left
+      have hUbp : IsPGroup p Ub := hUbdef ▸ Rb.isPGroup.to_inf_left
       have : Group.IsNilpotent Ub := hUbp.isNilpotent
       have hNn : ((W ⊓ Ub).subgroupOf Ub).Normal := by
         refine (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).mpr ?_

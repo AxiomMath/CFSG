@@ -15,35 +15,40 @@ namespace TwoQuot
 
 variable {H Y : Type} [Group H] [Group Y] [Finite H] [Finite Y] {π : H →* Y}
 
+omit [Finite Y] in
 theorem not_dvd_card_ker (hπ : TwoQuot π) {p : ℕ} (hp : p.Prime) (h2 : p ≠ 2) :
     ¬ p ∣ Nat.card π.ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hπ.two
   intro hd
   rw [hk] at hd
   exact h2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp (hp.dvd_of_dvd_pow hd))
 
+omit [Finite Y] in
 private theorem not_dvd_card_inf_ker (hπ : TwoQuot π) (C : Subgroup H) {p : ℕ} (hp : p.Prime)
     (h2 : p ≠ 2) : ¬ p ∣ Nat.card ↥(C ⊓ π.ker) :=
   fun hd => not_dvd_card_ker hπ hp h2 (hd.trans (Subgroup.card_dvd_of_le inf_le_right))
 
+omit [Finite Y] in
 private theorem isCentralPQuot_three (hπ : TwoQuot π) :
     CFSG.RankThree.PartOne.KFU.IsCentralPQuot 3 π :=
   ⟨hπ.surj, hπ.central,
     (Nat.prime_three.coprime_iff_not_dvd).mpr (not_dvd_card_ker hπ Nat.prime_three (by norm_num))⟩
 
+omit [Finite H] [Finite Y] in
 private theorem card_eq_card_map_mul_card_inf_ker (C : Subgroup H) :
     Nat.card C = Nat.card (C.map π) * Nat.card ↥(C ⊓ π.ker) := by
   set g : C →* Y := π.comp C.subtype with hg
   have hrange : g.range = C.map π := by rw [hg, MonoidHom.range_comp, Subgroup.range_subtype]
   have hker : g.ker = (C ⊓ π.ker).subgroupOf C := by
     ext x
-    simp [hg, MonoidHom.mem_ker, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
+    simp [hg, MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
   have h := Subgroup.card_ker_mul_card_range g
   rw [hker, hrange] at h
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv, mul_comm] at h
   exact h.symm
 
+omit [Finite H] [Finite Y] in
 theorem comp_conj (hπ : TwoQuot π) (g : H) :
     TwoQuot (π.comp (MulAut.conj g).toMonoidHom) ∧
       (π.comp (MulAut.conj g).toMonoidHom).ker = π.ker := by
@@ -63,10 +68,11 @@ theorem comp_conj (hπ : TwoQuot π) (g : H) :
   · rw [hker]; exact hπ.central
   · rw [hker]; exact hπ.two
 
+omit [Finite Y] in
 theorem exists_lift_E27 (hπ : TwoQuot π) {A : Subgroup Y} (hA : IsElemAbelian 3 A)
     (h27 : Nat.card A = 27) :
     ∃ Ã : Subgroup H, IsElemAbelian 3 Ã ∧ Nat.card Ã = 27 ∧ Ã.map π = A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Ã, hmap, hdis, hE⟩ :=
     CFSG.LieType.SeitzGeneration.ExcHigh.exists_lift_elemAbelian_of_coprime_ker π hπ.surj
       (not_dvd_card_ker hπ Nat.prime_three (by norm_num)) hA
@@ -75,6 +81,7 @@ theorem exists_lift_E27 (hπ : TwoQuot π) {A : Subgroup Y} (hA : IsElemAbelian 
     exact (CFSG.LieType.SeitzGeneration.ExcHigh.card_map_eq_of_disjoint_ker π hdis).symm
   exact ⟨Ã, hE, by rw [hcard, h27], hmap⟩
 
+omit [Finite Y] in
 theorem centralizer_map (hπ : TwoQuot π) {S : Subgroup H} (hS : ∀ s ∈ S, s ^ 3 = 1) :
     Subgroup.centralizer ((S.map π : Subgroup Y) : Set Y) =
       (Subgroup.centralizer (S : Set H)).map π := by
@@ -86,20 +93,19 @@ theorem centralizer_map (hπ : TwoQuot π) {S : Subgroup H} (hS : ∀ s ∈ S, s
     rw [Subgroup.mem_centralizer_iff] at hy
     rw [Subgroup.mem_map]
     refine ⟨h, ?_, rfl⟩
-    change h ∈ Subgroup.centralizer (S : Set H)
     rw [Subgroup.mem_centralizer_iff]
     intro s hs
     exact hq.commute_of_map_commute (hS s hs) (hy (π s) (Subgroup.mem_map_of_mem π hs))
   · rintro y ⟨h, hh, rfl⟩
     change h ∈ Subgroup.centralizer (S : Set H) at hh
     rw [Subgroup.mem_centralizer_iff] at hh
-    change π h ∈ Subgroup.centralizer ((S.map π : Subgroup Y) : Set Y)
     rw [Subgroup.mem_centralizer_iff]
     intro s hs
     obtain ⟨s₀, hs₀, rfl⟩ := Subgroup.mem_map.mp hs
     rw [← map_mul, ← map_mul]
     exact congrArg π (hh s₀ hs₀)
 
+omit [Finite Y] in
 theorem centralizer_map_singleton (hπ : TwoQuot π) {d : H} (hd : d ^ 3 = 1) :
     Subgroup.centralizer ({π d} : Set Y) = (Subgroup.centralizer ({d} : Set H)).map π := by
   have h3 : ∀ s ∈ Subgroup.zpowers d, s ^ 3 = 1 := by
@@ -112,6 +118,7 @@ theorem centralizer_map_singleton (hπ : TwoQuot π) {d : H} (hd : d ^ 3 = 1) :
   rwa [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure,
     Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure] at h
 
+omit [Finite Y] in
 theorem normalizer_lift (hπ : TwoQuot π) {S : Subgroup H} (hS : ∀ s ∈ S, s ^ 3 = 1) {n : Y}
     (hn : n ∈ Subgroup.normalizer ((S.map π : Subgroup Y) : Set Y)) :
     ∃ h : H, π h = n ∧ h ∈ Subgroup.normalizer (S : Set H) := by
@@ -165,12 +172,12 @@ theorem factorization_card_map (hπ : TwoQuot π) (C : Subgroup H) {p : ℕ} (hp
 
 theorem pRank_map (hπ : TwoQuot π) (C : Subgroup H) {p : ℕ} (hp : p.Prime) (h2 : p ≠ 2) :
     pRank p (C.map π) = pRank p C := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set g : C →* Y := π.comp C.subtype with hg
   have hrange : g.range = C.map π := by rw [hg, MonoidHom.range_comp, Subgroup.range_subtype]
   have hker : g.ker = (C ⊓ π.ker).subgroupOf C := by
     ext x
-    simp [hg, MonoidHom.mem_ker, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
+    simp [hg, MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
   have hN : ¬ p ∣ Nat.card g.ker := by
     rw [hker, Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv]
     exact not_dvd_card_inf_ker hπ C hp h2

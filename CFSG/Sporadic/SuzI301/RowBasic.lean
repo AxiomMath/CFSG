@@ -62,7 +62,7 @@ theorem row_hB : IsElemAbelian Row.suz.prime (B1.subgroupOf suzM) ∧
   obtain ⟨hd3, hb2, hb3⟩ := pow_facts
   obtain ⟨⟨hcomm, hpow⟩, hcard⟩ :=
     isElemAbelian_closure_three hdb2 hdb3 hb23 hd3 hb2 hb3 indep_facts
-  haveI : IsMulCommutative ↥B1 := hcomm
+  have : IsMulCommutative ↥B1 := hcomm
   have e : ↥(B1.subgroupOf suzM) ≃* ↥B1 := Subgroup.subgroupOfEquivOfLe B1_le_suzM
   refine ⟨⟨isMulCommutative_iff.2 fun a b => e.injective ?_, fun g hg => ?_⟩, ?_⟩
   · rw [map_mul, map_mul]
@@ -116,7 +116,7 @@ theorem centD_facts (x : ↥suzM) (hx : (x : Equiv.Perm (Fin 1782)) = dP) :
   obtain ⟨hq, hcen, ⟨eT⟩⟩ := aSub_quasisimple
   have hz3 : (⟨fuseXA, aX_mem⟩ : ↥aSub) ^ 3 = 1 := Subtype.ext (by simpa using fuseXA_pow)
   have hz1 : (⟨fuseXA, aX_mem⟩ : ↥aSub) ≠ 1 := fun h => fuseXA_ne_one (congrArg Subtype.val h)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf (⟨fuseXA, aX_mem⟩ : ↥aSub) = 3 := orderOf_eq_prime hz3 hz1
   refine ⟨CFSG.HardMathSupport.Timmesfeld.Proving.isQuasisimple_of_mulEquiv' e.symm hq, ?_,
     ⟨(QuotientGroup.congr _ _ e (Subgroup.map_center_eq e)).trans eT⟩, ?_⟩

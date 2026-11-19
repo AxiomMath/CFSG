@@ -14,6 +14,7 @@ section Fixed
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem isPGroup_of_isElemAbelian {p : ℕ} {B : Subgroup X} (hB : IsElemAbelian p B) :
     IsPGroup p B := fun g => ⟨1, by
   rw [pow_one]
@@ -23,10 +24,10 @@ theorem exists_pElement_centralized {p : ℕ} (hp : p.Prime) {Q E : Subgroup X} 
     (hQE : Q ≤ Subgroup.normalizer (E : Set X)) (hpE : p ∣ Nat.card E) :
     ∃ e ∈ E, e ≠ 1 ∧ e ^ p = 1 ∧ ∀ q ∈ Q, q * e = e * q := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmem : ∀ (q : Q) (e : E), (q : X) * (e : X) * (q : X)⁻¹ ∈ E := fun q e =>
     (Subgroup.mem_normalizer_iff.1 (hQE q.2) e).1 e.2
-  letI : MulAction Q E :=
+  let : MulAction Q E :=
     { smul := fun q e => ⟨(q : X) * (e : X) * (q : X)⁻¹, hmem q e⟩
       one_smul := fun e => Subtype.ext (by
         show ((1 : Q) : X) * (e : X) * ((1 : Q) : X)⁻¹ = e
@@ -71,6 +72,7 @@ theorem exists_pElement_centralized {p : ℕ} (hp : p.Prime) {Q E : Subgroup X} 
     exact congrArg Subtype.val this
   · exact Subgroup.mem_centralizer_iff.1 c.2.2 q hq
 
+omit [Finite X] in
 theorem mem_of_comm_of_isSCp {p : ℕ} {B : Subgroup X} (hB : IsSCp p ⊤ B) {x : X} (hx : x ^ p = 1)
     (hc : ∀ b ∈ B, b * x = x * b) : x ∈ B := by
   have hE : IsElemAbelian p (B ⊔ Subgroup.zpowers x) :=
@@ -91,11 +93,11 @@ theorem exists_mem_inf_of_isSCp {p : ℕ} (hp : p.Prime) {K B : Subgroup X} (hB 
 
 theorem exists_comm_outside_zpowers {K : Type} [Group K] [Finite K] {p : ℕ} (hp : p.Prime)
     {E₀ : Subgroup K} (hE₀ : IsElemAbelian p E₀) (h2 : p ^ 2 ≤ Nat.card E₀) {P₀ : Sylow p K}
-    (hEP : E₀ ≤ P₀) (hPN : (P₀ : Subgroup K) ≤ Subgroup.normalizer (E₀ : Set K)) {x : K}
+    (_hEP : E₀ ≤ P₀) (hPN : (P₀ : Subgroup K) ≤ Subgroup.normalizer (E₀ : Set K)) {x : K}
     (hx : x ^ p = 1) (hx1 : x ≠ 1) :
     ∃ y : K, y ^ p = 1 ∧ y ∉ Subgroup.zpowers x ∧ y * x = x * y := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxpg : IsPGroup p (Subgroup.zpowers x) :=
     isPGroup_of_isElemAbelian (CFSG.Open.isElemAbelian_zpowers hx)
   obtain ⟨P, hxP⟩ := hxpg.exists_le_sylow
@@ -230,6 +232,7 @@ section Bridge
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem isStronglyBalancedIn_of_autImage {p : ℕ} {B K : Subgroup X} (hperf : commutator ↥K = ⊤)
     (hbal : ∀ T : Subgroup (MulAut (↥K ⧸ Subgroup.center ↥K)), Nat.Coprime p (Nat.card T) →
       autImage B K ≤ Subgroup.normalizer (T : Set (MulAut (↥K ⧸ Subgroup.center ↥K))) →
@@ -270,14 +273,15 @@ section Cyclic
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem exists_zpow_mul_mem_centralizer {p : ℕ} (hp : p.Prime) {K B : Subgroup X}
     (hBel : IsElemAbelian p B) (hBN : B ≤ Subgroup.normalizer (K : Set X))
     (hcard : autOrderIn B K = p) {x : X} (hxB : x ∈ B)
     (hxC : x ∉ Subgroup.centralizer (K : Set X)) :
     ∀ b ∈ B, ∃ i : ℤ, (x ^ i)⁻¹ * b ∈ Subgroup.centralizer (K : Set X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set D : Subgroup ↥B := (Subgroup.centralizer (K : Set X)).subgroupOf B with hD
-  haveI : D.Normal := ⟨fun n hn g => by
+  have : D.Normal := ⟨fun n hn g => by
     have hc : (g : X) * n = n * g := by
       have := hBel.1.is_comm.comm g ⟨(n : X), n.2⟩
       exact congrArg Subtype.val this
@@ -310,6 +314,7 @@ theorem exists_zpow_mul_mem_centralizer {p : ℕ} (hp : p.Prime) {K B : Subgroup
   have h2 := Subgroup.mem_subgroupOf.1 ((QuotientGroup.eq_one_iff _).1 h1)
   simpa using h2
 
+omit [Finite X] in
 theorem cyclic_contra {p : ℕ} (hp : p.Prime) {K B : Subgroup X} (hB : IsSCp p ⊤ B)
     (hBN : B ≤ Subgroup.normalizer (K : Set X)) (hZ : Subgroup.center ↥K = ⊥)
     (hcard : autOrderIn B K = p) {x y : X} (hxB : x ∈ B) (hxK : x ∈ K) (hx1 : x ≠ 1)

@@ -37,17 +37,17 @@ theorem isSolvable_outer_barImage_center (D : Data G) {p : ℕ} (hp : Hyp1754 D 
         ((QuotientGroup.mk' _).comp e.toMonoidHom)
         ((QuotientGroup.mk'_surjective _).comp e.surjective)
         (s13_pRank_bar_le_one hthin Nat.prime_three (by norm_num))
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact Group.isSolvable_of_comm
       (CFSG.RankThree.PartTwo.Sec4.Item49CharTwo.outer_mul_comm (hcyc _
         (((s13_isKGroup_bar_M D).subgroup (barImage D.M L)).quotient _) hcomp.1.2.1
         hcomp.1.2.2
         fun P => s13_Bridge13_isCyclic_of_pRank_le_one Nat.prime_three (by norm_num)
-          P.isPGroup' ((CFSG.SectionRank.pRank_sylow P).2 ▸ hrank)))
+          P.isPGroup ((CFSG.SectionRank.pRank_sylow P).2 ▸ hrank)))
   · exact (UnitaryHigher.unitary_rank_one_classical_model_schreier (LieModel.statedClassicalModel
       (LieModel.quotient_center_of_mulEquiv e (uc22p22d_isSU3_of_isU3 hL.2.2 hU).2)
       (by decide))).2
-  · haveI : IsSimpleGroup (Bar2 L) :=
+  · have : IsSimpleGroup (Bar2 L) :=
       CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL3
     exact (UnitaryHigher.linear_higher_classical_model_schreier le_rfl
       (LieModel.statedClassicalModel (LieModel.quotient_center_of_mulEquiv e
@@ -72,18 +72,18 @@ theorem perfectResidual_le_centralizer_pCore (D : Data G) {V₀ V : Subgroup G}
   by_cases hQq : CFSG.pCore q Q = ⊥
   · rw [hQq]
     exact Subgroup.le_centralizer_iff.mpr (by simp)
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Nontrivial ↥(CFSG.pCore q Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hQq
+  have : Fact q.Prime := ⟨hq⟩
+  have : Nontrivial ↥(CFSG.pCore q Q) := (Subgroup.nontrivial_iff_ne_bot _).2 hQq
   let Qq : Subgroup Q := CFSG.pCore q Q
-  haveI : Qq.Normal := CFSG.pCore_normal
+  have : Qq.Normal := CFSG.pCore_normal
   have hQqp : IsPGroup q ↥Qq := CFSG.pCore_isPGroup
   obtain ⟨Cq, hCqchar, -, hCqcomm, hCqexp, hCqfix⟩ :=
     CFSG.SectionRank.Ccomm.odd_critical_exponent_subgroup (p := q) hq2 hQqp
   let CqQ : Subgroup Q := Cq.map Qq.subtype
   have hCqQnormal : CqQ.Normal := by
-    haveI : Cq.Characteristic := hCqchar
+    have : Cq.Characteristic := hCqchar
     exact ConjAct.normal_of_characteristic_of_normal
-  haveI : CqQ.Normal := hCqQnormal
+  have : CqQ.Normal := hCqQnormal
   let eC : ↥Cq ≃* ↥CqQ := Cq.equivMapOfInjective Qq.subtype Qq.subtype_injective
   have hCqQp : IsPGroup q ↥CqQ := hQqp.to_subgroup Cq |>.map Qq.subtype
   have hPC : P ≤ Subgroup.centralizer (CqQ : Set Q) := by
@@ -91,7 +91,7 @@ theorem perfectResidual_le_centralizer_pCore (D : Data G) {V₀ V : Subgroup G}
     · exact CFSG.LocalAnalysis.CyclicNormalConj.le_centralizer_of_perfect
         (isCyclic_of_surjective eC.toMonoidHom eC.surjective) hP
     let N2 : Subgroup ↥D.M := CFSG.pCore 2 ↥D.M
-    haveI : N2.Normal := CFSG.pCore_normal
+    have : N2.Normal := CFSG.pCore_normal
     obtain ⟨k2, hk2⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup : IsPGroup 2 ↥N2)
     let π : ↥D.M →* Q := QuotientGroup.mk' N2
     have hcop : q.Coprime (Nat.card N2) := by
@@ -172,7 +172,7 @@ theorem perfectResidual_le_centralizer_pCore (D : Data G) {V₀ V : Subgroup G}
       have hmapn := Subgroup.le_normalizer_map (H := W.subgroupOf D.M) π
         (Subgroup.mem_map_of_mem π hnW)
       simpa [Wstar] using hmapn
-    haveI hWstar_normal : Wstar.Normal :=
+    have hWstar_normal : Wstar.Normal :=
       Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp hQleW)
     have hWstarcard : Nat.card Wstar = q :=
       (CFSG.RankThree.PartOne.StrongP.card_map_quotient_of_coprime (E := W.subgroupOf D.M)

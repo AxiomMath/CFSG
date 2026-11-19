@@ -177,11 +177,11 @@ theorem eq_onT_of_solvable
             obtain ⟨i, hi, he⟩ := hVd _ hcT (hΩV c hc) (hΩ1 c hc)
             refine ⟨⟨i, hi⟩, ?_⟩
             change onKd i = f c
-            simp only [f, dif_pos hcT]
+            simp only [f, dite_eq_left hcT]
             exact he.symm
           · have hcT := hVT (hΩV c hc)
             have hcT' := hVT (hΩV c' hc')
-            simp only [f, dif_pos hcT, dif_pos hcT'] at hcc
+            simp only [f, dite_eq_left hcT, dite_eq_left hcT'] at hcc
             have h := congrArg Subtype.val (rhoT_injective hcc)
             exact Subtype.ext h
       _ ≤ 7 := by

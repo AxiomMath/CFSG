@@ -150,7 +150,7 @@ theorem exists_sylow_le_he {X : Type} [Group X] [Finite X] (hX : Nat.card X = 40
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 Y))
   refine ⟨(P : Subgroup Y).map Y.subtype, ?_, ?_⟩
   · rw [K1.isSylowTwoOf_top_iff]
-    refine ⟨P.isPGroup'.map Y.subtype, ?_⟩
+    refine ⟨P.isPGroup.map Y.subtype, ?_⟩
     rw [Subgroup.index_map_subtype]
     intro h2
     rcases (Nat.Prime.dvd_mul Nat.prime_two).mp h2 with h | h

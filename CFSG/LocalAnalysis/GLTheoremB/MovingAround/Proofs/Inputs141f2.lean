@@ -101,7 +101,7 @@ theorem twoInCoreLayer_untw_field {τ : Tag} {K : Type} [Field K] [Finite K] [Ch
   refine twoInCoreLayer_of_conj ψ hp ?_
   rw [hψ]
   refine twoInCoreLayer_entrywiseAdjointAut τ σ hp hp5 fun hτG2 hk2 hp7 => hexc7 ⟨hτG2, ?_, hp7⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf σ = p := orderOf_eq_prime hσp hσ
   have h1 := card_fixSubfield_pow σ
   rw [hord, hk2, hp7] at h1
@@ -188,7 +188,7 @@ theorem twoInCoreLayer_twE6 (hout : LangOuterTwo) {f : ℕ} (hf : 1 ≤ f) {K : 
     [Finite S] (e : S ≃* ↥(twistedE6RootGroup K σ)) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (β : MulAut S)
     (hβ : β ^ p = 1) (hβ1 : β ≠ 1) : TwoInCoreLayer p β := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ two_ne_zero))
   have hp2 : p ≠ 2 := by omega
@@ -281,35 +281,35 @@ theorem input14_1BadSimpleOn_exceptional (hout : LangOuterTwo) :
     have hq2 : q.p = 2 := by rw [← TauCeti.LieTypeIndex.characteristic_E6 q]; exact hchar
     obtain ⟨K, _, _, hK, hKchar, ⟨eK⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv
-    haveI : CharP K 2 := hq2 ▸ hKchar
+    have : CharP K 2 := hq2 ▸ hKchar
     exact twoInCoreLayer_untw hout (τ := .E6) (by simp) (fun h => absurd h (by decide)) (e.trans eK) hp hp5
       (fun h => absurd h.1 (by decide)) (fun h => absurd h.1 (by decide)) β hβ hβ1
   | E7 q =>
     have hq2 : q.p = 2 := by rw [← TauCeti.LieTypeIndex.characteristic_E7 q]; exact hchar
     obtain ⟨K, _, _, hK, hKchar, ⟨eK⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e7 q hv
-    haveI : CharP K 2 := hq2 ▸ hKchar
+    have : CharP K 2 := hq2 ▸ hKchar
     exact twoInCoreLayer_untw hout (τ := .E7) (by simp) (fun h => absurd h (by decide)) (e.trans eK) hp hp5
       (fun h => absurd h.1 (by decide)) (fun h => absurd h.1 (by decide)) β hβ hβ1
   | E8 q =>
     have hq2 : q.p = 2 := by rw [← TauCeti.LieTypeIndex.characteristic_E8 q]; exact hchar
     obtain ⟨K, _, _, hK, hKchar, ⟨eK⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
-    haveI : CharP K 2 := hq2 ▸ hKchar
+    have : CharP K 2 := hq2 ▸ hKchar
     exact twoInCoreLayer_untw hout (τ := .E8) (by simp) (fun h => absurd h (by decide)) (e.trans eK) hp hp5
       (fun h => absurd h.1 (by decide)) (fun h => absurd h.1 (by decide)) β hβ hβ1
   | F4 q =>
     have hq2 : q.p = 2 := by rw [← TauCeti.LieTypeIndex.characteristic_F4 q]; exact hchar
     obtain ⟨K, _, _, hK, hKchar, ⟨eK⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv
-    haveI : CharP K 2 := hq2 ▸ hKchar
+    have : CharP K 2 := hq2 ▸ hKchar
     refine twoInCoreLayer_untw hout (τ := .F4) (by simp) (fun h => absurd h (by decide)) (e.trans eK) hp hp5
       (fun h => hex5 ⟨h.2.2, q, rfl, hK ▸ h.2.1⟩) (fun h => absurd h.1 (by decide)) β hβ hβ1
   | G2 q =>
     have hq2 : q.p = 2 := by rw [← TauCeti.LieTypeIndex.characteristic_G2 q]; exact hchar
     obtain ⟨K, _, _, hK, hKchar, ⟨eK⟩⟩ :=
       CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 q hv
-    haveI : CharP K 2 := hq2 ▸ hKchar
+    have : CharP K 2 := hq2 ▸ hKchar
     exact twoInCoreLayer_untw hout (τ := .G2) (by simp) (fun _ => hK ▸ hr) (e.trans eK) hp hp5
       (fun h => absurd h.1 (by decide)) (fun h => hex7 ⟨h.2.2, q, rfl, hK ▸ h.2.1⟩) β hβ hβ1
   | twistedE6 q =>
@@ -334,9 +334,9 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType
 theorem twoInCoreLayer_reeGamma_F4_inner {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] [Finite K]
     [CharP K ReeTag.F4.prime] (hK : Nat.card K = 2 ^ (2 * a + 1)) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (y : ReeTag.F4.reeGamma K a) (hy : orderOf y = p) : TwoInCoreLayer p (MulAut.conj y) := by
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨N, hNC, hN2, -, hcomp, -⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.largeRee_component_chev ha hK hp (by omega) y hy
   have hC := CFSG.HardMathSupport.Dickson.SuzukiReeB.fixSubgroup_conj y
@@ -368,14 +368,14 @@ theorem twoInCoreLayer_reeGamma_F4_field {a : ℕ} {K : Type} [Field K] [Finite 
     TwoInCoreLayer p (ReeTag.F4.reeGammaFieldAut K a σ) := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   obtain ⟨b, hkcard, hchar, ⟨eC⟩⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.exists_fixSubgroup_fieldAut_equiv' hK hp hp2 σ hσ
-  haveI := hchar
-  haveI : Finite (fixSubfield σ) := Subtype.finite
-  haveI : Finite (ModGL ReeTag.F4.tag (fixSubfield σ)) := finite_modGL
-  haveI : Finite ↥(ReeTag.F4.reeGamma (fixSubfield σ) b) := Subtype.finite
+  have := hchar
+  have : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag (fixSubfield σ)) := finite_modGL
+  have : Finite ↥(ReeTag.F4.reeGamma (fixSubfield σ) b) := Subtype.finite
   rcases Nat.eq_zero_or_pos b with rfl | hb
   ·
     have hk2 : Nat.card (fixSubfield σ) = 2 := by simpa using hkcard
@@ -390,7 +390,7 @@ theorem twoInCoreLayer_reeGamma_F4_field {a : ℕ} {K : Type} [Field K] [Finite 
     norm_num
     exact coprime_35942400 hp hp5 (fun h => hexc ⟨hap, Or.inl h⟩) (fun h => hexc ⟨hap, Or.inr h⟩)
   ·
-    haveI hs : IsSimpleGroup ↥(ReeTag.F4.reeGamma (fixSubfield σ) b) :=
+    have hs : IsSimpleGroup ↥(ReeTag.F4.reeGamma (fixSubfield σ) b) :=
       CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 hb hkcard
     have hperf : commutator (ReeTag.F4.reeGamma (fixSubfield σ) b) = ⊤ :=
       ReeTag.commutator_reeGamma_eq_top (t := ReeTag.F4) hb hkcard
@@ -405,7 +405,7 @@ theorem twoInCoreLayer_reeGamma_F4_field {a : ℕ} {K : Type} [Field K] [Finite 
         exact hab y x
       rw [hperf] at hc
       exact top_ne_bot hc
-    haveI : IsSimpleGroup ↥(fixSubgroup (ReeTag.F4.reeGammaFieldAut K a σ)) := eC.isSimpleGroup
+    have : IsSimpleGroup ↥(fixSubgroup (ReeTag.F4.reeGammaFieldAut K a σ)) := eC.isSimpleGroup
     have hnc' : ∃ x y : ↥(fixSubgroup (ReeTag.F4.reeGammaFieldAut K a σ)), x * y ≠ y * x := by
       obtain ⟨x, y, hxy⟩ := hnc
       exact ⟨eC.symm x, eC.symm y, fun h => hxy (eC.symm.injective (by rw [map_mul, map_mul]; exact h))⟩
@@ -416,9 +416,9 @@ theorem twoInCoreLayer_reeGamma_F4 {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K]
     [CharP K ReeTag.F4.prime] (hK : Nat.card K = 2 ^ (2 * a + 1)) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (hexc : ¬ (2 * a + 1 = p ∧ (p = 5 ∨ p = 13))) {β : MulAut (ReeTag.F4.reeGamma K a)} (hβ : β ^ p = 1)
     (hβ1 : β ≠ 1) : TwoInCoreLayer p β := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   rcases CFSG.HardMathSupport.Solomon.Coordinator.LieComp.reeF4_inner_or_field ha hK hp hβ hβ1 with
     ⟨y, rfl, hy, hy1⟩ | ⟨σ, g, hσ, rfl⟩
   · exact twoInCoreLayer_reeGamma_F4_inner ha hK hp hp5 y (orderOf_eq_prime hy hy1)
@@ -436,8 +436,8 @@ theorem input14_1BadSimpleOn_reeF4 :
   obtain ⟨e⟩ := he
   have hm : 1 ≤ m :=
     (TauCeti.LieTypeIndex.inStandardRange_iff _).mp ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (GaloisField 2 (2 * m + 1)) ReeTag.F4.prime :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (GaloisField 2 (2 * m + 1)) ReeTag.F4.prime :=
     (inferInstance : CharP (GaloisField 2 (2 * m + 1)) 2)
   have hK : Nat.card (GaloisField 2 (2 * m + 1)) = 2 ^ (2 * m + 1) := by
     rw [GaloisField.card 2 (2 * m + 1) (by omega)]
@@ -459,7 +459,7 @@ theorem eq_one_of_mem_center_of_twoGen {G : Type} [Group G] [Finite G] {p : ℕ}
     (P : Sylow p G) (hP : ∀ a b : ↥(P : Subgroup G), a * b = b * a) {c : G}
     (hc : c ∈ Subgroup.center G) {e : ℕ} (hce : c ^ (p ^ e) = 1) : c = 1 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hker : ((Abelianization.of : ↥(P : Subgroup G) →* Abelianization ↥(P : Subgroup G)).transfer).ker =
       ⊤ := by
     refine hgen _ fun g hg => ?_
@@ -468,7 +468,7 @@ theorem eq_one_of_mem_center_of_twoGen {G : Type} [Group G] [Finite G] {p : ℕ}
     set V := (Abelianization.of : ↥(P : Subgroup G) →* Abelianization ↥(P : Subgroup G)).transfer
     have h2 : V g ^ (2 ^ k) = 1 := by rw [← map_pow, hk, map_one]
     obtain ⟨h, hh⟩ := QuotientGroup.mk_surjective (V g)
-    obtain ⟨n, hn⟩ := P.isPGroup' h
+    obtain ⟨n, hn⟩ := P.isPGroup h
     have hpn : V g ^ (p ^ n) = 1 := by
       rw [← hh]
       change (Abelianization.of h) ^ (p ^ n) = 1
@@ -505,7 +505,7 @@ theorem eq_one_of_mem_center_of_twoGen {G : Type} [Group G] [Finite G] {p : ℕ}
 theorem eq_top_of_two_elements {E : Type} [Group E] [Finite E] [IsSimpleGroup E] (h2 : 2 ∣ Nat.card E)
     (H : Subgroup E) (hH : ∀ x : E, (∃ k : ℕ, x ^ (2 ^ k) = 1) → x ∈ H) : H = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := Subgroup.normalClosure {x : E | ∃ k : ℕ, x ^ (2 ^ k) = 1} with hN
   have hNH : N ≤ H := by
     show Subgroup.closure (Group.conjugatesOfSet {x : E | ∃ k : ℕ, x ^ (2 ^ k) = 1}) ≤ H
@@ -518,7 +518,7 @@ theorem eq_top_of_two_elements {E : Type} [Group E] [Finite E] [IsSimpleGroup E]
     rw [conj_pow, hk, mul_one, mul_inv_cancel]
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 h2
   have hxN : x ∈ N := Subgroup.subset_normalClosure ⟨1, by rw [pow_one, ← hx, pow_orderOf_eq_one]⟩
-  haveI : N.Normal := Subgroup.normalClosure_normal
+  have : N.Normal := Subgroup.normalClosure_normal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
   · rw [h, Subgroup.mem_bot] at hxN
     rw [hxN, orderOf_one] at hx
@@ -603,7 +603,7 @@ section BadFactorLift
 theorem badFix_of_congr {S T : Type} [Group S] [Group T] (e : S ≃* T) {p : ℕ} {β : MulAut S}
     (h : BadFix p (MulAut.congr e β)) : BadFix p β := by
   obtain ⟨J, E, hJfix, hJ2, hJp, hEJ, hEn, hEs, hEnc, hE2, hEp⟩ := h
-  haveI := hEs
+  have := hEs
   have hfix := Inputs141c.fixSubgroup_congr e β
   set φ : ↥E ≃* ↥(E.map e.symm.toMonoidHom) := E.equivMapOfInjective e.symm.toMonoidHom e.symm.injective
   refine ⟨J.map e.symm.toMonoidHom, E.map e.symm.toMonoidHom, ?_, ?_, ?_, Subgroup.map_mono hEJ, ?_,
@@ -638,7 +638,7 @@ theorem badFix_of_conj {S : Type} [Group S] (γ : MulAut S) {p : ℕ} {β : MulA
 theorem badDecomp_of_congr {S T : Type} [Group S] [Group T] [Finite S] [Finite T] (e : S ≃* T) {p : ℕ}
     (hp : p.Prime) {β : MulAut S} (h : BadDecomp p (MulAut.congr e β)) : BadDecomp p β := by
   obtain ⟨B, E, hBfix, hBn, hBγ, hBp, hEB, hEn, hEs, hEnc, hE2, hEp, hdec⟩ := h
-  haveI := hEs
+  have := hEs
   have hfix := Inputs141c.fixSubgroup_congr e β
   set φ : ↥E ≃* ↥(E.map e.symm.toMonoidHom) := E.equivMapOfInjective e.symm.toMonoidHom e.symm.injective
   refine ⟨B.map e.symm.toMonoidHom, E.map e.symm.toMonoidHom, ?_, ?_, ?_, ?_, Subgroup.map_mono hEB, ?_,
@@ -686,6 +686,7 @@ theorem badDecomp_of_congr {S T : Type} [Group S] [Group T] [Finite S] [Finite T
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem inducedAut_comm {K : Subgroup X} {w z : X} (hw : w ∈ Subgroup.normalizer (K : Set X))
     (hz : z ∈ Subgroup.normalizer (K : Set X)) (hwz : w * z = z * w) :
     QuotientGroup.congr (Subgroup.center ↥K) (Subgroup.center ↥K) (K.normalizerMonoidHom ⟨w, hw⟩)
@@ -708,6 +709,7 @@ theorem inducedAut_comm {K : Subgroup X} {w z : X} (hw : w ∈ Subgroup.normaliz
     QuotientGroup.mk' (Subgroup.center ↥K) ((K.normalizerMonoidHom ⟨z, hz⟩ * K.normalizerMonoidHom ⟨w, hw⟩) k)
   rw [h]
 
+omit [Finite X] in
 theorem inducedAut_pow_eq_one {K : Subgroup X} {w : X} (hw : w ∈ Subgroup.normalizer (K : Set X)) {n : ℕ}
     (hwn : w ^ n = 1) :
     QuotientGroup.congr (Subgroup.center ↥K) (Subgroup.center ↥K) (K.normalizerMonoidHom ⟨w, hw⟩)
@@ -781,13 +783,13 @@ theorem oPrimeResidualOf_le_of_badDecomp {K Z : Subgroup X} (hZN : Z ≤ Subgrou
         GLAPLayer p (K ⊓ Subgroup.centralizer ({z} : Set X)) ⊔
         ⨆ (L : Subgroup X) (_ : Inputs2323.BadFactor p K Z z L), L := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hzN : z ∈ Subgroup.normalizer (K : Set X) := hZN hz
   set α : MulAut ↥K := K.normalizerMonoidHom ⟨z, hzN⟩ with hαdef
   set β : MulAut (↥K ⧸ Subgroup.center ↥K) :=
     QuotientGroup.congr (Subgroup.center ↥K) (Subgroup.center ↥K) α (Subgroup.map_center_eq α) with hβdef
   obtain ⟨B, E, hBfix, hBn, hBγ, hBp, hEB, hEn, hEs, hEnc, hE2, hEp, hdec⟩ := h
-  haveI := hEs
+  have := hEs
   set π : ↥K →* ↥K ⧸ Subgroup.center ↥K := QuotientGroup.mk' (Subgroup.center ↥K) with hπdef
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hπker : π.ker ≤ Subgroup.center ↥K := (QuotientGroup.ker_mk' _).le
@@ -896,7 +898,7 @@ theorem oPrimeResidualOf_le_of_badDecomp {K Z : Subgroup X} (hZN : Z ≤ Subgrou
   have hPcomm : ∀ P : Sylow p ↥L, ∀ a b : ↥(P : Subgroup ↥L), a * b = b * a := by
     intro P
     set f : ↥(P : Subgroup ↥L) →* ↥K ⧸ Subgroup.center ↥K := πL.comp (P : Subgroup ↥L).subtype with hf
-    have hRp : IsPGroup p ↥f.range := P.isPGroup'.of_surjective f.rangeRestrict f.rangeRestrict_surjective
+    have hRp : IsPGroup p ↥f.range := P.isPGroup.of_surjective f.rangeRestrict f.rangeRestrict_surjective
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hRp
     have hdvd : Nat.card ↥f.range ∣ Nat.card B := Subgroup.card_dvd_of_le (hPJ _)
     have hn1 : n ≤ 1 := by
@@ -904,10 +906,10 @@ theorem oPrimeResidualOf_le_of_badDecomp {K Z : Subgroup X} (hZN : Z ≤ Subgrou
       apply hBp
       rw [hn] at hdvd
       exact (pow_dvd_pow p (by omega : 2 ≤ n)).trans hdvd
-    haveI : IsCyclic ↥f.range := by
+    have : IsCyclic ↥f.range := by
       rcases (show n = 0 ∨ n = 1 by omega) with rfl | rfl
       · rw [pow_zero] at hn
-        haveI : Subsingleton ↥f.range := (Nat.card_eq_one_iff_unique.1 hn).1
+        have : Subsingleton ↥f.range := (Nat.card_eq_one_iff_unique.1 hn).1
         exact isCyclic_of_subsingleton
       · rw [pow_one] at hn
         exact isCyclic_of_prime_card hn
@@ -1093,7 +1095,7 @@ theorem oPrimeResidualOf_le_of_badDecomp {K Z : Subgroup X} (hZN : Z ≤ Subgrou
           rw [Subgroup.mem_center_iff]
           intro g
           exact (hπLker _ (MonoidHom.mem_ker.1 hx) g).symm
-        obtain ⟨e, he⟩ := P.isPGroup' x
+        obtain ⟨e, he⟩ := P.isPGroup x
         have h1 := hcen (x : ↥L) hxc e (by simpa using congrArg Subtype.val he)
         exact Subtype.ext h1
       have hcard : Nat.card ↥(P : Subgroup ↥L) = Nat.card ↥f.range :=
@@ -1223,7 +1225,7 @@ theorem badDecomp_of_badFix {S : Type} [Group S] [Finite S] {p : ℕ} {β : MulA
     BadDecomp p β := by
   classical
   obtain ⟨J, E, hJfix, hJ2, hJp, hEJ, hEn, hEs, hEnc, hE2, hEp⟩ := h
-  haveI := hEs
+  have := hEs
   set B := Subgroup.closure {x : S | x ∈ fixSubgroup β ∧ ∃ k : ℕ, x ^ (2 ^ k) = 1} with hBdef
   have hBfix : B ≤ fixSubgroup β := le_of_closure_two _
   have hBJ : B ≤ J := (Subgroup.closure_le J).2 fun x hx => by
@@ -1277,14 +1279,14 @@ theorem badFix_of_equiv {S : Type} [Group S] [Finite S] {β : MulAut S} {p : ℕ
     (hJ : J ≤ fixSubgroup β) (hJ2 : ∀ x ∈ fixSubgroup β, IsPGroup 2 ↥(Subgroup.zpowers x) → x ∈ J)
     (hJp : ¬ p ^ 2 ∣ Nat.card J) {T : Type} [Group T] [IsSimpleGroup T] (eT : ↥⁅J, J⁆ ≃* T)
     (h2 : 2 ∣ Nat.card T) (hpT : p ∣ Nat.card T) (hT : ¬ (Nat.card T).Prime) : BadFix p β := by
-  haveI : IsSimpleGroup ↥⁅J, J⁆ := eT.isSimpleGroup
+  have : IsSimpleGroup ↥⁅J, J⁆ := eT.isSimpleGroup
   refine ⟨J, ⁅J, J⁆, hJ, hJ2, hJp, Subgroup.commutator_le_self _, fun j hj e he => ?_, inferInstance,
     ?_, ?_, ?_⟩
   · exact conj_mem_commutator_of_normalizes (fun y hy => J.mul_mem (J.mul_mem hj hy) (J.inv_mem hj))
       (fun y hy => J.mul_mem (J.mul_mem (J.inv_mem hj) hy) hj) he
   · by_contra hcon
     push Not at hcon
-    letI : CommGroup ↥⁅J, J⁆ := { (inferInstance : Group ↥⁅J, J⁆) with mul_comm := fun a b => hcon a b }
+    let : CommGroup ↥⁅J, J⁆ := { (inferInstance : Group ↥⁅J, J⁆) with mul_comm := fun a b => hcon a b }
     have hprime : (Nat.card ↥⁅J, J⁆).Prime := IsSimpleGroup.prime_card
     rw [Nat.card_congr eT.toEquiv] at hprime
     exact hT hprime
@@ -1317,7 +1319,7 @@ theorem badFix_fieldAut_sp4 {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2
   have hJ : fixSubgroup (fieldAut 2 K σ) = CFSG.RankThree.CASymplecticSubfield.subfieldFixedGroup K 2 σ :=
     Subgroup.ext fun x => (hfixiff x).symm
   have h5 : 5 ≤ Nat.card (Fin 6) := by rw [Nat.card_fin]; norm_num
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup h5
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup h5
   have hcardA : Nat.card (alternatingGroup (Fin 6)) = 360 := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
     decide
@@ -1330,7 +1332,7 @@ theorem badFix_fieldAut_sp4 {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2
 theorem input14_1BadSimpleOrBadOn_B2_32 :
     Input14_1BadSimpleOrBadOn fun p d => p = 5 ∧ ∃ q, d = TauCeti.LieTypeIndex.B 2 q ∧ q.card = 32 := by
   intro p hp hp5 S _ _ hs hna idx hd hchar he β hβ hβ1
-  haveI := hs
+  have := hs
   obtain ⟨d, hv⟩ := idx
   obtain ⟨rfl, q, rfl, hq32⟩ := hd
   have hq2 : q.p = 2 := by
@@ -1348,7 +1350,7 @@ theorem input14_1BadSimpleOrBadOn_B2_32 :
     hβ1 ((MulAut.congr e').injective (h1.trans (map_one _).symm))
   generalize MulAut.congr e' β = β' at hβ' hβ1' ⊢
   have hO := CFSG.RankThree.PartOne.KCSpComm.spOuter (K := K) Nat.prime_two hf hr hK
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hodd : Odd (orderOf β') :=
     (hp.odd_of_ne_two (by norm_num)).of_dvd_nat (orderOf_dvd_of_pow_eq_one hβ')
   have hE : β' ∈ spSemilinearAutGroup 2 K :=
@@ -1364,7 +1366,7 @@ theorem input14_1BadSimpleOrBadOn_B2_32 :
     have hna' : ∃ a b : StatedProj (StatedSp 2 K), a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := hna
       exact ⟨e' a, e' b, fun h => hab (e'.injective (by rw [map_mul, map_mul, h]))⟩
-    haveI : IsSimpleGroup (StatedProj (StatedSp 2 K)) := e'.symm.isSimpleGroup
+    have : IsSimpleGroup (StatedProj (StatedSp 2 K)) := e'.symm.isSimpleGroup
     have htp : t ^ 5 = 1 := pow_eq_one_of_conj_pow_eq_one hna' (by rw [ht]; exact hβ')
     obtain ⟨x, hx, hxp⟩ := CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.exists_proj_eq_pow_eq_one_sp
       (by norm_num) hp (by norm_num) htp
@@ -1403,9 +1405,9 @@ theorem badFix_entrywise_G2 {K : Type} [Field K] [Finite K] [CharP K 2] (σ : K 
     (hk2 : Nat.card (fixSubfield σ) = 2) : BadFix 7 (entrywiseAdjointAut .G2 σ) := by
   classical
   obtain ⟨J, hJle, -, ⟨eJ⟩, hJ2⟩ := exists_fixed_normal_two .G2 σ
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   obtain ⟨hDs, hDcard⟩ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ExcCopy.g2Two_derived_exc hk2
-  haveI := hDs
+  have := hDs
   obtain ⟨e1⟩ := nonempty_commutator_sub_equiv J
   obtain ⟨e2⟩ := nonempty_commutator_congr eJ
   refine badFix_of_equiv J hJle hJ2 ?_ (e1.trans e2) ?_ ?_ ?_
@@ -1426,7 +1428,7 @@ theorem input14_1BadSimpleOrBadOn_G2_128 (hout : LangOuterTwo) :
   have hq2 : q.p = 2 := by rw [← TauCeti.LieTypeIndex.characteristic_G2 q]; exact hchar
   obtain ⟨K, _, _, hK, hKchar, ⟨eK⟩⟩ :=
     CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 q hv
-  haveI : CharP K 2 := hq2 ▸ hKchar
+  have : CharP K 2 := hq2 ▸ hKchar
   have hG2 : Tag.G2 = .G2 → 3 ≤ Nat.card K := fun _ => hK ▸ hr
   refine twoInCoreLayerOrBad_of_congr (e.trans eK) hp ?_
   have hβ' : MulAut.congr (e.trans eK) β ^ 7 = 1 := by rw [← map_pow, hβ, map_one]
@@ -1473,7 +1475,7 @@ theorem badFix_of_fixSubgroup_equiv_reeTwo {S : Type} [Group S] [Finite S] {β :
   classical
   obtain ⟨e1⟩ := nonempty_commutator_sub_equiv (fixSubgroup β)
   obtain ⟨e2⟩ := nonempty_commutator_congr (eC.trans (CFSG.LieType.Ree.ReeTag.reeFixedEquivReeGamma k 0).symm)
-  haveI := CFSG.ComponentClassification.ExcSelector.isSimpleGroup_commutator_reeFixed_tits hk
+  have := CFSG.ComponentClassification.ExcSelector.isSimpleGroup_commutator_reeFixed_tits hk
   have hidx := CFSG.ComponentClassification.ExcSelector.index_commutator_reeFixed_tits_le hk
   have hcardΓ : Nat.card ↥(ReeTag.F4.reeGamma k 0) = 35942400 := by
     rw [(CFSG.RankThree.LargeReeOrder.large_Ree_exact_native_order_and_prime_factor_exhaustion 0 k
@@ -1501,20 +1503,20 @@ theorem input14_1BadSimpleOrBadOn_reeF4_13 :
   obtain ⟨rfl, rfl⟩ := hd
   obtain ⟨e⟩ := he
   have hm : 1 ≤ 6 := by norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (GaloisField 2 (2 * 6 + 1)) ReeTag.F4.prime :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (GaloisField 2 (2 * 6 + 1)) ReeTag.F4.prime :=
     (inferInstance : CharP (GaloisField 2 (2 * 6 + 1)) 2)
   have hK : Nat.card (GaloisField 2 (2 * 6 + 1)) = 2 ^ (2 * 6 + 1) := by
     rw [GaloisField.card 2 (2 * 6 + 1) (by omega)]
   obtain ⟨eK⟩ := CFSG.HardMathSupport.Solomon.Coordinator.SeitzOuterCube.Exc.reeGamma_equiv_cat_of_card hm hv hK
-  haveI : Finite (ModGL ReeTag.F4.tag (GaloisField 2 (2 * 6 + 1))) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma (GaloisField 2 (2 * 6 + 1)) 6) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag (GaloisField 2 (2 * 6 + 1))) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma (GaloisField 2 (2 * 6 + 1)) 6) := Subtype.finite
   refine twoInCoreLayerOrBad_of_congr (e.trans eK) hp ?_
   have hβ' : MulAut.congr (e.trans eK) β ^ 13 = 1 := by rw [← map_pow, hβ, map_one]
   have hβ1' : MulAut.congr (e.trans eK) β ≠ 1 := fun h =>
     hβ1 ((MulAut.congr (e.trans eK)).injective (h.trans (map_one _).symm))
   generalize MulAut.congr (e.trans eK) β = β' at hβ' hβ1' ⊢
-  haveI : Fact (Nat.Prime 13) := ⟨hp⟩
+  have : Fact (Nat.Prime 13) := ⟨hp⟩
   rcases CFSG.HardMathSupport.Solomon.Coordinator.LieComp.reeF4_inner_or_field hm hK hp hβ' hβ1' with
     ⟨y, rfl, hy, hy1⟩ | ⟨σ, g, hσ, rfl⟩
   · exact Or.inl (twoInCoreLayer_reeGamma_F4_inner hm hK hp hp5 y (orderOf_eq_prime hy hy1))
@@ -1529,8 +1531,8 @@ theorem input14_1BadSimpleOrBadOn_reeF4_13 :
       have := Nat.pow_right_injective le_rfl h1
       omega
     subst hb
-    haveI := hchar
-    haveI : Finite (fixSubfield σ) := Subtype.finite
+    have := hchar
+    have : Finite (fixSubfield σ) := Subtype.finite
     exact Or.inr (badFix_of_fixSubgroup_equiv_reeTwo (by simpa using hkcard) eC)
 
 end BadRee
@@ -1643,7 +1645,7 @@ theorem exists_conj_of_pow_eq_one_sp_two [Finite K] (hK : Nat.card K = 2) (hr : 
     ∃ t : StatedProj (StatedSp r K), γ = MulAut.conj t := by
   have hK' : Nat.card K = 2 ^ 1 := by rw [hK, pow_one]
   have hO := CFSG.RankThree.PartOne.KCSpComm.spOuter (K := K) Nat.prime_two le_rfl hr hK'
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hγ1 : γ = 1
   · exact ⟨1, by rw [hγ1, map_one]⟩
   have hodd : Odd (orderOf γ) := (hp.odd_of_ne_two hp2).of_dvd_nat (orderOf_dvd_of_pow_eq_one hγ)
@@ -1667,7 +1669,7 @@ theorem twoGood_statedSp_of_ne (s : ℕ) (K : Type) [Field K] [Finite K] [CharP 
   have hK2 : 2 ≤ Nat.card K := Nat.succ_le_of_lt Finite.one_lt_card
   have hK3 : Nat.card K ≠ 3 := by
     intro h
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have h2 := FiniteField.cast_card_eq_zero K
     rw [Fintype.card_eq_nat_card, h] at h2
     have h3' : ((3 : ℕ) : K) = 1 := by
@@ -1708,7 +1710,7 @@ theorem twoGood_spSupported_of [Finite K] [CharP K 2] {f p : ℕ} (hp : p.Prime)
       7 ≤ p ∨ 4 ≤ Nat.card K ∨ Module.finrank K (primaryComponent (spEnd x) (X - 1)) ≠ 4) :
     TwoGood p ↥(spSupported x (O : Set K[X])) := by
   obtain ⟨O, h, hh, rfl⟩ := O
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   by_cases hself : CFSG.RankThree.PartOne.KCOrthogonal.reciprocalPolynomial h = h
   · have hO : ({h, CFSG.RankThree.PartOne.KCOrthogonal.reciprocalPolynomial h} : Set K[X]) = {h} := by
       rw [hself, Set.pair_eq_singleton]
@@ -1730,10 +1732,10 @@ theorem twoGood_spSupported_of [Finite K] [CharP K 2] {f p : ℕ} (hp : p.Prime)
       exact twoGood_of_mulEquiv φ (twoGood_sesqUnitaryGroup hE hHf hHfl hp hp5)
   · have hP := blocks.paired ⟨h, hh⟩ (fun e => hself e.symm)
     obtain ⟨φ, -, -⟩ := hP.factor
-    haveI : CharP (AdjoinRoot ((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X])) 2 :=
+    have : CharP (AdjoinRoot ((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X])) 2 :=
       charP_of_injective_algebraMap
         (algebraMap K (AdjoinRoot ((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X]))).injective 2
-    haveI : Finite (AdjoinRoot ((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X])) := Module.finite_of_finite K
+    have : Finite (AdjoinRoot ((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X])) := Module.finite_of_finite K
     exact twoGood_of_mulEquiv φ
       (twoGood_generalLinearGroup p (Or.inr (exists_finset_card_four_of_paired (by omega) hq hP)))
 
@@ -1754,10 +1756,10 @@ theorem twoInCoreLayer_conj_sp_of [Finite K] {f : ℕ} (hK : Nat.card K = 2 ^ f)
       7 ≤ p ∨ 4 ≤ 2 ^ f ∨ Module.finrank K (primaryComponent (spEnd x) (X - 1)) ≠ 4) :
     TwoInCoreLayer p (MulAut.conj (proj r K x)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
   have ha : orderOf (proj r K x) = p := orderOf_eq_prime (by rw [← map_pow, hx, map_one]) hx1
   have hx1' : x ≠ 1 := fun h => hx1 (by rw [h, map_one])
   have hxp : orderOf x = p := orderOf_eq_prime hx hx1'
@@ -1769,7 +1771,7 @@ theorem twoInCoreLayer_conj_sp_of [Finite K] {f : ℕ} (hK : Nat.card K = 2 ^ f)
     have := (Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 h0
     omega
   have hsq := (altPrimaryData_spLin hpK' hx).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd x)) := (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
+  have : Finite (reciprocalOrbits (spEnd x)) := (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   have hq : 2 ≤ 2 ^ f := by
     calc 2 = 2 ^ 1 := by norm_num
@@ -1803,11 +1805,11 @@ theorem badDecomp_conj_sp_two [Finite K] (hK2 : Nat.card K = 2) (hr : 2 ≤ r)
     (hfin : Module.finrank K (primaryComponent (spEnd x) (X - 1)) = 4) :
     BadDecomp 5 (MulAut.conj x) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   have hK : Nat.card K = 2 ^ 1 := by rw [hK2, pow_one]
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 1) (by rw [← Nat.card_eq_fintype_card, hK])
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 1) (by rw [← Nat.card_eq_fintype_card, hK])
   have ha : orderOf (proj r K x) = 5 := orderOf_eq_prime (by rw [← map_pow, hx, map_one]) hx1
   have hx1' : x ≠ 1 := fun h => hx1 (by rw [h, map_one])
   have hxp : orderOf x = 5 := orderOf_eq_prime hx hx1'
@@ -1818,7 +1820,7 @@ theorem badDecomp_conj_sp_two [Finite K] (hK2 : Nat.card K = 2) (hr : 2 ≤ r)
     rw [CharP.cast_eq_zero_iff K 2] at h0
     norm_num at h0
   have hsq := (altPrimaryData_spLin hpK' hx).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd x)) := (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
+  have : Finite (reciprocalOrbits (spEnd x)) := (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, hindep, hjoin⟩ := blocks.directProduct
   have hq : 2 ≤ 2 ^ 1 := by norm_num
   set A : reciprocalOrbits (spEnd x) → Subgroup ↥(StatedSp r K) := fun O => spSupported x (O : Set K[X])
@@ -1864,16 +1866,16 @@ theorem badDecomp_conj_sp_two [Finite K] (hK2 : Nat.card K = 2) (hr : 2 ≤ r)
   obtain ⟨e2⟩ := nonempty_commutator_congr ψ
   have eA := (e1.trans e2).trans (CFSG.SignalizerFunctorTheorem.NonLocal.commutatorSpTwoEquiv hK2)
   have h6 : 5 ≤ Nat.card (Fin 6) := by rw [Nat.card_fin]; norm_num
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup h6
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup h6
   have hcardA : Nat.card (alternatingGroup (Fin 6)) = 360 := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
     decide
-  haveI hEs : IsSimpleGroup ↥⁅A O₁, A O₁⁆ := eA.isSimpleGroup
+  have hEs : IsSimpleGroup ↥⁅A O₁, A O₁⁆ := eA.isSimpleGroup
   have hcardE : Nat.card ↥⁅A O₁, A O₁⁆ = 360 := by rw [Nat.card_congr eA.toEquiv, hcardA]
   have hEnc : ∃ a b : ↥⁅A O₁, A O₁⁆, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    letI : CommGroup ↥⁅A O₁, A O₁⁆ :=
+    let : CommGroup ↥⁅A O₁, A O₁⁆ :=
       { (inferInstance : Group ↥⁅A O₁, A O₁⁆) with mul_comm := fun a b => hcon a b }
     have hprime : (Nat.card ↥⁅A O₁, A O₁⁆).Prime := IsSimpleGroup.prime_card
     rw [hcardE] at hprime
@@ -1945,7 +1947,7 @@ theorem twoInCoreLayerOrDecomp_conj_sp_two [Finite K] (hK2 : Nat.card K = 2) (hr
 theorem input14_1BadSimpleOrDecompOn_B_two :
     Input14_1BadSimpleOrDecompOn fun p d => p = 5 ∧ ∃ r q, d = TauCeti.LieTypeIndex.B r q ∧ q.card = 2 := by
   intro p hp hp5 S _ _ hs hna idx hd hchar he β hβ hβ1
-  haveI := hs
+  have := hs
   obtain ⟨d, hv⟩ := idx
   obtain ⟨rfl, r, q, rfl, hq2c⟩ := hd
   have hq2 : q.p = 2 := by
@@ -1966,7 +1968,7 @@ theorem input14_1BadSimpleOrDecompOn_B_two :
   have hβ1' : MulAut.congr e' β ≠ 1 := fun h1 =>
     hβ1 ((MulAut.congr e').injective (h1.trans (map_one _).symm))
   generalize MulAut.congr e' β = β' at hβ' hβ1' ⊢
-  haveI : IsSimpleGroup (StatedProj (StatedSp r K)) := e'.symm.isSimpleGroup
+  have : IsSimpleGroup (StatedProj (StatedSp r K)) := e'.symm.isSimpleGroup
   have hna' : ∃ a b : StatedProj (StatedSp r K), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hna
     exact ⟨e' a, e' b, fun h => hab (e'.injective (by rw [map_mul, map_mul, h]))⟩
@@ -1989,7 +1991,7 @@ theorem not_sq_dvd_card_closure_two {G : Type} [Group G] [Finite G] {p : ℕ} (h
     ¬ p ^ 2 ∣ Nat.card (Subgroup.closure
       {x : G | x ∈ Subgroup.centralizer ({h} : Set G) ∧ ∃ k : ℕ, x ^ (2 ^ k) = 1}) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set J := Subgroup.closure {x : G | x ∈ Subgroup.centralizer ({h} : Set G) ∧ ∃ k : ℕ, x ^ (2 ^ k) = 1}
     with hJdef
   have hJC : J ≤ Subgroup.centralizer ({h} : Set G) := le_of_closure_two _
@@ -1999,7 +2001,7 @@ theorem not_sq_dvd_card_closure_two {G : Type} [Group G] [Finite G] {p : ℕ} (h
   set P' : Subgroup G := (P : Subgroup ↥J).map J.subtype with hP'def
   have hP'card : Nat.card ↥P' = Nat.card ↥(P : Subgroup ↥J) :=
     Subgroup.card_map_of_injective J.subtype_injective
-  have hP'p : IsPGroup p ↥P' := P.isPGroup'.map J.subtype
+  have hP'p : IsPGroup p ↥P' := P.isPGroup.map J.subtype
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hP'p
   have hdvdG : ∀ (H : Subgroup G) (m : ℕ), Nat.card H = p ^ m → m ≤ 2 := by
     intro H m hm
@@ -2064,7 +2066,7 @@ theorem not_sq_dvd_card_closure_two {G : Type} [Group G] [Finite G] {p : ℕ} (h
     rw [← e1]
     exact hh'
   have hPcard : Nat.card ↥(P : Subgroup ↥J) = p ^ 2 := by rw [← hP'card, hn, hn2]
-  have hPc : ∀ a b : ↥(P : Subgroup ↥J), a * b = b * a := IsPGroup.commutative_of_card_eq_prime_sq hPcard
+  have hPc : ∀ a b : ↥(P : Subgroup ↥J), a * b = b * a := (fun h => (IsPGroup.isMulCommutative_of_card_eq_prime_sq h).is_comm.comm) hPcard
   have hj1 := eq_one_of_mem_center_of_twoGen hp hp2 hgen P hPc hjc hjp
   have hh1 : h = 1 := by rw [← hjh, hj1]; rfl
   rw [hh1, orderOf_one] at hh
@@ -2073,7 +2075,7 @@ theorem not_sq_dvd_card_closure_two {G : Type} [Group G] [Finite G] {p : ℕ} (h
 theorem eq_zero_or_eq_one_of_card_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) (x : K) :
     x = 0 ∨ x = 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   by_contra hx
   push Not at hx
   have h3 : ({0, 1, x} : Finset K).card = 3 := by
@@ -2137,11 +2139,11 @@ theorem badFix_of_langSetup {τ : Tag} {K : Type} [Field K] [Finite K] (hK2 : ri
     have hc := Subgroup.mem_centralizer_singleton_iff.1 (hTiC (Subgroup.commutator_le_self Ti he))
     rw [← hc, mul_inv_cancel_right]
   have h6 : 5 ≤ Nat.card (Fin 6) := by rw [Nat.card_fin]; norm_num
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup h6
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup h6
   have hcardA : Nat.card (alternatingGroup (Fin 6)) = 360 := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
     decide
-  haveI hEs : IsSimpleGroup ↥E := eE.isSimpleGroup
+  have hEs : IsSimpleGroup ↥E := eE.isSimpleGroup
   have hcardE : Nat.card ↥E = 360 := by rw [Nat.card_congr eE.toEquiv, hcardA]
   have hEJ : E ≤ J := by
     have hTop : J.subgroupOf E = ⊤ := eq_top_of_two_elements (by rw [hcardE]; norm_num) _ fun x hx => by
@@ -2196,7 +2198,7 @@ theorem badFix_of_langSetup {τ : Tag} {K : Type} [Field K] [Finite K] (hK2 : ri
   have hEnc : ∃ a b : ↥E, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    letI : CommGroup ↥E := { (inferInstance : Group ↥E) with mul_comm := fun a b => hcon a b }
+    let : CommGroup ↥E := { (inferInstance : Group ↥E) with mul_comm := fun a b => hcon a b }
     have hprime : (Nat.card ↥E).Prime := IsSimpleGroup.prime_card
     rw [hcardE] at hprime
     exact absurd hprime (by norm_num)
@@ -2214,7 +2216,7 @@ theorem input14_1BadSimpleOrBadOn_F4_two (hout : LangOuterTwo) :
   have hq2 : q.p = 2 := by rw [← TauCeti.LieTypeIndex.characteristic_F4 q]; exact hchar
   obtain ⟨K, _, _, hK, hKchar, ⟨eK⟩⟩ :=
     CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv
-  haveI : CharP K 2 := hq2 ▸ hKchar
+  have : CharP K 2 := hq2 ▸ hKchar
   have hK2 : Nat.card K = 2 := hK.trans hq2c
   refine twoInCoreLayerOrBad_of_congr (e.trans eK) hp ?_
   have hβ' : MulAut.congr (e.trans eK) β ^ 5 = 1 := by rw [← map_pow, hβ, map_one]

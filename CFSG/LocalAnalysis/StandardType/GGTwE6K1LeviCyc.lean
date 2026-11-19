@@ -14,7 +14,7 @@ theorem e6Levi_card_le_three_of_fixedBy {G X : Type*} [Group G] [Finite G] [MulA
     [Finite X] (hexp : ∀ g : G, g ^ 3 = 1) (hX : Nat.card X = 72)
     (hfix : ∀ g : G, g ≠ 1 → Nat.card (MulAction.fixedBy X g) = 12) : Nat.card G ≤ 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 G := fun g => ⟨1, by simpa using hexp g⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hp
   by_contra hlt
@@ -23,10 +23,10 @@ theorem e6Levi_card_le_three_of_fixedBy {G X : Type*} [Group G] [Finite G] [MulA
     by_contra h
     push Not at h
     interval_cases k <;> simp at hk <;> omega
-  haveI := Fintype.ofFinite G
-  haveI := Fintype.ofFinite X
-  haveI : ∀ g : G, Fintype (MulAction.fixedBy X g) := fun g => Fintype.ofFinite _
-  haveI : Fintype (MulAction.orbitRel.Quotient G X) := Fintype.ofFinite _
+  have := Fintype.ofFinite G
+  have := Fintype.ofFinite X
+  have : ∀ g : G, Fintype (MulAction.fixedBy X g) := fun g => Fintype.ofFinite _
+  have : Fintype (MulAction.orbitRel.Quotient G X) := Fintype.ofFinite _
   have hB := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group G X
   have hcardG : Fintype.card G = 3 ^ k := by rw [← Nat.card_eq_fintype_card, hk]
   have hsum : ∑ g : G, Fintype.card (MulAction.fixedBy X g) = 72 + 12 * (3 ^ k - 1) := by
@@ -35,7 +35,7 @@ theorem e6Levi_card_le_three_of_fixedBy {G X : Type*} [Group G] [Finite G] [MulA
       rw [← Nat.card_eq_fintype_card, ← hX]
       have e : MulAction.fixedBy X (1 : G) = Set.univ := by
         ext x
-        simp [MulAction.mem_fixedBy]
+        simp
       rw [e]
       exact Nat.card_congr (Equiv.Set.univ X)
     have h2 : ∀ g ∈ Finset.univ.erase (1 : G), Fintype.card (MulAction.fixedBy X g) = 12 := by
@@ -71,7 +71,7 @@ theorem e6Levi_pow_three_comm_mem_zpowers {L : Type} [Field L] (a : Fin Tag.E6.r
     · exact hc
     · exact hc.symm
     · exact absurd rfl hxy
-  haveI : IsMulCommutative (Subgroup.closure ({w₁, w₂} : Set (WeylGroup Tag.E6))) :=
+  have : IsMulCommutative (Subgroup.closure ({w₁, w₂} : Set (WeylGroup Tag.E6))) :=
     Subgroup.isMulCommutative_closure hcomm
   have hcommU : ∀ x ∈ Subgroup.closure ({w₁, w₂} : Set (WeylGroup Tag.E6)),
       ∀ y ∈ Subgroup.closure ({w₁, w₂} : Set (WeylGroup Tag.E6)), x * y = y * x :=

@@ -105,7 +105,7 @@ theorem e6_twistHom_inverts_order_seven [CharP K 2] (σ : K →+* K) :
   refine ⟨g * (e6Twist σ g)⁻¹, ?_, ?_, ?_⟩
   · exact mul_mem (subsystemGroup_le_adjointGroup_E6 _ hgQ)
       (inv_mem (subsystemGroup_le_adjointGroup_E6 _ hFg))
-  · haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     apply orderOf_eq_prime
     · rw [hcomm.inv_right.mul_pow, hg7, inv_pow, hFg7, inv_one, mul_one]
     · intro hx
@@ -120,7 +120,7 @@ theorem e6_twistHom_inverts_order_seven [CharP K 2] (σ : K →+* K) :
         exact Subtype.ext (commute_Q₁_Q₂ k.2 hgQ2).eq
       obtain ⟨r, -, hr⟩ := Matrix.SpecialLinearGroup.mem_center_iff.1 hcen
       have h02 := congrArg (fun M : Matrix (Fin 3) (Fin 3) K => M 0 2) hr
-      simp [hX7, m7, x7, ι₂, Matrix.scalar_apply, Matrix.diagonal_apply] at h02
+      simp [hX7, m7, x7, ι₂, Matrix.scalar_apply] at h02
   · rw [map_mul, map_inv, hFFg, _root_.mul_inv_rev, inv_inv]
 
 end CFSG.LieType.ChevTwo.Inversion

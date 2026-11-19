@@ -8,7 +8,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KD309L
 
 open Equiv Subgroup
 
-@[expose] abbrev V3 : Type := Fin 3 → ZMod 5
+abbrev V3 : Type := Fin 3 → ZMod 5
 
 @[expose] def ext5 (v : V3) : Fin 5 → ZMod 5 := ![v 0, v 1, v 2, -(v 0 + v 1 + v 2), 0]
 
@@ -44,10 +44,10 @@ theorem ch5_smul (c : ZMod 5) (y : Fin 5 → ZMod 5) : ch5 (c • y) = c • ch5
   fin_cases i <;> simp [ch5] <;> ring
 
 theorem ext5_add (v w : V3) (j : Fin 5) : ext5 (v + w) j = ext5 v j + ext5 w j := by
-  fin_cases j <;> simp [ext5] <;> ring
+  fin_cases j <;> simp [ext5]; ring
 
 theorem ext5_smul (c : ZMod 5) (v : V3) (j : Fin 5) : ext5 (c • v) j = c * ext5 v j := by
-  fin_cases j <;> simp [ext5] <;> ring
+  fin_cases j <;> simp [ext5]; ring
 
 @[expose] def actL (τ : Perm (Fin 5)) : V3 →ₗ[ZMod 5] V3 where
   toFun := act τ

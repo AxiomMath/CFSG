@@ -28,7 +28,7 @@ private theorem cyc3_mul_diagonal_mul_transpose {K : Type} [Field K] {c : K} (hc
   have h3 : c * c ^ 2 = 1 := by rw [← pow_succ']; exact hc
   ext i j
   simp only [Matrix.mul_apply, Fin.sum_univ_three]
-  fin_cases i <;> fin_cases j <;> simp [cyc3, diagonal_apply, h3] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [cyc3, h3]; ring
 
 private theorem conj_eq_mul_of_eigen {G : Type*} [Group G] {a P D C Z : G}
     (hD : P⁻¹ * a * P = D) (hC : C * D * C⁻¹ = Z * D) (hZ : ∀ g : G, g * Z = Z * g) :

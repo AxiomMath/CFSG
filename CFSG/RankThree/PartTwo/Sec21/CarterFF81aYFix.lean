@@ -15,10 +15,9 @@ theorem exists_fixed_mul_fixed_of_fixedPointFree_mul
     fun u => (AddAutAdditive A).symm (Additive.ofMul u)
   have htoAdd_mul : ∀ u v : MulAut A, toAdd (u * v) = toAdd u + toAdd v := by
     intro u v
-    simpa [toAdd] using
-      (AddAutAdditive A).symm.map_add (Additive.ofMul u) (Additive.ofMul v)
+    simp [toAdd]
   have htoAdd_one : toAdd 1 = 0 := by
-    simpa [toAdd] using (AddAutAdditive A).symm.map_zero
+    simp [toAdd]
   have happly : ∀ (u : MulAut A) (x : Additive A),
       toAdd u x = Additive.ofMul (u (Additive.toMul x)) := fun _ _ => rfl
   have hτ2' : toAdd τ + toAdd τ = 0 := by
@@ -35,7 +34,7 @@ theorem exists_fixed_mul_fixed_of_fixedPointFree_mul
       simpa using h
     have hx0 : Additive.toMul x = 1 := hfree (Additive.toMul x) hx'
     simpa using congrArg Additive.ofMul hx0
-  haveI : Finite (Additive A) := ‹Finite A›
+  have : Finite (Additive A) := ‹Finite A›
   obtain ⟨a, b, ha, hb, hy⟩ :=
     exists_fixed_mul_fixed_of_fixedPointFree (A := Additive A) hodd (toAdd τ) (toAdd t)
       hτ2' ht2' hcomm' hfree' (Additive.ofMul y)

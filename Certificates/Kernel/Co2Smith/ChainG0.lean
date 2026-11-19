@@ -23,15 +23,15 @@ theorem rtIdx_spec {r t : Nat} (hr : r < 18) (ht : t ∈ glParams r) :
   unfold glParams at ht
   unfold rtIdx rtR rtT
   by_cases h : r < 12
-  · rw [if_pos h] at ht ⊢
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at ht
+  · rw [ite_eq_left h] at ht ⊢
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at ht
     rcases ht with rfl | rfl | rfl <;> refine ⟨by omega, ?_, ?_⟩ <;>
       simp only [show 3 * r + (1 - 1) < 36 by omega, show 3 * r + (2 - 1) < 36 by omega,
-        show 3 * r + (3 - 1) < 36 by omega, if_true] <;> omega
-  · rw [if_neg h] at ht ⊢
+        show 3 * r + (3 - 1) < 36 by omega, ite_true] <;> omega
+  · rw [ite_eq_right h] at ht ⊢
     simp only [List.mem_singleton] at ht
     subst ht
-    refine ⟨by omega, ?_, ?_⟩ <;> simp only [show ¬ r + 24 < 36 by omega, if_false] <;> omega
+    refine ⟨by omega, ?_, ?_⟩ <;> simp only [show ¬ r + 24 < 36 by omega, ite_false]; omega
 
 theorem chainG0_ok : glChainG0OK = true := by
   have hB := chG0Bind_k
@@ -98,7 +98,7 @@ theorem chainG0_ok : glChainG0OK = true := by
     obtain ⟨hk, hR, hT⟩ := rtIdx_spec hr ht
     have e : rtM (rtIdx r t) = rootK r t := by
       unfold rtM
-      rw [if_pos hk, hR, hT]
+      rw [ite_eq_left hk, hR, hT]
     rw [glRootRows_eq, ← e]
     refine ⟨permOK_of (hrt _ (by omega)).1, ?_⟩
     rw [hpsi _ (by omega)]

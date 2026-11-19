@@ -13,7 +13,7 @@ theorem inf_center_ne_bot {E : Type*} [Group E] [Finite E] {p : ℕ} [Fact p.Pri
     (hE : IsPGroup p E) (N : Subgroup E) [N.Normal] (hN : N ≠ ⊥) :
     N ⊓ Subgroup.center E ≠ ⊥ := by
   classical
-  letI : MulAction E N := MulAction.compHom N (MulAut.conjNormal : E →* MulAut N)
+  let : MulAction E N := MulAction.compHom N (MulAut.conjNormal : E →* MulAut N)
   have hsm : ∀ (g : E) (n : N), ((g • n : N) : E) = g * n * g⁻¹ := fun g n => rfl
   have hNp : IsPGroup p N := hE.to_subgroup N
   have hdvd : p ∣ Nat.card N := by

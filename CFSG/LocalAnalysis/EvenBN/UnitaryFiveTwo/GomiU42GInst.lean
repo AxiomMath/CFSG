@@ -18,6 +18,7 @@ namespace Data.Hyp
 
 variable {G : Type} [Group G] [Finite G] {d : Data G}
 
+omit [Finite G] in
 theorem e₂_mem_centralizer : d.e₂ ∈ centralizer ({d.e₂} : Set G) :=
   mem_centralizer_singleton_iff.2 rfl
 
@@ -25,11 +26,12 @@ theorem t_mem_centralizer_e₂ (h : d.Hyp) : d.t ∈ centralizer ({d.e₂} : Set
   mem_centralizer_singleton_iff.2 h.e₂_comm_t.symm
 
 theorem e₂_not_mem_center (h : d.Hyp) : d.e₂ ∉ center G := by
-  haveI := h.simple
+  have := h.simple
   have hz : center G = ⊥ := (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup h.nonab).2
   rw [hz, mem_bot]
   exact d.e₂_ne_one
 
+omit [Finite G] in
 theorem U_le_centralizer_e₂ : d.U ≤ centralizer ({d.e₂} : Set G) := inf_le_right
 
 theorem zpowers_t_inf_e₂K₃ (h : d.Hyp) : zpowers d.t ⊓ (zpowers d.e₂ ⊔ d.K₃) = ⊥ := by

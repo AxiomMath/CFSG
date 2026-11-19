@@ -122,10 +122,10 @@ theorem kd264CaseY1_outer {d : TauCeti.ValidLieTypeIndex}
       · exact hover8
     | cyclic r hr =>
       exfalso
-      simpa [subRelC] using hsub
+      simp [subRelC] at hsub
     | sporadic s =>
       exfalso
-      simpa [subRelC] using hsub
+      simp [subRelC] at hsub
   exact kd264CaseY1_overEight hI h hbA hbout hover fun ⟨q, hq⟩ => hbout (hTri ⟨q, hq⟩ hbA)
 
 theorem kd264CaseY1_holds (hI : KD264LieInputs) (hBS : KD264BS 3) (hAmb : KD264Amb 3) :

@@ -128,7 +128,7 @@ theorem outerRow_projectiveSL_three_of_frobenius {K : Type} [Field K] [Finite K]
 
 theorem outerRow_projSL_three_two_pow_of_three_dvd {n : ℕ} (hn : 1 ≤ n) (heven : n % 2 = 0)
     (h3 : n % 3 = 0) : OuterRow (projSL 3 (GaloisField 2 n)) := by
-  haveI : Finite (projectiveSL 3 (GaloisField 2 n)) :=
+  have : Finite (projectiveSL 3 (GaloisField 2 n)) :=
     Finite.of_equiv _ (KFacts.L34.projSLEquivProjectiveSL 3 (GaloisField 2 n)).toEquiv
   have hcard : Nat.card (GaloisField 2 n) = 2 ^ n := GaloisField.card 2 n (by omega)
   have hmod : Nat.card (GaloisField 2 n) % 3 = 1 := by

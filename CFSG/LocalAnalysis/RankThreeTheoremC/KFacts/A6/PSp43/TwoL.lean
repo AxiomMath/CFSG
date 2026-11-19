@@ -12,7 +12,7 @@ open CFSG.Open CFSG.GH74.Exceptional CFSG.ComponentClassification.CatFactsSmall.
 theorem exists_fixed_of_invariant {p : ℕ} [Fact p.Prime] {V : Subgroup (Equiv.Perm (Fin 45))}
     (hV : IsPGroup p V) (s : Fin 45 → Prop) (hs : ∀ v ∈ V, ∀ j, s j → s (v j))
     (hcard : ¬ p ∣ Nat.card {j // s j}) : ∃ j, s j ∧ ∀ v ∈ V, v j = j := by
-  letI : MulAction V {j // s j} :=
+  let : MulAction V {j // s j} :=
     { smul := fun v j => ⟨(v : Equiv.Perm (Fin 45)) j.1, hs v v.2 j.1 j.2⟩
       one_smul := fun j => rfl
       mul_smul := fun v w j => rfl }
@@ -172,7 +172,7 @@ theorem fix_of_mem_gen {ws : List (List (Fin 45))} {fixl : List ℕ} (h : fixOK 
     u j = j := by
   induction hu using Subgroup.closure_induction with
   | mem x hx =>
-    simp only [Set.mem_setOf_eq, List.mem_map] at hx
+    simp only [Set.mem_ofPred_eq, List.mem_map] at hx
     obtain ⟨w, hw, rfl⟩ := hx
     exact (fix_iff h j).1 hj w hw
   | one => rfl
@@ -261,7 +261,7 @@ theorem le_conj_E_of_normalized {ws : List (List (Fin 45))} {elems : List Tab}
       rintro _ ⟨y, hy, rfl⟩
       have hP' : c * y * c⁻¹ ∈ P := mul_mem (mul_mem hcP (hYP hy)) (inv_mem hcP)
       refine ⟨hP', (mem_centralizer_tauPerm_iff hP' 0).2 ?_⟩
-      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, Equiv.Perm.mul_apply, hcinv,
+      simp only [Equiv.Perm.mul_apply, hcinv,
         hj y hy, hcj]
     have hmeet : ∀ e ∈ Y', e ∈ E → e = 1 := by
       rintro _ ⟨y, hy, rfl⟩ he

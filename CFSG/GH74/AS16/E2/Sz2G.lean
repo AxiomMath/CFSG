@@ -96,12 +96,12 @@ theorem Cfg.decomp2 (h : Cfg G T z L)
     (hout : ∀ (φ : MulAut ↥L) (n : ℕ), φ ^ 2 ^ n = 1 → ∃ k : ↥L, ∀ x : ↥L, φ x = k * x * k⁻¹) :
     ∀ t ∈ (T : Subgroup G), ∃ s ∈ (T : Subgroup G) ⊓ L,
       ∃ c ∈ (T : Subgroup G) ⊓ centralizer (L : Set G), t = s * c := by
-  refine exists_decomp_of_inner2 T.isPGroup' hZ ?_ ?_
+  refine exists_decomp_of_inner2 T.isPGroup hZ ?_ ?_
   · intro P hP hPL hle
     exact h.isSylowOf_inf.eq_of_le hle hPL hP
   · intro t ht
     have htN := h.le_normalizer ht
-    obtain ⟨n, hn⟩ := T.isPGroup' ⟨t, ht⟩
+    obtain ⟨n, hn⟩ := T.isPGroup ⟨t, ht⟩
     have hn' : t ^ 2 ^ n = 1 := by simpa using congrArg Subtype.val hn
     have hφn : (L.normalizerMonoidHom ⟨t, htN⟩) ^ 2 ^ n = 1 := by
       rw [← map_pow]
@@ -141,7 +141,7 @@ theorem false_of_sz2 (hcfg : Cfg G T z L)
     Subgroup.mem_centralizer_singleton_iff.1 (hcfg.pair.isComp.1 hl)
   have hzTC : z ∈ TC :=
     ⟨hcfg.pair.mem_sylow, Subgroup.mem_centralizer_iff.2 fun l hl => hzL l hl⟩
-  have hTC2 : IsPGroup 2 TC := T.isPGroup'.to_inf_left
+  have hTC2 : IsPGroup 2 TC := T.isPGroup.to_inf_left
   have hAT' : A ≤ (T : Subgroup G) := fun a ha => (hAT ha).1
   have hAL : A ≤ L := fun a ha => (hAT ha).2
   have : IsMulCommutative ↥A := ⟨⟨fun a b => Subtype.ext (hAcomm a a.2 b b.2)⟩⟩
@@ -156,7 +156,7 @@ theorem false_of_sz2 (hcfg : Cfg G T z L)
     apply isCyclic_of_rank_le_one
     have hcomm : ∀ q ∈ A, ∀ t ∈ TC, q * t = t * q := fun q hq t ht =>
       Subgroup.mem_centralizer_iff.1 ht.2 q (hAL hq)
-    have h := gen4_rank_add_le hcfg.hyp.gen4 A TC (T.isPGroup'.to_le hAT') hTC2 hcomm
+    have h := gen4_rank_add_le hcfg.hyp.gen4 A TC (T.isPGroup.to_le hAT') hTC2 hcomm
     have hle : A ⊓ TC ≤ Zg := fun x hx => ⟨hAL hx.1, hx.2.2⟩
     have hc : Nat.card ↥(A ⊓ TC) ≤ 2 := (Subgroup.card_le_of_le hle).trans hZ2.le
     have := rank_le_one_of_card_le_two hc

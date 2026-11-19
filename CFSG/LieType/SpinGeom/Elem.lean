@@ -117,14 +117,14 @@ theorem X8_long_mulVec {a b c d : Fin 4} (hab : a ≠ b) (hcd : c ≠ d) (hbc : 
         (m * polar (coordinateQuadPlus 4 K) v (frameF K c)) • frameF K d) (frameE K b) =
         coordY K v b := by
     rw [polar_add_left, polar_add_left, polar_smul_left, polar_smul_left, polar_frameF_frameE,
-      polar_frameF_frameE, if_neg hbc.symm, if_neg hbd.symm]
+      polar_frameF_frameE, ite_eq_right hbc.symm, ite_eq_right hbd.symm]
     simp [coordY]
   have h2 : polar (coordinateQuadPlus 4 K)
       (v + (m * polar (coordinateQuadPlus 4 K) v (frameF K d)) • frameF K c +
         (m * polar (coordinateQuadPlus 4 K) v (frameF K c)) • frameF K d) (frameE K a) =
         coordY K v a := by
     rw [polar_add_left, polar_add_left, polar_smul_left, polar_smul_left, polar_frameF_frameE,
-      polar_frameF_frameE, if_neg hac.symm, if_neg had.symm]
+      polar_frameF_frameE, ite_eq_right hac.symm, ite_eq_right had.symm]
     simp [coordY]
   rw [h1, h2]
   unfold longMap coordX coordY

@@ -46,11 +46,11 @@ theorem outAbelian_holds :
       by_contra hle
       have heq : p ^ e = 2 := by omega
       obtain ⟨rfl, rfl⟩ := Sec13.eq_two_one_of_pow_eq_two hp.out heq
-      haveI := Sec13.isSolvable_projSU_two
+      have := Sec13.isSolvable_projSU_two
       have hsol : Group.IsSolvable X :=
         Group.isSolvable_of_isSolvable_injective (f := φ.toMonoidHom) φ.injective
-      haveI : Group.IsPerfect X := hq.1
-      haveI : Nontrivial X := CFSG.LocalCores.isQuasisimple_nontrivial hq
+      have : Group.IsPerfect X := hq.1
+      have : Nontrivial X := CFSG.LocalCores.isQuasisimple_nontrivial hq
       exact Group.IsPerfect.not_isSolvable X hsol
     have hG : Nat.card (GaloisField p (2 * e)) = p ^ (2 * e) :=
       GaloisField.card p (2 * e) (by omega)

@@ -27,7 +27,7 @@ theorem te6_assembly (hU : Group.IsPerfect U) (hQ : Group.IsPerfect Q)
     ∃ Eb Wb : Subgroup Q, IsElemAbelian 3 Eb ∧
       Nat.card Eb = 3 ^ 4 * Nat.card (Subgroup.center Q) ∧ IsPGroup 2 Wb ∧ Wb ≠ ⊥ ∧
       Eb ≤ Subgroup.normalizer (Wb : Set Q) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set X := U ⧸ Subgroup.center U with hX
   let β₀ : U →* X := QuotientGroup.mk' (Subgroup.center U)
   have hβ₀s : Function.Surjective β₀ := QuotientGroup.mk'_surjective _

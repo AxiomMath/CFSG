@@ -16,7 +16,7 @@ variable {X : Type} [Group X]
 omit [Group X] in
 theorem isSimpleGroup_of_isQuasisimple_center_eq_bot {X : Type} [Group X]
     (hq : CFSG.IsQuasisimple X) (hZ : Subgroup.center X = ⊥) : IsSimpleGroup X := by
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2.1
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2.1
   exact ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.isSimpleGroup
 
 theorem derived_le (C : Subgroup X) : ⁅C, C⁆ ≤ C :=
@@ -65,7 +65,7 @@ theorem qRes_eq_derived_of_isQuasisimple [Finite X] {b : X}
     (hq : CFSG.IsQuasisimple ↥(⁅Subgroup.centralizer ({b} : Set X),
       Subgroup.centralizer ({b} : Set X)⁆)) :
     qRes b = ⁅Subgroup.centralizer ({b} : Set X), Subgroup.centralizer ({b} : Set X)⁆ := by
-  haveI : Group.IsPerfect ↥(⁅Subgroup.centralizer ({b} : Set X),
+  have : Group.IsPerfect ↥(⁅Subgroup.centralizer ({b} : Set X),
       Subgroup.centralizer ({b} : Set X)⁆) := hq.1
   exact qRes_eq_derived (Subgroup.commutator_eq_self)
 
@@ -243,6 +243,7 @@ theorem alphaVanishes_of_derived_quasisimple (hZ : Subgroup.center X = ⊥) {D :
   alphaVanishes_of_local_central hZ hDc hDexp
     (fun b hb hb1 => theta_central_of_derived b (hq b hb hb1) (hZ3 b hb hb1)) H3
 
+omit [Finite X] in
 theorem centralizer_le_derived_sup {D : Subgroup X} {b : X} (hb : b ∈ D)
     (hDc : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a) {A : Subgroup X}
     (hA : ∀ a ∈ A, ∀ a' ∈ A, a * a' = a' * a)
@@ -271,7 +272,7 @@ theorem layers_gen [IsSimpleGroup X] {D : Subgroup X}
     (hCD : ∀ b ∈ D, b ≠ 1 → Subgroup.centralizer ({b} : Set X) ≤
       ⁅Subgroup.centralizer ({b} : Set X), Subgroup.centralizer ({b} : Set X)⁆ ⊔
         Subgroup.centralizer (D : Set X))
-    (hDc : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a)
+    (_hDc : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a)
     (hne : ∃ b ∈ D, b ≠ 1 ∧ ⁅Subgroup.centralizer ({b} : Set X),
       Subgroup.centralizer ({b} : Set X)⁆ ≠ ⊥) :
     (⊤ : Subgroup X) ≤ Subgroup.closure {x : X | ∃ b ∈ D, b ≠ 1 ∧
@@ -329,7 +330,7 @@ theorem alphaVanishes_of_derived (hX : CFSG.IsQuasisimple X) (hZ : Subgroup.cent
         Subgroup.centralizer (D : Set X))
     (hgen : (⊤ : Subgroup X) ≤ Subgroup.closure {x : X | ∃ b ∈ D, b ≠ 1 ∧ x * b = b * x}) :
     AlphaVanishes X D := by
-  haveI : IsSimpleGroup X := isSimpleGroup_of_isQuasisimple_center_eq_bot hX hZ
+  have : IsSimpleGroup X := isSimpleGroup_of_isQuasisimple_center_eq_bot hX hZ
   obtain ⟨b, hb, hb1⟩ : ∃ b ∈ D, b ≠ 1 := by
     by_contra hcon
     push Not at hcon
@@ -343,8 +344,8 @@ theorem alphaVanishes_of_derived (hX : CFSG.IsQuasisimple X) (hZ : Subgroup.cent
     have hq' := hq b hb hb1
     set R : Subgroup X := ⁅Subgroup.centralizer ({b} : Set X),
       Subgroup.centralizer ({b} : Set X)⁆ with hR
-    haveI : IsSimpleGroup (↥R ⧸ Subgroup.center ↥R) := hq'.2.1
-    haveI : Nontrivial ↥R :=
+    have : IsSimpleGroup (↥R ⧸ Subgroup.center ↥R) := hq'.2.1
+    have : Nontrivial ↥R :=
       (QuotientGroup.mk_surjective : Function.Surjective
         (QuotientGroup.mk : ↥R → ↥R ⧸ Subgroup.center ↥R)).nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot _).mp this h

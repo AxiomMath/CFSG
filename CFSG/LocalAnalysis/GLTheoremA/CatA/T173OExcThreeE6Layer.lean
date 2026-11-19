@@ -103,6 +103,7 @@ theorem range_torusE6Two_le_sup_stdLayer_d2 (h2 : (2 : K) = 0) (hK : Nat.card K 
   · exact hker (Subgroup.mem_map_of_mem _ ((E6Node.mem_ker_coordD4 _).2
       (coordD4_sub_smul_d2E6 v)))
 
+omit [CharP K 2] in
 theorem not_isStdElt_torusE6Two_d0 (h2 : (2 : K) = 0) (hK : Nat.card K = 2) :
     ¬ IsStdElt 3 (torusE6Two (K := K) h2).range (torusE6Two h2 (.ofAdd d0E6)) := by
   intro hd

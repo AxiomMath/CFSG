@@ -34,7 +34,7 @@ theorem a2l_spor_arm {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
     {P : Subgroup S} (h : ProperFixedComponent σ P)
     (hS : TCSmall (↥P ⧸ Open.fusionZStar ↥P)) : NativeSporadic.IsSporadic S .HS := by
   obtain ⟨s, ⟨e⟩⟩ := hsp
-  have hMcard := Open.Open.monster_y443_derived_card
+  have hMcard := Open.Thm.monster_y443_derived_card
   have hO := a2l_oddLieOrder_of_tcSmall hS
   cases s
   case HS => exact ⟨e⟩

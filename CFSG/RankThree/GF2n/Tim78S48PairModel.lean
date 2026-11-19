@@ -206,6 +206,7 @@ theorem inf_Tg_eq_inf_Qg (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationIn
   le_antisymm (inf_le_inf_left _ (Subgroup.map_mono H.T_le_Q))
     (le_inf inf_le_left (H.Z_le_Tg hCen hU h48 hP))
 
+omit [Finite G] in
 theorem comm_zpow_mem_B {a : G} (haM : a ∈ M) (h : ∀ r ∈ Q, ⁅a, r⁆ ∈ B) (k : ℤ) {r : G}
     (hr : r ∈ Q) : ⁅a ^ k, r⁆ ∈ B := by
   have hMB : ∀ b ∈ B, a * b * a⁻¹ ∈ B := fun b hb =>
@@ -214,7 +215,7 @@ theorem comm_zpow_mem_B {a : G} (haM : a ∈ M) (h : ∀ r ∈ Q, ⁅a, r⁆ ∈
     have := (Subgroup.mem_normalizer_iff.mp (H.M_le_normalizer_B (M.inv_mem haM)) b).mp hb
     simpa using this
   induction k using Int.induction_on with
-  | zero => simpa using B.one_mem
+  | zero => simp
   | succ n ih =>
     have e : ⁅a ^ ((n : ℤ) + 1), r⁆ = a * ⁅a ^ (n : ℤ), r⁆ * a⁻¹ * ⁅a, r⁆ := by
       rw [zpow_add_one]
@@ -254,7 +255,7 @@ theorem comm_sq_mem_conj_of_mem {N : Subgroup G} (hBN : B ≤ N) (hNQ : N ≤ Q)
   intro s hs
   by_cases hy2 : y ^ 2 = 1
   · rw [hy2]
-    simpa using (conjSubgroup g B).one_mem
+    simp
   set S := conjSubgroup g N with hSdef
   have hS2 : IsPGroup 2 S := (H.isPGroup_Q.to_le hNQ).map _
   have hΦ : inSubgroup frattini S ≤ S ⊓ Subgroup.centralizer (S : Set G) :=
@@ -431,7 +432,7 @@ theorem T0_comm_T0' (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInput)
     refine Subgroup.mem_normalizer_fintype fun e he => ?_
     induction he using Subgroup.closure_induction with
     | mem c hc => exact Subgroup.subset_closure (hinv t ht c hc)
-    | one => simpa using E.one_mem
+    | one => simp
     | mul a b _ _ iha ihb =>
       have : t * (a * b) * t⁻¹ = (t * a * t⁻¹) * (t * b * t⁻¹) := by group
       rw [this]
@@ -462,7 +463,7 @@ theorem kernel_elem (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInput)
 theorem phase1a (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInput)
     (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P) : Phase1a Q B T g := by
   have hKeq := H.kernel48_eq_kernelGen hCen hU h48 hP
-  haveI := H.normal_kernelGen h48
+  have := H.normal_kernelGen h48
   have hQP := H.quotPair48 hCen hU h48 hP
   obtain ⟨-, hmod⟩ := hQP.models hCen hU
   have hcard : Nat.card ((T.subgroupOf (T ⊔ conjSubgroup g T)).map

@@ -148,8 +148,8 @@ theorem input18_3Gen_of_schreier
     Prop115.Input18_3Gen := by
   intro p hp _ G _ _ hsimp hnab hkp x y hx hy hxy J hJ
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   have hJ' : GLAPComponent p (Subgroup.centralizer ({y} : Set G) ⊓
       Subgroup.centralizer ((Subgroup.zpowers x : Subgroup G) : Set G)) J := by
     have hcz : Subgroup.centralizer ((Subgroup.zpowers x : Subgroup G) : Set G) =
@@ -189,7 +189,7 @@ theorem input18_3Gen_of_schreier
     le_iSup₂_of_le (1 : G) (GLAPLayer p _).one_mem (le_of_eq (gLBConj_one J).symm)
   obtain ⟨L0, hL0⟩ : ∃ L0, L0 ∈ 𝒞 := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hbot : (⨆ L ∈ 𝒞, L) = ⊥ := by simp [hno]
     apply hJne
     rw [← h2, hbot] at hJle
@@ -373,7 +373,7 @@ theorem conj_oprod (g : H) (n : ℕ) (f : ℕ → H) :
   | zero => rw [oprod_zero, oprod_zero, mul_one, mul_inv_cancel]
   | succ n ih =>
     rw [oprod_succ, oprod_succ, ← ih]
-    simp only [mul_assoc, mul_inv_cancel_left]
+    simp only [mul_assoc]
     group
 
 theorem oprod_rot (m : ℕ) (F : ℕ → H) (hper : ∀ k, F (k + (m + 1)) = F k)
@@ -435,11 +435,11 @@ theorem orbit_factor {b : Y} {X : Subgroup Y} {p : ℕ}
   · intro i x hx
     refine ⟨fun j => if j = (i : ℕ) then x else 1, fun j hj => ?_, ?_⟩
     · by_cases hji : j = (i : ℕ)
-      · simp only [hji, if_true]
+      · simp only [hji, ite_true]
         exact hx
-      · simp only [hji, if_false]
+      · simp only [hji, ite_false]
         exact (orbA b X j).one_mem
-    · rw [oprod_single i.isLt (fun j _ hji => if_neg hji), if_pos rfl]
+    · rw [oprod_single i.isLt (fun j _ hji => ite_eq_right hji), ite_eq_left rfl]
   · exact ⟨fun _ => 1, fun j _ => (orbA b X j).one_mem, (oprod_ones p).symm⟩
   · rintro x y ⟨a, ha, rfl⟩ ⟨c, hc, rfl⟩
     refine ⟨fun j => a j * c j, fun j hj => (orbA b X j).mul_mem (ha j hj) (hc j hj), ?_⟩
@@ -485,7 +485,7 @@ theorem block_uniq {L : Subgroup Y} {𝓛 : Set (Subgroup Y)} {b : Y} {X : Subgr
       refine commute_oprod fun k hk => ?_
       by_cases hkj : k = j
       · simp [hd', hkj]
-      · simp only [hd', hkj, if_false]
+      · simp only [hd', hkj, ite_false]
         show d k * d j = d j * d k
         exact hAcomm k j hk hj hkj _ (hd k hk) _ (hd j hj)
     refine ⟨oprod p d', ?_, ?_⟩
@@ -495,7 +495,7 @@ theorem block_uniq {L : Subgroup Y} {𝓛 : Set (Subgroup Y)} {b : Y} {X : Subgr
       refine commute_oprod fun k hk => ?_
       by_cases hkj : k = j
       · simp [hd', hkj]
-      · simp only [hd', hkj, if_false]
+      · simp only [hd', hkj, ite_false]
         exact hAcomm k j hk hj hkj _ (hd k hk) y hy
   intro j hj
   obtain ⟨wa, hwa, hwa'⟩ := U1 a ha j hj
@@ -679,7 +679,7 @@ theorem comp_le_or_comm {B H N : Subgroup Y} (hB : CFSG.Assembly.IsComponentOf B
 theorem exists_noncomm_of_isComponentOf {L R : Subgroup Y} (hR : IsComponentOf R L) :
     ∃ r ∈ R, ∃ t ∈ R, r * t ≠ t * r := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hcomm : (⊤ : Subgroup R) ≤ Subgroup.centralizer (⊤ : Subgroup R) := by
     intro a _
     refine Subgroup.mem_centralizer_iff.2 fun b _ => ?_
@@ -688,12 +688,12 @@ theorem exists_noncomm_of_isComponentOf {L R : Subgroup Y} (hR : IsComponentOf R
     Subgroup.commutator_eq_bot_iff_le_centralizer.2 hcomm
   have hq := hR.2.2
   have htriv : (⊤ : Subgroup R) = ⊥ := hq.1.symm.trans hbot
-  haveI : Subsingleton R := ⟨fun a b => by
+  have : Subsingleton R := ⟨fun a b => by
     have ha : a ∈ (⊤ : Subgroup R) := Subgroup.mem_top a
     have hb : b ∈ (⊤ : Subgroup R) := Subgroup.mem_top b
     rw [htriv, Subgroup.mem_bot] at ha hb
     rw [ha, hb]⟩
-  haveI := hq.2.toNontrivial
+  have := hq.2.toNontrivial
   obtain ⟨u, v, huv⟩ := exists_pair_ne (R ⧸ Subgroup.center R)
   exact huv (Subsingleton.elim _ _)
 
@@ -739,11 +739,11 @@ theorem comp_mem_family {L : Subgroup Y} {𝓛 : Set (Subgroup Y)} (hL : L = sSu
       obtain ⟨z, hz, hzr⟩ := Subgroup.mem_map.1 (hcen hr)
       have hct := Subgroup.mem_center_iff.1 hz ⟨t, hRX ht⟩
       have hct' := congrArg Subtype.val hct
-      simp only [Subgroup.coe_mul, Subtype.coe_mk] at hct'
+      simp only [Subgroup.coe_mul] at hct'
       have hzr' : (z : Y) = r := hzr
       rw [hzr'] at hct'
       exact hct'.symm
-  · push_neg at hsub
+  · push Not at hsub
     have hcentL : ∀ r ∈ R, L ≤ Subgroup.centralizer ({r} : Set Y) := by
       intro r hr
       rw [hL]
@@ -757,6 +757,7 @@ theorem comp_mem_family {L : Subgroup Y} {𝓛 : Set (Subgroup Y)} (hL : L = sSu
     exact hrt (Subgroup.mem_centralizer_singleton_iff.1 (hcentL r hr (hR.1 ht))).symm
 
 
+omit [Finite Y] in
 theorem comp_gLBConj_norm {L K : Subgroup Y} {b : Y}
     (hb : b ∈ Subgroup.normalizer (L : Set Y)) (hK : IsComponentOf K L) :
     IsComponentOf (GLBConj b K) L := by
@@ -1110,7 +1111,7 @@ theorem core_gen_normal [Finite Y] {L : Subgroup Y} {𝓛 : Set (Subgroup Y)} {b
   have hgen := gen_fin hbp hp hL hmem h𝓛 D hSO 𝔉 h𝔉fin hyp
   have hset : {X | X ∈ 𝓛 ∧ OJ b X ∈ 𝔉} = 𝓛 := by
     ext X
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     exact ⟨fun h => h.1, fun hX => ⟨hX, X, hX, rfl⟩⟩
   have hDL : ∀ X ∈ 𝓛, D X ≤ L := fun X hX => (hDM X hX).trans inf_le_left
   have hsupL : (⨆ X ∈ 𝓛, D X) ≤ L := iSup₂_le fun X hX => hDL X hX
@@ -1173,7 +1174,7 @@ theorem quot_diag_iso [Finite Y] {p : ℕ} (hp : p.Prime) {M : Subgroup Y}
       exact (Subgroup.mem_normalizer_iff.1 hgN _).1 hn
     exact hN.map (QuotientGroup.mk' P) (QuotientGroup.mk'_surjective P)
   have hdich : ∀ X ∈ 𝓛, R ≤ K X ∨ ⁅R, K X⁆ = ⊥ := fun X hX => by
-    haveI := hKn X hX
+    have := hKn X hX
     exact CFSG.LocalCores.component_normal_subgroup ((CFSG.isComponent_iff_open R).2 hRc)
       inferInstance
   have hcomm_of : ∀ X ∈ 𝓛, (⁅R, K X⁆ = ⊥) → ∀ r ∈ R, ∀ k ∈ K X, k * r = r * k := by
@@ -1183,7 +1184,7 @@ theorem quot_diag_iso [Finite Y] {p : ℕ} (hp : p.Prime) {M : Subgroup Y}
     exact (Subgroup.mem_centralizer_iff.1 h1) k hk
   have hexists : ∃ X ∈ 𝓛, R ≤ K X := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     have hall : ∀ X ∈ 𝓛, ⁅R, K X⁆ = ⊥ := fun X hX => (hdich X hX).resolve_left (hno X hX)
     have hsupc : ∀ y ∈ ⨆ X ∈ 𝓛, D X, ∃ hy : y ∈ M,
         ∀ r ∈ R, QuotientGroup.mk' P ⟨y, hy⟩ * r = r * QuotientGroup.mk' P ⟨y, hy⟩ := by
@@ -1311,14 +1312,14 @@ theorem quot_diag_iso [Finite Y] {p : ℕ} (hp : p.Prime) {M : Subgroup Y}
       have htK : t ∈ K X₀ := hRK ht
       have hc := Subgroup.mem_center_iff.1 hz ⟨t, htK⟩
       have hc' := congrArg Subtype.val hc
-      simp only [Subgroup.coe_mul, Subtype.coe_mk] at hc'
+      simp only [Subgroup.coe_mul] at hc'
       have hz' : ((z : ↥(K X₀)) : ↥M ⧸ P) = r := hzr
       rw [hz'] at hc'
       exact hc'.symm
   have e1 : (↥Q ⧸ GLAPPrimeCore p ↥Q) ≃* ↥R := quotEquivBarX hp hQM hsnQ
   have e2 : ↥R ≃* ↥(K X₀) := MulEquiv.subgroupCongr hRK_eq
   have e3 : ↥(K X₀) ≃* ↥X₀ ⧸ T := eK.symm
-  haveI := hTn
+  have := hTn
   obtain ⟨eZ⟩ := l119_center_quot_iso (hXq X₀ hX₀) hTc
   exact ⟨X₀, hX₀, ⟨(l119_centerQuot_equiv (e1.trans (e2.trans e3))).trans eZ⟩⟩
 
@@ -1527,7 +1528,7 @@ theorem input18_3_diag_holds : Input18_3_diag := by
     let Dg : Subgroup Y → Subgroup Y := fun X =>
       if h : X ∈ 𝓛 then (Input183.diagHom (hAcomm_of X h)).range else ⊥
     have hDg : ∀ X (hX : X ∈ 𝓛), Dg X = (Input183.diagHom (hAcomm_of X hX)).range :=
-      fun X hX => dif_pos hX
+      fun X hX => dite_eq_left hX
     have hdiag_fixed : ∀ X (hX : X ∈ 𝓛) (x : ↥X),
         b * Input183.diagHom (hAcomm_of X hX) x * b⁻¹ = Input183.diagHom (hAcomm_of X hX) x :=
       fun X hX x => Input183.diag_shift hb hp0 (hAcomm_of X hX) (x : Y) x.2

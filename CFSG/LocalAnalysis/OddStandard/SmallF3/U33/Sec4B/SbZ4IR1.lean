@@ -25,7 +25,7 @@ theorem z4i_odd_core {G : Type*} [Group G] [Finite G] {Q C : Subgroup G} (hQC : 
     (hcent : ∀ c ∈ C, ∀ q ∈ Q, c * q = q * c) :
     ∃ N : Subgroup G, N ≤ C ∧ Odd (Nat.card N) ∧ N ⊓ Q = ⊥ ∧ N ⊔ Q = C ∧
       (∀ c ∈ C, c ∈ N ↔ Odd (orderOf c)) ∧ ∀ n ∈ N, ∀ q ∈ Q, n * q = q * n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q' : Subgroup C := Q.subgroupOf C
   have hQ'2 : IsPGroup 2 Q' := by
     show IsPGroup 2 (Q.comap C.subtype)
@@ -35,7 +35,7 @@ theorem z4i_odd_core {G : Type*} [Group G] [Finite G] {Q C : Subgroup G} (hQC : 
     exact hQi
   let P : Sylow 2 C := hQ'2.toSylow hQ'i
   have hPcoe : (P : Subgroup C) = Q' := IsPGroup.toSylow_coe hQ'2 hQ'i
-  haveI : Finite (Sylow 2 C) := Sylow.finite_of_finiteIndex P
+  have : Finite (Sylow 2 C) := Sylow.finite_of_finiteIndex P
   have hPcent : Subgroup.normalizer (P : Set C) ≤ Subgroup.centralizer (P : Set C) := by
     intro x _
     rw [Subgroup.mem_centralizer_iff]
@@ -76,7 +76,7 @@ theorem z4i_odd_core {G : Type*} [Group G] [Finite G] {Q C : Subgroup G} (hQC : 
       obtain ⟨n', hn', hval⟩ := hcN
       have horder : orderOf c = orderOf n' := by
         rw [← hval]
-        simpa using Subgroup.orderOf_coe n'
+        simp
       rw [horder]
       exact Odd.of_dvd_nat hoddN' (Subgroup.orderOf_dvd_natCard ψ.ker hn')
     · intro hodd
@@ -87,7 +87,7 @@ theorem z4i_odd_core {G : Type*} [Group G] [Finite G] {Q C : Subgroup G} (hQC : 
           have h2 : orderOf g = orderOf c := (Subgroup.orderOf_coe g).symm
           rwa [h2] at h1
         have hoddψ : Odd (orderOf (ψ g)) := Odd.of_dvd_nat hodd hdvd
-        obtain ⟨k, hk⟩ := P.isPGroup'.exists_orderOf_eq_pow (ψ g)
+        obtain ⟨k, hk⟩ := P.isPGroup.exists_orderOf_eq_pow (ψ g)
         have hpk : 2 ^ k = 1 := by
           apply z4i_pow_two_eq_one_of_odd
           rw [← hk]

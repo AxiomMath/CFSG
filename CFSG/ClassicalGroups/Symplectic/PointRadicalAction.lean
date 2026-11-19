@@ -11,6 +11,7 @@ open Matrix
 
 variable {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem exists_mem_LspGL_siegel {u w : Fin m ⊕ Fin m → K} (hw : spForm m K u w = 0) (c : K) :
     ∃ A ∈ LspGL m K u, ∀ x : Fin m ⊕ Fin m → K,
       (A : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ x =
@@ -28,6 +29,7 @@ theorem exists_mem_LspGL_siegel {u w : Fin m ⊕ Fin m → K} (hw : spForm m K u
     rw [← h1]
     exact siegel_apply spForm_isAlt hw c x
 
+omit [Finite K] [CharP K 2] in
 private theorem mem_span_of_forall_perp {u w : Fin m ⊕ Fin m → K}
     (h : ∀ x, spForm m K x u = 0 → spForm m K x w = 0) : w ∈ Submodule.span K {u} := by
   have := mem_span_of_forall_orthogonal (B := spForm m K) spForm_nondegenerate (ι := Unit)
@@ -42,6 +44,7 @@ private theorem mem_span_of_forall_perp {u w : Fin m ⊕ Fin m → K}
     rw [h2] at h3
     exact neg_eq_zero.mp h3
 
+omit [Finite K] [CharP K 2] in
 theorem mem_span_of_forall_LspGL_apply_eq {u x : Fin m ⊕ Fin m → K} (hu : u ≠ 0)
     (h : ∀ g ∈ LspGL m K u, (g : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ x = x) :
     x ∈ Submodule.span K {u} := by
@@ -65,6 +68,7 @@ theorem mem_span_of_forall_LspGL_apply_eq {u x : Fin m ⊕ Fin m → K} (hu : u 
   rw [h3] at h4
   exact neg_eq_zero.mp h4
 
+omit [Finite K] [CharP K 2] in
 private theorem exists_orth_not_mem_span (hm : 2 ≤ m) {u : Fin m ⊕ Fin m → K} (hu : u ≠ 0) :
     ∃ w, spForm m K u w = 0 ∧ w ∉ Submodule.span K {u} := by
   by_contra hcon
@@ -81,6 +85,7 @@ private theorem exists_orth_not_mem_span (hm : 2 ≤ m) {u : Fin m ⊕ Fin m →
   rw [finrank_spSpace] at h1
   omega
 
+omit [Finite K] [CharP K 2] in
 theorem exists_mem_LspGL_apply_sub_smul (hm : 2 ≤ m) {u : Fin m ⊕ Fin m → K} (hu : u ≠ 0) :
     ∃ s ∈ LspGL m K u, ∃ x : Fin m ⊕ Fin m → K, spForm m K x u = 0 ∧ ∃ l : K, l ≠ 0 ∧
       (s : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ x = x + l • u := by
@@ -95,6 +100,7 @@ theorem exists_mem_LspGL_apply_sub_smul (hm : 2 ≤ m) {u : Fin m ⊕ Fin m → 
   rw [hAx x, hxu]
   simp
 
+omit [Finite K] [CharP K 2] in
 theorem spForm_eq_zero_of_forall_LspGL_apply_sub_mem (hm : 2 ≤ m) {u x : Fin m ⊕ Fin m → K}
     (hu : u ≠ 0)
     (h : ∀ g ∈ LspGL m K u, ∃ c : K,

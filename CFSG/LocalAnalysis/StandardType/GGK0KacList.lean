@@ -447,7 +447,7 @@ theorem mem_k0VecsAux_of_sum {marks : List ℕ} (hm : ∀ m ∈ marks, 0 < m) {p
 private theorem k0lstLex_irrefl : ∀ l : List ℕ, k0LexLtNat l l = false
   | [] => rfl
   | x :: xs => by
-      simp only [k0LexLtNat, Nat.lt_irrefl, if_false]
+      simp only [k0LexLtNat, Nat.lt_irrefl, ite_false]
       exact k0lstLex_irrefl xs
 
 private theorem k0lstLex_asymm {x y : List ℕ} (h : k0LexLtNat x y = true) :
@@ -460,14 +460,14 @@ private theorem k0lstLex_asymm {x y : List ℕ} (h : k0LexLtNat x y = true) :
       | cons b ys =>
           simp only [k0LexLtNat] at h ⊢
           by_cases hab : a < b
-          · rw [if_pos hab] at h
-            rw [if_neg (Nat.not_lt.mpr (Nat.le_of_lt hab)), if_pos hab]
-          · rw [if_neg hab] at h
+          · rw [ite_eq_left hab] at h
+            rw [ite_eq_right (Nat.not_lt.mpr (Nat.le_of_lt hab)), ite_eq_left hab]
+          · rw [ite_eq_right hab] at h
             by_cases hba : b < a
-            · rw [if_pos hba] at h
+            · rw [ite_eq_left hba] at h
               exact absurd h (by simp)
-            · rw [if_neg hba] at h
-              rw [if_neg hba, if_neg hab]
+            · rw [ite_eq_right hba] at h
+              rw [ite_eq_right hba, ite_eq_right hab]
               exact ih h
 
 private theorem k0lstLex_trich {x y : List ℕ} (h : k0LexLtNat x y = false) :
@@ -482,18 +482,18 @@ private theorem k0lstLex_trich {x y : List ℕ} (h : k0LexLtNat x y = false) :
       | cons b ys =>
           simp only [k0LexLtNat] at h
           by_cases hab : a < b
-          · rw [if_pos hab] at h
+          · rw [ite_eq_left hab] at h
             exact absurd h (by simp)
-          · rw [if_neg hab] at h
+          · rw [ite_eq_right hab] at h
             by_cases hba : b < a
-            · rw [if_pos hba] at h
-              exact Or.inr (by simp only [k0LexLtNat, if_pos hba])
-            · rw [if_neg hba] at h
+            · rw [ite_eq_left hba] at h
+              exact Or.inr (by simp only [k0LexLtNat, ite_eq_left hba])
+            · rw [ite_eq_right hba] at h
               have hab' : a = b := by omega
               subst hab'
               rcases ih h with h' | h'
               · exact Or.inl (by rw [h'])
-              · exact Or.inr (by simp only [k0LexLtNat, Nat.lt_irrefl, if_false, h'])
+              · exact Or.inr (by simp only [k0LexLtNat, Nat.lt_irrefl, ite_false, h'])
 
 private theorem k0lstLex_trans {x y z : List ℕ} (h1 : k0LexLtNat x y = true)
     (h2 : k0LexLtNat y z = true) : k0LexLtNat x z = true := by
@@ -509,32 +509,32 @@ private theorem k0lstLex_trans {x y z : List ℕ} (h1 : k0LexLtNat x y = true)
           | cons c zs =>
               simp only [k0LexLtNat] at h1 h2 ⊢
               by_cases hab : a < b
-              · rw [if_pos hab] at h1
+              · rw [ite_eq_left hab] at h1
                 by_cases hbc : b < c
-                · rw [if_pos hbc] at h2
-                  simp only [if_pos (Nat.lt_trans hab hbc)]
-                · rw [if_neg hbc] at h2
+                · rw [ite_eq_left hbc] at h2
+                  simp only [ite_eq_left (Nat.lt_trans hab hbc)]
+                · rw [ite_eq_right hbc] at h2
                   by_cases hcb : c < b
-                  · rw [if_pos hcb] at h2
+                  · rw [ite_eq_left hcb] at h2
                     exact absurd h2 (by simp)
-                  · rw [if_neg hcb] at h2
-                    simp only [if_pos (by omega : a < c)]
-              · rw [if_neg hab] at h1
+                  · rw [ite_eq_right hcb] at h2
+                    simp only [ite_eq_left (by omega : a < c)]
+              · rw [ite_eq_right hab] at h1
                 by_cases hba : b < a
-                · rw [if_pos hba] at h1
+                · rw [ite_eq_left hba] at h1
                   exact absurd h1 (by simp)
-                · rw [if_neg hba] at h1
+                · rw [ite_eq_right hba] at h1
                   have hab' : a = b := by omega
                   subst hab'
                   by_cases hbc : a < c
-                  · rw [if_pos hbc] at h2
-                    simp only [if_pos hbc]
-                  · rw [if_neg hbc] at h2
+                  · rw [ite_eq_left hbc] at h2
+                    simp only [ite_eq_left hbc]
+                  · rw [ite_eq_right hbc] at h2
                     by_cases hcb : c < a
-                    · rw [if_pos hcb] at h2
+                    · rw [ite_eq_left hcb] at h2
                       exact absurd h2 (by simp)
-                    · rw [if_neg hcb] at h2
-                      simp only [if_neg hbc, if_neg hcb]
+                    · rw [ite_eq_right hcb] at h2
+                      simp only [ite_eq_right hbc, ite_eq_right hcb]
                       exact ih h1 h2
 
 private theorem k0lstSortBy_perm (l : List (List ℕ)) :
@@ -555,7 +555,7 @@ private theorem k0lstInsertBy_head_min (a : List ℕ) (l : List (List ℕ))
       exact k0lstLex_irrefl _
   | cons b bs ih =>
       by_cases hab : k0LexLtNat a b = true
-      · rw [k0InsertBy, if_pos hab]
+      · rw [k0InsertBy, ite_eq_left hab]
         refine ⟨?_, by simp⟩
         intro x hx
         rcases List.mem_cons.mp hx with rfl | hx
@@ -565,7 +565,7 @@ private theorem k0lstInsertBy_head_min (a : List ℕ) (l : List (List ℕ))
           · exact k0lstLex_asymm hab
           · exact k0lstLex_asymm (k0lstLex_trans hab hb)
       · have hab' : k0LexLtNat a b = false := by simpa using hab
-        rw [k0InsertBy, if_neg hab]
+        rw [k0InsertBy, ite_eq_right hab]
         refine ⟨?_, by simp⟩
         intro x hx
         rcases List.mem_cons.mp hx with rfl | hx
@@ -721,7 +721,7 @@ private theorem k0lstRepsAux_spec (stab : List (List ℕ)) (base : List ℕ) :
             have hrec := ih fuel seenF acc (pre ++ [a]) hstab' hlen' hseen hpre'
             have hout : k0RepsAux stab base (fuel + 1) (a :: as) seenF acc
                 = k0RepsAux stab base fuel as seenF acc := by
-              rw [k0RepsAux, if_pos hmem]
+              rw [k0RepsAux, ite_eq_left hmem]
             rw [hout]
             exact ⟨hrec.1, hrec.2.1, by simpa [List.append_assoc] using hrec.2.2⟩
           · have hstab' : stab = (pre ++ [a]) ++ as := by rw [hstab]; simp [List.append_assoc]
@@ -752,7 +752,7 @@ private theorem k0lstRepsAux_spec (stab : List (List ℕ)) (base : List ℕ) :
                 = k0RepsAux stab base fuel as
                     (seenF ++ stab.map (fun b => k0pMul b (k0pMul (k0pMul a base) (k0pInv b))))
                     (acc ++ [k0pMul a base]) := by
-              rw [k0RepsAux, if_neg hmem]
+              rw [k0RepsAux, ite_eq_right hmem]
             rw [hout]
             refine ⟨?_, ?_, by simpa [List.append_assoc] using hrec.2.2⟩
             · intro y hy

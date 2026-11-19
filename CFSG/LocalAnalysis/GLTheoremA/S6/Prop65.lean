@@ -81,6 +81,7 @@ theorem not_case64i (hc : S6Ctx G p) (hin : Prop65Inputs G p) (h62 : Lemma62At G
   exact h62 q hq hq2 hqp B' x L ⟨hT', hChev⟩ D _ ⟨hInD, _, hN, hDU2, hcov⟩
 
 
+omit [Finite G] in
 theorem center_eq_bot_of_case234 {q : ℕ} {B : Subgroup G} {x : G} {L : Subgroup G}
     (h : Case234 p q B x L) : Subgroup.center (PQuot p L) = ⊥ := by
   rcases h with h | h | h
@@ -88,6 +89,7 @@ theorem center_eq_bot_of_case234 {q : ℕ} {B : Subgroup G} {x : G} {L : Subgrou
   · exact h.2.2.1
   · exact h.2.2.1
 
+omit [Finite G] in
 theorem isChevSimple_of_pSimpleIsLie {q : ℕ} {J : Subgroup G} {d : TauCeti.LieTypeIndex}
     (h : pSimpleIsLie p J d) (hd : d.characteristic = q) : IsChevSimple q (PSimple p J) := by
   left
@@ -102,6 +104,7 @@ theorem isChevSimple_of_pSimpleIsLie {q : ℕ} {J : Subgroup G} {d : TauCeti.Lie
   | alternating _ _ => simp [onLie] at hi
   | sporadic _ => simp [onLie] at hi
 
+omit [Finite G] in
 theorem isChevSimple_of_jType {q : ℕ} {J : Subgroup G} (h : JType p q J) :
     IsChevSimple q (PSimple p J) := by
   rcases h with ⟨Q, hQp, hQ, -⟩ | ⟨Q, hQp, hQ⟩

@@ -174,12 +174,10 @@ theorem short_support_descent {k Ω : Type} [Field k] [Field Ω] [Algebra k Ω]
     apply (algebraMap k Ω).injective
     rw [map_zero, ← map_spForm, hu]
     simp only [spForm_self]
-    try ring
   have hvv : spForm v v = 0 := by
     apply (algebraMap k Ω).injective
     rw [map_zero, ← map_spForm, hv]
     simp only [spForm_self]
-    try ring
   have huv : spForm u v = 0 := by
     apply (algebraMap k Ω).injective
     rw [map_zero, ← map_spForm, hu, hv]

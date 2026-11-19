@@ -84,7 +84,7 @@ theorem smallSub_twoAdic_le [Finite X] (Gs Sq : Set G) (hSq : ∀ g ∈ Gs, g * 
     Sylow.card_eq_multiplicity P
   have hsq : ∀ x ∈ (P : Subgroup X), x * x = 1 := by
     intro x hx
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup') ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup) ⟨x, hx⟩
     rw [Subgroup.orderOf_mk] at hk
     rcases h2 _ (hX x) with h | h
     · apply hinj

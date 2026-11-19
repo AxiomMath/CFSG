@@ -50,7 +50,7 @@ theorem exists_invariant_sylow [Finite G] {p : ℕ} [Fact p.Prime] {S R : Subgro
     exact (Nat.Prime.coprime_iff_not_dvd Fact.out).1 hR (h.trans h1)
   obtain ⟨P, hP⟩ := hS.nonempty_fixed_point_of_prime_not_dvd_card (Sylow q R) h2
   refine ⟨(P : Subgroup R).map R.subtype, Subgroup.map_subtype_le _,
-    P.isPGroup'.map R.subtype, ?_, ?_⟩
+    P.isPGroup.map R.subtype, ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective R.subtype_injective, Sylow.card_eq_multiplicity]
   · rintro s hs _ ⟨y, hy, rfl⟩
     have hfix : (⟨s, hs⟩ : S) • P = P := hP ⟨s, hs⟩
@@ -154,21 +154,21 @@ theorem eq_bot_of_le_primeFormD (h : UnitaryFieldData ℓ f K) {k : ℕ} (hq : �
     (hDQ : ∀ A : primeFormUnitary h (oneGram K n), (A : GL (Fin n) K) ∈ D → ∀ σ ∈ Q,
       primeFormConjHom h _ A * σ * (primeFormConjHom h _ A)⁻¹ ∈ Q) : Q = ⊥ := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Finite (Matrix (Fin n) (Fin n) K) := inferInstanceAs (Finite (Fin n → Fin n → K))
-  haveI : Finite (GL (Fin n) K) :=
+  have : Finite K := h.finite
+  have : Finite (Matrix (Fin n) (Fin n) K) := inferInstanceAs (Finite (Fin n → Fin n → K))
+  have : Finite (GL (Fin n) K) :=
     Finite.of_injective (Units.val : GL (Fin n) K → Matrix (Fin n) (Fin n) K)
       fun _ _ hab => Units.ext hab
-  haveI : Finite (MulAut (primeFormP h (oneGram K n))) :=
+  have : Finite (MulAut (primeFormP h (oneGram K n))) :=
     Finite.of_injective (fun e : MulAut (primeFormP h (oneGram K n)) =>
       (e : primeFormP h (oneGram K n) → primeFormP h (oneGram K n)))
       fun _ _ hab => MulEquiv.ext (congrFun hab)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn1 : 1 ≤ n := by omega
   have hk := one_le_of_unitary h hq
   by_contra hQ
   obtain ⟨r, hr, hrQ⟩ := Nat.exists_prime_and_dvd fun h1 => hQ (Subgroup.eq_bot_of_card_eq Q h1)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr3 : r ≠ 3 := by
     rintro rfl
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 hQ3 hrQ
@@ -192,8 +192,8 @@ theorem eq_bot_of_le_primeFormD (h : UnitaryFieldData ℓ f K) {k : ℕ} (hq : �
     rw [hScard]
     exact Nat.one_lt_pow (Nat.Prime.factorization_pos_of_dvd hr Nat.card_pos.ne' hrQ).ne'
       hr.one_lt
-  haveI : Nontrivial S := Finite.one_lt_card_iff_nontrivial.1 hS1
-  haveI := hSr.center_nontrivial
+  have : Nontrivial S := Finite.one_lt_card_iff_nontrivial.1 hS1
+  have := hSr.center_nontrivial
   obtain ⟨z₀, hz₀⟩ := exists_ne (1 : Subgroup.center S)
   set Z : Subgroup (MulAut (primeFormP h (oneGram K n))) :=
     S ⊓ Subgroup.centralizer (S : Set (MulAut (primeFormP h (oneGram K n)))) with hZ

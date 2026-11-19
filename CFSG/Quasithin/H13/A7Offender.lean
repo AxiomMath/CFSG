@@ -291,7 +291,7 @@ theorem exists_conj_le_of_le [Finite G] (T : Sylow 2 G) {X A : Subgroup G}
     ∃ x ∈ X, ∀ a ∈ A, x * a * x⁻¹ ∈ (T : Subgroup G) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 ((T : Subgroup G).subgroupOf X) :=
-    T.isPGroup'.comap_of_injective X.subtype X.subtype_injective
+    T.isPGroup.comap_of_injective X.subtype X.subtype_injective
   have hTidx : ¬ 2 ∣ ((T : Subgroup G).subgroupOf X).index := fun hd =>
     T.not_dvd_index (hd.trans (relIndex_dvd_index_of_le hTX))
   have hA2 : IsPGroup 2 (A.subgroupOf X) := hA.comap_of_injective X.subtype X.subtype_injective

@@ -91,11 +91,13 @@ variable {F : Type} [Field F] [CharP F 2]
 
 local notation "V₄" => Fin 2 ⊕ Fin 2
 
+omit [CharP F 2] in
 theorem sp_mat_pow_three {g : ↥(StatedSp 2 F)} (h : g ^ 3 = 1) :
     ((g : GL V₄ F) : Matrix V₄ V₄ F) ^ 3 = 1 := by
   have := congrArg (fun x : ↥(StatedSp 2 F) => ((x : GL V₄ F) : Matrix V₄ V₄ F)) h
   simpa using this
 
+omit [CharP F 2] in
 theorem sq_ne_one_of_cube {l : F} (hl3 : l ^ 3 = 1) (hl1 : l ≠ 1) : l ^ 2 ≠ 1 := by
   intro h
   apply hl1
@@ -103,6 +105,7 @@ theorem sq_ne_one_of_cube {l : F} (hl3 : l ^ 3 = 1) (hl1 : l ≠ 1) : l ^ 2 ≠ 
     _ = l ^ 3 := by ring
     _ = 1 := hl3
 
+omit [CharP F 2] in
 theorem sq_pow_three {l : F} (hl3 : l ^ 3 = 1) : (l ^ 2) ^ 3 = 1 := by
   calc (l ^ 2) ^ 3 = (l ^ 3) ^ 2 := by ring
     _ = 1 := by rw [hl3, one_pow]

@@ -60,8 +60,8 @@ theorem normal_subgroupOf_sup_right {G : Type} [Group G] {A B : Subgroup G}
 theorem comp_le_or_le {G : Type} [Group G] [Finite G] {A B : Subgroup G}
     (hcomm : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) {L : Subgroup G}
     (hL : CFSG.Open.IsComponentOf L (A ⊔ B)) : L ≤ A ∨ L ≤ B := by
-  haveI := normal_subgroupOf_sup_left hcomm
-  haveI := normal_subgroupOf_sup_right hcomm
+  have := normal_subgroupOf_sup_left hcomm
+  have := normal_subgroupOf_sup_right hcomm
   have hL' := isComponentOf_top_subgroupOf hL
   rcases CFSG.ComponentClassification.LocalComponents.normal_contains_or_commutes
       (L.subgroupOf (A ⊔ B)) (A.subgroupOf (A ⊔ B)) hL' with hA | hA

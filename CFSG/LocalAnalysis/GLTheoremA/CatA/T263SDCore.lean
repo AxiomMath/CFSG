@@ -16,13 +16,16 @@ open scoped commutatorElement
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem sd_hBN {S : Subgroup Ω} (hSn : S.Normal) (B : Subgroup Ω) :
     B ≤ Subgroup.normalizer (S : Set Ω) := fun _ _ => t263_normalizer_of_normal hSn
 
+omit [Finite Ω] in
 theorem sd_conj_coe {S B : Subgroup Ω} (hBN : B ≤ Subgroup.normalizer (S : Set Ω)) (b : ↥B) (k : ↥S) :
     ((CFSG.normalizerConjAutOfMem S B hBN b k : ↥S) : Ω) = (b : Ω) * (k : Ω) * (b : Ω)⁻¹ := by
   simp [CFSG.normalizerConjAutOfMem]
 
+omit [Finite Ω] in
 theorem sd_mem_fix_iff {S B : Subgroup Ω} (hBN : B ≤ Subgroup.normalizer (S : Set Ω)) (b : ↥B)
     (s : ↥S) : s ∈ fixSubgroup (CFSG.normalizerConjAutOfMem S B hBN b) ↔
       (s : Ω) ∈ Subgroup.centralizer ({(b : Ω)} : Set Ω) := by
@@ -42,18 +45,22 @@ theorem sd_mem_fix_iff {S B : Subgroup Ω} (hBN : B ≤ Subgroup.normalizer (S :
     ↥S →* P :=
   θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥S))
 
+omit [Finite Ω] in
 theorem sdσ_surjective {S : Subgroup Ω} {P : Type} [Group P] (θ : ↥S ⧸ Subgroup.center ↥S ≃* P) :
     Function.Surjective (sdσ θ) :=
   θ.surjective.comp (QuotientGroup.mk'_surjective _)
 
+omit [Finite Ω] in
 theorem sdσ_eq_one_iff {S : Subgroup Ω} {P : Type} [Group P] (θ : ↥S ⧸ Subgroup.center ↥S ≃* P)
     (s : ↥S) : sdσ θ s = 1 ↔ s ∈ Subgroup.center ↥S := by
   change θ (QuotientGroup.mk s) = 1 ↔ _
   rw [map_eq_one_iff θ θ.injective, QuotientGroup.eq_one_iff]
 
+omit [Finite Ω] in
 theorem sdσ_ker_le {S : Subgroup Ω} {P : Type} [Group P] (θ : ↥S ⧸ Subgroup.center ↥S ≃* P) :
     (sdσ θ).ker ≤ Subgroup.center ↥S := fun s hs => (sdσ_eq_one_iff θ s).1 hs
 
+omit [Finite Ω] in
 theorem sd_rho_apply {S B : Subgroup Ω} (hBN : B ≤ Subgroup.normalizer (S : Set Ω)) {P : Type}
     [Group P] (θ : ↥S ⧸ Subgroup.center ↥S ≃* P) (b : ↥B) (k : ↥S) :
     (kd264Rho hBN θ b) (sdσ θ k) = sdσ θ (CFSG.normalizerConjAutOfMem S B hBN b k) := by
@@ -69,6 +76,7 @@ section Comm
 
 variable {S B B₀ T' : Subgroup Ω} {x : Ω}
 
+omit [Finite Ω] in
 theorem sd_S₁_le_T' (hB₀B : B₀ ≤ B) (hBT' : B ≤ Subgroup.normalizer (T' : Set Ω)) :
     (⁅B₀, T' ⊓ Subgroup.centralizer ({x} : Set Ω)⁆ : Subgroup Ω) ≤ T' := by
   rw [Subgroup.commutator_le]
@@ -78,6 +86,7 @@ theorem sd_S₁_le_T' (hB₀B : B₀ ≤ B) (hBT' : B ≤ Subgroup.normalizer (T
   rw [commutatorElement_def]
   exact T'.mul_mem h1 (T'.inv_mem hy')
 
+omit [Finite Ω] in
 theorem sd_S₁_le_C (hBel : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a) (hB₀B : B₀ ≤ B) (hxB₀ : x ∈ B₀) :
     (⁅B₀, T' ⊓ Subgroup.centralizer ({x} : Set Ω)⁆ : Subgroup Ω) ≤
       Subgroup.centralizer ({x} : Set Ω) := by
@@ -100,6 +109,7 @@ section AutComm
 
 variable {S B B₀ T' : Subgroup Ω} {x : Ω} {P : Type} [Group P]
 
+omit [Finite Ω] in
 theorem sd_autComm_le (hSn : S.Normal) (θ : ↥S ⧸ Subgroup.center ↥S ≃* P) :
     autComm ((B₀.subgroupOf B).map (kd264Rho (sd_hBN hSn B) θ))
       (((T' ⊓ Subgroup.centralizer ({x} : Set Ω)).subgroupOf S).map (sdσ θ)) ≤
@@ -121,6 +131,7 @@ theorem sd_autComm_le (hSn : S.Normal) (θ : ↥S ⧸ Subgroup.center ↥S ≃* 
     exact Subgroup.commutator_mem_commutator hβB₀ hsY
   · rw [map_mul, map_inv]
 
+omit [Finite Ω] in
 theorem sd_le_autComm (hSn : S.Normal) (θ : ↥S ⧸ Subgroup.center ↥S ≃* P) (hB₀B : B₀ ≤ B)
     (hT'S : T' ≤ S) :
     ((⁅B₀, T' ⊓ Subgroup.centralizer ({x} : Set Ω)⁆ : Subgroup Ω).subgroupOf S).map (sdσ θ) ≤

@@ -106,7 +106,7 @@ private theorem orbitSpanSubrepresentation_eq_top_of_irreducible
     {C : Subgroup G} (S : Subrepresentation (ρ.comp C.subtype))
     [Representation.IsIrreducible S.toRepresentation] :
     orbitSpanSubrepresentation ρ S = ⊤ := by
-  haveI : Nontrivial S.toSubmodule :=
+  have : Nontrivial S.toSubmodule :=
     Subrepresentation.irreducible_module_nontrivial S.toRepresentation
   have hS_ne_bot : S.toSubmodule ≠ ⊥ :=
     Submodule.nontrivial_iff_ne_bot.mp inferInstance
@@ -242,10 +242,10 @@ private theorem proposition_1_8_square_bound
     (Module.finrank ℂ V : ℝ) ^ 2 ≤
       (Nat.card G : ℝ) ^ 2 / ((Nat.card C : ℝ) * Nat.card D) := by
   classical
-  haveI : Nontrivial V := Subrepresentation.irreducible_module_nontrivial ρ
+  have : Nontrivial V := Subrepresentation.irreducible_module_nontrivial ρ
   let ρC : Representation ℂ C V := ρ.comp C.subtype
   obtain ⟨S, hSirr⟩ := Subrepresentation.irreducible_subrepresentation_of_finite_dimensional ρC
-  letI : Representation.IsIrreducible S.toRepresentation := hSirr
+  let : Representation.IsIrreducible S.toRepresentation := hSirr
   let Bsub : Subgroup C := B.subgroupOf C
   let Dsub : Subgroup C := D.subgroupOf C
   have hdim_le :

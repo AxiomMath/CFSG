@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 section Certified
 
 
-theorem w16Fifteen_of_inputs (hI : NamedInputs15 G) (h152 : Thm152 G) (h1 : W16One G)
+theorem w16Fifteen_of_inputs (_hI : NamedInputs15 G) (h152 : Thm152 G) (h1 : W16One G)
     (h6 : W16SixI G)
     (h14 : Std15 G → Thm152 G → W16One G → ∀ ⦃M V₀ V U S H : Subgroup G⦄,
       Cex16 M V₀ V U S → IsMinFam16 M U S H → ¬ V ≤ pCoreOf 2 H)

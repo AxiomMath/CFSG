@@ -64,7 +64,7 @@ end LinearIndependent
 
 
 theorem eight_le_rank_of_image_ne {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p : ℕ}
-    (S : LangSetup τ L p) {a : Fin τ.rank → Lˣ} (hT : rootDiagUnit τ a ∈ S.D.torus)
+    (S : LangSetup τ L p) {a : Fin τ.rank → Lˣ} (_hT : rootDiagUnit τ a ∈ S.D.torus)
     (i j : KernelComponent (rootCharHom a)) (hij : j ≠ i)
     (hj : (S.ρ : (Fin τ.rank → ℤ) → _) '' componentRoots (rootCharHom a) i =
       componentRoots (rootCharHom a) j)

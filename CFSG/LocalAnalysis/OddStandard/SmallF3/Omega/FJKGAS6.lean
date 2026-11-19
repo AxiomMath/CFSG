@@ -49,9 +49,9 @@ theorem fj_kga_of_simHasType (hQ : Q.Nondegenerate) (hn : Module.finrank (ZMod 3
 theorem fjKGAAt_omegaProj_six_plus (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) (hs : quadSign Q = 1) : FJKGAAt ↥(omegaProj hQ) := by
   have h2 : 2 ≤ Module.finrank (ZMod 3) V := by omega
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite ↥(omegaGroup hQ) := Subtype.finite
-  haveI : Finite ↥(omegaProj hQ) :=
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite ↥(omegaGroup hQ) := Subtype.finite
+  have : Finite ↥(omegaProj hQ) :=
     Finite.of_surjective (omegaToProj hQ) (omegaToProj_surjective hQ)
   have hbij := ffSimOmegaAct_bijective_six_plus hQ hdim hs
   intro y B hy hB α hαα hα1 hfix hαy
@@ -85,9 +85,9 @@ theorem fjKGAAt_omegaProj_six_plus (hQ : Q.Nondegenerate)
 theorem fjKGAAt_omegaProj_six_minus (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) (hs : quadSign Q = -1) : FJKGAAt ↥(omegaProj hQ) := by
   have h2 : 2 ≤ Module.finrank (ZMod 3) V := by omega
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite ↥(omegaGroup hQ) := Subtype.finite
-  haveI : Finite ↥(omegaProj hQ) :=
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite ↥(omegaGroup hQ) := Subtype.finite
+  have : Finite ↥(omegaProj hQ) :=
     Finite.of_surjective (omegaToProj hQ) (omegaToProj_surjective hQ)
   have hbij := ffSimOmegaAct_bijective_six_minus hQ hdim hs
   intro y B hy hB α hαα hα1 hfix hαy
@@ -119,16 +119,16 @@ theorem fjKGAAt_omegaProj_six_minus (hQ : Q.Nondegenerate)
 
 theorem fjKGAAt_of_lieModel_psl {Y : Type} [Group Y] (h : LieModel Y .PSL 4 3 1) : FJKGAAt Y := by
   obtain ⟨W, i1, i2, i3, R, hR, hdim, hs, ⟨f⟩⟩ := isOmegaStar_of_lieModel_psl h
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   exact fjKGAAt_of_mulEquiv f.symm (fjKGAAt_omegaProj_six_plus hR hdim hs)
 
 theorem fjKGAAt_of_lieModel_psu {Y : Type} [Group Y] (h : LieModel Y .PSU 4 3 1) : FJKGAAt Y := by
   obtain ⟨W, i1, i2, i3, R, hR, hdim, hs, ⟨f⟩⟩ := isOmegaStar_of_lieModel_psu h
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   exact fjKGAAt_of_mulEquiv f.symm (fjKGAAt_omegaProj_six_minus hR hdim hs)
 
 end CFSG.OddStandard.SmallF3.Omega

@@ -19,17 +19,17 @@ private theorem lieRowTits_no_glaPComponent {p : ℕ} (hp : p.Prime) {S : Type} 
     {C I : Subgroup S} (hC : Group.IsSolvable ↥C) (hI : GLAPComponent p C I) : False := by
   have hq : CFSG.Open.IsQuasisimple (↥I ⧸ GLAPPrimeCore p ↥I) :=
     CFSG.HardMathSupport.Solomon.UniquenessMaximal.isQuasisimple_quotient_of_glaPComponent hp hI
-  haveI : Group.IsSolvable ↥I :=
+  have : Group.IsSolvable ↥I :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hI.1)
       (Subgroup.inclusion_injective hI.1)
-  haveI : Group.IsSolvable (↥I ⧸ GLAPPrimeCore p ↥I) :=
+  have : Group.IsSolvable (↥I ⧸ GLAPPrimeCore p ↥I) :=
     Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective (GLAPPrimeCore p ↥I))
   exact false_of_open_quasisimple_of_isSolvable hq inferInstance
 
 private theorem lieRowTits_kLevel_le_two {p : ℕ} {S : Type} [Group S] (h : catalogIs S (k2 p)) :
     kLevel p S ≤ 2 := by
   unfold kLevel
-  split_ifs <;> first | omega | exact absurd h ‹_›
+  split_ifs <;> first | omega
 
 private theorem lieRowTits_fixSubgroup_one {K : Type*} [Group K] :
     fixSubgroup (1 : MulAut K) = ⊤ := by
@@ -54,7 +54,7 @@ private theorem lieRowTits_nonab {S : Type} [Group S] [IsSimpleGroup S]
     (hc : ¬ (Nat.card S).Prime) : ∃ a b : S, a * b ≠ b * a := by
   by_contra h
   simp only [not_exists, ne_eq, not_not] at h
-  letI : CommGroup S := { ‹Group S› with mul_comm := fun a b => h a b }
+  let : CommGroup S := { ‹Group S› with mul_comm := fun a b => h a b }
   exact hc ((CommGroup.is_simple_iff_prime_card (α := S)).1 ‹IsSimpleGroup S›)
 
 section TitsRows
@@ -70,8 +70,8 @@ theorem kdLieRowTitsThree_holds : KDLieRowTitsThree := by
   unfold KDLieRowTitsThree
   intro hv
   obtain ⟨hfin, hsimp⟩ := CFSG.Assembly.lie_finite_simple ⟨.tits, hv⟩
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group := hfin
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group := hsimp
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group := hfin
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group := hsimp
   have hcard : Nat.card (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group = 17971200 :=
     lieRowTits_card hv ⟨MulEquiv.refl _⟩
   have hnc : ∃ a b : (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group, a * b ≠ b * a :=
@@ -87,8 +87,8 @@ theorem kdLieRowTitsFive_holds : KDLieRowTitsFive := by
   unfold KDLieRowTitsFive
   intro hv
   obtain ⟨hfin, hsimp⟩ := CFSG.Assembly.lie_finite_simple ⟨.tits, hv⟩
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group := hfin
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group := hsimp
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group := hfin
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group := hsimp
   have hcard : Nat.card (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group = 17971200 :=
     lieRowTits_card hv ⟨MulEquiv.refl _⟩
   have hnc : ∃ a b : (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group, a * b ≠ b * a :=

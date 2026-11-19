@@ -25,6 +25,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
   ((orthResDer K b c 1).map (orthLeviRes K (Fin 2 → K) (show 1 ≤ 2 by norm_num))).subgroupOf
     (orthElementaryGroup (quadTail 2 (minusTailForm K b c)))
 
+omit [Finite K] [CharP K 2] in
 theorem om6m_orthLeviRes_injective :
     Function.Injective (orthLeviRes K (Fin 2 → K) (show 1 ≤ 2 by norm_num)) := by
   intro B B' h
@@ -59,6 +60,7 @@ theorem om6m_map_orthLeviRes_le (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
   (Subgroup.subgroupOfEquivOfLe (om6m_map_orthLeviRes_le hirr)).trans
     ((orthResDer K b c 1).equivMapOfInjective _ om6m_orthLeviRes_injective).symm
 
+omit [Finite K] [CharP K 2] in
 private theorem om6m_prodCongr_swapAll_mem_D09 {r : ℕ} :
     ((swapAll r K).prodCongr (LinearEquiv.refl K (Fin 2 → K))) ∈
       TauCeti.QuadraticMap.orthogonalGroup (quadTail r (minusTailForm K b c)) := by
@@ -69,6 +71,7 @@ private theorem om6m_prodCongr_swapAll_mem_D09 {r : ℕ} :
   rw [quadTail_apply, quadTail_apply,
     TauCeti.QuadraticMap.map_app_of_mem_orthogonalGroup swapAll_mem_orthogonalGroup]
 
+omit [Finite K] [CharP K 2] in
 private theorem om6m_prodCongr_swapAll_mul_self_D09 {r : ℕ} :
     ((swapAll r K).prodCongr (LinearEquiv.refl K (Fin 2 → K))) *
         ((swapAll r K).prodCongr (LinearEquiv.refl K (Fin 2 → K))) = 1 := by
@@ -79,6 +82,7 @@ private theorem om6m_prodCongr_swapAll_mul_self_D09 {r : ℕ} :
     rfl]
   rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem om6m_prodCongr_swapAll_conj_tailDiag_D09 {r : ℕ} (t : Fin r → Kˣ) :
     ((swapAll r K).prodCongr (LinearEquiv.refl K (Fin 2 → K))) * tailDiag r t 1 *
         ((swapAll r K).prodCongr (LinearEquiv.refl K (Fin 2 → K))) = tailDiag r t⁻¹ 1 := by
@@ -92,11 +96,13 @@ private theorem om6m_prodCongr_swapAll_conj_tailDiag_D09 {r : ℕ} (t : Fin r �
   refine Prod.ext ?_ rfl
   rw [← LinearEquiv.mul_apply, ← LinearEquiv.mul_apply, swapAll_mul_torusElt_mul_swapAll]
 
+omit [Finite K] [CharP K 2] in
 private theorem om6m_tailDiag_inv_D09 {r : ℕ} (t : Fin r → Kˣ) :
     (tailDiag r t (1 : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)))⁻¹ =
       tailDiag r t⁻¹ (1 : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) := by
   rw [inv_eq_iff_mul_eq_one, tailDiag_mul, mul_inv_cancel, mul_one, tailDiag_one_one]
 
+omit [Finite K] [CharP K 2] in
 private theorem om6m_commutator_swapAll_tailDiag_D09 {r : ℕ} (t : Fin r → Kˣ) :
     ⁅(swapAll r K).prodCongr (LinearEquiv.refl K (Fin 2 → K)),
       tailDiag r t (1 : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K))⁆ =
@@ -112,7 +118,7 @@ private theorem om6m_commutator_swapAll_tailDiag_D09 {r : ℕ} (t : Fin r → K�
 theorem om6m_tailDiag_mem_commutator {r : ℕ} (t : Fin r → Kˣ) :
     tailDiag r t 1 ∈ ⁅TauCeti.QuadraticMap.orthogonalGroup (quadTail r (minusTailForm K b c)),
       TauCeti.QuadraticMap.orthogonalGroup (quadTail r (minusTailForm K b c))⁆ := by
-  haveI : Finite Kˣ := Finite.of_injective (fun u : Kˣ => (u : K)) fun _ _ => Units.ext
+  have : Finite Kˣ := Finite.of_injective (fun u : Kˣ => (u : K)) fun _ _ => Units.ext
   have hinj : Function.Injective fun x : Kˣ => x⁻¹ * x⁻¹ := by
     intro x y h
     have h' : ((x⁻¹ : Kˣ) : K) * ((x⁻¹ : Kˣ) : K) =
@@ -138,9 +144,10 @@ private noncomputable def tailDiag2Hom_D09 :
     rw [h1, tailDiag_one_one]
   map_mul' u v := by
     have h : (![u, u⁻¹] * ![v, v⁻¹] : Fin 2 → Kˣ) = ![u * v, (u * v)⁻¹] := by
-      funext i; fin_cases i <;> simp [Pi.mul_apply, mul_inv, mul_comm]
+      funext i; fin_cases i <;> simp [Pi.mul_apply, mul_comm]
     rw [tailDiag_mul, h, mul_one]
 
+omit [Finite K] [CharP K 2] in
 private theorem tailDiag2Hom_D09_injective :
     Function.Injective (tailDiag2Hom_D09 (K := K)) := by
   intro u v h
@@ -152,6 +159,7 @@ private theorem tailDiag2Hom_D09_injective :
   have := congrFun (torusElt_injective (K := K) (r := 2) hfst) 0
   simpa using this
 
+omit [Finite K] [CharP K 2] in
 theorem om6m_orderOf_eq_of_tailDiag {s : Kˣ}
     {g : ↥(orthElementaryGroup (quadTail 2 (minusTailForm K b c)))}
     (hg : (g : ((Fin 2 ⊕ Fin 2 → K) × (Fin 2 → K)) ≃ₗ[K] ((Fin 2 ⊕ Fin 2 → K) × (Fin 2 → K))) =
@@ -164,6 +172,7 @@ theorem om6m_orderOf_eq_of_tailDiag {s : Kˣ}
   rw [← Subgroup.orderOf_coe g]
   exact h1
 
+omit [Finite K] [CharP K 2] in
 private theorem om6m_hiPart_torusElt_two_D09 (a : Fin 2 → Kˣ) (v : Fin 2 ⊕ Fin 2 → K) :
     hiPart (show 1 ≤ 2 by norm_num) (torusElt 2 K a v) =
       torusElt (2 - 1) K
@@ -182,6 +191,7 @@ private theorem om6m_splitIdx_symm_one_D09 {hj : 1 ≤ 2} :
   rw [← om6m_splitIdx_inr_zero_D09]
   exact Equiv.symm_apply_apply _ _
 
+omit [Finite K] [CharP K 2] in
 private theorem om6m_tailDiag_proj_D09 (s : Kˣ)
     (v : (Fin 2 ⊕ Fin 2 → K) × (Fin 2 → K)) :
     orthResProj K (Fin 2 → K) (show 1 ≤ 2 by norm_num) (tailDiag 2 ![s, s⁻¹] 1 v) =
@@ -201,6 +211,7 @@ private theorem om6m_tailDiag_proj_D09 (s : Kˣ)
     rfl
   · rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem om6m_tailDiag_incl_D09 (s : Kˣ)
     (u : (Fin 1 ⊕ Fin 1 → K) × (Fin 2 → K)) :
     tailDiag 2 ![s, s⁻¹] 1
@@ -214,17 +225,19 @@ private theorem om6m_tailDiag_incl_D09 (s : Kˣ)
       (have hi : i = 0 := by apply Fin.ext; omega) <;>
       rw [hi] <;>
       (try rw [om6m_splitIdx_inr_zero_D09]) <;>
-      simp only [joinHi, torusElt_apply, splitIdx_inl, splitIdx_inr, Equiv.symm_apply_apply,
-        om6m_splitIdx_symm_one_D09, Sum.elim_inl, Sum.elim_inr, Fin.ext_iff] <;>
+      simp only [joinHi, torusElt_apply, Equiv.symm_apply_apply,
+        om6m_splitIdx_symm_one_D09, Sum.elim_inl, Sum.elim_inr] <;>
       simp
   · rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem om6m_mul_conj_apply_D09
     (D B : ((Fin 1 ⊕ Fin 1 → K) × (Fin 2 → K)) ≃ₗ[K] ((Fin 1 ⊕ Fin 1 → K) × (Fin 2 → K)))
     (x : (Fin 1 ⊕ Fin 1 → K) × (Fin 2 → K)) :
     (D * B * D⁻¹) (D x) = D (B x) := by
   simp only [LinearEquiv.mul_apply, LinearEquiv.coe_inv, LinearEquiv.symm_apply_apply]
 
+omit [Finite K] [CharP K 2] in
 theorem om6m_tailDiag_conj_orthLeviRes (s : Kˣ)
     (B : ((Fin 1 ⊕ Fin 1 → K) × (Fin 2 → K)) ≃ₗ[K] ((Fin 1 ⊕ Fin 1 → K) × (Fin 2 → K))) :
     tailDiag 2 ![s, s⁻¹] 1 * orthLeviRes K (Fin 2 → K) (show 1 ≤ 2 by norm_num) B *
@@ -245,30 +258,33 @@ theorem om6m_tailDiag_conj_orthLeviRes (s : Kˣ)
   change D (B y) = (D * B * D⁻¹) (D y)
   rw [om6m_mul_conj_apply_D09]
 
+omit [Finite K] [CharP K 2] in
 private theorem om6m_tailDiag_one_mem_orthogonalGroup_D09 (s : Kˣ) :
     tailDiag 1 ![s⁻¹] 1 ∈
       TauCeti.QuadraticMap.orthogonalGroup (quadTail 1 (minusTailForm K b c)) := by
   rw [tailDiag_eq_dMap]
   exact dMap_mem_orthogonalGroup (diagGL ![s⁻¹]) (one_mem _)
 
+omit [Finite K] [CharP K 2] in
 private theorem om6m_orthResDer_le_orthogonalGroup_D09 :
     orthResDer K b c 1 ≤ TauCeti.QuadraticMap.orthogonalGroup (quadTail 1 (minusTailForm K b c)) :=
   Subgroup.commutator_le.2 fun a ha b hb => by
     rw [commutatorElement_def]
     exact mul_mem (mul_mem (mul_mem ha hb) (inv_mem ha)) (inv_mem hb)
 
+omit [CharP K 2] in
 theorem om6m_mem_normalizer_om6mX {s : Kˣ}
     {g : ↥(orthElementaryGroup (quadTail 2 (minusTailForm K b c)))}
     (hg : (g : ((Fin 2 ⊕ Fin 2 → K) × (Fin 2 → K)) ≃ₗ[K] ((Fin 2 ⊕ Fin 2 → K) × (Fin 2 → K))) =
       tailDiag 2 ![s, s⁻¹] 1) :
     g ∈ Subgroup.normalizer (om6mX b c : Set ↥(orthElementaryGroup
       (quadTail 2 (minusTailForm K b c)))) := by
-  haveI : Finite ↥(orthElementaryGroup (quadTail 2 (minusTailForm K b c))) := by
-    haveI : Finite (((Fin 2 ⊕ Fin 2 → K) × (Fin 2 → K)) ≃ₗ[K]
+  have : Finite ↥(orthElementaryGroup (quadTail 2 (minusTailForm K b c))) := by
+    have : Finite (((Fin 2 ⊕ Fin 2 → K) × (Fin 2 → K)) ≃ₗ[K]
         ((Fin 2 ⊕ Fin 2 → K) × (Fin 2 → K))) :=
       finite_orthLinearEquiv (K := K) (M := ((Fin 2 ⊕ Fin 2 → K) × (Fin 2 → K)))
     exact Finite.of_injective Subtype.val Subtype.val_injective
-  haveI : Finite (om6mX b c : Set ↥(orthElementaryGroup
+  have : Finite (om6mX b c : Set ↥(orthElementaryGroup
       (quadTail 2 (minusTailForm K b c)))) := Finite.of_injective _ Subtype.val_injective
   refine Subgroup.mem_normalizer_fintype fun n hn => ?_
   obtain ⟨B, hB, hBn⟩ := Subgroup.mem_subgroupOf.1 hn
@@ -287,13 +303,14 @@ private noncomputable def tailDiag1Hom_D09 :
       ((Fin 1 ⊕ Fin 1 → K) × (Fin 2 → K))) where
   toFun u := tailDiag 1 ![u] 1
   map_one' := by
-    have h1 : (![1] : Fin 1 → Kˣ) = 1 := by funext i; fin_cases i <;> simp
+    have h1 : (![1] : Fin 1 → Kˣ) = 1 := by funext i; fin_cases i; simp
     rw [h1, tailDiag_one_one]
   map_mul' u v := by
     have h : (![u] * ![v] : Fin 1 → Kˣ) = ![u * v] := by
-      funext i; fin_cases i <;> simp [Pi.mul_apply]
+      funext i; fin_cases i; simp [Pi.mul_apply]
     rw [tailDiag_mul, h, mul_one]
 
+omit [Finite K] [CharP K 2] in
 private theorem tailDiag1Hom_D09_injective :
     Function.Injective (tailDiag1Hom_D09 (K := K)) := by
   intro u v h

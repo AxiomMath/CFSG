@@ -180,7 +180,7 @@ theorem false_of_threeNineHyp_alt_of_perm {X : Type} [Group X] [Finite X]
   obtain ⟨S, hkS⟩ := hkd.exists_le_sylow
   have hSsyl : CFSG.ABGLocalTools.IsSylowOf d (S : Subgroup X) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, S.isPGroup', ?_⟩
+    refine ⟨le_top, S.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S.not_dvd_index
   obtain ⟨y, -, hy⟩ := h.sylow.exists_mem_conj hSsyl

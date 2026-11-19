@@ -69,7 +69,7 @@ private lemma s16t3_dot_plusA_plusA {m : ℕ} {K : Type} [Field K] {i j : Fin m}
       = plusM m K *ᵥ Pi.single (Sum.inl j) 1 + plusM m K *ᵥ Pi.single (Sum.inr j) 1 := by
     rw [plusA, Matrix.mulVec_add]
   rw [hsplit, dotProduct_add, h1, h2]
-  simp [plusA, Pi.single_apply, hij, hij.symm]
+  simp [plusA, hij.symm]
 
 private lemma s16t3_dot_plusA_plusB {m : ℕ} {K : Type} [Field K] {i j k : Fin m}
     (hki : k ≠ i) (hkj : k ≠ j) : plusA k ⬝ᵥ (plusM m K *ᵥ plusB i j) = 0 := by
@@ -84,7 +84,7 @@ private lemma s16t3_dot_plusA_plusB {m : ℕ} {K : Type} [Field K] {i j k : Fin 
         + plusM m K *ᵥ Pi.single (Sum.inr j) 1 := by
     rw [plusB, Matrix.mulVec_add, Matrix.mulVec_add]
   rw [hsplit, dotProduct_add, dotProduct_add, h1, h2, h3]
-  simp [plusA, Pi.single_apply, hki, hkj, hki.symm, hkj.symm]
+  simp [plusA, hki.symm, hkj.symm]
 
 private lemma s16t3_dot_plusA_plusB_same {m : ℕ} {K : Type} [Field K] [CharP K 2]
     {i j : Fin m} (hij : i ≠ j) : plusA j ⬝ᵥ (plusM m K *ᵥ plusB i j) = 0 := by
@@ -100,9 +100,9 @@ private lemma s16t3_dot_plusA_plusB_same {m : ℕ} {K : Type} [Field K] [CharP K
     rw [plusB, Matrix.mulVec_add, Matrix.mulVec_add]
   rw [hsplit, dotProduct_add, dotProduct_add, h1, h2, h3]
   have hsum : plusA j (Sum.inr i) + plusA j (Sum.inr j) + plusA j (Sum.inl j) = (0 : K) := by
-    have h0 : plusA j (Sum.inr i) = (0 : K) := by simp [plusA, Pi.single_apply, hij, hij.symm]
-    have h4 : plusA j (Sum.inr j) = (1 : K) := by simp [plusA, Pi.single_apply]
-    have h5 : plusA j (Sum.inl j) = (1 : K) := by simp [plusA, Pi.single_apply]
+    have h0 : plusA j (Sum.inr i) = (0 : K) := by simp [plusA, hij]
+    have h4 : plusA j (Sum.inr j) = (1 : K) := by simp [plusA]
+    have h5 : plusA j (Sum.inl j) = (1 : K) := by simp [plusA]
     rw [h0, h4, h5, zero_add]
     exact CharTwo.add_self_eq_zero 1
   exact hsum
@@ -118,8 +118,8 @@ private lemma s16t3_dot_plusB_plusA {m : ℕ} {K : Type} [Field K] [CharP K 2]
     rw [plusA, Matrix.mulVec_add]
   rw [hsplit, dotProduct_add, h1, h2]
   have hsum : plusB i j (Sum.inr j) + plusB i j (Sum.inl j) = (0 : K) := by
-    have h3 : plusB i j (Sum.inr j) = (1 : K) := by simp [plusB, Pi.single_apply]
-    have h4 : plusB i j (Sum.inl j) = (1 : K) := by simp [plusB, Pi.single_apply, hij, hij.symm]
+    have h3 : plusB i j (Sum.inr j) = (1 : K) := by simp [plusB]
+    have h4 : plusB i j (Sum.inl j) = (1 : K) := by simp [plusB, hij.symm]
     rw [h3, h4]
     exact CharTwo.add_self_eq_zero 1
   exact hsum
@@ -138,9 +138,9 @@ private lemma s16t3_dot_plusB_plusB_swap {m : ℕ} {K : Type} [Field K] [CharP K
     rw [plusB, Matrix.mulVec_add, Matrix.mulVec_add]
   rw [hsplit, dotProduct_add, dotProduct_add, h1, h2, h3]
   have hsum : plusB i j (Sum.inr j) + plusB i j (Sum.inr i) + plusB i j (Sum.inl i) = (0 : K) := by
-    have h4 : plusB i j (Sum.inr j) = (1 : K) := by simp [plusB, Pi.single_apply]
-    have h5 : plusB i j (Sum.inr i) = (0 : K) := by simp [plusB, Pi.single_apply, hij, hij.symm]
-    have h6 : plusB i j (Sum.inl i) = (1 : K) := by simp [plusB, Pi.single_apply, hij, hij.symm]
+    have h4 : plusB i j (Sum.inr j) = (1 : K) := by simp [plusB]
+    have h5 : plusB i j (Sum.inr i) = (0 : K) := by simp [plusB, hij]
+    have h6 : plusB i j (Sum.inl i) = (1 : K) := by simp [plusB, hij]
     rw [h4, h5, h6, add_zero]
     exact CharTwo.add_self_eq_zero 1
   exact hsum
@@ -151,11 +151,11 @@ theorem s16t3_good_nat_op {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) 
       ∀ γ ∈ F, ((γ : Matrix.GeneralLinearGroup (Fin m ⊕ Fin m) K) :
         Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K).mulVec x = x := by
   classical
-  haveI hprime : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hchar : CharP K 2 := by
+  have hprime : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hchar : CharP K 2 := by
     let _ := Fintype.ofFinite K
     exact charP_of_card_eq_prime (p := 2) (Nat.card_eq_fintype_card.symm.trans hK)
-  haveI hF2 : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
+  have hF2 : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
     CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2.of_natCard_eq_two hK
   let i0 : Fin m := ⟨0, by omega⟩
   let i1 : Fin m := ⟨1, by omega⟩
@@ -230,7 +230,7 @@ theorem s16t3_good_nat_op {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) 
     · have hx0ne : (Pi.single (Sum.inl i2) 1 : Fin m ⊕ Fin m → K) ≠ 0 := by
         intro h
         have h1 := congrFun h (Sum.inl i2)
-        simpa using h1
+        simp at h1
       have hxy : StatedQuadPlus m K (Pi.single (Sum.inl i2) 1) = StatedQuadPlus m K x := by
         rw [Q_single, hQx]
       obtain ⟨g, hg, hgx⟩ := s16t3_statedOmega_trans hK hQ hnd hdim hE hx0ne hx hxy
@@ -238,7 +238,7 @@ theorem s16t3_good_nat_op {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) 
     · have hx0ne : plusA i2 ≠ (0 : Fin m ⊕ Fin m → K) := by
         intro h
         have h1 := congrFun h (Sum.inl i2)
-        simpa [plusA] using h1
+        simp [plusA] at h1
       have hxy : StatedQuadPlus m K (plusA i2) = StatedQuadPlus m K x := by
         rw [Q_plusA, hQx]
       obtain ⟨g, hg, hgx⟩ := s16t3_statedOmega_trans hK hQ hnd hdim hE hx0ne hx hxy

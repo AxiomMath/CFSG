@@ -15,9 +15,9 @@ open scoped Matrix
 theorem exists_ringHom_of_card {E₀ E : Type} [Field E₀] [Finite E₀] [CharP E₀ 2] [Field E]
     [Finite E] [CharP E 2] {n m : ℕ} (h₀ : Nat.card E₀ = 2 ^ n) (hE : Nat.card E = 2 ^ (n * m)) :
     Nonempty (E₀ →+* E) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Algebra (ZMod 2) E₀ := ZMod.algebra _ _
-  letI : Algebra (ZMod 2) E := ZMod.algebra _ _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Algebra (ZMod 2) E₀ := ZMod.algebra _ _
+  let : Algebra (ZMod 2) E := ZMod.algebra _ _
   have h1 : Module.finrank (ZMod 2) E₀ = n := by
     have h := FiniteField.pow_finrank_eq_natCard 2 E₀
     rw [h₀] at h
@@ -34,7 +34,7 @@ theorem omega2InputGen_holds :
     Omega2InputGen := by
   intro S _ n L hL hirrL K _ _ _ hK η E _ _ m hE ε₀ R hR k _ _ _ P i₀ hP
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn : 1 ≤ n := one_le_of_isU4Group hL
   have hnm : 1 ≤ n * m := by
     have h1 : 1 < Nat.card E := Finite.one_lt_card
@@ -43,16 +43,16 @@ theorem omega2InputGen_holds :
     have : n * m = 0 := by omega
     rw [this] at h1
     simp at h1
-  haveI hEchar : CharP E 2 := by
+  have hEchar : CharP E 2 := by
     have h := CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq Nat.prime_two hnm hE
-    haveI := ringChar.charP E
+    have := ringChar.charP E
     rwa [h] at this
-  haveI hkchar : CharP k 2 := charP_of_injective_algebraMap (algebraMap K k).injective 2
+  have hkchar : CharP k 2 := charP_of_injective_algebraMap (algebraMap K k).injective 2
   let E₀ : Type := GaloisField 2 n
   have hE₀ : Nat.card E₀ = 2 ^ n := GaloisField.card 2 n (by omega)
   obtain ⟨b, c, hirr⟩ := CFSG.LieType.Universal.exists_irreducible_quadratic E₀
   obtain ⟨inst, ⟨D⟩⟩ := exists_kleinDataEven hE₀ hK hirr
-  letI : Algebra E₀ K := inst
+  let : Algebra E₀ K := inst
   let Φ : spinGroup (quadMinus 3 E₀ b c) ≃* SU (unitaryInvolution K 2 n) 4 :=
     D.phiSUEven hK hirr
   let ξ : ↥L ≃* spinGroup (quadMinus 3 E₀ b c) := η.trans Φ.symm
@@ -69,7 +69,7 @@ theorem omega2InputGen_holds :
       colEquiv colEquiv).map (algebraMap E₀ K) = comp2 (g l) * Tm D := fun l => by
     rw [← hg l]
     exact tm_mul_spin D (ξ l) (hSU l)
-  haveI : ExpChar k 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar k 2 := ExpChar.prime Nat.prime_two
   let α : K →+* k := algebraMap K k
   let ι₀ : E₀ →+* K := algebraMap E₀ K
   let β : E →+* k := algebraMap E k

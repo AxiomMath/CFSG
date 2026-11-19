@@ -41,7 +41,7 @@ theorem exists_sylow_conj_invariant [Finite G] {p q : ℕ} (hp : p.Prime) (hq : 
     exact (Sylow.card_dvd_index T).trans (Subgroup.index_dvd_card _)
   have hnd : ¬ p ∣ Nat.card (Sylow q ↥L) := fun h => hcop (h.trans hdvd)
   obtain ⟨T, hT⟩ := hP.nonempty_fixed_point_of_prime_not_dvd_card (Sylow q ↥L) hnd
-  refine ⟨(T : Subgroup ↥L).map L.subtype, Subgroup.map_subtype_le _, T.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(T : Subgroup ↥L).map L.subtype, Subgroup.map_subtype_le _, T.isPGroup.map _, ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective L.subtype_injective, Sylow.card_eq_multiplicity]
   · rintro g hg _ ⟨t, ht, rfl⟩
     have hfix : (⟨g, hg⟩ : ↥P) • T = T := hT ⟨g, hg⟩

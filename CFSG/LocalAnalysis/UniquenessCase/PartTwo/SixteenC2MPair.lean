@@ -69,7 +69,7 @@ theorem s16c2m_pair_model {W : Type} [CommGroup W] (hW : ∀ w : W, w ^ 2 = 1)
   fin_cases j
   · simp [s16c2m_tripleEquiv]
   · simp [s16c2m_tripleEquiv]
-  · simp [s16c2m_tripleEquiv, mul_inv_rev, hinv]
+  · simp [s16c2m_tripleEquiv, hinv]
     exact mul_comm v u
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

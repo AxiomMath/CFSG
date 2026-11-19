@@ -31,7 +31,7 @@ theorem step76EightKTame_of_smith_core (h34 : Stroth34Statement)
     Step76EightKTameStatement := by
   intro G _ _ M Q Z B hc n t hs hno h4 Z0 hZ0 f hfL hfc g hgM hΓ hwild a ha b hb
   classical
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htM : t ∈ M := hc.LB_le_M ht
   have htZ0 : t ∈ Z0 := IsCentrePre.mem_of_mem_LB (hc := hc) ht hZ0
@@ -135,10 +135,10 @@ theorem step76EightKTame_of_smith_core (h34 : Stroth34Statement)
       rwa [e] at h2
   obtain ⟨K, fK, finK, γ, M₀, ρ, b₀, hS, ψ, hψ, hrange, hW, hinj, hA5, hA6⟩ :=
     sec7_A0 h34 h310chi hZc hZV hZcard hc hs hZ0
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hS.card.trans he)
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hK2 : 2 ≤ Nat.card K := Finite.one_lt_card
   have hZK : Nat.card Z = Nat.card K := hS.card.symm
   have hreg := hS.model.reg

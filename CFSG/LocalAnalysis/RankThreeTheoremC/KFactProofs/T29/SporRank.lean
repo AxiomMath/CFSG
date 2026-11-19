@@ -39,7 +39,7 @@ theorem spor_pRank_le_two_of_order
     CFSG.Open.pRank 3 (⊤ : Subgroup (CFSGIndex.sporadic s).Group) ≤ 2 := by
   obtain ⟨b⟩ := hbr
   have b' : NativeSporadic.Carrier s ≃* (CFSGIndex.sporadic s).Group := b
-  haveI : Finite (NativeSporadic.Carrier s) := Finite.of_equiv _ b'.symm.toEquiv
+  have : Finite (NativeSporadic.Carrier s) := Finite.of_equiv _ b'.symm.toEquiv
   have h2 : CFSG.Open.pRank 3 (⊤ : Subgroup (NativeSporadic.Carrier s)) ≤ 2 :=
     CFSG.HardMathSupport.Timmesfeld.SporadicRank.pRank_le_of_not_dvd Nat.prime_three
       (by rw [card_carrier_eq_sporadicOrder hs]; exact hord)
@@ -56,7 +56,7 @@ theorem spor_pRank_le_two_of_witness
     CFSG.Open.pRank 3 (⊤ : Subgroup (CFSGIndex.sporadic s).Group) ≤ 2 := by
   obtain ⟨b⟩ := hbr
   have b' : NativeSporadic.Carrier s ≃* (CFSGIndex.sporadic s).Group := b
-  haveI : Finite (NativeSporadic.Carrier s) := Finite.of_equiv _ b'.symm.toEquiv
+  have : Finite (NativeSporadic.Carrier s) := Finite.of_equiv _ b'.symm.toEquiv
   have h2 : CFSG.pRank 3 (NativeSporadic.Carrier s) = 2 :=
     CFSG.RankThree.Asc83Table.ex27_pRank hx hy hzx hzy hz1 hord
   rw [CFSG.SectionRank.pRank_eq_open_pRank_top 3 (NativeSporadic.Carrier s),
@@ -152,7 +152,7 @@ theorem sporadic_three_rank_ne_three
     (e : A ≃* (TauCeti.CFSGIndex.sporadic s).Group) :
     CFSG.Open.pRank 3 (⊤ : Subgroup A) ≠ 3 := by
   intro h3
-  haveI : Finite (TauCeti.CFSGIndex.sporadic s).Group := Finite.of_equiv A e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.sporadic s).Group := Finite.of_equiv A e.toEquiv
   have h3S : CFSG.Open.pRank 3 (⊤ : Subgroup (TauCeti.CFSGIndex.sporadic s).Group) = 3 :=
     ((CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 3) (by norm_num) e).symm).trans h3
   exact spor_pRank_ne_three s hs h3S

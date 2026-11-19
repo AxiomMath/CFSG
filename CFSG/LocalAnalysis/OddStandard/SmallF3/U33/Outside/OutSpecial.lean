@@ -27,10 +27,10 @@ structure FpfSpecial (S : Type) [Group S] : Prop where
 variable {S : Type} [Group S] [Finite S] {ρ : MulAut S}
 
 theorem FpfNonab.card_center (h : FpfNonab S ρ) : Nat.card (center S) = 4 := by
-  haveI hP : IsPGroup 2 S := IsPGroup.of_card (n := 6) (by rw [h.card]; norm_num)
-  haveI hntS : Nontrivial S := by
+  have hP : IsPGroup 2 S := IsPGroup.of_card (n := 6) (by rw [h.card]; norm_num)
+  have hntS : Nontrivial S := by
     rw [← Finite.one_lt_card_iff_nontrivial, h.card]; norm_num
-  haveI hntZ : Nontrivial (center S) := IsPGroup.center_nontrivial (p := 2) (G := S) hP
+  have hntZ : Nontrivial (center S) := IsPGroup.center_nontrivial (p := 2) (G := S) hP
   have hmod : Nat.card (center S) % 3 = 1 :=
     card_mod_three_of_fpf ρ h.cube h.fpf (center S) (fun z hz => rho_mem_center ρ hz)
   have hdvd : Nat.card (center S) ∣ 2 ^ 6 := by
@@ -101,7 +101,7 @@ theorem FpfNonab.sq_center (h : FpfNonab S ρ) : ∀ z ∈ center S, z * z = 1 :
     rw [show z * z = z ^ (2 : ℕ) by rw [pow_two],
       ← pow_add, show (2 : ℕ) + 2 = 4 by norm_num, hz4]
   have hWcard : Nat.card W = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     show Nat.card (Subgroup.zpowers (z * z)) = 2
     rw [Nat.card_zpowers]
     exact orderOf_eq_prime (by rwa [pow_two]) hzz

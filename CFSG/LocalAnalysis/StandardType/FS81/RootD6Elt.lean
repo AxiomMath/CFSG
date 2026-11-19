@@ -157,9 +157,9 @@ private lemma exists_mem_d6LineSet_fixed {G : Type} [Group G] [Finite G] {b₀ :
     (hPnorm : P ≤ Subgroup.normalizer (B.span : Set G)) :
     ∃ L ∈ d6LineSet B, ∀ q ∈ P, L.map (MulAut.conj q).toMonoidHom = L := by
   classical
-  letI : MulAction P ↥(d6LineSet B) := d6LineSetConjAction hrec P hPnorm
-  letI : MulAction (ConjAct G) (Subgroup G) := Subgroup.pointwiseMulAction
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction P ↥(d6LineSet B) := d6LineSetConjAction hrec P hPnorm
+  let : MulAction (ConjAct G) (Subgroup G) := Subgroup.pointwiseMulAction
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnot : ¬ 2 ∣ Nat.card ↥(d6LineSet B) := by
     rw [Nat.card_eq_fintype_card, Fintype.card_coe, card_d6LineSet B]
     decide

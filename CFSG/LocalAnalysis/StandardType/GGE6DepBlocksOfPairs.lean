@@ -29,7 +29,7 @@ theorem ggCorootPt_of_orth_left {p : ℕ} (hp : p.Prime) {Bs : Subgroup G}
     exact mul_inv_eq_one.mp hx
   have hcard : Nat.card {x : ↥Bs // φ x = x} = Nat.card ↥Bs :=
     Nat.card_congr (Equiv.subtypeUnivEquiv (fun x : ↥Bs => hfix x))
-  haveI : Nonempty ↥Bs := ⟨1⟩
+  have : Nonempty ↥Bs := ⟨1⟩
   have hp1 : p = 1 := by
     apply Nat.mul_left_cancel (Nat.card_pos (α := ↥Bs))
     calc Nat.card ↥Bs * p = Nat.card {x : ↥Bs // φ x = x} * p := by rw [hcard]
@@ -38,6 +38,7 @@ theorem ggCorootPt_of_orth_left {p : ℕ} (hp : p.Prime) {Bs : Subgroup G}
   have hp2 : 2 ≤ p := hp.two_le
   omega
 
+omit [Finite G] in
 private theorem gg6C_centralizer_union (s t : Set G) :
     Subgroup.centralizer (s ∪ t) = Subgroup.centralizer s ⊓ Subgroup.centralizer t := by
   ext g
@@ -49,34 +50,39 @@ private theorem gg6C_centralizer_union (s t : Set G) :
     · exact hs x hx
     · exact ht x hx
 
+omit [Finite G] in
 private theorem gg6C_centralizer_pair (a b : G) :
     Subgroup.centralizer ({a, b} : Set G) =
       Subgroup.centralizer ({a} : Set G) ⊓ Subgroup.centralizer ({b} : Set G) := by
   rw [show ({a, b} : Set G) = {a} ∪ {b} from by
-      ext x <;> simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union] <;> tauto,
+      ext x; simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union],
     gg6C_centralizer_union]
 
+omit [Finite G] in
 private theorem gg6C_centralizer_pair_eq (a b : G) :
     Subgroup.centralizer ({b} : Set G) ⊓ Subgroup.centralizer ({a} : Set G) =
       Subgroup.centralizer ({a, b} : Set G) := by
   rw [gg6C_centralizer_pair a b, inf_comm]
 
+omit [Finite G] in
 private theorem gg6C_centralizer_triple₁ (a b c : G) :
     Subgroup.centralizer ({a} : Set G) ⊓ Subgroup.centralizer ({b, c} : Set G) =
       Subgroup.centralizer ({a, b, c} : Set G) := by
   rw [gg6C_centralizer_pair b c,
     show ({a, b, c} : Set G) = {a} ∪ ({b} ∪ {c}) from by
-      ext x <;> simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union] <;> tauto,
+      ext x; simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union],
     gg6C_centralizer_union, gg6C_centralizer_union]
 
+omit [Finite G] in
 private theorem gg6C_centralizer_triple₂ (a b c : G) :
     Subgroup.centralizer ({c} : Set G) ⊓ Subgroup.centralizer ({a, b} : Set G) =
       Subgroup.centralizer ({a, b, c} : Set G) := by
   rw [gg6C_centralizer_pair a b,
     show ({a, b, c} : Set G) = ({a, b} : Set G) ∪ {c} from by
-      ext x <;> simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union] <;> tauto,
+      ext x; simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_union]; tauto,
     gg6C_centralizer_union, gg6C_centralizer_pair a b, inf_comm]
 
+omit [Finite G] in
 private theorem gg6C_map_conj_centralizer_pair (g a b : G) :
     (Subgroup.centralizer ({a, b} : Set G)).map (MulAut.conj g).toMonoidHom =
       Subgroup.centralizer ({g * a * g⁻¹, g * b * g⁻¹} : Set G) := by
@@ -86,6 +92,7 @@ private theorem gg6C_map_conj_centralizer_pair (g a b : G) :
       (MulAut.conj g).injective,
     map_conj_centralizer_singleton g a, map_conj_centralizer_singleton g b]
 
+omit [Finite G] in
 private theorem gg6C_conj_unique {C D : Subgroup G} (hD : IsComponentOf D C)
     (huniq : ∀ D' : Subgroup G, IsComponentOf D' C → D' = D) (g : G) :
     IsComponentOf (D.map (MulAut.conj g).toMonoidHom) (C.map (MulAut.conj g).toMonoidHom) ∧
@@ -113,6 +120,7 @@ private theorem gg6C_conj_unique {C D : Subgroup G} (hD : IsComponentOf D C)
   calc D' = (D'.map (MulAut.conj g⁻¹).toMonoidHom).map (MulAut.conj g).toMonoidHom := hmap'.symm
     _ = D.map (MulAut.conj g).toMonoidHom := by rw [heq]
 
+omit [Finite G] in
 private theorem gg6C_noncentral {p : ℕ} (hp : p.Prime) {L : Subgroup G}
     (hZ : ¬ p ∣ Nat.card ↥(Subgroup.center ↥L)) {z : G} (hzL : z ∈ L) (hz1 : z ≠ 1)
     (hzp : z ^ p = 1) : ∃ m ∈ L, m * z ≠ z * m := by
@@ -133,6 +141,7 @@ private theorem gg6C_noncentral {p : ℕ} (hp : p.Prime) {L : Subgroup G}
     exact Subtype.ext (h (m : G) m.2)
   exact hZ (horder ▸ Subgroup.orderOf_dvd_natCard (Subgroup.center ↥L) hcen)
 
+omit [Finite G] in
 private theorem gg6C_noncentral_conj {z m : G} (g : G) (hm : m * z ≠ z * m) :
     (g * m * g⁻¹) * (g * z * g⁻¹) ≠ (g * z * g⁻¹) * (g * m * g⁻¹) := by
   intro heq
@@ -143,9 +152,10 @@ private theorem gg6C_noncentral_conj {z m : G} (g : G) (hm : m * z ≠ z * m) :
   rw [h1, h2] at h
   exact h
 
+omit [Finite G] in
 private theorem gg6C_commutator_eq_self {N : Subgroup G} (hN : CFSG.Assembly.IsQuasisimple ↥N) :
     ⁅N, N⁆ = N := by
-  haveI : Group.IsPerfect ↥N := ⟨hN.1⟩
+  have : Group.IsPerfect ↥N := ⟨hN.1⟩
   exact Subgroup.commutator_eq_self
 
 private theorem gg6C_not_cyclic_of_exponent_three {H : Type*} [Group H] [Finite H]

@@ -31,7 +31,7 @@ theorem false_of_autRankTwo [Fact p.Prime] (hp2 : p ≠ 2) (hS : D1Global G) (hD
     (hReq : (R : Subgroup (RedCent p x)) = redQ p P x) (hrk : AutRankTwoAt p i)
     (hsig : SignalizerAutAt p i) : False := by
   have hp : p.Prime := Fact.out
-  haveI := hfacts.red.normal
+  have := hfacts.red.normal
   have h32 : Lemma32At p P x := lemma32At_of_facts hp2 hloc h hsig hfacts hReq
   set C : Subgroup G := centralizer ({x} : Set G) with hCdef
   set O : Subgroup C := primeComplementCore (G := C) p with hO
@@ -74,7 +74,7 @@ theorem false_of_autRankTwo [Fact p.Prime] (hp2 : p ≠ 2) (hS : D1Global G) (hD
         exact congrArg Subtype.val (Subtype.ext (hE.2 a' a'.2) : a' ^ p = 1)
     · rw [Subgroup.card_map_of_injective E.subtype_injective, hK]
   obtain ⟨y0, hy0Q, hy0c, hy0p, hy0x⟩ := h32.central
-  exact PPointP.pGroupEndgame G p P P.isPGroup' x y0 h.elem.2.1 h.mem hy0Q hy0c hy0p hy0x hA4 hQ3
+  exact PPointP.pGroupEndgame G p P P.isPGroup x y0 h.elem.2.1 h.mem hy0Q hy0c hy0p hy0x hA4 hQ3
     fun D hDQ hD hDc =>
       h.not_exists_conj_lines_of_lemma32At hp2 hS hD1 hloc h32 hDQ hD hDc
 
@@ -83,7 +83,7 @@ theorem false_of_exotic (hp5 : 5 ≤ p) (hS : D1Global G) (hD1 : D1For G) (hloc 
     (hdata : CFSG.Yardstones.Md8ed6d263d89.PPointData p P M x R K i) (hex : ExoticFive p i)
     (hrk : ExoticFive p i → AutRankTwoAt p i) (hsig : ExoticFive p i → SignalizerAutAt p i) :
     False := by
-  haveI : Fact p.Prime := ⟨hloc.beta.1⟩
+  have : Fact p.Prime := ⟨hloc.beta.1⟩
   obtain ⟨h, hfacts, hReq⟩ := hdata
   exact false_of_autRankTwo (by omega) hS hD1 hloc h hfacts hReq (hrk hex) (hsig hex)
 

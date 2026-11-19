@@ -31,7 +31,7 @@ theorem IsPSUGp.exists_sylow_centralizer_of_odd (hP : IsPSUGp P 3 n) (Q : Sylow 
   have hcard_gt : 1 < Nat.card (sylowCenter Q) := by
     rw [hcardZ]
     exact Nat.one_lt_pow (by omega) (by norm_num)
-  haveI : Nontrivial (sylowCenter Q) := Finite.one_lt_card_iff_nontrivial.mp hcard_gt
+  have : Nontrivial (sylowCenter Q) := Finite.one_lt_card_iff_nontrivial.mp hcard_gt
   obtain ⟨z, hzZ, hz1⟩ := Subgroup.exists_ne_one_of_nontrivial (sylowCenter Q)
   have hzroot : z ∈ rootCenter (Q : Subgroup P) := hZroot ▸ hzZ
   have hset : ({z} : Set P) ⊆ (sylowCenter Q : Set P) := by
@@ -48,7 +48,7 @@ theorem IsPSUGp.exists_sylow_centralizer_of_odd (hP : IsPSUGp P 3 n) (Q : Sylow 
     hXsup.trans (sup_le (le_borel _) (by
       exact (fixCartan_le_cartan (Q : Subgroup P) t).trans
         (cartan_le_borel (Q : Subgroup P) t)))
-  obtain ⟨q', hq'Q, hconj⟩ := hc.exists_conj_cartan_of_odd (Q.isPGroup') hAM hX
+  obtain ⟨q', hq'Q, hconj⟩ := hc.exists_conj_cartan_of_odd (Q.isPGroup) hAM hX
   have hconj_fix : ∀ a ∈ X, q' * a * q'⁻¹ ∈ fixCartan (Q : Subgroup P) t := by
     intro a ha
     have haz : a ∈ centralizer ({z} : Set P) := Subgroup.centralizer_le hset (hXC ha)

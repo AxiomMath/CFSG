@@ -31,9 +31,9 @@ theorem isLocallyBalancedAbs_three_one_matrix_two (hK : Nat.card K = 2) {d : ℕ
   have := charP_two hK
   have hinj := KCOrthogonalD4.conj_injective_matrixProjectiveDerived Q hd hQ hT
   set φ := coordBridge Q hd
-  haveI : Finite (ProjOrthDerived Q) := Finite.of_surjective
+  have : Finite (ProjOrthDerived Q) := Finite.of_surjective
     (QuotientGroup.mk : orthDerived Q → ProjOrthDerived Q) QuotientGroup.mk_surjective
-  haveI : Finite (matrixProjectiveDerived Q) := Finite.of_equiv _ φ.symm.toEquiv
+  have : Finite (matrixProjectiveDerived Q) := Finite.of_equiv _ φ.symm.toEquiv
   refine isLocallyBalancedAbs_one_of_good Nat.prime_three hinj fun x hx3 hx1 => Or.inr ?_
   have hxE : x ∈ matrixProjectiveImage Q := by rw [htop]; exact Subgroup.mem_top x
   exact coreFreeAt_of_mem_matrixProjectiveImage hK hd hQ hT hpar h5

@@ -14,9 +14,10 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 
 private lemma comm_of_mem_W (hc : Ctx4 t L S x₁ x₂ lam rho tau) {a b : G}
     (ha : a ∈ ctxW t x₁ x₂) (hb : b ∈ ctxW t x₁ x₂) : a * b = b * a := by
-  haveI := hc.abelian_W
+  have := hc.abelian_W
   exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥(ctxW t x₁ x₂)) ⟨b, hb⟩)
 
+omit [Finite G] in
 private lemma mem_zpowers_eq_one_or_eq {a x : G} (ha : a * a = 1)
     (hx : x ∈ Subgroup.zpowers a) : x = 1 ∨ x = a := by
   rw [Subgroup.zpowers_eq_closure] at hx
@@ -72,7 +73,7 @@ private lemma fourGrp_le_L_ctx4 (hc : Ctx4 t L S x₁ x₂ lam rho tau) :
   · exact (S4A.y_z_mem_L hc.toCtx0).1
   · exact (S4A.y_z_mem_L hc.toCtx0).2
 
-private lemma baseGrp_le_W (hc : Ctx4 t L S x₁ x₂ lam rho tau) :
+private lemma baseGrp_le_W (_hc : Ctx4 t L S x₁ x₂ lam rho tau) :
     baseGrp x₁ x₂ ≤ ctxW t x₁ x₂ := by
   show baseGrp x₁ x₂ ≤ twoCore t ⊔ baseGrp x₁ x₂
   exact le_sup_right
@@ -181,7 +182,7 @@ private lemma ctxX_comm (hc : Ctx4 t L S x₁ x₂ lam rho tau) :
 
 private lemma ctxX_sq_one (hc : Ctx4 t L S x₁ x₂ lam rho tau) :
     ∀ x ∈ ctxX t tau x₁ x₂, x ^ 2 = 1 := by
-  haveI : IsMulCommutative (ctxX t tau x₁ x₂) := ctxX_comm hc
+  have : IsMulCommutative (ctxX t tau x₁ x₂) := ctxX_comm hc
   intro x hx
   rw [ctxX] at hx
   induction hx using Subgroup.closure_induction with

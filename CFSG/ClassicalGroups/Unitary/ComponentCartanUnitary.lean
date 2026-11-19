@@ -22,11 +22,11 @@ theorem exists_piSubgroup_three_le_pRank_in_borel_projective_unitary_split
       IsPiSubgroup {p : Nat.Primes | (p : ℕ) ≠ 2} Hc ∧
       3 ≤ CFSG.Open.pRank q Hc := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Finite K := h.finite
+  have : Fact q.Prime := ⟨hq⟩
+  have : Finite K := h.finite
   have hr1 : 1 ≤ r := by omega
-  haveI := finite_hypSU (r := r) (ε := ε) h
-  haveI : Finite (hypPSU h r ε) :=
+  have := finite_hypSU (r := r) (ε := ε) h
+  have : Finite (hypPSU h r ε) :=
     Finite.of_surjective (hypProj h r ε) (hypProj_surjective h r ε)
   have hdvdK : q ∣ Nat.card K - 1 := by
     rw [h.card, show 2 * f = f * 2 by ring, pow_mul]

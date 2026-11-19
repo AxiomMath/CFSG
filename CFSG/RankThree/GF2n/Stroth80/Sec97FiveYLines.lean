@@ -168,6 +168,7 @@ section Ctx
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem le_normalizer_uline (hc : Ctx M Q Z B) {Y : Subgroup G} (hYM : Y ≤ M) :
     Y ≤ Subgroup.normalizer (Uline Z B Y : Set G) := by
   intro y hy
@@ -179,6 +180,7 @@ section MatrixAlgebra
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem range_eq_outerL {H : Subgroup
     (Matrix (Fin 2) (Fin 2) K ≃ₗ[K] Matrix (Fin 2) (Fin 2) K)}
     {Φ : (Fin 2 → K) →ₗ[K] Matrix (Fin 2) (Fin 2) K}
@@ -211,6 +213,7 @@ private theorem range_eq_outerL {H : Subgroup
   · rw [LinearMap.finrank_range_of_inj hA.inj,
       LinearMap.finrank_range_of_inj (outerL_injective hb)]
 
+omit [Finite K] [CharP K 2] in
 private theorem range_eq_outerR {H : Subgroup
     (Matrix (Fin 2) (Fin 2) K ≃ₗ[K] Matrix (Fin 2) (Fin 2) K)}
     {Φ : (Fin 2 → K) →ₗ[K] Matrix (Fin 2) (Fin 2) K}
@@ -247,6 +250,7 @@ private theorem range_eq_outerR {H : Subgroup
   · rw [LinearMap.finrank_range_of_inj hA.inj,
       LinearMap.finrank_range_of_inj (outerR_injective ha)]
 
+omit [Finite K] [CharP K 2] in
 private theorem mem_range_outerL_of_mulVec_eq_zero {b c : Fin 2 → K} (hb : b ≠ 0)
     (hc : c ≠ 0) (hbc : b ⬝ᵥ c = 0) {X : Matrix (Fin 2) (Fin 2) K} (hX : X *ᵥ c = 0) :
     X ∈ LinearMap.range (outerL b) := by
@@ -262,6 +266,7 @@ private theorem mem_range_outerL_of_mulVec_eq_zero {b c : Fin 2 → K} (hb : b �
   have h := congrFun (ht i) j
   simpa [outerL, Matrix.vecMulVec_apply, Matrix.row, Pi.smul_apply, smul_eq_mul] using h.symm
 
+omit [Finite K] [CharP K 2] in
 private theorem mem_range_outerR_of_transpose_mulVec_eq_zero {a c : Fin 2 → K} (ha : a ≠ 0)
     (hc : c ≠ 0) (hac : a ⬝ᵥ c = 0) {X : Matrix (Fin 2) (Fin 2) K} (hX : Xᵀ *ᵥ c = 0) :
     X ∈ LinearMap.range (outerR a) := by
@@ -523,8 +528,7 @@ private theorem eq_uline_of_inv_coord_right
     let B₀ : Matrix.SpecialLinearGroup (Fin 2) K := (g.transpose)⁻¹
     have hB₀ : (((B₀⁻¹ : Matrix.SpecialLinearGroup (Fin 2) K) :
         Matrix (Fin 2) (Fin 2) K))ᵀ = (g : Matrix (Fin 2) (Fin 2) K) := by
-      simp [B₀, Matrix.SpecialLinearGroup.coe_inv,
-        Matrix.SpecialLinearGroup.coe_transpose]
+      simp [B₀, Matrix.SpecialLinearGroup.coe_transpose]
     have hmemH : rho' K (1, B₀) ∈ H := by
       rw [hHF]
       exact MonoidHom.mem_range.mpr ⟨B₀, rfl⟩
@@ -603,8 +607,8 @@ theorem eq_ulineY_of_inv (h34 : Stroth34Statement) (h311a : Stroth311aStatement)
     D = Uline Z (conjSubgroup k B) Y := by
   obtain ⟨K, fK, finK, chK, hn, φ, ψ, u, H, Φ, w₀, _, hψ, hnorm, hBiff, hH, hA, hw₀, hu,
     hHF, hdet⟩ := sec97_line_data_of h34 h311a hc hs hsplit (Or.inr rfl)
-  haveI := hn
-  haveI : CharP K 2 := chK
+  have := hn
+  have : CharP K 2 := chK
   obtain ⟨⟨hQX, hXR, hQY, hYR, hXY, hXYQ, hcomm⟩, hYsl, -⟩ := hsplit
   have hYX : Y ≤ Subgroup.normalizer (X : Set G) := HS9.normalizer_of_commutator_le hQX hcomm
   have hXY' : X ≤ Subgroup.normalizer (Y : Set G) :=

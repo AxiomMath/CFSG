@@ -26,7 +26,7 @@ theorem s1611e3_case9_prod {D : Data G} (h : S1611e3Std D) {V₀ V L : Subgroup 
       wTil V₀ V hV L ⊔ (wTil V₀ V hV L).map x.toMonoidHom = ⊤ ∧
       IsSylowIn 2 (barSub V₀ V hV D.T ⊓ lBar V₀ V hV L) (lBar V₀ V hV L) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := s1611e3_nine_two D h.h1217 hV hc (s1611e3_nine_v1Sub h9) h9
   have h9' := h9
   obtain ⟨⟨e⟩, hL3, hs15, hsum, hsig⟩ := h9
@@ -104,12 +104,12 @@ theorem s1611e3_case9_prod {D : Data G} (h : S1611e3Std D) {V₀ V L : Subgroup 
       s1611e3_commutator_card (F := ↥F) hperfA e, card_eq_of_isL3 hL3]
   have hEeq : E = ⁅F, F⁆ := Subgroup.map_subtype_commutator F
   have hAperf : ⁅A, A⁆ = A := by
-    haveI : Group.IsPerfect ↥A := hperfA
+    have : Group.IsPerfect ↥A := hperfA
     exact Subgroup.commutator_eq_self
   have hA'perf : ⁅A.map (MulAut.conj x).toMonoidHom, A.map (MulAut.conj x).toMonoidHom⁆ =
       A.map (MulAut.conj x).toMonoidHom := by
-    haveI : Group.IsPerfect ↥A := hperfA
-    haveI : Group.IsPerfect ↥(A.map (MulAut.conj x).toMonoidHom) :=
+    have : Group.IsPerfect ↥A := hperfA
+    have : Group.IsPerfect ↥(A.map (MulAut.conj x).toMonoidHom) :=
       Group.IsPerfect.map (f := (MulAut.conj x).toMonoidHom)
     exact Subgroup.commutator_eq_self
   have hAE : A ≤ E := by

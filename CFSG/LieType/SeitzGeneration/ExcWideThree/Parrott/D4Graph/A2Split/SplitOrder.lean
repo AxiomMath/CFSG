@@ -15,6 +15,7 @@ section Units
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem card_units_K : Nat.card Kˣ = Nat.card K - 1 := Nat.card_units K
 
 theorem exists_orderOf_eq_three_pow :
@@ -33,6 +34,7 @@ theorem exists_orderOf_eq_three_pow :
   refine ⟨g ^ (N / 3 ^ N.factorization 3), ?_⟩
   rw [orderOf_pow_of_dvd hpos.ne' (hg ▸ hd'), hg, Nat.div_div_self hd hN0]
 
+omit [Finite K] in
 theorem mu_sq {ζ : Kˣ} {n : ℕ} (hn : Odd n) (hζ : orderOf ζ = n) :
     ∀ u ∈ Subgroup.zpowers ζ, ∃ b : Kˣ, u = b ^ 2 := by
   intro u hu

@@ -12,7 +12,7 @@ open CFSG.Quasithin
 theorem card_le_four_of_card_eight {Q : Type} [CommGroup Q] [Finite Q] (hQ : ∀ q : Q, q ^ 2 = 1)
     (h8 : Nat.card Q = 8) {E : Subgroup (MulAut Q)} (hE : IsElemAbelian2 E) :
     Nat.card E ≤ 4 := by
-  letI : Module (ZMod 2) (Additive Q) := AddCommGroup.zmodModule (n := 2) fun x => by
+  let : Module (ZMod 2) (Additive Q) := AddCommGroup.zmodModule (n := 2) fun x => by
     rw [two_nsmul]
     apply Additive.toMul.injective
     rw [toMul_add, ← pow_two]

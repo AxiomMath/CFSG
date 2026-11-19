@@ -72,6 +72,7 @@ theorem mapsTo_conjNormal_subgroupOf_hallCoreIn (M : Subgroup G) (w : ↥M) :
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem natCard_derivedOf (M : Subgroup G) :
     Nat.card ↥(derivedOf M) = Nat.card ↥(⁅M, M⁆ : Subgroup G) := by
   rw [derivedOf_eq_subgroupOf_commutator]
@@ -138,11 +139,13 @@ theorem IsWitnessedPConfiguration.natCard_W₁_dvd_relIndex_inf_centralizer_hall
     (ρ := hinv.quotientAut) (a := (⟨b, hbW⟩ : ↥W₁)) rfl hqfree
   rwa [← Subgroup.index_eq_card, ← Subgroup.relIndex] at hdvd
 
+omit [Finite G] in
 theorem subgroupOf_hallCoreIn_self (M : Subgroup G) :
     (hallCoreIn M).subgroupOf M = hallCore ↥M := by
   rw [hallCoreIn_eq, Subgroup.subgroupOf,
     Subgroup.comap_map_eq_self_of_injective M.subtype_injective]
 
+omit [Finite G] in
 theorem coreCentralizer_hallCore_eq_subgroupOf (M U : Subgroup G) :
     coreCentralizer (hallCore ↥M) (U.subgroupOf M)
       = (U ⊓ centralizer ((hallCoreIn M : Subgroup G) : Set G)).subgroupOf M := by
@@ -161,6 +164,7 @@ theorem coreCentralizer_hallCore_eq_subgroupOf (M U : Subgroup G) :
     push_cast
     exact h1
 
+omit [Finite G] in
 theorem isMulCommutative_hallCore_of_commutator_eq_bot (M : Subgroup G)
     (hHcomm : ⁅(hallCoreIn M : Subgroup G), (hallCoreIn M : Subgroup G)⁆ = ⊥) :
     IsMulCommutative ↥(hallCore ↥M : Subgroup ↥M) := by
@@ -170,6 +174,7 @@ theorem isMulCommutative_hallCore_of_commutator_eq_bot (M : Subgroup G)
   rw [← subgroupOf_hallCoreIn_self]
   exact isMulCommutative_subgroupOf_of_isMulCommutative hab
 
+omit [Finite G] in
 theorem relIndex_coreCentralizer_hallCore (hUM : U ≤ M) :
     (coreCentralizer (hallCore ↥M) (U.subgroupOf M)).relIndex (U.subgroupOf M)
       = (U ⊓ centralizer ((hallCoreIn M : Subgroup G) : Set G)).relIndex U := by
@@ -475,6 +480,7 @@ theorem apply_one_eq_relIndex_coreCentralizer_of_commutator_le [Finite L]
 
 end Quotient
 
+omit [Finite G] in
 theorem commutator_subgroupOf_le_subgroupOf_commutator (M U : Subgroup G) :
     ⁅U.subgroupOf M, U.subgroupOf M⁆ ≤ (⁅U, U⁆ : Subgroup G).subgroupOf M := by
   rw [Subgroup.commutator_le]
@@ -730,6 +736,7 @@ theorem isMinimalAbelianCore_of_core_clauses
   prime_natCard := by rwa [natCard_subgroupOf_eq_of_le hc.le_M_W₁]
   minimal := hmin
 
+omit [Finite G] hc in
 theorem isMulCommutative_subgroupOf_E_of_isMulCommutative (hU : IsMulCommutative ↥U) :
     IsMulCommutative ↥(U.subgroupOf M) := by
   refine ⟨⟨fun x y => ?_⟩⟩
@@ -740,7 +747,7 @@ theorem isMulCommutative_subgroupOf_E_of_isMulCommutative (hU : IsMulCommutative
 
 theorem isMulCommutative_subgroupOf_E_of_isTypeIII (hG : IsMinimalOddSimple G) (hM : IsCoatom M)
     (htype : IsTypeIII M) : IsMulCommutative ↥(U.subgroupOf M) :=
-  hc.isMulCommutative_subgroupOf_E_of_isMulCommutative
+  IsWitnessedPConfiguration.isMulCommutative_subgroupOf_E_of_isMulCommutative
     (htype.clauses_of_isWitnessedPConfiguration_of_minimalSimple hG.simple hG.nonabelian hG.odd
       hG.solvable hM hc).2.2.1
 

@@ -16,7 +16,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)}
 
 theorem s16t3_eq_of_iso_of_card_quot_three (helem : ∀ w : W, w * w = 1)
-    (hq : CFSG.Open.IsQuasisimple ↥L) (hcomm : commSub ⊤ L = ⊤)
+    (hq : CFSG.Open.IsQuasisimple ↥L) (_hcomm : commSub ⊤ L = ⊤)
     (hsum : SumOfNatShape L (⊤ : Subgroup W) (fixV L) 3)
     (hcard : Nat.card {Y : Subgroup (W ⧸ modFix L (⊤ : Subgroup W)) // XMod.IsIrr ↥L Y} = 3)
     {Y Y' : Subgroup (W ⧸ modFix L (⊤ : Subgroup W))} (hY : XMod.IsIrr ↥L Y)
@@ -56,7 +56,7 @@ theorem s16t3_eq_of_iso_of_card_quot_three (helem : ∀ w : W, w * w = 1)
   let c : ℕ := Nat.card {k : Fin 3 // XMod.Iso ↥(⊤ : Subgroup ↥L) (S k) (S i)}
   have hAcard : Nat.card A = 2 ^ c - 1 := hn i
   have h2A : 2 ≤ Nat.card A := by
-    haveI : Nontrivial A :=
+    have : Nontrivial A :=
       ⟨⟨Y, hYtop, hi⟩, ⟨Y', hY'top, hisotop.trans hi⟩,
         fun h => hne (Subtype.ext_iff.mp h).symm⟩
     have h := Finite.one_lt_card (α := A)

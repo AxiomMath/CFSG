@@ -27,10 +27,10 @@ theorem transvection_last_mem_unitriangular {m : ℕ} (hm0 : (0 : Fin (m + 1)) �
     SpecialLinearGroup.transvection hm0 (1 : ZMod 2) ∈ unitriangular (m + 1) (ZMod 2) := by
   refine ⟨fun i j hji => ?_, fun i => ?_⟩
   · rw [SpecialLinearGroup.transvection_coe, Matrix.add_apply, one_apply_ne (ne_of_lt hji).symm,
-      single_apply, if_neg (fun h => by rw [← h.1] at hji; exact absurd hji (Fin.not_lt_zero _)),
+      single_apply, ite_eq_right (fun h => by rw [← h.1] at hji; exact absurd hji (Fin.not_lt_zero _)),
       zero_add]
   · rw [SpecialLinearGroup.transvection_coe, Matrix.add_apply, one_apply_eq, single_apply,
-      if_neg (fun h => hm0 (h.1.trans h.2.symm)), add_zero]
+      ite_eq_right (fun h => hm0 (h.1.trans h.2.symm)), add_zero]
 
 theorem commute_transvection_last {m : ℕ} (hm0 : (0 : Fin (m + 1)) ≠ Fin.last m)
     {u : SL(m + 1, ZMod 2)} (hu : u ∈ unitriangular (m + 1) (ZMod 2)) :
@@ -71,7 +71,7 @@ theorem exists_sylow_central_block_zero {m : ℕ} (hm : 1 ≤ m) (T : SL(2, ZMod
     group
   refine ⟨(unitriangular (m + 1) (ZMod 2)).map (MulAut.conj k).toMonoidHom, ?_, ?_, ?_, ?_⟩
   · rw [← hP]
-    exact P.isPGroup'.map _
+    exact P.isPGroup.map _
   · intro S' hS' hle
     have hle' : (P : Subgroup SL(m + 1, ZMod 2)) ≤ S'.map (MulAut.conj k⁻¹).toMonoidHom := by
       rw [hP]

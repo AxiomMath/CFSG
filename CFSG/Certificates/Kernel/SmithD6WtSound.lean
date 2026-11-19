@@ -61,9 +61,9 @@ theorem testBit_bitShift (c : Bool) (k j : Nat) :
     (Nat.shiftLeft (bif c then 1 else 0) k).testBit j = (c && j == k) := by
   by_cases h : j = k
   · subst h
-    cases c <;> simp [Nat.one_shiftLeft, Nat.testBit_two_pow]
+    cases c <;> simp [Nat.one_shiftLeft]
   · have h' : k ≠ j := fun e => h e.symm
-    cases c <;> simp [h, h', Nat.one_shiftLeft, Nat.testBit_two_pow]
+    cases c <;> simp [h, h', Nat.one_shiftLeft]
 
 theorem bit_mul_eq (x i a : Nat) :
     (bif x.testBit i then a else 0) = Nat.mul a (fld(x, i, 1)) := by
@@ -101,7 +101,7 @@ theorem testBit_colGo (p : Nat) : ∀ (bs : List Nat) (k j : Nat),
     · simp [Nat.ne_of_lt hj, Nat.not_le.2 hj, show ¬ k + 1 ≤ j by omega]
     · simp [Nat.not_succ_le_self]
     · have h2 : j - k = (j - (k + 1)) + 1 := by omega
-      simp [Nat.ne_of_gt hj, Nat.le_of_lt hj, show k + 1 ≤ j by omega, h2, List.getD_cons_succ]
+      simp [Nat.ne_of_gt hj, Nat.le_of_lt hj, show k + 1 ≤ j by omega, h2]
 
 theorem pivGo_sound (bs : List Nat) : ∀ (ps : List Nat) (m : Nat), pivGo bs ps m = true →
     ∀ j < ps.length, ∀ k < bs.length, (bs.getD k 0).testBit (ps.getD j 0) = (k == m + j)
@@ -179,10 +179,10 @@ theorem testBit_exGo (s : Nat) : ∀ (es : List Nat) (k T : Nat), (exGo s es k).
       · subst h
         cases s.testBit k <;> simp
       · have h' : T ≠ e := fun x => h x.symm
-        cases s.testBit k <;> simp [h, h', beq_false_of_ne h, beq_false_of_ne h']
+        cases s.testBit k <;> simp [beq_false_of_ne h, beq_false_of_ne h']
     · congr 1
       funext j
-      simp [List.getD_cons_succ, Nat.add_assoc, Nat.add_comm 1 j]
+      simp [Nat.add_assoc, Nat.add_comm 1 j]
 
 end CFSG.KD.SmithD6
 

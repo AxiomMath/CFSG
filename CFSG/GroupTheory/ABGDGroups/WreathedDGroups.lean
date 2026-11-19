@@ -441,7 +441,7 @@ theorem isDGroupData_quotient_oddCore {H : Type*} [Group H] [Finite H] {K : Subg
     refine ⟨hW.1, fun Q => ?_⟩
     obtain ⟨P, rfl⟩ := Sylow.mapSurjective_surjective hπ 2 Q
     obtain ⟨e⟩ := hW.2 P
-    obtain ⟨f⟩ := nonempty_mulEquiv_map π P (hdisj P P.isPGroup')
+    obtain ⟨f⟩ := nonempty_mulEquiv_map π P (hdisj P P.isPGroup)
     exact ⟨(MulEquiv.subgroupCongr (Sylow.coe_mapSurjective hπ P)).trans (f.symm.trans e)⟩
   have hKn : K.Normal := hK.normal
   have hOK : CFSG.oddCore H ≤ K := by
@@ -483,7 +483,7 @@ theorem homocyclic_sylow_odd_four_invariant_le_oddCore {H : Type} [Group H] [Fin
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hUO : (U : Subgroup H) ⊓ π.ker = ⊥ := by
     rw [QuotientGroup.ker_mk']
-    exact inf_oddCore_eq_bot U.isPGroup'
+    exact inf_oddCore_eq_bot U.isPGroup
   obtain ⟨f⟩ := nonempty_mulEquiv_map π U hUO
   let Ubar : Sylow 2 (H ⧸ CFSG.oddCore H) := U.mapSurjective hπ
   let ebar : (Ubar : Subgroup (H ⧸ CFSG.oddCore H)) ≃* HomocyclicGroup n :=

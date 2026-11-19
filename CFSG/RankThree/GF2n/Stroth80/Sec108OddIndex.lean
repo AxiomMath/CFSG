@@ -169,7 +169,8 @@ theorem Sec108Data.oddChar_eq_one_of_mem_Q (D : Sec108Data hc t Y)
     rw [smul_left_injective AM.K he₀ h']
     rfl
 
-theorem Sec108Data.odd_card_units_prod (D : Sec108Data hc t Y)
+omit [Finite G] in
+theorem Sec108Data.odd_card_units_prod (_D : Sec108Data hc t Y)
     (AM : Smith81.Smith23E1.ActionModel M Q Z) : Odd (Nat.card (AM.Kˣ × AM.Kˣ)) := by
   obtain ⟨n, -, hn, -⟩ := hc.hyp.cp
   have hK : Nat.card AM.K = 2 ^ n := by rw [AM.glob.card, hn]

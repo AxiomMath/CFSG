@@ -10,7 +10,7 @@ namespace CFSG.LocalAnalysis.EvenBN.Tits.I21L
 open Subgroup
 
 theorem pgl9_sylow {Y : Type*} [Group Y] [Finite Y] (J : Subgroup Y) [J.Normal]
-    (e : J ≃* alternatingGroup (Fin 6)) (hC : centralizer (J : Set Y) = ⊥) {t : Y}
+    (e : J ≃* alternatingGroup (Fin 6)) (_hC : centralizer (J : Set Y) = ⊥) {t : Y}
     (ht2 : t * t = 1) (htJ : t ∉ J) (hpgl : PGLTwoSquareOuter J t) :
     Nat.card ↥(J ⊔ Subgroup.zpowers t) = 720 ∧
       (∀ D : Subgroup Y, D ≤ J ⊔ Subgroup.zpowers t → IsPGroup 2 D → Nat.card D = 16 → t ∈ D →

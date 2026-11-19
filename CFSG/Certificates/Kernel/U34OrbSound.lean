@@ -395,6 +395,7 @@ theorem mul_le_card (S : Subgroup G) (p : N) {a b : Nat} (ha : a ≤ Nat.card (o
   calc a * b ≤ Nat.card (orbit S p) * Nat.card ↥(S ⊓ stabilizer G p) := Nat.mul_le_mul ha hb
     _ = Nat.card S := by rw [mul_comm]; exact h
 
+omit [MulAction G N] in
 theorem fifteen_le [Finite G] (K : Subgroup G) {w : G} (hw : w ∈ K) (h15 : w ^ 15 = 1)
     (h5 : w ^ 5 ≠ 1) (h3 : w ^ 3 ≠ 1) : 15 ≤ Nat.card K := by
   have hd := Subgroup.orderOf_dvd_natCard K hw

@@ -27,8 +27,8 @@ theorem exists_fixed_vector [Finite M] (hcard : Nat.card M = 2 ^ 8) :
     ∃ m : M, m ≠ 0 ∧ ∀ u ∈ MulAction.stabilizer SL(3, ZMod 2) x₀, ρ u m = m := by
   have hP : IsPGroup 2 (MulAction.stabilizer SL(3, ZMod 2) x₀) :=
     IsPGroup.of_card (n := 3) (by rw [card_stabilizer]; norm_num)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction (MulAction.stabilizer SL(3, ZMod 2) x₀) M :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction (MulAction.stabilizer SL(3, ZMod 2) x₀) M :=
     { smul := fun u m => ρ u m
       one_smul := fun m => by
         show ρ ((1 : MulAction.stabilizer SL(3, ZMod 2) x₀) : SL(3, ZMod 2)) m = m

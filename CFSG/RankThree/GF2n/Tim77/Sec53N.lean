@@ -99,7 +99,7 @@ theorem sec53n_dih [Finite G] {Abar L L' M' : Subgroup G} {a : G} (ha2 : a * a =
 
 theorem sec53n_two_ne_one [Finite G] {D : Subgroup G} (h : 2 < Nat.card D) :
     ∃ d₁ ∈ D, ∃ d₂ ∈ D, d₁ ≠ 1 ∧ d₂ ≠ 1 ∧ d₁ ≠ d₂ := by
-  haveI : Fintype D := Fintype.ofFinite D
+  have : Fintype D := Fintype.ofFinite D
   rw [Nat.card_eq_fintype_card] at h
   obtain ⟨a, b, c, hab, hac, hbc⟩ := Fintype.two_lt_card_iff.mp h
   by_cases ha : (a : G) = 1
@@ -196,7 +196,7 @@ theorem sec53n_card_le_sq_fixed [Finite G] {V : Subgroup G} {a : G}
   exact Nat.mul_le_mul hk hr
 
 theorem sec53n_F1 [Finite G] {A Ab L Lb M Z : Subgroup G} (S : Prop24Setup A Ab L Lb M)
-    (hq : L.relIndex A = 2) (hZ : Z ≤ L) (hZi : Z.relIndex L = 2) :
+    (hq : L.relIndex A = 2) (_hZ : Z ≤ L) (hZi : Z.relIndex L = 2) :
     ∃ F : Subgroup G, F ≤ Lb ∧ F.relIndex Lb = 2 ∧
       ∀ u ∈ F, ∀ x ∈ A, x * u * x⁻¹ * u⁻¹ ∈ Z := by
   have hA : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := fun x hx y hy => S.comm_A hx hy
@@ -277,7 +277,7 @@ theorem sec53n_exists_v [Finite G] {E E' F V : Subgroup G} {a : G} (ha2 : a * a 
     (hEc : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hEs : ∀ x ∈ E, x * x = 1)
     (hEE' : ∀ x ∈ E, ∀ y ∈ E', x * y = y * x) (hinf : E ⊓ E' = ⊥)
     (hswap : ∀ x ∈ E, a * x * a ∈ E') (hswap' : ∀ y ∈ E', a * y * a ∈ E)
-    (hFE : F ≤ E) (hF : F.relIndex E = 2)
+    (_hFE : F ≤ E) (hF : F.relIndex E = 2)
     (hVc : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x) (hVs : ∀ x ∈ V, x * x = 1)
     (hVM : V ≤ E ⊔ E') (haV : ∀ x ∈ V, a * x * a ∈ V) (hVcard : 8 ≤ Nat.card V) :
     ∃ u ∈ F, u * (a * u * a) ∈ V ∧ u * (a * u * a) ≠ 1 := by
@@ -426,7 +426,7 @@ theorem sec53n_mem_normalizer_of_comm {A : Subgroup G} {c : G}
 
 theorem sec53_nonelem [Finite G] {A Abar S₀ B : Subgroup G} (h : Sec3Ctx A Abar S₀ B)
     (hq : Section3.q A Abar = 2) {a : G}
-    (haN : a ∈ normalizer (A : Set G)) (haN0 : a ∈ normalizer (Section3.A0 A Abar : Set G))
+    (haN : a ∈ normalizer (A : Set G)) (_haN0 : a ∈ normalizer (Section3.A0 A Abar : Set G))
     (ha2 : a * a = 1) {Z : Subgroup G} (hZ : Z ≤ Section3.A0 A Abar)
     (hZi : Z.relIndex (Section3.A0 A Abar) = 2)
     (haZ : ∀ x ∈ A, a * x * a * x⁻¹ ∈ Z)
@@ -454,7 +454,7 @@ theorem sec53_nonelem [Finite G] {A Abar S₀ B : Subgroup G} (h : Sec3Ctx A Aba
         rw [hai]
         exact haZ x hx }
   obtain ⟨x, hxA, hxL⟩ : ∃ x ∈ Abar, x ∉ Section3.Abar0 A Abar :=
-    SetLike.exists_of_lt (lt_of_le_of_ne hS.Lb_le hS.Lb_ne)
+    _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hS.Lb_le hS.Lb_ne)
   have hx1 : x ≠ 1 := fun e => hxL (e ▸ Subgroup.one_mem _)
   obtain ⟨g, z, hgM, -, hza, hzx, hg⟩ := sec53n_dih ha2 P hxA hxL
   have hcen := sec53n_heart h ha2 P hZ hTra hFle hFi hFc h8 hxA hxL hgM hza hg

@@ -38,7 +38,7 @@ private theorem exists_noncyclic_pGroup_le_of_map {F Q : Type*} [Group F] [Finit
     have h := (T.mapSurjective hg).maximal_isPGroup.eq_of_le (hpg.to_subgroup ⊤) le_top
     rw [Sylow.coe_mapSurjective] at h
     exact h
-  refine ⟨(T : Subgroup B₂).map B₂.subtype, ?_, T.isPGroup'.map B₂.subtype, ?_⟩
+  refine ⟨(T : Subgroup B₂).map B₂.subtype, ?_, T.isPGroup.map B₂.subtype, ?_⟩
   · rintro _ ⟨t, -, rfl⟩
     exact t.2.1
   · intro hcyc
@@ -215,7 +215,7 @@ namespace IsWitness
 variable {p : ℕ} {P : Sylow p G} {M : Subgroup G}
 
 theorem _root_.CFSG.LocalAnalysis.RankThreeUC.IsWitnessGen.two_le_pRank_normalizer_or_centralizer
-    (hS : CFSG.LocalAnalysis.AGL81TheoremCD.StandingGen G) (hp : IsWitnessPrime p P)
+    (_hS : CFSG.LocalAnalysis.AGL81TheoremCD.StandingGen G) (hp : IsWitnessPrime p P)
     (hw : IsWitnessGen p P M) {V T : Subgroup G} (hMV : M ≤ normalizer (V : Set G))
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T M) :
     2 ≤ pRank p (M ⊓ normalizer ((T ⊓ centralizer (V : Set G) : Subgroup G) : Set G)) ∨

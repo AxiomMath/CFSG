@@ -209,7 +209,7 @@ theorem closAt_arrF {Y E₁ E₂ X : ℕ} (hY : Y < 2 ^ 36) (hX : X < 2 ^ 36) :
   cases Nat.beq (MULF X Y) (MULF Y X) <;> cases Nat.beq X ONE <;> cases Nat.beq X Y <;>
     cases good2K Y E₁ E₂ X <;> rfl
 
-theorem centInv_arrF {E : Enum} {Y e : ℕ} (hY : Y < 2 ^ 36) (he : e < 2 ^ 36)
+theorem centInv_arrF {E : Enum} {Y e : ℕ} (_hY : Y < 2 ^ 36) (_he : e < 2 ^ 36)
     (hl : (E.lookup (arrF e)).isSome = true) (hc : centInvK Y e = true) :
     isCentInv E (arrF Y) (arrF e) = true := by
   unfold centInvK at hc

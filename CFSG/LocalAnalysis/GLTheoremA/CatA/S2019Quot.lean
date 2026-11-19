@@ -32,7 +32,7 @@ theorem relIndex_eq_of_card {Ω Ω' : Type*} [Group Ω] [Group Ω'] [Finite Ω] 
 theorem relIndex_eq_one_or_eq_prime {p : ℕ} (hp : p.Prime) {Ω : Type*} [Group Ω] [Finite Ω]
     {C D : Subgroup Ω} (hD : IsPGroup p D) (hle : C.relIndex D ≤ p) :
     C.relIndex D = 1 ∨ C.relIndex D = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := hD.exists_card_eq
   have hdvd : C.relIndex D ∣ p ^ n := hn ▸ Subgroup.relIndex_dvd_card C D
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow hp).1 hdvd

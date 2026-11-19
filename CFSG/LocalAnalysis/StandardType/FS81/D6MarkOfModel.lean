@@ -36,10 +36,10 @@ private theorem largeEvenMarking_of_mulEquiv_om12 {G : Type} [Group G] {X : Subg
       (Q₀ := StatedQuadPlus 6 (ZMod 2)) hcoe
   have hQ : CFSG.LieType.ChevTwo.GoodQ (StatedQuadPlus 6 (ZMod 2)) :=
     CFSG.LieType.ChevTwo.goodQ_plus (n := 5) (by norm_num)
-  haveI hDsimple : IsSimpleGroup ↥Om12Mat := hQ.simple
+  have hDsimple : IsSimpleGroup ↥Om12Mat := hQ.simple
   have hOmsimple : IsSimpleGroup ↥D6M.Om12 := eOrth.symm.isSimpleGroup
   have hXsimple : IsSimpleGroup ↥X := by
-    haveI := hOmsimple
+    have := hOmsimple
     exact e.isSimpleGroup
   have hbot : (StatedScalars (Fin 6 ⊕ Fin 6) (ZMod 2)).subgroupOf
       (StatedOmega (StatedQuadPlus 6 (ZMod 2))) = ⊥ :=

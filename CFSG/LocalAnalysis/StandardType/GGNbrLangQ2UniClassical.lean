@@ -120,7 +120,7 @@ theorem q2URLevel_D_high : Q2URLevel (fun _ lab => lab.tag = .D ∧ 4 ≤ lab.ra
   have hd3 : 3 ≤ d := by omega
   have hd4 : d ≠ 4 := by omega
   dsimp only [CFSG.StandardType.LargeEvenRawDatum] at hQ ⊢
-  rw [if_neg (by omega : rank ≠ 3)] at hQ ⊢
+  rw [ite_eq_right (by omega : rank ≠ 3)] at hQ ⊢
   obtain ⟨K, fieldK, finiteK, hK, hQK⟩ := hQ
   let : Field K := fieldK
   let : Finite K := finiteK
@@ -158,7 +158,7 @@ theorem q2URLevel_twD_high : Q2URLevel (fun _ lab => lab.tag = .twD ∧ 4 ≤ la
   have hd3 : 3 ≤ d := by omega
   have hd4 : d ≠ 4 := by omega
   dsimp only [CFSG.StandardType.LargeEvenRawDatum] at hQ ⊢
-  rw [if_neg (by omega : rank ≠ 2), if_neg (by omega : rank ≠ 3)] at hQ ⊢
+  rw [ite_eq_right (by omega : rank ≠ 2), ite_eq_right (by omega : rank ≠ 3)] at hQ ⊢
   obtain ⟨K, fieldK, finiteK, hK, b, c, hbc, hQK⟩ := hQ
   let : Field K := fieldK
   let : Finite K := finiteK
@@ -290,7 +290,7 @@ theorem q2UniTwD3_minus_false {n : ℕ} (hn : 1 ≤ n) {p : ℕ} (hp : p.Prime) 
   classical
   have hF : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n K :=
     unitaryFieldData_of_card hn hK
-  haveI : CharP K 2 := hF.charP
+  have : CharP K 2 := hF.charP
   obtain ⟨τ, hτ, hτQ⟩ := exists_unitaryInvolution hn hK
   let H : Subgroup (GL (Fin 4) K) := LargeEvenSUGroup (Fin 4) K (2 ^ n)
   obtain ⟨s, hsN, hs_held, hs_proj⟩ :=
@@ -333,8 +333,8 @@ theorem q2UniTwD3_minus_false {n : ℕ} (hn : 1 ≤ n) {p : ℕ} (hp : p.Prime) 
     ⟨b, e, E', hEfld, hEfin, _, _, _, _, hb2, hEcard, ⟨eM⟩, _, _, _, _, _,
       hirrP, hPdeg, _, _, _, _, _, _, _, _⟩
   ·
-    letI : Field E' := hEfld
-    letI : Finite E' := hEfin
+    let : Field E' := hEfld
+    let : Finite E' := hEfin
     have hdd1 : 1 ≤ dd := by
       have h := hirrP.natDegree_pos
       omega
@@ -362,8 +362,8 @@ theorem q2UniTwD3_minus_false {n : ℕ} (hn : 1 ≤ n) {p : ℕ} (hp : p.Prime) 
     ·
       subst ha
       have hcard2 : Nat.card (↥C ⧸ Subgroup.center ↥C) = Open.ordA 1 (2 ^ kk) := by
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-        haveI : CharP E' 2 :=
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : CharP E' 2 :=
           (unitaryFieldData_of_card (n := kk) (by omega : 1 ≤ kk) hK2).charP
         have hcenter : Subgroup.center (StatedSU 2 (2 ^ kk) E') = ⊥ :=
           CFSG.ComponentClassification.RankTwoClassical.center_statedSU_two_eq_bot
@@ -391,7 +391,6 @@ theorem q2UniTwD3_minus_false {n : ℕ} (hn : 1 ≤ n) {p : ℕ} (hp : p.Prime) 
           nonempty_quotientCenter_equiv_statedProj_statedSU
             (K := E') (f := kk) hK2 hk2 (by omega : 2 ≤ a) eM'
         rw [Nat.card_congr eCZ.toEquiv]
-        change Nat.card (StatedProj (StatedSU a (2 ^ kk) E')) = _
         rw [CFSG.Timmesfeld.ClassicalOrders.card_statedProj_statedSU Nat.prime_two
           (by omega : 1 ≤ kk) hK2 (by omega : 2 ≤ a), CFSG.Open.ordTwistedA,
           Nat.sub_add_cancel (by omega : 1 ≤ a), Nat.mul_comm a (a - 1)]
@@ -414,8 +413,8 @@ theorem q2UniTwD3_minus_false {n : ℕ} (hn : 1 ≤ n) {p : ℕ} (hp : p.Prime) 
           hna hnd hnk hE.one_le hnf hug heq
       exact cuq2d3b_two_pow_dvd_of_dvd hp hp2 hpn hpm (hkm.symm.trans hkk)
   ·
-    letI : Field E' := hEfld
-    letI : Finite E' := hEfin
+    let : Field E' := hEfld
+    let : Finite E' := hEfin
     have he1 : 1 ≤ e := by
       have h := hirrP.natDegree_pos
       omega
@@ -449,7 +448,7 @@ theorem q2URLevel_twD_three_minus :
   have hn : 1 ≤ n := hlab.1
   have hr2 : rank ≠ 2 := by omega
   dsimp only [CFSG.StandardType.LargeEvenRawDatum] at hQ ⊢
-  rw [if_neg hr2, if_pos hrank] at hQ ⊢
+  rw [ite_eq_right hr2, ite_eq_left hrank] at hQ ⊢
   obtain ⟨K, fieldK, finiteK, hK, hQK⟩ := hQ
   let : Field K := fieldK
   let : Finite K := finiteK

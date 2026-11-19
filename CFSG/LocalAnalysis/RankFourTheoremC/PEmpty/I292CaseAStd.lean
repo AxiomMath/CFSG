@@ -84,7 +84,7 @@ theorem inverseTranspose_rotGL : GeneralLinearGroup.inverseTranspose (rotGL p K)
 
 
 theorem map_eq_of_mem_monoQ (σ : K ≃+* K) (Q : Subgroup Kˣ)
-    (hfix : ∀ x ∈ Q, Units.map (σ : K →* K) x = x) (hp : 2 ≤ p) :
+    (hfix : ∀ x ∈ Q, Units.map (σ : K →* K) x = x) (_hp : 2 ≤ p) :
     ∀ g ∈ monoQ (p := p) (K := K) Q, GeneralLinearGroup.map (σ : K →+* K) g = g := by
   have hle : monoQ (p := p) (K := K) Q ≤
       (GeneralLinearGroup.map (σ : K →+* K)).eqLocus (MonoidHom.id (GL (Fin p) K)) := by
@@ -178,7 +178,7 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.Lin
 
 theorem kd292StdSylow_holds : KD292StdSylow := by
   intro p K _ _ hp hp5 y hdet S hS2 hSnf hSc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hn3 : 3 ≤ p := by omega
   have hdU : ∀ b : Kˣ, b ^ p ≠ GeneralLinearGroup.det y := by
@@ -195,7 +195,7 @@ theorem kd292StdSylow_holds : KD292StdSylow := by
   · rw [linearAutGroup_eq_range]
     rintro _ ⟨x, -, rfl⟩
     exact ⟨x, rfl⟩
-  · exact (isPGroup_monoQ hp.two_le Q.isPGroup').map _
+  · exact (isPGroup_monoQ hp.two_le Q.isPGroup).map _
   · rw [linearAutGroup_eq_range]
     intro h
     exact not_dvd_index_monoQ hp2 Q hpK (h.trans (relIndex_map_range_dvd _ _))

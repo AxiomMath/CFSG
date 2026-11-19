@@ -101,9 +101,9 @@ theorem bar2_sup_pCoreOf_mulEquiv {D : Data G} {L : Subgroup G} (hL : L ∈ calC
   have hKN : L ⊔ pCoreOf 2 D.M ≤
       Subgroup.normalizer ((pCoreOf 2 D.M : Subgroup G) : Set G) :=
     hKM.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 D.M)
-  haveI : ((pCoreOf 2 D.M).subgroupOf L).Normal :=
+  have : ((pCoreOf 2 D.M).subgroupOf L).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hLN
-  haveI : ((pCoreOf 2 D.M).subgroupOf (L ⊔ pCoreOf 2 D.M)).Normal :=
+  have : ((pCoreOf 2 D.M).subgroupOf (L ⊔ pCoreOf 2 D.M)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hKN
   let e1 := QuotientGroup.quotientInfEquivProdNormalizerQuotient L (pCoreOf 2 D.M) hLN
   exact ⟨(QuotientGroup.quotientMulEquivOfEq (subgroupOf_pCoreOf_sup_eq_pCore hL hN)).symm.trans
@@ -130,7 +130,7 @@ theorem isComponentModO2_sup_pCoreOf {D : Data G} {L : Subgroup G} (hL : L ∈ c
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_right).2
       (hKM.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 D.M))
   refine ⟨hAn, ?_⟩
-  letI := hAn
+  let := hAn
   obtain ⟨e⟩ := bar2_sup_pCoreOf_mulEquiv hL hN
   exact CFSG.Quasithin.Vol2.Ch10.SecC.C10KH.isQuasisimple_of_open
     (hL.2.2.of_mulEquiv

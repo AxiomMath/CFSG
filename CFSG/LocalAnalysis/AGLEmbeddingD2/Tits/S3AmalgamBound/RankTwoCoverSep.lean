@@ -13,7 +13,7 @@ open scoped Pointwise
 theorem exists_conj_of_order_three {K : Type*} [Group K] {Q : Subgroup K} [Finite Q]
     (hQ : ¬ 9 ∣ Nat.card Q) {u q : K} (hu : u ∈ Q) (hq : q ∈ Q) (hu3 : orderOf u = 3)
     (hq3 : orderOf q = 3) : ∃ j ∈ Q, ∃ e : ℕ, q = j * u ^ e * j⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set u' : ↥Q := ⟨u, hu⟩ with hu'
   set q' : ↥Q := ⟨q, hq⟩ with hq'
   have hu'3 : orderOf u' = 3 := by rw [← hu3, ← Subgroup.orderOf_coe]
@@ -89,7 +89,7 @@ theorem minimal_map_equiv {G G' : Type*} [Group G] [Group G'] (e : G ≃* G') {N
 theorem sylow_conj_mem {K : Type*} [Group K] [Finite K] {U V : Subgroup K} (hU : IsPGroup 2 U)
     (hV : IsPGroup 2 V) (hUi : ¬ 2 ∣ U.index) (hVi : ¬ 2 ∣ V.index) :
     ∃ g0 : K, ∀ x : K, x ∈ V ↔ g0⁻¹ * x * g0 ∈ U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g0, hg0⟩ := MulAction.exists_smul_eq K (hU.toSylow hUi) (hV.toSylow hVi)
   refine ⟨g0, fun x => ?_⟩
   have h : MulAut.conj g0 • U = V := by
@@ -120,8 +120,8 @@ theorem not_exists_aut_of_noConj (h : BorelQuotient D n H π M) (hH : ∀ k, H k
     {i j : Fin D.rank} (hij : i ≠ j) (hcart : D.cartan i j = 0)
     {xi yi xj yj : K} (hxi : xi ∈ D.rootGroup (Pi.single i 1))
     (hyi : yi ∈ D.rootGroup (-Pi.single i 1)) (hxj : xj ∈ D.rootGroup (Pi.single j 1))
-    (hyj : yj ∈ D.rootGroup (-Pi.single j 1)) (hi3 : (xi * yi) ^ 3 = 1) (hi1 : xi * yi ≠ 1)
-    (hj3 : (xj * yj) ^ 3 = 1) (hj1 : xj * yj ≠ 1)
+    (hyj : yj ∈ D.rootGroup (-Pi.single j 1)) (hi3 : (xi * yi) ^ 3 = 1) (_hi1 : xi * yi ≠ 1)
+    (hj3 : (xj * yj) ^ 3 = 1) (_hj1 : xj * yj ≠ 1)
     (hnot : xj * yj ∉ Subgroup.zpowers (xi * yi))
     (hnoconj : ∀ k, ∀ x ∈ D.rootGroup (Pi.single k 1), ∀ y ∈ D.rootGroup (-Pi.single k 1),
       (x * y) ^ 3 = 1 → x * y ≠ 1 → ∀ g : K, ∀ e : ℕ,
@@ -143,7 +143,7 @@ theorem not_exists_aut_of_noConj (h : BorelQuotient D n H π M) (hH : ∀ k, H k
   let ψ : K ≃* K := φ.trans (MulAut.conj g0⁻¹)
   have hψx : ∀ x, ψ x = g0⁻¹ * φ x * g0 := fun x => by
     show (MulAut.conj g0⁻¹) (φ x) = _
-    simp [MulAut.conj_apply]
+    simp
   have hψU : (posUnipotent D).map ψ.toMonoidHom = posUnipotent D := by
     ext x
     constructor
@@ -248,7 +248,7 @@ theorem orthSep_of_noConj [Finite Y] (h : BorelQuotient D n H π M) (hinj : Func
       (x * y) ^ 3 = 1 → x * y ≠ 1 → ∀ g : K, ∀ e : ℕ,
         g * (x * y) ^ e * g⁻¹ ≠ xi * yi * (xj * yj)) :
     OrthSep D π i j := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨hcart, hij, xi, hxi, yi, hyi, xj, hxj, yj, hyj, ?_, ?_, ?_, ?_⟩
   · exact orderOf_eq_prime (by rw [← map_pow, hi3, map_one])
       (fun h1 => hi1 (hinj (by rw [h1, map_one])))

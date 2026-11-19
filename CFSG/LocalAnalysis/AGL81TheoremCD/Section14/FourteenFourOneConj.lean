@@ -42,8 +42,8 @@ private theorem le_centralizer_of_isPGroup_of_not_dvd_card_mulAut {p : ℕ} (hp 
     (hAut : ¬ p ∣ Nat.card (MulAut ↥A)) :
     P ≤ Subgroup.centralizer (A : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Subgroup.Normalizes P A := ⟨hPA⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Subgroup.Normalizes P A := ⟨hPA⟩
   let phi : P →* MulAut A := MulDistribMulAction.toMulAut P A
   have hRangeDvdAut : Nat.card phi.range ∣ Nat.card (MulAut A) :=
     Subgroup.card_subgroup_dvd_card phi.range
@@ -74,6 +74,7 @@ private theorem le_centralizer_of_isPGroup_of_not_dvd_card_mulAut {p : ℕ} (hp 
     simpa [mul_assoc] using h
   exact hcomm.symm
 
+omit [Finite G] in
 private theorem le_normalizer_of_weaklyClosed {p : ℕ} {P₀ : Subgroup G} (P : Sylow p G)
     (hP₀P : P₀ ≤ (P : Subgroup G))
     (hwc : ∀ g : G, CFSG.Open.rankThreeConj g P₀ ≤ (P : Subgroup G) →
@@ -94,7 +95,7 @@ private theorem le_normalizer_of_weaklyClosed {p : ℕ} {P₀ : Subgroup G} (P :
 
 private theorem subgroupOf_le_op_p'p {p : ℕ} [Fact p.Prime] {N P₀ : Subgroup G}
     (hsolv : Group.IsSolvable ↥N) (P : Sylow p G) (hPN : (P : Subgroup G) ≤ N)
-    (hP₀N : P₀ ≤ N) (hP₀P : P₀ ≤ (P : Subgroup G))
+    (_hP₀N : P₀ ≤ N) (_hP₀P : P₀ ≤ (P : Subgroup G))
     (hPcent : (P : Subgroup G) ≤ Subgroup.centralizer (P₀ : Set G)) :
     P₀.subgroupOf N ≤ CFSG.Op_p'p p ↥N := by
   classical
@@ -102,7 +103,7 @@ private theorem subgroupOf_le_op_p'p {p : ℕ} [Fact p.Prime] {N P₀ : Subgroup
   have hWn : W₀.Normal := hW₀ ▸ inferInstance
   have hTsyl : CFSG.ABGLocalTools.IsSylowOf p ((P.subtype hPN : Subgroup ↥N)) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, (P.subtype hPN).isPGroup', (P.subtype hPN).not_dvd_index⟩
+    exact ⟨le_top, (P.subtype hPN).isPGroup, (P.subtype hPN).not_dvd_index⟩
   have hIsSylW : CFSG.ABGLocalTools.IsSylowOf p
       ((P.subtype hPN : Subgroup ↥N) ⊓ W₀) W₀ :=
     hTsyl.inf_of_le_normalizer le_top (by
@@ -149,7 +150,7 @@ private theorem p₀_le_op_p'p_of_weaklyClosed {p : ℕ} [Fact p.Prime] {N P₀ 
     le_normalizer_of_weaklyClosed P hP₀P hwc
   have hPcent : (P : Subgroup G) ≤ Subgroup.centralizer (P₀ : Set G) :=
     CFSG.LocalAnalysis.GLTheoremA.le_centralizer_of_isPGroup_of_card_eq Fact.out
-      P.isPGroup' hP₀ hPnorm
+      P.isPGroup hP₀ hPnorm
   exact le_op_p'p hN P hPN hP₀N hP₀P hPcent
 
 private theorem isPGroup_op_p'p_quotient {p : ℕ} [Fact p.Prime] (N : Subgroup G) :
@@ -169,6 +170,7 @@ private theorem isPGroup_op_p'p_quotient {p : ℕ} [Fact p.Prime] (N : Subgroup 
     (H := ↥(CFSG.Op_p'p p ↥N)) (CFSG.hasNormalPComplement_Op_p'p (p := p))
   exact h.of_equiv (QuotientGroup.quotientMulEquivOfEq hcore)
 
+omit [Finite G] in
 private theorem map_subgroupOf_conj {N : Subgroup G} (x : ↥N) (A : Subgroup ↥N) :
     (A.map (MulAut.conj x).toMonoidHom).map N.subtype =
       (A.map N.subtype).map (MulAut.conj (x : G)).toMonoidHom := by
@@ -179,6 +181,7 @@ private theorem map_subgroupOf_conj {N : Subgroup G} (x : ↥N) (A : Subgroup �
     simp [MulAut.conj_apply]
   rw [h]
 
+omit [Finite G] in
 private theorem map_subgroupOf_conj_eq {p : ℕ} {N P₀ : Subgroup G} (P : Sylow p G)
     (hPN : (P : Subgroup G) ≤ N) (hP₀N : P₀ ≤ N)
     (hwc : ∀ g : G, CFSG.Open.rankThreeConj g P₀ ≤ (P : Subgroup G) →
@@ -222,7 +225,7 @@ private theorem exists_sylow_inf_op_p'p {p : ℕ} [Fact p.Prime] {N : Subgroup G
   have hWn : (CFSG.Op_p'p p ↥N).Normal := inferInstance
   have hTsyl : CFSG.ABGLocalTools.IsSylowOf p (T : Subgroup ↥N) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, T.isPGroup', T.not_dvd_index⟩
+    exact ⟨le_top, T.isPGroup, T.not_dvd_index⟩
   have hIsSylW : CFSG.ABGLocalTools.IsSylowOf p
       ((T : Subgroup ↥N) ⊓ CFSG.Op_p'p p ↥N) (CFSG.Op_p'p p ↥N) :=
     hTsyl.inf_of_le_normalizer le_top (by
@@ -251,6 +254,7 @@ private theorem pPrimeCore_sup_sylow_eq {p : ℕ} [Fact p.Prime] {N : Subgroup G
     ← MonoidHom.range_eq_map, Subgroup.range_subtype] at himg
   simpa [sup_comm] using himg
 
+omit [Finite G] in
 private theorem normalizer_inf_op_p'p_le {p : ℕ} [Fact p.Prime] {N P₀ : Subgroup G}
     (P : Sylow p G) (hPN : (P : Subgroup G) ≤ N) (hP₀P : P₀ ≤ (P : Subgroup G))
     (hP₀nW : P₀.subgroupOf N ≤ CFSG.Op_p'p p ↥N)
@@ -358,7 +362,7 @@ private theorem exists_sylow_three_le_centralizer {p : ℕ} [Fact p.Prime] (hp5 
       CFSG.ABGLocalTools.IsSylowOf 3 R (CFSG.Open.rankThreePrimeCore p N) ∧
         P₀ ≤ Subgroup.centralizer (R : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hKN, hKnorm, hKcop⟩ := relPPrimeCore_facts (p := p) N
   have hP₀N : P₀ ≤ N := hP₀P.trans hPN
   have hP₀W : P₀ ≤ (CFSG.Op_p'p p ↥N).map N.subtype :=
@@ -391,7 +395,7 @@ private theorem not_dvd_three_relIndex_centralizer {p : ℕ} [Fact p.Prime] (hp5
     ¬ 3 ∣ (CFSG.Open.rankThreePrimeCore p N ⊓
       Subgroup.centralizer (P₀ : Set G)).relIndex (CFSG.Open.rankThreePrimeCore p N) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R, hRsyl, hP₀centR⟩ := exists_sylow_three_le_centralizer hp5 P hPN hN hP₀P hP₀ hwc hF1
   have hRcent : R ≤ Subgroup.centralizer (P₀ : Set G) := by
     intro r hr
@@ -483,8 +487,8 @@ theorem exists_conj_le_normalizer_of_weaklyClosed {G : Type} [Group G] [Finite G
     (hQN : Q ≤ N) (hQ : IsPGroup 3 Q) :
     ∃ g ∈ N, Q.map (MulAut.conj g).toMonoidHom ≤ Subgroup.normalizer (P₀ : Set G) := by
   classical
-  haveI : Fact p.Prime := ‹Fact p.Prime›
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ‹Fact p.Prime›
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set M : Subgroup G := N ⊓ Subgroup.normalizer (P₀ : Set G) with hM
   have hIdx : ¬ 3 ∣ M.relIndex N := by
     rw [hM]

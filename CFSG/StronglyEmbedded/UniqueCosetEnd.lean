@@ -16,7 +16,7 @@ theorem isSolvable_normalizer_sylow {X : Type*} [Group X] [Finite X] (S : Sylow 
   have hSN : (S : Subgroup X) ≤ N := Subgroup.le_normalizer
   have hTn : ((S : Subgroup X).subgroupOf N).Normal := Subgroup.normal_in_normalizer
   have hS : Group.IsSolvable ↥(S : Subgroup X) := by
-    have := S.isPGroup'.isNilpotent
+    have := S.isPGroup.isNilpotent
     infer_instance
   have hT : Group.IsSolvable ↥((S : Subgroup X).subgroupOf N) :=
     Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe hSN).toMonoidHom)

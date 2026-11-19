@@ -74,7 +74,7 @@ theorem pSubgroup_le_perfectJoin_of_borelQuotient [Finite K] [Finite Y]
     rw [hT]
     exact (Subgroup.map_mono posUnipotent_le_borel).trans hBJ
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hS2 : IsPGroup 2 (S₀ : Subgroup Y) := S₀.isPGroup'
+  have hS2 : IsPGroup 2 (S₀ : Subgroup Y) := S₀.isPGroup
   have hTc : ∀ a ∈ T, ∀ b ∈ T, a * b = b * a := by
     rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩
     rw [← map_mul, ← map_mul, h.torus_mul_comm ha hb]
@@ -253,7 +253,7 @@ theorem pSubgroup_le_perfectJoin_of_quotient {G X : Type*} [Group G] [Group X] [
   have hNS : Subgroup.normalizer (((T.mapSurjective hψ : Sylow 2 X) : Subgroup X) : Set X) ≤
       J.map ψ := by
     rw [Sylow.coe_mapSurjective]
-    exact normalizer_map_le_map ψ hψ hker hodd T.isPGroup' hNJ
+    exact normalizer_map_le_map ψ hψ hker hodd T.isPGroup hNJ
   have h1 := hH (T.mapSurjective hψ) (J.map ψ) hNS (A.map ψ) (Subgroup.map_mono hAJ) (hA.map ψ)
   rw [← map_perfectJoin_eq ψ hψ hker hkJ] at h1
   exact le_of_map_le_map_of_central ψ hker hp hpk hA h1

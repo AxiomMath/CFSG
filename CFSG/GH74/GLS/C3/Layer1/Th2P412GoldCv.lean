@@ -316,7 +316,7 @@ theorem centralizer_v_le_of_gold
   have hO'normal : O'.Normal := pPrimeCore_normal
   have hE2 : IsPGroup 2 E' := (hSyl.isPGroup.to_le hEGS).comap_subtype
   have hN'normal : (O' ⊔ E').Normal := by
-    letI : O'.Normal := hO'normal
+    let : O'.Normal := hO'normal
     refine ⟨fun z hz g => ?_⟩
     obtain ⟨o, ho, e, he, rfl⟩ := Subgroup.mem_sup_of_normal_left.1 hz
     have hgo : g * o * g⁻¹ ∈ O' := hO'normal.conj_mem o ho g
@@ -339,7 +339,7 @@ theorem centralizer_v_le_of_gold
   have hc_mem : (⟨c, hc⟩ : ↥Cv) ∈ O' ⊔ normalizer (E' : Set ↥Cv) := by
     rw [hfrattini]
     exact Subgroup.mem_top _
-  letI : O'.Normal := hO'normal
+  let : O'.Normal := hO'normal
   obtain ⟨o, ho, n, hn, hcon⟩ := Subgroup.mem_sup_of_normal_left.1 hc_mem
   have hoM : (o : G) ∈ M := hOM (Subgroup.mem_map.2 ⟨o, ho, rfl⟩)
   have hnNormG : (n : G) ∈ normalizer (EG : Set G) := by

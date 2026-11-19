@@ -278,7 +278,7 @@ theorem fix_iff_appN {r : Array ℕ} (hr : ∀ x ∈ r, x < 4096) (v : V12) :
 theorem setOfMask_and_fixMask {r : Array ℕ} (hr : ∀ x ∈ r, x < 4096) (F : ℕ) :
     setOfMask (F &&& fixMask r) = setOfMask F ∩ {v | linOfRows r v = v} := by
   ext v
-  simp only [Set.mem_inter_iff, Set.mem_setOf_eq, mem_setOfMask, testBit_and_iff, testBit_fixMask,
+  simp only [Set.mem_inter_iff, Set.mem_ofPred_eq, mem_setOfMask, testBit_and_iff, testBit_fixMask,
     fix_iff_appN hr]
   exact ⟨fun ⟨h1, _, h2⟩ => ⟨h1, h2⟩, fun ⟨h1, h2⟩ => ⟨h1, codeOf_lt v, h2⟩⟩
 
@@ -288,7 +288,7 @@ theorem setOfMask_fullMask : setOfMask (fullMask ()) = Set.univ := by
   exact codeOf_lt v
 
 theorem isMask_fullMask : IsMask (fullMask ()) :=
-  isMask_maskOf fun x hx => List.mem_range.mp hx
+  isMask_maskOf fun _x hx => List.mem_range.mp hx
 
 theorem isMask_and {F : ℕ} (hF : IsMask F) (m : ℕ) : IsMask (F &&& m) := fun i hi => by
   rw [Nat.testBit_and, hF i hi, Bool.false_and]
@@ -363,7 +363,7 @@ theorem exists_fixClosure
     refine ⟨F &&& fixMask (rowsOf U), and_mem_fixClosure hF hr, ?_⟩
     rw [setOfMask_and_fixMask (okRows_lt (okRows_of_mem_pList hr)), hFe]
     ext v
-    simp only [Set.mem_inter_iff, Set.mem_setOf_eq, Finset.mem_insert, forall_eq_or_imp,
+    simp only [Set.mem_inter_iff, Set.mem_ofPred_eq, Finset.mem_insert, forall_eq_or_imp,
       linOfRows_rowsOf]
     tauto
 
@@ -376,7 +376,7 @@ theorem exists_fixClosure_subgroup
   ext v
   simp [fixSet]
 
-theorem popc_eq {F : ℕ} (hF : IsMask F) : popc F = (setOfMask F).ncard := by
+theorem popc_eq {F : ℕ} (_hF : IsMask F) : popc F = (setOfMask F).ncard := by
   have e : setOfMask F = vecOf '' {c | c ∈ (List.range 4096).filter F.testBit} := by
     ext v
     constructor
@@ -493,10 +493,10 @@ theorem card_mul_le
       ((ptRows F).length * min 64 (popc F) ≤ 1024 && (ptRows F).length == 64 &&
         (ptRows F).any fun a => (ptRows F).any fun b => mulR a b != mulR b a)) = true at hj
   by_cases hFw : F = w1Mask ()
-  · rw [if_pos (by rw [hFw]; exact beq_self_eq_true _), beq_iff_eq] at hj
+  · rw [ite_eq_left (by rw [hFw]; exact beq_self_eq_true _), beq_iff_eq] at hj
     right
     exact ⟨by rw [← hFe, hFw], hj ▸ hle⟩
-  · rw [if_neg (by rw [beq_iff_eq]; exact hFw)] at hj
+  · rw [ite_eq_right (by rw [beq_iff_eq]; exact hFw)] at hj
     simp only [Bool.or_eq_true, decide_eq_true_eq, Bool.and_eq_true, beq_iff_eq, List.any_eq_true,
       bne_iff_ne, ne_eq] at hj
     left

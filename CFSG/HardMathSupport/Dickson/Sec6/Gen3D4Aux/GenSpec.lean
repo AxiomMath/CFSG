@@ -57,6 +57,7 @@ theorem wordElt_mem_Innr {w : List ℕ} (hw : ∀ l ∈ w, l < 16) : R.wordElt w
 
 variable [Finite X]
 
+omit [Finite X] in
 theorem ea_mem {c i : ℕ} (hi : i < 3) : R.ea c i ∈ R.Eg c := by
   interval_cases i <;> exact Subgroup.subset_closure (by simp)
 
@@ -75,18 +76,18 @@ theorem pool_fixed {c j : ℕ} (hc : c < 4) (hj : j < 3)
       rw [eP_eq hc hi]
       exact R.rep_word _
     by_cases hev : s % 2 = 0
-    · simp only [eAlph, hev, if_true]
+    · simp only [eAlph, hev, ite_true]
       exact hrep
-    · simp only [eAlph, hev, if_false]
+    · simp only [eAlph, hev, ite_false]
       exact R.rep_pow hrep 2
   have heMem : ∀ s, s < 6 →
       (if s % 2 = 0 then R.ea c (s / 2) else R.ea c (s / 2) ^ 2) ∈ R.Eg c := by
     intro s hs6
     have hi : s / 2 < 3 := by omega
     by_cases hev : s % 2 = 0
-    · simp only [hev, if_true]
+    · simp only [hev, ite_true]
       exact R.ea_mem hi
-    · simp only [hev, if_false]
+    · simp only [hev, ite_false]
       exact Subgroup.pow_mem _ (R.ea_mem hi) 2
   have hu := R.rep_prodP' (alph := eAlph c) (w := (pEntry c j).1) fun s hs' => heRep s (hu6 s hs')
   have hv := R.rep_prodP' (alph := eAlph c) (w := (pEntry c j).2.1) fun s hs' =>
@@ -174,10 +175,10 @@ theorem gen_spec {c : ℕ} (hc : c < 4) (h : genCheckClass c = true) :
     intro s hs6
     have hj : s / 2 < 3 := by omega
     by_cases hev : s % 2 = 0
-    · simp only [pAlph, hev, if_true]
+    · simp only [pAlph, hev, ite_true]
       rw [nP_eq hc hj]
       exact R.rep_word _
-    · simp only [pAlph, hev, if_false]
+    · simp only [pAlph, hev, ite_false]
       rw [nInvP_eq hc hj]
       exact R.rep_word _
   have hpMem : ∀ s, s < 6 → (if s % 2 = 0 then
@@ -185,9 +186,9 @@ theorem gen_spec {c : ℕ} (hc : c < 4) (h : genCheckClass c = true) :
     intro s hs6
     have hj : s / 2 < 3 := by omega
     by_cases hev : s % 2 = 0
-    · simp only [hev, if_true]
+    · simp only [hev, ite_true]
       exact (hpf _ hj).1
-    · simp only [hev, if_false]
+    · simp only [hev, ite_false]
       exact (hpf _ hj).2
   have hrmem : ∀ i, i < 2 → ∀ s ∈ rWord c i, s < 6 := by
     intro i hi s hs'

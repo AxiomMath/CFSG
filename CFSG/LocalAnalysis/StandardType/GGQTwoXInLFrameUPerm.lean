@@ -122,9 +122,9 @@ private theorem ggQTUp_permMatrix_mul_apply (σ : Equiv.Perm (Fin (n + 1)))
     (Equiv.Perm.permMatrix K σ⁻¹ * M) i j = M (σ⁻¹ i) j := by
   rw [Matrix.mul_apply]
   rw [Finset.sum_eq_single (σ⁻¹ i)]
-  · rw [ggQTUp_permMatrix_apply_inv, if_pos rfl, one_mul]
+  · rw [ggQTUp_permMatrix_apply_inv, ite_eq_left rfl, one_mul]
   · intro k _ hk
-    rw [ggQTUp_permMatrix_apply_inv, if_neg (Ne.symm hk), zero_mul]
+    rw [ggQTUp_permMatrix_apply_inv, ite_eq_right (Ne.symm hk), zero_mul]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -133,10 +133,10 @@ private theorem ggQTUp_permMatrix_mul_apply_right (σ : Equiv.Perm (Fin (n + 1))
     (N * Equiv.Perm.permMatrix K σ) i j = N i (σ⁻¹ j) := by
   rw [Matrix.mul_apply]
   rw [Finset.sum_eq_single (σ.symm j)]
-  · rw [ggQTUp_permMatrix_apply, if_pos (by simp), mul_one]
+  · rw [ggQTUp_permMatrix_apply, ite_eq_left (by simp), mul_one]
     simp
   · intro k _ hk
-    rw [ggQTUp_permMatrix_apply, if_neg, mul_zero]
+    rw [ggQTUp_permMatrix_apply, ite_eq_right, mul_zero]
     intro h
     exact hk (by
       calc k = σ.symm (σ k) := (Equiv.symm_apply_apply σ k).symm
@@ -222,7 +222,7 @@ private theorem ggQTUp_blockSU_le (hK : UnitaryFieldData 2 1 K)
   · subst h
     simp
   · have h' : σ⁻¹ i ≠ σ⁻¹ j := fun hh => h (σ⁻¹.injective hh)
-    rw [Matrix.one_apply, Matrix.one_apply, if_neg h, if_neg h']
+    rw [Matrix.one_apply, Matrix.one_apply, ite_eq_right h, ite_eq_right h']
 
 private theorem ggQTUp_blockSU_le_rev (hK : UnitaryFieldData 2 1 K)
     (σ : Equiv.Perm (Fin (n + 1))) (S : Finset (Fin (n + 1))) :
@@ -263,7 +263,7 @@ private theorem ggQTUp_blockSU_le_rev (hK : UnitaryFieldData 2 1 K)
     · subst h
       simp
     · have h' : σ i ≠ σ j := fun hh => h (σ.injective hh)
-      rw [Matrix.one_apply, Matrix.one_apply, if_neg h, if_neg h']
+      rw [Matrix.one_apply, Matrix.one_apply, ite_eq_right h, ite_eq_right h']
   · change MulAut.conj (LineU.permSU hK σ)
       ((LineU.permSU hK σ)⁻¹ * x * LineU.permSU hK σ) = x
     rw [MulAut.conj_apply]
@@ -376,9 +376,9 @@ theorem GGQTwoXInLUCoordAt.relabel {j₀ : Fin (n + 1)} (C : GGQTwoXInLUCoordAt 
         exact hj
     by_cases h : σ i = j₀
     · have hi : i = j₁ := hiff.mp h
-      rw [if_pos h, if_pos hi]
+      rw [ite_eq_left h, ite_eq_left hi]
     · have hi : i ≠ j₁ := fun h' => h (hiff.mpr h')
-      rw [if_neg h, if_neg hi]
+      rw [ite_eq_right h, ite_eq_right hi]
   · calc L = (TableBUE.blockSU (K := K) (n := 1) (Finset.univ.erase j₀)).map C.φ := C.L_eq
       _ = (TableBUE.blockSU (K := K) (n := 1) (Finset.univ.erase j₁)).map
             (C.φ.comp c.toMonoidHom) := by

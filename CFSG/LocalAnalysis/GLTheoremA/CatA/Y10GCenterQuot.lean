@@ -58,17 +58,17 @@ theorem nonempty_centerQuot_sp {X : Type} [Group X] {K : Type} [Field K] [Finite
     {s : ℕ} (hs : 2 ≤ s) (hne : ¬(s = 2 ∧ Nat.card K = 2)) (hchar : CharP K 2)
     (e : X ≃* StatedSp s K) :
     Nonempty (X ⧸ Subgroup.center X ≃* StatedProj (StatedSp s K)) := by
-  haveI : NeZero s := ⟨by omega⟩
-  haveI := hchar
+  have : NeZero s := ⟨by omega⟩
+  have := hchar
   let e' : X ≃* StatedProj (StatedSp s K) :=
     e.trans (MulEquiv.ofBijective (proj s K)
       (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo))
   obtain ⟨hsimp, hperf⟩ :=
     CFSG.RankThree.PartOne.KCSpComm.simple_perfect_statedProj (r := s) (k := K) hs hne
-  haveI : IsSimpleGroup (StatedProj (StatedSp s K)) := hsimp
-  haveI : Group.IsPerfect (StatedProj (StatedSp s K)) := hperf
-  haveI : IsSimpleGroup X := e'.isSimpleGroup
-  haveI : Group.IsPerfect X :=
+  have : IsSimpleGroup (StatedProj (StatedSp s K)) := hsimp
+  have : Group.IsPerfect (StatedProj (StatedSp s K)) := hperf
+  have : IsSimpleGroup X := e'.isSimpleGroup
+  have : Group.IsPerfect X :=
     Group.IsPerfect.ofSurjective (f := e'.symm.toMonoidHom) e'.symm.surjective
   exact CFSG.LocalAnalysis.GLTheoremA.Y10GInnLinFld.nonempty_quotCenter_equiv e'
 
@@ -80,8 +80,8 @@ theorem linCase_of_factor {Y X : Type} [Group Y] [Group X] {ℓ n : ℕ}
     ∃ (a k : ℕ) (E : Type) (_ : Field E) (_ : Finite E), 2 ≤ a ∧ Nat.card E = 2 ^ k ∧
       n ∣ k ∧ Nonempty (Y ⧸ Subgroup.center Y ≃* StatedProj (StatedSL a E)) := by
   obtain ⟨a, j, E, hEfield, hEf, ha2, -, -, hcardE, -, ⟨eX⟩⟩ := h
-  letI := hEfield
-  letI := hEf
+  let := hEfield
+  let := hEf
   have hcard : Nat.card E = 2 ^ (n * j) := by
     rw [Nat.card_eq_fintype_card, hcardE, pow_mul]
   obtain ⟨eXZ⟩ := nonempty_centerQuot_sl (a := a) eX
@@ -99,8 +99,8 @@ theorem uniCase_of_factor {Y X : Type} [Group Y] [Group X] {ℓ n : ℕ}
       Nonempty (Y ⧸ Subgroup.center Y ≃*
         ↥(heldSU a E τ hτ) ⧸ Subgroup.center ↥(heldSU a E τ hτ)) := by
   obtain ⟨a, j, q', E, hEfield, hEf, ha3, -, -, hq', hcardE, -, ⟨eX⟩⟩ := h
-  letI := hEfield
-  letI := hEf
+  let := hEfield
+  let := hEf
   have hq'' : q' = 2 ^ (n * j) := by rw [hq', pow_mul]
   have hcard : Nat.card E = (2 ^ (n * j)) ^ 2 := by
     rw [Nat.card_eq_fintype_card, hcardE, hq'']

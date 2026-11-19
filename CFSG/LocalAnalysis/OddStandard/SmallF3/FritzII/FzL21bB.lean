@@ -39,7 +39,7 @@ public lemma fzl21b_V'_data (N : Type) [Group N] (φ : N →* MulAut fz21b_X) (N
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup N₀
     rw [hNq, hN₀] at h
     omega
-  haveI : Finite N := Nat.finite_of_card_ne_zero (by rw [hcardN]; norm_num)
+  have : Finite N := Nat.finite_of_card_ne_zero (by rw [hcardN]; norm_num)
   let f : N₁ →* fz21b_V := (π.domRestrict N₁).codRestrict fz21b_V
     (fun x => Subgroup.mem_comap.mp (hN₁eq ▸ x.2))
   have hfker : f.ker = N₀.subgroupOf N₁ := by
@@ -62,7 +62,7 @@ public lemma fzl21b_V'_data (N : Type) [Group N] (φ : N →* MulAut fz21b_X) (N
       rw [hfker, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hN₀N₁).toEquiv]
     rw [hq', fz21b_V_card, hker, hN₀] at h
     omega
-  haveI : Finite N₁ := Nat.finite_of_card_ne_zero (by rw [hcardN₁]; norm_num)
+  have : Finite N₁ := Nat.finite_of_card_ne_zero (by rw [hcardN₁]; norm_num)
   have hcenter : N₀ ≤ Subgroup.center N := by
     intro n hn
     by_cases hn1 : n = 1
@@ -76,7 +76,7 @@ public lemma fzl21b_V'_data (N : Type) [Group N] (φ : N →* MulAut fz21b_X) (N
       exact (Subgroup.mem_center_iff.mp (fz21b_invAut_mem_center fz21b_X) (φ g)).symm
     have hconj : φ (g * n) = φ (n * g) := by rw [map_mul, map_mul]; exact hcomm.symm
     exact hφ hconj
-  haveI : IsMulCommutative N₁ := by
+  have : IsMulCommutative N₁ := by
     refine ⟨⟨fun a b => ?_⟩⟩
     have ha2 : a ^ 2 = 1 := Subtype.ext (by simpa using hN₁sq (a : N) a.2)
     have hb2 : b ^ 2 = 1 := Subtype.ext (by simpa using hN₁sq (b : N) b.2)

@@ -47,19 +47,21 @@ variable {L : List (ℕ × ℕ)} {SL : List ℕ}
   (hC : ∀ s < L.length, ∀ k ∈ SL, actR (L.map ccK) s k ∈ SL)
 include hT hC
 
+omit hC in
 theorem hT' : oneK ∈ SL ∧ (∀ k ∈ SL, ReachN (actR (L.map ccK)) (L.map cc).length oneK 64 k) ∧
     SL.Nodup := by
   rwa [List.length_map]
 
+omit hT in
 theorem hC' : ∀ s < (L.map cc).length, ∀ k ∈ SL, actR (L.map ccK) s k ∈ SL := by
   rwa [List.length_map]
 
 theorem set_mem (y : Code) : y ∈ closureOf (L.map cc) ↔ ∃ k ∈ SL, RC y k := by
   rw [closure_eq]
-  exact mem_of_cert (d := 1) (rmul_step (rc_gen L)) rc_one (hT' hT hC) (hC' hT hC) y
+  exact mem_of_cert (d := 1) (rmul_step (rc_gen L)) rc_one (hT' hT) (hC' hC) y
 
 theorem set_sub : subOK (L.map cc) (closureOf (L.map cc)) = true := by
-  obtain ⟨h1, h2⟩ := closed_of_cert (d := 1) (rmul_step (rc_gen L)) rc_one (hT' hT hC) (hC' hT hC)
+  obtain ⟨h1, h2⟩ := closed_of_cert (d := 1) (rmul_step (rc_gen L)) rc_one (hT' hT) (hC' hC)
   unfold subOK
   rw [closure_eq, h1, h2]
   rfl
@@ -67,18 +69,18 @@ theorem set_sub : subOK (L.map cc) (closureOf (L.map cc)) = true := by
 theorem set_contains {y : Code} {k : ℕ} (hy : RC y k) (hk : SL.contains k = true) :
     (closureOf (L.map cc)).contains y = true := by
   rw [closure_eq]
-  exact contains_of_cert (d := 1) (rmul_step (rc_gen L)) rc_one (hT' hT hC) (hC' hT hC) hy
+  exact contains_of_cert (d := 1) (rmul_step (rc_gen L)) rc_one (hT' hT) (hC' hC) hy
     (contains_iff.mp hk)
 
 theorem set_not_contains {y : Code} {k : ℕ} (hy : RC y k)
     (hk : SL.all (fun k' => !eqC k' k) = true) : (closureOf (L.map cc)).contains y = false := by
   rw [closure_eq]
-  exact not_contains_of_cert (d := 1) (rmul_step (rc_gen L)) rc_one (hT' hT hC) (hC' hT hC) hy hk
+  exact not_contains_of_cert (d := 1) (rmul_step (rc_gen L)) rc_one (hT' hT) (hC' hC) hy hk
 
 theorem set_size (hb : SL.all (fun k => Nat.blt k (2 ^ 144)) = true) :
     (closureOf (L.map cc)).size = SL.length := by
   rw [closure_eq]
-  exact size_of_cert (d := 1) (rmul_step (rc_gen L)) rc_one (hT' hT hC) (hC' hT hC) hb
+  exact size_of_cert (d := 1) (rmul_step (rc_gen L)) rc_one (hT' hT) (hC' hC) hb
 
 end Sets
 

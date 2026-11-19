@@ -63,7 +63,7 @@ theorem t263SelWP_excHard_of (h4 : T263SelWP t263GExcHard4) (h2 : T263SelWP t263
   | lie d =>
     obtain ⟨d, hv⟩ := d
     cases d <;> simp only [t263GExcHard, t263GExcHard4, t263GExcHard2, onLie] at hi ⊢ <;>
-      first | exact hi.elim | exact cover_hard hi
+      exact cover_hard hi
   | cyclic r hr => exact hi.elim
   | alternating n hn => exact hi.elim
   | sporadic s => exact hi.elim
@@ -78,10 +78,8 @@ theorem t263SelWP_e6Hard_of (hu : T263SelWP t263GE6UHard4) (ht : T263SelWP t263G
     cases d <;>
       simp only [t263GE6Hard, t263GE6UHard4, t263GE6THard4, t263GE6Hard2, onLie] at hi ⊢ <;>
       first
-        | exact hi.elim
         | exact (cover_hard hi).imp_left Or.inl
         | exact (cover_hard hi).imp_left Or.inr
-        | tauto
   | cyclic r hr => exact hi.elim
   | alternating n hn => exact hi.elim
   | sporadic s => exact hi.elim
@@ -167,7 +165,7 @@ theorem t263SelWP_excHard4_of (hA : AdjCompTriv) : T263SelWP t263GExcHard4 := by
     | lie d =>
       obtain ⟨d, hv⟩ := d
       cases d <;> simp only [t263GExcHard4, t263GExcInner, onLie] at hi ⊢ <;>
-        first | exact hi.elim | exact hi.1
+        exact hi.1
     | cyclic r hr => exact hi.elim
     | alternating n hn => exact hi.elim
     | sporadic s => exact hi.elim
@@ -193,9 +191,8 @@ theorem t263SelWP_e6UHard4_of (hA : AdjCompTriv) : T263SelWP t263GE6UHard4 := by
     cases i with
     | lie d =>
       obtain ⟨d, hv⟩ := d
-      cases d <;> simp only [t263GE6UHard4, t263GE6Inner, onLie] at hi ⊢ <;>
+      cases d <;> simp only [t263GE6UHard4, t263GE6Inner, onLie] at hi ⊢;
         first
-          | exact hi.elim
           | exact ⟨hi.1, fun h3 => hi.2.2 (h3.1 ▸ three_dvd_card_sq_sub_one hi.1)⟩
     | cyclic r hr => exact hi.elim
     | alternating n hn => exact hi.elim

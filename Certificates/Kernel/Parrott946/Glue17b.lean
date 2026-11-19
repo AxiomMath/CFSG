@@ -85,11 +85,11 @@ theorem rep_eq_of_fix {r r' : P45}
   rcases hr with rfl | rfl | rfl | rfl <;> rcases hr' with rfl | rfl | rfl | rfl <;>
     first
     | (rw [fix_tA, fix_tB] at h; omega) | (rw [fix_tA, fix_t36] at h; omega)
-    | (rw [fix_tA, fix_t540] at h; omega) | (rw [fix_tB, fix_tA] at h; omega)
+    | (rw [fix_tA, fix_t540] at h; omega) | (rw [fix_tB, fix_tA] at h)
     | (rw [fix_tB, fix_t36] at h; omega) | (rw [fix_tB, fix_t540] at h; omega)
-    | (rw [fix_t36, fix_tA] at h; omega) | (rw [fix_t36, fix_tB] at h; omega)
-    | (rw [fix_t36, fix_t540] at h; omega) | (rw [fix_t540, fix_tA] at h; omega)
-    | (rw [fix_t540, fix_tB] at h; omega) | (rw [fix_t540, fix_t36] at h; omega) | rfl
+    | (rw [fix_t36, fix_tA] at h) | (rw [fix_t36, fix_tB] at h)
+    | (rw [fix_t36, fix_t540] at h; omega) | (rw [fix_t540, fix_tA] at h)
+    | (rw [fix_t540, fix_tB] at h) | (rw [fix_t540, fix_t36] at h) | rfl
 
 theorem conj_of_fix {x y : P45} (hx : x ∈ A) (hx2 : x * x = 1)
     (hx1 : x ≠ 1) (hy : y ∈ A) (hy2 : y * y = 1) (hy1 : y ≠ 1) (h : fixC x = fixC y) :

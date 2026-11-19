@@ -194,7 +194,7 @@ theorem isSylowOf_sup_of_prod_of_isPGroup [Finite G] {p : ℕ} [Fact p.Prime]
   obtain ⟨S, hRS⟩ := hRpK.exists_le_sylow
   let T : Subgroup G := (S : Subgroup K).map K.subtype
   have hTK : T ≤ K := Subgroup.map_subtype_le _
-  have hTp : IsPGroup p ↥T := S.isPGroup'.map K.subtype
+  have hTp : IsPGroup p ↥T := S.isPGroup.map K.subtype
   have hRT : R₁ ⊔ R₂ ≤ T := by
     intro x hx
     exact ⟨⟨x, hRK hx⟩, hRS (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
@@ -212,7 +212,7 @@ theorem isSylowOf_sup_of_prod_of_isPGroup [Finite G] {p : ℕ} [Fact p.Prime]
   simpa [K, hTeq] using hTsyl
 
 theorem isSylowOf_sup_of_prod [Finite G] {H Y R₁ R₂ : Subgroup G}
-    (hHY : H ≤ normalizer (Y : Set G)) (hinf : Odd (Nat.card ↥(H ⊓ Y)))
+    (hHY : H ≤ normalizer (Y : Set G)) (_hinf : Odd (Nat.card ↥(H ⊓ Y)))
     (h₁ : IsSylowOf 2 R₁ H) (h₂ : IsSylowOf 2 R₂ Y)
     (hcomm : ∀ a ∈ R₁, ∀ b ∈ R₂, a * b = b * a) : IsSylowOf 2 (R₁ ⊔ R₂) (H ⊔ Y) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

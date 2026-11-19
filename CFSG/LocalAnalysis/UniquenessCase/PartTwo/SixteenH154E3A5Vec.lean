@@ -21,6 +21,7 @@ private theorem s16h_finite_mulAut : Finite (MulAut W) := by
   exact Finite.of_injective (fun f : MulAut W => (f : W → W))
     (fun f g h => MulEquiv.ext (congrFun h))
 
+omit [Finite W] in
 private theorem s16h_normalizer_le_stabSub_commSub {L : Subgroup (MulAut W)} {g : MulAut W}
     (hg : g ∈ normalizer (L : Set (MulAut W))) : g ∈ stabSub (commSub ⊤ L) := by
   rw [mem_stabSub]
@@ -39,6 +40,7 @@ private theorem s16h_normalizer_le_stabSub_commSub {L : Subgroup (MulAut W)} {g 
   · intro hu
     exact commSub_top_stable151b hnorm u hu
 
+omit [Finite W] in
 private lemma s16h_card_isAlt5 {L : Subgroup (MulAut W)} (hL : IsAlt ↥L 5) :
     Nat.card ↥L = 60 := by
   obtain ⟨e⟩ := hL
@@ -47,10 +49,10 @@ private lemma s16h_card_isAlt5 {L : Subgroup (MulAut W)} (hL : IsAlt ↥L 5) :
 private lemma s16h_card_sylow_four {P H : Subgroup (MulAut W)}
     (hP : CFSG.QuasithinUnique.IsSylowTwoOf P H) (hH : Nat.card ↥H = 60) :
     Nat.card ↥P = 4 := by
-  haveI := s16h_finite_mulAut (W := W)
-  haveI : Finite ↥P := Subtype.finite
-  haveI : Finite ↥H := Subtype.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := s16h_finite_mulAut (W := W)
+  have : Finite ↥P := Subtype.finite
+  have : Finite ↥H := Subtype.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp hP.2.1
   have h1 := Subgroup.relIndex_mul_card P H
   rw [inf_eq_left.mpr hP.1, hk, hH] at h1
@@ -69,6 +71,7 @@ private lemma s16h_card_sylow_four {P H : Subgroup (MulAut W)}
     have : 8 ∣ 60 := ⟨P.relIndex H * 2 ^ k, by rw [← h1]; ring⟩
     omega
 
+omit [Finite W] in
 private theorem s16h_eq_of_mul_eq_mul_of_inf_bot {A B : Subgroup W} (h : A ⊓ B = ⊥)
     {u u' v v' : W} (hu : u ∈ A) (hu' : u' ∈ B) (hv : v ∈ A) (hv' : v' ∈ B)
     (hmul : u * u' = v * v') : u = v ∧ u' = v' := by
@@ -83,6 +86,7 @@ private theorem s16h_eq_of_mul_eq_mul_of_inf_bot {A B : Subgroup W} (h : A ⊓ B
   subst huv
   exact ⟨rfl, mul_left_cancel hmul⟩
 
+omit [Finite W] in
 private theorem s16h_eq_three {A B C : Subgroup W} (hA : A ⊓ (B ⊔ C) = ⊥)
     (hB : B ⊓ C = ⊥) {a0 a1 a2 b0 b1 b2 : W}
     (ha0 : a0 ∈ A) (ha1 : a1 ∈ B) (ha2 : a2 ∈ C)
@@ -95,6 +99,7 @@ private theorem s16h_eq_three {A B C : Subgroup W} (hA : A ⊓ (B ⊔ C) = ⊥)
   obtain ⟨h1', h2'⟩ := s16h_eq_of_mul_eq_mul_of_inf_bot hB ha1 ha2 hb1 hb2 h12
   exact ⟨h0, h1', h2'⟩
 
+omit [Finite W] in
 private theorem s16h_nat_card {L : Subgroup (MulAut W)} {J : Subgroup W}
     (hJ : AlternatingNatural L J ⊥ 5) : Nat.card ↥J = 16 := by
   obtain ⟨π, hπ⟩ := hJ
@@ -109,6 +114,7 @@ private theorem s16h_nat_card {L : Subgroup (MulAut W)} {J : Subgroup W}
   rw [hcard]
   exact CFSG.Quasithin.FFC.card_coreMod_five
 
+omit [Finite W] in
 private lemma s16h_iSup_fin_three (I : Fin 3 → Subgroup W) :
     (I 0 ⊔ I 1 ⊔ I 2) = ⨆ i, I i := by
   refine le_antisymm ?_ ?_
@@ -122,6 +128,7 @@ private lemma s16h_iSup_fin_three (I : Fin 3 → Subgroup W) :
     · exact le_trans le_sup_right le_sup_left
     · exact le_sup_right
 
+omit [Finite W] in
 private lemma s16h_iSup_ne_zero (I : Fin 3 → Subgroup W) :
     (⨆ (j : Fin 3) (_ : j ≠ 0), I j) = I 1 ⊔ I 2 := by
   refine le_antisymm ?_ ?_
@@ -219,7 +226,7 @@ theorem s16h_e3_a5_good_vector {X L L' T : Subgroup (MulAut W)} {U U' : Subgroup
         congr 1
       rw [hcomp, htL, hs.2.1]
   have hX₀_norm : X ≤ normalizer (X₀ : Set (MulAut W)) := by
-    haveI : (X₀.subgroupOf X).Normal := Subgroup.normal_of_index_eq_two hX₀_rel
+    have : (X₀.subgroupOf X).Normal := Subgroup.normal_of_index_eq_two hX₀_rel
     exact Subgroup.le_normalizer_of_normal_subgroupOf (H := X₀) (K := X) inf_le_left
   have hT₀_rel : T₀.relIndex T = 2 := by
     rw [Subgroup.relIndex_eq_two_iff_exists_notMem_and]
@@ -240,7 +247,7 @@ theorem s16h_e3_a5_good_vector {X L L' T : Subgroup (MulAut W)} {U U' : Subgroup
         congr 1
       rw [hcomp, htL, hs.2.1]
   have hT₀_norm : T ≤ normalizer (T₀ : Set (MulAut W)) := by
-    haveI : (T₀.subgroupOf T).Normal := Subgroup.normal_of_index_eq_two hT₀_rel
+    have : (T₀.subgroupOf T).Normal := Subgroup.normal_of_index_eq_two hT₀_rel
     exact Subgroup.le_normalizer_of_normal_subgroupOf (H := T₀) (K := T) inf_le_left
   have hSylX : CFSG.QuasithinUnique.IsSylowTwoOf T X := ⟨F.t_le, F.t_two, F.t_syl⟩
   have hX₀leX : X₀ ≤ X := inf_le_left
@@ -264,7 +271,7 @@ theorem s16h_e3_a5_good_vector {X L L' T : Subgroup (MulAut W)} {U U' : Subgroup
     exact s16h_normalizer_le_stabSub_commSub hgN
   let actU : ↥T₀ →* MulAut ↥U :=
     (CFSG.Quasithin.resHom U).comp (Subgroup.inclusion hT₀_stab)
-  letI : MulAction ↥T₀ ↥U := MulAction.compHom ↥U actU
+  let : MulAction ↥T₀ ↥U := MulAction.compHom ↥U actU
   have hT₀p : IsPGroup 2 ↥T₀ := F.t_two.to_le (inf_le_left : T₀ ≤ T)
   have hU2 : IsPGroup 2 ↥U := by
     rw [isPGroup_iff_pow_pow_eq_one]
@@ -272,7 +279,7 @@ theorem s16h_e3_a5_good_vector {X L L' T : Subgroup (MulAut W)} {U U' : Subgroup
     refine ⟨1, ?_⟩
     apply Subtype.ext
     simpa [pow_two] using F.exp2 (u : W)
-  haveI : Finite ↥U := Subtype.finite
+  have : Finite ↥U := Subtype.finite
   have hUeven : 2 ∣ Nat.card ↥U := by
     rcases hU2.card_eq_or_dvd with h1 | h2
     · exfalso
@@ -289,7 +296,7 @@ theorem s16h_e3_a5_good_vector {X L L' T : Subgroup (MulAut W)} {U U' : Subgroup
   let oneF : MulAction.fixedPoints ↥T₀ ↥U := ⟨1, fun m => by
     change actU m 1 = 1
     exact map_one (actU m)⟩
-  haveI : Nonempty (MulAction.fixedPoints ↥T₀ ↥U) := ⟨oneF⟩
+  have : Nonempty (MulAction.fixedPoints ↥T₀ ↥U) := ⟨oneF⟩
   have hfixnt : Nontrivial (MulAction.fixedPoints ↥T₀ ↥U) := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     have hpos : 0 < Nat.card (MulAction.fixedPoints ↥T₀ ↥U) := Nat.card_pos

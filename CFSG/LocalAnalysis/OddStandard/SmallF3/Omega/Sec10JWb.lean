@@ -20,7 +20,7 @@ private lemma sq_mul_t {t q : G} (ht : t * t = 1) (h : t * q = q * t) :
     _ = q * q := by rw [ht, mul_one]
 
 private lemma comm_t1 {t q1 q2 : G} (ht : t * t = 1) (h1 : t * q1 = q1 * t)
-    (h2 : t * q2 = q2 * t) :
+    (_h2 : t * q2 = q2 * t) :
     q1 * (q2 * t) * q1⁻¹ * (q2 * t)⁻¹ = q1 * q2 * q1⁻¹ * q2⁻¹ := by
   have h1inv : t * q1⁻¹ = q1⁻¹ * t := (Commute.inv_right (show Commute t q1 from h1)).eq
   rw [mul_inv_rev, inv_eq_of_mul_eq_one_left ht]

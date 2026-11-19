@@ -95,7 +95,7 @@ theorem finrank_eig_fix_le_one
   set N : Module.End (ZMod 5) 𝕍 := U - LinearMap.id with hNdef
   have hU5 : U ^ 5 = 1 := by rw [hUdef, ← torusLin_pow_E8, hu5, torusLin_one_E8]
   have hN5 : N ^ 5 = 0 := by
-    haveI : CharP (Module.End (ZMod 5) 𝕍) 5 :=
+    have : CharP (Module.End (ZMod 5) 𝕍) 5 :=
       charP_of_injective_algebraMap (algebraMap (ZMod 5) (Module.End (ZMod 5) 𝕍)).injective 5
     have h1 : (U - (1 : Module.End (ZMod 5) 𝕍)) ^ 5 = U ^ 5 - 1 ^ 5 :=
       sub_pow_char_of_commute 5 (Commute.one_right U)

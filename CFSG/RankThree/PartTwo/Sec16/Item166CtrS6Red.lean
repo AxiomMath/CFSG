@@ -24,7 +24,7 @@ variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L Y₀ : Subg
 private theorem isSylowOf_inf_oTwoPrimeTwo {T S : Subgroup G} (hST : S ≤ T)
     (hS2 : IsPGroup 2 S) (hSidx : ¬ 2 ∣ S.relIndex T) :
     CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ oTwoPrimeTwo T) (oTwoPrimeTwo T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.ABGLocalTools.IsSylowOf.inf_of_le_normalizer
     (CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨hST, hS2, hSidx⟩)
     (Lemma85Aux.oTwoPrimeTwo_le T) (Lemma85Aux.le_normalizer_oTwoPrimeTwo (X := T))
@@ -32,7 +32,7 @@ private theorem isSylowOf_inf_oTwoPrimeTwo {T S : Subgroup G} (hST : S ≤ T)
 private theorem oTwoPrimeTwo_eq_sup_inf {T S : Subgroup G} (hST : S ≤ T)
     (hS2 : IsPGroup 2 S) (hSidx : ¬ 2 ∣ S.relIndex T) :
     oTwoPrimeTwo T = pPrimeCoreOf 2 T ⊔ (S ⊓ oTwoPrimeTwo T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSylR : CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ oTwoPrimeTwo T) (oTwoPrimeTwo T) :=
     isSylowOf_inf_oTwoPrimeTwo hST hS2 hSidx
   have hmax : ∀ Q : Subgroup G, S ⊓ oTwoPrimeTwo T ≤ Q → Q ≤ oTwoPrimeTwo T →
@@ -46,7 +46,7 @@ private theorem pCore_quotient_eq_map {T S : Subgroup G} (hST : S ≤ T)
     CFSG.pCore 2 (↥T ⧸ CFSG.Open.GLAPPrimeCore 2 ↥T) =
       ((S ⊓ oTwoPrimeTwo T).subgroupOf T).map
         (QuotientGroup.mk' (CFSG.Open.GLAPPrimeCore 2 ↥T)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUR : oTwoPrimeTwo T = pPrimeCoreOf 2 T ⊔ (S ⊓ oTwoPrimeTwo T) :=
     oTwoPrimeTwo_eq_sup_inf hST hS2 hSidx
   have hmap : ((oTwoPrimeTwo T).subgroupOf T).map
@@ -86,10 +86,10 @@ private theorem omegaOneZ_le_oTwoPrimeTwo {T S : Subgroup G} (hST : S ≤ T)
     (hsol : Group.IsSolvable ↥T) :
     omegaOneZ S ≤ oTwoPrimeTwo T := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : ↥T →* (↥T ⧸ CFSG.Open.GLAPPrimeCore 2 ↥T) :=
     QuotientGroup.mk' (CFSG.Open.GLAPPrimeCore 2 ↥T)
-  haveI : Group.IsSolvable (↥T ⧸ CFSG.Open.GLAPPrimeCore 2 ↥T) := inferInstance
+  have : Group.IsSolvable (↥T ⧸ CFSG.Open.GLAPPrimeCore 2 ↥T) := inferInstance
   have hcent := CFSG.centralizer_pCore_le_pCore_of_pPrimeCore_eq_bot
     (G := ↥T ⧸ CFSG.Open.GLAPPrimeCore 2 ↥T) inferInstance
     (CFSG.pPrimeCore_quotient_eq_bot Nat.prime_two)
@@ -154,7 +154,7 @@ private theorem le_sup_inf_normalizer {T S : Subgroup G} (hST : S ≤ T)
     (hS2 : IsPGroup 2 S) (hSidx : ¬ 2 ∣ S.relIndex T) :
     T ≤ oTwoPrimeTwo T ⊔
       (T ⊓ Subgroup.normalizer ((S ⊓ oTwoPrimeTwo T) : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSylST : CFSG.ABGLocalTools.IsSylowOf 2 S T :=
     CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨hST, hS2, hSidx⟩
   have hSylUT : CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ oTwoPrimeTwo T) (oTwoPrimeTwo T) :=
@@ -187,8 +187,8 @@ private theorem le_M_of_commutator_le (h : Sec17Std G A c L Y₀) {P : Subgroup 
     (hcomm : ⁅P, Subgroup.zpowers c⁆ ≤ Subgroup.normalizer (Y₀ : Set G)) :
     P ≤ Subgroup.normalizer (Y₀ : Set G) := by
   classical
-  letI : Fact (Nat.Prime p) := ⟨hp⟩
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime p) := ⟨hp⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcA : c ∈ A :=
     (CFSG.RankThree.PartTwo.Sec13.zpowers_mem_omegaA_iff.mp h.zpowers_mem_omegaA).1
   have hR3 : IsPGroup 3 (Subgroup.zpowers c) := by
@@ -218,11 +218,11 @@ private theorem le_M_of_commutator_le (h : Sec17Std G A c L Y₀) {P : Subgroup 
 
 private theorem exists_invariant_sylow_inf (h : Sec17Std G A c L Y₀) {T₁ : Subgroup G}
     (hT₁3 : ¬ 3 ∣ Nat.card T₁) (hAT₁ : A ≤ Subgroup.normalizer (T₁ : Set G)) :
-    ∀ (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2), ∃ P : Subgroup G,
+    ∀ (p : ℕ) (_hp : p.Prime) (_hp2 : p ≠ 2), ∃ P : Subgroup G,
       CFSG.Open.fusionIsSylowIn p P T₁ ∧ ⊥ ≤ P ∧
         A ≤ Subgroup.normalizer (P : Set G) := by
-  intro p hp hp2
-  exact CFSG.Goldschmidt.G310.exists_invariant_sylow_containing Nat.prime_three hp
+  intro p _hp _hp2
+  exact CFSG.Goldschmidt.G310.exists_invariant_sylow_containing Nat.prime_three _hp
     h.isE27.isPGroup hT₁3 hAT₁ bot_le (IsPGroup.of_bot (p := p) (G := G))
     (by
       intro a _
@@ -236,7 +236,7 @@ private theorem eq_bot_of_fusionIsSylowIn_three {T₁ P : Subgroup G} {p : ℕ} 
     (hT₁3 : ¬ 3 ∣ Nat.card T₁) (hP : CFSG.Open.fusionIsSylowIn p P T₁) : P = ⊥ := by
   subst hp3
   refine Subgroup.eq_bot_of_card_eq _ ?_
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hP.2.1
   have hdvd : Nat.card P ∣ Nat.card T₁ := Subgroup.card_dvd_of_le hP.1
   have hcop : Nat.Coprime (3 ^ n) (Nat.card T₁) :=
@@ -248,30 +248,30 @@ private theorem le_sup_iSup_sylow {T T₁ S : Subgroup G}
     (hST : S ≤ T) (hS2 : IsPGroup 2 S) (hSidx : ¬ 2 ∣ S.relIndex T)
     (hST₁ : S ≤ T₁) (hT₁T : T₁ ≤ T) (hT₁3 : ¬ 3 ∣ Nat.card T₁)
     (hPp : ∀ q : {p : ℕ // p.Prime ∧ p ≠ 2 ∧ p ≠ 3}, CFSG.Open.fusionIsSylowIn q.1 (Pp q) T₁)
-    (hq : ∀ (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3),
+    (hq : ∀ (p : ℕ) (_hp : p.Prime) (_hp2 : p ≠ 2) (_hp3 : p ≠ 3),
       ∃ q : {p : ℕ // p.Prime ∧ p ≠ 2 ∧ p ≠ 3}, q.1 = p)
-    (hex : ∀ (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2), ∃ P : Subgroup G,
+    (hex : ∀ (p : ℕ) (_hp : p.Prime) (_hp2 : p ≠ 2), ∃ P : Subgroup G,
       CFSG.Open.fusionIsSylowIn p P T₁ ∧ ⊥ ≤ P ∧ A ≤ Subgroup.normalizer (P : Set G)) :
     T₁ ≤ S ⊔ ⨆ q : {p : ℕ // p.Prime ∧ p ≠ 2 ∧ p ≠ 3}, Pp q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSylST : CFSG.ABGLocalTools.IsSylowOf 2 S T :=
     CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨hST, hS2, hSidx⟩
   have htop : (S ⊔ ⨆ q : {p : ℕ // p.Prime ∧ p ≠ 2 ∧ p ≠ 3}, Pp q).subgroupOf T₁ =
       ⊤ := by
     apply CFSG.GroupTheory.WielandtProduct.eq_top_of_forall_sylow_le
-    intro p hp
-    by_cases hp2 : p = 2
-    · subst hp2
+    intro p _hp
+    by_cases _hp2 : p = 2
+    · subst _hp2
       obtain ⟨Q, hQ⟩ := (hSylST.of_le hST₁ hT₁T).exists_sylow_eq_subgroupOf
       exact ⟨Q, hQ ▸ Subgroup.subgroupOf_mono _ le_sup_left⟩
-    · by_cases hp3 : p = 3
-      · obtain ⟨P, hSylP, -, -⟩ := hex p hp hp2
+    · by_cases _hp3 : p = 3
+      · obtain ⟨P, hSylP, -, -⟩ := hex p _hp _hp2
         obtain ⟨-, Q, hQ⟩ := CFSG.Open.fusionIsSylowIn_iff.mp hSylP
         refine ⟨Q, ?_⟩
-        rw [hQ, eq_bot_of_fusionIsSylowIn_three hp3 hT₁3 hSylP,
+        rw [hQ, eq_bot_of_fusionIsSylowIn_three _hp3 hT₁3 hSylP,
           Subgroup.bot_subgroupOf]
         exact bot_le
-      · obtain ⟨q, hq'⟩ := hq p hp hp2 hp3
+      · obtain ⟨q, hq'⟩ := hq p _hp _hp2 _hp3
         have hSyl : CFSG.Open.fusionIsSylowIn p (Pp q) T₁ := hq' ▸ hPp q
         obtain ⟨-, Q, hQ⟩ := CFSG.Open.fusionIsSylowIn_iff.mp hSyl
         refine ⟨Q, ?_⟩
@@ -357,7 +357,7 @@ theorem exists_le_M_of_commutator_le (h : Sec17Std G A c L Y₀) {T S : Subgroup
           ⁅P, Subgroup.zpowers c⁆ ≤ Subgroup.normalizer (Y₀ : Set G)) →
         T ≤ Subgroup.normalizer (Y₀ : Set G)) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨S ⊓ oTwoPrimeTwo T, inf_le_left, ?_, ?_, ?_⟩
   · exact le_inf (Sec7.omegaOneZ_le S) (omegaOneZ_le_oTwoPrimeTwo hST hS2 hSidx hsol)
   · exact le_normalizer_inf_oTwoPrimeTwo (T := T) (S := S) hTQ hAS

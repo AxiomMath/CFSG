@@ -78,7 +78,7 @@ theorem Ctx.finrank_range_act_eq_two_of_mem_centralizer_Xbar [Finite G]
       ∀ v ∈ LinearMap.range ((φ ⟨u, hc.LB_le_H0 hu⟩ : M₀.E →ₗ[K] M₀.E) - 1),
         M₀.Qf v = 0 := by
   classical
-  haveI : CharP K 2 := charP_two_of_globalModelData hD hZ
+  have : CharP K 2 := charP_two_of_globalModelData hD hZ
   obtain ⟨b, hb0, -, hB, -, -⟩ := hc.dictB hD
   obtain ⟨W, hW, hW3, hWs, hWo⟩ :=
     exists_lagrangian_img_inf_QB_of_lieModel hc hw hn hx hZ hLm2 hcenter hD

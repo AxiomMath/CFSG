@@ -134,7 +134,7 @@ private theorem s168e3_not_sq_dvd_20160 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     omega
   interval_cases p <;> first
     | (norm_num at hp; done)
-    | (norm_num at h; done)
+    | (norm_num at h)
 
 end Arith
 
@@ -207,7 +207,7 @@ variable {T : Type*} [CommGroup T] [Finite T]
 theorem s168e3_kernel_of_cube {p : ℕ} (hp : p.Prime) (A : Subgroup (MulAut T))
     (hcube : ¬ p ^ 3 ∣ Nat.card ↥A)
     (hfix : ∀ x : T, x ≠ 1 → ∃ b ∈ A, orderOf b = p ∧ b x = x) : S168e3Kernel A p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   constructor
   · by_contra hle
     have h3 : 3 ≤ CFSG.Open.pRank p A := by

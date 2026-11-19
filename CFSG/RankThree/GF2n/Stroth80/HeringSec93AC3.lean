@@ -21,7 +21,7 @@ theorem exists_sl2_hom {X F : Subgroup G} {q : ℕ} (hq : QuotSat X F (IsSLModel
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (π : ↥X →* SL(2, K)),
       Nat.card K = q ∧ Function.Surjective π ∧ ∀ x : ↥X, π x = 1 ↔ (x : G) ∈ F := by
   obtain ⟨hN, K, hKF, hKFin, hKcard, ⟨e⟩⟩ := hq
-  haveI := hN
+  have := hN
   let e' : (↥X ⧸ F.subgroupOf X) ≃* SL(2, K) :=
     e.trans (specialLinearGroupEquivStatedSL 2 K).symm
   refine ⟨K, hKF, hKFin, e'.toMonoidHom.comp (QuotientGroup.mk' (F.subgroupOf X)), hKcard, ?_, ?_⟩
@@ -62,11 +62,11 @@ theorem normalizer_inf_le_Fhat_and_relIndex (h34 : Stroth34Statement) {hc : Ctx 
   have hc' : Ctx M Q Z (conjSubgroup h B) := hc.conj_of_mem hh
   have hLconj : LB M Q (conjSubgroup h B) = conjSubgroup h (LB M Q B) := hc.LB_conj hh
   obtain ⟨K, hKF, hKFin, π, hKcard, hsurj, hker⟩ := exists_sl2_hom hq
-  letI := hKF
-  letI := hKFin
+  let := hKF
+  let := hKFin
   obtain ⟨⟨e, he⟩, hq4⟩ := card_Z_facts hc
   have hKe : Nat.card K = 2 ^ e := hKcard.trans he
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow hKe
+  have : CharP K 2 := charP_two_of_card_eq_two_pow hKe
   have h4K : 4 ≤ Nat.card K := by rw [hKcard]; exact hq4
   obtain ⟨w, hwX, -, hcov⟩ := exists_cover_of_line h34 cfg.hs.toSec5 hh cfg.hne hline
   have hL2 : IsPGroup 2 ↥(LB M Q B) := isPGroup_LB_of_ctx hc

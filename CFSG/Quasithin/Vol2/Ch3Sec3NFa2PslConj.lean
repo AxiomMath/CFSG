@@ -35,7 +35,7 @@ lemma psl2Conj_quadForm_ne_zero {F : Type*} [Field F] (x y z : F) (h2 : (2 : F) 
 lemma psl2Conj_rot_comm_S {F : Type*} [CommRing F] (a b : F) :
     !![a, -b; b, a] * !![0, -1; 1, 0] = !![0, -1; 1, 0] * !![a, -b; b, a] := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
 
 lemma psl2Conj_mul_g_eq_S_mul_g {F : Type*} [CommRing F] (u v x y z : F)
     (hN : x ^ 2 + y * z = -1) :
@@ -110,7 +110,7 @@ lemma psl2Conj_trace_zero {F : Type*} [Field F] (A : Matrix.SpecialLinearGroup (
   have e01 := congrFun (congrFun hM 0) 1
   have e10 := congrFun (congrFun hM 1) 0
   have e11 := congrFun (congrFun hM 1) 1
-  simp [Matrix.scalar_apply, Matrix.diagonal_apply, Matrix.mul_apply,
+  simp [Matrix.scalar_apply, Matrix.mul_apply,
     Fin.sum_univ_two] at e00 e01 e10 e11
   have hy : (A : Matrix (Fin 2) (Fin 2) F) 0 1 = 0 := by
     have h' : (A : Matrix (Fin 2) (Fin 2) F) 0 1 *
@@ -134,7 +134,7 @@ lemma psl2Conj_trace_zero {F : Type*} [Field F] (A : Matrix.SpecialLinearGroup (
   · rw [Fintype.card_fin]
     exact hx2
   · ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply, Matrix.diagonal_apply, hy, hz, hxw]
+    fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply, hy, hz, hxw]
 
 lemma psl2Conj_isConj_S {F : Type*} [Field F] (c : PSL(2, F)) (h2 : (2 : F) ≠ 0)
     (hsum : ∀ d : F, ∃ a b : F, a ^ 2 + b ^ 2 = d) (hc2 : c ^ 2 = 1) (hc1 : c ≠ 1) :

@@ -85,9 +85,9 @@ theorem rootPB_phi3_dim : (rootPB phi3).dim = 2 := by
   compute_degree!
 
 theorem galExp_phi3 (u : (ZMod 3)ˣ) : u ∈ galExp phi3 root_phi3_pow_three := by
-  haveI : Module.Finite F2 (AdjoinRoot phi3) := (CoordSL.rootPB phi3).finite
-  haveI : Algebra.IsAlgebraic F2 (AdjoinRoot phi3) := Algebra.IsAlgebraic.of_finite F2 _
-  haveI : Fintype F2 := Fintype.ofFinite F2
+  have : Module.Finite F2 (AdjoinRoot phi3) := (CoordSL.rootPB phi3).finite
+  have : Algebra.IsAlgebraic F2 (AdjoinRoot phi3) := Algebra.IsAlgebraic.of_finite F2 _
+  have : Fintype F2 := Fintype.ofFinite F2
   have hcases : ∀ v : (ZMod 3)ˣ, v = 1 ∨ (v : ZMod 3) = 2 := by decide
   rcases hcases u with rfl | h2
   · exact (galExp phi3 root_phi3_pow_three).one_mem
@@ -101,7 +101,7 @@ theorem galExp_phi3 (u : (ZMod 3)ˣ) : u ∈ galExp phi3 root_phi3_pow_three := 
     rw [hcardF, hval]
 
 theorem natCard_adjoinRoot_phi3 : Nat.card (AdjoinRoot phi3) = 4 := by
-  haveI : Module.Finite F2 (AdjoinRoot phi3) := (CoordSL.rootPB phi3).finite
+  have : Module.Finite F2 (AdjoinRoot phi3) := (CoordSL.rootPB phi3).finite
   rw [Module.natCard_eq_pow_finrank (K := F2) (V := AdjoinRoot phi3), centFrame_card_f2]
   have hfr : Module.finrank F2 (AdjoinRoot phi3) = 2 := by
     rw [(CoordSL.rootPB phi3).finrank, rootPB_phi3_dim]

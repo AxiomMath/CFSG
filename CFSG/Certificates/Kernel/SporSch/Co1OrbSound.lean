@@ -450,7 +450,7 @@ public theorem orbK_sound {T₀ T₁ T₂ T₃ : List (ℕ × ℕ × ℕ)} {CE :
     have hiff : encodeF f ∈ T₁.map (·.1) ↔ anyG EC (encodeF f) = true := by
       rw [← memL'_iff]
       cases e1 : memL' (encodeF f) (T₁.map (·.1)) <;> cases e2 : anyG EC (encodeF f) <;>
-        rw [e1, e2] at hc <;> first | rfl | exact absurd hc (by decide)
+        rw [e1, e2] at hc <;> (exact absurd hc (by decide))
     change encodeF f ∈ T₁.map (·.1) ↔ _
     rw [hiff, anyG_iff]
     constructor

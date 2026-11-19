@@ -156,7 +156,7 @@ private theorem w_secQuot_equiv_of_sup {A X : Type} [Group A] [Group X] [Finite 
     (ι : A →* X) (hι : Function.Injective ι) (N : Subgroup X) [N.Normal]
     (hN : Odd (Nat.card N)) (hsup : ι.range ⊔ N = ⊤) :
     Nonempty ((A ⧸ classicalInvolutionOddCore A) ≃* (X ⧸ classicalInvolutionOddCore X)) := by
-  haveI : Finite A := Finite.of_injective ι hι
+  have : Finite A := Finite.of_injective ι hι
   have hNO : N ≤ classicalInvolutionOddCore X := w_le_oddCore_of_odd hN
   let ψ : A →* X ⧸ classicalInvolutionOddCore X :=
     (QuotientGroup.mk' (classicalInvolutionOddCore X)).comp ι
@@ -351,7 +351,7 @@ theorem w_ht_iso (hs : WStd K z J zJ H) :
   have hHs : firstFactor K ≤ sigmaGen K := firstFactor_le_sigmaGen hΩ
   have hnorm : firstFactor K ≤ Subgroup.normalizer (oddCoreOf (sigmaGen K) : Set T) := fun x hx =>
     mem_normalizer_oddCoreOf_of_mem_normalizer (Subgroup.le_normalizer (hHs hx))
-  haveI : ((oddCoreOf (sigmaGen K)).subgroupOf (firstFactor K)).Normal :=
+  have : ((oddCoreOf (sigmaGen K)).subgroupOf (firstFactor K)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNle).mpr hnorm
   have hodd : Odd (Nat.card ((oddCoreOf (sigmaGen K)).subgroupOf (firstFactor K))) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNle).toEquiv]
@@ -429,7 +429,7 @@ theorem involution_cent_order_four (cfg : WCfg K z J zJ H S) {P : Subgroup (SecQ
     simp only [map_mul, map_inv, MulEquiv.apply_symm_apply]
     exact hc
 
-theorem map_Q (cfg : WCfg K z J zJ H S) (e : SecQuot (firstFactor K) ≃* G192) :
+theorem map_Q (_cfg : WCfg K z J zJ H S) (e : SecQuot (firstFactor K) ≃* G192) :
     (((wQ K).subgroupOf (firstFactor K)).map
       (QuotientGroup.mk' (classicalInvolutionOddCore ↥(firstFactor K)))).map e.toMonoidHom =
       W192.w192W := by
@@ -516,7 +516,7 @@ theorem sylow_Q (cfg : WCfg K z J zJ H S) {R : Subgroup T}
     (hR : CFSG.ABGLocalTools.IsSylowOf 2 R (wQ K)) :
     Nonempty (↥R ≃* Multiplicative (ZMod 4 × ZMod 4)) := by
   obtain ⟨e⟩ := cfg.ht
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRQ : R ≤ wQ K := hR.le
   have hRHt : R ≤ firstFactor K := hRQ.trans (wQ_le K)
   set ψ : ↥R →* G192 := e.toMonoidHom.comp

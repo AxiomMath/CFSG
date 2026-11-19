@@ -18,7 +18,7 @@ theorem card_F8_eq_two_pow : Nat.card F8 = 2 ^ 3 := by
 
 theorem orderOf_A_of_Pm (A : ↥(StatedSp 2 F8)) (hA3 : A ^ 3 = 1) (hP : Pm (mat A) = 0) :
     orderOf A = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   exact orderOf_eq_prime hA3 (ne_one_of_Pm hP)
 
 theorem blocks_of_Pm (A : ↥(StatedSp 2 F8)) (hA3 : A ^ 3 = 1) (hP : Pm (mat A) = 0) :
@@ -59,7 +59,7 @@ theorem spSupported_le_centralizer (A : ↥(StatedSp 2 F8)) (O : Set (Polynomial
 
 theorem finrank_primaryComponent_h0 (A : ↥(StatedSp 2 F8)) (hP : Pm (mat A) = 0) :
     Module.finrank (AdjoinRoot (h0 F8)) (primaryComponent (spEnd A) (h0 F8)) = 2 := by
-  haveI : Fact (Irreducible (h0 F8)) := ⟨irreducible_h0_F8⟩
+  have : Fact (Irreducible (h0 F8)) := ⟨irreducible_h0_F8⟩
   have htop : primaryComponent (spEnd A) (h0 F8) = ⊤ := by
     rw [eq_top_iff]
     intro v _
@@ -68,7 +68,7 @@ theorem finrank_primaryComponent_h0 (A : ↥(StatedSp 2 F8)) (hP : Pm (mat A) = 
   have h1 := finrank_primaryComponent (x := spEnd A) (a := h0 F8)
   have h4 : Module.finrank F8 (primaryComponent (spEnd A) (h0 F8)) = 4 := by
     rw [htop, finrank_top]
-    simp [Module.finrank_pi]
+    simp
   rw [natDegree_h0, h4] at h1
   omega
 

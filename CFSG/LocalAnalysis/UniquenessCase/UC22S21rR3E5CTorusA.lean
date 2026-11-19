@@ -67,8 +67,8 @@ private theorem uc22r3e5c_map_conj_inv_mul {G : Type*} [Group G] {H K : Subgroup
 private theorem uc22r3e5c_exists_unit_ne_one (ha : 1 ≤ a)
     (hK : Nat.card K = 2 ^ (2 * a + 1)) : ∃ l : Kˣ, l ≠ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (suzukiGroup a K) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (suzukiGroup a K) := Fintype.ofFinite _
   have hTcard : Nat.card (suzukiT a K) = 2 ^ (2 * a + 1) - 1 :=
     (suzuki_borel_structure hK).2.2.1
   have hcard : 1 < Nat.card (suzukiT a K) := by
@@ -149,11 +149,11 @@ theorem uc22r3e5c_isHall_subgroupOf (hK : Nat.card K = 2 ^ (2 * a + 1))
     have hp2 : p.val ∣ 2 := Nat.Prime.dvd_of_dvd_pow p.2 h2
     exact hp ((Nat.prime_dvd_prime_iff_eq p.2 Nat.prime_two).1 hp2)
 
-theorem uc22r3e5c_exists_conj_torus (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
+theorem uc22r3e5c_exists_conj_torus (_ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
     {C : Subgroup (suzukiGroup a K)} (hCB : C ≤ suzukiB a K)
     (hCcard : Nat.card C = 2 ^ (2 * a + 1) - 1) :
     ∃ b ∈ suzukiB a K, C = (suzukiT a K).map (MulAut.conj b).toMonoidHom := by
-  haveI : Finite (suzukiGroup a K) := finite_suzukiGroup hK
+  have : Finite (suzukiGroup a K) := finite_suzukiGroup hK
   have hTcard : Nat.card (suzukiT a K) = 2 ^ (2 * a + 1) - 1 :=
     (suzuki_borel_structure hK).2.2.1
   have hTHall := uc22r3e5c_isHall_subgroupOf hK (suzukiT_le_suzukiB a K) hTcard
@@ -311,7 +311,7 @@ theorem uc22r3e5c_torusExp_eq_suzuki (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * 
     {e : ℕ} (he : ∀ c ∈ C₁, α c = c ^ e) :
     ∀ c ∈ C₂, α c = c ^ e := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t₁, hU₁, hC₁'⟩ := uc22r3e5c_exists_conj_pair_sylow ha hK U₁ C₁ hC₁ hcard₁
   obtain ⟨t₂, hU₂, hC₂'⟩ := uc22r3e5c_exists_conj_pair_sylow ha hK U₂ C₂ hC₂ hcard₂
   set s : suzukiGroup a K := t₂ * t₁⁻¹ with hs

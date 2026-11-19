@@ -189,7 +189,7 @@ theorem kc3ForS_f4
   obtain ⟨S, P, hP, hN, -, -, hSP⟩ :=
     CFSG.LieType.BorelTits.holds_of_reeTitsModel hmodel (by decide) V' hV'ne hV'2
   have hS2 : CFSG.QuasithinUnique.IsSylowTwoOf (S : Subgroup ↥K) ⊤ := by
-    refine ⟨le_top, S.isPGroup', ?_⟩
+    refine ⟨le_top, S.isPGroup, ?_⟩
     have h1 : ((S : Subgroup ↥K).subgroupOf ⊤).index = (S : Subgroup ↥K).index :=
       Subgroup.relIndex_top_right _
     rw [h1]

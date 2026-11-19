@@ -50,15 +50,15 @@ theorem inf_eq_and_le_normalizer [Finite X] {N K : Subgroup X} [K.Normal]
       K ⊓ Subgroup.normalizer (((P : Subgroup X) ⊓ K : Subgroup X) : Set X)) :
     N ⊓ K = K ⊓ Subgroup.normalizer (((P : Subgroup X) ⊓ K : Subgroup X) : Set X) ∧
       N ≤ Subgroup.normalizer (((P : Subgroup X) ⊓ K : Subgroup X) : Set X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQN : (P : Subgroup X) ⊓ K ≤ N := inf_le_left.trans hPN
   have hΓN := CFSG.LocalAnalysis.UniquenessCase.UCK.gammaCore_le_of_isStronglyPEmbedded (A := K) hN
-    P.isPGroup'.to_inf_left hQN
+    P.isPGroup.to_inf_left hQN
   have hKN := CFSG.LocalAnalysis.UniquenessCase.UCK.not_le_of_isStronglyPEmbedded hN P hPN hPK T hT
   have hNK : N ⊓ K = K ⊓ Subgroup.normalizer (((P : Subgroup X) ⊓ K : Subgroup X) : Set X) := by
     rw [← hΓ]
     exact inf_eq_of_maximal hΓN (hΓ.le.trans inf_le_left) hKN hmax
-  exact ⟨hNK, le_normalizer_of_inf_le hQN inf_le_right P.isPGroup'.to_inf_left
+  exact ⟨hNK, le_normalizer_of_inf_le hQN inf_le_right P.isPGroup.to_inf_left
     (fun R hR hQR hRK => eq_of_isPGroup_of_le inf_le_right T hT hR hQR hRK)
     (hNK.le.trans inf_le_right)⟩
 

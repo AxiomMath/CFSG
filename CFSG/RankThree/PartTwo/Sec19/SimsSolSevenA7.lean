@@ -14,12 +14,13 @@ open CFSG.AGLEmbedding CFSG.Quasithin.JonesParshall CFSG.Quasithin.SteinbergCB.I
 
 variable {Γ : Type*} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem eq_bot_of_stab_le_normalizer (θ : Γ ≃* ↥(alternatingGroup (Fin 7)))
     {V : Type*} [Group V] [Finite V] (hcard : Nat.card V = 16) (φ : Γ →* MulAut V)
     {v : V} (hv : v ≠ 1) {T : Subgroup Γ} (hT : IsPGroup 2 T)
     (hN : ∀ γ : Γ, φ γ v = v → γ ∈ Subgroup.normalizer (T : Set Γ)) : T = ⊥ := by
   by_contra hT1
-  letI : MulAction Γ V := MulAction.compHom V φ
+  let : MulAction Γ V := MulAction.compHom V φ
   set S := MulAction.stabilizer Γ v
   have hS : Nat.card S ∣ 72 :=
     BlockAltSevenPL.card_dvd_seventyTwo_of_mulEquiv θ hT hT1 fun γ hγ => hN γ hγ
@@ -36,6 +37,7 @@ theorem eq_bot_of_stab_le_normalizer (θ : Γ ≃* ↥(alternatingGroup (Fin 7))
   have := Nat.mul_le_mul (Nat.le_of_dvd (by norm_num) hS) (Nat.le_of_lt_succ hidx)
   omega
 
+omit [Finite Γ] in
 theorem exists_eq_of_mem_normalizer (θ : Γ ≃* ↥(alternatingGroup (Fin 7)))
     {V : Type*} [Group V] [Finite V] (hcomm : ∀ a b : V, a * b = b * a)
     (hsq : ∀ a : V, a ^ 2 = 1) (hcard : Nat.card V = 16) (φ : Γ →* MulAut V)
@@ -58,6 +60,7 @@ theorem exists_eq_of_mem_normalizer (θ : Γ ≃* ↥(alternatingGroup (Fin 7)))
   obtain ⟨γ₀, hγ₀⟩ := BlockAltSevenPL.mem_of_mem_normalizer_of_index_eight hA hH hgN
   exact ⟨γ₀, hγ₀.symm⟩
 
+omit [Finite Γ] in
 theorem eq_one_of_forall_commute (θ : Γ ≃* ↥(alternatingGroup (Fin 7)))
     {V : Type*} [Group V] [Finite V] (hcomm : ∀ a b : V, a * b = b * a)
     (hsq : ∀ a : V, a ^ 2 = 1) (hcard : Nat.card V = 16) (φ : Γ →* MulAut V)
@@ -74,6 +77,7 @@ theorem eq_one_of_forall_commute (θ : Γ ≃* ↥(alternatingGroup (Fin 7)))
     MulEquiv.map_eq_one_iff] at hc
   rw [hc, map_one]
 
+omit [Finite Γ] in
 theorem exists_coboundary (θ : Γ ≃* ↥(alternatingGroup (Fin 7)))
     {V : Type*} [Group V] [Finite V] (hcomm : ∀ a b : V, a * b = b * a)
     (hsq : ∀ a : V, a ^ 2 = 1) (hcard : Nat.card V = 16) (φ : Γ →* MulAut V)
@@ -197,6 +201,7 @@ theorem dualAct_apply (φ : Γ →* MulAut U) {Z : Subgroup U} (hZ : ∀ z ∈ Z
 
 end Dual
 
+omit [Finite Γ] in
 theorem eq_bot_of_forall_invariant_trivial (θ : Γ ≃* ↥(alternatingGroup (Fin 7)))
     {U : Type*} [Group U] [Finite U] (hcomm : ∀ a b : U, a * b = b * a)
     (hsq : ∀ a : U, a ^ 2 = 1) (φ : Γ →* MulAut U) (Z : Subgroup U)

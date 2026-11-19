@@ -157,8 +157,8 @@ theorem exists_inn_conj_into_graphFixed {K : Type} [Field K] [Finite K]
   · exact absurd hlfix (hnf l hl)
   set v : WeylGroup Tag.E6 := (coxeterSystem Tag.E6).wordProd ωw with hv
   obtain ⟨e, he, hcard⟩ := card_eq_pow_ringChar K
-  haveI hpf : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
-  haveI : CharP L (ringChar K) := charP_of_injective_algebraMap ι.injective _
+  have hpf : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : CharP L (ringChar K) := charP_of_injective_algebraMap ι.injective _
   have hFrEq : D.Fr = iterateFrobenius L (ringChar K) e :=
     RingHom.ext fun c => by rw [D.hFr c, iterateFrobenius_def, hcard]
   have hg0F : Units.map (entrywiseHom (iterateFrobenius L (ringChar K) e)) D.g0 =
@@ -232,7 +232,7 @@ theorem exists_inn_conj_into_graphFixed {K : Type} [Field K] [Finite K]
     rw [ht0, CFSG.HardMathSupport.Timmesfeld.CrossChar.units_map_entrywiseHom_rootDiagUnit]
     congr 1
     funext i
-    simp only [map_zpow, map_pow, hωF]
+    simp only [map_pow, hωF]
   have hwt0 : canonicalRep (coxeterSystem Tag.E6) L D.w * t0 *
       (canonicalRep (coxeterSystem Tag.E6) L D.w)⁻¹ = t0 := by
     rw [ht0, canonicalRep_conj_rootDiagUnit]

@@ -112,13 +112,13 @@ theorem onLine_eq (hpts : ∀ i < 8775, pts[i]! = lp i) {v : Nat} (hv : v < 2925
 
 theorem fixesH_U {P : Nat} (hP : cn P = true) : fixesH pts (unpack 1755 11 P) = fixHK P := by
   unfold fixesH actOK fixHK
-  rw [if_pos (by norm_num), get_U hP]
+  rw [ite_eq_left (by norm_num), get_U hP]
   simp
 
 theorem fixesN_U (hpts : ∀ i < 8775, pts[i]! = lp i) {P : Nat} (hP : cn P = true) :
     fixesN pts (unpack 1755 11 P) = fixNK lp P := by
   unfold fixesN actOK fixNK lineMapsP
-  rw [if_neg (by norm_num)]
+  rw [ite_eq_right (by norm_num)]
   simp only [Nat.le_refl, decide_true, Nat.sub_self, Bool.true_and]
   have h4680 : decide (1755 < 4680) = true := by decide
   rw [h4680, Bool.true_and]

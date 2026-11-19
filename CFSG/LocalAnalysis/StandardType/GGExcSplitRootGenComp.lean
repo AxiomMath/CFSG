@@ -66,7 +66,7 @@ private theorem familyKernel_zetaVec [NeZero p] {ζ : Kˣ} (hζo : orderOf ζ = 
       (fun t : {t : Fin τ.rank → ZMod p // ∑ j, (α j : ZMod p) * t j = 0} =>
         CFSG.StandardType.TableBExc.E6Three.zetaVec ζ hζ t.1) = {α, -α} := by
   ext β
-  simp only [CFSG.HardMathSupport.Timmesfeld.Torality.familyKernel, Set.mem_setOf_eq]
+  simp only [CFSG.HardMathSupport.Timmesfeld.Torality.familyKernel, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hβ, hβ1⟩
     have hzero : ∀ t : Fin τ.rank → ZMod p, ∑ j, (α j : ZMod p) * t j = 0 →
@@ -168,7 +168,7 @@ theorem isComponentOf_excComp [Fact p.Prime] [NeZero p] (hp2 : p ≠ 2)
     familyKernel_zetaVec hζo hζ hα hroot
   have hfix : SuSplitRootGen.torusFix (excTorusHom hfullp hζ) (excRefl α) = Set.range u := by
     ext y
-    simp only [SuSplitRootGen.torusFix, Set.mem_image, Set.mem_setOf_eq, Set.mem_range]
+    simp only [SuSplitRootGen.torusFix, Set.mem_image, Set.mem_ofPred_eq, Set.mem_range]
     constructor
     · rintro ⟨x, hx, rfl⟩
       exact ⟨⟨Multiplicative.toAdd x, (hfixset (Multiplicative.toAdd x)).1 hx⟩, rfl⟩

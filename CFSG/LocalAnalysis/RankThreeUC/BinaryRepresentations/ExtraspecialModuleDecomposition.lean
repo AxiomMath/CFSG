@@ -20,7 +20,7 @@ theorem fixedSpace_inf_commSpace_eq_bot [Finite G] (ρ : Representation (ZMod 2)
     (Z : Subgroup G) (hodd : Odd (Nat.card Z)) :
     commSpace ρ Z ⊓ fixedSpace ρ Z = ⊥ := by
   classical
-  haveI : Fintype Z := Fintype.ofFinite _
+  have : Fintype Z := Fintype.ofFinite _
   have hc : ((Fintype.card Z : ℕ) : ZMod 2) = 1 := by
     rw [Fintype.card_eq_nat_card]; exact ZMod.natCast_eq_one_iff_odd.2 hodd
   rw [eq_bot_iff]
@@ -39,7 +39,7 @@ theorem iSupIndep_and_iSup_eq [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
       (⨆ Y : conjClass H X, commSpace ρ (centerIn H) ⊓ fixedSpace ρ (Y : Subgroup G)) =
         commSpace ρ (centerIn H) := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hZcard : Nat.card (centerIn H) = p := by
     unfold centerIn
     rw [Subgroup.card_map_of_injective H.subtype_injective]
@@ -180,8 +180,8 @@ theorem finrank_commSpace [Finite G] [Module.Finite (ZMod 2) V] {p : ℕ} (hp : 
       Module.finrank (ZMod 2) ↥(commSpace ρ (centerIn H) ⊓ fixedSpace ρ X) * p := by
   classical
   have hI := isInternal_on_U hp hp2 H hH hexp ρ X hXH hXp hXZ
-  haveI : Finite (conjClass H X) := Set.toFinite _
-  haveI : Fintype (conjClass H X) := Fintype.ofFinite _
+  have : Finite (conjClass H X) := Set.toFinite _
+  have : Fintype (conjClass H X) := Fintype.ofFinite _
   set U := commSpace ρ (centerIn H)
   have hsum : Module.finrank (ZMod 2) U = ∑ Y : conjClass H X, Module.finrank (ZMod 2)
       ((U ⊓ fixedSpace ρ (Y : Subgroup G)).comap U.subtype) := by

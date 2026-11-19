@@ -15,6 +15,7 @@ section PresD
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggPresentsG0_typeD_of_system {n f : ℕ} (hn : 4 ≤ n) (hq : 4 ≤ 2 ^ f) {H : Subgroup G}
     {U : Fin n → Subgroup ↥H}
     (hcomm : ∀ i j : Fin n, i ≠ j → ¬ edgeD n i j → ¬ edgeD n j i →

@@ -33,9 +33,9 @@ theorem isTvElt_subset_tvMap4_image :
   obtain ⟨A, rfl⟩ := mem_Lg_iff.mp hg.1
   obtain ⟨u, f, h, hu, hf, rfl⟩ := ((isTvElt_pairActN_iff A).mp hg).exists_eq_transvectionGL
   refine ⟨(u, f), ?_, ?_⟩
-  · simp only [tvPairs4, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+  · simp only [tvPairs4, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq]
     exact ⟨hu, hf, h⟩
-  · simp only [tvMap4, dif_pos h]
+  · simp only [tvMap4, dite_eq_left h]
 
 theorem ncard_isTvElt_le_105 : Set.ncard {g : MulAut (PairN 4) | IsTvElt g} ≤ 105 :=
   calc Set.ncard {g : MulAut (PairN 4) | IsTvElt g}

@@ -22,7 +22,7 @@ theorem odd_index_normalizer_subgroupOf [Finite G] {T U : Subgroup G} (hWC : IsW
     have := congrArg (fun z : ↥T => (z : G)) hn
     simpa using this
   obtain ⟨P, hTP⟩ := hT'2.exists_le_sylow
-  have hP'2 : IsPGroup 2 ((P : Subgroup ↥U).map U.subtype) := P.isPGroup'.map U.subtype
+  have hP'2 : IsPGroup 2 ((P : Subgroup ↥U).map U.subtype) := P.isPGroup.map U.subtype
   have hTP' : T ≤ (P : Subgroup ↥U).map U.subtype := fun t ht =>
     ⟨⟨t, hTU ht⟩, hTP (Subgroup.mem_subgroupOf.2 ht), rfl⟩
   have hPN : (P : Subgroup ↥U) ≤ (Subgroup.normalizer (T : Set G)).subgroupOf U := by

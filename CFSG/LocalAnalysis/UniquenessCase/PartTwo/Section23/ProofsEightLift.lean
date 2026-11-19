@@ -22,7 +22,7 @@ private theorem exists_mem_bar2_orderOf_of_quotInf {M K : Subgroup G} (hK : K �
     ∃ x : ↥K, orderOf (QuotientGroup.mk' (CFSG.pCore 2 ↥K) x) = r ∧
       piBarInf K x = xbar := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hq : CFSG.Open.IsQuasisimple (Bar2 K) := hK.2.2
   let e := quotInfEquivBar2 hq
   let z : Bar2 K ⧸ Subgroup.center (Bar2 K) := e xbar
@@ -66,7 +66,7 @@ private theorem rhoL_piBarInf_fix_of_orderOf {K : Subgroup G} {b : G}
     rhoL K ⟨b, hb⟩ (QuotientGroup.mk' (CFSG.pCore 2 ↥K) x) =
       QuotientGroup.mk' (CFSG.pCore 2 ↥K) x := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let u : Bar2 K := QuotientGroup.mk' (CFSG.pCore 2 ↥K) x
   let xc : ↥K :=
     ⟨b * (x : G) * b⁻¹, (Subgroup.mem_normalizer_iff.mp hb x).mp x.2⟩
@@ -105,7 +105,7 @@ private theorem exists_mem_centralizer_of_bar2_orderOf {M K : Subgroup G} (hK : 
     ∃ y : ↥K, (y : G) ∈ Subgroup.centralizer ({b} : Set G) ∧
       orderOf (y : G) = r ∧ piBarInf K y = piBarInf K x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq : CFSG.Open.IsQuasisimple (Bar2 K) := hK.2.2
   have hfixBar := rhoL_piBarInf_fix_of_orderOf hq hb hr hrZ hxord hfix
   have hfixP4 : b * (x : G) * b⁻¹ * (x : G)⁻¹ ∈ CFSG.Open.pCoreOf 2 K := by
@@ -164,11 +164,11 @@ private theorem exists_mul_mem_inf_centralizer_of_pCoreOf {K : Subgroup G} {b x 
     ∃ n ∈ CFSG.Open.pCoreOf 2 K,
       x * n ∈ K ⊓ Subgroup.centralizer (Subgroup.zpowers b : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup G := CFSG.Open.pCoreOf 2 K
   let R : Subgroup G := Subgroup.zpowers b
   have hNX : N ≤ K := CFSG.LieType.BorelTits.pCoreOf_le 2 K
-  haveI hchar : (CFSG.pCore 2 ↥K).Characteristic :=
+  have hchar : (CFSG.pCore 2 ↥K).Characteristic :=
     CFSG.LieType.BorelTits.pCore_characteristic 2
   have hNnormal : (N.subgroupOf K).Normal := by
     rw [show N = CFSG.Open.pCoreOf 2 K from rfl, CFSG.openPCoreOf_subgroupOf]
@@ -178,7 +178,7 @@ private theorem exists_mul_mem_inf_centralizer_of_pCoreOf {K : Subgroup G} {b x 
     exact (CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
       (CFSG.pCore 2 ↥K)) hb
   have hN2 : IsPGroup 2 N := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K
-  haveI : Group.IsNilpotent ↥N := hN2.isNilpotent
+  have : Group.IsNilpotent ↥N := hN2.isNilpotent
   have hsolv : Group.IsSolvable ↥N := inferInstance
   have hcop : Nat.Coprime (Nat.card N) (Nat.card R) := by
     obtain ⟨k, hk⟩ := hN2.exists_card_eq
@@ -200,7 +200,7 @@ private theorem exists_mem_centralizer_of_pCoreOf {K : Subgroup G} {b x : G}
       QuotientGroup.mk' (CFSG.pCore 2 ↥K) y =
         QuotientGroup.mk' (CFSG.pCore 2 ↥K) (⟨x, hxK⟩ : ↥K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup G := CFSG.Open.pCoreOf 2 K
   have hNX : N ≤ K := CFSG.LieType.BorelTits.pCoreOf_le 2 K
   obtain ⟨n, hnN, hyinf⟩ := exists_mul_mem_inf_centralizer_of_pCoreOf hb hbodd hxK hfix
@@ -334,15 +334,15 @@ private theorem exists_isPGroup_le_sylowPreimage (K : Subgroup G) (b : G) {r : �
     ∃ Q : Subgroup ↥(sylowPreimage K b P), IsPGroup r Q ∧
       Q.map (sylowPreimageMap K b P) = ⊤ ∧
       Nat.card Q = Nat.card (P : Subgroup (BarInf K ⧸ Subgroup.center (BarInf K))) := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : IsPGroup r ↥(P : Subgroup (BarInf K ⧸ Subgroup.center (BarInf K))) :=
-    P.isPGroup'
+  have : Fact r.Prime := ⟨hr⟩
+  have : IsPGroup r ↥(P : Subgroup (BarInf K ⧸ Subgroup.center (BarInf K))) :=
+    P.isPGroup
   have hf := surjective_sylowPreimageMap K b P hq hc hb hbodd hfix
   have hker2 := isPGroup_two_ker_sylowPreimageMap K b P hq hc
   obtain ⟨Q, hQp, hQmap, hQdisj⟩ :=
     exists_lift_pGroup (sylowPreimageMap K b P) hf hker2 hr hr2
       (⊤ : Subgroup ↥(P : Subgroup (BarInf K ⧸ Subgroup.center (BarInf K))))
-      ((P.isPGroup').to_subgroup ⊤)
+      ((P.isPGroup).to_subgroup ⊤)
   have hcard := CFSG.card_map_eq_card_of_inf_ker_eq_bot
     (sylowPreimageMap K b P) (J := Q) (disjoint_iff.mp hQdisj)
   rw [hQmap] at hcard
@@ -357,7 +357,7 @@ private theorem exists_sylow_le_of_isPGroup_le_sylowPreimage (K : Subgroup G) (b
     (hr : r.Prime) (hr2 : r ≠ 2) :
     ∃ S : Sylow r ↥K, (S : Subgroup ↥K) ≤ sylowPreimage K b P := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hQ'p : IsPGroup r (Q.map (sylowPreimage K b P).subtype) := hQ.map _
   have hcardQ' : Nat.card (Q.map (sylowPreimage K b P).subtype) =
       Nat.card (P : Subgroup (BarInf K ⧸ Subgroup.center (BarInf K))) := by
@@ -365,14 +365,14 @@ private theorem exists_sylow_le_of_isPGroup_le_sylowPreimage (K : Subgroup G) (b
   obtain ⟨QK⟩ : Nonempty (Sylow r ↥K) := inferInstance
   have hdisjKer : (QK : Subgroup ↥K) ⊓ (piBarInf K).ker = ⊥ := by
     rw [piBarInf_ker hq, solvableRadical_eq_pCore_of_center_bar2_eq_bot hq hc]
-    refine Subgroup.inf_eq_bot_of_coprime ?_
-    obtain ⟨a, ha⟩ := QK.isPGroup'.exists_card_eq
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
+    obtain ⟨a, ha⟩ := QK.isPGroup.exists_card_eq
     obtain ⟨c, hc⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥K)).exists_card_eq
     rw [ha, hc]
     exact Nat.Coprime.pow _ _ ((Nat.coprime_primes hr Nat.prime_two).2 hr2)
   have hcardMapQK : Nat.card ((QK : Subgroup ↥K).map (piBarInf K)) = Nat.card QK :=
     CFSG.card_map_eq_card_of_inf_ker_eq_bot (piBarInf K) hdisjKer
-  obtain ⟨P₁, hP₁⟩ := (QK.isPGroup'.map (piBarInf K)).exists_le_sylow
+  obtain ⟨P₁, hP₁⟩ := (QK.isPGroup.map (piBarInf K)).exists_le_sylow
   have hcardP₁ : Nat.card P₁ = Nat.card P := Nat.card_congr (Sylow.equiv P₁ P).toEquiv
   have hle1 : Nat.card QK ≤ Nat.card P := by
     rw [← hcardMapQK, ← hcardP₁]
@@ -417,7 +417,7 @@ theorem exists_conj_le_centralizer_of_sylow_fixed {M K : Subgroup G} (hK : K ∈
     {X : Subgroup G} (hXK : X ≤ K) (hX : IsPGroup r X) :
     ∃ k ∈ K, X.map (MulAut.conj k).toMonoidHom ≤ Subgroup.centralizer ({b} : Set G) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hq : CFSG.Open.IsQuasisimple (Bar2 K) := hK.2.2
   obtain ⟨S', hS'Y⟩ :=
     exists_sylow_le_sylowPreimage K b P hq hc hb hbodd hfix hr hr2

@@ -25,8 +25,8 @@ variable {G : Type*} [Group G]
 
 theorem exists_plane_le_of_card {E₀ : Subgroup G} (hc : Nat.card E₀ = 3 ^ 3) :
     ∃ P : Subgroup G, P ≤ E₀ ∧ Nat.card P = 3 ^ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   obtain ⟨Q, hQ⟩ := Sylow.exists_subgroup_card_pow_prime (G := E₀) 3 (n := 2)
     (by rw [hc]; exact pow_dvd_pow 3 (by norm_num))
   refine ⟨Q.map E₀.subtype, ?_, ?_⟩
@@ -38,8 +38,8 @@ theorem exists_plane_le_of_card {E₀ : Subgroup G} (hc : Nat.card E₀ = 3 ^ 3)
 theorem exists_plane_mem_of_card {E₀ : Subgroup G} (hexp : ∀ x ∈ E₀, x ^ 3 = 1)
     (hc : Nat.card E₀ = 3 ^ 3) {x : G} (hx : x ∈ E₀) (hx1 : x ≠ 1) :
     ∃ P : Subgroup G, P ≤ E₀ ∧ Nat.card P = 3 ^ 2 ∧ x ∈ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   set x' : E₀ := ⟨x, hx⟩ with hx'
   have hord : orderOf x' = 3 := by
     refine orderOf_eq_prime (Subtype.ext ?_) fun h => hx1 (congrArg Subtype.val h)
@@ -56,8 +56,8 @@ theorem exists_plane_mem_of_card {E₀ : Subgroup G} (hexp : ∀ x ∈ E₀, x ^
 
 theorem exists_mem_not_mem_of_card {E₀ P : Subgroup G} (hc : Nat.card E₀ = 3 ^ 3)
     (hPc : Nat.card P = 3 ^ 2) : ∃ z ∈ E₀, z ∉ P := by
-  haveI : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hPc]; norm_num)
+  have : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hPc]; norm_num)
   by_contra h
   push Not at h
   have hle := Subgroup.card_le_of_le (show E₀ ≤ P from fun x hx => h x hx)
@@ -67,12 +67,12 @@ theorem exists_mem_not_mem_of_card {E₀ P : Subgroup G} (hc : Nat.card E₀ = 3
 theorem le_sup_zpowers_of_card {E₀ P : Subgroup G} (hc : Nat.card E₀ = 3 ^ 3) (hPE : P ≤ E₀)
     (hPc : Nat.card P = 3 ^ 2) {z : G} (hz : z ∈ E₀) (hzP : z ∉ P) :
     E₀ ≤ P ⊔ Subgroup.zpowers z := by
-  haveI : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Finite E₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   set C := P ⊔ Subgroup.zpowers z with hCdef
   have hCE : C ≤ E₀ := sup_le hPE ((Subgroup.zpowers_le).2 hz)
   have hzC : z ∈ C := Subgroup.mem_sup_right (Subgroup.mem_zpowers z)
   have hlt : P < C := lt_of_le_of_ne le_sup_left fun h => hzP (h ▸ hzC)
-  haveI : Finite C := Finite.of_injective (Subgroup.inclusion hCE) (Subgroup.inclusion_injective _)
+  have : Finite C := Finite.of_injective (Subgroup.inclusion hCE) (Subgroup.inclusion_injective _)
   have h1 := Subgroup.card_lt_of_lt hlt
   have h2 : Nat.card C ∣ 3 ^ 3 := hc ▸ Subgroup.card_dvd_of_le hCE
   obtain ⟨k, hk3, hkC⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 h2

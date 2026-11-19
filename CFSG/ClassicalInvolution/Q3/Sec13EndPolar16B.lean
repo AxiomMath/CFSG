@@ -74,7 +74,7 @@ private def p16bK {B : V → V → ZMod 2} (hB : SympForm B) (z f : V) : Subgrou
     by rw [hB.mul_right, ha.2, hb.2, add_zero]⟩
   one_mem' := ⟨Sp4.B_one_right hB z, Sp4.B_one_right hB f⟩
   inv_mem' := fun {a} ha => by
-    rw [Set.mem_setOf_eq, inv_eq_of_mul_eq_one_right (hB.sq_eq_one a)]
+    rw [Set.mem_ofPred_eq, inv_eq_of_mul_eq_one_right (hB.sq_eq_one a)]
     exact ha
 
 private theorem p16b_B_expand {B : V → V → ZMod 2} (hB : SympForm B) (a k z f : V) (β γ : ZMod 2) :
@@ -176,13 +176,13 @@ private theorem p16b_res_ne_one {B : V → V → ZMod 2} (hB : SympForm B) {z f 
   · rw [Sp4.pw_one] at hx
     exact hxz hx
 
-private theorem p16b_res_B {B : V → V → ZMod 2} (hB : SympForm B) {z f x y : V} (hzf : B z f = 1)
+private theorem p16b_res_B {B : V → V → ZMod 2} (hB : SympForm B) {z f x y : V} (_hzf : B z f = 1)
     (hx : B z x = 0) (hy : B z y = 0) :
     B (p16bRes B z f x) (p16bRes B z f y) = B x y := by
   have hxz : B x z = 0 := (hB.symm x z).trans hx
   unfold p16bRes
   simp only [hB.mul_left, hB.mul_right, Sp4.B_pw_left hB, Sp4.B_pw_right hB, hxz, hy, hB.alt,
-    mul_zero, zero_mul, add_zero, zero_add]
+    mul_zero, add_zero]
 
 private theorem p16b_no_six_residue [Finite V] {B : V → V → ZMod 2} (hB : SympForm B)
     (hcard : Nat.card V = 64) {z f : V} (hzf : B z f = 1) {T : Set V} (hT : 6 ≤ T.ncard)
@@ -283,7 +283,7 @@ private theorem p16b_half [Finite V] {B : V → V → ZMod 2} (hB : SympForm B) 
     exact h2 h1
   have hunion : {x ∈ N | B f x = 0} ∪ {x ∈ N | ¬ B f x = 0} = N := by
     ext x
-    simp only [Set.mem_union, Set.mem_setOf_eq]
+    simp only [Set.mem_union, Set.mem_ofPred_eq]
     constructor
     · rintro (⟨h, _⟩ | ⟨h, _⟩)
       · exact h
@@ -298,7 +298,7 @@ private theorem p16b_half [Finite V] {B : V → V → ZMod 2} (hB : SympForm B) 
 
 theorem false_of_two_sections [Finite V] {B : V → V → ZMod 2} (hB : SympForm B) {S : Set V}
     {a : ℕ} (hS : PointSet B S a) (hcard : Nat.card V = 64) {t e : V} (ht : t ∈ S)
-    (hte : B e t = 0) {A₁ A₂ : Set V} (hA₁ : A₁ ⊆ nbr B S t) (hA₂ : A₂ ⊆ nbr B S t)
+    (_hte : B e t = 0) {A₁ A₂ : Set V} (hA₁ : A₁ ⊆ nbr B S t) (hA₂ : A₂ ⊆ nbr B S t)
     (hc₁ : A₁.ncard = 6) (hc₂ : A₂.ncard = 6) (hd : Disjoint A₁ A₂)
     (hl₁ : ∀ j ∈ A₁, t * j ∈ A₁) (hl₂ : ∀ j ∈ A₂, t * j ∈ A₂)
     (hp₁ : ∀ j ∈ A₁, ∀ y ∈ A₁, y ≠ j → y ≠ t * j → B j y = 1)
@@ -410,16 +410,10 @@ theorem false_of_two_sections [Finite V] {B : V → V → ZMod 2} (hB : SympForm
     all_goals first
       | exact one_ne_zero ((hp₁ j hj y hy hyj hyt).symm.trans hB0)
       | exact one_ne_zero ((hp₂ j hj y hy hyj hyt).symm.trans hB0)
-      | exact one_ne_zero ((hp₁ y hy j hj hjy hjwt).symm.trans hByj)
-      | exact one_ne_zero ((hp₂ y hy j hj hjy hjwt).symm.trans hByj)
       | exact one_ne_zero ((hp₁ j hj (j * y) hw hwj hwt_j).symm.trans hBjw)
       | exact one_ne_zero ((hp₂ j hj (j * y) hw hwj hwt_j).symm.trans hBjw)
-      | exact one_ne_zero ((hp₁ (j * y) hw j hj (Ne.symm hwj) hjwt'').symm.trans hBwj)
-      | exact one_ne_zero ((hp₂ (j * y) hw j hj (Ne.symm hwj) hjwt'').symm.trans hBwj)
       | exact one_ne_zero ((hp₁ y hy (j * y) hw hwy hwty).symm.trans hByw)
       | exact one_ne_zero ((hp₂ y hy (j * y) hw hwy hwty).symm.trans hByw)
-      | exact one_ne_zero ((hp₁ (j * y) hw y hy (Ne.symm hwy) hyw_t).symm.trans hBwy)
-      | exact one_ne_zero ((hp₂ (j * y) hw y hy (Ne.symm hwy) hyw_t).symm.trans hBwy)
   set R : Set V := {x ∈ N | B f x = 0} with hR
   have hRcard : R.ncard = 6 := by omega
   apply p16b_no_six_residue hB hcard hf (le_of_eq hRcard.symm)
@@ -442,7 +436,7 @@ structure Sections (B : V → V → ZMod 2) (S : Set V) (𝓔 : Set V) : Prop wh
     ∀ y ∈ nbr B S p ∩ sigma B S e, y ≠ x → y ≠ p * x → B x y = 1
   unique : ∀ p ∈ S, ∀ x ∈ nbr B S p, ∃! e, e ∈ 𝓔 ∧ p ∈ sigma B S e ∧ x ∈ sigma B S e
 
-private theorem p16b_S_part {B : V → V → ZMod 2} {S : Set V} {a : ℕ} (hS : PointSet B S a) {z : V}
+private theorem p16b_S_part {B : V → V → ZMod 2} {S : Set V} {a : ℕ} (_hS : PointSet B S a) {z : V}
     (hz : z ∈ S) : S = insert z (nbr B S z ∪ far B S z) := by
   ext q
   constructor
@@ -476,6 +470,7 @@ private theorem p16b_nbr_mul {B : V → V → ZMod 2} {S : Set V} {a : ℕ} (hB 
       _ = 1 := hB.sq_eq_one z
   · rw [hB.mul_right, hB.alt, hx.2.2, zero_add]
 
+omit [CommGroup V] in
 private theorem p16b_filter_card [Finite V] (T : Set V) (P : V → Prop) [DecidablePred P] :
     ((T.toFinite.toFinset).filter P).card = {q | q ∈ T ∧ P q}.ncard := by
   rw [← Set.ncard_coe_finset]
@@ -483,6 +478,7 @@ private theorem p16b_filter_card [Finite V] (T : Set V) (P : V → Prop) [Decida
   ext q
   simp [Set.Finite.mem_toFinset]
 
+omit [CommGroup V] in
 private theorem p16b_dc [Finite V] (E G : Set V) (r : V → V → Prop) [DecidableRel r] :
     ∑ e ∈ E.toFinite.toFinset, {q | q ∈ G ∧ r e q}.ncard =
       ∑ q ∈ G.toFinite.toFinset, {e | e ∈ E ∧ r e q}.ncard := by
@@ -689,10 +685,11 @@ private def p16bPerp {B : V → V → ZMod 2} (hB : SympForm B) (w : V) : Subgro
     rw [inv_eq_of_mul_eq_one_right (hB.sq_eq_one a)]
     exact ha'
 
+omit [CommGroup V] in
 private theorem p16b_ncard_diff_singleton {s : Set V} {x : V} (h : x ∈ s) (hs : s.Finite) :
     (s \ {x}).ncard + 1 = s.ncard := by
   have hn : x ∉ s \ {x} := fun h' => h'.2 rfl
-  rw [← Set.ncard_insert_of_notMem hn (hs.diff), Set.insert_diff_singleton, Set.insert_eq_of_mem h]
+  rw [← Set.ncard_insert_of_notMem hn (hs.sdiff), Set.insert_sdiff_singleton, Set.insert_eq_of_mem h]
 
 private theorem p16b_parity6 : ∀ I J : Finset (Fin 6),
     (∀ j : Fin 6, (I.filter (fun i => i ≠ j)).card % 2 = (J.filter (fun i => i ≠ j)).card % 2) →
@@ -759,7 +756,7 @@ namespace Sections
 
 variable {B : V → V → ZMod 2} {S : Set V} {a : ℕ} {𝓔 : Set V}
 
-theorem card_centres_of_mem [Finite V] (hB : SympForm B) (hS : PointSet B S a)
+theorem card_centres_of_mem [Finite V] (_hB : SympForm B) (hS : PointSet B S a)
     (hSec : Sections B S 𝓔) {p : V} (hp : p ∈ S) : a = 3 * {e | e ∈ 𝓔 ∧ p ∈ sigma B S e}.ncard := by
   classical
   have hDC := p16b_dc {e | e ∈ 𝓔 ∧ p ∈ sigma B S e} (nbr B S p) (fun e x => x ∈ sigma B S e)
@@ -781,7 +778,7 @@ theorem card_centres_of_mem [Finite V] (hB : SympForm B) (hS : PointSet B S a)
     rw [Set.ncard_eq_one]
     refine ⟨e0, ?_⟩
     ext e
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨⟨h𝓔, hpe⟩, hxe⟩
       exact huniq e ⟨h𝓔, hpe, hxe⟩
@@ -900,7 +897,7 @@ theorem card_nbr_eq [Finite V] (hB : SympForm B) (hS : PointSet B S a) (hSec : S
     exact one_ne_zero (this.symm.trans h0)
   have hEp : {f | f ∈ 𝓔 ∧ p ∈ sigma B S f} = {sx, sy, su} := by
     ext f
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨hf𝓔, hpf⟩
       rcases (by decide : ∀ c d : ZMod 2, c = 0 ∨ d = 0 ∨ c + d = 0) (B f x) (B f y) with
@@ -931,7 +928,7 @@ theorem card_points_eq [Finite V] (hB : SympForm B) (hS : PointSet B S a) (hSec 
     omega
   exact (p16b_count hB hS hSec hp hE).2
 
-theorem closure_nbr_eq [Finite V] (hB : SympForm B) (hS : PointSet B S 9) (hSec : Sections B S 𝓔)
+theorem closure_nbr_eq [Finite V] (hB : SympForm B) (hS : PointSet B S 9) (_hSec : Sections B S 𝓔)
     (hcard : Nat.card V = 64) {z : V} (hz : z ∈ S) :
     (Subgroup.closure (insert z (nbr B S z)) : Set V) = {x : V | B z x = 0} := by
   classical
@@ -1097,7 +1094,7 @@ theorem prod_eq_one [Finite V] (hB : SympForm B) (hS : PointSet B S a) (hspan : 
 = ⊤)
     (hSec : Sections B S 𝓔) (hcard : Nat.card V = 64)
     (hmem : ∃ p ∈ S, ∃ e ∈ 𝓔, ∃ e' ∈ 𝓔, e ≠ e' ∧ p ∈ sigma B S e ∧ p ∈ sigma B S e')
-    (h1 : ∀ e ∈ 𝓔, ∀ e' ∈ 𝓔, e ≠ e' → B e e' = 1) (l : List V) (hl : l.Nodup)
+    (_h1 : ∀ e ∈ 𝓔, ∀ e' ∈ 𝓔, e ≠ e' → B e e' = 1) (l : List V) (hl : l.Nodup)
     (hl𝓔 : ∀ e, e ∈ l ↔ e ∈ 𝓔) : l.prod = 1 := by
   classical
   have ha := card_nbr_eq hB hS hSec hcard hmem
@@ -1141,7 +1138,7 @@ theorem prod_eq_one [Finite V] (hB : SympForm B) (hS : PointSet B S a) (hspan : 
   decide
 
 theorem eq_prod_of_mem [Finite V] (hB : SympForm B) (hS : PointSet B S a)
-    (hspan : Subgroup.closure S = ⊤) (hSec : Sections B S 𝓔) (hcard : Nat.card V = 64)
+    (_hspan : Subgroup.closure S = ⊤) (hSec : Sections B S 𝓔) (hcard : Nat.card V = 64)
     (hmem : ∃ p ∈ S, ∃ e ∈ 𝓔, ∃ e' ∈ 𝓔, e ≠ e' ∧ p ∈ sigma B S e ∧ p ∈ sigma B S e')
     (h1 : ∀ e ∈ 𝓔, ∀ e' ∈ 𝓔, e ≠ e' → B e e' = 1) {b : V} (hb : b ∈ S)
     (T : Finset V) (hT : ∀ e, e ∈ T ↔ e ∈ 𝓔 ∧ b ∈ sigma B S e) :
@@ -1157,7 +1154,7 @@ theorem eq_prod_of_mem [Finite V] (hB : SympForm B) (hS : PointSet B S a)
   have hTcard : T.card = 3 := by
     have hTset : T = {e | e ∈ 𝓔 ∧ b ∈ sigma B S e}.toFinite.toFinset := by
       ext e
-      simp only [Set.Finite.mem_toFinset, Set.mem_setOf_eq]
+      simp only [Set.Finite.mem_toFinset, Set.mem_ofPred_eq]
       exact hT e
     rw [hTset, ← Set.ncard_eq_toFinset_card _ (Set.toFinite _)]
     have := card_centres_of_mem hB hS hSec hb

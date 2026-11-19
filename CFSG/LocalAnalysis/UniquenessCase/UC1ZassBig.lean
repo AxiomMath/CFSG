@@ -25,9 +25,9 @@ theorem no_fpf_of_quaternion_cycle {p : ℕ} [Fact p.Prime]
     (hj : j ^ 2 = z) (hji : j * i * j⁻¹ = i⁻¹) (hw3 : w ^ 3 = 1) (hwi : w * i * w⁻¹ = j)
     (hwj : w * j * w⁻¹ = i * j) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial G := ⟨⟨z, 1, hz1⟩⟩
-  haveI : Nontrivial V := nontrivial_of_injective hρ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial G := ⟨⟨z, 1, hz1⟩⟩
+  have : Nontrivial V := nontrivial_of_injective hρ
   have hpG : ¬ p ∣ Nat.card G := hf.not_dvd_card
   let K := GaloisField p (2 ^ t)
   have hk : (2 : K) ≠ 0 := by
@@ -37,7 +37,7 @@ theorem no_fpf_of_quaternion_cycle {p : ℕ} [Fact p.Prime]
     exact hp ((Nat.prime_dvd_prime_iff_eq Fact.out Nat.prime_two).mp h2)
   obtain ⟨ζ, hζ⟩ := exists_isPrimitiveRoot_galoisField p hp t
   have hfK : Fpf (ρ.baseChange K) := hf.baseChange K
-  haveI : Nontrivial (K ⊗[ZMod p] V) := inferInstance
+  have : Nontrivial (K ⊗[ZMod p] V) := inferInstance
   have hzo : orderOf z = 2 := orderOf_eq_prime hz hz1
   let φ : QuaternionGroup (2 ^ t) →* G := (S : Subgroup G).subtype.comp e.symm.toMonoidHom
   have hφ : Function.Injective φ := Subtype.val_injective.comp e.symm.injective
@@ -146,7 +146,7 @@ theorem no_fpf_of_quaternion_cycle {p : ℕ} [Fact p.Prime]
   have hSR : (S : Subgroup G) ≤ stab (ρ.baseChange K) W := fun s hs => hWS s hs
   obtain ⟨θ, hθ⟩ := exists_hom_pgl (ρ.baseChange K) W hW (stab (ρ.baseChange K) W)
     (fun g hg => mem_stab.mp hg)
-  haveI : Finite θ.range := Finite.of_surjective θ.rangeRestrict θ.rangeRestrict_surjective
+  have : Finite θ.range := Finite.of_surjective θ.rangeRestrict θ.rangeRestrict_surjective
   let iR : stab (ρ.baseChange K) W := ⟨i, hSR hiS⟩
   let jR : stab (ρ.baseChange K) W := ⟨j, hSR hjS⟩
   let wR : stab (ρ.baseChange K) W := ⟨w, hwW⟩

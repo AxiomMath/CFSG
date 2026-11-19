@@ -68,13 +68,13 @@ theorem exists_pairing {N : Type*} [Group N] (V : Subgroup N)
   have hR := commutator_mul_right_of_central hcen
   have hinv : ∀ v ∈ V, v⁻¹ = v := fun v hv =>
     inv_eq_of_mul_eq_one_right (by rw [← pow_two]; exact hV2 v hv)
-  letI : CommGroup V :=
+  let : CommGroup V :=
     { (inferInstance : Group V) with mul_comm := fun a b => Subtype.ext (hVcen a.1 a.2 b.1) }
   have hVexp : ∀ x : Additive V, (2 : ℕ) • x = 0 := by
     intro x
     show Additive.ofMul ((Additive.toMul x) ^ 2) = Additive.ofMul 1
     exact congrArg Additive.ofMul (Subtype.ext (hV2 _ (Additive.toMul x).2))
-  letI : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule hVexp
+  let : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule hVexp
   have hne : (Additive.ofMul (⟨v₀, hv₀V⟩ : V)) ≠ 0 := by
     intro h
     have h2 : Additive.ofMul (⟨v₀, hv₀V⟩ : V) = Additive.ofMul (1 : V) := h
@@ -217,7 +217,7 @@ theorem card_sq_le_of_abelian_in_semiextraspecial {N : Type*} [Group N] [Finite 
       have hc : ∀ m : N, n * m = m * n := fun m =>
         commutatorElement_eq_one_iff_mul_comm.mp (hV1' _ (hcomm n m))
       exact hV1' n (hZ n hc)
-    haveI : Subsingleton N := ⟨fun a b => by rw [hN1 a, hN1 b]⟩
+    have : Subsingleton N := ⟨fun a b => by rw [hN1 a, hN1 b]⟩
     have hA1 : Nat.card A = 1 := Nat.card_of_subsingleton (1 : A)
     have hN1' : Nat.card N = 1 := Nat.card_of_subsingleton (1 : N)
     have hV1' : Nat.card V = 1 := Nat.card_of_subsingleton (1 : V)
@@ -225,7 +225,7 @@ theorem card_sq_le_of_abelian_in_semiextraspecial {N : Type*} [Group N] [Finite 
     norm_num
   obtain ⟨v₀, hv₀V, hv₀⟩ := hV1
   obtain ⟨pr, h1, h2, h3, h4, h5, h6, h7⟩ := exists_pairing V hVcen hcomm hV2 v₀ hv₀V hv₀
-  haveI hVn : V.Normal := ⟨fun n hn g => by
+  have hVn : V.Normal := ⟨fun n hn g => by
     have e : g * n * g⁻¹ = n := by
       rw [← hVcen n hn g]
       group
@@ -243,8 +243,8 @@ theorem card_sq_le_of_abelian_in_semiextraspecial {N : Type*} [Group N] [Finite 
         have e : (x * y)⁻¹ * (y * x) = y⁻¹ * x⁻¹ * (y⁻¹)⁻¹ * (x⁻¹)⁻¹ := by group
         rw [e]
         exact h
-  letI hCG : CommGroup (N ⧸ V) := { (inferInstance : Group (N ⧸ V)) with mul_comm := hGcomm }
-  haveI hFin : Finite (Additive (N ⧸ V)) := Finite.of_equiv (N ⧸ V) Additive.ofMul
+  let hCG : CommGroup (N ⧸ V) := { (inferInstance : Group (N ⧸ V)) with mul_comm := hGcomm }
+  have hFin : Finite (Additive (N ⧸ V)) := Finite.of_equiv (N ⧸ V) Additive.ofMul
   have hrep : ∀ (q : N ⧸ V) (w : Additive (N ⧸ V)), Additive.toMul w = q →
       w = Additive.ofMul q := by
     intro q w h
@@ -258,8 +258,8 @@ theorem card_sq_le_of_abelian_in_semiextraspecial {N : Type*} [Group N] [Finite 
     congr 1
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
     exact hsq x
-  letI : Module (ZMod 2) (Additive (N ⧸ V)) := AddCommGroup.zmodModule hW2
-  haveI hWfin : Module.Finite (ZMod 2) (Additive (N ⧸ V)) := Module.finite_iff_finite.mpr hFin
+  let : Module (ZMod 2) (Additive (N ⧸ V)) := AddCommGroup.zmodModule hW2
+  have hWfin : Module.Finite (ZMod 2) (Additive (N ⧸ V)) := Module.finite_iff_finite.mpr hFin
   have hsurjW : ∀ w : Additive (N ⧸ V), ∃ x : N, w = Additive.ofMul (QuotientGroup.mk' V x) := by
     intro w
     obtain ⟨x, hx⟩ := QuotientGroup.mk'_surjective V (Additive.toMul w)

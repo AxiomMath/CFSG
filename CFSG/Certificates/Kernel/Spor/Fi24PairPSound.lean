@@ -84,8 +84,8 @@ private theorem testBit_sumBits (FP : ℕ → ℕ) (k : ℕ) : ∀ n,
     · rcases hb1 with h | h <;> rw [h, pow_succ] <;> omega
     · rw [Nat.testBit_two_pow_mul_add _ h1 p]
       by_cases hp : p < n
-      · rw [if_pos hp, h2 p, decide_eq_true hp, decide_eq_true (by omega)]
-      · rw [if_neg hp]
+      · rw [ite_eq_left hp, h2 p, decide_eq_true hp, decide_eq_true (by omega)]
+      · rw [ite_eq_right hp]
         rcases Nat.lt_or_ge n p with hnp | hnp
         · have hz : ((FP n >>> k) &&& 1).testBit (p - n) = false := by
             apply Nat.testBit_lt_two_pow
@@ -111,9 +111,9 @@ private theorem testBit_tf (P : ℕ → ℕ) (k p : ℕ) :
       if k = 0 then (P 0).testBit p else ((P k).testBit p ^^ (P 0).testBit p) := by
   by_cases hk : k = 0
   · subst hk
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     rfl
-  · rw [if_neg hk]
+  · rw [ite_eq_right hk]
     have e : tf P k = Nat.xor (P k) (P 0) := by
       unfold tf
       rw [beq_false hk]
@@ -128,12 +128,12 @@ private theorem bits_of_tpl {a b : ℕ} (ha : a < 524288) (hb : b < 524288) {n :
     (h : ∀ k < n, (tpl k).testBit a = (tpl k).testBit b) : ∀ k < n, a.testBit k = b.testBit k := by
   intro k hk
   have h0 := h 0 (by omega)
-  rw [tpl_testBit (by decide) ha, tpl_testBit (by decide) hb, if_pos rfl, if_pos rfl] at h0
+  rw [tpl_testBit (by decide) ha, tpl_testBit (by decide) hb, ite_eq_left rfl, ite_eq_left rfl] at h0
   by_cases k0 : k = 0
   · subst k0
     exact h0
   · have e := h k hk
-    rw [tpl_testBit (by omega) ha, tpl_testBit (by omega) hb, if_neg k0, if_neg k0, h0] at e
+    rw [tpl_testBit (by omega) ha, tpl_testBit (by omega) hb, ite_eq_right k0, ite_eq_right k0, h0] at e
     revert e
     cases a.testBit k <;> cases b.testBit k <;> cases b.testBit 0 <;> decide
 
@@ -190,9 +190,9 @@ private theorem sigP_main {NW : ℕ → ℕ → ℕ} {CF FP : ℕ → ℕ} {NS l
     rw [e2, tpl_testBit (by omega) (by omega : benesPerm 12 NS p < 524288)]
     by_cases hj0 : j = 0
     · subst hj0
-      rw [if_pos rfl, if_pos rfl]
+      rw [ite_eq_left rfl, ite_eq_left rfl]
       simpa using e3
-    · rw [if_neg hj0, if_neg hj0, planes_testBit hv hj' hp4, e3]
+    · rw [ite_eq_right hj0, ite_eq_right hj0, planes_testBit hv hj' hp4, e3]
   have hlt : pR CF (LN NW l (FP p)) < 3240 := by
     have e := congrArg (fun x => x.testBit p) (Nat.eq_of_beq_eq_true h4)
     simp only [testBit_gath hCF, CFSG.KS.Fi24NetPt.testBit_planeL hl, testBit_netR hCF, hpF p hp,

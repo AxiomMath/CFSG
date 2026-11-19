@@ -44,11 +44,11 @@ theorem mulFold_xor {X : Type*} [Group X] {g : ℕ → X} (hc : ∀ i j, g i * g
     rw [mulFold_succ, mulFold_succ, mulFold_succ, ih, Nat.testBit_xor]
     cases a.testBit k <;> cases b.testBit k
     · simp
-    · simp only [Bool.false_xor, if_true, Bool.false_eq_true, if_false, mul_one]
+    · simp only [Bool.false_xor, ite_true, Bool.false_eq_true, ite_false, mul_one]
       rw [mul_assoc]
-    · simp only [Bool.xor_false, if_true, Bool.false_eq_true, if_false, mul_one]
+    · simp only [Bool.xor_false, ite_true, Bool.false_eq_true, ite_false, mul_one]
       rw [mul_assoc, mul_assoc, hcomm k b k]
-    · simp only [Bool.xor_self, Bool.false_eq_true, if_false, if_true, mul_one]
+    · simp only [Bool.xor_self, Bool.false_eq_true, ite_false, ite_true, mul_one]
       rw [hcomm k b k, mul_assoc, ← mul_assoc (g k) (g k), hs k, one_mul]
 
 theorem mulFold_two_pow {X : Type*} [Monoid X] (g : ℕ → X) {k j : ℕ} (hj : j < k) :
@@ -76,7 +76,7 @@ theorem mulFold_two_pow {X : Type*} [Monoid X] (g : ℕ → X) {k j : ℕ} (hj :
       rw [ih h, this]
       simp
     · subst h
-      have : (2 ^ j).testBit j = true := by simp [Nat.testBit_two_pow]
+      have : (2 ^ j).testBit j = true := by simp
       rw [hle j le_rfl, this]
       simp
 
@@ -210,7 +210,7 @@ theorem elt7_two_pow {j : ℕ} (hj : j < 7) : D.elt7 (2 ^ j) = D.bE j := mulFold
 theorem elt7_one : D.elt7 1 = z := by
   have := D.elt7_two_pow (j := 0) (by norm_num)
   rw [pow_zero] at this
-  rw [this, bE, if_pos rfl]
+  rw [this, bE, ite_eq_left rfl]
 
 @[expose] noncomputable def wc (x : G) : ℕ := codeOf (D.ψV (h.setting.cl x))
 

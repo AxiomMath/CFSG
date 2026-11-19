@@ -322,7 +322,7 @@ theorem map_sylow_eq_zpowers [Finite G] {ζ : Kˣ} {m : ℕ} (hζ : orderOf ζ =
   set X := (S' : Subgroup (Subgroup.centralizer ({linearCentralizerHom φ (μ x)} : Set G))).map
     (Subgroup.centralizer ({linearCentralizerHom φ (μ x)} : Set G)).subtype with hX
   set U := Subgroup.zpowers (linearCentralizerHom φ (μ ζ)) with hU
-  have hXp : IsPGroup 2 X := S'.isPGroup'.map _
+  have hXp : IsPGroup 2 X := S'.isPGroup.map _
   have hXnil : Group.IsNilpotent X := hXp.isNilpotent
   by_contra hne
   have hK : U.subgroupOf X < ⊤ := by

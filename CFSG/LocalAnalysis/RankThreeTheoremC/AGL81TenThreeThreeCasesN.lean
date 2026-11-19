@@ -52,7 +52,7 @@ theorem bar_action_of_mem_normalizer {M H L : Subgroup G} (hLM : L ≤ M) {b : G
     fun w hw hwW => commutator_mem_of_wSup hXM hbM hbX hbJ hw hwW⟩
 
 theorem card_pCore_perm_four_dvd_four : Nat.card (CFSG.pCore 2 (Equiv.Perm (Fin 4))) ∣ 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : CFSG.pCore 2 (Equiv.Perm (Fin 4)) ≤ alternatingGroup (Fin 4) := fun σ hσ =>
     CFSG.HardMathSupport.RichardWeiss.ExceptionalClosure.mem_alternatingGroup_of_mem_pCore_perm_four
       hσ
@@ -74,7 +74,7 @@ theorem not_isSylowTwoOf_pCoreOf_of_hom {X : Type} [Group X] [Finite X] {Y P : S
     (hPY : P ≤ Y) (h8 : 8 ∣ Nat.card Y) (f : ↥P →* Equiv.Perm (Fin 4))
     (hfs : Function.Surjective f) (hker : Odd (Nat.card f.ker)) :
     ¬ CFSG.QuasithinUnique.IsSylowTwoOf (pCoreOf 2 P) Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rintro ⟨-, -, hodd⟩
   have hmap : (CFSG.pCore 2 ↥P).map f ≤ CFSG.pCore 2 (Equiv.Perm (Fin 4)) :=
     CFSG.ABGLocalTools.map_pCore_le_of_surjective f hfs

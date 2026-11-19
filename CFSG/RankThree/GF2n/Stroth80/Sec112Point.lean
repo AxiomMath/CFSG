@@ -24,6 +24,7 @@ private lemma pi_commutator_eq (hc : Ctx M Q Z B)
   rw [e, M₀.π_mul _ hxQ _ (Q.inv_mem hx₀), M₀.pi_inv hx₀,
     hφπ ⟨l, hc.LB_le_H0 hl⟩ x₀ hx₀, sub_eq_add_neg]
 
+omit [Finite K] in
 private lemma commutator_mem_Z_of_mem_W (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφπ : ∀ (g : ↥(H0 M Z)) (x : G),
@@ -54,7 +55,7 @@ private lemma commutator_mem_Z_of_mem_W (hc : Ctx M Q Z B) (h : GlobalModelData 
     rw [hT d hd.1, hfix]
   exact (M₀.comm_mem_iff hd.1 hQ').mpr hπ
 
-omit [Finite K] in
+omit [Finite K] [Finite G] in
 private lemma pi_mem_img_B_of_mem_sup (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)
     {d : G} (hd : d ∈ Z ⊔ B) : M₀.π d ∈ M₀.img B := by
   have hle : (Z ⊔ B : Subgroup G) ≤ M₀.lift (M₀.img B) := by
@@ -62,6 +63,7 @@ private lemma pi_mem_img_B_of_mem_sup (hc : Ctx M Q Z B) (h : GlobalModelData M 
     exact stroth_sup_le_lift h hc.le
   exact ((M₀.mem_lift (R := M₀.img B)).mp (hle hd)).2
 
+omit [Finite K] in
 theorem Ctx.LB_fixes_of_perp (hc : Ctx M Q Z B) (h : GlobalModelData M Q Z γ M₀)
     {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφπ : ∀ (g : ↥(H0 M Z)) (x : G), x ∈ Q → M₀.π ((g : G) * x * (g : G)⁻¹) = φ g (M₀.π x))

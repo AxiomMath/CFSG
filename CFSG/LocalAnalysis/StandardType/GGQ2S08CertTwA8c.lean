@@ -757,7 +757,7 @@ private theorem a8c_all_of_chunks {α : Type} (f : α → Bool) (n : ℕ) :
 private theorem of_decide_inst {p : Prop} {i : Decidable p} (h : @decide p i = true) : p :=
   @of_decide_eq_true p i h
 
-private def decEqVn9Fast : DecidableEq (Vn 9) := fun u v =>
+@[instance_reducible] private def decEqVn9Fast : DecidableEq (Vn 9) := fun u v =>
   decidable_of_iff (((List.finRange 9).all fun i => decide (u i = v i)) = true) (by
     simp only [List.all_eq_true, List.mem_finRange, decide_eq_true_eq, true_implies]
     exact funext_iff.symm)

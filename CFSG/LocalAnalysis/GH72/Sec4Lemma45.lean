@@ -72,7 +72,7 @@ theorem exists_map_conj_sylow (H A : Subgroup G) (hAH : A ≤ H) (hA : IsE16 A) 
   refine ⟨x, (map_mono hAT).trans hx, ?_⟩
   have hTx := isSylowOf_map_hom hT (MulAut.conj x).toMonoidHom
   have heq := hTx.eq_of_le (le_inf hx (map_mono hT.le)) inf_le_right
-    ((𝔖.S.isPGroup').to_le inf_le_left)
+    ((𝔖.S.isPGroup).to_le inf_le_left)
   rw [heq]
   exact hTx
 

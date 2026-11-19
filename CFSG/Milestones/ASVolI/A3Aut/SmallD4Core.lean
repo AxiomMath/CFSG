@@ -82,10 +82,10 @@ theorem burnsideAut_d42_not_solvable {K : Type} [Field K] [Finite K] [CharP K 2]
     (hLa : Nat.card (orbitField TwistTag.D4 K σ.toRingHom a) = 8) :
     ¬ Group.IsSolvable ↥(graphFixedParabolic TwistTag.D4 K σ.toRingHom {a}) := by
   intro hsolv
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   obtain ⟨R, -, -, -, -, -, hRrange, -, hker, -⟩ :=
     exceptional_fixed_rank_one_central_image TwistTag.D4 K σ.toRingHom a
-  haveI hchar : CharP ↥(orbitField TwistTag.D4 K σ.toRingHom a) 2 :=
+  have hchar : CharP ↥(orbitField TwistTag.D4 K σ.toRingHom a) 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic (k := 3)
       Nat.prime_two (by norm_num) hLa
   have hRinj : Function.Injective R := by
@@ -109,19 +109,19 @@ theorem burnsideAut_d42_not_solvable {K : Type} [Field K] [Finite K] [CharP K 2]
     · exact orbitY_mem_graphFixedParabolic a c
   have hq := CFSG.LieType.HighestRoot.isQuasisimple_SL2_of_four_le
     (K := ↥(orbitField TwistTag.D4 K σ.toRingHom a)) (by rw [hLa]; norm_num)
-  haveI := hsolv
+  have := hsolv
   have hfinj : Function.Injective
       ((Subgroup.inclusion hRA).comp R.rangeRestrict) := by
     intro g g' h
     apply hRinj
     exact congrArg (fun y : ↥(graphFixedParabolic TwistTag.D4 K σ.toRingHom {a}) =>
       (y : ModGL TwistTag.D4.tag K)) h
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       (Matrix.SpecialLinearGroup (Fin 2) ↥(orbitField TwistTag.D4 K σ.toRingHom a)) :=
-    solvable_of_solvable_injective hfinj
-  haveI : Nontrivial
+    Group.isSolvable_of_isSolvable_injective hfinj
+  have : Nontrivial
       (Matrix.SpecialLinearGroup (Fin 2) ↥(orbitField TwistTag.D4 K σ.toRingHom a)) := by
-    haveI := hq.2.1
+    have := hq.2.1
     obtain ⟨x, y, hxy⟩ := exists_pair_ne (Matrix.SpecialLinearGroup (Fin 2)
       ↥(orbitField TwistTag.D4 K σ.toRingHom a) ⧸ Subgroup.center _)
     obtain ⟨x', rfl⟩ := QuotientGroup.mk_surjective x
@@ -166,11 +166,11 @@ theorem burnsideAut_d42_core {K : Type} [Field K] [Finite K]
         (Bm = Dm ∨ ∃ Am : Subgroup (ModGL TwistTag.D4.tag K), Am ≤ Bm ∧ Nat.card ↥Am = 3 ∧
           Dm ⊓ Am = ⊥ ∧ (∀ d ∈ Dm, ∀ a ∈ Am, d * a = a * d) ∧ Bm = Dm ⊔ Am) := by
   classical
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     (k := 3) Nat.prime_two (by norm_num) (by rw [hK]; norm_num)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have p7 : Nat.Prime 7 := by norm_num
   have hUB : graphFixedPosUnipotent TwistTag.D4 K σ.toRingHom ≤
       graphFixedRootBorel TwistTag.D4 K σ.toRingHom :=
@@ -312,7 +312,7 @@ theorem burnsideAut_d42_core {K : Type} [Field K] [Finite K]
           rcases hcases with hab | ⟨r, hr, hBr⟩
           · exact hab
           · exfalso
-            haveI : Fact r.Prime := ⟨hr⟩
+            have : Fact r.Prime := ⟨hr⟩
             obtain ⟨j, hj⟩ := hBr.exists_card_eq
             rw [hB21] at hj
             have h3r : 3 ∣ r ^ j := hj ▸ (by norm_num : 3 ∣ 21)

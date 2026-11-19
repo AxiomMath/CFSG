@@ -393,7 +393,7 @@ theorem simple_local_parameter_five_odd_core_has_order_one_or_three
       have : Subsingleton (P₂ : Subgroup (CFSG.generalizedFitting (Gamma t))) :=
         (Nat.card_eq_one_iff_unique.mp h1).1
       exact isCyclic_of_subsingleton
-    obtain ⟨j, hj⟩ := (IsPGroup.iff_card).mp P₂.isPGroup'
+    obtain ⟨j, hj⟩ := (IsPGroup.iff_card).mp P₂.isPGroup
     have hj0 : j ≠ 0 := by
       rintro rfl
       exact hP₂ (by rw [hj, pow_zero])

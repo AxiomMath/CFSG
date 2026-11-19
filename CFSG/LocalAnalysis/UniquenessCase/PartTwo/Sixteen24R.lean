@@ -72,7 +72,7 @@ theorem succ_le_two_pow_rk_of_not_le_centralizer {p : ℕ} (hp : p.Prime) (hp2 :
     {E W : Subgroup G} (hE : IsPGroup p E) (hEW : E ≤ normalizer (W : Set G))
     (hW : IsElemAbelian 2 W) (hne : ¬ W ≤ centralizer (E : Set G)) :
     p + 1 ≤ 2 ^ rk ↥W := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hW2 : IsPGroup 2 W := hW.isPGroup
   have hC2 : IsPGroup 2 ↥(W ⊓ centralizer (E : Set G)) := hW2.to_le inf_le_left
   have hcardW : Nat.card W = 2 ^ rk ↥W := card_eq_two_pow_of_isPGroup hW2
@@ -119,14 +119,14 @@ theorem exists_noncyclic_k_lt_rk (D : Data G) (hSg : UC6S846.SigmaStd D)
       D.k < rk ↥(V ⊓ centralizer (B : Set G)) := by
   obtain ⟨p, hp⟩ := hSg.nonempty
   obtain ⟨hpP, hp2⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   have hk : D.k ≤ 2 := by
     unfold Data.k CFSG.LocalAnalysis.RankThreeUC.kParam
     split_ifs <;> norm_num
   obtain ⟨E, hEM, hEel, hEcard⟩ :=
     CFSG.GH74.Uniqueness.SU.SU1.exists_isElemAbelian_of_le_pRank hpP (H := D.M) (k := 3)
       (hSg.three_le p hp)
-  haveI hEEA : CFSG.IsElementaryAbelian p E := hEel.isElementaryAbelian
+  have hEEA : CFSG.IsElementaryAbelian p E := hEel.isElementaryAbelian
   have hV2 : IsPGroup 2 V := h.isElemAbelian.isPGroup
   have hVcard : Nat.card V = 2 ^ rk ↥V := card_eq_two_pow_of_isPGroup hV2
   have hVp : ¬ p ∣ Nat.card V := by
@@ -147,7 +147,7 @@ theorem exists_noncyclic_k_lt_rk (D : Data G) (hSg : UC6S846.SigmaStd D)
     · rw [inf_eq_left.mpr hVCE]
       exact lt_of_le_of_lt hk
         (TwelveSeven.two_lt_rk_of_card h.isElemAbelian (eight_le_card_of_hyp125 D hx h61 h))
-  · haveI : Nontrivial ↥E :=
+  · have : Nontrivial ↥E :=
       Finite.one_lt_card_iff_nontrivial.mp (by
         rw [hEcard]
         exact Nat.one_lt_pow (by norm_num) hpP.one_lt)
@@ -166,7 +166,7 @@ theorem exists_noncyclic_k_lt_rk (D : Data G) (hSg : UC6S846.SigmaStd D)
       exact hVCE (hsup.trans (iSup₂_le hcon'))
     obtain ⟨B, hB, hneW⟩ := hex
     have hB'E : B.map E.subtype ≤ E := Subgroup.map_subtype_le B
-    haveI : IsMulCommutative ↥E := hEel.1
+    have : IsMulCommutative ↥E := hEel.1
     have hcommE : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := fun a ha b hb =>
       congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : E) (⟨b, hb⟩ : E))
     have hEcent : E ≤ centralizer ((B.map E.subtype : Subgroup G) : Set G) := by
@@ -194,7 +194,7 @@ theorem exists_noncyclic_k_lt_rk (D : Data G) (hSg : UC6S846.SigmaStd D)
       exact Nat.mul_right_cancel hpP.pos hcard
     have hB'card : Nat.card (B.map E.subtype) = p ^ 2 := by
       rw [Subgroup.card_map_of_injective (K := B) E.subtype_injective, hBcard]
-    haveI : CFSG.IsElementaryAbelian p ↥(B.map E.subtype) :=
+    have : CFSG.IsElementaryAbelian p ↥(B.map E.subtype) :=
       (hEel.mono hB'E).isElementaryAbelian
     exact CFSG.IsElementaryAbelian.not_isCyclic_of_card_eq_prime_sq hB'card
 

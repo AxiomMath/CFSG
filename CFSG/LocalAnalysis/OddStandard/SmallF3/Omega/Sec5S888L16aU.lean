@@ -105,8 +105,10 @@ section Ctx
 
 variable [Finite G] {t : G} {L S : Subgroup G} {z r : G} {B A K₁ K₂ : Subgroup G} {h : G}
 
+omit [Finite G] in
 private lemma l16a_kfam_two : Kfam5 K₁ K₂ h 2 = CFSG.conjugate K₁ h := by simp [Kfam5]
 
+omit [Finite G] in
 private lemma l16a_kfam_three : Kfam5 K₁ K₂ h 3 = CFSG.conjugate K₂ h := by simp [Kfam5]
 
 theorem l16a_Qsub_eq (h514 : Asc82Lemma514) (c : Sec5HCtx G t L S z r B A K₁ K₂ h) :

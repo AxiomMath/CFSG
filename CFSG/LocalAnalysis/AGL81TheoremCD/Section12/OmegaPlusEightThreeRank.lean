@@ -16,7 +16,7 @@ theorem exists_not_isCyclic_of_statedClassicalModel_pOmegaPlus_four_two {W : Typ
     (hW : CFSG.Open.StatedClassicalModel W .POmegaPlus 4 2 1) :
     ∃ E : Subgroup W, IsPGroup 3 E ∧ ¬ IsCyclic ↥E := by
   obtain ⟨e⟩ := Claims1110m.nonempty_equiv_omegaPlus_of_model_d4cls hW
-  haveI : Finite W := Finite.of_injective e.toEquiv.toFun e.toEquiv.injective
+  have : Finite W := Finite.of_injective e.toEquiv.toFun e.toEquiv.injective
   have hR : OmegaFacts.Rank2 (⊤ : Subgroup ↥(StatedOmega (StatedQuadPlus 4 (ZMod 2)))) :=
     OmegaFacts.rank2_top_of_subgroup (OmegaFacts.rank2_plus 3 (by norm_num))
   have hR' : OmegaFacts.Rank2 (⊤ : Subgroup W) :=

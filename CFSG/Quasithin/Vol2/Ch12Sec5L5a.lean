@@ -110,7 +110,7 @@ theorem mem_zpowers_of_sq {M : Type*} [Group M] {a x : M} (ha : a * a = 1)
     rw [_root_.zpow_add, _root_.zpow_mul, h2, _root_.one_zpow, one_mul, zpow_one]
 
 omit [Finite G] in
-theorem mem_fixV_zpowers {M : Type*} [CommGroup M] {a : MulAut M} (ha : a * a = 1) {v : M} :
+theorem mem_fixV_zpowers {M : Type*} [CommGroup M] {a : MulAut M} (_ha : a * a = 1) {v : M} :
     v ∈ fixV (Subgroup.zpowers a) ↔ a v = v :=
   CFSG.Quasithin.mem_fixV_zpowers_iff_apply
 

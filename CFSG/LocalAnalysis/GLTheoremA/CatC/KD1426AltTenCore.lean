@@ -16,6 +16,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA.KD1426AltTenCore
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem psiHom_equiv {n : ℕ} (K : Subgroup Y) (hK : K.Normal) (e : K ≃* alternatingGroup (Fin n))
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 5 ≤ n) (B : Subgroup Y) (hB : ∀ b ∈ B, b ^ p = 1)
     (b : B) (k : K) :
@@ -26,7 +27,7 @@ theorem psiHom_equiv {n : ℕ} (K : Subgroup Y) (hK : K.Normal) (e : K ≃* alte
     ← KD264Inner.alphaHom_apply_coe K hK e (b : Y) k]
   exact KD264Inner.alpha_apply_eq_conj K hK e hp hp2 hn B hB b (e k)
 
-theorem card_sup_three_cycle {K B : Subgroup Y} (hK : K.Normal)
+theorem card_sup_three_cycle {K B : Subgroup Y} (_hK : K.Normal)
     (hB : CFSG.Open.IsElemAbelian 3 B) (ψ : ↥B →* alternatingGroup (Fin 10))
     (hψker : ∀ b : ↥B, ψ b = 1 ↔ (b : Y) ∈ Subgroup.centralizer (K : Set Y))
     (a : ↥B) (hσ1 : ψ a ≠ 1) :
@@ -97,7 +98,7 @@ theorem layer_ne_bot_of_three_cycle {K B : Subgroup Y} (hK : K.Normal)
     GLAPLayer 3 (K ⊓ Subgroup.centralizer
       ((Subgroup.zpowers (a : Y) ⊔ (B ⊓ Subgroup.centralizer (K : Set Y)) : Subgroup Y) : Set Y)) ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hσ3 : ψ a ^ 3 = 1 := by
     rw [← map_pow]
     have : a ^ 3 = 1 := Subtype.ext (hB.2 (a : Y) a.2)
@@ -130,7 +131,7 @@ theorem alt10_core {K B : Subgroup Y} (hK : K.Normal) (hq : CFSG.Open.IsQuasisim
       Nat.card T = 4 ∧ B ≤ Subgroup.normalizer (T : Set Y) ∧ ⁅B, T⁆ = T ∧
       GLAPPrimeCore 3 ↥(GLAPLayer 3 (K ⊓ Subgroup.centralizer (A : Set Y))) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : Subgroup.center ↥K = ⊥ := KD1426AltTen.center_bot_of_ten hq hcore eK
   let eQ : ↥K ⧸ Subgroup.center ↥K ≃* ↥K :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
@@ -205,11 +206,11 @@ theorem alt10_core {K B : Subgroup Y} (hK : K.Normal) (hq : CFSG.Open.IsQuasisim
   rcases hcases with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
   ·
     have hB0c : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) = 3 := by
-      rw [hc] <;> norm_num
+      rw [hc]; norm_num
     have hPc : Nat.card ψ.range = 27 := by
-      rw [hm] <;> norm_num
+      rw [hm]; norm_num
     have hcardB : Nat.card B = 3 ^ 4 := by
-      rw [hBcard] <;> norm_num
+      rw [hBcard]; norm_num
     obtain ⟨a', ha'P, ha'supp⟩ := hPex (le_of_eq hPc.symm)
     obtain ⟨y, hyP, hya⟩ := Subgroup.mem_map.1 ha'P
     obtain ⟨a0, ha0⟩ := MonoidHom.mem_range.1 hyP
@@ -223,9 +224,9 @@ theorem alt10_core {K B : Subgroup Y} (hK : K.Normal) (hq : CFSG.Open.IsQuasisim
   ·
     exfalso
     have hB0c9 : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) = 9 := by
-      rw [hc] <;> norm_num
+      rw [hc]; norm_num
     have hBcard81 : Nat.card B = 81 := by
-      rw [hBcard] <;> norm_num
+      rw [hBcard]; norm_num
     let f : alternatingGroup (Fin 10) →* Y := K.subtype.comp π.symm.toMonoidHom
     have hf : Function.Injective f := K.subtype_injective.comp π.symm.injective
     have hHel : CFSG.Open.IsElemAbelian 3 (KD1426E27.W10.map f) :=
@@ -260,9 +261,9 @@ theorem alt10_core {K B : Subgroup Y} (hK : K.Normal) (hq : CFSG.Open.IsQuasisim
   ·
     exfalso
     have hB0c9 : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) = 9 := by
-      rw [hc] <;> norm_num
+      rw [hc]; norm_num
     have hPc : Nat.card ψ.range = 27 := by
-      rw [hm] <;> norm_num
+      rw [hm]; norm_num
     obtain ⟨a', ha'P, ha'supp⟩ := hPex (le_of_eq hPc.symm)
     obtain ⟨y, hyP, hya⟩ := Subgroup.mem_map.1 ha'P
     obtain ⟨a0, ha0⟩ := MonoidHom.mem_range.1 hyP
@@ -284,7 +285,7 @@ theorem alt10_core {K B : Subgroup Y} (hK : K.Normal) (hq : CFSG.Open.IsQuasisim
       isElemAbelian_of_le hEB hB
     have hEcard : Nat.card ↥(Subgroup.zpowers (a0 : Y) ⊔ (B ⊓ Subgroup.centralizer (K : Set Y))) =
         3 ^ 3 := by
-      rw [hE, hB0c9] <;> norm_num
+      rw [hE, hB0c9]; norm_num
     have hHE := hH _ hEB hEel hEcard
     exact layer_ne_bot_of_three_cycle hK hB π ψ hψequiv a0 ha0supp hHE
 

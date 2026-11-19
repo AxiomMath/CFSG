@@ -44,7 +44,7 @@ theorem conclK_of_natural3 {G : Type} [Group G] [Finite G] {v : Fin 3 → G} (hv
   have hβsurj : Function.Surjective β := (ecoords hv).surjective
   have hcommV : IsMulCommutative ↥(eSub hv) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm hv x y hx hy
-  letI : IsMulCommutative ↥(eSub hv) := hcommV
+  let : IsMulCommutative ↥(eSub hv) := hcommV
   have hNs : Function.Surjective (E16.eNHom hv (le_refl (eNorm hv))) := by
     intro s
     obtain ⟨k, hk⟩ := hsurj₀ s

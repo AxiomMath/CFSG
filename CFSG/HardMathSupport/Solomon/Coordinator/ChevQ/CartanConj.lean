@@ -29,7 +29,7 @@ theorem mem_smul_sylow_iff {p : ℕ} {P Q : Sylow p X} {g : X} (h : g • P = Q)
 theorem isElemAbelian_map {Y : Type} [Group Y] {p : ℕ} {E : Subgroup X} (f : X →* Y)
     (hE : IsElemAbelian p E) : IsElemAbelian p (E.map f) := by
   refine ⟨?_, ?_⟩
-  · haveI := hE.1
+  · have := hE.1
     infer_instance
   · rintro y hy
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 hy
@@ -72,7 +72,7 @@ theorem conj_eq_of_sylow_unique {p n : ℕ} [Fact p.Prime] [Finite X] (N : Subgr
   · intro hx
     refine Subgroup.mem_map.2 ⟨g⁻¹ * x * g⁻¹⁻¹, ?_, ?_⟩
     · rw [hEE']
-      exact Subgroup.mem_map.2 ⟨x, hx, by simp [MulAut.conj_apply]⟩
+      exact Subgroup.mem_map.2 ⟨x, hx, by simp⟩
     · simp [MulAut.conj_apply, mul_assoc]
   · intro hx
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.1 hx
@@ -105,7 +105,7 @@ theorem cartan_of_four_sl2 {F : Type} [Field F] [Finite F] {S : Type} [Group S] 
   obtain ⟨w, hw0, hw⟩ := TwE6FourRankAux.exists_sq_add_add_one h4
   obtain ⟨A, U, hA, hAcard, hU0, hU2, hAN, hcen⟩ :=
     TwE6FourRankAux.partI_of_four (TwE6FourRankAux.two_eq_zero_of_natCard h4) hw0 hw ψ hψ hc
-  haveI : IsMulCommutative A := hA.1
+  have : IsMulCommutative A := hA.1
   let κ : A →* MulAut S := (MulAut.conj : S →* MulAut S).comp A.subtype
   have hκinj : Function.Injective κ := by
     rw [injective_iff_map_eq_one]
@@ -183,9 +183,9 @@ end CartanConjAux
 
 theorem twE6FourRankInnerConj_of_sylow (h : TwE6FourSylowRankUnique) : TwE6FourRankInnerConj := by
   intro S _ _ d hd hiso E F hEi hFi hEc hFc hEn hFn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut S) := CartanConjAux.finite_mulAut S
-  haveI := CartanConjAux.inn_normal S
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut S) := CartanConjAux.finite_mulAut S
+  have := CartanConjAux.inn_normal S
   exact CartanConjAux.conj_eq_of_sylow_unique (p := 3) (n := 4)
     (N := (MulAut.conj : S →* MulAut S).range)
     (fun P E' F' hE' hF' hEi' hFi' hEc' hFc' hEn' hFn' =>
@@ -202,9 +202,9 @@ end Final
 theorem gen2318RankFour_of_sylow (hU : Gen2318RankFourSylowUniq) (hC : Gen2318RankFourCartan) :
     Gen2318RankFour := by
   intro S _ _ d hd hiso E hEi hEc hEn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut S) := CartanConjAux.finite_mulAut S
-  haveI := CartanConjAux.inn_normal S
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut S) := CartanConjAux.finite_mulAut S
+  have := CartanConjAux.inn_normal S
   obtain ⟨A, hAi, hAc, hAn, U, hU0, hU2, hUn⟩ := hC S d hd hiso
   obtain ⟨g, hg⟩ := CartanConjAux.conj_eq_of_sylow_unique (p := 3) (n := 4)
     (N := (MulAut.conj : S →* MulAut S).range)
@@ -225,7 +225,7 @@ theorem gen2318RankFour_of_sylow (hU : Gen2318RankFourSylowUniq) (hC : Gen2318Ra
     obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.1 hφ
     obtain ⟨u, hu, rfl⟩ := Subgroup.mem_map.1 hy
     exact Subgroup.mem_map.2 ⟨a u, hUn a ha u hu, by
-      simp [MulAut.conj_apply, MulAut.mul_apply, MulAut.inv_apply_self]⟩
+      simp [MulAut.conj_apply, MulAut.mul_apply]⟩
 
 theorem gen2318RankFourCartan_of_parts (hF4 : F4FourSL2) (hE6 : E6CartanRankFour) :
     Gen2318RankFourCartan := by

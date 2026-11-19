@@ -21,9 +21,9 @@ theorem pumpUpOmegaPlusTenInput_holds :
     obtain ⟨-, K₀, _, _, hK₀, ⟨e⟩⟩ := hcl
     have hgo : CFSG.Blueprint.Multiplier.genericOrders .POmegaPlus 5 2 1 = (1, 1) := by
       simp [CFSG.Blueprint.Multiplier.genericOrders]
-    haveI : NeZero (CFSG.Blueprint.Multiplier.genericOrders .POmegaPlus 5 2 1).1 :=
+    have : NeZero (CFSG.Blueprint.Multiplier.genericOrders .POmegaPlus 5 2 1).1 :=
       ⟨by rw [hgo]; norm_num⟩
-    haveI : NeZero (CFSG.Blueprint.Multiplier.genericOrders .POmegaPlus 5 2 1).2 :=
+    have : NeZero (CFSG.Blueprint.Multiplier.genericOrders .POmegaPlus 5 2 1).2 :=
       ⟨by rw [hgo]; norm_num⟩
     obtain ⟨-, ⟨eM⟩⟩ :=
       CFSG.LieType.Steinberg.CentralExt.OrthogonalTwo.pomegaPlus_two_hopfMultiplier (K := K₀)
@@ -40,8 +40,8 @@ theorem pumpUpOmegaPlusTenInput_holds :
     have h1 : Nat.card (center K) = 1 := by
       rw [← hker]
       refine Nat.eq_one_of_dvd_one (hZ.trans ?_)
-      simp only [CFSG.Blueprint.Multiplier.generic, Nat.card_prod, Nat.card_eq_fintype_card,
-        Fintype.card_multiplicative, ZMod.card, hgo, mul_one, dvd_refl]
+      simp only [CFSG.Blueprint.Multiplier.generic, Nat.card_eq_fintype_card,
+        hgo]
       simp [Fintype.card_prod]
     have hK : Nat.card K = ordD 5 2 := by
       rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (center K), hcard, h1, mul_one]

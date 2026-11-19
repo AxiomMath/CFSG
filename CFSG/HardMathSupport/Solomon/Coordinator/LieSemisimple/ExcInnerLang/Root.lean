@@ -200,7 +200,7 @@ theorem exists_langSetup_of_toral_datum_of_prime_descent {τ : Tag} {L : Type} [
     have : u = D.g0 * (D.g0⁻¹ * u * D.g0) * D.g0⁻¹ := by group
     rw [this, h]
     group
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hqpow : IsPrimePow D.q ∧ ((D.q : ℕ) : L) = 0 := by
     rw [hDq]
     exact ⟨hℓ.isPrimePow.pow (by omega), (CharP.cast_eq_zero_iff L ℓ _).2
@@ -249,7 +249,7 @@ theorem exists_langSetup_frobRoot_untw_of_mon {τ : Tag}
       ∀ c, ι (φ c) = R.step0 (ι c) := by
   classical
   set L := AlgebraicClosure K with hLdef
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   set ι₁ : K →+* L := algebraMap K L with hι₁
   have hcomp : (iterateFrobenius L 2 e).comp ι₁ = ι₁.comp T := RingHom.ext fun c => by
     simp only [RingHom.comp_apply, iterateFrobenius_def, hT, map_pow]

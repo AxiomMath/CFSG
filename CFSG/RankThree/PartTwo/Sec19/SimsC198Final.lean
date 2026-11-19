@@ -24,7 +24,7 @@ private theorem odd_card_center_of_pCore_two_eq_bot {X : Type} [Group X] [Finite
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center X) 2 h2
   have hle : Subgroup.zpowers (z : X) ≤ Subgroup.center X :=
     Subgroup.zpowers_le.mpr z.2
-  haveI : (Subgroup.zpowers (z : X)).Normal := Subgroup.normal_of_le_center hle
+  have : (Subgroup.zpowers (z : X)).Normal := Subgroup.normal_of_le_center hle
   have hz' : orderOf (z : X) = 2 := by rw [Subgroup.orderOf_coe, hz]
   have hp : IsPGroup 2 (Subgroup.zpowers (z : X)) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hz', pow_one])
@@ -99,10 +99,10 @@ theorem census198_of_main
       (e.trans eG)
   let εZ : K ⧸ CFSG.pCore 2 K ≃* (K ⧸ CFSG.pCore 2 K) ⧸ Subgroup.center (K ⧸ CFSG.pCore 2 K) :=
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm
-  haveI : IsSimpleGroup ((K ⧸ CFSG.pCore 2 K) ⧸ Subgroup.center (K ⧸ CFSG.pCore 2 K)) :=
+  have : IsSimpleGroup ((K ⧸ CFSG.pCore 2 K) ⧸ Subgroup.center (K ⧸ CFSG.pCore 2 K)) :=
     hX.quasisimple.2.1
-  haveI : IsSimpleGroup (K ⧸ CFSG.pCore 2 K) := εZ.isSimpleGroup
-  haveI : Group.IsPerfect (K ⧸ CFSG.pCore 2 K) := hX.quasisimple.1
+  have : IsSimpleGroup (K ⧸ CFSG.pCore 2 K) := εZ.isSimpleGroup
+  have : Group.IsPerfect (K ⧸ CFSG.pCore 2 K) := hX.quasisimple.1
   have hθ : aschbacherSolvableCore 3 K = CFSG.pCore 2 K := theta_eq_pCore_two_of_simple
   let eX : K ⧸ CFSG.pCore 2 K ≃* (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group := εZ.trans e
   refine ⟨⟨2, q.exponent, ⟨Nat.prime_two, q.exponent_pos, rfl⟩, F, inferInstance, inferInstance, hF,

@@ -89,9 +89,9 @@ theorem eq_of_cfInner_eq_one [Fintype G] {f h : G → ℂ} (hf : f ∈ signedIrr
   obtain ⟨δ, hδ, ψ, hψ, rfl⟩ := mem_signedIrr_iff_exists_sign.1 hh
   rw [cfInner_smul_smul_of_mem_Irr _ _ hχ hψ] at hfh
   by_cases hχψ : χ = ψ
-  · rw [if_pos hχψ] at hfh
+  · rw [ite_eq_left hχψ] at hfh
     rw [hχψ, eq_of_mul_conj_eq_one hδ hfh]
-  · rw [if_neg hχψ] at hfh
+  · rw [ite_eq_right hχψ] at hfh
     exact absurd hfh (by norm_num)
 
 theorem eq_or_eq_neg_of_cfInner_sub_eq_one [Fintype G] {ρ σ χ : G → ℂ}
@@ -106,22 +106,22 @@ theorem eq_or_eq_neg_of_cfInner_sub_eq_one [Fintype G] {ρ σ χ : G → ℂ}
     cfInner_smul_smul_of_mem_Irr _ _ hβ hγ] at h
   have hαβ : α ≠ β := by
     intro he
-    rw [if_pos he] at hρσ
+    rw [ite_eq_left he] at hρσ
     rcases ha with rfl | rfl <;> rcases hb with rfl | rfl <;> simp at hρσ
   by_cases hαγ : α = γ
   ·
     subst hαγ
-    rw [if_pos rfl, if_neg fun he => hαβ he.symm, sub_zero] at h
+    rw [ite_eq_left rfl, ite_eq_right fun he => hαβ he.symm, sub_zero] at h
     exact Or.inl (by rw [eq_of_mul_conj_eq_one hc h])
   · by_cases hβγ : β = γ
     ·
       subst hβγ
-      rw [if_neg hαγ, if_pos rfl, zero_sub] at h
+      rw [ite_eq_right hαγ, ite_eq_left rfl, zero_sub] at h
       have h' : (-b) * conj c = 1 := by rw [← h]; ring
       rw [← eq_of_mul_conj_eq_one hc h']
       exact Or.inr (by module)
     ·
-      rw [if_neg hαγ, if_neg hβγ, sub_zero] at h
+      rw [ite_eq_right hαγ, ite_eq_right hβγ, sub_zero] at h
       exact absurd h (by norm_num)
 
 end CFSG.FeitThompson

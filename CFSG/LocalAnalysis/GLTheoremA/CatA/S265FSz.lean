@@ -156,7 +156,7 @@ theorem s265f_false_of_sz32 {p : ℕ} {S B T : Subgroup Ω} {x b : Ω} (cfg : QU
     exact s265f_suzukiModel_of_lieModel (by simpa [MarkedModel, markTag, markRank, markChar, markDeg] using hM)
   obtain ⟨hsimple, hnab⟩ := chev_pSimple_simple_nonabelian hp cfg.comp
   obtain ⟨a, c, hac⟩ := hnab
-  haveI := hsimple
+  have := hsimple
   have hZ : Subgroup.center (PSimple 5 S) = ⊥ := FR.center_eq_bot_of_simple_nonab hac
   obtain ⟨A, hA, hA3⟩ := qu_aut_rank' cfg
   have hle := s265f_sz_aut_card_le hSz hZ hp hp2 hA

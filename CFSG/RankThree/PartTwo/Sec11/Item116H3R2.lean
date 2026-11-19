@@ -50,7 +50,7 @@ theorem chi_mul {M N : KFacts.Mat33} (hM : Shape M) : (M * N) 2 2 = M 2 2 * N 2 
 
 theorem blk_one : Item116Fusion.blk (1 : KFacts.Mat33) = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Item116Fusion.blk, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [Item116Fusion.blk]
 
 theorem blk_pow {M : KFacts.Mat33} (hM : Shape M) (k : ℕ) :
     Item116Fusion.blk (M ^ k) = Item116Fusion.blk M ^ k := by
@@ -101,21 +101,21 @@ theorem fc_eq {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val) :
     (f (Multiplicative.ofAdd (Pi.single 0 1)) : G) = c := by
   rw [hv]
-  simp [Pi.single_apply, show (1 : ZMod 3).val = 1 from rfl]
+  simp [show (1 : ZMod 3).val = 1 from rfl]
 
 theorem fd_eq {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val) :
     (f (Multiplicative.ofAdd (Pi.single 1 1)) : G) = d := by
   rw [hv]
-  simp [Pi.single_apply, show (1 : ZMod 3).val = 1 from rfl]
+  simp [show (1 : ZMod 3).val = 1 from rfl]
 
 theorem fa_eq {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val) :
     (f (Multiplicative.ofAdd (Pi.single 2 1)) : G) = a := by
   rw [hv]
-  simp [Pi.single_apply, show (1 : ZMod 3).val = 1 from rfl]
+  simp [show (1 : ZMod 3).val = 1 from rfl]
 
 theorem f_neg_mul {f : Multiplicative (Fin 3 → ZMod 3) ≃* A} (u : Fin 3 → ZMod 3) :
     (f (Multiplicative.ofAdd (-u)) : G) * (f (Multiplicative.ofAdd u) : G) = 1 := by
@@ -152,8 +152,8 @@ theorem mem_cd_closure_coord {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   | mem x hx =>
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
     rcases hx with rfl | rfl
-    · exact ⟨Pi.single 0 1, by simp [Pi.single_apply], (fc_eq hv).symm⟩
-    · exact ⟨Pi.single 1 1, by simp [Pi.single_apply], (fd_eq hv).symm⟩
+    · exact ⟨Pi.single 0 1, by simp, (fc_eq hv).symm⟩
+    · exact ⟨Pi.single 1 1, by simp, (fd_eq hv).symm⟩
   | one => exact ⟨0, rfl, by simp⟩
   | mul x y _ _ hx hy =>
     obtain ⟨u, hu, rfl⟩ := hx
@@ -202,11 +202,11 @@ theorem mem_zpowers_c_iff {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   · intro hx
     rw [← fc_eq hv] at hx
     obtain ⟨n, rfl⟩ := mem_zpowers_coord hx
-    simp [Pi.single_apply]
+    simp
   · rintro ⟨h1, h2⟩
     have hu : u = (((u 0).val : ℤ)) • (Pi.single 0 1 : Fin 3 → ZMod 3) := by
       funext i
-      fin_cases i <;> simp [Pi.single_apply, h1, h2, show (1 : ZMod 3).val = 1 from rfl]
+      fin_cases i <;> simp [h1, h2]
     have key : ∀ n : ℤ, (f (Multiplicative.ofAdd (n • (Pi.single 0 1 : Fin 3 → ZMod 3))) : G) =
         (f (Multiplicative.ofAdd (Pi.single 0 1)) : G) ^ n := by
       intro n
@@ -223,11 +223,11 @@ theorem mem_zpowers_d_iff {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   · intro hx
     rw [← fd_eq hv] at hx
     obtain ⟨n, rfl⟩ := mem_zpowers_coord hx
-    simp [Pi.single_apply]
+    simp
   · rintro ⟨h1, h2⟩
     have hu : u = (((u 1).val : ℤ)) • (Pi.single 1 1 : Fin 3 → ZMod 3) := by
       funext i
-      fin_cases i <;> simp [Pi.single_apply, h1, h2, show (1 : ZMod 3).val = 1 from rfl]
+      fin_cases i <;> simp [h1, h2]
     have key : ∀ n : ℤ, (f (Multiplicative.ofAdd (n • (Pi.single 1 1 : Fin 3 → ZMod 3))) : G) =
         (f (Multiplicative.ofAdd (Pi.single 1 1)) : G) ^ n := by
       intro n
@@ -243,7 +243,7 @@ theorem mem_zpowers_cd_imp {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     u 0 = u 1 ∧ u 2 = 0 := by
   rw [cd_eq hv] at hx
   obtain ⟨n, rfl⟩ := mem_zpowers_coord hx
-  simp [Pi.single_apply]
+  simp
 
 theorem mem_zpowers_cdinv_imp {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
@@ -253,8 +253,8 @@ theorem mem_zpowers_cdinv_imp {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   rw [cdinv_eq hv] at hx
   obtain ⟨n, rfl⟩ := mem_zpowers_coord hx
   constructor
-  · simp [Pi.single_apply, zsmul_eq_mul, mul_neg, zneg0]
-  · simp [Pi.single_apply, zneg0]
+  · simp [zsmul_eq_mul]
+  · simp
 
 end Membership
 
@@ -280,7 +280,7 @@ theorem conj_general {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     intro i
     fin_cases i <;>
       simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three, nsmul_eq_mul,
-        ZMod.natCast_zmod_val, ZMod.cast_id] <;> ring
+        ZMod.cast_id] <;> ring
   have hvec : Matrix.mulVec (coordMat f g) v =
       (v 0).val • (fun i => coordMat f g i 0) + (v 1).val • (fun i => coordMat f g i 1) +
         (v 2).val • (fun i => coordMat f g i 2) := funext hvec_pw
@@ -302,11 +302,13 @@ theorem zneg_two (x : ZMod 3) : -x = 2 * x := by
   revert x
   decide
 
+omit [Finite G] in
 theorem f_mul_ofAdd {f : Multiplicative (Fin 3 → ZMod 3) ≃* A} (u v : Fin 3 → ZMod 3) :
     (f (Multiplicative.ofAdd u) : G) * (f (Multiplicative.ofAdd v) : G) =
       (f (Multiplicative.ofAdd (u + v)) : G) := by
   rw [← Subgroup.coe_mul, ← map_mul, ofAdd_add]
 
+omit [Finite G] in
 theorem coordMat_row2 {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -317,10 +319,11 @@ theorem coordMat_row2 {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   have hmem : (w : G) * (f (Multiplicative.ofAdd (Pi.single j 1)) : G) * (w : G)⁻¹ ∈
       Subgroup.closure ({c, d} : Set G) := by
     apply hw
-    rw [mem_cd_iff hv, Pi.single_apply, if_neg (Ne.symm hj)]
+    rw [mem_cd_iff hv, Pi.single_apply, ite_eq_right (Ne.symm hj)]
   rw [Item116Fusion.conj_eq_coordMat f w j, mem_cd_iff hv] at hmem
   exact hmem
 
+omit [Finite G] in
 theorem shape_of_le {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -330,6 +333,7 @@ theorem shape_of_le {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   ⟨coordMat_row2 hv w (hw_of_normalizer_le w.2 hle) 0 (by decide),
     coordMat_row2 hv w (hw_of_normalizer_le w.2 hle) 1 (by decide)⟩
 
+omit [Finite G] in
 theorem coordMat_22_eq_one {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -401,6 +405,7 @@ theorem coordMat_of_central {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     decide
   · exact e21.trans zneg0
 
+omit [Finite G] in
 theorem exists_chi_ne_one {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -432,6 +437,7 @@ section Trans
 
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c d a : G}
 
+omit [Finite G] in
 theorem conj_c_eq {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -440,6 +446,7 @@ theorem conj_c_eq {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   rw [← fc_eq hv]
   exact Item116Fusion.conj_eq_coordMat f w 0
 
+omit [Finite G] in
 theorem conj_d_eq {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -448,6 +455,7 @@ theorem conj_d_eq {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   rw [← fd_eq hv]
   exact Item116Fusion.conj_eq_coordMat f w 1
 
+omit [Finite G] in
 theorem mem_zpowers_c_conj {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -457,6 +465,7 @@ theorem mem_zpowers_c_conj {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   rw [conj_c_eq hv w]
   exact mem_zpowers_c_iff hv _
 
+omit [Finite G] in
 theorem mem_zpowers_d_conj {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -466,6 +475,7 @@ theorem mem_zpowers_d_conj {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   rw [conj_d_eq hv w]
   exact mem_zpowers_d_iff hv _
 
+omit [Finite G] in
 theorem mem_zpowers_d_of_c {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -475,6 +485,7 @@ theorem mem_zpowers_d_of_c {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   rw [conj_c_eq hv w]
   exact mem_zpowers_d_iff hv _
 
+omit [Finite G] in
 theorem mem_zpowers_c_of_d {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -484,6 +495,7 @@ theorem mem_zpowers_c_of_d {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   rw [conj_d_eq hv w]
   exact mem_zpowers_c_iff hv _
 
+omit [Finite G] in
 theorem c_cd_imp {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -493,6 +505,7 @@ theorem c_cd_imp {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   rw [conj_c_eq hv w] at h
   exact mem_zpowers_cd_imp hv _ h
 
+omit [Finite G] in
 theorem d_cd_imp {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -502,6 +515,7 @@ theorem d_cd_imp {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   rw [conj_d_eq hv w] at h
   exact mem_zpowers_cd_imp hv _ h
 
+omit [Finite G] in
 theorem c_cdinv_imp {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -511,6 +525,7 @@ theorem c_cdinv_imp {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   rw [conj_c_eq hv w] at h
   exact mem_zpowers_cdinv_imp hv _ h
 
+omit [Finite G] in
 theorem d_cdinv_imp {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -520,6 +535,7 @@ theorem d_cdinv_imp {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   rw [conj_d_eq hv w] at h
   exact mem_zpowers_cdinv_imp hv _ h
 
+omit [Finite G] in
 theorem cond_of_34 {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -538,6 +554,7 @@ theorem cond_of_34 {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     obtain ⟨e2, -⟩ := d_cd_imp hv w h2
     exact Or.inr ⟨by rw [e1, zneg_two], e2.symm⟩
 
+omit [Finite G] in
 theorem cond_of_sd16 {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -576,6 +593,7 @@ theorem det_ne_zero_of_blk {M N : KFacts.Mat33}
 
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c d a : G}
 
+omit [Finite G] in
 theorem blk_mul_inv_one {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -586,6 +604,7 @@ theorem blk_mul_inv_one {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   have hs := shape_of_le hv hle w⁻¹
   rw [← Item116Fusion.blk_mul hs.1 hs.2, coordMat_mul_inv_eq, blk_one]
 
+omit [Finite G] in
 theorem blk_inv_mul_one {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -597,6 +616,7 @@ theorem blk_inv_mul_one {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   rw [← Item116Fusion.blk_mul hs.1 hs.2, ← coordMat_mul, inv_mul_cancel, coordMat_one_eq,
     blk_one]
 
+omit [Finite G] in
 theorem chi_mul_inv_one {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -667,6 +687,7 @@ section Core
 
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c d a : G}
 
+omit [Finite G] in
 theorem a_mem_norm_of_mem {x : G} (hx : x ∈ A) :
     x ∈ Subgroup.normalizer (A : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -679,6 +700,7 @@ theorem a_mem_norm_of_mem {x : G} (hx : x ∈ A) :
     rw [← e]
     exact A.mul_mem (A.mul_mem (A.inv_mem hx) hy) hx
 
+omit [Finite G] in
 theorem a_mem_norm {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val) :
@@ -688,13 +710,14 @@ theorem a_mem_norm {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     rwa [fa_eq hv] at h2
   exact a_mem_norm_of_mem ha
 
+omit [Finite G] in
 theorem a_sq_eq_inv {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val) :
     a * a = a⁻¹ := by
   have e : (Pi.single 2 1 + Pi.single 2 1 + Pi.single 2 1 : Fin 3 → ZMod 3) = 0 := by
     funext i
-    fin_cases i <;> simp [Pi.single_apply] <;> decide
+    fin_cases i <;> simp; decide
   have h1 := f_mul_ofAdd (f := f) (Pi.single 2 1) (Pi.single 2 1)
   have h2 := f_mul_ofAdd (f := f) (Pi.single 2 1 + Pi.single 2 1) (Pi.single 2 1)
   rw [e, ofAdd_zero, map_one, Subgroup.coe_one] at h2
@@ -792,6 +815,7 @@ theorem exists_anti_chi2 {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
       exact hB
     · rw [coordMat_mul, chi_mul (shape_of_le hv hle h), hh2, h22, mul_one]
 
+omit [Finite G] in
 theorem conj_a_eq {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)
@@ -813,6 +837,7 @@ theorem conj_a_eq {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
   · rw [hcol, e]
     simp only [mul_assoc, inv_mul_cancel_left]
 
+omit [Finite G] in
 theorem sq_conj {f : Multiplicative (Fin 3 → ZMod 3) ≃* A}
     (hv : ∀ v : Fin 3 → ZMod 3, (f (Multiplicative.ofAdd v) : G) =
       c ^ (v 0).val * d ^ (v 1).val * a ^ (v 2).val)

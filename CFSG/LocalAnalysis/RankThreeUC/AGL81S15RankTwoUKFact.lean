@@ -50,7 +50,7 @@ theorem hasScalarTorus_of_twistedA_three {L : Type} [Group L] [Finite L]
     {Q : TauCeti.PrimePower} (hQ : Q.p = 2) {hv : (TauCeti.LieTypeIndex.twistedA 3 Q).Valid}
     (e : L ⧸ Subgroup.center L ≃* (TauCeti.CFSGIndex.lie
       (⟨TauCeti.LieTypeIndex.twistedA 3 Q, hv⟩ : TauCeti.ValidLieTypeIndex)).Group)
-    {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hdvd : q ∣ Q.card - 1)
+    {q : ℕ} (hq : q.Prime) (_hq2 : q ≠ 2) (hdvd : q ∣ Q.card - 1)
     (hqZ : ¬ q ∣ Nat.card (Subgroup.center L)) {U : Subgroup L}
     (hU : CFSG.QuasithinUnique.IsSylowTwoOf U ⊤) : HasScalarTorus L q U := by
   have hdvd' : q ∣ 2 ^ Q.exponent - 1 := by

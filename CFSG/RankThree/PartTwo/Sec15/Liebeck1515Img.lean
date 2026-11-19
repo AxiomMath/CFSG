@@ -39,6 +39,7 @@ theorem img148_mono {X X' : Subgroup G} (h : X ≤ X') : img148 A Y X ≤ img148
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem card_img148_dvd (X : Subgroup G) : Nat.card (img148 A Y X) ∣ Nat.card X := by
   exact (Subgroup.card_map_dvd _ _).trans
     (Subgroup.card_comap_dvd_of_injective X (Y ⊔ A).subtype Subtype.val_injective)
@@ -161,8 +162,8 @@ theorem exists_hom_of_inf_eq_theta {X M : Subgroup G}
       simp [Subgroup.mem_subgroupOf]
     rw [h1, heq, inSubgroup]
     exact Subgroup.comap_map_eq_self_of_injective X.subtype_injective _
-  letI := Subgroup.normal_subgroupOf_of_le_normalizer hXM
-  letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hXM
+  let := Subgroup.normal_subgroupOf_of_le_normalizer hXM
+  let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hXM
   let e := QuotientGroup.quotientInfEquivProdNormalizerQuotient X M hXM
   let e₂ : ↥X ⧸ M.subgroupOf X ≃* ↥X ⧸ aschbacherSolvableCore 3 ↥X :=
     QuotientGroup.quotientMulEquivOfEq hθ

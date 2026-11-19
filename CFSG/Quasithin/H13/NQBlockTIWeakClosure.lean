@@ -107,7 +107,7 @@ theorem supplement_frattini_of_le_normalizer [Finite G] {L N R L₁ : Subgroup G
     le_antisymm (le_inf ((inf_le_inf_left _ inf_le_right).trans hTNR) inf_le_right)
       (inf_le_inf_right _ hRT)
   rw [hTR] at hS2
-  have hS3 := isSylowOf_sup_of_inf hRN₁ (T.isPGroup'.to_le hRT) hS2
+  have hS3 := isSylowOf_sup_of_inf hRN₁ (T.isPGroup.to_le hRT) hS2
   have hconj : ∀ l ∈ L₁, ∀ y ∈ (L₁ ⊓ N) ⊔ R, l * y * l⁻¹ ∈ (L₁ ⊓ N) ⊔ R := by
     intro l hl y hy
     have hy' : y ∈ (((L₁ ⊓ N) ⊔ R : Subgroup G) : Set G) := hy

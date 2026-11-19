@@ -52,7 +52,7 @@ private lemma a1413SpEndB_eq_zero_of_mulVec_eq_zero {K : Type} [Field K]
   have hCcol : C.col = ![v, w] := by
     funext j
     rfl
-  have hunit : IsUnit C := Matrix.linearIndependent_cols_iff_isUnit.mp (hCcol ▸ hvw)
+  have hunit : IsUnit C := Matrix.linearIndependent_col_iff_isUnit.mp (hCcol ▸ hvw)
   obtain ⟨u, hu⟩ := hunit
   have hPC : P * C = 0 := by
     ext i j
@@ -155,7 +155,7 @@ private lemma a1413SpEndB_mul_single_apply {K : Type} [Field K]
     (A * Matrix.single i j (1 : K) * B) i j = A i i * B j j := by
   rw [Matrix.mul_assoc, Matrix.mul_apply, Fin.sum_univ_two]
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_single_apply_same, Matrix.mul_single_apply_of_ne, Matrix.mul_apply]
+    simp [Matrix.mul_apply]
 
 private lemma a1413SpEndB_sum_single_mul {K : Type} [Field K]
     (A B : Matrix (Fin 2) (Fin 2) K) :
@@ -182,7 +182,7 @@ private lemma a1413SpEndB_Bmat_sq (a c : K) (P : Matrix (Fin 2) (Fin 2) K) :
     simp
   rw [h1, a1413SpEndB_Bmat, fromBlocks_multiply]
   congr 1 <;> (ext i j; fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.det_fin_two, Matrix.adjugate_fin_two] <;>
+    simp [Matrix.det_fin_two, Matrix.adjugate_fin_two] <;>
     ring)
 
 private lemma a1413SpEndB_Bmat_sim (a c : K) (P : Matrix (Fin 2) (Fin 2) K) :
@@ -207,11 +207,11 @@ private lemma a1413SpEndB_Bmat_comm (a c : K) (P g₁ g₂ : Matrix (Fin 2) (Fin
   have e7 := congrFun (congrFun hg' 1) 0
   have e8 := congrFun (congrFun hg' 1) 1
   simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val',
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Matrix.empty_val',
+    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val',
     Matrix.cons_val_fin_one] at e1 e2 e3 e4 e5 e6 e7 e8
   rw [a1413SpEndB_Bmat, blk, fromBlocks_multiply, fromBlocks_multiply]
   congr 1 <;> (ext i j; fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.adjugate_fin_two, diag2] <;>
+    simp [Matrix.adjugate_fin_two, diag2] <;>
     first
     | ring1
     | linear_combination c * e1 | linear_combination (-c) * e1
@@ -221,7 +221,7 @@ private lemma a1413SpEndB_Bmat_comm (a c : K) (P g₁ g₂ : Matrix (Fin 2) (Fin
     | linear_combination c * e5 | linear_combination (-c) * e5
     | linear_combination c * e6 | linear_combination (-c) * e6
     | linear_combination c * e7 | linear_combination (-c) * e7
-    | linear_combination c * e8 | linear_combination (-c) * e8)
+    | linear_combination c * e8)
 
 private lemma a1413SpEndB_adj_intertwine (P g₁ g₂ : Matrix (Fin 2) (Fin 2) K)
     (hP : P.det ≠ 0) (hg : P * g₁ = g₂ * P) : P.adjugate * g₂ = g₁ * P.adjugate := by
@@ -248,7 +248,7 @@ theorem sp4_commutant_B {K : Type} [Field K] [Finite K] (hodd : Odd (Nat.card K)
       conjSp 2 K B (blkSL K (g₁, g₂)) = blkSL K (g₁, g₂) ∧
       conjSp 2 K B (blkSL K (h₁, h₂)) = blkSL K (h₁, h₂) := by
   have h2 : (2 : K) ≠ 0 := two_ne_zero_of_odd_card hodd
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   set G1 : Matrix (Fin 2) (Fin 2) K := (g₁ : Matrix (Fin 2) (Fin 2) K) with hG1def
   set G2 : Matrix (Fin 2) (Fin 2) K := (g₂ : Matrix (Fin 2) (Fin 2) K) with hG2def
   set H1 : Matrix (Fin 2) (Fin 2) K := (h₁ : Matrix (Fin 2) (Fin 2) K) with hH1def
@@ -275,16 +275,16 @@ theorem sp4_commutant_B {K : Type} [Field K] [Finite K] (hodd : Odd (Nat.card K)
       congrArg Subtype.val hgh₂
   have htrG1 : G1.trace = 0 := by
     refine a1413SpEndB_trace_eq_zero hG1 ?_
-    simpa [hG1def] using g₁.2
+    simp [hG1def]
   have htrG2 : G2.trace = 0 := by
     refine a1413SpEndB_trace_eq_zero hG2 ?_
-    simpa [hG2def] using g₂.2
+    simp [hG2def]
   have htrH1 : H1.trace = 0 := by
     refine a1413SpEndB_trace_eq_zero hH1 ?_
-    simpa [hH1def] using h₁.2
+    simp [hH1def]
   have htrH2 : H2.trace = 0 := by
     refine a1413SpEndB_trace_eq_zero hH2 ?_
-    simpa [hH2def] using h₂.2
+    simp [hH2def]
   have htrGH2 : (G2 * H2).trace = 0 := by
     have hsq : (G2 * H2) * (G2 * H2) = -1 := by
       have e : ∀ X : Matrix (Fin 2) (Fin 2) K, G2 * (H2 * X) = -(H2 * (G2 * X)) := fun X => by
@@ -294,7 +294,7 @@ theorem sp4_commutant_B {K : Type} [Field K] [Finite K] (hodd : Odd (Nat.card K)
       rw [mul_neg, hH2, neg_neg]
     refine a1413SpEndB_trace_eq_zero hsq ?_
     rw [Matrix.det_mul]
-    simpa [hG2def, hH2def] using mul_eq_one.mpr ⟨g₂.2, h₂.2⟩
+    simp [hG2def, hH2def]
   let Φ : Matrix (Fin 2) (Fin 2) K → Matrix (Fin 2) (Fin 2) K := fun M =>
     M - G2 * M * G1 - H2 * M * H1 - (G2 * H2) * M * (G1 * H1)
   have hΦG : ∀ M, G2 * Φ M = Φ M * G1 := by
@@ -419,7 +419,7 @@ theorem sp4_commutant_B {K : Type} [Field K] [Finite K] (hodd : Odd (Nat.card K)
     (Polynomial.degree_X_pow 2) hdeg2 hcardodd
   have hac' : a ^ 2 + δ * c ^ 2 = d := by
     have h := hac
-    simp only [Polynomial.eval_add, Polynomial.eval_pow, Polynomial.eval_X, Polynomial.eval_sub,
+    simp only [Polynomial.eval_pow, Polynomial.eval_X, Polynomial.eval_sub,
       Polynomial.eval_mul, Polynomial.eval_C] at h
     linear_combination h
   set Bm : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K := a1413SpEndB_Bmat a c P with hBm

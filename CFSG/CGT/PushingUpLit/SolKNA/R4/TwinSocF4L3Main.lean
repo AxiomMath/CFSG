@@ -15,7 +15,7 @@ open scoped MatrixGroups
 
 theorem socF4L3_holds (r : ℕ) : SocF4L3 r := by
   intro hr A _ _ T _ hT hab hC hE R S z hd hc hnO hed hL3
-  haveI := hT
+  have := hT
   have hL3' := hL3
   obtain ⟨p, f, hp, hp2, hf, hq3, hm⟩ := hL3
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := LinearCover.exists_mulEquiv_projectiveSL_of_lieModel

@@ -56,7 +56,7 @@ theorem isConj_zD_of_dvd_card_centralizer {t : FiveSquareFrameGeneration.derived
   classical
   have hcardΩ : Nat.card FiveSquareFrameGeneration.derived = 4680000 :=
     FiveSquareSylow.card_G
-  haveI : Finite FiveSquareFrameGeneration.derived :=
+  have : Finite FiveSquareFrameGeneration.derived :=
     Nat.finite_of_card_ne_zero (by rw [hcardΩ]; norm_num)
   let C : Subgroup FiveSquareFrameGeneration.derived :=
     Subgroup.centralizer ({t} : Set FiveSquareFrameGeneration.derived)
@@ -105,7 +105,7 @@ theorem isConj_zD_of_dvd_card_centralizer {t : FiveSquareFrameGeneration.derived
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext (Subgroup.mem_centralizer_singleton_iff.mp (hPC y.2))
-  haveI : Finite (Sylow 2 FiveSquareFrameGeneration.derived) :=
+  have : Finite (Sylow 2 FiveSquareFrameGeneration.derived) :=
     Sylow.finite_of_finiteIndex P_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq FiveSquareFrameGeneration.derived P_sylow
     FiveSquareSylow.frameSylowClass

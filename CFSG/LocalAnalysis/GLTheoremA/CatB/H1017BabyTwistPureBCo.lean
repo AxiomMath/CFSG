@@ -21,7 +21,7 @@ private theorem eq_Dg_of_le_Qg {A : Subgroup (Equiv.Perm (Fin 2300))} (hAQ : A �
 
 private theorem exists_conj_le_Qg {B : Subgroup (Equiv.Perm (Fin 2300))} (hBP : B ≤ co2P)
     (hB : IsPGroup 3 B) : ∃ g ∈ co2P, B.map (MulAut.conj g).toMonoidHom ≤ Qg := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ : Nat.card (Qg.subgroupOf co2P) = 3 ^ (Nat.card co2P).factorization 3 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe Qg_le).toEquiv, card_Qg,
       factorization_card_co2P_three]

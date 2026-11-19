@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G] {z : G}
     simp
   mul_mem' := by
     intro α β hα hβ v
-    simp only [Set.mem_setOf_eq] at hα hβ ⊢
+    simp only [Set.mem_ofPred_eq] at hα hβ ⊢
     rw [MulAut.mul_apply, hα, hβ]
   inv_mem' := by
     intro α hα v

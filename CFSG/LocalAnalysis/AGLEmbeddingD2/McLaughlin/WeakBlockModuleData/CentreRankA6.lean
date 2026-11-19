@@ -118,7 +118,7 @@ theorem a6_no_normal_three_complement {Y : Type} [Group Y] [Finite Y]
       omega
     rw [ha]
     interval_cases a <;> omega
-  haveI := hKn
+  have := hKn
   obtain ⟨k, hk⟩ := hidx
   have hTK : T ≤ K := by
     intro t ht
@@ -181,7 +181,7 @@ theorem two_le_pRank_of_A6_extension {X : Type} [Group X] [Finite X] (P : Subgro
     omega
   have hcycS : IsCyclic ↥((R : Subgroup ↥P).map P.subtype) :=
     CFSG.RankThree.PartOne.isCyclic_of_pRank_le_one h3p (by norm_num) (Subgroup.map_subtype_le _)
-      (R.isPGroup'.map P.subtype) hrk
+      (R.isPGroup.map P.subtype) hrk
   have hcyc : IsCyclic ↥(R : Subgroup ↥P) :=
     ((Subgroup.equivMapOfInjective (R : Subgroup ↥P) P.subtype P.subtype_injective).isCyclic).mpr
       hcycS
@@ -195,7 +195,7 @@ theorem two_le_pRank_of_A6_extension {X : Type} [Group X] [Finite X] (P : Subgro
   have hz0R : z0 ∈ (R : Subgroup ↥P) := by
     have hpg : IsPGroup 3 (Subgroup.zpowers z0) :=
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hz0ord]; norm_num)
-    haveI : (Subgroup.zpowers z0).Normal := by
+    have : (Subgroup.zpowers z0).Normal := by
       refine ⟨fun n hn g => ?_⟩
       obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hn
       have : g * z0 ^ k * g⁻¹ = z0 ^ k := by
@@ -212,7 +212,7 @@ theorem two_le_pRank_of_A6_extension {X : Type} [Group X] [Finite X] (P : Subgro
   have hKbJ : Kb ≤ J := Subgroup.map_subtype_le K'
   have hKbsub : Kb.subgroupOf J = K' := by
     rw [hKb, Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective J.subtype_injective]
-  haveI := hKn
+  have := hKn
   have hK'norm : K'.Normal := Subgroup.Normal.map hKn φ hφs
   have hKbnorm : (Kb.subgroupOf J).Normal := by rw [hKbsub]; exact hK'norm
   have hKcard : Nat.card K = (R : Subgroup ↥P).index := (hKc.index_eq_card).symm
@@ -230,7 +230,7 @@ theorem two_le_pRank_of_A6_extension {X : Type} [Group X] [Finite X] (P : Subgro
     have : Nat.card K * K.index = Nat.card K * Nat.card R := by rw [h1, h2]
     exact Nat.eq_of_mul_eq_mul_left hpos this
   have hidx : ∃ k : ℕ, (Kb.subgroupOf J).index = 3 ^ k := by
-    obtain ⟨a, ha⟩ := R.isPGroup'.exists_card_eq
+    obtain ⟨a, ha⟩ := R.isPGroup.exists_card_eq
     have hdvd : (Kb.subgroupOf J).index ∣ 3 ^ a := by
       rw [hKbsub, ← ha, ← hKidx]
       exact Subgroup.index_map_dvd K hφs

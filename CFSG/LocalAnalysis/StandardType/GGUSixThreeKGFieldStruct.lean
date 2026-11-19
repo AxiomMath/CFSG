@@ -103,7 +103,7 @@ private theorem direct_key {G : Type*} [Group G] (X N M stZ c : G) (k : ℕ)
 
 private theorem exists_primitiveRoot_three [Finite K] (hK : Nat.card K = (2 ^ n) ^ 2)
     (hpq : 3 ∣ 2 ^ n + 1) : ∃ ζ : Kˣ, IsPrimitiveRoot ζ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsq : (2 ^ n) ^ 2 - 1 = (2 ^ n + 1) * (2 ^ n - 1) := by
     conv_lhs => rw [show (1 : ℕ) = 1 ^ 2 by norm_num]
     rw [Nat.sq_sub_sq]
@@ -187,7 +187,7 @@ private theorem chi_nontrivial [Finite K] (hKd : UnitaryFieldData 2 n K)
     (hM3 : M ^ 3 = GeneralLinearGroup.scalar (Fin 6) l)
     (hl : ∀ c : Kˣ, c ^ 3 ≠ l)
     (hMA : TableB.projConj (unitarySU 2 n K 6) ⟨M, hMN⟩ ∈ Ab)
-    {χ : Ab →* Kˣ} (hχ3 : ∀ a, χ a ^ 3 = 1)
+    {χ : Ab →* Kˣ} (_hχ3 : ∀ a, χ a ^ 3 = 1)
     (hχcomm : ∀ (a : Ab) (N : GL (Fin 6) K)
         (hN : N ∈ Subgroup.normalizer (unitarySU 2 n K 6 : Set (GL (Fin 6) K))),
         TableB.projConj (unitarySU 2 n K 6) ⟨N, hN⟩ =
@@ -195,7 +195,7 @@ private theorem chi_nontrivial [Finite K] (hKd : UnitaryFieldData 2 n K)
           N * M = GeneralLinearGroup.scalar (Fin 6) (χ a) * (M * N)) :
     ∃ a : Ab, χ a ≠ 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   push Not at hcon
   have hex : ∀ a : Ab, ∃ (g : GL (Fin 6) K)
@@ -339,7 +339,7 @@ theorem exists_fieldStruct [Finite K] (hKd : UnitaryFieldData 2 n K)
       X * M = GeneralLinearGroup.scalar (Fin 6) ζ * (M * X) ∧ X * Z = Z * X ∧ M * Z = Z * M ∧
       Z ∉ LargeEvenScalars (Fin 6) K := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : Nat.Prime 3 := Nat.prime_three
   have hdq : ((6 : ℕ), 2 ^ n) ≠ (3, 2) := fun he => by
     have h := congrArg Prod.fst he

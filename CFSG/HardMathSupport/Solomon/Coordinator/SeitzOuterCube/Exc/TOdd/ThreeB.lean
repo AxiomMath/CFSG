@@ -31,7 +31,7 @@ theorem threeB_card_fix (P : D4ParOdd ℓ f X σ) : Nat.card (fixSubfield σ) = 
   exact hcard
 
 theorem threeB_ringChar_ne_two (P : D4ParOdd ℓ f X σ) : ringChar X ≠ 2 := by
-  haveI := P.charP
+  have := P.charP
   rw [ringChar.eq X ℓ]
   exact P.ne_two
 

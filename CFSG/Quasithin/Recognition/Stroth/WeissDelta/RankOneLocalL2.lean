@@ -52,7 +52,6 @@ private theorem eq_of_isPGroup_of_normal_sylow {G : Type*} [Group G] [Finite G]
   let SP : Sylow p H := hP2H.toSylow (by simpa [Subgroup.relIndex] using hPnotdvd)
   have hSPcoe : (SP : Subgroup H) = P_H := IsPGroup.toSylow_coe hP2H _
   have hSPnorm : SP.Normal := by
-    change (SP : Subgroup H).Normal
     rw [hSPcoe]
     exact hPnorm
   let Q_H : Subgroup H := Q.subgroupOf H
@@ -289,7 +288,7 @@ private theorem root_exists (S : L2Setup X Ω N m) (hm : 2 ≤ m) [Finite X] [Fi
     exact hmap
   exact ⟨R_X, hRXle, hRXnorm, hR_X2, hregular⟩
 
-private theorem pair_eq_stabilizer_inf (S : L2Setup X Ω N m) {ω ω' : Ω} :
+private theorem pair_eq_stabilizer_inf (_S : L2Setup X Ω N m) {ω ω' : Ω} :
     (N ⊓ MulAction.stabilizer X ω ⊓ MulAction.stabilizer X ω') =
       (MulAction.stabilizer ↥N ω ⊓ MulAction.stabilizer ↥N ω').map N.subtype := by
   ext x
@@ -353,7 +352,7 @@ private theorem odd_closure_aux (S : L2Setup X Ω N m) (hm : 2 ≤ m) [Finite X]
     · rintro ⟨h, -, -⟩
       exact h
   have hquot : IsCyclic (Y ⧸ Tp.subgroupOf Y) := by
-    haveI : IsCyclic (X ⧸ N) := hXNCyc
+    have : IsCyclic (X ⧸ N) := hXNCyc
     have hYker : IsCyclic (Y ⧸ f.ker) :=
       isCyclic_of_injective (QuotientGroup.kerLift f) (QuotientGroup.kerLift_injective f)
     exact (QuotientGroup.quotientMulEquivOfEq hker).isCyclic.mp hYker
@@ -379,8 +378,8 @@ private theorem regular_on_complement [Finite Ω] [Fintype Ω] {Tp : Subgroup X}
       ∃! t : Tp, (t : X) • x = y := by
   classical
   let C := {x : Ω // x ≠ ω ∧ x ≠ ω'}
-  haveI : Finite Ω := Finite.of_fintype Ω
-  haveI : Fintype C := Fintype.ofFinite C
+  have : Finite Ω := Finite.of_fintype Ω
+  have : Fintype C := Fintype.ofFinite C
   have hCcard : Nat.card C = Nat.card Tp := by
     change Nat.card {x : Ω // x ≠ ω ∧ x ≠ ω'} = Nat.card Tp
     rw [natCard_subtype_ne_two hne, Nat.card_eq_fintype_card, hΩcard, hcardT]
@@ -451,7 +450,7 @@ private theorem rankOneLocal_and_zassenhaus_psl2_core {X Ω : Type} [Group X] [F
     (hΩ : Fintype.card Ω = 2 ^ m + 1) :
     RankOneLocal X Ω N ∧ RankOneZassenhaus X Ω N := by
   classical
-  letI : N.Normal := hN
+  let : N.Normal := hN
   obtain ⟨S⟩ := exists_l2Setup h2 m hm N hN e hΩ
   have hKcard : Nat.card (L2K m) = 2 ^ m := GaloisField.card 2 m (by omega)
   have hq4 : 4 ≤ Nat.card (L2K m) := by
@@ -459,18 +458,18 @@ private theorem rankOneLocal_and_zassenhaus_psl2_core {X Ω : Type} [Group X] [F
     calc
       4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
-  haveI : IsSimpleGroup (PSL2MatrixGroup (L2K m)) :=
+  have : IsSimpleGroup (PSL2MatrixGroup (L2K m)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hq4
   have hPperf : Group.IsPerfect (PSL2MatrixGroup (L2K m)) :=
     psl2_isPerfect_of_card_gt_three (L2K m) (by rw [hKcard]; omega)
   have hNperf : Group.IsPerfect ↥N := by
-    haveI : Group.IsPerfect (PSL2MatrixGroup (L2K m)) := hPperf
+    have : Group.IsPerfect (PSL2MatrixGroup (L2K m)) := hPperf
     have hmap : Group.IsPerfect
         ((⊤ : Subgroup (PSL2MatrixGroup (L2K m))).map e.symm.toMonoidHom) :=
       Group.IsPerfect.map _
     rw [Subgroup.map_top_of_surjective _ e.symm.surjective] at hmap
     exact Group.IsPerfect.top_iff.mp hmap
-  haveI : Nontrivial ↥N := e.toEquiv.nontrivial
+  have : Nontrivial ↥N := e.toEquiv.nontrivial
   have hNnotcomm : ¬ IsMulCommutative ↥N := Group.IsPerfect.not_isMulCommutative ↥N
   have hcent : Subgroup.centralizer (N : Set X) = ⊥ :=
     centralizer_eq_bot_of_isMultiplyPretransitive hNnotcomm h2
@@ -478,7 +477,7 @@ private theorem rankOneLocal_and_zassenhaus_psl2_core {X Ω : Type} [Group X] [F
     CFSG.GH74.Uniqueness.Bender.BenderType.linear m hm e
   have hOutCyc : IsCyclic (Outer ↥N) :=
     (CFSG.GH74.Uniqueness.Bender.BenderType.outer_linear hBender).1
-  haveI : IsCyclic (Outer ↥N) := hOutCyc
+  have : IsCyclic (Outer ↥N) := hOutCyc
   let φ : X ⧸ N →* Outer ↥N :=
     QuotientGroup.lift N (CFSG.RankThree.PartOne.CTP.outerHom N)
       (fun _ hg => (MonoidHom.mem_ker
@@ -489,7 +488,7 @@ private theorem rankOneLocal_and_zassenhaus_psl2_core {X Ω : Type} [Group X] [F
   have hXNCyc : IsCyclic (X ⧸ N) := isCyclic_of_injective φ hφinj
   have hperfect : CFSG.perfectResidual X = N := by
     apply le_antisymm
-    · haveI : IsCyclic (X ⧸ N) := hXNCyc
+    · have : IsCyclic (X ⧸ N) := hXNCyc
       have hSolv : Group.IsSolvable (X ⧸ N) := inferInstance
       open CFSG.GroupTheory.CoprimeActionSupport.TwoModuloExtension in
       exact perfectResidual_le_of_isSolvable_quotient hSolv
@@ -548,11 +547,11 @@ private theorem rankOneLocal_and_zassenhaus_psl2_core {X Ω : Type} [Group X] [F
     intro ω ω' hne
     obtain ⟨r, hr⟩ := exists_torus_conj_X S hne
     rw [hr]
-    haveI : IsCyclic ↥S.T := S.hTcyc
+    have : IsCyclic ↥S.T := S.hTcyc
     let e₁ : ↥S.T ≃* ↥(S.T.map (MulAut.conj r).toMonoidHom) :=
       Subgroup.equivMapOfInjective S.T (MulAut.conj r).toMonoidHom
         (MulAut.conj r).injective
-    haveI : IsCyclic ↥(S.T.map (MulAut.conj r).toMonoidHom) :=
+    have : IsCyclic ↥(S.T.map (MulAut.conj r).toMonoidHom) :=
       isCyclic_of_surjective e₁.toMonoidHom e₁.surjective
     let e₂ : ↥(S.T.map (MulAut.conj r).toMonoidHom) ≃*
         ↥((S.T.map (MulAut.conj r).toMonoidHom).map N.subtype) :=
@@ -609,7 +608,7 @@ private theorem rankOneLocal_and_zassenhaus_psl2_core {X Ω : Type} [Group X] [F
           Nat.card Ω = Nat.card (ℙ (L2K m) (Fin 2 → (L2K m))) :=
             Nat.card_congr S.theta
           _ = 2 ^ m + 1 := S.model.card_eq)
-    haveI : Nonempty {x : Ω // x ≠ ω ∧ x ≠ ω'} := by
+    have : Nonempty {x : Ω // x ≠ ω ∧ x ≠ ω'} := by
       apply Fintype.card_pos_iff.mp
       rw [← Nat.card_eq_fintype_card, natCard_subtype_ne_two hne,
         Nat.card_eq_fintype_card]
@@ -657,7 +656,7 @@ private theorem rankOneLocal_and_zassenhaus_psl2_core {X Ω : Type} [Group X] [F
         _ = (t : X)⁻¹ • (g • (γ₀ : Ω)) := by rw [mul_smul]
         _ = (t : X)⁻¹ • ((t : X) • (γ₀ : Ω)) := by rw [htδ]
         _ = (γ₀ : Ω) := by simp
-    haveI : IsMulCommutative Tp := (hTorusCyclic ω ω' hne).isMulCommutative
+    have : IsMulCommutative Tp := (hTorusCyclic ω ω' hne).isMulCommutative
     have hcommT : ∀ u ∈ Tp, h * u = u * h := by
       intro u hu
       let uT : Tp := ⟨u, hu⟩

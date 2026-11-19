@@ -21,9 +21,9 @@ theorem stroth53Odd_holds (h34 : Stroth34Statement) (hRoot : Stroth310RootStatem
   have hrM : r ∈ M := hc.Rt_le_M t hr
   obtain ⟨K, fK, finK, hK, m, hm, φ, u, u', hφ, hker, hact, huu', hL, hL'⟩ :=
     sec5NatPointsSp_of h34 hRoot G M Q Z B hc n t hs hsp r hr hplane
-  letI := fK
-  letI := finK
-  haveI : CharP K 2 := by
+  let := fK
+  let := finK
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hu0 : u ≠ 0 := fun h0 => huu' (by simp [h0])

@@ -25,19 +25,19 @@ private lemma exists_sl2_inverting_pair (F : Type*) [Field F] [CharP F 2] :
     rw [show (3 : ℕ) = 2 + 1 by norm_num, pow_succ, pow_two, Matrix.mul_fin_two,
       Matrix.mul_fin_two, Matrix.one_fin_two]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [A, CharTwo.neg_eq, CharTwo.add_self_eq_zero]
+    fin_cases i <;> fin_cases j <;> simp [CharTwo.add_self_eq_zero]
   have hB2 : B * B = 1 := by
     refine Subtype.ext ?_
     show (B : Matrix (Fin 2) (Fin 2) F) * B = 1
     rw [Matrix.mul_fin_two, Matrix.one_fin_two]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [B, CharTwo.neg_eq, CharTwo.add_self_eq_zero]
+    fin_cases i <;> fin_cases j <;> simp [CharTwo.add_self_eq_zero]
   have hBAB : B * A * B = A ^ 2 := by
     refine Subtype.ext ?_
     show ((B : Matrix (Fin 2) (Fin 2) F) * A) * B = (A : Matrix (Fin 2) (Fin 2) F) ^ 2
     rw [Matrix.mul_fin_two, Matrix.mul_fin_two, pow_two, Matrix.mul_fin_two]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [A, B, CharTwo.neg_eq, CharTwo.add_self_eq_zero]
+    fin_cases i <;> fin_cases j <;> simp [CharTwo.add_self_eq_zero]
   have hA2inv : A ^ 2 = A⁻¹ :=
     eq_inv_of_mul_eq_one_left (by rw [← pow_succ, hA3])
   have hBA : B * A * B⁻¹ = A⁻¹ := by
@@ -79,7 +79,7 @@ theorem exists_ne_one_pow_three_eq_one_inv_of_isPSLType_two {n : ℕ} {X : Type}
 variable {G : Type} [Group G] [Finite G]
 
 private lemma exists_inverting_element_of_sylow_complement {L H : Type*} [Group L] [Finite L]
-    [Group H] [Finite H] (f : L →* H) (hf : Function.Surjective f)
+    [Group H] [Finite H] (f : L →* H) (_hf : Function.Surjective f)
     {A : Subgroup L} {Astar : Subgroup H} [IsMulCommutative Astar]
     (hAsyl : CFSG.ABGLocalTools.IsSylowOf 3 A (Astar.comap f))
     (hAmap : A.map f = Astar) (hAdisj : A ⊓ f.ker = ⊥) {w : L}
@@ -87,7 +87,7 @@ private lemma exists_inverting_element_of_sylow_complement {L H : Type*} [Group 
     (hwinv : ∀ y ∈ Astar, f w * y * (f w)⁻¹ = y⁻¹) :
     ∃ m ∈ Subgroup.normalizer (A : Set L), ∀ a ∈ A, m * a * m⁻¹ = a⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAle : A ≤ Astar.comap f := by
     rw [← Subgroup.map_le_iff_le_comap, hAmap]
   obtain ⟨n, hnN, m, hmNorm, hnm⟩ :=
@@ -134,7 +134,7 @@ private lemma exists_sylow_three_map_of_card_three {L H : Type*} [Group L] [Fini
     ∃ A : Subgroup L, CFSG.ABGLocalTools.IsSylowOf 3 A (Astar.comap f) ∧
       A.map f = Astar ∧ A ⊓ f.ker = ⊥ ∧ Nat.card A = 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hker3 : ¬ 3 ∣ Nat.card f.ker := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hkerP
     rw [hk]
@@ -154,7 +154,7 @@ private lemma exists_sylow_three_map_of_card_three {L H : Type*} [Group L] [Fini
       rw [hNcard, Nat.factorization_mul (Nat.card_pos.ne') (by norm_num), Finsupp.add_apply,
         Nat.factorization_eq_zero_of_not_dvd hker3, Nat.Prime.factorization_self (by norm_num)]
     rw [hfac, pow_one]
-  have hA3grp : IsPGroup 3 A := Q.isPGroup'.map N.subtype
+  have hA3grp : IsPGroup 3 A := Q.isPGroup.map N.subtype
   have hAdisj : A ⊓ f.ker = ⊥ :=
     disjoint_iff.mp (IsPGroup.disjoint_of_ne 3 2 (by norm_num) A f.ker hA3grp hkerP)
   have hAmap : A.map f = Astar := by
@@ -185,6 +185,7 @@ private lemma exists_sylow_three_map_of_card_three {L H : Type*} [Group L] [Fini
       · rw [h3, hAstar]
   exact ⟨A, hAsyl, hAmap, hAdisj, hA3⟩
 
+omit [Finite G] in
 private lemma conj_mk_zpowers_eq_inv {C P : Subgroup G} (hPC : P ≤ C)
     [(P.subgroupOf C).Normal] {x w : G} (hx : x ∈ C) (hw : w ∈ C)
     (hwx : w * x * w⁻¹ * x ∈ P) :
@@ -243,10 +244,10 @@ theorem exists_card_three_inverted_of_mem_of_pGroup {C P : Subgroup G} (hPC : P 
     (hx1 : x ∉ P) (hx3 : x ^ 3 ∈ P) (hwx : w * x * w⁻¹ * x ∈ P) :
     ∃ W : Subgroup G, W ≤ C ∧ Nat.card W = 3 ∧ ∃ s ∈ C, ∀ y ∈ W, s * y * s⁻¹ = y⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPn : (P.subgroupOf C).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPC).mpr hCP
-  letI : (P.subgroupOf C).Normal := hPn
+  let : (P.subgroupOf C).Normal := hPn
   let f : ↥C →* (↥C ⧸ P.subgroupOf C) := QuotientGroup.mk' (P.subgroupOf C)
   have hf : Function.Surjective f := QuotientGroup.mk'_surjective _
   let q : ↥C ⧸ P.subgroupOf C := f ⟨x, hx⟩
@@ -279,7 +280,7 @@ theorem exists_card_three_inverted_of_mem_of_pGroup {C P : Subgroup G} (hPC : P 
   obtain ⟨hwnorm, hwinv⟩ := conj_mk_zpowers_eq_inv (P := P) hPC hx hw hwx
   obtain ⟨A, hAsyl, hAmap, hAdisj, hA3⟩ :=
     exists_sylow_three_map_of_card_three f hf hkerP hAstar
-  haveI : IsMulCommutative Astar := Subgroup.zpowers_isMulCommutative q
+  have : IsMulCommutative Astar := Subgroup.zpowers_isMulCommutative q
   obtain ⟨m, hmNorm, hmA⟩ :=
     exists_inverting_element_of_sylow_complement f hf hAsyl hAmap hAdisj hwnorm hwinv
   refine ⟨A.map C.subtype, Subgroup.map_subtype_le A, ?_, ⟨C.subtype m, m.2, ?_⟩⟩
@@ -290,6 +291,7 @@ theorem exists_card_three_inverted_of_mem_of_pGroup {C P : Subgroup G} (hPC : P 
       simp [map_mul, map_inv, mul_assoc]
     rw [h1, hmA a ha, map_inv]
 
+omit [Finite G] in
 private lemma exists_mem_lift_pCore_quotient {I C : Subgroup G} (hCI : C ≤ I)
     (hcov : C ⊔ (pCore 2 ↥I).map I.subtype = I) (xb : ↥I ⧸ pCore 2 ↥I) :
     ∃ x : G, ∃ hx : x ∈ C, QuotientGroup.mk' (pCore 2 ↥I) ⟨x, hCI hx⟩ = xb := by
@@ -299,7 +301,7 @@ private lemma exists_mem_lift_pCore_quotient {I C : Subgroup G} (hCI : C ≤ I)
   have hPin : I ≤ Subgroup.normalizer (P : Set G) :=
     CFSG.ABGLocalTools.le_normalizer_map_subtype I (pCore 2 ↥I)
   obtain ⟨y, hy⟩ := QuotientGroup.mk'_surjective (pCore 2 ↥I) xb
-  haveI : (P.subgroupOf I).Normal :=
+  have : (P.subgroupOf I).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPI).mpr hPin
   have hsup : (C.subgroupOf I) ⊔ (P.subgroupOf I) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hCI hPI, hcov, Subgroup.subgroupOf_self]
@@ -325,7 +327,7 @@ theorem exists_card_three_inverted_of_sup_pCore_eq {n : ℕ} {I C : Subgroup G}
     (hcov : C ⊔ (pCore 2 ↥I).map I.subtype = I) :
     ∃ W : Subgroup G, W ≤ C ∧ Nat.card W = 3 ∧ ∃ s ∈ C, ∀ y ∈ W, s * y * s⁻¹ = y⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let P : Subgroup G := (pCore 2 ↥I).map I.subtype
   have hCI : C ≤ I := hcov ▸ le_sup_left
   have hPI : P ≤ I := Subgroup.map_subtype_le _
@@ -382,12 +384,12 @@ private lemma exists_conj_eq_of_le_sup_pGroup {I O V : Subgroup G} (hOI : O ≤ 
     (hV : IsPGroup 3 V) {s : G} (hsV : ∀ v ∈ V, s * v * s⁻¹ ∈ V ⊔ O) :
     ∃ k ∈ V ⊔ O, ∀ x : G, x ∈ V.map ((MulAut.conj s) : G →* G) ↔ k⁻¹ * x * k ∈ V := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set VO : Subgroup G := V ⊔ O with hVO
   have hVOI : VO ≤ I := sup_le hVI hOI
   have hdisj : V ⊓ O = ⊥ :=
     disjoint_iff.mp (IsPGroup.disjoint_of_ne 3 2 (by norm_num) V O hV hO)
-  haveI hOnI : (O.subgroupOf I).Normal :=
+  have hOnI : (O.subgroupOf I).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hOI).mpr hIO
   have hO3 : ¬ 3 ∣ Nat.card O := by
     obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp hO
@@ -434,10 +436,10 @@ theorem exists_conj_mem_of_conj_mem_sup {I O V : Subgroup G} (hOI : O ≤ I)
     {s : G} (hs : s ∈ I) (hsV : ∀ v ∈ V, s * v * s⁻¹ ∈ V ⊔ O) :
     ∃ t ∈ I, ∀ v ∈ V, t * v * t⁻¹ ∈ V ∧ (s * v * s⁻¹)⁻¹ * (t * v * t⁻¹) ∈ O := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set VO : Subgroup G := V ⊔ O with hVO
   have hVOI : VO ≤ I := sup_le hVI hOI
-  haveI : (O.subgroupOf I).Normal :=
+  have : (O.subgroupOf I).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hOI).mpr hIO
   obtain ⟨k, hkVO, hkconj⟩ := exists_conj_eq_of_le_sup_pGroup hOI hIO hO hVI hV hsV
   have hkI : k⁻¹ ∈ I := I.inv_mem (hVOI hkVO)

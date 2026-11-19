@@ -18,6 +18,7 @@ namespace EpsIn
 
 variable {h : G} (hE : EpsIn M V h)
 
+omit [Finite G] in
 private theorem conjSubgroup_normalizer_conj_oOf {y : G} :
     conjSubgroup y (rOf M h) ≤ Subgroup.normalizer (conjSubgroup y (oOf M h) : Set G) := by
   have hRN : rOf M h ≤ Subgroup.normalizer (oOf M h : Set G) :=
@@ -134,6 +135,7 @@ private theorem conj_oOf_commute_p0_inf_centralizer (hE : EpsIn M V h) {y : G}
     (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hbot) (Subgroup.mem_zpowers c)
   exact Subgroup.mem_centralizer_iff.mp hcent o (Subgroup.mem_zpowers o)
 
+omit [Finite G] in
 private theorem conj_oOf_commute_conj_V (hE : EpsIn M V h) {y a b : G}
     (ha : a ∈ conjSubgroup y (oOf M h)) (hb : b ∈ conjSubgroup y V) :
     a * b = b * a := by

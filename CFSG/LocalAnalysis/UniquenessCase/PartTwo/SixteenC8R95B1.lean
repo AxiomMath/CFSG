@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem r95_xbar_hasL32Quot {D : Data G} {Y H D₃ : Subgroup G} (hyp : Hyp91 D Y H D₃)
     (hX : LieModel (BarO3 (Opp 3 Y)) .PSL 3 2 1) : HasL32Quot (xbar9 Y H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXH : Opp 3 Y ≤ H :=
     (CFSG.LocalAnalysis.UniquenessCase.PartOne.Section9.opp_le 3 Y).trans hyp.2.1.1
   have hle : img9 H (Opp 3 Y) ≤ img9 H (L9 Y H) :=
@@ -48,7 +48,7 @@ theorem r95_xbar_hasL32Quot {D : Data G} {Y H D₃ : Subgroup G} (hyp : Hyp91 D 
 private theorem r95_lift_order_three {Y H : Subgroup G} (hXH : Opp 3 Y ≤ H)
     {Qb : Subgroup (Hbar9 H)} (hQ : Nat.card Qb = 3) (hQX : Qb ≤ img9 H (Opp 3 Y)) :
     ∃ A : Subgroup G, A ≤ Opp 3 Y ∧ Nat.card A = 3 ∧ img9 H A = Qb := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ψ := toImg9 hXH
   set Qc : Subgroup ↥(img9 H (Opp 3 Y)) := Qb.subgroupOf (img9 H (Opp 3 Y))
   have eQ : ↥Qc ≃* ↥Qb := Subgroup.subgroupOfEquivOfLe hQX
@@ -89,7 +89,7 @@ theorem r95_normalizer_le_wbar {D : Data G} {Y H D₃ : Subgroup G} (hyp : Hyp91
     ∀ Dq : Subgroup (Lbar9 Y H), Dq ≤ xbar9 Y H → Nat.card Dq = 3 →
       normalizer (Dq : Set (Lbar9 Y H)) ≤ wbar9 D Y H := by
   intro Dq hDq h3 xb hxb
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Lb := img9 H (L9 Y H)
   have hDb : Nat.card (Dq.map Lb.subtype) = 3 := by
     rw [Subgroup.card_map_of_injective Lb.subtype_injective, h3]

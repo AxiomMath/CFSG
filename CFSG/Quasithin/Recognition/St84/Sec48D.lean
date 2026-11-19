@@ -505,7 +505,7 @@ private theorem exists_nontrivial_action_QA (C : X.Comm48 s r d) :
 private theorem natPre_QA (C : X.Comm48 s r d)
     (hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2)) :
     NatPre (X.Gi 0) (X.L 0) (X.Q 0) X.QA (X.n 0) := by
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
   have hQ := X.Q_quot C.hyp.char C.hyp.sing (Nat.le_of_succ_le C.hyp.five_le) 0
   have hA := QA_normal C hH
   have hcard : X.QA.relIndex (X.Q 0) = 2 ^ (2 * X.n 0) := by
@@ -610,10 +610,10 @@ private theorem two_pow_le_relIndex_QA_relCent (C : X.Comm48 s r d)
     have h := (X.Q_quot C.hyp.char C.hyp.sing (Nat.le_of_succ_le C.hyp.five_le) 0).2.2.2.2.1
     rw [show (0 : ℤ) + 1 = 1 by norm_num, C.n_one_eq hH] at h
     simpa [Setup.QA, inf_comm] using h
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
-  haveI : Finite ↥(X.Q 0) :=
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Finite ↥(X.Q 0) :=
     Finite.of_injective (Subgroup.inclusion (X.Q_le_Gi 0)) (Subgroup.inclusion_injective _)
-  haveI : Finite ↥(relCent (X.Q 0) X.QA (X.edgeSylow 0)) :=
+  have : Finite ↥(relCent (X.Q 0) X.QA (X.edgeSylow 0)) :=
     Finite.of_injective
       (Subgroup.inclusion (fun x hx => ((mem_relCent hQnormA).mp hx).1))
       (Subgroup.inclusion_injective _)
@@ -624,7 +624,7 @@ private theorem two_pow_le_relIndex_QA_relCent (C : X.Comm48 s r d)
 
 private theorem natQuot_QA (C : X.Comm48 s r d)
     (hH : X.ZQ d ≤ X.Q ((d : ℤ) + 2)) : NatQuot (X.L 0) (X.Q 0) X.QA (X.n 0) := by
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
   exact natQuot_of_two_pow_le (C.hyp.two_le_n 0) (natPre_QA C hH) (X.Q_le_L 0)
     (X.isSylowTwoOf_edgeSylow_L 0) (two_pow_le_relIndex_QA_relCent C hH)
 
@@ -756,11 +756,11 @@ private theorem QA_coprime_decomp (C : X.Comm48 s r d) :
     (inf_le_left : X.Ki 0 ≤ X.K).trans K_le_normalizer_QA
   have hP2 : IsPGroup 2 ↥P := (pCoreOf_isPGroup' (X.Gi 1)).to_le inf_le_left
   have hPle : P ≤ X.Gi 1 := inf_le_left.trans (X.Q_le_Gi 1)
-  haveI hPfin : Finite ↥P := finite_of_le_stabilizer X.hyp (H := P) hPle
-  haveI : Group.IsNilpotent ↥P := hP2.isNilpotent
+  have hPfin : Finite ↥P := finite_of_le_stabilizer X.hyp (H := P) hPle
+  have : Group.IsNilpotent ↥P := hP2.isNilpotent
   have hsolv : Group.IsSolvable ↥P := inferInstance
   have hLle : L ≤ X.Gi 0 := inf_le_right.trans (X.L_le_Gi 0)
-  haveI hLfin : Finite ↥L := finite_of_le_stabilizer X.hyp (H := L) hLle
+  have hLfin : Finite ↥L := finite_of_le_stabilizer X.hyp (H := L) hLle
   have hLcard : Nat.card ↥L = 2 ^ X.n 0 - 1 := X.card_Ki 0
   have hcop : Nat.Coprime (Nat.card ↥L) (Nat.card ↥P) := by
     obtain ⟨m, hm⟩ := hP2.exists_card_eq

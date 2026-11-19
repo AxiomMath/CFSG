@@ -16,7 +16,7 @@ theorem kd264PL_holds
     (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) : KD264PL p := by
   intro d _ hpq β hβ hβ1 P hPX hP hPdvd
   obtain ⟨-, hsimp⟩ := CFSG.Assembly.lie_finite_simple d
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := hsimp
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := hsimp
   have hnc : ∃ a b : (TauCeti.CFSGIndex.lie d).Group, a * b ≠ b * a := by
     by_contra h
     push Not at h

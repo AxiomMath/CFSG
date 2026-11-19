@@ -77,7 +77,7 @@ theorem bitB_eq (x n : ℕ) : bitB x n = x.testBit n := by
     rfl
   · have hne : x &&& 2 ^ n ≠ 0 := fun h0 => by
       have := congrArg (fun y => y.testBit n) h0
-      simp [Nat.testBit_and, Nat.testBit_two_pow, hb] at this
+      simp [Nat.testBit_and, hb] at this
     simpa [Nat.blt_eq] using Nat.pos_of_ne_zero hne
 
 theorem cd_eq (c j : ℕ) : cd c j = c / 16 ^ j % 16 := by
@@ -109,11 +109,11 @@ theorem maskN_testBit (n : ℕ) (g : ℕ → Bool) (k : ℕ) :
     rw [Nat.testBit_or, ih]
     by_cases hkn : k = n
     · subst hkn
-      cases hg : g k <;> simp [Nat.one_shiftLeft, Nat.testBit_two_pow]
+      cases hg : g k <;> simp [Nat.one_shiftLeft]
     · have hlt : (k < n + 1) = (k < n) := by
         apply propext
         omega
-      cases hg : g n <;> simp [Nat.one_shiftLeft, Nat.testBit_two_pow, hlt, Ne.symm hkn]
+      cases hg : g n <;> simp [Nat.one_shiftLeft, hlt, Ne.symm hkn]
 
 theorem popc_eq (x n : ℕ) :
     popc x n = ((Finset.range n).filter fun k => x.testBit k = true).card := by
@@ -125,8 +125,8 @@ theorem popc_eq (x n : ℕ) :
       Finset.filter_insert]
     rw [Nat.testBit_eq_decide_div_mod_eq]
     by_cases h : x / 2 ^ n % 2 = 1
-    · rw [if_pos (by simp [h]), Finset.card_insert_of_notMem (by simp), h]
-    · rw [if_neg (by simp [h])]
+    · rw [ite_eq_left (by simp [h]), Finset.card_insert_of_notMem (by simp), h]
+    · rw [ite_eq_right (by simp [h])]
       omega
 
 theorem iform_e6 (x y : Fin 6 → ℤ) : iform (τ := Tag.E6) x y =
@@ -282,7 +282,7 @@ theorem decodeVec_inj {a b : ℕ} (ha : a < 16 ^ 6) (hb : b < 16 ^ 6)
   have e : ∀ j (hj : j < 6), a / 16 ^ j % 16 = b / 16 ^ j % 16 := fun j hj => by
     have := congrFun h ⟨j, hj⟩
     rw [dv', dv', cd_eq, cd_eq] at this
-    simp only [Fin.val_mk, sub_left_inj, Nat.cast_inj] at this
+    simp only [sub_left_inj, Nat.cast_inj] at this
     exact this
   have e0 := e 0 (by norm_num)
   have e1 := e 1 (by norm_num)
@@ -365,7 +365,7 @@ theorem decode_BA {R : ℕ} (hR : rootsOK R e6Certificate.roots = true)
   by_cases h : i = j
   · have h' : Nat.beq i.val j.val = true := beq_true.mpr (hij.mp h)
     rw [h'] at hc
-    rw [if_pos h]
+    rw [ite_eq_left h]
     simp only [Fin.isValue, Fin.val_zero, Fin.val_one, Fin.val_two] at hc ⊢
     push_cast [mul_one]
     have h3 : ((3 : Fin 6) : ℕ) = 3 := rfl
@@ -380,7 +380,7 @@ theorem decode_BA {R : ℕ} (hR : rootsOK R e6Certificate.roots = true)
       · rfl
       · exact absurd (hij.mpr (beq_true.mp hb)) h
     rw [h'] at hc
-    rw [if_neg h]
+    rw [ite_eq_right h]
     simp only [Fin.isValue, Fin.val_zero, Fin.val_one, Fin.val_two] at hc ⊢
     have h3 : ((3 : Fin 6) : ℕ) = 3 := rfl
     have h4 : ((4 : Fin 6) : ℕ) = 4 := rfl
@@ -509,8 +509,7 @@ theorem frame_facts {R Z N P t : ℕ} (hR : rootsOK R e6Certificate.roots = true
       have memS : ∀ g < 72, iform (rt g) (rt p) = 0 → iform (rt g) (rt q) = 0 →
           iform (rt g) (rt r) = 0 → g ∈ S := by
         intro g hg e0 e1 e2
-        simp only [S, Finset.mem_filter, Finset.mem_range, Nat.testBit_and, rel_eq _ _ _ hg,
-          Bool.and_eq_true]
+        simp only [S, Finset.mem_filter, Finset.mem_range, Nat.testBit_and, Bool.and_eq_true]
         refine ⟨hg, ?_, ?_, ?_⟩
         · rw [← rel_eq _ _ _ hg]; exact (mZ' l0 hg).mpr e0
         · rw [← rel_eq _ _ _ hg]; exact (mZ' l1 hg).mpr e1
@@ -581,16 +580,16 @@ theorem frame_facts {R Z N P t : ℕ} (hR : rootsOK R e6Certificate.roots = true
       · rintro ⟨hγ, e0, e1⟩
         obtain ⟨k, hk, rfl⟩ := exists_rt hγ
         refine ⟨k, ?_, rfl⟩
-        simp only [T, Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq]
+        simp only [T, Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq]
         exact ⟨hk, (testBit_row_and hk).mpr ⟨(mZ' l3 hk).mpr e0, (mZ' l4 hk).mpr e1⟩⟩
       · rintro ⟨k, hkT, rfl⟩
-        simp only [T, Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hkT
+        simp only [T, Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hkT
         obtain ⟨hk, hb⟩ := hkT
         obtain ⟨e0, e1⟩ := (testBit_row_and hk).mp hb
         exact ⟨isRoot_rt hk, (mZ' l3 hk).mp e0, (mZ' l4 hk).mp e1⟩
     have hinj : Set.InjOn rt (T : Set ℕ) := by
       intro x hx y hy hxy
-      simp only [T, Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hx hy
+      simp only [T, Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hx hy
       exact rt_inj hx.1 hy.1 hxy
     rw [hset, hinj.ncard_image, Set.ncard_coe_finset, hT]
 
@@ -699,7 +698,7 @@ theorem sg_cast (e x : ℕ) : (sg e x : ZMod 24) = if e = 1 then -(x : ZMod 24) 
   by_cases he : e = 1
   · subst he
     change ((24 - x % 24 : ℕ) : ZMod 24) = _
-    rw [Nat.cast_sub (Nat.mod_lt _ (by norm_num)).le, ZMod.natCast_mod, if_pos rfl]
+    rw [Nat.cast_sub (Nat.mod_lt _ (by norm_num)).le, ZMod.natCast_mod, ite_eq_left rfl]
     have : ((24 : ℕ) : ZMod 24) = 0 := ZMod.natCast_self 24
     rw [this, zero_sub]
   · have hb : Nat.beq e 1 = false := by
@@ -707,7 +706,7 @@ theorem sg_cast (e x : ℕ) : (sg e x : ZMod 24) = if e = 1 then -(x : ZMod 24) 
       · rfl
       · exact absurd (beq_true.mp hb) he
     unfold sg
-    rw [hb, if_neg he]
+    rw [hb, ite_eq_right he]
 
 theorem yAt_def (Bp d : ℕ) (u : ℕ → ℕ) (i : ℕ) : yAt Bp d u i =
     (b24 Bp 0 i * u 0 + b24 Bp 1 i * u 1 +
@@ -790,13 +789,12 @@ theorem yAt_eq {R : ℕ} (hR : rootsOK R e6Certificate.roots = true)
   push_cast
   cases sw <;> rcases he₀ with rfl | rfl <;> rcases he₁ with rfl | rfl <;>
     rcases he₂ with rfl | rfl <;>
-    simp only [dOf, eb, dbit_eq, sg_cast, Nat.cast_mul, if_true, if_false, Bool.false_eq_true,
-      ite_true, ite_false] at hb0 hb1 hb2 hb3 hb4 hb5 ⊢ <;>
+    simp only [dOf, eb, dbit_eq, sg_cast, Nat.cast_mul, ite_true, ite_false, Bool.false_eq_true] at hb0 hb1 hb2 hb3 hb4 hb5 ⊢ <;>
     norm_num <;>
     simp only [Frame.col] at hb0 hb1 hb2 hb3 hb4 hb5 <;>
     rw [hb0, hb1, hb2, hb3, hb4, hb5, hw0, hw1, hw2, hw3, hw4, hw5] <;>
-    simp [Frame.col] <;>
-    first | rfl | ring
+    simp <;>
+    ring
 
 theorem aE_cast (A k j : ℕ) : (aE A k j : ZMod 24) = ((((aX A k j : ℤ) - 64 : ℤ)) : ZMod 24) := by
   change (((aX A k j + 8) % 24 : ℕ) : ZMod 24) = _
@@ -880,7 +878,7 @@ theorem tag0_false (hR : rootsOK R e6Certificate.roots = true)
   have e := yAt_eq hR hlt hF hfix him (Pi.single j 1)
     (fun k => aE (nth (hdH f) 6) k (nth tg 2)) hw ⟨nth tg 1, ha⟩
   have d := zmod24_dvd e
-  simp only [Fin.val_mk] at d
+  simp only at d
   have h8 : yAt (bP R (hdH f)) (dOf sw e₀ e₁ e₂) (fun k => aE (nth (hdH f) 6) k (nth tg 2))
       (nth tg 1) % 8 = 0 := by omega
   have hy' : Nat.beq (yAt (bP R (hdH f)) (dOf sw e₀ e₁ e₂)
@@ -1040,7 +1038,7 @@ theorem tw_sound {R Z N P : ℕ} {Ls : List (List (List (List (List ℕ))))}
   have hF := frame_facts hR hM hs
   obtain ⟨hlt, -⟩ := structOK_parts hs
   have ht := framesTags_sound (hT c hc) f hf
-  simp only [if_true] at ht
+  simp only [ite_true] at ht
   intro z sw e₀ e₁ e₂ hfix him hrr
   have htg := tagsOK_parts ht _ (dOf_lt sw e₀ e₁ e₂)
   rcases tagOK_cases htg with h0 | h1 | ⟨-, h2⟩ | ⟨h3, -⟩
@@ -1059,7 +1057,7 @@ theorem un_sound {R Z N P : ℕ} {Ls : List (List (List (List (List ℕ))))}
   have hF := frame_facts hR hM hs
   obtain ⟨hlt, -⟩ := structOK_parts hs
   have ht := framesTags_sound (hU c hc) f hf
-  simp only [Bool.false_eq_true, if_false] at ht
+  simp only [Bool.false_eq_true, ite_false] at ht
   intro z sw e₀ e₁ e₂ hfix him hrr
   have htg := tagsOK_parts ht _ (dOf_lt sw e₀ e₁ e₂)
   rcases tagOK_cases htg with h0 | h1 | ⟨h2, -⟩ | ⟨-, h3⟩

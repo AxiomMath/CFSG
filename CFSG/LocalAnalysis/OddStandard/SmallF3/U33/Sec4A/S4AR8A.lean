@@ -34,7 +34,7 @@ theorem coprime_core (F : Subgroup Γ) [F.Normal] (c : Γ →* Γ)
     have e : (x * y)⁻¹ * (y * x) = y⁻¹ * x⁻¹ * y⁻¹⁻¹ * x⁻¹⁻¹ := by group
     rw [e]
     exact h1
-  letI : CommGroup (Γ ⧸ F) := { (inferInstance : Group (Γ ⧸ F)) with mul_comm := hcomm }
+  let : CommGroup (Γ ⧸ F) := { (inferInstance : Group (Γ ⧸ F)) with mul_comm := hcomm }
   let σ : Γ ⧸ F →* Γ ⧸ F := QuotientGroup.lift F (π.comp c) (by
     intro f hf
     rw [MonoidHom.mem_ker, MonoidHom.comp_apply, hπ1]
@@ -70,7 +70,7 @@ theorem coprime_core (F : Subgroup Γ) [F.Normal] (c : Γ →* Γ)
   have hπτ2 : π τ ^ 2 = 1 := by
     rw [pow_two, ← map_mul]
     exact (hπ1 _).mpr (hsq τ)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hkercard : Nat.card δ.ker = 2 := by
     rw [hker_eq, Nat.card_zpowers]
     exact orderOf_eq_prime hπτ2 hπτ1

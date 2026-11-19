@@ -20,7 +20,7 @@ theorem finite_mulAut_of_finite [Finite X] : Finite (MulAut X) :=
 theorem mem_range_conj_of_pow_prime [Finite X] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hout : Nat.card (Outer X) ≤ 2) {φ : MulAut X} (hφ : φ ^ p = 1) :
     φ ∈ (MulAut.conj : X →* MulAut X).range := by
-  haveI : Finite (MulAut X) := finite_mulAut_of_finite
+  have : Finite (MulAut X) := finite_mulAut_of_finite
   set q := QuotientGroup.mk' (inner X) φ with hq
   have hq3 : q ^ p = 1 := by rw [hq, ← map_pow, hφ, map_one]
   have hpos : 0 < Nat.card (Outer X) := Nat.card_pos
@@ -70,7 +70,7 @@ theorem noSig_of_inner_outer [Finite X] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         Nat.card V % p ≠ 1)
     (hO : ∀ σ : MulAut X, Nat.Coprime (orderOf σ) p → (∀ f ∈ E₀, σ f = f) → σ = 1) :
     NoSig p (E₀.map (MulAut.conj : X →* MulAut X)) := by
-  haveI : Finite (MulAut X) := finite_mulAut_of_finite
+  have : Finite (MulAut X) := finite_mulAut_of_finite
   have hinj : Function.Injective (MulAut.conj : X →* MulAut X) :=
     conj_injective_of_center_bot_sg hcen
   intro T hTcop hET
@@ -186,7 +186,7 @@ theorem noSig_planes_of_sylow [Finite X] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
       NoSig p (E₀.map (MulAut.conj : X →* MulAut X))) :
     ∀ Ê : Subgroup (MulAut X), IsElemAbelian p Ê → Nat.card Ê = p ^ 2 → NoSig p Ê := by
   intro Ê hÊ hÊ2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E₀, hE₀el, hE₀2, hÊeq⟩ := exists_plane_of_aut hp hp2 hcen hout hÊ hÊ2
   obtain ⟨S1, hS1⟩ := hsyl
   obtain ⟨S', hS'⟩ := hE₀el.isPGroup.exists_le_sylow

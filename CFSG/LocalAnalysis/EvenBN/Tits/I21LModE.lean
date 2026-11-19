@@ -43,7 +43,7 @@ theorem E25_exists_restr (J : Subgroup (V ≃ₗ[ZMod 2] V)) (M : Submodule (ZMo
 variable [Module.Finite (ZMod 2) V] {J : Subgroup (V ≃ₗ[ZMod 2] V)} {a : V ≃ₗ[ZMod 2] V}
 
 theorem E25_finite_GL : Finite (V ≃ₗ[ZMod 2] V) := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite V := Module.finite_of_finite (ZMod 2)
   exact Finite.of_injective (fun e : V ≃ₗ[ZMod 2] V => (e : V → V)) DFunLike.coe_injective
 
 theorem E25_stable_finrank (hH : E25Hyp J a) {U : Submodule (ZMod 2) V}
@@ -67,8 +67,8 @@ theorem E25_stable_le (hH : E25Hyp J a) {M U : Submodule (ZMod 2) V}
     · omega
 
 theorem E25_odd (hH : E25Hyp J a) : Odd (Nat.card J) := by
-  haveI := E25_finite_GL (V := V)
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have := E25_finite_GL (V := V)
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hp : IsPGroup 5 J := fun g => ⟨1, by
     apply Subtype.ext
     simpa using hH.exp g g.2⟩
@@ -78,14 +78,14 @@ theorem E25_odd (hH : E25Hyp J a) : Odd (Nat.card J) := by
 
 theorem E25_eq_zpowers_of_card (hH : E25Hyp J a) (hcard : Nat.card J = 5) :
     J = Subgroup.zpowers a := by
-  haveI := E25_finite_GL (V := V)
+  have := E25_finite_GL (V := V)
   have hle : Subgroup.zpowers a ≤ J := Subgroup.zpowers_le.mpr hH.mem
   refine (Subgroup.eq_of_le_of_card_ge hle ?_).symm
   rw [Nat.card_zpowers, hH.ord, hcard]
 
 theorem E25_eq_zpowers_of_isCyclic (hH : E25Hyp J a) (hcyc : IsCyclic J) :
     J = Subgroup.zpowers a := by
-  haveI := E25_finite_GL (V := V)
+  have := E25_finite_GL (V := V)
   apply E25_eq_zpowers_of_card hH
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := J)
   have hg5 : g ^ 5 = 1 := Subtype.ext (by simpa using hH.exp g g.2)
@@ -125,7 +125,7 @@ theorem E25_range_restr (hH : E25Hyp J a) {M : Submodule (ZMod 2) V}
     (hd : finrank (ZMod 2) M = 4) (r : J →* (M ≃ₗ[ZMod 2] M))
     (hr : ∀ (g : J) (u : M), ((r g u : M) : V) = (g : V ≃ₗ[ZMod 2] V) u) :
     Nat.card r.range = 5 ∧ r.range = Subgroup.zpowers (r ⟨a, hH.mem⟩) := by
-  haveI := E25_finite_GL (V := M)
+  have := E25_finite_GL (V := M)
   have hirr : ∀ U : Submodule (ZMod 2) M, (∀ g ∈ r.range, Stable g U) → U = ⊥ ∨ U = ⊤ := by
     intro U hU
     have hW : ∀ g ∈ J, Stable g (U.map M.subtype) := by
@@ -154,7 +154,7 @@ theorem E25_range_restr (hH : E25Hyp J a) {M : Submodule (ZMod 2) V}
     rw [h1] at this
     exact hu0 (hH.fix u this.symm)
   have hord : orderOf (r ⟨a, hH.mem⟩) = 5 := by
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     exact orderOf_eq_prime (hr5 _) hra
   have hle : Subgroup.zpowers (r ⟨a, hH.mem⟩) ≤ r.range := Subgroup.zpowers_le.mpr ⟨_, rfl⟩
   have hcard5 : Nat.card r.range = 5 := by
@@ -176,7 +176,7 @@ theorem E25_kernel_data (hH : E25Hyp J a) {M : Submodule (ZMod 2) V}
       Nat.card K * 5 = Nat.card J ∧
       (∀ H : Subgroup (V ≃ₗ[ZMod 2] V), H ≤ J → H ⊓ K = ⊥ → Nat.card H ∣ 5) ∧
       ∀ g ∈ J, ∃ k : ℕ, ∀ v ∈ M, g v = a ^ k • v := by
-  haveI := E25_finite_GL (V := M)
+  have := E25_finite_GL (V := M)
   obtain ⟨r, hr⟩ := E25_exists_restr J M hM
   obtain ⟨hcard5, hzp⟩ := E25_range_restr hH hd r hr
   have hKmem : ∀ g : V ≃ₗ[ZMod 2] V, g ∈ (MonoidHom.ker r).map J.subtype ↔
@@ -354,7 +354,7 @@ theorem E25_core (hH : E25Hyp J a) (hne : J ≠ Subgroup.zpowers a) :
       ∃ K₁ K₂ : Subgroup (V ≃ₗ[ZMod 2] V), K₁ ≤ J ∧ K₂ ≤ J ∧ K₁ ⊓ K₂ = ⊥ ∧ K₁ ⊔ K₂ = J ∧
         Nat.card K₁ = 5 ∧ Nat.card K₂ = 5 ∧ (∀ v : V, v ∈ M₁ ↔ ∀ g ∈ K₁, g v = v) ∧
         ∀ v : V, v ∈ M₂ ↔ ∀ g ∈ K₂, g v = v := by
-  haveI := E25_finite_GL (V := V)
+  have := E25_finite_GL (V := V)
   obtain ⟨M₁, M₂, hd₁, hd₂, hc, hs₁, hs₂⟩ := E25_exists_two hH hne
   obtain ⟨K₁, hK₁J, hK₁m, hK₁c, -, hK₁p⟩ := E25_kernel_data hH hs₁ hd₁
   obtain ⟨K₂, hK₂J, hK₂m, hK₂c, hK₂d, hK₂p⟩ := E25_kernel_data hH hs₂ hd₂
@@ -506,6 +506,7 @@ variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] {B : Type*} [Group B] 
 
 variable {ρ : B →* (V ≃ₗ[ZMod 2] V)} {x t z h : B}
 
+omit [Finite B] in
 theorem module_E25_abs (H : HypM ρ x t z h)
     (hab : ∀ a ∈ Jbar ρ x, ∀ b ∈ Jbar ρ x, a * b = b * a) :
     Nat.card (Jbar ρ x) = 25 ∧
@@ -518,7 +519,7 @@ theorem module_E25_abs (H : HypM ρ x t z h)
         ∃ K₁ K₂ : Subgroup (V ≃ₗ[ZMod 2] V), K₁ ≤ Jbar ρ x ∧ K₂ ≤ Jbar ρ x ∧ K₁ ⊓ K₂ = ⊥ ∧
           K₁ ⊔ K₂ = Jbar ρ x ∧ Nat.card K₁ = 5 ∧ Nat.card K₂ = 5 ∧
           (∀ v : V, v ∈ V₁ ↔ ∀ g ∈ K₁, g v = v) ∧ (∀ v : V, v ∈ V₂ ↔ ∀ g ∈ K₂, g v = v) := by
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by rw [H.dim]; norm_num)
   have hx5 : (ρ x) ^ 5 = 1 := by rw [← H.ord_x]; exact pow_orderOf_eq_one _
   obtain ⟨hcard, M₁, M₂, hd₁, hd₂, hc, hst, huniq, hpow, hK⟩ :=
     E25_core (E25_Jbar_hyp H hab) (E25_Jbar_ne_zpowers H)

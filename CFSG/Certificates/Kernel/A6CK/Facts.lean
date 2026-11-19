@@ -17,7 +17,7 @@ theorem a6c_facts_of_parts {Γ : Type} [Group Γ] (m : A6CModel 6 Γ)
     A6CPairFactsK Γ (fun a => IsConj (A6CElt m (a0M6 ())) a)
       (fun y => IsConj (A6CElt m (refl0M6 ())) y) 40 4 := by
   classical
-  haveI : Finite Γ := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite Γ := Nat.finite_of_card_ne_zero (by omega)
   have hrefl : ∀ y ∈ rF.L.toList, A6CSimArr 6 y ∧ IsConj (A6CElt m (refl0M6 ())) (A6CElt m y) :=
     (a6c_classOK_sound m hK1).2.2
   have hinR : ∀ c : Mat, A6CSimArr 6 c → inRefl rF c = true →

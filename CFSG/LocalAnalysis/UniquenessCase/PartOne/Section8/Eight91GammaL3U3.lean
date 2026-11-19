@@ -24,7 +24,7 @@ private theorem exists_noncommuting_of_card_nine {X : Type} [Group X] [Finite X]
     intro a b
     by_contra hab
     exact h ⟨a, b, hab⟩
-  letI : CommGroup X := { ‹Group X› with mul_comm := hcomm }
+  let : CommGroup X := { ‹Group X› with mul_comm := hcomm }
   have hp : (Nat.card X).Prime := IsSimpleGroup.prime_card
   obtain ⟨k, hk⟩ : 9 ∣ Nat.card X := by
     have hdvd := Subgroup.card_dvd_of_le (H := E) (K := ⊤) le_top

@@ -21,6 +21,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace Ctx23L
 
+omit [Finite G] in
 private theorem mul_conj_mem_sup_zpowers_pCoreOf {L : Subgroup G} {a : G}
     (haN : a ∈ Subgroup.normalizer (L : Set G)) (hInd : InducedBar L a 1) {l : G}
     (hl : l ∈ L) :
@@ -53,6 +54,7 @@ private theorem mul_conj_mem_sup_zpowers_pCoreOf {L : Subgroup G} {a : G}
   rw [hdecomp]
   exact Subgroup.mul_mem_sup (Subgroup.mem_zpowers a) hinv
 
+omit [Finite G] in
 private theorem le_normalizer_sup_zpowers_pCoreOf {L : Subgroup G} {a : G}
     (haN : a ∈ Subgroup.normalizer (L : Set G)) (hInd : InducedBar L a 1) :
     L ≤ Subgroup.normalizer
@@ -125,7 +127,7 @@ private theorem isSylowOf_zpowers_sup_pCoreOf {L : Subgroup G} {a : G}
       Nat.factorization_mul hprime.ne_zero (pow_ne_zero m two_ne_zero),
       Finsupp.add_apply, hprime.factorization_self,
       Nat.factorization_eq_zero_of_not_dvd hnotdvd, add_zero]
-  haveI : Fact (orderOf a).Prime := ⟨hprime⟩
+  have : Fact (orderOf a).Prime := ⟨hprime⟩
   have hSyl : CFSG.ABGLocalTools.IsSylowOf (orderOf a) P Y := by
     refine CFSG.ABGLocalTools.isSylowOf_of_card le_sup_left ?_
     rw [hcardP, hfactor, pow_one]
@@ -155,7 +157,7 @@ theorem eq_one_of_inducedBar_one {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D 
     omega
   let P : Subgroup G := Subgroup.zpowers a₀
   let Y : Subgroup G := Subgroup.zpowers a₀ ⊔ CFSG.Open.pCoreOf 2 c.L
-  haveI : Fact (orderOf a₀).Prime := ⟨hkprime⟩
+  have : Fact (orderOf a₀).Prime := ⟨hkprime⟩
   obtain ⟨hSyl, hLY⟩ := isSylowOf_zpowers_sup_pCoreOf ha₀N hInd₀ hkprime hodd₀ hr2
   have hPleM : P ≤ D.M :=
     (Subgroup.zpowers_le.mpr ha₀K).trans (CFSG.Open.IsSubnormal.le hK.1)
@@ -189,6 +191,7 @@ private theorem mem_pCore_of_mem_inf_centralizer_V {D : Data G} {Ch : Choice2011
   have hqk : q = x := Subtype.ext hqval
   rwa [← hqk]
 
+omit [Finite G] in
 private theorem conj_mul_conj_inf_centralizer {L V : Subgroup G} {a l : G}
     (haNL : a ∈ Subgroup.normalizer (L : Set G))
     (haC : a ∈ Subgroup.centralizer (V : Set G))
@@ -223,6 +226,7 @@ private theorem conj_mul_conj_inf_centralizer {L V : Subgroup G} {a l : G}
           (a * l * a⁻¹ * l⁻¹) := by rw [hmain]
     _ = (a * l * a⁻¹ * l⁻¹) * v := by group
 
+omit [Finite G] in
 private theorem inducedBar_one_of_mem_centralizer_V {L V : Subgroup G} {a : G}
     (haNL : a ∈ Subgroup.normalizer (L : Set G))
     (haC : a ∈ Subgroup.centralizer (V : Set G))
@@ -307,7 +311,7 @@ theorem phiAdd_apply (a : G) (ha : a ∈ c.N) (v : Fin 2 → X.κ.K) :
     phiAdd X a ha v = Multiplicative.toAdd (X.κ.β (conjVEquiv a ha
       ((betaMulEquiv X).symm (Multiplicative.ofAdd v)))) := by
   change Multiplicative.toAdd (phiMulAut X a ha (Multiplicative.ofAdd v)) = _
-  simp only [phiMulAut, MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
+  simp only [phiMulAut, MulEquiv.trans_apply]
   rfl
 
 theorem phiAdd_mulVec (a : G) (ha : a ∈ c.N)
@@ -436,8 +440,8 @@ theorem exists_eOf_eq_smul (h4 : S23_4 D Ch) (h23 : S23_23 D Ch) (h1930 : H1930 
       apply (betaMulEquiv X).injective
       simpa [betaMulEquiv] using congrArg Multiplicative.ofAdd h1
     exact Subtype.ext (congrArg (fun x : ↥c.V => (x : G)) h2)
-  letI : Fintype ↥D.Z := Fintype.ofFinite _
-  letI : Fintype X.κ.K := Fintype.ofFinite _
+  let : Fintype ↥D.Z := Fintype.ofFinite _
+  let : Fintype X.κ.K := Fintype.ofFinite _
   have hcard' : Fintype.card ↥D.Z = Fintype.card X.κ.K := by
     rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, hZcard]
   have hsurj : Function.Surjective f :=
@@ -632,10 +636,6 @@ private theorem inducedBar_conj_mk_of_alpha_eq {D : Data G} {Ch : Choice2011 G}
       (QuotientGroup.mk (s := CFSG.pCore 2 ↥c.L) l) =
     QuotientGroup.mk (s := CFSG.pCore 2 ↥c.L) l'
   rw [MulAut.conj_apply]
-  change QuotientGroup.mk (s := CFSG.pCore 2 ↥c.L) ℓ₀ *
-      QuotientGroup.mk (s := CFSG.pCore 2 ↥c.L) l *
-      (QuotientGroup.mk (s := CFSG.pCore 2 ↥c.L) ℓ₀)⁻¹ =
-    QuotientGroup.mk (s := CFSG.pCore 2 ↥c.L) l'
   rw [← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul]
   exact hquot.symm
 

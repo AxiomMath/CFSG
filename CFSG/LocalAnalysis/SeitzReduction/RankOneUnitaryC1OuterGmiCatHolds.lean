@@ -266,7 +266,7 @@ theorem gmi_fix_sylow_of_j1 {Y : Type} [Group Y] [Finite Y]
     show (g ^ k) ^ 2 ^ 1 = 1
     rw [pow_one, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul]
     simp [sq, hg2]
-  have hsup := hgp.to_sup_of_normal_right' TW.isPGroup' (zpowers_le.mpr hgN)
+  have hsup := hgp.to_sup_of_normal_right' TW.isPGroup (zpowers_le.mpr hgN)
   have heq : (zpowers g ⊔ (TW : Subgroup CFSG.Open.walterJ1)) ≤
       (TW : Subgroup CFSG.Open.walterJ1) :=
     TW.maximal_isPGroup.2 hsup le_sup_right

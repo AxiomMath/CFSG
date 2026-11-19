@@ -145,7 +145,7 @@ theorem eq_of_pure_class_two (K : Type) [Field K] [Finite K] {D : Subgroup (ModG
     beta_reduce
     rw [hf0, pinnedX_zero, mul_one]
     exact mem_rootSubgroup.2 ⟨a, rfl⟩
-  haveI : Finite (rootSubgroup Tag.F4 K ν) :=
+  have : Finite (rootSubgroup Tag.F4 K ν) :=
     Finite.of_equiv _ (rootSubgroupEquiv Tag.F4 K ν).toEquiv
   refine Subgroup.eq_of_le_of_card_ge hDle ?_
   obtain ⟨g, -, rfl⟩ := hD

@@ -176,7 +176,7 @@ open scoped Pointwise
 
 @[expose] noncomputable def xg (j : ℕ) : CFSG.Sporadic.Fi24.J :=
   if j < 4 then wordElt (nthL J.words j)
-  else if h : nth J.defs (j - 4) % 256 < j ∧ nth J.defs (j - 4) / 256 < j then
+  else if _h : nth J.defs (j - 4) % 256 < j ∧ nth J.defs (j - 4) / 256 < j then
     (xg (nth J.defs (j - 4) % 256))⁻¹ * (xg (nth J.defs (j - 4) / 256))⁻¹ *
       xg (nth J.defs (j - 4) % 256) * xg (nth J.defs (j - 4) / 256)
   else 1
@@ -200,6 +200,7 @@ theorem idx_wordElt : ∀ w : List ℕ, (∀ l ∈ w, l < 26) → ∀ p < 306936
     rw [← idx_wordElt w (fun l' h' => hw l' (List.mem_cons_of_mem _ h')) p hp]
     exact idx_lt _ hp
 
+omit hL in
 theorem idx_inv_of {g : CFSG.Sporadic.Fi24.J} {j : Nat} (hj : j < 16)
     (h : ∀ p < 306936, idx 306936 g p = pF (XW j) p) : ∀ p < 306936, idx 306936 g⁻¹ p = pR (XW j) p := by
   intro p hp
@@ -216,24 +217,24 @@ theorem idx_xg : ∀ j < 16, ∀ p < 306936, idx 306936 (xg j) p = pF (XW j) p :
     rotate_left
     · intro l hl
       by_cases h4 : j < 4
-      · rw [if_pos h4]
+      · rw [ite_eq_left h4]
         rw [genW_lt h4] at hl
         have := lck_spec.1 j l hl
         exact (net_spec (CFSG.KD.Fi24Net.nck_spec _ (show l / 2 < 13 by omega))).1
-      · rw [if_neg h4]
+      · rw [ite_eq_right h4]
         rw [genW_ge (by omega)] at hl
         have ⟨ha, hb⟩ := defs_lt (by omega) hj
         simp only [List.mem_cons, List.not_mem_nil, or_false] at hl
         rcases hl with rfl | rfl | rfl | rfl <;> exact nv_XW (by omega)
     rw [hpw p (by omega)]
     by_cases h4 : j < 4
-    · rw [if_pos h4, genW_lt h4]
+    · rw [ite_eq_left h4, genW_lt h4]
       unfold xg
-      rw [if_pos h4]
+      rw [ite_eq_left h4]
       exact idx_wordElt hL _ (lck_spec.1 j) p hp
-    · rw [if_neg h4, genW_ge (by omega)]
+    · rw [ite_eq_right h4, genW_ge (by omega)]
       obtain ⟨ha, hb⟩ := defs_lt (by omega) hj
-      rw [xg, if_neg h4, dif_pos ⟨ha, by omega⟩]
+      rw [xg, ite_eq_right h4, dite_eq_left ⟨ha, by omega⟩]
       generalize nth J.defs (j - 4) % 256 = a at ha ⊢
       generalize nth J.defs (j - 4) / 256 = b at hb ⊢
       have iha := ih a ha (by omega)
@@ -241,8 +242,8 @@ theorem idx_xg : ∀ j < 16, ∀ p < 306936, idx 306936 (xg j) p = pF (XW j) p :
       have q1 := (XW_perm (show b < 16 by omega) hp).1
       have q2 := (XW_perm (show a < 16 by omega) q1).1
       have q3 := (XW_perm (show b < 16 by omega) q2).2.1
-      rw [idx_mul, idx_mul, idx_mul, ihb p hp, iha _ q1, idx_inv_of hL (by omega) ihb _ q2,
-        idx_inv_of hL (by omega) iha _ q3]
+      rw [idx_mul, idx_mul, idx_mul, ihb p hp, iha _ q1, idx_inv_of (by omega) ihb _ q2,
+        idx_inv_of (by omega) iha _ q3]
       simp only [List.foldr_cons, List.foldr_nil, LN_odd, LN_even]
 
 @[expose] noncomputable def pcl (l : ℕ) : CFSG.Sporadic.Fi24.J :=
@@ -266,9 +267,9 @@ theorem foldr_letN : ∀ (w : List ℕ), (∀ l ∈ w, l < 32) → ∀ p < 30693
     rw [List.foldr_cons, List.map_cons, List.prod_cons, idx_mul, ← i1, letN_eq]
     unfold LN pcl
     by_cases he : l % 2 = 0
-    · rw [if_pos he, if_pos he, idx_xg hL _ (by omega) _ i2]
+    · rw [ite_eq_left he, ite_eq_left he, idx_xg hL _ (by omega) _ i2]
       exact ⟨rfl, (XW_perm (by omega) i2).1⟩
-    · rw [if_neg he, if_neg he, idx_inv_of hL (by omega) (idx_xg hL _ (by omega)) _ i2]
+    · rw [ite_eq_right he, ite_eq_right he, idx_inv_of (by omega) (idx_xg hL _ (by omega)) _ i2]
       exact ⟨rfl, (XW_perm (by omega) i2).2.1⟩
 
 set_option maxRecDepth 20000 in
@@ -279,8 +280,7 @@ theorem nwL_idx {u : ℕ} (hu : ∀ k, dg u k < 3) {p : ℕ} (hp : p < 306936) :
   have h3 := nwL_act actJ (fun g h p => idx_mul g h p) (fun p => idx_one p) xg
     (fun l q => actJ (pcl l) q)
     (fun k _ q => by
-      change actJ (pcl (2 * k)) q = actJ (xg k) q
-      unfold pcl; rw [if_pos (by omega), show 2 * k / 2 = k by omega]) hu p
+      unfold pcl; rw [ite_eq_left (by omega), show 2 * k / 2 = k by omega]) hu p
   rw [h1]
   change actJ ((nwL u).map pcl).prod p = actJ (nv xg u) p
   rw [h2, List.foldr_map]
@@ -303,11 +303,11 @@ theorem eq_of_cb {g h : CFSG.Sporadic.Fi24.J} (hgh : ∀ b ∈ cb, idx 306936 g 
 
 omit hL in
 theorem pcl_even (j : ℕ) : pcl (2 * j) = xg j := by
-  unfold pcl; rw [if_pos (by omega), show 2 * j / 2 = j by omega]
+  unfold pcl; rw [ite_eq_left (by omega), show 2 * j / 2 = j by omega]
 
 omit hL in
 theorem pcl_odd (j : ℕ) : pcl (2 * j + 1) = (xg j)⁻¹ := by
-  unfold pcl; rw [if_neg (by omega), show (2 * j + 1) / 2 = j by omega]
+  unfold pcl; rw [ite_eq_right (by omega), show (2 * j + 1) / 2 = j by omega]
 
 theorem word_eq_nv {w : List ℕ} (hw : ∀ l ∈ w, l < 32) {u : ℕ} (hu : ∀ k, dg u k < 3)
     (h : eqP (letN XW) cb w (nwL u) = true) : (w.map pcl).prod = nv xg u := by
@@ -383,7 +383,7 @@ theorem getElem!_nth : ∀ (B : List ℕ) (m : ℕ), B[m]! = nth B m
 
 omit hL in
 theorem Hl_le (l : ℕ) : Hl l ≤ Nsub xg 0 :=
-  (Subgroup.closure_le _).2 fun _ ⟨u, _, e⟩ => e ▸ nv_mem fun _ h => absurd h (Nat.not_lt_zero _)
+  (Subgroup.closure_le _).2 fun _ ⟨_u, _, e⟩ => e ▸ nv_mem fun _ h => absurd h (Nat.not_lt_zero _)
 
 omit hL in
 theorem smul_val (g : CFSG.Sporadic.Fi24.J) (p : Fin 306936) : (g • p).val = idx 306936 g p.val := by
@@ -473,7 +473,7 @@ theorem card_P : Nat.card (Nsub xg 0) = 3 ^ 16 ∧ Nat.card (stabN (Nsub xg 0) b
     have o : ∀ l < 7, (nthL J.orb l).length ≤ Nat.card (MulAction.orbit (Hl' l) (bpt l)) := by
       intro l hl
       unfold Hl'
-      rw [if_pos hl]
+      rw [ite_eq_left hl]
       exact orbit_card hL hl
     obtain ⟨l0, l1, l2, l3, l4, l5, l6⟩ := orb_lens
     simp only [Finset.prod_range_succ, Finset.prod_range_zero, one_mul]

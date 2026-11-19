@@ -17,6 +17,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem not_mem_pCoreOf_of_prime_order {K : Subgroup G} {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     {a : G} (haK : a ∈ K) (har : orderOf a = r) : a ∉ CFSG.Open.pCoreOf 2 K := by
   intro hmem

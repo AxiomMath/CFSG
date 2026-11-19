@@ -11,7 +11,7 @@ open CFSG CFSG.Open CFSG.Quasithin
 
 theorem sq_dvd_card_of_noncyclic {S : Type*} [Group S] [Finite S] {p : ℕ} [Fact p.Prime]
     {Q : Sylow p S} (h : ¬ IsCyclic ↥(Q : Subgroup S)) : p ^ 2 ∣ Nat.card S := by
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := p)).mp Q.isPGroup'
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := p)).mp Q.isPGroup
   have hk2 : 2 ≤ k := by
     by_contra hlt
     push Not at hlt

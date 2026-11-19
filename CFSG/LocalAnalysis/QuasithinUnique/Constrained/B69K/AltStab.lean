@@ -82,6 +82,7 @@ theorem alt_stab_not_normal {m : ℕ} (hm : 5 ≤ m) (p : Fin m)
     rw [hg2p] at hp2
     exact hr' hp2
 
+omit [Finite V] in
 theorem exists_perm_conj_of_normalizes {m : ℕ} (hm5 : 5 ≤ m) (hm6 : m ≠ 6)
     (φ : Equiv.Perm (Fin m) →* MulAut V) (hφi : Function.Injective φ) (L : Subgroup (MulAut V))
     (hφL : L = (alternatingGroup (Fin m)).map φ) {t : MulAut V}
@@ -131,7 +132,7 @@ theorem exists_perm_conj_of_normalizes {m : ℕ} (hm5 : 5 ≤ m) (hm6 : m ≠ 6)
   exact hψ ⟨a, ha⟩
 
 theorem stab_le_M {X T M L : Subgroup (MulAut V)} (hmp : MinParabolic X T M)
-    (hO2 : CFSG.Open.pCoreOf 2 X = ⊥) (hL : CFSG.Open.IsComponentOf L X) {m : ℕ} (hm5 : 5 ≤ m)
+    (_hO2 : CFSG.Open.pCoreOf 2 X = ⊥) (hL : CFSG.Open.IsComponentOf L X) {m : ℕ} (hm5 : 5 ≤ m)
     (hm6 : m ≠ 6) (φ : Equiv.Perm (Fin m) →* MulAut V) (hφi : Function.Injective φ)
     (hφL : L = (alternatingGroup (Fin m)).map φ) {p : Fin m}
     (hp : ∀ g ∈ (T ⊓ L).comap φ, g p = p)

@@ -46,7 +46,7 @@ theorem s1614_row2_summand (D : Data G) {V L : Subgroup G} {hV : IsElemAbelian 2
     · have h := s16c1610_two_pow_le_card_alternatingNatural (by norm_num : 2 ≤ 6) hN₀
       rw [hrkJ J₀] at h
       exact (Nat.pow_le_pow_iff_right (by norm_num)).1 h
-    · haveI : Finite (FFModel.altDn 6).Amb := by
+    · have : Finite (FFModel.altDn 6).Amb := by
         change Finite (Multiplicative (Fin 6 → ZMod 2))
         infer_instance
       exact s1614_transport (s1614_hyp2iii_alt (by norm_num)) hN₀
@@ -56,7 +56,7 @@ theorem s1614_row2_summand (D : Data G) {V L : Subgroup G} {hV : IsElemAbelian 2
     · have h := s16c1610_two_pow_le_card_alternatingNatural (by norm_num : 2 ≤ 7) hN₀
       rw [hrkJ J₀] at h
       exact le_trans (by norm_num) ((Nat.pow_le_pow_iff_right (by norm_num)).1 h)
-    · haveI : Finite (FFModel.altDn 7).Amb := by
+    · have : Finite (FFModel.altDn 7).Amb := by
         change Finite (Multiplicative (Fin 7 → ZMod 2))
         infer_instance
       exact s1614_transport (s1614_hyp2iii_alt (by norm_num)) hN₀
@@ -66,7 +66,7 @@ theorem s1614_row2_summand (D : Data G) {V L : Subgroup G} {hV : IsElemAbelian 2
     · have h := s16c1610_rk_binaryNaturalSL hN₀
       omega
     · obtain ⟨K, hKf, hKfin, hK, hR⟩ := hN₀
-      haveI : Finite (FFModel.nat (StatedSL 4 K)).Amb := by
+      have : Finite (FFModel.nat (StatedSL 4 K)).Amb := by
         change Finite (Multiplicative (Fin 4 → K))
         infer_instance
       exact s1614_transport (s1614_hyp2iii_ln K (by simpa using hK)) hR
@@ -76,7 +76,7 @@ theorem s1614_row2_summand (D : Data G) {V L : Subgroup G} {hV : IsElemAbelian 2
     · have h := s16c1610_rk_natOmegaMinus (by norm_num : 2 ≤ 6) hN₀
       omega
     · obtain ⟨-, K, hKf, hKfin, b, c, hK, hbc, hR⟩ := hN₀
-      haveI : Finite (FFModel.nat (StatedOmega (StatedQuadMinus 3 K b c))).Amb := by
+      have : Finite (FFModel.nat (StatedOmega (StatedQuadMinus 3 K b c))).Amb := by
         unfold FFModel.nat
         dsimp only
         infer_instance

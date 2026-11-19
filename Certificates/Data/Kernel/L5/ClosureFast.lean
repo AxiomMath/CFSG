@@ -43,7 +43,7 @@ theorem KT.mem_ins (x y : Nat) : ∀ t : KT, (t.ins y).mem x = (x == y || t.mem 
       simp only [KT.ins, e1, Bool.cond_true, KT.mem, il]
       rcases Nat.lt_trichotomy x k with hx | hx | hx
       · simp [Nat.blt_eq.mpr hx]
-      · subst hx; simp [Nat.ne_of_gt hy]
+      · subst hx; simp
       · simp [Nat.blt_eq.mpr hx, Nat.not_lt.mpr (Nat.le_of_lt hx), show x ≠ y by omega]
     · subst hy
       have e : KT.ins y (KT.node y l r) = KT.node y l r := by
@@ -59,7 +59,7 @@ theorem KT.mem_ins (x y : Nat) : ∀ t : KT, (t.ins y).mem x = (x == y || t.mem 
       simp only [KT.ins, e1, e2, Bool.cond_true, Bool.cond_false, KT.mem, ir]
       rcases Nat.lt_trichotomy x k with hx | hx | hx
       · simp [Nat.blt_eq.mpr hx, show x ≠ y by omega]
-      · subst hx; simp [Nat.ne_of_lt hy]
+      · subst hx; simp
       · simp [Nat.blt_eq.mpr hx, Nat.not_lt.mpr (Nat.le_of_lt hx)]
 
 @[expose] def dedupK {α : Type*} (key : α → Nat) : List α → List α × KT

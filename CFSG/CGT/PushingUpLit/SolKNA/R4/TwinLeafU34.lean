@@ -15,8 +15,8 @@ theorem autU34NoQ16Q16_holds :
       NoQ16Q16 (MulAut F) := by
   intro F _ hF
   obtain ⟨e⟩ := (CFSG.RankTwoShapes.statedClassicalModel_PSU_three_two_iff F 2 (by norm_num)).1 hF
-  haveI : Finite F := Finite.of_equiv _ e.toEquiv.symm
-  haveI : Finite (MulAut F) := Nobq.finite_mulAut_of_finite F
+  have : Finite F := Finite.of_equiv _ e.toEquiv.symm
+  have : Finite (MulAut F) := Nobq.finite_mulAut_of_finite F
   have hB : BenderType F 2 3 ((2 ^ 2 + 1) / Nat.gcd 3 (2 ^ 2 + 1)) :=
     BenderType.unitary 2 (by norm_num) e
   have hZ : Subgroup.center F = ⊥ := hB.center_eq_bot

@@ -31,14 +31,17 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F} {K : Type}
 @[expose] def u6cardG (A : Matrix (Fin 3) (Fin 3) F) : Matrix (Fin 6) (Fin 6) F :=
   1 + u6cardN A
 
+omit [Finite F] [CharP F 2] in
 theorem u6cardN_mul_self (A : Matrix (Fin 3) (Fin 3) F) : u6cardN A * u6cardN A = 0 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_six, u6cardN]
 
+omit [Finite F] in
 theorem u6cardN_add_self (A : Matrix (Fin 3) (Fin 3) F) : u6cardN A + u6cardN A = 0 := by
   ext i j
   simp [CharTwo.add_self_eq_zero]
 
+omit [Finite F] in
 theorem u6cardG_mul_self (A : Matrix (Fin 3) (Fin 3) F) : u6cardG A * u6cardG A = 1 := by
   have h : (1 + u6cardN A) * (1 + u6cardN A) =
       1 + (u6cardN A + u6cardN A) + u6cardN A * u6cardN A := by
@@ -46,6 +49,7 @@ theorem u6cardG_mul_self (A : Matrix (Fin 3) (Fin 3) F) : u6cardG A * u6cardG A 
   unfold u6cardG
   rw [h, u6cardN_add_self, u6cardN_mul_self, add_zero, add_zero]
 
+omit [Finite F] in
 theorem u6cardG_det (A : Matrix (Fin 3) (Fin 3) F) : (u6cardG A).det = 1 := by
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   have hsq : (u6cardG A).det * (u6cardG A).det = 1 := by
@@ -60,6 +64,7 @@ theorem u6cardG_det (A : Matrix (Fin 3) (Fin 3) F) : (u6cardG A).det = 1 := by
   val_inv := u6cardG_mul_self A
   inv_val := u6cardG_mul_self A
 
+omit [Finite F] in
 theorem u6card_gram (hinv : ∀ c, σ (σ c) = c) {d u : Fin 3 → F} (hd : ∀ i, σ (d i) = d i) :
     conjTr σ (u6cardG (u6cardA σ d u)) * hypGram F * u6cardG (u6cardA σ d u) = hypGram F := by
   have hexp : conjTr σ (u6cardG (u6cardA σ d u)) * hypGram F * u6cardG (u6cardA σ d u) =
@@ -81,6 +86,7 @@ theorem u6card_gram (hinv : ∀ c, σ (σ c) = c) {d u : Fin 3 → F} (hd : ∀ 
       simp [Matrix.mul_apply, Fin.sum_univ_six, conjTr_apply, u6cardN, u6cardA, hypGram]
   rw [hexp, hA1, hA2, add_zero, add_zero]
 
+omit [Finite F] in
 theorem u6card_conj_mem (hinv : ∀ c, σ (σ c) = c) {ω : F} (hω : ω + σ ω = 1)
     {d u : Fin 3 → F} (hd : ∀ i, σ (d i) = d i) :
     frameGL σ ω hω * u6cardUnit (u6cardA σ d u) * (frameGL σ ω hω)⁻¹ ∈ SUid σ 6 :=
@@ -90,17 +96,20 @@ theorem u6card_conj_mem (hinv : ∀ c, σ (σ c) = c) {ω : F} (hω : ω + σ ω
     (d u : Fin 3 → F) (hd : ∀ i, σ (d i) = d i) : SUid σ 6 :=
   ⟨frameGL σ ω hω * u6cardUnit (u6cardA σ d u) * (frameGL σ ω hω)⁻¹, u6card_conj_mem hinv hω hd⟩
 
+omit [Finite F] in
 theorem u6cardElt_val (hinv : ∀ c, σ (σ c) = c) {ω : F} (hω : ω + σ ω = 1)
     (d u : Fin 3 → F) (hd : ∀ i, σ (d i) = d i) :
     ((u6cardElt hinv hω d u hd : SUid σ 6) : GL (Fin 6) F) =
       frameGL σ ω hω * u6cardUnit (u6cardA σ d u) * (frameGL σ ω hω)⁻¹ := rfl
 
+omit [Finite F] [CharP F 2] in
 theorem u6card_col (A : Matrix (Fin 3) (Fin 3) F) (j : Fin 3) :
     (u6cardG A).mulVec (Pi.single (⟨2 * j.val, by omega⟩ : Fin 6) (1 : F)) =
       Pi.single (⟨2 * j.val, by omega⟩ : Fin 6) (1 : F) := by
   fin_cases j <;> funext r <;> fin_cases r <;>
-    simp [u6cardG, u6cardN, Matrix.mulVec, dotProduct, Fin.sum_univ_six, Pi.single_apply]
+    simp [u6cardG, u6cardN, Matrix.mulVec, dotProduct, Pi.single_apply]
 
+omit [Finite F] in
 theorem u6card_fix (ω : F) (hω : ω + σ ω = 1) (A : Matrix (Fin 3) (Fin 3) F) :
     ∀ i : Fin 3, ((frameGL σ ω hω * u6cardUnit A * (frameGL σ ω hω)⁻¹ : GL (Fin 6) F) :
       Matrix (Fin 6) (Fin 6) F).mulVec (e3uT0Vec i) = e3uT0Vec i := by
@@ -115,6 +124,7 @@ theorem u6card_fix (ω : F) (hω : ω + σ ω = 1) (A : Matrix (Fin 3) (Fin 3) F
   rw [hval, ← frameMat_mulVec_even (σ := σ) ω i, Matrix.mulVec_mulVec, hM, ← Matrix.mulVec_mulVec,
     u6card_col]
 
+omit [Finite F] in
 theorem u6cardElt_fix (hinv : ∀ c, σ (σ c) = c) {ω : F} (hω : ω + σ ω = 1)
     (d u : Fin 3 → F) (hd : ∀ i, σ (d i) = d i) :
     ∀ i : Fin 3, (((u6cardElt hinv hω d u hd : SUid σ 6) : GL (Fin 6) F) :
@@ -122,17 +132,20 @@ theorem u6cardElt_fix (hinv : ∀ c, σ (σ c) = c) {ω : F} (hω : ω + σ ω =
   rw [u6cardElt_val]
   exact u6card_fix ω hω (u6cardA σ d u)
 
+omit [Finite F] in
 theorem u6cardElt_mem (hinv : ∀ c, σ (σ c) = c) {ω : F} (hω : ω + σ ω = 1)
     (d u : Fin 3 → F) (hd : ∀ i, σ (d i) = d i) :
     u6cardElt hinv hω d u hd ∈ e3uU0Sub σ := by
   intro i
   exact u6cardElt_fix hinv hω d u hd i
 
+omit [Finite F] [CharP F 2] in
 theorem u6card_smul_mulVec (c : F) (M : Matrix (Fin 6) (Fin 6) F) (v : Fin 6 → F) :
     (c • M).mulVec v = c • M.mulVec v := by
   funext r
   simp [Matrix.mulVec, dotProduct, Finset.mul_sum, mul_assoc]
 
+omit [Finite K] [Finite F] in
 theorem u6card_units_eq (hσ : IsUnitaryInvolution σ) {g h : SUid σ 6}
     (hg : ∀ i : Fin 3,
       ((g : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F).mulVec (e3uT0Vec i) = e3uT0Vec i)
@@ -161,9 +174,11 @@ theorem u6card_units_eq (hσ : IsUnitaryInvolution σ) {g h : SUid σ 6}
 
 @[expose] def u6cardDd (d : Fin 3 → Fσ σ) : Fin 3 → F := fun i => ((d i : Fσ σ) : F)
 
+omit [Finite F] [CharP F 2] in
 theorem u6cardDd_fix (d : Fin 3 → Fσ σ) : ∀ i, σ (u6cardDd d i) = u6cardDd d i :=
   fun i => mem_Fσ_iff.mp (d i).2
 
+omit [Finite F] [CharP F 2] [Finite K] in
 theorem u6card_domain_card (e : K ≃+* Fσ σ) (hF : Nat.card F = Nat.card K ^ 2) :
     Nat.card ((Fin 3 → Fσ σ) × (Fin 3 → F)) = Nat.card K ^ 9 := by
   have hFσ : Nat.card (Fσ σ) = Nat.card K := (Nat.card_congr e.toEquiv).symm
@@ -171,12 +186,13 @@ theorem u6card_domain_card (e : K ≃+* Fσ σ) (hF : Nat.card F = Nat.card K ^ 
     Fintype.card_fin]
   ring
 
+omit [Finite K] in
 theorem u6_U_card (hσ : IsUnitaryInvolution σ) (hF : Nat.card F = Nat.card K ^ 2) :
     Nat.card K ^ 9 ≤ Nat.card (e3uU0 σ e) := by
   obtain ⟨ω, hω⟩ := hσ.trace_surj 1 (map_one σ)
-  haveI : Finite (Cube F) := Module.finite_of_finite F
-  haveI : Finite (E3UWspace σ e) := (Subtype.finite : Finite (Wform σ))
-  haveI : Finite (E3UWspace σ e ≃ₗ[K] E3UWspace σ e) :=
+  have : Finite (Cube F) := Module.finite_of_finite F
+  have : Finite (E3UWspace σ e) := (Subtype.finite : Finite (Wform σ))
+  have : Finite (E3UWspace σ e ≃ₗ[K] E3UWspace σ e) :=
     Finite.of_injective (fun f : E3UWspace σ e ≃ₗ[K] E3UWspace σ e =>
       (f : E3UWspace σ e → E3UWspace σ e)) (fun f g h => LinearEquiv.ext fun x => congrFun h x)
   let Ψ : (Fin 3 → Fσ σ) × (Fin 3 → F) → e3uU0 σ e := fun p =>

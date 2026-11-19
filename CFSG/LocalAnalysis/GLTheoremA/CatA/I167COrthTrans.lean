@@ -21,7 +21,7 @@ theorem i167COrth_innerImage_mem (e : S ≃* T) {Bb : Subgroup (MulAut S)} {a₀
 theorem i167COrth_descent_elem (e : S ≃* T) {p : ℕ} (hZ : Subgroup.center S = ⊥)
     {Bb : Subgroup (MulAut S)} (hBb : IsElemAbelian p Bb) : IsElemAbelian p (COrthInnerImage e Bb) := by
   have hinj := CFSG.mulAutConj_injective_of_center_eq_bot hZ
-  haveI : IsMulCommutative Bb := hBb.1
+  have : IsMulCommutative Bb := hBb.1
   constructor
   · rw [isMulCommutative_iff]
     rintro ⟨x, hx⟩ ⟨y, hy⟩
@@ -52,7 +52,7 @@ theorem i167COrth_descent_max (e : S ≃* T) {p : ℕ} {Bb : Subgroup (MulAut S)
   intro E hE hAE
   refine le_antisymm ?_ hAE
   intro y hy
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   let s : S := e.symm y
   have hys : e s = y := e.apply_symm_apply y
   have hs_pow : s ^ p = 1 := by

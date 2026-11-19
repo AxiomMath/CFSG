@@ -12,7 +12,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.HardMathSupport.Solomon.LocalB
 
 theorem u4Out_index_sp8two {P : Type} [Group P] [Finite P] (h : catalogIs P S9.isSp8two) :
     (innerAut P).index = 1 ∨ (innerAut P).index = 2 := by
-  haveI : Finite (MulAut P) :=
+  have : Finite (MulAut P) :=
     Finite.of_injective (fun α : MulAut P => (α : P → P)) DFunLike.coe_injective
   obtain ⟨e1⟩ := KFacts.bridge_sp8two h
   obtain ⟨e2⟩ := KFacts.nonempty_sp82_equiv

@@ -71,9 +71,9 @@ theorem tr_letter (l : Nat × Bool) :
   by_cases hi : i = 0
   · subst hi
     cases b
-    · rw [if_pos rfl, if_neg Bool.false_ne_true]
+    · rw [ite_eq_left rfl, ite_eq_right Bool.false_ne_true]
       exact ⟨trSI, bS.2.1⟩
-    · rw [if_pos rfl, if_pos rfl]
+    · rw [ite_eq_left rfl, ite_eq_left rfl]
       exact ⟨trS.1, trS.2⟩
   · have e : Nat.beq i 0 = false := by
       rw [Bool.eq_false_iff]
@@ -82,9 +82,9 @@ theorem tr_letter (l : Nat × Bool) :
     simp only [hi, ↓reduceIte]
     rw [e]
     cases b
-    · rw [if_neg Bool.false_ne_true]
+    · rw [ite_eq_right Bool.false_ne_true]
       exact ⟨trTI, bT.2.1⟩
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
       exact ⟨trT.1, trT.2⟩
 
 theorem tr_wordST : ∀ v : List (Nat × Bool),

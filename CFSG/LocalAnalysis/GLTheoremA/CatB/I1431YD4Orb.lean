@@ -34,10 +34,10 @@ theorem card_singular : Nat.card {v : VV // v ≠ 0 ∧ Q8 v = 0} = 135 := by
   classical
   have h1 : ({v : VV | Q8 v = 1}ᶜ).ncard = 136 := by
     rw [Set.ncard_compl, ncard_Q8_one]
-    simp [VV, Nat.card_fun, Nat.card_zmod]
+    simp [VV]
   have h2 : {v : VV | v ≠ 0 ∧ Q8 v = 0} = {v : VV | Q8 v = 1}ᶜ \ {0} := by
     ext v
-    simp only [Set.mem_setOf_eq, Set.mem_diff, Set.mem_compl_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_sdiff, Set.mem_compl_iff, Set.mem_singleton_iff]
     have : Q8 v = 0 ∨ Q8 v = 1 := by
       generalize Q8 v = a
       revert a
@@ -50,7 +50,7 @@ theorem card_singular : Nat.card {v : VV // v ≠ 0 ∧ Q8 v = 0} = 135 := by
   have h0 : (0 : VV) ∈ {v : VV | Q8 v = 1}ᶜ := by
     simp
   have : Nat.card ↥{v : VV | v ≠ 0 ∧ Q8 v = 0} = 135 := by
-    rw [Nat.card_coe_set_eq, h2, Set.ncard_diff_singleton_of_mem h0, h1]
+    rw [Nat.card_coe_set_eq, h2, Set.ncard_sdiff_singleton_of_mem h0, h1]
   exact this
 
 section Orbit
@@ -61,7 +61,7 @@ theorem card_orbit_singular {r : VV} (hr0 : r ≠ 0) (hrQ : Q8 r = 0) :
     Nat.card (MulAction.orbit ↥Om8 r) = 135 := by
   have hset : (MulAction.orbit ↥Om8 r : Set VV) = {v | v ≠ 0 ∧ Q8 v = 0} := by
     ext v
-    simp only [MulAction.mem_orbit_iff, Set.mem_setOf_eq]
+    simp only [MulAction.mem_orbit_iff, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨x, rfl⟩
       have hx : x • r =

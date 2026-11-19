@@ -174,7 +174,7 @@ theorem sp4_four_group_lifts {K : Type} [Field K] [Finite K] (hodd : Odd (Nat.ca
       A = Subgroup.closure {proj 2 K (blkSL K (g₁, g₂)), proj 2 K (blkSL K (h₁, h₂))} := by
   classical
   have h2 := a1413SpEndLift_two_ne_zero (K := K) hodd
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   obtain ⟨a, ha1⟩ : ∃ a : A, a ≠ 1 := by
     by_contra h
     rw [not_exists] at h

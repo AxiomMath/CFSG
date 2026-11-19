@@ -50,7 +50,7 @@ theorem exists_lift_two_subgroup (Q : Subgroup (J ⧸ Subgroup.center J)) (hQ : 
   let P₂ : Sylow 2 ↥R := Sylow.nonempty.some
   have hPchar : (P₂ : Subgroup ↥R).Characteristic :=
     Sylow.characteristic_of_normal P₂ inferInstance
-  refine ⟨(P₂ : Subgroup ↥R).map R.subtype, P₂.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(P₂ : Subgroup ↥R).map R.subtype, P₂.isPGroup.map _, ?_, ?_⟩
   · apply le_antisymm
     · rw [Subgroup.map_le_iff_le_comap]
       intro x hx

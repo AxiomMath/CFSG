@@ -33,7 +33,7 @@ theorem chevWitness_aux {τ : Tag} {K : Type} [Field K] [Finite K] (σ : K ≃+*
   subst hS
   have hH' : H = adjointGroup τ K := hH.trans (chevH_false_eq_adjointGroup K τ)
   subst hH'
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (ModGL τ K) := finite_modGL
   have hZ : Subgroup.center ↥(adjointGroup τ K) = ⊥ := center_adjointGroup_eq_bot
   let e : (↥(adjointGroup τ K) ⧸ Subgroup.center ↥(adjointGroup τ K)) ≃* ↥(adjointGroup τ K) :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
@@ -41,7 +41,7 @@ theorem chevWitness_aux {τ : Tag} {K : Type} [Field K] [Finite K] (σ : K ≃+*
   let D : Subgroup ↥(adjointGroup τ K) := (fixedFieldImage τ σ).subgroupOf (adjointGroup τ K)
   let eJ : ↥D ≃* ↥(adjointGroup τ (fixSubfield σ)) :=
     (Subgroup.subgroupOfEquivOfLe hJle).trans (fixedFieldImageEquiv σ).symm
-  haveI := hs
+  have := hs
   have hsD : IsSimpleGroup ↥D := eJ.isSimpleGroup
   have hna : ∃ x y : ↥D, x * y ≠ y * x := by
     obtain ⟨g, h, hgh⟩ := (opposite_simple_root_noncommutativity τ (fixSubfield σ)).2.2.1
@@ -100,7 +100,7 @@ theorem chevSigmaZero {τ : Tag} (hτ : τ = .G2 ∨ τ = .F4 ∨ τ = .E6 ∨ �
       ∀ x : ↥(LargeEvenChevH τ.cartan K false), chevRho τ K σ₀ x = x →
         f (QuotientGroup.mk x) = QuotientGroup.mk x := by
   have hu : 0 < chevExp τ := by rcases hτ with rfl | rfl | rfl | rfl | rfl <;> decide
-  haveI : Finite ↥(LargeEvenChevH τ.cartan K false) := by
+  have : Finite ↥(LargeEvenChevH τ.cartan K false) := by
     refine Nat.finite_of_card_ne_zero ?_
     rw [card_chevH]
     obtain ⟨r, hr, h⟩ := card_adjointGroup_spec hτ hm hK

@@ -22,7 +22,7 @@ theorem isInnerAut_of_mem_innAutDerived_psl2 {Y : Type} [Group Y] [Finite Y]
     (hY : CFSG.Open.IsQuasisimple Y) {K : Type} [Field K] [Finite K]
     (e : (Y ⧸ Subgroup.center Y) ≃* StatedProj (StatedSL 2 K)) {α : MulAut Y} (h3 : α ^ 3 = 1)
     (hα : α ∈ innAutDerived Y) : IsInnerAut α := by
-  haveI : Group.IsPerfect Y := ⟨hY.1⟩
+  have : Group.IsPerfect Y := ⟨hY.1⟩
   let e1 : (Y ⧸ Subgroup.center Y) ≃* PSL2 K := e.trans (psl2StatedEquiv K).symm
   have h1 : centerDescend Y α ∈ innAutDerived (Y ⧸ Subgroup.center Y) :=
     centerDescend_mem_innAutDerived hα
@@ -36,7 +36,7 @@ theorem y1431_noCfg_pslTwo (hU : L2OrderUnique) (h1 : L2Aut3Classification) (hF 
   intro Y _ _ Â ξ J q c t n p f hadm ht hFam hm q0 hq0 hqq
   obtain ⟨rfl, rfl⟩ := hFam
   have hq := c.quasisimple
-  haveI : Group.IsPerfect Y := ⟨hq.1⟩
+  have : Group.IsPerfect Y := ⟨hq.1⟩
   have hC : StatedClassicalModel (Y ⧸ Subgroup.center Y) .PSL 2 p f :=
     (lieModel_classical_iff (by decide)).mp hm
   obtain ⟨-, K, _, _, hK, ⟨e0⟩⟩ := hC

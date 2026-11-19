@@ -194,7 +194,7 @@ theorem rank_qCoreOf_le_two
     exact Subgroup.mem_bot.mp this)
   set R₁ := B₁.map A.subtype with hR₁def
   have hR₁T : R₁ ≤ T := (Subgroup.map_subtype_le B₁).trans hAT
-  have hR₁r : rank R₁ = rank (T : Subgroup G) - 1 := rank_hyperplane T.isPGroup' hcommT B₁ hB₁
+  have hR₁r : rank R₁ = rank (T : Subgroup G) - 1 := rank_hyperplane T.isPGroup hcommT B₁ hB₁
   have hb : ∀ s ∈ (T : Subgroup G), orderOf s = 2 →
       V₂ ≤ Subgroup.centralizer ({s} : Set G) → benderM s = {H} := fun s hsT hs hsV =>
     benderM_eq_of_typePP hG ht hH T htT hp hp2 hπ hQ2 hV₂Q hV₂el hV₂card hV₂C hs hsT hsV
@@ -259,7 +259,7 @@ theorem rank_qCoreOf_le_two
       exact hba (huniq b (hWW₀ hbW) a (hWW₀ haW) (hWsq b hbW) (hWsq a haW) hb1 ha1)
     have hidx : (B₁ ⊓ B₂).index ≤ 4 := (Subgroup.index_inf_le).trans (by rw [hB₁, hB₂])
     have hcardA : Nat.card A = 2 ^ CFSG.Open.pRank 2 (T : Subgroup G) :=
-      card_omegaOneOfComm Nat.prime_two _ hcommT T.isPGroup'
+      card_omegaOneOfComm Nat.prime_two _ hcommT T.isPGroup
     have h1 := (B₁ ⊓ B₂).card_mul_index
     rw [hcardA, ← Subgroup.card_map_of_injective A.subtype_injective, ← hWdef] at h1
     have h8 : 2 ^ CFSG.Open.pRank 2 (T : Subgroup G) ≤ 2 ^ 3 := by
@@ -267,7 +267,7 @@ theorem rank_qCoreOf_le_two
       calc Nat.card W * (B₁ ⊓ B₂).index ≤ 2 * 4 := Nat.mul_le_mul hW2 hidx
         _ = 2 ^ 3 := by norm_num
     have h3' := (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp h8
-    rw [rank_eq_pRank_of_isPGroup Nat.prime_two T.isPGroup'] at hlow ⊢
+    rw [rank_eq_pRank_of_isPGroup Nat.prime_two T.isPGroup] at hlow ⊢
     omega
   have hHt : benderM t = {H} := hb t htT ht (hV₂Q.trans htQ)
   have hO2 : qCoreOf H 2 ≤ W₀ := le_inf (qCoreOf_two_le_sylow T hTH)

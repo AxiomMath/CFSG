@@ -36,7 +36,7 @@ public abbrev CFSG.StandardHomocyclicCover (κ : Type u) (q : ℕ) :=
 /-- The tautological additive coordinate equivalence for the standard homocyclic cover. -/
 public def CFSG.standardHomocyclicCoverCoordinateEquiv (κ : Type u) (q : ℕ) :
     (κ → ZMod q) ≃+ Additive (StandardHomocyclicCover κ q) :=
-  (AddEquiv.toAdditive_toMultiplicative (G := κ → ZMod q)).symm
+  (AddEquiv.additiveMultiplicative (G := κ → ZMod q)).symm
 
 
 /-- The standard homocyclic cover is commutative. -/

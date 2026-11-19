@@ -14,7 +14,7 @@ theorem exists_cartan_complement (N P : Subgroup Y) [N.Normal] (hPn : P.Normal)
     (hP2 : IsPGroup 2 P) (hPodd : Odd P.index) :
     ∃ C : Subgroup Y, N ≤ C ∧ Odd (N.relIndex C) ∧ ∃ k : ℕ, C.index = 2 ^ k := by
   have hφ : Function.Surjective (QuotientGroup.mk' N) := QuotientGroup.mk'_surjective N
-  haveI : (P.map (QuotientGroup.mk' N)).Normal := hPn.map _ hφ
+  have : (P.map (QuotientGroup.mk' N)).Normal := hPn.map _ hφ
   obtain ⟨k, hk⟩ := (hP2.map (QuotientGroup.mk' N)).exists_card_eq
   have hodd : Odd (P.map (QuotientGroup.mk' N)).index := hPodd.of_dvd_nat (index_map_dvd P hφ)
   obtain ⟨K, hK⟩ := exists_right_complement'_of_coprime (N := P.map (QuotientGroup.mk' N))

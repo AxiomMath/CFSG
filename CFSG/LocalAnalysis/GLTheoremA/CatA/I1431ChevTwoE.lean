@@ -61,19 +61,19 @@ theorem u42FieldTwoAt_E_of_rank
   have hB := CFSG.TauCetiBridge.Even.chevalleyBridgesAll
   have h21 : Nat.card (GaloisField 2 1) - 1 = 1 := by rw [hK]
   rcases hdq with rfl | rfl | rfl
-  · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.E6 q, hv⟩).Group := Finite.of_equiv _ e.toEquiv
+  · have : Finite (TauCeti.CFSGIndex.lie ⟨.E6 q, hv⟩).Group := Finite.of_equiv _ e.toEquiv
     obtain ⟨eB⟩ := hB.e6 q hv (GaloisField 2 1) hKq
     have hM := subsingleton_of_equiv_zmod_gcd (by rw [h21]; rfl)
       (CFSG.LieType.Steinberg.CentralExt.FieldTwo.e6_two_hopfMultiplier hK).2
     exact (false_of_rkY_of_four_le hRk (center_eq_bot_of_adjointQuotient hY (e.trans eB.symm) hM)
       e (h6 q hv hq2)).elim
-  · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.E7 q, hv⟩).Group := Finite.of_equiv _ e.toEquiv
+  · have : Finite (TauCeti.CFSGIndex.lie ⟨.E7 q, hv⟩).Group := Finite.of_equiv _ e.toEquiv
     obtain ⟨eB⟩ := hB.e7 q hv (GaloisField 2 1) hKq
     have hM := subsingleton_of_equiv_zmod_gcd (by rw [h21]; rfl)
       (CFSG.LieType.Steinberg.CentralExt.FieldTwo.e7_two_hopfMultiplier hK).2
     exact (false_of_rkY_of_four_le hRk (center_eq_bot_of_adjointQuotient hY (e.trans eB.symm) hM)
       e (h7 q hv hq2)).elim
-  · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.E8 q, hv⟩).Group := Finite.of_equiv _ e.toEquiv
+  · have : Finite (TauCeti.CFSGIndex.lie ⟨.E8 q, hv⟩).Group := Finite.of_equiv _ e.toEquiv
     obtain ⟨eB⟩ := hB.e8 q hv (GaloisField 2 1) hKq
     have hM := (CFSG.LieType.Steinberg.CentralExt.FieldTwo.e8_two_hopfMultiplier hK).2
     exact (false_of_rkY_of_four_le hRk (center_eq_bot_of_adjointQuotient hY (e.trans eB.symm) hM)

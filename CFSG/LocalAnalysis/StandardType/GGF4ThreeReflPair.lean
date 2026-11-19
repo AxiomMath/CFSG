@@ -25,7 +25,7 @@ theorem exists_reflPair_of_card
   have hq2 : p ∣ Nat.card K ^ 2 - 1 := dvd_card_sq_sub_one_of_card_F4 hp hp2 hE hcard
   let L := FiniteField.Extension K 2 2
   have hLK : Nat.card L = Nat.card K ^ 2 := FiniteField.natCard_extension K 2 2
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   have hpL : p ∣ Nat.card L - 1 := hLK ▸ hq2
   obtain ⟨ψ, hψinj, hEV, hcos⟩ := exists_descent_F4 hp hp2 hE hcard
   have hW : ∀ w : WeylGroup .F4, ∃ h ∈ (⊤ : Subgroup (adjointGroup .F4 K)).map ψ,

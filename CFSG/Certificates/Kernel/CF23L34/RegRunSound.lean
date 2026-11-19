@@ -26,10 +26,10 @@ theorem letter_rel {R : List (Nat × Nat)} {A : Array HeGSReg} (hR : RegRel φ C
   unfold heGSLetter rL
   by_cases hp : 0 < l
   · have hi : l.toNat - 1 < R.length := by omega
-    rw [if_pos hp, if_pos hp, getD_lt hi]
+    rw [ite_eq_left hp, ite_eq_left hp, getD_lt hi]
     exact hR.2 _ hi
   · have hi : (-l).toNat - 1 < R.length := by omega
-    rw [if_neg hp, if_neg hp, getD_lt hi]
+    rw [ite_eq_right hp, ite_eq_right hp, getD_lt hi]
     obtain ⟨h1, h2, h3⟩ := hR.2 _ hi
     rw [h1]
     exact ⟨rfl, h3, h2⟩
@@ -85,10 +85,10 @@ theorem push_rel {R : List (Nat × Nat)} {A : Array HeGSReg} (hR : RegRel φ C R
   rw [getElem!_pos (A.push y) i hiA, Array.getElem_push, List.getElem_append]
   by_cases h : i < R.length
   · have h' : i < A.size := hR.1 ▸ h
-    rw [dif_pos h', dif_pos h, ← getElem!_pos A i h']
+    rw [dite_eq_left h', dite_eq_left h, ← getElem!_pos A i h']
     exact hR.2 i h
   · have h' : ¬ i < A.size := hR.1 ▸ h
-    rw [dif_neg h', dif_neg h]
+    rw [dite_eq_right h', dite_eq_right h]
     have hi1 : i - R.length = 0 := by
       simp only [List.length_append, List.length_singleton] at hi
       omega

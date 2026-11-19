@@ -206,7 +206,7 @@ lemma sum_mackeyHomTerm_eq_identity_term
         (Quotient.out
           (DoubleCoset.oneDC
             (G := G) (LinearChar.inertia ψ)))) := by
-  letI : Fintype (DoubleCoset.Quotient
+  let : Fintype (DoubleCoset.Quotient
       (G := G) (LinearChar.inertia ψ) (LinearChar.inertia ψ)) :=
     DoubleCoset.quotientFintype
       (LinearChar.inertia ψ) (LinearChar.inertia ψ)
@@ -268,7 +268,7 @@ theorem finrank_end_ind_from_inertia_eq_one
     Module.finrank k (FDRep.ind (LinearChar.inertia ψ) σ ⟶
       FDRep.ind (LinearChar.inertia ψ) σ) = 1 := by
   let I : Subgroup G := LinearChar.inertia ψ
-  letI : Fintype (DoubleCoset.Quotient (G := G) I I) :=
+  let : Fintype (DoubleCoset.Quotient (G := G) I I) :=
     DoubleCoset.quotientFintype I I
   calc
     Module.finrank k (FDRep.ind I σ ⟶ FDRep.ind I σ)

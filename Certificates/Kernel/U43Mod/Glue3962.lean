@@ -423,13 +423,13 @@ theorem trans_length : U43Aut.trans.length = 820 := by decide +kernel
 theorem tBase_eq (e : ℕ × List ℕ) : tBase e = if e.1 = 0 then 0 else 4 := by
   unfold tBase
   by_cases h : e.1 = 0
-  · rw [if_pos h, h]
+  · rw [ite_eq_left h, h]
     rfl
   · have hb : Nat.beq e.1 0 = false := by
       cases hb : Nat.beq e.1 0
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true hb) h
-    rw [if_neg h, hb]
+    rw [ite_eq_right h, hb]
 
 theorem transOK_all : ∀ r < 820, transOK r = true := by
   intro r hr
@@ -448,11 +448,11 @@ theorem transOK_all : ∀ r < 820, transOK r = true := by
   have htb := tBase_eq e
   split_ifs with h0
   · rw [beq_iff_eq] at h0
-    rw [if_pos h0] at htb
+    rw [ite_eq_left h0] at htb
     rw [key 0 (by norm_num) htb]
     exact beq_self_eq_true r
   · rw [beq_iff_eq] at h0
-    rw [if_neg h0] at htb
+    rw [ite_eq_right h0] at htb
     rw [key 4 (by norm_num) htb]
     exact beq_self_eq_true r
 

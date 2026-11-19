@@ -26,12 +26,12 @@ private theorem str86_exists_orth_chief
     (hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
     (hZQ : ¬ Z2 L1 L2 S ≤ Q1 L1 L2 S)
     (hZ2 : Nat.card (Z2 L1 L2 S) = (2 ^ k) ^ 4) [Fintype (GaloisField 2 (2 * k))] :
-    ∃ (W : Subgroup G) (hWZ2 : W ≤ Z2 L1 L2 S)
+    ∃ (W : Subgroup G) (_hWZ2 : W ≤ Z2 L1 L2 S)
       (hstepW : IsChiefStep (u3H L1 L2 S) (Q2 L1 L2 S) ⊥ W)
-      (hncW : ¬ IsCentralStep (u3H L1 L2 S) ⊥ W)
+      (_hncW : ¬ IsCentralStep (u3H L1 L2 S) ⊥ W)
       (hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W))
       (e : oTwoQuot ↥(u3H L1 L2 S) ≃* SL(2, GaloisField 2 (2 * k)))
-      (hcomm : ⁅Z2 L1 L2 S, u3H L1 L2 S⁆ = W) (hW : W = Z2 L1 L2 S)
+      (_hcomm : ⁅Z2 L1 L2 S, u3H L1 L2 S⁆ = W) (_hW : W = Z2 L1 L2 S)
       (l : ℕ) (hl : Fintype.card (GaloisField 2 (2 * k)) = 2 ^ (2 * l)),
       letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
       letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
@@ -41,16 +41,16 @@ private theorem str86_exists_orth_chief
   have hn : 2 ≤ 2 * k := by omega
   let H := u3H L1 L2 S
   let hUH : Q2 L1 L2 S ≤ H := q2_le_u3H L1 L2 S
-  obtain ⟨W, hWZ2, hstepW, hncW⟩ :=
+  obtain ⟨W, _hWZ2, hstepW, _hncW⟩ :=
     str86_exists_chiefStep_u3H hF hSB hk hFc hU3 hB2 ⟨2 * k, hL2⟩ hZI
   have h376 : Nat.card (Z2 L1 L2 S) ≤ (2 ^ k * 2 ^ (2 * k)) ^ 2 :=
     str86_card_z2_le_sq hF hSB hk hFc hU3 hn hL2 hZQ hB2 hZI
-  have hcomm : ⁅Z2 L1 L2 S, H⁆ = W :=
-    str86_z2_commutator_eq_chief hF hSB hk hFc hU3 hn hL2 hZQ h376 hstepW hncW hWZ2
+  have _hcomm : ⁅Z2 L1 L2 S, H⁆ = W :=
+    str86_z2_commutator_eq_chief hF hSB hk hFc hU3 hn hL2 hZQ h376 hstepW _hncW _hWZ2
   have hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W) :=
     isElemAbelian_chiefMod hstepW hUH (pCoreOf_isPGroup 2 (P2 L1 L2 S))
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   obtain ⟨e₀⟩ := str86_isL2Quot_u3H hF.toW hL2
   let e : oTwoQuot ↥H ≃* SL(2, GaloisField 2 (2 * k)) :=
     e₀.trans (CFSG.CGT.Timmesfeld75.pslMulEquivSL (F := GaloisField 2 (2 * k)))
@@ -81,9 +81,9 @@ private theorem str86_exists_orth_chief
           Subgroup.card_map_of_injective e.injective
       _ = Nat.card ↥Tsub := by rw [hTcoe]
       _ = 2 ^ (2 * k) := hTcard
-  have hnt : ∃ g, ρ g ≠ 1 := l2ChiefSectionRep_nontrivial hstepW hUH hE e hncW
+  have hnt : ∃ g, ρ g ≠ 1 := l2ChiefSectionRep_nontrivial hstepW hUH hE e _hncW
   have hirr : ρ.IsIrreducible := l2ChiefSectionRep_irreducible hstepW hUH hE e
-  haveI : Fact ρ.IsIrreducible := ⟨hirr⟩
+  have : Fact ρ.IsIrreducible := ⟨hirr⟩
   have hWcardEq : Nat.card W = Nat.card (Additive (Ch3z.chiefMod ⊥ W)) := by
     calc Nat.card W = Nat.card (Ch3z.chiefMod ⊥ W) :=
           Nat.card_congr (chiefModBotMulEquiv W).toEquiv
@@ -96,7 +96,7 @@ private theorem str86_exists_orth_chief
         rw [hZ2]
         norm_num [pow_mul, mul_comm]
       rw [← hZ2']
-      exact Subgroup.card_le_of_le hWZ2
+      exact Subgroup.card_le_of_le _hWZ2
     have hlt : 4 * k < 4 * (2 * k) := by omega
     exact lt_of_le_of_lt hle (Nat.pow_lt_pow_right (by norm_num) hlt)
   have hcardGF : Fintype.card (GaloisField 2 (2 * k)) = 2 ^ (2 * k) := by
@@ -106,7 +106,7 @@ private theorem str86_exists_orth_chief
     ρ hnt A hA2 hAcard hWlt
   rcases htri with hnat | ⟨l, hl, hn2l, horth⟩ | ⟨l, hn3l, hWcard3, hfix3⟩
   · have hfix := str86_natural_case_false hF hSB hk hFc hU3 hn hL2 hB2 hZI hZQ h376
-      hstepW hncW hWZ2 hcomm hE e T hTcoe hnat
+      hstepW _hncW _hWZ2 _hcomm hE e T hTcoe hnat
     exact hfix.elim
   ·
     have hlk : l = k := by
@@ -114,16 +114,16 @@ private theorem str86_exists_orth_chief
       have h2 : 2 * l = 2 * k := Nat.pow_right_injective (by norm_num) h1
       omega
     have hcards := str86_orth_case_cards hF hSB hk hFc hU3 hn hL2 hB2 hZI hZQ h376
-      hstepW hncW hWZ2 hcomm hE e T hTcoe hl horth
+      hstepW _hncW _hWZ2 _hcomm hE e T hTcoe hl horth
     have hWcard : Nat.card W = (2 ^ k) ^ 4 := hcards.2
     have hZ2W : W = Z2 L1 L2 S := by
-      refine Subgroup.eq_of_le_of_card_ge hWZ2 ?_
+      refine Subgroup.eq_of_le_of_card_ge _hWZ2 ?_
       rw [hZ2, hWcard]
-    exact ⟨W, hWZ2, hstepW, hncW, hE, e, hcomm, hZ2W, l, hl, horth⟩
+    exact ⟨W, _hWZ2, hstepW, _hncW, hE, e, _hcomm, hZ2W, l, hl, horth⟩
   ·
     exfalso
     have hWle : 2 ^ (8 * l) ≤ 2 ^ (4 * k) := by
-      have hWle' : Nat.card W ≤ Nat.card (Z2 L1 L2 S) := Subgroup.card_le_of_le hWZ2
+      have hWle' : Nat.card W ≤ Nat.card (Z2 L1 L2 S) := Subgroup.card_le_of_le _hWZ2
       rw [hWcardEq, hWcard3, hZ2] at hWle'
       have hZ2' : (2 ^ k) ^ 4 = 2 ^ (4 * k) := by norm_num [pow_mul, mul_comm]
       rw [hZ2'] at hWle'
@@ -161,8 +161,8 @@ private theorem mem_commSub_iff_commutator {H U W : Subgroup G} {m : ℕ}
           ((P.map (QuotientGroup.mk' (pCore 2 ↥H))).map e.toMonoidHom) ↔
       (w : G) ∈ ⁅W, P.map H.subtype⁆ := by
   classical
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let ρ := l2ChiefSectionRep hstep hUH hE e
   let A : Subgroup (SL(2, GaloisField 2 m)) :=
     (P.map (QuotientGroup.mk' (pCore 2 ↥H))).map e.toMonoidHom
@@ -270,6 +270,7 @@ open scoped Pointwise commutatorElement MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem u3Y_inf_conj_q2_le_centralizer {L1 L2 S : Subgroup G} {l : G} :
     u3Y L1 L2 S ⊓ MulAut.conj l • Q2 L1 L2 S ≤
       Subgroup.centralizer (MulAut.conj l • u3Y L1 L2 S : Set G) := by
@@ -290,6 +291,7 @@ private theorem u3Y_inf_conj_q2_le_centralizer {L1 L2 S : Subgroup G} {l : G} :
       (u3Y_le_z2 (L1 := L1) (L2 := L2) (S := S))) he
   exact Subgroup.mem_centralizer_iff.mp (hmap haQ) e heZ
 
+omit [Finite G] in
 private theorem u3Y_inf_conj_q2_le_centralizer_q2 {L1 L2 S : Subgroup G} {l : G} :
     u3Y L1 L2 S ⊓ MulAut.conj l • Q2 L1 L2 S ≤
       Subgroup.centralizer (Q2 L1 L2 S : Set G) := by
@@ -367,7 +369,7 @@ theorem str86_z1_inf_conj_q1_eq_bot
     (hk : 2 ≤ k) (hFc : Nat.card F = (2 ^ k) ^ 2)
     (hU3 : Nonempty (oTwoQuot ↥L1 ≃* StatedSU 3 (2 ^ k) F) ∨
       Nonempty (oTwoQuot ↥L1 ≃* StatedProj (StatedSU 3 (2 ^ k) F)))
-    (hB2 : VBig L2) (h2 : VL2 L2)
+    (hB2 : VBig L2) (_h2 : VL2 L2)
     (hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
     (hZQ : ¬ Z2 L1 L2 S ≤ Q1 L1 L2 S)
     (hL2 : IsL2Quot (2 * k) (oTwoQuot ↥L2))
@@ -377,13 +379,13 @@ theorem str86_z1_inf_conj_q1_eq_bot
     ∀ g ∈ L2 ⊔ bigB L1 L2 S, g ∉ bigB L1 L2 S →
       Z1 L1 L2 S ⊓ (MulAut.conj g • Q1 L1 L2 S) = ⊥ := by
   classical
-  haveI : Fintype (GaloisField 2 (2 * k)) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (2 * k)) := Fintype.ofFinite _
   obtain ⟨W, hWZ2, hstepW, hncW, hE, e, hcomm, hZ2W, l, hl, horth⟩ :=
     str86_exists_orth_chief hF hSB hk hFc hU3 hB2 hL2 hZI hZQ hZ2
   let H := u3H L1 L2 S
   let hUH : Q2 L1 L2 S ≤ H := q2_le_u3H L1 L2 S
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   let ρ := l2ChiefSectionRep hstepW hUH hE e
   let θ := chiefModBotMulEquiv W
   have hn : 2 ≤ 2 * k := by omega
@@ -392,7 +394,7 @@ theorem str86_z1_inf_conj_q1_eq_bot
     exact GaloisField.card 2 (2 * k) (by omega)
   have hlk : l = k := by
     have h1 : 2 ^ (2 * l) = 2 ^ (2 * k) := by rw [← hl, hcardGF]
-    have h2 : 2 * l = 2 * k := Nat.pow_right_injective (by norm_num) h1
+    have _h2 : 2 * l = 2 * k := Nat.pow_right_injective (by norm_num) h1
     omega
   have h1 : VU3Big L1 := ⟨k, hk, F, inferInstance, inferInstance, hFc, hU3⟩
   have hcase := str86_caseI_basics hF hSB h1 hB2 ⟨2 * k, hL2⟩ hZI
@@ -460,7 +462,7 @@ theorem str86_z1_inf_conj_q1_eq_bot
             dsimp [w]
             rw [MulEquiv.apply_symm_apply]
             rfl
-          simpa [h1] using v.2
+          simp [h1]
         ⟨(w : G), (hiffS w).mp hw⟩
       left_inv := by
         intro x
@@ -647,7 +649,7 @@ theorem str86_z1_inf_conj_q1_eq_bot
   have hzK' : z ∈ ⁅W, S'⁆ := by
     rw [← hconjK]
     refine Subgroup.mem_map.mpr ⟨g⁻¹ * z * g, hginvK, ?_⟩
-    simp [conjSub, MulAut.conj_apply, mul_assoc]
+    simp [MulAut.conj_apply, mul_assoc]
   have hcommA' : Additive.ofMul (θ ⟨z, hzW⟩) ∈ CFSG.QuasithinUnique.Setup.X7.commSub ρ A' :=
     (hiffS' ⟨z, hzW⟩).mpr hzK'
   have hbot : Additive.ofMul (θ ⟨z, hzW⟩) ∈
@@ -656,8 +658,8 @@ theorem str86_z1_inf_conj_q1_eq_bot
     exact Submodule.mem_inf.mpr ⟨hfixA, hcommA'⟩
   have hzero : Additive.ofMul (θ ⟨z, hzW⟩) = 0 := by simpa using hbot
   have h1 : θ ⟨z, hzW⟩ = 1 := Additive.ofMul.injective (by simpa using hzero)
-  have h2 : (⟨z, hzW⟩ : ↥W) = 1 := θ.injective (by simpa using h1)
-  have hz1 : z = 1 := congrArg Subtype.val h2
+  have _h2 : (⟨z, hzW⟩ : ↥W) = 1 := θ.injective (by simpa using h1)
+  have hz1 : z = 1 := congrArg Subtype.val _h2
   exact Subgroup.mem_bot.mpr hz1
 
 end CFSG.Quasithin.Stroth

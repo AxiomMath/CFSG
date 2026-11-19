@@ -32,8 +32,8 @@ open scoped Pointwise
     Nat.card (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) ≠ 360 →
     ∀ {y : ModGL τ L}
-      (hyZ : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)))
-      (hyF : S.D.step y = y)
+      (_hyZ : y ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom a)))
+      (_hyF : S.D.step y = y)
       (hyStab : MulAut.conj y ∈ subgroupStabAut
         (rationalComponent S.ρ S.Γ (rootCharHom a) i)),
       centerQuotientHom ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)

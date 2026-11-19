@@ -115,8 +115,8 @@ theorem _root_.CFSG.Quasithin.IsOmega4MinusType.of_mulEquiv {L : Subgroup G} {N 
   have heU : ∀ u : ↥(blockU L),
       ((eU u : ↥(blockU N)) : H) = g ⟨(u : G), hBL u.2⟩ := by
     intro u
-    simp only [eU, MulEquiv.trans_apply, MulEquiv.coe_toMonoidHom, eLtop,
-      MulEquiv.subgroupCongr_apply, MulEquiv.symm_apply_apply]
+    simp only [eU, MulEquiv.trans_apply, eLtop,
+      MulEquiv.subgroupCongr_apply]
     change g (((blockU (⊤ : Subgroup ↥L)).equivMapOfInjective L.subtype
       L.subtype_injective).symm ((MulEquiv.subgroupCongr hUL) u)) = g ⟨(u : G), hBL u.2⟩
     congr 1

@@ -20,9 +20,10 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_conj {p : ℕ} {A : Subgroup G} (hA : IsElemAbelian p A) (g : G) :
     IsElemAbelian p (A.map (MulAut.conj g).toMonoidHom) := by
-  haveI := hA.1
+  have := hA.1
   refine ⟨IsMulCommutative.of_setLike_mul_comm fun a ha b hb => ?_, fun z hz => ?_⟩
   · obtain ⟨u, hu, rfl⟩ := ha
     obtain ⟨v, hv, rfl⟩ := hb
@@ -76,7 +77,7 @@ theorem exists_offender {M O Y E : Subgroup G} (hER : E ≤ normalizer ((Y ⊓ O
     (hJ : ¬ ∃ E : Subgroup G, E ≤ normalizer ((thompsonJ Y : Subgroup G) : Set G) ⊓ M ∧
       IsElemAbelian 3 E ∧ Nat.card E = 27) :
     ∃ A : Subgroup G, IsMaxElemAbelian Y A ∧ ¬ A ≤ O := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   push Not at hcon
   have hmap : ∀ q ∈ E, (thompsonJ Y).map (MulAut.conj q).toMonoidHom ≤ thompsonJ Y := by
@@ -109,12 +110,14 @@ variable {M O : Subgroup G} [hn : (O.subgroupOf M).Normal] {x e₂ e₃ t ρ : G
 
 include hf
 
+omit hn in
 theorem gen_pow_three {x' : G} (hx'ℓ : x' = x ∨ x' = e₂ ∨ x' = e₃) : x' ^ 3 = 1 ∧ x' ≠ 1 := by
   rcases hx'ℓ with h | h | h <;> rw [h]
   · exact ⟨hf.x_pow, hf.x_ne⟩
   · exact ⟨hf.e₂_pow, hf.e₂_ne⟩
   · exact ⟨hf.e₃_pow, hf.e₃_ne⟩
 
+omit hn in
 theorem gen_mem {x' : G} (hx'ℓ : x' = x ∨ x' = e₂ ∨ x' = e₃) : x' ∈ M := by
   rcases hx'ℓ with h | h | h <;> rw [h]
   · exact hf.x_mem
@@ -239,6 +242,7 @@ section Lift
 
 variable {M O : Subgroup G} [hn : (O.subgroupOf M).Normal]
 
+omit hn in
 theorem exists_lift {R : Subgroup G} (hOM : O ≤ M) (hOn : M ≤ normalizer (O : Set G))
     (hR : IsSylowOf 2 R O) (z : M ⧸ O.subgroupOf M) :
     ∃ γ : G, ∃ hγ : γ ∈ M, γ ∈ normalizer (R : Set G) ∧
@@ -256,6 +260,7 @@ theorem exists_lift {R : Subgroup G} (hOM : O ≤ M) (hOn : M ≤ normalizer (O 
   have h1 := (mem_normalizer_iff.mp (hOn (M.inv_mem hhM)) o).mp ho
   simpa using h1
 
+omit [Finite G] in
 theorem x_mem_sup {ι : Type} [Fintype ι] {R A : Subgroup G} (γ : ι → G) (hγM : ∀ i, γ i ∈ M)
     (hγH : ∀ i, γ i ∈ normalizer (R : Set G)) (hAH : A ≤ normalizer (R : Set G))
     (hAM : A ≤ M) {x' : G} (hx'M : x' ∈ M) (hx'N : x' ∈ normalizer (R : Set G))
@@ -362,10 +367,10 @@ theorem CoreData.upper (h2811 : KFact2811) (hLe8 : KFactPSp43ElemLe8)
     Nat.card (Wsub (Y ⊓ O : Subgroup G)) ≤ 64 := by
   classical
   have hf := hd.frame
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨L, hLn, hLiso, hLc, hQL, hL108⟩ := hL
-  haveI := hLn
+  have := hLn
   set R : Subgroup G := Y ⊓ O with hR
   have hQM : Qf x e₂ e₃ ≤ M := hf.Q_le_M
   set H₀ : Subgroup G := normalizer (R : Set G) ⊓ M with hH₀

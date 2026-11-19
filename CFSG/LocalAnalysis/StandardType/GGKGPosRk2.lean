@@ -168,7 +168,7 @@ private lemma ggRk2_core {G : Type} [Group G] [Finite G] {p : ℕ} {Bs X : Subgr
     have hconj_b := ggRootLevi_map_conj_weylLift (ggU t n f).D ν hν ψ u b
     obtain ⟨W₀, hW₀⟩ := hstdmap ψ hker
     have hf : 1 ≤ f := hadm.2.1
-    haveI : NeZero f := ⟨by omega⟩
+    have : NeZero f := ⟨by omega⟩
     refine ⟨GaloisField 2 f, inferInstance, inferInstance,
       W₀.map (MulAut.conj (ψ (ν u))).toMonoidHom, inferInstance, ?_⟩
     have hpair := CFSG.ClassicalInvolution.ModelFacts.linearBlockStandardPair_map_conj hW₀

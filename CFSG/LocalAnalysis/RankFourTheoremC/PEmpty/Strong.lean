@@ -19,6 +19,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC (SmallRankSylowTwo)
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup G} {x z : G}
 
+omit [Finite G] in
 theorem le_of_inf_ne_bot (h614 : Prop614At M x z) (hBM : zpowers x ⊔ zpowers z ≤ M)
     {S : Subgroup G} (hS2 : IsPGroup 2 S) (hBS : zpowers x ⊔ zpowers z ≤ normalizer (S : Set G))
     (hSM : S ⊓ M ≠ ⊥) : S ≤ M := by
@@ -30,15 +31,15 @@ theorem le_of_inf_ne_bot (h614 : Prop614At M x z) (hBM : zpowers x ⊔ zpowers z
 
 theorem exists_sylowTwo (hS : Situation G p P M) : ∃ T : Subgroup G, SmallRankSylowTwo P M T := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hprime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hMO, hcop⟩ := CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec p M
   obtain ⟨S, hSn⟩ := CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow p 2
     hprime Nat.prime_two (P : Subgroup G) (rankThreePrimeCore p M)
-    P.isPGroup' (hS.sylow_le.trans hMO) hcop
+    P.isPGroup (hS.sylow_le.trans hMO) hcop
   refine ⟨(S : Subgroup (rankThreePrimeCore p M)).map
     (rankThreePrimeCore p M).subtype,
-    map_subtype_le _, S.isPGroup'.map _, ?_, hSn⟩
+    map_subtype_le _, S.isPGroup.map _, ?_, hSn⟩
   rw [Subgroup.subgroupOf,
     comap_map_eq_self_of_injective (rankThreePrimeCore p M).subtype_injective]
   exact S.not_dvd_index
@@ -52,8 +53,8 @@ theorem exists_point (hS : Situation G p P M) (hns : ¬ GLBStronglyEmbedded p M)
     ∃ x : G, Point P M x := by
   classical
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI := hS.simple
+  have : Fact p.Prime := ⟨hprime⟩
+  have := hS.simple
   have hPM := hS.sylow_le
   have hMtop : M ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top hS.nonab hS.loc.maxLocal.1
@@ -73,7 +74,7 @@ theorem exists_point (hS : Situation G p P M) (hns : ¬ GLBStronglyEmbedded p M)
     have : g * y₀ * g⁻¹ = m := by
       rw [← hy₀def] at hmy
       rw [← hmy]
-      simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
     rwa [this]
   have hy₀p : IsPGroup p (zpowers y₀) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hy₀ord, pow_one])
@@ -144,7 +145,7 @@ theorem exists_point (hS : Situation G p P M) (hns : ¬ GLBStronglyEmbedded p M)
     exact isSylowOf_map_conj hRsyl k₀
   have hPCx : (P : Subgroup G) ⊓ centralizer ({x} : Set G) =
       R.map (MulAut.conj k₀).toMonoidHom :=
-    hR'syl.eq_of_le (le_inf hk hR'syl.le) inf_le_right (P.isPGroup'.to_inf_left)
+    hR'syl.eq_of_le (le_inf hk hR'syl.le) inf_le_right (P.isPGroup.to_inf_left)
   refine ⟨x, hxP, hxord, ?_, by rw [hPCx]; exact hR'syl⟩
   intro hCx
   have hmap : (zpowers y).map (MulAut.conj (k₀⁻¹)⁻¹).toMonoidHom ≤ (P : Subgroup G) := by

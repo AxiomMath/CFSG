@@ -89,10 +89,10 @@ theorem close16_mbar_direct (hS : Close16Setting D V L hV) :
     fun a ha b hb => (Subgroup.mem_centralizer_iff.mp (hKcent ha) b hb).symm
   have hcomm₀ : ∀ a ∈ kBar D.M ⊥ V hV L, ∀ b ∈ L₀, a * b = b * a :=
     fun a ha b hb => (Subgroup.mem_centralizer_iff.mp (hKcent₀ ha) b hb).symm
-  haveI : IsSimpleGroup ↥(lBar ⊥ V hV L) := close16_lbar_simple hS
+  have : IsSimpleGroup ↥(lBar ⊥ V hV L) := close16_lbar_simple hS
   have hnotcomm : ¬ IsMulCommutative ↥(lBar ⊥ V hV L) := by
     intro hc
-    haveI : IsMulCommutative ↥(lBar ⊥ V hV L) := hc
+    have : IsMulCommutative ↥(lBar ⊥ V hV L) := hc
     have hp : (Nat.card ↥(lBar ⊥ V hV L)).Prime :=
       (Group.is_simple_iff_prime_card).mp inferInstance
     rw [close16_card_lbar hS] at hp

@@ -125,7 +125,7 @@ theorem exists_lie_A_one {E : Type} [Field E] [Finite E] (hE : Nat.card E = 8) (
       Nonempty ((Matrix.SpecialLinearGroup (Fin 2) E ⧸
         Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) E)) ≃*
           (TauCeti.CFSGIndex.lie i).Group) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : TauCeti.PrimePower := ⟨2, 3, Nat.prime_two, by norm_num⟩
   have hv : (TauCeti.LieTypeIndex.A 1 q).Valid := by
     rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
@@ -143,7 +143,7 @@ theorem exists_lie_twistedA_three {E : Type} [Field E] [Finite E] {k n : ℕ}
       Nonempty ((↥(CFSG.Open.StatedSU 4 (2 ^ k) E) ⧸
         Subgroup.center ↥(CFSG.Open.StatedSU 4 (2 ^ k) E)) ≃*
           (TauCeti.CFSGIndex.lie i).Group) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hk0 : 0 < k := by omega
   have hmq : ((4 : ℕ), 2 ^ k) ≠ (3, 2) := by
     intro hh
@@ -159,8 +159,8 @@ theorem exists_lie_twistedA_three {E : Type} [Field E] [Finite E] {k n : ℕ}
     exact ⟨by norm_num, fun hr => absurd hr (by norm_num)⟩
   obtain ⟨-, K₀, _, _, hK₀, ⟨e₀⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 3 q hv (MulEquiv.refl _)
-  haveI : Fintype K₀ := Fintype.ofFinite _
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype K₀ := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite E
   have hKK : Fintype.card E = Fintype.card K₀ := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK₀, hE]
   let eK : E ≃+* K₀ := FiniteField.ringEquivOfCardEq hKK
@@ -253,6 +253,7 @@ section Cases
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {W : Type} [AddCommGroup W] [Module F W]
   [FiniteDimensional F W] {R : QuadraticForm F W}
 
+omit [Field F] [Finite F] [CharP F 2] in
 private theorem exp_cases {f : ℕ} (hF : Nat.card F = 2 ∨ Nat.card F = 8)
     (hcard : Nat.card F = 2 ^ f) : f = 1 ∨ f = 3 := by
   rcases hF with h | h
@@ -278,8 +279,8 @@ private theorem nq_four_eight (hF8 : Nat.card F = 8) (hR : (polarBilin R).Nondeg
     (hS : ∃ S : Submodule F W, Module.finrank F S = 2 ∧ ∀ x ∈ S, R x = 0) (n : ℕ) :
     FixNQ n ↥(orthDerived R) := by
   classical
-  haveI : Finite W := Module.finite_of_finite F
-  haveI : Finite (W ≃ₗ[F] W) := Finite.of_injective (fun e : W ≃ₗ[F] W => (e : W → W))
+  have : Finite W := Module.finite_of_finite F
+  have : Finite (W ≃ₗ[F] W) := Finite.of_injective (fun e : W ≃ₗ[F] W => (e : W → W))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   obtain ⟨-, e, -, -, hsup, hq₁, hq₂, hn₁, hn₂, -, -, -⟩ :=
     orthogonal_split_four_derived (by omega) (by omega) R hR hd hS
@@ -289,7 +290,7 @@ private theorem nq_four_eight (hF8 : Nat.card F = 8) (hR : (polarBilin R).Nondeg
         N.map (Solomon.Coordinator.LieComp.OmegaAux.ιO R) =
           (determinantRightFactor F).map e.symm.toMonoidHom := by
     intro N hN hNq
-    haveI := hN
+    have := hN
     have hMD : N.map (Solomon.Coordinator.LieComp.OmegaAux.ιO R) ≤
         commutator ↥(TauCeti.QuadraticMap.orthogonalGroup R) := by
       rw [← Solomon.Coordinator.LieComp.OmegaAux.range_ιO]
@@ -342,8 +343,8 @@ private theorem six_minus (hF : Nat.card F = 2 ∨ Nat.card F = 8)
   obtain ⟨E, _, _, D, ψ, hψ⟩ :=
     CFSG.RankThree.PartOne.KCOrthogonal.exists_evenMinus_model R hR (n := 3) (by norm_num)
       (by omega) hts
-  haveI : CharP E 2 := CFSG.RankThree.PartOne.KCOrthogonal.charP_two_of_algebra (K := F)
-  haveI := D.finite_E
+  have : CharP E 2 := CFSG.RankThree.PartOne.KCOrthogonal.charP_two_of_algebra (K := F)
+  have := D.finite_E
   let e1 : R.IsometryEquiv (CFSG.RankThree.PartOne.KCOrthogonal.evenNormTailForm D.N 2) :=
     { toLinearEquiv := ψ
       map_app' := fun w => hψ w }
@@ -357,7 +358,7 @@ private theorem six_minus (hF : Nat.card F = 2 ∨ Nat.card F = 8)
   obtain ⟨e4⟩ := D.nonempty_sixSU_mulEquiv hU hbar
   let e5 : CFSG.Open.StatedSU 4 (2 ^ f) E ≃* ↥(orthDerived R) :=
     e4.symm.trans (e3.trans (CFSG.RankThree.PartOne.orthDerivedEquiv e2).symm)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNat : Nat.card E = (2 ^ f) ^ 2 := by rw [D.card_E, hcard]
   have hnq : ((4 : ℕ), 2 ^ f) ≠ (3, 2) := by
     intro hh
@@ -365,8 +366,8 @@ private theorem six_minus (hF : Nat.card F = 2 ∨ Nat.card F = 8)
     simp at this
   have hSq := (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card hNat
     (by norm_num) hnq).1
-  haveI := (CFSG.RankThree.PartOne.KCOrthogonal.statedSU_four_char_two_perfect_simple hU).2
-  haveI : IsSimpleGroup ↥(orthDerived R) := e5.symm.isSimpleGroup
+  have := (CFSG.RankThree.PartOne.KCOrthogonal.statedSU_four_char_two_perfect_simple hU).2
+  have : IsSimpleGroup ↥(orthDerived R) := e5.symm.isSimpleGroup
   have hq : CFSG.IsQuasisimple ↥(orthDerived R) :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv e5 hSq
   obtain ⟨i, hi, ⟨eL⟩⟩ := exists_lie_twistedA_three hNat (exp_cases hF hcard) hn
@@ -378,7 +379,7 @@ open CFSG.GroupTheory.WeirSylow CFSG.LieType.Universal.Spin
 private theorem large (hF : Nat.card F = 2 ∨ Nat.card F = 8)
     (hR : (polarBilin R).Nondegenerate) {s : ℕ} (hs : Module.finrank F W = 2 * s) (h4 : 4 ≤ s)
     (htype : IsPlusType R ↔ Even s) : FixData (s + 1) ↥(orthDerived R) := by
-  haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := F) (M := W) (by omega)
+  have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := F) (M := W) (by omega)
   obtain ⟨f, hf, hcard⟩ : ∃ f, (f = 1 ∨ f = 3) ∧ Nat.card F = 2 ^ f :=
     hF.elim (fun h => ⟨1, Or.inl rfl, h.trans (by norm_num)⟩)
       fun h => ⟨3, Or.inr rfl, h.trans (by norm_num)⟩
@@ -439,12 +440,12 @@ theorem orthDerived_not_quasisimple_small {F : Type} [Field F] [Finite F] [CharP
     ∀ N : Subgroup ↥(CFSG.RankThree.Classical2.orthDerived R), N.Normal →
       ¬ CFSG.IsQuasisimple ↥N := by
   intro N hN hNq
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   rcases hsmall with h1 | ⟨rfl, h2⟩
   · exact Solomon.Coordinator.LieComp.OmegaAux.M.case_le_two hR (by omega) N hNq
-  · haveI := hN
+  · have := hN
     obtain ⟨S, hS, hSs⟩ := (htype (by norm_num)).2 (by decide)
-    haveI :=
+    have :=
       Solomon.Coordinator.LieComp.OmegaAux.A.isSolvable_orthogonalGroup_of_smallFixedException
         R hR (by omega) (Or.inr ⟨⟨by omega, S, by omega, hSs⟩, Or.inl h2⟩)
     exact CFSG.ComponentClassification.CatLeafProof.not_isComponent_of_isSolvable

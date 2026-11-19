@@ -101,11 +101,11 @@ theorem exists_extremal_conj {S : Subgroup X} (hS : ∃ P : Sylow 2 X, (P : Subg
   refine ⟨h, hh, ?_⟩
   set C := centralizer ({a} : Set X) with hC
   have hp : IsPGroup 2 (((P : Subgroup X) ⊓ C).subgroupOf C) :=
-    (P.isPGroup'.to_le inf_le_left).of_equiv (subgroupOfEquivOfLe inf_le_right).symm
+    (P.isPGroup.to_le inf_le_left).of_equiv (subgroupOfEquivOfLe inf_le_right).symm
   obtain ⟨Q, hQ⟩ := hp.exists_le_sylow
   refine ⟨Q, ?_⟩
   set Q' : Subgroup X := (Q : Subgroup C).map C.subtype with hQ'
-  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup'.map _
+  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup.map _
   obtain ⟨c, hc⟩ := exists_conj_mem_sylow hQ'2 P
   have haQ' : a ∈ Q' := by
     have : (⟨a, mem_centralizer_singleton_iff.mpr rfl⟩ : C) ∈ (Q : Subgroup C) :=

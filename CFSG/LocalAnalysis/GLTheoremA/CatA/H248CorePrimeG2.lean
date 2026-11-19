@@ -16,8 +16,8 @@ private theorem range_conj_eq_top_adjointGroup_G2 {q : ℕ} (hq : q.Prime) (hq2 
     (hq3 : q ≠ 3) (K : Type) [Field K] (hK : Nat.card K = q) :
     (MulAut.conj : adjointGroup ReeTag.G2.tag K →*
       MulAut (adjointGroup ReeTag.G2.tag K)).range = ⊤ := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact hq.ne_zero)
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact hq.ne_zero)
+  have : Fact q.Prime := ⟨hq⟩
   have hsub : Subsingleton (K ≃+* K) :=
     CFSG.RankThree.PartOne.CTP.subsingleton_ringEquiv_of_card_eq_prime hK
   obtain ⟨hNF, Θ, hΘ, -, hker, -⟩ :=
@@ -94,7 +94,7 @@ private theorem card_lt_of_elemAbelian_mulAut_gTwo_cat {p q : ℕ} (hp : p.Prime
     rw [hb, Subgroup.card_bot] at hcardA₀
     have hp3 : 1 < p ^ 3 := Nat.one_lt_pow (by norm_num) hp.one_lt
     omega
-  haveI hsimple : IsSimpleGroup (adjointGroup ReeTag.G2.tag K) :=
+  have hsimple : IsSimpleGroup (adjointGroup ReeTag.G2.tag K) :=
     isSimpleGroup_adjointGroup_G2 Q hv K hK
   have hinj : Function.Injective (MulAut.conj : adjointGroup ReeTag.G2.tag K →*
       MulAut (adjointGroup ReeTag.G2.tag K)) :=

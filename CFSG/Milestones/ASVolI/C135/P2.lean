@@ -72,7 +72,7 @@ theorem burnsideC135_eq_top_of_stab_invariant {x : Fin 3 → F} (hx : x ≠ 0)
     have hfix : ((Matrix.SpecialLinearGroup.transvection hij b :
         Matrix.SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) *ᵥ e₀ = e₀ := by
       rw [CFSG.Quasithin.H13.Ch4.transvection_mulVec]
-      have : e₀ j = 0 := by fin_cases j <;> simp_all [he₀]
+      have : e₀ j = 0 := by fin_cases j <;> simp_all
       rw [this, mul_zero, Pi.single_zero, add_zero]
     have := hY'inv _ hfix v hv
     rwa [CFSG.Quasithin.H13.Ch4.transvection_mulVec] at this
@@ -179,6 +179,7 @@ variable [Finite G] {Q L W₁ W₂ : Subgroup G} {F : Type} [Field F] [Fintype F
   {βU : ↥(centerOf Q) →* Multiplicative (Fin 3 → F)}
   {β₁ : ↥W₁ →* Multiplicative (Fin 3 → F)} {β₂ : ↥W₂ →* Multiplicative (Fin 3 → F)}
 
+omit [Finite G] [Fintype F] [CharP F 2] in
 theorem burnsideC135_dualSplit_symm
     (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β₂) :
     burnsideC135_DSG Q L W₂ W₁ α βU β₂ β₁ :=
@@ -187,15 +188,18 @@ theorem burnsideC135_dualSplit_symm
     hD.natU_onto, hD.natU_ker, hD.natU_act, hD.dual₂_onto, hD.dual₂_ker, hD.dual₂_act,
     hD.dual₁_onto, hD.dual₁_ker, hD.dual₁_act⟩
 
+omit [Finite G] [Fintype F] [CharP F 2] in
 theorem burnsideC135_βU_injective
     (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β₂) : Function.Injective βU := by
   rw [← MonoidHom.ker_eq_bot_iff]
   exact hD.natU_ker
 
+omit [Finite G] in
 theorem burnsideC135_U_comm {u x : G} (hu : u ∈ centerOf (Q)) (hx : x ∈ Q) :
     u * x = x * u :=
   (Subgroup.mem_centralizer_iff.mp hu.2 x hx).symm
 
+omit [Finite G] [Fintype F] in
 theorem burnsideC135_U_sq (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β₂) {u : G}
     (hu : u ∈ centerOf (Q)) : u * u = 1 := by
   have h1 : βU (⟨u, hu⟩ * ⟨u, hu⟩) = 1 := by
@@ -208,6 +212,7 @@ theorem burnsideC135_U_sq (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β�
   have h2 := burnsideC135_βU_injective hD (h1.trans (map_one βU).symm)
   exact congrArg Subtype.val h2
 
+omit [Finite G] in
 theorem burnsideC135_le_normalizer_centerOf {X H : Subgroup G}
     (h : H ≤ Subgroup.normalizer (X : Set G)) :
     H ≤ Subgroup.normalizer (centerOf X : Set G) := by
@@ -229,8 +234,9 @@ theorem burnsideC135_le_normalizer_centerOf {X H : Subgroup G}
   have := key g⁻¹ (H.inv_mem hg) _ hc
   simpa [mul_assoc] using this
 
+omit [Finite G] [Fintype F] in
 theorem burnsideC135_dual_sq (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β₂)
-    {W : Subgroup G} (hUW : centerOf (Q) ≤ W) (hWQ : W ≤ Q)
+    {W : Subgroup G} (_hUW : centerOf (Q) ≤ W) (hWQ : W ≤ Q)
     (hLW : L ≤ Subgroup.normalizer (W : Set G)) {β : ↥W →* Multiplicative (Fin 3 → F)}
     (hβs : Function.Surjective β) (hβk : β.ker = (centerOf (Q)).subgroupOf W)
     (hβact : ∀ (ℓ : ↥L) (u v : ↥W), (v : G) = ℓ * u * ℓ⁻¹ →
@@ -310,6 +316,7 @@ theorem burnsideC135_dual_sq (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ �
   rw [h1]
   exact congrArg Subtype.val h3
 
+omit [Finite G] [Fintype F] in
 theorem burnsideC135_W_sq (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β₂) :
     (∀ w ∈ W₁, w * w = 1) ∧ (∀ w ∈ W₂, w * w = 1) :=
   ⟨fun _ hw => burnsideC135_dual_sq hD hD.le₁ hD.le_Q₁ hD.norm₁ hD.dual₁_onto hD.dual₁_ker
@@ -317,6 +324,7 @@ theorem burnsideC135_W_sq (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β�
     fun _ hw => burnsideC135_dual_sq hD hD.le₂ hD.le_Q₂ hD.norm₂ hD.dual₂_onto hD.dual₂_ker
       hD.dual₂_act hw⟩
 
+omit [Finite G] in
 theorem burnsideC135_comm_of_sq {W : Subgroup G} (h : ∀ w ∈ W, w * w = 1) {x y : G}
     (hx : x ∈ W) (hy : y ∈ W) : x * y = y * x := by
   have h1 := h _ (W.mul_mem hx hy)
@@ -326,6 +334,7 @@ theorem burnsideC135_comm_of_sq {W : Subgroup G} (h : ∀ w ∈ W, w * w = 1) {x
         (by simpa [mul_assoc] using h1))).trans (by group)
     _ = y * x := by rw [hx', hy']
 
+omit [Finite G] in
 theorem burnsideC135_commutator_mul_central {a b u u' : G} (hub : u * b = b * u)
     (hu'a : u' * a = a * u') (hu'u : u' * u = u * u') :
     (a * u) * (b * u') * (a * u)⁻¹ * (b * u')⁻¹ = a * b * a⁻¹ * b⁻¹ := by
@@ -342,6 +351,7 @@ theorem burnsideC135_commutator_mul_central {a b u u' : G} (hub : u * b = b * u)
     _ = a * b * (a⁻¹ * u') * u'⁻¹ * b⁻¹ := by rw [hu'a']
     _ = a * b * a⁻¹ * b⁻¹ := by group
 
+omit [Finite G] in
 theorem burnsideC135_commute_iff (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β₂)
     (hcomm : ∀ x ∈ Q, ∀ y ∈ Q, x * y * x⁻¹ * y⁻¹ ∈ centerOf (Q))
     (w : ↥W₁) (hw : (w : G) ∉ centerOf (Q)) (y : ↥W₂) :
@@ -522,12 +532,14 @@ theorem burnsideC135_commute_iff (hD : burnsideC135_DSG Q L W₁ W₂ α βU β�
         _ = y * w := by rw [h5, one_mul]
   rw [hiff, hker]
 
+omit [Finite G] [CharP F 2] in
 theorem burnsideC135_card_U (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β₂) :
     Nat.card ↥(centerOf (Q)) = Fintype.card F ^ 3 := by
   have hbij : Function.Bijective βU := ⟨burnsideC135_βU_injective hD, hD.natU_onto⟩
   rw [Nat.card_congr ((Equiv.ofBijective _ hbij).trans Multiplicative.toAdd), Nat.card_eq_fintype_card,
     Fintype.card_fun, Fintype.card_fin]
 
+omit [Finite G] [CharP F 2] in
 theorem burnsideC135_card_dual (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β₂)
     {W : Subgroup G} (hUW : centerOf (Q) ≤ W) {β : ↥W →* Multiplicative (Fin 3 → F)}
     (hβs : Function.Surjective β) (hβk : β.ker = (centerOf (Q)).subgroupOf W) :
@@ -552,6 +564,7 @@ theorem burnsideC135_isE2_W (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β
   · rw [burnsideC135_card_dual hD hD.le₁ hD.dual₁_onto hD.dual₁_ker, hc _ rfl]
   · rw [burnsideC135_card_dual hD hD.le₂ hD.dual₂_onto hD.dual₂_ker, hc _ rfl]
 
+omit [Finite G] [Fintype F] [CharP F 2] in
 theorem burnsideC135_le_normalizer_W₁
     (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β₂)
     (hcomm : ∀ x ∈ Q, ∀ y ∈ Q, x * y * x⁻¹ * y⁻¹ ∈ centerOf (Q)) :
@@ -666,6 +679,7 @@ theorem burnsideC135_relIndex (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ 
   rw [mul_comm (Nat.card _)] at h1
   exact Nat.eq_of_mul_eq_mul_right hU0 h1
 
+omit [Finite G] in
 theorem burnsideC135_card_centralizer (hD : burnsideC135_DSG Q L W₁ W₂ α βU β₁ β₂)
     (hcomm : ∀ x ∈ Q, ∀ y ∈ Q, x * y * x⁻¹ * y⁻¹ ∈ centerOf (Q))
     (w : ↥W₁) (hw : (w : G) ∉ centerOf (Q)) :

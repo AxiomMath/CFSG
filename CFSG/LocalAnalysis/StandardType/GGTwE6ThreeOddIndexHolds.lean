@@ -102,7 +102,7 @@ theorem ggLayerExcThreeOddIndexAtTwoTwE6_holds :
       (twistedE6InndiagConj _ _ hg) (hg : ModGL TwistTag.E6.tag (GaloisField 2 (2 * 1))) hg.2
       (fun c => twistedE6InndiagConj_apply hg c) hh3 hh1
   have hq2 : S.D.q = 2 := by rw [hq, pow_one]
-  haveI : CharP (AlgebraicClosure (GaloisField 2 (2 * 1))) 2 :=
+  have : CharP (AlgebraicClosure (GaloisField 2 (2 * 1))) 2 :=
     charP_two_of_langSetup_q_eq_two S hq2
   have hAlg : S.IsAlgebraic := S.isAlgebraic_of_algebraic (GaloisField 2 (2 * 1)) 2 (by rw [hK, hq])
   have h3L : ((3 : ℕ) : AlgebraicClosure (GaloisField 2 (2 * 1))) ≠ 0 := by

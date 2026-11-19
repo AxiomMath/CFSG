@@ -141,7 +141,7 @@ theorem sec8t84a1_E_indep (hctx : Sec8Ctx G t L S z g B) :
       v₃ ≠ v₁ * v₂ := by
   classical
   have hcard : Nat.card B = 16 := sec8t84a1_B_card hctx
-  letI : Fintype B := Fintype.ofFinite B
+  let : Fintype B := Fintype.ofFinite B
   have hcard' : Fintype.card B = 16 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard

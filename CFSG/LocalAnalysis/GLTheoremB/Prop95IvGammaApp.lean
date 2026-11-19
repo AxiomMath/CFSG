@@ -59,7 +59,7 @@ private lemma ga_isQuasisimple_of_open {Q : Type*} [Group Q] (h : CFSG.Open.IsQu
     rw [map_commutatorElement, commutatorElement_def,
       hab ((QuotientGroup.mk' (Subgroup.center Q)) x), mul_inv_cancel_right, mul_inv_cancel]
   rw [hcomm] at hle
-  haveI := hsimple
+  have := hsimple
   obtain ⟨a, b, hne⟩ := exists_pair_ne (Q ⧸ Subgroup.center Q)
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
   obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b
@@ -90,7 +90,7 @@ private theorem ga_mem_normalizer_iSup {X : Type*} [Group X] {ι : Sort*} {U : �
     simpa [mul_assoc] using this
 
 theorem tl_glaPPrimeCore_three_eq_bot (hM : AltSixSevenCentre) (h : IvSetting m p M D L)
-    (hp3 : p = 3)
+    (_hp3 : p = 3)
     (hA7 : Nonempty ((↥(tl M L) ⧸ Subgroup.center ↥(tl M L)) ≃* alternatingGroup (Fin 7))) :
     GLAPPrimeCore 3 ↥(tl M L) = ⊥ := by
   have hcomp : IsComponentOf (tl M L) ⊤ :=
@@ -181,7 +181,7 @@ private theorem ga_pCoreOf_tl_le {R : Subgroup G} (hRM : R ≤ M) :
 
 private theorem ga_inf_centralizer_tl_le (hp : p.Prime) (hp2 : p ≠ 2) {d : G} (hdM : d ∈ M)
     (hdp : IsPGroup p (Subgroup.zpowers d)) {P : Subgroup G} (hWP : pCoreOf 2 M ≤ P)
-    (hPM : P ≤ M) :
+    (_hPM : P ≤ M) :
     tl M P ⊓ Subgroup.centralizer
         ({QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨d, hdM⟩} : Set (Mt M)) ≤
       tl M (P ⊓ Subgroup.centralizer ({d} : Set G)) := by
@@ -211,6 +211,7 @@ private theorem ga_inf_centralizer_tl_le (hp : p.Prime) (hp2 : p ≠ 2) {d : G} 
     (QuotientGroup.eq_one_iff _).2 hv2
   rw [e1, map_mul, hv1, mul_one]
 
+omit [Finite G] in
 private theorem ga_isSubnormal_subgroupOf_of_le {K X Y : Subgroup G}
     (hsn : (K.subgroupOf X).IsSubnormal) (hYX : Y ≤ X) : (K.subgroupOf Y).IsSubnormal := by
   have h := hsn.comap (Subgroup.inclusion hYX)
@@ -293,6 +294,7 @@ private theorem ga_rootOf_le_Hfam (h : IvSetting m p M D L) (hLα : L ≤ alphaO
   unfold Hfam
   exact le_iSup_of_le d (le_iSup_of_le hdM (le_iSup_of_le hdD (le_iSup_of_le rfl le_rfl)))
 
+omit [Finite G] in
 private theorem ga_mem_normalizer_tl_pCoreOf {c d : G} (hcM : c ∈ M)
     (hc : c ∈ Subgroup.centralizer ({d} : Set G)) :
     QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨c, hcM⟩ ∈
@@ -303,7 +305,7 @@ private theorem ga_mem_normalizer_tl_pCoreOf {c d : G} (hcM : c ∈ M)
       (((pCoreOf 2 (Subgroup.centralizer ({d} : Set G))).subgroupOf M : Subgroup ↥M) : Set ↥M) := by
     rw [Subgroup.mem_normalizer_iff]
     intro y
-    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf]
+    simp only [Subgroup.mem_subgroupOf]
     exact Subgroup.mem_normalizer_iff.1 (le_normalizer_pCoreOf 2 _ hc) (y : G)
   exact Subgroup.le_normalizer_map (QuotientGroup.mk' (CFSG.pCore 2 ↥M))
     (Subgroup.mem_map_of_mem _ h1)
@@ -350,7 +352,7 @@ private theorem ga_mem_normalizer_of_tl (h : IvSetting m p M D L) {g : G} (hgM :
 
 private theorem ga_actsLikeCQ_of_le_sup {Y : Type} [Group Y] (A W R : Subgroup Y)
     (e : (↥A ⧸ Subgroup.center ↥A) ≃* ↥(alternatingGroup (Fin 7)))
-    (hRA : R ≤ A) (hWN : W ≤ Subgroup.normalizer (A : Set Y)) (hRW : R ≤ W)
+    (hRA : R ≤ A) (_hWN : W ≤ Subgroup.normalizer (A : Set Y)) (hRW : R ≤ W)
     (hWle : W ≤ R ⊔ Subgroup.centralizer (A : Set Y)) :
     ActsLikeCQ W A e ((imgA7 A R e).map (MulAut.conj : ↥(alternatingGroup (Fin 7)) →* _)) := by
   have key : ∀ w ∈ R ⊔ Subgroup.centralizer (A : Set Y),
@@ -435,7 +437,7 @@ theorem hyp28Three_sigma (hAC : AltNotChevTwo) (h : IvSetting m p M D L)
     have hsL := ga_mem_normalizer_of_tl h s.2 (hSN hs')
     rw [Subgroup.mem_normalizer_iff]
     intro y
-    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf]
+    simp only [Subgroup.mem_subgroupOf]
     exact Subgroup.mem_normalizer_iff.1 hsL (y : G)
   have hRZ : (R.subgroupOf (tl M L)) ⊓ Subgroup.center ↥(tl M L) = ⊥ := by
     have hR2 : IsPGroup 2 ↥R :=
@@ -486,6 +488,7 @@ theorem hyp28Three_sigma (hAC : AltNotChevTwo) (h : IvSetting m p M D L)
     rw [hSig, hRint]
     exact hcardR
 
+omit [Finite G] in
 theorem card_subgroupOf_eq {U : Subgroup G} (hUM : U ≤ M) : Nat.card ↥(U.subgroupOf M) = Nat.card ↥U :=
   Nat.card_congr (Subgroup.subgroupOfEquivOfLe hUM).toEquiv
 

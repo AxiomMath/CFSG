@@ -22,8 +22,7 @@ variable {Ω : Type} [Group Ω] [Finite Ω]
 private theorem label_eq_of_canon_twA_of_ne {lab : GLALabel} {r k : ℕ} (hr3 : r ≠ 3)
     (h : canonLabel lab = ⟨.twA, r, k⟩) : lab = ⟨.twA, r, k⟩ := by
   obtain ⟨tag, rank, n⟩ := lab
-  by_cases h3 : rank = 3 <;> by_cases h2 : rank = 2 <;> cases tag <;> simp_all [canonLabel] <;>
-    omega
+  by_cases h3 : rank = 3 <;> by_cases h2 : rank = 2 <;> cases tag <;> simp_all [canonLabel]
 
 theorem qUConcl_of_unitary_prime {p : ℕ} {S B T : Subgroup Ω} {x b : Ω} (cfg : QUCfg p S B T x b)
     (hF : FieldOn p b S) {labK : GLALabel}
@@ -55,7 +54,7 @@ theorem qUConcl_of_unitary_prime {p : ℕ} {S B T : Subgroup Ω} {x b : Ω} (cfg
   have hpm6 : 3 * 2 ≤ p * m := Nat.mul_le_mul hp3 hm2
   have h : UnitaryFieldData 2 labK.n K :=
     ⟨Nat.prime_two, by omega, by rw [hKcard, ← pow_mul, Nat.mul_comm]⟩
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hq3 : ¬(p = 3 ∧ 2 ^ labK.n = 2) := fun h' => by
     have h1 : labK.n = 1 := Nat.pow_right_injective le_rfl (h'.2.trans (pow_one 2).symm)
     omega

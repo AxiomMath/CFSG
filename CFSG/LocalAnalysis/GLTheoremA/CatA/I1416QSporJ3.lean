@@ -27,10 +27,10 @@ theorem qcompOK_j3A (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridg
   have hDC : closure (Set.range j3tD) ≤
       centralizer ({j3tXA} : Set (Equiv.Perm (Fin 6156))) ⊓ j3P :=
     le_inf Census228Spor.closure_j3tD_le_centralizer tabJ3_D_le
-  haveI hs : IsSimpleGroup ↥(closure (Set.range j3tD)) :=
+  have hs : IsSimpleGroup ↥(closure (Set.range j3tD)) :=
     @MulEquiv.isSimpleGroup _ _ _ _
       (alternatingGroup.isSimpleGroup (by simp)) eD
-  haveI : Finite ↥(closure (Set.range j3tD)) :=
+  have : Finite ↥(closure (Set.range j3tD)) :=
     Nat.finite_of_card_ne_zero (by rw [j3t_derived.2]; norm_num)
   have hnab : ∃ a b : ↥(closure (Set.range j3tD)), a * b ≠ b * a :=
     CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple
@@ -59,7 +59,7 @@ theorem qcompOK_j3B (y : ↥j3P)
   refine qcompOK_of_pConstrained Nat.prime_three
     (pConstrainedShape_of_map_injective j3P.subtype j3P.subtype_injective ?_)
   rw [map_centralizer_subtype', hy]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 ↥(centralizer ({j3tXB} : Set (Equiv.Perm (Fin 6156))) ⊓ j3P) :=
     IsPGroup.of_card (n := 5) (by rw [Census228Spor.card_centralizer_XB]; norm_num)
   exact ⟨_, le_rfl, fun g hg q hq => Subgroup.mul_mem _ (Subgroup.mul_mem _ hg hq)
@@ -99,10 +99,10 @@ theorem qrow_J3_three
   have e : NativeSporadic.Carrier .J3 ≃* ↥j3P :=
     CFSG.RankThree.PartTwo.Sec21.Item228CensusProof.j3CarrierEquiv
   have hc : Nat.card (NativeSporadic.Carrier .J3) = 50232960 := CFSG.Sporadic.J3.card_J3
-  haveI : Finite (NativeSporadic.Carrier .J3) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  haveI : IsSimpleGroup (NativeSporadic.Carrier .J3) := CFSG.Sporadic.J3.isSimpleGroup_J3
-  haveI : Finite ↥j3P := Finite.of_equiv _ e.toEquiv
-  haveI : IsSimpleGroup ↥j3P := @MulEquiv.isSimpleGroup _ _ _ _ inferInstance e.symm
+  have : Finite (NativeSporadic.Carrier .J3) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : IsSimpleGroup (NativeSporadic.Carrier .J3) := CFSG.Sporadic.J3.isSimpleGroup_J3
+  have : Finite ↥j3P := Finite.of_equiv _ e.toEquiv
+  have : IsSimpleGroup ↥j3P := @MulEquiv.isSimpleGroup _ _ _ _ inferInstance e.symm
   have hc' : Nat.card ↥j3P = 50232960 := (Nat.card_congr e.toEquiv).symm.trans hc
   exact qrow_of_model hOut (e.symm.trans (hbr .J3).some)
     (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc']; norm_num))

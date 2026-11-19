@@ -103,7 +103,7 @@ theorem suMat_suEmbed_eq (hτ : Function.Injective τ) (hr : ∀ i, τ (Fin.rev 
     (g : SU σ n') : suMat σ n (suEmbed σ hτ hr g) = extendMat hτ (suMat σ n' g) :=
   rfl
 
-theorem comap_eq_top_of_frame (hσ : ∀ c, σ (σ c) = c) (hτ : Function.Injective τ)
+theorem comap_eq_top_of_frame (_hσ : ∀ c, σ (σ c) = c) (hτ : Function.Injective τ)
     (hr : ∀ i, τ (Fin.rev i) = Fin.rev (τ i)) {U : List (Fin n' → F)}
     (hU : ∀ L : Subgroup (SU σ n'), (∀ u ∈ U, UTransLe L u) → L = ⊤)
     {L : Subgroup (SU σ n)} (hL : ∀ u ∈ U, UTransLe L (extByZero τ u)) :
@@ -140,7 +140,7 @@ theorem innerEmb_injective (m : ℕ) : Function.Injective (innerEmb m) :=
 
 theorem innerEmb_rev (m : ℕ) (i : Fin m) : innerEmb m (Fin.rev i) = Fin.rev (innerEmb m i) := by
   ext
-  simp only [innerEmb, Fin.val_succ, Fin.coe_castSucc, Fin.val_rev]
+  simp only [innerEmb, Fin.val_succ, Fin.val_castSucc, Fin.val_rev]
   omega
 
 theorem mem_range_innerEmb {m : ℕ} {x : Fin (m + 2)} (h0 : x ≠ 0) (hl : x ≠ Fin.last (m + 1)) :
@@ -149,7 +149,7 @@ theorem mem_range_innerEmb {m : ℕ} {x : Fin (m + 2)} (h0 : x ≠ 0) (hl : x �
   have hl' : x.val ≠ m + 1 := fun h => hl (Fin.ext h)
   refine ⟨⟨x.val - 1, by omega⟩, ?_⟩
   ext
-  simp only [innerEmb, Fin.val_succ, Fin.coe_castSucc]
+  simp only [innerEmb, Fin.val_succ, Fin.val_castSucc]
   omega
 
 theorem zero_not_mem_range_innerEmb (m : ℕ) : (0 : Fin (m + 2)) ∉ Set.range (innerEmb m) := by
@@ -161,7 +161,7 @@ theorem last_not_mem_range_innerEmb (m : ℕ) :
     Fin.last (m + 1) ∉ Set.range (innerEmb m) := by
   rintro ⟨i, hi⟩
   have := congrArg Fin.val hi
-  simp only [innerEmb, Fin.val_succ, Fin.coe_castSucc, Fin.val_last] at this
+  simp only [innerEmb, Fin.val_succ, Fin.val_castSucc, Fin.val_last] at this
   omega
 
 variable [Finite F] [CharP F 2] {f : ℕ}
@@ -324,7 +324,7 @@ theorem suFrameGen_succ (hF : Nat.card F = (2 ^ f) ^ 2) {n k : ℕ} (hn : 4 ≤ 
     rw [hx₀def]
     simp only [uForm_add_left, uForm_add_right, uForm_smul_left, uForm_smul_right,
       uForm_single_self h0r, uForm_single_self hlr, uForm_single_left, Fin.rev_zero,
-      Fin.rev_last, Pi.single_eq_same, Pi.single_eq_of_ne h0l, Pi.single_eq_of_ne h0l.symm]
+      Fin.rev_last, Pi.single_eq_same]
     grind
   obtain ⟨y, hydef⟩ : ∃ y : Fin (n + 1) → F, y = x₀ + e := ⟨_, rfl⟩
   have hyy : uForm (unitaryInvolution F 2 f) y y = 0 := by

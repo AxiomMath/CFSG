@@ -46,9 +46,9 @@ private theorem normalizer_ne_top_of_ne_bot_ne_top {X : Type} [Group X]
     (hsimple : IsSimpleGroup X) {K : Subgroup X} (hbot : K ≠ ⊥) (htop : K ≠ ⊤) :
     Subgroup.normalizer (K : Set X) ≠ ⊤ := by
   intro hN
-  haveI := hsimple
+  have := hsimple
   have hnormal : K.Normal := Subgroup.normalizer_eq_top_iff.mp hN
-  haveI := hnormal
+  have := hnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal K with h | h
   · exact hbot h
   · exact htop h
@@ -65,7 +65,7 @@ private theorem exists_psl2_of_not_isSolvable
     {K : Subgroup X} (hns : ¬ Group.IsSolvable ↥(Subgroup.normalizer (K : Set X))) :
     ∃ m : ℕ, 2 ≤ m ∧ Nonempty (↥(Subgroup.normalizer (K : Set X)) ≃*
       CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup (GaloisField 2 m)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   let ι : ↥(Subgroup.normalizer (K : Set X)) →* CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup
       (GaloisField 2 f) :=
@@ -76,7 +76,7 @@ private theorem exists_psl2_of_not_isSolvable
 private theorem card_psl2MatrixGroup_galoisField_two {m : ℕ} (hm : 1 ≤ m) :
     Nat.card (CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup (GaloisField 2 m)) =
       2 ^ m * ((2 ^ m) ^ 2 - 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 m) = 2 ^ m := GaloisField.card 2 m (by omega)
   rw [Nat.card_congr (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj
     2 (GaloisField 2 m)).toEquiv]
@@ -123,7 +123,7 @@ private theorem exists_centralizer_orderOf_ge_model {f : ℕ} (hf : 2 ≤ f)
     (hxodd : Odd (orderOf x)) :
     ∃ y : CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup (GaloisField 2 f),
       y ∈ Subgroup.centralizer ({x} : Set _) ∧ 2 ^ f - 1 ≤ orderOf y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   obtain ⟨hcyc, hcard, -⟩ :=
     CFSG.ShultStronglyClosedTI.TwoCoreGrowth.psl2_even_odd_element_full_centralizer
@@ -171,8 +171,8 @@ private theorem exists_centralizer_orderOf_ge {X : Type} [Group X] [Finite X] {f
     {D₀ : Subgroup X} {p : ℕ} (hD0card : Nat.card D₀ = p) (hp : p.Prime) (hodd : Odd p) :
     ∃ c : X, c ∈ Subgroup.centralizer (D₀ : Set X) ∧ 2 ^ f - 1 ≤ orderOf c := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsCyclic ↥D₀ := isCyclic_of_prime_card (p := p) (by simpa using hD0card)
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsCyclic ↥D₀ := isCyclic_of_prime_card (p := p) (by simpa using hD0card)
   obtain ⟨d, hd⟩ := IsCyclic.exists_generator (α := ↥D₀)
   have hdord : orderOf d = p := by
     rw [orderOf_eq_card_of_forall_mem_zpowers hd, hD0card]
@@ -196,7 +196,7 @@ theorem kU3CensusL2_holds : KU3CensusL2 := by
   obtain ⟨hperf, hL2, hn, -, hp, hpdvd, -, hD0card, hcen, hKtop⟩ := h
   obtain ⟨eX⟩ := CFSG.SeitzReduction.RankOne.nonempty_mulEquiv_psl2_of_lieModel hX
   have hf : 2 ≤ f := CFSG.SeitzReduction.RankOne.two_le_of_lieModel_PSL_two_two hX
-  haveI : IsSimpleGroup X := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
+  have : IsSimpleGroup X := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
   have hKne : K ≠ ⊥ := ne_bot_of_isL2_bar2 hL2 hn
   have hNne : Subgroup.normalizer (K : Set X) ≠ ⊤ :=
     normalizer_ne_top_of_ne_bot_ne_top inferInstance hKne hKtop
@@ -230,7 +230,7 @@ theorem kU3CensusL2_holds : KU3CensusL2 := by
     have h := CFSG.ComponentClassification.AschbacherKnownGroup.FactsL2.psl2_orderOf_le
       (GaloisField 2 m) (eN ⟨c, hcN⟩)
     have hcard : Nat.card (GaloisField 2 m) = 2 ^ m := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact GaloisField.card 2 m (by omega)
     rwa [hcard] at h
   exact absurd ((hcord.trans (le_of_eq hcordN.symm)).trans hle)

@@ -19,7 +19,7 @@ theorem exists_fixed_in_coset_uc6 {Mg : Type*} [Group Mg] [Finite Mg] {p : ℕ} 
     have e : q⁻¹ * (x * z * x⁻¹) = (q⁻¹ * (x * q * x⁻¹)) * (x * (q⁻¹ * z) * x⁻¹) := by group
     rw [e]
     exact F.mul_mem (hq x hx) (hFX x hx _ hz)
-  letI : MulAction ↥X {z : Mg // q⁻¹ * z ∈ F} :=
+  let : MulAction ↥X {z : Mg // q⁻¹ * z ∈ F} :=
     { smul := fun x z => ⟨(x : Mg) * z.1 * (x : Mg)⁻¹, hmem x x.2 z.1 z.2⟩
       one_smul := fun z => Subtype.ext (by
         show ((1 : ↥X) : Mg) * z.1 * ((1 : ↥X) : Mg)⁻¹ = z.1
@@ -48,6 +48,7 @@ variable {Mg : Type} [Group Mg] [Finite Mg] (Q₀ : Subgroup Mg) [Q₀.Normal]
   (CFSG.OrderReductions.FrattiniAutomorphisms.quotientAutomorphism (frattini ↥Q₀)).comp
     MulAut.conjNormal
 
+omit [Finite Mg] in
 theorem frattiniAct_mk (g : Mg) (q : ↥Q₀) :
     frattiniAct Q₀ g (q : ↥Q₀ ⧸ frattini ↥Q₀) =
       ((MulAut.conjNormal g q : ↥Q₀) : ↥Q₀ ⧸ frattini ↥Q₀) :=
@@ -65,10 +66,11 @@ variable [IsElementaryAbelian 2 (↥Q₀ ⧸ frattini ↥Q₀)]
   CFSG.Theory.Representation.ofElementaryAbelianAction (A := Mg)
     (G := ↥Q₀ ⧸ frattini ↥Q₀) (p := 2)
 
+omit [Finite Mg] in
 theorem frattiniRep_apply_mk (g : Mg) (q : ↥Q₀) :
     frattiniRep Q₀ g (Additive.ofMul (q : ↥Q₀ ⧸ frattini ↥Q₀)) =
       Additive.ofMul ((MulAut.conjNormal g q : ↥Q₀) : ↥Q₀ ⧸ frattini ↥Q₀) := by
-  letI := frattiniMDMA Q₀
+  let := frattiniMDMA Q₀
   unfold frattiniRep
   rw [CFSG.Theory.Representation.ofElementaryAbelianAction_apply_ofMul]
   exact congrArg Additive.ofMul (frattiniAct_mk Q₀ g q)
@@ -213,9 +215,10 @@ open CFSG.RankThree.FFModules (fixSub)
 
 variable {Mg : Type} [Group Mg] [Finite Mg]
 
+omit [Finite Mg] in
 theorem odd_orderOf_of_mem_pGroup_uc6 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {P : Subgroup Mg}
     (hP : IsPGroup p P) {z : Mg} (hz : z ∈ P) : Odd (orderOf z) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 hP ⟨z, hz⟩
   rw [Subgroup.orderOf_mk] at hk
   rw [hk]
@@ -239,12 +242,12 @@ theorem k47_transport_uc6 (hK : UCK.K47) (hMg : CFSG.Open.IsKGroup Mg)
     (P : Subgroup Mg) (hP : IsPGroup p P) (hXP : X ≤ P) (y : Mg) (hy : y ∈ P)
     (hyc : ∀ x ∈ X, ∀ w ∈ P, (y * x * y⁻¹ * x⁻¹) * w = w * (y * x * y⁻¹ * x⁻¹)) :
     ∀ x ∈ X, y * x = x * y := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsElementaryAbelian 2 (↥Q₀ ⧸ frattini ↥Q₀) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsElementaryAbelian 2 (↥Q₀ ⧸ frattini ↥Q₀) :=
     (CFSG.GroupTheory.frattini_elementary_quotient hQ).2.2.2.1
   set ρ := frattiniRep Q₀ with hρ
   set N : Subgroup Mg := ρ.ker with hN
-  haveI hNn : N.Normal := MonoidHom.normal_ker ρ
+  have hNn : N.Normal := MonoidHom.normal_ker ρ
   have hGK : CFSG.Open.IsKGroup (Mg ⧸ N) := hMg.quotient N
   set ρ' : Representation (ZMod 2) (Mg ⧸ N) (Additive (↥Q₀ ⧸ frattini ↥Q₀)) :=
     QuotientGroup.lift N ρ (fun x hx => hx) with hρ'

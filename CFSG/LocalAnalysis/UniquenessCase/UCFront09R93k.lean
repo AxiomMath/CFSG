@@ -22,7 +22,7 @@ theorem I9_le_M_of_not_isL2 (hK461 : UCK.K461) (hK462 : UCK.K462)
     (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) {D : Data G} {Y H D₃ : Subgroup G}
     (hyp : Hyp91 D Y H D₃) (hH : H ≠ ⊤) (hX : ¬ IsPGroup 3 (BarO3 (Opp 3 Y)))
     (hL2 : ¬ ∃ p f : ℕ, LieModel (BarO3 (Opp 3 Y)) .PSL 2 p f) : I9 H ≤ D.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hIM
   have hXY : Opp 3 Y ≤ Y := opp_le_self 3 Y
   have hXH : Opp 3 Y ≤ H := hXY.trans hyp.2.1.1

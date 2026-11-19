@@ -134,6 +134,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_commutator_eq_of_fixed_eq_one [Finite G] {N : Subgroup G}
     (hN : IsMulCommutative N) {t : G} (ht : t ∈ Subgroup.normalizer (N : Set G))
     (hfix : ∀ n ∈ N, t * n * t⁻¹ = n → n = 1) : ∀ n ∈ N, ∃ m ∈ N, n = ⁅m, t⁆ := by

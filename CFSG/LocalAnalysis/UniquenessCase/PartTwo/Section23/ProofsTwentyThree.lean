@@ -61,7 +61,7 @@ private theorem card_barSub_eq_of_simple {D : Data G} {Ch : Choice2011 G}
     (Subgroup.nontrivial_iff_ne_bot _).mp hNtr <| by
       rw [← hrange]
       exact MonoidHom.range_eq_bot_iff.mpr (MonoidHom.ker_eq_top_iff.mp htop)
-  haveI : IsSimpleGroup (↥c.L ⧸ CFSG.pCore 2 ↥c.L) := hSimple
+  have : IsSimpleGroup (↥c.L ⧸ CFSG.pCore 2 ↥c.L) := hSimple
   have hker : g.ker = CFSG.pCore 2 ↥c.L :=
     CFSG.Quasithin.S146zU.UF1.ker_eq_of_isSimpleGroup_quotient g
       (pCore_le_ker_of_pCore_range_eq_bot g (by rw [hrange]; exact hO2H)) hkertop
@@ -105,8 +105,8 @@ theorem Ctx23L.lineSelectOmega (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D Ch
       NatOmegaMinus (barSub (⊥ : Subgroup G) c.V hV c.L) ⊤ ⊥ 4 (CFSG.Open.pRank 2 D.Z) := by
   have hn1 : 1 ≤ CFSG.Open.pRank 2 D.Z := by
     obtain ⟨-, K, hKfield, hKfinite, b, q, hKcard, -, -⟩ := hMinus
-    letI : Field K := hKfield
-    letI : Finite K := hKfinite
+    let : Field K := hKfield
+    let : Finite K := hKfinite
     refine Nat.one_le_iff_ne_zero.mpr fun h0 => ?_
     have hKgt : 1 < Nat.card K := Finite.one_lt_card_iff_nontrivial.mpr inferInstance
     rw [hKcard, h0, pow_zero] at hKgt

@@ -60,7 +60,7 @@ theorem tf4_of_index_two [IsSimpleGroup G] {K K' W : Subgroup G} {S : Sylow 2 G}
   have hRS : R ≤ (S : Subgroup G) := hyp.hR.2.2
   have hR'S : R' ≤ (S : Subgroup G) := hyp.hR'.2.2
   have hc : Commutes R R' := hΩ.commutes_of_twin_of_isPGroup hK hK' hKK'.symm hz hz' hRsyl.1
-    hR'syl.1 (S.isPGroup'.to_le (sup_le hRS hR'S))
+    hR'syl.1 (S.isPGroup.to_le (sup_le hRS hR'S))
   have hquat : IsQuatSub R := hΩ.isQuatSub_of_mem_RSet hp hyp.hR.1
   obtain ⟨a, b, haR, hbR, hclos, hbab, k, hk⟩ := exists_gens_of_isQuatSub hquat
   have hR8 : 8 ≤ Nat.card ↥R := hquat.eight_le

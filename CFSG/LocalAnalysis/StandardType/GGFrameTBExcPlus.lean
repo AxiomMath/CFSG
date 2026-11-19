@@ -29,7 +29,7 @@ private theorem frameExcPlus_gen_torusAct {τ : Tag} {L' : Type} [Group L']
         Multiplicative.toAdd (Φ (φ a)) =
           TableBExc.torusAct τ 3 u (Multiplicative.toAdd (Φ a)) := by
   classical
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   intro φ hφ
   change φ ∈ Subgroup.closure (ggInduced (MulAut.conj : L' →* MulAut L').range A) at hφ
   refine Subgroup.closure_induction (p := fun g _ => ∃ u : WeylGroup τ, ∀ a : A,
@@ -63,7 +63,7 @@ private theorem frameExcPlus_false_of_gen_transvection
     {φ : MulAut ↥A} (hφ : φ ∈ ggAutomizer (MulAut.conj : L' →* MulAut L').range A)
     (htv : GGIsTransvection 3 φ) : False := by
   classical
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   obtain ⟨u, hu⟩ := hgen φ hφ
   let ι : Multiplicative (Fin τ.rank → ZMod 3) →* MulAut L' :=
     A.subtype.comp Φ.symm.toMonoidHom
@@ -98,7 +98,7 @@ private theorem frameExcPlus_false_of_gen_transvection
     rw [← hφeq, MulEquiv.symm_apply_apply]
   obtain ⟨hfix, hN⟩ := NoTvAut.transvection_coords (p := 3) hι hιB
     (t := fun s => TableBExc.torusAct τ 3 u s) ht htv
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hdet : (NoTvAut.cartanMod τ 3).det ≠ 0 := by
     rw [NoTvAut.det_cartanMod]
     exact (ExcFrames.isUnit_det_symmetrizedCartan (Or.inr hτ) (p := 3) (by norm_num)).ne_zero
@@ -134,7 +134,7 @@ private theorem frameExcPlus_frameNum_post {τ : Tag} {N d : ℕ}
     (hconn : ∀ r ∈ feT τ.rank, ∀ t ∈ feT τ.rank,
       Relation.ReflTransGen (fun a b => a ∈ feT τ.rank ∧ b ∈ feT τ.rank ∧ a * b ≠ b * a) r t) :
     FrameNumIs 𝒜 N (some d) ∧ FrameConn 𝒜 := by
-  haveI : Finite (MulAut L') := frameExcPlus_finiteMulAut L'
+  have : Finite (MulAut L') := frameExcPlus_finiteMulAut L'
   let ρ : ↥𝒜 →* FEMat τ.rank := (frameAdMat τ).comp e.symm.toMonoidHom
   have hρi : Function.Injective ρ :=
     (frameAdMat_injective τ).comp e.symm.injective

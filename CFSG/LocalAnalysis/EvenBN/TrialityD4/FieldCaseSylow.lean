@@ -129,8 +129,8 @@ theorem fieldTwo_abelian_cyclic (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f
     (hXL : X ⊓ (L ⊔ zpowers t) = zpowers t) :
     IsMulCommutative X ∧ ∃ x ∈ X, X = zpowers t ⊔ zpowers x := by
   classical
-  haveI := mulAutConj_range_normal (G := L)
-  haveI : IsCyclic (MulAut L ⧸ (MulAut.conj : L →* MulAut L).range) :=
+  have := mulAutConj_range_normal (G := L)
+  have : IsCyclic (MulAut L ⧸ (MulAut.conj : L →* MulAut L).range) :=
     d.isCyclic_quotient_range_conj
   set ε : X →* MulAut L ⧸ (MulAut.conj : L →* MulAut L).range :=
     (QuotientGroup.mk' (MulAut.conj : L →* MulAut L).range).comp

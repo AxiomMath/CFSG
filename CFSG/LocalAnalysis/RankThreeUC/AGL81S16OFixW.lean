@@ -26,7 +26,8 @@ theorem conj_commutator_mem {G : Type*} [Group G] (O : Subgroup G) {g : G} (hg :
   have : g * h * g⁻¹ ∈ (⁅O, O⁆ : Subgroup G).map (MulAut.conj g).toMonoidHom := ⟨h, hh, by simp⟩
   rwa [Subgroup.map_commutator, h1] at this
 
-theorem conj_mem_statedOmega (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
+omit [Finite F] [CharP F 2] in
+theorem conj_mem_statedOmega (_hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     {g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
     (hg : toLinEquiv (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F g ∈ orthogonalGroup (quadMinus 3 F b c))
     {h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
@@ -41,6 +42,7 @@ theorem conj_mem_statedOmega (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
   rw [e]
   exact conj_commutator_mem _ hg hh
 
+omit [Finite F] [CharP F 2] in
 theorem conj_vec_stab (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) {p k : ℕ}
     {E₀ : Subgroup (GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F)}
     (hE₀Ω : E₀ ≤ StatedOmega (StatedQuadMinus 3 F b c)) (hE₀a : IsElemAbelian p E₀)
@@ -88,6 +90,7 @@ theorem charTwo_E : (2 : M.E) = 0 := by
   have : CharP M.E 2 := charP_of_injective_algebraMap (algebraMap F M.E).injective 2
   exact CharP.cast_eq_zero M.E 2
 
+omit [CharP F 2] in
 theorem quad_symm_single (l : F) :
     StatedQuadMinus 3 F b c (M.T.symm ![algebraMap F M.E l, 0, 0]) = l * l := by
   apply (algebraMap F M.E).injective
@@ -95,7 +98,7 @@ theorem quad_symm_single (l : F) :
   simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val]
   rw [zero_pow (Nat.succ_ne_zero _), add_zero, add_zero, ← map_pow]
   congr 1
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   rw [pow_succ, Nat.card_eq_fintype_card, FiniteField.pow_card]
 
 theorem quad_symm_pair (z : M.E) :
@@ -107,9 +110,11 @@ theorem quad_symm_pair (z : M.E) :
 
 end Vectors
 
+omit [Finite F] [CharP F 2] in
 theorem quadMinus_eq_stated (x : OW F) : quadMinus 3 F b c x = StatedQuadMinus 3 F b c x :=
   congrFun (coe_quadMinus 3 F b c) x
 
+omit [Finite F] [CharP F 2] in
 theorem stated_quad_zero : StatedQuadMinus 3 F b c 0 = 0 := by
   rw [← quadMinus_eq_stated]
   exact map_zero _
@@ -141,7 +146,7 @@ theorem exists_stab_nonsing (M : NormModel F b c) (hirr : ∀ s : F, s ^ 2 + b *
       ∀ g ∈ E, ((g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) :
         Matrix (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) *ᵥ w =
           w := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨E₀, hE₀Ω, hE₀a, hE₀c, hE₀f⟩ := exists_E0 M hp hpq
   obtain ⟨l, hl⟩ := FiniteField.isSquare_of_char_two (ringChar.eq F 2)
     (StatedQuadMinus 3 F b c w)
@@ -199,14 +204,17 @@ section Planes
         funext i
         fin_cases i <;> simp }
 
+omit [CharP F 2] in
 theorem diagE_apply (M : NormModel F b c) (z : M.E) : diagE M z = M.T.symm ![z, z, 0] := rfl
 
+omit [CharP F 2] in
 theorem diagE_injective (M : NormModel F b c) : Function.Injective (diagE M) := by
   intro z z' h
   have := congrArg M.T h
   rw [diagE_apply, diagE_apply, LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply] at this
   simpa using congrFun this 0
 
+omit [CharP F 2] in
 theorem finrank_E (M : NormModel F b c) : Module.finrank F M.E = 2 := by
   have h := Module.natCard_eq_pow_finrank (K := F) (V := M.E)
   rw [M.card_E] at h
@@ -220,7 +228,7 @@ theorem exists_stab_plane (M : NormModel F b c) (hirr : ∀ s : F, s ^ 2 + b * s
       E ≤ StatedOmega (StatedQuadMinus 3 F b c) ∧ IsElemAbelian p E ∧ Nat.card E = p ^ 2 ∧
       ∀ g ∈ E, ∀ y ∈ Y, ((g : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) :
         Matrix (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F) *ᵥ y ∈ Y := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨E₂, hE₂Ω, hE₂a, hE₂c, hE₂s⟩ := exists_E2 M hp hpq
   have hQn := nondegenerate_polarBilin_quadMinus_of_finite 3 F hirr
   let bE : Module.Basis (Fin 2) F M.E := Module.finBasisOfFinrankEq F M.E (finrank_E M)

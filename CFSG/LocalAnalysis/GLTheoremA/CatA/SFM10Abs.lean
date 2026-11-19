@@ -34,8 +34,8 @@ theorem six_le_glaTwoLocalRank_of_central_extension {Q G : Type} [Group Q] [Grou
     (hEt : ∀ e ∈ E, e * t = t * e) :
     6 ≤ GLATwoLocalRank 3 Q := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ1 : ∀ z ∈ Subgroup.center Q, z ^ 3 = 1 → z = 1 := by
     intro z hz hz3
     have hdvd1 : orderOf z ∣ 3 := orderOf_dvd_of_pow_eq_one hz3

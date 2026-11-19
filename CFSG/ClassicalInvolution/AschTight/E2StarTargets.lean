@@ -176,7 +176,7 @@ theorem cStarTwoRankOne_of_sec19 (h6 : C19_6Tmp p f) (h14 : C19_14Tmp p f)
   refine cStarTwoRankOne_of_quaternion_of_le hd ((h6 G K z S W hd).resolve_left
     (h14 G K z S W hd)) fun s hs => ?_
   rw [← xGroup_eq_gammaGen]
-  exact h16 G K z hd.tight hd.ih s (hd.hSz hs) (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hs))
+  exact h16 G K z hd.tight hd.ih s (hd.hSz hs) (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hs))
 
 theorem e2StarS3Tmp_of_targets (h6 : C19_6Tmp p f) (h14 : C19_14Tmp p f)
     (h16 : C19_16Tmp p f) (hW : W69 p f) (hIH : IHAllD p f) (h8 : IHInterface8 p)

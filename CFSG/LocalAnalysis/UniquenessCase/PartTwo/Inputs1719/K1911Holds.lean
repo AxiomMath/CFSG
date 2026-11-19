@@ -44,22 +44,22 @@ theorem k_19_11_torusFixed_holds : K_19_11_torusFixed := by
     have hpd : p ∣ 2 ^ n + 1 := dvd_two_pow_add_one_of_int_modEq hmod
     rcases hshape with hsq | hu3
     · obtain ⟨A', B', _, _, ⟨e⟩, hA', hB'⟩ := hsq
-      haveI : Finite (A' × B') := Finite.of_injective (⇑e.symm) e.symm.injective
-      haveI : Finite A' := Finite.of_injective (fun a : A' => (a, (1 : B'))) (by
+      have : Finite (A' × B') := Finite.of_injective (⇑e.symm) e.symm.injective
+      have : Finite A' := Finite.of_injective (fun a : A' => (a, (1 : B'))) (by
         intro a b h
         simpa using h)
-      haveI : Finite B' := Finite.of_injective (fun b : B' => ((1 : A'), b)) (by
+      have : Finite B' := Finite.of_injective (fun b : B' => ((1 : A'), b)) (by
         intro a b h
         simpa using h)
       exact TorusFixedConcl.of_mulEquiv e (torusFixedConcl_l2_prod hA' hB' hn hp hpd)
         A t hA ht hinv Q hQ hQN
     · obtain ⟨hu3, hpow⟩ := hu3
       obtain ⟨A', B', _, _, ⟨e⟩, hA', hB'⟩ := hu3
-      haveI : Finite (A' × B') := Finite.of_injective (⇑e.symm) e.symm.injective
-      haveI : Finite A' := Finite.of_injective (fun a : A' => (a, (1 : B'))) (by
+      have : Finite (A' × B') := Finite.of_injective (⇑e.symm) e.symm.injective
+      have : Finite A' := Finite.of_injective (fun a : A' => (a, (1 : B'))) (by
         intro a b h
         simpa using h)
-      haveI : Finite B' := Finite.of_injective (fun b : B' => ((1 : A'), b)) (by
+      have : Finite B' := Finite.of_injective (fun b : B' => ((1 : A'), b)) (by
         intro a b h
         simpa using h)
       have heven : Even n := by
@@ -75,11 +75,11 @@ theorem k_19_11_torusFixed_holds : K_19_11_torusFixed := by
   · obtain ⟨hsz, h2n, hmod⟩ := hSz
     have hpd : p ∣ 2 ^ (2 * n) + 1 := dvd_two_pow_add_one_of_int_modEq hmod
     obtain ⟨A', B', _, _, ⟨e⟩, hA', hB'⟩ := hsz
-    haveI : Finite (A' × B') := Finite.of_injective (⇑e.symm) e.symm.injective
-    haveI : Finite A' := Finite.of_injective (fun a : A' => (a, (1 : B'))) (by
+    have : Finite (A' × B') := Finite.of_injective (⇑e.symm) e.symm.injective
+    have : Finite A' := Finite.of_injective (fun a : A' => (a, (1 : B'))) (by
       intro a b h
       simpa using h)
-    haveI : Finite B' := Finite.of_injective (fun b : B' => ((1 : A'), b)) (by
+    have : Finite B' := Finite.of_injective (fun b : B' => ((1 : A'), b)) (by
       intro a b h
       simpa using h)
     exact TorusFixedConcl.of_mulEquiv e (torusFixedConcl_sz_prod hA' hB' hp hpd)

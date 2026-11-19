@@ -48,9 +48,9 @@ theorem orthResDer_one_equiv_psl2 {F : Type} [Field F] [Finite F] [CharP F 2] {b
   have h2 : ↥(orthResDer F b c 1) ≃* Matrix.SpecialLinearGroup (Fin 2) E :=
     (orthResDerEquivStatedOmega (K := F) (b := b) (c := c) 1).trans
       ((MonoidHom.ofInjective hinj).trans e).symm
-  haveI := D.finite_E
-  haveI : Fintype E := Fintype.ofFinite E
-  haveI : Fintype (GaloisField 2 (2 * f)) := Fintype.ofFinite _
+  have := D.finite_E
+  have : Fintype E := Fintype.ofFinite E
+  have : Fintype (GaloisField 2 (2 * f)) := Fintype.ofFinite _
   have hf0 : f ≠ 0 := by
     rintro rfl
     have := Finite.one_lt_card (α := F)

@@ -72,7 +72,7 @@ theorem agl81TenTwelveSolvSigma_of (hKP : KFactParabolicSymThreeNormal) (hU : Ou
     · exfalso
       refine not_comm_of_suThreeTwo hI₀H hb hJ ?_
       intro a ha b hbJ
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hcyc : IsCyclic ↥J := isCyclic_of_prime_card (p := 3) (by simpa using hJcard)
       exact Subtype.ext_iff.mp (hcyc.isMulCommutative.is_comm.comm ⟨a, ha⟩ ⟨b, hbJ⟩)
   obtain ⟨x, hxH, hxM, hx3, hxy⟩ := exists_three_elt_lift hyX0 hy3

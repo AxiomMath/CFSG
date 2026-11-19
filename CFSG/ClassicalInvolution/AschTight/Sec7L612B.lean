@@ -30,7 +30,7 @@ theorem false_of_mem_etaGIn_of_not_mem (hp : p ≠ 2) (hq : 5 ≤ p ^ f)
   have hYU := mem_USet_of_mem_etaG hβ.1 hYβ
   have hXY : X ≠ L ⊓ (⨆ V ∈ β, V) := fun h => hXβ (h ▸ hYβ)
   have hYS : L ⊓ (⨆ V ∈ β, V) ≤ (S : Subgroup G) := hβ.2 _ hYβ
-  have h2 : IsPGroup 2 ↥(X ⊔ L ⊓ (⨆ V ∈ β, V)) := S.isPGroup'.to_le (sup_le hXS hYS)
+  have h2 : IsPGroup 2 ↥(X ⊔ L ⊓ (⨆ V ∈ β, V)) := S.isPGroup.to_le (sup_le hXS hYS)
   have hRL : IsSylow2In (X ⊔ L ⊓ (⨆ V ∈ β, V)) L :=
     isSylow2In_sup_of_ne hp hΩ hL hXU hYU hXL inf_le_left hXY h2
   have hRM : X ⊔ L ⊓ (⨆ V ∈ β, V) ≤ etaGenIn Ω (S : Subgroup G) :=
@@ -61,7 +61,7 @@ theorem false_of_mem_etaGIn_of_not_mem (hp : p ≠ 2) (hq : 5 ≤ p ^ f)
     · exact (conjSub_mono hRM).trans (hnM.le.trans (etaGenIn_le _))
   have hsyl := hRL.conj (c * g⁻¹)⁻¹
   rw [hnK₀'] at hsyl
-  have heq := hsyl.eq_of_le (S.isPGroup'.to_le inf_le_right) inf_le_left hle
+  have heq := hsyl.eq_of_le (S.isPGroup.to_le inf_le_right) inf_le_left hle
   rw [← heq] at hsyl
   exact hK₀R (mem_RSet_of_isSylow2In hK₀ hsyl)
 
@@ -107,7 +107,7 @@ theorem l6_12_on (hp : p ≠ 2) (hq : 5 ≤ p ^ f) (hΩ : HypOmegaMod p f Ω) (h
   refine ⟨η₀, hη₀G, fun m hm U hU => hinv m (hMS hm) U hU, ?_, ?_⟩
   · intro η' hη' hM'
     obtain ⟨S', hS'⟩ := exists_sylow_of_mem_etaG hη'
-    have hW'2 : IsPGroup 2 ↥(⨆ U ∈ η', U) := S'.isPGroup'.to_le (iSup₂_le hS')
+    have hW'2 : IsPGroup 2 ↥(⨆ U ∈ η', U) := S'.isPGroup.to_le (iSup₂_le hS')
     have hMN : etaGenIn Ω (S : Subgroup G) ≤ Subgroup.normalizer ((⨆ U ∈ η', U : Subgroup G) :
         Set G) := by
       intro m hm

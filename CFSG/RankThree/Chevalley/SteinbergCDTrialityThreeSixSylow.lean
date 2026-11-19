@@ -278,7 +278,7 @@ theorem triality_three_six_tori_Sylow_and_root_kernels
         threeSixFixedTorus K Ω σ Fr ε g := by
     obtain ⟨S₀⟩ : Nonempty (Sylow p (threeSixFixedTorus K Ω σ Fr ε g)) := inferInstance
     have hS : IsPGroup p ((S₀ : Subgroup _).map (threeSixFixedTorus K Ω σ Fr ε g).subtype) :=
-      S₀.isPGroup'.map _
+      S₀.isPGroup.map _
     have hSi : ¬ p ∣ ((S₀ : Subgroup _).map (threeSixFixedTorus K Ω σ Fr ε g).subtype).index := by
       rw [Subgroup.index_map_subtype]
       exact fun h => ((Fact.out : p.Prime).dvd_mul.1 h).elim S₀.not_dvd_index hidx

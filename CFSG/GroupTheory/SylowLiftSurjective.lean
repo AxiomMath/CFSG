@@ -12,7 +12,7 @@ theorem exists_isPGroup_not_dvd_index_map_le
     (hT : ¬ p ∣ T.index) :
     ∃ Tstar : Subgroup G, IsPGroup p Tstar ∧ ¬ p ∣ Tstar.index ∧ Tstar.map φ ≤ T := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let P : Subgroup G := T.comap φ
   have hP : ¬ p ∣ P.index := by
     rw [Subgroup.index_comap_of_surjective T hφ]
@@ -28,7 +28,7 @@ theorem exists_isPGroup_not_dvd_index_map_le
   have hodd : ¬ p ∣ Tstar.index := by
     rw [← Subgroup.relIndex_mul_index hmap_le, hrel]
     exact hp.not_dvd_mul hQ hP
-  refine ⟨Tstar, Q.isPGroup'.map _, hodd, ?_⟩
+  refine ⟨Tstar, Q.isPGroup.map _, hodd, ?_⟩
   calc Tstar.map φ ≤ P.map φ := Subgroup.map_mono hmap_le
     _ = T := by rw [show P = T.comap φ from rfl, Subgroup.map_comap_eq,
         MonoidHom.range_eq_top.mpr hφ, top_inf_eq]

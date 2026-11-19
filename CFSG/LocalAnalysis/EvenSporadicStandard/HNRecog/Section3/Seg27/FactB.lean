@@ -13,7 +13,7 @@ theorem seg27_six_of_A5 {X : Subgroup (Equiv.Perm (Fin 8))}
     (hX : X ≤ alternatingGroup (Fin 8)) (e : ↥X ≃* alternatingGroup (Fin 5)) {o : Fin 8}
     (h6 : (MulAction.orbit X o).ncard = 6) : ∃ p q : Fin 8, Seg27Six X p q := by
   classical
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   have hsimple : IsSimpleGroup ↥X := e.isSimpleGroup
   have hcardX : Nat.card X = 60 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
@@ -54,7 +54,7 @@ theorem seg27_six_of_A5 {X : Subgroup (Equiv.Perm (Fin 8))}
     · exfalso
       have hidx : (MulAction.stabilizer X r).index = 2 := by
         rw [MulAction.index_stabilizer, h2]
-      haveI : (MulAction.stabilizer X r).Normal := Subgroup.normal_of_index_eq_two hidx
+      have : (MulAction.stabilizer X r).Normal := Subgroup.normal_of_index_eq_two hidx
       have hcardH : Nat.card (MulAction.stabilizer X r) = 30 := by
         have hcm := (MulAction.stabilizer X r).card_mul_index
         rw [hidx, hcardX] at hcm

@@ -42,18 +42,21 @@ section
 variable (H : Hyp4 S g) (C : Cons311 S g)
 include H C
 
+omit H in
 theorem maxEA_QG_inf_Qa : DW.MaxEA S (S.QG ⊓ S.Qa g) := ⟨inf_le_left, C.card_QG_inf_Qa⟩
 
+omit C in
 theorem Dt_sing : ∀ v ∈ Dt S g, S.q v = 0 := fun _ hv => by
-  haveI := S.isElementaryAbelian_QG_inf_Qa H.conj_ne
+  have := S.isElementaryAbelian_QG_inf_Qa H.conj_ne
   exact DW.MaxEA.q_clSub (A := S.QG ⊓ S.Qa g) hv
 
 theorem finrank_Dt : finrank (ZMod 2) (Dt S g) = S.width := by
-  haveI := S.isElementaryAbelian_QG_inf_Qa H.conj_ne
-  exact (maxEA_QG_inf_Qa H C).finrank_clSub
+  have := S.isElementaryAbelian_QG_inf_Qa H.conj_ne
+  exact (maxEA_QG_inf_Qa C).finrank_clSub
 
 end
 
+omit [Finite G] in
 theorem conj_mem_Qa (g : G) : g * S.z * g⁻¹ ∈ S.Qa g := (S.conjBy g).z_mem_QG
 
 theorem at_mem_Dt (H : Hyp4 S g) : aT S g ∈ Dt S g :=
@@ -114,7 +117,7 @@ theorem hyp_tr (H : Hyp4 S g) (C : Cons311 S g) (hw : S.width = 6) {φ : S.Qt �
   sing := by
     rintro _ ⟨d, hd, rfl⟩
     change q0 (φ d) = 0
-    rw [hφ, Dt_sing H C d hd]
+    rw [hφ, Dt_sing H d hd]
   finrank_eq := by rw [LinearEquiv.finrank_map_eq, finrank_Dt H C, hw]
   mem := ⟨aT S g, at_mem_Dt H, rfl⟩
   le := hle
@@ -219,9 +222,10 @@ structure NormTr (S : Setting G) (g : G) (θ : S.O) (i : ℕ) (φ : S.Qt ≃ₗ[
   dmap : (Dt S g).map (φ : S.Qt →ₗ[ZMod 2] V12) = spanOf d0
   frame : ∀ l, l ∈ Ltr S g φ ↔ RowsSet (compOf i) l
 
+omit [Finite G] in
 theorem trEquiv_trans (φ : S.Qt ≃ₗ[ZMod 2] V12) (h : V12 ≃ₗ[ZMod 2] V12)
     (m : S.Qt ≃ₗ[ZMod 2] S.Qt) : trEquiv (φ.trans h) m = h * trEquiv φ m * h⁻¹ :=
-  LinearEquiv.ext fun v => rfl
+  LinearEquiv.ext fun _v => rfl
 
 theorem Ltr_trans (φ : S.Qt ≃ₗ[ZMod 2] V12) (h : V12 ≃ₗ[ZMod 2] V12) :
     Ltr S g (φ.trans h) = (Ltr S g φ).map (MulAut.conj h).toMonoidHom := by

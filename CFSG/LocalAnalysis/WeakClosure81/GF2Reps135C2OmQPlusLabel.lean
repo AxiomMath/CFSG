@@ -36,7 +36,7 @@ include hn in
 theorem omq_omPlus_dScalar_eq_zero (χ : spinGroup (quadPlus n F) → k)
     (hχ : ∀ a ∈ (omPlusCurtisDatum n F hn).H, ∀ b ∈ (omPlusCurtisDatum n F hn).H,
       χ (a * b) = χ a * χ b)
-    (hχ1 : χ 1 = 1) (i : Fin n) (hi : ∃ a : Fˣ, χ (torusD F hn i a) ≠ 1) :
+    (_hχ1 : χ 1 = 1) (i : Fin n) (hi : ∃ a : Fˣ, χ (torusD F hn i a) ≠ 1) :
     (omPlusCurtisDatum n F hn).dScalar χ i = 0 := by
   obtain ⟨a, ha⟩ := hi
   have hmem : torusD F hn i a ∈ (omPlusCurtisDatum n F hn).H := by
@@ -67,6 +67,7 @@ theorem omq_omPlus_dScalar_eq_zero (χ : spinGroup (quadPlus n F) → k)
     (fun _ hγ => isPGroup_plusRootGroup n F hn hγ) χ hχ i hmem hχt
 
 include hn in
+omit [CharP k 2] in
 theorem omq_omPlus_chi_eq_one_of_coroots (χ : spinGroup (quadPlus n F) → k)
     (hχ : ∀ a ∈ (omPlusCurtisDatum n F hn).H, ∀ b ∈ (omPlusCurtisDatum n F hn).H,
       χ (a * b) = χ a * χ b)

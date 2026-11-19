@@ -91,7 +91,7 @@ private theorem kgLangTorAUniFrameAux_scalar_descend {d : ℕ} {F : Type} [Field
     (h : Matrix.GeneralLinearGroup.map (semilinearFixedSubfield σ).subtype M ∈
       LargeEvenScalars (Fin d) F) :
     M ∈ LargeEvenScalars (Fin d) (semilinearFixedSubfield σ) := by
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   obtain ⟨c, hc⟩ := h
   have hentry : ∀ i j : Fin d,
       (semilinearFixedSubfield σ).subtype
@@ -118,11 +118,11 @@ private theorem kgLangTorAUniFrameAux_scalar_descend {d : ℕ} {F : Type} [Field
   · subst hij
     rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply_eq,
       Units.val_mk0]
-    exact (semilinearFixedSubfield σ).subtype_injective (by rw [hentry i i, if_pos rfl, hdiag])
+    exact (semilinearFixedSubfield σ).subtype_injective (by rw [hentry i i, ite_eq_left rfl, hdiag])
   · rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
       Matrix.diagonal_apply_ne _ hij]
     exact (semilinearFixedSubfield σ).subtype_injective (by
-      rw [hentry i j, if_neg hij, map_zero])
+      rw [hentry i j, ite_eq_right hij, map_zero])
 
 private theorem kgLangTorAUniFrameAux_eq_projConj_of_graph {d : ℕ} {F : Type} [Field F]
     {S : Subgroup (GL (Fin d) F)} {B : GL (Fin d) F}
@@ -171,10 +171,10 @@ theorem kgLangTorA_uni_frame_group {d n p : ℕ} {F : Type} [Field F] [Finite F]
             Matrix.GeneralLinearGroup.map (semilinearFixedSubfield σ).subtype M := by
   classical
   have hd0 : 0 < d := by omega
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd0⟩⟩
-  haveI : CharP F 2 := (unitaryFieldData_of_card hn hF).charP
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype (semilinearFixedSubfield σ) := Fintype.ofFinite _
+  have : Nonempty (Fin d) := ⟨⟨0, hd0⟩⟩
+  have : CharP F 2 := (unitaryFieldData_of_card hn hF).charP
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype (semilinearFixedSubfield σ) := Fintype.ofFinite _
   let H : Subgroup (GL (Fin d) F) := LargeEvenSUGroup (Fin d) F (2 ^ n)
   let N : Subgroup (GL (Fin d) F) := Subgroup.normalizer (H : Set (GL (Fin d) F))
   let N₀ : Subgroup (GL (Fin d) (semilinearFixedSubfield σ)) :=

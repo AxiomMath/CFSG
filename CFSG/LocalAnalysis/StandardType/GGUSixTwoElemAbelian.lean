@@ -115,7 +115,7 @@ theorem exists_conj_le_torSU [Finite K] (hK : Nat.card K = 4)
     (hcomm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (h3 : ∀ a ∈ E, a ^ 3 = 1) :
     ∃ g : ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1)), E.map (MulAut.conj g).toMonoidHom ≤ torSU K := by
   classical
-  haveI : CharP K 2 := charP_two_of_card_four hK
+  have : CharP K 2 := charP_two_of_card_four hK
   let SUK : Subgroup (GL (Fin 6) K) := LargeEvenSUGroup (Fin 6) K (2 ^ 1)
   let e : K ≃+* F4 := ringEquivF4 hK
   let hom : ↥SUK →* GL (Fin 6) F4 :=
@@ -414,7 +414,7 @@ theorem exists_conj_eq_torU [Finite K] (hK : Nat.card K = 4)
         hgle (Subgroup.mem_map.mpr ⟨y, hy, rfl⟩)
       refine Subgroup.mem_map.mpr ⟨(MulAut.conj g).toMonoidHom y, hgy, ?_⟩
       dsimp [π]
-      simp only [MulAut.conj_apply, map_mul, map_inv]
+      simp only [map_mul, map_inv]
       rfl
     refine ⟨π g, le_antisymm hmap_le ?_⟩
     have hcardmap : Nat.card (E.map (MulAut.conj (π g)).toMonoidHom) = 3 ^ 4 := by
@@ -491,7 +491,7 @@ theorem exists_conj_eq_torU [Finite K] (hK : Nat.card K = 4)
         have hsub : conjugatesOf a ⊆
             (fun z : Z.subgroupOf Ehat => ((z : Ehat) * a)) '' Set.univ := by
           intro b hb
-          rw [conjugatesOf, Set.mem_setOf_eq, isConj_iff] at hb
+          rw [conjugatesOf, Set.mem_ofPred_eq, isConj_iff] at hb
           obtain ⟨x, rfl⟩ := hb
           have hz : ⁅x, a⁆ ∈ Z.subgroupOf Ehat := hcommKer x x.2 a a.2
           exact ⟨⟨⁅x, a⁆, hz⟩, Set.mem_univ _, by
@@ -533,7 +533,7 @@ theorem exists_conj_eq_torU [Finite K] (hK : Nat.card K = 4)
         have hsub : conjugatesOf c ⊆
             (fun z : Z.subgroupOf Ehat => ((z : Ehat) * c)) '' Set.univ := by
           intro b hb
-          rw [conjugatesOf, Set.mem_setOf_eq, isConj_iff] at hb
+          rw [conjugatesOf, Set.mem_ofPred_eq, isConj_iff] at hb
           obtain ⟨x, rfl⟩ := hb
           have hz : ⁅x, c⁆ ∈ Z.subgroupOf Ehat := hcommKer x x.2 c c.2
           exact ⟨⟨⁅x, c⁆, hz⟩, Set.mem_univ _, by

@@ -76,6 +76,7 @@ theorem exists_lift_two_pow (h2 : (2 : K) = 0) (hn : 0 < n) {y : projectiveSL n 
   · rw [map_mul, proj_eq_one_iff.2 z.2, one_mul]
   · rw [(hcentral _ z.2 g₀).mul_pow, hz', inv_mul_cancel]
 
+omit [Finite K] in
 theorem eq_of_proj_eq_of_two_pow (h2 : (2 : K) = 0) (hn : 0 < n) {g g' : SpecialLinearGroup (Fin n) K}
     {a : ℕ} (hg : g ^ (2 ^ a) = 1) (hg' : g' ^ (2 ^ a) = 1) (h : proj n K g = proj n K g') : g = g' := by
   have hz : g⁻¹ * g' ∈ scalars n K := proj_eq_proj_iff.1 h

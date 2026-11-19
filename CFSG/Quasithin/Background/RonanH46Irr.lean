@@ -13,6 +13,7 @@ open scoped MatrixGroups
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem irrH_exists_sl2 (v : Fin 2 → K) (hv : v ≠ 0) :
     ∃ A : SL(2, K), (A : Matrix (Fin 2) (Fin 2) K) *ᵥ ![1, 0] = v := by
   by_cases h0 : v 0 = 0
@@ -32,18 +33,21 @@ private theorem irrH_exists_sl2 (v : Fin 2 → K) (hv : v ≠ 0) :
     · funext i
       fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two]
 
+omit [Field K] [Finite K] [CharP K 2] in
 private theorem irrH_ext {a b c d a' b' c' d' : K} (h1 : a = a') (h2 : b = b') (h3 : c = c')
     (h4 : d = d') :
     (!![a, b; c, d] : Matrix (Fin 2) (Fin 2) K) = !![a', b'; c', d'] := by
   subst h1 h2 h3 h4
   rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem irrH_add (a b c d a' b' c' d' : K) :
     (!![a, b; c, d] : Matrix (Fin 2) (Fin 2) K) + !![a', b'; c', d'] =
       !![a + a', b + b'; c + c', d + d'] := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp
 
+omit [Finite K] [CharP K 2] in
 private theorem irrH_zero : (!![0, 0; 0, 0] : Matrix (Fin 2) (Fin 2) K) = 0 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp
@@ -55,6 +59,7 @@ private theorem irrH_conj_E00 (u x v y : K) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
 
+omit [Finite K] [CharP K 2] in
 private theorem irrH_det_row (t : K) : (!![1, t; 0, 1] : Matrix (Fin 2) (Fin 2) K).det = 1 := by
   rw [Matrix.det_fin_two_of]
   ring
@@ -67,25 +72,28 @@ private theorem irrH_herm_entry {M : Matrix (Fin 2) (Fin 2) K} (hM : (M.map (bar
   have h := congrFun (congrFun hM i) j
   simpa using h
 
+omit [Finite K] [CharP K 2] in
 private theorem irrH_sq_cases {x : K} (h : x ^ 2 = x) : x = 0 ∨ x = 1 := by
   have hx : x * (x - 1) = 0 := by linear_combination h
   rcases mul_eq_zero.mp hx with h' | h'
   · exact Or.inl h'
   · exact Or.inr (sub_eq_zero.mp h')
 
+omit [CharP K 2] in
 private theorem irrH_pow_four (hK : Nat.card K = (2 ^ 1) ^ 2) (x : K) : x ^ 4 = x := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = 4 := by
     rw [← Nat.card_eq_fintype_card, hK]
     norm_num
   have h := FiniteField.pow_card x
   rwa [hc] at h
 
+omit [CharP K 2] in
 private theorem irrH_exists_omega (hK : Nat.card K = (2 ^ 1) ^ 2) :
     ∃ ω : K, ω ≠ 0 ∧ ω ≠ 1 ∧ ω ^ 2 + ω + 1 = 0 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = 4 := by
     rw [← Nat.card_eq_fintype_card, hK]
     norm_num
@@ -135,11 +143,12 @@ private theorem irrH_D_mem {S : AddSubgroup (Matrix (Fin 2) (Fin 2) K)}
     fin_cases i <;> fin_cases j <;>
       simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply, Matrix.map_apply,
         Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-        Matrix.head_cons, Matrix.sub_apply, map_zero, map_one, Fin.zero_eta, Fin.mk_one,
+        Matrix.sub_apply, map_zero, map_one, Fin.zero_eta, Fin.mk_one,
         Fin.isValue, Matrix.empty_val', Matrix.cons_val_fin_one] <;> ring
   rw [hE]
   exact h
 
+omit [Finite K] [CharP K 2] in
 theorem irr_natural {S : AddSubgroup (Fin 2 → K)}
     (hS : ∀ (A : SL(2, K)) (v : Fin 2 → K), v ∈ S → (A : Matrix (Fin 2) (Fin 2) K) *ᵥ v ∈ S) :
     S = ⊥ ∨ S = ⊤ := by

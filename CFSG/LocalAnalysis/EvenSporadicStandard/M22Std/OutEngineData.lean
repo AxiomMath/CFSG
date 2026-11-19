@@ -73,7 +73,7 @@ theorem engine [Finite G] (hcZ : center (L ⧸ center L) = ⊥)
   set S : Subgroup (MulAut (L ⧸ center L)) := T₁.map (thetaH D.cfg.cent_le) with hS
   have hSp : IsPGroup 2 S := IsPGroup.of_card (n := 8) (by rw [D.W.card_S]; norm_num)
   obtain ⟨P, hP⟩ := hSp.exists_le_sylow
-  obtain ⟨t₂, F₂, W₂, E₂⟩ := hEng P P.isPGroup' P.not_dvd_index
+  obtain ⟨t₂, F₂, W₂, E₂⟩ := hEng P P.isPGroup P.not_dvd_index
   have hPS : S = P := Subgroup.eq_of_le_of_card_ge hP (by rw [W₂.card_S, D.W.card_S])
   have hW : SylowWitness (L ⧸ center L) (P : Subgroup _) tb F := hPS ▸ D.W
   have hF : F = F₂ := SylowWitness.F_unique hcZ hW W₂

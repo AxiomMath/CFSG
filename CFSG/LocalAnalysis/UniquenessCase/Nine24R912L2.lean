@@ -48,14 +48,14 @@ private theorem n924_card_map_eq_two_pow {X : Type} [Group X] [Finite X] {Y : Ty
 
 private theorem n924_eq_of_inClassXBlock {X Y B : Subgroup G} {m : ℕ} (hX : X = Opp 3 Y)
     (hYX : Y ≤ normalizer (X : Set G)) (hidx : ∃ k : ℕ, (X.subgroupOf Y).index = 2 ^ k)
-    (hL2 : IsL2 (Bar2 X) m) (hm : 2 ≤ m) (hBY : B ≤ Y) (hBsn : CFSG.Open.IsSubnormal B Y)
+    (hL2 : IsL2 (Bar2 X) m) (_hm : 2 ≤ m) (hBY : B ≤ Y) (hBsn : CFSG.Open.IsSubnormal B Y)
     (hBX : CFSG.AGLEmbedding.InClassXBlock B) (hB1 : B ≠ ⊥) : B = X := by
   have hXY : X ≤ Y := hX ▸ opp_le_self 3 Y
   have hres : CFSG.RankThree.PartOne.oResidualTwo B = ⊤ :=
     (CFSG.AGLEmbedding.NoXBlock.isShortGroup_of_isShort2 hBX.1).residual_eq
   have hBXle : B ≤ X := by
     obtain ⟨k, hk⟩ := hidx
-    haveI : (X.subgroupOf Y).Normal := (normal_subgroupOf_iff_le_normalizer hXY).2 hYX
+    have : (X.subgroupOf Y).Normal := (normal_subgroupOf_iff_le_normalizer hXY).2 hYX
     have hN : (X.subgroupOf B).Normal :=
       ⟨fun n hn b => (mem_normalizer_iff.1 (hYX (hBY b.2)) n).1 hn⟩
     have htop := CFSG.CGT.PushingUpLit.oResidualTwo_eq_top_iff.1 hres (X.subgroupOf B) hN
@@ -75,7 +75,7 @@ private theorem n924_eq_of_inClassXBlock {X Y B : Subgroup G} {m : ℕ} (hX : X 
     have h := hBsn.inf_of_le hXY
     rw [inf_eq_left.2 hBXle] at h
     exact (CFSG.Open.IsSubnormal.iff_subgroupOf hBXle).1 h
-  haveI : IsSimpleGroup (Bar2 X) :=
+  have : IsSimpleGroup (Bar2 X) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
   rcases (hsnX.map hφ).eq_bot_or_top_of_isSimpleGroup inferInstance with h | h
   · refine absurd ?_ hB1
@@ -97,7 +97,7 @@ private theorem n924_eq_of_inClassXBlock {X Y B : Subgroup G} {m : ℕ} (hX : X 
     CFSG.CGT.PushingUpLit.ThmOne.le_normalizer_of_isSubnormal_of_isPGroup hres hBXle hsnX
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 X) (CFSG.LieType.BorelTits.pCoreOf_le 2 X)
       (hBXle.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 X))
-  haveI hBn : (B.subgroupOf X).Normal := by
+  have hBn : (B.subgroupOf X).Normal := by
     rw [← normalizer_eq_top_iff, eq_top_iff, ← hsup]
     refine sup_le le_normalizer fun o ho => mem_normalizer_iff.2 fun x => ?_
     exact mem_normalizer_iff.1 (hON (mem_map_of_mem X.subtype ho)) (x : G)
@@ -207,8 +207,8 @@ private theorem n924_cgsIn_ne_of_isL2 {X Y S : Subgroup G} {m : ℕ} (hXY : X �
       hstep C hCS hC hchar
   have hn : (S.subgroupOf X).Normal :=
     normal_subgroupOf_iff_le_normalizer_inf.2 (hXY.trans (hcgs.symm.le.trans hcgsle))
-  haveI : ((S.subgroupOf X).map φ).Normal := hn.map φ hφ
-  haveI : IsSimpleGroup (Bar2 X) :=
+  have : ((S.subgroupOf X).map φ).Normal := hn.map φ hφ
+  have : IsSimpleGroup (Bar2 X) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
   have h4le : 4 ≤ 2 ^ m := by
     calc 4 = 2 ^ 2 := by norm_num
@@ -243,7 +243,7 @@ theorem r912L2_of_inputs (D : Data G) (h99 : R99 D) (h910 : R910 D)
     by_contra hS
     have hcgs := n924_cgsIn_ne_of_isL2 (opp_le_self 3 Y) hYX hidx hSY hL2 hm
       fun C hCS hC hchar => not_le_normalizer_of_hyp97 h910 h9R5 hY hS hCS hC hchar
-    haveI := D.standing.simple
+    have := D.standing.simple
     have hYtop : Y ≠ ⊤ := fun h => CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top
       D.standing.nonab D.maxLocal.1 (top_le_iff.1 (h ▸ hY.1.1.1))
     have hC2 : CFSG.QuasithinUnique.CharTwo Y := by

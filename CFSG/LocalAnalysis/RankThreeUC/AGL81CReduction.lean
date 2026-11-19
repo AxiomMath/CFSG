@@ -19,14 +19,17 @@ theorem mem_QSet_iff {M : Subgroup G} {p : ℕ} {Q : Subgroup G} :
           rankThreeGamma 1 p E ≤ M) :=
   Iff.rfl
 
+omit [Finite G] in
 theorem mem_HFam_iff {M Q H : Subgroup G} : H ∈ HFam M Q ↔ H ≠ ⊤ ∧ Q ≤ H ∧ ¬ H ≤ M :=
   Iff.rfl
 
+omit [Finite G] in
 theorem mem_H2Fam_iff {M Q H : Subgroup G} :
     H ∈ H2Fam M Q ↔ H ≠ ⊤ ∧ Q ≤ H ∧ ¬ H ≤ M ∧
       H ⊓ centralizer (pCoreOf 2 H : Set G) ≤ pCoreOf 2 H :=
   Iff.rfl
 
+omit [Finite G] in
 theorem mem_H2StarFam_iff {M Q H : Subgroup G} :
     H ∈ H2StarFam M Q ↔ H ∈ H2Fam M Q ∧ ∀ H' ∈ H2Fam M Q, H ≤ H' → H' = H :=
   Iff.rfl

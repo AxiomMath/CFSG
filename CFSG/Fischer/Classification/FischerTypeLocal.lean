@@ -46,7 +46,7 @@ theorem F22.localClass_nonempty {X : Type} [Group X] {E : Set X} (h : F22 X E) {
   obtain ⟨q, hq⟩ := hne
   rw [Set.mem_image] at hq
   obtain ⟨f, hf, -⟩ := hq
-  simp only [LocalImages, Set.mem_setOf_eq] at hf
+  simp only [LocalImages, Set.mem_ofPred_eq] at hf
   obtain ⟨l, hl, -⟩ := hf
   exact ⟨l, hl⟩
 
@@ -56,7 +56,7 @@ theorem F23.localClass_nonempty {X : Type} [Group X] {E : Set X} (h : F23 X E) {
   obtain ⟨q, hq⟩ := Pair.nonempty h22.1
   obtain ⟨x, hx⟩ := F22.localClass_nonempty h22 hq
   have hxmem : x ∈ LocalImages E e := hx.1
-  simp only [LocalImages, Set.mem_setOf_eq] at hxmem
+  simp only [LocalImages, Set.mem_ofPred_eq] at hxmem
   obtain ⟨l, hl, -⟩ := hxmem
   exact ⟨l, hl⟩
 
@@ -66,7 +66,7 @@ theorem F24.localClass_nonempty {X : Type} [Group X] {E : Set X} (h : F24 X E) {
   obtain ⟨q, hq⟩ := Pair.nonempty h23.1
   obtain ⟨x, hx⟩ := F23.localClass_nonempty h23 hq
   have hxmem : x ∈ LocalImages E e := hx.1
-  simp only [LocalImages, Set.mem_setOf_eq] at hxmem
+  simp only [LocalImages, Set.mem_ofPred_eq] at hxmem
   obtain ⟨l, hl, -⟩ := hxmem
   exact ⟨l, hl⟩
 

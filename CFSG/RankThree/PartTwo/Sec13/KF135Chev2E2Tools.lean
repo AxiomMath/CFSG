@@ -50,12 +50,12 @@ theorem H2bFor.map_congr {G G' : Type} [Group G] [Group G'] {p : ℕ} {P : Subgr
   · rintro ⟨z, ⟨w, hw, rfl⟩, rfl⟩
     have hw' : φ' w ∈ U := heq ▸ ⟨w, hw, rfl⟩
     refine ⟨φ' w, hw', ?_⟩
-    simp [MulAut.congr_apply]
+    simp
   · rintro ⟨w, hw, rfl⟩
     have hw' : w ∈ U.map φ'.toMonoidHom := heq.symm ▸ hw
     obtain ⟨z, hz, hzw⟩ := hw'
     refine ⟨ε.symm z, ⟨z, hz, rfl⟩, ?_⟩
-    simp [MulAut.congr_apply, ← hzw]
+    simp [← hzw]
 
 theorem exists_sylow_map_eq {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {P : Subgroup (MulAut G)} (hP : IsPGroup p P) :
@@ -130,7 +130,7 @@ theorem false_of_fixed_commute {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p
     {a : MulAut G} (haP : a ∈ P) (haI : a ∉ (MulAut.conj : G →* MulAut G).range)
     {t : G} (htP : MulAut.conj t ∈ P) (ht1 : t ≠ 1) (hat : a t = t)
     {s : G} (hs1 : s ≠ 1) (hs2 : s * s = 1) (has : a s = s) (hts : t * s = s * t) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set c := MulAut.conj t with hc
   have hac : a * c = c * a := by
     ext y
@@ -216,11 +216,11 @@ theorem false_of_e2_core {T : Type} [Group T] [Finite T] {p e : ℕ} (hp : p.Pri
     (hinv : ∀ B : Subgroup T, CFSG.Open.IsElemAbelian p B → p ^ 2 ≤ Nat.card B →
       (∀ t ∈ B, a t = t) → ∃ t ∈ B, t ≠ 1 ∧ ∃ s : T, s ≠ 1 ∧ s * s = 1 ∧ a s = s ∧
         t * s = s * t) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set A := P ⊓ (MulAut.conj : T →* MulAut T).range with hA
   have hAcard : p ^ 2 ≤ Nat.card A := sq_le_card_inf_inner hp hout hexp hcard
   obtain ⟨Q, hQ⟩ := exists_sylow_map_eq hP
-  obtain ⟨eQ⟩ := hshape Q Q.isPGroup' Q.not_dvd_index
+  obtain ⟨eQ⟩ := hshape Q Q.isPGroup Q.not_dvd_index
   set B := A.comap (MulAut.conj : T →* MulAut T) with hB
   have hBcard : p ^ 2 ≤ Nat.card B := by
     rw [hB, KF135Chev2Exc.card_comap_conj hinj inf_le_right]

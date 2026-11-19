@@ -32,7 +32,7 @@ theorem exists_mem_not_mem_of_lt_two_part [Finite X] {T S2 : Subgroup X} (hT : I
     intro x hx
     have : (⟨x, hx⟩ : ↥(S' : Subgroup X)) ∈ T' := htop ▸ mem_top _
     exact this
-  have hnil : Group.IsNilpotent ↥(S' : Subgroup X) := S'.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent ↥(S' : Subgroup X) := S'.isPGroup.isNilpotent
   obtain ⟨y', hy'N, hy'T⟩ :=
     IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent T' hT'top)
   have hyT : (y' : X) ∉ T := hy'T
@@ -56,7 +56,7 @@ theorem exists_mem_not_mem_of_lt_two_part [Finite X] {T S2 : Subgroup X} (hT : I
   have hWN : T ⊔ zpowers (y' : X) ≤ normalizer (T : Set X) :=
     sup_le le_normalizer (zpowers_le.mpr hyN)
   have hWS' : T ⊔ zpowers (y' : X) ≤ (S' : Subgroup X) := sup_le hS' (zpowers_le.mpr y'.2)
-  have hW2 : IsPGroup 2 ↥(T ⊔ zpowers (y' : X)) := S'.isPGroup'.to_le hWS'
+  have hW2 : IsPGroup 2 ↥(T ⊔ zpowers (y' : X)) := S'.isPGroup.to_le hWS'
   have heq := hS2.eq_of_le (hS2T.trans le_sup_left) hWN hW2
   have hy : (y' : X) ∈ S2 := by
     rw [← heq]

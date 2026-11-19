@@ -26,9 +26,9 @@ theorem exists_fieldPart_adjointGroup_G2
   by_cases hchar3 : p₀ = 3
   ·
     have hK3 : Nat.card K = 3 ^ f := by rw [← hchar3]; exact hK
-    haveI hchar : CharP K 3 :=
+    have hchar : CharP K 3 :=
       finite_field_prime_power_characteristic Nat.prime_three hf hK3
-    haveI : CharP K ReeTag.G2.prime := hchar
+    have : CharP K ReeTag.G2.prime := hchar
     let φ : MulAut (adjointGroup Tag.G2 K) := ReeTag.G2.finiteExceptionalAut K
     obtain ⟨hord, hNF, ⟨Θ, hΘform, -, hΘker⟩, -⟩ :=
       G2_three_exact_automorphism_normal_form hf K hK3
@@ -98,7 +98,7 @@ theorem exists_fieldPart_adjointGroup_G2
             (Or.inr ⟨rfl, hchar3⟩)
         exact ⟨Θ, hΘform, hΘker⟩
     obtain ⟨Θ, hΘform, hΘker⟩ := hdata
-    haveI : IsCyclic (K ≃+* K) := (card_ringAut_and_isCyclic hp₀ K hK).2
+    have : IsCyclic (K ≃+* K) := (card_ringAut_and_isCyclic hp₀ K hK).2
     let E : (K ≃+* K) →* MulAut (adjointGroup Tag.G2 K) :=
       { toFun := fun σ => exactNormalAut Tag.G2 K 1 σ 0
         map_one' := exactNormalAut_one_one_zero
@@ -152,7 +152,7 @@ theorem i713ClauseFor_lie_G2
     (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.G2 q).Valid) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩) := by
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group :=
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group :=
     Finite.of_equiv K eK.toEquiv
   have h3 : 3 ≤ q.p ^ q.exponent := by
     have h := ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
@@ -166,9 +166,9 @@ theorem i713ClauseFor_lie_G2
     · exact CFSG.RankThree.PartTwo.Sec4.Census.chevalleyExceptionalModel_G2_of_odd q hv hq2
   obtain ⟨L, hLfield, hLfin, hLcard, ⟨eL⟩⟩ :=
     nonempty_mulEquiv_adjointGroup .G2 hm.2
-  letI := hLfield
-  letI := hLfin
-  haveI : Finite (adjointGroup Tag.G2 L) := Subtype.finite
+  let := hLfield
+  let := hLfin
+  have : Finite (adjointGroup Tag.G2 L) := Subtype.finite
   exact Or.inr (Or.inl (exists_fieldPart_of_mulEquiv (eK.trans eL)
     (exists_fieldPart_adjointGroup_G2 q.prime_p q.exponent_pos L hLcard h3 hp)))
 

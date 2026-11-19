@@ -45,7 +45,7 @@ theorem quad_expand (v : Fin 3 ⊕ Fin 3 ⊕ Fin 2 → ZMod 2) :
       v (.inl 0) * v (.inr (.inl 0)) + v (.inl 1) * v (.inr (.inl 1)) +
         v (.inl 2) * v (.inr (.inl 2)) + v (.inr (.inr 0)) ^ 2 +
           1 * v (.inr (.inr 0)) * v (.inr (.inr 1)) + 1 * v (.inr (.inr 1)) ^ 2 := by
-  simp only [CFSG.PGLModel.minusQuadForm, CFSG.MatrixModel.minusQuadCore, Fin.sum_univ_three]
+  simp only [CFSG.PGLModel.minusQuadForm, Fin.sum_univ_three]
 
 theorem quad_vec (x : ℕ) :
     CFSG.PGLModel.minusQuadForm 3 (1 : ZMod 2) 1 (vec 3 x) = ofB (qNat x) := by
@@ -73,9 +73,9 @@ theorem reflCode_eq {u x : ℕ} (hu : u < 256) (hx : x < 256) : reflCode 3 u x =
   unfold reflCode transNat
   rw [polar_bNat]
   cases bNat x u
-  · rw [ofB_false, zero_smul, add_zero, if_neg Bool.false_ne_true]
+  · rw [ofB_false, zero_smul, add_zero, ite_eq_right Bool.false_ne_true]
     exact code_vec3 hx
-  · rw [ofB_true, one_smul, ← vec_xor, if_pos rfl]
+  · rw [ofB_true, one_smul, ← vec_xor, ite_eq_left rfl]
     exact code_vec3 (Nat.xor_lt_two_pow (n := 8) hx hu)
 
 theorem quad_ne_zero (c : ℕ) :
@@ -118,10 +118,10 @@ theorem transNat_eqK {v x : ℕ} (hv : v < 256) (hx : x < 256) : transNat v x = 
   unfold transNat transK
   rcases (by omega : b8K true x v = 0 ∨ b8K true x v = 1) with h | h
   · rw [h] at hb
-    rw [hb, h, if_neg (by decide)]
+    rw [hb, h, ite_eq_right (by decide)]
     simp
   · rw [h] at hb
-    rw [hb, h, if_pos (by decide)]
+    rw [hb, h, ite_eq_left (by decide)]
     simp
 
 theorem transNat_lt {v x : ℕ} (hv : v < 256) (hx : x < 256) : transNat v x < 256 := by

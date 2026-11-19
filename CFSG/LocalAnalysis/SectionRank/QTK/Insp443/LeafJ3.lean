@@ -18,7 +18,7 @@ theorem conclK_J3
     ConclK (NativeSporadic.Carrier .J3) L V MK := by
   let φ : NativeSporadic.Carrier .J3 ≃* CFSG.Sporadic.Schreier.j3P :=
     CFSG.Sporadic.Schreier.j3PermEquiv
-  haveI : Finite (NativeSporadic.Carrier .J3) := Finite.of_injective (⇑φ) φ.injective
+  have : Finite (NativeSporadic.Carrier .J3) := Finite.of_injective (⇑φ) φ.injective
   exact ConclK.of_map_mulEquiv φ h.elemAbelian h.le_normalizer
     (J3Cls.conclK_K0 (h.map_mulEquiv φ))
 
@@ -26,7 +26,7 @@ theorem forK_J3 :
     ForK (fun S _ => Nonempty (S ≃* NativeSporadic.Carrier .J3)) := by
   let φ : NativeSporadic.Carrier .J3 ≃* CFSG.Sporadic.Schreier.j3P :=
     CFSG.Sporadic.Schreier.j3PermEquiv
-  haveI : Finite (NativeSporadic.Carrier .J3) := Finite.of_injective (⇑φ) φ.injective
+  have : Finite (NativeSporadic.Carrier .J3) := Finite.of_injective (⇑φ) φ.injective
   exact forK_of_kConfig_three
     CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.J3Cover.nativeRow_J3
     (fun _ _ _ _ _ _ hK e hZ => KConf.false_of_threeJ3 hK e hZ) (fun _ _ _ h => conclK_J3 h)

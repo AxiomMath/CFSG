@@ -14,6 +14,7 @@ open CFSG.Assembly
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
   {𝒦 : Finset (Subgroup G)}
 
+omit [Finite G] in
 private theorem p9uLS_fixes_of_le_centralizer {Bs X : Subgroup G} {y : G} (hy : y ∈ Bs)
     (hXy : X ≤ Subgroup.centralizer ({y} : Set G)) {φ : MulAut ↥Bs}
     (hφ : φ ∈ ggAutomizer X Bs) : y ∈ ggHyperplane Bs φ := by

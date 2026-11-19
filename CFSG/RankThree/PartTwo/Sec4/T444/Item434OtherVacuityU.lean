@@ -66,11 +66,13 @@ theorem exists_unit_orderOf_nine (hK : Nat.card K = 2 ^ 12) : ∃ α : Kˣ, orde
     norm_num
   rw [orderOf_pow_of_dvd (by norm_num) hdvd, hg, hcard]
 
+omit [Finite K] in
 theorem pow_nine_eq_one_of_orderOf {α : Kˣ} (hα : orderOf α = 9) : (α : K) ^ 9 = 1 := by
   have h9 : α ^ 9 = 1 := hα ▸ pow_orderOf_eq_one α
   have := congrArg Units.val h9
   simpa [Units.val_pow_eq_pow_val] using this
 
+omit [Finite K] in
 theorem pow_three_ne_one_of_orderOf {α : Kˣ} (hα : orderOf α = 9) : (α : K) ^ 3 ≠ 1 := by
   intro h3
   have hu : α ^ 3 = 1 := Units.ext (by simpa [Units.val_pow_eq_pow_val] using h3)
@@ -88,17 +90,19 @@ variable {K : Type} [Field K] [CharP K 2]
 
 @[expose] def uDiagInv (a : K) : Matrix (Fin 3) (Fin 3) K := Matrix.diagonal ![a⁻¹, (a⁻¹) ^ 4031, 1]
 
+omit [CharP K 2] in
 theorem uDiag_mul_uDiagInv {a : K} (ha : a ≠ 0) : uDiag a * uDiagInv a = 1 := by
   rw [uDiag, uDiagInv, Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
   congr 1
   funext i
-  fin_cases i <;> simp [ha, ← mul_pow]
+  fin_cases i <;> simp [ha]
 
+omit [CharP K 2] in
 theorem uDiagInv_mul_uDiag {a : K} (ha : a ≠ 0) : uDiagInv a * uDiag a = 1 := by
   rw [uDiag, uDiagInv, Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
   congr 1
   funext i
-  fin_cases i <;> simp [ha, ← mul_pow]
+  fin_cases i <;> simp [ha]
 
 @[expose] noncomputable def uQu : GL (Fin 3) K := ⟨uQK, uQiK, uQK_mul_uQiK, uQiK_mul_uQK⟩
 
@@ -111,12 +115,13 @@ theorem uMu_val {a : K} (ha : a ≠ 0) :
     ((uMu ha : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) = uQK * uDiag a * uQiK := by
   simp [uMu, uQu, uDu, Units.val_mul]
 
+omit [CharP K 2] in
 theorem uDiag_J_uDiag {a b : K} (h1 : b * a ^ 4031 = 1) (h2 : b ^ 4031 * a = 1) :
     (uDiag b)ᵀ * (!![0, 1, 0; 1, 0, 0; 0, 0, 1] : Matrix (Fin 3) (Fin 3) K) * uDiag a =
       !![0, 1, 0; 1, 0, 0; 0, 0, 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [uDiag, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply, h1, h2]
+    simp [uDiag, Matrix.mul_apply, Matrix.diagonal_apply, h1, h2]
 
 end Unitary9
 
@@ -130,6 +135,7 @@ theorem map_uQK (bar : K →+* K) : (uQK : Matrix (Fin 3) (Fin 3) K).map bar = u
 theorem map_uQiK (bar : K →+* K) : (uQiK : Matrix (Fin 3) (Fin 3) K).map bar = uQiK := by
   rw [uQiK, Matrix.map_map, ← RingHom.coe_comp, uCast_fixed]
 
+omit [CharP K 2] in
 theorem map_uDiag (bar : K →+* K) (a : K) :
     (uDiag a : Matrix (Fin 3) (Fin 3) K).map bar = uDiag (bar a) := by
   unfold uDiag
@@ -165,6 +171,7 @@ section TwistGL
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem bar_eq_pow_sixtyfour (h : UnitaryFieldData 2 6 K) (c : K) : h.bar c = c ^ 64 := by
   rw [h.bar_apply]
   norm_num
@@ -179,6 +186,7 @@ theorem uMu_mem (h : UnitaryFieldData 2 6 K) {a : K} (ha : a ≠ 0) (h9 : a ^ 9 
   rw [mem_unitaryIsom3, uMu_val, map_uQDQi, bar_eq_pow_sixtyfour h]
   exact uQDQi_transpose_mul h1 h2
 
+omit [CharP K 2] in
 theorem uDiag_pow_nine {a : K} (h9 : a ^ 9 = 1) : uDiag a ^ 9 = 1 := by
   have h9' : (a ^ 4031) ^ 9 = 1 := by
     rw [← pow_mul, mul_comm, pow_mul, h9, one_pow]
@@ -204,6 +212,7 @@ theorem uMu_pow_three_val {a : K} (ha : a ≠ 0) :
   rw [uMu, conj_pow, Units.val_mul, Units.val_mul, Units.val_pow_eq_pow_val]
   rfl
 
+omit [CharP K 2] in
 theorem uDiag_pow_three (a : K) :
     uDiag a ^ 3 = Matrix.diagonal ![a ^ 3, (a ^ 4031) ^ 3, 1] := by
   unfold uDiag
@@ -224,7 +233,7 @@ theorem uMu_pow_three_ne_scalar {a : K} (ha : a ≠ 0) (h3 : a ^ 3 ≠ 1) (c : K
     rw [hc]
   have hs : ((GeneralLinearGroup.scalar (Fin 3) c : GL (Fin 3) K) :
       Matrix (Fin 3) (Fin 3) K) 0 1 = 0 := by
-    simp [Matrix.GeneralLinearGroup.scalar, Matrix.scalar_apply, Matrix.diagonal_apply]
+    simp [Matrix.GeneralLinearGroup.scalar, Matrix.scalar_apply]
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
   rw [uMu_pow_three_val, uDiag_pow_three, uQDQi_apply_zero_one, hs] at hm
   apply h3
@@ -254,16 +263,19 @@ section SUInj
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem unit_eq_one_of_pow_three {c : Kˣ} (h3 : c ^ 3 = 1) (h65 : c ^ 65 = 1) : c = 1 := by
   have h : c ^ Nat.gcd 3 65 = 1 := pow_gcd_eq_one.2 ⟨h3, h65⟩
   rw [show Nat.gcd 3 65 = 1 by norm_num, pow_one] at h
   exact h
 
+omit [CharP K 2] in
 theorem det_scalar_val (c : Kˣ) :
     ((GeneralLinearGroup.scalar (Fin 3) c : GL (Fin 3) K) :
       Matrix (Fin 3) (Fin 3) K).det = (c : K) ^ 3 := by
   simp [Matrix.GeneralLinearGroup.scalar, Matrix.scalar_apply, Matrix.det_diagonal]
 
+omit [CharP K 2] in
 theorem su_eq_one_of_psuConj_eq_one (hU : UnitaryFieldData 2 6 K) (x : unitarySU 2 6 K 3)
     (hx : psuConj hU ⟨(x : GL (Fin 3) K), unitarySU_le_unitaryIsom3 (h := hU) x.2⟩ = 1) : x = 1 := by
   have h2 : psuConj hU ⟨(x : GL (Fin 3) K), unitarySU_le_unitaryIsom3 (h := hU) x.2⟩ *
@@ -289,9 +301,11 @@ theorem su_eq_one_of_psuConj_eq_one (hU : UnitaryFieldData 2 6 K) (x : unitarySU
     unitarySU 2 6 K 3 →* MulAut (unitaryPSU hU 3) :=
   (psuConj hU).comp (Subgroup.inclusion (unitarySU_le_unitaryIsom3 (h := hU)))
 
+omit [CharP K 2] in
 theorem psuConjSU_apply (hU : UnitaryFieldData 2 6 K) (x : unitarySU 2 6 K 3) :
     psuConjSU hU x = psuConj hU ⟨(x : GL (Fin 3) K), unitarySU_le_unitaryIsom3 (h := hU) x.2⟩ := rfl
 
+omit [CharP K 2] in
 theorem psuConjSU_injective (hU : UnitaryFieldData 2 6 K) : Function.Injective (psuConjSU hU) := by
   rw [injective_iff_map_eq_one]
   intro x hx
@@ -303,6 +317,7 @@ section Surj
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem exists_cube_unit {δ : Kˣ} (hδ : δ ^ 65 = 1) :
     ∃ c : Kˣ, c ^ 3 * δ = 1 ∧ c ^ 65 = 1 := by
   refine ⟨(δ ^ 22)⁻¹, ?_, ?_⟩
@@ -311,6 +326,7 @@ theorem exists_cube_unit {δ : Kˣ} (hδ : δ ^ 65 = 1) :
     rw [inv_pow, ← pow_mul, show 22 * 3 = 66 by norm_num, h66, inv_mul_cancel]
   · rw [inv_pow, ← pow_mul, pow_mul', hδ, one_pow, inv_one]
 
+omit [CharP K 2] in
 theorem exists_psuConjSU_eq (hU : UnitaryFieldData 2 6 K) {A : GL (Fin 3) K}
     (hA : A ∈ unitaryIsom3 hU) :
     ∃ x : unitarySU 2 6 K 3, psuConjSU hU x = psuConj hU ⟨A, hA⟩ := by
@@ -343,6 +359,7 @@ theorem exists_psuConjSU_eq (hU : UnitaryFieldData 2 6 K) {A : GL (Fin 3) K}
         (c := c) rfl, one_mul]
   exact hfac
 
+omit [CharP K 2] in
 theorem range_psuConj_eq (hU : UnitaryFieldData 2 6 K) :
     (psuConj hU).range = (psuConjSU hU).range := by
   apply le_antisymm
@@ -352,6 +369,7 @@ theorem range_psuConj_eq (hU : UnitaryFieldData 2 6 K) :
   · rintro _ ⟨x, rfl⟩
     exact ⟨⟨_, unitarySU_le_unitaryIsom3 (h := hU) x.2⟩, (psuConjSU_apply hU x).symm⟩
 
+omit [CharP K 2] in
 theorem card_psuConj_range (hU : UnitaryFieldData 2 6 K) :
     Nat.card (psuConj hU).range = 9 * (262144 * 455 * 262145) := by
   rw [range_psuConj_eq hU,
@@ -367,6 +385,7 @@ section Sylow
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem card_field_eq_two_pow_twelve (hU : UnitaryFieldData 2 6 K) : Nat.card K = 2 ^ 12 :=
   hU.card.trans (by norm_num)
 
@@ -374,18 +393,19 @@ theorem uFiniteMulAut (G : Type*) [Group G] [Finite G] : Finite (MulAut G) :=
   Finite.of_injective (fun f : MulAut G => (f : G → G))
     (fun _ _ hfg => MulEquiv.ext (fun x => congrFun hfg x))
 
+omit [CharP K 2] in
 theorem finite_mulAut_unitaryPSU (hU : UnitaryFieldData 2 6 K) :
     Finite (MulAut (unitaryPSU hU 3)) := by
-  haveI : Finite (unitarySU 2 6 K 3) :=
+  have : Finite (unitarySU 2 6 K 3) :=
     Nat.finite_of_card_ne_zero (by rw [card_unitarySU_three hU]; norm_num)
-  haveI : Finite (unitaryPSU hU 3) := Quotient.finite _
+  have : Finite (unitaryPSU hU 3) := Quotient.finite _
   exact uFiniteMulAut _
 
 theorem card_inf_psuConj_le_three (hU : UnitaryFieldData 2 6 K)
     {B : Subgroup (MulAut (unitaryPSU hU 3))} (hB : CFSG.Assembly.IsElemAbelian 3 B) :
     Nat.card (B ⊓ (psuConj hU).range : Subgroup (MulAut (unitaryPSU hU 3))) ≤ 3 := by
-  haveI := finite_mulAut_unitaryPSU hU
-  haveI := hU.finite
+  have := finite_mulAut_unitaryPSU hU
+  have := hU.finite
   obtain ⟨α, hα⟩ := exists_unit_orderOf_nine (card_field_eq_two_pow_twelve hU)
   have ha : (α : K) ≠ 0 := Units.ne_zero α
   have h9 : (α : K) ^ 9 = 1 := pow_nine_eq_one_of_orderOf hα
@@ -416,10 +436,10 @@ variable {K : Type} [Field K] [CharP K 2]
 theorem card_le_nine_mulAut_psuPSU (hU : UnitaryFieldData 2 6 K)
     (B : Subgroup (MulAut (unitaryPSU hU 3))) (hB : CFSG.Assembly.IsElemAbelian 3 B) :
     Nat.card B ≤ 9 := by
-  haveI := finite_mulAut_unitaryPSU hU
-  haveI := hU.finite
+  have := finite_mulAut_unitaryPSU hU
+  have := hU.finite
   have hK : Nat.card K = 2 ^ 12 := card_field_eq_two_pow_twelve hU
-  haveI : IsCyclic (K ≃+* K) := (card_ringAut_and_isCyclic Nat.prime_two K hK).2
+  have : IsCyclic (K ≃+* K) := (card_ringAut_and_isCyclic Nat.prime_two K hK).2
   have hcyc : IsCyclic (psuField hU).range :=
     isCyclic_of_surjective (psuField hU).rangeRestrict (psuField hU).rangeRestrict_surjective
   have hfwd : ∀ (σ : K ≃+* K) (x : MulAut (unitaryPSU hU 3)), x ∈ (psuConj hU).range →

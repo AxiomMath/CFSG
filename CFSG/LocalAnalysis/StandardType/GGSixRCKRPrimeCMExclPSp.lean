@@ -77,7 +77,7 @@ theorem rckEq_of_block_Sp4Two {n f : ℕ} {X : Type} [Group X] [Finite X] {p : �
     have hβel : IsElemAbelian p β.range := by
       simpa [MonoidHom.range_eq_map] using htop.map β
     have hβp : IsPGroup p β.range := hβel.isPGroup
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp hβp
     have hcardG : Nat.card ↥(glBlockCentralizer (CFSG.Open.StatedSp n (GaloisField 2 f)).subtype
         {(s : GL (Fin n ⊕ Fin n) (GaloisField 2 f))} ε) = 720 := by
@@ -105,8 +105,8 @@ private lemma rckExclPSp_unitary_range_card_le {X : Type} [Group X] [Finite X] {
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp h).symm
   rcases Nat.eq_zero_or_pos m with hm0 | hmpos
   · subst m
-    haveI : Subsingleton (GL (Fin 0) E) := ⟨fun a b => Units.ext (Subsingleton.elim _ _)⟩
-    haveI : Subsingleton (CFSG.Open.StatedProj (ClassicalBlocks.GUFull 0 Q E)) := inferInstance
+    have : Subsingleton (GL (Fin 0) E) := ⟨fun a b => Units.ext (Subsingleton.elim _ _)⟩
+    have : Subsingleton (CFSG.Open.StatedProj (ClassicalBlocks.GUFull 0 Q E)) := inferInstance
     have hle1 : Nat.card β'.range ≤ 1 :=
       Finite.card_le_one_iff_subsingleton.mpr inferInstance
     exact hle1.trans (Nat.one_le_pow 2 p hp.pos)

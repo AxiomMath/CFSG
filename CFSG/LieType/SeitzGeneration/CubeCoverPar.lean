@@ -194,7 +194,7 @@ theorem invPairAt_of_inndiag {τ : Tag} {k : Type} [Field k] [Finite k] {r p : �
   have hAD : A ≤ D := by
     rintro _ ⟨g, -, rfl⟩
     exact g.2
-  haveI : IsElementaryAbelian p A := isElementaryAbelian_matrixPlane ι hinj hEab
+  have : IsElementaryAbelian p A := isElementaryAbelian_matrixPlane ι hinj hEab
   have hAp : IsPGroup p A := IsElementaryAbelian.isPGroup p A
   set R' : Subgroup (ModGL τ k) := R.map (adjointGroup τ k).subtype with hR'
   have hR'C : R' ≤ adjointGroup τ k := Subgroup.map_subtype_le R
@@ -212,10 +212,10 @@ theorem invPairAt_e6_of_normalizesR {K : Type} [Field K] [Finite K] (hK3 : ringC
     {E : Subgroup (MulAut (adjointGroup Tag.E6 K))} (hEab : IsElemAbelian 3 E)
     (hEd : E ≤ e6Inndiag K) (hnorm : E6NormalizesR K E) :
     QuasiHigh3.InvPairAt 3 E := by
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup (adjointGroup Tag.E6 K) :=
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup (adjointGroup Tag.E6 K) :=
     CFSG.SeitzReduction.E6Pilot.isSimpleGroup_adjointGroup_E6
   by_cases hK4 : 4 ≤ Nat.card K
   · exact invPairAt_of_inndiag hK3 (D := e6InndiagGL K) le_rfl (e6InndiagConj K)
@@ -258,15 +258,15 @@ theorem invPairAt_twE6_of_normalizesR {K : Type} [Field K] [Finite K] (σ : K �
     have hsq : σ ^ 2 = 1 := by
       refine RingEquiv.ext fun c => ?_
       have hσσ : σ (σ c) = c := by
-        haveI := Fintype.ofFinite K
+        have := Fintype.ofFinite K
         rw [hσq (σ c), hσq c, ← pow_mul, ← sq, ← hKq, Nat.card_eq_fintype_card]
         exact FiniteField.pow_card c
       simpa only [pow_two, RingAut.mul_apply, RingAut.one_apply] using hσσ
     exact hsq
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_modGL (τ := TwistTag.E6.tag) (K := K)
+  have : Fact (ringChar K).Prime := ⟨hp⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_modGL (τ := TwistTag.E6.tag) (K := K)
   have hinj := twistedE6InndiagConj_injective hp hf hKq σ hσq
   have hEr : E ≤ (twistedE6InndiagConj K σ).range := by
     rw [range_twistedE6InndiagConj]

@@ -71,7 +71,7 @@ private theorem exists_mulEquiv_of_index_two {A G H : Type} [Group A] [Group G] 
   have hEc : Nat.card (B.comap f) = 3 ^ 5 := by
     rw [← Subgroup.card_map_of_injective hf, Subgroup.map_comap_eq_self (hBP.trans hPf), hBc]
   have hTc : 8 ≤ Nat.card (R0.comap f) := by
-    haveI := Subgroup.normal_of_index_eq_two hidx
+    have := Subgroup.normal_of_index_eq_two hidx
     have h1 := Subgroup.relIndex_mul_card f.range R0
     have h2 := Nat.le_of_dvd (by norm_num)
       (hidx ▸ Subgroup.relIndex_dvd_index_of_normal f.range R0)

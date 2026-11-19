@@ -104,7 +104,7 @@ theorem componentProjection_apply_self {C : Subgroup H} (hC : CFSG.IsComponent C
 
 theorem componentProjection_eq_one_of_le_centralizer {C : Subgroup H}
     (hC : CFSG.IsComponent C) {Y : Subgroup H} (hY : Y ≤ CFSG.layer H)
-    (hZ : Subgroup.center C = ⊥) {R : Subgroup H} (hRY : R ≤ Y)
+    (hZ : Subgroup.center C = ⊥) {R : Subgroup H} (_hRY : R ≤ Y)
     (hRcent : R ≤ Subgroup.centralizer (C : Set H)) {y : ↥Y} (hy : (y : H) ∈ R) :
     componentProjection hC hY hZ y = 1 := by
   apply componentProjection_eq_of_conj_eq hC hY hZ (c := 1)
@@ -115,6 +115,7 @@ theorem componentProjection_eq_one_of_le_centralizer {C : Subgroup H}
     (y : H) * m * (y : H)⁻¹ = m := by rw [hc.symm]; group
     _ = ((1 : ↥C) : H) * m * (((1 : ↥C) : H))⁻¹ := by simp
 
+omit [Finite H] in
 theorem eq_bot_of_commutator_eq_self_of_le_centralizer {P : Subgroup H}
     (hP : ⁅P, P⁆ = P) (h : P ≤ Subgroup.centralizer (P : Set H)) : P = ⊥ := by
   have hbot : ⁅P, P⁆ = ⊥ := Subgroup.commutator_eq_bot_iff_le_centralizer.mpr h
@@ -180,10 +181,10 @@ theorem le_component_of_perfect_le_layer_of_centralizes_components_ne {Y C₀ : 
   exact (x ⟨C₀, hC₀⟩).2
 
 theorem eq_bot_of_perfect_of_centralizes_sylow_two {C : Subgroup H}
-    (hC : CFSG.IsComponent C) {T : Sylow 2 ↥C} {P : Subgroup ↥C}
+    (_hC : CFSG.IsComponent C) {T : Sylow 2 ↥C} {P : Subgroup ↥C}
     (hPp : ⁅P, P⁆ = P)
     (hcent : ∀ p ∈ P, ∀ t : T, p * (t : ↥C) = (t : ↥C) * p) : P = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Tsub : Subgroup ↥C := (T : Subgroup ↥C)
   let N : Subgroup ↥C := P ⊔ Tsub
   let Tn : Subgroup ↥N := Tsub.subgroupOf N
@@ -208,7 +209,7 @@ theorem eq_bot_of_perfect_of_centralizes_sylow_two {C : Subgroup H}
           _ = p * t * p⁻¹ := by group
       rw [hs]
       exact ht
-  haveI hTn : Tn.Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hPnorm
+  have hTn : Tn.Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer hPnorm
   have hTsubOdd : Odd Tsub.index :=
     Nat.not_even_iff_odd.mp (by simpa [even_iff_two_dvd] using T.not_dvd_index)
   have hrelOdd : Odd (Tsub.relIndex N) :=
@@ -381,8 +382,8 @@ private theorem false_of_two_components {Y R : Subgroup H} (hY : Y ≤ layer H)
   have hcentT : T₀H ≤ Subgroup.centralizer (Y : Set H) :=
     Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcommbot
   let P : Subgroup ↥C₀ := (componentProjection hC₀ hY (hZ C₀ hC₀)).range
-  haveI : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hYp
-  haveI : Group.IsPerfect ↥P := Group.IsPerfect.range _
+  have : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hYp
+  have : Group.IsPerfect ↥P := Group.IsPerfect.range _
   have hPperf : ⁅P, P⁆ = P := commutator_eq_self_of_isPerfect_subgroup
   have hPcent : ∀ p ∈ P, ∀ t : T₀, p * (t : ↥C₀) = (t : ↥C₀) * p := by
     intro p hp t

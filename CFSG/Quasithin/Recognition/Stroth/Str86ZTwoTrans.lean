@@ -15,7 +15,7 @@ open scoped Pointwise commutatorElement
 variable {G : Type} [Group G] [Finite G]
 
 theorem exists_mem_mul_inv_mem_of_relIndex {H B S Q : Subgroup G} (hBH : B ≤ H) (hSB : S ≤ B)
-    (hQS : Q ≤ S) (hidx : B.relIndex H = Q.relIndex S + 1)
+    (_hQS : Q ≤ S) (hidx : B.relIndex H = Q.relIndex S + 1)
     (hstab : ∀ g ∈ H, g ∉ B → S ⊓ (MulAut.conj g • B) ≤ Q)
     {g g' : G} (hg : g ∈ H) (hgB : g ∉ B) (hg' : g' ∈ H) (hg'B : g' ∉ B) :
     ∃ s ∈ S, (s * g)⁻¹ * g' ∈ B := by
@@ -272,6 +272,7 @@ theorem str86_u3Y_conj_transitive_of_chief
           group
         rw [this]
 
+omit [Finite G] in
 theorem isPGroup_imageOTwoQuot_of_isSylow {H S : Subgroup G} (hS : IsSylowTwoOf S H) :
     IsPGroup 2 ↥(imageOTwoQuot H S) := by
   let N : Subgroup ↥H := CFSG.Open.pCore 2 ↥H
@@ -407,6 +408,7 @@ theorem str86_commutator_mem_q2 {L1 L2 S : Subgroup G} {n : ℕ}
   have h' := Subgroup.mem_subgroupOf.mp hmemN
   simpa [mul_assoc] using h'
 
+omit [Finite G] in
 theorem str86_le_normalizer_of_q2_le {L1 L2 S R : Subgroup G}
     (hQR : Q2 L1 L2 S ≤ R) (hRS : R ≤ S)
     (hcomm : ∀ a ∈ S, ∀ b ∈ S, a * b * a⁻¹ * b⁻¹ ∈ Q2 L1 L2 S) :

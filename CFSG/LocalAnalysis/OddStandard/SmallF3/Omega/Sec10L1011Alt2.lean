@@ -11,6 +11,7 @@ open Subgroup CFSG.Blueprint
 variable {A : Type} [Group A] [Finite A] {B : Subgroup A} {t : A} {K : Subgroup (MulAut A)}
   {φ : (Fin 5 → ZMod 2) → A}
 
+omit [Finite A] in
 theorem sec1011_alt2_perm (h : Sec1011A2 B t K φ) :
     ∃ Alt : Subgroup (Equiv.Perm (Fin 6)), (Alt = alternatingGroup (Fin 6) ∨ Alt = ⊤) ∧
       Nonempty (↥K ≃* ↥Alt) ∧

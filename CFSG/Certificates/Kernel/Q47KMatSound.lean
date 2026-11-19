@@ -165,7 +165,7 @@ theorem mOf47_mul {p q : Nat} (hp : PP 64 7 p) (ap : addK p = true) (hq : PP 64 
   change pg 7 (mask 7) (pcomp 64 7 (mask 7) p q) (2 ^ j) = _
   rw [PF.pg_pcomp (by omega) h2, mC47_mOf47 hq j hj, pg_mAp47 hp ap (pg_lt64K hq h2)]
 
-theorem addK_mul47 {p q : Nat} (hp : PP 64 7 p) (ap : addK p = true) (hq : PP 64 7 q)
+theorem addK_mul47 {p q : Nat} (_hp : PP 64 7 p) (ap : addK p = true) (hq : PP 64 7 q)
     (aq : addK q = true) : addK (HexaK.mul 64 7 p q) = true := by
   unfold addK
   rw [allN_eq', List.all_eq_true]

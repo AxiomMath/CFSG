@@ -16,9 +16,11 @@ variable {A T L L₂ : Subgroup G}
 
 private abbrev s16h_e3_l3_conj (a : G) : G →* G := (MulAut.conj a).toMonoidHom
 
+omit [Finite G] in
 private theorem s16h_e3_l3_conj_apply (a x : G) :
     s16h_e3_l3_conj a x = a * x * a⁻¹ := rfl
 
+omit [Finite G] in
 private theorem s16h_e3_l3_mem_normalizer_iff {H : Subgroup G} {g : G} :
     g ∈ normalizer H ↔ H.map (s16h_e3_l3_conj g) = H :=
   Subgroup.mem_normalizer_iff_map_conj_eq
@@ -26,10 +28,10 @@ private theorem s16h_e3_l3_mem_normalizer_iff {H : Subgroup G} {g : G} :
 private theorem s16h_e3_l3_isPSL_of_isSLn {X : Type} [Group X] (h : IsSLn X 3 1) :
     IsPSL 3 2 1 X := by
   obtain ⟨K, hfield, hfin, hcard, ⟨eX⟩⟩ := h
-  letI : Field K := hfield
-  letI : Finite K := hfin
+  let : Field K := hfield
+  let : Finite K := hfin
   have hK : Nat.card K = 2 := by simpa using hcard
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKf : Fintype.card K = Fintype.card (ZMod 2) := by
     rw [← Nat.card_eq_fintype_card, ZMod.card, hK]
   let ε : K ≃+* ZMod 2 := FiniteField.ringEquivOfCardEq hKf
@@ -42,11 +44,12 @@ private theorem s16h_e3_l3_isPSL_of_isSLn {X : Type} [Group X] (h : IsSLn X 3 1)
 private theorem s16h_e3_l3_card_of_isSLn {X : Type} [Group X] (h : IsSLn X 3 1) :
     Nat.card X = 168 := by
   obtain ⟨K, hfield, _hfin, hcard, ⟨eX⟩⟩ := h
-  letI : Field K := hfield
+  let : Field K := hfield
   have hK : Nat.card K = 2 := by simpa using hcard
   rw [Nat.card_congr eX.toEquiv]
   exact StatedAPI.card_statedSL_three_of_card_eq_two hK
 
+omit [Finite G] in
 private theorem s16h_e3_l3_map_conj_mul (a b : G) (X : Subgroup G) :
     (X.map (s16h_e3_l3_conj b)).map (s16h_e3_l3_conj a) = X.map (s16h_e3_l3_conj (a * b)) := by
   rw [Subgroup.map_map]
@@ -56,19 +59,22 @@ private theorem s16h_e3_l3_map_conj_mul (a b : G) (X : Subgroup G) :
     group
   rw [hcomp]
 
+omit [Finite G] in
 private theorem s16h_e3_l3_map_conj_mul_inv (a b : G) (X : Subgroup G) :
     X.map (s16h_e3_l3_conj (a * b)) = (X.map (s16h_e3_l3_conj b)).map (s16h_e3_l3_conj a) :=
   (s16h_e3_l3_map_conj_mul a b X).symm
 
+omit [Finite G] in
 private theorem s16h_e3_l3_map_conj_inv_cancel (a : G) (X : Subgroup G) :
     (X.map (s16h_e3_l3_conj a)).map (s16h_e3_l3_conj a⁻¹) = X := by
   rw [s16h_e3_l3_map_conj_mul a⁻¹ a X]
   rw [show a⁻¹ * a = 1 by group]
   rw [show s16h_e3_l3_conj (1 : G) = MonoidHom.id G by
     ext y
-    simp [s16h_e3_l3_conj_apply]]
+    simp]
   rw [Subgroup.map_id]
 
+omit [Finite G] in
 private theorem s16h_e3_l3_map_conj_eq_of_eq {a : G} {X Y : Subgroup G}
     (h : X.map (s16h_e3_l3_conj a) = Y.map (s16h_e3_l3_conj a)) : X = Y := by
   have h' := congrArg (Subgroup.comap (s16h_e3_l3_conj a)) h
@@ -77,6 +83,7 @@ private theorem s16h_e3_l3_map_conj_eq_of_eq {a : G} {X Y : Subgroup G}
     Subgroup.comap_map_eq_self_of_injective (f := s16h_e3_l3_conj a)
       (MulAut.conj a).injective Y] at h'
 
+omit [Finite G] in
 private theorem s16h_e3_l3_inner_normalizes_sylow_inf {X : Subgroup G} {τ γ : G}
     (hτT : τ ∈ T) (hγX : γ ∈ X)
     (hact : ∀ l ∈ X, τ * l * τ⁻¹ = γ * l * γ⁻¹) :
@@ -103,8 +110,9 @@ private theorem s16h_e3_l3_inner_normalizes_sylow_inf {X : Subgroup G} {τ γ : 
         exact T.mul_mem (T.mul_mem (T.inv_mem hτT) hmemT) hτT,
       hyX⟩
 
+omit [Finite G] in
 private theorem s16h_e3_l3_map_conj_eq_of_inner_on {X P : Subgroup G} {τ γ : G}
-    (hPX : P ≤ X) (hγX : γ ∈ X)
+    (hPX : P ≤ X) (_hγX : γ ∈ X)
     (hact : ∀ l ∈ X, τ * l * τ⁻¹ = γ * l * γ⁻¹) (hγP : γ ∈ P) :
     P.map (s16h_e3_l3_conj τ) = P := by
   have hγnormP : P.map (s16h_e3_l3_conj γ) = P :=
@@ -182,12 +190,12 @@ theorem s16h_e3_l3_two_parabolics_of_inner {G : Type} [Group G] [Finite G]
     (CFSG.LieType.Simplicity.fam_PSL_simplicity ↥L 3 2 1 hLpsl).2
   have hLnc : ¬ IsMulCommutative ↥L := by
     intro hc
-    haveI : IsMulCommutative ↥L := hc
+    have : IsMulCommutative ↥L := hc
     have hp : Nat.Prime (Nat.card ↥L) := (Group.is_simple_iff_prime_card).mp hLsimple
     rw [hL168] at hp
     norm_num at hp
   have hcenter : Subgroup.center ↥L = ⊥ := by
-    haveI : IsSimpleGroup ↥L := hLsimple
+    have : IsSimpleGroup ↥L := hLsimple
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥L) with h | h
     · exact h
     · exact absurd (Subgroup.center_eq_top_iff.mp h) hLnc

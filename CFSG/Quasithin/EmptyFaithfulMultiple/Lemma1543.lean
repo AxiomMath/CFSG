@@ -81,7 +81,7 @@ theorem eq_bot_of_le_centralizer_of_pow {Γ : Type*} [Group Γ] [Finite Γ] {Y P
   have hA2' : IsPGroup 2 (A.subgroupOf Cc) := hA2.of_equiv (Subgroup.subgroupOfEquivOfLe hAC).symm
   obtain ⟨S, hS⟩ := hA2'.exists_le_sylow
   have hSn := Group.IsNilpotent.sylow_normal hnil 2 S
-  have hSO : (S : Subgroup Cc) ≤ CFSG.Open.pCore 2 Cc := le_pCore 2 hSn S.isPGroup'
+  have hSO : (S : Subgroup Cc) ≤ CFSG.Open.pCore 2 Cc := le_pCore 2 hSn S.isPGroup
   have hCO : pCoreOf 2 Cc ≤ pCoreOf 2 Y :=
     le_pCoreOf_of_le_normalizer 2 ((pCoreOf_le 2 Cc).trans inf_le_left)
       (hCn.trans (normalizer_le_normalizer_pCoreOf 2 Cc)) (pCoreOf_isPGroup 2 Cc)

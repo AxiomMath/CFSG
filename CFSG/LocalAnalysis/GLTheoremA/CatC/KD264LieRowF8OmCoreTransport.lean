@@ -170,7 +170,7 @@ open CFSG.Adapters.RankTwoModelTransports (glCongr statedProjCongr glCongr_state
 theorem omCoreSingle_minus_two (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2) (b c : K)
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     OmCoreSingle (StatedProj (StatedOmega (StatedQuadMinus 4 K b c))) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hK
@@ -197,7 +197,7 @@ theorem omCoreSingle_minus_two (K : Type) [Field K] [Finite K] (hK : Nat.card K 
   have hn1 : 1 ≤ 4 := by norm_num
   exact omCoreSingle_derived (Q := quadMinus 4 (ZMod 2) (σ b) (σ c))
     (nondegenerate_polarBilin_quadMinus_of_finite 4 (ZMod 2) hirr')
-    (by simpa using finrank_quadMinus_space hn1) (not_isPlusType_quadMinus hn1 hirr')
+    (by simp) (not_isPlusType_quadMinus hn1 hirr')
 
 theorem omCoreSingle_matrixProj {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
     (hn1 : 1 ≤ 4) (b c : K) (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :

@@ -27,8 +27,8 @@ theorem coordinates_C4C5
     ∃ (ω : G → G → ZMod 2) (Φ : SpV → G), A6.CoordHyp (kuA P H) ω Φ ∧ Φ (spE 0) = z ∧
       (∀ v, Φ v ∈ kuW P H ↔ spForm (spE 0) v = 0) ∧
       (∀ v, Φ v ∈ kuV2 T M ↔ InV2m v) := by
-  haveI hcomm : IsMulCommutative (kuA P H) := h.isMulCommutative_kuA
-  letI : CommGroup (kuA P H) := IsMulCommutative.instCommGroup
+  have hcomm : IsMulCommutative (kuA P H) := h.isMulCommutative_kuA
+  let : CommGroup (kuA P H) := IsMulCommutative.instCommGroup
   have hsq : ∀ x : kuA P H, x * x = 1 := fun x => by
     apply Subtype.ext
     have hx2 := h.isElemAbelian_kuA.2 (x : G) x.2

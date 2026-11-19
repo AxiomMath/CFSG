@@ -437,7 +437,7 @@ theorem mQuot_ne_two_19 (h71 : W3Lem71 G) (D : Data G)
   have hy'C : (y' : G) ∈ centralizer (V₀ : Set G) :=
     (Subgroup.commutator_eq_bot_iff_le_centralizer.mp h3') hy'LK
   have hnotle : ¬ V₀ ≤ U := fun hle => hUneA (le_antisymm hUA hle)
-  obtain ⟨v, hvV₀, hvU⟩ := SetLike.not_le_iff_exists.mp hnotle
+  obtain ⟨v, hvV₀, hvU⟩ := IsConcreteLE.not_le_iff_exists.mp hnotle
   have hvX : v ∈ X := hV0X hvV₀
   let vX : ↥X := ⟨v, hvX⟩
   have hvq_ne : q vX ≠ 1 := by

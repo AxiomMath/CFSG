@@ -26,7 +26,7 @@ theorem D2L34SideCtx3.false_of_rank_two_le_conj {d : TauCeti.ValidLieTypeIndex} 
     {T : Subgroup G | E ≤ T ∧ T ≤ (P : Subgroup G) ∧ T ≤ M₂} (fun T => Nat.card T)
     (Set.toFinite _) ⟨E, le_rfl, hEP, hEa⟩
   have hSM : S ≤ M := hSP.trans hPM
-  have hSp : IsPGroup 3 S := P.isPGroup'.to_le hSP
+  have hSp : IsPGroup 3 S := P.isPGroup.to_le hSP
   have hS2 : 2 ≤ CFSG.Open.pRank 3 S := hE2.trans (pRank_mono 3 hp3 hES)
   have hNM : Subgroup.normalizer (S : Set G) ≤ M := normalizer_le_of_core hp3 P hPM hΓ hSM hSp hS2
   have hSa : S.map (MulAut.conj a⁻¹).toMonoidHom ≤ M := by
@@ -53,7 +53,7 @@ theorem D2L34SideCtx3.false_of_rank_two_le_conj {d : TauCeti.ValidLieTypeIndex} 
       le_inf hSP Subgroup.le_normalizer
     exact (Subgroup.eq_of_le_of_card_ge hSle hcard).ge
   have hPS : (P : Subgroup G) ≤ S := by
-    refine le_of_normalizer_inf_le (p := 3) P.isPGroup' ?_
+    refine le_of_normalizer_inf_le (p := 3) P.isPGroup ?_
     rw [inf_eq_right.mpr hSP]
     exact hNPS
   have hPM₂ : (P : Subgroup G) ≤ M₂ := hPS.trans hSM₂

@@ -6,9 +6,9 @@ public section
 
 namespace CFSG.LocalAnalysis.GLTheoremA.T173A
 
-theorem charP_two_of_card {F : Type} [Field F] [Finite F] {n : ℕ} (hn : 1 ≤ n)
+theorem charP_two_of_card {F : Type} [Field F] [Finite F] {n : ℕ} (_hn : 1 ≤ n)
     (hF : Nat.card F = 2 ^ n) : CharP F 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨p', hp'⟩ := CharP.exists F
   have hp'prime : p'.Prime := CharP.char_is_prime F p'
   obtain ⟨m, -, hcard⟩ := FiniteField.card F p'

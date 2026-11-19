@@ -50,7 +50,7 @@ omit [Finite G] in
 theorem omegaOneZ_eq_omegaG (J : Subgroup G) : omegaOneZ J = omegaG J := by
   have hset : {x : G | x ∈ centerOf J ∧ x ^ 2 = 1} = (omegaG J : Set G) := by
     ext x
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe, mem_omegaG, mem_centerOf_iff]
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe, mem_omegaG, mem_centerOf_iff]
     constructor
     · rintro ⟨⟨hxJ, hc⟩, hx2⟩
       exact ⟨hxJ, hc, by rw [← pow_two]; exact hx2⟩

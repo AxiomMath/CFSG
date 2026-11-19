@@ -55,7 +55,7 @@ variable {d : Nat}
   | 1 => B
   | 2 => 1
   | x + 3 =>
-    if h : D.na.getD x 0 < x + 3 ∧ D.nb.getD x 0 < x + 3 then
+    if _h : D.na.getD x 0 < x + 3 ∧ D.nb.getD x 0 < x + 3 then
       if D.nk.getD x 1 = 0 then val A B D (D.na.getD x 0) * val A B D (D.nb.getD x 0)
       else val A B D (D.na.getD x 0) ^ D.nk.getD x 1
     else 1
@@ -110,7 +110,7 @@ theorem ssa3S_val_node (A B : Matrix (Fin d) (Fin d) (ZMod 3)) (D : SData) (t : 
     (hb : D.na.getD t 0 < t + 3 ∧ D.nb.getD t 0 < t + 3) :
     val A B D (t + 3) = if D.nk.getD t 1 = 0 then val A B D (D.na.getD t 0) * val A B D (D.nb.getD t 0)
       else val A B D (D.na.getD t 0) ^ D.nk.getD t 1 := by
-  rw [val, dif_pos hb]
+  rw [val, dite_eq_left hb]
 
 theorem ssa3S_val_two (A B : Matrix (Fin d) (Fin d) (ZMod 3)) (D : SData) : val A B D 2 = 1 := by
   rw [val]
@@ -136,11 +136,11 @@ theorem ssa3S_pid {A B : Matrix (Fin d) (Fin d) (ZMod 3)} {D : SData} (hs : stru
       have hx : x = y := Nat.eq_of_beq_eq_true h
       rw [hx, pow_one]
     · rw [ssa3S_beq_false he0, ssa3S_beq_false he1] at h
-      simp only [cond_false, Bool.and_eq_true, Nat.ble_eq, Nat.beq_eq] at h
+      simp only [Bool.cond_false, Bool.and_eq_true, Nat.ble_eq, Nat.beq_eq] at h
       obtain ⟨⟨h3, hk⟩, ha⟩ := h
       have ht : x - 3 < D.nk.length := ssa3S_lt_len (by omega)
       have hx : x = (x - 3) + 3 := by omega
-      rw [hx, ssa3S_val_node A B D (x - 3) (ssa3S_bounds hs ht), if_neg (by omega), hk, ha]
+      rw [hx, ssa3S_val_node A B D (x - 3) (ssa3S_bounds hs ht), ite_eq_right (by omega), hk, ha]
 
 theorem ssa3S_mul {A B : Matrix (Fin d) (Fin d) (ZMod 3)} {D : SData} (hs : structS D = true)
     {y z x : Nat} (h : mulS D y z x = true) : val A B D x = val A B D y * val A B D z := by
@@ -149,7 +149,7 @@ theorem ssa3S_mul {A B : Matrix (Fin d) (Fin d) (ZMod 3)} {D : SData} (hs : stru
   obtain ⟨⟨⟨h3, hk⟩, ha⟩, hb⟩ := h
   have ht : x - 3 < D.nk.length := ssa3S_lt_len (by omega)
   have hx : x = (x - 3) + 3 := by omega
-  rw [hx, ssa3S_val_node A B D (x - 3) (ssa3S_bounds hs ht), if_pos hk, ha, hb]
+  rw [hx, ssa3S_val_node A B D (x - 3) (ssa3S_bounds hs ht), ite_eq_left hk, ha, hb]
 
 theorem ssa3S_wid {A B : Matrix (Fin d) (Fin d) (ZMod 3)} {D : SData} (hs : structS D = true) :
     ∀ (w : Word) (x : Nat), widS D w x = true → val A B D x = evalM (val A B D) D w
@@ -179,24 +179,24 @@ theorem factM_of_cmp {A B : Matrix (Fin d) (Fin d) (ZMod 3)} {D : SData} {n q : 
   | ord r e =>
     simp only [factS, Bool.and_eq_true, Nat.beq_eq, Nat.blt_eq] at hq
     obtain ⟨⟨⟨⟨hk, hr⟩, he⟩, hp⟩, hy⟩ := hq
-    rw [if_pos (ssa3S_qk hk), ssa3S_pid hs hp, hy, ssa3S_val_two] at hm
+    rw [ite_eq_left (ssa3S_qk hk), ssa3S_pid hs hp, hy, ssa3S_val_two] at hm
     exact ⟨hr, he, hm⟩
   | conj h u w =>
     simp only [factS, Bool.and_eq_true, Nat.beq_eq, Nat.blt_eq] at hq
     obtain ⟨⟨⟨⟨⟨⟨⟨hk, hh⟩, hu⟩, hw⟩, h1⟩, h2⟩, h3⟩, h4⟩ := hq
-    rw [if_pos (ssa3S_qk hk), ssa3S_mul hs h1, ssa3S_mul hs h3, ssa3S_wid hs u _ h2,
+    rw [ite_eq_left (ssa3S_qk hk), ssa3S_mul hs h1, ssa3S_mul hs h3, ssa3S_wid hs u _ h2,
       ssa3S_wid hs w _ h4] at hm
     exact ⟨hh, hu, hw, hm⟩
   | ne w₁ w₂ t =>
     simp only [factS, Bool.and_eq_true, Nat.beq_eq, Bool.not_eq_true'] at hq
     obtain ⟨⟨⟨⟨⟨hk, h1⟩, h2⟩, ht⟩, hx⟩, hy⟩ := hq
     have hk' : D.qk.getD q 0 ≠ 0 := fun e => by rw [e] at hk; exact Bool.noConfusion hk
-    rw [if_neg hk', ssa3S_wid hs w₁ _ hx, ssa3S_wid hs w₂ _ hy, ht] at hm
+    rw [ite_eq_right hk', ssa3S_wid hs w₁ _ hx, ssa3S_wid hs w₂ _ hy, ht] at hm
     exact ⟨h1, h2, hm⟩
   | eq w₁ w₂ =>
     simp only [factS, Bool.and_eq_true, Nat.beq_eq] at hq
     obtain ⟨⟨⟨⟨hk, h1⟩, h2⟩, hx⟩, hy⟩ := hq
-    rw [if_pos (ssa3S_qk hk), ssa3S_wid hs w₁ _ hx, ssa3S_wid hs w₂ _ hy] at hm
+    rw [ite_eq_left (ssa3S_qk hk), ssa3S_wid hs w₁ _ hx, ssa3S_wid hs w₂ _ hy] at hm
     exact ⟨h1, h2, hm⟩
 
 def ssa3S_Rep (R : Ar) (X : Nat) (M : Matrix (Fin R.d) (Fin R.d) (ZMod 3)) : Prop :=
@@ -271,18 +271,18 @@ theorem ssa3S_powR_rep {R : Ar}
       exact (Nat.div_add_mod _ 2).symm
     rw [ssa3S_powR_succ]
     rcases Nat.mod_two_eq_zero_or_one (e / 2 ^ i) with hb | hb <;> rw [hb] at hd ⊢ <;> cases st
-    · simp only [h01, cond_false]
+    · simp only [h01, Bool.cond_false]
       exact ih acc false (fun h => Bool.noConfusion h) (fun _ => by have := h2 rfl; omega)
-    · simp only [h01, cond_false, cond_true]
+    · simp only [h01, Bool.cond_false, _root_.Bool.cond_true]
       refine ih _ true (fun _ => ?_) (fun h => Bool.noConfusion h)
       have h := hmulR _ _ _ _ (h1 rfl) (h1 rfl)
       rwa [← pow_add, ← two_mul, ← Nat.add_zero (2 * (e / 2 ^ (i + 1))), ← hd] at h
-    · simp only [h11, cond_false, cond_true]
+    · simp only [h11, Bool.cond_false, _root_.Bool.cond_true]
       refine ih _ true (fun _ => ?_) (fun h => Bool.noConfusion h)
       have h0 := h2 rfl
       rw [hd, h0]
       simpa using hX
-    · simp only [h11, cond_true]
+    · simp only [h11, _root_.Bool.cond_true]
       refine ih _ true (fun _ => ?_) (fun h => Bool.noConfusion h)
       have h := hmulR _ _ _ _ (hmulR _ _ _ _ (h1 rfl) (h1 rfl)) hX
       rwa [← pow_add, ← pow_succ, ← two_mul, ← hd] at h
@@ -391,7 +391,7 @@ theorem ssa3S_recRep {R : Ar} {D : SData} {lo x : Nat} (hA : Canon3 R.n R.sa)
     have e : recV R D (y + 3) = R.mt (D.ns.getD y 0 - 1) := by
       unfold recV
       rw [ssa3S_beq_false h0, ssa3S_beq_false h1, ssa3S_beq_false h2]
-      simp only [cond_false, Nat.add_sub_cancel, Nat.sub_eq]
+      simp only [Bool.cond_false, Nat.add_sub_cancel, Nat.sub_eq]
     rw [e]
     exact hpre y (by omega) hn'
 
@@ -402,12 +402,12 @@ theorem ssa3S_getRep {R : Ar} {D : SData} {lo j x : Nat} {L : List Nat} (hA : Ca
     ssa3S_Rep R (getV R D lo L x) (val (mat3 R.d R.n R.sa) (mat3 R.d R.n R.sb) D x) := by
   unfold getV
   by_cases h : 3 + lo ≤ x
-  · rw [Nat.ble_eq_true_of_le h, cond_true]
+  · rw [Nat.ble_eq_true_of_le h, _root_.Bool.cond_true]
     have := hLv (x - (3 + lo)) (by have := hxj h; omega)
     have e : lo + (x - (3 + lo)) + 3 = x := by omega
     rwa [e] at this
   · have hf : Nat.ble (3 + lo) x = false := Bool.eq_false_iff.2 fun e => h (Nat.le_of_ble_eq_true e)
-    rw [hf, cond_false]
+    rw [hf, Bool.cond_false]
     rw [hf, Bool.false_or] at hx
     exact ssa3S_recRep hA hB hone hpre hx
 
@@ -456,7 +456,7 @@ theorem ssa3S_runC {R : Ar} {D : SData} (hA : Canon3 R.n R.sa) (hB : Canon3 R.n 
   | succ m ih =>
     intro j L hj hjm hLl hLv h
     rw [ssa3S_runC_succ] at h
-    simp only [cond_eq_if] at h
+    simp only [Bool.cond_eq_ite] at h
     split_ifs at h with hc hd
     · rw [Bool.and_eq_true] at hc
       obtain ⟨hca, hcb⟩ := hc
@@ -469,11 +469,11 @@ theorem ssa3S_runC {R : Ar} {D : SData} (hA : Canon3 R.n R.sa) (hB : Canon3 R.n 
         have ha := ssa3S_getRep hA hB hone hpre hLl hLv hca (fun _ => by omega)
         by_cases hk : D.nk.getD j 1 = 0
         · have hk' : Nat.beq (D.nk.getD j 1) 0 = true := by rw [hk]; rfl
-          rw [hk', cond_true, if_pos hk]
+          rw [hk', _root_.Bool.cond_true, ite_eq_left hk]
           rw [hk'] at hcb
           simp only [Bool.not_true, Bool.false_or] at hcb
           exact hmulR _ _ _ _ ha (ssa3S_getRep hA hB hone hpre hLl hLv hcb (fun _ => by omega))
-        · rw [ssa3S_beq_false hk, cond_false, if_neg hk]
+        · rw [ssa3S_beq_false hk, Bool.cond_false, ite_eq_right hk]
           exact ssa3S_powT_rep hmulR hone ha (ssa3S_kind hs hjn)
       have hL' : ssa3S_LOK R D lo (L ++ [ssa3S_nodeV R D lo L j]) := by
         intro t ht
@@ -569,12 +569,12 @@ theorem ssa3S_cmp {R : Ar} {D : SData} {lo hi q : Nat} {L : List Nat} (hA : Cano
   have hry := hend _ hy
   unfold cmpM
   by_cases hk : D.qk.getD q 0 = 0
-  · rw [if_pos hk]
+  · rw [ite_eq_left hk]
     have hk' : Nat.beq (D.qk.getD q 0) 0 = true := by rw [hk]; rfl
-    rw [hk', cond_true] at h
+    rw [hk', _root_.Bool.cond_true] at h
     rw [← hrx.2, ← hry.2, Nat.eq_of_beq_eq_true h]
-  · rw [if_neg hk]
-    rw [ssa3S_beq_false hk, cond_false, Bool.and_eq_true] at h
+  · rw [ite_eq_right hk]
+    rw [ssa3S_beq_false hk, Bool.cond_false, Bool.and_eq_true] at h
     obtain ⟨ht, hd⟩ := h
     have ht' : D.qt.getD q 0 < R.d := Nat.le_of_ble_eq_true ht
     refine ⟨ht', fun he => ?_⟩

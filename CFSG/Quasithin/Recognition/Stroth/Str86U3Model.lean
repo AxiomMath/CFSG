@@ -97,7 +97,7 @@ theorem exists_uJGL_of_mem_ujSub [Finite F] [CharP F 2] {k : ℕ}
     simp only [Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply, Fin.sum_univ_three,
       CFSG.Quasithin.H.SU3.antiJ] at h
     have hp : (a ^ (2 ^ k)) ^ (2 ^ k) = a := by
-      letI : Fintype F := Fintype.ofFinite F
+      let : Fintype F := Fintype.ofFinite F
       rw [← pow_mul, show 2 ^ k * 2 ^ k = Nat.card F by rw [hFc]; ring,
         Nat.card_eq_fintype_card]
       exact FiniteField.pow_card a
@@ -170,7 +170,7 @@ theorem uJMat_mulVec [Finite F] [CharP F 2] {k : ℕ} (a b : F) (v : Fin 3 → F
         v 1 + CFSG.Quasithin.H.SU3.bar k a * v 2, v 2] := by
   ext i
   fin_cases i <;>
-    simp [CFSG.Quasithin.H.SU3.uJMat, Matrix.mulVec, Fin.sum_univ_three, vecHead, vecTail,
+    simp [CFSG.Quasithin.H.SU3.uJMat, Matrix.mulVec, vecHead, vecTail,
       add_assoc]
 
 theorem uJMat_mulVec_single_zero [Finite F] [CharP F 2] {k : ℕ} (a b c : F) :
@@ -178,14 +178,14 @@ theorem uJMat_mulVec_single_zero [Finite F] [CharP F 2] {k : ℕ} (a b c : F) :
       Pi.single 0 c := by
   rw [uJMat_mulVec]
   ext i
-  fin_cases i <;> simp [vecHead, vecTail]
+  fin_cases i <;> simp
 
 theorem uJMat_mulVec_single_one [Finite F] [CharP F 2] {k : ℕ} (a b c : F) :
     (CFSG.Quasithin.H.SU3.uJMat k a b) *ᵥ (Pi.single 1 c : Fin 3 → F) =
       (a * c) • (Pi.single 0 1 : Fin 3 → F) + c • (Pi.single 1 1 : Fin 3 → F) := by
   rw [uJMat_mulVec]
   ext i
-  fin_cases i <;> simp [vecHead, vecTail, add_comm, add_left_comm, add_assoc]
+  fin_cases i <;> simp [add_comm]
 
 theorem uJMat_mulVec_single_two [Finite F] [CharP F 2] {k : ℕ} (a b c : F) :
     (CFSG.Quasithin.H.SU3.uJMat k a b) *ᵥ (Pi.single 2 c : Fin 3 → F) =
@@ -194,7 +194,7 @@ theorem uJMat_mulVec_single_two [Finite F] [CharP F 2] {k : ℕ} (a b c : F) :
           c • (Pi.single 2 1 : Fin 3 → F) := by
   rw [uJMat_mulVec]
   ext i
-  fin_cases i <;> simp [vecHead, vecTail, add_comm, add_left_comm, add_assoc]
+  fin_cases i <;> simp [add_comm]
 
 theorem uJMat_mul [Finite F] [CharP F 2] {k : ℕ} (a b a' b' : F) :
     CFSG.Quasithin.H.SU3.uJMat k a b * CFSG.Quasithin.H.SU3.uJMat k a' b' =

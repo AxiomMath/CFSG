@@ -55,7 +55,7 @@ theorem soundFrame (gL a6 a8 q1 q2 : List Nat) (GR A6 A8 Q1 Q2 : Nat)
   obtain ⟨⟨hg, hGR⟩, -⟩ := bindsL_spec hb
   have q : ∀ a b, a < 2 ^ 23 → b < 2 ^ 23 → qmulK (tbOf GR) a b = qmul gL.toArray a b :=
     fun a b ha hb => qmulK_eq hg hGR ha hb
-  simp only [frameCheck, Aux.strictB_eq, frameK, Aux.andB_eq, Bool.and_eq_true, Nat.beq_eq, and_assoc] at hk
+  simp only [frameCheck, Aux.strictB_eq, frameK, Aux.andB_eq, Bool.and_eq_true, Nat.beq_eq] at hk
   simp (disch := decide) only [q] at hk
   simp only [frameG, Bool.and_eq_true, beq_iff_eq, and_assoc]
   exact hk
@@ -84,15 +84,15 @@ private theorem wordOK_letters (w : List Nat) (h : wordOK w = true) :
 
 theorem soundOdd (gL a6 a8 q1 q2 : List Nat) (GR A6 A8 Q1 Q2 s1 s2 c y ea ma eb mb n e : Nat)
     (wa wb : List Nat) (hb : bindsL GR gL A6 a6 A8 a8 Q1 q1 Q2 q2 = true)
-    (hs : s1 < 2 ^ 22 ∧ s2 < 2 ^ 22) (hcy : c < 2 ^ 23 ∧ y < 2 ^ 23 ∧ n < 2 ^ 23 ∧ e < 2 ^ 23)
-    (hm : 1 ≤ ma) (hk : oddCheck GR Q1 Q2 s1 s2 c y wa ea ma wb eb mb n e = true) :
+    (_hs : s1 < 2 ^ 22 ∧ s2 < 2 ^ 22) (hcy : c < 2 ^ 23 ∧ y < 2 ^ 23 ∧ n < 2 ^ 23 ∧ e < 2 ^ 23)
+    (_hm : 1 ≤ ma) (hk : oddCheck GR Q1 Q2 s1 s2 c y wa ea ma wb eb mb n e = true) :
     oddWitG gL.toArray q1 q2 s1 s2 c y (wa.map decL) ea ma (wb.map decL) eb mb n e = true := by
   obtain ⟨⟨hg, hGR⟩, -, -, ⟨hq1, hQ1⟩, ⟨hq2, hQ2⟩⟩ := bindsL_spec hb
   obtain ⟨hc, hy, hn, he⟩ := hcy
   have hG0 : PkAut (sgnImg Q1 s1) (genImgsG q1 q2 s1 s2 0) := by
-    simpa [genImgsG] using Bd_sgnImg hg hGR (s := s1) hq1 hQ1
+    simpa [genImgsG] using Bd_sgnImg (s := s1) hq1 hQ1
   have hG1 : PkAut (sgnImg Q2 s2) (genImgsG q1 q2 s1 s2 1) := by
-    simpa [genImgsG] using Bd_sgnImg hg hGR (s := s2) hq2 hQ2
+    simpa [genImgsG] using Bd_sgnImg (s := s2) hq2 hQ2
   have hGI : PkAut (autPowK (tbOf GR) (sgnImg Q2 s2) 47) (genInvG gL.toArray q1 q2 s1 s2) :=
     Bd_autPowK hg hGR hG1 47
   have hW : ∀ w : List Nat, PkAut (wordAutK (tbOf GR) (sgnImg Q1 s1) (sgnImg Q2 s2)
@@ -125,7 +125,7 @@ theorem soundOdd (gL a6 a8 q1 q2 : List Nat) (GR A6 A8 Q1 Q2 s1 s2 c y ea ma eb 
   have hS := Bd_autCompK hg hGR (Bd_autCompK hg hGR (Bd_autCompK hg hGR
     (Bd_autCompK hg hGR (Bd_autCompK hg hGR hAa hBb) hAm) hIn) hAa) hIq
   unfold oddCheck oddK at hk
-  simp only [Aux.strictB_eq, Aux.andB_eq, Bool.and_eq_true, Nat.beq_eq, and_assoc] at hk
+  simp only [Aux.strictB_eq, Aux.andB_eq, Bool.and_eq_true, Nat.beq_eq] at hk
   obtain ⟨hwa, hwb, hma, hmb, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11⟩ := hk
   have h2p : (4194304 : Nat) = 2 ^ 22 := by decide
   have h22 : (2 : Nat) ^ 22 < 2 ^ 23 := by decide

@@ -15,21 +15,26 @@ open scoped Pointwise
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem pCoreOf_le_self (X : Subgroup A) : pCoreOf 2 X ≤ X :=
   Subgroup.map_subtype_le _
 
+omit [Finite A] in
 theorem isPGroup_pCoreOf (X : Subgroup A) : IsPGroup 2 (pCoreOf 2 X) :=
   (CFSG.pCore_isPGroup (p := 2) (G := ↥X)).map X.subtype
 
+omit [Finite A] in
 theorem pcore_subgroupOf_pCoreOf (X : Subgroup A) :
     (pCoreOf 2 X).subgroupOf X = CFSG.pCore 2 ↥X :=
   Subgroup.comap_map_eq_self_of_injective Subtype.val_injective _
 
+omit [Finite A] in
 theorem normalizer_pCoreOf (X : Subgroup A) : X ≤ normalizer (pCoreOf 2 X : Set A) := by
   rw [← Subgroup.normal_subgroupOf_iff_le_normalizer (pCoreOf_le_self X),
     pcore_subgroupOf_pCoreOf]
   exact CFSG.pCore_normal
 
+omit [Finite A] in
 theorem le_pCoreOf_of_normalizes {X N : Subgroup A} (hN2 : IsPGroup 2 N) (hNX : N ≤ X)
     (hnorm : X ≤ normalizer (N : Set A)) : N ≤ pCoreOf 2 X := by
   have hnormal : (N.subgroupOf X).Normal :=
@@ -40,6 +45,7 @@ theorem le_pCoreOf_of_normalizes {X N : Subgroup A} (hN2 : IsPGroup 2 N) (hNX : 
   have h2 := Subgroup.map_mono (f := X.subtype) hle
   rwa [Subgroup.map_subgroupOf_eq_of_le hNX] at h2
 
+omit [Finite A] in
 theorem pCoreOf_le_of_odd_index {X S : Subgroup A} (hS : IsPGroup 2 S) (hSX : S ≤ X)
     (hidx : ¬ 2 ∣ (S.subgroupOf X).index) : pCoreOf 2 X ≤ S := by
   have hSp : IsPGroup 2 (S.subgroupOf X) :=
@@ -56,6 +62,7 @@ open CFSG.Open Subgroup CFSG.QuasithinUnique.Setup.Family
 
 variable {A : Type} [Group A] [Finite A] {K : Subgroup A}
 
+omit [Finite A] in
 theorem conj_mem_pCoreOf {x : A} (hx : x ∈ normalizer (K : Set A)) {n : A}
     (hn : n ∈ pCoreOf 2 K) : x * n * x⁻¹ ∈ pCoreOf 2 K := by
   have hxK : ∀ k : A, k ∈ K ↔ x * k * x⁻¹ ∈ K := mem_normalizer_iff.1 hx
@@ -73,6 +80,7 @@ theorem conj_mem_pCoreOf {x : A} (hx : x ∈ normalizer (K : Set A)) {n : A}
     exact Subgroup.mem_map_of_mem _ hn'
   exact Subgroup.mem_map.2 ⟨φ n', hφ, rfl⟩
 
+omit [Finite A] in
 theorem normalizer_le_normalizer_pCoreOf {Y : Subgroup A} (hY : Y ≤ normalizer (K : Set A)) :
     Y ≤ normalizer (pCoreOf 2 K : Set A) := by
   intro x hx

@@ -22,7 +22,7 @@ theorem not_dvd_card_centralizer_of_no_order25 {G : Type*} [Group G] [Finite G] 
     (h : ∀ E : Subgroup G, E ≤ P → Nat.card E = 25 → (∀ e ∈ E, e * s = s * e) → False) :
     ¬ 25 ∣ Nat.card ↥(centralizer ({s} : Set G) ⊓ P) := by
   intro hd
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set C : Subgroup G := centralizer ({s} : Set G) ⊓ P with hC
   obtain ⟨E, hE⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥C) 5 (n := 2) (by simpa using hd)
   refine h (E.map C.subtype) ?_ ?_ ?_
@@ -68,7 +68,7 @@ open CFSG.Sporadic.Schreier.Co3 (co3P co3PermEquiv)
 theorem goodJ2_co3 (x : Equiv.Perm (Fin 276)) (hx : x ∈ co3P) (hxo : orderOf x = 3) :
     GoodJ2 (centralizer ({x} : Set (Equiv.Perm (Fin 276))) ⊓ co3P) :=
   goodJ2_of_not_dvd_twentyFive
-    (not_dvd_card_centralizer_of_no_order25 fun E hEP hE hcomm =>
+    (not_dvd_card_centralizer_of_no_order25 fun _E hEP hE hcomm =>
       CFSG.HardMathSupport.Solomon.Coordinator.YS08.Co3Copy.no_order25_centralized hx hxo hEP hE
         hcomm)
 

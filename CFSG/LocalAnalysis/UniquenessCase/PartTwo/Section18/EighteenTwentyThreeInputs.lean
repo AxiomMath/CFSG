@@ -43,8 +43,8 @@ theorem mSub_eq_six_mul_of_natOmegaMinus {V₀ V : Subgroup G} {n : ℕ}
     (hNat : NatOmegaMinus H ⊤ ⊥ 6 n) : mSub V = 6 * n := by
   subst hV₀
   obtain ⟨-, K, hKf, hKfin, b, c, hK2, hbc, ⟨π, hπ⟩⟩ := hNat
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have h1 : Nat.card (Vtil ⊥ V hV) =
       Nat.card (FFModel.nat (StatedOmega (StatedQuadMinus 3 K b c))).Mod :=
     CFSG.Quasithin.B5.G2D.card_eq_mod hπ
@@ -99,7 +99,7 @@ theorem barSub_gammaTwo_mem_calABar {D : Data G} {V₀ V : Subgroup G} {p : ℕ}
     (h16 : R18_16_2At D V₀ V p L h) (h17 : R18_17_2At D V₀ V p L h)
     (h18 : R18_18bAt D V₀ V p L h) (h1742 : S17.R17_42At D V₀ V)
     (hV0 : V₀ = ⊥) {n : ℕ}
-    (hnOmega : IsOmegaMinus ↥(barSub V₀ V h.hyp125.isElemAbelian
+    (_hnOmega : IsOmegaMinus ↥(barSub V₀ V h.hyp125.isElemAbelian
       (UC22.conjClosure D.M L)) 6 n)
     (hnU4 : IsU4 ↥(barSub V₀ V h.hyp125.isElemAbelian (UC22.conjClosure D.M L)) n)
     (hNatn : NatOmegaMinus (barSub V₀ V h.hyp125.isElemAbelian
@@ -173,8 +173,8 @@ theorem singularLine_18_23_of_K (D : Data G) (V₀ V : Subgroup G) (p : ℕ)
     exact hNatf
   obtain ⟨F, hFfield, hFfinite, b, c, hFcardf, hbc, ε, ψ, hcoords⟩ :=
     exists_natCoords_of_natOmegaMinus hNatf
-  letI := hFfield
-  letI := hFfinite
+  let := hFfield
+  let := hFfinite
   have hFcard : Nat.card F = 2 ^ n := by
     rw [hnf]
     exact hFcardf
@@ -364,7 +364,7 @@ theorem singularLine_18_23_of_K (D : Data G) (V₀ V : Subgroup G) (p : ℕ)
     have hba : bb = a := Subtype.ext hbba
     rwa [hba] at hbb
   have hE2 : IsPGroup 2 (barSub V₀ V hV W2) := s15_LP_isPGroup_barSub hV hW2_2
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow (r := 2) (n := n)
       Nat.prime_two hFcard
   let Φ : ↥(barSub V₀ V hV W2) →* GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F :=
@@ -470,14 +470,14 @@ theorem exists_parabolic_of_Q
     (ψ : ↥(⊤ : Subgroup (Vtil V₀ V h.hyp125.isElemAbelian)) ≃*
       Multiplicative (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F))
     (w : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F) (Z : Subgroup G)
-    (hΩ : IsOmegaMinus ↥(barSub V₀ V h.hyp125.isElemAbelian (UC22.conjClosure D.M L)) 6 n)
+    (_hΩ : IsOmegaMinus ↥(barSub V₀ V h.hyp125.isElemAbelian (UC22.conjClosure D.M L)) 6 n)
     (hnU4 : IsU4 ↥(barSub V₀ V h.hyp125.isElemAbelian (UC22.conjClosure D.M L)) n)
-    (hV0 : V₀ = ⊥) (hFcard : Nat.card F = 2 ^ n)
-    (hbc : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
+    (_hV0 : V₀ = ⊥) (_hFcard : Nat.card F = 2 ^ n)
+    (_hbc : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
     (hcoords : NatCoordsOmegaMinusOn
       (barSub V₀ V h.hyp125.isElemAbelian (UC22.conjClosure D.M L)) ⊤
       (fun _ _ _ _ => trivial) F b c ε ψ)
-    (hw0 : w ≠ 0) (hwq : StatedQuadMinus 3 F b c w = 0)
+    (_hw0 : w ≠ 0) (_hwq : StatedQuadMinus 3 F b c w = 0)
     (hZdef : Z = lineTil V₀ V h.hyp125.isElemAbelian ψ w)
     (Q : Subgroup ↥(StatedOmega (StatedQuadMinus 3 F b c)))
     (hQw : ∀ g ∈ Q,
@@ -491,7 +491,7 @@ theorem exists_parabolic_of_Q
       ParabolicOf L P₁ ∧ pCoreOf 2 L ≤ P₁ ∧
         (P₁.subgroupOf L).map (QuotientGroup.mk' (pCore 2 ↥L)) = Q.comap Φ.toMonoidHom ∧
         P₁ ≤ normalizer (Z : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H : Subgroup (MulAut (Vtil V₀ V h.hyp125.isElemAbelian)) :=
     barSub V₀ V h.hyp125.isElemAbelian (UC22.conjClosure D.M L)
   have hsimple : IsSimpleGroup ↥H :=
@@ -527,7 +527,6 @@ theorem exists_parabolic_of_Q
   have hΨmk : ∀ l : ↥L, Ψ (QuotientGroup.mk l) =
       ⟨actTil V₀ V h.hyp125.isElemAbelian ⟨(l : G), hLstab l.2⟩,
         (by
-          change actTil V₀ V h.hyp125.isElemAbelian ⟨(l : G), hLstab l.2⟩ ∈ H
           rw [hH]
           exact actTil_mem_barSub V₀ V h.hyp125.isElemAbelian l.2 (hLstab l.2))⟩ := by
     intro l
@@ -588,7 +587,7 @@ theorem exists_parabolic_of_Q
       Φ.symm.surjective S
     rw [hcoee, Subgroup.map_map]
     ext x
-    simp [Function.comp_def]
+    simp
   have hNbar : Subgroup.normalizer (Sb : Set (Bar2 L)) ≤ P.comap Φ := by
     intro x hx
     rw [Subgroup.mem_comap]
@@ -631,7 +630,7 @@ theorem exists_parabolic_of_Q
     rw [Subgroup.mem_comap]
     have hy1 : mkL y = 1 := (QuotientGroup.eq_one_iff (N := pCore 2 ↥L) y).2 hy
     rw [hy1]
-    simpa using P.one_mem
+    simp
   have hsub : P₁.subgroupOf L = Pbar.comap mkL :=
     Subgroup.comap_map_eq_self_of_injective L.subtype_injective _
   have hpre : (P₁.subgroupOf L).map mkL = P.comap Φ.toMonoidHom := by
@@ -773,11 +772,11 @@ theorem exists_parabolic_of_Q
 
 theorem exists_isSylowOf_three (L : Subgroup G) :
     ∃ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 P L := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨S : Sylow 3 ↥L⟩ := Sylow.nonempty (p := 3) (G := ↥L)
   refine ⟨(S : Subgroup ↥L).map L.subtype,
     CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨Subgroup.map_subtype_le _, ?_, ?_⟩⟩
-  · exact (Sylow.isPGroup' S).map L.subtype
+  · exact (Sylow.isPGroup S).map L.subtype
   · rw [Subgroup.relIndex]
     have hsub : (Subgroup.map L.subtype (S : Subgroup ↥L)).subgroupOf L =
         (S : Subgroup ↥L) := by
@@ -823,6 +822,7 @@ theorem data924_first_conjuncts {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {L 
     (Φ : Bar2 L ≃* Ω) (R : Subgroup Ω) : Subgroup G :=
   ((R.comap Φ.toMonoidHom).comap (QuotientGroup.mk' (pCore 2 ↥L))).map L.subtype
 
+omit [Finite G] in
 theorem bar2SingularPreimage_map {Ω : Type} [Group Ω] (L : Subgroup G) (Φ : Bar2 L ≃* Ω)
     (R : Subgroup Ω) :
     ((bar2SingularPreimage L Φ R).subgroupOf L).map
@@ -836,6 +836,7 @@ theorem bar2SingularPreimage_map {Ω : Type} [Group Ω] (L : Subgroup G) (Φ : B
     Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective (pCore 2 ↥L))]
   exact Subgroup.map_comap_eq_self_of_surjective Φ.surjective R
 
+omit [Finite G] in
 theorem pCoreOf_le_bar2SingularPreimage {Ω : Type} [Group Ω] (L : Subgroup G) (Φ : Bar2 L ≃* Ω)
     (R : Subgroup Ω) : pCoreOf 2 L ≤ bar2SingularPreimage L Φ R := by
   rw [Assembly.pCoreOf_eq_map_pCore]
@@ -875,7 +876,7 @@ theorem data924_18_23 (hK : K_Omega6Minus_singularPointStabilizer)
       hw0 hwq hZdef Q hQw hQpar
   have hPl2 : IsL2 (Bar2 (F07.DerInf Q)) (2 * n) := hQl2
   have hPp : pCoreOf 2 (F07.DerInf Q) ≠ ⊥ := hQp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let mkL : ↥L →* Bar2 L := QuotientGroup.mk' (pCore 2 ↥L)
   let ΦL : ↥L →* ↥(StatedOmega (StatedQuadMinus 3 F b c)) := Φ.toMonoidHom.comp mkL
   have hP₁L : P₁ ≤ L := hPparL.2.1
@@ -985,8 +986,8 @@ theorem data8105_18_23 {D : Data G} (hK : K_Omega6Minus_singularPointStabilizer)
   obtain ⟨Φ, P₁, hP₁par, hP₁O2, hP₁pre, hP₁N⟩ :=
     exists_parabolic_of_Q D V₀ V p L h ε ψ w Z hΩ hnU4 hV0 hFcard hbc hcoords
       hw0 hwq hZdef Q hQw hQpar
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let mkL : ↥L →* Bar2 L := QuotientGroup.mk' (pCore 2 ↥L)
   let ΦL : ↥L →* ↥(StatedOmega (StatedQuadMinus 3 F b c)) := Φ.toMonoidHom.comp mkL
   have hP₁L : P₁ ≤ L := hP₁par.2.1
@@ -1419,8 +1420,8 @@ theorem eighteen_twentythree_of_K (hKpar : K_Omega6Minus_singularPointStabilizer
         _ n K b c hcard hnonsing ⟨e⟩
     obtain ⟨F, hF, hFfin, b, c, hFcard, hbc, ε, ψ, hcoords, w, hw, hsing, hline⟩ :=
       singularLine_18_23_of_K D V₀ V p L h h22' h16 h17 h18 h1742 hP12 n hΩ hU4H hV₀
-    letI := hF
-    letI := hFfin
+    let := hF
+    let := hFfin
     set Z : Subgroup G := lineTil V₀ V h.hyp125.isElemAbelian ψ w with hZdef
     have hZC : Z ≤ V ⊓ centralizer ((F12.Wi 2 D.T V : Subgroup G) : Set G) := hline
     have hVT : V ≤ D.T := uc22p22p_le_T_of_inCalV D h.hyp125.inCalV

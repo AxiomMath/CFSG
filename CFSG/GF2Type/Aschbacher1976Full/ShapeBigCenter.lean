@@ -58,7 +58,7 @@ variable {G : Type} [Group G] [Finite G] {z : G}
 
 theorem Q4_conj {D E R : Subgroup ↥(Fz z)} {zz : ↥(Fz z)} (c : CritData D E R zz) {h : G}
     (hh : h ∈ Hz z) {x : G} (hx : x ∈ lift (Q4 c)) : h * x * h⁻¹ ∈ lift (Q4 c) := by
-  haveI : D.Characteristic := c.crit.1
+  have : D.Characteristic := c.crit.1
   obtain ⟨q, hq, rfl⟩ := Subgroup.mem_map.mp hx
   have hq' := mem_Q4.mp hq
   refine Subgroup.mem_map.mpr ⟨actF z ⟨h, hh⟩ q, mem_Q4.mpr ⟨?_, ?_⟩, rfl⟩
@@ -71,7 +71,7 @@ theorem cent_Q4_le (hsymp : CFSG.Open.GLASymplecticType (Fz z)) {D E R : Subgrou
     (hk8 : 8 ≤ Nat.card (Zof D)) {h : G} (hh : h ∈ Hz z)
     (hc : ∀ x ∈ lift (Q4 c), h * x = x * h) : h ∈ lift (Zof D) := by
   have hF2 : IsPGroup 2 ↥(Fz z) := hsymp.1
-  haveI := c.char
+  have := c.char
   set N : Subgroup G :=
     Subgroup.centralizer ((lift (Q4 c) : Subgroup G) : Set G) ⊓ Hz z with hN
   have hNH : N ≤ Hz z := inf_le_right

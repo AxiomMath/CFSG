@@ -53,7 +53,7 @@ theorem omegaPlus_card_pow_modEq_fixed {r : ℕ} (hr : r.Prime) (g : V →ₗ[F]
     (W : Submodule F V) (hW : ∀ v ∈ W, g v ∈ W) :
     Nat.card F ^ Module.finrank F W ≡
       Nat.card F ^ Module.finrank F ↥(W ⊓ LinearMap.ker (g - 1)) [MOD r] := by
-  haveI : Finite V := Module.finite_of_finite F
+  have : Finite V := Module.finite_of_finite F
   have hgit : ∀ x, (⇑g)^[r] x = x := fun x => by
     rw [← Module.End.pow_apply, hg]
     rfl

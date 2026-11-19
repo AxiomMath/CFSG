@@ -21,7 +21,7 @@ theorem s1611e3_nine_map_conj_map_conj {W : Type*} [Group W]
 theorem s1611e3_nine_map_conj_one {W : Type*} [Group W] (A : Subgroup (MulAut W)) :
     A.map (MulAut.conj (1 : MulAut W)).toMonoidHom = A := by
   ext z
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
 theorem s1611e3_nine_eq_pair_of_ncard_two {α : Type*} {s : Set α} {a b : α}
     (hs : s.ncard = 2) (ha : a ∈ s) (hb : b ∈ s) (hab : a ≠ b) : s = {a, b} := by
@@ -75,7 +75,7 @@ theorem s1611e3_nine_two (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgroup G}
   have hconjinv : ((MulAut.conj g₂)⁻¹).toMonoidHom =
       (MulAut.conj g₂⁻¹).toMonoidHom := by
     ext z
-    simp [MulAut.conj_apply]
+    simp
   have hbar : barSub V₀ V hV (conjSubgroup L (x : G)) =
       (lBar V₀ V hV L).map (MulAut.conj g₂⁻¹).toMonoidHom := by
     rw [s15_Infra_barSub_conjSubgroup V₀ V hV x.2 L, hxg₂]

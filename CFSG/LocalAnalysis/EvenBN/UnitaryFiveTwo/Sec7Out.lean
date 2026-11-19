@@ -22,7 +22,7 @@ theorem isSolvable_outer_SU52 : Group.IsSolvable (Outer SU52) := by
     obtain ⟨s, hs⟩ := (fieldFactor_eq_one_iff α).1 h1
     exact (QuotientGroup.eq_one_iff _).2 ⟨s, hs.symm⟩
   have hcyc : IsCyclic (F4 ≃+* F4) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact isCyclic_of_prime_card (p := 2) card_ringEquiv_F4
   exact Group.isSolvable_of_isSolvable_injective hinj
 

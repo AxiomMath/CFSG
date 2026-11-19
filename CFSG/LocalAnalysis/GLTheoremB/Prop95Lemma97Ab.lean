@@ -19,6 +19,7 @@ open Sigma3
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_mem_conjClosure {Z H : Subgroup G} {g : G}
     (hZ : g ∈ Subgroup.normalizer (Z : Set G)) (hH : g ∈ Subgroup.normalizer (H : Set G)) {x : G}
     (hx : x ∈ conjClosure Z H) : g * x * g⁻¹ ∈ conjClosure Z H := by
@@ -33,6 +34,7 @@ theorem conj_mem_conjClosure {Z H : Subgroup G} {g : G}
   | mul x y _ _ ihx ihy => simpa [mul_assoc] using (conjClosure Z H).mul_mem ihx ihy
   | inv x _ ih => simpa [mul_assoc] using (conjClosure Z H).inv_mem ih
 
+omit [Finite G] in
 theorem mem_normalizer_conjClosure {Z H : Subgroup G} {g : G}
     (hZ : g ∈ Subgroup.normalizer (Z : Set G)) (hH : g ∈ Subgroup.normalizer (H : Set G)) :
     g ∈ Subgroup.normalizer (conjClosure Z H : Set G) := by
@@ -47,14 +49,14 @@ theorem lemma97Ab_key {m p : ℕ} (hS : GLStanding G m p) {M D X W : Subgroup G}
     {d x : G} (hdp : d ^ p = 1) (hdY : d ∈ Subgroup.normalizer (yGrp D W : Set G))
     (hdV : d ∈ Subgroup.normalizer (V : Set G))
     (hxd : x ∈ pCoreOf 2 (Subgroup.centralizer ({d} : Set G)))
-    (hxY : x ∈ Subgroup.normalizer (yGrp D W : Set G))
+    (_hxY : x ∈ Subgroup.normalizer (yGrp D W : Set G))
     (hxV : x ∈ Subgroup.normalizer (V : Set G))
     {y : MulAut (IntMod V hU)} (hy : y ∈ autI hU (thompsonJ (yGrp D W)))
     (hδy : convI hU ⟨d, hdV⟩ * y * (convI hU ⟨d, hdV⟩)⁻¹ = y) :
     ∃ k : ℕ, (convI hU ⟨x, hxV⟩ * y * (convI hU ⟨x, hxV⟩)⁻¹ * y⁻¹) ^ (2 ^ k) = 1 := by
   classical
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨u', hu'J, rfl⟩ := (mem_autI hU).1 hy
   have huY : (u' : G) ∈ yGrp D W := thompsonJ_le_self _ hu'J
   have huV : (u' : G) ∈ Subgroup.normalizer (V : Set G) := u'.2
@@ -132,7 +134,7 @@ theorem lemma97Ab_case2 {m p : ℕ} (hS : GLStanding G m p) {M D X W : Subgroup 
   classical
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hΓM : gammaD D ≤ M := gammaD_le_of_hyp hD
   have hYM : yGrp D W ≤ M := yGrp_le_M hD h
   have hΓY : gammaD D ≤ yGrp D W := gammaD_le_yGrp

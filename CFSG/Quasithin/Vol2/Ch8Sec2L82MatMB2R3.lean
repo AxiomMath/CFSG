@@ -86,8 +86,8 @@ theorem mb2_std_row3 :
     ∃ (K : Type) (_ : Field K) (_ : Finite K), Nat.card K = 4 ∧
       Nonempty (↥(commutant (maskSub 11 mb3L10) US
         ((imgCd sxP0 : Subgroup (MulAut W11)) : Set (MulAut W11))) ≃+* K) := by
-  haveI := mb2Model3.finite_commutant
-  haveI := mb2Model3.nontrivial_commutant (by norm_num : 0 < 6)
+  have := mb2Model3.finite_commutant
+  have := mb2Model3.nontrivial_commutant (by norm_num : 0 < 6)
   have h := exists_field4_of_data (mb2Model3.field4Data (MA := mb2A3) rfl mb2c3_ltA mb2c3_commA
     mb2c3_rootA [1] mb2W3 mb2c3_hW mb2c3_count)
   rwa [genGroup_mb2Gens3] at h

@@ -99,7 +99,7 @@ private theorem kappaFun_mul (r n : ℕ) (c d : Fin r → Multiplicative (ZMod p
   by_cases h1 : (i : ℕ) < r
   · simp [kappaFun, h1]
   · by_cases h2 : (i : ℕ) = r
-    · simp [kappaFun, h1, h2, Finset.prod_mul_distrib]
+    · simp [kappaFun, h2, Finset.prod_mul_distrib]
       exact mul_comm _ _
     · simp [kappaFun, h1, h2]
 
@@ -163,8 +163,8 @@ private theorem psi_kappa_eq_one (χ : Multiplicative (ZMod p) →* Kˣ) (hχ : 
 
 private theorem exists_chi [Finite K] (hp : p.Prime) (hpK : p ∣ Nat.card K - 1) :
     ∃ χ : Multiplicative (ZMod p) →* Kˣ, Function.Injective χ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) p (by rwa [Nat.card_units])
   have hprimU : IsPrimitiveRoot ζ p := by
     rw [← hζ]
@@ -199,8 +199,8 @@ theorem torus_commuting {K : Type*} [Field K] [Finite K] {p n : ℕ} (hp : p.Pri
       Function.Injective f ∧
       (∀ x, (f x : Matrix (Fin n) (Fin n) K) * A = A * (f x : Matrix (Fin n) (Fin n) K)) ∧
       ∀ x, f x ∈ LinearFlag.scalars n K → f x = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨χ, hχ⟩ := exists_chi hp hpK
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) p (by rwa [Nat.card_units])
   have hprimU : IsPrimitiveRoot ζ p := by
@@ -208,7 +208,7 @@ theorem torus_commuting {K : Type*} [Field K] [Finite K] {p n : ℕ} (hp : p.Pri
     exact IsPrimitiveRoot.orderOf ζ
   have hprim : IsPrimitiveRoot (ζ : K) p :=
     hprimU.map_of_injective (f := Units.coeHom K) Units.val_injective
-  haveI : NeZero (p : K) := hprim.neZero'
+  have : NeZero (p : K) := hprim.neZero'
   obtain ⟨P, Q, u, hPQ, hQP, hAP⟩ := exists_eigenbasis_matrix A
     (top_le_span_eigenvectors A hprim hp.pos (NeZero.ne _) hA)
   refine ⟨(psi χ P Q hPQ hQP).comp (kappaHom 3 n (by omega)), ?_, fun x => ?_, ?_⟩
@@ -231,7 +231,7 @@ theorem torus_normalized {K : Type*} [Field K] [Finite K] {p n : ℕ} (hp : p.Pr
       p ^ (p + 1) ≤ Nat.card (T.map (LinearFlag.proj n K)) ∧
       ∀ g ∈ T, ∃ g' ∈ T, M * (g : Matrix (Fin n) (Fin n) K) =
         (g' : Matrix (Fin n) (Fin n) K) * M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨χ, hχ⟩ := exists_chi hp hpK
   refine ⟨(psi χ P Q hPQ hQP).range, isElemAbelian_range_psi χ P Q hPQ hQP, ?_, ?_⟩
   · set f : (Fin (p + 1) → Multiplicative (ZMod p)) →* SpecialLinearGroup (Fin n) K :=

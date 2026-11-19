@@ -15,6 +15,7 @@ variable {G : Type} [Group G] [Finite G] {t z : G} {K1 K2 T R : Subgroup G}
 
 include c
 
+omit [Finite G] c in
 theorem psi_sq {s : G} (hsR : s ∈ R) (hs2 : s * s = 1) : ρ ⟨s, hsR⟩ * ρ ⟨s, hsR⟩ = 1 := by
   rw [← map_mul]
   have h : (⟨s, hsR⟩ : ↥R) * ⟨s, hsR⟩ = 1 := by
@@ -61,7 +62,7 @@ theorem psi_keepB {s : G} (hsR : s ∈ R)
     ∀ y ∈ K2.subgroupOf (K1 ⊔ K2), ρ ⟨s, hsR⟩ y ∈ K2.subgroupOf (K1 ⊔ K2) := by
   have hb2 : ∃ b2 ∈ twoCoreIn K2, b2 ∉ zpowers z := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hcard : Nat.card (twoCoreIn K2) ≤ Nat.card (zpowers z) := Subgroup.card_le_of_le h
     rw [c.q8.card2, Nat.card_zpowers] at hcard
     have hord : orderOf z ≤ 2 :=
@@ -87,6 +88,7 @@ theorem psi_keepB {s : G} (hsR : s ∈ R)
       simpa using this
     exact hb2z (c.q8.invol2 b2 hb2mem hb2sq)
 
+omit [Finite G] in
 theorem psi_triv {s : G} (hsR : s ∈ R) (h2 : ActsTrivModZ z s (twoCoreIn K2)) :
     ∀ q : SL23, q ^ 4 = 1 →
       ρ ⟨s, hsR⟩ (c.pair.embB q) * (c.pair.embB q)⁻¹ ∈
@@ -105,6 +107,7 @@ theorem psi_triv {s : G} (hsR : s ∈ R) (h2 : ActsTrivModZ z s (twoCoreIn K2)) 
       c.rho_Q ⟨s, hsR⟩ (c.pair.embB q) (c.Q2_le_Q hg)]
     exact Subgroup.zpowers_le.mpr c.z_K2 hz
 
+omit [Finite G] in
 theorem psi_not {s b : G} (hsR : s ∈ R) (hb : b ∈ twoCoreIn K1)
     (hsb : s * b * s⁻¹ * b⁻¹ ∉ zpowers z) :
     ¬ ∃ q : SL23, q ^ 4 = 1 ∧ ∀ y ∈ K1.subgroupOf (K1 ⊔ K2),
@@ -135,7 +138,7 @@ theorem psi_class {s b : G} (hsR : s ∈ R) (hs2 : s * s = 1)
       ∃ q : SL23, q ^ 4 = 1 ∧ ∀ y ∈ K2.subgroupOf (K1 ⊔ K2),
         ρ ⟨s, hsR⟩ y = c.pair.embB q * y * (c.pair.embB q)⁻¹ := by
   have hA := c.psi_keepA hsR hQ1 hb hsb
-  obtain ⟨hsign, hq⟩ := c.pair.s11s_psi_class (c.psi_sq hsR hs2) hA (c.psi_keepB hsR hQ2)
+  obtain ⟨hsign, hq⟩ := c.pair.s11s_psi_class (S11sCtx.psi_sq hsR hs2) hA (c.psi_keepB hsR hQ2)
     (c.psi_triv hsR h2) (c.psi_not hsR hb hsb)
   exact ⟨hA, hsign, hq⟩
 

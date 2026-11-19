@@ -51,7 +51,7 @@ theorem involution_coset_index_generation [Finite G] (S : Sylow 2 G) {L : Subgro
   have hfix : ∀ s : (S : Subgroup G), s ≠ 1 → ∀ x : G ⧸ L, s • x = x →
       x = ((1 : G) : G ⧸ L) := by
     intro s hs x hx
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 S.isPGroup' s
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.1 S.isPGroup s
     have hk0 : k ≠ 0 := by
       rintro rfl
       exact hs (orderOf_eq_one_iff.1 (by rw [hk, pow_zero]))

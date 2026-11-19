@@ -13,7 +13,7 @@ variable {G : Type*} [Group G]
 theorem nonempty_quotient_mulEquiv_of_complement {K N T : Subgroup G} (hNK : N ≤ K)
     (hNn : (N.subgroupOf K).Normal) (hT : T ≤ K) (hinf : N ⊓ T = ⊥) (hsup : N ⊔ T = K) :
     Nonempty (↥K ⧸ N.subgroupOf K ≃* ↥T) := by
-  haveI : (N.subgroupOf K).Normal := hNn
+  have : (N.subgroupOf K).Normal := hNn
   let ψ : ↥T →* (↥K) ⧸ N.subgroupOf K :=
     (QuotientGroup.mk' (N.subgroupOf K)).comp (Subgroup.inclusion hT)
   have hker : MonoidHom.ker ψ = ⊥ := by
@@ -48,18 +48,18 @@ theorem nonempty_quotient_mulEquiv_of_complement {K N T : Subgroup G} (hNK : N �
       calc z * (z⁻¹ * y * z) = y * z := by rw [← mul_assoc, mul_inv_cancel_left]
         _ = k := hyz
 
-theorem isShapeFiveCubeByTwoTwo_of_le {K L N : Subgroup G} [Finite K] (hLK : L ≤ K) (hNK : N ≤ K)
+theorem isShapeFiveCubeByTwoTwo_of_le {K L N : Subgroup G} [Finite K] (hLK : L ≤ K) (_hNK : N ≤ K)
     (hNn : (N.subgroupOf K).Normal) (hN5 : IsPGroup 5 ↥N)
     (hKN : Nonempty (↥K ⧸ N.subgroupOf K ≃* Elem2 2)) (hL : Nat.card ↥L = 4 * 5 ^ 3) :
     IsShapeFiveCubeByTwoTwo ↥L := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : (N.subgroupOf K).Normal := hNn
-  haveI : Finite ↥L :=
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : (N.subgroupOf K).Normal := hNn
+  have : Finite ↥L :=
     Finite.of_injective (Subgroup.inclusion hLK) (Subgroup.inclusion_injective hLK)
   have hN'normal : (N.subgroupOf L).Normal := by
     have h := hNn.comap (Subgroup.inclusion hLK)
     rwa [Subgroup.comap_inclusion_subgroupOf hLK N] at h
-  haveI : (N.subgroupOf L).Normal := hN'normal
+  have : (N.subgroupOf L).Normal := hN'normal
   have hN'5 : IsPGroup 5 (N.subgroupOf L) := by
     let f : ↥(N.subgroupOf L) →* ↥N :=
       { toFun := fun x => ⟨(x.1 : G), x.2⟩
@@ -83,7 +83,7 @@ theorem isShapeFiveCubeByTwoTwo_of_le {K L N : Subgroup G} [Finite K] (hLK : L �
       Subgroup.coe_inclusion]
   have hlift_inj : Function.Injective (QuotientGroup.lift (N.subgroupOf L) φ hker.ge) :=
     (QuotientGroup.injective_lift_iff (N := N.subgroupOf L) φ hker.ge).mpr hker.symm
-  haveI : Finite ((↥K) ⧸ (N.subgroupOf K)) :=
+  have : Finite ((↥K) ⧸ (N.subgroupOf K)) :=
     Finite.of_surjective (QuotientGroup.mk' (N.subgroupOf K))
       (QuotientGroup.mk'_surjective (N := N.subgroupOf K))
   obtain ⟨e⟩ := hKN
@@ -101,7 +101,7 @@ theorem isShapeFiveCubeByTwoTwo_of_le {K L N : Subgroup G} [Finite K] (hLK : L �
     exact Subgroup.card_eq_card_quotient_mul_card_subgroup (N.subgroupOf L)
   have hdn : d * n = 4 * 5 ^ 3 := by
     rw [← hmul, hL]
-  haveI : Nonempty ((↥L) ⧸ (N.subgroupOf L)) := ⟨1⟩
+  have : Nonempty ((↥L) ⧸ (N.subgroupOf L)) := ⟨1⟩
   have hd_ge : 1 ≤ d := by
     rw [hd]
     exact Nat.card_pos

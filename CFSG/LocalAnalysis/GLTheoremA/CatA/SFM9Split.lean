@@ -27,7 +27,7 @@ theorem not_mem_statedScalars_of_diag {g : GL (Fin 3) F} {i j : Fin 3}
     g ∉ StatedScalars (Fin 3) F := by
   intro hg
   apply h
-  rw [entry_of_mem_statedScalars hg i i, entry_of_mem_statedScalars hg j j, if_pos rfl, if_pos rfl]
+  rw [entry_of_mem_statedScalars hg i i, entry_of_mem_statedScalars hg j j, ite_eq_left rfl, ite_eq_left rfl]
 
 theorem not_mem_statedScalars_of_utri [Finite F] {g : GL (Fin 3) F} (hg : g ∈ utriG (K := F)) (hne : g ≠ 1) :
     g ∉ StatedScalars (Fin 3) F := by
@@ -49,13 +49,13 @@ theorem E0gen_entry_00 (ω : Fˣ) (hω3 : ω ^ 3 = 1) :
 theorem E0gen_entry_22 (ω : Fˣ) (hω3 : ω ^ 3 = 1) :
     ((E0hom (K := F) ω hω3 (ofAdd ((1 : ZMod 3), (0 : ZMod 3))) : GL (Fin 3) F) :
       Matrix (Fin 3) (Fin 3) F) 2 2 = 1 := by
-  simp [E0hom_apply, diagUnit_val, zetaU, show ZMod.val (-(0 : ZMod 3)) = 0 from rfl]
+  simp [E0hom_apply, diagUnit_val, zetaU]
 
 theorem isPerfect_quot_of_iso {K : Type} [Group K]
     (ψ : (K ⧸ Subgroup.center K) ≃* StatedProj (StatedSL 3 F)) :
     Group.IsPerfect (K ⧸ Subgroup.center K) := by
-  haveI : Group.IsPerfect (StatedSL 3 F) := isPerfect_statedSL_of_three_le (by norm_num) F
-  haveI : Group.IsPerfect (StatedProj (StatedSL 3 F)) :=
+  have : Group.IsPerfect (StatedSL 3 F) := isPerfect_statedSL_of_three_le (by norm_num) F
+  have : Group.IsPerfect (StatedProj (StatedSL 3 F)) :=
     Group.IsPerfect.ofSurjective
       (f := QuotientGroup.mk' ((StatedScalars (Fin 3) F).subgroupOf (StatedSL 3 F)))
       (QuotientGroup.mk'_surjective _)
@@ -93,7 +93,7 @@ theorem split_torus {K : Type} [Group K] [Finite K] [Finite F] [CharP F 2]
     (hZ : Nat.card (Subgroup.center K) = 3) (hZK : ¬ Subgroup.center K ≤ commutator K) :
     ∃ y : K, (∃ z : K, z * y ≠ y * z) ∧ orderOf y = 3 ∧
       ∃ U : Subgroup K, U ≠ ⊥ ∧ IsPGroup 2 U ∧ y ∈ Subgroup.normalizer (U : Set K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hperf : Group.IsPerfect (K ⧸ Subgroup.center K) := isPerfect_quot_of_iso ψ
   have hmap : (commutator K).map (QuotientGroup.mk' (Subgroup.center K)) = ⊤ :=
     map_commutator_eq_top hperf

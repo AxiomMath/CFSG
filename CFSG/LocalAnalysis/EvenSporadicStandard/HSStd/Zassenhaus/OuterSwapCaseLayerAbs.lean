@@ -161,6 +161,7 @@ theorem cj_mul_eq (g h : Γ) (K : Subgroup Γ) :
 
 variable {K : Subgroup Γ}
 
+omit [Finite Γ] in
 theorem SwapOrbit.cj_mem_all (hK : SwapOrbit J τ K)
     (hnoE8 : ∀ E : Subgroup Γ, E ≤ centralizer (J : Set Γ) → (∀ e ∈ E, e * e = 1) →
       Nat.card E ≤ 4)

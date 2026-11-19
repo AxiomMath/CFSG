@@ -19,7 +19,7 @@ theorem k1419ClsCentre_eq_one {S : Type} [Group S] [Finite S] {J : Subgroup S}
     (hZ : Subgroup.center (PQuot 3 J) = ⊥) {a : S} (haJ : a ∈ J)
     (hcen : ∀ j ∈ J, a * j = j * a) (ha3 : a ^ 3 = 1) : a = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let x : ↥J := ⟨a, haJ⟩
   have hx3 : x ^ 3 = 1 := Subtype.ext (by simpa [x] using ha3)
   have hxc : (QuotientGroup.mk x : PQuot 3 J) ∈ Subgroup.center (PQuot 3 J) := by

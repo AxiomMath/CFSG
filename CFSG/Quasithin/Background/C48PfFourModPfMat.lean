@@ -281,7 +281,7 @@ theorem alt3_eq {N : Matrix (Fin 3) (Fin 3) (ZMod 2)} (hN : N ∈ altMat 3) :
   fin_cases i <;> fin_cases j <;>
     simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Matrix.of_apply, Matrix.cons_val',
       Matrix.cons_val, Matrix.empty_val', Matrix.cons_val_fin_one] <;>
-    first | exact hN.2 _ | rfl | exact alt_symm hN _ _
+    first | exact hN.2 _ | exact alt_symm hN _ _
 
 theorem alt4_eq {N : Matrix (Fin 4) (Fin 4) (ZMod 2)} (hN : N ∈ altMat 4) :
     N = !![0, N 0 1, N 0 2, N 0 3; N 0 1, 0, N 1 2, N 1 3; N 0 2, N 1 2, 0, N 2 3;
@@ -290,7 +290,7 @@ theorem alt4_eq {N : Matrix (Fin 4) (Fin 4) (ZMod 2)} (hN : N ∈ altMat 4) :
   fin_cases i <;> fin_cases j <;>
     simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Matrix.of_apply, Matrix.cons_val',
       Matrix.cons_val, Matrix.empty_val', Matrix.cons_val_fin_one] <;>
-    first | exact hN.2 _ | rfl | exact alt_symm hN _ _
+    first | exact hN.2 _ | exact alt_symm hN _ _
 
 @[expose] def altCoords4 (N : Matrix (Fin 4) (Fin 4) (ZMod 2)) : Fin 6 → ZMod 2 :=
   fun k => N (pr4' k).1 (pr4' k).2

@@ -71,7 +71,7 @@ private lemma false_of_conj_le_same (P : Sec11Q8Pair z Q1 Q2) {n : E} {Qj : Subg
     rcases hj with rfl | rfl
     · exact P.card1
     · exact P.card2
-  haveI hfinj : Finite ↥Qj := Nat.finite_of_card_ne_zero (by rw [hcardj]; norm_num)
+  have hfinj : Finite ↥Qj := Nat.finite_of_card_ne_zero (by rw [hcardj]; norm_num)
   have hinj : Function.Injective (MulAut.conj n).toMonoidHom := (MulAut.conj n).injective
   have hmap1 : Q1.map (MulAut.conj n).toMonoidHom ≤ Qj := by
     intro x hx

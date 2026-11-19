@@ -129,7 +129,7 @@ private theorem eq_of_ggLabelIso_of_b36JLabel {labL labJ a : LargeEvenLabel}
     ⟨-, -, h | h⟩ | ⟨-, -, h | h | h | h | h | ⟨-, h⟩⟩
   all_goals
     subst h
-    rcases hIso with h' | h' | h' | h' | h' | h' | h' | h' <;> simp_all [GGLabelIso]
+    rcases hIso with h' | h' | h' | h' | h' | h' | h' | h' <;> simp_all
 
 private theorem three_not_dvd_pow_three_mul_add_one {n : ℕ} (h : 3 ∣ 2 ^ n - 1) :
     ¬ 3 ∣ 2 ^ (3 * n) + 1 := by
@@ -222,7 +222,7 @@ theorem ggTPNRow_b36JCl_generic
     (hgen : GGKacGenericCl labX 3) (hhJ : GGHasLabel labJ (↥J ⧸ Subgroup.center ↥J))
     (hhX : GGHasLabel labX (X ⧸ Subgroup.center X)) :
     GGTPNRow 3 J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hrig : GGLabelRigidInput := ggLabelRigidInput_holds
   have hperf : commutator X = ⊤ := by
     obtain ⟨hcomm, -⟩ := hm

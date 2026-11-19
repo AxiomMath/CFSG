@@ -144,17 +144,17 @@ private theorem e8_three_check : ((List.range 9).sublists.all fun zl =>
 
 private theorem label_zero {τ : Tag} (K : KacData τ) : K.label 0 = 1 := by
   have hidx0 : idxNode (r := τ.rank) 0 = none := by
-    rw [idxNode, dif_neg (by omega)]
+    rw [idxNode, dite_eq_right (by omega)]
   unfold KacData.label
   rw [hidx0]
 
 private theorem label_succ {τ : Tag} (K : KacData τ) (j : Fin τ.rank) :
     K.label ((j : ℕ) + 1) = K.θ j := by
   have hidx : idxNode (r := τ.rank) ((j : ℕ) + 1) = some j := by
-    rw [idxNode, dif_pos ⟨by omega, by simpa using j.2⟩]
+    rw [idxNode, dite_eq_left ⟨by omega, by simp⟩]
     apply congrArg some
     apply Fin.ext
-    simp only [Fin.val_mk]
+    simp only
     omega
   unfold KacData.label
   rw [hidx]
@@ -170,10 +170,10 @@ private theorem label_sum_le_int {τ : Tag} (K : KacData τ) (hK : K.Facts) (lab
     exact ⟨fun h => h.2, fun h => ⟨by omega, h⟩⟩
   have hidx : ∀ j : Fin τ.rank, idxNode (r := τ.rank) ((j : ℕ) + 1) = some j := by
     intro j
-    rw [idxNode, dif_pos ⟨by omega, by simpa using j.2⟩]
+    rw [idxNode, dite_eq_left ⟨by omega, by simp⟩]
     apply congrArg some
     apply Fin.ext
-    simp only [Fin.val_mk]
+    simp only
     omega
   have hmemj : ∀ j : Fin τ.rank, ((j : ℕ) + 1 ∈ K.zeroIdx p μ) ↔ μ j = 0 := by
     intro j
@@ -192,16 +192,16 @@ private theorem label_sum_le_int {τ : Tag} (K : KacData τ) (hK : K.Facts) (lab
     refine Finset.sum_congr rfl fun i hi => ?_
     have hilt : i < τ.rank + 1 := Finset.mem_range.1 hi
     by_cases h : i ∈ K.zeroIdx p μ
-    · have he : (K.zeroIdx p μ).elem i = true := by simp [List.elem_eq_mem, h]
-      simp [he, h]
-    · have he : (K.zeroIdx p μ).elem i = false := by simp [List.elem_eq_mem, h]
-      simp [he, h, hlab i hilt]
+    · have he : (K.zeroIdx p μ).elem i = true := by simp [h]
+      simp [h]
+    · have he : (K.zeroIdx p μ).elem i = false := by simp [h]
+      simp [h, hlab i hilt]
   have hf0 : (if (0 : ℕ) ∈ K.zeroIdx p μ then (0 : ℤ) else K.label 0) ≤
       (p : ℤ) - K.θ ⬝ᵥ μ := by
     by_cases h : 0 ∈ K.zeroIdx p μ
-    · rw [if_pos h, hmem0.1 h]
+    · rw [ite_eq_left h, hmem0.1 h]
       omega
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have hne : K.θ ⬝ᵥ μ ≠ p := fun hp => h (hmem0.2 hp)
       have hlt : K.θ ⬝ᵥ μ < (p : ℤ) := lt_of_le_of_ne hμ.2 hne
       rw [label_zero K]
@@ -211,8 +211,8 @@ private theorem label_sum_le_int {τ : Tag} (K : KacData τ) (hK : K.Facts) (lab
         K.θ k * μ k := by
     intro k
     by_cases h : ((k : ℕ) + 1) ∈ K.zeroIdx p μ
-    · rw [if_pos h, (hmemj k).1 h, mul_zero]
-    · rw [if_neg h]
+    · rw [ite_eq_left h, (hmemj k).1 h, mul_zero]
+    · rw [ite_eq_right h]
       have hne : μ k ≠ 0 := fun h0 => h ((hmemj k).2 h0)
       have hμk : (1 : ℤ) ≤ μ k := by have := hμ.1 k; omega
       have hθk : 0 < K.θ k := hK.θ_pos k
@@ -246,7 +246,7 @@ private theorem comp_eq_compIdx_toFinset {τ : Tag}
       (idxNode (r := τ.rank))).toFinset := by
   rw [K.comp_eq_compIdx hT hE hx]
   ext y
-  rw [Set.mem_setOf_eq, Finset.mem_coe, List.mem_toFinset, List.mem_map]
+  rw [Set.mem_ofPred_eq, Finset.mem_coe, List.mem_toFinset, List.mem_map]
   constructor
   · intro hy
     exact ⟨nodeIdx y, hy, idxNode_nodeIdx y⟩
@@ -302,7 +302,7 @@ private theorem exists_class_for_extRoot {τ : Tag}
         ∃ i : KernelComponent (rootCharHom a),
           componentRoots (rootCharHom a) i = (fun α => v • α) '' K.rootsOf (K.comp 3 μ z) := by
   have hNe : NeZero ((3 : ℕ) : L) := ⟨h3⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   have hζ0 : IsUnit ζ := hζ.isUnit (by norm_num : (3 : ℕ) ≠ 0)
   let ζu : Lˣ := hζ0.unit
   have hζu : IsPrimitiveRoot (ζu : L) 3 := by

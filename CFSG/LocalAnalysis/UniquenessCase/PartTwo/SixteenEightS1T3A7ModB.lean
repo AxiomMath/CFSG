@@ -43,13 +43,14 @@ private theorem s16t3_mulAut_congr_conj {G H : Type*} [Group G] [Group H] (φ : 
   ext y
   simp [MulAut.conj_apply]
 
+omit [Finite W] in
 theorem s16t3_exists_injective_perm_seven_ext {L N : Subgroup (MulAut W)} (hLN : L ≤ N)
     (hNnorm : N ≤ Subgroup.normalizer (L : Set (MulAut W)))
     (e : ↥L ≃* alternatingGroup (Fin 7))
     (hC : Subgroup.centralizer (L.subgroupOf N : Set ↥N) = ⊥) :
     ∃ θ : ↥N →* Equiv.Perm (Fin 7), Function.Injective θ ∧
       ∀ l : ↥L, θ ⟨(l : MulAut W), hLN l.2⟩ = (e l : Equiv.Perm (Fin 7)) := by
-  haveI : (L.subgroupOf N).Normal :=
+  have : (L.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLN).mpr hNnorm
   let c : Equiv.Perm (Fin 7) →* MulAut (alternatingGroup (Fin 7)) :=
     MulAut.conjNormal (H := alternatingGroup (Fin 7))
@@ -186,8 +187,8 @@ theorem s16t3_exists_J_alt7_aux (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet L
             ((e n : alternatingGroup (Fin 7)) : Equiv.Perm (Fin 7)).cycleType = {3} ∨
             ((e n : alternatingGroup (Fin 7)) : Equiv.Perm (Fin 7)).cycleType = {3, 3}) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨N, hNA, hLleN, hNfix, hNcomm, hNKbot, hNKsup, hKcase⟩ := h.structure_of_seven h7
   let K : Subgroup (MulAut W) := s1t3KBar A L
   have hKA : K ≤ A := inf_le_left
@@ -205,7 +206,7 @@ theorem s16t3_exists_J_alt7_aux (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet L
   have hTKsyl : CFSG.ABGLocalTools.IsSylowOf 2 (T ⊓ K) K :=
     h.sylow.inf_of_le_normalizer hKA hA_normK
   have hNnorm_L : N ≤ Subgroup.normalizer (L : Set (MulAut W)) := hNA.trans h.normal
-  haveI hLNsub : (L.subgroupOf N).Normal :=
+  have hLNsub : (L.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLleN).mpr hNnorm_L
   have hrel : L.relIndex N ≤ 2 := by
     have hAcard : Nat.card ↥A = Nat.card ↥N * Nat.card ↥K := by

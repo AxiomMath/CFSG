@@ -14,17 +14,17 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16h_e3_CycTwoP7M6A_rank_two_of_bad
-    (D : Data G) (S : s16h_Std D) (hr3 : CFSG.Open.evenRank G = 3) (hσ : D.sig = D.sig1)
+    (D : Data G) (S : s16h_Std D) (_hr3 : CFSG.Open.evenRank G = 3) (_hσ : D.sig = D.sig1)
     {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V) (h : Setting16 D V₀ V L)
-    (hc : Conc4_136 D V₀ V hV L)
-    {p : ℕ} (hp : p.Prime) (hLp : IsCyclicOrd ↥(lBar V₀ V hV L) p)
-    (hχ : ¬ ∀ n ∈ Mbar D.M V₀ V hV,
+    (_hc : Conc4_136 D V₀ V hV L)
+    {p : ℕ} (_hp : p.Prime) (_hLp : IsCyclicOrd ↥(lBar V₀ V hV L) p)
+    (_hχ : ¬ ∀ n ∈ Mbar D.M V₀ V hV,
       n ∈ normalizer ((lBar V₀ V hV L : Subgroup _) : Set _) →
         ∀ l ∈ lBar V₀ V hV L, n * l = l * n)
     (hs2 : s15 D.M V₀ V hV L = 2)
-    (hres : ∀ q ∈ D.sig, q = p ∨
+    (_hres : ∀ q ∈ D.sig, q = p ∨
       (p = 7 ∧ rk ↥(wTil V₀ V hV L) = 6 ∧ q = 3))
-    (hp7 : p = 7) (hm : rk ↥(wTil V₀ V hV L) = 6)
+    (_hp7 : p = 7) (_hm : rk ↥(wTil V₀ V hV L) = 6)
     (hbad : ¬ ∀ w ∈ wSub V₀ V hV L, w ≠ 1 →
       UniqueMax D.M (D.M ⊓ centralizer ({w} : Set G))) :
     ∀ q ∈ D.sig, 2 ≤ CFSG.pRank q ↥(autSub (Mbar D.M V₀ V hV ⊓
@@ -97,7 +97,7 @@ theorem s16h_e3_CycTwoP7M6A_rank_two_of_bad
   have hEbA1_le : autSub Eb Ub ≤ autSub A Ub := autSub_mono hEb_leA Ub
   have hrank_le : CFSG.Open.pRank q (autSub Eb Ub) ≤ 1 := by
     exact (CFSG.SectionRank.pRank_mono (p := q) hqprime.one_lt hEbA1_le).trans hleOpen
-  haveI : Fact q.Prime := ⟨hqprime⟩
+  have : Fact q.Prime := ⟨hqprime⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hEbA1_ab.isPGroup
   have hnle : n ≤ 1 := (CFSG.SectionRank.le_pRank (p := q) hqprime.one_lt (le_refl _)
     hEbA1_ab hn).trans hrank_le

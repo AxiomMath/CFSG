@@ -65,7 +65,7 @@ theorem isHallSubgroup_hallCore [Finite X] :
 theorem hallCore_le_fittingRaw [Finite X] : hallCore X ≤ fittingRaw X := by
   refine hallCore_le fun H hH => ?_
   obtain ⟨q, hq, hqd, hn, P, hPH⟩ := mem_normalSylows.1 hH
-  exact le_fittingRaw hn (isPrimePowerOrder_iff_isPGroup.2 ⟨q, hq, hPH ▸ P.isPGroup'⟩)
+  exact le_fittingRaw hn (isPrimePowerOrder_iff_isPGroup.2 ⟨q, hq, hPH ▸ P.isPGroup⟩)
 
 instance hallCore_isNilpotent [Finite X] : Group.IsNilpotent (hallCore X) :=
   isNilpotent_of_le_fittingRaw hallCore_le_fittingRaw

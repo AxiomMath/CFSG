@@ -44,13 +44,13 @@ theorem false_of_k21d_group (k21d : K21d) (k420 : K420) {T R A L : Subgroup X} (
     (hS : IsK21dGroup ↥(barO2 L)) (hZ : Subgroup.center ↥(barO2 L) = ⊥)
     (hm3 : 2 ≤ CFSG.Open.pRank 3 L) (hr3 : CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ 3)
     (hnc : ⁅barO2 L, barO2 A⁆ ≠ ⊥) : False := by
-  haveI hN : (barO2 L).Normal := hLn.map _ (QuotientGroup.mk'_surjective _)
+  have hN : (barO2 L).Normal := hLn.map _ (QuotientGroup.mk'_surjective _)
   rcases hA.inf_eq_bot_or_le (K := L) Subgroup.le_normalizer_of_normal with hAL | hAL
   ·
     have hker := ker_conjNormal_comp (QuotientGroup.mk' (CFSG.pCore 2 X)) (K := barO2 L)
-    haveI : (L ⊔ ((MulAut.conjNormal : (X ⧸ CFSG.pCore 2 X) →* MulAut ↥(barO2 L)).comp
+    have : (L ⊔ ((MulAut.conjNormal : (X ⧸ CFSG.pCore 2 X) →* MulAut ↥(barO2 L)).comp
         (QuotientGroup.mk' (CFSG.pCore 2 X))).ker).Normal := by
-      haveI : L.Normal := hLn
+      have : L.Normal := hLn
       infer_instance
     rcases hA.inf_eq_bot_or_le (K := L ⊔ ((MulAut.conjNormal : (X ⧸ CFSG.pCore 2 X) →*
         MulAut ↥(barO2 L)).comp (QuotientGroup.mk' (CFSG.pCore 2 X))).ker)
@@ -80,13 +80,13 @@ theorem xlevel_1521_S2_gen (hT : LieOddRankTable) (hKSMAlt : KSMAlt) (hKSMOdd : 
     rw [hJL] at hnc
     have hnc' : ⁅barO2 L, barO2 A⁆ ≠ ⊥ := fun h =>
       hnc (commute_star_of_commute_barO2 hl.gn h)
-    haveI hN : (barO2 L).Normal := hLn.map _ (QuotientGroup.mk'_surjective _)
+    have hN : (barO2 L).Normal := hLn.map _ (QuotientGroup.mk'_surjective _)
     exact false_of_autData_k21ab k21b hl.lift.1.component.2.2 hty
       (autData_conjNormal (QuotientGroup.mk' (CFSG.pCore 2 X)) hLn hA hTs hnc')
   · have hnc' : ⁅barO2 (Subgroup.normalClosure (L : Set X)), barO2 A⁆ ≠ ⊥ := fun h =>
       hnc (commute_star_of_commute_barO2 hl.gn h)
     exact false_of_centralProd hA hTs hJn hcp hnc'
-  · haveI hN : (gnImg T (Subgroup.normalClosure (L : Set X))).Normal :=
+  · have hN : (gnImg T (Subgroup.normalClosure (L : Set X))).Normal :=
       hJn.map _ (QuotientGroup.mk'_surjective _)
     exact false_of_autData_k21c hb (autData_conjNormal (toStar T) hJn hA hTs hnc)
   · have hnc' : ⁅barO2 L, barO2 A⁆ ≠ ⊥ := fun h => by

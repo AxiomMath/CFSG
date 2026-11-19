@@ -98,7 +98,7 @@ private lemma triD4Line_fix_or_torus_R_alpha {n : ℕ} (K : Type) [Field K] [Fin
           Multiplicative (ZMod ((2 ^ n) ^ 2 + 2 ^ n + 1))) := by
   set X₀ : Subgroup (GGTriD4R n K) := Subgroup.centralizer {D.z₀} with hX₀
   set EA : Subgroup (GGTriD4R n K) := triD4LineE n K A with hEA
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   have hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a :=
     fun a ha b hb => setLike_mul_comm (s := A) ha hb
   have hEAea : IsElemAbelian 3 EA := by
@@ -118,7 +118,7 @@ private lemma triD4Line_fix_or_torus_R_alpha {n : ℕ} (K : Type) [Field K] [Fin
   let zX : TriD4LineX k K := D.Θ ⟨D.z₀, hzX₀⟩
   let E : Subgroup (TriD4LineX k K) := (EA.subgroupOf X₀).map D.Θ.toMonoidHom
   have hEAab_sub : IsMulCommutative ↥(EA.subgroupOf X₀) := by
-    haveI : IsMulCommutative ↥EA := hEAea.1
+    have : IsMulCommutative ↥EA := hEAea.1
     refine IsMulCommutative.mk ⟨fun a b => Subtype.ext ?_⟩
     apply Subtype.ext
     simpa only [Subgroup.coe_mul] using
@@ -193,7 +193,7 @@ private lemma triD4Line_fix_or_torus_R_alpha {n : ℕ} (K : Type) [Field K] [Fin
     have hαy : D.α y.val ∈ X₀ := triD4Line_alpha_mem_centralizer D y.val y.2
     have hsub : (⟨x, hxX₀⟩ * ⟨D.α y.val, hαy⟩ * ⟨x, hxX₀⟩⁻¹ : X₀) = ⟨y.val, y.2⟩ := by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       exact hxy
     have hαyΘ : D.Θ ⟨D.α y.val, hαy⟩ = triD4LineSigma k K D.σ (D.Θ y) :=
       D.Θ_α y hαy
@@ -358,14 +358,14 @@ theorem triD4Line_fix_or_torus_R
         Nonempty (T ≃* Multiplicative (ZMod ((2 ^ n) ^ 2 + 2 ^ n + 1)) ×
           Multiplicative (ZMod ((2 ^ n) ^ 2 + 2 ^ n + 1))) := by
   have hn1 : 1 ≤ n := by omega
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-  haveI : Fintype k := Fintype.ofFinite k
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Fintype k := Fintype.ofFinite k
+  have : Fintype K := Fintype.ofFinite K
   have hZ : Subgroup.center (GGTriD4R n K) = ⊥ := triD4Line_center_bot hn1 K hK
   obtain ⟨hE9, f, hfA, hfo, hf3, _hdec⟩ := triD4Line_A_structure hn1 hev K hK A hA h27
   have hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := by
-    haveI := hA.1
+    have := hA.1
     intro a ha b hb
     exact setLike_mul_comm (s := A) ha hb
   have hdeg : Module.finrank k K = 3 := by

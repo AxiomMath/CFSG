@@ -210,6 +210,7 @@ theorem actA_range_ne_bot_77 (hW : ∀ w : W, w ^ 2 = 1) (hK : IsComponentOf K Y
 
 
 
+omit [DecidableEq ↥D] in
 theorem a_le_normalizer_diag_77 (hK : IsComponentOf K Y) (hA : A ∈ E3.aSet k Y)
     (hDY : D ≤ Y) (hDA : D ≤ A) (hAD : A = normalizerInA A K ⊔ D)
     (hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥) :
@@ -261,7 +262,8 @@ theorem a_le_normalizer_diag_77 (hK : IsComponentOf K Y) (hA : A ∈ E3.aSet k Y
   rw [← hbd]
   exact (Subgroup.normalizer _).mul_mem (hBnorm hbB) (hDnorm hdD)
 
-theorem actA_range_le_normalizer_actY_77 (hW : ∀ w : W, w ^ 2 = 1) (hK : IsComponentOf K Y)
+omit [DecidableEq ↥D] in
+theorem actA_range_le_normalizer_actY_77 (_hW : ∀ w : W, w ^ 2 = 1) (hK : IsComponentOf K Y)
     (hA : A ∈ E3.aSet k Y) (hDY : D ≤ Y) (hDA : D ≤ A)
     (hAD : A = normalizerInA A K ⊔ D)
     (hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥) :
@@ -290,6 +292,7 @@ noncomputable def surjDiag_77 (hK : IsComponentOf K Y) (hDY : D ≤ Y)
     ↥K →* ↥(diagHom77 hK hDY hDreg).range :=
   (diagHom77 hK hDY hDreg).rangeRestrict
 
+omit [DecidableEq ↥D] in
 theorem surjDiag_surjective_77 (hK : IsComponentOf K Y) (hDY : D ≤ Y)
     (hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥) :
     Function.Surjective (surjDiag_77 hK hDY hDreg) :=
@@ -302,6 +305,7 @@ noncomputable def surjYstar_77 (hK : IsComponentOf K Y) (hA : A ∈ E3.aSet k Y)
   (MonoidHom.codRestrict (actOnSub (stableUnder_fixVProduct_diag_77 hK hA hDA hAD hDreg))
     _ (fun y => MonoidHom.mem_range.mpr ⟨y, rfl⟩)).comp (surjDiag_77 hK hDY hDreg)
 
+omit [DecidableEq ↥D] in
 theorem surjYstar_surjective_77 (hK : IsComponentOf K Y) (hA : A ∈ E3.aSet k Y)
     (hDY : D ≤ Y) (hDA : D ≤ A) (hAD : A = normalizerInA A K ⊔ D)
     (hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥) :
@@ -324,12 +328,12 @@ theorem w4Lem7_7_caseB_data {W : Type} [CommGroup W] [Finite W]
     (hNC : ¬ A ⊓ Subgroup.normalizer (K : Set (MulAut W)) ≤
       Subgroup.centralizer (K : Set (MulAut W))) :
     ∃ (U : Type) (_ : CommGroup U) (_ : Finite U), (∀ u : U, u ^ 2 = 1) ∧
-      ∃ (Y' : Subgroup (MulAut U)) (hLn : (fstarSubOf Y').Normal),
+      ∃ (Y' : Subgroup (MulAut U)) (_hLn : (fstarSubOf Y').Normal),
         IsQuasisimple ↥(fstarSubOf Y') ∧
         (∃ f : ↥K →* ↥(fstarSubOf Y'), Function.Surjective f) ∧ k ≤ E3.aParam Y' := by
   classical
   obtain ⟨D, hDA, hDB, hBD⟩ := exists_compl_normalizerInA_77 (K := K) hA
-  haveI : Fintype ↥D := Fintype.ofFinite _
+  have : Fintype ↥D := Fintype.ofFinite _
   have hDY : D ≤ Y := le_y_of_le_a_77 hA hDA
   have hAD : A = normalizerInA A K ⊔ D := hBD.symm
   have hDreg : D ⊓ Subgroup.normalizer (K : Set (MulAut W)) = ⊥ := by
@@ -338,14 +342,14 @@ theorem w4Lem7_7_caseB_data {W : Type} [CommGroup W] [Finite W]
     have h1 : x ∈ D ⊓ normalizerInA A K := ⟨hx.1, hDA hx.1, hx.2⟩
     rw [hDB] at h1
     exact h1
-  obtain ⟨U₁, i₁, f₁, hU₁, Y₁, hLn, hLq, ⟨f, hf⟩, hk⟩ :=
+  obtain ⟨U₁, i₁, f₁, hU₁, Y₁, _hLn, hLq, ⟨f, hf⟩, hk⟩ :=
     SevenSevenC.caseB_data_of_normalizes (U := ↥(fixVProduct A K D))
       (fun u => Subtype.ext (by simpa using hW (u : W)))
       (isQuasisimple_actY_range_77 hW hK hA hDY hDA hAD hDreg)
       (actA_range_le_normalizer_actY_77 hW hK hA hDY hDA hAD hDreg)
       (actA_range_mem_aSet_77 hW hK hA hDY hDA hAD hDreg hNC)
       (actA_range_not_le_centralizer_actY_77 hW hK hA hDY hDA hAD hDreg hNC)
-  exact ⟨U₁, i₁, f₁, hU₁, Y₁, hLn, hLq,
+  exact ⟨U₁, i₁, f₁, hU₁, Y₁, _hLn, hLq,
     ⟨f.comp (surjYstar_77 hK hA hDY hDA hAD hDreg),
       hf.comp (surjYstar_surjective_77 hK hA hDY hDA hAD hDreg)⟩, hk⟩
 

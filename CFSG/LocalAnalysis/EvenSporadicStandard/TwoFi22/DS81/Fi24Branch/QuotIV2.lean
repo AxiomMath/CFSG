@@ -21,7 +21,7 @@ theorem quot_cond_bar (hC : CCore c) (hR : RData c R) (hJ : JData c t R J)
       π.ker = (c.bar R).subgroupOf (L1 ⊓ c.bar J) ∧
       (IsU42Two X ∨ CFSG.Open.StatedClassicalModel X .PSU 4 2 1) := by
   obtain ⟨X, hXgrp, πJ, hπJs, hπJk, hX⟩ := hJ.quot
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   let H : Subgroup c.Qt := L1 ⊓ c.bar J
   let N : Subgroup C := L1.comap c.qmap
   let H₁ : Subgroup C := J ⊓ N

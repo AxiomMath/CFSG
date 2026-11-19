@@ -281,6 +281,7 @@ theorem delta_mem (h : TData A Q D M Y d e t₀) {g : G} (hgY : g ∈ Y)
 
 @[expose] def phi (b x : G) : G := (b * x * b⁻¹) * (b * (b * x * b⁻¹) * b⁻¹) * x
 
+omit [Finite G] in
 theorem phi_eq {b : G} (hb : b ^ 3 = 1) (x : G) : (b * x) ^ 3 = phi b x := by
   have hb3 : b * b * b = 1 := by
     rw [← pow_three']; exact hb
@@ -292,6 +293,7 @@ theorem phi_eq {b : G} (hb : b ^ 3 = 1) (x : G) : (b * x) ^ 3 = phi b x := by
     _ = b * x * b * x * (b⁻¹ * b⁻¹) * x := by rw [hb2]
     _ = b * x * b⁻¹ * (b * (b * x * b⁻¹) * b⁻¹) * x := by group
 
+omit [Finite G] in
 theorem phi_one (b : G) : phi b 1 = 1 := by simp [phi]
 
 theorem phi_mul (h : TData A Q D M Y d e t₀) {b : G} (hb : b ∈ Subgroup.normalizer (D : Set G))

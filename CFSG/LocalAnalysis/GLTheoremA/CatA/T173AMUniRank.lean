@@ -11,9 +11,9 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.Assembly CFSG.LocalAnalysis.GL
 open CFSG.LocalAnalysis.GLTheoremA.T173
 open scoped commutatorElement MatrixGroups
 
-private theorem charP_two_of_card_sq {F : Type} [Field F] [Finite F] {n : ℕ} (hn : 1 ≤ n)
+private theorem charP_two_of_card_sq {F : Type} [Field F] [Finite F] {n : ℕ} (_hn : 1 ≤ n)
     (hF : Nat.card F = (2 ^ n) ^ 2) : CharP F 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨p', hp'⟩ := CharP.exists F
   have hp'prime : p'.Prime := CharP.char_is_prime F p'
   obtain ⟨m, -, hcard⟩ := FiniteField.card F p'
@@ -34,7 +34,7 @@ private theorem hasEnoughRootsOfUnity_of_dvd_card_sub_one {F : Type} [Field F] [
   have hNpos : 0 < N := by
     have h1 : 1 < Nat.card F := Finite.one_lt_card
     omega
-  haveI : NeZero N := ⟨by omega⟩
+  have : NeZero N := ⟨by omega⟩
   have htop : rootsOfUnity N F = ⊤ := by
     ext x
     simp only [mem_rootsOfUnity, Subgroup.mem_top, iff_true]
@@ -42,7 +42,7 @@ private theorem hasEnoughRootsOfUnity_of_dvd_card_sub_one {F : Type} [Field F] [
     exact pow_card_eq_one'
   have hNcard : N ≤ Nat.card (rootsOfUnity N F) := by
     rw [htop, Subgroup.card_top, hNu]
-  haveI : HasEnoughRootsOfUnity F N := HasEnoughRootsOfUnity.of_card_le hNcard
+  have : HasEnoughRootsOfUnity F N := HasEnoughRootsOfUnity.of_card_le hNcard
   exact HasEnoughRootsOfUnity.of_dvd F hn
 
 private theorem dvd_card_sub_one {p n : ℕ} {F : Type} [Field F] [Finite F]
@@ -112,7 +112,7 @@ private theorem card_ker_uniPairHom {p d : ℕ} {F : Type} [Field F] [Finite F]
     (hp : p.Prime) (hd : 3 ≤ d) (hμ : Nat.card (rootsOfUnity p F) = p)
     {i j k : Fin d} (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k) :
     Nat.card (uniPairHom p d F i j).ker = p ^ (d - 2) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hsurj : Function.Surjective (uniPairHom p d F i j) := by
     rintro ⟨α, β⟩
     let v : Fin d → rootsOfUnity p F := fun t =>
@@ -129,7 +129,7 @@ private theorem card_ker_uniPairHom {p d : ℕ} {F : Type} [Field F] [Finite F]
         (Finset.subset_univ _) hsupp]
       rw [Finset.prod_insert (by simpa using hik), Finset.prod_singleton]
       have hvi : v i = β := by simp [v]
-      have hvk : v k = α * β⁻¹ := by simp [v, hik, Ne.symm hik]
+      have hvk : v k = α * β⁻¹ := by simp [v, Ne.symm hik]
       rw [hvi, hvk, ← mul_assoc, mul_comm β α, mul_assoc, mul_inv_cancel, mul_one]
     · show v i * (v j)⁻¹ = β
       have hvi : v i = β := by simp [v]
@@ -170,7 +170,7 @@ private theorem uniConstHom_injective (p d : ℕ) (F : Type) [Field F] (hpd : p 
     (a : Fin d → rootsOfUnity p F) i) h
   simpa [uniConstHom] using h2
 
-private theorem card_uniConstSub {p d : ℕ} {F : Type} [Field F] [Finite F] (hp : p.Prime)
+private theorem card_uniConstSub {p d : ℕ} {F : Type} [Field F] [Finite F] (_hp : p.Prime)
     (hpd : p ∣ d) (i j : Fin d) (hμ : Nat.card (rootsOfUnity p F) = p) :
     Nat.card (uniConstHom p d F hpd i j).range = p := by
   rw [MonoidHom.range_eq_map, Subgroup.card_map_of_injective
@@ -230,7 +230,7 @@ private theorem uniPermMatrix_map_pow {n d : ℕ} {F : Type} [Field F] (σ : Equ
   rw [Matrix.map_apply, uniPermMatrix_apply']
   by_cases h : σ i = j
   · simp [h]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact zero_pow hq0
 
 private theorem uniSwap_mem_SU {n d : ℕ} {F : Type} [Field F] [CharP F 2]
@@ -250,7 +250,7 @@ private theorem uniPermGL_swap_not_scalar {d : ℕ} {F : Type} [Field F] {i j : 
   obtain ⟨c, hc⟩ := MonoidHom.mem_range.mp h
   have h1 := congrArg (fun g : GL (Fin d) F => (g : Matrix (Fin d) (Fin d) F) i j) hc
   rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply,
-    if_neg hij, uniCoePermGL, uniPermMatrix_apply', Equiv.swap_apply_left, if_pos rfl] at h1
+    ite_eq_right hij, uniCoePermGL, uniPermMatrix_apply', Equiv.swap_apply_left, ite_eq_left rfl] at h1
   exact zero_ne_one h1
 
 private theorem uniDiagHom_comm_swap {p d : ℕ} {F : Type} [Field F]
@@ -262,7 +262,7 @@ private theorem uniDiagHom_comm_swap {p d : ℕ} {F : Type} [Field F]
   ext a b
   rw [Matrix.diagonal_mul, Matrix.mul_diagonal, uniPermMatrix_apply']
   by_cases h : Equiv.swap i j a = b
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hab : v a = v b := by
       by_cases hai : a = i
       · subst hai
@@ -275,7 +275,7 @@ private theorem uniDiagHom_comm_swap {p d : ℕ} {F : Type} [Field F]
         · rw [Equiv.swap_apply_of_ne_of_ne hai haj] at h
           rw [h]
     rw [hab, mul_one, one_mul]
-  · rw [if_neg h, mul_zero, zero_mul]
+  · rw [ite_eq_right h, mul_zero, zero_mul]
 
 private theorem uniDiagHom_scalar_const {p d : ℕ} {F : Type} [Field F] (hd : 1 ≤ d)
     {v : Fin d → rootsOfUnity p F}
@@ -353,10 +353,10 @@ theorem uni_rank_bmax {p n d : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D 
     p ^ (d - 2) ≤ Nat.card B := by
   classical
   have hp : p.Prime := hcfg.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : CharP F 2 := charP_two_of_card_sq hn hF
-  haveI : HasEnoughRootsOfUnity F p :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : CharP F 2 := charP_two_of_card_sq hn hF
+  have : HasEnoughRootsOfUnity F p :=
     hasEnoughRootsOfUnity_of_dvd_card_sub_one (dvd_card_sub_one hF hpq)
   have hμ : Nat.card (rootsOfUnity p F) = p :=
     HasEnoughRootsOfUnity.natCard_rootsOfUnity F p

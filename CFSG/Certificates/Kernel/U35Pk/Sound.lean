@@ -59,8 +59,8 @@ theorem encB_smul_one (c : F25) :
     encB (c • (1 : Matrix (Fin 3) (Fin 3) F25)) = (re c + 2 ^ 1024 * im c) * (2 ^ 36 + 2 ^ 72 + 2 ^ 108) := by
   unfold encB
   rw [packB_eq, packB_eq]
-  simp only [Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, mul_ite, mul_one, mul_zero,
-    Fin.isValue, Fin.reduceEq, if_true, if_false, re_zero, im_zero]
+  simp only [Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, mul_one, mul_zero,
+    Fin.isValue, Fin.reduceEq, ite_true, ite_false, re_zero, im_zero]
   ring
 
 theorem encB_lo_div (X : Matrix (Fin 3) (Fin 3) F25) :

@@ -50,7 +50,7 @@ theorem eigenspace_structure {F V : Type} [Field F] [AddCommGroup V] [Module F V
     Module.finrank F V = p * Module.finrank F (Module.End.eigenspace x 1) ∧
       ∀ g : Module.End F V, g * x = x * g → g * y = y * g → ∀ c : F,
         (∀ w ∈ Module.End.eigenspace x 1, g w = c • w) → ∀ v, g v = c • v := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hprim : IsPrimitiveRoot ζ p := by
     have h : IsPrimitiveRoot ζ (orderOf ζ) := IsPrimitiveRoot.orderOf ζ
     rwa [orderOf_eq_prime hζp hζ] at h

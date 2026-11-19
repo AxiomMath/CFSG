@@ -25,7 +25,7 @@ theorem exists_dual_pair {v w : V} (h : w ∉ Submodule.span (ZMod 2) {v}) :
     revert a
     decide
 
-theorem tvec_mem_kernel [Finite V] {v : V} (hv : v ≠ 0) (Kr : Subgroup (V ≃ₗ[ZMod 2] V))
+theorem tvec_mem_kernel [Finite V] {v : V} (_hv : v ≠ 0) (Kr : Subgroup (V ≃ₗ[ZMod 2] V))
     (h1 : ∀ g ∈ Kr, ∀ u, g u - u ∈ Submodule.span (ZMod 2) {v})
     (h2 : ∀ g ∈ Kr, ∀ w ∈ Submodule.span (ZMod 2) {v}, g w = w)
     (hfull : Nat.card Kr = 2 ^ (finrank (ZMod 2) (Submodule.span (ZMod 2) {v}) *

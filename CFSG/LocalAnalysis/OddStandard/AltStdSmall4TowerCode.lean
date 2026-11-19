@@ -16,7 +16,7 @@ theorem length_filter_range (p : ℕ → Bool) (n : ℕ) :
   have hnd : ((List.range n).filter p).Nodup := (List.nodup_range).filter p
   rw [← List.toFinset_card_of_nodup hnd, ← Nat.card_eq_finsetCard]
   refine Nat.card_congr (Equiv.subtypeEquivRight fun c => ?_)
-  simp [List.mem_filter, List.mem_range]
+  simp [List.mem_range]
 
 theorem length_filter_range_comp {n : ℕ} {φ : ℕ → ℕ} (hφ : ∀ c < n, φ c < n)
     (hinj : ∀ a < n, ∀ b < n, φ a = φ b → a = b) (p : ℕ → Bool) :
@@ -58,11 +58,11 @@ variable (M : IsModel K n mul dec)
 include M
 
 theorem code_lt {x : G} (hx : x ∈ K) : M.code x < n := by
-  rw [code, dif_pos hx]
+  rw [code, dite_eq_left hx]
   exact (M.surj x hx).choose_spec.1
 
 theorem dec_code {x : G} (hx : x ∈ K) : dec (M.code x) = x := by
-  rw [code, dif_pos hx]
+  rw [code, dite_eq_left hx]
   exact (M.surj x hx).choose_spec.2
 
 theorem code_dec {c : ℕ} (hc : c < n) : M.code (dec c) = c :=
@@ -151,6 +151,7 @@ theorem dec_sq_iff {c : ℕ} (hc : c < n) : dec c ^ 2 = 1 ∧ dec c ≠ 1 ↔ c 
     M.dec_eq_one_iff hc]
   exact ⟨fun h => ⟨h.2, h.1⟩, fun h => ⟨h.2, h.1⟩⟩
 
+omit [Group G] M in
 theorem mem_invols {c : ℕ} : c ∈ invols n mul ↔ c < n ∧ c ≠ 0 ∧ mul c c = 0 := by
   simp [invols, List.mem_filter, List.mem_range]
 
@@ -202,8 +203,8 @@ theorem ordLoop_congr {mul mul' : ℕ → ℕ → ℕ} {c c' : ℕ}
     simp only [ordLoop]
     have hk := h k
     by_cases h0 : pw mul c k = 0
-    · rw [if_pos (by simpa using h0), if_pos (by simpa using hk.1 h0)]
-    · rw [if_neg (by simpa using h0), if_neg (by simpa using fun h' => h0 (hk.2 h'))]
+    · rw [ite_eq_left (by simpa using h0), ite_eq_left (by simpa using hk.1 h0)]
+    · rw [ite_eq_right (by simpa using h0), ite_eq_right (by simpa using fun h' => h0 (hk.2 h'))]
       exact ih (k + 1)
 
 theorem ordc_eq_of_iff {mul mul' : ℕ → ℕ → ℕ} {c c' : ℕ}

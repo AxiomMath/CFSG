@@ -25,7 +25,7 @@ theorem Ctl.of_N_bi {b x : H}
     (h : setMul (Opp 3 (Nor (Subgroup.zpowers x)))
       (Nor (Subgroup.zpowers b) ⊓ Nor (Subgroup.zpowers x)) = Nor (Subgroup.zpowers x)) :
     Ctl b x (Opp 3 (Nor (Subgroup.zpowers x))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨L14.Opp_le 3 _, fun g hg q hq => L14.Opp_conj_mem hg hq, L14.Opp_coprime 3 _, ?_⟩
   intro g hg
   have hmem : g ∈ setMul (Opp 3 (Nor (Subgroup.zpowers x)))
@@ -35,6 +35,7 @@ theorem Ctl.of_N_bi {b x : H}
   obtain ⟨q, hq, n, hn, hgqn⟩ := hmem
   exact ⟨q, hq, n, hn, hgqn⟩
 
+omit [Finite H] in
 theorem fs79_cen_le_nor_zpowers (x : H) : Cen x ≤ Nor (Subgroup.zpowers x) := by
   intro g hg
   refine Subgroup.centralizer_le_normalizer _ ?_
@@ -42,6 +43,7 @@ theorem fs79_cen_le_nor_zpowers (x : H) : Cen x ≤ Nor (Subgroup.zpowers x) := 
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
   exact (Commute.zpow_right (Subgroup.mem_centralizer_singleton_iff.mp hg : Commute g x) k).eq.symm
 
+omit [Finite H] in
 theorem eq_one_of_mem_coprime_of_pow_three {S : Subgroup H} (hS : Nat.Coprime 3 (Nat.card S))
     {x : H} (hx : x ∈ S) (h3 : x ^ 3 = 1) : x = 1 := by
   have h1 : orderOf (⟨x, hx⟩ : ↥S) ∣ 3 :=
@@ -51,6 +53,7 @@ theorem eq_one_of_mem_coprime_of_pow_three {S : Subgroup H} (hS : Nat.Coprime 3 
   have := orderOf_eq_one_iff.1 h3'
   simpa using congrArg Subtype.val this
 
+omit [Finite H] in
 theorem closure_bb₁b₂_eq (b b₁ b₂ : H) :
     Subgroup.closure ({b, b₁, b₂} : Set H) =
       Subgroup.zpowers b ⊔ Subgroup.closure ({b₁, b₂} : Set H) := by
@@ -67,9 +70,10 @@ theorem FS79Hyp.B_comm (h : FS79Hyp b t b₁ b₂ J) {u v : H}
 theorem FS79Hyp.B_pow_three (h : FS79Hyp b t b₁ b₂ J) {u : H}
     (hu : u ∈ Subgroup.closure ({b, b₁, b₂} : Set H)) : u ^ 3 = 1 := by
   have hE := h.isElemAb_B
-  haveI := hE.1
+  have := hE.1
   exact CFSG.elemPow_eq_one_of_isElementaryAbelian (p := 3) u hu
 
+omit [Finite H] in
 theorem eq_or_inv_of_mem_zpowers_of_pow_three {x z : H} (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1)
     (hz : z ∈ Subgroup.zpowers x) (hz1 : z ≠ 1) : z = x ∨ z = x⁻¹ := by
   have hord : orderOf x = 3 := orderOf_eq_prime hx3 hx1
@@ -84,6 +88,7 @@ theorem eq_or_inv_of_mem_zpowers_of_pow_three {x z : H} (hx3 : x ^ 3 = 1) (hx1 :
     rw [show (2 : ℤ) = ((2 : ℕ) : ℤ) from rfl, zpow_natCast]
     exact eq_inv_of_mul_eq_one_left (by rw [← pow_succ, hx3])
 
+omit [Finite H] in
 theorem FS79Hyp.mem_zpowers_of_comm (h : FS79Hyp b t b₁ b₂ J) {y : H}
     (hy : y ∈ Subgroup.closure ({b, t} : Set H)) (hc : y * b = b * y) :
     y ∈ Subgroup.zpowers b := by
@@ -114,6 +119,7 @@ theorem FS79Hyp.mem_zpowers_of_comm (h : FS79Hyp b t b₁ b₂ J) {y : H}
     norm_num at hdvd
 
 
+omit [Finite H] in
 theorem FS79Hyp.B₁_le_J (h : FS79Hyp b t b₁ b₂ J) :
     Subgroup.closure ({b₁, b₂} : Set H) ≤ J := by
   rw [Subgroup.closure_le]
@@ -122,11 +128,13 @@ theorem FS79Hyp.B₁_le_J (h : FS79Hyp b t b₁ b₂ J) :
   · exact h.b₁_mem
   · exact h.b₂_mem
 
+omit [Finite H] in
 theorem FS79Hyp.B₁_le_B (b b₁ b₂ : H) :
     Subgroup.closure ({b₁, b₂} : Set H) ≤ Subgroup.closure ({b, b₁, b₂} : Set H) := by
   rw [closure_bb₁b₂_eq]
   exact le_sup_right
 
+omit [Finite H] in
 theorem FS79Hyp.zpowers_le_B (b b₁ b₂ : H) :
     Subgroup.zpowers b ≤ Subgroup.closure ({b, b₁, b₂} : Set H) := by
   rw [closure_bb₁b₂_eq]
@@ -137,7 +145,7 @@ theorem Ctl.eq_one_of_mem_M0 (h : FS79Hyp b t b₁ b₂ J) {x : H} {Q : Subgroup
     (hwM : w ∈ Subgroup.closure ({b, t} : Set H) ⊔ J)
     (hwS : w ∈ Opp 3 (Nor (Subgroup.zpowers b)) ⊔ Q) : w = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set K : Subgroup H := Opp 3 (Nor (Subgroup.zpowers b)) with hK
   set B₁ : Subgroup H := Subgroup.closure ({b₁, b₂} : Set H) with hB₁
   set B : Subgroup H := Subgroup.closure ({b, b₁, b₂} : Set H) with hB

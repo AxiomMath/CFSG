@@ -26,20 +26,20 @@ theorem largeEvenLabelAll_centerPrime_clC
     dsimp only [LargeEvenRawDatum] at hQ ⊢
     obtain ⟨K, i1, i2, hK, hQR⟩ := hQ
     refine ⟨K, i1, i2, hK, hQR, ?_⟩
-    letI := i1
-    letI := i2
-    haveI : CharP K 2 := charP_two_of_card hK
-    haveI : NeZero r := ⟨by omega⟩
+    let := i1
+    let := i2
+    have : CharP K 2 := charP_two_of_card hK
+    have : NeZero r := ⟨by omega⟩
     exact ggCenterPrime_sp hp hp2
   · subst hC
     have hr2 : 2 ≤ r := hlab.2.1
     dsimp only [LargeEvenRawDatum] at hQ ⊢
     obtain ⟨K, i1, i2, hK, hQR⟩ := hQ
     refine ⟨K, i1, i2, hK, hQR, ?_⟩
-    letI := i1
-    letI := i2
-    haveI : CharP K 2 := charP_two_of_card hK
-    haveI : NeZero r := ⟨by omega⟩
+    let := i1
+    let := i2
+    have : CharP K 2 := charP_two_of_card hK
+    have : NeZero r := ⟨by omega⟩
     exact ggCenterPrime_sp hp hp2
 
 end CFSG.StandardType

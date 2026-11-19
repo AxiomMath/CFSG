@@ -43,8 +43,8 @@ theorem inner_case_card_le {n : ℕ} {k : Type} [Field k] [Finite k] (hpk : ((3 
     Nat.card k ≤ 5 := by
   obtain ⟨h, rfl⟩ := linear_inner_components hpk hA K hK
   have hsq := squarefree_minpoly_glA hpk hA
-  haveI : Fact (Irreducible h.1.1) := ⟨irreducible_of_mem_primaryFactors h.1.2⟩
-  haveI : Finite (AdjoinRoot h.1.1) := Module.finite_of_finite k
+  have : Fact (Irreducible h.1.1) := ⟨irreducible_of_mem_primaryFactors h.1.2⟩
+  have : Finite (AdjoinRoot h.1.1) := Module.finite_of_finite k
   obtain ⟨e⟩ := nonempty_mulEquiv_specialFactor hsq h.1.2
   obtain ⟨f, hf, hker⟩ := InputsL33.exists_surjective_ker_le_center_map_proj e
   have hm : 2 ≤ primaryMultiplicity (glA A : Module.End k (Fin n → k)) h.1.1 := by

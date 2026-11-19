@@ -80,12 +80,12 @@ theorem recog_abstract
   have hlist : ListGroup ↥(Subgroup.normalClosure (L : Set Y)) :=
     corB_listGroup hLne hL2 hThm hO2 hO
   set Gs : Subgroup Y := Subgroup.normalClosure (L : Set Y) with hGs
-  haveI hGsn : Gs.Normal := inferInstance
+  have hGsn : Gs.Normal := inferInstance
   have hLGs : L ≤ Gs := Subgroup.le_normalClosure
   have hVGs : V ≤ Gs := hVL.trans hLGs
   have hCGs : ∀ c : Y, (∀ s ∈ Gs, c * s = s * c) → c = 1 := hC Gs hGsn hVGs
   obtain ⟨hsimp4, hnab4⟩ := statedProj_statedSL_four_simple_nonabelian K₀
-  haveI : IsSimpleGroup (StatedProj (StatedSL 4 K₀)) := hsimp4
+  have : IsSimpleGroup (StatedProj (StatedSL 4 K₀)) := hsimp4
   have hperf4 : Group.IsPerfect (StatedProj (StatedSL 4 K₀)) :=
     isPerfect_of_simple_nonabelian hnab4
   have hperfRN : commutator (↥R ⧸ N.subgroupOf R) = ⊤ :=
@@ -97,7 +97,7 @@ theorem recog_abstract
     intro h
     have hRN' : R ≤ N := by
       rw [← hEN, h, bot_sup_eq]
-    haveI : Subsingleton (↥R ⧸ N.subgroupOf R) := by
+    have : Subsingleton (↥R ⧸ N.subgroupOf R) := by
       have : N.subgroupOf R = ⊤ := Subgroup.subgroupOf_eq_top.mpr hRN'
       rw [this]
       exact QuotientGroup.subsingleton_quotient_top
@@ -162,10 +162,10 @@ theorem recog_abstract
     (N.subgroupOf Gs) (R.subgroupOf Gs) hU1 hU2 hrad hZ hcard hUP hPn hPN hPU
   obtain ⟨hr6, hKq⟩ := hflag
   subst hr6
-  haveI : IsSimpleGroup (StatedProj (StatedSL 6 K1)) :=
+  have : IsSimpleGroup (StatedProj (StatedSL 6 K1)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K1 (d := 6) (by norm_num)
       (Or.inl (by norm_num)) (Or.inl (by norm_num))
-  haveI hsimpGs : IsSimpleGroup ↥Gs := e.isSimpleGroup
+  have hsimpGs : IsSimpleGroup ↥Gs := e.isSimpleGroup
   have hnabGs : ∃ a ∈ Gs, ∃ b ∈ Gs, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab4
     obtain ⟨x0, hx0⟩ := QuotientGroup.mk_surjective (eRN.symm a)

@@ -59,13 +59,13 @@ theorem sign_cases {p q : PGcov} (hpq : covMap p = covMap q) {u1 u2 : List ℕ}
   have hsg := pgcov_sign hpq h1 h2 (decV_ne_zero_of_nzV hl hnz)
   unfold sgnV at hs ⊢
   by_cases e1 : (u1 == u2) = true
-  · rw [if_pos e1]
+  · rw [ite_eq_left e1]
     exact Or.inl ⟨rfl, hsg.1 (beq_iff_eq.mp e1)⟩
-  · rw [if_neg e1] at hs ⊢
+  · rw [ite_eq_right e1] at hs ⊢
     by_cases e2 : (u1 == negVP u2) = true
-    · rw [if_pos e2]
+    · rw [ite_eq_left e2]
       exact Or.inr ⟨rfl, hsg.2 (beq_iff_eq.mp e2)⟩
-    · rw [if_neg e2] at hs
+    · rw [ite_eq_right e2] at hs
       exact absurd hs (by norm_num)
 
 theorem repK_z0 (hz : Z0 < 2 ^ 484) : repK z0 Z0 :=
@@ -89,12 +89,12 @@ theorem mkHP_iff_sign (hz : Z0 < 2 ^ 484) {u u' : FibP} {k : ℕ}
       rw [e] at hX
       exact repK_unique hX hX'
     · intro e
-      rw [twistK, if_neg (by norm_num)] at e
+      rw [twistK, ite_eq_right (by norm_num)] at e
       rw [e] at hX
       exact repK_fun hX hX'
   · rw [mkHP_eq_twist h]
     have ht := repK_twist hz hX' 1
-    rw [if_pos rfl] at ht
+    rw [ite_eq_left rfl] at ht
     constructor
     · intro e
       rw [e] at hX
@@ -131,7 +131,7 @@ theorem fib_hp_eq (hz : Z0 < 2 ^ 484) {QK : ℕ → ℕ}
   unfold fcK
   rw [strictN_eq', strictN_eq']
   by_cases hs : s0Cond n nr nc comm = true
-  · rw [if_pos hs, strictN_eq', strictN_eq', strictN_eq', strictN_eq', length_filter_range]
+  · rw [ite_eq_left hs, strictN_eq', strictN_eq', strictN_eq', strictN_eq', length_filter_range]
     unfold fcOK at hok
     rw [hs, Bool.not_true, Bool.false_or] at hok
     unfold s0Cond at hs
@@ -188,7 +188,7 @@ theorem fib_hp_eq (hz : Z0 < 2 ^ 484) {QK : ℕ → ℕ}
           exact h1
       rw [hrep, Nat.beq_eq]
       exact and_comm
-  · rw [if_neg hs]
+  · rw [ite_eq_right hs]
     rw [Finset.card_eq_zero, Finset.filter_eq_empty_iff]
     intro e he hP
     apply hs

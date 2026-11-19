@@ -129,7 +129,7 @@ theorem extremalParity : ExtremalParity := by
     obtain ⟨P⟩ : Nonempty (Sylow 2 K) := inferInstance
     have hP := P.card_eq_multiplicity
     have hle1 : Nat.card P ≤ 2 ^ b := by
-      have h := hmax ((P : Subgroup K).map K.subtype) (P.isPGroup'.map _) (by
+      have h := hmax ((P : Subgroup K).map K.subtype) (P.isPGroup.map _) (by
         rintro _ ⟨x, -, rfl⟩
         exact x.2)
       rwa [Subgroup.card_map_of_injective K.subtype_injective] at h

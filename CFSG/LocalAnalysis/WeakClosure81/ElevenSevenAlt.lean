@@ -47,11 +47,13 @@ theorem exists_relIndex_two_of_lt {N A : Subgroup G} (hA : IsPGroup 2 ↥A) (hNA
   have h' : K.relIndex A * 2 ^ c = 2 * 2 ^ c := by rw [h]; ring
   exact Nat.eq_of_mul_eq_mul_right (by positivity) h'
 
+omit [Finite G] in
 private theorem modData_W_eq_blockU {X : Subgroup G} {n : ℕ} (D : ModData G X n) :
     D.W = blockU X := by
   rw [D.W_eq]
   rfl
 
+omit [Finite G] in
 private theorem conj_mem_modData_W {X : Subgroup G} {n : ℕ} (D : ModData G X n) {g : G}
     (hg : g ∈ Subgroup.normalizer (X : Set G)) {w : G} (hw : w ∈ D.W) :
     g * w * g⁻¹ ∈ D.W := by
@@ -292,6 +294,7 @@ theorem natAlt_block_facts {X : Subgroup G} {n : ℕ} (hX : IsShortGroup ↥X) (
       have := (D.ker ⟨x, hxX⟩).1 hρ1
       simpa using this
 
+omit [Finite G] in
 theorem exists_perm_hom_of_normalizer {X A : Subgroup G} {n : ℕ} (hn : 2 ≤ n)
     (D : ModData G X n) (hA : A ≤ Subgroup.normalizer (X : Set G)) :
     ∃ f : ↥A →* Equiv.Perm (Fin (2 * n + 1)), ∀ (a : ↥A) (w : ↥D.W)
@@ -325,7 +328,7 @@ theorem exists_perm_hom_of_normalizer {X A : Subgroup G} {n : ℕ} (hn : 2 ≤ n
     rw [hy_apply b w,
       hy_apply a ⟨(b : G) * (w : G) * (b : G)⁻¹, conj_mem_modData_W D (hA b.2) w.2⟩,
       hy_apply (a * b) w]
-    exact congrArg D.β (Subtype.ext (by simp only [Subgroup.coe_mul, Subgroup.coe_inv]; group))
+    exact congrArg D.β (Subtype.ext (by simp only [Subgroup.coe_mul]; group))
   have hy_norm : ∀ (a : ↥A), ∀ σ ∈ alternatingGroup (Fin (2 * n + 1)),
       ∃ σ' ∈ alternatingGroup (Fin (2 * n + 1)),
         ∀ d, y a (coreAct (2 * n + 1) σ d) = coreAct (2 * n + 1) σ' (y a d) := by

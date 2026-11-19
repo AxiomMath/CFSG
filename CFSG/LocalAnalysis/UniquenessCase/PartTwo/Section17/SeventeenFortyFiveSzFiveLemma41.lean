@@ -108,6 +108,6 @@ theorem conjSubgroup_inf_kerM_eq_bot (D : Data G) {A A₁ A₂ B H : Subgroup G}
     have h1 : q * x * q⁻¹ = 1 := Subgroup.mem_bot.mp hqAY
     have := congrArg (fun z : G => q⁻¹ * z * q) h1
     simpa [mul_assoc] using this
-  simpa [hx1]
+  simp [hx1]
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.SzFive

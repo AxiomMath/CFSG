@@ -130,13 +130,13 @@ theorem harada27 (hHar : ComponentClassification.HSFLit.HaradaInput)
         intro y hy
         have := Subgroup.mem_centralizer_iff.mp hx ⟨y, hEQ hy⟩ (Subgroup.mem_subgroupOf.mpr hy)
         exact congrArg Subtype.val this
-      · exact Q.isPGroup'.to_le (zpowers_le.2 x.2)
+      · exact Q.isPGroup.to_le (zpowers_le.2 x.2)
     · intro x hx
       rw [Subgroup.mem_centralizer_iff]
       intro y hy
       apply Subtype.ext
       exact hcomm _ (Subgroup.mem_subgroupOf.mp hy) _ (Subgroup.mem_subgroupOf.mp hx)
-  have hS := hHar.1 (Q : Subgroup N) Q.isPGroup' (E.subgroupOf (Q : Subgroup N)) inferInstance
+  have hS := hHar.1 (Q : Subgroup N) Q.isPGroup (E.subgroupOf (Q : Subgroup N)) inferInstance
     hcard hcent
   refine CFSG.ClassicalInvolution.fourGenerated_of_sylow Q (fun P' hP'Q => ?_)
   obtain ⟨X', hX4, hXcl⟩ := hS (P'.subgroupOf (Q : Subgroup N))

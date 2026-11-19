@@ -33,7 +33,7 @@ theorem testBit_appP {NW : Nat → Nat → Nat} (z : Int) (hz : NV (NW (z.natAbs
     · subst hm
       rfl
     · rw [beq_false hm]
-      have e2 : fibF NW (Int.ofNat m) = pF (NW (m - 1)) := if_neg hm
+      have e2 : fibF NW (Int.ofNat m) = pF (NW (m - 1)) := ite_eq_right hm
       rw [e2]
       exact testBit_netF hz v q
   | negSucc n => exact testBit_netR hz v q
@@ -53,7 +53,7 @@ theorem fibF_lt {NW : Nat → Nat → Nat} (z : Int) (hz : NV (NW (z.natAbs - 1)
     by_cases hm : m = 0
     · subst hm
       exact hq
-    · have e2 : fibF NW (Int.ofNat m) = pF (NW (m - 1)) := if_neg hm
+    · have e2 : fibF NW (Int.ofNat m) = pF (NW (m - 1)) := ite_eq_right hm
       rw [e2]
       exact pF_lt hz hq
   | negSucc n => exact pR_lt hz hq
@@ -93,8 +93,8 @@ theorem swp_ge {S d m : Nat} (h : ValidIn S d m) {q : Nat} (hq : S ≤ q) : swp 
     cases e : m.testBit q
     · rfl
     · exact absurd (h q e).1 (by omega)
-  rw [if_neg (by rw [h1]; decide)]
-  rw [if_neg]
+  rw [ite_eq_right (by rw [h1]; decide)]
+  rw [ite_eq_right]
   rintro ⟨hdq, e⟩
   have := (h (q - d) e).1
   omega
@@ -315,8 +315,8 @@ theorem stepK_spec {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {z : Int}
         change Bool.rec (motive := fun _ => Nat) _ c (Nat.beq m 0) = _
         rw [beq_false hm]
         rfl
-      have eF : fibF NW (Int.ofNat m) = pF (NW (m - 1)) := if_neg hm
-      have eK : ∀ p, lK NW KA KB (Int.ofNat m) p = kv (KA (m - 1)) (KB (m - 1)) p := fun p => if_neg hm
+      have eF : fibF NW (Int.ofNat m) = pF (NW (m - 1)) := ite_eq_right hm
+      have eK : ∀ p, lK NW KA KB (Int.ofNat m) p = kv (KA (m - 1)) (KB (m - 1)) p := fun p => ite_eq_right hm
       rw [e, eF]
       have hka' : ∀ q, 524288 ≤ q → (KA (m - 1)).testBit q = false := fun q hq => hka q (by omega)
       have hkb' : ∀ q, 524288 ≤ q → (KB (m - 1)).testBit q = false := fun q hq => hkb q (by omega)
@@ -430,7 +430,7 @@ theorem fibF_fib {NW : Nat → Nat → Nat} {z : Int} (hz : netOK (NW (z.natAbs 
     by_cases hm : m = 0
     · subst hm
       exact hp
-    · have e2 : fibF NW (Int.ofNat m) = pF (NW (m - 1)) := if_neg hm
+    · have e2 : fibF NW (Int.ofNat m) = pF (NW (m - 1)) := ite_eq_right hm
       rw [e2]
       exact (hpt p (by omega)).2 hp
   | negSucc n =>
@@ -449,7 +449,7 @@ theorem lK_lt {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {z : Int}
     · subst hm
       change 0 < 3
       decide
-    · have e : lK NW KA KB (Int.ofNat m) p = kv (KA (m - 1)) (KB (m - 1)) p := if_neg hm
+    · have e : lK NW KA KB (Int.ofNat m) p = kv (KA (m - 1)) (KB (m - 1)) p := ite_eq_right hm
       rw [e]
       exact kv_lt _ _ _ ((kapOK_spec hz).1 p)
   | negSucc n => exact Nat.mod_lt _ (by decide)
@@ -473,7 +473,7 @@ theorem eW_eq {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} :
     have hm : (3 * w.foldr (fibF NW) (N / 3) + (N % 3 + kW NW KA KB w (N / 3)) % 3) % 3 =
         (N % 3 + kW NW KA KB w (N / 3)) % 3 := by omega
     unfold eL
-    rw [if_pos hlt, hd, hm]
+    rw [ite_eq_left hlt, hd, hm]
     refine ⟨?_, fibF_fib (h z List.mem_cons_self).1 ha⟩
     change _ = 3 * fibF NW z (w.foldr (fibF NW) (N / 3)) +
       (N % 3 + (kW NW KA KB w (N / 3) + lK NW KA KB z (w.foldr (fibF NW) (N / 3))) % 3) % 3
@@ -485,7 +485,7 @@ theorem eW_eq {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} :
 theorem eE_eq {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {j N : Nat} (hN : N < 920808) :
     eE NW KA KB j N = 3 * pF (NW j) (N / 3) + (N % 3 + kv (KA j) (KB j) (N / 3)) % 3 := by
   unfold eE eL
-  rw [if_pos hN]
+  rw [ite_eq_left hN]
   rfl
 
 theorem word_spec {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {w : List Int} {j : Nat}

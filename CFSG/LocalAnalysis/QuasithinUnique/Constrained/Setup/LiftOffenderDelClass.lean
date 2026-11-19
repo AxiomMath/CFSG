@@ -173,6 +173,7 @@ theorem DelModel.sub_image (M : DelModel ctx i) {U : Subgroup (V ≃ₗ[ZMod 2] 
     rw [hbσ]
     exact hσ
 
+omit [Finite V] in
 theorem DelModel.pmem_iff (M : DelModel ctx i)
     (hdel : ∀ A, IsMinOffender H A → ∀ i, ⁅Lc i, A⁆ ≠ ⊥ → DelData n (Lc i) A (ctx.α i))
     (h5 : Fintype.card (ℙ F (Fin 2 → F)) = 5) (A : Subgroup (V ≃ₗ[ZMod 2] V)) :
@@ -416,6 +417,7 @@ theorem IsTranspGroup.ne_bot {G : Type*} [Group G] {Ω : Type*} [DecidableEq Ω]
     rw [← himg, Subgroup.mem_bot] at this
     exact swap_ne_one hxy this
 
+omit [Finite V] in
 theorem DelModel.kc_step {ctx : FamilyCtx H T n F r Lc} {i : Fin r} (M : DelModel ctx i)
     (hdel : ∀ A, IsMinOffender H A → ∀ i, ⁅Lc i, A⁆ ≠ ⊥ → DelData n (Lc i) A (ctx.α i))
     (h5 : Fintype.card (ℙ F (Fin 2 → F)) = 5) {A Ui : Subgroup (V ≃ₗ[ZMod 2] V)}

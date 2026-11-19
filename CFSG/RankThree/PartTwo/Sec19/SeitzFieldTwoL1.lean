@@ -13,7 +13,7 @@ open CFSG CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitia
 open CFSG.LieType.SeitzGeneration
 
 theorem not_le_linearAutGroup_of_not_narrow {F : Type} [Field F] [Finite F] (h3 : (3 : F) ≠ 0)
-    {E : Subgroup (MulAut (projectiveSL 3 F))} (hE : CFSG.Assembly.IsElemAbelian 3 E)
+    {E : Subgroup (MulAut (projectiveSL 3 F))} (_hE : CFSG.Assembly.IsElemAbelian 3 E)
     (hN : ¬ NarrowScope 3 E) : ¬ E ≤ linearAutGroup 3 F := by
   intro hL
   apply hN
@@ -55,9 +55,9 @@ theorem not_le_linearAutGroup_of_not_narrow {F : Type} [Field F] [Finite F] (h3 
       at h9
     exact h9.trans (by norm_num)
 
-theorem exists_ne_one_inf_linearAutGroup {F : Type} [Field F] [Finite F] (h3 : (3 : F) ≠ 0)
+theorem exists_ne_one_inf_linearAutGroup {F : Type} [Field F] [Finite F] (_h3 : (3 : F) ≠ 0)
     {E : Subgroup (MulAut (projectiveSL 3 F))} (hE : CFSG.Assembly.IsElemAbelian 3 E)
-    (hc : Nat.card E = 9) (hn : ¬ E ≤ linearAutGroup 3 F) :
+    (hc : Nat.card E = 9) (_hn : ¬ E ≤ linearAutGroup 3 F) :
     ∃ y ∈ E, y ∈ linearAutGroup 3 F ∧ y ≠ 1 := by
   have : Fintype F := Fintype.ofFinite F
   obtain ⟨p, -, f, hp, hK⟩ := FiniteField.card' F

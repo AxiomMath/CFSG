@@ -27,11 +27,11 @@ theorem qtwoDNbr6_orth (hRig : GGLabelRigidInput) {B Bs : Subgroup G} {x : G}
     ∃ Φ : OrthTorus.OrthFrameCore 3 Bs X, Nat.card Φ.F = 2 ∧ 4 ≤ Φ.r ∧ (Φ.r = 4 → B < Bs) ∧
       Subgroup.center ↥X = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hBs, -, -, -⟩ := hcfg.tableB_facts
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs := hcfg.2.1.2.2.2
   have hperf : commutator ↥X = ⊤ := hmark.1
-  haveI : Group.IsPerfect ↥X := Group.IsPerfect.mk hperf
+  have : Group.IsPerfect ↥X := Group.IsPerfect.mk hperf
   have hmarkK : GGInnerDiagOn Bs X :=
     largeEvenMarking_mono (fun _ _ _ _ _ _ hP => hP.2) hmark
   have hlt4 : ∀ lab : LargeEvenLabel, LargeEvenInLambda2 lab →

@@ -69,7 +69,7 @@ private lemma U_normal_in_H_local (c : Hyp11 G) [Hyp11KData c] {h u : G} (hh : h
   have huU : u ∈ (pPrimeCore 2 c.H).map c.H.subtype := by
     simpa [Hyp11.U, oddCoreOf] using hu
   have huH : u ∈ c.H :=
-    SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
+    _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
   have hchar : (pPrimeCore 2 c.H).Characteristic :=
     pPrimeCore_characteristic (p := 2) (G := c.H)
   have hcomap : (pPrimeCore 2 c.H) ≤ (pPrimeCore 2 c.H).comap
@@ -153,6 +153,7 @@ private lemma r0_centralizes_K (c : Hyp11 G) [Hyp11KData c] {k : G} (hk : k ∈ 
     _ = (k⁻¹)⁻¹ := by rw [h1]
     _ = k := by simp
 
+omit [Fintype G] in
 /-- An element centralized by `r` is centralized by every power of `r`. -/
 private lemma centralizes_zpowers_of_centralized_local {r a : G}
     (h : r * a * r⁻¹ = a) :
@@ -277,7 +278,7 @@ private lemma odd_subgroup_le_U (c : Hyp11 G) [Hyp11KData c] {X : Subgroup G}
   intro k hk
   have hkH : k ∈ c.H := hXH hk
   have hUleH : c.U ≤ c.H :=
-    SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H))
+    _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H))
   let BH : Subgroup ↥c.H := (c.U : Subgroup G).subgroupOf c.H
   have : BH.Normal := (Subgroup.normal_subgroupOf_iff hUleH).2 (by
     intro h b hb hh
@@ -355,8 +356,9 @@ public lemma K2_le_U (c : Hyp11 G) [Hyp11KData c] : c.K2 ≤ c.U :=
 
 /-- `U ≤ H`. -/
 private lemma U_le_H_local (c : Hyp11 G) [Hyp11KData c] : c.U ≤ c.H :=
-  SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H))
+  _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H))
 
+omit [Fintype G] in
 /-- Conjugating a power by an element that inverts the base inverts the power. -/
 private lemma inverted_power {t x : G} (h : t * x * t⁻¹ = x⁻¹) (n : ℤ) :
     t * x ^ n * t⁻¹ = (x ^ n)⁻¹ := by
@@ -364,7 +366,7 @@ private lemma inverted_power {t x : G} (h : t * x * t⁻¹ = x⁻¹) (n : ℤ) :
     rw [map_zpow]
   calc
     t * x ^ n * t⁻¹ = (MulAut.conj t) (x ^ n) := by
-      simpa [MulAut.conj_apply] using hc.symm
+      simp [MulAut.conj_apply]
     _ = (MulAut.conj t) x ^ n := hc
     _ = (x⁻¹) ^ n := by
       change (t * x * t⁻¹) ^ n = (x⁻¹) ^ n
@@ -516,7 +518,7 @@ private lemma irr_linear_of_comm {K : Type u} [Group K] [Fintype K]
       simp
     have hn : n = 1 := hfinN.symm.trans hfin
     subst n
-    simpa [Representation.character] using (LinearMap.trace_one ℂ (Fin 1 → ℂ))
+    simp [Representation.character]
 
 /-- The inverse (complex-conjugate) of a linear character of an abelian group. -/
 @[reducible] private noncomputable def irrInv {K : Type u} [Group K] [Fintype K]
@@ -634,8 +636,7 @@ private lemma isCharacter_of_representation {K : Type u} [Group K] [Fintype K]
   change LinearMap.trace ℂ M (σ k) =
     LinearMap.trace ℂ (Fin (Module.finrank ℂ M) → ℂ) (τ k)
   rw [show τ k = e.conj (σ k) by rfl]
-  simpa using (LinearMap.trace_conj' (R := ℂ) (M := M)
-    (N := Fin (Module.finrank ℂ M) → ℂ) (σ k) e).symm
+  simp
 
 /-- An irreducible finite-dimensional complex representation of an abelian
 group gives an `IrrBG19` character (always linear). -/
@@ -735,7 +736,7 @@ private lemma constituents_conjugate (c : Hyp11 G) [Hyp11KData c] (α : Irr (↥
       have hchars := Representation.char_iso heRep
       have hchar_smul : (((g i : ↥c.U)⁻¹) • β0).1 =
           fun u : ↥(KU c) => β0.1 ((((g i : ↥c.U)⁻¹)⁻¹) • u) := rfl
-      simp only [charOfIrrRep, hchar_smul, inv_inv, KU_action]
+      simp only [charOfIrrRep, hchar_smul, inv_inv]
       rw [hchars]
       rfl
     rw [hχi]
@@ -763,7 +764,7 @@ private lemma constituents_conjugate (c : Hyp11 G) [Hyp11KData c] (α : Irr (↥
     have hex : ∃ i : Fin n0, (charOfIrrRep
         ((Theory.Representation.conjugateSubrepresentation ρ (KU c) W (g i)).toRepresentation) (hirr i)).1 = γ.1 := by
       by_contra hnone
-      push_neg at hnone
+      push Not at hnone
       have hsp0 : scalarProduct (↥(KU c)) (fun k : ↥(KU c) => α.1 (k : ↥c.U)) γ.1 = 0 := by
         rw [hsp_sum]
         refine Finset.sum_eq_zero ?_
@@ -773,7 +774,7 @@ private lemma constituents_conjugate (c : Hyp11 G) [Hyp11KData c] (α : Irr (↥
           intro h
           exact hnone i h
         rw [hcoeff i]
-        exact if_neg hne'
+        exact ite_eq_right hne'
       exact hγ hsp0
     rcases hex with ⟨i, hi⟩
     have hmem : charOfIrrRep
@@ -1109,7 +1110,7 @@ private lemma exists_odd_multiplicity_restrict_char (c : Hyp11 G) [Hyp11KData c]
       _ = φ 1 := rfl
       _ = ∑ ν : IrrBG19 (↥K0), (m ν : ℂ) * (d ν : ℂ) := hsum1
   by_contra hnone
-  push_neg at hnone
+  push Not at hnone
   have hEvenProd : ∀ ν : IrrBG19 (↥K0), Even (m ν * d ν) := by
     intro ν
     have hEvenM : Even (m ν) := by
@@ -1644,7 +1645,7 @@ private lemma mult_minus_tilde_sum_congr (c : Hyp11 G) [Hyp11KData c] (h12 : Hyp
 
 /-- The sum of the values of the irreducible characters in the fiber of a
 representative is the orbit sum of that representative. -/
-private lemma orbit_sum_fiber_eq_orbitSum_local (c : Hyp11 G) [Hyp11KData c] (h12 : Hyp12 c)
+private lemma orbit_sum_fiber_eq_orbitSum_local (c : Hyp11 G) [Hyp11KData c] (_h12 : Hyp12 c)
     {ι : Type u} [Fintype ι] (rep : ι → ClassFunction (↥c.H0))
     (hrep_irr : ∀ i : ι, IsIrreducibleCharacter (rep i))
     (hrep : ∀ ν : {ν : ClassFunction (↥c.H0) // IsIrreducibleCharacter ν},
@@ -1760,11 +1761,11 @@ private lemma restrictU_conjChar_local (c : Hyp11 G) [Hyp11KData c] (h12 : Hyp12
       conjChar c.U (fun x : ↥c.U => S_normalizes_U c c.s c.s_mem_S x.1 x.2)
         (restrictU c h12 ν) := by
   funext u
-  simp [restrictU, conjChar, conjMonoidHom, conjIrrS]
+  simp [restrictU, conjChar, conjMonoidHom]
 
 /-- Conjugating the `S0`-orbit sum of `α` by `s` gives the `S0`-orbit sum
 of `α^s`. -/
-private lemma s0Orbit_conjIrrS_local (c : Hyp11 G) [Hyp11KData c] (hSC : Section3Hyp c)
+private lemma s0Orbit_conjIrrS_local (c : Hyp11 G) [Hyp11KData c] (_hSC : Section3Hyp c)
     (α : Irr (↥c.U)) :
     conjChar c.U (fun x : ↥c.U => S_normalizes_U c c.s c.s_mem_S x.1 x.2)
         (∑ β ∈ s0Orbit c α, β.1) =
@@ -1829,7 +1830,7 @@ private lemma s0Orbit_conjIrrS_local (c : Hyp11 G) [Hyp11KData c] (hSC : Section
 
 set_option maxHeartbeats 1000000 in
 /-- `(χ|_{H0},ν)` is an integer for `χ ∈ ±Irr(G)`. -/
-private lemma restrict_scalarProduct_int_local (c : Hyp11 G) [Hyp11KData c] (h12 : Hyp12 c)
+private lemma restrict_scalarProduct_int_local (c : Hyp11 G) [Hyp11KData c] (_h12 : Hyp12 c)
     {χ : ClassFunction G} (hχ : IsPMIrr G χ)
     (rep : ClassFunction (↥c.H0)) (hrep : IsIrreducibleCharacter rep) :
     ∃ a : ℤ, scalarProduct (↥c.H0) (fun y : ↥c.H0 => χ (y : G)) rep = (a : ℂ) := by
@@ -1841,7 +1842,7 @@ private lemma restrict_scalarProduct_int_local (c : Hyp11 G) [Hyp11KData c] (h12
   have hrev : star (scalarProduct (↥c.H0) rep (fun y : ↥c.H0 => χ (y : G))) =
       scalarProduct (↥c.H0) (fun y : ↥c.H0 => χ (y : G)) rep := by
     unfold scalarProduct
-    simp [map_sum, map_mul, map_star, mul_comm, mul_left_comm, mul_assoc]
+    simp [mul_comm]
   rw [← hrev, ha]
   simp
 
@@ -1891,8 +1892,7 @@ private lemma mult_minus_tilde_mul_card_even (c : Hyp11 G) [Hyp11KData c] (h12 :
     d (repIrr p.1) * ((orbit c.H0 c.U (rep p.1)).card : ℂ)
   have hβirr : ∀ p : I, IsIrreducibleCharacter (β p) := fun p => (p.2 : Irr (↥c.U)).2
   have hβdist : Pairwise fun p q : I => β p ≠ β q := by
-    intro p q hpq
-    intro hEq
+    intro p q hpq hEq
     cases p with
     | mk i β0 =>
       cases q with
@@ -1903,7 +1903,7 @@ private lemma mult_minus_tilde_mul_card_even (c : Hyp11 G) [Hyp11KData c] (h12 :
         have hmemP : (β0 : Irr (↥c.U)) ∈ s0Orbit c (α_i i) := β0.2
         have hmemQ : (γ0 : Irr (↥c.U)) ∈ s0Orbit c (α_i j) := γ0.2
         have hmemQ' : (β0 : Irr (↥c.U)) ∈ s0Orbit c (α_i j) := by
-          simpa [hEqIrr] using hmemQ
+          simp [hEqIrr]
         have hOrb : s0Orbit c (α_i i) = s0Orbit c (α_i j) :=
           (s0Orbit_eq_of_mem_local c hmemP).symm.trans (s0Orbit_eq_of_mem_local c hmemQ')
         have hOAlpha : orbitOfAlpha c h12 hSC (α_i i) = orbitOfAlpha c h12 hSC (α_i j) := by
@@ -2085,7 +2085,7 @@ private lemma finset_pair_eq_of_card_two_local {α : Type u} [DecidableEq α]
     · exact hb
     · exact hx
   have hcard3 : ({a, b, x} : Finset α).card = 3 := by
-    simp [hab, hxne_a, hxne_b, hxne_a.symm, hxne_b.symm]
+    simp [hab, hxne_a.symm, hxne_b.symm]
   have hle : 3 ≤ s.card := by
     calc
       3 = ({a, b, x} : Finset α).card := hcard3.symm
@@ -2137,12 +2137,12 @@ private lemma signed_irr_eq_smul_of_pairing_ne_local {G : Type u} [Group G] [Fin
     rcases hχeq with hχeq | hχeq
     · have h' : scalarProduct G χ ψ = 0 := by
         rw [hχeq]
-        simpa [scalarProduct_irr_ite hψ₀ hψ, h]
+        simp [scalarProduct_irr_ite hψ₀ hψ, h]
       exact hne h'
     · have h' : scalarProduct G χ ψ = 0 := by
         rw [hχeq]
         rw [scalarProduct_neg_left]
-        simpa [scalarProduct_irr_ite hψ₀ hψ, h]
+        simp [scalarProduct_irr_ite hψ₀ hψ, h]
       exact hne h'
   rcases hχeq with hχeq | hχeq
   · have h1 : scalarProduct G χ ψ = 1 := by
@@ -2347,7 +2347,7 @@ private lemma orbit_card_is_pow_two_local (c : Hyp11 G) [Hyp11KData c] (h12 : Hy
   exact ⟨k, hk⟩
 
 /-- `(χ|_{H0},ν)` is a natural number for `χ ∈ Irr(G)`. -/
-private lemma restrict_mult_nat (c : Hyp11 G) [Hyp11KData c] (h12 : Hyp12 c) (χ : Irr G)
+private lemma restrict_mult_nat (c : Hyp11 G) [Hyp11KData c] (_h12 : Hyp12 c) (χ : Irr G)
     (ν : Irr (↥c.H0)) : ∃ r : ℕ,
       (r : ℂ) = scalarProduct (↥c.H0) (fun y : ↥c.H0 => χ.1 (y : G)) ν.1 := by
   classical
@@ -2397,7 +2397,7 @@ private lemma orbit_subset_BOf_zero_mult_false (c : Hyp11 G) [Hyp11KData c] (h12
       exact hLsubB (f μ) μ.2
     calc
       L.card = Fintype.card {μ : ClassFunction (↥c.H0) // μ ∈ L} := by
-            simpa using (Fintype.card_coe L).symm
+            simp
       _ ≤ Fintype.card (BOf c h12 χ.1) := by
             refine Fintype.card_le_of_injective (f := fun μ : {μ // μ ∈ L} => ⟨f μ, hmem μ⟩) ?_
             intro x y hEq
@@ -2486,7 +2486,7 @@ private lemma orbit_subset_BOf_zero_mult_false (c : Hyp11 G) [Hyp11KData c] (h12
         simpa [νs, L] using hmem)
       have hνssne : conjChar c.H0 (s_normalizes_H0 c h12) νs.1 ≠ νs.1 := by
         have hνs_coe : νs.1 = conjChar c.H0 (s_normalizes_H0 c h12) ν.1 := by
-          simpa [νs, conjIrr_coe]
+          simp [νs, conjIrr_coe]
         rw [hνs_coe]
         change conjChar c.H0 (s_normalizes_H0 c h12)
           (conjChar c.H0 (s_normalizes_H0 c h12) ν.1) ≠
@@ -2495,7 +2495,7 @@ private lemma orbit_subset_BOf_zero_mult_false (c : Hyp11 G) [Hyp11KData c] (h12
         exact fun h => hfix h.symm
       have hνscard : (orbit c.H0 c.U νs.1).card = 2 := by
         have hνs_coe : νs.1 = conjChar c.H0 (s_normalizes_H0 c h12) ν.1 := by
-          simpa [νs, conjIrr_coe]
+          simp [νs, conjIrr_coe]
         rw [hνs_coe]
         rw [orbit_conjChar_eq_local c h12 ν]
         rw [Finset.card_image_of_injOn]
@@ -2528,7 +2528,7 @@ private lemma orbit_subset_BOf_zero_mult_false (c : Hyp11 G) [Hyp11KData c] (h12
         have hchi := chi_eq_smul_tildeNu_local c h12 hχpm hνssne hνsB
         have h' := congrFun hchi c.t
         have heeq : scalarProduct G χ.1 (tildeNu c h12 νs) = ee := by
-          simpa [ee, νs, tildeNu_invariance c h12 ν]
+          simp [ee, νs, tildeNu_invariance c h12 ν]
         simpa [ee, smul_eq_mul, heeq, hnst] using h'
       have hνst : νs.1 (tH0 c) = -ν.1 (tH0 c) := by
         have hval : (conjChar c.H0 (s_normalizes_H0 c h12) ν.1) (tH0 c) =
@@ -2584,7 +2584,7 @@ private lemma exists_positive_multiplicity_in_orbit (c : Hyp11 G) [Hyp11KData c]
         μ ∈ BOf c h12 χ.1
     · exfalso
       exact orbit_subset_BOf_zero_mult_false c h12 hSC χ hνB hνs hLsubB haν0
-    · push_neg at hLsubB
+    · push Not at hLsubB
       rcases hLsubB with ⟨μ, hμL, hμBnot⟩
       have heμ : e μ = 0 := by
         by_contra hne
@@ -2629,7 +2629,7 @@ private lemma exists_positive_multiplicity_in_orbit (c : Hyp11 G) [Hyp11KData c]
 
 /-- If every constituent of `χ|_{H0}` with nonzero multiplicity had
 `K ≤ ker`, then `χ` would be constant on `K`, contradicting `hK`. -/
-private lemma exists_constituent_not_in_kernel (c : Hyp11 G) [Hyp11KData c] (h12 : Hyp12 c)
+private lemma exists_constituent_not_in_kernel (c : Hyp11 G) [Hyp11KData c] (_h12 : Hyp12 c)
     (χ : Irr G) (hK : ¬ c.K ≤ charKernel (isCharacter_of_isIrreducibleCharacter χ.2)) :
     ∃ μ : Irr (↥c.H0),
       scalarProduct (↥c.H0) (fun y : ↥c.H0 => χ.1 (y : G)) μ.1 ≠ 0 ∧
@@ -2680,7 +2680,7 @@ private lemma exists_constituent_not_in_kernel (c : Hyp11 G) [Hyp11KData c] (h12
 
 /-- The sum of degrees over the `Irr(H0)` members of a `Λ`-orbit equals the
 orbit sum of degrees. -/
-private lemma sum_irr_orbit_degree_eq (c : Hyp11 G) [Hyp11KData c] (h12 : Hyp12 c)
+private lemma sum_irr_orbit_degree_eq (c : Hyp11 G) [Hyp11KData c] (_h12 : Hyp12 c)
     (μ : Irr (↥c.H0)) :
     (∑ ν ∈ Finset.univ.filter (fun ν : Irr (↥c.H0) =>
         ν.1 ∈ orbit c.H0 c.U μ.1), ν.1 1) =
@@ -2889,7 +2889,7 @@ public theorem lemma_3_6 (c : Hyp11 G) [Hyp11KData c] (h12 : Hyp12 c) (hSC : Sec
   let μs : Irr (↥c.H0) := conjIrr c h12 μ
   let αs : Irr (↥c.U) := conjIrrS c c.s_mem_S α
   have hμs_coe : μs.1 = conjChar c.H0 (s_normalizes_H0 c h12) μ.1 := by
-    simpa [μs, conjIrr_coe]
+    simp [μs, conjIrr_coe]
   have hOrbit2 : orbit c.H0 c.U μs.1 = orbitOfAlpha c h12 hSC αs := by
     simpa [μs, αs] using orbit_conjIrr_eq_orbitOfAlpha c h12 hSC α μ hOrbit
   have hOrbit_ne : orbit c.H0 c.U μs.1 ≠ orbit c.H0 c.U μ.1 := by
@@ -3106,7 +3106,7 @@ public theorem lemma_3_6 (c : Hyp11 G) [Hyp11KData c] (h12 : Hyp12 c) (hSC : Sec
         ν.1 ∉ orbit c.H0 c.U μ.1)).filter
           (fun ν : Irr (↥c.H0) => ν.1 ∉ orbit c.H0 c.U μs.1) = Rest := by
       ext ν
-      simp [Rest, and_assoc, and_left_comm, and_comm]
+      simp [Rest]
     rw [hL2eq, hRestEq]
   have hsum_decomp : (∑ ν : Irr (↥c.H0), f ν) =
       (∑ ν ∈ L1, f ν) + (∑ ν ∈ L2, f ν) + (∑ ν ∈ Rest, f ν) := by

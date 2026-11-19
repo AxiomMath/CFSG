@@ -128,11 +128,11 @@ end Equiv
 @[expose] def fixRow0 : Subgroup GL7 where
   carrier := {A | ∀ w : V7, ((A : M7) *ᵥ w) 0 = w 0}
   mul_mem' {A B} hA hB w := by
-    simp only [Set.mem_setOf_eq] at hA hB ⊢
+    simp only [Set.mem_ofPred_eq] at hA hB ⊢
     rw [Units.val_mul, ← Matrix.mulVec_mulVec, hA, hB]
   one_mem' w := by simp
   inv_mem' {A} hA w := by
-    simp only [Set.mem_setOf_eq] at hA ⊢
+    simp only [Set.mem_ofPred_eq] at hA ⊢
     have h := hA (((A⁻¹ : GL7) : M7) *ᵥ w)
     rw [Matrix.mulVec_mulVec, ← Units.val_mul, mul_inv_cancel, Units.val_one,
       Matrix.one_mulVec] at h
@@ -142,9 +142,9 @@ theorem mem_fixRow0_of {A : GL7} {x : List ℕ} (hA : (A : M7) = decN 7 x)
     (h : ∀ j : Fin 7, decN 7 x 0 j = if j = 0 then 1 else 0) : A ∈ fixRow0 := by
   intro w
   rw [hA, Matrix.mulVec, dotProduct, Fintype.sum_eq_single 0]
-  · rw [h, if_pos rfl, one_mul]
+  · rw [h, ite_eq_left rfl, one_mul]
   · intro j hj
-    rw [h, if_neg hj, zero_mul]
+    rw [h, ite_eq_right hj, zero_mul]
 
 @[expose] noncomputable def chiM (σ : H6 →* GL7) (hσ : ∀ g, σ g ∈ fixRow0) :
     Model σ →* Multiplicative (ZMod 2) where
@@ -241,11 +241,11 @@ theorem exists_coords {X : Type} [Group X] [Finite X] {L : Subgroup X} {t₀ : X
     have hc' : c ∈ setMul T L := by rw [hTL]; exact hc
     obtain ⟨u, hu, l, hl, rfl⟩ := hc'
     exact ⟨u, hu, l, hl, rfl⟩
-  haveI : IsElementaryAbelian 2 ↥T := hT.1
+  have : IsElementaryAbelian 2 ↥T := hT.1
   have hsq : ∀ u ∈ T, u ^ 2 = 1 := fun u hu => elemPow_eq_one_of_isElementaryAbelian u hu
   have hTab : ∀ u ∈ T, ∀ v ∈ T, u * v = v * u := fun u hu v hv =>
     congrArg Subtype.val (hT.1.toIsMulCommutative.is_comm.comm (⟨u, hu⟩ : ↥T) ⟨v, hv⟩)
-  haveI : IsSimpleGroup H6 := CFSG.RankThree.PartTwo.Sec4.RonanK429F.Sp8.isSimpleGroup_H6
+  have : IsSimpleGroup H6 := CFSG.RankThree.PartTwo.Sec4.RonanK429F.Sp8.isSimpleGroup_H6
   have hTL1 : ∀ g, f g ∈ T → g = 1 := by
     set N := T.comap f with hNdef
     have hN : N.Normal := ⟨fun n hn g => by

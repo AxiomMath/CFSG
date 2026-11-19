@@ -40,7 +40,7 @@ theorem s16h_exists_pow_of_commute {W : Type} [CommGroup W] [Finite W] {U : Subg
     (hp : p.Prime) {e c : MulAut W} (he : orderOf e = p) (hU : Nat.card ↥U = p + 1)
     (heU : ∀ u ∈ U, e u ∈ U) (hfix : ∀ u ∈ U, e u = u → u = 1) (hcU : ∀ u ∈ U, c u ∈ U)
     (hce : c * e = e * c) : ∃ j : ℕ, ∀ u ∈ U, c u = (e ^ j) u := by
-  haveI : Fintype ↥U := Fintype.ofFinite _
+  have : Fintype ↥U := Fintype.ofFinite _
   have hcardU : Fintype.card ↥U = p + 1 := by rw [← Nat.card_eq_fintype_card]; exact hU
   obtain ⟨u₀, hu₀ne'⟩ := Fintype.exists_ne_of_one_lt_card (a := (1 : ↥U))
     (by have := hp.two_le; omega)
@@ -49,7 +49,7 @@ theorem s16h_exists_pow_of_commute {W : Type} [CommGroup W] [Finite W] {U : Subg
   have hU_i : ∀ i : ℕ, (e ^ i) (u₀ : W) ∈ U := by
     intro i
     induction i with
-    | zero => simpa using hu₀
+    | zero => simp
     | succ i ih => rw [pow_succ', MulAut.mul_apply]; exact heU _ ih
   have hne_i : ∀ i : ℕ, (e ^ i) (u₀ : W) ≠ 1 := by
     intro i h1
@@ -175,7 +175,7 @@ theorem s16h_fixes_of_commute_coprime {W : Type} [CommGroup W] [Finite W] {U : S
       intro u hu
       rw [← hejmm', pow_mul]
       exact hiter m' u hu
-    haveI : Fintype ↥U := Fintype.ofFinite _
+    have : Fintype ↥U := Fintype.ofFinite _
     have hcardU : Fintype.card ↥U = p + 1 := by rw [← Nat.card_eq_fintype_card]; exact hU
     obtain ⟨u₀, hu₀⟩ := Fintype.exists_ne_of_one_lt_card (a := (1 : ↥U))
       (by have := hp.two_le; omega)
@@ -230,7 +230,7 @@ theorem s16h_eq_one_of_normalizes_conj {W : Type} [CommGroup W] [Finite W]
     (hkN : ∀ g ∈ A, k ∈ normalizer
       ((L.map (MulAut.conj g).toMonoidHom : Subgroup (MulAut W)) : Set (MulAut W)))
     {m : ℕ} (hm : Nat.Coprime m p) (hkm : k ^ m = 1) : k = 1 := by
-  haveI : IsCyclic ↥L := hLp.1
+  have : IsCyclic ↥L := hLp.1
   obtain ⟨e, he⟩ := IsCyclic.exists_generator (α := ↥L)
   let eW : MulAut W := e
   have hLgen : Subgroup.zpowers eW = L := by
@@ -275,7 +275,7 @@ theorem s16h_eq_one_of_normalizes_conj {W : Type} [CommGroup W] [Finite W]
       commSub_top_stable151b (X := L) (g := a⁻¹ * k * a)
         (fun x hx => (Subgroup.mem_normalizer_iff.mp (hk'_N a ha) x).mp hx)
     have hkm' : (a⁻¹ * k * a) ^ m = 1 := by
-      have h1 : a⁻¹ * k * a = MulAut.conj a⁻¹ k := by simp [MulAut.conj_apply]
+      have h1 : a⁻¹ * k * a = MulAut.conj a⁻¹ k := by simp
       rw [h1, ← map_pow (MulAut.conj a⁻¹) k m, hkm, map_one]
     exact s16h_fixes_of_commute_coprime hp he_order hU heU hfixe hcU' hce' hm hkm' u hu
   have hfix_map : ∀ a ∈ A, ∀ x ∈ (commSub (⊤ : Subgroup W) L).map a.toMonoidHom, k x = x := by
@@ -310,11 +310,11 @@ theorem s16h_pRank_le_ncard_div {A : Type} [Group A] [Finite A] {Mb Lb : Subgrou
     CFSG.Open.pRank q Mb ≤
       Set.ncard {X : Subgroup A | ∃ g ∈ Mb, X = Lb.map (MulAut.conj g).toMonoidHom} / q := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let S : Set (Subgroup A) :=
     {X : Subgroup A | ∃ g ∈ Mb, X = Lb.map (MulAut.conj g).toMonoidHom}
   change CFSG.Open.pRank q Mb ≤ Set.ncard S / q
-  haveI : Fintype ↥S := Fintype.ofFinite _
+  have : Fintype ↥S := Fintype.ofFinite _
   have hcardS : Fintype.card ↥S = Set.ncard S := by
     rw [← Nat.card_eq_fintype_card, Nat.card_coe_set_eq]
   have hS_mem : ∀ (g : A), g ∈ Mb → ∀ X ∈ S, X.map (MulAut.conj g).toMonoidHom ∈ S := by
@@ -326,7 +326,7 @@ theorem s16h_pRank_le_ncard_div {A : Type} [Group A] [Finite A] {Mb Lb : Subgrou
     ext x
     change g * (m * x * m⁻¹) * g⁻¹ = (g * m) * x * (g * m)⁻¹
     group
-  letI : MulAction ↥Mb ↥S :=
+  let : MulAction ↥Mb ↥S :=
     { smul := fun g X =>
         ⟨X.1.map (MulAut.conj (g : A)).toMonoidHom, hS_mem (g : A) g.2 X.1 X.2⟩
       one_smul := by
@@ -378,7 +378,7 @@ theorem s16h_pRank_le_ncard_div {A : Type} [Group A] [Finite A] {Mb Lb : Subgrou
   have hbound : ∀ E : Subgroup A, E ≤ Mb → IsElemAbelian q E →
       Nat.card E ≤ q ^ (Fintype.card ↥S / q) := by
     intro E hE hEab
-    haveI : IsMulCommutative E := hEab.1
+    have : IsMulCommutative E := hEab.1
     let E₀ : Subgroup ↥Mb := E.subgroupOf Mb
     have hcardE₀ : Nat.card E₀ = Nat.card E := by
       rw [← Subgroup.map_subgroupOf_eq_of_le hE,

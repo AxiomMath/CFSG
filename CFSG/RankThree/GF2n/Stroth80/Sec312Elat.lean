@@ -256,7 +256,7 @@ theorem elat_quotSat
         smul_eq_mul] at h1
       exact h1
     have hri : r ⬝ᵥ (b i : Fin m → K) = 0 := by
-      rw [hr, hgb i, if_neg hij, mul_zero]
+      rw [hr, hgb i, ite_eq_right hij, mul_zero]
     have hrt : ∀ t : Fin k, r ⬝ᵥ (b t : Fin m → K) = c * (if t = j then 1 else 0) := by
       intro t
       rw [hr, hgb t]

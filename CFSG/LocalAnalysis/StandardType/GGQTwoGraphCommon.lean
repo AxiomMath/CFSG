@@ -67,7 +67,7 @@ theorem ggQ2g_basis {p : ℕ} [Fact p.Prime] (D : GGQ2Lin p) (e₀ : D.ι) (x : 
   have hfg : (⊤ : Submodule (ZMod p) D.V).FG := by
     rw [← hV, ← hrange]
     exact Submodule.fg_span (Set.finite_range _)
-  haveI : Module.Finite (ZMod p) D.V := Module.finite_def.mpr hfg
+  have : Module.Finite (ZMod p) D.V := Module.finite_def.mpr hfg
   refine ⟨hLI, le_antisymm hLI.fintype_card_le_finrank ?_⟩
   have htop : Module.finrank (ZMod p) D.V ≤ Fintype.card (Option {k // k ≠ e₀}) :=
     finrank_le_of_span_eq_top (R := ZMod p)
@@ -83,7 +83,7 @@ theorem ggQ2g_alpha_fixed {p : ℕ} [Fact p.Prime] (hp : p = 3) (D : GGQ2Lin p) 
       v ∈ Submodule.span (ZMod p) {xV}) :
     ∀ j : {k // k ≠ e}, D.root j xV = 0 := by
   have h2ne : (2 : ZMod p) ≠ 0 := by
-    haveI : CharP (ZMod p) 3 := by
+    have : CharP (ZMod p) 3 := by
       rw [← hp]
       infer_instance
     exact two_ne_zero_of_charP_three

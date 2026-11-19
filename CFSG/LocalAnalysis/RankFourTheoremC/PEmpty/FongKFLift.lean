@@ -12,10 +12,10 @@ open CFSG CFSG.Open Subgroup
 open scoped commutatorElement
 
 theorem mem_of_central_pow {p : ℕ} (hp : p.Prime) {Z : Type*} [Group Z] [Finite Z]
-    {L P : Subgroup Z} (hPL : P ≤ L) (hPp : IsPGroup p P)
+    {L P : Subgroup Z} (_hPL : P ≤ L) (hPp : IsPGroup p P)
     (hPidx : ¬ p ∣ (P.subgroupOf L).index) {c : Z} (hcL : c ∈ L)
     (hcc : ∀ l ∈ L, l * c = c * l) (hcp : c ^ p = 1) : c ∈ P := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hQ : IsPGroup p (P.subgroupOf L) := hPp.comap_subtype
   let c' : L := ⟨c, hcL⟩
   have hc'p : c' ^ p = 1 := Subtype.ext hcp
@@ -23,7 +23,7 @@ theorem mem_of_central_pow {p : ℕ} (hp : p.Prime) {Z : Type*} [Group Z] [Finit
     rw [Subgroup.mem_center_iff]
     intro g
     exact Subtype.ext (hcc g.1 g.2)
-  haveI : (Subgroup.zpowers c').Normal :=
+  have : (Subgroup.zpowers c').Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hc'cen)
   have hN : IsPGroup p (Subgroup.zpowers c') := by
     rcases (Nat.dvd_prime hp).mp (orderOf_dvd_of_pow_eq_one hc'p) with h1 | h1
@@ -70,7 +70,7 @@ theorem lift_mem_Y {p : ℕ} (hp : p.Prime) {Z : Type*} [Group Z] [Finite Z]
     (h1 : ∀ S : Subgroup Z, S ≤ E₀ → 1 ≤ Open.pRank p S → normalizer (S : Set Z) ≤ Y)
     {e g : Z} (he : e ∈ E₀) (heZ : e ∉ ZL) (hg : g ∈ L) (hc : g * e * g⁻¹ * e⁻¹ ∈ ZL) :
     g ∈ Y := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hep : e ^ p = 1 := hE₀.2 e he
   have heL : e ∈ L := hPL (hE₀P he)
   have he1 : e ≠ 1 := fun h => heZ (h ▸ ZL.one_mem)
@@ -137,7 +137,7 @@ theorem plane_or_central {p : ℕ} (hp : p.Prime) {G : Type*} [Group G] [Finite 
     (∃ S : Subgroup G, S ≤ E ∧ S ≤ N ∧ IsElemAbelian p S ∧ Nat.card S = p ^ 2) ∨
     (∃ D : Subgroup (G ⧸ N), IsElemAbelian p D ∧ Nat.card D = p ^ 2 ∧
       D ≤ E.map (QuotientGroup.mk' N)) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hC : IsElemAbelian p (N ⊓ E) := hE.mono inf_le_right
   have hdvd : Nat.card (N ⊓ E : Subgroup G) ∣ p ^ 3 := by
     rw [← hE3]
@@ -318,12 +318,12 @@ theorem le_of_seitzGen {p : ℕ} (hp : p.Prime) {Z : Type*} [Group Z] [Finite Z]
     (hY1 : ∀ E : Subgroup Z, E ≤ P → IsElemAbelian p E → Nat.card E = p ^ 3 →
       ∀ S : Subgroup Z, S ≤ E → 1 ≤ Open.pRank p S → normalizer (S : Set Z) ≤ Y) :
     L ≤ Y := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨E, hEP, hE, hEc⟩ := CFSG.SectionRank.exists_pRank hp.one_lt P
   have h3 : p ^ 3 ∣ Nat.card E := by
     rw [hEc]
     exact pow_dvd_pow p hrk
-  haveI : Finite E := inferInstance
+  have : Finite E := inferInstance
   obtain ⟨E₀, hE₀E, hE₀, hE₀c⟩ :=
     CFSG.HardMathSupport.Dickson.I271.ThreeOutRank.exists_isElemAbelian_card hE h3
   have hE₀P : E₀ ≤ P := hE₀E.trans hEP

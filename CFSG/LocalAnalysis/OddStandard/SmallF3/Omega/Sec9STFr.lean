@@ -157,10 +157,10 @@ theorem sec9t_exists_frame {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
         (if i ∈ Finset.univ.filter (fun j => μ g j = -1) then (-1 : ZMod 3) else 1) • b i := by
       rw [hb g i]
       by_cases hi : i ∈ Finset.univ.filter (fun j => μ g j = -1)
-      · rw [if_pos hi]
+      · rw [ite_eq_left hi]
         have hgt : μ g i = -1 := by simpa using hi
         rw [hgt]
-      · rw [if_neg hi]
+      · rw [ite_eq_right hi]
         have hne : μ g i ≠ -1 := by simpa using hi
         rcases hμ g i with h | h
         · rw [h, one_smul]

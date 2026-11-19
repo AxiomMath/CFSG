@@ -17,7 +17,7 @@ theorem nonempty_mulEquiv_psu3 {I : Type*} [Group I]
     (g : Fin 6 → I) (hgen : Subgroup.closure (Set.range g) = ⊤) (ρ : I →* Equiv.Perm (Fin 50))
     (hinj : Function.Injective ρ)
     (hρ : ∀ (k : Fin 6) (x : Fin 50), (ρ (g k) x : ℕ) = (smallPerms[(k : ℕ)]!)[(x : ℕ)]!)
-    (hcard : Nat.card I = 126000) : Nonempty (I ≃* PSU3) := by
+    (_hcard : Nat.card I = 126000) : Nonempty (I ≃* PSU3) := by
   have hg : ∀ k : Fin 6, ρ (g k) = CFSG.Monster.B.Co2.permOfArr 50 smallPerms[(k : ℕ)]! :=
     fun k => (CFSG.Monster.B.Mathieu.permOfArr_eq_of_rep fun x => (hρ k x).symm).symm
   have hrange : ρ.range = Subgroup.closure (Set.range fun k : Fin 6 =>

@@ -25,7 +25,7 @@ private theorem card_le_of_isElemAbelian_omegaQ (hK : Nat.card K = 2) {m : ℕ} 
     (E : Subgroup ↥(omegaQ (K := K) m 1)) (hE : IsElemAbelian 3 E) :
     Nat.card E ≤ 3 ^ m := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Q : QuadraticForm K (Fin (m + 1) ⊕ Fin (m + 1) → K) := planeQForm K m 1
   have hQcoe : ⇑Q = planeQ (K := K) m 1 := coe_planeQForm K m 1
   let f : ↥(StatedOmega (planeQ (K := K) m 1)) →* ↥(orthDerived Q) :=
@@ -49,13 +49,13 @@ private theorem card_le_of_isElemAbelian_omegaQ (hK : Nat.card K = 2) {m : ℕ} 
     exact congrArg Subtype.val hxy
   have hEΩelem : IsElemAbelian 3 EΩ := TableB.isElemAbelian_map hE f
   have hEΩcard : Nat.card EΩ = Nat.card E := Subgroup.card_map_of_injective hfinj
-  haveI : Finite (Fin (m + 1) ⊕ Fin (m + 1) → K) := inferInstance
-  haveI : Finite ((Fin (m + 1) ⊕ Fin (m + 1) → K) ≃ₗ[K]
+  have : Finite (Fin (m + 1) ⊕ Fin (m + 1) → K) := inferInstance
+  have : Finite ((Fin (m + 1) ⊕ Fin (m + 1) → K) ≃ₗ[K]
       (Fin (m + 1) ⊕ Fin (m + 1) → K)) :=
     Finite.of_injective (fun e : (Fin (m + 1) ⊕ Fin (m + 1) → K) ≃ₗ[K]
       (Fin (m + 1) ⊕ Fin (m + 1) → K) => (e : _ → _))
       (fun e₁ e₂ h => LinearEquiv.ext (congrFun h))
-  haveI : Finite ↥(orthDerived Q) := Subtype.finite
+  have : Finite ↥(orthDerived Q) := Subtype.finite
   obtain ⟨M, hEΩM, hMelem, hMmax⟩ := otc_exists_max_isElemAbelian_le hEΩelem
   have hEMcard : Nat.card EΩ ≤ Nat.card M := hMmax EΩ le_rfl hEΩelem
   have hMsc := otc_selfCent_of_max_isElemAbelian hEΩM hMelem hMmax
@@ -85,7 +85,7 @@ private theorem card_le_of_isElemAbelian_omegaQ (hK : Nat.card K = 2) {m : ℕ} 
     _ ≤ Nat.card M := hEMcard
     _ ≤ 3 ^ m := hbound
 
-theorem ggCommonJOmPlusTwo_selfCent (hK : Nat.card K = 2) {m : ℕ} (hm : 4 ≤ m) (hme : Even m)
+theorem ggCommonJOmPlusTwo_selfCent (hK : Nat.card K = 2) {m : ℕ} (hm : 4 ≤ m) (_hme : Even m)
     (T : Subgroup ↥(omegaQ (K := K) m 1)) (hT : IsElemAbelian 3 T)
     (hcard : Nat.card T = 3 ^ m) :
     ∀ g : ↥(omegaQ (K := K) m 1), (∀ e ∈ T, g * e = e * g) → g ^ 3 = 1 → g ∈ T := by
@@ -106,12 +106,13 @@ theorem ggCommonJOmPlusTwo_selfCent (hK : Nat.card K = 2) {m : ℕ} (hm : 4 ≤ 
   rw [heq] at hgK
   exact hgT hgK
 
+omit [CharP K 2] in
 private theorem range_eq_commutator_of_injective (hK : Nat.card K = 2)
     (ζ : Multiplicative (ZMod 3) →* Matrix.SpecialLinearGroup (Fin 2) K)
     (hζ : Function.Injective ζ) :
     ζ.range = commutator (Matrix.SpecialLinearGroup (Fin 2) K) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
   obtain ⟨t, ht, hcomm⟩ := CFSG.Quasithin.exists_commutator_eq_zpowers (F := K) hK'
   have hSL : Nat.card (Matrix.SpecialLinearGroup (Fin 2) K) = 6 := by
@@ -134,6 +135,7 @@ private theorem range_eq_commutator_of_injective (hK : Nat.card K = 2)
     omega
   exact CFSG.Monster.Existence.eq_commutator_of_index_eq_two hcommidx hζidx
 
+omit [Finite K] [CharP K 2] in
 private theorem exists_otau_eq_of_range_eq {t : ℕ} {δ : Fin 2}
     {ζ ζ' : Multiplicative (ZMod 3) →* Matrix.SpecialLinearGroup (Fin 2) K}
     (h : ζ.range = ζ'.range) (u : PlaneRaw.V t) :

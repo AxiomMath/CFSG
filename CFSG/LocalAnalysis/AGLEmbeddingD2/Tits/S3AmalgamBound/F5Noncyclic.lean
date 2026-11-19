@@ -96,7 +96,7 @@ theorem _root_.CFSG.LocalAnalysis.RankThreeTheoremC.exists_factorization_of_pair
       hDp.of_equiv (Subgroup.subgroupOfEquivOfLe hDA).symm
     obtain ⟨Q', hDQ'⟩ := hDp'.exists_le_sylow
     set Q : Subgroup G := (Q' : Subgroup ↥𝒜).map 𝒜.subtype with hQ
-    have hQp : IsPGroup 3 Q := Q'.isPGroup'.map 𝒜.subtype
+    have hQp : IsPGroup 3 Q := Q'.isPGroup.map 𝒜.subtype
     have hQ𝒜 : Q ≤ 𝒜 := Subgroup.map_subtype_le _
     have hDQ : D ≤ Q := fun x hx => ⟨⟨x, hDA hx⟩, hDQ' (Subgroup.mem_subgroupOf.2 hx), rfl⟩
     have hQc : ¬ IsCyclic Q := fun hcyc => hDc (Subgroup.isCyclic_of_le hDQ)
@@ -202,6 +202,6 @@ theorem ffNoncyclicInput_of_nodes
       (isPGroup_autI hU (hT.2.1.to_le (C1GN.baum_le T)))
   refine false_of_noncyclic_pair_data hc hstr hAll hT hNT hMN hI hcard hSylB hJM hdat
     (D := (S : Subgroup ↥(ffC M T)).map (ffC M T).subtype) (Subgroup.map_subtype_le _)
-    (S.isPGroup'.map _) hS
+    (S.isPGroup.map _) hS
 
 end CFSG.AGLEmbeddingD2.Tits.S3AmalgamBound

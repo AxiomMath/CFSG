@@ -15,7 +15,7 @@ theorem rckFlagSC4_oddCenter_quadPlus_two (g : ℕ) (_hg : 1 ≤ g) :
   have h2 : (2 : GaloisField 2 g) = 0 := CharP.cast_eq_zero (GaloisField 2 g) 2
   have hinj : Function.Injective (Spin.spinMatrix (Spin.quadPlus 2 (GaloisField 2 g))) :=
     (MonoidHom.ker_eq_bot_iff _).1 (Spin.ker_spinMatrix_quadPlus_eq_bot h2)
-  haveI : Finite (spinGroup (Spin.quadPlus 2 (GaloisField 2 g))) :=
+  have : Finite (spinGroup (Spin.quadPlus 2 (GaloisField 2 g))) :=
     Finite.of_injective _ hinj
   unfold OddCenterOf
   rw [← Nat.not_even_iff_odd]

@@ -54,6 +54,7 @@ section Phi
 variable {G : Type} [Group G] {M Q Z B : Subgroup G} {K : Type} [Field K] [Finite K] {γ : G → K}
   {M₀ : Tim79.QuadModel Q Z K γ} {F : Type} [Field F] [Finite F] [CharP F 2] {σ : F ≃+* F}
 
+omit [Finite K] [Finite F] in
 theorem exists_phiU (e' : K ≃+* Fσ σ) (ψ : M₀.E ≃ₗ[K] E3UWspace σ e')
     (T : Lgen M (LB M Q B) →* (M₀.E ≃ₗ[K] M₀.E))
     (hTe : ∀ (s : Lgen M (LB M Q B)) (x : G), x ∈ Q →

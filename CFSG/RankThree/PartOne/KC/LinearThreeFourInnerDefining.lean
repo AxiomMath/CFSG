@@ -91,7 +91,7 @@ theorem exists_isUnit_mul_eq_of_chain {n : ℕ} {k : Type*} [Field k]
     (h : ∀ j, M.mulVec (c j) = ∑ l, N l j • c l) :
     ∃ A : Matrix (Fin n) (Fin n) k, IsUnit A ∧ M * A = A * N := by
   refine ⟨Matrix.of fun i j => c j i, ?_, ?_⟩
-  · rw [← Matrix.linearIndependent_cols_iff_isUnit]
+  · rw [← Matrix.linearIndependent_col_iff_isUnit]
     exact hli
   · ext i j
     have := congrFun (h j) i

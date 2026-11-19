@@ -27,9 +27,9 @@ private lemma hdRo7CFlipAux_proj_apply {p : ℕ} {V : Type} [AddCommGroup V] [Mo
   rw [← Finset.sum_subset (Finset.subset_univ F)]
   · apply Finset.sum_congr rfl
     intro i hi
-    rw [map_smul, hdRo7CFlipAux_proj_basis b F i, if_pos hi, Module.Basis.coord_apply]
+    rw [map_smul, hdRo7CFlipAux_proj_basis b F i, ite_eq_left hi, Module.Basis.coord_apply]
   · intro x _ hxF
-    rw [map_smul, hdRo7CFlipAux_proj_basis b F x, if_neg hxF, smul_zero]
+    rw [map_smul, hdRo7CFlipAux_proj_basis b F x, ite_eq_right hxF, smul_zero]
 
 private def hdRo7CFlipAux_w {p : ℕ} {n : ℕ} (F : Finset (Fin (n + 1))) (i : Fin (n + 1)) :
     ZMod p :=
@@ -53,13 +53,13 @@ private lemma hdRo7CFlipAux_T_basis {p : ℕ} {V : Type} [AddCommGroup V] [Modul
   rw [hdRo7CFlipAux_T, LinearMap.sub_apply, LinearMap.id_apply, LinearMap.smul_apply,
     hdRo7CFlipAux_proj_basis]
   by_cases hk : k ∈ F
-  · rw [if_pos hk, two_smul]
+  · rw [ite_eq_left hk, two_smul]
     unfold hdRo7CFlipAux_w
-    rw [if_pos hk, neg_one_smul]
+    rw [ite_eq_left hk, neg_one_smul]
     abel
-  · rw [if_neg hk, smul_zero, sub_zero]
+  · rw [ite_eq_right hk, smul_zero, sub_zero]
     unfold hdRo7CFlipAux_w
-    rw [if_neg hk, one_smul]
+    rw [ite_eq_right hk, one_smul]
 
 private lemma hdRo7CFlipAux_T_comp {p : ℕ} {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     {n : ℕ} (b : Module.Basis (Fin (n + 1)) (ZMod p) V) (F : Finset (Fin (n + 1))) :
@@ -88,7 +88,7 @@ private lemma hdRo7CFlipAux_signChange_apply_basis {p : ℕ} {V : Type} [AddComm
     [Module (ZMod p) V] {n : ℕ} (b : Module.Basis (Fin (n + 1)) (ZMod p) V)
     (F : Finset (Fin (n + 1))) (k : Fin (n + 1)) :
     hdRo7CFlipAux_signChange b F (b k) = hdRo7CFlipAux_w (p := p) F k • b k := by
-  simp only [hdRo7CFlipAux_signChange, LinearEquiv.coe_ofInvolutive]
+  simp only [hdRo7CFlipAux_signChange]
   exact hdRo7CFlipAux_T_basis b F k
 
 private lemma hdRo7CFlipAux_signChange_mul_self {p : ℕ} {V : Type} [AddCommGroup V]
@@ -145,10 +145,10 @@ private lemma hdRo7CFlipAux_supp_proj {p : ℕ} {V : Type} [AddCommGroup V] [Mod
   constructor
   · intro h
     by_contra hk
-    rw [hdRo7CFlipAux_coord_proj, if_neg hk] at h
+    rw [hdRo7CFlipAux_coord_proj, ite_eq_right hk] at h
     exact h.2 rfl
   · intro hk
-    exact ⟨Finset.mem_univ _, by rw [hdRo7CFlipAux_coord_proj, if_pos hk]; exact hF k hk⟩
+    exact ⟨Finset.mem_univ _, by rw [hdRo7CFlipAux_coord_proj, ite_eq_left hk]; exact hF k hk⟩
 
 private lemma hdRo7CFlipAux_sq_eq_one {p : ℕ} (hp3 : p = 3) (a : ZMod p) (ha : a ≠ 0) :
     a * a = 1 := by

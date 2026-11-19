@@ -96,7 +96,7 @@ theorem lemma3 {H : Subgroup (ModGL Tag.E8 K)} (hX : XS K ≤ H) (hM : MPart K H
     have hf : ∀ ν, ν ∉ Deg1 Tag.E8 → f ν = 0 := by
       intro ν hν
       simp only [f]
-      rw [if_neg]
+      rw [ite_eq_right]
       intro hsr
       exact hν (mem_Deg1_E8.2 ⟨mem_rootFinset.1 (Finset.mem_filter.1 hsr).1,
         (Finset.mem_filter.1 hsr).2.1⟩)
@@ -105,16 +105,16 @@ theorem lemma3 {H : Subgroup (ModGL Tag.E8 K)} (hX : XS K ≤ H) (hM : MPart K H
       refine mem_X1_of_coord_M_zero K hsQ fun β' hβ' => ?_
       rw [hsc]
       simp only [f]
-      rw [if_neg (mRoots_ne_sRoots1 hβ')]
+      rw [ite_eq_right (mRoots_ne_sRoots1 hβ')]
     have hsH : s ∈ H := hX (X1_le_XS K hsX1)
     refine ⟨heisCoord Tag.E8 K (q * s⁻¹), ⟨q * s⁻¹, mul_mem hqH (inv_mem hsH),
       mul_mem hqQ (inv_mem hsQ), rfl, fun ν hν => ?_⟩, fun h0 => hβ0 ?_⟩
     · rw [hs.mul q hqQ _ (inv_mem hsQ), heisCoord_inv hsQ, hsc]
       simp only [Pi.add_apply, Pi.neg_apply, f]
       by_cases hν' : ν ∈ sRoots1
-      · rw [if_pos hν']
+      · rw [ite_eq_left hν']
         ring
-      · rw [if_neg hν']
+      · rw [ite_eq_right hν']
         by_cases hD : ν ∈ Deg1 Tag.E8
         · rcases Deg1_cases hD with h | h
           · exact absurd h hν
@@ -124,7 +124,7 @@ theorem lemma3 {H : Subgroup (ModGL Tag.E8 K)} (hX : XS K ≤ H) (hM : MPart K H
     · have := congrFun h0 β
       rw [hs.mul q hqQ _ (inv_mem hsQ), heisCoord_inv hsQ, hsc] at this
       simp only [Pi.add_apply, Pi.neg_apply, f, Pi.zero_apply] at this
-      rw [if_neg (mRoots_ne_sRoots1 hβM)] at this
+      rw [ite_eq_right (mRoots_ne_sRoots1 hβM)] at this
       simpa using this
   obtain ⟨ν, hν, e, he, hW⟩ := LA_core ha W hadd hneg hsupp hstab hne
   obtain ⟨q, hqH, hqQ, hqc, -⟩ := hW

@@ -406,7 +406,7 @@ theorem false_of_cyclic (hxTh : x ∈ Th x y)
     exact xbar_mul_self h.hx
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥Cb) := inferInstance
   have hP' : IsCyclic ↥((P : Subgroup ↥Cb).map Cb.subtype) :=
-    hcyc _ (P.isPGroup'.map _) (Subgroup.map_subtype_le _)
+    hcyc _ (P.isPGroup.map _) (Subgroup.map_subtype_le _)
   have hPcyc : IsCyclic ↥(P : Subgroup ↥Cb) :=
     isCyclic_of_surjective (Subgroup.equivMapOfInjective (P : Subgroup ↥Cb) Cb.subtype
       Cb.subtype_injective).symm.toMonoidHom (Subgroup.equivMapOfInjective _ _ Cb.subtype_injective).symm.surjective

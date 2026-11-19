@@ -35,7 +35,7 @@ theorem exists_invariant_two_subgroup [Finite G] {A H : Subgroup G} (hA : IsPGro
     (not_dvd_card_sylow 2 ↥H)
   obtain ⟨Q, hQ⟩ := (hx.comap_subtype (K := H)).exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq ↥H Q P
-  refine ⟨(P : Subgroup H).map H.subtype, P.isPGroup'.map H.subtype, ?_, ?_⟩
+  refine ⟨(P : Subgroup H).map H.subtype, P.isPGroup.map H.subtype, ?_, ?_⟩
   · rintro a ha _ ⟨y, hy, rfl⟩
     have hfix : (⟨a, ha⟩ : ↥A) • P = P := MulAction.mem_fixedPoints.mp hP ⟨a, ha⟩
     have hmem := Subgroup.smul_mem_pointwise_smul y (⟨a, ha⟩ : ↥A) (P : Subgroup H) hy

@@ -57,7 +57,7 @@ private theorem rankOne_QD_decomposition
         (Subgroup.subgroupOf_sup hQ_le_M hD_le_M).symm
       _ = M.subgroupOf M := by rw [hQ_sup_D]
       _ = ⊤ := Subgroup.subgroupOf_self M
-  letI : QM.Normal := hQ_normal_in_M
+  let : QM.Normal := hQ_normal_in_M
   have hmul : (QM : Set M) * (DM : Set M) = Set.univ := by
     rw [← Subgroup.normal_mul QM DM, hsup]
     exact Subgroup.coe_top
@@ -128,8 +128,8 @@ private theorem rankOne_coordinate_surjective
   have ht_ne : t • a ≠ a := by
     intro htfix
     exact ht_not_mem_M (by rw [hM, MulAction.mem_stabilizer_iff]; exact htfix)
-  letI : MulAction.IsMultiplyPretransitive L X 2 := htwo_transitive
-  haveI : MulAction.IsPretransitive L X :=
+  let : MulAction.IsMultiplyPretransitive L X 2 := htwo_transitive
+  have : MulAction.IsPretransitive L X :=
     MulAction.isPretransitive_of_is_two_pretransitive
   have hstab_pre :
       MulAction.IsPretransitive
@@ -435,8 +435,8 @@ public theorem rankOneNormalClosure_subgroupOf_generated
     simpa [C, hyx'] using hyC
   · have hN_eq : N = Subgroup.normalClosure (Q : Set L) :=
       iSup_rightConjugate_eq_normalClosure Q
-    letI : N.Normal := hN_eq.symm ▸ Subgroup.normalClosure_normal
-    letI : (N.subgroupOf A).Normal := (inferInstance : N.Normal).subgroupOf A
+    let : N.Normal := hN_eq.symm ▸ Subgroup.normalClosure_normal
+    let : (N.subgroupOf A).Normal := (inferInstance : N.Normal).subgroupOf A
     apply Subgroup.normalClosure_le_normal
     intro x hx
     change (x : L) ∈ N

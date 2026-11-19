@@ -19,12 +19,15 @@ namespace LinearCore
 
 variable {n : ℕ} {k : Type} [Field k] [Finite k]
 
+omit [Finite k] in
 theorem glA_mul (A B : GL (Fin n) k) : glA (A * B) = glA A * glA B :=
   map_mul (Matrix.GeneralLinearGroup.toLin : GL (Fin n) k ≃* _) A B
 
+omit [Finite k] in
 theorem glA_inv (A : GL (Fin n) k) : glA A⁻¹ = (glA A)⁻¹ :=
   map_inv (Matrix.GeneralLinearGroup.toLin : GL (Fin n) k ≃* _) A
 
+omit [Finite k] in
 theorem mem_gl_centralizer_glA {A B : GL (Fin n) k} (h : B * A = A * B) :
     glA B ∈ gl_centralizer (glA A) := by
   rw [mem_gl_centralizer]
@@ -35,6 +38,7 @@ theorem mem_gl_centralizer_glA {A B : GL (Fin n) k} (h : B * A = A * B) :
       (u : Module.End k (Fin n → k))) this
     simpa using this)
 
+omit [Finite k] in
 theorem commutator_acts_trivially_of_scalars {A Ba Bb : GL (Fin n) k} {h : k[X]}
     (hcomm : A = Ba * Bb * Ba⁻¹ * Bb⁻¹) (hBa : Ba * A = A * Ba) (hBb : Bb * A = A * Bb)
     (ca cb : AdjoinRoot h)
@@ -91,6 +95,7 @@ theorem commutator_acts_trivially_of_scalars {A Ba Bb : GL (Fin n) k} {h : k[X]}
     rw [hMaMai, hMbMbi]
   rw [e1, hMaMb u, e2]
 
+omit [Finite k] in
 theorem commutator_acts_trivially_on_block {A Ba Bb : GL (Fin n) k}
     (hsq : Squarefree (minpoly k (glA A : Module.End k (Fin n → k))))
     {h : k[X]} (hh : h ∈ primaryFactors (glA A : Module.End k (Fin n → k)))
@@ -107,6 +112,7 @@ theorem commutator_acts_trivially_on_block {A Ba Bb : GL (Fin n) k}
     (mem_gl_centralizer_glA hBb) (fun g hg _ => hFb g hg)
   exact commutator_acts_trivially_of_scalars hcomm hBa hBb ca cb hca hcb
 
+omit [Finite k] in
 theorem commutator_acts_trivially_of_mult_le_one {A Ba Bb : GL (Fin n) k}
     {h : k[X]} (hh : h ∈ primaryFactors (glA A : Module.End k (Fin n → k)))
     (hcomm : A = Ba * Bb * Ba⁻¹ * Bb⁻¹)
@@ -129,6 +135,7 @@ theorem commutator_acts_trivially_of_mult_le_one {A Ba Bb : GL (Fin n) k}
   · have := blockApply_blockRestrict (glA A) h ⟨glA Bb, mem_gl_centralizer_glA hBb⟩ v.1 v.2
     exact this.symm.trans (congrArg Subtype.val (hcb v))
 
+omit [Finite k] in
 theorem eq_one_of_acts_trivially {A : GL (Fin n) k}
     (hsq : Squarefree (minpoly k (glA A : Module.End k (Fin n → k))))
     (h : ∀ j ∈ primaryFactors (glA A : Module.End k (Fin n → k)),
@@ -140,9 +147,11 @@ theorem eq_one_of_acts_trivially {A : GL (Fin n) k}
   apply Units.ext
   simpa [map_one] using h1
 
+omit [Finite k] in
 theorem slGL_eq_glA (f : Matrix.SpecialLinearGroup (Fin n) k) :
     slGL n k f = glA (Matrix.SpecialLinearGroup.toGL f) := rfl
 
+omit [Finite k] in
 theorem commute_specialBlock_of_specialFactor {A B : GL (Fin n) k}
     (hsq : Squarefree (minpoly k (glA A : Module.End k (Fin n → k))))
     {h : k[X]} (hh : h ∈ primaryFactors (glA A : Module.End k (Fin n → k)))
@@ -160,7 +169,7 @@ theorem four_le_card_of_ne_one {σ : k} (h3 : (3 : k) ≠ 0) (h0 : σ ≠ 0) (h1
   have h3le : 3 ≤ Fintype.card k := by
     have : ({0, 1, σ} : Finset k).card = 3 := by
       rw [Finset.card_insert_of_notMem, Finset.card_pair (Ne.symm h1)]
-      simp [h0.symm, (Ne.symm h1)]
+      simp [h0.symm]
     rw [← this]
     exact Finset.card_le_univ _
   rw [Nat.card_eq_fintype_card]

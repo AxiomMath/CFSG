@@ -169,7 +169,7 @@ theorem exists_span2_of_typeC {c : S.O} (hc : c ∈ D.Cbar) {d : Vt S D.g D.t}
       refine congrArg D.coord (Prod.ext ?_ ?_)
       · simp only [Prod.fst_add, Prod.smul_fst, smul_zero, add_zero]
         module
-      · simp only [Prod.snd_add, Prod.smul_snd, smul_zero, zero_add]
+      · simp only [Prod.snd_add, Prod.smul_snd, smul_zero]
         module
     rw [e]
     exact Submodule.add_mem _ (Submodule.add_mem _ hyU (Submodule.smul_mem _ _ haU))

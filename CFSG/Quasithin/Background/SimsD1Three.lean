@@ -106,7 +106,7 @@ theorem d125_of_isSQTKSub (hN : D125NonsolvableSQTK) (h : D11Hyp G₁ G₂ T V M
 
 theorem two_mul_padicValNat_eq {a b : ℕ} (h : a ^ 2 = b) :
     2 * padicValNat 2 a = padicValNat 2 b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← h, padicValNat.pow a 2]
 
 theorem three_eq (h : D11Hyp G₁ G₂ T V M₂) (hnff : ¬ IsFFInt G₁ V h.reduced.2.2.1)

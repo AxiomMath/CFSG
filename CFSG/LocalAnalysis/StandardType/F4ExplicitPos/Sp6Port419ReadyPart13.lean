@@ -67,14 +67,14 @@ private theorem f4_exists_mul_psi_mem_centralizer
     intro i c
     rw [show xPar F (Pi.single i 1) c =
         F.eltElement ⟨Pi.single i 1, isRoot_single .F4 i⟩ c from
-      dif_pos (isRoot_single .F4 i)]
+      dite_eq_left (isRoot_single .F4 i)]
     rfl
   have hxNs : ∀ (i : Fin Tag.F4.rank) (c : K),
       xPar F (-Pi.single i 1) c = F.eltElement (-simpleRoot .F4 i) c := by
     intro i c
     rw [show xPar F (-Pi.single i 1) c =
         F.eltElement ⟨-Pi.single i 1, isRoot_neg_single .F4 i⟩ c from
-      dif_pos (isRoot_neg_single .F4 i)]
+      dite_eq_left (isRoot_neg_single .F4 i)]
     rfl
   have hxu : ∀ i c, (xPar F (Pi.single i 1) c : ModGL .F4 K) = xUnit .F4 K i c := by
     intro i c
@@ -99,9 +99,9 @@ private theorem f4_exists_mul_psi_mem_centralizer
   have hx0 : ∀ γ : Fin Tag.F4.rank → ℤ, xPar F γ (0 : K) = 1 := by
     intro γ
     by_cases h : IsRoot .F4 γ
-    · rw [show xPar F γ (0 : K) = F.eltElement ⟨γ, h⟩ (0 : K) from dif_pos h,
+    · rw [show xPar F γ (0 : K) = F.eltElement ⟨γ, h⟩ (0 : K) from dite_eq_left h,
         F.eltElement_zero]
-    · rw [show xPar F γ (0 : K) = 1 from dif_neg h]
+    · rw [show xPar F γ (0 : K) = 1 from dite_eq_right h]
   have hχ0 : ∀ i, χ i ≠ 0 := by
     intro i h0
     have h := hχ i 1
@@ -269,7 +269,7 @@ theorem f4_exists_inner_correction_of_hlin
     change rootGroup F K (Pi.single i 1) = F.rootSubgroup K (simpleRoot .F4 i)
     rw [show rootGroup F K (Pi.single i 1) =
         (if h : IsRoot .F4 (Pi.single i 1) then F.rootSubgroup K ⟨Pi.single i 1, h⟩ else ⊥)
-        from rfl, dif_pos (isRoot_single .F4 i)]
+        from rfl, dite_eq_left (isRoot_single .F4 i)]
     rfl
   have hrGn : ∀ i : Fin Tag.F4.rank, D.rootGroup (-Pi.single i 1) =
       F.rootSubgroup K (-simpleRoot .F4 i) := by
@@ -277,21 +277,21 @@ theorem f4_exists_inner_correction_of_hlin
     change rootGroup F K (-Pi.single i 1) = F.rootSubgroup K (-simpleRoot .F4 i)
     rw [show rootGroup F K (-Pi.single i 1) =
         (if h : IsRoot .F4 (-Pi.single i 1) then F.rootSubgroup K ⟨-Pi.single i 1, h⟩ else ⊥)
-        from rfl, dif_pos (isRoot_neg_single .F4 i)]
+        from rfl, dite_eq_left (isRoot_neg_single .F4 i)]
     rfl
   have hxPs : ∀ (i : Fin Tag.F4.rank) (c : K),
       xPar F (Pi.single i 1) c = F.eltElement (simpleRoot .F4 i) c := by
     intro i c
     rw [show xPar F (Pi.single i 1) c =
         F.eltElement ⟨Pi.single i 1, isRoot_single .F4 i⟩ c from
-      dif_pos (isRoot_single .F4 i)]
+      dite_eq_left (isRoot_single .F4 i)]
     rfl
   have hxNs : ∀ (i : Fin Tag.F4.rank) (c : K),
       xPar F (-Pi.single i 1) c = F.eltElement (-simpleRoot .F4 i) c := by
     intro i c
     rw [show xPar F (-Pi.single i 1) c =
         F.eltElement ⟨-Pi.single i 1, isRoot_neg_single .F4 i⟩ c from
-      dif_pos (isRoot_neg_single .F4 i)]
+      dite_eq_left (isRoot_neg_single .F4 i)]
     rfl
   have key : ∀ i, ∃ χ : K, ∀ c', (c * g)⁻¹ * ψ (xPar F (Pi.single i 1) c') * (c * g) =
       ψ (xPar F (Pi.single i 1) (χ * c')) := by

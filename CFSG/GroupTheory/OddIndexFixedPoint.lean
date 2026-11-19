@@ -11,7 +11,7 @@ theorem exists_conj_normalizer_of_odd_relIndex_of_prime {G : Type} [Group G] [Fi
     (hodd : ¬ p ∣ H.relIndex ⊤) :
     ∃ g : G, T ≤ Subgroup.normalizer ((H.map (MulAut.conj g).toMonoidHom) : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card (G ⧸ H) = H.relIndex ⊤ := by
     rw [← Subgroup.index_eq_card, Subgroup.relIndex_top_right]
   have hnot : ¬ p ∣ Nat.card (G ⧸ H) := by

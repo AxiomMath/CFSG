@@ -21,12 +21,13 @@ open scoped Pointwise commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {L1 L2 S : Subgroup G} {a : ℕ}
 
+omit [Finite G] in
 theorem inf_conjugate_centralized_of_le {H0 S Q1 Q2 V : Subgroup G} {w : G}
     (hSw : S ⊔ conjugate S w = H0) (hwH : w ∈ H0)
     (hQ1Q2 : Q1 ⊔ Q2 = S)
     (hQ1S : Q1 ≤ S) (hQ2S : Q2 ≤ S)
     (hQ1n : S ≤ Subgroup.normalizer (Q1 : Set G))
-    (hQ2n : S ≤ Subgroup.normalizer (Q2 : Set G))
+    (_hQ2n : S ≤ Subgroup.normalizer (Q2 : Set G))
     (hQ2p : IsPGroup 2 Q2)
     (hQ2H : H0 ≤ Subgroup.normalizer (Q2 : Set G))
     (hV1 : Q1 ≤ Subgroup.centralizer (V : Set G))

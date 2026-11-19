@@ -49,6 +49,7 @@ theorem exists_mem_elevenBlocks {M V Q U : Subgroup G}
   rw [hbot, sup_bot_eq, top_inf_eq] at h3
   exact hU.2.2.1 (Subgroup.subgroupOf_eq_top.1 h3.symm)
 
+omit [Finite G] in
 private theorem conjSubgroup_iSup' {ι : Sort*} (A : ι → Subgroup G) (g : G) :
     conjSubgroup (⨆ i, A i) g = ⨆ i, conjSubgroup (A i) g :=
   Subgroup.map_iSup _ _

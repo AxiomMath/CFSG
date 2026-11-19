@@ -18,7 +18,7 @@ private theorem finite_W (S : OmegaModel W) : Finite W :=
   Finite.of_injective (S.e : W → Multiplicative (OmI → S.K)) S.e.injective
 
 private theorem finite_mulAut (S : OmegaModel W) : Finite (MulAut W) := by
-  haveI := finite_W S
+  have := finite_W S
   exact Finite.of_injective (fun g : MulAut W => (g : W → W)) DFunLike.coe_injective
 
 theorem card_omega0_eq :
@@ -32,7 +32,7 @@ theorem card_omega0_eq :
 theorem omega_eq_omega0_of_card
     (h : Nat.card S.omega = (Nat.card S.K * (Nat.card S.K ^ 2 - 1)) ^ 2) :
     S.omega = S.omega0 := by
-  haveI := finite_mulAut S
+  have := finite_mulAut S
   have hcard : Nat.card S.omega ≤ Nat.card S.omega0 := by
     rw [h, card_omega0_eq S]
   exact (Subgroup.eq_of_le_of_card_ge (H := S.omega0) (K := S.omega) (omega0_le_omega S)
@@ -103,7 +103,7 @@ private theorem center_specialLinearGroup_two_eq_bot (K : Type*) [Field K] [Char
 private theorem isSimpleGroup_specialLinearGroup_two_of_charTwo
     (K : Type*) [Field K] [CharP K 2] (hK : 4 ≤ Nat.card K) :
     IsSimpleGroup (SL(2, K)) := by
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hK
   have e : SL(2, K) ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) K :=
     QuotientGroup.quotientBot.symm.trans
@@ -111,7 +111,7 @@ private theorem isSimpleGroup_specialLinearGroup_two_of_charTwo
   exact e.isSimpleGroup
 
 theorem isSimpleGroup_factor (j : Fin 2) : IsSimpleGroup ↥(S.factor j) := by
-  haveI : IsSimpleGroup (SL(2, S.K)) :=
+  have : IsSimpleGroup (SL(2, S.K)) :=
     isSimpleGroup_specialLinearGroup_two_of_charTwo S.K S.four_le
   obtain ⟨e⟩ := nonempty_mulEquiv_factor S j
   exact e.isSimpleGroup

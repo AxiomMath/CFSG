@@ -55,7 +55,7 @@ theorem exists_mem_inf_inv_mul_mem_centralizer_of_isComponent (hO : pPrimeCore 2
     calc x * (k⁻¹ * u) = k⁻¹ * (k * x * k⁻¹) * u := by group
       _ = k⁻¹ * (u * x * u⁻¹) * u := by rw [hk x hx]
       _ = k⁻¹ * u * x := by group
-  obtain ⟨a, ha⟩ := (IsPGroup.iff_orderOf.mp R.isPGroup') ⟨u, hu⟩
+  obtain ⟨a, ha⟩ := (IsPGroup.iff_orderOf.mp R.isPGroup) ⟨u, hu⟩
   have hupow : u ^ (2 ^ a) = 1 := by
     have h := pow_orderOf_eq_one (⟨u, hu⟩ : (R : Subgroup Y))
     rw [ha] at h
@@ -111,7 +111,7 @@ theorem sylow_le_of_isComponent_of_fpf (hO : pPrimeCore 2 Y = ⊥) (R : Sylow 2 
     exact h⟩⟩
   have h2K : 2 ∣ Nat.card K := even_iff_two_dvd.mp (Walter.even_card_of_isSimpleGroup hnonab)
   have h2P : 2 ∣ Nat.card (P : Subgroup K) :=
-    P.isPGroup'.card_eq_or_dvd.resolve_left fun h =>
+    P.isPGroup.card_eq_or_dvd.resolve_left fun h =>
       P.ne_bot_of_dvd_card h2K (Subgroup.card_eq_one.mp h)
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := (P : Subgroup K)) 2 h2P
   have hzZ : z ∈ center (P : Subgroup K) := mem_center_iff.mpr fun g => hPab.is_comm.comm g z

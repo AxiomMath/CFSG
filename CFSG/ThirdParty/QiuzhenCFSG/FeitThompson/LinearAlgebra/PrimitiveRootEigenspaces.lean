@@ -72,12 +72,12 @@ public def CFSG.intertwiningSubmodule
     carrier := {X : End R M | A * X = X * B}
     add_mem' := by
       intro X Y hX hY
-      simp_all only [Set.mem_setOf_eq]
+      simp_all only [Set.mem_ofPred_eq]
       rw [mul_add, hX, hY, add_mul]
-    zero_mem' := by simp only [Set.mem_setOf_eq, mul_zero, zero_mul]
+    zero_mem' := by simp only [Set.mem_ofPred_eq, mul_zero, zero_mul]
     smul_mem' := by
       intro r X hX
-      simp_all only [Set.mem_setOf_eq]
+      simp_all only [Set.mem_ofPred_eq]
       rw [mul_smul_comm, hX, smul_mul_assoc]
   }
 
@@ -92,7 +92,7 @@ lemma CFSG.injective_powers {F : Type _} [Field F] {ε : F} {h : ℕ} (hε : IsP
 lemma CFSG.mem_nthRootsFinset_iff {F : Type _} [Field F] {ε : F} {h : ℕ} (hε : IsPrimitiveRoot ε h) (hpos : 0 < h) (ζ : F) :
     ζ ∈ nthRootsFinset h (1 : F) ↔ ∃ i : Fin h, ζ = ε ^ (i : ℕ) := by
   classical
-  haveI : NeZero h := ⟨hpos.ne'⟩
+  have : NeZero h := ⟨hpos.ne'⟩
   constructor
   · intro hζ
     rw [mem_nthRootsFinset hpos] at hζ
@@ -110,7 +110,7 @@ open scoped Classical in
 lemma CFSG.nthRootsFinset_eq_image {F : Type _} [Field F] {ε : F} {h : ℕ} (hε : IsPrimitiveRoot ε h) (hpos : 0 < h) :
     nthRootsFinset h (1 : F) = (Finset.univ : Finset (Fin h)).image (fun i : Fin h => ε ^ (i : ℕ)) := by
   classical
-  haveI : NeZero h := ⟨hpos.ne'⟩
+  have : NeZero h := ⟨hpos.ne'⟩
   ext ζ
   simp only [Finset.mem_image, Finset.mem_univ, true_and, mem_nthRootsFinset_iff hε hpos ζ, eq_comm]
 
@@ -149,8 +149,8 @@ public theorem CFSG.proposition_2_4_a
   have hf_aeval : aeval f (X ^ h - (1 : Polynomial F)) = 0 := by
     simp [hf_pow]
   -- X^h - 1 is separable (hence squarefree) because h ≠ 0 in F
-  haveI : NeZero h := NeZero.of_pos hpos
-  haveI : NeZero ((h : ℕ) : F) := IsPrimitiveRoot.neZero' hε
+  have : NeZero h := NeZero.of_pos hpos
+  have : NeZero ((h : ℕ) : F) := IsPrimitiveRoot.neZero' hε
   have h_ne_zero : (h : F) ≠ 0 := NeZero.out
   have h_sep : (X ^ h - (1 : Polynomial F)).Separable := by
     rw [Polynomial.X_pow_sub_one_separable_iff]
@@ -281,7 +281,7 @@ theorem CFSG.eigenspace_decomposition {F : Type _} [Field F] {V : Type _} [AddCo
     intro i hi j hj h
     exact vals_injective hi hj h
   have hpos : 0 < h := by linarith
-  haveI : NeZero h := ⟨hpos.ne'⟩
+  have : NeZero h := ⟨hpos.ne'⟩
   have hvals (i : I) : vals ε i ∈ nthRootsFinset h 1 := by
     have hpow : (vals ε i) ^ h = 1 := by
       dsimp [vals]
@@ -315,7 +315,7 @@ theorem CFSG.eigenspace_decomposition {F : Type _} [Field F] {V : Type _} [AddCo
     Lagrange.eval_basis_self vals_injective (Finset.mem_univ i)
   have eval_p_of_ne {i j : I} (hij : i ≠ j) : (p i).eval (vals ε j) = 0 :=
     Lagrange.eval_basis_of_ne hij (Finset.mem_univ j)
-  haveI : Nonempty I := Fin.pos_iff_nonempty.mp hpos
+  have : Nonempty I := Fin.pos_iff_nonempty.mp hpos
   have sum_p : ∑ i ∈ (Finset.univ : Finset I), p i = 1 := by
     simpa using Lagrange.sum_basis vals_injective Finset.univ_nonempty
   have g_pow_eq_one_linearMap : (g.toLinearMap : Module.End F V) ^ h = 1 := by
@@ -494,7 +494,7 @@ public lemma CFSG.eigenspace_eq_intCast
     {ε : F} (hε : IsPrimitiveRoot ε h) (z : ℤ) :
     End.eigenspace g.toLinearMap (ε ^ ((@Fin.intCast h ⟨by omega⟩ z : Fin h) : ℤ)) =
       End.eigenspace g.toLinearMap (ε ^ z) := by
-  letI : NeZero h := by
+  let : NeZero h := by
     exact NeZero.of_pos (by omega)
   have hnonneg : 0 ≤ z % h := by
     exact Int.emod_nonneg _ (Int.natCast_ne_zero.mpr (by omega))
@@ -549,7 +549,7 @@ public theorem CFSG.proposition_2_4_e
     (blockElementaryMap (fun (s : Fin h) ↦
     End.eigenspace g.toLinearMap (ε ^ (s : ℤ))) (@Fin.intCast h ⟨by omega⟩ i) (@Fin.intCast h ⟨by omega⟩ t)) ≤
     intertwiningSubmodule g.toLinearMap (ε ^ (t - i) • g.toLinearMap) := by
-  letI : NeZero h := by
+  let : NeZero h := by
     exact NeZero.of_pos (by omega)
   let A : Fin h → Submodule F V := fun s ↦ End.eigenspace g.toLinearMap (ε ^ (s : ℤ))
   let hA : DirectSum.IsInternal A := eigenspace_decomposition hh g hg ε hε
@@ -631,7 +631,7 @@ public theorem CFSG.proposition_2_4_f
     Submodule.comap (intertwiningSubmodule g.toLinearMap (ε ^ m • g.toLinearMap)).subtype
     (blockElementaryMap (fun (s : Fin h) ↦
     End.eigenspace g.toLinearMap (ε ^ (s : ℤ))) (@Fin.intCast h ⟨by omega⟩ i) (@Fin.intCast h ⟨by omega⟩ ((i + m) % h))) := by
-  letI : NeZero h := by
+  let : NeZero h := by
     exact NeZero.of_pos (by omega)
   classical
   let A : Fin h → Submodule F V := fun s ↦ End.eigenspace g.toLinearMap (ε ^ (s : ℤ))
@@ -735,7 +735,7 @@ public theorem CFSG.proposition_2_4_g
     ∑ i : Fin h,
     (Module.finrank F <| End.eigenspace g.toLinearMap (ε ^ i.val)) *
     (Module.finrank F <| End.eigenspace g.toLinearMap (ε ^ (i + m))) := by
-  letI : NeZero h := by
+  let : NeZero h := by
     exact NeZero.of_pos (by omega)
   classical
   let A : Fin h → Submodule F V := fun s ↦ End.eigenspace g.toLinearMap (ε ^ (s : ℤ))
@@ -753,8 +753,8 @@ public theorem CFSG.proposition_2_4_g
       DirectSum.IsInternal C := by
     simpa [A, B, C, N, τ, Int.emod_emod] using
       proposition_2_4_f (hg := hg) (hh := hh) (hε := hε) m
-  letI : ∀ i : Fin h, Module.Free F (C i) := fun i => Module.Free.of_divisionRing (K := F) (V := C i)
-  letI : ∀ i : Fin h, Module.Finite F (C i) := fun i =>
+  let : ∀ i : Fin h, Module.Free F (C i) := fun i => Module.Free.of_divisionRing (K := F) (V := C i)
+  let : ∀ i : Fin h, Module.Finite F (C i) := fun i =>
     Module.Finite.of_basis (Module.finBasis F (C i))
   let e : (⨁ i : Fin h, C i) ≃ₗ[F] N := LinearEquiv.ofBijective (DirectSum.coeLinearMap C) hC_internal
   calc
@@ -793,7 +793,7 @@ public theorem CFSG.proposition_2_4_h
     ∑ i : Fin h,
     (((Module.finrank F <| End.eigenspace g.toLinearMap (ε ^ i.val) : ℤ) -
     (Module.finrank F <| End.eigenspace g.toLinearMap (ε ^ (i + m)) : ℤ)) ^ 2) := by
-  letI : NeZero h := by
+  let : NeZero h := by
     exact NeZero.of_pos (by omega)
   let d : Fin h → ℤ := fun i ↦ Module.finrank F <| End.eigenspace g.toLinearMap (ε ^ i.val)
   let s : Fin h := @Fin.intCast h ‹_› m
@@ -893,7 +893,7 @@ public theorem CFSG.proposition_2_4_j
     ∀ j : ℤ, ¬ ((j - i) % h) = 0 →
     (Module.finrank F <| End.eigenspace g.toLinearMap (ε ^ j)) = n := by
   classical
-  letI : NeZero h := by
+  let : NeZero h := by
     exact NeZero.of_pos (by omega)
   let d : Fin h -> Int := fun i => Module.finrank F <| End.eigenspace g.toLinearMap (ε ^ (i : Int))
   let s1 : Fin h -> Fin h := fun i => @Fin.intCast h (by infer_instance) ((i : Int) + 1)
@@ -982,9 +982,9 @@ public theorem CFSG.proposition_2_4_j
   let A : Fin h -> Submodule F V := fun i => End.eigenspace g.toLinearMap (ε ^ (i : Int))
   have hqsum_nat_A :
       Module.finrank F V = ∑ i : Fin h, Module.finrank F (A i) := by
-    letI : ∀ i : Fin h, Module.Free F (A i) := fun i =>
+    let : ∀ i : Fin h, Module.Free F (A i) := fun i =>
       Module.Free.of_divisionRing (K := F) (V := A i)
-    letI : ∀ i : Fin h, Module.Finite F (A i) := fun i =>
+    let : ∀ i : Fin h, Module.Finite F (A i) := fun i =>
       Module.Finite.of_basis (Module.finBasis F (A i))
     let e : (⨁ i : Fin h, A i) ≃ₗ[F] V :=
       LinearEquiv.ofBijective (DirectSum.coeLinearMap A) (eigenspace_decomposition hh g hg ε hε)

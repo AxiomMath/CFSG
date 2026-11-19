@@ -62,7 +62,7 @@ theorem exists_twisted_conj_mem_sylow (η : MulAut C) (hη : η ^ 2 = 1) (U : Sy
     exact Nat.eq_of_mul_eq_mul_left hpos this
   have hη2 : orderOf η ∣ 2 ^ 1 := by simpa using orderOf_dvd_of_pow_eq_one hη
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hη2
-  obtain ⟨n, hn⟩ := U.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := U.isPGroup.exists_card_eq
   have hPp : IsPGroup 2 P₀ := IsPGroup.of_card (n := n + k) (by
     rw [hcardP, hn, Nat.card_zpowers, hk, pow_add])
   have hPi : ¬ 2 ∣ P₀.index := hidx ▸ U.not_dvd_index

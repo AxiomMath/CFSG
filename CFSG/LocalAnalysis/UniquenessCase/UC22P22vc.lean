@@ -20,7 +20,7 @@ private theorem uc22p22vc_le_normalizer_pCoreOf (K : Subgroup H) :
     K ≤ Subgroup.normalizer (pCoreOf 2 K : Set H) := by
   have h1 : (pCoreOf 2 K).subgroupOf K = CFSG.pCore 2 K :=
     Subgroup.comap_map_eq_self_of_injective K.subtype_injective _
-  haveI : ((pCoreOf 2 K).subgroupOf K).Normal := by
+  have : ((pCoreOf 2 K).subgroupOf K).Normal := by
     rw [h1]
     infer_instance
   exact Subgroup.le_normalizer_of_normal_subgroupOf (Subgroup.map_subtype_le _)
@@ -111,7 +111,7 @@ private theorem uc22p22vc_B_trivial_on_U [Finite H] [Finite W] (ρ : Representat
       (fun k v hv => hinv k k.2 v hv) hne
     have hwB : ∀ b ∈ B, ρ b w = w := fun b hb =>
       hfix (show w ∈ fixSub ρ T from fun t ht => hwfix ⟨t, ht⟩) b hb
-    haveI : Fintype B := Fintype.ofFinite B
+    have : Fintype B := Fintype.ofFinite B
     let e : W →ₗ[ZMod 2] W := ∑ b : B, ρ (b : H)
     have he : ∀ v, e v = ∑ b : B, ρ (b : H) v := fun v => LinearMap.sum_apply _ _ _
     have h1 : e w = w := by
@@ -136,7 +136,7 @@ private theorem uc22p22vc_Y_trivial [Finite H] [Finite W] (ρ : Representation (
     (hρ : Function.Injective ρ) (S Y : Subgroup H) (hS : IsPGroup 2 S)
     (hYodd : Odd (Nat.card Y)) (hYS : Y ≤ Subgroup.centralizer (S : Set H))
     (hY : ∀ y ∈ Y, ∀ u ∈ fixSub ρ S, ρ y u = u) : Y = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRp : IsPGroup 2 (Multiplicative W) := fun v =>
     ⟨1, by rw [pow_one]; exact CFSG.RankThree.FFModules.multiplicative_sq v⟩
   let α : ↥Y →* MulAut (Multiplicative W) :=

@@ -100,7 +100,7 @@ theorem qp_sortC_spec {key s : ℕ → ℕ} {n m : ℕ} (h : sortC key s n m = t
   obtain ⟨h1, h2⟩ := (CFSG.KS.bAnd_iff _ _).1 h
   refine ⟨blt_of h1, fun hm => ?_⟩
   have hb : Nat.blt (Nat.succ m) n = true := Eq.mpr Nat.blt_eq hm
-  rw [bRec_eq, if_pos hb, sB_eq] at h2
+  rw [bRec_eq, ite_eq_left hb, sB_eq] at h2
   exact blt_of h2
 
 theorem qp_inj_of_sorted {key s : ℕ → ℕ} {n : ℕ} (hs : ∀ m < n, s m < n)
@@ -140,17 +140,17 @@ variable {G : Type*} [Group G]
 
 theorem pt_lt (ψ : G →* Equiv.Perm (Fin 3510)) (g : G) {z : ℕ} (hz : z < 3510) :
     pt ψ g z < 3510 := by
-  rw [pt, dif_pos hz]
+  rw [pt, dite_eq_left hz]
   exact (ψ g ⟨z, hz⟩).isLt
 
 theorem pt_mul (ψ : G →* Equiv.Perm (Fin 3510)) (g h : G) (z : ℕ) :
     pt ψ (g * h) z = pt ψ g (pt ψ h z) := by
   by_cases hz : z < 3510
-  · have h1 : pt ψ h z = (ψ h ⟨z, hz⟩ : ℕ) := dif_pos hz
+  · have h1 : pt ψ h z = (ψ h ⟨z, hz⟩ : ℕ) := dite_eq_left hz
     have h2 : pt ψ g (ψ h ⟨z, hz⟩ : ℕ) = (ψ g (ψ h ⟨z, hz⟩) : ℕ) :=
-      dif_pos (ψ h ⟨z, hz⟩).isLt
-    rw [h1, h2, pt, dif_pos hz, map_mul, Equiv.Perm.mul_apply]
-  · have h1 : ∀ k : G, pt ψ k z = z := fun k => dif_neg hz
+      dite_eq_left (ψ h ⟨z, hz⟩).isLt
+    rw [h1, h2, pt, dite_eq_left hz, map_mul, Equiv.Perm.mul_apply]
+  · have h1 : ∀ k : G, pt ψ k z = z := fun k => dite_eq_right hz
     rw [h1, h1, h1]
 
 theorem pt_one (ψ : G →* Equiv.Perm (Fin 3510)) (z : ℕ) : pt ψ 1 z = z := by
@@ -159,7 +159,7 @@ theorem pt_one (ψ : G →* Equiv.Perm (Fin 3510)) (z : ℕ) : pt ψ 1 z = z := 
 
 theorem ap_eq {ψ : G →* Equiv.Perm (Fin 3510)} {P : ℕ} {g : G} (h : PRep 3510 12 ψ P g) {z : ℕ}
     (hz : z < 3510) : ap P z = pt ψ g z := by
-  rw [pt, dif_pos hz, ← h.2 ⟨z, hz⟩]
+  rw [pt, dite_eq_left hz, ← h.2 ⟨z, hz⟩]
   rfl
 
 theorem bp_lt6 : ∀ l < 6, bp l < 3510 := by
@@ -235,9 +235,9 @@ theorem oc_spec (P : PairTab ψ e T K M X V) {b : ℕ} (hb : b < 729) (hb0 : b �
   have h := P.oc b hb
   unfold qpOC at h
   have hb' : (Nat.beq b 0 = true) = False := by simp only [Nat.beq_eq, hb0]
-  rw [bRec_eq, if_neg (by rw [hb']; exact id), bRec_eq] at h
+  rw [bRec_eq, ite_eq_right (by rw [hb']; exact id), bRec_eq] at h
   by_contra hq
-  rw [if_neg hq, sB_eq, sB_eq, notB_eq, Bool.not_eq_true'] at h
+  rw [ite_eq_right hq, sB_eq, sB_eq, notB_eq, Bool.not_eq_true'] at h
   have hall : allBlk 0 (fun l => Nat.beq (ap (K b) (ap (K b) (qpE (X b) (2 + l)))) (bp l)) 6 =
       true := by
     refine allBlk0_intro fun l hl => ?_
@@ -263,7 +263,7 @@ theorem cc_parts (P : PairTab ψ e T K M X V) {x : ℕ} (hx : x < 729)
       (qpFull ^^^ (1 ||| (1 <<< x ||| 1 <<< qpE (X x) 0)))) = 0 := by
   have h := P.cc x hx
   unfold qpCC at h
-  rw [bRec_eq, if_pos hxO, sB_eq, sB_eq, sB_eq, sB_eq] at h
+  rw [bRec_eq, ite_eq_left hxO, sB_eq, sB_eq, sB_eq, sB_eq] at h
   obtain ⟨hA, hB⟩ := (CFSG.KS.bAnd_iff _ _).1 h
   rw [sB_eq] at hB
   obtain ⟨hB1, hB2⟩ := (CFSG.KS.bAnd_iff _ _).1 hB
@@ -353,7 +353,7 @@ theorem vc_spec (P : PairTab ψ e T K M X V) {r : ℕ} (hr : r < 517) :
     have hn0 : ¬ (Nat.beq t 0 = true) := by
       rw [Nat.beq_eq]
       omega
-    rw [bRec_eq, if_pos (Eq.mpr Nat.blt_eq ht3), bRec_eq, if_neg hn0] at h1
+    rw [bRec_eq, ite_eq_left (Eq.mpr Nat.blt_eq ht3), bRec_eq, ite_eq_right hn0] at h1
     exact P.mul_spec (hw' 1 (by norm_num)) (hw' t (by omega)) (hw' _ (by omega)) h1
   have hA : ∀ t, 3 ≤ t → t < 9 → e (w t) = e (w 3) * e (w (t - 3)) := by
     intro t ht3 ht9
@@ -361,7 +361,7 @@ theorem vc_spec (P : PairTab ψ e T K M X V) {r : ℕ} (hr : r < 517) :
     have hn3 : ¬ (Nat.blt t 3 = true) := by
       rw [Nat.blt_eq]
       omega
-    rw [bRec_eq, if_neg hn3] at h1
+    rw [bRec_eq, ite_eq_right hn3] at h1
     exact P.mul_spec (hw' 3 (by norm_num)) (hw' t ht9) (hw' _ (by omega)) h1
   have he0 : e (w 0) = 1 := by rw [hw0, P.one]
   have hpow : ∀ t < 9, e (w t) = e (w 3) ^ (t / 3) * e (w 1) ^ (t % 3) := by

@@ -25,17 +25,17 @@ private theorem lk0xttb_sylow_in_torus {τ : Tag} {L : Type} [Field L] {p : ℕ}
     (hord : (Nat.card C).factorization p ≤ (Nat.card D.torus).factorization p) :
     ∃ S₀ : Sylow p D.Γ, (S₀ : Subgroup D.Γ) ≤ D.torus.subgroupOf D.Γ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hfm := hd.finite_model
+  have : Fact p.Prime := ⟨hp⟩
+  have hfm := hd.finite_model
   have hTM := D.torus_le_model
-  haveI hTfin : Finite D.torus :=
+  have hTfin : Finite D.torus :=
     Finite.of_injective (Subgroup.inclusion hTM) (Subgroup.inclusion_injective hTM)
   have hΓfin : Finite D.Γ :=
     Finite.of_injective (Subgroup.inclusion hd.Γ_le_model) (Subgroup.inclusion_injective _)
   obtain ⟨P0⟩ : Nonempty (Sylow p D.torus) := inferInstance
   set P1 : Subgroup (ModGL τ L) := (P0 : Subgroup D.torus).map D.torus.subtype with hP1
   have hP1T : P1 ≤ D.torus := Subgroup.map_subtype_le _
-  have hP1p : IsPGroup p P1 := P0.isPGroup'.map _
+  have hP1p : IsPGroup p P1 := P0.isPGroup.map _
   have hP1Γ : P1 ≤ D.Γ := hd.pgroup_le_Γ P1 (hP1T.trans hTM) hP1p
   have hP1card : Nat.card P1 = p ^ (Nat.card D.torus).factorization p := by
     rw [hP1, Subgroup.card_map_of_injective D.torus.subtype_injective, Sylow.card_eq_multiplicity]
@@ -102,7 +102,7 @@ private theorem lk0xttb_hΦ (x : ℤ) :
   rw [cyclotomic_two, cyclotomic_one, eval_add, eval_sub, eval_X, eval_one, eval_X, eval_one,
     show -x - 1 = -(x + 1) by ring, Int.natAbs_neg]
 
-private theorem lk0xttb_ggWeylLaw {p f : ℕ} (hp : p.Prime) (h7 : 7 ≤ p) (hpf : p ∣ 2 ^ f + 1)
+private theorem lk0xttb_ggWeylLaw {p f : ℕ} (_hp : p.Prime) (h7 : 7 ≤ p) (hpf : p ∣ 2 ^ f + 1)
     (ht : GGExcFive .twistedE6) :
     GGWeylLaw .twistedE6 p f ht ((coxeterSystem (langTag .twistedE6)).wordProd
       (twE6TwoWord : List (Fin (langTag .twistedE6).rank))) := by
@@ -117,7 +117,7 @@ private theorem lk0xttb_ggWeylLaw {p f : ℕ} (hp : p.Prime) (h7 : 7 ≤ p) (hpf
     omega
   have hε : eps p f = -1 := by
     unfold eps
-    rw [if_neg hndvd]
+    rw [ite_eq_right hndvd]
   rw [hε, piB_twistedE6_of_dvd f hpf,
     lk0xttb_permLattice_permCongr_one (rank_eq_langTag f ht) u, neg_one_smul]
   rw [lk0xttb_hv (ggGraphLat .twistedE6 u)]
@@ -134,13 +134,13 @@ theorem twE6_tt_unitary :
   intro f hf p hp h7 hpf E hE hEp
   classical
   let K := GaloisField 2 (2 * f)
-  letI : Algebra K GGL := (ggRatEmb (2 * f)).toAlgebra
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : CharP K 2 := inferInstance
-  haveI : CharP GGL 2 := inferInstance
-  haveI : IsScalarTower (ZMod 2) K GGL :=
+  let : Algebra K GGL := (ggRatEmb (2 * f)).toAlgebra
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : CharP K 2 := inferInstance
+  have : CharP GGL 2 := inferInstance
+  have : IsScalarTower (ZMod 2) K GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : IsAlgClosure K GGL :=
+  have : IsAlgClosure K GGL :=
     { isAlgClosed := inferInstance
       isAlgebraic := Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := K) }
   have hK : Nat.card K = (2 ^ f) ^ 2 := by
@@ -257,9 +257,9 @@ theorem twE6_tt_unitary :
       (Nat.card D.torus).factorization p := by
     rw [hcard]
     exact (Nat.pow_right_injective hp.two_le hordN).le
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hfm := hd.finite_model
-  haveI hΓfin : Finite D.Γ :=
+  have : Fact p.Prime := ⟨hp⟩
+  have hfm := hd.finite_model
+  have hΓfin : Finite D.Γ :=
     Finite.of_injective (Subgroup.inclusion hd.Γ_le_model) (Subgroup.inclusion_injective _)
   have hSylow := lk0xttb_sylow_in_torus (D := D) (ι := ι) hp hι hd hord_le
   obtain ⟨S₀, hS₀⟩ := hSylow
@@ -273,7 +273,7 @@ theorem twE6_tt_unitary :
   have hE'Γ : E' ≤ D.Γ := hd.pgroup_le_Γ E' hE'model hE'p
   have hQp : IsPGroup p (E'.subgroupOf D.Γ) := hE'p.comap_subtype
   obtain ⟨m, -, hm⟩ := CFSG.CGT.PushingUpLit.BHSSym.exists_conj_le_of_isPGroup
-    (G := D.Γ) (p := p) (T := (S₀ : Subgroup D.Γ)) S₀.isPGroup' S₀.not_dvd_index le_top hQp
+    (G := D.Γ) (p := p) (T := (S₀ : Subgroup D.Γ)) S₀.isPGroup S₀.not_dvd_index le_top hQp
     le_top
   have hconj_torus : E'.map (MulAut.conj (m : ModGL TwistTag.E6.tag GGL)).toMonoidHom ≤ D.torus := by
     intro y hy

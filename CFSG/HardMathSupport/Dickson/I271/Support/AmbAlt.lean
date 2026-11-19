@@ -23,9 +23,9 @@ theorem altCore {p : ℕ} {K B : Subgroup X} {n : ℕ} (hp : p.Prime)
     (hscp : IsSCp p ⊤ B) (hBN : B ≤ Subgroup.normalizer (K : Set X)) (hn : 5 ≤ n)
     (hn6 : n ≠ 6) (hpn : p ∣ n) (h73 : ¬ (p = 3 ∧ n = 7))
     (e : ↥K ⧸ Subgroup.center ↥K ≃* alternatingGroup (Fin n)) : IsStronglyBalancedIn p B K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple ↥K := i116e_isQuasisimple hcore hcomp
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
   have hOK : GLAPPrimeCore p ↥K = ⊥ := i271h_primeCore_eq_bot hcore hcomp
   have hZ : Subgroup.center ↥K = ⊥ := i271h_center_eq_bot_of_ne_six hp hpodd hOK hn e hn6 h73
   have hAsc := i271h_map_permHom_isSCp hp hpodd hscp hBN hZ hn hn6 e
@@ -74,7 +74,7 @@ theorem exists_sylow_alt6 :
     ∃ P : Sylow 3 (alternatingGroup (Fin 6)),
       IsElemAbelian 3 (P : Subgroup (alternatingGroup (Fin 6))) ∧
         Nat.card (P : Subgroup (alternatingGroup (Fin 6))) = 9 := by
-  haveI : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
+  have : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 (alternatingGroup (Fin 6))) := inferInstance
   have hcard : Nat.card (P : Subgroup (alternatingGroup (Fin 6))) = 9 := by
     rw [Sylow.card_eq_multiplicity, card_alt6, show (360 : ℕ).factorization 3 = 2 by decide +kernel]
@@ -93,7 +93,7 @@ theorem alt6_center_cases {K : Type} [Group K] [Finite K]
     [Group.IsPerfect K] (hZp : IsPGroup 3 (Subgroup.center K))
     (e : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin 6)) :
     Subgroup.center K = ⊥ ∨ Nat.card (Subgroup.center K) = 3 := by
-  haveI : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
+  have : Fact (3 : ℕ).Prime := ⟨Nat.prime_three⟩
   by_cases hZ : Subgroup.center K = ⊥
   · exact Or.inl hZ
   · right
@@ -122,10 +122,10 @@ theorem a6Case {K B : Subgroup X}
         Nonempty (↥K ⧸ Subgroup.center ↥K ≃* alternatingGroup (Fin 6))) ∧
           autOrderIn B K = 3) := by
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (3 : ℕ).Prime := ⟨hp⟩
+  have : Fact (3 : ℕ).Prime := ⟨hp⟩
   have hBel : IsElemAbelian 3 B := hscp.2.1
   have hq : CFSG.Open.IsQuasisimple ↥K := i116e_isQuasisimple hcore hcomp
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
   have hOK : GLAPPrimeCore 3 ↥K = ⊥ := i271h_primeCore_eq_bot hcore hcomp
   have hZp : IsPGroup 3 (Subgroup.center ↥K) := isPGroup_center hp hOK
   have h3K : 3 ∣ Nat.card K := i116e_dvd_card hp hcore hcomp

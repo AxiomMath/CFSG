@@ -74,7 +74,7 @@ theorem traceSpace_ne_bot (c : ExCfg M V₀ V U S H φ p)
     rw [hY]
     exact IsMinFam16.normalClosure_barSub_eq_top c.one c.std c.cex c.min c.not_le c.bar
   have hCmap_top : (D.ρ.ker).map φ = ⊤ := by
-    haveI : ((D.ρ.ker).map φ).Normal := hnorm
+    have : ((D.ρ.ker).map φ).Normal := hnorm
     have hle := Subgroup.normalClosure_le_normal hYle
     rw [hgen] at hle
     exact top_le_iff.mp hle

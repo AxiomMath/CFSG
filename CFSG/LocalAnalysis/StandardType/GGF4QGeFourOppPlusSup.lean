@@ -25,6 +25,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem oppSup_ggFixG_eq_ggHyperplane (Bs : Subgroup G) (r : MulAut ↥Bs) :
     ggFixG Bs r = ggHyperplane Bs r := by
   have h : ggFix r = MonoidHom.eqLocus (r : ↥Bs →* ↥Bs) (MonoidHom.id ↥Bs) := by
@@ -53,6 +54,7 @@ theorem ggRootCompGenAvoiding_nbr_of_avoidOn_cfg {S : ℕ → LargeEvenLabel →
 
 section LabelRigid
 
+omit [Finite G] in
 theorem ggInnerDiagOnLabel_linPhiTwo_of_a5 {p : ℕ} {Bs A : Subgroup G}
     (hInn : GGInnerDiagOn Bs A) (hlab : GGHasLabel ⟨.A, 5, 2⟩ (↥A ⧸ Subgroup.center ↥A))
     (hp : p ∣ 2 ^ 2 + 1) : GGInnerDiagOnLabel GGRootGenLinPhiTwoLabel p Bs A := by

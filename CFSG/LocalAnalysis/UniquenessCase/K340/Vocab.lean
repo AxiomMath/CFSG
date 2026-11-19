@@ -40,7 +40,7 @@ theorem map_Hone :
       rw [← Subgroup.comap_subtype, Subgroup.comap_map_eq, Subgroup.ker_subtype, sup_bot_eq]
     refine ⟨?_, ?_, ?_⟩
     · rw [← hP]; exact Subgroup.map_subtype_le _
-    · rw [← hP]; exact P.isPGroup'.map H.subtype
+    · rw [← hP]; exact P.isPGroup.map H.subtype
     · rw [← hP, hsub]; exact P.not_dvd_index
   have hJ : CFSG.Quasithin.thompsonJ T ≤ CFSG.Quasithin.thompsonJ H :=
     CFSG.Quasithin.B6.thompsonJ_le_of_sylow hT
@@ -50,7 +50,7 @@ theorem map_Hone :
         (CFSG.Quasithin.B6.thompsonJ_le H)).mpr (CFSG.Quasithin.B6.le_normalizer_thompsonJ H)
     rw [← Subgroup.comap_subtype] at h
     exact h
-  haveI := hN
+  have := hN
   have hone_le :
       (CFSG.QuasithinUnique.Setup.Campbell.Hone P).map H.subtype ≤ thompsonJ H := by
     rw [CFSG.QuasithinUnique.Setup.Campbell.Hone, Subgroup.map_le_iff_le_comap,

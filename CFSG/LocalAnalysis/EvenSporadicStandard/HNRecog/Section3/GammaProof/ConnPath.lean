@@ -10,6 +10,7 @@ open CFSG.EvenSporadicStandard.HNRecog
 
 variable {G : Type} [Group G] [Finite G] {a z : G}
 
+omit [Finite G] in
 theorem gamma_reach_of_common (H : GammaHyps a z) {x y b : G} (hx : IsConj a x)
     (hy : IsConj a y) (hb : b ∈ orb2A a x ∩ orb2A a y) :
     (Gamma a).Reachable ⟨x, hx⟩ ⟨y, hy⟩ := by
@@ -25,11 +26,13 @@ theorem gamma_reach_of_common (H : GammaHyps a z) {x y b : G} (hx : IsConj a x)
       exact hb.2.2
   exact (SimpleGraph.Adj.reachable h1).trans (SimpleGraph.Adj.reachable h2)
 
+omit [Finite G] in
 theorem gamma_reach_of_even (H : GammaHyps a z) {x y : G} (hx : IsConj a x) (hy : IsConj a y)
     (he : Even (orderOf (x * y))) : (Gamma a).Reachable ⟨x, hx⟩ ⟨y, hy⟩ := by
   obtain ⟨b, hb⟩ := gamma_common H hx hy he
   exact gamma_reach_of_common H hx hy hb
 
+omit [Finite G] in
 private theorem gamma_eq_of_comm_odd {x y : G} (hx : x * x = 1) (hy : y * y = 1)
     (hcomm : x * y = y * x) (hodd : Odd (orderOf (x * y))) : y = x := by
   have hs2 : (x * y) ^ 2 = 1 := by
@@ -51,6 +54,7 @@ private theorem gamma_eq_of_comm_odd {x y : G} (hx : x * x = 1) (hy : y * y = 1)
     _ = x * 1 := by rw [hone]
     _ = x := mul_one x
 
+omit [Finite G] in
 private theorem gamma_reach_of_oddSet (H : GammaHyps a z) {x y : G} (hx : IsConj a x)
     (hy : IsConj a y) (h : y ∈ oddSet a x) :
     (Gamma a).Reachable ⟨x, hx⟩ ⟨y, hy⟩ := by
@@ -105,6 +109,7 @@ private theorem gamma_reach_of_oddSet (H : GammaHyps a z) {x y : G} (hx : IsConj
   exact (gamma_reach_of_even H hx htA (by rw [hxt2]; decide)).trans
     (gamma_reach_of_even H htA hy (by rw [hty2]; decide))
 
+omit [Finite G] in
 theorem gamma_reach_of_mem (H : GammaHyps a z) {x y : G} (hx : IsConj a x) (hy : IsConj a y)
     (hxy : y ∈ gammaSet a z x) : (Gamma a).Reachable ⟨x, hx⟩ ⟨y, hy⟩ := by
   rcases gamma_mem_gammaSet_iff.1 hxy with rfl | h | h | h | h | h | h | h | h
@@ -127,6 +132,7 @@ theorem gamma_reach_of_mem (H : GammaHyps a z) {x y : G} (hx : IsConj a x) (hy :
   · exact gamma_reach_of_oddSet H hx hy h.1
   · exact gamma_reach_of_even H hx hy (by rw [h.2.1]; decide)
 
+omit [Finite G] in
 theorem gamma_reach_of_inv (H : GammaHyps a z) {x y : G} (hx : IsConj a x) (hy : IsConj a y)
     (hs : ∃ s : G, orderOf s = 2 ∧ s ∈ Gxy x y) : (Gamma a).Reachable ⟨x, hx⟩ ⟨y, hy⟩ :=
   gamma_reach_of_mem H hx hy ((H.hOdd.self).gamma_of_inv x y hx hy hs)

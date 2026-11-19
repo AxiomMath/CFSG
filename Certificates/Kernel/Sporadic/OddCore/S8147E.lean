@@ -258,13 +258,13 @@ theorem qCheck : suzFiveQCheck suzFiveQCert suzFiveLines = true := by
       have h0 := allN_spec (allN_spec qDist j' hj') f hf
       rw [CFSG.KS.EnumBase.strictB_eq] at h0
       have h := allN_spec h0 j hj
-      rw [CFSG.KS.EnumBase.bIf_eq, if_neg (by rw [beq_eq]; simpa using e)] at h
+      rw [CFSG.KS.EnumBase.bIf_eq, ite_eq_right (by rw [beq_eq]; simpa using e)] at h
       rw [lines_get hj, lines_get hj', powU (hF j' hj'), eqU (hF j hj) (pwPP (hF j' hj') f)]
       unfold nB at h
       rw [CFSG.KS.EnumBase.bIf_eq] at h
       cases hb : Nat.beq (SFvT.F j) (CFSG.KC.B3S3K.pw 1782 11 (SFvT.F j') f)
       · rfl
-      · rw [hb, if_pos rfl] at h
+      · rw [hb, ite_eq_left rfl] at h
         exact absurd h Bool.false_ne_true
   · rw [CFSG.Monster.B.Co2.allLt_iff]
     intro j hj
@@ -280,7 +280,7 @@ theorem qCheck : suzFiveQCheck suzFiveQCert suzFiveLines = true := by
       rw [CFSG.KS.EnumBase.bIf_eq] at h2
       cases hb : Nat.beq (SFvT.F j) (pidn 1782 11)
       · rfl
-      · rw [hb, if_pos rfl] at h2
+      · rw [hb, ite_eq_left rfl] at h2
         exact absurd h2 Bool.false_ne_true
 
 theorem cIdx_get {i : Nat} (hi : i < 6) : suzFiveCentIdx[i]! = #[6 + 2 * i, 7 + 2 * i] := by
@@ -396,7 +396,7 @@ theorem stepF_new {st : SuzFiveBfsState} (h : Good st) {m x : Array Nat}
     (hn : ∀ k < st.1.size, eqA 1782 st.1[k]! (compA 1782 m x) = false) :
     stepF x st m = suzFiveAdd st (compA 1782 m x) := by
   unfold stepF
-  rw [if_neg]
+  rw [ite_eq_right]
   intro hs
   obtain ⟨k, hk, e⟩ := (seen_iff h _).1 hs
   rw [hn k hk] at e
@@ -538,7 +538,7 @@ theorem mults_eq {i G0 G1 : Nat}
 theorem loop_succ (ms : Array (Array Nat)) (f pos : Nat) (st : SuzFiveBfsState)
     (h : pos < st.1.size) :
     suzFiveBfsLoop ms (f + 1) pos st = suzFiveBfsLoop ms f (pos + 1) (suzFiveVisit ms st st.1[pos]) := by
-  rw [suzFiveBfsLoop, dif_pos h]
+  rw [suzFiveBfsLoop, dite_eq_left h]
 
 theorem add_fst (st : SuzFiveBfsState) (p : Array Nat) : (suzFiveAdd st p).1 = st.1.push p := rfl
 

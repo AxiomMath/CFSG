@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
     Nat.card (autI hd.setting.isElemAbelian M) = 21 →
     Nat.card (autI hd.setting.isElemAbelian X) = 3 → Nat.card V = 8 → False
 
+omit [Finite G] in
 theorem mem_gammaEleven_inf_conj {M V Q U L X : Subgroup G} (hd : Eleven11Data M V Q U L X)
     {g : G}
     (hopp : Opp 2 (M ⊓ Subgroup.centralizer ((U ⊓ conjSubgroup U g : Subgroup G) : Set G)) ≤
@@ -28,6 +29,7 @@ theorem mem_gammaEleven_inf_conj {M V Q U L X : Subgroup G} (hd : Eleven11Data M
   exact ⟨inf_le_left.trans hUV, hne, fun h => hCU
     ((Subgroup.centralizer_le (inf_le_left : U ⊓ conjSubgroup U g ≤ U)).trans h), hopp⟩
 
+omit [Finite G] in
 theorem eleven_eleven_factors_of_eq_bot {M V Q U L X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hd : Eleven11Data M V Q U L X) {s : ℕ} {Y : Fin s → Subgroup (MulAut (IntMod V hV))}
     {Vs : Fin s → Subgroup (IntMod V hV)} {i₀ : Fin s}

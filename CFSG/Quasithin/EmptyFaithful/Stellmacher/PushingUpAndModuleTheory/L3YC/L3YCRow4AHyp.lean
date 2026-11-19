@@ -79,7 +79,7 @@ theorem mem_hypStab_iff (M : SpecialLinearGroup (Fin 4) (ZMod 2)) :
   · intro h
     show _ = _
     ext j
-    simp [Matrix.vecMul, dotProduct, Pi.single_apply, h, eq_comm]
+    simp [Matrix.vecMul, dotProduct, Pi.single_apply, h]
 
 theorem exists_mat3_row : ∀ u v : Fin 3 → ZMod 2, u ≠ 0 → v ≠ 0 →
     ∃ A : Matrix (Fin 3) (Fin 3) (ZMod 2), A.det = 1 ∧ u ᵥ* A = v := by

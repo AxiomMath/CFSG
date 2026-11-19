@@ -56,7 +56,7 @@ theorem fieldActor_twE6_commutator_model {d : ℕ} (hd : 1 ≤ d) {K : Type} [Fi
   obtain ⟨-, hkcard, hJC, hδord, hderived, hsimple, hnc, -⟩ :=
     twisted_E6_canonical_odd_field_derived_subgroup_and_pointwise_centralizer hℓ hd le_rfl
       (by decide) K hK κ hκ σ hσ (fixSubfieldRestrict T κ) hσ₀ ε hε
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hεne : ε ≠ 1 := fun h => by
     rw [h, fieldActor_one, orderOf_one] at hδord
     exact absurd hδord (by norm_num)
@@ -84,7 +84,7 @@ theorem fieldActor_twE6_commutator_model {d : ℕ} (hd : 1 ≤ d) {K : Type} [Fi
     rw [hfix, hΓ]
     exact hderived.symm
   have e1 : ↥(J.subgroupOf C) ≃* ↥J := Subgroup.subgroupOfEquivOfLe hJC
-  haveI : IsSimpleGroup ↥J := hsimple
+  have : IsSimpleGroup ↥J := hsimple
   have hs : IsSimpleGroup ↥(J.subgroupOf C) := e1.isSimpleGroup
   have hnab : ∃ a b : ↥(J.subgroupOf C), a * b ≠ b * a := by
     by_contra hcon
@@ -98,7 +98,7 @@ theorem fieldActor_twE6_commutator_model {d : ℕ} (hd : 1 ≤ d) {K : Type} [Fi
   have hcardk : Nat.card k = (2 ^ d) ^ 2 := by rw [hkcard, ← pow_mul, mul_comm]
   have hσ₀' : ∀ c, σ₀ c = c ^ (2 ^ d) := fun c => Subtype.ext (by
     rw [hσ₀ c, SubmonoidClass.coe_pow])
-  haveI : Finite k := Subtype.finite
+  have : Finite k := Subtype.finite
   have eJ : ↥J ≃* twistedE6RootGroup k σ₀ :=
     (Subgroup.equivMapOfInjective (twistedE6RootGroup k σ₀) _
       (baseChangeGL_injective (τ := TwistTag.E6.tag) k.subtype)).symm
@@ -128,7 +128,7 @@ theorem upD42Chev2Out_twE6 :
   intro S _ _ hs hnab ⟨d, hv⟩ hF hc ⟨e⟩ α _ hp
   cases d with
   | twistedE6 q =>
-    haveI := hs
+    have := hs
     have hq2 : q.p = 2 := hc
     have hm := blueprintLieModel_twistedE6 q hv e
     have hT : TwistedChevalleyModel S TwistTag.E6 (q.p ^ q.exponent) := by

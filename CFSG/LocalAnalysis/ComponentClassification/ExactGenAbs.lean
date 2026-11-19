@@ -104,17 +104,17 @@ theorem eq_of_forall_odd_mem [Finite Γ] {P G : Subgroup Γ} (hP : ⁅P, P⁆ = 
     have hmem : g ^ 2 ^ a ∈ N := subset_normalClosure hodd
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
     exact hmem
-  haveI : Group.IsNilpotent (P ⧸ N) := hQ.isNilpotent
-  haveI : Group.IsSolvable (P ⧸ N) := inferInstance
+  have : Group.IsNilpotent (P ⧸ N) := hQ.isNilpotent
+  have : Group.IsSolvable (P ⧸ N) := inferInstance
   have hperf : commutator (P ⧸ N) = ⊤ := by
-    haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hP
-    haveI : Group.IsPerfect (P ⧸ N) :=
+    have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hP
+    have : Group.IsPerfect (P ⧸ N) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
     exact Group.IsPerfect.commutator_eq_top
   have htriv : Subsingleton (P ⧸ N) := by
     by_contra hns
-    haveI : Nontrivial (P ⧸ N) := not_subsingleton_iff_nontrivial.1 hns
-    have := IsSolvable.commutator_lt_top_of_nontrivial (P ⧸ N)
+    have : Nontrivial (P ⧸ N) := not_subsingleton_iff_nontrivial.1 hns
+    have := Group.IsSolvable.commutator_lt_top_of_nontrivial (P ⧸ N)
     rw [hperf] at this
     exact lt_irrefl _ this
   have hNtop : N = ⊤ := by
@@ -224,7 +224,7 @@ theorem eq_of_conjSub_eq {P G : Subgroup Γ} {μ : Γ} (hμ : Normalizes μ P) (
   ∃ R : Set Γ, (∀ ρ ∈ R, ρ ∈ N ∧ ρ * ρ = 1 ∧ RepGood P ρ) ∧
     ∀ x ∈ N, x * x = 1 → x = 1 ∨ ∃ μ ∈ N, ∃ ρ ∈ R, μ * x * μ⁻¹ = ρ
 
-theorem fc_of_hyp [Finite Γ] {P N : Subgroup Γ} (hPN : P ≤ N) (hnorm : ∀ μ ∈ N, Normalizes μ P)
+theorem fc_of_hyp [Finite Γ] {P N : Subgroup Γ} (_hPN : P ≤ N) (hnorm : ∀ μ ∈ N, Normalizes μ P)
     (hPperf : ⁅P, P⁆ = P) (hF : FCHyp P N) {ν : Γ} (hν : ν ∈ N) {ε : Γ} {E G : Subgroup Γ}
     (h : CoreHyp P ν ε E G) : G = P := by
   obtain ⟨R, hR, hcover⟩ := hF

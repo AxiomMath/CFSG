@@ -304,7 +304,7 @@ theorem ggK1A_mult_exists {p nf N : ℕ} {K : Type} [Field K] [Finite K]
     CFSG.RankThree.PartOne.KCLinComm.squarefree_minpoly_of_pow_eq_one
       (TableBSymp.natCast_ne_zero_of_charTwo hp hp2) hxpow
   rcases hdvd with h1 | h2
-  · have hord : ggMultOrd p nf = 1 := by rw [ggMultOrd, if_pos h1]
+  · have hord : ggMultOrd p nf = 1 := by rw [ggMultOrd, ite_eq_left h1]
     obtain ⟨ζ, hζ⟩ :=
       CFSG.RankThree.PartOne.CTP.exists_isPrimitiveRoot_of_dvd_natCard_sub_one (m := p)
         (by rwa [hK])
@@ -323,7 +323,7 @@ theorem ggK1A_mult_exists {p nf N : ℕ} {K : Type} [Field K] [Finite K]
       rw [htwo] at hsub
       exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp hsub)
     have hord : ggMultOrd p nf = 2 := by
-      rw [ggMultOrd, if_neg hn1, if_pos h2]
+      rw [ggMultOrd, ite_eq_right hn1, ite_eq_left h2]
     exact ggK1A_multOf_of_ggMultOrd_eq_two hp hp2 hK hord hxpow hsq
 
 theorem ggK1A_uni_mult_exists {p nf N : ℕ} {K : Type} [Field K] [Finite K]
@@ -361,6 +361,6 @@ theorem ggK1A_uni_mult_exists {p nf N : ℕ} {K : Type} [Field K] [Finite K]
   · rintro ⟨hord, -⟩ j hj
     have hdvd1 : p ∣ 2 ^ nf - 1 := by
       by_contra h
-      rw [ggMultOrd, if_neg h] at hord
+      rw [ggMultOrd, ite_eq_right h] at hord
       split_ifs at hord; omega
     exact ggK1A_uni_primaryMultiplicity_symm hp hK hdvd1 hxpow hsq hζ hj

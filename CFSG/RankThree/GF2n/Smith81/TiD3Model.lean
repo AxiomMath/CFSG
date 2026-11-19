@@ -87,37 +87,37 @@ theorem coords_zero_of_fixed [Fintype F] {q : ℕ} (hq : 2 ≤ q) (hF : Fintype.
   have c001 : x 0 0 1 = 0 := by
     have h := hc (q ^ 2)
     rw [hcoef] at h
-    simp (disch := omega) [if_neg] at h
+    simp (disch := omega) [ite_eq_right] at h
     exact h
   have c010 : x 0 1 0 = 0 := by
     have h := hc (q)
     rw [hcoef] at h
-    simp (disch := omega) [if_neg] at h
+    simp (disch := omega) [ite_eq_right] at h
     exact h
   have c011 : x 0 1 1 = 0 := by
     have h := hc (q + q ^ 2)
     rw [hcoef] at h
-    simp (disch := omega) [if_neg] at h
+    simp (disch := omega) [ite_eq_right] at h
     exact h
   have c100 : x 1 0 0 = 0 := by
     have h := hc (1)
     rw [hcoef] at h
-    simp (disch := omega) [if_neg] at h
+    simp (disch := omega) [ite_eq_right] at h
     exact h
   have c101 : x 1 0 1 = 0 := by
     have h := hc (1 + q ^ 2)
     rw [hcoef] at h
-    simp (disch := omega) [if_neg] at h
+    simp (disch := omega) [ite_eq_right] at h
     exact h
   have c110 : x 1 1 0 = 0 := by
     have h := hc (1 + q)
     rw [hcoef] at h
-    simp (disch := omega) [if_neg] at h
+    simp (disch := omega) [ite_eq_right] at h
     exact h
   have c111 : x 1 1 1 = 0 := by
     have h := hc (1 + q + q ^ 2)
     rw [hcoef] at h
-    simp (disch := omega) [if_neg] at h
+    simp (disch := omega) [ite_eq_right] at h
     exact h
   intro i j k hijk
   fin_cases i <;> fin_cases j <;> fin_cases k <;> simp at hijk ⊢ <;> assumption
@@ -126,6 +126,7 @@ section Norm
 
 variable [Fintype K] [Fintype F]
 
+omit [Fintype F] in
 theorem pow_card_eq_self_iff (x : F) :
     x ^ Fintype.card K = x ↔ x ∈ Set.range (algebraMap K F) :=
   TauCeti.FiniteField.pow_card_eq_self_iff_mem_range_algebraMap x
@@ -171,8 +172,8 @@ variable [Fintype K] [Finite F]
 
 theorem aut_pow_three (hdeg : Module.finrank K F = 3) (σ : F ≃+* F)
     (hσ : ∀ c : K, σ (algebraMap K F c) = algebraMap K F c) : σ ^ 3 = 1 := by
-  haveI : Module.Finite K F := Module.Finite.of_finite
-  haveI : Algebra.IsAlgebraic K F := Algebra.IsAlgebraic.of_finite K F
+  have : Module.Finite K F := Module.Finite.of_finite
+  have : Algebra.IsAlgebraic K F := Algebra.IsAlgebraic.of_finite K F
   let σ' : F ≃ₐ[K] F := AlgEquiv.ofRingEquiv hσ
   obtain ⟨n, hn⟩ := (FiniteField.bijective_frobeniusAlgEquivOfAlgebraic_pow K F).2 σ'
   have hord : orderOf (FiniteField.frobeniusAlgEquivOfAlgebraic K F) = 3 := by
@@ -263,7 +264,7 @@ theorem pt_smul (τ : F →+* F) (s : F) (w : Fin 2 → F) :
 
 theorem e0_eq_pt (τ : F →+* F) : e0 F = pt τ (Pi.single 0 1) := by
   funext i j k
-  fin_cases i <;> fin_cases j <;> fin_cases k <;> simp [e0, pt, Pi.single_apply]
+  fin_cases i <;> fin_cases j <;> fin_cases k <;> simp [e0, pt]
 
 section Fix
 

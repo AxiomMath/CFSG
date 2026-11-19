@@ -17,6 +17,7 @@ open CFSG.LocalAnalysis.GLTheoremA.T173X
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem linTwo_ds_conj (n x : V ≃ₗ[ZMod 2] V) (v : V) :
     S172A.GL.ds (n * x * n⁻¹) (n v) = n (S172A.GL.ds x v) := by
   rw [S172A.GL.ds_apply, S172A.GL.ds_apply, map_sub]
@@ -24,12 +25,14 @@ private theorem linTwo_ds_conj (n x : V ≃ₗ[ZMod 2] V) (v : V) :
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply]
   simp
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem linTwo_map_mem_comSp_conj {n x : V ≃ₗ[ZMod 2] V} {v : V}
     (hv : v ∈ S172A.GL.comSp x) : n v ∈ S172A.GL.comSp (n * x * n⁻¹) := by
   obtain ⟨w, hw⟩ := S172A.GL.mem_comSp.1 hv
   refine S172A.GL.mem_comSp.2 ⟨n w, ?_⟩
   rw [← S172A.GL.ds_apply, linTwo_ds_conj, ← hw, S172A.GL.ds_apply]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem linTwo_comSp_le_iSup_P {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     {x : Fin r → V ≃ₗ[ZMod 2] V} {P : Fin r → Submodule (ZMod 2) V}
     {V0 : Submodule (ZMod 2) V} (hF : LinTwoStdFrame E x P V0)
@@ -73,6 +76,7 @@ private theorem linTwo_comSp_le_iSup_P {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : 
   rw [hav]
   exact Submodule.sub_mem _ haW hu
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem linTwo_sup_P_fixed_eq_zero {r : ℕ} {x : Fin r → V ≃ₗ[ZMod 2] V}
     {P : Fin r → Submodule (ZMod 2) V}
     (hx3 : ∀ i, x i ^ 3 = 1) (hxcom : ∀ i, comSp (x i) = P i)
@@ -107,6 +111,7 @@ private theorem linTwo_sup_P_fixed_eq_zero {r : ℕ} {x : Fin r → V ≃ₗ[ZMo
         rw [← hpq, hp0, zero_add] at h2
         exact h2
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem linTwo_mem_V0_of_forall_fix {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : ℕ}
     {x : Fin r → V ≃ₗ[ZMod 2] V} {P : Fin r → Submodule (ZMod 2) V}
     {V0 : Submodule (ZMod 2) V} (hF : LinTwoStdFrame E x P V0)
@@ -135,6 +140,7 @@ private theorem linTwo_mem_V0_of_forall_fix {E : Subgroup (V ≃ₗ[ZMod 2] V)} 
   rw [← hvu, hu0, add_zero]
   exact hv0
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem linTwo_conj_mem_linTwoOddBlock {g n h : V ≃ₗ[ZMod 2] V}
     (hnV0 : ∀ v ∈ fixSp g, n⁻¹ v ∈ fixSp g)
     (hnW : ∀ w ∈ comSp g, n w ∈ comSp g)

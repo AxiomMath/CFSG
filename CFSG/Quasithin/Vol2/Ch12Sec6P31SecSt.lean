@@ -37,13 +37,13 @@ theorem isStronglyQuasithin_of_simple_image (hSec : SimpleSectionSQT) {Q : Type}
     [Finite Q] (hQ : CFSG.SectionRank.IsSQTKCat Q) (Y : Subgroup Q) {W : Type} [Group W]
     [hW : IsSimpleGroup W] (hnab : ∃ a b : W, a * b ≠ b * a) (φ : ↥Y →* W)
     (hφ : Function.Surjective φ) : CFSG.IsStronglyQuasithin W := by
-  haveI : φ.ker.Normal := φ.normal_ker
+  have : φ.ker.Normal := φ.normal_ker
   let e : (↥Y ⧸ φ.ker) ≃* W := QuotientGroup.quotientKerEquivOfSurjective φ hφ
-  haveI : IsSimpleGroup (↥Y ⧸ φ.ker) := e.isSimpleGroup
+  have : IsSimpleGroup (↥Y ⧸ φ.ker) := e.isSimpleGroup
   have h := hSec hQ Y φ.ker (by
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨e.symm a, e.symm b, fun h => hab (e.symm.injective (by rw [map_mul, map_mul, h]))⟩)
-  haveI : Finite W := Finite.of_surjective φ hφ
+  have : Finite W := Finite.of_surjective φ hφ
   exact CFSG.SectionRank.isStronglyQuasithin_of_mulEquiv e.symm h
 
 end CFSG.Quasithin.H13.P31Sec

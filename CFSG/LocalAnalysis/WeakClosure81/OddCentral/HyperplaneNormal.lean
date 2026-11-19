@@ -7,6 +7,7 @@ open Subgroup
 section
 variable {G M : Type*} [Group G] [Finite G] [AddCommGroup M] [Finite M] [DistribMulAction G M]
 
+omit [Finite G] in
 theorem mem_of_sq_mem {V H : Subgroup G} (hVodd : Odd (Nat.card V)) {w : G} (hw : w ∈ V)
     (h : w * w ∈ H) : w ∈ H := by
   obtain ⟨n, hn⟩ := hVodd
@@ -24,6 +25,7 @@ theorem mem_normalizer_of_conj_mem {H : Subgroup G} {g : G} (h : ∀ x ∈ H, g 
   · rw [Subgroup.card_map_of_injective (f := (MulAut.conj g : G →* G))
       (fun a b hab => by simpa using hab)]
 
+omit [Finite G] in
 theorem orbit_prod_eq_one {V : Subgroup G} [hVn : V.Normal]
     (hVab : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v) {x u : G} (hx : x * x = 1) (hu : u * u = 1)
     (hxu : x * u = u * x) (hC : ∀ w ∈ V, x * w * x⁻¹ = w → u * w * u⁻¹ = w → w = 1)
@@ -55,8 +57,9 @@ theorem orbit_prod_eq_one {V : Subgroup G} [hVn : V.Normal]
             (v * (x * v * x⁻¹)) (V.mul_mem hv (cV x))]
           group
 
+omit [Finite G] in
 theorem neg_of_frame_fix {V H : Subgroup G} [hVn : V.Normal] (hVodd : Odd (Nat.card V))
-    (hVab : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v) (hHV : H ≤ V) {x u : G} (hx : x * x = 1)
+    (hVab : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v) (_hHV : H ≤ V) {x u : G} (hx : x * x = 1)
     (hu : u * u = 1) (hxu : x * u = u * x)
     (hC : ∀ w ∈ V, x * w * x⁻¹ = w → u * w * u⁻¹ = w → w = 1)
     (hP : ∀ v ∈ V, x * v * x⁻¹ * v⁻¹ ∈ H) : ∀ v ∈ V, u * v * u⁻¹ * v ∈ H := by
@@ -94,9 +97,11 @@ theorem neg_of_frame_fix {V H : Subgroup G} [hVn : V.Normal] (hVodd : Odd (Nat.c
   exact this
 
 
+omit [Finite G] [Finite M] in
 theorem smul_conj_inv (g a : G) (y : M) : a • (g⁻¹ • y) = g⁻¹ • ((g * a * g⁻¹) • y) := by
   rw [mul_smul, mul_smul, inv_smul_smul]
 
+omit [Finite M] in
 theorem false_of_frame_hyperplane {V H : Subgroup G} [hVn : V.Normal]
     (hcop : Nat.Coprime (Nat.card V) (Nat.card M)) (hModd : Odd (Nat.card M))
     (hVab : ∀ v ∈ V, ∀ w ∈ V, v * w = w * v) (hVodd : Odd (Nat.card V)) (hHV : H ≤ V)

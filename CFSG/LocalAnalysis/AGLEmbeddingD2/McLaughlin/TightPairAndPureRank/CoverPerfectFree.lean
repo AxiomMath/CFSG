@@ -27,7 +27,7 @@ theorem false_of_perfect_pSolvable_cyclicSylow {V : Type*} [Group V] [Finite V]
   classical
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N : Subgroup V := CFSG.pPrimeCore 3 V with hN
-  haveI : N.Normal := CFSG.pPrimeCore_normal
+  have : N.Normal := CFSG.pPrimeCore_normal
   set Vb := V ⧸ N with hVb
   have hsolvb : IsPSolvable 3 Vb :=
     isPSolvable_of_isPiSeparable
@@ -35,7 +35,7 @@ theorem false_of_perfect_pSolvable_cyclicSylow {V : Type*} [Group V] [Finite V]
   have hcoreb : CFSG.pPrimeCore 3 Vb = ⊥ := CFSG.pPrimeCore_quotient_eq_bot Nat.prime_three
   have hchar := isCharacteristicP_of_isPSolvable hsolvb hcoreb
   set Q : Subgroup Vb := CFSG.pCore 3 Vb with hQ
-  haveI hQn : Q.Normal := CFSG.pCore_normal
+  have hQn : Q.Normal := CFSG.pCore_normal
   have hQp : IsPGroup 3 Q := CFSG.pCore_isPGroup
   have hQcyc : IsCyclic Q := by
     obtain ⟨P₀⟩ : Nonempty (Sylow 3 V) := inferInstance
@@ -45,7 +45,7 @@ theorem false_of_perfect_pSolvable_cyclicSylow {V : Type*} [Group V] [Finite V]
       rw [hP₁, Sylow.coe_mapSurjective]
     have hcP₁ : IsCyclic (P₁ : Subgroup Vb) := by
       rw [hP₁c]
-      haveI := hcyc P₀
+      have := hcyc P₀
       exact isCyclic_map (QuotientGroup.mk' N) (P₀ : Subgroup V)
     exact Subgroup.isCyclic_of_le (hQp.le_sylow_of_normal P₁)
   have hperfb : ⁅(⊤ : Subgroup Vb), (⊤ : Subgroup Vb)⁆ = ⊤ := by
@@ -71,7 +71,7 @@ theorem false_of_perfect_pSolvable_cyclicSylow {V : Type*} [Group V] [Finite V]
     rw [← hperfb]
     exact Subgroup.commutator_le.2 fun a _ b _ => hcomm a b
   have hVbcyc : IsCyclic Vb := by
-    haveI : IsCyclic (⊤ : Subgroup Vb) := hQtop ▸ hQcyc
+    have : IsCyclic (⊤ : Subgroup Vb) := hQtop ▸ hQcyc
     exact isCyclic_of_surjective (⊤ : Subgroup Vb).subtype
       (fun y => ⟨⟨y, Subgroup.mem_top y⟩, rfl⟩)
   have hVbtriv : (⊤ : Subgroup Vb) = ⊥ := by
@@ -105,7 +105,7 @@ theorem perfectFree_of_pSolvable_pRank_le_one {W : Type*} [Group W] [Finite W] {
     rw [CFSG.SectionRank.pRank_eq_open_pRank_top, ← CFSG.SectionRank.pRank_eq_pRank_top_subgroup]
     exact hr
   refine false_of_perfect_pSolvable_cyclicSylow hperf h3 hsolv fun P => ?_
-  have hP3 : IsPGroup 3 ((P : Subgroup ↥V).map V.subtype) := P.isPGroup'.map V.subtype
+  have hP3 : IsPGroup 3 ((P : Subgroup ↥V).map V.subtype) := P.isPGroup.map V.subtype
   have hc := CFSG.RankThree.PartOne.isCyclic_of_pRank_le_one Nat.prime_three (by norm_num)
     (L := A) (S := (P : Subgroup ↥V).map V.subtype)
     (by rintro _ ⟨x, -, rfl⟩; exact hVA x.2) hP3 hr'
@@ -124,7 +124,7 @@ theorem false_of_lift_elemAbelian {X Y : Type*} [Group X] [Finite X] [Group Y] (
     intro y
     obtain ⟨x, hx⟩ := hE y.2
     exact ⟨⟨x, by simp [hEt, hx]⟩, Subtype.ext hx⟩
-  haveI : Finite E := Finite.of_surjective ψ' hψ'
+  have : Finite E := Finite.of_surjective ψ' hψ'
   obtain ⟨P⟩ : Nonempty (Sylow 3 ↥Et) := inferInstance
   set P₁ : Sylow 3 ↥E := P.mapSurjective hψ' with hP₁
   have hP₁c : (P₁ : Subgroup ↥E) = (P : Subgroup ↥Et).map ψ' := by
@@ -134,7 +134,7 @@ theorem false_of_lift_elemAbelian {X Y : Type*} [Group X] [Finite X] [Group Y] (
     rw [Sylow.card_eq_multiplicity, hcard, show (9 : ℕ) = 3 ^ 2 by norm_num,
       Nat.Prime.factorization_pow Nat.prime_three]
     simp
-  have hRp : IsPGroup 3 (((P : Subgroup ↥Et).map Et.subtype)) := P.isPGroup'.map Et.subtype
+  have hRp : IsPGroup 3 (((P : Subgroup ↥Et).map Et.subtype)) := P.isPGroup.map Et.subtype
   have hRc := CFSG.RankThree.PartTwo.Sec20.Res5.isCyclic_of_pRank_le_one hr hRp
   have hPc : IsCyclic (P : Subgroup ↥Et) :=
     isCyclic_of_surjective
@@ -142,7 +142,7 @@ theorem false_of_lift_elemAbelian {X Y : Type*} [Group X] [Finite X] [Group Y] (
       (Subgroup.equivMapOfInjective (P : Subgroup ↥Et) Et.subtype Et.subtype_injective).symm.surjective
   have hmc : IsCyclic ((P : Subgroup ↥Et).map ψ') := isCyclic_map ψ' _
   rw [← hP₁c, hP₁top] at hmc
-  haveI : IsCyclic ↥E := isCyclic_of_surjective (⊤ : Subgroup ↥E).subtype
+  have : IsCyclic ↥E := isCyclic_of_surjective (⊤ : Subgroup ↥E).subtype
     (fun y => ⟨⟨y, Subgroup.mem_top y⟩, rfl⟩)
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥E)
   have h1 : orderOf g = Nat.card E := orderOf_eq_card_of_forall_mem_zpowers hg

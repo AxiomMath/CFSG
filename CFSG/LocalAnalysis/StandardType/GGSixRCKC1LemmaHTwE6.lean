@@ -155,7 +155,7 @@ private theorem rckHTwE6_mem_centralizer
   exact hz_comm.eq.symm
 
 theorem rck_lemmaHC_twistedE6
-    {m g : ℕ} (hg : 1 ≤ g) {β : Fin (ggU .twistedE6 m g).D.rank → ℤ}
+    {m g : ℕ} (_hg : 1 ≤ g) {β : Fin (ggU .twistedE6 m g).D.rank → ℤ}
     (hβ : GGLongRoot (ggU .twistedE6 m g).D β) :
     RCKLemmaHCent (ggU .twistedE6 m g) β := by
   change RCKLemmaHCent ⟨twistedE6Group 2 g, twistedE6Datum 2 g⟩ β

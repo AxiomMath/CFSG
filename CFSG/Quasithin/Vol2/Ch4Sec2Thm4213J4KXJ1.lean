@@ -12,7 +12,7 @@ theorem false_of_E9_elt {Q : Type} [Group Q] [Finite Q] {H A : Subgroup Q} {p : 
     (hrank : CFSG.Open.pRank 3 H ≤ 2) (hAH : A ≤ H) (hA : IsElemAbelian 3 A)
     (hAc : Nat.card A = 9) (hpH : p ∈ H) (hp3 : p ^ 3 = 1) (hp1 : p ≠ 1) (hpA : p ∉ A)
     (hcomm : ∀ a ∈ A, a * p = p * a) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcord : orderOf p = 3 := orderOf_eq_prime hp3 hp1
   have hCc : Nat.card ↥(Subgroup.zpowers p) = 3 := by rw [Nat.card_zpowers, hcord]
   have hCH : Subgroup.zpowers p ≤ H := Subgroup.zpowers_le.mpr hpH

@@ -77,7 +77,7 @@ theorem e6Two_lang_rationalComponents
     ext γ
     have hchi : (e6Chi v) (Multiplicative.ofAdd γ) =
         Multiplicative.ofAdd (∑ k, ((γ k : ℤ) : ZMod 3) * v k) := rfl
-    simp only [kernelRoots, Set.mem_setOf_eq, hchi, ofAdd_eq_one]
+    simp only [kernelRoots, Set.mem_ofPred_eq, hchi, ofAdd_eq_one]
   have hker : kernelRoots (rootCharHom a) = kernelRoots (e6Chi v) := by
     rw [hadm.2, ← hker']
   let Ψ : Set (Fin Tag.E6.rank → ℤ) := componentRoots (rootCharHom a) i

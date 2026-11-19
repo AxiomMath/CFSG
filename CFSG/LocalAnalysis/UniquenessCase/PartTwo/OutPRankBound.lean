@@ -71,9 +71,9 @@ local notation "pRank" => CFSG.Open.pRank
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem pRank_le_pRank_bar2_add_pRank_centOverO2 {X M : Subgroup G} (hXM : X ≤ M)
+theorem pRank_le_pRank_bar2_add_pRank_centOverO2 {X M : Subgroup G} (_hXM : X ≤ M)
     (hMN : M ≤ normalizer (X : Set G)) (hZ : center (Bar2 X) = ⊥)
-    (hOut : IsCyclic (Outer (Bar2 X))) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+    (hOut : IsCyclic (Outer (Bar2 X))) {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (hOp : UC22.F10.OpRes p M = M) :
     pRank p M ≤ pRank p (⊤ : Subgroup (Bar2 X)) + pRank p (F08.CentOverO2 M X) := by
   classical
@@ -120,12 +120,12 @@ theorem pRank_le_pRank_bar2_add_pRank_centOverO2 {X M : Subgroup G} (hXM : X ≤
 
 theorem pRank_centOverO2_le_pRank_inf_centralizer {X M R : Subgroup G} (hXM : X ≤ M)
     (hMN : M ≤ normalizer (X : Set G)) {p r : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hr : r.Prime)
-    (hr2 : r ≠ 2) (hrp : r ≠ p) (hRX : R ≤ X) (hRp : IsPGroup r R) :
+    (hr2 : r ≠ 2) (_hrp : r ≠ p) (hRX : R ≤ X) (hRp : IsPGroup r R) :
     pRank p (F08.CentOverO2 M X) ≤ pRank p (M ⊓ centralizer (R : Set G)) := by
   classical
   have hp1 : 1 < p := hp.one_lt
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hO2p : ¬ p ∣ Nat.card (pCoreOf 2 X) :=
     CFSG.GroupTheory.not_dvd_card_of_isPGroup (isPGroup_pCoreOf X) hp hp2
   have hO2r : ¬ r ∣ Nat.card (pCoreOf 2 X) :=

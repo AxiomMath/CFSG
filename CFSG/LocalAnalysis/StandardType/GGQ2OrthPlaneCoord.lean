@@ -226,14 +226,14 @@ def planeCoordInv (w : Fin (t + δ.val) ⊕ Fin (t + δ.val) → K) :
      intro k hk
      dsimp only
      have hk' : (WitSpNs.plane k : ℕ) < t := by simpa [WitSpNs.plane] using hk
-     rw [if_pos hk']⟩)
+     rw [ite_eq_left hk']⟩)
 
 private theorem opc_fwd_coord (d : Fin t → K × K) (x : planeW0 t δ) (j : Fin t) (b : Fin 2) :
     planeCoordFun ζ t δ d x (WitSpNs.coord b (Fin.castAdd δ.val j)) =
       opc_pair (opc_Z ζ) (d j) b := by
   classical
   have hle : (WitSpNs.plane (WitSpNs.coord b (Fin.castAdd δ.val j)) : ℕ) < t := by simp
-  rw [planeCoordFun, dif_pos hle]
+  rw [planeCoordFun, dite_eq_left hle]
   have hidx : (⟨(WitSpNs.plane (WitSpNs.coord b (Fin.castAdd δ.val j)) : ℕ), hle⟩ :
       Fin t) = j := Fin.ext (by simp)
   have hx : (x : Fin (t + δ.val) ⊕ Fin (t + δ.val) → K)
@@ -246,7 +246,7 @@ private theorem opc_fwd_apply_lt (d : Fin t → K × K) (x : planeW0 t δ)
     planeCoordFun ζ t δ d x k =
       opc_pair (opc_Z ζ) (d ⟨(WitSpNs.plane k : ℕ), h⟩) (WitSpNs.side k) := by
   classical
-  rw [planeCoordFun, dif_pos h]
+  rw [planeCoordFun, dite_eq_left h]
   have hx : (x : Fin (t + δ.val) ⊕ Fin (t + δ.val) → K) k = 0 := x.2 k h
   rw [hx, add_zero]
 
@@ -255,7 +255,7 @@ private theorem opc_fwd_hyper (d : Fin t → K × K) (x : planeW0 t δ)
     (h : ¬ (WitSpNs.plane k : ℕ) < t) :
     planeCoordFun ζ t δ d x k = (x : Fin (t + δ.val) ⊕ Fin (t + δ.val) → K) k := by
   classical
-  rw [planeCoordFun, dif_neg h, zero_add]
+  rw [planeCoordFun, dite_eq_right h, zero_add]
 
 theorem planeCoordFun_add (d d' : Fin t → K × K) (x x' : planeW0 t δ) :
     planeCoordFun ζ t δ (d + d') (x + x') =
@@ -300,9 +300,9 @@ theorem planeCoordInv_planeCoordFun (d : Fin t → K × K) (x : planeW0 t δ) :
     funext k
     by_cases h : (WitSpNs.plane k : ℕ) < t
     · simp only [planeCoordInv]
-      rw [if_pos h, x.2 k h]
+      rw [ite_eq_left h, x.2 k h]
     · simp only [planeCoordInv]
-      rw [if_neg h, opc_fwd_hyper ζ t δ d x k h]
+      rw [ite_eq_right h, opc_fwd_hyper ζ t δ d x k h]
 
 theorem planeCoordFun_planeCoordInv (w : Fin (t + δ.val) ⊕ Fin (t + δ.val) → K) :
     planeCoordFun ζ t δ (planeCoordInv ζ t δ w).1 (planeCoordInv ζ t δ w).2 = w := by
@@ -321,7 +321,7 @@ theorem planeCoordFun_planeCoordInv (w : Fin (t + δ.val) ⊕ Fin (t + δ.val) �
     rcases k with i | i <;> rfl
   · rw [opc_fwd_hyper ζ t δ (planeCoordInv ζ t δ w).1 (planeCoordInv ζ t δ w).2 k h]
     simp only [planeCoordInv]
-    rw [if_neg h]
+    rw [ite_eq_right h]
 
 private theorem opc_planeQ_hyper (x : Fin (t + δ.val) ⊕ Fin (t + δ.val) → K)
     (hx : x ∈ planeW0 t δ) :
@@ -338,14 +338,14 @@ private theorem opc_planeQ_hyper (x : Fin (t + δ.val) ⊕ Fin (t + δ.val) → 
         else 0)) = 0 := by
     apply Finset.sum_eq_zero
     intro j _
-    rw [if_pos (by simp)]
+    rw [ite_eq_left (by simp)]
     have h1 := hx0 (Sum.inl (Fin.castAdd δ.val j)) (by simp)
     have h2 := hx0 (Sum.inr (Fin.castAdd δ.val j)) (by simp)
     simp [h1, h2]
   rw [hzero, zero_add]
   apply Finset.sum_congr rfl
   intro k _
-  rw [if_neg (by simp)]
+  rw [ite_eq_right (by simp)]
   ring
 
 private theorem opc_planeQ_fwd (d : Fin t → K × K) (x : planeW0 t δ) :
@@ -363,7 +363,7 @@ private theorem opc_planeQ_fwd (d : Fin t → K × K) (x : planeW0 t δ) :
       ∑ j : Fin t, nrm (d j) := by
     apply Finset.sum_congr rfl
     intro j _
-    rw [if_pos (by simp)]
+    rw [ite_eq_left (by simp)]
     have h1 : planeCoordFun ζ t δ d x (Sum.inl (Fin.castAdd δ.val j)) =
         opc_pair (opc_Z ζ) (d j) 0 := by
       simpa [WitSpNs.coord] using opc_fwd_coord ζ t δ d x j 0
@@ -382,7 +382,7 @@ private theorem opc_planeQ_fwd (d : Fin t → K × K) (x : planeW0 t δ) :
         (x : Fin (t + δ.val) ⊕ Fin (t + δ.val) → K) (Sum.inr (Fin.natAdd t k)) := by
     apply Finset.sum_congr rfl
     intro k _
-    rw [if_neg (by simp)]
+    rw [ite_eq_right (by simp)]
     rw [opc_fwd_hyper ζ t δ d x (Sum.inl (Fin.natAdd t k)) (by simp),
         opc_fwd_hyper ζ t δ d x (Sum.inr (Fin.natAdd t k)) (by simp)]
     ring

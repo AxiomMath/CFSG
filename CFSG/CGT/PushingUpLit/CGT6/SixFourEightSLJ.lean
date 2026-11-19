@@ -37,7 +37,7 @@ theorem EightCtx.mem_sup_R_of_act {Y R : Subgroup G} {T : Sylow 2 G} (h : EightC
       _ = c * u := by rw [hc]; group
   have hcC : c ∈ centralizerModCore Y :=
     EightCtx.mem_centralizerModCore_of_centralizer_blockU hC hcN hcU
-  obtain ⟨k, hk⟩ := T.isPGroup' ⟨j, hj⟩
+  obtain ⟨k, hk⟩ := T.isPGroup ⟨j, hj⟩
   have hjk : j ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hconj : conjAct (blockU Y) ⟨y, hyU⟩ = conjAct (blockU Y) ⟨j, hjU⟩ := by
     refine MulEquiv.ext fun u => Subtype.ext ?_
@@ -141,7 +141,7 @@ theorem eight_sl_J {Y R : Subgroup G} {T : Sylow 2 G} (h : EightCtx Y T R) {n : 
       have hcT : (a : G)⁻¹ * b ∈ (T : Subgroup G) := mul_mem (inv_mem (hAT haA)) (hBm.1 hb)
       have hcR : (a : G)⁻¹ * b ∈ R := by
         have hP2 : IsPGroup 2 (Subgroup.zpowers ((a : G)⁻¹ * b)) :=
-          T.isPGroup'.to_le (Subgroup.zpowers_le.mpr hcT)
+          T.isPGroup.to_le (Subgroup.zpowers_le.mpr hcT)
         exact h.le_R_of_le_centralizerModCore hP2 (Subgroup.zpowers_le.mpr hcC)
           (Subgroup.mem_zpowers _)
       have : b = (a : G) * ((a : G)⁻¹ * b) := by group

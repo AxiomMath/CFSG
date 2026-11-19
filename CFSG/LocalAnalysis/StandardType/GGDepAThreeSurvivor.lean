@@ -70,7 +70,7 @@ theorem ggDepAThree_survivor_weyl
     {G : Type} [Group G] [Finite G] {Bs : Subgroup G} {V : Type} [AddCommGroup V]
     [Module (ZMod 3) V] [Module.Finite (ZMod 3) V] (ι : Additive ↥Bs ≃+ V)
     {A : Subgroup (MulAut ↥Bs)} {h : Fin (6 - 1) → V} {α : Fin (6 - 1) → Module.Dual (ZMod 3) V}
-    {x : V} (F : GGDepAFrame 3 6 h α x) (r : Fin (6 - 1) → (V ≃ₗ[ZMod 3] V))
+    {x : V} (_F : GGDepAFrame 3 6 h α x) (r : Fin (6 - 1) → (V ≃ₗ[ZMod 3] V))
     (hr : ∀ i v, r i v = v - α i v • h i) (ra : V ≃ₗ[ZMod 3] V) (ha : V)
     (αa : Module.Dual (ZMod 3) V) (hra : ∀ v, ra v = v - αa v • ha)
     (hA : A.map (ggLin (p := 3) ι) = Subgroup.closure (Set.range r ∪ {ra}))

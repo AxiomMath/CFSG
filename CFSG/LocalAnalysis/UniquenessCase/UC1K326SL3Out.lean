@@ -15,7 +15,7 @@ theorem exists_normal_sylow_outer_of_kOutNormalSylow {L : Type} [Group L] [Finit
     (h : CFSG.AGLEmbedding.KOutNormalSylow 3 L) :
     ∃ S : Subgroup (CFSG.ComponentClassification.OuterAutomorphisms.Outer L),
       S.Normal ∧ IsPGroup 3 S ∧ ¬ 3 ∣ S.index := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S₀⟩ : Nonempty (Sylow 3 (MulAut L)) := inferInstance
   refine ⟨(S₀ : Subgroup (MulAut L)).map (QuotientGroup.mk' (inner L)), ?_, ?_, ?_⟩
   · have hN : (inner L ⊔ (S₀ : Subgroup (MulAut L))).Normal := h S₀
@@ -24,7 +24,7 @@ theorem exists_normal_sylow_outer_of_kOutNormalSylow {L : Type} [Group L] [Finit
       rw [Subgroup.map_sup, QuotientGroup.map_mk'_self, bot_sup_eq]
     rw [← hmap]
     exact hN.map _ (QuotientGroup.mk'_surjective (inner L))
-  · exact S₀.isPGroup'.map _
+  · exact S₀.isPGroup.map _
   · intro h3
     have hdvd : ((S₀ : Subgroup (MulAut L)).map (QuotientGroup.mk' (inner L))).index ∣
         (S₀ : Subgroup (MulAut L)).index :=
@@ -34,13 +34,13 @@ theorem exists_normal_sylow_outer_of_kOutNormalSylow {L : Type} [Group L] [Finit
 theorem sl3Out_holds : SL3Out := by
   intro L _ _ hL
   rcases hL with ⟨p, f, _, hQ, _, hLie⟩ | ⟨p, f, _, hQ, _, hLie⟩
-  · haveI : Group.IsPerfect L := ⟨hQ.1⟩
+  · have : Group.IsPerfect L := ⟨hQ.1⟩
     obtain ⟨F, _, _, -, ⟨e⟩⟩ :=
       CFSG.LocalAnalysis.ComponentInitial.LinearCover.exists_mulEquiv_projectiveSL_of_lieModel hLie
     exact exists_normal_sylow_outer_of_kOutNormalSylow
       (CFSG.LocalAnalysis.RankThreeTheoremC.kOutNormalSylow_three_of_filter e
         (CFSG.LocalAnalysis.RankThreeTheoremC.threeFilter_projectiveSL_three F))
-  · haveI : Group.IsPerfect L := ⟨hQ.1⟩
+  · have : Group.IsPerfect L := ⟨hQ.1⟩
     obtain ⟨⟨hp, hf1, hadm⟩, F, _, _, hFcard, ⟨e⟩⟩ :=
       hLie.statedClassicalModel_of_ne_zero (by norm_num)
     have hq : ¬(3 = 3 ∧ p ^ f = 2) := fun ⟨h1, h2⟩ => hadm.2 (by rw [h1, h2])

@@ -13,6 +13,7 @@ section OddTemplate
 variable {F : Type} [Field F] {q : ℕ} [Fact q.Prime] {V : Type} [AddCommGroup V] [Module F V]
   {H : Type} [Group H]
 
+omit [Fact (Nat.Prime q)] in
 theorem commute_of_mk_commute (Z : Subgroup H) [Z.Normal] (hZc : Z ≤ Subgroup.center H)
     (hZo : Nat.Coprime (Nat.card Z) q) {x k : H} {n : ℕ} (hk : k ^ q ^ n = 1)
     (h : QuotientGroup.mk' Z x * QuotientGroup.mk' Z k =
@@ -53,6 +54,7 @@ theorem commute_of_mk_commute (Z : Subgroup H) [Z.Normal] (hZc : Z ≤ Subgroup.
 
 variable [Finite F] [CharP F q] [Finite V] [Finite H]
 
+omit [Finite F] [Finite V] in
 theorem exists_flagKernel_eq (Z : Subgroup H) [Z.Normal] (hZc : Z ≤ Subgroup.center H)
     (hZo : Nat.Coprime (Nat.card Z) q) (ρ : H →* Module.End F V) (hρ : Function.Injective ρ)
     (𝔉 : Subgroup H → ℕ → Submodule F V)
@@ -108,6 +110,7 @@ theorem exists_flagKernel_eq (Z : Subgroup H) [Z.Normal] (hZc : Z ≤ Subgroup.c
     rw [← hQtmap, Subgroup.map_bot]
   exact ⟨Qt, hQt2, hQtmap, hKFeq, hQt0⟩
 
+omit [Finite F] [Finite V] in
 theorem radRigidInner_of_rigid (Z : Subgroup H) [Z.Normal] (hZc : Z ≤ Subgroup.center H)
     (hZo : Nat.Coprime (Nat.card Z) q) (ρ : H →* Module.End F V) (hρ : Function.Injective ρ)
     (𝔉 : Subgroup H → ℕ → Submodule F V)

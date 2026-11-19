@@ -613,7 +613,7 @@ theorem linearImageForm_of_maximal (hσ : σ.IsValid) (hII : σ.ChapterIIFacts)
       ⟨⟨hU.1.2.1, hU.1.2.2.1, hU.1.2.2.2⟩, fun R' hR'K hp' hn' hb' hRR' =>
         hU.2 R' ⟨hR'K, hp', hn', hb'⟩ hRR'⟩
   have hD2 : IsPGroup 2 (σ.D.subgroupOf K) :=
-    (σ.S.isPGroup'.to_le σ.D_le_S).comap_subtype
+    (σ.S.isPGroup.to_le σ.D_le_S).comap_subtype
   have hmax : ∀ Q : Subgroup (K ⧸ CFSG.oddCore K), IsPGroup σ.p Q →
       (σ.D.subgroupOf K).map π ≤ Subgroup.normalizer (Q : Set _) →
       (U.subgroupOf K).map π ≤ Q → Q = (U.subgroupOf K).map π := by

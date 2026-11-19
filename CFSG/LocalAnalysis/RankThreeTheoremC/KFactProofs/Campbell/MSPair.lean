@@ -13,6 +13,7 @@ open scoped Pointwise
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem CampbellHyp.isSimple_quot (h : CampbellHyp X K R P) :
     IsSimpleGroup (↥K ⧸ CFSG.pCore 2 ↥K) := by
   obtain ⟨f, hf, hker⟩ := h.quot
@@ -23,7 +24,7 @@ theorem CampbellHyp.isSimple_quot (h : CampbellHyp X K R P) :
   let e : (↥K ⧸ CFSG.pCore 2 ↥K) ≃* GL32 :=
     (QuotientGroup.quotientMulEquivOfEq hker'.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective f hf)
-  haveI : IsSimpleGroup GL32 := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
+  have : IsSimpleGroup GL32 := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
   exact e.isSimpleGroup
 
 theorem CampbellHyp.K_mem_cComp (h : CampbellHyp X K R P) : K ∈ CFSG.Quasithin.cComp X :=
@@ -38,6 +39,7 @@ open scoped Pointwise
 
 variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 
+omit [Finite A] in
 theorem lie2_exists_hom (h : CampbellHyp X K R P) :
     ∃ f : ↥K →* GL32, Function.Surjective f ∧ f.ker = CFSG.pCore 2 ↥K := by
   obtain ⟨f, hf, hker⟩ := h.quot
@@ -46,6 +48,7 @@ theorem lie2_exists_hom (h : CampbellHyp X K R P) :
   ext k
   exact hker k
 
+omit [Finite A] in
 theorem lie2_nonempty_quotEquiv (h : CampbellHyp X K R P) :
     Nonempty ((↥K ⧸ CFSG.pCore 2 ↥K) ≃* GL32) := by
   obtain ⟨f, hf, hker⟩ := lie2_exists_hom h
@@ -71,6 +74,7 @@ theorem lie2_center_eq_bot {G : Type} [Group G] (e : G ≃* GL32) : Subgroup.cen
   rw [Subgroup.mem_bot]
   exact e.injective (h1.trans (map_one e).symm)
 
+omit [Finite A] in
 theorem lie2_nonempty_equiv_psl (h : CampbellHyp X K R P) :
     Nonempty (((↥K ⧸ CFSG.pCore 2 ↥K) ⧸ Subgroup.center (↥K ⧸ CFSG.pCore 2 ↥K)) ≃*
       Matrix.ProjectiveSpecialLinearGroup (Fin 3) (ZMod 2)) := by
@@ -79,6 +83,7 @@ theorem lie2_nonempty_equiv_psl (h : CampbellHyp X K R P) :
   exact ⟨((QuotientGroup.quotientMulEquivOfEq (lie2_center_eq_bot e₁)).trans
     QuotientGroup.quotientBot).trans (e₁.trans e₂)⟩
 
+omit [Finite A] in
 theorem CampbellHyp.isRankTwoLie2Derived (h : CampbellHyp X K R P) :
     CFSG.Quasithin.IsRankTwoLie2Derived
       ((↥K ⧸ CFSG.pCore 2 ↥K) ⧸ Subgroup.center (↥K ⧸ CFSG.pCore 2 ↥K)) := by
@@ -87,6 +92,7 @@ theorem CampbellHyp.isRankTwoLie2Derived (h : CampbellHyp X K R P) :
     inferInstance, inferInstance, by rw [Nat.card_zmod, pow_one],
     ⟨e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3 (ZMod 2))⟩⟩
 
+omit [Finite A] in
 theorem CampbellHyp.exists_modO2Surj (h : CampbellHyp X K R P) :
     ∃ (F : Type) (_ : Field F) (_ : Fintype F) (α : ↥K →* ↥(StatedSL 3 F)),
       Fintype.card F = 2 ∧ CFSG.Quasithin.IsModO2Surj K α := by

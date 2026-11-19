@@ -100,8 +100,7 @@ theorem noB2derInput_twB2 :
 theorem noB2derInput_B2der : SimpleNoB2derInput fun lab => lab.tag = .B2der := by
   intro lab _ htag
   refine largeEvenLabelAll_b2der htag ?_
-  intro K _ _ hK
-  intro φ hφ _ _ J hJcomp hJlabel
+  intro K _ _ hK φ hφ _ _ J hJcomp hJlabel
   have hcardR : Nat.card (LargeEvenProj
       (⁅LargeEvenSpGroup K 2, LargeEvenSpGroup K 2⁆ :
         Subgroup (GL (Fin 2 ⊕ Fin 2) K))) = 360 := by
@@ -143,8 +142,8 @@ theorem noB2derInput_triD4_two :
   intro _ _ _ _ J _ hJlabel
   have hnot : ¬ 5 ∣ Nat.card
       (LargeEvenCenterQuot (LargeEvenTwistedH LargeEvenCartanD4 K LargeEvenRhoD4 1)) := by
-    haveI : CharP K 2 := by
-      haveI : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := by
+      have : Fintype K := Fintype.ofFinite K
       refine charP_of_card_eq_prime_pow (p := 2) (f := 3) ?_
       rw [← Nat.card_eq_fintype_card, hK]
       norm_num

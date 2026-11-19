@@ -154,7 +154,7 @@ theorem odd_core_free_selfcentralizing_four_group_involution_centralizer_three_a
       calc 2 = 2 ^ 1 := rfl
         _ ≤ 2 ^ (m - 1) := Nat.pow_le_pow_right (by norm_num) (by omega)
     omega
-  have hTp : IsPGroup 2 ((T : Subgroup L).map L.subtype) := T.isPGroup'.map _
+  have hTp : IsPGroup 2 ((T : Subgroup L).map L.subtype) := T.isPGroup.map _
   obtain ⟨S'', hS''⟩ := hTp.exists_le_sylow
   have hS''card : Nat.card (S'' : Subgroup X) = 4 := by
     rw [Sylow.card_eq_multiplicity, ← Sylow.card_eq_multiplicity S, h4]

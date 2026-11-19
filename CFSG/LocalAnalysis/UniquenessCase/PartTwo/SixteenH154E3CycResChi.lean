@@ -17,11 +17,11 @@ variable {G : Type} [Group G] [Finite G]
 private theorem s16h_e3_CycResChi_not_quasisimple_of_card_dvd_prime {X : Type*} [Group X]
     {p : ℕ} (hp : p.Prime) (h : Nat.card X ∣ p) : ¬ CFSG.Open.IsQuasisimple X := by
   intro hq
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsCyclic X := isCyclic_of_card_dvd_prime h
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsCyclic X := isCyclic_of_card_dvd_prime h
   have hsub : Subsingleton (X ⧸ Subgroup.center X) :=
     QuotientGroup.subsingleton_iff.mpr Subgroup.center_eq_top
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hq.2
   exact not_nontrivial_iff_subsingleton.mpr hsub inferInstance
 
 private theorem s16h_e3_CycResChi_prime_card_not_quasisimple {X : Type*} [Group X] {p : ℕ}
@@ -106,7 +106,7 @@ private theorem s16h_e3_CycResChi_xbar_abstract {A : Type*} [Group A] [Finite A]
     ∃ N : Subgroup A, N ≤ Mb ∧ (∀ q ∈ Mb, ∀ x ∈ N, q * x * q⁻¹ ∈ N) ∧ IsElemAbelian p N ∧
       (∃ n, Fintype.card ι - 1 ≤ n ∧ Nat.card N = p ^ n) ∧ N ≤ ⁅Mb, Mb⁆ := by
   classical
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   have hcommA : ∀ i j, i ≠ j → ∀ x y : A, x ∈ B i → y ∈ B j → Commute x y :=
     fun i j hij => hcomm hij
   let φ : (∀ i, B i) →* A := Subgroup.noncommPiCoprod (H := B) hcommA
@@ -118,7 +118,7 @@ private theorem s16h_e3_CycResChi_xbar_abstract {A : Type*} [Group A] [Finite A]
   have hdom_comm : ∀ u v : (∀ i, B i), u * v = v * u := by
     intro u v
     funext i
-    haveI : IsCyclic (B i) := isCyclic_of_prime_card (hcard i)
+    have : IsCyclic (B i) := isCyclic_of_prime_card (hcard i)
     exact mul_comm' (u i) (v i)
   have hE_ab : IsMulCommutative E := by
     refine IsMulCommutative.of_comm fun x y => Subtype.ext ?_
@@ -210,7 +210,7 @@ private theorem s16h_e3_CycResChi_xbar_abstract {A : Type*} [Group A] [Finite A]
     calc E = ⨆ i, B i := hEeq
       _ ≤ ⁅E, Mb⁆ ⊔ Subgroup.zpowers b := iSup_le hgen
   have hN_le : Nat.card E ≤ Nat.card ↥⁅E, Mb⁆ * p := by
-    haveI : IsMulCommutative ↥E := hE_ab
+    have : IsMulCommutative ↥E := hE_ab
     have hzle : Subgroup.zpowers b ≤ E := Subgroup.zpowers_le.mpr (hBle i₀ hbB)
     have hcard_sup := card_sup_mul_card_inf ((⁅E, Mb⁆).subgroupOf E)
       ((Subgroup.zpowers b).subgroupOf E)
@@ -502,8 +502,8 @@ private theorem s16h_e3_CycResChi_exists_xbar (D : Data G) {V₀ V L : Subgroup 
       ext φ
       simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
       group
-  haveI : Fintype ↥(Set.range B) := (Set.finite_range B).fintype
-  haveI : Nonempty ↥(Set.range B) := ⟨⟨B 1, Set.mem_range.mpr ⟨1, rfl⟩⟩⟩
+  have : Fintype ↥(Set.range B) := (Set.finite_range B).fintype
+  have : Nonempty ↥(Set.range B) := ⟨⟨B 1, Set.mem_range.mpr ⟨1, rfl⟩⟩⟩
   obtain ⟨N, hNle, hNnormal, hN_el, ⟨n, hn_bound, hNcard⟩, hNc⟩ :=
     s16h_e3_CycResChi_xbar_abstract (A := MulAut (Vtil V₀ V hV))
       (Mb := Mbar D.M V₀ V hV) (E := ⨆ m : D.M, B m) (B := B') hp
@@ -557,17 +557,17 @@ private theorem s16h_e3_CycResChi_exists_xbar (D : Data G) {V₀ V L : Subgroup 
   exact ⟨n, hsn, Xbar, hXnorm, hXel, hXcard, hXc⟩
 
 theorem s16h_e3_cyclic_chi_resid
-    (D : Data G) (S : s16h_Std D) (hr3 : CFSG.Open.evenRank G = 3) (hσ : D.sig = D.sig1)
+    (D : Data G) (S : s16h_Std D) (hr3 : CFSG.Open.evenRank G = 3) (_hσ : D.sig = D.sig1)
     (hσG : SigmaThree D)
     {V₀ V L : Subgroup G} (h : Setting16 D V₀ V L)
     (hc : Conc4_136 D V₀ V h.hyp151.isElemAbelian L)
-    (hs : 1 < s15 D.M V₀ V h.hyp151.isElemAbelian L)
-    (hnot : ¬ Concl164 D V₀ V h.hyp151.isElemAbelian L)
-    (hδ : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2 →
+    (_hs : 1 < s15 D.M V₀ V h.hyp151.isElemAbelian L)
+    (_hnot : ¬ Concl164 D V₀ V h.hyp151.isElemAbelian L)
+    (_hδ : s15 D.M V₀ V h.hyp151.isElemAbelian L = 2 →
       delta15 D.M V₀ V h.hyp151.isElemAbelian L <
         gamma15 D.M V₀ V h.hyp151.isElemAbelian L - 1)
     {p : ℕ} (hp : p.Prime) (hLp : IsCyclicOrd ↥(lBar V₀ V h.hyp151.isElemAbelian L) p)
-    (hχ : ∀ n ∈ Mbar D.M V₀ V h.hyp151.isElemAbelian,
+    (_hχ : ∀ n ∈ Mbar D.M V₀ V h.hyp151.isElemAbelian,
       n ∈ normalizer ((lBar V₀ V h.hyp151.isElemAbelian L : Subgroup _) : Set _) →
         ∀ l ∈ lBar V₀ V h.hyp151.isElemAbelian L, n * l = l * n)
     (hpσ : p ∉ D.sig) (h3 : D.sig = {3})
@@ -583,7 +583,7 @@ theorem s16h_e3_cyclic_chi_resid
     rcases s16h_e3_CycResChi_prime_of_conc4_133 hp hLp.2 h133 with h | h | h <;> omega
   have hp2 : p ≠ 2 := by omega
   have hp3lt : 3 < p := by omega
-  haveI hNorm : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
+  have hNorm : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal :=
     CFSG.LocalAnalysis.WeakClosure81.cTilde_subgroupOf_normal hV
       h.hyp151.hyp125.pairFacts.le_normalizer h.hyp151.hyp125.pairFacts.le_normalizer₀
   obtain ⟨n, hn, Xbar, hXn, hXe, hXcard, hXc⟩ :=
@@ -595,7 +595,7 @@ theorem s16h_e3_cyclic_chi_resid
     r1110G_of_core_second D hCore
       (r1110Second_holds D S.hx S.hSig S.h61 S.h63 S.h77 hCore)
   have hH11 : F11.Hyp11 D V₀ V := Hyp125.hyp11 S.h127 h.hyp151.hyp125
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (F11.O2p p D.M)
   have hO2p_le : F11.O2p p D.M ≤ D.M := by
     rw [F11.O2p]

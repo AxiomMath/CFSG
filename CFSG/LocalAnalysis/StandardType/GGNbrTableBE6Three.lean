@@ -66,12 +66,12 @@ theorem card_fix_adRefl_mul_three (G : AddSubgroup (Fin Tag.E6.rank → ZMod 3))
       · refine ⟨⟨hypE6Wit i, ?_⟩, ?_⟩
         · rw [hhyp]; exact hypE6Wit_mem i
         · simp [f, hypE6Wit_self i]
-    haveI : Fact (Nat.Prime (Nat.card (ZMod 3))) :=
+    have : Fact (Nat.Prime (Nat.card (ZMod 3))) :=
       ⟨by rw [Nat.card_zmod]; exact Nat.prime_three⟩
     rcases AddSubgroup.eq_bot_or_eq_top_of_prime_card f.range with hbot | htop
     · rw [hbot] at h1
       exfalso
-      have h10 : (1 : ZMod 3) = 0 := by simpa using h1
+      have h10 : (1 : ZMod 3) = 0 := by simp at h1
       exact absurd h10 (by decide)
     · exact htop
   have hfcard : Nat.card f.range = 3 := by
@@ -440,7 +440,7 @@ theorem automizer_eq_reflGen_of_card_le
       Nat.card (WeylGroup .E6)) :
     ggAutomizer (MulAut.conj : L' →* MulAut L').range A =
       Subgroup.closure (Set.range h.conjAut) := by
-  haveI := h.finite
+  have := h.finite
   have hcardH : Nat.card (Subgroup.closure (Set.range h.conjAut)) = Nat.card (WeylGroup .E6) := by
     have hcard_eq := Nat.card_congr
       (MonoidHom.ofInjective (f := h.weylAutHom) h.weylAut_injective).toEquiv
@@ -536,6 +536,7 @@ theorem weylAut_injective
     WeylGroup .E6 →* MulAut ↥A :=
   h.toActData.weylAutHom
 
+omit [Finite L'] in
 theorem torusWeylElt_w (h : GGE6ThreeData Z A Φ T w) (i : Fin 6) :
     GGTorusWeylElt 3 A (w i) := by
   intro a ha

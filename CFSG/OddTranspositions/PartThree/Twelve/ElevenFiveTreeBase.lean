@@ -105,7 +105,7 @@ theorem e11Check_ne_zero : ∀ a : ZMod 5, a ≠ 0 → e11Check a = true := by
 theorem e11StepSet_mono {a : ZMod 5} {S T : Set (Fin 4 → ZMod 5)} (h : S ⊆ T) :
     e11StepSet a S ⊆ e11StepSet a T := by
   intro w hw
-  simp only [e11StepSet, Set.mem_union, Set.mem_setOf_eq] at hw ⊢
+  simp only [e11StepSet, Set.mem_union, Set.mem_ofPred_eq] at hw ⊢
   rcases hw with hw | hw | hw
   · exact Or.inl (h hw)
   · rcases hw with ⟨i, v, hv, rfl⟩
@@ -144,13 +144,13 @@ theorem e11ImageMask_foldl_testBit {f : Nat → Nat} {m : Nat} (l : List Nat) (a
       simp only [List.foldl_cons] at h
       rcases ih (if m.testBit a then acc ||| (1 <<< f a) else acc) h with hacc | ⟨v, hv, hm, hf⟩
       · by_cases ha : m.testBit a
-        · rw [if_pos ha] at hacc
+        · rw [ite_eq_left ha] at hacc
           rw [Nat.testBit_lor, Bool.or_eq_true] at hacc
           rcases hacc with hacc | hshift
           · exact Or.inl hacc
           · exact Or.inr ⟨a, List.mem_cons_self, ha,
               ((testBit_one_shiftLeft (f a) w).mp hshift).symm⟩
-        · rw [if_neg ha] at hacc
+        · rw [ite_eq_right ha] at hacc
           exact Or.inl hacc
       · exact Or.inr ⟨v, List.mem_cons_of_mem a hv, hm, hf⟩
 
@@ -201,7 +201,7 @@ theorem e11StepMask_testBit (a : ZMod 5) (m w : Nat)
 
 theorem e11ReachSet_closed (a : ZMod 5) : e11StepSet a (e11ReachSet a) ⊆ e11ReachSet a := by
   intro w hw
-  simp only [e11StepSet, Set.mem_union, Set.mem_setOf_eq] at hw
+  simp only [e11StepSet, Set.mem_union, Set.mem_ofPred_eq] at hw
   rcases hw with hw | hw | hw
   · exact hw
   · rcases hw with ⟨i, v, hv, rfl⟩
@@ -253,7 +253,7 @@ theorem e11Reach_mem (a : ZMod 5) (ha : a ≠ 0) (S : Set (Fin 4 → ZMod 5))
     (v : Fin 4 → ZMod 5) (hv : e11Norm a v = 1 ∨ e11Norm a v = 4) : v ∈ S := by
   have hclosed : e11StepSet a S ⊆ S := by
     intro w hw
-    simp only [e11StepSet, Set.mem_union, Set.mem_setOf_eq] at hw
+    simp only [e11StepSet, Set.mem_union, Set.mem_ofPred_eq] at hw
     rcases hw with hw | hw | hw
     · exact hw
     · rcases hw with ⟨i, u, hu, rfl⟩
@@ -454,11 +454,11 @@ theorem e11ReflectionGroup_eq {k : ℕ} {ε π : Bool}
         Subgroup.closure (Set.range fun i => fiveReflOf k ε (b i)) := by
       refine e11Reach_mem a ha {c : Fin 4 → ZMod 5 | fiveReflOf k ε (e11Phi b c) ∈
         Subgroup.closure (Set.range fun i => fiveReflOf k ε (b i))} ?_ ?_ ?_ c hmem
-      · simp only [Set.mem_setOf_eq]
+      · simp only [Set.mem_ofPred_eq]
         rw [e11Phi_eq_zero]
         exact Subgroup.subset_closure ⟨0, rfl⟩
       · intro i c' hc'
-        simp only [Set.mem_setOf_eq] at hc' ⊢
+        simp only [Set.mem_ofPred_eq] at hc' ⊢
         have hgen : fiveReflOf k ε (b i) ∈
             Subgroup.closure (Set.range fun i => fiveReflOf k ε (b i)) :=
           Subgroup.subset_closure ⟨i, rfl⟩
@@ -471,7 +471,7 @@ theorem e11ReflectionGroup_eq {k : ℕ} {ε π : Bool}
         rw [e11Phi_refl hq hgram c' i, ← conj_fiveReflOf hpres (e11Phi b c')]
         exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hgen hc') (Subgroup.inv_mem _ hgen)
       · intro lam c' hlam hc'
-        simp only [Set.mem_setOf_eq] at hc' ⊢
+        simp only [Set.mem_ofPred_eq] at hc' ⊢
         rw [e11Phi_smul, fiveReflOf_smul k ε (e11Phi b c') hlam]
         exact hc'
     rw [hcphi] at hSc

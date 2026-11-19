@@ -218,7 +218,7 @@ theorem not_mem_omegaNbr_of_four_le (hs : Std8 Ω K J S R T W z t)
     T8.noTwins_of_mem hΩ.conjInvariant hs.stand.trans hs.noTwins hM
   obtain ⟨u, hu⟩ := hΩ.exists_uniqueInvolution hM
   obtain ⟨x, hxMS, hx4⟩ := exists_orderOf_four_of_four_le hu inf_le_left
-    (S.isPGroup'.to_inf_right) h4
+    (S.isPGroup.to_inf_right) h4
   have hxx : x * x = u := by
     have hx2 : (x * x) * (x * x) = 1 := by
       have h4' : x ^ 4 = (x * x) * (x * x) := by

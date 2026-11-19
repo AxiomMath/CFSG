@@ -17,10 +17,10 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K} {r : ℕ}
 theorem tailTorus_comm (hr : 3 ≤ r) (hirr : ∀ t : K, t ^ 2 + b * t + c ≠ 0)
     (x y : ↥(tailTorus r (minusTailForm K b c))) : x * y = y * x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hani := anisotropic_minusTailForm hirr
   have hreg := nondegenerate_minusTailForm hirr
-  haveI : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K] ((Fin r ⊕ Fin r → K) × (Fin 2 → K))) :=
+  have : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K] ((Fin r ⊕ Fin r → K) × (Fin 2 → K))) :=
     finite_orthLinearEquiv
   have hodd : Odd (Nat.card (tailTorus r (minusTailForm K b c))) := by
     have := orthogonal_geometry_tail_small_anisotropic_Levi_p_prime (p := 2) hr hani hreg
@@ -57,7 +57,7 @@ theorem commutator_mem_tailUnipotent (hr : 3 ≤ r) (hirr : ∀ t : K, t ^ 2 + b
     ⁅b₁, b₂⁆ ∈ tailUnipotent r (minusTailForm K b c) := by
   classical
   have hani := anisotropic_minusTailForm hirr
-  haveI := tailUnipotent_normal hani (r := r) (qA := minusTailForm K b c)
+  have := tailUnipotent_normal hani (r := r) (qA := minusTailForm K b c)
   obtain ⟨e⟩ := nonempty_quotient_mulEquiv_tailTorus hani (r := r) (qA := minusTailForm K b c)
   have hcomm : ∀ x y : ↥(tailBorel r (minusTailForm K b c)) ⧸
       (tailUnipotent r (minusTailForm K b c)).subgroupOf (tailBorel r (minusTailForm K b c)),

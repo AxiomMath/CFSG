@@ -27,12 +27,12 @@ theorem card_dvd_of_decomp {U : Type} [Group U] [Finite U] {x : U} {R L₁ L₂ 
     (hC : Subgroup.centralizer ({x} : Set U) = R ⊔ (L₁ ⊔ L₂))
     (hn : L₁ ⊔ L₂ ≤ normalizer (R : Set U)) (hd : Disjoint R (L₁ ⊔ L₂))
     (hd12 : Disjoint L₁ L₂) (h12 : L₁ ≤ centralizer (L₂ : Set U)) (hR2 : IsPGroup 2 R)
-    {N N₁ N₂ r r₁ r₂ : ℕ} (hr : Odd r) (hr₁ : Odd r₁) (hr₂ : Odd r₂)
+    {N N₁ N₂ r r₁ r₂ : ℕ} (hr : Odd r) (_hr₁ : Odd r₁) (_hr₂ : Odd r₂)
     (hU : Nat.card U = 2 ^ N * r) (h₁ : Nat.card L₁ = 2 ^ N₁ * r₁)
     (h₂ : Nat.card L₂ = 2 ^ N₂ * r₂) :
     Nat.card (Subgroup.centralizer ({x} : Set U)) ∣
       2 ^ (N - N₁ - N₂) * Nat.card L₁ * Nat.card L₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h21 : L₂ ≤ normalizer (L₁ : Set U) :=
     (Subgroup.le_centralizer_iff.mp h12).trans (centralizer_le_normalizer L₁)
   have hL12 : Nat.card (L₁ ⊔ L₂ : Subgroup U) = Nat.card L₁ * Nat.card L₂ :=
@@ -81,10 +81,10 @@ theorem card_centralizer_dvd_of_frame {K V : Type} [Field K] [Finite K] [CharP K
       2 ^ (N - f - N₂) * Nat.card SL(2, K) *
         Nat.card (orthDerived (Q.restrict (wSub P₁ P₂))) := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Finite U := Finite.of_injective σ hσ
+  have : Finite U := Finite.of_injective σ hσ
   have hEich : ∀ a b : V, eichler Q a b ∈ elementaryGroup Q := eichler_mem_elementaryGroup Q
   obtain ⟨hC, hn, hd, -⟩ := centralizer_decomp_frame hQ hEΩ hOE h₁₂ hΩ hWq hWZ hσ hσE hx
   have hRE : rootRadical Q P₁ P₂ ≤ σ.range := hσE ▸ rootRadical_le_elementaryGroup h₁₂

@@ -28,9 +28,9 @@ theorem ker_comp_inclusion_eq {H : Type*} [Group H] {z : H} {R0 : Subgroup H} (h
   have hKp : IsPGroup 2 (ψ.comp (Subgroup.inclusion hY)).ker := by
     rw [hK]
     exact hR0.comap_subtype (K := Y)
-  haveI hsimple : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have hsimple : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (by simp)
-  haveI hmapnormal : ((ψ.comp (Subgroup.inclusion hY)).ker.map f).Normal :=
+  have hmapnormal : ((ψ.comp (Subgroup.inclusion hY)).ker.map f).Normal :=
     (inferInstance : ((ψ.comp (Subgroup.inclusion hY)).ker).Normal).map f hf
   refine le_antisymm ?_ ?_
   ·

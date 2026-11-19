@@ -19,12 +19,12 @@ open CFSG CFSG.Assembly CFSG.StandardType CFSG.RankThree.PerfectCover CFSG.HardM
 private theorem kgLangCFamAux_centerCoprime {p : ℕ} (hZ : KGCenterCoprimeInput)
     (hp : p.Prime) (hp2 : p ≠ 2) {lab : LargeEvenLabel} (hlab : LargeEvenInLambda2 lab)
     (hreg : GGNbrLangRegLabel p lab) {R : Type} [Group R] (hhas : GGHasLabel lab R) :
-    ∀ [Finite (HopfCover R)] (θ : HopfCover R ⧸ Subgroup.center (HopfCover R) ≃* R),
+    ∀ [Finite (HopfCover R)] (_θ : HopfCover R ⧸ Subgroup.center (HopfCover R) ≃* R),
       commutator (HopfCover R) = ⊤ →
       Nat.Coprime (Nat.card (Subgroup.center (HopfCover R))) p := by
-  intro _ θ hcomm
+  intro _ _θ hcomm
   exact hZ p hp hp2 lab hlab hreg (HopfCover R) hcomm
-    (largeEvenRawDatum_mono (fun R' _ _ _ ⟨e⟩ => ⟨θ.trans e⟩) hhas)
+    (largeEvenRawDatum_mono (fun R' _ _ _ ⟨e⟩ => ⟨_θ.trans e⟩) hhas)
 
 theorem kgLangTorusDatumOn_regLinear12 (hZ : KGCenterCoprimeInput)
     (hpc : GGRawPCyclicOn GGNotD4Three) :
@@ -146,7 +146,7 @@ private theorem kgLangCFamAux_cycW_inn {p : ℕ} {R : Type} [Group R] (F : Set (
     GGRawFieldCycW p R (LargeEvenInnSet R) F := by
   intro _ _
   let J : Subgroup (MulAut R) := (MulAut.conj : R →* MulAut R).range
-  haveI : J.Normal := ggInnNormal R
+  have : J.Normal := ggInnNormal R
   have hJcoe : (J : Set (MulAut R)) = LargeEvenInnSet R := rfl
   obtain ⟨g, hg⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top (Subgroup.closure F)).mp hcycF
   have hgmem : g ∈ Subgroup.closure F := hg ▸ Subgroup.mem_zpowers g
@@ -259,7 +259,7 @@ theorem kgLangTorusDatumOn_regClassical12 (hZ : KGCenterCoprimeInput)
       · have hQd : LargeEvenRawDatum ⟨.D, l, n⟩ Q := hQ
         simp only [LargeEvenRawDatum, hl3, ↓reduceIte] at hQd
         obtain ⟨K, i1, i2, hK, hQK⟩ := hQd
-        haveI : CharP K 2 := charP_two_of_card hK
+        have : CharP K 2 := charP_two_of_card hK
         have hcyc : GGRawFieldCycW p (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K l)))
             (LargeEvenInnSet _)
             (LargeEvenMatFieldImage (LargeEvenProjMk (LargeEvenOmega (LargeEvenQPlus K l)))) :=

@@ -12,12 +12,14 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem comm_of_isCyclic {R : Subgroup G} [IsCyclic ↥R] :
     ∀ a ∈ R, ∀ b ∈ R, a * b = b * a := by
   intro a ha b hb
-  letI := IsCyclic.commGroup (α := ↥R)
+  let := IsCyclic.commGroup (α := ↥R)
   exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : ↥R) ⟨b, hb⟩)
 
+omit [Finite G] in
 private theorem comm_of_zpowers {z : G} {R : Subgroup G} (h : R = Subgroup.zpowers z) :
     ∀ a ∈ R, ∀ b ∈ R, a * b = b * a := by
   intro a ha b hb
@@ -43,7 +45,7 @@ private theorem false_of_comm {Ω : Set (Subgroup G)} (hΩ : HypOmegaGen Ω) {K 
 
 private theorem exists_normalizes_not_mem {T V : Subgroup G} (hV : IsPGroup 2 V)
     (hTV : T ≤ V) (hne : T ≠ V) : ∃ x ∈ V, (∀ t ∈ T, x⁻¹ * t * x ∈ T) ∧ x ∉ T := by
-  haveI : Group.IsNilpotent ↥V := hV.isNilpotent
+  have : Group.IsNilpotent ↥V := hV.isNilpotent
   have hU : T.subgroupOf V < ⊤ := by
     refine lt_top_iff_ne_top.mpr fun htop => hne ?_
     refine le_antisymm hTV fun v hv => ?_
@@ -52,7 +54,7 @@ private theorem exists_normalizes_not_mem {T V : Subgroup G} (hV : IsPGroup 2 V)
       exact Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.mp hmem
   obtain ⟨y, hyN, hyU⟩ :=
-    SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent (G := ↥V) _ hU)
+    _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent (G := ↥V) _ hU)
   refine ⟨y, y.2, fun t ht => ?_, fun hy => hyU (Subgroup.mem_subgroupOf.mpr hy)⟩
   have hsV : (y : G)⁻¹ * t * (y : G) ∈ V := V.mul_mem (V.mul_mem (V.inv_mem y.2) (hTV ht)) y.2
   have hconj : y * ⟨(y : G)⁻¹ * t * (y : G), hsV⟩ * y⁻¹ ∈ T.subgroupOf V := by
@@ -105,7 +107,7 @@ theorem conj_eq_of_le_centralizer {Ω : Set (Subgroup G)} (hΩ : HypOmegaGen Ω)
   · exact false_of_comm hΩ hK hR (comm_of_zpowers h1.1)
   · exact false_of_comm hΩ hK hR (comm_of_zpowers h2.1)
   · obtain ⟨-, -, -, hcyc, -⟩ := h3.1
-    haveI := hcyc
+    have := hcyc
     exact false_of_comm hΩ hK hR comm_of_isCyclic
   · obtain ⟨hRΩ, hcomm4⟩ := h4
     have hoc : oddCoreOf (conjSub g K) ≤ conjSub g K := by
@@ -174,6 +176,7 @@ theorem isSylow2In_top_of_nbr_twin {Ω : Set (Subgroup G)} (hΩ : HypOmegaGen Ω
     Subgroup.mem_centralizer_singleton_iff.mpr (hz'T r (hRT hr))
   exact hz'ne (conj_eq_of_le_centralizer hΩ hnbr hK hz hR hRC)
 
+omit [Finite G] in
 theorem nbr_twin_of_kPerp_eq (K₀ : Subgroup G)
     (h : KPerp (CoreAssembly.conjClass K₀) K₀ = twinSet (CoreAssembly.conjClass K₀) K₀) :
     ∀ J ∈ CoreAssembly.conjClass K₀, ∀ L ∈ omegaNbr (CoreAssembly.conjClass K₀) J,

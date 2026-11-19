@@ -37,14 +37,14 @@ theorem exists_single_and_eq_spFixedFactor (hK : Nat.card K = 2) (hζo : IsPrimi
     (hpre : LargeEvenStdSubPre 3 B (F.tor c) Lx D J) (h27 : ¬ 27 ∣ Nat.card J) :
     ∃ i₀, (∀ i, c i ≠ 0 ↔ i = i₀) ∧ Lx = spFixedFactor (F.tor c) := by
   classical
-  haveI hfin : Module.Finite K L := by
-    haveI : Module.Finite K (Fin F.s → L) :=
+  have hfin : Module.Finite K L := by
+    have : Module.Finite K (Fin F.s → L) :=
       Module.Finite.of_injective F.Φ.toLinearMap F.Φ.injective
     have hi : Fin F.s := ⟨0, by omega⟩
     exact Module.Finite.of_surjective (LinearMap.proj (R := K) hi)
       (fun l => ⟨fun _ => l, rfl⟩)
   have hsn : F.s = n := s_eq F hL
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   obtain ⟨i₀, hc₀⟩ : ∃ i : Fin F.s, c i ≠ 0 := by
     by_contra h
     push Not at h
@@ -101,7 +101,7 @@ theorem exists_single_and_eq_spFixedFactor (hK : Nat.card K = 2) (hζo : IsPrimi
             refine F.tor_mem_spFixedFactor hK hζo (d + κ • c) (cκ κ) ?_
             intro i hi
             show (if d i + κ * c i = 0 then c i else 0) = 0
-            rw [if_neg (by simpa only [Pi.add_apply, Pi.smul_apply, smul_eq_mul] using hi)]
+            rw [ite_eq_right (by simpa only [Pi.add_apply, Pi.smul_apply, smul_eq_mul] using hi)]
           have hm2 : F.tor (c - cκ κ) ∈ spSupported (F.tor (d + κ • c)) {phi3 K} := by
             refine F.tor_mem_spSupported hK hζo (d + κ • c) (c - cκ κ) ?_
               (Set.mem_singleton _)
@@ -109,7 +109,7 @@ theorem exists_single_and_eq_spFixedFactor (hK : Nat.card K = 2) (hζo : IsPrimi
             show (c - cκ κ) i = 0
             have hci : cκ κ i = c i := by
               show (if d i + κ * c i = 0 then c i else 0) = c i
-              rw [if_pos (by simpa only [Pi.add_apply, Pi.smul_apply, smul_eq_mul] using hi)]
+              rw [ite_eq_left (by simpa only [Pi.add_apply, Pi.smul_apply, smul_eq_mul] using hi)]
             simp only [Pi.sub_apply, hci, sub_self]
           have hmul : F.tor (cκ κ) * F.tor (c - cκ κ) = F.tor c := by
             rw [← F.tor_add hζo.pow_eq_one]
@@ -132,10 +132,10 @@ theorem exists_single_and_eq_spFixedFactor (hK : Nat.card K = 2) (hζo : IsPrimi
                   have hci : cκ κ i = c i := by
                     by_cases hcnd : d i + κ * c i = 0
                     · show (if d i + κ * c i = 0 then c i else 0) = c i
-                      rw [if_pos hcnd]
+                      rw [ite_eq_left hcnd]
                     · exact absurd (by
                         show (if d i + κ * c i = 0 then c i else 0) = 0
-                        rw [if_neg hcnd]) hi
+                        rw [ite_eq_right hcnd]) hi
                   rw [one_mul, hci])
             exact Subgroup.mem_centralizer_singleton_iff.mp (h₁ hg)
           · have h₂ : spSupported (F.tor (cκ κ)) {phi3 K} ≤
@@ -147,10 +147,10 @@ theorem exists_single_and_eq_spFixedFactor (hK : Nat.card K = 2) (hζo : IsPrimi
                     by_contra hne
                     exact hi (by
                       show (if d i + κ * c i = 0 then c i else 0) = 0
-                      rw [if_neg hne])
+                      rw [ite_eq_right hne])
                   have hci : cκ κ i = c i := by
                     show (if d i + κ * c i = 0 then c i else 0) = c i
-                    rw [if_pos hcnd]
+                    rw [ite_eq_left hcnd]
                   rw [hci]
                   linear_combination hcnd)
             exact Subgroup.mem_centralizer_singleton_iff.mp (h₂ hg)
@@ -184,13 +184,13 @@ theorem exists_single_and_eq_spFixedFactor (hK : Nat.card K = 2) (hζo : IsPrimi
         · intro i
           by_cases hi : c i = 0
           · refine ⟨Sum.inr ⟨i, hi⟩, ?_⟩
-            simpa using (one_ne_zero : (1 : ZMod 3) ≠ 0)
+            simp
           · refine ⟨Sum.inl (-(d i) * (c i)⁻¹), ?_⟩
             show (if d i + (-(d i) * (c i)⁻¹) * c i = 0 then c i else 0) ≠ 0
             have hsum : d i + (-(d i) * (c i)⁻¹) * c i = 0 := by
               rw [mul_assoc, inv_mul_cancel₀ hi, mul_one]
               exact add_neg_cancel _
-            rw [if_pos hsum]
+            rw [ite_eq_left hsum]
             exact hi
         · rintro (κ | ⟨i, hi⟩)
           · exact hJle κ hgJ

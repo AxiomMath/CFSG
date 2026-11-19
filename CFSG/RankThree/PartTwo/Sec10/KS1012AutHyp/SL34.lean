@@ -82,8 +82,7 @@ theorem card_units_three {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) :
 theorem det_scalar_three {K : Type} [Field K] (c : Kˣ) :
     Matrix.GeneralLinearGroup.det (Matrix.GeneralLinearGroup.scalar (Fin 3) c) = c ^ 3 := by
   ext
-  simp [Matrix.GeneralLinearGroup.val_det_apply, Matrix.GeneralLinearGroup.coe_scalar,
-    Matrix.det_diagonal]
+  simp
 
 theorem det_eq_of_conjAut_eq {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4)
     {A B : GL (Fin 3) K} (h : conjAut 3 K A = conjAut 3 K B) :
@@ -162,7 +161,7 @@ theorem detPGL_conjAut {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4)
     (A : GL (Fin 3) K) : detPGL K (conjAut 3 K A) = Matrix.GeneralLinearGroup.det A := by
   have h : conjAut 3 K A ∈ (conjAut 3 K).range := ⟨A, rfl⟩
   unfold detPGL
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact det_eq_of_conjAut_eq hK (Classical.choose_spec (MonoidHom.mem_range.mp h))
 
 theorem detPGL_one {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) :
@@ -222,7 +221,7 @@ theorem mem_range_of_mem_elemAb {K : Type} [Field K] [Finite K] (hK : Nat.card K
 
 theorem card_zpowers_eq_three {G : Type} [Group G] {f : G} (h3 : f ^ 3 = 1) (h1 : f ≠ 1) :
     Nat.card (Subgroup.zpowers f) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   rw [Nat.card_zpowers, orderOf_eq_prime h3 h1]
 
 theorem stab_zpowers {X : Type} [Group X] {f0 : MulAut X} (h3 : f0 ^ 3 = 1) {V : Subgroup X}

@@ -119,7 +119,7 @@ theorem D1SmallZCore.false_of_d1LiftX_le_C (hc : D1SmallZCore p P M H R Rbar K z
   have hO : ∀ t ∈ T, z * t ∈ fusionSet R z → t = 1 := fun t ht h =>
     hc.eq_one_of_mul_mem_fusionSet hL hBL hzbL hzbC hTC ht h
   obtain ⟨x, hxP, hxN, hxR, hxz⟩ := hc.data.exists_moving_elt hc.elt hc.b0
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hxP⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hxP⟩
   have hxk : x ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hpdvd : p ∣ (fusionSet R z).ncard := p_dvd_ncard_fusionSet hc.elt.2.1 hxN hxk hxR
     (fun y hy hyz hyk => hc.data.mem_of_mem_normalizer_of_commute hc.b0 hy hyz hyk)

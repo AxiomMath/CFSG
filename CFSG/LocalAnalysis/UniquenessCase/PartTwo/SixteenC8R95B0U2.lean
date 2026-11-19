@@ -120,8 +120,8 @@ theorem r95_u3_centralizer_le_of_not_isSolvable {F : Type} [Field F]
 theorem r95_psl2_seven_eq_top {K : Type} [Field K] [Finite K] (hK : Nat.card K = 7)
     {H : Subgroup (CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup K)} (h6 : 6 ∣ Nat.card H)
     (h7 : 7 ∣ Nat.card H) : H = ⊤ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : IsSimpleGroup (CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup K) :=
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : IsSimpleGroup (CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup K) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by omega : 4 ≤ Nat.card K)
   have hcard : Nat.card (CFSG.BenderSuzuki.MatrixGroups.PSL2MatrixGroup K) = 168 := by
     rw [CFSG.Glauberman.Dickson.MaxUp.card_psl2_odd (p := 7) (f := 1)

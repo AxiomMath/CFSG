@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16h_not_dvd_inf_conjSubgroup {K : Subgroup G} {q : ℕ}
     (h : CFSG.RankThree.PartOne.IsStronglyPEmbedded q K) {g : G} (hg : g ∉ K) :
     ¬ q ∣ Nat.card ↥(K ⊓ conjSubgroup K g) :=
@@ -149,7 +150,7 @@ theorem s16h_card_le_of_two_blocks {W : Type} [CommGroup W] [Finite W]
     (hE : IsElemAbelian q E) :
     Nat.card ↥E ≤ q ^ (c₁ + c₂) *
       Nat.card ↥(E ⊓ centSub (commSub (⊤ : Subgroup W) L₁ ⊔ commSub (⊤ : Subgroup W) L₂)) := by
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
+  have : Finite (MulAut W) := MulEquiv.finite_left
   set E' := E ⊓ centSub (commSub (⊤ : Subgroup W) L₁) with hE'
   have hE'le : E' ≤ E := inf_le_left
   have step1 := h₁ E (le_inf hEA hE₁) hE
@@ -171,6 +172,7 @@ theorem s16h_le_stabTil {D : Data G} {V₀ V L : Subgroup G} (h : Hyp151 D V₀ 
     D.M ≤ stabTil V₀ V :=
   le_stabTil h.hyp125.pairFacts.le_normalizer h.hyp125.pairFacts.le_normalizer₀
 
+omit [Finite G] in
 theorem s16h_barSub_le_normalizer_of_le_nBar (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     {L E : Subgroup G} (hE : E ≤ nBar M V₀ V hV L) :
     barSub V₀ V hV E ≤ normalizer (barSub V₀ V hV L : Set (MulAut (Vtil V₀ V hV))) := by
@@ -184,7 +186,7 @@ theorem s16h_card_le_three_mul_card_inf_nBar (D : Data G) {V₀ V L : Subgroup G
     (hEM : E ≤ D.M) :
     Nat.card ↥E ≤ 3 * Nat.card ↥(E ⊓ nBar D.M V₀ V h.isElemAbelian L) := by
   have hV := h.isElemAbelian
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   refine s16h_card_le_mul_card_preBarSub hV hEM (hEM.trans (s16h_le_stabTil h)) _ ?_
   refine s16h_card_le_three_mul_card_inf_normalizer hs ?_
     (L := barSub V₀ V hV L) ⟨1, (Mbar D.M V₀ V hV).one_mem, (s15GapFour_map_conj_one _).symm⟩
@@ -200,7 +202,7 @@ theorem s16h_barSub_inf_nBar_le_normalizer_conj (D : Data G) {V₀ V L : Subgrou
     barSub V₀ V h.isElemAbelian (E ⊓ nBar D.M V₀ V h.isElemAbelian L) ≤
       normalizer (T : Set (MulAut (Vtil V₀ V h.isElemAbelian))) := by
   have hV := h.isElemAbelian
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   intro φ hφ
   have hφE : φ ∈ barSub V₀ V hV E := barSub_mono V₀ V hV inf_le_left hφ
   have hφM : φ ∈ Mbar D.M V₀ V hV := barSub_mono V₀ V hV (inf_le_left.trans hEM) hφ
@@ -221,7 +223,7 @@ theorem s16h_card_le_sq_mul_card_inf_preBarSub_sup (D : Data G) {V₀ V L : Subg
       preBarSub D.M V₀ V h.isElemAbelian (centSub (wTil V₀ V h.isElemAbelian (conjSubgroup L x) ⊔
         wTil V₀ V h.isElemAbelian (conjSubgroup L y))))) := by
   have hV := h.isElemAbelian
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   have hMs := s16h_le_stabTil h
   have hconj : ∀ m ∈ D.M, barSub V₀ V hV (conjSubgroup L m) ∈
       conjSetOf (Mbar D.M V₀ V hV) (barSub V₀ V hV L) := fun m hm =>

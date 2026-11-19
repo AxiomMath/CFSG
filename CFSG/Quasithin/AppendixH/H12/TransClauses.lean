@@ -112,7 +112,7 @@ theorem clause4_toG {T' M' N' : Subgroup Γ} (hT : T' ≤ L') (hM : M' ≤ L') (
     · rw [pCoreOf_toG τ 2 hX'le]; exact hext
 
 theorem clause5_toG {K : Type*} [Field K] {ι : K →+* AddMonoid.End (Additive V')}
-    {f : V' → V' → K} {T' N' : Subgroup Γ} {V₁ : Subgroup V'} (hT : T' ≤ L') (hN : N' ≤ L')
+    {f : V' → V' → K} {T' N' : Subgroup Γ} {V₁ : Subgroup V'} (hT : T' ≤ L') (_hN : N' ≤ L')
     (h : Clause5 ρ' L' T' N' ι f V₁) :
     Clause5 ρ L (τ.toG T') (τ.toG N') (τ.iota ι) (τ.form f) (τ.toV V₁) := by
   unfold Clause5 at h ⊢

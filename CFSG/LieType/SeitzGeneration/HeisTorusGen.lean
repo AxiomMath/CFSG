@@ -56,11 +56,11 @@ theorem exists_single_mem_torus [Fact p.Prime] (hp : 5 ≤ p) {ζ : F} (hζ : Is
     (hTw : ContainsFourierTorus ζ K) :
     ∃ a b : Fin p, a ≠ b ∧ ∃ c : F, c ≠ 0 ∧
       ∃ g ∈ K, (g : Matrix (Fin p) (Fin p) F) = 1 + single a b c := by
-  haveI : NeZero p := ⟨by omega⟩
+  have : NeZero p := ⟨by omega⟩
   have hpp : p.Prime := Fact.out
   have hodd : Odd p := hpp.odd_of_ne_two (by omega)
   by_cases h2 : (2 : F) = 0
-  · haveI : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  · have : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
     rcases (show p = 5 ∨ 7 ≤ p by
       rcases (show p = 5 ∨ p = 6 ∨ 7 ≤ p by omega) with h | h | h
       · exact Or.inl h
@@ -88,7 +88,7 @@ theorem torusFourierGen_of_prime [Fact p.Prime] (hp : 5 ≤ p) : TorusFourierGen
 
 theorem linearHeisenbergPlanes : LinearHeisenbergPlanes :=
   linearHeisenbergPlanes_of_torusFourierGen fun _ _ _ p hp hp5 _ => by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact torusFourierGen_of_prime hp5
 
 open CFSG.Open CFSG.AGLEmbeddingD2 in

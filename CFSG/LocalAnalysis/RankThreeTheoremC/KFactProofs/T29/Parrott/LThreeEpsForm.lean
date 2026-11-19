@@ -25,7 +25,7 @@ theorem conj_eq_of_congr (M : LModel L π p f K ν) {g : X} {ζ : MulAut ↥(slP
     (h : MulAut.congr M.barEquiv.symm (centerDescend ↥L (MulAut.conjNormal g)) =
       centerDescend _ ζ) (s : ↥(slPi π 3 (p ^ f) K)) :
     g * ((ν s : ↥L) : X) * g⁻¹ = ((ν (ζ s) : ↥L) : X) := by
-  haveI := M.isPerfect
+  have := M.isPerfect
   have key : ∀ s : ↥(slPi π 3 (p ^ f) K),
       ((ν.comp ζ.toMonoidHom) s)⁻¹ * ((MulAut.conjNormal g).toMonoidHom.comp ν) s ∈
         Subgroup.center ↥L := by
@@ -72,6 +72,7 @@ theorem congr_of_isFieldAt (M : LModel L π p f K ν) {g : X} {σ : K ≃+* K} {
   rw [MulAut.conjNormal_apply]
   exact hg.act s _ (M.coe_fieldBy σ hg.mem s)
 
+omit [L.Normal] in
 theorem exists_conjBy_of_mem_inndiag (M : LModel L π p f K ν) (pkg : EtaPkg M.piField M.two_lt)
     {κ : MulAut pkg.M} (hκ : κ ∈ pkg.P.inndiag) :
     ∃ (H : GL (Fin 3) K) (hH : H ∈ glPi π 3 (p ^ f) K),

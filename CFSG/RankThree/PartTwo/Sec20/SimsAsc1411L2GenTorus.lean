@@ -57,8 +57,7 @@ theorem pow_two_mul_eq_one_of_diagSL_mem_center {b : Kˣ} {j : ℕ}
   have e0 := congrFun (congrFun hc 0) 0
   have e1 := congrFun (congrFun hc 1) 1
   simp only [coe_diagSL, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons,
-    Matrix.scalar_apply, Matrix.diagonal_apply_eq] at e0 e1
+    Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.scalar_apply, Matrix.diagonal_apply_eq] at e0 e1
   have h3 : b ^ j = (b ^ j)⁻¹ := Units.ext (e0.trans e1.symm)
   rw [two_mul, pow_add]
   exact mul_eq_one_iff_eq_inv.mpr h3
@@ -74,11 +73,11 @@ theorem exists_inverted_dvd_orderOf [Finite K] {p f : ℕ} [Fact p.Prime]
     rcases hnq with h | h
     · obtain ⟨U, hU, hc, hi⟩ :=
         CFSG.Quasithin.Vol2.Ch11.SecG.O5.exists_inverted_torus hKcard hK hcard hg1 hg2 true
-      simp only [if_true] at hc
+      simp only [ite_true] at hc
       exact ⟨U, hU, by omega, hc ▸ h, hi⟩
     · obtain ⟨U, hU, hc, hi⟩ :=
         CFSG.Quasithin.Vol2.Ch11.SecG.O5.exists_inverted_torus hKcard hK hcard hg1 hg2 false
-      simp only [Bool.false_eq_true, if_false] at hc
+      simp only [Bool.false_eq_true, ite_false] at hc
       exact ⟨U, hU, by omega, hc ▸ h, hi⟩
   obtain ⟨c, hc⟩ := IsCyclic.exists_generator (α := U)
   have hcord : orderOf c = Nat.card U := orderOf_eq_card_of_forall_mem_zpowers hc

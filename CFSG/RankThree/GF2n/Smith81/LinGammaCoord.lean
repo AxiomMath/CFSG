@@ -32,25 +32,27 @@ theorem LinSetup.exists_subspaces {n : ℕ} {V₁ V₂ : Subgroup G} (hc : Ctx M
   subst hCΦ
   refine ⟨{ carrier := {e | (C.Ψ e).2 = 0}
             add_mem' := fun {a b} ha hb => by
-              simp only [Set.mem_setOf_eq, map_add, Prod.snd_add] at *
+              simp only [Set.mem_ofPred_eq, map_add, Prod.snd_add] at *
               rw [ha, hb, add_zero]
             zero_mem' := by simp
             smul_mem' := fun c e he => by
-              simp only [Set.mem_setOf_eq] at *
+              simp only [Set.mem_ofPred_eq] at *
               rw [C.smul, he, smul_zero] },
     { carrier := {e | (C.Ψ e).1 = 0}
       add_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq, map_add, Prod.fst_add] at *
+        simp only [Set.mem_ofPred_eq, map_add, Prod.fst_add] at *
         rw [ha, hb, add_zero]
       zero_mem' := by simp
       smul_mem' := fun c e he => by
-        simp only [Set.mem_setOf_eq] at *
+        simp only [Set.mem_ofPred_eq] at *
         rw [C.smul, he, smul_zero] }, fun e => (hΦ₁ e).symm, fun e => (hΦ₂ e).symm⟩
 
 section Model
 
 variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} {x : G}
 
+omit [Finite K] in
+omit [Finite G] in
 theorem card_commSup_section (A : XAct M₀ x) (H : StrothHyp M Q Z) (hxM : x ∈ M)
     (hx2 : x * x = 1) {V : Subgroup G} (hZV : Z ≤ V) (hVQ : V ≤ Q)
     (hxV : x ∈ Subgroup.normalizer (V : Set G)) (W : Submodule K M₀.E)

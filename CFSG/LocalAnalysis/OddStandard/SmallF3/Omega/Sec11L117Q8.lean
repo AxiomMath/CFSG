@@ -66,9 +66,9 @@ private lemma isMulCommutative_of_card_dvd_eight {H : Subgroup G} (hdvd : Nat.ca
     · right; right; rw [hk]; norm_num
     · exfalso; rw [hk] at hlt; norm_num at hlt
   rcases hcases with h1 | h2 | h4
-  · haveI : IsCyclic ↥H := isCyclic_of_card_dvd_prime (p := 2) (by rw [h1]; norm_num)
+  · have : IsCyclic ↥H := isCyclic_of_card_dvd_prime (p := 2) (by rw [h1]; norm_num)
     infer_instance
-  · haveI : IsCyclic ↥H := isCyclic_of_prime_card (p := 2) h2
+  · have : IsCyclic ↥H := isCyclic_of_prime_card (p := 2) h2
     infer_instance
   · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by rw [h4]; norm_num)
 
@@ -87,7 +87,7 @@ theorem Sec11Q8.exists_not_mem [Finite G] {z : G} {Q : Subgroup G} (h : Sec11Q8 
   omega
 
 theorem Sec11Q8.inner_of_trivial [Finite G] {z : G} {Q : Subgroup G} (h : Sec11Q8 G z Q) {g : G}
-    (hn : ∀ q ∈ Q, g * q * g⁻¹ ∈ Q) (hg : ∀ q ∈ Q, g * q * g⁻¹ * q⁻¹ ∈ zpowers z) :
+    (_hn : ∀ q ∈ Q, g * q * g⁻¹ ∈ Q) (hg : ∀ q ∈ Q, g * q * g⁻¹ * q⁻¹ ∈ zpowers z) :
     ∃ k ∈ Q, ∀ q ∈ Q, g * q * g⁻¹ = k * q * k⁻¹ := by
   have hzmem : ∀ e : G, e ∈ zpowers z → e = 1 ∨ e = z := by
     intro e he

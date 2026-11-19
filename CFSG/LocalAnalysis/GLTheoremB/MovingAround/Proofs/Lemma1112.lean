@@ -47,17 +47,17 @@ theorem center_eq_bot_of_isLThreeFour {X : Type} [Group X] (hX : IsLThreeFour X)
     Subgroup.center X = ⊥ := by
   have h20 : Nat.card X = 20160 := card_of_isLThreeFour hX
   obtain ⟨F, _, _, _, ⟨e⟩⟩ := hX
-  haveI : IsSimpleGroup (StatedProj (StatedSL 3 F)) :=
+  have : IsSimpleGroup (StatedProj (StatedSL 3 F)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL (d := 3) F (by norm_num)
       (Or.inl (by norm_num)) (Or.inl (by norm_num))
-  haveI : IsSimpleGroup X := e.isSimpleGroup
+  have : IsSimpleGroup X := e.isSimpleGroup
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center X) with h | h
   · exact h
   · exfalso
     have hcomm : ∀ x y : X, x * y = y * x := fun x y => by
       have hx : x ∈ Subgroup.center X := by rw [h]; exact Subgroup.mem_top x
       exact (Subgroup.mem_center_iff.1 hx y).symm
-    letI : CommGroup X := { ‹Group X› with mul_comm := hcomm }
+    let : CommGroup X := { ‹Group X› with mul_comm := hcomm }
     have hp : (Nat.card X).Prime := IsSimpleGroup.prime_card
     rw [h20] at hp
     norm_num at hp
@@ -66,7 +66,7 @@ theorem not_le_K [Finite G] {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgro
     (h : Cex117 G m 3 B M E A a K) (hA : IsElemAbelian 3 A) (hL : IsLThreeFour (barOf 3 K)) :
     ¬ A ≤ K := by
   intro hAK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨haA, ha1⟩ := h.ha
   have haK : a ∈ K := hAK haA
   have hord : orderOf (⟨a, haK⟩ : K) = 3 := by
@@ -99,24 +99,24 @@ end Lemma1112
 
 @[expose] def Lemma1112.P1Claim : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
-    (h : Cex117 G m 3 B M E A a K),
+    (_h : Cex117 G m 3 B M E A a K),
     IsSylowIn 3 (centBar 3 (Cg a) K) (Subgroup.zpowers a) ∧ CFSG.Open.pRank 3 (Cg a) = 3
 
 @[expose] def Lemma1112.P2Claim : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
-    (h : Cex117 G m 3 B M E A a K), IsSCp 3 ⊤ A → CFSG.Open.pRank 3 (Cg a) = 3 →
+    (_h : Cex117 G m 3 B M E A a K), IsSCp 3 ⊤ A → CFSG.Open.pRank 3 (Cg a) = 3 →
     ∀ U : Subgroup G, IsEkIn 3 1 A U → ¬ U ≤ A ⊓ K → GConj (Subgroup.zpowers a) U
 
 @[expose] def Lemma1112.P3Claim : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
-    (h : Cex117 G m 3 B M E A a K), ∀ U : Subgroup G, IsEkIn 3 1 (E ⊓ A) U →
+    (_h : Cex117 G m 3 B M E A a K), ∀ U : Subgroup G, IsEkIn 3 1 (E ⊓ A) U →
       ¬ GConj (Subgroup.zpowers a) U
 
 theorem lemma1112_of_inputs (h1111 : Lemma1111Statement) (h119 : Lemma119Statement)
     (h104ii : Lemma104_iiStatement) (hP1 : Lemma1112.P1Claim) (hP2 : Lemma1112.P2Claim)
     (hP3 : Lemma1112.P3Claim) : Lemma1112Statement := by
   intro G _ _ m p B M E A a K h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨rfl, hA3, hL⟩ := h1111 h
   have hrkA0 : CFSG.Open.pRank 3 (E ⊓ A) = 2 := (h119 h).1
   have hsc : IsSCp 3 ⊤ A :=

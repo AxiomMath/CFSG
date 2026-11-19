@@ -35,7 +35,7 @@ theorem ggTBJ_twE6_torusJNoncomm {K : Type} [Field K] [Finite K] {n p : ℕ} (hp
     GGTBJTwE6NoncommAt p (TwE6Delta.RecipeR K n) (TwE6Delta.RecipeI K n) := by
   classical
   intro L' _ _ ψ₀ A hA y hy hy1 J hJ hJl hcount
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hn : 2 ≤ n := by
     by_contra hn

@@ -39,7 +39,7 @@ section Catalogue
 
 
 theorem innerPlaneBalance_adjointF4_five (K : Type) [Field K] [Finite K]
-    (h5 : ¬ 5 ∣ Nat.card K) (hq : 5 ∣ Nat.card K - 1 ∨ 5 ∣ Nat.card K + 1) :
+    (_h5 : ¬ 5 ∣ Nat.card K) (hq : 5 ∣ Nat.card K - 1 ∨ 5 ∣ Nat.card K + 1) :
     InnerPlaneBalance 5 (adjointGroup Tag.F4 K) := by
   rcases hq with h | h
   · exact innerPlanes_adjointF4_of_dvd_sub_one' Nat.prime_five le_rfl h
@@ -62,7 +62,7 @@ theorem innerPlaneBalance_trialityD4_five (q : TauCeti.PrimePower)
       t1_pieces
 
 theorem innerPlaneBalance_E6_five_dvd_add_one (q : TauCeti.PrimePower)
-    (hv : (excIndex .E6 q).Valid) (hq : q.p ≠ 5) (h : 5 ∣ q.card + 1) :
+    (hv : (excIndex .E6 q).Valid) (_hq : q.p ≠ 5) (h : 5 ∣ q.card + 1) :
     InnerPlaneBalance 5 (CatT ⟨excIndex .E6 q, hv⟩) := by
   obtain ⟨hsub, hin, hsu, htw, hex⟩ := t1_pieces
   obtain ⟨K, _, _, hK, -, ⟨e⟩⟩ := exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e6 q hv
@@ -71,7 +71,7 @@ theorem innerPlaneBalance_E6_five_dvd_add_one (q : TauCeti.PrimePower)
     (langTorusPlaneBalance_E6_two_five_of_components hsub hin hsu htw hex) K h)
 
 theorem innerPlaneBalance_twistedE6_five_dvd_sub_one (q : TauCeti.PrimePower)
-    (hv : (excIndex .twistedE6 q).Valid) (hq : q.p ≠ 5) (h : 5 ∣ q.card - 1) :
+    (hv : (excIndex .twistedE6 q).Valid) (_hq : q.p ≠ 5) (h : 5 ∣ q.card - 1) :
     InnerPlaneBalance 5 (CatT ⟨excIndex .twistedE6 q, hv⟩) := by
   obtain ⟨hsub, hin, hsu, htw, hex⟩ := t1_pieces
   obtain ⟨K, _, σ, hK, hσ, ⟨e⟩⟩ := exists_catEquiv_twistedE6 q hv

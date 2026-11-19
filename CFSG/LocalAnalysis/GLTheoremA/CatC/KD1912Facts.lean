@@ -49,12 +49,12 @@ theorem odd_card_commutator_of_odd_core {S : Type} [Group S] [Finite S] (hp : p.
   rw [Nat.odd_iff]
   by_contra h
   have h2 : 2 ∣ Nat.card (⁅X, A⁆ : Subgroup (MulAut S)) := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥(⁅X, A⁆ : Subgroup (MulAut S))) 2 h2
   have hyXM := hYle y.2
   have hyord : orderOf (y : MulAut S) = 2 := by rw [Subgroup.orderOf_coe]; exact hy
   have hyI : (y : MulAut S) ∈ innerAut S := by
-    haveI := hInorm
+    have := hInorm
     set q := (QuotientGroup.mk' ((innerAut S).subgroupOf M) : M →* M ⧸ (innerAut S).subgroupOf M)
     set ym : M := ⟨y, hyXM.2⟩
     have hdvd1 : orderOf (q ym) ∣ 2 := by
@@ -108,7 +108,7 @@ theorem odd_card_commutator_of_isCyclic_core {S : Type} [Group S] [Finite S] (hp
     Odd (Nat.card (⁅GLAPPrimeCoreOf p (H ⊓ Subgroup.centralizer ({x} : Set (MulAut S))), A⁆ :
       Subgroup (MulAut S))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set X : Subgroup (MulAut S) :=
     GLAPPrimeCoreOf p (H ⊓ Subgroup.centralizer ({x} : Set (MulAut S))) with hX
   set Y : Subgroup (MulAut S) := ⁅X, A⁆ with hY
@@ -144,7 +144,7 @@ theorem odd_card_commutator_of_isCyclic_core {S : Type} [Group S] [Finite S] (hp
   have hYZ : Y ≤ GLAPPrimeCoreOf p
       (innerAut S ⊓ Subgroup.centralizer ({x} : Set (MulAut S))) :=
     (le_inf hYX hYI).trans hXI
-  haveI hYcyc : IsCyclic ↥Y :=
+  have hYcyc : IsCyclic ↥Y :=
     isCyclic_of_injective (Subgroup.inclusion hYZ) (Subgroup.inclusion_injective hYZ)
   have hhA : A ≤ Subgroup.normalizer (Y : Set (MulAut S)) := by
     rw [hY]
@@ -168,7 +168,7 @@ theorem odd_card_commutator_of_isCyclic_core {S : Type} [Group S] [Finite S] (hp
     have h2dvd : 2 ∣ Nat.card ↥Y := by
       by_contra hnd
       exact hne (by omega)
-    haveI : Fintype ↥Y := Fintype.ofFinite _
+    have : Fintype ↥Y := Fintype.ofFinite _
     have huniq : ∀ y₁ y₂ : ↥Y, orderOf y₁ = 2 → orderOf y₂ = 2 → y₁ = y₂ := by
       intro y₁ y₂ h₁ h₂
       have hd : 2 ∣ Fintype.card ↥Y := by
@@ -212,7 +212,7 @@ theorem kd1912TwoLieAt_of_facts {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     KD1912TwoLieAt p P := by
   intro S _ _ hS hnc d hd hP e A hA D hD H hH hAH
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpA : IsPGroup p A := hA.isPGroup
   have hcardD : Nat.card D = p := by simpa using hD.2.2
   have hDne : D ≠ ⊥ := by
@@ -252,7 +252,7 @@ theorem kd1912TwoLieAt_of_facts {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         rwa [Nat.dvd_one] at hdvd
       rw [orderOf_eq_one_iff] at hone
       exact (QuotientGroup.eq_one_iff a).1 hone
-    haveI := hMn
+    have := hMn
     exact (odd_card_commutator_of_odd_core hp hMn hMo hAM hxAc hH hAH
       (hOdd.2 x hxord)).of_dvd_nat (Subgroup.card_dvd_of_le hmono)
   · exact (odd_card_commutator_of_isCyclic_core hp hCyc.1 hpA hxAc hH hAH

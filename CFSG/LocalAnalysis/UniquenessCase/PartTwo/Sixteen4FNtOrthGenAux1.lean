@@ -364,7 +364,7 @@ theorem w183PlusForm {r : ℕ} {K : Type} [Field K] (w : Fin r ⊕ Fin r → K) 
       StatedQuadPlus r K w + a * b := by
   simp only [StatedQuadPlus, Fin.sum_univ_castSucc, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
     w183PlusExt_inl, w183PlusExt_inr, w183PlusExt_last_inl, w183PlusExt_last_inr]
-  simp [w183PlusX, w183PlusY, Pi.single_apply, add_mul]
+  simp [w183PlusX, w183PlusY]
 
 theorem w183QuadPlusPolarForm {r : ℕ} {K : Type} [Field K] (a b : Fin r ⊕ Fin r → K)
     (α β γ δ : K) :
@@ -374,7 +374,7 @@ theorem w183QuadPlusPolarForm {r : ℕ} {K : Type} [Field K] (a b : Fin r ⊕ Fi
       quadPlusPolar r K a b + (α * δ + γ * β) := by
   simp only [quadPlusPolar, Fin.sum_univ_castSucc, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
     w183PlusExt_inl, w183PlusExt_inr, w183PlusExt_last_inl, w183PlusExt_last_inr]
-  simp [w183PlusX, w183PlusY, Pi.single_apply]
+  simp [w183PlusX, w183PlusY]
 
 theorem w183QuadPlusPolarExt {r : ℕ} {K : Type} [Field K] (v w : Fin r ⊕ Fin r → K) :
     quadPlusPolar (r + 1) K (w183PlusExt r K v) (w183PlusExt r K w) =
@@ -443,8 +443,8 @@ theorem w183PlusDecomp {r : ℕ} {K : Type} [Field K] (z : Fin (r + 1) ⊕ Fin (
         z (Sum.inr (Fin.last r)) • w183PlusY r K := by
   ext i
   rcases i with i | i <;> induction i using Fin.lastCases with
-  | last => simp [w183PlusExt, w183PlusX, w183PlusY, Pi.single_apply]
-  | cast i => simp [w183PlusExt, w183PlusX, w183PlusY, Pi.single_apply]
+  | last => simp [w183PlusExt, w183PlusX, w183PlusY]
+  | cast i => simp [w183PlusExt, w183PlusX, w183PlusY]
 
 theorem w183Qadd {r : ℕ} {K : Type} [Field K] (a b : Fin r ⊕ Fin r → K) :
     StatedQuadPlus r K (a + b) =
@@ -660,7 +660,7 @@ theorem w183PlusStep {K : Type} [Field K] (hK : ∀ c : K, c = 0 ∨ c = 1)
           rw [show w183PlusY r K + w183PlusExt r K (w + w₁) =
             w183PlusExt r K (w + w₁) + w183PlusY r K from add_comm _ _]
           have h := w183PlusForm (w + w₁) 0 1
-          simp only [one_smul, zero_smul, add_zero, zero_mul, mul_zero] at h
+          simp only [one_smul, zero_smul, add_zero, zero_mul] at h
           rw [h, hw₂]
         have hp : quadPlusPolar (r + 1) K (w183PlusX r K + w183PlusExt r K w₁)
             (w183PlusY r K + w183PlusExt r K (w + w₁)) = 1 := by
@@ -703,7 +703,7 @@ theorem w183PlusStep {K : Type} [Field K] (hK : ∀ c : K, c = 0 ∨ c = 1)
       exact hNW _ (by simpa using hQz)
     · rw [hα, hβ] at hQz
       rw [hα, hβ]
-      simp only [zero_smul, add_zero, one_smul, mul_zero] at hQz ⊢
+      simp only [zero_smul, add_zero, one_smul] at hQz ⊢
       rw [show w183PlusExt r K (fun p => z (Sum.map Fin.castSucc Fin.castSucc p)) +
           w183PlusY r K = w183PlusY r K +
           w183PlusExt r K (fun p => z (Sum.map Fin.castSucc Fin.castSucc p)) from add_comm _ _]

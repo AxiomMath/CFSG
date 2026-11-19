@@ -41,9 +41,10 @@ theorem burnsideF42g_mem_zpowers_iff {G : Type*} [Group G] {g y : G} (hg : g * g
 
 variable [Finite M] {H X : Subgroup M} {t : M}
 
+omit [Finite M] in
 theorem burnsideF42g_quot_data (htH : t ∈ H) (htX : t ∈ X) (hcen : ∀ h ∈ H, h * t = t * h)
     (ht2 : t * t = 1) :
-    ∃ hN : (Subgroup.zpowers (⟨t, htH⟩ : ↥H)).Normal,
+    ∃ _hN : (Subgroup.zpowers (⟨t, htH⟩ : ↥H)).Normal,
       (∀ y : ↥H, (QuotientGroup.mk' (Subgroup.zpowers (⟨t, htH⟩ : ↥H)) y ∈
           (X.subgroupOf H).map (QuotientGroup.mk' (Subgroup.zpowers (⟨t, htH⟩ : ↥H)))) ↔
           (y : M) ∈ X) ∧
@@ -62,7 +63,7 @@ theorem burnsideF42g_quot_data (htH : t ∈ H) (htX : t ∈ X) (hcen : ∀ h ∈
     · rintro (h | h)
       · exact Or.inl (Subtype.ext h)
       · exact Or.inr (Subtype.ext h)
-  have hN : (Subgroup.zpowers t').Normal := by
+  have _hN : (Subgroup.zpowers t').Normal := by
     refine ⟨fun n hn g => ?_⟩
     rcases (hmemN n).mp hn with h | h
     · have : n = 1 := Subtype.ext h
@@ -73,7 +74,7 @@ theorem burnsideF42g_quot_data (htH : t ∈ H) (htX : t ∈ X) (hcen : ∀ h ∈
       have hg : g * t' = t' * g := Subtype.ext (hcen g g.2)
       rw [hg, mul_inv_cancel_right]
       exact Subgroup.mem_zpowers _
-  refine ⟨hN, fun y => ?_, fun y y' => ?_⟩
+  refine ⟨_hN, fun y => ?_, fun y y' => ?_⟩
   · constructor
     · rintro ⟨x, hx, hxy⟩
       rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq] at hxy
@@ -149,7 +150,7 @@ theorem burnsideF42g_le_of_fix1_mod {a b : M} (htH : t ∈ H) (htX : t ∈ X) (h
     obtain ⟨w, rfl⟩ := hqs w
     have hw2' : (w : M) * w = 1 ∨ (w : M) * w = t := by
       rw [← map_mul, ← map_one q, hmk] at hw2
-      simp only [Subgroup.coe_one, one_mul, Subgroup.coe_mul] at hw2
+      simp only [Subgroup.coe_one, Subgroup.coe_mul] at hw2
       rcases hw2 with h1 | h1
       · exact Or.inl h1.symm
       · right

@@ -261,7 +261,7 @@ theorem s1611e3_nine_center_comm {D : Data G} (h : S1611e3Std D) {V₀ V L : Sub
     exact Subgroup.mem_map.2 ⟨z, hz, rfl⟩
   exact hmain z hzZ
 
-theorem s1611e3_nine_faith_of_comm {D : Data G} (h : S1611e3Std D) {V₀ V L : Subgroup G}
+theorem s1611e3_nine_faith_of_comm {D : Data G} (_h : S1611e3Std D) {V₀ V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hc : Counterex16 D V₀ V L hV) (h9 : Case168_9 D V₀ V hV L)
     {g : MulAut (Vtil V₀ V hV)} (hg : s16n9b_case9Two (Mbar D.M V₀ V hV) (lBar V₀ V hV L) g)
     {x : MulAut (Vtil V₀ V hV)} (hxM : x ∈ Mbar D.M V₀ V hV) (hx2 : x * x = 1)
@@ -314,7 +314,7 @@ theorem s1611e3_nine_card_le_four_of_acttriv {D : Data G} (h : S1611e3Std D)
     (hg : s16n9b_case9Two (Mbar D.M V₀ V hV) (lBar V₀ V hV L) g)
     {E : Subgroup (MulAut (Vtil V₀ V hV))} (hE : E ≤ Mbar D.M V₀ V hV)
     (hab : IsElemAbelian2 E)
-    (hENL : E ≤ Subgroup.normalizer (lBar V₀ V hV L : Set (MulAut (Vtil V₀ V hV))))
+    (_hENL : E ≤ Subgroup.normalizer (lBar V₀ V hV L : Set (MulAut (Vtil V₀ V hV))))
     (hENB : E ≤ Subgroup.normalizer
       ((lBar V₀ V hV L).map (MulAut.conj g).toMonoidHom : Set (MulAut (Vtil V₀ V hV))))
     (hcentL : ∀ x ∈ E, ∀ a ∈ lBar V₀ V hV L, x * a = a * x) :

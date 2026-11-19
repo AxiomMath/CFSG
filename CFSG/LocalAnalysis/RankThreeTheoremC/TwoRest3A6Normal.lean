@@ -26,7 +26,7 @@ theorem mul_mem_or_of_index_le_three {U K : Subgroup X} (hU : IsPGroup 3 U)
     (hK : ((U ⊓ K).subgroupOf U).index ≤ 3) {a b : X} (ha : a ∈ U) (hb : b ∈ U)
     (haK : a ∉ K) (hbK : b ∉ K) : a * b⁻¹ ∈ K ∨ a * b ∈ K := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set K' := (U ⊓ K).subgroupOf U with hK'
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hU
   have hdvd : K'.index ∣ 3 ^ n := hn ▸ K'.index_dvd_card
@@ -51,7 +51,7 @@ theorem mul_mem_or_of_index_le_three {U K : Subgroup X} (hU : IsPGroup 3 U)
     have hmin : (Nat.card U).minFac = 3 := by
       rw [hn]
       exact Nat.Prime.pow_minFac Nat.prime_three hn0
-    haveI : K'.Normal := Subgroup.normal_of_index_eq_minFac_card (by rw [hie, hmin])
+    have : K'.Normal := Subgroup.normal_of_index_eq_minFac_card (by rw [hie, hmin])
     have hcq : Nat.card (U ⧸ K') = 3 := by rw [← Subgroup.index, hie]
     set qa := QuotientGroup.mk' K' ⟨a, ha⟩ with hqa
     set qb := QuotientGroup.mk' K' ⟨b, hb⟩ with hqb
@@ -94,7 +94,7 @@ theorem exists_comm_center {A : Subgroup X} (hcard : Nat.card A = 1080)
     ∃ T₀ : Subgroup X, T₀ ≤ A ∧ IsPGroup 3 T₀ ∧ r ∈ T₀ ∧ ∃ x ∈ T₀,
       x * r * x⁻¹ * r⁻¹ ∈ Subgroup.centralizer (A : Set X) ∧ x * r * x⁻¹ * r⁻¹ ≠ 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hQc, hQe⟩ := card_sup_zpowers_rep hr hrn hr3 hζC hζ1 hζ3
   set Q := Subgroup.zpowers r ⊔ Subgroup.zpowers ζ with hQ
   have hQA : Q ≤ A := sup_le ((Subgroup.zpowers_le).mpr hr) ((Subgroup.zpowers_le).mpr hζA)
@@ -103,14 +103,14 @@ theorem exists_comm_center {A : Subgroup X} (hcard : Nat.card A = 1080)
   obtain ⟨S₀, hQS⟩ := hQ'3.exists_le_sylow
   set T₀ : Subgroup X := (S₀ : Subgroup A).map A.subtype with hT₀
   have hT₀A : T₀ ≤ A := Subgroup.map_subtype_le _
-  have hT₀3 : IsPGroup 3 T₀ := S₀.isPGroup'.map _
+  have hT₀3 : IsPGroup 3 T₀ := S₀.isPGroup.map _
   have hmemT : ∀ q ∈ Q, q ∈ T₀ := fun q hq =>
     ⟨⟨q, hQA hq⟩, hQS (Subgroup.mem_subgroupOf.mpr hq), rfl⟩
   have hrT : r ∈ T₀ := hmemT r (Subgroup.mem_sup_left (Subgroup.mem_zpowers r))
   have hζT : ζ ∈ T₀ := hmemT ζ (Subgroup.mem_sup_right (Subgroup.mem_zpowers ζ))
   have hT₀c : Nat.card T₀ = 3 ^ 3 := by
     have hce : Nat.card T₀ = Nat.card S₀ := Subgroup.card_map_of_injective A.subtype_injective
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S₀.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp S₀.isPGroup
     have hle := (hc T₀ hT₀A hT₀3).1
     rw [hce, hk] at hle
     have hk3 : k ≤ 3 := by
@@ -176,10 +176,10 @@ theorem exists_comm_center {A : Subgroup X} (hcard : Nat.card A = 1080)
     have hcommR : IsMulCommutative π.range := by
       have hm2 : m ≤ 2 := by omega
       interval_cases m
-      · haveI : Subsingleton π.range :=
+      · have : Subsingleton π.range :=
           (Nat.card_eq_one_iff_unique.mp (by simpa using hme)).1
         exact ⟨⟨fun _ _ => Subsingleton.elim _ _⟩⟩
-      · haveI : IsCyclic π.range := isCyclic_of_prime_card (p := 3) (by simpa using hme)
+      · have : IsCyclic π.range := isCyclic_of_prime_card (p := 3) (by simpa using hme)
         infer_instance
       · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) hme
     have hc := hcommR.is_comm.comm ⟨π ⟨x, hxT⟩, ⟨_, rfl⟩⟩ ⟨π ⟨r, hrT⟩, ⟨_, rfl⟩⟩
@@ -202,6 +202,7 @@ theorem exists_comm_center {A : Subgroup X} (hcard : Nat.card A = 1080)
     calc x * r = x * r * x⁻¹ * x := by group
       _ = r * x := by rw [this]
 
+omit [Finite X] in
 theorem conj_mem_centralizer_iff {A : Subgroup X} (g t : X) :
     g * t * g⁻¹ ∈ Subgroup.centralizer (A : Set X) ↔
       t ∈ Subgroup.centralizer ((A.map (MulAut.conj g⁻¹).toMonoidHom : Subgroup X) : Set X) := by
@@ -217,6 +218,7 @@ theorem conj_mem_centralizer_iff {A : Subgroup X} (g t : X) :
       _ = g * (t * (g⁻¹ * a * g)) * g⁻¹ := by rw [h]
       _ = g * t * g⁻¹ * a := by group
 
+omit [Finite X] in
 theorem not_mem_centralizer_of_noncomm {A : Subgroup X} {r v : X} (hr : r ∈ A)
     (hrv : v * r ≠ r * v) :
     v ∉ Subgroup.centralizer (A : Set X) ∧ r * v⁻¹ ∉ Subgroup.centralizer (A : Set X) ∧
@@ -306,6 +308,7 @@ theorem exists_conj_eq_mul {A : Subgroup X} (hcard : Nat.card A = 1080)
       _ = c⁻¹ * (x⁻¹ * (x * r * x⁻¹) * x) := by rw [hxr]
       _ = c⁻¹ * r := by group
 
+omit [Finite X] in
 theorem conj_eq_self_of_comm {y t : X} (h : y * t = t * y) : y * t * y⁻¹ = t := by
   rw [h]; group
 
@@ -337,7 +340,7 @@ theorem false_of_two_blocks {A₀ A₁ U : Subgroup X} {zb r₀ r₁ ζ ζ₁ : 
       A₀.map (MulAut.conj g⁻¹).toMonoidHom = A₀ ∨ A₀.map (MulAut.conj g⁻¹).toMonoidHom = A₁)
     (hidx : ((U ⊓ Subgroup.centralizer (A₀ : Set X)).subgroupOf U).index ≤ 3) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h10 : A₀ ≤ Subgroup.centralizer (A₁ : Set X) := fun a ha =>
     Subgroup.mem_centralizer_iff.mpr fun b hb =>
       (Subgroup.mem_centralizer_iff.mp (h01 hb) a ha).symm
@@ -454,6 +457,7 @@ theorem false_of_two_blocks {A₀ A₁ U : Subgroup X} {zb r₀ r₁ ζ ζ₁ : 
   · exact false_of_conj_pair hU hidx (B := A₁) (fun t => by rw [conj_mem_centralizer_iff, h])
       hr₁ hr₁n hur₁ (hgU _ hr₁T) (hgU _ huT)
 
+omit [Finite X] in
 theorem map_conj_map_conj_inv (A : Subgroup X) (μ : X) :
     (A.map (MulAut.conj μ).toMonoidHom).map (MulAut.conj μ⁻¹).toMonoidHom = A := by
   rw [Subgroup.map_map]
@@ -467,7 +471,7 @@ theorem mem_zpowers_of_card_center {A : Subgroup X} (hZ : Nat.card (Subgroup.cen
     {ζ : X} (hζA : ζ ∈ A) (hζC : ζ ∈ Subgroup.centralizer (A : Set X)) (hζ1 : ζ ≠ 1)
     (hζ3 : ζ ^ 3 = 1) :
     ∀ y ∈ A, y ∈ Subgroup.centralizer (A : Set X) → y ∈ Subgroup.zpowers ζ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro y hyA hyC
   have hmemZ : ∀ w (hw : w ∈ A), w ∈ Subgroup.centralizer (A : Set X) →
       (⟨w, hw⟩ : A) ∈ Subgroup.center A := fun w hw hwC =>
@@ -482,6 +486,7 @@ theorem mem_zpowers_of_card_center {A : Subgroup X} (hZ : Nat.card (Subgroup.cen
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hy
   exact Subgroup.mem_zpowers_iff.mpr ⟨k, by simpa using congrArg Subtype.val hk⟩
 
+omit [Finite X] in
 theorem conj_block_facts {A A' : Subgroup X} (μ : X)
     (hA' : A' = A.map (MulAut.conj μ).toMonoidHom) (hcard : Nat.card A = 1080)
     (hb : ∀ l ∈ A, (∃ k : ℕ, l ^ 3 ^ k = 1) → l ^ 3 = 1)
@@ -550,13 +555,13 @@ theorem exists_conj_le_barR {M R : Subgroup G} {z : G} (hzM : z ∈ M) (hz3 : z 
         T.map (MulAut.conj g).toMonoidHom ≤
           ((QuotientGroup.mk' (CFSG.pCore 2 ↥M)).comp (Subgroup.inclusion hRM)).range := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set mk := QuotientGroup.mk' (CFSG.pCore 2 ↥M) with hmk
   set Cz := Subgroup.centralizer ({z} : Set G) with hCz
   set Cb := Subgroup.centralizer ({mk ⟨z, hzM⟩} : Set (↥M ⧸ CFSG.pCore 2 ↥M)) with hCb
   set fR := mk.comp (Subgroup.inclusion hRM) with hfR
   obtain ⟨Q, hQR⟩ := hB0
-  have hR3 : IsPGroup 3 R := hQR ▸ Q.isPGroup'.map _
+  have hR3 : IsPGroup 3 R := hQR ▸ Q.isPGroup.map _
   have hRz : R ≤ Cz := hQR ▸ Subgroup.map_subtype_le _
   have hcardR : Nat.card R = Nat.card Q :=
     hQR ▸ Subgroup.card_map_of_injective Cz.subtype_injective
@@ -608,7 +613,7 @@ theorem exists_conj_le_barR {M R : Subgroup G} {z : G} (hzM : z ∈ M) (hz3 : z 
     have h2 : Nat.card ((S : Subgroup Cb).map Cb.subtype) = Nat.card S :=
       Subgroup.card_map_of_injective Cb.subtype_injective
     rw [h1, hUcard, ← h2]
-    exact hYmax _ (Subgroup.map_subtype_le _) (S.isPGroup'.map _)
+    exact hYmax _ (Subgroup.map_subtype_le _) (S.isPGroup.map _)
   obtain ⟨S₂, hTS₂⟩ := (hT3.comap_of_injective Cb.subtype Cb.subtype_injective).exists_le_sylow
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq Cb S₂ S
   refine ⟨c, c.2, ?_⟩
@@ -638,7 +643,7 @@ theorem normal_of_threeASix {P : Sylow 3 G} {M H R : Subgroup G}
     (L.subgroupOf M).Normal := by
   have hp : Nat.Prime 3 := Nat.prime_three
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer hL.le]
   intro m hmM
   by_contra hmL

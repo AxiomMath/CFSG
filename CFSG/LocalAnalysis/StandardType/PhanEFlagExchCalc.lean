@@ -54,6 +54,7 @@ private theorem q2cFX_jShiftInv_smul (c : K) (v : Fin 4 → K) :
 
 private def q2cFX_lift (v : Fin 4 → K) : Fin 4 → K := ![v 0, v 1, 0, 0]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFX_lift_mem (v : Fin 4 → K) :
     q2cFX_lift v ∈ Vsub (K := K) 4 2 := by
   intro j hj; fin_cases j <;> simp_all [q2cFX_lift]
@@ -317,6 +318,7 @@ private theorem q2cFX_span_jShift_e1 :
   · rw [Submodule.span_le, Set.singleton_subset_iff]
     exact Submodule.subset_span ⟨q2cFX_e1, Submodule.mem_span_singleton_self _, q2cFX_jShift_e1⟩
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFX_e0_le_Vsub :
     (Submodule.span K ({q2cFX_e0} : Set (Fin 4 → K)) : Submodule K (Fin 4 → K)) <=
       Vsub (K := K) 4 2 :=
@@ -393,6 +395,7 @@ theorem q2cFX_JInv_Phi_e1 (hK : Nat.card K = (2 ^ f) ^ 2) :
     rw [Submodule.span_le, Set.singleton_subset_iff]
     intro j hj; fin_cases j <;> simp_all [q2cFX_e1])
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFX_inf_e0_e1 :
     (Submodule.span K ({q2cFX_e0} : Set (Fin 4 → K)) : Submodule K (Fin 4 → K)) ⊓
       Submodule.span K ({q2cFX_e1} : Set (Fin 4 → K)) = ⊥ := by

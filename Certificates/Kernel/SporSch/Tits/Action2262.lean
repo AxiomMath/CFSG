@@ -112,14 +112,14 @@ theorem pos_eq {v x : Nat} (hv : v < 2925) : titsLinePos v x = posK v x := by
   unfold titsLinePos posK
   rw [lp_get (by omega), lp_get (by omega), lp_get (by omega)]
   cases h0 : Nat.beq (lpK (3 * v)) x
-  · rw [if_neg (Nat.ne_of_beq_eq_false h0)]
+  · rw [ite_eq_right (Nat.ne_of_beq_eq_false h0)]
     cases h1 : Nat.beq (lpK (3 * v + 1)) x
-    · rw [if_neg (Nat.ne_of_beq_eq_false h1)]
+    · rw [ite_eq_right (Nat.ne_of_beq_eq_false h1)]
       cases h2 : Nat.beq (lpK (3 * v + 2)) x
-      · rw [if_neg (Nat.ne_of_beq_eq_false h2)]
-      · rw [if_pos (Nat.eq_of_beq_eq_true h2)]
-    · rw [if_pos (Nat.eq_of_beq_eq_true h1)]
-  · rw [if_pos (Nat.eq_of_beq_eq_true h0)]
+      · rw [ite_eq_right (Nat.ne_of_beq_eq_false h2)]
+      · rw [ite_eq_left (Nat.eq_of_beq_eq_true h2)]
+    · rw [ite_eq_left (Nat.eq_of_beq_eq_true h1)]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true h0)]
 
 theorem key_eq {v : Nat} (hv : v < 2925) : titsLineKey v = keyK v := by
   unfold titsLineKey keyK

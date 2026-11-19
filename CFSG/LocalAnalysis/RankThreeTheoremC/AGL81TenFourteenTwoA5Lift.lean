@@ -24,7 +24,7 @@ theorem two_le_pRank_of_perfect_of_commute {X : Type*} [Group X] [Finite X] {p :
   have hap : a ^ p = 1 := hao ▸ pow_orderOf_eq_one a
   have ha1 : a ≠ 1 := fun h => hp.one_lt.ne' (hao ▸ h ▸ orderOf_one)
   by_cases haI : a ∈ I
-  · haveI : Group.IsPerfect I :=
+  · have : Group.IsPerfect I :=
       (CFSG.LocalAnalysis.EvenBN.Common.isPerfect_subgroup_iff_commutator_eq I).mpr hI
     obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow p I))
     have hz : (⟨a, haI⟩ : I) ∈ center I :=
@@ -32,7 +32,7 @@ theorem two_le_pRank_of_perfect_of_commute {X : Type*} [Group X] [Finite X] {p :
     have hnc := CFSG.LocalAnalysis.RankThreeTheoremC.not_isCyclic_sylow_of_isPerfect
       inferInstance S hz (fun h => ha1 (congrArg Subtype.val h)) (Subtype.ext hap)
     obtain ⟨D, -, hD, hDc⟩ :=
-      GL83.I243.Inner.exists_isElemAbelian_card_sq_of_not_isCyclic hp2 S.isPGroup' hnc
+      GL83.I243.Inner.exists_isElemAbelian_card_sq_of_not_isCyclic hp2 S.isPGroup hnc
     refine CFSG.SectionRank.le_pRank hp.one_lt (E := D.map I.subtype)
       ((Subgroup.map_subtype_le D).trans hIH)
       (CFSG.PreuniquenessRankFour.Helpers.elementary_abelian_map p hD _) ?_
@@ -52,8 +52,8 @@ theorem two_le_pRank_of_perfect_of_commute {X : Type*} [Group X] [Finite X] {p :
 private theorem eq_top_or_le_center' {Q : Type*} [Group Q] (hQ : CFSG.Open.IsQuasisimple Q)
     (N : Subgroup Q) (hN : N.Normal) : N = ⊤ ∨ N ≤ center Q := by
   obtain ⟨hp, hs⟩ := hQ
-  haveI := hs
-  haveI := hN.map (QuotientGroup.mk' (center Q)) (QuotientGroup.mk'_surjective _)
+  have := hs
+  have := hN.map (QuotientGroup.mk' (center Q)) (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map (QuotientGroup.mk' (center Q)))
     with h | h
   · right
@@ -105,7 +105,7 @@ theorem joinIrreducible_of_isQuasisimple {A Q : Type*} [Group A] [Group Q] [Fini
     ∀ N₁ N₂ : Subgroup A, N₁.Normal → N₂.Normal → N₁ ⊔ N₂ = ⊤ → N₁ = ⊤ ∨ N₂ = ⊤ := by
   have hQne : ¬ (⊤ : Subgroup Q) ≤ center Q := by
     intro h
-    haveI := hQ.2
+    have := hQ.2
     have : Subsingleton (Q ⧸ center Q) := ⟨fun x y => by
       induction x using QuotientGroup.induction_on
       induction y using QuotientGroup.induction_on
@@ -154,12 +154,12 @@ theorem nonempty_quotient_pCore_equiv_alt5 {A Q : Type}
     (hψ : Function.Surjective ψ) (hk2 : IsPGroup 2 ψ.ker) (hQ : CFSG.Open.IsQuasisimple Q)
     (f : A →* alternatingGroup (Fin 5)) (hf : Function.Surjective f) :
     Nonempty (A ⧸ CFSG.pCore 2 A ≃* alternatingGroup (Fin 5)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   set O := CFSG.pCore 2 A with hO
   have hψO : ψ.ker ≤ O := le_pCore' ψ.normal_ker hk2
   have hle : O ≤ f.ker := by
-    haveI : (O.map f).Normal := CFSG.pCore_normal.map f hf
+    have : (O.map f).Normal := CFSG.pCore_normal.map f hf
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (O.map f) with h | h
     · exact (Subgroup.map_eq_bot_iff _).mp h
     · exfalso

@@ -24,7 +24,7 @@ theorem largeEvenLabelAll_irredTableB_D4_split {p : ℕ} (hp : p.Prime) {lab : L
   · omega
   · subst hrk
     obtain ⟨K, _, _, hK, hQ'⟩ := hQ
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : CharP K 2 := charP_two_of_card hK
     have hp2 : p ≠ 2 := ne_two_of_dvd_two_pow_sub_one' hlab.1 hpn
     have hpq : p ∣ Nat.card K - 1 := by rw [hK]; exact hpn
     have hL : GGTorusLift p 4 (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K 4))) :=

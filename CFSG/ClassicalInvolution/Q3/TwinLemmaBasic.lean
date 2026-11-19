@@ -55,7 +55,7 @@ theorem le_pCore_of_isSubnormal {p : ℕ} [Fact p.Prime] {P : Subgroup Y} (hP : 
     have h2 : c * x * c⁻¹ ∈ (S : Subgroup Y) := by simpa using hmem
     exact h2
   obtain ⟨S⟩ : Nonempty (Sylow p Y) := inferInstance
-  have hpgN : IsPGroup p (Subgroup.normalClosure (P : Set Y)) := S.isPGroup'.to_le (hN S)
+  have hpgN : IsPGroup p (Subgroup.normalClosure (P : Set Y)) := S.isPGroup.to_le (hN S)
   exact (Subgroup.le_normalClosure).trans (le_sSup ⟨inferInstance, hpgN⟩)
 
 theorem centralizer_pCore_le (hsolv : Group.IsSolvable Y)

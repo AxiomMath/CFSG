@@ -73,7 +73,7 @@ theorem exists_uniqueInvNormal_of_datum (F : Subgroup G) [F.Normal]
   have hS0le : S0 ≤ R := by
     rintro _ ⟨x, -, rfl⟩
     exact x.2
-  have hS0p : IsPGroup 2 S0 := S.isPGroup'.map R.subtype
+  have hS0p : IsPGroup 2 S0 := S.isPGroup.map R.subtype
   have hnc : ∃ a b : S0, a * b ≠ b * a :=
     exists_not_commute_of_mulEquiv_quaternionGroup hn2
       ((Subgroup.equivMapOfInjective (S : Subgroup R) R.subtype R.subtype_injective).symm.trans e)

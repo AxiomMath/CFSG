@@ -32,12 +32,12 @@ theorem card_fixed_of_orderOf_seven (hE : Module.finrank (ZMod 2) E = 6) {g : E 
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := F), Nat.card_zmod]
   have hcardE : Nat.card E = 2 ^ 6 := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := E), Nat.card_zmod, hE]
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcardE]; norm_num)
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcardE]; norm_num)
   let H : Subgroup (E ≃ₗ[ZMod 2] E) := Subgroup.zpowers g
   have hHcard : Nat.card H = 7 := by
     change Nat.card (Subgroup.zpowers g) = 7
     rw [Nat.card_zpowers, hg]
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   have hHp : IsPGroup 7 H := IsPGroup.of_card (p := 7) (n := 1) (by rw [hHcard, pow_one])
   have hfix : MulAction.fixedPoints H E = {e : E | g e = e} := by
     ext e
@@ -104,10 +104,10 @@ theorem eq_zero_of_fixed_seven_sq (hE : Module.finrank (ZMod 2) E = 6)
   by_contra he0
   have hcardE : Nat.card E = 2 ^ 6 := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := E), Nat.card_zmod, hE]
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hcardE]; norm_num)
-  haveI : Fintype E := Fintype.ofFinite E
-  haveI : Finite R := Nat.finite_of_card_ne_zero (by rw [hR]; norm_num)
-  haveI : Fintype R := Fintype.ofFinite R
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hcardE]; norm_num)
+  have : Fintype E := Fintype.ofFinite E
+  have : Finite R := Nat.finite_of_card_ne_zero (by rw [hR]; norm_num)
+  have : Fintype R := Fintype.ofFinite R
   have hcardR : Fintype.card R = 49 := by
     rw [Fintype.card_eq_nat_card, hR]
   have hfix1 : Fintype.card (MulAction.fixedBy E (1 : R)) = 64 := by
@@ -132,7 +132,7 @@ theorem eq_zero_of_fixed_seven_sq (hE : Module.finrank (ZMod 2) E = 6)
     rcases card_fixed_of_orderOf_seven hE (hord (g : E ≃ₗ[ZMod 2] E) g.2 hg') with h1 | h8
     · exfalso
       have h2 : 2 ≤ Nat.card {x : E // (g : E ≃ₗ[ZMod 2] E) x = x} := by
-        haveI : Nontrivial {x : E // (g : E ≃ₗ[ZMod 2] E) x = x} :=
+        have : Nontrivial {x : E // (g : E ≃ₗ[ZMod 2] E) x = x} :=
           ⟨⟨0, by simp⟩, ⟨e, he (g : E ≃ₗ[ZMod 2] E) g.2⟩, by
             intro h
             exact he0 (Subtype.ext_iff.mp h).symm⟩

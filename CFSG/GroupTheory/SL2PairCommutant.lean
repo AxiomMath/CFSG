@@ -15,10 +15,12 @@ variable {F : Type*} [Field F] [Fintype F] [CharP F 2]
 
 private abbrev W2 (F : Type*) := (Fin 2 → F) × (Fin 2 → F)
 
+omit [Fintype F] in
 private theorem w2_add_self (w : W2 F) : w + w = 0 := by
   obtain ⟨a, b⟩ := w
   apply Prod.ext <;> funext i <;> exact CharTwo.add_self_eq_zero _
 
+omit [Fintype F] [CharP F 2] in
 private theorem slAct_sub (g : SL(2, F)) (u v : W2 F) :
     slAct g (u - v) = slAct g u - slAct g v := by
   ext <;> simp [slAct, Matrix.mulVec_sub]
@@ -64,7 +66,7 @@ private theorem fix_graph (T : W2 F →+ W2 F)
       map_add' := fun v w => by
         have h : T (v + w, c • (v + w)) = T (v, c • v) + T (w, c • w) := by
           rw [show (v + w, c • (v + w)) = (v, c • v) + (w, c • w) by
-            ext <;> simp [smul_add, mul_add]]
+            ext <;> simp [mul_add]]
           exact map_add T _ _
         exact congrArg Prod.fst h }
   have hScomm : ∀ (g : SL(2, F)) (v : Fin 2 → F),
@@ -165,7 +167,7 @@ private theorem fix_prod (T : W2 F →+ W2 F)
         intro v
         rw [Function.iterate_succ_apply', ih v, hTapply']
         apply Prod.ext <;> funext i <;>
-          simp only [Pi.smul_apply, smul_eq_mul, pow_succ] <;> ring
+          simp only [Pi.smul_apply, smul_eq_mul, pow_succ]; ring
   have hμpow : μ ^ (Fintype.card F + 1) = 1 := by
     have h := hpow ((0 : Fin 2 → F), Pi.single (0 : Fin 2) (1 : F))
     rw [hiter (Fintype.card F + 1)] at h
@@ -197,6 +199,7 @@ private theorem fix_of_line (T : W2 F →+ W2 F)
   · rw [hc] at hTU ⊢
     exact fix_graph T hT hpow hTU
 
+omit [Fintype F] [CharP F 2] in
 private theorem line_ne_bot {U : AddSubgroup (W2 F)}
     (hline : U = AddSubgroup.prod (⊥ : AddSubgroup (Fin 2 → F)) ⊤ ∨
       ∃ c : F, U = graphSub (n := 2) c) : U ≠ ⊥ := by

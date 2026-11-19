@@ -195,7 +195,7 @@ theorem par_xor_iff [Finite G] (hq : Sec5B517Quad K z) {i j : Fin 4} (hij : i �
       x = 1 ∨ x = a₀ * b₀) :
     (((a₁ * b₁)⁻¹ * (g⁻¹ * (a₁ * b₁) * g) ∉ D ∧
         ((a₁ * b₁) * z)⁻¹ * (g⁻¹ * (a₁ * b₁) * g) ∉ D) ↔
-      Xor' (ParNt K z g i) (ParNt K z g j)) := by
+      Xor (ParNt K z g i) (ParNt K z g j)) := by
   have hz2 : z * z = 1 := hq.z_sq
   have hba' : a₀ ≠ a₁ * z := s888_ne_mul_z ha' hz2
   have hbb' : b₀ ≠ b₁ * z := s888_ne_mul_z hb' hz2
@@ -233,10 +233,10 @@ theorem par_xor_iff [Finite G] (hq : Sec5B517Quad K z) {i j : Fin 4} (hij : i �
   have notD := s888_notD hq hij ha₀ hb₀ ha₀2 hb₀2 D hD
   have hza₀ : Commute z a₀ := hq.z_comm ha₀
   have hzb₀ : Commute z b₀ := hq.z_comm hb₀
-  have hxor : Xor' (ParNt K z g i) (ParNt K z g j) ↔
+  have hxor : Xor (ParNt K z g i) (ParNt K z g j) ↔
       (ParNt K z g i ∧ ¬ ParNt K z g j) ∨ (ParNt K z g j ∧ ¬ ParNt K z g i) :=
     Iff.rfl
-  have hxor : Xor' (ParNt K z g i) (ParNt K z g j) ↔
+  have hxor : Xor (ParNt K z g i) (ParNt K z g j) ↔
       (ParNt K z g i ∧ ¬ ParNt K z g j) ∨ (ParNt K z g j ∧ ¬ ParNt K z g i) :=
     Iff.rfl
   rcases hAi with ⟨hni, h1⟩ | ⟨hyi, h1⟩
@@ -244,7 +244,7 @@ theorem par_xor_iff [Finite G] (hq : Sec5B517Quad K z) {i j : Fin 4} (hij : i �
     · have hff : (a₁ * b₁)⁻¹ * (g⁻¹ * (a₁ * b₁) * g) = 1 ∨
           z * ((a₁ * b₁)⁻¹ * (g⁻¹ * (a₁ * b₁) * g)) = 1 :=
         s888_r_ff hr (s888_corr_triv h1) (s888_corr_triv h2) hz2
-      have hnotX : ¬ Xor' (ParNt K z g i) (ParNt K z g j) := by
+      have hnotX : ¬ Xor (ParNt K z g i) (ParNt K z g j) := by
         rw [hxor]
         rintro (⟨h, _⟩ | ⟨h, _⟩)
         · exact hni h
@@ -261,7 +261,7 @@ theorem par_xor_iff [Finite G] (hq : Sec5B517Quad K z) {i j : Fin 4} (hij : i �
           (z * ((a₁ * b₁)⁻¹ * (g⁻¹ * (a₁ * b₁) * g)) = b₀ ∨
             z * ((a₁ * b₁)⁻¹ * (g⁻¹ * (a₁ * b₁) * g)) = b₀ * z) :=
         s888_r_ft hr hzb₀ hz2 (s888_corr_triv h1) (s888_corr_nt hac_b hz2 h2)
-      have hX : Xor' (ParNt K z g i) (ParNt K z g j) := by
+      have hX : Xor (ParNt K z g i) (ParNt K z g j) := by
         rw [hxor]; exact Or.inr ⟨hyj, hni⟩
       have hout : (a₁ * b₁)⁻¹ * (g⁻¹ * (a₁ * b₁) * g) ∉ D ∧
           ((a₁ * b₁) * z)⁻¹ * (g⁻¹ * (a₁ * b₁) * g) ∉ D := by
@@ -282,7 +282,7 @@ theorem par_xor_iff [Finite G] (hq : Sec5B517Quad K z) {i j : Fin 4} (hij : i �
           (z * ((a₁ * b₁)⁻¹ * (g⁻¹ * (a₁ * b₁) * g)) = a₀ ∨
             z * ((a₁ * b₁)⁻¹ * (g⁻¹ * (a₁ * b₁) * g)) = a₀ * z) :=
         s888_r_tf hr hza₀ hz2 (s888_corr_nt hac_a hz2 h1) (s888_corr_triv h2)
-      have hX : Xor' (ParNt K z g i) (ParNt K z g j) := by
+      have hX : Xor (ParNt K z g i) (ParNt K z g j) := by
         rw [hxor]; exact Or.inl ⟨hyi, hnj⟩
       have hout : (a₁ * b₁)⁻¹ * (g⁻¹ * (a₁ * b₁) * g) ∉ D ∧
           ((a₁ * b₁) * z)⁻¹ * (g⁻¹ * (a₁ * b₁) * g) ∉ D := by
@@ -300,7 +300,7 @@ theorem par_xor_iff [Finite G] (hq : Sec5B517Quad K z) {i j : Fin 4} (hij : i �
     · have htt : (a₁ * b₁)⁻¹ * (g⁻¹ * (a₁ * b₁) * g) = a₀ * b₀ ∨
           z * ((a₁ * b₁)⁻¹ * (g⁻¹ * (a₁ * b₁) * g)) = a₀ * b₀ :=
         s888_r_tt hr hza₀ hzb₀ hz2 (s888_corr_nt hac_a hz2 h1) (s888_corr_nt hac_b hz2 h2)
-      have hnotX : ¬ Xor' (ParNt K z g i) (ParNt K z g j) := by
+      have hnotX : ¬ Xor (ParNt K z g i) (ParNt K z g j) := by
         rw [hxor]
         rintro (⟨_, h⟩ | ⟨_, h⟩)
         · exact h hyj

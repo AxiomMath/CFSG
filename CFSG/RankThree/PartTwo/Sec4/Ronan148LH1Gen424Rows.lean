@@ -43,6 +43,7 @@ section CentSolv
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem false_of_dvdK_of_centSolv {S : Type} [Group S]
     (hS : ∀ s : S, s ≠ 1 → Group.IsSolvable (Subgroup.centralizer ({s} : Set S)))
     {L : Subgroup G} (eL : L ⧸ Subgroup.center L ≃* S) {d : G}
@@ -76,7 +77,7 @@ theorem false_of_dvdK_of_centSolv {S : Type} [Group S]
   let eJ : ↥K ≃* ↥J := (K.equivMapOfInjective _ (Subgroup.subtype_injective _)).trans
     ((Subgroup.subgroupOfEquivOfLe hK'L).symm)
   have hJp : Group.IsPerfect ↥J := by
-    haveI : Group.IsPerfect ↥K := hK.1.1
+    have : Group.IsPerfect ↥K := hK.1.1
     exact Group.IsPerfect.ofSurjective (f := eJ.toMonoidHom) eJ.surjective
   have hJs' : ∀ x : ↥J, π (x : ↥L) ∈ Subgroup.centralizer ({s} : Set S) := fun x =>
     hJs ⟨x, x.2, rfl⟩
@@ -87,17 +88,17 @@ theorem false_of_dvdK_of_centSolv {S : Type} [Group S]
     have h1 : g x = 1 := x.2
     have h2 : π ((x : ↥J) : ↥L) = 1 := congrArg Subtype.val h1
     exact (hker _).mp h2
-  haveI : Group.IsSolvable ↥g.ker := isSolvable_of_comm fun a b => by
+  have : Group.IsSolvable ↥g.ker := _root_.Group.isSolvable_of_comm fun a b => by
     apply Subtype.ext
     apply Subtype.ext
     exact Subgroup.mem_center_iff.mp (hgker b) _
-  haveI : Group.IsSolvable ↥(Subgroup.centralizer ({s} : Set S)) := hS s hs1
+  have : Group.IsSolvable ↥(Subgroup.centralizer ({s} : Set S)) := hS s hs1
   have hJsol : Group.IsSolvable ↥J :=
-    solvable_of_ker_le_range g.ker.subtype g (by rw [Subgroup.range_subtype])
-  haveI : Nontrivial ↥J := by
-    haveI : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+    Group.isSolvable_of_ker_le_range g.ker.subtype g (by rw [Subgroup.range_subtype])
+  have : Nontrivial ↥J := by
+    have : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
     exact eJ.symm.toEquiv.nontrivial
-  haveI := hJp
+  have := hJp
   exact Group.IsPerfect.not_isSolvable ↥J hJsol
 
 end CentSolv
@@ -122,7 +123,7 @@ theorem kH1_one_ge_five
   have : Fact p.Prime := inferInstance
   let φ : S ≃* CFSG.GorensteinWalter.PSL2 (GaloisField p e) :=
     eS.trans (projSLEquivPSL (GaloisField p e))
-  haveI : Finite (CFSG.GorensteinWalter.PSL2 (GaloisField p e)) := Finite.of_equiv S φ.toEquiv
+  have : Finite (CFSG.GorensteinWalter.PSL2 (GaloisField p e)) := Finite.of_equiv S φ.toEquiv
   have hK3 : ringChar (GaloisField p e) ≠ 3 := by
     rw [ringChar.eq (GaloisField p e) p]
     omega
@@ -161,12 +162,12 @@ theorem kH1_one_ge_five
     let ψ : ↥(Subgroup.centralizer ({s} : Set S)) ≃* H :=
       ((Subgroup.centralizer ({s} : Set S)).equivMapOfInjective φ.toMonoidHom φ.injective).trans
         (MulEquiv.subgroupCongr hmap)
-    exact solvable_of_surjective (f := ψ.symm.toMonoidHom) ψ.symm.surjective
+    exact Group.isSolvable_of_surjective (f := ψ.symm.toMonoidHom) ψ.symm.surjective
   · exact AutRankLeTwo.of_mulEquiv φ (Hering418L2.card_le_nine_of_mulAut_PSL2 hK3 hK4)
 
 theorem kH1_two_SU_five
     : RowOf427 (projSU 3 5 1) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hc := CFSG.RankThree.PartTwo.KFacts.KS14.card_projSU_three_mul_gcd 5 1 le_rfl
   norm_num at hc
   refine rowOf427_of_autRank ?_
@@ -178,7 +179,7 @@ theorem kH1_two_SU_five
 
 theorem kH1_two_SL_five_two
     : RowOf427 (projSL 3 (GaloisField 5 2)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hc := CFSG.RankThree.PartTwo.KFacts.KS14.card_projSL_three_mul_gcd (GaloisField 5 2)
   rw [GaloisField.card 5 2 (by norm_num)] at hc
   norm_num at hc
@@ -193,7 +194,7 @@ theorem cubeInner_adjointG2_prime
     (hp3 : 3 < p) (hK : Nat.card K = p) : CubeInner ↥(adjointGroup .G2 K) := by
   intro τ hτ
   by_contra hout
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : CharP K p := by
     have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := 1) (by rw [← Nat.card_eq_fintype_card, hK, pow_one])
@@ -202,7 +203,7 @@ theorem cubeInner_adjointG2_prime
     omega
   have hK4 : 4 ≤ Nat.card K := by omega
   obtain ⟨σ, hσ, -⟩ := KFacts.g2_order_three_field_descent hK3 hK4 hτ hout
-  haveI := Item49OddChar.subsingleton_ringAut_of_card_prime hp hK
+  have := Item49OddChar.subsingleton_ringAut_of_card_prime hp hK
   rw [Subsingleton.elim σ 1, orderOf_one] at hσ
   norm_num at hσ
 

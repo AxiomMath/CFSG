@@ -15,7 +15,7 @@ theorem heldFlagSU {K : Type} [Field K] [Finite K] [CharP K 2] {n q : ℕ}
       ∀ y ∈ Subgroup.normalizer (U : Set (StatedSU n q K)), ∀ w ∈ W,
         ((y : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *ᵥ w ∈ W := by
   obtain ⟨f, -, rfl⟩ := ToralCensus.exists_eq_two_pow_of_card_eq_sq hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK' : Nat.card K = (2 ^ f) ^ 2 := hK
   have hρ : IsIsometric (unitaryForm 2 f hK' n) (natRep (StatedSU n (2 ^ f) K)) :=
     isIsometric_natRep_statedSU hK' n

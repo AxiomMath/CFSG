@@ -47,11 +47,11 @@ theorem e6Two_lowerClause {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.
   have hns : ¬ Group.IsSolvable ↥(rationalComponent S.ρ S.Γ
       (rootCharHom (TableBExc.E6Three.zetaVec ζ hζ (ExcFrames.twE6ThreeFrame t))) i₆) := by
     intro hs
-    exact hYns (solvable_of_solvable_injective
+    exact hYns (Group.isSolvable_of_isSolvable_injective
       (f := ((Y.equivMapOfInjective ι hι).trans (MulEquiv.subgroupCongr hY)).toMonoidHom)
       ((Y.equivMapOfInjective ι hι).trans (MulEquiv.subgroupCongr hY)).injective)
   have hcr : IsRoot Tag.F4 c := (isRootComponent_componentRoots i₄).isRoot c hc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmem := e6Two_twE6SplitWeyl_mem_rationalComponent hK S hq hρ hζo hT t ht i₆ hns hδ
   rw [← hY] at hmem
   obtain ⟨y, hyY, hyg⟩ := hmem

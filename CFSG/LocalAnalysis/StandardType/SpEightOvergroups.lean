@@ -54,7 +54,7 @@ theorem nonempty_mulEquiv_matrixOrthogonal_of_closure_le {E : Subgroup ↥(State
     have hgY : A * ⟨g, hg⟩ * A⁻¹ ∈ Y :=
       hDY (Subgroup.subset_closure ⟨_, hxE, hx1', hcomm'⟩)
     refine ⟨⟨g, hg⟩, ⟨_, hgY, ?_⟩, rfl⟩
-    simp [c, MulAut.conj_apply, mul_assoc]
+    simp [c, mul_assoc]
   have hO : Y₁.map (StatedSp 4 (ZMod 2)).subtype = matrixOrthogonal Q0 := by
     by_contra hne'
     have hSp := eq_statedSp_of_matrixOrthogonal_le hle

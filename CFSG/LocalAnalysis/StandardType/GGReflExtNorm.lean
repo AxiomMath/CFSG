@@ -16,7 +16,7 @@ theorem coords_dim_n {n : ℕ} (C : Matrix (Fin n) (Fin n) (ZMod 3)) [Module.Fin
     (hind : LinearIndependent (ZMod 3) h) (hdim : finrank (ZMod 3) V = n) :
     ∃ ε : V ≃ₗ[ZMod 3] (Fin n → ZMod 3), (∀ i, ε (h i) = Pi.single i 1) ∧
       ∀ i w, α i w = ∑ j, C i j * ε w j := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let b := basisOfLinearIndependentOfCardEqFinrank' (K := ZMod 3) h hind (by simp [hdim])
   have hb : ∀ i, b i = h i := fun i => by simp [b]
   refine ⟨b.equivFun, ?_, ?_⟩
@@ -39,7 +39,7 @@ theorem coords_dim_succ {n : ℕ} (C : Matrix (Fin n) (Fin n) (ZMod 3)) [Module.
     ∃ ε : V ≃ₗ[ZMod 3] (Fin (n + 1) → ZMod 3),
       (∀ i, ε (h i) = Pi.single (Fin.castSucc i) 1) ∧ ε e = Pi.single (Fin.last n) 1 ∧
       ∀ i w, α i w = ∑ j : Fin n, C i j * ε w (Fin.castSucc j) + α i e * ε w (Fin.last n) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let v : Fin (n + 1) → V := Fin.snoc h e
   have hv : LinearIndependent (ZMod 3) v := linearIndependent_finSnoc.mpr ⟨hind, he⟩
   let b := basisOfLinearIndependentOfCardEqFinrank' (K := ZMod 3) v hv (by simp [hdim])
@@ -73,7 +73,7 @@ theorem normalize_e_aux {n : ℕ} (C : Matrix (Fin n) (Fin n) (ZMod 3)) (B : Mat
     (e' : V) (l s : ZMod 3)
     (hts : l * (x₀ ⬝ᵥ (fun i => α i e')) = s) :
     ∃ w : Fin n → ZMod 3, ∀ i, α i (l • e' - ∑ j, w j • h j) = if i = i0 then s else 0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let t : Fin n → ZMod 3 := fun i => l * α i e' - if i = i0 then s else 0
   have ht : x₀ ⬝ᵥ t = 0 := by
     have : x₀ ⬝ᵥ t = l * (x₀ ⬝ᵥ (fun i => α i e')) - s := by
@@ -105,7 +105,7 @@ theorem normalize_e {n : ℕ} (C : Matrix (Fin n) (Fin n) (ZMod 3)) (B : Matrix 
     ∃ (l s : ZMod 3) (w : Fin n → ZMod 3), l ≠ 0 ∧ (s = 0 ∨ s = 1) ∧
       (s = 0 ↔ x₀ ⬝ᵥ (fun i => α i e') = 0) ∧
       ∀ i, α i (l • e' - ∑ j, w j • h j) = if i = i0 then s else 0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hs : x₀ ⬝ᵥ (fun i => α i e') = 0
   · obtain ⟨w, hw⟩ := normalize_e_aux C B x₀ i0 hx0 hB h α hpair e' 1 0 (by rw [hs]; ring)
     exact ⟨1, 0, w, one_ne_zero, Or.inl rfl, ⟨fun _ => hs, fun _ => rfl⟩, hw⟩
@@ -120,7 +120,7 @@ theorem x_coords {n : ℕ} (C : Matrix (Fin n) (Fin n) (ZMod 3)) (x₀ : Fin n �
     (x : V) (hx : x ≠ 0) (hxker : ∀ i, α i x = 0)
     (hxmem : x ∈ Submodule.span (ZMod 3) (Set.range h)) :
     ∃ c : ZMod 3, c ≠ 0 ∧ x = ∑ j, (c * x₀ j) • h j := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, hy⟩ := (Submodule.mem_span_range_iff_exists_fun (ZMod 3)).mp hxmem
   have hCy : C.mulVec y = 0 := by
     funext i

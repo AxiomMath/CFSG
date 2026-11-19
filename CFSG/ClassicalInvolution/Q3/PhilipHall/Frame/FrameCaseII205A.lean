@@ -114,7 +114,7 @@ theorem aConf_le_centralizer_W (d : Std20Frame K K' J S R R' W V z t) {a : G}
   rw [d.late_hW]
   refine sup_le (fun w hw => Subgroup.mem_centralizer_singleton_iff.mpr
     (d.cent_comm_WK conf.hA.1 hw).symm) (fun w hw => Subgroup.mem_centralizer_singleton_iff.mpr ?_)
-  exact (commutes_of_mem_centModOddCore S.isPGroup'
+  exact (commutes_of_mem_centModOddCore S.isPGroup
     (mem_centModOddCore_of_mem_centralizerModOdd conf.hA) conf.hA.1.1 hw.2 (d.hWS hw.1)).symm
 
 @[expose] def centModSub (X N : Subgroup G) (a : G) (hN : X ≤ Subgroup.normalizer (N : Set G)) :

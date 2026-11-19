@@ -110,7 +110,7 @@ theorem card_sig : Nat.card (closure (sig '' Set.Iio 4)) = 576 :=
   card_of_kTree (n := 32) (S := sig) (T := KP) (w := 5) (m := mask 5) (iw := 10) (im := mask 10)
     (bs := ix32) (G := GP) rfl (fun _ hp => List.mem_range.1 hp)
     (fun _ hj q hq => (sig_apply hj ⟨q, hq⟩).symm)
-    (fun x _ y _ h => Equiv.ext fun z => h z.1 (List.mem_range.2 z.2)) kKP
+    (fun _x _ _y _ h => Equiv.ext fun z => h z.1 (List.mem_range.2 z.2)) kKP
 
 theorem card_ker_psi : Nat.card psi.ker = 2 := by
   have h := Subgroup.card_mul_index psi.ker

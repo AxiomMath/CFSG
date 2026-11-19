@@ -59,7 +59,7 @@ private theorem mem_normalizer_centralizer_nsb {G : Type} [Group G] {V : Subgrou
   have := key (Subgroup.inv_mem _ hV) _ hc
   simpa [mul_assoc] using this
 
-theorem amalgamData_of (h31 : Lemma31) (h32 : Lemma32) (hK : KRInfGammaZero) : AmalgamData := by
+theorem amalgamData_of (h31 : Lemma31) (_h32 : Lemma32) (hK : KRInfGammaZero) : AmalgamData := by
   intro G _ _ T M L Mm I H K m k hch hIV
   have hd : NoSumBigData G T M L Mm I H K m k := hch.1
   have hcf : Conf4212 G T M L I H K := hd.2.2.1
@@ -125,7 +125,7 @@ theorem uZero_le_kerA {G : Type} [Group G] [Finite G] {I K B : Subgroup G}
   exact hRB (hOR h1)
 
 theorem notCriticalPair_of (h22 : ∀ (G : Type) [Group G] [Finite G], ASC22Three G)
-    (h31 : Lemma31) (h32 : Lemma32) (hAm : AmalgamData) (hLF : LocalFlip) :
+    (_h31 : Lemma31) (h32 : Lemma32) (hAm : AmalgamData) (hLF : LocalFlip) :
     NotCriticalPair := by
   intro G _ _ T M L Mm I H K m k hch hIV δ ε hc
   have hd : NoSumBigData G T M L Mm I H K m k := hch.1

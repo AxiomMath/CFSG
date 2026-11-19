@@ -28,18 +28,18 @@ theorem IsGL3Ext.le_normalizer {E N : Subgroup G} (h : IsGL3Ext E N) :
 
 theorem IsGL3Ext.comm_sup_eq {E N : Subgroup G} (h : IsGL3Ext E N) : ⁅E, E⁆ ⊔ N = E := by
   obtain ⟨hNE, hNnorm, hP⟩ := h
-  letI := hNnorm
+  let := hNnorm
   obtain ⟨e⟩ := hP
   set Q := ↥E ⧸ N.subgroupOf E with hQ
-  haveI : IsSimpleGroup (GL (Fin 3) (ZMod 2)) :=
+  have : IsSimpleGroup (GL (Fin 3) (ZMod 2)) :=
     CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
-  haveI : IsSimpleGroup Q := e.isSimpleGroup
+  have : IsSimpleGroup Q := e.isSimpleGroup
   have hcardQ : Nat.card Q = 168 :=
     (Nat.card_congr e.toEquiv).trans CFSG.ComponentClassification.GHarris.card_GL32_gh
   have hna : ¬ IsMulCommutative (⊤ : Subgroup Q) := by
     intro hcomm
-    haveI := hcomm
-    haveI : IsSimpleGroup (⊤ : Subgroup Q) := (Subgroup.topEquiv (G := Q)).isSimpleGroup
+    have := hcomm
+    have : IsSimpleGroup (⊤ : Subgroup Q) := (Subgroup.topEquiv (G := Q)).isSimpleGroup
     have hp : (Nat.card (⊤ : Subgroup Q)).Prime :=
       Group.is_simple_iff_prime_card.mp inferInstance
     rw [Subgroup.card_top, hcardQ] at hp
@@ -122,7 +122,7 @@ private lemma gl3Pair_L2_le_normalizer_L1 {M L1 L2 : Subgroup G} (h : Gl3Pair M 
 theorem Gl3Pair.card_inf_sylow {M L1 L2 P : Subgroup G} (h : Gl3Pair M L1 L2)
     (hP : IsSylowIn 2 (L1 ⊔ L2) P) :
     M ≤ P ∧ Nat.card ↥(L1 ⊓ P) = 8 * Nat.card M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMgrp : IsPGroup 2 M := IsPGroup.of_card (n := 6) h.card
   have hKnorm : L1 ⊔ L2 ≤ Subgroup.normalizer (M : Set G) :=
     sup_le h.ext1.le_normalizer h.ext2.le_normalizer
@@ -158,6 +158,7 @@ theorem y7c_centIn_ne_bot {M D : Subgroup G} (hM : IsPGroup 2 M) (hMne : M ≠ �
   rw [hbot, Subgroup.mem_bot] at hmem
   exact hn1 hmem
 
+omit [Finite G] in
 theorem y7c_centIn_sup (M A B : Subgroup G) :
     centIn M (A ⊔ B) = centIn M A ⊓ centIn M B := by
   have hcent : Subgroup.centralizer ((A ⊔ B : Subgroup G) : Set G) =
@@ -171,6 +172,7 @@ theorem y7c_centIn_sup (M A B : Subgroup G) :
   simp only [centIn]
   rw [hcent, inf_inf_distrib_left]
 
+omit [Finite G] in
 private lemma map_centralizer_conj (x : G) (S : Subgroup G) :
     (Subgroup.centralizer S).map (MulAut.conj x).toMonoidHom =
       Subgroup.centralizer (S.map (MulAut.conj x).toMonoidHom) := by
@@ -194,17 +196,20 @@ private lemma map_centralizer_conj (x : G) (S : Subgroup G) :
     have h' := congrArg (MulAut.conj x).symm h
     simpa [MulAut.conj_symm_apply, mul_assoc] using h'
 
+omit [Finite G] in
 theorem y7c_centIn_conjSub {M D : Subgroup G} {x : G} (hx : conjSub x M = M) :
     centIn M (conjSub x D) = conjSub x (centIn M D) := by
   simp only [centIn, conjSub] at hx ⊢
   rw [Subgroup.map_inf _ _ _ (MulAut.conj x).injective, map_centralizer_conj, hx]
 
+omit [Finite G] in
 theorem y7c_conjSub_eq_of_mem_normalizer {M : Subgroup G} {x : G}
     (hx : x ∈ normalizer (M : Set G)) : conjSub x M = M := by
   ext g
   rw [conjSub, Subgroup.mem_map_equiv, MulAut.conj_symm_apply]
   exact (Subgroup.mem_normalizer_iff''.mp hx g).symm
 
+omit [Finite G] in
 theorem y7c_card_sup_of_commute {A B : Subgroup G} (hc : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
     (hAB : A ⊓ B = ⊥) : Nat.card ↥(A ⊔ B) = Nat.card A * Nat.card B := by
   have hB : B ≤ Subgroup.normalizer (A : Set G) := fun b hb =>
@@ -214,9 +219,10 @@ theorem y7c_card_sup_of_commute {A B : Subgroup G} (hc : ∀ a ∈ A, ∀ b ∈ 
     (A := A) (B := B) hB
   simpa [hAB] using h
 
+omit [Finite G] in
 theorem y7c_isElemAbelian_of_le {A B : Subgroup G} (hB : IsElemAbelian 2 B) (hAB : A ≤ B) :
     IsElemAbelian 2 A := by
-  haveI := hB.1
+  have := hB.1
   exact ⟨isMulCommutative_anti hAB, fun x hx => hB.2 x (hAB hx)⟩
 
 end CFSG.OddStandard.HigherRank.YamadaG23

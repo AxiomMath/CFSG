@@ -36,14 +36,14 @@ private theorem pRank_five_le_of_section {G : Type} [Group G] [Finite G] (hG : S
 theorem false_of_section_pRank_five {X : Type} [Group X] [Finite X] (hX : SectionFourHyp X)
     (h41 : Sec4.Item4_1PRankLargePrime) {D : Subgroup X} {S : Subgroup D} [S.Normal]
     {T W : Subgroup (D ⧸ S)} (hT2 : IsPGroup 2 T) (hT1 : T ≠ ⊥)
-    (hWT : W ≤ Subgroup.normalizer (T : Set (D ⧸ S))) (hWT' : W ⊓ T = ⊥)
+    (hWT : W ≤ Subgroup.normalizer (T : Set (D ⧸ S))) (_hWT' : W ⊓ T = ⊥)
     (hWl : layer W = ⊤) (hW5 : 3 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup W)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Tsyl⟩ : Nonempty (Sylow 2 (T.comap (QuotientGroup.mk' S))) := inferInstance
   obtain ⟨hmap, hnorm, -⟩ := CFSG.RankThree.OddKernel.sylow_preimage_map_normalizer S T hT2 Tsyl
   set T₀ : Subgroup D := (Tsyl : Subgroup (T.comap (QuotientGroup.mk' S))).map
     (T.comap (QuotientGroup.mk' S)).subtype
-  have hT₀2 : IsPGroup 2 T₀ := Tsyl.isPGroup'.map _
+  have hT₀2 : IsPGroup 2 T₀ := Tsyl.isPGroup.map _
   have hT₀1 : T₀ ≠ ⊥ := fun h => hT1 (by rw [← hmap, h, Subgroup.map_bot])
   set Ts : Subgroup X := T₀.map D.subtype
   have hTs2 : IsPGroup 2 Ts := hT₀2.map _
@@ -104,8 +104,8 @@ theorem false_of_four_components {X : Type} [Group X] [Finite X] (hX : SectionFo
     (Y : Fin 4 → Subgroup (D ⧸ S)) (hY : ∀ i, IsComponent (Y i)) (hinj : Function.Injective Y)
     (hsimple : ∀ i, IsSimpleGroup (Y i)) (h5 : ∀ i, 5 ∣ Nat.card (Y i))
     (h2 : ∀ i, 2 ∣ Nat.card (Y i)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hcomm : ∀ i j : Fin 4, i ≠ j → ∀ a ∈ Y i, ∀ b ∈ Y j, a * b = b * a := fun i j hij =>
     comm_of_ne (hY i) (hY j) fun h => hij (hinj h)
   have hZ : ∀ i : Fin 4, ∀ x ∈ Y i, (∀ y ∈ Y i, x * y = y * x) → x = 1 := fun i =>

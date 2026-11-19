@@ -33,12 +33,12 @@ theorem dvd_card_of_isExtNotation_alternating_five_q8d8 {X : Type} [Group X] [Fi
   classical
   have hcardX : Nat.card X = 1920 := natCard_of_isExtNotation_alternating_five_q8d8_ext hX
   obtain ⟨N, hNnorm, hNtype, hNA5, -⟩ := hX
-  haveI hNnormal : N.Normal := hNnorm
+  have hNnormal : N.Normal := hNnorm
   have hNcard : Nat.card N = 32 := natCard_of_isQ8D8Type hNtype
   obtain ⟨eN⟩ := hNA5
-  haveI hA5simple : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+  have hA5simple : IsSimpleGroup (alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (by norm_num)
-  haveI hsimple : IsSimpleGroup (X ⧸ N) := eN.isSimpleGroup
+  have hsimple : IsSimpleGroup (X ⧸ N) := eN.isSimpleGroup
   have hN2 : IsPGroup 2 N := IsPGroup.of_card (n := 5) (by rw [hNcard]; norm_num)
   have hpres : ∀ α : MulAut X, N.map α.toMonoidHom = N := by
     intro α
@@ -50,13 +50,13 @@ theorem dvd_card_of_isExtNotation_alternating_five_q8d8 {X : Type} [Group X] [Fi
       have hMq2 : IsPGroup 2 Mq := hM2.map (QuotientGroup.mk' N)
       have hMqn : Mq.Normal :=
         hMn.map (QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
-      haveI : Mq.Normal := hMqn
+      have : Mq.Normal := hMqn
       have hMqbot : Mq = ⊥ := by
         rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Mq with h | h
         · exact h
         · exfalso
           rw [h] at hMq2
-          haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+          have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
           obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hMq2
           have h60 : Nat.card (X ⧸ N) = 60 := by
             rw [Nat.card_congr eN.toEquiv]
@@ -85,7 +85,7 @@ theorem dvd_card_of_isExtNotation_alternating_five_q8d8 {X : Type} [Group X] [Fi
       · norm_num at hd
       · exact absurd rfl hd5
     · exact h
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨α, hα⟩ := exists_prime_orderOf_dvd_card' d hdvd
   have hαN : N.map α.toMonoidHom = N := hpres α
   let β : MulAut N :=
@@ -229,10 +229,10 @@ theorem normalizer_sup_of_isExtNotation_alternating_five_q8d8_of_ne_five
       (fun B _ => IsQ8D8Type B) X)
     (P E : Subgroup X) (d : ℕ) (hd : d.Prime) (hd2 : d ≠ 2) (hd3 : d ≠ 3)
     (hd5 : d ≠ 5)
-    (hP : CFSG.ABGLocalTools.IsSylowOf 3 P ⊤)
+    (_hP : CFSG.ABGLocalTools.IsSylowOf 3 P ⊤)
     (hE : CFSG.ABGLocalTools.IsSylowOf d E ⊤) :
     Subgroup.normalizer (P : Set X) ⊔ Subgroup.normalizer (E : Set X) = ⊤ := by
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hcardX : Nat.card X = 1920 := natCard_of_isExtNotation_alternating_five_q8d8_ext hX
   have hndvd : ¬ d ∣ Nat.card X := by
     rw [hcardX]
@@ -271,8 +271,8 @@ theorem normalizer_sup_of_isExtNotation_alternating_five_q8d8_of_le_normalizer
       rw [Nat.card_congr eN.toEquiv]
       exact natCard_alternatingGroup_fin_five
     rw [h60]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h3dvdP : 3 ∣ Nat.card P := by
     obtain ⟨-, -, hrel⟩ := (CFSG.ABGLocalTools.isSylowOf_iff).mp hP
     rw [Subgroup.relIndex_top_right] at hrel
@@ -387,7 +387,7 @@ theorem threeTenCase4ExtFiniteInput_of_sylowFiveNontrivial
     by_cases hd5 : d = 5
     · subst hd5
       obtain ⟨N, hNnorm, hNtype, hNA5, -⟩ := hX
-      haveI : N.Normal := hNnorm
+      have : N.Normal := hNnorm
       obtain ⟨eN⟩ := hNA5
       by_cases hleP : N ≤ Subgroup.normalizer (P : Set X)
       · exact normalizer_sup_of_isExtNotation_alternating_five_q8d8_of_le_normalizer

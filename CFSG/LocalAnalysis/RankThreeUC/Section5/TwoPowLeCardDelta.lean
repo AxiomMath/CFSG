@@ -85,9 +85,9 @@ theorem prime_dvd_card_Delta_sub_one (hc : BinaryActionRankCounterexample G p P 
     (hr : r.Prime) (hrB : r ∣ Nat.card B) : r ∣ Nat.card ↥(Delta p P ρ) - 1 := by
   have hP := hc.faithfulBinaryIrreducibleAction.normal
   have h520 := cyclic_actor_and_hyperplane_transitivity_and_irreducible_commutator_action hc
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' (G := ↥B) r hrB
-  letI : MulAction G ↥(Delta p P ρ) :=
+  let : MulAction G ↥(Delta p P ρ) :=
     MulAction.compHom ↥(Delta p P ρ) (DeltaConjugationAction.act (p := p) hP ρ)
   have hsmul : ∀ (g : G) (D : ↥(Delta p P ρ)),
       ((g • D : ↥(Delta p P ρ)) : Subgroup G) = (D : Subgroup G).map (MulAut.conj g).toMonoidHom :=
@@ -120,7 +120,7 @@ theorem prime_dvd_card_Delta_sub_one (hc : BinaryActionRankCounterexample G p P 
       exact h520.2.2.2.1 (b : G) b.2 hb1 F hF hFD hbN
   rw [hfix] at hmod
   have hpos : 1 ≤ Nat.card ↥(Delta p P ρ) := by
-    haveI : Nonempty ↥(Delta p P ρ) := ⟨⟨⁅B, P⁆, h520.1⟩⟩
+    have : Nonempty ↥(Delta p P ρ) := ⟨⟨⁅B, P⁆, h520.1⟩⟩
     exact Nat.card_pos
   exact (Nat.modEq_iff_dvd' hpos).mp hmod.symm
 

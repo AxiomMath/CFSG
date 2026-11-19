@@ -16,12 +16,12 @@ variable {Γ : Type} [Group Γ]
 
 omit [Group Γ] in
 theorem isPGroup_autOn [Group Γ] {V J : Subgroup Γ} (hJ : IsPGroup 2 ↥J)
-    (hJV : J ≤ Subgroup.normalizer (V : Set Γ)) : IsPGroup 2 ↥(autOn J V) :=
+    (_hJV : J ≤ Subgroup.normalizer (V : Set Γ)) : IsPGroup 2 ↥(autOn J V) :=
   CFSG.Quasithin.AutOn.isPGroup_autOn hJ
 
 omit [Group Γ] in
 theorem autOn_le_normalizer_autOn [Group Γ] {V X E : Subgroup Γ}
-    (hXV : X ≤ Subgroup.normalizer (V : Set Γ)) (hXE : X ≤ Subgroup.normalizer (E : Set Γ)) :
+    (_hXV : X ≤ Subgroup.normalizer (V : Set Γ)) (hXE : X ≤ Subgroup.normalizer (E : Set Γ)) :
     autOn X V ≤ Subgroup.normalizer (autOn E V : Set (MulAut ↥V)) :=
   CFSG.Quasithin.AutOn.autOn_le_normalizer_autOn hXE
 

@@ -13,15 +13,15 @@ theorem uc22p22y_exists_fixed_index_le {P Ω K : Type} [Group P] [Finite P] [Gro
     (hquot : ∀ x ∈ φ.range, ∀ y ∈ φ.range, x ∉ Inn → ∃ k : ℕ, x ^ k * y ∈ Inn)
     (hfix : ∀ z ∈ φ.range, z ∉ Inn → ∃ ω : Ω, z • ω = ω) :
     ∃ ω : Ω, ((MulAction.stabilizer K ω).comap φ).index ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hcyc
+  have : Fact p.Prime := ⟨hp⟩
+  have := hcyc
   have hRp : ∀ x ∈ φ.range, x ^ p = 1 := by
     rintro _ ⟨y, rfl⟩
     rw [← map_pow, hexp, map_one]
   have hRc : ∀ x ∈ φ.range, ∀ y ∈ φ.range, x * y = y * x := by
     rintro _ ⟨a, rfl⟩ _ ⟨b, rfl⟩
     rw [← map_mul, ← map_mul, hPab]
-  haveI : Finite ↥φ.range :=
+  have : Finite ↥φ.range :=
     Finite.of_surjective (fun y : P => (⟨φ y, y, rfl⟩ : ↥φ.range)) (fun ⟨_, y, hy⟩ => ⟨y, Subtype.ext hy⟩)
   have hC : Nat.card ↥(φ.range ⊓ Inn) ≤ p := by
     have h1 : Monoid.exponent ↥(φ.range ⊓ Inn) ∣ p :=
@@ -61,7 +61,7 @@ theorem uc22p22y_exists_fixed_index_le {P Ω K : Type} [Group P] [Finite P] [Gro
       show ((φ x₀)⁻¹) ^ (k % p) * ((φ x₀) ^ k * y) = y
       rw [← pow_eq_pow_mod k hwp, inv_pow, inv_mul_cancel_left]
     have hRle : Nat.card ↥φ.range ≤ p * p := by
-      haveI : Finite ↥(φ.range ⊓ Inn) :=
+      have : Finite ↥(φ.range ⊓ Inn) :=
         Finite.of_injective (Subgroup.inclusion (inf_le_left : φ.range ⊓ Inn ≤ φ.range))
           (Subgroup.inclusion_injective _)
       have h1 := Nat.card_le_card_of_surjective _ hsurj

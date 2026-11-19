@@ -23,7 +23,7 @@ theorem exists_mulEquiv_eq_map_omPlusTorus {K : Type} [Field K] [Finite K] [Char
     ∃ α : StatedOmega (StatedQuadPlus m K) ≃* StatedOmega (StatedQuadPlus m K),
       E = (omPlusTorus hζ).range.map α.toMonoidHom := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hpodd : Odd p := (Fact.out : p.Prime).odd_of_ne_two hp2
   let Q : (Fin m ⊕ Fin m → K) → K := StatedQuadPlus m K
   let O : Subgroup (GL (Fin m ⊕ Fin m) K) := LargeEvenOrthGroup Q
@@ -80,7 +80,7 @@ theorem exists_mulEquiv_eq_map_omPlusTorus {K : Type} [Field K] [Finite K] [Char
     have h := Subgroup.normal_subgroupOf_commutator_sup (H₁ := O) (H₂ := O)
     rw [sup_idem] at h
     rwa [show Ω = ⁅O, O⁆ from rfl]
-  haveI : (Ω.subgroupOf O).Normal := hNormal
+  have : (Ω.subgroupOf O).Normal := hNormal
   let gO : O := ⟨g, hgO⟩
   let β : Ω ≃* Ω :=
     (Subgroup.subgroupOfEquivOfLe hΩO).symm.trans

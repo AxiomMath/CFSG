@@ -102,13 +102,13 @@ theorem rotGL_pow_p (hp : 2 ≤ p) : rotGL p K ^ p = 1 := by
 
 theorem rotGL_not_mem_torusQ (Q : Subgroup Kˣ) (hp : 2 ≤ p) :
     rotGL p K ∉ torusQ (p := p) (K := K) Q := by
-  haveI : NeZero p := ⟨by omega⟩
+  have : NeZero p := ⟨by omega⟩
   rintro ⟨c, hc⟩
   have h1 := congrArg (fun g : GL (Fin p) K => (g : Matrix (Fin p) (Fin p) K)) hc
   simp only [diagQ, MonoidHom.comp_apply, diagGL_val, rotGL_val] at h1
   have hne : (finRotate p) 0 ≠ (0 : Fin p) := by
     obtain ⟨n, rfl⟩ : ∃ n, p = n + 2 := ⟨p - 2, by omega⟩
-    simp [finRotate_apply_zero, Fin.ext_iff]
+    simp
   have h2 := congrFun (congrFun h1 ((finRotate p) 0)) 0
   rw [Matrix.diagonal_apply_ne _ hne] at h2
   simp [Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, Equiv.toPEquiv_apply] at h2
@@ -117,8 +117,8 @@ theorem rotGL_not_mem_torusQ (Q : Subgroup Kˣ) (hp : 2 ≤ p) :
 theorem factorization_card_GL {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Type} [Field K]
     [Finite K] (hpK : p ∣ Nat.card K - 1) :
     (Nat.card (GL (Fin p) K)).factorization p = p * (Nat.card K - 1).factorization p + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have := Fintype.ofFinite K
   have hodd : Odd p := hp.odd_of_ne_two hp2
   set Q := Nat.card K with hQ
   have hQcard : Fintype.card K = Q := Nat.card_eq_fintype_card.symm
@@ -158,13 +158,13 @@ theorem factorization_card_GL {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Type
       rwa [one_pow] at this
     have h2 : padicValNat p (p - (i : ℕ)) = if (i : ℕ) = 0 then 1 else 0 := by
       by_cases hi : (i : ℕ) = 0
-      · rw [if_pos hi, hi, Nat.sub_zero]
+      · rw [ite_eq_left hi, hi, Nat.sub_zero]
         exact padicValNat_self
-      · rw [if_neg hi]
+      · rw [ite_eq_right hi]
         apply padicValNat.eq_zero_of_not_dvd
         exact Nat.not_dvd_of_pos_of_lt (by omega) (by omega)
     rw [h0, h1, h2, zero_add]
-  rw [hcard, Nat.factorization_prod hne, Finsupp.coe_finset_sum, Finset.sum_apply]
+  rw [hcard, Nat.factorization_prod hne, _root_.Finsupp.coe_finsetSum, Finset.sum_apply]
   simp only [hterm]
   rw [Finset.sum_add_distrib, Finset.sum_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul,
     Fin.sum_univ_eq_sum_range (fun j => if j = 0 then 1 else 0) p]
@@ -228,11 +228,11 @@ theorem not_dvd_index_monoQ [Fact p.Prime] (hp2 : p ≠ 2) (Q : Sylow p Kˣ)
   have hp : p.Prime := Fact.out
   have hp2' : 2 ≤ p := hp.two_le
   set M := monoQ (p := p) (K := K) (Q : Subgroup Kˣ) with hMdef
-  have hM : IsPGroup p M := isPGroup_monoQ hp2' Q.isPGroup'
+  have hM : IsPGroup p M := isPGroup_monoQ hp2' Q.isPGroup
   obtain ⟨m, hm⟩ := hM.exists_card_eq
   have hQcard : Nat.card (Q : Subgroup Kˣ) = p ^ (Nat.card K - 1).factorization p := by
     rw [Sylow.card_eq_multiplicity, Nat.card_units]
-  have hge := card_monoQ_ge (K := K) hp2' Q.isPGroup'
+  have hge := card_monoQ_ge (K := K) hp2' Q.isPGroup
   rw [hQcard, hm, ← pow_mul, ← pow_succ] at hge
   have hmge : (Nat.card K - 1).factorization p * p + 1 ≤ m :=
     (Nat.pow_le_pow_iff_right hp.one_lt).1 hge

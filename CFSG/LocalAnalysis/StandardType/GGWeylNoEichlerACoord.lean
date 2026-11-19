@@ -25,7 +25,7 @@ lemma ggAE_x_self {n : ℕ} {U : Type} [AddCommGroup U] [Module (ZMod 3) U]
   rw [Finset.sum_eq_single k]
   · simp
   · intro j _ hj
-    rw [if_neg (fun h : k = j => hj h.symm), mul_zero]
+    rw [ite_eq_right (fun h : k = j => hj h.symm), mul_zero]
   · intro hk; exact absurd (Finset.mem_univ k) hk
 
 private lemma ggAE_A_apply (n : ℕ) (u v : Fin n) :
@@ -56,19 +56,19 @@ lemma ggAE_A_eq (n : ℕ) (i j : Fin n) :
     have hlt : ¬ (i.val + 1 = i.val) := by omega
     simp
     norm_num
-  · simp only [if_neg hij]
+  · simp only [ite_eq_right hij]
     by_cases hcase : (i.val + 1 = j.val ∨ j.val + 1 = i.val)
-    · rw [if_pos hcase]
+    · rw [ite_eq_left hcase]
       rcases hcase with hc | hc
       · have h2 : ¬ (j.val + 1 = i.val) := by omega
-        simp only [if_neg h2, if_pos hc]
+        simp only [ite_eq_right h2, ite_eq_left hc]
         ring
       · have h1 : ¬ (i.val + 1 = j.val) := by omega
-        simp only [if_pos hc, if_neg h1]
+        simp only [ite_eq_left hc, ite_eq_right h1]
         ring
     · have h1 : ¬ (i.val + 1 = j.val) := fun h => hcase (Or.inl h)
       have h2 : ¬ (j.val + 1 = i.val) := fun h => hcase (Or.inr h)
-      simp only [if_neg hcase, if_neg h1, if_neg h2]
+      simp only [ite_eq_right hcase, ite_eq_right h1, ite_eq_right h2]
       ring
 
 lemma ggAE_const_of_adj {m : ℕ} {R : Type} (y : Fin (m + 1) → R)
@@ -85,23 +85,23 @@ private lemma ggAE_sum_pred {n : ℕ} (t : Fin n → ZMod 3) (j : Fin n) :
     (∑ k : Fin n, t k * (if k.val + 1 = j.val then (1 : ZMod 3) else 0)) =
       (if h : 0 < j.val then t ⟨j.val - 1, by have := j.isLt; omega⟩ else 0) := by
   by_cases h : 0 < j.val
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     rw [Finset.sum_eq_single ⟨j.val - 1, by have := j.isLt; omega⟩]
     · have hv : (⟨j.val - 1, by have := j.isLt; omega⟩ : Fin n).val = j.val - 1 := rfl
       rw [hv]
       have hh : j.val - 1 + 1 = j.val := by omega
-      rw [hh, if_pos rfl, mul_one]
+      rw [hh, ite_eq_left rfl, mul_one]
     · intro k _ hk
-      rw [if_neg, mul_zero]
+      rw [ite_eq_right, mul_zero]
       intro hc
       apply hk
       apply Fin.ext
       show k.val = j.val - 1
       omega
     · intro hj; exact absurd (Finset.mem_univ _) hj
-  · rw [dif_neg h]
+  · rw [dite_eq_right h]
     refine Finset.sum_eq_zero (fun k _ => ?_)
-    rw [if_neg, mul_zero]
+    rw [ite_eq_right, mul_zero]
     intro hc
     omega
 
@@ -131,9 +131,9 @@ private lemma ggAE_row {n : ℕ} {U : Type} [AddCommGroup U] [Module (ZMod 3) U]
   · have hsum1 : (∑ k : Fin n, b.repr v k * (if j = k then (1 : ZMod 3) else 0)) =
         b.repr v j := by
       rw [Finset.sum_eq_single j]
-      · rw [if_pos rfl, mul_one]
+      · rw [ite_eq_left rfl, mul_one]
       · intro k _ hk
-        rw [if_neg (fun h : j = k => hk h.symm), mul_zero]
+        rw [ite_eq_right (fun h : j = k => hk h.symm), mul_zero]
       · intro hj; exact absurd (Finset.mem_univ j) hj
     trans (∑ k : Fin n, b.repr v k * (if j = k then (1 : ZMod 3) else 0))
         - (∑ k : Fin n, b.repr v k * (if k.val + 1 = j.val then (1 : ZMod 3) else 0))
@@ -155,7 +155,7 @@ lemma ggAE_sep {n : ℕ} {U : Type} [AddCommGroup U] [Module (ZMod 3) U]
     have hsi := hv i.succ
     rw [ggAE_row b v i.succ] at hsi
     have hpos : 0 < (i.succ : Fin (m + 1)).val := by simp [Fin.val_succ]
-    rw [dif_pos hpos] at hsi
+    rw [dite_eq_left hpos] at hsi
     have hpred : (⟨(i.succ : Fin (m + 1)).val - 1,
         by have := (i.succ : Fin (m + 1)).isLt; omega⟩ : Fin (m + 1)) = i.castSucc := by
       apply Fin.ext
@@ -187,7 +187,7 @@ private lemma ggAE_x_seg {n : ℕ} {U : Type} [AddCommGroup U] [Module (ZMod 3) 
         - (if c.val = k + 1 then (1 : ZMod 3) else 0))
   · refine Finset.sum_congr rfl (fun k hk => ?_)
     have hkn : k < n := by have := (Finset.mem_Ico.mp hk).2; omega
-    rw [dif_pos hkn, hb ⟨k, hkn⟩, ggAE_x_self]
+    rw [dite_eq_left hkn, hb ⟨k, hkn⟩, ggAE_x_self]
     have hc1 : (c = (⟨k, hkn⟩ : Fin n).castSucc) ↔ (c.val = k) := by
       rw [Fin.ext_iff]; simp only [Fin.val_castSucc]
     have hc2 : (c = (⟨k, hkn⟩ : Fin n).succ) ↔ (c.val = k + 1) := by
@@ -248,13 +248,13 @@ theorem ggAE_x_equiv {n : ℕ} {U : Type} [AddCommGroup U] [Module (ZMod 3) U]
         Equiv.swap_inv]
       by_cases h1 : a = i.castSucc
       · subst h1
-        rw [Equiv.swap_apply_left, if_pos rfl, if_neg Fin.castSucc_lt_succ.ne]
+        rw [Equiv.swap_apply_left, ite_eq_left rfl, ite_eq_right Fin.castSucc_lt_succ.ne]
         ring
       · by_cases h2 : a = i.succ
         · subst h2
-          rw [Equiv.swap_apply_right, if_neg Fin.castSucc_lt_succ.ne.symm, if_pos rfl]
+          rw [Equiv.swap_apply_right, ite_eq_right Fin.castSucc_lt_succ.ne.symm, ite_eq_left rfl]
           ring
-        · rw [Equiv.swap_apply_of_ne_of_ne h1 h2, if_neg h1, if_neg h2]
+        · rw [Equiv.swap_apply_of_ne_of_ne h1 h2, ite_eq_right h1, ite_eq_right h2]
           ring
     · intro a u
       simp

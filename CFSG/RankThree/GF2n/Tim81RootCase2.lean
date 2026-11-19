@@ -162,10 +162,12 @@ namespace RootCore
 variable [Finite G] {M B Q : Subgroup G} (H : RootCore M B Q)
 include H
 
+omit [Finite G] in
 theorem case2_aa {g a y : G} (C : Case2 M B Q g a y) : a * a = 1 := by
   rw [← sq]
   exact (isElemAbelian_conjSubgroup H.elemAb g).2 a (Subgroup.mem_inf.mp C.ha).1
 
+omit [Finite G] in
 theorem case2_conj_a {g a y : G} (C : Case2 M B Q g a y) : y * a * y⁻¹ = a * ⁅a, y⁆ := by
   have haa := H.case2_aa C
   have hainv : a⁻¹ = a := inv_eq_of_mul_eq_one_right haa
@@ -173,6 +175,7 @@ theorem case2_conj_a {g a y : G} (C : Case2 M B Q g a y) : y * a * y⁻¹ = a * 
   calc y * a * y⁻¹ = (a * a) * y * a * y⁻¹ := by rw [haa, one_mul]
     _ = a * (a * y * a * y⁻¹) := by group
 
+omit [Finite G] in
 theorem case2_comm_ab {g a y : G} (C : Case2 M B Q g a y) : a * ⁅a, y⁆ = ⁅a, y⁆ * a := by
   have haa := H.case2_aa C
   have hbb : ⁅a, y⁆ * ⁅a, y⁆ = 1 := by rw [← sq]; exact H.sq_eq_one _ C.hb
@@ -214,6 +217,7 @@ theorem case2_sq_mem_normalizer {g a y : G} (C : Case2 M B Q g a y) :
   rw [sq]
   exact h3.symm
 
+omit [Finite G] in
 theorem prop24_AB {g : G} (hgM : ¬ conjSubgroup g B ≤ M) (hA0 : conjSubgroup g B ⊓ M ≠ ⊥) :
     Tim77.Prop24Setup (conjSubgroup g B) B
       (conjSubgroup g B ⊓ Subgroup.normalizer (B : Set G))

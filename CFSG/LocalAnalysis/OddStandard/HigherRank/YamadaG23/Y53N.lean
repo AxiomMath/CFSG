@@ -23,7 +23,7 @@ private lemma y53_d_inv (c : Ctx5 G L) : c.d⁻¹ = c.d := by
     exact y5_d_sq c
   exact inv_eq_of_mul_eq_one_right h
 
-private theorem y53_mem_Q {c : Ctx5 G L} (hH : F33Hyp c.s c.e) {x : G}
+private theorem y53_mem_Q {c : Ctx5 G L} (_hH : F33Hyp c.s c.e) {x : G}
     (hx : x ∈ (c.s.fr.A ⊔ zpowers c.s.t : Subgroup G)) :
     x ∈ c.s.fr.A ∨ ∃ a ∈ c.s.fr.A, x = a * c.s.t := by
   have htt : c.s.t * c.s.t = 1 := by
@@ -226,7 +226,7 @@ private theorem y53_d_normalizes_Q {c : Ctx5 G L} (hH : F33Hyp c.s c.e) :
   · exact le_of_eq (Subgroup.card_map_of_injective (f := (MulAut.conj c.d : G →* G))
       (MulAut.conj c.d).injective).symm
 
-private theorem y53_normIn_le_N {c : Ctx5 G L} (hH : F33Hyp c.s c.e) :
+private theorem y53_normIn_le_N {c : Ctx5 G L} (_hH : F33Hyp c.s c.e) :
     normIn c.s.H c.s.fr.A ≤
       Subgroup.normalizer ((c.s.fr.A ⊔ zpowers c.s.t : Subgroup G) : Set G) := by
   intro x hx
@@ -240,7 +240,7 @@ private theorem y53_normIn_le_N {c : Ctx5 G L} (hH : F33Hyp c.s c.e) :
     calc x * c.s.t * x⁻¹ = (x * c.s.t) * x⁻¹ := rfl
       _ = (c.s.t * x) * x⁻¹ := by rw [hxHt]
       _ = c.s.t := by group
-  simpa [hconj]
+  simp [hconj]
 
 private theorem y53_dinv_mul_mem_H {c : Ctx5 G L} (hH : F33Hyp c.s c.e) {x : G}
     (hx : x * c.s.t * x⁻¹ = c.s.fr.z * c.s.t) : c.d⁻¹ * x ∈ c.s.H := by

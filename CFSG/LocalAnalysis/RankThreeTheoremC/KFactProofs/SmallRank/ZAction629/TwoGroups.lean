@@ -9,7 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -499,12 +499,12 @@ theorem normalizer_eq_top (h : TwoGroupUniqueInvolution G t) [Finite G] {a y : G
     Subgroup.normalizer ((Subgroup.zpowers a : Subgroup G) : Set G) = ⊤ := by
   set A := Subgroup.zpowers a with hA
   by_contra hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent G := h.two.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent G := h.two.isNilpotent
   have hNC := Group.normalizerCondition_of_isNilpotent (G := G)
   have hlt : Subgroup.normalizer (A : Set G) < ⊤ := lt_top_iff_ne_top.mpr hne
   have h1 := hNC _ hlt
-  obtain ⟨g, hg, hgn⟩ := SetLike.exists_of_lt h1
+  obtain ⟨g, hg, hgn⟩ := _root_.IsConcreteLE.exists_of_lt h1
   have haN : a ∈ Subgroup.normalizer (A : Set G) := Subgroup.le_normalizer (Subgroup.mem_zpowers a)
   have hgaN : g * a * g⁻¹ ∈ Subgroup.normalizer (A : Set G) :=
     (Subgroup.mem_normalizer_iff.mp hg a).mp haN
@@ -628,7 +628,7 @@ theorem quatEquiv_phi_mul {G : Type} [Group G] {a y : G} {m : ℕ} (ha : orderOf
     (hyinv : y * a * y⁻¹ = a⁻¹) (hy2 : y ^ 2 = a ^ (2 ^ m))
     (u v : QuaternionGroup (2 ^ m)) :
     quatEquiv_phi a y m (u * v) = quatEquiv_phi a y m u * quatEquiv_phi a y m v := by
-  haveI : NeZero (2 * 2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 * 2 ^ m) := ⟨by positivity⟩
   cases u <;> cases v
   · simp only [quatEquiv_phi, QuaternionGroup.a_mul_a]
     exact quatEquiv_pw_add ha _ _
@@ -642,7 +642,7 @@ theorem quatEquiv_phi_mul {G : Type} [Group G] {a y : G} {m : ℕ} (ha : orderOf
 
 theorem quatEquiv_phi_inj {G : Type} [Group G] {a y : G} {m : ℕ} (ha : orderOf a = 2 * 2 ^ m)
     (hyA : y ∉ Subgroup.zpowers a) : Function.Injective (quatEquiv_phi a y m) := by
-  haveI : NeZero (2 * 2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 * 2 ^ m) := ⟨by positivity⟩
   rintro (i | i) (j | j) h
   · simp only [quatEquiv_phi] at h
     rw [quatEquiv_pw_inj ha h]
@@ -681,7 +681,7 @@ theorem quaternion_equiv_of_cover {G : Type} [Group G] [Finite G] {a y : G} {m :
     (hyA : y ∉ Subgroup.zpowers a)
     (hcover : ∀ g : G, g ∈ Subgroup.zpowers a ∨ y⁻¹ * g ∈ Subgroup.zpowers a) :
     Nonempty (G ≃* QuaternionGroup (2 ^ m)) ∧ Nat.card G = 4 * 2 ^ m := by
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
   let f : QuaternionGroup (2 ^ m) →* G :=
     MonoidHom.mk' (quatEquiv_phi a y m) (quatEquiv_phi_mul ha hyinv hy2)
   have hf : Function.Bijective f := ⟨quatEquiv_phi_inj ha hyA, quatEquiv_phi_surj ha hcover⟩
@@ -878,8 +878,8 @@ variable {t : G}
 
 theorem classify [Finite G] (h : TwoGroupUniqueInvolution G t) (hnc : ¬ IsCyclic G) :
     ∃ n : ℕ, 3 ≤ n ∧ Nat.card G = 2 ^ n ∧ Nonempty (G ≃* QuaternionGroup (2 ^ (n - 2))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nonempty G := ⟨1⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nonempty G := ⟨1⟩
   obtain ⟨a, hmaxa⟩ := Finite.exists_max (fun g : G => orderOf g)
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp h.two) a
   have hk1 : 1 ≤ k := by
@@ -893,10 +893,10 @@ theorem classify [Finite G] (h : TwoGroupUniqueInvolution G t) (hnc : ¬ IsCycli
   have hmax : ∀ g : G, orderOf g ≤ 2 ^ (n + 1) := fun g => hk ▸ hmaxa g
   set A := Subgroup.zpowers a with hA
   have hAtop : A ≠ ⊤ := fun hAt => hnc (isCyclic_iff_exists_zpowers_eq_top.mpr ⟨a, hAt⟩)
-  haveI : Group.IsNilpotent G := h.two.isNilpotent
+  have : Group.IsNilpotent G := h.two.isNilpotent
   have hlt : A < Subgroup.normalizer (A : Set G) :=
     Group.normalizerCondition_of_isNilpotent A (lt_top_iff_ne_top.mpr hAtop)
-  obtain ⟨x, hxN, hxA⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨x, hxN, hxA⟩ := IsConcreteLE.exists_of_lt hlt
   obtain ⟨j, hj1, hj2⟩ := exists_pow_not_mem_sq_mem h A hxA
   have hyN : x ^ (2 ^ j) ∈ Subgroup.normalizer (A : Set G) := Subgroup.pow_mem _ hxN _
   have hya : x ^ (2 ^ j) * a * (x ^ (2 ^ j))⁻¹ ∈ A :=

@@ -13,7 +13,7 @@ theorem fact_A_perm6 : ∀ τ : Equiv.Perm (Fin 6), τ ^ 5 = 1 → τ ≠ 1 →
 theorem perm6_two_group_trivial (K : Subgroup (Equiv.Perm (Fin 6))) (hK : IsPGroup 2 K)
     (τ : Equiv.Perm (Fin 6)) (hτ5 : τ ^ 5 = 1) (hτ1 : τ ≠ 1)
     (hnorm : ∀ k ∈ K, τ * k * τ⁻¹ ∈ K) : K = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, hτa, hA1⟩ := fact_A_perm6 τ hτ5 hτ1
   have hτa_pow : ∀ n : ℕ, (τ ^ n) a = a := fun n =>
     Equiv.Perm.pow_apply_eq_self_of_apply_eq_self hτa n
@@ -84,7 +84,7 @@ theorem perm6_two_group_trivial (K : Subgroup (Equiv.Perm (Fin 6))) (hK : IsPGro
     have hclosed : ∀ i : ℕ, (τ ^ (i * j)) x ∈ MulAction.orbit K x := by
       intro i
       induction i with
-      | zero => simpa using MulAction.mem_orbit_self x
+      | zero => simp
       | succ i ih =>
         have h1 := hCpow j x _ ih
         rw [hjx, hkO] at h1

@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private theorem commutator_mem_of_mem_normalizer {K : Subgroup G} {x y : G} (hx : x ∈ K)
     (hy : y ∈ normalizer (K : Set G)) : ⁅x, y⁆ ∈ K := by
   have h := (Subgroup.mem_normalizer_iff.mp hy x).mp hx

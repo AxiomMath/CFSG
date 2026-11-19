@@ -71,7 +71,7 @@ theorem card_sylow_odd {p : ℕ} (hp : p = 3 ∨ p = 5) (P : Sylow p G) :
   have hUP2 : IsPGroup p U := IsPGroup.of_card (n := 1) (by rw [hUp, pow_one])
   obtain ⟨P', hUP'⟩ := hUP2.exists_le_sylow
   have hUeq : (P' : Subgroup G) = U := by
-    refine eq_of_isPGroup_of_normalizer P'.isPGroup' hUP' fun g hgN ⟨k, hk⟩ => ?_
+    refine eq_of_isPGroup_of_normalizer P'.isPGroup hUP' fun g hgN ⟨k, hk⟩ => ?_
     by_contra hgU
     have hgC : g ∈ Subgroup.centralizer (U : Set G) :=
       Subgroup.mem_centralizer_iff.mpr fun v hv =>

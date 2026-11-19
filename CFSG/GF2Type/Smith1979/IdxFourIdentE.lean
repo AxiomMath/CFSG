@@ -89,7 +89,7 @@ theorem exists_conj_eq_E0 {E : Subgroup G12} (hEg : E ≤ gammaU) (hEcard : Nat.
     exact hD5 a₀
   obtain ⟨m, hm, hle⟩ := fl_of_type_E hE₁card hR0 hyE hyg hyu hnot₂ hS he hc₂ hd
   have hmg : m ∈ gammaU := monGamma_le_gammaU hm
-  haveI : Finite (conjSub E g⁻¹) := Nat.finite_of_card_ne_zero (by rw [hE₁card]; norm_num)
+  have : Finite (conjSub E g⁻¹) := Nat.finite_of_card_ne_zero (by rw [hE₁card]; norm_num)
   have heq : conjSub E0 m = conjSub E g⁻¹ :=
     Subgroup.eq_of_le_of_card_ge hle (by rw [hE₁card, card_conjSub, hE0card])
   refine ⟨m⁻¹ * g⁻¹, mul_mem (inv_mem hmg) (inv_mem hgg), ?_⟩

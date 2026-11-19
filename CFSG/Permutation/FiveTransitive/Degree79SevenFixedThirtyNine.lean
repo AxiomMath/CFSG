@@ -40,7 +40,7 @@ private theorem exists_normalizer_five
   have hg : orderOf n.val = 5 := (Subgroup.orderOf_coe n).trans hn
   refine ⟨n.val,hg,?_⟩
   exact Degree79SevenLabelFixed.fixed_card_eq_thirtyNine P hcard h5 hnotAlt Q
-    (S.isPGroup'.map (fixingSubgroup P s).subtype) n.val hg hlabels
+    (S.isPGroup.map (fixingSubgroup P s).subtype) n.val hg hlabels
 
 theorem exists_ambient_five
     {X : Type} [Fintype X] [DecidableEq X]

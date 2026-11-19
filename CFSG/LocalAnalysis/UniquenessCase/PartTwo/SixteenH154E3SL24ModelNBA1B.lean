@@ -33,7 +33,7 @@ theorem s16h_gf4_exists_sq : ∀ δ : GF4, δ ≠ 0 → ∃ μ : GF4, μ ≠ 0 �
 
 theorem s16h_linear_form (g : (Fin 2 → GF4) ≃+ (Fin 2 → GF4))
     (hlin : ∀ (a : GF4) (w : Fin 2 → GF4), g (a • w) = a • g w) :
-    ∃ (μ : GF4) (hμ : μ ≠ 0) (γ : ↥(StatedSL 2 GF4)), ∀ w : Fin 2 → GF4,
+    ∃ (μ : GF4) (_hμ : μ ≠ 0) (γ : ↥(StatedSL 2 GF4)), ∀ w : Fin 2 → GF4,
       g w = μ • ((((γ : Matrix.GeneralLinearGroup (Fin 2) GF4) :
         Matrix (Fin 2) (Fin 2) GF4)).mulVec w) := by
   let M : Matrix (Fin 2) (Fin 2) GF4 := fun i j => g (Pi.single j 1) i
@@ -46,7 +46,7 @@ theorem s16h_linear_form (g : (Fin 2 → GF4) ≃+ (Fin 2 → GF4))
     rw [map_add, hlin, hlin]
     funext i
     fin_cases i <;>
-      simp [M, Matrix.mulVec, Fin.sum_univ_two, Pi.smul_apply, mul_comm]
+      simp [M, Matrix.mulVec, Pi.smul_apply, mul_comm]
   have hinj : Function.Injective M.mulVec := by
     intro a b hab
     have h : g a = g b := by rw [hM a, hM b, hab]
@@ -54,14 +54,14 @@ theorem s16h_linear_form (g : (Fin 2 → GF4) ≃+ (Fin 2 → GF4))
   have hunit : IsUnit M := Matrix.mulVec_injective_iff_isUnit.mp hinj
   have hdet : M.det ≠ 0 :=
     isUnit_iff_ne_zero.mp ((Matrix.isUnit_iff_isUnit_det M).mp hunit)
-  obtain ⟨μ, hμ, hμ2⟩ := s16h_gf4_exists_sq M.det hdet
+  obtain ⟨μ, _hμ, hμ2⟩ := s16h_gf4_exists_sq M.det hdet
   let A : Matrix (Fin 2) (Fin 2) GF4 := μ⁻¹ • M
   have hAdet1 : A.det = 1 := by
     rw [Matrix.det_smul, ← hμ2]
     simp only [Fintype.card_fin]
-    rw [← mul_pow, inv_mul_cancel₀ hμ, one_pow]
+    rw [← mul_pow, inv_mul_cancel₀ _hμ, one_pow]
   let γsl : Matrix.SpecialLinearGroup (Fin 2) GF4 := ⟨A, hAdet1⟩
-  refine ⟨μ, hμ, ⟨Matrix.SpecialLinearGroup.toGL γsl, ?_⟩, fun w => ?_⟩
+  refine ⟨μ, _hμ, ⟨Matrix.SpecialLinearGroup.toGL γsl, ?_⟩, fun w => ?_⟩
   · rw [CFSG.Open.StatedAPI.statedSL_eq_range_toGL]
     exact ⟨γsl, rfl⟩
   · rw [hM w]
@@ -69,14 +69,14 @@ theorem s16h_linear_form (g : (Fin 2 → GF4) ≃+ (Fin 2 → GF4))
       Matrix (Fin 2) (Fin 2) GF4)).mulVec w
     rw [show (((Matrix.SpecialLinearGroup.toGL γsl : GL (Fin 2) GF4)) :
       Matrix (Fin 2) (Fin 2) GF4) = A from rfl]
-    rw [Matrix.smul_mulVec, smul_smul, mul_inv_cancel₀ hμ, one_smul]
+    rw [Matrix.smul_mulVec, smul_smul, mul_inv_cancel₀ _hμ, one_smul]
 
 theorem s16h_sl2_normalizer_add_form (g : (Fin 2 → GF4) ≃+ (Fin 2 → GF4))
     (hg : NormalizesSL2 g) :
-    (∃ (μ : GF4) (hμ : μ ≠ 0) (γ : ↥(StatedSL 2 GF4)), ∀ w : Fin 2 → GF4,
+    (∃ (μ : GF4) (_hμ : μ ≠ 0) (γ : ↥(StatedSL 2 GF4)), ∀ w : Fin 2 → GF4,
       g w = μ • ((((γ : Matrix.GeneralLinearGroup (Fin 2) GF4) :
         Matrix (Fin 2) (Fin 2) GF4)).mulVec w)) ∨
-    (∃ (μ : GF4) (hμ : μ ≠ 0) (γ : ↥(StatedSL 2 GF4)), ∀ w : Fin 2 → GF4,
+    (∃ (μ : GF4) (_hμ : μ ≠ 0) (γ : ↥(StatedSL 2 GF4)), ∀ w : Fin 2 → GF4,
       g w = μ • ((((γ : Matrix.GeneralLinearGroup (Fin 2) GF4) :
         Matrix (Fin 2) (Fin 2) GF4)).mulVec (s16h_frobW w))) := by
   obtain ⟨σ, hσ⟩ := NormalizesSL2.exists_semilinear hg
@@ -92,8 +92,8 @@ theorem s16h_sl2_normalizer_add_form (g : (Fin 2 → GF4) ≃+ (Fin 2 → GF4))
         simp [s16h_frobW, Pi.smul_apply, mul_pow]
       show g (s16h_frobW (a • w)) = a • g (s16h_frobW w)
       rw [hPhi, hσ, hfrob (a ^ 2), s16h_gf4_sq_sq a]
-    obtain ⟨μ, hμ, γ, hform⟩ := s16h_linear_form h hlin
-    refine ⟨μ, hμ, γ, fun w => ?_⟩
+    obtain ⟨μ, _hμ, γ, hform⟩ := s16h_linear_form h hlin
+    refine ⟨μ, _hμ, γ, fun w => ?_⟩
     have hgw : g w = h (s16h_frobW w) := by
       show g w = (s16h_frobW.symm.trans g) (s16h_frobW w)
       rw [AddEquiv.trans_apply, AddEquiv.symm_apply_apply]

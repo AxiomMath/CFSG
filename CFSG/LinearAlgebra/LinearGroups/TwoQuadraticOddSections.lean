@@ -172,7 +172,7 @@ theorem exists_two_subgroup_onto_sylow {G : Type*} [Group G] [Finite G] (H : Sub
   let e := Subgroup.equivMapOfInjective (D₀ : Subgroup H) H.subtype H.subtype_injective
   refine ⟨(D₀ : Subgroup H).map H.subtype, T,
     ((QuotientGroup.mk' N).subgroupMap (D₀ : Subgroup H)).comp e.symm.toMonoidHom,
-    D₀.isPGroup'.map H.subtype, ?_⟩
+    D₀.isPGroup.map H.subtype, ?_⟩
   exact ((QuotientGroup.mk' N).subgroupMap_surjective _).comp e.symm.surjective
 
 theorem odd_orderOf_of_quadratic {J : Type*} [Group J] {F : Type*} [Field F] {p : ℕ}

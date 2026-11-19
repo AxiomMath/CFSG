@@ -15,7 +15,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType
 theorem lang_step_single_tw {L : Type} [Field L] [IsAlgClosed L] {ℓ : ℕ} [Fact ℓ.Prime]
     [CharP L ℓ] (f : ℕ) (hf : 1 ≤ f) {x g : ModGL TwistTag.E6.tag L}
     (hg : g ∈ adjointGroup TwistTag.E6.tag L) (a : Fin TwistTag.E6.tag.rank → Lˣ)
-    (ha3 : ∀ i, a i ^ 3 = 1) (hga : g⁻¹ * x * g = rootDiagUnit TwistTag.E6.tag a)
+    (_ha3 : ∀ i, a i ^ 3 = 1) (hga : g⁻¹ * x * g = rootDiagUnit TwistTag.E6.tag a)
     (hFix : twistHom TwistTag.E6 L (iterateFrobenius L ℓ f) x = x) :
     ∃ (w : WeylGroup TwistTag.E6.tag) (z : ModGL TwistTag.E6.tag L),
       z ∈ torusGroup TwistTag.E6.tag L ⊔ rootSpan TwistTag.E6.tag L (rootCharKernel a) ∧

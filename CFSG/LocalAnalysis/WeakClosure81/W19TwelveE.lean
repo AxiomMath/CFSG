@@ -13,7 +13,7 @@ variable {G : Type*} [Group G]
 
 theorem conjClosure_le_of_le {I H : Subgroup G} (h : I ≤ H) :
     CFSG.Quasithin.conjClosure I H ≤ H :=
-  CFSG.Quasithin.conjClosure_le fun k hk z hz => H.mul_mem (H.mul_mem hk (h hz)) (H.inv_mem hk)
+  CFSG.Quasithin.conjClosure_le fun _k hk _z hz => H.mul_mem (H.mul_mem hk (h hz)) (H.inv_mem hk)
 
 theorem isElemAbelian_conjClosure {I H : Subgroup G} (hI : IsElemAbelian 2 I)
     (hc : ∀ k ∈ H, ∀ a ∈ I, ∀ b ∈ I, a * (k * b * k⁻¹) = k * b * k⁻¹ * a) :

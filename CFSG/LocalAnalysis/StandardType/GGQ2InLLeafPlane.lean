@@ -41,12 +41,12 @@ private lemma ilp_orientEquiv_neg_apply {t : ℕ} {e : PlaneRaw.V t} (he : ∀ i
   · have h' : -e i = -1 := by rw [h]
     have h'' : ¬ (e i = -1) := by rw [h]; decide
     simp only [PlaneRaw.orientEquiv, LinearEquiv.piCongrRight_apply, Pi.neg_apply]
-    rw [if_pos h', if_neg h'']
+    rw [ite_eq_left h', ite_eq_right h'']
     simp
   · have h' : ¬ (-e i = -1) := by rw [h]; decide
     have h'' : e i = -1 := h
     simp only [PlaneRaw.orientEquiv, LinearEquiv.piCongrRight_apply, Pi.neg_apply]
-    rw [if_neg h', if_pos h'']
+    rw [ite_eq_right h', ite_eq_left h'']
     simp
 
 private lemma ilp_orientEquiv_neg_symm_apply {t : ℕ} {e : PlaneRaw.V t} (he : ∀ i, e i ≠ 0)
@@ -75,7 +75,7 @@ private lemma ilp_twistedPermGroupOn_smul {t : ℕ} {e : PlaneRaw.V t} (he : ∀
     unfold PlaneRaw.twistedPermGroupOn
     congr 1
     ext T
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨i, j, hi, hj, rfl⟩
       exact ⟨i, j, by simpa using hi, by simpa using hj, ilp_swapTwist_neg he i j⟩
@@ -156,14 +156,14 @@ private lemma ilp_update_eq_add_single {t : ℕ} (e : PlaneRaw.V t) (i₀ : Fin 
   funext i
   by_cases hi : i = i₀
   · subst hi
-    rw [Function.update_apply, if_pos rfl, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
+    rw [Function.update_apply, ite_eq_left rfl, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
       Pi.single_eq_same]
     have h2 : (2 : ZMod 3) = -1 := by decide
     rw [show e i + e i * 1 = -e i from by
       calc e i + e i * 1 = 2 * e i := by ring
         _ = -1 * e i := by rw [h2]
         _ = -e i := by ring]
-  · rw [Function.update_apply, if_neg hi, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
+  · rw [Function.update_apply, ite_eq_right hi, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
       Pi.single_eq_of_ne hi, mul_zero, add_zero]
 
 private theorem ilp_planeEntry_raw {k : PlaneRaw.PlaneKind} {t : ℕ}
@@ -458,7 +458,7 @@ theorem inLLeafCases_symp (t : ℕ) : InLLeafCases (classicalCatalogue (.symp t)
   have hnorm : PlaneRaw.normalizerOf .symplectic t (.zero (Finset.univ.erase i₁))
       = PlaneRaw.signedPermGroupOn t (Finset.univ.erase i₁) := by
     simp only [PlaneRaw.normalizerOf]
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
   rw [hnorm]
   exact PlaneRaw.leafModelSigned_holds _ ht _ he i₁
 
@@ -472,9 +472,9 @@ theorem inLLeafCases_orth (t : ℕ) (δ : Fin 2) : InLLeafCases (classicalCatalo
     simp only [PlaneRaw.normalizerOf]
   rw [hnorm]
   by_cases hδ : δ.val = 0
-  · rw [if_pos hδ]
+  · rw [ite_eq_left hδ]
     exact PlaneRaw.leafModelEvenSigned_holds _ ht _ he i₁
-  · rw [if_neg hδ]
+  · rw [ite_eq_right hδ]
     exact PlaneRaw.leafModelSigned_holds _ ht _ he i₁
 
 end CFSG.StandardType.GGQ2Frame

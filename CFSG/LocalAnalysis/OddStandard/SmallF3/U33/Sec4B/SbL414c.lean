@@ -55,6 +55,7 @@ section Extension
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma inf_zpowers_eq_bot_of_sq_eq_one {T : Subgroup G} {lam : G} (hlam2 : lam ^ 2 = 1)
     (hlam : lam ∉ T) : T ⊓ zpowers lam = ⊥ := by
   rw [eq_bot_iff]
@@ -62,7 +63,7 @@ private lemma inf_zpowers_eq_bot_of_sq_eq_one {T : Subgroup G} {lam : G} (hlam2 
   obtain ⟨hyT, hyZ⟩ := Subgroup.mem_inf.mp hy
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hyZ
   have hord : orderOf lam = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime hlam2 (fun h1 => hlam (h1 ▸ Subgroup.one_mem T))
   have hmod : lam ^ (k % 2) = lam ^ k := by
     have h := zpow_mod_orderOf lam k
@@ -77,11 +78,13 @@ private lemma inf_zpowers_eq_bot_of_sq_eq_one {T : Subgroup G} {lam : G} (hlam2 
   · rw [hm, zpow_one] at hmod
     exact absurd (hmod.trans hk ▸ hyT) hlam
 
+omit [Finite G] in
 private lemma natCard_zpowers_of_sq_eq_one {lam : G} (hlam2 : lam ^ 2 = 1) (hlam1 : lam ≠ 1) :
     Nat.card (zpowers lam) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Nat.card_zpowers, orderOf_eq_prime hlam2 hlam1]
 
+omit [Finite G] in
 theorem closure_triple_eq (t om lam : G) :
     closure ({t, om, lam} : Set G) = closure ({t, om} : Set G) ⊔ zpowers lam := by
   rw [show ({t, om, lam} : Set G) = {t, om} ∪ {lam} by

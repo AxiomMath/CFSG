@@ -19,8 +19,8 @@ variable {G : Type} [Group G]
 private theorem sec5o_oddCore_ne_top_of_twoU43 [Finite G] {L : Subgroup G}
     (h : IsTwoU43 (L ⧸ oddCore L)) : oddCore L ≠ ⊤ := by
   intro htop
-  haveI : Subsingleton (↥L ⧸ oddCore ↥L) := (QuotientGroup.subsingleton_iff).mpr htop
-  haveI : Finite (↥L ⧸ oddCore ↥L) := inferInstance
+  have : Subsingleton (↥L ⧸ oddCore ↥L) := (QuotientGroup.subsingleton_iff).mpr htop
+  have : Finite (↥L ⧸ oddCore ↥L) := inferInstance
   have h1 : Nat.card (Subgroup.center (↥L ⧸ oddCore ↥L)) ≤ 1 :=
     Finite.card_le_one_iff_subsingleton.mpr inferInstance
   have h2 : Nat.card (Subgroup.center (↥L ⧸ oddCore ↥L)) = 2 := h.1
@@ -44,7 +44,7 @@ theorem sec5_oddCore_comm_L (h36 : Asc82Lemma36) [Finite G] {t : G} {L : Subgrou
   have hnorm : ∀ c ∈ C, c ∈ normalizer (L : Set G) := sec4_mem_normalizer h36 hS
   have hΩ : IsOm6Z2 L := hs.isOm6Z2
   have hZ : oddCoreIn L ≤ centerIn L := sec5o_oddCoreIn_le_centerIn hΩ
-  haveI : Group.IsPerfect ↥L := hΩ.1.1
+  have : Group.IsPerfect ↥L := hΩ.1.1
   have hLU : L ⊓ U ≤ oddCoreIn L := by
     have hUodd : Odd (Nat.card U) := odd_card_oddCoreIn C
     have hodd : Odd (Nat.card (L ⊓ U : Subgroup G)) :=

@@ -72,7 +72,7 @@ theorem Ppt_le_normalizer_R : Ppt ≤ normalizer (Rsub : Set Gam) := by
     have := Ppt_conj_R (inv_mem hg) h
     simpa [mul_assoc] using this
 
-theorem isPGroup_S : IsPGroup 2 ↥sSubG := sylowSub.isPGroup'
+theorem isPGroup_S : IsPGroup 2 ↥sSubG := sylowSub.isPGroup
 
 theorem isPGroup_R : IsPGroup 2 ↥Rsub := isPGroup_S.to_le Rsub_le_S
 

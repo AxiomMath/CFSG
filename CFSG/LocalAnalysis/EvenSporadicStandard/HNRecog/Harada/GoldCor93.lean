@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {X : Type} [Group X] [Finite X] {T : Sylow 2 X} {A : Subgroup X}
 
+omit [Finite X] in
 private lemma mem_map_conj_inv {A : Subgroup X} {g₀ x : X} :
     x ∈ A.map (MulAut.conj g₀⁻¹).toMonoidHom ↔ g₀ * x * g₀⁻¹ ∈ A := by
   rw [Subgroup.mem_map]
@@ -28,6 +29,7 @@ private lemma mem_map_conj_inv {A : Subgroup X} {g₀ x : X} :
     rw [MulAut.conj_apply, inv_inv]
     group
 
+omit [Finite X] in
 private lemma conj_eq_self_of_mem_map_conj_inv {A : Subgroup X} (hA : IsElemAbelian 2 A)
     {g₀ a' b : X} (ha' : a' ∈ A.map (MulAut.conj g₀⁻¹).toMonoidHom)
     (hbA : g₀ * b * g₀⁻¹ ∈ A) : a' * b * a'⁻¹ = b := by
@@ -44,6 +46,7 @@ private lemma conj_eq_self_of_mem_map_conj_inv {A : Subgroup X} (hA : IsElemAbel
   rw [hstep, hcomm]
   group
 
+omit [Finite X] in
 private lemma sylow_conj_mem {N : Subgroup X} {P Q : Sylow 2 ↥N} {n : ↥N}
     (hn : n • Q = P) {A' : Subgroup X} (hA'N : A' ≤ N) (hAQ : A'.subgroupOf N ≤ Q)
     {a' : X} (ha' : a' ∈ A') :
@@ -58,6 +61,7 @@ private lemma sylow_conj_mem {N : Subgroup X} {P Q : Sylow 2 ↥N} {n : ↥N}
   refine Subgroup.mem_map.mpr ⟨(MulAut.conj n) (⟨a', hA'N ha'⟩ : ↥N), hmem, ?_⟩
   simp [MulAut.conj_apply]
 
+omit [Finite X] in
 theorem GoldHyp.normal_of_mem (h : GoldHyp T A) {x a : X} (hx : x ∈ (T : Subgroup X))
     (ha : a ∈ A) : x * a * x⁻¹ ∈ A := by
   exact h.weak x (fun a ha => T.mul_mem (T.mul_mem hx (h.le ha)) (T.inv_mem hx)) a ha
@@ -76,7 +80,7 @@ theorem goldschmidt_9_3_two (h : GoldHyp T A) {B : Subgroup X}
     simpa using h.elemAb.2 x.1 x.2⟩
   have hA'pg : IsPGroup 2 A' := hApg.map (MulAut.conj g₀⁻¹).toMonoidHom
   have hNTBpg : IsPGroup 2 NTB :=
-    T.isPGroup'.to_le (show NTB ≤ (T : Subgroup X) from inf_le_left)
+    T.isPGroup.to_le (show NTB ≤ (T : Subgroup X) from inf_le_left)
   have hA'N : A' ≤ N := by
     intro a' ha'
     rw [mem_set_normalizer_iff]
@@ -96,12 +100,12 @@ theorem goldschmidt_9_3_two (h : GoldHyp T A) {B : Subgroup X}
       rw [h2] at h1
       rw [h1]
       exact hb
-  haveI : Finite (Sylow 2 X) := T.finite_of_finiteIndex
+  have : Finite (Sylow 2 X) := T.finite_of_finiteIndex
   obtain ⟨T1', hT1'⟩ := (hNTBpg.comap_subtype (K := N)).exists_le_sylow
   obtain ⟨T2', hT2'⟩ := (hA'pg.comap_subtype (K := N)).exists_le_sylow
   obtain ⟨n, hn⟩ := MulAction.exists_smul_eq (↥N) T2' T1'
   let T1 : Subgroup X := (T1' : Subgroup ↥N).map N.subtype
-  have hT1pg : IsPGroup 2 T1 := T1'.isPGroup'.map N.subtype
+  have hT1pg : IsPGroup 2 T1 := T1'.isPGroup.map N.subtype
   have hNTB_le_T1 : NTB ≤ T1 := by
     calc NTB = (NTB.subgroupOf N).map N.subtype :=
           (Subgroup.map_subgroupOf_eq_of_le inf_le_right).symm

@@ -33,7 +33,7 @@ theorem ggPZMult_D4
     refine ggPZMult_not_dvd_of_row hperf Nat.prime_three (by decide) ⟨e⟩ ?_
     have hEven : Even (2 ^ 1) := by norm_num
     have hgen : genericOrders .POmegaPlus 4 2 1 = (1, 1) := by
-      simp [genericOrders, hEven]
+      simp [genericOrders]
     rw [hgen]
     norm_num
   · have hn3 : 2 ≤ n := by omega

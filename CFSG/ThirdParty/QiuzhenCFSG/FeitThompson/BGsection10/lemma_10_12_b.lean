@@ -37,7 +37,7 @@ private theorem CFSG.section10_maximal_le_normalizer_sigma_sylow_of_msigma_nilpo
       (section10_msigmaSubgroup_isHall hM) hpσ P
   have hPGp : IsPGroup p.val PG := by
     change IsPGroup p.val ((P : Subgroup M).map M.subtype)
-    exact IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup' M.subtype
+    exact IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup M.subtype
   have hPG_le_Sg : PG ≤ section10Msigma M := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, hyP, rfl⟩
@@ -85,7 +85,7 @@ private theorem CFSG.section10_sigma_primes_disjoint_of_nonconj_nilpotent
   let PG : Subgroup G := section10AmbientSylowSubgroup M P
   have hPGp : IsPGroup p.val PG := by
     change IsPGroup p.val ((P : Subgroup M).map M.subtype)
-    exact IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup' M.subtype
+    exact IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup M.subtype
   obtain ⟨T, hPGT⟩ := IsPGroup.exists_le_sylow (G := G) (p := p.val) hPGp
   have hT_eq_PG : (T : Subgroup G) = PG :=
     section10_sigma_ambient_sylow_eq_of_le_sylow hpσM P T (by simpa [PG] using hPGT)

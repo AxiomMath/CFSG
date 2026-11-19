@@ -195,11 +195,11 @@ theorem levWord_conj : ∀ (w : List Gen) (x : A4),
 @[expose] def kerF (f : T4) : Subgroup A4 where
   carrier := {x | dot4 f x.toAdd = 0}
   mul_mem' {x y} hx hy := by
-    simp only [Set.mem_setOf_eq, toAdd_mul] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq, toAdd_mul] at hx hy ⊢
     rw [dot4_add, hx, hy, zero_add]
   one_mem' := by simp [dot4]
   inv_mem' {x} hx := by
-    simp only [Set.mem_setOf_eq, toAdd_inv] at hx ⊢
+    simp only [Set.mem_ofPred_eq, toAdd_inv] at hx ⊢
     rw [dot4_neg, hx, neg_zero]
 
 theorem mem_kerF (f : T4) (x : A4) : x ∈ kerF f ↔ dot4 f x.toAdd = 0 := Iff.rfl
@@ -292,7 +292,7 @@ theorem ten_le_card_reach : ∀ f : T4, nrm f = f → f ≠ 0 → 10 ≤ (reach 
 
 theorem exists_functional {H : Subgroup A4} (hH : H.index = 3) :
     ∃ f : T4, f ≠ 0 ∧ H = kerF f := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card (A4 ⧸ H) = 3 := hH
   have hcard' : Nat.card (Multiplicative (ZMod 3)) = 3 :=
     (Nat.card_congr Multiplicative.toAdd).trans (Nat.card_zmod 3)
@@ -339,7 +339,7 @@ theorem ten_le_ncard_orbit (H : Subgroup A4) (hH : H.index = 3) :
 theorem false_of_faithful {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     (hV : Module.finrank (ZMod 2) V = 12) (φ : X₀ →* (V ≃ₗ[ZMod 2] V))
     (hφ : Function.Injective φ) : False := by
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by omega)
   let ρ : Representation (ZMod 2) A4 V :=
     LinearEquiv.automorphismGroup.toLinearMapMonoidHom.comp (φ.comp thetaBar)
   have hfaith : Function.Injective ρ := by
@@ -347,7 +347,7 @@ theorem false_of_faithful {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     apply thetaBar_injective
     apply hφ
     exact LinearEquiv.ext fun v => LinearMap.congr_fun hxy v
-  haveI : Nontrivial A4 := ⟨⟨Multiplicative.ofAdd (1, 0, 0, 0), 1, by decide⟩⟩
+  have : Nontrivial A4 := ⟨⟨Multiplicative.ofAdd (1, 0, 0, 0), 1, by decide⟩⟩
   have hβ : ∀ (w : List Gen) (a : A4) (v : V),
       ρ (sw w a) (φ (levWord w) v) = φ (levWord w) (ρ a v) := by
     intro w a v

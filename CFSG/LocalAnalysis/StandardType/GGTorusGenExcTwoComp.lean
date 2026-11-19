@@ -90,7 +90,7 @@ private theorem pow_three_of_map_eq_rootDiagUnit {τ : Tag} {K : Type} [Field K]
 
 private theorem ne_one_of_map_eq_rootDiagUnit_latCorootZ
     {τ : Tag} {K : Type} [Field K] {L : Type} [Field L]
-    {ι : adjointGroup τ K →* ModGL τ L} (hιinj : Function.Injective ι)
+    {ι : adjointGroup τ K →* ModGL τ L} (_hιinj : Function.Injective ι)
     {w' : adjointGroup τ K} {α : Fin τ.rank → ℤ} (hα : IsRoot τ α) {ζ : Lˣ}
     (hζo : orderOf ζ = 3)
     (hιw' : ι w' = rootDiagUnit τ (fun j => ζ ^ latCorootZ τ.symmetrizedCartan α j)) :
@@ -135,7 +135,7 @@ private theorem exists_frameDiagData
       (ι : adjointGroup τ K →* ModGL τ (AlgebraicClosure K))
       (a : Fin τ.rank → (AlgebraicClosure K)ˣ)
       (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (w : WeylGroup τ)
-      (ζ : (AlgebraicClosure K)ˣ) (hζ : ζ ^ 3 = 1) (hζo : orderOf ζ = 3),
+      (ζ : (AlgebraicClosure K)ˣ) (_hζ : ζ ^ 3 = 1) (_hζo : orderOf ζ = 3),
       Function.Injective ι ∧ ι.range = S.Γ ∧ ι x = rootDiagUnit τ a ∧
         (∀ z ∈ E, ∃ c : Fin τ.rank → (AlgebraicClosure K)ˣ, ι z = rootDiagUnit τ c) ∧
         (∀ k, a k ^ 3 = 1) ∧ rootDiagUnit τ a ≠ 1 ∧ rootDiagUnit τ a ∈ S.D.torus ∧
@@ -145,19 +145,19 @@ private theorem exists_frameDiagData
         Units.map Fr.toMonoidHom ζ = ζ⁻¹ ∧ ((3 : ℕ) : AlgebraicClosure K) ≠ 0 ∧
         (τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) := by
   classical
-  obtain ⟨w, Fr, g0, ζ, hζ, ι₀, hFr, hg0C, hg0, hwc, hζo, hinj, hrange, hbase⟩ := hF
+  obtain ⟨w, Fr, g0, ζ, _hζ, ι₀, hFr, hg0C, hg0, hwc, _hζo, hinj, hrange, hbase⟩ := hF
   obtain ⟨S, ι, hSΦ, hSq, hSn, hιinj, hιrange, hιframe, hιtorus⟩ :=
-    exists_langSetup_of_langFrame_two hτ hK hFr hg0C hg0 hζo hbase hinj
+    exists_langSetup_of_langFrame_two hτ hK hFr hg0C hg0 _hζo hbase hinj
   obtain ⟨s, hs⟩ : ∃ s, ι₀ s = x := by rw [← hrange] at hx; exact hx
   set t : Fin τ.rank → ZMod 3 := Multiplicative.toAdd s with htdef
   set a : Fin τ.rank → (AlgebraicClosure K)ˣ :=
-    TableBExc.E6Three.zetaVec ζ hζ (ExcFrames.frameCoord τ 3 t) with hadef
+    TableBExc.E6Three.zetaVec ζ _hζ (ExcFrames.frameCoord τ 3 t) with hadef
   have hx' : x = ι₀ (Multiplicative.ofAdd t) := by rw [← hs]; rfl
   have hιx : ι x = rootDiagUnit τ a := by rw [hx', hιframe, hadef]; rfl
   have hap : ∀ k, a k ^ 3 = 1 := by
     intro k
     rw [hadef, TableBExc.E6Three.zetaVec_apply]
-    exact CFSG.StandardType.TwE6RootKill.zpow_pow_eq_one_rk (p := 3) hζ
+    exact CFSG.StandardType.TwE6RootKill.zpow_pow_eq_one_rk (p := 3) _hζ
       ((ExcFrames.frameCoord τ 3 t k).val : ℤ)
   have h1 : rootDiagUnit τ a ≠ 1 := fun ha1 =>
     hx1 (hιinj (by rw [hιx, ha1, map_one]))
@@ -171,12 +171,12 @@ private theorem exists_frameDiagData
       h2, zero_add]
     exact one_ne_zero
   have hw : ∀ v : Fin τ.rank → ℤ, w • v = -v :=
-    smul_eq_neg_of_langFrame_two hτ hK hFr hg0 hζo hζ hbase
+    smul_eq_neg_of_langFrame_two hτ hK hFr hg0 _hζo _hζ hbase
   have hτ4 : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8 := by
     rcases hτ with rfl | rfl <;> simp
   have hFrq : ∀ c, Fr c = c ^ S.D.q := fun c => by rw [hSq]; exact hFr c
   have ht : Units.map Fr.toMonoidHom ζ = ζ⁻¹ := by
-    have h2 : ζ ^ 2 = ζ⁻¹ := by rw [eq_inv_iff_mul_eq_one, ← pow_succ, hζ]
+    have h2 : ζ ^ 2 = ζ⁻¹ := by rw [eq_inv_iff_mul_eq_one, ← pow_succ, _hζ]
     rw [← h2]
     apply Units.ext
     change Fr (ζ : AlgebraicClosure K) = ((ζ : AlgebraicClosure K)) ^ 2
@@ -185,12 +185,12 @@ private theorem exists_frameDiagData
     intro z hz
     rw [← hrange] at hz
     obtain ⟨s', hs'⟩ := hz
-    refine ⟨TableBExc.E6Three.zetaVec ζ hζ
+    refine ⟨TableBExc.E6Three.zetaVec ζ _hζ
       (ExcFrames.frameCoord τ 3 (Multiplicative.toAdd s')), ?_⟩
     rw [show z = ι₀ (Multiplicative.ofAdd (Multiplicative.toAdd s')) from by rw [← hs']; rfl,
       hιframe]
     rfl
-  exact ⟨S, ι, a, Fr, w, ζ, hζ, hζo, hιinj, hιrange, hιx, hE, hap, h1, hT, hq2, hAlg, hSΦ,
+  exact ⟨S, ι, a, Fr, w, ζ, _hζ, _hζo, hιinj, hιrange, hιx, hE, hap, h1, hT, hq2, hAlg, hSΦ,
     hSn, hFrq, hw, ht, hpL, hτ4⟩
 
 theorem exists_mem_ne_one_of_isComponentOf_of_langFrame_two

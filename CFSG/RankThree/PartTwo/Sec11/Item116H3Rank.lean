@@ -51,6 +51,7 @@ theorem zpowers_conj_eq_local {a w : G} (ha3 : a ^ 3 = 1)
       group
     exact zpowers_eq_of_orderOf_prime_local Nat.prime_three hord hw hb1
 
+omit [Finite G] in
 theorem centralizer_eq_of_zpowers_eq_local {x y : G}
     (h : Subgroup.zpowers x = Subgroup.zpowers y) :
     Subgroup.centralizer ({x} : Set G) = Subgroup.centralizer ({y} : Set G) := by
@@ -146,6 +147,7 @@ theorem commutator_mem_thetaCent_of_ne {a : G} {Y Y' : Subgroup G}
     (QuotientGroup.eq_one_iff _).mp hπz
   exact Subgroup.mem_map_of_mem (Subgroup.centralizer ({a} : Set G)).subtype hz
 
+omit [Finite G] in
 theorem map_conj_centralizer_singleton_local (w a : G) :
     (Subgroup.centralizer ({a} : Set G)).map (MulAut.conj w).toMonoidHom =
       Subgroup.centralizer ({w * a * w⁻¹} : Set G) := by
@@ -284,6 +286,7 @@ theorem commute_mk_of_ne_thetaComponentsAt_local {a : G} {Y Y' : Subgroup G}
   exact (mk_commute_iff_local (aschbacherSolvableCore 3 ↥(Subgroup.centralizer ({a} : Set G)))
     x x').mpr hz'
 
+omit [Finite G] in
 theorem mem_centralizer_of_mem_thetaComponentsAt_local {a : G} {Y : Subgroup G}
     (hY : Y ∈ thetaComponentsAt 3 a) : ∀ y ∈ Y, y ∈ Subgroup.centralizer ({a} : Set G) := by
   obtain ⟨L, -, rfl⟩ := hY
@@ -314,15 +317,15 @@ noncomputable def piOfAddHom_local {ι : Type} {W : ι → Type} [∀ i, Group (
     (∀ i, W i) →* Multiplicative (∀ i, V i) where
   toFun x := Multiplicative.ofAdd (fun i => Multiplicative.toAdd (ψ i (x i)))
   map_one' := by
-    simp only [Pi.one_apply, map_one, toAdd_one] <;> rfl
+    simp only [Pi.one_apply, map_one, toAdd_one]; rfl
   map_mul' x y := by
-    simp only [Pi.mul_apply, map_mul, toAdd_mul] <;> rfl
+    simp only [Pi.mul_apply, map_mul, toAdd_mul]; rfl
 
 theorem piOfAddHom_local_apply_eq_one {ι : Type} {W : ι → Type} [∀ i, Group (W i)] {V : ι → Type}
     [∀ i, AddCommGroup (V i)] (ψ : ∀ i, W i →* Multiplicative (V i)) (x : ∀ i, W i)
     (h : ∀ i, ψ i (x i) = 1) : piOfAddHom_local ψ x = 1 := by
   show Multiplicative.ofAdd (fun i => Multiplicative.toAdd (ψ i (x i))) = 1
-  simp only [h, toAdd_one] <;> rfl
+  simp only [h, toAdd_one]; rfl
 
 theorem piOfAddHom_local_surjective {ι : Type} {W : ι → Type} [∀ i, Group (W i)] {V : ι → Type}
     [∀ i, AddCommGroup (V i)] (ψ : ∀ i, W i →* Multiplicative (V i))
@@ -331,7 +334,7 @@ theorem piOfAddHom_local_surjective {ι : Type} {W : ι → Type} [∀ i, Group 
   choose x hx using fun i => hψ i (Multiplicative.ofAdd (Multiplicative.toAdd w i))
   refine ⟨x, ?_⟩
   show Multiplicative.ofAdd (fun i => Multiplicative.toAdd (ψ i (x i))) = w
-  simp only [hx, toAdd_ofAdd, ofAdd_toAdd] <;> rfl
+  simp only [hx, toAdd_ofAdd, ofAdd_toAdd]
 
 theorem isPGroup_pi_local {ι : Type} [Fintype ι] {V : ι → Type} [∀ i, Group (V i)] {p : ℕ}
     (hV : ∀ i, IsPGroup p (V i)) : IsPGroup p (∀ i, V i) := by

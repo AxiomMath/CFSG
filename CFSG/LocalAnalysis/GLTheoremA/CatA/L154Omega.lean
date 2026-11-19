@@ -60,7 +60,7 @@ theorem l154FldOn_of_omega {Q : TauCeti.CFSGIndex → Prop} (hΩ : L154OmegaFld 
     have h := normalizer_le_normalizer_glaPPrimeCoreOf p M
     rw [Subgroup.normalizer_eq_top_iff.2 hMn, top_le_iff] at h
     exact Subgroup.normalizer_eq_top_iff.1 h
-  haveI := hN0n
+  have := hN0n
   set N0 : Subgroup ↥H := GLAPPrimeCoreOf p M with hN0def
   set π : ↥H →* ↥H ⧸ N0 := QuotientGroup.mk' N0 with hπdef
   have hN : ¬ p ∣ Nat.card π.ker := by

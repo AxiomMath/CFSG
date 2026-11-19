@@ -13,7 +13,7 @@ section Inputs
 
 theorem ggSecFiveCompatRestN1Input_of_n (h : GGSecFiveCompatRestNInput) :
     GGSecFiveCompatRestN1Input :=
-  fun G _ _ p B Bs x L D J hcfg hOp hInn hNT hs hall hd t n f ψ hpres hL =>
+  fun G _ _ p B Bs x L D J hcfg hOp hInn hNT hs _hall hd t n f ψ hpres hL =>
     h G p B Bs x L D J hcfg hOp hInn hNT (fun hW => hs hW.1) hd t n f ψ hpres hL
 
 theorem ggSecFiveCompatRestA11Input_of_n (h : GGSecFiveCompatRestNInput) :

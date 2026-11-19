@@ -30,7 +30,7 @@ theorem exists_conj_family_mem_funSet {X : Type} [Group X] [Finite X] {ι : Type
     (CFSG.GroupTheory.isSylowOf_map_mulEquiv (MulAut.conj g)).mpr hQi
   have heq := hmap.eq_of_le
     (le_inf ((Subgroup.map_mono inf_le_left).trans hg) hmap.le)
-    inf_le_right P.isPGroup'.to_inf_left
+    inf_le_right P.isPGroup.to_inf_left
   rw [heq]
   exact hmap
 

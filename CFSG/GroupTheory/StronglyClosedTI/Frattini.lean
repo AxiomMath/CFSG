@@ -15,6 +15,7 @@ section Frattini
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem normalizer_inf_le_normalizer (S : Sylow 2 G) {Y M : Subgroup G}
     (hYS : Y ≤ (S : Subgroup G)) (hYM : Y ≤ M)
     (hsc : ∀ a ∈ Y, ∀ g : G, g⁻¹ * a * g ∈ (S : Subgroup G) → g⁻¹ * a * g ∈ Y) :
@@ -45,6 +46,7 @@ theorem sup_normalizer_eq_top (S : Sylow 2 G) {Y M : Subgroup G} [M.Normal]
   rw [eq_top_iff, ← h]
   exact sup_le ((normalizer_inf_le_normalizer S hYS hYM hsc).trans le_sup_right) le_sup_left
 
+omit [Finite G] in
 theorem inf_centralizer_eq_bot {M H N : Subgroup G} [M.Normal] (hO2 : CFSG.pCore 2 G = ⊥)
     (hMH : M ⊔ H = ⊤) (hHN : H ≤ normalizer (N : Set G)) (hN2 : ∀ x ∈ N, x * x = 1) :
     N ⊓ centralizer (M : Set G) = ⊥ := by

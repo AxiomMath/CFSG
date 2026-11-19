@@ -22,6 +22,7 @@ local instance : DecidableEq G := Classical.decEq G
     MonoidAlgebra R G →ₐ[R] R :=
   (MonoidAlgebra.lift R R G) (1 : G →* R)
 
+omit [Fintype G] in
 @[simp]
 theorem coefficientAugmentation_single (R : Type v) [CommSemiring R]
     (g : G) (r : R) :
@@ -46,6 +47,7 @@ variable {k : Type v} [Field k] [IsAlgClosed k] [CharZero k]
 variable {V : Type w} [AddCommGroup V] [Module k V] [FiniteDimensional k V]
 variable (ρ : Representation k G V) [Representation.IsIrreducible ρ]
 
+omit [CharZero k] in
 private theorem classProduct_character_identity (C D : ConjClasses G) :
     (classSize C : k) * (classSize D : k) *
         (ρ.character (classRep C) * ρ.character (classRep D)) =

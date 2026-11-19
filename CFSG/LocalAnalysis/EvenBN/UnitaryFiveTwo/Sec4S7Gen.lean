@@ -22,8 +22,8 @@ section Gen
 theorem Data.Hyp.L_le_of_S_K₃_u {K₀ : Subgroup G} (h : d.Hyp) (hKU : d.KUnitary)
     (hf : d.IsUnitaryFactor K₀) {Γ : Subgroup G} (hS : d.S ≤ Γ) (hK₃ : d.K₃ ≤ Γ)
     (hu : d.u ∈ Γ) : d.L ≤ Γ := by
-  haveI : IsSimpleGroup ↥d.L := h.isSimpleGroup_L
-  haveI : IsSimpleGroup SU52 := d.η.symm.isSimpleGroup
+  have : IsSimpleGroup ↥d.L := h.isSimpleGroup_L
+  have : IsSimpleGroup SU52 := d.η.symm.isSimpleGroup
   have hpull : ∀ {M : Subgroup SU52}, d.pull M ≤ Γ → M ≤ Γ.comap d.ι :=
     fun hM g hg => hM (d.ι_mem_pull_iff.2 hg)
   have hSΓ : Ssub ≤ Γ.comap d.ι := hpull hS

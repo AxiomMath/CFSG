@@ -48,7 +48,7 @@ theorem s7tg_map_conj (M : Subgroup ↥N) (t : ↥N) (ht2 : t * t = 1)
       rw [ht]
       calc t * (t * m * t) * t = (t * t) * m * (t * t) := by simp only [mul_assoc]
         _ = m := by rw [ht2]; simp
-    simp only [MulAut.conj_apply, MonoidHom.coe_coe, Subgroup.coe_subtype, Subgroup.coe_mul,
+    simp only [Subgroup.coe_subtype, Subgroup.coe_mul,
       Subgroup.coe_inv]
     have := congrArg (fun x : ↥N => (x : G)) h1
     simpa using this

@@ -45,7 +45,7 @@ section Frobenius
 variable {K : Type*} [Field K] [Finite K] [CharP K 2]
 
 theorem pow_two_pow_surjective (j : ℕ) : Function.Surjective fun x : K => x ^ 2 ^ j := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine Finite.surjective_of_injective fun x y h => ?_
   have h' : (x - y) ^ 2 ^ j = 0 := by
     rw [sub_pow_char_pow]
@@ -59,6 +59,7 @@ section RootScale
 variable {G : Type*} [Group G] {K : Type*} [Field K] [Finite K] [CharP K 2] (D : D4Datum G K)
   {X : Type*} [AddCommGroup X] [Module K X]
 
+omit [Finite K] [CharP K 2] in
 theorem rootScale_of_nf (σ : Representation K G X) {j : ℕ}
     {C : Finset (Fin 4 → ZMod (Nat.card Kˣ))} {b : (Fin 4 → ZMod (Nat.card Kˣ)) → X}
     (hb : NF D σ j C b) : ∀ α, IsD4Root α → ∀ (c : K) (y : X),
@@ -180,6 +181,7 @@ variable {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Fintype K] [CharP
 theorem IsMinWt.card {W : Finset (Fin 4 → ℤ)} (hW : IsMinWt W) : W.card = 8 := by
   rcases hW with rfl | rfl | rfl <;> decide
 
+omit [Finite G] in
 theorem exists_wtBasis_of_irreducible (hNF : SmallNFStatement) {f m : ℕ}
     (hf : Fintype.card K = 2 ^ f) (hm : 2 * m = Fintype.card K) (hq : 4 ≤ Fintype.card K)
     {Y : Type} [AddCommGroup Y] [Module K Y] [FiniteDimensional K Y] (σ : Representation K G Y)
@@ -200,6 +202,7 @@ theorem exists_wtBasis_of_irreducible (hNF : SmallNFStatement) {f m : ℕ}
 variable {X : Type} [AddCommGroup X] [Module K X] [FiniteDimensional K X]
   (ρ : Representation K G X)
 
+omit [Finite G] [Fintype K] [CharP K 2] in
 theorem subrep_irreducible {Y : Type} [AddCommGroup Y] [Module K Y] (σ : Representation K G Y)
     (S : Submodule K Y) (hS : ∀ g, S ≤ S.comap (σ g))
     (hmin : ∀ S' ≤ S, (∀ g, ∀ x ∈ S', σ g x ∈ S') → S' = ⊥ ∨ S' = S) :
@@ -335,6 +338,7 @@ variable {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Fintype K] [CharP
   (ρ : Representation K G X)
 
 include D in
+omit [Finite G] in
 theorem addSubgroup_eq_of_irreducible (hNF : SmallNFStatement) {f m : ℕ}
     (hf : Fintype.card K = 2 ^ f) (hm : 2 * m = Fintype.card K) (hq : 4 ≤ Fintype.card K)
     (V : Submodule K X) (hV : ∀ g, ∀ x ∈ V, ρ g x ∈ V)

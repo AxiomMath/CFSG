@@ -53,7 +53,7 @@ theorem fzr_a_fix_len (S : FzR10ASet t tau lam rho Z E W Q R T P a b) {M : Mat}
     (hc : FzR10AAct a b t M) : (fixP M).length = 16 := by
   classical
   have hfin : Finite E := Nat.finite_of_card_ne_zero (by rw [S.str.card_E]; norm_num)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hnodup : (fixP M).Nodup := by rw [fixP]; exact List.nodup_range.filter _
   have hcard : (fixP M).toFinset.card = ((E : Set G)).toFinset.card := by
     refine Finset.card_bij (fun n _ => fzrAElt a b n) ?_ ?_ ?_

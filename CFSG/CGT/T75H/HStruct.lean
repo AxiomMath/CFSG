@@ -139,7 +139,7 @@ theorem exists_card_H [Finite G] (hc : Sec6Ctx T T₁ 2 1)
   obtain ⟨P₀, hP₀⟩ := hSp.exists_le_sylow
   have hP₀le : Nat.card (P₀ : Subgroup ↥(hSub T (normIn T₁ T))) ≤ 8 := by
     have hmap : IsPGroup 2 ((P₀ : Subgroup ↥(hSub T (normIn T₁ T))).map
-        (hSub T (normIn T₁ T)).subtype) := P₀.isPGroup'.map _
+        (hSub T (normIn T₁ T)).subtype) := P₀.isPGroup.map _
     have := card_le_eight_of_pGroup_le hc h48 hmap (by
       rintro _ ⟨x, -, rfl⟩
       exact x.2)

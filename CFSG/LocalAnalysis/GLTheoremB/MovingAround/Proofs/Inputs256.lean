@@ -47,6 +47,7 @@ section Generic
 
 variable {Y : Type} [Group Y] [Finite Y] {p : ℕ}
 
+omit [Finite Y] in
 theorem mem_of_isSCp {A : Subgroup Y} (hA : IsSCp p ⊤ A) {e : Y}
     (he : ∀ a ∈ A, a * e = e * a) (hep : e ^ p = 1) : e ∈ A := by
   have hEl : IsElemAbelian p (A ⊔ Subgroup.zpowers e) := by
@@ -60,7 +61,7 @@ theorem mem_of_isSCp {A : Subgroup Y} (hA : IsSCp p ⊤ A) {e : Y}
 
 theorem inf_zpowers_eq_bot (hp : p.Prime) {H : Subgroup Y} {x : Y} (hx : x ^ p = 1)
     (hxH : x ∉ H) : H ⊓ Subgroup.zpowers x = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine eq_bot_iff.2 fun y hy => ?_
   rw [Subgroup.mem_bot]
   by_contra hy1
@@ -81,7 +82,7 @@ theorem inf_zpowers_eq_bot (hp : p.Prime) {H : Subgroup Y} {x : Y} (hx : x ^ p =
 theorem card_sup_zpowers (hp : p.Prime) {H : Subgroup Y} {x : Y} (hx : x ^ p = 1) (hxH : x ∉ H)
     (hc : ∀ h ∈ H, h * x = x * h) :
     Nat.card (H ⊔ Subgroup.zpowers x : Subgroup Y) = Nat.card H * p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := fun h => hxH (h ▸ H.one_mem)
   have hxo : orderOf x = p := orderOf_eq_prime hx hx1
   have hcomm : ∀ h ∈ H, ∀ k ∈ Subgroup.zpowers x, h * k = k * h := by
@@ -114,6 +115,7 @@ theorem card_sup_zpowers (hp : p.Prime) {H : Subgroup Y} {x : Y} (hx : x ^ p = 1
     calc y⁻¹ * x * y⁻¹⁻¹ = g⁻¹ * (g * (y⁻¹ * x * y) * g⁻¹) * g := by group
       _ = g⁻¹ * x * g⁻¹⁻¹ := by rw [← h2, inv_inv]
 
+omit [Finite Y] in
 theorem mem_actSub_of_center {K S : Subgroup Y} {z : Y} (hz : z ∈ Subgroup.center Y) :
     z ∈ actSub K S := by
   have hzc : ∀ y : Y, y * z = z * y := fun y => Subgroup.mem_center_iff.1 hz y
@@ -123,10 +125,12 @@ theorem mem_actSub_of_center {K S : Subgroup Y} {z : Y} (hz : z ∈ Subgroup.cen
   rw [hzx]
   group
 
+omit [Finite Y] in
 theorem mem_actSub_of_act {K S : Subgroup Y} {y g : Y} (hy : y ∈ Subgroup.normalizer (K : Set Y))
     (hgS : g ∈ S) (hgK : g ∈ K) (h : ∀ x ∈ K, y * x * y⁻¹ = g * x * g⁻¹) : y ∈ actSub K S :=
   ⟨hy, g, hgS, Subgroup.le_normalizer hgK, h⟩
 
+omit [Finite Y] in
 theorem eq_of_act_eq (hp : p.Prime) {K : Subgroup Y} (hZ : ¬ p ∣ Nat.card (Subgroup.center K))
     {x y : Y} (hx : x ∈ K) (hy : y ∈ K) (hxp : x ^ p = 1) (hyp : y ^ p = 1)
     (h : ∀ w ∈ K, x * w * x⁻¹ = y * w * y⁻¹) : x = y := by
@@ -148,7 +152,7 @@ theorem eq_of_act_eq (hp : p.Prime) {K : Subgroup Y} (hZ : ¬ p ∣ Nat.card (Su
   calc x = y * c := by rw [hc]; group
     _ = y := by rw [hc1, mul_one]
 
-theorem card_le_sq_of_lt (hp : p.Prime) {A N : Subgroup Y} (hAel : IsElemAbelian p A)
+theorem card_le_sq_of_lt (hp : p.Prime) {A N : Subgroup Y} (_hAel : IsElemAbelian p A)
     (hAc : Nat.card A = p ^ 3) (hNA : N ≤ A) (hne : N ≠ A) : Nat.card N ≤ p ^ 2 := by
   have hdvd : Nat.card N ∣ p ^ 3 := hAc ▸ Subgroup.card_dvd_of_le hNA
   obtain ⟨j, hj3, hj⟩ := (Nat.dvd_prime_pow hp).1 hdvd
@@ -170,6 +174,7 @@ theorem false_of_sq_le_zpowers (hp : p.Prime) {E : Subgroup Y} {x : Y} (hx : x ^
     nlinarith
   omega
 
+omit [Finite Y] in
 theorem pow_eq_one_of_mem_zpowers {k x : Y} (hk : k ^ p = 1) (hx : x ∈ Subgroup.zpowers k) :
     x ^ p = 1 := by
   obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
@@ -188,7 +193,7 @@ theorem false_of_isSCp (hp : p.Prime) {K : Subgroup Y} (hK : IsComponentOf K ⊤
         e ∉ actSub K (Subgroup.closure ({k, a} : Set Y)))
     {A : Subgroup Y} (hA : IsSCp p ⊤ A) (hdA : d ∈ A) (hAc : Nat.card A = p ^ 3)
     {z : Y} (hzA : z ∈ A) (hzZ : z ∈ Subgroup.center Y) (hz1 : z ≠ 1) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAel : IsElemAbelian p A := hA.2.1
   have hApow : ∀ a ∈ A, a ^ p = 1 := hAel.2
   have hAcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb => elem_comm hAel ha hb
@@ -238,7 +243,7 @@ theorem false_of_isSCp (hp : p.Prime) {K : Subgroup Y} (hK : IsComponentOf K ⊤
         exact hg
       exact false_of_sq_le_zpowers hp hkdp hEcard hEz
     ·
-      obtain ⟨a, haA, ha⟩ := SetLike.not_le_iff_exists.1 hall
+      obtain ⟨a, haA, ha⟩ := IsConcreteLE.not_le_iff_exists.1 hall
       obtain ⟨ka, hkaK, hkap, hka⟩ := hinn a (hAN haA) (hApow a haA)
       have hka' : ∀ w ∈ K, ka⁻¹ * w * ka = a⁻¹ * w * a := by
         intro w hw
@@ -284,7 +289,7 @@ theorem false_of_isSCp (hp : p.Prime) {K : Subgroup Y} (hK : IsComponentOf K ⊤
       have hkaS2 : ka ∈ S2 := Subgroup.subset_closure (by simp)
       have hAS : A ≤ actSub K S2 := by
         by_contra hnle
-        obtain ⟨a', ha'A, ha'⟩ := SetLike.not_le_iff_exists.1 hnle
+        obtain ⟨a', ha'A, ha'⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
         have ha2 : a ∉ Subgroup.zpowers z ⊔ Subgroup.zpowers d := by
           intro h
           have hle : Subgroup.zpowers z ⊔ Subgroup.zpowers d ≤ actSub K (Subgroup.zpowers kd) :=
@@ -323,7 +328,7 @@ theorem false_of_isSCp (hp : p.Prime) {K : Subgroup Y} (hK : IsComponentOf K ⊤
           _ = e * a' := by rw [h2, mul_inv_cancel_right]
       exact hnot (hAS heA)
   ·
-    obtain ⟨b, hbA, hbN⟩ := SetLike.not_le_iff_exists.1 hAN
+    obtain ⟨b, hbA, hbN⟩ := IsConcreteLE.not_le_iff_exists.1 hAN
     have hF := isFam_conjSet hAel hK
     have hbstab : b ∉ stab A K := fun h => hbN (Subgroup.mem_inf.1 h).2
     have hc : NormComm p K b := hF.normComm (mem_conjSet_self A K) hbA hbstab
@@ -467,7 +472,7 @@ theorem exists_inner_of_pow (hp : p.Prime) (hp2 : p ≠ 2) {K : Subgroup Y}
     (hZ : ¬ p ∣ Nat.card (Subgroup.center K)) {y : Y}
     (hy : y ∈ Subgroup.normalizer (K : Set Y)) (hyp : y ^ p = 1) :
     ∃ k ∈ K, k ^ p = 1 ∧ ∀ x ∈ K, y * x * y⁻¹ = k * x * k⁻¹ := by
-  haveI : Group.IsPerfect ↥K := ⟨hperf⟩
+  have : Group.IsPerfect ↥K := ⟨hperf⟩
   set β : MulAut ↥K := Subgroup.normalizerMonoidHom K ⟨y, hy⟩ with hβ
   have hβapp : ∀ k : ↥K, ((β k : ↥K) : Y) = y * k * y⁻¹ := fun k => rfl
   have hβp : β ^ p = 1 := by
@@ -493,7 +498,7 @@ theorem exists_elemAbelian_of_quot (hp : p.Prime) {K : Subgroup Y}
     (hE₀ : ∃ E₀ : Subgroup (↥K ⧸ Subgroup.center ↥K), IsElemAbelian p E₀ ∧ Nat.card E₀ = p ^ 2)
     {k : Y} (hk : k ∈ K) (hkp : k ^ p = 1) :
     ∃ E : Subgroup Y, E ≤ K ∧ IsElemAbelian p E ∧ p ^ 2 ≤ Nat.card E ∧ k ∈ E := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set k' : ↥K := ⟨k, hk⟩ with hk'
   have hk'p : k' ^ p = 1 := Subtype.ext (by rw [Subgroup.coe_pow]; exact hkp)
   set π := QuotientGroup.mk' (Subgroup.center ↥K) with hπ
@@ -533,6 +538,7 @@ theorem PlaneOK.of_mulEquiv {T T' : Type*} [Group T] [Group T'] (σ : T ≃* T')
   rw [MonoidHom.map_closure, Set.image_pair] at h1
   simpa using h1
 
+omit [Finite Y] in
 theorem hplane_of_planeOK (hp : p.Prime) {K : Subgroup Y} (hZ : ¬ p ∣ Nat.card (Subgroup.center K))
     {d : Y} (hP : ∀ (k : Y) (hk : k ∈ K), k ^ p = 1 → (∀ x ∈ K, d * x * d⁻¹ = k * x * k⁻¹) →
       PlaneOK p (QuotientGroup.mk' (Subgroup.center ↥K) ⟨k, hk⟩)) :
@@ -694,7 +700,7 @@ theorem planeOK_of_A5A5 (P : Subgroup G) (k x₁ y₁ τ : G) (hkP : k ∈ P)
     ∃ e ∈ P, e ^ 5 = 1 ∧ e * k = k * e ∧ e * a = a * e ∧
       e ∉ Subgroup.closure ({k, a} : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set x₂ := τ * x₁ * τ⁻¹ with hx₂
   set y₂ := τ * y₁ * τ⁻¹ with hy₂
   set L₁ := Subgroup.closure ({x₁, y₁} : Set G) with hL₁
@@ -1021,7 +1027,7 @@ open CFSG.Sporadic.SmallF2 CFSG.Sporadic.SmallF2.Native CFSG.Sporadic.Co1Schreie
   CFSG.HardMathSupport.Timmesfeld.Coordinator CFSG.HardMathSupport.Timmesfeld.Tables.Census
 
 theorem planeOK_fiveB (x : ↥GA) (hx : MRep repD1 (x : GL24)) : PlaneOK 5 x := by
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   obtain ⟨k, x₁, y₁, τ, hk, hkGA, hx₁, hy₁, hτ, hk5, hk1, hkx, hky, hkt, htt, hc1, hc2, hc3, hc4,
     hL, hX, hY, hE, hCbd, -⟩ := fiveB_data
   have hxk : (x : GL24) = k := hx.eq hk
@@ -1047,7 +1053,7 @@ theorem planeOK_Co1 (hbr : SporadicBridges)
     {s : T} (hs : orderOf s = 5)
     (hJ : ∃ I : Subgroup T, GLAPComponent 5 (Subgroup.centralizer ({s} : Set T)) I ∧
       IsChevSimple 2 (PSimple 5 I)) : PlaneOK 5 s := by
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   obtain ⟨-, -, -, ⟨b⟩⟩ := co1_model_five hbr
   obtain ⟨σ, -⟩ : ∃ σ : @MulEquiv T ↥GA _ MulOneClass.toMul, True := ⟨eT.trans b.symm, trivial⟩
   have hx : orderOf (σ s) = 5 := by rw [MulEquiv.orderOf_eq, hs]
@@ -1098,9 +1104,9 @@ theorem hn_noChev2_f (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBrid
     (hI : GLAPComponent 5 (Subgroup.centralizer ({fJ} : Set ↥JH)) I) : ¬ IsChevSimple 2 (PSimple 5 I) := by
   obtain ⟨hcomm, -, -, -, hC, hcardI, -, hder, -⟩ :=
     CFSG.Sporadic.HNOddCore.ctuc_hn_five_centralizer_perfect_factor
-  haveI hsimple : IsSimpleGroup ↥IJ :=
+  have hsimple : IsSimpleGroup ↥IJ :=
     (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity IJ 3 5 1 CFSG.RankThree.PartOne.HNB.model_IJ).2
-  haveI : Finite ↥IJ := Nat.finite_of_card_ne_zero (by rw [hcardI]; norm_num)
+  have : Finite ↥IJ := Nat.finite_of_card_ne_zero (by rw [hcardI]; norm_num)
   have hLC : IJ ≤ Subgroup.centralizer ({fJ} : Set ↥JH) := fun x hx =>
     Subgroup.mem_centralizer_singleton_iff.2 (hcomm fJ (Subgroup.mem_zpowers _) x hx).symm
   have hnp : ¬ (Nat.card ↥IJ).Prime := by
@@ -1115,7 +1121,7 @@ theorem hn_noChev2_f (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBrid
     norm_num
   have hT : ¬ IsChevSimple 2 ↥IJ := not_isChevSimple_two_of_card hb (a := 4) (m := 7875)
     (by rw [hcardI]; norm_num) (by decide) (by norm_num) (by norm_num)
-  haveI : Finite ↥JH := by
+  have : Finite ↥JH := by
     have : Nat.card ↥JH ≠ 0 := by rw [card_JH]; norm_num
     exact Nat.finite_of_card_ne_zero this
   have hLn : ∀ g ∈ Subgroup.centralizer ({fJ} : Set ↥JH), ∀ l ∈ IJ, g * l * g⁻¹ ∈ IJ := by
@@ -1139,7 +1145,7 @@ theorem hn_noChev2_f (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBrid
 theorem hn_noChev2 (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) (k : ↥JH)
     (hk5 : orderOf k = 5) (I : Subgroup ↥JH)
     (hI : GLAPComponent 5 (Subgroup.centralizer ({k} : Set ↥JH)) I) : ¬ IsChevSimple 2 (PSimple 5 I) := by
-  haveI : Finite JH := by
+  have : Finite JH := by
     have : Nat.card JH ≠ 0 := by rw [card_JH]; norm_num
     exact Nat.finite_of_card_ne_zero this
   by_cases h5A : ∃ e : ℕ, IsConj k (fJ ^ e)
@@ -1214,8 +1220,8 @@ theorem onePair_of_three_le (hp : p.Prime) (hp2 : p ≠ 2)
     (e : K ⧸ Subgroup.center K ≃* (TauCeti.CFSGIndex.sporadic name).Group)
     (h3 : 3 ≤ CFSG.Open.pRank p (⊤ : Subgroup (MulAut K))) : SporadicOnePair name p := by
   by_contra hnot
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
-  haveI : Group.IsPerfect K := ⟨hq.1⟩
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : Group.IsPerfect K := ⟨hq.1⟩
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hq
   have hcen := CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup hnab
   have hout := hOut _ hq.2 hnab name ⟨e⟩
@@ -1230,9 +1236,9 @@ theorem exists_sq_of_three_le (hp : p.Prime) (hp2 : p ≠ 2) {K : Type} [Group K
     (hq : CFSG.Open.IsQuasisimple K) (hout : Nat.card (Outer (K ⧸ Subgroup.center K)) ≤ 2)
     (h3 : 3 ≤ CFSG.Open.pRank p (⊤ : Subgroup (MulAut K))) :
     ∃ E₀ : Subgroup (K ⧸ Subgroup.center K), IsElemAbelian p E₀ ∧ Nat.card E₀ = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect K := ⟨hq.1⟩
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect K := ⟨hq.1⟩
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hq
   have hcen := CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup hnab
   obtain ⟨E, -, hE, hEc⟩ := CFSG.SectionRank.exists_pRank hp.one_lt (⊤ : Subgroup (MulAut K))

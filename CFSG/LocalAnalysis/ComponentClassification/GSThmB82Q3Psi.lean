@@ -19,6 +19,7 @@ namespace Q3Psi
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem psi_kernel_of_sup {K L : Subgroup X} {g : X}
     (hKL : K ⊔ (pPrimeCore 2 ↥L).map L.subtype = L) (hgN : g ∈ normalizer (L : Set X))
     (hgK : ∀ k ∈ K, g * k = k * g) : g ∈ coreActionKernel L := by
@@ -195,7 +196,7 @@ private theorem psi_exists_centralizer_mk {M E : Subgroup X} (hE : IsPGroup 2 E)
   have hfibre : Nat.card fibre = Nat.card (pPrimeCore 2 ↥M) := by
     have heq : {v : ↥M | ρ v = ρ w} = ρ ⁻¹' {ρ w} := by
       ext v
-      simp only [Set.mem_setOf_eq, Set.mem_preimage, Set.mem_singleton_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_preimage, Set.mem_singleton_iff]
     rw [← QuotientGroup.ker_mk' (pPrimeCore 2 ↥M)]
     exact (Nat.card_congr (Set.equivOfEq heq)).trans (Nat.card_congr (ρ.fiberEquivKer w))
   have hnd : ¬ 2 ∣ Nat.card fibre := by
@@ -411,7 +412,7 @@ private theorem psi_mem_secB0 {M : Subgroup X} (hMC : M ≤ centralizer ({c.b} :
       rw [htop]
       exact mem_top _
     exact mem_subgroupOf.mp h1
-  haveI : Group.IsNilpotent ↥Q := hQ2.isNilpotent
+  have : Group.IsNilpotent ↥Q := hQ2.isNilpotent
   obtain ⟨w, hwN, hwB⟩ := IsConcreteLE.exists_of_lt
     (Group.normalizerCondition_of_isNilpotent (G := ↥Q) (B₀.subgroupOf Q) hlt)
   rw [← subgroupOf_normalizer_eq (le_sup_left : B₀ ≤ Q)] at hwN
@@ -517,8 +518,8 @@ private theorem psi_false (hS : SchreierFor Blueprint.Catalog) (hQ : CFQPUJ6Thre
       Subtype.ext (hja.mul_right hjb)
     rw [mem_centralizer_singleton_iff, hℓdef, ← map_mul, ← map_mul, h1]
   have hTperf : Group.IsPerfect ↥T := by
-    haveI := A10T.isPerfect_of_isPComponent hJEle hJEpc
-    haveI : Group.IsPerfect ↥(JE.subgroupOf M) := Group.IsPerfect.ofSurjective
+    have := A10T.isPerfect_of_isPComponent hJEle hJEpc
+    have : Group.IsPerfect ↥(JE.subgroupOf M) := Group.IsPerfect.ofSurjective
       (f := (subgroupOfEquivOfLe hJEM).symm.toMonoidHom)
       (subgroupOfEquivOfLe hJEM).symm.surjective
     exact Group.IsPerfect.ofSurjective (f := π.subgroupMap (JE.subgroupOf M))

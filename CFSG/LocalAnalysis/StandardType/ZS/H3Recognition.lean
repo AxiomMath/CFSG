@@ -49,21 +49,21 @@ private theorem rh3_one_sub_vecMulVec_h3BlockMat {K : Type} [Field K] {α : K}
       | cast s =>
           rw [Matrix.blockSucc_last_castSucc]
           simp only [Matrix.sub_apply, Matrix.one_apply, Matrix.vecMulVec_apply]
-          rw [if_neg (fun h => Fin.castSucc_ne_last s h.symm)]
+          rw [ite_eq_right (fun h => Fin.castSucc_ne_last s h.symm)]
           simp
   | cast r =>
       induction s using Fin.lastCases with
       | last =>
           rw [Matrix.blockSucc_castSucc_last]
           simp only [Matrix.sub_apply, Matrix.one_apply, Matrix.vecMulVec_apply]
-          rw [if_neg (Fin.castSucc_ne_last r)]
+          rw [ite_eq_right (Fin.castSucc_ne_last r)]
           simp
       | cast s =>
           rw [Matrix.blockSucc_castSucc_castSucc]
           fin_cases r <;> (fin_cases s <;>
             simp [Matrix.sub_apply, h3BlockMat] <;>
             field_simp [h2] <;>
-            (try ring) <;> (try linear_combination -hα))
+            ((try ring); try linear_combination -hα))
 
 omit [Module.Finite (ZMod p) W] in
 private theorem rh3_toMatrix_reflection_h3BlockMat {f : Module.Basis (Fin 4) (ZMod p) W}
@@ -121,7 +121,7 @@ private theorem rh3_repr_sum_single {n : ℕ} (f : Module.Basis (Fin n) (ZMod p)
   simp only [Finsupp.single_apply]
   rw [Finset.sum_eq_single i]
   · simp
-  · intro j _ hij; rw [if_neg hij]
+  · intro j _ hij; rw [ite_eq_right hij]
   · intro hi; simp at hi
 
 omit [Module.Finite (ZMod p) W] in
@@ -252,7 +252,7 @@ private theorem rh3_final (hp : p ≠ 2) {X : Subgroup (W ≃ₗ[ZMod p] W)}
   have hle : basisClosure f (h3Mats α) ≤ X := by
     rw [basisClosure, Subgroup.closure_le]
     rintro g hg
-    simp only [Set.mem_setOf_eq] at hg
+    simp only [Set.mem_ofPred_eq] at hg
     rw [h3Mats, Set.mem_image] at hg
     obtain ⟨M, hM, hMto⟩ := hg
     rw [h3BlockMats] at hM

@@ -236,7 +236,7 @@ private theorem s45_le_normalizer_s45N (t : G) :
   · intro y
     refine ⟨⟨(x : G)⁻¹ * (y : G), (X.L 0).mul_mem ((X.L 0).inv_mem hx) y.2⟩, ?_⟩
     apply Subtype.ext
-    simp [mul_assoc]
+    simp
   · intro g
     exact CFSG.Quasithin.conjSub_mul (x : G) (g : G) (s45M X t)
 
@@ -276,7 +276,7 @@ private theorem s45_N_basic (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ}
         ⁅X.Qpm, s45N X t⁆ ≤ X.Z 0 ∧
           X.L 0 ≤ Subgroup.normalizer (s45N X t : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, -, -, -, hZ1eq⟩ := X.s45_step8 H hd₀ hd₁ hna hev hb
   obtain ⟨-, hVQ1, hcommV, hsupS⟩ := X.s45_Zconj_facts H hd₀ hd₁ hna hev hb
   have hQpmN : X.Gi 0 ≤ Subgroup.normalizer (X.Qpm : Set G) :=
@@ -372,8 +372,8 @@ private theorem s45_odd_mem_N (t : G) (hNleL : s45N X t ≤ X.L 0) (hQ0L : X.Q 0
     (hL0NQ : X.L 0 = s45N X t ⊔ X.Q 0) :
     ∀ x ∈ X.L 0, Odd (orderOf x) → x ∈ s45N X t := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hNsubNormal : ((s45N X t).subgroupOf (X.L 0)).Normal :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hNsubNormal : ((s45N X t).subgroupOf (X.L 0)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hNnormL
   have hsupSub : (s45N X t).subgroupOf (X.L 0) ⊔ (X.Q 0).subgroupOf (X.L 0) = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hNleL hQ0L, hL0NQ, Subgroup.subgroupOf_self]
@@ -422,7 +422,7 @@ private theorem s45_comm_Qpm_le (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ}
     (hev : Even d₀) (hb : r + 1 ≠ s) :
     ⁅X.Qpm, oTwoRes (X.L 0)⁆ ≤ X.Z 0 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, htGi, htref', hsupS, hNleL, hMN, hAN, hNnormL⟩ :=
     X.s45_N_basic H hd₀ hd₁ hna hev hb
   have hQ0L : X.Q 0 ≤ X.L 0 := X.Q_le_L 0
@@ -471,7 +471,7 @@ private theorem s45_Z_zero_le_comm_Qpm (H : X.Sec4Hyp s r)
   have hbN : b ∈ Subgroup.normalizer (X.Z 0 : Set G) :=
     Subgroup.mem_normalizer_iff_map_conj_eq.mpr (X.Z_normal 0 b hbGi)
   have hZ0comm : ∀ x ∈ X.Z 0, ∀ y ∈ X.Z 0, x * y = y * x := X.Z_commute 0
-  haveI : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
+  have : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
   have hfree : ∀ z ∈ X.Z 0, b * z * b⁻¹ = z → z = 1 := by
     intro z hz hfix
     have hcomm1 : ⁅z, b⁆ = 1 := by
@@ -675,7 +675,7 @@ private theorem s45_Qpm_eq_sup_of_odd
     (X.Q 0 ⊓ Subgroup.centralizer ({d} : Set G)) ⊔ X.Z 0 = X.Qpm ∧
       X.Q 0 ⊓ Subgroup.centralizer ({d} : Set G) ⊓ X.Z 0 = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdL : d ∈ X.L 0 := oTwoRes_le (X.L 0) hdP
   have hdGi : d ∈ X.Gi 0 := X.L_le_Gi 0 hdL
   have hdQ0 : d ∉ X.Q 0 := by
@@ -713,7 +713,7 @@ private theorem s45_Qpm_eq_sup_of_odd
       Subgroup.centralizer (Subgroup.zpowers d : Set G) := by
     rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
   have hA2 : IsPGroup 2 (X.Qpm) := (pCoreOf_isPGroup' (X.Gi 0)).to_le hQpmQ0
-  haveI : Finite ↥X.Qpm :=
+  have : Finite ↥X.Qpm :=
     finite_of_le_stabilizer X.hyp (H := X.Qpm) (hQpmQ0.trans (X.Q_le_Gi 0))
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hA2
   have hzpowGi : Subgroup.zpowers d ≤ X.Gi 0 := Subgroup.zpowers_le.mpr hdGi
@@ -722,11 +722,11 @@ private theorem s45_Qpm_eq_sup_of_odd
     exact (hodd.coprime_two_left.symm).pow_right k
   have hAR : Subgroup.zpowers d ≤ Subgroup.normalizer (X.Qpm : Set G) :=
     Subgroup.zpowers_le.mpr (hQpmN hdGi)
-  haveI : Group.IsNilpotent ↥X.Qpm := IsPGroup.isNilpotent hA2
+  have : Group.IsNilpotent ↥X.Qpm := IsPGroup.isNilpotent hA2
   have hsolv : Group.IsSolvable ↥X.Qpm := inferInstance
   have hcommd : ⁅X.Qpm, Subgroup.zpowers d⁆ ≤ X.Z 0 :=
     (Subgroup.commutator_mono le_rfl (Subgroup.zpowers_le.mpr hdP)).trans hcomm.le
-  haveI : Finite ↥(Subgroup.zpowers d) :=
+  have : Finite ↥(Subgroup.zpowers d) :=
     finite_of_le_stabilizer X.hyp (H := Subgroup.zpowers d) hzpowGi
   have hmapfactor : X.Qpm ≤ ⁅X.Qpm, Subgroup.zpowers d⁆ ⊔
       (X.Qpm ⊓ Subgroup.centralizer (Subgroup.zpowers d : Set G)) :=
@@ -751,7 +751,7 @@ private theorem s45_caseAW1 (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ}
   have hE : (X.shift (-1)).edgeSylow 1 = X.edgeSylow 0 := by
     unfold Setup.edgeSylow
     rw [shift_Gi, shift_Gi]
-    congr 2 <;> ring_nf
+    congr 2
   refine
     { two_le_n0 := ?_
       two_le_n1 := ?_
@@ -803,17 +803,17 @@ private theorem s45_step9 (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ}
 private theorem s45_card_Q_inf_Q_one_six (H : X.Sec4Hyp s 6) (hs5 : s = 5) :
     Nat.card ↥(X.Q 0 ⊓ X.Q 1) = 2 ^ (2 * X.n 0 + X.n 1) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h4s : 4 ≤ s := le_trans (by norm_num) H.five_le
   let A0 : Subgroup G := X.Q (-1) ⊓ X.Q 1
   let D : Subgroup G := X.Q 0 ⊓ X.Q 1
   change Nat.card D = 2 ^ (2 * X.n 0 + X.n 1)
   have hcardQ0 : Nat.card (X.Q 0) = 2 ^ (2 * X.n 0 + 2 * X.n 1) :=
     X.card_Q_zero_of_s_five_of_r_six H hs5 rfl
-  haveI : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi 0)
+  have : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi 0)
   have h0 := X.Q_quot H.char H.sing h4s 0
   have hA0Q0 : A0 ≤ X.Q 0 := by simpa [A0] using h0.1
-  have hA0Q1 : A0 ≤ X.Q 1 := by simpa [A0] using h0.2.1
+  have hA0Q1 : A0 ≤ X.Q 1 := by simp [A0]
   have hA0D : A0 ≤ D := le_inf hA0Q0 hA0Q1
   have hA0relQ0 : A0.relIndex (X.Q 0) = 2 ^ (2 * X.n 1) := by
     have h := h0.2.2.2.1
@@ -837,7 +837,7 @@ private theorem s45_card_Q_inf_Q_one_six (H : X.Sec4Hyp s 6) (hs5 : s = 5) :
 private theorem s45_B_relIndex_six (H : X.Sec4Hyp s 6) :
     (X.Q 0 ⊓ X.Q 1 ⊓ X.Q 2).relIndex (X.Q 0 ⊓ X.Q 1) ≤ 2 ^ X.n 0 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h4s : 4 ≤ s := le_trans (by norm_num) H.five_le
   let A1 : Subgroup G := X.Q 0 ⊓ X.Q 2
   let D : Subgroup G := X.Q 0 ⊓ X.Q 1
@@ -882,8 +882,8 @@ private theorem s45_B_card_ge (H : X.Sec4Hyp s r) (hb : r + 1 ≠ s) (hr6 : r = 
   have hcardD : Nat.card D = 2 ^ (2 * X.n 0 + X.n 1) :=
     X.s45_card_Q_inf_Q_one_six H hs5
   have hBrelD : B.relIndex D ≤ 2 ^ X.n 0 := X.s45_B_relIndex_six H
-  haveI : Finite ↥D := finite_of_le_stabilizer X.hyp (H := D) (inf_le_left.trans (X.Q_le_Gi 0))
-  haveI : Finite ↥B := finite_of_le_stabilizer X.hyp (H := B)
+  have : Finite ↥D := finite_of_le_stabilizer X.hyp (H := D) (inf_le_left.trans (X.Q_le_Gi 0))
+  have : Finite ↥B := finite_of_le_stabilizer X.hyp (H := B)
     ((inf_le_left.trans inf_le_left).trans (X.Q_le_Gi 0))
   have hcardB : Nat.card B * B.relIndex D = Nat.card D := by
     have h := Subgroup.relIndex_mul_card (H := B) (K := D)
@@ -918,8 +918,8 @@ private theorem s45_Qpm_eq_Z_zero (H : X.Sec4Hyp 5 6) (hZ0A : X.Z 0 ≤ X.Qpm)
       rw [h]
       rw [show 2 * X.n 0 + 2 * X.n 1 = 2 * X.n 1 + 2 * X.n 0 by ring, pow_add]
     exact Nat.eq_of_mul_eq_mul_left (by positivity) h'
-  haveI : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
-  haveI : Finite ↥(X.Qpm) :=
+  have : Finite ↥(X.Z 0) := finite_of_le_stabilizer X.hyp (H := X.Z 0) (X.Z_le_Gi 0)
+  have : Finite ↥(X.Qpm) :=
     finite_of_le_stabilizer X.hyp (H := X.Qpm) (hQpmQ0.trans (X.Q_le_Gi 0))
   refine (Subgroup.eq_of_le_of_card_ge hZ0A ?_).symm
   rw [hcardA, hcardZ0]
@@ -1029,7 +1029,7 @@ theorem s45_r_ne_six (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ}
     r ≠ 6 := by
   intro h6
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hd2, hd3, -, -, hZ1eq⟩ := X.s45_step8 H hd₀ hd₁ hna hev hb
   subst hd2
   subst hd3
@@ -1064,7 +1064,7 @@ theorem s45_r_ne_six (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ}
     rw [Subgroup.mem_bot]
     exact commutatorElement_eq_one_iff_mul_comm.mpr
       (Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp (X.Z_le_center 0 hz)).2 q hq)
-  haveI : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
+  have : Finite ↥(X.Gi 0) := X.hyp.finite_stab (X.vert 0)
   have hQ0sqbot : ⁅X.Q 0, X.Q 0⁆ = ⊥ := by
     have h := hW.comm_le (P := X.Gi 0) (Z := ⊥)
       (by simpa using hnatPre) (by simpa using hnatQpm) (by simpa using hcent)
@@ -1081,7 +1081,7 @@ theorem s45_r_ne_six (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ}
     X.s45_Q_inf_le_Z_one hS0 hZ1eq hQ0ab
   have hZ1card : Nat.card (X.Z 1) = 2 ^ X.n 0 :=
     (X.s45_step7 H hd₀ hd₁ hna hev hb rfl).2.2
-  haveI : Finite ↥(X.Z 1) := finite_of_le_stabilizer X.hyp (H := X.Z 1) (X.Z_le_Gi 1)
+  have : Finite ↥(X.Z 1) := finite_of_le_stabilizer X.hyp (H := X.Z 1) (X.Z_le_Gi 1)
   have hle : 2 ^ (X.n 0 + X.n 1) ≤ 2 ^ X.n 0 :=
     hBcard.trans ((Subgroup.card_le_of_le hBZ1).trans_eq hZ1card)
   have := (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp hle
@@ -1170,11 +1170,11 @@ private theorem s45_le_GT_of_reflections {E : Subgroup G} {t₀ t₁ : G}
     induction k using Int.induction_on with
     | zero => simpa using h0
     | succ n ih =>
-        have h3 : 2 * ((n : ℤ) + 1) = 2 * (n : ℤ) + 2 := by push_cast; ring
+        have h3 : 2 * ((n : ℤ) + 1) = 2 * (n : ℤ) + 2 := by ring
         rw [h3]
         exact hup _ ih
     | pred n ih =>
-        have h3 : 2 * (-(n : ℤ) - 1) = 2 * (-(n : ℤ)) - 2 := by push_cast; ring
+        have h3 : 2 * (-(n : ℤ) - 1) = 2 * (-(n : ℤ)) - 2 := by ring
         rw [h3]
         exact hdown _ ih
   have hoddm : ∀ k : ℤ, 2 * k + 1 ∈ X.fixSet E := by
@@ -1182,11 +1182,11 @@ private theorem s45_le_GT_of_reflections {E : Subgroup G} {t₀ t₁ : G}
     induction k using Int.induction_on with
     | zero => simpa using h1
     | succ n ih =>
-        have h3 : 2 * ((n : ℤ) + 1) + 1 = (2 * (n : ℤ) + 1) + 2 := by push_cast; ring
+        have h3 : 2 * ((n : ℤ) + 1) + 1 = (2 * (n : ℤ) + 1) + 2 := by ring
         rw [h3]
         exact hup _ ih
     | pred n ih =>
-        have h3 : 2 * (-(n : ℤ) - 1) + 1 = (2 * (-(n : ℤ)) + 1) - 2 := by push_cast; ring
+        have h3 : 2 * (-(n : ℤ) - 1) + 1 = (2 * (-(n : ℤ)) + 1) - 2 := by ring
         rw [h3]
         exact hdown _ ih
   have hall : ∀ j : ℤ, j ∈ X.fixSet E := by
@@ -1307,7 +1307,7 @@ private theorem s45_arcStab_six_not_le_Z_zero
   have hW_le_Z1 : W ≤ X.Z 1 := by
     rw [hZ1eq]
     exact le_inf hWZ hW_cent_Z2
-  haveI : Finite ↥(X.Z 1) :=
+  have : Finite ↥(X.Z 1) :=
     finite_of_le_stabilizer X.hyp (H := X.Z 1) (X.Z_le_Gi 1)
   have hW_eq_Z1 : W = X.Z 1 :=
     Subgroup.eq_of_le_of_card_ge hW_le_Z1 (by rw [hWcard', hZ1card])
@@ -1530,7 +1530,7 @@ theorem s45_r_ne_eight (H : X.Sec4Hyp s r) {d₀ d₁ : ℕ}
     r ≠ 8 := by
   intro h8
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hd2, hd3, -, -, hZ1eq⟩ := X.s45_step8 H hd₀ hd₁ hna hev hb
   subst hd2
   subst hd3

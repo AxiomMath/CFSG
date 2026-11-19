@@ -150,7 +150,7 @@ theorem eq_or_eq_of_irrOK (hn : n < 2 ^ 32) {H : Subgroup (Perm (Fin n))} {k l :
   by_cases hle : V ≤ eSub hu
   · exact Or.inl (le_antisymm hle hUV)
   right
-  obtain ⟨v, hvV, hvU⟩ := SetLike.not_le_iff_exists.mp hle
+  obtain ⟨v, hvV, hvU⟩ := IsConcreteLE.not_le_iff_exists.mp hle
   refine le_antisymm hVW ?_
   obtain ⟨c, hc⟩ := (mem_eSub_iff hw v).mp (hVW hvV)
   obtain ⟨mask, hmask, rfl⟩ := exists_maskVec c
@@ -278,7 +278,7 @@ theorem closure_map_tabPerm_k {bs : List Table} {k : ℕ} (hk : bs.length = k)
   rw [eSub_eq_closure hb]
   congr 1
   ext g
-  simp only [Set.mem_setOf_eq, List.mem_map, Set.mem_range]
+  simp only [Set.mem_ofPred_eq, List.mem_map, Set.mem_range]
   constructor
   · rintro ⟨T, hT, rfl⟩
     obtain ⟨i, hi, rfl⟩ := List.getElem_of_mem hT

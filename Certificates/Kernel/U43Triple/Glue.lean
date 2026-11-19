@@ -57,7 +57,7 @@ theorem exists_d : ∀ i : Fin 3, ∃ d : X₀, wcode 10 (psi d) = A i := by
   have hxy : Subgroup.closure {g | g ∈ [psi xElt, psi yElt]} ≤ psi.range := by
     rw [Subgroup.closure_le]
     intro g hg
-    simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+    simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
     rcases hg with rfl | rfl
     exacts [⟨xElt, rfl⟩, ⟨yElt, rfl⟩]
   intro i
@@ -81,7 +81,7 @@ theorem gsD_A {d : Fin 3 → X₀} (hd : ∀ i, wcode 10 (psi (d i)) = A i) :
 theorem gsD_range (d : Fin 3 → X₀) : Subgroup.closure {g | g ∈ gsD d} ≤ psi.range := by
   rw [Subgroup.closure_le]
   intro g hg
-  simp only [gsD, List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+  simp only [gsD, List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
   rcases hg with rfl | rfl | rfl
   exacts [⟨d 0, rfl⟩, ⟨d 1, rfl⟩, ⟨d 2, rfl⟩]
 
@@ -136,7 +136,7 @@ theorem gen_d {d : Fin 3 → X₀}
   have hmap : Subgroup.closure {g | g ∈ gsD d} ≤ H.map psi := by
     rw [Subgroup.closure_le]
     intro g hg
-    simp only [gsD, List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+    simp only [gsD, List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
     rcases hg with rfl | rfl | rfl
     · exact ⟨d 0, Subgroup.subset_closure (by simp), rfl⟩
     · exact ⟨d 1, Subgroup.subset_closure (by simp), rfl⟩
@@ -171,7 +171,7 @@ theorem listT {d : Fin 3 → X₀} (hd : ∀ i, wcode 10 (psi (d i)) = A i) :
   have hTgs : Subgroup.closure {g | g ∈ gT} ≤ Subgroup.closure {g | g ∈ gsD d} := by
     rw [Subgroup.closure_le]
     intro g hg
-    simp only [gT, List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hg
+    simp only [gT, List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hg
     rcases hg with rfl | rfl | rfl
     exacts [htg 0, htg 1, htg 2]
   obtain ⟨hlist, -, hcl⟩ := clos_card henc gT hGT (N := 128) (by norm_num)

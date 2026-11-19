@@ -130,24 +130,24 @@ theorem blockEmb2_last_smul_comm {m : ℕ} (hm : 3 ≤ m) (A B : Su K 2 f 2)
   by_cases hip : i = ⟨m - 1, by omega⟩
   · subst hip
     simp only [blockEmb2_last_smul_zero hm, blockEmb2_last_smul_one hm, tauAt_apply, hp,
-      if_pos, ite_false]
+      ite_eq_left, ite_false]
     simp only [map_add, map_mul, E.isUnitary.invol, hA10, hA11, hB10, hB11]
     ring
   · by_cases hiq : i = Fin.last m
     · subst hiq
       simp only [blockEmb2_last_smul_zero hm, blockEmb2_last_smul_one hm, tauAt_apply, hp,
-        if_pos, ite_false]
+        ite_eq_left, ite_false]
       simp only [map_add, map_mul, E.isUnitary.invol, hA10, hA11, hB10, hB11]
       ring
     · have hipv : i.val ≠ m - 1 := fun h => hip (Fin.ext (by simpa using h))
       have hiqv : i.val ≠ m := fun h => hiq (Fin.ext (by simpa [Fin.val_last] using h))
       rw [blockEmb2_last_smul_of_ne hm A _ hipv hiqv,
-        tauAt_apply, if_neg hiq,
+        tauAt_apply, ite_eq_right hiq,
         blockEmb2_last_smul_of_ne hm B _ hipv hiqv,
-        tauAt_apply, if_neg hiq,
-        tauAt_apply, if_neg hiq,
+        tauAt_apply, ite_eq_right hiq,
+        tauAt_apply, ite_eq_right hiq,
         blockEmb2_last_smul_of_ne hm B _ hipv hiqv,
-        tauAt_apply, if_neg hiq,
+        tauAt_apply, ite_eq_right hiq,
         blockEmb2_last_smul_of_ne hm A _ hipv hiqv]
 
 @[expose] noncomputable def stdChainIota (m : ℕ) (k : Fin m) :
@@ -308,7 +308,7 @@ theorem stdThetaAt_comp_two_of {m : ℕ} (i : Fin (m + 1)) (j' : Fin m)
     (stdThetaAt (F := F) (f := f) m i j').comp (embSUid (unitaryInvolution K 2 f) 2) =
       stdChainIota (F := F) (f := f) m ⟨i.val, hi⟩ := by
   unfold stdThetaAt
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact stdChainTheta_comp_two m ⟨i.val, hi⟩ hi'
 
 theorem stdThetaAt_comp_zero_of {m : ℕ} (i : Fin (m + 1)) (j' : Fin m)
@@ -316,7 +316,7 @@ theorem stdThetaAt_comp_zero_of {m : ℕ} (i : Fin (m + 1)) (j' : Fin m)
     (stdThetaAt (F := F) (f := f) m i j').comp (embSUid (unitaryInvolution K 2 f) 0) =
       stdChainIota (F := F) (f := f) m ⟨i.val + 1, hi'⟩ := by
   unfold stdThetaAt
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact stdChainTheta_comp_zero m ⟨i.val, hi⟩ hi'
 
 theorem stdForkTheta_comp_two (m : ℕ) (hm : 3 ≤ m) :

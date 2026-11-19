@@ -22,7 +22,7 @@ theorem exists_mem_normalizer_of_conj_mem_sup {p : ℕ} {B Bs : Subgroup G} {x :
       o⁻¹ * g ∈ Subgroup.normalizer (Bs : Set G) := by
   have hp : p.Prime := hS.1.1.1.2.2.2.2.2.1.1
   have hp2 : p ≠ 2 := hS.1.1.1.2.2.2.2.2.1.2.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsS := hS.1.1.1.2.2.2.2.2.2.1
   have hx1 : x ≠ 1 := hsS.2.2.1
   have hLx : L ≤ Subgroup.centralizer ({x} : Set G) := hsS.2.2.2.1.1
@@ -157,7 +157,6 @@ theorem exists_mem_normalizer_of_conj_mem_sup {p : ℕ} {B Bs : Subgroup G} {x :
       rw [hm]; exact hSQ ⟨b, hb, by simp [MulAut.conj_apply]⟩
     first
       | rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem] at hq
-      | rw [Sylow.coe_smul, Set.mem_smul_set_iff_inv_smul_mem] at hq
     have hq' : (m : G)⁻¹ * (g * b * g⁻¹) * m ∈ P := by
       have := hq
       rw [hSP, IsPGroup.toSylow_coe] at this
@@ -172,7 +171,7 @@ theorem exists_mem_normalizer_of_conj_mem_sup {p : ℕ} {B Bs : Subgroup G} {x :
   have hg'H : g' ∈ H := H.mul_mem (H.inv_mem hoH) hgH
   have hg'x : g' * x * g'⁻¹ = x := by
     have := mem_centralizer_singleton_iff.mp hg'H
-    rw [show g' * x = x * g' from by first | exact this | exact this.symm]; group
+    rw [show g' * x = x * g' from by first | exact this]; group
   have hg'Bs : g' ∈ Subgroup.normalizer (Bs : Set G) := by
     apply GGL48TW.Cent.mem_normalizer_of_conj_mem
     have hle : B₁ ⊔ zpowers x ≤ Bs.comap (MulAut.conj g').toMonoidHom := by
@@ -241,7 +240,7 @@ theorem homocyclic_of_irredModTableB (hF : GGL48NbrFieldInput) {p : ℕ} {B Bs :
     (h3 : ∀ b ∈ Bs, ∃ φ ∈ I, LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ)
     (hKG : GGIrredModTableB p R I) : GGL48Homocyclic p U₁ := by
   have hp : p.Prime := hS.1.1.1.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsS := hS.1.1.1.2.2.2.2.2.2.1
   have hx1 : x ≠ 1 := hsS.2.2.1
   have hLx : L ≤ Subgroup.centralizer ({x} : Set G) := hsS.2.2.2.1.1
@@ -282,7 +281,7 @@ theorem homocyclic_of_irredModTableB (hF : GGL48NbrFieldInput) {p : ℕ} {B Bs :
           obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hh
           have hxa : Commute x a := by
             have := mem_centralizer_singleton_iff.mp ha.1
-            first | exact this | exact this.symm
+            exact this.symm
           exact (Commute.zpow_left hxa k).eq)⟩
     · intro c hc
       apply GGL48TW.Cent.mem_normalizer_of_conj_mem
@@ -319,7 +318,7 @@ theorem mem_centralizer_of_ggLAut_mem {p : ℕ} {B Bs : Subgroup G} {x : G}
     (hac : ggLAut L θ a ∈ Subgroup.centralizer (ggLAutImage L θ Bs : Set (MulAut R))) :
     (a : G) ∈ Subgroup.centralizer (Bs : Set G) := by
   have hp : p.Prime := hS.1.1.1.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsS := hS.1.1.1.2.2.2.2.2.2.1
   have hx1 : x ≠ 1 := hsS.2.2.1
   have hLx : L ≤ Subgroup.centralizer ({x} : Set G) := hsS.2.2.2.1.1
@@ -362,7 +361,7 @@ theorem mem_centralizer_of_ggLAut_mem {p : ℕ} {B Bs : Subgroup G} {x : G}
     refine (sup_le (fun b hb => mem_centralizer_singleton_iff.mpr (hB₁ab b hb))
       (zpowers_le.mpr (mem_centralizer_singleton_iff.mpr ?_))) hs
     have := mem_centralizer_singleton_iff.mp ha.1
-    first | exact this | exact this.symm
+    exact this.symm
   exact mem_centralizer_iff.mpr fun h hh => mem_centralizer_singleton_iff.mp (hle hh)
 
 theorem automizerMeta_at_of_tableB {p : ℕ} {B Bs : Subgroup G} {x : G}

@@ -13,7 +13,7 @@ private noncomputable def comapToConjActEquiv {G : Type*} [Group G]
   toFun x := ⟨ConjAct.toConjAct x.1, by simpa using (Subgroup.mem_comap.mp x.2)⟩
   invFun y := ⟨ConjAct.ofConjAct y.1, by
     rw [Subgroup.mem_comap]
-    simpa using y.2⟩
+    simp⟩
   left_inv x := Subtype.ext (by simp)
   right_inv y := Subtype.ext (by simp)
 
@@ -47,20 +47,20 @@ theorem isConj_of_card_mul_card_centralizer {G : Type*} [Group G] [Finite G] (S 
   have hCcard : Nat.card C * Nat.card (Subgroup.centralizer ({a} : Set G)) = Nat.card G :=
     card_class_mul_card_centralizer a
   have hcne : Nat.card (Subgroup.centralizer ({a} : Set G)) ≠ 0 := by
-    haveI : Nonempty ↥(Subgroup.centralizer ({a} : Set G)) := ⟨1⟩
+    have : Nonempty ↥(Subgroup.centralizer ({a} : Set G)) := ⟨1⟩
     exact Nat.card_pos.ne'
   have hCards : Nat.card C = Nat.card S := by
     refine mul_right_cancel₀ hcne ?_
     rw [hCcard, hcard]
   have hsub : C ⊆ S := by
     intro x hx
-    have hx' : IsConj a x := by simpa only [C, Set.mem_setOf_eq] using hx
+    have hx' : IsConj a x := by simpa only [C, Set.mem_ofPred_eq] using hx
     obtain ⟨g, hg⟩ := isConj_iff.mp hx'
     rw [← hg]
     exact hS g a ha
   have hCS : C = S :=
     Set.Finite.eq_of_subset_of_card_le S.toFinite hsub (le_of_eq hCards.symm)
   have hbC : b ∈ C := by rwa [hCS]
-  simpa only [C, Set.mem_setOf_eq] using hbC
+  simpa only [C, Set.mem_ofPred_eq] using hbC
 
 end CFSG.OddStandard.SmallF3.L33

@@ -43,7 +43,7 @@ theorem two_lt_pRank_three_of_qs (hK : Inputs1719.K_GF3_three_rank_qs)
     (h8 : R17_8At D V₀ V L r q hC) (hq3 : q = 3) :
     2 < CFSG.Open.pRank 3 L := by
   by_contra hle
-  push_neg at hle
+  push Not at hle
   obtain ⟨t, n, hadm, hlie⟩ := lie_three_of_q hC hq3
   obtain ⟨e⟩ := uc22p21k_barInf_equiv_of_calC hC.memL
   have hlie' : LieModel (Bar2 L ⧸ Subgroup.center (Bar2 L)) t n 3 1 :=

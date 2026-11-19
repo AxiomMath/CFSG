@@ -38,10 +38,10 @@ theorem layer_linear_model (P : D4Par n X σ) (hn : 2 ≤ n) (hev : Even n) {x :
   have hq4 : 4 ≤ 2 ^ n := by
     have := Nat.pow_le_pow_right (show 0 < 2 by norm_num) hn
     simpa using this
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP X 2 := finite_field_prime_power_characteristic Nat.prime_two (k := n * 3)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP X 2 := finite_field_prime_power_characteristic Nat.prime_two (k := n * 3)
     (by omega) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure X) 2 :=
+  have : CharP (AlgebraicClosure X) 2 :=
     charP_of_injective_algebraMap (algebraMap X (AlgebraicClosure X)).injective 2
   have hσ3 : σ ^ 3 = 1 := by
     refine RingEquiv.ext fun c => ?_
@@ -81,10 +81,10 @@ theorem layer_unitary_model (P : D4Par n X σ) (hn : 2 ≤ n) (hodd : Odd n) {x 
   have hq2 : 2 < 2 ^ n := by
     have := Nat.pow_le_pow_right (show 0 < 2 by norm_num) hn
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP X 2 := finite_field_prime_power_characteristic Nat.prime_two (k := n * 3)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP X 2 := finite_field_prime_power_characteristic Nat.prime_two (k := n * 3)
     (by omega) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure X) 2 :=
+  have : CharP (AlgebraicClosure X) 2 :=
     charP_of_injective_algebraMap (algebraMap X (AlgebraicClosure X)).injective 2
   have hσ3 : σ ^ 3 = 1 := by
     refine RingEquiv.ext fun c => ?_

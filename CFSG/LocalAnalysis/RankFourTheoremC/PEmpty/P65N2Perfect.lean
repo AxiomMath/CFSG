@@ -51,7 +51,7 @@ theorem trivial_of_perfect {A : Type} [Group A] [Finite A] {p : ℕ} (hp : p.Pri
     (hNX : N ≤ X) (hXDN : ∀ x ∈ X, ∃ d ∈ D, ∃ n ∈ N, x = d * n)
     {Q : Type} [CommGroup Q] [Finite Q] (χ : ↥N →* Q) :
     ∀ (a : A) (ha : a ∈ N) (k : ℕ), a ^ (p ^ k) = 1 → χ ⟨a, ha⟩ = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e, m, hm, hQ⟩ := Nat.exists_eq_pow_mul_and_not_dvd (Nat.card_pos (α := Q)).ne' p
     hp.ne_one
   let K₀ : Subgroup ↥N := ((powMonoidHom m : Q →* Q).comp χ).ker
@@ -82,7 +82,7 @@ theorem trivial_of_perfect {A : Type} [Group A] [Finite A] {p : ℕ} (hp : p.Pri
   have hDM : ∀ d ∈ D, d ∈ M₁A := fun d hd => ⟨d, hd, 1, K₀.one_mem, by simp⟩
   have hKM : ∀ n : ↥N, n ∈ K₀ → (n : A) ∈ M₁A := fun n hn => ⟨1, D.one_mem, n, hn, by simp⟩
   let M : Subgroup ↥X := M₁A.subgroupOf X
-  haveI hMn : M.Normal := by
+  have hMn : M.Normal := by
     refine ⟨fun y hy g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hy ⊢
     obtain ⟨d, hd, n, hn, hyd⟩ := hy

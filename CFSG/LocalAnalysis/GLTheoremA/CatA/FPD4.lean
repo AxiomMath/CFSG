@@ -139,9 +139,9 @@ theorem canonOddAutCentral {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : Large
     subst hr
     intro Q h
     have h4 : ¬ ((4 : ℕ) = 3) := by norm_num
-    simp only [CFSG.Assembly.LargeEvenRawDatum, if_neg h4] at h ⊢
+    simp only [CFSG.Assembly.LargeEvenRawDatum, ite_eq_right h4] at h ⊢
     obtain ⟨K, hF, hfin, hK, hQ⟩ := h
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : CharP K 2 := charP_two_of_card hK
     exact ⟨K, hF, hfin, hK, hQ, oddAutCentral_omegaPlusFour plusFourTrialityInput_holds⟩
   · refine (canonOddAut hp hp2 hlab hD).mono ?_
     intro R _ I F h hs hna α hα _

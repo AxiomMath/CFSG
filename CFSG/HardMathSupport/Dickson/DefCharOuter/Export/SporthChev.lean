@@ -70,7 +70,7 @@ theorem not_prime_pow_four_dvd_9828 {p : ℕ} (hp : p.Prime) : ¬ p ^ 4 ∣ 9828
     have : 10 ^ 4 ≤ p ^ 4 := Nat.pow_le_pow_left (by omega) 4
     omega
   have hp2 := hp.two_le
-  interval_cases p <;> first | exact absurd h (by decide) | exact absurd hp (by decide)
+  interval_cases p <;> first | exact absurd h (by decide)
 
 theorem not_isLTwoTwentySeven {G : Type} [Group G] {t : StatedLieTag} {n p f : ℕ}
     (h : StatedClassicalModel G t n p f)
@@ -85,7 +85,7 @@ theorem exists_noncomm_of_simple_of_sq_dvd {G : Type} [Group G] [Finite G] [IsSi
     {p : ℕ} (hp : p.Prime) (h : p ^ 2 ∣ Nat.card G) : ∃ a b : G, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  haveI : IsMulCommutative G := ⟨⟨fun a b => hcon a b⟩⟩
+  have : IsMulCommutative G := ⟨⟨fun a b => hcon a b⟩⟩
   have hprime : (Nat.card G).Prime := Group.is_simple_iff_prime_card.mp inferInstance
   have hpd : p ∣ Nat.card G := (dvd_pow_self p (by norm_num)).trans h
   rcases (Nat.dvd_prime hprime).1 hpd with h1 | h1
@@ -101,8 +101,8 @@ theorem finite_simple_nonab_of_model {G : Type} [Group G] {t : StatedLieTag} {n 
       (t = .POmegaMinus ∧ 4 ≤ n)) :
     Finite G ∧ IsSimpleGroup G ∧ ∃ a b : G, a * b ≠ b * a := by
   obtain ⟨hfin, -, hsimp⟩ := CFSG.LieType.Simplicity.fam_classical_converse G ⟨t, n, p, f, h⟩
-  haveI := hfin
-  haveI := hsimp
+  have := hfin
+  have := hsimp
   refine ⟨hfin, hsimp, exists_noncomm_of_simple_of_sq_dvd h.1.1 ?_⟩
   exact (pow_dvd_pow p (by norm_num : 2 ≤ 4)).trans (pow_four_dvd_card h ht)
 
@@ -142,7 +142,7 @@ theorem nonempty_equiv_twistedA_three {G : Type} [Group G]
   let φ : K ≃+* L := FiniteField.ringEquivOfCardEq hcard
   let e1 := statedProjCongr (glCongr (ι := Fin 4) φ) (glCongr_statedSU φ 4 (2 ^ 1))
     (glCongr_statedScalars φ)
-  have hv' : (LieTypeIndex.twistedA 3 q).Valid := by simpa using hv
+  have hv' : (LieTypeIndex.twistedA 3 q).Valid := by simp
   let eT := CFSG.QuasithinUnique.SQTK.typeTwistedAGroupEquivStatedProj 3 q hv'
   exact ⟨q, hv', by simp [q, PrimePower.card_def], ⟨(e.trans e1).trans eT.symm⟩⟩
 

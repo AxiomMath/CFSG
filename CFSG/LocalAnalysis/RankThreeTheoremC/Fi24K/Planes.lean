@@ -166,19 +166,19 @@ theorem plane_cases {E : Subgroup J} (hEQ : E ≤ Q7) (hEc : Nat.card E = 7 ^ 2)
     have hmin : (Nat.card Q7).minFac = 7 := by
       rw [card_Q7]
       exact Nat.Prime.pow_minFac (by norm_num) (by norm_num)
-    haveI hE'normal : E'.Normal :=
+    have hE'normal : E'.Normal :=
       Subgroup.normal_of_index_eq_minFac_card (by rw [hidx, hmin])
     have hE'ne : E' ≠ ⊥ := by
       intro hbot
       have h1 : Nat.card E' = 1 := by rw [hbot]; simp
       rw [hcardE'] at h1
       norm_num at h1
-    haveI hQp : IsPGroup 7 Q7 := IsPGroup.of_card (n := 3) (by rw [card_Q7])
-    haveI : Group.IsNilpotent Q7 := hQp.isNilpotent
+    have hQp : IsPGroup 7 Q7 := IsPGroup.of_card (n := 3) (by rw [card_Q7])
+    have : Group.IsNilpotent Q7 := hQp.isNilpotent
     have hcenter : E' ⊓ Subgroup.center Q7 ≠ ⊥ :=
       Group.IsNilpotent.inf_center_ne_bot_of_normal hE'ne
     have hlt : ⊥ < E' ⊓ Subgroup.center Q7 := bot_lt_iff_ne_bot.mpr hcenter
-    obtain ⟨x, hxN, hxbot⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨x, hxN, hxbot⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     have hx1 : x ≠ 1 := fun h1 => hxbot (by rw [h1]; exact Subgroup.one_mem _)
     have hxE : (x : J) ∈ E := Subgroup.mem_subgroupOf.mp hxN.1
     have hxZ : (x : J) ∈ Subgroup.zpowers C7 := by
@@ -219,7 +219,7 @@ theorem plane_cases {E : Subgroup J} (hEQ : E ≤ Q7) (hEc : Nat.card E = 7 ^ 2)
       intro hj0
       apply heZ
       rw [heq, hi0, hj0]
-      simpa using Subgroup.pow_mem (Subgroup.mem_zpowers C7) k
+      simp
     have hcop : Nat.Coprime j 7 := by
       have hjn : ¬ 7 ∣ j := by
         rw [Nat.dvd_iff_mod_eq_zero, Nat.mod_eq_of_lt hj]

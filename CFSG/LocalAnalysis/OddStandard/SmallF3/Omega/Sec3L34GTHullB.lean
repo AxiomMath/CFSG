@@ -9,7 +9,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 
 private theorem l34g_odd_orderOf_of_mem_oddCore {Y : Type} [Group Y] [Finite Y] {y : Y}
     (hy : y ∈ oddCore Y) : Odd (orderOf y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Odd (Nat.card (oddCore Y)) := by
     have h : oddCore Y = pPrimeCore 2 Y :=
       (oddCore_eq_piCore Y).trans (pPrimeCore_eq_piCore Y 2).symm
@@ -22,7 +22,7 @@ theorem l34g_odd_card_oddHull_inf_ker {A C : Type} [Group A] [Group C] [Finite A
     (h2 : ∀ P : Subgroup A, IsPGroup 2 P → P ≤ φ.ker → Nat.card P ≤ 2) {B : Subgroup C}
     (hB : IsSL23Mod ↥B) : Odd (Nat.card ↥(l34g_oddHull φ B ⊓ φ.ker)) := by
   classical
-  haveI : Finite C := Finite.of_surjective φ hφ
+  have : Finite C := Finite.of_surjective φ hφ
   let H : Subgroup A := l34g_oddHull φ B
   let X : Subgroup A := B.comap φ
   change Odd (Nat.card ↥(H ⊓ φ.ker))

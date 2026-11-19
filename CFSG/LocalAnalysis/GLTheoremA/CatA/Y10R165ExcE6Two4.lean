@@ -43,6 +43,7 @@ theorem e6TwoOrtho3_check :
     exact hij (Fin.castLE_injective (by omega : 3 ≤ 4) h)
   exact hso _ _ hcast
 
+omit [CharP F 2] in
 theorem exists_orderOf_eq_of_dvd_card_sl2 {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     (hdiv : q ∣ Nat.card F - 1 ∨ Nat.card F = 2 ∧ q = 3) :
     ∃ c : SL(2, F), orderOf c = q := by

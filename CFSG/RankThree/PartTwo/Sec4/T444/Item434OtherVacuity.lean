@@ -39,21 +39,21 @@ def vacA : Matrix (Fin 3) (Fin 3) GF8 := !![0, 1, 0; 1, vacX, 0; 0, 0, 1]
 def vacB : Matrix (Fin 3) (Fin 3) GF8 := !![vacX, 1, 0; 1, 0, 0; 0, 0, 1]
 
 theorem vacA_mul_vacB : vacA * vacB = 1 := by
-  letI : DecidableEq GF8 := fun
+  let : DecidableEq GF8 := fun
     | ⟨a⟩, ⟨b⟩ =>
       if h : a = b then isTrue (congrArg GF8.mk h)
       else isFalse (fun heq => h (congrArg GF8.val heq))
   decide
 
 theorem vacB_mul_vacA : vacB * vacA = 1 := by
-  letI : DecidableEq GF8 := fun
+  let : DecidableEq GF8 := fun
     | ⟨a⟩, ⟨b⟩ =>
       if h : a = b then isTrue (congrArg GF8.mk h)
       else isFalse (fun heq => h (congrArg GF8.val heq))
   decide
 
 theorem vacA_pow_nine : vacA ^ 9 = 1 := by
-  letI : DecidableEq GF8 := fun
+  let : DecidableEq GF8 := fun
     | ⟨a⟩, ⟨b⟩ =>
       if h : a = b then isTrue (congrArg GF8.mk h)
       else isFalse (fun heq => h (congrArg GF8.val heq))
@@ -63,14 +63,14 @@ theorem vacA_pow_nine : vacA ^ 9 = 1 := by
   decide
 
 theorem vacA_pow_three_apply : (vacA ^ 3) 0 0 = vacX ∧ (vacA ^ 3) 2 2 = 1 := by
-  letI : DecidableEq GF8 := fun
+  let : DecidableEq GF8 := fun
     | ⟨a⟩, ⟨b⟩ =>
       if h : a = b then isTrue (congrArg GF8.mk h)
       else isFalse (fun heq => h (congrArg GF8.val heq))
   decide
 
 theorem vacX_ne_one : vacX ≠ 1 := by
-  letI : DecidableEq GF8 := fun
+  let : DecidableEq GF8 := fun
     | ⟨a⟩, ⟨b⟩ =>
       if h : a = b then isTrue (congrArg GF8.mk h)
       else isFalse (fun heq => h (congrArg GF8.val heq))
@@ -104,7 +104,7 @@ theorem vacG_pow_three_apply :
     intro i j
     rw [vacG, ← map_pow, Matrix.GeneralLinearGroup.map_apply]
     rw [← h3]
-    simp [Matrix.map_apply]
+    simp
   exact ⟨by rw [hmap, h00], by rw [hmap, h22, map_one]⟩
 
 theorem card_le_three_of_exp_three_of_nine {G : Type*} [Group G] [Finite G] {m : ℕ}
@@ -171,13 +171,10 @@ theorem vacCard_scalars :
       vacSc.range := rfl
   rw [hr, ← Nat.card_congr (MonoidHom.ofInjective vacScalars_injective).toEquiv]
   first
-    | (rw [Nat.card_units, GaloisField.card 2 3 (by norm_num)]) <;> norm_num
-    | (rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card,
-        GaloisField.card 2 3 (by norm_num)]) <;> norm_num
-    | (simp [Nat.card_units, GaloisField.card])
+    | (rw [Nat.card_units, GaloisField.card 2 3 (by norm_num)]); norm_num
 
 theorem vacCard_GL : Nat.card (GL (Fin 3) (GaloisField 2 3)) = 115379712 := by
-  haveI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 3) := Fintype.ofFinite _
   have hc : Fintype.card (GaloisField 2 3) = 8 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 3 (by norm_num)]; norm_num
   rw [Matrix.card_GL_field, hc, Fin.prod_univ_three]

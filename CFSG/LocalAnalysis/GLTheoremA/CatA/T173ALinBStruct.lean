@@ -20,8 +20,8 @@ theorem b_structure_of_inner {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N
       Nat.card B = p * Nat.card (modCentreImage S B) := by
   classical
   have hp : p.Prime := hcfg.prime
-  haveI hSN : S.Normal := hcfg.normal
-  haveI : Fact p.Prime := ⟨hp⟩
+  have hSN : S.Normal := hcfg.normal
+  have : Fact p.Prime := ⟨hp⟩
   let C : Subgroup Ω := Subgroup.centralizer (S : Set Ω)
   let N : Subgroup ↥C := (S ⊓ C).subgroupOf C
   have hNnormal : N.Normal := by
@@ -130,7 +130,7 @@ theorem b_structure_of_inner {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N
               _ = (s b1 : Ω)⁻¹ * ((s b1 : Ω) * (c b2 : Ω)) * (s b1 : Ω)⁻¹ := by group
               _ = (s b1 : Ω)⁻¹ * ((c b2 : Ω) * (s b1 : Ω)) * (s b1 : Ω)⁻¹ := by rw [hcomm]
               _ = (s b1 : Ω)⁻¹ * (c b2 : Ω) := by group
-          simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+          simp only [Subgroup.coe_mul]
           rw [e1, e2]
           calc (c b1 : Ω) * (s b1 : Ω)⁻¹ * ((c b2 : Ω) * (s b2 : Ω)⁻¹)
               = (c b1 : Ω) * (((s b1 : Ω)⁻¹ * (c b2 : Ω)) * (s b2 : Ω)⁻¹) := by group
@@ -374,11 +374,11 @@ theorem lin_B_structure {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K 
     · exact h1
     · omega
   have harith : LinArith p n d F := ⟨hcfg.prime, hcfg.odd, hn1, hd, hM.1, hn, hM.2.2.1⟩
-  haveI := hcfg.normal
+  have := hcfg.normal
   let α : MulAut ↥S := MulAut.conjNormal b⁻¹
   have hα : ∀ l : ↥S, ((α l : ↥S) : Ω) = b⁻¹ * (l : Ω) * b := by
     intro l
-    simp [α, MulAut.conjNormal_apply]
+    simp [α]
   have hαp : α ^ p = 1 := by
     have h1 : α ^ p = MulAut.conjNormal (b⁻¹ ^ p) := (map_pow MulAut.conjNormal b⁻¹ p).symm
     rw [h1, inv_pow, hbp, inv_one, map_one]

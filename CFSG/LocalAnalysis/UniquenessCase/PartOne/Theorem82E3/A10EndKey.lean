@@ -98,7 +98,7 @@ theorem le_M_of_isPGroup_two
     {T : Subgroup G} (hT : IsPGroup 2 T) (hAT : F.A ≤ Subgroup.normalizer (T : Set G)) :
     T ≤ D.M :=
   F.le_M_of_isPGroup_two_of_normalizer_le hF hC
-    (fun S hSM hS hAS hmax => F.normalizer_le_of_maxInv hSM hS hAS hmax) hT hAT
+    (fun _S hSM hS hAS hmax => F.normalizer_le_of_maxInv hSM hS hAS hmax) hT hAT
 
 end Ctx82E3.A10Frame
 

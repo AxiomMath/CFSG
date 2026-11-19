@@ -146,12 +146,14 @@ theorem yForm_shift_neg_e4 (t : K) (c : (Fin Tag.E7.rank → ℤ) → K) :
   ring_nf
   simp [CharTwo.two_eq_zero]
 
+omit [CharP K 2] in
 theorem yForm_shift_e6 (t : K) (c : (Fin Tag.E7.rank → ℤ) → K) :
     yQc (fun ρ => c ρ + if ρ - yFormE 6 ∈ yPsi then
       t * c (ρ - yFormE 6) else 0) = yQc c := by
   simp only [yQc, yForm_pair_eq]
   simp +decide [yPsi, yFrame, yLow, yHigh, oddDerivE7YFrame]
 
+omit [CharP K 2] in
 theorem yForm_shift_neg_e6 (t : K) (c : (Fin Tag.E7.rank → ℤ) → K) :
     yQc (fun ρ => c ρ + if ρ - (-yFormE 6) ∈ yPsi then
       t * c (ρ - (-yFormE 6)) else 0) = yQc c := by
@@ -182,6 +184,7 @@ theorem yQc_map {R S : Type} [CommRing R] [CommRing S] (f : R →+* S)
   refine List.map_congr_left fun p _ => ?_
   simp only [Function.comp_apply, map_mul]
 
+omit [CharP K 2] in
 theorem yForm_yQc_yCoeff : yQc (yCoeff (K := K)) = 1 := by
   simp only [yQc, yPairRoots, yCoeff, yFrame, oddDerivE7YFrame]
   simp +decide
@@ -205,6 +208,7 @@ theorem yForm_yQc_sq {c : (Fin Tag.E7.rank → ℤ) → K}
 
 section Certs
 
+omit [CharP K 2] in
 theorem yForm_rootChar_smul (a : Fin Tag.E7.rank → Kˣ)
     (c : (Fin Tag.E7.rank → ℤ) → K) :
     yQc (fun β => (rootChar a β : K) * c β) = (rootChar a yOmega : K) * yQc c := by
@@ -219,6 +223,7 @@ theorem yForm_rootChar_smul (a : Fin Tag.E7.rank → Kˣ)
       = ((rootChar a p.1 : K) * (rootChar a p.2 : K)) * (c p.1 * c p.2) := by ring
     _ = (rootChar a yOmega : K) * (c p.1 * c p.2) := by rw [hχ]
 
+omit [CharP K 2] in
 theorem yForm_rootDiag_conj {a : Fin Tag.E7.rank → Kˣ}
     (hh : rootDiagUnit .E7 a ∈ torusGroup .E7 K) (c : (Fin Tag.E7.rank → ℤ) → K) :
     rootDiagUnit .E7 a * rootProd .E7 K yPsi c * (rootDiagUnit .E7 a)⁻¹ =
@@ -245,6 +250,7 @@ theorem yForm_ne_sub_of_level_zero {α ρ : Fin Tag.E7.rank → ℤ} (hα0 : yLe
   rw [e, yLevel_add, hα0, add_zero] at hρ2
   omega
 
+omit [CharP K 2] in
 theorem yForm_conjCoeff_apply {α : Fin Tag.E7.rank → ℤ} (hα0 : yLevel α = 0) (t : K)
     (c : (Fin Tag.E7.rank → ℤ) → K) {ρ : Fin Tag.E7.rank → ℤ} (hρ : ρ ∈ yPsi) :
     conjCoeff α t yPsi c ρ = c ρ + if ρ - α ∈ yPsi then t * c (ρ - α) else 0 := by
@@ -319,6 +325,7 @@ noncomputable def yFormSubgroup : Subgroup (ModGL .E7 K) where
     have h := hgQ c' c hconj'
     rw [h, inv_mul_cancel_left₀ hμ]
 
+omit [CharP K 2] in
 theorem yForm_mem_parabolicRadical {α : Fin Tag.E7.rank → ℤ}
     (hα : α ∈ parabolicRadicalRoots .E7 yNodes) (t : K) :
     pinnedX .E7 K α t ∈ parabolicRadical .E7 K yNodes :=
@@ -365,6 +372,7 @@ theorem yForm_parabolicRadical_le :
     rintro _ ⟨t, rfl⟩
     exact yForm_radical_pinnedX_mem hα t)
 
+omit [CharP K 2] in
 theorem yForm_torus_le : torusGroup .E7 K ≤ yFormSubgroup (K := K) := by
   intro h hh
   refine ⟨torusGroup_le_linConjSubgroup (fun _ hβ => isRoot_of_mem_yPsi hβ) hh, ?_⟩

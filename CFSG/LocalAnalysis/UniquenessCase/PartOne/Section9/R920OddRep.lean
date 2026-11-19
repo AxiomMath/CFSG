@@ -44,7 +44,7 @@ theorem exists_commute_of_apply_eq_neg {Γ k V : Type*} [Group Γ] [Finite Γ] [
     [AddCommGroup V] [Module k V] (ρ : Representation k Γ V) (hker : IsPGroup 2 ρ.ker)
     {x t₀ : Γ} (hx : (orderOf x).Prime) (hx2 : orderOf x ≠ 2) (ht₀ : ∀ v, ρ t₀ v = -v) :
     ∃ t : Γ, x * t = t * x ∧ ∀ v, ρ t v = -v := by
-  haveI : Fact (orderOf x).Prime := ⟨hx⟩
+  have : Fact (orderOf x).Prime := ⟨hx⟩
   have hct : ∀ y : Γ, ρ (y * t₀) = ρ (t₀ * y) := fun y => LinearMap.ext fun v => by
     rw [map_mul, map_mul, Module.End.mul_apply, Module.End.mul_apply, ht₀, ht₀, map_neg]
   have hk : ¬ orderOf x ∣ Nat.card ρ.ker := by
@@ -79,7 +79,7 @@ theorem exists_sl2_rep_of_quot {Γ k V : Type*} {F : Type} [Group Γ] [Finite Γ
     fun v => ?_, fun g hg hg2 v hv => ?_⟩
   · rw [show σ (-1) = ρ t₀ by rw [← hσ, ht₀, MulEquiv.apply_symm_apply]]
     exact hneg v
-  · haveI : Fact (orderOf g).Prime := ⟨hg⟩
+  · have : Fact (orderOf g).Prime := ⟨hg⟩
     have hgk : ¬ orderOf g ∣ Nat.card ρ.ker := by
       obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hker
       rw [hn]
@@ -104,9 +104,9 @@ theorem ne_card_of_fpf {V : Type*} {F : Type} [Field F] [Fintype F] {p : ℕ} [F
     (hfpf : ∀ g : SL(2, F), (orderOf g).Prime → orderOf g ≠ 2 → ∀ v, σ g v = v → v = 0) :
     p ≠ Fintype.card F := by
   intro hpq
-  haveI : Fact (Fintype.card F).Prime := ⟨hF⟩
-  haveI : CharP F (Fintype.card F) := charP_of_card_eq_prime rfl
-  haveI : FiniteDimensional (ZMod p) V := Module.Finite.of_finite
+  have : Fact (Fintype.card F).Prime := ⟨hF⟩
+  have : CharP F (Fintype.card F) := charP_of_card_eq_prime rfl
+  have : FiniteDimensional (ZMod p) V := Module.Finite.of_finite
   have hpow : ∀ n : ℕ, CFSG.PSL2Table.unip (1 : F) ^ n = CFSG.PSL2Table.unip (n : F) := by
     intro n
     induction n with

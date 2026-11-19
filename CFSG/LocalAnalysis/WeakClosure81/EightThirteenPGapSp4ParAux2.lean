@@ -94,7 +94,7 @@ section Lev
 
 variable [Finite F] [CharP F 2]
 
-@[expose] private def wcgapsq_fixE1 : Subgroup (StatedSp 2 F) where
+private def wcgapsq_fixE1 : Subgroup (StatedSp 2 F) where
   carrier := {x | mat x *ᵥ e₁ F = e₁ F}
   one_mem' := by
     change mat (1 : StatedSp 2 F) *ᵥ e₁ F = e₁ F
@@ -109,6 +109,7 @@ variable [Finite F] [CharP F 2]
     have h := mat_inv_mulVec x (e₁ F)
     rwa [hx] at h
 
+omit [Finite F] [CharP F 2] in
 private theorem wcgapsq_L2_fixes_e1 {g : StatedSp 2 F} (hg : g ∈ L₂ F) :
     mat g *ᵥ e₁ F = e₁ F := by
   have hsub : L₂ F ≤ wcgapsq_fixE1 := by
@@ -123,9 +124,11 @@ private theorem wcgapsq_L2_fixes_e1 {g : StatedSp 2 F} (hg : g ∈ L₂ F) :
 @[expose] noncomputable def wcgapsq_leviL0 : ↥(L₂ F) →* Matrix.SpecialLinearGroup (Fin 2) F :=
   (levQ (F := F)).comp (Subgroup.inclusion L₂_le_P₂)
 
+omit [Finite F] [CharP F 2] in
 theorem wcgapsq_leviL0_apply (g : ↥(L₂ F)) :
     wcgapsq_leviL0 g = levQ ⟨(g : StatedSp 2 F), L₂_le_P₂ g.2⟩ := rfl
 
+omit [Finite F] [CharP F 2] in
 theorem wcgapsq_leviL0_surjective : Function.Surjective (wcgapsq_leviL0 (F := F)) := by
   intro M
   refine ⟨⟨levHom₂ M, ?_⟩, ?_⟩
@@ -133,6 +136,7 @@ theorem wcgapsq_leviL0_surjective : Function.Surjective (wcgapsq_leviL0 (F := F)
   · rw [wcgapsq_leviL0_apply]
     exact levQ_levHom₂ M
 
+omit [Finite F] [CharP F 2] in
 theorem wcgapsq_leviL0_ker :
     (wcgapsq_leviL0 (F := F)).ker = (Q₂ F).subgroupOf (L₂ F) := by
   ext g
@@ -154,6 +158,7 @@ theorem wcgapsq_isComplement' {G : Type} [Group G] [Finite G] {H K : Subgroup G}
     obtain ⟨h, hh, k, hk, hk_eq⟩ := (Subgroup.mem_sup_of_normal_right (s := H) (t := K)).mp hg
     exact Set.mem_mul.mpr ⟨h, hh, k, hk, hk_eq⟩
 
+omit [Finite F] [CharP F 2] in
 theorem wcgapsq_lev1_inf :
     (lev₁ F).subgroupOf (L₁ F) ⊓ (Q₁ F).subgroupOf (L₁ F) = ⊥ := by
   ext x
@@ -167,6 +172,7 @@ theorem wcgapsq_lev1_inf :
     rw [hx]
     exact ⟨Subgroup.one_mem _, Subgroup.one_mem _⟩
 
+omit [Finite F] [CharP F 2] in
 theorem wcgapsq_lev1_sup :
     (lev₁ F).subgroupOf (L₁ F) ⊔ (Q₁ F).subgroupOf (L₁ F) = ⊤ := by
   rw [← Subgroup.subgroupOf_sup lev₁_le_L₁ Q₁_le_L₁, sup_comm]
@@ -187,6 +193,7 @@ instance wcgapsq_Q1subgroupOfNormal : ((Q₁ F).subgroupOf (L₁ F)).Normal :=
       (wcgapsq_lev1Equiv.toMonoidHom.comp
         (QuotientGroup.mk' ((Q₁ F).subgroupOf (L₁ F)))))
 
+omit [CharP F 2] in
 theorem wcgapsq_leviL1_ker :
     (wcgapsq_leviL1 (F := F)).ker = (Q₁ F).subgroupOf (L₁ F) := by
   rw [wcgapsq_leviL1]
@@ -195,6 +202,7 @@ theorem wcgapsq_leviL1_ker :
     MulEquiv.map_eq_one_iff]
   exact QuotientGroup.eq_one_iff x
 
+omit [CharP F 2] in
 theorem wcgapsq_leviL1_surjective : Function.Surjective (wcgapsq_leviL1 (F := F)) := by
   rw [wcgapsq_leviL1]
   exact (MulEquiv.surjective
@@ -210,8 +218,8 @@ theorem wcgapsq_oTwoMod_eq_of_surj {M : Type} [Group M] [Finite M]
     (hker : φ.ker = Q.subgroupOf K) :
     oTwoMod (⊥ : Subgroup M) K = Q ∧
     HasQuotShape K (oTwoMod (⊥ : Subgroup M) K : Set M) (fun X _ => IsL2 X 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_two_of_card_eq_four hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_two_of_card_eq_four hF
   have hQ2 : IsPGroup 2 Q := hU2.to_le hQU
   have hle : oTwoMod (⊥ : Subgroup M) K ≤ Q := by
     rw [oTwoMod]

@@ -31,8 +31,8 @@ theorem endNodeInner_core (hRK : RootKill) (hDat : TwE6FieldCore.SubfieldLangDat
       ∀ s ∈ A, (∀ j ∈ LargeEvenLayer (Subgroup.centralizer ({t} : Set (twistedE6RootGroup K σ))),
         s * j = j * s) → s ∈ Subgroup.zpowers t := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp2 : p ≠ 2 := by omega
   set A₁ : Subgroup (ModGL TwistTag.E6.tag K) := A.map (twistedE6RootGroup K σ).subtype with hA₁
   have hC₀I : twistedE6RootGroup K σ ≤ twistedE6InndiagGL K σ := le_sup_left
@@ -45,11 +45,11 @@ theorem endNodeInner_core (hRK : RootKill) (hDat : TwE6FieldCore.SubfieldLangDat
     ((Nat.pow_le_pow_right hp.pos (by norm_num : 4 ≤ 5)).trans h5')
   obtain ⟨β, hβ, -, -, hcor⟩ := rootKernel_of_rootKill hRK hK hσ h2 hp hpq hA₁I hA₁e h5' hU D
   obtain ⟨γ, hγ, hγβ⟩ := exists_root_iform_eq_zero hβ
-  haveI : NeZero ((p : ℕ) : K) := ⟨fun h => by
+  have : NeZero ((p : ℕ) : K) := ⟨fun h => by
     have h' := (ringChar.spec K p).1 h
     rw [h2] at h'
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 h').symm⟩
-  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) p
+  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) p
   obtain ⟨ζ, hζ⟩ : ∃ ζ : (AlgebraicClosure K)ˣ, IsPrimitiveRoot ζ p :=
     ⟨_, IsPrimitiveRoot.isUnit_unit hp.ne_zero hζ0⟩
   have hζ1 : ζ ≠ 1 := hζ.ne_one hp.one_lt
@@ -94,7 +94,7 @@ theorem endNodeInner_core (hRK : RootKill) (hDat : TwE6FieldCore.SubfieldLangDat
     exact (Subgroup.mem_centralizer_singleton_iff.1 hd').symm
   refine ⟨t, htA, ht1, by rw [hC]; exact hcomp, fun s hs hsL => ?_⟩
   rw [hC, hlay] at hsL
-  haveI : Finite X := Nat.finite_of_card_ne_zero hXodd.pos.ne'
+  have : Finite X := Nat.finite_of_card_ne_zero hXodd.pos.ne'
   exact CFSG.LocalAnalysis.GorensteinLyons.mem_of_pow_eq_one_of_isCyclic hXc
     (Subgroup.zpowers_le.2 htX) hp.pos
     (by rw [Nat.card_zpowers]; exact orderOf_eq_prime (hA.2 t htA) ht1) (hX s hs hsL)

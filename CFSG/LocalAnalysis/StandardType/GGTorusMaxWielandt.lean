@@ -86,10 +86,12 @@ variable (J) in
   letI : MulDistribMulAction B J := MulDistribMulAction.compHom J B.subtype
   Nat.card (fixedPointSubgroup B J)
 
+omit [Finite A] in
 theorem tmKer_zero (φ : A ≃* Multiplicative (Fin m → ZMod 3)) : tmKer φ 0 = ⊤ := by
   ext a
   simp [mem_tmKer]
 
+omit [Finite A] in
 theorem tmKer_card (φ : A ≃* Multiplicative (Fin m → ZMod 3)) {c : Fin m → ZMod 3} (hc : c ≠ 0) :
     Nat.card (tmKer φ c) = 3 ^ (m - 1) := by
   rw [← tmDot_card_ker hc]
@@ -98,8 +100,9 @@ theorem tmKer_card (φ : A ≃* Multiplicative (Fin m → ZMod 3)) {c : Fin m �
   change (∑ k, c k * toAdd (φ a) k = 0) ↔ ∑ k, toAdd (φ a) k * c k = 0
   simp only [mul_comm]
 
+omit [Finite A] [Finite J] in
 theorem tmFixCard_bot : tmFixCard J (⊥ : Subgroup A) = Nat.card J := by
-  letI : MulDistribMulAction (⊥ : Subgroup A) J :=
+  let : MulDistribMulAction (⊥ : Subgroup A) J :=
     MulDistribMulAction.compHom J (⊥ : Subgroup A).subtype
   have h : fixedPointSubgroup (⊥ : Subgroup A) J = ⊤ := by
     ext x
@@ -111,6 +114,7 @@ theorem tmFixCard_bot : tmFixCard J (⊥ : Subgroup A) = Nat.card J := by
   rw [tmFixCard, h, Subgroup.card_top]
 
 open Classical in
+omit [Finite A] in
 private theorem tmKer_count (φ : A ≃* Multiplicative (Fin m → ZMod 3)) (hm : 1 ≤ m) (a : A) :
     (∑ c : Fin m → ZMod 3, if a ∈ tmKer φ c then 1 else 0) =
       if a = 1 then 2 * 3 ^ (m - 1) + 3 ^ (m - 1) else 3 ^ (m - 1) := by
@@ -120,9 +124,9 @@ private theorem tmKer_count (φ : A ≃* Multiplicative (Fin m → ZMod 3)) (hm 
     rw [← add_one_mul, show 2 + 1 = 3 from rfl, ← pow_succ', Nat.sub_add_cancel hm]
   by_cases ha : a = 1
   · subst ha
-    rw [if_pos rfl, ← h3, Finset.filter_true_of_mem fun c _ => (tmKer φ c).one_mem,
+    rw [ite_eq_left rfl, ← h3, Finset.filter_true_of_mem fun c _ => (tmKer φ c).one_mem,
       Finset.card_univ, Fintype.card_fun, ZMod.card, Fintype.card_fin]
-  · rw [if_neg ha]
+  · rw [ite_eq_right ha]
     have hs : toAdd (φ a) ≠ 0 := fun h =>
       ha (φ.injective (by rw [map_one]; exact toAdd_eq_zero.mp h))
     rw [← tmDot_card_ker hs, Nat.card_eq_fintype_card, Fintype.card_subtype]
@@ -149,7 +153,7 @@ theorem tmWielandt_card_sq (φ : A ≃* Multiplicative (Fin m → ZMod 3)) (hm :
     | some (some _) => 0
   have hcoeff : ∀ a : A, (∑ i, if a ∈ B i then mc i else 0) = ∑ i, if a ∈ B i then nc i else 0 := by
     intro a
-    simp only [Fintype.sum_option, B, mc, nc, ite_self, zero_add, Subgroup.mem_top, if_true,
+    simp only [Fintype.sum_option, B, mc, nc, ite_self, zero_add, Subgroup.mem_top, ite_true,
       Subgroup.mem_bot, Finset.sum_const_zero, add_zero]
     rw [tmKer_count φ hm a]
     by_cases ha : a = 1 <;> simp [ha]
@@ -172,12 +176,13 @@ theorem tmWielandt_card_sq (φ : A ≃* Multiplicative (Fin m → ZMod 3)) (hm :
     rw [hW, ← pow_mul]
   exact (Nat.pow_left_injective hpos h2).symm
 
+omit [Finite A] in
 theorem tmFixCard_ker_ge_four (φ : A ≃* Multiplicative (Fin m → ZMod 3)) (hm : 1 ≤ m)
     (hcop : Nat.Coprime (Nat.card J) (Nat.card A)) (hfix : tmFixCard J (⊤ : Subgroup A) = 1)
     {c : Fin m → ZMod 3} (h1 : tmFixCard J (tmKer φ c) ≠ 1) : 4 ≤ tmFixCard J (tmKer φ c) := by
   classical
-  letI : MulDistribMulAction (tmKer φ c) J := MulDistribMulAction.compHom J (tmKer φ c).subtype
-  letI : MulDistribMulAction (⊤ : Subgroup A) J :=
+  let : MulDistribMulAction (tmKer φ c) J := MulDistribMulAction.compHom J (tmKer φ c).subtype
+  let : MulDistribMulAction (⊤ : Subgroup A) J :=
     MulDistribMulAction.compHom J (⊤ : Subgroup A).subtype
   set C := fixedPointSubgroup (tmKer φ c) J with hC
   have hcomm : ∀ a b : A, a * b = b * a := fun a b => φ.injective (by
@@ -252,7 +257,7 @@ theorem tmWielandt_four_pow_le (φ : A ≃* Multiplicative (Fin m → ZMod 3)) (
         Finset.pow_card_le_prod _ _ _ fun c hc =>
           tmFixCard_ker_ge_four φ hm hcop hfix (Finset.mem_filter.mp hc).2.2
     _ ≤ ∏ c ∈ Finset.univ.filter (fun c : Fin m → ZMod 3 => c ≠ 0), tmFixCard J (tmKer φ c) :=
-        Finset.prod_le_prod_of_subset_of_one_le' (fun c hc => by
+        Finset.prod_le_prod_of_subset_of_one_le (fun c hc => by
           simp only [Finset.mem_filter] at hc ⊢; exact ⟨hc.1, hc.2.1⟩)
           fun c _ _ => Nat.one_le_iff_ne_zero.mpr (Nat.card_pos.ne')
 

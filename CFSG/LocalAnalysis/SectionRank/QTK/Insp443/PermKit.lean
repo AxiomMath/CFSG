@@ -34,7 +34,7 @@ theorem rep_tabPerm {T R : Table} (h : tabOK n T R = true) : Rep n T (tabPerm n 
       simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at h1 h2
       rw [← h1.2, ← h2.2, hij]
   intro i hi
-  rw [idx_of_lt _ hi, tabPerm, dif_pos hc]
+  rw [idx_of_lt _ hi, tabPerm, dite_eq_left hc]
   rfl
 
 theorem commT2_iff {S T : Table} {g h : Perm (Fin n)} (hS : Rep n S g) (hT : Rep n T h) :

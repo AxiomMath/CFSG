@@ -20,6 +20,7 @@ variable {F W : Type} [Field F] [Finite F] [CharP F 2] [AddCommGroup W] [Module 
 
 variable {q : ℕ}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F W] in
 theorem hypPair_polarNondegOn (hQ : (polarBilin Q).Nondegenerate) (P : HypPair Q) :
     PolarNondegOn Q (Submodule.span F {P.e, P.f}) := by
   intro x hx hxperp
@@ -37,10 +38,11 @@ theorem hypPair_polarNondegOn (hQ : (polarBilin Q).Nondegenerate) (P : HypPair Q
     simp
   rw [horth x hx w hw, add_zero]
 
-theorem hypDiag_orderOf (P : HypPair Q) (mu : Fˣ) (hq : q.Prime) (hq2 : q ≠ 2)
+omit [Finite F] [CharP F 2] [FiniteDimensional F W] in
+theorem hypDiag_orderOf (P : HypPair Q) (mu : Fˣ) (hq : q.Prime) (_hq2 : q ≠ 2)
     (hord : orderOf mu = q) :
     orderOf (hypDiag P (mu : F) (Units.ne_zero mu)) = q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   apply orderOf_eq_prime
   · rw [hypDiag_pow_eq_one P _ _ (by
       rw [← hord]
@@ -55,6 +57,7 @@ theorem hypDiag_orderOf (P : HypPair Q) (mu : Fˣ) (hq : q.Prime) (hq2 : q ≠ 2
     rw [h5, orderOf_one] at hord
     exact hq.ne_one hord.symm
 
+omit [CharP F 2] in
 theorem hypDiag_move (P : HypPair Q) (mu : Fˣ) (hq : q.Prime) (hq2 : q ≠ 2)
     (hord : orderOf mu = q) :
     ∀ a : ℤ, (hypDiag P (mu : F) (Units.ne_zero mu) ^ a) P.e = P.e → (q : ℤ) ∣ a := by
@@ -73,10 +76,12 @@ theorem hypDiag_move (P : HypPair Q) (mu : Fˣ) (hq : q.Prime) (hq2 : q ≠ 2)
     exact orderOf_dvd_iff_pow_eq_one.mpr (Units.ext h2)
   exact absurd (Nat.le_of_dvd hm hdvd) (not_le.mpr hmr)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F W] in
 theorem hypDiag_fix_other (P P' : HypPair Q) (h : P.Orth P') (a : F) (ha : a ≠ 0) :
     hypDiag P a ha P'.e = P'.e :=
   hypDiag_apply_perp P a ha (HypPair.mem_perp.mpr ⟨h.ee, h.fe⟩)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F W] in
 theorem hypDiag_mapsTo (P : HypPair Q) (a : F) (ha : a ≠ 0) :
     ∀ x ∈ Submodule.span F {P.e, P.f}, hypDiag P a ha x ∈ Submodule.span F {P.e, P.f} := by
   intro x hx
@@ -91,9 +96,10 @@ theorem hypDiag_mapsTo (P : HypPair Q) (a : F) (ha : a ≠ 0) :
       mul_zero, zero_add]
   rw [h1, h2]
   refine ⟨α + (a - 1) * α, β + (a⁻¹ - 1) * β, ?_⟩
-  simp only [add_smul, smul_add, smul_smul]
+  simp only [add_smul, smul_smul]
   module
 
+omit [Finite F] [CharP F 2] in
 theorem hypDiag_commute (P P' : HypPair Q) (h : P.Orth P') (a : F) (ha : a ≠ 0)
     (hQ : (polarBilin Q).Nondegenerate) :
     Commute (hypDiag P a ha) (hypDiag P' a ha) := by
@@ -135,8 +141,7 @@ theorem hypDiag_commute (P P' : HypPair Q) (h : P.Orth P') (a : F) (ha : a ≠ 0
     obtain ⟨α, β, rfl⟩ := hx
     obtain ⟨γ, δ, rfl⟩ := hy
     simp only [polar_add_left, polar_add_right, polar_smul_left_eq, polar_smul_right_eq,
-      h1, h2, h3, h4, h.ee, h.ef, h.fe, h.ff, P.polar_ee, P.polar_ff, P'.polar_ee, P'.polar_ff,
-      P.polar_ef, P'.polar_ef]
+      h1, h2, h3, h4]
     ring
   · exact fun w hw => hypDiag_apply_perp P a ha (by rwa [hperp] at hw)
   · exact fun w hw => hypDiag_apply_perp P' a ha (by rwa [hperp'] at hw)

@@ -30,9 +30,9 @@ theorem exists_sylow_normalizer_of_card_max
         (S : Subgroup G).subgroupOf (Subgroup.normalizer (H : Set G)) := by
   let N := Subgroup.normalizer (H : Set G)
   let R : Subgroup N := (S : Subgroup G).subgroupOf N
-  have hR : IsPGroup p R := S.isPGroup'.comap_subtype
+  have hR : IsPGroup p R := S.isPGroup.comap_subtype
   obtain ⟨T, hRT⟩ := hR.exists_le_sylow
-  have hH : IsPGroup p H := S.isPGroup'.to_le hHS
+  have hH : IsPGroup p H := S.isPGroup.to_le hHS
   let : (H.subgroupOf N).Normal := by
     change (H.subgroupOf (Subgroup.normalizer (H : Set G))).Normal
     infer_instance
@@ -40,7 +40,7 @@ theorem exists_sylow_normalizer_of_card_max
   have hHT : H.subgroupOf N ≤ (T : Subgroup N) :=
     hHN.le_sylow_of_normal T
   let U : Subgroup G := (T : Subgroup N).map N.subtype
-  have hU : IsPGroup p U := T.isPGroup'.map N.subtype
+  have hU : IsPGroup p U := T.isPGroup.map N.subtype
   obtain ⟨Q, hUQ⟩ := hU.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G Q S
   let e := MulAut.conj g

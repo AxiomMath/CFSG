@@ -17,7 +17,7 @@ open CFSG.SectionRank.ClassicalEven
 variable {W : Type} [CommGroup W]
 
 private instance s16h_finite_mulAut [Finite W] : Finite (MulAut W) :=
-  Finite.of_injective (fun f : MulAut W => (f : W → W)) (fun f g h => MulEquiv.ext (congrFun h))
+  Finite.of_injective (fun _f : MulAut W => (_f : W → W)) (fun _f _g h => MulEquiv.ext (congrFun h))
 
 private theorem s16h_H5_sumOfNat_one {N : Subgroup (MulAut W) → Subgroup W → Subgroup W → Prop}
     {L : Subgroup (MulAut W)} {U Z : Subgroup W} (hZ : Z ≤ U) (hN : N L U Z) :
@@ -101,7 +101,7 @@ theorem s16h_H5_isSLn_class [Finite W] {A L : Subgroup (MulAut W)} {t : MulAut W
     (hc : s16h_H5Cfg A L t) {n a : ℕ} (ha : a ≤ 3) (h : IsSLn ↥L n a) :
     (n = 3 ∧ a = 1) ∨ (n = 2 ∧ a = 2) ∨ (n = 2 ∧ a = 3) := by
   obtain ⟨K, hF, hFin, hKcard, ⟨e⟩⟩ := h
-  letI := hF; letI := hFin
+  let := hF; let := hFin
   rcases Nat.lt_or_ge n 3 with hn | hn
   · interval_cases n
     · exact (s16h_H5_not_quasisimple_of_isSLn_small hc (by omega)

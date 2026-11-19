@@ -138,7 +138,7 @@ private lemma mem_twFaceS2 {i : Fin TwistTag.E6.tag.rank} :
 private lemma mem_twFaceS3 {i : Fin TwistTag.E6.tag.rank} :
     i ∈ twFaceS3 ↔ i.val = 1 := by
   fin_cases i <;>
-    simp only [twFaceS3, Set.mem_insert_iff, Set.mem_singleton_iff] <;> decide
+    simp only [twFaceS3, Set.mem_singleton_iff] <;> decide
 
 private lemma disjoint_twFaceS1_S2 : Disjoint twFaceS1 twFaceS2 := by
   rw [Set.disjoint_left]
@@ -336,7 +336,7 @@ private lemma card_le_mul_card_inf_centralizers {F : Type} [Field F] [Finite F]
   let C₁ : Subgroup (Γ₂ F) := Subgroup.centralizer (f₁.ι.range : Set (Γ₂ F))
   let C₃ : Subgroup (Γ₂ F) := Subgroup.centralizer (f₃.ι.range : Set (Γ₂ F))
   change Nat.card ↥E ≤ 9 * (3 * Nat.card ↥((E ⊓ C₁) ⊓ C₃))
-  haveI : Finite ↥(E ⊓ C₁) :=
+  have : Finite ↥(E ⊓ C₁) :=
     Finite.of_injective (fun x : ↥(E ⊓ C₁) => (⟨x.1, (Subgroup.mem_inf.mp x.2).1⟩ : ↥E))
       (fun x y h => Subtype.ext (congrArg (fun z : ↥E => (z : Γ₂ F)) h))
   have h₁ : Nat.card ↥E ≤ 9 * Nat.card ↥(E ⊓ C₁) :=
@@ -377,12 +377,12 @@ theorem card_le_pow_three_of_le_levi_sup_diag_A2A1 {F : Type} [Field F] [Finite 
     (hEel : IsElemAbelian 3 E) : Nat.card E ≤ 3 ^ 3 := by
   classical
   by_cases hfin : Finite ↥E
-  · haveI := hfin
+  · have := hfin
     have hn : 1 ≤ n := by
       have h := CFSG.SeitzReduction.LinearPilot.one_le_of_card_eq_two_pow
         (K := F) (f := n * 2) (by rw [hF, pow_mul])
       omega
-    haveI : CharP F 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hn hF
+    have : CharP F 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hn hF
     have hq : 2 ^ n % 3 = 2 := mod_three_of_dvd_two_pow_add_one h3
     have h3F : (3 : F) ≠ 0 := three_ne_zero_of_charP_two
     have hrc : ringChar F ≠ 3 := ringChar_ne_three_of_charP_two
@@ -407,7 +407,7 @@ theorem card_le_pow_three_of_le_levi_sup_diag_A2A1 {F : Type} [Field F] [Finite 
       exact Subgroup.card_bot
     calc Nat.card ↥E ≤ 9 * (3 * Nat.card ↥((E ⊓ C₁) ⊓ C₃)) := hbound
       _ = 3 ^ 3 := by rw [hcard]; norm_num
-  · haveI : Infinite ↥E := not_finite_iff_infinite.mp hfin
+  · have : Infinite ↥E := not_finite_iff_infinite.mp hfin
     rw [Nat.card_eq_zero_of_infinite (α := ↥E)]
     exact Nat.zero_le _
 

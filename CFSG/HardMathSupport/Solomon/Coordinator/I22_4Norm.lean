@@ -25,8 +25,8 @@ theorem i224_exists_norm [Finite Ω] (L R : Subgroup Ω)
       (∀ Y : Subgroup Ω, (∀ g ∈ R, ∀ y ∈ Y, ∀ u ∈ L, y * (g * u * g⁻¹) = (g * u * g⁻¹) * y) →
         ∀ x : ↥L, ∀ y ∈ Y, y * N x = N x * y) := by
   classical
-  haveI : Finite ↥R := inferInstance
-  haveI : Fintype ↥R := Fintype.ofFinite _
+  have : Finite ↥R := inferInstance
+  have : Fintype ↥R := Fintype.ofFinite _
   let ϕ : ↥R → (↥L →* Ω) := fun g => (MulAut.conj (g : Ω)).toMonoidHom.comp L.subtype
   have hϕ : ∀ (g : ↥R) (x : ↥L), ϕ g x = (g : Ω) * x * (g : Ω)⁻¹ := fun _ _ => rfl
   have hc : Pairwise fun i j : ↥R => ∀ x y, Commute (ϕ i x) (ϕ j y) := fun i j hij x y => by
@@ -80,7 +80,7 @@ theorem i224_exists_norm [Finite Ω] (L R : Subgroup Ω)
       simp only [MonoidHom.comp_apply, hΦmul, hT]
       show r * (ϕ i y) * r⁻¹ = ϕ ⟨r * i, _⟩ y
       rw [hϕ, hϕ]
-      simp only [Subgroup.coe_mul, mul_inv_rev]
+      simp only [mul_inv_rev]
       group
     have hTδ : T (δ x) = δ x := rfl
     have := congrArg (fun F => F (δ x)) hmain
@@ -99,7 +99,7 @@ theorem i224_exists_norm [Finite Ω] (L R : Subgroup Ω)
       by_cases h : g = i
       · subst h
         simp
-      · simp [Pi.mulSingle_apply, h]
+      · simp [h]
     have hmain : (MulAut.conj f).toMonoidHom.comp Φ = Φ.comp S := by
       refine MonoidHom.pi_ext fun i y => ?_
       simp only [MonoidHom.comp_apply, hΦmul, hS]
@@ -124,7 +124,7 @@ theorem i224_exists_norm [Finite Ω] (L R : Subgroup Ω)
       by_cases h : g = one
       · subst h
         simp [w, hδ]
-      · simp [w, h, hδ, Pi.mulSingle_apply]
+      · simp [w, h, hδ]
     refine ⟨Φ w, ?_, ?_⟩
     · intro y hy
       have hcomm' : ∀ i : ↥R, Commute (g₀ * y * g₀⁻¹) (ϕ i (w i)) := by

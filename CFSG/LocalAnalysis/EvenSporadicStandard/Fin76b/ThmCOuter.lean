@@ -345,7 +345,7 @@ theorem exists_swap [Finite G] [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b �
       refine le_antisymm hQ (fun q hq => ?_)
       have : (⟨q, hq⟩ : (Q : Subgroup G)) ∈ TQ := by rw [htop]; trivial
       exact mem_subgroupOf.1 this
-    have : Group.IsNilpotent (Q : Subgroup G) := Q.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (Q : Subgroup G) := Q.isPGroup.isNilpotent
     have hnc : NormalizerCondition (Q : Subgroup G) := Group.normalizerCondition_of_isNilpotent
     obtain ⟨y, hyN, hyn⟩ := IsConcreteLE.exists_of_lt (hnc TQ hTQne)
     have hxN : (y : G) ∈ normalizer (T : Set G) := by
@@ -355,7 +355,7 @@ theorem exists_swap [Finite G] [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b �
     have hxT : (y : G) ∉ T := fun hyT => hyn (mem_subgroupOf.2 hyT)
     rcases h.normalizer_dichotomy hxN with ⟨h1, h2⟩ | ⟨h1, h2⟩
     · exfalso
-      refine hxT (h.mem_T_of_two_group ?_ Q.isPGroup' hQ y.2)
+      refine hxT (h.mem_T_of_two_group ?_ Q.isPGroup hQ y.2)
       rw [mem_centralizer_singleton_iff]
       calc (y : G) * z = ((y : G) * z * (y : G)⁻¹) * (y : G) := by group
         _ = z * (y : G) := by rw [h1]

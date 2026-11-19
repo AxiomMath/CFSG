@@ -276,6 +276,7 @@ section F4
 
 variable [CharP K 2]
 
+omit [CharP K 2] in
 theorem f4_commutator_memN
     {γ δ : Fin Tag.F4.rank → ℤ}
     (hγ : γ ∈ (f4Datum K).roots) (hδ : δ ∈ (f4Datum K).roots) (hlin : LinIndepPair γ δ)

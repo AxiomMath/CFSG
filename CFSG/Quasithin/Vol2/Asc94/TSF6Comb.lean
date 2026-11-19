@@ -127,7 +127,7 @@ private theorem pv_gm {N M : M5} (hN : IsUp N) (hM : IsUp M) : pv (gm N M) = pv 
   have h4 := mul_34 hN hM
   simp only [pv, gm, Prod.mk_add_mk, Matrix.add_apply, h1, h2, h3, h4, add_zero]
 
-private theorem qv_gm {N M : M5} (hN : IsUp N) (hM : IsUp M) (hpN : pv N = 0) (hpM : pv M = 0) :
+private theorem qv_gm {N M : M5} (hN : IsUp N) (hM : IsUp M) (hpN : pv N = 0) (_hpM : pv M = 0) :
     qv (gm N M) = qv N + qv M := by
   obtain ⟨a1, -, c1, -⟩ := (pv_zero_iff N).1 hpN
   have e1 : (N * M) 0 2 = 0 := by rw [mul_02 hN hM, a1, zero_mul]
@@ -454,7 +454,7 @@ theorem classify (𝒩 : Finset M5) (hup : ∀ N ∈ 𝒩, IsUp N)
       have h04 := congrArg (fun X : M5 => X 0 4) (hcomm M hM w hwm.1)
       rw [mul_04 (hup M hM) hwu, mul_04 hwu (hup M hM)] at h04
       simp only [(hA M hM).1, (hA M hM).2, w1, w4, hw02, hw24, mul_zero, zero_mul, add_zero,
-        zero_add, mul_one, one_mul] at h04
+        zero_add, one_mul] at h04
       exact h04.symm
     exact fun M hM => ⟨(hA M hM).1, hc0 M hM, (hA M hM).2, hc24 M hM⟩
   ·

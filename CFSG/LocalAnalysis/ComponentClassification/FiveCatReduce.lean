@@ -97,8 +97,8 @@ theorem exists_fixedComponent_bijOn {A : Type} [Group A] [Finite A] (c : MulAut 
   have habel := CatalogueBFixedCentralQuotient.fixed_quotient_abelian Z cbar hZmap hZc
   have hb₃ : Set.BijOn (Subgroup.map N.subtype) {L : Subgroup N | IsPComponent 2 L}
       {M : Subgroup ↥(fixedSubgroup σ) | IsPComponent 2 M} := by
-    haveI := hNn
-    haveI := habel
+    have := hNn
+    have := habel
     refine ⟨?_, ?_, ?_⟩
     · intro L hL
       have hLN : (L.map N.subtype).subgroupOf N = L :=
@@ -372,7 +372,7 @@ theorem layer_facts {H : Type} [Group H] [Finite H] {M : Subgroup H} (hM : IsPCo
       (CatalogueBHeldSmallCore.pComponent_coreQuotient_quasisimple 2 _ hTpc)
   set T' := T.subgroupOf M with hT'def
   let eTT : ↥T' ≃* ↥T := subgroupOfEquivOfLe hTM
-  haveI : Group.IsPerfect ↥T' :=
+  have : Group.IsPerfect ↥T' :=
     Group.IsPerfect.ofSurjective (f := eTT.symm.toMonoidHom) eTT.symm.surjective
   have hT'q : IsQuasisimple (↥T' ⧸ pPrimeCore 2 ↥T') :=
     LocalCores.isQuasisimple_of_mulEquiv (Sol78.coreQuotCongr eTT).symm hTq

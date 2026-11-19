@@ -79,7 +79,7 @@ theorem W_map_le_yamadaW₃_S4C (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f
   (le_sup_left : d.W.map L.subtype ≤ yamadaW₂ d t).trans (h.yamadaW₂_le_yamadaW₃_S4C d hlay)
 
 theorem yamadaW₃_le_yamadaD₅_S4C (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
-    (hlay : h.LayerHyp d) : yamadaW₃ d t ≤ yamadaD₅ d t := fun w hw =>
+    (hlay : h.LayerHyp d) : yamadaW₃ d t ≤ yamadaD₅ d t := fun _w hw =>
   mem_inf.2 ⟨h.yamadaW₃_le_yamadaC₅ d hlay hw,
     (mem_inf.1 (h.yamadaW₃_le_yamadaS₄_R4 d hlay hw)).2⟩
 
@@ -98,6 +98,7 @@ theorem F_map_le_yamadaF₄_S4C (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f
   exact le_inf (le_inf hFR₄ ((map_mono d.F_le_M).trans
     (h.M_map_le_centralizer_yamadaY₂ d hlay))) (hFD₁.trans (h.yamadaD₁_le_yamadaD₄_S4C d hlay))
 
+omit [Finite G] in
 theorem yamadaF₄_le_yamadaS₄_S4C {q : ℕ} (d : TrialityD4Data L q) (t : G) :
     yamadaF₄ d t ≤ yamadaS₄ d t :=
   (yamadaF₄_le_yamadaM₄ d t).trans (yamadaM₄_le_yamadaS₄_R4 d t)

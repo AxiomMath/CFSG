@@ -345,11 +345,11 @@ private def qtwoCommSub {Bs : Subgroup G} {m : ℕ} (β : Additive ↥Bs ≃+ DV
     AddSubgroup (DVec m) where
   carrier := {v | Commute y ((Additive.toMul (β.symm v) : ↥Bs) : G)}
   add_mem' {v w} hv hw := by
-    simp only [Set.mem_setOf_eq, map_add, toMul_add, Subgroup.coe_mul] at hv hw ⊢
+    simp only [Set.mem_ofPred_eq, map_add, toMul_add, Subgroup.coe_mul] at hv hw ⊢
     exact hv.mul_right hw
   zero_mem' := by simp
   neg_mem' {v} hv := by
-    simp only [Set.mem_setOf_eq, map_neg, toMul_neg, Subgroup.coe_inv] at hv ⊢
+    simp only [Set.mem_ofPred_eq, map_neg, toMul_neg, Subgroup.coe_inv] at hv ⊢
     exact hv.inv_right
 
 private theorem qtwoCommSub_smul_mem {Bs : Subgroup G} {m : ℕ} (β : Additive ↥Bs ≃+ DVec m)

@@ -15,6 +15,7 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z : G} {A B : Subgroup G}
   {φ : (Fin 7 → ZMod 2) → G} {u : G}
 
+omit [Finite G] in
 private lemma mem_centerIn_iff' {K : Subgroup G} (a : G) :
     a ∈ centerIn K ↔ a ∈ K ∧ ∀ k ∈ K, a * k = k * a := by
   rw [centerIn, Subgroup.mem_map]

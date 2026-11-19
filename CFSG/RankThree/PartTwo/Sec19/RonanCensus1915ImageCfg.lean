@@ -90,7 +90,7 @@ theorem comap_pCore_eq_of_surjective_of_perfect (ψ : L →* J) (hψ : Function.
       intro y
       obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup (p := 2) (G := J)) ⟨y, hJtop ▸ Subgroup.mem_top y⟩
       exact ⟨n, by simpa using congrArg Subtype.val hn⟩
-    haveI := hJp
+    have := hJp
     exact Group.IsPerfect.not_isNilpotent J hJ2.isNilpotent
 
 noncomputable def quotientPCoreEquivOfPerfect (ψ : L →* J) (hψ : Function.Surjective ψ)
@@ -142,8 +142,8 @@ theorem cfgS429_of_perfect {A : Subgroup G} (hA : Late.IsE27 A) {c : G} (hc : c 
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact (Subgroup.mem_centralizer_iff.mp h1 l hl)
   ·
-    haveI : Group.IsPerfect K' := hK'p
-    haveI : Group.IsPerfect K₁ := Group.IsPerfect.ofSurjective
+    have : Group.IsPerfect K' := hK'p
+    have : Group.IsPerfect K₁ := Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hK'L).symm.toMonoidHom) (MulEquiv.surjective _)
     exact Group.IsPerfect.map _
   ·

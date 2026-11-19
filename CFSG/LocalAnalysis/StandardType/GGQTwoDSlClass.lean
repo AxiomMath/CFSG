@@ -35,7 +35,7 @@ theorem eq_dTau_of_reflection {m : ℕ} {u : DVec m ≃ₗ[ZMod 3] DVec m} (hu :
   have hxs : ∀ i, i ≠ k₀ → i ≠ σ k₀ → x i = 0 := by
     intro i hi1 hi2
     have h1 := hcoord k₀ i
-    simp only [dBasis_apply, hi1, hi2, if_false, mul_zero, zero_sub] at h1
+    simp only [dBasis_apply, hi1, hi2, ite_false, mul_zero, zero_sub] at h1
     rcases mul_eq_zero.1 (neg_eq_zero.1 h1.symm) with h0 | h0
     · exact absurd h0 hk₀
     · exact h0
@@ -43,11 +43,11 @@ theorem eq_dTau_of_reflection {m : ℕ} {u : DVec m ≃ₗ[ZMod 3] DVec m} (hu :
     intro k hk1 hk2
     have h1 := hcoord k k
     rw [hxs k hk1 hk2, mul_zero, sub_zero] at h1
-    simp only [dBasis_apply, if_true] at h1
+    simp only [dBasis_apply, ite_true] at h1
     by_cases hσ : k = σ k
-    · rw [if_pos hσ, mul_one] at h1
+    · rw [ite_eq_left hσ, mul_one] at h1
       exact ⟨hσ.symm, h1⟩
-    · rw [if_neg hσ, mul_zero] at h1
+    · rw [ite_eq_right hσ, mul_zero] at h1
       exact absurd h1 (by decide)
   by_cases hA : σ k₀ = k₀
   · exfalso
@@ -57,7 +57,7 @@ theorem eq_dTau_of_reflection {m : ℕ} {u : DVec m ≃ₗ[ZMod 3] DVec m} (hu :
       rwa [Finset.prod_eq_single k₀ (fun k _ hk => hall k hk) (by simp)] at h1
     have h1 := hcoord k₀ k₀
     rw [hA] at h1
-    simp only [dBasis_apply, if_true, hck, one_mul] at h1
+    simp only [dBasis_apply, ite_true, hck, one_mul] at h1
     have hxk₀ : x k₀ = 0 := by
       have h2 : f (dBasis m k₀) * x k₀ = 0 := by linear_combination h1
       rcases mul_eq_zero.1 h2 with h0 | h0

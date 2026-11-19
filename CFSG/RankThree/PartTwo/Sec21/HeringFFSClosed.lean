@@ -61,7 +61,7 @@ theorem ffs_main {G : Type} [Group G] [Finite G] {a : G} {A X : Subgroup G}
     (∃ P : Sylow 3 ↥(Subgroup.centralizer ({a} : Set G)),
       (P : Subgroup ↥(Subgroup.centralizer ({a} : Set G))).map
         (Subgroup.centralizer ({a} : Set G)).subtype = A) ∧ Nat.card A ≤ 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup G := Subgroup.centralizer ({a} : Set G) with hC
   have hAab : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hA.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
@@ -76,7 +76,7 @@ theorem ffs_main {G : Type} [Group G] [Finite G] {a : G} {A X : Subgroup G}
     rw [← hPB]
     exact ⟨⟨x, hAC hx⟩, hAP (show (⟨x, hAC hx⟩ : ↥C) ∈ A.comap C.subtype from hx), rfl⟩
   have hBC : B ≤ C := hPB ▸ Subgroup.map_subtype_le _
-  have hB3 : IsPGroup 3 B := hPB ▸ P.isPGroup'.map C.subtype
+  have hB3 : IsPGroup 3 B := hPB ▸ P.isPGroup.map C.subtype
   have hBN : B ≤ Subgroup.normalizer (X : Set G) := hBC.trans hCN
   have hI' : ∀ b ∈ B, ∃ x ∈ X, x⁻¹ * b ∈ Subgroup.centralizer (X : Set G) := by
     intro b hb
@@ -100,7 +100,7 @@ theorem ffs_main {G : Type} [Group G] [Finite G] {a : G} {A X : Subgroup G}
     have hBA : B = A := hAmax B hBel hAB
     refine ⟨⟨P, hPB.trans hBA⟩, ?_⟩
     have hSle : Nat.card S ≤ 3 := by
-      haveI := hScyc
+      have := hScyc
       have h := CFSG.RankThree.PartTwo.Sec4.Item434U38.card_le_three_of_pow (G' := ↥S) ⊤
         (fun r _ => Subtype.ext (hcase r r.2))
       rwa [Subgroup.card_top] at h

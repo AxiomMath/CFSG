@@ -88,7 +88,7 @@ theorem exists_neg_mem_of_cartanD {τ : Tag} {Ψ : Set (Fin τ.rank → ℤ)} (h
   refine ⟨(twoDFourNegWord.map (fun i => rootReflection (e.symm i : Fin τ.rank → ℤ))).prod, ?_, ?_⟩
   · clear he
     induction twoDFourNegWord with
-    | nil => simpa using one_mem _
+    | nil => simp
     | cons i l ih =>
         rw [List.map_cons, List.prod_cons]
         exact mul_mem (rootReflection_mem_componentWeylGroup (e.symm i).2) ih
@@ -155,7 +155,7 @@ theorem twoDFourWord_spec {τ : Tag} {Ψ : Set (Fin τ.rank → ℤ)} (hΨ : IsR
   constructor
   · clear he
     induction twoDFourNegWord with
-    | nil => simpa using one_mem _
+    | nil => simp
     | cons i l ih =>
         rw [List.map_cons, List.prod_cons]
         exact mul_mem (rootReflection_mem_componentWeylGroup (e.symm i).2) ih

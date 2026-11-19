@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G] {p f : ℕ} [Fact p.Prime] {K : Subgrou
 theorem mem_centralizer_of_mem_cStar (hd : Sec19Data p f K z S W) {x : G}
     (hxS : x ∈ (S : Subgroup G)) (hx : x ∈ centralizerModOdd ⊤ K) :
     ∀ r ∈ (S : Subgroup G) ⊓ K, x * r = r * x :=
-  fun _ hr => commute_of_mem_centralizerModOdd hx inf_le_right (S.isPGroup'.to_le inf_le_left)
+  fun _ hr => commute_of_mem_centralizerModOdd hx inf_le_right (S.isPGroup.to_le inf_le_left)
     (mem_normalizer_inf_of_mem hxS ((sd_normalizer_eq hd).ge (hd.hSz hxS))) hr
 
 theorem mem_cStar_of_mem_centralizer [IsSimpleGroup G] (hd : Sec19Data p f K z S W) {x : G}
@@ -26,7 +26,7 @@ theorem mem_cStar_of_mem_centralizer [IsSimpleGroup G] (hd : Sec19Data p f K z S
   have hxN : x ∈ Subgroup.normalizer (K : Set G) := (sd_normalizer_eq hd).ge (hd.hSz hxS)
   exact ⟨Subgroup.mem_top x, hxN, mem_normalizer_oddCoreOf_of_mem_normalizer hxN,
     fun k hk => commutator_mem_oddCoreOf_of_centralizes hd.tight (sd_isSylow2In_R hd)
-      (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxS)) hxN (fun r hr => (hxR r hr).symm) hk⟩
+      (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hxS)) hxN (fun r hr => (hxR r hr).symm) hk⟩
 
 theorem mem_W_inf_of_mem_centralizer_t [IsSimpleGroup G] (h11b : C19_11bTmp p f)
     (hd : Sec19DataT p f K z S W L t V) {x : G} (hxS : x ∈ (S : Subgroup G))
@@ -58,7 +58,7 @@ theorem mem_W_inf_of_mem_centralizer_t [IsSimpleGroup G] (h11b : C19_11bTmp p f)
       · have hvSL : v ∈ (S : Subgroup G) ⊓ L :=
           ⟨hd.hWS (hd.leW hv), S1911.le_member hd hv⟩
         exact Subgroup.mem_centralizer_singleton_iff.mpr
-          (commute_of_mem_centralizerModOdd hcLs inf_le_right (S.isPGroup'.to_le inf_le_left)
+          (commute_of_mem_centralizerModOdd hcLs inf_le_right (S.isPGroup.to_le inf_le_left)
             (mem_normalizer_inf (Subgroup.le_normalizer hcS) hcL) hvSL).symm
     exact Subgroup.mem_centralizer_iff.mpr fun y hy =>
       (Subgroup.mem_centralizer_singleton_iff.mp (hle hy))
@@ -104,7 +104,7 @@ theorem isUniqueInvolution_W_inf [IsSimpleGroup G] (hd : Sec19DataT p f K z S W 
   have hd0 := hd.toSec19Data
   have hzK := isUniqueInvolution_of_tight hd.tight.toTightBranch
   have hcyc := S1911.isCyclic_inf_sec19Y hd
-  have hU2 : IsPGroup 2 ↥(K ⊓ W) := S.isPGroup'.to_le (inf_le_right.trans hd.hWS)
+  have hU2 : IsPGroup 2 ↥(K ⊓ W) := S.isPGroup.to_le (inf_le_right.trans hd.hWS)
   have hU4 : 2 ≤ Nat.card ↥(K ⊓ W) := by
     rw [S1911.card_inf_eq_card hd]
     have := S1911.four_le_card hd

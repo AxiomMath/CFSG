@@ -46,10 +46,10 @@ theorem ggF4Ends_map_eq_one_of_braid {H Q : Type*} [Group H] [Group Q] (χ : H �
 theorem ggF4Ends_range_eq_top_of_swaps {H : Type*} [Group H] (χ : H →* Equiv.Perm (Fin 3)) {a b : H}
     (ha : χ a = Equiv.swap 0 1) (hb : χ b = Equiv.swap 1 2) : χ.range = ⊤ := by
   have ho2 : orderOf (Equiv.swap (0 : Fin 3) 1) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by decide) (by decide)
   have ho3 : orderOf (Equiv.swap (0 : Fin 3) 1 * Equiv.swap 1 2) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime (by decide) (by decide)
   have h2 : 2 ∣ Nat.card χ.range := by
     have h := Subgroup.orderOf_dvd_natCard χ.range (⟨a, rfl⟩ : χ a ∈ χ.range)

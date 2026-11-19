@@ -181,7 +181,7 @@ private theorem exists_lift_card_nine (hK : Nat.card K = (2 ^ 2) ^ 2)
     rw [Subgroup.card_map_of_injective E'.subtype_injective]
     simpa using h
   have hinf : P' ⊓ (suQ 5 hK).ker = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hP'_card, card_ker_suQ_five hK]
     decide
   refine ⟨P', hP'_card, hinf, Subgroup.eq_of_le_of_card_ge ?_ ?_⟩

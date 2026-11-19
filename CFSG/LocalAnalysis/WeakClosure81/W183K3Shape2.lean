@@ -21,7 +21,7 @@ open CFSG.RankThree.PartTwo.Sec4.Census (tableOrder)
 
 private lemma w183K3Shape2_isQuasisimple_of_open {J : Type} [Group J]
     (hq : CFSG.Open.IsQuasisimple J) : CFSG.IsQuasisimple J := by
-  haveI : Group.IsPerfect J := ⟨hq.1⟩
+  have : Group.IsPerfect J := ⟨hq.1⟩
   exact CFSG.RankThree.PartTwo.Sec4.Census.isQuasisimple_of_isPerfect hq.2
 
 private lemma w183K3Shape2_models_of_blueprint {X : Type} [Group X] {t : StatedLieTag}
@@ -48,7 +48,7 @@ theorem kstar_card_center_three
     (e : J ⧸ Subgroup.center J ≃* X) (hX : IsAlt X 6 ∨ IsL3 X 2) :
     Nat.card ↥(Subgroup.center J) = 3 := by
   have hZ' : Nat.card ↥(Subgroup.center J) ≠ 1 := by
-    haveI : Nontrivial ↥(Subgroup.center J) := hZ
+    have : Nontrivial ↥(Subgroup.center J) := hZ
     exact (Finite.one_lt_card (α := ↥(Subgroup.center J))).ne'
   have hq' : CFSG.IsQuasisimple J := w183K3Shape2_isQuasisimple_of_open hq
   rcases hX with hAlt | hL3

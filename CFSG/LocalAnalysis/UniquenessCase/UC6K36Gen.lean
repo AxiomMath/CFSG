@@ -17,13 +17,13 @@ theorem perfect_le_of_le_sup_of_isSolvable {P S K : Subgroup G} (hP : Group.IsPe
   have hKN : K ≤ N := Subgroup.le_normalizer
   have hSKN : S ⊔ K ≤ N := sup_le hSK hKN
   have hPN : P ≤ N := hPSK.trans hSKN
-  haveI : (K.subgroupOf N).Normal := Subgroup.normal_in_normalizer
+  have : (K.subgroupOf N).Normal := Subgroup.normal_in_normalizer
   let π : N →* N ⧸ K.subgroupOf N := QuotientGroup.mk' (K.subgroupOf N)
   have hS' : Group.IsSolvable (S.subgroupOf N) :=
     Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe hSK).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hSK).injective
-  haveI : Group.IsPerfect P := hP
-  haveI hP' : Group.IsPerfect (P.subgroupOf N) :=
+  have : Group.IsPerfect P := hP
+  have hP' : Group.IsPerfect (P.subgroupOf N) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hPN).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hPN).symm.surjective
   have hsolv : Group.IsSolvable ((S.subgroupOf N).map π) :=
@@ -36,13 +36,13 @@ theorem perfect_le_of_le_sup_of_isSolvable {P S K : Subgroup G} (hP : Group.IsPe
     have hbot : (K.subgroupOf N).map π = ⊥ := by
       rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk']
     rw [hbot, sup_bot_eq]
-  haveI hT : Group.IsPerfect ((P.subgroupOf N).map π) := Group.IsPerfect.map π
+  have hT : Group.IsPerfect ((P.subgroupOf N).map π) := Group.IsPerfect.map π
   have hTs : Group.IsSolvable ((P.subgroupOf N).map π) :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hle)
       (Subgroup.inclusion_injective hle)
   have hbot : (P.subgroupOf N).map π = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ((P.subgroupOf N).map π) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+    have : Nontrivial ((P.subgroupOf N).map π) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
     exact Group.IsPerfect.not_isSolvable _ hTs
   rw [Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk'] at hbot
   intro x hx
@@ -52,7 +52,7 @@ theorem eq_of_forall_mul_mem_center {K : Subgroup G} (hK : Group.IsPerfect K) {g
     (hg : g ∈ normalizer (K : Set G))
     (hz : ∀ k ∈ K, ∀ y ∈ K, (k⁻¹ * (g * k * g⁻¹)) * y = y * (k⁻¹ * (g * k * g⁻¹))) :
     ∀ k ∈ K, g * k * g⁻¹ = k := by
-  haveI : Group.IsPerfect K := hK
+  have : Group.IsPerfect K := hK
   have hmem : ∀ k ∈ K, k⁻¹ * (g * k * g⁻¹) ∈ K := fun k hk =>
     K.mul_mem (K.inv_mem hk) ((Subgroup.mem_normalizer_iff.1 hg k).1 hk)
   let δ : K →* K :=
@@ -72,8 +72,8 @@ theorem eq_of_forall_mul_mem_center {K : Subgroup G} (hK : Group.IsPerfect K) {g
           _ = ((k1 : G)⁻¹ * (g * k1 * g⁻¹)) * (k2 : G)⁻¹ * (g * k2 * g⁻¹) := by
               rw [← h1]
           _ = _ := by group }
-  haveI : Group.IsPerfect δ.range := Group.IsPerfect.range δ
-  haveI : IsMulCommutative δ.range := ⟨⟨fun a b => by
+  have : Group.IsPerfect δ.range := Group.IsPerfect.range δ
+  have : IsMulCommutative δ.range := ⟨⟨fun a b => by
     obtain ⟨x, hx⟩ := a.2
     obtain ⟨y, hy⟩ := b.2
     have hxy := hz x x.2 (δ y : G) (δ y).2

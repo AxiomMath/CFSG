@@ -17,9 +17,9 @@ section Certified
 theorem kFactFieldAutThree_holds
     : KFactFieldAutThree := by
   intro X _ _ hK L hL hLn hr a ha ha' P hP _
-  haveI := hLn
-  haveI : Group.IsPerfect L := hL.1.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hLn
+  have : Group.IsPerfect L := hL.1.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ha3 : a ^ 3 = 1 := ha ▸ pow_orderOf_eq_one a
   obtain ⟨Q, rfl⟩ := hP
   by_contra hcon
@@ -43,12 +43,12 @@ theorem kFactFieldAutThree_holds
 theorem kFactFieldAutInvert_holds
     : KFactFieldAutInvert := by
   intro X _ _ hK L hL hLn hr a ha3 ha' A hAL hA3 haA
-  haveI := hLn
-  haveI : Group.IsPerfect L := hL.1.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hLn
+  have : Group.IsPerfect L := hL.1.1
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : ∀ z ∈ Subgroup.center L, z ^ 3 = 1 → z = 1 := fun z hz hz3 =>
     eq_one_of_mem_center_of_isComponent hL hr.le hz hz3
-  haveI : IsCyclic A := isCyclic_of_prime_card hA3
+  have : IsCyclic A := isCyclic_of_prime_card hA3
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := A)
   have hgord : orderOf g = 3 := (orderOf_eq_card_of_forall_mem_zpowers hg).trans hA3
   have hg3 : g ^ 3 = 1 := hgord ▸ pow_orderOf_eq_one g

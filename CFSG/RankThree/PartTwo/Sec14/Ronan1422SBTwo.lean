@@ -71,7 +71,7 @@ theorem card_comap_eq_card_ker_mul_card {K : Type} [Group K] [Finite K]
 
 theorem pCore_two_quotient_bot_1422S (H : Type) [Group H] [Finite H] :
     CFSG.pCore 2 (H ⧸ CFSG.pCore 2 H) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let M : Subgroup H :=
     (CFSG.pCore 2 (H ⧸ CFSG.pCore 2 H)).comap (QuotientGroup.mk' (CFSG.pCore 2 H))
   have hMp : IsPGroup 2 M := by
@@ -115,8 +115,8 @@ theorem isElemAbelian_quotient_card_le {H : Type} [Group H] [Finite H] (r : ℕ)
     (hrank : ∀ E : Subgroup H, CFSG.Assembly.IsElemAbelian r E → Nat.card E ≤ r ^ 2)
     (E : Subgroup (H ⧸ CFSG.pCore 2 H)) (hE : CFSG.Assembly.IsElemAbelian r E) :
     Nat.card E ≤ r ^ 2 := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hndvd : ¬ r ∣ Nat.card (CFSG.pCore 2 H) := by
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup (p := 2) (G := H))
     rw [hn]
@@ -133,14 +133,14 @@ theorem mem_R_of_mem_K_inter_V {G : Type} [Group G] [Finite G] {K R V : Subgroup
     (hKV : K ≤ Subgroup.normalizer (V : Set G)) (hV3 : ¬ 3 ∣ Nat.card V)
     (f : ↥K →* alternatingGroup (Fin 6)) (hf : Function.Surjective f)
     (hker : f.ker = R.subgroupOf K) {x : G} (hxK : x ∈ K) (hxV : x ∈ V) : x ∈ R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hWn : (V.subgroupOf K).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     exact (Subgroup.mem_normalizer_iff.mp (hKV g.2) _).mp hn
-  haveI : ((V.subgroupOf K).map f).Normal := Subgroup.Normal.map hWn f hf
-  haveI hsimple : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have : ((V.subgroupOf K).map f).Normal := Subgroup.Normal.map hWn f hf
+  have hsimple : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((V.subgroupOf K).map f) with hbot | htop
   · have hxW : (⟨x, hxK⟩ : K) ∈ V.subgroupOf K := Subgroup.mem_subgroupOf.mpr hxV
@@ -188,12 +188,12 @@ theorem le_of_isPerfect_quotient {G : Type} [Group G] {J K V N : Subgroup G}
     (hJp : Group.IsPerfect J) (hVs : Group.IsSolvable V) (hVJ : V ≤ J)
     (hJKV : J ≤ K ⊔ V) (hKN : K ≤ N) (hNJ : N ≤ J)
     (hJN : J ≤ Subgroup.normalizer (N : Set G)) : J ≤ N := by
-  haveI : Group.IsPerfect J := hJp
-  haveI : Group.IsSolvable V := hVs
+  have : Group.IsPerfect J := hJp
+  have : Group.IsSolvable V := hVs
   have hVN : V ≤ Subgroup.normalizer (N : Set G) := hVJ.trans hJN
-  haveI hnorm : (N.subgroupOf J).Normal :=
+  have hnorm : (N.subgroupOf J).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNJ).mpr hJN
-  haveI : Group.IsPerfect (J ⧸ N.subgroupOf J) := Group.IsPerfect.instQuotientSubgroup
+  have : Group.IsPerfect (J ⧸ N.subgroupOf J) := Group.IsPerfect.instQuotientSubgroup
   let ψ : V →* J ⧸ N.subgroupOf J :=
     (QuotientGroup.mk' (N.subgroupOf J)).comp (Subgroup.inclusion hVJ)
   have hψ : Function.Surjective ψ := by
@@ -214,7 +214,7 @@ theorem le_of_isPerfect_quotient {G : Type} [Group G] {J K V N : Subgroup G}
     show v⁻¹ * (j : G) ∈ N
     rw [e]
     exact hn
-  haveI : Group.IsSolvable (J ⧸ N.subgroupOf J) := Group.isSolvable_of_surjective hψ
+  have : Group.IsSolvable (J ⧸ N.subgroupOf J) := Group.isSolvable_of_surjective hψ
   have hsub : Subsingleton (J ⧸ N.subgroupOf J) := by
     by_contra hns
     rw [not_subsingleton_iff_nontrivial] at hns
@@ -225,11 +225,11 @@ theorem le_of_isPerfect_quotient {G : Type} [Group G] {J K V N : Subgroup G}
   exact h1
 
 theorem exists_inverting_of_A6 (hA6 : KF1422AutA6) {G : Type} [Group G] [Finite G]
-    {K R B : Subgroup G} (hRK : R ≤ K) (f : ↥K →* alternatingGroup (Fin 6))
+    {K R B : Subgroup G} (_hRK : R ≤ K) (f : ↥K →* alternatingGroup (Fin 6))
     (hf : Function.Surjective f) (hker : f.ker = R.subgroupOf K) (hR2 : IsPGroup 2 R)
     (hBK : B ≤ K) (hB9 : Nat.card B = 9) (hBc : ∀ b ∈ B, ∀ b' ∈ B, b * b' = b' * b) :
     ∃ h ∈ K, ∀ b ∈ B, h * b * h⁻¹ = b⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB'card : Nat.card (B.subgroupOf K) = 9 :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBK).toEquiv).trans hB9
   have hinj : Function.Injective (f.comp (B.subgroupOf K).subtype) := by
@@ -326,13 +326,13 @@ theorem isPGroup_two_of_A6_ext
     (hV3 : ¬ 3 ∣ Nat.card V)
     (hrank : ∀ r : ℕ, r.Prime → 5 ≤ r → ∀ E : Subgroup G, E ≤ V →
       CFSG.Assembly.IsElemAbelian r E → Nat.card E ≤ r ^ 2)
-    (hRK : R ≤ K) (hR2 : IsPGroup 2 R) (hKp : Group.IsPerfect K)
+    (_hRK : R ≤ K) (hR2 : IsPGroup 2 R) (hKp : Group.IsPerfect K)
     (f : ↥K →* alternatingGroup (Fin 6)) (hf : Function.Surjective f)
     (hker : f.ker = R.subgroupOf K) (hBK : B ≤ K) (hB9 : Nat.card B = 9)
     (hBc : ∀ b ∈ B, ∀ b' ∈ B, b * b' = b' * b) (hB3 : ∀ b ∈ B, b ^ 3 = 1)
     {h : G} (hhK : h ∈ K) (hinv : ∀ b ∈ B, h * b * h⁻¹ = b⁻¹) : IsPGroup 2 V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable V := hVs
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsSolvable V := hVs
   let ρ : ↥K →* MulAut ↥V := (Subgroup.normalizerMonoidHom V).comp (Subgroup.inclusion hKV)
   let φ : ↥K →* MulAut (↥V ⧸ CFSG.pCore 2 V) := (CFSG.pCoreQuotMulAut V).comp ρ
   have hV1solv : Group.IsSolvable (↥V ⧸ CFSG.pCore 2 V) :=

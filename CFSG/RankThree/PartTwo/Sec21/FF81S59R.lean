@@ -31,10 +31,10 @@ theorem center_eq_bot_of_simple_168 [IsSimpleGroup R] (hR : Nat.card R = 168) :
     have hcomm : ∀ a b : R, a * b = b * a := fun a b => by
       have ha : a ∈ Subgroup.center R := by rw [h]; exact Subgroup.mem_top a
       exact ((Subgroup.mem_center_iff.mp ha) b).symm
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨y, hy⟩ : ∃ y : R, orderOf y = 2 :=
       exists_prime_orderOf_dvd_card' 2 (by omega)
-    haveI : (Subgroup.zpowers y).Normal := ⟨fun n hn g => by
+    have : (Subgroup.zpowers y).Normal := ⟨fun n hn g => by
       have hc : g * n * g⁻¹ = n := by rw [hcomm g n, mul_assoc, mul_inv_cancel, mul_one]
       rw [hc]
       exact hn⟩
@@ -69,7 +69,7 @@ theorem eq_top_of_orders_168 [IsSimpleGroup R] (hR : Nat.card R = 168) (K : Subg
     have h := hdiv z hz
     rwa [hz2] at h
   have h42 : 42 ∣ Nat.card K := by omega
-  haveI : Nonempty K := ⟨1⟩
+  have : Nonempty K := ⟨1⟩
   have hge : 42 ≤ Nat.card K := Nat.le_of_dvd Nat.card_pos h42
   by_contra hK
   have hidx : Nat.card K * K.index = 168 := by rw [Subgroup.card_mul_index, hR]
@@ -85,9 +85,9 @@ theorem eq_top_of_orders_168 [IsSimpleGroup R] (hR : Nat.card R = 168) (K : Subg
 
 theorem exists_order_seven_normalized [IsSimpleGroup R] (hR : Nat.card R = 168) (β : R)
     (hβ : orderOf β = 3) : ∃ γ : R, orderOf γ = 7 ∧ β * γ * β⁻¹ ∈ Subgroup.zpowers γ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI hfin : Finite (Sylow 7 R) :=
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have hfin : Finite (Sylow 7 R) :=
     Finite.of_injective (fun P : Sylow 7 R => ((P : Subgroup R) : Set R))
       fun P Q h => Sylow.ext (SetLike.coe_injective h)
   have hN_dvd : Nat.card (Sylow 7 R) ∣ 168 := by
@@ -105,7 +105,7 @@ theorem exists_order_seven_normalized [IsSimpleGroup R] (hR : Nat.card R = 168) 
   have hβ3 : β ^ 3 = 1 := by rw [← hβ]; exact pow_orderOf_eq_one β
   have hσ : (MulAction.toPermHom R (Sylow 7 R) β) ^ (3 ^ 1) = 1 := by
     rw [pow_one, ← map_pow, hβ3, map_one]
-  haveI : Fintype (Sylow 7 R) := Fintype.ofFinite _
+  have : Fintype (Sylow 7 R) := Fintype.ofFinite _
   have hcard3 : ¬ 3 ∣ Fintype.card (Sylow 7 R) := by
     rwa [← Nat.card_eq_fintype_card]
   obtain ⟨P, hP⟩ := Equiv.Perm.exists_fixed_point_of_prime hcard3 hσ
@@ -118,7 +118,7 @@ theorem exists_order_seven_normalized [IsSimpleGroup R] (hR : Nat.card R = 168) 
     have h := Subgroup.card_subgroup_dvd_card (P : Subgroup R)
     rwa [hR] at h
   have hP7 : Nat.card (P : Subgroup R) = 7 := by
-    obtain ⟨n, hn'⟩ := IsPGroup.iff_card.mp P.isPGroup'
+    obtain ⟨n, hn'⟩ := IsPGroup.iff_card.mp P.isPGroup
     rcases Nat.lt_or_ge n 2 with hlt | hge
     · rcases Nat.lt_or_ge n 1 with h0 | h1
       · exfalso
@@ -151,9 +151,10 @@ section Transport
 
 variable {G : Type} [Group G] [Finite G] {R : Subgroup G}
 
+omit [Finite G] in
 theorem isLnq_simple_card (h : IsLnq 3 2 1 R) : IsSimpleGroup ↥R ∧ Nat.card R = 168 := by
   obtain ⟨e⟩ := CFSG.GF2Type.Smith1979.Case2.nonempty_mulEquiv_gl_of_psl_two h
-  haveI : IsSimpleGroup (GL (Fin 3) (ZMod 2)) :=
+  have : IsSimpleGroup (GL (Fin 3) (ZMod 2)) :=
     CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
   exact ⟨MulEquiv.isSimpleGroup e, by
     rw [Nat.card_congr e.toEquiv, CFSG.ComponentClassification.GHarris.card_GL32_gh]⟩
@@ -161,7 +162,7 @@ theorem isLnq_simple_card (h : IsLnq 3 2 1 R) : IsSimpleGroup ↥R ∧ Nat.card 
 theorem exists_seven_in (h : IsLnq 3 2 1 R) {β : G} (hβR : β ∈ R) (hβ : orderOf β = 3) :
     ∃ γ ∈ R, orderOf γ = 7 ∧ β * γ * β⁻¹ ∈ Subgroup.zpowers γ := by
   obtain ⟨hs, hc⟩ := isLnq_simple_card h
-  haveI := hs
+  have := hs
   obtain ⟨γ, hγ7, hγ⟩ := exists_order_seven_normalized hc ⟨β, hβR⟩
     (by rw [Subgroup.orderOf_mk]; exact hβ)
   refine ⟨(γ : G), γ.2, ?_, ?_⟩
@@ -175,7 +176,7 @@ theorem eq_of_orders_in (h : IsLnq 3 2 1 R) {K : Subgroup G} (hKR : K ≤ R)
     (h7 : ∃ x ∈ K, orderOf x = 7) (h3 : ∃ x ∈ K, orderOf x = 3)
     (h2 : ∃ x ∈ K, orderOf x = 2) : K = R := by
   obtain ⟨hs, hc⟩ := isLnq_simple_card h
-  haveI := hs
+  have := hs
   have key : ∀ n : ℕ, (∃ x ∈ K, orderOf x = n) → ∃ y ∈ K.subgroupOf R, orderOf y = n := by
     rintro n ⟨x, hx, hxn⟩
     refine ⟨⟨x, hKR hx⟩, Subgroup.mem_subgroupOf.mpr hx, ?_⟩
@@ -189,7 +190,7 @@ theorem eq_of_orders_in (h : IsLnq 3 2 1 R) {K : Subgroup G} (hKR : K ≤ R)
 theorem eq_one_of_central_in (h : IsLnq 3 2 1 R) {x : G} (hxR : x ∈ R)
     (hx : ∀ r ∈ R, x * r = r * x) : x = 1 := by
   obtain ⟨hs, hc⟩ := isLnq_simple_card h
-  haveI := hs
+  have := hs
   have hmem : (⟨x, hxR⟩ : R) ∈ Subgroup.center R :=
     Subgroup.mem_center_iff.mpr fun r => Subtype.ext (hx r r.2).symm
   rw [center_eq_bot_of_simple_168 hc, Subgroup.mem_bot] at hmem

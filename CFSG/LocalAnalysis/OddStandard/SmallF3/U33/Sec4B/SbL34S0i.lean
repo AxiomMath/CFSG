@@ -13,6 +13,7 @@ open CFSG.OddStandard.SmallF3.HarrisU33.L34
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
 
+omit [Finite G] in
 theorem conj_mem_closure {S : Set G} {g : G} (h : ∀ s ∈ S, g * s * g⁻¹ ∈ closure S) :
     ∀ k ∈ closure S, g * k * g⁻¹ ∈ closure S := by
   intro k hk
@@ -31,6 +32,7 @@ section Base
 variable (hc : Ctx4Q t L S x₁ x₂ lam rho tau)
 include hc
 
+omit [Finite G] hc in
 theorem V_le_base : fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := by
   have hx₁ : x₁ ∈ baseGrp x₁ x₂ := subset_closure (by simp)
   have hx₂ : x₂ ∈ baseGrp x₁ x₂ := subset_closure (by simp)
@@ -40,12 +42,12 @@ theorem V_le_base : fourGrp x₁ x₂ ≤ baseGrp x₁ x₂ := by
   · exact pow_mem (mul_mem hx₁ hx₂) 2
 
 theorem base_le_U : baseGrp x₁ x₂ ≤ ctxU t tau x₁ x₂ lam :=
-  (hc.base_le_Q.trans hc.Q_le_O).trans (O_le_U hc)
+  (hc.base_le_Q.trans hc.Q_le_O).trans (O_le_U)
 
 theorem Q_norm_base {q k : G} (hq : q ∈ ctxQ t tau x₁ x₂ rho) (hk : k ∈ baseGrp x₁ x₂) :
     q * k * q⁻¹ ∈ baseGrp x₁ x₂ := by
   have hkQ : k ∈ ctxQ t tau x₁ x₂ rho := hc.base_le_Q hk
-  have h := V_le_base hc (hc.Q_quot.2 q hq k hkQ)
+  have h := V_le_base (hc.Q_quot.2 q hq k hkQ)
   have : q * k * q⁻¹ = (q * k * q⁻¹ * k⁻¹) * k := by group
   rw [this]
   exact mul_mem h hk
@@ -128,7 +130,7 @@ theorem O_eq_U_inf_centralizer : ctxO t tau x₁ x₂ =
     ctxU t tau x₁ x₂ lam ⊓ centralizer ((fourGrp x₁ x₂ : Subgroup G) : Set G) := by
   apply le_antisymm
   · intro a ha
-    refine ⟨O_le_U hc ha, ?_⟩
+    refine ⟨O_le_U ha, ?_⟩
     have ha' : a ∈ ctxM t tau x₁ x₂ ⊓ centralizer ((fourGrp x₁ x₂ : Subgroup G) : Set G) := by
       rw [← hc.O_eq_CV]; exact ha
     exact ha'.2

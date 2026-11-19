@@ -229,7 +229,7 @@ theorem le_centralizer_of_forall_inf {E Y : Subgroup G} [hY : IsKleinFour Y]
       exact orderOf_eq_prime (by rw [pow_two]; exact hY2 a₁ ha₁) ha₁1'
     rw [heq, h4] at h2
     exact absurd h2 (by norm_num)
-  obtain ⟨a₂, ha₂, ha₂z⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨a₂, ha₂, ha₂z⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have ha₂1 : a₂ ≠ 1 := fun h => ha₂z (h ▸ one_mem _)
   have ha₁₂ : a₁ ≠ a₂ := fun h => ha₂z (h ▸ mem_zpowers a₁)
   have hinv : a₂⁻¹ = a₂ := inv_eq_of_mul_eq_one_right (hY2 a₂ ha₂)

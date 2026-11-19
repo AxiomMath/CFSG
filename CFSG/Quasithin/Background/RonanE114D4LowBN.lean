@@ -69,7 +69,7 @@ theorem dist_le (y z : V D) : (Γ D).dist y z ≤ n := (isGenPolygon D).diam_le 
 
 theorem fix_of_geodesic {k : ℕ} (hk : k < n) (p : GPath (Γ D) k)
     (hp : (Γ D).dist (p 0) (p k) = k) {g : X} (h0 : g • p 0 = p 0) (hk' : g • p k = p k)
-    {i : ℕ} (hi : i ≤ k) : g • p i = p i := by
+    {i : ℕ} (_hi : i ≤ k) : g • p i = p i := by
   have hgeo : (g • p).IsGeodesic := by
     show (Γ D).dist ((g • p) 0) ((g • p) k) = k
     rw [GPath.smul_apply, GPath.smul_apply, h0, hk', hp]
@@ -134,8 +134,9 @@ section Finite
 variable [Finite X] (hU : CFSG.QuasithinUnique.IsSylowTwoOf D.U ⊤)
 include hU
 
+omit [Finite X] in
 theorem le_U_of_le_B {R : Subgroup X} (hRB : R ≤ D.B) (hR2 : IsPGroup 2 R) : R ≤ D.U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx : ¬ 2 ∣ D.U.index := by
     rw [← Subgroup.relIndex_top_right]
     exact hU.2.2
@@ -254,6 +255,7 @@ theorem le_rad {y w w' : V D} (hw : (Γ D).Adj y w) (hw' : (Γ D).Adj y w') (hne
   have := P_conj_Uplus D ((P D i).inv_mem hh) hx
   simpa using this
 
+omit [Finite X] in
 theorem exists_sylow_chamber {y u : V D} (h : (Γ D).Adj y u) :
     ∃ S : Subgroup X, IsPGroup 2 S ∧ stab D y ⊓ stab D u ≤ Subgroup.normalizer (S : Set X) ∧
       ∀ R : Subgroup X, R ≤ stab D y ⊓ stab D u → IsPGroup 2 R → R ≤ S := by
@@ -301,7 +303,7 @@ theorem normalizer_stab (y : V D) : Subgroup.normalizer (stab D y : Set X) = sta
 theorem eq_stab_of_normalizer_sylow {P : Subgroup X} (hP : P ≠ ⊤) (S : Sylow 2 X)
     (hS : Subgroup.normalizer ((S : Subgroup X) : Set X) ≤ P) :
     ∃ c : X, P = D.B.map (MulAut.conj c).toMonoidHom ∨ ∃ i : Bool, P = stab D (c • v D i) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hidx : ¬ 2 ∣ D.U.index := by
     rw [← Subgroup.relIndex_top_right]
     exact hU.2.2
@@ -316,7 +318,7 @@ theorem eq_stab_of_normalizer_sylow {P : Subgroup X} (hP : P ≠ ⊤) (S : Sylow
   have hB : D.B ≤ P.map (MulAut.conj c⁻¹).toMonoidHom := by
     intro b hb
     have : c * b * c⁻¹ ∈ P := hS (by rw [hN]; exact ⟨b, hb, rfl⟩)
-    exact ⟨c * b * c⁻¹, this, by simp [MulAut.conj_apply]; group⟩
+    exact ⟨c * b * c⁻¹, this, by simp; group⟩
   have hback : ∀ A : Subgroup X, P.map (MulAut.conj c⁻¹).toMonoidHom = A →
       P = A.map (MulAut.conj c).toMonoidHom := by
     intro A hA
@@ -524,6 +526,7 @@ theorem exists_vertex_equiv (h : Nat.card (D.root 1) ≠ Nat.card (D.root n)) (�
       ((pgen D.B D.N D.w₁ D.w₂ i : Subgroup X) : Set X) * {1}
     rw [Set.image_mul, Set.image_singleton, hset α hαP i, map_one]
 
+omit hU in
 theorem exists_adj_ne (y u : V D) : ∃ w, (Γ D).Adj y w ∧ w ≠ u := by
   by_contra hcon
   push Not at hcon

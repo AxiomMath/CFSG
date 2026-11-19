@@ -71,7 +71,7 @@ theorem mem_Cc_iff_perp (v : V12) :
       intro i hi
       have hy : ((0 : Fin 6 → ZMod 2), (Pi.single i 1 : Fin 6 → ZMod 2)) ∈ C0 := by
         refine (mem_C0_iff _).2 ⟨rfl, ?_⟩
-        simp [Pi.single_apply, hi, Ne.symm hi]
+        simp [Ne.symm hi]
       have h0 := hperp _ hy
       rwa [B12_zero_single_right] at h0
     refine (mem_Cc_iff (a, b)).2 ⟨hA, ?_⟩
@@ -109,8 +109,8 @@ theorem Lin01_le_C0 : Lin01 ≤ C0 := by
   intro v hv
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hv
   rcases hv with rfl | rfl
-  · exact SetLike.mem_coe.2 ((mem_C0_iff _).2 ⟨rfl, by simp [Pi.single_apply]⟩)
-  · exact SetLike.mem_coe.2 ((mem_C0_iff _).2 ⟨rfl, by simp [Pi.single_apply]⟩)
+  · exact SetLike.mem_coe.2 ((mem_C0_iff _).2 ⟨rfl, by simp⟩)
+  · exact SetLike.mem_coe.2 ((mem_C0_iff _).2 ⟨rfl, by simp⟩)
 
 theorem linearIndependent_Lin01 :
     LinearIndependent (ZMod 2) ![((0 : Fin 6 → ZMod 2), (Pi.single 0 1 : Fin 6 → ZMod 2)),
@@ -119,7 +119,7 @@ theorem linearIndependent_Lin01 :
   intro s t h
   have h0 := congrArg (fun v : V12 => v.2 0) h
   have h1 := congrArg (fun v : V12 => v.2 1) h
-  simp [Pi.single_apply] at h0 h1
+  simp at h0 h1
   exact ⟨h0, h1⟩
 
 theorem finrank_Lin01 : Module.finrank (ZMod 2) Lin01 = 2 := by
@@ -148,7 +148,7 @@ theorem finrank_ker_add_one {W : Type*} [AddCommGroup W] [Module (ZMod 2) W]
     Module.finrank (ZMod 2) (LinearMap.ker f) + 1 = Module.finrank (ZMod 2) W := by
   obtain ⟨w, hw⟩ : ∃ w, f w ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hf (LinearMap.ext fun x => by simp [hcon x])
   have hfw : f w = 1 := eq_one_of_ne_zero_zmod2 hw
   have hsurj : Function.Surjective f := fun c =>
@@ -239,7 +239,7 @@ theorem card_dualAnnihilator_ne_zero {W : Type*} [AddCommGroup W] [Module (ZMod 
   have hcard : Nat.card U.dualAnnihilator
       = 2 ^ (Module.finrank (ZMod 2) W - Module.finrank (ZMod 2) U) := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), hA, Nat.card_zmod]
-  haveI : Finite U.dualAnnihilator := Module.finite_of_finite (R := ZMod 2)
+  have : Finite U.dualAnnihilator := Module.finite_of_finite (R := ZMod 2)
   let e : {f : Module.Dual (ZMod 2) W // f ≠ 0 ∧ f ∈ U.dualAnnihilator} ≃
       {a : U.dualAnnihilator // a ≠ 0} :=
     { toFun := fun f => ⟨⟨f.1, f.2.2⟩, fun h => f.2.1 (congrArg Subtype.val h)⟩

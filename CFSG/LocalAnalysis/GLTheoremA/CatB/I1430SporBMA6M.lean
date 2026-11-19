@@ -16,7 +16,7 @@ theorem false_of_isA6_griess_inverted {G : Type} [Group G] (hE : MonsterExistenc
     {s : G} (hs : orderOf s = 3) (hinv : InvertedByTwoA s) {J : Subgroup G}
     (hJ : GLAPComponent 3 (Subgroup.centralizer ({s} : Set G)) J)
     (hT : catalogIs (PSimple 3 J) S8.isA6) : False := by
-  haveI : Finite G := hE.1.1
+  have : Finite G := hE.1.1
   have hO := gLAPPrimeCoreOf_eq_bot_of_invertedByTwoA hE Nat.prime_three (by norm_num) hs hinv
   obtain ⟨α, H, hα, hαs, hH, -, hcard, hHα, hHs, hHn, hCQ⟩ :=
     CFSG.HardMathSupport.Dickson.Sec6.BM.M_inverted_data hE hs hinv
@@ -44,10 +44,10 @@ theorem false_of_isA6_griess_inverted {G : Type} [Group G] (hE : MonsterExistenc
 theorem false_of_isA6_gmat {s : Gmat} (hs : orderOf s = 3) {J : Subgroup Gmat}
     (hJ : GLAPComponent 3 (Subgroup.centralizer ({s} : Set Gmat)) J)
     (hT : catalogIs (PSimple 3 J) S8.isA6) : False := by
-  haveI : Finite Gmat := ThreeBNF.finite_Gmat
+  have : Finite Gmat := ThreeBNF.finite_Gmat
   by_cases hinv : InvertedByTwoA s
   · have hE := CFSG.Milestones.cl_lit_monster_existence_griess_conway
-    haveI : Finite MGriess := hE.1.1
+    have : Finite MGriess := hE.1.1
     let φ : Gmat ≃* MGriess :=
       (CFSG.YGroups.Y443.griessEquivGmat CFSG.YGroups.Y443.Gmat_eq_AutO_of_stroth).symm
     have hs' : orderOf (φ s) = 3 := by rwa [MulEquiv.orderOf_eq]

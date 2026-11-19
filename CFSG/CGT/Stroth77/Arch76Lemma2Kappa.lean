@@ -157,7 +157,7 @@ theorem act_of_mem_A {a : X} (ha : a ∈ C.A) (v : Co) : C.act a v = v :=
   C.act_eq_of (by
     rw [C.comm (inv_mem ha) (C.ev_mem v), mul_assoc, inv_mul_cancel, mul_one])
 
-theorem A_le_K : C.A ≤ C.K := fun a ha => C.mem_K_iff.mpr fun v _ => C.act_of_mem_A ha v
+theorem A_le_K : C.A ≤ C.K := fun _a ha => C.mem_K_iff.mpr fun v _ => C.act_of_mem_A ha v
 
 theorem kap_of_mem_A {a : X} (ha : a ∈ C.A) : C.kap a = 0 := by
   simp [kap, C.act_of_mem_A ha]

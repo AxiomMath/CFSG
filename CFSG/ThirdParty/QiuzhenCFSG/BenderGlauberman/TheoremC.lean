@@ -104,7 +104,7 @@ private lemma theoremC_odd_le_U (c : Hyp11 G) [Hyp11KData c] (X : Subgroup G)
   intro x hx
   have hxH : x ∈ c.H := hXH hx
   have hUleH : c.U ≤ c.H :=
-    SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H))
+    _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H))
   let BH : Subgroup ↥c.H := (c.U : Subgroup G).subgroupOf c.H
   have : BH.Normal := (Subgroup.normal_subgroupOf_iff hUleH).2 (by
     intro h b hb hh
@@ -202,7 +202,7 @@ private lemma theoremC_K_le_U (c : Hyp11 G) [Hyp11KData c] : c.K ≤ c.U := by
 
 /-- `U = O(H)` lies in `H`. -/
 private lemma theoremC_U_le_H (c : Hyp11 G) [Hyp11KData c] : c.U ≤ c.H :=
-  SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H))
+  _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H))
 
 omit [Finite G] in
 /-- Conjugating a power by an element that inverts the base inverts the power. -/
@@ -790,7 +790,7 @@ private lemma theoremC_mem_N_decompose (c : Hyp11 G) [Hyp11KData c] {x : G}
     Subgroup.coe_mul_of_right_le_normalizer_left A K hKnormA
   have hB'_normAK : B' ≤ Subgroup.normalizer ((A ⊔ K : Subgroup G) : Set G) :=
     (le_inf hB'normA hB'normK).trans
-      (Subgroup.normalizer_inf_normalizer_le_normalizer_sup A K)
+      (Subgroup.inf_normalizer_le_normalizer_sup A K)
   have hBK_sup_eq : (↑(B' ⊔ (A ⊔ K)) : Set G) =
       (B' : Set G) * (↑(A ⊔ K) : Set G) :=
     Subgroup.coe_mul_of_left_le_normalizer_right B' (A ⊔ K) hB'_normAK
@@ -1453,7 +1453,7 @@ private lemma theoremC_constituents_conjugate (c : Hyp11 G) [Hyp11KData c] (α :
           intro h
           exact hnone i h
         rw [hcoeff i]
-        exact if_neg hne'
+        exact ite_eq_right hne'
       exact hγ hsp0
     rcases hex with ⟨i, hi⟩
     have hmem : theoremC_charOfIrrRep
@@ -1559,7 +1559,7 @@ private lemma theoremC_sum_ite_ne_zero_of_mem {n : ℕ} {t : Fin n → Prop}
       (1 : ℂ) + ∑ i ∈ (Finset.univ.erase i0), (if t i then (1 : ℂ) else 0) := by
     rw [← Finset.sum_erase_add (s := Finset.univ)
       (f := fun i => if t i then (1 : ℂ) else 0) (a := i0) (Finset.mem_univ i0)]
-    rw [if_pos ht0]
+    rw [ite_eq_left ht0]
     ring
   rw [hsplit]
   intro hz
@@ -4225,13 +4225,13 @@ private lemma theoremC_reflection_fixed_data_of_conj_mem_orbit
       · left
         have ht1 : c.t1 ∈ stabilizerS c α := by
           rw [hstab1]
-          exact SetLike.le_def.mp le_sup_right (Subgroup.mem_zpowers c.t1)
+          exact _root_.IsConcreteLE.le_iff.mp le_sup_right (Subgroup.mem_zpowers c.t1)
         rcases ht1 with ⟨ht1S, ht1fix⟩
         exact (conjIrrS_proof_irrel c c.t1_mem_S ht1S α).trans ht1fix
       · right
         have ht2 : c.t2 ∈ stabilizerS c α := by
           rw [hstab2]
-          exact SetLike.le_def.mp le_sup_right (Subgroup.mem_zpowers c.t2)
+          exact _root_.IsConcreteLE.le_iff.mp le_sup_right (Subgroup.mem_zpowers c.t2)
         rcases ht2 with ⟨ht2S, ht2fix⟩
         exact (conjIrrS_proof_irrel c c.t2_mem_S ht2S α).trans ht2fix
   have hnotfixed :
@@ -6187,7 +6187,7 @@ private lemma theoremC_irreducible_involution_int
   rcases sq_eq_one_iff.mp hμpow with hμ | hμ
   · simp [m, hμ]
   · have hne : (μ : ℂ) ≠ 1 := by rw [hμ]; norm_num
-    simp only [m, if_neg hne, Int.cast_neg]
+    simp only [m, ite_eq_right hne, Int.cast_neg]
     rw [hμ]
     norm_num
 
@@ -6733,7 +6733,7 @@ private lemma theoremC_exists_principal_in_four_sum
     intro i
     rcases hpsi i with hpos | hneg
     · have hne : (1 : ClassFunction G) ≠ psi i := (hnone i).symm
-      rw [scalarProduct_irr_ite (isIrreducibleCharacter_one G) hpos, if_neg hne]
+      rw [scalarProduct_irr_ite (isIrreducibleCharacter_one G) hpos, ite_eq_right hne]
       norm_num
     · rw [show psi i = -(-psi i) by simp, scalarProduct_neg_right]
       rw [scalarProduct_irr_ite (isIrreducibleCharacter_one G) hneg]
@@ -7683,7 +7683,7 @@ private lemma theoremC_delta_linear_principal_pairing_zero (c : Hyp11 G) [Hyp11K
     rw [scalarProduct_sub_right,
       scalarProduct_irr_ite (isIrreducibleCharacter_one (↥c.H0)) hkappaIrr,
       scalarProduct_irr_ite (isIrreducibleCharacter_one (↥c.H0)) hprodIrr]
-    rw [if_neg hkappaNe.symm, if_neg hprodNe.symm]
+    rw [ite_eq_right hkappaNe.symm, ite_eq_right hprodNe.symm]
     norm_num
   have honeClass : IsClassFunction (1 : ClassFunction G) :=
     irreducibleCharacter_isClassFunction (isIrreducibleCharacter_one G)

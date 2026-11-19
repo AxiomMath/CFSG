@@ -39,6 +39,7 @@ theorem not_two_dvd_natCard_oddCore (D : Subgroup G) : ¬ 2 ∣ Nat.card (CFSG.o
 theorem oddCore_oddQuot (D : Subgroup G) : CFSG.oddCore (OddQuot D) = ⊥ :=
   CFSG.ClassicalInvolution.QuaternionStructure.oddCore_quotient_oddCore_eq_bot ↥D
 
+omit [Finite G] in
 theorem kProper_oddQuot (hkp : CFSG.Assembly.KProper CFSG.Blueprint.Catalog G)
     (D : Subgroup G) : CFSG.Assembly.KProper CFSG.Blueprint.Catalog (OddQuot D) :=
   Hyp.kProper_of_section hkp D (oddProj D) (oddProj_surjective D)
@@ -80,7 +81,7 @@ theorem centralizer_singleton_subgroupOf {D : Subgroup G} {g : G} (hg : g ∈ D)
     exact Subtype.ext h
 
 theorem isCompIn_map_of_not_le_ker {P Q : Type} [Group P] [Group Q] {f : P →* Q}
-    (hf : Function.Surjective f) {M X : Subgroup P} (h : IsCompIn M X) (hM : ¬ M ≤ f.ker) :
+    (_hf : Function.Surjective f) {M X : Subgroup P} (h : IsCompIn M X) (hM : ¬ M ≤ f.ker) :
     IsCompIn (M.map f) (X.map f) := by
   have hq : CFSG.IsQuasisimple ↥(M.map f) :=
     CFSG.LocalCores.isQuasisimple_map h.isQuasisimple f hM
@@ -227,7 +228,7 @@ theorem A_le_D (hS : NPSetting G X u x T₀ s₀) : npA X x s₀ ≤ npD X x := 
   exact hS.comp.commute_of_ne hS.isCompIn_A hS.swap a ha b hb
 
 theorem card_A (hS : NPSetting G X u x T₀ s₀) : Nat.card ↥(npA X x s₀) = 60 :=
-  (Subgroup.card_map_of_injective (fun a b h => (MulAut.conj s₀).injective h)).trans
+  (Subgroup.card_map_of_injective (fun _a _b h => (MulAut.conj s₀).injective h)).trans
     hS.facts.card_J
 
 theorem conj_conj_of_mem_J (hS : NPSetting G X u x T₀ s₀) {j : G} (hj : j ∈ jOf X x) :

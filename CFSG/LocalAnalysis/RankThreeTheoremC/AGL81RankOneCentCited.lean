@@ -68,7 +68,7 @@ open CFSG.Open
 @[expose] def KFactStepThreeNormSolv : Prop :=
   ∀ (p : ℕ) (A : Type) [Group A] [Finite A] (K S : Subgroup A), K.Normal →
     Subgroup.centralizer (K : Set A) = ⊥ → StepThreeGroup p ↥K →
-    CFSG.ABGLocalTools.IsSylowOf p S K → IsSolvable ↥(Subgroup.normalizer (S : Set A))
+    CFSG.ABGLocalTools.IsSylowOf p S K → Group.IsSolvable ↥(Subgroup.normalizer (S : Set A))
 
 @[expose] def KFactFieldAutInvert : Prop :=
   ∀ (p : ℕ) (A : Type) [Group A] [Finite A] (K : Subgroup A), K.Normal →

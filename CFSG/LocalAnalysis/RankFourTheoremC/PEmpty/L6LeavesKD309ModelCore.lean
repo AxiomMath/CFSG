@@ -29,7 +29,7 @@ theorem centralizer_eq_bot_of_center {Y' : Type} [Group Y'] [Finite Y'] {L : Sub
     (hLu : ∀ K : Subgroup Y', IsComponentOf K ⊤ → K = L) (hzero : LinUniZero 5 L)
     (hCp : IsPGroup 5 (centralizer (L : Set Y'))) (hZ : center ↥L = ⊥) :
     centralizer (L : Set Y') = ⊥ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   by_contra hne
   have hC5 : 5 ∣ Nat.card (centralizer (L : Set Y')) := by
     obtain ⟨k, hk⟩ := hCp.exists_card_eq
@@ -67,7 +67,7 @@ theorem pkg_of_plane63 (hS : ShapeStmt) {Y : Type} [Group Y] [Finite Y] {P : Syl
       LinUniZero 5 L ∧
       Nonempty (Pkg (Y ⧸ primeComplementCore (G := Y) 5) L
         (x : Y ⧸ primeComplementCore (G := Y) 5)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hYD := I291.yData_of_plane63 hpl
   have hlu := is29a_isLinearOrUnitaryAt hL.2.2 h29
   have hcfg : LinUniCfg 5 ((P : Subgroup Y).map
@@ -90,13 +90,13 @@ theorem second_disjunct {Y : Type} [Group Y] [Finite Y] (P : Sylow 5 Y) {x : Y}
     ∃ S : Subgroup Y, S ≤ (P : Subgroup Y) ∧ Nat.card (P : Subgroup Y) = 5 ^ 6 ∧
       Nat.card S = 5 ^ 5 ∧ (∀ s ∈ S, s ^ 5 = 1) ∧ (∃ a ∈ S, ∃ b ∈ S, a * b ≠ b * a) ∧
         x ∉ S := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set O : Subgroup Y := primeComplementCore (G := Y) 5 with hO
   have hOcop : ¬ 5 ∣ Nat.card O :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_five).mp (primeComplementCore_coprime 5)
   set π : Y →* Y ⧸ O := QuotientGroup.mk' O with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective O
-  have hpP : IsPGroup 5 (P : Subgroup Y) := P.isPGroup'
+  have hpP : IsPGroup 5 (P : Subgroup Y) := P.isPGroup
   have inj : ∀ a ∈ (P : Subgroup Y), ∀ b ∈ (P : Subgroup Y), π a = π b → a = b :=
     inj_of_pgroup O hOcop hpP
   let Pb : Sylow 5 (Y ⧸ O) := Sylow.mapSurjective hπs P
@@ -125,8 +125,8 @@ theorem second_disjunct {Y : Type} [Group Y] [Finite Y] (P : Sylow 5 Y) {x : Y}
     refine Subgroup.card_lt_of_lt (lt_of_le_of_ne inf_le_left fun h => hxL ?_)
     have : (x : Y ⧸ O) ∈ T' := by rw [h]; exact hxPb
     exact this.2
-  obtain ⟨m, hm⟩ := Pb.isPGroup'.exists_card_eq
-  obtain ⟨k, hk⟩ := (Pb.isPGroup'.to_le (inf_le_left : T' ≤ (Pb : Subgroup (Y ⧸ O)))).exists_card_eq
+  obtain ⟨m, hm⟩ := Pb.isPGroup.exists_card_eq
+  obtain ⟨k, hk⟩ := (Pb.isPGroup.to_le (inf_le_left : T' ≤ (Pb : Subgroup (Y ⧸ O)))).exists_card_eq
   rw [hk, hm] at hT'lt
   have hkm : k < m := (Nat.pow_lt_pow_iff_right (by norm_num)).mp hT'lt
   have hm6 : m ≤ 6 := by
@@ -189,13 +189,13 @@ theorem exists_sylow_quot {Y : Type} [Group Y] [Finite Y] (P : Sylow 5 Y) :
     ∃ Pb : Sylow 5 (Y ⧸ primeComplementCore (G := Y) 5),
       Nat.card (Pb : Subgroup (Y ⧸ primeComplementCore (G := Y) 5)) =
         Nat.card (P : Subgroup Y) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set O : Subgroup Y := primeComplementCore (G := Y) 5 with hO
   have hOcop : ¬ 5 ∣ Nat.card O :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_five).mp (primeComplementCore_coprime 5)
   set π : Y →* Y ⧸ O := QuotientGroup.mk' O with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective O
-  have inj := inj_of_pgroup O hOcop (P.isPGroup' : IsPGroup 5 (P : Subgroup Y))
+  have inj := inj_of_pgroup O hOcop (P.isPGroup : IsPGroup 5 (P : Subgroup Y))
   refine ⟨Sylow.mapSurjective hπs P, ?_⟩
   change Nat.card ((P : Subgroup Y).map π) = _
   exact card_map_eq_of_inj π _ inj
@@ -208,9 +208,9 @@ end KD309M
 
 theorem kd309OrderModel_of_shape (hS : ShapeStmt) : KD309OrderModel := by
   intro Y _ _ P x z hpl L hL hLu h29 hP6
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI hLn : L.Normal := I291.normal_of_unique hL hLu
-  haveI hperf : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have hLn : L.Normal := I291.normal_of_unique hL hLu
+  have hperf : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
   obtain ⟨hCp, hzero, ⟨pkg⟩⟩ := pkg_of_plane63 hS hpl hL hLu h29
   obtain ⟨hxP, -, -, -, -, -⟩ := I291P65.plane_facts hpl.prime hpl.plane
   have hYD := I291.yData_of_plane63 hpl
@@ -239,9 +239,9 @@ theorem kd309OrderModel_of_shape (hS : ShapeStmt) : KD309OrderModel := by
 
 theorem kd309MonoModel_of_shape (hS : ShapeStmt) : KD309MonoModel := by
   intro Y _ _ P x z hpl L hL hLu h29 hPcard
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI hLn : L.Normal := I291.normal_of_unique hL hLu
-  haveI hperf : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have hLn : L.Normal := I291.normal_of_unique hL hLu
+  have hperf : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
   obtain ⟨hCp, hzero, ⟨pkg⟩⟩ := pkg_of_plane63 hS hpl hL hLu h29
   obtain ⟨Pb, hPbcard⟩ := exists_sylow_quot P
   have hord := card_sylow_eq pkg.M Nat.prime_five pkg.hAut hCp Pb pkg.hGL pkg.hker

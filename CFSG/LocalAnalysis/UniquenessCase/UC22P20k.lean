@@ -28,7 +28,7 @@ theorem uc22p20k_relIndex_dvd_card_of_mem_Jset [Finite X] {p : ℕ} (hbn : IsBNP
   have hBnorm := hS.B_le_normalizer_N2J {s}
   have hPnorm : parabolic B N {s} ≤ normalizer (uc22p20jN2J B N U {s} : Set X) :=
     hPle.trans (sup_le Subgroup.le_normalizer hBnorm)
-  haveI hNn : ((uc22p20jN2J B N U {s}).subgroupOf (parabolic B N {s})).Normal :=
+  have hNn : ((uc22p20jN2J B N U {s}).subgroupOf (parabolic B N {s})).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNP).2 hPnorm
   set N' := (uc22p20jN2J B N U {s}).subgroupOf (parabolic B N {s}) with hN'
   set B' := B.subgroupOf (parabolic B N {s}) with hB'
@@ -76,7 +76,7 @@ theorem uc22p20k_relIndex_eq [Finite X] (hbn : IsBNPair B N S) (hS : uc22p20jSpl
   set P := parabolic B N {s} with hP
   set B' : Subgroup ↥P := B.subgroupOf P with hB'
   set A : Subgroup ↥P := U.subgroupOf P with hA
-  haveI hAp : IsPGroup 2 ↥A := hS.hUp.comap_subtype
+  have hAp : IsPGroup 2 ↥A := hS.hUp.comap_subtype
   let ω₀ : ↥P ⧸ B' := QuotientGroup.mk 1
   let ω₁ : ↥P ⧸ B' := QuotientGroup.mk ⟨(sn : X), hsnP⟩
   have hcover : ∀ ω : ↥P ⧸ B', ω = ω₀ ∨ ω ∈ MulAction.orbit ↥A ω₁ := by
@@ -166,7 +166,7 @@ end Unit
 
 theorem uc22p20k_div_of_splitBN {Z : Type} [Group Z] [Finite Z] {B N : Subgroup Z}
     (hBN : IsSplitBNPair 2 B N) : uc22p20kDiv Z := by
-  haveI : (cartan B N).Normal := hBN.normal_inter
+  have : (cartan B N).Normal := hBN.normal_inter
   intro U₁ Y hY hYn
   obtain ⟨U, hUnorm, hSU, -⟩ := uc22p20j_exists_splitUnit hBN
   obtain ⟨S, hbn⟩ := CFSG.ASVolI.ChIJK.burnsideI2BN_exists_isBNPair
@@ -175,7 +175,7 @@ theorem uc22p20k_div_of_splitBN {Z : Type} [Group Z] [Finite Z] {B N : Subgroup 
   have hmem : ∀ x : Z, x ∈ (U₁ : Subgroup Z) ↔ g⁻¹ * x * g ∈ (U : Subgroup Z) := by
     intro x
     rw [← hg, Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   let Y' : Subgroup Z := Y.comap (MulAut.conj g).toMonoidHom
   have hUY' : (U : Subgroup Z) ≤ Y' := by
     intro u hu

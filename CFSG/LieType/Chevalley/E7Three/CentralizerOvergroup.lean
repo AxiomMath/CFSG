@@ -134,7 +134,7 @@ theorem exists_conj_eq_cubeE_or_fourE {ζ : Kˣ} (hζ : IsPrimitiveRoot ζ 3)
     · rintro ⟨x, hx, rfl⟩
       simpa [MulAut.conj_apply] using hx
     · intro hy
-      exact ⟨y, hy, by simp [MulAut.conj_apply]⟩
+      exact ⟨y, hy, by simp⟩
   · simp only [not_forall] at hP
     obtain ⟨X, hXE, hX1⟩ := hP
     have hX3 : X ^ 3 = 1 := cubeSL2_injective hζ (by rw [map_pow, hexp _ hXE, map_one])

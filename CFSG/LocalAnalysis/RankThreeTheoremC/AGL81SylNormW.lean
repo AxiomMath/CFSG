@@ -46,7 +46,7 @@ theorem map_wSup_eq {Q Q' : Type} [Group Q] [Group Q'] (e : Q ≃* Q') :
 
 theorem le_wSup_of_normal_of_isQuasisimple {Q : Type} [Group Q] {N : Subgroup Q} (hN : N.Normal)
     (hq : IsQuasisimple N) : N ≤ wSup Q := by
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   have hsub : IsSubnormal N ⊤ :=
     IsSubnormal.step le_top Subgroup.normal_subgroupOf (IsSubnormal.refl ⊤)
   have hq' : CFSG.Open.IsQuasisimple ↥N := ⟨Group.isPerfect_def.mp hq.1, hq.2.1⟩
@@ -57,7 +57,7 @@ theorem le_wSup_of_normal_of_isQuasisimple {Q : Type} [Group Q] {N : Subgroup Q}
 
 theorem le_wSup_of_normal_of_mulEquiv {Q : Type} [Group Q] {N : Subgroup Q} (hN : N.Normal)
     (e : N ≃* Perm (Fin 3)) : N ≤ wSup Q := by
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   have hsub : IsSubnormal N ⊤ :=
     IsSubnormal.step le_top Subgroup.normal_subgroupOf (IsSubnormal.refl ⊤)
   refine le_iSup₂ (f := fun (T : Subgroup Q)

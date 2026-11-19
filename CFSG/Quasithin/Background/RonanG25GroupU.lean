@@ -177,6 +177,7 @@ section GroupU
 
 variable {G : Type} [Group G] [Finite G] {n : ℕ} {V V₁ L T H : Subgroup G}
 
+omit [Finite G] in
 theorem mem_gS₂_iff {g h : G} (hsub : SubFacts V L H g h) {y : G} :
     y ∈ gS₂ V H g h ↔ y ∈ gW V H L ∧ y ∈ rconj (gW V H L) g ∧ y ∈ rconj (gW V H L) h := by
   rw [← hsub.dir]
@@ -186,9 +187,11 @@ theorem mem_gS₂_iff {g h : G} (hsub : SubFacts V L H g h) {y : G} :
   · rintro ⟨h1, h2, h3⟩
     exact ⟨⟨h1, h2⟩, ⟨h1, h3⟩⟩
 
+omit [Finite G] in
 theorem gS₂_le_gW {g h : G} (hsub : SubFacts V L H g h) : gS₂ V H g h ≤ gW V H L :=
   fun _ hy => ((mem_gS₂_iff hsub).1 hy).1
 
+omit [Finite G] in
 theorem W_inf_S₃_eq (St : L3Setting n V V₁ L T H) {g h : G} (hg : g ∈ L) (hh : h ∈ L)
     (hV : V = V₁ ⊔ rconj V₁ g ⊔ rconj V₁ h) (hsub : SubFacts V L H g h) {r s : ℕ}
     {φ₇ : ↥(gS V H L) →* Multiplicative (Fin r → Fin 3 → GaloisField 2 n)}
@@ -331,6 +334,7 @@ theorem W_inf_S₃_eq (St : L3Setting n V V₁ L T H) {g h : G} (hg : g ∈ L) (
     rw [hxeq]
     exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hkW hx₁W) hx₂W
 
+omit [Finite G] in
 theorem grpU_normalizes {g h : G} (hsub : SubFacts V L H g h) {w k : G}
     (hw : w ∈ gW V H L) (hk : k ∈ gS₃ V H L g h) : w * k * w⁻¹ ∈ gS₃ V H L g h :=
   (Subgroup.mem_normalizer_iff.1 (hsub.I_S₃ ((le_sup_right : conjClosure V H ≤ L ⊔ conjClosure V H)
@@ -427,7 +431,7 @@ theorem chain_WS₃_W_group (St : L3Setting n V V₁ L T H) {g h : G} (hg : g �
     hWpi] at key
   exact key
 
-theorem chain_W_U_group (St : L3Setting n V V₁ L T H) {g h : G} (hsub : SubFacts V L H g h)
+theorem chain_W_U_group (St : L3Setting n V V₁ L T H) {g h : G} (_hsub : SubFacts V L H g h)
     {ord : Bool} :
     ChainCounts (GaloisField 2 n) (lOne L V₁) ord (gW V H L) (conjClosure V H) 1 0 := by
   have hUR : St.betaU.range ≤ (grpU_tqHom (GaloisField 2 n)).range := by

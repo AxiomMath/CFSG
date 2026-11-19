@@ -42,7 +42,7 @@ theorem cdist_flagSys_le (K : Type) [Field K] (m : ℕ) (E F : FlagK K (m + 1)) 
 variable {ι ι' C D : Type}
 
 theorem intrSet_prod {X : ChamberSystem ι C} {Y : ChamberSystem ι' D} (hX : X.Connected)
-    (hY : Y.Connected) {R₁ : Set C} {R₂ : Set D} (h₁ : R₁.Nonempty) (h₂ : R₂.Nonempty)
+    (hY : Y.Connected) {R₁ : Set C} {R₂ : Set D} (_h₁ : R₁.Nonempty) (_h₂ : R₂.Nonempty)
     {ψ₁ : C → C} {ψ₂ : D → D} {D₁ D₂ : ℕ} (hD₁ : ∀ x y, cdist X x y ≤ D₁)
     (hD₂ : ∀ x y, cdist Y x y ≤ D₂) :
     IntrSet (X.prod Y) (R₁ ×ˢ R₂) (Prod.map ψ₁ ψ₂) (D₁ + D₂) =
@@ -96,6 +96,7 @@ theorem intrSet_prod {X : ChamberSystem ι C} {Y : ChamberSystem ι' D} (hX : X.
     (c : FlagK K 2 × FlagK K 2) : FlagK K 2 × FlagK K 2 :=
   (flagSg hK c.2, flagSg hK c.1)
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFPr_flagSys_one_adj (x y : FlagK K 2) (i : Fin 1) :
     (flagSys K 1).adj i x y := by
   intro j hj
@@ -107,6 +108,7 @@ private theorem q2cFPr_flagSys_one_adj (x y : FlagK K 2) (i : Fin 1) :
     rw [FlagK.E_zero x, FlagK.E_zero y]
   · rw [x.top j h, y.top j h]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFPr_cdist_flagSys_one_eq_zero_or_one (x y : FlagK K 2) :
     cdist (flagSys K 1) x y = 0 ∨ cdist (flagSys K 1) x y = 1 := by
   by_cases h : x = y
@@ -121,6 +123,7 @@ private theorem q2cFPr_cdist_flagSys_one_eq_zero_or_one (x y : FlagK K 2) :
       h ((cdist_eq_zero_iff (flagSys K 1) (flagSys_connected K 1)).mp h0)
     omega
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFPr_cdist_flagSys_one_eq_one_iff (x y : FlagK K 2) :
     cdist (flagSys K 1) x y = 1 ↔ x ≠ y := by
   constructor
@@ -137,6 +140,7 @@ private theorem q2cFPr_add_eq_two_iff {a b : ℕ} (ha : a = 0 ∨ a = 1) (hb : b
     a + b = 2 ↔ a = 1 ∧ b = 1 := by
   rcases ha with rfl | rfl <;> rcases hb with rfl | rfl <;> omega
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFPr_flagSys_one_sum_eq_two_iff (a b c d : FlagK K 2) :
     cdist (flagSys K 1) a b + cdist (flagSys K 1) c d = 2 ↔ a ≠ b ∧ c ≠ d := by
   rw [q2cFPr_add_eq_two_iff (q2cFPr_cdist_flagSys_one_eq_zero_or_one a b)
@@ -175,7 +179,7 @@ theorem intrSet_exchA1A1 (hK : Nat.card K = (2 ^ f) ^ 2) :
       {c | c.1.E 1 ≠ sgS K f 2 (c.2.E 1)} := by
   rw [q2cFPr_intrSet_univ_prod (flagSys_connected K 1) (flagSys_connected K 1)]
   ext c
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   have hcd : cdist ((flagSys K 1).prod (flagSys K 1)) c (psiA1A1 hK c) =
       cdist (flagSys K 1) c.1 (flagSg hK c.2) +
         cdist (flagSys K 1) c.2 (flagSg hK c.1) :=

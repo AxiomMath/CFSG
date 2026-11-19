@@ -96,10 +96,10 @@ theorem forallGreedyAll_fixT {R : List P} {D : List (Nat × Nat)}
     exact hK
   · cases l with
     | nil =>
-      simp only [fixSt, List.map_cons, List.map_nil, List.isEmpty_nil, if_true]
+      simp only [fixSt, List.map_cons, List.map_nil, List.isEmpty_nil, ite_true]
       rw [hFs _ (List.idxOf_lt_length_iff.2 hx)]
     | cons y l =>
-      simp only [fixSt, List.map_cons, List.isEmpty_cons, Bool.false_eq_true, if_false,
+      simp only [fixSt, List.map_cons, List.isEmpty_cons, Bool.false_eq_true, ite_false,
         fixMasks_cons']
 
 end CFSG.KC.HMathieu

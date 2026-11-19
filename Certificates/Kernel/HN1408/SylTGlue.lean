@@ -22,7 +22,6 @@ theorem distinct_spec {cnt len : ℕ} {I : ℕ → ℕ} (h : distinctK cnt I 0 l
   · have h1 := hd1 e (List.mem_range.2 he)
     rwa [Nat.zero_add] at h1
   · refine hd2 a (List.mem_range.2 ha) b (List.mem_range.2 hb) ?_
-    beta_reduce
     rw [Nat.zero_add, Nat.zero_add]
     exact hab
 
@@ -108,11 +107,11 @@ theorem sub_mem {E PL C G : ℕ → ℕ} {ng cnt : ℕ} (h : subK E PL C G ng cn
   have hE0 : r32 E 0 = 0 := Nat.eq_of_beq_eq_true h0
   refine ⟨hlt, hglt, fun a ha b hb e => hinj a ha b hb (R.inj _ (hlt a ha) _ (hlt b hb) e), ?_⟩
   refine mem_closure_iff_of_right_record (x := fun e => x (r32 E e)) hc
-    (by beta_reduce; rw [hE0, R.one]) ?_ ?_
+    (by rw [hE0, R.one]) ?_ ?_
   · intro e he0 he
     have h1 := hrow e he
     rw [Orb.strictB_eq, Bool.and_eq_true, Orb.bIf_eq,
-      if_neg fun hb => absurd (Nat.eq_of_beq_eq_true hb) (by omega)] at h1
+      ite_eq_right fun hb => absurd (Nat.eq_of_beq_eq_true hb) (by omega)] at h1
     simp only [Bool.and_eq_true] at h1
     obtain ⟨⟨hp, ht, hm⟩, -⟩ := h1
     have hp' : parF PL e < e := Nat.blt_eq.mp hp
@@ -170,7 +169,7 @@ theorem g2_parts : (∀ t < 6, r32 G2 t = r32 G1 t) ∧ ∀ k < 2, r32 G2 (6 + k
   refine ⟨fun t ht => Nat.eq_of_beq_eq_true (Orb.allN_iff.1 h.1 t ht), fun k hk => ?_⟩
   have h1 := Orb.allN_iff.1 h.2 k hk
   rw [Orb.strictB_eq] at h1
-  simp only [Orb.bAnd_eq, Bool.and_eq_true] at h1
+  simp only [Bool.and_eq_true] at h1
   exact ⟨Nat.blt_eq.mp h1.1, Nat.eq_of_beq_eq_true h1.2.1, h1.2.2.1, h1.2.2.2⟩
 
 theorem ent_g1 {t : ℕ} (ht : t < 6) : x (r32 G1 t) = elemW (tpWords.getD t []) :=
@@ -341,7 +340,7 @@ theorem w0_eq : wordSubgroup (tpWords ++ w0Extra) =
       unfold invW0K at hW0
       rw [Orb.strictB_eq] at hW0
       have hW := Orb.allN_iff.1 hW0 i hi
-      rw [Orb.bIf_eq, if_pos (by rw [Orb.bAnd_eq, hIM, (R.ent_blocks hi).1 hyE]; rfl)] at hW
+      rw [Orb.bIf_eq, ite_eq_left (by rw [Orb.bAnd_eq, hIM, (R.ent_blocks hi).1 hyE]; rfl)] at hW
       obtain ⟨e, he, hei⟩ := (hasBit_maskK _ _ _ _).1 hW
       rw [Nat.zero_add] at hei
       exact (R.mem_W0 _).2 ⟨e, he, by rw [hei]⟩
@@ -370,7 +369,7 @@ theorem card_sqT {y : ℕ} (hy : y < 2048) :
   have e : {g : Equiv.Perm (Fin 1408) | g ∈ wordSubgroup sWords ⊓ blocks1408 ∧ g ^ 2 = x y} =
       {g | (∃ i < 2048, x i = g) ∧ (g ∈ blocks1408 ∧ g ^ 2 = x y)} := by
     ext g
-    simp only [Set.mem_setOf_eq, mem_inf, R.mem g, and_assoc]
+    simp only [Set.mem_ofPred_eq, mem_inf, R.mem g, and_assoc]
   rw [e, cntS, cntN_eq]
   refine ncard_count R.inj _ _ fun i hi => ?_
   rw [Orb.bAnd_eq, Bool.and_eq_true, R.ent_blocks hi, R.sq_iff hi hy]
@@ -382,7 +381,7 @@ theorem card_sqE {E : ℕ → ℕ} {cnt y : ℕ} {H : Subgroup (Equiv.Perm (Fin 
   have e : {g : Equiv.Perm (Fin 1408) | g ∈ H ∧ g ^ 2 = x y} =
       {g | (∃ e < cnt, x (r32 E e) = g) ∧ g ^ 2 = x y} := by
     ext g
-    simp only [Set.mem_setOf_eq, hmem g]
+    simp only [Set.mem_ofPred_eq, hmem g]
   rw [e, cntE, cntN_eq]
   refine ncard_count (f := fun e => x (r32 E e)) hinj _ _ fun i hi => ?_
   rw [Orb.strictB_eq, R.sq_iff (hlt i hi) hy]

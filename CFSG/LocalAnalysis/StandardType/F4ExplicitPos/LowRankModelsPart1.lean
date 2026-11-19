@@ -89,6 +89,7 @@ theorem rankOneRE_injective
   (adjointGroup Tag.F4 ↥E).subtype_injective.comp
     (CFSG.StandardType.F4ExplicitPos.RankOneTorus.simpleRootMap_injective (K := ↥E) j)
 
+omit [CharP ↥E 2] in
 theorem rootGroup_single_map_subtype
     (j : Fin Tag.F4.rank) :
     (CFSG.LieType.Steinberg.Adjoint.rootGroup (rootOperatorFamily Tag.F4) ↥E
@@ -102,6 +103,7 @@ theorem rootGroup_single_map_subtype
     Subgroup.subgroupOf_map_subtype]
   exact inf_eq_left.mpr (rootSubgroup_le_adjointGroup (Pi.single j 1))
 
+omit [CharP ↥E 2] in
 theorem rootGroup_neg_single_map_subtype
     (j : Fin Tag.F4.rank) :
     (CFSG.LieType.Steinberg.Adjoint.rootGroup (rootOperatorFamily Tag.F4) ↥E
@@ -115,6 +117,7 @@ theorem rootGroup_neg_single_map_subtype
     Subgroup.subgroupOf_map_subtype]
   exact inf_eq_left.mpr (rootSubgroup_le_adjointGroup (-Pi.single j 1))
 
+omit [CharP ↥E 2] in
 theorem rankOneRE_range
     (j : Fin Tag.F4.rank) :
     (rankOneRE E j).range =

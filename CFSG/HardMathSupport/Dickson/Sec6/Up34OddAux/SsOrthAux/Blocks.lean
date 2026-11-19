@@ -29,7 +29,7 @@ theorem oddLie_pairedBlock (hx : OddOrderIsometry Q p x) (hℓ : ℓ.Prime) (hf 
     (hK : Nat.card K = ℓ ^ f) {r : K[X]} (hr : r ∈ primaryFactors x.toLinearMap)
     (hne : r ≠ reciprocalPolynomial r) {L : Subgroup ↥(supportedBlock Q x r)}
     (hL : CFSG.IsComponent L) : OddLieCentralQuotient ℓ ↥L := by
-  haveI : Fact (Irreducible r) := ⟨irreducible_of_mem_primaryFactors hr⟩
+  have : Fact (Irreducible r) := ⟨irreducible_of_mem_primaryFactors hr⟩
   have hm : 1 ≤ primaryMultiplicity x.toLinearMap r := hx.primaryMultiplicity_pos hr
   let b : Module.Basis (Fin (primaryMultiplicity x.toLinearMap r)) (AdjoinRoot r)
       (primaryComponent x.toLinearMap r) := Module.finBasisOfFinrankEq _ _ rfl
@@ -41,6 +41,7 @@ theorem oddLie_pairedBlock (hx : OddOrderIsometry Q p x) (hℓ : ℓ.Prime) (hf 
   exact oddLieCentralQuotient_of_component_equiv ((pairedBlockEquiv hx hr hne).trans e1)
     (fun M hM => oddLie_GL hℓ hfpos hE hm hM) hL
 
+omit [Finite K] in
 theorem not_isComponent_supportedBlock_of_multiplicity_one (hx : OddOrderIsometry Q p x)
     {r : K[X]} [Fact (Irreducible r)] (hr : r ∈ primaryFactors x.toLinearMap)
     (h1 : primaryMultiplicity x.toLinearMap r = 1) {L : Subgroup ↥(supportedBlock Q x r)}
@@ -57,7 +58,7 @@ theorem not_isComponent_supportedBlock_of_multiplicity_one (hx : OddOrderIsometr
     simp only [Units.val_mul, hc, hc']
     ext v
     simp [mul_comm, smul_smul]
-  haveI : IsMulCommutative ↥(supportedBlock Q x r) := ⟨⟨hcomm⟩⟩
+  have : IsMulCommutative ↥(supportedBlock Q x r) := ⟨⟨hcomm⟩⟩
   exact not_isComponent_of_isSolvable hL
 
 theorem oddLie_selfDualBlock (hx : OddOrderIsometry Q p x) (hp2 : Odd p) (hℓ : ℓ.Prime)
@@ -66,7 +67,7 @@ theorem oddLie_selfDualBlock (hx : OddOrderIsometry Q p x) (hp2 : Odd p) (hℓ :
     (hself : r = reciprocalPolynomial r) {L : Subgroup ↥(supportedBlock Q x r)}
     (hL : CFSG.IsComponent L) : OddLieCentralQuotient ℓ ↥L := by
   classical
-  haveI : Fact (Irreducible r) := ⟨irreducible_of_mem_primaryFactors hr⟩
+  have : Fact (Irreducible r) := ⟨irreducible_of_mem_primaryFactors hr⟩
   obtain ⟨d, H, hdeg, -, hH, hadd1, hadd2, hleft, hright, hsymm⟩ :=
     hx.exists_selfDual_hermitian hp2 hr hne1 hself
   by_cases hm1 : primaryMultiplicity x.toLinearMap r = 1

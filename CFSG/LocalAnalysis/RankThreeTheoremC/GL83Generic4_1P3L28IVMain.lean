@@ -54,7 +54,7 @@ theorem l28iv_prop34S (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : TheoremD1 
     rwa [hTZ, mem_bot] at this
   have hD := fun g hg => l28iv_conj_cases hS hU0 hD1 K1 K2 K3 K4 hno hKM hKA hL hA1 hA3 hE1 hE3
     hp hM hgen hJ hT ht₀ (g := g) hg
-  have hPC : (P : Subgroup G) ≤ C := l28iv_le_centralizer P.isPGroup' hxP hx3 hx1 hxu hu3 hD
+  have hPC : (P : Subgroup G) ≤ C := l28iv_le_centralizer P.isPGroup hxP hx3 hx1 hxu hu3 hD
   have hQP : (P : Subgroup G) ⊓ C = P := inf_eq_left.mpr hPC
   obtain ⟨g, hgQ, hgu⟩ : ∃ g : G, (zpowers x).map (MulAut.conj g).toMonoidHom ≤
       (P : Subgroup G) ⊓ C ∧ g * x * g⁻¹ ∈ zpowers u := by
@@ -84,7 +84,7 @@ theorem l28iv_prop34S (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : TheoremD1 
     rw [e, map_mul, map_mul, h1, mul_one, map_inv, mul_inv_cancel]
   have hucen : ∀ w ∈ (P : Subgroup G), w * u = u * w := by
     intro w hw
-    obtain ⟨m, hm⟩ := P.isPGroup' ⟨w, hw⟩
+    obtain ⟨m, hm⟩ := P.isPGroup ⟨w, hw⟩
     have hwm : w ^ (3 ^ m) = 1 := congrArg Subtype.val hm
     have h1 : w * u * w⁻¹ ∈ zpowers u := by
       refine mem_zpowers_of_isCyclic_of_pow_three hTcyc huT (hTN w hw u huT) hu1 hu3 ?_
@@ -237,7 +237,7 @@ theorem l28iv_prop34S (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : TheoremD1 
     have e : w ^ 3 = n⁻¹ * (n * w ^ 3 * n⁻¹) * n := by group
     rw [e, h3]
     group
-  have hZp : IsPGroup 3 ↥Z := P.isPGroup'.to_le (hZQ.trans inf_le_left)
+  have hZp : IsPGroup 3 ↥Z := P.isPGroup.to_le (hZQ.trans inf_le_left)
   obtain ⟨kZ, hkZ⟩ := hZp.exists_card_eq
   have hZcomm : ∀ a ∈ Z, ∀ b ∈ Z, a * b = b * a := by
     let _ := hZc.commGroup

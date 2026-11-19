@@ -15,7 +15,7 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.B.Co2 CFSG.Monster.VisCert CFSG
   CFSG.Monster.Visible CFSG.Monster.ScalarKernel CFSG.Monster.VisQuot CFSG.Monster.SpinLattice
   CFSG.Monster.B.TwoA CFSG.Monster.B.TwoA.Census
 
-@[expose] def rowsEnd (rows : Array ℕ) : Module.End (ZMod 2) (Wv v0) :=
+def rowsEnd (rows : Array ℕ) : Module.End (ZMod 2) (Wv v0) :=
   qbWBasis.constr (ZMod 2) fun t => decW rows[(t : ℕ)]!
 
 theorem rowsEnd_qbW (rows : Array ℕ) (t : Fin 22) : rowsEnd rows (qbW t) = decW rows[(t : ℕ)]! := by
@@ -37,7 +37,7 @@ theorem eq_rowsEnd_of {f : Module.End (ZMod 2) (Wv v0)} {rows : Array ℕ}
 theorem rowsEnd_congr {A B : Array ℕ} (h : ∀ t < 22, A[t]! = B[t]!) : rowsEnd A = rowsEnd B :=
   eq_rowsEnd_of fun t => by rw [rowsEnd_qbW, h t t.2]
 
-@[expose] def rowsMul (A B : Array ℕ) : Array ℕ :=
+def rowsMul (A B : Array ℕ) : Array ℕ :=
   ((List.range 22).map fun t => Native.actD 22 B A[t]!).toArray
 
 theorem rowsMul_getElem (A B : Array ℕ) {t : ℕ} (ht : t < 22) :
@@ -49,7 +49,7 @@ theorem rowsEnd_mul (A B : Array ℕ) : rowsEnd B * rowsEnd A = rowsEnd (rowsMul
   eq_rowsEnd_of fun t => by
     rw [Module.End.mul_apply, rowsEnd_qbW, rowsEnd_decW, rowsMul_getElem _ _ t.2]
 
-@[expose] def idRows : Array ℕ := ((List.range 22).map fun t => 1 <<< t).toArray
+def idRows : Array ℕ := ((List.range 22).map fun t => 1 <<< t).toArray
 
 theorem decW_one_shiftLeft (t : Fin 22) : decW (1 <<< (t : ℕ)) = qbW t := by
   rw [decW, Finset.sum_eq_single t]
@@ -94,7 +94,7 @@ theorem mk_PO_mem_Kv
   have h := (mk_mem_Kstab_iff_monomial 0 p).2 ⟨hp, zero_mem _⟩
   rwa [gO_zero, one_mul] at h
 
-@[expose] def permK
+def permK
     {p : AutPerm} (hp : p ∈ Ppair) : Kstab v0 := ⟨_, mk_PO_mem_Kv hp⟩
 
 theorem kOp_permK_dec

@@ -52,7 +52,7 @@ private theorem colAct_foldr_xor (c : ℕ → ℕ) (l : List ℕ) (x y : ℕ) :
   | cons i l ih =>
     rw [List.foldr_cons, ih, Nat.testBit_xor]
     cases hx : x.testBit i <;> cases hy : y.testBit i <;>
-      simp [hx, hy, xor_common, xor_assoc_comm, Nat.xor_assoc]
+      simp [hx, hy, xor_assoc_comm, Nat.xor_assoc]
 
 theorem colAct_zero (c : ℕ → ℕ) : colAct c 0 = 0 :=
   colAct_foldr_zero c (List.range 10) 0 (by simp)
@@ -72,17 +72,17 @@ private theorem colAct_foldr_pow (c : ℕ → ℕ) (i n : ℕ) (a : ℕ) :
     by_cases hi : i < n
     · have hne : i ≠ n := by omega
       have hlt : i < n + 1 := by omega
-      rw [if_pos hi, if_pos hlt]
-      simp [Nat.testBit_two_pow, hne]
+      rw [ite_eq_left hi, ite_eq_left hlt]
+      simp [hne]
     · by_cases heq : i = n
-      · simp [heq, hi, Nat.testBit_two_pow]
+      · simp [heq]
       · have hlt : ¬ i < n + 1 := by omega
-        rw [if_neg hi, if_neg hlt]
-        simp [Nat.testBit_two_pow, heq]
+        rw [ite_eq_right hi, ite_eq_right hlt]
+        simp [heq]
 
 theorem colAct_two_pow (c : ℕ → ℕ) {i : ℕ} (hi : i < 10) : colAct c (2 ^ i) = c i := by
   unfold colAct
-  rw [colAct_foldr_pow c i 10 0, if_pos hi, Nat.xor_zero]
+  rw [colAct_foldr_pow c i 10 0, ite_eq_left hi, Nat.xor_zero]
 
 private theorem colAct_foldr_lt (c : ℕ → ℕ) (l : List ℕ) (x : ℕ)
     (hc : ∀ i ∈ l, c i < 1024) :
@@ -117,11 +117,11 @@ theorem bsum_xor (n m m' : ℕ) (v : ℕ → ZMod 2) :
   simp only [bsum, ← Finset.sum_add_distrib]
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [Nat.testBit_xor]
-  cases hm : m.testBit i <;> cases hm' : m'.testBit i <;> simp [hm, hm', hxx]
+  cases hm : m.testBit i <;> cases hm' : m'.testBit i <;> simp [hxx]
 
 theorem bsum_two_pow {n i : ℕ} (hi : i < n) (v : ℕ → ZMod 2) : bsum n (2 ^ i) v = v i := by
   rw [bsum, Finset.sum_eq_single i]
-  · simp [Nat.testBit_two_pow]
+  · simp
   · intro j _ hj
     rw [Nat.testBit_two_pow]
     have : i ≠ j := fun h => hj h.symm

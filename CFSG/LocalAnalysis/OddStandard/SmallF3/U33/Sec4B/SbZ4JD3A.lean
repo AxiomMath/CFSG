@@ -53,6 +53,7 @@ private theorem mul_three_eq {G : Type*} [Group G] {p q r : G} (h : q * r = r * 
     _ = p * (r * q) := by rw [h]
     _ = p * r * q := by group
 
+omit [Finite H] in
 private theorem zjNorm_conj_of_comm {g x : H} (hcomm : g * ρ = ρ * g) :
     zjNorm ρ (g * x * g⁻¹) = g * zjNorm ρ x * g⁻¹ := by
   have hgiρ : g⁻¹ * ρ = ρ * g⁻¹ := by
@@ -80,6 +81,7 @@ private theorem zjNorm_conj_of_comm {g x : H} (hcomm : g * ρ = ρ * g) :
   rw [h1, h2]
   group
 
+omit [Finite H] in
 private theorem zjNorm_conj_of_l {l : H} (hl : l * ρ * l⁻¹ = ρ⁻¹) (hli : l⁻¹ = l) (x : H) :
     zjNorm ρ (l * x * l⁻¹) = l * zjNorm ρ⁻¹ x * l⁻¹ := by
   have hρl : ρ * l = l * ρ⁻¹ := by
@@ -114,6 +116,7 @@ private theorem zjNorm_conj_of_l {l : H} (hl : l * ρ * l⁻¹ = ρ⁻¹) (hli :
   rw [h1, h2]
   group
 
+omit [Finite H] in
 theorem zjNorm_comm_rho (hρ : ρ ^ 3 = 1) (m : H) :
     zjNorm ρ (m * (ρ * m⁻¹ * ρ⁻¹)) = 1 := by
   have hρ2 : ρ⁻¹ * ρ⁻¹ = ρ := inv_mul_inv_eq_self_of_pow_three hρ
@@ -137,13 +140,15 @@ variable (h : ZJData Q Y V V' B ρ t τ l y z v₁ v₂) include h
 
 variable {Mh : Subgroup H} (hMh : IsZJMh y z v₁ v₂ Mh) include hMh
 
-theorem Q_le_Mh : Q ≤ Mh := fun q hq => E_le_Mh h hMh (h.Q_le_E hq)
+omit [Finite H] in
+theorem Q_le_Mh : Q ≤ Mh := fun _q hq => E_le_Mh h hMh (h.Q_le_E hq)
 
+omit [Finite H] in
 theorem tau_mem_Mh : τ ∈ Mh := E_le_Mh h hMh h.tau_mem_E
 
 theorem zjNorm_mul_mem {a b : H} (ha : a ∈ Mh) (hb : b ∈ Mh) :
     zjNorm ρ (a * b) * (zjNorm ρ a * zjNorm ρ b)⁻¹ ∈ Q := by
-  haveI hQn : Q.Normal := ⟨fun x hx g => h.normal_Q g x hx⟩
+  have hQn : Q.Normal := ⟨fun x hx g => h.normal_Q g x hx⟩
   let φ : H →* H ⧸ Q := QuotientGroup.mk' Q
   have hφ1 : ∀ x : H, φ x = 1 ↔ x ∈ Q := by
     intro x
@@ -163,11 +168,11 @@ theorem zjNorm_mul_mem {a b : H} (ha : a ∈ Mh) (hb : b ∈ Mh) :
   have hL : φ (zjNorm ρ (a * b)) =
       φ a * φ b * (φ (ρ * a * ρ⁻¹) * φ (ρ * b * ρ⁻¹)) *
         (φ (ρ⁻¹ * a * ρ) * φ (ρ⁻¹ * b * ρ)) := by
-    simp only [zjNorm, map_mul, map_inv, inv_inv] <;> group
+    simp only [zjNorm, map_mul, map_inv]; group
   have hR : φ (zjNorm ρ a * zjNorm ρ b) =
       (φ a * φ (ρ * a * ρ⁻¹) * φ (ρ⁻¹ * a * ρ)) *
         (φ b * φ (ρ * b * ρ⁻¹) * φ (ρ⁻¹ * b * ρ)) := by
-    simp only [zjNorm, map_mul, map_inv, inv_inv] <;> group
+    simp only [zjNorm, map_mul, map_inv]
   have hEq : φ (zjNorm ρ (a * b)) = φ (zjNorm ρ a * zjNorm ρ b) := by
     rw [hL, hR]
     rw [show φ a * φ b * (φ (ρ * a * ρ⁻¹) * φ (ρ * b * ρ⁻¹)) *
@@ -185,7 +190,7 @@ theorem zjNorm_mul_mem {a b : H} (ha : a ∈ Mh) (hb : b ∈ Mh) :
 
 theorem zjNorm_inv_rho_mem {g : H} (hg : g ∈ Mh) :
     zjNorm ρ⁻¹ g * (zjNorm ρ g)⁻¹ ∈ Q := by
-  haveI hQn : Q.Normal := ⟨fun x hx g => h.normal_Q g x hx⟩
+  have hQn : Q.Normal := ⟨fun x hx g => h.normal_Q g x hx⟩
   let φ : H →* H ⧸ Q := QuotientGroup.mk' Q
   have hφ1 : ∀ x : H, φ x = 1 ↔ x ∈ Q := by
     intro x
@@ -200,16 +205,16 @@ theorem zjNorm_inv_rho_mem {g : H} (hg : g ∈ Mh) :
     exact (hφ1 _).mpr (by simpa [commutatorElement_def] using Mh_comm_mem_Q h hMh hx hy)
   have hL : φ (zjNorm ρ⁻¹ g) =
       φ g * ((φ ρ)⁻¹ * φ g * φ ρ) * (φ ρ * φ g * (φ ρ)⁻¹) := by
-    simp only [zjNorm, map_mul, map_inv, inv_inv] <;> group
+    simp only [zjNorm, map_mul, map_inv, inv_inv]
   have hR : φ (zjNorm ρ g) =
       φ g * (φ ρ * φ g * (φ ρ)⁻¹) * ((φ ρ)⁻¹ * φ g * φ ρ) := by
-    simp only [zjNorm, map_mul, map_inv, inv_inv] <;> group
+    simp only [zjNorm, map_mul, map_inv]
   have hqr : ((φ ρ)⁻¹ * φ g * φ ρ) * (φ ρ * φ g * (φ ρ)⁻¹) =
       (φ ρ * φ g * (φ ρ)⁻¹) * ((φ ρ)⁻¹ * φ g * φ ρ) := by
     have h1 : (φ ρ)⁻¹ * φ g * φ ρ = φ (ρ⁻¹ * g * ρ) := by
-      simp only [map_mul, map_inv, inv_inv]
+      simp only [map_mul, map_inv]
     have h2 : φ ρ * φ g * (φ ρ)⁻¹ = φ (ρ * g * ρ⁻¹) := by
-      simp only [map_mul, map_inv, inv_inv]
+      simp only [map_mul, map_inv]
     rw [h1, h2]
     exact hcomm (ρ⁻¹ * g * ρ) (ρ * g * ρ⁻¹) hg2 hg1
   have hEq : φ (zjNorm ρ⁻¹ g) = φ (zjNorm ρ g) := by
@@ -240,8 +245,10 @@ theorem exists_Mc : ∃ Mc : Subgroup H, IsZJMc ρ Q Mh Mc := by
 
 variable {Mc : Subgroup H} (hMc : IsZJMc ρ Q Mh Mc) include hMc
 
+omit [Finite H] h hMh in
 theorem Mc_le_Mh : Mc ≤ Mh := fun g hg => ((hMc g).mp hg).1
 
+omit [Finite H] in
 theorem Q_le_Mc : Q ≤ Mc := by
   intro q hq
   rw [hMc q]
@@ -254,6 +261,7 @@ theorem Q_le_Mc : Q ≤ Mc := by
   rw [heq]
   exact Q.mul_mem (Q.mul_mem hq h1) h2
 
+omit [Finite H] hMh in
 theorem tau_not_mem_Mc : τ ∉ Mc := by
   intro hτ
   have hτQ : zjNorm ρ τ ∈ Q := ((hMc τ).mp hτ).2
@@ -271,7 +279,7 @@ theorem tau_not_mem_Mc : τ ∉ Mc := by
   exact h.tau_not_mem_Q hτQ
 
 theorem Mc_conj_Mh {m c : H} (hm : m ∈ Mh) (hc : c ∈ Mc) : m * c * m⁻¹ ∈ Mc := by
-  have hcM : c ∈ Mh := Mc_le_Mh h hMh hMc hc
+  have hcM : c ∈ Mh := Mc_le_Mh hMc hc
   have hcomm : m * c * m⁻¹ * c⁻¹ ∈ Q := by
     simpa using Mh_comm_mem_Q h hMh hm hcM
   have heq : m * c * m⁻¹ = (m * c * m⁻¹ * c⁻¹) * c := by group
@@ -279,7 +287,7 @@ theorem Mc_conj_Mh {m c : H} (hm : m ∈ Mh) (hc : c ∈ Mc) : m * c * m⁻¹ �
   exact Mc.mul_mem (Q_le_Mc h hMh hMc hcomm) hc
 
 theorem Mc_conj_rho {x : H} (hx : x ∈ Mc) : ρ * x * ρ⁻¹ ∈ Mc := by
-  have hxM : x ∈ Mh := Mc_le_Mh h hMh hMc hx
+  have hxM : x ∈ Mh := Mc_le_Mh hMc hx
   have hxQ : zjNorm ρ x ∈ Q := ((hMc x).mp hx).2
   rw [hMc (ρ * x * ρ⁻¹)]
   refine ⟨Mh_normal h hMh (g := ρ) hxM, ?_⟩
@@ -287,7 +295,7 @@ theorem Mc_conj_rho {x : H} (hx : x ∈ Mc) : ρ * x * ρ⁻¹ ∈ Mc := by
   exact h.normal_Q ρ (zjNorm ρ x) hxQ
 
 theorem Mc_conj_t {x : H} (hx : x ∈ Mc) : t * x * t⁻¹ ∈ Mc := by
-  have hxM : x ∈ Mh := Mc_le_Mh h hMh hMc hx
+  have hxM : x ∈ Mh := Mc_le_Mh hMc hx
   have hxQ : zjNorm ρ x ∈ Q := ((hMc x).mp hx).2
   rw [hMc (t * x * t⁻¹)]
   refine ⟨Mh_normal h hMh (g := t) hxM, ?_⟩
@@ -295,7 +303,7 @@ theorem Mc_conj_t {x : H} (hx : x ∈ Mc) : t * x * t⁻¹ ∈ Mc := by
   exact h.normal_Q t (zjNorm ρ x) hxQ
 
 theorem Mc_conj_tau {x : H} (hx : x ∈ Mc) : τ * x * τ⁻¹ ∈ Mc := by
-  have hxM : x ∈ Mh := Mc_le_Mh h hMh hMc hx
+  have hxM : x ∈ Mh := Mc_le_Mh hMc hx
   have hxQ : zjNorm ρ x ∈ Q := ((hMc x).mp hx).2
   rw [hMc (τ * x * τ⁻¹)]
   refine ⟨Mh_normal h hMh (g := τ) hxM, ?_⟩
@@ -303,7 +311,7 @@ theorem Mc_conj_tau {x : H} (hx : x ∈ Mc) : τ * x * τ⁻¹ ∈ Mc := by
   exact h.normal_Q τ (zjNorm ρ x) hxQ
 
 theorem Mc_conj_l {x : H} (hx : x ∈ Mc) : l * x * l⁻¹ ∈ Mc := by
-  have hxM : x ∈ Mh := Mc_le_Mh h hMh hMc hx
+  have hxM : x ∈ Mh := Mc_le_Mh hMc hx
   have hxQ : zjNorm ρ x ∈ Q := ((hMc x).mp hx).2
   have hli : l⁻¹ = l := inv_eq_of_mul_eq_one_right h.l_sq
   rw [hMc (l * x * l⁻¹)]

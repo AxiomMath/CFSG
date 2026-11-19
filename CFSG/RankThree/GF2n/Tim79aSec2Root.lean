@@ -30,17 +30,18 @@ theorem dbarOf_isRootInvolutionSet : CFSG.Timmesfeld.IsRootInvolutionSet (dbarOf
     unfold dbarOf
     congr 1
     ext x
-    simp only [Set.mem_setOf_eq, ne_eq, piBar_eq_one_iff]
+    simp only [Set.mem_ofPred_eq, ne_eq, piBar_eq_one_iff]
   rw [e]
   exact h
 
+omit [Finite G] hc in
 theorem dbarOf_subset_barOf_xOf : dbarOf V H ⊆ (barOf V H (xOf V H) : Set (Hbar V H)) := by
   intro y hy
   obtain ⟨x, ⟨hx1, U, hU, hxU⟩, -, rfl⟩ := mem_dbarOf_iff.mp hy
   exact mem_barOf_iff.mpr ⟨x, le_xOf hU hxU, rfl⟩
 
 theorem closure_dbarOf : Subgroup.closure (dbarOf V H) = barOf V H (xOf V H) := by
-  refine le_antisymm ((Subgroup.closure_le _).2 hc.dbarOf_subset_barOf_xOf) fun y hy => ?_
+  refine le_antisymm ((Subgroup.closure_le _).2 CFSG.RankThree.GF2n.Tim79a.MinCex.dbarOf_subset_barOf_xOf) fun y hy => ?_
   obtain ⟨x, hxX, rfl⟩ := mem_barOf_iff.mp hy
   let Z : Subgroup G := ((Subgroup.closure (dbarOf V H)).comap (piBar V H)).map H.subtype
   have hXZ : xOf V H ≤ Z := by
@@ -62,6 +63,7 @@ theorem closure_dbarOf : Subgroup.closure (dbarOf V H) = barOf V H (xOf V H) := 
   have : x' = x := Subtype.ext hxx
   exact this ▸ hx'
 
+omit [Finite G] hc in
 theorem conj_mem_dbarOf {y x : Hbar V H} (hx : x ∈ dbarOf V H) : y * x * y⁻¹ ∈ dbarOf V H := by
   obtain ⟨d, ⟨hd1, U, hU, hdU⟩, hdW, rfl⟩ := mem_dbarOf_iff.mp hx
   obtain ⟨h, rfl⟩ := piBar_surjective V H y
@@ -87,6 +89,7 @@ theorem conj_mem_dbarOf {y x : Hbar V H} (hx : x ∈ dbarOf V H) : y * x * y⁻�
   have e2 : (h : G)⁻¹ * ((h : G) * d * (h : G)⁻¹) * ((h : G)⁻¹)⁻¹ = d := by group
   rwa [e2] at this
 
+omit [Finite G] hc in
 theorem barOf_V_subset_dbarOf {x : Hbar V H} (hx : x ∈ barOf V H V) (hx1 : x ≠ 1) :
     x ∈ dbarOf V H := by
   obtain ⟨v, hv, rfl⟩ := mem_barOf_iff.mp hx

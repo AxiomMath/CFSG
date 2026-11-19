@@ -76,6 +76,7 @@ theorem modA_eq_one_of_rk_zero {g : V ≃ₗ[ZMod 2] V} (h : rk g = 0) : g = 1 :
   rw [h0, Submodule.mem_bot, nu_apply] at hv
   exact sub_eq_zero.mp hv
 
+omit [Module.Finite (ZMod 2) V] in
 theorem modA_rk_restr (M : Submodule (ZMod 2) V) (g : modA_stab M) :
     rk (modA_restr M g) = finrank (ZMod 2) (M.map (nu (g : V ≃ₗ[ZMod 2] V))) := by
   have hmap : (LinearMap.range (nu (modA_restr M g))).map M.subtype =
@@ -136,8 +137,8 @@ theorem modA_rk_ne_one (hV : finrank (ZMod 2) V = 4) {a g : V ≃ₗ[ZMod 2] V} 
     (hfix : ∀ v : V, a v = v → v = 0) (hg : g * g = 1) {k : ℕ} (hk : g * a * g⁻¹ = a ^ k) :
     rk g ≠ 1 := by
   intro hrk
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
   have ha1 : a ≠ 1 := by
     intro h
     obtain ⟨v, hv⟩ := exists_ne (0 : V)

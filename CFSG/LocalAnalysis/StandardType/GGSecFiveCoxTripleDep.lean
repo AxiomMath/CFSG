@@ -249,31 +249,26 @@ theorem coxTriple_dep
     have hrr : rr = x ^ 2 + ε * x * y + y ^ 2 := by
       rw [hrrdef, hB33]
       field_simp [hLpos.ne']
-      try ring
     have hm : m = 2 * x + ε * y := by
       rw [hmdef, coxPairing, hxy]
       simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul]
       rw [← hL, form_comm hC (toRat r2) (toRat r1), ← hcdef, hc]
       field_simp [hLpos.ne']
-      try ring
     have hn : n = ε * x + 2 * y := by
       rw [hndef, coxPairing, hxy]
       simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul]
       rw [← hcdef, hL2, hc]
       field_simp [hLpos.ne']
-      try ring
     have hp13eq : coxPairing hC r1 r3 = m / rr := by
       have hB33ne : B33 ≠ 0 := by rw [hB33def]; exact (form_pos hC hr3ne).ne'
       rw [hmdef, hrrdef, coxPairing, coxPairing, form_comm hC (toRat r1) (toRat r3),
         ← hL, ← hB33def]
       field_simp [hLpos.ne', hB33ne]
-      try ring
     have hp23eq : coxPairing hC r2 r3 = n / rr := by
       have hB33ne : B33 ≠ 0 := by rw [hB33def]; exact (form_pos hC hr3ne).ne'
       rw [hndef, hrrdef, coxPairing, coxPairing, form_comm hC (toRat r2) (toRat r3),
         hL2, ← hB33def]
       field_simp [hLpos.ne', hB33ne]
-      try ring
     have hp13mem : m * (m / rr) = 0 ∨ m * (m / rr) = 1 ∨ m * (m / rr) = 2 := by
       have hA4 := orderOf_coxRefl_mul hC g₃ g₁ i₃ i₁ hnp31
       rcases coxPairing_mul_cases hC g₃ g₁ i₃ i₁ hnp31 with h0 | h1 | h2 | h3six

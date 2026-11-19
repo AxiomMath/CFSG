@@ -179,7 +179,7 @@ theorem InvertsByWeyl.of_yamStd {C : Type} [Group C] [Finite C] {U P₀ P₁ : S
 
 private theorem torus_odd_card [Finite Y] {E : Subgroup Y} {m : ℕ} (hm : Odd m)
     (hmE : ∀ e ∈ E, e ^ m = 1) : Odd (Nat.card E) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine Nat.not_even_iff_odd.mp ?_
   intro heven
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := E) 2 (even_iff_two_dvd.mp heven)
@@ -194,7 +194,7 @@ private theorem of_torus_exists_conj [Finite Y] {U H P₀ P₁ E : Subgroup Y}
     (hE : E ≤ P₀ ⊓ P₁) (hEodd : Odd (Nat.card E)) (hEU : E ⊓ U = ⊥) :
     ∃ x ∈ U, E = ((E ⊔ U) ⊓ H).map (MulAut.conj x).toMonoidHom := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let B : Subgroup Y := P₀ ⊓ P₁
   have hEB : E ≤ B := hE
   have hUB : U ≤ B := by
@@ -209,7 +209,7 @@ private theorem of_torus_exists_conj [Finite Y] {U H P₀ P₁ E : Subgroup Y}
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUB).mp hUn
   have hEN : E ≤ Subgroup.normalizer (U : Set Y) := hEB.trans hBnorm
   have hHU : H ⊓ U = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨a, ha⟩ := hU.exists_card_eq
     rw [ha]
     exact (Nat.coprime_two_left.mpr hH).symm.pow_right a
@@ -297,7 +297,7 @@ theorem InvertsByWeyl.of_torus_closure [Finite Y] {U H P₀ P₁ : Subgroup Y} {
     {w : Y} (hw : w ∈ Subgroup.closure X) (hinv : ∀ x ∈ H, x ^ m = 1 → w * x * w⁻¹ = x⁻¹) :
     InvertsByWeyl P₀ P₁ m := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro E hE hmE
   let B : Subgroup Y := P₀ ⊓ P₁
   have hUB : U ≤ B := by
@@ -330,7 +330,7 @@ theorem InvertsByWeyl.of_torus_closure [Finite Y] {U H P₀ P₁ : Subgroup Y} {
   obtain ⟨h, hh, hhe⟩ := Subgroup.mem_map.mp heMap
   have hxinv : x⁻¹ * e * x = h := by
     rw [← hhe]
-    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     group
   have hhm : h ^ m = 1 := by
     rw [← hxinv]
@@ -492,7 +492,7 @@ private theorem exists_word_conj_preimage {G : Type} [Group G] {P₁ P₂ : Subg
   | nil =>
       refine ⟨1, (P₁ ⊔ P₂).one_mem, ?_⟩
       intro y hyH
-      have hy' : ((1 : G) * (y : G) * (1 : G)⁻¹) ∈ P₁ ⊓ P₂ := by simpa using y.2
+      have hy' : ((1 : G) * (y : G) * (1 : G)⁻¹) ∈ P₁ ⊓ P₂ := by simp
       refine ⟨hy', ?_⟩
       have hsub : (⟨(1 : G) * (y : G) * (1 : G)⁻¹, hy'⟩ :
           ↥(P₁ ⊓ P₂)) = y := Subtype.ext (by simp)
@@ -587,7 +587,7 @@ theorem InvertsByWeyl.exists_inv_of_iso {G : Type} [Group G] {P₁ P₂ : Subgro
       ((ψ12 y : ↥(M₁ ⊓ M₂)) : Y)⁻¹ := hφ.trans hinv'
   have hφy : ((ψ12 y⁻¹ : ↥(M₁ ⊓ M₂)) : Y) =
       ((ψ12 y : ↥(M₁ ⊓ M₂)) : Y)⁻¹ := by
-    simpa using congrArg (fun t : ↥(M₁ ⊓ M₂) => (t : Y)) (map_inv ψ12 y)
+    simp
   have hsub : (⟨_, hy⟩ : ↥(P₁ ⊓ P₂)) = y⁻¹ := by
     apply ψ12.injective
     apply Subtype.ext

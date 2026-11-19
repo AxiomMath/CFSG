@@ -59,7 +59,7 @@ theorem planeOK_conj {t v : WeylGroup Tag.E8} {b b' : Fin 2 → Fin Tag.E8.rank 
         (S' := {α | IsRoot Tag.E8 α ∧ triPairing (c 0 • b' 0 + c 1 • b' 1) α = 0}) ?_]
       · exact h78 c hc
       · intro α
-        simp only [Set.mem_setOf_eq, isRoot_smul_iff, triPairing_comb, hb, smul_inv_smul]
+        simp only [Set.mem_ofPred_eq, isRoot_smul_iff, triPairing_comb, hb, smul_inv_smul]
     · rcases h with ⟨h24, hfix, htr, horb⟩ | htri
       · left
         obtain ⟨h1, h2⟩ := orthOrbit_conj hS hfix horb
@@ -90,7 +90,7 @@ private theorem familyKernel_eq_planeKer
         triPairing (c 0 • k 0 + c 1 • k 1) v = 0) :
     familyKernel a = planeKer k := by
   ext α
-  rw [mem_planeKer, familyKernel, Set.mem_setOf_eq, Fin.forall_fin_two,
+  rw [mem_planeKer, familyKernel, Set.mem_ofPred_eq, Fin.forall_fin_two,
     rootChar_eq_one_iff_of_comb hk 0, rootChar_eq_one_iff_of_comb hk 1]
 
 private theorem triPairing_smul_of_mem_rootCharStabilizer
@@ -146,12 +146,12 @@ theorem e8ThreeKilledPlaneBlocks_of_QE8
           rootChar (fun i => a 0 i ^ (c 0).val * a 1 i ^ (c 1).val) α = 1} =
           {α | IsRoot Tag.E8 α ∧ triPairing (c 0 • k 0 + c 1 • k 1) α = 0} := by
         ext α
-        simp only [Set.mem_setOf_eq, hk c α]
+        simp only [Set.mem_ofPred_eq, hk c α]
       rw [hset, ncard_eq_of_mem_iff_inv_smul (t := g⁻¹)
         (S' := {α | IsRoot Tag.E8 α ∧ triPairing (c 0 • b 0 + c 1 • b 1) α = 0}) ?_]
       · exact h78 c hc
       · intro α
-        simp only [Set.mem_setOf_eq, inv_inv, isRoot_smul_iff, triPairing_comb, hb,
+        simp only [Set.mem_ofPred_eq, inv_inv, isRoot_smul_iff, triPairing_comb, hb,
           inv_smul_smul]
     · rcases h with ⟨h24, hfix, htr, horb⟩ | htri
       · left

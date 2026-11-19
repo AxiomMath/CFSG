@@ -43,7 +43,7 @@ theorem commutator_le_normalCore_of_index_five614 [Finite G] {S : Subgroup G}
     norm_num at this
   obtain ⟨P₅⟩ := (inferInstance : Nonempty (Sylow 5 Q))
   have hP5 : Nat.card P₅ = 5 := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P₅.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P₅.isPGroup
     have h5d : 5 ∣ Nat.card P₅ := P₅.dvd_card_of_dvd_card (by rw [hcardQ]; exact dvd_mul_right 5 _)
     have hdQ : Nat.card P₅ ∣ 5 * 2 ^ a := hcardQ ▸ Subgroup.card_subgroup_dvd_card (P₅ : Subgroup Q)
     rw [hk] at h5d hdQ ⊢

@@ -48,7 +48,7 @@ theorem Hyp.s56_pv11_not_mem (hd : d.Hyp) : d.pv 11 ∉ zpowers d.z := by
   · have := d.lift_inj h11 titsZ_mem_titsD (by rw [d.lift_titsZ]; exact h1)
     exact Model.parrottV_eleven_not_mem_zpowers (this ▸ mem_zpowers _)
 
-theorem Hyp.s56_z_mem_F (hd : d.Hyp) : d.z ∈ d.F := by
+theorem Hyp.s56_z_mem_F (_hd : d.Hyp) : d.z ∈ d.F := by
   have h12 : Model.parrottV 12 ∈ Model.parrottF := Model.parrottV_mem_parrottF (by simp)
   have hD : Model.parrottV 12 ∈ titsD := Model.parrottF_le_titsD h12
   have h := (mem_liftSub (d := d)).2 ⟨_, h12, hD, rfl⟩
@@ -127,7 +127,7 @@ theorem Hyp.s56_pv7_inv_C (hd : d.Hyp) {c : G} (hc : c ∈ centralizer (d.A : Se
       rw [this]
       exact mul_mem (mem_zpowers _) (inv_mem hw)
 
-theorem Hyp.s56_pv7_mem_F (hd : d.Hyp) : d.pv 7 ∈ d.F :=
+theorem Hyp.s56_pv7_mem_F (_hd : d.Hyp) : d.pv 7 ∈ d.F :=
   mem_liftSub.2 ⟨_, Model.parrottV_mem_parrottF (by simp), Model.parrottF_le_titsD
     (Model.parrottV_mem_parrottF (by simp)), rfl⟩
 

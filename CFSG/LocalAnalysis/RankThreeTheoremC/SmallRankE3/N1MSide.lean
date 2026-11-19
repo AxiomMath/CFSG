@@ -20,7 +20,7 @@ theorem fusionIsSylowIn_of_isMax (hS : Sit G p P M) (hx : SmallRankPoint P M x) 
     {F : Subgroup G} (hF : IsMaxFInvariantIn f (zpowers x ⊔ zpowers z) M F) :
     fusionIsSylowIn f F (GLBPrimeCore p M) := by
   have hprime := hS.prime
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   set B : Subgroup G := zpowers x ⊔ zpowers z
   set D : Subgroup G := GLBPrimeCore p M
   have hpl : SmallRankPlane p (P : Subgroup G) x z := hS.plane hx hz
@@ -47,13 +47,13 @@ theorem fusionIsSylowIn_of_isMax (hS : Sit G p P M) (hx : SmallRankPoint P M x) 
   rwa [← hRF]
 
 theorem p65_covering_of_le_core (hS : Sit G p P M) (hx : SmallRankPoint P M x)
-    (hz : SmallRankCentral P z) {f : ℕ} (hf : f.Prime) (hfp : f ≠ p) {F : Subgroup G}
+    (hz : SmallRankCentral P z) {f : ℕ} (hf : f.Prime) (_hfp : f ≠ p) {F : Subgroup G}
     (hF : IsMaxFInvariantIn f (zpowers x ⊔ zpowers z) M F) (hFD : F ≤ rankThreePrimeCore p M) :
     Open.pRank p (P : Subgroup G) ≤ Open.pRank p (M ⊓ normalizer (F : Set G)) ∧
       ∀ m ∈ M, ∃ d ∈ rankThreePrimeCore p M, ∃ n ∈ M ⊓ normalizer (F : Set G), m = d * n := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact p.Prime := ⟨hprime⟩
+  have : Fact f.Prime := ⟨hf⟩
   set B : Subgroup G := zpowers x ⊔ zpowers z with hBdef
   set D : Subgroup G := rankThreePrimeCore p M with hDdef
   have hpl : SmallRankPlane p (P : Subgroup G) x z := hS.plane hx hz
@@ -77,7 +77,7 @@ theorem p65_covering_of_le_core (hS : Sit G p P M) (hx : SmallRankPoint P M x)
       rw [normalizer_eq_top_iff.mpr inferInstance]
       exact le_top
     obtain ⟨S, hSsyl, -, hPS⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing
-      hprime hf P.isPGroup' hD3 hPD bot_le hbotf hPbot
+      hprime hf P.isPGroup hD3 hPD bot_le hbotf hPbot
     obtain ⟨c, hc, hFc⟩ := CFSG.Goldschmidt.G310.exists_conj_of_invariant_sylows
       hprime hf hbotp hD3 bot_le hSsyl hFsyl bot_le bot_le
     have hcM : c ∈ M := hDM (mem_inf.mp hc).1
@@ -121,7 +121,7 @@ theorem p65_mSide (hKA : KFactP65SingleAt p) (hmulti : NoTwoComponentsAt p)
           IsComponentOf K ⊤ → p ∣ Nat.card K → K = L
     ·
       have hcop : Nat.Coprime (Nat.card F) (2 * p) := by
-        haveI : Fact f.Prime := ⟨hf⟩
+        have : Fact f.Prime := ⟨hf⟩
         obtain ⟨k, hk⟩ := hF.1.2.1.exists_card_eq
         rw [hk]
         exact Nat.Coprime.pow_left k (Nat.Coprime.mul_right

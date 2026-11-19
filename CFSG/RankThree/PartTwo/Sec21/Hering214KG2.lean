@@ -22,7 +22,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem four_le_card_of_cube_root {k : Type} [Field k] [Finite k] {ω : k}
     (hω : ω ^ 2 + ω + 1 = 0) (hω1 : ω ≠ 1) : 4 ≤ Nat.card k := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hω0 : ω ≠ 0 := by
     rintro rfl
     simp at hω
@@ -47,8 +47,8 @@ theorem eInvFour_G2_of_fixing (h3 : 3 ∣ Nat.card K - 1) {σ : K ≃+* K} (hσ 
     have h1 : 1 < Nat.card K := Finite.one_lt_card
     obtain ⟨c, hc⟩ := h3
     omega
-  haveI := CFSG.RankThree.GF2n.Stroth80.isCyclic_ringEquiv K
-  haveI : Finite (K ≃+* K) := Finite.of_injective (fun τ : K ≃+* K => (τ : K → K))
+  have := CFSG.RankThree.GF2n.Stroth80.isCyclic_ringEquiv K
+  have : Finite (K ≃+* K) := Finite.of_injective (fun τ : K ≃+* K => (τ : K → K))
     (fun a b h => RingEquiv.ext (fun x => congrFun h x))
   obtain ⟨hdec, hfaith⟩ := g2_automorphism_normal_form hK3 hK4
   have hZ : Subgroup.center ↥(adjointGroup .G2 K) = ⊥ := center_adjointGroup_eq_bot
@@ -154,7 +154,7 @@ theorem eInvFour_G2_outer (h3 : 3 ∣ Nat.card K - 1)
     have h1 : 1 < Nat.card K := Finite.one_lt_card
     obtain ⟨c, hc⟩ := h3
     omega
-  obtain ⟨a, haE, haI⟩ := SetLike.not_le_iff_exists.mp hout
+  obtain ⟨a, haE, haI⟩ := IsConcreteLE.not_le_iff_exists.mp hout
   have ha3 : a ^ 3 = 1 := hE3.2 a haE
   obtain ⟨σ, hσ3, k, hak⟩ := g2_order_three_field_descent hK3 hK4 ha3 haI
   refine eInvFour_of_map_conj (MulAut.conj k)⁻¹ ?_
@@ -179,7 +179,7 @@ section Model
 theorem eInvNine_chevalleyG2 {X : Type} [Group X] {n : ℕ} (hn0 : 0 < n) (hn : Even n)
     (hX : ChevalleyExceptionalModel X .G2 2 n) : EInvNine X := by
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hX.2
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hn0 hK
   have h3 : 3 ∣ Nat.card K - 1 := by rw [hK]; exact three_dvd_two_pow_sub_one hn
   exact EInvNine.of_mulEquiv (e.trans

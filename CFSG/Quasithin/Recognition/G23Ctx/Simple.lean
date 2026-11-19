@@ -98,7 +98,7 @@ theorem Cfg.oddCore_H [Finite G] (c : Cfg G T H H₁ H₂ M z) {N : Subgroup G} 
   rcases eq_of_centralizes c.one c.isZ hnK h₁ h₂ with h | h
   · exact h
   · exfalso
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hzN : z ∈ N := by
       rw [← h]
       exact hn
@@ -264,7 +264,7 @@ theorem Cfg.M_le [Finite G] (c : Cfg G T H H₁ H₂ M z) {N : Subgroup G} (hN :
     (hzN : z ∈ N) : M ≤ N := by
   have hVN := c.fitting_le hN hzN
   obtain ⟨u, huV, hu1, g, hgT, hgV⟩ := c.exists_conj_not_mem_fitting
-  haveI : IsSimpleGroup SL(3, ZMod 2) := isSimpleGroup_sl3
+  have : IsSimpleGroup SL(3, ZMod 2) := isSimpleGroup_sl3
   exact le_of_surj_simple (g23QuotMap c.two) (g23QuotMap_surjective c.two) (g23QuotMap_ker c.two)
     hN hVN (c.tM hgT) (hN.conj_mem u (hVN huV) g) hgV
 
@@ -307,7 +307,7 @@ theorem Cfg.H_le [Finite G] (c : Cfg G T H H₁ H₂ M z) {N : Subgroup G} (hN :
     exact N.mul_mem ((sup_le h₁ h₂) hk) hwN
 
 theorem Cfg.isSimpleGroup [Finite G] (c : Cfg G T H H₁ H₂ M z) : IsSimpleGroup G := by
-  haveI : Nontrivial G := ⟨⟨z, 1, c.isZ.ne_one⟩⟩
+  have : Nontrivial G := ⟨⟨z, 1, c.isZ.ne_one⟩⟩
   refine ⟨fun N hN => ?_⟩
   by_cases hN1 : N = ⊥
   · exact Or.inl hN1

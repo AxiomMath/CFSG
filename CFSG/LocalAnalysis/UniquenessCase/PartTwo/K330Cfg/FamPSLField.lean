@@ -42,7 +42,6 @@ private theorem k330c_fixedBy_map_congr {G H : Type} [Group G] [Group H] (e : G 
     have h1 := (mem_fixedBy.mp hy) (MulAut.congr e w) (Subgroup.mem_map_of_mem _ hw)
     have h1' : (MulAut.congr e w) y = y := h1
     apply e.injective
-    change e (w (e.symm y)) = e (e.symm y)
     rw [← hca w y, h1', e.apply_symm_apply]
 
 private theorem k330c_fixedBy_zpowers_congr {G H : Type} [Group G] [Group H] (e : G ≃* H)
@@ -144,7 +143,7 @@ private theorem k330c_hasFieldRP_of_mulEquiv {J T : Type} [Group J] [Finite J] [
       rw [Subgroup.map_map]
       rw [show (MulAut.congr e.symm).toMonoidHom.comp F.toMonoidHom = MonoidHom.id _ from by
         ext x
-        simpa [hF] using hχ x]
+        simp [hF]]
       exact Subgroup.map_id W
     have hW2 : (((Subgroup.zpowers φ).map (MulAut.conj g).toMonoidHom).map
         (MulAut.congr e.symm).toMonoidHom) =
@@ -291,8 +290,8 @@ private theorem k330c_hasFieldRP_projectiveSL {n : ℕ}
       exact (orderOf_map_dvd (MulAut.conj :
         projectiveSL n K →* MulAut (projectiveSL n K)) t).trans (orderOf_dvd_natCard t)
     exact h7 hdvd
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K (ringChar K) := ringChar.charP K
   obtain ⟨f', hℓ, hcardf'⟩ := FiniteField.card K (ringChar K)
   have hf' : 1 ≤ (f' : ℕ) := f'.pos
   have hK' : Nat.card K = ringChar K ^ (f' : ℕ) := by
@@ -362,7 +361,7 @@ theorem hasFieldRP_PSL (n : ℕ) (hn : n = 4 ∨ n = 5) {J : Type}
     LinearCover.exists_mulEquiv_projectiveSL_of_lieModel e
   have hadm := e.admissible
   obtain ⟨hp, hf, -⟩ := hadm
-  haveI := hKfin
+  have := hKfin
   exact k330c_hasFieldRP_of_mulEquiv eiso (k330c_hasFieldRP_projectiveSL hn hp hf hKcard)
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.K330Cfg

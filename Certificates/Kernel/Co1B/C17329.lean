@@ -85,9 +85,9 @@ theorem boundOKF_of_sel {nfix : Nat} {span' : List (Nat × Nat)} {comb' : List N
   obtain ⟨h1, h2, h3⟩ := hN i (by omega)
   unfold lvlOKF
   by_cases hfi : i < nfix
-  · rw [if_pos hfi, mem_eq, h1, Bool.true_and, decide_eq_true_iff]
+  · rw [ite_eq_left hfi, mem_eq, h1, Bool.true_and, decide_eq_true_iff]
     exact hfix i hfi
-  rw [if_neg hfi]
+  rw [ite_eq_right hfi]
   have hgs : ∀ j < m, ((List.range m).map fun j => selC (conds'.getD j []) (Sel.getD j [])).getD j [] =
       selC (conds'.getD j []) (Sel.getD j []) := fun j hj => by
     rw [List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range hj]

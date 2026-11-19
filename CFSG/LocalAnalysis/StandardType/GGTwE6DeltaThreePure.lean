@@ -12,6 +12,7 @@ section Pure
 
 variable {L' : Type} [Group L'] [Finite L']
 
+omit [Finite L'] in
 theorem mem_center_of_conj_eq_one {x : L'} (h : (MulAut.conj x : MulAut L') = 1) :
     x ∈ Subgroup.center L' := by
   rw [Subgroup.mem_center_iff]
@@ -21,6 +22,7 @@ theorem mem_center_of_conj_eq_one {x : L'} (h : (MulAut.conj x : MulAut L') = 1)
   calc g * x = x * g * x⁻¹ * x := by rw [h1]
     _ = x * g := by group
 
+omit [Finite L'] in
 theorem conj_apply_aut (a : MulAut L') (e : L') :
     (MulAut.conj (a e) : MulAut L') = a * MulAut.conj e * a⁻¹ := by
   refine MulEquiv.ext fun x => ?_
@@ -78,6 +80,7 @@ theorem isElemAbelian_comap_of_injective {G H : Type*} [Group G] [Group H] {p : 
     exact TableB.IsElemAbelian.comm hS a.2 b.2
   · rw [map_pow, hS.2 _ hy, map_one]
 
+omit [Finite L'] in
 theorem conj_injective_of_center_card_eq_one (h : Nat.card (Subgroup.center L') = 1) :
     Function.Injective (MulAut.conj : L' →* MulAut L') := by
   rw [injective_iff_map_eq_one]
@@ -87,6 +90,7 @@ theorem conj_injective_of_center_card_eq_one (h : Nat.card (Subgroup.center L') 
   rw [hbot] at hmem
   exact Subgroup.mem_bot.1 hmem
 
+omit [Finite L'] in
 theorem fixes_of_mem_zpowers {P : L' → Prop} {t a : MulAut L'} (ht : ∀ j, P j → t j = j)
     (ha : a ∈ Subgroup.zpowers t) : ∀ j, P j → a j = j := by
   let F : Subgroup (MulAut L') :=
@@ -105,6 +109,7 @@ section Induced
 variable {K : Type} [Field K] {n : ℕ} {L' : Type} [Group L'] [Finite L']
   {ψ : L' →* TwE6Delta.RecipeR K n}
 
+omit [Finite L'] in
 theorem mem_range_conj_of_inner (hψ : Function.Surjective ψ)
     (hZ : Subgroup.center (TwE6Delta.RecipeR K n) = ⊥) (hker : ψ.ker ≤ Subgroup.center L')
     (hperf : commutator L' = ⊤) {a : MulAut L'}
@@ -119,6 +124,7 @@ theorem mem_range_conj_of_inner (hψ : Function.Surjective ψ)
   change ggIE_indAut hψ hZ hker (MulAut.conj l₀) (ψ l) = ggIE_indAut hψ hZ hker a (ψ l)
   rw [ggIE_indAut_apply, ggIE_indAut_apply, hr, MulAut.conj_apply, map_mul, map_mul, map_inv]
 
+omit [Finite L'] in
 theorem rho_mem_range_conj_iff (hψ : Function.Surjective ψ)
     (hZ : Subgroup.center (TwE6Delta.RecipeR K n) = ⊥) (hker : ψ.ker ≤ Subgroup.center L')
     (hperf : commutator L' = ⊤) (a : MulAut L') :
@@ -139,6 +145,7 @@ theorem rho_mem_range_conj_iff (hψ : Function.Surjective ψ)
     change MulAut.conj (ψ l₀) (ψ l) = ggIE_indAut hψ hZ hker (MulAut.conj l₀) (ψ l)
     rw [ggIE_indAut_apply, MulAut.conj_apply, MulAut.conj_apply, map_mul, map_mul, map_inv]
 
+omit [Finite L'] in
 theorem rho_mem_recipeI (hψ : Function.Surjective ψ)
     (hZ : Subgroup.center (TwE6Delta.RecipeR K n) = ⊥) (hker : ψ.ker ≤ Subgroup.center L')
     {a : MulAut L'} (ha : Induces ψ a) :

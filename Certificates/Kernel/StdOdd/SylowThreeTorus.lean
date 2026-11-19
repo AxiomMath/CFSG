@@ -52,7 +52,7 @@ theorem torus_ok :
     rw [e, ← nthLL_eq_getD]
     exact allN_true torus j hj
 
-open Certificates in
+open _root_.CFSG.Certificates in
 open CFSG CFSG.Monster CFSG.Monster.Existence CFSG.Monster.Existence.StdOdd in
 open CFSG.Monster.Existence.StdOdd.Cert CFSG.Blueprint.Chevalley in
 open CFSG.LieType.Chevalley.C2E6Std CFSG.LieType.Chevalley.C2E6Std.MatrixModel in

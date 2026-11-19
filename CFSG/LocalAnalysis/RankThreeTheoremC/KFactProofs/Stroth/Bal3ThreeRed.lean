@@ -22,9 +22,9 @@ theorem kFactLemma212_three_of_red (h3 : Bal3ThreeSingleRed) :
           CFSG.pCore 3 (H ⧸ primeComplementCore (G := H) 3) = ⊥ := by
   intro H _ _ hcat P z D hconf
   by_contra hno
-  push_neg at hno
+  push Not at hno
   obtain ⟨hcon, hQ⟩ := hno
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hred := Lemma212Config.reduce (by norm_num : (3 : ℕ) ≠ 2) hconf
   obtain ⟨K, hK⟩ := exists_isComponentOf_of_not_hasPrimeConstraint Nat.prime_three hcon
   have hz := hred.mem_pCore hQ

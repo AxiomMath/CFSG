@@ -16,6 +16,7 @@ open scoped MatrixGroups
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private theorem absKN_of_mulEquiv_psl {L A : Subgroup X} (e : ↥L ≃* PSL(2, GaloisField 3 3))
     (hAL : A ≤ L) (hA27 : Nat.card A = 27) :
     UC6.AbsKN ↥L 3 (A.subgroupOf L) False := by
@@ -31,16 +32,17 @@ private theorem absKN_of_mulEquiv_psl {L A : Subgroup X} (e : ↥L ≃* PSL(2, G
     Subgroup.eq_of_le_of_card_ge hES (by rw [hScard, hEcard])
   have hEsyl : CFSG.ABGLocalTools.IsSylowOf 3 ((A.subgroupOf L).map e.toMonoidHom) ⊤ := by
     rw [hEeq, CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, S.isPGroup', by simpa using S.not_dvd_index⟩
+    exact ⟨le_top, S.isPGroup, by simpa using S.not_dvd_index⟩
   exact UC6.AbsKN.of_iso_sylow (E := A.subgroupOf L) e hEsyl hEsyl
     (hEeq ▸ UC6.absKN_psl2 (F := GaloisField 3 3) (r := 3) (n := 3) (by norm_num)
       (GaloisField.card 3 3 (by norm_num)) (by norm_num) S False)
 
+omit [Finite X] in
 theorem eq_bot_of_mulEquiv_psl {L A W : Subgroup X} (hLn : L.Normal)
     (e : ↥L ≃* PSL(2, GaloisField 3 3)) (hC : Subgroup.centralizer (L : Set X) = ⊥)
     (hAL : A ≤ L) (hA27 : Nat.card A = 27) (hW : A ≤ Subgroup.normalizer (W : Set X))
     (hcop : Nat.Coprime (Nat.card W) 3) : W = ⊥ := by
-  haveI := hLn
+  have := hLn
   set ψ : X →* MulAut ↥L := MulAut.conjNormal with hψ
   have hinj : Function.Injective ψ := by
     rw [hψ]

@@ -55,7 +55,7 @@ theorem exists_sylow_le_stabilizer (hA : IsBenderAction X Ω n i e) (ω : Ω) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have := hA.isPretransitive
   obtain ⟨Q₀⟩ : Nonempty (Sylow 2 X) := inferInstance
-  obtain ⟨ω₀, hω₀⟩ := hA.exists_le_stabilizer Q₀.isPGroup'
+  obtain ⟨ω₀, hω₀⟩ := hA.exists_le_stabilizer Q₀.isPGroup
   obtain ⟨g, rfl⟩ := exists_smul_eq X ω₀ ω
   refine ⟨g • Q₀, fun x hx => ?_⟩
   have hx' := hω₀ ((mem_sylow_smul_iff g Q₀ x).mp hx)
@@ -161,7 +161,7 @@ theorem existsUnique_smul_eq (hA : IsBenderAction X Ω n i e) {ω : Ω} {Q : Syl
 
 theorem existsUnique_le_stabilizer (hA : IsBenderAction X Ω n i e) (Q : Sylow 2 X) :
     ∃! ω : Ω, (Q : Subgroup X) ≤ stabilizer X ω := by
-  obtain ⟨ω, hω⟩ := hA.exists_le_stabilizer Q.isPGroup'
+  obtain ⟨ω, hω⟩ := hA.exists_le_stabilizer Q.isPGroup
   refine ⟨ω, hω, fun ω' hω' => ?_⟩
   by_contra hne
   have hbot : (Q : Subgroup X) = ⊥ := by
@@ -295,7 +295,7 @@ theorem mem_rootCenter_of_commutator_mem (hA : IsBenderAction X Ω n i e) {α β
           _ = x * x := by rw [hc.center_sq z hdx, one_mul]
       calc x * x * d = d * (x * x) * d⁻¹ * d := by rw [h1]
         _ = d * (x * x) := by group
-    have h2 := hc.eq_one_of_commute_cartan Q.isPGroup' hd hd1 (mul_mem hx hx) hxx
+    have h2 := hc.eq_one_of_commute_cartan Q.isPGroup hd hd1 (mul_mem hx hx) hxx
     exact hc.mem_rootCenter_of_mul_self hx h2
   · exact hA.benderType.fixedPointFree_unitary Q ht htQ hd hd1 hx hdx
 
@@ -429,7 +429,7 @@ theorem eq_one_of_mul_mul_inv_eq_inv (hA : IsBenderAction X Ω n i e) {α : Ω} 
     have h5 : x = (x * x) ^ k := by rw [(Commute.refl x).mul_pow, hk]
     rw [h5]
     exact pow_mem h2 k
-  obtain ⟨m, hm⟩ := Q.isPGroup' ⟨x, hxQ⟩
+  obtain ⟨m, hm⟩ := Q.isPGroup ⟨x, hxQ⟩
   have hdvd : orderOf x ∣ 2 ^ m :=
     orderOf_dvd_of_pow_eq_one (by simpa using congrArg Subtype.val hm)
   exact orderOf_eq_one_iff.mp (Nat.Coprime.eq_one_of_dvd (hx.coprime_two_right.pow_right m) hdvd)

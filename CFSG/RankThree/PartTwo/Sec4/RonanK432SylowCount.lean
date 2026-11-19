@@ -11,7 +11,7 @@ open scoped Pointwise
 
 theorem card_sylow_mem_modEq_one {G : Type} [Group G] [Finite G] {x : G} (hx : x ^ 3 = 1) :
     Nat.card {Q : Sylow 3 G // x ∈ Q} ≡ 1 [MOD 3] := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 (Subgroup.zpowers x) := by
     have hd : orderOf x ∣ 3 := orderOf_dvd_of_pow_eq_one hx
     rcases (Nat.dvd_prime Nat.prime_three).1 hd with h | h
@@ -31,6 +31,7 @@ section DoubleCount
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_smul_sylow_iff {P : Sylow 3 G} {g y : G} : y ∈ g • P ↔ g⁻¹ * y * g ∈ P := by
   have h : ((g • P : Sylow 3 G) : Subgroup G) = MulAut.conj g • (P : Subgroup G) :=
     Sylow.coe_subgroup_smul
@@ -38,6 +39,7 @@ theorem mem_smul_sylow_iff {P : Sylow 3 G} {g y : G} : y ∈ g • P ↔ g⁻¹ 
   rw [h, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
   rfl
 
+omit [Finite G] in
 theorem mem_iff_conj_mem {X : Set G} (hX : ∀ g y : G, y ∈ X → g * y * g⁻¹ ∈ X) (g y : G) :
     y ∈ X ↔ g * y * g⁻¹ ∈ X :=
   ⟨hX g y, fun h => by simpa [mul_assoc] using hX g⁻¹ _ h⟩
@@ -47,8 +49,8 @@ theorem ncard_mul_eq_card_mul (X : Set G) {s t : ℕ}
     (ht : ∀ Q : Sylow 3 G, Nat.card {y : G // y ∈ X ∧ y ∈ Q} = t) :
     X.ncard * s = Nat.card (Sylow 3 G) * t := by
   classical
-  haveI : Fintype G := Fintype.ofFinite G
-  haveI : Fintype (Sylow 3 G) := Fintype.ofFinite (Sylow 3 G)
+  have : Fintype G := Fintype.ofFinite G
+  have : Fintype (Sylow 3 G) := Fintype.ofFinite (Sylow 3 G)
   have key := Finset.sum_card_bipartiteAbove_eq_sum_card_bipartiteBelow
     (fun (y : G) (Q : Sylow 3 G) => y ∈ Q) (s := X.toFinset) (t := Finset.univ)
   have e1 : ∀ y : G, (Finset.bipartiteAbove (fun (y : G) (Q : Sylow 3 G) => y ∈ Q)
@@ -77,6 +79,7 @@ theorem card_inter_sylow_eq {X : Set G} (hX : ∀ g y : G, y ∈ X → g * y * g
   rw [mem_smul_sylow_iff, ← mem_iff_conj_mem hX]
   simp [mul_assoc]
 
+omit [Finite G] in
 theorem card_sylow_mem_conj (x g : G) :
     Nat.card {Q : Sylow 3 G // g * x * g⁻¹ ∈ Q} = Nat.card {Q : Sylow 3 G // x ∈ Q} := by
   refine Nat.card_congr ((Equiv.subtypeEquiv (MulAction.toPerm g : Equiv.Perm (Sylow 3 G))
@@ -104,7 +107,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem card_sylow_eq_27 {g' : ℕ} (hG : Nat.card G = 27 * g') (hg' : g' % 3 = 2) (P : Sylow 3 G) :
     Nat.card P = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hg0 : g' ≠ 0 := by omega
   have h3 : ¬ 3 ∣ g' := by omega
   rw [Sylow.card_eq_multiplicity, hG, Nat.factorization_mul (by norm_num) hg0,
@@ -112,6 +115,7 @@ theorem card_sylow_eq_27 {g' : ℕ} (hG : Nat.card G = 27 * g') (hg' : g' % 3 = 
     show (27 : ℕ) = 3 ^ 3 by norm_num, Nat.Prime.factorization_pow Nat.prime_three]
   simp
 
+omit [Finite G] in
 theorem ncard_conjugatesOf_mul_card_centralizer (x : G) :
     (conjugatesOf x).ncard * Nat.card (Subgroup.centralizer ({x} : Set G)) = Nat.card G := by
   rw [← Subgroup.index_centralizer_eq_ncard, mul_comm]
@@ -139,7 +143,7 @@ theorem card_class_inter_sylow_mod_nine {g' m : ℕ} (hG : Nat.card G = 27 * g')
     {x : G} (hx : x ^ 3 = 1) (hc : Nat.card (Subgroup.centralizer ({x} : Set G)) = 9 * m)
     (hm : m % 3 = 2) (P : Sylow 3 G) :
     Nat.card {y : G // y ∈ conjugatesOf x ∧ y ∈ P} % 9 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP27 := card_sylow_eq_27 hG hg' P
   have hn1 : Nat.card (Sylow 3 G) % 3 = 1 := card_sylow_modEq_one 3 G
   have hNn : Nat.card (Subgroup.normalizer (P : Set G)) * Nat.card (Sylow 3 G) = Nat.card G := by

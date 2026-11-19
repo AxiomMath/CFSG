@@ -86,7 +86,7 @@ theorem top_mul (hM : top hdD M = 1) (C : Matrix (Fin d) (Fin d) K) : top hdD (M
     rw [← hM]
     rfl
   simp only [h, Matrix.one_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ,
-    if_true]
+    ite_true]
 
 noncomputable abbrev colSp (M : Matrix (Fin D) (Fin d) K) : Submodule K (Fin D → K) :=
   LinearMap.range M.mulVecLin
@@ -104,7 +104,7 @@ theorem eq_mul_top (hM : top hdD M = 1) {X : Matrix (Fin D) (Fin d) K}
       rw [← hM]
       rfl
     simp only [h, Matrix.one_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq,
-      Finset.mem_univ, if_true] at this
+      Finset.mem_univ, ite_true] at this
     exact this
   have := congrFun hc i
   simp only [Matrix.mulVecLin_apply] at this
@@ -116,7 +116,7 @@ theorem col_mem {g : GL (Fin D) K} (hg : g ∈ stab (colSp M)) (j : Fin d) :
   rw [← hg]
   refine Submodule.mem_map.2 ⟨M.mulVec (Pi.single j 1), ⟨Pi.single j 1, rfl⟩, ?_⟩
   funext i
-  simp only [Matrix.mulVecLin_apply, Matrix.mulVec_mulVec, Matrix.mulVec_single_one]
+  simp only [Matrix.mulVecLin_apply, Matrix.mulVec_single_one]
   rfl
 
 @[expose] noncomputable def restr (hdD : d ≤ D) (M : Matrix (Fin D) (Fin d) K) (g : GL (Fin D) K) :

@@ -18,6 +18,7 @@ theorem sl_adj (hF : Nat.card F = 2) (i j : Fin m) (hij : i.val + 1 = j.val) :
       ↥(rankOne (rootDatum m F).rootGroup i ⊔ rankOne (rootDatum m F).rootGroup j) :=
   OrdinaryProofs.RankTwoCoverSL.sl_adj hF i j hij
 
+omit [Finite F] [CharP F 2] in
 theorem sl_orth (hF : Nat.card F = 2) (i j : Fin m) (hij : i.val + 2 ≤ j.val) :
     ∃ xi ∈ (rootDatum m F).rootGroup (Pi.single i 1),
     ∃ yi ∈ (rootDatum m F).rootGroup (-Pi.single i 1),

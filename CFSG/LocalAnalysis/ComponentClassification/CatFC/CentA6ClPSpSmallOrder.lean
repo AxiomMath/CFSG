@@ -48,8 +48,8 @@ open scoped MatrixGroups
 theorem InnerOut.of_mulEquiv {f : ℕ} {K : Type} [Field K] {d μ : K} {G G' : Type} [Group G]
     [Group G'] (e : G ≃* G') (h : InnerOut f d μ G) : InnerOut f d μ G' := by
   have hs : ∀ (H : f = 1 → Group.IsSolvable G), f = 1 → Group.IsSolvable G' := fun H hf => by
-    haveI := H hf
-    exact solvable_of_solvable_injective (f := e.symm.toMonoidHom) e.symm.injective
+    have := H hf
+    exact Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom) e.symm.injective
   have hc : ∀ n : ℕ, n ≤ Nat.card G → n ≤ Nat.card G' := fun n hn => by
     rwa [← Nat.card_congr e.toEquiv]
   rcases h with ⟨h1, h2, h3, h4⟩ | ⟨h1, h2, h3, h4⟩ | ⟨h1, h2, h3, h4⟩ | ⟨h1, h2, h3, h4⟩
@@ -79,9 +79,9 @@ theorem innerOut_one {f a b : ℕ} (hK : Nat.card k = 3 ^ f) (ha : 1 ≤ a) (hb 
   obtain rfl : b = 1 := by omega
   refine ⟨fun hf => ?_, fun hf => ?_⟩
   · subst hf
-    haveI := isSolvable_statedSp_one (k := k) (by simpa using hK)
-    haveI : Group.IsSolvable (StatedSp 1 k × StatedSp 1 k) := inferInstance
-    exact solvable_of_solvable_injective (f := e.toMonoidHom) e.injective
+    have := isSolvable_statedSp_one (k := k) (by simpa using hK)
+    have : Group.IsSolvable (StatedSp 1 k × StatedSp 1 k) := inferInstance
+    exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
   · subst hf
     rw [Nat.card_congr e.toEquiv, Nat.card_prod, card_statedSp_one, hK]
     norm_num
@@ -91,11 +91,11 @@ theorem innerOut_two {f : ℕ} (hK : Nat.card k = 3 ^ f) {G : Type} [Group G]
     (f = 1 → Group.IsSolvable G) ∧ (f = 2 → 5760 ≤ Nat.card G) := by
   refine ⟨fun hf => ?_, fun hf => ?_⟩
   · subst hf
-    haveI := CatalogueBGeneralLinear.generalLinear_small_solvable 2 k
+    have := CatalogueBGeneralLinear.generalLinear_small_solvable 2 k
       (Or.inr ⟨rfl, Or.inr (by simpa using hK)⟩)
-    exact solvable_of_solvable_injective (f := e.toMonoidHom) e.injective
+    exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
   · subst hf
-    haveI := Fintype.ofFinite k
+    have := Fintype.ofFinite k
     have h9 : Fintype.card k = 9 := by
       rw [← Nat.card_eq_fintype_card, hK]
       norm_num
@@ -133,14 +133,14 @@ theorem card_isometryGroup_two_ge (hE : Nat.card E = (3 ^ 2) ^ 2) (hW : finrank 
   have hSU : Nat.card (specialIsometry h) = 720 := by
     rw [Nat.card_congr eSL.toEquiv, CatFactsSp4.card_SL2, hfix]
     norm_num
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hE81 : Fintype.card E = 81 := by
     rw [← Nat.card_eq_fintype_card, hE]
     norm_num
   have h80 : Nat.card Eˣ = 80 := by
     classical
     rw [Nat.card_eq_fintype_card, Fintype.card_units, hE81]
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Eˣ) 5 (by rw [h80]; norm_num)
   have hz5 : z ^ 5 = 1 := by
     rw [← hz]
@@ -194,8 +194,8 @@ theorem innerOut_four {f : ℕ} (hE : Nat.card E = (3 ^ f) ^ 2) (hW : finrank E 
   refine ⟨fun hf => ?_, fun hf => ?_⟩
   · subst hf
     have hfix := OddInner.card_fixedSubfield hsigma hne hE
-    haveI := isometry_two_three_solvable h hsym hnd hsigma hne hW (by rw [hfix]; norm_num)
-    exact solvable_of_solvable_injective (f := e.toMonoidHom) e.injective
+    have := isometry_two_three_solvable h hsym hnd hsigma hne hW (by rw [hfix]; norm_num)
+    exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
   · subst hf
     rw [Nat.card_congr e.toEquiv]
     exact card_isometryGroup_two_ge hE hW h hsym hnd hsigma hne hsig

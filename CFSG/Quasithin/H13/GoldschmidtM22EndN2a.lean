@@ -87,7 +87,7 @@ theorem V_inf_X_eq_bot (hZ : Nat.card (quasithinOmegaOneCenter T) = 2) (h6212 : 
   · exact absurd (h1 ▸ inf_le_right) hnot
 
 include h in
-theorem not_V_le_oTwoUpper (hZ : Nat.card (quasithinOmegaOneCenter T) = 2) (h6210 : Stmt6_2_10)
+theorem not_V_le_oTwoUpper (_hZ : Nat.card (quasithinOmegaOneCenter T) = 2) (h6210 : Stmt6_2_10)
     {n : ℕ} (ψ : ↥(HH T) →* Equiv.Perm (Fin n))
     (hswap : ∀ a : ↥(HH T), (a : G) ∈ V → (a : G) ∉ CHU T L V → (ψ a).IsSwap) :
     ¬ V ≤ oTwoUpper (HH T ⊓ M) := by

@@ -62,6 +62,7 @@ noncomputable def bar2EquivLBar (L : Subgroup G) : Bar2 L ≃* ↥(borelQuotL L)
   exact (QuotientGroup.quotientMulEquivOfEq hker.symm).trans
     ((QuotientGroup.quotientKerEquivRange f).trans (MulEquiv.subgroupCongr hrange))
 
+omit [Finite G] in
 theorem mem_piBar_map_iff {L U : Subgroup G} (hK : pCoreOf 2 L ≤ U)
     (n : ↥(borelQuotN L)) :
     borelQuotPi L n ∈ borelQuotU L U ↔ (n : G) ∈ U := by
@@ -76,12 +77,13 @@ theorem mem_piBar_map_iff {L U : Subgroup G} (hK : pCoreOf 2 L ≤ U)
       Subgroup.mem_subgroupOf.mp hker
     have huU : (u : G) ∈ U := Subgroup.mem_subgroupOf.mp hu
     have hn_eq : (n : G) = (u : G) * ((u⁻¹ * n : ↥(borelQuotN L)) : G) := by
-      simp [mul_assoc]
+      simp
     rw [hn_eq]
     exact U.mul_mem huU (hK hmem)
   · intro hn
     exact Subgroup.mem_map.mpr ⟨n, Subgroup.mem_subgroupOf.mpr hn, rfl⟩
 
+omit [Finite G] in
 theorem isSylowTwoOf_map_borelQuotPi {L U : Subgroup G}
     (hSyl : CFSG.QuasithinUnique.IsSylowTwoOf U L) :
     CFSG.QuasithinUnique.IsSylowTwoOf (borelQuotU L U) (borelQuotL L) :=
@@ -89,11 +91,13 @@ theorem isSylowTwoOf_map_borelQuotPi {L U : Subgroup G}
     (CFSG.Quasithin.SmithC27.isSylowTwoOf_subgroupOf hSyl
       (Subgroup.le_normalizer (H := L)))
 
+omit [Finite G] in
 theorem isSU3_LBar {L : Subgroup G} {n : ℕ} (h : IsSU3 (Bar2 L) n) :
     IsSU3 (borelQuotL L) n :=
   ⟨CFSG.Open.IsQuasisimple.of_mulEquiv (bar2EquivLBar L).symm h.1,
     CFSG.Blueprint.LieModel.quotient_center_of_mulEquiv (bar2EquivLBar L) h.2⟩
 
+omit [Finite G] in
 theorem isL2_LBar {L : Subgroup G} {n : ℕ} (h : IsL2 (Bar2 L) n) :
     IsL2 (borelQuotL L) n :=
   CFSG.Blueprint.LieModel.of_mulEquiv (bar2EquivLBar L) h
@@ -311,7 +315,7 @@ theorem exists_prime_order_le_normalizer_of_isSU3_bar2
     omega
   have hdvdB : r ∣ Nat.card ↥(L ⊓ Subgroup.normalizer ((L ⊓ T : Subgroup G) : Set G)) :=
     prime_dvd_card_inf_normalizer_of_isSU3_bar2 hSU3 hSyl hr hr3 hrdvdn
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨xB, hxBord⟩ := exists_prime_orderOf_dvd_card' r hdvdB
   let x : G := xB
   have hxBmem : x ∈ L ⊓ Subgroup.normalizer ((L ⊓ T : Subgroup G) : Set G) := xB.2

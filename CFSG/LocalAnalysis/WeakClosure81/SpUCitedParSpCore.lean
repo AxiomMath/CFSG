@@ -53,7 +53,7 @@ private theorem spUCited_flag_one_eq_core {r : ℕ} {K : Type} [Field K] (hr : 2
         (Pi.single (Sum.inl j) (1 : K) : Fin r ⊕ Fin r → K)) '' {j : Fin r | (j : ℕ) < 1} =
       {Pi.single (Sum.inl (⟨0, by omega⟩ : Fin r)) (1 : K)} := by
     ext x
-    simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨j, hj, rfl⟩
       have hj0 : j = (⟨0, by omega⟩ : Fin r) := by
@@ -83,9 +83,9 @@ theorem spUCited_exists_rootParabolic_statedSp {k : ℕ} {F : Type} [Field F] [F
     {Sy : Subgroup ↥(StatedSp k F)} (hSy : ∃ P : Sylow 2 ↥(StatedSp k F), (P : Subgroup _) = Sy)
     (hRSy : R ≤ Sy) (hSyR : Sy ≤ Subgroup.normalizer (R : Set ↥(StatedSp k F))) :
     ∃ X₂ Pα : Subgroup ↥(StatedSp k F), RootParabolic R Sy X₂ Pα 1 := by
-  haveI : CharP F 2 := charP_two_of_card_eq_two_pow hF
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Sylow 2 ↥(StatedSp k F)) :=
+  have : CharP F 2 := charP_two_of_card_eq_two_pow hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Sylow 2 ↥(StatedSp k F)) :=
     Finite.of_injective
       (fun P : Sylow 2 ↥(StatedSp k F) => (P : Subgroup ↥(StatedSp k F)))
       (fun P Q h => Sylow.ext h)
@@ -136,7 +136,7 @@ theorem spUCited_exists_rootParabolic_statedSp {k : ℕ} {F : Type} [Field F] [F
     obtain ⟨c, hc⟩ :=
       exists_smul_of_spUFixRootSp_eq (k := k) (F := F) (v := a) (w := spEnd u a)
         ha hspne hroot.symm
-    have hU2 : IsPGroup 2 ↥(unipotent k F) := hV ▸ V.isPGroup'
+    have hU2 : IsPGroup 2 ↥(unipotent k F) := hV ▸ V.isPGroup
     obtain ⟨m, hm⟩ :=
       hU2.exists_orderOf_eq_pow (⟨u, hu⟩ : ↥(unipotent k F))
     have hu2 : u ^ (2 ^ m) = 1 := by

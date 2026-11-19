@@ -164,6 +164,7 @@ structure LiftMap (θ : ↥L ⧸ Subgroup.center ↥L ≃* LargeEvenProj H)
   ind : ∀ a : ↥A, LargeEvenInduces θ (conjRel (a : G))
     (TableB.projConj H ⟨mat a, hS (mem a)⟩)
 
+omit [Finite G] [Finite K] in
 theorem LiftMap.exists (θ : ↥L ⧸ Subgroup.center ↥L ≃* LargeEvenProj H)
     (hact : ∀ a ∈ A, ∃ φ ∈ LargeEvenMatConjImage (LargeEvenProjMk H) S,
       LargeEvenInduces θ (conjRel a) φ)
@@ -188,6 +189,7 @@ theorem LiftMap.exists (θ : ↥L ⧸ Subgroup.center ↥L ≃* LargeEvenProj H)
 theorem LiftMap.d_pow_eq_one (hsetup : Setup p L J A d b) : d ^ p = 1 :=
   (Setup.elem hsetup).2 d hsetup.d_mem
 
+omit [Finite K] in
 theorem LiftMap.automorphisms_commute (M : LiftMap (L := L) (A := A) θ hact hS)
     (hsetup : Setup p L J A d b) (a : ↥A) :
     TableB.projConj H ⟨M.mat a, hS (M.mem a)⟩ *
@@ -212,6 +214,7 @@ theorem LiftMap.automorphisms_commute (M : LiftMap (L := L) (A := A) θ hact hS)
   exact largeEvenInduces_unique h1 h2
     (conjRel_total (hAnorm (by exact A.mul_mem hsetup.d_mem a.2)))
 
+omit [Finite K] in
 theorem LiftMap.commutator_mem_scalars (M : LiftMap (L := L) (A := A) θ hact hS)
     (hsetup : Setup p L J A d b) (a : ↥A)
     (hker : ∀ (X : Subgroup.normalizer (H : Set (GL (Fin N) K))),
@@ -234,6 +237,7 @@ theorem LiftMap.commutator_mem_scalars (M : LiftMap (L := L) (A := A) θ hact hS
   have h := hker (X * Y * X⁻¹ * Y⁻¹) hcone
   simpa [X, Y] using h
 
+omit [Finite K] in
 theorem LiftMap.dpow_mem_scalars (M : LiftMap (L := L) (A := A) θ hact hS)
     (hsetup : Setup p L J A d b)
     (hker : ∀ (X : Subgroup.normalizer (H : Set (GL (Fin N) K))),

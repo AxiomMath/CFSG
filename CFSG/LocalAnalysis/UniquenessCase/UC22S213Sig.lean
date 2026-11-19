@@ -54,11 +54,11 @@ theorem uc22s213_thin8_of_isAlt_five {L : Subgroup G} (hL : ⁅L, L⁆ = L)
     (h : IsAlt (Bar2 L ⧸ center (Bar2 L)) 5) : F08.Thin8 L := by
   intro q hq hq2
   by_contra hlt
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have h2 : 2 ≤ CFSG.Open.pRank q (⊤ : Subgroup (Bar2 L)) := by
     rw [pRank_bar2_eq_of_odd hq hq2]
     omega
-  haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr (UC6.R869S.bar2_perfect hL)
+  have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr (UC6.R869S.bar2_perfect hL)
   obtain ⟨P⟩ : Nonempty (Sylow q (Bar2 L)) := inferInstance
   have hPnc : ¬ IsCyclic ↥(P : Subgroup (Bar2 L)) :=
     CFSG.LocalAnalysis.GLTheoremB.not_isCyclic_of_two_le_pRank
@@ -77,7 +77,7 @@ theorem uc22s213_thin8_of_isAlt_five {L : Subgroup G} (hL : ⁅L, L⁆ = L)
     first
     | exact absurd rfl hq2
     | (norm_num at hdvd; done)
-    | (norm_num at hq; done)
+    | (norm_num at hq)
 
 theorem uc22s213_normalizer_le_of_sig (hS : Standing4 G) (hU : uniqueFourUnique G)
     (S : Setup4 G) (hKF : KF7Use (UC6.dataOfSetup4 hS hU S)) {L : Subgroup G}
@@ -88,10 +88,10 @@ theorem uc22s213_normalizer_le_of_sig (hS : Standing4 G) (hU : uniqueFourUnique 
     normalizer (A : Set G) ≤ S.M := by
   classical
   by_contra hHM
-  haveI : IsSimpleGroup G := hS.simple
+  have : IsSimpleGroup G := hS.simple
   have htop : normalizer (A : Set G) ≠ ⊤ := by
     intro htop
-    haveI : A.Normal := Subgroup.normalizer_eq_top_iff.1 htop
+    have : A.Normal := Subgroup.normalizer_eq_top_iff.1 htop
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal A with hbot | hAtop
     · subst hbot
       rw [Subgroup.card_bot] at hAr
@@ -106,12 +106,12 @@ theorem uc22s213_normalizer_le_of_sig (hS : Standing4 G) (hU : uniqueFourUnique 
   have hodd : Odd (Nat.card (CFSG.pPrimeCore p ↥(normalizer (A : Set G)))) :=
     (Sec7Core4.ofSetup4Any hS hU S hp hsp).odd_card_pPrimeCore_of_not_le hHM h2
   obtain ⟨f, hf⟩ := uc22s213_exists_surj_center_quotient hL hY
-  haveI hsimple : IsSimpleGroup (Bar2 L ⧸ center (Bar2 L)) := hL.2.2.2
-  haveI : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hL.2.2.1
+  have hsimple : IsSimpleGroup (Bar2 L ⧸ center (Bar2 L)) := hL.2.2.2
+  have : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hL.2.2.1
   have hnab : ∃ x y : Bar2 L ⧸ center (Bar2 L), x * y ≠ y * x := by
     by_contra hcomm
     push Not at hcomm
-    exact Group.IsPerfect.not_isSolvable _ (isSolvable_of_comm hcomm)
+    exact Group.IsPerfect.not_isSolvable _ (_root_.Group.isSolvable_of_comm hcomm)
   obtain ⟨-, x, hx⟩ :=
     CFSG.ComponentClassification.SimpleEvenOrder.nonabelian_simple_even hnab
   have hx1 : x ≠ 1 := by
@@ -145,15 +145,15 @@ theorem uc22s213_normalizer_le_of_sig (hS : Standing4 G) (hU : uniqueFourUnique 
     rintro _ ⟨d, rfl⟩
     exact Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr ⟨hD0H d.2, hD0M d.2⟩)
   have hperf : ⁅g.range, g.range⁆ = g.range := by
-    haveI : Group.IsPerfect ↥(CFSG.Quasithin.perfectCore (L ⊓ centralizer (A : Set G))) :=
+    have : Group.IsPerfect ↥(CFSG.Quasithin.perfectCore (L ⊓ centralizer (A : Set G))) :=
       Subgroup.isPerfect_iff.mpr (CFSG.Quasithin.perfectCore_perfect _)
     exact Subgroup.isPerfect_iff.mp (Group.IsPerfect.ofSurjective g.rangeRestrict_surjective)
   rcases hKF p hp (normalizer (A : Set G)) hsec with hsol | ⟨-, hA5⟩
   ·
-    haveI : Group.IsSolvable ↥(((normalizer (A : Set G) ⊓ S.M).subgroupOf
+    have : Group.IsSolvable ↥(((normalizer (A : Set G) ⊓ S.M).subgroupOf
         (normalizer (A : Set G))).map
           (QuotientGroup.mk' (CFSG.pPrimeCore p ↥(normalizer (A : Set G))))) := hsol
-    haveI : Group.IsSolvable ↥g.range :=
+    have : Group.IsSolvable ↥g.range :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
     have hbot : g.range = ⊥ := by
       rw [← CFSG.Quasithin.perfectCore_eq_self_of_perfect hperf]

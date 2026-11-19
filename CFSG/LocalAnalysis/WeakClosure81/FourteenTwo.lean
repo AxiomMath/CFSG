@@ -109,7 +109,7 @@ private theorem span_smulRight_eq_top {N M₁ : Type*} [AddCommGroup N] [Module 
       rw [this]
       exact Submodule.add_mem _ hψspan hf₀span
 
-private noncomputable def tMap (E₀ E₁ : Submodule (ZMod 2) E) (hE₁ : E₁ ≤ E₀)
+private noncomputable def tMap (E₀ E₁ : Submodule (ZMod 2) E) (_hE₁ : E₁ ≤ E₀)
     (φ : E ⧸ E₀ →ₗ[ZMod 2] E₁) : E →ₗ[ZMod 2] E :=
   LinearMap.id + E₁.subtype ∘ₗ (φ ∘ₗ E₀.mkQ)
 
@@ -290,18 +290,23 @@ private noncomputable instance instModuleE (V : Subgroup G) (hV : IsElemAbelian 
 
 private def ev {hV : IsElemAbelian 2 V} (x : E V hV) : G := (Additive.toMul x : IntMod V hV).val
 
+omit [Finite G] in
 private theorem ev_mem {hV : IsElemAbelian 2 V} (x : E V hV) : ev x ∈ V := IntMod.val_mem _
 
+omit [Finite G] in
 private theorem ev_add {hV : IsElemAbelian 2 V} (x y : E V hV) : ev (x + y) = ev x * ev y := rfl
 
+omit [Finite G] in
 private theorem ev_zero {hV : IsElemAbelian 2 V} : ev (0 : E V hV) = 1 := rfl
 
+omit [Finite G] in
 private theorem ev_injective {hV : IsElemAbelian 2 V} : Function.Injective (ev : E V hV → G) :=
   fun _ _ h => Additive.toMul.injective (IntMod.val_injective h)
 
 private def ofG (hV : IsElemAbelian 2 V) (v : G) (hv : v ∈ V) : E V hV :=
   Additive.ofMul (IntMod.mk hV ⟨v, hv⟩)
 
+omit [Finite G] in
 private theorem ev_ofG {hV : IsElemAbelian 2 V} {v : G} (hv : v ∈ V) : ev (ofG hV v hv) = v := rfl
 
 private noncomputable def submodEquiv (hV : IsElemAbelian 2 V) :
@@ -312,32 +317,39 @@ private noncomputable def submod (hV : IsElemAbelian 2 V) (U : Subgroup G) :
     Submodule (ZMod 2) (E V hV) :=
   submodEquiv hV (U.subgroupOf V)
 
+omit [Finite G] in
 private theorem mem_submod {hV : IsElemAbelian 2 V} {U : Subgroup G} {x : E V hV} :
     x ∈ submod hV U ↔ ev x ∈ U := Iff.rfl
 
+omit [Finite G] in
 private theorem submod_mono {hV : IsElemAbelian 2 V} {U U' : Subgroup G} (h : U ≤ U') :
     submod hV U ≤ submod hV U' := fun _ hx => mem_submod.2 (h (mem_submod.1 hx))
 
+omit [Finite G] in
 private theorem submod_sup {hV : IsElemAbelian 2 V} {U U' : Subgroup G}
     (hU : U ≤ V) (hU' : U' ≤ V) :
     submod hV (U ⊔ U') = submod hV U ⊔ submod hV U' := by
   rw [submod, submod, submod, Subgroup.subgroupOf_sup hU hU']
   exact (submodEquiv hV).map_sup _ _
 
+omit [Finite G] in
 private theorem submod_inf {hV : IsElemAbelian 2 V} (U U' : Subgroup G) :
     submod hV (U ⊓ U') = submod hV U ⊓ submod hV U' := by
   ext x
   exact Subgroup.mem_inf
 
+omit [Finite G] in
 private theorem submod_bot {hV : IsElemAbelian 2 V} : submod hV (⊥ : Subgroup G) = ⊥ := by
   ext x
   rw [mem_submod, Subgroup.mem_bot, Submodule.mem_bot]
   exact ⟨fun h => ev_injective (h.trans ev_zero.symm), fun h => by rw [h, ev_zero]⟩
 
+omit [Finite G] in
 private theorem submod_top {hV : IsElemAbelian 2 V} : submod hV V = ⊤ := by
   ext x
   exact ⟨fun _ => trivial, fun _ => mem_submod.2 (ev_mem x)⟩
 
+omit [Finite G] in
 private theorem submod_injOn {hV : IsElemAbelian 2 V} {U U' : Subgroup G} (hU : U ≤ V)
     (hU' : U' ≤ V) (h : submod hV U = submod hV U') : U = U' := by
   ext y
@@ -361,15 +373,18 @@ private noncomputable def cLin (hV : IsElemAbelian 2 V) (g : G)
         simp only [ev_ofG, ev_add]
         group)))
 
+omit [Finite G] in
 private theorem ev_cLin {hV : IsElemAbelian 2 V} {g : G} {hg : g ∈ Subgroup.normalizer (V : Set G)}
     (x : E V hV) : ev (cLin hV g hg x) = g * ev x * g⁻¹ := rfl
 
+omit [Finite G] in
 private theorem cLin_one (hV : IsElemAbelian 2 V) :
     cLin hV 1 (Subgroup.one_mem _) = LinearMap.id := by
   refine LinearMap.ext fun x => ev_injective ?_
   rw [ev_cLin]
   simp
 
+omit [Finite G] in
 private theorem cLin_mul (hV : IsElemAbelian 2 V) {g h : G}
     (hg : g ∈ Subgroup.normalizer (V : Set G)) (hh : h ∈ Subgroup.normalizer (V : Set G)) :
     cLin hV (g * h) (Subgroup.mul_mem _ hg hh) = cLin hV g hg ∘ₗ cLin hV h hh := by
@@ -389,7 +404,7 @@ private theorem cLin_mul (hV : IsElemAbelian 2 V) {g h : G}
         (p * (q * v * q⁻¹ * v⁻¹) * p⁻¹) * (p * v * p⁻¹ * v⁻¹) := by group
     rw [h1]
     exact V₁.mul_mem ((Subgroup.mem_normalizer_iff.1 hpN _).1 (hq v hv)) (hp v hv)
-  one_mem' := ⟨P.one_mem, Subgroup.one_mem _, fun v _ => by simpa using V₁.one_mem⟩
+  one_mem' := ⟨P.one_mem, Subgroup.one_mem _, fun v _ => by simp⟩
   inv_mem' := by
     rintro p ⟨hpP, hpN, hp⟩
     refine ⟨P.inv_mem hpP, Subgroup.inv_mem _ hpN, fun v hv => ?_⟩
@@ -403,6 +418,7 @@ private theorem cLin_mul (hV : IsElemAbelian 2 V) {g h : G}
 @[expose] def InducesTransvection (V W : Subgroup G) (z a : G) : Prop :=
   (∀ w ∈ W, a * w * a⁻¹ = w) ∧ ∀ v ∈ V, v ∉ W → a * v * a⁻¹ = z * v
 
+omit [Finite G] in
 theorem mem_cTilde_iff_comm {M V₀ V : Subgroup G} {x : G} :
     x ∈ F11.CTilde M V₀ V ↔
       x ∈ M ∧ x ∈ Subgroup.normalizer (V₀ : Set G) ∧ ∀ v ∈ V, x * v * x⁻¹ * v⁻¹ ∈ V₀ := by
@@ -416,6 +432,7 @@ theorem mem_cTilde_iff_comm {M V₀ V : Subgroup G} {x : G} :
     exact ⟨h1, h2, h3 v hv⟩
 
 
+omit [Finite G] in
 private theorem exists_mem_CFixQuot_transvection {M V₀ V₁ V A W : Subgroup G}
     (hM : M ≤ Subgroup.normalizer (V : Set G)) (hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G))
     (hM₁ : M ≤ Subgroup.normalizer (V₁ : Set G)) (hV₁ : V₁ ≤ V₀)
@@ -473,28 +490,31 @@ private noncomputable def fW (hV : IsElemAbelian 2 V) (W : Subgroup G) (hW : W.r
       (if ev x ∈ W then 0 else 1) + (if ev y ∈ W then 0 else 1)
     rw [ev_add]
     by_cases hx : ev x ∈ W <;> by_cases hy : ev y ∈ W
-    · rw [if_pos (hxy.2 (iff_of_true hx hy)), if_pos hx, if_pos hy]; decide
-    · rw [if_neg (fun h => hy ((hxy.1 h).1 hx)), if_pos hx, if_neg hy]; decide
-    · rw [if_neg (fun h => hx ((hxy.1 h).2 hy)), if_neg hx, if_pos hy]; decide
-    · rw [if_pos (hxy.2 (iff_of_false hx hy)), if_neg hx, if_neg hy]; decide
+    · rw [ite_eq_left (hxy.2 (iff_of_true hx hy)), ite_eq_left hx, ite_eq_left hy]; decide
+    · rw [ite_eq_right (fun h => hy ((hxy.1 h).1 hx)), ite_eq_left hx, ite_eq_right hy]; decide
+    · rw [ite_eq_right (fun h => hx ((hxy.1 h).2 hy)), ite_eq_right hx, ite_eq_left hy]; decide
+    · rw [ite_eq_left (hxy.2 (iff_of_false hx hy)), ite_eq_right hx, ite_eq_right hy]; decide
   map_smul' c x := by
     rcases (by decide : ∀ c : ZMod 2, c = 0 ∨ c = 1) c with rfl | rfl
     · show (if ev ((0 : ZMod 2) • x) ∈ W then (0 : ZMod 2) else 1) = 0 * _
-      rw [zero_smul, ev_zero, if_pos W.one_mem, zero_mul]
+      rw [zero_smul, ev_zero, ite_eq_left W.one_mem, zero_mul]
     · show (if ev ((1 : ZMod 2) • x) ∈ W then (0 : ZMod 2) else 1) = 1 * _
       rw [one_smul, one_mul]
 
+omit [Finite G] in
 private theorem fW_of_mem {hV : IsElemAbelian 2 V} {W : Subgroup G} {hW : W.relIndex V = 2}
-    {x : E V hV} (h : ev x ∈ W) : fW hV W hW x = 0 := if_pos h
+    {x : E V hV} (h : ev x ∈ W) : fW hV W hW x = 0 := ite_eq_left h
 
+omit [Finite G] in
 private theorem fW_of_not_mem {hV : IsElemAbelian 2 V} {W : Subgroup G} {hW : W.relIndex V = 2}
-    {x : E V hV} (h : ev x ∉ W) : fW hV W hW x = 1 := if_neg h
+    {x : E V hV} (h : ev x ∉ W) : fW hV W hW x = 1 := ite_eq_right h
 
 private noncomputable def fConj (hV : IsElemAbelian 2 V) {W : Subgroup G}
     (hW : W.relIndex V = 2) {g : G} (hgN : g ∈ Subgroup.normalizer (V : Set G)) :
     Module.Dual (ZMod 2) (E V hV) :=
   (fW hV W hW).comp (cLin hV g⁻¹ (Subgroup.inv_mem _ hgN))
 
+omit [Finite G] in
 private theorem fConj_apply {hV : IsElemAbelian 2 V} {W : Subgroup G} {hW : W.relIndex V = 2}
     {g : G} {hgN : g ∈ Subgroup.normalizer (V : Set G)} (x : E V hV) :
     fConj hV hW hgN x = fW hV W hW (cLin hV g⁻¹ (Subgroup.inv_mem _ hgN) x) := rfl
@@ -507,7 +527,7 @@ private def Kinter (M V W : Subgroup G) : Subgroup G where
     have h1 : g⁻¹ * (x * y) * g = (g⁻¹ * x * g) * (g⁻¹ * y * g) := by group
     rw [h1]
     exact W.mul_mem (hx g hg) (hy g hg)
-  one_mem' := ⟨V.one_mem, fun g _ => by simpa using W.one_mem⟩
+  one_mem' := ⟨V.one_mem, fun g _ => by simp⟩
   inv_mem' := by
     rintro x ⟨hxV, hx⟩
     refine ⟨V.inv_mem hxV, fun g hg => ?_⟩
@@ -515,11 +535,14 @@ private def Kinter (M V W : Subgroup G) : Subgroup G where
     rw [h1]
     exact W.inv_mem (hx g hg)
 
+omit [Finite G] in
 private theorem Kinter_le_V {M V W : Subgroup G} : Kinter M V W ≤ V := fun _ h => h.1
 
+omit [Finite G] in
 private theorem Kinter_le_W {M V W : Subgroup G} : Kinter M V W ≤ W := fun _ h => by
   simpa using h.2 1 M.one_mem
 
+omit [Finite G] in
 private theorem M_le_normalizer_Kinter {M V W : Subgroup G}
     (hM : M ≤ Subgroup.normalizer (V : Set G)) :
     M ≤ Subgroup.normalizer (Kinter M V W : Set G) := by
@@ -540,6 +563,7 @@ private theorem M_le_normalizer_Kinter {M V W : Subgroup G}
   exact h1
 
 
+omit [Finite G] in
 private theorem ev_comm {hV : IsElemAbelian 2 V} (x y : E V hV) : ev x * ev y = ev y * ev x := by
   rw [← ev_add, ← ev_add, add_comm]
 
@@ -626,6 +650,7 @@ private theorem realisable_eq_top {M V₀ V₁ V A W : Subgroup G} (hV : IsElemA
   exact hφ
 
 
+omit [Finite G] in
 private theorem submod_mem_Fam {hV : IsElemAbelian 2 V} {V₀ V₂ F : Subgroup G} (hV₀ : V₀ ≤ V)
     (hF : F ∈ FamV V₀ V₂ V) :
     submod hV F ∈ FourteenTwoAbstract.Fam (submod hV V₀) (submod hV V₂) := by
@@ -634,6 +659,7 @@ private theorem submod_mem_Fam {hV : IsElemAbelian 2 V} {V₀ V₂ F : Subgroup 
   · rw [← submod_sup hFV hV₀, hsup, submod_top]
   · rw [← submod_inf, hinf]
 
+omit [Finite G] in
 private theorem map_cLin_submod {hV : IsElemAbelian 2 V} {p : G}
     (hp : p ∈ Subgroup.normalizer (V : Set G)) (F : Subgroup G) :
     (submod hV F).map (cLin hV p hp) = submod hV (conjSubgroup F p⁻¹) := by
@@ -679,6 +705,7 @@ theorem fourteen_two_transitive {M V₀ V₁ V₂ V A W : Subgroup G}
   exact (submod_injOn hconj hF'.1 hmap.symm)
 
 
+omit [Finite G] in
 private theorem CFixQuot_le {M V₀ V₁ V₂ V : Subgroup G} (hV₂ : V₂ ≤ V₀) :
     CFixQuot (PSub M V₀ V) V₁ V ≤ M ⊓ Subgroup.normalizer (V₂ : Set G) := by
   intro c hc
@@ -688,6 +715,7 @@ private theorem CFixQuot_le {M V₀ V₁ V₂ V : Subgroup G} (hV₂ : V₂ ≤ 
   exact Subgroup.mem_inf.2 ⟨hcM, Subgroup.centralizer_le_normalizer _
     (Subgroup.centralizer_le (SetLike.coe_subset_coe.2 hV₂) hcC)⟩
 
+omit [Finite G] in
 private theorem conjSubgroup_mem_FamV {V₀ V₂ V F : Subgroup G} {x : G}
     (hxV : x ∈ Subgroup.normalizer (V : Set G)) (hx₀ : x ∈ Subgroup.normalizer (V₀ : Set G))
     (hx₂ : x ∈ Subgroup.normalizer (V₂ : Set G)) (hF : F ∈ FamV V₀ V₂ V) :
@@ -740,6 +768,7 @@ theorem fourteen_two_product {M V₀ V₁ V₂ V A W : Subgroup G}
       (Subgroup.mem_inf.1 hy).1
 
 
+omit [Finite G] in
 private theorem exists_eq_one_or_eq_of_card_eq_two {V₀ : Subgroup G} (h : Nat.card V₀ = 2) :
     ∃ z ∈ V₀, z ≠ 1 ∧ ∀ x ∈ V₀, x = 1 ∨ x = z := by
   obtain ⟨z, hz, hz'⟩ := (Nat.card_eq_two_iff' (1 : V₀)).1 h
@@ -748,6 +777,7 @@ private theorem exists_eq_one_or_eq_of_card_eq_two {V₀ : Subgroup G} (h : Nat.
   · exact Or.inl hx1
   · exact Or.inr (congrArg Subtype.val (hz' ⟨x, hx⟩ fun h => hx1 (congrArg Subtype.val h)))
 
+omit [Finite G] in
 private theorem conj_eq_of_card_eq_two {M V₀ : Subgroup G}
     (hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G)) (h : Nat.card V₀ = 2) {g : G} (hg : g ∈ M)
     {x : G} (hx : x ∈ V₀) : g * x * g⁻¹ = x := by
@@ -760,6 +790,7 @@ private theorem conj_eq_of_card_eq_two {M V₀ : Subgroup G}
   · simp
   · exact hgz
 
+omit [Finite G] in
 private theorem exists_axis_of_transvection {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hV₀ : V₀ ≤ V) (hcard : Nat.card V₀ = 2) (hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G))
     {a : G} (ha : a ∈ F11.CTilde M V₀ V) (hna : a ∉ Subgroup.centralizer (V : Set G)) :
@@ -851,6 +882,7 @@ private theorem one_lt_of_two_le_enat {x : ℕ∞} (h : 2 ≤ x) : 1 < x := by
     rw [one_lt_enat_natCast_iff]
     omega
 
+omit [Finite G] in
 theorem rMV_gt_one_iff {M V : Subgroup G} :
     1 < rMV M V ↔ ∀ U : Subgroup G, U ≤ V → E3.mQuot V U ≤ 1 → centralizer (U : Set G) ≤ M := by
   unfold rMV

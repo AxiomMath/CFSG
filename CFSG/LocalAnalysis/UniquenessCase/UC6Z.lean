@@ -25,6 +25,7 @@ theorem inU_of_theoremC {M : Subgroup G} (hM : uniqueFourIsMaxTwoLocal M) (hC : 
     hC r hr hr2 E hEM (IsElemAbelian.isPGroup hEel) hE2 hΓ _ hg'.1 hg
   exact (hg'.2 M hM.1 hle).symm
 
+omit [Finite G] in
 theorem normalizer_le_of_inU {M E Q : Subgroup G} (hMself : normalizer (M : Set G) = M)
     (hEU : InU M E) (hEQ : E ≤ centralizer (Q : Set G)) (hQM : centralizer (Q : Set G) ≤ M) :
     normalizer (Q : Set G) ≤ M := by
@@ -44,7 +45,7 @@ theorem exists_Z_of_not_isStronglyPEmbedded {M : Subgroup G} (hM : uniqueFourIsM
     (hEcard : Nat.card E = r ^ 2) (hΓ : rankThreeGamma 1 r E ≤ M)
     (hns : ¬ IsStronglyPEmbedded r M) :
     ∃ Z : Subgroup G, Z ≤ R ∧ Nat.card Z = r ∧ ¬ centralizer (Z : Set G) ≤ M := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   by_contra hcon
   push Not at hcon
   have hMself : normalizer (M : Set G) = M := normalizer_eq_of_isMaxTwoLocal hM

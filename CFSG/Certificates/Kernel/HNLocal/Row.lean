@@ -52,6 +52,7 @@ private theorem rec_or_sum (f : Nat → Nat) (hf : ∀ r, f r < 2 ^ 1729) : ∀ 
     change (∑ r ∈ range c, f r * 2 ^ (1729 * r)) ||| (f c <<< (1729 * c)) = _
     rw [Nat.lor_comm, ← Nat.shiftLeft_add_eq_or_of_lt hlt, Nat.shiftLeft_eq, Nat.add_comm]
 
+set_option exponentiation.threshold 399 in
 private theorem cm_M {CM3 M : Nat} (hcm : cmOK CM3 M = true) : M = 2 ^ 399 - 1 := by
   unfold cmOK at hcm
   have h := Nat.eq_of_beq_eq_true (bAnd_true hcm).2
@@ -59,6 +60,7 @@ private theorem cm_M {CM3 M : Nat} (hcm : cmOK CM3 M = true) : M = 2 ^ 399 - 1 :
   show (1 <<< 399) - 1 = _
   rw [Nat.shiftLeft_eq, Nat.one_mul]
 
+set_option exponentiation.threshold 1729 in
 private theorem cm_CM3 {CM3 M : Nat} (hcm : cmOK CM3 M = true) :
     CM3 = ∑ r ∈ range 133, 7 * 2 ^ (1729 * r) := by
   unfold cmOK at hcm
@@ -67,10 +69,12 @@ private theorem cm_CM3 {CM3 M : Nat} (hcm : cmOK CM3 M = true) :
   exact rec_or_sum (fun _ => 7) (fun _ => Nat.lt_of_lt_of_le (by norm_num : 7 < 2 ^ 3)
     (Nat.pow_le_pow_right (by omega) (by omega))) 133
 
+set_option exponentiation.threshold 399 in
 theorem recC_lt {CM3 M : Nat} (hcm : cmOK CM3 M = true) (C r : Nat) : recC M C r < 2 ^ 399 := by
   rw [cm_M hcm]
   exact Nat.and_lt_two_pow _ (Nat.sub_lt (Nat.two_pow_pos _) Nat.one_pos)
 
+set_option exponentiation.threshold 399 in
 theorem recC_eq {CM3 M : Nat} (hcm : cmOK CM3 M = true) (C r : Nat) :
     recC M C r = C / 2 ^ (400 * r) % 2 ^ 399 := by
   rw [cm_M hcm]
@@ -83,6 +87,7 @@ theorem recX_eq (XC : Nat → Nat) (M c r : Nat) (hr : r < 133) :
   show recC M (XC ((133 * c + r) / 133)) ((133 * c + r) % 133) = _
   rw [e1, e2]
 
+set_option exponentiation.threshold 1729 in
 theorem leafA_eq {CM3 M : Nat} (hcm : cmOK CM3 M = true) (C c : Nat) :
     leafA M C c = ∑ r ∈ range c, recC M C r * 2 ^ (1729 * r) :=
   rec_or_sum (recC M C) (fun r => Nat.lt_of_lt_of_le (recC_lt hcm C r)
@@ -107,6 +112,7 @@ private theorem tb8 {v b : Nat} (hv : v < 8) (hb : 3 ≤ b) : v.testBit b = fals
   Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le hv
     (by rw [show (8 : Nat) = 2 ^ 3 by norm_num]; exact Nat.pow_le_pow_right (by omega) hb))
 
+set_option exponentiation.threshold 1729 in
 private theorem col_eq' {CM3 M A n : Nat} (hcm : cmOK CM3 M = true) {a : Nat → Nat}
     (hA : A = ∑ r ∈ range n, a r * 2 ^ (1729 * r)) (ha : ∀ r < n, a r < 2 ^ 1729)
     {k : Nat} (hk : k < 133) :
@@ -130,12 +136,12 @@ private theorem col_eq' {CM3 M A n : Nat} (hcm : cmOK CM3 M = true) {a : Nat →
   intro i b hbw
   rw [Nat.testBit_and, Nat.testBit_shiftRight, FC i b hbw]
   by_cases hi : i < 133
-  · simp only [hi, if_true]
+  · simp only [hi, ite_true]
     rw [show (7 : Nat) = 2 ^ 3 - 1 by norm_num, Nat.testBit_two_pow_sub_one]
     by_cases hb3 : b < 3
     · rw [show 3 * k + (1729 * i + b) = 1729 * i + (b + 3 * k) by ring, FA i _ (by omega)]
       by_cases hin : i < n
-      · simp only [hin, if_true]
+      · simp only [hin, ite_true]
         rw [show (8 : Nat) = 2 ^ 3 by norm_num, Nat.testBit_mod_two_pow, Nat.testBit_div_two_pow]
         simp [hb3]
       · simp [hin]
@@ -224,6 +230,7 @@ private theorem mulC_pk {L H CM RM ONE LV HV CM3 M A G n : Nat} {a : Nat → Nat
   rw [hrec, hU, hL, hH]
   exact hR
 
+set_option exponentiation.threshold 1729 in
 theorem mulC_eq {L H CM RM ONE LV HV CM3 M A G n : Nat} {a : Nat → Nat}
     (hc : constsOK 5 13 1729 133 9 L H CM RM ONE LV HV = true) (hcm : cmOK CM3 M = true)
     (hA : A = ∑ r ∈ range n, a r * 2 ^ (1729 * r)) (ha : ∀ r < n, a r < 2 ^ 399)
@@ -280,7 +287,7 @@ theorem mulC_vec {L H CM RM ONE LV HV CM3 M A G n : Nat} {a : Nat → Nat}
       (OM G)ᵀ *ᵥ cvec (a r) := by
   funext l
   rw [mulC_lane hc hcm hA ha hG hr l.isLt, mulVec_cvec]
-  simp only [hrn, if_true]
+  simp only [hrn, ite_true]
 
 theorem rowL_eq {L H CM RM ONE LV HV Y r : Nat}
     (hc : constsOK 5 13 1729 133 9 L H CM RM ONE LV HV = true) (hY : Canon 5 133 13 Y)
@@ -299,7 +306,7 @@ theorem rowL_mulC {L H CM RM ONE LV HV CM3 M A G n : Nat} {a : Nat → Nat}
   rw [rowL_eq hc (mulC_canon hc hcm hA ha hG) hr]
   refine Finset.sum_congr rfl fun l hl => ?_
   rw [mulC_lane hc hcm hA ha hG hr (Finset.mem_range.1 hl)]
-  simp only [hrn, if_true]
+  simp only [hrn, ite_true]
 
 private def spV (q u : Nat → Nat) : Nat → Nat
   | 0 => 0
@@ -431,13 +438,13 @@ private theorem spP_step (t j : Nat) :
   · intro h1
     rw [h1] at hk
     subst hk
-    simp only [Nat.add_mul, Nat.mul_add, Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm, Nat.one_mul]
+    simp only [Nat.add_mul, Nat.mul_assoc, Nat.mul_comm, Nat.one_mul]
     omega
   · intro h1
     have h0 : d % 2 = 0 := by omega
     rw [h0] at hk
     subst hk
-    simp only [Nat.add_zero, Nat.mul_assoc, Nat.mul_comm, Nat.mul_left_comm]
+    simp only [Nat.add_zero, Nat.mul_assoc, Nat.mul_comm]
 
 private theorem and_seven {a : Nat} (ha : a < 8) : a &&& 7 = a := by
   rw [show (7 : Nat) = 2 ^ 3 - 1 from rfl, Nat.and_two_pow_sub_one_eq_mod]
@@ -507,7 +514,6 @@ private theorem maskB_rec (t n : Nat) :
   refine rec_invN _ _ (fun n a => a = spV (spP (t + 1)) (spG t) n) rfl ?_ n
   intro n a ha
   subst ha
-  beta_reduce
   rw [spV_succ]
   have hb : Nat.land (Nat.shiftRight n t) 1 = n / 2 ^ t % 2 := by
     change n >>> t &&& 1 = _
@@ -546,6 +552,7 @@ private theorem sp_mod (x N : Nat) :
     rw [show 3 * (N + 1) = 3 * N + 3 by omega, Nat.pow_add, Nat.mod_mul, ih, spV_succ,
       Nat.mul_comm (2 ^ (3 * N))]
 
+set_option exponentiation.threshold 399 in
 private theorem sp_init {x : Nat} (hx : x < 2 ^ 399) :
     x = spV (spP 8) (fun j => x / 2 ^ (3 * j) % 8) 133 := by
   have h1 := sp_mod x 133
@@ -563,6 +570,7 @@ private theorem spP_zero : spP 0 = fun j => 13 * j := by
 
 private noncomputable def stS (k z : Nat) : Nat := spV (spP (8 - k)) (fun j => z / 2 ^ (3 * j) % 8) 133
 
+set_option exponentiation.threshold 1729 in
 private theorem stS_lt (k z : Nat) : stS k z < 2 ^ 1729 :=
   Nat.lt_of_lt_of_le (spV_lt _ _ (spP_sep _) (fun j => Nat.mod_lt _ (by omega)) 133)
     (Nat.pow_le_pow_right (by omega) (spP_le _))
@@ -587,7 +595,6 @@ private theorem sp_iter {MS x : Nat} (hm : masksOK MS = true) (hx : x < 2 ^ 399)
       k : Nat) = stS k x := by
   refine rec_invN _ _ (fun k a => k ≤ 8 → a = stS k x) (fun _ => sp_init hx) ?_
   intro k a ih hk
-  beta_reduce
   rw [ih (by omega), sN]
   unfold sp1
   rw [sN, shift_eq]
@@ -624,7 +631,7 @@ private theorem fld_shlb {w B s : Nat} {h : Nat → Nat} (hB : Fld w B h) (hsw :
     rw [e, hB i (k - s) (by omega)]
     simp [show w * i + k ≥ s by omega, show k ≥ s from hks]
   · rcases Nat.eq_zero_or_pos i with rfl | hi
-    · simp [show ¬ (w * 0 + k ≥ s) by omega, show ¬ (k ≥ s) by omega]
+    · simp [show ¬ (k ≥ s) by omega]
     · have hwi : w ≤ w * i := Nat.le_mul_of_pos_right w hi
       have e : w * i + k - s = w * (i - 1) + (w + k - s) := by
         have : w * i = w * (i - 1) + w := by
@@ -639,6 +646,7 @@ private theorem fld_shlb {w B s : Nat} {h : Nat → Nat} (hB : Fld w B h) (hsw :
       rw [e, hB (i - 1) _ (by omega), h2]
       simp [show ¬ (k ≥ s) by omega]
 
+set_option exponentiation.threshold 1729 in
 private theorem msf_eq {MS : Nat} {MSF : Nat → Nat} (hmsf : msfOK MS MSF = true) :
     ∀ i < 8, MSF i = ∑ r ∈ range 133, CFSG.KC.HNLocal.mask MS i * 2 ^ (1729 * r) := by
   intro i hi
@@ -654,6 +662,7 @@ private theorem msf_eq {MS : Nat} {MSF : Nat → Nat} (hmsf : msfOK MS MSF = tru
 private noncomputable def stM (n : Nat) (x : Nat → Nat) (k r : Nat) : Nat :=
   if r < n then (if r < 133 then stS k (x r) else x r) else 0
 
+set_option exponentiation.threshold 1729 in
 private theorem stM_lt {n : Nat} {x : Nat → Nat} (hx : ∀ r < n, x r < 2 ^ 399) (k r : Nat) :
     stM n x k r < 2 ^ 1729 := by
   unfold stM
@@ -671,11 +680,12 @@ private theorem stM_step {MS : Nat} (hm : masksOK MS = true) {n : Nat} {x : Nat 
   unfold stM
   by_cases hrn : r < n
   · by_cases hr : r < 133
-    · simp only [hrn, hr, if_true]
+    · simp only [hrn, hr, ite_true]
       exact stS_step hm hk _
     · simp [hrn, hr]
   · simp [hrn]
 
+set_option exponentiation.threshold 1729 in
 private theorem spM_iter {MS n CA : Nat} {MSF : Nat → Nat} {x : Nat → Nat}
     (hm : masksOK MS = true) (hmsf : msfOK MS MSF = true)
     (hCA : CA = ∑ r ∈ range n, x r * 2 ^ (1729 * r)) (hx : ∀ r < n, x r < 2 ^ 399) :
@@ -696,7 +706,6 @@ private theorem spM_iter {MS n CA : Nat} {MSF : Nat → Nat} {x : Nat → Nat}
     · rfl
   · intro k a ih hk
     have hA := ih (by omega)
-    beta_reduce
     rw [sN]
     unfold sp1
     rw [sN, shift_eq]
@@ -721,6 +730,7 @@ private theorem spM_iter {MS n CA : Nat} {MSF : Nat → Nat} {x : Nat → Nat}
       (CFSG.KS.PackFld.fld_or (fld_xor hA hAM) (fld_shlb hAM hsw hb)) fun r => ?_
     exact stM_step hm (by omega) r
 
+set_option exponentiation.threshold 1729 in
 theorem spreadM_eq {MS n CA : Nat} {MSF : Nat → Nat} {x : Nat → Nat}
     (hm : masksOK MS = true) (hmsf : msfOK MS MSF = true)
     (hCA : CA = ∑ r ∈ range n, x r * 2 ^ (1729 * r)) (hx : ∀ r < n, x r < 2 ^ 399) :

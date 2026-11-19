@@ -46,7 +46,7 @@ theorem kW : (decodeWords 124 ((List.range 1110).map SWN)).length = 124 ∧
 theorem sw_eq : natsOf (String.ofList ThSW.chars) = (List.range 1110).map SWN := by
   have e := Nat.eq_of_beq_eq_true bSW
   obtain ⟨h1, h2⟩ := thBind_sound (hex := false) (R := SWN) (cs := ThSW.chars) (by rw [e])
-  simp only [Bool.false_eq_true, if_false, e] at h1 h2
+  simp only [Bool.false_eq_true, ite_false, e] at h1 h2
   apply List.ext_getElem
   · simp [h1]
   · intro t ht _

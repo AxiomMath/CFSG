@@ -76,7 +76,7 @@ theorem h158_main
       ρ.rangeRestrict β := hreal
   have hMC : MathieuCocode24 ρ.range ⊤ ⊥ := (realizes_iff _ _ _ _).2 ⟨ρ.rangeRestrict, β, hreal'⟩
   have hVcard : Nat.card V = 2 ^ 11 := cocode24_card hMC
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hVcard]; positivity)
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hVcard]; positivity)
   obtain ⟨e, he⟩ := SecCoords.exists_equiv cocodeCoords (fun _ hσ => preserves_cocode hσ) hreal'
   have hcompat : ∀ (γ : ↥AutPerm) (v : V), e (ρ γ v) = rho11 AutPerm le_rfl γ (e v) :=
     fun γ v => he γ v

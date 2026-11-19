@@ -21,16 +21,19 @@ variable {k : ℕ} {X : Fin k → Type} [∀ i, Group (X i)] [∀ i, Finite (X i
     (alternatingGroup (Fin 6)).map (Classical.choice h).symm.toMonoidHom
   else ⊤
 
+omit [∀ (i : Fin k), Finite (X i)] in
 theorem spTwoLev_eq_map_alt {i : Fin k} (h : Nonempty (X i ≃* Equiv.Perm (Fin 6))) :
     spTwoLev (X := X) i =
       (alternatingGroup (Fin 6)).map (Classical.choice h).symm.toMonoidHom := by
-  rw [spTwoLev, dif_pos h]
+  rw [spTwoLev, dite_eq_left h]
 
+omit [∀ (i : Fin k), Finite (X i)] in
 theorem spTwoLev_eq_top {i : Fin k} (h : ¬ Nonempty (X i ≃* Equiv.Perm (Fin 6))) :
     spTwoLev (X := X) i = ⊤ := by
-  rw [spTwoLev, dif_neg h]
+  rw [spTwoLev, dite_eq_right h]
 
-theorem spTwoLev_normal (hX : ∀ i, IsSpTwoFactor (X i)) (i : Fin k) :
+omit [∀ (i : Fin k), Finite (X i)] in
+theorem spTwoLev_normal (_hX : ∀ i, IsSpTwoFactor (X i)) (i : Fin k) :
     (spTwoLev (X := X) i).Normal := by
   by_cases h : Nonempty (X i ≃* Equiv.Perm (Fin 6))
   · rw [spTwoLev_eq_map_alt h]
@@ -40,7 +43,7 @@ theorem spTwoLev_normal (hX : ∀ i, IsSpTwoFactor (X i)) (i : Fin k) :
 
 theorem isQuasisimple_alternatingGroup_six :
     CFSG.IsQuasisimple ↥(alternatingGroup (Fin 6)) := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
   have hcen : Subgroup.center (alternatingGroup (Fin 6)) = ⊥ :=
     alternatingGroup.center_eq_bot (by simp)
@@ -49,6 +52,7 @@ theorem isQuasisimple_alternatingGroup_six :
   · exact ((QuotientGroup.quotientMulEquivOfEq hcen).trans
       (QuotientGroup.quotientBot (G := alternatingGroup (Fin 6)))).isSimpleGroup
 
+omit [∀ (i : Fin k), Finite (X i)] in
 theorem isQuasisimple_spTwoLev_of_mulEquiv {i : Fin k}
     (h : Nonempty (X i ≃* Equiv.Perm (Fin 6))) :
     CFSG.IsQuasisimple ↥(spTwoLev (X := X) i) := by
@@ -58,6 +62,7 @@ theorem isQuasisimple_spTwoLev_of_mulEquiv {i : Fin k}
       (Classical.choice h).symm.toMonoidHom (Classical.choice h).symm.injective).symm
     isQuasisimple_alternatingGroup_six
 
+omit [∀ (i : Fin k), Finite (X i)] in
 theorem quasisimple_or_symThree_spTwoLev {i : Fin k}
     (h : ¬ Nonempty (X i ≃* Equiv.Perm (Fin 6))) (hWB : IsWBlock (X i)) :
     CFSG.IsQuasisimple ↥(spTwoLev (X := X) i) ∨
@@ -69,6 +74,7 @@ theorem quasisimple_or_symThree_spTwoLev {i : Fin k}
       ((CFSG.Foundations.SteinbergCA.quasisimple_iff _).2.2.1.mpr hq)
   · exact Or.inr (IsSymThreeOrSUThreeTwo.of_mulEquiv Subgroup.topEquiv.symm hs)
 
+omit [∀ (i : Fin k), Finite (X i)] in
 theorem normal_map_mulSingle {i : Fin k} {N : Subgroup (X i)} (hN : N.Normal) :
     (N.map (MonoidHom.mulSingle X i)).Normal := by
   refine ⟨fun n hn g => ?_⟩
@@ -87,10 +93,12 @@ theorem normal_map_mulSingle {i : Fin k} {N : Subgroup (X i)} (hN : N.Normal) :
 @[expose] noncomputable def spTwoProduct : Subgroup (∀ j, X j) :=
   Subgroup.pi Set.univ (spTwoLev (X := X))
 
+omit [∀ (i : Fin k), Finite (X i)] in
 theorem spTwoBlock_normal (hX : ∀ i, IsSpTwoFactor (X i)) (i : Fin k) :
     (spTwoBlock (X := X) i).Normal :=
   normal_map_mulSingle (spTwoLev_normal hX i)
 
+omit [∀ (i : Fin k), Finite (X i)] in
 theorem spTwoProduct_normal (hX : ∀ i, IsSpTwoFactor (X i)) :
     (spTwoProduct (X := X)).Normal := by
   refine ⟨fun m hm g => ?_⟩
@@ -98,6 +106,7 @@ theorem spTwoProduct_normal (hX : ∀ i, IsSpTwoFactor (X i)) :
   intro i _
   exact (spTwoLev_normal hX i).conj_mem (m i) (hm i trivial) (g i)
 
+omit [∀ (i : Fin k), Finite (X i)] in
 theorem spTwoBlock_le_wSup (hX : ∀ i, IsSpTwoFactor (X i)) (i : Fin k) :
     spTwoBlock (X := X) i ≤ wSup (∀ j, X j) := by
   by_cases h6 : Nonempty (X i ≃* Equiv.Perm (Fin 6))
@@ -107,7 +116,7 @@ theorem spTwoBlock_le_wSup (hX : ∀ i, IsSpTwoFactor (X i)) (i : Fin k) :
         (Pi.mulSingle_injective i)).symm
       (isQuasisimple_spTwoLev_of_mulEquiv h6)
   · rcases hX i with hs | ⟨hWB, -, -⟩ | h6'
-    · haveI : Subsingleton (X i) := hs
+    · have : Subsingleton (X i) := hs
       rw [spTwoBlock, spTwoLev_eq_top h6,
         Subgroup.eq_bot_of_subsingleton (⊤ : Subgroup (X i)), Subgroup.map_bot]
       exact bot_le
@@ -117,7 +126,7 @@ theorem spTwoBlock_le_wSup (hX : ∀ i, IsSpTwoFactor (X i)) (i : Fin k) :
         exact CFSG.IsQuasisimple.of_mulEquiv
           (Subgroup.equivMapOfInjective (spTwoLev (X := X) i) (MonoidHom.mulSingle X i)
             (Pi.mulSingle_injective i)).symm hq
-      · haveI := hB
+      · have := hB
         refine le_wSup_of_subnormal_of_symThree
           (IsSubnormal.step le_top Subgroup.normal_subgroupOf (IsSubnormal.refl ⊤)) ?_
         exact IsSymThreeOrSUThreeTwo.of_mulEquiv
@@ -125,6 +134,7 @@ theorem spTwoBlock_le_wSup (hX : ∀ i, IsSpTwoFactor (X i)) (i : Fin k) :
             (Pi.mulSingle_injective i)) hs3
     · exact absurd h6' h6
 
+omit [∀ (i : Fin k), Finite (X i)] in
 theorem spTwoProduct_le_wSup (hX : ∀ i, IsSpTwoFactor (X i)) :
     spTwoProduct (X := X) ≤ wSup (∀ j, X j) := by
   intro x hx
@@ -139,7 +149,7 @@ theorem relIndex_inf_spTwoProduct_odd (hX : ∀ i, IsSpTwoFactor (X i))
   classical
   set M := spTwoProduct (X := X) with hM
   have hMW : M ≤ wSup (∀ j, X j) := spTwoProduct_le_wSup hX
-  haveI : M.Normal := spTwoProduct_normal hX
+  have : M.Normal := spTwoProduct_normal hX
   have hcard : Nat.card ↥(T ⊔ M : Subgroup (∀ j, X j)) * Nat.card ↥(T ⊓ M) =
       Nat.card ↥T * Nat.card ↥M := by
     have h1 := Subgroup.relIndex_mul_card (H := M) (K := T)
@@ -192,7 +202,7 @@ theorem exists_coordinate_of_relIndex (hX : ∀ i, IsSpTwoFactor (X i))
   have hSodd : ¬ 2 ∣ S.relIndex M := by
     rw [hS]
     exact relIndex_inf_spTwoProduct_odd hX hTW hTi
-  haveI : M.Normal := spTwoProduct_normal hX
+  have : M.Normal := spTwoProduct_normal hX
   have hxM : x ∈ normalizer (M : Set (∀ j, X j)) := by
     rw [Subgroup.normalizer_eq_top]
     exact Subgroup.mem_top x
@@ -220,7 +230,7 @@ theorem exists_coordinate_of_relIndex (hX : ∀ i, IsSpTwoFactor (X i))
       · rw [hM, spTwoProduct, Subgroup.mem_pi]
         intro j _
         by_cases hj : j = i
-        · subst hj; simpa using w.2
+        · subst hj; simp
         · simp [Pi.mulSingle_eq_of_ne hj]
       · ext
         simp [πi, Pi.mulSingle_eq_same]
@@ -255,6 +265,7 @@ theorem exists_coordinate_of_relIndex (hX : ∀ i, IsSpTwoFactor (X i))
         simp only [Pi.mul_apply, Pi.inv_apply, hconj']
         group
 
+omit [∀ (i : Fin k), Finite (X i)] in
 theorem eq_one_of_mem_normalizer_spTwoLev (hX : ∀ i, IsSpTwoFactor (X i)) {i : Fin k}
     {x : X i} (hx : Odd (orderOf x)) {U : Subgroup (X i)}
     (hU : IsPGroup 2 U) (hUW : U ≤ spTwoLev (X := X) i)
@@ -305,9 +316,9 @@ theorem eq_one_of_mem_normalizer_spTwoLev (hX : ∀ i, IsSpTwoFactor (X i)) {i :
   ·
     rw [spTwoLev_eq_top h6] at hUW hUi
     rcases hX i with hs | ⟨-, -, hsyl⟩ | h6'
-    · haveI : Subsingleton (X i) := hs
+    · have : Subsingleton (X i) := hs
       exact Subsingleton.elim x 1
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hUidx : ¬ 2 ∣ U.index := by
         rwa [Subgroup.relIndex_top_right] at hUi
       let S : Sylow 2 (X i) := hU.toSylow hUidx
@@ -341,6 +352,7 @@ theorem eq_one_of_mem_normalizer_pi (hX : ∀ i, IsSpTwoFactor (X i))
   exact eq_one_of_mem_normalizer_spTwoLev hX
     (hx.of_dvd_nat (orderOf_map_dvd (Pi.evalMonoidHom X i) x)) hU hUW hUi hxU
 
+omit [∀ (i : Fin k), Finite (X i)] in
 theorem eq_one_of_centralizes_spTwoLev (hX : ∀ i, IsSpTwoFactor (X i)) (i : Fin k)
     {c : X i} (hc : ∀ w ∈ spTwoLev (X := X) i, w * c = c * w) : c = 1 := by
   classical
@@ -370,7 +382,7 @@ theorem eq_one_of_centralizes_spTwoLev (hX : ∀ i, IsSpTwoFactor (X i)) (i : Fi
     exact e.injective (h1.trans (map_one e).symm)
   · rw [spTwoLev_eq_top h6] at hc
     rcases hX i with hs | ⟨-, hcenter, -⟩ | h6'
-    · haveI : Subsingleton (X i) := hs
+    · have : Subsingleton (X i) := hs
       exact Subsingleton.elim c 1
     · have hcen : c ∈ Subgroup.center (X i) := by
         rw [Subgroup.mem_center_iff]
@@ -380,6 +392,7 @@ theorem eq_one_of_centralizes_spTwoLev (hX : ∀ i, IsSpTwoFactor (X i)) (i : Fi
       exact Subgroup.mem_bot.mp hcen
     · exact absurd h6' h6
 
+omit [∀ (i : Fin k), Finite (X i)] in
 theorem centralizer_wSup_pi_eq_bot (hX : ∀ i, IsSpTwoFactor (X i)) :
     centralizer (wSup (∀ i, X i) : Set (∀ i, X i)) = ⊥ := by
   refine le_antisymm ?_ bot_le
@@ -393,6 +406,7 @@ theorem centralizer_wSup_pi_eq_bot (hX : ∀ i, IsSpTwoFactor (X i)) :
   have hcomm := (Subgroup.mem_centralizer_iff.mp hc) (Pi.mulSingle i w) hmem
   simpa using congrFun hcomm i
 
+omit [∀ (i : Fin k), Finite (X i)] in
 theorem exists_wGen_pi (hX : ∀ i, IsSpTwoFactor (X i))
     (h2 : 2 ∣ Nat.card (∀ i, X i)) :
     ∃ T : Subgroup (∀ i, X i), IsSubnormal T ⊤ ∧
@@ -400,7 +414,7 @@ theorem exists_wGen_pi (hX : ∀ i, IsSpTwoFactor (X i))
   classical
   have h2prod : 2 ∣ ∏ i : Fin k, Nat.card (X i) := by
     rwa [← Nat.card_pi]
-  obtain ⟨i, -, hi⟩ := (Prime.dvd_finset_prod_iff (Nat.prime_iff.mp Nat.prime_two)
+  obtain ⟨i, -, hi⟩ := (Prime.dvd_finsetProd_iff (Nat.prime_iff.mp Nat.prime_two)
     (fun i => Nat.card (X i))).mp h2prod
   have hcard1 : Nat.card (X i) ≠ 1 := by
     intro h
@@ -409,7 +423,7 @@ theorem exists_wGen_pi (hX : ∀ i, IsSpTwoFactor (X i))
     intro hs
     exact hcard1 (Nat.card_eq_one_iff_unique.mpr ⟨hs, ⟨1⟩⟩)
   have hB : (spTwoBlock (X := X) i).Normal := spTwoBlock_normal hX i
-  haveI : (spTwoBlock (X := X) i).Normal := hB
+  have : (spTwoBlock (X := X) i).Normal := hB
   have hsub : IsSubnormal (spTwoBlock (X := X) i) ⊤ :=
     CFSG.Open.IsSubnormal.step le_top (Subgroup.normal_subgroupOf)
       (CFSG.Open.IsSubnormal.refl ⊤)
@@ -441,6 +455,7 @@ theorem exists_wGen_pi (hX : ∀ i, IsSpTwoFactor (X i))
 
 variable {R : Type} [Group R] [Finite R]
 
+omit [Finite R] in
 theorem IsSpTwoLeviProduct.eq_one_of_mem_normalizer (h : IsSpTwoLeviProduct R)
     {x : R ⧸ CFSG.pCore 2 R} (hx : Odd (orderOf x)) {T : Subgroup (R ⧸ CFSG.pCore 2 R)}
     (hT : IsPGroup 2 T) (hTW : T ≤ wSup (R ⧸ CFSG.pCore 2 R))
@@ -448,8 +463,8 @@ theorem IsSpTwoLeviProduct.eq_one_of_mem_normalizer (h : IsSpTwoLeviProduct R)
     (hxT : x ∈ normalizer (T : Set (R ⧸ CFSG.pCore 2 R))) : x = 1 := by
   classical
   obtain ⟨k, X, hgrp, hfin, ⟨e⟩, hX⟩ := h
-  letI : ∀ i, Group (X i) := hgrp
-  letI : ∀ i, Finite (X i) := hfin
+  let : ∀ i, Group (X i) := hgrp
+  let : ∀ i, Finite (X i) := hfin
   have hT' : IsPGroup 2 (T.map e.toMonoidHom) := hT.map e.toMonoidHom
   have hT'W : T.map e.toMonoidHom ≤ wSup (∀ i, X i) := by
     rw [← map_wSup_eq e]
@@ -477,12 +492,13 @@ theorem IsSpTwoLeviProduct.eq_one_of_mem_normalizer (h : IsSpTwoLeviProduct R)
   have hx1 : e x = 1 := eq_one_of_mem_normalizer_pi hX hx' hT' hT'W hTi' hxT'
   exact e.injective (hx1.trans (map_one e).symm)
 
+omit [Finite R] in
 theorem IsSpTwoLeviProduct.centralizer_wSup_eq_bot (h : IsSpTwoLeviProduct R) :
     centralizer (wSup (R ⧸ CFSG.pCore 2 R) : Set (R ⧸ CFSG.pCore 2 R)) = ⊥ := by
   classical
   obtain ⟨k, X, hgrp, hfin, ⟨e⟩, hX⟩ := h
-  letI : ∀ i, Group (X i) := hgrp
-  letI : ∀ i, Finite (X i) := hfin
+  let : ∀ i, Group (X i) := hgrp
+  let : ∀ i, Finite (X i) := hfin
   refine le_antisymm ?_ bot_le
   intro c hc
   rw [Subgroup.mem_bot]
@@ -498,14 +514,15 @@ theorem IsSpTwoLeviProduct.centralizer_wSup_eq_bot (h : IsSpTwoLeviProduct R) :
     exact Subgroup.mem_bot.mp hmem
   exact e.injective (hc1.trans (map_one e).symm)
 
+omit [Finite R] in
 theorem IsSpTwoLeviProduct.exists_wGen (h : IsSpTwoLeviProduct R)
     (h2 : 2 ∣ Nat.card (R ⧸ CFSG.pCore 2 R)) :
     ∃ T : Subgroup (R ⧸ CFSG.pCore 2 R), IsSubnormal T ⊤ ∧
       (IsComponentOf T ⊤ ∨ IsSymThreeOrSUThreeTwo ↥T) := by
   classical
   obtain ⟨k, X, hgrp, hfin, ⟨e⟩, hX⟩ := h
-  letI : ∀ i, Group (X i) := hgrp
-  letI : ∀ i, Finite (X i) := hfin
+  let : ∀ i, Group (X i) := hgrp
+  let : ∀ i, Finite (X i) := hfin
   have h2' : 2 ∣ Nat.card (∀ i, X i) := by
     rwa [← Nat.card_congr e.toEquiv]
   obtain ⟨T, hsub, hshape⟩ := exists_wGen_pi hX h2'

@@ -81,16 +81,16 @@ private theorem irr4_eq_wVec {F : Type} [Field F] {b c : F} {i j k : Fin 3}
   rcases z with m | m | q
   · rw [Spin.Twisted.wVec_apply_inl]
     by_cases hm : m = k
-    · rw [if_pos hm, hm]
-    · rw [if_neg hm]
+    · rw [ite_eq_left hm, hm]
+    · rw [ite_eq_right hm]
       rcases hcover m with h | h | h
       · rw [h]; exact hi1
       · rw [h]; exact hj1
       · exact absurd h hm
   · rw [Spin.Twisted.wVec_apply_inr_inl]
     by_cases hm : m = k
-    · rw [if_pos hm, hm]
-    · rw [if_neg hm]
+    · rw [ite_eq_left hm, hm]
+    · rw [ite_eq_right hm]
       rcases hcover m with h | h | h
       · rw [h]; exact hi2
       · rw [h]; exact hj2
@@ -242,13 +242,13 @@ private theorem irr4_aux {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F} {
       (Spin.Twisted.minusVec 4 (K := F) j (!t)) (Spin.Twisted.minusVec 4 (K := F) i (!s)) := by
     rw [irr4_mem_W_iff]
     refine ⟨?_, ?_, ?_, ?_⟩ <;>
-      simp [Spin.Twisted.eVec, Pi.single_apply, Ne.symm hki, Ne.symm hkj]
+      simp [Spin.Twisted.eVec, Ne.symm hki, Ne.symm hkj]
   have hfW : Spin.Twisted.fVec 4 k ∈ siegelW (Spin.quadMinus 4 F b c)
       (Spin.Twisted.minusVec 4 (K := F) j t) (Spin.Twisted.minusVec 4 (K := F) i s)
       (Spin.Twisted.minusVec 4 (K := F) j (!t)) (Spin.Twisted.minusVec 4 (K := F) i (!s)) := by
     rw [irr4_mem_W_iff]
     refine ⟨?_, ?_, ?_, ?_⟩ <;>
-      simp [Spin.Twisted.fVec, Pi.single_apply, Ne.symm hki, Ne.symm hkj]
+      simp [Spin.Twisted.fVec, Ne.symm hki, Ne.symm hkj]
   have hplW : ∀ a : Fin 2 → F, Spin.Twisted.planeVec 4 a ∈ siegelW (Spin.quadMinus 4 F b c)
       (Spin.Twisted.minusVec 4 (K := F) j t) (Spin.Twisted.minusVec 4 (K := F) i s)
       (Spin.Twisted.minusVec 4 (K := F) j (!t)) (Spin.Twisted.minusVec 4 (K := F) i (!s)) := by

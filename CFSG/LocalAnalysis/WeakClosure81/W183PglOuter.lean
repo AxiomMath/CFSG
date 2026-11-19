@@ -208,7 +208,7 @@ theorem w183Pgl_two_naturals_pairing (ρ : Q →* MulAut V) {L : Subgroup Q} {I 
         (((s⁻¹ : GL (Fin 3) (ZMod 2)) : Matrix (Fin 3) (Fin 3) (ZMod 2)) *ᵥ
           Multiplicative.toAdd (φ₂ ⟨w, hw⟩)) := by
     intro v w hv hw
-    simp only [β, dif_pos hv, dif_pos hw]
+    simp only [β, dite_eq_left hv, dite_eq_left hw]
   refine ⟨β, ?_, ?_, ?_, ?_, ?_⟩
   · intro i₁ hi₁ i₂ hi₂ j hj
     rw [hβ _ _ (I.mul_mem hi₁ hi₂) hj, hβ _ _ hi₁ hj, hβ _ _ hi₂ hj]
@@ -279,7 +279,6 @@ theorem w183Pgl_isNaturalL3Two_conj (ρ : Q →* MulAut V) {L : Subgroup Q} [L.N
     have := (inferInstance : L.Normal).conj_mem l hl g⁻¹
     simpa using this
   have hmove : ∀ (l : Q) (i : V), ρ g (ρ (g⁻¹ * l * g) i) = ρ l (ρ g i) := fun l i => by
-    change (ρ g) ((ρ (g⁻¹ * l * g)) i) = (ρ l) ((ρ g) i)
     rw [← MulAut.mul_apply, ← map_mul, ← MulAut.mul_apply, ← map_mul]
     congr 2
     group

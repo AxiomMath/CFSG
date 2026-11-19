@@ -11,14 +11,14 @@ open CFSG.GH74.GLS.Stage4.SL2 CFSG.GH74.GLS.Stage4.Hex Subgroup Matrix
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
 theorem card_eq_two_pow_of_charP : ∃ f : ℕ, 1 ≤ f ∧ Nat.card F = 2 ^ f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   exact ⟨n, n.pos, by rw [Nat.card_eq_fintype_card, hn]⟩
 
 theorem exists_conj_le_upperSub {T : Subgroup (SL2 F)} (hT : IsPGroup 2 T) :
     ∃ g : SL2 F, ∀ x ∈ T, g⁻¹ * x * g ∈ upperSub F := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨f, hf, hFf⟩ := card_eq_two_pow_of_charP (F := F)
   have hU1 : IsPGroup 2 (upperSub F) := IsPGroup.of_card ((card_upperSub (F := F)).trans hFf)
   have hU2 : ¬ 2 ∣ (upperSub F).index := by
@@ -97,7 +97,7 @@ theorem eq_one_of_order_three_normalizes_two (h3 : ¬ 3 ∣ Nat.card F - 1) {T :
     rw [h0] at hdet
     simp at hdet
   have hq : a ^ (Nat.card F - 1) = 1 := by
-    letI := Fintype.ofFinite F
+    let := Fintype.ofFinite F
     rw [Nat.card_eq_fintype_card (α := F)]
     exact FiniteField.pow_card_sub_one_eq_one a ha0
   obtain ⟨f, hf, hFf⟩ := card_eq_two_pow_of_charP (F := F)

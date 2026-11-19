@@ -20,6 +20,7 @@ private lemma conj_smul_eq_map_conj {Y : Type*} [Group Y] (H : Subgroup Y) (g : 
   rw [Subgroup.pointwise_smul_def]
   rfl
 
+omit [Finite G] in
 private lemma map_subgroupOf_conjSub_eq {L A : Subgroup G} (hA : A ≤ L) (a : ↥L)
     {Y : Type*} [Group Y] (φ : ↥L →* Y) :
     ((conjSub (a : G) A).subgroupOf L).map φ =
@@ -32,6 +33,7 @@ private lemma map_subgroupOf_conjSub_eq {L A : Subgroup G} (hA : A ≤ L) (a : �
   rw [← hconj]
   exact CFSG.Timmesfeld.RankOne.map_map_conj φ (A.subgroupOf L) a
 
+omit [Finite G] in
 private lemma isSylowTwoOf_conjSub {L T : Subgroup G} (hT : IsSylowTwoOf T L) (g : ↥L) :
     IsSylowTwoOf (conjSub (g : G) T) L := by
   have h := F7.isSylowTwoOf_conj hT (g : G)
@@ -52,7 +54,7 @@ private lemma exists_smul_eq_of_sylow_ne {f : ℕ} (hf1 : 1 ≤ f)
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf1
   obtain ⟨x, hxS, hx1⟩ : ∃ x : PSL(2, GaloisField 2 f),
       x ∈ (S : Subgroup (PSL(2, GaloisField 2 f))) ∧ x ≠ 1 := by
-    haveI : Nontrivial ↥(S : Subgroup (PSL(2, GaloisField 2 f))) :=
+    have : Nontrivial ↥(S : Subgroup (PSL(2, GaloisField 2 f))) :=
       Finite.one_lt_card_iff_nontrivial.mp hcardS
     obtain ⟨x, hx⟩ := exists_ne (1 : ↥(S : Subgroup (PSL(2, GaloisField 2 f))))
     exact ⟨x, x.2, fun h => hx (Subtype.ext h)⟩
@@ -116,6 +118,7 @@ private lemma exists_sylow_image_data {L T T' : Subgroup G} {f : ℕ}
       _ = (P' : Subgroup (oTwoQuot ↥L)).map e.toMonoidHom := rfl
   exact ⟨e, S, S', hScoe, hS'coe, hSne⟩
 
+omit [Finite G] in
 private theorem conjSub_ne_of_map_eq {L T T' : Subgroup G} {f : ℕ}
     {S S' : Sylow 2 (PSL(2, GaloisField 2 f))}
     {ψ : ↥L →* PSL(2, GaloisField 2 f)} {x : PSL(2, GaloisField 2 f)} {u : ↥L}

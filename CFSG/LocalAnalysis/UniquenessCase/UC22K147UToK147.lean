@@ -32,7 +32,7 @@ theorem not_isL2_of_case147SpU {G : Type} [Group G] {L : Subgroup G}
   have hY : SpU3Quot ↥L := by
     rcases h with ⟨-, -, hsp, -⟩ | hsu
     · obtain ⟨hs, hnab⟩ := uc22p22a_sp4_simple _ n hsp
-      haveI := hs
+      have := hs
       have heq := lgConj_eq_of_isQuasisimple hL (uc22p22a_isQuasisimple_of_simple hnab)
       have hsp' : IsSp4 (↥(lgConj L) ⧸ center ↥(lgConj L)) n :=
         CFSG.Blueprint.LieModel.of_mulEquiv

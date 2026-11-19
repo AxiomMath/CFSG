@@ -27,7 +27,7 @@ theorem not_aEmpty_of_centralizer_witness (hp2 : p ≠ 2) (hq : 5 ≤ p ^ f) (h�
     ¬ AEmpty Ω K := by
   have hKJ : K ≠ J := fun h => hnc ⟨1, by rw [conjSub_one, h]⟩
   have hu2 : IsPGroup 2 (Subgroup.zpowers (u : G)) := by
-    have h1 : IsPGroup 2 ((P : Subgroup ↥J).map J.subtype) := P.isPGroup'.map _
+    have h1 : IsPGroup 2 ((P : Subgroup ↥J).map J.subtype) := P.isPGroup.map _
     refine h1.to_le ?_
     rw [Subgroup.zpowers_le]
     exact ⟨u, huP, rfl⟩

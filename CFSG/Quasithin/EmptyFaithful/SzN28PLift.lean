@@ -106,7 +106,7 @@ theorem false_of_elem_three_two
       exact hEΓ e.2
     exact ⟨⟨x, by rw [hK0, Subgroup.mem_comap, hx]; exact e.2⟩, Subtype.ext hx⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 3 ↥K0))
-  have hP3 : IsPGroup 3 ↥(P : Subgroup ↥K0) := P.isPGroup'
+  have hP3 : IsPGroup 3 ↥(P : Subgroup ↥K0) := P.isPGroup
   have hfinj : ∀ x ∈ (P : Subgroup ↥K0), f x = 1 → x = 1 := by
     intro x hxP hfx
     have hxker : (x : ↥(mcOf T)) ∈ ρ.ker := by

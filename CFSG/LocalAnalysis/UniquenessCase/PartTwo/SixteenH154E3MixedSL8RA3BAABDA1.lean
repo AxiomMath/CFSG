@@ -30,7 +30,7 @@ private theorem s16h_le_stabSub_commSub_of_le_normalizer
     exact commV_apply_mem_of_mem_normalizer (hN hg) hu
 
 theorem s16h_sylow_two_eq_sup_of_aut_card
-    {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
+    {W : Type} [CommGroup W] [Finite W] (_hW : ∀ w : W, w ^ 2 = 1)
     {N A B P : Subgroup (MulAut W)}
     (hPN : CFSG.ABGLocalTools.IsSylowOf 2 P N)
     (hAN : A ≤ N) (hBN : B ≤ N)

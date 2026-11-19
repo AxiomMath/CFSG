@@ -66,7 +66,7 @@ theorem Std20Three.v_Y_odd (d : Std20Three K K' J S R R' W V z t) {g x : G}
     (pairNormalizers_le_normalizer K J z t) d.late_hWc ?_
     (fun w hw w2 => d.late_inv_W w hw w2) d.late_z_mem_W d.late_t_mem_W hgY hgW hgz hgt hxY hxW hx
   intro w hw
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨w, d.hWS hw⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨w, d.hWS hw⟩
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
 end Std

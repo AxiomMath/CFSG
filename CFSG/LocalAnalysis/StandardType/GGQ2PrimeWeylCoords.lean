@@ -18,11 +18,11 @@ theorem exists_weylCoords_core {G : Type} [Group G] {Bs : Subgroup G} [Finite Bs
     ∃ (κ : Fin 7 → (Bs →* Multiplicative (ZMod 3))) (m : Fin 7),
       WeylCoords Bs A x κ m := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V, hVadd, hVmod, ⟨ι⟩⟩ := exists_ggLinData (p := 3) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod 3) V := hVmod
-  haveI : Finite V := Finite.of_equiv _ ι.toEquiv
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod 3) V := hVmod
+  have : Finite V := Finite.of_equiv _ ι.toEquiv
   have hcardV : Nat.card V = 3 ^ (5 + 1) := by
     rw [← Nat.card_congr ι.toEquiv]
     exact hcard
@@ -77,7 +77,7 @@ theorem exists_weylCoords_core {G : Type} [Group G] {Bs : Subgroup G} [Finite Bs
       have : i.val ≠ 5 := fun h => hi (Fin.ext h)
       omega
     rw [hv₀, hs_apply, hlab _ (by simp; omega), hlab _ (by simp; omega)]
-    simp only [Fin.coe_castSucc, Fin.val_succ]
+    simp only [Fin.val_castSucc, Fin.val_succ]
     rw [hfixx _ (hwAL i.val hi5)]
   have hxn : s (Fin.last 5) v₀ ≠ v₀ := fun h => hv0 (hfix v₀ fun i => by
     by_cases hi : i = Fin.last 5
@@ -119,7 +119,7 @@ theorem exists_weylCoords_core {G : Type} [Group G] {Bs : Subgroup G} [Finite Bs
         rw [this, Equiv.symm_swap]
     | one =>
         intro b
-        simp only [map_one, MulAut.one_apply, Equiv.Perm.one_symm, Equiv.Perm.coe_one, id]
+        simp only [map_one, MulAut.one_apply, ← Equiv.Perm.inv_def 1, inv_one, Equiv.Perm.coe_one, id]
     | mul ρ σ _ _ hρ hσ =>
         intro b
         rw [map_mul, map_mul, MulAut.mul_apply, hρ, hσ]
@@ -184,7 +184,7 @@ theorem exists_weylCoords_core {G : Type} [Group G] {Bs : Subgroup G} [Finite Bs
     · subst hj
       simp
     · have hj' : ¬ ((j : Fin (5 + 1 + 1)) = Fin.last (5 + 1)) := hj
-      simp only [hj', if_false, hj, inv_mul_cancel₀ ha0]
+      simp only [hj', ite_false, inv_mul_cancel₀ ha0]
 
 theorem weylCoordInput_holds : WeylCoordInput := by
   intro G _ _ B Bs x L D J 𝒦 y K hcfg hcard _ hW6 hW5

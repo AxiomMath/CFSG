@@ -36,8 +36,8 @@ theorem linear_n_eq_p (hGA : CFSG.Open.GriessAllModelsStatement) {p : ℕ} [hpp 
   have hp : p.Prime := hpp.out
   have hn0 : 0 < n := by
     rcases Nat.eq_zero_or_pos n with rfl | h
-    · haveI := hq.2
-      haveI : Subsingleton (CFSG.Open.StatedProj (CFSG.Open.StatedSL 0 K)) := inferInstance
+    · have := hq.2
+      have : Subsingleton (CFSG.Open.StatedProj (CFSG.Open.StatedSL 0 K)) := inferInstance
       exact absurd e.injective.subsingleton (not_subsingleton _)
     · exact h
   have hn5 : 5 ≤ n := hp5.trans (Nat.le_of_dvd hn0 hpn)
@@ -85,8 +85,8 @@ theorem unitary_n_eq_p (hGA : CFSG.Open.GriessAllModelsStatement) {p : ℕ} [hpp
   have hp2 : p ≠ 2 := by omega
   have hn0 : 0 < n := by
     rcases Nat.eq_zero_or_pos n with rfl | h
-    · haveI := hq.2
-      haveI : Subsingleton (CFSG.Open.StatedProj (CFSG.Open.StatedSU 0 (r ^ f) K)) :=
+    · have := hq.2
+      have : Subsingleton (CFSG.Open.StatedProj (CFSG.Open.StatedSU 0 (r ^ f) K)) :=
         inferInstance
       exact absurd e.injective.subsingleton (not_subsingleton _)
     · exact h

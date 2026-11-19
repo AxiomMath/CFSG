@@ -361,7 +361,7 @@ theorem mem_X61_iff
   exact mem_enumSet_iff (stab_facts.2.2.2.2 3 (by norm_num)) hu
 
 theorem mem_X_of_inEnum
-    {u : ℕ} (hu : u < 2 ^ 24)
+    {u : ℕ} (_hu : u < 2 ^ 24)
     (h : Native.inEnum (Native.fullOrb 2) 98280 u = true) : toVecD 24 u ∈ co1X := by
   rw [co1X_eq_enum]
   simp only [Native.inEnum, List.any_eq_true, List.mem_range, beq_iff_eq] at h

@@ -143,8 +143,6 @@ theorem u34M13_mul_self [CharP K 2] {ω : K} (hω3 : ω ^ 3 = 1) (hω2 : ω ^ 2 
     first
     | rw [hω4]; exact hωsum
     | simp [CharTwo.two_eq_zero]
-    | exact hωsum
-    | rfl
 
 theorem u34S13_comm_u34M13 {ω : K} :
     u34S13 (K := K) * u34M13 ω = u34M13 ω * u34S13 := by
@@ -702,10 +700,10 @@ theorem three_le_pRank_two_natNorm [CharP K 2] (hK : Nat.card K = 16) :
         · intro x hx y hy
           simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy
           rcases hx with rfl | rfl <;> rcases hy with rfl | rfl <;>
-            simp [hAB, hA2, hB2, pow_two]
+            simp [hAB]
         · intro x hx
           simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
-          rcases hx with rfl | rfl <;> simp [hA2, hB2, pow_two])
+          rcases hx with rfl | rfl <;> simp [hA2, hB2])
       (by
         rw [show CC = Subgroup.closure ({C} : Set _) from rfl]
         refine CFSG.Open.IsElemAbelian.closure_of_commute ?_ ?_

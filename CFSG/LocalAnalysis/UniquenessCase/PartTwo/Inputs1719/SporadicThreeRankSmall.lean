@@ -78,7 +78,7 @@ theorem pRank_three_le_three_of_small_sporadic
             | rw [hZcard] at hdvd
               exact absurd hdvd (by decide)
       rcases hM22 with rfl
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hbound := CFSG.GroupTheory.CentralQuotient.pRank_le_pRank_map_mk_add_one
         (p := 3) (N := Subgroup.center K) (by rw [hZcard]) (⊤ : Subgroup K)
       have hmap : (⊤ : Subgroup K).map (QuotientGroup.mk' (Subgroup.center K)) = ⊤ :=

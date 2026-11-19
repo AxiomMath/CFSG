@@ -44,7 +44,7 @@ private theorem formDualEquiv_apply
     (B : W →ₗ[ZMod 2] W →ₗ[ZMod 2] ZMod 2)
     (hBnd : ∀ x, (∀ y, B x y = 0) → x = 0) (x : W) :
     formDualEquiv B hBnd x = B x := by
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
   rw [formDualEquiv]
   exact LinearMap.congr_fun
     (LinearEquiv.coe_ofInjectiveOfFinrankEq B _ (Subspace.dual_finrank_eq).symm) x
@@ -115,7 +115,7 @@ theorem mem_B1_linHom_trivial [Finite W] [Module.Finite (ZMod 2) V]
       (b.coord j) (φ y) = B (w j) y := by
     intro j y
     have hsum : φ y = ∑ k, B (w k) y • b k := by
-      simp [φ, LinearMap.smulRight_apply]
+      simp [φ]
     rw [hsum, map_sum]
     rw [Finset.sum_eq_single j]
     · rw [map_smul, b.coord_apply, b.repr_self_apply]

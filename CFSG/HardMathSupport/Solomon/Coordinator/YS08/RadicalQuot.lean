@@ -63,19 +63,19 @@ theorem pCoreOf_normalizer_map_center (Γ : Subgroup (MulAut K')) {Q : Subgroup 
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext (Subgroup.mem_center_iff.1 hxZ (y : K'))
-  haveI : Group.IsNilpotent ↥Rb := (pCoreOf_isPGroup q _).isNilpotent
-  haveI : Group.IsNilpotent ↥M := Subgroup.isNilpotent_of_ker_le_center f hfker
+  have : Group.IsNilpotent ↥Rb := (pCoreOf_isPGroup q _).isNilpotent
+  have : Group.IsNilpotent ↥M := Subgroup.isNilpotent_of_ker_le_center f hfker
   obtain ⟨P⟩ : Nonempty (Sylow q ↥M) := inferInstance
-  haveI hPn : (P : Subgroup ↥M).Normal := inferInstance
-  haveI hU : Unique (Sylow q ↥M) := Sylow.unique_of_normal P hPn
+  have hPn : (P : Subgroup ↥M).Normal := inferInstance
+  have hU : Unique (Sylow q ↥M) := Sylow.unique_of_normal P hPn
   let T : Subgroup K' := (P : Subgroup ↥M).map M.subtype
-  have hTp : IsPGroup q ↥T := P.isPGroup'.map M.subtype
+  have hTp : IsPGroup q ↥T := P.isPGroup.map M.subtype
   have hTmem : ∀ x : K', x ∈ T ↔ x ∈ M ∧ ∃ k : ℕ, x ^ q ^ k = 1 := by
     intro x
     constructor
     · rintro ⟨y, hy, rfl⟩
       refine ⟨y.2, ?_⟩
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨y, hy⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨y, hy⟩
       refine ⟨k, ?_⟩
       have h1 := congrArg (fun z : ↥(P : Subgroup ↥M) => ((z : ↥M) : K')) hk
       simpa using h1

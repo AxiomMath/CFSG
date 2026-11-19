@@ -392,23 +392,23 @@ public theorem CFSG.actsTrivially_of_nilpotent_coprime_and_centralizer_fixedPoin
       ActsTrivially (A := A) (G := G')
   refine (Group.nilpotent_center_quotient_ind (P := P) G ?_ ?_) hcoprime hC
   · intro G' _ hsub
-    haveI : Subsingleton G' := hsub
+    have : Subsingleton G' := hsub
     intro hact hfin hcoprime' hC' a g
     have : g = (1 : G') := Subsingleton.elim g 1
     subst this
     simp
   · intro G' _ hnil hquot hact hfin hcoprime' hC'
     -- hact and hfin are the implicit instances for MulDistribMulAction and Finite
-    haveI : (Subgroup.center G').Normal := inferInstance
+    have : (Subgroup.center G').Normal := inferInstance
     have hZtriv : ActsTrivially (A := A) (G := Subgroup.center G') :=
       actsTrivially_center_of_nilpotent_coprime_centralizer_condition (G := G') hnil hcoprime' hC'
     have hcoprime_quot : Nat.Coprime (Nat.card A) (Nat.card (G' ⧸ Subgroup.center G')) :=
       hcoprime'.of_dvd_right (Subgroup.card_quotient_dvd_card (Subgroup.center G'))
-    haveI : Finite (G' ⧸ Subgroup.center G') := Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
+    have : Finite (G' ⧸ Subgroup.center G') := Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
     have hCquot : Subgroup.centralizer (fixedPointSubgroup A (G' ⧸ Subgroup.center G') : Set (G' ⧸ Subgroup.center G')) ≤
         fixedPointSubgroup A (G' ⧸ Subgroup.center G') :=
       centralizer_condition_on_center_quotient hnil hcoprime' hC'
-    haveI : Group.IsNilpotent (G' ⧸ Subgroup.center G') := inferInstance
+    have : Group.IsNilpotent (G' ⧸ Subgroup.center G') := inferInstance
     have hQtriv : ActsTrivially (A := A) (G := G' ⧸ Subgroup.center G') :=
       hquot hcoprime_quot hCquot
     exact actsTrivially_of_center_and_quotient (G := G') hZtriv hQtriv hcoprime'

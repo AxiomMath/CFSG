@@ -18,7 +18,7 @@ open scoped Pointwise commutatorElement
 theorem fi22OuterMPointsNat_length : fi22OuterMPointsNat.length = 693 := by
   simp only [fi22OuterMPointsNat, hex3List, List.length_map, List.length_range]
 
-@[expose] def fi22IPt (j : Fin 693) : Fin 3510 :=
+def fi22IPt (j : Fin 693) : Fin 3510 :=
   ⟨fi22OuterMPointsNat.getD j 0 % 3510, Nat.mod_lt _ (by norm_num)⟩
 
 theorem fi22OuterMPointsNat_getD_lt (j : Fin 693) : fi22OuterMPointsNat.getD j 0 < 3510 := by
@@ -31,7 +31,7 @@ theorem fi22OuterMPointsNat_getD_lt (j : Fin 693) : fi22OuterMPointsNat.getD j 0
 theorem fi22IPt_val (j : Fin 693) : (fi22IPt j : ℕ) = fi22OuterMPointsNat.getD j 0 :=
   Nat.mod_eq_of_lt (fi22OuterMPointsNat_getD_lt j)
 
-@[expose] def fi22ISet : Set (Fin 3510) := Set.range fi22IPt
+def fi22ISet : Set (Fin 3510) := Set.range fi22IPt
 
 theorem fi22OuterLine3510_three (k : ℕ) : fi22OuterLine3510 3 k = 3 + k := rfl
 
@@ -63,7 +63,7 @@ theorem mem_fi22OuterM_gen {i : ℕ} (hi : i < 3) : fi22OuterPerm3510 (3 + i) �
   rw [Set.mem_ofPred_eq, fi22OuterChainM, RawSchreierDatum.mem_ofArrays_original]
   exact ⟨i, hi, by rw [fi22OuterStrong3510_three_get (by omega), fi22OuterPerm3510_def]⟩
 
-@[expose] def fi22OuterZM : fi22OuterM := ⟨fi22OuterZ, fi22OuterZ_mem_M⟩
+def fi22OuterZM : fi22OuterM := ⟨fi22OuterZ, fi22OuterZ_mem_M⟩
 
 theorem orderOf_fi22OuterZM : orderOf fi22OuterZM = 2 := by
   rw [fi22OuterZM, Subgroup.orderOf_mk, orderOf_fi22OuterZ]

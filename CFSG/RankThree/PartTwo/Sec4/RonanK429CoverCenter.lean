@@ -34,7 +34,7 @@ theorem center_le_autFix_of_card_three {X : Type*} [Group X]
     have h' := congrArg (⇑α) hc
     simp only [map_mul, hcube] at h'
     exact h'
-  haveI : Finite (Subgroup.center X) := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite (Subgroup.center X) := Nat.finite_of_card_ne_zero (by omega)
   have hord_dvd : orderOf z ∣ 3 := by
     have h := orderOf_dvd_natCard (⟨z, hz⟩ : Subgroup.center X)
     rw [h3, Subgroup.orderOf_mk] at h

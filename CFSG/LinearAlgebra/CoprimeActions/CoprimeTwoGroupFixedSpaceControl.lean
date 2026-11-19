@@ -11,11 +11,11 @@ namespace CFSG.LinearAlgebra.CoprimeActions.CoprimeTwoGroupFixedSpaceControl
 theorem fixes {H : Type*} [Group H] [Finite H]
     {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] (σ : Representation (ZMod 2) H V)
     (U B : Subgroup H) (hU : IsPGroup 2 U) (hB : Odd (Nat.card B))
-    (hBU : B ≤ Subgroup.normalizer (U : Set H))
+    (_hBU : B ≤ Subgroup.normalizer (U : Set H))
     (h : ∀ b ∈ B, ∀ v ∈ CFSG.LocalAnalysis.RankThreeUC.fixedSubmodule σ U, σ b v = v) :
     ∀ b ∈ B, ∀ v ∈ CFSG.LocalAnalysis.RankThreeUC.fixedSubmodule σ ⁅U, B⁆, σ b v = v := by
   classical
-  haveI : Fintype B := Fintype.ofFinite B
+  have : Fintype B := Fintype.ofFinite B
   have mem_fix : ∀ (E : Subgroup H) (v : V),
       v ∈ CFSG.LocalAnalysis.RankThreeUC.fixedSubmodule σ E ↔ ∀ e ∈ E, σ e v = v := by
     intro E v

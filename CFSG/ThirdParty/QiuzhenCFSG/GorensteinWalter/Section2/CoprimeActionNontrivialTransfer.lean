@@ -21,7 +21,7 @@ public theorem commutator_ne_bot_of_subnormal_selfCentralizing_coprime
     (hsub : (K₁.subgroupOf K).IsSubnormal)
     (hself : K ⊓ Subgroup.centralizer (K₁ : Set G) ≤ K₁)
     (hcop : Nat.Coprime (Nat.card Q) (Nat.card K))
-    (hsolv : IsSolvable K)
+    (hsolv : Group.IsSolvable K)
     (hnontriv : ¬ Q ≤ Subgroup.centralizer (K : Set G)) :
     ⁅K₁, Q⁆ ≠ ⊥ := by
   intro hbot

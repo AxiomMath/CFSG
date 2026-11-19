@@ -32,8 +32,8 @@ theorem index_commutator (h : ElevenTwoHyp hC) : (commutator G).index = 2 := by
   have hle : (commutator G).index ≤ 2 := hC.setup.index_commutator_le_two
   have hu : hC.d ∉ commutator G := by
     obtain ⟨S, T, r, hF⟩ := h.exists_frame
-    letI : Fintype D := Fintype.ofFinite D
-    haveI : CFSG.GroupTheory.NormalizesSet ⊤ D :=
+    let : Fintype D := Fintype.ofFinite D
+    have : CFSG.GroupTheory.NormalizesSet ⊤ D :=
       ⟨fun a _ x hx => hC.setup.normal a x hx⟩
     let σ : Equiv.Perm D := MulAction.toPermHom G D hC.d
     let ψ : G →* ℤˣ := Equiv.Perm.sign.comp (MulAction.toPermHom G D)
@@ -72,7 +72,7 @@ theorem index_commutator (h : ElevenTwoHyp hC) : (commutator G).index = 2 := by
         group
     have hcent : centSet D hC.d = insert hC.d (commSet D hC.d) := by
       ext x
-      simp only [centSet, commSet, Set.mem_setOf_eq, Set.mem_insert_iff]
+      simp only [centSet, commSet, Set.mem_ofPred_eq, Set.mem_insert_iff]
       constructor
       · rintro ⟨hxD, hcomm⟩
         by_cases hxu : x = hC.d

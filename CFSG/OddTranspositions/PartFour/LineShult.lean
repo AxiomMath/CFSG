@@ -13,7 +13,7 @@ theorem four_le_natCard_of_mem {P : Type*} [Group P] [Finite P] {A : Subgroup P}
     (ha : a ∈ A) (hb : b ∈ A) (ha1 : a ≠ 1) (hb1 : b ≠ 1) (hab1 : a * b ≠ 1)
     (hb2 : b * b = 1) : 4 ≤ Nat.card A := by
   classical
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   let e0 : A := 1
   let e1 : A := ⟨a, ha⟩
   let e2 : A := ⟨b, hb⟩
@@ -106,22 +106,26 @@ variable {G : Type} [Group G] [Finite G] {D : Set G}
 
 open scoped Pointwise
 
+omit [Finite G] in
 theorem conjAct_smul_set (g : G) (S : Set G) :
     ConjAct.toConjAct g • S = cimg g S := by
   rw [← Set.image_smul]
   simp only [ConjAct.toConjAct_smul]
 
+omit [Finite G] in
 theorem conjAct_smul_setSet (g : G) (L : Set (Set G)) :
     ConjAct.toConjAct g • L = (cimg g) '' L := by
   rw [← Set.image_smul]
   exact Set.image_congr fun S _ => conjAct_smul_set g S
 
+omit [Finite G] in
 theorem smul_stabilizer_coe {L : Set (Set G)} {x : G}
     (hx : ConjAct.toConjAct x ∈ MulAction.stabilizer (ConjAct G) L) (S : ↥L) :
     (((⟨ConjAct.toConjAct x, hx⟩ : MulAction.stabilizer (ConjAct G) L) • S : ↥L) : Set G) =
       cimg x (S : Set G) := by
   rw [SMul.smul_stabilizer_def, conjAct_smul_set]
 
+omit [Finite G] in
 theorem mem_map_toConjAct_subgroupOf {N : Subgroup G} {X : Subgroup (ConjAct G)} {a : X} :
     a ∈ (N.map (ConjAct.toConjAct : G ≃* ConjAct G).toMonoidHom).subgroupOf X ↔
       ∃ x ∈ N, ConjAct.toConjAct x = (a : ConjAct G) := by

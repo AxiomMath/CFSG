@@ -82,7 +82,7 @@ theorem img148_map_conj {X : Subgroup G} (hX : X ≤ Y ⊔ A) {y : G} (hy : y �
     obtain ⟨g, hg, ⟨x, hx, hxg⟩, rfl⟩ := mem_img148_iff.mp hz
     have hxM : x ∈ Y ⊔ A := hX hx
     refine ⟨QuotientGroup.mk' (ker148 A Y) ⟨x, hxM⟩, mem_img148_iff.mpr ⟨x, hxM, hx, rfl⟩, ?_⟩
-    simp only [MonoidHom.coe_coe, MulAut.conj_apply, MulEquiv.coe_toMonoidHom] at hxg ⊢
+    simp only [MulAut.conj_apply, MulEquiv.coe_toMonoidHom] at hxg ⊢
     rw [← map_inv, ← map_mul, ← map_mul]
     congr 1
     exact Subtype.ext (by simp [hxg])
@@ -91,7 +91,7 @@ theorem img148_map_conj {X : Subgroup G} (hX : X ≤ Y ⊔ A) {y : G} (hy : y �
     have hyx : y * x * y⁻¹ ∈ Y ⊔ A :=
       (Y ⊔ A).mul_mem ((Y ⊔ A).mul_mem hy hxM) ((Y ⊔ A).inv_mem hy)
     refine mem_img148_iff.mpr ⟨y * x * y⁻¹, hyx, ⟨x, hx, rfl⟩, ?_⟩
-    simp only [MonoidHom.coe_coe, MulAut.conj_apply, MulEquiv.coe_toMonoidHom]
+    simp only [MulAut.conj_apply, MulEquiv.coe_toMonoidHom]
     rw [← map_inv, ← map_mul, ← map_mul]
     rfl
 

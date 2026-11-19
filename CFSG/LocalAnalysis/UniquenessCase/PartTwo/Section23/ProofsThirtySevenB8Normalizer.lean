@@ -41,7 +41,7 @@ theorem L_inf_centralizer_Z_eq (D : Data G) (Ch : Choice2011 G)
   have hLnormM : c.L ≤ Subgroup.normalizer (M : Set G) :=
     (le_inf Subgroup.le_normalizer hLCV).trans Subgroup.inf_normalizer_le_normalizer_inf
   have hKnormM : K ≤ Subgroup.normalizer (M : Set G) := inf_le_left.trans hLnormM
-  haveI : (M.subgroupOf K).Normal :=
+  have : (M.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMK).mpr hKnormM
   have hM2' : IsPGroup 2 ↥(M.subgroupOf K) :=
     hM2.of_equiv (Subgroup.subgroupOfEquivOfLe hMK).symm
@@ -68,7 +68,7 @@ theorem sylowImage_L (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D Ch) :
       (S : Subgroup (Bar2 c.L)) = Subgroup.map (QuotientGroup.mk' (CFSG.pCore 2 ↥c.L))
         ((D.T ⊓ c.L).subgroupOf c.L) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSyl : CFSG.ABGLocalTools.IsSylowOf 2 (D.T ⊓ c.L) c.L :=
     (D.sylowG.of_le c.hL.1.1 le_top).inf_of_le_normalizer Subgroup.le_normalizer le_rfl
   obtain ⟨Q, hQ⟩ := hSyl.exists_sylow_eq_subgroupOf
@@ -342,7 +342,7 @@ theorem borelOf_mem_normalizer_sylow {D : Data G} {Ch : Choice2011 G}
     (L := c.L) (U := D.T ⊓ c.L) ⟨x, Subgroup.le_normalizer hxL⟩ hxTL
 
 private theorem index_pCore_subgroupOf_borelOf {D : Data G} {Ch : Choice2011 G}
-    (c : Ctx23L D Ch) {n : ℕ} (hL2 : IsL2 (Bar2 c.L) n) (hCard : KL2BorelCard)
+    (c : Ctx23L D Ch) {n : ℕ} (_hL2 : IsL2 (Bar2 c.L) n) (_hCard : KL2BorelCard)
     {S : Sylow 2 (Bar2 c.L)}
     (hS : (S : Subgroup (Bar2 c.L)) = Subgroup.map (QuotientGroup.mk' (CFSG.pCore 2 ↥c.L))
       ((D.T ⊓ c.L).subgroupOf c.L)) :
@@ -396,7 +396,7 @@ private theorem index_pCore_subgroupOf_borelOf {D : Data G} {Ch : Choice2011 G}
   exact Nat.card_congr (QuotientGroup.quotientKerEquivRange qB).toEquiv
 
 private theorem relIndex_pCore_subgroupOf_borelOf {D : Data G} {Ch : Choice2011 G}
-    (c : Ctx23L D Ch) {n : ℕ} (hL2 : IsL2 (Bar2 c.L) n) (hCard : KL2BorelCard)
+    (c : Ctx23L D Ch) {n : ℕ} (_hL2 : IsL2 (Bar2 c.L) n) (_hCard : KL2BorelCard)
     {S : Sylow 2 (Bar2 c.L)}
     (hS : (S : Subgroup (Bar2 c.L)) = Subgroup.map (QuotientGroup.mk' (CFSG.pCore 2 ↥c.L))
       ((D.T ⊓ c.L).subgroupOf c.L)) :
@@ -436,7 +436,7 @@ private theorem relIndex_pCore_subgroupOf_borelOf {D : Data G} {Ch : Choice2011 
   rw [Subgroup.relIndex, Subgroup.index_eq_card, ← hkerN, ← hrangeN]
   exact Nat.card_congr (QuotientGroup.quotientKerEquivRange qN).toEquiv
 
-theorem Ctx23L.exists_cartan_L (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch)
+theorem Ctx23L.exists_cartan_L (D : Data G) (Ch : Choice2011 G) (_h4 : S23_4 D Ch)
     (h23 : S23_23 D Ch) (h1930 : H1930 D) (c : Ctx23L D Ch)
     (hCard : KL2BorelCard) (hComm : KL2BorelComm) :
     ∃ DL : Subgroup G, DL ≤ CFSG.Quasithin.borelOf c.L D.T ∧
@@ -480,7 +480,7 @@ theorem Ctx23L.exists_cartan_L (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D Ch
     exact Nat.Coprime.pow_left k (Nat.coprime_two_left.mpr hodd)
   have hN0normal : N0.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hTLB).mpr inf_le_right
-  haveI : N0.Normal := hN0normal
+  have : N0.Normal := hN0normal
   obtain ⟨A, hA⟩ := Subgroup.exists_right_complement'_of_coprime hcop
   have hAcomm : A.IsComplement' N0 := Subgroup.isComplement'_comm.mp hA
   let DL : Subgroup G := A.map B.subtype

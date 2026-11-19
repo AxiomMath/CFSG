@@ -60,7 +60,7 @@ theorem mem_j3P_of_inXL
   have hsz : (j3Letters si).size = 10 := by simp [j3Letters, hsi, j3StrongArrs]
   have hk : k < 10 := by
     have := hk
-    simp only [Set.mem_setOf_eq, hsz] at this
+    simp only [Set.mem_ofPred_eq, hsz] at this
     exact this
   have hs5 : j3StrongArrs.size = 5 := by simp [j3StrongArrs]
   rcases Nat.lt_or_ge k 5 with h5 | h5

@@ -76,7 +76,7 @@ theorem natCard_mul_natCard_fixedPoints_pow_eq_finprod (hp : p.Prime) (hcard : N
         then (if a ∈ (⊤ : Subgroup A) then 1 else 0) else 0) (fun B _ => by
           by_cases hB : a ∈ B
           · simp [hB]
-          · rw [if_neg hB, if_neg (fun h : B = ⊤ => hB (h ▸ Subgroup.mem_top a))]),
+          · rw [ite_eq_right hB, ite_eq_right (fun h : B = ⊤ => hB (h ▸ Subgroup.mem_top a))]),
         Finset.sum_ite_eq']
       simp
     have hL2 : ∑ B : Subgroup A, (if a ∈ B then (if B = ⊥ then p else 0) else 0)
@@ -104,19 +104,19 @@ theorem natCard_mul_natCard_fixedPoints_pow_eq_finprod (hp : p.Prime) (hcard : N
     exact absurd h1 (Nat.one_lt_pow two_ne_zero hp.one_lt).ne'
   have hLHS : ∏ B : Subgroup A, C B ^ (m B * Nat.card B) = C ⊤ ^ (p ^ 2) * C ⊥ ^ p := by
     rw [Finset.prod_eq_mul_of_mem ⊤ ⊥ (Finset.mem_univ _) (Finset.mem_univ _) hne ?_]
-    · simp only [hm, if_pos, if_neg hne, if_neg hne.symm]
+    · simp only [hm, ite_eq_left, ite_eq_right hne, ite_eq_right hne.symm]
       simp [hcard]
     · intro B _ hB
-      simp only [hm, if_neg hB.1, if_neg hB.2]
+      simp only [hm, ite_eq_right hB.1, ite_eq_right hB.2]
       simp
   have hRHS : ∏ B : Subgroup A, C B ^ (n B * Nat.card B) = ∏ B ∈ hLfin.toFinset, C B ^ p := by
     rw [Finset.prod_congr rfl (g := fun B : Subgroup A =>
       if B ∈ hLfin.toFinset then C B ^ p else 1) (fun B _ => by
         simp only [hn]
         by_cases hB : B ∈ subgroupsOfCard A p
-        · rw [if_pos hB, if_pos (hLfin.mem_toFinset.2 hB), one_mul,
+        · rw [ite_eq_left hB, ite_eq_left (hLfin.mem_toFinset.2 hB), one_mul,
             mem_subgroupsOfCard.mp hB]
-        · rw [if_neg hB, if_neg (fun h => hB (hLfin.mem_toFinset.1 h)), zero_mul, pow_zero]),
+        · rw [ite_eq_right hB, ite_eq_right (fun h => hB (hLfin.mem_toFinset.1 h)), zero_mul, pow_zero]),
       ← Finset.prod_filter, Finset.filter_mem_eq_inter, Finset.univ_inter]
   rw [hLHS, hRHS, hCtop, hCbot] at key
   rw [finprod_mem_eq_finite_toFinset_prod _ hLfin]

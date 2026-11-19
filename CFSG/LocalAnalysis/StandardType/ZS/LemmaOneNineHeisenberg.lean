@@ -179,7 +179,7 @@ private theorem zs19c_heisenberg_hAB
 private theorem zs19c_heisenberg_f
     (hk : ¬ LinearMap.ker φ₁ ≤ LinearMap.ker φ₂) :
     ∃ f' : U, φ₁ f' = 0 ∧ φ₂ f' = 1 := by
-  obtain ⟨f, hf₁, hf₂⟩ := SetLike.not_le_iff_exists.mp hk
+  obtain ⟨f, hf₁, hf₂⟩ := IsConcreteLE.not_le_iff_exists.mp hk
   have hf₁' : φ₁ f = 0 := by simpa using hf₁
   have hf₂' : φ₂ f ≠ 0 := by simpa using hf₂
   refine ⟨(φ₂ f)⁻¹ • f, ?_, ?_⟩

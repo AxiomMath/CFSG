@@ -49,7 +49,7 @@ private theorem layer_and_eq_of_fix_eq {S : Type} [Group S] [Finite S] {β : Mul
     PerfectInLayer β ∧
       ∀ K' : Subgroup S, CFSG.Open.IsComponentOf K' (fixSubgroup β) → K' = J := by
   subst hfix
-  haveI := hJn
+  have := hJn
   exact ⟨LieSemisimple.perfectInLayer_of_normal_quasisimple hJN hJq hsol,
     fun K' hK' => eq_of_isComponentOf_of_normal_quasisimple hJN hJq hsol hK'⟩
 
@@ -143,8 +143,8 @@ private theorem fieldAutT_layer_and_eq (S : SubfieldSetup k Q₀ Q σ p) (hd0 : 
       (LieSemisimple.isQuasisimple_of_isSimpleGroup hsimp hnonab)
   have hJn := subfieldDerivedImage_normal k S.hext
   have hquot := fixedGroup_quotient_isPGroup k S.hext S.hnd₀ S.hT₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := IsPGroup.isNilpotent hquot
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := IsPGroup.isNilpotent hquot
   exact layer_and_eq_of_fix_eq (Subgroup.ext fun t => fieldAutT_apply_iff S t)
     (subfieldDerivedImage_le k S.hext) hJn hJq inferInstance
 
@@ -155,7 +155,7 @@ private theorem exists_lieFactorData_cover (hOm : OmegaFactorFacts)
         Function.Surjective g ∧ g.ker ≤ Subgroup.center X := by
   obtain ⟨hqT, π, hπ, hπk⟩ := exists_central_epi_omega S hd0
   have : Finite k := Finite.of_injective (algebraMap k K) (algebraMap k K).injective
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   obtain ⟨X, _, _, hX, f, hf, hfk⟩ := hOm k (Fin d → k) Q₀ S.hnd₀ ⊤ inferInstance hqT
   refine ⟨X, inferInstance, inferInstance, ?_, π.comp f, hπ.comp hf, fun x hx => ?_⟩
   · have hX' := hX
@@ -172,7 +172,7 @@ private theorem not_nonempty_altSix (hOm6 : OmegaAltSixFacts) (S : SubfieldSetup
   rintro ⟨a⟩
   obtain ⟨hqT, π, hπ, hπk⟩ := exists_central_epi_omega S hd0
   have : Finite k := Finite.of_injective (algebraMap k K) (algebraMap k K).injective
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   obtain ⟨e⟩ := nonempty_centralQuotient_mulEquiv hqT.1.commutator_eq_top π hπ hπk
   have := hOm6 k (Fin d → k) Q₀ S.hnd₀ ⊤ inferInstance hqT ⟨e.trans a⟩
   have h4 := this.2
@@ -221,6 +221,7 @@ private theorem outer_order_prime {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {G : 
   have : Fact p.Prime := ⟨hp⟩
   exact orderOf_eq_prime hβ' hne1
 
+omit [Finite K] in
 private theorem mem_E_of_pow_eq_one_orth {p : ℕ} (hp : p.Prime) {Q : QuadraticForm K (Fin d → K)}
     (hg : OrthogonalGates Q f) (h : 3 < p ∨ projectivePointFamilyAut Q = ⊤)
     {β : MulAut (matrixProjectiveDerived Q)} (hβp : β ^ p = 1) : β ∈ matrixProjectiveImage Q := by
@@ -247,6 +248,7 @@ private structure OmegaFieldConj (G : Type) [Group G] (β : MulAut G) (ℓ p : �
     (S : SubfieldSetup k Q₀ Q σ p) (e : G ≃* matrixProjectiveDerived Q),
     7 ≤ d ∧ ringChar K = ℓ ∧ MulAut.congr e β = fieldAutT Q σ S.hQσ
 
+omit [Finite K] in
 private theorem congr_trans_eq_fieldAutT {G : Type} [Group G]
     {Q Q' : QuadraticForm K (Fin d → K)} (S : SubfieldSetup k Q₀ Q' σ p)
     (φ : G ≃* matrixProjectiveDerived Q) (Θ : matrixProjectiveDerived Q ≃* matrixProjectiveDerived Q')

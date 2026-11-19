@@ -19,9 +19,9 @@ open scoped commutatorElement Pointwise Matrix
 theorem ne_bot_of_isAlt_five {G : Type} [Group G] {L : Subgroup G}
     (h : IsAlt ↥L 5) : L ≠ ⊥ := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) :=
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) :=
     alternatingGroup.isSimpleGroup (by norm_num : 5 ≤ Nat.card (Fin 5))
-  haveI : IsSimpleGroup ↥L := (MulEquiv.isSimpleGroup_congr e).mpr ‹_›
+  have : IsSimpleGroup ↥L := (MulEquiv.isSimpleGroup_congr e).mpr ‹_›
   exact (Subgroup.nontrivial_iff_ne_bot L).mp inferInstance
 
 theorem isPerfect_of_isAlt_five {G : Type} [Group G] {L : Subgroup G}
@@ -41,7 +41,7 @@ theorem a5_faithful_of_moves {W : Type} [CommGroup W] {L : Subgroup (MulAut W)}
     {I : Subgroup W} (hL : IsAlt ↥L 5) (hI : StableUnder L I)
     (hmv : ∃ l ∈ L, ∃ u ∈ I, l u ≠ u) : ∀ l ∈ L, (∀ u ∈ I, l u = u) → l = 1 := by
   obtain ⟨e⟩ := hL
-  haveI : IsSimpleGroup ↥L :=
+  have : IsSimpleGroup ↥L :=
     (MulEquiv.isSimpleGroup_congr e).mpr
       (alternatingGroup.isSimpleGroup (by norm_num : 5 ≤ Nat.card (Fin 5)))
   have hLI : L ≤ stabSub I := B1.le_stabSub_of_invariant hI
@@ -90,10 +90,10 @@ theorem a5_irr_classification {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : 
     a5_faithful_of_moves ⟨φ⟩ hI.2.1 hmv
   let ee : ↥(autSub L I) ≃* alternatingGroup (Fin 5) :=
     (FFC.resEquiv hLI hinj).symm.trans φ
-  letI : MulDistribMulAction ↥(autSub L I) ↥I :=
+  let : MulDistribMulAction ↥(autSub L I) ↥I :=
     MulDistribMulAction.compHom ↥I (Subgroup.subtype (autSub L I))
   have hIne : I ≠ ⊥ := bot_lt_iff_ne_bot.mp hI.1
-  haveI : Nontrivial ↥I := (Subgroup.nontrivial_iff_ne_bot I).mpr hIne
+  have : Nontrivial ↥I := (Subgroup.nontrivial_iff_ne_bot I).mpr hIne
   have hact : ∃ (γ : ↥(autSub L I)) (u : ↥I), γ • u * u⁻¹ ∉ (⊥ : Subgroup ↥I) := by
     obtain ⟨l, hl, u, hu, hlu⟩ := hmv
     have hmem : FFC.resG hLI ⟨l, hl⟩ ∈ autSub L I := by

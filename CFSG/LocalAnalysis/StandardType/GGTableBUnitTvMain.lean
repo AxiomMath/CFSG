@@ -77,7 +77,7 @@ theorem ggNoTransvectionSCr_unitary {K : Type} [Field K] [Finite K] {n d p : ℕ
     exact hnd ⟨rfl, (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).mp h3'⟩
   obtain ⟨φ, hφs, hφker, hdiag⟩ := exists_diagModel' hK hn hd hp hpq
     (LineU.unitaryUniversalCover_holds n d K hK hd hdnd) hψ hker hperf hA hAI hcard
-  haveI : Finite (MulAut L') :=
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun f : MulAut L' => (f : L' → L')) DFunLike.coe_injective
   have hM : UnitTB.Model φ := ⟨TableBU.unitaryFieldData_of_card hK hn, hφs, hφker⟩
   exact not_transvection_of_model hM hK hp hp2 hpq hd hA hsc hdiag α

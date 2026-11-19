@@ -27,8 +27,8 @@ private theorem twoNilpotent_outer_of_POmegaPlus {X : Type} [Group X] {n m : ℕ
   · exact twoNilpotent_outer_of_POmegaPlus_ge_five h5 h
 
 theorem outTwoNilp_of_isChevTwoExc
-    {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
-    (hna : ∃ a b : S, a * b ≠ b * a) (h : IsChevTwoExc S) : OutTwoNilpConcl S :=
+    {S : Type} [Group S] [Finite S] (_hs : IsSimpleGroup S)
+    (_hna : ∃ a b : S, a * b ≠ b * a) (h : IsChevTwoExc S) : OutTwoNilpConcl S :=
   (outOddAbelian_of_isChevTwoExc h).outTwoNilpConcl
 
 theorem outTwoNilp_of_isClassicalTwoOrG2
@@ -38,8 +38,8 @@ theorem outTwoNilp_of_isClassicalTwoOrG2
     (fun _ _ _ _ hm => twoNilpotent_outer_of_POmegaMinus hm) hs hna h
 
 theorem outTwoRank_of_isChevTwoExc
-    {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
-    (hna : ∃ a b : S, a * b ≠ b * a) (h : IsChevTwoExc S) : OutTwoRank S :=
+    {S : Type} [Group S] [Finite S] (_hs : IsSimpleGroup S)
+    (_hna : ∃ a b : S, a * b ≠ b * a) (h : IsChevTwoExc S) : OutTwoRank S :=
   (outOddAbelian_of_isChevTwoExc h).outTwoRank
 
 end CFSG.LieType.ChevTwo

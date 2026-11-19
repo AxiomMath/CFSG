@@ -20,7 +20,7 @@ private theorem le_relPPrimeCore_of_inf_sylow_eq_bot {H K Q : Subgroup G} {q : �
     (hq : q.Prime) (hKH : K ≤ H) (hKn : (K.subgroupOf H).Normal)
     (hQ : CFSG.ABGLocalTools.IsSylowOf q Q H) (hbot : Q ⊓ K = ⊥) :
     K ≤ CFSG.Open.relPPrimeCore q H := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hQK : CFSG.ABGLocalTools.IsSylowOf q (Q ⊓ K) K :=
     CFSG.ABGLocalTools.IsSylowOf.inf_of_le_normalizer hQ hKH
       ((Subgroup.normal_subgroupOf_iff_le_normalizer hKH).mp hKn)
@@ -48,8 +48,8 @@ private theorem Hyp1417.exists_normalizing_not_centralizing (h : Hyp1417 G M q p
         (AGL81C.kSub q M (Subgroup.normalizer (A : Set G)) : Set G) := by
   classical
   obtain ⟨_, _, s⟩ := h.exists_setting hAE hA hH
-  haveI : Fact p.Prime := ⟨h.hp⟩
-  haveI : IsMulCommutative ↥E := h.elem.1
+  have : Fact p.Prime := ⟨h.hp⟩
+  have : IsMulCommutative ↥E := h.elem.1
   let HA : Subgroup G := Subgroup.normalizer (A : Set G)
   let K : Subgroup G := AGL81C.kSub q M HA
   have hKnorm : (K.subgroupOf HA).Normal := (s.kStructure h1).1
@@ -70,7 +70,7 @@ private theorem Hyp1417.exists_normalizing_not_centralizing (h : Hyp1417 G M q p
         _ < p * p := Nat.mul_lt_mul_of_pos_left h.hp.one_lt (Nat.Prime.pos h.hp)
     rw [hEq] at hlt
     exact lt_irrefl _ hlt
-  obtain ⟨b, hbE, hbA⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hAE hAne)
+  obtain ⟨b, hbE, hbA⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hAE hAne)
   have hbo : orderOf b = p :=
     orderOf_eq_prime (by simpa using h.elem.2 b hbE) (by
       intro hb1
@@ -95,8 +95,8 @@ theorem Hyp1417.false_of_dvd (h : Hyp1417 G M q p E)
       CFSG.Open.relPPrimeCore q (Subgroup.normalizer (A : Set G)))) : False := by
   classical
   obtain ⟨Q, F, s⟩ := h.exists_setting hAE hA hH
-  haveI : Fact p.Prime := ⟨h.hp⟩
-  haveI : Fact q.Prime := ⟨s.qPrime⟩
+  have : Fact p.Prime := ⟨h.hp⟩
+  have : Fact q.Prime := ⟨s.qPrime⟩
   let HA : Subgroup G := Subgroup.normalizer (A : Set G)
   let K : Subgroup G := AGL81C.kSub q M HA
   let O : Subgroup G := CFSG.Open.relPPrimeCore q HA
@@ -181,10 +181,10 @@ theorem O1217SigmaAt.of_inputs (h1 : NineFourTwoSigmaGen) (h2 : NineTwelveOneSig
   have hqPrime : q.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime q hq.1
   by_cases hpq : p = q
   · subst p
-    haveI : Fact q.Prime := ⟨hqPrime⟩
+    have : Fact q.Prime := ⟨hqPrime⟩
     exact rankThreeGamma_self_le (hst q hqSet) hEM hE.isPGroup
-  · haveI : Fact q.Prime := ⟨hqPrime⟩
-    haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact q.Prime := ⟨hqPrime⟩
+    have : Fact p.Prime := ⟨hp⟩
     have h : Hyp1417 G M q p E :=
       { cstar := hC, maxLocal := hM, sigma_ne := hne, strong := hst, hq := hq,
         hp := hp, hp2 := hp2, hpq := hpq, le := hEM, elem := hE, card := hEcard,
@@ -205,7 +205,7 @@ theorem o1217SigmaGen_of_inputs (h1 : NineFourTwoSigmaGen) (h2 : NineTwelveOneSi
     (hNT : CFSG.LocalAnalysis.RankThreeTheoremC.Hyp111.KFactNineThreeNoTwo)
     (hL34 : KFactL34InvTwo) (hK1 : KFactThreeEightFive) (hK2 : KFactCentralLift)
     (hA6 : KFactAltSixCoreCentral) : O1217SigmaGen :=
-  fun G _ _ hC M hM hne hst =>
+  fun _G _ _ hC _M hM hne hst =>
     O1217SigmaAt.of_inputs h1 h2 h3 hNT hL34 hK1 hK2 hA6 hC hM hne hst
 
 theorem o1217Gen_of_inputs (h1 : NineFourTwoSigmaGen) (h2 : NineTwelveOneSigmaStrong)

@@ -42,7 +42,7 @@ theorem coverCheck_true : coverCheck = true := by
   have hE : coverMats.extract 0 7 = ((List.range 7).map fun k => (cgL k).toArray).toArray := by
     rw [hCM]
     apply Array.toList_inj.1
-    simp only [Array.toList_extract, List.toList_toArray, List.extract_eq_drop_take,
+    simp only [Array.toList_extract, List.toList_toArray, List.extract_eq_take_drop,
       List.drop_zero, Nat.sub_zero]
     apply List.ext_getElem
     · simp

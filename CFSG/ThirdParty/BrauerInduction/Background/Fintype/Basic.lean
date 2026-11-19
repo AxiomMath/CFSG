@@ -36,7 +36,7 @@ lemma sum_dite_eq_sum_subtype
     · exact ⟨⟨b, h⟩, Finset.mem_univ _, hb, rfl⟩
     · exact False.elim (hb rfl)
   · intro a _ _
-    exact (dif_pos a.prop).symm
+    exact (dite_eq_left a.prop).symm
 
 end Fintype
 

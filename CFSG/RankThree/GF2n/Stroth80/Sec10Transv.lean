@@ -51,7 +51,7 @@ private theorem dotProduct_eq_zero_of_vecMulVec_involution {K : Type} [Field K] 
     simp only [Matrix.vecMulVec_apply] at h1
     exact (mul_eq_zero.mp h1).resolve_left hj
   rw [hf0] at hne
-  simpa using hne
+  simp at hne
 
 theorem card_le_pow_of_elations {K : Type} [Field K] [Finite K] [CharP K 2] {m : ℕ}
     {X : Subgroup (GL (Fin m) K)} {u : Fin m → K} (hu : u ≠ 0)

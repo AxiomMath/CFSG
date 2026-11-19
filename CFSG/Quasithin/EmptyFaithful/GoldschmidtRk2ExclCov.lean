@@ -38,7 +38,7 @@ theorem cyclic_odd_sylow_of_levi {J : Type} [Group J] [Finite J] {K : Type} [Fie
       rw [map_mul, map_inv, h3, mul_inv_cancel]
     have h4 : x.1 * y.1⁻¹ ∈ g.ker := h2
     have h5 : x.1 * y.1⁻¹ ∈ (Q : Subgroup J) := mul_mem x.2 (inv_mem y.2)
-    obtain ⟨a, ha⟩ := Q.isPGroup' ⟨_, h5⟩
+    obtain ⟨a, ha⟩ := Q.isPGroup ⟨_, h5⟩
     obtain ⟨b, hb⟩ := hker ⟨_, h4⟩
     have ha' : (x.1 * y.1⁻¹) ^ r ^ a = 1 := congrArg Subtype.val ha
     have hb' : (x.1 * y.1⁻¹) ^ 2 ^ b = 1 := congrArg Subtype.val hb

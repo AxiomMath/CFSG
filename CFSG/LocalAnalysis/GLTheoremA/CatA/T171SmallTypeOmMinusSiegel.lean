@@ -17,6 +17,7 @@ open QuadraticMap Module CFSG.ClassicalGroups.Orthogonal CFSG.RankThree.Classica
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem frame_rot_fix_a_zero {a b : Fin 5 → V} (hp : ∀ i, MinusPair Q (a i) (b i))
     (hperp : ∀ i j, i ≠ j → PairPerp Q (a i, b i) (a j, b j))
     (i : Fin 5) (hi : i ≠ 0) :
@@ -169,7 +170,7 @@ theorem exists_twoLocal_of_frame (hQ : (polarBilin Q).Nondegenerate)
     have h2 : polar Q (a 0) v = 1 := by
       dsimp only [v]
       rw [polar_add_right, (hp 0).ab, h01.2.1, add_zero]
-    simp only [h1, h2, hvQ, zero_mul, add_zero, zero_smul, zero_add, one_smul]
+    simp only [h1, h2, hvQ, zero_mul, add_zero, zero_smul, one_smul]
     rw [sub_eq_add_neg, ZModModule.neg_eq_self]
     dsimp only [u]
     linear_combination (norm := module) (vec_add_self (a 0))

@@ -65,7 +65,7 @@ theorem odd_card_gLAPPrimeCoreOf_eleven [Finite G] {t s : G} (hs : orderOf s = 1
   have hNs : ∀ a ∈ A, a * s = s * a := fun a ha =>
     Subgroup.mem_centralizer_singleton_iff.1 (GLAPPrimeCoreOf_le _ (hAN ha))
   have hxo : orderOf x = 11 := by
-    rw [hxdef, show c⁻¹ * s * c = (MulAut.conj c⁻¹) s by simp [MulAut.conj_apply],
+    rw [hxdef, show c⁻¹ * s * c = (MulAut.conj c⁻¹) s by simp,
       MulEquiv.orderOf_eq]
     exact hs
   have hxt : x * t = t * x := by
@@ -247,15 +247,15 @@ theorem exists_eleven_subgroup_of_factorization [Finite G]
   obtain ⟨Q, hQ⟩ := hsz.exists_le_sylow
   have hQc : Nat.card (Q : Subgroup G) = 11 ^ 2 := by rw [Q.card_eq_multiplicity, hG]
   have hcomm : ∀ a ∈ (Q : Subgroup G), ∀ b ∈ (Q : Subgroup G), a * b = b * a := by
-    letI := IsPGroup.commGroupOfCardEqPrimeSq hQc
+    let := IsPGroup.commGroupOfCardEqPrimeSq hQc
     intro a ha b hb
     have := mul_comm (⟨a, ha⟩ : (Q : Subgroup G)) ⟨b, hb⟩
     exact congrArg Subtype.val this
   have hsQ : s ∈ (Q : Subgroup G) := hQ (Subgroup.mem_zpowers s)
-  refine ⟨Q, Q.isPGroup', fun g hg => Subgroup.mem_centralizer_singleton_iff.2 (hcomm g hg s hsQ),
+  refine ⟨Q, Q.isPGroup, fun g hg => Subgroup.mem_centralizer_singleton_iff.2 (hcomm g hg s hsQ),
     fun u hu => ?_⟩
   by_contra hall
-  push_neg at hall
+  push Not at hall
   have hle : (Q : Subgroup G) ≤ Subgroup.centralizer ({u} : Set G) := fun g hg =>
     Subgroup.mem_centralizer_singleton_iff.2 (hall g hg)
   have hdvd : 11 ^ 2 ∣ Nat.card (Subgroup.centralizer ({u} : Set G)) :=

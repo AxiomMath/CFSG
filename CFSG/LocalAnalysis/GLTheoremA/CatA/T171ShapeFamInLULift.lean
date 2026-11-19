@@ -45,7 +45,7 @@ theorem exists_pow_eq_one_of_conjAut_pow_eq_one {n p : ℕ} (hp : p.Prime) (hn :
     exact map_one _
 
 theorem commute_of_conjAut_commute {n p : ℕ} (hp : p.Prime) (hn : 2 ≤ n)
-    {A B : Matrix.GeneralLinearGroup (Fin n) K} (hA : A ^ p = 1) (hB : B ^ p = 1)
+    {A B : Matrix.GeneralLinearGroup (Fin n) K} (_hA : A ^ p = 1) (hB : B ^ p = 1)
     (hcomm : LinearFlag.conjAut n K A * LinearFlag.conjAut n K B =
       LinearFlag.conjAut n K B * LinearFlag.conjAut n K A) (hpn : ¬ p ∣ n) :
     A * B = B * A := by

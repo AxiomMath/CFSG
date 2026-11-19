@@ -51,16 +51,16 @@ theorem qTwoLMDivStab_eq_prod_rootV {d p : ℕ} [NeZero p] (i0 : Fin d)
           -crd f x := by
       intro x hx
       have hx0 : x ≠ k := (Finset.mem_erase.mp hx).1
-      rw [if_neg (Ne.symm hx0), if_pos rfl, hval x]
+      rw [ite_eq_right (Ne.symm hx0), ite_eq_left rfl, hval x]
       ring
     rw [Finset.sum_congr rfl hterm', Finset.sum_neg_distrib, hsum]
     ring
   · have hk' : k ∈ Finset.univ.erase i0 := Finset.mem_erase.mpr ⟨hk, Finset.mem_univ k⟩
     rw [Finset.sum_eq_single k]
-    · rw [hval k, if_pos rfl, if_neg hk]
+    · rw [hval k, ite_eq_left rfl, ite_eq_right hk]
       ring
     · intro b hb hbk
-      rw [hval b, if_neg (Ne.symm hbk), if_neg hk]
+      rw [hval b, ite_eq_right (Ne.symm hbk), ite_eq_right hk]
       ring
     · intro hknot
       exact absurd hk' hknot

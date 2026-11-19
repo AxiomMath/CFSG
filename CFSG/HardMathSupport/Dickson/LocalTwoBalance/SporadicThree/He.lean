@@ -18,7 +18,7 @@ theorem sporadicTwoBalanceThree_He : SporadicTwoBalanceThree .He := by
   intro S _ _ hS hnab he
   obtain ⟨e0⟩ := he
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.He.nonempty_mulEquiv
-  haveI := hS
+  have := hS
   let θ : S ≃* ↥CFSG.Sporadic.HeldB.heP :=
     (e0.trans b.symm).trans CFSG.Sporadic.HeldB.heEquivP
   have hcen : Subgroup.center S = ⊥ := by

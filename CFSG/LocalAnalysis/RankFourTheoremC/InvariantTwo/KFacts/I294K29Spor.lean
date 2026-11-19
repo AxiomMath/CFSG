@@ -31,7 +31,7 @@ theorem rankThreeWitness_of_conj_mem {S T : Type*} [Group S] [Group T] {p : ℕ}
       Subgroup.card_map_of_injective (f := (MulAut.conj c⁻¹).toMonoidHom)
         (MulAut.conj c⁻¹).injective, hcard]
   · refine ⟨c⁻¹ * (c * f x * c⁻¹) * c, ⟨_, hx, ?_⟩, ?_⟩
-    · simp [MulAut.conj_apply]
+    · simp
     · simp only [MulEquiv.coe_toMonoidHom, map_mul, map_inv, MulEquiv.symm_apply_apply]
       group
 
@@ -43,7 +43,7 @@ theorem three_le_pRank_centralizer_of_witness {S : Type*} [Group S] [Finite S] {
     ⟨E, hE, hcard, hxE⟩
   · exact three_le_pRank_centralizer_of_sylow P hP h3
   · exact three_le_pRank_centralizer_of_extraspecial hexp hZQ hZc hZ hcomm hcard hxQ hxZ
-  · haveI := hE.1
+  · have := hE.1
     have hEC : E ≤ centralizer ({x} : Set S) := fun y hy =>
       Subgroup.mem_centralizer_singleton_iff.2 (setLike_mul_comm hy hxE)
     exact CFSG.SectionRank.le_pRank (Fact.out : p.Prime).one_lt hEC hE hcard
@@ -78,7 +78,7 @@ theorem sporadicClassWitness_of_pairs (h1 : SporadicClassWitnessAt .Co1 5)
 theorem sporadicCentralizerRank_of_data (hT : SporadicRankTable) (hC : SporadicClassWitness) :
     SporadicCentralizerRank := by
   intro s p hp hp5 S _ _ he h3 x hx
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact three_le_pRank_centralizer_of_witness (hC s p (hT s p hp hp5 S he h3) S he x hx) h3
 
 @[expose] def SporadicOutOdd : Prop :=
@@ -126,7 +126,7 @@ theorem kd29Spor_of_rank (hOut : SporadicOutOdd) (hR : SporadicCentralizerRank) 
   obtain ⟨s, ⟨e⟩⟩ := hcat
   obtain ⟨x, hxL, hxo, hx2⟩ := hex
   exfalso
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hout : ¬ p ∣ Nat.card (Outer ↥L) := by
     have h1 := hOut s p hp (by omega)

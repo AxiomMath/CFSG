@@ -22,6 +22,7 @@ open CFSG.AGLEmbedding
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem barM_isL3TwoPow {M L : Subgroup G} {n : ℕ}
     (hL : IsTwoPrimeComponent M L)
     (hL3 : IsL3TwoPow n (↥L ⧸ CFSG.pCore 2 ↥L)) :
@@ -31,17 +32,19 @@ private theorem barM_isL3TwoPow {M L : Subgroup G} {n : ℕ}
   obtain ⟨e3⟩ := hL3
   exact ⟨e.symm.trans e3⟩
 
+omit [Finite G] in
 private theorem center_barM_eq_bot {M L : Subgroup G} {n : ℕ}
     (hL : IsTwoPrimeComponent M L)
     (hL3 : IsL3TwoPow n (↥L ⧸ CFSG.pCore 2 ↥L)) :
     Subgroup.center ↥(barM M L) = ⊥ := by
-  haveI : IsSimpleGroup (barM M L) := (barM_isL3TwoPow hL hL3).isSimpleGroup
-  haveI : Group.IsPerfect (barM M L) := ⟨hL.component.2.2.1⟩
+  have : IsSimpleGroup (barM M L) := (barM_isL3TwoPow hL hL3).isSimpleGroup
+  have : Group.IsPerfect (barM M L) := ⟨hL.component.2.2.1⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (barM M L)) with h | h
   · exact h
   · exact absurd (Subgroup.center_eq_top_iff.mp h)
       (Group.IsPerfect.not_isMulCommutative (G := barM M L))
 
+omit [Finite G] in
 private theorem barM_sSup_finset {M : Subgroup G} (S : Finset (Subgroup G))
     (hS : ∀ L ∈ S, L ≤ M) :
     barM M (sSup (S : Set (Subgroup G))) = ⨆ L ∈ S, barM M L := by
@@ -108,7 +111,7 @@ theorem hdr_of_blocks {M H : Subgroup G}
     ∀ d : ℕ, d ∈ sigmaSet G M → CFSG.Open.pRank d (jSub M H) ≤ (weakBlockSet M H).ncard := by
   intro d hd
   classical
-  letI : Fintype (Subgroup G) := Fintype.ofFinite _
+  let : Fintype (Subgroup G) := Fintype.ofFinite _
   let T : Finset (Subgroup G) := (weakBlockSet M H).toFinset
   have hdp : d.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime d hd.1
   have hd2 : d ≠ 2 := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_odd d hd.1
@@ -137,7 +140,7 @@ private theorem pRank_eq_one_of_mem_weakBlockSet {M H : Subgroup G} {d : ℕ}
     (hd : d ∈ sigmaSet G M) {L : Subgroup G} (hL : L ∈ weakBlockSet M H) :
     CFSG.Open.pRank d L = 1 := by
   classical
-  letI : Fintype (Subgroup G) := Fintype.ofFinite _
+  let : Fintype (Subgroup G) := Fintype.ofFinite _
   let T : Finset (Subgroup G) := (weakBlockSet M H).toFinset
   have hT : ∀ K ∈ T, K ∈ weakBlockSet M H := fun K hK => Set.mem_toFinset.mp hK
   have hJ : jSub M H = sSup (T : Set (Subgroup G)) := by

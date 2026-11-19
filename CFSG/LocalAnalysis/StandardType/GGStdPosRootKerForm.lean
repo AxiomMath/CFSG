@@ -144,10 +144,10 @@ private theorem ggRootKer_exists_coroot_not_dvd {I : Type} [Fintype I] [Decidabl
   have hv : (Pi.single i 1 + Pi.single j 1 + Pi.single l 1 : I → ℤ) ≠ 0 := by
     intro h
     have := congrFun h i
-    simp [Pi.single_apply, hij.symm, hil.symm] at this
+    simp [hij.symm, hil.symm] at this
   have hpos := cartanForm_pos hpd hv
   rw [← cartanPair_self] at hpos
-  simp only [ggRootKer_cartanPair_add_left, ggRootKer_cartanPair_add_right, cartanPair_single,
+  simp only [ggRootKer_cartanPair_add_right, cartanPair_single,
     coroot_single, map_add] at hpos
   linarith [hA.apply_self i, hA.apply_self j, hA.apply_self l, hjoin i j hij, hjoin j i hij.symm,
     hjoin i l hil, hjoin l i hil.symm, hjoin j l hjl, hjoin l j hjl.symm]

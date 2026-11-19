@@ -55,7 +55,7 @@ theorem mem_inner_of_pow_three_of_lieModel (hLie : LieOrderFormulasInput)
       GrossThreeInnerOrderThree K)
     (h3 : 3 ∣ Nat.card K) {α : MulAut K} (hα : α ^ 3 = 1) {P : Subgroup K}
     (hP : IsSylowOf 3 P ⊤) (hfix : ∀ x ∈ P, α x = x) : α ∈ inner K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := exists_sylow_eq_of_isSylowOf_top hP
   have hfixQ : ∀ x ∈ (Q : Subgroup K), α x = x := fun x hx => hfix x (hQ ▸ hx)
   by_cases hr : 3 ∣ lieOrderDivisor t n (ℓ ^ f) ∨ (t = .POmegaPlus ∧ n = 4)
@@ -63,7 +63,7 @@ theorem mem_inner_of_pow_three_of_lieModel (hLie : LieOrderFormulasInput)
   have hdiv : ¬ 3 ∣ lieOrderDivisor t n (ℓ ^ f) := fun h => hr (Or.inl h)
   have hD4 : ¬ (t = .POmegaPlus ∧ n = 4 ∧ 3 = 3) := fun h => hr (Or.inr ⟨h.1, h.2.1⟩)
   exact CFSG.AGLEmbedding.OuterSylow.mem_inner_of_lie_model hLie hb hadm hmodel ht
-    Nat.prime_three (by norm_num) h3 hdiv hD4 Q.isPGroup' Q.not_dvd_index hα hfixQ
+    Nat.prime_three (by norm_num) h3 hdiv hD4 Q.isPGroup Q.not_dvd_index hα hfixQ
 
 section TitsOrderThree
 

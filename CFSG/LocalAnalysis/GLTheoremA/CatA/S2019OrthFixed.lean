@@ -253,8 +253,8 @@ theorem cubicPair_of_normal_quasisimple (hQ : (polarBilin Q).Nondegenerate)
     push Not at hK
     obtain ⟨ψ, e, -, he, hsup, hLq', hRq', hLn', hRn', -, -, -⟩ :=
       orthogonal_split_four_derived hK.1 hK.2 Q hQ hs.1 hs.2
-    haveI : Finite W := Module.finite_of_finite K
-    haveI : Finite (W ≃ₗ[K] W) := Finite.of_injective (fun g : W ≃ₗ[K] W => (g : W → W))
+    have : Finite W := Module.finite_of_finite K
+    have : Finite (W ≃ₗ[K] W) := Finite.of_injective (fun g : W ≃ₗ[K] W => (g : W → W))
       fun g₁ g₂ h => LinearEquiv.ext (congrFun h)
     set Lf := (determinantLeftFactor K).map e.symm.toMonoidHom with hLf
     set Rf := (determinantRightFactor K).map e.symm.toMonoidHom with hRf

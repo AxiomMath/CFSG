@@ -20,12 +20,14 @@ theorem projAut_piOrth_mul (hQ : Q.Nondegenerate) (x : OGroup Q) :
   unfold projAut
   rw [map_mul, toProj_piOrth, one_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem commSp_blockInr_le {s : OGroup Q} (hs : s * s = 1)
     (b : OGroup (Q.restrict (commSp s))) : commSp (blockInr hs b) ≤ commSp s := by
   rw [commSp_blockInr]
   rintro _ ⟨y, _, rfl⟩
   exact y.2
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem polar_blockInr_piOrth_mul {x : OGroup Q} (hx : x * x = 1)
     (b : OGroup (Q.restrict (commSp x)))
     (b' : OGroup (Q.restrict (commSp (piOrth Q * x)))) :

@@ -23,11 +23,11 @@ private theorem map_ne_iff {G G' : Type} [Group G] [Group G'] (e : G ≃* G') (x
 
 private theorem mem_tab4Base_map {H' : Type} [Group H'] (e : H ≃* H') (a b y x : H) :
     e x ∈ tab4Base (e a) (e b) (e y) ↔ x ∈ tab4Base a b y := by
-  simp only [tab4Base, Set.mem_setOf_eq, ← map_mul, isConj_map_iff, map_ne_iff]
+  simp only [tab4Base, Set.mem_ofPred_eq, ← map_mul, isConj_map_iff, map_ne_iff]
 
 private theorem mem_tab6Base_map {H' : Type} [Group H'] (e : H ≃* H') (a z y x : H) :
     e x ∈ tab6Base (e a) (e z) (e y) ↔ x ∈ tab6Base a z y := by
-  simp only [tab6Base, Set.mem_setOf_eq, ← map_mul, isConj_map_iff, map_ne_iff]
+  simp only [tab6Base, Set.mem_ofPred_eq, ← map_mul, isConj_map_iff, map_ne_iff]
 
 private theorem isConj_congr_left {b b' : H} (hb : IsConj b b') (c : H) :
     IsConj b' c ↔ IsConj b c :=
@@ -48,13 +48,13 @@ private theorem isConj_mul_center {a : H} (ha : a ∈ Subgroup.center H) {z z' :
 theorem tab4Base_congr {a b b' : H} (hb : IsConj b b') (y : H) :
     tab4Base a b' y = tab4Base a b y := by
   ext c
-  simp only [tab4Base, Set.mem_setOf_eq]
+  simp only [tab4Base, Set.mem_ofPred_eq]
   rw [isConj_congr_left hb c]
 
 theorem tab6Base_congr {a z z' : H} (ha : a ∈ Subgroup.center H) (hz : IsConj z z') (y : H) :
     tab6Base a z' y = tab6Base a z y := by
   ext c
-  simp only [tab6Base, Set.mem_setOf_eq]
+  simp only [tab6Base, Set.mem_ofPred_eq]
   rw [isConj_congr_left (isConj_mul_center ha hz) c]
 
 theorem TableIVData.congr {a z z' b b' z₁ z₁' y : H} (ha : a ∈ Subgroup.center H)

@@ -68,7 +68,7 @@ theorem isSylowOf_unipotent :
   · rw [hmap]
     exact Subgroup.map_mono le_top
   · rw [← hP]
-    exact P.isPGroup'.map _
+    exact P.isPGroup.map _
   · rw [hmap, Subgroup.relIndex_map_map_of_injective _ _ hinj, Subgroup.relIndex_top_right, ← hP]
     exact P.not_dvd_index
 

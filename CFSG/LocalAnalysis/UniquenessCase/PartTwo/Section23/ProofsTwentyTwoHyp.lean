@@ -22,14 +22,16 @@ theorem isSylowOf_map_conj {p : ℕ} [Fact p.Prime] {P K : Subgroup G}
   rw [Subgroup.relIndex_map_map_of_injective _ _ (MulAut.conj g).injective]
   exact h.2.2
 
+omit [Finite G] in
 theorem map_conj_map_conj_inv (H : Subgroup G) (g : G) :
     (H.map (MulAut.conj g).toMonoidHom).map (MulAut.conj g⁻¹).toMonoidHom = H := by
   rw [Subgroup.map_conj_map_conj, inv_mul_cancel]
   have h : (MulAut.conj (1 : G)).toMonoidHom = MonoidHom.id G := by
     ext x
-    simp [MulAut.conj_apply]
+    simp
   rw [h, Subgroup.map_id]
 
+omit [Finite G] in
 theorem map_conj_normalizer (H : Subgroup G) (g : G) :
     (Subgroup.normalizer (H : Set G)).map (MulAut.conj g).toMonoidHom =
       Subgroup.normalizer ((H.map (MulAut.conj g).toMonoidHom : Subgroup G) : Set G) :=
@@ -37,12 +39,12 @@ theorem map_conj_normalizer (H : Subgroup G) (g : G) :
 
 private theorem pCoreOf_le_centralizer_Z (D : Data G) :
     CFSG.Open.pCoreOf 2 D.M ≤ Subgroup.centralizer (D.Z : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZT : D.Z ≤ Subgroup.centralizer (D.T : Set G) := fun z hz =>
     (CFSG.LocalAnalysis.RankThreeUC.omegaOneCenterIn_le_inf_centralizer D.T hz).2
   have hO2T : CFSG.Open.pCoreOf 2 D.M ≤ D.T := by
     obtain ⟨Q, hQ⟩ := D.sylowM.exists_sylow_eq_subgroupOf
-    haveI : (CFSG.pCore 2 ↥D.M).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore 2 ↥D.M).Normal := CFSG.pCore_normal
     have h1 : CFSG.pCore 2 ↥D.M ≤ (Q : Subgroup ↥D.M) :=
       IsPGroup.le_sylow_of_normal (CFSG.pCore_isPGroup (p := 2) (G := ↥D.M)) Q
     have h2 := Subgroup.map_mono (f := D.M.subtype) h1
@@ -59,7 +61,7 @@ variable {D : Data G} {Ch : Choice2011 G}
 private theorem orderOf_mk_eq_of_torus (c : Ctx23L D Ch) {r : ℕ} {a b t u : G}
     (hT : OmegaPlusTorus c r a b t) (huM : u ∈ D.M) (hur : orderOf u = r) :
     orderOf (QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) (⟨u, huM⟩ : ↥D.M)) = r := by
-  haveI : Fact r.Prime := ⟨hT.r_prime⟩
+  have : Fact r.Prime := ⟨hT.r_prime⟩
   have hdiv : orderOf (QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) (⟨u, huM⟩ : ↥D.M)) ∣ r := by
     have h := orderOf_map_dvd (uc22p21cPi D.M) (⟨u, huM⟩ : ↥D.M)
     rwa [Subgroup.orderOf_mk, hur] at h
@@ -147,7 +149,7 @@ private theorem pCore_inf_centralizer_zpow_mul_eq_bot (c : Ctx23L D Ch) (h1930 :
       ({QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) (⟨a, haM⟩ : ↥D.M) ^ i *
         QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) (⟨b, hT.b_mem_M⟩ : ↥D.M) ^ j} :
         Set (Bar2 D.M)) = ⊥ := by
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   have hZM : D.M ≤ Subgroup.normalizer (D.Z : Set G) := by
     have h := (h4 h1930 c).2.2
     rwa [(h4 h1930 c).1] at h
@@ -213,8 +215,8 @@ private theorem pCore_le_centralizer_bar_of_torus (c : Ctx23L D Ch) (h1930 : H19
     CFSG.pCore p (Bar2 D.M) ≤ Subgroup.centralizer
       ({QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) (⟨a, haM⟩ : ↥D.M)} : Set (Bar2 D.M)) := by
   classical
-  haveI : Fact r.Prime := ⟨hT.r_prime⟩
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact r.Prime := ⟨hT.r_prime⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   set x : Bar2 D.M := QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) (⟨a, haM⟩ : ↥D.M) with hx
   set y : Bar2 D.M := QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) (⟨b, hT.b_mem_M⟩ : ↥D.M) with hy
   have hxord : orderOf x = r := by
@@ -240,10 +242,10 @@ private theorem pCore_le_centralizer_bar_of_torus (c : Ctx23L D Ch) (h1930 : H19
       (hT.r_prime.dvd_of_dvd_pow hdvd)
     exact (fun hpr : p = r => hr_not_sig (hpr ▸ hp)) hrp.symm
   have hxQ : x ∈ Subgroup.normalizer (CFSG.pCore p (Bar2 D.M) : Set (Bar2 D.M)) := by
-    haveI : (CFSG.pCore p (Bar2 D.M)).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore p (Bar2 D.M)).Normal := CFSG.pCore_normal
     exact Subgroup.le_normalizer_of_normal (K := Subgroup.zpowers x) (Subgroup.mem_zpowers x)
   have hyQ : y ∈ Subgroup.normalizer (CFSG.pCore p (Bar2 D.M) : Set (Bar2 D.M)) := by
-    haveI : (CFSG.pCore p (Bar2 D.M)).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore p (Bar2 D.M)).Normal := CFSG.pCore_normal
     exact Subgroup.le_normalizer_of_normal (K := Subgroup.zpowers y) (Subgroup.mem_zpowers y)
   refine CFSG.GroupTheory.le_centralizer_of_rank_two hxord hyord hxy hyx hxQ hyQ hcop ?_
   intro i j hj
@@ -302,7 +304,7 @@ private theorem barImage_sylow_le_centralizer_of_torus (c : Ctx23L D Ch)
     {p : ℕ} (hp : p ∈ D.sig) {P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf p P (barPreimage D.M (centE D.M))) :
     barImage D.M P ≤ Subgroup.centralizer ({barA D a haM} : Set (Bar2 D.M)) := by
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   have hPnorm : (barImage D.M P).Normal :=
     (h2123 h1930 c.toCtx21 p hp P hP
       (isCyclic_fitting_commutator_of_cyclic D hcyc)).2.2.2.1
@@ -316,7 +318,7 @@ private theorem barImage_sylow_le_centralizer_of_torus (c : Ctx23L D Ch)
 private theorem isSylowOf_zpowers_preimage (c : Ctx23L D Ch) {r : ℕ} {a b t : G}
     (hT : OmegaPlusTorus c r a b t) (haM : a ∈ D.M) :
     CFSG.ABGLocalTools.IsSylowOf r (Subgroup.zpowers a) (preimageZpowers D a haM) := by
-  haveI : Fact r.Prime := ⟨hT.r_prime⟩
+  have : Fact r.Prime := ⟨hT.r_prime⟩
   have hzple : Subgroup.zpowers a ≤ preimageZpowers D a haM :=
     Subgroup.zpowers_le.mpr
       (uc22p21c_mem_barPreimage.2 ⟨haM, Subgroup.mem_zpowers (barA D a haM)⟩)
@@ -352,7 +354,7 @@ private theorem exists_sylow_r_le_normalizer_preimage (c : Ctx23L D Ch)
       P ≤ Subgroup.normalizer
         (((S : Subgroup ↥(preimageZpowers D a haM)).map
           (preimageZpowers D a haM).subtype : Subgroup G) : Set G) := by
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   have hPM : P ≤ D.M := hP.le.trans (uc22p21c_barPreimage_le D.M (centE D.M))
   have hPcent :=
     barImage_sylow_le_centralizer_of_torus c h1930 h4 h6 hsp h2123 hcyc hT haM hp hP
@@ -377,9 +379,9 @@ private theorem exists_conj_zpowers_of_sylow (c : Ctx23L D Ch) {r : ℕ} {a b t 
       ((S : Subgroup ↥(preimageZpowers D a haM)).map
           (preimageZpowers D a haM).subtype : Subgroup G) =
         (Subgroup.zpowers a).map (MulAut.conj (k : G)).toMonoidHom := by
-  haveI : Fact r.Prime := ⟨hT.r_prime⟩
+  have : Fact r.Prime := ⟨hT.r_prime⟩
   have hZsyl := isSylowOf_zpowers_preimage c hT haM
-  haveI : MulAction.IsPretransitive ↥(preimageZpowers D a haM)
+  have : MulAction.IsPretransitive ↥(preimageZpowers D a haM)
       (Sylow r ↥(preimageZpowers D a haM)) := Sylow.isPretransitive_of_finite
   obtain ⟨S₀, hS₀⟩ := hZsyl.exists_sylow_eq_subgroupOf
   obtain ⟨k, hk⟩ :=
@@ -406,7 +408,7 @@ private theorem exists_conj_zpowers_of_sylow (c : Ctx23L D Ch) {r : ℕ} {a b t 
   rfl
 
 private theorem exists_isSylowOf_map_conj_le_normalizer (c : Ctx23L D Ch)
-    {r : ℕ} {a b t : G} (hT : OmegaPlusTorus c r a b t) (haM : a ∈ D.M)
+    {r : ℕ} {a b t : G} (_hT : OmegaPlusTorus c r a b t) (haM : a ∈ D.M)
     {p : ℕ} (hp : p ∈ D.sig) {k : ↥(preimageZpowers D a haM)} {P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf p P (barPreimage D.M (centE D.M)))
     (hPS : P ≤ Subgroup.normalizer
@@ -414,12 +416,12 @@ private theorem exists_isSylowOf_map_conj_le_normalizer (c : Ctx23L D Ch)
     ∃ P' : Subgroup G,
       CFSG.ABGLocalTools.IsSylowOf p P' (barPreimage D.M (centE D.M)) ∧
         P' ≤ Subgroup.normalizer (Subgroup.zpowers a : Set G) := by
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   have hkM : (k : G) ∈ D.M := uc22p21c_barPreimage_le D.M _ k.2
-  haveI hchar : (CFSG.layer (Bar2 D.M)).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hlayer : (CFSG.layer (Bar2 D.M)).Normal :=
+  have hchar : (CFSG.layer (Bar2 D.M)).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hlayer : (CFSG.layer (Bar2 D.M)).Normal :=
     Subgroup.normal_of_characteristic (H := CFSG.layer (Bar2 D.M))
-  haveI hcentEn : (centE D.M).Normal := Subgroup.normal_centralizer
+  have hcentEn : (centE D.M).Normal := Subgroup.normal_centralizer
   have hHN : D.M ≤ Subgroup.normalizer
       ((barPreimage D.M (centE D.M) : Subgroup G) : Set G) :=
     uc22p22u_barPreimage_normalizes (M := D.M) (D := centE D.M)
@@ -452,7 +454,7 @@ private theorem exists_sylow_le_normalizer_zpowers_of_torus (c : Ctx23L D Ch)
     ∃ P : Subgroup G,
       CFSG.ABGLocalTools.IsSylowOf p P (barPreimage D.M (centE D.M)) ∧
         P ≤ Subgroup.normalizer (Subgroup.zpowers a : Set G) := by
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   have haM : a ∈ D.M := c.mem_M_of_torus h1930 h4 hT
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf p (barPreimage D.M (centE D.M))
   obtain ⟨S, hS⟩ :=

@@ -23,7 +23,7 @@ theorem uc22pwex_card_center_dvd_three {K : Type} [Group K] [Finite K]
     (hq : CFSG.Open.IsQuasisimple K) {n : ℕ} (hn : 2 < n)
     (h : LieModel (K ⧸ center K) .E6 0 2 n ∨ LieModel (K ⧸ center K) .twistedE6 0 2 n) :
     Nat.card (center K) ∣ 3 := by
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
   have h8 : 8 ≤ 2 ^ n := by
     calc 8 = 2 ^ 3 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn

@@ -72,13 +72,13 @@ theorem l35E_injective : Function.Injective fun ab : K × K => l35E ab.1 ab.2 :=
 theorem l35T_conj_l35X₁ (h5 : (5 : K) = 0) :
     (l35T : Matrix (Fin 3) (Fin 3) K) * l35E 2 0 * l35T * l35E (-2) 0 = l35E 1 0 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [l35T, l35E, Matrix.mul_apply, Fin.sum_univ_three] <;>
+  fin_cases i <;> fin_cases j <;> simp [l35T, l35E, Matrix.mul_apply, Fin.sum_univ_three];
     grind
 
 theorem l35T_conj_l35X₂ (h5 : (5 : K) = 0) :
     (l35T : Matrix (Fin 3) (Fin 3) K) * l35E 0 2 * l35T * l35E 0 (-2) = l35E 0 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [l35T, l35E, Matrix.mul_apply, Fin.sum_univ_three] <;>
+  fin_cases i <;> fin_cases j <;> simp [l35T, l35E, Matrix.mul_apply, Fin.sum_univ_three];
     grind
 
 end CFSG.RankThree.PartTwo.Sec20

@@ -16,7 +16,7 @@ theorem centExt_card_of_secProp_gl32 {G : Type} [Group G] [Finite G] {N K : Subg
     (h : SecProp N K (fun Y _ _ _ => Nonempty (Y ≃* Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)))) :
     Nat.card ↥N = 168 * Nat.card ↥K := by
   obtain ⟨hN, hP⟩ := h
-  letI := hN
+  let := hN
   obtain ⟨e⟩ := hP
   have hcardquot : Nat.card (↥N ⧸ K.subgroupOf N) = 168 :=
     (Nat.card_congr e.toEquiv).trans
@@ -40,7 +40,7 @@ theorem centExt_F_le_comm {G : Type} [Group G] [Finite G] {N Z F : Subgroup G} (
   have h7dvd : 7 ∣ Nat.card ↥N := by
     rw [hcardN]
     exact dvd_mul_of_dvd_left (by norm_num : (7 : ℕ) ∣ 168) _
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥N) 7 h7dvd
   let g : G := x
   have hgN : g ∈ N := x.2
@@ -152,7 +152,7 @@ theorem centExt_F_le_comm {G : Type} [Group G] [Finite G] {N Z F : Subgroup G} (
     rw [Subgroup.mem_centralizer_iff]
     intro z hz
     exact hZc z hz n hn
-  haveI hZnormal : (Z.subgroupOf N).Normal :=
+  have hZnormal : (Z.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hZN).mpr
       (hNcent.trans (Subgroup.centralizer_le_normalizer (Z : Set G)))
   have hsup : (Z.subgroupOf N) ⊔ (F.subgroupOf N) = (Z ⊔ F).subgroupOf N :=

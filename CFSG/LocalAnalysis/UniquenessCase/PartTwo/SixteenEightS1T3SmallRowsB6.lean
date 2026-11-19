@@ -32,6 +32,7 @@ private theorem s16t3_eq_two_pow_mul_three_pow {n : ℕ} (hn : n ≠ 0)
   rw [Finsupp.prod_of_support_subset _ hsupp _ fun _ _ => pow_zero _,
     Finset.prod_pair (by norm_num : (2 : ℕ) ≠ 3)]
 
+omit [Finite G] in
 private theorem s16t3_subgroupOf_map_subtype {A B : Subgroup G} (hAB : A ≤ B)
     (Y : Subgroup ↥A) :
     (Y.map A.subtype).subgroupOf B = Y.map (Subgroup.inclusion hAB) := by
@@ -42,6 +43,7 @@ private theorem s16t3_subgroupOf_map_subtype {A B : Subgroup G} (hAB : A ≤ B)
   · rintro ⟨y, hy, hyx⟩
     exact ⟨y, hy, congrArg Subtype.val hyx⟩
 
+omit [Finite G] in
 private theorem s16t3_barSub_map_subtype {V₀ V S : Subgroup G} {hV : IsElemAbelian 2 V}
     (hS : S ≤ stabTil V₀ V) (Y : Subgroup ↥S) :
     barSub V₀ V hV (Y.map S.subtype) =
@@ -151,7 +153,7 @@ theorem s16t3_exists_permuting_three_alt_six_k168
         exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h2)
       · right
         exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).1 (hp.dvd_of_dvd_pow h3)
-  haveI : Nonempty ↥(J.comap φ) := ⟨1⟩
+  have : Nonempty ↥(J.comap φ) := ⟨1⟩
   have hn0 : Nat.card ↥(J.comap φ) ≠ 0 := Nat.card_pos.ne'
   have hxy : Nat.card ↥(J.comap φ) =
       2 ^ (Nat.card ↥(J.comap φ)).factorization 2 *

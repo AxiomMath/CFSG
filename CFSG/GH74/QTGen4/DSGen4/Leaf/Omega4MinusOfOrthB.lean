@@ -13,11 +13,13 @@ section Pre
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem omega_mem_pCore_iff {L : Subgroup G} (x : ↥L) :
     x ∈ CFSG.pCore 2 ↥L ↔ (x : G) ∈ pCoreOf 2 L := by
   unfold pCoreOf
   exact (Subgroup.mem_map_iff_mem L.subtype_injective).symm
 
+omit [Finite G] in
 theorem omega_a5Pre_self {L : Subgroup G} (hq : IsL2Quot 2 (oTwoQuot ↥L)) (hc : CharTwo L)
     (he : IsElemAbelian 2 (pCoreOf 2 L)) (h16 : Nat.card (pCoreOf 2 L) = 16) :
     A5Pre L L (pCoreOf 2 L) ⊥ := by
@@ -43,7 +45,7 @@ theorem omega_a5Pre_self {L : Subgroup G} (hq : IsL2Quot 2 (oTwoQuot ↥L)) (hc 
   · rw [Subgroup.relIndex_bot_left]; exact h16
   · exact fun q hq' e he' => by rw [Subgroup.mem_bot]; exact hcomm1 q hq' e he'
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hLQ : L ≤ pCoreOf 2 L := by
       intro l hl
       apply hc
@@ -64,6 +66,7 @@ theorem omega_a5Pre_self {L : Subgroup G} (hq : IsL2Quot 2 (oTwoQuot ↥L)) (hc 
       exact Subgroup.index_top
     omega
 
+omit [Finite G] in
 theorem omega_blockU_eq_pCoreOf {L : Subgroup G} {H : Finset Certificates.A5GL42.Mat4}
     (hF : Certificates.A5GL42.Facts) (hH : Certificates.A5GL42.GroupFacts H)
     (h : A5Pre L L (pCoreOf 2 L) ⊥) (M : A5Model L L (pCoreOf 2 L) ⊥ H) :

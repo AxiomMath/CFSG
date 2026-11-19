@@ -69,7 +69,7 @@ theorem L85Data.of_basic {T : Sylow 2 H} {x y : H} {A R : Subgroup H} (hR : RDat
     obtain ⟨z, hzK, hzc, hz1⟩ := hK1 K hK
     have hzE : ∀ g ∈ layer H, z * g = g * z := center_of_component_central hK hzK hzc
     have hzT : z ∈ (T : Subgroup H) := hEz z (component_le_layer hK hzK) hzE
-    obtain ⟨n, hn⟩ := T.isPGroup' ⟨z, hzT⟩
+    obtain ⟨n, hn⟩ := T.isPGroup ⟨z, hzT⟩
     have hn' : z ^ 2 ^ n = 1 := congrArg Subtype.val hn
     have hord : orderOf z ∣ 2 ^ n := orderOf_dvd_of_pow_eq_one hn'
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hord

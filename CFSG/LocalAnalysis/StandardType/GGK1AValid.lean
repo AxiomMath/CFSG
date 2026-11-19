@@ -17,10 +17,10 @@ private theorem ggK1Av_ord_le_two (p n : ℕ) : ggMultOrd p n ≤ 2 := by
 private theorem ggK1Av_ord_ne_zero {p n : ℕ} (h : p ∣ 2 ^ n - 1 ∨ p ∣ 2 ^ n + 1) :
     ggMultOrd p n ≠ 0 := by
   rcases h with h | h
-  · rw [ggMultOrd, if_pos h]; exact one_ne_zero
+  · rw [ggMultOrd, ite_eq_left h]; exact one_ne_zero
   · by_cases h1 : p ∣ 2 ^ n - 1
-    · rw [ggMultOrd, if_pos h1]; exact one_ne_zero
-    · rw [ggMultOrd, if_neg h1, if_pos h]; exact two_ne_zero
+    · rw [ggMultOrd, ite_eq_left h1]; exact one_ne_zero
+    · rw [ggMultOrd, ite_eq_right h1, ite_eq_left h]; exact two_ne_zero
 
 private theorem ggK1Av_two_pow_two_mul_sub_one (n : ℕ) :
     2 ^ (2 * n) - 1 = (2 ^ n - 1) * (2 ^ n + 1) := by

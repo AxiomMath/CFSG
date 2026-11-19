@@ -290,8 +290,8 @@ private theorem huppert613_exists_unit_sq_ne_one
   classical
   cases finite_or_infinite K with
   | inl hfinite =>
-      letI : Finite K := hfinite
-      letI : Fintype K := Fintype.ofFinite K
+      let : Finite K := hfinite
+      let : Fintype K := Fintype.ofFinite K
       have htwo : 2 ≤ Fintype.card K := by
         let f : Bool → K := fun b => if b then 1 else 0
         have hf : Function.Injective f := by
@@ -325,7 +325,7 @@ private theorem huppert613_exists_unit_sq_ne_one
       refine ⟨Units.mk0 a ha0, ?_⟩
       simpa using (sq_ne_one_iff.mpr ⟨ha1, haneg1⟩)
   | inr hinfinite =>
-      letI : Infinite K := hinfinite
+      let : Infinite K := hinfinite
       obtain ⟨a, ha⟩ := Infinite.exists_notMem_finset ({0, 1, -1} : Finset K)
       have ha_all : a ≠ 0 ∧ a ≠ 1 ∧ a ≠ -1 := by
         simpa using ha
@@ -566,7 +566,7 @@ public theorem huppert_II_6_13
       ∃ (a : P) (T : Subgroup PSL),
         let U := (MulAction.stabilizer (Equiv.Perm P) a).comap rho
         T ≤ U ∧ (T.subgroupOf U).Normal ∧
-          IsSolvable T ∧ Subgroup.normalClosure (T : Set PSL) = ⊤ := by
+          Group.IsSolvable T ∧ Subgroup.normalClosure (T : Set PSL) = ⊤ := by
     let V := Fin n → K
     let q : SL →* PSL := QuotientGroup.mk' (Subgroup.center SL)
     let w : V := huppert613_basisVector (K := K) (⟨0, by omega⟩ : Fin n)
@@ -687,13 +687,13 @@ public theorem huppert_II_6_13
       rw [show rootPSL fA = q (rootSL fA) by rfl,
         show rootPSL f = q (rootSL f) by rfl, ← map_inv, ← map_mul, ← map_mul,
         hSLconj]
-    · apply isSolvable_of_comm
+    · apply _root_.Group.isSolvable_of_comm
       rintro ⟨x, ⟨f, rfl⟩⟩ ⟨y, ⟨g, rfl⟩⟩
       apply Subtype.ext
       change rootPSL f * rootPSL g = rootPSL g * rootPSL f
       rw [← rootPSL.map_add_eq_mul, add_comm, rootPSL.map_add_eq_mul]
     · let N := Subgroup.normalClosure (T : Set PSL)
-      letI : N.Normal := Subgroup.normalClosure_normal
+      let : N.Normal := Subgroup.normalClosure_normal
       have himage : q '' transvections ⊆ N := by
         rintro _ ⟨_, ⟨t, rfl⟩, rfl⟩
         rcases t with ⟨i, j, hij, c⟩
@@ -784,18 +784,18 @@ public theorem huppert_II_6_13
           MonoidHom.map_closure q transvections
         _ ≤ N := (Subgroup.closure_le N).2 himage
   have hiwasawa_application : IsSimpleGroup PSL := by
-    letI : MulAction PSL P := MulAction.compHom P rho
+    let : MulAction PSL P := MulAction.compHom P rho
     have htwo : MulAction.IsMultiplyPretransitive PSL P 2 := by
       rw [MulAction.is_two_pretransitive_iff]
       intro a b c d hab hcd
       obtain ⟨g, hga, hgb⟩ := htwo_transitive a b c d hab hcd
       exact ⟨g, hga, hgb⟩
-    letI : MulAction.IsMultiplyPretransitive PSL P 2 := htwo
-    letI : MulAction.IsPretransitive PSL P :=
+    let : MulAction.IsMultiplyPretransitive PSL P 2 := htwo
+    let : MulAction.IsPretransitive PSL P :=
       MulAction.isPretransitive_of_is_two_pretransitive
-    letI : MulAction.IsPreprimitive PSL P :=
+    let : MulAction.IsPreprimitive PSL P :=
       MulAction.isPreprimitive_of_is_two_pretransitive htwo
-    letI : FaithfulSMul PSL P := faithfulSMul_iff.mpr (by
+    let : FaithfulSMul PSL P := faithfulSMul_iff.mpr (by
       intro g hg
       apply hrho
       apply Equiv.ext
@@ -819,7 +819,7 @@ public theorem huppert_II_6_13
       subst g
       simp at hg
       exact hp01 hg
-    letI : Nontrivial PSL := ⟨⟨g, 1, hg1⟩⟩
+    let : Nontrivial PSL := ⟨⟨g, 1, hg1⟩⟩
     rcases hroot_subgroup with
       ⟨a, T, hTle, hTnormal, hTsolvable, hTgenerates⟩
     have hUeq :

@@ -17,7 +17,7 @@ open CFSG.ASVolI.ChH CFSG.Quasithin CFSG.Monster.Code CFSG.ASVolI.AppH CFSG.Open
 theorem octFix_le_of_isSylowIn {O : Finset (Fin 24)} (hO : IsOctad O)
     {T₀ : Subgroup S24} (hT : CFSG.Quasithin.IsSylowIn 2 T₀ M24g)
     (hstab : ∀ g ∈ T₀, g • O = O) : octFix O ≤ T₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTle : T₀ ≤ octStab O := by
     intro g hg
     rw [mem_octStab_iff]
@@ -37,7 +37,7 @@ theorem center_gen_mem_octFix {O : Finset (Fin 24)} (hO : IsOctad O)
     (hstab : ∀ g ∈ T₀, g • O = O) {z : S24}
     (hz : z ∈ T₀ ∧ ∀ t ∈ T₀, (t ∈ Subgroup.zpowers z ↔ ∀ s ∈ T₀, s * t = t * s)) :
     z ∈ octFix O ∧ z ≠ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hoctFix_le_T₀ : octFix O ≤ T₀ := octFix_le_of_isSylowIn hO hT hstab
   have hzstab : z ∈ octStab O := by
     rw [mem_octStab_iff]
@@ -63,7 +63,7 @@ theorem center_gen_mem_octFix {O : Finset (Fin 24)} (hO : IsOctad O)
       have ht_z : (t : S24) ∈ Subgroup.zpowers z := (hz.2 (t : S24) t.2).mpr hcommS
       rw [hz1, Subgroup.zpowers_one_eq_bot] at ht_z
       exact Subtype.ext (by simpa using ht_z)
-    haveI : Nontrivial ↥T₀ := by
+    have : Nontrivial ↥T₀ := by
       rw [← Finite.one_lt_card_iff_nontrivial]
       calc 1 < Nat.card ↥(octFix O) := by rw [card_octFix hO]; norm_num
         _ ≤ Nat.card ↥T₀ := Nat.card_le_card_of_injective

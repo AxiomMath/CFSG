@@ -59,7 +59,7 @@ theorem onl_calNIn_of_prime {G : Type} [Group G] {S H : Subgroup G} (hSH : S ≤
     rw [Subgroup.relIndex_self] at hidx
     exact hp.one_lt.ne hidx
   ext X
-  simp only [calNIn, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [calNIn, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨hSX, hXH, -⟩
     rcases key X hSX hXH.le with h | h
@@ -75,7 +75,7 @@ theorem onl_calNIn_of_chain {G : Type} [Group G] {S M H : Subgroup G} (hSM : S �
     (hMH : M ≤ H) (hSM' : S ≠ M) (hMH' : M ≠ H)
     (hch : ∀ X : Subgroup G, S ≤ X → X ≤ H → X = S ∨ X = M ∨ X = H) : calNIn H S = {M} := by
   ext X
-  simp only [calNIn, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [calNIn, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨hSX, hXH, hmax⟩
     rcases hch X hSX hXH.le with rfl | rfl | rfl
@@ -307,7 +307,7 @@ theorem onl_lift_one {Y : Type} [Group Y] [Finite Y] {Z S : Subgroup Y} [Z.Norma
       exact ⟨x, ⟨hxX, hw⟩, rfl⟩
     refine ⟨X, X ⊓ Mb.comap π, hSX, hXmap, ?_, Or.inl hXZ⟩
     ext W
-    simp only [calNIn, Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [calNIn, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨hSW, hWX, hmax⟩
       have hW : W.map π ∈ calNIn Hb (S.map π) := by

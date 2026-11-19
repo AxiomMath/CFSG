@@ -159,7 +159,7 @@ private theorem spFourEight_false_of_fix_proj {K : Type} [Field K] [Finite K]
     (hJ1 : J ≠ ⊥) (hfix : ∀ c ∈ Eb, ∀ y ∈ J, c y = y) : False := by
   classical
   have hK8 : Nat.card K = 8 := by rw [hK]; norm_num
-  haveI : CharP K 2 := CFSG.HardMathSupport.Dickson.Bal207.charP_two_of_card_eight hK8
+  have : CharP K 2 := CFSG.HardMathSupport.Dickson.Bal207.charP_two_of_card_eight hK8
   have hF4 : 4 ≤ Nat.card K := by rw [hK8]; norm_num
   have hinj := CFSG.RankThree.PartOne.KCSpFull.spConj_injective Nat.prime_two (by norm_num) hK
     le_rfl (fun h => by omega)
@@ -175,7 +175,7 @@ private theorem spFourEight_false_of_fix_proj {K : Type} [Field K] [Finite K]
   obtain ⟨γ, hγ1, hγE⟩ : ∃ γ : StatedProj (StatedSp 2 K), γ ≠ 1 ∧ MulAut.conj γ ∈ Eb := by
     by_contra hno
     push Not at hno
-    haveI : Finite (Outer (StatedProj (StatedSp 2 K))) :=
+    have : Finite (Outer (StatedProj (StatedSp 2 K))) :=
       Nat.finite_of_card_ne_zero (by rw [hOut]; norm_num)
     have hf : Function.Injective
         ((QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner
@@ -205,7 +205,7 @@ private theorem spFourEight_false_of_fix_proj {K : Type} [Field K] [Finite K]
     CFSG.RankThree.PartOne.EmbeddingTransport.le_inSubgroup_perfectResidual_of_isPerfect hJC
       (Subgroup.isPerfect_iff.2 hJ)
   have hLJ : L ≤ J := by
-    haveI := CFSG.Adapters.certificate43_holds
+    have := CFSG.Adapters.certificate43_holds
     let _ : Fintype K := Fintype.ofFinite K
     let _ : Fintype (GaloisField 2 3) := Fintype.ofFinite _
     have hcard : Fintype.card K = Fintype.card (GaloisField 2 3) := by

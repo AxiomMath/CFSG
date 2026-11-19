@@ -42,7 +42,7 @@ theorem eq_zero_of_forall_mul_add_mul_frobenius (hf : 1 ≤ f) (hK : Nat.card K 
   have cb := congrArg (fun p : K[X] => p.coeff (2 ^ f)) hp0
   have ce := congrArg (fun p : K[X] => p.coeff (2 ^ f + 1)) hp0
   simp only [hp, coeff_add, coeff_C_mul_X_pow, coeff_zero] at ca cb ce
-  simp only [h1, h2, h3, h1.symm, h2.symm, h3.symm, if_true, if_false, add_zero,
+  simp only [h1, h2, h3, h1.symm, h2.symm, h3.symm, ite_true, ite_false, add_zero,
     zero_add] at ca cb ce
   exact ⟨ca, cb, ce⟩
 
@@ -100,12 +100,12 @@ private theorem heisCoord_conj_twistedE6PairX_poly [CharP K 2]
   have hc := congrFun (hfix c) ν
   rw [twistedE6PairX_conj_eq hα c q, h2.2 ν, h1.2 ν,
     h1.2 (ν - permLattice TwistTag.E6.perm α)] at hc
-  simp only [if_pos hν] at hc
+  simp only [ite_eq_left hν] at hc
   by_cases hνβ : ν - permLattice TwistTag.E6.perm α ∈ rootFinset TwistTag.E6.tag
-  · simp only [if_pos hνβ] at hc ⊢
+  · simp only [ite_eq_left hνβ] at hc ⊢
     ring_nf at hc ⊢
     linear_combination hc
-  · simp only [if_neg hνβ] at hc ⊢
+  · simp only [ite_eq_right hνβ] at hc ⊢
     ring_nf at hc ⊢
     linear_combination hc
 

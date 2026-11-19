@@ -73,7 +73,7 @@ theorem perfectCentralizerPlanes_adjointGroup_E6_three (K : Type) [Field K] [Fin
     have hπ : ∀ i j, i ≠ j → S.ρ (σk i j) = σk (finRotate 3 i) (finRotate 3 j) := by
       intro i j hij
       fin_cases i <;> fin_cases j
-      all_goals first | exact absurd rfl hij | skip
+      all_goals try exact absurd rfl hij
       · show S.ρ (σk 0 1) = σk (finRotate 3 0) (finRotate 3 1)
         rw [r0, r1, h01, h12, hρx]
       · show S.ρ (σk 0 2) = σk (finRotate 3 0) (finRotate 3 2)
@@ -93,7 +93,7 @@ theorem perfectCentralizerPlanes_adjointGroup_E6_three (K : Type) [Field K] [Fin
           γ = (S.ρ : (Fin Tag.E6.rank → ℤ) → _)^[j] (-e6ThreeLineX k)} := by
       rintro _ ⟨i, j, hij, rfl⟩
       fin_cases i <;> fin_cases j
-      all_goals first | exact absurd rfl hij | skip
+      all_goals try exact absurd rfl hij
       · exact ⟨0, Or.inl (by simpa using h01)⟩
       · refine ⟨2, Or.inr ?_⟩
         show σk 0 2 = S.ρ (S.ρ (-e6ThreeLineX k))

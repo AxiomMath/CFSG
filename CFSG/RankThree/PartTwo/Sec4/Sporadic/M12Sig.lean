@@ -310,7 +310,6 @@ theorem exists_idxC {i : Fin 3} {g : G12}
   refine sig_mem_C i.isLt ?_
   first
   | exact h
-  | exact h.symm
 
 theorem card_C (i : Fin 3) :
     Nat.card (centralizer ({ai i} : Set G12)) = 36 := by

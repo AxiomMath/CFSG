@@ -64,7 +64,7 @@ theorem centShapeRk'_three_of_centNoComp {G : Type} [Group G] (hE : MonsterExist
     (hSpM : CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.SporadicMultipliers)
     (hBr : SporadicBridges) (hA : CentThreeA G) (hB : CentThreeBNoComp G) (hC : CentThreeC G) :
     CentShapeRk' 3 (GoodSpor 3 [.Fi24Prime, .Th]) (RkSpor 3 [.Fi24Prime, .Th]) G := by
-  haveI : Finite G := (twoA_data_of_existence hE).1
+  have : Finite G := (twoA_data_of_existence hE).1
   intro k hk1 hk3
   have hk : orderOf k = 3 := orderOf_eq_prime hk3 hk1
   by_cases hinv : InvertedByTwoA k
@@ -97,8 +97,8 @@ theorem mThreeShape_of_tabNoComp (hOut : SporadicOuterLeTwo)
   let e : MGriess ≃* NativeSporadic.Carrier .M := e₀
   have hE : MonsterExistenceStatement MGriess :=
     CFSG.Milestones.cl_lit_monster_existence_griess_conway
-  haveI : Finite MGriess := (twoA_data_of_existence hE).1
-  haveI : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv MGriess e.toEquiv
+  have : Finite MGriess := (twoA_data_of_existence hE).1
+  have : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv MGriess e.toEquiv
   exact CentShapeRk'.of_equiv Nat.prime_three (fun T T' _ _ f h => GoodSpor.of_equiv f h)
     (fun T T' _ _ f h => RkSpor.of_equiv f h) e
     (centShapeRk'_three_of_centNoComp hE hOut hSpM hBr (CentThreeA.of_equiv e hA)
@@ -121,9 +121,9 @@ theorem centThreeBNoComp_M_of_m3ResBNoComp (hB : M3ResBNoComp) :
   obtain ⟨e₀⟩ := CFSG.Blueprint.NativeSporadic.MonsterModel.iso_griess_y443Derived
   let e : MGriess ≃* NativeSporadic.Carrier .M := e₀
   have φ := CFSG.YGroups.Y443.griessEquivGmat CFSG.YGroups.Y443.Gmat_eq_AutO_of_stroth
-  haveI : Finite MGriess :=
+  have : Finite MGriess :=
     (twoA_data_of_existence CFSG.Milestones.cl_lit_monster_existence_griess_conway).1
-  haveI : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv MGriess e.toEquiv
+  have : Finite (NativeSporadic.Carrier .M) := Finite.of_equiv MGriess e.toEquiv
   exact CentThreeBNoComp.of_equiv e.symm (CentThreeBNoComp.of_equiv φ
     (centThreeBNoComp_gmat CFSG.HardMathSupport.Dickson.Sec6.BM2.m3bClass_holds hB))
 

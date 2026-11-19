@@ -318,6 +318,7 @@ theorem primeTIres_apply_one (j : ↑(Irr ↥W₂)) (hj : j ≠ principalIrr ↥
     h.primeTIres σ j 1 = (d : ℂ) := by
   rw [h.primeTIres_one j, hA.primeTIirr_one_eq _ j hj]
 
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem d_eq_prime_and_exists_primeTIres_eq :
     d = p ∧ ∀ θ ∈ Irr ↥K, θ 1 ≠ 1 →
       ∃ j : ↑(Irr ↥W₂), j ≠ principalIrr ↥W₂ ∧ h.primeTIres σ j = θ := by
@@ -334,12 +335,15 @@ theorem d_eq_prime_and_exists_primeTIres_eq :
   obtain ⟨j, hj⟩ := hex θ hθ hθ1
   exact ⟨j.1, j.2, hj⟩
 
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem d_eq_prime : d = p := hA.d_eq_prime_and_exists_primeTIres_eq.1
 
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem exists_primeTIres_eq {θ : ↥K → ℂ} (hθ : θ ∈ Irr ↥K) (hθ1 : θ 1 ≠ 1) :
     ∃ j : ↑(Irr ↥W₂), j ≠ principalIrr ↥W₂ ∧ h.primeTIres σ j = θ :=
   hA.d_eq_prime_and_exists_primeTIres_eq.2 θ hθ hθ1
 
+omit [Fintype ↑(Irr ↥W₁)] [Fintype ↑(Irr ↥W₂)] in
 theorem indFamLinear_subset_Irr : indFamLinear K ⊆ Irr L := by
   have hnormal := h.normal
   have := hA.nontrivial_K
@@ -347,6 +351,7 @@ theorem indFamLinear_subset_Irr : indFamLinear K ⊆ Irr L := by
   exact indFamLinear_subset_Irr_of_centralizer_le h.isComplement'_left.symm h.coprime_natCard
     fun u hu hu1 => by rw [h.centralizer_eq u hu hu1]; exact hA.le_commutator
 
+omit [Fintype ↑(Irr ↥W₁)] [Fintype ↑(Irr ↥W₂)] in
 theorem ncard_indFamLinear_mul :
     (indFamLinear K).ncard * Nat.card ↥W₁ = p ^ 2 - 1 := by
   have hnormal := h.normal
@@ -372,11 +377,13 @@ theorem apply_one_of_mem_primeTIrowFam {f : L → ℂ} (hf : f ∈ primeTIrowFam
   obtain ⟨j, hj, rfl⟩ := mem_primeTIrowFam.1 hf
   rw [h.primeTIrow_one j, hA.primeTIres_apply_one j hj, hA.d_eq_prime]
 
+omit [Fintype ↑(Irr ↥W₂)] in
 theorem cfInner_self_of_mem_primeTIrowFam {f : L → ℂ} (hf : f ∈ primeTIrowFam h σ) :
     cfInner f f = (Nat.card ↥W₁ : ℂ) := by
   obtain ⟨j, -, rfl⟩ := mem_primeTIrowFam.1 hf
   exact h.cfInner_self_primeTIrow hA.isometry j
 
+omit [Fintype ↑(Irr ↥W₂)] in
 theorem primeTIrow_injective {j k : ↑(Irr ↥W₂)} (hjk : h.primeTIrow σ j = h.primeTIrow σ k) :
     j = k := by
   by_contra hne
@@ -394,6 +401,7 @@ theorem ncard_primeTIrowFam : (primeTIrowFam h σ).ncard = p - 1 := by
   rw [hcompl, Set.ncard_eq_toFinset_card', Set.toFinset_compl, Finset.card_compl]
   simp [hA.card_Irr_right]
 
+omit [Fintype ↑(Irr ↥W₂)] in
 theorem primeTIrowFam_subset_indFam : primeTIrowFam h σ ⊆ indFam K (Irr ↥K \ {1}) := by
   intro f hf
   obtain ⟨j, hj, rfl⟩ := mem_primeTIrowFam.1 hf
@@ -407,6 +415,7 @@ theorem primeTIrowFam_subset_indFam : primeTIrowFam h σ ⊆ indFam K (Irr ↥K 
   have := hA.one_lt_d
   omega
 
+omit [Fintype ↑(Irr ↥W₁)] [Fintype ↑(Irr ↥W₂)] in
 private theorem degree_ne_aux (h2 : (Nat.card ↥W₁ : ℂ) = (Nat.card ↥W₁ : ℂ) * (p : ℂ)) :
     False := by
   have hm : (Nat.card ↥W₁ : ℂ) ≠ 0 := Nat.cast_ne_zero.2 Nat.card_pos.ne'

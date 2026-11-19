@@ -28,7 +28,7 @@ theorem rank_ge_three_of_cover {p : ℕ} (hp : p.Prime) {S L : Type} [Group S] [
       ∃ F : (Fin 3 → Multiplicative (ZMod p)) →* S, Function.Injective F ∧
         (∀ x, Commute (F x) s) ∧ ∀ x, F x ∈ Z → F x = 1)
     {d : L} (hd : d ^ p = 1) : 3 ≤ CFSG.Open.pRank p (centralizer ({d} : Set L)) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨s, hsp, c, hc, hφs⟩ := exists_lift_pow_eq_one hp φ hφ Z hZ hker hcenter hnt hZp hd
   obtain ⟨F, hFi, hFc, hFZ⟩ := htorus s hsp
   have hinj : Function.Injective (φ.comp F) := by
@@ -69,11 +69,11 @@ theorem gl83PElementCentralizerRank_of_tori (hGA : CFSG.Open.GriessAllModelsStat
         Function.Injective F ∧ (∀ x, Commute (F x) s) ∧ ∀ x, ((F x : StatedSU n (r ^ f) K) : GL (Fin
         n) K) ∈ StatedScalars (Fin n) K → F x = 1) : GL83PElementCentralizerRank := by
   intro p hp hp5 L _ _ hL hlin hZne hZp d hdp hdz
-  haveI := hL.2
+  have := hL.2
   rcases hlin with ⟨n, K, _, _, hpn, hpK, ⟨e⟩⟩ | ⟨n, q, K, _, _, hKq, hpn, hpq, ⟨e⟩⟩
   · have hn5 : 5 ≤ n := by
       rcases Nat.eq_zero_or_pos n with rfl | hn0
-      · haveI : Subsingleton (StatedProj (StatedSL 0 K)) := inferInstance
+      · have : Subsingleton (StatedProj (StatedSL 0 K)) := inferInstance
         exact absurd e.injective.subsingleton (not_subsingleton _)
       · exact hp5.trans (Nat.le_of_dvd hn0 hpn)
     let e' : L ⧸ center L ≃* LinearFlag.projectiveSL n K :=
@@ -81,7 +81,7 @@ theorem gl83PElementCentralizerRank_of_tori (hGA : CFSG.Open.GriessAllModelsStat
     obtain ⟨φ, hφ, hφπ⟩ := exists_cover_linear hp hp5 hGA hL hZp (by omega) e'
     obtain ⟨hker, hcenter⟩ := cover_ker_center φ hφ (LinearFlag.proj n K) e' hφπ
     rw [LinearFlag.ker_proj] at hker hcenter
-    haveI : IsCyclic (LinearFlag.scalars n K) := by
+    have : IsCyclic (LinearFlag.scalars n K) := by
       rw [LinearFlag.scalars_eq_center]
       exact CFSG.LieType.Steinberg.isCyclic_center_specialLinearGroup n K
     exact rank_ge_three_of_cover hp φ hφ (LinearFlag.scalars n K)
@@ -89,11 +89,11 @@ theorem gl83PElementCentralizerRank_of_tori (hGA : CFSG.Open.GriessAllModelsStat
       (fun s hs => hTL hp hn5 hpK s hs) hdp
   · have hn5 : 5 ≤ n := by
       rcases Nat.eq_zero_or_pos n with rfl | hn0
-      · haveI : Subsingleton (StatedProj (StatedSU 0 q K)) := inferInstance
+      · have : Subsingleton (StatedProj (StatedSU 0 q K)) := inferInstance
         exact absurd e.injective.subsingleton (not_subsingleton _)
       · exact hp5.trans (Nat.le_of_dvd hn0 hpn)
     obtain ⟨r, m, hr, hchar, -, hKr⟩ := exists_char_pow_card K
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     obtain ⟨f, -, hqf⟩ : ∃ f ≤ m, q = r ^ f := by
       refine (Nat.dvd_prime_pow hr).1 ?_
       rw [← hKr, hKq]
@@ -102,7 +102,7 @@ theorem gl83PElementCentralizerRank_of_tori (hGA : CFSG.Open.GriessAllModelsStat
     obtain ⟨φ, hφ, hφπ⟩ := exists_cover_unitary hp hp5 hGA hL hZp hn5 hKq e
     obtain ⟨hker, hcenter⟩ := cover_ker_center φ hφ (QuotientGroup.mk' _) e hφπ
     rw [QuotientGroup.ker_mk'] at hker hcenter
-    haveI := isCyclic_scalars_statedSU hKq (by omega : 1 ≤ n)
+    have := isCyclic_scalars_statedSU hKq (by omega : 1 ≤ n)
     exact rank_ge_three_of_cover hp φ hφ _
       (CFSG.Open.StatedAPI.statedScalars_subgroupOf_le_center _) hker hcenter hZne hZp
       (fun s hs => hTU hp hn5 hKq hpq s hs) hdp

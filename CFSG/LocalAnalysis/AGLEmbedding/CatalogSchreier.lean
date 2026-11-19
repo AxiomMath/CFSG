@@ -10,7 +10,7 @@ namespace CFSG.AGLEmbedding
 theorem kFactCatalogSchreier_holds :
     KFactCatalogSchreier := by
   intro K _ _ hs hna hcat
-  haveI := hs
+  have := hs
   exact CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds K hna hcat
 
 end CFSG.AGLEmbedding

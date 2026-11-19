@@ -58,10 +58,10 @@ private theorem card_le_of_le_centralizer {T : Subgroup (Perm (Fin 9))}
   obtain ⟨b, hb⟩ := (IsPGroup.iff_card (p := 2)).mp hT2
   have hdvd : Nat.card T ∣ 288 := card_centralizer_σ₀ ▸ Subgroup.card_dvd_of_le hT
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hb6 : 6 ≤ b := by
     by_contra h
-    push_neg at h
+    push Not at h
     interval_cases b <;> omega
   have h64 : 2 ^ 6 ∣ 288 := (pow_dvd_pow 2 hb6).trans (hb ▸ hdvd)
   omega
@@ -88,7 +88,7 @@ private theorem card_map_eq_of_card_gt {G' : Type*} [Group G'] [Finite G']
   have h5 : 16 < Nat.card (R.map π) := by omega
   have hb5 : b ≤ 5 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : 2 ^ 6 ≤ 2 ^ b := Nat.pow_le_pow_right (by norm_num) h
     omega
   interval_cases b <;> omega
@@ -114,7 +114,7 @@ private theorem exists_conj_le_of_max {M : Type*} [Group M] [Finite M] {H Sc B :
       exact Nat.pow_le_pow_right (by norm_num) this
     · obtain ⟨P⟩ : Nonempty (Sylow 2 H) := Sylow.nonempty
       have h1 := hmax ((P : Subgroup H).map H.subtype) (Subgroup.map_subtype_le _)
-        (P.isPGroup'.map H.subtype)
+        (P.isPGroup.map H.subtype)
       rwa [Subgroup.card_subtype, Sylow.card_eq_multiplicity] at h1
   have hS₁ : Nat.card (Sc.subgroupOf H) = 2 ^ (Nat.card H).factorization 2 := by
     rw [Nat.card_congr (subgroupOfEquivOfLe hSH).toEquiv, hScard]
@@ -163,7 +163,7 @@ private theorem two_power_mem_core {G' : Type*} [Group G'] {E₁ E₂ : Subgroup
     (hf : f ∈ (E₁ ⊔ pPrimeCore 2 G') ⊔ (E₂ ⊔ pPrimeCore 2 G')) :
     ∃ k : ℕ, f ^ (2 ^ k) ∈ pPrimeCore 2 G' := by
   set O := pPrimeCore 2 G' with hO
-  haveI : O.Normal := pPrimeCore_normal
+  have : O.Normal := pPrimeCore_normal
   set mk : G' →* G' ⧸ O := QuotientGroup.mk' O with hmk
   have hN : (E₂.map mk).Normal := by
     have : (E₂ ⊔ O).map mk = E₂.map mk := by
@@ -196,7 +196,7 @@ end Bound
 
 section Bound
 
-open Bound
+open _root_.CFSG.ComponentClassification.SolMax.Sig36.E32.Bound
 
 theorem card_le_of_normal_mod_O {G' : Type*} [Group G'] [Finite G']
     (π : G' →* Perm (Fin 9)) (hrange : π.range = centralizer ({σ₀} : Set (Perm (Fin 9))))
@@ -204,7 +204,7 @@ theorem card_le_of_normal_mod_O {G' : Type*} [Group G'] [Finite G']
     {F : Subgroup G'} [F.Normal] (hF : ∀ f ∈ F, ∃ k : ℕ, f ^ (2 ^ k) ∈ pPrimeCore 2 G')
     {R : Subgroup G'} (hRF : R ≤ F) (hR : IsPGroup 2 R) : Nat.card R ≤ 32 := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h32 := card_map_eq_of_card_gt π hrange hker hR hlt
   have hζF : ζ₀ ∈ F.map π :=
     mul_mem (mem_map_of_mul_self_eq_one π hrange hRF hR h32 w₁_mem w₁_mul_self)
@@ -244,9 +244,9 @@ theorem conj_of_normal_mod_O {G' : Type*} [Group G'] [Finite G']
   have h2₂ : IsPGroup 2 E₂ := h2.map _
   have hc₂ : Nat.card E₂ = 32 := by
     rw [hE₂, Subgroup.card_map_of_injective φ.injective, hc]
-  haveI : (E₁ ⊔ O).Normal := hN
-  haveI : (E₂ ⊔ O).Normal := hN₂
-  haveI : ((E₁ ⊔ O) ⊔ (E₂ ⊔ O)).Normal := Subgroup.sup_normal _ _
+  have : (E₁ ⊔ O).Normal := hN
+  have : (E₂ ⊔ O).Normal := hN₂
+  have : ((E₁ ⊔ O) ⊔ (E₂ ⊔ O)).Normal := Subgroup.sup_normal _ _
   have hE₁F : E₁ ≤ (E₁ ⊔ O) ⊔ (E₂ ⊔ O) := le_sup_left.trans le_sup_left
   have hE₂F : E₂ ≤ (E₁ ⊔ O) ⊔ (E₂ ⊔ O) := le_sup_left.trans le_sup_right
   have hFO : ∀ f ∈ (E₁ ⊔ O) ⊔ (E₂ ⊔ O), ∃ k : ℕ, f ^ (2 ^ k) ∈ O := fun f hf =>

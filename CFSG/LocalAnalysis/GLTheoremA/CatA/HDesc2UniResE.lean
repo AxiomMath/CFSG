@@ -115,18 +115,18 @@ private theorem u6cBlk_apply_of_le (B : Matrix (Fin 4) (Fin 4) K) {i j : Fin 6}
     simp only [finSumFinEquiv_apply_left, Fin.val_castAdd] at hij
     omega
   · have hne : σ₆ (Sum.inl a) ≠ σ₆ (Sum.inr b) := fun hab => Sum.inl_ne_inr ((σ₆).injective hab)
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
     simp
   · have hne : σ₆ (Sum.inr a) ≠ σ₆ (Sum.inl b) := fun hab => Sum.inr_ne_inl ((σ₆).injective hab)
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
     simp
   · by_cases hab : a = b
     · subst hab
       simp
     · have hne : σ₆ (Sum.inr a) ≠ σ₆ (Sum.inr b) :=
         fun hh => hab (Sum.inr_injective ((σ₆).injective hh))
-      rw [if_neg hne]
-      simp [Matrix.one_apply, hab]
+      rw [ite_eq_right hne]
+      simp [hab]
 
 private theorem u6cExists {M : Matrix (Fin 6) (Fin 6) K}
     (hM : ∀ i j : Fin 6, (4 ≤ (i : ℕ) ∨ 4 ≤ (j : ℕ)) → M i j = if i = j then 1 else 0) :
@@ -195,10 +195,10 @@ private theorem u6cShape_iff {M : Matrix (Fin 6) (Fin 6) K} :
       rcases hij with hi | hj
       · left
         unfold u6cP
-        rw [if_neg (by omega)]
+        rw [ite_eq_right (by omega)]
       · right
         unfold u6cP
-        rw [if_neg (by omega)]
+        rw [ite_eq_right (by omega)]
     have h2 : (M - 1) i j = 0 := by
       rcases h0 with h0 | h0
       · rw [h1, h0]
@@ -212,15 +212,15 @@ private def u6cD (ω : K) : Fin 6 → K := fun i => if (i : ℕ) < 4 then 1 else
 
 private theorem u6cD_apply_lt (ω : K) {i : Fin 6} (hi : (i : ℕ) < 4) : u6cD ω i = 1 := by
   unfold u6cD
-  exact if_pos hi
+  exact ite_eq_left hi
 
 private theorem u6cD_apply_ge (ω : K) {i : Fin 6} (hi : 4 ≤ (i : ℕ)) : u6cD ω i = ω := by
   unfold u6cD
-  exact if_neg (by omega)
+  exact ite_eq_right (by omega)
 
 private theorem u6cD_eq (ω : K) : u6cD ω = ![1, 1, 1, 1, ω, ω] := by
   funext i
-  fin_cases i <;> first | rfl | simp [u6cD]
+  fin_cases i <;> first | rfl
 
 private theorem u6cComm_pm {ω : K} (hω1 : (1 : K) ≠ ω) {Y : Matrix (Fin 6) (Fin 6) K}
     (hY : diagonal (u6cD ω) * Y = Y * diagonal (u6cD ω)) :
@@ -264,7 +264,7 @@ private theorem u6cBlkP_injective {ℓ f : ℕ} (h : UnitaryFieldData ℓ f K) :
     have h1 := congrArg (fun A : GL (Fin 6) K => (A : Matrix (Fin 6) (Fin 6) K) 5 5) hc'
     simp only [coe_u6cGL, GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
       Matrix.diagonal_apply_eq] at h1
-    rw [u6cBlk_apply_of_le (i := 5) (j := 5) _ (Or.inl (by decide)), if_pos rfl] at h1
+    rw [u6cBlk_apply_of_le (i := 5) (j := 5) _ (Or.inl (by decide)), ite_eq_left rfl] at h1
     exact h1.symm
   have hc1 : c = 1 := Units.ext h55
   rw [hc1, map_one] at hc'
@@ -461,7 +461,7 @@ private theorem u6cThree [CharP K 2] (h : UnitaryFieldData 2 1 K) {ω : K}
       (fun A : gramSU h (idGram K 4) => ((A : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) 0 0) h1
     have h2 : ω = 1 := h1'
     exact hω1 h2.symm
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [← orderOf_eq_prime hd3 hd1]
   exact orderOf_dvd_natCard d
 
@@ -471,6 +471,7 @@ section CoreSix
 
 variable {K : Type} [Field K] [CharP K 2] [Finite K]
 
+omit [CharP K 2] [Finite K] in
 theorem mk_mem_fixSubgroup_of_block (h : UnitaryFieldData 2 1 K)
     {X : primeFormUnitary h (idGram K 6)} {e : Fin 6 → K}
     (hX : ((X : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) = diagonal e)
@@ -533,12 +534,12 @@ theorem glaPLayer_ne_bot_six (h : UnitaryFieldData 2 1 K) {ω : K} (hω : ω ^ 2
     rw [hφ, hφ, ← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul]
     congr 1
     exact Subtype.ext hZ
-  haveI : IsSimpleGroup (primeFormP h (idGram K 4)) :=
+  have : IsSimpleGroup (primeFormP h (idGram K 4)) :=
     CFSG.RankThree.Classical.isSimpleGroup_primeFormP_one h (n := 4) (by norm_num) (by norm_num)
   let eP : gramSU h (idGram K 4) ≃* primeFormP h (idGram K 4) :=
     MulEquiv.ofBijective (QuotientGroup.mk' N4) ⟨hinj4, QuotientGroup.mk'_surjective N4⟩
   let eJ : gramSU h (idGram K 4) ≃* φ.range := MonoidHom.ofInjective hφinj
-  haveI : IsSimpleGroup φ.range := (eP.symm.trans eJ).symm.isSimpleGroup
+  have : IsSimpleGroup φ.range := (eP.symm.trans eJ).symm.isSimpleGroup
   have hnc : ∃ a b : φ.range, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon

@@ -222,7 +222,7 @@ theorem exponent_le_pRank_linTwo {K : Type} [Group K] [Finite K] {p : ℕ}
     {d : TauCeti.ValidLieTypeIndex} {q : TauCeti.PrimePower} (hq : q.p = p) (hd : d.1 = .A 1 q)
     (e : K ≃* (TauCeti.CFSGIndex.lie d).Group) : q.exponent ≤ Open.pRank p (⊤ : Subgroup K) := by
   subst hq
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨b⟩ := CFSG.AGLEmbedding.nonempty_mulEquiv_psl2GF_of_isLinTwoIndex
     (p := q.p) (n := q.exponent) ⟨q, hd, rfl, rfl⟩
   have h := CFSG.Quasithin.H13.S3320.le_pRank_of_psl2 q.exponent_pos (e.trans b)
@@ -259,7 +259,7 @@ end NineFourIrred
 theorem kFactNineFourSylowIrred_holds :
     KFactNineFourSylowIrred := by
   intro p hp hp2 Z _ _ Y hY hrk S
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrk' := NineFourIrred.pRank_top_eq_two hrk
   obtain ⟨-, i, hi, ⟨e⟩⟩ := hY
   have step : RankOneCent.IsStepThreeIndex p i → NormIrredFrattini (S : Subgroup ↥Y) :=

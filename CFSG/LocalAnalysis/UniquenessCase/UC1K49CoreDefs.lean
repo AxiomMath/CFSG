@@ -69,7 +69,7 @@ theorem xaData_exists {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x : G}
 
 @[expose] def Inputs49 : Prop := FiveRankBound ∧ Q8D8Counts ∧ A5MinusModule
 
-@[expose] def ChiefShape49 (H L Q : Subgroup G) (x : G) (N M : Subgroup G) : Prop :=
+@[expose] def ChiefShape49 (_H L Q : Subgroup G) (x : G) (N M : Subgroup G) : Prop :=
   ∀ V : ℕ → Subgroup G, (∀ i, V i = ⁅N, Lc L x i⁆ ⊔ M) →
     N = V 0 ⊔ V 1 ⊔ V 2 ∧
     (V 0 ⊓ (V 1 ⊔ V 2) = M ∧ V 1 ⊓ (V 0 ⊔ V 2) = M ∧ V 2 ⊓ (V 0 ⊔ V 1) = M) ∧

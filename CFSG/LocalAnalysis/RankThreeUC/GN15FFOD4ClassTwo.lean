@@ -150,11 +150,11 @@ theorem exists_natural_of_quadratic_offender_card_two
                   one_mem' := map_one (v : MulAut V)
                   mul_mem' := by
                     intro a b ha hb
-                    simp only [Set.mem_setOf_eq] at ha hb ⊢
+                    simp only [Set.mem_ofPred_eq] at ha hb ⊢
                     rw [map_mul, ha, hb]
                   inv_mem' := by
                     intro a ha
-                    simp only [Set.mem_setOf_eq] at ha ⊢
+                    simp only [Set.mem_ofPred_eq] at ha ⊢
                     rw [map_inv, ha] }
               have hScard : Nat.card {w : V // (v : MulAut V) w = w} = Nat.card S :=
                 Nat.card_congr

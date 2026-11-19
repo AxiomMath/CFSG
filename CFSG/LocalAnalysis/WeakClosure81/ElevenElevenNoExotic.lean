@@ -33,11 +33,13 @@ theorem card_le_sixteen_mul_card_inf {D E E' : Subgroup G} (hE : E ≤ D) (hE' :
   rw [← hmul]
   exact Nat.mul_le_mul_right _ hle
 
+omit [Finite G] in
 private theorem mem_conj_smul_iff_aux {g z : G} {Y : Subgroup G} :
     z ∈ MulAut.conj g • Y ↔ g⁻¹ * z * g ∈ Y := by
   rw [Subgroup.mem_pointwise_smul_iff_inv_smul_mem, ← map_inv, MulAut.smul_def,
     MulAut.conj_apply, inv_inv]
 
+omit [Finite G] in
 theorem card_inf_centralizer_conj_smul {D A : Subgroup G} {k : G}
     (hk : ∀ d ∈ D, k * d * k⁻¹ ∈ D) (hk' : ∀ d ∈ D, k⁻¹ * d * k ∈ D) :
     Nat.card ↥(D ⊓ Subgroup.centralizer ((MulAut.conj k • A : Subgroup G) : Set G)) =
@@ -64,6 +66,7 @@ theorem card_inf_centralizer_conj_smul {D A : Subgroup G} {k : G}
   rw [key]
   exact (Nat.card_congr (Subgroup.equivSMul (MulAut.conj k) _).toEquiv).symm
 
+omit [Finite G] in
 private theorem card_sup_mul_card_inf_aux {A B : Subgroup G}
     (hA : A ≤ Subgroup.normalizer (B : Set G)) :
     Nat.card ↥(A ⊔ B) * Nat.card ↥(A ⊓ B) = Nat.card A * Nat.card B := by
@@ -75,6 +78,7 @@ private theorem card_sup_mul_card_inf_aux {A B : Subgroup G}
   rw [← h2, ← h3, inf_comm]
   ring
 
+omit [Finite G] in
 private theorem le_normalizer_of_forall_mem {Q W : Subgroup G}
     (h : ∀ q ∈ Q, ∀ w ∈ W, q * w * q⁻¹ ∈ W) : Q ≤ Subgroup.normalizer (W : Set G) := by
   intro q hq

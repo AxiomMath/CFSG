@@ -73,7 +73,7 @@ theorem exists_pCoreOf_nonconst (hc : CritAmalgam G₀ G₁ G₂ T Z) (hb : Odd 
       omega
     exact hK hx
   obtain ⟨x, hxV, hxN⟩ :=
-    SetLike.not_le_iff_exists.mp (hconf.not_Vv_le_ballStab hc)
+    IsConcreteLE.not_le_iff_exists.mp (hconf.not_Vv_le_ballStab hc)
   have hxQ : x ∈ pCoreOf 2 (stab α₂) := hconf.push₂ hxV
   have hxβ : x ∈ ballStab 1 β := hVballβ hxV
   have hα₂v : vtype α₂ = false := vtype_eq_false_of_mem_nbrs hα₁v hconf.adj₂

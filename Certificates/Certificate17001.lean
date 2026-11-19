@@ -68,7 +68,7 @@ private theorem sol4_2 : ∀ v₁ v₂ : Fin 4 → ZMod 2, (∀ r ∈ rels4, fox
       ![![0, v₁ 1, v₁ 2, v₁ 3], ![v₂ 0 - (v 3 - v 0), 0, 0, 0]] := by
     funext i j
     fin_cases i <;> fin_cases j <;>
-      simp [mats4_0_mulVec, mats4_1_mulVec, v] <;> ring
+      simp [mats4_0_mulVec, mats4_1_mulVec, v]
   have hw := fox_sub_cob rels4_spec_1 h v
   rw [hform] at hw
   have h0 := sol4_core _ _ _ _ hw
@@ -96,7 +96,7 @@ private theorem sol5_all : ∀ v₁ v₂ : Fin 5 → ZMod 2,
       ![![0, v₁ 1, v₁ 2, v₁ 3, v₁ 4], ![v₂ 0 - (v 4 - v 0), 0, 0, 0, 0]] := by
     funext i j
     fin_cases i <;> fin_cases j <;>
-      simp [mats5_0_mulVec, mats5_1_mulVec, v] <;> ring
+      simp [mats5_0_mulVec, mats5_1_mulVec, v]
   have hw := fox_sub_cob rels5_spec_4 h v
   rw [hform] at hw
   have h0 := sol5_core _ _ _ _ _ hw

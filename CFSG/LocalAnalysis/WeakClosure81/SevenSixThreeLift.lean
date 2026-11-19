@@ -28,7 +28,7 @@ private theorem s763L_commutator_le_center (hcl : ∀ x y z : Q, ⁅⁅x, y⁆, 
 theorem relIndex_sup_zpowers_eq_prime [Finite Q] {p : ℕ} (hp : p.Prime) {M : Subgroup Q}
     [M.Normal] {a : Q} (ha : a ^ p = 1) (haM : a ∉ M) :
     M.relIndex (Subgroup.zpowers a ⊔ M) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have ha1 : a ≠ 1 := by
     intro h
     apply haM
@@ -62,7 +62,7 @@ theorem relIndex_sup_zpowers_eq_prime [Finite Q] {p : ℕ} (hp : p.Prime) {M : S
 theorem commutator_eq_bot_of_index_le [Finite Q] {p : ℕ} (hp : p.Prime)
     (hexp : ∀ x : Q, x ^ p = 1) (hcl : ∀ x y z : Q, ⁅⁅x, y⁆, z⁆ = 1)
     (h : (commutator Q).index ≤ p) : commutator Q = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcent : commutator Q ≤ Subgroup.center Q := s763L_commutator_le_center hcl
   have hdvd : (Subgroup.center Q).index ∣ (commutator Q).index :=
     Subgroup.index_dvd_of_le hcent
@@ -88,11 +88,11 @@ theorem commutator_eq_bot_of_index_le [Finite Q] {p : ℕ} (hp : p.Prime)
         Nat.le_antisymm hcenter_le
           (Nat.le_of_dvd (Nat.pos_of_ne_zero hcenter_ne) hpdvd)
       rw [hEq]
-  haveI : IsCyclic (Q ⧸ Subgroup.center Q) := by
+  have : IsCyclic (Q ⧸ Subgroup.center Q) := by
     apply isCyclic_of_card_dvd_prime (p := p)
     rw [← Subgroup.index_eq_card (Subgroup.center Q)]
     exact hcenter_dvd_p
-  haveI : IsMulCommutative Q := isMulCommutative_of_isCyclic_quotient_center_self Q
+  have : IsMulCommutative Q := isMulCommutative_of_isCyclic_quotient_center_self Q
   exact commutator_eq_bot (G := Q)
 
 theorem exists_sup_zpowers_eq_top_of_index_le [Finite Q] {p : ℕ} (hp : p.Prime)
@@ -100,15 +100,15 @@ theorem exists_sup_zpowers_eq_top_of_index_le [Finite Q] {p : ℕ} (hp : p.Prime
     ∃ a b : Q, Subgroup.zpowers a ⊔ Subgroup.zpowers b ⊔ commutator Q = ⊤ := by
   by_cases hD : commutator Q = ⊤
   · exact ⟨1, 1, by rw [hD]; simp⟩
-  · obtain ⟨a, -, haD⟩ := SetLike.exists_of_lt (lt_of_le_of_ne le_top hD)
+  · obtain ⟨a, -, haD⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne le_top hD)
     let M₁ : Subgroup Q := Subgroup.zpowers a ⊔ commutator Q
     have hM₁D : commutator Q ≤ M₁ := le_sup_right
-    haveI : M₁.Normal := Subgroup.Normal.of_commutator_le (G := Q) hM₁D
+    have : M₁.Normal := Subgroup.Normal.of_commutator_le (G := Q) hM₁D
     have hrel1 : (commutator Q).relIndex M₁ = p :=
       relIndex_sup_zpowers_eq_prime hp (hexp a) haD
     by_cases hM₁ : M₁ = ⊤
     · exact ⟨a, 1, by rw [Subgroup.zpowers_eq_bot.mpr rfl, sup_bot_eq]; exact hM₁⟩
-    · obtain ⟨b, -, hbM₁⟩ := SetLike.exists_of_lt (lt_of_le_of_ne le_top hM₁)
+    · obtain ⟨b, -, hbM₁⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne le_top hM₁)
       let M₂ : Subgroup Q := Subgroup.zpowers b ⊔ M₁
       have hM₁M₂ : M₁ ≤ M₂ := le_sup_right
       have hDM₂ : commutator Q ≤ M₂ := le_trans hM₁D hM₁M₂
@@ -189,7 +189,6 @@ private def s763L_fixedLeft (hcl : ∀ x y z : Q, ⁅⁅x, y⁆, z⁆ = 1) (E : 
   carrier := {x | ∀ y, ⁅x, y⁆ ∈ E}
   mul_mem' := fun {x x'} hx hx' => by
     intro y
-    change ⁅x * x', y⁆ ∈ E
     rw [s763L_commutator_mul_left hcl x x' y]
     exact E.mul_mem (hx y) (hx' y)
   one_mem' := by
@@ -199,7 +198,6 @@ private def s763L_fixedLeft (hcl : ∀ x y z : Q, ⁅⁅x, y⁆, z⁆ = 1) (E : 
     exact E.one_mem
   inv_mem' := fun {x} hx => by
     intro y
-    change ⁅x⁻¹, y⁆ ∈ E
     rw [s763L_commutator_inv_left hcl x y]
     exact E.inv_mem (hx y)
 
@@ -218,9 +216,7 @@ private theorem s763L_commutator_le_fixedLeft
     (hcent : commutator Q ≤ Subgroup.center Q)
     (hcl : ∀ x y z : Q, ⁅⁅x, y⁆, z⁆ = 1) (E : Subgroup Q) :
     commutator Q ≤ s763L_fixedLeft hcl E := by
-  intro d hd
-  intro y
-  change ⁅d, y⁆ ∈ E
+  intro d hd y
   have h1 : ⁅d, y⁆ = 1 := commutatorElement_eq_one_iff_mul_comm.mpr
     ((Subgroup.mem_center_iff.mp (hcent hd) y).symm)
   rw [h1]

@@ -42,6 +42,7 @@ theorem eleven_four_B {M V Q U : Subgroup G}
   · exact Or.inr h
   · exact Or.inl (distinct_blocks_commute_of_isBlockOfInX hchar hLi' hLj'' h)
 
+omit [Finite G] in
 private theorem conjSubgroup_iSup' {ι : Sort*} (A : ι → Subgroup G) (g : G) :
     conjSubgroup (⨆ i, A i) g = ⨆ i, conjSubgroup (A i) g :=
   Subgroup.map_iSup _ _

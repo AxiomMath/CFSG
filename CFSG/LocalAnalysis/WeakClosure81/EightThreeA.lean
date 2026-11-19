@@ -23,6 +23,7 @@ structure Hyp83 (V H T : Subgroup G) : Prop where
   not_isCalH0 : ¬ IsCalH0 V H
   sylow : IsSylowIn 2 T (H ⊓ Subgroup.normalizer (V : Set G))
 
+omit [Finite G] in
 theorem Hyp83.of_hyp7 {V H T : Subgroup G} (hV7 : Hyp7 V) (hH : IsCalH V H)
     (hH0 : ¬ IsCalH0 V H) (hT : IsSylowIn 2 T (H ⊓ Subgroup.normalizer (V : Set G))) :
     Hyp83 V H T :=
@@ -32,40 +33,52 @@ namespace Hyp83
 
 variable {V H T : Subgroup G}
 
+omit [Finite G] in
 theorem le_H (h : Hyp83 V H T) : V ≤ H :=
   h.isCalH.1
 
+omit [Finite G] in
 theorem not_le_pCoreOf (h : Hyp83 V H T) : ¬ V ≤ pCoreOf 2 H :=
   fun hV => h.not_isCalH0 ⟨h.isCalH, hV⟩
 
+omit [Finite G] in
 theorem sylow_H (h : Hyp83 V H T) : IsSylowIn 2 T H :=
   isSylowIn_of_isCalH h.isCalH h.sylow
 
+omit [Finite G] in
 theorem T_le_H (h : Hyp83 V H T) : T ≤ H :=
   h.sylow.le.trans inf_le_left
 
+omit [Finite G] in
 theorem T_le_normalizer (h : Hyp83 V H T) : T ≤ Subgroup.normalizer (V : Set G) :=
   h.sylow.le.trans inf_le_right
 
+omit [Finite G] in
 theorem le_T (h : Hyp83 V H T) : V ≤ T :=
   le_of_isCalH h.elemAbelian h.isCalH h.sylow
 
+omit [Finite G] in
 theorem pCoreOf_le_T (h : Hyp83 V H T) : pCoreOf 2 H ≤ T :=
   pCoreOf_le_of_isCalH h.isCalH h.sylow
 
+omit [Finite G] in
 theorem eSub_le_pCoreOf (h : Hyp83 V H T) : eSub V H T ≤ pCoreOf 2 H :=
   CFSG.LocalAnalysis.WeakClosure81.eSub_le_pCoreOf h.elemAbelian h.isCalH h.sylow
 
+omit [Finite G] in
 theorem eSub_le_H (h : Hyp83 V H T) : eSub V H T ≤ H :=
   h.eSub_le_pCoreOf.trans (CFSG.openPCoreOf_le 2 H)
 
+omit [Finite G] in
 theorem isElemAbelian_eSub (h : Hyp83 V H T) : IsElemAbelian 2 (eSub V H T) :=
   eSub_isElemAbelian h.elemAbelian h.isCalH h.sylow
 
+omit [Finite G] in
 theorem eSub_subgroupOf_normal (h : Hyp83 V H T) : ((eSub V H T).subgroupOf H).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer h.eSub_le_H).mpr
     (le_normalizer_conjClosure _ H)
 
+omit [Finite G] in
 theorem ne_bot (h : Hyp83 V H T) : V ≠ ⊥ := by
   intro hV
   have h2 := h.two_lt_card
@@ -80,28 +93,35 @@ theorem mem_omegaSet_self (h : Hyp83 V H T) : V ∈ omegaSet V H (eSub V H T) :=
   mem_omegaSet.mpr ⟨1, (conjSubgroup_one V).symm, by rw [inf_comm]; exact h.inf_eSub_ne_bot,
     h.not_le_pCoreOf⟩
 
+omit [Finite G] in
 theorem isMulCommutative_eSub (h : Hyp83 V H T) : IsMulCommutative (eSub V H T) :=
   h.isElemAbelian_eSub.1
 
 end Hyp83
 
+omit [Finite G] in
 theorem mem_omegaOrb {V H T U : Subgroup G} :
     U ∈ omegaOrb V H T ↔ ∃ k ∈ kSub V H (eSub V H T), U = conjSubgroup V k :=
   Iff.rfl
 
+omit [Finite G] in
 theorem conjSubgroup_mem_omegaOrb {V H T : Subgroup G} {k : G}
     (hk : k ∈ kSub V H (eSub V H T)) : conjSubgroup V k ∈ omegaOrb V H T :=
   ⟨k, hk, rfl⟩
 
+omit [Finite G] in
 theorem self_mem_omegaOrb (V H T : Subgroup G) : V ∈ omegaOrb V H T :=
   ⟨1, (kSub V H (eSub V H T)).one_mem, (conjSubgroup_one V).symm⟩
 
+omit [Finite G] in
 theorem le_kGen {V H T U : Subgroup G} (hU : U ∈ omegaOrb V H T) : U ≤ kGen V H T :=
   le_iSup₂_of_le U hU le_rfl
 
+omit [Finite G] in
 theorem le_kGen_self (V H T : Subgroup G) : V ≤ kGen V H T :=
   le_kGen (self_mem_omegaOrb V H T)
 
+omit [Finite G] in
 theorem kGen_eq_kOrbSub (V H T : Subgroup G) :
     kGen V H T = kOrbSub V H (eSub V H T) V := by
   refine le_antisymm ?_ ?_
@@ -110,6 +130,7 @@ theorem kGen_eq_kOrbSub (V H T : Subgroup G) :
     exact le_iSup (fun m : kSub V H (eSub V H T) => conjSubgroup V (m : G)) ⟨k, hk⟩
   · exact iSup_le fun k => le_kGen (conjSubgroup_mem_omegaOrb k.2)
 
+omit [Finite G] in
 theorem conjSubgroup_kOrbSub {V H E U : Subgroup G} (hEH : E ≤ H)
     (hEnorm : (E.subgroupOf H).Normal) (hOmH : ∀ W ∈ omegaSet V H E, W ≤ H) {x : G}
     (hx : x ∈ H) :
@@ -139,6 +160,7 @@ namespace Hyp83
 
 variable {V H T : Subgroup G}
 
+omit [Finite G] in
 theorem kSub_normal (h : Hyp83 V H T) (hOmH : ∀ W ∈ omegaSet V H (eSub V H T), W ≤ H) :
     ((kSub V H (eSub V H T)).subgroupOf H).Normal :=
   kSub_subgroupOf_normal h.eSub_le_H h.eSub_subgroupOf_normal hOmH
@@ -147,6 +169,7 @@ theorem pCoreOf_kSub_le (h : Hyp83 V H T) (hOmH : ∀ W ∈ omegaSet V H (eSub V
     pCoreOf 2 (kSub V H (eSub V H T)) ≤ pCoreOf 2 H :=
   pCoreOf_kSub_le_pCoreOf h.eSub_le_H h.eSub_subgroupOf_normal hOmH
 
+omit [Finite G] in
 theorem conjSubgroup_mem_omegaSet' (h : Hyp83 V H T) {W : Subgroup G}
     (hW : W ∈ omegaSet V H (eSub V H T)) {x : G} (hx : x ∈ H) :
     conjSubgroup W x ∈ omegaSet V H (eSub V H T) :=
@@ -175,6 +198,7 @@ theorem kSub_le_normalizer_kGen (h : Hyp83 V H T)
     kSub V H (eSub V H T) ≤ Subgroup.normalizer (kGen V H T : Set G) :=
   le_normalizer_of_subgroupOf_normal (h.kGen_le_kSub hOmH) (h.kGen_normal hOmH)
 
+omit [Finite G] in
 theorem conjSubgroup_kGen (h : Hyp83 V H T) (hOmH : ∀ W ∈ omegaSet V H (eSub V H T), W ≤ H)
     {x : G} (hx : x ∈ H) :
     conjSubgroup (kGen V H T) x = kOrbSub V H (eSub V H T) (conjSubgroup V x) := by

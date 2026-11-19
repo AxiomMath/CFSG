@@ -21,10 +21,12 @@ abbrev U : Submodule K V := zOp F |>.eigenspace (-1)
 
 abbrev W : Submodule K V := zOp F |>.eigenspace 1
 
+omit [FiniteDimensional K V] in
 theorem zOp_mul_self : zOp F * zOp F = (1 : K) ^ 2 • (1 : Module.End K V) := by
   rw [one_pow, one_smul]
   exact congrArg (fun g : V ≃ₗ[K] V => (g : V →ₗ[K] V)) F.z_mul_self
 
+omit [FiniteDimensional K V] in
 theorem zOp_selfAdjoint (x y : V) :
     Q.polarBilin (zOp F x) y = Q.polarBilin x (zOp F y) := by
   have hz2 : ∀ v, zOp F (zOp F v) = v := by
@@ -36,15 +38,17 @@ theorem zOp_selfAdjoint (x y : V) :
     _ = Q.polarBilin x (zOp F y) :=
       CFSG.ClassicalGroups.Orthogonal.polar_map_of_mem F.z_mem x (zOp F y)
 
+omit [FiniteDimensional K V] in
 @[simp] theorem zFun_apply (i : Fin 5) :
     F.zFun i = if (i : ℕ) < 4 then -Pi.single i 1 else Pi.single i 1 := rfl
 
+omit [FiniteDimensional K V] in
 theorem zCoord_apply_coord (c : Fin 5 → K) (j : Fin 5) :
     F.zCoord c j = if (j : ℕ) < 4 then -c j else c j := by
   rw [F.zCoord_apply]
   rw [show F.zLin = (Pi.basisFun K (Fin 5)).constr K F.zFun from rfl]
   rw [Module.Basis.constr_apply_fintype]
-  simp only [Pi.basisFun_repr, Finset.sum_apply, Pi.smul_apply, smul_eq_mul, zFun_apply]
+  simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, zFun_apply]
   rw [Finset.sum_eq_single j]
   · by_cases hj : (j : ℕ) < 4 <;> simp [hj]
   · intro i _ hij
@@ -53,10 +57,12 @@ theorem zCoord_apply_coord (c : Fin 5 → K) (j : Fin 5) :
   · intro hj
     exact absurd (Finset.mem_univ j) hj
 
+omit [FiniteDimensional K V] in
 theorem coord_z (x : V) : F.coord (F.z x) = F.zCoord (F.coord x) := by
   rw [show F.z x = F.conjCoord F.zCoord x from rfl, F.conjCoord_apply,
     LinearEquiv.apply_symm_apply]
 
+omit [FiniteDimensional K V] in
 theorem W_eq_span_four : W F = Submodule.span K {F.e 4} := by
   ext x
   constructor
@@ -67,7 +73,7 @@ theorem W_eq_span_four : W F = Submodule.span K {F.e 4} := by
     have h4 : ∀ i : Fin 5, (i : ℕ) < 4 → F.coord x i = 0 := by
       intro i hi
       have := congrArg (fun f : Fin 5 → K => f i) hc
-      rw [zCoord_apply_coord F, if_pos hi] at this
+      rw [zCoord_apply_coord F, ite_eq_left hi] at this
       have h2 : (2 : K) * F.coord x i = 0 := by linear_combination -this
       exact (mul_eq_zero.mp h2).resolve_left F.two_ne_zero
     have hx4 : F.coord x = F.coord x 4 • (Pi.single 4 1 : Fin 5 → K) := by
@@ -97,10 +103,12 @@ theorem W_eq_span_four : W F = Submodule.span K {F.e 4} := by
       one_smul, map_smul, F.z_e 4]
     simp
 
+omit [FiniteDimensional K V] in
 theorem finrank_W : Module.finrank K (W F) = 1 := by
   rw [W_eq_span_four]
   exact finrank_span_singleton (F.e.ne_zero 4)
 
+omit [FiniteDimensional K V] in
 theorem W_nondegenerate : (Q.comp (W F).subtype).Nondegenerate := by
   let _ : Invertible (2 : K) := invertibleOfNonzero F.two_ne_zero
   have hsym : LinearMap.BilinForm.IsSymm (polarBilin Q) :=
@@ -109,6 +117,7 @@ theorem W_nondegenerate : (Q.comp (W F).subtype).Nondegenerate := by
     hsym (zOp F) 1 one_ne_zero F.two_ne_zero (zOp_mul_self F) (zOp_selfAdjoint F)).1
   exact QuadraticMap.nondegenerate_polar_iff.mp h
 
+omit [FiniteDimensional K V] in
 theorem U_nondegenerate : (Q.comp (U F).subtype).Nondegenerate := by
   let _ : Invertible (2 : K) := invertibleOfNonzero F.two_ne_zero
   have hsym : LinearMap.BilinForm.IsSymm (polarBilin Q) :=
@@ -117,10 +126,12 @@ theorem U_nondegenerate : (Q.comp (U F).subtype).Nondegenerate := by
     hsym (zOp F) 1 one_ne_zero F.two_ne_zero (zOp_mul_self F) (zOp_selfAdjoint F)).2
   exact QuadraticMap.nondegenerate_polar_iff.mp h
 
+omit [FiniteDimensional K V] in
 theorem W_polar_nondegenerate : (Q.comp (W F).subtype).polarBilin.Nondegenerate := by
   let _ : Invertible (2 : K) := invertibleOfNonzero F.two_ne_zero
   exact QuadraticMap.nondegenerate_polar_iff.mpr (W_nondegenerate F)
 
+omit [FiniteDimensional K V] in
 theorem U_polar_nondegenerate : (Q.comp (U F).subtype).polarBilin.Nondegenerate := by
   let _ : Invertible (2 : K) := invertibleOfNonzero F.two_ne_zero
   exact QuadraticMap.nondegenerate_polar_iff.mpr (U_nondegenerate F)
@@ -140,6 +151,7 @@ def wVec : W F := ⟨F.e 4, by
   rw [W_eq_span_four F]
   exact Submodule.subset_span rfl⟩
 
+omit [FiniteDimensional K V] in
 theorem wVec_ne_zero : wVec F ≠ 0 := by
   intro h
   have h' := congrArg Subtype.val h
@@ -158,6 +170,7 @@ private def wEquiv : K ≃ₗ[K] W F :=
       obtain ⟨a, rfl⟩ := Submodule.mem_span_singleton.mp hx
       exact ⟨a, rfl⟩)
 
+omit [FiniteDimensional K V] in
 private theorem wEquiv_one : wEquiv F 1 = wVec F := by
   change (LinearMap.toSpanSingleton K (W F) (wVec F)) 1 = wVec F
   simp [LinearMap.toSpanSingleton]
@@ -165,9 +178,11 @@ private theorem wEquiv_one : wEquiv F 1 = wVec F := by
 private def wBasis : Module.Basis (Fin 1) K (W F) :=
   (Module.Basis.singleton (Fin 1) K).map (wEquiv F)
 
+omit [FiniteDimensional K V] in
 private theorem wBasis_zero : wBasis F 0 = wVec F := by
   simp [wBasis, wEquiv_one]
 
+omit [FiniteDimensional K V] in
 private theorem det_eq_scalar_of_apply (g : (W F) ≃ₗ[K] (W F)) {b : K} (hb0 : b ≠ 0)
     (hb : g (wVec F) = b • wVec F) :
     LinearEquiv.det g = Units.mk0 b hb0 := by
@@ -193,7 +208,7 @@ def scalarOnW (u : Kˣ) (hu : u * u = 1) :
     rw [QuadraticMap.map_smul]
     have hu' : ((u : K) * (u : K)) = 1 := by
       simpa using congrArg (fun z : Kˣ => (z : K)) hu
-    simp only [pow_two, hu', one_smul]
+    simp only [hu', one_smul]
 
 theorem det_scalarOnW (u : Kˣ) (hu : u * u = 1) :
     LinearEquiv.det (scalarOnW (F := F) u hu).val = u := by
@@ -229,12 +244,14 @@ def restrictU (F : FrameData Q) :
   map_one' := rfl
   map_mul' _ _ := rfl
 
+omit [FiniteDimensional K V] in
 theorem scalarOnW_congr {u v : Kˣ} (h : u = v)
     (hu : u * u = 1) (hv : v * v = 1) :
     scalarOnW (F := F) u hu = scalarOnW (F := F) v hv := by
   subst h
   congr 1
 
+omit [FiniteDimensional K V] in
 theorem eq_scalarOnW (g : TauCeti.QuadraticMap.orthogonalGroup (Q.comp (W F).subtype))
     (hu : LinearEquiv.det g.val * LinearEquiv.det g.val = 1) :
     g = scalarOnW (F := F) (LinearEquiv.det g.val) hu := by
@@ -295,7 +312,7 @@ def extendU (h : TauCeti.QuadraticMap.orthogonalGroup (Q.comp (U F).subtype)) : 
     rw [det_positiveOrthogonalExtension]
     rw [det_scalarOnW]
     have hdh : LinearEquiv.det h.val = u := by
-      simpa [u] using QuadraticMap.orthogonalDet_apply h
+      simp [u]
     rw [hdh, hu]
   let gSO : SO5 (Q := Q) := ⟨gO.val, by
     rw [QuadraticMap.mem_specialOrthogonalWithin_iff]
@@ -361,7 +378,7 @@ theorem extendU_restrictU (g : H F) : extendU F (restrictU F g) = g := by
   apply Subtype.ext
   apply Subtype.ext
   apply Subtype.ext
-  simp only [Subgroup.coe_mk, Subtype.coe_mk, QuadraticMap.orthogonalDet_apply]
+  simp only [QuadraticMap.orthogonalDet_apply]
   rw [hpos']
   rfl
 

@@ -15,7 +15,7 @@ theorem exists_conj_stable_card_mul_le {L V K : Subgroup G}
     ∃ X : Subgroup G, V ≤ X ∧ X.map (MulAut.conj g).toMonoidHom = X ∧
       Nat.card X * Nat.card K ≤ Nat.card V * Nat.card L := by
   classical
-  letI : CommGroup ↥L :=
+  let : CommGroup ↥L :=
     { (inferInstance : Group ↥L) with
       mul_comm := fun x y => Subtype.ext (hL x x.2 y y.2).eq }
   let c : ↥L →* ↥L :=

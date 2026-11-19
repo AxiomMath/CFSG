@@ -26,7 +26,7 @@ private theorem lieQ_layer_nonab {p : ℕ} (hp : p.Prime)
     rw [orderOf_one] at hu
     exact hp.one_lt.ne hu
   have hQ1 : Subgroup.zpowers u ≠ ⊥ := fun h0 => hu1 (Subgroup.zpowers_eq_bot.1 h0)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQp : IsPGroup p ↥(Subgroup.zpowers u) := by
     rw [IsPGroup.iff_card]
     exact ⟨1, by rw [Nat.card_zpowers, hu, pow_one]⟩
@@ -79,7 +79,7 @@ private theorem lieQ_layer_comm {p : ℕ} (hp : p.Prime) {G : Type} [Group G] [F
   exfalso
   have hJ' : CFSG.Open.GLAPComponent p X J := hJ
   have hq := isQuasisimple_pQuot_of_glaPComponent hp hJ'
-  haveI := isQuasisimple_nontrivial hq
+  have := isQuasisimple_nontrivial hq
   have hQc : ∀ a b : PQuot p J, a * b = b * a := by
     intro a b
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
@@ -101,8 +101,8 @@ theorem kdCharP_of_lieQConstrainedInner {p : ℕ} (hp : p.Prime)
     KDCharP p := by
   intro d hd u hu
   obtain ⟨hfin, hsimp⟩ := CFSG.Assembly.lie_finite_simple d
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := hfin
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := hsimp
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := hfin
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := hsimp
   by_cases hab : ∃ a b : (TauCeti.CFSGIndex.lie d).Group, a * b ≠ b * a
   · have hChev : CFSG.HardMathSupport.Solomon.Coordinator.IsChevOfChar p
         (TauCeti.CFSGIndex.lie d).Group :=

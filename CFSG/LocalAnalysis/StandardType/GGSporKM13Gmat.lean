@@ -120,7 +120,7 @@ private theorem gkm_F1F4_of_heis {G : Type} [Group G] [Finite G] {x y c u k : G}
     (hg1 : LargeEvenPPrimeCore 13 ↥(Subgroup.centralizer ({c} : Set G)) = ⊥)
     (hno : ∀ C : Subgroup G, ¬ LargeEvenPComponent 13 (Subgroup.centralizer ({c} : Set G)) C) :
     BMPCentralF1At 13 c ∧ BMPCentralF4At 13 c := by
-  haveI hp : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have hp : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   have hco : orderOf c = 13 := orderOf_eq_prime hc hc1
   obtain ⟨hSp, hScard, hSc, hSexp, hScomm, hScent⟩ :=
     heis13_sylow_facts hcard hx hy hc hc1 hcx hcy hyx
@@ -161,7 +161,7 @@ private theorem gkm_F1F4_of_heis {G : Type} [Group G] [Finite G] {x y c u k : G}
 theorem gmat_bmPCentralF1At_F4At_c13
     :
     BMPCentralF1At 13 (gw genD13W1) ∧ BMPCentralF4At 13 (gw genD13W1) := by
-  haveI : Finite Gmat := generated_rational_group_finite_simple.2.2
+  have : Finite Gmat := generated_rational_group_finite_simple.2.2
   obtain ⟨hx, hy, hc, hcx, hcy, hyx, hc1, -, hkx, hky, hux, huy, -⟩ := d13_gw_facts
   have hg1 : LargeEvenPPrimeCore 13 ↥(Subgroup.centralizer ({gw genD13W1} : Set Gmat)) = ⊥ :=
     (Subgroup.map_eq_bot_iff_of_injective _ (Subgroup.subtype_injective _)).mp

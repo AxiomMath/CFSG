@@ -32,7 +32,7 @@ theorem exists_inComm_mem_V0 {γ : Fin (Tag.rank .E7) → ℤ} (hγ : γ ∈ per
   obtain ⟨a, ha1, ha0⟩ := exists_wt_dot_neg_one γ (mem_rootList.2 hγ.1) hγ.2
   obtain ⟨b, hb⟩ := exists_wt_eq_of_dotProduct hγ.1 ha1
   refine ⟨Finsupp.single b 1, single_mem_weightVec b, ⟨Finsupp.single a 1, ?_⟩, ?_⟩
-  · rw [e7Rep56_pinnedElt_single hγ.1 a, if_pos ha1, wt_e7Shift hb]
+  · rw [e7Rep56_pinnedElt_single hγ.1 a, ite_eq_left ha1, wt_e7Shift hb]
     abel
   · refine Finsupp.single_mem_supported (ZMod 2) _ ?_
     rw [Finset.mem_coe, mem_zeroIdx, hb, add_dotProduct, ha0,
@@ -72,7 +72,7 @@ theorem natCard_highRadical : Nat.card ↥(highRadical .E7 (ZMod 2)) = 2 ^ 33 :=
     rw [rootRadical, Nat.card_congr (Subgroup.subgroupOfEquivOfLe (rootSpan_le_adjointGroup' _)).toEquiv,
       card_rootSpan radicalRoots_highRoot_pos' radicalRoots_highRoot_closed',
       radicalRoots_highRoot_ncard']
-    simp [Nat.card_zmod]
+    simp
   rw [highRadical_eq_rootRadical]
   exact h
 
@@ -151,7 +151,7 @@ theorem eq_top_of_simple_of_centralizer_le {J : Subgroup ↥(adjointGroup .E7 (Z
     intro g
     have e : (h : ModGL .E7 (ZMod 2)) * (g : ModGL .E7 (ZMod 2)) * (h : ModGL .E7 (ZMod 2))⁻¹ =
         ((h * g * h⁻¹ : ↥(adjointGroup .E7 (ZMod 2))) : ModGL .E7 (ZMod 2)) := by
-      simp [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp [Subgroup.coe_mul]
     show (h : ModGL .E7 (ZMod 2)) * (g : ModGL .E7 (ZMod 2)) * (h : ModGL .E7 (ZMod 2))⁻¹ ∈
       J.map (adjointGroup .E7 (ZMod 2)).subtype ↔ _
     rw [e]
@@ -241,7 +241,7 @@ theorem eq_top_of_simple_of_centralizer_le {J : Subgroup ↥(adjointGroup .E7 (Z
       refine Subtype.ext ?_
       have := hcomm x x.2
       exact (mul_inv_eq_iff_eq_mul.1 this)
-    haveI : (Subgroup.zpowers r').Normal := ⟨fun n hn g => by
+    have : (Subgroup.zpowers r').Normal := ⟨fun n hn g => by
       obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hn
       have hc : Commute g (r' ^ k) := (hcentral g).zpow_right k
       rw [hc.eq, mul_inv_cancel_right]

@@ -60,20 +60,20 @@ noncomputable def fzConjAut {P : Subgroup G} (φ : ↥P ≃* FzUT) (g : G)
     apply φ.symm.injective
     simp only [MulEquiv.symm_apply_apply, Subtype.coe_mk]
     apply Subtype.ext
-    simp only [Subtype.coe_mk]
+    simp only
     group
   right_inv x := by
     apply φ.symm.injective
     simp only [MulEquiv.symm_apply_apply, Subtype.coe_mk]
     apply Subtype.ext
-    simp only [Subtype.coe_mk]
+    simp only
     group
   map_mul' x y := by
     apply φ.symm.injective
     rw [map_mul]
-    simp only [MulEquiv.symm_apply_apply, Subtype.coe_mk]
+    simp only [MulEquiv.symm_apply_apply]
     apply Subtype.ext
-    simp only [Subtype.coe_mk, Subgroup.coe_mul, map_mul, MulEquiv.symm_apply_apply]
+    simp only [Subgroup.coe_mul, map_mul, MulEquiv.symm_apply_apply]
     group
 
 theorem fzConjAut_coe {P : Subgroup G} (φ : ↥P ≃* FzUT) (g : G) (hg : g ∈ normalizer (P : Set G))

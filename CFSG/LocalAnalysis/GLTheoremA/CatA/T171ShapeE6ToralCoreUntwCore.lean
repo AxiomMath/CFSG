@@ -25,7 +25,7 @@ theorem exists_mem_componentRootSpan_conj_eq_of_mem_torusGroup
   have hEq : unionRootSpan L (rootCharHom a)
         ({i} : Set (KernelComponent (rootCharHom a))) =
       componentRootSpan L (rootCharHom a) i := by
-    simp only [unionRootSpan, componentRootSpan, unionRoots, componentRoots, Set.mem_singleton_iff]
+    simp only [unionRootSpan, componentRootSpan, unionRoots, Set.mem_singleton_iff]
   rwa [hEq] at hg
 
 end CFSG.LocalAnalysis.GLTheoremA.T171Sh

@@ -20,8 +20,7 @@ theorem sl2W_mul_sl2Diag_ne_one (a : Kˣ) :
   intro h
   have h00 := congrArg (fun x : Matrix.SpecialLinearGroup (Fin 2) K =>
     (x : Matrix (Fin 2) (Fin 2) K) 0 0) h
-  simp [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two,
-    Matrix.one_apply] at h00
+  simp [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_two] at h00
 
 end SL2WDiag
 
@@ -44,6 +43,7 @@ theorem sl2W_mul_self : (sl2W : Matrix.SpecialLinearGroup (Fin 2) K) * sl2W = 1 
   ext i j
   fin_cases i <;> fin_cases j <;> simp [coe_sl2Diag, CharTwo.neg_eq]
 
+omit [CharP K 2] in
 theorem sl2W_ne_one : (sl2W : Matrix.SpecialLinearGroup (Fin 2) K) ≠ 1 := by
   intro h
   have h00 := congrArg (fun x : Matrix.SpecialLinearGroup (Fin 2) K =>
@@ -64,6 +64,7 @@ theorem exists_conj_sl2W [Finite K] {s : Matrix.SpecialLinearGroup (Fin 2) K}
   rw [ht0]
   group
 
+omit [CharP K 2] in
 theorem sl2W_mul_sl2Diag_mul_sl2W_inv (a : Kˣ) :
     (sl2W : Matrix.SpecialLinearGroup (Fin 2) K) * sl2Diag a * sl2W⁻¹ = sl2Diag a⁻¹ := by
   rw [sl2W_mul_sl2Diag]
@@ -93,6 +94,7 @@ theorem sl2W_mul_sl2Diag_mul_self (a : Kˣ) :
     _ = 1 := by
         rw [sl2W_mul_self, ← map_mul, inv_mul_cancel, map_one, one_mul]
 
+omit [CharP K 2] in
 theorem sl2Diag_injective :
     Function.Injective (sl2Diag : Kˣ →* Matrix.SpecialLinearGroup (Fin 2) K) := by
   intro a b h
@@ -100,11 +102,13 @@ theorem sl2Diag_injective :
     (x : Matrix (Fin 2) (Fin 2) K) 0 0) h
   exact Units.ext (by simpa [coe_sl2Diag] using h00)
 
+omit [CharP K 2] in
 theorem orderOf_sl2Diag (a : Kˣ) :
     orderOf (sl2Diag a : Matrix.SpecialLinearGroup (Fin 2) K) = orderOf a :=
   orderOf_injective (sl2Diag : Kˣ →* Matrix.SpecialLinearGroup (Fin 2) K)
     sl2Diag_injective a
 
+omit [CharP K 2] in
 theorem sl2Diag_pow_24_ne_one [Finite K] {n : ℕ} (hn : 3 ≤ n)
     (hcard : Nat.card K = 2 ^ n) (a : Kˣ) (ha : orderOf a = Nat.card K - 1) :
     (sl2Diag a : Matrix.SpecialLinearGroup (Fin 2) K) ^ 24 ≠ 1 := by
@@ -129,8 +133,8 @@ theorem eq_top_of_normal_of_mem_sl2Diag_pow_24 [Finite K] {n : ℕ} (hn : 3 ≤ 
     {N : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K)} [N.Normal]
     (hN : (sl2Diag a : Matrix.SpecialLinearGroup (Fin 2) K) ^ 24 ∈ N) : N = ⊤ := by
   classical
-  haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) := by
-    haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) :=
+  have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K) := by
+    have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) K) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by
         have hq8 : 8 ≤ 2 ^ n := by
           calc 8 = 2 ^ 3 := by norm_num

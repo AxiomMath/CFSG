@@ -92,7 +92,7 @@ theorem H_le_normalizer_S_of_three
 theorem le_S_of_isPGroup {P : Subgroup G} (hP : IsPGroup 2 P)
     (hPN : P ≤ Subgroup.normalizer ((fr.S : Subgroup G) : Set G)) : P ≤ (fr.S : Subgroup G) := by
   have h2 : IsPGroup 2 (P ⊔ (fr.S : Subgroup G) : Subgroup G) :=
-    IsPGroup.to_sup_of_normal_right' hP fr.S.isPGroup' hPN
+    IsPGroup.to_sup_of_normal_right' hP fr.S.isPGroup hPN
   have heq : P ⊔ (fr.S : Subgroup G) = fr.S :=
     (Subgroup.eq_of_le_of_card_ge le_sup_right (by rw [fr.card_S]; exact h.card_le_eight h2)).symm
   rw [← heq]
@@ -120,7 +120,7 @@ theorem pPrimeCore_inf_normalizer_le :
   have hcO : o * s * o⁻¹ * s⁻¹ ∈ CFSG.pPrimeCore 2 G := by
     rw [show o * s * o⁻¹ * s⁻¹ = o * (s * o⁻¹ * s⁻¹) by group]
     exact mul_mem hoO ((CFSG.pPrimeCore_normal).conj_mem _ (inv_mem hoO) s)
-  have h1 := eq_one_of_odd_of_isPGroup fr.S.isPGroup' hcS
+  have h1 := eq_one_of_odd_of_isPGroup fr.S.isPGroup hcS
     (Odd.of_dvd_nat hO (Subgroup.orderOf_dvd_natCard _ hcO))
   calc s * o = (o * s * o⁻¹ * s⁻¹)⁻¹ * (o * s) := by group
     _ = o * s := by rw [h1, inv_one, one_mul]
@@ -161,7 +161,7 @@ theorem mem_normalizer_S_of_conj_mem
     calc g * s' * g⁻¹ * (g * s * g⁻¹) = g * (s' * s) * g⁻¹ := by group
       _ = g * (s * s') * g⁻¹ := by rw [fr.comm_of_mem_S hs' hs]
       _ = g * s * g⁻¹ * (g * s' * g⁻¹) := by group
-  have hle := fr.le_S_of_isPGroup (fr.S.isPGroup'.map _) hSg
+  have hle := fr.le_S_of_isPGroup (fr.S.isPGroup.map _) hSg
   exact JT.mem_normalizer_of_conj_mem fun s' hs' => hle ⟨s', hs', rfl⟩
 
 theorem pPrimeCore_le_CS_of_three :

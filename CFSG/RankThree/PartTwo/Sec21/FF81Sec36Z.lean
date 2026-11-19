@@ -22,8 +22,8 @@ theorem two_pow_mod_three (n : ℕ) : 2 ^ n % 3 = if n % 2 = 0 then 1 else 2 := 
   | succ n ih =>
       rw [pow_succ, Nat.mul_mod, ih]
       rcases Nat.mod_two_eq_zero_or_one n with h | h
-      · rw [if_pos h, if_neg (by omega)]
-      · rw [if_neg (by omega), if_pos (by omega)]
+      · rw [ite_eq_left h, ite_eq_right (by omega)]
+      · rw [ite_eq_right (by omega), ite_eq_left (by omega)]
 
 theorem two_pow_odd_of_modEq {n : ℕ} (h : 2 ^ n ≡ 2 [MOD 3]) : n % 2 = 1 := by
   have h' : 2 ^ n % 3 = 2 := h
@@ -132,7 +132,7 @@ theorem coprime_solvable_of_two {X : Subgroup G} (hX : IsPGroup 2 X) :
     Nat.Coprime (Nat.card X) 3 ∧ Group.IsSolvable X := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := card_eq_two_pow hX
-  haveI := hX.isNilpotent
+  have := hX.isNilpotent
   exact ⟨hn ▸ Nat.Coprime.pow_left n (by norm_num), inferInstance⟩
 
 theorem mem_nor_cenS {H : Subgroup G} {g : G} (hg : ∀ h ∈ H, g * h = h * g) :
@@ -225,6 +225,7 @@ theorem prod_hypW (c : ℕ → ℕ) :
 theorem filter_y : Finset.univ.filter (fun i : Fin 13 => dot (hypF i) ![1, 1, 0] = 0) =
     {2, 4, 11, 12} := by decide
 
+omit [Finite G] in
 theorem ε3_y : ε3 b₁ b₂ b₃ ![1, 1, 0] = b₁ * b₂ := by simp [ε3, val_one3]
 
 theorem exp_identities (hB : FF81Basis b L B b₁ b₂ b₃) {X : Subgroup G} (hXp : IsPGroup 2 X)

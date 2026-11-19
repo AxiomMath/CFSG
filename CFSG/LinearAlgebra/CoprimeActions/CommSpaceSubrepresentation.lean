@@ -32,7 +32,7 @@ theorem commSpace_invariant (ρ : Representation (ZMod q) G V) (Z : Subgroup G) 
   map_one' := by
     ext u; simp
   map_mul' a b := by
-    ext u; simp [rho_mul_apply]
+    ext u; simp
 
 section General
 
@@ -64,7 +64,7 @@ variable {W : Type*} [AddCommGroup W] [Module (ZMod 2) W] (ρ : Representation (
 theorem commSpace_restrictedRepresentation_subgroupOf [Finite Z] (hodd : Odd (Nat.card Z))
     (hZK : Z ≤ K) :
     commSpace (restrictedRepresentation ρ K Z hcentral) (Z.subgroupOf K) = ⊤ := by
-  haveI : Fintype Z := Fintype.ofFinite Z
+  have : Fintype Z := Fintype.ofFinite Z
   have hcard : ((Fintype.card Z : ℕ) : ZMod 2) = 1 := by
     rw [← Nat.card_eq_fintype_card] at *
     exact (ZMod.natCast_eq_one_iff_odd).2 hodd

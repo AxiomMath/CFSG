@@ -48,6 +48,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K} {M₀ : Tim7
 @[expose] def IsLineGen (M₀ : Tim79.QuadModel Q Z K γ) (X : Subgroup G) (x : M₀.E) : Prop :=
   ∀ v : M₀.E, v ∈ M₀.img X ↔ ∃ s : K, v = s • x
 
+omit [CharP K 2] [Finite K] in
 theorem Ctx.dictB_gen (hc : Ctx M Q Z X) (h : GlobalModelData M Q Z γ M₀) {x : M₀.E}
     (hx0 : x ≠ 0) (hx : IsLineGen M₀ X x) :
     M₀.Qf x = 0 ∧ ∀ y ∈ Q, (y ∈ Subgroup.centralizer (X : Set G) ↔ M₀.B (M₀.π y) x = 0) := by
@@ -417,6 +418,7 @@ theorem eich_local {hc0 : Ctx M Q Z B} {n : ℕ} (hB : Stroth34CaseBHyp M Q Z B 
 @[expose] def rootVecs (M₀ : Tim79.QuadModel Q Z K γ) (M B : Subgroup G) : Set M₀.E :=
   {e | e ≠ 0 ∧ ∃ m ∈ M, e ∈ M₀.img (conjSubgroup m B)}
 
+omit [CharP K 2] in
 theorem rootVecs_line {hc0 : Ctx M Q Z B} (Pk : GlobalModelAction M Q Z K γ M₀) {x : M₀.E}
     (hx : x ∈ rootVecs M₀ M B) : ∃ m ∈ M, IsLineGen M₀ (conjSubgroup m B) x := by
   obtain ⟨hx0, m, hm, hxm⟩ := hx
@@ -430,12 +432,15 @@ theorem rootVecs_line {hc0 : Ctx M Q Z B} (Pk : GlobalModelAction M Q Z K γ M�
     exact ⟨u * t⁻¹, by rw [hu, ht, smul_smul, mul_assoc, inv_mul_cancel₀ ht0, mul_one]⟩
   · exact (hB v).mpr ⟨s * t, by rw [hs, ht, smul_smul]⟩
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem mem_rootVecs_of_line {m : G} (hm : m ∈ M) {x : M₀.E} (hx0 : x ≠ 0)
     (hx : IsLineGen M₀ (conjSubgroup m B) x) : x ∈ rootVecs M₀ M B :=
   ⟨hx0, m, hm, (hx x).mpr ⟨1, (one_smul K x).symm⟩⟩
 
+omit [CharP K 2] in
+omit [Finite G] in
 theorem rootVecs_span {hc0 : Ctx M Q Z B} (hgen : GenByB M Q B)
-    (Pk : GlobalModelAction M Q Z K γ M₀) :
+    (_Pk : GlobalModelAction M Q Z K γ M₀) :
     Submodule.span K (rootVecs M₀ M B) = ⊤ := by
   have hle : (⨆ (m : G) (_ : m ∈ M), conjSubgroup m B) ≤
       M₀.lift (Submodule.span K (rootVecs M₀ M B)).toAddSubgroup := by
@@ -459,6 +464,7 @@ theorem rootVecs_span {hc0 : Ctx M Q Z B} (hgen : GenByB M Q B)
   {T | ∃ r : G, ∃ _ : r ∈ LB M Q X, ∃ hH : r ∈ H0 M Z,
     T = ((Pk.φ ⟨r, hH⟩ : M₀.E ≃ₗ[K] M₀.E) : M₀.E →ₗ[K] M₀.E)}
 
+omit [CharP K 2] in
 theorem lbActSet_fix (Pk : GlobalModelAction M Q Z K γ M₀) {X : Subgroup G}
     (hcX : Ctx M Q Z X) {x : M₀.E}
     (hx : IsLineGen M₀ X x) {T : M₀.E →ₗ[K] M₀.E} (hT : T ∈ lbActSet Pk X) : T x = x := by
@@ -472,12 +478,15 @@ theorem lbActSet_fix (Pk : GlobalModelAction M Q Z K γ M₀) {X : Subgroup G}
   rw [h2] at h1
   exact h1.symm
 
+omit [Finite G] [CharP K 2] in
 theorem lbActSet_iso (Pk : GlobalModelAction M Q Z K γ M₀) {X : Subgroup G} {T : M₀.E →ₗ[K] M₀.E}
     (hT : T ∈ lbActSet Pk X) (e : M₀.E) : M₀.Qf (T e) = M₀.Qf e := by
   obtain ⟨r, hr, hH, rfl⟩ := hT
   exact Pk.hφiso ⟨r, hH⟩ e
 
-theorem lbActSet_R {hc0 : Ctx M Q Z B} (Pk : GlobalModelAction M Q Z K γ M₀) {X : Subgroup G}
+omit [CharP K 2] in
+omit [Finite G] in
+theorem lbActSet_R {_hc0 : Ctx M Q Z B} (Pk : GlobalModelAction M Q Z K γ M₀) {X : Subgroup G}
     (hcX : Ctx M Q Z X) {T : M₀.E →ₗ[K] M₀.E} (hT : T ∈ lbActSet Pk X) {y : M₀.E}
     (hy : y ∈ rootVecs M₀ M B) : T y ∈ rootVecs M₀ M B := by
   obtain ⟨r, hr, hH, rfl⟩ := hT
@@ -516,13 +525,15 @@ open _root_.Classical in
     (ℓ : Submodule K M₀.E) : G :=
   if h : ∃ m ∈ M, ∀ v, v ∈ M₀.img (conjSubgroup m B) ↔ v ∈ ℓ then h.choose else 1
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem lineElt_spec {M B : Subgroup G} {ℓ : Submodule K M₀.E}
     (hex : ∃ m ∈ M, ∀ v, v ∈ M₀.img (conjSubgroup m B) ↔ v ∈ ℓ) :
     lineElt M₀ M B ℓ ∈ M ∧ ∀ v, v ∈ M₀.img (conjSubgroup (lineElt M₀ M B ℓ) B) ↔ v ∈ ℓ := by
   unfold lineElt
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact hex.choose_spec
 
+omit [CharP K 2] in
 theorem exists_line_elt {hc0 : Ctx M Q Z B} (Pk : GlobalModelAction M Q Z K γ M₀) {x : M₀.E}
     (hx : x ∈ rootVecs M₀ M B) :
     ∃ m ∈ M, ∀ v, v ∈ M₀.img (conjSubgroup m B) ↔ v ∈ Submodule.span K {x} := by
@@ -653,7 +664,7 @@ theorem exists_rootGeom {hc0 : Ctx M Q Z B} {n : ℕ} (hB : Stroth34CaseBHyp M Q
   ·
     intro x hx T hT y hy
     obtain ⟨hmxM, hxl⟩ := hmx x hx
-    exact lbActSet_R (hc0 := hc0) Pk (hc0.conj_of_mem hmxM) hT hy
+    exact lbActSet_R (_hc0 := hc0) Pk (hc0.conj_of_mem hmxM) hT hy
   ·
     intro x hx T hT y hxy
     obtain ⟨hmxM, hxl⟩ := hmx x hx

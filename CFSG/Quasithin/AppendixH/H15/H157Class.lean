@@ -60,7 +60,7 @@ theorem classify_odd
     rw [h2] at hodd
     norm_num at hodd
   rcases prime_dvd_m24 hp hdvd hp2 with h3 | h5 | h7 | h11 | h23
-  · haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have hsyl : Nat.card T24s3.Elem = 3 ^ (Nat.card ↥AutPerm).factorization 3 :=
       card_T24sp (T := T24s3) (p := 3) (n := 3) (by norm_num) T24s3_ok.2.1
         (by norm_num : (244823040 : ℕ) = 3 ^ 3 * 9067520) (by norm_num)
@@ -92,7 +92,7 @@ theorem classify_odd
     refine ⟨a * c, ?_⟩
     have hgroup : (a * c) * y * (a * c)⁻¹ = a * (c * y * c⁻¹) * a⁻¹ := by group
     rw [hgroup, hcφ, haφ]
-  · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     have hsyl : Nat.card T24s5.Elem = 5 ^ (Nat.card ↥AutPerm).factorization 5 :=
       card_T24sp (T := T24s5) (p := 5) (n := 1) (by norm_num) T24s5_ok.2.1
         (by norm_num : (244823040 : ℕ) = 5 ^ 1 * 48964608) (by norm_num)
@@ -101,7 +101,7 @@ theorem classify_odd
     have hlt := hcls.2.1 s hs1
     rw [hcard] at h
     omega
-  · haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hsyl : Nat.card T24s7.Elem = 7 ^ (Nat.card ↥AutPerm).factorization 7 :=
       card_T24sp (T := T24s7) (p := 7) (n := 1) (by norm_num) T24s7_ok.2.1
         (by norm_num : (244823040 : ℕ) = 7 ^ 1 * 34974720) (by norm_num)
@@ -110,7 +110,7 @@ theorem classify_odd
     have hlt := hcls.2.2.1 s hs1
     rw [hcard] at h
     omega
-  · haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
     have hsyl : Nat.card T24s11.Elem = 11 ^ (Nat.card ↥AutPerm).factorization 11 :=
       card_T24sp (T := T24s11) (p := 11) (n := 1) (by norm_num) T24s11_ok.2.1
         (by norm_num : (244823040 : ℕ) = 11 ^ 1 * 22256640) (by norm_num)
@@ -119,7 +119,7 @@ theorem classify_odd
     have hlt := hcls.2.2.2.1 s hs1
     rw [hcard] at h
     omega
-  · haveI : Fact (Nat.Prime 23) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 23) := ⟨by norm_num⟩
     have hsyl : Nat.card T24s23.Elem = 23 ^ (Nat.card ↥AutPerm).factorization 23 :=
       card_T24sp (T := T24s23) (p := 23) (n := 1) (by norm_num) T24s23_ok.2.1
         (by norm_num : (244823040 : ℕ) = 23 ^ 1 * 10644480) (by norm_num)

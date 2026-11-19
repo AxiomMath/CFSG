@@ -35,6 +35,7 @@ section Classes
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] [CharP F 2] in
 theorem centralizer_eq_subgroupOf (σ : F ≃+* F) (y : ↥(SU σ 4)) :
     Subgroup.centralizer ({y} : Set ↥(SU σ 4)) =
       (SU σ 4 ⊓ Subgroup.centralizer (Subgroup.zpowers (y : GL (Fin 4) F) :
@@ -110,7 +111,7 @@ theorem longSL_data {b : ℕ} (hb : 2 ≤ b) (hF : Nat.card F = (2 ^ b) ^ 2) :
       ∀ z ∈ Subgroup.center ↥(longSL (unitaryInvolution F 2 b)), ∃ k : ℕ, z ^ 3 ^ k = 1 := by
   obtain ⟨e⟩ := nonempty_longSL_mulEquiv (F := F) (b := b) (by omega) hF
   have hP := Sec8.Item87Proof.isQuasisimple_projSL_two hb
-  haveI := Sec21.isSimpleGroup_projSL_two hb
+  have := Sec21.isSimpleGroup_projSL_two hb
   refine ⟨(CFSG.LocalAnalysis.ComponentInitial.isQuasisimple_congr e).2 hP, fun z hz => ?_⟩
   have hc := center_eq_bot_of_mulEquiv e (center_eq_bot_of_simple hP)
   rw [hc, Subgroup.mem_bot] at hz
@@ -131,7 +132,7 @@ end RootGroups
 theorem census423_of_u4 {X : Type} [Group X] [Finite X] {n : ℕ} (hn : 1 ≤ n) (hev : Even n)
     (e : X ≃* projSU 4 2 n) (hq : CFSG.IsQuasisimple X) (hZ : Subgroup.center X = ⊥) :
     Census423 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn2 : 2 ≤ n := by
     obtain ⟨k, hk⟩ := hev
     omega

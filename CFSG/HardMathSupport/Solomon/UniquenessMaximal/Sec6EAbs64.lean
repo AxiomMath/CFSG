@@ -26,7 +26,7 @@ theorem exists_sylow_normalized_of_not_dvd' {G : Type*} [Group G] [Finite G] {p 
     obtain ⟨Q₁⟩ : Nonempty (Sylow q L) := inferInstance
     exact hcop (h.trans (Q₁.card_dvd_index.trans (Q₁ : Subgroup L).index_dvd_card))
   obtain ⟨Q₀, hQ₀⟩ := hBp.nonempty_fixed_point_of_prime_not_dvd_card (Sylow q L) hcard
-  refine ⟨(Q₀ : Subgroup L).map L.subtype, Subgroup.map_subtype_le _, Q₀.isPGroup'.map _,
+  refine ⟨(Q₀ : Subgroup L).map L.subtype, Subgroup.map_subtype_le _, Q₀.isPGroup.map _,
     fun n hn => ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective (Subgroup.subtype_injective L)]
     exact Q₀.pow_dvd_card_of_pow_dvd_card hn

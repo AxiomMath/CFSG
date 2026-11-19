@@ -22,6 +22,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace Proof155Wx
 
+omit [Finite G] in
 theorem stellmacherSub_subgroupOf_characteristic (R : Subgroup G) :
     ((Sec16.Proof165.stellmacherSub R).subgroupOf R).Characteristic := by
   have h : ((S4Free.stellmacherWSz.{0, 0} ↥R).map R.subtype).subgroupOf R =

@@ -180,7 +180,7 @@ theorem Res1L2Abs.false_of_inner_inverter (D : Res1L2Abs P Y p) {w : P}
   have hg : orderOf (yj⁻¹ * yj⁻¹) = p := by
     have h1 : yj⁻¹ * yj⁻¹ = (yj ^ 2)⁻¹ := by group
     rw [h1, orderOf_inv, Nat.Coprime.orderOf_pow hcop, hord]
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp D.U.isPGroup' ⟨yj⁻¹ * yj⁻¹, hmem⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp D.U.isPGroup ⟨yj⁻¹ * yj⁻¹, hmem⟩
   rw [Subgroup.orderOf_mk, hg] at hk
   have h2p : 2 ∣ p := by
     rw [hk]

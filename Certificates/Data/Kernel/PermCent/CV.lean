@@ -73,7 +73,8 @@ variable [hs : Small n]
 
 theorem lt32 : n < 2 ^ 32 := by have := hs.lt; omega
 
-theorem hw : n < 2 ^ wC n := by have := lt_wC n; omega
+omit hs in
+theorem hw [Small n] : n < 2 ^ wC n := by have := lt_wC n; omega
 
 noncomputable instance : Mul (CV n) :=
   ⟨fun a b => ⟨pcomp n (wC n) (mask (wC n)) a.1 b.1,
@@ -157,8 +158,8 @@ theorem ev_powF (a : CV n) (f : Nat) : ∀ k, k < 2 ^ f → ev (powF a f k) = ev
     intro k hk
     rw [powF]
     by_cases h0 : k = 0
-    · rw [if_pos h0, ev_one, h0, pow_zero]
-    · rw [if_neg h0]
+    · rw [ite_eq_left h0, ev_one, h0, pow_zero]
+    · rw [ite_eq_right h0]
       have hm : k / 2 < 2 ^ f := by
         rw [Nat.pow_succ] at hk
         omega
@@ -168,11 +169,11 @@ theorem ev_powF (a : CV n) (f : Nat) : ∀ k, k < 2 ^ f → ev (powF a f k) = ev
       rw [hsq]
       by_cases he : k % 2 = 0
       · have : (k % 2 != 0) = false := by simp [he]
-        rw [this, if_neg (by simp), ev_mul, ihm, ← pow_add]
+        rw [this, ite_eq_right (by simp), ev_mul, ihm, ← pow_add]
         congr 1
         omega
       · have : (k % 2 != 0) = true := by simp only [bne_iff_ne, ne_eq]; exact he
-        rw [this, if_pos rfl, ev_mul, ev_mul, ihm, ← pow_add, ← pow_succ]
+        rw [this, ite_eq_left rfl, ev_mul, ev_mul, ihm, ← pow_add, ← pow_succ]
         congr 1
         omega
 
@@ -264,8 +265,8 @@ theorem powOneC_eq (a : CV n) (k : Nat) : powOneC a k = decide (a ^ k = 1) := by
 
 @[expose] noncomputable def cOf (σ : Equiv.Perm (Fin n)) : CV n :=
   ⟨pmk n (wC n) (fun i => if h : i < n then (σ ⟨i, h⟩ : Nat) else 0),
-    canon_pmk hs.lt (fun x hx => by rw [dif_pos hx]; exact (σ _).2) (fun x hx y hy e => by
-      rw [dif_pos hx, dif_pos hy] at e
+    canon_pmk hs.lt (fun x hx => by rw [dite_eq_left hx]; exact (σ _).2) (fun x hx y hy e => by
+      rw [dite_eq_left hx, dite_eq_left hy] at e
       exact congrArg Fin.val (σ.injective (Fin.ext e)))⟩
 
 @[expose] noncomputable def productsC : List (List (CV n)) → List (CV n)

@@ -19,9 +19,9 @@ theorem monoidHom_eq_one_of_isL2Quot_of_card_lt_sixty
     (hquot : IsL2Quot 2 (oTwoQuot L)) (f : L →* M) (hM : Nat.card M < 60)
     (hQ : CFSG.pCore 2 L ≤ f.ker) : f = 1 := by
   classical
-  haveI : IsSimpleGroup (oTwoQuot L) := by
+  have : IsSimpleGroup (oTwoQuot L) := by
     obtain ⟨e⟩ := hquot
-    haveI : IsSimpleGroup
+    have : IsSimpleGroup
         (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 2)) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple
         (by rw [GaloisField.card 2 2 (by norm_num)]; norm_num)
@@ -45,7 +45,7 @@ theorem monoidHom_eq_one_of_isL2Quot_of_card_lt_sixty
 
 theorem exists_orderOf_eq_three_of_isL2Quot [Finite G]
     {L : Subgroup G} (h : IsL2Quot 2 (oTwoQuot ↥L)) : ∃ x ∈ L, orderOf x = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h60 : Nat.card (oTwoQuot ↥L) = 60 := by
     rw [CFSG.Quasithin.IsL2Quot.card (by norm_num : 1 ≤ 2) h]
     norm_num
@@ -61,7 +61,7 @@ theorem mem_pCoreOf_of_forall_commutator_mem {L : Subgroup G}
     (hq : IsL2Quot 2 (oTwoQuot ↥L)) {c : G} (hcL : c ∈ L)
     (h : ∀ l ∈ L, ⁅c, l⁆ ∈ pCoreOf 2 L) : c ∈ pCoreOf 2 L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : ↥L →* oTwoQuot ↥L := QuotientGroup.mk' (CFSG.Open.pCore 2 ↥L)
   have hcent : π ⟨c, hcL⟩ ∈ Subgroup.center (oTwoQuot ↥L) := by
     rw [Subgroup.mem_center_iff]

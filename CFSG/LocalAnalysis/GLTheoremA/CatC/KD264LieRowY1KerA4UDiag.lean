@@ -17,7 +17,7 @@ theorem diagonal_unitary (h : UnitaryFieldData p f K) {n : ℕ} (v : Fin n → K
     Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
   congr 1
   funext i
-  simp only [Function.comp, Pi.mul_apply, Pi.one_apply, h.bar_apply]
+  simp only [h.bar_apply]
   rw [← pow_succ]
   exact hv i
 

@@ -80,7 +80,7 @@ theorem exists_le_normalizer_of_coprime {p q : ℕ} [Fact p.Prime] [Fact q.Prime
     exact (Nat.Prime.coprime_iff_not_dvd Fact.out).mp hN
       (hdvd.trans (T₀.card_dvd_index.trans (T₀ : Subgroup N).index_dvd_card))
   obtain ⟨T₀, hT₀⟩ := hR'.nonempty_fixed_point_of_prime_not_dvd_card (Sylow q N) hnd
-  refine ⟨(T₀ : Subgroup N).map N.subtype, Subgroup.map_subtype_le _, T₀.isPGroup'.map _, ?_,
+  refine ⟨(T₀ : Subgroup N).map N.subtype, Subgroup.map_subtype_le _, T₀.isPGroup.map _, ?_,
     le_normalizer_of_forall_mul_mul_inv_mem ?_⟩
   · rw [Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective N.subtype_injective]
     exact T₀.not_dvd_index
@@ -172,7 +172,7 @@ theorem not_dvd_index_of_inf_normalizer_le {q : ℕ} [Fact q.Prime] {T N D : Sub
       exact Subgroup.map_mono hP
     · rw [h]
       exact Subgroup.comap_map_eq_self_of_injective D.subtype_injective _
-  have hP2 : IsPGroup q ((P : Subgroup D).map D.subtype) := P.isPGroup'.map _
+  have hP2 : IsPGroup q ((P : Subgroup D).map D.subtype) := P.isPGroup.map _
   obtain ⟨y, hyP, hyT, hyN⟩ := exists_mem_normalizer_not_mem_of_lt_of_isPGroup hP2 hTP
   have hU := hle (((P : Subgroup D).map D.subtype) ⊓ Subgroup.normalizer (T : Set G))
     (hP2.to_le inf_le_left) (inf_le_inf_right _ (Subgroup.map_subtype_le _))

@@ -19,6 +19,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem omega1_eq_zpowers_sup_of_hom_cyclic {T O : Subgroup G} {C : Type*} [Group C] [Finite C]
     [IsCyclic C] (φ : ↥T →* C) (hOT : T ≤ normalizer (O : Set G))
     (hker : ∀ u : ↥T, φ u = 1 → (u : G) ∈ O) :
@@ -108,7 +109,7 @@ theorem inPStar_of_inP11_of_le_normalizer {D : Data G} {V₀ X T₀ : Subgroup G
     {C : Type*} [Group C] [Finite C] [IsCyclic C] (φ : ↥D.T →* C)
     (hker : ∀ u : ↥D.T, φ u = 1 → (u : G) ∈ T₀) :
     InPStar D V₀ X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT₀2 : IsPGroup 2 ↥T₀ := D.sylowM.isPGroup.to_le hT₀T
   have hle : T₀ ≤ pCoreOf 2 (X ⊔ D.T) :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 (hT₀T.trans le_sup_right)
@@ -129,23 +130,23 @@ theorem inPStar_of_strongly_of_le_normalizer_sup {D : Data G} {V₀ : Subgroup G
       (TwelveNineteen.permutes_of_le_normalizer_sup hT₀T hTXT₀ hXT₀))
     hT₀T hTT₀ hXT₀ φ hker
 
-theorem exists_isSylowOf_le_normalizer_sup_of_odd {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem exists_isSylowOf_le_normalizer_sup_of_odd {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     {A K R : Subgroup G} (hA : IsPGroup 2 ↥A) (hR : IsPGroup 2 ↥R) (hRK : R ≤ K)
     (hKR : K ≤ normalizer (R : Set G)) (hAK : A ≤ normalizer (K : Set G))
     (hAR : A ≤ normalizer (R : Set G)) (hodd : Odd (R.relIndex K)) :
     ∃ S : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p S K ∧
       A ≤ normalizer ((S ⊔ R : Subgroup G) : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₀, hS₀⟩ := CFSG.ABGLocalTools.exists_isSylowOf p K
   let P₀ : Subgroup G := S₀ ⊔ R
-  letI : MulDistribMulAction ↥K G :=
+  let : MulDistribMulAction ↥K G :=
     MulDistribMulAction.compHom G (MulAut.conj.comp K.subtype)
-  letI : MulAction ↥K (Subgroup G) := Subgroup.pointwiseMulAction
-  letI : MulDistribMulAction ↥(A ⊔ R) G :=
+  let : MulAction ↥K (Subgroup G) := Subgroup.pointwiseMulAction
+  let : MulDistribMulAction ↥(A ⊔ R) G :=
     MulDistribMulAction.compHom G (MulAut.conj.comp (A ⊔ R).subtype)
-  letI : MulAction ↥(A ⊔ R) (Subgroup G) := Subgroup.pointwiseMulAction
+  let : MulAction ↥(A ⊔ R) (Subgroup G) := Subgroup.pointwiseMulAction
   have hsmulK : ∀ (k : ↥K) (P : Subgroup G),
       k • P = P.map (MulAut.conj (k : G)).toMonoidHom := by
     intro k P
@@ -254,7 +255,7 @@ theorem exists_isSylowOf_le_normalizer_sup_of_odd {p : ℕ} (hp : p.Prime) (hp2 
     · rw [hsmulAR, Subgroup.map_sup,
         CFSG.RankThree.GroupTheory.SteinbergBY.map_conj_eq_of_mem_normalizer
           (hARN x.2)]
-  letI : MulAction ↥(A ⊔ R) Ω :=
+  let : MulAction ↥(A ⊔ R) Ω :=
     { smul := fun x P => ⟨x • (P : Subgroup G), hΩinv x P.2⟩
       one_smul := fun P => Subtype.ext (one_smul _ _)
       mul_smul := fun x y P => Subtype.ext (mul_smul _ _ _) }
@@ -350,7 +351,7 @@ theorem not_isCyclic_of_isSylowOf_of_le_map {H : Type*} [Group H] {N K S : Subgr
   intro hScyc
   set Kbar : Subgroup H := (K.subgroupOf N).map f with hKbar
   set Sbar : Subgroup H := (S.subgroupOf N).map f with hSbar
-  haveI : Finite ↥Kbar := by
+  have : Finite ↥Kbar := by
     refine Finite.of_surjective
       (fun x : ↥(K.subgroupOf N) =>
         (⟨f x, Subgroup.mem_map_of_mem f x.2⟩ : ↥Kbar)) ?_
@@ -386,9 +387,9 @@ theorem not_isCyclic_of_isSylowOf_of_le_map {H : Type*} [Group H] {N K S : Subgr
     exact CFSG.QuasithinUnique.Setup.Lift.isSylowOf_map hStop fK
   have hSbar_cyc : IsCyclic ↥Sbar := by
     have hS'cyc : IsCyclic ↥(S.subgroupOf K) := by
-      haveI : IsCyclic ↥S := hScyc
+      have : IsCyclic ↥S := hScyc
       exact (Subgroup.subgroupOfEquivOfLe hS.le).isCyclic.mpr hScyc
-    haveI : IsCyclic ↥(S.subgroupOf K) := hS'cyc
+    have : IsCyclic ↥(S.subgroupOf K) := hS'cyc
     let φ : ↥(S.subgroupOf K) →* ↥Sbar :=
       ((fK.comp (S.subgroupOf K).subtype)).codRestrict Sbar
         (fun x => by
@@ -513,7 +514,7 @@ theorem exists_noncyclic_exp_le_normalizer_sup {p : ℕ} (hp : p.Prime) (hp2 : p
     (hnc : ∀ S : Subgroup G, CFSG.ABGLocalTools.IsSylowOf p S K → ¬ IsCyclic ↥S) :
     ∃ X : Subgroup G, X ≤ K ∧ IsPGroup p ↥X ∧ (∀ x ∈ X, x ^ p = 1) ∧ ¬ IsCyclic ↥X ∧
       A ≤ normalizer ((X ⊔ R : Subgroup G) : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hS, hAS⟩ :=
     exists_isSylowOf_le_normalizer_sup_of_odd hp hp2 hA hR hRK hKR hAK hAR hodd
   obtain ⟨X, hXS, hXchar, hXnc, hXexp, -⟩ :=

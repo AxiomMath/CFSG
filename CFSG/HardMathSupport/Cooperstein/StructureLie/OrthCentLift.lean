@@ -31,7 +31,7 @@ theorem mul_root_entry {p q : Fin n ⊕ Fin n} {c : F}
     (G * X) x y = G x y + (if x = p ∧ y = bar q then c else 0) -
       (if x = q ∧ y = bar p then c else 0) := by
   simp only [Matrix.mul_apply, hX, mul_add, mul_sub, Finset.sum_add_distrib, Finset.sum_sub_distrib,
-    Matrix.one_apply, mul_ite, mul_one, mul_zero, ite_and, Finset.sum_ite_eq, Finset.sum_ite_eq',
+    Matrix.one_apply, mul_ite, mul_one, mul_zero, ite_and, Finset.sum_ite_eq',
     Finset.mem_univ, ite_true]
   rw [hp x, hq x]
   by_cases hpq : p = q
@@ -65,7 +65,7 @@ theorem peel_shape [CharP F 2] (hd : ∀ p ∈ P, bar p ∉ P) (hS : Shape G P) 
     · rw [hE]
       have h1 : ¬ (x = p ∧ y = bar q) := fun h => hxy ⟨h.1 ▸ hp, by rw [h.2, bar_bar]; exact hq⟩
       have h3 : ¬ (x = q ∧ y = bar p) := fun h => hxy ⟨h.1 ▸ hq, by rw [h.2, bar_bar]; exact hp⟩
-      rw [if_neg h1, if_neg h3, hS.delta x y hxy]
+      rw [ite_eq_right h1, ite_eq_right h3, hS.delta x y hxy]
       ring
     · rw [hE' u u hu hu, hS.diag u hu]
       have h1 : ¬ (u = p ∧ u = q) := fun h => hpq (h.1.symm.trans h.2)
@@ -75,12 +75,12 @@ theorem peel_shape [CharP F 2] (hd : ∀ p ∈ P, bar p ∉ P) (hS : Shape G P) 
       simp only [and_comm (a := w = p) (b := u = q), and_comm (a := w = q) (b := u = p)]
       by_cases i1 : u = p ∧ w = q
       · have i2 : ¬ (u = q ∧ w = p) := fun h => hpq (i1.1.symm.trans h.1)
-        rw [if_pos i1, if_neg i2]
+        rw [ite_eq_left i1, ite_eq_right i2]
         linear_combination (-G p (bar q)) * h2
       · by_cases i2 : u = q ∧ w = p
-        · rw [if_neg i1, if_pos i2]
+        · rw [ite_eq_right i1, ite_eq_left i2]
           linear_combination (G p (bar q)) * h2
-        · rw [if_neg i1, if_neg i2]
+        · rw [ite_eq_right i1, ite_eq_right i2]
   refine ⟨hshape, ?_⟩
   unfold cntBlock
   apply Finset.card_lt_card
@@ -104,7 +104,7 @@ theorem peel_shape [CharP F 2] (hd : ∀ p ∈ P, bar p ∉ P) (hS : Shape G P) 
       · obtain ⟨h1, h2'⟩ := i2
         rw [h1, h2', hsymm] at h0
         exact absurd h0 hc
-      · rw [if_neg i1, if_neg i2]
+      · rw [ite_eq_right i1, ite_eq_right i2]
         ring
 
 @[expose] def pSet (Aset : Set (Fin n)) (σ : Fin n → Bool) : Set (Fin n ⊕ Fin n) :=

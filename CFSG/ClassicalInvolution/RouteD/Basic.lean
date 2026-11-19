@@ -23,6 +23,7 @@ theorem diagramGraph_transpose (A : Matrix B B ℤ) :
   simp only [diagramGraph_adj, Matrix.transpose_apply]
   tauto
 
+omit [Fintype B] in
 theorem classify {Γ : Matrix B B ℤ} (h : IsFiniteType Γ) (hc : (diagramGraph Γ).Connected) :
     ∃ t : DynkinType, t.Valid ∧ ∃ e : B ≃ Fin t.rank, ∀ x y, Γ x y = stdCartan t (e x) (e y) := by
   have hc' : (diagramGraph Γ.transpose).Connected := by rwa [diagramGraph_transpose]

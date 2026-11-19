@@ -34,7 +34,7 @@ theorem SixHyp.exists_conj (h : SixHyp M L L' κ e)
   have hc_apply : ∀ (m : ↥M) (ℓ : ↥L),
       (c m : MulAut ↥L) ℓ = ((m : MulAut W) * (ℓ : MulAut W) * (m : MulAut W)⁻¹ : MulAut W) := by
     intro m ℓ
-    simp only [c, eLM, MulAut.congr_apply, MulEquiv.trans_apply, MulAut.conjNormal_apply]
+    simp only [c, eLM]
     simp
   have hc_inj : Function.Injective c := by
     intro m₁ m₂ hmm
@@ -63,9 +63,9 @@ theorem SixHyp.exists_conj (h : SixHyp M L L' κ e)
       (m₁ : MulAut W) = (m₂ : MulAut W) * ((m₂ : MulAut W)⁻¹ * (m₁ : MulAut W)) := by group
       _ = (m₂ : MulAut W) * 1 := by rw [hχ1]
       _ = (m₂ : MulAut W) := by simp
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
-  haveI : Finite ↥M := Finite.of_injective Subtype.val Subtype.val_injective
+  have : Finite ↥M := Finite.of_injective Subtype.val Subtype.val_injective
   have hc_surj : Function.Surjective c :=
     (Finite.injective_iff_surjective_of_equiv
       (eM.toEquiv.trans (MulAut.congr eL.symm).toEquiv)).1 hc_inj

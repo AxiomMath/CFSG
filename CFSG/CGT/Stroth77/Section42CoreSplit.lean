@@ -337,19 +337,19 @@ theorem t100_c_pow : (dD.c : G) ^ 2 ^ (m - 1) = dD.ofTorus (om100 m ![1, 0, 0]) 
   rw [c_eq, ← ofTorus_nsmul]
   congr 1
   funext i
-  fin_cases i <;> simp [om100, gen, Pi.single_apply] <;> rfl
+  fin_cases i <;> simp [om100, gen]; rfl
 
 theorem t100_a_pow : (dD.a : G) ^ 2 ^ m = dD.ofTorus (om100 m ![0, 1, 0]) := by
   rw [a_eq, ← ofTorus_nsmul]
   congr 1
   funext i
-  fin_cases i <;> simp [om100, gen, Pi.single_apply] <;> rfl
+  fin_cases i <;> simp [om100, gen]; rfl
 
 theorem t100_b_pow : (dD.b : G) ^ 2 ^ m = dD.ofTorus (om100 m ![0, 0, 1]) := by
   rw [b_eq, ← ofTorus_nsmul]
   congr 1
   funext i
-  fin_cases i <;> simp [om100, gen, Pi.single_apply] <;> rfl
+  fin_cases i <;> simp [om100, gen]; rfl
 
 theorem t100_eq_om_of_mul_self (hm : 1 ≤ m) {y : G} (hy : y ∈ D) (h2 : y * y = 1) :
     ∃ ε : Fin 3 → ℤ, (∀ i, ε i = 0 ∨ ε i = 1) ∧ y = dD.ofTorus (om100 m ε) := by
@@ -364,7 +364,7 @@ theorem om100_c (m : ℕ) :
   rw [om100]
   congr 1
   funext i
-  fin_cases i <;> simp <;> rfl
+  fin_cases i <;> simp; rfl
 
 theorem t100_h1 (hm : 2 ≤ m) :
     (Subgroup.closure {(dD.c : G) ^ 2, (dD.a : G), (dD.b : G), dD.uv, dD.t, dD.u}).relIndex
@@ -686,8 +686,7 @@ theorem t100_pow_ne_c₁_of_odd (hm : 1 ≤ m) {y : G} {w : Fin 3 → ℤ}
   rw [dD.pow_two_pow_of_mul_self hsq hn, dD.t100_c_pow, om100_c, ← natCast_zsmul,
     ← Torus.ofInt_zsmul] at h
   obtain ⟨h0, h1, -⟩ := (t100_ofInt_eq_iff _ _).mp (dD.ofTorus_inj h)
-  simp only [Pi.smul_apply, smul_eq_mul, Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons] at h0 h1
+  simp only [Pi.smul_apply, smul_eq_mul, Matrix.cons_val_zero, Matrix.cons_val_one] at h0 h1
   push_cast at h0 h1
   exact not_dvd_pow_pred_sub_of_odd hm hw h0 h1
 
@@ -758,7 +757,7 @@ theorem t100_h8 (hm : 2 ≤ m) :
     simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, AddMonoidHom.comp_apply,
       AddMonoidHom.id_apply, t100_φt, ← Torus.ofInt_add] at hsq0
     refine dD.t100_pow_ne_c₁ hm1 hsq0 (Or.inl ?_) hn hz
-    simp only [Pi.add_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+    simp only [Pi.add_apply, Matrix.cons_val_zero, Matrix.cons_val_one]
     ring
   · exact absurd hz (hlt' false hn)
   ·
@@ -768,7 +767,7 @@ theorem t100_h8 (hm : 2 ≤ m) :
     simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, AddMonoidHom.comp_apply,
       AddMonoidHom.id_apply, t100_φuv, ← Torus.ofInt_add] at hsq0
     refine dD.t100_pow_ne_c₁ hm1 hsq0 (Or.inl ?_) hn hz
-    simp only [Pi.add_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+    simp only [Pi.add_apply, Matrix.cons_val_zero, Matrix.cons_val_one]
     ring
   ·
     have hsq0 := dD.nf_mul_self_of_false (Torus.ofInt _ x) (i := true) (j := false)
@@ -872,7 +871,7 @@ theorem t100_h7 (hm : 2 ≤ m) :
           exact dD.nf_u_mul_inv_mem v₀ v
         obtain ⟨a, b, hd⟩ := hfix (e * e₀⁻¹) (mul_mem he (inv_mem he₀)) hmem
         refine ⟨(true, a, b), ?_⟩
-        simp only [f, if_true]
+        simp only [f, ite_true]
         rw [← hd, inv_mul_cancel_right]
     have hle := Stroth42Core.natCard_le_of_subset_range f hcov
     rw [hcard, h8] at hle
@@ -901,8 +900,8 @@ theorem t100_h9 (hm : 2 ≤ m) :
     obtain ⟨v₀, hv₀⟩ := dD.t100_mem_CSz_of_not_mem hm1 (hX hx₀) hx₀D
     have hcomm : ∀ a ∈ X, ∀ b ∈ X, a * b = b * a := fun a ha b hb =>
       congrArg Subtype.val (hab.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-    haveI : NeZero (2 ^ m) := ⟨by positivity⟩
-    haveI : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
+    have : NeZero (2 ^ m) := ⟨by positivity⟩
+    have : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
     have hfix : ∀ d ∈ X, d ∈ D → ∃ (p : ZMod (2 ^ m)) (q : ZMod (2 ^ (m + 1))),
         d = dD.ofTorus (Torus.ofInt _ ![(p.val : ℤ), (q.val : ℤ), (q.val : ℤ)]) := by
       intro d hd hdD
@@ -942,7 +941,7 @@ theorem t100_h9 (hm : 2 ≤ m) :
           exact dD.nf_u_mul_inv_mem v₀ v
         obtain ⟨p, q, hd⟩ := hfix (e * x₀⁻¹) (mul_mem he (inv_mem hx₀)) hmem
         refine ⟨(true, p, q), ?_⟩
-        simp only [f, if_true]
+        simp only [f, ite_true]
         rw [← hd, inv_mul_cancel_right]
     have hle := Stroth42Core.natCard_le_of_subset_range f hcov
     rw [hcard, hDcard, Nat.card_prod, Nat.card_prod, Nat.card_zmod, Nat.card_zmod] at hle
@@ -951,7 +950,7 @@ theorem t100_h9 (hm : 2 ≤ m) :
     have := (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp hle
     omega
   · simp only [not_exists, not_and, not_not] at hD
-    haveI : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
+    have : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
     exact Subgroup.eq_of_le_of_card_ge (fun x hx => hD x hx) hcard.ge
 
 end StrothWeakTypeData

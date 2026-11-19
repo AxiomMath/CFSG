@@ -56,7 +56,7 @@ private theorem commute_of_barImage {L P : Subgroup G} (hPL : P ≤ L) {s : ℕ}
     (hs : s.Prime) (hs2 : s ≠ 2) (hP : IsPGroup s P)
     (hc : ∀ x ∈ barImage L P, ∀ y ∈ barImage L P, x * y = y * x) :
     ∀ x ∈ P, ∀ y ∈ P, x * y = y * x := by
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   have hsN : ¬ s ∣ Nat.card ↥(CFSG.pCore 2 ↥L) :=
     CFSG.Quasithin.H13.NQTerm.not_dvd_card_pCore_two_of_ne (K := ↥L) hs hs2
   let Q : Subgroup ↥L := P.subgroupOf L
@@ -78,7 +78,8 @@ private theorem commute_of_barImage {L P : Subgroup G} (hPL : P ≤ L) {s : ℕ}
     exact hc (g ⟨x, hx⟩) (hmem ⟨x, hx⟩) (g ⟨y, hy⟩) (hmem ⟨y, hy⟩)
   exact congrArg Subtype.val hxyP
 
-private theorem kOf8103_le_and_normalizer {L B : Subgroup G} (hBL : B ≤ L) :
+omit [Finite G] in
+private theorem kOf8103_le_and_normalizer {L B : Subgroup G} (_hBL : B ≤ L) :
     F08.KOf8103 L B ≤ L ∧ F08.KOf8103 L B ≤ L ⊓ centralizer (B : Set G) ∧
       (L ⊓ centralizer (B : Set G)) ≤ Subgroup.normalizer (F08.KOf8103 L B : Set G) ∧
       F08.KOf8103 L B ≤ Subgroup.normalizer (pCoreOf 2 L : Set G) := by
@@ -119,6 +120,7 @@ private theorem le_of_barImage_le_of_card_three {L K C B' : Subgroup G}
     intro h3
     exact absurd (Nat.prime_three.dvd_of_dvd_pow h3) (by norm_num)
 
+omit [Finite G] in
 private theorem commutator_mem_inf_pCoreOf {L P K : Subgroup G} {x : ↥L} {y : Bar2 L}
     (hPL : P ≤ L) (hKL : K ≤ L) (hxK : (x : G) ∈ K)
     (hPK : P ≤ Subgroup.normalizer (K : Set G))
@@ -171,7 +173,7 @@ private theorem exists_mem_inf_centralizer_of_barImage {L P K : Subgroup G} {x :
   have hN02 : IsPGroup 2 N0 :=
     (CFSG.LocalAnalysis.UniquenessCase.UC6S846.isPGroup_pCoreOf L).to_le inf_le_right
   have hN0solv : Group.IsSolvable ↥N0 := by
-    haveI : Group.IsNilpotent ↥N0 := hN02.isNilpotent
+    have : Group.IsNilpotent ↥N0 := hN02.isNilpotent
     infer_instance
   have hPN : P ≤ Subgroup.normalizer (pCoreOf 2 L : Set G) :=
     hPL.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 L)
@@ -227,7 +229,7 @@ private theorem exists_order_p_mem_barImage_inf_centralizer (hK1 : KU45Lines) (h
     hCP (Bar2 L) n s.isU45 p s.prime s.dvd Pbar hPbar hPidx (barImage L B) hBbar
   have hKbar : barImage L (F08.KOf8103 L B) = F08.KOf8103 ⊤ (barImage L B) :=
     barImage_kOf8103 hBL hB3
-  haveI : Fact p.Prime := ⟨s.prime⟩
+  have : Fact p.Prime := ⟨s.prime⟩
   obtain ⟨yD, hyD⟩ := exists_prime_orderOf_dvd_card' (G := ↥Dbar) p (by rw [hDbarCard])
   have hy : orderOf (yD : Bar2 L) = p := (Subgroup.orderOf_coe yD).trans hyD
   have hyK : (yD : Bar2 L) ∈ barImage L (F08.KOf8103 L B) := by
@@ -254,7 +256,7 @@ private theorem exists_order_p_centralizing (hK1 : KU45Lines) (hCP : KU45CentP) 
     ∃ D₀ : Subgroup G, D₀ ≤ F08.KOf8103 L B ∧ Nat.card D₀ = p ∧
       D₀ ≤ centralizer (P : Set G) := by
   obtain ⟨y, hy, hybarCK⟩ := exists_order_p_mem_barImage_inf_centralizer hK1 hCP s
-  haveI : Fact p.Prime := ⟨s.prime⟩
+  have : Fact p.Prime := ⟨s.prime⟩
   have hBL : B ≤ L := s.notB.2.1.trans s.hyp.2.2.2.2.le
   have hKL : F08.KOf8103 L B ≤ L := (kOf8103_le_and_normalizer hBL).1
   let CK : Subgroup G := F08.KOf8103 L B ⊓ centralizer (P : Set G)

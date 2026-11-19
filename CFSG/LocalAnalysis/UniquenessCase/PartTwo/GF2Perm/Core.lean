@@ -73,7 +73,7 @@ private theorem card_pCoreOf_three_of_card_six [Finite G] (L : Subgroup G)
     exact h
   have hPle : (P : Subgroup L).map L.subtype ≤ CFSG.Open.pCoreOf 3 L :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 3 (Subgroup.map_subtype_le _) hnorm
-      (P.isPGroup'.map L.subtype)
+      (P.isPGroup.map L.subtype)
   have h3le : 3 ≤ Nat.card (CFSG.Open.pCoreOf 3 L) := by
     calc 3 = Nat.card ((P : Subgroup L).map L.subtype) := by
           rw [Subgroup.card_map_of_injective L.subtype_injective, hPcard]
@@ -423,7 +423,7 @@ private theorem nine_mul_card_le_of_sup_le [Finite G] {E R X : Subgroup G}
   have hcop : Nat.Coprime (Nat.card E) (Nat.card R) := by
     rw [hE9, hn]
     exact Nat.Coprime.pow (k := 3) (l := 2) 2 n (by norm_num)
-  have hdisj : E ⊓ R = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hdisj : E ⊓ R = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hcard := CFSG.ShultStronglyClosedTI.LinearChain.RootQuotientClasses.card_sup_mul_card_inf
     (A := E) (B := R) hER
   rw [hdisj, Subgroup.card_bot, hE9, mul_one] at hcard
@@ -557,7 +557,7 @@ theorem permWitnessAt_of_generators [Finite G] {ι : Type*} [Finite ι] (U : Syl
   have hX_le : cubeCore W ≤ R ⊔ Q := by
     simpa [R] using cubeCore_le_pCoreOf_sup hW' hVW hQ_le_W hTQ hWV hNnorm hV2 hLsq hLL'
   have hRU : R ≤ U := by
-    refine pCoreOf_two_le_of_sylow_of_le hUW U.isPGroup' ?_
+    refine pCoreOf_two_le_of_sylow_of_le hUW U.isPGroup ?_
     intro h2
     exact U.not_dvd_index (h2.trans (Subgroup.relIndex_dvd_index_of_le hUW))
   have hRX : R ≤ cubeCore W := by

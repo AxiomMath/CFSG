@@ -146,7 +146,7 @@ private theorem ii1Theorem26_isTI_normalizer
   have hKleN : K ≤ N := Subgroup.le_normalizer
   have hKcomm : IsMulCommutative K :=
     ii1Theorem26_regular_commutative K hcent
-  letI : IsMulCommutative K := hKcomm
+  let : IsMulCommutative K := hKcomm
   have hKnontriv : ∃ k ∈ (K : Set X), k ≠ 1 := by
     obtain ⟨k, hk⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hKne
     exact ⟨k, k.property, fun hk1 => hk (Subtype.ext hk1)⟩
@@ -264,7 +264,7 @@ private theorem ii1Theorem26_normalizer_frobenius
     have hDcard : Nat.card D = 1 := by simp [hDbot]
     have hcard : Nat.card N = Nat.card K := by
       calc
-        Nat.card N = Nat.card F * Nat.card D := hcomp.card_mul.symm
+        Nat.card N = Nat.card F * Nat.card D := hcomp.card_mul_card.symm
         _ = Nat.card K := by rw [hFcard, hDcard, mul_one]
     have hKN : K = N :=
       Subgroup.eq_of_le_of_card_ge hKleN (le_of_eq hcard)
@@ -305,8 +305,8 @@ private theorem ii1Theorem26_quotient_regular
     IsRegularOn (K.map (QuotientGroup.mk' W)) (Set.univ : Set Omega) := by
   classical
   let W := pointStabilizerCore X Omega
-  letI : W.Normal := pointStabilizerCore_normal
-  letI : MulAction (X ⧸ W) Omega := pointStabilizerCoreQuotientAction
+  let : W.Normal := pointStabilizerCore_normal
+  let : MulAction (X ⧸ W) Omega := pointStabilizerCoreQuotientAction
   let q : X →* X ⧸ W := QuotientGroup.mk' W
   let Kbar : Subgroup (X ⧸ W) := K.map q
   change IsRegularOn Kbar (Set.univ : Set Omega)
@@ -343,7 +343,7 @@ private theorem ii1Theorem26_quotient_card
     Nat.card (K.map (QuotientGroup.mk' W)) = Nat.card K := by
   classical
   let W := pointStabilizerCore X Omega
-  letI : W.Normal := pointStabilizerCore_normal
+  let : W.Normal := pointStabilizerCore_normal
   let q : X →* X ⧸ W := QuotientGroup.mk' W
   let Kbar : Subgroup (X ⧸ W) := K.map q
   let toKbar : K → Kbar := fun k =>
@@ -385,12 +385,12 @@ private theorem ii1Theorem26_quotient_centralizer
       Subgroup.centralizer ({xbar} : Set (X ⧸ W)) = Kbar := by
   classical
   let W := pointStabilizerCore X Omega
-  letI : W.Normal := pointStabilizerCore_normal
+  let : W.Normal := pointStabilizerCore_normal
   let q : X →* X ⧸ W := QuotientGroup.mk' W
   let Kbar : Subgroup (X ⧸ W) := K.map q
   have hKcomm : IsMulCommutative K :=
     ii1Theorem26_regular_commutative K hcent
-  letI : IsMulCommutative K := hKcomm
+  let : IsMulCommutative K := hKcomm
   have hKbarCard : Nat.card Kbar = Nat.card K := by
     simpa [W, q, Kbar] using ii1Theorem26_quotient_card K hreg
   change ∀ xbar : X ⧸ W, xbar ∈ Kbar → xbar ≠ 1 →
@@ -426,8 +426,8 @@ private theorem ii1Theorem26_two_pretransitive_of_core_quotient
       MulAction.IsMultiplyPretransitive (X ⧸ W) Omega 2) :
     MulAction.IsMultiplyPretransitive X Omega 2 := by
   let W := pointStabilizerCore X Omega
-  letI : W.Normal := pointStabilizerCore_normal
-  letI : MulAction (X ⧸ W) Omega := pointStabilizerCoreQuotientAction
+  let : W.Normal := pointStabilizerCore_normal
+  let : MulAction (X ⧸ W) Omega := pointStabilizerCoreQuotientAction
   change MulAction.IsMultiplyPretransitive (X ⧸ W) Omega 2 at htwo
   rw [MulAction.is_two_pretransitive_iff] at htwo ⊢
   intro a b c d hab hcd
@@ -447,12 +447,12 @@ private theorem ii1Theorem26_fixedPointSubgroup_bot_of_regular_prime
       MulDistribMulAction.compHom H P.subtype
     fixedPointSubgroup (↥P) H = ⊥ := by
   classical
-  letI : MulDistribMulAction P H :=
+  let : MulDistribMulAction P H :=
     MulDistribMulAction.compHom H P.subtype
   have hP_ne_bot : P ≠ ⊥ := by
     intro hPbot
     exact hPprime.ne_one (by simp [hPbot])
-  letI : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).2 hP_ne_bot
+  let : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot P).2 hP_ne_bot
   obtain ⟨x, hx_ne⟩ := exists_ne (1 : P)
   apply le_antisymm
   · intro y hy
@@ -478,13 +478,13 @@ private theorem ii1Theorem26_coprime_card_of_regular_action
   classical
   refine Nat.coprime_of_dvd ?_
   intro r hr_prime hr_dvd_H hr_dvd_R
-  letI : Fact r.Prime := ⟨hr_prime⟩
+  let : Fact r.Prime := ⟨hr_prime⟩
   obtain ⟨P, hPcard_pow⟩ :=
     Sylow.exists_subgroup_card_pow_prime (G := R) r (n := 1) (by
       simpa using hr_dvd_R)
   have hPcard : Nat.card P = r := by simpa using hPcard_pow
   have hPprime : Nat.Prime (Nat.card P) := by simpa [hPcard] using hr_prime
-  letI : MulDistribMulAction P H :=
+  let : MulDistribMulAction P H :=
     MulDistribMulAction.compHom H P.subtype
   have hfix : fixedPointSubgroup (↥P) H = ⊥ :=
     ii1Theorem26_fixedPointSubgroup_bot_of_regular_prime hregular hPprime
@@ -523,11 +523,11 @@ private theorem ii1Theorem26_normalizer_factor_of_quotient_normal
   have hSnormal : S.Normal := by
     rw [hS_eq]
     exact hKbarNormal.comap q
-  letI : S.Normal := hSnormal
+  let : S.Normal := hSnormal
   by_cases hKbot : K = ⊥
   · have hNtop : Subgroup.normalizer (K : Set X) = ⊤ := by
       apply Subgroup.normalizer_eq_top_iff.mpr
-      simpa [hKbot] using (inferInstance : (⊥ : Subgroup X).Normal)
+      simp [hKbot]
     rw [eq_comm, Set.eq_univ_iff_forall]
     intro x
     exact ⟨1, W.one_mem, x, by simp [hNtop], by simp⟩
@@ -545,7 +545,7 @@ private theorem ii1Theorem26_normalizer_factor_of_quotient_normal
   let Ksub : Subgroup S := K.subgroupOf S
   have hWsubNormal : Wsub.Normal :=
     (inferInstance : W.Normal).subgroupOf S
-  letI : Wsub.Normal := hWsubNormal
+  let : Wsub.Normal := hWsubNormal
   have hcomp : Wsub.IsComplement' Ksub := by
     simpa [Wsub, Ksub, S] using
       (isComplement'_subgroupOf_sup_of_disjoint W K hdisj.symm)
@@ -623,7 +623,7 @@ private theorem ii1Theorem26_normalizer_factor_of_quotient_normal
   have hcompX : Wsub.IsComplement' Kxsub := by
     apply Subgroup.isComplement'_of_card_mul_and_disjoint
     · rw [hcardKxsub]
-      exact hcomp.card_mul
+      exact hcomp.card_mul_card
     · exact hdisjSub
   obtain ⟨s, hs⟩ :=
     External.huppert_I_18_3_complements_conjugate
@@ -641,7 +641,7 @@ private theorem ii1Theorem26_normalizer_factor_of_quotient_normal
   obtain ⟨w, hwW, k, hkK, hsk⟩ :=
     (Subgroup.mem_sup_of_normal_left
       (s := W) (t := K) (x := ((s : S) : X))).1
-      (by simpa [S] using s.property)
+      (by simp [S])
   have hKk : K.conjBy k = K := by
     change MulAut.conj k • K = K
     exact Subgroup.conj_smul_eq_self_of_mem hkK
@@ -663,7 +663,7 @@ private theorem ii1Theorem26_frobenius_not_mem_kernel_conjugate_mem_complement
     ∃ a : F, ∃ r : D,
       (a : H)⁻¹ * x * (a : H) = (r : H) := by
   classical
-  letI : F.Normal := hFrob.normal
+  let : F.Normal := hFrob.normal
   have hxSup : x ∈ F ⊔ D := by
     simp [hFrob.isComplement'.sup_eq_top]
   rcases (Subgroup.mem_sup_of_normal_left (s := F) (t := D) (x := x)).1 hxSup with
@@ -761,17 +761,17 @@ private theorem ii1Theorem26_self_normalizing_false
       rw [hrone] at hc
       have hc' := congrArg (fun z : X => (a : X) * z * (a : X)⁻¹) hc
       simpa [mul_assoc] using hc'
-    exact hxY (by simpa [hxone])
+    exact hxY (by simp [hxone])
   have hKcard : Nat.card K = Nat.card Omega :=
     ii1Theorem26_regular_card K hreg
   have hHindex : H.index = Nat.card Omega := by
-    letI : MulAction.IsPretransitive X Omega := htrans
+    let : MulAction.IsPretransitive X Omega := htrans
     exact MulAction.index_stabilizer_of_transitive X alpha
   have hHmul : Nat.card H * Nat.card K = Nat.card X := by
     rw [hKcard, ← hHindex]
     exact Subgroup.card_mul_index H
   have hYmul : Nat.card Y * Nat.card K = Nat.card X :=
-    hFrob.isComplement'.card_mul
+    hFrob.isComplement'.card_mul_card
   have hHYcard : Nat.card H = Nat.card Y := by
     apply Nat.eq_of_mul_eq_mul_right (Nat.card_pos (α := K))
     exact hHmul.trans hYmul.symm
@@ -779,7 +779,7 @@ private theorem ii1Theorem26_self_normalizing_false
     Subgroup.eq_of_le_of_card_ge hHleY (le_of_eq hHYcard.symm)
   have hYfix : ∀ y : Y, ∀ beta : Omega, (y : X) • beta = beta := by
     intro y beta
-    letI : MulAction.IsPretransitive X Omega := htrans
+    let : MulAction.IsPretransitive X Omega := htrans
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X alpha beta
     have hconjY : g⁻¹ * (y : X) * g ∈ Y := by
       simpa using hFrob.normal.conj_mem (y : X) y.property g⁻¹
@@ -812,7 +812,7 @@ private theorem ii1Theorem26_permutationCharacter_apply
     (Representation.ofMulAction ℂ X Q).character g =
       (Nat.card (MulAction.fixedBy Q g) : ℂ) := by
   classical
-  letI : Fintype (MulAction.fixedBy Q g) := Fintype.ofFinite _
+  let : Fintype (MulAction.fixedBy Q g) := Fintype.ofFinite _
   let sigma : Equiv.Perm Q := MulAction.toPerm g
   let T : MonoidAlgebra ℂ Q ≃ₗ[ℂ] MonoidAlgebra ℂ Q :=
     MonoidAlgebra.mapDomainLinearEquiv ℂ ℂ sigma
@@ -844,14 +844,14 @@ private theorem ii1Theorem26_permutationCharacter_isCharacter
     MulAction.injective_ofQuotientStabilizer X alpha
   have htoQSurj : Function.Surjective toQ := by
     intro q
-    letI : MulAction.IsPretransitive X Q := htrans
+    let : MulAction.IsPretransitive X Q := htrans
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X alpha q
     exact ⟨(g : X ⧸ H), by simpa [toQ, H] using hg⟩
   let e : (X ⧸ H) ≃ Q := Equiv.ofBijective toQ ⟨htoQInj, htoQSurj⟩
   have heSmul : ∀ g : X, ∀ q : X ⧸ H, e (g • q) = g • e q := by
     intro g q
     exact MulAction.ofQuotientStabilizer_smul X alpha g q
-  letI : Fintype (X ⧸ H) := Fintype.ofFinite (X ⧸ H)
+  let : Fintype (X ⧸ H) := Fintype.ofFinite (X ⧸ H)
   let fixedEquiv (g : X) :
       MulAction.fixedBy (X ⧸ H) g ≃ MulAction.fixedBy Q g :=
     { toFun := fun q => ⟨e q.1, by
@@ -894,8 +894,8 @@ private theorem ii1Theorem26_permutationCharacter_restrict_regular
   by_cases hk : k = 1
   · subst k
     simpa [Nat.card_eq_fintype_card] using hcard.symm
-  · rw [if_neg hk]
-    haveI : IsEmpty (MulAction.fixedBy Omega (k : X)) :=
+  · rw [ite_eq_right hk]
+    have : IsEmpty (MulAction.fixedBy Omega (k : X)) :=
       ⟨fun z => by
         obtain ⟨a, _ha, huniq⟩ :=
           hreg (alpha := z.1) (beta := z.1) (by trivial) (by trivial)
@@ -921,8 +921,6 @@ private theorem ii1Theorem26_coset_regular
       (by trivial) (by trivial)
   refine ⟨k, ?_, ?_⟩
   · apply MulAction.injective_ofQuotientStabilizer X alpha
-    change MulAction.ofQuotientStabilizer X alpha ((k : X) • q) =
-      MulAction.ofQuotientStabilizer X alpha r
     rw [MulAction.ofQuotientStabilizer_smul]
     exact hk
   · intro l hl
@@ -944,7 +942,7 @@ private theorem ii1Theorem26_two_pretransitive_of_coset
   have hsurj : Function.Surjective
       (MulAction.ofQuotientStabilizer X alpha) := by
     intro beta
-    letI : MulAction.IsPretransitive X Omega := htrans
+    let : MulAction.IsPretransitive X Omega := htrans
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X alpha beta
     exact ⟨(g : X ⧸ MulAction.stabilizer X alpha), by simpa using hg⟩
   rw [MulAction.is_two_pretransitive_iff] at htwo ⊢
@@ -987,7 +985,7 @@ private theorem ii1Theorem26_two_pretransitive_of_permutationCharacter_self
       (Representation.ofMulAction ℂ G Q).character = 2) :
     MulAction.IsMultiplyPretransitive G Q 2 := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   let fix : G → ℕ := fun g => Fintype.card (MulAction.fixedBy Q g)
   have hcardG : (Nat.card G : ℂ) ≠ 0 := by
     exact_mod_cast (Nat.card_pos (α := G)).ne'
@@ -1000,7 +998,7 @@ private theorem ii1Theorem26_two_pretransitive_of_permutationCharacter_self
   have hsumNat : ∑ g : G, fix g ^ 2 = 2 * Nat.card G := by
     exact_mod_cast hsumComplex
   let Q2 := Quotient (MulAction.orbitRel G (Q × Q))
-  letI : Fintype Q2 := Fintype.ofFinite Q2
+  let : Fintype Q2 := Fintype.ofFinite Q2
   have hfixProd (g : G) :
       Fintype.card (MulAction.fixedBy (Q × Q) g) = fix g ^ 2 := by
     let e : MulAction.fixedBy (Q × Q) g ≃
@@ -1068,10 +1066,10 @@ private theorem ii1Theorem26_permutationCharacter_principal
     scalarProduct G (Representation.ofMulAction ℂ G Q).character
       (principalCharacter G) = 1 := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   let fix : G → ℕ := fun g => Fintype.card (MulAction.fixedBy Q g)
   let Q1 := Quotient (MulAction.orbitRel G Q)
-  letI : Fintype Q1 := Fintype.ofFinite Q1
+  let : Fintype Q1 := Fintype.ofFinite Q1
   have hQ1card : Fintype.card Q1 = 1 := by
     apply Fintype.card_eq_one_iff.mpr
     let q : Q := Classical.choice (inferInstance : Nonempty Q)
@@ -1080,7 +1078,7 @@ private theorem ii1Theorem26_permutationCharacter_principal
     intro z
     rw [← Quotient.out_eq z]
     apply Quotient.sound
-    letI : MulAction.IsPretransitive G Q := htrans
+    let : MulAction.IsPretransitive G Q := htrans
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G q (Quotient.out z)
     exact ⟨g, hg⟩
   have hsum : ∑ g : G, fix g = Nat.card G := by
@@ -1108,15 +1106,15 @@ private theorem ii1Theorem26_permutationCharacter_self_of_decomposition
     (hdecomp : pi = weightedFamilySum (fun _ : I => (1 : ℂ)) psi) :
     scalarProduct G pi pi = (Nat.card I : ℂ) := by
   classical
-  letI : Fintype I := Fintype.ofFinite I
+  let : Fintype I := Fintype.ofFinite I
   have horth : ∀ i j,
       scalarProduct G (psi i) (psi j) = if i = j then 1 else 0 := by
     intro i j
     by_cases hij : i = j
     · subst j
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact scalarProduct_irreducibleCharacter_self (hirr i)
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       exact scalarProduct_irreducibleCharacter_eq_zero_of_ne
         (hirr i) (hirr j) (hpair hij)
   rw [hdecomp, scalarProduct_weightedFamilySum_left]
@@ -1136,11 +1134,11 @@ private theorem ii1Theorem26_decomposition_card_eq_two_of_le_two
     (hle : Nat.card I ≤ 2) :
     Nat.card I = 2 := by
   classical
-  letI : Fintype I := Fintype.ofFinite I
+  let : Fintype I := Fintype.ofFinite I
   have hprincipal := ii1Theorem26_permutationCharacter_principal htrans
   have hex : ∃ i : I, psi i = principalCharacter G := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hzero : ∀ i : I,
         scalarProduct G (psi i) (principalCharacter G) = 0 := by
       intro i
@@ -1149,14 +1147,14 @@ private theorem ii1Theorem26_decomposition_card_eq_two_of_le_two
     rw [hdecomp, scalarProduct_weightedFamilySum_left] at hprincipal
     simp [hzero] at hprincipal
   obtain ⟨i0, hi0⟩ := hex
-  letI : Nonempty I := ⟨i0⟩
+  let : Nonempty I := ⟨i0⟩
   have hpos : 0 < Nat.card I := Nat.card_pos
   by_contra hne
   have hcardOne : Nat.card I = 1 := by omega
   have hcardOne' : Fintype.card I = 1 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcardOne
-  letI : Subsingleton I :=
+  let : Subsingleton I :=
     Finite.card_le_one_iff_subsingleton.mp (le_of_eq hcardOne)
   have hpiPrincipal :
       (Representation.ofMulAction ℂ G Q).character = principalCharacter G := by
@@ -1232,13 +1230,13 @@ private theorem ii1Theorem26_two_pretransitive_of_frobenius_complement_card
     obtain ⟨k, hk, _huniq⟩ :=
       hreg (alpha := alpha) (beta := beta) (by trivial) (by trivial)
     exact ⟨k, hk⟩
-  letI : Finite Omega := Finite.of_surjective orbitAt horbitSurj
-  letI : Fintype Omega := Fintype.ofFinite Omega
-  letI : Fintype K := Fintype.ofFinite K
+  let : Finite Omega := Finite.of_surjective orbitAt horbitSurj
+  let : Fintype Omega := Fintype.ofFinite Omega
+  let : Fintype K := Fintype.ofFinite K
   let Omega0 := {beta : Omega // beta ≠ alpha}
-  letI : Fintype Omega0 := Fintype.ofFinite Omega0
-  letI : Fintype D := Fintype.ofFinite D
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype Omega0 := Fintype.ofFinite Omega0
+  let : Fintype D := Fintype.ofFinite D
+  let : Fintype F := Fintype.ofFinite F
   have hKleN : K ≤ N := Subgroup.le_normalizer
   have hFcard : Nat.card F = Nat.card K :=
     natCard_subgroupOf_eq K N hKleN
@@ -1251,8 +1249,7 @@ private theorem ii1Theorem26_two_pretransitive_of_frobenius_complement_card
       simpa [Nat.card_eq_fintype_card] using hcard
     calc
       Fintype.card Omega0 = Fintype.card Omega - 1 := by
-        simpa [Omega0] using
-          (Fintype.card_subtype_compl (fun beta : Omega => beta = alpha))
+        simp [Omega0]
       _ = Fintype.card K - 1 := by rw [hKOmega]
       _ = Fintype.card F - 1 := by rw [hFK]
       _ = Fintype.card D := hDF.symm
@@ -1348,7 +1345,7 @@ private theorem ii1Theorem26_two_pretransitive_of_frobenius_complement_card
       exact ⟨(k : X), hk⟩⟩
   rw [MulAction.is_two_pretransitive_iff]
   intro a b c e hab hce
-  letI : MulAction.IsPretransitive X Omega := htrans
+  let : MulAction.IsPretransitive X Omega := htrans
   obtain ⟨x, hxa⟩ := MulAction.exists_smul_eq X a alpha
   obtain ⟨y, hyc⟩ := MulAction.exists_smul_eq X c alpha
   have hxb : x • b ≠ alpha := by
@@ -1500,7 +1497,7 @@ private theorem ii1Theorem26_coherent_signed_family_common
     change epsilon eta * degree (mu eta) - epsilon xi * degree (mu xi) = 0 at hzero
     rcases hepsilon eta with hη | hη <;>
       rcases hepsilon xi with hξ | hξ
-    · simpa [hη, hξ]
+    · simp [hη, hξ]
     · exfalso
       rw [hη, hξ, hdegη, hdegξ] at hzero
       have hsum : ((nη + nξ : ℕ) : ℂ) = 0 := by
@@ -1514,7 +1511,7 @@ private theorem ii1Theorem26_coherent_signed_family_common
         simpa [sub_eq_add_neg, add_comm, add_left_comm, add_assoc] using hh
       have hnat : nη + nξ = 0 := by exact_mod_cast hsum
       omega
-    · simpa [hη, hξ]
+    · simp [hη, hξ]
   have hmuDegree : ∀ eta xi : Y, degree (mu eta) = degree (mu xi) := by
     intro eta xi
     have hzero := hdegreeTau eta xi
@@ -1594,11 +1591,11 @@ private theorem ii1Theorem26_exists_irreducible_constituent_of_subgroupRestricti
         Section1.scalarProduct K θ (Section1.subgroupRestriction K χ) ≠ 0 := by
   rcases hχ with ⟨n, ρ, hρirr, hρchar⟩
   let ρK : Representation ℂ K (Fin n → ℂ) := ρ.comp K.subtype
-  letI : Nontrivial (Fin n → ℂ) :=
+  let : Nontrivial (Fin n → ℂ) :=
     Subrepresentation.irreducible_module_nontrivial ρ
   obtain ⟨φ, hφirr⟩ :=
     Subrepresentation.irreducible_subrepresentation_of_finite_dimensional ρK
-  letI : Nontrivial φ.toSubmodule :=
+  let : Nontrivial φ.toSubmodule :=
     Subrepresentation.irreducible_module_nontrivial φ.toRepresentation
   let incl : Theory.Representation.RepMap φ.toRepresentation ρK := by
     refine Theory.Representation.RepMap.mk φ.toSubmodule.subtype ?_
@@ -1701,7 +1698,7 @@ private theorem ii1Theorem26_nonprincipal_constituent_mem_exceptional
     simpa [hi] using hj0 i
   intro i hi
   by_contra hnot
-  push_neg at hnot
+  push Not at hnot
   obtain ⟨thetaIn, hthetaInIrr, hthetaInNeZero⟩ :=
     ii1Theorem26_exists_irreducible_constituent_of_subgroupRestriction
       K (hpsiIrr i)
@@ -1917,8 +1914,8 @@ private lemma ii1Theorem26_inducedCF_apply_of_suzuki_ti_ne_one
     {x : G} (hx : x ∈ K) (hxne : x ≠ 1) :
     Section1.inducedCF H theta x = theta ⟨x, hTI.1 hx⟩ := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
-  letI : Fintype H := Fintype.ofFinite H
+  let : Fintype G := Fintype.ofFinite G
+  let : Fintype H := Fintype.ofFinite H
   let xH : H := ⟨x, hTI.1 hx⟩
   let f : G → ℂ := fun y =>
     if hy : y * x * y⁻¹ ∈ H then theta ⟨y * x * y⁻¹, hy⟩ else 0
@@ -1983,12 +1980,12 @@ private theorem ii1Theorem26_ti_outside_sum
     ii1Theorem26OutsideSum (Section2.conjugateSet A) f =
       (N.index : ℂ) * f 1 := by
   classical
-  letI : Fintype X := Fintype.ofFinite X
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype N := Fintype.ofFinite N
+  let : Fintype X := Fintype.ofFinite X
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype N := Fintype.ofFinite N
   let A : Set X := (K : Set X) \ ({1} : Set X)
   let F : Subgroup N := K.subgroupOf N
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   let theta : ClassFunction N := fun n =>
     if hn : (n : X) ∈ A then f n else 0
   have hthetaClass : IsClassFunction theta := by
@@ -2020,14 +2017,14 @@ private theorem ii1Theorem26_ti_outside_sum
     by_cases hxA : (x : X) ∈ A
     · have hconjA := hAconj.mp hxA
       dsimp [theta]
-      rw [if_pos hxA]
-      rw [if_pos hconjA]
+      rw [ite_eq_left hxA]
+      rw [ite_eq_left hconjA]
       exact hfclass (n : X) (x : X)
     · have hconjA : (n : X) * (x : X) * (n : X)⁻¹ ∉ A :=
         fun h => hxA (hAconj.mpr h)
       dsimp [theta]
-      rw [if_neg hxA]
-      rw [if_neg hconjA]
+      rw [ite_eq_right hxA]
+      rw [ite_eq_right hconjA]
   have hthetaSupport : ∀ n : N, (n : X) ∉ (K : Set X) → theta n = 0 := by
     intro n hnK
     have hnA : (n : X) ∉ A := fun hnA => hnK hnA.1
@@ -2049,14 +2046,14 @@ private theorem ii1Theorem26_ti_outside_sum
           N (K : Set X) hTI hthetaClass hthetaSupport haK hane
       have hthetaA : theta ⟨a, hTI.1 haK⟩ = f a := by
         dsimp [theta]
-        rw [if_pos haA]
+        rw [ite_eq_left haA]
       have hindClass := Section1.inducedCF_isClassFunction N theta g a
       have hfconj := hfclass g a
       change g * a * g⁻¹ = x at hga
       rw [hga] at hindClass hfconj
-      rw [if_pos ⟨a, haA, g, by simpa [Section2.conjBy] using hga⟩]
+      rw [ite_eq_left ⟨a, haA, g, by simpa [Section2.conjBy] using hga⟩]
       exact hindClass.trans (hval.trans (hthetaA.trans hfconj.symm))
-    · rw [if_neg hxA]
+    · rw [ite_eq_right hxA]
       exact Section3.inducedCF_eq_zero_of_not_mem_conjugateSet_of_CFOn
         N theta hthetaCFOn hxA
   have hsumGlobal : ∑ x : X, f x = 0 := by
@@ -2088,15 +2085,15 @@ private theorem ii1Theorem26_ti_outside_sum
         have hecoe : (((e.symm k : F) : N) : X) = (k : X) := by
           rfl
         by_cases hk : k = 1
-        · rw [if_pos hk]
+        · rw [ite_eq_left hk]
           dsimp [theta]
-          rw [if_neg]
+          rw [ite_eq_right]
           intro hA
           apply hA.2
           simpa [Set.mem_singleton_iff, hk] using hecoe
-        · rw [if_neg hk]
+        · rw [ite_eq_right hk]
           dsimp [theta]
-          rw [if_pos]
+          rw [ite_eq_left]
           · rw [hecoe]
           · change (((e.symm k : F) : N) : X) ∈ (K : Set X) \ ({1} : Set X)
             rw [hecoe]
@@ -2206,8 +2203,8 @@ private theorem ii1Theorem26_burnside_normalizer_eq_top
         psi i x = psi j x) :
     N = ⊤ := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
-  letI : Fintype I := Fintype.ofFinite I
+  let : Fintype G := Fintype.ofFinite G
+  let : Fintype I := Fintype.ofFinite I
   have hcardF : 3 ≤ Fintype.card I := by
     simpa [Nat.card_eq_fintype_card] using hcard
   obtain ⟨i1, hi1⟩ := Fintype.exists_ne_of_one_lt_card (by omega) i0
@@ -2297,7 +2294,7 @@ private theorem ii1Theorem26_burnside_normalizer_eq_top
   have hc : ∀ x, x ∉ Section2.conjugateSet A →
       psi i1 x = (c x : ℂ) := by
     intro x hx
-    simp only [c, dif_pos hx]
+    simp only [c, dite_eq_left hx]
     exact Classical.choose_spec (hvalueNat x hx)
   have hcInside : ∀ x, x ∈ Section2.conjugateSet A → c x = 0 := by
     intro x hx
@@ -2363,7 +2360,7 @@ private theorem ii1Theorem26_burnside_normalizer_eq_top
       (isCharacter_of_isIrreducibleCharacterOnGroup (hpsiIrr i2))
   have hprodClass : IsClassFunction (psi i1 * star (psi i2)) := by
     intro g x
-    simp only [Pi.mul_apply, star, RCLike.star_def]
+    simp only [Pi.mul_apply, star]
     rw [hpsiClass1 g x, hpsiClass2 g x]
   have hpsi1NePrincipal : psi i1 ≠ principalCharacter G := by
     simpa [hi0] using hpair hi1
@@ -2443,7 +2440,7 @@ private theorem ii1Theorem26_burnside_normalizer_eq_top
         · simp [hx, hcInside x hx]
         · have hcommon12 := hcommon i2 i1 hi20 hi1 x hx
           simp only [Pi.mul_apply]
-          rw [if_neg hx, Pi.star_apply, hcommon12, hc x hx]
+          rw [ite_eq_right hx, Pi.star_apply, hcommon12, hc x hx]
           norm_num [pow_two]
       _ = (N.index : ℂ) * (psi i1 * star (psi i2)) 1 := hsum12
       _ = (N.index : ℂ) * ((s : ℂ) ^ 2) := by
@@ -2537,10 +2534,10 @@ private theorem ii1Theorem26_proper_normalizer_two_pretransitive
   have hFrob : IsFrobeniusGroupWithKernelComplement F D := by
     simpa [N, F, D] using
       (ii1Theorem26_normalizer_frobenius K hreg hcent hKne alpha hNK)
-  letI : F.Normal := hFrob.normal
+  let : F.Normal := hFrob.normal
   have hKcomm : IsMulCommutative K :=
     ii1Theorem26_regular_commutative K hcent
-  letI : IsMulCommutative K := hKcomm
+  let : IsMulCommutative K := hKcomm
   have hFcomm : IsMulCommutative F := by
     refine ⟨⟨?_⟩⟩
     intro a b
@@ -2598,9 +2595,9 @@ private theorem ii1Theorem26_proper_normalizer_two_pretransitive
     obtain ⟨k, hk, _huniq⟩ :=
       hreg (alpha := alpha) (beta := beta) (by trivial) (by trivial)
     exact ⟨k, hk⟩
-  letI : Finite Omega := Finite.of_surjective orbitAt horbitSurj
-  letI : Fintype Omega := Fintype.ofFinite Omega
-  letI : Fintype K := Fintype.ofFinite K
+  let : Finite Omega := Finite.of_surjective orbitAt horbitSurj
+  let : Fintype Omega := Fintype.ofFinite Omega
+  let : Fintype K := Fintype.ofFinite K
   have hOmegaGt : 1 < Fintype.card Omega := by
     have hKgt : 1 < Nat.card K :=
       (Subgroup.one_lt_card_iff_ne_bot K).2 hKne
@@ -2614,8 +2611,8 @@ private theorem ii1Theorem26_proper_normalizer_two_pretransitive
       (Representation.ofMulAction ℂ X Omega).character
       (ii1Theorem26_permutationCharacter_isCharacter htrans)
       (ii1Theorem26_permutationCharacter_restrict_regular K hreg hOmegaCard)
-  letI : Fintype I := hIFintype
-  letI : DecidableEq I := hIDecidableEq
+  let : Fintype I := hIFintype
+  let : DecidableEq I := hIDecidableEq
   by_cases hIle : Nat.card I ≤ 2
   · exact ii1Theorem26_two_pretransitive_of_decomposition_card_le_two
       hOmegaGt htrans psi hpsiIrr hpair hdecomp hIle
@@ -2625,7 +2622,7 @@ private theorem ii1Theorem26_proper_normalizer_two_pretransitive
   have hprincipal := ii1Theorem26_permutationCharacter_principal htrans
   have hex : ∃ i : I, psi i = principalCharacter X := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hzero : ∀ i : I,
         scalarProduct X (psi i) (principalCharacter X) = 0 := by
       intro i
@@ -2721,11 +2718,11 @@ public theorem ii1Theorem26Action
           (Subgroup.normalizer (K : Set X) : Set X) := by
   classical
   let W := pointStabilizerCore X Omega
-  letI : W.Normal := pointStabilizerCore_normal
+  let : W.Normal := pointStabilizerCore_normal
   let q : X →* X ⧸ W := QuotientGroup.mk' W
   let Kbar : Subgroup (X ⧸ W) := K.map q
-  letI : MulAction (X ⧸ W) Omega := pointStabilizerCoreQuotientAction
-  letI : FaithfulSMul (X ⧸ W) Omega :=
+  let : MulAction (X ⧸ W) Omega := pointStabilizerCoreQuotientAction
+  let : FaithfulSMul (X ⧸ W) Omega :=
     faithfulSMul_pointStabilizerCoreQuotientAction
   have hregbar : IsRegularOn Kbar (Set.univ : Set Omega) := by
     simpa [W, q, Kbar] using ii1Theorem26_quotient_regular K hreg

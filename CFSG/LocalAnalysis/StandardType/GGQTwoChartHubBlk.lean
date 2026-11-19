@@ -69,6 +69,7 @@ theorem qTwoChartHub_lifts_inv (S : QTwoChartSetting B Bs x L D J 𝒦 m n) {g :
   rw [hg]
   group
 
+omit [Finite G] in
 theorem qTwoChartHub_blockOf_conj (ψ : Su F0 2 1 m →* G) (s g : G) (T : Finset (Fin m)) :
     (qTwoBlockOf ψ g T).map (MulAut.conj s).toMonoidHom = qTwoBlockOf ψ (s * g) T := by
   unfold qTwoBlockOf
@@ -121,7 +122,7 @@ theorem qTwoChartHub_exists_blk (S : QTwoChartSetting B Bs x L D J 𝒦 m n)
   have hP : P (qTwoFrameSet ε0 π T) := ⟨g, π, T, hg, h2, h4, rfl⟩
   show (if h : P (qTwoFrameSet ε0 π T) then
     qTwoBlockOf ψ h.choose h.choose_spec.choose_spec.choose else ⊥) = qTwoBlockOf ψ g T
-  rw [dif_pos hP]
+  rw [dite_eq_left hP]
   obtain ⟨hg', h2', h4', hframe'⟩ := hP.choose_spec.choose_spec.choose_spec
   have hcard' : (hP.choose_spec.choose_spec.choose).card = T.card := by
     rw [← qTwoChartHub_card_frameSet ε0 hP.choose_spec.choose

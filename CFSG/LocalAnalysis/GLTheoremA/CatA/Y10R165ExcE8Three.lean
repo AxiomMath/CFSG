@@ -116,7 +116,7 @@ theorem natCard_ker_monoHom_cyclotomic_int {Ω : Type*} [Field Ω] [IsAlgClosed 
 
 theorem natCard_ker_monoHom_cyclotomic_sub {Ω : Type*} [Field Ω] [IsAlgClosed Ω]
     {P G : Matrix ι ι ℤ} (hP : P * P - P + 1 = 0) (hG : Pᵀ * G * P = G)
-    (hdet : G.det ≠ 0) {q : ℕ} (hq2 : 2 ≤ q) (hq : ((q : Ω) ^ 2 - q + 1) ≠ 0) :
+    (hdet : G.det ≠ 0) {q : ℕ} (_hq2 : 2 ≤ q) (hq : ((q : Ω) ^ 2 - q + 1) ≠ 0) :
     Nat.card (monoHom (G := Ωˣ) ((q : ℤ) • P - 1)).ker ^ 2 =
       (q ^ 2 - q + 1) ^ Fintype.card ι := by
   have hP' : (-P) * (-P) + (-P) + 1 = 0 := by
@@ -199,7 +199,7 @@ theorem dvd_card_rootSpan_inf_twistedFixedPoints_add {τ : Tag} {Ω : Type} [Fie
     rw [h0] at hcard
     have : (q ^ 2 + q + 1) ^ Fintype.card J ≠ 0 := pow_ne_zero _ (by positivity)
     exact this hcard.symm
-  haveI : Finite K' := Nat.finite_of_card_ne_zero (ne_of_gt hposK)
+  have : Finite K' := Nat.finite_of_card_ne_zero (ne_of_gt hposK)
   have hdvdK : p ∣ Nat.card K' := by
     have h1 : p ∣ (q ^ 2 + q + 1) ^ Fintype.card J :=
       hdvd.trans (dvd_pow_self _ Fintype.card_ne_zero)
@@ -245,8 +245,8 @@ theorem dvd_card_rootSpan_inf_twistedFixedPoints_add {τ : Tag} {Ω : Type} [Fie
     exact orderOf_dvd_iff_pow_eq_one.2 hcK
   have hpk : ¬ p ∣ Nat.card g.ker := by
     intro hpdv
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Finite g.ker := inferInstance
+    have : Fact p.Prime := ⟨hp⟩
+    have : Finite g.ker := inferInstance
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := g.ker) p hpdv
     have h1 : p ∣ orderOf c := hc ▸ dvd_refl p
     exact hpd (h1.trans (hker c))
@@ -289,7 +289,7 @@ theorem dvd_card_rootSpan_inf_twistedFixedPoints_sub {τ : Tag} {Ω : Type} [Fie
     rw [h0] at hcard
     have : (q ^ 2 - q + 1) ^ Fintype.card J ≠ 0 := pow_ne_zero _ (by nlinarith)
     exact this hcard.symm
-  haveI : Finite K' := Nat.finite_of_card_ne_zero (ne_of_gt hposK)
+  have : Finite K' := Nat.finite_of_card_ne_zero (ne_of_gt hposK)
   have hdvdK : p ∣ Nat.card K' := by
     have h1 : p ∣ (q ^ 2 - q + 1) ^ Fintype.card J :=
       hdvd.trans (dvd_pow_self _ Fintype.card_ne_zero)
@@ -335,8 +335,8 @@ theorem dvd_card_rootSpan_inf_twistedFixedPoints_sub {τ : Tag} {Ω : Type} [Fie
     exact orderOf_dvd_iff_pow_eq_one.2 hcK
   have hpk : ¬ p ∣ Nat.card g.ker := by
     intro hpdv
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Finite g.ker := inferInstance
+    have : Fact p.Prime := ⟨hp⟩
+    have : Finite g.ker := inferInstance
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := g.ker) p hpdv
     have h1 : p ∣ orderOf c := hc ▸ dvd_refl p
     exact hpd (h1.trans (hker c))
@@ -372,7 +372,7 @@ theorem dvd_card_rootSpan_image_inf_twistedFixedPoints_e6 {ε : ℤ}
       (e6Nodes Tag.E8)) ⊓
         twistedFixedPoints n (Units.map (entrywiseHom (iterateFrobenius L ℓ f)))) := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   set Fr : L →+* L := iterateFrobenius L ℓ f with hFrdef
   have hFr : ∀ c : L, Fr c = c ^ Nat.card K := fun c => by
     rw [hK, iterateFrobenius_def]
@@ -393,7 +393,7 @@ theorem dvd_card_rootSpan_image_inf_twistedFixedPoints_e6 {ε : ℤ}
   have hq0 : ((Nat.card K : ℕ) : L) = 0 := by
     rw [hK, Nat.cast_pow, CharP.cast_eq_zero L ℓ, zero_pow (by omega : f ≠ 0)]
   have hq2 : 2 ≤ Nat.card K := Finite.one_lt_card
-  haveI : Nonempty ↥(e6Nodes Tag.E8) := ⟨⟨0, by simp [e6Nodes]⟩⟩
+  have : Nonempty ↥(e6Nodes Tag.E8) := ⟨⟨0, by simp [e6Nodes]⟩⟩
   have hroots : ∀ r ∈ parabolicRoots Tag.E8 (e6Nodes Tag.E8), IsRoot Tag.E8 r :=
     fun r hr => hr.1
   have hdet : (cartanBlock Tag.E8 (e6Nodes Tag.E8)).det ≠ 0 := by

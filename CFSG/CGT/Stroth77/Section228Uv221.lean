@@ -308,8 +308,8 @@ theorem t221_d2_sq_eq {F : StrothFrame G} {D : Subgroup G} {s : ℕ} {hs : 1 ≤
   set bh : G := (dD.b : G) ^ 2 ^ (s + 3) with hbh
   set ab : G := (dD.a : G) * (dD.b : G) with hab
   change ab ^ 2 ^ (s + 2) * ab ^ 2 ^ (s + 2) = x ^ 2 * y ^ 2
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have haord : orderOf (dD.a : G) = 2 ^ (s + 4) := by
     rw [Subgroup.orderOf_coe, StrothWeakTypeData.orderOf_a]
     rfl
@@ -568,8 +568,8 @@ theorem t221_d2_mem_A {F : StrothFrame G} {D : Subgroup G} {s : ℕ} {hs : 1 ≤
   let x : G := (F.dA.a : G)⁻¹
   let y : G := (F.dA.b : G)⁻¹
   change d2 ∈ F.A
-  haveI : IsMulCommutative D := dD.isMulCommutative
-  haveI : IsMulCommutative F.A := F.dA.isMulCommutative
+  have : IsMulCommutative D := dD.isMulCommutative
+  have : IsMulCommutative F.A := F.dA.isMulCommutative
   have hd2D : d2 ∈ D := by
     dsimp only [d2]
     exact D.pow_mem (D.mul_mem dD.a.2 dD.b.2) _

@@ -429,7 +429,7 @@ theorem solvable_quaternion_two_core {R : Type*} [Group R] [Finite R] [Group.IsS
     obtain ⟨T, hT⟩ := hzp.exists_le_sylow
     refine ⟨T, hT (mem_zpowers u), ?_⟩
     have hsup : IsPGroup 2 (P ⊔ (T : Subgroup R) : Subgroup R) :=
-      hPp.to_sup_of_normal_left T.isPGroup'
+      hPp.to_sup_of_normal_left T.isPGroup
     have := T.maximal_isPGroup.eq_of_ge hsup le_sup_right
     rw [← this]
     exact le_sup_left

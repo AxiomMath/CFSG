@@ -44,6 +44,7 @@ variable [CharP K 3] (ω : K)
 @[expose] noncomputable def burnsideF48d_vec (w : Array ℕ) : RootModule .D4 K :=
   ∑ l ∈ Finset.range 28, burnsideF48d_φ ω w[l]! • burnsideF48d_e K l
 
+omit [CharP K 3] in
 theorem burnsideF48d_vec_set {w : Array ℕ} {a : ℕ} (ha : a < w.size) (ha28 : a < 28) (x : ℕ) :
     burnsideF48d_vec ω (w.set! a x) = burnsideF48d_vec ω w +
       (burnsideF48d_φ ω x - burnsideF48d_φ ω w[a]!) • burnsideF48d_e K a := by
@@ -57,12 +58,14 @@ theorem burnsideF48d_vec_set {w : Array ℕ} {a : ℕ} (ha : a < w.size) (ha28 :
   rw [Finset.sum_congr rfl e, sub_smul]
   abel
 
+omit [CharP K 3] in
 theorem burnsideF48d_vec_replicate : burnsideF48d_vec ω (Array.replicate 28 0) = 0 := by
   unfold burnsideF48d_vec
   refine Finset.sum_eq_zero fun l hl => ?_
   rw [getElem!_pos _ l (by simpa using hl), Array.getElem_replicate, burnsideF48d_φ_zero,
     zero_smul]
 
+omit [CharP K 3] in
 theorem burnsideF48d_vec_unit {b : ℕ} (hb : b < 28) :
     burnsideF48d_vec ω (burnsideF48d_unit b) = burnsideF48d_e K b := by
   unfold burnsideF48d_unit
@@ -81,7 +84,7 @@ theorem burnsideF48d_vec_opStep {col : Option (ℕ × ℤ)} (hcol : ∀ a z, col
   rcases col with _ | ⟨a, z⟩
   · simp [burnsideF48d_opStep, burnsideF48d_colVec, hout]
   · have ha := hcol a z rfl
-    refine ⟨by simp [burnsideF48d_opStep, Array.size_set!, hout], ?_⟩
+    refine ⟨by simp [burnsideF48d_opStep, hout], ?_⟩
     simp only [burnsideF48d_opStep, burnsideF48d_colVec]
     rw [burnsideF48d_vec_set ω (by omega) ha, burnsideF48d_φ_add, burnsideF48d_φ_mul ω hω,
       burnsideF48d_φ_intC, add_sub_cancel_left, smul_smul]
@@ -138,12 +141,12 @@ theorem burnsideF48d_colVec_col (y : Bool) {i : ℕ} (hi : i < 4) (k b : ℕ) :
     burnsideF48d_colVec (K := K) (burnsideF48d_col y i k b) =
       (if y then yCoeff .D4 K ⟨i, hi⟩ k else xCoeff .D4 K ⟨i, hi⟩ k) (burnsideF48d_e K b) := by
   unfold burnsideF48d_col
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
   cases y
-  · simp only [Bool.false_eq_true, if_false]
+  · simp only [Bool.false_eq_true, ite_false]
     rw [burnsideF48d_colVec_map, burnsideF48d_e,
       xCoeff_toLabel burnsideF48d_hC K burnsideF48d_hS]
-  · simp only [if_true]
+  · simp only [ite_true]
     rw [burnsideF48d_colVec_map, burnsideF48d_e,
       yCoeff_toLabel burnsideF48d_hC K burnsideF48d_hS]
 
@@ -156,11 +159,11 @@ theorem burnsideF48d_op_eq_sum (y : Bool) {i : ℕ} (hi : i < 4) (c : K) :
     burnsideF48d_op K y i c = ∑ k ∈ Finset.range 4,
       c ^ k • (if y then yCoeff .D4 K ⟨i, hi⟩ k else xCoeff .D4 K ⟨i, hi⟩ k) := by
   unfold burnsideF48d_op
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
   cases y
-  · simp only [Bool.false_eq_true, if_false]
+  · simp only [Bool.false_eq_true, ite_false]
     exact xOp_eq_sum_xCoeff _ c
-  · simp only [if_true]
+  · simp only [ite_true]
     exact yOp_eq_sum_yCoeff _ c
 
 variable [CharP K 3] (ω : K) (hω : ω ^ 3 = ω + 1)
@@ -179,9 +182,9 @@ theorem burnsideF48d_vec_applyOp (y : Bool) {i : ℕ} (hi : i < 4) (c : ℕ) (w 
     intro b hb out hout
     unfold burnsideF48d_opCoord
     by_cases h0 : w[b]! = 0
-    · rw [if_pos h0, h0, burnsideF48d_φ_zero, zero_smul, add_zero]
+    · rw [ite_eq_left h0, h0, burnsideF48d_φ_zero, zero_smul, add_zero]
       exact ⟨hout, rfl⟩
-    · rw [if_neg h0]
+    · rw [ite_eq_right h0]
       obtain ⟨h1, h2⟩ := burnsideF48d_vec_foldl_opStep ω hω
         (fun k => ((((burnsideF48d_colTab ())[if y then 1 else 0]!)[i]!)[k]!)[b]!)
         (fun k => burnsideF48d_mulC w[b]! (burnsideF48d_powC c k)) (List.range 4)
@@ -233,13 +236,13 @@ theorem burnsideF48d_vec_applyOp (y : Bool) {i : ℕ} (hi : i < 4) (c : ℕ) (w 
 theorem burnsideF48d_genSpec_lt (k : ℕ) : ∀ op ∈ burnsideF48d_genSpec k, op.2.1 < 4 := by
   intro op hop
   by_cases h0 : k = 0
-  · simp only [burnsideF48d_genSpec, h0, if_true, List.mem_singleton] at hop
+  · simp only [burnsideF48d_genSpec, h0, ite_true, List.mem_singleton] at hop
     rw [hop]; norm_num
   by_cases h1 : k = 1
-  · simp only [burnsideF48d_genSpec, h1, if_true, List.mem_singleton, one_ne_zero,
-      if_false] at hop
+  · simp only [burnsideF48d_genSpec, h1, ite_true, List.mem_singleton, one_ne_zero,
+      ite_false] at hop
     rw [hop]; norm_num
-  simp only [burnsideF48d_genSpec, h0, h1, if_false, List.mem_cons, List.mem_nil_iff,
+  simp only [burnsideF48d_genSpec, h0, h1, ite_false, List.mem_cons, List.mem_nil_iff,
     or_false] at hop
   rcases hop with rfl | rfl | rfl <;> norm_num
 
@@ -258,7 +261,7 @@ theorem burnsideF48d_vec_genCol (k : ℕ) {b : ℕ} (hb : b < 28) :
     induction ops with
     | nil =>
       intro _
-      refine ⟨by simp [burnsideF48d_unit, Array.size_set!], ?_⟩
+      refine ⟨by simp [burnsideF48d_unit], ?_⟩
       rw [List.foldr_nil, burnsideF48d_vec_unit ω hb, List.map_nil, List.prod_nil,
         Module.End.one_apply]
     | cons op ops ih =>
@@ -344,22 +347,22 @@ theorem burnsideF48d_Ψ_eq (r : Fin 154 → ZMod 3) :
     rw [burnsideF48d_Ψ, ← Fin.sum_univ_eq_sum_range]
     refine Finset.sum_congr rfl fun q _ => ?_
     rw [hF]
-    simp only [dif_pos q.isLt]
+    simp only [dite_eq_left q.isLt]
   have h2 : ∑ q ∈ Finset.range 154, F q = ∑ q ∈ Finset.range (3 * 28), F q := by
     rw [show (154 : ℕ) = 3 * 28 + 70 by norm_num, Finset.sum_range_add]
     rw [Finset.sum_eq_zero (s := Finset.range 70) (fun q _ => by
       rw [hF]
       dsimp only
       split_ifs with h
-      · rw [burnsideF48d_b, if_neg (by omega), smul_zero]
+      · rw [burnsideF48d_b, ite_eq_right (by omega), smul_zero]
       · rfl), add_zero]
   rw [h1, h2, burnsideF48d_sum_range_three_mul]
   refine Finset.sum_congr rfl fun l hl => Finset.sum_congr rfl fun j hj => ?_
   have hl' : l < 28 := Finset.mem_range.1 hl
   have hj' : j < 3 := Finset.mem_range.1 hj
   rw [hF]
-  simp only [dif_pos (show 3 * l + j < 154 by omega)]
-  rw [burnsideF48d_b, if_pos (by omega), show (3 * l + j) % 3 = j by omega,
+  simp only [dite_eq_left (show 3 * l + j < 154 by omega)]
+  rw [burnsideF48d_b, ite_eq_left (by omega), show (3 * l + j) % 3 = j by omega,
     show (3 * l + j) / 3 = l by omega]
 
 theorem burnsideF48d_Ψ_realW (w : Array ℕ) :
@@ -374,11 +377,11 @@ theorem burnsideF48d_Ψ_realW (w : Array ℕ) :
     rw [vecOf_apply, Fin.val_mk, burnsideF48d_realW,
       W.toV_ofV (lt_of_lt_of_le hp (Nat.pow_le_pow_right (by norm_num) (by norm_num)))
         (lt_of_lt_of_le hm (Nat.pow_le_pow_right (by norm_num) (by norm_num))),
-      V.val_ofFn, if_pos (by omega), if_pos (by omega), show (3 * l + j) / 3 = l by omega,
+      V.val_ofFn, ite_eq_left (by omega), ite_eq_left (by omega), show (3 * l + j) / 3 = l by omega,
       show (3 * l + j) % 3 = j by omega]
   simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add]
-  rw [dif_pos (by omega : 3 * l + 0 < 154), dif_pos (by omega : 3 * l + 1 < 154),
-    dif_pos (by omega : 3 * l + 2 < 154)]
+  rw [dite_eq_left (by omega : 3 * l + 0 < 154), dite_eq_left (by omega : 3 * l + 1 < 154),
+    dite_eq_left (by omega : 3 * l + 2 < 154)]
   rw [hv 0 (by norm_num), hv 1 (by norm_num), hv 2 (by norm_num)]
   simp only [map_natCast, pow_zero, pow_one, Nat.div_one, one_smul, smul_smul, ← add_smul]
   congr 1
@@ -409,10 +412,10 @@ theorem burnsideF48d_Ψ_rowsOf {cols : Array (Array ℕ)} (g : Module.End K (Roo
   rw [e]
   by_cases hq : q.val < 84
   · have hl : q.val / 3 < 28 := by omega
-    rw [if_pos hq, burnsideF48d_Ψ_realW, burnsideF48d_b, if_pos hq,
+    rw [ite_eq_left hq, burnsideF48d_Ψ_realW, burnsideF48d_b, ite_eq_left hq,
       burnsideF48d_vec_map_mulC ω hω (hcols _ hl).1, (hcols _ hl).2,
       burnsideF48d_φ_pow ω hω, burnsideF48d_φ_three, map_smul]
-  · rw [if_neg hq, burnsideF48d_b, if_neg hq, map_zero]
+  · rw [ite_eq_right hq, burnsideF48d_b, ite_eq_right hq, map_zero]
     have : vecOf W.zero = 0 := by
       funext j
       rw [vecOf_apply, W.toV_zero, V.val_zero]
@@ -481,29 +484,30 @@ section Inj
 
 variable {K : Type*} [Field K] [CharP K 3] (ω : K)
 
+omit [CharP K 3] in
 theorem burnsideF48d_e_apply {l l' : ℕ} (hl : l < 28) (hl' : l' < 28) :
     burnsideF48d_e K l' (toLabel burnsideF48d_hC (burnsideF48d_idx l)) = if l' = l then 1 else 0 := by
   rw [burnsideF48d_e, Finsupp.single_apply]
   by_cases h : l' = l
-  · rw [if_pos (by rw [h]), if_pos h]
-  · rw [if_neg (fun h' => h (burnsideF48d_label_inj hl' hl h')), if_neg h]
+  · rw [ite_eq_left (by rw [h]), ite_eq_left h]
+  · rw [ite_eq_right (fun h' => h (burnsideF48d_label_inj hl' hl h')), ite_eq_right h]
 
 theorem burnsideF48d_Ψ_apply (r : Fin 154 → ZMod 3) {l : ℕ} (hl : l < 28) :
     burnsideF48d_Ψ ω r (toLabel burnsideF48d_hC (burnsideF48d_idx l)) =
       burnsideF48d_z K (r ⟨3 * l, by omega⟩) + burnsideF48d_z K (r ⟨3 * l + 1, by omega⟩) * ω +
         burnsideF48d_z K (r ⟨3 * l + 2, by omega⟩) * ω ^ 2 := by
-  rw [burnsideF48d_Ψ_eq, Finsupp.finset_sum_apply,
+  rw [burnsideF48d_Ψ_eq, _root_.Finsupp.finsetSum_apply,
     Finset.sum_eq_single_of_mem l (Finset.mem_range.2 hl) (fun l' hl' hne => by
-      rw [Finsupp.finset_sum_apply]
+      rw [_root_.Finsupp.finsetSum_apply]
       refine Finset.sum_eq_zero fun j _ => ?_
       rw [Finsupp.smul_apply, Finsupp.smul_apply, burnsideF48d_e_apply hl (Finset.mem_range.1 hl'),
-        if_neg hne, smul_zero, smul_zero]),
-    Finsupp.finset_sum_apply]
+        ite_eq_right hne, smul_zero, smul_zero]),
+    _root_.Finsupp.finsetSum_apply]
   simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, Finsupp.smul_apply,
-    burnsideF48d_e_apply hl hl, if_true, smul_eq_mul, mul_one, pow_zero, pow_one]
-  rw [dif_pos (by omega : 3 * l + 0 < 154), dif_pos (by omega : 3 * l + 1 < 154),
-    dif_pos (by omega : 3 * l + 2 < 154)]
-  simp only [add_zero, mul_one]
+    burnsideF48d_e_apply hl hl, ite_true, smul_eq_mul, mul_one, pow_zero, pow_one]
+  rw [dite_eq_left (by omega : 3 * l + 0 < 154), dite_eq_left (by omega : 3 * l + 1 < 154),
+    dite_eq_left (by omega : 3 * l + 2 < 154)]
+  simp only [add_zero]
 
 theorem burnsideF48d_z_eq (x : ZMod 3) : burnsideF48d_z K x = (x.val : K) := by
   rw [ZMod.castHom_apply, ZMod.cast_eq_val]
@@ -574,9 +578,9 @@ theorem burnsideF48d_testBit_join_low {x0 x1 x2 x3 : UInt64} (h1 : x1 >>> 20 = 0
   rw [testBit_join]
   unfold limb
   by_cases hq : t / 64 = 1
-  · rw [if_neg (by omega), if_pos hq]
+  · rw [ite_eq_right (by omega), ite_eq_left hq]
     exact burnsideF48d_testBit_of_shr h1 (by omega)
-  · rw [if_neg (by omega), if_neg hq]
+  · rw [ite_eq_right (by omega), ite_eq_right hq]
     split_ifs <;> simp [h2, h3]
 
 theorem burnsideF48d_vecOf_high {a : W} (h : burnsideF48d_low84 a = true) (q : Fin 154)

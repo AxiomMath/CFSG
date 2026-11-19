@@ -60,7 +60,7 @@ theorem isSolvable_of_sq_eq_one {G : Type*} [Group G] (h : ∀ x : G, x * x = 1)
 theorem isSolvable_Qstab (s : Fin 7) : Group.IsSolvable ↥(Qstab s) := by
   let Ω : Set (Finset (Fin 7)) := ((blocks s : Finset (Finset (Fin 7))) : Set (Finset (Fin 7)))
   let φ : ↥(Qstab s) →* Equiv.Perm ↥Ω := MulAction.toPermHom ↥(Qstab s) ↥Ω
-  haveI : Group.IsSolvable (Equiv.Perm ↥Ω) := by
+  have : Group.IsSolvable (Equiv.Perm ↥Ω) := by
     refine Equiv.Perm.isSolvable ?_
     rw [Nat.card_coe_set_eq, Set.ncard_coe_finset, blocks_card]
   have hsq : ∀ x : ↥φ.ker, x * x = 1 := by
@@ -79,7 +79,7 @@ theorem isSolvable_Qstab (s : Fin 7) : Group.IsSolvable ↥(Qstab s) := by
     refine Equiv.ext fun y => ?_
     obtain ⟨B, hBs, hyB⟩ := blocks_cover s y
     exact perm_sq_of_mapsTo _ (blocks_card_le s B hBs) (hmap B hBs) hyB
-  haveI : Group.IsSolvable ↥φ.ker := isSolvable_of_sq_eq_one hsq
+  have : Group.IsSolvable ↥φ.ker := isSolvable_of_sq_eq_one hsq
   exact Group.isSolvable_of_ker_le_range φ.ker.subtype φ (by rw [Subgroup.range_subtype])
 
 end Solvable
@@ -138,7 +138,7 @@ theorem not_mem_of_const_vec {w : Wr 7} {s : Fin 7} (hv : ∀ x, w.vec x = if x 
   intro hsγ
   obtain ⟨y, hyγ, hys⟩ := Finset.exists_mem_ne (by omega : 1 < γ.card) s
   have h1 := hconst s hsγ y hyγ
-  rw [hv s, hv y, if_pos rfl, if_neg hys] at h1
+  rw [hv s, hv y, ite_eq_left rfl, ite_eq_right hys] at h1
   exact absurd h1 (by decide)
 
 theorem modelNoLayer_e64 : ModelNoLayer 7 AE.e64Sets AE.e64Sub := by
@@ -172,9 +172,9 @@ theorem modelNoLayer_e64 : ModelNoLayer 7 AE.e64Sets AE.e64Sub := by
   · have hv : ∀ x, w.vec x = if x = s then 0 else 1 := by
       intro x
       by_cases hxs : x = s
-      · rw [if_pos hxs, hxs, hs0]
-      · rw [if_neg hxs, hlevel x hxs]
-    haveI := isSolvable_Qstab s
+      · rw [ite_eq_left hxs, hxs, hs0]
+      · rw [ite_eq_right hxs, hlevel x hxs]
+    have := isSolvable_Qstab s
     refine hns (isSolvable_of_permBar_le _ (Qstab s) ?_)
     rw [Subgroup.map_le_iff_le_comap]
     refine Ea_le fun M hM hMc => ?_

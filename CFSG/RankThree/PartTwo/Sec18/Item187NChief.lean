@@ -14,10 +14,12 @@ section Chief
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conj_mem_of_le_normalizer {W : Subgroup G} {x c : G}
     (hx : x ∈ Subgroup.normalizer (W : Set G)) (hc : c ∈ W) : x⁻¹ * c * x ∈ W :=
   (Subgroup.mem_normalizer_iff''.mp hx c).mp hc
 
+omit [Finite G] in
 private theorem inv_mul_mem_of_comm_mem {W : Subgroup G} {x y : G}
     (hx : x ∈ Subgroup.normalizer (W : Set G)) (hc : y * x * y⁻¹ * x⁻¹ ∈ W) :
     (y * x * y⁻¹)⁻¹ * x ∈ W := by
@@ -25,6 +27,7 @@ private theorem inv_mul_mem_of_comm_mem {W : Subgroup G} {x y : G}
   rw [e]
   exact conj_mem_of_le_normalizer hx (inv_mem hc)
 
+omit [Finite G] in
 private theorem comm_mem_of_inv_mul_mem {W : Subgroup G} {x y : G}
     (hx : x ∈ Subgroup.normalizer (W : Set G)) (h : (y * x * y⁻¹)⁻¹ * x ∈ W) :
     y * x * y⁻¹ * x⁻¹ ∈ W := by
@@ -32,6 +35,7 @@ private theorem comm_mem_of_inv_mul_mem {W : Subgroup G} {x y : G}
   rw [e]
   exact conj_mem_of_le_normalizer (inv_mem hx) (inv_mem h)
 
+omit [Finite G] in
 private theorem le_normalizer_closure {Δ : Subgroup G} {T : Set G}
     (h : ∀ g ∈ Δ, ∀ t ∈ T, g * t * g⁻¹ ∈ Subgroup.closure T) :
     Δ ≤ Subgroup.normalizer ((Subgroup.closure T : Subgroup G) : Set G) := by
@@ -92,16 +96,16 @@ private theorem commutatorElement_mem_of_index_eq_two {Q : Type*} [Group Q] (M :
 private theorem exists_index_two_sq_comm {Q : Type*} [Group Q] [Finite Q] (hQ : IsPGroup 2 Q)
     {K : Subgroup Q} (hK : K ≠ ⊤) :
     ∃ M : Subgroup Q, K ≤ M ∧ M ≠ ⊤ ∧ (∀ a : Q, a * a ∈ M) ∧ ∀ a b : Q, ⁅a, b⁆ ∈ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Subgroup Q) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (Subgroup Q) :=
     Finite.of_injective (fun H : Subgroup Q => (H : Set Q)) SetLike.coe_injective
-  haveI : Group.IsNilpotent Q := hQ.isNilpotent
+  have : Group.IsNilpotent Q := hQ.isNilpotent
   obtain ⟨M, hKM, hM⟩ : ∃ M : Subgroup Q, K ≤ M ∧ IsCoatom M := by
     rcases IsCoatomic.eq_top_or_exists_le_coatom K with h | ⟨M, hM, hKM⟩
     · exact absurd h hK
     · exact ⟨M, hKM, hM⟩
   have hidx : M.index = 2 := (IsPGroup.isCoatom_iff_index_eq_prime hQ).mp hM
-  haveI : M.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : M.Normal := Subgroup.normal_of_index_eq_two hidx
   exact ⟨M, hKM, hM.1, mul_self_mem_of_index_eq_two M hidx,
     commutatorElement_mem_of_index_eq_two M hidx⟩
 
@@ -113,12 +117,12 @@ private theorem stab_of_sections {Γ W₀ W₁ U : Subgroup G} {y : G} (hyΓ : y
     (hUy : ∀ u ∈ U, y * u * y⁻¹ * u⁻¹ ∈ W₀) (hWy : ∀ x ∈ W₁, y * x * y⁻¹ * x⁻¹ ∈ U) :
     ∀ x ∈ W₁, y * x * y⁻¹ * x⁻¹ ∈ W₀ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : (W₀.subgroupOf W₁).Normal := normal_subgroupOf_of_le_normalizer hW01 h10
-  haveI : (U.subgroupOf W₁).Normal := normal_subgroupOf_of_le_normalizer hUW hU
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (W₀.subgroupOf W₁).Normal := normal_subgroupOf_of_le_normalizer hW01 h10
+  have : (U.subgroupOf W₁).Normal := normal_subgroupOf_of_le_normalizer hUW hU
   let N : Subgroup (↥W₁ ⧸ W₀.subgroupOf W₁) :=
     (U.subgroupOf W₁).map (QuotientGroup.mk' (W₀.subgroupOf W₁))
-  haveI : N.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
+  have : N.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   have hQ2 : IsPGroup 2 (↥W₁ ⧸ W₀.subgroupOf W₁) := hP.to_quotient _
   obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp (hQ2.to_subgroup N)
   have hcop : (orderOf y).Coprime (Nat.card N) := by
@@ -162,6 +166,7 @@ private abbrev ChiefAdm (P Γ : Subgroup G) (y : G) (A B : Subgroup G) : Prop :=
   A ≤ B ∧ B ≤ P ∧ Γ ≤ Subgroup.normalizer (A : Set G) ∧ Γ ≤ Subgroup.normalizer (B : Set G) ∧
     B ≤ Subgroup.normalizer (A : Set G) ∧ ∃ x ∈ B, y * x * y⁻¹ * x⁻¹ ∉ A
 
+omit [Finite G] in
 private theorem le_normalizer_of_comm_mem {W₀ W₁ U : Subgroup G}
     (hcm : ∀ a ∈ W₁, ∀ b ∈ W₁, ⁅a, b⁆ ∈ W₀) (hWU : W₀ ≤ U) (hUW : U ≤ W₁) :
     W₁ ≤ Subgroup.normalizer (U : Set G) := by
@@ -191,20 +196,20 @@ private theorem eq_of_minimal_normal {P Γ W₀ W₁ : Subgroup G} {y : G} (hP :
     (hU : W₁ ≤ Subgroup.normalizer (U : Set G)) : U = W₀ ∨ U = W₁ := by
   obtain ⟨hW01, hW1P, hΓ0, hΓ1, h10, x₀, hx₀W1, hx₀⟩ := hadm
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hc₀ : Nat.card W₀ < Nat.card U :=
     Subgroup.card_lt_of_lt (lt_of_le_of_ne hWU (Ne.symm hcon.1))
   have hc₁ : Nat.card U < Nat.card W₁ :=
     Subgroup.card_lt_of_lt (lt_of_le_of_ne hUW hcon.2)
   have hUy : ∀ u ∈ U, y * u * y⁻¹ * u⁻¹ ∈ W₀ := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     obtain ⟨u, huU, hu⟩ := hno
     have h1 := hmin W₀ U ⟨hWU, hUW.trans hW1P, hΓ0, hΓU, hUW.trans h10, u, huU, hu⟩
     omega
   have hWy : ∀ x ∈ W₁, y * x * y⁻¹ * x⁻¹ ∈ U := by
     by_contra hno
-    push_neg at hno
+    push Not at hno
     obtain ⟨x, hxW, hx⟩ := hno
     have h1 := hmin U W₁ ⟨hUW, hW1P, hΓU, hΓ1, hU, x, hxW, hx⟩
     omega
@@ -221,17 +226,17 @@ private theorem sq_comm_mem_of_minimal {P Γ W₀ W₁ : Subgroup G} {y : G} (hP
   obtain ⟨T, hT⟩ : ∃ T : Set G, T = {t | t ∈ W₀ ∨ (∃ x ∈ W₁, t = x * x) ∨
       ∃ a ∈ W₁, ∃ b ∈ W₁, t = ⁅a, b⁆} := ⟨_, rfl⟩
   have hmem0 : ∀ t ∈ W₀, t ∈ T := fun t ht => by
-    rw [hT, Set.mem_setOf_eq]
+    rw [hT, Set.mem_ofPred_eq]
     exact Or.inl ht
   have hmemSq : ∀ x ∈ W₁, x * x ∈ T := fun x hx => by
-    rw [hT, Set.mem_setOf_eq]
+    rw [hT, Set.mem_ofPred_eq]
     exact Or.inr (Or.inl ⟨x, hx, rfl⟩)
   have hmemCm : ∀ a ∈ W₁, ∀ b ∈ W₁, ⁅a, b⁆ ∈ T := fun a ha b hb => by
-    rw [hT, Set.mem_setOf_eq]
+    rw [hT, Set.mem_ofPred_eq]
     exact Or.inr (Or.inr ⟨a, ha, b, hb, rfl⟩)
   have hTW1 : T ⊆ (W₁ : Set G) := by
     intro t ht
-    rw [hT, Set.mem_setOf_eq] at ht
+    rw [hT, Set.mem_ofPred_eq] at ht
     rcases ht with ht | ⟨x, hx, rfl⟩ | ⟨a, ha, b, hb, rfl⟩
     · exact hW01 ht
     · exact mul_mem hx hx
@@ -241,7 +246,7 @@ private theorem sq_comm_mem_of_minimal {P Γ W₀ W₁ : Subgroup G} {y : G} (hP
       Δ ≤ Subgroup.normalizer (W₁ : Set G) → ∀ g ∈ Δ, ∀ t ∈ T,
         g * t * g⁻¹ ∈ Subgroup.closure T := by
     intro Δ hΔ0 hΔ1 g hg t ht
-    rw [hT, Set.mem_setOf_eq] at ht
+    rw [hT, Set.mem_ofPred_eq] at ht
     rcases ht with ht | ⟨x, hx, rfl⟩ | ⟨a, ha, b, hb, rfl⟩
     · exact Subgroup.subset_closure
         (hmem0 _ ((Subgroup.mem_normalizer_iff.mp (hΔ0 hg) t).mp ht))
@@ -284,7 +289,7 @@ private theorem sq_comm_mem_of_minimal {P Γ W₀ W₁ : Subgroup G} {y : G} (hP
     have hcl : Subgroup.closure T ≤ M.map W₁.subtype := by
       rw [Subgroup.closure_le]
       intro t ht
-      rw [hT, Set.mem_setOf_eq] at ht
+      rw [hT, Set.mem_ofPred_eq] at ht
       rcases ht with ht | ⟨x, hx, rfl⟩ | ⟨a, ha, b, hb, rfl⟩
       · exact Subgroup.mem_map.mpr
           ⟨⟨t, hW01 ht⟩, hKM (Subgroup.mem_subgroupOf.mpr ht : (⟨t, hW01 ht⟩ : ↥W₁) ∈

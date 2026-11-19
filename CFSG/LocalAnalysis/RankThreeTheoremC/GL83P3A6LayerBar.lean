@@ -29,14 +29,16 @@ theorem Q_le_P : Qf x e₂ e₃ ≤ (P : Subgroup G) := hpd.Q_eq ▸ inf_le_left
 
 theorem Q_le_M : Qf x e₂ e₃ ≤ M := hpd.Q_le_P.trans hpd.P_le
 
+omit hpd in
 theorem O_cop : ¬ 3 ∣ Nat.card (GLBPrimeCore 3 M) :=
   (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp (glbPrimeCore_coprime 3 M)
 
+omit hpd in
 theorem P_inf_O : (P : Subgroup G) ⊓ GLBPrimeCore 3 M = ⊥ :=
-  GL83P3A6Syl.inf_eq_bot_of_pGroup P.isPGroup' hpd.O_cop
+  GL83P3A6Syl.inf_eq_bot_of_pGroup P.isPGroup PointData.O_cop
 
 theorem Q_inf_O : Qf x e₂ e₃ ⊓ GLBPrimeCore 3 M = ⊥ :=
-  le_bot_iff.mp (hpd.P_inf_O ▸ inf_le_inf_right _ hpd.Q_le_P)
+  le_bot_iff.mp ((CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.PointData.P_inf_O (G := G) (P := P) (M := M)) ▸ inf_le_inf_right _ hpd.Q_le_P)
 
 theorem tri_M : VITriple (⟨x, hpd.x_memM⟩ : M) ⟨e₂, hpd.e₂_memM⟩ ⟨e₃, hpd.e₃_memM⟩ :=
   vitriple_comap M.subtype M.subtype_injective hpd.tri
@@ -129,7 +131,7 @@ theorem lines_bar_mk (g' : ↥M)
     have hord : orderOf w = 3 := orderOf_eq_prime hw3 hw1
     have hdvd : orderOf (⟨w, hO⟩ : O) ∣ Nat.card O := orderOf_dvd_natCard _
     rw [Subgroup.orderOf_mk, hord] at hdvd
-    exact hpd.O_cop hdvd
+    exact PointData.O_cop hdvd
   have hu3 : (u' : G) ^ 3 = 1 := hT.Q_exp _ huQ
   have hU3 : Nat.card (zpowers (u' : G)) = 3 := by
     rw [Nat.card_zpowers, orderOf_eq_prime hu3 hu1]
@@ -140,7 +142,7 @@ theorem lines_bar_mk (g' : ↥M)
     have : w = (u' : G) * ((u' : G)⁻¹ * w) := by group
     rw [this]
     exact mul_mem_sup (mem_zpowers _) hO
-  obtain ⟨k, -, hkw⟩ := e9r_exists_conj_zpowers_eq hUN hpd.O_cop hU3 hwU hw3 hw1
+  obtain ⟨k, -, hkw⟩ := e9r_exists_conj_zpowers_eq hUN PointData.O_cop hU3 hwU hw3 hw1
   have hzQ : k⁻¹ * w * k ∈ (P : Subgroup G) ⊓ centralizer ({x} : Set G) := by
     rw [← hpd.Q_eq]
     have : k⁻¹ * w * k ∈ zpowers (u' : G) := by rw [← hkw]; exact mem_zpowers _

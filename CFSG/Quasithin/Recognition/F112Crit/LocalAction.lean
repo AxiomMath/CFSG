@@ -75,7 +75,7 @@ theorem X_le_sup_zpowers (h : IsLocalReg δ p X) {x : G} (hx : x ∈ X) (hxN : x
     exact Subgroup.relIndex_eq_one.mp h3
 
 theorem pow_mem_ker (h : IsLocalReg δ p X) {x : G} (hx : x ∈ X) : x ^ p ∈ ballStab 1 δ := by
-  haveI : ((ballStab 1 δ).subgroupOf X).Normal :=
+  have : ((ballStab 1 δ).subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer h.ker_le).mpr
       (h.le_stab.trans (CosetGeom.le_normalizer_ballStab 1 δ))
   have hcard : Nat.card (↥X ⧸ (ballStab 1 δ).subgroupOf X) = p := h.relIndex_eq
@@ -84,7 +84,7 @@ theorem pow_mem_ker (h : IsLocalReg δ p X) {x : G} (hx : x ∈ X) : x ^ p ∈ b
   rw [hcard, ← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf] at h1
   exact h1
 
-theorem normalizes_ker (h : IsLocalReg δ p X) {g : G} (hg : g ∈ stab δ) {n : G}
+theorem normalizes_ker (_h : IsLocalReg δ p X) {g : G} (hg : g ∈ stab δ) {n : G}
     (hn : n ∈ ballStab 1 δ) : g * n * g⁻¹ ∈ ballStab 1 δ :=
   (Subgroup.mem_normalizer_iff.mp (CosetGeom.le_normalizer_ballStab 1 δ hg) n).mp hn
 
@@ -95,6 +95,7 @@ theorem normalizes_X (h : IsLocalReg δ p X) {g : G} (hg : g ∈ stab δ) {x : G
 variable (hG : G₀ = G₁ ⊔ G₂)
 
 include hG in
+omit hG in
 theorem exists_mul (h : IsLocalReg δ p X) {g : G} (hg : g ∈ stab δ) {γ : CosetGeom G₀ G₁ G₂}
     (hγ : γ ∈ nbrs δ) : ∃ x ∈ X, ∃ m ∈ stab δ ⊓ stab γ, g = x * m := by
   have hg0 : g ∈ G₀ := CosetGeom.stab_le δ hg
@@ -141,7 +142,7 @@ theorem exists_gen (h : IsLocalReg δ p X) :
       ∀ x ∈ X, ∃ j : ℤ, ∃ hx : x ∈ stab δ, localMk δ ⟨x, hx⟩ = localMk δ ⟨x₀, hx₀⟩ ^ j := by
   obtain ⟨x₀, hx₀X, hx₀N⟩ := h.exists_not_mem
   have hx₀H : x₀ ∈ stab δ := h.le_stab hx₀X
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hpow : localMk δ ⟨x₀, hx₀H⟩ ^ p = 1 := by
     rw [← map_pow, localMk_eq_one_iff]
     exact h.pow_mem_ker hx₀X
@@ -223,7 +224,7 @@ theorem pow_pred_trivial (h : IsLocalReg δ p X) {s : G} (hs : s ∈ stab δ) :
     group
   exact localMk_eq_one_iff.mp this
 
-theorem ker_le_stab_inf (h : IsLocalReg δ p X) {γ : CosetGeom G₀ G₁ G₂} (hγ : γ ∈ nbrs δ) :
+theorem ker_le_stab_inf (_h : IsLocalReg δ p X) {γ : CosetGeom G₀ G₁ G₂} (hγ : γ ∈ nbrs δ) :
     ballStab 1 δ ≤ stab δ ⊓ stab γ :=
   le_inf (CosetGeom.ballStab_le_stab 1 δ) (ker_le_stab_of_mem_nbrs hγ)
 
@@ -242,7 +243,7 @@ theorem pow_pred_mem (h : IsLocalReg δ p X) {γ : CosetGeom G₀ G₁ G₂} (h�
     (h.pow_pred_trivial hs.1)
 
 theorem mul_centralizes_of_inv (h : IsLocalReg δ p X) {e e' : G} (he : e ∈ stab δ)
-    (he' : e' ∈ stab δ) (h1 : ∀ x ∈ X, e * x * e⁻¹ * x ∈ ballStab 1 δ)
+    (_he' : e' ∈ stab δ) (h1 : ∀ x ∈ X, e * x * e⁻¹ * x ∈ ballStab 1 δ)
     (h2 : ∀ x ∈ X, e' * x * e'⁻¹ * x ∈ ballStab 1 δ) :
     ∀ x ∈ X, (e * e') * x * (e * e')⁻¹ * x⁻¹ ∈ ballStab 1 δ := by
   intro x hx
@@ -265,11 +266,12 @@ theorem mul_mem_ker (h : IsLocalReg δ p X) {γ : CosetGeom G₀ G₁ G₂} (hγ
     (h.mul_centralizes_of_inv he.1 he'.1 h1 h2)
 
 include hG in
+omit hG in
 theorem le_sup_zpowers (h : IsLocalReg δ p X) {γ : CosetGeom G₀ G₁ G₂} (hγ : γ ∈ nbrs δ) {x : G}
     (hx : x ∈ X) (hxN : x ∉ ballStab 1 δ) :
     stab δ ≤ (stab δ ⊓ stab γ) ⊔ Subgroup.zpowers x := by
   intro g hg
-  obtain ⟨a, haX, m, hm, rfl⟩ := h.exists_mul hG hg hγ
+  obtain ⟨a, haX, m, hm, rfl⟩ := h.exists_mul hg hγ
   have ha : a ∈ (stab δ ⊓ stab γ) ⊔ Subgroup.zpowers x :=
     sup_le_sup_right (h.ker_le_stab_inf hγ) _ (h.X_le_sup_zpowers hx hxN haX)
   exact Subgroup.mul_mem _ ha (Subgroup.mem_sup_left hm)

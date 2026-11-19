@@ -109,8 +109,8 @@ theorem rckSUc_Ato_surjective : Function.Surjective rckSUc_Ato := by
   change rckSUc_A ![z0, p 0, p 1, z3] = M.1
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [rckSUc_A, rckSUc_beta, hz0, hz3, hp', hp'', h10,
-      Matrix.cons_val_zero, Matrix.cons_val_succ]
+    simp [rckSUc_A, rckSUc_beta, hz0, hz3, hp', h10,
+      Matrix.cons_val_zero]
 
 @[expose] noncomputable def rckSUc_A_equiv : (Fin 4 → ZMod 2) ≃ₗ[ZMod 2] rckSUc_herm where
   toFun := rckSUc_Ato

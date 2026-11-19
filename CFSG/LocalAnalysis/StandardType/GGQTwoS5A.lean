@@ -13,12 +13,12 @@ private lemma ggQ2sa_A_self (n : ℕ) (i : Fin n) : CartanMatrix.A n i i = 2 := 
 
 private lemma ggQ2sa_A_adj (n : ℕ) {i j : Fin n} (hne : i ≠ j)
     (h : i.val + 1 = j.val ∨ j.val + 1 = i.val) : CartanMatrix.A n i j = -1 := by
-  simp only [CartanMatrix.A, Matrix.of_apply, if_neg hne, if_pos h]
+  simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hne, ite_eq_left h]
 
 private lemma ggQ2sa_A_other (n : ℕ) {i j : Fin n} (hne : i ≠ j)
     (h1 : i.val + 1 ≠ j.val) (h2 : j.val + 1 ≠ i.val) : CartanMatrix.A n i j = 0 := by
-  simp only [CartanMatrix.A, Matrix.of_apply, if_neg hne,
-    if_neg (show ¬ (i.val + 1 = j.val ∨ j.val + 1 = i.val) from fun h => h.elim h1 h2)]
+  simp only [CartanMatrix.A, Matrix.of_apply, ite_eq_right hne,
+    ite_eq_right (show ¬ (i.val + 1 = j.val ∨ j.val + 1 = i.val) from fun h => h.elim h1 h2)]
 
 private lemma ggQ2sa_classify (m : ℕ) (hm : 3 ≤ m)
     (π' : Equiv.Perm (Fin m)) (μ' : Fin m → ZMod 3) (hμ : ∀ i, μ' i ≠ 0)
@@ -67,7 +67,7 @@ private lemma ggQ2sa_classify (m : ℕ) (hm : 3 ≤ m)
   have hwv : ∀ n (h : n < m), wv n = μ' ⟨n, h⟩ := by
     intro n h
     dsimp only [wv]
-    rw [dif_pos h]
+    rw [dite_eq_left h]
   have hwconst : ∀ n, n < m → wv n = wv 0 := by
     intro n
     induction n with
@@ -89,7 +89,7 @@ private lemma ggQ2sa_classify (m : ℕ) (hm : 3 ≤ m)
   have hvv : ∀ n (h : n < m), v n = (π' ⟨n, h⟩).val := by
     intro n h
     dsimp only [v]
-    rw [dif_pos h]
+    rw [dite_eq_left h]
   have hinjv : ∀ {a b : ℕ}, a < m → b < m → v a = v b → a = b := by
     intro a b ha hb hab
     have h2 : (π' ⟨a, ha⟩).val = (π' ⟨b, hb⟩).val := by
@@ -196,13 +196,13 @@ private def ggQ2sa_Ac (m : ℕ) (k j : ℕ) : ZMod 3 :=
 
 private lemma ggQ2sa_Ac_pos (m : ℕ) {k j : ℕ} (hk : k < m) (hj : j < m) :
     ggQ2sa_Ac m k j = ((CartanMatrix.A m ⟨k, hk⟩ ⟨j, hj⟩ : ℤ) : ZMod 3) := by
-  simp [ggQ2sa_Ac, dif_pos hk, dif_pos hj]
+  simp [ggQ2sa_Ac, dite_eq_left hk, dite_eq_left hj]
 
 private lemma ggQ2sa_R_H (D : GGQ2Lin 3) {m : ℕ} (f : Fin m ≃ {k // k ≠ D.a})
     (hf : ∀ i j, D.cartan (f i) (f j) = CartanMatrix.A m i j)
     {n i : ℕ} (hn : n < m) (hi : i < m) :
     ggQ2sa_R D f n (ggQ2sa_H D f i) = ggQ2sa_H D f i - ggQ2sa_Ac m n i • ggQ2sa_H D f n := by
-  simp only [ggQ2sa_R, ggQ2sa_H, ggQ2sa_Ac, dif_pos hn, dif_pos hi, GGQ2Lin.simpleRefl,
+  simp only [ggQ2sa_R, ggQ2sa_H, ggQ2sa_Ac, dite_eq_left hn, dite_eq_left hi, GGQ2Lin.simpleRefl,
     Module.reflection_apply, D.pairing, hf]
 
 private lemma ggQ2sa_R_H_fixed (D : GGQ2Lin 3) {m : ℕ} (f : Fin m ≃ {k // k ≠ D.a})
@@ -265,7 +265,7 @@ private lemma ggQ2sa_R_sum_range (D : GGQ2Lin 3) {m : ℕ} (f : Fin m ≃ {k // 
       omega
     have hadj : (⟨k, hk⟩ : Fin m).val + 1 = (⟨k - 1, hkm1⟩ : Fin m).val ∨
         (⟨k - 1, hkm1⟩ : Fin m).val + 1 = (⟨k, hk⟩ : Fin m).val :=
-      Or.inr (by simp only [Fin.val_mk]; omega)
+      Or.inr (by simp only; omega)
     have hAc : ggQ2sa_Ac m k (k - 1) = -1 := by
       rw [ggQ2sa_Ac_pos m hk hkm1, ggQ2sa_A_adj m hne hadj]
       exact Int.cast_negSucc 0
@@ -338,7 +338,7 @@ private lemma ggQ2sa_T_facts (D : GGQ2Lin 3) {m : ℕ} (f : Fin m ≃ {k // k �
             omega
           have hAc : ggQ2sa_Ac m k (k - 1) = -1 := by
             rw [ggQ2sa_Ac_pos m hkm hkm1,
-              ggQ2sa_A_adj m hne (Or.inr (by simp only [Fin.val_mk]; omega))]
+              ggQ2sa_A_adj m hne (Or.inr (by simp only; omega))]
             exact Int.cast_negSucc 0
           rw [hAc]
           rw [show (-1 : ZMod 3) • ggQ2sa_H D f k = - ggQ2sa_H D f k from
@@ -379,7 +379,7 @@ private lemma ggQ2sa_T_facts (D : GGQ2Lin 3) {m : ℕ} (f : Fin m ≃ {k // k �
         omega
       have hAc : ggQ2sa_Ac m k (k + 1) = -1 := by
         rw [ggQ2sa_Ac_pos m (by omega) hkm,
-          ggQ2sa_A_adj m hne (Or.inl (by simp only [Fin.val_mk]))]
+          ggQ2sa_A_adj m hne (Or.inl (by simp only))]
         exact Int.cast_negSucc 0
       rw [hAc]
       rw [show (-1 : ZMod 3) • ggQ2sa_H D f k = - ggQ2sa_H D f k from
@@ -445,9 +445,9 @@ private lemma ggQ2sa_R_mem (D : GGQ2Lin 3) {m : ℕ} (f : Fin m ≃ {k // k ≠ 
     ggQ2sa_R D f n ∈ D.parab {k | k ≠ D.a} := by
   rw [ggQ2sa_R]
   by_cases hn : n < m
-  · rw [dif_pos hn]
+  · rw [dite_eq_left hn]
     exact Subgroup.subset_closure ⟨f ⟨n, hn⟩, (f ⟨n, hn⟩).2, rfl⟩
-  · rw [dif_neg hn]
+  · rw [dite_eq_right hn]
     exact Subgroup.one_mem _
 
 private lemma ggQ2sa_T_mem (D : GGQ2Lin 3) {m : ℕ} (f : Fin m ≃ {k // k ≠ D.a}) :
@@ -470,9 +470,9 @@ private lemma ggQ2sa_W_coroot (D : GGQ2Lin 3) {m : ℕ} (f : Fin m ≃ {k // k �
     (hf : ∀ i j, D.cartan (f i) (f j) = CartanMatrix.A m i j) (i : Fin m) :
     ggQ2sa_W D f m (D.coroot (f i)) = - D.coroot (f ⟨m - 1 - i.val, by omega⟩) := by
   have h := (ggQ2sa_W_facts D f hf m le_rfl).1 i.val i.isLt
-  rw [ggQ2sa_H, dif_pos i.isLt] at h
+  rw [ggQ2sa_H, dite_eq_left i.isLt] at h
   rw [Fin.eta] at h
-  rw [ggQ2sa_H, dif_pos (by omega)] at h
+  rw [ggQ2sa_H, dite_eq_left (by omega)] at h
   exact h
 
 private lemma ggQ2sa_smul_neg_neg (D : GGQ2Lin 3) (c : ZMod 3) (x : D.V) :
@@ -484,7 +484,7 @@ theorem ggQ2s5_of_A (D : GGQ2Lin 3) {m : ℕ} (hm : 3 ≤ m) (f : Fin m ≃ {k /
     (hf : ∀ i j, D.cartan (f i) (f j) = CartanMatrix.A m i j)
     {π : {k // k ≠ D.a} ≃ {k // k ≠ D.a}} {μ : {k // k ≠ D.a} → ZMod 3}
     (h : D.ScaledAut D.a π μ) : D.ScalarModW D.a π μ := by
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   let π' : Equiv.Perm (Fin m) := (f.trans π).trans f.symm
   let μ' : Fin m → ZMod 3 := fun i => μ (f i)
   have hμ' : ∀ i : Fin m, μ' i ≠ 0 := fun i => h.1 (f i)
@@ -533,7 +533,7 @@ theorem ggQ2s5_of_A (D : GGQ2Lin 3) {m : ℕ} (hm : 3 ≤ m) (f : Fin m ≃ {k /
         rwa [hfj] at this
       have hrevj : π' j = ⟨m - 1 - j.val, by omega⟩ := by
         apply Fin.ext
-        simp only [Fin.val_mk]
+        simp only
         have := hrev j
         omega
       have hWj : ggQ2sa_W D f m (D.coroot (f j)) = - D.coroot (f (π' j)) := by

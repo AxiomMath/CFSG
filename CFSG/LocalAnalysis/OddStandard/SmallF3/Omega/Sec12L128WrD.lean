@@ -81,7 +81,7 @@ theorem sec128_D_side {G : Type} [Group G] [Finite G] {D B X0 : Subgroup G}
       simpa [χ] using hab
     exact θe.symm.injective (Subgroup.inclusion_injective hXD hab')
   · intro a
-    simpa [χ, Subgroup.coe_inclusion] using (θe.symm a).2
+    simp [χ, Subgroup.coe_inclusion]
   · intro a v hv
     have h := hΘ (χ a) v hv
     rwa [hΘχ a] at h

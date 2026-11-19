@@ -36,7 +36,7 @@ section Generic
 variable {τ : Tag} {d : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem toral_of_card_of_weylX (hτ : τ = .E7 ∨ τ = .E8) (F : OrthFrame τ d)
-    (hd : d + 1 = τ.rank)
+    (_hd : d + 1 = τ.rank)
     (hw : ∀ v : Fin τ.rank → ℤ, (List.ofFn fun i => rootReflection (F.root i)).prod • v = -v)
     (hsymm : ∀ i j, τ.cartan i j = τ.cartan j i) (hdet : IsUnit ((τ.cartan.det : ℤ) : ZMod 3))
     (hV : Nat.card (torusPow τ (FiniteField.Extension K 2 2) 3) = 3 ^ τ.rank)
@@ -85,11 +85,11 @@ theorem toral_of_card_of_weylX (hτ : τ = .E7 ∨ τ = .E8) (F : OrthFrame τ d
     rw [hE'def, Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective,
       Subgroup.card_map_of_injective hjinj,
       Subgroup.card_map_of_injective (MulAut.conj x).injective]
-  haveI : Algebra.IsAlgebraic K L := Algebra.IsAlgebraic.of_finite K L
+  have : Algebra.IsAlgebraic K L := Algebra.IsAlgebraic.of_finite K L
   let ψ : L →ₐ[K] AlgebraicClosure K := IsAlgClosed.lift
   have hcomp : ψ.toRingHom.comp (algebraMap K L) = algebraMap K (AlgebraicClosure K) :=
     RingHom.ext fun a => ψ.commutes a
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hchar : ringChar (AlgebraicClosure K) ≠ 3 := by
     rw [ringChar.eq (AlgebraicClosure K) 2]
@@ -142,7 +142,7 @@ theorem toral_of_card_E7 (hK : Nat.card K = 2) {E : Subgroup (adjointGroup .E7 K
       g⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K))
         ((x : adjointGroup .E7 K) : ModGL .E7 K) * g ∈ torusGroup .E7 (AlgebraicClosure K) := by
   have h3 := three_dvd_natCard_ext_sub_one hK
-  exact toral_of_card_of_weylX (hτ := Or.inl rfl) (F := frameE7) (hd := rfl)
+  exact toral_of_card_of_weylX (hτ := Or.inl rfl) (F := frameE7) (_hd := rfl)
     (hw := frameE7_reflections) (hsymm := cartan_symm_E7)
     (hdet := isUnit_det_cartan_of_eq Nat.prime_three det_cartan_E7 (by norm_num))
     (hV := card_torusPow_E7 (K := FiniteField.Extension K 2 2) Nat.prime_three h3)
@@ -189,7 +189,7 @@ theorem toral_of_card_E8 (hK : Nat.card K = 2) {E : Subgroup (adjointGroup .E8 K
       g⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K))
         ((x : adjointGroup .E8 K) : ModGL .E8 K) * g ∈ torusGroup .E8 (AlgebraicClosure K) := by
   have h3 := three_dvd_natCard_ext_sub_one hK
-  exact toral_of_card_of_weylX (hτ := Or.inr rfl) (F := frameE8) (hd := rfl)
+  exact toral_of_card_of_weylX (hτ := Or.inr rfl) (F := frameE8) (_hd := rfl)
     (hw := frameE8_reflections) (hsymm := cartan_symm_E8)
     (hdet := isUnit_det_cartan_of_eq Nat.prime_three det_cartan_E8 (by norm_num))
     (hV := card_torusPow_E8 (K := FiniteField.Extension K 2 2) Nat.prime_three h3)

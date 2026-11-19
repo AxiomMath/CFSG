@@ -49,7 +49,7 @@ theorem rckE6Perp_eq :
     {β : Fin Tag.E8.rank → ℤ | IsRoot Tag.E8 β ∧
       ∀ α ∈ parabolicRoots Tag.E8 (e6Nodes Tag.E8), iform β α = 0} = ↑rckE6Perp := by
   ext β
-  simp only [Set.mem_setOf_eq, Finset.mem_coe, rckE6Perp, List.mem_toFinset, List.mem_map]
+  simp only [Set.mem_ofPred_eq, Finset.mem_coe, rckE6Perp, List.mem_toFinset, List.mem_map]
   constructor
   · rintro ⟨hβ, hperp⟩
     have hl := isRoot_iff_mem_artifactRoots.1 hβ
@@ -111,7 +111,7 @@ theorem rckExc_not_shape_E6
     congr 2
     ext j
     simp only [Finset.coe_insert, Finset.coe_singleton, Set.mem_insert_iff, Set.mem_singleton_iff,
-      Option.some.injEq, Set.mem_setOf_eq, e6Nodes]
+      Option.some.injEq, Set.mem_ofPred_eq, e6Nodes]
     revert j
     decide
   have hΨroot : ∀ γ ∈ componentRoots (rootCharHom a) i, IsRoot Tag.E8 γ := fun γ hγ => hγ.1.1

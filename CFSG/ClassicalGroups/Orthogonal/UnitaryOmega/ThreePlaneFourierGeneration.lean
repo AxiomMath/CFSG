@@ -803,14 +803,14 @@ private theorem exists_pair_tau_mem_decomp (i j : Fin 3) :
       simp only [LinearEquiv.mul_apply, tauAt_apply, Pi.single_eq_same]
       by_cases hki : k = i
       · by_cases hkj : k = j
-        · simp only [f, if_pos hki, if_pos hkj, LinearEquiv.mul_apply]
+        · simp only [f, ite_eq_left hki, ite_eq_left hkj, LinearEquiv.mul_apply]
           rfl
-        · simp only [f, if_pos hki, if_neg hkj, LinearEquiv.mul_apply, LinearEquiv.refl_apply]
+        · simp only [f, ite_eq_left hki, ite_eq_right hkj, LinearEquiv.mul_apply, LinearEquiv.refl_apply]
           rfl
       · by_cases hkj : k = j
-        · simp only [f, if_neg hki, if_pos hkj, LinearEquiv.mul_apply, LinearEquiv.refl_apply]
+        · simp only [f, ite_eq_right hki, ite_eq_left hkj, LinearEquiv.mul_apply, LinearEquiv.refl_apply]
           rfl
-        · simp only [f, if_neg hki, if_neg hkj, LinearEquiv.mul_apply, LinearEquiv.refl_apply]
+        · simp only [f, ite_eq_right hki, ite_eq_right hkj, LinearEquiv.mul_apply, LinearEquiv.refl_apply]
     · simp [LinearEquiv.mul_apply, tauAt_apply, Pi.single_eq_of_ne hlk]
 
 private theorem hypExt_pullback_le_orthogonal (H : Subgroup (normOmega E 3)) :
@@ -885,9 +885,9 @@ private theorem diagonal_eq_three_single (a : Fin 3 → Kˣ) :
 
 end NormThreeFourier
 
-theorem isSimpleGroup_normAnchorFixing_three (hF : Nat.card F = 2) :
+theorem isSimpleGroup_normAnchorFixing_three (_hF : Nat.card F = 2) :
     IsSimpleGroup ↥(normAnchorFixing E 3) := by
-  clear hF
+  clear _hF
   have : IsSimpleGroup (orthDerived (Qn E 3)) :=
     isSimpleGroup_orthDerived_Qn_of_three_le E (by decide : 3 ≤ 3)
   let f := pureEmb E (Function.Embedding.refl (Fin 3))

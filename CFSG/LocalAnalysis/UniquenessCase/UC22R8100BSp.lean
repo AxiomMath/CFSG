@@ -31,8 +31,8 @@ theorem uc22s21r8100_sp_of_odd_factor {D : Data G}
   have hrσ : r ∉ D.sig := fun h => hnot (UC6S846.sp_of_mem_sig hSg hns h)
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
   have h76p := h76 p hp (UC6S846.sp_of_mem_sig hSg hns hp)
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨K₁, K₂, hne, hS⟩ := Set.ncard_eq_two.1 hc2
   have h1S : K₁ ∈ conjSetOf D.M L := by
     rw [hS]

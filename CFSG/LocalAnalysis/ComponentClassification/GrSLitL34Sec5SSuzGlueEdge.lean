@@ -137,7 +137,7 @@ theorem commutator_fixedLayer_le_wGroup
       (f := (centralizer ({t} : Set G)).subtype)
       (H₁ := pPrimeCore 2 (centralizer ({t} : Set G))) (H₂ := ⊤)
       (K₁ := oddIn P) (K₂ := P) hOdd ?_
-    · haveI : (pPrimeCore 2 (centralizer ({t} : Set G))).Normal := CFSG.pPrimeCore_normal
+    · have : (pPrimeCore 2 (centralizer ({t} : Set G))).Normal := CFSG.pPrimeCore_normal
       refine hcomm.trans ?_
       exact Subgroup.map_mono (Subgroup.commutator_le_left
         (H₁ := pPrimeCore 2 (centralizer ({t} : Set G))) (H₂ := ⊤))
@@ -220,7 +220,7 @@ theorem commutator_oddIn_le_of_kleinFour {P E H W : Subgroup G} (hE : IsKleinFou
     { carrier := {p : G | p ∈ P ∧ ∀ u ∈ U, ⁅u, p⁆ ∈ R0}
       one_mem' := by
         refine ⟨P.one_mem, fun u _ => ?_⟩
-        simpa [commutatorElement_def] using R0.one_mem
+        simp [commutatorElement_def]
       mul_mem' := by
         rintro p q ⟨hpP, hp⟩ ⟨hqP, hq⟩
         refine ⟨P.mul_mem hpP hqP, fun u hu => ?_⟩

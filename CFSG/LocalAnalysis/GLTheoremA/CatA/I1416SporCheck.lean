@@ -15,7 +15,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 theorem three_mul_card_pSimple_dvd_cent {S : Type} [Group S] [Finite S] {k : S}
     (hk : orderOf k = 3) {J : Subgroup S} (hJ : J ≤ Subgroup.centralizer ({k} : Set S)) :
     3 * Nat.card (PSimple 3 J) ∣ Nat.card (Subgroup.centralizer ({k} : Set S)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hkc : ∀ g ∈ J, g * k = k * g := fun g hg =>
     Subgroup.mem_centralizer_singleton_iff.1 (hJ hg)
   by_cases hkJ : k ∈ J
@@ -91,7 +91,7 @@ theorem compOK_three_of_card_dvd_360 {Q : Type} [Group Q]
     (hk : Nat.card (Subgroup.centralizer ({k} : Set Q)) ∣ 360) : CompOK 3 k := by
   intro I hI
   obtain ⟨hs, hnab⟩ := KDSpor.pSimple_simple_nonab Nat.prime_three hI
-  haveI := hs
+  have := hs
   have h3 : 3 * Nat.card (PSimple 3 I) ∣ 360 :=
     (three_mul_card_pSimple_dvd_cent hk3 hI.1).trans hk
   have hd : Nat.card (PSimple 3 I) ∣ 3000 :=

@@ -254,6 +254,7 @@ open CFSG.Open
 variable {G : Type} [Group G] [Finite G] {Bs K : Subgroup G} {z : G}
   {F : Type} [Field F] [Finite F] [CharP F 2] {a : ℕ}
 
+omit [Finite G] in
 theorem bstar_eq_zpowers_sup_inf_of_native_sp (ha : 3 ≤ a) (hF : Nat.card F = 2)
     (e : K ≃* StatedSp a F) (hBs : IsElemAbelian 3 Bs)
     (hN : Bs ≤ Subgroup.normalizer (K : Set G))
@@ -286,6 +287,7 @@ theorem bstar_eq_zpowers_sup_inf_of_native_sp (ha : 3 ≤ a) (hF : Nat.card F = 
   rw [hker] at hsplit
   exact hsplit.symm
 
+omit [Finite G] in
 theorem selfCentralizing_native_sp_torus (ha : 3 ≤ a) (hF : Nat.card F = 2)
     (e : K ≃* StatedSp a F) (hBs : IsElemAbelian 3 Bs)
     (hN : Bs ≤ Subgroup.normalizer (K : Set G))
@@ -297,6 +299,7 @@ theorem selfCentralizing_native_sp_torus (ha : 3 ≤ a) (hF : Nat.card F = 2)
   selfCentralizing_torus_of_split_model e hker
     (bstar_eq_zpowers_sup_inf_of_native_sp ha hF e hBs hN hker hBstar) hBstar
 
+omit [Finite G] in
 theorem exists_spFrame_of_native_sp_bstar (ha : 3 ≤ a) (hF : Nat.card F = 2)
     (e : K ≃* StatedSp a F) (hBs : IsElemAbelian 3 Bs)
     (hN : Bs ≤ Subgroup.normalizer (K : Set G))
@@ -424,7 +427,7 @@ theorem native_sp_torus_action_data (ha : 3 ≤ a) (hF : Nat.card F = 2)
       exact bstar_eq_zpowers_sup_inf_of_native_sp ha hF e hBs hN hker hBstar
     have hgBs : g ∈ Subgroup.normalizer (Bs : Set G) := by
       rw [hsplit]
-      exact (Subgroup.normalizer_inf_normalizer_le_normalizer_sup
+      exact (Subgroup.inf_normalizer_le_normalizer_sup
         (Subgroup.zpowers z) T.range) ⟨hgZ, hgE⟩
     exact ⟨g, ⟨hgBs, hgc⟩, hgT⟩
 
@@ -472,7 +475,7 @@ theorem native_sp_rank_eq_of_card_bstar {G : Type} [Group G] [Finite G]
   rw [Subgroup.card_map_of_injective e.injective] at hnative
   have hE : Nat.card E = 3 ^ a := by rw [← Nat.card_congr eqv, hnative]
   have hzord : orderOf z = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime (hBs.2 z hz) hz1
   have hZ : Nat.card Z = 3 := by rw [Nat.card_zpowers, hzord]
   have hp : 3 ^ n = 3 ^ (a + 1) := by

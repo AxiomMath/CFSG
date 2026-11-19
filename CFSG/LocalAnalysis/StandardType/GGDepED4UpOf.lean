@@ -120,7 +120,7 @@ theorem l05nEU_dep {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     have hd0 : d = 0 := funext fun i =>
       (Fintype.linearIndependent_iff.mp hlie) d (by simpa [v] using hv) i
     have h1 : d 0 = 0 := congrFun hd0 0
-    have h2 : (1 : ZMod p) = 0 := by simpa [d, c] using h1
+    have h2 : (1 : ZMod p) = 0 := by simp [d, c] at h1
     exact one_ne_zero h2
   have hαv : ∀ k : Λ, α k v = 0 := by
     intro k
@@ -201,17 +201,17 @@ theorem l05nEU_dep {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
 theorem ggDepED4UpCfg_of_aligned (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
-    (hxL : x ∉ L) {k : ℕ} (hk : k = 1 ∨ k = 2) (hp3 : p = 3) (hCard : Nat.card ↥Bs = 3 ^ 7)
+    (hxL : x ∉ L) {k : ℕ} (_hk : k = 1 ∨ k = 2) (hp3 : p = 3) (hCard : Nat.card ↥Bs = 3 ^ 7)
     (hA : GGDepED4Aligned p k Bs L J K) : GGDepED4UpCfg p k Bs L J K := by
   classical
   obtain ⟨Λ, hΛf, hΛd, b₁, b₂, Λa, hΛaf, hΛad, ML, CL, MK, CK, V, hVadd, hVmod,
     ι, φ, h, α, e, hb1, hb2, hcardΛa, hML, hMLweyl, hCLcartan, hMKweyl, hCKcartan,
     hk2, hform, hrefl, hpairL, hpairK, hAL, hAK, hAJ⟩ := hA
-  letI : Fintype Λ := hΛf
-  letI : DecidableEq Λ := hΛd
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  let : Fintype Λ := hΛf
+  let : DecidableEq Λ := hΛd
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hp2 : p ≠ 2 := by
     have hβ : p ∈ LargeEvenBeta 4 G := hH.1.1.2.2.2.2.2.1
     exact hβ.2.1
@@ -277,7 +277,7 @@ theorem ggDepED4UpCfg_of_aligned (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInput)
     have h := hframe.x_ker (e.symm i)
     simpa using h
   have hfinrank : Module.finrank (ZMod p) V = 7 := by
-    haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+    have : Module.Finite (ZMod p) V := Module.Finite.of_finite
     have hVcard : Nat.card V = p ^ Module.finrank (ZMod p) V := by
       have h := Module.natCard_eq_pow_finrank (K := ZMod p) (V := V)
       rwa [Nat.card_zmod] at h

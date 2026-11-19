@@ -97,7 +97,7 @@ theorem card_inf_centralizer_map_le [Finite Y] (J : Subgroup Y) [J.Normal] (t : 
     rw [← hcardP]
     exact h1.trans (Nat.mul_le_mul_right (Nat.card ↥Z) h2)
   have hZpos : 0 < Nat.card ↥Z := by
-    haveI : Nonempty ↥Z := ⟨⟨1, Z.one_mem⟩⟩
+    have : Nonempty ↥Z := ⟨⟨1, Z.one_mem⟩⟩
     exact Nat.card_pos
   exact Nat.le_of_mul_le_mul_right h3 hZpos
 
@@ -143,7 +143,7 @@ private noncomputable def quotCenterEquivMap (J : Subgroup Y) [J.Normal] :
 
 theorem isSimpleGroup_map_strayCenterIn {J : Subgroup Y} [J.Normal] (hJ : CFSG.IsQuasisimple ↥J) :
     IsSimpleGroup ↥(J.map (QuotientGroup.mk' (strayCenterIn J))) := by
-  haveI : IsSimpleGroup (↥J ⧸ center ↥J) := hJ.2.1
+  have : IsSimpleGroup (↥J ⧸ center ↥J) := hJ.2.1
   exact (quotCenterEquivMap J).symm.isSimpleGroup
 
 theorem exists_noncomm_map_strayCenterIn {J : Subgroup Y} [J.Normal] (hJ : CFSG.IsQuasisimple ↥J) :

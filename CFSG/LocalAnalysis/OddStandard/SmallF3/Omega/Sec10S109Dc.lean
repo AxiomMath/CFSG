@@ -72,7 +72,7 @@ theorem sec10D_mem_normalizer_tz {t z c : G} (hcz : c * z * c⁻¹ = z)
     rwa [e] at h
 
 theorem sec10D_isolated_mod [Finite G] {T : Subgroup G} {t z : G}
-    (hT : IsSylow2Of T (centralizer ({z} : Set G))) (htT : t ∈ T) (hzT : z ∈ T)
+    (hT : IsSylow2Of T (centralizer ({z} : Set G))) (_htT : t ∈ T) (_hzT : z ∈ T)
     (hsc : IsStrClosedModZ t z T) (ht2 : t * t = 1) (hz2 : z * z = 1) (htz : t * z = z * t) :
     ∀ h ∈ centralizer ({z} : Set G),
       (h * t * h⁻¹) * t * (h * t * h⁻¹)⁻¹ * t⁻¹ ∈ zpowers z →

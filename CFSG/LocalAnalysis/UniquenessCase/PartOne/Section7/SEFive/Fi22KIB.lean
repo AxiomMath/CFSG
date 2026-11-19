@@ -20,7 +20,7 @@ theorem FixedFreeFive.of_conj {x y n : G} (hD : PlaneData x y)
     FixedFreeFive 5 G := by
   let S : Subgroup G := Subgroup.closure ({x, y} : Set G)
   obtain ⟨hE, hcard, -⟩ := hD.closure_facts
-  letI : IsMulCommutative S := hE.1
+  let : IsMulCommutative S := hE.1
   have hmemx : x ∈ S := Subgroup.subset_closure (by simp)
   have hmemy : y ∈ S := Subgroup.subset_closure (by simp)
   have hcomm : ∀ a ∈ S, ∀ b ∈ S, a * b = b * a := by

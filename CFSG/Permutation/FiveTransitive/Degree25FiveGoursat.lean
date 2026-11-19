@@ -129,7 +129,7 @@ theorem alternatingGroup_le_of_sylow_five_card_five
     (hScard : Nat.card S = 5) :
     alternatingGroup X ≤ P := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let R : Subgroup P :=
     Degree24.sylowImage X P s S
@@ -140,7 +140,7 @@ theorem alternatingGroup_le_of_sylow_five_card_five
   let F := MulAction.fixedPoints SN X
   let ρ : N →* Equiv.Perm F :=
     MulAction.toPermHom N F
-  letI : IsCyclic S :=
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
   obtain ⟨u, huRaw⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S)
@@ -286,7 +286,7 @@ theorem alternatingGroup_le_of_sylow_five_card_five
     have hAltCard :
         Nat.card (alternatingGroup F) =
           653837184000 := by
-      letI : Nontrivial F :=
+      let : Nontrivial F :=
         Fintype.one_lt_card_iff_nontrivial.mp (by
           rw [hFtype]
           norm_num)
@@ -348,7 +348,7 @@ theorem alternatingGroup_le_of_sylow_five_card_five
       hAltNested.trans hNestedLe
     have hAltCard :
         Nat.card (alternatingGroup F) = 1814400 := by
-      letI : Nontrivial F :=
+      let : Nontrivial F :=
         Fintype.one_lt_card_iff_nontrivial.mp (by
           rw [hFtype]
           norm_num)
@@ -411,7 +411,7 @@ theorem alternatingGroup_le_of_sylow_five_card_five
       exact congrArg Subtype.val (hq i)
     have hJfour :
         MulAction.IsMultiplyPretransitive J F 4 := by
-      letI : MulAction.IsMultiplyPretransitive J F 5 := hJmt
+      let : MulAction.IsMultiplyPretransitive J F 5 := hJmt
       apply MulAction.isMultiplyPretransitive_of_le
         (G := J) (α := F) (m := 4) (n := 5)
       · norm_num
@@ -427,7 +427,7 @@ theorem alternatingGroup_le_of_sylow_five_card_five
       exact le_top
     have hAltCard :
         Nat.card (alternatingGroup F) = 60 := by
-      letI : Nontrivial F :=
+      let : Nontrivial F :=
         Fintype.one_lt_card_iff_nontrivial.mp (by
           rw [hFtype]
           norm_num)

@@ -57,7 +57,7 @@ theorem eq_bot_of_normal_isPGroup_perm_three {N : Subgroup (Equiv.Perm (Fin 3))}
     intro i j hij
     fin_cases i <;> fin_cases j <;> simp [f] at hij ⊢ <;>
       first | exact absurd hij.symm hne | exact absurd hij hne | exact absurd hij.symm h1τ |
-        exact absurd hij h1τ | exact absurd hij.symm hρ | exact absurd hij hρ
+        exact absurd hij.symm hρ | exact absurd hij hρ
   have h3 : 3 ≤ Nat.card N := by
     simpa using Nat.card_le_card_of_injective f hf
   obtain ⟨j, hj⟩ := (IsPGroup.iff_card).1 h2

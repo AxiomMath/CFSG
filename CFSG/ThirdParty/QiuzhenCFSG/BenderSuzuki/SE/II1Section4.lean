@@ -184,7 +184,7 @@ private theorem commutator_le_closure_peterfalviKSet
   have hA_norm_D : A ≤ Subgroup.normalizer (D : Set X) := by
     rw [Subgroup.zpowers_le]
     exact hDnorm
-  letI : Subgroup.Normalizes A D := ⟨hA_norm_D⟩
+  let : Subgroup.Normalizes A D := ⟨hA_norm_D⟩
   have horder : orderOf t = 2 :=
     (orderOf_eq_prime_iff).2 ⟨ht.sq_eq_one, ht.ne_one⟩
   have hAcard : Nat.card A = 2 := by
@@ -355,12 +355,12 @@ public theorem peterfalviKSet_card_modEq_centralizer
       Nat.card {x : X // x ∈ peterfalviKSet D t ∧
         x ∈ Subgroup.centralizer (R : Set X)} [MOD r] := by
   classical
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   let I := {x : X // x ∈ peterfalviKSet D t}
   let conjI : R → I → I := fun a x =>
     ⟨(a : X) * (x : X) * (a : X)⁻¹,
       peterfalviKSet_conj_mem_of_mem_V (hRV a.property) x.property⟩
-  letI : MulAction R I :=
+  let : MulAction R I :=
     { smul := conjI
       one_smul := by
         intro x
@@ -421,11 +421,11 @@ public theorem ii1Lemma42PrimeTransfer
       peterfalviV_index_eq_kset_card ht hDodd hDnorm
   have hrIndex : ¬ r ∣ VD.index := by
     rwa [hindex]
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   let rp : Nat.Primes := ⟨r, hr⟩
   let S : Sylow r VD := default
   let R0 : Subgroup D := (S : Subgroup VD).map VD.subtype
-  have hR0p : IsPGroup r R0 := S.isPGroup'.map VD.subtype
+  have hR0p : IsPGroup r R0 := S.isPGroup.map VD.subtype
   have hR0index : R0.index = (S : Subgroup VD).index * VD.index := by
     simpa [R0] using
       (Subgroup.index_map_subtype (H := VD) (K := (S : Subgroup VD)))
@@ -434,7 +434,7 @@ public theorem ii1Lemma42PrimeTransfer
     exact hr.not_dvd_mul S.not_dvd_index hrIndex
   let R : Sylow r D := hR0p.toSylow hrR0index
   have hR_eq : (R : Subgroup D) = R0 := by
-    simpa [R] using IsPGroup.toSylow_coe hR0p hrR0index
+    simp [R]
   have hR_le_VD : (R : Subgroup D) ≤ VD := by
     rw [hR_eq]
     exact Subgroup.map_subtype_le (S : Subgroup VD)
@@ -442,7 +442,7 @@ public theorem ii1Lemma42PrimeTransfer
   have hA_norm_D : A ≤ Subgroup.normalizer (D : Set X) := by
     rw [Subgroup.zpowers_le]
     exact hDnorm
-  letI : Subgroup.Normalizes A D := ⟨hA_norm_D⟩
+  let : Subgroup.Normalizes A D := ⟨hA_norm_D⟩
   have hRfixed : (R : Subgroup D) ≤ fixedPointSubgroup A D := by
     rw [fixedPointSubgroup_subgroup_conj_eq_subgroupCentralizerIn
       D A hA_norm_D]
@@ -454,7 +454,7 @@ public theorem ii1Lemma42PrimeTransfer
       Subgroup.centralizer_closure] using hxV.2
   have hRpi : IsPiSubgroup (G := D) ({rp} : Set Nat.Primes)
       (R : Subgroup D) := by
-    simpa [rp] using isPiSubgroup_singleton_of_isPGroup R.isPGroup'
+    simpa [rp] using isPiSubgroup_singleton_of_isPGroup R.isPGroup
   have hRhall : IsHallSubgroup ({rp} : Set Nat.Primes)
       (R : Subgroup D) := by
     refine isHallSubgroup_of (G := D) (π := ({rp} : Set Nat.Primes))
@@ -499,7 +499,7 @@ public theorem ii1Lemma42PrimeTransfer
     hrC.trans (Subgroup.card_dvd_of_le hcommCore)
   have hrMem : rp ∈ pi :=
     (piCore_isPiSubgroup (G := D) pi) rp (by simpa [rp] using hrCore)
-  simpa [pi] using hrMem
+  simp [pi] at hrMem
 
 /-- Peterfalvi `[II1; 4.3(a)]`. -/
 public theorem ii1Lemma43aCoprime
@@ -537,9 +537,9 @@ public theorem ii1Lemma43bCyclic
   classical
   intro D t hDodd ht hDinv hIne p hp U hUp hUV hcentral
   by_contra hUcyclic
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : Fact (IsPGroup p U) := ⟨hUp⟩
-  letI : Nontrivial U := Nontrivial.of_not_isCyclic hUcyclic
+  let : Fact p.Prime := ⟨hp⟩
+  let : Fact (IsPGroup p U) := ⟨hUp⟩
+  let : Nontrivial U := Nontrivial.of_not_isCyclic hUcyclic
   obtain ⟨n, hn, hUcard⟩ :=
     (IsPGroup.nontrivial_iff_card (p := p) (G := U) hUp).mp inferInstance
   have hpU : p ∣ Nat.card U := by
@@ -551,7 +551,7 @@ public theorem ii1Lemma43bCyclic
   have hpne2 : p ≠ 2 := Odd.ne_two_of_dvd_nat hDodd hpD
   obtain ⟨A0, _hA0normal, hA0card, hA0elem⟩ :=
     lemma_4_5_a (R := U) (p := p) hpne2 hUcyclic
-  letI : IsElementaryAbelian p A0 := hA0elem
+  let : IsElementaryAbelian p A0 := hA0elem
   let A : Subgroup X := A0.map U.subtype
   have hA_U : A ≤ U := by
     simpa [A] using Subgroup.map_subtype_le A0
@@ -567,9 +567,9 @@ public theorem ii1Lemma43bCyclic
   have hAelem : IsElementaryAbelian p A := by
     simpa [A] using
       (IsElementaryAbelian.map_subtype (p := p) (K := U) (H := A0))
-  letI : IsElementaryAbelian p A := hAelem
-  letI : CommGroup A := IsMulCommutative.instCommGroup
-  letI : Fact (IsPGroup p A) := ⟨IsElementaryAbelian.isPGroup p A⟩
+  let : IsElementaryAbelian p A := hAelem
+  let : CommGroup A := IsMulCommutative.instCommGroup
+  let : Fact (IsPGroup p A) := ⟨IsElementaryAbelian.isPGroup p A⟩
   have hAnoncyclic : ¬ IsCyclic A :=
     IsElementaryAbelian.not_isCyclic_of_card_eq_prime_sq hAcard
   have hAne : A ≠ ⊥ := by
@@ -597,8 +597,8 @@ public theorem ii1Lemma43bCyclic
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKD).mp hKnormalD
   have hAnormK : A ≤ Subgroup.normalizer (K : Set X) :=
     hA_D.trans hDnormK
-  letI : Subgroup.Normalizes A K := ⟨hAnormK⟩
-  letI : MulDistribMulAction A K :=
+  let : Subgroup.Normalizes A K := ⟨hAnormK⟩
+  let : MulDistribMulAction A K :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer A K hAnormK
   have hcopK : Nat.Coprime p (Nat.card K) := by
     simpa [K] using
@@ -728,8 +728,7 @@ public theorem ii1Lemma43cNormalComplement
   let V : Subgroup X := peterfalviV D t
   let K : Subgroup X := Subgroup.closure (peterfalviKSet D t)
   have hVleD : V ≤ D := by
-    simpa [V, peterfalviV] using
-      (inf_le_left : peterfalviV D t ≤ D)
+    simp [V, peterfalviV]
   have hKD : K ≤ D := by
     rw [Subgroup.closure_le]
     intro x hx
@@ -844,9 +843,6 @@ public theorem ii1Lemma43cNormalComplement
         (fun p : V × {x : X // x ∈ peterfalviKSet D t} =>
           (p.2 : X) * (p.1 : X))
         Set.univ (D : Set X) := by
-    change Set.BijOn
-      (fun p : V × {x : X // x ∈ peterfalviKSet D t} =>
-        (p.2 : X) * (p.1 : X)) Set.univ (D : Set X)
     exact (PFchapter1section1.lemma_a t D ht hDodd hDnorm).2.1
   have hcardD :
       Nat.card D = Nat.card V *
@@ -874,7 +870,7 @@ public theorem ii1Lemma43cNormalComplement
         rw [hJbot] at hvJ
         simpa using hvJ
       rw [← hp']
-      simpa [hv1] using p.2.property
+      simp [hv1]
     · intro hx
       exact Subgroup.subset_closure hx
   have hdisj :

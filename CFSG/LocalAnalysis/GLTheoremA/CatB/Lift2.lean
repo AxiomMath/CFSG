@@ -31,8 +31,8 @@ theorem exists_normalizing_sylow {K : Type*} [Group K] [Finite K] {p q : ℕ} [F
     (hAH : ∀ a ∈ A, ∀ h ∈ H, a * h * a⁻¹ ∈ H) (hH : ¬ q ∣ Nat.card H) :
     ∃ P : Sylow p ↥H, A ≤ Subgroup.normalizer (((P : Subgroup ↥H).map H.subtype : Subgroup K) :
       Set K) := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  letI : MulDistribMulAction ↥A ↥H := MulDistribMulAction.compHom ↥H (conjHom A H hAH)
+  have : Fact q.Prime := ⟨hq⟩
+  let : MulDistribMulAction ↥A ↥H := MulDistribMulAction.compHom ↥H (conjHom A H hAH)
   have hcard : ¬ q ∣ Nat.card (Sylow p ↥H) := by
     intro h
     obtain ⟨P⟩ : Nonempty (Sylow p ↥H) := inferInstance
@@ -63,10 +63,10 @@ theorem exists_lift_normalizing {J : Type*} [Group J] [Finite J] {M : Type*} [Gr
     (hEU : E₀ ≤ Subgroup.normalizer (U₀ : Set M)) :
     ∃ W P : Subgroup J, IsPGroup 3 W ∧ W.map π = E₀ ∧ Function.Injective (π.comp W.subtype) ∧
       IsPGroup 2 P ∧ P.map π = U₀ ∧ W ≤ Subgroup.normalizer (P : Set J) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥π.range :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥π.range :=
     Finite.of_surjective (MonoidHom.rangeRestrict π) (MonoidHom.rangeRestrict_surjective π)
-  haveI : Finite ↥U₀ := Finite.of_injective (Subgroup.inclusion hUπ) (Subgroup.inclusion_injective hUπ)
+  have : Finite ↥U₀ := Finite.of_injective (Subgroup.inclusion hUπ) (Subgroup.inclusion_injective hUπ)
   obtain ⟨W, hWp, hWmap, hWinj⟩ := exists_pSubgroup_lift Nat.prime_three π hk3 hE hEπ
   let H : Subgroup J := U₀.comap π
   have hAH : ∀ a ∈ W, ∀ h ∈ H, a * h * a⁻¹ ∈ H := by

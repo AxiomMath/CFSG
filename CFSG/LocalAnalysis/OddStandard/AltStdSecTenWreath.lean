@@ -123,7 +123,7 @@ theorem false_of_wreathOutcome_exact (h : Setting G L 10) (d : Cyc L Q z) (T : S
     (hzx : z ∈ centralizer ({x} : Set G))
     (hW : WreathOutcome (QuotientGroup.mk ⟨z, hzx⟩ : TwoSec x)
       (twoSecComp e x (fixFin (permOf h d e hx))) 8) : False := by
-  haveI : IsSimpleGroup G := h.std.simple
+  have : IsSimpleGroup G := h.std.simple
   have hτsw : (permOf h d e hx).IsSwap := by rw [hτ]; exact isSwap_τ₀
   obtain ⟨hxmul, hxz, hx1⟩ := swap_elt_facts h d T e hx hτsw
   have hx2 : orderOf x = 2 := orderOf_eq_prime (by rw [pow_two]; exact hxmul) hx1

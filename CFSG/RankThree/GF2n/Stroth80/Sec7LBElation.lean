@@ -149,7 +149,7 @@ theorem sec7_LB_elation_count (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n) (h
     have : 0 < Module.finrank K Y := Module.finrank_pos_iff_exists_ne_zero.mpr
       ⟨⟨(b : M₀.E), hBY _ hbimg⟩, fun h0 => hb0 (congrArg Subtype.val h0)⟩
     omega
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hKpos : 0 < Nat.card K ^ (Module.finrank K Y - 1) := pow_pos Nat.card_pos _
   apply Nat.eq_of_mul_eq_mul_right hKpos
   rw [← hcnt, mul_assoc, ← pow_add]

@@ -70,7 +70,7 @@ theorem rotA2E6_subset_rootFinset : ∀ α ∈ rotA2E6, α ∈ rootFinset .E6 :=
 theorem wordProd_positionWord_of_three_le {k : Fin 5} (hk : 3 ≤ k.val) :
     (coxeterSystem .E6).wordProd (positionWord k) =
       modelHomE6 (SemidirectProduct.inl (Multiplicative.ofAdd ![1, 1, 1])) := by
-  rw [positionWord, if_neg (by omega), modelHomE6_inl]
+  rw [positionWord, ite_eq_right (by omega), modelHomE6_inl]
   rfl
 
 end Roots
@@ -88,7 +88,7 @@ theorem familyGroup_position_one {ζ : Lˣ} (hζo : orderOf ζ = 3) (hζ : ζ ^ 
       CFSG.RankThree.PartOne.KE.threeRootSet (τ := .E6)
         (Pi.single (0 : Fin 6) 1) (Pi.single (5 : Fin 6) 1) (CFSG.SeitzReduction.highRoot .E6) := by
     ext α
-    simp only [familyKernel, Set.mem_setOf_eq, Fin.forall_fin_two,
+    simp only [familyKernel, Set.mem_ofPred_eq, Fin.forall_fin_two,
       rootChar_zetaVec_eq_one_iff hζo]
     constructor
     · rintro ⟨hα, h⟩
@@ -153,7 +153,7 @@ theorem isSolvable_of_le_familyCentralizer_position_one
     (Subgroup.subgroupOfEquivOfLe hHC).isSolvable_congr.mp inferInstance
   have : Group.IsSolvable (familyStabilizerSubgroup a) := by
     have := StabilizerZeroOne.isSolvable_stabOne
-    exact solvable_of_solvable_injective (Subgroup.inclusion_injective
+    exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective
       (K := StabilizerFour.stabPair (positionBasis 1 0) (positionBasis 1 1)) fun w hw =>
         StabilizerFour.mem_stabPair_of_mem_familyStabilizer hζ.eq_orderOf.symm hζ.pow_eq_one
           (positionBasis 1) (mem_familyStabilizerSubgroup.1 hw))
@@ -165,7 +165,7 @@ theorem familyGroup_position_zero {ζ : Lˣ} (hζo : orderOf ζ = 3) (hζ : ζ ^
   have hker : familyKernel (fun i : Fin 2 => zetaVec ζ hζ (positionBasis 0 i)) =
       {α | α ∈ fixedA2E6} := by
     ext α
-    simp only [familyKernel, Set.mem_setOf_eq, Fin.forall_fin_two,
+    simp only [familyKernel, Set.mem_ofPred_eq, Fin.forall_fin_two,
       rootChar_zetaVec_eq_one_iff hζo]
     constructor
     · rintro ⟨hα, h⟩
@@ -208,7 +208,7 @@ theorem isSolvable_of_le_familyCentralizer_position_zero
       (K := K) H hHW hNPCH
   have : Group.IsSolvable (familyStabilizerSubgroup a) := by
     have := StabilizerZeroOne.isSolvable_stabZero
-    exact solvable_of_solvable_injective (Subgroup.inclusion_injective
+    exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective
       (K := StabilizerFour.stabPair (positionBasis 0 0) (positionBasis 0 1)) fun w hw =>
         StabilizerFour.mem_stabPair_of_mem_familyStabilizer hζ.eq_orderOf.symm hζ.pow_eq_one
           (positionBasis 0) (mem_familyStabilizerSubgroup.1 hw))
@@ -244,7 +244,7 @@ theorem exists_torus_mul_canonicalRep_of_position_four [IsAlgClosed L] {ζ : Lˣ
     · exact (Subgroup.mem_inf.1 ((hT _).2 ⟨_, ⟨0, 1, by simp⟩, rfl⟩)).1
   have hker : familyKernel a = ∅ := by
     ext α
-    simp only [familyKernel, Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and,
+    simp only [familyKernel, Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and,
       Fin.forall_fin_two, a, rootChar_zetaVec_eq_one_iff hζo]
     exact fun hα h0 h1 => kernelRoots_position_four α (mem_rootFinset.2 hα) ⟨h0, h1⟩
   intro c hc
@@ -310,9 +310,9 @@ theorem isSolvable_centralizer_of_position_two [IsAlgClosed L] {ζ : Lˣ}
     change (x : ModGL .E6 L) * (y : ModGL .E6 L) = (y : ModGL .E6 L) * (x : ModGL .E6 L)
     rw [hb]
     exact rootDiagUnit_mul_comm_of_mem_torusGroup b hyT
-  have : Group.IsSolvable ψ.ker := isSolvable_of_comm hcomm
+  have : Group.IsSolvable ψ.ker := _root_.Group.isSolvable_of_comm hcomm
   have : Group.IsNilpotent ψ.range := hRP.isNilpotent
-  exact solvable_of_ker_le_range ψ.ker.subtype ψ.rangeRestrict fun x hx =>
+  exact Group.isSolvable_of_ker_le_range ψ.ker.subtype ψ.rangeRestrict fun x hx =>
     ⟨⟨x, (MonoidHom.mem_ker.2 (by
       have := congrArg Subtype.val (MonoidHom.mem_ker.1 hx)
       exact this))⟩, rfl⟩
@@ -370,7 +370,7 @@ theorem familyGroup_position_three {ζ : Lˣ} (hζo : orderOf ζ = 3) (hζ : ζ 
       parabolicRoots .E6 CFSG.RankThree.E6.support56 := by
     ext α
     rw [CFSG.RankThree.PartOne.TCX.E.a2Std₂.roots α, ← mem_rotA2E6_iff]
-    simp only [familyKernel, Set.mem_setOf_eq, Fin.forall_fin_two,
+    simp only [familyKernel, Set.mem_ofPred_eq, Fin.forall_fin_two,
       rootChar_zetaVec_eq_one_iff hζo]
     constructor
     · rintro ⟨hα, h⟩
@@ -404,7 +404,7 @@ theorem isSolvable_centralizer_of_position_three {ζ : Lˣ} (hζ : IsPrimitiveRo
       fun h hh => (Subgroup.mem_centralizer_iff.1 hh.1.2 n hn).symm
   have : Group.IsSolvable (familyStabilizerSubgroup a) := by
     have := StabilizerThree.isSolvable_stabThree
-    exact solvable_of_solvable_injective (Subgroup.inclusion_injective (K := StabilizerThree.stabThree)
+    exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective (K := StabilizerThree.stabThree)
       fun w hw => StabilizerThree.mem_stabThree_of_mem_familyStabilizer hζo hζ.pow_eq_one (mem_familyStabilizerSubgroup.1 hw))
   exact isSolvable_of_le_familyCentralizer a hCF
 
@@ -464,7 +464,7 @@ theorem isSolvable_of_le_inndiag_centralizer_of_not_toral_three
   have : NeZero ((3 : ℕ) : K) := ⟨fun h => by
     have h' := (CharP.cast_eq_zero_iff K 2 3).1 h
     norm_num at h'⟩
-  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) 3
+  obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) 3
   obtain ⟨ζ, hζ⟩ : ∃ ζ : (AlgebraicClosure K)ˣ, IsPrimitiveRoot ζ 3 :=
     ⟨_, IsPrimitiveRoot.isUnit_unit (by norm_num) hζ0⟩
   obtain ⟨g, hg, k, hN, hT, n, hn, hnN, hw⟩ :=
@@ -500,11 +500,11 @@ theorem isSolvable_of_le_inndiag_centralizer_of_not_toral_three
     · exact isSolvable_of_le_familyCentralizer_position_zero (K := K) hζ ψ.range hCF hNPC'
     · exact isSolvable_of_le_familyCentralizer_position_one (K := K) hζ ψ.range hCF hNPC'
     · have : Group.IsSolvable Q := isSolvable_centralizer_of_position_two hζ hT
-      exact solvable_of_solvable_injective (Subgroup.inclusion_injective hψQ)
+      exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hψQ)
     · have : Group.IsSolvable Q := isSolvable_centralizer_of_position_three hζ hT hn hnN hw
-      exact solvable_of_solvable_injective (Subgroup.inclusion_injective hψQ)
+      exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hψQ)
     · have : Group.IsSolvable Q := (isPGroup_isSolvable_centralizer_of_position_four hζ hT hn hnN hw).2
-      exact solvable_of_solvable_injective (Subgroup.inclusion_injective hψQ)
+      exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hψQ)
   exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
 
 end AllPositions

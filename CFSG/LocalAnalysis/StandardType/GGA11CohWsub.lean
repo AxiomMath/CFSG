@@ -21,7 +21,7 @@ private lemma a11ws_F2_eq_zero_or_one (c : F2) : c = 0 ∨ c = 1 := by
   by_cases hc : c = 0
   · exact Or.inl hc
   · right
-    letI : Fintype F2 := Fintype.ofFinite F2
+    let : Fintype F2 := Fintype.ofFinite F2
     have hcard : Fintype.card F2 = 2 := by
       rw [← Nat.card_eq_fintype_card]; exact a11ws_F2_card
     have h := FiniteField.pow_card_sub_one_eq_one c hc
@@ -83,9 +83,9 @@ private lemma a11ws_blockOn_apply (J : Finset (Fin 9))
       else if p = q then 1 else 0 := by
   by_cases hp : p ∈ J
   · by_cases hq : q ∈ J
-    · rw [dif_pos hp, dif_pos hq]; exact blockOn_apply_mem J X hp hq
-    · rw [dif_pos hp, dif_neg hq]; exact blockOn_apply_not_mem J X (Or.inr hq)
-  · rw [dif_neg hp]; exact blockOn_apply_not_mem J X (Or.inl hp)
+    · rw [dite_eq_left hp, dite_eq_left hq]; exact blockOn_apply_mem J X hp hq
+    · rw [dite_eq_left hp, dite_eq_right hq]; exact blockOn_apply_not_mem J X (Or.inr hq)
+  · rw [dite_eq_right hp]; exact blockOn_apply_not_mem J X (Or.inl hp)
 
 private lemma a11ws_blockSLOn_transvection (J : Finset (Fin 9)) {i j : Fin J.card}
     (hij : i ≠ j) (a : F2) :
@@ -100,7 +100,7 @@ private lemma a11ws_blockSLOn_transvection (J : Finset (Fin 9)) {i j : Fin J.car
     Matrix.one_apply]
   by_cases hp : p ∈ J
   · by_cases hq : q ∈ J
-    · rw [dif_pos hp, dif_pos hq]
+    · rw [dite_eq_left hp, dite_eq_left hq]
       have hpq : (J.equivFin ⟨p, hp⟩ = J.equivFin ⟨q, hq⟩) ↔ p = q := by
         constructor
         · intro h; exact congrArg Subtype.val (J.equivFin.injective h)
@@ -120,16 +120,16 @@ private lemma a11ws_blockSLOn_transvection (J : Finset (Fin 9)) {i j : Fin J.car
           calc j = J.equivFin (J.equivFin.symm j) := (J.equivFin.apply_symm_apply j).symm
             _ = J.equivFin ⟨q, hq⟩ := by rw [this]
       simp only [hpq, hpi, hqj]
-    · rw [dif_pos hp, dif_neg hq]
+    · rw [dite_eq_left hp, dite_eq_right hq]
       have hpi : ¬ ((J.equivFin.symm i).1 = p ∧ (J.equivFin.symm j).1 = q) := by
         rintro ⟨-, hqj⟩
         exact hq (hqj ▸ (J.equivFin.symm j).2)
-      rw [if_neg hpi, add_zero]
-  · rw [dif_neg hp]
+      rw [ite_eq_right hpi, add_zero]
+  · rw [dite_eq_right hp]
     have hpi : ¬ ((J.equivFin.symm i).1 = p ∧ (J.equivFin.symm j).1 = q) := by
       rintro ⟨hpi, -⟩
       exact hp (hpi ▸ (J.equivFin.symm i).2)
-    rw [if_neg hpi, add_zero]
+    rw [ite_eq_right hpi, add_zero]
 
 private lemma a11ws_transvection_mem_Wsub (s : Fin 3) {i j : Fin 9}
     (hi : i ∈ a11ws_J s) (hj : j ∈ a11ws_J s) (hij : i ≠ j) (a : F2) :
@@ -146,7 +146,7 @@ private lemma a11ws_transvection_mem_Wsub (s : Fin 3) {i j : Fin 9}
       exact hij (Fin.castLE_injective (by omega : 9 ≤ 12) h)
     · simpa only [a11ws_J, Finset.mem_filter, Finset.mem_univ, true_and] using hi
     · simpa only [a11ws_J, Finset.mem_filter, Finset.mem_univ, true_and] using hj
-    · rw [tv9, dif_pos ⟨i.isLt, j.isLt, fun h => hij (Fin.castLE_injective (by omega) h)⟩]
+    · rw [tv9, dite_eq_left ⟨i.isLt, j.isLt, fun h => hij (Fin.castLE_injective (by omega) h)⟩]
 
 private lemma a11ws_Wsub_eq_coordBlockSL (s : Fin 3) :
     Wsub s = coordBlockSL F2 (a11ws_J s) := by
@@ -166,11 +166,11 @@ private lemma a11ws_Wsub_eq_coordBlockSL (s : Fin 3) :
       intro h
       have hval : a.val = b.val := congrArg (fun x : Fin 9 => x.val) h
       exact hab (Fin.ext hval)
-    rw [tv9, dif_pos ⟨ha, hb, hab⟩]
+    rw [tv9, dite_eq_left ⟨ha, hb, hab⟩]
     exact SLRep.transvection_mem_coordBlockSL hiJ hjJ hij 1
   · rw [← range_blockSLOn (k := F2) (J := a11ws_J s)]
     rintro g ⟨X, rfl⟩
-    haveI : Nontrivial (Fin (a11ws_J s).card) := by
+    have : Nontrivial (Fin (a11ws_J s).card) := by
       rw [a11ws_J_card]; infer_instance
     refine Matrix.SpecialLinearGroup.diagonal_transvection_induction'
       (fun X : Matrix.SpecialLinearGroup (Fin (a11ws_J s).card) F2 => blockSLOn F2 (a11ws_J s) X ∈ Wsub s)
@@ -247,7 +247,7 @@ private lemma a11ws_T9_mem_Wsub (s : Fin 3) {i : Fin 3} (hi : i ≠ s) :
       blk (Fin.castLE (by omega : 9 ≤ 12) b) = i.castSucc
       then Om (idxIn (Fin.castLE (by omega : 9 ≤ 12) a)) (idxIn (Fin.castLE (by omega : 9 ≤ 12) b))
       else if a = b then 1 else 0) = if a = b then 1 else 0
-  rw [if_neg hne]
+  rw [ite_eq_right hne]
 
 theorem a11WsubInput_holds : A11WsubInput := by
   intro s

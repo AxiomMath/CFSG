@@ -30,7 +30,7 @@ theorem four_le_pRank_statedProj_conj {ι : Type} [Fintype ι] [DecidableEq ι] 
     (hz1 : ∀ n m : ℕ, ∀ c ∈ StatedScalars ι K, x ^ n * y ^ m * c ≠ z)
     (hw1 : ∀ n m l : ℕ, ∀ c ∈ StatedScalars ι K, x ^ n * y ^ m * z ^ l * c ≠ w) :
     4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (StatedProj H)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set φ : GL ι K ≃* GL ι K := MulAut.conj P with hφ
   have hS : ∀ c ∈ StatedScalars ι K, φ.symm c ∈ StatedScalars ι K := fun c hc => by
     have := (StatedScalars.normal ι K).conj_mem c hc P⁻¹
@@ -128,15 +128,15 @@ theorem diagGL_mem_SU (σ : F ≃+* F) {n : ℕ} (u : Fin n → Fˣ) (hprod : �
 
 theorem pairFun_apply_self {n : ℕ} (ω : Fˣ) {k : Fin n} (hk : k ≠ Fin.rev k) :
     pairFun ω k k = ω := by
-  simp [pairFun, Pi.mulSingle_apply, hk]
+  simp [pairFun, hk]
 
 theorem pairFun_apply_rev {n : ℕ} (ω : Fˣ) {k : Fin n} (hk : k ≠ Fin.rev k) :
     pairFun ω k (Fin.rev k) = ω⁻¹ := by
-  simp [pairFun, Pi.mulSingle_apply, Ne.symm hk]
+  simp [pairFun, Ne.symm hk]
 
 theorem pairFun_apply_of_ne {n : ℕ} (ω : Fˣ) {k i : Fin n} (h1 : i ≠ k) (h2 : i ≠ Fin.rev k) :
     pairFun ω k i = 1 := by
-  simp [pairFun, Pi.mulSingle_apply, h1, h2]
+  simp [pairFun, h1, h2]
 
 theorem pairFun_pow_three {n : ℕ} {ω : Fˣ} (hω : ω ^ 3 = 1) (k : Fin n) :
     pairFun ω k ^ 3 = 1 := by

@@ -59,7 +59,7 @@ private theorem unitary_mul_mat {n d : ℕ} {K : Type} [Field K] (h : UnitaryFie
     (hA : (A.map h.bar)ᵀ * A = 1) (hB : (B.map h.bar)ᵀ * B = 1) :
     ((A * B).map h.bar)ᵀ * (A * B) = 1 := by
   rw [← Matrix.mul_one ((A * B).map h.bar)ᵀ, conjTranspose_mul_mul h 1 A B]
-  simp only [Matrix.mul_one, Matrix.one_mul, hA, hB]
+  simp only [Matrix.mul_one, hA, hB]
 
 private theorem unitary_inv_gl {n d : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 n K)
     {A : GL (Fin d) K} (hA : ((A : Matrix (Fin d) (Fin d) K).map h.bar)ᵀ *
@@ -73,7 +73,7 @@ private theorem unitary_inv_gl {n d : ℕ} {K : Type} [Field K] (h : UnitaryFiel
     ((A⁻¹ : GL (Fin d) K) : Matrix (Fin d) (Fin d) K)
   rw [hAA] at hconj
   simp only [Matrix.map_one _ (map_zero h.bar) (map_one h.bar), Matrix.transpose_one,
-    Matrix.one_mul, Matrix.mul_one, hA] at hconj
+    Matrix.mul_one, hA] at hconj
   exact hconj.symm
 
 private theorem cu_normalizes_unitarySU {n d : ℕ} {K : Type} [Field K]
@@ -95,7 +95,7 @@ private theorem map_mem_unitarySU {n d : ℕ} {K : Type} [Field K]
   have hg' : g ∈ LargeEvenSUGroup (Fin d) K (2 ^ n) := by
     rw [GGL45TG.SU.mem_su_iff h]
     exact ⟨(mem_unitarySU_iff h).mp hg |>.2, (mem_unitarySU_iff h).mp hg |>.1⟩
-  have hres := GGL45TG.SU.map_mem_su h σ hg'
+  have hres := GGL45TG.SU.map_mem_su σ hg'
   rw [GGL45TG.SU.mem_su_iff h] at hres
   rw [mem_unitarySU_iff h]
   exact ⟨hres.2, hres.1⟩
@@ -317,7 +317,7 @@ theorem exists_rho_commute_diag {d n p : ℕ} {K : Type} [Field K] [Finite K] (h
       D' * Matrix.GeneralLinearGroup.map σ.toRingHom y * D'⁻¹ ∈ unitarySU 2 n K d :=
     fun y => cu_normalizes_unitarySU hM.field hD'cu (map_mem_unitarySU hM.field σ y.2)
   have hconj : (MulAut.conj (φ s₀))⁻¹ = MulAut.conj ((φ s₀)⁻¹) := by
-    ext z; simp [MulAut.conj_apply]
+    ext z; simp
   have hA : ∀ y : ↥(unitarySU 2 n K d),
       (MulAut.conj (φ s₀))⁻¹ (a (φ y)) =
         φ ⟨D' * Matrix.GeneralLinearGroup.map σ.toRingHom y * D'⁻¹, hmem y⟩ := by
@@ -353,7 +353,7 @@ theorem exists_rho_commute_diag {d n p : ℕ} {K : Type} [Field K] [Finite K] (h
       hEmat, Matrix.diagonal_map (map_zero σ), scalar_mul_eq_smul_mat, ← Matrix.diagonal_smul]
     congr 1
     funext i
-    simp only [Function.comp_apply, Pi.smul_apply, smul_eq_mul]
+    simp only [Pi.smul_apply, smul_eq_mul]
     rw [hμ't i, Units.val_mk0]
   have hD'E : D' * E = E * D' := by
     apply Units.ext

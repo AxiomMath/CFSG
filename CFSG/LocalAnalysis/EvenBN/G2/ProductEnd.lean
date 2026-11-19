@@ -130,6 +130,7 @@ variable
   {K : Type} [Field K] [Finite K]
   [CharP K 2]
 
+omit [Finite G] [CharP K 2] in
 theorem G2Data.card_eq_ordG2 (d : G2Data L K) : Nat.card L = ordG2 (Nat.card K) := by
   rw [Nat.card_congr d.equiv.toEquiv]
   exact CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_G2
@@ -206,7 +207,7 @@ theorem exists_fixedGroup_of_outer {f : ℕ} (hK : Nat.card K = 2 ^ f) (hf : 3 �
   obtain ⟨w, -, hw⟩ := Model.exists_inner_conj_eq_of_outer hK' (by omega) hβo hβ
   obtain ⟨k, _, hk, ⟨ε⟩⟩ := fixedGroup_fieldAut_pow_mulEquiv hK' (by omega)
   have hkfin : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-  haveI : CharP k 2 := charP_two_of_card_two_pow (by omega) hk
+  have : CharP k 2 := charP_two_of_card_two_pow (by omega) hk
   set Dg : Subgroup (adjointGroup .G2 K) := β.toMonoidHom.eqLocus (MonoidHom.id _) with hDg
   have hβg : ∀ g, β g = w⁻¹ ((Model.fieldAut K ^ e) (w g)) := fun g => by
     rw [hw, MulAut.mul_apply, MulAut.mul_apply]
@@ -262,7 +263,7 @@ theorem inner_or_outer_aux {f : ℕ} (hK : Nat.card K = 2 ^ f) (hf : 3 ≤ f)
     have ha : a * a = 1 := Model.conj_injective (by rw [map_mul, hβ2, map_one])
     obtain ⟨E, hE, haE, hcard⟩ := exists_isElemAbelian_of_mul_self ha
     refine ⟨E, hE, by rw [hcard, hK], fun g hg => ?_⟩
-    haveI := hE.1
+    have := hE.1
     have hc : a * g = g * a := congrArg Subtype.val (mul_comm' (⟨a, haE⟩ : E) ⟨g, hg⟩)
     rw [MulAut.conj_apply, hc, mul_inv_cancel_right]
   · exact Or.inr (exists_fixedGroup_of_outer hK hf hβ2 hin)
@@ -301,15 +302,15 @@ theorem perfect_le_sup_of_le_normalizer (h : Setup G L f t) (d : G2Data L K)
     calc H = ⁅H, H⁆ := hp.symm
       _ ≤ _ := (commutator_mono hH hH).trans
         (TrialityD4.PerfectLeSup.commutator_le_of_relIndex_eq_two h2)
-  haveI hsolvM : Group.IsSolvable (Outer (adjointGroup .G2 K)) :=
+  have hsolvM : Group.IsSolvable (Outer (adjointGroup .G2 K)) :=
     ProductEndAux.isSolvable_outer_of_commutator_mem_inner fun α β =>
       Model.commutatorElement_mem_inner hK h.two_le α β
-  haveI hsolvL : Group.IsSolvable (Outer L) :=
+  have hsolvL : Group.IsSolvable (Outer L) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv d.equiv.symm
-  haveI hsolv₀ : Group.IsSolvable (Outer G₀) :=
+  have hsolv₀ : Group.IsSolvable (Outer G₀) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv e.symm
   let e₂ : G₀ ≃* G₂ := Subgroup.equivMapOfInjective G₀ _ (MulAut.conj t).injective
-  haveI hsolv₂ : Group.IsSolvable (Outer G₂) :=
+  have hsolv₂ : Group.IsSolvable (Outer G₂) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv e₂
   set C₀ : Subgroup G := centralizer (G₀ : Set G) ⊓ centralizer (G₂ : Set G) with hC₀
   have hmemG₂ : ∀ a ∈ G₀, t * a * t⁻¹ ∈ G₂ := fun a ha => ⟨a, ha, rfl⟩
@@ -398,7 +399,7 @@ theorem perfect_le_sup_of_le_normalizer (h : Setup G L f t) (d : G2Data L K)
         (hcen c' hc' g hg), commutatorElement_def]
       exact mul_mem (mul_mem (mul_mem hg hg') (inv_mem hg)) (inv_mem hg')
 
-theorem inner_or_outer_G2 (h : Setup G L f t) (d : G2Data L K) (hK : Nat.card K = 2 ^ f)
+theorem inner_or_outer_G2 (_h : Setup G L f t) (d : G2Data L K) (hK : Nat.card K = 2 ^ f)
     (h8 : 8 ≤ Nat.card K) {X : Subgroup G} (e : L ≃* X) {x : G}
     (hxX : x ∈ normalizer (X : Set G)) (hx2 : x * x = 1) :
     (∃ E : Subgroup G, E ≤ X ∧ E ≤ centralizer ({x} : Set G) ∧ IsElemAbelian 2 E ∧
@@ -585,7 +586,7 @@ theorem false_of_productConfig (h : Setup G L f t) (d : G2Data L K) (hK : Nat.ca
   have htt := h.t_mul_t
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_right htt
   obtain ⟨-, e, -⟩ := h.yamada_7_20 hcomm hL
-  haveI hLq : IsSimpleGroup (L ⧸ center L) := h.std.1.2
+  have hLq : IsSimpleGroup (L ⧸ center L) := h.std.1.2
   have hLs : IsSimpleGroup L :=
     ((QuotientGroup.quotientMulEquivOfEq h.center_eq).trans
       QuotientGroup.quotientBot).symm.isSimpleGroup

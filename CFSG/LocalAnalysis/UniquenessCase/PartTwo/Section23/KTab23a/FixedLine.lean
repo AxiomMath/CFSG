@@ -103,7 +103,7 @@ private lemma exists_ne_zero_fixed_sylow {ι K : Type} [Fintype ι] [DecidableEq
   classical
   let σ : ↥S →* Matrix ι ι K :=
     (Units.coeHom (Matrix ι ι K)).comp (Γ.subtype.comp (S : Subgroup ↥Γ).subtype)
-  letI : MulAction ↥S (ι → K) :=
+  let : MulAction ↥S (ι → K) :=
     { smul := fun s v => σ s *ᵥ v
       one_smul := fun v => by
         change σ 1 *ᵥ v = v
@@ -111,9 +111,9 @@ private lemma exists_ne_zero_fixed_sylow {ι K : Type} [Fintype ι] [DecidableEq
       mul_smul := fun a b v => by
         change σ (a * b) *ᵥ v = σ a *ᵥ (σ b *ᵥ v)
         rw [map_mul σ a b, Matrix.mulVec_mulVec] }
-  haveI : Finite (ι → K) := inferInstance
+  have : Finite (ι → K) := inferInstance
   have hpK : p ∣ Nat.card K := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card]
     refine (prime_dvd_char_iff_dvd_card p).mp ?_
     simpa only [CharP.ringChar_of_prime_eq_zero (Fact.out : p.Prime) (CharP.cast_eq_zero K p)]
@@ -131,7 +131,7 @@ private lemma exists_ne_zero_fixed_sylow {ι K : Type} [Fintype ι] [DecidableEq
     rw [Matrix.mulVec_zero]
   obtain ⟨b, hb, hne⟩ :=
     IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point (α := ι → K)
-      S.isPGroup' hpV h0
+      S.isPGroup hpV h0
   refine ⟨b, fun hb0 => hne hb0.symm, ?_⟩
   intro s hs
   have hsb := (MulAction.mem_fixedPoints.mp hb) ⟨s, hs⟩
@@ -185,7 +185,7 @@ private lemma eq_span_singleton_of_ne_zero_mem {K V : Type*} [Field K] [AddCommG
     le_antisymm hle (Submodule.span_le.mpr (by simpa using hx))
   refine ⟨hF, ?_⟩
   rw [hF]
-  haveI : Module.Finite K ↥(Submodule.span K {x}) := FiniteDimensional.span_singleton K x
+  have : Module.Finite K ↥(Submodule.span K {x}) := FiniteDimensional.span_singleton K x
   rw [Module.natCard_eq_pow_finrank (K := K), finrank_span_singleton hx0, pow_one]
 
 theorem card_fixed_sylow_eq_card {ι K : Type} [Fintype ι] [DecidableEq ι] [Nonempty ι]

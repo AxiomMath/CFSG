@@ -149,7 +149,7 @@ theorem e189_lift_conclF {Y : Type} [Group Y] [Finite Y] {Λ : Set (Subgroup Y)}
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
 
 theorem e189_conclG_of_conclF (hΩ : HypOmegaGen Ω) {H K : Subgroup G} (hK : K ∈ Ω)
-    {z t : G} (hz : IsUniqueInvolution K z)
+    {z t : G} (_hz : IsUniqueInvolution K z)
     (Y : Subgroup G) (Λ : Set (Subgroup ↥Y)) (hYH : Y ≤ H) (hKY : K ≤ Y)
     (hΛsub : Λ ⊆ restrictFamily Ω Y) (hzY : z ∈ Y) (htY : t ∈ Y)
     (hconcl : E189ConclF Λ (K.subgroupOf Y) ⟨z, hzY⟩ ⟨t, htY⟩) : E189ConclG Ω K H z t := by
@@ -206,7 +206,7 @@ theorem e189_quotData_G {n : ℕ}
     (hΩ : HypOmegaGen Ω) (hcls : Q3CL.ClassicalClause Ω)
     (hq8 : ∀ L ∈ Ω, ∃ P : Subgroup G, IsSylow2In P L ∧ Nonempty (↥P ≃* QuaternionGroup 2))
     (h2 : ∀ L ∈ Ω, IsPGroup 2 (↥L ⧸ classicalInvolutionOddCore ↥L))
-    (hAΩ : ∀ L ∈ Ω, AEmpty Ω L) {H K : Subgroup G} (hHn : Nat.card H < n) (hK : K ∈ Ω)
+    (hAΩ : ∀ L ∈ Ω, AEmpty Ω L) {H K : Subgroup G} (hHn : Nat.card H < n) (_hK : K ∈ Ω)
     {z t k : G} (hz : IsUniqueInvolution K z) (htk : t = k * z * k⁻¹)
     (Y : Subgroup G) (Λ : Set (Subgroup ↥Y)) (hYH : Y ≤ H) (hKY : K ≤ Y) (hJY : conjSub k K ≤ Y)
     (hΛsub : Λ ⊆ restrictFamily Ω Y) (hΛc : ConjInvariant Λ) (hKΛ : K.subgroupOf Y ∈ Λ)

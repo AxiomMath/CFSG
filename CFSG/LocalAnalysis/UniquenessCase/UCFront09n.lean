@@ -22,6 +22,7 @@ open CFSG.ABGLocalTools (IsSylowOf)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_pCoreOf_of_rhoL_eq_one {L : Subgroup G} (hA5 : IsAlt (Bar2 L) 5) {c : G}
     (hcL : c ∈ L) (hc : UC6S846.rhoL L ⟨c, le_normalizer hcL⟩ = 1) : c ∈ pCoreOf 2 L := by
   obtain ⟨φ⟩ := hA5
@@ -34,6 +35,7 @@ theorem mem_pCoreOf_of_rhoL_eq_one {L : Subgroup G} (hA5 : IsAlt (Bar2 L) 5) {c 
   have h1 := key _ ((UC6S846.rhoL_inner L c hcL).symm.trans hc)
   exact (CFSG.mem_openPCoreOf_iff ⟨c, hcL⟩).2 ((QuotientGroup.eq_one_iff _).1 h1)
 
+omit [Finite G] in
 theorem rhoL_pow_three_eq_one {L : Subgroup G} (hA5 : IsAlt (Bar2 L) 5)
     (m : ↥(normalizer (L : Set G))) {k : ℕ} (hm : (m : G) ^ 3 ^ k = 1) :
     UC6S846.rhoL L m ^ 3 = 1 := by
@@ -58,15 +60,15 @@ theorem rhoL_pow_three_eq_one {L : Subgroup G} (hA5 : IsAlt (Bar2 L) 5)
 theorem isSylowOf_three_of_pRank_le_one {L Y D : Subgroup G}
     (hYN : Y ≤ normalizer (L : Set G)) (hA5 : IsAlt (Bar2 L) 5) (hDL : D ≤ L) (hDY : D ≤ Y)
     (hD : Nat.card D = 3) (h3 : CFSG.Open.pRank 3 (Opp 3 Y) ≤ 1) : IsSylowOf 3 D Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hD3 : IsPGroup 3 D := IsPGroup.of_card (n := 1) (hD.trans (pow_one 3).symm)
   obtain ⟨P, hP, hDP⟩ : ∃ P : Subgroup G, IsSylowOf 3 P Y ∧ D ≤ P := by
     obtain ⟨Q, hQ⟩ := (hD3.comap_subtype (K := Y)).exists_le_sylow
     exact ⟨(Q : Subgroup Y).map Y.subtype, ⟨Q, rfl⟩, fun y hy => ⟨⟨y, hDY hy⟩, hQ hy, rfl⟩⟩
   have hPW : P ≤ Opp 3 Y :=
     CFSG.le_pElementSubgroup_of_isPGroup Nat.prime_three hP.isPGroup hP.le
-  haveI hcyc : IsCyclic P := UCK.K31.isCyclic_of_pRank_le_one Nat.prime_three (by norm_num)
+  have hcyc : IsCyclic P := UCK.K31.isCyclic_of_pRank_le_one Nat.prime_three (by norm_num)
     hP.isPGroup ((CFSG.SectionRank.pRank_mono (by norm_num) hPW).trans h3)
   obtain ⟨⟨g, hgP⟩, hg⟩ := IsCyclic.exists_generator (α := ↥P)
   have hcard : Nat.card P = orderOf g := by
@@ -98,7 +100,7 @@ theorem isAlt_bar2_opp_of_pRank_le_one {L X Y : Subgroup G} (hYN : Y ≤ normali
     (hA5 : IsAlt (Bar2 L) 5) (hX : Opp 3 X = X) (hXL : X ≤ L) (hcov : L = X ⊔ pCoreOf 2 L)
     (hXY : X ≤ Y) (h3 : CFSG.Open.pRank 3 (Opp 3 Y) ≤ 1) :
     IsAlt (Bar2 (Opp 3 Y)) 5 ∧ Opp 3 Y ≤ L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨D, hDX, hD⟩ := exists_card_eq_three hXL hcov hA5
   have hWL : Opp 3 Y ≤ L := opp_le_of_isSylowOf
     (isSylowOf_three_of_pRank_le_one hYN hA5 (hDX.trans hXL) (hDX.trans hXY) hD h3)
@@ -114,10 +116,10 @@ theorem pCoreOf_ne_bot_of_le_of_commutator_ne_bot {M X Y : Subgroup G} (hYM : Y 
   ((inf_le_inf_left _ hXY).trans ((zO2_le_pCoreOf hYM).trans h.le)))
 
 theorem not_isSylowOf_of_mem_calY2_9 (D : Data G) {L X Y S : Subgroup G} (hLM : L ≤ D.M)
-    (hLN : D.M ≤ normalizer (L : Set G)) (hUM : UniqueMax D.M (L ⊔ D.T)) (hXL : X ≤ L)
+    (hLN : D.M ≤ normalizer (L : Set G)) (hUM : UniqueMax D.M (L ⊔ D.T)) (_hXL : X ≤ L)
     (hcov : L = X ⊔ pCoreOf 2 L) (hXY : X ≤ Y) (hY : Y ∈ calY2_9 D) (hSY : S ≤ Y) :
     ¬ IsSylowOf 2 S D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hS
   obtain ⟨m, hmM, hm⟩ := D.sylowM.exists_mem_conj hS
   have hLY : L ≤ Y := hcov.le.trans (sup_le hXY

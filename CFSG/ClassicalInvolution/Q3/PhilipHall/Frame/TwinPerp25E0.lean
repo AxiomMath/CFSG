@@ -33,7 +33,7 @@ theorem layerX_le_centralizer (Ω : Set (Subgroup G)) (c : G) :
 
 theorem le_layerX {R₀ : Subgroup G} {c : G} (hR₀ : R₀ ∈ RSet Ω)
     (hc : R₀ ≤ Subgroup.centralizer ({c} : Set G)) : R₀ ≤ layerX Ω c :=
-  fun x hx => Subgroup.subset_closure ⟨R₀, hR₀, hc, hx⟩
+  fun _x hx => Subgroup.subset_closure ⟨R₀, hR₀, hc, hx⟩
 
 theorem conjSub_layerX (hΩ : HypOmegaGen Ω) (g c : G) :
     conjSub g (layerX Ω c) = layerX Ω (g * c * g⁻¹) := by

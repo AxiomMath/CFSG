@@ -44,7 +44,7 @@ theorem isSwap_of_ggIsReflection [Fact p.Prime] [Finite ↥Bs] (hp2 : p ≠ 2)
     (hsw : ∀ x y, x ≠ y → GGIsReflection p (E (Equiv.swap x y))) {π : Equiv.Perm α}
     (h : GGIsReflection p (E π)) : π.IsSwap := by
   obtain ⟨V, _, _, ⟨ι⟩⟩ := exists_ggLinData (p := p) hBs
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   let T : Equiv.Perm α →* (V ≃ₗ[ZMod p] V) := (ggLin (p := p) ι).comp E
   refine isSwap_of_isLinRefl hp2 T ((ggLin_injective (p := p) ι).comp hinj) ?_ ?_
   · intro x y hxy

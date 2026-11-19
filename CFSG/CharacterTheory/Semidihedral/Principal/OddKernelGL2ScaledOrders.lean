@@ -387,9 +387,9 @@ theorem centralizer_index_odd {G : Type*} [Group G] [Fintype G]
     have h1 : t = 1 := congrArg Subtype.val h
     rw [h1, orderOf_one] at ht
     norm_num at ht
-  have hZnt := S.isPGroup'.center_nontrivial
+  have hZnt := S.isPGroup.center_nontrivial
   have hZp' : IsPGroup 2 (Subgroup.center (S : Subgroup G)) :=
-    S.isPGroup'.to_subgroup (Subgroup.center (S : Subgroup G))
+    S.isPGroup.to_subgroup (Subgroup.center (S : Subgroup G))
   obtain ⟨n, hn, hcard⟩ := (IsPGroup.nontrivial_iff_card hZp').mp hZnt
   have h2 : 2 ∣ Fintype.card (Subgroup.center (S : Subgroup G)) := by
     rw [← Nat.card_eq_fintype_card, hcard]

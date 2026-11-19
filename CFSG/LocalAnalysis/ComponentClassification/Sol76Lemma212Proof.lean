@@ -229,7 +229,7 @@ theorem lemma212Input : Lemma212Input := by
   obtain ⟨P₂, hSP₂⟩ := hS2'.exists_le_sylow
   obtain ⟨y, hy⟩ := MulAction.exists_smul_eq ↥Q P₁ P₂
   set P := (P₂ : Subgroup ↥Q).map Q.subtype with hP
-  have hP2 : IsPGroup 2 P := P₂.isPGroup'.map Q.subtype
+  have hP2 : IsPGroup 2 P := P₂.isPGroup.map Q.subtype
   have hPQ : P ≤ Q := map_subtype_le _
   have hSP : S ≤ P := by
     intro x hx

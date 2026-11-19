@@ -63,7 +63,7 @@ theorem isSylowTwoOf_inf_of_isBlock2 {K L Q : Subgroup G} (hQ : IsSylowTwoOf Q K
     rw [hcomp, ← Subgroup.map_map, hP', Subgroup.map_inf_eq _ _ K.subtype K.subtype_injective, hS,
       Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hL.2.1]
   rw [← hPmap]
-  refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map L.subtype, ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, P.isPGroup.map L.subtype, ?_⟩
   change ¬ 2 ∣ (((P : Subgroup L).map L.subtype).comap L.subtype).index
   rw [Subgroup.comap_map_eq_self_of_injective L.subtype_injective]
   exact P.not_dvd_index

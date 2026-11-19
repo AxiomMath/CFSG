@@ -53,7 +53,7 @@ theorem eq_one_of_forall_smul_eq [Finite G] {p : ℕ} [Fact p.Prime] (R : Sylow 
   have hconj : ∀ w ∈ W, q⁻¹ * w * q ∈ Subgroup.normalizer (W : Set G) := fun w hw =>
     smul_coe_eq_iff.mp (hX w hw)
   let Q : Subgroup G := W.map (MulAut.conj q⁻¹).toMonoidHom
-  have hQp : IsPGroup p Q := (R.isPGroup'.to_le hWR).map _
+  have hQp : IsPGroup p Q := (R.isPGroup.to_le hWR).map _
   have hQ'p : IsPGroup p (Q.subgroupOf (Subgroup.normalizer (W : Set G))) := hQp.comap_subtype
   obtain ⟨S, hS⟩ := hQ'p.exists_le_sylow
   obtain ⟨n, hn⟩ := MulAction.exists_smul_eq (Subgroup.normalizer (W : Set G)) S (R.subtype hRN)
@@ -328,7 +328,7 @@ theorem transfer_eq_of_ggWeaklyClosed_of_orderOf [Finite G] {p : ℕ} [hp : Fact
     have : (W.subgroupOf (R : Subgroup G)).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hWR).mpr hRN
     obtain ⟨w, hwW, hcen, hpow, hwX₀⟩ :=
-      exists_central_smul (p := p) R.isPGroup' (W.subgroupOf (R : Subgroup G)) X₀ hmove
+      exists_central_smul (p := p) R.isPGroup (W.subgroupOf (R : Subgroup G)) X₀ hmove
     set x' : (R : Subgroup G) := ⟨x, hxR⟩ with hx'
     have hmemS : ∀ X, X ∈ Finset.univ.filter (fun X => π X = π X₀) ↔
         X ∈ orbit (R : Subgroup G) X₀ := fun X => by simp [hπ]

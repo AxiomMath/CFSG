@@ -34,7 +34,7 @@ theorem eb_inv {g : Equiv.Perm (Fin 3510)} (hg : g ∈ fi22P) :
   rw [N3153.nbr_eq, CFSG.KC.Fi22Snd.rowsArr_get hx,
     CFSG.KC.Fi22Snd.rowsArr_get (g ⟨x, hx⟩).2] at k
   unfold eb
-  rw [fld1, fld1, pt, pt, dif_pos hx, dif_pos hy, MonoidHom.id_apply,
+  rw [fld1, fld1, pt, pt, dite_eq_left hx, dite_eq_left hy, MonoidHom.id_apply,
     CFSG.KC.Fi22Snd.row_mask (N3153.rows _ (g ⟨x, hx⟩).2), CFSG.KC.Fi22Snd.row_mask (N3153.rows x hx)]
   change (decide (((g ⟨y, hy⟩ : Fin 3510) : ℕ) ∈ _)).toNat = (decide (y ∈ _)).toNat
   rw [decide_eq_decide.2 k.symm]
@@ -95,7 +95,7 @@ theorem node_cs {x0 x1 v d : ℕ} (hd : d ≤ 2) (h0 : 0 < d → x0 < 4096) (h1 
   rw [e1, cg_eq, cg_eq, cg_eq, cg_eq, cg_eq]
   interval_cases d
   · simp only [Nat.mul_eq, Nat.reduceMul, Nat.reducePow, Nat.mod_one, Nat.zero_add, Nat.pow_zero,
-      Nat.div_one, Nat.one_mul]
+      Nat.div_one]
     refine ⟨fun h => absurd h (by norm_num), fun h => absurd h (by norm_num),
       fun h => absurd h (by norm_num), fun h => absurd h (by norm_num), ?_⟩
     omega

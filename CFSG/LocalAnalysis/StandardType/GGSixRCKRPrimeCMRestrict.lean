@@ -248,8 +248,8 @@ private lemma rck_J_isUnit_det {n : ℕ} {F : Type} [Field F] :
   have hJJ : J * J = -1 := by
     dsimp only [J]
     rw [Matrix.fromBlocks_multiply]
-    simp only [Matrix.mul_zero, Matrix.mul_one, Matrix.zero_mul, zero_add, add_zero,
-      Matrix.mul_neg, Matrix.neg_mul, neg_zero]
+    simp only [Matrix.mul_zero, Matrix.mul_one, zero_add, add_zero,
+      Matrix.mul_neg, neg_zero]
     rw [show (-1 : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F) =
         Matrix.fromBlocks (-1) 0 0 (-1) by
       rw [← Matrix.fromBlocks_one, Matrix.fromBlocks_neg]

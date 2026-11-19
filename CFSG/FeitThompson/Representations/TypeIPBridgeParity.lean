@@ -168,7 +168,7 @@ theorem exists_axis (hodd : Odd (Nat.card G))
   set Θ : ℕ → G → ℂ := fun i =>
     if hi : i < p then hW.prodCharEta ωCF (principalIrr ↥W₁) (f ⟨i, hi⟩) else 0 with hΘdef
   have hΘval : ∀ (i : ℕ) (hi : i < p),
-      Θ i = hW.prodCharEta ωCF (principalIrr ↥W₁) (f ⟨i, hi⟩) := fun i hi => dif_pos hi
+      Θ i = hW.prodCharEta ωCF (principalIrr ↥W₁) (f ⟨i, hi⟩) := fun i hi => dite_eq_left hi
   have hfne : ∀ (i : ℕ) (hi : i < p), 0 < i → f ⟨i, hi⟩ ≠ principalIrr ↥W₂ := by
     intro i hi hi0 hcon
     rw [← hf0] at hcon

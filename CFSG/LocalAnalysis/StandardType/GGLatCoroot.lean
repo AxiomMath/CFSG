@@ -86,7 +86,7 @@ private lemma card_fixed_ann_perp_le {N : ℕ} (S : Matrix (Fin N) (Fin N) ℤ)
     (hcard : Nat.card {f : Fin N → ZMod p // ∀ β ∈ perp R S α, latChar p f β = 0} = p) :
     Nat.card {g : Fin N → ZMod p // (∀ i, g (π i) = g i) ∧
       ∀ β ∈ perp R S α, latChar p g β = 0} ≤ p ^ 2 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set T := {g : Fin N → ZMod p // (∀ i, g (π i) = g i) ∧ ∀ β ∈ perp R S α, latChar p g β = 0}
   have hinj : Function.Injective (fun g : T =>
       (⟨g.1, g.2.2⟩ : {f : Fin N → ZMod p // ∀ β ∈ perp R S α, latChar p f β = 0})) := by
@@ -125,7 +125,7 @@ private lemma corootCoord_ne_zero {N : ℕ} (S : Matrix (Fin N) (Fin N) ℤ)
   have hperp_eq : perp R S α = R := by
     rw [← hPhi, hzero]
     ext β
-    simp only [latPhi, Set.mem_setOf_eq]
+    simp only [latPhi, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hβ, -⟩; exact hβ
     · intro hβ; exact ⟨hβ, by simp [latChar]⟩

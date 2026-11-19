@@ -181,7 +181,7 @@ theorem oddMin_injective :
         rcases bitLift_zero_or_one (d' j) with hb | hb <;> rw [ha, hb] at h1 ⊢ <;>
         split_ifs at h1 <;> norm_num at h1
     rcases zmod2_cases (d j) with ha | ha <;> rcases zmod2_cases (d' j) with hb' | hb' <;>
-      rw [ha, hb'] at hb ⊢ <;> first | rfl | exact absurd hb (by decide)
+      rw [ha, hb'] at hb ⊢ <;> (exact absurd hb (by decide))
   rw [hdd]
 
 @[irreducible] noncomputable def fam₃Fin : Finset (Fin 24 → ℤ) :=
@@ -273,7 +273,7 @@ theorem fam₂Vec_injOn :
     have h1 := congrFun h i
     simp only [fam₂Vec] at h1
     rcases zmod2_cases (d i) with ha | ha <;> rcases zmod2_cases (d' i) with hb | hb <;>
-      rw [ha, hb] at h1 ⊢ <;> first | rfl | (simp at h1; split_ifs at h1; norm_num at h1)
+      rw [ha, hb] at h1 ⊢ <;> (simp at h1; split_ifs at h1; norm_num at h1)
   subst hdd
   have hTT : T = T' := by
     ext i

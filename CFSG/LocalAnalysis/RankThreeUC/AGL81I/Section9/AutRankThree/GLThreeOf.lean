@@ -16,7 +16,7 @@ private theorem false_of_dim_le_one {d : ℕ} (hd : d ≤ 1) {K : Type*} [Field 
   have := hY.1
   have := CFSG.LocalCores.isQuasisimple_nontrivial hY
   have : Subsingleton (Fin d) := Fin.subsingleton_iff_le_one.mpr hd
-  refine Group.IsPerfect.not_isSolvable Y (isSolvable_of_comm fun a b => ?_)
+  refine Group.IsPerfect.not_isSolvable Y (_root_.Group.isSolvable_of_comm fun a b => ?_)
   refine Subtype.ext (Units.ext (Matrix.ext fun i j => ?_))
   obtain rfl := Subsingleton.elim i j
   simp only [Subgroup.coe_mul, Units.val_mul, Matrix.mul_apply]
@@ -53,7 +53,7 @@ private theorem false_of_dim_two
   set ψ := (QuotientGroup.mk' (Subgroup.center (SpecialLinearGroup (Fin 2) (ZMod r)))).comp φ
   have : Group.IsSolvable ψ.range :=
     hD r ψ.range fun h => h3 (h.trans (Subgroup.card_range_dvd ψ))
-  have : Group.IsSolvable ψ.ker := isSolvable_of_comm fun a b => by
+  have : Group.IsSolvable ψ.ker := _root_.Group.isSolvable_of_comm fun a b => by
     have ha : φ a ∈ Subgroup.center _ := by
       have := a.2
       rwa [MonoidHom.mem_ker, MonoidHom.comp_apply, QuotientGroup.mk'_apply,
@@ -84,7 +84,7 @@ theorem glThree_eq_of_normal_irreducible {p : ℕ} [Fact p.Prime]
       have := congrArg (fun z : Y => ((z : GL (Fin 3) (ZMod p)) :
         Matrix (Fin 3) (Fin 3) (ZMod p))) (Subgroup.mem_center_iff.mp hz y)
       simpa using this.symm
-    refine Group.IsPerfect.not_isSolvable Y (isSolvable_of_comm fun a b => ?_)
+    refine Group.IsPerfect.not_isSolvable Y (_root_.Group.isSolvable_of_comm fun a b => ?_)
     refine Subtype.ext (Units.ext ?_)
     exact congrArg Subtype.val (mul_comm (⟨_, hc a⟩ : commutant H) ⟨_, hc b⟩)
 

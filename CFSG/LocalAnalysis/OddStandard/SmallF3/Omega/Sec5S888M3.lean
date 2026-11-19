@@ -97,7 +97,7 @@ theorem exists_delta_of_relIndex [Finite H] (hS : PlaneSetup z K α)
     ∃ (e : H) (i j : Fin 4), i ≠ j ∧ e ∈ Sec5B517Q8 hS.quad ∧ e * e = 1 ∧ e ≠ 1 ∧ e ≠ z ∧
       e ∈ K i ⊔ K j ∧ ∀ u ∈ U, ∃ r ∈ Sec5B517Q8 hS.quad, (u * r) * e * (u * r)⁻¹ = e := by
   classical
-  haveI : Finite X := Finite.of_surjective α hS.surj
+  have : Finite X := Finite.of_surjective α hS.surj
   have hSys : PlaneSys (planeV hS.quad α) (planeW hS.quad α) := planeSys_of_setup hS hperm
   have hparX : PlaneParity (planeV hS.quad α) (planeW hS.quad α) :=
     planeParity_of_setup hS hperm hpar

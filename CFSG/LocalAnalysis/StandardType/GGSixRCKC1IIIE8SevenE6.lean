@@ -25,7 +25,7 @@ theorem k2At_of_e8_seven_e6_label_compConfig
     {ψ : (ggU .E8 n 1).K →* X} {G₀ A B₁ D J L K V : Subgroup X} {e r : X}
     (hcfg : RCKRP.RCKCompConfig .E8 n 1 ψ 7 G₀ A B₁ D J L K e)
     (hrow : GGSixRCKJRow .III J) (hFour : FourAt J V r)
-    (hCore : CoreCommAt J V r) (hShort : ShortAt J r)
+    (hCore : CoreCommAt J V r) (_hShort : ShortAt J r)
     (hlabel : GGHasLabel ⟨.E6, 0, 1⟩ (↥K ⧸ Subgroup.center ↥K)) : K2At K V r := by
   classical
   by_cases hKJ : K = J
@@ -57,7 +57,7 @@ theorem k2At_of_e8_seven_e6_label_compConfig
       simpa only [inf_eq_left.mpr hKC] using hJd
     exact hKJ (GGHalf.eq_of_isComponentOf_isQuasisimple hKcomp.2.2 hJc).symm
   have hKperf : commutator ↥K = ⊤ := hKcomp.2.2.1
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKcomp.2.2.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKcomp.2.2.2
   have hnab : ∃ a b : ↥K ⧸ Subgroup.center ↥K, a * b ≠ b * a :=
     exists_mul_ne_mul_centerQuot_of_perfect hKperf inferInstance
   have hM := GGK0MarkedArithmetic.markedModel_of_label

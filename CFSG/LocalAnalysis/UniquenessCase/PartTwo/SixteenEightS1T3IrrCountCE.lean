@@ -25,6 +25,7 @@ private noncomputable def s16t3_ce_range (L : Subgroup (MulAut W)) :
     Subgroup (MulAut (s16t3_ce_quot L)) :=
   (MulDistribMulAction.toMulAut ↥L (s16t3_ce_quot L)).range
 
+omit [Finite W] in
 private theorem s16t3_ce_realizes_quotient {D : FFModel} {U : Subgroup W}
     (h : D.Realizes L U (fixV L)) :
     D.Realizes (s16t3_ce_range L)
@@ -42,6 +43,7 @@ private theorem s16t3_ce_realizes_quotient {D : FFModel} {U : Subgroup W}
     exact (Subgroup.map_eq_bot_iff _).2 (QuotientGroup.ker_mk' _).ge
   rwa [hbot] at hR
 
+omit [Finite W] in
 private theorem s16t3_ce_quotient_binaryNaturalSL {n a : ℕ} {U : Subgroup W}
     (h : BinaryNaturalSL L U (fixV L) n a) :
     BinaryNaturalSL (s16t3_ce_range L)
@@ -49,6 +51,7 @@ private theorem s16t3_ce_quotient_binaryNaturalSL {n a : ℕ} {U : Subgroup W}
   obtain ⟨K, hK, hKf, hK2, hR⟩ := h
   exact ⟨K, hK, hKf, hK2, s16t3_ce_realizes_quotient hR⟩
 
+omit [Finite W] in
 private theorem s16t3_ce_quotient_natSpn {n a : ℕ} {U : Subgroup W}
     (h : NatSpn L U (fixV L) n a) :
     NatSpn (s16t3_ce_range L)
@@ -56,6 +59,7 @@ private theorem s16t3_ce_quotient_natSpn {n a : ℕ} {U : Subgroup W}
   obtain ⟨he, K, hK, hKf, hK2, hR⟩ := h
   exact ⟨he, K, hK, hKf, hK2, s16t3_ce_realizes_quotient hR⟩
 
+omit [Finite W] in
 private theorem s16t3_ce_quotient_natOmegaPlus {n a : ℕ} {U : Subgroup W}
     (h : NatOmegaPlus L U (fixV L) n a) :
     NatOmegaPlus (s16t3_ce_range L)
@@ -63,6 +67,7 @@ private theorem s16t3_ce_quotient_natOmegaPlus {n a : ℕ} {U : Subgroup W}
   obtain ⟨he, K, hK, hKf, hK2, hR⟩ := h
   exact ⟨he, K, hK, hKf, hK2, s16t3_ce_realizes_quotient hR⟩
 
+omit [Finite W] in
 private theorem s16t3_ce_quotient_natOmegaMinus {n a : ℕ} {U : Subgroup W}
     (h : NatOmegaMinus L U (fixV L) n a) :
     NatOmegaMinus (s16t3_ce_range L)
@@ -70,6 +75,7 @@ private theorem s16t3_ce_quotient_natOmegaMinus {n a : ℕ} {U : Subgroup W}
   obtain ⟨he, K, hK, hKf, b, c, hK2, hirr, hR⟩ := h
   exact ⟨he, K, hK, hKf, b, c, hK2, hirr, s16t3_ce_realizes_quotient hR⟩
 
+omit [Finite W] in
 private theorem s16t3_ce_quotient_alternatingNatural {n : ℕ} {U : Subgroup W}
     (h : AlternatingNatural L U (fixV L) n) :
     AlternatingNatural (s16t3_ce_range L)
@@ -84,7 +90,7 @@ private theorem s16t3_ce_abs_two_cases {F : Type} [Field F] (hF : Nat.card F = 2
     have hu : Nat.card Fˣ = 1 := by
       have h := Nat.card_units (α := F)
       omega
-    haveI : Subsingleton Fˣ := (Nat.card_eq_one_iff_unique.mp hu).1
+    have : Subsingleton Fˣ := (Nat.card_eq_one_iff_unique.mp hu).1
     exact congrArg Units.val (Subsingleton.elim (Units.mk0 c hc) 1)
 
 private theorem s16t3_ce_abs_comm_id {ι : Type} [Fintype ι] [DecidableEq ι] {F : Type} [Field F]
@@ -102,11 +108,12 @@ private theorem s16t3_ce_abs_comm_id {ι : Type} [Fintype ι] [DecidableEq ι] {
     simp at h1
   · exact (hc v).trans (one_smul _ _)
 
+omit [Finite W] in
 private theorem s16t3_ce_endUnits_omegaMinus {H : Subgroup (MulAut W)} {I : Subgroup W} {n : ℕ}
     (hn : 4 ≤ n) (h : NatOmegaMinus H I ⊥ n 1) : Z391.EndUnitsTrivial H I := by
   obtain ⟨-, F, hF, hFf, b, c, hF2, hirr, hreal⟩ := h
-  letI := hF
-  haveI : Finite F := hFf
+  let := hF
+  have : Finite F := hFf
   have hF2' : Nat.card F = 2 := by simpa using hF2
   exact s15k_abs_endUnits_of_comm
     (fun g hg v => s16t3_ce_abs_comm_id hF2' (Sum.inr (Sum.inr 0))

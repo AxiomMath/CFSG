@@ -20,7 +20,7 @@ theorem uc22s2112r34_exists_pGroup_permutes {A T : Subgroup G} (hAo : Odd (Nat.c
   obtain ⟨H, hHK, hTH, hHpi, hHidx⟩ := CFSG.Quasithin.E1.exists_hall_two_p hr le_sup_right hT
     (uc22p2214_isSolvable_sup hAo hAc hT hAT)
   have hAT1 : A ⊓ T = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨k, hk⟩ := hT.exists_card_eq
     rw [hk]
     exact Nat.Coprime.pow_right k (Nat.coprime_two_right.2 hAo)

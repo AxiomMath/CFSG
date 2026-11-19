@@ -31,7 +31,7 @@ theorem p622_smallRankPoint_of_mem_plane (hS : Setting G) {p : ℕ} {P : Sylow p
     (hz : SmallRankCentral P z) {b : G} (hb : b ∈ zpowers x ⊔ zpowers z)
     (hbz : b ∉ zpowers z) : SmallRankPoint P M b := by
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hB := SmallRankPlane.of_situation hS hsit hx hz
   have hbP : b ∈ (P : Subgroup G) := hB.isIsolatedPlane.1 hb
   have hbp : b ^ p = 1 := hB.isElemAbelian.2 b hb
@@ -75,7 +75,7 @@ theorem p622_conj_mem_zpowers (hS : Setting G) {p : ℕ} {P : Sylow p G} {M : Su
     (hz : SmallRankCentral P z) {g : G} (hg : g * z * g⁻¹ ∈ zpowers x ⊔ zpowers z) :
     g * z * g⁻¹ ∈ zpowers z := by
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   by_contra hgz
   have h2 := pRank_centralizer_le_two3 hS hsit
     (p622_smallRankPoint_of_mem_plane hS hsit hx hz hg hgz)

@@ -91,12 +91,15 @@ theorem z_not_mem_L (c : Config G L Q 9 θ z) : z ∉ L := by
 variable (θ z) in
 @[expose] def vElt (ω : Om) : G := bG θ ω.1 * cond ω.2 z 1
 
+omit [Finite G] in
 theorem vElt_false (k : Fin 16) : vElt θ z (k, false) = bG θ k := by
   simp [vElt]
 
+omit [Finite G] in
 theorem vElt_true (k : Fin 16) : vElt θ z (k, true) = bG θ k * z := by
   simp [vElt]
 
+omit [Finite G] in
 theorem vElt_mem (ω : Om) : vElt θ z ω ∈ vSub θ z := by
   obtain ⟨k, b⟩ := ω
   have hb : bG θ k ∈ vSub θ z := mem_sup_left ((mem_bSub_iff θ).2 ⟨k, rfl⟩)
@@ -106,6 +109,7 @@ theorem vElt_mem (ω : Om) : vElt θ z ω ∈ vSub θ z := by
   · rw [vElt_true]
     exact mul_mem hb (mem_sup_right (mem_zpowers z))
 
+omit [Finite G] in
 theorem conj_vElt {g : G} {k l : Fin 16} (hk : g * bG θ k * g⁻¹ = bG θ l) (hz : g * z * g⁻¹ = z)
     (b : Bool) : g * vElt θ z (k, b) * g⁻¹ = vElt θ z (l, b) := by
   cases b

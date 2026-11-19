@@ -12,7 +12,7 @@ open CFSG.Sporadic.J4 CFSG.Sporadic.J4.QT CFSG.Sporadic.J4.QT2
 
 section EtaSpan
 
-@[expose] def cmb (m0 m1 m2 m3 t : ℕ) : ℕ :=
+def cmb (m0 m1 m2 m3 t : ℕ) : ℕ :=
   (if t.testBit 0 then m0 else 0) ^^^ (if t.testBit 1 then m1 else 0) ^^^
     (if t.testBit 2 then m2 else 0) ^^^ (if t.testBit 3 then m3 else 0)
 

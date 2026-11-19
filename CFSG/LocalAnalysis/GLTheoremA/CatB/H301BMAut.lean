@@ -29,8 +29,8 @@ theorem nonempty_mulAut_equiv_MGriess (S : Type) [Group S] [Finite S]
   obtain ⟨e₁⟩ := CFSG.Blueprint.NativeSporadic.MonsterModel.iso_y443Derived_tauCeti
   have eS : S ≃* MGriess := φ.trans (e₀.trans e₁).symm
   have eM : S ≃* CFSG.Blueprint.NativeSporadic.M := φ.trans e₁.symm
-  haveI : IsSimpleGroup MGriess := MGriess_finite_nonabelian_simple.2.1
-  haveI : IsSimpleGroup S := eS.isSimpleGroup
+  have : IsSimpleGroup MGriess := MGriess_finite_nonabelian_simple.2.1
+  have : IsSimpleGroup S := eS.isSimpleGroup
   have hAut : ∀ α : MulAut S, ∃ g : S, α = MulAut.conj g := fun α =>
     let ⟨g, hg⟩ := CFSG.ComponentClassification.BMCase.catalogM_mulAut_mem_inner S
       inferInstance ⟨eM⟩ α

@@ -15,12 +15,14 @@ section Extraspecial
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pow_three_of_card_three {S : Subgroup G} (hS : Nat.card S = 3) {c : G} (hc : c ∈ S) :
     c ^ 3 = 1 := by
   have h : (⟨c, hc⟩ : ↥S) ^ Nat.card ↥S = 1 := pow_card_eq_one'
   rw [hS] at h
   simpa using congrArg Subtype.val h
 
+omit [Finite G] in
 theorem mul_pow_three_of_central {x y c : G} (hyx : y * x = x * y * c) (hcx : c * x = x * c)
     (hcy : c * y = y * c) : (x * y) ^ 3 = x ^ 3 * y ^ 3 * c ^ 3 := by
   have h2 : y * y * x = x * (y * y) * (c * c) := by
@@ -56,6 +58,7 @@ theorem mul_pow_three_of_central {x y c : G} (hyx : y * x = x * y * c) (hcx : c 
     _ = x * x * x * (y * y) * (y * (c * c)) * c := by rw [h4]
     _ = x * (x * x) * (y * (y * y)) * (c * (c * c)) := by group
 
+omit [Finite G] in
 theorem exponent_three_of_omega {R₁ : Subgroup G}
     (hcomm : ⁅omegaOne 3 R₁, omegaOne 3 R₁⁆ = centerOf (omegaOne 3 R₁))
     (hZ : Nat.card ↥(centerOf (omegaOne 3 R₁)) = 3) : ∀ x ∈ omegaOne 3 R₁, x ^ 3 = 1 := by
@@ -115,7 +118,7 @@ noncomputable def commHom' {Q : Subgroup G} {z : G} (hQ : Lemma1111.IsExtraspeci
     have hcg : (w⁻¹ * (f : G)⁻¹ * w * (f : G)) * (g : G) =
         (g : G) * (w⁻¹ * (f : G)⁻¹ * w * (f : G)) := (Lemma1111.central_of_mem hQ hc g.2).symm
     have hfw : (f : G)⁻¹ * w * (f : G) = w * (w⁻¹ * (f : G)⁻¹ * w * (f : G)) := by group
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul]
     calc w⁻¹ * ((f : G) * (g : G))⁻¹ * w * ((f : G) * (g : G))
         = (w⁻¹ * (g : G)⁻¹ * ((f : G)⁻¹ * w * (f : G)) * (g : G)) := by group
       _ = (w⁻¹ * (g : G)⁻¹ * (w * (w⁻¹ * (f : G)⁻¹ * w * (f : G))) * (g : G)) := by rw [hfw]
@@ -194,6 +197,7 @@ section Conj
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isPCentralIn_conj {M : Subgroup G} {z w : G} (hw : w ∈ M) (hz : IsPCentralIn 3 M z) :
     IsPCentralIn 3 M (w * z * w⁻¹) := by
   obtain ⟨R, hR, hzR⟩ := hz
@@ -208,6 +212,7 @@ theorem isPCentralIn_conj {M : Subgroup G} {z w : G} (hw : w ∈ M) (hz : IsPCen
     _ = w * (z * (w⁻¹ * h * w⁻¹⁻¹)) * w⁻¹ := by rw [hcomm]
     _ = (w * z * w⁻¹) * h := by group
 
+omit [Finite G] in
 theorem not_cg_le_conj {M : Subgroup G} {z w : G} (hw : w ∈ M) (hz : ¬ Cg z ≤ M) :
     ¬ Cg (w * z * w⁻¹) ≤ M := by
   intro hle
@@ -347,12 +352,12 @@ noncomputable def transHom : Multiplicative (Fin 4 → ZMod 3) →* Equiv.Perm (
   map_one' := by
     ext p <;> simp
   map_mul' n m := by
-    ext p <;> simp <;> ring
+    ext p <;> simp; ring
 
 def blockEquiv : Fin 4 × ZMod 3 ≃ {j : Fin 13 // j.val < 12} where
   toFun p := ⟨⟨(finProdFinEquiv (m := 4) (n := 3) p).val, by
     have := (finProdFinEquiv (m := 4) (n := 3) p).isLt
-    omega⟩, by simpa using (finProdFinEquiv (m := 4) (n := 3) p).isLt⟩
+    omega⟩, by simp⟩
   invFun j := finProdFinEquiv.symm ⟨j.1.val, j.2⟩
   left_inv p := by
     simp only [Fin.eta]
@@ -396,7 +401,7 @@ theorem e81Hom_even (n : Multiplicative (Fin 4 → ZMod 3)) : e81Hom n ∈ alter
 noncomputable def e81Alt : Multiplicative (Fin 4 → ZMod 3) →* ↥(alternatingGroup (Fin 13)) :=
   e81Hom.codRestrict _ e81Hom_even
 
-theorem e81Alt_injective : Function.Injective e81Alt := fun a b h =>
+theorem e81Alt_injective : Function.Injective e81Alt := fun _a _b h =>
   e81Hom_injective (congrArg Subtype.val h)
 
 theorem nat_card_multiplicative_fun : Nat.card (Multiplicative (Fin 4 → ZMod 3)) = 3 ^ 4 := by
@@ -421,7 +426,7 @@ theorem exists_E81_of_alt13 {Y : Type} [Group Y] (ψ : Y ≃* alternatingGroup (
 
 theorem exists_conj_le_sylow3 {Y : Type} [Group Y] [Finite Y] {Q H : Subgroup Y}
     (hQ : IsSylowIn 3 ⊤ Q) (hH : IsPGroup 3 ↥H) : ∃ g : Y, ∀ h ∈ H, g * h * g⁻¹ ∈ Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let S : Sylow 3 Y := ⟨Q, hQ.2.1, fun {Q'} hQ' hle => (hQ.2.2 Q' le_top hQ' hle).le⟩
   obtain ⟨P, hHP⟩ := IsPGroup.exists_le_sylow hH
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Y P S
@@ -451,12 +456,12 @@ section PermCore
 
 theorem exists_mulAut_apply_eq {H : Type} [CommGroup H] [Finite H] (h3 : ∀ x : H, x ^ 3 = 1)
     (hc : Nat.card H = 9) {u v : H} (hu : u ≠ 1) (hv : v ≠ 1) : ∃ α : MulAut H, α u = v := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Module (ZMod 3) (Additive H) := AddCommGroup.zmodModule (fun x => by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Module (ZMod 3) (Additive H) := AddCommGroup.zmodModule (fun x => by
     have : x = Additive.ofMul (Additive.toMul x) := rfl
     rw [this, ← ofMul_pow, h3, ofMul_one])
-  haveI : Finite (Additive H) := inferInstanceAs (Finite H)
-  haveI : Module.Finite (ZMod 3) (Additive H) := Module.Finite.of_finite
+  have : Finite (Additive H) := inferInstanceAs (Finite H)
+  have : Module.Finite (ZMod 3) (Additive H) := Module.Finite.of_finite
   have hcard : Nat.card (Additive H) = 9 := hc
   have hfr : Module.finrank (ZMod 3) (Additive H) = 2 := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := Additive H)
@@ -705,7 +710,7 @@ open Equiv Equiv.Perm
 theorem exists_mulAut_apply_eq' {H : Type} [Group H] [Finite H] (hcomm : ∀ x y : H, x * y = y * x)
     (h3 : ∀ x : H, x ^ 3 = 1) (hc : Nat.card H = 9) {u v : H} (hu : u ≠ 1) (hv : v ≠ 1) :
     ∃ α : MulAut H, α u = v := by
-  letI : CommGroup H := { (inferInstance : Group H) with mul_comm := hcomm }
+  let : CommGroup H := { (inferInstance : Group H) with mul_comm := hcomm }
   exact exists_mulAut_apply_eq h3 hc hu hv
 
 theorem perm_trans (Fh Bh : Subgroup (Perm (Fin 13)))
@@ -802,11 +807,13 @@ section TransProof
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem barX_sup {N X₁ X₂ : Subgroup G} (h₁ : X₁ ≤ N) (h₂ : X₂ ≤ N) :
     barX 3 N (X₁ ⊔ X₂) = barX 3 N X₁ ⊔ barX 3 N X₂ := by
   rw [Lemma1210.barX_eq_map, Lemma1210.barX_eq_map, Lemma1210.barX_eq_map,
     Subgroup.subgroupOf_sup h₁ h₂, Subgroup.map_sup]
 
+omit [Finite G] in
 theorem mem_barX {N X : Subgroup G} {y : ↥N ⧸ GLAPPrimeCore 3 ↥N} :
     y ∈ barX 3 N X ↔ ∃ u : ↥N, (u : G) ∈ X ∧ QuotientGroup.mk' (GLAPPrimeCore 3 ↥N) u = y := by
   rw [Lemma1210.barX_eq_map, Subgroup.mem_map]
@@ -816,6 +823,7 @@ theorem mem_barX {N X : Subgroup G} {y : ↥N ⧸ GLAPPrimeCore 3 ↥N} :
   · rintro ⟨u, hu, rfl⟩
     exact ⟨u, Subgroup.mem_subgroupOf.2 hu, rfl⟩
 
+omit [Finite G] in
 theorem trans_core {N K A F : Subgroup G} {a : G}
     (ι : ↥(barX 3 N K) →* Equiv.Perm (Fin 13)) (hιinj : Function.Injective ι)
     (hιsurj : ∀ σ ∈ alternatingGroup (Fin 13), ∃ y : ↥(barX 3 N K), ι y = σ)
@@ -955,7 +963,7 @@ theorem trans_lift {A N K F : Subgroup G} {a : G}
     (hF : Lemma129IvAComplement φ A F a)
     {f₁ f₂ : G} (hf₁ : f₁ ∈ F) (hf₁1 : f₁ ≠ 1) (hf₂ : f₂ ∈ F) (hf₂1 : f₂ ≠ 1) :
     ∃ n ∈ N, n ∈ Subgroup.normalizer (A : Set G) ∧ n⁻¹ * f₁ * n = f₂ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O : Subgroup ↥N := GLAPPrimeCore 3 ↥N with hOdef
   have hO : Nat.Coprime 3 (Nat.card O) := Lemma1210.coprime_three_card_O N
   have hAΓp : IsPGroup 3 ↥(A.subgroupOf N) := Lemma1210.isPGroup_subgroupOf_of_elemAb hAe hAN
@@ -1081,10 +1089,10 @@ theorem exists_E81_of_sylow {A N K Q : Subgroup G} (hKN : K ≤ N) (hAN : A ≤ 
     (φ : ↥(barX 3 N K) ≃* ↥(alternatingGroup (Fin 13))) (hOut : Lemma1210.Input1210_Out13)
     (hQ : IsSylowIn 3 N Q) :
     ∃ H : Subgroup G, H ≤ Q ∧ CFSG.Open.IsElemAbelian 3 H ∧ Nat.card H = 3 ^ 4 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (barX 3 N K).index :=
     Lemma1210.barX_index_coprime N K A hKN hAN hAK hL hAe hAmax φ hOut
-  haveI hYn : (barX 3 N K).Normal := Lemma1210.barX_normal_of_layer N K A hKN hAN hAK hL
+  have hYn : (barX 3 N K).Normal := Lemma1210.barX_normal_of_layer N K A hKN hAN hAK hL
   have hQp : IsPGroup 3 ↥(Q.subgroupOf N) :=
     hQ.2.1.comap_of_injective N.subtype Subtype.val_injective
   have hQbY : (Q.subgroupOf N).map (QuotientGroup.mk' (GLAPPrimeCore 3 ↥N)) ≤ barX 3 N K := by
@@ -1138,6 +1146,7 @@ section Assembly
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normalizer_gLBConj_le {N D : Subgroup G} (hD : Subgroup.normalizer (D : Set G) ≤ N) {n : G}
     (hn : n ∈ N) : Subgroup.normalizer ((GLBConj n D : Subgroup G) : Set G) ≤ N := by
   intro g hg

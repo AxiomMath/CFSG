@@ -119,10 +119,6 @@ private theorem dotProduct_eq_zero_of_delta (D : Sec108Data hc t Y)
           ⟨D.bV AM i, D.Vsp_le_Asp AM (D.bV AM i).2⟩ := by
       rw [hcEq, map_sum]
       exact Finset.sum_congr rfl fun i _ => by
-        change D.delta AM ⟨x, hx⟩
-            (β i • (⟨D.bV AM i, D.Vsp_le_Asp AM (D.bV AM i).2⟩ : ↥(D.Asp AM))) =
-          β i • D.delta AM ⟨x, hx⟩
-            ⟨D.bV AM i, D.Vsp_le_Asp AM (D.bV AM i).2⟩
         rw [map_smul]
     calc ((D.delta AM ⟨x, hx⟩ ⟨c, hcAsp⟩ : ↥(D.Bsp AM)) : AM.M₀.E)
         = ((∑ i, β i • D.delta AM ⟨x, hx⟩

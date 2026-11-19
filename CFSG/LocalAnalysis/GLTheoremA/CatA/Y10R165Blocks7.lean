@@ -31,6 +31,7 @@ section Choice
 
 variable (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] {p : ℕ}
 
+omit [Fintype ↥A] in
 theorem exists_blockRep (hp : p.Prime) : ∃ t : Hyperplane A p → ↥A, ∀ D, t D ∉ D.1 := by
   have hex : ∀ D : Hyperplane A p, ∃ a : ↥A, a ∉ D.1 := by
     intro D
@@ -72,7 +73,6 @@ private def linearPointwiseStab (U : Submodule F V) : Subgroup (V ≃ₗ[F] V) w
   one_mem' := by intro x _; rfl
   mul_mem' := by
     intro g h hg hh x hx
-    change (g * h) x = x
     rw [LinearEquiv.mul_apply, hh x hx, hg x hx]
   inv_mem' := by
     intro g hg x hx
@@ -80,6 +80,7 @@ private def linearPointwiseStab (U : Submodule F V) : Subgroup (V ≃ₗ[F] V) w
     rw [hg x hx]
     exact g.apply_symm_apply x
 
+omit [FiniteDimensional F V] [Finite F] in
 theorem zpow_blockEnd_apply_of_mem_block (hp : p.Prime) (hpF : (p : F) ≠ 0)
     (hA : IsElemAbelian p A) (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
     {D E : Hyperplane A p} (hDE : D ≠ E) {v : V} (hv : v ∈ blockSpace A E.1) (n : ℤ) :
@@ -88,6 +89,7 @@ theorem zpow_blockEnd_apply_of_mem_block (hp : p.Prime) (hpF : (p : F) ≠ 0)
     fun w hw => blockEnd_apply_of_mem_block A hp hpF hA t ht (D := D) (E := E) hDE.symm hw
   exact Subgroup.zpow_mem _ hx n v hv
 
+omit [FiniteDimensional F V] [Finite F] in
 theorem blockEnd_not_mem_zpowers_of_ne (hp : p.Prime) (hpF : (p : F) ≠ 0)
     (hA : IsElemAbelian p A) (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
     {D E : Hyperplane A p} (hDE : E ≠ D) (hD : blockSpace A D.1 ≠ ⊥) :
@@ -125,7 +127,7 @@ theorem card_closure_pair_blockEnd (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : Is
     · exact Subgroup.zpowers_le.mpr (Subgroup.subset_closure (by simp))
   rw [hsup]
   have hcomm : x * y = y * x := by
-    haveI : IsMulCommutative ↥A := hA.1
+    have : IsMulCommutative ↥A := hA.1
     have h := mul_comm' (⟨x, hxD⟩ : ↥A) ⟨y, hxE⟩
     simpa using congrArg Subtype.val h
   refine CFSG.card_zpowers_sup_zpowers_eq_prime_sq hp (blockEnd_pow A hp hpF hA t ht D)
@@ -138,6 +140,7 @@ theorem card_closure_pair_blockEnd (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : Is
     exact hp.ne_one hxord.symm
   · exact blockEnd_not_mem_zpowers_of_ne A hp hpF hA t ht (D := E) (E := D) hDE hE
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem pointwiseStab_normal {H : Subgroup (V ≃ₗ[F] V)} {K : Subgroup ↥H} {U : Submodule F V}
     (hpres : ∀ g ∈ K, ∀ x ∈ U, (((g : ↥H) : V ≃ₗ[F] V)) x ∈ U) :
     ((pointwiseStab H U).subgroupOf K).Normal := by

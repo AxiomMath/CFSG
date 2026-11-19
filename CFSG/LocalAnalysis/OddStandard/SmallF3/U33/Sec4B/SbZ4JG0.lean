@@ -24,11 +24,13 @@ include hz
   ∃ x : ↥(ctxNQ t tau x₁ x₂ rho), S4B.z4iπ (hz.z4iSub Ng) x = u ∧
     ∃ g : G, (x : G) = g * t * g⁻¹
 
+omit [(hz.z4iSub Ng).Normal] in
 private theorem z4j_odd (hN : Z4IOdd t tau x₁ x₂ rho Ng) :
     Odd (Nat.card (hz.z4iSub Ng)) := by
   rw [hz.z4i_card_sub hN.le_NQ]; exact hN.odd
 
-private theorem z4j_witness_invol (hN : Z4IOdd t tau x₁ x₂ rho Ng)
+omit [(hz.z4iSub Ng).Normal] in
+private theorem z4j_witness_invol (_hN : Z4IOdd t tau x₁ x₂ rho Ng)
     {x : ↥(ctxNQ t tau x₁ x₂ rho)} (hx : ∃ g : G, (x : G) = g * t * g⁻¹) :
     x * x = 1 ∧ x ≠ 1 := by
   obtain ⟨g, hg⟩ := hx
@@ -62,6 +64,7 @@ private lemma z4j_lam_sq : hz.z4iLam * hz.z4iLam = 1 := by
 
 omit hz
 
+omit [Finite G] in
 private lemma z4j_mul_self_of_comm {a b : ↥(ctxNQ t tau x₁ x₂ rho)}
     (ha : a * a = 1) (hb : b * b = 1) (hab : a * b = b * a) : (a * b) * (a * b) = 1 := by
   calc (a * b) * (a * b) = a * (b * a) * b := by group
@@ -69,13 +72,14 @@ private lemma z4j_mul_self_of_comm {a b : ↥(ctxNQ t tau x₁ x₂ rho)}
     _ = (a * a) * (b * b) := by group
     _ = 1 := by rw [ha, hb, one_mul]
 
+omit [Finite G] in
 private lemma z4j_prod3_sq {a b c : G} (ha : a * a = 1) (hb : b * b = 1) (hc : c * c = 1)
     (hab : a * b = b * a) (hac : a * c = c * a) (hbc : b * c = c * b) :
     (a * b * c) * (a * b * c) = 1 := by
   rw [show a * b * c = (a * b) * c from rfl, ← pow_two]
   have hcomm : Commute (a * b) c := (show Commute a c from hac).mul_left (show Commute b c from hbc)
   rw [hcomm.mul_pow, (show Commute a b from hab).mul_pow]
-  simp only [pow_two, ha, hb, hc, mul_one, one_mul]
+  simp only [pow_two, ha, hb, hc, mul_one]
 
 include hz
 

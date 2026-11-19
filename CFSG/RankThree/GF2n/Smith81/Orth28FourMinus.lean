@@ -23,6 +23,7 @@ section PlusType
 
 variable {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι]
 
+omit [DecidableEq ι] in
 theorem isPlusType_of_not_noTSP {qU : QuadraticForm K (ι → K)} (h4 : Fintype.card ι = 4)
     (h : ¬ NoTotallySingularPlane qU) : CFSG.GroupTheory.WeirSylow.IsPlusType qU := by
   unfold NoTotallySingularPlane at h

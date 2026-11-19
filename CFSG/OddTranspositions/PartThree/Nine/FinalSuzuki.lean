@@ -73,6 +73,7 @@ theorem exists_mem_inf_of_mem_sylow_map {hC : HypothesisC D} {T : Sylow 2 (Halph
   · refine ⟨hC.d * t, ⟨Subgroup.mul_mem _ huT htT, htL⟩, Or.inr ?_⟩
     rw [← mul_assoc, hu2, one_mul]
 
+omit [Finite G] in
 theorem commute_d_of_mem_sylow_map {hC : HypothesisC D} {T : Sylow 2 (Halpha D hC.alpha)} {t : G}
     (htT : t ∈ (T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype) :
     Commute hC.d t :=
@@ -130,7 +131,7 @@ theorem regularCore_eq_sylow (h3 : Conclusion9_3 D hC) (h4 : Conclusion9_4 D hC 
   have hsN : s ∈ Subgroup.normalizer ((fun v : G => hC.d * v) '' (U : Set G)) := by
     rw [← hU.sylow_inter]
     exact h4.2.1 hs
-  obtain ⟨j, hj⟩ := (S.isPGroup') ⟨s, hs⟩
+  obtain ⟨j, hj⟩ := (S.isPGroup) ⟨s, hs⟩
   have hj' : s ^ 2 ^ j = 1 := by simpa using congrArg Subtype.val hj
   exact hU.mem_regularCore_of_pow_eq_one h3 hQ hn hnodd hsN hj'
 
@@ -429,7 +430,7 @@ theorem mem_of_commute_conj_of_sz (hH : Th91Hyp D hC) (h3 : Conclusion9_3 D hC)
   have hxN := hU.centralizer_le_normalizer_delta hH h3 h5 haU ha1 hca
   obtain ⟨j, hj⟩ : ∃ j : ℕ, r ^ 2 ^ j = 1 := by
     have hp : IsPGroup 2 ((T : Subgroup (Halpha D hC.alpha)).map (Halpha D hC.alpha).subtype) :=
-      T.isPGroup'.map _
+      T.isPGroup.map _
     obtain ⟨j, hj⟩ := hp ⟨r, hr.1⟩
     exact ⟨j, by simpa using congrArg Subtype.val hj⟩
   have hxj : (g⁻¹ * r * g) ^ 2 ^ j = 1 := by

@@ -39,7 +39,7 @@ theorem i141U9Fam_twF4Eight (hG2 : U9Gf8Absurd) : I141U9Fam u9FamTwF4Eight := by
       have hm1 : 1 ≤ (1 : ℕ) := le_rfl
       by_cases hα1 : chevAut 3 K ⟨x, hI1.1 (Subgroup.mem_zpowers x)⟩ = 1
       · exfalso
-        haveI := hs
+        have := hs
         have hI : GLAPComponent 3 (⊤ : Subgroup (PSimple 3 K)) (chevTransfer 3 K J) := by
           rw [hα1, fixSubgroup_one_eq_top] at hJ'
           exact hJ'

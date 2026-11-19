@@ -33,10 +33,10 @@ theorem double_cover_sl2 {Pb L : Type} [Group Pb] [Finite Pb] [Group L] (η : Pb
     rintro rfl
     simp at h5
   have hcardGF : Nat.card (GaloisField p n) = p ^ n := GaloisField.card p n hn
-  haveI : Group.IsPerfect (PSL(2, GaloisField p n)) :=
+  have : Group.IsPerfect (PSL(2, GaloisField p n)) :=
     CFSG.GorensteinWalter.psl2_isPerfect_of_card_gt_three (GaloisField p n)
       (by rw [hcardGF]; omega)
-  haveI hLperf : Group.IsPerfect L :=
+  have hLperf : Group.IsPerfect L :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hPbperf : Group.IsPerfect Pb := by
     refine ⟨?_⟩
@@ -50,8 +50,8 @@ theorem double_cover_sl2 {Pb L : Type} [Group Pb] [Finite Pb] [Group L] (η : Pb
   obtain ⟨_, _, K, _, _, hK, ⟨eK⟩⟩ :=
     CFSG.ComponentClassification.CatFactsSmall.exists_sl2_equiv_of_perfect hPbperf hη hcen hcard hp
       (CFSG.GH74.Generic.S45.lieModel_of_mulEquiv_psl2 p n h5 e)
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype (GaloisField p n) := Fintype.ofFinite (GaloisField p n)
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype (GaloisField p n) := Fintype.ofFinite (GaloisField p n)
   have hcardEq : Fintype.card K = Fintype.card (GaloisField p n) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, hcardGF]
   exact ⟨eK.trans (slEquivOfRingEquiv (FiniteField.ringEquivOfCardEq hcardEq))⟩

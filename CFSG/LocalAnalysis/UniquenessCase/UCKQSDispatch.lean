@@ -53,7 +53,7 @@ open CFSG.HardMathSupport.Timmesfeld.Tables.Census CFSG.HardMathSupport.Timmesfe
 theorem pcaSpor_offPair (hBM : SporadicBMData) (s : TauCeti.SporadicName) {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p)
     (hnot : ¬ SporadicOnePair s p) : PCASporAt s p := by
   intro K _ _ ⟨e⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card K = Nat.card (NativeSporadic.Carrier s) := Nat.card_congr e.toEquiv
   have hN : Nat.card K ≠ 0 := Nat.card_pos.ne'
   apply PCentralAbelianAt.of_factorization_le (by omega)
@@ -89,7 +89,7 @@ section Dispatch
 
 theorem pca_of_cases (hAlt : PCAAlt) (hLie : PCALie) (hSpor : PCASpor) : PCentralAbelian := by
   intro K _ _ hs hnab hcat p hp h5 hpK
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases CFSG.RankThree.PartOne.PlaneCases.catalog_cases
       (CFSG.RankThree.PartOne.TCB.tauCetiCatalogBridge K hnab hcat) with
     ⟨q, -, ⟨e⟩⟩ | ⟨n, hn5, ⟨e⟩⟩ | ⟨t, n, ℓ, f, hadm, hmodel⟩ | hspor

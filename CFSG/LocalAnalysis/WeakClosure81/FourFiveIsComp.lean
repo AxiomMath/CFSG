@@ -30,7 +30,7 @@ theorem fourFive_nmn_of_reduced {G : Type} [Group G] {X T : Subgroup G}
 
 theorem fourFive_isComponentOf_of_isComp {G : Type} [Group G] {X J : Subgroup G}
     (hJ : E111R.IsComp X J) : IsComponentOf J X := by
-  haveI : IsSimpleGroup ↥J := hJ.2.2.1
+  have : IsSimpleGroup ↥J := hJ.2.2.1
   refine ⟨hJ.1, CFSG.Open.IsSubnormal.step hJ.1 hJ.2.1 (CFSG.Open.IsSubnormal.refl X), ?_⟩
   exact fourFive_isQuasisimple_of_simple_nonabelian fun h => by
     obtain ⟨a, b, hab⟩ := hJ.2.2.2

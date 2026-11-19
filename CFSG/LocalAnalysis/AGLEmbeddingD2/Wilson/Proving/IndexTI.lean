@@ -15,8 +15,8 @@ theorem card_modEq_one_of_free_except {H β : Type*} [Group H] [Finite H] [MulAc
     (hfree : ∀ b : β, b ≠ a → ∀ h : H, h • b = b → h = 1) :
     Nat.card β ≡ 1 [MOD Nat.card H] := by
   classical
-  haveI : Fintype H := Fintype.ofFinite H
-  haveI : Fintype β := Fintype.ofFinite β
+  have : Fintype H := Fintype.ofFinite H
+  have : Fintype β := Fintype.ofFinite β
   have hstab : ∀ x : β,
       Nat.card (stabilizer H x) = if x = a then Nat.card H else 1 := by
     intro x
@@ -51,9 +51,9 @@ theorem card_modEq_one_of_free_except {H β : Type*} [Group H] [Finite H] [MulAc
     have hH : 0 < Nat.card H := Nat.card_pos
     by_cases h : ω = ⟦a⟧
     · have h' : ω.out = a := (hiff ω).mpr h
-      rw [if_pos h', if_pos h, Nat.div_self hH]
+      rw [ite_eq_left h', ite_eq_left h, Nat.div_self hH]
     · have h' : ω.out ≠ a := fun e => h ((hiff ω).mp e)
-      rw [if_neg h', if_neg h, Nat.div_one]
+      rw [ite_eq_right h', ite_eq_right h, Nat.div_one]
   have hsum := MulAction.card_eq_sum_card_group_div_card_stabilizer H β
   simp only [← Nat.card_eq_fintype_card] at hsum
   have hterm2 : ∀ ω : Quotient (orbitRel H β),
@@ -75,10 +75,12 @@ open Subgroup
 
 variable {G : Type*} [Group G] {p : ℕ} [Fact p.Prime]
 
+omit [Fact (Nat.Prime p)] in
 theorem smul_eq_smul_iff_inv_mul_mem_normalizer [Finite G] (P : Sylow p G) (a b : G) :
     a • P = b • P ↔ b⁻¹ * a ∈ normalizer P := by
   rw [← Sylow.smul_eq_iff_mem_normalizer, mul_smul, inv_smul_eq_iff]
 
+omit [Fact p.Prime] in
 theorem mem_normalizer_smul_iff [Finite G] (P : Sylow p G) (y x : G) :
     x ∈ normalizer (y • P) ↔ y⁻¹ * x * y ∈ normalizer P := by
   rw [← Sylow.smul_eq_iff_mem_normalizer, ← mul_smul,
@@ -88,19 +90,22 @@ theorem eq_of_le_sylow [Finite G] (P Q : Sylow p G) (h : (P : Subgroup G) ≤ Q)
   refine Sylow.ext (Subgroup.eq_of_le_of_card_ge h ?_)
   rw [Sylow.card_eq_multiplicity Q, Sylow.card_eq_multiplicity P]
 
+omit [Fact (Nat.Prime p)] in
 theorem inf_normalizer_smul_eq_bot [Finite G] (P : Sylow p G)
     (hTI : ∀ g : G, g ∉ normalizer P →
       (P : Subgroup G) ⊓ (P : Subgroup G).map (MulAut.conj g).toMonoidHom = ⊥)
     (y : G) (hy : y ∉ normalizer P) :
     (P : Subgroup G) ⊓ normalizer (y • P : Sylow p G) = ⊥ := by
-  rw [P.isPGroup'.inf_normalizer_sylow (y • P), Sylow.coe_subgroup_smul]
+  rw [P.isPGroup.inf_normalizer_sylow (y • P), Sylow.coe_subgroup_smul]
   exact hTI y hy
 
+omit [Fact (Nat.Prime p)] in
 theorem mk_eq_one_iff [Finite G] (P : Sylow p G) (Y : Subgroup G) (y : Y) :
     (QuotientGroup.mk y : Y ⧸ (normalizer P).subgroupOf Y) = QuotientGroup.mk (1 : Y)
       ↔ ((y : Y) : G) ∈ normalizer P := by
   rw [QuotientGroup.eq, mul_one, Subgroup.mem_subgroupOf, Subgroup.coe_inv, inv_mem_iff]
 
+omit [Fact p.Prime] in
 theorem mk_mul_eq_mk_iff [Finite G] (P : Sylow p G) (Y : Subgroup G) (h y : Y) :
     (QuotientGroup.mk ((h : Y) * y) : Y ⧸ (normalizer P).subgroupOf Y) = QuotientGroup.mk y
       ↔ ((h : Y) : G) ∈ normalizer ((y : G) • P : Sylow p G) := by
@@ -123,7 +128,7 @@ theorem fixed_cosets_iff [Finite G] (P : Sylow p G) (Y : Subgroup G) (hPY : (P :
       rw [MulAction.Quotient.smul_mk, smul_eq_mul] at h1
       exact (mk_mul_eq_mk_iff P Y _ y).mp h1
     have hle : (P : Subgroup G) ≤ ((y : G) • P : Sylow p G) := by
-      have h1 := P.isPGroup'.inf_normalizer_sylow ((y : G) • P : Sylow p G)
+      have h1 := P.isPGroup.inf_normalizer_sylow ((y : G) • P : Sylow p G)
       rw [inf_eq_left.mpr hP] at h1
       exact inf_eq_left.mp h1.symm
     have hPeq : P = ((y : G) • P : Sylow p G) := eq_of_le_sylow P _ hle
@@ -136,6 +141,7 @@ theorem fixed_cosets_iff [Finite G] (P : Sylow p G) (Y : Subgroup G) (hPY : (P :
     rw [hsm]
     exact le_normalizer (Subgroup.mem_subgroupOf.mp h.2)
 
+omit [Fact p.Prime] in
 theorem fixed_free [Finite G] (P : Sylow p G) (Y : Subgroup G)
     (hTI : ∀ g : G, g ∉ normalizer P →
       (P : Subgroup G) ⊓ (P : Subgroup G).map (MulAut.conj g).toMonoidHom = ⊥)
@@ -159,7 +165,7 @@ theorem index_modEq_one_of_TI [Finite G] (P : Sylow p G)
   have hPY : (P : Subgroup G) ≤ Y := le_trans le_normalizer hY
   have hcard : Nat.card ((P : Subgroup G).subgroupOf Y) = Nat.card (P : Subgroup G) :=
     Nat.card_congr (subgroupOfEquivOfLe hPY).toEquiv
-  letI : MulAction ↥((P : Subgroup G).subgroupOf Y) (Y ⧸ (normalizer P).subgroupOf Y) :=
+  let : MulAction ↥((P : Subgroup G).subgroupOf Y) (Y ⧸ (normalizer P).subgroupOf Y) :=
     MulAction.compHom _ ((P : Subgroup G).subgroupOf Y).subtype
   have key := card_modEq_one_of_free_except
     (QuotientGroup.mk (1 : Y) : Y ⧸ (normalizer P).subgroupOf Y)

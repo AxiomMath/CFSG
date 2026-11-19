@@ -23,7 +23,7 @@ theorem nsmul_zero (x : BCH p E) : nsmul 0 x = zero := rfl
 
 theorem nsmul_succ (n : ℕ) (x : BCH p E) : nsmul (n + 1) x = add (nsmul n x) x := rfl
 
-theorem add_assoc (hp : p.Prime) (hodd : p ≠ 2) (hexp : ∀ x : E, x ^ p = 1)
+theorem add_assoc (_hp : p.Prime) (_hodd : p ≠ 2) (_hexp : ∀ x : E, x ^ p = 1)
     (hc : ∀ x y : E, ⁅x, y⁆ ∈ Subgroup.center E) (x y z : BCH p E) :
     add (add x y) z = add x (add y z) :=
   BCHCentralCommutatorLaws.add_assoc hc x y z
@@ -33,23 +33,23 @@ theorem add_comm (hp : p.Prime) (hodd : p ≠ 2) (hexp : ∀ x : E, x ^ p = 1)
     add x y = add y x :=
   BCHCentralCommutatorLaws.add_comm hc (hp.odd_of_ne_two hodd) hexp x y
 
-theorem add_zero (hp : p.Prime) (hodd : p ≠ 2) (hexp : ∀ x : E, x ^ p = 1)
-    (hc : ∀ x y : E, ⁅x, y⁆ ∈ Subgroup.center E) (x : BCH p E) :
+theorem add_zero (_hp : p.Prime) (_hodd : p ≠ 2) (_hexp : ∀ x : E, x ^ p = 1)
+    (_hc : ∀ x y : E, ⁅x, y⁆ ∈ Subgroup.center E) (x : BCH p E) :
     add x zero = x :=
   BCHCentralCommutatorLaws.add_zero x
 
-theorem zero_add (hp : p.Prime) (hodd : p ≠ 2) (hexp : ∀ x : E, x ^ p = 1)
-    (hc : ∀ x y : E, ⁅x, y⁆ ∈ Subgroup.center E) (x : BCH p E) :
+theorem zero_add (_hp : p.Prime) (_hodd : p ≠ 2) (_hexp : ∀ x : E, x ^ p = 1)
+    (_hc : ∀ x y : E, ⁅x, y⁆ ∈ Subgroup.center E) (x : BCH p E) :
     add zero x = x :=
   BCHCentralCommutatorLaws.zero_add x
 
-theorem neg_add (hp : p.Prime) (hodd : p ≠ 2) (hexp : ∀ x : E, x ^ p = 1)
-    (hc : ∀ x y : E, ⁅x, y⁆ ∈ Subgroup.center E) (x : BCH p E) :
+theorem neg_add (_hp : p.Prime) (_hodd : p ≠ 2) (_hexp : ∀ x : E, x ^ p = 1)
+    (_hc : ∀ x y : E, ⁅x, y⁆ ∈ Subgroup.center E) (x : BCH p E) :
     add (neg x) x = zero :=
   BCHCentralCommutatorLaws.neg_add x
 
-theorem toGroup_nsmul (hp : p.Prime) (hodd : p ≠ 2) (hexp : ∀ x : E, x ^ p = 1)
-    (hc : ∀ x y : E, ⁅x, y⁆ ∈ Subgroup.center E) (n : ℕ) (x : BCH p E) :
+theorem toGroup_nsmul (_hp : p.Prime) (_hodd : p ≠ 2) (_hexp : ∀ x : E, x ^ p = 1)
+    (_hc : ∀ x y : E, ⁅x, y⁆ ∈ Subgroup.center E) (n : ℕ) (x : BCH p E) :
     toGroup (nsmul n x) = toGroup x ^ n := by
   induction n with
   | zero => simp [nsmul_zero]

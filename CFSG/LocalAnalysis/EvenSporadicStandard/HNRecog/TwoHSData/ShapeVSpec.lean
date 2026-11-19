@@ -39,7 +39,7 @@ theorem shapeUOK_spec (h : shapeUOK = true) :
         elemW c0Word * elemZ₁ * (elemW c0Word)⁻¹ = elemW u0Word := by
   simp only [shapeUOK, Bool.and_eq_true, Bool.not_eq_true'] at h
   obtain ⟨⟨⟨⟨⟨⟨hg, hwr⟩, hwu⟩, hord⟩, hne⟩, hcomm⟩, hconj⟩ := h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hru : Rep 1408 (tabW u0Word) (elemW u0Word) := rep_elemW_of_gensOK hg hwu
   have hrr : Rep 1408 (tabW fix5B.rep) (elemW fix5B.rep) := rep_elemW_of_gensOK hg hwr
   have hrA : Rep 1408 (tabW wordA) elemA := rep_elemW_of_gensOK hg (by decide)
@@ -57,7 +57,7 @@ theorem shapeA8OK_spec (h : shapeA8OK = true) :
       ∀ k : ℕ, 0 < k → k < 5 → ∃ c ∈ P1408, c * elemW fix5C.rep * c⁻¹ = elemW rpWord ^ k := by
   simp only [shapeA8OK, Bool.and_eq_true] at h
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨hg, hwr⟩, hwp⟩, hord⟩, hcomm⟩, h1⟩, h2⟩, h3⟩, h4⟩ := h
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hrp : Rep 1408 (tabW rpWord) (elemW rpWord) := rep_elemW_of_gensOK hg hwp
   have hrr : Rep 1408 (tabW fix5C.rep) (elemW fix5C.rep) := rep_elemW_of_gensOK hg hwr
   have hrB : Rep 1408 (tabW wordB) elemB := rep_elemW_of_gensOK hg (by decide)

@@ -45,9 +45,9 @@ theorem mem_twAdjMoves {α β : Fin Tag.E6.rank → ℤ} (h : β ∈ twAdjMoves 
     obtain ⟨i, -, hi⟩ := List.mem_filterMap.1 h
     by_cases hc : α ≠ Pi.single i 1 ∧ α ≠ -Pi.single i 1 ∧
         List.ofFn (α + Pi.single i 1) ∈ Tag.E6.artifactRoots
-    · rw [if_pos hc] at hi
+    · rw [ite_eq_left hc] at hi
       exact ⟨i, hc.1, hc.2.1, hc.2.2, (Option.some.inj hi).symm⟩
-    · rw [if_neg hc] at hi
+    · rw [ite_eq_right hc] at hi
       exact absurd hi (by simp)
   · right
     obtain ⟨a, -, ha⟩ := List.mem_map.1 h
@@ -115,7 +115,7 @@ theorem Dop_mem_of_stable_tw (hf2 : 2 ≤ f) (S : Submodule K (RootModule TwistT
         _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf2
     have hmem : ∀ c : K, c ∈ orbitField TwistTag.E6 K σ a := fun c => by
       rw [mem_orbitField, ha]
-      simp only [pow_two, RingHom.mul_def, RingHom.id_apply]
+      simp only [pow_two, RingHom.mul_def]
       exact sigma_sigma_eq hK σ hσ c
     set i₀ := TwistTag.E6.orbitMin a with hi₀
     set j₀ := TwistTag.E6.perm i₀ with hj₀
@@ -233,19 +233,19 @@ theorem neg_single_ne_single' (i j : Fin TwistTag.E6.tag.rank) :
   have := congrFun h i
   by_cases hij : i = j
   · subst hij; simp at this
-  · simp [Pi.single_apply, hij] at this
+  · simp [hij] at this
 
 theorem neg_single_ne_neg_single' (h : i ≠ j) :
     (-Pi.single i 1 : Fin TwistTag.E6.tag.rank → ℤ) ≠ -Pi.single j 1 := by
   intro h'
   have := congrFun h' i
-  simp [Pi.single_apply, h] at this
+  simp [h] at this
 
 theorem single_ne_single' (h : i ≠ j) :
     (Pi.single i 1 : Fin TwistTag.E6.tag.rank → ℤ) ≠ Pi.single j 1 := by
   intro h'
   have := congrFun h' i
-  simp [Pi.single_apply, h] at this
+  simp [h] at this
 
 theorem single_ne_neg_single' (i j : Fin TwistTag.E6.tag.rank) :
     (Pi.single i 1 : Fin TwistTag.E6.tag.rank → ℤ) ≠ -Pi.single j 1 := fun h =>
@@ -257,14 +257,14 @@ theorem Bop_Dop_of_orth (h : OrthPair i j) (w : RootModule TwistTag.E6.tag K) :
   have h1 : coordR (Dop TwistTag.E6.tag K j w) (-Pi.single i 1) = 0 := by
     rw [coordR_Dop adjHyp_E6 j w (isRoot_neg_single _ i) (neg_single_ne_single' i j)]
     unfold coordR
-    rw [dif_neg h.2.2.2.2.1]
+    rw [dite_eq_right h.2.2.2.2.1]
   rw [h1, zero_smul]
 
 theorem Bop_Bop_of_orth (h : OrthPair i j) (w : RootModule TwistTag.E6.tag K) :
     Bop TwistTag.E6.tag K i (Bop TwistTag.E6.tag K j w) = 0 := by
   have h1 : coordR (Bop TwistTag.E6.tag K j w) (-Pi.single i 1) = 0 := by
     rw [Bop_apply, coordR_smul, coordR_rootVec (isRoot_single _ j),
-      if_neg (single_ne_neg_single' j i), mul_zero]
+      ite_eq_right (single_ne_neg_single' j i), mul_zero]
   rw [Bop_apply (i := i), h1, zero_smul]
 
 theorem Dop_rootVec_single_of_ne (h : i ≠ j) :
@@ -350,7 +350,7 @@ theorem Dop_mem_of_stable_tw_B (S : Submodule K (RootModule TwistTag.E6.tag K))
         _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
     have hmem : ∀ c : K, c ∈ orbitField TwistTag.E6 K σ a := fun c => by
       rw [mem_orbitField, ha]
-      simp only [pow_two, RingHom.mul_def, RingHom.id_apply]
+      simp only [pow_two, RingHom.mul_def]
       exact sigma_sigma_eq hK σ hσ c
     have hBi := hB _ (TwistTag.E6.orbitMin_mem a)
     have hBj := hB (TwistTag.E6.perm (TwistTag.E6.orbitMin a)) (by rw [hset]; simp)
@@ -440,7 +440,7 @@ theorem Dop_eq_zero_of_fixed_tw1 (hf1 : f = 1) (v : RootModule TwistTag.E6.tag K
     have hcard4 : Fintype.card K = 4 := by rw [hcard]; norm_num
     have hmem : ∀ c : K, c ∈ orbitField TwistTag.E6 K σ a := fun c => by
       rw [mem_orbitField, ha]
-      simp only [pow_two, RingHom.mul_def, RingHom.id_apply]
+      simp only [pow_two, RingHom.mul_def]
       exact sigma_sigma_eq hK σ hσ c
     have hc4 : ∀ c : K, (c ^ 2) ^ 2 = c := fun c => by
       have := FiniteField.pow_card c
@@ -553,7 +553,7 @@ theorem orbitSpan_twAdj :
         rcases mem_twAdjMoves hβ with ⟨i, h1, h2, h3, rfl⟩ | ⟨a', rfl⟩
         · refine ⟨isRoot_iff_mem_artifactRoots.2 h3, ?_⟩
           have := hD i _ hαS (fun k hk => by
-            rw [Bop_apply, coordR_rootVec hαr, if_neg, zero_smul]
+            rw [Bop_apply, coordR_rootVec hαr, ite_eq_right, zero_smul]
             intro hαk
             by_cases hki : k = i
             · exact h2 (hki ▸ hαk)
@@ -586,7 +586,7 @@ theorem orbitSpan_twAdj :
   · exact hroot α hα
   · rw [rootVec_eq_zero hα]; exact zero_mem _
 
-@[expose] abbrev twA1 : Fin TwistTag.E6.foldedTag.rank := ⟨3, by decide⟩
+abbrev twA1 : Fin TwistTag.E6.foldedTag.rank := ⟨3, by decide⟩
 
 theorem orbitIndex_node2 : TwistTag.E6.orbitIndex e6node2 = twA1 := by decide
 
@@ -710,7 +710,7 @@ theorem twAdj_hC_theta (ha : a ≠ twA1) (u : (orbitField TwistTag.E6 K σ a)ˣ)
   refine list_prod_fix_theta _ ?_
   intro x hx
   obtain ⟨k, -, rfl⟩ := List.mem_map.1 hx
-  rw [hkOp_theta, if_neg (ne_node2_of_mem_orbit ha
+  rw [hkOp_theta, ite_eq_right (ne_node2_of_mem_orbit ha
     (TwistTag.E6.perm_pow_mem_orbit (TwistTag.E6.orbitMin_mem a) k))]
   simp
 
@@ -721,7 +721,7 @@ theorem twChiAdj_theta_fix {g : ↥(graphFixedRootGroup TwistTag.E6 K σ)}
     (h : twAdj σ g (rootVec TwistTag.E6.tag K e6Theta) = rootVec TwistTag.E6.tag K e6Theta) :
     twChiAdj σ g = 1 := by
   unfold twChiAdj
-  rw [h, coordR_rootVec adjTop_E6.root, if_pos rfl]
+  rw [h, coordR_rootVec adjTop_E6.root, ite_eq_left rfl]
 
 theorem twChiAdj_hC_a1 (u : (orbitField TwistTag.E6 K σ twA1)ˣ) :
     twChiAdj σ (hC TwistTag.E6 K σ twA1 u) = ((u : orbitField TwistTag.E6 K σ twA1) : K) := by
@@ -757,7 +757,7 @@ theorem twAdj_H (h : ↥(graphFixedRootGroup TwistTag.E6 K σ))
       (rootVec_theta_mem_fixU_tw hf hK σ hσ))
   have : twChiAdj σ h = c := by
     unfold twChiAdj
-    rw [hc, coordR_smul, coordR_rootVec adjTop_E6.root, if_pos rfl, mul_one]
+    rw [hc, coordR_smul, coordR_rootVec adjTop_E6.root, ite_eq_left rfl, mul_one]
   rw [this, hc]
 
 include hf hK hσ in

@@ -31,6 +31,7 @@ private def TorusWitness (M T L : Subgroup G) (r : ℕ) (S : Subgroup G) : Prop 
       (h : G) ∈ normalizer (S : Set G) ∧
         ¬ ∀ a ∈ barImage M L, uc22p21cPi M h * a = a * uc22p21cPi M h
 
+omit [Finite G] in
 private theorem map_conj_le {M L : Subgroup G} (hLM : L ≤ M) {s : G} (hs : s ∈ M) :
     L.map (MulAut.conj s).toMonoidHom ≤ M := by
   rintro x ⟨l, hl, rfl⟩
@@ -42,6 +43,7 @@ private theorem map_conj_mem_calC {M L : Subgroup G} (hL : L ∈ calC M) {x : G}
   rwa [show uniqueFourConj x⁻¹ L = L.map (MulAut.conj x).toMonoidHom by
     simp [uniqueFourConj]] at h
 
+omit [Finite G] in
 private theorem le_conjJoin_self (L S : Subgroup G) : L ≤ conjJoin L S := by
   have h := le_iSup (fun s : S => L.map (MulAut.conj (s : G)).toMonoidHom)
     (⟨1, S.one_mem⟩ : S)
@@ -51,35 +53,41 @@ private theorem le_conjJoin_self (L S : Subgroup G) : L ≤ conjJoin L S := by
   rw [h1] at h
   simpa [conjJoin] using h
 
+omit [Finite G] in
 private theorem conjJoin_mono {L S S' : Subgroup G} (h : S ≤ S') :
     conjJoin L S ≤ conjJoin L S' := by
   refine iSup_le fun s => ?_
   exact le_iSup (fun s' : S' => L.map (MulAut.conj (s' : G)).toMonoidHom) ⟨s, h s.2⟩
 
+omit [Finite G] in
 private theorem conjJoin_le_conjClosure (M L S : Subgroup G) (hSM : S ≤ M) :
     conjJoin L S ≤ conjClosure M L := by
   refine iSup_le fun s => ?_
   exact le_iSup₂_of_le (f := fun K (_ : K ∈ conjSetOf M L) => K)
     (L.map (MulAut.conj (s : G)).toMonoidHom) ⟨(s : G), hSM s.2, rfl⟩ le_rfl
 
+omit [Finite G] in
 private theorem conjClosure_le_of_le {M L : Subgroup G} (hLM : L ≤ M) :
     conjClosure M L ≤ M := by
   refine iSup₂_le fun K hK => ?_
   obtain ⟨g, hg, rfl⟩ := hK
   exact map_conj_le hLM hg
 
+omit [Finite G] in
 private theorem map_conj_conjJoin (L S : Subgroup G) (t : G) :
     (conjJoin L S).map (MulAut.conj t).toMonoidHom =
       ⨆ s : S, L.map (MulAut.conj (t * (s : G))).toMonoidHom := by
   rw [conjJoin, Subgroup.map_iSup]
   exact iSup_congr fun s => map_conj_map_conj L (s : G) t
 
+omit [Finite G] in
 private theorem barImage_iSup {M : Subgroup G} {ι : Sort*} (P : ι → Subgroup G)
     (hP : ∀ i, P i ≤ M) :
     barImage M (⨆ i, P i) = ⨆ i, barImage M (P i) := by
   unfold barImage
   rw [CFSG.LieType.Steinberg.iSup_subgroupOf (F := M) (T := P) hP, Subgroup.map_iSup]
 
+omit [Finite G] in
 private theorem barImage_conjJoin {M L S : Subgroup G} (hLM : L ≤ M) (hSM : S ≤ M) :
     barImage M (conjJoin L S) =
       ⨆ s : S, barImage M (L.map (MulAut.conj (s : G)).toMonoidHom) := by
@@ -87,6 +95,7 @@ private theorem barImage_conjJoin {M L S : Subgroup G} (hLM : L ≤ M) (hSM : S 
     (fun s : S => L.map (MulAut.conj (s : G)).toMonoidHom)
     (fun s => map_conj_le hLM (hSM s.2))
 
+omit [Finite G] in
 private theorem conj_ne_of_mem_not_mem {T L S : Subgroup G}
     (hT₁S : (T ⊓ normalizer (L : Set G)) ≤ S) (hST : S ≤ T)
     {t : G} (htT : t ∈ T) (htS : t ∉ S) {s s' : G} (hs : s ∈ S) (hs' : s' ∈ S) :
@@ -133,6 +142,7 @@ private theorem barImage_conjJoin_commute {M T L S : Subgroup G} (hL : L ∈ cal
     (fun s => map_conj_le hLM (hTM (T.mul_mem htT (hST s.2))))] at hb
   exact ((Subgroup.mem_centralizer_iff.mp (hcomm ha)) b hb).symm
 
+omit [Finite G] in
 private theorem map_conj_conjJoin_le {L S S' : Subgroup G} (hSS' : S ≤ S') {u : G} (hu : u ∈ S') :
     (conjJoin L S).map (MulAut.conj u).toMonoidHom ≤ conjJoin L S' := by
   rw [map_conj_conjJoin]
@@ -140,10 +150,10 @@ private theorem map_conj_conjJoin_le {L S S' : Subgroup G} (hSS' : S ≤ S') {u 
   exact le_iSup (fun s' : S' => L.map (MulAut.conj (s' : G)).toMonoidHom)
     ⟨u * (s : G), S'.mul_mem hu (hSS' s.2)⟩
 
-private theorem mem_conjJoin_mul_conj {M T L S : Subgroup G} (hTM : T ≤ M) {h uh : ↥M} {u : G}
+private theorem mem_conjJoin_mul_conj {M T L S : Subgroup G} (_hTM : T ≤ M) {h uh : ↥M} {u : G}
     (huh : (uh : G) = u * (h : G) * u⁻¹)
     (hD : (h : G) ∈ conjJoin L S) (hN : (h : G) ∈ normalizer (S : Set G))
-    (huT : u ∈ T) (huS : u ∉ S) (huN : u ∈ normalizer (S : Set G)) (hu2 : u ^ 2 ∈ S)
+    (_huT : u ∈ T) (_huS : u ∉ S) (huN : u ∈ normalizer (S : Set G)) (hu2 : u ^ 2 ∈ S)
     (hcommS : (h : G) * (uh : G) * (h : G)⁻¹ * (uh : G)⁻¹ ∈ S) :
     ∃ d : ↥M, (d : G) ∈ conjJoin L (S ⊔ Subgroup.zpowers u) ∧
       (d : G) ∈ normalizer ((S ⊔ Subgroup.zpowers u : Subgroup G) : Set G) ∧ d = h * uh := by
@@ -169,8 +179,9 @@ private theorem mem_conjJoin_mul_conj {M T L S : Subgroup G} (hTM : T ≤ M) {h 
   exact ⟨⟨(h : G) * (uh : G), M.mul_mem h.2 uh.2⟩, by simpa using hdD,
     by simpa using hdN, rfl⟩
 
+omit [Finite G] in
 private theorem orderOf_mul_not_mem_centralizer {M : Subgroup G} {r : ℕ} (hr : r.Prime)
-    (hr2 : r ≠ 2)
+    (_hr2 : r ≠ 2)
     {h uh d : ↥M} (hd : d = h * uh) (hrh : orderOf (uc22p21cPi M h) = r)
     (hruh : orderOf (uc22p21cPi M uh) = r)
     (hcomm : uc22p21cPi M h * uc22p21cPi M uh = uc22p21cPi M uh * uc22p21cPi M h)
@@ -178,7 +189,7 @@ private theorem orderOf_mul_not_mem_centralizer {M : Subgroup G} {r : ℕ} (hr :
     (hnc : uc22p21cPi M h ∉ Subgroup.centralizer (C : Set (Bar2 M))) :
     orderOf (uc22p21cPi M d) = r ∧
       uc22p21cPi M d ∉ Subgroup.centralizer (C : Set (Bar2 M)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hpi : uc22p21cPi M d = uc22p21cPi M h * uc22p21cPi M uh := by
     rw [hd, map_mul]
   have hcomm' : Commute (uc22p21cPi M h) (uc22p21cPi M uh) := hcomm
@@ -206,6 +217,7 @@ private theorem orderOf_mul_not_mem_centralizer {M : Subgroup G} {r : ℕ} (hr :
     exact (Subgroup.centralizer (C : Set (Bar2 M))).mul_mem hdC
       ((Subgroup.centralizer (C : Set (Bar2 M))).inv_mem hC)
 
+omit [Finite G] in
 private theorem exists_pow_mem_normalizer_not_mem_centralizer {M L S' : Subgroup G} {r : ℕ}
     (hr : r.Prime) (hr2 : r ≠ 2)
     {d : ↥M} (hdD : (d : G) ∈ conjJoin L S')
@@ -299,6 +311,7 @@ private theorem torusWitness_step {M T L S : Subgroup G} (hL : L ∈ calC M) (hT
   intro hcent
   exact h'nc (Subgroup.mem_centralizer_iff.2 fun a ha => (hcent a ha).symm)
 
+omit [Finite G] in
 private theorem torusWitness_base {M T L : Subgroup G} (hL : L ∈ calC M) {r : ℕ}
     (hr : r.Prime) (hr2 : r ≠ 2) (hZ : ¬ r ∣ Nat.card (center (Bar2 L)))
     (hone : ∃ x ∈ L, orderOf x = r ∧
@@ -404,10 +417,10 @@ theorem s21_15Torus_of_szHone (D : Data G) (Ch : Choice2011 G)
     · exact hSz hX hT₁ inf_le_right hTL hr (hrs.trans (Nat.pow_sub_one_dvd_pow_sub_one 2 hsn))
   have hZ : ¬ r ∣ Nat.card (center (Bar2 L)) := by
     rcases hshape with hX | hX
-    · haveI := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
+    · have := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hX
       rw [uc22p21k_center_eq_bot hL.2.2, Subgroup.card_bot]
       exact hr.not_dvd_one
-    · haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hX
+    · have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hX
       rw [uc22p21k_center_eq_bot hL.2.2, Subgroup.card_bot]
       exact hr.not_dvd_one
   obtain ⟨x, hxcl, hxo, hxN⟩ :=

@@ -25,7 +25,7 @@ theorem apply_of_mem_blockPreOf {β : Q →* ∀ j, G j} {S : ∀ j, Subgroup (G
     (hy : y ∈ blockPreOf β S j₀) {j : ι} (hj : j ≠ j₀) : β y j = 1 := by
   obtain ⟨x, hx⟩ := hy
   rw [← hx]
-  simp [blockEmbOf, MonoidHom.mulSingle_apply, Pi.mulSingle_eq_of_ne hj]
+  simp [blockEmbOf, Pi.mulSingle_eq_of_ne hj]
 
 theorem apply_mem_of_mem_blockPreOf {β : Q →* ∀ j, G j} {S : ∀ j, Subgroup (G j)} {j₀ : ι}
     {y : Q} (hy : y ∈ blockPreOf β S j₀) : β y j₀ ∈ S j₀ := by
@@ -54,8 +54,8 @@ theorem blockHomOf_surjective {β : Q →* ∀ j, G j} {S : ∀ j, Subgroup (G j
     intro b _
     by_cases hb : b = j₀
     · subst hb
-      simpa [blockEmbOf] using x.2
-    · simp [blockEmbOf, MonoidHom.mulSingle_apply, Pi.mulSingle_eq_of_ne hb, one_mem]
+      simp [blockEmbOf]
+    · simp [blockEmbOf, Pi.mulSingle_eq_of_ne hb, one_mem]
   obtain ⟨q, hq⟩ := hmem
   refine ⟨⟨q, ⟨x, hq.symm⟩⟩, Subtype.ext ?_⟩
   rw [coe_blockHomOf, hq]
@@ -97,14 +97,14 @@ theorem exists_levi_section_of_blocks [Finite Q] {β : Q →* ∀ j, G j} (hker 
     intro y hy
     exact Subtype.ext (hinj y y.2 hy)
   let eY : ↥(blockPreOf β S j₀) ≃* ↥ρ'.range := MonoidHom.ofInjective hρ'inj
-  haveI : Finite ↥(blockPreOf β S j₀) := inferInstance
-  haveI : Finite ↥ρ'.range := Finite.of_surjective _ ρ'.rangeRestrict_surjective
+  have : Finite ↥(blockPreOf β S j₀) := inferInstance
+  have : Finite ↥ρ'.range := Finite.of_surjective _ ρ'.rangeRestrict_surjective
   let θ : ↥(blockPreOf β S j₀) →* ↥(S j₀) ⧸ Subgroup.center ↥(S j₀) :=
     (QuotientGroup.mk' (Subgroup.center ↥(S j₀))).comp (blockHomOf β S j₀)
   let θ' : ↥ρ'.range →* ↥(S j₀) ⧸ Subgroup.center ↥(S j₀) := θ.comp eY.symm.toMonoidHom
   have hθ' : Function.Surjective θ' :=
     ((QuotientGroup.mk'_surjective _).comp (blockHomOf_surjective hS j₀)).comp eY.symm.surjective
-  haveI : IsSimpleGroup (↥(S j₀) ⧸ Subgroup.center ↥(S j₀)) := hq.2
+  have : IsSimpleGroup (↥(S j₀) ⧸ Subgroup.center ↥(S j₀)) := hq.2
   have hsec := S622IsSimpleSection.of_surjective θ' hθ'
     (CFSG.AGLEmbedding.LeviBlock.exists_noncomm_centerQuotient hq)
   refine ⟨ρ'.range, θ'.ker.map ρ'.range.subtype, ?_, hsec, ?_, ?_⟩
@@ -115,7 +115,7 @@ theorem exists_levi_section_of_blocks [Finite Q] {β : Q →* ∀ j, G j} (hker 
     rw [h1, Subgroup.index_ker, MonoidHom.range_eq_top.mpr hθ', Subgroup.card_top]
   · intro r hr hr2 hrZ hdvd
     rw [Subgroup.card_map_of_injective ρ'.range.subtype_injective] at hdvd
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥θ'.ker) r hdvd
     set w : ↥ρ'.range := z.1 with hw
     set y : ↥(blockPreOf β S j₀) := eY.symm w with hy

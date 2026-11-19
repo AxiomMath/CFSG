@@ -14,7 +14,7 @@ open CFSG.Open
 theorem le_pRank_centralizer_statedProj {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type}
     [Field K] [Finite K] {H : Subgroup (GL ι K)} {A : Type*} [Group A] {k : ℕ}
     (hcomm : ∀ a b : A, a * b = b * a) (hpow : ∀ a : A, a ^ 3 = 1) (hA : Nat.card A = 3 ^ k)
-    (φ : A →* GL ι K) (hφ : Function.Injective φ) (hH : ∀ a, φ a ∈ H)
+    (φ : A →* GL ι K) (_hφ : Function.Injective φ) (hH : ∀ a, φ a ∈ H)
     (hsc : ∀ a, φ a ∈ StatedScalars ι K → a = 1) (g : H)
     (hg : ∀ a, (g : GL ι K) * φ a = φ a * (g : GL ι K)) :
     k ≤ pRank 3 (Subgroup.centralizer

@@ -319,8 +319,8 @@ end InnDiag
 theorem outA8_of (hD4 : D4TwoNoA8) : OutA8 := by
   intro d hd hfin hsimp β hmem hβ3 hA8
   classical
-  haveI := hfin
-  haveI := hsimp
+  have := hfin
+  have := hsimp
   have hcard := CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds d
     (TauCeti.CFSGIndex.lie d).Group ⟨MulEquiv.refl _⟩
   have hdvd : 20160 ∣ CFSG.HardMathSupport.Solomon.Coordinator.I1420.lieOrderFormula d.1 := by

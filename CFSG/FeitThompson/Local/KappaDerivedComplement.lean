@@ -48,7 +48,7 @@ theorem le_normalizer_sup_of_isSemidirect {M N U K : Subgroup G}
   obtain ⟨n, hn, e, he, hne⟩ := hmem
   subst hne
   exact mul_mem (le_normalizer ((le_sup_left : N ≤ N ⊔ U) hn))
-    (normalizer_inf_normalizer_le_normalizer_sup N U ⟨hUKnN he, hE.2.2.1 he⟩)
+    (inf_normalizer_le_normalizer_sup N U ⟨hUKnN he, hE.2.2.1 he⟩)
 
 theorem inf_eq_bot_of_isSemidirect {M N U K : Subgroup G}
     (h : IsSemidirect M N (U ⊔ K)) (hE : IsSemidirect (U ⊔ K) U K) :

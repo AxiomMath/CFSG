@@ -29,7 +29,7 @@ theorem a10l45g_eq_zpowers {X : Type} [Group X] {U₀ : Subgroup X} (hc : Nat.ca
     rcases (Nat.dvd_prime (by norm_num : Nat.Prime 5)).mp h1 with h | h
     · exact absurd (orderOf_eq_one_iff.mp h) hu1
     · exact h
-  haveI : Finite U₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Finite U₀ := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   refine (Subgroup.eq_of_le_of_card_ge hle ?_).symm
   rw [Nat.card_zpowers, h2, hc]
 
@@ -38,9 +38,9 @@ theorem a10l45g_lemma45B (X : Type) [Group X] [Finite X] (K : Subgroup X)
     (_hU₀e : IsElemAbelian 5 U₀) (hU₀c : Nat.card U₀ = 5) (hsh : A10Shape K (R : Subgroup X) U₀) :
     ∃ V : Subgroup X, V ≤ K ∧ IsPGroup 2 V ∧ U₀ ≤ normalizer (V : Set X) ∧
       ¬ V ≤ ((A10Gamma ↥K (((R : Subgroup X) ⊓ K : Subgroup X).subgroupOf K))).map K.subtype := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨hKn, -, hKT⟩ := hK
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   obtain ⟨S, hS⟩ := exists_sylow_inf_normal K R
   obtain ⟨e, u, ⟨huU₀, huK⟩, hu, hct⟩ := hsh
   have hu1 : u ≠ 1 := by
@@ -136,28 +136,30 @@ theorem a10l45g_shape
     intro h
     exact hd1 (hf.inj ⟨d, hdC⟩ hdT h)
 
+omit [Finite G] in
 theorem a10l45g_elemAbelian_of_le {p : ℕ} {E F : Subgroup G} (hFE : F ≤ E) (hE : IsElemAbelian p E) :
     IsElemAbelian p F := by
-  haveI := hE.1
+  have := hE.1
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun y hy => hE.2 y (hFE hy)⟩
   have h := mul_comm' (⟨a, hFE a.2⟩ : E) ⟨b, hFE b.2⟩
   apply Subtype.ext
   show (a : G) * b = b * a
   exact congrArg Subtype.val h
 
+omit [Finite G] in
 theorem a10l45g_zpowers_elemAbelian {x : G} (hx5 : x ^ 5 = 1) :
     IsElemAbelian 5 (Subgroup.zpowers x) := by
   refine ⟨inferInstance, fun y hy => ?_⟩
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
   rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul]
-  simp [← zpow_natCast, hx5]
+  simp [hx5]
 
 theorem a10l45g_normalizer_le_M
     (hS : Setting G) (hU0 : FullCoreLocal G) (hc : PointConfig IsA10Type G 5 P M x J)
     (hxJ : x ∉ J) (hTe : IsElemAbelian 5 (u3T P x J)) {B : Subgroup ↥J}
     (hB : B ≤ (u3T P x J).subgroupOf J) (hB1 : B ≠ ⊥) {n : ↥J} (hn : n ∈ normalizer (B : Set ↥J)) :
     (n : G) ∈ M := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set B'' : Subgroup G := B.map J.subtype with hB''
   have hB''T : B'' ≤ u3T P x J := by
     rintro _ ⟨b, hb, rfl⟩
@@ -172,9 +174,9 @@ theorem a10l45g_normalizer_le_M
     Subgroup.mem_centralizer_singleton_iff.mp (hJC hj)
   set E : Subgroup G := B'' ⊔ Subgroup.zpowers x with hE
   have hEP : E ≤ (P : Subgroup G) := sup_le (hB''T.trans hTP) (Subgroup.zpowers_le.mpr hxP)
-  have hEp : IsPGroup 5 E := P.isPGroup'.to_le hEP
+  have hEp : IsPGroup 5 E := P.isPGroup.to_le hEP
   have hB''e : IsElemAbelian 5 B'' := a10l45g_elemAbelian_of_le hB''T hTe
-  have hB''p : IsPGroup 5 B'' := P.isPGroup'.to_le (hB''T.trans hTP)
+  have hB''p : IsPGroup 5 B'' := P.isPGroup.to_le (hB''T.trans hTP)
   obtain ⟨r, hr⟩ := (IsPGroup.iff_card).mp hB''p
   have hr1 : r ≠ 0 := by
     rintro rfl
@@ -226,7 +228,7 @@ theorem a10l45g_sylow_image {T : Subgroup G} {X : Type} [Group X] [Finite X] (π
     ∃ T' : Sylow 5 ↥π.range, (T' : Subgroup ↥π.range) = (T.subgroupOf J).map π.rangeRestrict ∧
       (T' : Subgroup ↥π.range).map π.range.subtype = (T.subgroupOf J).map π ∧
       (R : Subgroup X) ⊓ π.range = (T.subgroupOf J).map π := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set K : Subgroup X := π.range with hK
   let π' : ↥J →* ↥K := π.rangeRestrict
   have hπ' : Function.Surjective π' := π.rangeRestrict_surjective
@@ -238,7 +240,7 @@ theorem a10l45g_sylow_image {T : Subgroup G} {X : Type} [Group X] [Finite X] (π
     rfl
   have hRK : (R : Subgroup X) ⊓ K = (T.subgroupOf J).map π := by
     have hSyl : IsSylowOf 5 ((T.subgroupOf J).map π) K := ⟨T', hT'map⟩
-    refine hSyl.eq_of_le (le_inf hTR ?_) inf_le_right R.isPGroup'.to_inf_left
+    refine hSyl.eq_of_le (le_inf hTR ?_) inf_le_right R.isPGroup.to_inf_left
     rintro _ ⟨j, -, rfl⟩
     exact ⟨j, rfl⟩
   exact ⟨T', by rw [hT'coe, hTsyl], hT'map, hRK⟩
@@ -254,7 +256,7 @@ theorem a10l45g_image_le_gamma
       (M.subgroupOf J).map π ≤
         (A10Gamma ↥π.range (((R : Subgroup X) ⊓ π.range : Subgroup X).subgroupOf π.range)).map
           π.range.subtype := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨T', hT'coe, hT'map, hRK⟩ := a10l45g_sylow_image π hT R hTR
   refine ⟨hRK, ?_⟩
   obtain ⟨Tsyl, hTsyl⟩ := hT.exists_sylow_eq_subgroupOf
@@ -264,7 +266,7 @@ theorem a10l45g_image_le_gamma
   have hSeq : (T' : Subgroup ↥π.range) = ((R : Subgroup X) ⊓ π.range : Subgroup X).subgroupOf π.range := by
     rw [hRK, ← hT'map]
     exact (Subgroup.comap_map_eq_self_of_injective π.range.subtype_injective _).symm
-  have hTJp : IsPGroup 5 ((u3T P x J).subgroupOf J) := hTsyl ▸ Tsyl.isPGroup'
+  have hTJp : IsPGroup 5 ((u3T P x J).subgroupOf J) := hTsyl ▸ Tsyl.isPGroup
   set H : Subgroup ↥π.range := (M.subgroupOf J).map π' with hH
   have hΓH : A10Gamma ↥π.range (T' : Subgroup ↥π.range) ≤ H := by
     refine (Subgroup.closure_le _).mpr ?_
@@ -321,7 +323,7 @@ theorem a10_lemma45_G (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal 
     (hker : ψ.ker = (rankThreePrimeCore 5 J).subgroupOf J) (hQ : IsA10Type 5 Q)
     {U : Subgroup G} (hU : IIPlane 5 P x J U) (hγ : A10PlaneShape J (u3T P x J) ψ U) :
     ∃ S₁ : Subgroup G, rankTwoMaximalInvariantTwoSubgroup U S₁ ∧ ¬ S₁ ≤ M := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨hTcard, hTe, hxJ⟩ := plane_T_structure hX.sylow hc
   have hT2 : 2 ≤ CFSG.Open.pRank 5 (u3T P x J) :=
     CFSG.HardMathSupport.Timmesfeld.Proving.le_pRank_of_elemAbelian_card (by norm_num) le_rfl hTe

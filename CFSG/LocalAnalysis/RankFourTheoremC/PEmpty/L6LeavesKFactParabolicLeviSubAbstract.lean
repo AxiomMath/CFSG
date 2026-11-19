@@ -112,8 +112,8 @@ theorem _root_.CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.S622IsSimpleSection.of
       intro x hx
       exact hDN ⟨x, hx, rfl⟩
     have hNm : (N.subgroupOf Y).map Y.subtype = N := Subgroup.map_subgroupOf_eq_of_le hNY
-    haveI : (N.subgroupOf Y).Normal := hNn
-    haveI : ((N.subgroupOf Y).map φ).Normal := Subgroup.Normal.map ‹_› φ hφ
+    have : (N.subgroupOf Y).Normal := hNn
+    have : ((N.subgroupOf Y).map φ).Normal := Subgroup.Normal.map ‹_› φ hφ
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((N.subgroupOf Y).map φ) with h | h
     · left
       have : N.subgroupOf Y ≤ φ.ker := (Subgroup.map_eq_bot_iff _).mp h
@@ -157,7 +157,7 @@ theorem dvd_card_of_sylow_hyp {S : Type} [Group S] [Finite S] {K₀ : Subgroup S
     (hp : p.Prime)
     (hsyl : ∀ U : Subgroup S, CFSG.ABGLocalTools.IsSylowOf 2 U K₀ →
       ¬ U ≤ rankThreePrimeCore p K₀) : p ∣ Nat.card K₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hdvd
   obtain ⟨U, hU⟩ := CFSG.ABGLocalTools.exists_isSylowOf 2 K₀
   refine hsyl U hU (hU.le.trans (le_sSup ⟨le_rfl, ?_, ?_⟩))
@@ -169,7 +169,7 @@ theorem kFactParabolicLeviSub_of_leviSubAt
     (h : ∀ (S : Type) [Group S] [Finite S], IsChevSimple 2 S → LeviSubAt S) :
     KFactParabolicLeviSub := by
   intro A _ _ K K₀ p hK hB hp h5 hrank hpar hne hsyl
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hat := h ↥K hK
   obtain ⟨hK₀K, U, hU, hUN⟩ := hpar
   have hUK : U ≤ K := hU.le
@@ -179,7 +179,7 @@ theorem kFactParabolicLeviSub_of_leviSubAt
     refine ⟨le_top, U.subgroupOf K, ?_, ?_⟩
     · obtain ⟨Q, hQ⟩ := hU.exists_sylow_eq_subgroupOf
       rw [← hQ]
-      exact (CFSG.ABGLocalTools.isSylowOf_iff).2 ⟨le_top, Q.isPGroup', by
+      exact (CFSG.ABGLocalTools.isSylowOf_iff).2 ⟨le_top, Q.isPGroup, by
         rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
     · rintro g ⟨hgN, -⟩
       have h1 : (g : A) ∈ normalizer (U : Set A) := by
@@ -222,12 +222,14 @@ section Equiv
 
 variable {S S' : Type} [Group S] [Finite S] [Group S'] [Finite S']
 
+omit [Finite S] [Finite S'] in
 theorem bender_of_mulEquiv (e : S ≃* S') (h : fusionIsBenderGroup S') : fusionIsBenderGroup S := by
   rcases h with ⟨f, hf, ⟨m⟩⟩ | ⟨f, hf, ⟨m⟩⟩ | ⟨a, ha, ⟨m⟩⟩
   · exact Or.inl ⟨f, hf, ⟨e.trans m⟩⟩
   · exact Or.inr (Or.inl ⟨f, hf, ⟨e.trans m⟩⟩)
   · exact Or.inr (Or.inr ⟨a, ha, ⟨e.trans m⟩⟩)
 
+omit [Finite S] [Finite S'] in
 theorem map_symm_map (e : S ≃* S') (X : Subgroup S) :
     (X.map e.toMonoidHom).map e.symm.toMonoidHom = X := by
   rw [Subgroup.map_map]
@@ -242,6 +244,7 @@ theorem isSylowOf_map (e : S ≃* S') {p : ℕ} [Fact p.Prime] {U K : Subgroup S
   refine ⟨Subgroup.map_mono hle, hp.map e.toMonoidHom, ?_⟩
   rwa [Subgroup.relIndex_map_map_of_injective _ _ e.injective]
 
+omit [Finite S] [Finite S'] in
 theorem symm_mem_normalizer_map (e : S ≃* S') {U : Subgroup S} {g : S'}
     (hg : g ∈ normalizer ((U.map e.toMonoidHom : Subgroup S') : Set S')) :
     e.symm g ∈ normalizer (U : Set S) := by
@@ -269,7 +272,7 @@ theorem symm_mem_normalizer_map (e : S ≃* S') {U : Subgroup S} {g : S'}
 theorem LeviAt.of_map (e : S ≃* S') {K₀ : Subgroup S} {p : ℕ}
     (h : LeviAt (K₀.map e.toMonoidHom) p) : LeviAt K₀ p := by
   intro hB hp h5 hrank hpar hne hsyl
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hK₀, U, hU, hUN⟩ := hpar
   have hpar' : IsParabolicTwo S' ⊤ (K₀.map e.toMonoidHom) := by
     refine ⟨le_top, U.map e.toMonoidHom, ?_, ?_⟩
@@ -313,12 +316,13 @@ theorem LeviAt.of_map (e : S ≃* S') {K₀ : Subgroup S} {p : ℕ}
   · rwa [Subgroup.card_map_of_injective e.symm.injective]
 
 theorem LeviSubAt.of_mulEquiv (e : S ≃* S') (h : LeviSubAt S') : LeviSubAt S :=
-  fun K₀ p => LeviAt.of_map e (h _ p)
+  fun _K₀ p => LeviAt.of_map e (h _ p)
 
 theorem LeviAt.of_conj (g : S) {K₀ : Subgroup S} {p : ℕ}
     (h : LeviAt (K₀.map (MulAut.conj g).toMonoidHom) p) : LeviAt K₀ p :=
   LeviAt.of_map (MulAut.conj g) h
 
+omit [Finite S] in
 theorem normalizer_map_conj' (x : S) (H : Subgroup S) :
     normalizer ((H.map (MulAut.conj x).toMonoidHom : Subgroup S) : Set S) =
       (normalizer (H : Set S)).map (MulAut.conj x).toMonoidHom :=
@@ -329,7 +333,7 @@ theorem leviSubAt_of_standard_sylow (T₀ : Sylow 2 S)
       LeviAt K₀ p) : LeviSubAt S := by
   intro K₀ p
   by_cases hpar : IsParabolicTwo S ⊤ K₀
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨hK₀, U, hU, hUN⟩ := hpar
     obtain ⟨-, hU2, hUdvd⟩ := (CFSG.ABGLocalTools.isSylowOf_iff).1 hU
     rw [Subgroup.relIndex_top_right] at hUdvd

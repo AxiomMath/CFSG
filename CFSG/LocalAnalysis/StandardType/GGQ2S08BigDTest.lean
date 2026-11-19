@@ -26,14 +26,14 @@ private theorem ggQ2s08td1_IsRefl_to_GGLinRefl {n : ℕ} {g : Vn n ≃ₗ[ZMod 3
 
 theorem ggQ2s08_bigD_test (hKG : GGReflClassLargeThree) [Finite G] (M : GGQ2LDatum 3 Bs L x)
     (hD : M.ShapeD) (hx0 : M.xV ≠ 0) {lab : LargeEvenLabel} (hlab : GGQ2S08BigLabel lab)
-    (hMW : GGQ2LabelWeyl lab M.coxeter) (htag : lab.tag = .twA) (h3 : 3 ∣ lab.rank + 1)
+    (hMW : GGQ2LabelWeyl lab M.coxeter) (_htag : lab.tag = .twA) (h3 : 3 ∣ lab.rank + 1)
     (h12 : 12 ≤ lab.rank + 1) (κ : M.V ≃ₗ[ZMod 3] Vn lab.rank)
     {A Mg : Subgroup (Vn lab.rank ≃ₗ[ZMod 3] Vn lab.rank)}
     (hT : TestHyp ((ggAutomizer L Bs).map (ggQ2CellLin M κ)) (κ M.xV) A Mg)
     (hb : ∀ R : Subgroup (Vn lab.rank ≃ₗ[ZMod 3] Vn lab.rank), R ≤ A →
       8 * Nat.card R < 3 ^ (lab.rank * (lab.rank - 1) / 2))
     {r t : Vn lab.rank ≃ₗ[ZMod 3] Vn lab.rank} (hr : r ∈ Mg) (hrr : IsRefl r)
-    (hrx : ¬ FixesLine (κ M.xV) r) (ht : t ∈ A) (htr : IsRefl t) (htx : ¬ FixesLine (κ M.xV) t) :
+    (hrx : ¬ FixesLine (κ M.xV) r) (ht : t ∈ A) (htr : IsRefl t) (_htx : ¬ FixesLine (κ M.xV) t) :
     False := by
   classical
   let n := lab.rank

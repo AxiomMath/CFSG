@@ -34,19 +34,19 @@ theorem perfect_le_sup_centralizer_component {Y : Type} [Group Y] [Finite Y]
     (hJ : CFSG.Open.IsComponentOf J ⊤) (hEJ : E ≤ Subgroup.normalizer (J : Set Y)) :
     E ≤ J ⊔ Subgroup.centralizer (J : Set Y) := by
   have hSS : CFSG.ComponentClassification.LBalance.SchreierSections Y := hSch.schreierSections hY
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
   have hnab : ∃ a b : ↥J ⧸ Subgroup.center ↥J, a * b ≠ b * a := by
     by_contra hcon
     exact quotient_center_nonabelian_of_isQuasisimple hJ.2.2
       ⟨⟨fun a b => by by_contra h; exact hcon ⟨a, b, h⟩⟩⟩
-  haveI hOutQ : Group.IsSolvable
+  have hOutQ : Group.IsSolvable
       (CFSG.ComponentClassification.OuterAutomorphisms.Outer (↥J ⧸ Subgroup.center ↥J)) :=
     hSS.outer_solvable J hnab (QuotientGroup.mk' (Subgroup.center ↥J))
       (QuotientGroup.mk'_surjective _)
-  haveI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
-  haveI : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥J) :=
+  have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+  have : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥J) :=
     CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_centerQuotient ↥J
-  haveI : Group.IsPerfect ↥E := Subgroup.isPerfect_iff.2 hE
+  have : Group.IsPerfect ↥E := Subgroup.isPerfect_iff.2 hE
   let action : ↥E →* MulAut ↥J := J.normalizerMonoidHom.comp (Subgroup.inclusion hEJ)
   intro e he
   obtain ⟨j, hj⟩ := CFSG.ComponentClassification.OuterAutomorphisms.perfect_action_inner action

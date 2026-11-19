@@ -142,7 +142,7 @@ theorem apW_rep {G : ℕ → ℕ} {c : ℕ → Perm (Fin 8330)}
 noncomputable def tEl (gs : ℕ → Perm (Fin 8330)) (PA : ℕ → ℕ) : ℕ → Perm (Fin 8330)
   | 0 => 1
   | k + 1 =>
-    if h : par PA (k + 1) < k + 1 then gs (lab PA (k + 1)) * tEl gs PA (par PA (k + 1)) else 1
+    if _h : par PA (k + 1) < k + 1 then gs (lab PA (k + 1)) * tEl gs PA (par PA (k + 1)) else 1
 termination_by k => k
 
 theorem tEl_zero (gs : ℕ → Perm (Fin 8330)) (PA : ℕ → ℕ) : tEl gs PA 0 = 1 := by
@@ -150,7 +150,7 @@ theorem tEl_zero (gs : ℕ → Perm (Fin 8330)) (PA : ℕ → ℕ) : tEl gs PA 0
 
 theorem tEl_succ (gs : ℕ → Perm (Fin 8330)) (PA : ℕ → ℕ) (k : ℕ) :
     tEl gs PA (k + 1) =
-      if h : par PA (k + 1) < k + 1 then gs (lab PA (k + 1)) * tEl gs PA (par PA (k + 1))
+      if _h : par PA (k + 1) < k + 1 then gs (lab PA (k + 1)) * tEl gs PA (par PA (k + 1))
       else 1 := by
   rw [tEl]
 
@@ -181,7 +181,7 @@ theorem tree_spec {gs : ℕ → Perm (Fin 8330)} {M : ℕ → ℕ → ℕ} {nG N
       have hE : E (k + 1) = M (E (par PA (k + 1))) (lab PA (k + 1)) := Nat.eq_of_beq_eq_true h
       obtain ⟨he, -⟩ := ih _ hp' (by omega)
       refine ⟨?_, fun _ => ⟨hp', hl'⟩⟩
-      rw [hE, he, hM _ hl', tEl_succ, dif_pos hp', mul_smul]
+      rw [hE, he, hM _ hl', tEl_succ, dite_eq_left hp', mul_smul]
 
 theorem tEl_mem {gs : ℕ → Perm (Fin 8330)} {PA : ℕ → ℕ} {nG N : ℕ}
     {S : Subgroup (Perm (Fin 8330))} (hg : ∀ j < nG, gs j ∈ S)
@@ -194,7 +194,7 @@ theorem tEl_mem {gs : ℕ → Perm (Fin 8330)} {PA : ℕ → ℕ} {nG N : ℕ}
     | zero => rw [tEl_zero]; exact S.one_mem
     | succ k =>
       obtain ⟨hp, hl⟩ := hpl _ hk (Nat.succ_pos k)
-      rw [tEl_succ, dif_pos hp]
+      rw [tEl_succ, dite_eq_left hp]
       exact S.mul_mem (hg _ hl) (ih _ hp (by omega))
 
 theorem trV_rep {G : ℕ → ℕ} {c : ℕ → Perm (Fin 8330)}
@@ -217,7 +217,7 @@ theorem trV_rep {G : ℕ → ℕ} {c : ℕ → Perm (Fin 8330)}
       have h' : rootK PA f (par PA (k + 1)) = true := h
       obtain ⟨hp, hl⟩ := hpl _ hk (Nat.succ_pos k)
       have ih := trV_rep hG hW hpl f _ (by omega) h'
-      rw [tEl_succ, dif_pos hp]
+      rw [tEl_succ, dite_eq_left hp]
       exact (apW_rep hG _ (hW _ hl)).comp ih
 
 theorem memRow_bit {k : ℕ} : ∀ (c : List ℕ) (acc : ℕ),
@@ -505,7 +505,6 @@ theorem grpK_sound {K : Subgroup (Equiv.Perm (Fin 8330))} (hK : BaseFaithful K [
     obtain ⟨b, hb, hne⟩ := ncRec (A := fun b => trV G W PA f x (fld(E y, Nat.mul 14 b, 16383)))
       (B := fun b => trV G W PA f y (fld(E x, Nat.mul 14 b, 16383))) 5 hxy
     apply hne
-    beta_reduce
     rw [(hEt y hy).1, (hEt x hx).1, enc5_fld _ hb, enc5_fld _ hb, hTr x hx _ (Fin.isLt _),
       hTr y hy _ (Fin.isLt _)]
     have e2 := congrArg (fun σ : Perm (Fin 8330) => (σ (bas ⟨b, hb⟩) : ℕ)) e

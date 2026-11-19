@@ -104,7 +104,7 @@ private theorem lk0xlqinner_smallFieldInner_not_rank_one
       (Nat.card K = 2 ∨
         ⁅componentRootSpan K χ i, componentRootSpan K χ i⁆ = componentRootSpan K χ i) := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hcard2 : 2 ≤ Nat.card K := by
     rw [Nat.card_eq_fintype_card]; exact Fintype.one_lt_card
   have hτ : ∀ τ : Tag, τ = .G2 ∨ τ = .F4 ∨ τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8 := by
@@ -133,10 +133,10 @@ private theorem lk0xlqinner_smallFieldInner_not_rank_one
 
 theorem lq_inner_solvable_of_rank_one
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L]
-    {p₀ p : ℕ} (S : LangSetup τ L p₀) {a : Fin τ.rank → Lˣ} (hp : p.Prime)
-    (hT : rootDiagUnit τ a ∈ S.D.torus) (hTp : rootDiagUnit τ a ^ p = 1)
-    (ha1 : rootDiagUnit τ a ≠ 1) (i : KernelComponent (rootCharHom a))
-    (hkind : twistKind S.ρ (rootCharHom a) i = .inner) (hp5 : τ = .G2 → 5 ≤ p)
+    {p₀ p : ℕ} (S : LangSetup τ L p₀) {a : Fin τ.rank → Lˣ} (_hp : p.Prime)
+    (hT : rootDiagUnit τ a ∈ S.D.torus) (_hTp : rootDiagUnit τ a ^ p = 1)
+    (_ha1 : rootDiagUnit τ a ≠ 1) (i : KernelComponent (rootCharHom a))
+    (hkind : twistKind S.ρ (rootCharHom a) i = .inner) (_hp5 : τ = .G2 → 5 ≤ p)
     (hQ : S.D.q ^ componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) < 4)
     (hrank : ∀ α ∈ componentRoots (rootCharHom a) i, ∀ δ ∈ componentRoots (rootCharHom a) i,
       δ = α ∨ δ = -α) :

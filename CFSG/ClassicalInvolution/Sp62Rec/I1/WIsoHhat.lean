@@ -202,11 +202,11 @@ section Iso
 
 
 theorem homW_bijective : Function.Bijective homW := by
-  haveI := finite_card_WPG.1
+  have := finite_card_WPG.1
   exact homW_surjective.bijective_of_nat_card_le (by rw [card_Wsub]; exact finite_card_WPG.2)
 
 theorem homH_bijective : Function.Bijective homH := by
-  haveI := finite_card_WPG.1
+  have := finite_card_WPG.1
   exact homH_surjective.bijective_of_nat_card_le (by rw [card_Hhat]; exact finite_card_WPG.2)
 
 @[expose] noncomputable def ΘW : ↥Wsub ≃* ↥Hhat :=

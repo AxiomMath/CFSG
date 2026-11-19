@@ -40,16 +40,19 @@ private noncomputable def q2cFNX_U1 (x : FlagK K 4) :
     Submodule K (Fin (blockSize [0, 2, 4] 0) → K) :=
   (x.E 3).map q2cFNX_o1
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNX_o0_i0 (w : Fin (blockSize [0, 2, 4] 0) → K) :
     q2cFNX_o0 (q2cFNX_i0 w) = w := by
   show blkOut 4 [0, 2, 4] 0 (blkIn 4 [0, 2, 4] 0 w) = w
   exact blkOut_blkIn isCut_22 (b := 0) (by decide) w
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNX_o1_i1 (w : Fin (blockSize [0, 2, 4] 0) → K) :
     q2cFNX_o1 (q2cFNX_i1 w) = w :=
   blkOut_blkIn isCut_22 (b := 1) (by decide)
     (w : Fin (blockSize [0, 2, 4] 1) → K)
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNX_map_o0_i0 (U : Submodule K (Fin (blockSize [0, 2, 4] 0) → K)) :
     (U.map q2cFNX_i0).map q2cFNX_o0 = U := by
   rw [← Submodule.map_comp]
@@ -61,17 +64,20 @@ private theorem q2cFNX_map_o0_i0 (U : Submodule K (Fin (blockSize [0, 2, 4] 0) �
     exact q2cFNX_o0_i0 w
   rw [h, Submodule.map_id]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNX_map_o1_i1 (U : Submodule K (Fin (blockSize [0, 2, 4] 0) → K)) :
     (Vsub 4 2 ⊔ U.map q2cFNX_i1).map q2cFNX_o1 = U :=
   map_blkOut_sup_map_blkIn isCut_22 (b := 1) (by decide)
     (U : Submodule K (Fin (blockSize [0, 2, 4] 1) → K))
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNX_map_sup_i0 {g : GL (Fin 4) K} (hg : StabV 4 [0, 2, 4] g)
     (U : Submodule K (Fin (blockSize [0, 2, 4] 0) → K)) :
     (Vsub 4 0 ⊔ U.map q2cFNX_i0).map (glLin g).toLinearMap =
       Vsub 4 0 ⊔ (U.map (q2cFNX_m0 g)).map q2cFNX_i0 :=
   map_sup_map_blkIn isCut_22 (b := 0) (by decide) hg U
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNX_map_sup_i1 {g : GL (Fin 4) K} (hg : StabV 4 [0, 2, 4] g)
     (U : Submodule K (Fin (blockSize [0, 2, 4] 0) → K)) :
     (Vsub 4 2 ⊔ U.map q2cFNX_i1).map (glLin g).toLinearMap =
@@ -79,6 +85,7 @@ private theorem q2cFNX_map_sup_i1 {g : GL (Fin 4) K} (hg : StabV 4 [0, 2, 4] g)
   map_sup_map_blkIn isCut_22 (b := 1) (by decide) hg
     (U : Submodule K (Fin (blockSize [0, 2, 4] 1) → K))
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNX_glLin_inv {n : ℕ} (g : GL (Fin n) K) :
     glLin g⁻¹ = (glLin g).symm := by
   have hmul : ∀ a b : GL (Fin n) K, glLin (a * b) = (glLin b).trans (glLin a) := by
@@ -116,12 +123,12 @@ theorem q2cFNX_span_sgv (hK : Nat.card K = (2 ^ f) ^ 2) {n : ℕ}
 private theorem q2cFNX_jShift_eq_nat (v : Fin 4 → K) :
     jShift K f v = blkIn 4 [0, 2, 4] 1 (sgv K f 2 (blkOut 4 [0, 2, 4] 0 v)) := by
   funext k
-  fin_cases k <;> simp [jShift, blkIn, blkOut, sgv, sgv_apply] <;> split_ifs <;> simp
+  fin_cases k <;> simp [jShift, blkIn, blkOut, sgv]
 
 private theorem q2cFNX_jShiftInv_eq_nat (v : Fin 4 → K) :
     jShiftInv K f v = blkIn 4 [0, 2, 4] 0 (sgv K f 2 (blkOut 4 [0, 2, 4] 1 v)) := by
   funext k
-  fin_cases k <;> simp [jShiftInv, blkIn, blkOut, sgv, sgv_apply] <;> split_ifs <;> simp
+  fin_cases k <;> simp [jShiftInv, blkIn, blkOut, sgv]
 
 private theorem q2cFNX_jShift_eq (v : Fin 4 → K) :
     jShift K f v = q2cFNX_i1 (sgv K f (blockSize [0, 2, 4] 0) (q2cFNX_o0 v)) :=
@@ -221,6 +228,7 @@ private theorem q2cFNX_U1_flagPsiX (hK : Nat.card K = (2 ^ f) ^ 2) {x : FlagK K 
   rw [q2cFNX_U1, q2cFNX_psiX_E_three hK hx]
   exact q2cFNX_map_o1_i1 (sgS K f (blockSize [0, 2, 4] 0) (q2cFNX_U0 x))
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFNX_flagAct_E {n : ℕ} {d : List ℕ} (hd : IsCut n d) {b : ℕ}
     (hb : b + 1 < d.length) {g : GL (Fin n) K} (hg : StabV n d g) {x : FlagK K n}
     (hx : x ∈ refSet K n d) {s : ℕ} (hs : s ≤ blockSize d b) :
@@ -230,6 +238,7 @@ theorem q2cFNX_flagAct_E {n : ℕ} {d : List ℕ} (hd : IsCut n d) {b : ℕ}
   obtain ⟨h1, h2⟩ := refSet_E_mem_interval hd hx hb hs
   conv_lhs => rw [eq_sup_map_blkIn hd hb h1 h2, map_sup_map_blkIn hd hb hg]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNX_E1_eq {x : FlagK K 4} (hx : x ∈ refSet K 4 [0, 2, 4]) :
     x.E 1 = (q2cFNX_U0 x).map q2cFNX_i0 := by
   obtain ⟨h1, h2⟩ := refSet_E_mem_interval isCut_22 hx (b := 0) (by decide) (s := 1) (by decide)
@@ -238,6 +247,7 @@ private theorem q2cFNX_E1_eq {x : FlagK K 4} (hx : x ∈ refSet K 4 [0, 2, 4]) :
   rw [h0, Vsub_zero, bot_sup_eq] at h
   simpa only [q2cFNX_U0, q2cFNX_o0, q2cFNX_i0] using h
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNX_E3_eq {x : FlagK K 4} (hx : x ∈ refSet K 4 [0, 2, 4]) :
     x.E 3 = Vsub 4 2 ⊔ (q2cFNX_U1 x).map q2cFNX_i1 := by
   obtain ⟨h1, h2⟩ := refSet_E_mem_interval isCut_22 hx (b := 1) (by decide) (s := 1) (by decide)
@@ -247,6 +257,7 @@ private theorem q2cFNX_E3_eq {x : FlagK K 4} (hx : x ∈ refSet K 4 [0, 2, 4]) :
   rw [h3, h2'] at h
   exact h
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNX_flagAct_E1 {g : GL (Fin 4) K} (hg : StabV 4 [0, 2, 4] g)
     {x : FlagK K 4} (hx : x ∈ refSet K 4 [0, 2, 4]) :
     (flagAct g x).E 1 =
@@ -256,6 +267,7 @@ private theorem q2cFNX_flagAct_E1 {g : GL (Fin 4) K} (hg : StabV 4 [0, 2, 4] g)
   rw [hgt] at h
   simpa only [q2cFNX_U0, q2cFNX_m0, q2cFNX_o0, q2cFNX_i0, List.getD_cons_zero] using h
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNX_flagAct_E3 {g : GL (Fin 4) K} (hg : StabV 4 [0, 2, 4] g)
     {x : FlagK K 4} (hx : x ∈ refSet K 4 [0, 2, 4]) :
     (flagAct g x).E 3 =
@@ -266,6 +278,7 @@ private theorem q2cFNX_flagAct_E3 {g : GL (Fin 4) K} (hg : StabV 4 [0, 2, 4] g)
   rw [hgt, hgt'] at h
   exact h
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFNX_blkMat_eq_of_act {n : ℕ} {d : List ℕ} (hd : IsCut n d)
     {E : ∀ b, (Fin (blockSize d b) → K) ≃ₗ[K] (Fin (blockSize d b) → K)}
     {e : GL (Fin n) K}
@@ -276,7 +289,8 @@ theorem q2cFNX_blkMat_eq_of_act {n : ℕ} {d : List ℕ} (hd : IsCut n d)
   change blkOut n d b (glLin e (blkIn n d b w)) = E b w
   rw [heAct b hb w, blkOut_blkIn hd hb]
 
-theorem q2cFNX_blockDiag_inv_act {n : ℕ} {d : List ℕ} (hd : IsCut n d)
+omit [Finite K] [CharP K 2] in
+theorem q2cFNX_blockDiag_inv_act {n : ℕ} {d : List ℕ} (_hd : IsCut n d)
     {E : ∀ b, (Fin (blockSize d b) → K) ≃ₗ[K] (Fin (blockSize d b) → K)}
     {e : GL (Fin n) K}
     (heAct : ∀ b, b + 1 < d.length → ∀ w, glLin e (blkIn n d b w) = blkIn n d b (E b w))
@@ -286,18 +300,21 @@ theorem q2cFNX_blockDiag_inv_act {n : ℕ} {d : List ℕ} (hd : IsCut n d)
   apply (glLin e).injective
   rw [LinearEquiv.apply_symm_apply, heAct b hb ((E b).symm w), LinearEquiv.apply_symm_apply]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNX_U0_flagAct {g : GL (Fin 4) K} (hg : StabV 4 [0, 2, 4] g)
     {x : FlagK K 4} (hx : x ∈ refSet K 4 [0, 2, 4]) :
     q2cFNX_U0 (flagAct g x) = (q2cFNX_U0 x).map (q2cFNX_m0 g) := by
   rw [q2cFNX_U0, q2cFNX_flagAct_E1 hg hx, Vsub_zero, bot_sup_eq]
   exact q2cFNX_map_o0_i0 _
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNX_U1_flagAct {g : GL (Fin 4) K} (hg : StabV 4 [0, 2, 4] g)
     {x : FlagK K 4} (hx : x ∈ refSet K 4 [0, 2, 4]) :
     q2cFNX_U1 (flagAct g x) = (q2cFNX_U1 x).map (q2cFNX_m1 g) := by
   rw [q2cFNX_U1, q2cFNX_flagAct_E3 hg hx]
   exact q2cFNX_map_o1_i1 _
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFNX_map_symm_ofBijective {m : ℕ} (f : (Fin m → K) →ₗ[K] (Fin m → K))
     (hf : Function.Bijective f) (U : Submodule K (Fin m → K)) :
     (U.map f).map (LinearEquiv.ofBijective f hf).symm.toLinearMap = U := by
@@ -351,11 +368,11 @@ theorem exists_normalForm_flagPsiX (hK : Nat.card K = (2 ^ f) ^ 2) {M : GL (Fin 
       (Fin (blockSize [0, 2, 4] b) → K) := fun b =>
     if h : b = 0 then h ▸ E0 else LinearEquiv.refl K _
   obtain ⟨e, he, heAct⟩ := exists_blockDiag hd E
-  have hE0 : E 0 = E0 := by simp only [E, dif_pos rfl]
+  have hE0 : E 0 = E0 := by simp only [E, dite_eq_left rfl]
   have hE0symm : ((E 0).symm).toLinearMap = A := by rw [hE0]; rfl
   have hE1 : E 1 = LinearEquiv.refl K _ := by
     have h10 : (1 : ℕ) ≠ 0 := by norm_num
-    simp only [E, dif_neg h10]
+    simp only [E, dite_eq_right h10]
   have hm0e : q2cFNX_m0 e = (E 0).toLinearMap :=
     q2cFNX_blkMat_eq_of_act hd heAct hb0
   have hm1e : q2cFNX_m1 e = (E 1).toLinearMap :=

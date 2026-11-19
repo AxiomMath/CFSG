@@ -24,9 +24,9 @@ open CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley
 
 
 theorem not_dvd_card_center_e6_three {F : Type} [Field F] [Finite F] [CharP F 2]
-    {n p : ℕ} (hcard : Nat.card F = 2 ^ n) (hp : p.Prime) (hrk : rk2Ord p n = 3) :
+    {n p : ℕ} (_hcard : Nat.card F = 2 ^ n) (hp : p.Prime) (hrk : rk2Ord p n = 3) :
     ¬ p ∣ Nat.card (Subgroup.center ↥(e6Data_valid.minGroup F)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ : Nat.card (Subgroup.center ↥(e6Data_valid.minGroup F)) =
       Nat.gcd 3 (Nat.card F - 1) :=
     (CFSG.LieType.Steinberg.CentralExt.MinusculeClosed.card_center_e6 F).1
@@ -50,7 +50,7 @@ theorem pRank_adjoint_e6_three {F : Type} [Field F] [Finite F] [CharP F 2]
     {n p : ℕ} (hcard : Nat.card F = 2 ^ n) (hp : p.Prime) (hp2 : p ≠ 2)
     (hrk : rk2Ord p n = 3) :
     CFSG.Open.pRank p (⊤ : Subgroup (adjointGroup Tag.E6 F)) = 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 < p := by
     have h2ne : (2 : ZMod p) ≠ 0 := by
       intro h0
@@ -72,7 +72,7 @@ theorem pRank_adjoint_e6_three {F : Type} [Field F] [Finite F] [CharP F 2]
     have hpge2 : 2 ≤ p := hp.two_le
     rcases hdvd with ⟨k, hk⟩
     omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have he : orderOf ((Nat.card F : ℕ) : ZMod p) = 3 := by
     rw [hcard]
     rw [show (((2 ^ n : ℕ) : ZMod p)) = (2 : ZMod p) ^ n by push_cast; rfl]
@@ -99,7 +99,7 @@ theorem pRank_minGroup_e6_three {F : Type} [Field F] [Finite F] [CharP F 2]
     {n p : ℕ} (hcard : Nat.card F = 2 ^ n) (hp : p.Prime) (hp2 : p ≠ 2)
     (hrk : rk2Ord p n = 3) :
     CFSG.Open.pRank p (⊤ : Subgroup ↥(e6Data_valid.minGroup F)) = 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop : Nat.Coprime p (Nat.card (e6Isogeny F).ker) :=
     ker_e6Isogeny_coprime_three hcard hp hrk
   rw [CFSG.RankThreeCoreUniqueness.Helpers.pRank_top_eq_of_coprime_kernel p hp
@@ -111,7 +111,7 @@ theorem card_maximal_elemAbelian_e6_three {F : Type} [Field F] [Finite F] [CharP
     (hAe : IsElemAbelian p Ã)
     (hmax : CFSG.Open.pRank p (⊤ : Subgroup ↥(e6Data_valid.minGroup F)) ≤
       CFSG.Open.pRank p Ã)
-    (hA3 : 3 ≤ CFSG.Open.pRank p Ã) :
+    (_hA3 : 3 ≤ CFSG.Open.pRank p Ã) :
     Nat.card Ã = p ^ 3 := by
   have hprank := pRank_minGroup_e6_three hcard hp hp2 hrk
   have hAle : CFSG.Open.pRank p Ã ≤ 3 := by

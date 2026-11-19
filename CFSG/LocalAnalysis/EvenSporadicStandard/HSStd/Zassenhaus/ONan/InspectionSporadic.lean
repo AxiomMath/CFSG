@@ -15,7 +15,7 @@ open Subgroup CFSG.Blueprint CFSG.Blueprint.NativeSporadic
 theorem inspectionArm_m22 :
     InspectionArm fun N _ => IsSporadic N .M22 := by
   intro Y _ _ N hN hC hQ P _ _ _ _ hw
-  haveI := hN
+  have := hN
   exfalso
   have hZ : center ↥N = ⊥ := center_eq_bot_of_isSporadic_m22 hQ
   have hidx : N.index ≤ 2 :=
@@ -46,7 +46,7 @@ theorem inspectionArm_m22 :
 theorem inspectionArm_m23 :
     InspectionArm fun N _ => IsSporadic N .M23 := by
   intro Y _ _ N hN hC hQ P _ _ _ _ hw
-  haveI := hN
+  have := hN
   exfalso
   have hZ : center ↥N = ⊥ := center_eq_bot_of_isSporadic_m23 hQ
   have hidx : N.index ≤ 1 :=
@@ -69,7 +69,7 @@ theorem inspectionArm_m23 :
 theorem inspectionArm_m24 :
     InspectionArm fun N _ => IsSporadic N .M24 := by
   intro Y _ _ N hN hC hQ P _ _ _ _ hw
-  haveI := hN
+  have := hN
   exfalso
   have hZ : center ↥N = ⊥ := center_eq_bot_of_isSporadic_m24 hQ
   have hidx : N.index ≤ 1 :=
@@ -96,7 +96,7 @@ theorem inspectionArm_m24 :
 theorem inspectionArm_ru :
     InspectionArm fun N _ => IsSporadic N .Ru := by
   intro Y _ _ N hN hC hQ P _ _ _ _ hw
-  haveI := hN
+  have := hN
   exfalso
   have hZ : center ↥N = ⊥ := center_eq_bot_of_isSporadic_ru hQ
   have hidx : N.index ≤ 1 :=
@@ -123,7 +123,7 @@ theorem inspectionArm_ru :
 theorem inspectionArm_j2 :
     InspectionArm fun N _ => IsSporadic N .J2 := by
   intro Y _ _ N hN hC hQ P _ _ _ _ hw
-  haveI := hN
+  have := hN
   exfalso
   have hZ : center ↥N = ⊥ := center_eq_bot_of_isSporadic_j2 hQ
   have hidx : N.index ≤ 2 :=

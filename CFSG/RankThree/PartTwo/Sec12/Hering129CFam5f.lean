@@ -67,7 +67,7 @@ theorem kFCensus46Five_He :
   obtain ⟨e0⟩ := hQ
   let e : Q ≃* NativeSporadic.He := e0
   let ψ0 : Q ≃* heP := e.trans heEquivP
-  haveI : Finite heP := Finite.of_equiv Q ψ0.toEquiv
+  have : Finite heP := Finite.of_equiv Q ψ0.toEquiv
   set s : heP := ψ0 c with hs
   have hord : orderOf (s : Equiv.Perm (Fin 8330)) = 3 := by
     rw [Subgroup.orderOf_coe, hs, MulEquiv.orderOf_eq]
@@ -80,7 +80,7 @@ theorem kFCensus46Five_He :
       apply Subtype.ext
       have h1 : ((φ s : heP) : Equiv.Perm (Fin 8330)) =
           cc⁻¹ * (s : Equiv.Perm (Fin 8330)) * cc := by
-        simp [hφ, hgP, MulAut.conj_apply]
+        simp [hφ, hgP]
       rw [h1, hcx]
       show cc⁻¹ * (cc * bOf heThreeWordsA * cc⁻¹) * cc = bOf heThreeWordsA
       group
@@ -100,7 +100,7 @@ theorem kFCensus46Five_He :
     have hφs : ((φ s : heP) : Equiv.Perm (Fin 8330)) = bOf heThreeWordsB := by
       have h1 : ((φ s : heP) : Equiv.Perm (Fin 8330)) =
           cc⁻¹ * (s : Equiv.Perm (Fin 8330)) * cc := by
-        simp [hφ, hgP, MulAut.conj_apply]
+        simp [hφ, hgP]
       rw [h1, hcx]
       group
     have hcard : Nat.card ↥(Subgroup.centralizer ({φ s} : Set heP)) = 504 := by

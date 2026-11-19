@@ -822,7 +822,7 @@ private theorem CFSG.section12_tau2_sylow_le_E2_of_abelian
     section12_E2_hall_in_E hE.2.1 hE.2.2.2.1
   rcases hE2HallIn with ⟨_hE2E, hHallE2E⟩
   have hSπsingleton : IsPiSubgroup (G := G) ({p} : Set Nat.Primes) (S : Subgroup G) :=
-    section8_isPiSubgroup_singleton_of_isPGroup S.isPGroup'
+    section8_isPiSubgroup_singleton_of_isPGroup S.isPGroup
   have hSπ : IsPiSubgroup (G := G) (section12Tau2Primes M) (S : Subgroup G) := by
     intro q hqS
     have hqsingleton : q ∈ ({p} : Set Nat.Primes) := hSπsingleton q hqS
@@ -877,7 +877,7 @@ private theorem CFSG.section12_exists_tau2_cyclic_factor_of_abelian_sylow_of_the
     exact hAne hAbot
   have : Nontrivial Ssub := (Subgroup.nontrivial_iff_ne_bot (H := Ssub)).2 hSne
   have : Fact p.val.Prime := ⟨p.2⟩
-  have hSp : IsPGroup p.val Ssub := S.isPGroup'
+  have hSp : IsPGroup p.val Ssub := S.isPGroup
   let : CommGroup Ssub := IsMulCommutative.instCommGroup
   rcases (IsPGroup.nontrivial_iff_card (p := p.val) (G := Ssub) (hG := hSp)).mp inferInstance with
     ⟨n, hn_pos, hcardS⟩
@@ -1533,7 +1533,7 @@ private theorem CFSG.section12_quotientPrime_of_sylow_not_le_normal
   let PS : Sylow q.val Ksub := Classical.choice (Sylow.nonempty (p := q.val) (G := Ksub))
   let Pmap : Subgroup E := (PS : Subgroup Ksub).map Ksub.subtype
   have hPmap_p : IsPGroup q.val Pmap := by
-    exact IsPGroup.map (p := q.val) (H := (PS : Subgroup Ksub)) PS.isPGroup' Ksub.subtype
+    exact IsPGroup.map (p := q.val) (H := (PS : Subgroup Ksub)) PS.isPGroup Ksub.subtype
   have hPmap_not_dvd : ¬ q.val ∣ Pmap.index := by
     have hPS_not_dvd : ¬ q.val ∣ (PS : Subgroup Ksub).index := PS.not_dvd_index
     rw [show Pmap = (PS : Subgroup Ksub).map Ksub.subtype by rfl]
@@ -2130,7 +2130,7 @@ private theorem
     exact y.property
   have hQE_p : IsPGroup q.val (QE Qe) := by
     change IsPGroup q.val ((Qe : Subgroup E).map E.subtype)
-    exact IsPGroup.map Qe.isPGroup' E.subtype
+    exact IsPGroup.map Qe.isPGroup E.subtype
   have hQE_not_le_CES : ¬ QE Qe ≤ CES := by
     intro hQE_le_CES
     have hQe_le_CESsub : (Qe : Subgroup E) ≤ CES.subgroupOf E := by
@@ -2144,10 +2144,10 @@ private theorem
     intro hqp
     have hQE_pp : IsPGroup p.val (QE Qe) := by simpa [hqp] using hQE_p
     have hJoin_p : IsPGroup p.val (Ssub ⊔ QE Qe : Subgroup G) :=
-      IsPGroup.to_sup_of_normal_left' S.isPGroup' hQE_pp (hQE_le_E.trans hE_le_NS)
+      IsPGroup.to_sup_of_normal_left' S.isPGroup hQE_pp (hQE_le_E.trans hE_le_NS)
     obtain ⟨T, hJoin_le_T⟩ := IsPGroup.exists_le_sylow (G := G) (p := p.val) hJoin_p
     have hS_le_T : Ssub ≤ (T : Subgroup G) := le_sup_left.trans hJoin_le_T
-    have hT_eq_S : (T : Subgroup G) = Ssub := S.maximal_isPGroup.eq_of_ge T.isPGroup' hS_le_T
+    have hT_eq_S : (T : Subgroup G) = Ssub := S.maximal_isPGroup.eq_of_ge T.isPGroup hS_le_T
     have hQE_le_S : QE Qe ≤ Ssub := by
       have hQE_le_T : QE Qe ≤ (T : Subgroup G) := le_trans le_sup_right hJoin_le_T
       rwa [hT_eq_S] at hQE_le_T
@@ -2162,7 +2162,7 @@ private theorem
           (s := Ssub) hs ht).symm
     exact hQE_not_le_CES (hQE_le_S.trans hS_le_CES)
   have hcopQE_S : Nat.Coprime (Nat.card (QE Qe)) (Nat.card Ssub) :=
-    IsPGroup.coprime_card_of_ne q.val p.val hq_ne_p (QE Qe) Ssub hQE_p S.isPGroup'
+    IsPGroup.coprime_card_of_ne q.val p.val hq_ne_p (QE Qe) Ssub hQE_p S.isPGroup
   have hQE_not_le_CEA : ¬ QE Qe ≤ CEA := by
     intro hQE_le_CEA
     have hQE_le_NS : QE Qe ≤ Subgroup.normalizer (Ssub : Set G) := hQE_le_E.trans hE_le_NS
@@ -2183,7 +2183,7 @@ private theorem
         intro hs1
         exact hsprime.ne_one (by simp [hs1])
       have hs_order_eq_p : orderOf s = p.val := by
-        rcases (IsPGroup.iff_orderOf (p := p.val)).mp S.isPGroup' s with ⟨m, hm_eq⟩
+        rcases (IsPGroup.iff_orderOf (p := p.val)).mp S.isPGroup s with ⟨m, hm_eq⟩
         have hp_dvd_order : p.val ∣ orderOf s := by
           cases m with
           | zero =>
@@ -2296,7 +2296,7 @@ private theorem
     exact y.property
   have hQE_p : IsPGroup q.val QE := by
     change IsPGroup q.val ((Qe : Subgroup E).map E.subtype)
-    exact IsPGroup.map Qe.isPGroup' E.subtype
+    exact IsPGroup.map Qe.isPGroup E.subtype
   have hQE_ne_bot : QE ≠ ⊥ := by
     intro hQEbot
     apply hQE_not_le_CEA
@@ -2509,7 +2509,7 @@ private theorem
     have hQEsub_p : IsPGroup q.val QEsub := by
       have hQE_p : IsPGroup q.val QE := by
         change IsPGroup q.val ((Qe : Subgroup E).map E.subtype)
-        exact IsPGroup.map Qe.isPGroup' E.subtype
+        exact IsPGroup.map Qe.isPGroup E.subtype
       exact hQE_p.of_equiv
         (Subgroup.subgroupOfEquivOfLe (H := QE) (K := N) hQE_le_NS).symm
     obtain ⟨Q, hQEsub_le_Q⟩ := IsPGroup.exists_le_sylow (G := N) (p := q.val) hQEsub_p
@@ -2526,7 +2526,7 @@ private theorem
         hM hE hp hA hAS hScomm
     have hQG_p : IsPGroup q.val QG := by
       change IsPGroup q.val ((Q : Subgroup N).map N.subtype)
-      exact IsPGroup.map Q.isPGroup' N.subtype
+      exact IsPGroup.map Q.isPGroup N.subtype
     have hQG_le_N : QG ≤ N := by
       intro x hx
       rcases Subgroup.mem_map.mp hx with ⟨y, _hy, rfl⟩
@@ -2640,7 +2640,7 @@ private theorem
         exact False.elim (hQG_ne_bot hQGbot)
       · exact hQG_dvd
     have hcop_QG_Ssub : Nat.Coprime (Nat.card QG) (Nat.card Ssub) :=
-      IsPGroup.coprime_card_of_ne q.val p.val hq_ne_p QG Ssub hQG_p (by simpa [Ssub] using S.isPGroup')
+      IsPGroup.coprime_card_of_ne q.val p.val hq_ne_p QG Ssub hQG_p (by simpa [Ssub] using S.isPGroup)
     have hcop_q_Ssub : Nat.Coprime q.val (Nat.card Ssub) :=
       Nat.Coprime.of_dvd_left hq_dvd_QG hcop_QG_Ssub
     have hquot_p : IsPGroup q.val (QG ⧸ (Q0.subgroupOf QG)) :=
@@ -2663,7 +2663,7 @@ private theorem
           hcop_q_Ssub hquot_p hreg
       have hQE_p : IsPGroup q.val QE := by
         change IsPGroup q.val ((Qe : Subgroup E).map E.subtype)
-        exact IsPGroup.map Qe.isPGroup' E.subtype
+        exact IsPGroup.map Qe.isPGroup E.subtype
       let Q0sub : Subgroup QG := Q0.subgroupOf QG
       let QEsubQG : Subgroup QG := QE.subgroupOf QG
       have hQ0sub_le_QEsub : Q0sub ≤ QEsubQG := by
@@ -2915,7 +2915,7 @@ private theorem
         exact hXsub_p.of_equiv
           (Subgroup.subgroupOfEquivOfLe (H := X) (K := QG) hX_le_QG)
       have hS_p : IsPGroup p.val Ssub := by
-        simpa [Ssub] using S.isPGroup'
+        simpa [Ssub] using S.isPGroup
       have hcop_X_S : Nat.Coprime (Nat.card X) (Nat.card Ssub) :=
         IsPGroup.coprime_card_of_ne q.val p.val hq_ne_p X Ssub hX_p hS_p
       let : IsMulCommutative Ssub := hScomm
@@ -3238,7 +3238,7 @@ private theorem CFSG.section12_exists_tau2_regular_full_exponent_subgroup_of_abe
         (E₂ := E₂) (E₃ := E₃) (A := B) (p := q) (S := Q)
         hM hE hcent hqτ2 hB hB_le_Q hQcomm
     have hZsub_p : IsPGroup q.val (Z.subgroupOf (Q : Subgroup G)) :=
-      Q.isPGroup'.to_subgroup (Z.subgroupOf (Q : Subgroup G))
+      Q.isPGroup.to_subgroup (Z.subgroupOf (Q : Subgroup G))
     have hZp : IsPGroup q.val Z :=
       hZsub_p.of_equiv
         (Subgroup.subgroupOfEquivOfLe (H := Z) (K := (Q : Subgroup G)) hZ_le_Q)
@@ -3348,7 +3348,7 @@ private theorem CFSG.section12_exists_tau2_regular_full_exponent_subgroup_of_abe
     have : Fact (qOf i).val.Prime := ⟨(qOf i).2⟩
     simpa [Qfac] using
       IsPGroup.map (show IsPGroup (qOf i).val ((default : Sylow (qOf i).val E₂) : Subgroup E₂) from
-        (default : Sylow (qOf i).val E₂).isPGroup') E₂.subtype
+        (default : Sylow (qOf i).val E₂).isPGroup) E₂.subtype
   have hQfac_coprime :
       Pairwise fun i j => Nat.Coprime (Nat.card (Qfac i)) (Nat.card (Qfac j)) := by
     intro i j hij

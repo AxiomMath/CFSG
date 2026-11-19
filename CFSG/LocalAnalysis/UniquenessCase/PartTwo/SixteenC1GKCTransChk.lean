@@ -96,7 +96,7 @@ theorem s16c1c_exists_trans_pair {P : Subgroup (V₀ ≃ₗ[ZMod 2] V₀)}
   have hcode : ∀ x ∈ P, ∃ c ∈ (sylowWords true).map wordC, Coded x c :=
     fun x hx => s16c1c_exists_coded_of_mem_T (hT x hx)
   obtain ⟨H, hH, hcodeP, hcodeH⟩ := s16c1c_describe hab h2 hcode hcard
-  obtain ⟨y, hyP, hyΩ⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨y, hyP, hyΩ⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   obtain ⟨w, hw, hyw⟩ := s16c1c_mem_T.mp (hT y hyP)
   have hodd : w.length % 2 = 1 := by
     have hwq : ∀ k ∈ w, qB true k = true := s16c1c_spec.1 w hw

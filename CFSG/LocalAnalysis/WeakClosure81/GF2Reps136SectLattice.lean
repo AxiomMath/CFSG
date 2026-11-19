@@ -15,6 +15,7 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_im_iSup_ne {U C : Subgroup W} {k : ℕ} {J : Fin k → Subgroup W}
     (hJU : ∀ i, J i ≤ U) (i : Fin k) :
     w1369_im U C (⨆ (j : Fin k) (_ : j ≠ i), J j) =
@@ -24,6 +25,7 @@ private theorem w1369_im_iSup_ne {U C : Subgroup W} {k : ℕ} {J : Fin k → Sub
       (f := fun j _ => w1369_im U C (J j))]
   exact w1369_im_iSup (fun x : {j : Fin k // j ≠ i} => hJU x.1)
 
+omit [Finite W] in
 theorem w1369_hind_im {U C : Subgroup W} {k : ℕ} {J : Fin k → Subgroup W}
     (hCJ : ∀ i, C ≤ J i) (hJU : ∀ i, J i ≤ U)
     (hind : ∀ i, J i ⊓ (C ⊔ ⨆ (j : Fin k) (_ : j ≠ i), J j) ≤ C) :
@@ -44,6 +46,7 @@ theorem w1369_hind_im {U C : Subgroup W} {k : ℕ} {J : Fin k → Subgroup W}
     _ ≤ w1369_im U C C := w1369_im_mono hpre
     _ = ⊥ := w1369_im_C U C
 
+omit [Finite W] in
 theorem w1369_alt_irr {U C : Subgroup W} (hCU : C ≤ U) {Λ X : Subgroup (MulAut W)}
     (hΛ : StabPair Λ U C) (hX : StabPair X U C)
     (h : ∀ N : Subgroup (Sect U C), StableUnder (secSub U C Λ) N →
@@ -56,18 +59,18 @@ theorem w1369_alt_irr {U C : Subgroup W} (hCU : C ≤ U) {Λ X : Subgroup (MulAu
   · right
     rw [← w1369_pre_im hCM hMU, h1, ← w1369_im_top U C, w1369_pre_im hCU le_rfl]
 
-theorem w1369_alt_notcent {U C : Subgroup W} (hCU : C ≤ U) {Λ X : Subgroup (MulAut W)}
+theorem w1369_alt_notcent {U C : Subgroup W} (_hCU : C ≤ U) {Λ X : Subgroup (MulAut W)}
     (hΛ : StabPair Λ U C) (hX : StabPair X U C)
     (h : ∀ N : Subgroup (Sect U C), StableUnder (secSub U C Λ) N → N ≠ ⊥ →
       ∃ x ∈ secSub U C X, ∃ n ∈ N, x n ≠ n) :
     ∀ M : Subgroup W, C < M → M ≤ U → StableUnder Λ M → ¬ commSub M X ≤ C := by
   intro M hCM hMU hΛM hle
-  have hCU : C ≤ U := (le_of_lt hCM).trans hMU
+  have _hCU : C ≤ U := (le_of_lt hCM).trans hMU
   have hNstable : StableUnder (secSub U C Λ) (w1369_im U C M) := w1369_stable_im hΛ hΛM
   have hNne : w1369_im U C M ≠ ⊥ := by
     intro hbot
     have hpre := w1369_pre_im (le_of_lt hCM) hMU
-    rw [hbot, w1369_pre_bot hCU] at hpre
+    rw [hbot, w1369_pre_bot _hCU] at hpre
     exact (not_le_of_gt hCM) (le_of_eq hpre.symm)
   obtain ⟨x, hx, n, hnN, hxn⟩ := h (w1369_im U C M) hNstable hNne
   obtain ⟨a, ha, hax⟩ := (w1369_mem_secSub_iff hX).mp hx

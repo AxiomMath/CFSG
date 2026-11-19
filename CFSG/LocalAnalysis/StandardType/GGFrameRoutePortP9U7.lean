@@ -35,7 +35,7 @@ private lemma p9u7a_comm_of_involution (h : UnitaryFieldData 2 1 F) (hm : 3 ≤ 
         diagonal (fun _ => c))
     {s : ↥(unitarySU 2 1 F m)} (hs : s ^ 2 = 1) :
     N * (s : GL (Fin m) F) * N⁻¹ = (s : GL (Fin m) F) := by
-  haveI : CharP F 2 := h.charP
+  have : CharP F 2 := h.charP
   obtain ⟨c, hc⟩ := hN (s : GL (Fin m) F) s.2
   set S : Matrix (Fin m) (Fin m) F := ((s : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) with hS
   set V : GL (Fin m) F := N * (s : GL (Fin m) F) * N⁻¹ with hV
@@ -77,7 +77,7 @@ private lemma p9u7a_comm_of_involution (h : UnitaryFieldData 2 1 F) (hm : 3 ≤ 
   exact Units.ext (hVmat1.trans hS)
 
 private lemma p9u7a_diag_mul_perm {ω : F} (hω : IsPrimitiveRoot ω 3)
-    {a b k : Fin m} (hab : a ≠ b) (hka : k ≠ a) (hkb : k ≠ b) :
+    {a b k : Fin m} (hab : a ≠ b) (_hka : k ≠ a) (hkb : k ≠ b) :
     diagonal (TypeA.rootT ω a k) * (Equiv.swap a b).permMatrix F *
         diagonal (fun i => (TypeA.rootT ω a k i)⁻¹) *
         (Equiv.swap a b).permMatrix F = diagonal (TypeA.rootT ω a b) := by
@@ -203,9 +203,9 @@ private lemma p9u7a_diag_eq_of_swap (h : UnitaryFieldData 2 1 F) (hm : 3 ≤ m)
         diagonal (fun _ => c))
     (hNdiag : (N : Matrix (Fin m) (Fin m) F) =
       diagonal (fun i => (N : Matrix (Fin m) (Fin m) F) i i))
-    {a b : Fin m} (hab : a ≠ b) :
+    {a b : Fin m} (_hab : a ≠ b) :
     (N : Matrix (Fin m) (Fin m) F) a a = (N : Matrix (Fin m) (Fin m) F) b b := by
-  haveI : CharP F 2 := h.charP
+  have : CharP F 2 := h.charP
   set P : ↥(unitarySU 2 1 F m) := permSU h (Equiv.swap a b) with hP
   have hP2 : P ^ 2 = 1 := by
     apply Subtype.ext
@@ -222,10 +222,10 @@ private lemma p9u7a_diag_eq_of_swap (h : UnitaryFieldData 2 1 F) (hm : 3 ≤ m)
     rw [hP, coe_permSU, coe_permGL_matrix, Equiv.swap_inv]
   have h := congrFun (congrFun hmat a) b
   rw [hNdiag, Matrix.diagonal_mul, Matrix.mul_diagonal, hPmat, p9u7a_permMatrix_apply,
-    Equiv.swap_apply_left, if_pos rfl] at h
+    Equiv.swap_apply_left, ite_eq_left rfl] at h
   simpa using h
 
-private lemma p9u7a_mono_hyp (h : UnitaryFieldData 2 1 F) (g : GL (Fin m) F)
+private lemma p9u7a_mono_hyp (_h : UnitaryFieldData 2 1 F) (g : GL (Fin m) F)
     (hg : ∀ t ∈ UTorus.detOne F m,
       ((g : Matrix (Fin m) (Fin m) F) * diagonal (fun i => (t i : F)) *
         ((g⁻¹ : GL (Fin m) F) : Matrix (Fin m) (Fin m) F)).IsDiag)
@@ -253,8 +253,8 @@ private lemma p9u7a_mono_hyp (h : UnitaryFieldData 2 1 F) (g : GL (Fin m) F)
     (g : Matrix (Fin m) (Fin m) F) * diagonal (fun i => (t i : F)) *
       ((g⁻¹ : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) with hM
   have hMdiag : M = diagonal (fun k => M k k) := by
-    have h := (Matrix.isDiag_iff_diagonal_diag M).mp (hg t ht)
-    exact h.symm
+    have _h := (Matrix.isDiag_iff_diagonal_diag M).mp (hg t ht)
+    exact _h.symm
   have hgprod : ((g⁻¹ : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) *
       (g : Matrix (Fin m) (Fin m) F) = 1 := by
     rw [← Units.val_mul, inv_mul_cancel, Units.val_one]
@@ -270,7 +270,7 @@ theorem P9_U7a_eq_scalar_of_comm (h : UnitaryFieldData 2 1 F) (hm : 3 ≤ m) (N 
     (hN : ∀ s ∈ unitarySU 2 1 F m, ∃ c : F,
       ((N * s * N⁻¹ * s⁻¹ : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) = diagonal (fun _ => c)) :
     ∃ c : F, (N : Matrix (Fin m) (Fin m) F) = diagonal (fun _ => c) := by
-  haveI : CharP F 2 := h.charP
+  have : CharP F 2 := h.charP
   obtain ⟨ω, hω⟩ := CFSG.RankThree.PartOne.KFU.exists_isPrimitiveRoot (ℓ := 2) (f := 1)
     (p := 3) (K := F) h (by norm_num) (by norm_num)
   have hωne : ω ≠ ω⁻¹ := TypeA.ne_inv_of_isPrimitiveRoot hω (by norm_num) (by norm_num)
@@ -298,7 +298,7 @@ theorem P9_U7a_eq_scalar_of_comm (h : UnitaryFieldData 2 1 F) (hm : 3 ≤ m) (N 
           · exact p9u7a_diag_eq_of_swap h hm N hN hNdiag hi
         rw [hd]
 
-theorem P9_U7a_exists_perm_of_conj_diag (h : UnitaryFieldData 2 1 F) (hm : 3 ≤ m)
+theorem P9_U7a_exists_perm_of_conj_diag (h : UnitaryFieldData 2 1 F) (_hm : 3 ≤ m)
     (g : GL (Fin m) F)
     (hg : ∀ t ∈ UTorus.detOne F m, ((g : Matrix (Fin m) (Fin m) F) *
       diagonal (fun i => (t i : F)) * ((g⁻¹ : GL (Fin m) F) : Matrix (Fin m) (Fin m) F)).IsDiag) :

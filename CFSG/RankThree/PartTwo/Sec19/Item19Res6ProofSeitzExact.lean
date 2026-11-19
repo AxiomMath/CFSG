@@ -27,7 +27,7 @@ theorem mem_zpowers_of_card_nine {G : Type*} [Group G] [Finite G] (D R : Subgrou
     (hD : Nat.card D = 9) (hnR : ¬ D ≤ R) {c : G} (hcD : c ∈ D) (hcR : c ∈ R)
     (hc1 : c ≠ 1) (hc3 : c ^ 3 = 1) {x : G} (hxD : x ∈ D) (hxR : x ∈ R) :
     x ∈ Subgroup.zpowers c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf c = 3 := orderOf_eq_prime hc3 hc1
   have hzI : Subgroup.zpowers c ≤ D ⊓ R := Subgroup.zpowers_le.mpr ⟨hcD, hcR⟩
   have hzcard : Nat.card (Subgroup.zpowers c) = 3 := by rw [Nat.card_zpowers, hord]
@@ -72,7 +72,7 @@ theorem comm_conj_matrix {K : Type} [Field K] (A Pm Pi N g : Matrix (Fin 3) (Fin
 
 theorem commute_of_card_nine {G : Type*} [Group G] [Finite G] (D : Subgroup G)
     (hD : Nat.card D = 9) {x y : G} (hx : x ∈ D) (hy : y ∈ D) : x * y = y * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : Nat.card D = 3 ^ 2 := by rw [hD]; norm_num
   have := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hc).is_comm.comm
     (⟨x, hx⟩ : D) ⟨y, hy⟩
@@ -87,7 +87,7 @@ theorem not_mem_inner_of_card_nine {G : Type*} [Group G] [Finite G] (D : Subgrou
     {s : G} (hs3 : s ^ 3 = 1) (hc1 : MulAut.conj s ≠ 1) (hcD : MulAut.conj s ∈ D)
     {e : MulAut G} (heD : e ∈ D) (hes : e s ≠ s) :
     e ∉ (MulAut.conj : G →* MulAut G).range := by
-  haveI := finite_mulAut G
+  have := finite_mulAut G
   intro heR
   have hc3 : (MulAut.conj s) ^ 3 = 1 := by rw [← map_pow, hs3, map_one]
   have hcR : MulAut.conj s ∈ (MulAut.conj : G →* MulAut G).range := ⟨s, rfl⟩
@@ -210,7 +210,7 @@ theorem exists_heis_pair {p f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 
           ((a : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
         ω • (((a : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *
           ((s : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm' : ∀ y : unitarySU p f K 3, e (s * y * s⁻¹) = s * e y * s⁻¹ := fun y =>
     congrArg (fun φ : MulAut (unitarySU p f K 3) => φ y) hcomm
   have hcz : ∀ y : unitarySU p f K 3, e s * y * (e s)⁻¹ = s * y * s⁻¹ := by
@@ -313,20 +313,18 @@ theorem scalar_of_commute_heis {K : Type} [Field K] {ω : K} (hω : IsPrimitiveR
     simpa [heisD, Matrix.mul_diagonal, Matrix.diagonal_mul] using this
   have o01 : M 0 1 = 0 := by
     have h0 := hDe 0 1
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
-      Matrix.tail_cons] at h0
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at h0
     have h1 : M 0 1 * (ω - 1) = 0 := by linear_combination h0
     exact (mul_eq_zero.mp h1).resolve_right hd1
   have o02 : M 0 2 = 0 := by
     have h0 := hDe 0 2
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_two, Matrix.head_cons,
       Matrix.tail_cons] at h0
     have h1 : M 0 2 * (ω ^ 2 - 1) = 0 := by linear_combination h0
     exact (mul_eq_zero.mp h1).resolve_right hd2
   have o10 : M 1 0 = 0 := by
     have h0 := hDe 1 0
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
-      Matrix.tail_cons] at h0
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at h0
     have h1 : M 1 0 * (1 - ω) = 0 := by linear_combination h0
     exact (mul_eq_zero.mp h1).resolve_right hd6
   have o12 : M 1 2 = 0 := by
@@ -337,7 +335,7 @@ theorem scalar_of_commute_heis {K : Type} [Field K] {ω : K} (hω : IsPrimitiveR
     exact (mul_eq_zero.mp h1).resolve_right hd3
   have o20 : M 2 0 = 0 := by
     have h0 := hDe 2 0
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_two, Matrix.head_cons,
       Matrix.tail_cons] at h0
     have h1 : M 2 0 * (1 - ω ^ 2) = 0 := by linear_combination h0
     exact (mul_eq_zero.mp h1).resolve_right hd5
@@ -358,7 +356,7 @@ theorem scalar_of_commute_heis {K : Type} [Field K] {ω : K} (hω : IsPrimitiveR
   refine ⟨M 0 0, ?_⟩
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.one_apply, o01, o02, o10, o12, o20, o21, hc10, hc21]
+    simp [o01, o02, o10, o12, o20, o21, hc10, hc21]
 
 theorem eq_one_of_cube_pow {K : Type} [Field K] {x : K} {q : ℕ} (hq : q % 3 = 2) (hx3 : x ^ 3 = 1)
     (hxq : x ^ q = x) : x = 1 := by
@@ -384,8 +382,8 @@ theorem pow_succ_eq_one_of_cube {K : Type} [Field K] {q : ℕ} (hq3 : 3 ∣ q + 
 
 theorem pow_sq_card_eq {p f : ℕ} {K : Type} [Field K] (hU : UnitaryFieldData p f K) (x : K) :
     x ^ ((p ^ f) ^ 2) = x := by
-  haveI : Finite K := hU.finite
-  haveI := Fintype.ofFinite K
+  have : Finite K := hU.finite
+  have := Fintype.ofFinite K
   have hc : Fintype.card K = (p ^ f) ^ 2 := by
     rw [← Nat.card_eq_fintype_card, hU.card, ← pow_mul, mul_comm]
   rw [← hc]
@@ -490,7 +488,7 @@ theorem suConj_mem_range_of_cube_det {p f : ℕ} {K : Type} [Field K] {h : Unita
 theorem diagonal_xi_eq_smul_heisD {K : Type} [Field K] (ξ ω : K) :
     (diagonal ![ξ, ξ * ω, ξ * ω ^ 2] : Matrix (Fin 3) (Fin 3) K) = ξ • heisD ω := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [heisD, Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [heisD]
 
 theorem fixer_normal_forms {K : Type} [Field K] {A S P C D : Matrix (Fin 3) (Fin 3) K} {ξ : K}
     (hAP : A * P = P * C) (hSP : S * P = P * (ξ • D)) :
@@ -553,12 +551,12 @@ theorem seitz199OuterUnitaryDiag_of_exact (h : UnitaryOuterHeisCoreExact) :
   unfold Seitz199OuterUnitaryDiag
   intro p f K _ hU hmod hq D hD3 hD9 hnR hsx hDsu
   obtain ⟨e, heD, s, hs3, hcsD, hes⟩ := hsx
-  haveI : Finite K := hU.finite
-  haveI : Finite (unitarySU p f K 3) :=
+  have : Finite K := hU.finite
+  have : Finite (unitarySU p f K 3) :=
     Finite.of_injective
       (fun g : unitarySU p f K 3 => ((g : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K))
       (fun x y hxy => Subtype.ext (Units.ext hxy))
-  haveI : Finite (MulAut (unitarySU p f K 3)) := finite_mulAut (unitarySU p f K 3)
+  have : Finite (MulAut (unitarySU p f K 3)) := finite_mulAut (unitarySU p f K 3)
   have hq3 : 3 ∣ p ^ f + 1 := by omega
   have hqne : p ^ f ≠ 2 := by omega
   have he3 : e ^ 3 = 1 := hD3 e heD

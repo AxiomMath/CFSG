@@ -13,6 +13,7 @@ open scoped Pointwise Matrix
 variable {G : Type} [Group G] [Finite G]
 variable {F0 : Type} [Field F0] [Finite F0] [CharP F0 2] {m : ℕ}
 
+omit [Finite F0] [CharP F0 2] in
 private lemma qTwoChartTwoThree_pi_single_eq_smul (i : Fin m) (a : F0) :
     Pi.single i a = a • Pi.single i (1 : F0) := by
   ext j
@@ -21,6 +22,7 @@ private lemma qTwoChartTwoThree_pi_single_eq_smul (i : Fin m) (a : F0) :
   · rw [Pi.single_eq_of_ne h, Pi.smul_apply, Pi.single_eq_of_ne h,
       smul_eq_mul, mul_zero]
 
+omit [Finite F0] [CharP F0 2] in
 private lemma qTwoChartTwoThree_mulVec_single_of_col (M : Matrix (Fin m) (Fin m) F0) (k : Fin m)
     (h : ∀ mm, mm ≠ k → M mm k = 0) :
     M *ᵥ Pi.single k 1 = M k k • Pi.single k 1 := by
@@ -30,6 +32,7 @@ private lemma qTwoChartTwoThree_mulVec_single_of_col (M : Matrix (Fin m) (Fin m)
   · rw [hmk, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one]
   · rw [h mm hmk, Pi.smul_apply, Pi.single_eq_of_ne hmk, smul_eq_mul, mul_zero]
 
+omit [Finite F0] [CharP F0 2] in
 private lemma qTwoChartTwoThree_pow_mulVec_single (M : Matrix (Fin m) (Fin m) F0) (k : Fin m)
     (h : ∀ mm, mm ≠ k → M mm k = 0) (n : ℕ) :
     M ^ n *ᵥ Pi.single k 1 = (M k k) ^ n • Pi.single k 1 := by
@@ -39,9 +42,11 @@ private lemma qTwoChartTwoThree_pow_mulVec_single (M : Matrix (Fin m) (Fin m) F0
     rw [pow_succ', ← Matrix.mulVec_mulVec, ih, Matrix.mulVec_smul,
       qTwoChartTwoThree_mulVec_single_of_col M k h, smul_smul, ← pow_succ]
 
+omit [Finite F0] [CharP F0 2] in
 private lemma qTwoChartTwoThree_diag_inv (c : Fin m → F0ˣ) :
     (qTwoChartTwoThree_diag c)⁻¹ = qTwoChartTwoThree_diag (fun j => (c j)⁻¹) := rfl
 
+omit [Finite F0] [CharP F0 2] in
 private lemma qTwoChartTwoThree_diag_mulVec_single (c : Fin m → F0ˣ) (i : Fin m) :
     ((qTwoChartTwoThree_diag c : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) *ᵥ
       Pi.single i 1 = (c i : F0) • Pi.single i 1 := by
@@ -50,6 +55,7 @@ private lemma qTwoChartTwoThree_diag_mulVec_single (c : Fin m → F0ˣ) (i : Fin
   rw [Matrix.diagonal_mulVec_single, mul_one]
   exact qTwoChartTwoThree_pi_single_eq_smul i (c i : F0)
 
+omit [Finite F0] [CharP F0 2] in
 private lemma qTwoChartTwoThree_diag_mul_apply (c : Fin m → F0ˣ) (U : GL (Fin m) F0)
     (i j : Fin m) :
     ((qTwoChartTwoThree_diag c * U * (qTwoChartTwoThree_diag c)⁻¹ : GL (Fin m) F0) :
@@ -58,6 +64,7 @@ private lemma qTwoChartTwoThree_diag_mul_apply (c : Fin m → F0ˣ) (U : GL (Fin
   rw [qTwoChartTwoThree_diag_inv]
   simp only [qTwoChartTwoThree_diag, Units.val_mul, Matrix.diagonal_mul, Matrix.mul_diagonal]
 
+omit [Finite F0] [CharP F0 2] in
 private lemma qTwoChartTwoThree_unit_mul_mul_inv (c : F0ˣ) (x : F0) :
     (c : F0) * x * (((c⁻¹ : F0ˣ) : F0)) = x := by
   rw [mul_comm ((c : F0ˣ) : F0) x, mul_assoc, ← Units.val_mul, mul_inv_cancel, Units.val_one,
@@ -70,15 +77,16 @@ private lemma qTwoChartTwoThree_mulVec_single_of_mem_coordBlockSU {Q : Finset (F
   rw [Matrix.mulVec_single_one, Matrix.col_apply,
     (mem_coordBlockSU_iff.mp hu) j i (Or.inr hi)]
   by_cases hji : j = i
-  · rw [hji, if_pos rfl, Pi.single_eq_same]
-  · rw [if_neg hji, Pi.single_eq_of_ne hji]
+  · rw [hji, ite_eq_left rfl, Pi.single_eq_same]
+  · rw [ite_eq_right hji, Pi.single_eq_of_ne hji]
 
+omit [CharP F0 2] in
 private lemma qTwoChartTwoThree_diag_entry_eq_one (hF0 : Nat.card F0 = 4)
     (M : Matrix (Fin m) (Fin m) F0) (k : Fin m)
     (h : ∀ mm, mm ≠ k → M mm k = 0) {a : ℕ} (hpow : M ^ (2 ^ a) = 1) :
     M k k = 1 := by
   classical
-  letI : Fintype F0 := Fintype.ofFinite F0
+  let : Fintype F0 := Fintype.ofFinite F0
   have hvec : M ^ (2 ^ a) *ᵥ Pi.single k 1 = Pi.single k 1 := by
     rw [hpow, Matrix.one_mulVec]
   rw [qTwoChartTwoThree_pow_mulVec_single M k h (2 ^ a)] at hvec
@@ -192,8 +200,8 @@ theorem qTwoChartTwoThree_central_eq_one
   rw [Matrix.col_apply] at hab
   rw [hab, Subgroup.coe_one, Units.val_one, Matrix.one_apply]
   by_cases h : a = b
-  · rw [h, if_pos rfl, Pi.single_eq_same]
-  · rw [if_neg h, Pi.single_eq_of_ne h]
+  · rw [h, ite_eq_left rfl, Pi.single_eq_same]
+  · rw [ite_eq_right h, Pi.single_eq_of_ne h]
 
 theorem qTwoChartTwoThree_block_comm_diag {T : Finset (Fin m)} {c : Fin m → F0ˣ}
     (hc : ∀ i ∈ T, ∀ j ∈ T, c i = c j) {u : Su F0 2 1 m} (hu : u ∈ coordBlockSU F0 2 1 T) :
@@ -211,13 +219,13 @@ theorem qTwoChartTwoThree_block_comm_diag {T : Finset (Fin m)} {c : Fin m → F0
       by_cases hij : i = j
       · rw [hij] at hi
         exact absurd hi hj
-      · rw [if_neg hij]
+      · rw [ite_eq_right hij]
         simp
   · rw [(mem_coordBlockSU_iff.mp hu) i j (Or.inl hi)]
     by_cases hij : i = j
-    · rw [← hij, if_pos rfl]
+    · rw [← hij, ite_eq_left rfl]
       exact qTwoChartTwoThree_unit_mul_mul_inv (c i) 1
-    · rw [if_neg hij]
+    · rw [ite_eq_right hij]
       simp
 
 theorem qTwoChartTwoThree_eq_of_central_quot
@@ -306,7 +314,7 @@ theorem qTwoChartTwoThree_pow_eq_one_of_central
   apply qTwoChartTwoThree_central_eq_one (i := i) hperm hk
   exact qTwoChartTwoThree_mulVec_single_of_mem_coordBlockSU hi (pow_mem hu k)
 
-theorem qTwoChartTwoThree_mem_block (hF0 : Nat.card F0 = 4) {Q J : Finset (Fin m)} (hJQ : J ⊆ Q)
+theorem qTwoChartTwoThree_mem_block (hF0 : Nat.card F0 = 4) {Q J : Finset (Fin m)} (_hJQ : J ⊆ Q)
     {ω : F0ˣ} (hω : ω ≠ 1) {u : Su F0 2 1 m} (hu : u ∈ coordBlockSU F0 2 1 Q)
     (hcomm : ∀ k ∈ Q, k ∉ J →
       qTwoChartTwoThree_diag (Function.update (1 : Fin m → F0ˣ) k ω) * (u : GL (Fin m) F0) *
@@ -322,20 +330,20 @@ theorem qTwoChartTwoThree_mem_block (hF0 : Nat.card F0 = 4) {Q J : Finset (Fin m
         simpa [Subgroup.coe_pow] using h
       rcases hij with hiJ | hjJ
       · by_cases hij_eq : i = j
-        · rw [← hij_eq, if_pos rfl]
+        · rw [← hij_eq, ite_eq_left rfl]
           exact qTwoChartTwoThree_diag_entry_eq_one hF0
             (((u : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0)) i
             (fun mm hmm =>
               (qTwoChartTwoThree_offdiag_eq_zero hω hcomm hiQ hiJ mm hmm).2) hpowM
-        · rw [if_neg hij_eq]
+        · rw [ite_eq_right hij_eq]
           exact (qTwoChartTwoThree_offdiag_eq_zero hω hcomm hiQ hiJ j (Ne.symm hij_eq)).1
       · by_cases hij_eq : i = j
-        · rw [hij_eq, if_pos rfl]
+        · rw [hij_eq, ite_eq_left rfl]
           exact qTwoChartTwoThree_diag_entry_eq_one hF0
             (((u : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0)) j
             (fun mm hmm =>
               (qTwoChartTwoThree_offdiag_eq_zero hω hcomm hjQ hjJ mm hmm).2) hpowM
-        · rw [if_neg hij_eq]
+        · rw [ite_eq_right hij_eq]
           exact (qTwoChartTwoThree_offdiag_eq_zero hω hcomm hjQ hjJ i hij_eq).2
     · exact (mem_coordBlockSU_iff.mp hu) i j (Or.inr hjQ)
   · exact (mem_coordBlockSU_iff.mp hu) i j (Or.inl hiQ)

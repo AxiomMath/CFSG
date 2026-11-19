@@ -330,7 +330,7 @@ theorem ggTWLow_leaf (hPZ : GGPZInput) {G : Type} [Group G] [Finite G] {p N k : 
   rcases hcfg with ⟨hXL, hcfg⟩ | ⟨hXK, hcfg⟩
   · obtain ⟨pos, Λ, iΛ1, iΛ2, b₁, b₂, Λa, iΛa1, iΛa2, MK, CK, V, iV1, iV2, ι, e, φ, h, α,
       xV, yV, hx, hy, hxV, hyV, hcore, hdim, hHL, hyVne, hyJ, hya, hHK⟩ := hcfg
-    letI := iΛ1; letI := iΛ2; letI := iΛa1; letI := iΛa2; letI := iV1; letI := iV2
+    let := iΛ1; let := iΛ2; let := iΛa1; let := iΛa2; let := iV1; let := iV2
     obtain ⟨hb, hcardk, hJpos, hWMK, hCK, hk2, hφlin, hF, hpairK, hnt, hxa, hgenA, hgenJ⟩ := hcore
     let r : Λ ⊕ Λa → V ≃ₗ[ZMod p] V := fun o => ggLin (p := p) ι (φ o)
     have hr : ∀ o w, r o w = w - α o w • h o := fun o w => hφlin o w
@@ -366,7 +366,7 @@ theorem ggTWLow_leaf (hPZ : GGPZInput) {G : Type} [Group G] [Finite G] {p N k : 
       · exact hOut ι (A := ggAutomizer L Bs ⊔ ggAutomizer K Bs) θ (Set.range r) hA S hOutS hc1 hc2
   · obtain ⟨pos, Λ, iΛ1, iΛ2, b₁, b₂, Λa, iΛa1, iΛa2, MK, CK, V, iV1, iV2, ι, e, φ, h, α,
       xV, yV, hy, hx, hyV, hxV, hcore, hdim, hHL, hyVne, hyJ, hya, hHK⟩ := hcfg
-    letI := iΛ1; letI := iΛ2; letI := iΛa1; letI := iΛa2; letI := iV1; letI := iV2
+    let := iΛ1; let := iΛ2; let := iΛa1; let := iΛa2; let := iV1; let := iV2
     obtain ⟨hb, hcardk, hJpos, hWMK, hCK, hk2, hφlin, hF, hpairK, hnt, hxa, hgenA, hgenJ⟩ := hcore
     let r : Λ ⊕ Λa → V ≃ₗ[ZMod p] V := fun o => ggLin (p := p) ι (φ o)
     have hr : ∀ o w, r o w = w - α o w • h o := fun o w => hφlin o w

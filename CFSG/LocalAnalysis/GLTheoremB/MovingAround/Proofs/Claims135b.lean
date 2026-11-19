@@ -75,9 +75,10 @@ section Quot
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem ne_bot_of_isComponentOf {J : Subgroup X} (hJ : IsComponentOf J ⊤) : J ≠ ⊥ := by
   intro h
-  haveI := hJ.2.2.2
+  have := hJ.2.2.2
   obtain ⟨a, b, hab⟩ := exists_pair_ne (↥J ⧸ Subgroup.center ↥J)
   obtain ⟨a', rfl⟩ := QuotientGroup.mk_surjective a
   obtain ⟨b', rfl⟩ := QuotientGroup.mk_surjective b
@@ -113,7 +114,7 @@ theorem card_le_of_three {K₁ K₂ K₃ H : Subgroup X}
     (h₃ : H ≤ Subgroup.normalizer (K₃ : Set X))
     (hC : Subgroup.centralizer ((K₁ ⊔ K₂ ⊔ K₃ : Subgroup X) : Set X) = ⊥) :
     Nat.card H ≤ 9 * 9 * 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨π₁, hπ₁⟩ := exists_inner_hom e₁ hH h₁
   obtain ⟨π₂, hπ₂⟩ := exists_inner_hom e₂ hH h₂
   obtain ⟨π₃, hπ₃⟩ := exists_inner_hom e₃ hH h₃
@@ -149,7 +150,7 @@ theorem card_le_of_three {K₁ K₂ K₃ H : Subgroup X}
     _ = 9 * 9 * 9 := by norm_num
 
 theorem card_three_inf {K₁ K₂ K₃ B : Subgroup X}
-    (e₁ : ↥K₁ ≃* alternatingGroup (Fin 7)) (e₂ : ↥K₂ ≃* alternatingGroup (Fin 7))
+    (e₁ : ↥K₁ ≃* alternatingGroup (Fin 7)) (_e₂ : ↥K₂ ≃* alternatingGroup (Fin 7))
     (e₃ : ↥K₃ ≃* alternatingGroup (Fin 7))
     (c₁ : IsComponentOf K₁ ⊤) (c₂ : IsComponentOf K₂ ⊤) (c₃ : IsComponentOf K₃ ⊤)
     (n12 : K₁ ≠ K₂) (n13 : K₁ ≠ K₃) (n23 : K₂ ≠ K₃)
@@ -174,6 +175,7 @@ theorem card_three_inf {K₁ K₂ K₃ B : Subgroup X}
     exact central_eq_one e₃ hx3 fun k hk => Subgroup.mem_centralizer_iff.1 (hC3 hx) k hk
   rw [card_sup_of_commute hc3 hi3, card_sup_of_commute hc12 hi12, h₁, h₂, h₃]
 
+omit [Finite X] in
 theorem mem_normalizer_of_three {K₁ K₂ K₃ : Subgroup X}
     (c₂ : IsComponentOf K₂ ⊤) (c₃ : IsComponentOf K₃ ⊤)
     (n12 : K₁ ≠ K₂) (n13 : K₁ ≠ K₃) (n23 : K₂ ≠ K₃)
@@ -206,6 +208,7 @@ theorem mem_normalizer_of_three {K₁ K₂ K₃ : Subgroup X}
   · exact absurd (hinj (h3.trans e2.symm)) n23.symm
   · exact mem_normalizer_of_map_conj_eq h3
 
+omit [Finite X] in
 theorem zpow_cases {δ : X} (hδ : δ ^ 3 = 1) (k : ℤ) :
     δ ^ k = 1 ∨ δ ^ k = δ ∨ δ ^ k = δ * δ := by
   have hδ' : δ ^ (3 : ℤ) = 1 := by rw [zpow_ofNat]; exact hδ
@@ -216,6 +219,7 @@ theorem zpow_cases {δ : X} (hδ : δ ^ 3 = 1) (k : ℤ) :
   · right; left; exact zpow_one δ
   · right; right; rw [show (2 : ℤ) = ((2 : ℕ) : ℤ) by rfl, zpow_natCast, pow_two]
 
+omit [Finite X] in
 theorem comm_map_conj {K : Subgroup X} {z g : X} (hK : ∀ k ∈ K, k * z = z * k)
     (hg : g * z = z * g) : ∀ k ∈ K.map (MulAut.conj g).toMonoidHom, k * z = z * k := by
   intro k hk
@@ -233,6 +237,7 @@ theorem comm_map_conj {K : Subgroup X} {z g : X} (hK : ∀ k ∈ K, k * z = z * 
     _ = (z * g) * (g⁻¹ * k * g) * g⁻¹ := by rw [hg]
     _ = z * k := by group
 
+omit [Finite X] in
 theorem inv_mul_mem_normalizer {K : Subgroup X} {r g : X}
     (h : K.map (MulAut.conj r).toMonoidHom = K.map (MulAut.conj g).toMonoidHom) :
     g⁻¹ * r ∈ Subgroup.normalizer (K : Set X) := by
@@ -289,7 +294,7 @@ theorem false_of_one_comp {K B D : Subgroup X} {m : ℕ} (e : ↥K ≃* alternat
     (hcent : Subgroup.centralizer
       (((⨆ ε ∈ D, K.map (MulAut.conj ε).toMonoidHom : Subgroup X)) : Set X) = ⊥)
     (hDK : D ≤ Subgroup.normalizer (K : Set X)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hL : (⨆ ε ∈ D, K.map (MulAut.conj ε).toMonoidHom) = K := by
     apply le_antisymm
     · exact iSup₂_le fun ε hε => (map_conj_eq_self_of_mem_normalizer (hDK hε)).le
@@ -352,7 +357,7 @@ theorem core_eq_bot_of_nine {K D : Subgroup X} (hO : GLAPPrimeCore 3 X = ⊥)
 theorem card_ge_of_not_mem {B S : Subgroup X} (hS : IsPGroup 3 ↥S) (hBS : B ≤ S) {k : ℕ}
     (hB : Nat.card ↥B = 3 ^ k) {x : X} (hxS : x ∈ S) (hxB : x ∉ B) :
     3 ^ (k + 1) ≤ Nat.card ↥S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hS
   have hdvd : 3 ^ k ∣ 3 ^ n := hB ▸ hn ▸ Subgroup.card_dvd_of_le hBS
   have hkn : k ≤ n := (Nat.pow_dvd_pow_iff_le_right (by norm_num)).1 hdvd
@@ -380,6 +385,7 @@ theorem card_le_three_mul {R N : Subgroup X} {δ : X} (hδ : δ ∈ R)
   have := Nat.card_le_card_of_injective f hf
   rwa [Nat.card_prod, Nat.card_eq_fintype_card (α := Fin 3), Fintype.card_fin] at this
 
+omit [Finite X] in
 theorem conj_mem_normalizer3 {K₁ K₂ K₃ : Subgroup X}
     (c₁ : IsComponentOf K₁ ⊤) (c₂ : IsComponentOf K₂ ⊤) (c₃ : IsComponentOf K₃ ⊤)
     (hall : ∀ J : Subgroup X, IsComponentOf J ⊤ → J = K₁ ∨ J = K₂ ∨ J = K₃) {n : X}
@@ -456,6 +462,7 @@ theorem three_main {K₁ K₂ K₃ B R : Subgroup X} {δ : X}
     _ ≤ 3 * (9 * 9 * 9) := Nat.mul_le_mul_left 3 ((Subgroup.card_le_of_le hRN).trans hR₀)
     _ = 3 ^ 7 := by norm_num
 
+omit [Finite X] in
 theorem norm_mem {B : Subgroup X} (hB : IsElemAbelian 3 B) {δ b : X}
     (hδB : δ ∈ Subgroup.normalizer (B : Set X)) (hδ3 : δ ^ 3 ∈ B) (hb : b ∈ B) :
     b * (δ * b * δ⁻¹) * (δ * δ * b * δ⁻¹ * δ⁻¹) ∈ B ⊓ Subgroup.centralizer ({δ} : Set X) := by
@@ -482,7 +489,7 @@ theorem norm_mem {B : Subgroup X} (hB : IsElemAbelian 3 B) {δ b : X}
 
 theorem card_cent_delta {K₁ K₂ K₃ B : Subgroup X} {δ : X}
     (e₁ : ↥K₁ ≃* alternatingGroup (Fin 7)) (e₂ : ↥K₂ ≃* alternatingGroup (Fin 7))
-    (e₃ : ↥K₃ ≃* alternatingGroup (Fin 7))
+    (_e₃ : ↥K₃ ≃* alternatingGroup (Fin 7))
     (c₁ : IsComponentOf K₁ ⊤) (c₂ : IsComponentOf K₂ ⊤) (c₃ : IsComponentOf K₃ ⊤)
     (n12 : K₁ ≠ K₂) (n13 : K₁ ≠ K₃) (n23 : K₂ ≠ K₃)
     (hC : Subgroup.centralizer ((K₁ ⊔ K₂ ⊔ K₃ : Subgroup X) : Set X) = ⊥)
@@ -683,10 +690,12 @@ section Transfer
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mk_mem_barX {M H : Subgroup G} {y : G} (hy : y ∈ M) (hyH : y ∈ H) :
     QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) ⟨y, hy⟩ ∈ barX 3 M H :=
   ⟨⟨y, hy⟩, Subgroup.mem_subgroupOf.2 hyH, rfl⟩
 
+omit [Finite G] in
 theorem exists_of_mem_barX {M H : Subgroup G} {z : ↥M ⧸ GLAPPrimeCore 3 ↥M}
     (hz : z ∈ barX 3 M H) :
     ∃ y ∈ H, ∃ hy : y ∈ M, QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) ⟨y, hy⟩ = z := by
@@ -709,6 +718,7 @@ theorem mk_injOn {M P : Subgroup G} (hPM : P ≤ M) (hP : IsPGroup 3 ↥P) {y y'
   have h4 : y⁻¹ * y' = 1 := congrArg Subtype.val h3
   exact (inv_mul_eq_one.1 h4)
 
+omit [Finite G] in
 theorem barX_gLBConj_eq {M L : Subgroup G} {g : G} (hg : g ∈ M) :
     barX 3 M (GLBConj g L) = (barX 3 M L).map
       (MulAut.conj (QuotientGroup.mk' (GLAPPrimeCore 3 ↥M) ⟨g, hg⟩)⁻¹).toMonoidHom := by
@@ -755,7 +765,7 @@ structure Wreath (P B : Subgroup G) (d : G) : Prop where
   sup : P = B ⊔ Subgroup.zpowers d
   centd : Nat.card ↥(B ⊓ Subgroup.centralizer ({d} : Set G)) = 9
 
-theorem wreath_of_quotData {M B D P : Subgroup G} (hBM : B ≤ M) (hDM : D ≤ M) (hPM : P ≤ M)
+theorem wreath_of_quotData {M B D P : Subgroup G} (hBM : B ≤ M) (_hDM : D ≤ M) (hPM : P ≤ M)
     (hP : IsPGroup 3 ↥P) (hBDP : B ⊔ D ≤ P) (hB : IsElemAbelian 3 B) (hD : IsElemAbelian 3 D)
     {δ : ↥M ⧸ GLAPPrimeCore 3 ↥M} (hQ : QuotData (barX 3 M B) (barX 3 M D) δ) :
     ∃ d ∈ D, Wreath P B d ∧ ∀ b ∈ B, ∀ g ∈ M, g * b * g⁻¹ ∈ P → g * b * g⁻¹ ∈ B := by
@@ -844,7 +854,7 @@ theorem wreath_of_cex (hP95 : Prop95) (h111 : Prop111Statement)
     (hcent : Lemma135.cent M D L = ⊥) {P : Subgroup G} (hPM : IsSylowIn 3 M P)
     (hBDP : B ⊔ D ≤ P) :
     ∃ d ∈ D, Wreath P B d ∧ ∀ b ∈ B, ∀ g ∈ M, g * b * g⁻¹ ∈ P → g * b * g⁻¹ ∈ B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, eL, -⟩ := Lemma135b.cex134_gamma hP95 h111 h121 hcomp h
   obtain ⟨hLc, hnc⟩ := hcomp h.toSec13 h.hL
   have hS : GLStanding G m 3 := h.standing
@@ -1002,19 +1012,21 @@ namespace Wreath
 
 variable {P B : Subgroup G} {d : G}
 
+omit [Finite G] in
 theorem normal_subgroupOf (w : Wreath P B d) : (B.subgroupOf P).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer w.le).2 w.norm
 
+omit [Finite G] in
 theorem card_quot (w : Wreath P B d) :
     haveI := w.normal_subgroupOf; Nat.card (↥P ⧸ B.subgroupOf P) = 3 := by
-  haveI := w.normal_subgroupOf
+  have := w.normal_subgroupOf
   have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (B.subgroupOf P)
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe w.le).toEquiv, w.cardB, w.cardP] at h
   omega
 
 theorem card_of_not_le (w : Wreath P B d) {H : Subgroup G} (hHP : H ≤ P) (hHB : ¬ H ≤ B) :
     Nat.card ↥H = 3 * Nat.card ↥(H ⊓ B) := by
-  haveI := w.normal_subgroupOf
+  have := w.normal_subgroupOf
   let φ : ↥H →* ↥P ⧸ B.subgroupOf P := (QuotientGroup.mk' _).comp (Subgroup.inclusion hHP)
   have hker : Nat.card φ.ker = Nat.card ↥(H ⊓ B) := by
     refine Nat.card_congr
@@ -1040,26 +1052,29 @@ theorem card_of_not_le (w : Wreath P B d) {H : Subgroup G} (hHP : H ≤ P) (hHB 
     · exact h3
   rw [card_eq_card_ker_mul_card_range φ, hker, hrange, mul_comm]
 
+omit [Finite G] in
 theorem pow_three_mem (w : Wreath P B d) {x : G} (hx : x ∈ P) : x ^ 3 ∈ B := by
-  haveI := w.normal_subgroupOf
+  have := w.normal_subgroupOf
   have h1 : (QuotientGroup.mk' (B.subgroupOf P) ⟨x, hx⟩) ^ 3 = 1 := by
     have := pow_card_eq_one' (x := QuotientGroup.mk' (B.subgroupOf P) ⟨x, hx⟩)
     rwa [w.card_quot] at this
   rw [← map_pow] at h1
   exact Subgroup.mem_subgroupOf.1 ((QuotientGroup.eq_one_iff _).1 h1)
 
+omit [Finite G] in
 theorem commutator_mem (w : Wreath P B d) {x y : G} (hx : x ∈ P) (hy : y ∈ P) :
     x * y * x⁻¹ * y⁻¹ ∈ B := by
-  haveI := w.normal_subgroupOf
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic (↥P ⧸ B.subgroupOf P) := isCyclic_of_prime_card w.card_quot
-  letI : CommGroup (↥P ⧸ B.subgroupOf P) := IsCyclic.commGroup
+  have := w.normal_subgroupOf
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic (↥P ⧸ B.subgroupOf P) := isCyclic_of_prime_card w.card_quot
+  let : CommGroup (↥P ⧸ B.subgroupOf P) := IsCyclic.commGroup
   have h1 : QuotientGroup.mk' (B.subgroupOf P) (⟨x, hx⟩ * ⟨y, hy⟩ * ⟨x, hx⟩⁻¹ * ⟨y, hy⟩⁻¹) = 1 := by
     simp only [map_mul, map_inv]
     rw [mul_comm (QuotientGroup.mk' (B.subgroupOf P) ⟨x, hx⟩)]
     group
   exact Subgroup.mem_subgroupOf.1 ((QuotientGroup.eq_one_iff _).1 h1)
 
+omit [Finite G] in
 theorem exists_eq_mul_pow (w : Wreath P B d) {x : G} (hx : x ∈ P) :
     ∃ b ∈ B, x = b ∨ x = b * d ∨ x = b * (d * d) := by
   rw [w.sup] at hx
@@ -1072,6 +1087,7 @@ theorem exists_eq_mul_pow (w : Wreath P B d) {x : G} (hx : x ∈ P) :
   · right; left; rfl
   · right; right; rfl
 
+omit [Finite G] in
 theorem mem_centralizer_mul_iff {b b₀ y : G} (hb : b * b₀ = b₀ * b) :
     b ∈ Subgroup.centralizer ({b₀ * y} : Set G) ↔ b ∈ Subgroup.centralizer ({y} : Set G) := by
   rw [Subgroup.mem_centralizer_singleton_iff, Subgroup.mem_centralizer_singleton_iff]
@@ -1091,6 +1107,7 @@ theorem mem_centralizer_mul_iff {b b₀ y : G} (hb : b * b₀ = b₀ * b) :
       _ = b₀ * (y * b) := by rw [h]
       _ = b₀ * y * b := (mul_assoc _ _ _).symm
 
+omit [Finite G] in
 theorem inf_centralizer_eq (w : Wreath P B d) {x : G} (hxP : x ∈ P) (hxB : x ∉ B) :
     B ⊓ Subgroup.centralizer ({x} : Set G) = B ⊓ Subgroup.centralizer ({d} : Set G) := by
   have hcB := comm_of_isElemAbelian w.elem
@@ -1122,6 +1139,7 @@ theorem inf_centralizer_eq (w : Wreath P B d) {x : G} (hxP : x ∈ P) (hxB : x �
     rw [hx, mem_centralizer_mul_iff (hcB b hb b₀ hb₀)]
     exact hsq b
 
+omit [Finite G] in
 theorem card_inf_centralizer (w : Wreath P B d) {x : G} (hxP : x ∈ P) (hxB : x ∉ B) :
     Nat.card ↥(B ⊓ Subgroup.centralizer ({x} : Set G)) = 9 := by
   rw [w.inf_centralizer_eq hxP hxB, w.centd]
@@ -1230,9 +1248,11 @@ variable {G : Type} [Group G] [Finite G]
       _ = (b * x * b⁻¹ * x⁻¹) * (a * x * a⁻¹ * x⁻¹) := by rw [← hc]; group
       _ = a * x * a⁻¹ * x⁻¹ * (b * x * b⁻¹ * x⁻¹) := hW _ hbx _ hax)
 
+omit [Finite G] in
 theorem transvHom_apply {F W : Subgroup G} {x : G} (hW : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a)
     (y : ↥(transv F W x)) : transvHom hW y = (y : G) * x * (y : G)⁻¹ * x⁻¹ := rfl
 
+omit [Finite G] in
 theorem transvHom_mem {F W : Subgroup G} {x : G} (hW : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a)
     (y : ↥(transv F W x)) : transvHom hW y ∈ W := y.2.2.2
 
@@ -1242,6 +1262,7 @@ variable {F W : Subgroup G} {x : G} (hFab : ∀ a ∈ F, ∀ b ∈ F, a * b = b 
   (hWF : W ≤ F) (hFsup : F = Subgroup.zpowers x ⊔ W)
 include hFab hxF hWF hFsup
 
+omit [Finite G] in
 theorem exists_zpow_mul {f : G} (hf : f ∈ F) : ∃ k : ℤ, ∃ w ∈ W, f = x ^ k * w := by
   have hn : W ≤ Subgroup.normalizer ((Subgroup.zpowers x : Subgroup G) : Set G) := by
     refine le_trans (fun w hw => ?_) (Subgroup.centralizer_le_normalizer _)
@@ -1253,6 +1274,7 @@ theorem exists_zpow_mul {f : G} (hf : f ∈ F) : ∃ k : ℤ, ∃ w ∈ W, f = x
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 ha
   exact ⟨k, w, hw, rfl⟩
 
+omit [Finite G] hFsup in
 theorem transv_formula' {y : G} (hy : y ∈ transv F W x) (k : ℤ) {w : G} (hw : w ∈ W) :
     y * (x ^ k * w) * y⁻¹ * (x ^ k * w)⁻¹ = (y * x * y⁻¹ * x⁻¹) ^ k := by
   obtain ⟨hyF, hyW, hyx⟩ := hy
@@ -1270,17 +1292,20 @@ theorem transv_formula' {y : G} (hy : y ∈ transv F W x) (k : ℤ) {w : G} (hw 
     _ = c ^ k * x ^ k * w * (x ^ k * w)⁻¹ := by rw [hcx.mul_zpow]
     _ = c ^ k := by group
 
+omit [Finite G] in
 theorem transv_formula {y : G} (hy : y ∈ transv F W x) {f : G} (hf : f ∈ F) :
     ∃ k : ℤ, y * f * y⁻¹ * f⁻¹ = (y * x * y⁻¹ * x⁻¹) ^ k := by
   obtain ⟨k, w, hw, rfl⟩ := exists_zpow_mul hFab hxF hWF hFsup hf
-  exact ⟨k, transv_formula' hFab hxF hWF hFsup hy k hw⟩
+  exact ⟨k, transv_formula' hFab hxF hWF hy k hw⟩
 
+omit [Finite G] in
 theorem comm_mem_of_transv {y : G} (hy : y ∈ transv F W x) {f : G} (hf : f ∈ F) :
     y * f * y⁻¹ * f⁻¹ ∈ W := by
   obtain ⟨k, hk⟩ := transv_formula hFab hxF hWF hFsup hy hf
   rw [hk]
   exact W.zpow_mem hy.2.2 k
 
+omit [Finite G] hFab hFsup in
 theorem centralizer_le_transv : Subgroup.centralizer (F : Set G) ≤ transv F W x := by
   intro c hc
   refine ⟨Subgroup.centralizer_le_normalizer _ hc,
@@ -1289,6 +1314,7 @@ theorem centralizer_le_transv : Subgroup.centralizer (F : Set G) ≤ transv F W 
   rw [show c * x * c⁻¹ * x⁻¹ = 1 by rw [← this]; group]
   exact W.one_mem
 
+omit [Finite G] in
 theorem mem_centralizer_of_transv {y : G} (hy : y ∈ transv F W x)
     (h1 : y * x * y⁻¹ * x⁻¹ = 1) : y ∈ Subgroup.centralizer (F : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -1308,7 +1334,7 @@ theorem card_transv (hW : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a) :
   congr 1
   refine Nat.card_congr
     { toFun := fun y => ⟨y.1.1, mem_centralizer_of_transv hFab hxF hWF hFsup y.1.2 y.2⟩
-      invFun := fun c => ⟨⟨c.1, centralizer_le_transv hFab hxF hWF hFsup c.2⟩, ?_⟩
+      invFun := fun c => ⟨⟨c.1, centralizer_le_transv hxF hWF c.2⟩, ?_⟩
       left_inv := fun y => rfl
       right_inv := fun c => rfl }
   rw [MonoidHom.mem_ker, transvHom_apply]
@@ -1316,6 +1342,7 @@ theorem card_transv (hW : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a) :
   show (c : G) * x * (c : G)⁻¹ * x⁻¹ = 1
   rw [← this]; group
 
+omit [Finite G] in
 theorem conj_mem_transv {g : G} (hgF : g ∈ Subgroup.normalizer (F : Set G))
     (hgW : ∀ w ∈ W, g * w * g⁻¹ ∈ W) (hgW' : ∀ w ∈ W, g⁻¹ * w * g ∈ W) {y : G}
     (hy : y ∈ transv F W x) : g * y * g⁻¹ ∈ transv F W x := by
@@ -1502,7 +1529,7 @@ theorem Wreath.card_normalizer_ge {P B : Subgroup G} {d : G} (w : Wreath P B d) 
 theorem Wreath.false_of_alperin {P B : Subgroup G} {d : G} (w : Wreath P B d) {F : Subgroup G}
     (hF : CFSG.RankTwoShapes.IsAlperinSubgroup 3 P F) (hFB : ¬ F ≤ B)
     (hZ : centerOf F ≠ centerOf P) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcB := comm_of_isElemAbelian w.elem
   obtain ⟨x, hxF, hxB, hFeq, hFab, hFsup⟩ := w.alperin_shape hF hFB hZ
   have hxP : x ∈ P := hF.1 hxF
@@ -1650,7 +1677,7 @@ theorem Wreath.false_of_alperin {P B : Subgroup G} {d : G} (w : Wreath P B d) {F
       intro k
       rw [← conj_zpow, huW' l hlW']
     have hu3 : u ^ 3 ∈ Y := by
-      apply centralizer_le_transv hFab hxF hWF hFsup
+      apply centralizer_le_transv hxF hWF
       rw [Subgroup.mem_centralizer_iff]
       intro f hf
       obtain ⟨k, hk⟩ := hul f hf
@@ -1696,7 +1723,7 @@ theorem Wreath.false_of_alperin {P B : Subgroup G} {d : G} (w : Wreath P B d) {F
         have := (Subgroup.mem_normalizer_iff.1 hgi w₁).1 (hWF hw₁W)
         simpa using this
       obtain ⟨k, v, hv, hkv⟩ := exists_zpow_mul hFab hxF hWF hFsup hw₁'
-      have hform := transv_formula' hFab hxF hWF hFsup hyY k hv
+      have hform := transv_formula' hFab hxF hWF hyY k hv
       rw [← hkv, hyx] at hform
       have e : u * w₁ * u⁻¹ * w₁⁻¹ = l ^ k := by
         rw [← hconjl k, ← hform, hu]
@@ -1730,7 +1757,7 @@ theorem Wreath.false_of_alperin {P B : Subgroup G} {d : G} (w : Wreath P B d) {F
     set Z := Y ⊔ Subgroup.zpowers u with hZdef
     have hZN : Z ≤ Subgroup.normalizer (Y : Set G) :=
       sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.2 huN)
-    haveI : (Y.subgroupOf Z).Normal :=
+    have : (Y.subgroupOf Z).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).2 hZN
     have huZ : u ∈ Z := (le_sup_right : Subgroup.zpowers u ≤ Z) (Subgroup.mem_zpowers u)
     set ū := QuotientGroup.mk' (Y.subgroupOf Z) ⟨u, huZ⟩ with hū
@@ -1764,7 +1791,7 @@ theorem Wreath.false_of_alperin {P B : Subgroup G} {d : G} (w : Wreath P B d) {F
   have hFCF : F ⊔ Subgroup.centralizer (F : Set G) = Subgroup.centralizer (F : Set G) :=
     sup_eq_right.2 hFC
   have hCY : F ⊔ Subgroup.centralizer (F : Set G) ≤ Y :=
-    hFCF.le.trans (centralizer_le_transv hFab hxF hWF hFsup)
+    hFCF.le.trans (centralizer_le_transv hxF hWF)
   have hidx : ((F ⊔ Subgroup.centralizer (F : Set G)).subgroupOf Y).index = 3 ^ 2 := by
     have hmul := Subgroup.card_mul_index ((F ⊔ Subgroup.centralizer (F : Set G)).subgroupOf Y)
     have hcardFC : Nat.card ↥(F ⊔ Subgroup.centralizer (F : Set G)) =
@@ -1824,6 +1851,7 @@ theorem Wreath.inf_centralizer_plane {P B : Subgroup G} {d : G} (w : Wreath P B 
       exact Subgroup.mem_centralizer_iff.2 fun y hy =>
         (Claims135.mem_centerOf_iff.1 hz).2 y (hQP hy)
 
+omit [Finite G] in
 theorem strong_closure {P B M : Subgroup G}
     (hfus : ∀ X : Subgroup G, X ≤ P → ∀ g : G, GLBConj g X ≤ P →
       ∃ c ∈ Subgroup.centralizer (X : Set G), ∃ k ∈ M, g = c * k)
@@ -1849,7 +1877,7 @@ theorem Wreath.sylow_centralizer_plane {P B : Subgroup G} {d : G} (w : Wreath P 
     (hPS : IsSylowIn 3 ⊤ P) (hsc : ∀ b ∈ B, ∀ g : G, g⁻¹ * b * g ∈ P → g⁻¹ * b * g ∈ B)
     {Q : Subgroup G} (hQP : Q ≤ P) (hQe : IsElemAbelian 3 Q) (hQB : ¬ Q ≤ B) :
     IsSylowIn 3 (Subgroup.centralizer (Q : Set G)) (P ⊓ Subgroup.centralizer (Q : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : ∀ {Q' : Subgroup G}, Q' ≤ P → IsElemAbelian 3 Q' → ¬ Q' ≤ B →
       Nat.card ↥(P ⊓ Subgroup.centralizer (Q' : Set G)) = 27 := by
     intro Q' hQ'P hQ'e hQ'B
@@ -1908,7 +1936,7 @@ theorem Wreath.sylow_centralizer_plane {P B : Subgroup G} {d : G} (w : Wreath P 
 theorem Wreath.exists_B0 {P B : Subgroup G} {d : G} (w : Wreath P B d) {Q : Subgroup G}
     (hQP : Q ≤ P) (hQe : IsElemAbelian 3 Q) (hQc : Nat.card ↥Q = 9) (hQB : ¬ Q ≤ B) :
     ∃ B₀ : Subgroup G, B₀ ≤ B ∧ B₀ ≤ Subgroup.normalizer (Q : Set G) ∧ Nat.card ↥B₀ = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcB := comm_of_isElemAbelian w.elem
   obtain ⟨q, hqQ, hqB⟩ := Set.not_subset.1 hQB
   have hqP := hQP hqQ
@@ -2052,7 +2080,7 @@ theorem centralizerInput_of_inputs (hP95 : Prop95) (h111 : Prop111Statement)
     (h121 : Prop121_of_cexStatement) (hcomp : Sec13_compStatement) (h133 : Lemma133Statement)
     (hgen : CentralizerGenInput) : Claims135.CentralizerInput := by
   intro G _ _ m B M E A D T L h hcent P hPM hBDP hPS hfus Q hQP hQe hQc hQB
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d, -, w, hcl⟩ := wreath_of_cex hP95 h111 h121 hcomp h133 h hcent hPM hBDP
   have hsc : ∀ b ∈ B, ∀ g : G, g⁻¹ * b * g ∈ P → g⁻¹ * b * g ∈ B :=
     fun b hb g hg => strong_closure hfus hcl w.le hb hg
@@ -2113,7 +2141,7 @@ theorem centralizerInput_of_inputs (hP95 : Prop95) (h111 : Prop111Statement)
         (isElemAbelian_of_le w.elem (hEB₀.trans hB₀B)) (by rw [hEc]; norm_num)))
   have hCtop : Subgroup.centralizer (Q : Set G) ≠ ⊤ := by
     intro htop
-    haveI := h.standing.simple
+    have := h.standing.simple
     have hQZ : Q ≤ Subgroup.center G := fun y hy => Subgroup.mem_center_iff.2 fun g => by
       have hg : g ∈ Subgroup.centralizer (Q : Set G) := htop ▸ Subgroup.mem_top g
       exact (Subgroup.mem_centralizer_iff.1 hg y hy).symm
@@ -2150,7 +2178,7 @@ theorem lemma135_i_of_gen (hP95 : Prop95) (h111 : Prop111Statement)
 
 theorem centralizerGenInput_of_layer (hL : CentralizerLayerInput) : CentralizerGenInput := by
   intro G _ _ hK Q P₁ B₀ hQe hQc hCtop hsyl hab h27 hB₀N hB₀e hB₀c
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine (hL G hK Q P₁ B₀ hQe hQc hCtop hsyl hab h27 hB₀N hB₀e hB₀c).trans
     (sup_le (sup_le ?_ le_sup_left) le_sup_right)
   have hB₀C : B₀ ≤ Subgroup.normalizer

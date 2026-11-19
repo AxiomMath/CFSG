@@ -69,7 +69,7 @@ private theorem ggK1Cov_comm_of_pow_eq_one {p : ℕ} {R L' : Type} [Group R] [Gr
     (ψ : L' →* R) (hker : ψ.ker ≤ Subgroup.center L')
     (hcop : (Nat.card ψ.ker).Coprime p) {E₀ : Subgroup R} (hE₀ab : IsElemAbelian p E₀)
     {x y : L'} (hx : x ∈ E₀.comap ψ) (hy : y ∈ E₀.comap ψ)
-    (hxp : x ^ p = 1) (hyp : y ^ p = 1) : x * y = y * x := by
+    (hxp : x ^ p = 1) (_hyp : y ^ p = 1) : x * y = y * x := by
   have hcN : ⁅x, y⁆ ∈ ψ.ker := by
     rw [MonoidHom.mem_ker, map_commutatorElement]
     exact commutatorElement_eq_one_iff_mul_comm.mpr (hE₀ab.comm hx hy)
@@ -82,7 +82,7 @@ private theorem ggK1Cov_comm_of_pow_eq_one {p : ℕ} {R L' : Type} [Group R] [Gr
 theorem ggK1_cover_center {p : ℕ} {D : GGKacDatum} {R L' : Type} [Group R] [Group L'] [Finite L']
     (I : Set (MulAut R)) (ψ : L' →* R) (hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center L') (hkerp : (Nat.card (Subgroup.center L')).Coprime p)
-    (e : MulAut L') (he : e ^ p = 1) (φ : MulAut R) (hφ : ∀ l : L', φ (ψ l) = ψ (e l))
+    (e : MulAut L') (_he : e ^ p = 1) (φ : MulAut R) (hφ : ∀ l : L', φ (ψ l) = ψ (e l))
     (hcore : GGK1Center p D R I φ) :
     2 ≤ D.rZ → ∃ E : Subgroup L', IsElemAbelian p E ∧ Nat.card E = p ^ D.rZ ∧
       E ≤ ggFixSub e ∧ (∀ z ∈ E, ∀ g ∈ ggFixSub e, g * z = z * g) ∧

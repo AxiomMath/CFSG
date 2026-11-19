@@ -74,7 +74,7 @@ theorem u4C_gram {γ : K} (hγ : h.norm γ = -1) (h2 : (2 : K) ≠ 0) :
   fin_cases i <;> fin_cases j <;>
     simp [u4C, J4, Matrix.map_apply, Matrix.transpose_apply, Matrix.mul_apply, Fin.sum_univ_four,
       map_mul, map_neg, hb2] <;> field_simp <;>
-    first | ring1 | linear_combination hγ' | linear_combination (-1 : K) * hγ'
+    first | linear_combination hγ' | linear_combination (-1 : K) * hγ'
 
 theorem u4D_mul_C (l γ : K) :
     (Matrix.diagonal ![l, l, -l, -l] : Matrix (Fin 4) (Fin 4) K) * u4C γ = u4C γ * (l • u4A0) := by

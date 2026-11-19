@@ -13,7 +13,7 @@ open scoped MatrixGroups
 
 private theorem l34g_charP_three_of_card {K : Type} [Field K] [Finite K] {f : ℕ}
     (hK : Nat.card K = 3 ^ f) : CharP K 3 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hpc, n, hp, hcard⟩ := FiniteField.card' K
   have hdvd : p ∣ 3 := by
     refine hp.dvd_of_dvd_pow (n := f) ?_
@@ -27,7 +27,7 @@ theorem l34g_c6_of_lieModel_psl2_char3 {Y : Type} [Group Y] {f : ℕ}
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hY.statedClassicalModel_of_ne_zero (by norm_num)
   let φ : Y ≃* PSL(2, K) :=
     e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm
-  haveI : CharP K 3 := l34g_charP_three_of_card hK
+  have : CharP K 3 := l34g_charP_three_of_card hK
   intro σ _ y u hy hu hyu _ _
   exfalso
   refine CFSG.RankThree.PartTwo.Census.not_commute_PSL_two_char_three (φ u) (φ y) ?_ ?_ ?_

@@ -18,8 +18,9 @@ open CFSG.LocalAnalysis.UniquenessCase.UC6S846 (SigmaStd rhoL)
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem barImage_le_centralizer_barImage {L P Q : Subgroup G} (hPL : P ≤ L)
-    (hQL : Q ≤ L) (hQP : Q ≤ centralizer (P : Set G)) :
+omit [Finite G] in
+theorem barImage_le_centralizer_barImage {L P Q : Subgroup G} (_hPL : P ≤ L)
+    (_hQL : Q ≤ L) (hQP : Q ≤ centralizer (P : Set G)) :
     barImage L Q ≤ centralizer (barImage L P : Set (Bar2 L)) := by
   intro z hz
   rw [Subgroup.mem_centralizer_iff]
@@ -36,12 +37,13 @@ theorem barImage_le_centralizer_barImage {L P Q : Subgroup G} (hPL : P ≤ L)
 theorem isPerfect_derInf8 (X : Subgroup G) : Group.IsPerfect ↥(F08.DerInf8 X) := by
   have hperf : Group.IsPerfect ↥((⨅ n : ℕ, derivedSeries ↥X n) : Subgroup ↥X) :=
     CFSG.perfect_residual_characterization.2.2.1
-  haveI := hperf
+  have := hperf
   unfold F08.DerInf8
   exact Group.IsPerfect.map X.subtype
 
+omit [Finite G] in
 theorem rhoL_fix_barImage_of_mem_centralizer {L P : Subgroup G} {w : G}
-    (hPL : P ≤ L) (hwN : w ∈ normalizer (L : Set G))
+    (_hPL : P ≤ L) (hwN : w ∈ normalizer (L : Set G))
     (hwP : w ∈ centralizer (P : Set G)) :
     ∀ a ∈ barImage L P, rhoL L ⟨w, hwN⟩ a = a := by
   intro a ha
@@ -57,6 +59,7 @@ theorem rhoL_fix_barImage_of_mem_centralizer {L P : Subgroup G} {w : G}
   rw [UC6S846.rhoL_mk_coe]
   exact hcomm
 
+omit [Finite G] in
 theorem rhoL_fix_image_of_mem_centralizer {L U : Subgroup G} {w : G} {u₀ : ↥L}
     (hwN : w ∈ normalizer (L : Set G)) (hu₀U : (u₀ : G) ∈ U)
     (hwU : w ∈ centralizer (U : Set G)) :
@@ -89,7 +92,7 @@ theorem not_mem_of_rhoL_eq_one {L : Subgroup G} (hZ : center (Bar2 L) = ⊥) {w 
   have hq : (QuotientGroup.mk (⟨w, hwL⟩ : ↥L) : Bar2 L) = 1 := by simpa using hcent
   have hpc : w ∈ CFSG.Open.pCoreOf 2 L :=
     (CFSG.mem_openPCoreOf_iff (⟨w, hwL⟩ : ↥L)).2 ((QuotientGroup.eq_one_iff _).1 hq)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp (UC6S846.isPGroup_pCoreOf L)
   have hdvd : 5 ∣ 2 ^ k := by
     have h := Subgroup.orderOf_dvd_natCard (s := CFSG.Open.pCoreOf 2 L) hpc
@@ -198,6 +201,7 @@ private theorem exists_reduction_witness {L A E U₁ U₂ : Subgroup G}
     exists_order_five_not_centralizing hAL hUL hUC hUcard hUnotcent
   exact ⟨U, u, u₀, hUE, hUcard, hUL, hUC, hdU, huord, hu₀U, hu₀eq, huCbar, hu_notcent⟩
 
+omit [Finite G] in
 private theorem rho_image_eq_bot {L A U W : Subgroup G} {u : Bar2 L} {u₀ : ↥L}
     (hAL : A ≤ L) (hWN : W ≤ normalizer (L : Set G)) (hWA : W ≤ centralizer (A : Set G))
     (hWU : W ≤ centralizer (U : Set G)) (hWperf : Group.IsPerfect ↥W)
@@ -215,7 +219,7 @@ private theorem rho_image_eq_bot {L A U W : Subgroup G} {u : Bar2 L} {u₀ : ↥
   let φ : ↥W →* MulAut (Bar2 L) := (rhoL L).comp (Subgroup.inclusion hWN)
   let Y : Subgroup (MulAut (Bar2 L)) := (⊤ : Subgroup ↥W).map φ
   have hYperf : Group.IsPerfect ↥Y := by
-    haveI : Group.IsPerfect ↥W := hWperf
+    have : Group.IsPerfect ↥W := hWperf
     change Group.IsPerfect ↥((⊤ : Subgroup ↥W).map φ)
     exact Group.IsPerfect.map φ
   have hYcomm : ⁅Y, Y⁆ = Y := Subgroup.isPerfect_iff.mp hYperf
@@ -314,7 +318,7 @@ private theorem four_le_pRank_of_elemAbelian_join {M L F' : Subgroup G} {w : G}
     (hF'L : F' ≤ L) (hwM : w ∈ M) (hwL : w ∉ L)
     (hF'C : F' ≤ centralizer (Subgroup.zpowers w : Set G)) (hw : orderOf w = 5) :
     4 ≤ CFSG.Open.pRank 5 M := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hw_notF' : w ∉ F' := fun h => hwL (hF'L h)
   have hcomm : ∀ e ∈ F', Commute e w := by
     intro e he
@@ -355,7 +359,7 @@ theorem false_of_isAlt_five {D : Data G} (hSg : SigmaStd D) (he : evenRank G = 3
   obtain ⟨U, u, u₀, hUE, hUcard, hUL, hUC, hdU, huord, hu₀U, hu₀eq, huCbar,
     hu_notcent⟩ := exists_reduction_witness hAL hEL hEp hU₁E hU₂E hc₁ hc₂ hne hd₁ hd₂ hK9a
   have hNU : normalizer (U : Set G) ≤ D.M := by
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     refine CFSG.RankThree.PartOne.IsStronglyPEmbedded.normalizer_le hsp5 ?_
       (IsPGroup.of_card (n := 1) (by rw [hUcard, pow_one])) (hUL.trans hLM)
     rintro rfl

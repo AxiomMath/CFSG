@@ -42,8 +42,8 @@ private theorem bcdNorm_EPlus_le_normalizer {W : Type} [Group W] [Finite W]
 
 private theorem bcdNorm_pCore_le_normalizer {W : Type} [Group W] [Finite W] {K : Subgroup W}
     (hK : IsComponent K) : pCore 2 W ≤ normalizer (K : Set W) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥(pCore 2 W) := (pCore_isPGroup (p := 2) (G := W)).isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥(pCore 2 W) := (pCore_isPGroup (p := 2) (G := W)).isNilpotent
   exact bcdNorm_le_normalizer_of_solvable inferInstance
     (pCore_normal (p := 2) (G := W)).isSubnormal hK
 
@@ -80,7 +80,7 @@ theorem LPlusIn_le_of_isSubnormal {Y D : Subgroup X} (hYD : Y ≤ D)
 
 private theorem bcdNorm_le_pCore_of_isSubnormal {G : Type} [Group G] [Finite G] {U : Subgroup G}
     (hU : U.IsSubnormal) (hp : IsPGroup 2 ↥U) : U ≤ pCore 2 G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := prime_set_core_subnormal_intersection {q : Nat.Primes | q.val = 2} hU
   rw [← pCore_eq_piCore U 2, ← pCore_eq_piCore G 2] at h
   have htop : pCore 2 ↥U = ⊤ :=
@@ -109,7 +109,7 @@ theorem le_oddTwoCoreOf_of_isSubnormal {D Y R : Subgroup X} (hYD : Y ≤ D)
     have h1 : y₀ * r₀ * y₀⁻¹ = ⟨r', hr'D⟩ * o₀ := Subtype.ext hyro
     have hπ1 : π o₀ = 1 := (QuotientGroup.eq_one_iff o₀).mpr ho₀
     rw [← map_inv, ← map_mul, ← map_mul, h1, map_mul, hπ1, mul_one]
-  haveI hnormal : (((R.subgroupOf D).map π).subgroupOf ((Y.subgroupOf D).map π)).Normal :=
+  have hnormal : (((R.subgroupOf D).map π).subgroupOf ((Y.subgroupOf D).map π)).Normal :=
     ⟨fun n hn g => hnorm (g : _) g.2 (n : _) hn⟩
   have hRsub : ((R.subgroupOf D).map π).IsSubnormal :=
     Subgroup.IsSubnormal.trans hRqY (Subgroup.Normal.isSubnormal hnormal) hYq

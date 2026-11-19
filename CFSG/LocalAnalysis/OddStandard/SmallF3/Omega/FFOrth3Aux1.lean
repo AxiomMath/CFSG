@@ -18,7 +18,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 
 theorem ff_orth3_solvable_aux (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 3) :
     Group.IsSolvable (OGroup Q) := by
-  letI : Fintype (OGroup Q) := Fintype.ofFinite _
+  let : Fintype (OGroup Q) := Fintype.ofFinite _
   refine CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
     (p := 2) (q := 3) (a := 4) (b := 1)
     Nat.prime_two Nat.prime_three (by decide) ?_
@@ -28,9 +28,9 @@ theorem ff_orth3_solvable_aux (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMo
 private theorem isPGroup_three_twoRes_of_card_dvd_six {H : Type} [Group H] [Finite H]
     (hcard : Nat.card H ∣ 6) : IsPGroup 3 ↥(twoRes (⊤ : Subgroup H)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 3 H))
-  haveI : Finite (Sylow 3 H) := P.finite_of_finiteIndex
+  have : Finite (Sylow 3 H) := P.finite_of_finiteIndex
   have hn_dvd : Nat.card (Sylow 3 H) ∣ 6 :=
     P.card_dvd_index.trans P.index_dvd_card |>.trans hcard
   have hn1 : Nat.card (Sylow 3 H) = 1 := by
@@ -45,7 +45,7 @@ private theorem isPGroup_three_twoRes_of_card_dvd_six {H : Type} [Group H] [Fini
     · exact absurd (h ▸ hmod) (by decide)
     · exact absurd (h ▸ hmod) (by decide)
     · exact absurd (h ▸ hmod) (by decide)
-  haveI : Subsingleton (Sylow 3 H) :=
+  have : Subsingleton (Sylow 3 H) :=
     Finite.card_le_one_iff_subsingleton.mp (by omega)
   have hmem : ∀ y : H, Odd (orderOf y) → y ∈ (P : Subgroup H) := by
     intro y hodd
@@ -65,18 +65,18 @@ private theorem isPGroup_three_twoRes_of_card_dvd_six {H : Type} [Group H] [Fini
     refine (Subgroup.closure_le (K := (P : Subgroup H))).mpr ?_
     rintro y ⟨-, hodd⟩
     exact hmem y hodd
-  exact P.isPGroup'.of_injective (Subgroup.inclusion hE_le) (Subgroup.inclusion_injective hE_le)
+  exact P.isPGroup.of_injective (Subgroup.inclusion hE_le) (Subgroup.inclusion_injective hE_le)
 
 private theorem exists_normal_two_series_card_48 {G : Type} [Group G] [Finite G]
     (hcard : Nat.card G = 48) :
     ∃ (N : Subgroup G) (_ : N.Normal), IsPGroup 2 N ∧
       IsPGroup 3 ↥(twoRes (⊤ : Subgroup (G ⧸ N))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 G))
-  haveI : Finite (Sylow 2 G) := P.finite_of_finiteIndex
+  have : Finite (Sylow 2 G) := P.finite_of_finiteIndex
   have hP16 : Nat.card (P : Subgroup G) = 16 := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
     have h1 : 2 ^ 4 ∣ Nat.card (P : Subgroup G) :=
       P.pow_dvd_card_of_pow_dvd_card (by rw [hcard]; norm_num)
     have h2 : Nat.card (P : Subgroup G) ∣ 48 := by
@@ -102,9 +102,9 @@ private theorem exists_normal_two_series_card_48 {G : Type} [Group G] [Finite G]
     (Nat.dvd_prime Nat.prime_three).mp (by rw [← hPindex]; exact P.card_dvd_index)
   rcases hn with hn | hn
   ·
-    haveI : Subsingleton (Sylow 2 G) :=
+    have : Subsingleton (Sylow 2 G) :=
       Finite.card_le_one_iff_subsingleton.mp (by omega)
-    refine ⟨(P : Subgroup G), Sylow.normal_of_subsingleton P, P.isPGroup', ?_⟩
+    refine ⟨(P : Subgroup G), Sylow.normal_of_subsingleton P, P.isPGroup, ?_⟩
     have hq : Nat.card (G ⧸ (P : Subgroup G)) = 3 := hPindex
     exact (IsPGroup.of_card (p := 3) (n := 1) (by rw [hq]; norm_num)).to_subgroup _
   ·
@@ -129,7 +129,7 @@ private theorem exists_normal_two_series_card_48 {G : Type} [Group G] [Finite G]
         (Sylow.smul_eq_iff_mem_normalizer).mp hfix
       rwa [← hNormEq] at hmem
     have hK2 : IsPGroup 2 φ.ker :=
-      P.isPGroup'.of_injective (Subgroup.inclusion hKP) (Subgroup.inclusion_injective hKP)
+      P.isPGroup.of_injective (Subgroup.inclusion hKP) (Subgroup.inclusion_injective hKP)
     refine ⟨φ.ker, MonoidHom.normal_ker φ, hK2, ?_⟩
     refine isPGroup_three_twoRes_of_card_dvd_six ?_
     have hperm : Nat.card (Equiv.Perm (Sylow 2 G)) = 6 := by

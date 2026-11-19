@@ -18,6 +18,7 @@ variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj] {c : Γ.Coloring
 variable {K : Type*} [Field K] {W : Type*} [AddCommGroup W] [Module K W]
 variable {ι : V → Submodule K W} {A U : Submodule K W}
 
+omit [DecidableRel Γ.Adj] in
 theorem exists_point_not_le_of_hyperplane (hι : IsProjGQ c ι A)
     (hU : U ≤ A) (hhyper : finrank K U + 1 = finrank K A) :
     ∃ p, c p = 0 ∧ ¬ ι p ≤ U := by
@@ -31,6 +32,7 @@ theorem exists_point_not_le_of_hyperplane (hι : IsProjGQ c ι A)
   rw [hUA] at hhyper
   omega
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem exists_sectionPoint_on_line [FiniteDimensional K A]
     (hι : IsProjGQ c ι A) (hU : U ≤ A)
     (hhyper : finrank K U + 1 = finrank K A) {L : V} (hL : c L = 1)
@@ -38,10 +40,10 @@ theorem exists_sectionPoint_on_line [FiniteDimensional K A]
     ∃ q, q ∈ sectionPoints c ι U ∧ Γ.Adj L q := by
   classical
   have hL2 : finrank K (ι L) = 2 := hι.finrank_line L hL
-  haveI : FiniteDimensional K (ι L) := Module.finite_of_finrank_pos (by omega)
-  haveI : FiniteDimensional K U := Submodule.finiteDimensional_of_le hU
+  have : FiniteDimensional K (ι L) := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K U := Submodule.finiteDimensional_of_le hU
   have hTleA : ι L ⊔ U ≤ A := sup_le hLA hU
-  haveI : FiniteDimensional K ↥(ι L ⊔ U) := Submodule.finiteDimensional_of_le hTleA
+  have : FiniteDimensional K ↥(ι L ⊔ U) := Submodule.finiteDimensional_of_le hTleA
   have hUleT : U ≤ ι L ⊔ U := le_sup_right
   have hTne : ι L ⊔ U ≠ U := by
     intro h

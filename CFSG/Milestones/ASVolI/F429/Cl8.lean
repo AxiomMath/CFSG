@@ -38,10 +38,10 @@ theorem burnsideF429_c8_F4two {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
   exact burnsideF429_c8_of (κ := .F4tw) (f := 1) ha (Or.inr ⟨rfl, Or.inr (Or.inr rfl), hb⟩)
 
 theorem burnsideF429_clause8 :
-    ∀ (κ : GLKind) (f : ℕ) (E : Type) [Group E] (Gp M₁ M₂ : Subgroup E),
+    ∀ (κ : GLKind) (f : ℕ) (_E : Type) [Group _E] (Gp M₁ M₂ : Subgroup _E),
       HypF_4_4 κ 2 f Gp M₁ M₂ → κ.IsLie → burnsideF429_C8 κ f Gp M₁ M₂ :=
   burnsideF429_clause8_of (burnsideF429_C8Small_of (burnsideF429_c8Small'_of
-    fun E _ _ _ _ hyp => burnsideF429_c8_F4two hyp))
+    fun _E _ _ _ _ hyp => burnsideF429_c8_F4two hyp))
 
 end Clause8All
 

@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 namespace HS9
 
+omit [Finite G] in
 theorem isZConjugate_of_isConjB (hc : Ctx M Q Z B) {P : Subgroup G} (hP : IsConjB M B P) :
     Smith81.IsZConjugate Z P := by
   obtain ⟨m, hm, rfl⟩ := hP

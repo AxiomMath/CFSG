@@ -19,7 +19,7 @@ private noncomputable def symplecticSplitSet (F : Type) [Field F] (n : ℕ) (s :
   Set.range fun i : {i : Fin n // i ∈ s} => lam (i : Fin n) (sl2Diag ζ)
 
 private theorem symplecticSplitSet_closure {F : Type} [Field F] [Finite F] [CharP F 2]
-    (n : ℕ) (hn4 : 4 ≤ n) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) {ζ : Fˣ}
+    (n : ℕ) (_hn4 : 4 ≤ n) {r : ℕ} (_hr : r.Prime) (_hr2 : r ≠ 2) {ζ : Fˣ}
     (hζo : orderOf ζ = r) {s : Finset (Fin n)} (hs : s.card = 4) :
     Nat.card (Subgroup.closure (symplecticSplitSet F n s ζ)) = r ^ 4 ∧
       (∀ y ∈ Subgroup.closure (symplecticSplitSet F n s ζ), y ^ r = 1) ∧
@@ -115,9 +115,9 @@ theorem k_CartanRankLarge_psp :
   obtain ⟨F, hF, hFin, hChar, hFcard, ⟨e⟩⟩ :=
     CFSG.SeitzReduction.SymplecticPilot.exists_mulEquiv_statedSp_of_lieModel
       (L := K ⧸ Subgroup.center K) hK
-  letI := hF
-  letI := hFin
-  letI := hChar
+  let := hF
+  let := hFin
+  let := hChar
   have hn4 : 4 ≤ n := by
     simpa [CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.CS17LieRank] using hrank
   have hf2 : 2 ≤ f := by
@@ -126,7 +126,7 @@ theorem k_CartanRankLarge_psp :
   obtain ⟨r, hr, hr2, -, hrdvd⟩ :=
     CFSG.RankThree.PartOne.KFU.exists_odd_prime_dvd_two_pow_sub_one_ne_five hf2
   have hrdvd' : r ∣ Nat.card F - 1 := by rw [hFcard]; exact hrdvd
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨ζ, hζo⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) r (by rwa [Nat.card_units])
   let e4 : Fin 4 → Fin n := Fin.castLE hn4
   let s : Finset (Fin n) := Finset.univ.image e4

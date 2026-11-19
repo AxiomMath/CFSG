@@ -33,19 +33,22 @@ variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 @[expose] def fullLinesThrough (Γ : SimpleGraph V) (P' : Set V) (x : V) : Set V :=
   {L | Γ.Adj x L ∧ Γ.neighborSet L ⊆ P'}
 
+omit [Fintype V] in
 @[simp] theorem mem_subquadrangleLines {Γ : SimpleGraph V} {c : Γ.Coloring (Fin 2)}
     {P' : Set V} {L : V} :
     L ∈ subquadrangleLines Γ c P' ↔ c L = 1 ∧ Γ.neighborSet L ⊆ P' := Iff.rfl
 
+omit [Fintype V] in
 @[simp] theorem mem_subquadrangleSet {Γ : SimpleGraph V} {c : Γ.Coloring (Fin 2)}
     {P' : Set V} {v : V} :
     v ∈ subquadrangleSet Γ c P' ↔ v ∈ P' ∨ c v = 1 ∧ Γ.neighborSet v ⊆ P' := by
   simp [subquadrangleSet, subquadrangleLines]
 
-noncomputable instance instFintypeSubquadrangleSet {Γ : SimpleGraph V} [Fintype V]
+noncomputable instance instFintypeSubquadrangleSet {Γ : SimpleGraph V}
     {c : Γ.Coloring (Fin 2)} (P' : Set V) : Fintype (subquadrangleSet Γ c P') :=
   (Set.toFinite _).fintype
 
+omit [Fintype V] in
 @[simp] theorem mem_fullLinesThrough {Γ : SimpleGraph V} {P' : Set V} {x L : V} :
     L ∈ fullLinesThrough Γ P' x ↔ Γ.Adj x L ∧ Γ.neighborSet L ⊆ P' := Iff.rfl
 
@@ -55,6 +58,7 @@ section Basic
 
 variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem eq_of_two_common_points (hP : IsGeneralizedPolygon Γ 4) {L L' p q : V}
     (hpq : p ≠ q) (hLp : Γ.Adj L p) (hLq : Γ.Adj L q)
     (hL'p : Γ.Adj L' p) (hL'q : Γ.Adj L' q) : L = L' := by
@@ -63,6 +67,7 @@ theorem eq_of_two_common_points (hP : IsGeneralizedPolygon Γ 4) {L L' p q : V}
   exact (existsUnique_commonNeighbor hP h2).unique
     ⟨hLp.symm, hLq.symm⟩ ⟨hL'p.symm, hL'q.symm⟩
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem ne_of_dist_eq_four_of_adj (hP : IsGeneralizedPolygon Γ 4) {x y L L' : V}
     (hxy : Γ.dist x y = 4) (hxL : Γ.Adj x L) (hyL' : Γ.Adj y L') : L ≠ L' := by
   intro h
@@ -102,41 +107,50 @@ namespace QuadrangleFrame
 
 variable {Γ : SimpleGraph V} {P' : Set V}
 
+omit [Fintype V] in
 theorem hxu (F : QuadrangleFrame Γ P') : Γ.dist F.x F.u = 2 := by
   simpa using F.htu.1
 
+omit [Fintype V] in
 theorem hyu (F : QuadrangleFrame Γ P') : Γ.dist F.y F.u = 2 := by
   simpa using F.htu.2
 
+omit [Fintype V] in
 theorem hxv (F : QuadrangleFrame Γ P') : Γ.dist F.x F.v = 2 := by
   simpa using F.htv.1
 
+omit [Fintype V] in
 theorem hyv (F : QuadrangleFrame Γ P') : Γ.dist F.y F.v = 2 := by
   simpa using F.htv.2
 
+omit [Fintype V] in
 theorem huv_dist (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P') :
     Γ.dist F.u F.v = 4 :=
   dist_eq_four_of_mem_trace hP F.hxy F.htu F.htv F.huv
 
-theorem hxu_ne (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P') : F.x ≠ F.u := by
+omit [Fintype V] in
+theorem hxu_ne (_hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P') : F.x ≠ F.u := by
   intro h
   have h2 : Γ.dist F.x F.u = 2 := F.hxu
   rw [h] at h2
   simp at h2
 
-theorem hxv_ne (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P') : F.x ≠ F.v := by
+omit [Fintype V] in
+theorem hxv_ne (_hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P') : F.x ≠ F.v := by
   intro h
   have h2 : Γ.dist F.x F.v = 2 := F.hxv
   rw [h] at h2
   simp at h2
 
-theorem hyu_ne (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P') : F.y ≠ F.u := by
+omit [Fintype V] in
+theorem hyu_ne (_hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P') : F.y ≠ F.u := by
   intro h
   have h2 : Γ.dist F.y F.u = 2 := F.hyu
   rw [h] at h2
   simp at h2
 
-theorem hyv_ne (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P') : F.y ≠ F.v := by
+omit [Fintype V] in
+theorem hyv_ne (_hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P') : F.y ≠ F.v := by
   intro h
   have h2 : Γ.dist F.y F.v = 2 := F.hyv
   rw [h] at h2
@@ -144,6 +158,7 @@ theorem hyv_ne (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P') : F.
 
 end QuadrangleFrame
 
+omit [DecidableRel Γ.Adj] in
 theorem exists_quadrangleFrame (hP : IsGeneralizedPolygon Γ 4) {P' : Set V}
     (hquad : ∃ x ∈ P', ∃ y ∈ P', Γ.dist x y = 4 ∧
       2 ≤ (traceSet Γ x y ∩ P').ncard) :
@@ -184,22 +199,27 @@ namespace QuadrangleFrame
 
 variable {c : Γ.Coloring (Fin 2)} {P' : Set V}
 
-theorem color_A (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P')
+omit [Fintype V] [DecidableRel Γ.Adj] in
+theorem color_A (_hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P')
     (h0 : ∀ x ∈ P', c x = 0) : c F.A = 1 :=
   color_eq_one_of_adj_of_color_eq_zero (h0 F.x F.hx) F.hxA
 
-theorem color_B (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P')
+omit [Fintype V] [DecidableRel Γ.Adj] in
+theorem color_B (_hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P')
     (h0 : ∀ x ∈ P', c x = 0) : c F.B = 1 :=
   color_eq_one_of_adj_of_color_eq_zero (h0 F.y F.hy) F.hyB
 
-theorem color_C (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P')
+omit [Fintype V] [DecidableRel Γ.Adj] in
+theorem color_C (_hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P')
     (h0 : ∀ x ∈ P', c x = 0) : c F.C = 1 :=
   color_eq_one_of_adj_of_color_eq_zero (h0 F.y F.hy) F.hyC
 
-theorem color_D (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P')
+omit [Fintype V] [DecidableRel Γ.Adj] in
+theorem color_D (_hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P')
     (h0 : ∀ x ∈ P', c x = 0) : c F.D = 1 :=
   color_eq_one_of_adj_of_color_eq_zero (h0 F.x F.hx) F.hxD
 
+omit [DecidableRel Γ.Adj] in
 theorem full_A (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P')
     (h0 : ∀ x ∈ P', c x = 0)
     (hfull : ∀ L, c L = 1 → 2 ≤ (Γ.neighborSet L ∩ P').ncard →
@@ -212,6 +232,7 @@ theorem full_A (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P')
     omega
   exact hfull F.A (F.color_A hP h0) h2
 
+omit [DecidableRel Γ.Adj] in
 theorem full_B (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P')
     (h0 : ∀ x ∈ P', c x = 0)
     (hfull : ∀ L, c L = 1 → 2 ≤ (Γ.neighborSet L ∩ P').ncard →
@@ -224,6 +245,7 @@ theorem full_B (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P')
     omega
   exact hfull F.B (F.color_B hP h0) h2
 
+omit [DecidableRel Γ.Adj] in
 theorem full_C (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P')
     (h0 : ∀ x ∈ P', c x = 0)
     (hfull : ∀ L, c L = 1 → 2 ≤ (Γ.neighborSet L ∩ P').ncard →
@@ -236,6 +258,7 @@ theorem full_C (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P')
     omega
   exact hfull F.C (F.color_C hP h0) h2
 
+omit [DecidableRel Γ.Adj] in
 theorem full_D (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P')
     (h0 : ∀ x ∈ P', c x = 0)
     (hfull : ∀ L, c L = 1 → 2 ≤ (Γ.neighborSet L ∩ P').ncard →
@@ -248,16 +271,19 @@ theorem full_D (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P')
     omega
   exact hfull F.D (F.color_D hP h0) h2
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem A_ne_B (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P') :
     F.A ≠ F.B :=
   ne_of_dist_eq_four_of_adj hP F.hxy F.hxA F.hyB
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem A_ne_D (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P') :
     F.A ≠ F.D :=
   ne_of_dist_eq_four_of_adj hP (F.huv_dist hP) F.huA F.hvD
 
 end QuadrangleFrame
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem disjoint_neighborSet_of_mem_trace (hP : IsGeneralizedPolygon Γ 4)
     {x y u v A C : V} (hxy : Γ.dist x y = 4)
     (hu : u ∈ traceSet Γ x y) (hv : v ∈ traceSet Γ x y) (huv : u ≠ v)
@@ -313,11 +339,13 @@ namespace QuadrangleFrame
 
 variable {c : Γ.Coloring (Fin 2)} {P' : Set V}
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem disjoint_AC (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P') :
     Disjoint (Γ.neighborSet F.A) (Γ.neighborSet F.C) :=
   disjoint_neighborSet_of_mem_trace hP F.hxy F.htu F.htv F.huv
     F.hxA.symm F.huA.symm F.hyC.symm F.hvC.symm
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem disjoint_BD (hP : IsGeneralizedPolygon Γ 4) (F : QuadrangleFrame Γ P') :
     Disjoint (Γ.neighborSet F.B) (Γ.neighborSet F.D) := by
   have htu' : F.u ∈ traceSet Γ F.y F.x :=
@@ -361,6 +389,7 @@ theorem exists_fullLineThrough (hP : IsGeneralizedPolygon Γ 4) {c : Γ.Coloring
       exact hfull L (color_eq_one_of_adj_of_color_eq_zero hca haL) (by omega)
     exact ⟨L, haL, hLfull⟩
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem eq_left_or_eq_right_of_three_lines (hP : IsGeneralizedPolygon Γ 4)
     {M A B pA pB u : V} (hAB : A ≠ B) (hMA : M ≠ A)
     (hMpA : Γ.Adj M pA) (hMpB : Γ.Adj M pB)
@@ -494,7 +523,7 @@ theorem two_le_ncard_fullLinesThrough (hP : IsGeneralizedPolygon Γ 4)
         (hpu ▸ hpBL0) (hpx ▸ hpDL0) F.huA.symm F.hxA.symm
     exact hMA hM
 
-theorem ncard_of_isFullSubquadrangle (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
+theorem ncard_of_isFullSubquadrangle (hP : IsGeneralizedPolygon Γ 4) (_hT : IsThick Γ)
     (c : Γ.Coloring (Fin 2)) {s t : ℕ}
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
     {t' : ℕ} {P' : Set V} (hF : IsFullSubquadrangle c P' t') :
@@ -513,7 +542,7 @@ theorem ncard_of_isFullSubquadrangle (hP : IsGeneralizedPolygon Γ 4) (hT : IsTh
   let C : V → Finset V := fun p =>
     ((lineFinset p).erase L0).biUnion fun M => (Γ.neighborFinset M).erase p
   have hNcard : (Γ.neighborFinset L0).card = s + 1 := by
-    rw [card_neighborFinset_eq_degree, hdeg L0, if_neg (by rw [hcL0]; decide)]
+    rw [card_neighborFinset_eq_degree, hdeg L0, ite_eq_right (by rw [hcL0]; decide)]
   have hlineFinset_card : ∀ p ∈ Γ.neighborFinset L0, (lineFinset p).card = t' + 1 := by
     intro p hp
     have hpP : p ∈ P' := hL0full (by simpa using hp)
@@ -539,7 +568,7 @@ theorem ncard_of_isFullSubquadrangle (hP : IsGeneralizedPolygon Γ 4) (hT : IsTh
       obtain ⟨hpM, -⟩ := hMline
       have hcM : c M = 1 := color_eq_one_of_adj_of_color_eq_zero (h0 p hpP) hpM
       have hMdeg : Γ.degree M = s + 1 := by
-        rw [hdeg M, if_neg (by rw [hcM]; decide)]
+        rw [hdeg M, ite_eq_right (by rw [hcM]; decide)]
       rw [Finset.card_erase_of_mem (by simpa using hpM.symm), card_neighborFinset_eq_degree,
         hMdeg]
       omega
@@ -679,6 +708,7 @@ theorem ncard_of_isFullSubquadrangle (hP : IsGeneralizedPolygon Γ 4) (hT : IsTh
   rw [show P'.ncard = Pfin.card from Set.ncard_eq_toFinset_card' P']
   exact htotal
 
+omit [DecidableRel Γ.Adj] [Fintype V] in
 theorem ncard_neighborSet_subquadrangleGraph_of_mem_point
     (c : Γ.Coloring (Fin 2)) {P' : Set V}
     {t' : ℕ} (hF : IsFullSubquadrangle c P' t') {x : V} (hx : x ∈ P') :
@@ -718,7 +748,7 @@ theorem degree_subquadrangleGraph_of_mem_point
 theorem ncard_neighborSet_subquadrangleGraph_of_mem_line
     (c : Γ.Coloring (Fin 2)) {s t : ℕ}
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1)
-    {t' : ℕ} {P' : Set V} (hF : IsFullSubquadrangle c P' t')
+    {t' : ℕ} {P' : Set V} (_hF : IsFullSubquadrangle c P' t')
     {L : V} (hL : L ∈ subquadrangleLines Γ c P') :
     ((Γ.induce (subquadrangleSet Γ c P')).neighborSet
       ⟨L, mem_subquadrangleSet.mpr (Or.inr (mem_subquadrangleLines.mp hL))⟩).ncard = s + 1 := by
@@ -734,7 +764,7 @@ theorem ncard_neighborSet_subquadrangleGraph_of_mem_line
     (fun v hv => by
       have hLv : Γ.Adj L v.1 := SimpleGraph.induce_adj.mp hv
       exact ⟨v.1, hLv, Subtype.ext rfl⟩)
-  rw [← hcongr, ncard_neighborSet, hdeg L, if_neg (by rw [hL.1]; decide)]
+  rw [← hcongr, ncard_neighborSet, hdeg L, ite_eq_right (by rw [hL.1]; decide)]
 
 theorem degree_subquadrangleGraph_of_mem_line
     (c : Γ.Coloring (Fin 2)) {s t : ℕ}

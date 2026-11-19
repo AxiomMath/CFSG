@@ -27,8 +27,8 @@ theorem k37G_E_le {K E S : Subgroup X} (hs : K37Setting X K E S) (hSyl : InputON
     (hHat : IsHatON ↥K) (hout : ¬ 3 ∣ Nat.card (Outer (↥K ⧸ Subgroup.center ↥K))) :
     E ≤ K := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hs.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hs.normal
   intro e he
   by_contra heK
   have he1 : e ≠ 1 := fun h => heK (h ▸ K.one_mem)
@@ -130,8 +130,8 @@ theorem k37G_le_centGenI_of_E_le {K E S : Subgroup X} (hs : K37Setting X K E S) 
       (⊤ : Subgroup ↥K) ≤ gammaLBelow B₀ (⊤ : Subgroup ↥K)) :
     K ≤ GL83.CompFam.centGenI 3 E K := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hs.normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hs.normal
   set ZX : Subgroup X := (Subgroup.center ↥K).map K.subtype with hZXdef
   have hZXK : ZX ≤ K := Subgroup.map_subtype_le _
   have hZXcard : Nat.card ZX = 3 := by

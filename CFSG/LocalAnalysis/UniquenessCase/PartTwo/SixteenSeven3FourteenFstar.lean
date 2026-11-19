@@ -13,10 +13,10 @@ open CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 theorem s16c1614_card_dvd_fstar_mul_aut (H : Type) [Group H] [Finite H] :
     Nat.card H ∣ Nat.card (genFittingFStar H) * Nat.card (MulAut ↥(genFittingFStar H)) := by
   classical
-  haveI : (genFittingFStar H).Normal := CFSG.ClassicalInvolution.Q3.genFittingFStar_isNormal
+  have : (genFittingFStar H).Normal := CFSG.ClassicalInvolution.Q3.genFittingFStar_isNormal
   have hker : (MulAut.conjNormal : H →* MulAut ↥(genFittingFStar H)).ker ≤ genFittingFStar H := by
     intro x hx
-    apply CFSG.Open.Open.generalized_fitting_self_centralizing H
+    apply CFSG.Open.Thm.generalized_fitting_self_centralizing H
     rw [Subgroup.mem_centralizer_iff]
     intro f hf
     have h2 : x * f * x⁻¹ = f := by

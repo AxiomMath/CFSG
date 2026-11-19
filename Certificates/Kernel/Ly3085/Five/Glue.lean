@@ -75,6 +75,7 @@ section
 
 variable [LySeed]
 
+omit [LySeed] in
 theorem bfacts : CFSG.KC.LyOm.bConstsOK CFSG.KD.LyOm.BC = true := hBC
 
 @[expose] def fLet (l : ℕ) : J := [fiveA, fiveB, fiveA⁻¹, fiveB⁻¹].getD l 1
@@ -88,36 +89,44 @@ theorem bfacts : CFSG.KC.LyOm.bConstsOK CFSG.KD.LyOm.BC = true := hBC
   else if l < 27 then ((CFSG.KD.LyFive.TG.getD (l - 24) []).map fLet).prod
   else if l < 34 then aStar (l - 27) else (aStar (l - 34))⁻¹
 
+omit [LySeed] in
 theorem and' {a b : Bool} (h : (a && b) = true) : a = true ∧ b = true := Bool.and_eq_true _ _ ▸ h
 
+omit [LySeed] in
 theorem lt_len : CFSG.KD.LyFive.LT.length = 27 := by decide
 
+omit [LySeed] in
 theorem ab_len : CFSG.KD.LyFive.AB.length = 4 := by decide
 
+omit [LySeed] in
 theorem ug_lt {l : ℕ} (hl : l < 27) : CFSG.KD.LyFive.UG l = CFSG.KD.LyFive.LT.getD l 0 := by
   unfold CFSG.KD.LyFive.UG
-  rw [CFSG.KS.LyFive.nIf_eq, if_pos (Nat.blt_eq.mpr hl)]
+  rw [CFSG.KS.LyFive.nIf_eq, ite_eq_left (Nat.blt_eq.mpr hl)]
 
+omit [LySeed] in
 theorem ug_af {l : ℕ} (h1 : 27 ≤ l) (h2 : l < 34) :
     CFSG.KD.LyFive.UG l = LySv.AF (l - 27) := by
   unfold CFSG.KD.LyFive.UG
-  rw [CFSG.KS.LyFive.nIf_eq, if_neg (fun e => by have h3 : l < 27 := Nat.blt_eq.mp e; omega),
-    CFSG.KS.LyFive.nIf_eq, if_pos (Nat.blt_eq.mpr h2)]
+  rw [CFSG.KS.LyFive.nIf_eq, ite_eq_right (fun e => by have h3 : l < 27 := Nat.blt_eq.mp e; omega),
+    CFSG.KS.LyFive.nIf_eq, ite_eq_left (Nat.blt_eq.mpr h2)]
   rfl
 
+omit [LySeed] in
 theorem ug_ai {l : ℕ} (h1 : 34 ≤ l) :
     CFSG.KD.LyFive.UG l = LySv.AI (l - 34) := by
   unfold CFSG.KD.LyFive.UG
-  rw [CFSG.KS.LyFive.nIf_eq, if_neg (fun e => by have h3 : l < 27 := Nat.blt_eq.mp e; omega),
-    CFSG.KS.LyFive.nIf_eq, if_neg (fun e => by have h3 : l < 34 := Nat.blt_eq.mp e; omega)]
+  rw [CFSG.KS.LyFive.nIf_eq, ite_eq_right (fun e => by have h3 : l < 27 := Nat.blt_eq.mp e; omega),
+    CFSG.KS.LyFive.nIf_eq, ite_eq_right (fun e => by have h3 : l < 34 := Nat.blt_eq.mp e; omega)]
   rfl
 
+omit [LySeed] in
 theorem vld_lt {l : ℕ} (hl : l < 27) : LCanon 12 111 111 (CFSG.KD.LyFive.UG l) := by
   rw [ug_lt hl]
   refine fvld_canon (allL_mem CFSG.KD.LyFive.vld _ (List.mem_append_left _ ?_))
   rw [List.getD_eq_getElem _ _ (by rw [lt_len]; exact hl)]
   exact List.getElem_mem _
 
+omit [LySeed] in
 theorem vld_ab {l : ℕ} (hl : l < 4) : LCanon 12 111 111 (CFSG.KD.LyFive.GA l) := by
   unfold CFSG.KD.LyFive.GA
   refine fvld_canon (allL_mem CFSG.KD.LyFive.vld _ (List.mem_append_right _ ?_))
@@ -149,6 +158,7 @@ theorem r0_rep : CFSG.KS.LyFive.RegRep CFSG.KD.LyFive.R0 (matHom ∘ fiveInit a 
       rw [List.getD_eq_getElem _ _ (by rw [hs]; exact hk), List.getElem_replicate, map_one]
       exact one_facts
 
+omit [LySeed] in
 theorem prog_lt : ∀ ins ∈ lyFiveProg, CFSG.KS.LyFive.InsLt ins := by
   have h : lyFiveProg.all CFSG.KS.LyFive.insLtB = true := by decide +kernel
   intro ins hins
@@ -211,6 +221,7 @@ theorem fLet_abL (z : ℤ) : fLet (abL z) =
       · simp [abL, fLet, h3]
       · simp [abL, fLet, h1, h2, h3]
 
+omit [LySeed] in
 theorem abL_lt (z : ℤ) : abL z < 4 := by
   unfold abL
   split_ifs <;> norm_num
@@ -221,7 +232,7 @@ theorem fiveWord_eq (w : List ℤ) : fiveWord fiveA fiveB w = ((w.map abL).map f
   congr 1
   exact List.map_congr_left fun z _ => (fLet_abL z).symm
 
-theorem ug_step {l X Y : ℕ} {g h : J} (hl : l < 27)
+theorem ug_step {l X Y : ℕ} {g h : J} (_hl : l < 27)
     (e : Nat.beq (CFSG.KD.LyFive.UG l) (CFSG.KC.LyOm.fMul CFSG.KD.LyOm.BC X Y) = true)
     (cX : LCanon 12 111 111 X) (eX : bigM X = mat g) (cY : LCanon 12 111 111 Y)
     (eY : bigM Y = mat h) :
@@ -313,6 +324,7 @@ theorem ug_v (i : Fin 4) (h : CFSG.KD.LyFive.vOK i = true) : ∀ e < 4,
   · rw [show 4 + 4 * i.val + 2 = 6 + 4 * i.val by omega]; exact f2
   · rw [show 4 + 4 * i.val + 3 = 7 + 4 * i.val by omega]; exact f3
 
+omit [LySeed] in
 theorem tg_lt : ∀ t < 3, ∀ l ∈ CFSG.KD.LyFive.TG.getD t [], l < 4 := by decide +kernel
 
 theorem ug_facts : ∀ l < 41, LCanon 12 111 111 (CFSG.KD.LyFive.UG l) ∧
@@ -332,7 +344,7 @@ theorem ug_facts : ∀ l < 41, LCanon 12 111 111 (CFSG.KD.LyFive.UG l) ∧
     rw [CFSG.KS.LyFive.beq_eq e]
     have hv : valJ (24 + t) = ((CFSG.KD.LyFive.TG.getD t []).map fLet).prod := by
       unfold valJ
-      rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_pos (by omega),
+      rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left (by omega),
         show 24 + t - 24 = t by omega]
     rw [hv]
     exact ga_word _ (tg_lt t ht)
@@ -371,13 +383,13 @@ theorem ug_facts : ∀ l < 41, LCanon 12 111 111 (CFSG.KD.LyFive.UG l) ∧
       rw [ug_af (by omega) h34]
       refine ⟨c, e.trans ?_⟩
       unfold valJ
-      rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg (by omega), if_pos h34]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left h34]
     · obtain ⟨-, -, c, e⟩ := af_facts (j := l - 34) (by omega)
       rw [ug_ai (by omega)]
       refine ⟨c, e.trans ?_⟩
       unfold valJ
-      rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg (by omega),
-        if_neg h34]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega),
+        ite_eq_right h34]
 
 theorem ug_word (w : List ℕ) (hw : ∀ l ∈ w, l < 41) :
     LCanon 12 111 111 (wordF CFSG.KD.LyOm.BC CFSG.KD.LyFive.UG w) ∧
@@ -397,25 +409,26 @@ theorem seg_prod {d l : ℕ} {g : J} (hd : d < 5) (hl : ∀ d', 0 < d' → d' < 
   · rw [List.map_singleton, List.prod_singleton]
     exact hl d (by omega) hd rfl
 
+omit [LySeed] in
 theorem digit_val (m : ℕ) : ((m % 5 : ℕ) : ZMod 5).val = m % 5 := by
   rw [ZMod.val_natCast, Nat.mod_mod]
 
 theorem valJ_a {k : ℕ} (h0 : 0 < k) (h5 : k < 5) : valJ (k - 1) = fiveA ^ k := by
   unfold valJ
-  rw [if_pos (by omega), show k - 1 + 1 = k by omega]
+  rw [ite_eq_left (by omega), show k - 1 + 1 = k by omega]
 
 theorem valJ_v (i : Fin 4) {e : ℕ} (h0 : 0 < e) (h5 : e < 5) :
     valJ (4 + 4 * i.val + e - 1) = fiveV i ^ e := by
   unfold valJ
   have hi := i.isLt
-  rw [if_neg (by omega), if_pos (by omega), show (4 + 4 * i.val + e - 1 - 4) / 4 = i.val by omega,
+  rw [ite_eq_right (by omega), ite_eq_left (by omega), show (4 + 4 * i.val + e - 1 - 4) / 4 = i.val by omega,
     show (4 + 4 * i.val + e - 1 - 4) % 4 + 1 = e by omega]
   unfold vJ
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
 
 theorem valJ_x {c : ℕ} (h0 : 0 < c) (h5 : c < 5) : valJ (20 + c - 1) = fiveX ^ c := by
   unfold valJ
-  rw [if_neg (by omega), if_neg (by omega), if_pos (by omega), show 20 + c - 1 - 19 = c by omega]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left (by omega), show 20 + c - 1 - 19 = c by omega]
 
 theorem elW_prod {n : ℕ} (hn : n < 15625) : ((elW n).map valJ).prod = fiveEl n := by
   unfold elW fiveEl fiveNF fiveDigits
@@ -423,13 +436,13 @@ theorem elW_prod {n : ℕ} (hn : n < 15625) : ((elW n).map valJ).prod = fiveEl n
   have hk : n / 3125 < 5 := by omega
   rw [seg_prod (g := fiveA) hk (fun d' h0 h5 e => by rw [e]; exact valJ_a h0 h5),
     seg_prod (g := fiveV 3) (Nat.mod_lt _ (by norm_num)) (fun d' h0 h5 e => by
-      rw [e, show 16 + d' - 1 = 4 + 4 * (3 : Fin 4).val + d' - 1 by simp <;> omega]
+      rw [e, show 16 + d' - 1 = 4 + 4 * (3 : Fin 4).val + d' - 1 by simp]
       exact valJ_v 3 h0 h5),
     seg_prod (g := fiveV 2) (Nat.mod_lt _ (by norm_num)) (fun d' h0 h5 e => by
-      rw [e, show 12 + d' - 1 = 4 + 4 * (2 : Fin 4).val + d' - 1 by simp <;> omega]
+      rw [e, show 12 + d' - 1 = 4 + 4 * (2 : Fin 4).val + d' - 1 by simp]
       exact valJ_v 2 h0 h5),
     seg_prod (g := fiveV 1) (Nat.mod_lt _ (by norm_num)) (fun d' h0 h5 e => by
-      rw [e, show 8 + d' - 1 = 4 + 4 * (1 : Fin 4).val + d' - 1 by simp <;> omega]
+      rw [e, show 8 + d' - 1 = 4 + 4 * (1 : Fin 4).val + d' - 1 by simp]
       exact valJ_v 1 h0 h5),
     seg_prod (g := fiveV 0) (Nat.mod_lt _ (by norm_num)) (fun d' h0 h5 e => by
       rw [e, show 4 + d' - 1 = 4 + 4 * (0 : Fin 4).val + d' - 1 by simp]
@@ -443,6 +456,7 @@ theorem elW_prod {n : ℕ} (hn : n < 15625) : ((elW n).map valJ).prod = fiveEl n
   simp only [v3]
   norm_num only [mul_assoc]
 
+omit [LySeed] in
 theorem elW_lt {n : ℕ} (hn : n < 15625) : ∀ l ∈ elW n, l < 41 := by
   intro l hl
   unfold elW at hl

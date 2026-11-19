@@ -79,7 +79,7 @@ theorem vec_eq_finset_sum (u : RootModule Tag.D4 K) :
     rw [Finset.mem_range] at hp
     rw [map_smul, posCoord_posVec (show p < dim Tag.D4 by rw [hd]; exact hp), smul_eq_mul]
     split_ifs <;> simp
-  rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq, if_pos (Finset.mem_range.2 hq)]
+  rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq, ite_eq_left (Finset.mem_range.2 hq)]
 
 theorem Bf_basis (p q : ℕ) (hp : p < 28) (hq : q < 28) :
     Bf K (posVec Tag.D4 K p) (posVec Tag.D4 K q) = (gramZ p q : K) := by

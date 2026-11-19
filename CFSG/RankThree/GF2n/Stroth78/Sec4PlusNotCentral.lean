@@ -26,9 +26,9 @@ theorem exists_not_commute_of_mem_centerIn_QaOf (S : Setting z E F) {a s : G}
     ∃ q ∈ Q z ⊓ Subgroup.centralizer ({a} : Set G), s * q ≠ q * s := by
   by_contra hcon
   push Not at hcon
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   have hq : (qS S).polarBilin.Nondegenerate := by
-    letI := modAbF S
+    let := modAbF S
     exact q_nondegenerate S
   have h2 := finrank_commSpace_eq_two S haQ hconj haZ hzaZ hsZ hsH hs2 hsQ
   have hle : LinearMap.BilinForm.orthogonal (qS S).polarBilin

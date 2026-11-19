@@ -252,7 +252,7 @@ private theorem geo_gPSUr_toStd_apply_of_even {n : ℕ} (he : Even n) (v : Fin (
     (a : Fin (n / 2)) :
     toStd n v a = (if a.val + 1 = n / 2 then 2 else 1) * v a -
       (if h : 0 < a.val then v ⟨a.val - 1, by omega⟩ else 0) := by
-  rw [toStd, if_pos he]
+  rw [toStd, ite_eq_left he]
   rfl
 
 private theorem geo_gPSUr_exists_highest {n : ℕ} (hn : 2 ≤ n) :
@@ -268,7 +268,7 @@ private theorem geo_gPSUr_exists_highest {n : ℕ} (hn : 2 ≤ n) :
     · have : a = ⟨0, hm⟩ := Fin.ext h0
       subst this
       simp
-      split_ifs <;> simp_all <;> omega
+      split_ifs <;> simp_all
     · have h1 : 0 < a.val := Nat.pos_of_ne_zero h0
       have hne : ¬ (a = ⟨0, hm⟩) := fun e => h0 (by rw [e])
       simp [h1, hne]
@@ -276,7 +276,7 @@ private theorem geo_gPSUr_exists_highest {n : ℕ} (hn : 2 ≤ n) :
   · refine ⟨fun _ => 2, ?_⟩
     funext a
     rw [geo_gPSUr_weight_lowIdx, Pi.smul_apply, Pi.single_apply, nsmul_eq_mul]
-    simp only [toStd, if_neg he]
+    simp only [toStd, ite_eq_right he]
     by_cases h0 : a.val = 0
     · have : a = ⟨0, hm⟩ := Fin.ext h0
       subst this
@@ -289,10 +289,10 @@ private theorem geo_gPSUr_toStd_neg (n : ℕ) (v : Fin (n / 2) → ℤ) :
     toStd n (-v) = -toStd n v := by
   by_cases he : Even n
   · funext a
-    simp only [toStd, if_pos he, CFSG.LieType.Universal.Symplectic.toStd, Pi.neg_apply]
+    simp only [toStd, ite_eq_left he, CFSG.LieType.Universal.Symplectic.toStd, Pi.neg_apply]
     split_ifs <;> ring
   · funext a
-    simp only [toStd, if_neg he, Pi.neg_apply]
+    simp only [toStd, ite_eq_right he, Pi.neg_apply]
     split_ifs <;> ring
 
 private theorem geo_gPSUr_vecMul_single_rev {F : Type} [Field F] {n : ℕ} (a : Fin n) :
@@ -369,7 +369,7 @@ private theorem geo_gPSUr_pairGen_conj {F : Type} [Field F] {n : ℕ} (σ : F �
     rw [hrow x]
     rfl
   simp only [Matrix.mul_add, Matrix.mul_sub, Matrix.mul_smul, Matrix.mul_one, Matrix.add_mul,
-    Matrix.sub_mul, Matrix.smul_mul, hUV, Matrix.one_mul, hN1, hN2]
+    Matrix.sub_mul, Matrix.smul_mul, hUV, hN1, hN2]
 
 private theorem geo_gPSUr_unitPairGroup_conj {F : Type} [Field F] {n : ℕ} (σ : F ≃+* F)
     (u : Unitary.SU σ n) (x y : Fin n → F) :
@@ -420,8 +420,7 @@ private theorem geo_gPSUr_unitPairGroup_conj {F : Type} [Field F] {n : ℕ} (σ 
       have hux : ((((u : GL (Fin n) F)) : Matrix (Fin n) (Fin n) F))⁻¹ *
           (((u : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) = 1 := by
         have h : ((u : GL (Fin n) F))⁻¹ * (u : GL (Fin n) F) = 1 := inv_mul_cancel _
-        simpa [Units.val_mul, Units.val_one, Units.val_inv_eq_inv_val] using
-          congrArg (fun w : GL (Fin n) F => ((w : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) h
+        simp
       have hx : Matrix.mulVec ((((u : GL (Fin n) F)) : Matrix (Fin n) (Fin n) F))⁻¹
           (Matrix.mulVec (((u : GL (Fin n) F) : Matrix (Fin n) (Fin n) F)) x) = x := by
         rw [Matrix.mulVec_mulVec, hux, Matrix.one_mulVec]
@@ -448,14 +447,14 @@ private theorem geo_gPSUr_map_conj_subtype {F : Type} [Field F] {n : ℕ} (σ : 
       Subgroup.mem_map.2 ⟨x, hx, rfl⟩, ?_⟩
     change MulAut.conj ((u : GL (Fin n) F)) ((x : GL (Fin n) F)) =
       (Unitary.SU σ n).subtype ((MulAut.conj u) x)
-    simp [MulAut.conj_apply, Units.val_mul]
+    simp [MulAut.conj_apply]
   · rintro g ⟨y, hy, rfl⟩
     obtain ⟨x, hx, rfl⟩ := hy
     refine Subgroup.mem_map.2 ⟨(MulAut.conj u) x, ?_, ?_⟩
     · exact Subgroup.mem_map.2 ⟨x, hx, rfl⟩
     · change (Unitary.SU σ n).subtype ((MulAut.conj u) x) =
         MulAut.conj ((u : GL (Fin n) F)) ((x : GL (Fin n) F))
-      simp [MulAut.conj_apply, Units.val_mul]
+      simp [MulAut.conj_apply]
 
 private theorem su_exists_crd {n : ℕ} {i : Fin n} (hi : i ≠ Fin.rev i) :
     ∃ b : Fin (n / 2) ⊕ Fin (n / 2), crd b = i := by
@@ -503,14 +502,14 @@ private theorem geo_stdRefl_single_self {m : ℕ} (k : Fin m) (hk : k.val + 1 < 
   rw [Function.comp_apply, Pi.single_apply, Pi.single_apply]
   by_cases ha : a = ⟨k.val + 1, hk⟩
   · subst ha
-    rw [if_pos rfl, Equiv.swap_apply_right, if_pos rfl]
-  · rw [if_neg ha]
+    rw [ite_eq_left rfl, Equiv.swap_apply_right, ite_eq_left rfl]
+  · rw [ite_eq_right ha]
     have hne : Equiv.swap k ⟨k.val + 1, hk⟩ a ≠ k := by
       intro h
       have h' := congrArg (Equiv.swap k ⟨k.val + 1, hk⟩) h
       rw [Equiv.swap_apply_self, Equiv.swap_apply_left] at h'
       exact ha h'
-    rw [if_neg hne]
+    rw [ite_eq_right hne]
 
 private theorem geo_stdRefl_two_single_succ {m : ℕ} (k : Fin m) (hk : k.val + 1 < m) :
     geo_stdRefl k (2 • Pi.single k 1) = 2 • Pi.single ⟨k.val + 1, hk⟩ 1 := by
@@ -523,7 +522,7 @@ private theorem geo_stdRefl_two_single_last {m : ℕ} (k : Fin m) (hk : ¬k.val 
   by_cases ha : a = k
   · subst ha
     simp
-  · simp [Pi.smul_apply, Pi.single_apply, ha]
+  · simp [Pi.smul_apply, ha]
 
 private def ccOrbit (n : ℕ) (θ e : Fin (n / 2) → ℤ) : Prop :=
   ∃ w : (coxeterMatrix (isFiniteType_cartan n)).Group,
@@ -703,12 +702,12 @@ private theorem pairGen_eq_mat_suElt {F : Type} [Field F] {n : ℕ} (σ : F ≃+
     by_cases hx : x = p
     · subst hx
       by_cases hy : y = q
-      · subst hy; simp [Matrix.vecMulVec, Pi.single_apply, Matrix.single_apply]
-      · simp [Matrix.vecMulVec, Pi.single_apply, Matrix.single_apply, hy, Ne.symm hy]
+      · subst hy; simp [Matrix.vecMulVec, Pi.single_apply]
+      · simp [Matrix.vecMulVec, Pi.single_apply, hy, Ne.symm hy]
     · by_cases hy : y = q
       · subst hy
-        simp [Matrix.vecMulVec, Pi.single_apply, Matrix.single_apply, hx, Ne.symm hx]
-      · simp [Matrix.vecMulVec, Pi.single_apply, Matrix.single_apply, hx, hy,
+        simp [Matrix.vecMulVec, Pi.single_apply, hx, Ne.symm hx]
+      · simp [Matrix.vecMulVec, Pi.single_apply, hy,
           Ne.symm hx, Ne.symm hy]
   rw [mat_suElt hσ hab, hvec (crd b), hvec (crd a), ← crd_swap b, ← crd_swap a,
     hvs (crd a) (crd (Sum.swap b)), hvs (crd b) (crd (Sum.swap a))]
@@ -716,12 +715,12 @@ private theorem pairGen_eq_mat_suElt {F : Type} [Field F] {n : ℕ} (σ : F ≃+
       Matrix.single (crd a) (crd (Sum.swap b)) c from by
     ext x y
     by_cases hx : x = crd a <;> by_cases hy : y = crd (Sum.swap b) <;>
-      simp [Matrix.smul_apply, Matrix.single_apply, smul_eq_mul, hx, hy, eq_comm]]
+      simp [Matrix.smul_apply, smul_eq_mul, hx, hy, eq_comm]]
   rw [show σ c • (Matrix.single (crd b) (crd (Sum.swap a)) 1 : Matrix (Fin n) (Fin n) F) =
       Matrix.single (crd b) (crd (Sum.swap a)) (σ c) from by
     ext x y
     by_cases hx : x = crd b <;> by_cases hy : y = crd (Sum.swap a) <;>
-      simp [Matrix.smul_apply, Matrix.single_apply, smul_eq_mul, hx, hy, eq_comm]]
+      simp [Matrix.smul_apply, smul_eq_mul, hx, hy, eq_comm]]
 
 private theorem rootGroup_map_subtype_short {F : Type} [Field F] {n : ℕ} (σ : F ≃+* F)
     (hσ : ∀ c, σ (σ c) = c) {a b : Fin (n / 2) ⊕ Fin (n / 2)} (hab : idx a ≠ idx b)
@@ -776,24 +775,24 @@ private theorem suFrame_conj {F : Type} [Field F] [Finite F] [CharP F 2] {f : �
       (mat (unitaryInvolution F 2 f) n u *ᵥ Pi.single (crd (Sum.swap a)) 1) := by
   unfold SUFrame
   refine ⟨?_, ?_, ⟨?_, ?_, ?_, ?_⟩, ⟨?_, ?_, ?_, ?_⟩⟩
-  · rw [su_herm_mat hc u (crd a) (crd (Sum.swap a)), if_pos (crd_swap a)]
-  · rw [su_herm_mat hc u (crd b) (crd (Sum.swap b)), if_pos (crd_swap b)]
-  · rw [su_herm_mat hc u (crd a) (crd a), if_neg (crd_ne_rev a)]
-  · rw [su_herm_mat hc u (crd b) (crd b), if_neg (crd_ne_rev b)]
-  · rw [su_herm_mat hc u (crd (Sum.swap b)) (crd (Sum.swap b)), if_neg (crd_ne_rev _)]
-  · rw [su_herm_mat hc u (crd (Sum.swap a)) (crd (Sum.swap a)), if_neg (crd_ne_rev _)]
-  · rw [su_herm_mat hc u (crd a) (crd b), if_neg]
+  · rw [su_herm_mat hc u (crd a) (crd (Sum.swap a)), ite_eq_left (crd_swap a)]
+  · rw [su_herm_mat hc u (crd b) (crd (Sum.swap b)), ite_eq_left (crd_swap b)]
+  · rw [su_herm_mat hc u (crd a) (crd a), ite_eq_right (crd_ne_rev a)]
+  · rw [su_herm_mat hc u (crd b) (crd b), ite_eq_right (crd_ne_rev b)]
+  · rw [su_herm_mat hc u (crd (Sum.swap b)) (crd (Sum.swap b)), ite_eq_right (crd_ne_rev _)]
+  · rw [su_herm_mat hc u (crd (Sum.swap a)) (crd (Sum.swap a)), ite_eq_right (crd_ne_rev _)]
+  · rw [su_herm_mat hc u (crd a) (crd b), ite_eq_right]
     intro h
     exact ne_swap_of_idx_ne hab (crd_injective (by rwa [← crd_swap a] at h))
-  · rw [su_herm_mat hc u (crd a) (crd (Sum.swap b)), if_neg]
+  · rw [su_herm_mat hc u (crd a) (crd (Sum.swap b)), ite_eq_right]
     intro h
     have h1 : Fin.rev (crd b) = Fin.rev (crd a) := (crd_swap b).symm.trans h
     exact (ne_of_idx_ne hab) (crd_injective (Fin.rev_inj.mp h1))
-  · rw [su_herm_mat hc u (crd b) (crd (Sum.swap a)), if_neg]
+  · rw [su_herm_mat hc u (crd b) (crd (Sum.swap a)), ite_eq_right]
     intro h
     have h1 : Fin.rev (crd a) = Fin.rev (crd b) := (crd_swap a).symm.trans h
     exact (ne_of_idx_ne (Ne.symm hab)) (crd_injective (Fin.rev_inj.mp h1))
-  · rw [su_herm_mat hc u (crd (Sum.swap b)) (crd (Sum.swap a)), if_neg]
+  · rw [su_herm_mat hc u (crd (Sum.swap b)) (crd (Sum.swap a)), ite_eq_right]
     intro h
     have h1 : Fin.rev (crd a) = crd b := by
       rw [← crd_swap a, h, crd_swap b, Fin.rev_rev]

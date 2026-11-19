@@ -91,7 +91,7 @@ theorem orbit_of_idxOrbit {inds : Array (Array ℕ)} {o : IdxOrbit} {pos : Array
     (τ := CFSG.Perm.treeWord (fun t => o.par[t]!) (fun t => o.lab[t]!) σ) ?_ ?_
   · rintro t ht _ ⟨r, hr, rfl⟩
     obtain ⟨h1, h2⟩ := idxClosedOK_spec hcl ht hr
-    exact ⟨_, h1, by beta_reduce; rw [h2, hact r hr t ht]⟩
+    exact ⟨_, h1, by rw [h2, hact r hr t ht]⟩
   · intro t ht
     exact CFSG.Perm.treeWord_mem (n := o.pts.size) (fun t h0 hts => (htr t h0 hts).1)
       (fun t h0 hts => Subgroup.subset_closure (Set.mem_image_of_mem σ (htr t h0 hts).2.1)) ht

@@ -20,7 +20,7 @@ theorem ggNbr_pumpup_of_moves (hPU : GGPumpupInput) {G : Type} [Group G] [Finite
   obtain ⟨-, -, -, hcase⟩ := pumpup_of_stdSub hPU hcfg.1 hcfg.2.2 hpJ hD
   refine hcase.resolve_right fun hc => ?_
   obtain ⟨xb, hxb, hrx⟩ := hmove
-  haveI := Fact.mk hcfg.1.2.2.2.2.2.1.1
+  have := Fact.mk hcfg.1.2.2.2.2.2.1.1
   have hxBs : x ∈ Bs := hxb ▸ xb.2
   have hstab : ggAutomizer (ggLayerClosure p (Subgroup.centralizer ({d} : Set G)) J) Bs ≤
       MulAction.stabilizer (MulAut ↥Bs) xb := by

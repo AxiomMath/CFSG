@@ -37,7 +37,7 @@ private theorem wreath_central_card {A Q : Type} [Group A] [Group Q] [Finite A] 
       have h := congrArg (fun w : A ≀ᵣ Q => w.left 1)
         (hx ⟨fun k => if k = 1 then a else 1, 1⟩)
       simp only [RegularWreathProduct.mul_left, Pi.mul_apply, inv_one, mul_one, one_mul,
-        inv_eq_one, hq, if_true, if_false] at h
+        inv_eq_one, hq, ite_true, ite_false] at h
       exact ha (by simpa using h.symm)
     refine ⟨hq, fun k => ?_⟩
     have h := congrArg (fun w : A ≀ᵣ Q => w.left 1) (hx ⟨1, k⁻¹⟩)
@@ -68,7 +68,7 @@ private theorem card_le_three_of_mulEquiv {Q : Type} [Group Q] (e : Q ≃* Wr3) 
 private theorem card_le_three_of_sylowModel {S : Type} [Group S] [Finite S]
     (hS : SylowModel S Wr3) (P D : Subgroup S) (hP : Nat.card P = 81) (hDP : D ≤ P)
     (hc : ∀ x ∈ D, ∀ y ∈ P, x * y = y * x) : Nat.card D ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hW : Nat.card Wr3 = 3 ^ (Nat.card S).factorization 3 := by
     obtain ⟨Φ, -, hW⟩ := hS
     exact hW
@@ -111,8 +111,8 @@ theorem l44_not_dvd_243 : ¬ 243 ∣ Nat.card (projSL 4 (GaloisField 2 2)) := by
   rw [Nat.card_congr equivSL.toEquiv, card_M_eq]
   norm_num
 
-theorem l44_sylow_center (P D : Subgroup (projSL 4 (GaloisField 2 2))) (hP : IsPGroup 3 P)
-    (hP81 : Nat.card P = 81) (hDP : D ≤ P) (hD : CFSG.Open.IsElemAbelian 3 D)
+theorem l44_sylow_center (P D : Subgroup (projSL 4 (GaloisField 2 2))) (_hP : IsPGroup 3 P)
+    (hP81 : Nat.card P = 81) (hDP : D ≤ P) (_hD : CFSG.Open.IsElemAbelian 3 D)
     (hc : ∀ x ∈ D, ∀ y ∈ P, x * y = y * x) : Nat.card D ≤ 3 :=
   card_le_three_of_sylowModel sylowModel_projSL P D hP81 hDP hc
 
@@ -124,10 +124,10 @@ theorem l62_not_dvd_243 : ¬ 243 ∣ Nat.card (projSL 6 (GaloisField 2 1)) := by
   rw [← Nat.card_congr (slEquivProjSL (by norm_num : 1 ≤ 6)).toEquiv, card_SL6]
   norm_num
 
-theorem l62_sylow_center (P D : Subgroup (projSL 6 (GaloisField 2 1))) (hP : IsPGroup 3 P)
-    (hP81 : Nat.card P = 81) (hDP : D ≤ P) (hD : CFSG.Open.IsElemAbelian 3 D)
+theorem l62_sylow_center (P D : Subgroup (projSL 6 (GaloisField 2 1))) (_hP : IsPGroup 3 P)
+    (hP81 : Nat.card P = 81) (hDP : D ≤ P) (_hD : CFSG.Open.IsElemAbelian 3 D)
     (hc : ∀ x ∈ D, ∀ y ∈ P, x * y = y * x) : Nat.card D ≤ 3 := by
-  haveI : Finite (projSL 6 (GaloisField 2 1)) :=
+  have : Finite (projSL 6 (GaloisField 2 1)) :=
     Finite.of_equiv _ (slEquivProjSL (by norm_num : 1 ≤ 6)).toEquiv
   have hS : SylowModel (Matrix.SpecialLinearGroup (Fin 6) (GaloisField 2 1)) Wr3 :=
     sylowModel_of_wreathFacts CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoOther.L62.wreathFacts
@@ -143,10 +143,10 @@ theorem l72_not_dvd_243 : ¬ 243 ∣ Nat.card (projSL 7 (GaloisField 2 1)) := by
   rw [← Nat.card_congr (slEquivProjSL (by norm_num : 1 ≤ 7)).toEquiv, card_SL7]
   norm_num
 
-theorem l72_sylow_center (P D : Subgroup (projSL 7 (GaloisField 2 1))) (hP : IsPGroup 3 P)
-    (hP81 : Nat.card P = 81) (hDP : D ≤ P) (hD : CFSG.Open.IsElemAbelian 3 D)
+theorem l72_sylow_center (P D : Subgroup (projSL 7 (GaloisField 2 1))) (_hP : IsPGroup 3 P)
+    (hP81 : Nat.card P = 81) (hDP : D ≤ P) (_hD : CFSG.Open.IsElemAbelian 3 D)
     (hc : ∀ x ∈ D, ∀ y ∈ P, x * y = y * x) : Nat.card D ≤ 3 := by
-  haveI : Finite (projSL 7 (GaloisField 2 1)) :=
+  have : Finite (projSL 7 (GaloisField 2 1)) :=
     Finite.of_equiv _ (slEquivProjSL (by norm_num : 1 ≤ 7)).toEquiv
   have hS : SylowModel (Matrix.SpecialLinearGroup (Fin 7) (GaloisField 2 1)) Wr3 :=
     sylowModel_of_wreathFacts CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoOther.L72.wreathFacts

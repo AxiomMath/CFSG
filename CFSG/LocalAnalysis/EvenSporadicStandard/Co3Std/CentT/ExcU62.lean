@@ -17,13 +17,13 @@ section Certified
 
 
 theorem center_T46_eq_bot_of_simple : center T46 = ⊥ := by
-  haveI := isSimpleGroup_T46
+  have := isSimpleGroup_T46
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center T46) with h | h
   · exact h
   · exfalso
     have hc : ∀ a b : T46, a * b = b * a := fun a b =>
       (Subgroup.mem_center_iff.1 (h ▸ Subgroup.mem_top a) b).symm
-    haveI : IsMulCommutative T46 := ⟨⟨hc⟩⟩
+    have : IsMulCommutative T46 := ⟨⟨hc⟩⟩
     have hp := (Group.is_simple_iff_prime_card (α := T46)).1 isSimpleGroup_T46
     rw [card_T46] at hp
     exact absurd hp (by norm_num)

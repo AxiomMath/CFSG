@@ -142,7 +142,7 @@ theorem exists_delta_smul_of_comm [Finite K] [Finite X] [FiniteDimensional K E]
         rintro c _ ⟨n, hn, rfl⟩
         obtain ⟨n', hn', h⟩ := hS n hn c
         exact ⟨n', hn', LinearMap.ext fun w => h w w.2⟩ }
-  haveI : Finite ↥S := Module.finite_of_finite K
+  have : Finite ↥S := Module.finite_of_finite K
   have hmemS : ∀ n ∈ Nb, Δ n ∈ S := fun n hn => ⟨n, hn, rfl⟩
   have hrep : ∀ f : S, ∃ n ∈ Nb, Δ n = f := fun f => f.2
   choose rep hrepN hrepΔ using hrep

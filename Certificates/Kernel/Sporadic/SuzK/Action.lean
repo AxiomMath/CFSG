@@ -41,7 +41,7 @@ theorem sl_spec {n cnt r lo len : Nat} {L : Nat → Nat → Nat} {LV : Nat → N
   have e : Nat.add lo (k - lo) = k := by
     change lo + (k - lo) = k
     omega
-  rw [e, Raw.Orb.bIf_eq, if_pos (Nat.blt_eq.mpr h3)] at h'
+  rw [e, Raw.Orb.bIf_eq, ite_eq_left (Nat.blt_eq.mpr h3)] at h'
   exact h'
 
 theorem pt_of {i c : Nat} (h : treeSl i c = true) : ∀ k, 1000 * c ≤ k → k < 1000 * c + 1000 →
@@ -68,20 +68,20 @@ theorem trSl_spec {s : Nat} (h : trSl s = true) :
   simp only [Raw.Orb.bIf_eq] at h
   refine ⟨fun h0 => ?_, fun h0 h1 => ?_, fun h0 => ?_, fun h0 => ?_, fun h0 h1 => ?_, fun h0 => ?_,
     fun h0 => ?_⟩
-  · rwa [if_pos (Nat.blt_eq.mpr h0)] at h
-  · rwa [if_neg (by rw [blt_f h0]; exact id), if_pos (Nat.blt_eq.mpr h1)] at h
+  · rwa [ite_eq_left (Nat.blt_eq.mpr h0)] at h
+  · rwa [ite_eq_right (by rw [blt_f h0]; exact id), ite_eq_left (Nat.blt_eq.mpr h1)] at h
   · subst h0
     exact h
   · subst h0
     exact h
-  · rwa [if_neg (by rw [blt_f (by omega)]; exact id), if_neg (by rw [blt_f (by omega)]; exact id),
-      if_neg (by rw [beq_f (by omega)]; exact id), if_neg (by rw [beq_f (by omega)]; exact id),
-      if_pos (Nat.blt_eq.mpr h1)] at h
+  · rwa [ite_eq_right (by rw [blt_f (by omega)]; exact id), ite_eq_right (by rw [blt_f (by omega)]; exact id),
+      ite_eq_right (by rw [beq_f (by omega)]; exact id), ite_eq_right (by rw [beq_f (by omega)]; exact id),
+      ite_eq_left (Nat.blt_eq.mpr h1)] at h
   · subst h0
     exact h
-  · rwa [if_neg (by rw [blt_f (by omega)]; exact id), if_neg (by rw [blt_f (by omega)]; exact id),
-      if_neg (by rw [beq_f (by omega)]; exact id), if_neg (by rw [beq_f (by omega)]; exact id),
-      if_neg (by rw [blt_f (by omega)]; exact id), if_neg (by rw [beq_f (by omega)]; exact id)] at h
+  · rwa [ite_eq_right (by rw [blt_f (by omega)]; exact id), ite_eq_right (by rw [blt_f (by omega)]; exact id),
+      ite_eq_right (by rw [beq_f (by omega)]; exact id), ite_eq_right (by rw [beq_f (by omega)]; exact id),
+      ite_eq_right (by rw [blt_f (by omega)]; exact id), ite_eq_right (by rw [beq_f (by omega)]; exact id)] at h
 
 theorem tcnt : TCNT 0 = 22880 ∧ TCNT 1 = 8505 ∧ TCNT 2 = 144 ∧ TCNT 3 = 16 ∧ TCNT 4 = 13608 ∧
     TCNT 5 = 280 ∧ TCNT 6 = 486 := by
@@ -217,17 +217,17 @@ theorem cover_pt {p : Nat} (hp : p < 22880) :
   by_cases h0 : p = 0
   · subst h0
     rfl
-  rw [if_neg (by rw [beq_f h0]; exact id)] at h
+  rw [ite_eq_right (by rw [beq_f h0]; exact id)] at h
   simp only [Bool.or_eq_true, beq_iff_eq, h0, false_or]
   by_cases h1 : inTK 1 p = true
   · exact Or.inl (Or.inl (Or.inl h1))
-  rw [if_neg h1] at h
+  rw [ite_eq_right h1] at h
   by_cases h4 : inTK 4 p = true
   · exact Or.inl (Or.inl (Or.inr h4))
-  rw [if_neg h4] at h
+  rw [ite_eq_right h4] at h
   by_cases h5 : inTK 5 p = true
   · exact Or.inl (Or.inr h5)
-  rw [if_neg h5] at h
+  rw [ite_eq_right h5] at h
   exact Or.inr h
 
 theorem sep_mats : sepIdx.map (fun r => toVM orbLit.keys[r]!) = (LsS.map (unlane 64)).toArray := by

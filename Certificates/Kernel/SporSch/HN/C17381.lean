@@ -284,7 +284,7 @@ theorem rep_G : Rep CFSG.KD.HNPt2109.C3_6 (matJ g3J) := by
   rw [HN13609.c3J_eq (by norm_num)] at h
   have e : c3J 6 = g3J := by
     unfold c3J
-    rw [if_neg (by norm_num)]
+    rw [ite_eq_right (by norm_num)]
   have e2 : HNPt2109.C3W 6 = CFSG.KD.HNPt2109.C3_6 := rfl
   rw [e, e2] at h
   exact h

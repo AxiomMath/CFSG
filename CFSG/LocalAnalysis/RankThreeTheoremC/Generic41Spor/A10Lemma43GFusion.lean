@@ -55,6 +55,7 @@ theorem a10t1_lift_conj {H : Type*} [Group H] [Finite H] {p : ℕ} [Fact p.Prime
 
 variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G}
 
+omit [Finite G] in
 theorem a10t1_map_conj_eq {Y : Type*} [Group Y] (π : ↥M →* Y) (u v g : ↥M)
     (h : (Subgroup.zpowers (u : G)).map (MulAut.conj (g : G)).toMonoidHom = Subgroup.zpowers (v : G)) :
     (Subgroup.zpowers (π u)).map (MulAut.conj (π g)).toMonoidHom = Subgroup.zpowers (π v) := by
@@ -79,7 +80,7 @@ theorem a10_fusion_Y (hc : PointConfig IsA10Type G 5 P M x J) {Q : Type} [Group 
           Subgroup.zpowers (a10π M ⟨a₁, ha₁M⟩) ∨
         (Subgroup.zpowers (a10π M ⟨x, hxM⟩)).map (MulAut.conj y).toMonoidHom =
           Subgroup.zpowers (a10π M ⟨a₂, ha₂M⟩) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   intro y hy
   have hxP : x ∈ (P : Subgroup G) := hc.generic.1
   have hPM : (P : Subgroup G) ≤ M := by
@@ -91,12 +92,12 @@ theorem a10_fusion_Y (hc : PointConfig IsA10Type G 5 P M x J) {Q : Type} [Group 
     exact (sylowGroup_le_aschCore 2 5 (P : Subgroup G) (by omega) h3).trans hc.core.2
   have hPsyl : IsSylowOf 5 ((P : Subgroup G).subgroupOf M) ⊤ := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, P.isPGroup'.comap_subtype, ?_⟩
+    refine ⟨le_top, P.isPGroup.comap_subtype, ?_⟩
     intro hdvd
     rw [Subgroup.relIndex_top_right] at hdvd
     exact P.not_dvd_index (hdvd.trans (Subgroup.relIndex_dvd_index_of_le hPM))
   have ha : IsPGroup 5 (Subgroup.zpowers (⟨x, hxM⟩ : ↥M)) := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') ⟨x, hxP⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨x, hxP⟩
     refine IsPGroup.of_card (n := k) ?_
     rw [Nat.card_zpowers, Subgroup.orderOf_mk, ← Subgroup.orderOf_mk x hxP]
     exact hk

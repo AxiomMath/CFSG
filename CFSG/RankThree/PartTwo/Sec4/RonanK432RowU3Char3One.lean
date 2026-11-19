@@ -47,7 +47,7 @@ theorem heisSU_conj_heisSU (a₁ b₁ c d : F) (h₁ : b₁ + σ b₁ + σ a₁ 
   rw [coe_heisSU_inv, coe_heisSU, coe_heisSU, coe_heisSU, heis_mul, heis_mul]
   congr 1
   · ring
-  · simp only [map_neg, hσ]
+  · simp only [map_neg]
     ring
 
 variable [CharP F 3]
@@ -91,19 +91,19 @@ theorem exists_inverter_heisSU_of_ne_zero (hτ : ∀ x : F, σ x = x → ∃ c, 
   simp only [map_neg]
   linear_combination key + hv
 
+omit [CharP F 3] in
 theorem exists_inverter_heisSU_of_eq_zero {t : F} (ht : t ≠ 0) (htn : t * σ t = -1) {b : F}
     (hab : b + σ b + σ 0 * 0 = 0) :
     ∃ g : SU σ 3, g * heisSU hσ 0 b hab * g⁻¹ = (heisSU hσ 0 b hab)⁻¹ := by
   have hs : σ t ≠ 0 := (map_ne_zero σ).mpr ht
   have hab' : b * (t * σ t) + σ (b * (t * σ t)) + σ (0 * t ^ 2 / σ t) * (0 * t ^ 2 / σ t) = 0 := by
     rw [htn]
-    simp only [zero_mul, zero_div, map_zero, mul_zero, add_zero, map_mul, map_neg, map_one,
-      mul_neg, mul_one]
-    simp only [map_zero, zero_mul, add_zero, mul_zero] at hab
+    simp only [zero_mul, zero_div, map_zero, mul_zero, add_zero, map_neg, mul_neg, mul_one]
+    simp only [map_zero, add_zero, mul_zero] at hab
     linear_combination -hab
   have hinv : -b - 0 * σ 0 + σ (-b - 0 * σ 0) + σ (-0) * -0 = 0 := by
-    simp only [map_zero, zero_mul, sub_zero, map_neg, neg_zero, mul_zero, add_zero]
-    simp only [map_zero, zero_mul, add_zero, mul_zero] at hab
+    simp only [map_zero, sub_zero, map_neg, neg_zero, mul_zero, add_zero]
+    simp only [map_zero, add_zero, mul_zero] at hab
     linear_combination -hab
   refine ⟨torusU hσ ht, ?_⟩
   rw [mul_inv_eq_iff_eq_mul, torusU_mul_heisSU hσ ht 0 b hab hab', heisSU_inv_eq' hσ 0 b hab hinv]
@@ -175,7 +175,7 @@ theorem real3_projSU_three_one : Real3 (projSU 3 3 1) :=
 
 theorem noCover3_projSU_three_one : NoCover3 (projSU 3 3 1) := by
   intro L _ _ hq hZ ⟨φ⟩
-  haveI : Group.IsPerfect L := hq.1
+  have : Group.IsPerfect L := hq.1
   have hF : Nat.card (GaloisField 3 (2 * 1)) = (3 ^ 1) ^ 2 := card_galois_two_mul one_ne_zero
   let eSt : SU (unitaryInvolution (GaloisField 3 (2 * 1)) 3 1) 3 ≃*
       CFSG.Open.StatedSU 3 3 (GaloisField 3 (2 * 1)) :=

@@ -66,7 +66,7 @@ theorem exists_conj_eq_z_mul_of_isConj [Finite G] (h : Tim79a.ParrottHypA z)
     norm_num
   obtain ⟨S, hNS⟩ := hN2.exists_le_sylow
   let T : Subgroup G := (S : Subgroup K).map K.subtype
-  have hT2 : IsPGroup 2 T := S.isPGroup'.map K.subtype
+  have hT2 : IsPGroup 2 T := S.isPGroup.map K.subtype
   have hzT : z ∈ T := by
     have hzN : (⟨z, hzK⟩ : K) ∈ N := Subgroup.mem_zpowers _
     exact Subgroup.mem_map_of_mem K.subtype (hNS hzN)

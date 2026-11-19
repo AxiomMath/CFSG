@@ -47,7 +47,7 @@ private theorem comm_of_mem {G : Type*} [Group G] {X : Subgroup G} {z : G}
 private theorem sq_eq_of_noncomm {G : Type*} [Group G] {X : Subgroup G} {z : G}
     (hz : IsUniqueInvolution X z) (h8 : Nat.card X = 8) {w u : G} (hw : w ∈ X) (hu : u ∈ X)
     (hwu : w * u ≠ u * w) : w * w = z := by
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite X := Nat.finite_of_card_ne_zero (by omega)
   have hw1 : w ≠ 1 := fun h => hwu (by rw [h, one_mul, mul_one])
   have hwz : w ≠ z := fun h => hwu (by rw [h]; exact (comm_of_mem hz hu).symm)
   have h8w : w ^ 8 = 1 := by
@@ -84,8 +84,8 @@ private theorem sq_eq_of_noncomm {G : Type*} [Group G] {X : Subgroup G} {z : G}
 private theorem eq_of_mem_inf {G : Type*} [Group G] {X Y : Subgroup G} (hX : Nat.card X = 8)
     (hY : Nat.card Y = 8) {x y : G} (hxX : x ∈ X) (hyX : y ∈ X) (hxY : x ∈ Y) (hyY : y ∈ Y)
     (hx4 : x ^ 4 = 1) (hx2 : x ^ 2 ≠ 1) (hxy : x * y ≠ y * x) : X = Y := by
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Finite Y := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite X := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite Y := Nat.finite_of_card_ne_zero (by omega)
   have hn : ¬ x ^ 2 ^ 1 = 1 := by
     rw [show (2 : ℕ) ^ 1 = 2 by norm_num]
     exact hx2
@@ -99,7 +99,7 @@ private theorem eq_of_mem_inf {G : Type*} [Group G] {X Y : Subgroup G} (hX : Nat
   have hKY : X ⊓ Y ≤ Y := inf_le_right
   have hxK : x ∈ X ⊓ Y := ⟨hxX, hxY⟩
   have hyK : y ∈ X ⊓ Y := ⟨hyX, hyY⟩
-  haveI : Finite (X ⊓ Y : Subgroup G) :=
+  have : Finite (X ⊓ Y : Subgroup G) :=
     Finite.of_injective (Subgroup.inclusion hKX) (Subgroup.inclusion_injective hKX)
   have h4K : 4 ∣ Nat.card (X ⊓ Y : Subgroup G) := by
     have h1 : orderOf (⟨x, hxK⟩ : (X ⊓ Y : Subgroup G)) = 4 := by

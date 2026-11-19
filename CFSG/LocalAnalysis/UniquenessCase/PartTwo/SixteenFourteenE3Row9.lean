@@ -48,7 +48,7 @@ theorem s1614e3_case9_data (D : Data G) (h1217 : R1217 D) {V L : Subgroup G}
     exact Subtype.ext_iff.mp h1
   have hA7 : ∃ a ∈ lBar ⊥ V hV L, orderOf a = 7 := by
     have hcard : Nat.card ↥(lBar ⊥ V hV L) = 168 := card_eq_168_of_isPSL_three_two hL
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨x, hx7⟩ := exists_prime_orderOf_dvd_card' (G := ↥(lBar ⊥ V hV L)) 7
       (by rw [hcard]; norm_num)
     exact ⟨(x : MulAut (Vtil ⊥ V hV)), x.2, (Subgroup.orderOf_coe x).trans hx7⟩

@@ -92,7 +92,7 @@ section Defs
 theorem d3A4Fixed_of_borel_regular (hB : D3A4Borel) (hR : D3A4Regular) : D3A4Fixed := by
   intro K _ _ n hK b t₁ t₂ hb3 hbQ ht₁2 ht₂2 hcomm h1 h2 h12 hbt₁ hbt₂ A hA hAbig hfb hf₁ hf₂
   classical
-  haveI : Finite (D4Model K) := inferInstance
+  have : Finite (D4Model K) := inferInstance
   obtain ⟨S, hAS, hSb⟩ := exists_stable_sylow_fixing b hb3 A hA hfb
   by_cases hS : (S : Subgroup (D4Model K)).map t₁.toMonoidHom = S
   · exact hB K n hK b t₁ t₂ hb3 hbQ ht₁2 ht₂2 hcomm h1 h2 h12 hbt₁ hbt₂ A hA hAbig hfb hf₁ hf₂ S
@@ -131,6 +131,7 @@ theorem d3_card_E_Q {n : ℕ} (hK : Nat.card K = 3 ^ n) {E : Subgroup (MulAut (D
   rw [hi, hi1, pow_one] at hrel
   exact hrel.symm
 
+omit [Finite K] in
 theorem inner_le_D4Img : Inn (D4Model K) ≤ D4Img K :=
   (inner_le_linearRange (coordinateQuadPlus 4 K)).trans (linearRange_le_image _)
 

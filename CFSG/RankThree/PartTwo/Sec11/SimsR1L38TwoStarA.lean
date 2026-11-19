@@ -16,8 +16,8 @@ theorem mem_centralizer_of_pow_three_of_isCyclic {M : Type*} [Group M] {Q : Subg
     [Finite Q] (hcyc : IsCyclic Q) (hQ : IsPGroup 2 Q) {g : M}
     (hg : g ∈ Subgroup.normalizer (Q : Set M)) (hg3 : g ^ 3 = 1) :
     g ∈ Subgroup.centralizer (Q : Set M) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hcyc
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hcyc
   set φ := Q.normalizerMonoidHom ⟨g, hg⟩ with hφ
   have hφ3 : φ ^ 3 = 1 := by
     rw [hφ, ← map_pow]

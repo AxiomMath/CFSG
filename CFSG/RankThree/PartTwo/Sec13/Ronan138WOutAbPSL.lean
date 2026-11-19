@@ -84,6 +84,7 @@ theorem conjAut_mem_range_conj_of_cube {C : GL (Fin 3) K} {c : Kˣ}
       (CFSG.RankThree.PartTwo.Sec4.mk_eq_one_iff_mem_statedScalars.mpr ⟨c⁻¹, rfl⟩)
   rw [h1, mul_one]
 
+omit [Finite K] in
 theorem det_map (σ : K ≃+* K) (B : GL (Fin 3) K) :
     GeneralLinearGroup.det (GeneralLinearGroup.map (σ : K →+* K) B) =
       Units.map (σ : K →* K) (GeneralLinearGroup.det B) := by

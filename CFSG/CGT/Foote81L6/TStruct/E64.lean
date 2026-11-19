@@ -49,10 +49,10 @@ theorem le_T₁_of_isE64 {E : Subgroup G} (hE : IsE64 T E) : E ≤ D.T₁ :=
 theorem E64_decomp {E : Subgroup G} (hE : IsE64 T E) :
     E = (E ⊓ D.A) ⊔ ((E ⊓ D.B₀) ⊔ (E ⊓ D.B₁)) ∧ IsFourIn D.A (E ⊓ D.A) ∧
       IsFourIn D.B₀ (E ⊓ D.B₀) ∧ IsFourIn D.B₁ (E ⊓ D.B₁) := by
-  haveI := D.finite_A
-  haveI := D.finite_B₀
-  haveI := D.finite_B₁
-  haveI := D.finite_B₀B₁
+  have := D.finite_A
+  have := D.finite_B₀
+  have := D.finite_B₁
+  have := D.finite_B₀B₁
   have hE2 := hE.mul_self
   obtain ⟨hEq, hA4, hB16⟩ := eq_sup_inf_of_card D.A_comm_B₀B₁ D.A_inf_B₀B₁ D.elemBound_A
     (ElemBound.sup D.B₀_comm_B₁ D.B₀_inf_B₁ D.elemBound_B₀ D.elemBound_B₁)
@@ -105,7 +105,7 @@ theorem b₁_mem_E64 {E : Subgroup G} (hE : IsE64 T E) : D.b₁ ∈ E := by
 theorem a_comm_A {y : G} (hy : y ∈ D.A) : y * D.a = D.a * y := D.a_comm y (mem_sup_left hy)
 
 theorem A_le_E64 (hm : m = 2) {E : Subgroup G} (hE : IsE64 T E) : D.A ≤ E := by
-  haveI := D.finite_A
+  have := D.finite_A
   have h4 := (D.E64_decomp hE).2.1.2.2
   have heq : E ⊓ D.A = D.A :=
     eq_of_le_of_card_ge inf_le_right (by rw [h4, D.card_A, hm]; norm_num)
@@ -247,7 +247,7 @@ theorem card_R (hm : 3 ≤ m) {E : Subgroup G} (hE : IsE64 T E) :
 theorem mem_normalizer_of_mem_R₀ {E : Subgroup G} (hE : IsE64 T E) {d : G}
     (hd : d ∈ D.B₀ ⊓ normalizer ((E ⊓ D.B₀ : Subgroup G) : Set G)) :
     d ∈ normalizer (E : Set G) := by
-  haveI := hE.finite
+  have := hE.finite
   obtain ⟨hdB, hdN⟩ := mem_inf.1 hd
   refine mem_normalizer_of_forall_conj_mem fun v hv => ?_
   obtain ⟨u, hu, w₀, hw₀, w₁, hw₁, rfl⟩ := (D.mem_E64_iff hE).1 hv
@@ -266,7 +266,7 @@ theorem mem_normalizer_of_mem_R₀ {E : Subgroup G} (hE : IsE64 T E) {d : G}
 theorem mem_normalizer_of_mem_R₁ {E : Subgroup G} (hE : IsE64 T E) {d : G}
     (hd : d ∈ D.B₁ ⊓ normalizer ((E ⊓ D.B₁ : Subgroup G) : Set G)) :
     d ∈ normalizer (E : Set G) := by
-  haveI := hE.finite
+  have := hE.finite
   obtain ⟨hdB, hdN⟩ := mem_inf.1 hd
   refine mem_normalizer_of_forall_conj_mem fun v hv => ?_
   obtain ⟨u, hu, w₀, hw₀, w₁, hw₁, rfl⟩ := (D.mem_E64_iff hE).1 hv
@@ -284,7 +284,7 @@ theorem mem_normalizer_of_mem_R₁ {E : Subgroup G} (hE : IsE64 T E) {d : G}
 theorem mem_normalizer_of_mem_R {E : Subgroup G} (hE : IsE64 T E) {d : G}
     (hd : d ∈ D.A ⊓ normalizer ((E ⊓ D.A : Subgroup G) : Set G)) :
     d ∈ normalizer (E : Set G) := by
-  haveI := hE.finite
+  have := hE.finite
   obtain ⟨hdA, hdN⟩ := mem_inf.1 hd
   refine mem_normalizer_of_forall_conj_mem fun v hv => ?_
   obtain ⟨u, hu, w₀, hw₀, w₁, hw₁, rfl⟩ := (D.mem_E64_iff hE).1 hv

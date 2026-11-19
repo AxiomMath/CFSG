@@ -66,7 +66,7 @@ theorem leviB_eq_suppGL (m : ℕ) :
     ext i
     constructor
     · rintro ⟨j, rfl⟩
-      exact ⟨Sum.inr_ne_inl, fun h => by simpa [e] using h⟩
+      exact ⟨Sum.inr_ne_inl, fun h => by simp [e] at h⟩
     · rintro ⟨h1, h2⟩
       rcases i with i | j | i
       · exact absurd (congrArg Sum.inl (Subsingleton.elim i 0)) h1
@@ -183,19 +183,15 @@ private theorem caBeta_blk2_pairGL {κ : Type*} [Fintype κ] [DecidableEq κ] {p
       (M : Matrix (Fin 2) (Fin 2) (ZMod 2)) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    change caBeta_blk2 p q (pairGL hpq M : Matrix κ κ (ZMod 2)) _ _ =
-      (M : Matrix (Fin 2) (Fin 2) (ZMod 2)) _ _ <;>
     simp [caBeta_blk2_zero_zero, caBeta_blk2_zero_one, caBeta_blk2_one_zero,
-      caBeta_blk2_one_one, coe_pairGL, CFSG.LieType.Steinberg.Sp.blockMat, hpq, hpq.symm]
+      caBeta_blk2_one_one, coe_pairGL, CFSG.LieType.Steinberg.Sp.blockMat, hpq.symm]
 
 private theorem caBeta_blk2_one {κ : Type*} [Fintype κ] [DecidableEq κ] {p q : κ}
     (hpq : p ≠ q) : caBeta_blk2 p q (1 : Matrix κ κ (ZMod 2)) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    change caBeta_blk2 p q (1 : Matrix κ κ (ZMod 2)) _ _ =
-      (1 : Matrix (Fin 2) (Fin 2) (ZMod 2)) _ _ <;>
     simp [caBeta_blk2_zero_zero, caBeta_blk2_zero_one, caBeta_blk2_one_zero,
-      caBeta_blk2_one_one, Matrix.one_apply, hpq, hpq.symm]
+      caBeta_blk2_one_one, hpq, hpq.symm]
 
 private theorem caBeta_blk2_sub_one_pairGL {κ : Type*} [Fintype κ] [DecidableEq κ] {p q : κ}
     (hpq : p ≠ q) (M : GL (Fin 2) (ZMod 2)) :
@@ -203,8 +199,6 @@ private theorem caBeta_blk2_sub_one_pairGL {κ : Type*} [Fintype κ] [DecidableE
       (M : Matrix (Fin 2) (Fin 2) (ZMod 2)) - 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    change caBeta_blk2 p q ((pairGL hpq M : Matrix κ κ (ZMod 2)) - 1) _ _ =
-      ((M : Matrix (Fin 2) (Fin 2) (ZMod 2)) - 1) _ _ <;>
     simp [caBeta_blk2_zero_zero, caBeta_blk2_zero_one, caBeta_blk2_one_zero,
       caBeta_blk2_one_one, Matrix.sub_apply, coe_pairGL,
       CFSG.LieType.Steinberg.Sp.blockMat, Matrix.one_apply, hpq, hpq.symm]
@@ -233,17 +227,17 @@ private theorem caBeta_blockMat_pp {κ : Type*} [DecidableEq κ] {p q : κ}
 private theorem caBeta_blockMat_pq {κ : Type*} [DecidableEq κ] {p q : κ} (hpq : p ≠ q)
     (A : Matrix (Fin 2) (Fin 2) (ZMod 2)) :
     CFSG.LieType.Steinberg.Sp.blockMat p q A p q = A 0 1 := by
-  simp [CFSG.LieType.Steinberg.Sp.blockMat, hpq, hpq.symm]
+  simp [CFSG.LieType.Steinberg.Sp.blockMat, hpq.symm]
 
 private theorem caBeta_blockMat_qp {κ : Type*} [DecidableEq κ] {p q : κ} (hpq : p ≠ q)
     (A : Matrix (Fin 2) (Fin 2) (ZMod 2)) :
     CFSG.LieType.Steinberg.Sp.blockMat p q A q p = A 1 0 := by
-  simp [CFSG.LieType.Steinberg.Sp.blockMat, hpq, hpq.symm]
+  simp [CFSG.LieType.Steinberg.Sp.blockMat, hpq.symm]
 
 private theorem caBeta_blockMat_qq {κ : Type*} [DecidableEq κ] {p q : κ} (hpq : p ≠ q)
     (A : Matrix (Fin 2) (Fin 2) (ZMod 2)) :
     CFSG.LieType.Steinberg.Sp.blockMat p q A q q = A 1 1 := by
-  simp [CFSG.LieType.Steinberg.Sp.blockMat, hpq, hpq.symm]
+  simp [CFSG.LieType.Steinberg.Sp.blockMat, hpq.symm]
 
 private theorem caBeta_blk2_mul_entry (A Ainv : Matrix (Fin 2) (Fin 2) (ZMod 2))
     (hMul : A * Ainv = 1) (i j : Fin 2) :
@@ -331,13 +325,13 @@ private theorem caBeta_zero_off_of_mem_centralizer {κ : Type*} [Fintype κ] [De
           (![(g : Matrix κ κ (ZMod 2)) p j, (g : Matrix κ κ (ZMod 2)) q j] :
             Fin 2 → ZMod 2)) 0 = 0
         simp only [Matrix.mulVec, dotProduct, Fin.sum_univ_two, caBeta_blk2_zero_zero,
-          caBeta_blk2_zero_one, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+          caBeta_blk2_zero_one, Matrix.cons_val_zero, Matrix.cons_val_one]
         exact h1
       · change (caBeta_blk2 p q ((pairGL hpq M : Matrix κ κ (ZMod 2)) - 1) *ᵥ
           (![(g : Matrix κ κ (ZMod 2)) p j, (g : Matrix κ κ (ZMod 2)) q j] :
             Fin 2 → ZMod 2)) 1 = 0
         simp only [Matrix.mulVec, dotProduct, Fin.sum_univ_two, caBeta_blk2_one_zero,
-          caBeta_blk2_one_one, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+          caBeta_blk2_one_one, Matrix.cons_val_zero, Matrix.cons_val_one]
         exact h2
     have hMB : (M : Matrix (Fin 2) (Fin 2) (ZMod 2)) *
         caBeta_blk2 p q ((pairGL hpq M : Matrix κ κ (ZMod 2)) - 1) = 1 := by
@@ -397,13 +391,13 @@ private theorem caBeta_zero_off_of_mem_centralizer {κ : Type*} [Fintype κ] [De
             Fin 2 → ZMod 2) ᵥ*
             caBeta_blk2 p q ((pairGL hpq M : Matrix κ κ (ZMod 2)) - 1)) 0 = 0
         simp only [Matrix.vecMul, dotProduct, Fin.sum_univ_two, caBeta_blk2_zero_zero,
-          caBeta_blk2_one_zero, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+          caBeta_blk2_one_zero, Matrix.cons_val_zero, Matrix.cons_val_one]
         exact h1
       · change ((![(g : Matrix κ κ (ZMod 2)) i p, (g : Matrix κ κ (ZMod 2)) i q] :
             Fin 2 → ZMod 2) ᵥ*
             caBeta_blk2 p q ((pairGL hpq M : Matrix κ κ (ZMod 2)) - 1)) 1 = 0
         simp only [Matrix.vecMul, dotProduct, Fin.sum_univ_two, caBeta_blk2_zero_one,
-          caBeta_blk2_one_one, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+          caBeta_blk2_one_one, Matrix.cons_val_zero, Matrix.cons_val_one]
         exact h2
     have hBM : caBeta_blk2 p q ((pairGL hpq M : Matrix κ κ (ZMod 2)) - 1) *
         (M : Matrix (Fin 2) (Fin 2) (ZMod 2)) = 1 := by
@@ -447,18 +441,18 @@ private theorem caBeta_mul_blockMat_mem_suppGL {κ : Type*} [Fintype κ] [Decida
           rw [← caBeta_blk2_zero_zero p q g, ← caBeta_blk2_zero_one p q g, ← hA,
             caBeta_blockMat_pp Ainv, caBeta_blockMat_qp hpq Ainv,
             caBeta_blk2_mul_entry A Ainv hMul 0 0]
-          simp [Matrix.one_apply]
+          simp
         · rw [hbq]
           rw [← caBeta_blk2_zero_zero p q g, ← caBeta_blk2_zero_one p q g, ← hA,
             caBeta_blockMat_pq hpq Ainv, caBeta_blockMat_qq hpq Ainv,
             caBeta_blk2_mul_entry A Ainv hMul 0 1]
-          simp [Matrix.one_apply, hpq, hpq.symm]
+          simp [hpq]
       · have hbp : b ≠ p := fun h => hbT (Or.inl h)
         have hbq : b ≠ q := fun h => hbT (Or.inr h)
         rw [caBeta_blockMat_apply_of_not hpq Ainv (a := p) (b := b) (Or.inr ⟨hbp, hbq⟩),
           caBeta_blockMat_apply_of_not hpq Ainv (a := q) (b := b) (Or.inr ⟨hbp, hbq⟩),
           Matrix.one_apply_ne (Ne.symm hbp), Matrix.one_apply_ne (Ne.symm hbq)]
-        simp [Matrix.one_apply_ne (Ne.symm hbp)]
+        simp
     · rw [haq]
       rw [caBeta_mul_apply_of_row_zero hpq (a := q)
         (fun c hc1 hc2 => (hrow c hc1 hc2).2)
@@ -469,18 +463,18 @@ private theorem caBeta_mul_blockMat_mem_suppGL {κ : Type*} [Fintype κ] [Decida
           rw [← caBeta_blk2_one_zero p q g, ← caBeta_blk2_one_one p q g, ← hA,
             caBeta_blockMat_pp Ainv, caBeta_blockMat_qp hpq Ainv,
             caBeta_blk2_mul_entry A Ainv hMul 1 0]
-          simp [Matrix.one_apply, hpq, hpq.symm]
+          simp [hpq.symm]
         · rw [hbq]
           rw [← caBeta_blk2_one_zero p q g, ← caBeta_blk2_one_one p q g, ← hA,
             caBeta_blockMat_pq hpq Ainv, caBeta_blockMat_qq hpq Ainv,
             caBeta_blk2_mul_entry A Ainv hMul 1 1]
-          simp [Matrix.one_apply]
+          simp
       · have hbp : b ≠ p := fun h => hbT (Or.inl h)
         have hbq : b ≠ q := fun h => hbT (Or.inr h)
         rw [caBeta_blockMat_apply_of_not hpq Ainv (a := p) (b := b) (Or.inr ⟨hbp, hbq⟩),
           caBeta_blockMat_apply_of_not hpq Ainv (a := q) (b := b) (Or.inr ⟨hbp, hbq⟩),
           Matrix.one_apply_ne (Ne.symm hbp), Matrix.one_apply_ne (Ne.symm hbq)]
-        simp [Matrix.one_apply_ne (Ne.symm hbq)]
+        simp
   · have hap : a ≠ p := fun h => haT (Or.inl h)
     have haq : a ≠ q := fun h => haT (Or.inr h)
     have hbT : b = p ∨ b = q := by
@@ -505,7 +499,7 @@ private theorem caBeta_mul_blockMat_mem_suppGL {κ : Type*} [Fintype κ] [Decida
         Matrix.one_apply_ne haq]
 
 private theorem caBeta_orderOf_betaTwo : orderOf betaTwo = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 private theorem caBeta_mem_zpowers_of_commute (y M : GL (Fin 2) (ZMod 2)) (hy3 : y ^ 3 = 1)

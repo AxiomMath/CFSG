@@ -117,8 +117,8 @@ theorem faithful_of {p : ℕ → X} {v : ℕ → Fin 133 → ZMod 5} {n : ℕ} {
     simp only [B, Matrix.of_apply]
     rw [e1]
     by_cases hlk : l = k
-    · rw [if_pos (congrArg Fin.val hlk), if_pos hlk]
-    · rw [if_neg (fun e => hlk (Fin.ext e)), if_neg hlk]
+    · rw [ite_eq_left (congrArg Fin.val hlk), ite_eq_left hlk]
+    · rw [ite_eq_right (fun e => hlk (Fin.ext e)), ite_eq_right hlk]
   have hBR : B * R = 1 := (mul_eq_one_comm (M := Matrix (Fin 133) (Fin 133) (ZMod 5))).mp hRB
   have hgB : matJ g * B = matJ h * B := by
     ext r k
@@ -148,17 +148,17 @@ theorem genR_g4 {j : ℕ} (hj : j < 10) :
     genR j = jR (g4 j) := by
   rw [genR, g4]
   rcases Nat.lt_or_ge j 9 with h9 | h9
-  · rw [if_pos h9, if_pos h9]
+  · rw [ite_eq_left h9, ite_eq_left h9]
     exact congrArg jR (HNPt2085.wJ_sL _ (letters_c4.2.1 j h9))
   · obtain rfl : j = 9 := by omega
-    rw [if_neg (by omega), if_pos rfl, if_neg (by omega), x4J, HNPt2085.seedWordJ_eq]
+    rw [ite_eq_right (by omega), ite_eq_left rfl, ite_eq_right (by omega), x4J, HNPt2085.seedWordJ_eq]
     exact congrArg (fun x => jR (seedJ InvData.x4Root * x)) (HNPt2085.wJ_sL _ letters_c4.2.2.1)
 
 theorem letR_lJ {l : ℤ} (hl : l ≠ 0 ∧ l.natAbs ≤ 10) : letR (gcode l) = jR (lJ g4 l) := by
   rw [letR_gcode ⟨hl.1, by omega⟩, lJ]
   by_cases hp : 0 < l
-  · rw [if_pos hp, if_pos hp, genR_g4 (by omega)]
-  · rw [if_neg hp, if_neg hp, genR_g4 (by omega), map_inv]
+  · rw [ite_eq_left hp, ite_eq_left hp, genR_g4 (by omega)]
+  · rw [ite_eq_right hp, ite_eq_right hp, genR_g4 (by omega), map_inv]
 
 theorem prod_letR : ∀ w : List ℤ, (∀ l ∈ w, l ≠ 0 ∧ l.natAbs ≤ 10) →
       ((w.map gcode).map letR).prod = jR (CFSG.KS.HNArr.wJ g4 w)
@@ -214,14 +214,14 @@ noncomputable def el (k : ℕ) : JH :=
   if h : k < 16384 then Classical.choose (exists_el k h) else 1
 
 theorem el_spec {k : ℕ} (hk : k < 16384) : el k ∈ genSub gens 4 ∧ Rep pt 192 (el k) (T k) := by
-  rw [el, dif_pos hk]
+  rw [el, dite_eq_left hk]
   exact Classical.choose_spec (exists_el k hk)
 
 theorem bp_lt : ∀ p ∈ BP, p < 192 := by decide +kernel
 
-theorem el_inj_base : ∀ k < 16384, ∀ l < 16384,
-    (∀ p ∈ BP, el k • pt p = el l • pt p) → k = l :=
-  enum_inj pt_inj keys bp_lt fun k hk => (el_spec hk).2
+theorem el_inj_base : ∀ _k < 16384, ∀ l < 16384,
+    (∀ p ∈ BP, el _k • pt p = el l • pt p) → _k = l :=
+  enum_inj pt_inj keys bp_lt fun _k hk => (el_spec hk).2
 
 theorem el_surj : ∀ x ∈ genSub gens 4, ∃ k < 16384, el k = x :=
   enum_surj (by norm_num) faithful rep_gens (by norm_num) rec_ok cl_ok fun k hk => (el_spec hk).2
@@ -230,8 +230,8 @@ theorem el_inj : ∀ k < 16384, ∀ l < 16384, el k = el l → k = l :=
   fun k hk l hl e => el_inj_base k hk l hl fun p _ => by rw [e]
 
 theorem enumFacts : EnumFacts pt 192 16384 4 gens el BP T where
-  rep := fun k hk => (el_spec hk).2
-  mem := fun k hk => (el_spec hk).1
+  rep := fun _k hk => (el_spec hk).2
+  mem := fun _k hk => (el_spec hk).1
   surj := el_surj
   base := fun _ hx _ hy h => eq_of_base el_surj el_inj_base hx hy h
   ptinj := pt_inj
@@ -248,13 +248,13 @@ theorem genSub_eq : genSub gens 4 = hnT0 := by
   · rw [genSub, hnT0, Subgroup.closure_le]
     rintro _ ⟨j, hj, rfl⟩
     refine Subgroup.subset_closure ?_
-    simp only [t0Gens, Set.mem_setOf_eq, List.mem_cons, List.mem_map]
+    simp only [t0Gens, Set.mem_ofPred_eq, List.mem_cons, List.mem_map]
     refine Or.inr ⟨t0Words.getD j [], ?_, rfl⟩
     rw [List.getD_eq_getElem _ _ (by simpa [t0Words] using hj)]
     exact List.getElem_mem _
   · rw [hnT0, Subgroup.closure_le]
     intro x hx
-    simp only [t0Gens, Set.mem_setOf_eq, List.mem_cons, List.mem_map] at hx
+    simp only [t0Gens, Set.mem_ofPred_eq, List.mem_cons, List.mem_map] at hx
     rcases hx with rfl | ⟨w, hw, rfl⟩
     · rw [← el_eq hT4.1 rep_t4 (Nat.eq_of_beq_eq_true hT4.2)]
       exact (el_spec hT4.1).1

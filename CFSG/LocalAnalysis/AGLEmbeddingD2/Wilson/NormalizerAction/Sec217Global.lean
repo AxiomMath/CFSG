@@ -61,6 +61,7 @@ structure Valid217 (A : Subgroup G) (c : G) (L : Subgroup G) (a : G) : Prop wher
   proj : ∃ l : L, (∃ w ∈ Subgroup.centralizer (L : Set G), a = (l : G) * w) ∧
     NonCentral 3 (l : ↥L ⧸ Subgroup.center ↥L)
 
+omit [Finite G] in
 theorem Frame217.valid {A E : Subgroup G} {c : G} {L : Subgroup G} {a : G}
     (h : Frame217 E c L a) (hEA : E ≤ A) : Valid217 A c L a :=
   ⟨hEA h.mem, h.not_mem, h.proj⟩

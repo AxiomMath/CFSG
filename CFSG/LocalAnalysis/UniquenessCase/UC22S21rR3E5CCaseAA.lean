@@ -18,6 +18,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem uc22r3e5c_inf_permutes_mul_eq {C T Y : Subgroup G} (hperm : Permutes C T)
     (hTY : T ≤ Y) (hYCT : Y ≤ C ⊔ T) :
     (Y : Set G) = ((Y ⊓ C) : Set G) * (T : Set G) := by
@@ -47,7 +48,7 @@ private theorem uc22r3e5c_inf_permutes_inf_eq_bot {C T Y : Subgroup G}
     obtain ⟨k, hk⟩ := hT.exists_card_eq
     rw [hk]
     exact (Nat.coprime_two_right.mpr hC).pow_right k
-  have hCT : C ⊓ T = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hCT : C ⊓ T = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hle : (Y ⊓ C) ⊓ T ≤ C ⊓ T := inf_le_inf_right T inf_le_right
   exact le_bot_iff.mp (hle.trans (le_of_eq hCT))
 
@@ -196,7 +197,7 @@ theorem uc22r3e5c_false_of_le_hSet {D : Data G} {Ch : Choice2011 G} (h211 : S21_
   have hYCT : Y ≤ C ⊔ D.T := sup_le (le_trans hAC le_sup_left) le_sup_right
   have hCTs' : Group.IsSolvable ↥(C ⊔ D.T) := hCTs
   have hYs : Group.IsSolvable ↥Y :=
-    solvable_of_solvable_injective (f := Subgroup.inclusion hYCT)
+    Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hYCT)
       (Subgroup.inclusion_injective hYCT)
   have hY_index : ∃ k, ((Y ⊓ C).subgroupOf Y).index = 2 ^ k := by
     apply uc22r3e5c_exists_index_eq_two_pow hperm le_sup_right hYCT

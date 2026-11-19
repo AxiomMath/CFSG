@@ -27,7 +27,7 @@ theorem not_mem_of_conj_field {u f : MulAut R} (hmul : ∀ φ ∈ I, ∀ ψ ∈ 
   simpa [mul_assoc] using this
 
 theorem centralMod_conj_field (hmul : ∀ φ ∈ I, ∀ ψ ∈ I, φ * ψ ∈ I) (hinv : ∀ φ ∈ I, φ⁻¹ ∈ I)
-    (h1 : (1 : MulAut R) ∈ I)
+    (_h1 : (1 : MulAut R) ∈ I)
     (hcen : ∀ α : MulAut R, ∀ u ∈ I, ∀ f ∈ Subgroup.closure F, α * (u * f) * α⁻¹ * (u * f)⁻¹ ∈ I)
     {u f : MulAut R} (hu : u ∈ I) (hf : f ∈ Subgroup.closure F) :
     CentralMod I (u * f * u⁻¹) := by
@@ -82,6 +82,7 @@ theorem congr_comp_congr {S R₁ R₂ : Type*} [Group S] [Group R₁] [Group R�
     MulAut.congr (θ₁.symm.trans θ₂) (MulAut.congr θ₁ φ) = MulAut.congr θ₂ φ := by
   ext x; simp [MulAut.congr_apply]
 
+omit [Finite G] in
 theorem fieldOn_data {p : ℕ} {L : Subgroup G} {g : G} (hgN : g ∈ Subgroup.normalizer (L : Set G))
     {lab : LargeEvenLabel} {R : Type} [Group R] {I F : Set (MulAut R)}
     (θ : PSimple p L ≃* R)
@@ -91,6 +92,7 @@ theorem fieldOn_data {p : ℕ} {L : Subgroup G} {g : G} (hgN : g ∈ Subgroup.no
   obtain ⟨hne, f, hf, u, hu, hord, hind⟩ := h
   exact ⟨hne, f, hf, u, hu, hord, ((induces_indRel_iff hgN θ).1 hind).symm⟩
 
+omit [Finite G] in
 theorem fixNum_eq_of_fieldOn {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup G} {b b' : G}
     (hb : FieldOn p b L) (hb' : FieldOn p b' L) :
     fixNum (indAut p L b hb.1) = fixNum (indAut p L b' hb'.1) := by

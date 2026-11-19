@@ -138,7 +138,7 @@ theorem kappa_residual_prime_overgroup_intersection [Finite G]
       lt_of_le_of_ne le_top fun h =>
         hUeq (le_antisymm hUSH (Subgroup.subgroupOf_eq_top.1 h))
     have := hnil
-    obtain ⟨y, hy, hy'⟩ := SetLike.exists_of_lt
+    obtain ⟨y, hy, hy'⟩ := _root_.IsConcreteLE.exists_of_lt
       (Group.normalizerCondition_of_isNilpotent (G := ↥(sigmaCore H)) _ hlt)
     have hyG : (y : G) ∈ normalizer (U : Set G) := (mem_normalizer_subgroupOf_iff hUSH y).1 hy
     have hyH : (y : G) ∈ H := sigmaCore_le H y.2

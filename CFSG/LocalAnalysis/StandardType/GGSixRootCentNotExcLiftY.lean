@@ -106,7 +106,7 @@ theorem ggRCS_component_le_map_of_schreier {N M G₀ : Subgroup G}
       (M.subgroupOf N).subtype
   let Dg : Subgroup G := Dn.map N.subtype
   have hDgperf : Group.IsPerfect ↥Dg := by
-    haveI : Group.IsPerfect ↥Dn := hDnperf
+    have : Group.IsPerfect ↥Dn := hDnperf
     exact Group.IsPerfect.map (H := Dn) N.subtype
   have hDnM : Dn ≤ M.subgroupOf N := Subgroup.map_subtype_le _
   have hDgM : Dg ≤ M := by
@@ -170,7 +170,7 @@ theorem ggRCS_kv_sigma_exists {A₀ : Subgroup N} :
   have hker_σ : (g.comp e.symm.toMonoidHom).ker =
       (CFSG.pCore 2 ↥A₀).map (e.toMonoidHom.comp (QuotientGroup.mk' ρ.ker)) := by
     have h1 : (g.comp e.symm.toMonoidHom).ker = g.ker.map e.toMonoidHom := by
-      simpa using MonoidHom.ker_comp_mulEquiv (g := g) (iso := e.symm)
+      simp
     rw [h1, hker_g, Subgroup.map_map]
   rw [hker_σ]
   exact (CFSG.pCore_isPGroup (p := 2) (G := ↥A₀)).of_surjective
@@ -221,7 +221,7 @@ theorem ggRCS_kv_sigma_exists_formula {N : Type} [Group N] (A₀ : Subgroup N) :
     have hker_σ : (g.comp e.symm.toMonoidHom).ker =
         (CFSG.pCore 2 ↥A₀).map (e.toMonoidHom.comp (QuotientGroup.mk' ρ.ker)) := by
       have h1 : (g.comp e.symm.toMonoidHom).ker = g.ker.map e.toMonoidHom := by
-        simpa using MonoidHom.ker_comp_mulEquiv (g := g) (iso := e.symm)
+        simp
       rw [h1, hker_g, Subgroup.map_map]
     rw [hker_σ]
     exact (CFSG.pCore_isPGroup (p := 2) (G := ↥A₀)).of_surjective
@@ -241,6 +241,7 @@ section SigmaBar
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggRCS_kv_sigma_bar_exists {G₀ : Subgroup G} {r : G} :
     ∃ σ : ↥(ggRCSImg r G₀) →* GGInvolCentBar G₀ r,
       Function.Surjective σ ∧ IsPGroup 2 ↥σ.ker ∧
@@ -329,7 +330,7 @@ theorem ggRCS_kv_componentInj_bar {G : Type} [Group G] [Finite G] {G₀ : Subgro
     rw [h]
     exact hσ₀ker
   have hσsol : Group.IsSolvable ↥σ.ker := by
-    haveI : Group.IsNilpotent ↥σ.ker := hσker.isNilpotent
+    have : Group.IsNilpotent ↥σ.ker := hσker.isNilpotent
     exact IsNilpotent.to_isSolvable
   have hYV : Y ≤ V := by
     apply Subgroup.map_mono

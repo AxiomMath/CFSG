@@ -218,7 +218,7 @@ private theorem d4_pow_three_mem_kerReflVec
       simpa [stabVec, MulAction.mem_stabilizer_iff] using hx
     rw [hx'] at h
     exact h.symm
-  haveI : ((kerReflVec (reps 4)).subgroupOf (stabVec (reps 4))).Normal :=
+  have : ((kerReflVec (reps 4)).subgroupOf (stabVec (reps 4))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (kerReflVec_le_stabVec (reps 4))).2 hnorm
   have h3 : (⟨g, hg⟩ : ↥(stabVec (reps 4))) ^ 3 ∈
       (kerReflVec (reps 4)).subgroupOf (stabVec (reps 4)) := by
@@ -757,7 +757,7 @@ private theorem d4_rootCharKernel_one {L : Type} [Field L] :
   simp [rootCharKernel, rootChar]
 
 private theorem d4_a_ne_one {L : Type} [Field L] (a : Fin Tag.E6.rank → Lˣ)
-    (ha3 : ∀ i, a i ^ 3 = 1) (h24 : (rootCharKernel a).ncard = 24) : a ≠ 1 := by
+    (_ha3 : ∀ i, a i ^ 3 = 1) (h24 : (rootCharKernel a).ncard = 24) : a ≠ 1 := by
   intro h
   have h1 : (rootCharKernel a).ncard = 72 := by
     rw [h, d4_rootCharKernel_one]

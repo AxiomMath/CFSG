@@ -117,13 +117,13 @@ theorem seitz27_of_isLie42GenericRest (hL3F : Seitz27L3F) (hD4 : Seitz27D4) {Y :
     ⟨n, hn4, hn6, hrow⟩ | ⟨q, hqp, hq4, hq6, hG⟩ | ⟨q, hq, hqp, hq4, hq6, ⟨φ⟩⟩ |
     ⟨m, hm, hm2, ⟨φ⟩⟩
   ·
-    haveI := hpF
+    have := hpF
     rcases hiso with ⟨-, ⟨φ⟩⟩ | ⟨-, ⟨φ⟩⟩
     · exact seitz27_projSL_vac (by omega) he1 (by omega) φ
     · have hq : 2 < p ^ e := lt_of_lt_of_le (by omega) (Nat.le_self_pow (by omega) p)
       exact seitz27_projSU_vac (by omega) he1 hq (by omega) φ
   ·
-    haveI := hpF
+    have := hpF
     rcases hrow with ⟨q, hqp, hqe, hG⟩ | ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩
     · exact seitz27_isoGTwo_prime q hqe (hqp ▸ hp3) hG
     · exact seitz27_projSp_prime hp3 φ

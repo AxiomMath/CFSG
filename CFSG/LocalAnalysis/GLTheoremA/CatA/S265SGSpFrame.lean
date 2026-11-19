@@ -68,7 +68,7 @@ private theorem diagonal_sumElim_eq_planeMat {F : Type} [Field F] {ℓ : ℕ} (x
   ext a b
   rw [planeMat_apply]
   rcases a with i | i <;> rcases b with j | j <;> by_cases hij : i = j <;>
-    simp [hij, Matrix.diagonal_apply]
+    simp [hij]
 
 private theorem cube_root_quad {F : Type} [Field F] {x : F} (h3 : x ^ 3 = 1) (h1 : x ≠ 1) :
     x * x + x + 1 = 0 := by
@@ -81,7 +81,7 @@ private theorem exists_frame_split {F : Type} [Field F] [Finite F] [CharP F 2] {
     ∃ (A₀ : StatedSp ℓ F) (M : Matrix (Fin 2) (Fin 2) F), M.det = 1 ∧ M * M + M + 1 = 0 ∧
       ∀ g : ↥E, ∃ e : Fin ℓ → ℕ, mat ℓ F (A₀⁻¹ * g * A₀) = planeMat fun j => M ^ e j := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨ζ, hζ⟩ : ∃ ζ : Fˣ, orderOf ζ = 3 := exists_prime_orderOf_dvd_card 3
     (by rw [Fintype.card_units, ← Nat.card_eq_fintype_card]; exact h3)
   have hζp : IsPrimitiveRoot (ζ : F) 3 := IsPrimitiveRoot.coe_units_iff.2 (hζ ▸ .orderOf ζ)
@@ -107,7 +107,7 @@ private theorem exists_frame_split {F : Type} [Field F] [Finite F] [CharP F 2] {
     have h1 := cube_root_quad (x := (ζ : F)⁻¹) (by rw [inv_pow, hζp.pow_eq_one, inv_one])
       (inv_ne_one.2 hζ1)
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, h0, h1]
+    fin_cases i <;> fin_cases j <;> simp [h0, h1]
   · set g' : ↥E' := ⟨g, Subgroup.mem_map_of_mem _ g.2⟩
     have hg'3 : g' ^ 3 = 1 := Subtype.ext (by
       rw [Subgroup.coe_pow, Subgroup.coe_one]
@@ -179,7 +179,7 @@ theorem SG.exists_planeFrame_three {F : Type} [Field F] [Finite F] [CharP F 2] {
       (k : Fin ℓ → ↥E →* Multiplicative (ZMod 3)), M.det = 1 ∧ M * M + M + 1 = 0 ∧
       ∀ g : ↥E, mat ℓ F (A₀⁻¹ * g * A₀) =
         planeMat fun j => M ^ (Multiplicative.toAdd (k j g)).val := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 2
   have h3 : ¬ 3 ∣ Nat.card F := fun h => by
     rw [Nat.card_eq_fintype_card, hn] at h

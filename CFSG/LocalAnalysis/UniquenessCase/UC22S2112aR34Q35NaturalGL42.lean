@@ -47,7 +47,7 @@ private theorem card_sylow_five_eq_five [N.Normal] (hZN : Z ≤ N)
     (hker : ∀ g : Γ, (∀ x ∈ N, g * x * g⁻¹ * x⁻¹ ∈ Z) → g ∈ N)
     (h5 : 5 ∣ Nat.card Γ) (R : Sylow 5 Γ) : Nat.card (R : Subgroup Γ) = 5 := by
   have hdvd : Nat.card (R : Subgroup Γ) ∣ 5 :=
-    card_dvd_five_of_isPGroup hZN hZc hZ2 hcard hsq hker R.isPGroup'
+    card_dvd_five_of_isPGroup hZN hZc hZ2 hcard hsq hker R.isPGroup
   have h5dvd : 5 ∣ Nat.card (R : Subgroup Γ) := Sylow.dvd_card_of_dvd_card R h5
   rcases (Nat.dvd_prime (by decide : Nat.Prime 5)).mp hdvd with h | h
   · rw [h] at h5dvd
@@ -82,7 +82,7 @@ private theorem sylow_five_not_normal [N.Normal]
     rw [hR]
     exact Subgroup.mem_zpowers c
   have hinf : N ⊓ (R : Subgroup Γ) = ⊥ :=
-    (IsPGroup.disjoint_of_ne 2 5 (by norm_num) N (R : Subgroup Γ) hN2 R.isPGroup').eq_bot
+    (IsPGroup.disjoint_of_ne 2 5 (by norm_num) N (R : Subgroup Γ) hN2 R.isPGroup).eq_bot
   have hcomm : ∀ x ∈ N, c * x = x * c := by
     intro x hx
     have hmemN : c * x * c⁻¹ * x⁻¹ ∈ N := by
@@ -131,7 +131,7 @@ private theorem card_centralizer_le [N.Normal] (hZN : Z ≤ N)
     have hpc : (p : Γ) * c = c * (p : Γ) := by
       have h := Subgroup.mem_centralizer_singleton_iff.mp hpC
       simpa using h
-    obtain ⟨m, hm⟩ := P.isPGroup' (⟨p, hp⟩ : P)
+    obtain ⟨m, hm⟩ := P.isPGroup (⟨p, hp⟩ : P)
     have ht : ∃ m : ℕ, (p : Γ) ^ 2 ^ m = 1 :=
       ⟨m, by simpa using congrArg (fun x : P => (x : Γ)) hm⟩
     exact mem_of_commute_of_orderOf_five hZN hZc hZ2 hcard hsq hker hc ht hpc
@@ -371,7 +371,7 @@ private theorem common_bounds [N.Normal] (hZN : Z ≤ N)
       exact hZc z hz r
     exact hZcent.trans (Subgroup.centralizer_le_normalizer _)
   have hdisj : Disjoint (R : Subgroup Γ) Z :=
-    (IsPGroup.disjoint_of_ne 2 5 (by norm_num) Z (R : Subgroup Γ) hZ2 R.isPGroup').symm
+    (IsPGroup.disjoint_of_ne 2 5 (by norm_num) Z (R : Subgroup Γ) hZ2 R.isPGroup).symm
   have hZRcard : Nat.card ↥((R : Subgroup Γ) ⊔ Z) = 5 * 2 ^ a := by
     rw [CFSG.GorensteinWalter.card_sup_eq_mul_of_disjoint_of_le_normalizer
       (A := (R : Subgroup Γ)) (B := Z) hZnorm hdisj, hRcard, ha]

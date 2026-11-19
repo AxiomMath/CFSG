@@ -26,7 +26,7 @@ theorem isElemAbelian_of_injective {A B : Type*} [Group A] [Group B] (f : A →*
   · have h3 := hE.2 (f x) ⟨x, hx, rfl⟩
     have : (f.comp E.subtype) (⟨x, hx⟩ ^ 3) = (f.comp E.subtype) 1 := by
       simp only [MonoidHom.coe_comp, Function.comp_apply, Subgroup.coe_subtype,
-        SubmonoidClass.coe_pow, map_pow, map_one]
+        map_pow, map_one]
       exact h3
     have := congrArg Subtype.val (hf this)
     simpa using this
@@ -81,7 +81,7 @@ theorem exists_e9_of_surjective {A B : Type*} [Group A] [Group B] [Finite A] (f 
     (hf : Function.Surjective f) (hker : IsPGroup 2 f.ker) {E : Subgroup B}
     (hE : CFSG.Assembly.IsElemAbelian 3 E) (h9 : Nat.card E = 9) :
     ∃ E' : Subgroup A, CFSG.Assembly.IsElemAbelian 3 E' ∧ Nat.card E' = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set M : Subgroup A := E.comap f with hM
   set g : M →* B := f.comp M.subtype with hg
   have hrange : g.range = E := by
@@ -121,11 +121,11 @@ theorem ker_le_pCore_two_or_eq_top
     {K H : Type} [Group K] [Finite K] [Group.IsPerfect K] [Group H]
     (hT : IsType429 (K ⧸ CFSG.pCore 2 K)) (f : K →* H) :
     f.ker ≤ CFSG.pCore 2 K ∨ f.ker = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := isSimpleGroup_of_isType429 hT
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := isSimpleGroup_of_isType429 hT
   have hπs : Function.Surjective (QuotientGroup.mk' (CFSG.pCore 2 K)) :=
     QuotientGroup.mk'_surjective _
-  haveI : (f.ker.map (QuotientGroup.mk' (CFSG.pCore 2 K))).Normal :=
+  have : (f.ker.map (QuotientGroup.mk' (CFSG.pCore 2 K))).Normal :=
     Subgroup.Normal.map inferInstance _ hπs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (f.ker.map (QuotientGroup.mk' (CFSG.pCore 2 K))) with h | h
@@ -144,9 +144,9 @@ theorem ker_le_pCore_two_or_eq_top
     have h2 : IsPGroup 2 f.range := by
       rw [hrange]
       exact (CFSG.pCore_isPGroup : IsPGroup 2 (CFSG.pCore 2 K)).map f
-    haveI : Group.IsPerfect f.range := Group.IsPerfect.range f
-    haveI : Finite f.range := Finite.of_surjective _ f.rangeRestrict_surjective
-    haveI : Nontrivial f.range := by
+    have : Group.IsPerfect f.range := Group.IsPerfect.range f
+    have : Finite f.range := Finite.of_surjective _ f.rangeRestrict_surjective
+    have : Nontrivial f.range := by
       obtain ⟨x, hx⟩ : ∃ x, x ∉ f.ker := by
         by_contra hcon
         exact hne (eq_top_iff.2 fun x _ => not_not.1 (not_exists.1 hcon x))
@@ -157,7 +157,7 @@ theorem ker_le_pCore_two_or_eq_top
 theorem false_of_ker_le_pCore_two {K H : Type} [Group K] [Finite K]
     [Group H] (hT : IsType429 (K ⧸ CFSG.pCore 2 K)) (hH : Rank3LeOne H) (f : K →* H)
     (hk : f.ker ≤ CFSG.pCore 2 K) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E, hE, h9⟩ := exists_e9_of_isType429 hT
   obtain ⟨E', hE', h9'⟩ := exists_e9_of_surjective (QuotientGroup.mk' (CFSG.pCore 2 K))
     (QuotientGroup.mk'_surjective _)

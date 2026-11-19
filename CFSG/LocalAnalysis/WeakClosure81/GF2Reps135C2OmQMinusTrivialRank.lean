@@ -37,9 +37,9 @@ theorem omq_omMinus_trivial_rank (h1s : OmqMinusWeightVectorShort) (h2 : OmqRank
     7 ≤ Module.finrank k
       (LinearMap.range (σ ((SmallO8mCurtis.curtisDatum n hn hirr).nW x) - 1)) := by
   classical
-  haveI := fact_shortField hirr
-  haveI := finite_shortField (b := b) (c := c)
-  haveI : CharP (ShortField b c) 2 :=
+  have := fact_shortField hirr
+  have := finite_shortField (b := b) (c := c)
+  have : CharP (ShortField b c) 2 :=
     charP_of_injective_algebraMap (algebraMap K (ShortField b c)).injective 2
   have hm : Nat.card Kˣ = 2 ^ f - 1 := by rw [Nat.card_units, hF]
   have hh : Nat.card K + 1 = 2 ^ f + 1 := by rw [hF]
@@ -74,7 +74,7 @@ theorem omq_omMinus_trivial_rank (h1s : OmqMinusWeightVectorShort) (h2 : OmqRank
       by_cases hl : l = ⟨0, by omega⟩
       · subst hl
         simp [omqMinusTriv]
-      · simp [omqMinusTriv, hl, Pi.single_apply]
+      · simp [omqMinusTriv, hl]
     · simp [omqMinusTriv]
   choose w hw0 hw using hvec
   exact omq_omMinus_rank_of_weights h2 hn hirr ι ι' hxr hs (d := 7)

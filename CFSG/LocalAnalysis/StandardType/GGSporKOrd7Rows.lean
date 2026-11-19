@@ -66,14 +66,14 @@ theorem ord7Row_of_dvd
       have h := (hs2 (by simp) (by simp [markChar])).1
       simpa only [markDeg] using h
     by_cases h3 : l = 3
-    · simp only [if_pos h3]
+    · simp only [ite_eq_left h3]
       have h7q : ¬ 7 ∣ 2 ^ n - 1 := by
         have h := (hs2 (by simp) (by simp [markChar])).2.1
-          (by simp only [markTag, if_pos h3])
-          (by simp only [markRank, if_pos h3]; norm_num)
+          (by simp only [markTag, ite_eq_left h3])
+          (by simp only [markRank, ite_eq_left h3]; norm_num)
         simpa only [markDeg] using h
       exact ord7Param_PSL h7 h7q (by norm_num)
-    · simp only [if_neg h3]
+    · simp only [ite_eq_right h3]
       by_cases h4 : l = 4
       · have hn1 : n = 1 := by
           have h := (hs2 (by simp) (by simp [markChar])).2.2.2.2.2 rfl h4
@@ -86,22 +86,22 @@ theorem ord7Row_of_dvd
     simp only [LargeEvenInLambda2] at hlab
     obtain ⟨-, hl2⟩ := hlab
     by_cases h2 : l = 2
-    · simp only [if_pos h2]
+    · simp only [ite_eq_left h2]
       have h7 : ¬ 7 ∣ 2 * n := by
         have h := (hs2 (by simp) (by simp [markChar])).1
-        simpa only [markDeg, if_pos h2] using h
+        simpa only [markDeg, ite_eq_left h2] using h
       exact ord7Param_PSL_two Nat.prime_two h7
     · have hl3 : 3 ≤ l := by omega
       by_cases h3 : l = 3
-      · simp only [if_neg h2, if_pos h3]
+      · simp only [ite_eq_right h2, ite_eq_left h3]
         have h7 : ¬ 7 ∣ n := by
           have h := (hs2 (by simp) (by simp [markChar])).1
-          simpa only [markDeg, if_neg h2] using h
+          simpa only [markDeg, ite_eq_right h2] using h
         exact ord7Param_PSU h7
-      · simp only [if_neg h2, if_neg h3]
+      · simp only [ite_eq_right h2, ite_eq_right h3]
         have h7 : ¬ 7 ∣ n := by
           have h := (hs2 (by simp) (by simp [markChar])).1
-          simpa only [markDeg, if_neg h2] using h
+          simpa only [markDeg, ite_eq_right h2] using h
         exact ord7Param_POmegaMinus h7
   ·
     exact absurd rfl ((hs2 (by simp) (by simp [markChar])).2.2.1)

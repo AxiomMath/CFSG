@@ -64,7 +64,7 @@ theorem y6f4a_not_normal {J M : Subgroup Y}
     (hM : Nonempty (↥M ≃* (Fin 3 → Multiplicative (ZMod 4))))
     (h4 : ∀ α : MulAut ↥J, α ^ 4 = 1 → α ^ 2 = 1) : ¬ J.Normal := by
   intro hJ
-  haveI : J.Normal := hJ
+  have : J.Normal := hJ
   obtain ⟨e⟩ := hM
   let ρ : ↥M →* MulAut ↥J := (MulAut.conjNormal : Y →* MulAut ↥J).comp M.subtype
   have hρ_apply : ∀ m : ↥M, ρ m = MulAut.conjNormal ((m : Y)) := fun _ => rfl

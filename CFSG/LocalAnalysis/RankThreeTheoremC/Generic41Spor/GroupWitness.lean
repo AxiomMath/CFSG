@@ -49,7 +49,7 @@ theorem isPGroup_zpowers_of_orderOf {G : Type} [Group G] {p : ℕ} [Fact p.Prime
 theorem TwoWitness.of_orbit {K : Type} [Group K] [Finite K] {p : ℕ} (hp : p.Prime)
     (htrans : NormalizerTransitive p K) {u₀ u : K} (hu₀ : orderOf u₀ = p) (hu : orderOf u = p)
     (h₀ : TwoWitness u₀) : TwoWitness u := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hS⟩ := (isPGroup_zpowers_of_orderOf hu).exists_le_sylow
   have huS : u ∈ (S : Subgroup K) := hS (Subgroup.mem_zpowers u)
   obtain ⟨g, hg⟩ := exists_conj_mem_sylow_of_isPGroup S (isPGroup_zpowers_of_orderOf hu₀)
@@ -73,7 +73,7 @@ theorem TwoWitness.of_orbit {K : Type} [Group K] [Finite K] {p : ℕ} (hp : p.Pr
 
 theorem eq_zpowers_of_card_prime {X : Type} [Group X] {p : ℕ} (hp : p.Prime) {U : Subgroup X}
     (hU : Nat.card U = p) {u : X} (hu : u ∈ U) (hu1 : u ≠ 1) : U = Subgroup.zpowers u := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hle : Subgroup.zpowers u ≤ U := (Subgroup.zpowers_le).2 hu
   have hdvd : orderOf u ∣ p := by
     rw [← hU, ← Nat.card_zpowers]
@@ -82,7 +82,7 @@ theorem eq_zpowers_of_card_prime {X : Type} [Group X] {p : ℕ} (hp : p.Prime) {
     rcases (Nat.dvd_prime hp).mp hdvd with h | h
     · exact absurd (orderOf_eq_one_iff.mp h) hu1
     · exact h
-  haveI : Finite U := Nat.finite_of_card_ne_zero (by rw [hU]; exact hp.ne_zero)
+  have : Finite U := Nat.finite_of_card_ne_zero (by rw [hU]; exact hp.ne_zero)
   exact (Subgroup.eq_of_le_of_card_ge hle (by rw [Nat.card_zpowers, hord, hU])).symm
 
 theorem kwitness_to_x {X : Type} [Group X] (K : Subgroup X) {u : X} (hu : u ∈ K)

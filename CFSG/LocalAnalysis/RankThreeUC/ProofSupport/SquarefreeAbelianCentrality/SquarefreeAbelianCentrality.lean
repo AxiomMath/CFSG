@@ -19,7 +19,7 @@ theorem centralizes {F : Type*} [Field F] {H : Type*} [Group H] [Finite H]
   have hprime : ∀ c : C, (orderOf c).Prime → (c : H) ∈ Subgroup.centralizer (E : Set H) := by
     intro c hc
     set q := orderOf c with hq
-    haveI : Fact q.Prime := ⟨hc⟩
+    have : Fact q.Prime := ⟨hc⟩
     have hoH : orderOf (c : H) = q := by
       rw [hq]; exact Subgroup.orderOf_coe c
     have hc1 : (c : H) ≠ 1 := by
@@ -51,7 +51,7 @@ theorem centralizes {F : Type*} [Field F] {H : Type*} [Group H] [Finite H]
     have : (⟨x, hx⟩ : C) ∈ D := by rw [Subgroup.index_eq_one] at h; rw [h]; trivial
     exact this
   obtain ⟨q, hqp, hqd⟩ := Nat.exists_prime_and_dvd hidx
-  haveI : Fact q.Prime := ⟨hqp⟩
+  have : Fact q.Prime := ⟨hqp⟩
   have hmul : Nat.card D * D.index = Nat.card C := Subgroup.card_mul_index D
   have hqC : q ∣ Nat.card C := hmul ▸ Dvd.dvd.mul_left hqd _
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := C) q hqC

@@ -34,7 +34,7 @@ omit [Field L] in
 theorem cartan_f4_diag (k : Fin ReeTag.F4.tag.rank) : Tag.F4.cartan k k = 2 :=
   cartan_f4_two k
 
-theorem mem_charKer_a1 (h : A1Pair i j) {c : Fin ReeTag.F4.tag.rank → Lˣ} :
+theorem mem_charKer_a1 (_h : A1Pair i j) {c : Fin ReeTag.F4.tag.rank → Lˣ} :
     c ∈ charKer (L := L) (parabolicRoots ReeTag.F4.tag
       (({i, j} : Finset (Fin ReeTag.F4.tag.rank)) : Set (Fin ReeTag.F4.tag.rank))) ↔
       c i = 1 ∧ c j = 1 := by

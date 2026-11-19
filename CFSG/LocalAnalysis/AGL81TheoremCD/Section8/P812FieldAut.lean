@@ -87,7 +87,7 @@ private theorem isSylowOf_map_pPrimeCore {X : Type*} [Group X] [Finite X] {p q :
     (hSyl : CFSG.ABGLocalTools.IsSylowOf q P K) :
     CFSG.ABGLocalTools.IsSylowOf q (P.map (QuotientGroup.mk' Q))
       (K.map (QuotientGroup.mk' Q)) := by
-  haveI : Fact (Nat.Prime q) := ⟨hq⟩
+  have : Fact (Nat.Prime q) := ⟨hq⟩
   have hQle : Q ≤ K := by rw [hQ]; exact Subgroup.map_subtype_le _
   rw [CFSG.ABGLocalTools.isSylowOf_iff] at hSyl ⊢
   obtain ⟨-, hPp, hPidx⟩ := hSyl
@@ -103,20 +103,20 @@ private theorem exists_not_commuting_of_outer (hFA : KFactFieldAutThree)
     {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Prime) (hX : CFSG.Open.IsKGroup X)
     {K S : Subgroup X} (hK : CFSG.IsPComponent p K) (hKn : K.Normal)
     (hr : CFSG.Open.pRank 3 K = 1) (hcop : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore p ↥K))
-    (hS3 : IsPGroup 3 S) (hSK : CFSG.ABGLocalTools.IsSylowOf 3 (S ⊓ K) K)
+    (_hS3 : IsPGroup 3 S) (hSK : CFSG.ABGLocalTools.IsSylowOf 3 (S ⊓ K) K)
     {a : X} (haS : a ∈ S) (ha3 : a ^ 3 = 1)
     (hout : a ∉ K ⊔ CFSG.GH74.GLS.centralizerSection K ((CFSG.pPrimeCore p ↥K).map K.subtype)) :
     ∃ x ∈ S ⊓ K, a * x ≠ x * a := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : K.Normal := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : K.Normal := hKn
   let Q : Subgroup X := (CFSG.pPrimeCore p ↥K).map K.subtype
   let Xq := X ⧸ Q
   let Kq : Subgroup Xq := K.map (QuotientGroup.mk' Q)
   let aq : Xq := QuotientGroup.mk' Q a
   let P : Subgroup X := S ⊓ K
   let Pq : Subgroup Xq := P.map (QuotientGroup.mk' Q)
-  haveI hQn : Q.Normal := by
+  have hQn : Q.Normal := by
     change (Subgroup.map K.subtype (CFSG.pPrimeCore p ↥K)).Normal
     exact ConjAct.normal_of_characteristic_of_normal
   have hXq : CFSG.Open.IsKGroup Xq := hX.quotient Q
@@ -224,7 +224,7 @@ theorem exists_mem_inf_conj_mul_inv_mem_of_not_mem_sup (hFA : KFactFieldAutThree
     (hout : a ∉ K ⊔ CFSG.GH74.GLS.centralizerSection K ((CFSG.pPrimeCore p ↥K).map K.subtype)) :
     ∃ y ∈ S ⊓ K, y * a * y⁻¹ * a⁻¹ ∈ A ∧ y * a * y⁻¹ ≠ a := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hxSK, hxne⟩ :=
     exists_not_commuting_of_outer hFA hp hX hK hKn hr hcop hS3 hSK haS ha3 hout
   have hPcyc : IsCyclic ↥(S ⊓ K) := by
@@ -256,7 +256,7 @@ theorem exists_mem_inf_conj_mul_inv_mem_of_not_mem_sup (hFA : KFactFieldAutThree
 
 private theorem card_map_quotient_core_eq_three {X : Type} [Group X] [Finite X] {p : ℕ}
     {K A Q : Subgroup X} [Q.Normal] (hQ : Q = (CFSG.pPrimeCore p ↥K).map K.subtype)
-    (hAK : A ≤ K) (hA3 : Nat.card A = 3)
+    (_hAK : A ≤ K) (hA3 : Nat.card A = 3)
     (hcop : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore p ↥K)) :
     Nat.card (A.map (QuotientGroup.mk' Q)) = 3 := by
   have hdvd : Nat.card (A.map (QuotientGroup.mk' Q)) ∣ 3 := by
@@ -294,8 +294,8 @@ private theorem exists_quotient_inverting (hFI : KFactFieldAutInvert)
       tq * QuotientGroup.mk' Q a = QuotientGroup.mk' Q a * tq ∧
       (∀ z ∈ A.map (QuotientGroup.mk' Q), tq * z * tq⁻¹ = z⁻¹) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : K.Normal := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : K.Normal := hKn
   let Xq := X ⧸ Q
   let Kq : Subgroup Xq := K.map (QuotientGroup.mk' Q)
   let aq : Xq := QuotientGroup.mk' Q a
@@ -375,8 +375,8 @@ private theorem D_isPGroup_and_normalizes {X : Type} [Group X] {p : ℕ}
   exact ⟨hD3, hDK, fun _ _ => Subgroup.le_normalizer_of_normal (Subgroup.mem_top _)⟩
 
 private theorem D_bar_commutes {X : Type} [Group X] [Finite X] {p : ℕ}
-    {K B D Q : Subgroup X} [Q.Normal] (hQ : Q = (CFSG.pPrimeCore p ↥K).map K.subtype)
-    {a : X} (ha3 : a ^ 3 = 1) (hD : D = Subgroup.zpowers a ⊔ B)
+    {K B D Q : Subgroup X} [Q.Normal] (_hQ : Q = (CFSG.pPrimeCore p ↥K).map K.subtype)
+    {a : X} (_ha3 : a ^ 3 = 1) (hD : D = Subgroup.zpowers a ⊔ B)
     {tq : X ⧸ Q} (htqcomm : tq * QuotientGroup.mk' Q a = QuotientGroup.mk' Q a * tq)
     (htqB : ∀ b ∈ B.map (QuotientGroup.mk' Q), tq * b = b * tq) :
     ∀ d : ↥D, QuotientGroup.mk' Q (d : X) * tq = tq * QuotientGroup.mk' Q (d : X) := by
@@ -400,7 +400,7 @@ private theorem D_bar_commutes {X : Type} [Group X] [Finite X] {p : ℕ}
 
 private theorem exists_coprime_fixed_lift {X : Type} [Group X] [Finite X] {p : ℕ}
     {K D Q : Subgroup X} [Q.Normal] (hQ : Q = (CFSG.pPrimeCore p ↥K).map K.subtype)
-    (hKn : K.Normal) (hcop : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore p ↥K))
+    (_hKn : K.Normal) (hcop : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore p ↥K))
     (hD3 : IsPGroup 3 D) (hDK : D ≤ Subgroup.normalizer (K : Set X))
     (hDQ : D ≤ Subgroup.normalizer (Q : Set X))
     {tq : X ⧸ Q} (htqK : tq ∈ K.map (QuotientGroup.mk' Q))
@@ -409,13 +409,13 @@ private theorem exists_coprime_fixed_lift {X : Type} [Group X] [Finite X] {p : �
     ∃ y' : ↥K, QuotientGroup.mk' Q (y' : X) = tq ∧
       ∀ d : ↥D, (d : X) * (y' : X) * (d : X)⁻¹ = (y' : X) := by
   classical
-  haveI : K.Normal := hKn
+  have : K.Normal := _hKn
   have hNsub : Q.subgroupOf K = CFSG.pPrimeCore p ↥K := by
     rw [hQ]
     change Subgroup.comap K.subtype (Subgroup.map K.subtype (CFSG.pPrimeCore p ↥K)) =
       CFSG.pPrimeCore p ↥K
     rw [Subgroup.comap_map_eq_self_of_injective K.subtype_injective]
-  haveI : (Q.subgroupOf K).Normal := by
+  have : (Q.subgroupOf K).Normal := by
     rw [hNsub]
     exact CFSG.pPrimeCore_normal
   have hNcop : ¬ 3 ∣ Nat.card (Q.subgroupOf K) := by
@@ -487,7 +487,7 @@ private theorem exists_D0_conj_eq {X : Type} [Group X] [Finite X] {p : ℕ}
     {K A B D Q : Subgroup X} [Q.Normal] (hQ : Q = (CFSG.pPrimeCore p ↥K).map K.subtype)
     (hAK : A ≤ K) (hA3 : Nat.card A = 3)
     (hcop : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore p ↥K)) {a : X}
-    (hD : D = Subgroup.zpowers a ⊔ B) (hA_cent_D : A ≤ Subgroup.centralizer (D : Set X))
+    (_hD : D = Subgroup.zpowers a ⊔ B) (hA_cent_D : A ≤ Subgroup.centralizer (D : Set X))
     {t : X} (htcentD : t ∈ Subgroup.centralizer (D : Set X))
     (hmod : ∀ z ∈ A, (t * z * t⁻¹) * z ∈ Q) :
     ∃ d ∈ Q ⊓ Subgroup.centralizer (D : Set X),
@@ -606,10 +606,10 @@ theorem exists_inv_mem_centralizer_of_not_mem_sup (hFI : KFactFieldAutInvert)
     (haA : ∀ z ∈ A, a * z = z * a) (haB : ∀ b ∈ B, a * b = b * a) :
     ∃ t ∈ K, t * a = a * t ∧ (∀ b ∈ B, t * b = b * t) ∧ ∀ z ∈ A, t * z * t⁻¹ = z⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : K.Normal := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : K.Normal := hKn
   let Q : Subgroup X := (CFSG.pPrimeCore p ↥K).map K.subtype
-  haveI hQn : Q.Normal := by
+  have hQn : Q.Normal := by
     change (Subgroup.map K.subtype (CFSG.pPrimeCore p ↥K)).Normal
     exact ConjAct.normal_of_characteristic_of_normal
   have hQ : Q = (CFSG.pPrimeCore p ↥K).map K.subtype := rfl
@@ -634,10 +634,10 @@ theorem exists_inv_mem_centralizer_of_not_mem_sup (hFI : KFactFieldAutInvert)
       (ha3 := ha3) (ha1 := ha1) (haB := haB) (hD := hD)
   have hDbarcomm : ∀ d : ↥D, QuotientGroup.mk' Q (d : X) * tq =
       tq * QuotientGroup.mk' Q (d : X) :=
-    D_bar_commutes (hQ := hQ) (ha3 := ha3) (hD := hD) (htqcomm := htqcomm)
+    D_bar_commutes (_hQ := hQ) (_ha3 := ha3) (hD := hD) (htqcomm := htqcomm)
       (htqB := htqB)
   obtain ⟨y', hy'eq, hy'fix⟩ :=
-    exists_coprime_fixed_lift (hQ := hQ) (hKn := hKn) (hcop := hcop) (hD3 := hD3)
+    exists_coprime_fixed_lift (hQ := hQ) (_hKn := hKn) (hcop := hcop) (hD3 := hD3)
       (hDK := hDK) (hDQ := hDQ) (htqK := htqK) (hDbarcomm := hDbarcomm)
   have ht1K : (y' : X) ∈ K := y'.2
   have ht1centD : (y' : X) ∈ Subgroup.centralizer (D : Set X) :=
@@ -649,7 +649,7 @@ theorem exists_inv_mem_centralizer_of_not_mem_sup (hFI : KFactFieldAutInvert)
     A_le_centralizer_D (hD := hD) (haA := haA) (hAB := hAB)
   obtain ⟨d, hdD0, hconj⟩ :=
     exists_D0_conj_eq (hQ := hQ) (hAK := hAK) (hA3 := hA3) (hcop := hcop)
-      (hD := hD) (hA_cent_D := hA_cent_D) (htcentD := ht1centD) (hmod := hmodQ)
+      (_hD := hD) (hA_cent_D := hA_cent_D) (htcentD := ht1centD) (hmod := hmodQ)
   exact exists_inverting_final (hQ := hQ) (hAK := hAK) (hA3 := hA3) (hcop := hcop)
     (hD := hD) (htK := ht1K) (htcentD := ht1centD) (hmod := hmodQ) ⟨d, hdD0, hconj⟩
 
@@ -688,7 +688,7 @@ private def componentSup_of_le {G : Type} [Group G] [Finite G] {M K S : Subgroup
     exact hcop
 
 private theorem isSylowOf_inf_subgroupOf_sup {G : Type} [Group G] [Finite G] {M K S : Subgroup G}
-    {p : ℕ} (C : ComponentSup G M K S p) (hS3 : IsPGroup 3 S)
+    {p : ℕ} (C : ComponentSup G M K S p) (_hS3 : IsPGroup 3 S)
     (hSyl : CFSG.ABGLocalTools.IsSylowOf 3 (S ⊓ K) K) :
     CFSG.ABGLocalTools.IsSylowOf 3 (S.subgroupOf C.X ⊓ K.subgroupOf C.X)
       (K.subgroupOf C.X) := by
@@ -864,7 +864,7 @@ theorem exists_inv_mem_centralizer₁ (h : P812Hyp G M p L₁ L₂)
     (hSch : CFSG.ComponentClassification.LBalance.SchreierSections ↥M)
     (hK : CFSG.Open.IsKGroup ↥M) (hFI : KFactFieldAutInvert)
     {S A₁ B : Subgroup G} (hSM : S ≤ M) (hS3 : IsPGroup 3 S) (hA₁ : A₁ ≤ L₁)
-    (hA₁S : A₁ ≤ S) (hA₁3 : Nat.card A₁ = 3) (hBS : B ≤ S)
+    (_hA₁S : A₁ ≤ S) (hA₁3 : Nat.card A₁ = 3) (hBS : B ≤ S)
     (hBL : ⁅B, L₁⁆ ≤ (CFSG.pPrimeCore p ↥L₁).map L₁.subtype)
     (hAB : ∀ z ∈ A₁, ∀ b ∈ B, z * b = b * z) {a : G} (haS : a ∈ S) (ha3 : a ^ 3 = 1)
     (hout : a ∉ L₁ ⊔ CFSG.GH74.GLS.centralizerSection L₁
@@ -882,7 +882,7 @@ theorem exists_inv_mem_centralizer₂ (h : P812Hyp G M p L₁ L₂)
     (hSch : CFSG.ComponentClassification.LBalance.SchreierSections ↥M)
     (hK : CFSG.Open.IsKGroup ↥M) (hFI : KFactFieldAutInvert)
     {S A₂ B : Subgroup G} (hSM : S ≤ M) (hS3 : IsPGroup 3 S) (hA₂ : A₂ ≤ L₂)
-    (hA₂S : A₂ ≤ S) (hA₂3 : Nat.card A₂ = 3) (hBS : B ≤ S)
+    (_hA₂S : A₂ ≤ S) (hA₂3 : Nat.card A₂ = 3) (hBS : B ≤ S)
     (hBL : ⁅B, L₂⁆ ≤ (CFSG.pPrimeCore p ↥L₂).map L₂.subtype)
     (hAB : ∀ z ∈ A₂, ∀ b ∈ B, z * b = b * z) {a : G} (haS : a ∈ S) (ha3 : a ^ 3 = 1)
     (hout : a ∉ L₂ ⊔ CFSG.GH74.GLS.centralizerSection L₂

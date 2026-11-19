@@ -57,11 +57,13 @@ variable {D : Data G}
       group]
     exact O.inv_mem h1
 
+omit [Finite G] in
 theorem mem_modCentralizer_iff {M L O : Subgroup G} {m : G} :
     m ∈ modCentralizer M L O ↔
       m ∈ M ∧ m ∈ Subgroup.normalizer (L : Set G) ∧ ∀ l ∈ L, ⁅m, l⁆ ∈ O :=
   Iff.rfl
 
+omit [Finite G] in
 theorem conj_mem_modCentralizer {M L O : Subgroup G}
     (hLM : M ≤ Subgroup.normalizer (L : Set G)) (hOM : M ≤ Subgroup.normalizer (O : Set G))
     {m₀ : G} (hm₀ : m₀ ∈ M) {m : G} (hm : m ∈ modCentralizer M L O) :
@@ -100,12 +102,12 @@ theorem eq_one_of_mul_inv_mem_center {H : Type*} [Group H] [Finite H] [Group.IsP
   have hle : φ.range ≤ Subgroup.center H := by
     rintro _ ⟨y, rfl⟩
     exact h y
-  haveI : Group.IsPerfect ↥φ.range := Group.IsPerfect.range φ
-  haveI : IsMulCommutative ↥φ.range := isMulCommutative_iff.mpr (by
+  have : Group.IsPerfect ↥φ.range := Group.IsPerfect.range φ
+  have : IsMulCommutative ↥φ.range := isMulCommutative_iff.mpr (by
     intro a b
     have ha : (a : H) ∈ Subgroup.center H := hle a.2
     exact Subtype.ext (Subgroup.mem_center_iff.mp ha (b : H)).symm)
-  haveI : Subsingleton ↥φ.range := Group.IsPerfect.subsingleton_of_isMulCommutative
+  have : Subsingleton ↥φ.range := Group.IsPerfect.subsingleton_of_isMulCommutative
   have hbot : φ.range = ⊥ := by
     rw [eq_bot_iff]
     intro x hx
@@ -124,11 +126,11 @@ theorem le_center_of_normal_isSolvable {H : Type*} [Group H] [Finite H] [Group.I
     (hZ : IsSimpleGroup (H ⧸ Subgroup.center H)) {K : Subgroup H} [K.Normal]
     (hK : Group.IsSolvable ↥K) : K ≤ Subgroup.center H := by
   classical
-  haveI : Nontrivial (H ⧸ Subgroup.center H) := hZ.toNontrivial
-  haveI : Nontrivial H := (QuotientGroup.mk'_surjective (Subgroup.center H)).nontrivial
+  have : Nontrivial (H ⧸ Subgroup.center H) := hZ.toNontrivial
+  have : Nontrivial H := (QuotientGroup.mk'_surjective (Subgroup.center H)).nontrivial
   by_contra hcon
-  rw [SetLike.le_def] at hcon
-  simp only [not_forall, not_imp] at hcon
+  rw [_root_.IsConcreteLE.le_iff] at hcon
+  simp only [not_forall] at hcon
   obtain ⟨x, hxK, hxZ⟩ := hcon
   set π : H →* (H ⧸ Subgroup.center H) := QuotientGroup.mk' _
   have hKimg : Subgroup.map π K = ⊤ := by
@@ -164,8 +166,8 @@ theorem le_center_of_normal_isSolvable {H : Type*} [Group H] [Finite H] [Group.I
     rw [← map_mul, ← map_mul]
     exact congrArg _ (Subtype.ext (Subgroup.mem_center_iff.mp a.2 b).symm)
   have hsolquot : Group.IsSolvable (H ⧸ K) := Group.isSolvable_of_comm hcommquot
-  haveI : Group.IsSolvable ↥K := hK
-  haveI := hsolquot
+  have : Group.IsSolvable ↥K := hK
+  have := hsolquot
   have hsol : Group.IsSolvable H := Group.isSolvable_of_subgroup_quotient K
   exact Group.IsPerfect.not_isSolvable H hsol
 

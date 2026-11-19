@@ -20,16 +20,16 @@ theorem frameTorus_rTorsion_le [Fact ℓ.Prime] (hf : 1 ≤ f) (hK : Nat.card K 
     (hσ : ∀ c, σ c = c ^ (ℓ ^ f)) (F : D4PhiFrame K σ (ℓ ^ f) (-1)) {r : ℕ} (hr : r.Prime)
     (hr3 : 3 < r) (hrd : (r : ℤ) ∣ ((ℓ ^ f : ℕ) : ℤ) ^ 2 + (-1) * ((ℓ ^ f : ℕ) : ℤ) + 1)
     {E : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)} (hEtor : E ≤ frameTorus F)
-    (hEexp : ∀ y ∈ E, y ^ r = 1) (hEcard : Nat.card E = r ^ 2)
+    (hEexp : ∀ y ∈ E, y ^ r = 1) (_hEcard : Nat.card E = r ^ 2)
     (P : Sylow r (graphFixedRootGroup TwistTag.D4 K σ.toRingHom))
-    (hEP : E ≤ (P : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)))
+    (_hEP : E ≤ (P : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)))
     (hPΩ : ∀ x ∈ (P : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)), x ^ r = 1 → x ∈ E)
     {y : graphFixedRootGroup TwistTag.D4 K σ.toRingHom} (hy : y ∈ frameTorus F) (hyr : y ^ r = 1) :
     y ∈ E := by
   classical
   have : Fact r.Prime := ⟨hr⟩
   obtain ⟨c, hc⟩ := exists_conj_into_frame_torus hf K hK σ hσ hr hr3 hrd F
-    (P : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) P.isPGroup'
+    (P : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) P.isPGroup
   have hPc : ∀ x ∈ (P : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)),
       c * x * c⁻¹ ∈ frameTorus F := fun x hx => by
     have := hc x hx
@@ -61,7 +61,7 @@ theorem frameTorus_rTorsion_le [Fact ℓ.Prime] (hf : 1 ≤ f) (hK : Nat.card K 
       exact frameTorus_comm F (hP''le hx) ((Subgroup.zpowers_le.2 hz) hg)
     have hnorm := hcent.trans (Subgroup.centralizer_le_normalizer _)
     have hsup : IsPGroup r ((P'' : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) ⊔
-        Subgroup.zpowers z : Subgroup _) := P''.isPGroup'.to_sup_of_normal_left' hY hnorm
+        Subgroup.zpowers z : Subgroup _) := P''.isPGroup.to_sup_of_normal_left' hY hnorm
     have heq := P''.maximal_isPGroup.eq_of_le hsup le_sup_left
     rw [heq]
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers z)

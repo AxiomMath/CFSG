@@ -187,7 +187,7 @@ section Final
 
 theorem tabCo1_fiveB (x : ↥GA) (hx : MRep repD1 (x : GL24)) :
     MultiShapeAt 5 (GoodSpor 5 [.J2]) (RkSpor 5 [.J2]) x := by
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   obtain ⟨k, x₁, y₁, τ, hk, -, hx₁, hy₁, hτ, hk5, hk1, hkx, hky, hkt, htt, hc1, hc2, hc3, hc4,
     hL, hX, hY, hE, hCbd, hpt⟩ := fiveB_data
   exact multiShapeAt_A5A5_of_data (fun _ _ _ _ e h => GoodSpor.of_equiv e h)

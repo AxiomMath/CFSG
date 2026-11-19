@@ -15,7 +15,7 @@ open CFSG.StandardType CFSG.Blueprint CFSG.Open CFSG.StandardType.UCoord
 
 theorem qTwoLMSkel_frame_stab {G : Type} [Group G] [Finite G] {B Bs L : Subgroup G} {x : G}
     {m : ℕ} {V VT : Type} [Group V] [Group VT] (F : QTwoFrame m V VT Bs L x)
-    (hG : GGThmIHyp 3 B x L) (hBs : GGBstar 3 B Bs) (hL : LieModel (L ⧸ Subgroup.center L) .PSU m 2 1)
+    (hG : GGThmIHyp 3 B x L) (_hBs : GGBstar 3 B Bs) (hL : LieModel (L ⧸ Subgroup.center L) .PSU m 2 1)
     (hMul : PSUTrivialMultiplier m) (h3 : ¬ 3 ∣ m)
     (hV : IsAugModel m V F.permV) (hVT : IsAugModel m VT F.permVT) :
     Nat.card {a : MulAut ↥Bs // a ∈ ggInduced ⊤ Bs ∧ a ⟨x, F.hx⟩ = ⟨x, F.hx⟩} ≤
@@ -25,7 +25,7 @@ theorem qTwoLMSkel_frame_stab {G : Type} [Group G] [Finite G] {B Bs L : Subgroup
 
 theorem qTwoLMSkel_frame_direct {G : Type} [Group G] [Finite G] {B Bs L : Subgroup G} {x : G}
     {m : ℕ} {V VT : Type} [Group V] [Group VT] (F : QTwoFrame m V VT Bs L x)
-    (hG : GGThmIHyp 3 B x L) (hBs : GGBstar 3 B Bs) (hL : LieModel (L ⧸ Subgroup.center L) .PSU m 2 1)
+    (hG : GGThmIHyp 3 B x L) (_hBs : GGBstar 3 B Bs) (hL : LieModel (L ⧸ Subgroup.center L) .PSU m 2 1)
     (hMul : PSUTrivialMultiplier m) (h3 : ¬ 3 ∣ m)
     (hV : IsAugModel m V F.permV) (hVT : IsAugModel m VT F.permVT) : DirectP3At 3 Bs L x F.hx := by
   intro r hr hrefl hrx

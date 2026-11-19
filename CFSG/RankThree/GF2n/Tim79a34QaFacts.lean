@@ -43,7 +43,7 @@ theorem qpCfg_orderOf_aG {M V Q P H : Subgroup G} {n : ℕ}
     {ψ : (Fin n ⊕ Fin n → GaloisField 2 1) ≃+ Additive ↥(wOf V H)}
     {a : Fin n ⊕ Fin n → GaloisField 2 1} {T : Subgroup ↥(StatedSp n (GaloisField 2 1))}
     (cfg : QPCfg M V Q P H Φ ψ a T) : orderOf cfg.aG = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsq : cfg.aG ^ 2 = 1 := cfg.hyp.setup.mc.toMinCex.elemAb.2 _ (qpCfg_aG_mem_V cfg)
   exact orderOf_eq_prime hsq (qpCfg_aG_ne_one cfg)
 

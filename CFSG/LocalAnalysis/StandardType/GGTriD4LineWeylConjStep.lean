@@ -95,11 +95,11 @@ private lemma triD4Line_conj_step_aux {n : ℕ} (hn : 2 ≤ n) (hev : Even n)
         ∀ a' ∈ A, a' (m * (a m)⁻¹) = m * (a m)⁻¹) ∧
       m * e₀ * m⁻¹ ∉ Subgroup.zpowers e₀ := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   have hn1 : 1 ≤ n := by omega
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Fintype k := Fintype.ofFinite k
   have hdeg : Module.finrank k K = 3 := by
     have hcard := Module.card_eq_pow_finrank (K := k) (V := K)
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hk, hK] at hcard

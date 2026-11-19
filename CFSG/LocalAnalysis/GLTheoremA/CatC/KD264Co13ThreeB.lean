@@ -27,7 +27,7 @@ theorem threeB_data_center {x : GL24} (hx : MRep (rootRows3B ()) x) :
     and_assoc, List.all_eq_true] at h
   obtain ⟨hD, hwx, hw1, hxr, hx1, hx3, hz3, hxa, hxb, hza, hzb, hxz, hwab, hwba, hab, hZok, hZsz,
     hrels, hiu1, hiv1, hiu2, hiv2, hcm1, hcm2, hb1, hcnt1, hb2, hcnt2⟩ := h
-  haveI : Finite GL24 := inferInstance
+  have : Finite GL24 := inferInstance
   have ra := rep_nd (ext := TabCo1ThreeB.ext) hD 88
   have rb := rep_nd (ext := TabCo1ThreeB.ext) hD 89
   have rx := rep_nd (ext := TabCo1ThreeB.ext) hD 90
@@ -232,7 +232,7 @@ theorem threeB_data_center {x : GL24} (hx : MRep (rootRows3B ()) x) :
     rw [cardJ]
     exact (card_cent_le_of_powBoundN rx 3 hb1).trans (hcnt1.trans (by norm_num))
   have hJC : J ≤ Subgroup.centralizer ({x'} : Set GL24) ⊓ GA := le_inf hJ1 hJGA
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact ⟨rfl, hzG, cardZs, J, hJGA, hJ1, hJ2, conj_mem_of_card_le_two_mul hJC hCcard, hq,
     by rw [cardJ]; norm_num⟩
 

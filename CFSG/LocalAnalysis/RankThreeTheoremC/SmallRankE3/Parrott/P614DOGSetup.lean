@@ -37,11 +37,11 @@ theorem exists_data278 (k278 : KFact278L34) {P : Sylow 3 G} {M : Subgroup G} {x 
     (hQ₀p : IsPGroup 3 Q₀) (hBQ₀ : zpowers x ⊔ zpowers z ≤ Q₀) {q : G} (hqQ₀ : q ∈ Q₀)
     (hq3 : q ^ 3 = 1) (hqB : q ∉ zpowers x ⊔ zpowers z) :
     ∃ Q K : Subgroup G, Data278 M H x z Q K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsit : Sit P M x z :=
     ⟨hyp.setting, hyp.u0, hyp.d1, hyp.situation, hyp.point, hyp.central⟩
   have hS := hyp.setting
-  haveI : IsSimpleGroup G := hS.simple
+  have : IsSimpleGroup G := hS.simple
   have hsit' := hyp.situation
   have hpl := SmallRankPlane.of_situation hS hsit' hyp.point hyp.central
   set B : Subgroup G := zpowers x ⊔ zpowers z with hB
@@ -114,10 +114,10 @@ theorem exists_data278 (k278 : KFact278L34) {P : Sylow 3 G} {M : Subgroup G} {x 
     rw [hzw, ← hj, ← conj_zpow]
     exact zpow_mem hgzZ j
   have hzc : ∀ g ∈ Q, g * z = z * g := by
-    haveI : Nontrivial ↥Q := ⟨⟨⟨z, hBQ (mem_sup_right (mem_zpowers z))⟩, 1, fun h =>
+    have : Nontrivial ↥Q := ⟨⟨⟨z, hBQ (mem_sup_right (mem_zpowers z))⟩, 1, fun h =>
       hyp.central.ne_one (congrArg Subtype.val h)⟩⟩
     have hQp' : IsPGroup 3 ↥Q := hQp
-    haveI : Nontrivial (center ↥Q) := hQp'.center_nontrivial
+    have : Nontrivial (center ↥Q) := hQp'.center_nontrivial
     obtain ⟨n, hn0, hn⟩ := (hQp'.to_subgroup (center ↥Q)).nontrivial_iff_card.mp inferInstance
     obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := ↥(center ↥Q)) 3
       (by rw [hn]; exact dvd_pow_self 3 hn0.ne')

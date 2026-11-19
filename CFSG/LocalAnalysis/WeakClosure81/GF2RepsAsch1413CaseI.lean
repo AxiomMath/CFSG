@@ -73,7 +73,7 @@ theorem asch1413_caseI_false {Q : Type} [Group Q] [Finite Q] {V : Type} [CommGro
     rw [hB_def]
     intro u hu
     exact Subgroup.subset_closure ⟨1, (hCz_mem 1).mpr (by simp), by
-      exact Subgroup.mem_map.mpr ⟨u, hu, by simp [MulAut.conj_apply]⟩⟩
+      exact Subgroup.mem_map.mpr ⟨u, hu, by simp⟩⟩
   have hBleCz : B ≤ Cz := by
     rw [hB_def]
     refine (Subgroup.closure_le Cz).mpr ?_

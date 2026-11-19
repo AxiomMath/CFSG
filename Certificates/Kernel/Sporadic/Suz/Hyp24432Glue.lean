@@ -74,7 +74,7 @@ open scoped Classical in
 theorem prep_permS {P Q : ℕ} (h : SuzH.perm P Q = true) : PRep 1782 11 P (permS P) := by
   obtain ⟨g, hg, -⟩ := CFSG.KC.EnumSound.permOK_perm h
   have hex : ∃ g : Sym, PRep 1782 11 P g := ⟨g, hg⟩
-  rw [permS, dif_pos hex]
+  rw [permS, dite_eq_left hex]
   exact hex.choose_spec
 
 theorem mem_M {a : ℕ} {g : Sym}
@@ -195,7 +195,7 @@ theorem fourClassesLarge_enum
         have h1 : ¬ z < m := by omega
         have h2 : ¬ z = m := by omega
         have h3 : z - (m + 1) < m := by omega
-        rw [if_neg h1, if_neg h2, if_pos h3]
+        rw [ite_eq_right h1, ite_eq_right h2, ite_eq_left h3]
       rw [e]
       exact hc.inv_right
   refine fourClassesLarge_of_commEnum _ hL (hK_of_letters hH hR hl) hY hYc (fun k hk hm' => ?_) he

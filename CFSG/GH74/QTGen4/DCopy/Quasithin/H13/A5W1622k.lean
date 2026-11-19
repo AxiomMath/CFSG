@@ -30,7 +30,7 @@ theorem false_of_hatA6Block_F4 (h1222 : Stmt12_2_2_F4)
   have hker : α.ker = CFSG.pCore 2 ↥K₀ := QuotientGroup.ker_mk' _
   obtain ⟨P⟩ : Nonempty (Sylow 2 (↥K₀ ⧸ CFSG.pCore 2 ↥K₀)) := inferInstance
   have hS₀ : IsSylowTwoOf (P : Subgroup (↥K₀ ⧸ CFSG.pCore 2 ↥K₀)) ⊤ := by
-    refine ⟨le_top, P.isPGroup', ?_⟩
+    refine ⟨le_top, P.isPGroup, ?_⟩
     rw [show ((P : Subgroup (↥K₀ ⧸ CFSG.pCore 2 ↥K₀)).subgroupOf ⊤).index =
       (P : Subgroup (↥K₀ ⧸ CFSG.pCore 2 ↥K₀)).index from Subgroup.relIndex_top_right _]
     exact P.not_dvd_index

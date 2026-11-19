@@ -142,7 +142,7 @@ theorem triple_motion_threshold_contains_pair_sylow
     (triplePointStabilizer H z beta).subtype
   have hUE : U ≤ triplePointStabilizer H z beta := Subgroup.map_subtype_le _
   have hUB : U ≤ pairPointStabilizer H beta := hUE.trans inf_le_left
-  have hUp : IsPGroup p U := P.isPGroup'.map (triplePointStabilizer H z beta).subtype
+  have hUp : IsPGroup p U := P.isPGroup.map (triplePointStabilizer H z beta).subtype
   have hmotionU : p ^ (Nat.card (conjugacyWithin H z)).factorization p ≤
       Nat.card (conjugacyWithin U z) :=
     hmotion.trans (Nat.card_mono (Set.toFinite _) (conjugacyWithin_mono hXP z))
@@ -182,7 +182,7 @@ theorem triple_exact_motion_of_contains_pair_sylow
   let X := (P : Subgroup (triplePointStabilizer H z beta)).map
     (triplePointStabilizer H z beta).subtype
   refine ⟨X, (Subgroup.map_subtype_le _).trans inf_le_left,
-    P.isPGroup'.map (triplePointStabilizer H z beta).subtype, hPnorm, ?_⟩
+    P.isPGroup.map (triplePointStabilizer H z beta).subtype, hPnorm, ?_⟩
   exact triple_full_pair_sylow_motion h S hzS hzcenter beta hbeta p hp P hPnorm ⟨Q, hQ⟩
 
 theorem triple_contains_pair_sylow_iff_motion

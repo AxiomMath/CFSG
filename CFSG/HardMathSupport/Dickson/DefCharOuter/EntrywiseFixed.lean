@@ -47,7 +47,7 @@ theorem perfectInLayer_entrywiseAdjointAut (τ : Tag) {M : Type} [Field M] [Fini
     refine Subtype.ext ?_
     rw [coe_entrywiseAdjointAut]
     exact (hJΓ ((hmemJ x).1 hx)).2
-  haveI hJn : (J.subgroupOf (fixSubgroup β)).Normal := by
+  have hJn : (J.subgroupOf (fixSubgroup β)).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf, hmemJ] at hn ⊢
     have h1 := hnormal.conj_mem ⟨((n : ↥(adjointGroup τ M)) : ModGL τ M), hΓ n⟩
@@ -55,8 +55,8 @@ theorem perfectInLayer_entrywiseAdjointAut (τ : Tag) {M : Type} [Field M] [Fini
     simpa using Subgroup.mem_subgroupOf.1 h1
   let eJ : ↥J ≃* adjointGroup τ (fixSubfield σ) :=
     (Subgroup.subgroupOfEquivOfLe hJA).trans (fixedFieldImageEquiv σ).symm
-  haveI := hs
-  haveI : IsSimpleGroup ↥J := eJ.isSimpleGroup
+  have := hs
+  have : IsSimpleGroup ↥J := eJ.isSimpleGroup
   have hncJ : ∃ x y : ↥J, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
     exact ⟨eJ.symm x, eJ.symm y, fun h => hxy (by simpa using congrArg eJ h)⟩

@@ -131,7 +131,7 @@ theorem typeStar_signed_degrees {G : Type} [Group G] [Fintype G] {n : ℕ} {S : 
         (x : G) = q * c → (normalizerBasis.representation lambdaLabel).character x =
           thetaG t θ (c : G))
     (B : basis.index)
-    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
       (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _) le_rfl
         normalizerBasis lambdaLabel = centralCharacterResidueHom basis ideal B) :
     ∃ (e a₀ a₁ a₂ a₃ : ℤ) (c₀ : basis.index),

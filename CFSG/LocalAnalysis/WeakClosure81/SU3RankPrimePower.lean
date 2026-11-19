@@ -43,7 +43,7 @@ private theorem mem_zpow_prime_pow_of_mem_zpowers {G : Type*} [Group G] {a : G} 
     have h1 : p ^ 1 ∣ p ^ m := pow_dvd_pow p (by omega)
     rw [hm]; simpa using h1
   let Z : Subgroup G := Subgroup.zpowers a
-  haveI : IsCyclic Z := Subgroup.isCyclic_zpowers a
+  have : IsCyclic Z := Subgroup.isCyclic_zpowers a
   have haZ : a ^ (p ^ (k - 1)) ∈ Z := Subgroup.npow_mem_zpowers a _
   let A : Subgroup Z := Subgroup.zpowers (⟨a ^ (p ^ (k - 1)), haZ⟩ : Z)
   let B : Subgroup Z := Subgroup.zpowers (⟨b, hb⟩ : Z)
@@ -54,7 +54,7 @@ private theorem mem_zpow_prime_pow_of_mem_zpowers {G : Type*} [Group G] {a : G} 
   have hBcard : Nat.card B = orderOf b := by
     change Nat.card (Subgroup.zpowers (⟨b, hb⟩ : Z)) = orderOf b
     rw [Nat.card_zpowers, Subgroup.orderOf_mk]
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hAcard]; exact hp.ne_zero)
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hAcard]; exact hp.ne_zero)
   have hle : A ≤ B := by
     rw [IsCyclic.subgroup_le_iff_card_dvd (H := A) (K := B), hAcard, hBcard]
     exact hbord
@@ -66,12 +66,12 @@ private theorem mem_zpow_prime_pow_of_mem_zpowers {G : Type*} [Group G] {a : G} 
   simpa using hcoe
 
 theorem orderOf_two_dvd_finrank_of_pow_prime_pow {W : Type} [AddCommGroup W]
-    [Module (ZMod 2) W] [Finite W] {ℓ k : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hk : 1 ≤ k)
+    [Module (ZMod 2) W] [Finite W] {ℓ k : ℕ} (hℓ : ℓ.Prime) (_hℓ2 : ℓ ≠ 2) (hk : 1 ≤ k)
     {y : LGL 2 W} (hy : y ^ (ℓ ^ k) = 1) (M : Submodule (ZMod 2) W)
     (hyM : ∀ x ∈ M, y x ∈ M) (hfix : ∀ x ∈ M, (y ^ (ℓ ^ (k - 1))) x = x → x = 0) :
     orderOf (2 : ZMod (ℓ ^ k)) ∣ Module.finrank (ZMod 2) ↥M := by
   classical
-  haveI : Finite ↥M := inferInstance
+  have : Finite ↥M := inferInstance
   by_cases hM : M = ⊥
   · rw [hM, finrank_bot]
     exact dvd_zero _
@@ -118,7 +118,7 @@ theorem orderOf_two_dvd_finrank_of_pow_prime_pow {W : Type} [AddCommGroup W]
     obtain ⟨x0, hx0⟩ : ∃ x : ↥M, x ≠ 0 := by
       obtain ⟨x, hxM, hxne⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hM
       exact ⟨⟨x, hxM⟩, fun h => hxne (congrArg Subtype.val h)⟩
-    haveI : Nonempty ↥M := ⟨x0⟩
+    have : Nonempty ↥M := ⟨x0⟩
     have hord : orderOf e = ℓ ^ k := by
       have hdvd : orderOf e ∣ ℓ ^ k := orderOf_dvd_of_pow_eq_one hep
       have hnotdvd : ¬ orderOf e ∣ ℓ ^ (k - 1) := by
@@ -147,7 +147,7 @@ theorem orderOf_two_dvd_finrank_of_pow_prime_pow {W : Type} [AddCommGroup W]
         simpa [LinearEquiv.smul_def] using Subgroup.zpowers_le.mpr hstab hmem
       exact hxne (hfixe x hfix_x)
     let Ω := {x : ↥M // x ≠ 0}
-    letI : MulAction G Ω :=
+    let : MulAction G Ω :=
       { smul := fun g x => ⟨g.1 x.1, by
           intro h
           apply x.2
@@ -172,9 +172,9 @@ theorem orderOf_two_dvd_finrank_of_pow_prime_pow {W : Type} [AddCommGroup W]
       refine CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.dvd_card_of_orbit_dvd
         (K := G) (Ω := Ω) (d := ℓ ^ k) ?_
       intro ω
-      haveI : Fintype G := Fintype.ofFinite G
-      haveI : Fintype (MulAction.orbit G ω) := Fintype.ofFinite _
-      haveI : Fintype (MulAction.stabilizer G ω) := Fintype.ofFinite _
+      have : Fintype G := Fintype.ofFinite G
+      have : Fintype (MulAction.orbit G ω) := Fintype.ofFinite _
+      have : Fintype (MulAction.stabilizer G ω) := Fintype.ofFinite _
       have hcardstab : Fintype.card (MulAction.stabilizer G ω) = 1 := by
         rw [Fintype.card_eq_one_iff]
         exact ⟨1, fun g => Subtype.ext
@@ -185,12 +185,12 @@ theorem orderOf_two_dvd_finrank_of_pow_prime_pow {W : Type} [AddCommGroup W]
         rw [Nat.card_eq_fintype_card, h1, ← Nat.card_eq_fintype_card, hGcard]
       rw [horbit]
     have hΩcard : Nat.card Ω = Nat.card ↥M - 1 := by
-      haveI : Fintype ↥M := Fintype.ofFinite ↥M
+      have : Fintype ↥M := Fintype.ofFinite ↥M
       have h := Fintype.card_subtype_compl (α := ↥M) (fun x : ↥M => x = 0)
       rw [Fintype.card_subtype_eq (0 : ↥M)] at h
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card] at h
-      simpa [Ω] using h
-    haveI : Module.Finite (ZMod 2) ↥M := Module.Finite.of_finite
+      simp [Ω]
+    have : Module.Finite (ZMod 2) ↥M := Module.Finite.of_finite
     have hmod : Nat.card ↥M ≡ 1 [MOD ℓ ^ k] := by
       have hdvdM : ℓ ^ k ∣ Nat.card ↥M - 1 := by
         rw [← hΩcard]; exact hdvd

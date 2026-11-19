@@ -54,7 +54,7 @@ theorem exists_sylow_D (hs : Hyp23Setting p f Ω K K' z) (hd : Hyp23bData Ω K K
   have hR'D := Thompson.mem_DSet_of_le_sylow hp hq hΩ hd.hW hWS
     (mem_RSet_of_isSylow2In hs.hK'.1 hR') hR'S
   have hzK' : IsUniqueInvolution K' z := isUniqueInvolution_of_mem_twinSet hs.hz hs.hK'
-  have h2 : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup'.to_le (sup_le hRS hR'S)
+  have h2 : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup.to_le (sup_le hRS hR'S)
   exact ⟨R, R', hR, hR', hΩ.commutes_of_twin_of_isPGroup hst.mem hs.hK'.1 hs.hne.symm hs.hz hzK'
     hR.1 hR'.1 h2, hRD.2, hR'D.2⟩
 

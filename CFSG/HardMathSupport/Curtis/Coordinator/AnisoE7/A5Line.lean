@@ -191,7 +191,7 @@ theorem centralizer_le_hyperClosure_of_a5_line
   let ψ₁ : adjointGroup .E7 K →* ModGL Tag.E7 L :=
     (MulAut.conj V⁻¹).toMonoidHom.comp (psiC F.g0 c)
   have hψ₁ : ∀ x, ψ₁ x = V⁻¹ * psiC F.g0 c x * V := fun x => by
-    simp [ψ₁, MulAut.conj_apply]
+    simp [ψ₁]
   have hθfix : ∀ m : ModGL Tag.E7 L, F.n * Φ m * F.n⁻¹ = m → θ (V⁻¹ * m * V) = V⁻¹ * m * V := by
     intro m hm
     have := (mem_twistedFixedPoints_conj (Φ := Φ) (n := F.n) hΦV (x := V⁻¹ * m * V)).2
@@ -292,12 +292,12 @@ theorem centralizer_le_hyperClosure_of_a5_line
         refine sup_le (fun t ht => ?_) (fun g hg => ?_)
         · rw [Subgroup.mem_comap]
           have : (MulAut.conj V⁻¹).toMonoidHom t = V⁻¹ * t * V := by
-            simp [MulAut.conj_apply]
+            simp
           rw [this]
           exact Subgroup.mem_sup_left (hInvH ht)
         · rw [Subgroup.mem_comap]
           have : (MulAut.conj V⁻¹).toMonoidHom g = V⁻¹ * g * V := by
-            simp [MulAut.conj_apply]
+            simp
           rw [this]
           exact Subgroup.mem_sup_right (hVconj g hg)
       have := hle h1

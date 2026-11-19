@@ -95,8 +95,10 @@ theorem kRad_eq (c : Ctx M B H S K z) : kRad H S K = pre K (rbar K S) ⊔ pCoreO
     have hkK := pre_le K _ hk
     exact ⟨(c.mem_pre_rbar_iff hkK).1 hk, mem_sup_left hkK⟩
 
+omit [Finite G] in
 theorem kRad_le_S : kRad H S K ≤ S := inf_le_left
 
+omit [Finite G] in
 theorem kRad_le_KO : kRad H S K ≤ K ⊔ pCoreOf 2 H := inf_le_right
 
 theorem le_normalizer_KO (c : Ctx M B H S K z) {g : G} (hg : g ∈ H) :
@@ -124,9 +126,10 @@ theorem le_normalizer_kPar (c : Ctx M B H S K z) {g : G} (hg : g ∈ H)
   inf_normalizer_le_normalizer_inf ⟨c.le_normalizer_KO hg,
     (normalizer ((kRad H S K : Subgroup G) : Set G)).le_normalizer (c.le_normalizer_kRad hg hgS)⟩
 
+omit [Finite G] in
 theorem kPar_le_KO : kPar H S K ≤ K ⊔ pCoreOf 2 H := inf_le_left
 
-theorem kRad_le_kPar (c : Ctx M B H S K z) : kRad H S K ≤ kPar H S K :=
+theorem kRad_le_kPar (_c : Ctx M B H S K z) : kRad H S K ≤ kPar H S K :=
   le_inf kRad_le_KO le_normalizer
 
 theorem pCoreOf_kPar (c : Ctx M B H S K z) : pCoreOf 2 (kPar H S K) = kRad H S K := by

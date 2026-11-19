@@ -23,13 +23,13 @@ private lemma l05nK42b_diagMap_apply
     funext j
     rw [Module.Basis.equivFun_self, Pi.single_apply]
     by_cases h : k = j
-    · rw [if_pos h, if_pos h.symm]
-    · rw [if_neg h, if_neg (fun hh => h hh.symm)]
+    · rw [ite_eq_left h, ite_eq_left h.symm]
+    · rw [ite_eq_right h, ite_eq_right (fun hh => h hh.symm)]
   rw [hk]
   funext j
   by_cases h : j = k
   · subst h; rfl
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 private lemma l05nK42b_ext_basis
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -134,8 +134,8 @@ private lemma l05nK42b_g_apply
         else (if k = i then -1 else 1 : ZMod p) • b k) := by
   rw [l05nK42b_g]
   by_cases h : i.val + 1 < n
-  · rw [dif_pos h, dif_pos h, l05nK42b_Tp_apply]
-  · rw [dif_neg h, dif_neg h, l05nK42b_S_apply]
+  · rw [dite_eq_left h, dite_eq_left h, l05nK42b_Tp_apply]
+  · rw [dite_eq_right h, dite_eq_right h, l05nK42b_S_apply]
 
 private lemma l05nK42b_g_mul_self
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -143,9 +143,9 @@ private lemma l05nK42b_g_mul_self
     l05nK42b_g b i * l05nK42b_g b i = 1 := by
   rw [l05nK42b_g]
   by_cases h : i.val + 1 < n
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     exact l05nK42b_Tp_mul_self b i ⟨i.val + 1, h⟩
-  · rw [dif_neg h]
+  · rw [dite_eq_right h]
     exact l05nK42b_S_mul_self b i
 
 end Basics
@@ -167,11 +167,11 @@ private lemma l05nK42b_g_mem
     (i : Fin n) : l05nK42b_g b i ∈ A := by
   rw [l05nK42b_g]
   by_cases h : i.val + 1 < n
-  · rw [dif_pos h, hA]
+  · rw [dite_eq_left h, hA]
     refine ⟨Equiv.swap i ⟨i.val + 1, h⟩, fun _ => 1, ?_, ?_⟩
     · intro j; left; rfl
     · intro j; rw [l05nK42b_Tp_apply, one_smul]
-  · rw [dif_neg h, hA]
+  · rw [dite_eq_right h, hA]
     refine ⟨1, fun k => if k = i then -1 else 1, ?_, ?_⟩
     · intro j; by_cases hj : j = i <;> simp [hj]
     · intro j; rw [l05nK42b_S_apply]; simp
@@ -187,7 +187,7 @@ private lemma l05nK42b_basis_ne_zero
   have h1 : b.equivFun (b i) = b.equivFun 0 := congrArg b.equivFun h
   rw [map_zero] at h1
   have h2 := congrFun h1 i
-  rw [Module.Basis.equivFun_self, Pi.zero_apply, if_pos rfl] at h2
+  rw [Module.Basis.equivFun_self, Pi.zero_apply, ite_eq_left rfl] at h2
   exact one_ne_zero h2
 
 private lemma l05nK42b_basis_ne
@@ -197,8 +197,8 @@ private lemma l05nK42b_basis_ne
   apply hij
   have h1 : b.equivFun (b i) = b.equivFun (b j) := congrArg b.equivFun h
   have h2 := congrFun h1 i
-  rw [Module.Basis.equivFun_self, Module.Basis.equivFun_self, if_pos rfl,
-    if_neg (Ne.symm hij)] at h2
+  rw [Module.Basis.equivFun_self, Module.Basis.equivFun_self, ite_eq_left rfl,
+    ite_eq_right (Ne.symm hij)] at h2
   exact absurd h2 one_ne_zero
 
 private lemma l05nK42b_range_eq_span
@@ -273,11 +273,11 @@ private lemma l05nK42b_S_isRefl
       rw [l05nK42b_S_apply]
       by_cases hk : k = i
       · rw [hk]
-        rw [if_pos rfl,
+        rw [ite_eq_left rfl,
           show (-1 : ZMod p) • b i - b i = (-2 : ZMod p) • b i by
             rw [neg_one_smul, neg_smul, two_smul]; abel]
         exact Submodule.smul_mem _ _ (Submodule.subset_span (Set.mem_singleton _))
-      · rw [if_neg hk, one_smul, sub_self]
+      · rw [ite_eq_right hk, one_smul, sub_self]
         exact Submodule.zero_mem _
     · rw [Submodule.span_le]
       rintro x hx
@@ -287,7 +287,7 @@ private lemma l05nK42b_S_isRefl
             (LinearMap.id : V →ₗ[ZMod p] V)) (b i) = (-2 : ZMod p) • b i := by
         rw [LinearMap.sub_apply, LinearMap.id_apply]
         change l05nK42b_S b i (b i) - b i = (-2 : ZMod p) • b i
-        rw [l05nK42b_S_apply, if_pos rfl,
+        rw [l05nK42b_S_apply, ite_eq_left rfl,
           show (-1 : ZMod p) • b i - b i = (-2 : ZMod p) • b i by
             rw [neg_one_smul, neg_smul, two_smul]; abel]
       have hb : b i = (-(2 : ZMod p))⁻¹ • (((l05nK42b_S b i : V →ₗ[ZMod p] V) -
@@ -304,13 +304,13 @@ private lemma l05nK42b_g_isRefl
     ZS.IsRefl p (l05nK42b_g b i) := by
   rw [l05nK42b_g]
   by_cases h : i.val + 1 < n
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     exact l05nK42b_Tp_isRefl b (by
       intro hh
       have := Fin.ext_iff.mp hh
-      simp only [Fin.val_mk] at this
+      simp only at this
       omega)
-  · rw [dif_neg h]
+  · rw [dite_eq_right h]
     exact l05nK42b_S_isRefl hp2 b i
 
 end Reflection
@@ -373,13 +373,13 @@ private lemma l05nK42b_sign_swap {p : ℕ} [Fact p.Prime] {n : ℕ} (x y k : Fin
     (if Equiv.swap x y k = y then -1 else 1 : ZMod p) =
       (if k = x then -1 else 1 : ZMod p) := by
   by_cases hx : k = x
-  · rw [hx, Equiv.swap_apply_left, if_pos rfl, if_pos rfl]
+  · rw [hx, Equiv.swap_apply_left, ite_eq_left rfl, ite_eq_left rfl]
   · by_cases hy : k = y
     · rw [hy, Equiv.swap_apply_right]
       by_cases hxy : x = y
-      · rw [if_pos hxy, if_pos hxy.symm]
-      · rw [if_neg hxy, if_neg (fun h => hxy h.symm)]
-    · rw [Equiv.swap_apply_of_ne_of_ne hx hy, if_neg hy, if_neg hx]
+      · rw [ite_eq_left hxy, ite_eq_left hxy.symm]
+      · rw [ite_eq_right hxy, ite_eq_right (fun h => hxy h.symm)]
+    · rw [Equiv.swap_apply_of_ne_of_ne hx hy, ite_eq_right hy, ite_eq_right hx]
 
 private lemma l05nK42b_S_comm
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -410,7 +410,7 @@ private lemma l05nK42b_perm_sign_sq
     l05nK42b_perm_sign_apply, hss k]
   by_cases hk : k = j
   · rw [hk]
-    rw [if_pos rfl, hsj, if_pos rfl, smul_smul]
+    rw [ite_eq_left rfl, hsj, ite_eq_left rfl, smul_smul]
     norm_num
   · have hsk : s k ≠ j := by
       intro h
@@ -418,12 +418,12 @@ private lemma l05nK42b_perm_sign_sq
       calc k = s.symm (s k) := (Equiv.symm_apply_apply s k).symm
         _ = s.symm j := by rw [h]
         _ = j := hsj_symm
-    rw [if_neg hk, if_neg hsk, smul_smul]
+    rw [ite_eq_right hk, ite_eq_right hsk, smul_smul]
     norm_num
 
 private lemma l05nK42b_perm_sign_four_aux
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
-    {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V) {x y : Fin n} (hxy : x ≠ y) :
+    {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V) {x y : Fin n} (_hxy : x ≠ y) :
     (l05nK42b_permHom b (Equiv.swap x y) * l05nK42b_S b y) ^ 2 =
       l05nK42b_S b x * l05nK42b_S b y := by
   apply l05nK42b_ext_basis (b := b)
@@ -457,24 +457,24 @@ private lemma l05nK42b_B_apply (n : ℕ) (i j : Fin n) :
       else 2 := rfl
 
 private lemma l05nK42b_B_three (n : ℕ) (i j : Fin n)
-    (hi : i.val + 1 < n) (hj : j.val + 1 < n) (h : i.val + 1 = j.val) :
+    (_hi : i.val + 1 < n) (hj : j.val + 1 < n) (h : i.val + 1 = j.val) :
     (CoxeterMatrix.B n) i j = 3 := by
   rw [l05nK42b_B_apply]
-  rw [if_neg (by intro hh; have := congrArg Fin.val hh; omega),
-    if_neg (by omega), if_pos (Or.inr h)]
+  rw [ite_eq_right (by intro hh; have := congrArg Fin.val hh; omega),
+    ite_eq_right (by omega), ite_eq_left (Or.inr h)]
 
 private lemma l05nK42b_B_four (n : ℕ) (p q : Fin n)
     (hpq : p.val + 1 = q.val) (hq : q.val = n - 1) :
     (CoxeterMatrix.B n) p q = 4 := by
   rw [l05nK42b_B_apply]
-  rw [if_neg (by intro hh; have := congrArg Fin.val hh; omega),
-    if_pos (Or.inr ⟨hq, by omega⟩)]
+  rw [ite_eq_right (by intro hh; have := congrArg Fin.val hh; omega),
+    ite_eq_left (Or.inr ⟨hq, by omega⟩)]
 
 private lemma l05nK42b_B_two (n : ℕ) (i j : Fin n) (hij : i ≠ j)
     (h1 : i.val + 1 ≠ j.val) (h2 : j.val + 1 ≠ i.val) :
     (CoxeterMatrix.B n) i j = 2 := by
   rw [l05nK42b_B_apply]
-  rw [if_neg hij, if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right hij, ite_eq_right (by omega), ite_eq_right (by omega)]
 
 private lemma l05nK42b_B_symm (n : ℕ) (i j : Fin n) :
     (CoxeterMatrix.B n) i j = (CoxeterMatrix.B n) j i :=
@@ -493,18 +493,18 @@ private lemma l05nK42b_g_adj_pow_three
   let jc : Fin n := ⟨j.val + 1, hj⟩
   have hib : ib = j := Fin.ext hadj
   have hgi : l05nK42b_g b i = l05nK42b_permHom b (Equiv.swap i ib) := by
-    rw [l05nK42b_g, dif_pos hi]; rfl
+    rw [l05nK42b_g, dite_eq_left hi]; rfl
   have hgj : l05nK42b_g b j = l05nK42b_permHom b (Equiv.swap ib jc) := by
-    rw [l05nK42b_g, dif_pos hj]
+    rw [l05nK42b_g, dite_eq_left hj]
     show l05nK42b_permHom b (Equiv.swap j ⟨j.val + 1, hj⟩) =
       l05nK42b_permHom b (Equiv.swap ib jc)
     rw [show (⟨j.val + 1, hj⟩ : Fin n) = jc from rfl, show j = ib from hib.symm]
   have hxy : i ≠ ib := by
-    intro hh; have := congrArg Fin.val hh; simp only [ib, Fin.val_mk] at this; omega
+    intro hh; have := congrArg Fin.val hh; simp only [ib] at this; omega
   have hyz : ib ≠ jc := by
-    intro hh; have := congrArg Fin.val hh; simp only [ib, jc, Fin.val_mk] at this; omega
+    intro hh; have := congrArg Fin.val hh; simp only [ib, jc] at this; omega
   have hxz : i ≠ jc := by
-    intro hh; have := congrArg Fin.val hh; simp only [jc, Fin.val_mk] at this; omega
+    intro hh; have := congrArg Fin.val hh; simp only [jc] at this; omega
   have hperm : (Equiv.swap i ib * Equiv.swap ib jc) ^ 3 = 1 :=
     l05nK42b_swap_mul_swap_pow_three i ib jc hxy hyz hxz
   rw [hgi, hgj, ← map_mul, ← map_pow, hperm, map_one]
@@ -518,20 +518,20 @@ private lemma l05nK42b_g_disj_pow_two
   let ib : Fin n := ⟨i.val + 1, hi⟩
   let jc : Fin n := ⟨j.val + 1, hj⟩
   have hgi : l05nK42b_g b i = l05nK42b_permHom b (Equiv.swap i ib) := by
-    rw [l05nK42b_g, dif_pos hi]; rfl
+    rw [l05nK42b_g, dite_eq_left hi]; rfl
   have hgj : l05nK42b_g b j = l05nK42b_permHom b (Equiv.swap j jc) := by
-    rw [l05nK42b_g, dif_pos hj]; rfl
+    rw [l05nK42b_g, dite_eq_left hj]; rfl
   have hib : i ≠ ib := by
-    intro hh; have := congrArg Fin.val hh; simp only [ib, Fin.val_mk] at this; omega
+    intro hh; have := congrArg Fin.val hh; simp only [ib] at this; omega
   have hij' : i ≠ j := hij
   have hjc : i ≠ jc := by
-    intro hh; have := congrArg Fin.val hh; simp only [jc, Fin.val_mk] at this; omega
+    intro hh; have := congrArg Fin.val hh; simp only [jc] at this; omega
   have hbc : ib ≠ j := by
-    intro hh; have := congrArg Fin.val hh; simp only [ib, Fin.val_mk] at this; omega
+    intro hh; have := congrArg Fin.val hh; simp only [ib] at this; omega
   have hbd : ib ≠ jc := by
-    intro hh; have := congrArg Fin.val hh; simp only [ib, jc, Fin.val_mk] at this; omega
+    intro hh; have := congrArg Fin.val hh; simp only [ib, jc] at this; omega
   have hcd : j ≠ jc := by
-    intro hh; have := congrArg Fin.val hh; simp only [jc, Fin.val_mk] at this; omega
+    intro hh; have := congrArg Fin.val hh; simp only [jc] at this; omega
   have hnodup : [i, ib, j, jc].Nodup :=
     l05nK42b_nodup_four i ib j jc hib hij' hjc hbc hbd hcd
   have hperm : (Equiv.swap i ib * Equiv.swap j jc) ^ 2 = 1 :=
@@ -545,14 +545,14 @@ private lemma l05nK42b_g_sign_pow_two
     (l05nK42b_g b i * l05nK42b_g b j) ^ 2 = 1 := by
   let ib : Fin n := ⟨i.val + 1, hi⟩
   have hgi : l05nK42b_g b i = l05nK42b_permHom b (Equiv.swap i ib) := by
-    rw [l05nK42b_g, dif_pos hi]; rfl
-  have hgj : l05nK42b_g b j = l05nK42b_S b j := by rw [l05nK42b_g, dif_neg hj]
+    rw [l05nK42b_g, dite_eq_left hi]; rfl
+  have hgj : l05nK42b_g b j = l05nK42b_S b j := by rw [l05nK42b_g, dite_eq_right hj]
   have hsj : Equiv.swap i ib j = j := by
     rw [Equiv.swap_apply_of_ne_of_ne]
     · intro hh
       exact hna (by have := congrArg Fin.val hh; omega)
     · intro hh
-      exact hna (by have := congrArg Fin.val hh; simp only [ib, Fin.val_mk] at this; omega)
+      exact hna (by have := congrArg Fin.val hh; simp only [ib] at this; omega)
   rw [hgi, hgj]
   exact l05nK42b_perm_sign_sq b (Equiv.swap i ib) j hsj (l05nK42b_swap_mul_self i ib)
 
@@ -563,8 +563,8 @@ private lemma l05nK42b_g_sign_pow_four
     (l05nK42b_g b i * l05nK42b_g b j) ^ 4 = 1 := by
   let ib : Fin n := ⟨i.val + 1, hi⟩
   have hib : ib = j := Fin.ext hadj
-  have hgi : l05nK42b_g b i = l05nK42b_Tp b i ib := by rw [l05nK42b_g, dif_pos hi]
-  have hgj : l05nK42b_g b j = l05nK42b_S b j := by rw [l05nK42b_g, dif_neg hj]
+  have hgi : l05nK42b_g b i = l05nK42b_Tp b i ib := by rw [l05nK42b_g, dite_eq_left hi]
+  have hgj : l05nK42b_g b j = l05nK42b_S b j := by rw [l05nK42b_g, dite_eq_right hj]
   have hne : i ≠ j := by
     intro hh; have := congrArg Fin.val hh; omega
   rw [hgi, hgj]
@@ -573,7 +573,7 @@ private lemma l05nK42b_g_sign_pow_four
   exact l05nK42b_perm_sign_four b hne
 
 private lemma l05nK42b_isLiftable
-    {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Type} [AddCommGroup V] [Module (ZMod p) V]
+    {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     {n : ℕ} (hn : 2 ≤ n) (b : Module.Basis (Fin n) (ZMod p) V) :
     (CoxeterMatrix.B n).IsLiftable (l05nK42b_g b) := by
   intro i j
@@ -681,8 +681,8 @@ private lemma l05nK42b_equivFun_b
   funext j
   rw [Module.Basis.equivFun_self, Pi.single_apply]
   by_cases h : k = j
-  · rw [if_pos h, if_pos h.symm]
-  · rw [if_neg h, if_neg (fun hh => h hh.symm)]
+  · rw [ite_eq_left h, ite_eq_left h.symm]
+  · rw [ite_eq_right h, ite_eq_right (fun hh => h hh.symm)]
 
 private lemma l05nK42b_permHom_mem_closure
     {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V]
@@ -700,7 +700,7 @@ private lemma l05nK42b_permHom_mem_closure
     show l05nK42b_permHom b (Equiv.swap i.castSucc i.succ) ∈ H
     have hgi : l05nK42b_g b ⟨i.val, by omega⟩ =
         l05nK42b_permHom b (Equiv.swap i.castSucc i.succ) := by
-      rw [l05nK42b_g, dif_pos (by omega : i.val + 1 < m + 1)]
+      rw [l05nK42b_g, dite_eq_left (by omega : i.val + 1 < m + 1)]
       rfl
     rw [← hgi]
     exact Subgroup.subset_closure ⟨⟨i.val, by omega⟩, rfl⟩
@@ -734,7 +734,7 @@ private lemma l05nK42b_S_mem_closure
   have hlastlt : ¬ (l05nK42b_last n hn).val + 1 < n := by
     simp only [l05nK42b_last, Fin.val_mk]; omega
   have hlast : l05nK42b_g b (l05nK42b_last n hn) = l05nK42b_S b (l05nK42b_last n hn) := by
-    rw [l05nK42b_g, dif_neg hlastlt]
+    rw [l05nK42b_g, dite_eq_right hlastlt]
   have hconj := l05nK42b_perm_S_conj b i (l05nK42b_last n hn)
   rw [← hconj]
   refine Subgroup.mul_mem _ (Subgroup.mul_mem _ ?_ ?_) ?_
@@ -778,13 +778,13 @@ private lemma l05nK42b_list_prod_sign
     rw [List.map_cons, List.prod_cons, ih hnd']
     by_cases hki : k = i
     · subst hki
-      rw [if_pos rfl, if_neg hnot, if_pos (List.mem_cons_self)]
+      rw [ite_eq_left rfl, ite_eq_right hnot, ite_eq_left (List.mem_cons_self)]
       ring
-    · rw [if_neg hki]
+    · rw [ite_eq_right hki]
       by_cases hmem : k ∈ l
-      · rw [if_pos hmem, if_pos (List.mem_cons_of_mem i hmem)]
+      · rw [ite_eq_left hmem, ite_eq_left (List.mem_cons_of_mem i hmem)]
         ring
-      · rw [if_neg hmem, if_neg (fun h => by
+      · rw [ite_eq_right hmem, ite_eq_right (fun h => by
             rcases List.mem_cons.mp h with h' | h'
             · exact hki h'
             · exact hmem h')]
@@ -811,9 +811,9 @@ private lemma l05nK42b_A_le_closure
       ha' k, l05nK42b_list_prod_sign l hnd k]
     congr 1
     by_cases hkl : k ∈ l
-    · rw [if_pos hkl]
+    · rw [ite_eq_left hkl]
       exact (hmem k).mp hkl
-    · rw [if_neg hkl]
+    · rw [ite_eq_right hkl]
       have hcne : c k ≠ -1 := fun h => hkl ((hmem k).mpr h)
       rcases hc k with h | h
       · exact h
@@ -890,8 +890,8 @@ private lemma l05nK42b_signedElem_apply
   by_cases he : e i <;> simp [he]
 
 private lemma l05nK42b_signedElem_mem
-    {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Type} [AddCommGroup V] [Module (ZMod p) V]
-    {n : ℕ} (hn : 2 ≤ n) (b : Module.Basis (Fin n) (ZMod p) V)
+    {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {V : Type} [AddCommGroup V] [Module (ZMod p) V]
+    {n : ℕ} (_hn : 2 ≤ n) (b : Module.Basis (Fin n) (ZMod p) V)
     (A : Subgroup (V ≃ₗ[ZMod p] V))
     (hA : ∀ a : V ≃ₗ[ZMod p] V, a ∈ A ↔ ∃ (σ : Equiv.Perm (Fin n)) (c : Fin n → ZMod p),
       (∀ i, c i = 1 ∨ c i = -1) ∧ ∀ i, a (b i) = c i • b (σ i))
@@ -923,7 +923,7 @@ private lemma l05nK42b_signedElem_injective
     by_cases hne : σ i = σ' i
     · exact hne
     · exfalso
-      rw [if_neg hne, mul_zero] at h2
+      rw [ite_eq_right hne, mul_zero] at h2
       exact (by
         have : (if e i then (-1 : ZMod p) else 1) ≠ 0 := by split_ifs <;> norm_num
         exact this h2)
@@ -933,7 +933,7 @@ private lemma l05nK42b_signedElem_injective
     rw [l05nK42b_signedElem_apply, l05nK42b_signedElem_apply, hσ, map_smul, map_smul] at hv
     have h2 := congrFun hv (σ' i)
     simp only [Pi.smul_apply, smul_eq_mul, l05nK42b_equivFun_b, Pi.single_eq_same,
-      Pi.single_apply, mul_one] at h2
+      mul_one] at h2
     exact l05nK42b_bool_sign_inj hp2 h2
   exact Prod.ext hσ he
 
@@ -944,14 +944,14 @@ private lemma l05nK42b_card_le
     (hA : ∀ a : V ≃ₗ[ZMod p] V, a ∈ A ↔ ∃ (σ : Equiv.Perm (Fin n)) (c : Fin n → ZMod p),
       (∀ i, c i = 1 ∨ c i = -1) ∧ ∀ i, a (b i) = c i • b (σ i)) :
     2 ^ n * n.factorial ≤ Nat.card A := by
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_basis b
-  haveI : Fintype V := Module.fintypeOfFintype b
-  haveI : Finite V := Module.finite_of_finite (ZMod p)
-  haveI : Finite (V → V) := inferInstance
-  haveI : Finite (V ≃ₗ[ZMod p] V) :=
+  have : Module.Finite (ZMod p) V := Module.Finite.of_basis b
+  have : Fintype V := Module.fintypeOfFintype b
+  have : Finite V := Module.finite_of_finite (ZMod p)
+  have : Finite (V → V) := inferInstance
+  have : Finite (V ≃ₗ[ZMod p] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod p] V => (e : V → V))
       (fun e₁ e₂ h => LinearEquiv.ext (fun v => congrFun h v))
-  haveI : Finite ↥A := Subtype.finite
+  have : Finite ↥A := Subtype.finite
   have hcard : Nat.card (Equiv.Perm (Fin n) × (Fin n → Bool)) = 2 ^ n * n.factorial := by
     rw [Nat.card_prod, Nat.card_eq_fintype_card, Nat.card_eq_fintype_card, Fintype.card_perm,
       Fintype.card_fin, Fintype.card_fun, Fintype.card_bool, Fintype.card_fin]
@@ -1003,7 +1003,7 @@ private lemma l05nK42b_finite_coxeterB (n : ℕ) : Finite (CoxeterMatrix.B n).Gr
     have h2 : sgn (q w).2 = sgn (q w').2 := (Prod.ext_iff.mp hww').2
     have h3 : (q w).2 = (q w').2 := hsgn (hq w).1 (hq w').1 h2
     exact SpRealizes.inj (hq w).2 ((hq w').2.congr h1.symm h3.symm)
-  haveI : Finite (coxeterMatrix (isFiniteType_cartanC n)).Group := Finite.of_injective f hf
+  have : Finite (coxeterMatrix (isFiniteType_cartanC n)).Group := Finite.of_injective f hf
   rw [hB] at this
   exact this
 
@@ -1019,7 +1019,7 @@ theorem ggRC_linWeyl_of_signed {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Typ
   · refine Or.inl ⟨n, Equiv.refl (Fin n), by omega, Or.inr (Or.inl ⟨hn, ?_⟩)⟩
     exact (l05nK42b_reindex_refl (CoxeterMatrix.B n)).symm
   · have hsurj := l05nK42b_F'_surjective hp2 hn b A hA
-    haveI : Finite (CoxeterMatrix.B n).Group := l05nK42b_finite_coxeterB n
+    have : Finite (CoxeterMatrix.B n).Group := l05nK42b_finite_coxeterB n
     have hcard := l05nK42b_card_coxeterB_le_A hp2 hn b A hA
     have hbij : Function.Bijective (l05nK42b_F' hp2 hn b A hA) :=
       Function.Surjective.bijective_of_nat_card_le hsurj hcard
@@ -1141,7 +1141,7 @@ private lemma l05nB1_permMap_coord (p k : ℕ) [Fact p.Prime]
       intro hh
       apply hne
       rw [← Equiv.symm_apply_apply σ i, hh]
-    simp [h, Ne.symm h]
+    simp [Ne.symm h]
   · intro hmem
     exact absurd (Finset.mem_univ _) hmem
 
@@ -1156,8 +1156,7 @@ private lemma l05nB1_S_coord (p k : ℕ) [Fact p.Prime]
       (if t = i then -1 else 1 : ZMod p) * v t := by
   rw [l05nK42b_S, ZS.diagMap, LinearEquiv.trans_apply, LinearEquiv.trans_apply,
     Pi.basisFun_equivFun]
-  simp [LinearEquiv.piCongrRight, LinearEquiv.smulOfUnit, LinearEquiv.trans_apply,
-    smul_eq_mul]
+  simp [LinearEquiv.piCongrRight, LinearEquiv.smulOfUnit]
 
 private lemma l05nB1_conj_Tp (p k : ℕ) [Fact p.Prime] (i j : Fin k) :
     l05nB1_conj p k (l05nK42b_Tp (Pi.basisFun (ZMod p) (Fin k)) i j) =
@@ -1182,12 +1181,12 @@ private lemma l05nB1_conj_S (p k : ℕ) [Fact p.Prime] (i : Fin k) :
     l05nB1_coordEquiv_apply]
   by_cases h : t = i
   · subst h
-    simp only [Function.update_self, if_true, neg_one_mul]
+    simp only [Function.update_self, ite_true, neg_one_mul]
     rfl
-  · rw [if_neg h, one_mul, Function.update_of_ne h]
+  · rw [ite_eq_right h, one_mul, Function.update_of_ne h]
     rfl
 
-private lemma l05nB1_conj_g {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {k : ℕ} (hk : 2 ≤ k)
+private lemma l05nB1_conj_g {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {k : ℕ} (_hk : 2 ≤ k)
     (i : Fin k) :
     l05nB1_conj p k (l05nK42b_g (Pi.basisFun (ZMod p) (Fin k)) i) =
       SpJoin.spReflPerm k p i := by
@@ -1231,7 +1230,7 @@ private lemma l05nB1_F_injective {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {k : �
         (∀ i, c i = 1 ∨ c i = -1) ∧
           ∀ i, a ((Pi.basisFun (ZMod p) (Fin k)) i) =
             c i • (Pi.basisFun (ZMod p) (Fin k)) (σ i) := fun a => Iff.rfl
-  haveI : Finite (CoxeterMatrix.B k).Group := l05nK42b_finite_coxeterB k
+  have : Finite (CoxeterMatrix.B k).Group := l05nK42b_finite_coxeterB k
   have hbij : Function.Bijective (l05nK42b_F' hp2 hk (Pi.basisFun (ZMod p) (Fin k)) A hA) :=
     Function.Surjective.bijective_of_nat_card_le
       (l05nK42b_F'_surjective hp2 hk (Pi.basisFun (ZMod p) (Fin k)) A hA)

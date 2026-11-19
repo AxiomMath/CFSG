@@ -40,14 +40,14 @@ theorem conjTr_antidiag (n : ℕ) :
   simp only [conjTr, antidiag, transpose_apply, map_apply, of_apply]
   by_cases h : i = Fin.rev j
   · have h' : j = Fin.rev i := by rw [h, Fin.rev_rev]
-    rw [if_pos h, if_pos h', map_one]
+    rw [ite_eq_left h, ite_eq_left h', map_one]
   · have h' : ¬ j = Fin.rev i := fun hh => h (by rw [hh, Fin.rev_rev])
-    rw [if_neg h, if_neg h', map_zero]
+    rw [ite_eq_right h, ite_eq_right h', map_zero]
 
 theorem det_antidiag_three : (antidiag 3 : Matrix (Fin 3) (Fin 3) K).det ≠ 0 := by
   have h : (antidiag 3 : Matrix (Fin 3) (Fin 3) K) = !![0, 0, 1; 0, 1, 0; 1, 0, 0] := by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [antidiag] <;> decide
+    fin_cases i <;> fin_cases j <;> simp [antidiag]
   rw [h, Matrix.det_fin_three]
   simp
 

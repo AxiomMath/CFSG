@@ -124,7 +124,7 @@ theorem ggTBC_orth_mem_of_commute {V : Type} [AddCommGroup V] [Module (ZMod 2) V
         intro h
         rw [h, Subgroup.relIndex_self] at hidx
         exact absurd hidx (by norm_num)
-      exact SetLike.exists_of_lt (lt_of_le_of_ne hNH hne)
+      exact _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hNH hne)
     choose c hcH hcN using hproper
     obtain ⟨d, h3, hfp, -, -, -, -, -, -, -, hmr⟩ :=
       CFSG.RankThree.Classical.SteinbergBY.binary_three_kernel_block_unitary_centralizers

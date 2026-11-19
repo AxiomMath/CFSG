@@ -188,7 +188,7 @@ theorem exists_K_E6Label_of_endpoint_facts
     (hφ : ∀ i, φ i ∈ ggAutomizer K Bs) :
     ∃ labK : LargeEvenLabel, GGE6DepLabel labK ∧ LargeEvenInLambda2 labK ∧
       GGHasLabel labK (↥K ⧸ Subgroup.center ↥K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hMK : MK = CoxeterMatrix.E₆.reindex e :=
     ggIntCartan_E6_coxeter_reindex hCKK e he
   have hE6 : GGIsTypeE6 MK := ⟨e, hMK⟩
@@ -294,12 +294,12 @@ theorem GGResHyp.false_of_twE6_K_E6_exact2_card_six
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS, hA1, hA3, hML, hCL, hMK, hCK, hE6, hlin, hrefl, hpair, hpairK, hsel,
     ⟨fL, hfL⟩, ⟨fK, hfK⟩, hclosL, hclosK, hconn, hclosJ⟩ := hD
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   obtain ⟨e, he⟩ := hE6
   have hCLstd : ∀ i j, CL (e i) (e j) = CartanMatrix.E 6 i j :=
     ggIntCartan_E6_entries_of_type hCL e he
@@ -330,7 +330,7 @@ theorem actual_K_card_of_torRow
     ∃ (r' m' N' : ℕ) (C' : Matrix (Fin N') (Fin N') ℤ)
       (M' : CoxeterMatrix (Fin N')),
       P r' m' N' C' M' ∧ Nat.card ↥(ggAutomizer K Bs) = Nat.card M'.Group := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnb : GGNbr 3 B x D J y K := hH.2.2.2.2.1
   have hmark0 := ggInnerDiagOn_relabel ggLabelRigidInput_holds
     (hH.2.2.1.2 y K hnb) hΛ hHas
@@ -420,25 +420,25 @@ theorem GGResHyp.twE6_exactTwo_K_five_of_card_six
     (hno3K : ¬ GGResLeviDatumExact3 3 Bs K J L ggSelAny ggTypAny)
     (hcardBs : Nat.card Bs = 3 ^ 6) :
     GGResLeviDatumExact2 3 Bs L J K ggSelAny
-      (fun {Λ} {Λ'} ML MK => ggTypLE6 ML MK ∧ Nat.card Λ' = 5) := by
+      (fun {_Λ} {Λ'} ML MK => ggTypLE6 ML MK ∧ Nat.card Λ' = 5) := by
   classical
   have hres : GGTwE6ExactTwoPSU5Residual Bs L J :=
     hH.twE6_exactTwo_either_classification hMarkL (Or.inl hD) hnoRowL
-  obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
+  obtain ⟨_Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS2, hA1, hA3, hWML, hCLL, hWMK, hCKK, htyp, hlin, hrefl, hpairL, hpairK, hsel,
     hfLx, hfKx, hclosL, hclosK, hdel, hclosJ, hAa, hCases, hBs, hE6⟩ :=
     hH.twE6_exactTwo_K_refinement hMarkL hD hnoRowL hno3K
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
-  have hNot6 : Fintype.card ({i : Λ // i ∉ S} ⊕ Λa) ≠ 6 := by
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
+  have hNot6 : Fintype.card ({i : _Λ // i ∉ S} ⊕ Λa) ≠ 6 := by
     intro h6
     obtain ⟨e, he⟩ := hE6 hcardBs h6
     obtain ⟨fK, hfK⟩ := hfKx
-    have hφmem : ∀ i : {i : Λ // i ∉ S} ⊕ Λa,
+    have hφmem : ∀ i : {i : _Λ // i ∉ S} ⊕ Λa,
         φ (i.map Subtype.val id) ∈ ggAutomizer K Bs := by
       intro i
       rw [hclosK]
@@ -450,7 +450,7 @@ theorem GGResHyp.twE6_exactTwo_K_five_of_card_six
       (fun i => φ (i.map Subtype.val id)) (fun i => h (i.map Subtype.val id))
       (fun i => α (i.map Subtype.val id))
       (fun i v => hlin (i.map Subtype.val id) v) hpairK hφmem
-  have h5 : Nat.card ({i : Λ // i ∉ S} ⊕ Λa) = 5 := by
+  have h5 : Nat.card ({i : _Λ // i ∉ S} ⊕ Λa) = 5 := by
     rw [Nat.card_eq_fintype_card]
     rcases hCases with ⟨e, -⟩ | ⟨e, -⟩ | ⟨e, -⟩ | ⟨e, -⟩ | ⟨e, -⟩ | ⟨e, -⟩ | ⟨e, -⟩
     · simpa using (Fintype.card_congr e).symm
@@ -460,7 +460,7 @@ theorem GGResHyp.twE6_exactTwo_K_five_of_card_six
     · exact False.elim (hNot6 (by simpa using (Fintype.card_congr e).symm))
     · exact False.elim (hNot6 (by simpa using (Fintype.card_congr e).symm))
     · exact False.elim (hNot6 (by simpa using (Fintype.card_congr e).symm))
-  exact ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
+  exact ⟨_Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS2, hA1, hA3, hWML, hCLL, hWMK, hCKK, ⟨htyp, h5⟩,
     hlin, hrefl, hpairL, hpairK, hsel, hfLx, hfKx, hclosL, hclosK, hdel, hclosJ⟩
 
@@ -478,7 +478,7 @@ theorem actual_K_card_twA5
     (hLB : GGLBalanceInput) :
     Nat.card ↥(ggAutomizer K Bs) = 720 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpJ : 3 ∣ Nat.card J := hH.prime_dvd_card_J
   obtain ⟨lab0, hlab0, hhas0, _R0, _instR0, _I0, _F0, _θ0, hP0⟩ :=
     largeEvenMarking_exists_hasLabel hM
@@ -495,8 +495,8 @@ theorem actual_K_card_twA5
   subst lab
   dsimp only [LargeEvenRawDatum] at hraw
   obtain ⟨F, hField, hFinite, hFK, hQ⟩ := hraw
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   have hF : Nat.card F = 4 := by simpa using hFK
   have : CharP F 2 := charP_two_of_card (by simpa using hF : Nat.card F = 2 ^ 2)
   obtain ⟨hs, hna, θ, hP⟩ := hQ
@@ -641,7 +641,7 @@ theorem kOnlyE6_actual_d5_two_models
     {h : Λ ⊕ Λa → V} {α : Λ ⊕ Λa → Module.Dual (ZMod 3) V}
     (hlin : ∀ o w, ggLin (p := 3) ι (φ o) w = w - α o w • h o)
     (hpair : ∀ i j : Λ, α (Sum.inl i) (h (Sum.inl j)) = (CL i j : ZMod 3))
-    (hCL : GGIntCartan ML CL) (htyp : GGIsTypeE6 ML)
+    (hCL : GGIntCartan ML CL) (_htyp : GGIsTypeE6 ML)
     (hclosK : ggAutomizer K Bs =
       Subgroup.closure (Set.range fun i : Λ => φ (Sum.inl i)))
     (e : Fin 6 ≃ Λ) (hML : ML = CoxeterMatrix.E₆.reindex e) :
@@ -679,8 +679,8 @@ theorem kOnlyE6_actual_d5_two_models
     GGResHyp.card_Bs_six_of_K_only_E6 hH hTBF hD hno
   have hVcard : Nat.card V = 3 ^ 6 := by
     rw [← Nat.card_congr ι.toEquiv, Nat.card_congr Additive.toMul, hcard]
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hVpow : Nat.card V = 3 ^ Module.finrank (ZMod 3) V := by
     simpa using (Module.natCard_eq_pow_finrank (K := ZMod 3) (V := V))
   have hdim : Module.finrank (ZMod 3) V = 6 := by
@@ -773,13 +773,13 @@ theorem d5_coordinates
   have hy0 : y0 ≠ 0 := by
     by_cases ht : t = 0
     · simp [y0, ht, hy]
-    · simp only [y0, ht, if_false]
+    · simp only [y0, ht, ite_false]
       exact smul_ne_zero ht hy
   have hker0 : ∀ i, α i y0 = 0 := by
     intro i
     by_cases ht : t = 0
     · simp [y0, ht, hker i]
-    · simp only [y0, ht, if_false, map_smul, hker i, smul_zero]
+    · simp only [y0, ht, ite_false, map_smul, hker i, smul_zero]
   have hLI : LinearIndependent (ZMod 3) (fun o : Option (Fin 5) =>
       o.casesOn' y0 (fun i => h (d5Index i))) :=
     d5_axis_linearIndependent hpair hy0 hker0
@@ -858,7 +858,7 @@ theorem kOnlyE6_actual_d5_coordinates
     {h : Λ ⊕ Λa → V} {α : Λ ⊕ Λa → Module.Dual (ZMod 3) V}
     (hlin : ∀ o w, ggLin (p := 3) ι (φ o) w = w - α o w • h o)
     (hpair : ∀ i j : Λ, α (Sum.inl i) (h (Sum.inl j)) = (CL i j : ZMod 3))
-    (hCL : GGIntCartan ML CL) (htyp : GGIsTypeE6 ML)
+    (hCL : GGIntCartan ML CL) (_htyp : GGIsTypeE6 ML)
     (hclosK : ggAutomizer K Bs =
       Subgroup.closure (Set.range fun i : Λ => φ (Sum.inl i)))
     (e : Fin 6 ≃ Λ) (hML : ML = CoxeterMatrix.E₆.reindex e) :
@@ -897,8 +897,8 @@ theorem kOnlyE6_actual_d5_coordinates
     GGResHyp.card_Bs_six_of_K_only_E6 hH hTBF hD hno
   have hVcard : Nat.card V = 3 ^ 6 := by
     rw [← Nat.card_congr ι.toEquiv, Nat.card_congr Additive.toMul, hcard]
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hVpow : Nat.card V = 3 ^ Module.finrank (ZMod 3) V := by
     simpa using (Module.natCard_eq_pow_finrank (K := ZMod 3) (V := V))
   have hdim : Module.finrank (ZMod 3) V = 6 := by
@@ -1008,12 +1008,12 @@ theorem kOnlyE6_actual_attachment_coordinates
   have hcrossβ : ∀ j ∈ Jset, α (Sum.inr a₀) (h' j) = κ j := by
     intro j hj
     have hj' : e j ∉ S := (Finset.mem_filter.mp hj).2
-    simp only [h', κ, hj', dif_pos]
+    simp only [h', κ, hj']
     exact hpairK (Sum.inr a₀) (Sum.inl ⟨e j, hj'⟩)
   have hcrossα : ∀ j ∈ Jset, α' j (h (Sum.inr a₀)) = κ' j := by
     intro j hj
     have hj' : e j ∉ S := (Finset.mem_filter.mp hj).2
-    simp only [α', κ', hj', dif_pos]
+    simp only [α', κ', hj']
     exact hpairK (Sum.inl ⟨e j, hj'⟩) (Sum.inr a₀)
   have hself : α (Sum.inr a₀) (h (Sum.inr a₀)) = 2 := by
     have hdiag : (CK (Sum.inr a₀) (Sum.inr a₀) : ZMod 3) = 2 := by
@@ -1031,17 +1031,18 @@ theorem kOnlyE6_actual_attachment_coordinates
     have hi' : e i ∉ S := hi
     have hmem : i ∈ Jset := by simp [Jset, hi]
     have h := hcrossβ' i hmem
-    simpa only [κ, dif_pos hi'] using h
+    simpa only [κ, dite_eq_left hi'] using h
   · intro i hi
     have hi' : e i ∉ S := hi
     have hmem : i ∈ Jset := by simp [Jset, hi]
     have h := hcrossα' i hmem
-    simpa only [κ', dif_pos hi'] using h
+    simpa only [κ', dite_eq_left hi'] using h
 
 section ActualKOnlyE6Containment
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_ggAutomizer_dvd {H Bs : Subgroup G} :
     Nat.card (ggAutomizer H Bs) ∣ Nat.card H := by
   classical
@@ -1241,12 +1242,12 @@ theorem GGResHyp.K_only_E6_exact2_join_or_dependent
   obtain ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS, hA1, hA3, hML, hCL, hMK, hCK, hE6, hlin, hrefl, hpair, hpairK, hsel,
     ⟨fK, hfK⟩, hfL, hclosK, hclosL, hconn, hclosJ⟩ := hD
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   by_cases hind : LinearIndependent (ZMod 3) (fun i : Λ => h (Sum.inl i))
   · obtain ⟨e, he⟩ := hE6
     exact Or.inl (hH.K_only_E6_independent_join rfl hFix hFixK hOrbK hBs7 hLrefl

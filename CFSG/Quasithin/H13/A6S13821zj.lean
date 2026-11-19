@@ -158,6 +158,7 @@ theorem map_le_sup_of_d310Two {Mp T L : Subgroup (MulAut W)} {V : Subgroup W} (h
     have hvJ : v ∈ J := hJ ▸ hv
     exact hvJ.2
 
+omit [Finite W] in
 theorem nonabelian_autSec {L : Subgroup (MulAut W)} {A C : Subgroup W}
     (hLA : L ≤ stabSub A ⊓ stabSub C) (hperf : ⁅L, L⁆ = L)
     (hnt : ∃ γ ∈ L, ∃ a ∈ A, γ a * a⁻¹ ∉ C) :

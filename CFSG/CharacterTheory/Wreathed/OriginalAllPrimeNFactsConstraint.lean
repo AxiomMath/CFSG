@@ -131,7 +131,7 @@ theorem wreathed_quaternion_le_of_normal
     exact (original_quaternion_image_le_layer hnonab n hn S e hfour).trans
       (wreathed_layer_le_map_of_normal hnonab n hn S e hfour B hB)
   exact le_of_isPGroup_two_of_le_sup
-    ((centralizerSylow n hn S e).isPGroup'.to_le (centralizerQuaternion_le_sylow n hn S e))
+    ((centralizerSylow n hn S e).isPGroup.to_le (centralizerQuaternion_le_sylow n hn S e))
     (centralizerOddCore_card_odd n S e) hY
 
 omit [Finite G] in
@@ -170,7 +170,7 @@ theorem wreathed_constrained_iff_centralizer_le
   have hZtwo : IsPGroup 2 (centralizerFullCenter n hn S e) :=
     IsPGroup.of_card (centralizerFullCenter_card n hn S e)
   have hYtwo : IsPGroup 2 (centralizerQuaternion n hn S e) :=
-    (centralizerSylow n hn S e).isPGroup'.to_le (centralizerQuaternion_le_sylow n hn S e)
+    (centralizerSylow n hn S e).isPGroup.to_le (centralizerQuaternion_le_sylow n hn S e)
   have hYS := centralizerQuaternion_le_sylow n hn S e
   set O := centralizerOddCore n S e
   set Z := centralizerFullCenter n hn S e
@@ -305,7 +305,7 @@ theorem wreathed_isSylowOf_center_inf_iff (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2 
   set C := N ⊓ Subgroup.centralizer (R : Set G)
   have hSK : IsSylowOf 2 (S : Subgroup G) (N ⊓ Subgroup.normalizer (R : Set G)) := by
     rw [isSylowOf_iff]
-    refine ⟨le_inf hSN hSR, S.isPGroup', fun h => S.not_dvd_index ?_⟩
+    refine ⟨le_inf hSN hSR, S.isPGroup, fun h => S.not_dvd_index ?_⟩
     exact h.trans (Subgroup.relIndex_dvd_index_of_le (le_inf hSN hSR))
   have hCK : C ≤ N ⊓ Subgroup.normalizer (R : Set G) :=
     inf_le_inf_left _ (Subgroup.centralizer_le_normalizer _)
@@ -322,7 +322,7 @@ theorem wreathed_isSylowOf_center_inf_iff (n : ℕ) (hn : 2 ≤ n) (S : Sylow 2 
   constructor
   · intro h
     have heq := h.eq_of_le (inf_le_inf_right _ hZS) (inf_le_inf_right _ hSN)
-      (S.isPGroup'.to_le inf_le_left)
+      (S.isPGroup.to_le inf_le_left)
     rw [heq]
     exact inf_le_left
   · intro h

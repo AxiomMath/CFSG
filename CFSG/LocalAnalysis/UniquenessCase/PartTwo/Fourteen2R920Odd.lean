@@ -19,7 +19,7 @@ theorem thm1422_of_r920odd {D : Data G} (h1421 : Thm1421 D) (hSg : UC6S846.Sigma
   intro L₁ L₂ X h L hL K hKL hLK
   obtain ⟨hLC, hshape⟩ := Hyp141.mem_isL3 h hL
   have hKM : K ≤ D.M := hKL.trans (CFSG.Quasithin.A3.subnormal_le hLC.1)
-  haveI := D.standing.simple
+  have := D.standing.simple
   have hMne : D.M ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab D.maxLocal.1
   refine calNOf_eq_singleton_of_forall_le hMne hKM ?_

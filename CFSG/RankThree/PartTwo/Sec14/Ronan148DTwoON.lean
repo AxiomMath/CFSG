@@ -40,9 +40,9 @@ theorem eq_of_le_of_isPerfect {a : G} {K K' J : Subgroup G} (hK : K ∈ thetaCom
       (Sec6.commutator_le_theta_of_ne_mem_thetaComponentsAt hK hK' hne)
   rw [(Subgroup.isPerfect_iff).mp hJp] at h1
   have hs : Group.IsSolvable ↥J := by
-    haveI := (Sec6.theta_solvable_and_not_dvd C).1
+    have := (Sec6.theta_solvable_and_not_dvd C).1
     exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective h1)
-  haveI : Nontrivial ↥J := (Subgroup.nontrivial_iff_ne_bot J).mpr hJ
+  have : Nontrivial ↥J := (Subgroup.nontrivial_iff_ne_bot J).mpr hJ
   exact Group.IsPerfect.not_isSolvable ↥J hs
 
 theorem mem_normalizer_of_normalizes_lB {A L : Subgroup G} {c a : G} (h : Sec14Std G A c L)
@@ -193,7 +193,7 @@ theorem exists_isLBConfig_of_twelve (h134 : Item134) (h48 : Sec4.Item4_8) {A L :
 
 
 theorem le_of_on {A L : Subgroup G} {c a : G} (h : Sec14Std G A c L) (ha : a ∈ A)
-    (ha1 : a ≠ 1) {B Lb : Subgroup G} {b d : G} (hB : IsHyperplane A B) (haB : a ∈ B)
+    (ha1 : a ≠ 1) {B Lb : Subgroup G} {b d : G} (hB : IsHyperplane A B) (_haB : a ∈ B)
     (hc : IsLBConfig A B b d Lb) (hda : Subgroup.zpowers a = Subgroup.zpowers d)
     {K : Subgroup G} (hK : K ∈ thetaComponentsAt 3 a) (hBK : lB A B ≤ K)
     (hON : Sec4.IsTripleCover (↥K ⧸ aschbacherSolvableCore 3 ↥K)
@@ -361,7 +361,7 @@ theorem le_delta_of_on (hS2 : ONTripleGenE27) (h134 : Item134) (h48 : Sec4.Item4
         obtain ⟨hθKs, -, -, -, -⟩ :=
           solvable_prime_complement_core_characterization (H := ↥K) Nat.prime_three
         refine hmaxJ _ (MonoidHom.normal_ker ψ) ?_ ?_
-        · haveI := hθKs
+        · have := hθKs
           exact Group.isSolvable_of_isSolvable_injective hι
         · exact fun h3 => hθ3 (h3.trans (Subgroup.card_dvd_of_injective ι hι))
       have hle := Subgroup.card_le_of_le hkerθ

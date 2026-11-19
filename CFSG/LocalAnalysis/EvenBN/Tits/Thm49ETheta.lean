@@ -76,7 +76,7 @@ private noncomputable def psiX (c : Ctx G) (a : Cm) : G :=
 variable (c : Ctx G)
 
 private theorem phiX_eq {g : G} (h : g ∈ centralizer ({c.t} : Set G)) :
-    phiX c g = c.Φ ⟨g, h⟩ := dif_pos h
+    phiX c g = c.Φ ⟨g, h⟩ := dite_eq_left h
 
 private theorem phiX_mul {x y : G} (hx : x ∈ centralizer ({c.t} : Set G))
     (hy : y ∈ centralizer ({c.t} : Set G)) : phiX c (x * y) = phiX c x * phiX c y := by

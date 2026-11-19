@@ -14,7 +14,7 @@ open CFSG CFSG.Open CFSG.ClassicalInvolution CFSG.Blueprint
 
 theorem m23_sixtyfour_dvd {M : Type} [Group M] [Finite M] (hM : IsPGroup 2 M)
     (h : 64 ≤ Nat.card M) : 64 ∣ Nat.card M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hM
   rw [hn] at h ⊢
   have h6 : 6 ≤ n := by
@@ -34,14 +34,14 @@ theorem localM23'_holds : LocalNoQ16Q16' (fun F _ => NativeSporadic.IsSporadic F
     Q16Q16.local_reduction N hC hO hK hK' h2 h2' hx hy hx' hy' hq hxt
   have htN : t ∈ N := (Subgroup.mem_inf.1 (hDC (hMD htM))).1
   obtain ⟨hperfC, hcardC⟩ := m23_centralizer_perfect_card N eN e' htN ht
-  haveI := hperfC
+  have := hperfC
   set C : Subgroup Y := N ⊓ Subgroup.centralizer ({t} : Set Y)
   have hObC : Ob ≤ C := hObD.trans hDC
-  haveI : (D.subgroupOf C).Normal :=
+  have : (D.subgroupOf C).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hDc (g : Y) g.2 (n : Y) hn⟩
-  haveI : (Ob.subgroupOf C).Normal :=
+  have : (Ob.subgroupOf C).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hObc (g : Y) g.2 (n : Y) hn⟩

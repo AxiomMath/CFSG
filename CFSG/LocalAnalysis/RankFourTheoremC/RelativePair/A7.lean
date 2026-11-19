@@ -40,7 +40,7 @@ theorem KFactSetting.exists_a7Frame {n : ℕ} {p : ℕ} {P : Sylow p G} {M D R T
   subst hp3
   have hDH : D ≤ H := (le_sup_right : D ≤ relPairBase R T ⊔ D).trans hopt.pair.cand.base_le
   have hVH : V ≤ H := hfacts.maximal.1
-  have hDp : IsPGroup 3 D := P.isPGroup'.to_le hd.ext.obstruction.2.1
+  have hDp : IsPGroup 3 D := P.isPGroup.to_le hd.ext.obstruction.2.1
   have hDcard : Nat.card D = 9 := by
     have := (hd.ext.isElemAbelian_of_isMulCommutative Nat.prime_three hd.abelian).2
     simpa using this
@@ -248,7 +248,7 @@ theorem ObstructionSetting.not_invariantTwoMaximalWithin_of_module {p : ℕ}
     hS.exists_mem_normalizer_not_mem_centralizer hD1 hp hd.ext hd.not_le_normalizer hDab hCD
   have hnz : n * z = z * n := mem_centralizer_iff.mp hzc n hnP
   have hnord : ∃ k : ℕ, n ^ (3 ^ k) = 1 := by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨n, hnP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨n, hnP⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   obtain ⟨e, heD, hez⟩ : ∃ e ∈ D, e ∉ zpowers z := by
     by_contra h

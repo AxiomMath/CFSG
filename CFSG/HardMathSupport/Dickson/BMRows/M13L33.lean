@@ -47,7 +47,7 @@ theorem range_l33Mon_le : l33Mon.range ≤ Subgroup.centralizer ({gw thirteenX} 
 section Iso
 
 theorem l33Mon_injective : Function.Injective l33Mon := by
-  haveI := isSimple_pg
+  have := isSimple_pg
   rw [← MonoidHom.ker_eq_bot_iff]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal l33Mon.ker with h | h
   · exact h

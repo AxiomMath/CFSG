@@ -62,12 +62,12 @@ theorem forIn_range'_breakT {β : Type} (f : Nat → β → β) (c : Nat → β 
   | k + 1, s, b => by
     rw [List.range'_succ, List.forIn_cons, List.foldl_cons]
     by_cases hc : c s b
-    · simp only [hc, if_true, pure_bind]
+    · simp only [hc, ite_true, pure_bind]
       exact forIn_range'_breakT f c hmono k (s + 1) (f s b)
-    · simp only [hc, if_false, pure_bind]
+    · simp only [hc, ite_false, pure_bind]
       refine (foldl_fixedT _ b _ fun h hh => ?_).symm
       rw [List.mem_range'_1] at hh
-      exact if_neg (hmono s h b (by omega) hc)
+      exact ite_eq_right (hmono s h b (by omega) hc)
 
 theorem ite_pure_yieldT {β : Type} (c : Prop) [Decidable c] (a b : β) :
     (if c then (pure (ForInStep.yield a) : Id (ForInStep β)) else pure (ForInStep.yield b)) =
@@ -79,7 +79,7 @@ theorem tripleBFS_eq_foldl (pa pb : Array Nat) :
   unfold tripleBFS
   simp only [Id.run, Std.Legacy.Range.forIn_eq_forIn_range', Std.Legacy.Range.size,
     ite_pure_yieldT, List.forIn_pure_yield_eq_foldl, Nat.sub_zero,
-    Nat.add_sub_cancel, Nat.div_one, pure_bind, bind_pure, Prod.eta]
+    Nat.add_sub_cancel, Nat.div_one, pure_bind, Prod.eta]
   rw [List.range_eq_range']
   exact congrArg finalTr (forIn_range'_breakT (β := TS)
     (fun h b => (List.range' 0 2).foldl (letterT pa pb h) b) (fun h b => h < b.snd.fst.size)
@@ -156,12 +156,12 @@ theorem letterT_rel (hpa : ∀ i < 24, pa[i]! < 24) (hpb : ∀ i < 24, pb[i]! < 
   rw [hu, hv, hw, ← hp, ← hF]
   by_cases hmem : tripF pa pb a x ∈ s.pts
   · have hne : b.1[tripF pa pb a x]! ≠ 13824 := by
-      rw [hv', if_pos hmem]
+      rw [hv', ite_eq_left hmem]
       have := List.idxOf_lt_length_of_mem hmem
       omega
-    rw [if_pos hmem, if_neg (by simpa using hne)]
+    rw [ite_eq_left hmem, ite_eq_right (by simpa using hne)]
     exact hs
-  · rw [if_neg hmem, hv', if_neg hmem, if_pos (by simp)]
+  · rw [ite_eq_right hmem, hv', ite_eq_right hmem, ite_eq_left (by simp)]
     have hsz : b.2.1.size = s.pts.length := by rw [hs.us]; simp
     refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
     · rw [Array.size_set!]
@@ -182,13 +182,13 @@ theorem letterT_rel (hpa : ∀ i < 24, pa[i]! < 24) (hpb : ∀ i < 24, pb[i]! < 
     · intro y hy
       by_cases e : y = tripF pa pb a x
       · subst e
-        rw [Array.getElem!_set!_self _ _ _ (by rw [hs.size]; exact hq), hsz, if_pos (by simp),
-          List.idxOf_append, if_neg hmem]
+        rw [Array.getElem!_set!_self _ _ _ (by rw [hs.size]; exact hq), hsz, ite_eq_left (by simp),
+          List.idxOf_append, ite_eq_right hmem]
         simp
       · rw [Array.getElem!_set!_ne _ _ _ _ (Ne.symm e), hs.pos y hy]
         by_cases hy' : y ∈ s.pts
-        · rw [if_pos hy', if_pos (List.mem_append_left _ hy'), List.idxOf_append, if_pos hy']
-        · rw [if_neg hy', if_neg]
+        · rw [ite_eq_left hy', ite_eq_left (List.mem_append_left _ hy'), List.idxOf_append, ite_eq_left hy']
+        · rw [ite_eq_right hy', ite_eq_right]
           simp [hy', e]
     · rw [List.nodup_append]
       refine ⟨hs.nodup, by simp, ?_⟩
@@ -208,7 +208,7 @@ theorem stepTr_rel (hpa : ∀ i < 24, pa[i]! < 24) (hpb : ∀ i < 24, pb[i]! < 2
   unfold BS.step stepTr
   have hsz : b.2.1.size = s.pts.length := by rw [hs.us]; simp
   by_cases hh : h < s.pts.length
-  · rw [if_pos hh, if_pos (hsz ▸ hh)]
+  · rw [ite_eq_left hh, ite_eq_left (hsz ▸ hh)]
     have e : List.range' 0 2 = [0, 1] := rfl
     rw [e]
     simp only [List.foldl_cons, List.foldl_nil]
@@ -225,7 +225,7 @@ theorem stepTr_rel (hpa : ∀ i < 24, pa[i]! < 24) (hpb : ∀ i < 24, pb[i]! < 2
       · simp; omega
     have r1 := letterT_rel (a := 1) hpa hpb r0 hh'
     rwa [hpts] at r1
-  · rw [if_neg hh, if_neg (by omega)]
+  · rw [ite_eq_right hh, ite_eq_right (by omega)]
     exact hs
 
 theorem initTr_rel : TRel ⟨[26], [0], [0]⟩ initTr := by
@@ -304,7 +304,7 @@ theorem tripleOK_tripleBFS (hsa : pa.size = 24) (hsb : pb.size = 24)
     simp [List.getD_eq_getElem?_getD, hlenlab, hk]
   have hsz : b.2.1.size = s.pts.length := by rw [hrel.us]; simp
   unfold tripleOK finalTr
-  simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, Bool.or_eq_true, and_assoc]
+  simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, and_assoc]
   have h0 := hok.pos
   have hr := hok.root
   refine ⟨hsa, hsb, by rw [hrel.vs, hrel.us]; simp, by rw [hrel.ws, hrel.us]; simp,
@@ -335,14 +335,14 @@ theorem tripleOK_tripleBFS (hsa : pa.size = 24) (hsb : pb.size = 24)
       rw [e]
       refine ⟨rfl, ?_⟩
       unfold tripF codeImg
-      simp only [if_pos]
+      simp only [ite_eq_left]
       have := hpa _ h1; have := hpa _ h2; have := hpa _ h3
       refine ⟨⟨?_, ?_⟩, ?_⟩ <;> omega
     · right
       rw [e]
       refine ⟨rfl, ?_⟩
       unfold tripF codeImg
-      simp only [one_ne_zero, if_false]
+      simp only [one_ne_zero, ite_false]
       have := hpb _ h1; have := hpb _ h2; have := hpb _ h3
       refine ⟨⟨?_, ?_⟩, ?_⟩ <;> omega
   · rw [CFSG.Sporadic.Th.allIn_eq_true]
@@ -362,7 +362,7 @@ theorem tripleOK_tripleBFS (hsa : pa.size = 24) (hsb : pb.size = 24)
     have hc := hmem u hu v hv w hw e1 e2 e3
     have hcl' : 576 * u + 24 * v + w < 13824 := by omega
     have hidx := List.idxOf_lt_length_of_mem hc
-    rw [hrel.pos _ hcl', if_pos hc, hsz, hus _ hidx, hvs _ hidx, hws _ hidx, getD_idxOfT hc]
+    rw [hrel.pos _ hcl', ite_eq_left hc, hsz, hus _ hidx, hvs _ hidx, hws _ hidx, getD_idxOfT hc]
     refine ⟨⟨⟨hidx, ?_⟩, ?_⟩, ?_⟩ <;> omega
 
 @[expose] def bitK (S k : Nat) : Bool := Nat.beq (Nat.land (Nat.shiftRight S k) 1) 1
@@ -409,14 +409,14 @@ theorem testBit_orSel2 (c : Nat → Bool) (f g : Nat → Nat) (n : Nat) :
     constructor
     · rintro (h | ⟨k', hk', h⟩)
       · by_cases hc : c k = true
-        · rw [if_pos hc] at h
+        · rw [ite_eq_left hc] at h
           change (acc ||| (Nat.shiftLeft 1 (f k) ||| Nat.shiftLeft 1 (g k))).testBit y = true at h
           rw [Nat.testBit_or, Nat.testBit_or, testBit_one_shiftLeft, testBit_one_shiftLeft] at h
           simp only [Bool.or_eq_true, decide_eq_true_eq] at h
           rcases h with h | h
           · exact Or.inl h
           · exact Or.inr ⟨k, by omega, hc, h⟩
-        · rw [if_neg hc] at h
+        · rw [ite_eq_right hc] at h
           exact Or.inl h
       · exact Or.inr ⟨k', by omega, h⟩
     · rintro (h | ⟨k', hk', hc, h⟩)
@@ -428,7 +428,7 @@ theorem testBit_orSel2 (c : Nat → Bool) (f g : Nat → Nat) (n : Nat) :
       · by_cases e' : k' = k
         · subst e'
           left
-          rw [if_pos hc]
+          rw [ite_eq_left hc]
           change (acc ||| (Nat.shiftLeft 1 (f k') ||| Nat.shiftLeft 1 (g k'))).testBit y = true
           rw [Nat.testBit_or, Nat.testBit_or, testBit_one_shiftLeft, testBit_one_shiftLeft]
           simp only [Bool.or_eq_true, decide_eq_true_eq]
@@ -514,11 +514,11 @@ theorem tripReach_sound (P : Nat → Prop) (h26 : P 26)
   let Q : Nat → Prop := fun x => x < 13824 ∧ P x
   have hA : ∀ x < 13824, tripF planeAArr planeBArr 0 x = codeImg pAK x := fun x hx => by
     unfold tripF
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact codeImg_congr (fun i hi => pAK_eq ⟨i, hi⟩) hx
   have hB : ∀ x < 13824, tripF planeAArr planeBArr 1 x = codeImg pBK x := fun x hx => by
     unfold tripF
-    rw [if_neg (by decide)]
+    rw [ite_eq_right (by decide)]
     exact codeImg_congr (fun i hi => pBK_eq ⟨i, hi⟩) hx
   have hpa : ∀ i < 24, planeAArr[i]! < 24 := fun i hi => by
     have : ∀ i : Fin 24, planeAArr[i.val]! < 24 := by decide

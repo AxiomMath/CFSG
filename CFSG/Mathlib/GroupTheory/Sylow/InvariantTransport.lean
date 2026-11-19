@@ -44,7 +44,7 @@ theorem exists_simultaneous_conjugation
       _ = (P : Subgroup F).map j := by rw [hBP β hβ]
   have hHp : IsPGroup p ↥H := by
     dsimp only [H]
-    exact hB.to_sup_of_normal_right' (P.isPGroup'.map j) hnorm
+    exact hB.to_sup_of_normal_right' (P.isPGroup.map j) hnorm
   obtain ⟨Q, hHQ⟩ := hHp.exists_le_sylow
   obtain ⟨γ, hγ⟩ := MulAction.exists_smul_eq (MulAut F) Q T
   have hcoeQ : (MulAut.conj γ) • (Q : Subgroup (MulAut F)) =
@@ -77,7 +77,7 @@ theorem exists_simultaneous_conjugation
     rw [Subgroup.map_map, hcomp, ← Subgroup.map_map]
     exact hjP
   have hcomap : IsPGroup p ↥((T : Subgroup (MulAut F)).comap j) := by
-    apply T.isPGroup'.comap_of_ker_isPGroup j
+    apply T.isPGroup.comap_of_ker_isPGroup j
     rw [show j = (MulAut.conj : F →* MulAut F) from rfl,
       CFSG.GroupTheory.ker_conj_eq_center]
     exact hcenter

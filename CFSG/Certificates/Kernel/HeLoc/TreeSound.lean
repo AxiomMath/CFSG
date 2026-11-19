@@ -19,14 +19,14 @@ variable {n : Nat}
 
 @[expose] noncomputable def treePerm (gp : Nat → Equiv.Perm (Fin n)) (P Lb : Nat → Nat) :
     Nat → Equiv.Perm (Fin n)
-  | i => if h : 0 < i ∧ P i < i then gp (Lb i) * treePerm gp P Lb (P i) else 1
+  | i => if _h : 0 < i ∧ P i < i then gp (Lb i) * treePerm gp P Lb (P i) else 1
 termination_by i => i
-decreasing_by exact h.2
+decreasing_by exact _h.2
 
 @[expose] def treeArr (n : Nat) (gs : Array (Array Nat)) (P Lb : Nat → Nat) : Nat → Array Nat
-  | i => if h : 0 < i ∧ P i < i then compA n gs[Lb i]! (treeArr n gs P Lb (P i)) else idA n
+  | i => if _h : 0 < i ∧ P i < i then compA n gs[Lb i]! (treeArr n gs P Lb (P i)) else idA n
 termination_by i => i
-decreasing_by exact h.2
+decreasing_by exact _h.2
 
 variable {gp : Nat → Equiv.Perm (Fin n)} {P Lb : Nat → Nat} {gs : Array (Array Nat)}
   {g : Nat → Nat → Nat} {ng N : Nat}
@@ -37,7 +37,7 @@ theorem treePerm_zero : treePerm gp P Lb 0 = 1 := by
 
 theorem treePerm_pos {i : Nat} (h : 0 < i ∧ P i < i) :
     treePerm gp P Lb i = gp (Lb i) * treePerm gp P Lb (P i) := by
-  rw [treePerm, dif_pos h]
+  rw [treePerm, dite_eq_left h]
 
 theorem treeArr_zero : treeArr n gs P Lb 0 = idA n := by
   rw [treeArr]
@@ -45,7 +45,7 @@ theorem treeArr_zero : treeArr n gs P Lb 0 = idA n := by
 
 theorem treeArr_pos {i : Nat} (h : 0 < i ∧ P i < i) :
     treeArr n gs P Lb i = compA n gs[Lb i]! (treeArr n gs P Lb (P i)) := by
-  rw [treeArr, dif_pos h]
+  rw [treeArr, dite_eq_left h]
 
 theorem size_treeArr (i : Nat) : (treeArr n gs P Lb i).size = n := by
   rw [treeArr]

@@ -16,6 +16,7 @@ open CFSG.ASVolI.ChIJK (IsWeaklyClosedIn)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22qu_M_le_normalizer_R (M : Subgroup G) : M ≤ normalizer (pCoreOf 2 M : Set G) :=
   CFSG.RankThreeCoreUniqueness.Helpers.localGroup_le_normalizer_pCoreOf 2 M
 
@@ -61,7 +62,7 @@ theorem uc22p22qu_Dd_odd (D : Data G) {p : ℕ} {L : Subgroup G}
       (CFSG.Open.uniqueFourPrimeCore p D.M ⊔ centralizer (L : Set G)) (CFSG.Open.pCoreOf 2 D.M)
       (centralizer (L : Set G))) :
     ∀ d ∈ centralizer (L : Set G), Odd (orderOf d) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro d hd
   obtain ⟨hDM, hfpf⟩ := uc22p22qk_frob_unpack D hfrob
   by_contra hev
@@ -89,7 +90,7 @@ theorem uc22p22qu_strong_of_weak {p : ℕ} (hp : p.Prime) {P P₀ : Subgroup G} 
   intro a ha m hm
   by_cases ha1 : a = 1
   · subst ha1
-    simpa using P₀.one_mem
+    simp
   · have hdvd : orderOf a ∣ p := by
       rw [← hcard]
       exact Subgroup.orderOf_dvd_natCard P₀ ha
@@ -115,7 +116,7 @@ theorem uc22p22qu_P0Q_normal (D : Data G) {p : ℕ} {P P₀ : Subgroup G} (hH : 
     rw [D.sig_sub]
     exact Or.inl (Or.inr hH.mem_sig2)
   have hpP : p.Prime := (D.sig_prime p hpσ).1
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   have hP₀1 : P₀ ≠ ⊥ := by
     intro h
     have := hH.card
@@ -154,7 +155,7 @@ theorem uc22p22qu_P1Q_normal (D : Data G) (hstd : Sigma23Std D) {p : ℕ} {P P�
     rw [D.sig_sub]
     exact Or.inl (Or.inr hH.mem_sig2)
   have hpP : p.Prime := (D.sig_prime p hpσ).1
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   have hp2 : p ≠ 2 := (D.sig_prime p hpσ).2
   have hirrP := uc22p22q_irr_P1 D hstd hH hwc hL hp2 hΓ
   have hne := uc22p22q_P1_ne_bot D hstd hH hwc hL hp2

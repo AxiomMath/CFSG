@@ -23,7 +23,7 @@ theorem le_of_normalClosure_two {Q L Y R N J : Subgroup G} (hQS : Q ≤ L ⊓ Y)
     (hcomm : ∀ y ∈ J, ∀ w ∈ L ⊓ Y, ⁅y, w⁆ ∈ Q)
     (hSN : L ⊓ Y ≤ N) (hcard : Nat.card ↥(L ⊓ N) ≤ Nat.card ↥(L ⊓ Y)) : N ≤ Y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLN : L ⊓ Y = L ⊓ N :=
     Subgroup.eq_of_le_of_card_ge (le_inf inf_le_left hSN) hcard
   have hJle : ∀ y ∈ J, conjSubgroup y (L ⊓ Y) ≤ L ⊓ Y := by
@@ -147,7 +147,7 @@ theorem card_ge_of_elationFull {K V : Type} [Field K] [Finite K] [CharP K 2] [Ad
             Submodule.finrank_le _
         _ = 2 := by simp
     omega
-  haveI := finite_linearEquiv (K := K) (V := V)
+  have := finite_linearEquiv (K := K) (V := V)
   calc Nat.card K ^ (Module.finrank K V - 2)
       ≤ Nat.card K ^ Module.finrank K (LinearMap.ker Φ) :=
         Nat.pow_le_pow_right Nat.card_pos hdimW

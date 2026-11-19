@@ -73,7 +73,7 @@ theorem j3InSitu_of (hS : KFactJ3Sylow) (hO : KFactJ3OuterInvolution) (hOR : KFa
   have hsq : ∀ y : Y, y ^ 2 ∈ K := sq_mem_of_card_outer_le_two hOut2 hC
   set T' : Subgroup Y := (T : Subgroup Y)
   have hTK : T' ≤ K := fun t ht => by
-    obtain ⟨n, hn⟩ := T.isPGroup' ⟨t, ht⟩
+    obtain ⟨n, hn⟩ := T.isPGroup ⟨t, ht⟩
     exact h3K t n (by simpa using congrArg Subtype.val hn)
   have hF : J3SylowFacts K (T'.subgroupOf K) := by
     have h := hS K hK (T.subtype hTK)
@@ -106,7 +106,7 @@ theorem j3InSitu_of (hS : KFactJ3Sylow) (hO : KFactJ3OuterInvolution) (hOR : KFa
           Subgroup.mem_subgroupOf.mpr (Y₀.mul_mem (Y₀.mul_mem hy htY) (Y₀.inv_mem hy))
         rw [hY0K] at this
         exact (hNK _).mp this
-      obtain ⟨n, hn⟩ := T.isPGroup' ⟨t, ht⟩
+      obtain ⟨n, hn⟩ := T.isPGroup ⟨t, ht⟩
       have hp : (y * t * y⁻¹) ^ 3 ^ n = 1 := by
         rw [conj_pow, show t ^ 3 ^ n = 1 by simpa using congrArg Subtype.val hn, mul_one,
           mul_inv_cancel]
@@ -126,7 +126,7 @@ theorem j3InSitu_of (hS : KFactJ3Sylow) (hO : KFactJ3OuterInvolution) (hOR : KFa
     · exact hCK c hc hcK
     exfalso
     have hc2 : c ^ 2 ∈ T' := hCK _ (Subgroup.pow_mem _ hc 2) (hsq c)
-    obtain ⟨a, ha⟩ := T.isPGroup' ⟨c ^ 2, hc2⟩
+    obtain ⟨a, ha⟩ := T.isPGroup ⟨c ^ 2, hc2⟩
     have ha' : (c ^ 2) ^ 3 ^ a = 1 := by simpa using congrArg Subtype.val ha
     set w := c ^ 3 ^ a with hw
     have hw2 : w ^ 2 = 1 := by rw [hw, ← pow_mul, mul_comm, pow_mul, ha']

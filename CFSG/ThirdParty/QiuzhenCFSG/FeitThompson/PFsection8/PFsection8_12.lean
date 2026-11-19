@@ -32,7 +32,7 @@ private theorem theorem_8_12_isMulCommutative_of_mulEquiv
     (e : R ≃* S)
     (hS : IsMulCommutative S) :
     IsMulCommutative R := by
-  letI : IsMulCommutative S := hS
+  let : IsMulCommutative S := hS
   refine ⟨⟨fun x y => ?_⟩⟩
   apply e.injective
   calc
@@ -48,7 +48,7 @@ private theorem theorem_8_12_hasAbelianSylowRankAtMostTwo_of_mulEquiv
     section16HasAbelianSylowRankAtMostTwo R := by
   classical
   intro p P
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let f : R →* S := e.toMonoidHom
   let Q : Sylow p.val S := P.mapSurjective (f := f) e.surjective
   have hQ := hS p Q
@@ -786,7 +786,7 @@ public theorem theorem_8_12
     (A A0 A1 : Set G) :
     theorem_8_12_statement M MF U Ms A A0 A1 := by
   intro hG hSrc
-  haveI : IsMinCE G := hG
+  have : IsMinCE G := hG
   rcases hSrc with ⟨hNotation, hCases⟩
   rcases hNotation with ⟨hM, hMF, hMs, _hA1, _hNotationCase⟩
   rcases hCases with hTypeI | hTypeII

@@ -16,15 +16,19 @@ variable {H : Type} [Group H] {Q : Subgroup H} [Module (ZMod 2) (Additive (Abeli
 private def piQ (x : Q) : Additive (Abelianization Q) :=
   Additive.ofMul (Abelianization.of x)
 
+omit [Module (ZMod 2) (Additive (Abelianization ↥Q))] in
 private lemma piQ_one : piQ (1 : Q) = 0 := by
   simp [piQ]
 
+omit [Module (ZMod 2) (Additive (Abelianization ↥Q))] in
 private lemma piQ_mul (x y : Q) : piQ (x * y) = piQ x + piQ y := by
   simp [piQ]
 
+omit [Module (ZMod 2) (Additive (Abelianization ↥Q))] in
 private lemma piQ_inv (x : Q) : piQ x⁻¹ = -piQ x := by
   simp [piQ]
 
+omit [Module (ZMod 2) (Additive (Abelianization ↥Q))] in
 private lemma piQ_eq_zero_iff (hE : IsExtraspecialPGroup 2 Q) (x : Q) :
     piQ x = 0 ↔ x ∈ Subgroup.center Q :=
   ofMul_of_eq_zero_iff hE x

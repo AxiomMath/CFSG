@@ -206,7 +206,7 @@ theorem sdo_select_component {ι : Type*} [Finite ι] (p : ℕ) (hp : p.Prime) (
     ∃ i, IsComponentOf (J i) C ∧ p ∣ Nat.card (↥(J i) ⧸ Subgroup.center ↥(J i)) ∧
       ⁅⁅B, Y⁆, J i⁆ ≠ ⊥ ∧ ⁅B, Y⁆ ≤ J i ⊔ (C ⊓ Subgroup.centralizer (J i : Set G)) := by
   classical
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   obtain ⟨b₀, hb₀, y₀, hy₀, hz₀⟩ : ∃ b ∈ B, ∃ y ∈ Y, ⁅b, y⁆ ≠ 1 := by
     by_contra hall
     push Not at hall

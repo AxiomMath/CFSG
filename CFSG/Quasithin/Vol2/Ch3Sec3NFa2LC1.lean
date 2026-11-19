@@ -14,10 +14,11 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {T M L D H K : Subgroup G} {q : ℕ}
 
+omit [Finite G] in
 theorem mem_normalizer_bot' (g : G) : g ∈ Subgroup.normalizer ((⊥ : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_bot]
+  simp only [Subgroup.mem_bot]
   constructor
   · rintro rfl
     simp
@@ -71,7 +72,7 @@ theorem A2Cfg.exists_nontriv_N0 (h36 : A36ForSQTK) (h37 : A37ForSQTKCat) (h38 : 
         ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _).to_le inf_le_right)
     exact hXle (Subgroup.mem_inf.mpr ⟨le_conjClosure K T hK₁, hT₁⟩)
   have h2 := odd_centralizes_of_stable (k := x) (by rw [hx3]; decide) (Z₀ := ⊥)
-    (N₀ := a2N0 K T) (N₁ := a2TC K T) bot_le c.N0_le_TC hN₀2
+    (N₀ := a2N0 K T) (N₁ := a2TC K T) bot_le CFSG.Quasithin.H13.NFa2.A2Cfg.N0_le_TC hN₀2
     (fun _ _ => mem_normalizer_bot' _) (fun y hy => hXA (hTCX hy))
     (mem_normalizer_bot' _) (hXA hxX) (hTCn hxX) hcon h1
   have hxC : x ∈ Subgroup.centralizer (pCoreOf 2 (a2G2 K T) : Set G) := by
@@ -88,6 +89,7 @@ theorem A2Cfg.exists_nontriv_N0 (h36 : A36ForSQTK) (h37 : A37ForSQTKCat) (h38 : 
   have h32 := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3
   norm_num at h32
 
+omit [Finite G] in
 theorem centralizerMod_bot_zpowers (A : Subgroup G) (c : G) :
     centralizerMod ⊥ A (Subgroup.zpowers c) = A ⊓ Subgroup.centralizer ({c} : Set G) := by
   ext x

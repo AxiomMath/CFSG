@@ -67,7 +67,7 @@ theorem exists_equivariantMap {a : N} (ha : a ≠ 0) {u : V} (hu : u ∈ rootSpa
     intro g
     have hga : g.app a ≠ 0 := gsp_app_ne_zero g ha
     show (if hx : g.app a = 0 then 0 else ρ (Classical.choose (hex _ hx)) u) = ρ g u
-    rw [dif_neg hga]
+    rw [dite_eq_right hga]
     set g' := Classical.choose (hex _ hga) with hg'def
     have hg' : g'.app a = g.app a := Classical.choose_spec (hex _ hga)
     have hfix : (g'⁻¹ * g).app a = a := by rw [Gsp.app_mul, ← hg', Gsp.app_inv_app]
@@ -152,8 +152,8 @@ theorem exists_twisted_basis {a : N} (ha : a ≠ 0) :
   have hf_apply : ∀ (ν : K) (hν : ν ≠ 0) (h : Gsp BN), h.app a = ν • a →
       ∀ u : rootSpace hBN ρ a, ((f₀ ν u : rootSpace hBN ρ a) : V) = ρ h (u : V) := by
     intro ν hν h hh u
-    simp only [f₀, dif_neg hν]
-    rw [LinearMap.restrict_coe_apply]
+    simp only [f₀, dite_eq_right hν]
+    rw [_root_.LinearMap.coe_restrict_apply]
     exact hwell _ _ (by rw [Classical.choose_spec (hex ν hν), hh]) u u.2
   have hFval : ∀ (u : rootSpace hBN ρ a) (F : N →+ V), F a = u →
       (∀ (g : Gsp BN) (x : N), F (g.app x) = ρ g (F x)) →

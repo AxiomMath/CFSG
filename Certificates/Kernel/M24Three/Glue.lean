@@ -322,9 +322,9 @@ theorem mul_rec {H : Subgroup Pm} {cnt cap : ℕ} {G GI T PL POS SRT SRI HS HSI 
   have hnd := nodup_of_hkeysDistinct (forall2_rec (PL := PL) hcR) hd
   have hinj := List.nodup_ofFn.1 hnd
   refine ⟨fun i => if h : i < cnt then c ⟨i, h⟩ else 1, fun i hi => ?_, fun a ha b hb e => ?_⟩
-  · simp only [dif_pos hi]
+  · simp only [dite_eq_left hi]
     exact ⟨(rep_iff (penumPt_specH (hp i hi)).1).1 (hcR ⟨i, hi⟩), hcH _⟩
-  · simp only [dif_pos ha, dif_pos hb] at e
+  · simp only [dite_eq_left ha, dite_eq_left hb] at e
     exact congrArg Fin.val (hinj e)
 
 theorem card_of_inj {C : Subgroup Pm} {f : ℕ → Pm} {cnt : ℕ} (hf : ∀ i < cnt, f i ∈ C)

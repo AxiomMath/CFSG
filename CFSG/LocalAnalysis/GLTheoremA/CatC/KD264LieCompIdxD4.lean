@@ -27,7 +27,7 @@ theorem catalogueOver_adjointGroup_G2 {ℓ f : ℕ} [Fact ℓ.Prime] (hf : 1 ≤
     {F : Type} [Field F] [Finite F] (hF : Nat.card F = ℓ ^ f) (hF3 : 3 ≤ Nat.card F) :
     CatalogueOver ℓ (ℓ ^ f) ↥(adjointGroup Tag.G2 F) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   let q : TauCeti.PrimePower := ⟨ℓ, f, Fact.out, hf⟩
   have hq : Nat.card F = q.card := by
     rw [hF]
@@ -52,7 +52,7 @@ theorem exists_ne_comm_commutator_adjointGroup_G2_two {F : Type} [Field F] [Fini
     (hF : Nat.card F = 2) :
     ∃ a b : ↥(commutator ↥(adjointGroup Tag.G2 F)), a * b ≠ b * a := by
   obtain ⟨hDs, hDcard⟩ := ExcCopy.g2Two_derived_exc hF
-  haveI := hDs
+  have := hDs
   by_contra hcon
   push Not at hcon
   let _ : CommGroup ↥(commutator ↥(adjointGroup Tag.G2 F)) :=
@@ -67,7 +67,7 @@ theorem catalogueOver_commutator_adjointGroup_G2_two {F : Type} [Field F] [Finit
   classical
   have hLie := CFSG.Quasithin.EmptyFaithfulMultiple.g2TwoDerivedUnitaryTransport_holds F hF
   obtain ⟨hDs, -⟩ := ExcCopy.g2Two_derived_exc hF
-  haveI := hDs
+  have := hDs
   have hDnc := exists_ne_comm_commutator_adjointGroup_G2_two hF
   have hZ : Subgroup.center ↥(commutator ↥(adjointGroup Tag.G2 F)) = ⊥ :=
     b3Lie_center_eq_bot hDnc
@@ -92,10 +92,10 @@ theorem compsWith_catalogueOver_adjointGroup_G2 {ℓ f : ℕ} [Fact ℓ.Prime] (
     {F : Type} [Field F] [Finite F] (hF : Nat.card F = ℓ ^ f) :
     CompsWith (CatalogueOver ℓ (ℓ ^ f)) ↥(adjointGroup Tag.G2 F) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   by_cases h2 : Nat.card F = 2
   · obtain ⟨hDs, -⟩ := ExcCopy.g2Two_derived_exc h2
-    haveI := hDs
+    have := hDs
     have hpow : ℓ ^ f = 2 := hF.symm.trans h2
     obtain ⟨hℓ, hf1⟩ := Nat.prime_two.pow_eq_iff.mp hpow
     subst hℓ
@@ -109,7 +109,7 @@ theorem compsWith_catalogueOver_adjointGroup_G2 {ℓ f : ℕ} [Fact ℓ.Prime] (
       omega
     have hperf := ExcCopy.isPerfect_adjointGroup .G2 F (fun _ => hF3)
     obtain ⟨hs, hnc⟩ := ExcCopy.isSimpleGroup_adjointGroup_of_perfect .G2 F hperf
-    haveI := hs
+    have := hs
     exact compsWith_of_simple (isComponentProperty_catalogueOver ℓ (ℓ ^ f)) hnc
       (catalogueOver_adjointGroup_G2 hf hF hF3)
 
@@ -117,10 +117,10 @@ theorem catalogueOver_projImage_slPi {π : Bool} {p f : ℕ} {K : Type} [Field K
     (hK : Sec4.PiField π p f K) (hq2 : 2 < p ^ f) :
     CatalogueOver p (p ^ f) ↥(projImage (Sec4.slPi π 3 (p ^ f) K)) := by
   classical
-  haveI := hK.finite
-  haveI : Fintype K := Fintype.ofFinite K
+  have := hK.finite
+  have : Fintype K := Fintype.ofFinite K
   have hp := hK.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let g₀ : ↥(Sec4.slPi π 3 (p ^ f) K) →* ↥(projImage (Sec4.slPi π 3 (p ^ f) K)) :=
     (Matrix.ProjGenLinGroup.mk : GL (Fin 3) K →* _).subgroupMap (Sec4.slPi π 3 (p ^ f) K)
   have hg₀ : Function.Surjective g₀ := MonoidHom.subgroupMap_surjective _ _
@@ -157,16 +157,16 @@ theorem compsWith_catalogueOver_projImage_glPi {π : Bool} {p f : ℕ} {K : Type
     [Finite K] (hK : Sec4.PiField π p f K) (hπ2 : π = true → 2 < p ^ f) :
     CompsWith (CatalogueOver p (p ^ f)) ↥(projImage (Sec4.glPi π 3 (p ^ f) K)) := by
   classical
-  haveI := hK.finite
-  haveI : Fintype K := Fintype.ofFinite K
+  have := hK.finite
+  have : Fintype K := Fintype.ofFinite K
   have hp := hK.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro J hJ
   by_cases hq2 : 2 < p ^ f
-  · haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) K) :=
+  · have : Finite (Matrix.ProjGenLinGroup (Fin 3) K) :=
       Finite.of_surjective (Matrix.ProjGenLinGroup.mk : GL (Fin 3) K →* _)
         (QuotientGroup.mk'_surjective _)
-    haveI : Finite ↥(projImage (Sec4.glPi π 3 (p ^ f) K)) := Subtype.finite
+    have : Finite ↥(projImage (Sec4.glPi π 3 (p ^ f) K)) := Subtype.finite
     have hπ : π = false → UnitaryFieldData p f K := fun h => by subst h; exact hK.unitary
     have hR := Item8KFacts2Proof.perfectResidual_projImage_glPi_eq hK hq2
     have hSP : projImage (Sec4.slPi π 3 (p ^ f) K) ≤ projImage (Sec4.glPi π 3 (p ^ f) K) :=
@@ -177,7 +177,7 @@ theorem compsWith_catalogueOver_projImage_glPi {π : Bool} {p f : ℕ} {K : Type
     have hperfS : Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) K)) :=
       Sec13.isPerfect_projImage_slPi hK hq2
     have hsS := Item8KFacts2Proof.isSimpleGroup_projImage_slPi hK hq2
-    haveI := hsS
+    have := hsS
     have hqS : CFSG.IsQuasisimple ↥(projImage (Sec4.slPi π 3 (p ^ f) K)) :=
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup
         (Item8KFacts2Proof.exists_ne_comm_of_isPerfect hperfS)).1
@@ -193,11 +193,11 @@ theorem compsWith_catalogueOver_projImage_glPi {π : Bool} {p f : ℕ} {K : Type
       have h3 : p ≤ p ^ f := Nat.le_self_pow (by have := hK.one_le; omega) p
       omega
     cases π
-    · haveI := Sec13.isSolvable_projImage_glPi_two hK h2
+    · have := Sec13.isSolvable_projImage_glPi_two hK h2
       exfalso
       obtain ⟨hp', hs⟩ := hJ.2.2
-      haveI := hs.toNontrivial
-      haveI : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
+      have := hs.toNontrivial
+      have : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
       exact absurd hp' (ne_of_lt (Group.IsSolvable.commutator_lt_top_of_nontrivial ↥J))
     · exact absurd (hπ2 rfl) hq2
 
@@ -224,7 +224,7 @@ theorem compsWith_catalogueOver_fixSubgroup_fieldActor {ℓ f : ℕ} [Fact ℓ.P
     omega
   have hF : Nat.card (fixSubfield σ) = ℓ ^ f :=
     CFSG.GH74.GLS.Stage4.Hex.card_fixedField_of_cube σ.toRingHom hq hK hσ
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   exact CompsWith.of_mulEquiv (isComponentProperty_catalogueOver ℓ (ℓ ^ f)) e
     (compsWith_catalogueOver_adjointGroup_G2 hf hF)
 
@@ -288,9 +288,9 @@ theorem trialityOddA2CompsCatalogue_holds (ℓ f : ℕ) [Fact ℓ.Prime] :
         Function.Surjective ρ → ρ.ker ≤ Subgroup.center SL(3, E) →
         CatalogueOver ℓ (ℓ ^ f) Q := by
     intro E _ _ hE Q _ _ ρ hρ hk
-    haveI : Fintype E := Fintype.ofFinite E
+    have : Fintype E := Fintype.ofFinite E
     have hEc : Fintype.card E = ℓ ^ f := by rw [← Nat.card_eq_fintype_card]; exact hE
-    haveI : CharP E ℓ := charP_of_card_eq_prime_pow hEc
+    have : CharP E ℓ := charP_of_card_eq_prime_pow hEc
     have hring : ringChar E = ℓ := ringChar.eq E ℓ
     have hcat := catalogueOver_of_surjective_sl (E := E) (m := 3) (by norm_num)
       (fun h => absurd h (by norm_num)) ρ hρ hk
@@ -300,10 +300,10 @@ theorem trialityOddA2CompsCatalogue_holds (ℓ f : ℕ) [Fact ℓ.Prime] :
         Function.Surjective g → g.ker ≤ Subgroup.center ↥(StatedSU 3 (ℓ ^ f) E) →
         CatalogueOver ℓ (ℓ ^ f) Q := by
     intro E _ _ hE Q _ _ g hg hk
-    haveI : Fintype E := Fintype.ofFinite E
+    have : Fintype E := Fintype.ofFinite E
     have hEc : Fintype.card E = (ℓ ^ f) ^ 2 := by
       rw [← Nat.card_eq_fintype_card]; exact hE
-    haveI : CharP E ℓ := charP_of_card_eq_prime_pow (f := 2 * f)
+    have : CharP E ℓ := charP_of_card_eq_prime_pow (f := 2 * f)
       (by rw [hEc, ← pow_mul, mul_comm])
     have hring : ringChar E = ℓ := ringChar.eq E ℓ
     have hmq : ((3 : ℕ), ℓ ^ f) ≠ ((3 : ℕ), 2) := by
@@ -352,8 +352,8 @@ theorem compIdxAt_D4 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.D 4 q)
     CompIdxAt p (.D 4 q) (TauCeti.CFSGIndex.lie ⟨.D 4 q, hv⟩).Group := by
   classical
   let F := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩)
-  haveI : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Finite F := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hFcard : Nat.card F = q.p ^ q.exponent := by
     change Nat.card ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 q, hv⟩) =
       q.p ^ q.exponent

@@ -8,11 +8,11 @@ public section
 namespace CFSG.Quasithin.H13.N1246.SL27
 
 theorem mem_of_transfer {G : Type} [Group G] [Finite G] [Group.IsPerfect G]
-    {H K : Subgroup G} (hKH : K ≤ H) (hKn : (K.subgroupOf H).Normal) (hodd : ¬ 2 ∣ H.index)
+    {H K : Subgroup G} (_hKH : K ≤ H) (hKn : (K.subgroupOf H).Normal) (hodd : ¬ 2 ∣ H.index)
     (h2 : ∀ x ∈ H, ∃ j : ℕ, x ^ 2 ^ j ∈ K)
     (hcomm : ∀ x ∈ H, ∀ y ∈ H, x * y * x⁻¹ * y⁻¹ ∈ K)
     {d : G} (hd : ∀ g : G, g * d = d * g) (hdH : d ∈ H) : d ∈ K := by
-  letI : CommGroup (H ⧸ K.subgroupOf H) :=
+  let : CommGroup (H ⧸ K.subgroupOf H) :=
     { (inferInstance : Group (H ⧸ K.subgroupOf H)) with
       mul_comm := fun a b => by
         obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
@@ -26,7 +26,7 @@ theorem mem_of_transfer {G : Type} [Group G] [Finite G] [Group.IsPerfect G]
     ⟨QuotientGroup.mk' (K.subgroupOf H), fun _ => rfl⟩
   have htriv : ∀ g : G, MonoidHom.transfer ϕ g = 1 := by
     intro g
-    haveI : Group.IsPerfect (MonoidHom.transfer ϕ).range := Group.IsPerfect.range _
+    have : Group.IsPerfect (MonoidHom.transfer ϕ).range := Group.IsPerfect.range _
     have hmem : MonoidHom.transfer ϕ g ∈ (MonoidHom.transfer ϕ).range :=
       MonoidHom.mem_range.mpr ⟨g, rfl⟩
     exact congrArg Subtype.val (Subsingleton.elim (⟨_, hmem⟩ : (MonoidHom.transfer ϕ).range) 1)

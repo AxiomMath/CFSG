@@ -308,7 +308,7 @@ theorem tau_fP3 {σ : K →+* K} (hσ : ∀ c, σ (σ (σ c)) = c) (ε : K ≃+*
   refine tau_of_conj ?_
   rw [fP3_eq, map_mul, map_mul, aut_xa, aut_xa, aut_xa,
     conj_three_xa (zc_15 _) (zc_13 _) (zc_12 _), fM3_eq, key_mu]
-  exact triple_xa_eq (by simp only [map_neg, hε]) (by simp only [map_neg, hε])
+  exact triple_xa_eq (by simp only [map_neg]) (by simp only [map_neg, hε])
     (by simp only [map_neg, hε])
 
 theorem tau_fM3 {σ : K →+* K} (hσ : ∀ c, σ (σ (σ c)) = c) (ε : K ≃+* K)
@@ -320,7 +320,7 @@ theorem tau_fM3 {σ : K →+* K} (hσ : ∀ c, σ (σ (σ c)) = c) (ε : K ≃+*
   refine tau_of_conj ?_
   rw [fM3_eq, map_mul, map_mul, aut_xa, aut_xa, aut_xa,
     conj_three_xa (zc_20 _) (zc_18 _) (zc_17 _), fP3_eq, key_muinv]
-  exact triple_xa_eq (by simp only [map_neg, hε]) (by simp only [map_neg, hε])
+  exact triple_xa_eq (by simp only [map_neg]) (by simp only [map_neg, hε])
     (by simp only [map_neg, hε])
 
 end CFSG.HardMathSupport.Solomon.Coordinator.LieComp.TriA2

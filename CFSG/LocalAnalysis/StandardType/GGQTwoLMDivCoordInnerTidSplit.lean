@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 
 private lemma qTwoLMDivCoordInner_tidsplit_oneVec_order {m : ℕ} (h3 : 3 ∣ m) (hm : 0 < m) :
     orderOf (qTwoOneVec m h3) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply orderOf_eq_prime
   · apply Subtype.ext
     funext i
@@ -29,7 +29,7 @@ private lemma qTwoLMDivCoordInner_tidsplit_oneVec_order {m : ℕ} (h3 : 3 ∣ m)
   · intro h
     have h0 : Multiplicative.ofAdd (1 : ZMod 3) = 1 := by
       have h1 := congrFun (congrArg Subtype.val h) ⟨0, hm⟩
-      simpa [qTwoOneVec] using h1
+      simp [qTwoOneVec] at h1
     exact one_ne_zero (ofAdd_eq_one.mp h0)
 
 theorem qTwoLMDivCoordInner_tid_split {B Bs L : Subgroup G} {x : G} (hG : GGThmIHyp 3 B x L)
@@ -47,7 +47,7 @@ theorem qTwoLMDivCoordInner_tid_split {B Bs L : Subgroup G} {x : G} (hG : GGThmI
   have hxBs : x ∈ Bs := hBs.1 hxB
   have hx3 : x ^ 3 = 1 := hBs.2.1.2 x hxBs
   have hxord : orderOf x = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hx3 hx1
   have hxBs_le : Subgroup.zpowers x ≤ Bs := Subgroup.zpowers_le.mpr hxBs
   let T : Subgroup G := Subgroup.map L.subtype τ.range

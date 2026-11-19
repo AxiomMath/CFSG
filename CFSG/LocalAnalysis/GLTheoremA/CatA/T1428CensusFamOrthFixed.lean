@@ -56,14 +56,14 @@ private theorem orthDerived_quasisimple_or_split {K : Type} [Field K] [Finite K]
         · obtain ⟨E, _, _, D, ψ, ρ, hψ, hρψ, hinj, hmem, hcomm, hsimple, hperf, hnonab, hcard,
             hidx, hnorm, hodd⟩ :=
             CFSG.RankThree.PartOne.even_minus_four_actual_derived_extraction R hR (by omega) hts
-          haveI := hsimple
+          have := hsimple
           have hq : CFSG.IsQuasisimple ↥ρ.range := isQuasisimple_of_simple_nonabelian hnonab
           rw [show orthDerived R = ρ.range from hcomm]
           exact hq
         · obtain ⟨E, _, _, D, ψ, ρ, hψ, hρψ, hinj, hmem, hcomm, hsimple, hperf, hnonab, hcard,
             hidx, hnorm, hodd⟩ :=
             CFSG.RankThree.PartOne.even_minus_six_actual_derived_extraction R hR (by omega) hts
-          haveI := hsimple
+          have := hsimple
           have hq : CFSG.IsQuasisimple ↥ρ.range := isQuasisimple_of_simple_nonabelian hnonab
           rw [show orthDerived R = ρ.range from hcomm]
           exact hq
@@ -99,10 +99,10 @@ theorem split_of_two_components_in_fixedLayer (hx : OddOrderIsometry Q p x)
       CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.isComponentOf_of_normal_normal le_rfl
         fixedComponentImage_le_centralizerImage (by rw [Subgroup.subgroupOf_self]; infer_instance)
         hx.normal_fixedComponentImage hY
-    haveI : Finite V := Module.finite_of_finite K
-    haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+    have : Finite V := Module.finite_of_finite K
+    have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
       fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-    haveI : Finite (ProjOrthDerived Q) := inferInstance
+    have : Finite (ProjOrthDerived Q) := inferInstance
     obtain ⟨j₁, hj₁⟩ := CFSG.HardMathSupport.Dickson.Sec6.OrthBlocks.exists_eq_of_isComponentOf_le_iSup
       (fun _ : Unit => fixedComponentImage Q x) (fun _ => hYc) h1
       (by simpa using hle1)

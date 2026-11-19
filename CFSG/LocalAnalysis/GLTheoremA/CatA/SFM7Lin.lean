@@ -17,13 +17,16 @@ variable {K : Type} [Field K] [Finite K]
 @[expose] def actV (g : GL (Fin 4) K) (v : Fin 4 → K) : Fin 4 → K :=
   (g : Matrix (Fin 4) (Fin 4) K) *ᵥ v
 
+omit [Finite K] in
 theorem actV_mul (g h : GL (Fin 4) K) (v : Fin 4 → K) :
     actV (g * h) v = actV g (actV h v) := by
   simp [actV, Units.val_mul, Matrix.mulVec_mulVec]
 
+omit [Finite K] in
 theorem actV_one (v : Fin 4 → K) : actV (1 : GL (Fin 4) K) v = v := by
   simp [actV]
 
+omit [Finite K] in
 theorem actV_injective (g : GL (Fin 4) K) : Function.Injective (actV g) := by
   intro x y hxy
   have h := congrArg (actV g⁻¹) hxy
@@ -37,17 +40,19 @@ abbrev glMulAction : MulAction (GL (Fin 4) K) (Fin 4 → K) where
 @[expose] def fixV (X : Set (GL (Fin 4) K)) : Submodule K (Fin 4 → K) where
   carrier := {v | ∀ g ∈ X, actV g v = v}
   add_mem' := fun {a b} ha hb g hg => by
-    simp only [Set.mem_setOf_eq, actV, Matrix.mulVec_add] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, actV, Matrix.mulVec_add] at ha hb ⊢
     rw [ha g hg, hb g hg]
   zero_mem' := fun g _ => by
     simp [actV]
   smul_mem' := fun c v hv g hg => by
-    simp only [Set.mem_setOf_eq, actV, Matrix.mulVec_smul] at hv ⊢
+    simp only [Set.mem_ofPred_eq, actV, Matrix.mulVec_smul] at hv ⊢
     rw [hv g hg]
 
+omit [Finite K] in
 theorem mem_fixV {X : Set (GL (Fin 4) K)} {v : Fin 4 → K} : v ∈ fixV X ↔ ∀ g ∈ X, actV g v = v :=
   Iff.rfl
 
+omit [Finite K] in
 theorem mem_fixV_singleton {g : GL (Fin 4) K} {v : Fin 4 → K} :
     v ∈ fixV ({g} : Set (GL (Fin 4) K)) ↔ actV g v = v := by
   simp [mem_fixV]
@@ -83,7 +88,7 @@ theorem permV_pow_eq_one (g : GL (Fin 4) K) (F : Submodule K (Fin 4 → K)) (hF 
 theorem card_perm_modEq {X : Type} [Finite X] (σ : Equiv.Perm X) {p : ℕ} [Fact p.Prime]
     (hσ : σ ^ p = 1) : Nat.card X ≡ Nat.card {x // σ x = x} [MOD p] := by
   classical
-  haveI := Fintype.ofFinite X
+  have := Fintype.ofFinite X
   have h := Equiv.Perm.card_compl_support_modEq (p := p) (n := 1) (σ := σ) (by simpa using hσ)
   have h2 : Nat.card {x // σ x = x} = σ.supportᶜ.card := by
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
@@ -110,6 +115,7 @@ noncomputable def fixEquivV (g : GL (Fin 4) K) (F : Submodule K (Fin 4 → K)) (
     apply Subtype.ext
     rfl
 
+omit [Finite K] in
 theorem eq_one_of_actV (g : GL (Fin 4) K) (h : ∀ v, actV g v = v) : g = 1 := by
   apply Units.ext
   apply Matrix.toLin'.injective
@@ -122,13 +128,14 @@ theorem arith_three : ∀ d < 4, ∀ e ≤ d, 8 ^ d % 5 = 8 ^ e % 5 → e = d :=
 
 theorem arith_four : ∀ f < 5, 1 ≤ f → 8 ^ 4 % 5 = 8 ^ f % 5 → f = 4 := by decide
 
+omit [Finite K] in
 theorem natCard_submodule (hK : Nat.card K = 8) (W : Submodule K (Fin 4 → K)) :
     Nat.card W = 8 ^ Module.finrank K W := by
   rw [Module.natCard_eq_pow_finrank (K := K) (V := ↥W), hK]
 
 theorem five_fix (hK : Nat.card K = 8) (g : GL (Fin 4) K) (hg : g ^ 5 = 1)
     (F : Submodule K (Fin 4 → K)) (hF : StableV g F) (hF0 : F ≠ ⊥) (hFt : F ≠ ⊤) : g = 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hmodF := card_perm_modEq (permV g F hF) (p := 5) (permV_pow_eq_one g F hF 5 hg)
   rw [Nat.card_congr (fixEquivV g F hF), natCard_submodule hK, natCard_submodule hK] at hmodF
   unfold Nat.ModEq at hmodF
@@ -176,9 +183,9 @@ theorem five_fix (hK : Nat.card K = 8) (g : GL (Fin 4) K) (hg : g ^ 5 = 1)
 theorem fixV_ne_bot_of_isPGroup {S : Type} [Group S] (φ : S →* GL (Fin 4) K) (hK : Nat.card K = 8)
     (T : Subgroup S) (hT : IsPGroup 2 T) : fixV ((φ : S → GL (Fin 4) K) '' (T : Set S)) ≠ ⊥ := by
   intro hbot
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction (GL (Fin 4) K) (Fin 4 → K) := glMulAction
-  letI : MulAction S (Fin 4 → K) := MulAction.compHom _ φ
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction (GL (Fin 4) K) (Fin 4 → K) := glMulAction
+  let : MulAction S (Fin 4 → K) := MulAction.compHom _ φ
   have hmod := IsPGroup.card_modEq_card_fixedPoints hT (Fin 4 → K)
   have hfix : Nat.card (MulAction.fixedPoints (↥T) (Fin 4 → K)) =
       Nat.card ↥(fixV ((φ : S → GL (Fin 4) K) '' (T : Set S))) := by

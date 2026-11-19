@@ -95,8 +95,8 @@ private theorem val_evalWord {k n m : Nat} {F Nf : Nat → Nat}
     unfold CFSG.YGroups.ModelNative.letterOf
     rw [size_linesA']
     by_cases hc : c < m
-    · rw [if_pos hc, if_pos hc, getElem_linesA' hc hj, (Sem.letOK_spec hk (h c hc)).2.2.1 _ hj]
-    · rw [if_neg hc, if_neg hc, CFSG.Monster.B.Co2.idA_get hj]
+    · rw [ite_eq_left hc, ite_eq_left hc, getElem_linesA' hc hj, (Sem.letOK_spec hk (h c hc)).2.2.1 _ hj]
+    · rw [ite_eq_right hc, ite_eq_right hc, CFSG.Monster.B.Co2.idA_get hj]
 
 theorem relatorsOK_of_relsOK {k n m : Nat} {F Nf : Nat → Nat} {rels : List (List Nat)}
     (h : ∀ c < m, letOK k n (F c) (Nf c) = true) (hr : relsOK k m Nf rels = true)
@@ -122,7 +122,7 @@ theorem relatorsOK_of_relsOK {k n m : Nat} {F Nf : Nat → Nat} {rels : List (Li
 theorem wordAp_zero {k : Nat} {Nf : Nat → Nat} : ∀ (w : List Nat) (X : Nat), wordAp k 0 Nf w X = X
   | [], _ => rfl
   | c :: w, X => by
-    rw [Sem.wordAp_cons, if_neg (Nat.not_lt_zero c), wordAp_zero w X]
+    rw [Sem.wordAp_cons, ite_eq_right (Nat.not_lt_zero c), wordAp_zero w X]
 
 private theorem testBit_wordAp_high {k m : Nat} {Nf : Nat → Nat}
     (hv : ∀ c < m, Benes.StagesValid k (Nf c)) :
@@ -223,22 +223,22 @@ theorem chainOK_of_checks {k n m nw w nb : Nat} {F Nf T WP WL R M Z : Nat → Na
 
 theorem card_arrClosure_of_sch {k n m w t : Nat} {F Nf U WP WL : Nat → Nat}
     {off bp Z LP LL : Nat → Nat} {TT : Nat → Nat → Nat}
-    (h : ∀ c < m, letOK k n (F c) (Nf c) = true) (hU : ∀ c < m, U c = Nf c)
-    (hoff : off 0 = m) (hmono : ∀ i < t, off i ≤ off (i + 1))
+    (h : ∀ _c < m, letOK k n (F _c) (Nf _c) = true) (hU : ∀ _c < m, U _c = Nf _c)
+    (hoff : off 0 = m) (hmono : ∀ _i < t, off _i ≤ off (_i + 1))
     (hgen0 : ∀ j, off 0 ≤ j → j < off 1 → genOK k w U WP WL 0 m j 0 false = true)
-    (hgen : ∀ i, 0 < i → i < t → ∀ j, off i ≤ j → j < off (i + 1) →
-      genOK k w U WP WL (off (i - 1)) (off i) j (bp (i - 1)) true = true)
-    (hbp : ∀ i < t, bp i < n) (hb0 : ∀ i < t, ptX (TT i 0) = bp i ∧ 0 < Z i)
-    (hpts : ∀ i < t, pointsOK k (TT i) (Z i) = true)
-    (htr : ∀ i < t, ∀ a < Z i, transOK k w U (TT i) (bp i) (off i) (off (i + 1)) a 1 = true)
-    (hrec : ∀ i < t, ∀ a < Z i, ∀ j, off i ≤ j → j < off (i + 1) →
-      ∃ rec, recOK k w U (TT i) (Z i) (off (i + 1)) (off t) a j rec = true)
-    (hlet : ∀ c < m, sweqK k w U (2 * (c + 1)) 1 (LP c) (LL c) = true ∧
-      codesIn w m (off t) (LP c) (LL c) = true)
+    (hgen : ∀ _i, 0 < _i → _i < t → ∀ j, off _i ≤ j → j < off (_i + 1) →
+      genOK k w U WP WL (off (_i - 1)) (off _i) j (bp (_i - 1)) true = true)
+    (hbp : ∀ _i < t, bp _i < n) (hb0 : ∀ _i < t, ptX (TT _i 0) = bp _i ∧ 0 < Z _i)
+    (hpts : ∀ _i < t, pointsOK k (TT _i) (Z _i) = true)
+    (htr : ∀ _i < t, ∀ a < Z _i, transOK k w U (TT _i) (bp _i) (off _i) (off (_i + 1)) a 1 = true)
+    (hrec : ∀ _i < t, ∀ a < Z _i, ∀ j, off _i ≤ j → j < off (_i + 1) →
+      ∃ rec, recOK k w U (TT _i) (Z _i) (off (_i + 1)) (off t) a j rec = true)
+    (hlet : ∀ _c < m, sweqK k w U (2 * (_c + 1)) 1 (LP _c) (LL _c) = true ∧
+      codesIn w m (off t) (LP _c) (LL _c) = true)
     (hk : k ≤ 32 := by decide) (hw : 2 * m < 2 ^ w := by decide) (hm : 0 < m := by decide) :
     Nat.card (CFSG.YGroups.arrClosure n (linesA (fun _ => n) 32 F m)) =
-      ∏ i ∈ Finset.range t, Z i :=
-  Sch.card_sch hk hw hm size_linesA' (fun c hc i hi => getElem_linesA' hc hi) h hU hoff hmono hgen0
+      ∏ _i ∈ Finset.range t, Z _i :=
+  Sch.card_sch hk hw hm size_linesA' (fun _c hc _i hi => getElem_linesA' hc hi) h hU hoff hmono hgen0
     hgen hbp hb0 hpts htr hrec hlet
 
 end CFSG.KC.YModel

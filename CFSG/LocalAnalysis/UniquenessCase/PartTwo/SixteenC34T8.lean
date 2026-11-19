@@ -55,11 +55,11 @@ theorem s16c34_t8_one (D : Data G) (h153 : R15_3Small D) (h1217 : R1217 D) (h127
     s15_T8_blocks D h1217 h hL hV1 hs4 hγ hcase hu hu2 hsupp hfix hus ha hz
   have hcount := s15_T8_fix_count hB hA
   obtain ⟨N, hNle, hNn, hNab, ⟨n, hn1, hNcard⟩, hNc, hrk⟩ := s15_T8_xbar hB hcount
-  haveI : ((F11.CTilde D.M ⊥ V).subgroupOf D.M).Normal := UC22.cTilde_bot_normal D.M V hMV
+  have : ((F11.CTilde D.M ⊥ V).subgroupOf D.M).Normal := UC22.cTilde_bot_normal D.M V hMV
   obtain ⟨Xbar, hXn, hXab, hXcard, hXc, hXrk⟩ :=
     s15_T8_bridge D h.hyp151.isElemAbelian hMV hNle hNn hNab hNcard hNc hz hrk
   have hHyp11 : F11.Hyp11 D ⊥ V := Hyp125.hyp11 h127 h.hyp151.hyp125
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 (F11.O2p 3 D.M)
   have hmax := ((h1110 V hHyp11 3 Nat.prime_three (by norm_num) P hP).2.2 n hn1 Xbar hXn hXab
     hXcard hXc).2 h1219 (a * u * a⁻¹ * u⁻¹) hz hc hXrk

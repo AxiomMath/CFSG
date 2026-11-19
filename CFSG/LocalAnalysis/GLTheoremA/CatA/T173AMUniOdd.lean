@@ -39,7 +39,7 @@ theorem uni_odd_case {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : S
     have h1 : p ∣ 2 ^ 2 := by simpa using hpd
     have h2 : p ∣ 2 := hp.dvd_of_dvd_pow h1
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp h2)
-  haveI : CharP F 2 := charP_two_of_card (n := 2 * n) (by omega)
+  have : CharP F 2 := charP_two_of_card (n := 2 * n) (by omega)
     (by rw [hF, ← pow_mul, mul_comm])
   have hpF2 : p ∣ Nat.card F - 1 := by
     have h2 : Nat.card F - 1 = (2 ^ n + 1) * (2 ^ n - 1) := by
@@ -74,7 +74,7 @@ theorem uni_odd_case {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : S
     omega
   have hd5 : 5 ≤ d := by omega
   have hrow := uni_hopf_row hF hn1 hd3 hdn hd4
-  haveI : Finite (CFSG.Open.griessHopfMultiplier
+  have : Finite (CFSG.Open.griessHopfMultiplier
       (LargeEvenProj (LargeEvenSUGroup (Fin d) F (2 ^ n)))) := hrow.1
   obtain ⟨ψ, hψ⟩ := cover_exact (k := if d = 6 ∧ n = 1 then 2 else 0) hcfg.qs hZodd hperf
     (LargeEvenProjMk (LargeEvenSUGroup (Fin d) F (2 ^ n))) (QuotientGroup.mk'_surjective _)

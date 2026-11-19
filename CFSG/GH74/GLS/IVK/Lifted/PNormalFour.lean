@@ -40,7 +40,7 @@ theorem z_central_inv {z : G} {S : Subgroup G} (hz2 : z * z = 1) (hz1 : z ≠ 1)
   obtain ⟨S', hS'⟩ := hd
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS'top : M.Syl2In (S' : Subgroup G) ⊤ :=
-    ⟨le_top, S'.isPGroup', by simpa [Subgroup.relIndex_top_right] using Sylow.not_dvd_index S'⟩
+    ⟨le_top, S'.isPGroup, by simpa [Subgroup.relIndex_top_right] using Sylow.not_dvd_index S'⟩
   obtain ⟨c, -, hc⟩ := hStop.exists_conj hS'top
   have key : ∀ y ∈ S, (∀ s ∈ S, y * s = s * y) → y * y = 1 → c⁻¹ * y * c ∈ zpowers z := by
     intro y hy hyc hy2

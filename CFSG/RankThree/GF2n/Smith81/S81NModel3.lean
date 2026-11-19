@@ -207,12 +207,14 @@ theorem model3_CR :
     Submodule.eq_of_le_of_finrank_le hrk (by omega)
   exact heq.ge
 
+omit [CharP K 2] in
 private theorem model3_beta_ub_zero {a b d p q r : Fin 6} (hab : a < b) (hbd : b < d)
     (hpq : p < q) (hqr : q < r) (h : ¬ Disjoint ({a, b, d} : Finset (Fin 6)) {p, q, r}) :
     beta K (ub K a b d hab hbd) (ub K p q r hpq hqr) = 0 := by
   unfold ub
   exact beta_cubeBasis_of_not_disjoint h
 
+omit [CharP K 2] in
 private theorem model3_beta_ub_ne_zero {a b d p q r : Fin 6} (hab : a < b) (hbd : b < d)
     (hpq : p < q) (hqr : q < r) (h : Disjoint ({a, b, d} : Finset (Fin 6)) {p, q, r}) :
     beta K (ub K a b d hab hbd) (ub K p q r hpq hqr) ≠ 0 := by

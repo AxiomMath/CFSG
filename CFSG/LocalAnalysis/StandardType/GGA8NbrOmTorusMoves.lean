@@ -234,7 +234,7 @@ private theorem om10_mem_piece_of_eigen {K : Type} [Field K] {V : Type}
     have hji : j = i := by
       by_contra h
       apply hj
-      simp [Pi.single_apply, h]
+      simp [h]
     subst hji
     rw [QuadraticMap.polar_comm]
     exact hy u hu
@@ -701,7 +701,7 @@ private theorem om10_aligned_of_moves {K : Type} [Field K] {V : Type} [AddCommGr
     by_cases hk : k = i₀
     · subst hk
       simp
-    · simp [Pi.single_apply, hk, Equiv.swap_apply_eq_iff]
+    · simp [hk, Equiv.swap_apply_eq_iff]
   have h2 : F.ι (ofAdd (Pi.single i 1)) * w = w * F.ι (ofAdd (Pi.single i₀ 1)) := by
     rw [← h]
     group

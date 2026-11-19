@@ -58,7 +58,7 @@ theorem ggE6Three_A5_linearIndependent {V : Type} [AddCommGroup V] [Module (ZMod
     have hcond : ¬ (j.val + 1 = k.val ∨ k.val + 1 = j.val) := by omega
     have hA : (CartanMatrix.A 5 j k : ZMod 3) = 0 := by
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg hjne, if_neg hcond]
+      rw [ite_eq_right hjne, ite_eq_right hcond]
       norm_num
     have hrel : (c j)⁻¹ * c k * ((G j k : ℤ) : ZMod 3) = 0 := by
       rw [← hpairG j k, hpair]
@@ -77,12 +77,12 @@ theorem ggE6Three_A5_linearIndependent {V : Type} [AddCommGroup V] [Module (ZMod
     have hAj : (CartanMatrix.A 5 j k : ZMod 3) = -1 := by
       have hjne : j ≠ k := by intro h; subst h; omega
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg hjne, if_pos (Or.inl hjk.symm)]
+      rw [ite_eq_right hjne, ite_eq_left (Or.inl hjk.symm)]
       norm_num
     have hAk : (CartanMatrix.A 5 k j : ZMod 3) = -1 := by
       have hkne : k ≠ j := by intro h; subst h; omega
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg hkne, if_pos (Or.inr hjk.symm)]
+      rw [ite_eq_right hkne, ite_eq_left (Or.inr hjk.symm)]
       norm_num
     have hrel1 : (c j)⁻¹ * c k * ((G j k : ℤ) : ZMod 3) = -1 := by
       rw [← hpairG j k, hpair]

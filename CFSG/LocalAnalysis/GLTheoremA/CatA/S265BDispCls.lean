@@ -68,13 +68,13 @@ private theorem wit_minus {F V : Type} [Field F] [Finite F] [AddCommGroup V] [Mo
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) {n : ℕ} (hdim : Module.finrank F V = 2 * n)
     (hn : 6 ≤ n) (hminus : ¬ CFSG.GroupTheory.WeirSylow.IsPlusType Q) :
     ∃ E : Subgroup ↥(orthDerived Q), IsElemAbelian 3 E ∧ 3 ^ 5 ≤ Nat.card E ∧ T171S.TwoLocal E := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Finite V := Module.finite_of_finite F
+  have : Fintype F := Fintype.ofFinite F
+  have : Finite V := Module.finite_of_finite F
   let e : ZMod 2 ≃+* F :=
     ZMod.ringEquivOfPrime F Nat.prime_two (by rwa [← Nat.card_eq_fintype_card])
-  letI : Module (ZMod 2) V := Module.compHom V (e : ZMod 2 →+* F)
+  let : Module (ZMod 2) V := Module.compHom V (e : ZMod 2 →+* F)
   have hsmul : ∀ (c : ZMod 2) (v : V), c • v = e c • v := fun _ _ => rfl
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have hFc : Nat.card F = Nat.card (ZMod 2) := by rw [hF, Nat.card_zmod]
   have hdim' : Module.finrank (ZMod 2) V = 2 * n := by
     have h1 : Nat.card V = Nat.card F ^ Module.finrank F V := Module.natCard_eq_pow_finrank
@@ -92,10 +92,10 @@ private theorem wit_minus {F V : Type} [Field F] [Finite F] [AddCommGroup V] [Mo
         smul_mem' := fun c v hv => by
           have h := W.smul_mem (e.symm c) hv
           rwa [hsmul, RingEquiv.apply_symm_apply] at h }
-    haveI : Finite ↥W' := Subtype.finite
-    haveI : Finite ↥W := Subtype.finite
-    haveI : Module.Finite F ↥W' := Module.Finite.of_finite
-    haveI : Module.Finite (ZMod 2) ↥W := Module.Finite.of_finite
+    have : Finite ↥W' := Subtype.finite
+    have : Finite ↥W := Subtype.finite
+    have : Module.Finite F ↥W' := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) ↥W := Module.Finite.of_finite
     have hdimW : Module.finrank F W' = Module.finrank (ZMod 2) W := by
       have h1 : Nat.card ↥W' = Nat.card F ^ Module.finrank F W' := Module.natCard_eq_pow_finrank
       have h2 : Nat.card ↥W = Nat.card (ZMod 2) ^ Module.finrank (ZMod 2) W :=

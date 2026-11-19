@@ -79,7 +79,7 @@ variable {Γ : Type} [Group Γ] {F : Type} [Field F]
 
 open NatSec in
 theorem dualFix_of_comm {L V K Q : Subgroup Γ} {ψ : ↥L →* ↥(StatedSL 3 F)}
-    (N : NatSec L V K ψ true) (hQL : Q ≤ L) {v : Γ} (hv : v ∈ V)
+    (N : NatSec L V K ψ true) (_hQL : Q ≤ L) {v : Γ} (hv : v ∈ V)
     (hC : ∀ t ∈ Q, ⁅v, t⁆ ∈ K) :
     ∀ a ∈ natImage ψ Q, CFSG.Quasithin.MS93.dualMat a *ᵥ N.coord v = N.coord v := by
   intro a ha

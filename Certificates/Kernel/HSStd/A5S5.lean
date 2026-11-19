@@ -64,7 +64,7 @@ theorem a5s5Stmt_kernel : a5s5Stmt := by
       have := congrArg Prod.fst (hzall (g, 1) (by simp))
       simpa using this
     have h2 : z.2 = 1 ∨ z.2 = b := hS z.2 fun g hg => by
-      have := congrArg Prod.snd (hzall (1, g) (by simp [Prod.ext_iff, hg]))
+      have := congrArg Prod.snd (hzall (1, g) (by simp [hg]))
       simpa using this
     rcases h2 with h2 | h2
     · exact hz1 (Prod.ext h1 h2)

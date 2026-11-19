@@ -38,14 +38,14 @@ theorem s1611e3_a5_fix_three {W : Type} [CommGroup W] [Finite W] {L : Subgroup (
   have hπinj : Function.Injective π := by
     have hs5 : IsSimpleGroup (alternatingGroup (Fin 5)) :=
       alternatingGroup.isSimpleGroup (by simp)
-    haveI : IsSimpleGroup (FFModel.altDn 5).Gam := hs5
+    have : IsSimpleGroup (FFModel.altDn 5).Gam := hs5
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal π.ker with hk | hk
     · exact (MonoidHom.ker_eq_bot_iff π).mp hk
     · exfalso
       obtain ⟨eL⟩ := hL
-      haveI : Nontrivial (alternatingGroup (Fin 5)) :=
+      have : Nontrivial (alternatingGroup (Fin 5)) :=
         alternatingGroup.nontrivial_of_three_le_card (by simp)
-      haveI : Nontrivial ↥L := Equiv.nontrivial (eL : ↥L ≃ alternatingGroup (Fin 5))
+      have : Nontrivial ↥L := Equiv.nontrivial (eL : ↥L ≃ alternatingGroup (Fin 5))
       obtain ⟨z, hz⟩ := exists_ne (1 : ↥L)
       obtain ⟨σ, hσ⟩ := hsurj z
       have hmem : π σ = 1 := by

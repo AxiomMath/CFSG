@@ -71,13 +71,13 @@ end CertificateInstances
 section CertificateInstancesNative
 
 theorem sporadicClassWitnessAt_M_five : SporadicClassWitnessAt .M 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine sporadicClassWitnessAt_of_native
     (sporadicClassWitnessNative_M_of_Gmat rankThreeWitness_five_Gmat ?_)
   intro T _ _ ⟨e⟩
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M) :=
     CFSG.AGLEmbedding.Norton.OrdinaryProofs.carrier_M_simple
-  haveI : IsSimpleGroup T := e.isSimpleGroup
+  have : IsSimpleGroup T := e.isSimpleGroup
   exact CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple e
 
 end CertificateInstancesNative

@@ -76,8 +76,6 @@ theorem rckInnerDiag_omegaMinus_two_to_PSL
   have hrank : 0 < (ggU .POmegaMinus 2 g).D.rank := by
     first
       | exact Nat.one_pos
-      | (show 0 < 2 - 1; norm_num; done)
-      | (simp only [ggU, lieUniversal, Spin.Twisted.minusDatum]; omega)
   let i0 : Fin (ggU .POmegaMinus 2 g).D.rank := ⟨0, hrank⟩
   have hβ' : (Pi.single i0 1 : Fin (ggU .POmegaMinus 2 g).D.rank → ℤ) ∈
       (ggU .POmegaMinus 2 g).D.roots :=

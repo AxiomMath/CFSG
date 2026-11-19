@@ -154,14 +154,14 @@ theorem plane_core {r r' : ↥(adjointGroup .E7 (ZMod 2))} (hr : IsRootInvol r)
     have hshift : e7Shift (highRoot .E7) a' = a := wt_e7Shift hwt.symm.symm
     have hρ : e7Rep56 (ZMod 2) (pinnedElt .E7 (highRoot .E7) 1) (Finsupp.single a' 1) -
         Finsupp.single a' 1 = Finsupp.single a 1 := by
-      rw [e7Rep56_pinnedElt_single hθ, if_pos hdot, hshift, add_sub_cancel_left]
+      rw [e7Rep56_pinnedElt_single hθ, ite_eq_left hdot, hshift, add_sub_cancel_left]
     refine ⟨e7Rep56 (ZMod 2) g (Finsupp.single a 1), rep_mem_weightVec (single_mem_weightVec a) g,
       ⟨e7Rep56 (ZMod 2) g (Finsupp.single a' 1), ?_⟩, ?_, ?_⟩
     · rw [rep_conj_sub, rep_inv_apply', hρ]
     · rw [← rep_mul_apply]
       have e : g * pinnedElt .E7 (e8fRoot k) (1 : ZMod 2) * g⁻¹ * g =
           g * pinnedElt .E7 (e8fRoot k) 1 := by group
-      rw [e, rep_mul_apply, e7Rep56_pinnedElt_single hβ a, if_neg (by rw [ha0]; decide),
+      rw [e, rep_mul_apply, e7Rep56_pinnedElt_single hβ a, ite_eq_right (by rw [ha0]; decide),
         add_zero]
     · rintro ⟨c, hc⟩
       rw [rep_conj_sub] at hc

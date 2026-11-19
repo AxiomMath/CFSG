@@ -122,7 +122,7 @@ theorem false_of_not_le_kerK
   obtain ⟨S, hAS⟩ := (isPGroup_two_of_isElemAbelian hAab).exists_le_sylow
   have hcl : ∀ x ∈ A, ∀ k : NQuot T, k⁻¹ * x * k ∈ (S : Subgroup (NQuot T)) →
       k⁻¹ * x * k ∈ A :=
-    fun x hx k hk => h.sec4A_stronglyClosed hP S.isPGroup' hAS hx k hk
+    fun x hx k hk => h.sec4A_stronglyClosed hP S.isPGroup hAS hx k hk
   obtain ⟨ha, -, hc⟩ := hG (NQuot T) S A hAS hAab.1 hcl
   have hcentral : ∀ o ∈ goldschmidtOddCore ↥Hk, ∀ x : ↥Hk, x * o = o * x := by
     intro o ho x

@@ -256,6 +256,7 @@ theorem burnsideF4c_reflW_eq (w : List (Fin 2)) (v : Fin 2 → ℤ) :
 open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
   CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisExc in
 open CFSG.Quasithin (isSimpleGroup_u33Pres u33GenP u33PresHom u33PresHom_genPG card_u33Pres u33_orders u33_syl g2HomC g2RhoC g2IndexTwoData g2HomC_injective finite_g2Group G2Group U33G u33GenPG u33Data u33Extra g2Hom g2Img g2L g2L_one g2L_three g2L_zero g2L_zero_eq_img g2L_one_mul_three g2Img_mem_range g2L_mem_normalizer g2_derived_eq_range adjointGroup_G2_eq g2Hom_of u33GenPG_of g2Hom_injective two_eq_zero_of_card_two eq_zero_or_eq_one_of_card_two) in
+omit [CharP K 2] in
 theorem burnsideF4c_coe_wU
     (w : List (Fin 2)) (a : ModGL Tag.G2 K) :
     ((burnsideF4c_wU w a : ModGL Tag.G2 K) : Module.End K (RootModule Tag.G2 K)) =
@@ -311,6 +312,7 @@ theorem burnsideF4c_reach {α : Fin Tag.G2.rank → ℤ} (hα : IsRoot Tag.G2 α
 open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
   CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisExc in
 open CFSG.Quasithin (isSimpleGroup_u33Pres u33GenP u33PresHom u33PresHom_genPG card_u33Pres u33_orders u33_syl g2HomC g2RhoC g2IndexTwoData g2HomC_injective finite_g2Group G2Group U33G u33GenPG u33Data u33Extra g2Hom g2Img g2L g2L_one g2L_three g2L_zero g2L_zero_eq_img g2L_one_mul_three g2Img_mem_range g2L_mem_normalizer g2_derived_eq_range adjointGroup_G2_eq g2Hom_of u33GenPG_of g2Hom_injective two_eq_zero_of_card_two eq_zero_or_eq_one_of_card_two) in
+omit [CharP K 2] in
 theorem burnsideF4c_wU_mem
     (w : List (Fin 2)) (a : ModGL Tag.G2 K)
     (ha : a ∈ adjointGroup Tag.G2 K) : burnsideF4c_wU w a ∈ adjointGroup Tag.G2 K := by
@@ -327,7 +329,7 @@ theorem burnsideF4c_wU_one_conj
       burnsideF4c_wU w 1 * pinnedX Tag.G2 K (Pi.single i 1) c * (burnsideF4c_wU w 1)⁻¹ =
         pinnedX Tag.G2 K (burnsideF4c_reflW w (Pi.single i 1)) c :=
   burnsideF4c_wU_conj w 1 _ _ c (isRoot_single Tag.G2 i)
-    (by simp only [inv_one, one_mul, mul_one] <;> rfl)
+    (by simp only [inv_one, one_mul, mul_one]; rfl)
 
 open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
   CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisExc in
@@ -373,6 +375,7 @@ theorem burnsideF4c_mem_rootGenerators
 open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
   CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisExc in
 open CFSG.Quasithin (isSimpleGroup_u33Pres u33GenP u33PresHom u33PresHom_genPG card_u33Pres u33_orders u33_syl g2HomC g2RhoC g2IndexTwoData g2HomC_injective finite_g2Group G2Group U33G u33GenPG u33Data u33Extra g2Hom g2Img g2L g2L_one g2L_three g2L_zero g2L_zero_eq_img g2L_one_mul_three g2Img_mem_range g2L_mem_normalizer g2_derived_eq_range adjointGroup_G2_eq g2Hom_of u33GenPG_of g2Hom_injective two_eq_zero_of_card_two eq_zero_or_eq_one_of_card_two) in
+omit [CharP K 2] in
 theorem burnsideF4c_weylElt_neg_one
     (i : Fin Tag.G2.rank) :
     weylElt Tag.G2 K i (-1) = (weylElt Tag.G2 K i 1)⁻¹ := by
@@ -383,6 +386,7 @@ theorem burnsideF4c_weylElt_neg_one
 open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
   CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisExc in
 open CFSG.Quasithin (isSimpleGroup_u33Pres u33GenP u33PresHom u33PresHom_genPG card_u33Pres u33_orders u33_syl g2HomC g2RhoC g2IndexTwoData g2HomC_injective finite_g2Group G2Group U33G u33GenPG u33Data u33Extra g2Hom g2Img g2L g2L_one g2L_three g2L_zero g2L_zero_eq_img g2L_one_mul_three g2Img_mem_range g2L_mem_normalizer g2_derived_eq_range adjointGroup_G2_eq g2Hom_of u33GenPG_of g2Hom_injective two_eq_zero_of_card_two eq_zero_or_eq_one_of_card_two) in
+omit [CharP K 2] in
 theorem burnsideF4c_torusElt_one
     (i : Fin Tag.G2.rank) : torusElt Tag.G2 K i 1 = 1 := by
   unfold torusElt
@@ -404,6 +408,7 @@ theorem burnsideF4c_isRoot_of_mem_rootGenerators
 open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
   CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisExc in
 open CFSG.Quasithin (isSimpleGroup_u33Pres u33GenP u33PresHom u33PresHom_genPG card_u33Pres u33_orders u33_syl g2HomC g2RhoC g2IndexTwoData g2HomC_injective finite_g2Group G2Group U33G u33GenPG u33Data u33Extra g2Hom g2Img g2L g2L_one g2L_three g2L_zero g2L_zero_eq_img g2L_one_mul_three g2Img_mem_range g2L_mem_normalizer g2_derived_eq_range adjointGroup_G2_eq g2Hom_of u33GenPG_of g2Hom_injective two_eq_zero_of_card_two eq_zero_or_eq_one_of_card_two) in
+omit [CharP K 2] in
 theorem burnsideF4c_rootSubgroup_le_posUnipotent
     {root : Fin 2 → ℤ} (hroot : IsRoot Tag.G2 root)
     (hpos : 0 < height (τ := Tag.G2) root) :
@@ -501,7 +506,7 @@ theorem burnsideF4c_card_le_two_mul {G : Type*} [Group G] (U R : Subgroup G) (ρ
     rw [Subgroup.relIndex_dvd_two_iff]
     by_cases hU : U ≤ R
     · exact ⟨1, U.one_mem, fun b hb => Or.inr (hU hb)⟩
-    · obtain ⟨a₀, ha₀U, ha₀R⟩ := SetLike.not_le_iff_exists.1 hU
+    · obtain ⟨a₀, ha₀U, ha₀R⟩ := IsConcreteLE.not_le_iff_exists.1 hU
       refine ⟨a₀⁻¹, U.inv_mem ha₀U, fun b hb => ?_⟩
       by_cases hbR : b ∈ R
       · exact Or.inr hbR
@@ -523,7 +528,7 @@ theorem burnsideF4c_Sg_syl
     (hk2 : ∀ c : K, c = 0 ∨ c = 1) :
     IsPGroup 2 ((G2Native.positiveBorel K).comap (g2HomC h2)) ∧
       32 ≤ Nat.card ((G2Native.positiveBorel K).comap (g2HomC h2)) := by
-  haveI : Finite (G2Group K) := finite_g2Group
+  have : Finite (G2Group K) := finite_g2Group
   have hU : IsPGroup 2 (G2Native.positiveBorel K) :=
     IsPGroup.of_card (n := 6) (by rw [burnsideF4c_card_positiveBorel hK]; norm_num)
   have hinj := g2HomC_injective h2
@@ -552,6 +557,7 @@ theorem burnsideF4c_Sg_syl
 open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
   CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisExc in
 open CFSG.Quasithin (isSimpleGroup_u33Pres u33GenP u33PresHom u33PresHom_genPG card_u33Pres u33_orders u33_syl g2HomC g2RhoC g2IndexTwoData g2HomC_injective finite_g2Group G2Group U33G u33GenPG u33Data u33Extra g2Hom g2Img g2L g2L_one g2L_three g2L_zero g2L_zero_eq_img g2L_one_mul_three g2Img_mem_range g2L_mem_normalizer g2_derived_eq_range adjointGroup_G2_eq g2Hom_of u33GenPG_of g2Hom_injective two_eq_zero_of_card_two eq_zero_or_eq_one_of_card_two) in
+omit [CharP K 2] in
 theorem burnsideF4c_phi_y
     (h2 : (2 : K) = 0) :
     ((g2HomC h2 (u33GenPG 4) : G2Group K) : ModGL Tag.G2 K) =
@@ -592,6 +598,7 @@ theorem burnsideF4c_y_mem
 open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
   CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisExc in
 open CFSG.Quasithin (isSimpleGroup_u33Pres u33GenP u33PresHom u33PresHom_genPG card_u33Pres u33_orders u33_syl g2HomC g2RhoC g2IndexTwoData g2HomC_injective finite_g2Group G2Group U33G u33GenPG u33Data u33Extra g2Hom g2Img g2L g2L_one g2L_three g2L_zero g2L_zero_eq_img g2L_one_mul_three g2Img_mem_range g2L_mem_normalizer g2_derived_eq_range adjointGroup_G2_eq g2Hom_of u33GenPG_of g2Hom_injective two_eq_zero_of_card_two eq_zero_or_eq_one_of_card_two) in
+omit [CharP K 2] in
 theorem burnsideF4c_le_Pg
     [Finite K] (h2 : (2 : K) = 0) :
     (G2Native.positiveBorel K).comap (g2HomC h2) ≤ (G2Native.pointParabolic K).comap (g2HomC h2) :=
@@ -696,6 +703,7 @@ theorem burnsideF4c_commute_negr
 open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
   CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisExc in
 open CFSG.Quasithin (isSimpleGroup_u33Pres u33GenP u33PresHom u33PresHom_genPG card_u33Pres u33_orders u33_syl g2HomC g2RhoC g2IndexTwoData g2HomC_injective finite_g2Group G2Group U33G u33GenPG u33Data u33Extra g2Hom g2Img g2L g2L_one g2L_three g2L_zero g2L_zero_eq_img g2L_one_mul_three g2Img_mem_range g2L_mem_normalizer g2_derived_eq_range adjointGroup_G2_eq g2Hom_of u33GenPG_of g2Hom_injective two_eq_zero_of_card_two eq_zero_or_eq_one_of_card_two) in
+omit [CharP K 2] in
 theorem burnsideF4c_adj_le_normalizer
     (h2 : (2 : K) = 0) (hk2 : ∀ c : K, c = 0 ∨ c = 1) :
     adjointGroup Tag.G2 K ≤ Subgroup.normalizer ((g2Hom h2).range : Set (ModGL Tag.G2 K)) := by
@@ -708,6 +716,7 @@ theorem burnsideF4c_adj_le_normalizer
 open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
   CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisExc in
 open CFSG.Quasithin (isSimpleGroup_u33Pres u33GenP u33PresHom u33PresHom_genPG card_u33Pres u33_orders u33_syl g2HomC g2RhoC g2IndexTwoData g2HomC_injective finite_g2Group G2Group U33G u33GenPG u33Data u33Extra g2Hom g2Img g2L g2L_one g2L_three g2L_zero g2L_zero_eq_img g2L_one_mul_three g2Img_mem_range g2L_mem_normalizer g2_derived_eq_range adjointGroup_G2_eq g2Hom_of u33GenPG_of g2Hom_injective two_eq_zero_of_card_two eq_zero_or_eq_one_of_card_two) in
+omit [CharP K 2] in
 theorem burnsideF4c_x0_mem
     (h2 : (2 : K) = 0) :
     xUnit Tag.G2 K (0 : Fin 2) 1 ∈ (g2Hom h2).range := by
@@ -860,7 +869,7 @@ open scoped Pointwise in
 theorem burnsideF4c_sylow_conj [Finite G] (S T : Subgroup G)
     (hS : IsPGroup 2 S) (hSi : ¬ 2 ∣ S.index) (hT : IsPGroup 2 T) (hTi : ¬ 2 ∣ T.index) :
     ∃ h : G, ∀ g : G, g ∈ T ↔ ∃ s ∈ S, h * s * h⁻¹ = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S' : Sylow 2 G := hS.toSylow hSi
   let T' : Sylow 2 G := hT.toSylow hTi
   obtain ⟨h, hh⟩ := MulAction.exists_smul_eq G S' T'
@@ -913,7 +922,7 @@ theorem burnsideF4c_Pg_invol
   set S := (G2Native.positiveBorel K).comap (g2HomC h2) with hS
   set P := (G2Native.pointParabolic K).comap (g2HomC h2) with hP
   have hcard : Nat.card U33G = 6048 := card_u33Pres
-  haveI : Finite U33G := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite U33G := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hSle : Nat.card S ∣ 6048 := hcard ▸ Subgroup.card_subgroup_dvd_card S
   obtain ⟨n, hn⟩ := hSp.exists_card_eq
   have hn5 : n = 5 := by
@@ -967,7 +976,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 open CFSG.Quasithin (isSimpleGroup_u33Pres u33GenP u33PresHom u33PresHom_genPG card_u33Pres u33_orders u33_syl g2HomC g2RhoC g2IndexTwoData g2HomC_injective finite_g2Group G2Group U33G u33GenPG u33Data u33Extra g2Hom g2Img g2L g2L_one g2L_three g2L_zero g2L_zero_eq_img g2L_one_mul_three g2Img_mem_range g2L_mem_normalizer g2_derived_eq_range adjointGroup_G2_eq g2Hom_of u33GenPG_of g2Hom_injective two_eq_zero_of_card_two eq_zero_or_eq_one_of_card_two) in
 theorem burnsideF4c_center_u33
     : Subgroup.center U33G = ⊥ := by
-  haveI := isSimpleGroup_u33Pres
+  have := isSimpleGroup_u33Pres
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center U33G) with h | h
   · exact h
   · exfalso
@@ -990,9 +999,9 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
   CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisExc in
 open CFSG.Quasithin (isSimpleGroup_u33Pres u33GenP u33PresHom u33PresHom_genPG card_u33Pres u33_orders u33_syl g2HomC g2RhoC g2IndexTwoData g2HomC_injective finite_g2Group G2Group U33G u33GenPG u33Data u33Extra g2Hom g2Img g2L g2L_one g2L_three g2L_zero g2L_zero_eq_img g2L_one_mul_three g2Img_mem_range g2L_mem_normalizer g2_derived_eq_range adjointGroup_G2_eq g2Hom_of u33GenPG_of g2Hom_injective two_eq_zero_of_card_two eq_zero_or_eq_one_of_card_two) in
 theorem burnsideF4c_iota_injective
-    {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
+    {K : Type} [Field K] [Finite K] (_hK : Nat.card K = 2)
     (h2 : (2 : K) = 0) (hk2 : ∀ c : K, c = 0 ∨ c = 1) :
-    Function.Injective (burnsideF4c_iota h2 hk2) := fun a b hab =>
+    Function.Injective (burnsideF4c_iota h2 hk2) := fun _a _b hab =>
   g2Hom_injective h2 (congrArg Subtype.val hab)
 
 open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
@@ -1070,8 +1079,8 @@ abbrev burnsideF4c_SL : Type := Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)
 @[expose] def burnsideF4c_inL (A : burnsideF4c_SL) : Prop :=
   burnsideF4c_ent A 2 0 = 0 ∧ burnsideF4c_ent A 2 1 = 0
 
-instance : DecidablePred burnsideF4c_inP := fun A => inferInstanceAs (Decidable (_ ∧ _))
-instance : DecidablePred burnsideF4c_inL := fun A => inferInstanceAs (Decidable (_ ∧ _))
+instance : DecidablePred burnsideF4c_inP := fun _A => inferInstanceAs (Decidable (_ ∧ _))
+instance : DecidablePred burnsideF4c_inL := fun _A => inferInstanceAs (Decidable (_ ∧ _))
 
 theorem burnsideF4c_inP_mul (A B : burnsideF4c_SL) (hA : burnsideF4c_inP A)
     (hB : burnsideF4c_inP B) : burnsideF4c_inP (A * B) := by
@@ -1768,7 +1777,7 @@ open CFSG.Quasithin CFSG.Quasithin.CosetGeom in
 
 open CFSG.Quasithin CFSG.Quasithin.CosetGeom in
 theorem burnsideF4c_revPath_apply {V : Type*} {Γ : SimpleGraph V} {n : ℕ} (p : GPath Γ n) {i : ℕ}
-    (hi : i ≤ n) : burnsideF4c_revPath p i = p (n - i) := rfl
+    (_hi : i ≤ n) : burnsideF4c_revPath p i = p (n - i) := rfl
 
 open CFSG.Quasithin CFSG.Quasithin.CosetGeom in
 theorem burnsideF4c_revPath_injective {V : Type*} {Γ : SimpleGraph V} {n : ℕ} {p q : GPath Γ n}
@@ -1863,7 +1872,7 @@ theorem burnsideF4c_valence0
     exact this
   refine burnsideF4c_encard_gt_two _ (v₁ := (1 : ↥(G₁ ⊔ G₂)) • γ₁ (G₁ ⊔ G₂) G₁ G₂)
     (v₂ := b₂ • γ₁ (G₁ ⊔ G₂) G₁ G₂) (v₃ := b₃ • γ₁ (G₁ ⊔ G₂) G₁ G₂)
-    (hadj 1 (by simpa using G₁.one_mem)) (hadj b₂ ha₂) (hadj b₃ ha₃) ?_ ?_ ?_
+    (hadj 1 (by simp)) (hadj b₂ ha₂) (hadj b₃ ha₃) ?_ ?_ ?_
   · intro h
     rw [burnsideF4c_smul_γ₁_eq_iff] at h
     exact ha₂' (by simpa using h)
@@ -1889,7 +1898,7 @@ theorem burnsideF4c_valence1
     exact this
   refine burnsideF4c_encard_gt_two _ (v₁ := (1 : ↥(G₁ ⊔ G₂)) • γ₀ (G₁ ⊔ G₂) G₁ G₂)
     (v₂ := b₂ • γ₀ (G₁ ⊔ G₂) G₁ G₂) (v₃ := b₃ • γ₀ (G₁ ⊔ G₂) G₁ G₂)
-    (hadj 1 (by simpa using G₂.one_mem)) (hadj b₂ ha₂) (hadj b₃ ha₃) ?_ ?_ ?_
+    (hadj 1 (by simp)) (hadj b₂ ha₂) (hadj b₃ ha₃) ?_ ?_ ?_
   · intro h
     rw [burnsideF4c_smul_γ₀_eq_iff] at h
     exact ha₂' (by simpa using h)
@@ -2721,7 +2730,7 @@ theorem burnsideF4c_R_ker (hβ : β.IsFaithful) (hsm : β.IsSmall 3) {y : Y}
   have h5 : ((y * 1 : Y) : Y ⧸ (burnsideF4c_ph1 β).range) = ((1 : Y) : Y ⧸ (burnsideF4c_ph1 β).range) := h4
   have h6 := QuotientGroup.eq.mp h5
   have h7 : (y * 1)⁻¹ * 1 ∈ (burnsideF4c_ph1 β).range := h6
-  simp only [mul_one, one_mul] at h7
+  simp only [mul_one] at h7
   simpa using Subgroup.inv_mem _ h7
 
 
@@ -2735,7 +2744,7 @@ theorem burnsideF4c_R_ph2_D (hβ : β.IsFaithful) (hsm : β.IsSmall 3) (d : burn
 open CFSG.Quasithin CFSG.Quasithin.RankTwoAmalgam in
 theorem burnsideF4c_extend (hβ : β.IsFaithful) (hsm : β.IsSmall 3) (g : burnsideF4c_SL ≃* burnsideF4c_SL)
     (hgD : ∀ d ∈ burnsideF4c_P ⊓ burnsideF4c_L, g d = d)
-    (hgL : ∀ x ∈ burnsideF4c_L, g x ∈ burnsideF4c_L) (hgL' : ∀ x ∈ burnsideF4c_L, g.symm x ∈ burnsideF4c_L)
+    (_hgL : ∀ x ∈ burnsideF4c_L, g x ∈ burnsideF4c_L) (hgL' : ∀ x ∈ burnsideF4c_L, g.symm x ∈ burnsideF4c_L)
     (hgt : ∀ v, burnsideF4c_R hβ hsm (burnsideF4c_tb β) v = g burnsideF4c_t • v) :
     ∃ e : Y ≃* burnsideF4c_SL, (∀ (a : burnsideF4c_SL) (ha : a ∈ burnsideF4c_P),
         e (burnsideF4c_ph1 β ⟨a, ha⟩) = a) ∧
@@ -4206,9 +4215,9 @@ theorem as_F_4_25 : F_4_25 := by
       ⟨-, e, K', fK', finK', charK', scope, hcase⟩
   · cases c <;> exact absurd hk (by decide)
   · exact absurd hk (by decide)
-  · haveI := finK
-    haveI := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime (p := 2)
+  · have := finK
+    have := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime (p := 2)
       (by rw [← Nat.card_eq_fintype_card, hcard])
     have h2eq : (2 : K) = 0 := CFSG.Quasithin.two_eq_zero_of_card_two hcard
     have hk2 := CFSG.Quasithin.eq_zero_or_eq_one_of_card_two hcard

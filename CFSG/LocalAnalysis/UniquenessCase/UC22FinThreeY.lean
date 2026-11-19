@@ -45,6 +45,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace P22fin3
 
+omit [Finite G] in
 theorem opp_le_of_map_eq_top {p : ℕ} (hpP : p.Prime) (hp2 : p ≠ 2) {X N : Subgroup G}
     (hNY : N ≤ Opp p X) (hN : (N.subgroupOf (Opp p X)).Normal)
     (htop : (N.subgroupOf (Opp p X)).map (QuotientGroup.mk' (CFSG.pCore 2 ↥(Opp p X))) = ⊤) :
@@ -80,7 +81,7 @@ theorem opp_mem_calC {M V X : Subgroup G} (hVM : M ≤ normalizer (V : Set G)) (
       Nonempty (Bar2 (Opp p X) ≃* CFSG.Open.StatedSL (m - 1) (GaloisField 2 n)) := by
   set C := M ⊓ centralizer (V : Set G) with hC
   set Y := Opp p X with hY
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYX : Y ≤ X := PartTwo.s13_Bar13_opp_le p X
   have hXY : X ≤ normalizer (Y : Set G) := by
     have hc := PartTwo.s13_Bar13_opp_conjInv p (M := X) (X := X)
@@ -91,7 +92,7 @@ theorem opp_mem_calC {M V X : Subgroup G} (hVM : M ≤ normalizer (V : Set G)) (
     rwa [show g⁻¹ * (g * y * g⁻¹) * g⁻¹⁻¹ = y by group] at h
   have hCM : C ≤ M := inf_le_left
   have hMC : M ≤ normalizer (C : Set G) := by
-    haveI : (C.subgroupOf M).Normal := by
+    have : (C.subgroupOf M).Normal := by
       rw [hC, Subgroup.inf_subgroupOf_left]
       exact kerAct_normal M V hVM
     exact Subgroup.le_normalizer_of_normal_subgroupOf hCM

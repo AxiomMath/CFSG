@@ -42,7 +42,7 @@ theorem oddCore_isPGroup_three (hc : Sec6Ctx T T₁ 2 1) (h48 : IsWC (barSub T (
   have hq3 : ∀ q : ℕ, q.Prime → 5 ≤ q → ¬ q ∣ Nat.card N := by
     intro q hq hq5 hqN
     have : Fact q.Prime := ⟨hq⟩
-    obtain ⟨P, hPN, hPq, hPidx, hPS⟩ := exists_invariant_sylow_of_isPGroup_two S.isPGroup' hNodd
+    obtain ⟨P, hPN, hPq, hPidx, hPS⟩ := exists_invariant_sylow_of_isPGroup_two S.isPGroup hNodd
       (fun s hs n hn => hNnorm s (hS.norm s hs) n hn) q
     have hqodd : q ≠ 2 := by omega
     have hPodd : Odd (Nat.card P) := by

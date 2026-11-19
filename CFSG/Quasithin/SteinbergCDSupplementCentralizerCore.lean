@@ -42,7 +42,7 @@ theorem prime_core_free_quotient_supplement_centralizer_is_prime_core {r : ℕ} 
         have h' := hUn t⁻¹ (inv_mem (hTKT ht)) _ h
         simpa [mul_assoc] using h'
     have hsup : IsPGroup r ((T : Subgroup B) ⊔ U : Subgroup B) :=
-      IsPGroup.to_sup_of_normal_right' T.isPGroup' hUr hTnorm
+      IsPGroup.to_sup_of_normal_right' T.isPGroup hUr hTnorm
     have heq := T.maximal_isPGroup.eq_of_ge hsup le_sup_left
     rw [← heq]
     exact le_sup_right
@@ -115,7 +115,7 @@ theorem prime_core_free_quotient_supplement_centralizer_is_prime_core {r : ℕ} 
     have hRT : R ≤ (T : Subgroup B) := centralizerSection_le_left _ _ _
     have hRKT : R ≤ KT := hRT.trans hTKT
     have hRp : IsPGroup r (R.subgroupOf KT) :=
-      (T.isPGroup'.to_le hRT).of_equiv (Subgroup.subgroupOfEquivOfLe hRKT).symm
+      (T.isPGroup.to_le hRT).of_equiv (Subgroup.subgroupOfEquivOfLe hRKT).symm
     have hle : R.subgroupOf KT ≤ pCore r KT := le_sSup ⟨hR, hRp⟩
     intro x hx
     exact ⟨⟨x, hRKT hx⟩, hle hx, rfl⟩

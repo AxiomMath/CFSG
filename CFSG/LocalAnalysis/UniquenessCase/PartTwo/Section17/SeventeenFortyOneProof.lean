@@ -64,10 +64,10 @@ theorem exists_orderOf_five_barSub_of_cnonsingular {W : Type} [CommGroup W] [Fin
     (hS : CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.K_U34NonsingularStab)
     {w : W} (hw : w ≠ 1) (hns : CNonsingular W S w) :
     ∃ y ∈ X, orderOf y = 5 ∧ y w = w := by
-  letI : Field S.K := S.fieldK
-  letI : Finite S.K := S.finiteK
-  letI : Fintype S.K := Fintype.ofFinite S.K
-  haveI : CharP S.K 2 := charP_cardK S
+  let : Field S.K := S.fieldK
+  let : Finite S.K := S.finiteK
+  let : Fintype S.K := Fintype.ofFinite S.K
+  have : CharP S.K 2 := charP_cardK S
   have hK16 : Nat.card S.K = 16 := by
     have h := S.cardK
     norm_num at h ⊢
@@ -129,7 +129,7 @@ private theorem two_le_pRank_of_two_five_zpowers_of_isPGroup {H : Subgroup G} {x
     (hx5 : orderOf x = 5) (hy5 : orderOf y = 5)
     (hne : Subgroup.zpowers x ≠ Subgroup.zpowers y) :
     2 ≤ CFSG.Open.pRank 5 H := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   by_contra h
   exact hne (CFSG.LocalAnalysis.RankThreeUC.eq_of_card_eq_prime_of_pRank_le_one hH (by omega)
     (Subgroup.zpowers_le.mpr hx) (Subgroup.zpowers_le.mpr hy)
@@ -458,10 +458,10 @@ theorem exists_cnonsingular_of_sixteen_lt_card {W : Type} [CommGroup W] [Finite 
     {U : Subgroup W} (hU : 16 < Nat.card U) :
     ∃ u ∈ U, u ≠ 1 ∧ CNonsingular W S u := by
   classical
-  letI : Field S.K := S.fieldK
-  letI : Finite S.K := S.finiteK
-  letI : Fintype S.K := Fintype.ofFinite S.K
-  haveI : CharP S.K 2 := charP_cardK S
+  let : Field S.K := S.fieldK
+  let : Finite S.K := S.finiteK
+  let : Fintype S.K := Fintype.ofFinite S.K
+  have : CharP S.K 2 := charP_cardK S
   have hK16 : Nat.card S.K = 16 := by
     have h := S.cardK
     norm_num at h ⊢
@@ -524,9 +524,9 @@ theorem exists_cnonsingular_of_sixteen_lt_card {W : Type} [CommGroup W] [Finite 
 theorem card_eq_two_pow_twelve_of_natModSU3 {W : Type} [Group W]
     {X : Subgroup (MulAut W)} (S : CNatModStructSU3 W X 2) :
     Nat.card W = 2 ^ 12 := by
-  letI : Field S.K := S.fieldK
-  letI : Finite S.K := S.finiteK
-  letI : Fintype S.K := Fintype.ofFinite S.K
+  let : Field S.K := S.fieldK
+  let : Finite S.K := S.finiteK
+  let : Fintype S.K := Fintype.ofFinite S.K
   have hK : Nat.card S.K = 16 := by
     have h := S.cardK
     norm_num at h ⊢

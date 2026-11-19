@@ -11,7 +11,7 @@ open scoped commutatorElement
 
 theorem s16c7_isQuasisimple_of_isL3 {Y : Type} [Group Y] [Finite Y] (h : IsL3 Y 1) :
     CFSG.Open.IsQuasisimple Y := by
-  haveI hs : IsSimpleGroup Y := isSimpleGroup_of_isL3 h
+  have hs : IsSimpleGroup Y := isSimpleGroup_of_isL3 h
   have hc : center Y = ⊥ := center_eq_bot_of_isL3 h
   have hcomm : commutator Y = ⊤ := by
     rcases (inferInstance : (commutator Y).Normal).eq_bot_or_eq_top with h0 | h0
@@ -26,7 +26,7 @@ theorem s16c7_isQuasisimple_of_isL3 {Y : Type} [Group Y] [Finite Y] (h : IsL3 Y 
       rw [hc, Subgroup.mem_bot] at this
       exact hx this
     · exact h0
-  haveI : Group.IsPerfect Y := ⟨hcomm⟩
+  have : Group.IsPerfect Y := ⟨hcomm⟩
   exact CFSG.ComponentClassification.Quasisimple.simple_of_perfect Y
 
 section Prod
@@ -156,12 +156,12 @@ theorem s16c7_fac_le_of_normal [IsSimpleGroup X] (hc : center X = ⊥) {N : Subg
     (hNA : N ≤ A) (hN : ∀ a ∈ A, ∀ x ∈ N, a * x * a⁻¹ ∈ N) (hne : N ≠ ⊥) :
     (s16c7_psi₁ φ).range ≤ N ∨ (s16c7_psi₂ φ).range ≤ N := by
   obtain ⟨⟨g, hgN⟩, hg1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).1 hne
-  haveI hN' : (N.subgroupOf A).Normal := ⟨fun x hx b => by
+  have hN' : (N.subgroupOf A).Normal := ⟨fun x hx b => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     have := hN (b : Γ) b.2 (x : Γ) hx
     simpa using this⟩
   set N' : Subgroup (X × X) := (N.subgroupOf A).map φ.toMonoidHom with hN'def
-  haveI : N'.Normal := Subgroup.Normal.map hN' _ φ.surjective
+  have : N'.Normal := Subgroup.Normal.map hN' _ φ.surjective
   have hgmem : (⟨g, hNA hgN⟩ : ↥A) ∈ N.subgroupOf A := by
     rw [Subgroup.mem_subgroupOf]
     exact hgN
@@ -206,13 +206,13 @@ theorem s16c7_finite_of_psi (φ : ↥A ≃* X × X) : Finite X :=
 
 theorem s16c7_card_psi₁ (hX : IsL3 X 1) (φ : ↥A ≃* X × X) :
     Nat.card (s16c7_psi₁ φ).range = 168 := by
-  haveI := s16c7_finite_of_psi φ
+  have := s16c7_finite_of_psi φ
   rw [← card_eq_of_isL3 hX]
   exact (Nat.card_congr (MonoidHom.ofInjective (s16c7_psi₁_injective φ)).toEquiv).symm
 
 theorem s16c7_card_psi₂ (hX : IsL3 X 1) (φ : ↥A ≃* X × X) :
     Nat.card (s16c7_psi₂ φ).range = 168 := by
-  haveI := s16c7_finite_of_psi φ
+  have := s16c7_finite_of_psi φ
   rw [← card_eq_of_isL3 hX]
   exact (Nat.card_congr (MonoidHom.ofInjective (s16c7_psi₂_injective φ)).toEquiv).symm
 
@@ -221,8 +221,8 @@ theorem s16c7_conj_eq_factor (hX : IsL3 X 1) (φ : ↥A ≃* X × X) {H : Subgro
     (hn : n ∈ normalizer (A : Set Γ)) :
     H.map (MulAut.conj n).toMonoidHom = (s16c7_psi₁ φ).range ∨
       H.map (MulAut.conj n).toMonoidHom = (s16c7_psi₂ φ).range := by
-  haveI := s16c7_finite_of_psi φ
-  haveI : IsSimpleGroup X := isSimpleGroup_of_isL3 hX
+  have := s16c7_finite_of_psi φ
+  have : IsSimpleGroup X := isSimpleGroup_of_isL3 hX
   have hc : center X = ⊥ := center_eq_bot_of_isL3 hX
   have hnA : ∀ y ∈ A, n * y * n⁻¹ ∈ A := fun y hy => (Subgroup.mem_normalizer_iff.1 hn y).1 hy
   have hnA' : ∀ y ∈ A, n⁻¹ * y * n ∈ A := by

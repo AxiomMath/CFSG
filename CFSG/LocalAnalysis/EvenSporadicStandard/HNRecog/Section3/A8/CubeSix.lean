@@ -34,7 +34,7 @@ theorem exists_two_four_of_cube (hI : TwoHSInterface) {G : Type} [Group G] {a z 
     intro h1
     have hone : x * y = 1 := by rw [h1, ← pow_two, hy_sq]
     exact ha_ne (isConj_one_left.mp (hone ▸ hxy))
-  haveI hEcomm : IsMulCommutative ↥E := hE.1.1
+  have hEcomm : IsMulCommutative ↥E := hE.1.1
   have hxy_comm : x * y = y * x := by
     have := mul_comm' (⟨x, hxE⟩ : ↥E) (⟨y, hyE⟩ : ↥E)
     exact congrArg Subtype.val this

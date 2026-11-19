@@ -15,7 +15,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem not_three_dvd_card_ker148 {A Y : Subgroup G} (hAY : A ≤ Subgroup.normalizer (Y : Set G)) :
+theorem not_three_dvd_card_ker148 {A Y : Subgroup G} (_hAY : A ≤ Subgroup.normalizer (Y : Set G)) :
     ¬ 3 ∣ Nat.card (ker148 A Y) := by
   have h1 : Nat.card (ker148 A Y) = Nat.card (pPrimeCoreOf 3 Y) :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe
@@ -31,15 +31,15 @@ theorem step153D4_of_inputs (hL3 : L3FieldFusionK) (h142 : Concl142S14) : Step15
   have hS := hR.toSec14Std
   have hA : IsE27 A := hS.isE27
   have hAY : A ≤ Subgroup.normalizer (Y : Set G) := hY.1.1.2
-  letI := ker148_normal hAY
+  let := ker148_normal hAY
   obtain ⟨c₀, hc₀A, L', n, m, hc₀Ω, hL', hn, hm, hiso, hQ, hxK, hfield, -⟩ := h5
   rw [← hYΔ] at hiso hQ hxK hfield
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hYM : Y ≤ Y ⊔ A := le_sup_left
   have hAM : A ≤ Y ⊔ A := le_sup_right
-  haveI hYn : (Y.subgroupOf (Y ⊔ A)).Normal :=
+  have hYn : (Y.subgroupOf (Y ⊔ A)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYM).mpr (sup_le Subgroup.le_normalizer hAY)
-  haveI hKn : (img148 A Y Y).Normal :=
+  have hKn : (img148 A Y Y).Normal :=
     Subgroup.Normal.map hYn (QuotientGroup.mk' (ker148 A Y)) (QuotientGroup.mk'_surjective _)
   have hc₀3 : c₀ ^ 3 = 1 := hA.1.2 c₀ hc₀A
   have hx : alpha148 A Y c₀ hc₀A =

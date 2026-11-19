@@ -307,7 +307,7 @@ theorem sylowGoodCl_psl3 {f : ℕ} (hf : 2 ≤ f) (h : IsPSL 3 2 f X) :
   obtain ⟨S, hS⟩ := exists_sylow_projUnitriangular (K := K) 2 (n := 3) (by norm_num)
   have h0 : IsSylowTwoOf (projUnitriangular 3 K) ⊤ := by
     rw [← hS]
-    exact K1.isSylowTwoOf_top_iff.mpr ⟨S.isPGroup', S.not_dvd_index⟩
+    exact K1.isSylowTwoOf_top_iff.mpr ⟨S.isPGroup, S.not_dvd_index⟩
   obtain ⟨g, hg⟩ := exists_conj_of_isSylowTwoOf_top h0 hT'
   rw [← hg]
   exact (sylowGoodCl_projUnitriangular hq).map (MulAut.conj g)

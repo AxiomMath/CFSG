@@ -60,6 +60,7 @@ private theorem apply_eprod_of_fixes {S : Setting G}
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply]
   simp only [hpow]
 
+omit [Finite G] in
 private theorem eq_cl_of_mem_span {S : Setting G} {g : G} {u : S.Qt} (hu : u ≠ 0)
     (hmem : u ∈ (ZMod 2) ∙ S.cl (g * S.z * g⁻¹)) :
     u = S.cl (g * S.z * g⁻¹) := by

@@ -70,7 +70,7 @@ theorem radV_of_zpow {Y : Type*} [Group Y] [Finite Y] {x : Y} {V : Subgroup Y} (
     exact Subgroup.index_ne_zero_of_finite
   exact Nat.le_of_dvd (Nat.pos_of_ne_zero hne) hd
 
-@[expose] def ClassRad {Y : Type*} [Group Y] (V : Subgroup Y) : Prop :=
+def ClassRad {Y : Type*} [Group Y] (V : Subgroup Y) : Prop :=
   ∃ y ∈ Subgroup.normalizer (V : Set Y), orderOf y = 5 ∧ RadV y V
 
 theorem classRad_map_cm {Y : Type*} [Group Y] (m : Y) {V : Subgroup Y} (h : ClassRad V) :
@@ -111,7 +111,7 @@ theorem classRad_of_centralizer {Y : Type*} [Group Y] [Finite Y] {V : Subgroup Y
     ClassRad V :=
   ⟨y, hy, h5, radV_of_centralizer y hab hU hidx⟩
 
-@[expose] def NoNonHBlockAt {Y : Type} [Group Y] (Hy : Subgroup Y) (V : Subgroup Y) : Prop :=
+def NoNonHBlockAt {Y : Type} [Group Y] (Hy : Subgroup Y) (V : Subgroup Y) : Prop :=
   ∀ L : Subgroup Y, D5Plus L → ⁅L, L⁆ = L → pCoreOf 2 L = V →
     (∃ g : Y, L ≤ Hy.map (MulAut.conj g).toMonoidHom) ∨
       ∃ y : Y, orderOf y = 2 ∧ ∀ l ∈ L, l * y = y * l
@@ -233,7 +233,7 @@ theorem noNonHBlockAt_of_index {Y : Type} [Group Y] [Finite Y] (Hy : Subgroup Y)
     rw [a5_card, e1] at h1
     exact h5 ((show 5 ∣ 60 by norm_num).trans (h1.trans e2))
 
-@[expose] def FpfV {Y : Type} [Group Y] (V : Subgroup Y) : Prop :=
+def FpfV {Y : Type} [Group Y] (V : Subgroup Y) : Prop :=
   Nat.card V = 16 ∧ (∀ a ∈ V, ∀ b ∈ V, a * b = b * a) ∧ (∀ a ∈ V, a * a = 1) ∧
     ∃ x ∈ Subgroup.normalizer (V : Set Y), orderOf x = 5 ∧ ∀ v ∈ V, x * v = v * x → v = 1
 
@@ -344,7 +344,7 @@ theorem fpfV_of_d5Core {G : Type} [Group G] [Finite G] {L : Subgroup G} (hD : D5
   have h4 : (⟨v, hv⟩ : ↥V) = 1 := β.injective (by rw [h3, map_one])
   exact congrArg Subtype.val h4
 
-@[expose] def J4VVerdict : Prop :=
+def J4VVerdict : Prop :=
   ∀ V : Subgroup ↥J, FpfV V → ClassRad V ∨ NoNonHBlockAt Hj V
 
 theorem verdict_of_list (lst : List (Subgroup ↥J))

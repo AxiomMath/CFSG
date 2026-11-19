@@ -15,7 +15,7 @@ namespace CFSG.GGQ2Prime
 open Subgroup CFSG.Open CFSG.Models CFSG.Assembly CFSG.StandardType CFSG.Fischer
 
 private theorem rhoTKer_comm_of_central {G : Type} [Group G] {L : Subgroup G} {b u v cu cv : G}
-    (hu : u ∈ L) (hv : v ∈ L) (hcu : cu ∈ L) (hcv : cv ∈ L)
+    (hu : u ∈ L) (hv : v ∈ L) (hcu : cu ∈ L) (_hcv : cv ∈ L)
     (hbu : b * u * b⁻¹ = u * cu) (hbv : b * v * b⁻¹ = v * cv)
     (hcu' : ∀ m ∈ L, m * cu = cu * m) (hcv' : ∀ m ∈ L, m * cv = cv * m) :
     b * (u * v * u⁻¹ * v⁻¹) * b⁻¹ = u * v * u⁻¹ * v⁻¹ := by
@@ -119,7 +119,7 @@ theorem rhoT_eq_one_iff_mem_zpowers
     rw [Subgroup.mem_centralizer_iff]
     intro k hk
     exact (Subgroup.mem_centralizer_iff.1 (hLx hk) x (Set.mem_singleton x)).symm
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx3 : orderOf x = 3 := orderOf_eq_prime (hBs3 x hxBs) hx1
   constructor
   · intro hone

@@ -64,8 +64,8 @@ theorem burnsideF4m_core12_U5 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     (∀ x ∈ centerOf (perfectCore M₁), x ≠ 1 → x * x = 1 → x ∈ ctr (oPPrime 2 (Gp ⊓ M₁))) ∧
     (∀ x ∈ centerOf (perfectCore M₂), x ≠ 1 → x * x = 1 →
       GLKind.U5 = .Sp4 ∧ x ∈ ctr (oPPrime 2 (Gp ⊓ M₂))) := by
-  haveI := hyp.normal
-  haveI := hyp.finite
+  have := hyp.normal
+  have := hyp.finite
   obtain ⟨K, fK, h, Ψ, h1, h2⟩ := burnsideF4m_U5_chart hyp.toHypF_4_4g
   have hperf : ∀ S : Subgroup (MulAut ↥Gp), ⁅S, S⁆ = S →
       S ≤ (MulAut.conj : ↥Gp →* MulAut ↥Gp).range :=
@@ -83,8 +83,8 @@ theorem burnsideF4m_core12_U5 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
 theorem burnsideF4m_U5_pCore {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .U5 2 f Gp M₁ M₂) (hf : 2 ≤ f) :
     pCoreOf 2 M₂ = pCoreOf 2 (Gp ⊓ M₂) := by
-  haveI := hyp.normal
-  haveI := hyp.finite
+  have := hyp.normal
+  have := hyp.finite
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, fK, h, Ψ, -, h2⟩ := burnsideF4m_U5_chart hyp.toHypF_4_4g
   set φ : hypPSU h 2 1 →* E := Gp.subtype.comp Ψ.toMonoidHom with hφdef

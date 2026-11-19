@@ -67,7 +67,7 @@ theorem minimalLocalFailureNormalIntersectionSylowHullRank
   obtain ⟨hsimple, hnonab⟩ := minimalLocalFailure_nonabelian_simple h
   let _ := hsimple
   have hYproper : Y ≠ ⊤ := prime_subgroup_normalizer_ne_top
-    hnonab p hp U (Q.isPGroup'.map (C ⊓ E).subtype) hUne
+    hnonab p hp U (Q.isPGroup.map (C ⊓ E).subtype) hUne
   have hYescape : ¬ Y ≤ H := fun hYH => pair_flip_not_mem_point hbeta hsfiber (hYH hsY)
   have hBnormalizes : pairPointStabilizer H beta ≤ Subgroup.normalizer (C : Set G) := by
     intro b hb

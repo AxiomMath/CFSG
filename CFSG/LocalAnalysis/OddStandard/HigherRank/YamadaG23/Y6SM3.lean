@@ -42,7 +42,7 @@ theorem y6_M3_le_X (c : Ctx6 G L) (hF : c.toCtx5.Facts5) : M3 c.s ≤ y6X c := b
     hcomm.trans (by
       rw [y6_C1_eq c]
       exact sup_le_sup_right (s3_F_le_A c.s) (C0 c.e))
-  haveI : IsMulCommutative ↥(M3 c.s) := by
+  have : IsMulCommutative ↥(M3 c.s) := by
     rcases hF.2.2.2.2.2.2 with ⟨-, hE⟩ | ⟨-, hMC, -⟩
     · exact hE.1
     · exact hMC
@@ -120,7 +120,7 @@ theorem y6_card_TM3 (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5) 
 
 theorem y6_TM3_pgroup (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.Facts5) :
     IsPGroup 2 ↥(c.s.T ⊔ M3 c.s) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard := y6_card_TM3 c hH hF
   obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq c.s.sylow_T.2.1
   refine IsPGroup.of_card (n := k + 3) ?_

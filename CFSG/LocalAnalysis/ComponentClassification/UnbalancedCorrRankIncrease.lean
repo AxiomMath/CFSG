@@ -54,7 +54,7 @@ theorem GSWeakCorr.to_gsCorr_of_index_eq {a b : G} {J L : Subgroup G}
 theorem swapped_fixed_source_replacement {a b e : G} {J L M : Subgroup G}
     (h1 : GSCorr a J b L) (hne : conjugate L a ≠ L)
     (hd : (pPrimeCore 2 J).index = (pPrimeCore 2 L).index)
-    (he : orderOf e = 2) (hae : a * e = e * a) (hbe : b * e = e * b)
+    (he : orderOf e = 2) (_hae : a * e = e * a) (hbe : b * e = e * b)
     (heJ : e ∈ normalizer (J : Set G))
     (hJe : ∀ j ∈ J, j⁻¹ * e⁻¹ * j * e ∈ (pPrimeCore 2 J).map J.subtype)
     (hKe : ∀ k ∈ L ⊔ conjugate L a, k⁻¹ * e⁻¹ * k * e ∈
@@ -154,7 +154,7 @@ theorem fixed_source_rank_increase_of_index_eq {a b : G} {J L S : Subgroup G}
         pRank 2 ↥(centralizer ({e} : Set G) ⊓ coreActionKernel K) := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   let A : Set (G × Subgroup G) := {p | orderOf p.1 = 2 ∧
     p.1 ∈ S ⊓ coreActionKernel J ∧ GSWeakCorr a J p.1 p.2 ∧ ¬ GSIsoCorr a J p.1 p.2}

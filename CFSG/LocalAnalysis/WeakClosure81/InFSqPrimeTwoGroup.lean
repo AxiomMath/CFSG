@@ -29,7 +29,7 @@ private theorem inEP_top_of_inE {Q : Type} [Group Q] [Finite Q] [Group.IsSolvabl
   have hle : CFSG.Quasithin.E1.eGen 1 (⊤ : Subgroup Q) T Ω ≤
       CFSG.LocalAnalysis.UniquenessCase.UC22.F12.eGenP 1 (⊤ : Subgroup Q) T Ω := by
     refine iSup₂_le fun A hA => iSup_le fun hAT => iSup₂_le fun K hK => ?_
-    haveI : Group.IsSolvable ↥K := inferInstance
+    have : Group.IsSolvable ↥K := inferInstance
     exact le_iSup₂_of_le A hA (le_iSup_of_le hAT
       (le_iSup₂_of_le K ⟨hK.1, hK.2.1, hK.2.2.1,
         Or.inl (CFSG.Quasithin.E1.isE_eOne_of_isSolvable hK inferInstance)⟩ le_rfl))
@@ -40,7 +40,7 @@ private theorem exists_uniqueMaxOver_of_prime_index {Q : Type} [Group Q] [Finite
     (hQ2 : 2 ∣ Nat.card Q) :
     ∃ T : Subgroup Q, CFSG.ABGLocalTools.IsSylowOf 2 T ⊤ ∧ HasUniqueMaxOver T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hT⟩ := CFSG.ABGLocalTools.exists_isSylowOf 2 (⊤ : Subgroup Q)
   have hTs : CFSG.Quasithin.IsSylowIn 2 T ⊤ :=
     (CFSG.ABGLocalTools.isSylowOf_iff (p := 2) (P := T) (K := ⊤)).mp hT
@@ -93,12 +93,12 @@ theorem inFSq_one_of_prime_mul_two_group
     (hT : IsPGroup 2 T) (hperm : Permutes A T) :
     InFSq 1 (A ⊔ T) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq2 : 2 ≠ q := by
     rintro rfl
     exact hqodd.not_two_dvd_nat (by norm_num)
   have hinf : A ⊓ T = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hAcard]
     obtain ⟨k, hk⟩ := hT.exists_card_eq
     rw [hk]
@@ -107,14 +107,14 @@ theorem inFSq_one_of_prime_mul_two_group
     rw [CFSG.AGLEmbeddingD2.Tits.S3AmalgamBound.card_sup_of_permutable hperm hinf, hAcard]
   obtain ⟨k, hk⟩ := hT.exists_card_eq
   have hcardHk : Nat.card ↥(A ⊔ T) = q * 2 ^ k := by rw [hcardH, hk]
-  haveI : Fintype ↥(A ⊔ T) := Fintype.ofFinite ↥(A ⊔ T)
+  have : Fintype ↥(A ⊔ T) := Fintype.ofFinite ↥(A ⊔ T)
   have hcardH' : Fintype.card ↥(A ⊔ T) = 2 ^ k * q ^ 1 := by
     rw [← Nat.card_eq_fintype_card, hcardHk, pow_one, mul_comm]
-  haveI : Group.IsSolvable ↥(A ⊔ T) :=
+  have : Group.IsSolvable ↥(A ⊔ T) :=
     CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
       Nat.prime_two hq hq2 hcardH'
   let Q := Bar2 (A ⊔ T)
-  haveI : Group.IsSolvable Q := by
+  have : Group.IsSolvable Q := by
     dsimp [Q, Bar2]
     infer_instance
   have hO2 : CFSG.pCore 2 Q = ⊥ := by

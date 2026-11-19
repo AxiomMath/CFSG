@@ -58,7 +58,7 @@ theorem ggNbrG2K_field_part
           e h = d * Matrix.SpecialLinearGroup.map σ.toRingHom (e g) * d⁻¹ := by
   classical
   let Γ := adjointGroup Tag.G2 F
-  haveI : CharP F 2 := charP_two_of_card hF
+  have : CharP F 2 := charP_two_of_card hF
   have hring : ringChar F = 2 := ringChar.eq F 2
   have hK3 : ringChar F ≠ 3 := by rw [hring]; norm_num
   have hK2 : 2 ≤ Nat.card F := by

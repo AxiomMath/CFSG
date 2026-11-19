@@ -15,6 +15,7 @@ variable {T X : Type} [Group T] [Finite T] [Group X] [Finite X]
 @[expose] def coverOrbit (κ : T →* X) (y : T) : Set T :=
   {w : T | ∃ g : T, κ g ∈ centralizer ({κ y} : Set X) ∧ w = g * y * g⁻¹}
 
+omit [Finite T] [Finite X] in
 theorem card_comap_centralizer_eq (κ : T →* X) (y : T) :
     Nat.card ↥((centralizer ({κ y} : Set X)).comap κ) =
       (coverOrbit κ y).ncard * Nat.card ↥(centralizer ({y} : Set T)) := by
@@ -80,6 +81,7 @@ theorem card_comap_centralizer_eq (κ : T →* X) (y : T) :
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDΓ).toEquiv
   rw [h2, h1, h3]
 
+omit [Finite X] in
 theorem card_centralizer_le_orbit_mul (κ : T →* X) (hκ : Function.Surjective κ) (y : T) :
     Nat.card ↥(centralizer ({κ y} : Set X)) ≤
       (coverOrbit κ y).ncard * Nat.card ↥((centralizer ({y} : Set T)).map κ) := by

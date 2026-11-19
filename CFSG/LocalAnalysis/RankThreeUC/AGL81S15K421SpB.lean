@@ -18,6 +18,7 @@ section TallFacts
 
 variable {F : Type} [Field F] [CharP F 2]
 
+omit [CharP F 2] in
 theorem tm_inj {α β α' β' : F} (h : tm F α β = tm F α' β') : α = α' ∧ β = β' := by
   have h00 := congrFun (congrFun h 0) 0
   have h01 := congrFun (congrFun h 0) 1
@@ -99,7 +100,7 @@ section Bhom
 variable (F : Type) [Field F] [CharP F 2]
 
 @[expose] def BhomGL : (Fin 3 → ↥(Tall F)) →* GL Idx F :=
-  bdGL.comp (Pi.monoidHom fun j =>
+  bdGL.comp (_root_.MonoidHom.pi fun j =>
     (Tall F).subtype.comp (Pi.evalMonoidHom (fun _ => ↥(Tall F)) j))
 
 variable {F}

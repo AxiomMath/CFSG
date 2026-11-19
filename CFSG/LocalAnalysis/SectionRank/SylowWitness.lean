@@ -65,7 +65,7 @@ theorem ker_eq_bot_of_sylow_kernel_eq_bot [Group.IsPerfect E] (π : E →* S)
   refine OddCover.eq_bot_of_forall_sylow_eq_bot _ fun r hr _ Cp => ?_
   by_cases hr2 : r = 2
   · subst hr2
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Cp.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Cp.isPGroup
     have h1 : Nat.card (Cp : Subgroup π.ker) ∣ Nat.card π.ker := Subgroup.card_subgroup_dvd_card _
     have hk0 : k = 0 := by
       by_contra hk0

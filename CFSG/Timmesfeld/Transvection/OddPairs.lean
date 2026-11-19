@@ -98,7 +98,7 @@ theorem oddFrameMap_eq_of_even {γ : Fin ((2 * r + 1) / 2) → ℤ}
     (x : (Unitary.rootDatum hFn (2 * r + 1)).rootGroup γ)
     (y : SU (unitaryInvolution F 2 n) (2 * r)) (hy : oddEmb (unitaryInvolution F 2 n) r y = x) :
     oddFrameMap hFn hr Ψ₀ θ γ x = Ψ₀ y := by
-  rw [oddFrameMap, if_pos hγ]
+  rw [oddFrameMap, ite_eq_left hγ]
   rw [← hy, Function.leftInverse_invFun
     (oddEmb_injective (σ := unitaryInvolution F 2 n) (r := r)) y]
 
@@ -108,7 +108,7 @@ theorem oddFrameMap_eq_of_last {γ : Fin ((2 * r + 1) / 2) → ℤ}
     (hA : su3Emb (unitaryInvolution F 2 n) (Nat.not_even_two_mul_add_one r)
       (bcLastIdx r (Nat.one_le_of_lt hr)) A = x) :
     oddFrameMap hFn hr Ψ₀ θ γ x = θ A := by
-  rw [oddFrameMap, if_neg hγ, if_pos hP]
+  rw [oddFrameMap, ite_eq_right hγ, ite_eq_left hP]
   rw [← hA, Function.leftInverse_invFun
     (su3Emb_injective (σ := unitaryInvolution F 2 n) (n := 2 * r + 1)
       (Nat.not_even_two_mul_add_one r) (bcLastIdx r (Nat.one_le_of_lt hr))) A]
@@ -119,7 +119,7 @@ theorem oddFrameMap_eq_of_prev {γ : Fin ((2 * r + 1) / 2) → ℤ}
     (hA : su3Emb (unitaryInvolution F 2 n) (Nat.not_even_two_mul_add_one r)
       (bcPrevIdx r hr) A = x) :
     oddFrameMap hFn hr Ψ₀ θ γ x = oddPrevLift hFn hr Ψ₀ θ A := by
-  rw [oddFrameMap, if_neg hγ, if_neg hP]
+  rw [oddFrameMap, ite_eq_right hγ, ite_eq_right hP]
   rw [← hA, Function.leftInverse_invFun
     (su3Emb_injective (σ := unitaryInvolution F 2 n) (n := 2 * r + 1)
       (Nat.not_even_two_mul_add_one r) (bcPrevIdx r hr)) A]
@@ -161,7 +161,7 @@ theorem map_levelWeyl_last (hd : OddFrameCompatible hFn hr Ψ₀ θ) :
       θ (levelWeyl (unitaryInvolution_involutive hFn) ⟨1, one_mem_traceZero⟩
         (0 : Fin (3 / 2))) := by
   have hL : ¬ (cLastIdx r hr).val + 1 < (2 * r) / 2 := by
-    simp only [cLastIdx, Fin.val_mk]
+    simp only
     omega
   have h0 : ¬ (0 : Fin (3 / 2)).val + 1 < 3 / 2 := by decide
   rw [levelWeyl_one_last_eq (m := 2 * r) (unitaryInvolution_involutive hFn) hL,
@@ -174,7 +174,7 @@ theorem oddPrevLift_suLong_inl (hd : OddFrameCompatible hFn hr Ψ₀ θ) {c : F}
     oddPrevLift hFn hr Ψ₀ θ (suLong (unitaryInvolution F 2 n) (Sum.inl (0 : Fin (3 / 2))) c) =
       Ψ₀ (suLong (unitaryInvolution F 2 n) (Sum.inl (cPrevIdx r hr)) c) := by
   have hjk : (cPrevIdx r hr).val + 1 = (cLastIdx r hr).val := by
-    simp only [cPrevIdx, cLastIdx, Fin.val_mk]
+    simp only
     omega
   rw [oddPrevLift_apply, ← (hd.long_last c hc).1]
   rw [← map_inv, ← map_mul, ← map_mul]
@@ -187,7 +187,7 @@ theorem oddPrevLift_suLong_inr (hd : OddFrameCompatible hFn hr Ψ₀ θ) {c : F}
     oddPrevLift hFn hr Ψ₀ θ (suLong (unitaryInvolution F 2 n) (Sum.inr (0 : Fin (3 / 2))) c) =
       Ψ₀ (suLong (unitaryInvolution F 2 n) (Sum.inr (cPrevIdx r hr)) c) := by
   have hjk : (cPrevIdx r hr).val + 1 = (cLastIdx r hr).val := by
-    simp only [cPrevIdx, cLastIdx, Fin.val_mk]
+    simp only
     omega
   rw [oddPrevLift_apply, ← (hd.long_last c hc).2]
   rw [← map_inv, ← map_mul, ← map_mul]
@@ -206,10 +206,10 @@ theorem commute_levelWeyl_last_oddPrevLift (hd : OddFrameCompatible hFn hr Ψ₀
   let x := suLong (unitaryInvolution F 2 n) (Sum.inl (cPrevIdx r hr)) 1
   let y := suLong (unitaryInvolution F 2 n) (Sum.inr (cPrevIdx r hr)) 1
   have hjk : (cPrevIdx r hr).val + 1 = (cLastIdx r hr).val := by
-    simp only [cPrevIdx, cLastIdx, Fin.val_mk]
+    simp only
     omega
   have hL : ¬ (cLastIdx r hr).val + 1 < (2 * r) / 2 := by
-    simp only [cLastIdx, Fin.val_mk]
+    simp only
     omega
   have hconj := levelWeyl_one_conj_levelWeyl_one_last (m := 2 * r)
     (unitaryInvolution_involutive hFn) hjk hL
@@ -290,7 +290,7 @@ private theorem oddEmb_eq_of_mem_unitaryLongRoot
     rw [unitaryLongRoot_eq (even_two_mul r) h']
     congr 1
   have hk : ¬ (cLastIdx r hr).val + 1 < (2 * r) / 2 := by
-    simp only [cLastIdx, Fin.val_mk]
+    simp only
     omega
   have hγ : toStd (2 * r) (Pi.single (cLastIdx r hr) 1) =
       rt (Sum.inl (cLastIdx r hr)) (Sum.inl (cLastIdx r hr)) :=

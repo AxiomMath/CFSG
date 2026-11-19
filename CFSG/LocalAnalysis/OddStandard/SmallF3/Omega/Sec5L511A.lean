@@ -108,7 +108,7 @@ theorem csl_t_mem_zpowers (h52a : Asc82Lemma52a) {t : G} {L S : Subgroup G} {z r
     {B A : Subgroup G} (c : Sec5RCtx G t L S z r B A) {y : G}
     (hy : y ∈ S ⊓ centralizer (L : Set G)) (hy1 : y ≠ 1) : t ∈ zpowers y := by
   obtain ⟨hyS, hyC⟩ := hy
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp c.sylow.2.1 ⟨y, hyS⟩
   rw [Subgroup.orderOf_mk] at hk
   have hk0 : k ≠ 0 := by

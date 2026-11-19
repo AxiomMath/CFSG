@@ -109,6 +109,7 @@ theorem f112ll_u4q_exists_torus_left (hF : F112HypW L1 L2 S) (hm : 2 ≤ m) (hn 
       hH hd hcardT ⟨hJB, hJcomm, hJcard, hJconj⟩ hf
     rwa [pCoreOf_oTwoPrime] at h
 
+omit [Finite H] in
 private theorem u4q_conj_mem_centerOf {Q : Subgroup H} {g z : H}
     (hg : g ∈ Subgroup.normalizer (Q : Set H)) (hz : z ∈ centerOf Q) :
     g * z * g⁻¹ ∈ centerOf Q := by
@@ -147,6 +148,7 @@ private theorem u4q_torus_le_normalizer {L1 L2 S D : Subgroup H} {n : ℕ}
   · intro d hdD
     exact CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 _ (hDLβ hdD)
 
+omit [Finite H] in
 private theorem u4q_exists_center_element {L1 L2 S : Subgroup H} {f : ℕ} {K : Type} [Field K]
     (c₂ : U4qCoordRight (oTwoPrime (f112saP1' L1 L2 S)) (oTwoPrime (f112saP2' L1 L2 S))
       (S ⊓ f112saK L1 L2 S) f K) :
@@ -170,6 +172,7 @@ private theorem u4q_exists_center_element {L1 L2 S : Subgroup H} {f : ℕ} {K : 
     exact one_ne_zero h10
   exact ⟨z0, hz0Z, hz0ne, hz0⟩
 
+omit [Finite H] in
 private theorem u4q_upper_triangular {L1 L2 S D : Subgroup H} {f : ℕ} {K : Type} [Field K]
     (hU : UnitaryFieldData 2 f K)
     {c₂ : U4qCoordRight (oTwoPrime (f112saP1' L1 L2 S)) (oTwoPrime (f112saP2' L1 L2 S))
@@ -195,12 +198,13 @@ private theorem u4q_upper_triangular {L1 L2 S D : Subgroup H} {f : ℕ} {K : Typ
   rw [heq, hz0] at h11
   simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.map_apply, Matrix.transpose_apply,
     Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons] at h11
+    Matrix.empty_val', Matrix.cons_val_fin_one] at h11
   ring_nf at h11
   rcases mul_eq_zero.mp h11 with h | h
   · exact h
   · exact (map_eq_zero hU.bar).mp h
 
+omit [Finite H] in
 private theorem u4q_exists_unitsHom {L1 L2 S D : Subgroup H} {f : ℕ} {K : Type} [Field K]
     {c₂ : U4qCoordRight (oTwoPrime (f112saP1' L1 L2 S)) (oTwoPrime (f112saP2' L1 L2 S))
       (S ⊓ f112saK L1 L2 S) f K}
@@ -245,6 +249,7 @@ private theorem u4q_exists_unitsHom {L1 L2 S D : Subgroup H} {f : ℕ} {K : Type
           show (Af b : Matrix (Fin 2) (Fin 2) K) 1 0 = 0 from hAf10 b, mul_zero, add_zero] }
   exact ⟨Φ, fun d => by simp [Φ, Af]⟩
 
+omit [Finite H] in
 private theorem u4q_unitsHom_eq_one_mem_pCoreOf {L1 L2 S D : Subgroup H} {f : ℕ}
     {K : Type} [Field K] [CharP K 2]
     {c₂ : U4qCoordRight (oTwoPrime (f112saP1' L1 L2 S)) (oTwoPrime (f112saP2' L1 L2 S))
@@ -320,7 +325,7 @@ private theorem u4q_unitsHom_injective {L1 L2 S D : Subgroup H} {f : ℕ} {K : T
   have hdQβ := u4q_unitsHom_eq_one_mem_pCoreOf hDLβ hAf10 hDcard hf hΦval hd1
   have hoddD : Odd (2 ^ (2 * f) - 1) := odd_two_pow_sub_one (by omega)
   have hDQβ : D ⊓ pCoreOf 2 (oTwoPrime (f112saP2' L1 L2 S)) = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨j, hj⟩ := (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2
       (oTwoPrime (f112saP2' L1 L2 S))).exists_card_eq
     rw [hDcard, hj]
@@ -360,6 +365,7 @@ private theorem u4q_exists_norm_ne_one {f : ℕ} {K : Type} [Field K] [Fintype K
     nlinarith
   omega
 
+omit [Finite H] in
 private theorem u4q_center_element_norm {L1 L2 S D : Subgroup H} {f : ℕ} {K : Type}
     [Field K]
     {c₂ : U4qCoordRight (oTwoPrime (f112saP1' L1 L2 S)) (oTwoPrime (f112saP2' L1 L2 S))
@@ -400,7 +406,7 @@ private theorem u4q_center_element_norm {L1 L2 S D : Subgroup H} {f : ℕ} {K : 
   have h00 := congrFun (congrFun heq 0) 0
   simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.map_apply, Matrix.transpose_apply,
     Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons] at h00
+    Matrix.empty_val', Matrix.cons_val_fin_one] at h00
   have h00' : a = a * ((c₂.α ⟨(d : H), hDLβ d.2⟩ : Matrix (Fin 2) (Fin 2) K) 0 0 *
       hU.bar ((c₂.α ⟨(d : H), hDLβ d.2⟩ : Matrix (Fin 2) (Fin 2) K) 0 0)) := by
     rw [hU.bar_apply]
@@ -470,10 +476,10 @@ theorem f112ll_u4q_W_eq_bot (hF : F112HypW L1 L2 S) (hm : 2 ≤ m) (hn : 2 ≤ n
   obtain ⟨D, hDsub, hDcard⟩ := f112_exists_torus_X2 hF (by omega) h2
   have hDcard' : Nat.card ↥D = 2 ^ (2 * f) - 1 := by rw [hDcard, hn_eq]
   obtain ⟨K, hKfield, hKfin, ⟨c₂⟩⟩ := U4qLocalData.exists_coordRight hH hd hcardT
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   have hU : UnitaryFieldData 2 f K := ⟨Nat.prime_two, by omega, c₂.card⟩
-  haveI : CharP K 2 := hU.charP
+  have : CharP K 2 := hU.charP
   obtain ⟨hDK, hDLβ, hDNQα, hDNQβ⟩ := u4q_torus_le_normalizer hF hn h2 hDsub
   obtain ⟨z0, hz0Z, -, hz0⟩ := u4q_exists_center_element c₂
   have hAf10 : ∀ d : ↥D,

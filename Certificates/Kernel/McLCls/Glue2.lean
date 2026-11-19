@@ -53,9 +53,9 @@ theorem cnt_eq (f : Nat → Bool) : ∀ N : Nat,
     change Bool.rec (motive := fun _ => Nat) (m305cnt N f) (Nat.succ (m305cnt N f)) (f N) = _
     rw [Finset.range_add_one, Finset.filter_insert]
     cases h : f N
-    · simp only [Bool.false_eq_true, if_false]
+    · simp only [Bool.false_eq_true, ite_false]
       exact cnt_eq f N
-    · rw [if_pos rfl, Finset.card_insert_of_notMem (by simp), ← cnt_eq f N]
+    · rw [ite_eq_left rfl, Finset.card_insert_of_notMem (by simp), ← cnt_eq f N]
 
 
 theorem sE_gens : ∀ k < SE.ng, PRep 275 9 (SE.G k) (sP.getD k 1) := by

@@ -28,6 +28,7 @@ local notation "W" => (coxeterMatrix D.isFiniteType).Group
 set_option hygiene false in
 local notation "cs" => (coxeterMatrix D.isFiniteType).toCoxeterSystem
 
+omit [Finite Fld] [CharP Fld 2] in
 theorem blk_one_matrix (B : SpecialLinearGroup (Fin 2) Fld) :
     ((WeakCT.blk Fld 1 B : SpecialLinearGroup (Fin 3) Fld) : Matrix (Fin 3) (Fin 3) Fld) =
       emb21 (B : Matrix (Fin 2) (Fin 2) Fld) := by
@@ -44,13 +45,13 @@ variable {M : ChevModel2 D n H Fld}
 
 private theorem plh_cutTypes_one_02 : cutTypes 1 [0, 2] = ({0} : Set (Fin 1)) := by
   ext j
-  simp only [cutTypes, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [cutTypes, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   rw [Nat.forall_lt_iff_fin]
-  fin_cases j <;> decide
+  fin_cases j; decide
 
 private theorem plh_cutTypes_two_013 : cutTypes 2 [0, 1, 3] = ({1} : Set (Fin 2)) := by
   ext j
-  simp only [cutTypes, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [cutTypes, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   rw [Nat.forall_lt_iff_fin]
   fin_cases j <;> decide
 
@@ -93,7 +94,7 @@ theorem exists_chart_exchA1A1_of_frame (hK : Nat.card Fld = (2 ^ f) ^ 2)
       (v := v) (k₁ := (0 : Fin 1)) (hπ₁ := hπ₁') (hπ₂ := hπ₂') (β := β)
       (hβu := hβu) (hβl := hβl)
   obtain ⟨Θ₀, N₁, N₂, _hStab₁, hcoreΘ, hψΘ⟩ :=
-    Res.exists_seam_exch (hct := hct) (hext := hext) (F := F) (hw₀ := hw₀) (hsq := hsq)
+    Res.exists_seam_exch (hct := hct) (hext := hext) (F := F)
       (L₁ := L₁) (L₂ := L₂) (J₁ := Set.range L₁.e) (z := L₂.e 0)
       (hJ₁ := rfl) (hz₂ := rfl) (hz := hz) (hcomm := hcomm)
       (hIJ := hfr.1) (hR := hfr.2.1) (hcore := hfr.2.2.1)
@@ -173,7 +174,7 @@ theorem exists_chart_exchA2A1_of_frame (hK : Nat.card Fld = (2 ^ f) ^ 2)
       (v := v) (k₁ := (1 : Fin 2)) (hπ₁ := hπ₁') (hπ₂ := hπ₂') (β := β)
       (hβu := hβu) (hβl := hβl)
   obtain ⟨Θ₀, N₁, N₂, hStab₁, hcoreΘ, hψΘ⟩ :=
-    Res.exists_seam_exch (hct := hct) (hext := hext) (F := F) (hw₀ := hw₀) (hsq := hsq)
+    Res.exists_seam_exch (hct := hct) (hext := hext) (F := F)
       (L₁ := L₁) (L₂ := L₂) (J₁ := Set.range L₁.e) (z := L₂.e 0)
       (hJ₁ := rfl) (hz₂ := rfl) (hz := hz) (hcomm := hcomm)
       (hIJ := hfr.1) (hR := hfr.2.1) (hcore := hfr.2.2.1)
@@ -269,7 +270,7 @@ theorem exists_chart_exch3_of_frame (hK : Nat.card Fld = (2 ^ f) ^ 2)
         (v := v) (k₁ := (0 : Fin 1)) (hπ₁ := hπx') (hπ₂ := hπy') (β := β)
         (hβu := hβu) (hβl := hβl)
     obtain ⟨Θ₀, Nx, Ny, Nz, hStabz, hcoreΘ, hψΘ⟩ :=
-      Res.exists_seam_exch3 (hct := hct) (hext := hext) (F := F) (hw₀ := hw₀) (hsq := hsq)
+      Res.exists_seam_exch3 (hct := hct) (hext := hext) (F := F)
         (Lx := Lx) (Ly := Ly) (Lz := Lz) (x := Lx.e 0) (y := Ly.e 0) (z := Lz.e 0)
         (hx := rfl) (hy := rfl) (hz := rfl) (hxy := hxy) (hxz := hxz) (hyz := hyz)
         (hmxy := hmxy) (hmxz := hmxz) (hmyz := hmyz) (hIJ := hfr.1) (hR := hfr.2.1)

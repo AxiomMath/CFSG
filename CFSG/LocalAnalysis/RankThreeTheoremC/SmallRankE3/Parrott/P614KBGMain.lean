@@ -20,7 +20,7 @@ theorem exists_ne_le_normalizer {T : Sylow 2 X} {D : Subgroup X} (h : BorelSetup
     {P : Subgroup X} (hPT : P ≤ normalizer ((T : Subgroup X) : Set X))
     (hp : (Nat.card P).Prime) (hodd : Odd (Nat.card P)) :
     ∃ T₂ : Sylow 2 X, T₂ ≠ T ∧ P ≤ normalizer ((T₂ : Subgroup X) : Set X) := by
-  haveI : Fact (Nat.card P).Prime := ⟨hp⟩
+  have : Fact (Nat.card P).Prime := ⟨hp⟩
   have hPp : IsPGroup (Nat.card P) P := IsPGroup.of_card (n := 1) (pow_one _).symm
   by_contra hcon
   push Not at hcon
@@ -40,7 +40,7 @@ theorem exists_ne_le_normalizer {T : Sylow 2 X} {D : Subgroup X} (h : BorelSetup
   have hdvd : Nat.card P ∣ Nat.card (T : Subgroup X) := by
     have h1 := (Nat.modEq_iff_dvd' (by omega)).mp hmod.symm
     simpa using h1
-  obtain ⟨n, hn⟩ := T.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := T.isPGroup.exists_card_eq
   rw [hn] at hdvd
   have h2 : Nat.card P = 2 :=
     (Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp (hp.dvd_of_dvd_pow hdvd)
@@ -113,7 +113,7 @@ theorem normalizer_sup_eq_top [IsSimpleGroup X] {T : Sylow 2 X} {D : Subgroup X}
     (hp : (Nat.card P).Prime) (hodd : Odd (Nat.card P)) :
     normalizer (P : Set X) ⊔ (T : Subgroup X) = ⊤ := by
   obtain ⟨T₂, hne, hPT₂⟩ := exists_ne_le_normalizer h hPT hp hodd
-  haveI := isCyclic_normalizer_inf h hne
+  have := isCyclic_normalizer_inf h hne
   obtain ⟨w, hwT, hwT₂⟩ := exists_swap h hne
   have hPE : P ≤ normalizer ((T : Subgroup X) : Set X) ⊓
       normalizer ((T₂ : Subgroup X) : Set X) := le_inf hPT hPT₂
@@ -143,7 +143,7 @@ theorem kFactBenderGen_holds : KFactBenderGen := by
     rw [hT.card_eq, Subgroup.card_top]
   obtain ⟨S, rfl⟩ : ∃ S : Sylow 2 K, (S : Subgroup K) = T :=
     ⟨Sylow.ofCard T hcard, Sylow.coe_ofCard _ _⟩
-  haveI : IsSimpleGroup K :=
+  have : IsSimpleGroup K :=
     CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hK
   obtain ⟨D, hD⟩ := CFSG.Goldschmidt.G3a.exists_borelSetup hK S
   exact P614KBG.normalizer_sup_eq_top hD hPT hp hodd

@@ -119,8 +119,8 @@ theorem pow_commutator_mem {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {H K : Subgr
 theorem commutator_mho_le_mho_mho_odd [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {H : Subgroup G} (hH : IsPGroup p H) (hcomm : ⁅H, H⁆ ≤ GroupTheory.HuppertProduct.mho H p) :
     ⁅GroupTheory.HuppertProduct.mho H p, H⁆ ≤ GroupTheory.HuppertProduct.mho (GroupTheory.HuppertProduct.mho H p) p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsNilpotent H := hH.isNilpotent
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsNilpotent H := hH.isNilpotent
   have hMH : GroupTheory.HuppertProduct.mho H p ≤ H := mho_le H p
   have hQH : GroupTheory.HuppertProduct.mho (GroupTheory.HuppertProduct.mho H p) p ≤ H := (mho_le _ p).trans hMH
   have hQn : H ≤ Subgroup.normalizer ((GroupTheory.HuppertProduct.mho (GroupTheory.HuppertProduct.mho H p) p : Subgroup G) : Set G) :=
@@ -253,7 +253,7 @@ theorem relIndex_mho_mho_le_odd [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠
 
 theorem card_le_of_isCyclic [Finite G] {p : ℕ} (hp : 0 < p) {S F : Subgroup G} (hS : IsCyclic S)
     (hFS : F ≤ S) (hF : ∀ e ∈ F, e ^ p = 1) : Nat.card F ≤ p := by
-  haveI : IsCyclic (F.subgroupOf S) := Subgroup.isCyclic _
+  have : IsCyclic (F.subgroupOf S) := Subgroup.isCyclic _
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := F.subgroupOf S)
   have hgp : g ^ p = 1 := by
     apply Subtype.ext
@@ -360,7 +360,7 @@ theorem card_ne_pow_three_of_product [Finite G] {p : ℕ} [Fact p.Prime] (hp2 : 
 end KHupOdd
 
 theorem kHupAt_odd {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : KHupAt p := by
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   intro X _ _ W A B hW hA hB hAc hBc hprod
   refine CFSG.SectionRank.pRank_le hp.one_lt ?_
   intro E hEW hE

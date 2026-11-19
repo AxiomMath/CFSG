@@ -10,23 +10,23 @@ namespace CFSG.OddStandard.ONanRec.A6C
 
 open CFSG.QuasithinUnique CFSG.QuasithinUnique.A6Facts
 
-@[expose] def Ord4 (u : P10) : Prop := u ^ 4 = 1 ∧ u ^ 2 ≠ 1
+def Ord4 (u : P10) : Prop := u ^ 4 = 1 ∧ u ^ 2 ≠ 1
 
-@[expose] def PC (u r : P10) : Prop :=
+def PC (u r : P10) : Prop :=
   r ≠ 1 ∧ r ^ 3 = 1 ∧ u * r * u ^ 3 * r = r * (u * r * u ^ 3) ∧ u ^ 2 * r * u ^ 2 = r ^ 2
 
-@[expose] def DC (u d : P10) : Prop := d ^ 2 = 1 ∧ d ≠ 1 ∧ d * u * d * u = 1
+def DC (u d : P10) : Prop := d ^ 2 = 1 ∧ d ≠ 1 ∧ d * u * d * u = 1
 
-@[expose] def pEltP (u r0 : P10) (i j : ℕ) : P10 := r0 ^ i * (u * r0 * u ^ 3) ^ j
+def pEltP (u r0 : P10) (i j : ℕ) : P10 := r0 ^ i * (u * r0 * u ^ 3) ^ j
 
-@[expose] def eOfP (u r : P10) : P10 := r * u ^ 2 * r ^ 2
+def eOfP (u r : P10) : P10 := r * u ^ 2 * r ^ 2
 
-@[expose] def conjP (b : P10) (k : ℕ) (x : P10) : P10 := b ^ k * x * (b ^ 119) ^ k
+def conjP (b : P10) (k : ℕ) (x : P10) : P10 := b ^ k * x * (b ^ 119) ^ k
 
-@[expose] def RelP (b d e : P10) : Prop :=
+def RelP (b d e : P10) : Prop :=
   conjP b 3 (e * d) * conjP b 2 (d * e) * conjP b 1 (e * d) * d = 1
 
-@[expose] def BC (u d b : P10) : Prop :=
+def BC (u d b : P10) : Prop :=
   b * u = u ^ 3 * b ∧ b * d = u * d * b ∧
     ∀ x ∈ pslGens, b ^ 2 * x = u ^ 2 * x * u ^ 2 * b ^ 2
 

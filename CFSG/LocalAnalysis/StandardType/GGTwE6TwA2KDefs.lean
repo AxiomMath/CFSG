@@ -24,7 +24,7 @@ open CFSG.Assembly
 
 open CFSG.HardMathSupport.Timmesfeld.CrossChar CFSG.LieType.Chevalley in
 @[expose] def ModelAtLab
-    (lab : LargeEvenLabel) (P : Prop) (K : Type) [Field K] (σ : K ≃+* K) (n : ℕ) : Prop :=
+    (lab : LargeEvenLabel) (P : Prop) (K : Type) [Field K] (σ : K ≃+* K) (_n : ℕ) : Prop :=
   ∀ h : ↥(twistedE6InndiagGL K σ), h ^ 3 = 1 → h ≠ 1 →
     ∀ J : Subgroup ↥(twistedE6RootGroup K σ),
       CFSG.Open.IsComponentOf J

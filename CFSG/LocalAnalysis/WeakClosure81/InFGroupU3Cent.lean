@@ -29,14 +29,14 @@ private theorem tA_le_centralizer (h : Setting C n) {T A : Subgroup Q} :
   exact (commutatorElement_eq_one_iff_mul_comm.mp h1).symm
 
 private theorem tA_le_normalizer_perfectCore (h : Setting C n) {T A : Subgroup Q}
-    {s : Q} (hsA : s ∈ A) (hsC : s ∉ C) :
+    {s : Q} (hsA : s ∈ A) (_hsC : s ∉ C) :
     tA T A ≤ Subgroup.normalizer (perfectCore (C ⊓ centralizer {s}) : Set Q) := by
   have hTAc : tA T A ≤ Subgroup.centralizer ({s} : Set Q) := by
     intro t ht
     rw [Subgroup.mem_centralizer_singleton_iff]
     exact (Subgroup.mem_centralizer_iff.mp (tA_le_centralizer h ht) s hsA).symm
   have hn1 : tA T A ≤ Subgroup.normalizer (C : Set Q) := by
-    haveI : C.Normal := h.normal
+    have : C.Normal := h.normal
     rw [Subgroup.normalizer_eq_top]
     exact le_top
   have hn2 : tA T A ≤
@@ -99,13 +99,13 @@ private theorem inf_C_le_perfectCore
 
 private theorem isSylow_perfectCore
     (h : Setting C n)
-    {T A : Subgroup Q} (hT : IsSylowIn 2 T ⊤) (hA : CFSG.Open.IsElemAbelian 2 A)
+    {T A : Subgroup Q} (hT : IsSylowIn 2 T ⊤) (_hA : CFSG.Open.IsElemAbelian 2 A)
     (hAT : A ≤ T) {s : Q} (hsA : s ∈ A) (hsC : s ∉ C) (hs2 : s ^ 2 = 1) :
     IsSylowIn 2 (T ⊓ perfectCore (C ⊓ centralizer {s}))
       (perfectCore (C ⊓ centralizer {s})) := by
   let J : Subgroup Q := perfectCore (C ⊓ centralizer {s})
   let S₀ : Subgroup Q := T ⊓ C
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCn : (C.subgroupOf (⊤ : Subgroup Q)).Normal := h.normal.subgroupOf ⊤
   have hS₀syl : IsSylowIn 2 S₀ C := by
     have h := IsSylowIn.inf_normal (p := 2) (P := T) (H := ⊤) hT (N := C) le_top hCn
@@ -162,7 +162,7 @@ private theorem isSylowOf_sup_tA
   let TA : Subgroup Q := tA T A
   let K : Subgroup Q := J ⊔ TA
   let Q0 : Subgroup Q := (T ⊓ J) ⊔ TA
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTJ_syl : IsSylowIn 2 (T ⊓ J) J := by
     simpa [J] using isSylow_perfectCore h hT hA hAT hsA hsC hs2
   have hTA_le_T : TA ≤ T := E1.tauOf_le (⊤ : Subgroup Q) T A
@@ -191,7 +191,7 @@ private theorem isSylowOf_sup_tA
     rw [← Subgroup.subgroupOf_sup le_sup_left hQ0K, hJQ0]
     exact Subgroup.subgroupOf_self K
   have hrelKJ : Q0.relIndex K = Q0.relIndex J := by
-    haveI : (J.subgroupOf K).Normal := hJkn
+    have : (J.subgroupOf K).Normal := hJkn
     have h1 := CFSG.ABGLocalTools.relIndex_sup_eq_relIndex_of_normal
       (N := J.subgroupOf K) (P := Q0.subgroupOf K)
     have hQ0idx : (Q0.subgroupOf K).index = Q0.relIndex K := rfl
@@ -202,7 +202,7 @@ private theorem isSylowOf_sup_tA
   have hoddQ0J : ¬ 2 ∣ Q0.relIndex J := by
     intro h2
     exact hoddTJ (h2.trans (Subgroup.relIndex_dvd_of_le_left J (by
-      simpa [Q0] using le_sup_left : T ⊓ J ≤ Q0)))
+      simp [Q0])))
   have hoddQ0K : ¬ 2 ∣ Q0.relIndex K := by
     rwa [hrelKJ]
   have hQ0_le : Q0 ≤ T ⊓ K := le_inf hQ0T hQ0K
@@ -242,7 +242,7 @@ private theorem isTwoClosed_solvableRadical
     exact exists_pow_mem_perfectCore_sup h hT hsA hsC (by simpa [K] using hx)
   have hJkn : (J.subgroupOf K).Normal := by
     simpa [K] using perfectCore_normal_sup_tA h hsA hsC
-  haveI : (J.subgroupOf K).Normal := hJkn
+  have : (J.subgroupOf K).Normal := hJkn
   have hKJp : IsPGroup 2 (↥K ⧸ J.subgroupOf K) := by
     intro y
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective y
@@ -314,7 +314,7 @@ private theorem mQuot_le
     E3.mQuot A (CFSG.Open.pCoreOf 2 (perfectCore (C ⊓ centralizer {s}) ⊔ tA T A)) ≤ n := by
   let J : Subgroup Q := perfectCore (C ⊓ centralizer {s})
   let K : Subgroup Q := J ⊔ tA T A
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA2 : IsPGroup 2 A := CFSG.Open.IsElemAbelian.isPGroup hA
   have hJ_cent : J ≤ Subgroup.centralizer ({s} : Set Q) :=
     (perfectCore_le _).trans inf_le_right
@@ -429,7 +429,7 @@ theorem Setting.inCalEi_perfectCore_sup
       simpa [J] using (Setting.isSimpleGroup_perfectCore h hsC hs2).2
     simpa only [isMulCommutative_iff, not_forall] using hnab
   have hJq : CFSG.Open.IsQuasisimple ↥J := by
-    haveI : IsSimpleGroup ↥J := hJsimple
+    have : IsSimpleGroup ↥J := hJsimple
     have hq := CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hpair
     exact ⟨hq.1.1.commutator_eq_top, hq.1.2.1⟩
   have hJn : (J.subgroupOf K).Normal := by

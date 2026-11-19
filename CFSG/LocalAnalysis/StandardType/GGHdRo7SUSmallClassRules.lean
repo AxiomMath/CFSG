@@ -91,10 +91,10 @@ private lemma hdRo7SmRulesCAux_sameLine_eq_true {m : ℕ} {a b : SMV m} :
   constructor
   · rintro (h | h)
     · exact Or.inl h
-    · exact Or.inr (by rw [h]; funext i; simp [neg_one_mul])
+    · exact Or.inr (by rw [h]; funext i; simp)
   · rintro (h | h)
     · exact Or.inl h
-    · exact Or.inr (by rw [h]; funext i; simp [neg_one_mul])
+    · exact Or.inr (by rw [h]; funext i; simp)
 
 private lemma hdRo7SmRulesCAux_repeatedLine_eq_false {m : ℕ} {R : Set (SMV m × SMV m)}
     (hR : SMRCl R) {r s : Pair m} (hr : r ∈ R) (hs : s ∈ R) :

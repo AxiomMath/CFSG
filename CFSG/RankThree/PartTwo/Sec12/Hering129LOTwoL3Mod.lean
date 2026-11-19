@@ -87,7 +87,7 @@ theorem fourGroup_of_isoLThreePi {L : Type} [Group L] {p e : ℕ} [Fact p.Prime]
 theorem isSimpleGroup_of_isoLThreePi {L : Type} [Group L] {p e : ℕ} [Fact p.Prime] (he : 1 ≤ e)
     (hp2 : p ≠ 2) (h : Sec4.IsoLThreePi L p e) : IsSimpleGroup L := by
   rcases h with ⟨-, ⟨φ⟩⟩ | ⟨-, ⟨φ⟩⟩
-  · haveI := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (n := 3) (GaloisField p e)
+  · have := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (n := 3) (GaloisField p e)
       (by norm_num) (Or.inl (by norm_num)) (Or.inl (by norm_num))
     exact φ.isSimpleGroup
   · have hp : p.Prime := Fact.out
@@ -95,7 +95,7 @@ theorem isSimpleGroup_of_isoLThreePi {L : Type} [Group L] {p e : ℕ} [Fact p.Pr
       have h2 := hp.two_le
       have hpe : p ≤ p ^ e := Nat.le_self_pow (by omega) p
       omega
-    haveI := CFSG.PGLModel.isSimpleGroup_projSU_of_admissible (n := 3) (p := p) (f := e)
+    have := CFSG.PGLModel.isSimpleGroup_projSU_of_admissible (n := 3) (p := p) (f := e)
       ⟨hp, he, le_rfl, fun h => hq (Prod.mk.inj h).2⟩
     exact φ.isSimpleGroup
 

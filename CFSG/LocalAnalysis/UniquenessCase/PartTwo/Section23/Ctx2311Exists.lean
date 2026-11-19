@@ -28,6 +28,7 @@ private theorem map_mk'_eq_top_iff {X : Type} [Group X] {N H : Subgroup X} [N.No
     Subgroup.map_eq_map_iff, QuotientGroup.ker_mk']
   simp
 
+omit [Finite G] in
 theorem map_comap_mk'_eq_of_pCoreOf_le {L Y : Subgroup G} (hYL : Y ≤ L)
     (hO : CFSG.Open.pCoreOf 2 L ≤ Y) :
     (((Y.subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))).comap
@@ -60,6 +61,7 @@ theorem exists_not_le_of_residualOvergroupsAt {S : Type} [Group S] [Finite S]
     exact hne (hPk0.symm.trans hPk1)
   · exact ⟨0, h0⟩
 
+omit [Finite G] in
 private theorem pCoreOf_le_map_comap {L : Subgroup G} (P : Subgroup (Bar2 L)) :
     CFSG.Open.pCoreOf 2 L ≤
       ((P.comap (QuotientGroup.mk' (CFSG.pCore 2 ↥L))).map L.subtype) := by
@@ -75,6 +77,7 @@ private theorem pCoreOf_le_map_comap {L : Subgroup G} (P : Subgroup (Bar2 L)) :
   rw [Subgroup.mem_comap, hfy]
   exact P.one_mem
 
+omit [Finite G] in
 theorem isMaximalParabolicOf_preimage {L : Subgroup G} {P : Subgroup (Bar2 L)}
     (hPpar : IsParabolicTwo (Bar2 L) P) (hPcoat : IsCoatom P) :
     IsMaximalParabolicOf L
@@ -153,11 +156,11 @@ theorem Ctx23L.exists_maxParabolic_of_isSLn {D : Data G} {Ch : Choice2011 G}
     ∃ X : Subgroup G, IsMaximalParabolicOf c.L X ∧ D.T ⊓ c.L ≤ X ∧ ¬ X ≤ D.M := by
   classical
   obtain ⟨K, hKfield, hKfinite, hcard, ⟨e₀⟩⟩ := hSL3
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := CFSG.Open.pRank 2 D.Z)
       (by rw [← Nat.card_eq_fintype_card]; exact hcard)
   let e : SpecialLinearGroup (Fin 3) K ≃* Bar2 c.L :=

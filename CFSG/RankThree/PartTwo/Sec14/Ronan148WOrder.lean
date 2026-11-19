@@ -26,7 +26,7 @@ theorem false_of_le_sup_theta
   set T : Subgroup ↥C := aschbacherSolvableCore 3 ↥C with hT
   have hTsolv : Group.IsSolvable T :=
     (solvable_prime_complement_core_characterization (H := ↥C) Nat.prime_three).1
-  haveI : T.Normal := inferInstance
+  have : T.Normal := inferInstance
   obtain ⟨L', hL', hLaeq0⟩ := hLa
   have hLaeq : L'.map C.subtype = La := hLaeq0
   set K : Subgroup ↥L' := aschbacherSolvableCore 3 ↥L' with hK
@@ -35,7 +35,7 @@ theorem false_of_le_sup_theta
     rintro _ ⟨k, hk, rfl⟩
     rw [hK, h] at hk
     exact Subgroup.mem_subgroupOf.mp hk
-  haveI : IsSimpleGroup NativeSporadic.M24 := (CFSG.Sporadic.Mathieu.fam_m24_simplicity).2.2
+  have : IsSimpleGroup NativeSporadic.M24 := (CFSG.Sporadic.Mathieu.fam_m24_simplicity).2.2
   have hM24ns : ¬ Group.IsSolvable NativeSporadic.M24 := by
     intro hsol
     have hc := (IsSimpleGroup.comm_iff_isSolvable (G := NativeSporadic.M24)).2 hsol

@@ -95,7 +95,7 @@ public theorem CFSG.theorem_16_E_2
   · intro q
     constructor
     · intro hq
-      haveI : Fact q.val.Prime := ⟨q.property⟩
+      have : Fact q.val.Prime := ⟨q.property⟩
       let P : Sylow q.val G := Classical.choice (Sylow.nonempty (p := q.val) (G := G))
       have hPne : (P : Subgroup G) ≠ ⊥ := by
         intro hPbot
@@ -119,7 +119,7 @@ public theorem CFSG.theorem_16_E_2
         change Subgroup.map M.subtype ((P : Subgroup G).subgroupOf M) = (P : Subgroup G)
         exact Subgroup.map_subgroupOf_eq_of_le hP_le_M
       have hqP : q ∈ subgroupPrimeSet (P : Subgroup G) := by
-        rcases (IsPGroup.nontrivial_iff_card (p := q.val) (G := P) (hG := P.isPGroup')).mp
+        rcases (IsPGroup.nontrivial_iff_card (p := q.val) (G := P) (hG := P.isPGroup)).mp
             hPnontrivial with ⟨n, hnpos, hcard⟩
         rw [subgroupPrimeSet, hcard]
         exact dvd_pow_self _ hnpos.ne'

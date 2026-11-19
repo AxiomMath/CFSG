@@ -18,7 +18,7 @@ theorem exists_conj_eq_of_odd_orderOf_alt_six {α : MulAut (alternatingGroup (Fi
     exact hα
   have hmem : (b : P10) ∈ A6Models.psl29 := by
     let N : Subgroup ↥A6Models.autA6 := A6Models.psl29.subgroupOf A6Models.autA6
-    haveI hN : N.Normal := ⟨fun n hn g => by
+    have hN : N.Normal := ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using psl29_normal (g : P10) g.2 (n : P10) hn⟩
     have hcardN : Nat.card N = 360 := by

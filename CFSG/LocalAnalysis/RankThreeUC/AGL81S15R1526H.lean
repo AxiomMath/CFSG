@@ -23,7 +23,7 @@ theorem isPComponent_of_normal_aux1 (p : ℕ) (Y : Type) [Group Y] :
   unfold CFSG.pPrimeCore CFSG.piCore CFSG.IsPiSubgroup
   congr 1
   ext N
-  simp only [Set.mem_setOf_eq, and_congr_right_iff]
+  simp only [Set.mem_ofPred_eq, and_congr_right_iff]
   intro _
   constructor
   · intro h q hqN hqp
@@ -99,11 +99,13 @@ noncomputable def isPComponent_of_isLThree_barHom (L : Subgroup X) : ↥L →* �
   ((QuotientGroup.mk' (CFSG.pCore 2 X)).domRestrict L).codRestrict (barO2 L)
     fun x => ⟨x, x.2, rfl⟩
 
+omit [Finite X] in
 theorem isPComponent_of_isLThree_aux1 (L : Subgroup X) :
     Function.Surjective (isPComponent_of_isLThree_barHom L) := by
   rintro ⟨y, z, hz, rfl⟩
   exact ⟨⟨z, hz⟩, rfl⟩
 
+omit [Finite X] in
 theorem isPComponent_of_isLThree_aux3 (L : Subgroup X) :
     IsPGroup 2 (isPComponent_of_isLThree_barHom L).ker := by
   intro g
@@ -143,7 +145,7 @@ theorem isPComponent_of_isLThree_aux6 {S : Type} [Group S] [Finite S] (hs : IsSi
   have hn : ∃ a b : S, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    letI : CommGroup S := { ‹Group S› with mul_comm := hcon }
+    let : CommGroup S := { ‹Group S› with mul_comm := hcon }
     have := IsSimpleGroup.prime_card (α := S)
     rw [hc] at this
     exact absurd this (by norm_num)
@@ -184,8 +186,8 @@ theorem isPComponent_of_isLThree_aux5 {L : Subgroup X} (hL : IsC2 L)
       rw [h0, Subgroup.card_top, hcard] at h1
       exact (Fact.out : p.Prime).one_lt.ne'
         (Nat.eq_one_of_dvd_one (h1.gcd_eq_one ▸ Nat.dvd_gcd (dvd_refl p) hp168))
-  haveI : (primeResidual p ↥L).Characteristic := primeResidual_characteristic p ↥L
-  haveI : (primeResidual p ↥L).Normal := inferInstance
+  have : (primeResidual p ↥L).Characteristic := primeResidual_characteristic p ↥L
+  have : (primeResidual p ↥L).Normal := inferInstance
   have htop : (primeResidual p ↥L).map (isPComponent_of_isLThree_barHom L) = ⊤ := by
     rw [primeResidual_map_surjective p _ hsurj]
     exact primeResidual_eq_top_of_corefree_quasisimple p hq hcore
@@ -238,7 +240,7 @@ theorem isPComponent_of_isLThree_aux7 {L : Subgroup X} (h : IsLThreeOfExp 1 ↥(
 
 theorem isPComponent_of_isLThree {L : Subgroup X} (hL : IsC2 L) (h : IsLThreeOfExp 1 ↥(barO2 L))
     {p : ℕ} (hp : p = 3 ∨ p = 7) : CFSG.IsPComponent p L := by
-  haveI : Fact p.Prime := ⟨by rcases hp with rfl | rfl <;> norm_num⟩
+  have : Fact p.Prime := ⟨by rcases hp with rfl | rfl <;> norm_num⟩
   have h1 : L.IsSubnormal := hL.1.mathlib Subgroup.IsSubnormal.top
   have h2 : primeResidual p ↥L = ⊤ := isPComponent_of_isLThree_aux5 hL h hp
   exact (pComponent_iff_subnormal_generated_quasisimple p L).2
@@ -256,7 +258,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem isPComponent_inf_of_isLThree {M K : Subgroup G} {L : Subgroup ↥M} (hL : IsC2 L)
     (h : IsLThreeOfExp 1 ↥(barO2 L)) (hLK : L.map M.subtype ≤ K) (hKM : K ≤ M) :
     CFSG.IsPComponent 3 ((L.map M.subtype).subgroupOf K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : (3 : ℕ) = 3 ∨ (3 : ℕ) = 7 := Or.inl rfl
   have hsub : L.IsSubnormal := hL.1.mathlib Subgroup.IsSubnormal.top
   let e : ↥L ≃* ↥(L.map M.subtype) := L.equivMapOfInjective M.subtype M.subtype_injective
@@ -274,10 +276,10 @@ theorem isPComponent_inf_of_isLThree {M K : Subgroup G} {L : Subgroup ↥M} (hL 
   rw [hcomap]
   exact hsub.comap _
 
-theorem isLThreeTwoPow_quotient_pPrimeCore {M : Subgroup G} {L : Subgroup ↥M} (hL : IsC2 L)
+theorem isLThreeTwoPow_quotient_pPrimeCore {M : Subgroup G} {L : Subgroup ↥M} (_hL : IsC2 L)
     (h : IsLThreeOfExp 1 ↥(barO2 L)) :
     IsLThreeTwoPow (↥(L.map M.subtype) ⧸ CFSG.pPrimeCore 3 ↥(L.map M.subtype)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let e : ↥L ≃* ↥(L.map M.subtype) := L.equivMapOfInjective M.subtype M.subtype_injective
   let e2 : (↥L ⧸ CFSG.pPrimeCore 3 ↥L) ≃*
       (↥(L.map M.subtype) ⧸ CFSG.pPrimeCore 3 ↥(L.map M.subtype)) :=

@@ -21,7 +21,7 @@ theorem normalizer_lt_top_of_isSimpleGroup {G : Type*} [Group G] [IsSimpleGroup 
 theorem exists_conj_image_ne_of_isSimpleGroup {G : Type*} [Group G] [IsSimpleGroup G]
     {X : Subgroup G} (hbot : ⊥ < X) (htop : X < ⊤) :
     ∃ g : G, (fun x => g⁻¹ * x * g) '' (X : Set G) ≠ (X : Set G) := by
-  obtain ⟨g, -, hg⟩ := SetLike.exists_of_lt (normalizer_lt_top_of_isSimpleGroup hbot htop)
+  obtain ⟨g, -, hg⟩ := _root_.IsConcreteLE.exists_of_lt (normalizer_lt_top_of_isSimpleGroup hbot htop)
   refine ⟨g⁻¹, fun h => hg ?_⟩
   rw [mem_normalizer_iff_conj_image_eq]
   simpa [MulAut.conj] using h

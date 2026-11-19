@@ -22,8 +22,8 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers Subgroup
 variable {G : Type} [Group G] [Finite G]
 
 theorem n4_isTwoLocal_ne_top (hS : Setting G) {H : Subgroup G} (hH : IsTwoLocal H) : H ≠ ⊤ := by
-  haveI := hS.simple
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hS.simple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ1, hQ2, rfl⟩ := hH
   intro htop
   have hnorm : Q.Normal := Subgroup.normalizer_eq_top_iff.mp htop
@@ -31,7 +31,7 @@ theorem n4_isTwoLocal_ne_top (hS : Setting G) {H : Subgroup G} (hH : IsTwoLocal 
   · exact hQ1 h
   · subst h
     have hG2 : IsPGroup 2 G := hQ2.of_equiv Subgroup.topEquiv
-    haveI : Group.IsNilpotent G := hG2.isNilpotent
+    have : Group.IsNilpotent G := hG2.isNilpotent
     have hsolv : Group.IsSolvable G := inferInstance
     obtain ⟨a, b, hab⟩ := hS.nonab
     exact hab ((IsSimpleGroup.comm_iff_isSolvable).mpr hsolv a b)
@@ -40,7 +40,7 @@ theorem n4_centralizer_le_of_central (hS : Setting G) {p : ℕ} {P : Sylow p G} 
     (hsit : SmallRankSituation G p P M) {z : G} (hz : SmallRankCentral P z) :
     centralizer ({z} : Set G) ≤ M := by
   have hprime : p.Prime := sigmaA_prime p hsit.mem_sigmaA
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   obtain ⟨hPM, hP3⟩ := sylow_le_of_isCoreMaxLocal hS hsit.mem_sigmaA hsit.isCoreMaxLocal
   have hPC : (P : Subgroup G) ≤ centralizer ({z} : Set G) := fun g hg =>
     mem_centralizer_singleton_iff.mpr (mem_centralizer_iff.mp hz.centralizes g hg)

@@ -65,10 +65,10 @@ theorem exists_conj_slU_diagonal [NeZero k] [Finite K] [CharP K 2] {t : ↥(Stat
   obtain ⟨u, hu, d, hd, hbd⟩ :=
     CFSG.QuasithinUnique.Setup.X7a.exists_unitriangular_mul_diagonal (n := k) (K := K) ht0up
   have hdmem : d ∈ diagTorus k K := mem_diagTorus_of_isDiag_B03 hd
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have hk1 : 1 ≤ k := Nat.pos_of_ne_zero (NeZero.ne k)
   obtain ⟨P, hP⟩ := LinearFlag.exists_sylow_unitriangular (K := K) (n := k) 2 hk1
-  have hE : IsPGroup 2 (LinearFlag.unitriangular k K) := hP ▸ P.isPGroup'
+  have hE : IsPGroup 2 (LinearFlag.unitriangular k K) := hP ▸ P.isPGroup
   have hET := CFSG.diagTorus_le_normalizer_unitriangular (n := k) (F := K)
   have hT : ¬ 2 ∣ Nat.card (diagTorus k K) := CFSG.not_two_dvd_card_diagTorus
   have ht : t₀ ∈ LinearFlag.unitriangular k K ⊔ diagTorus k K := by
@@ -97,7 +97,7 @@ theorem slMat_conj_slU_apply_self {s t : ↥(StatedSL k K)} (hs : s ∈ slU k K)
   obtain ⟨hs1, hs2⟩ := mem_slU_iff.1 hs
   obtain ⟨hs1', hs2'⟩ := mem_slU_iff.1 (inv_mem hs)
   have hm : slMat (s * t * s⁻¹) = slMat s * slMat t * slMat s⁻¹ := by
-    simp [slMat, Subgroup.coe_mul, Subgroup.coe_inv, Units.val_mul]
+    simp [slMat, Subgroup.coe_mul, Units.val_mul]
   have hS : (slMat s).IsUpperTriangular := fun _ _ h => hs1 _ _ h
   have hS' : (slMat s⁻¹).IsUpperTriangular := fun _ _ h => hs1' _ _ h
   have hT : (slMat t).IsUpperTriangular := fun _ _ h => ht _ _ h

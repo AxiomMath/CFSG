@@ -16,8 +16,8 @@ attribute [local instance] f2Module
 open CFSG.Open CFSG.Quasithin Subgroup
 
 theorem charP_two_of_card_pow {F : Type} [Field F] [Finite F] {k : ℕ}
-    (hF : Nat.card F = 2 ^ k) (hk : 1 ≤ k) : CharP F 2 := by
-  haveI := Fintype.ofFinite F
+    (hF : Nat.card F = 2 ^ k) (_hk : 1 ≤ k) : CharP F 2 := by
+  have := Fintype.ofFinite F
   obtain ⟨p, hp⟩ := CharP.exists F
   obtain ⟨m, hpp, hm⟩ := FiniteField.card F p
   have h1 : p ^ (m : ℕ) = 2 ^ k := by
@@ -41,21 +41,21 @@ theorem one_le_of_card_pow {F : Type} [Field F] [Finite F] {n : ℕ}
 
 theorem torusStepO : TorusStepO := by
   intro V _ _ hV n L D M₀ M₁ hS hO hcount
-  haveI : IsF2Space V := ⟨hV⟩
+  have : IsF2Space V := ⟨hV⟩
   obtain ⟨F, hF1, hF2, b, c, hF, hirr, ε', ψ, hψ⟩ := hO
   have hn : 1 ≤ n := one_le_of_card_pow hF
-  haveI : CharP F 2 := charP_two_of_card_pow hF hn
+  have : CharP F 2 := charP_two_of_card_pow hF hn
   obtain ⟨M⟩ := nonempty_normModel hirr hF hn
   have hE : Nat.card M.E = (2 ^ n) ^ 2 := by rw [M.card_E, hF]
-  haveI : CharP M.E 2 := torusN_charP_two_of_card hn hE
-  letI : Algebra (ZMod 2) M.E := ZMod.algebra _ _
+  have : CharP M.E 2 := torusN_charP_two_of_card hn hE
+  let : Algebra (ZMod 2) M.E := ZMod.algebra _ _
   have hqodd : Odd (Nat.card F + 1) := by
     rw [hF]
     obtain ⟨k, hk⟩ : ∃ k, n = k + 1 := ⟨n - 1, by omega⟩
     exact ⟨2 ^ k, by rw [hk, pow_succ]; ring⟩
   obtain ⟨ω, hω, hω1, hdeg⟩ := exists_primitive_normOne hn hE
   have hω' : ω ^ (Nat.card F + 1) = 1 := by rw [hF]; exact hω
-  haveI : Module.Finite (ZMod 2) M.E := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) M.E := Module.Finite.of_finite
   have hint : IsIntegral (ZMod 2) ω := IsIntegral.of_finite (ZMod 2) ω
   have hm : Irreducible (minpoly (ZMod 2) ω) := minpoly.irreducible hint
   have hd : 2 ≤ (minpoly (ZMod 2) ω).natDegree := by rw [hdeg]; omega

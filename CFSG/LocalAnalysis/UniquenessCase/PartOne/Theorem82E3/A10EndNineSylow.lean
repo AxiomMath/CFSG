@@ -156,8 +156,7 @@ private theorem exists_commute_toP {i j k : Fin 3} (hi : i ≠ 0) (hj : j ≠ 0)
     exact pw_notin_atilde hpw_mem
   · have hcube : (pat i j k * pw * (pat i j k)⁻¹) ^ 3 =
         pat i j k * pw ^ 3 * (pat i j k)⁻¹ := by
-      simpa [MulAut.conj_apply] using
-        (map_pow (MulAut.conj (pat i j k)).toMonoidHom pw 3).symm
+      simp
     rw [hcube, pw_pow_three]
     group
   · have hconj := hpw.conj (pat i j k)
@@ -232,7 +231,7 @@ private noncomputable def phiQ (F : A10Frame c) {Q : Subgroup G}
 
 private theorem card_sylow_eq_81 (F : A10Frame c) {Q : Subgroup G}
     (hQ : CFSG.ABGLocalTools.IsSylowOf 3 Q D.M) : Nat.card Q = 81 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [hQ.card_eq, factorization_card_M F]
   norm_num
 
@@ -288,7 +287,7 @@ theorem nonempty_mulEquiv_zwr (F : A10Frame c) {Q : Subgroup G}
     (hQ : CFSG.ABGLocalTools.IsSylowOf 3 Q D.M) :
     Nonempty (↥Q ≃* UC326.ZWr 1) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRle : (phiQ F hQ).range ≤ alternatingGroup (Fin 10) := phiQ_range_le_alternating F hQ
   let R' : Subgroup (alternatingGroup (Fin 10)) :=
     (phiQ F hQ).range.subgroupOf (alternatingGroup (Fin 10))
@@ -304,9 +303,10 @@ theorem nonempty_mulEquiv_zwr (F : A10Frame c) {Q : Subgroup G}
     ((Subgroup.subgroupOfEquivOfLe hRle).symm.trans
       ((MulEquiv.subgroupCongr hScoe.symm).trans e))⟩
 
+omit [Finite G] in
 private theorem exists_zpowers_of_card_three {B : Subgroup G} (hB3 : Nat.card B = 3) :
     ∃ b : G, B = Subgroup.zpowers b := by
-  haveI : IsCyclic ↥B := isCyclic_of_prime_card hB3
+  have : IsCyclic ↥B := isCyclic_of_prime_card hB3
   obtain ⟨bB, hbB⟩ := IsCyclic.exists_generator (α := ↥B)
   refine ⟨(bB : G), ?_⟩
   have htop : Subgroup.zpowers bB = ⊤ := by
@@ -348,7 +348,7 @@ private theorem exists_t_commute_of_deg_nine (F : A10Frame c) {b : G} (hbA : b �
   A10Perm.exists_mem_normalizer_commute (mem_atilde_of_mem_A F hbA)
     (support_phiA_of_deg_nine F hbA hb9)
 
-private theorem card_sup_atilde_zpowers (F : A10Frame c) {t : Equiv.Perm (Fin 10)}
+private theorem card_sup_atilde_zpowers (_F : A10Frame c) {t : Equiv.Perm (Fin 10)}
     (htN : t ∈ Subgroup.normalizer (A10Perm.atilde : Set (Equiv.Perm (Fin 10))))
     (htnot : t ∉ A10Perm.atilde) (ht3 : t ^ 3 = 1) :
     Nat.card (A10Perm.atilde ⊔ Subgroup.zpowers t : Subgroup (Equiv.Perm (Fin 10))) = 81 := by
@@ -429,7 +429,7 @@ private theorem exists_sylow_comap (F : A10Frame c) {S' : Subgroup (Equiv.Perm (
     (hS'card : Nat.card S' = 81) (hS'leR : S' ≤ F.phiA.range) (hAS' : A10Perm.atilde ≤ S') :
     ∃ Q : Subgroup ↥D.M, Nat.card Q = 81 ∧ (F.A.subgroupOf D.M) ≤ Q ∧ Q.map F.phiA ≤ S' := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥D.M := S'.comap F.phiA
   have hAleN : F.A.subgroupOf D.M ≤ N := by
     intro y hy
@@ -516,7 +516,7 @@ private theorem centralizes_of_map_le (F : A10Frame c) {Q : Subgroup ↥D.M}
 private theorem isSylowOf_map_of_card_81 (F : A10Frame c) {Q : Subgroup ↥D.M}
     (hQ81 : Nat.card Q = 81) :
     CFSG.ABGLocalTools.IsSylowOf 3 (Q.map D.M.subtype) D.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply CFSG.ABGLocalTools.isSylowOf_of_card (P := Q.map D.M.subtype) (K := D.M)
   · exact Subgroup.map_subtype_le _
   · rw [Subgroup.card_map_of_injective D.M.subtype_injective, hQ81, factorization_card_M F]
@@ -545,7 +545,7 @@ theorem exists_isSylowOf_le_centralizer (F : A10Frame c) {B : Subgroup G} (hBA :
     ∃ P' : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 P' D.M ∧ F.A ≤ P' ∧
       P' ≤ Subgroup.centralizer (B : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨b, hbz, hbA, hb9⟩ := exists_zpowers_deg_nine F hBA hB3 hB9
   obtain ⟨t, htN, htnot, ht3, htcomm⟩ := exists_t_commute_of_deg_nine F hbA hb9
   let S' : Subgroup (Equiv.Perm (Fin 10)) := A10Perm.atilde ⊔ Subgroup.zpowers t
@@ -667,7 +667,7 @@ private theorem card_inf_z2Of_eq_nine (F : A10Frame c) {P' : Subgroup G}
     (hP' : CFSG.ABGLocalTools.IsSylowOf 3 P' D.M) (hAP' : F.A ≤ P') :
     Nat.card (F.A ⊓ UC326.z2Of P' : Subgroup G) = 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := nonempty_mulEquiv_zwr F hP'
   obtain ⟨AP, hET, -, -, huniq, -⟩ := UC326.zwr_unique_E27 (n := 1) le_rfl e
   have hAQ_elem : CFSG.Open.IsElemAbelian 3 (F.A.subgroupOf P') :=
@@ -697,7 +697,7 @@ theorem exists_deg_three_not_mem_z2Of (F : A10Frame c) {P' : Subgroup G}
     (hP' : CFSG.ABGLocalTools.IsSylowOf 3 P' D.M) (hAP' : F.A ≤ P') :
     ∃ a ∈ F.A, F.deg (Subgroup.zpowers a) = 3 ∧ a ∉ UC326.z2Of P' := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpa : pa ∈ A10Perm.atilde := Subgroup.subset_closure (by simp)
   have hpb : pb ∈ A10Perm.atilde := Subgroup.subset_closure (by simp)
   have hpc : pc ∈ A10Perm.atilde := Subgroup.subset_closure (by simp)

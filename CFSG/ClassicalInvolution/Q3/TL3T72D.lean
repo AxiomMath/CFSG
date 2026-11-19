@@ -14,7 +14,7 @@ open Wr
 variable {n : ℕ}
 
 theorem vbar_pairVec_ne_zBar_of_mem {δ : Finset (Fin n)} (hδ : δ.card = 4) {a c : Fin n}
-    (ha : a ∈ δ) (hc : c ∈ δ) (hac : a ≠ c) :
+    (ha : a ∈ δ) (_hc : c ∈ δ) (hac : a ≠ c) :
     mkQ n (ofVec (TL4.pairVec a c)) ≠ zBar δ hδ := by
   classical
   intro h
@@ -50,7 +50,7 @@ theorem vbar_pairVec_ne_zBar_of_mem {δ : Finset (Fin n)} (hδ : δ.card = 4) {a
     have := congrFun (congrArg Wr.vec h2) a
     rw [ha', mul_vec] at this
     change (1 : ZMod 2) = TL4.pairVec a c a + 1 at this
-    rw [TL4.pairVec_apply, if_pos rfl, if_neg hac] at this
+    rw [TL4.pairVec_apply, ite_eq_left rfl, ite_eq_right hac] at this
     revert this
     decide
 

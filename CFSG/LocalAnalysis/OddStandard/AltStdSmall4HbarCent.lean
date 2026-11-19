@@ -81,6 +81,7 @@ theorem exists_conj_mem_of_two {K P P' : Subgroup G} (hPK : P ≤ K) (hP'K : P' 
   rw [← Sylow.coe_subgroup_smul, hk] at h2
   exact h2
 
+omit [Finite G] in
 theorem card_sup_eq_mul {T O : Subgroup G} (hTO : T ≤ normalizer (O : Set G))
     (hinf : T ⊓ O = ⊥) : Nat.card (T ⊔ O : Subgroup G) = Nat.card T * Nat.card O := by
   have hm := Subgroup.coe_mul_of_left_le_normalizer_right T O hTO
@@ -230,7 +231,7 @@ theorem act_eq_self_of_mem_sup {y t : G} (hy : y ∈ T ⊔ Ocore θ c.hn8 z) (ht
   exact h3
 
 include hH in
-theorem exists_cent_lift {h : G} (hh : h ∈ normalizer (T : Set G))
+theorem exists_cent_lift {h : G} (_hh : h ∈ normalizer (T : Set G))
     (hc : h * z * h⁻¹ * z⁻¹ ∈ centralizer (T : Set G)) :
     ∃ k ∈ centralizer (T : Set G), k * h * z = z * (k * h) := by
   set OH := AltStdSec.oddCoreOf (normalizer (T : Set G))
@@ -240,7 +241,7 @@ theorem exists_cent_lift {h : G} (hh : h ∈ normalizer (T : Set G))
   have hTOH : T ≤ normalizer (OH : Set G) :=
     le_normalizer_of_conj' fun g hg o ho => conj_mem_oddCoreOf' (Subgroup.le_normalizer hg) ho
   have hinf : T ⊓ OH = ⊥ := by
-    apply inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     rw [hH.n0.card_eq]
     exact Nat.Coprime.pow_left 6 (coprime_card_oddCoreOf _)
   have hzN : z ∈ normalizer (T : Set G) := hH.n0.norm
@@ -390,7 +391,7 @@ theorem cent_act {h : G} (hh : h ∈ normalizer (T : Set G)) (hz : h * z = z * h
     intro x hx
     obtain ⟨i, rfl | rfl⟩ := (N0.mem_B0_iff c.hn8 c x).1 hx
     · rw [hf]
-      exact N0.eps_mem_B0 c.hn8 c _
+      exact N0.eps_mem_B0 c.hn8 _
     · have : h * (z * N0.eps θ c.hn8 i) * h⁻¹ = z * N0.eps θ c.hn8 (f i) := by
         rw [← hf, show h * (z * N0.eps θ c.hn8 i) * h⁻¹ = (h * z) * N0.eps θ c.hn8 i * h⁻¹ by
           group, hz]

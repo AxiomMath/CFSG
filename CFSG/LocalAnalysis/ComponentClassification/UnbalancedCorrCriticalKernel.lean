@@ -289,7 +289,7 @@ theorem original_critical_full_kernel_simple_or_diagonal_normal_closure_of_input
   have hS2 : IsPGroup 2 S := by
     obtain ⟨P₀, hP₀⟩ := hSsyl
     have h1 : IsPGroup 2 (S.subgroupOf (centralizer ({a} : Set G) ⊓ normalizer (J : Set G))) :=
-      hP₀ ▸ P₀.isPGroup'
+      hP₀ ▸ P₀.isPGroup
     exact h1.of_equiv (subgroupOfEquivOfLe hSX)
   have hA2 := actual_two_local_fixed_layer_orbits_of_inputs hS hU hheld hnonab hK ha hJa hJ hSX
     hSsyl hP H R T X E V hH hR hT hX hE hV d hd

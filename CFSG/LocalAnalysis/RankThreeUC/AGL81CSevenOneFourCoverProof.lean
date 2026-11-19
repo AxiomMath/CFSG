@@ -15,9 +15,9 @@ open S15.K7145Proof (outerAction)
 
 theorem sevenOneFourCover_of_outCyclic (h : KFactOutCyclic) : SevenOneFourCover := by
   intro X _ _ hK p hp hp2 L hL hLn hr S hS
-  haveI := hLn
-  haveI : Group.IsPerfect ↥L := hL.1.1
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
+  have := hLn
+  have : Group.IsPerfect ↥L := hL.1.1
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
   have hq : CFSG.Open.IsQuasisimple ↥L := ⟨Group.isPerfect_def.mp hL.1.1, hL.1.2.1⟩
   have hcyc : ∀ {Y : Type} [Group Y] [Finite Y] (P : Subgroup Y), IsPGroup p P →
       CFSG.Open.pRank p (⊤ : Subgroup Y) ≤ 1 → IsCyclic P := by
@@ -28,8 +28,8 @@ theorem sevenOneFourCover_of_outCyclic (h : KFactOutCyclic) : SevenOneFourCover 
   obtain ⟨T⟩ : Nonempty (Sylow p (↥L ⧸ Subgroup.center ↥L)) := inferInstance
   have hOut := h (↥L ⧸ Subgroup.center ↥L) hL.1.2.1 hL.1.2.2
     (S15.K7145Proof.isCatalogGroup_quotient_center hK L hq) p hp hp2 T
-    (hcyc _ T.isPGroup' (S15.K7145Proof.pRank_quotient_center_le_one hp hp2 L hr.le))
-  haveI : IsCyclic ↥(S.map (outerAction L)) := hcyc _ (hS.map (outerAction L)) hOut
+    (hcyc _ T.isPGroup (S15.K7145Proof.pRank_quotient_center_le_one hp hp2 L hr.le))
+  have : IsCyclic ↥(S.map (outerAction L)) := hcyc _ (hS.map (outerAction L)) hOut
   obtain ⟨a, ha⟩ := IsCyclic.exists_generator (α := ↥(S.map (outerAction L)))
   obtain ⟨s, -, hsa⟩ := Subgroup.mem_map.mp a.2
   have hCn : (Subgroup.centralizer (L : Set X)).Normal := inferInstance

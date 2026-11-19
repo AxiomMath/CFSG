@@ -23,7 +23,7 @@ theorem s16sm_mQuot_add_rk {X : Type*} [Group X] [Finite X] {A B : Subgroup X} (
 
 theorem s16sm_rk_eq_finrank [Finite W] (U : Subgroup W) :
     rk ↥U = Module.finrank (ZMod 2) ↥(s16smSubmod U) := by
-  haveI : Module.Finite (ZMod 2) ↥(s16smSubmod U) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) ↥(s16smSubmod U) := Module.Finite.of_finite
   have hcard : Nat.card ↥U = Nat.card ↥(s16smSubmod U) :=
     Nat.card_congr (Equiv.subtypeEquiv Additive.ofMul fun _ => mem_s16smSubmod.symm)
   rw [rk, hcard, Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod,
@@ -52,7 +52,7 @@ theorem s16sm_finrank_quot_invariants [Finite W] {Γ : Type} [Group Γ]
     (hU : commSub U H = U) :
     Module.finrank (ZMod 2) (↥(s16smSubmod U) ⧸ (s16smRepU π hU).invariants) =
       E3.mQuot U (U ⊓ fixV H) := by
-  haveI : Module.Finite (ZMod 2) ↥(s16smSubmod U) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) ↥(s16smSubmod U) := Module.Finite.of_finite
   have h1 := Submodule.finrank_quotient_add_finrank (s16smRepU π hU).invariants
   rw [s16sm_finrank_invariants π hπ hU, ← s16sm_rk_eq_finrank U] at h1
   have h2 := s16sm_mQuot_add_rk (A := U) (B := U ⊓ fixV H) inf_le_left
@@ -104,7 +104,7 @@ theorem s16sm_nontrivial_iff (U : Subgroup W) :
   exact not_congr h
 
 theorem s16sm_isIrrOn_of_simple {Γ : Type} [Group Γ] {H : Subgroup (MulAut W)} (π : Γ →* ↥H)
-    (hπ : Function.Surjective π) {U : Subgroup W} (hU : commSub U H = U)
+    (_hπ : Function.Surjective π) {U : Subgroup W} (hU : commSub U H = U)
     (h : IsSimpleRep (s16smRepU π hU)) : IsIrrOn H U ⊥ := by
   refine ⟨bot_lt_iff_ne_bot.mpr ((s16sm_nontrivial_iff U).mp h.1), ?_, ?_, ?_⟩
   · intro x hx u hu

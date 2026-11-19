@@ -71,22 +71,22 @@ theorem GGNbrLSideKit.lieModel_commutator_generalLinear {n r : ℕ} {K : Type} [
       (↥(commutator (Matrix.GeneralLinearGroup (Fin r) K)) ⧸
         Subgroup.center ↥(commutator (Matrix.GeneralLinearGroup (Fin r) K))) .PSL r 2 n := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hnotSolv : ¬ Group.IsSolvable (Matrix.GeneralLinearGroup (Fin r) K) := by
     intro hs
-    haveI := hs
-    haveI : Group.IsSolvable ↥(commutator (Matrix.GeneralLinearGroup (Fin r) K)) :=
+    have := hs
+    have : Group.IsSolvable ↥(commutator (Matrix.GeneralLinearGroup (Fin r) K)) :=
       Group.isSolvable_of_isSolvable_injective
         (f := (commutator (Matrix.GeneralLinearGroup (Fin r) K)).subtype)
         Subtype.val_injective
-    haveI : Group.IsPerfect ↥(commutator (Matrix.GeneralLinearGroup (Fin r) K)) := hq.1
-    haveI : Nontrivial ↥(commutator (Matrix.GeneralLinearGroup (Fin r) K)) :=
+    have : Group.IsPerfect ↥(commutator (Matrix.GeneralLinearGroup (Fin r) K)) := hq.1
+    have : Nontrivial ↥(commutator (Matrix.GeneralLinearGroup (Fin r) K)) :=
       CFSG.LocalCores.isQuasisimple_nontrivial hq
     exact Group.IsPerfect.not_isSolvable
       ↥(commutator (Matrix.GeneralLinearGroup (Fin r) K)) inferInstance
   have hr2 : 2 ≤ r := by
     by_contra hlt
-    haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin r) K) :=
+    have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin r) K) :=
       typeGL_isSolvable_gl_of_le_one (E := K) (by omega)
     exact hnotSolv inferInstance
   have hcond : 3 ≤ r ∨ ∃ t : Finset K, t.card = 4 := by
@@ -104,7 +104,7 @@ theorem GGNbrLSideKit.lieModel_commutator_generalLinear {n r : ℕ} {K : Type} [
         exact hno ⟨t, ht⟩
       have h2 : 2 ≤ Nat.card K := Nat.succ_le_of_lt Finite.one_lt_card
       have hcard : Nat.card K = 2 ∨ Nat.card K = 3 := by omega
-      haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
+      have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
         CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable K hcard
       exact hnotSolv inferInstance
     · exact Or.inl h3

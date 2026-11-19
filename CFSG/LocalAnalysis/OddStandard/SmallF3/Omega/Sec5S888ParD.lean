@@ -35,7 +35,7 @@ private lemma s888parD_mem_core [Finite G] (hq : Sec5B517Quad K z) (i : Fin 4) {
   · rintro ⟨h2, h4⟩
     exact ⟨Sec5B517Q8.mem_of_mem hq h2 h4, h2⟩
 
-private lemma s888parD_fix_mul {g x y : G} (hgz : g⁻¹ * z * g = z) (hz2 : z * z = 1)
+private lemma s888parD_fix_mul {g x y : G} (_hgz : g⁻¹ * z * g = z) (hz2 : z * z = 1)
     (hzy : z * y = y * z) (hx : g⁻¹ * x * g = x ∨ g⁻¹ * x * g = x * z)
     (hy : g⁻¹ * y * g = y ∨ g⁻¹ * y * g = y * z) :
     g⁻¹ * (x * y) * g = x * y ∨ g⁻¹ * (x * y) * g = x * y * z := by

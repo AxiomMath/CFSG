@@ -13,7 +13,7 @@ theorem axFixOKL_take_drop {ms : List (Array Nat)} {q : Nat → Bool} {fam : Lis
     (n : Nat) (h1 : axFixOKL ms q (fam.take n) = true) (h2 : axFixOKL ms q (fam.drop n) = true) :
     axFixOKL ms q fam = true := by
   unfold axFixOKL at h1 h2 ⊢
-  rw [← List.take_append_drop n fam, List.all_append, h1, h2] <;> rfl
+  rw [← List.take_append_drop n fam, List.all_append, h1, h2]; rfl
 
 set_option maxRecDepth 100000 in
 set_option maxHeartbeats 0 in

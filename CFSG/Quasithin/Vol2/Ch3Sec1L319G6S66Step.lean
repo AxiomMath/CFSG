@@ -26,8 +26,8 @@ theorem relIndex_step_le_four {G : Type} [Group G] [Finite G] {H T M₂ U A L N 
     (hAV : ∀ a ∈ A, ∀ v ∈ V, a * v = v * a) (hTV : ∀ t ∈ T, ∀ v ∈ V, t * v * t⁻¹ ∈ V) :
     (Subgroup.centralizer ({y} : Set G)).relIndex (V ⊓ N) ≤
       4 * (Subgroup.centralizer ({y} : Set G)).relIndex (V ⊓ L) := by
-  letI : CommGroup ↥(chiefMod L N) := chiefCG (h.hE hstep)
-  haveI : Finite ↥(chiefMod L N) := inferInstance
+  let : CommGroup ↥(chiefMod L N) := chiefCG (h.hE hstep)
+  have : Finite ↥(chiefMod L N) := inferInstance
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := h.hNL hstep
   have hE : IsElemAbelian 2 (chiefMod L N) := h.hE hstep
   have hVN : V ⊓ N ≤ N := inf_le_right
@@ -112,8 +112,8 @@ theorem relIndex_step_le_one {G : Type} [Group G] [Finite G] {H U L N : Subgroup
       exact hnl
   have hVN : V ⊓ N ≤ N := inf_le_right
   have hWA : V ⊓ L ≤ V ⊓ N := inf_le_inf_left V hstep.2.2.1.le
-  letI : CommGroup ↥(chiefMod L N) := chiefCG hE
-  haveI : Finite ↥(chiefMod L N) := inferInstance
+  let : CommGroup ↥(chiefMod L N) := chiefCG hE
+  have : Finite ↥(chiefMod L N) := inferInstance
   obtain ⟨ι, hι⟩ : ∃ ι : ↥(V ⊓ N) →* ↥(chiefMod L N),
       ∀ a, ι a = chiefIota hNL (Subgroup.inclusion hVN a) :=
     ⟨(chiefIota hNL).comp (Subgroup.inclusion hVN), fun a => rfl⟩

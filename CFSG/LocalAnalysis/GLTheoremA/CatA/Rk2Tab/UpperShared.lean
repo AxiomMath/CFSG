@@ -32,8 +32,7 @@ private lemma card_generic_exceptional_psp (n f : ℕ) (hf : 2 ≤ f) :
   have hex : Multiplier.exceptionalOrders .PSp n 2 f = (1, 1) := by
     unfold Multiplier.exceptionalOrders
     split <;> simp_all
-  simp [Multiplier.generic, Multiplier.exceptional, Multiplier.genericOrders, hodd, hex,
-    Nat.card_prod, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
+  simp [Multiplier.generic, Multiplier.exceptional, Multiplier.genericOrders, hodd, hex]
 
 private lemma card_generic_exceptional_psl (f : ℕ) (hf : 2 ≤ f) :
     Nat.card (Multiplier.generic .PSL 4 2 f × Multiplier.exceptional .PSL 4 2 f) = 1 := by
@@ -41,8 +40,7 @@ private lemma card_generic_exceptional_psl (f : ℕ) (hf : 2 ≤ f) :
   have hex : Multiplier.exceptionalOrders .PSL 4 2 f = (1, 1) := by
     unfold Multiplier.exceptionalOrders
     split <;> simp_all
-  simp [Multiplier.generic, Multiplier.exceptional, Multiplier.genericOrders, hodd, hex,
-    Nat.card_prod, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
+  simp [Multiplier.generic, Multiplier.exceptional, Multiplier.genericOrders, hodd, hex]
 
 private lemma card_generic_exceptional_pomegaPlus (n f : ℕ) (hf : 2 ≤ f) :
     Nat.card (Multiplier.generic .POmegaPlus n 2 f ×
@@ -51,16 +49,14 @@ private lemma card_generic_exceptional_pomegaPlus (n f : ℕ) (hf : 2 ≤ f) :
   have hex : Multiplier.exceptionalOrders .POmegaPlus n 2 f = (1, 1) := by
     unfold Multiplier.exceptionalOrders
     split <;> simp_all
-  simp [Multiplier.generic, Multiplier.exceptional, Multiplier.genericOrders, hev, hex,
-    Nat.card_prod, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
+  simp [Multiplier.generic, Multiplier.exceptional, Multiplier.genericOrders, hev, hex]
 
 private lemma card_generic_exceptional_f4 (f : ℕ) (hf : 2 ≤ f) :
     Nat.card (Multiplier.generic .F4 0 2 f × Multiplier.exceptional .F4 0 2 f) = 1 := by
   have hex : Multiplier.exceptionalOrders .F4 0 2 f = (1, 1) := by
     unfold Multiplier.exceptionalOrders
     split <;> simp_all
-  simp [Multiplier.generic, Multiplier.exceptional, Multiplier.genericOrders, hex,
-    Nat.card_prod, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
+  simp [Multiplier.generic, Multiplier.exceptional, Multiplier.genericOrders, hex]
 
 private lemma card_generic_exceptional_e7 (f : ℕ) (hf : 2 ≤ f) :
     Nat.card (Multiplier.generic .E7 0 2 f × Multiplier.exceptional .E7 0 2 f) = 1 := by
@@ -68,14 +64,12 @@ private lemma card_generic_exceptional_e7 (f : ℕ) (hf : 2 ≤ f) :
   have hex : Multiplier.exceptionalOrders .E7 0 2 f = (1, 1) := by
     unfold Multiplier.exceptionalOrders
     split <;> simp_all
-  simp [Multiplier.generic, Multiplier.exceptional, Multiplier.genericOrders, hodd, hex,
-    Nat.card_prod, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
+  simp [Multiplier.generic, Multiplier.exceptional, Multiplier.genericOrders, hodd, hex]
 
 private lemma card_generic_exceptional_e8 (f : ℕ) :
     Nat.card (Multiplier.generic .E8 0 2 f × Multiplier.exceptional .E8 0 2 f) = 1 := by
   simp [Multiplier.generic, Multiplier.exceptional, Multiplier.genericOrders,
-    Multiplier.exceptionalOrders, Nat.card_prod, Nat.card_congr Multiplicative.toAdd,
-    Nat.card_zmod]
+    Multiplier.exceptionalOrders]
 
 private lemma subsingleton_multiplier_of_row {X : Type} [Group X] {t : StatedLieTag} {n p f : ℕ}
     (hrow : CFSG.LieType.Steinberg.CentralExt.GriessAll.GriessRow X t n p f)

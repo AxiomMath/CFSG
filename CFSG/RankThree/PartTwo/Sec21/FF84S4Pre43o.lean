@@ -21,10 +21,10 @@ theorem cen_c_mem3 {x : Perm (Fin 8)} (hxc : x * a8c = a8c * x) :
     simp only [Perm.mul_apply, a8c_apply0] at this
     exact this.symm
   by_contra hne
-  push_neg at hne
+  push Not at hne
   have h3 : 3 ≤ (x 0).val := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     rcases (fin8_lt3 _).1 hlt with e | e | e
     · exact hne.1 e
     · exact hne.2.1 e
@@ -105,7 +105,7 @@ theorem perfect_cen_c {K₀ : Type*} [Group K₀] (hperf : commutator K₀ = ⊤
     simp only [inv_inv] at e0 e1 e2
     refine ⟨e0, e1, e2, ?_⟩
     rw [map_mul, map_mul, map_mul, map_inv, map_inv]
-    simp [mul_comm, mul_left_comm, mul_assoc]
+    simp [mul_comm, mul_left_comm]
   intro k
   exact (hQ _).1 (hle (Subgroup.mem_top k))
 

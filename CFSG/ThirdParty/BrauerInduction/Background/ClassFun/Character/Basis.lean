@@ -64,8 +64,8 @@ lemma irreducible_characters_linearIndependent
     LinearIndependent k
       (fun i => ClassFun.character (V i)) := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
-  letI : Fintype ι := Fintype.ofFinite ι
+  let : Fintype G := Fintype.ofFinite G
+  let : Fintype ι := Fintype.ofFinite ι
   rw [Fintype.linearIndependent_iff]
   intro c hc j
   have hpair :
@@ -121,7 +121,7 @@ private lemma irreducibleCharacterSpan_dualAnnihilator_eq_bot
     ).dualAnnihilator = ⊥ := by
   apply eq_bot_iff.mpr
   intro ℓ hℓ
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   obtain ⟨f, rfl⟩ :=
     characterPairingLeft_surjective ℓ
   have h_ortho :
@@ -216,7 +216,7 @@ lemma complete_of_basis_irreducibleCharacters
   let W : Option ι → FDRep k G
     | none => S
     | some i => V i
-  haveI : ∀ o : Option ι, Simple (W o) := by
+  have : ∀ o : Option ι, Simple (W o) := by
     intro o
     cases o with
     | none =>
@@ -251,7 +251,7 @@ lemma complete_of_basis_irreducibleCharacters
     ClassFun.irreducible_characters_linearIndependent
       (V := W) hNonIsoW
   let χS : ClassFun k G := ClassFun.character S
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   have hexpand : χS = ∑ i : ι, (b.repr χS i) • b i := by
     simp only [Module.Basis.sum_repr]
   have hexpand' :
@@ -333,7 +333,7 @@ theorem nonempty_irrepCharBasis
     {G : Type u} [Group G] [Finite G] [CharZero k] [IsAlgClosed k] :
     Nonempty (IrrepCharBasis k G) := by
   obtain ⟨ι, hι, b, hb⟩ := exists_basis_of_irreducibleCharacters (k := k) (G := G)
-  letI : Fintype ι := hι
+  let : Fintype ι := hι
   choose V hSimple hb_eq using hb
   exact ⟨{
     ι := ι
@@ -395,7 +395,7 @@ lemma finrank_classFun_eq_card_of_complete
     (hS : FDRep.IsCompleteSetOfSimples (k := k) (G := G) S) :
     Module.finrank k (ClassFun k G) = Fintype.card ι := by
   let χ : ι → ClassFun k G := fun i => ClassFun.character (S i)
-  letI : ∀ i, Simple (S i) := hS.is_simple
+  let : ∀ i, Simple (S i) := hS.is_simple
   have hLI : LinearIndependent k χ := by
     exact
       ClassFun.irreducible_characters_linearIndependent
@@ -461,10 +461,10 @@ lemma char_coeffs_int
     (U : FDRep k G) (i : B.ι) :
     ∃ m : ℤ, B.b.repr (ClassFun.character U) i = (m : k) := by
   classical
-  haveI : NeZero (Nat.card G) := ⟨One.natCard_ne_zero_of_finite G⟩
+  have : NeZero (Nat.card G) := ⟨One.natCard_ne_zero_of_finite G⟩
   obtain ⟨κ, f, hFintype, hSimple_f, hSum⟩ :=
     ClassFun.char_eq_sum_simples U
-  letI : Fintype κ := hFintype
+  let : Fintype κ := hFintype
   have h_repr_sum :
       B.b.repr (ClassFun.character U) =
         ∑ j : κ, B.b.repr (ClassFun.character (f j)) := by
@@ -541,7 +541,7 @@ theorem finrank_classFun_eq_num_irreps
         FDRep.IsCompleteSetOfSimples (k := k) (G := G) S ∧
         Module.finrank k (ClassFun k G) = Fintype.card κ := by
   let B : ClassFun.IrrepCharBasis k G := ClassFun.irrepCharBasis (k := k) (G := G)
-  letI : Fintype B.ι := B.fintype
+  let : Fintype B.ι := B.fintype
   refine ⟨B.ι, inferInstance, B.V, ?_, ?_⟩
   · exact ClassFun.IrrepCharBasis.isCompleteSetOfSimples (k:= k) (G := G) B
   · exact ClassFun.finrank_classFun_eq_card_of_complete B.V

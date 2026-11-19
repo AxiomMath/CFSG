@@ -219,7 +219,7 @@ theorem kgLangS1A_lin_component {d : ℕ} {F : Type} [Field F] [Finite F] (hd : 
           ρ (QuotientGroup.mk j') =
             LinearFlag.conjAut d (semilinearFixedSubfield σ) M (ρ (QuotientGroup.mk j)) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   let F₀ := semilinearFixedSubfield σ
   let ι : Matrix.SpecialLinearGroup (Fin d) F₀ →* Matrix.SpecialLinearGroup (Fin d) F :=
     Matrix.SpecialLinearGroup.map F₀.subtype

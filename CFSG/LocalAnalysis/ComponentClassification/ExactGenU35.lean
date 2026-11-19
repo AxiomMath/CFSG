@@ -70,7 +70,7 @@ theorem exactCore_U35 (S : Type) [Group S] [Finite S] (h : Blueprint.LieModel S 
   obtain ⟨hB1, hB2, -⟩ := CFSG.RankThree.Classical.unitary_three_five_model S hB
   have hOut := (LocalAnalysis.ComponentInitial.unitary_model_outer_two_part_bound S 3 5 1 hB).2.2.1
   obtain ⟨-, K, _, _, hK, ⟨eS⟩⟩ := hB
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKK : Fintype.card K = Fintype.card F25 := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, F25.card]
     norm_num

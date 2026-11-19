@@ -283,7 +283,7 @@ public theorem secondCase_equationSevenPrime_primeFactors_FU_subset_K0
     (c : CentralizerSetup G) (w : SecondCaseWitness c)
     (d : SecondCaseComponentData w)
     (Kinv K0 F : Subgroup G) (s : d.E)
-    (hKinv_carrier : (Kinv : Set G) = invertedElements (c.U ⊓ w.M) (s : G))
+    (_hKinv_carrier : (Kinv : Set G) = invertedElements (c.U ⊓ w.M) (s : G))
     (hKinv_cyclic : IsCyclic Kinv)
     (hK0_def : K0 = fittingSubgroupOf c.U ⊓ Kinv)
     (hF_eq : F = centralizerIn (fittingSubgroupOf c.U ⊓ w.M) (s : G))
@@ -389,7 +389,7 @@ public theorem secondCase_equationSevenPrime_primeFactors_FU_subset_K0
       (hf := c.FU.subtype_injective)).mp hbot)
   -- R meets Y trivially
   have hcopRY : Nat.Coprime (Nat.card RG) (Nat.card Y) := by
-    rcases R.isPGroup'.exists_card_eq with ⟨n, hn⟩
+    rcases R.isPGroup.exists_card_eq with ⟨n, hn⟩
     have hcop : Nat.Coprime (r ^ n) (Nat.card Y) :=
       coprime_card_of_not_dvd_pow (n := n) hr hrnY
     rwa [← hn, ← hRGcard] at hcop
@@ -414,7 +414,7 @@ public theorem secondCase_equationSevenPrime_primeFactors_FU_subset_K0
       apply Nat.coprime_of_dvd
       intro p hp hpdvdx hpdvdy
       have hpr : p = r := by
-        rcases R.isPGroup'.exists_card_eq with ⟨n, hn⟩
+        rcases R.isPGroup.exists_card_eq with ⟨n, hn⟩
         have hpdvdr : p ∣ r := hp.dvd_of_dvd_pow (by
           rw [← hn]
           exact hpdvdx.trans hordx)
@@ -461,7 +461,7 @@ public theorem secondCase_equationSevenPrime_oddPrimeFactors_fittingSubgroupOf_M
     (c : CentralizerSetup G) (w : SecondCaseWitness c)
     (d : SecondCaseComponentData w)
     (Kinv K0 F : Subgroup G) (s : d.E)
-    (hKinv_carrier : (Kinv : Set G) = invertedElements (c.U ⊓ w.M) (s : G))
+    (_hKinv_carrier : (Kinv : Set G) = invertedElements (c.U ⊓ w.M) (s : G))
     (hKinv_cyclic : IsCyclic Kinv)
     (hK0_def : K0 = fittingSubgroupOf c.U ⊓ Kinv)
     (hF_eq : F = centralizerIn (fittingSubgroupOf c.U ⊓ w.M) (s : G))
@@ -509,7 +509,7 @@ public theorem secondCase_equationSevenPrime_oddPrimeFactors_fittingSubgroupOf_M
   have hRGleM : RG ≤ w.M := hRGleFM.trans (Subgroup.map_subtype_le (fittingSubgroup w.M))
   -- R is odd, hence lies in O₂′(M), which lies in H = C_G(t)
   have hRGodd : Odd (Nat.card RG) := by
-    rcases R.isPGroup'.exists_card_eq with ⟨n, hn⟩
+    rcases R.isPGroup.exists_card_eq with ⟨n, hn⟩
     rw [hRGcard, hn]
     exact hrodd.pow
   have hRGleOdd : RG ≤ oddCoreOf w.M :=
@@ -547,7 +547,7 @@ public theorem secondCase_equationSevenPrime_oddPrimeFactors_fittingSubgroupOf_M
     intro hrY
     exact hrnFU (hrY.trans (Subgroup.card_dvd_of_le (inf_le_left : Y ≤ c.FU)))
   have hcopRY : Nat.Coprime (Nat.card RG) (Nat.card Y) := by
-    rcases R.isPGroup'.exists_card_eq with ⟨n, hn⟩
+    rcases R.isPGroup.exists_card_eq with ⟨n, hn⟩
     have hcop : Nat.Coprime (r ^ n) (Nat.card Y) :=
       coprime_card_of_not_dvd_pow (n := n) hr hrnY
     rwa [← hn, ← hRGcard] at hcop
@@ -597,7 +597,7 @@ public theorem secondCase_equationSevenPrime_oddPrimeFactors_fittingSubgroupOf_M
   have hYself : c.FU ⊓ Subgroup.centralizer (Y : Set G) ≤ Y :=
     eq7prime_FU_centralizer_Y_le_Y c w F hFleY hNFeq
   have hcop : Nat.Coprime (Nat.card RG) (Nat.card c.FU) := by
-    rcases R.isPGroup'.exists_card_eq with ⟨n, hn⟩
+    rcases R.isPGroup.exists_card_eq with ⟨n, hn⟩
     have hcop' : Nat.Coprime (r ^ n) (Nat.card c.FU) :=
       coprime_card_of_not_dvd_pow (n := n) hr (by
         intro hrFU
@@ -688,7 +688,7 @@ private theorem eq7prime_K0_intersection_center_eq_bot
     rcases (Nat.dvd_prime Nat.prime_two).mp h2 with h1 | h2'
     · exact orderOf_eq_one_iff.mp h1
     · exfalso
-      exact (Odd.not_two_dvd_nat hxodd) (by simpa [h2'])
+      exact (Odd.not_two_dvd_nat hxodd) (by simp [h2'])
   exact hx1
 
 /-- The quotient map `E → E/Z(E)` is injective on `K₀`. -/
@@ -714,9 +714,6 @@ private theorem eq7prime_quotient_injective_on_K0
   have hxyE : (x : G) / (y : G) ∈ d.E := hK0leE hxyK0
   have hz : (⟨(x : G) / (y : G), hxyE⟩ : d.E) ∈ Subgroup.center d.E := by
     convert hdiv using 1
-    all_goals
-      ext
-      simp [div_eq_mul_inv]
   have hxyZ : (x : G) / (y : G) ∈
       (Subgroup.center d.E).map d.E.subtype :=
     Subgroup.mem_map.mpr ⟨⟨(x : G) / (y : G), hxyE⟩, hz, rfl⟩
@@ -737,9 +734,9 @@ private theorem eq7prime_K0_image_le_torus
     (c : CentralizerSetup G) (w : SecondCaseWitness c)
     (d : SecondCaseComponentData w)
     (s : d.E) (Kinv K0 : Subgroup G)
-    (hKinv_carrier : (Kinv : Set G) = invertedElements (c.U ⊓ w.M) (s : G))
+    (_hKinv_carrier : (Kinv : Set G) = invertedElements (c.U ⊓ w.M) (s : G))
     (hK0_def : K0 = fittingSubgroupOf c.U ⊓ Kinv)
-    (hK0leE : K0 ≤ d.E)
+    (_hK0leE : K0 ≤ d.E)
     (T : Subgroup (d.E ⧸ Subgroup.center d.E))
     (hTcontain : ∀ X : Subgroup (d.E ⧸ Subgroup.center d.E),
       (∀ x : d.E ⧸ Subgroup.center d.E, x ∈ X → Odd (orderOf x)) →

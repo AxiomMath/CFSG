@@ -28,8 +28,8 @@ theorem br3_cover_core_sub (h65o : Asch6_5Odd) {R L : Subgroup (LGL 2 V)}
       (CFSG.SignalizerFunctorTheorem.Quadratic.commSub A) = ⊥)
     (hker : A ⊓ Subgroup.centralizer (L : Set (LGL 2 V)) = ⊥) : False := by
   classical
-  haveI : Finite (LGL 2 V) := w183_finite_lgl
-  haveI : Finite ↥R := Finite.of_injective (fun r : ↥R => (r : LGL 2 V)) Subtype.val_injective
+  have : Finite (LGL 2 V) := w183_finite_lgl
+  have : Finite ↥R := Finite.of_injective (fun r : ↥R => (r : LGL 2 V)) Subtype.val_injective
   let Y₀ : Type := ↥L ⧸ Subgroup.center ↥L
   have hsub : IsSubnormal (L.subgroupOf R) ⊤ := by
     refine IsSubnormal.step le_top ?_ (IsSubnormal.refl ⊤)
@@ -95,6 +95,7 @@ theorem br3_cover_core_sub (h65o : Asch6_5Odd) {R L : Subgroup (LGL 2 V)}
     (actOnMul_injective (R := R)) (L.subgroupOf R) (A.subgroupOf R) hcomp hodd_sub hAnorm
     hAcard hel' hquadOn hALc p 1 Y₀ (inferInstance : Group Y₀) hp hp2 h3p hY hcov
 
+omit [Finite V] in
 theorem w183k3_cover_shape_swap {Y T L₁ L₂ : Subgroup (LGL 2 V)} (htwo : Br3TwoComp Y T L₁ L₂)
     (h : ∃ p : ℕ, p.Prime ∧ 5 ≤ p ∧ (LieModel (↥L₁ ⧸ Subgroup.center ↥L₁) .PSL 3 p 1 ∨
       LieModel (↥L₁ ⧸ Subgroup.center ↥L₁) .PSU 3 p 1)) :
@@ -112,7 +113,7 @@ theorem w183k3_cover_shape_swap {Y T L₁ L₂ : Subgroup (LGL 2 V)} (htwo : Br3
 theorem br3CoverTwo_holds : Br3CoverTwo := by
   intro rows V _ _ _ Y T L₁ L₂ Γ VA 𝒢 Zs m i₀ δ hc htwo hshape hne hall
   classical
-  haveI : Finite (LGL 2 V) := w183_finite_lgl
+  have : Finite (LGL 2 V) := w183_finite_lgl
   obtain ⟨A, hA⟩ := hne
   have h4 : 4 ≤ Nat.card ↥A := w183k3m2_four_le_card_of_two_le_mRank (hall A hA)
   have hAY : A ≤ Y := hc.h131.le_G A hA

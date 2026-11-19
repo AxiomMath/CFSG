@@ -15,7 +15,7 @@ open CFSG.LieType.SteinbergBR.AutGL32 in
 @[expose] noncomputable def iotaSL : ↥SL32 →* ↥SL32 where
   toFun a := ⟨tau (a : GL (Fin 3) (ZMod 2)), mem_SL32 _⟩
   map_one' := Subtype.ext (map_one _)
-  map_mul' a b := Subtype.ext (map_mul _ _ _)
+  map_mul' _a _b := Subtype.ext (map_mul _ _ _)
 
 theorem mat_iotaSL (a : ↥SL32) : mat (iotaSL a) = (mat a⁻¹)ᵀ := by
   change ((CFSG.LieType.SteinbergBR.AutGL32.tau (a : GL (Fin 3) (ZMod 2)) :
@@ -121,7 +121,7 @@ noncomputable def PhiC : ↥Cd →* MulAut ↥SL32 :=
 
 theorem rhoT_PhiC (x : ↥Cd) (a : ↥SL32) :
     rhoT (PhiC x a) = (x : MulAut WMod) * rhoT a * (x : MulAut WMod)⁻¹ := by
-  haveI : (Kc).Normal := Kc_normal
+  have : (Kc).Normal := Kc_normal
   have hk : eK.symm a = ⟨⟨rhoT a, rhoT_mem_Cd a⟩, Subgroup.mem_subgroupOf.2 ⟨a, rfl⟩⟩ := by
     apply eK.injective
     rw [MulEquiv.apply_symm_apply]

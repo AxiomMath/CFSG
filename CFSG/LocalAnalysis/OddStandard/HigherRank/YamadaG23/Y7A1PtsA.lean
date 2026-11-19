@@ -12,7 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] {A C0 V : Subgroup G} {a₁ b₁ a₂ b₂ z t d : G}
 
-theorem y7a_t_mem_Up (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) : t ∈ y6Up A V t := by
+theorem y7a_t_mem_Up (_h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) : t ∈ y6Up A V t := by
   refine ⟨1, one_mem A, ?_, 1, one_mem V, ?_⟩
   · simp
   · group
@@ -49,12 +49,12 @@ theorem y7a_C1_split (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) :
     · exact Or.inr (Or.inr ⟨a, ha, h1, v, hv, rfl⟩)
     · exact Or.inr (Or.inl ⟨a, ha, hz, v, hv, rfl⟩)
 
-theorem y7a_Up_V (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) :
+theorem y7a_Up_V (_h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) :
     ∀ x ∈ y6Up A V t, ∀ v ∈ V, x * v ∈ y6Up A V t := by
   rintro x ⟨a, ha, ha1, v₀, hv₀, rfl⟩ v hv
   exact ⟨a, ha, ha1, v₀ * v, mul_mem hv₀ hv, by group⟩
 
-theorem y7a_Um_V (h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) :
+theorem y7a_Um_V (_h : Y7ACfg A C0 V a₁ b₁ a₂ b₂ z t d) :
     ∀ x ∈ y6Um A V z t, ∀ v ∈ V, x * v ∈ y6Um A V z t := by
   rintro x ⟨a, ha, haz, v₀, hv₀, rfl⟩ v hv
   exact ⟨a, ha, haz, v₀ * v, mul_mem hv₀ hv, by group⟩

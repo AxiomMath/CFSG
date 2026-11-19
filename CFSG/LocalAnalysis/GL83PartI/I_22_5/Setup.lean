@@ -73,7 +73,7 @@ theorem one_le_pRank_aut {p : ℕ} (hp : p.Prime) {X : Type*} [Group X] [Finite 
     obtain ⟨Q⟩ : Nonempty (Sylow p ↥K) := inferInstance
     have hQz : (Q : Subgroup ↥K) ≤ Subgroup.center ↥K := by
       rw [← hker, ← Subgroup.map_eq_bot_iff]
-      have hmap : IsPGroup p ↥((Q : Subgroup ↥K).map f) := Q.isPGroup'.map f
+      have hmap : IsPGroup p ↥((Q : Subgroup ↥K).map f) := Q.isPGroup.map f
       rcases hmap.card_eq_or_dvd with h1 | h1
       · exact Subgroup.eq_bot_of_card_eq _ h1
       · exact absurd (h1.trans (Subgroup.card_dvd_of_le (Subgroup.map_le_range f _))) hnd

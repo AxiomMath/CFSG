@@ -89,7 +89,7 @@ private theorem exists_eigenbasis_of_cube_inj (d : Fin 3 → K) (hd : Function.I
     exact heig j
   refine ⟨Matrix.of fun r j => cubeProj a (d j) r (ι j), ?_, ?_⟩
   · rw [← Matrix.isUnit_iff_isUnit_det]
-    exact Matrix.linearIndependent_cols_iff_isUnit.1 hli
+    exact Matrix.linearIndependent_col_iff_isUnit.1 hli
   · ext s j
     have h := congrFun (heig j) s
     rw [Matrix.mul_diagonal]

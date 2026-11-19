@@ -120,7 +120,7 @@ theorem exists_conj_zpowers_x0
     ∃ g ∈ fi22P, Subgroup.zpowers (g * y * g⁻¹) = Subgroup.zpowers (fi22FiveLine 0) := by
   obtain ⟨⟨hQP, -, -, hQsyl⟩, ⟨hlines, -⟩, -⟩ :=
     R3E_Fi22_full_five_centralizers_common_outer_involution
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hQ : Nat.card fi22FiveQ = 5 ^ (Nat.card fi22P).factorization 5 :=
     card_eq_of_sylow_subgroupOf hQP hQsyl
   obtain ⟨g, hgP, hgQ⟩ := Co3T.exists_conj_mem_of_full hQP hQ hyP hy
@@ -152,7 +152,7 @@ theorem exists_conj_into_Q
     {R : Subgroup (Equiv.Perm (Fin 3510))} (hRP : R ≤ fi22P) (hR : Nat.card R = 25) :
     ∃ g ∈ fi22P, ∀ q ∈ fi22FiveQ, g * q * g⁻¹ ∈ R := by
   obtain ⟨⟨hQP, -, -, hQsyl⟩, -⟩ := R3E_Fi22_full_five_centralizers_common_outer_involution
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hQ : Nat.card fi22FiveQ = 5 ^ (Nat.card fi22P).factorization 5 :=
     card_eq_of_sylow_subgroupOf hQP hQsyl
   have hR' : Nat.card R = 5 ^ (Nat.card fi22P).factorization 5 := by
@@ -179,7 +179,7 @@ theorem not_five_dvd_of_fixN
     {x : J} (hx : orderOf x = 3) (hfix : fixN (iotaJ x) ≠ 126) :
     ¬ 5 ∣ Nat.card (Subgroup.centralizer ({x} : Set J)) := by
   intro h5
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.centralizer ({x} : Set J))) 5 h5
   have hyJ : orderOf (y : J) = 5 := by rw [Subgroup.orderOf_coe]; exact hy
   have hyc : (y : J) * x = x * (y : J) :=
@@ -217,7 +217,7 @@ theorem not_five_dvd_of_fixN
 theorem not_twentyfive_dvd
     {x : J} (hx : orderOf x = 3) : ¬ 25 ∣ Nat.card (Subgroup.centralizer ({x} : Set J)) := by
   intro h25
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hdvd : 5 ^ 2 ∣ Nat.card (Subgroup.centralizer ({x} : Set J)) := by simpa using h25
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime
     (G := ↥(Subgroup.centralizer ({x} : Set J))) 5 hdvd
@@ -320,9 +320,9 @@ theorem exists_five_gen3
     have e2 := card_closure_pair_map iotaJ iotaJ_injective t₁ t₂
     rw [hι₁, hι₂] at e2
     have e3 : ((MulAut.conj c⁻¹).toMonoidHom t₁ : J) = c⁻¹ * t₁ * c := by
-      simp [MulAut.conj_apply]
+      simp
     have e4 : ((MulAut.conj c⁻¹).toMonoidHom t₂ : J) = c⁻¹ * t₂ * c := by
-      simp [MulAut.conj_apply]
+      simp
     rw [e3, e4] at e1
     rw [e1, ← e2]
     exact hbig
@@ -361,7 +361,7 @@ end Fi22Copy
 
 theorem sporL3DownInner_Fi22
     (hbr : SporadicBridges) : SporL3DownInner .Fi22 := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [Fi22Copy.card_J_eq]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [Fi22Copy.card_J_eq]; norm_num)
   have hM : Nonempty (J ≃* (TauCeti.CFSGIndex.sporadic .Fi22).Group) :=
     ⟨CFSG.Sporadic.Fi22.fi22EquivJ.symm.trans (hbr .Fi22).some⟩
   have h1 := @sporL3DownInner_of_comp .Fi22 J inferInstance inferInstance hM

@@ -16,7 +16,7 @@ theorem burnsideAut_exists_complement {p : ℕ} [Fact p.Prime] {E Y : Subgroup A
     (hYE : Y ≤ Subgroup.normalizer (E : Set A)) (hE : IsPGroup p E) (hp : ¬ p ∣ E.relIndex Y) :
     ∃ C : Subgroup A, C ≤ Y ∧ E ⊓ C = ⊥ ∧ E ⊔ C = Y := by
   set N : Subgroup ↥Y := E.subgroupOf Y with hN
-  haveI hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hEY).2 hYE
+  have hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hEY).2 hYE
   have hNcard : Nat.card ↥N = Nat.card ↥E := Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEY).toEquiv
   have hcop : Nat.Coprime (Nat.card ↥N) N.index := by
     rw [hNcard]
@@ -46,7 +46,7 @@ theorem burnsideAut_le_conj_complement {E Y C X : Subgroup A}
     (hYE : Y ≤ Subgroup.normalizer (E : Set A)) (hE : IsPGroup 2 E) (hCY : C ≤ Y)
     (hEC : E ⊓ C = ⊥) (hECY : E ⊔ C = Y) (hXY : X ≤ Y) (hXodd : Odd (Nat.card X)) :
     ∃ e ∈ E, X ≤ C.map (MulAut.conj e).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set C₁ : Subgroup A := (E ⊔ X) ⊓ C with hC₁
   have hEY : E ≤ Y := hECY ▸ le_sup_left
   have hXE : X ≤ Subgroup.normalizer (E : Set A) := hXY.trans hYE
@@ -92,7 +92,7 @@ theorem burnsideAut_case5_core2 {Lb I J Φ Sb Bb : Subgroup A}
       CFSG.Quasithin.A315.IsCartan 2 Sb ((F ⊔ Bb ⊔ Lb) ⊓ J) H ∧
       F ⊔ Bb ⊔ Lb = H ⊔ Bb ⊔ Lb ∧ Bb ≤ F ⊔ H ∧
       ∀ x ∈ F, ∃ b ∈ Bb, x * b⁻¹ ∈ I := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSbI' : Sb ≤ I := hSbLb.trans hLbI
   have hIΦ' : ∀ {φ : A}, φ ∈ Φ → φ ∈ I → φ = 1 := fun {φ} hφ hφI => by
     have : φ ∈ I ⊓ Φ := ⟨hφI, hφ⟩

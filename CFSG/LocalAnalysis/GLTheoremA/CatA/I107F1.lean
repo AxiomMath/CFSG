@@ -33,7 +33,7 @@ theorem center_eq_bot_of_simple_nonab {S : Type} [Group S] [IsSimpleGroup S] {a 
 
 theorem commutator_eq_top_of_simple_nonab {S : Type} [Group S] [IsSimpleGroup S] {a b : S} (hab : a * b ≠ b * a) :
     commutator S = ⊤ := by
-  haveI : (commutator S).Normal := Subgroup.commutator_normal ⊤ ⊤
+  have : (commutator S).Normal := Subgroup.commutator_normal ⊤ ⊤
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator S) with h | h
   · exfalso
     have hmem : ⁅a, b⁆ ∈ commutator S := Subgroup.commutator_mem_commutator (Subgroup.mem_top a) (Subgroup.mem_top b)

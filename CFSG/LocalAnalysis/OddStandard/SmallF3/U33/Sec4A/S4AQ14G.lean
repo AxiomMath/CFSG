@@ -54,7 +54,7 @@ theorem q14_cent_Qbar_rho (h : L41GPh10 t L S x₁ x₂ lam rho) :
     rw [m11_card_Y h]
     norm_num
   ext q
-  rw [Set.mem_setOf_eq, SetLike.mem_coe]
+  rw [Set.mem_ofPred_eq, SetLike.mem_coe]
   constructor
   · rintro ⟨hqQ, hqcomm⟩
     have hw : rho * q * rho⁻¹ * q⁻¹ ∈ l41Y t x₁ x₂ rho := by
@@ -128,7 +128,7 @@ theorem q14_cent_Qbar_rho (h : L41GPh10 t L S x₁ x₂ lam rho) :
 theorem q14_quot_Q (h : L41GPh10 t L S x₁ x₂ lam rho) :
     Sec4SectionIso (l41Q t x₁ x₂ rho) (l41F t x₁ x₂ rho)
       (CFSG.GH74.GLS.Bg.TwoGroups.E2 2) := by
-  haveI : ((l41F t x₁ x₂ rho).subgroupOf (l41Q t x₁ x₂ rho)).Normal :=
+  have : ((l41F t x₁ x₂ rho).subgroupOf (l41Q t x₁ x₂ rho)).Normal :=
     q14_normal_FQ t x₁ x₂ rho
   let X := ↥(l41Q t x₁ x₂ rho) ⧸ (l41F t x₁ x₂ rho).subgroupOf (l41Q t x₁ x₂ rho)
   have hcardX : Nat.card X = 4 := by
@@ -142,7 +142,7 @@ theorem q14_quot_Q (h : L41GPh10 t L S x₁ x₂ lam rho) :
       norm_num
     rw [q14_card_Q h, hF] at hcard
     omega
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hcardX]; norm_num)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcardX]; norm_num)
   have hρQ : rho ∈ normalizer ((l41Q t x₁ x₂ rho : Subgroup G) : Set G) :=
     q14_mem_normalizer_Q (q14_rho_mem_M h.toL41GPh8)
   have hρF : rho ∈ normalizer ((l41F t x₁ x₂ rho : Subgroup G) : Set G) :=

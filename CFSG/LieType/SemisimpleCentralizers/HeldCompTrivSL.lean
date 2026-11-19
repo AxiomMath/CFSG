@@ -15,7 +15,7 @@ open scoped commutatorElement
 theorem hct_nontrivial_of_isComponentOf_top {Γ : Type*} [Group Γ] {X : Subgroup Γ}
     (hX : IsComponentOf X ⊤) : Nontrivial X := by
   have hq : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2.2.2
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hq
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hq
   exact (QuotientGroup.mk_surjective :
     Function.Surjective (QuotientGroup.mk : X → X ⧸ Subgroup.center X)).nontrivial
 
@@ -52,7 +52,7 @@ theorem hct_comp_eq_top_of_central_quotient {Γ : Type*} [Group Γ] (Z : Subgrou
       ((⊤ : Subgroup Γ).map (QuotientGroup.mk' Z)) :=
     CFSG.Open.IsSubnormal.map (QuotientGroup.mk' Z) hX.2.1
   rw [Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective Z)] at hsub
-  haveI := hsimp
+  have := hsimp
   have hB : IsSimpleGroup (↥(⊤ : Subgroup (Γ ⧸ Z))) := Subgroup.topEquiv.isSimpleGroup
   rcases CFSG.Open.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hsub hB with hbot | htop
   ·
@@ -106,21 +106,21 @@ theorem hct_comp_eq_top_of_perfect_statedProj {n : ℕ} {K : Type} [Field K]
 
 theorem hct_not_component_top_of_isSolvable {Γ : Type*} [Group Γ] (hs : Group.IsSolvable Γ)
     {X : Subgroup Γ} (hX : IsComponentOf X ⊤) : False := by
-  haveI := hs
-  haveI := hct_nontrivial_of_isComponentOf_top hX
-  haveI : Group.IsPerfect X := Group.isPerfect_def.mpr hX.2.2.1
+  have := hs
+  have := hct_nontrivial_of_isComponentOf_top hX
+  have : Group.IsPerfect X := Group.isPerfect_def.mpr hX.2.2.1
   exact Group.IsPerfect.not_isSolvable (G := X) inferInstance
 
 theorem hct_not_component_top_of_subsingleton {Γ : Type*} [Group Γ] [Subsingleton Γ]
     {X : Subgroup Γ} (hX : IsComponentOf X ⊤) : False := by
-  haveI := hct_nontrivial_of_isComponentOf_top hX
-  haveI : Subsingleton X := ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
+  have := hct_nontrivial_of_isComponentOf_top hX
+  have : Subsingleton X := ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
   exact (not_subsingleton X) inferInstance
 
 theorem hct_isSolvable_of_natCard_eq {Γ : Type*} [Group Γ] [Finite Γ] {p q a b : ℕ}
     (hp : p.Prime) (hq : q.Prime) (hpq : p ≠ q) (h : Nat.card Γ = p ^ a * q ^ b) :
     Group.IsSolvable Γ := by
-  letI := Fintype.ofFinite Γ
+  let := Fintype.ofFinite Γ
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow hp hq hpq
     (by rw [← Nat.card_eq_fintype_card, h])
 
@@ -149,14 +149,14 @@ theorem hct_isQuasisimple_statedSL {d : ℕ} (K : Type) [Field K] [Finite K] (hd
     (h22 : d ≠ 2 ∨ Nat.card K ≠ 2) (h23 : d ≠ 2 ∨ Nat.card K ≠ 3) :
     CFSG.Open.IsQuasisimple (StatedSL d K) := by
   refine ⟨Group.isPerfect_def.mp (hct_isPerfect_statedSL K hd h22 h23), ?_⟩
-  haveI := isSimpleGroup_statedProj_statedSL K hd h22 h23
+  have := isSimpleGroup_statedProj_statedSL K hd h22 h23
   exact (QuotientGroup.quotientMulEquivOfEq (center_statedSL_eq d)).isSimpleGroup
 
 theorem SLComponentsTrivial_holds : SLComponentsTrivial := by
   unfold SLComponentsTrivial
   intro d K _ _ X hX
   by_cases hd : d ≤ 1
-  · haveI := hct_subsingleton_statedSL_of_le_one (K := K) hd
+  · have := hct_subsingleton_statedSL_of_le_one (K := K) hd
     exact (hct_not_component_top_of_subsingleton hX).elim
   · have hd2 : 2 ≤ d := by omega
     by_cases hexc : d = 2 ∧ (Nat.card K = 2 ∨ Nat.card K = 3)
@@ -167,11 +167,11 @@ theorem SLComponentsTrivial_holds : SLComponentsTrivial := by
       rcases hK with hK | hK
       · have hs : Group.IsSolvable (StatedSL 2 K) :=
           hct_isSolvable_of_natCard_eq (p := 2) (q := 3) (a := 1) (b := 1) Nat.prime_two
-            Nat.prime_three (by norm_num) (by rw [hcard, hK] <;> norm_num)
+            Nat.prime_three (by norm_num) (by rw [hcard, hK]; norm_num)
         exact (hct_not_component_top_of_isSolvable hs hX).elim
       · have hs : Group.IsSolvable (StatedSL 2 K) :=
           hct_isSolvable_of_natCard_eq (p := 2) (q := 3) (a := 3) (b := 1) Nat.prime_two
-            Nat.prime_three (by norm_num) (by rw [hcard, hK] <;> norm_num)
+            Nat.prime_three (by norm_num) (by rw [hcard, hK]; norm_num)
         exact (hct_not_component_top_of_isSolvable hs hX).elim
     · have h22 : d ≠ 2 ∨ Nat.card K ≠ 2 := by
         by_cases h : d = 2

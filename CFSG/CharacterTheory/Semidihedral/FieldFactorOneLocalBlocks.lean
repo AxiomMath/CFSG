@@ -50,7 +50,7 @@ theorem typeStar_local_block (hn : 4 ≤ n) (ht : t = (fS (r n) : G) ^ 2 ^ (n - 
         (x : G) = q * c → (normalizerBasis.representation lambdaLabel).character x =
           thetaG t θ (c : G))
     (B : basis.index)
-    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
       (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _) le_rfl
         normalizerBasis lambdaLabel = centralCharacterResidueHom basis ideal B)
     {u : G} (hu2 : IsPGroup 2 (Subgroup.zpowers u)) (htu : t ∈ Subgroup.zpowers u)
@@ -127,12 +127,12 @@ theorem exists_typeStar_block (hn : 4 ≤ n) (ht : t = (fS (r n) : G) ^ 2 ^ (n -
           (x : G) = q * c → (normalizerBasis.representation lambdaLabel).character x =
             thetaG t θ (c : G)) ∧
       ∃ B : basis.index,
-        brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+        brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
           (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _)
             le_rfl normalizerBasis lambdaLabel = centralCharacterResidueHom basis ideal B := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hψ := family_compatible fS hn ht hindex θ hθS hθT
-  have hS2 : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hS2 : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   have hS1 : (S : Subgroup G) ≠ ⊥ := by
     intro h
     have htS := t_mem_sylow fS ht
@@ -191,7 +191,7 @@ theorem principal_local_block (hn : 4 ≤ n) (ht : t = (fS (r n) : G) ^ 2 ^ (n -
     (fun x q c _ _ => by
       rw [principalCharacterLabel_character, Pi.one_apply, thetaG_one, Units.val_one])
     (principalCharacterLabel basis)
-    (brauerNormalizer_principal_residue_image basis ideal 2 _ S.isPGroup' _
+    (brauerNormalizer_principal_residue_image basis ideal 2 _ S.isPGroup _
       (Subgroup.centralizer_le_normalizer _) le_rfl normalizerBasis _
       (principalCharacterLabel_character basis) _
       (principalCharacterLabel_character normalizerBasis))

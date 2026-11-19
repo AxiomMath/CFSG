@@ -41,7 +41,7 @@ theorem exists_inv_mul_mem_normalizer {H X : Subgroup G} (hXH : X ≤ H) (hX : I
   have hS₁X : (S₁ : Subgroup H) = X.subgroupOf H := by
     refine le_antisymm (fun s hs => ?_) hS₁
     have hs' : (s : G) ∈ (S₁ : Subgroup H).map H.subtype := ⟨s, hs, rfl⟩
-    exact hmax _ (map_subtype_le _) (S₁.isPGroup'.map _)
+    exact hmax _ (map_subtype_le _) (S₁.isPGroup.map _)
       (fun x hx => ⟨⟨x, hXH hx⟩, hS₁ hx, rfl⟩) hs'
   have hS₂Y : Y.subgroupOf H = (S₂ : Subgroup H) := by
     refine Subgroup.eq_of_le_of_card_ge hS₂ (le_of_eq ?_)
@@ -138,7 +138,7 @@ theorem mem_Lfree (h : LevelDatum θ c.hn8 z k A) {m : G} (hmR : m ∈ RA θ c.h
   have h2 : (m ^ m') ^ 2 ^ s = 1 := by
     rw [← pow_mul, mul_comm, ← hmm', pow_orderOf_eq_one]
   have hE := mem_E_of_two_pow c h (pow_mem hmR m') (pow_mem hmA m') (pow_mem hmz m') h2
-  exact mem_Lfree_of_N0 c ⟨N0.C0_le_N0 c.hn8 c hC0, hmz⟩ hm' (ModIso.E_le_L c.hn8 hE)
+  exact mem_Lfree_of_N0 c ⟨N0.C0_le_N0 c.hn8 hC0, hmz⟩ hm' (ModIso.E_le_L c.hn8 hE)
 
 theorem exists_mul_eq (hs : StepData θ c.hn8 z k A P A') {d : G} (hdR : d ∈ RA θ c.hn8 z A)
     (hdA : d ∈ centralizer (A : Set G)) :

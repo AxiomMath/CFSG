@@ -26,7 +26,7 @@ open scoped Pointwise in
 private theorem exists_conj_mem_sylow {q : ℕ} (hq : q.Prime) {Y : Subgroup G} (Q : Sylow q Y)
     {S : Subgroup G} (hSY : S ≤ Y) (hS : IsPGroup q S) :
     ∃ g : Y, ∀ s ∈ S, ∃ t ∈ (Q : Subgroup Y), (t : G) = (g : G) * s * (g : G)⁻¹ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hS' : IsPGroup q (S.subgroupOf Y) := hS.comap_subtype
   obtain ⟨Q₀, hQ₀⟩ := hS'.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Y Q₀ Q
@@ -43,11 +43,11 @@ private theorem isCyclic_of_isPGroup_of_cent_cyclic {q : ℕ} (hq : q.Prime) {Y 
     (h : ∀ S : Subgroup G, S ≤ Y ⊓ Subgroup.centralizer ({y} : Set G) → IsPGroup q S →
       IsCyclic S) :
     ∀ S : Subgroup G, S ≤ Y → IsPGroup q S → IsCyclic S := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hzp : IsPGroup q (Subgroup.zpowers y) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hyq, pow_one])
   obtain ⟨Q, hQ⟩ := (hzp.comap_subtype (K := Y)).exists_le_sylow
-  have hQ'p : IsPGroup q ((Q : Subgroup Y).map Y.subtype) := Q.isPGroup'.map Y.subtype
+  have hQ'p : IsPGroup q ((Q : Subgroup Y).map Y.subtype) := Q.isPGroup.map Y.subtype
   have hQ'Y : (Q : Subgroup Y).map Y.subtype ≤ Y := Subgroup.map_subtype_le _
   have hyQ' : y ∈ (Q : Subgroup Y).map Y.subtype :=
     ⟨⟨y, hy⟩, hQ (Subgroup.mem_subgroupOf.2 (Subgroup.mem_zpowers y)), rfl⟩
@@ -57,8 +57,8 @@ private theorem isCyclic_of_isPGroup_of_cent_cyclic {q : ℕ} (hq : q.Prime) {Y 
       rintro rfl
       rw [orderOf_one] at hyq
       exact hq.one_lt.ne hyq
-    haveI : Nontrivial Q' := ⟨⟨⟨y, hyQ'⟩, 1, fun h' => hy1 (congrArg Subtype.val h')⟩⟩
-    haveI : Nontrivial (Subgroup.center Q') := hQ'p.center_nontrivial
+    have : Nontrivial Q' := ⟨⟨⟨y, hyQ'⟩, 1, fun h' => hy1 (congrArg Subtype.val h')⟩⟩
+    have : Nontrivial (Subgroup.center Q') := hQ'p.center_nontrivial
     have hZp : IsPGroup q (Subgroup.center Q') := hQ'p.to_subgroup _
     have hdvd : q ∣ Nat.card (Subgroup.center Q') := by
       obtain ⟨n, hn0, hn⟩ := hZp.nontrivial_iff_card.1 inferInstance
@@ -77,7 +77,7 @@ private theorem isCyclic_of_isPGroup_of_cent_cyclic {q : ℕ} (hq : q.Prime) {Y 
       rw [Set.mem_singleton_iff] at hu
       subst hu
       exact hzcomm u hyQ'
-    haveI hCcyc : IsCyclic ↥(Q' ⊓ Subgroup.centralizer ({y} : Set G)) :=
+    have hCcyc : IsCyclic ↥(Q' ⊓ Subgroup.centralizer ({y} : Set G)) :=
       h _ (inf_le_inf_right _ hQ'Y) (hQ'p.to_le inf_le_left)
     have hyC : y ∈ Q' ⊓ Subgroup.centralizer ({y} : Set G) :=
       ⟨hyQ', Subgroup.mem_centralizer_iff.2 fun u hu => by

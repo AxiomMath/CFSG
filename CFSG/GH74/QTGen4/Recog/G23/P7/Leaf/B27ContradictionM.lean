@@ -37,15 +37,15 @@ theorem main_contradiction [Finite G] [G23Leaf LeafGL3Facts]
     {T H H₁ H₂ M : Subgroup G} {e : Fin 6 → G} {M₁ M₂ Pb Np Nm W₁ Mf : Subgroup G} {t' : G}
     (h : Setup G T H H₁ H₂ M e) (hF : HFacts H H₁ H₂ e) (hO : OneClass e)
     (hL : Local3 e H H₁ H₂ M₁ M₂ Pb Np Nm) (hPb : Nat.card Pb = 27)
-    (ha₁ : IsElemAbelian 3 M₁) (ha₂ : IsElemAbelian 3 M₂) (hst : B27State e M₁ Pb W₁ Mf t') :
+    (ha₁ : IsElemAbelian 3 M₁) (_ha₂ : IsElemAbelian 3 M₂) (hst : B27State e M₁ Pb W₁ Mf t') :
     False := by
   have hone : G23One H H₁ H₂ := h.ctx.one
   have hlet : HLetters H H₁ H₂ e := h.lets
   have hv : VertexCore e H (e 0) H₂ M₁ := hL.v₁
   have hM1 : Nat.card M₁ = 27 := card_M₁ hL hPb
   have hC : Nat.card (Subgroup.centralizer ({e 0} : Set G)) = 648 := card_cent_e0 hone hL hPb
-  haveI hMc : IsMulCommutative M₁ := ha₁.1
-  haveI hmod : Module (ZMod 3) (Additive M₁) := AddCommGroup.zmodModule (exp3_add ha₁)
+  have hMc : IsMulCommutative M₁ := ha₁.1
+  have hmod : Module (ZMod 3) (Additive M₁) := AddCommGroup.zmodModule (exp3_add ha₁)
   have hexp : ∀ m ∈ M₁, m ^ 3 = 1 := ha₁.2
   obtain ⟨w, hwM, d, hdM, b, hwW, hw1, hdD, hb0, hb1, hb2⟩ :=
     gl3_basis hone hlet hv hst hM1 hexp
@@ -139,7 +139,7 @@ theorem main_contradiction [Finite G] [G23Leaf LeafGL3Facts]
     omega
   obtain ⟨σ, hσB, hσW⟩ : ∃ σ ∈ B, σ ∉ W₁ := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hBnotW hcon
   have hPeq : (Psub e).map (MulAut.conj g).toMonoidHom = B := by
     apply Subgroup.eq_of_le_of_card_ge
@@ -162,8 +162,8 @@ theorem main_contradiction [Finite G] [G23Leaf LeafGL3Facts]
       Subgroup.mem_inf.mpr ⟨hm, (hBmem σ hσB).1⟩
     rw [hst.cent_t'] at hc'
     exact hσW hc'
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hBmc : IsMulCommutative ↥B :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hBmc : IsMulCommutative ↥B :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [hBcard']; norm_num)
   have hBcomm : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (mul_comm (⟨x, hx⟩ : ↥B) ⟨y, hy⟩)

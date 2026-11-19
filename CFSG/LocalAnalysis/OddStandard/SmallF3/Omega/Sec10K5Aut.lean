@@ -13,6 +13,7 @@ variable {K : Type} [Group K] [Finite K] {A B : Subgroup K} (h : SL23Pair K A B)
 
 include h
 
+omit [Finite K] in
 theorem embA_mem_pCore {q : SL23} (hq : q ^ 4 = 1) : h.embA q ∈ CFSG.pCore 2 K := by
   let P : Subgroup K := sl23Q8.map h.embA
   have hPn : P.Normal := by
@@ -70,7 +71,7 @@ theorem aut_of_pair (Φ Ψ : Subgroup (MulAut K)) (hΨΦ : Ψ ≤ Φ) (hΦ2 : Is
     ∃ ψ ∈ Φ, ψ ∉ Ψ ∧ ψ * ψ = 1 ∧ (∀ k ∈ A, ψ k ∈ A) ∧ (∀ k ∈ B, ψ k = k) ∧
       ¬ ∃ k ∈ A, ∀ y ∈ A, ψ y = k * y * k⁻¹ := by
   have hinj := h.theta_injective
-  haveI : Finite (MulAut K) := Finite.of_injective h.theta hinj
+  have : Finite (MulAut K) := Finite.of_injective h.theta hinj
   have hrelmul : Ψ.relIndex Φ * Nat.card Ψ = Nat.card Φ := by
     have := Subgroup.relIndex_mul_card (H := Ψ) (K := Φ)
     rwa [inf_eq_left.mpr hΨΦ] at this

@@ -19,7 +19,7 @@ variable {F U M N R : Subgroup X} {x : X}
 theorem map_pr (hd : EndData F U M N R x) :
     EndData (F.map (pr X)) (U.map (pr X)) (M.map (pr X)) (N.map (pr X)) (R.map (pr X))
       (pr X x) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hF3 : IsPGroup 3 F := hd.sylow.isPGroup
   have hU3 : IsPGroup 3 U := elementary_isPGroup 3 U hd.toFData.U_elem
   have hxU : x ∈ U := hd.toFData.x_mem
@@ -106,7 +106,7 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.ABGLocalTools CFSG.AGLE
 theorem kFactL28Endgame_holds (hCen : KFactCentralOmega) (hM27 : KFactSylowM27)
     (hGen : KFactFieldGeneration) : KFactL28Endgame := by
   intro G _ _ H M F U R₀ x hH hF hnonab hFcard hFM hUF hUe hUc hΩ hxU hx1 hxc hcov hR2 hRH hUR hRM
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hFH : F ≤ H := hF.le
   have hcard : ∀ {S : Subgroup G}, S ≤ H → Nat.card (S.subgroupOf H) = Nat.card S :=
     fun hS => Nat.card_congr (subgroupOfEquivOfLe hS).toEquiv

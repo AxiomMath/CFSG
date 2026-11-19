@@ -29,10 +29,10 @@ private theorem exists_reciprocalOrbit_eq_of_isComponentOf (hF : Nat.card F = 2)
     ∃ O : reciprocalOrbits (spEnd d),
       Kb = ⁅spSupported d (O : Set F[X]), spSupported d (O : Set F[X])⁆ := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Finite ↥(StatedSp ℓ F) := Subtype.finite
+  have : Fintype F := Fintype.ofFinite F
+  have : Finite ↥(StatedSp ℓ F) := Subtype.finite
   have hcard : Fintype.card F = 2 ^ 1 := by rw [Fintype.card_eq_nat_card, hF]; norm_num
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 1) hcard
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := 1) hcard
   have hpK : ((3 : ℕ) : F) ≠ 0 := by
     intro h
     rw [CharP.cast_eq_zero_iff F 2] at h
@@ -49,7 +49,7 @@ private theorem exists_reciprocalOrbit_eq_of_isComponentOf (hF : Nat.card F = 2)
     (r := ℓ) (K := F) Nat.prime_two le_rfl hK Nat.prime_three (by norm_num) (by norm_num) hℓ
     (SymplecticFlag.proj ℓ F d) ha).2 d rfl hxp
   have hsq : Squarefree (minpoly F (spEnd d)) := (altPrimaryData_spLin hpK hd3).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd d)) :=
+  have : Finite (reciprocalOrbits (spEnd d)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   have hfix := CFSG.HardMathSupport.Dickson.SuzukiReeB.fixSubgroup_conj d
@@ -96,6 +96,7 @@ theorem stdLayer_eq_or (hF : Nat.card F = 2) (hℓ : 1 ≤ ℓ) {d : ↥(StatedS
       stdLayer d = ⁅spSupported d {X ^ 2 + X + 1}, spSupported d {X ^ 2 + X + 1}⁆ :=
   eq_or_of_isComponentOf_centralizer hF hℓ hd3 hd1 hcomp
 
+omit [Finite F] in
 theorem inf_spSupported_le_zpowers {A : Subgroup ↥(StatedSp ℓ F)} {d : ↥(StatedSp ℓ F)}
     (hd : IsStdElt 3 A d) {O : Set F[X]}
     (hO : spSupported d O ≤ Subgroup.centralizer (stdLayer d : Set ↥(StatedSp ℓ F))) :

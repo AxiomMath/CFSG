@@ -93,7 +93,7 @@ theorem c24_10_of_g (h4 : C24_4 p f) (h7 : C24_7 p f) (h8 : C24_8 p f) (h9 : C24
     hyp.hR'.2.2 hz'
   have hxR' : x ∈ R' := by
     have : K' ⊓ (S : Subgroup G) = R' :=
-      hR'syl.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hyp.hR'.2.1 hyp.hR'.2.2)
+      hR'syl.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hyp.hR'.2.1 hyp.hR'.2.2)
     rw [← this]
     exact ⟨hxW.1, hyp.hWS hxW.2⟩
   obtain ⟨hsec, hgen⟩ := h8 G Ω K K' W S R R' z u hyp g hg d x hd hd4 ⟨hxR', hxW.2⟩ hx4

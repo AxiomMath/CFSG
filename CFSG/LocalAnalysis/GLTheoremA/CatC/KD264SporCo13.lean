@@ -105,9 +105,9 @@ set_option maxRecDepth 100000 in
 theorem kd264SporAt_Co1_three
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo) :
     KD264SporAt 3 .Co1 := by
-  haveI : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
+  have : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
   have e : CFSG.Blueprint.NativeSporadic.Co1 ≃* ↥GA := CFSG.Sporadic.Co1Block.co1MatEquiv
-  haveI : IsSimpleGroup ↥GA :=
+  have : IsSimpleGroup ↥GA :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Co1.isSimpleGroup_Co1 e.symm
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Co1.nonempty_mulEquiv
   have hp : ¬ (Nat.card ↥GA).Prime := by rw [card_GA_eq]; norm_num

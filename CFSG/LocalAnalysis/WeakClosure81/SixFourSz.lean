@@ -31,7 +31,7 @@ theorem card_image_eq_two_pow_of_sz {n : ℕ} {M V₀ V : Subgroup G} {g : G} {K
     Nat.card ((V.subgroupOf (LOf V g)).map
         (QuotientGroup.mk' (K.subgroupOf (LOf V g)))) = 2 ^ r := by
   let L := LOf V g
-  haveI : (K.subgroupOf L).Normal := hK
+  have : (K.subgroupOf L).Normal := hK
   let A : Subgroup (↥L ⧸ (K.subgroupOf L)) :=
     (V.subgroupOf L).map (QuotientGroup.mk' (K.subgroupOf L))
   have hAcard : Nat.card A = (UOf M V g).relIndex V :=
@@ -70,7 +70,7 @@ theorem exists_sylow_image_eq_of_sz {n : ℕ} {M V₀ V : Subgroup G} {g : G} {K
             (((P : Subgroup (↥(LOf V g) ⧸ (K.subgroupOf (LOf V g))))) :
               Set (↥(LOf V g) ⧸ (K.subgroupOf (LOf V g))))) := by
   let L := LOf V g
-  haveI : (K.subgroupOf L).Normal := hK
+  have : (K.subgroupOf L).Normal := hK
   let Q := ↥L ⧸ (K.subgroupOf L)
   let A : Subgroup Q := (V.subgroupOf L).map (QuotientGroup.mk' (K.subgroupOf L))
   obtain ⟨a, ha, hr_eq, ⟨e⟩⟩ := exists_mulEquiv_sz_of_isSz hSz
@@ -92,7 +92,7 @@ theorem genHyp_of_sz {n : ℕ} {M V₀ V : Subgroup G} {g : G} {K : Subgroup G}
   have hr : 1 ≤ r := one_le_of_isSz hSz
   intro x hxVg hxK
   let L := LOf V g
-  haveI : (K.subgroupOf L).Normal := hK
+  have : (K.subgroupOf L).Normal := hK
   let Q := ↥L ⧸ (K.subgroupOf L)
   let π : ↥L →* Q := QuotientGroup.mk' (K.subgroupOf L)
   let A : Subgroup Q := (V.subgroupOf L).map π
@@ -269,7 +269,7 @@ theorem swapHyp_of_sz {n : ℕ} {M V₀ V : Subgroup G} {g : G} {K : Subgroup G}
     SwapHyp V g := by
   have hr : 1 ≤ r := one_le_of_isSz hSz
   let L := LOf V g
-  haveI : (K.subgroupOf L).Normal := hK
+  have : (K.subgroupOf L).Normal := hK
   let Q := ↥L ⧸ (K.subgroupOf L)
   let π : ↥L →* Q := QuotientGroup.mk' (K.subgroupOf L)
   let A : Subgroup Q := (V.subgroupOf L).map π

@@ -102,20 +102,20 @@ theorem cls_conj (k : ℕ) {R X : Matrix (Fin 7) (Fin 7) (ZMod 5)} (hR : IsUnit 
     exact hR.ringInverse
   unfold cls at h ⊢
   by_cases k0 : k = 0
-  · simp only [k0, if_true] at h ⊢
+  · simp only [k0, ite_true] at h ⊢
     exact ⟨by rw [hpow, h.1, Matrix.mul_one, hRR'], hne h.2⟩
-  simp only [k0, if_false] at h ⊢
+  simp only [k0, ite_false] at h ⊢
   by_cases k1 : k = 1
-  · simp only [k1, if_true] at h ⊢
+  · simp only [k1, ite_true] at h ⊢
     refine ⟨by rw [hpow, h.1, Matrix.mul_one, hRR'], hne h.2.1, ?_⟩
     rw [Matrix.trace_mul_cycle, hRR, Matrix.one_mul]
     exact h.2.2
-  simp only [k1, if_false] at h ⊢
+  simp only [k1, ite_false] at h ⊢
   by_cases k2 : k = 2
-  · simp only [k2, if_true] at h ⊢
+  · simp only [k2, ite_true] at h ⊢
     refine ⟨by rw [hpow, h.1, Matrix.mul_one, hRR'], hne h.2.1, ?_⟩
     rw [hsq, h.2.2, Matrix.mul_zero, Matrix.zero_mul]
-  simp only [k2, if_false] at h ⊢
+  simp only [k2, ite_false] at h ⊢
   refine ⟨by rw [hpow, h.1, Matrix.mul_one, hRR'], hne h.2.1, ?_⟩
   rw [hsq, Matrix.rank_mul_eq_left_of_isUnit_det _ _ hRi,
     Matrix.rank_mul_eq_right_of_isUnit_det _ _ hR]
@@ -302,8 +302,8 @@ theorem sum_leaves (n nl : ℕ) (hnl : n ≤ 64 * nl) (f : ℕ → ℕ) :
     | succ k ih =>
       rw [Finset.sum_range_succ, ih, Nat.mul_succ, Finset.sum_range_add, Finset.sum_filter]
   rw [h1, show 64 * nl = n + (64 * nl - n) by omega, Finset.sum_range_add,
-    Finset.sum_eq_zero (s := Finset.range (64 * nl - n)) (fun i _ => if_neg (by omega)), Nat.add_zero]
-  exact Finset.sum_congr rfl fun i hi => if_pos (Finset.mem_range.1 hi)
+    Finset.sum_eq_zero (s := Finset.range (64 * nl - n)) (fun i _ => ite_eq_right (by omega)), Nat.add_zero]
+  exact Finset.sum_congr rfl fun i hi => ite_eq_left (Finset.mem_range.1 hi)
 
 theorem sum_ite_pow (s : Finset ℕ) (P : ℕ → Prop) [DecidablePred P] (c : ℕ) :
     ∑ i ∈ s, (if P i then c else 0) = c * (s.filter P).card := by
@@ -430,7 +430,7 @@ theorem h3_counts
   subst hone
   have hroot : getRec CFSG.KD.LyH3.KX 539 0 = CFSG.KD.LyOm.SC.ONE := by rw [hr0]; exact beq_eq hr
   have hn := CFSG.KD.LyH3.n_eq
-  have hnl : CFSG.KD.LyH3.n ≤ 64 * CFSG.KD.LyH3.nl := by rw [hn, CFSG.KD.LyH3.nl_eq]; try norm_num
+  have hnl : CFSG.KD.LyH3.n ≤ 64 * CFSG.KD.LyH3.nl := by rw [hn, CFSG.KD.LyH3.nl_eq]
   obtain ⟨hA, hB⟩ := enum_tree (KX := CFSG.KD.LyH3.KX) (PT := CFSG.KD.LyH3.PT)
     (SG := CFSG.KD.LyH3.SG) (KS := CFSG.KD.LyH3.KS) (m := CFSG.KD.LyH3.m) (n := CFSG.KD.LyH3.n)
     (nl := CFSG.KD.LyH3.nl) (ws := [CFSG.KD.LyOm.WH3_0, CFSG.KD.LyOm.WH3_1, CFSG.KD.LyOm.WH3_2]) K

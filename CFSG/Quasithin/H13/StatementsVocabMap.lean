@@ -92,12 +92,12 @@ theorem IsNaturalSumUnder.map {n : ℕ} {L V : Subgroup A} (φ : A →* G) (hφ 
   refine ⟨k, fun i => (W i).map φ, hk, ?_, ?_, ?_, ?_⟩
   · intro i
     obtain ⟨hWV, hLW, hcomm, hBN⟩ := hW i
-    haveI : IsMulCommutative ↥(W i) := hcomm
-    haveI : IsMulCommutative ↥((W i).map φ) :=
+    have : IsMulCommutative ↥(W i) := hcomm
+    have : IsMulCommutative ↥((W i).map φ) :=
       CFSG.QuasiDihedralFusion.isMulCommutative_of_mulEquiv
         ((W i).equivMapOfInjective φ hφ) hcomm
-    letI : CommGroup ↥(W i) := IsMulCommutative.instCommGroup
-    letI : CommGroup ↥((W i).map φ) := IsMulCommutative.instCommGroup
+    let : CommGroup ↥(W i) := IsMulCommutative.instCommGroup
+    let : CommGroup ↥((W i).map φ) := IsMulCommutative.instCommGroup
     refine ⟨Subgroup.map_mono hWV, ?_, ?_, ?_⟩
     · intro x hx
       obtain ⟨l, hlL, rfl⟩ := Subgroup.mem_map.mp hx

@@ -26,19 +26,23 @@ variable {W : Type} [CommGroup W] [Finite W]
 @[expose] def w1369_pre (U C : Subgroup W) (N : Subgroup (Sect U C)) : Subgroup W :=
   (N.comap (QuotientGroup.mk' (C.subgroupOf U))).map U.subtype
 
+omit [Finite W] in
 theorem w1369_im_mono {U C : Subgroup W} {M M' : Subgroup W} (h : M ≤ M') :
     w1369_im U C M ≤ w1369_im U C M' :=
   Subgroup.map_mono (Subgroup.comap_mono h)
 
+omit [Finite W] in
 theorem w1369_pre_mono {U C : Subgroup W} {N N' : Subgroup (Sect U C)} (h : N ≤ N') :
     w1369_pre U C N ≤ w1369_pre U C N' :=
   Subgroup.map_mono (Subgroup.comap_mono h)
 
+omit [Finite W] in
 theorem w1369_pre_inf (U C : Subgroup W) (N N' : Subgroup (Sect U C)) :
     w1369_pre U C (N ⊓ N') = w1369_pre U C N ⊓ w1369_pre U C N' := by
   unfold w1369_pre
   rw [Subgroup.comap_inf, Subgroup.map_inf _ _ U.subtype U.subtype_injective]
 
+omit [Finite W] in
 theorem w1369_pre_im {U C M : Subgroup W} (hC : C ≤ M) (hM : M ≤ U) :
     w1369_pre U C (w1369_im U C M) = M := by
   unfold w1369_pre w1369_im
@@ -48,12 +52,14 @@ theorem w1369_pre_im {U C M : Subgroup W} (hC : C ≤ M) (hM : M ≤ U) :
   rw [hsup]
   exact Subgroup.map_subgroupOf_eq_of_le hM
 
+omit [Finite W] in
 theorem w1369_pre_im' {U C M : Subgroup W} (hCU : C ≤ U) (hM : M ≤ U) :
     w1369_pre U C (w1369_im U C M) = M ⊔ C := by
   unfold w1369_pre w1369_im
   rw [Subgroup.comap_map_eq, QuotientGroup.ker_mk', ← Subgroup.subgroupOf_sup hM hCU,
     Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr (sup_le hM hCU)]
 
+omit [Finite W] in
 theorem w1369_im_pre (U C : Subgroup W) (N : Subgroup (Sect U C)) :
     w1369_im U C (w1369_pre U C N) = N := by
   unfold w1369_im w1369_pre
@@ -64,26 +70,31 @@ theorem w1369_im_pre (U C : Subgroup W) (N : Subgroup (Sect U C)) :
   rw [h1]
   exact Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective _) N
 
+omit [Finite W] in
 theorem w1369_im_C (U C : Subgroup W) : w1369_im U C C = ⊥ := by
   unfold w1369_im
   rw [Subgroup.map_eq_bot_iff]
   exact (QuotientGroup.ker_mk' (C.subgroupOf U)).ge
 
+omit [Finite W] in
 theorem w1369_im_top (U C : Subgroup W) : w1369_im U C U = ⊤ := by
   unfold w1369_im
   rw [Subgroup.subgroupOf_self,
     Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)]
 
+omit [Finite W] in
 theorem w1369_pre_bot {U C : Subgroup W} (hCU : C ≤ U) : w1369_pre U C ⊥ = C := by
   unfold w1369_pre
   rw [MonoidHom.comap_bot, QuotientGroup.ker_mk']
   exact Subgroup.map_subgroupOf_eq_of_le hCU
 
+omit [Finite W] in
 theorem w1369_im_sup {U C : Subgroup W} {A B : Subgroup W} (hA : A ≤ U) (hB : B ≤ U) :
     w1369_im U C (A ⊔ B) = w1369_im U C A ⊔ w1369_im U C B := by
   unfold w1369_im
   rw [Subgroup.subgroupOf_sup hA hB, Subgroup.map_sup]
 
+omit [Finite W] in
 private theorem w1369_subgroupOf_iSup {ι : Type*} {U : Subgroup W} {M : ι → Subgroup W}
     (hM : ∀ i, M i ≤ U) : (⨆ i, M i).subgroupOf U = ⨆ i, (M i).subgroupOf U := by
   apply Subgroup.map_injective_of_ker_le U.subtype (by simp) (by simp)
@@ -91,6 +102,7 @@ private theorem w1369_subgroupOf_iSup {ι : Type*} {U : Subgroup W} {M : ι → 
   simp only [Subgroup.map_subgroupOf_eq_of_le (hM _)]
   rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr (iSup_le hM)]
 
+omit [Finite W] in
 theorem w1369_im_iSup {ι : Type*} {U C : Subgroup W} {M : ι → Subgroup W} (hM : ∀ i, M i ≤ U) :
     w1369_im U C (⨆ i, M i) = ⨆ i, w1369_im U C (M i) := by
   unfold w1369_im
@@ -125,7 +137,8 @@ theorem w1369_secAut_mem_secSub {U C : Subgroup W} {A : Subgroup (MulAut W)}
         rw [quotHom_mk, secAut_mk]
         exact congrArg QuotientGroup.mk (Subtype.ext (by rw [resHom_apply]))
 
-theorem w1369_stable_im {U C : Subgroup W} {A : Subgroup (MulAut W)} (hA : StabPair A U C)
+omit [Finite W] in
+theorem w1369_stable_im {U C : Subgroup W} {A : Subgroup (MulAut W)} (_hA : StabPair A U C)
     {M : Subgroup W} (hAM : StableUnder A M) :
     StableUnder (secSub U C A) (w1369_im U C M) := by
   intro γ hγ x hx

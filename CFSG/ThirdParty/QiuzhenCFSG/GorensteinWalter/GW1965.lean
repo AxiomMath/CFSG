@@ -428,8 +428,8 @@ public theorem gw_prop9_centralizer_odd_of_trivial_center_dihedralSylow
     {G : Type u} [Group G] [Finite G]
     (hmin : IsMinimalCounterexample G)
     (H : Subgroup G) (hHnormal : H.Normal)
-    (hHmin : ∀ M : Subgroup G, M.Normal → M ≤ H → M = ⊥ ∨ M = H)
-    (hHne : H ≠ ⊥)
+    (_hHmin : ∀ M : Subgroup G, M.Normal → M ≤ H → M = ⊥ ∨ M = H)
+    (_hHne : H ≠ ⊥)
     (hZ : Subgroup.center (↥H) = ⊥) (hSylow : HasDihedralSylowTwo (↥H)) :
     Nat.Coprime 2 (Nat.card (↥(Subgroup.centralizer (H : Set G)))) := by
   exact centralizer_card_coprime_two_of_normal_centerless_dihedral
@@ -481,7 +481,7 @@ public theorem gw_prop9_centralizer_dihedral_normalTwoComplement
   let Pmap : Subgroup G := (P : Subgroup C).map C.subtype
   have hPmap : IsPGroup 2 Pmap := by
     simpa [Pmap] using
-      IsPGroup.map (p := 2) (H := (P : Subgroup C)) P.isPGroup' C.subtype
+      IsPGroup.map (p := 2) (H := (P : Subgroup C)) P.isPGroup C.subtype
   have hPmapC : Pmap ≤ C := by
     simpa [Pmap] using Subgroup.map_subtype_le (P : Subgroup C)
   have hHnormP : H ≤ Subgroup.normalizer (Pmap : Set G) := by
@@ -569,7 +569,7 @@ public theorem gw_prop9_centralizer_oddCore_trivial
   have hbot : pPrimeCore 2 (↥C) = ⊥ :=
     pPrimeCore_two_eq_bot_of_normal_subgroup_of_minimalCounterexample hmin C hCnormal
   unfold oddCoreOf
-  simpa [C, hbot]
+  simp [C, hbot]
 
 /-- Proposition 9 proof (p. 219), dihedral case: "Then it follows that each
 element of `𝔊 − 𝔍` induces an outer automorphism of `𝔍`" — for a normal
@@ -605,7 +605,7 @@ public theorem gw_prop9_dihedral_normal_subgroup_outer_automorphism
   have hCmap : IsPGroup 2 Cmap := by
     simpa [Cmap] using hCtwo
   have hCmapC : Cmap ≤ C := by
-    simpa [Cmap]
+    simp [Cmap]
   have hHnormC : H ≤ Subgroup.normalizer (Cmap : Set G) := by
     rw [Subgroup.le_normalizer_iff]
     intro h hh c hc
@@ -822,8 +822,7 @@ public theorem gw_prop9_minimalNormal_cyclic_card_two
       rw [hker] at hKleker
       have hKeqbot : K = ⊥ := le_bot_iff.mp hKleker
       have hcard_bot : Nat.card K = 1 := by
-        simpa [hKeqbot] using
-          (Subgroup.card_bot : Nat.card (⊥ : Subgroup H) = 1)
+        simp [hKeqbot]
       rw [hKcard] at hcard_bot
       exfalso
       have hpgt : 1 < p := hpPrime.one_lt
@@ -848,7 +847,7 @@ public theorem gw_prop9_minimalNormal_cyclic_card_two
     rcases hpPrime.eq_two_or_odd' with hp2 | hpodd
     · exact hp2
     · exact False.elim (hpnotodd hpodd)
-  simpa [hcardH_eq_p, hp2]
+  simp [hcardH_eq_p, hp2]
 
 /-- Proposition 9 proof (p. 219), cyclic case: "whence `𝔍 = C(𝔍)`" — the
 paper's equality is a slip; the true statement is that a normal subgroup of

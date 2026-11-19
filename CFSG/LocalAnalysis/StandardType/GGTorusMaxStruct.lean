@@ -45,7 +45,7 @@ private theorem tmStruct_transport {G H W V : Type} [Group G] [Group H] [Group W
       map_mul' := fun g g' => Subtype.ext (map_mul e (g : G) (g' : G)) }
   have hΦsurj : Function.Surjective Φ := by
     intro t
-    refine ⟨⟨e.symm t, (hmem _).mpr (by simpa using t.2)⟩, ?_⟩
+    refine ⟨⟨e.symm t, (hmem _).mpr (by simp)⟩, ?_⟩
     exact Subtype.ext (by
       show e (e.symm (t : H)) = (t : H)
       exact e.apply_symm_apply _)
@@ -125,7 +125,7 @@ private theorem tmStruct_irred_of {G : Type} [Group G] {τ : Tag} {E : Subgroup 
       (∀ (i : Fin τ.rank) (x : Fin τ.rank → ZMod 3), x ∈ U →
         TableBExc.torusAct τ 3 (simple τ i) x ∈ U) → U = ⊥ ∨ U = ⊤) :
     GGWeylIrred E := by
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   let ι : Multiplicative (Fin τ.rank → ZMod 3) →* G := E.subtype.comp φ.symm.toMonoidHom
   have hinj : Function.Injective ι :=
     Subtype.val_injective.comp φ.symm.injective
@@ -245,7 +245,7 @@ theorem tmStruct_cent_E7
     (G : Type) [Group G] [Finite G] (hEm : IsEm 7 (⊤ : Subgroup G)) (hsimple : IsSimpleGroup G)
     (E : Subgroup G) (hE : IsElemAbelian 3 E) (hcard : Nat.card E = 3 ^ 7) :
     ∀ g ∈ Subgroup.normalizer (E : Set G), (∀ e ∈ E, g * e = e * g) → g ∈ E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨π, φ, -, hπk, hπi⟩ := tmStruct_E7 G hEm hsimple E hE hcard
   intro g hg hc
   exact tmStruct_cent_of (ExcWeylOuter.torusMulAut Tag.E7 3)
@@ -255,7 +255,7 @@ theorem tmStruct_cent_E8
     (G : Type) [Group G] [Finite G] (hEm : IsEm 8 (⊤ : Subgroup G)) (hsimple : IsSimpleGroup G)
     (E : Subgroup G) (hE : IsElemAbelian 3 E) (hcard : Nat.card E = 3 ^ 8) :
     ∀ g ∈ Subgroup.normalizer (E : Set G), (∀ e ∈ E, g * e = e * g) → g ∈ E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨π, φ, -, hπk, hπi⟩ := tmStruct_E8 G hEm hsimple E hE hcard
   intro g hg hc
   exact tmStruct_cent_of (ExcWeylOuter.torusMulAut Tag.E8 3)

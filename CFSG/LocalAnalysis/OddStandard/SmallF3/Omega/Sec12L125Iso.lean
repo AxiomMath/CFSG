@@ -24,7 +24,7 @@ theorem sec125_sup_mulEquiv {H : Type*} [Group H] {T Y : Subgroup H}
 
 theorem sec125_zpowers_equiv {H : Type*} [Group H] {g : H} (hg2 : g * g = 1) (hg1 : g ≠ 1) :
     Nonempty (↥(zpowers g) ≃* Multiplicative (ZMod 2)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ho : orderOf g = 2 := orderOf_eq_prime (by rw [pow_two]; exact hg2) hg1
   refine ⟨mulEquivOfPrimeCardEq (p := 2) ?_ ?_⟩
   · rw [Nat.card_zpowers, ho]

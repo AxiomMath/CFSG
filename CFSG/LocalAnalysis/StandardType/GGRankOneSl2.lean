@@ -87,7 +87,7 @@ theorem exists_sq_conj_of_conj_upper {τ : Matrix.SpecialLinearGroup (Fin 2) k}
     rw [hτ]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [coe_sl2Diag, coe_sl2Upper, Units.val_mk0, Matrix.mul_fin_two]
+      simp [coe_sl2Diag, coe_sl2Upper, Units.val_mk0]
     all_goals field_simp
   rw [hA, Units.val_mk0 ha]
   have hcomm : sl2Upper (a⁻¹ * b) * sl2Upper c = sl2Upper c * sl2Upper (a⁻¹ * b) := by
@@ -113,7 +113,7 @@ theorem sl2_weyl_mul_inv (t : kˣ) :
     ext i j
     simp only [Matrix.SpecialLinearGroup.coe_mul, coe_sl2Upper, coe_sl2Lower, coe_sl2Diag,
       Matrix.mul_fin_two]
-    fin_cases i <;> fin_cases j <;> simp <;> field_simp
+    fin_cases i <;> fin_cases j <;> simp
   rw [hW, mul_assoc, mul_inv_cancel, mul_one]
 
 theorem closure_sl2Upper_sl2Lower_eq_top :
@@ -131,11 +131,11 @@ theorem closure_sl2Upper_sl2Lower_eq_top :
   · exact Or.inl ⟨c, by
       ext p q
       fin_cases p <;> fin_cases q <;>
-        simp [Matrix.SpecialLinearGroup.transvection_coe, coe_sl2Upper, Matrix.single_apply]⟩
+        simp [Matrix.SpecialLinearGroup.transvection_coe, coe_sl2Upper]⟩
   · exact Or.inr ⟨c, by
       ext p q
       fin_cases p <;> fin_cases q <;>
-        simp [Matrix.SpecialLinearGroup.transvection_coe, coe_sl2Lower, Matrix.single_apply]⟩
+        simp [Matrix.SpecialLinearGroup.transvection_coe, coe_sl2Lower]⟩
   · exact absurd rfl hij
 
 end Basic
@@ -146,7 +146,7 @@ variable {k k' : Type*} [Field k] [Finite k] [CharP k 2] [Field k'] [Finite k'] 
 
 private lemma ggCard_eq_two_pow (F : Type*) [Field F] [Finite F] [CharP F 2] :
     ∃ n : ℕ, 1 ≤ n ∧ Nat.card F = 2 ^ n := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, -, hq⟩ := FiniteField.card F 2
   exact ⟨(n : ℕ), n.2, by rw [Nat.card_eq_fintype_card, hq]⟩
 
@@ -173,7 +173,7 @@ private lemma ggNotTwoDvd_card_sq_sub_one (F : Type*) [Field F] [Finite F] [Char
 
 private lemma ggSL2_card_univ (F : Type*) [Field F] [Finite F] :
     Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) = Nat.card F * (Nat.card F ^ 2 - 1) := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hq : 2 ≤ Fintype.card F := Fintype.one_lt_card
   rw [Matrix.card_SL_field (n := 2) (𝔽 := F), Fin.prod_univ_two, Nat.card_eq_fintype_card]
   norm_num
@@ -200,7 +200,7 @@ theorem exists_conj_sl2UpperUniSub_map_eq {S : Type*} [Group S]
     ∃ σ : Matrix.SpecialLinearGroup (Fin 2) k,
       (sl2UpperUniSub k).map (Φ.comp (MulAut.conj σ).toMonoidHom) =
         (sl2UpperUniSub k').map Φ' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let R := Φ.range
   let Φ'R : Matrix.SpecialLinearGroup (Fin 2) k' →* R :=
     Φ'.codRestrict R fun x => by
@@ -208,7 +208,7 @@ theorem exists_conj_sl2UpperUniSub_map_eq {S : Type*} [Group S]
       exact ⟨x, rfl⟩
   let Y : Subgroup R := (sl2UpperUniSub k).map Φ.rangeRestrict
   let Z : Subgroup R := (sl2UpperUniSub k').map Φ'R
-  haveI : Finite R := Finite.of_surjective Φ.rangeRestrict Φ.rangeRestrict_surjective
+  have : Finite R := Finite.of_surjective Φ.rangeRestrict Φ.rangeRestrict_surjective
   have hΦ'R : Function.Injective Φ'R := by
     intro x y h
     apply hΦ'
@@ -247,7 +247,7 @@ theorem exists_conj_sl2UpperUniSub_map_eq {S : Type*} [Group S]
   have hZcard : Nat.card Z = 2 ^ (Nat.card R).factorization 2 := by
     rw [hZcard_k, hRfac']
     exact ggCard_two_pow_factorization k'
-  haveI : Finite (Sylow 2 R) :=
+  have : Finite (Sylow 2 R) :=
     Sylow.finite_of_finiteIndex (Sylow.ofCard Y hYcard)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq R (Sylow.ofCard Y hYcard) (Sylow.ofCard Z hZcard)
   have hconj : Z = Y.map (MulAut.conj g).toMonoidHom := by

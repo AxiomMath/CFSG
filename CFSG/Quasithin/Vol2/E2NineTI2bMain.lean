@@ -84,9 +84,9 @@ theorem as_E_2_9_nStarTI_2b_of_leaves (hL3 : L3Leaf) (hSp4 : Sp4Leaf) :
   have hnab : ∃ a b : ↥K, a * b ≠ b * a := by
     by_contra hab
     push Not at hab
-    haveI : Group.IsPerfect ↥K := A36A.isPerfect_of_mem_cComp hKc
-    haveI : Nontrivial ↥K := hs.toNontrivial
-    haveI hsol : Group.IsSolvable ↥K := Group.isSolvable_of_comm fun a b => hab a b
+    have : Group.IsPerfect ↥K := A36A.isPerfect_of_mem_cComp hKc
+    have : Nontrivial ↥K := hs.toNontrivial
+    have hsol : Group.IsSolvable ↥K := Group.isSolvable_of_comm fun a b => hab a b
     exact Group.IsPerfect.not_isSolvable ↥K inferInstance
   have hcent := centralizer_eq_bot_of_simple hmpY hJY hKn hs hnab hLT
   have hMK := inf_eq_of_isBorelIn_star hmpY hJY (subnormal_of_mem_cComp hKc) hKH hBor

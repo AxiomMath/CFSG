@@ -13,8 +13,8 @@ variable {G H : Type*} [Group G] [Group H]
 theorem exists_mulEquiv_map_subgroupOf_eq_of_isSylowTwoOf [Finite G] {L T : Subgroup G}
     {Y U : Subgroup H} (e : ↥L ≃* ↥Y) (hT : IsSylowTwoOf T L) (hU : IsSylowTwoOf U Y) :
     ∃ e' : ↥L ≃* ↥Y, (T.subgroupOf L).map (e' : ↥L →* ↥Y) = U.subgroupOf Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥Y := Finite.of_equiv _ e.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥Y := Finite.of_equiv _ e.toEquiv
   have hT' : IsPGroup 2 (T.subgroupOf L) :=
     hT.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hT.1).symm
   have hU' : IsPGroup 2 (U.subgroupOf Y) :=

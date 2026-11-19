@@ -59,7 +59,7 @@ open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData CFSG.AGLEmbedding KFacts
     IsOmegaEightMinus (fun _ => True) S ∨
     IsLinTwo 5 S ∨ IsLinTwo 6 S ∨ IsLinTwo 7 S ∨ IsUFiveFour S
 
-@[expose] def Row1511 (G : Type) [Group G] [Finite G] (M T : Subgroup G) (T₁ T₂ : Subgroup ↥M) :
+@[expose] def Row1511 (G : Type) [Group G] [Finite G] (M _T : Subgroup G) (_T₁ _T₂ : Subgroup ↥M) :
     Prop :=
   3 ∉ sigmaM G M
 
@@ -232,7 +232,7 @@ open CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData CFSG.AGLEmbedding KFacts
               CFSG.Open.rankThreeGamma 1 3 (Q.map M.subtype) ≤ M ∧ CFSG.Open.pRank 3 Q ≤ 2 ∧
                 A.map M.subtype ∈ uniqueSet M
 
-@[expose] def RowFinal (G : Type) [Group G] [Finite G] (M T : Subgroup G) (T₁ T₂ : Subgroup ↥M) :
+@[expose] def RowFinal (G : Type) [Group G] [Finite G] (M T : Subgroup G) (_T₁ _T₂ : Subgroup ↥M) :
     Prop :=
   Subgroup.normalizer (T : Set G) ≤ M
 

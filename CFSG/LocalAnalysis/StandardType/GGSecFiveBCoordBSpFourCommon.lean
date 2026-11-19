@@ -28,7 +28,7 @@ theorem ggSecFiveBCoordBSpFourCrossInput_of_common (hfr : GGSecFiveBSpCoordFrame
   obtain ⟨d, hd, hJd⟩ := hCo G p B Bs x L D J 𝒦 hR hT1 n e hpres h4 eta i0 hBfull
     hLeta hLab hBB hnbr hG0 f K hcell j hj hKeta u v hju hjv huv hui hvi
   obtain ⟨hp, hp2⟩ := ggRouteCfg_prime hR
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd : p ∣ 2 ^ f - 1 := hcell.dvd_two_pow_sub_one hLab hRig
   obtain ⟨hf, hn4, -, ⟨eL⟩, -⟩ := hcell
   subst hn4

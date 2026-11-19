@@ -28,8 +28,8 @@ private theorem ncard_commuting_frameResidue_eq (h : TransvectionHyp H Δ)
     (hM : M ∈ frameResidue Δ P Q i) (hMl : M ∉ lineOf Δ (P i) (Q i)) :
     {X | X ∈ frameResidue Δ P Q k ∧ Commuting M X}.ncard = Nat.card (P k) + 1 := by
   classical
-  haveI : Finite H := h.finite
-  letI : Fintype ↥(rankTwoResidue Δ P Q i k) := Fintype.ofFinite _
+  have : Finite H := h.finite
+  let : Fintype ↥(rankTwoResidue Δ P Q i k) := Fintype.ofFinite _
   let adj := residueAdj Δ P Q i k
   let x : ↥(rankTwoResidue Δ P Q i k) :=
     ⟨P i, hF.toIsFrame.memP_rankTwoResidue_left i k⟩
@@ -98,7 +98,7 @@ theorem IsMaxFrame.setOf_commuting_frameResidue_eq_lineOf (h : TransvectionHyp H
     (hM : M ∈ frameResidue Δ P Q i) (hMl : M ∉ lineOf Δ (P i) (Q i)) :
     {X | X ∈ frameResidue Δ P Q k ∧ Commuting M X} = lineOf Δ (P k) (Q k) := by
   classical
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   have hS_card : {X | X ∈ frameResidue Δ P Q k ∧ Commuting M X}.ncard =
       Nat.card (P k) + 1 :=
     ncard_commuting_frameResidue_eq h hML hq hF hns hik hM hMl
@@ -148,7 +148,7 @@ theorem IsMaxFrame.mem_of_mem_map_heis_of_conjSub_eq (h : TransvectionHyp H Δ)
     (hb : b ∈ (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ)
     (hbM : conjSub M b = M) : b ∈ P k := by
   classical
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   let B : Subgroup H := (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ
   have hbB : b ∈ B := hb
   have hB_le : B ≤ residueGroup Δ P Q k := by

@@ -29,7 +29,7 @@ private theorem IsTransGroup.exists_smul_of_isTransGroup {v w : Fin n ⊕ Fin n 
   obtain ⟨y, hy⟩ := exists_spForm_ne_zero hv0
   have hEq : spForm v y • v = (c * spForm w y) • w := by
     have h := congrArg (fun M : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) K => M *ᵥ y) hN
-    simp only [smul_mulVec, spNil_mulVec, smul_smul, smul_eq_mul] at h
+    simp only [smul_mulVec, spNil_mulVec, smul_smul] at h
     exact h
   refine ⟨(spForm v y)⁻¹ * (c * spForm w y), ?_⟩
   calc v = (spForm v y)⁻¹ • (spForm v y • v) := by
@@ -40,7 +40,7 @@ private theorem IsTransGroup.exists_smul_of_isTransGroup {v w : Fin n ⊕ Fin n 
 private def perp (e : Fin n ⊕ Fin n → K) : Submodule K (Fin n ⊕ Fin n → K) :=
   LinearMap.ker (spFormL e)
 
-private def eMem {e : Fin n ⊕ Fin n → K} (he : e ≠ 0) : perp e :=
+private def eMem {e : Fin n ⊕ Fin n → K} (_he : e ≠ 0) : perp e :=
   ⟨e, by rw [perp, LinearMap.mem_ker]; simp [spFormL, spForm_self]⟩
 
 private def line {e : Fin n ⊕ Fin n → K} (he : e ≠ 0) : Submodule K (perp e) :=
@@ -91,15 +91,15 @@ private theorem natCard_perp [Finite K] {e : Fin n ⊕ Fin n → K} (he : e ≠ 
   have hfr : Module.finrank K (perp e) = 2 * n - 1 := by
     rw [perp]
     omega
-  haveI hK : Fintype K := Fintype.ofFinite K
-  haveI hV : Fintype (perp e) := Fintype.ofFinite (perp e)
+  have hK : Fintype K := Fintype.ofFinite K
+  have hV : Fintype (perp e) := Fintype.ofFinite (perp e)
   have hcard : Fintype.card (perp e) = Fintype.card K ^ (2 * n - 1) :=
     (Module.card_eq_pow_finrank (K := K) (V := perp e)).trans (by rw [hfr])
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
   exact hcard
 
-private abbrev ConjSet {e : Fin n ⊕ Fin n → K} (he : e ≠ 0) {T : Subgroup (StatedSp n K)}
-    (hT : IsTransGroup e T) : Type :=
+private abbrev ConjSet {e : Fin n ⊕ Fin n → K} (_he : e ≠ 0) {T : Subgroup (StatedSp n K)}
+    (_hT : IsTransGroup e T) : Type :=
   {X : Subgroup (StatedSp n K) // (∃ g, X = conjSub T g) ∧ X ≠ T ∧ Commuting T X}
 
 private theorem phi_conj {e : Fin n ⊕ Fin n → K} (he : e ≠ 0)
@@ -189,7 +189,7 @@ private def smulGood {e : Fin n ⊕ Fin n → K} (he : e ≠ 0) (v : Good he) (l
     simpa only [smul_smul, inv_mul_cancel₀ hl, one_smul] using h⟩
 
 private theorem phi_smulGood {e : Fin n ⊕ Fin n → K} (he : e ≠ 0)
-    {T : Subgroup (StatedSp n K)} (hT : IsTransGroup e T) (v : Good he) {l : K} (hl : l ≠ 0) :
+    {T : Subgroup (StatedSp n K)} (_hT : IsTransGroup e T) (v : Good he) {l : K} (hl : l ≠ 0) :
     phi he (smulGood he v l hl) = phi he v := by
   have h := CaseOADeg.isTransGroup_smul hl (isTransGroup_phi he v)
   show transvectionGroup (l • (v.1 : Fin n ⊕ Fin n → K)) =
@@ -265,8 +265,8 @@ private theorem natCard_good [Finite K] {e : Fin n ⊕ Fin n → K} (he : e ≠ 
 private theorem card_conjSub_commuting [Finite K] {e : Fin n ⊕ Fin n → K} (he : e ≠ 0)
     {T : Subgroup (StatedSp n K)} (hT : IsTransGroup e T) (hn : 2 ≤ n) :
     Nat.card (ConjSet he hT) = ∑ i ∈ Finset.Ico 1 (2 * n - 1), Nat.card K ^ i := by
-  haveI hS : Fintype (ConjSet he hT) := Fintype.ofFinite _
-  haveI hK : Fintype K := Fintype.ofFinite K
+  have hS : Fintype (ConjSet he hT) := Fintype.ofFinite _
+  have hK : Fintype K := Fintype.ofFinite K
   have hsig : Nat.card (Good he) = ∑ X : ConjSet he hT,
       Nat.card {w : Good he // toConj he hT w = X} := by
     rw [Nat.card_congr (Equiv.sigmaFiberEquiv (toConj he hT)).symm]

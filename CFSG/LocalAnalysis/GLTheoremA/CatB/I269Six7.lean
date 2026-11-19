@@ -23,7 +23,7 @@ open scoped commutatorElement
 theorem exists_noncomm_S6 : ∃ x y : S6, x * y ≠ y * x := by
   obtain ⟨ω, hω0, hω1⟩ : ∃ ω : F4, ω ≠ 0 ∧ ω ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hc : (Finset.univ : Finset F4) ⊆ {0, 1} := by
       intro x _
       by_cases hx : x = 0
@@ -59,7 +59,7 @@ theorem exists_noncomm_S6 : ∃ x y : S6, x * y ≠ y * x := by
   have hAdet : (A : Matrix (Fin 6) (Fin 6) F4).det = 1 := by
     rw [hA_def, dGL_val, Matrix.det_diagonal, Fin.prod_univ_six]
     simp only [ha_def]
-    simp [hω3]
+    simp
     linear_combination hω3
   have hAM : A ∈ CFSG.Open.StatedSU 6 (2 ^ 1) F4 := by
     apply CFSG.LocalAnalysis.GLTheoremA.LevelLieU.mem_statedSU_of 6 A hAdet
@@ -140,7 +140,7 @@ theorem exists_noncomm_S6 : ∃ x y : S6, x * y ≠ y * x := by
   exact hω1 h4
 
 theorem center_S6 : Subgroup.center S6 = ⊥ := by
-  haveI : IsSimpleGroup S6 := isSimple_S6
+  have : IsSimpleGroup S6 := isSimple_S6
   exact center_eq_bot_of_simple_nonabelian' (by
     intro h
     obtain ⟨x, y, hxy⟩ := exists_noncomm_S6
@@ -181,7 +181,7 @@ theorem E9SolvInner_S6 : E9SolvInner S6 := by
       Subgroup.card_map_of_injective hinj
     rw [hEq] at h1
     omega
-  haveI := solvable_centralizer hcomm hexp hcardĒ
+  have := solvable_centralizer hcomm hexp hcardĒ
   have hle : i269Fix E ≤ Subgroup.centralizer (Ē : Set S6) := by
     intro x hx
     rw [Subgroup.mem_centralizer_iff]
@@ -216,7 +216,7 @@ theorem E9SolvInner.of_mulEquiv {S T : Type} [Group S] [Group T] (hT : E9SolvInn
     exact ⟨e g, (congr_conj' e g).symm⟩
   have hs := hT _ hE' hcard' hinn'
   rw [i269Fix_map] at hs
-  haveI := hs
+  have := hs
   exact isSolvable_of_mulEquiv' (Subgroup.equivMapOfInjective (i269Fix E) e.toMonoidHom e.injective)
 
 variable {G : Type} [Group G] [Finite G]
@@ -276,7 +276,7 @@ theorem layer_eq_bot_of_E9_inner {X L D : Subgroup G} (hL : GLAPComponent 3 X L)
     rw [h2] at h1
     exact inv_mem_iff.1 h1
   have hsolv : Group.IsSolvable ↥(i269Fix φ.range) := hE φ.range hEel hEcard hinnφ
-  haveI := hsolv
+  have := hsolv
   set Y : Subgroup G := L ⊓ Subgroup.centralizer (D : Set G) with hYdef
   have hYL : Y ≤ L := inf_le_left
   have hYC : ∀ y ∈ Y, y ∈ Subgroup.centralizer (D : Set G) := fun y hy => (Subgroup.mem_inf.1 hy).2
@@ -331,7 +331,7 @@ theorem layer_eq_bot_of_E9_inner {X L D : Subgroup G} (hL : GLAPComponent 3 X L)
       obtain ⟨d, rfl⟩ := MonoidHom.mem_range.1 hα
       rw [hφ]
       exact chevAut_fix_chevQuotHom hDN d.2 (hJL x.2) (hYC x.1 (hJY x.2))
-    haveI : Group.IsSolvable ↥πJ.range := isSolvable_of_le_isSolvable hrange
+    have : Group.IsSolvable ↥πJ.range := isSolvable_of_le_isSolvable hrange
     exact not_isSolvable_quasisimple_mod_center _ hQq (isSolvable_of_factor πJ F hFsurj hkerF)
   show sSup {J : Subgroup G | GLAPComponent 3 Y J} = ⊥
   exact sSup_eq_bot.2 fun J hJ => absurd hJ (key J)

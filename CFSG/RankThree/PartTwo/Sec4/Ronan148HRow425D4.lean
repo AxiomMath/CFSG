@@ -68,7 +68,7 @@ theorem isSLThreePiAt_d4 [Finite K] [CharP K 2] {n : ℕ} {σ : K ≃+* K}
     (hJs : (J.subgroupOf (Subgroup.centralizer
       ({z} : Set (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)))).IsSubnormal)
     (hzJ : z ∈ J) : IsSLThreePiAt J (2 ^ n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have h3q : ¬ 3 ∣ 2 ^ n := fun h =>
     absurd (Nat.Prime.dvd_of_dvd_pow Nat.prime_three h) (by norm_num)

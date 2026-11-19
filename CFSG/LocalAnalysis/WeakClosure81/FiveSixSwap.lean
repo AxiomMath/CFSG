@@ -15,15 +15,15 @@ open CFSG.Quasithin Equiv
 @[expose] def cyc3 {α : Type*} [DecidableEq α] (a b c : α) : Perm α := swap a b * swap b c
 
 theorem cyc3_apply_left {α : Type*} [DecidableEq α] {a b c : α} (hab : a ≠ b) (hac : a ≠ c)
-    (hbc : b ≠ c) : cyc3 a b c a = b := by
+    (_hbc : b ≠ c) : cyc3 a b c a = b := by
   simp [cyc3, swap_apply_of_ne_of_ne hab hac]
 
-theorem cyc3_apply_middle {α : Type*} [DecidableEq α] {a b c : α} (hab : a ≠ b) (hac : a ≠ c)
+theorem cyc3_apply_middle {α : Type*} [DecidableEq α] {a b c : α} (_hab : a ≠ b) (hac : a ≠ c)
     (hbc : b ≠ c) : cyc3 a b c b = c := by
   simp [cyc3, swap_apply_of_ne_of_ne hac.symm hbc.symm]
 
-theorem cyc3_apply_right {α : Type*} [DecidableEq α] {a b c : α} (hab : a ≠ b) (hac : a ≠ c)
-    (hbc : b ≠ c) : cyc3 a b c c = a := by
+theorem cyc3_apply_right {α : Type*} [DecidableEq α] {a b c : α} (_hab : a ≠ b) (_hac : a ≠ c)
+    (_hbc : b ≠ c) : cyc3 a b c c = a := by
   simp [cyc3]
 
 theorem cyc3_apply_of_ne {α : Type*} [DecidableEq α] {a b c x : α} (ha : x ≠ a) (hb : x ≠ b)
@@ -47,11 +47,11 @@ theorem false_of_swap_mem_of_swap_mem {α : Type*} [DecidableEq α] {S : Subgrou
     hS h1 h2 ⟨a, b, hab, rfl⟩ ⟨b, c, hbc, rfl⟩ (by
       intro h
       have := congrArg (fun f : Perm α => f a) h
-      simp [swap_apply_def, hab, hac, hbc, hab.symm, hac.symm, hbc.symm] at this)
+      simp [swap_apply_def, hab, hac, hab.symm] at this)
   rcases h b with h | h
-  · simp [swap_apply_def, hab.symm] at h
+  · simp at h
     exact hab h
-  · simp [swap_apply_def, hbc] at h
+  · simp at h
     exact hbc h.symm
 
 private theorem viaEmbeddingHom_swap {α β : Type*} [DecidableEq α] [DecidableEq β] (ι : α ↪ β)
@@ -75,18 +75,18 @@ theorem exists_isPGroup_swap_move {n : ℕ} (hn : 4 ≤ n) :
   let ι : Fin 4 ↪ Fin n := Fin.castLEEmb hn
   obtain ⟨P₀⟩ := (inferInstance : Nonempty (Sylow 2 (Perm (Fin 4))))
   obtain ⟨g, hgP, x, y, hxy, hg⟩ :=
-    CFSG.Quasithin.H13.L1294J.exists_isSwap_mem (n := 4) (by norm_num) P₀.isPGroup'
+    CFSG.Quasithin.H13.L1294J.exists_isSwap_mem (n := 4) (by norm_num) P₀.isPGroup
       (Sylow.not_dvd_index P₀)
   have hsw : swap x y ∈ (P₀ : Subgroup (Perm (Fin 4))) := hg ▸ hgP
   have hfus : CFSG.Open.fusionIsSylowIn 2 (P₀ : Subgroup (Perm (Fin 4))) ⊤ :=
-    ⟨le_top, P₀.isPGroup', fun Q _ hQ hle => (P₀.maximal_isPGroup.eq_of_le hQ hle).symm⟩
+    ⟨le_top, P₀.isPGroup, fun Q _ hQ hle => (P₀.maximal_isPGroup.eq_of_le hQ hle).symm⟩
   obtain ⟨a, haBit, haCard⟩ :=
     CFSG.Holt.H78.exists_testBit_card_orbit_of_fusionIsSylowIn_top (X := Fin 4) hfus x
   have haBit' : (4 : ℕ).testBit a := by simpa using haBit
   have hxmem : x ∈ MulAction.orbit P₀ x := MulAction.mem_orbit_self x
   have hymem : y ∈ MulAction.orbit P₀ x := by
     rw [MulAction.mem_orbit_iff]
-    exact ⟨⟨swap x y, hsw⟩, by simpa using Equiv.swap_apply_left x y⟩
+    exact ⟨⟨swap x y, hsw⟩, by simp⟩
   have h2le : 2 ≤ Nat.card (MulAction.orbit P₀ x) := by
     have hinj : Function.Injective
         (fun i : Fin 2 =>
@@ -123,7 +123,7 @@ theorem exists_isPGroup_swap_move {n : ℕ} (hn : 4 ≤ n) :
     norm_num
   obtain ⟨z, hzx, hzy⟩ := hz
   have hzmem : z ∈ MulAction.orbit P₀ x := by
-    haveI hfin : Fintype {w : Fin 4 // w ∈ MulAction.orbit P₀ x} := Fintype.ofFinite _
+    have hfin : Fintype {w : Fin 4 // w ∈ MulAction.orbit P₀ x} := Fintype.ofFinite _
     by_contra hz'
     have hlt := Fintype.card_subtype_lt (p := fun w : Fin 4 => w ∈ MulAction.orbit P₀ x) hz'
     have hcard : Fintype.card {w : Fin 4 // w ∈ MulAction.orbit P₀ x} = 4 := by
@@ -138,7 +138,7 @@ theorem exists_isPGroup_swap_move {n : ℕ} (hn : 4 ≤ n) :
   have hφswap : Equiv.Perm.viaEmbeddingHom ι (swap x y) = swap (ι x) (ι y) :=
     viaEmbeddingHom_swap ι x y
   refine ⟨(P₀ : Subgroup (Perm (Fin 4))).map (Equiv.Perm.viaEmbeddingHom ι),
-    P₀.isPGroup'.map (Equiv.Perm.viaEmbeddingHom ι), ι x, ι y, ι z,
+    P₀.isPGroup.map (Equiv.Perm.viaEmbeddingHom ι), ι x, ι y, ι z,
     ι.injective.ne hxy, ι.injective.ne hzx.symm, ι.injective.ne hzy.symm, ?_,
     Equiv.Perm.viaEmbeddingHom ι s, Subgroup.mem_map_of_mem _ s.2, ?_⟩
   · rw [← hφswap]

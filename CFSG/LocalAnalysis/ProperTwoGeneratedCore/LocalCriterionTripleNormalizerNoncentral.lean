@@ -50,7 +50,7 @@ theorem local_involution_point_triple_sylow_normalizer_noncentral_odd_quotient
   have hUE : U ≤ E := Subgroup.map_subtype_le _
   have hUH : U ≤ H :=
     hUE.trans (inf_le_left.trans (pairPointStabilizer_le_point H beta))
-  have hUp : IsPGroup p U := P.isPGroup'.map E.subtype
+  have hUp : IsPGroup p U := P.isPGroup.map E.subtype
   have hUN : U ≤ N := Subgroup.le_normalizer
   have hstats := original_triple_sylow_full_fixed_count_and_sylow_obstructions
     h S hzS hzcenter hdoubly beta hbeta p hp hambient P hzP
@@ -74,7 +74,7 @@ theorem local_involution_point_triple_sylow_normalizer_noncentral_odd_quotient
   obtain ⟨R, hRQ⟩ := residue_two_subgroup_sylow_promotes p hp hodd B hindex Q
   let V : Subgroup G := (R : Subgroup N).map N.subtype
   have hVn : V ≤ N := Subgroup.map_subtype_le _
-  have hVp : IsPGroup p V := R.isPGroup'.map N.subtype
+  have hVp : IsPGroup p V := R.isPGroup.map N.subtype
   have hRB : (R : Subgroup N) ≤ B := by
     rw [hRQ]
     exact Subgroup.map_subtype_le _

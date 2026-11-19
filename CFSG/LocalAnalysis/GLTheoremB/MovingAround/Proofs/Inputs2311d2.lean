@@ -1010,9 +1010,9 @@ theorem exists_mixing_element_of_paired_sp_uni (S : SpPlaneSetup ℓ f p r K Aha
     rw [hγ, hψw, one_smul]
 
 @[expose] def compSub {x : StatedSp r K} (a : K[X]) {M : Submodule K (Fin r ⊕ Fin r → K)}
-    (hstab : ∀ s ∈ M, spEnd x s ∈ M) : Submodule (AdjoinRoot a) (primaryComponent (spEnd x) a) where
+    (hstab : ∀ _s ∈ M, spEnd x _s ∈ M) : Submodule (AdjoinRoot a) (primaryComponent (spEnd x) a) where
   carrier := {v | (v : Fin r ⊕ Fin r → K) ∈ M}
-  add_mem' := fun {s t} hs ht => M.add_mem hs ht
+  add_mem' := fun {_s _t} hs ht => M.add_mem hs ht
   zero_mem' := M.zero_mem
   smul_mem' := fun c v hv => coe_smul_mem_of_stable hstab c v hv
 
@@ -1951,7 +1951,7 @@ theorem orthU_closure_eq_top_of_le (E : Subgroup (orthDerived Q))
   have : g' = g := Subtype.ext hgg'
   exact this ▸ hg'
 
-theorem orthU_eichler_pow_nsmul {u w : V} (hu : Q u = 0) (huw : polar Q u w = 0) (n : ℕ) :
+theorem orthU_eichler_pow_nsmul {u w : V} (_hu : Q u = 0) (huw : polar Q u w = 0) (n : ℕ) :
     eichler Q u w ^ n = eichler Q u (n • w) := by
   induction n with
   | zero => simp [eichler_zero_right]
@@ -2348,6 +2348,7 @@ open Polynomial
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V} {p : ℕ} {E : Subgroup (orthDerived Q)}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem orthU_eichler_mem_of_plane (hEΩ : elementaryGroup Q ≤ orthDerived Q) {z : E}
     (hz1 : z ≠ 1)
     {e : V} (heQ : Q e = 0) {τ : K} (hτ : τ ≠ 0)
@@ -2378,7 +2379,7 @@ theorem orthU_eichler_mem_of_plane (hEΩ : elementaryGroup Q ≤ orthDerived Q) 
     (orthU_eichler_pow_ringChar e w)
 
 
-theorem orthU_eichler_mem_of_pair_pieces (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime)
+theorem orthU_eichler_mem_of_pair_pieces (_hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime)
     (hK : KernelLineData Q p E) (hEΩ : elementaryGroup Q ≤ orthDerived Q)
     (hNS : OrthNoInvariantSingular Q E) {M₁ M₂ : Subgroup E} (hM₁ : Nat.card M₁ = p)
     (hM₂ : Nat.card M₂ = p) (hM : M₁ ≠ M₂) {P₁ P₂ : Submodule K V} (hP₁ : IsPiece Q E P₁)
@@ -2517,7 +2518,7 @@ section ManyTwoMain
 theorem orthU3_three_le_card {K : Type} [Field K] [Finite K] (h2 : ringChar K ≠ 2) :
     3 ≤ Nat.card K := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hr, hcard⟩ := FiniteField.card K (ringChar K)
   rw [Nat.card_eq_fintype_card, hcard]
   have h3 : 3 ≤ ringChar K := by
@@ -2537,7 +2538,7 @@ theorem orthU_closure_eq_top_of_noSingular_two {K V : Type} [Field K] [Finite K]
     Subgroup.closure {h : orthDerived Q |
       ∃ x ∈ E, x ≠ 1 ∧ h * x = x * h ∧ h ^ ringChar K = 1} = ⊤ := by
   classical
-  haveI : Nontrivial V := nontrivial_of_three_singular hT
+  have : Nontrivial V := nontrivial_of_three_singular hT
   obtain ⟨hK, -⟩ := exists_kernelLineData_of_le hQ hp hp2 hpl E hcomm hexp hcard
   obtain ⟨n, P, hP, hPP, hPV, hPsp⟩ :=
     exists_piece_decomposition hQ hp hp2 hpl E hcomm hexp hcard hNS
@@ -2724,6 +2725,7 @@ theorem orthU_unitaryTransvection_eq {E W : Type*} [Field E] [AddCommGroup W]
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V}
 
+omit [Finite K] in
 theorem orthU_pow_ringChar_of_blockGL_eq (hx : OddOrderIsometry Q p x) {r : K[X]}
     [Fact (Irreducible r)] (hr : r ∈ primaryFactors x.toLinearMap)
     {φ : primaryComponent x.toLinearMap r →ₗ[AdjoinRoot r] AdjoinRoot r}
@@ -3698,6 +3700,7 @@ section ManyBig
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V} {p : ℕ} {E : Subgroup (orthDerived Q)}
 
+omit [Finite K] in
 theorem orthU_eichler_mem_of_restricted_plane {U : Submodule K V} (hU : PolarNondegOn Q U)
     (hEU : orthDerived (Q.comp U.subtype) = elementaryGroup (Q.comp U.subtype))
     (E : Subgroup (orthDerived Q))
@@ -3854,7 +3857,7 @@ section ManyBigMain
 theorem orthU_closure_eq_top_of_noSingular_big {K V : Type} [Field K] [Finite K] [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] (Q : QuadraticForm K V)
     (hQ : (polarBilin Q).Nondegenerate)
-    (hT : ∃ T : Submodule K V, finrank K T = 3 ∧ ∀ x ∈ T, Q x = 0) (hdim : 7 ≤ finrank K V)
+    (hT : ∃ T : Submodule K V, finrank K T = 3 ∧ ∀ x ∈ T, Q x = 0) (_hdim : 7 ≤ finrank K V)
     (h2 : (2 : K) ≠ 0) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpl : p ≠ ringChar K)
     (E : Subgroup (orthDerived Q))
     (hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hexp : ∀ x ∈ E, x ^ p = 1)
@@ -3864,7 +3867,7 @@ theorem orthU_closure_eq_top_of_noSingular_big {K V : Type} [Field K] [Finite K]
       ∃ x ∈ E, x ≠ 1 ∧ h * x = x * h ∧ h ^ ringChar K = 1} = ⊤ := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : Nontrivial V := nontrivial_of_three_singular hT
+  have : Nontrivial V := nontrivial_of_three_singular hT
   obtain ⟨hK, -⟩ := exists_kernelLineData_of_le hQ hp hp2 hpl E hcomm hexp hcard
   obtain ⟨n, P, hP, hPP, -, hPsp⟩ :=
     exists_piece_decomposition hQ hp hp2 hpl E hcomm hexp hcard hNS
@@ -3872,7 +3875,7 @@ theorem orthU_closure_eq_top_of_noSingular_big {K V : Type} [Field K] [Finite K]
   obtain ⟨i, j, hij⟩ := exists_pieces_diff_lines hK hp hpl hP hPsp (M := M)
     fun i => ⟨hMc i, hMP i⟩
   have hji : j ≠ i := fun h => hij (h ▸ rfl)
-  haveI : Nonempty {k : Fin n // k ≠ i} := ⟨⟨j, hji⟩⟩
+  have : Nonempty {k : Fin n // k ≠ i} := ⟨⟨j, hji⟩⟩
   have hEΩ : elementaryGroup Q ≤ orthDerived Q := (orthDerived_eq_and_le_closure hQ hT).1.ge
   have hEich : ∀ k : {k : Fin n // k ≠ i}, ∀ x ∈ planeFixSpace E ⊔ P i ⊔ P k,
       ∀ y ∈ planeFixSpace E ⊔ P i ⊔ P k, eichler Q x y ∈ orthUSpan Q E := by
@@ -4002,7 +4005,7 @@ theorem orthU3_master {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module
   by_cases hNS : OrthNoInvariantSingular Q E
   · obtain ⟨he2, -⟩ := noSingular_ord hQ Nat.prime_three (by norm_num) hpl E hcomm hexp hcard
       hNS
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hne : ((Nat.card K : ℕ) : ZMod 3) ≠ 0 := fun h0 =>
       manyThree_not_three_dvd_card hpl ((ZMod.natCast_eq_zero_iff _ _).mp h0)
     have hle : orderOf ((Nat.card K : ℕ) : ZMod 3) ≤ 2 :=
@@ -5273,7 +5276,7 @@ theorem twE6_le_closure_uniCentSet (k : Type) [Field k] [Finite k]
     graphFixedRootGroup TwistTag.E6 k σ.toRingHom ≤
       Subgroup.closure (uniCentSet (graphFixedRootGroup TwistTag.E6 k σ.toRingHom) A r) := by
   have := finite_modGL (τ := TwistTag.E6.tag) (K := k)
-  haveI := hA
+  have := hA
   obtain ⟨w₀, δ, hmax, hδδ, hδ, hcomm⟩ := exists_longest_fixed_data TwistTag.E6
   have hw : w₀ ∈ relWeylTwist TwistTag.E6 :=
     mem_relWeylTwist_of_forall_length_le hmax
@@ -5376,18 +5379,18 @@ theorem twE6InndiagUniGeneration_aux (K : Type) [Field K] [Finite K] (σ : K ≃
     (hRn : A ≤ Subgroup.normalizer (R : Set (ModGL (TwTag K σ hσ) K))) :
     (twistedE6RootGroup K σ : Subgroup (ModGL (TwTag K σ hσ) K)) ≤
       Subgroup.closure (uniCentSet (twistedE6RootGroup K σ) A (ringChar K)) := by
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := finite_modGL (τ := TwTag K σ hσ) (K := K)
-  haveI := hAEA
+  have : Fact (ringChar K).Prime := ⟨hp⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := finite_modGL (τ := TwTag K σ hσ) (K := K)
+  have := hAEA
   have hcardTw : Nat.card K = (ringChar K ^ f) ^ TwistTag.E6.order := hKq
   have hperf := finite_fixed_root_group_perfect TwistTag.E6 hp hf K hcardTw σ.toRingHom hσq
   have hZ : Subgroup.center ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) = ⊥ :=
     center_graphFixedRootGroup_eq_bot σ.surjective
   obtain ⟨ψ⟩ := CFSG.LieType.SeitzGeneration.nonempty_derivedCentralQuotient_equiv _ _
     hperf.2.2.1 hZ
-  haveI hSimple : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) :=
+  have hSimple : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) :=
     (CFSG.LieType.Simplicity.fam_2e6_simplicity
       ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) (ringChar K) f
       ⟨⟨hp, hf, rfl⟩, K, inferInstance, inferInstance, hcardTw, σ.toRingHom, hσq,
@@ -5492,7 +5495,7 @@ theorem twE6InndiagUniGeneration_aux (K : Type) [Field K] [Finite K] (σ : K ≃
     have h := hstabG x hx
     rw [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
     exact h
-  haveI hA0e : IsElementaryAbelian 3 (A.map (MulAut.conj g₀⁻¹).toMonoidHom) :=
+  have hA0e : IsElementaryAbelian 3 (A.map (MulAut.conj g₀⁻¹).toMonoidHom) :=
     IsElementaryAbelian.map _
   have hA0p : IsPGroup 3 (A.map (MulAut.conj g₀⁻¹).toMonoidHom) :=
     IsElementaryAbelian.isPGroup 3 _
@@ -5516,13 +5519,13 @@ theorem twE6InndiagParabolic_uni (K : Type) [Field K] [Finite K] (σ : K ≃+* K
       omega)
   have hinj := twistedE6InndiagConj_injective hp hf hK σ hσ
   obtain ⟨R, hRC, hR1, hRp, hRn⟩ := matrix_of_twE6NormalizesR σ E hE hnorm
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hp⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   have hσ2 : σ ^ TwistTag.E6.order = 1 := by
     have hsq : σ ^ 2 = 1 := by
       refine RingEquiv.ext fun c => ?_
       have hσσ : σ (σ c) = c := by
-        haveI := Fintype.ofFinite K
+        have := Fintype.ofFinite K
         rw [hσ (σ c), hσ c, ← pow_mul, ← sq, ← hK, Nat.card_eq_fintype_card]
         exact FiniteField.pow_card c
       simpa only [pow_two, RingAut.mul_apply, RingAut.one_apply] using hσσ

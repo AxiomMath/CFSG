@@ -80,8 +80,7 @@ theorem trivialMultiplierT_statedSL_nine : TrivialMultiplierT ↥(StatedSL 9 (ZM
   have h1 : Nat.card (CFSG.Blueprint.Multiplier.generic .PSL 9 2 1 ×
       CFSG.Blueprint.Multiplier.exceptional .PSL 9 2 1) = 1 := by
     simp [CFSG.Blueprint.Multiplier.generic, CFSG.Blueprint.Multiplier.exceptional,
-      CFSG.Blueprint.Multiplier.genericOrders, CFSG.Blueprint.Multiplier.exceptionalOrders,
-      Nat.card_prod, ZMod.card]
+      CFSG.Blueprint.Multiplier.genericOrders, CFSG.Blueprint.Multiplier.exceptionalOrders]
   exact trivialMultiplierT_of_lieModel CFSG.ComponentClassification.TBLit.griessMultipliersAllModels_holds
     hM h1
 
@@ -105,9 +104,9 @@ theorem famA8Two_equiv_model {K : Type} [Group K] [Finite K]
   have hm : CFSG.Models.LieModel (K ⧸ Subgroup.center K) .PSL 9 2 1 :=
     CFSG.Models.LieModel.of_blueprint_of_ne_zero (by omega) hM'
   obtain ⟨-, K', hfield, hfin, hcard, ⟨eK'⟩⟩ := hm.statedClassicalModel (by decide)
-  letI : Field K' := hfield
-  letI : Finite K' := hfin
-  letI : Fintype K' := Fintype.ofFinite K'
+  let : Field K' := hfield
+  let : Finite K' := hfin
+  let : Fintype K' := Fintype.ofFinite K'
   have hcard2 : Nat.card K' = 2 := by simpa using hcard
   have hFcard : Fintype.card K' = Fintype.card (ZMod 2) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hcard2]

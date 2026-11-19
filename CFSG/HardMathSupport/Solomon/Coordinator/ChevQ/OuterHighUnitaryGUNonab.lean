@@ -18,6 +18,7 @@ variable {ℓ f n m : ℕ} {K : Type} [Field K] [Finite K] [Fact ℓ.Prime] [Cha
 
 local notation "σ₀" => unitaryInvolution K ℓ f
 
+omit [Finite K] in
 theorem mul_comm_of_mulVec {A B : Matrix (Fin n) (Fin n) K}
     (hAB : ∀ v, A *ᵥ (B *ᵥ v) = B *ᵥ (A *ᵥ v)) : A * B = B * A :=
   Matrix.ext_of_mulVec_single fun i => by rw [← mulVec_mulVec, ← mulVec_mulVec, hAB]
@@ -162,7 +163,7 @@ theorem exists_nonscalar_comm_gu {xs : Fin m → Fin n → K}
       intro N a b ha hb c
       refine ⟨![a * c 0, b * c 1], ?_⟩
       simp only [Centers.orthoEmb_apply, Fin.sum_univ_two, hy, Matrix.cons_val_zero,
-        Matrix.cons_val_one, Matrix.head_cons, mulVec_add, mulVec_smul, ha, hb, smul_smul]
+        Matrix.cons_val_one, mulVec_add, mulVec_smul, ha, hb, smul_smul]
       ring_nf
     have hres : ONExt.resMat σ₀ y (M : Matrix (Fin m) (Fin m) K) =
         Matrix.diagonal ![l₁, l₂] := by
@@ -178,7 +179,7 @@ theorem exists_nonscalar_comm_gu {xs : Fin m → Fin n → K}
       rw [Matrix.mulVec_diagonal]
       by_cases hij : i = j
       · subst hij; simp
-      · simp [Pi.single_apply, hij]
+      · simp [hij]
     have hcomm := commute_extMat_of_GL hσi hyON (M := M)
       (fun u v => by rw [hM, coe_resGL_gu]; exact herm_resMat_gu h hxs hsU u v)
       (hspan _ l₁ l₂ hMe₁ hMe₂)
@@ -204,6 +205,7 @@ local notation "σ₀" => unitaryInvolution K ℓ f
 
 variable (h : UnitaryFieldData ℓ f K)
 
+omit [Finite K] [Fact ℓ.Prime] [CharP K ℓ] in
 theorem mulVec_pow_smul_of_qcomm_gu {X B : primeFormUnitary h (idGram K n)} {ζ : K}
     (hBX : ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *
         ((X : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) =
@@ -223,6 +225,7 @@ theorem mulVec_pow_smul_of_qcomm_gu {X B : primeFormUnitary h (idGram K n)} {ζ 
     congr 1
     ring
 
+omit [Finite K] [Fact ℓ.Prime] [CharP K ℓ] in
 theorem eq_smul_of_eigen_le_gu {X B r : primeFormUnitary h (idGram K n)} {ζ : K}
     (hζ : IsPrimitiveRoot ζ p) (hpK : (p : K) ≠ 0) (hrX : r * X = X * r)
     (hBX : ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *
@@ -269,6 +272,7 @@ theorem eq_smul_of_eigen_le_gu {X B r : primeFormUnitary h (idGram K n)} {ζ : K
   rw [← hsup] at hv
   rw [(hmemE _ _ _).1 ((iSup_le hVle) hv), Matrix.smul_mulVec, Matrix.one_mulVec]
 
+omit [Finite K] [Fact ℓ.Prime] [CharP K ℓ] in
 theorem exists_two_eigen_gu {X B r : primeFormUnitary h (idGram K n)} {ζ : K}
     (hζ : IsPrimitiveRoot ζ p)
     (hpK : (p : K) ≠ 0) (hp : p.Prime) (hrX : r * X = X * r) (hrB : r * B = B * r)
@@ -330,6 +334,7 @@ theorem exists_two_eigen_gu {X B r : primeFormUnitary h (idGram K n)} {ζ : K}
       rw [hex c]
   exact hrs _ (eq_smul_of_eigen_le_gu h hζ hpK hrX hBX hμ hBp hp l hc₀)
 
+omit [Finite K] [Fact ℓ.Prime] [CharP K ℓ] in
 theorem finrank_eigen_le_gu {X B : primeFormUnitary h (idGram K n)} {ζ : K}
     (hζ : IsPrimitiveRoot ζ p)
     (hBX : ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *
@@ -362,10 +367,11 @@ theorem finrank_eigen_le_gu {X B : primeFormUnitary h (idGram K n)} {ζ : K}
   intro v w hvw
   apply Subtype.ext
   have := congrArg Subtype.val hvw
-  simp only [LinearMap.restrict_coe_apply, Matrix.toLin'_apply] at this
+  simp only [_root_.LinearMap.coe_restrict_apply, Matrix.toLin'_apply] at this
   rw [← smul_def_gu, ← smul_def_gu] at this
   exact smul_left_cancel _ this
 
+omit [Finite K] [Fact ℓ.Prime] [CharP K ℓ] in
 theorem card_mul_finrank_eigen_gu (hp : p.Prime) {X B : primeFormUnitary h (idGram K n)} {ζ : K}
     (hζ : IsPrimitiveRoot ζ p)
     (hBX : ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *
@@ -431,7 +437,7 @@ theorem allCenters_eigen_nonab_gu (hp : p.Prime) (hp2 : p ≠ 2)
   have hσi := hσ.invol
   have hσb : ∀ c, σ₀ c = h.bar c := Nonsplit.unitaryInvolution_eq_bar h
   have hpK : (p : K) ≠ 0 := heis_natCast_ne_zero hζ hp.two_le
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set Bm : Matrix (Fin n) (Fin n) K := ((B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) with hBm
   set Xm : Matrix (Fin n) (Fin n) K := ((X : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) with hXm
   set rm : Matrix (Fin n) (Fin n) K := ((r : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) with hrm
@@ -668,7 +674,7 @@ theorem hyperGen_of_nonab_pth_gu (hp : p.Prime) (hp2 : p ≠ 2)
   have hσi := hσ.invol
   have hσb : ∀ c, σ₀ c = h.bar c := Nonsplit.unitaryInvolution_eq_bar h
   have hpK : (p : K) ≠ 0 := heis_natCast_ne_zero hζ hp.two_le
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hn0 : 0 < n := by omega
   have hrs : ∀ c : K, ((r : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) ≠ c • 1 :=
     fun c hc => hr1 (hker' r ⟨c, hc⟩)
@@ -895,6 +901,7 @@ local notation "σ₀" => unitaryInvolution K ℓ f
 
 variable (h : UnitaryFieldData ℓ f K)
 
+omit [Fact (Nat.Prime ℓ)] [CharP K ℓ] [Finite K] in
 theorem exists_comm_scalar_gu (hn : 0 < n) {Γ : Type*} [Group Γ]
     (κ : primeFormUnitary h (idGram K n) →* Γ)
     (hker : ∀ g ∈ κ.ker, ∃ c : K, ((g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = c • 1)
@@ -931,6 +938,7 @@ theorem exists_comm_scalar_gu (hn : 0 < n) {Γ : Type*} [Group Γ]
   have hα0 : α ≠ 0 := scalar_ne_zero_of_matPow hn (by rw [← Units.val_pow_eq_pow_val]; exact hα')
   exact pow_eq_one_of_smul_comm_p hn hα0 hα' hrel
 
+omit [Finite K] [Fact (Nat.Prime ℓ)] [CharP K ℓ] in
 theorem comm_of_scalar_gu {z : primeFormUnitary h (idGram K n)} {c : K}
     (hz : ((z : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = c • 1)
     (s : primeFormUnitary h (idGram K n)) : z * s = s * z := by
@@ -939,6 +947,7 @@ theorem comm_of_scalar_gu {z : primeFormUnitary h (idGram K n)} {c : K}
   simp only [Subgroup.coe_mul, Units.val_mul]
   rw [hz, Matrix.smul_mul, Matrix.mul_smul, Matrix.one_mul, Matrix.mul_one]
 
+omit [Finite K] [Fact (Nat.Prime ℓ)] [CharP K ℓ] in
 theorem eq_mul_scalar_gu {Γ : Type*} [Group Γ] (κ : primeFormUnitary h (idGram K n) →* Γ)
     (hker : ∀ g ∈ κ.ker, ∃ c : K, ((g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = c • 1)
     {s w : primeFormUnitary h (idGram K n)} (hsw : κ w = κ s) :
@@ -947,6 +956,7 @@ theorem eq_mul_scalar_gu {Γ : Type*} [Group Γ] (κ : primeFormUnitary h (idGra
   ⟨w⁻¹ * s, hker _ (by rw [MonoidHom.mem_ker, map_mul, map_inv, hsw, inv_mul_cancel]),
     by rw [mul_inv_cancel_left]⟩
 
+omit [Fact ℓ.Prime] [CharP K ℓ] [Finite K] in
 theorem exists_radical_gu (hp : p.Prime) (hn : 0 < n) {Γ : Type*} [Group Γ] [Finite Γ]
     (κ : primeFormUnitary h (idGram K n) →* Γ) {E : Subgroup Γ}
     (hEκ : ∀ e ∈ E, ∃ a : primeFormUnitary h (idGram K n), κ a = e)
@@ -1082,11 +1092,12 @@ theorem exists_radical_gu (hp : p.Prime) (hn : 0 < n) {Γ : Type*} [Group Γ] [F
   obtain ⟨z, ⟨cz, hcz⟩, rfl⟩ := eq_mul_scalar_gu h κ hker hws
   rw [← mul_assoc, hrw, mul_assoc, ← comm_of_scalar_gu h hcz r, mul_assoc]
 
+omit [Fact ℓ.Prime] [CharP K ℓ] in
 theorem exists_heis_pair_gu (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ ℓ ^ f + 1) (hn : 0 < n) {Γ : Type*} [Group Γ] [Finite Γ]
     (κ : primeFormUnitary h (idGram K n) →* Γ)
     (hker : ∀ g ∈ κ.ker, ∃ c : K, ((g : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = c • 1)
-    {E : Subgroup Γ} (hE : IsElemAbelian p E) (hcard : Nat.card E = p ^ 3)
+    {E : Subgroup Γ} (hE : IsElemAbelian p E) (_hcard : Nat.card E = p ^ 3)
     {a b r : primeFormUnitary h (idGram K n)} (ha : κ a ∈ E) (hb : κ b ∈ E) (hab : a * b ≠ b * a)
     (ha1 : κ a ≠ 1)
     (hba : κ b ∉ Subgroup.zpowers (κ a)) (hrE : κ r ∈ E)
@@ -1208,7 +1219,7 @@ theorem exists_heis_pair_gu (hp : p.Prime) (hp2 : p ≠ 2)
           Matrix (Fin n) (Fin n) K) = 0 := by
         simp only [Subgroup.coe_mul, Units.val_mul]
         exact h2
-      haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+      have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
       exact Units.ne_zero _ h3
   intro hmem
   have hcXY : Nat.card (Subgroup.closure ({κ Y, κ X} : Set Γ)) = p ^ 2 :=

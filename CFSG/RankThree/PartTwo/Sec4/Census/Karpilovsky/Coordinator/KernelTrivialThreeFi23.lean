@@ -73,7 +73,7 @@ theorem kernelTrivialAt_three_Fi23 :
     (ord := fi23U3Cover3.ordF) hR (fun i hi => absurd hi (by rw [fi23U3_ordF]; norm_num))
     (fun i _ => ⟨?_, by rw [fi23U3_ordF]; exact hsq i, by rw [fi23U3_ordF]; norm_num⟩)
     hfin hle hge π hπ ?_ hC hp
-  · rw [Cover3Data.cwF, if_neg (by rw [fi23U3_ordF]; norm_num)]
+  · rw [Cover3Data.cwF, ite_eq_right (by rw [fi23U3_ordF]; norm_num)]
   · change (Nat.card (NativeSporadic.Carrier .Fi23)).factorization 3 ≤ _
     rw [hcard, factorization_three_eq (a := 13) (b := 2 ^ 18 * 5 ^ 2 * 7 * 11 * 13 * 17 * 23)
       (by norm_num) (by norm_num), factorization_three_eq (a := 13) (b := 2 ^ 2)

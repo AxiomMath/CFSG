@@ -165,7 +165,7 @@ theorem isSLThreePiAt_g2_prime [Finite F] {p : ℕ} [Fact p.Prime] (hp3 : 3 < p)
 theorem noThreeCover_adjointQuotient_g2_of_five [Finite F] (h5 : 5 ≤ Nat.card F) :
     NoThreeCover (AdjointQuotient .G2 F) := by
   have hM := (CFSG.LieType.Steinberg.CentralExt.AdjointClosed.g2_hopfMultiplier h5).2
-  haveI : Finite (CFSG.Open.griessHopfMultiplier (AdjointQuotient .G2 F)) :=
+  have : Finite (CFSG.Open.griessHopfMultiplier (AdjointQuotient .G2 F)) :=
     Finite.of_subsingleton
   have h1 : Nat.card (CFSG.Open.griessHopfMultiplier (AdjointQuotient .G2 F)) = 1 :=
     Nat.card_eq_one_iff_unique.mpr ⟨hM, ⟨1⟩⟩

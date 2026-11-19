@@ -32,7 +32,7 @@ theorem owEm_commute_conj {G : Type*} [Group G] (c x y : G) :
 
 theorem owEm_l51_of_class_data {G : Type*} [Group G] (M : Subgroup G) (P : G → Prop)
     (hPconj : ∀ g m : G, m ∈ M → P g → P (m * g * m⁻¹))
-    (X : Set G) (r₀ : G) (hr₀ : r₀ ∈ M) (hX₀ : r₀ ∈ X)
+    (X : Set G) (r₀ : G) (_hr₀ : r₀ ∈ M) (hX₀ : r₀ ∈ X)
     (hXconj : ∀ x ∈ X, ∃ m ∈ M, x = m * r₀ * m⁻¹)
     (hXclosed : ∀ m ∈ M, ∀ x ∈ X, m * x * m⁻¹ ∈ X)
     (hone : ∀ g ∈ M, P g → ∃ m ∈ M, r₀ = m * g * m⁻¹)

@@ -24,7 +24,7 @@ theorem center_eq_bot_and_even_of_not_injective {F : Type} [Field F] [Fintype F]
   have hc1 : c ≠ 1 := by
     rintro rfl
     exact hx1 (Subtype.ext (by rw [hcx, Units.val_one, map_one, Matrix.SpecialLinearGroup.coe_one]))
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hoc : orderOf c = 3 := orderOf_eq_prime hc3 hc1
   have hprim : IsPrimitiveRoot (c : F) 3 := by
     have h := IsPrimitiveRoot.orderOf c

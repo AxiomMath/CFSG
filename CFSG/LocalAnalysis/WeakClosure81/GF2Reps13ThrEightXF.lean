@@ -15,7 +15,7 @@ variable {W : Type} [CommGroup W] [Finite W] {A : Subgroup (MulAut W)} {t : MulA
 
 private theorem w16g_odd_card_of_isElemAbelian {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {X : Subgroup (MulAut W)} (hX : IsElemAbelian p X) : Odd (Nat.card X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hX.isPGroup
   rw [hn]
   exact (hp.odd_of_ne_two hp2).pow
@@ -95,9 +95,9 @@ private theorem w16g_rk_commSub_top_eq_W6 (h : Cfg133 A t 3) {z : MulAut W}
   set X : Subgroup (MulAut W) := conjClosure A (Subgroup.zpowers z) with hXdef
   set C : Set (Subgroup W) := s13IsoComps X with hCdef
   have hodd : Odd (Nat.card X) := w16g_odd_card_of_isElemAbelian h.hp (by norm_num) hXe
-  haveI : Finite (Subgroup W) :=
+  have : Finite (Subgroup W) :=
     Finite.of_injective (fun S : Subgroup W => (S : Set W)) SetLike.coe_injective
-  haveI : Fintype ↥C := Fintype.ofFinite _
+  have : Fintype ↥C := Fintype.ofFinite _
   let F : ↥C → Subgroup W := Subtype.val
   have hF : iSupIndep F := by
     have h1 : sSupIndep C := by

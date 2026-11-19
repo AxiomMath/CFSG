@@ -20,33 +20,39 @@ lemma neg_eq_self_mod (K : Type*) [Field K] [CharP K 2]
     {A : Type*} [AddCommGroup A] [Module K A] (x : A) : -x = x := by
   rw [← neg_one_smul K x, CharTwo.neg_eq (1 : K), one_smul]
 
+omit [Finite k] [Finite E] [CharP k 2] in
 lemma symm_one_E : (1 : E ≃ₗ[k] E).symm = 1 := inv_one
 
+omit [Finite k] [Module.Finite k X] [CharP k 2] in
 lemma symm_one_X : (1 : X ≃ₗ[k] X).symm = 1 := inv_one
 
+omit [Finite k] [Finite E] [CharP k 2] in
 lemma mulLeftEquiv_toLinearMap (s : Eˣ) :
     (mulLeftEquiv k s : E →ₗ[k] E) = LinearMap.mulLeft k (s : E) := by
   ext x
   simp [mulLeftEquiv_apply]
 
+omit [Finite k] [Finite E] [CharP k 2] in
 lemma mulLeftEquiv_symm_toLinearMap (s : Eˣ) :
     ((mulLeftEquiv k s).symm : E →ₗ[k] E) = LinearMap.mulLeft k ((s⁻¹ : Eˣ) : E) := by
   rw [show (mulLeftEquiv k s).symm = mulLeftEquiv k (s⁻¹) from rfl]
   exact mulLeftEquiv_toLinearMap (s⁻¹)
 
+omit [Finite k] [Finite E] [CharP k 2] in
 lemma det_mulLeftEquiv_eq_one (s : Eˣ) (hs : Algebra.norm k (s : E) = 1) :
     LinearEquiv.det (mulLeftEquiv k s) = 1 := by
   apply Units.ext
   simpa using (det_mulLeft_eq_norm (mulLeftEquiv k s) (s : E)
     (mulLeftEquiv_toLinearMap s)).trans hs
 
+omit [Finite k] [Module.Finite k X] [CharP k 2] in
 lemma stable_mulLeft_of_generator {ν : Eˣ}
     (hgen : ∀ L : Subfield E, (ν : E) ∈ L → L = ⊤)
     (M : AddSubgroup (X →ₗ[k] E))
     (hν : ∀ φ : X →ₗ[k] E, φ ∈ M → LinearMap.mulLeft k (ν : E) ∘ₗ φ ∈ M) :
     ∀ (s : E) (φ : X →ₗ[k] E), φ ∈ M → LinearMap.mulLeft k s ∘ₗ φ ∈ M := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   let S : Subring E :=
     { carrier := {s : E | ∀ φ : X →ₗ[k] E, φ ∈ M → LinearMap.mulLeft k s ∘ₗ φ ∈ M}
       mul_mem' := by
@@ -65,7 +71,7 @@ lemma stable_mulLeft_of_generator {ν : Eˣ}
         exact M.add_mem (hs _ hφ) (ht _ hφ)
       zero_mem' := by
         intro φ hφ
-        simpa using M.zero_mem
+        simp
       neg_mem' := by
         intro s hs φ hφ
         have hneg : LinearMap.mulLeft k (-s) = -LinearMap.mulLeft k s := by
@@ -98,13 +104,14 @@ lemma stable_mulLeft_of_generator {ν : Eˣ}
   have hs : s ∈ L := by rw [htop]; trivial
   exact hs φ hφ
 
+omit [Finite k] [Module.Finite k X] [CharP k 2] in
 lemma stable_comp_mulLeft_of_generator {ν : Eˣ}
     (hgen : ∀ L : Subfield E, (ν : E) ∈ L → L = ⊤)
     (M : AddSubgroup (E →ₗ[k] X))
     (hν : ∀ χ : E →ₗ[k] X, χ ∈ M → χ ∘ₗ LinearMap.mulLeft k (ν : E) ∈ M) :
     ∀ (s : E) (χ : E →ₗ[k] X), χ ∈ M → χ ∘ₗ LinearMap.mulLeft k s ∈ M := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   let S : Subring E :=
     { carrier := {s : E | ∀ χ : E →ₗ[k] X, χ ∈ M → χ ∘ₗ LinearMap.mulLeft k s ∈ M}
       mul_mem' := by
@@ -123,7 +130,7 @@ lemma stable_comp_mulLeft_of_generator {ν : Eˣ}
         exact M.add_mem (hs _ hχ) (ht _ hχ)
       zero_mem' := by
         intro χ hχ
-        simpa using M.zero_mem
+        simp
       neg_mem' := by
         intro s hs χ hχ
         have hneg : LinearMap.mulLeft k (-s) = -LinearMap.mulLeft k s := by
@@ -160,6 +167,7 @@ section
 
 variable [Module.Finite k E]
 
+omit [Finite k] [Finite E] in
 lemma uSL_inv (φ : X →ₗ[k] E) (χ : E →ₗ[k] X) (ψ : E →ₗ[k] E) :
     (uSL φ χ ψ)⁻¹ = uSL φ χ (ψ + φ ∘ₗ χ) := by
   rw [← mul_eq_one_iff_inv_eq, uSL_mul]
@@ -171,16 +179,19 @@ lemma uSL_inv (φ : X →ₗ[k] E) (χ : E →ₗ[k] X) (ψ : E →ₗ[k] E) :
       _ = 0 := by rw [add_self_eq_zero_mod k ψ, add_self_eq_zero_mod k (φ ∘ₗ χ), add_zero]
   rw [h1, h2, h3, uSL_zero]
 
+omit [Finite k] [Finite E] [CharP k 2] in
 lemma uSL_mul_phi_psi (φ : X →ₗ[k] E) (ψ : E →ₗ[k] E) :
     uSL φ 0 0 * uSL 0 0 ψ = uSL φ 0 ψ := by
   rw [uSL_mul, uSL_inj]
   refine ⟨?_, ?_, ?_⟩ <;> ext x <;> simp
 
+omit [Finite k] [Finite E] [CharP k 2] in
 lemma uSL_mul_chi_psi (χ : E →ₗ[k] X) (ψ : E →ₗ[k] E) :
     uSL 0 χ 0 * uSL 0 0 ψ = uSL 0 χ ψ := by
   rw [uSL_mul, uSL_inj]
   refine ⟨?_, ?_, ?_⟩ <;> ext x <;> simp
 
+omit [Finite k] [Finite E] in
 lemma uSL_factor (φ : X →ₗ[k] E) (χ : E →ₗ[k] X) (ψ : E →ₗ[k] E) :
     uSL φ 0 0 * uSL 0 χ 0 * uSL 0 0 (ψ + φ ∘ₗ χ) = uSL φ χ ψ := by
   rw [uSL_mul, uSL_mul, uSL_inj]
@@ -192,6 +203,7 @@ lemma uSL_factor (φ : X →ₗ[k] E) (χ : E →ₗ[k] X) (ψ : E →ₗ[k] E) 
       LinearMap.zero_apply]
     rw [add_comm (ψ x) (φ (χ x)), ← add_assoc, add_self_eq_zero_mod k, zero_add]
 
+omit [Finite k] [CharP k 2] in
 lemma blockSL_mulLeft_one_one_mem_normalizer (s : Eˣ)
     (hs : Algebra.norm k (s : E) = 1) :
     blockSL (mulLeftEquiv k s) 1 1 (by rw [det_mulLeftEquiv_eq_one s hs]; simp) ∈
@@ -204,6 +216,7 @@ lemma blockSL_mulLeft_one_one_mem_normalizer (s : Eˣ)
   change (s : E) * (t * x) = ((s : E) * t) * x
   rw [mul_assoc]
 
+omit [Finite k] [CharP k 2] in
 lemma blockSL_one_one_mulLeft_mem_normalizer (s : Eˣ)
     (hs : Algebra.norm k (s : E) = 1) :
     blockSL 1 1 (mulLeftEquiv k s) (by rw [det_mulLeftEquiv_eq_one s hs]; simp) ∈
@@ -216,6 +229,7 @@ lemma blockSL_one_one_mulLeft_mem_normalizer (s : Eˣ)
   change t * ((s : E)⁻¹ * x) = (t * (s : E)⁻¹) * x
   rw [mul_assoc]
 
+omit [Finite k] [CharP k 2] in
 lemma blockSL_one_g_one_mem_normalizer (g : SpecialLinearGroup k X) :
     blockSL 1 (g : X ≃ₗ[k] X) 1 (by simp) ∈
       Subgroup.normalizer (rootSL k E X : Set (SpecialLinearGroup k (DSpace E X))) := by
@@ -227,6 +241,7 @@ lemma blockSL_one_g_one_mem_normalizer (g : SpecialLinearGroup k X) :
   change (1 : E →ₗ[k] E) ((LinearMap.mulLeft k t) x) = (LinearMap.mulLeft k t) x
   rfl
 
+omit [Finite k] [Finite E] [CharP k 2] in
 lemma blockSL_mulLeft_one_one_conj (s : Eˣ) (hs : Algebra.norm k (s : E) = 1)
     (φ : X →ₗ[k] E) (χ : E →ₗ[k] X) (ψ : E →ₗ[k] E) :
     blockSL (mulLeftEquiv k s) 1 1 (by rw [det_mulLeftEquiv_eq_one s hs]; simp) * uSL φ χ ψ *
@@ -237,6 +252,7 @@ lemma blockSL_mulLeft_one_one_conj (s : Eˣ) (hs : Algebra.norm k (s : E) = 1)
   rw [uSL_inj]
   refine ⟨?_, ?_, ?_⟩ <;> ext x <;> rfl
 
+omit [Finite k] [Finite E] [CharP k 2] in
 lemma blockSL_one_one_mulLeft_conj (s : Eˣ) (hs : Algebra.norm k (s : E) = 1)
     (φ : X →ₗ[k] E) (χ : E →ₗ[k] X) (ψ : E →ₗ[k] E) :
     blockSL 1 1 (mulLeftEquiv k s) (by rw [det_mulLeftEquiv_eq_one s hs]; simp) * uSL φ χ ψ *
@@ -244,20 +260,22 @@ lemma blockSL_one_one_mulLeft_conj (s : Eˣ) (hs : Algebra.norm k (s : E) = 1)
       uSL φ (χ ∘ₗ LinearMap.mulLeft k ((s⁻¹ : Eˣ) : E))
         (ψ ∘ₗ LinearMap.mulLeft k ((s⁻¹ : Eˣ) : E)) := by
   rw [blockSL_mul_uSL_mul_inv]
-  simp only [symm_one_E, symm_one_X]
+  simp only [symm_one_X]
   rw [uSL_inj]
   refine ⟨?_, ?_, ?_⟩ <;> ext x <;> rfl
 
+omit [Finite k] [Finite E] [CharP k 2] in
 lemma blockSL_one_g_one_conj (g : SpecialLinearGroup k X)
     (φ : X →ₗ[k] E) (χ : E →ₗ[k] X) (ψ : E →ₗ[k] E) :
     blockSL 1 (g : X ≃ₗ[k] X) 1 (by simp) * uSL φ χ ψ *
         (blockSL 1 (g : X ≃ₗ[k] X) 1 (by simp))⁻¹ =
       uSL (φ ∘ₗ (g : X ≃ₗ[k] X).symm.toLinearMap) ((g : X ≃ₗ[k] X).toLinearMap ∘ₗ χ) ψ := by
   rw [blockSL_mul_uSL_mul_inv]
-  simp only [symm_one_E, symm_one_X]
+  simp only [symm_one_E]
   rw [uSL_inj]
   refine ⟨?_, ?_, ?_⟩ <;> ext x <;> rfl
 
+omit [Finite k] [Finite E] in
 lemma commutator_mulLeft (s : Eˣ) (hs : Algebra.norm k (s : E) = 1)
     (φ : X →ₗ[k] E) (χ : E →ₗ[k] X) (ψ : E →ₗ[k] E) :
     ∃ ψ' : E →ₗ[k] E,
@@ -275,6 +293,7 @@ lemma commutator_mulLeft (s : Eˣ) (hs : Algebra.norm k (s : E) = 1)
   · ext x
     simp [add_self_eq_zero_mod k]
 
+omit [Finite k] [Finite E] in
 lemma commutator_one_one_mulLeft (s : Eˣ) (hs : Algebra.norm k (s : E) = 1)
     (φ : X →ₗ[k] E) (χ : E →ₗ[k] X) (ψ : E →ₗ[k] E) :
     ∃ ψ' : E →ₗ[k] E,

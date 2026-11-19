@@ -12,6 +12,7 @@ open scoped Pointwise Matrix
 variable {G : Type} [Group G] [Finite G]
 variable {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {𝒦 : Finset (Subgroup G)} {m n : ℕ}
 
+omit [Finite G] in
 theorem qTwoChartTwoThree_mem_fixI_iff
     (ρA : Equiv.Perm (Fin (n + 1)) ≃* ↥(ggAutomizerJoin L Bs 𝒦))
     (I : Finset (Fin (n + 1))) (b : ↥Bs) :
@@ -84,6 +85,7 @@ theorem qTwoChartTwoThree_mem_closure_swaps_of_supported {I : Finset (Fin (n + 1
   · rw [hσ x hx]
     exact MulAction.mem_orbit_self x
 
+omit [Finite G] in
 theorem qTwoChartTwoThree_mem_symI
     {ρA : Equiv.Perm (Fin (n + 1)) ≃* ↥(ggAutomizerJoin L Bs 𝒦)} {I : Finset (Fin (n + 1))}
     {s : MulAut ↥Bs} :

@@ -23,7 +23,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {t : G} {E W : Subgrou
 
 include hb a hK horb hne
 
-theorem sw_hcomm : ∀ x ∈ K, ∀ y ∈ cj (tG hb a.toPA6.toPA5) K, x * y = y * x := fun x hx y hy =>
+theorem sw_hcomm : ∀ _x ∈ K, ∀ y ∈ cj (tG hb a.toPA6.toPA5) K, _x * y = y * _x := fun _x hx y hy =>
   (Subgroup.mem_centralizer_iff.1
     (le_centralizer_of_ne hK (isComponent_cj _ hK) hne.symm hx) y hy).symm
 

@@ -100,7 +100,7 @@ theorem facts630 (hS : Setting G) {P : Sylow 3 G} {M : Subgroup G} {x z : G} {T 
     SmallRankPlane.of_situation hS hf.situation hf.point hf.central
   have hPx : IsSylowOf 3 ((P : Subgroup G) ⊓ centralizer ({x} : Set G))
       (centralizer ({x} : Set G)) :=
-    isSylowOf_iff.mpr ⟨inf_le_right, P.isPGroup'.to_inf_left, hf.point.sylow_centralizer⟩
+    isSylowOf_iff.mpr ⟨inf_le_right, P.isPGroup.to_inf_left, hf.point.sylow_centralizer⟩
   have hrank : CFSG.Open.pRank 3 (centralizer ({x} : Set G)) ≤ 2 := by
     by_contra h
     push Not at h
@@ -159,6 +159,7 @@ private theorem r10a22_q8_a2_central :
     ∀ r : QuaternionGroup 2, r * QuaternionGroup.a 2 = QuaternionGroup.a 2 * r := by
   decide
 
+omit [Finite G] in
 private theorem r10a22_center_unique (R : Subgroup G) (e : ↥R ≃* QuaternionGroup 2) :
     ∃ y : G, y ∈ smallRankCenter R ∧ y ≠ 1 ∧ ∀ w ∈ smallRankCenter R, w ≠ 1 → w = y := by
   obtain ⟨u, hu⟩ : ∃ u : ↥R, u = e.symm (QuaternionGroup.a 2) := ⟨_, rfl⟩
@@ -193,6 +194,7 @@ private theorem r10a22_center_unique (R : Subgroup G) (e : ↥R ≃* QuaternionG
         rw [hu, ← h, MulEquiv.symm_apply_apply]
       exact congrArg Subtype.val hk
 
+omit [Finite G] in
 private theorem r10a22_R_le_S (x z : G) (T : Subgroup G)
     (hzN : ∀ g ∈ zpowers z, g ∈ normalizer (smallRankS x T : Set G)) :
     smallRankR x z T ≤ smallRankS x T := by
@@ -202,6 +204,7 @@ private theorem r10a22_R_le_S (x z : G) (T : Subgroup G)
   rw [commutatorElement_def]
   exact mul_mem ((mem_normalizer_iff.mp (hzN g hg) s).mp hs) (inv_mem hs)
 
+omit [Finite G] in
 private theorem r10a22_zpowers_conj (z g a : G) (hg : g ∈ zpowers z) (ha : a ∈ zpowers z) :
     g * a * g⁻¹ = a := by
   obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.mp hg
@@ -209,11 +212,13 @@ private theorem r10a22_zpowers_conj (z g a : G) (hg : g ∈ zpowers z) (ha : a �
   have hc : Commute (z ^ m) (z ^ k) := ((Commute.refl z).zpow_right k).zpow_left m
   rw [hc.eq, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite G] in
 private theorem r10a22_conj_zpowers (z g a : G) (hg : g ∈ zpowers z) (ha : a ∈ zpowers z) :
     g * a * g⁻¹ ∈ zpowers z := by
   rw [r10a22_zpowers_conj z g a hg ha]
   exact ha
 
+omit [Finite G] in
 private theorem r10a22_conj_R (x z : G) (T : Subgroup G) (g : G)
     (hS' : ∀ s ∈ smallRankS x T, g * s * g⁻¹ ∈ smallRankS x T)
     (hZ : ∀ a ∈ zpowers z, g * a * g⁻¹ ∈ zpowers z) :
@@ -230,7 +235,7 @@ private theorem r10a22_conj_R (x z : G) (T : Subgroup G) (g : G)
   intro r hr
   exact hle (Subgroup.mem_map_of_mem (MulAut.conj g).toMonoidHom hr)
 
-theorem exists_y630 (hS : Setting G) {P : Sylow 3 G} {M : Subgroup G} {x z : G} {T : Subgroup G}
+theorem exists_y630 (_hS : Setting G) {P : Sylow 3 G} {M : Subgroup G} {x z : G} {T : Subgroup G}
     {f : ℕ} (hyp : Lemma630Hyp G 3 P M x z T f) :
     ∃ y : G, y ∈ smallRankS x T ∧ y ≠ 1 ∧ y * y = 1 ∧ z * y = y * z ∧ x * y = y * x ∧
       ∀ a ∈ smallRankF 3 f x, y * a * y⁻¹ = a⁻¹ := by
@@ -451,6 +456,7 @@ open CFSG.Open CFSG.ABGLocalTools Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem r10a24_commutator_le_of_normalizes {S : Subgroup G} {z : G}
     (hz : zpowers z ≤ normalizer (S : Set G)) : ⁅zpowers z, S⁆ ≤ S := by
   rw [Subgroup.commutator_le]
@@ -459,6 +465,7 @@ private theorem r10a24_commutator_le_of_normalizes {S : Subgroup G} {z : G}
   rw [commutatorElement_def]
   exact mul_mem has (inv_mem hs)
 
+omit [Finite G] in
 private theorem r10a24_pow_eq_pow_mod {x : G} (hx3 : x ^ 3 = 1) (m : ℕ) :
     x ^ m = x ^ (m % 3) := by
   conv_lhs => rw [← Nat.div_add_mod m 3]
@@ -486,7 +493,7 @@ theorem sylow_inf_centralizer_eq_plane (hS : Setting G) {P : Sylow 3 G} {M : Sub
     mem_centralizer_iff.mpr fun h hh => mem_centralizer_singleton_iff.mp (hRC hh)
   have hzR : z ∉ centralizer (smallRankR x z T : Set G) :=
     not_mem_centralizer_commutator hS2 hz3 hzS hR1
-  have hPG : IsPGroup 3 (P : Subgroup G) := P.isPGroup'
+  have hPG : IsPGroup 3 (P : Subgroup G) := P.isPGroup
   have hA3 : ∃ A : Subgroup G, A ≤ (P : Subgroup G) ∧ IsElemAbelian 3 A ∧ Nat.card A = 3 ^ 3 := by
     obtain ⟨-, hP3⟩ := sylow_le_of_isCoreMaxLocal hS hf.situation.mem_sigmaA
       hf.situation.isCoreMaxLocal
@@ -545,7 +552,7 @@ theorem sylow_inf_centralizer_eq_plane (hS : Setting G) {P : Sylow 3 G} {M : Sub
     apply hg3ne
     rw [← hxn, hred n, h0, pow_zero]
   have hsq : n * n % 3 = 1 := by
-    rcases (by omega : n % 3 = 1 ∨ n % 3 = 2) with h | h <;> rw [Nat.mul_mod, h] <;> norm_num
+    rcases (by omega : n % 3 = 1 ∨ n % 3 = 2) with h | h <;> rw [Nat.mul_mod, h]
   have hqcube : (g ^ n) ^ 3 = x := by
     rw [← pow_mul, mul_comm, pow_mul, ← hxn, ← pow_mul, hred (n * n), hsq, pow_one]
   have hqP : g ^ n ∈ (P : Subgroup G) := pow_mem hgP n
@@ -580,6 +587,7 @@ private theorem r10a25_mem_normalizer_centralizer {H : Subgroup G} {g : G}
   have := key g⁻¹ (inv_mem hg) _ hc
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 private theorem r10a25_exists_sylow_le [Finite G] {p : ℕ} [Fact p.Prime] {B H : Subgroup G}
     (hBH : B ≤ H) (hB : IsPGroup p B) : ∃ W : Subgroup G, IsSylowOf p W H ∧ B ≤ W := by
   have hB' : IsPGroup p (B.subgroupOf H) := hB.comap_subtype
@@ -638,7 +646,7 @@ theorem isSylowOf_plane_normalizer (hS : Setting G) {P : Sylow 3 G} {M : Subgrou
   have hPx : IsSylowOf 3 ((P : Subgroup G) ⊓ centralizer ({x} : Set G))
       (centralizer ({x} : Set G)) :=
     isSylowOf_iff.mpr
-      ⟨inf_le_right, P.isPGroup'.to_inf_left, hyp.failure.point.sylow_centralizer⟩
+      ⟨inf_le_right, P.isPGroup.to_inf_left, hyp.failure.point.sylow_centralizer⟩
   have hBC : IsSylowOf 3 (zpowers x ⊔ zpowers z) (centralizer ({x} : Set G)) := by
     rw [← hPlane]
     exact hPx
@@ -652,6 +660,7 @@ open CFSG.Open CFSG.ABGLocalTools Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem r10a27_commutator_le (S : Subgroup G) {z : G}
     (hz : zpowers z ≤ normalizer (S : Set G)) : ⁅zpowers z, S⁆ ≤ S := by
   rw [Subgroup.commutator_le]
@@ -678,6 +687,7 @@ theorem mem_normalizer_S0 {P : Sylow 3 G} {M : Subgroup G} {x z : G} {T : Subgro
   exact inf_normalizer_le_normalizer_inf
     ⟨le_normalizer (Subgroup.mem_inf.mp hg).2, hMN (Subgroup.mem_inf.mp hg).1⟩
 
+omit [Finite G] in
 theorem x_mem_centralizer_S0 {x : G} {T M : Subgroup G} :
     x ∈ centralizer ((smallRankS x T ⊓ pCoreOf 2 M : Subgroup G) : Set G) := by
   rw [Subgroup.mem_centralizer_iff]
@@ -708,6 +718,7 @@ open CFSG.Open CFSG.ABGLocalTools Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem r10a26_le_normalizer_pCoreOf (M : Subgroup G) :
     M ≤ normalizer (pCoreOf 2 M : Set G) := by
   have hnorm : ((pCoreOf 2 M).subgroupOf M).Normal :=
@@ -716,6 +727,7 @@ private theorem r10a26_le_normalizer_pCoreOf (M : Subgroup G) :
   exact le_normalizer_of_normal_subgroupOf
     (CFSG.RankThreeEvenClassification.Helpers.pCoreOf_le 2 M)
 
+omit [Finite G] in
 private theorem r10a26_S0_eq (x : G) (T M : Subgroup G) (hQT : pCoreOf 2 M ≤ T) :
     smallRankS x T ⊓ pCoreOf 2 M = pCoreOf 2 M ⊓ centralizer ({x} : Set G) := by
   unfold smallRankS
@@ -727,6 +739,7 @@ private theorem r10a26_S0_eq (x : G) (T M : Subgroup G) (hQT : pCoreOf 2 M ≤ T
   · rintro ⟨hQ, hC⟩
     exact ⟨⟨hQT hQ, hC⟩, hQ⟩
 
+omit [Finite G] in
 private theorem r10a26_normal_S0 (x : G) (T M : Subgroup G) (hSM : smallRankS x T ≤ M) :
     ((smallRankS x T ⊓ pCoreOf 2 M).subgroupOf (smallRankS x T)).Normal := by
   have hSN : smallRankS x T ≤ normalizer ((smallRankS x T ⊓ pCoreOf 2 M : Subgroup G) : Set G) :=
@@ -734,6 +747,7 @@ private theorem r10a26_normal_S0 (x : G) (T M : Subgroup G) (hSM : smallRankS x 
       (Subgroup.mem_inf.mpr ⟨le_normalizer hs, r10a26_le_normalizer_pCoreOf M (hSM hs)⟩)
   exact (normal_subgroupOf_iff_le_normalizer inf_le_left).mpr hSN
 
+omit [Finite G] in
 private theorem r10a26_commutator_le_S (x z : G) (T : Subgroup G)
     (hz : zpowers z ≤ normalizer (smallRankS x T : Set G)) :
     smallRankR x z T ≤ smallRankS x T := by
@@ -745,7 +759,7 @@ private theorem r10a26_commutator_le_S (x z : G) (T : Subgroup G)
     (mem_normalizer_iff.mp (hz hg₁) g₂).mp hg₂
   exact (smallRankS x T).mul_mem h1 ((smallRankS x T).inv_mem hg₂)
 
-theorem mem_centralizer_S0_of_coprime (hS : Setting G) (hOut : KFactOutQ8Quaternion)
+theorem mem_centralizer_S0_of_coprime (_hS : Setting G) (hOut : KFactOutQ8Quaternion)
     {P : Sylow 3 G} {M : Subgroup G} {x z : G} {T : Subgroup G} {f : ℕ}
     (hyp : Lemma630Hyp G 3 P M x z T f) :
     ∀ g ∈ M ⊓ centralizer ({x} : Set G), Nat.Coprime (orderOf g) 6 →

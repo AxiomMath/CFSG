@@ -59,7 +59,7 @@ theorem exists_b2Package {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : 
       exact pow_orderOf_eq_one _
     have hβ2 : (beta b (t : G)) ^ 2 = 1 := by
       have h := D.beta_pow htmem 2
-      rw [ht2, D.beta_one] at h
+      rw [ht2, CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.beta_one] at h
       exact h.symm
     have hβ3 : (beta b (t : G)) ^ 3 = 1 := D.B₁3 _ hβmem
     have hβ1 : beta b (t : G) = 1 := by
@@ -78,7 +78,7 @@ theorem exists_b2Package {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : 
     refine sup_le ?_ ?_
     · refine Subgroup.zpowers_le.mpr ?_
       have hbnor : b ∈ Subgroup.normalizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) :=
-        Subgroup.le_normalizer D.b_mem_B
+        Subgroup.le_normalizer (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.b_mem_B (G := G) (b := b) (b₁ := b₁) (b₂ := b₂) (b₃ := b₃))
       exact GGFF.mem_nor_of_conj_mem fun x hx => D.conj_mem_Ahat hbnor hx
     · rintro g ⟨hgL, hgN₁⟩
       have hgb : g * b * g⁻¹ = b := by
@@ -115,7 +115,7 @@ theorem exists_b2Package {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : 
     exact Subgroup.mem_sup_left (Subgroup.mem_zpowers b)
   have hb_mem_S : b ∈ S := by
     have hsup : S ⊔ Subgroup.zpowers b ≤ Ahat B₁ b :=
-      sup_le hSÂ (Subgroup.zpowers_le.mpr (D.B_le_Ahat D.b_mem_B))
+      sup_le hSÂ (Subgroup.zpowers_le.mpr (D.B_le_Ahat (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.b_mem_B (G := G) (b := b) (b₁ := b₁) (b₂ := b₂) (b₃ := b₃))))
     have h3 : IsPGroup 3 (S ⊔ Subgroup.zpowers b : Subgroup G) :=
       IsPGroup.to_sup_of_normal_left' hSp hb_p (Subgroup.zpowers_le.mpr (hDgS hbDg))
     have hEq : S ⊔ Subgroup.zpowers b = S := hSmax _ hsup h3 le_sup_left
@@ -145,7 +145,7 @@ theorem exists_b2Package {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : 
     have hy' : y ∈ S ⊔ B₁ := Subgroup.mem_sup_right hy
     rwa [hEq] at hy'
   have hB_le_S : BB b b₁ b₂ b₃ ≤ S := by
-    rw [D.B_eq_sup]
+    rw [CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.B_eq_sup]
     exact sup_le (Subgroup.zpowers_le.mpr hb_mem_S) hB₁_mem_S
   obtain ⟨τ, _c, hTauC⟩ := exists_tauC h
   have hτL : τ ∈ L := hTauC.tau_mem
@@ -215,7 +215,7 @@ theorem exists_b2Package {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : 
     refine hB₂nor b ?_ ?_ ?_ x hx
     · change b ∈ Subgroup.normalizer ((GGFF.Bt b z : Subgroup G) : Set G)
       rw [hBteq]
-      exact Subgroup.le_normalizer D.b_mem_B
+      exact Subgroup.le_normalizer (CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.b_mem_B (G := G) (b := b) (b₁ := b₁) (b₂ := b₂) (b₃ := b₃))
     · intro y hy
       exact (Subgroup.mem_normalizer_iff.mp (hDgS hbDg) y).mp hy
     · have hτb_comm : τ * b = b * τ :=
@@ -285,7 +285,7 @@ theorem exists_b2Package {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : 
     have hδ : g⁻¹ * τ * g * τ⁻¹ ∈ cB b z := by
       have hu_mem : g⁻¹ * τ * g * τ⁻¹ ∈
           Subgroup.centralizer ((BB b b₁ b₂ b₃ : Subgroup G) : Set G) := by
-        refine D.mem_cen_of_gens fun z hz => ?_
+        refine CFSG.RankThree.PartTwo.Sec21.FF81.Lift.Data0.mem_cen_of_gens fun z hz => ?_
         rcases hz with rfl | rfl | rfl | rfl
         · exact hu_b
         · exact hu_gen 0

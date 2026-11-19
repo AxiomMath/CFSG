@@ -29,7 +29,7 @@ theorem q1447a_a5ZB_true : a5ZB = true := by
 set_option maxHeartbeats 0 in
 theorem q1447a_a5KB_true : a5KB = true := by
   simp only [a5KB, CFSG.Quasithin.H13.Q1447Cert.conjB, conjOf, gEA, gSAE, gAAE, subB, closedB, nodupB_toP,
-    elemsOf_toF, hs_contains_toLR', hs_contains_toLR, contains_toLR, mul8_toF, pow8_toF]
+    elemsOf_toF, hs_contains_toLR, contains_toLR, mul8_toF, pow8_toF]
   decide +kernel
 
 theorem q1447aCheck_true : q1447aCheck = true := by

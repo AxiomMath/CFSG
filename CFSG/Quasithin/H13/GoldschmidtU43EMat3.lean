@@ -123,12 +123,12 @@ theorem isRep_z (S : JWSetup z) (r : S.Rho) :
     rw [h]
     exact Subtype.ext (S.conj_z_sigp)
   · have h := evC_unit_neg (x := basis r) (fun _ => S.pow_three_M _)
-      (fun i => Zmat i 2) 2 (by funext i; fin_cases i <;> simp [Zmat] <;> rfl)
+      (fun i => Zmat i 2) 2 (by funext i; fin_cases i <;> simp [Zmat])
     show S.conjM z S.z_mem_Ng (basis r 2) = evC (basis r) (fun i => Zmat i 2)
     rw [h]
     exact Subtype.ext (r.inv)
   · have h := evC_unit_neg (x := basis r) (fun _ => S.pow_three_M _)
-      (fun i => Zmat i 3) 3 (by funext i; fin_cases i <;> simp [Zmat] <;> rfl)
+      (fun i => Zmat i 3) 3 (by funext i; fin_cases i <;> simp [Zmat])
     show S.conjM z S.z_mem_Ng (basis r 3) = evC (basis r) (fun i => Zmat i 3)
     rw [h]
     exact Subtype.ext (S.z_rho2 r.inv)
@@ -143,7 +143,7 @@ theorem isRep_u (S : JWSetup z) (r : S.Rho) :
     rw [h]
     exact Subtype.ext (S.conj_u_sigG)
   · have h := evC_unit_neg (x := basis r) (fun _ => S.pow_three_M _)
-      (fun i => Umat i 1) 1 (by funext i; fin_cases i <;> simp [Umat] <;> rfl)
+      (fun i => Umat i 1) 1 (by funext i; fin_cases i <;> simp [Umat])
     show S.conjM (S.u : G) S.u_mem_Ng (basis r 1) = evC (basis r) (fun i => Umat i 1)
     rw [h]
     exact Subtype.ext (S.conj_u_sigp)
@@ -153,7 +153,7 @@ theorem isRep_u (S : JWSetup z) (r : S.Rho) :
     rw [h]
     exact Subtype.ext (S.conj_u_rho r)
   · have h := evC_unit_neg (x := basis r) (fun _ => S.pow_three_M _)
-      (fun i => Umat i 3) 3 (by funext i; fin_cases i <;> simp [Umat] <;> rfl)
+      (fun i => Umat i 3) 3 (by funext i; fin_cases i <;> simp [Umat])
     show S.conjM (S.u : G) S.u_mem_Ng (basis r 3) = evC (basis r) (fun i => Umat i 3)
     rw [h]
     exact Subtype.ext (S.conj_u_rho2 r)
@@ -163,17 +163,17 @@ theorem isRep_v (S : JWSetup z) (r : S.Rho) :
   refine isRep_of_cols (fun _ => S.pow_three_M _) _ _ fun j => ?_
   fin_cases j
   · have h := evC_unit_neg (x := basis r) (fun _ => S.pow_three_M _)
-      (fun i => Vmat i 0) 0 (by funext i; fin_cases i <;> simp [Vmat] <;> rfl)
+      (fun i => Vmat i 0) 0 (by funext i; fin_cases i <;> simp [Vmat])
     show S.conjM (S.v : G) S.v_mem_Ng (basis r 0) = evC (basis r) (fun i => Vmat i 0)
     rw [h]
     exact Subtype.ext (S.conj_v_of_mem_Tg S.sigG_mem_Tg)
   · have h := evC_unit_neg (x := basis r) (fun _ => S.pow_three_M _)
-      (fun i => Vmat i 1) 1 (by funext i; fin_cases i <;> simp [Vmat] <;> rfl)
+      (fun i => Vmat i 1) 1 (by funext i; fin_cases i <;> simp [Vmat])
     show S.conjM (S.v : G) S.v_mem_Ng (basis r 1) = evC (basis r) (fun i => Vmat i 1)
     rw [h]
     exact Subtype.ext (S.conj_v_of_mem_Tg S.sigp_mem_Tg)
   · have h := evC_unit_neg (x := basis r) (fun _ => S.pow_three_M _)
-      (fun i => Vmat i 2) 3 (by funext i; fin_cases i <;> simp [Vmat] <;> rfl)
+      (fun i => Vmat i 2) 3 (by funext i; fin_cases i <;> simp [Vmat])
     show S.conjM (S.v : G) S.v_mem_Ng (basis r 2) = evC (basis r) (fun i => Vmat i 2)
     rw [h]
     exact Subtype.ext (S.conj_v_rho r)

@@ -62,7 +62,7 @@ theorem ThCyc.exists_THyp (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
   have hQK : Q ≤ K := (le_sup_left : Q ≤ Q ⊔ S).trans (le_sup_left : Q ⊔ S ≤ K)
   have hSK : S ≤ K := (le_sup_right : S ≤ Q ⊔ S).trans (le_sup_left : Q ⊔ S ≤ K)
   have hzK : zpowers t ≤ K := le_sup_right
-  refine ⟨(P : Subgroup N).map N.subtype, P.isPGroup'.map N.subtype,
+  refine ⟨(P : Subgroup N).map N.subtype, P.isPGroup.map N.subtype,
     Subgroup.map_subtype_le (P : Subgroup N), ?_, ?_, ?_, ?_⟩
   · intro q hq
     exact hKleT (hQK hq)
@@ -99,13 +99,13 @@ theorem ThCyc.exists_mem_normalizer_not_mem (H : ThCyc G L R t) (W : ThLocalIn L
       (sup_le hT.S_le (Subgroup.zpowers_le.2 hT.t_mem)) hT.le_normalizer
   · have hlt : T < (P : Subgroup G) := lt_of_le_of_ne hTP hTPeq
     have hlt' : T < (P : Subgroup G) ⊓ normalizer (T : Set G) :=
-      CFSG.GroupTheory.FT63ChII.lt_inf_normalizer_of_lt (q := 2) P.isPGroup' hlt
-    obtain ⟨g, hg, hgT⟩ := SetLike.exists_of_lt hlt'
+      CFSG.GroupTheory.FT63ChII.lt_inf_normalizer_of_lt (q := 2) P.isPGroup hlt
+    obtain ⟨g, hg, hgT⟩ := _root_.IsConcreteLE.exists_of_lt hlt'
     have hgP : g ∈ (P : Subgroup G) := hg.1
     have hgN : g ∈ normalizer (T : Set G) := hg.2
     have hgD : g ∈ normalizer (D : Set G) := hsub hgN
     have hgZp : IsPGroup 2 (zpowers g : Subgroup G) :=
-      P.isPGroup'.to_le (Subgroup.zpowers_le.2 hgP)
+      P.isPGroup.to_le (Subgroup.zpowers_le.2 hgP)
     have hYp : IsPGroup 2 (T ⊔ zpowers g : Subgroup G) :=
       IsPGroup.to_sup_of_normal_left' hT.pgroup hgZp (Subgroup.zpowers_le.2 hgN)
     have hYN : T ⊔ zpowers g ≤ normalizer (D : Set G) :=

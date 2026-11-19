@@ -224,8 +224,6 @@ public theorem huppert_blackburn_XI_projectivePointEquiv_kernel_action
           some (eAdd (Additive.ofMul f) + x)
       rw [hPointF]
       congr 1
-      change eAdd (Additive.ofMul (f * r)) =
-        eAdd (Additive.ofMul f) + x
       rw [show Additive.ofMul (f * r) =
           Additive.ofMul f + Additive.ofMul r from rfl, eAdd.map_add]
       change eAdd (Additive.ofMul f) + eAdd (eAdd.symm x) =
@@ -358,9 +356,9 @@ public theorem huppert_blackburn_XI_sharpTriple_exists_rightNearField
   let b' : X := ⟨b, hab.symm⟩
   let D := MulAction.stabilizer H b'
   change IsFrobeniusGroupWithKernelComplement F D at hFrob
-  letI : F.Normal := hFrob.normal
-  letI : IsMulCommutative F := hFcomm
-  letI : CommGroup F := IsMulCommutative.instCommGroup
+  let : F.Normal := hFrob.normal
+  let : IsMulCommutative F := hFcomm
+  let : CommGroup F := IsMulCommutative.instCommGroup
   rcases huppert_blackburn_XI_twoPointStabilizer_exists_conjEquiv
       htwo hsharp a b hab F hFrob with ⟨z, hz, e, he⟩
   let punctureEquiv : {x : F // x ≠ 1} ≃ {x : Additive F // x ≠ 0} :=
@@ -385,20 +383,20 @@ public theorem huppert_blackburn_XI_sharpTriple_exists_rightNearField
   let K := SharpNearFieldCarrier D
   let mulCoord : K ≃ WithZero D := sharpNearFieldCarrierEquiv D
   let addCoord : K ≃ Additive F := mulCoord.trans withZeroEquiv
-  letI : AddCommGroup K := addCoord.addCommGroup
+  let : AddCommGroup K := addCoord.addCommGroup
   let addEquiv : Additive F ≃+ K := (addCoord.addEquiv).symm
   have hmulCoord_zero : mulCoord (0 : K) = 0 := by
     apply withZeroEquiv.injective
     change addCoord (0 : K) = withZeroEquiv 0
     rw [hwithZero_zero]
     exact (addCoord.addEquiv).map_zero
-  letI : One K := mulCoord.one
-  letI : Mul K := mulCoord.mul
-  letI : Inv K := mulCoord.Inv
-  letI : Div K := mulCoord.div
-  letI : Pow K ℕ := mulCoord.pow ℕ
-  letI : Pow K ℤ := mulCoord.pow ℤ
-  letI : GroupWithZero K :=
+  let : One K := mulCoord.one
+  let : Mul K := mulCoord.mul
+  let : Inv K := mulCoord.Inv
+  let : Div K := mulCoord.div
+  let : Pow K ℕ := mulCoord.pow ℕ
+  let : Pow K ℤ := mulCoord.pow ℤ
+  let : GroupWithZero K :=
     mulCoord.injective.groupWithZero mulCoord hmulCoord_zero
       (by simp [Equiv.one_def])
       (by intro x y; simp [Equiv.mul_def])
@@ -503,7 +501,7 @@ public theorem huppert_blackburn_XI_sharpTriple_exists_rightNearField
                   addEquiv (conjAdd d (addEquiv.symm y))) := by
               rw [addEquiv.symm.map_add, addEquiv.symm_apply_apply,
                 addEquiv.symm_apply_apply] }
-  letI : RightNearField K := hNF
+  let : RightNearField K := hNF
   let hKfinite : Finite K :=
     Finite.of_injective addEquiv.symm addEquiv.symm.injective
   let mulEquiv : K ≃* WithZero D := mulCoord.mulEquiv

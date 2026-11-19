@@ -19,6 +19,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H : Subgroup G} {d : ℕ}
   {L₁ L₂ L₃ : Subgroup G} {n₁ n₂ n₃ : ℕ}
 
+omit [Finite G] in
 private theorem orderOf_eq_three_of_mem_of_ne_one {W : Subgroup G} (hW : Nat.card W = 3)
     {x : G} (hx : x ∈ W) (hx1 : x ≠ 1) : orderOf x = 3 := by
   have hdvd := Subgroup.orderOf_dvd_natCard W hx
@@ -27,10 +28,11 @@ private theorem orderOf_eq_three_of_mem_of_ne_one {W : Subgroup G} (hW : Nat.car
   · exact absurd (orderOf_eq_one_iff.mp h) hx1
   · exact h
 
+omit [Finite G] in
 private theorem exists_mem_orderOf_eq_three_of_card {W : Subgroup G}
     (hW : Nat.card W = 3) : ∃ w ∈ W, w ≠ 1 ∧ orderOf w = 3 := by
-  haveI : Finite W := Nat.finite_of_card_ne_zero (by rw [hW]; norm_num)
-  haveI : Nontrivial W := by
+  have : Finite W := Nat.finite_of_card_ne_zero (by rw [hW]; norm_num)
+  have : Nontrivial W := by
     rw [← Finite.one_lt_card_iff_nontrivial, hW]
     norm_num
   obtain ⟨w, hwW, hw1⟩ := Subgroup.exists_ne_one_of_nontrivial W
@@ -42,7 +44,7 @@ private theorem kbarConj_ne_one_of_orderOf_prime
     (hKH : ((kSub p M H).subgroupOf H).Normal)
     (hK : IsTwoPrimeComponentIn (kSub p M H) H)
     (hZ : center (modTwoCore (kSub p M H)) = ⊥)
-    {I L : Subgroup G} {n r : ℕ} (hL : L ∈ weakBlockSet M H) (hI : I ≤ H ⊓ L)
+    {I L : Subgroup G} {n r : ℕ} (_hL : L ∈ weakBlockSet M H) (hI : I ≤ H ⊓ L)
     (hn2 : 2 ≤ n) (htype : IsPSLType 2 (GaloisField 2 n) (modTwoCore I))
     {y : ↥I} (hr : r.Prime) (hyord : orderOf y = r) (hr2 : r ≠ 2) :
     kbarConj hKH ⟨(y : G), hI.trans inf_le_left y.2⟩ ≠ 1 := by
@@ -170,7 +172,7 @@ private theorem exists_kbarConj_orderOf_three
     change w ^ 3 = 1
     rw [← orderOf_dvd_iff_pow_eq_one, hword]
   have hφw_ord : orderOf (kbarConj hKH wH) = 3 := by
-    haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
+    have : Fact (Nat.Prime 3) := Nat.fact_prime_three
     exact orderOf_eq_prime (by rw [← map_pow, hwH3, map_one]) hφw_ne
   exact ⟨wH, by simpa [wH] using hwW, fun h => hw1 (congrArg Subtype.val h), hφw_ord⟩
 
@@ -192,7 +194,7 @@ private theorem block_prime_eq_two_or_three_or_five
   have hr2 : r ≠ 2 := fun h => hmem (Or.inl h)
   have hdvdI : r ∣ Nat.card ↥I :=
     hdvd.trans (Subgroup.card_quotient_dvd_card (CFSG.pCore 2 ↥I))
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card' (G := ↥I) r hdvdI
   have hyGord : orderOf (y : G) = r := (Subgroup.orderOf_coe y).trans hyord
   let yH : ↥H := ⟨(y : G), hI.trans inf_le_left y.2⟩

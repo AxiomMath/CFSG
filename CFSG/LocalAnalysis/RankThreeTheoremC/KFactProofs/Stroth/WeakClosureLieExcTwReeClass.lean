@@ -31,8 +31,8 @@ theorem ree_sylow_of_torus (D : ReeFrameData K L a) (w : WeylGroup ReeTag.F4.tag
     (hu : ∀ x : Fin ReeTag.F4.tag.rank → ℤ, ⁅u₁, u₂⁆⁻¹ • x = -x) :
     ∃ P : Sylow p (ReeTag.F4.reeGamma K a),
       NormalizerMovesLines p (P : Subgroup (ReeTag.F4.reeGamma K a)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   have hpL : (p : L) ≠ 0 := fun h0 =>
     hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1
       ((CharP.cast_eq_zero_iff L 2 p).1 h0)).symm
@@ -53,12 +53,12 @@ theorem ree_sylow_phi1 (hK : Nat.card K = 2 ^ (2 * a + 1)) {p : ℕ} (hp : p.Pri
     ∃ P : Sylow p (ReeTag.F4.reeGamma K a),
       NormalizerMovesLines p (P : Subgroup (ReeTag.F4.reeGamma K a)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   have hq1 : 1 ≤ 2 ^ (2 * a + 1) := Nat.one_le_two_pow
   obtain ⟨D⟩ := reeFrameData_nonempty (K := K) (L := AlgebraicClosure K) hK
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hodd : Odd (p ^ (2 ^ (2 * a + 1) - 1).factorization p) :=
     (hp.odd_of_ne_two (by omega)).pow
@@ -77,12 +77,12 @@ theorem ree_sylow_phi2 (hK : Nat.card K = 2 ^ (2 * a + 1)) {p : ℕ} (hp : p.Pri
     ∃ P : Sylow p (ReeTag.F4.reeGamma K a),
       NormalizerMovesLines p (P : Subgroup (ReeTag.F4.reeGamma K a)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   have hq1 : 1 ≤ 2 ^ (2 * a + 1) := Nat.one_le_two_pow
   obtain ⟨D⟩ := reeFrameData_nonempty (K := K) (L := AlgebraicClosure K) hK
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hodd : Odd (p ^ (2 ^ (2 * a + 1) + 1).factorization p) :=
     (hp.odd_of_ne_two (by omega)).pow
@@ -101,13 +101,13 @@ theorem ree_sylow_phi4 (hK : Nat.card K = 2 ^ (2 * a + 1)) {p : ℕ} (hp : p.Pri
     ∃ P : Sylow p (ReeTag.F4.reeGamma K a),
       NormalizerMovesLines p (P : Subgroup (ReeTag.F4.reeGamma K a)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   have hq1 : 1 ≤ 2 ^ (2 * a + 1) := Nat.one_le_two_pow
   have hle : 2 ^ (a + 1) ≤ 2 ^ (2 * a + 1) := Nat.pow_le_pow_right (by norm_num) (by omega)
   obtain ⟨D⟩ := reeFrameData_nonempty (K := K) (L := AlgebraicClosure K) hK
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   set e := ((2 ^ (2 * a + 1)) ^ 2 + 1).factorization p with he
   have hodd : Odd (p ^ e) := (hp.odd_of_ne_two (by omega)).pow

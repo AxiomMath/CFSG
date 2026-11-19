@@ -43,9 +43,9 @@ private theorem w183_center_eq_bot_of_simple_perfect {S : Type} [Group S]
   rcases hS.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
   · exact h
   · exfalso
-    haveI : IsMulCommutative S := Subgroup.center_eq_top_iff.mp h
-    haveI : Group.IsPerfect S := hperf
-    haveI : Subsingleton S := inferInstance
+    have : IsMulCommutative S := Subgroup.center_eq_top_iff.mp h
+    have : Group.IsPerfect S := hperf
+    have : Subsingleton S := inferInstance
     exact (not_subsingleton S) inferInstance
 
 theorem Shape186OddTriv.exists_lieModel_table_dvd_two {S : Type} [Group S]
@@ -111,12 +111,12 @@ theorem oddMultiplier186Triv_of_griess
     OddMultiplier186Triv := by
   intro S _ hS X _ _ Z _ hZc hZodd hperf hiso
   obtain ⟨e⟩ := hiso
-  haveI : Finite S := Finite.of_equiv (X ⧸ Z) e.toEquiv
-  haveI hsimp : IsSimpleGroup S := w183_shape186_isSimpleGroup hS
-  haveI hperfX : Group.IsPerfect X := by
+  have : Finite S := Finite.of_equiv (X ⧸ Z) e.toEquiv
+  have hsimp : IsSimpleGroup S := w183_shape186_isSimpleGroup hS
+  have hperfX : Group.IsPerfect X := by
     rw [Group.isPerfect_def, _root_.commutator_def]
     exact hperf
-  haveI hperfS : Group.IsPerfect S :=
+  have hperfS : Group.IsPerfect S :=
     Group.IsPerfect.ofSurjective (f := e.toMonoidHom.comp (QuotientGroup.mk' Z))
       (e.surjective.comp (QuotientGroup.mk'_surjective Z))
   have hcenterS : Subgroup.center S = ⊥ :=

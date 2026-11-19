@@ -103,7 +103,7 @@ theorem liftData_J :
     funext j
     have h3 : decide (c j = 1) = decide (d j = 1) := (hmc j).symm.trans (hmd j)
     rcases zmod_two_cases (c j) with hc | hc <;> rcases zmod_two_cases (d j) with hd | hd <;>
-      rw [hc, hd] at h3 ⊢ <;> first | rfl | exact absurd h3 (by decide)
+      rw [hc, hd] at h3 ⊢ <;> (exact absurd h3 (by decide))
   · intro i
     rw [ebasis_eq_eta uJ (c := fun j => Smat i j) (m := sRowMasks i)
       (fun j => maskMatrix_bits sRowMasks i j)]

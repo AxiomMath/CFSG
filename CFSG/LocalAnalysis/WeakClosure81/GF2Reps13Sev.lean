@@ -25,7 +25,8 @@ private theorem w16g_zpow_eq_one_or_self_of_sq {M : Type*} [Group M] {x : M} (hx
   · right
     rw [hm, zpow_add, zpow_mul, h2, one_zpow, one_mul, zpow_one]
 
-private theorem w16g_commSub_zpowers_eq_map_of_sq_one (hW : ∀ w : W, w ^ 2 = 1)
+omit [Finite W] in
+private theorem w16g_commSub_zpowers_eq_map_of_sq_one (_hW : ∀ w : W, w ^ 2 = 1)
     {I : Subgroup W} {y : MulAut W} (hy : y * y = 1) :
     commSub I (Subgroup.zpowers y) = I.map (commHom y) := by
   apply le_antisymm
@@ -40,6 +41,7 @@ private theorem w16g_commSub_zpowers_eq_map_of_sq_one (hW : ∀ w : W, w ^ 2 = 1
   · rintro c ⟨w, hw, rfl⟩
     exact Subgroup.subset_closure ⟨y, Subgroup.mem_zpowers y, w, hw, rfl⟩
 
+omit [Finite W] in
 private theorem w16g_commSub_top_sup_le (X Y : Subgroup (MulAut W)) :
     commSub (⊤ : Subgroup W) (X ⊔ Y) ≤
       commSub (⊤ : Subgroup W) X ⊔ commSub (⊤ : Subgroup W) Y := by
@@ -58,7 +60,8 @@ theorem rk_eq_rk_commSub_add_rk_inf_fixV (hW : ∀ w : W, w ^ 2 = 1) {I : Subgro
   rw [← hmap, ker_commHom] at h
   omega
 
-theorem rk_commSub_zpowers_conj (hW : ∀ w : W, w ^ 2 = 1) (y g : MulAut W) :
+omit [Finite W] in
+theorem rk_commSub_zpowers_conj (_hW : ∀ w : W, w ^ 2 = 1) (y g : MulAut W) :
     rk ↥(commSub ⊤ (Subgroup.zpowers (g⁻¹ * y * g))) = rk ↥(commSub ⊤ (Subgroup.zpowers y)) := by
   have hzp : Subgroup.zpowers (g⁻¹ * y * g) = CFSG.Quasithin.conjBy g⁻¹ (Subgroup.zpowers y) := by
     simp only [CFSG.Quasithin.conjBy, MonoidHom.map_zpowers, MulEquiv.coe_toMonoidHom,

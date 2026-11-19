@@ -161,7 +161,7 @@ theorem theoremQ {K : Type} [Field K] [Finite K] (hK : Nat.card K = 3 ^ 6) (hK3 
         (fun r hr => hQpow r (Subgroup.mem_inf.mp hr).1) hQ1β hfix with h | h
     · exfalso
       obtain ⟨hs, _⟩ := Nat.card_eq_one_iff_unique.mp h
-      haveI := hs
+      have := hs
       apply hz1
       exact congrArg Subtype.val
         (Subsingleton.elim (⟨_, hzR⟩ : ↥(Q ⊓ (pglAction K).range)) 1)

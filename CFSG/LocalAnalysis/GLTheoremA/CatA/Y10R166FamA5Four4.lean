@@ -35,11 +35,13 @@ private theorem phi_one_mem_block (hF : Nat.card F = 4) (u v w : Fˣ) :
     fin_cases i <;> simp_all [I01, phiUnits]
   · rw [Matrix.diagonal_apply_ne _ h, Matrix.one_apply_ne h]
 
-private theorem I45_subset (hF : Nat.card F = 4) : I45 ⊆ I01ᶜ := by
+omit [Field F] [Finite F] in
+private theorem I45_subset (_hF : Nat.card F = 4) : I45 ⊆ I01ᶜ := by
   intro x hx
   fin_cases x <;> simp_all [I45, I01]
 
-private theorem blockSpecialLinear_commute_diag (hF : Nat.card F = 4) {d : Fin 6 → F}
+omit [Finite F] in
+private theorem blockSpecialLinear_commute_diag (_hF : Nat.card F = 4) {d : Fin 6 → F}
     (hd : d 4 = d 5) (hprod : ∏ i, d i = 1) {A : SpecialLinearGroup (Fin 6) F}
     (hA : A ∈ blockSpecialLinear I45) : Commute A (diagSL d hprod) := by
   apply Subtype.ext
@@ -67,7 +69,7 @@ private theorem blockSpecialLinear_commute_diag (hF : Nat.card F = 4) {d : Fin 6
 private theorem scalarHom_val {p : Fˣ × Fˣ × Fˣ × Fˣ} (hp : p ∈ (scalarHom (F := F)).ker) :
     p.2.1 * p.2.2.1 * p.2.2.2 ^ 2 = 1 := hp
 
-private theorem diag_phi_scalar (hF : Nat.card F = 4) {p : Fˣ × Fˣ × Fˣ × Fˣ}
+private theorem diag_phi_scalar (_hF : Nat.card F = 4) {p : Fˣ × Fˣ × Fˣ × Fˣ}
     (hp : p ∈ (scalarHom (F := F)).ker) :
     (phiUnits p.1 p.2.1 p.2.2.1 p.2.2.2 (4 : Fin 6) : F) =
       (phiUnits p.1 p.2.1 p.2.2.1 p.2.2.2 (5 : Fin 6) : F) := by
@@ -260,13 +262,14 @@ private theorem phi_one_one_one_mem_I45 (hF : Nat.card F = 4) (ω : Fˣ) :
     fin_cases i <;> simp_all [I45, phiUnits]
   · rw [Matrix.diagonal_apply_ne _ h, Matrix.one_apply_ne h]
 
-private theorem transvection_i45_mem (hF : Nat.card F = 4) :
+omit [Finite F] in
+private theorem transvection_i45_mem (_hF : Nat.card F = 4) :
     SpecialLinearGroup.transvection i45 (1 : F) ∈ blockSpecialLinear I45 := by
   rw [mem_blockSpecialLinear]
   intro i j hij
   rw [SpecialLinearGroup.transvection_coe]
   fin_cases i <;> fin_cases j <;>
-    simp_all [I45, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp_all [I45, Matrix.add_apply]
 
 private theorem g_mem_L (hF : Nat.card F = 4) (ω : Fˣ) :
     psi hF (1, 1, 1, ω) ∈ blockSL (K := F) I45 := by
@@ -322,7 +325,7 @@ private theorem g_not_mem_center (hF : Nat.card F = 4) {ω : Fˣ} (hω : orderOf
       SpecialLinearGroup (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) 4 5) =
         ((ω : F) ^ 2 - 1) := by
     rw [SpecialLinearGroup.transvection_coe]
-    simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, i45]
+    simp [Matrix.add_apply, i45]
   have hcmat : (((phi hF 1 1 1 ω * SpecialLinearGroup.transvection i45 1 *
       (phi hF 1 1 1 ω)⁻¹ * (SpecialLinearGroup.transvection i45 1)⁻¹ :
         SpecialLinearGroup (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) 4 5) = 0 := by
@@ -337,7 +340,7 @@ private theorem three_dvd_card_center_quotient_L (hF : Nat.card F = 4) {ω : Fˣ
     (hω : orderOf ω = 3) :
     3 ∣ Nat.card (↥(blockSL (K := F) I45) ⧸
       Subgroup.center ↥(blockSL (K := F) I45)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hgmem : psi hF (1, 1, 1, ω) ∈ blockSL (K := F) I45 := g_mem_L hF ω
   have hg3 : (⟨psi hF (1, 1, 1, ω), hgmem⟩ : ↥(blockSL (K := F) I45)) ^ 3 = 1 := by
     apply Subtype.ext
@@ -392,10 +395,12 @@ private theorem e3_layer (hF : Nat.card F = 4) {ω : Fˣ} (hω : orderOf ω = 3)
     (L_le_H hF hω) (L_normal_in_H hF hω) (L_quasisimple hF)
     (three_dvd_card_center_quotient_L hF hω)
 
+omit [Finite F] in
 private theorem center_P_eq_bot :
     Subgroup.center (LinearFlag.projectiveSL 6 F) = ⊥ :=
   CFSG.RankThree.RegularUnipotent.center_projectiveSL_eq_bot (by norm_num)
 
+omit [Finite F] in
 private theorem quasisimple_P : CFSG.IsQuasisimple (LinearFlag.projectiveSL 6 F) :=
   isQuasisimple_projectiveSL (by norm_num)
 

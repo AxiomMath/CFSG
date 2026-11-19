@@ -186,7 +186,7 @@ private theorem eta_eq_zeta_or_cube {τ : K} (hτ : τ ^ 3 = 1) {ζ η u : Kˣ} 
   have hj : j % 3 = 0 ∨ j % 3 = 1 ∨ j % 3 = 2 := by omega
   rcases hj with h3 | h3 | h3
   · rw [h3] at h1
-    simp only [pow_zero, one_mul, inv_one, mul_one] at h1
+    simp only [pow_zero, one_mul, mul_one] at h1
     rw [diagUnits_conj_self, diagUnits_eq_iff] at h1
     obtain ⟨h1a, -, h1c⟩ := h1
     have hu : u = 1 := h1c.symm
@@ -580,7 +580,7 @@ theorem eq_one_of_pow_two_projectiveSL {K : Type} [Field K] [Finite K] {p f : �
   classical
   have hp : p.Prime := Fact.out
   have h2card : 2 ≤ Nat.card K := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     have h := Fintype.one_lt_card (α := K)
     rw [Nat.card_eq_fintype_card]
     omega
@@ -627,7 +627,7 @@ theorem eq_one_of_pow_two_projectiveSL {K : Type} [Field K] [Finite K] {p f : �
   have hσf : σ ^ f = 1 := by
     obtain ⟨-, -, -, -, hcard, -⟩ :=
       finite_field_automorphism_fixed_field_cardinality hp hf hK
-    haveI : Fintype (K ≃+* K) := Fintype.ofFinite _
+    have : Fintype (K ≃+* K) := Fintype.ofFinite _
     have h1 : orderOf σ ∣ Nat.card (K ≃+* K) := by
       rw [Nat.card_eq_fintype_card]
       exact orderOf_dvd_card
@@ -749,8 +749,8 @@ theorem eq_one_of_pow_two_projImage_linear {p f : ℕ} {K : Type} [Field K]
     (β : MulAut (projImage (slPi true 3 (p ^ f) K))) (hd : β dM = dM) (hc : β cM = cM)
     (hyβ : β yM = yM) {k : ℕ} (hk : β ^ 2 ^ k = 1) : β = 1 := by
   have hp : p.Prime := hK.prime
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite K := hK.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite K := hK.finite
   have hcard : Nat.card K = p ^ f := by
     have := hK.card
     simpa [piCard] using this

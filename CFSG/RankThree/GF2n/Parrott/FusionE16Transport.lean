@@ -23,7 +23,7 @@ theorem E16Config.exists_transport (cfg : E16Config H) (ψ : H →* X)
     rw [hx, orderOf_injective ψ hψ]
     exact hord0
   obtain ⟨R, hR⟩ := cfg.hPsyl
-  have hP2 : IsPGroup 2 cfg.P := hR ▸ R.isPGroup'
+  have hP2 : IsPGroup 2 cfg.P := hR ▸ R.isPGroup
   set P' : Subgroup X := cfg.P.map ψ with hP'
   have hT : IsPGroup 2 P' := hP2.map ψ
   have hxP' : x ∈ P' := hx ▸ Subgroup.mem_map_of_mem ψ (cfg.hSP 0)

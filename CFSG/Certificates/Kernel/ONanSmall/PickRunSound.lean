@@ -27,29 +27,29 @@ theorem pickRun_sound (L₀ : List M) (inv : M → Bool) (conj : M → M → M �
     unfold pickRun at h
     rw [hinv] at h
     by_cases ht : t * t = 1 ∧ t ≠ 1
-    · rw [decide_eq_true ht, if_pos rfl] at h
+    · rw [decide_eq_true ht, ite_eq_left rfl] at h
       match W, h with
       | [], h => exact absurd h (by simp)
       | (j, d) :: W', h =>
         simp only at h
         by_cases hj : (j == reps.length) = true
-        · rw [if_pos hj] at h
+        · rw [ite_eq_left hj] at h
           by_cases hs : (L₀.any fun g => reps.any fun r => conj g t r) = true
-          · rw [if_pos hs] at h
+          · rw [ite_eq_left hs] at h
             exact absurd h (by simp)
-          · rw [if_neg hs] at h
+          · rw [ite_eq_right hs] at h
             have hc : isCovered L₀ reps t = false := by
               unfold isCovered
               simpa [hconj] using hs
             rw [hc, decide_eq_true ht]
             exact pickRun_sound L₀ inv conj gen hinv hconj hgen ts _ W' R h
-        · rw [if_neg hj] at h
+        · rw [ite_eq_right hj] at h
           match hg : gen d, h with
           | none, h => exact absurd h (by simp)
           | some g, h =>
             simp only at h
             by_cases hk : (j < reps.length && conj g t (reps.getD j 1)) = true
-            · rw [if_pos hk] at h
+            · rw [ite_eq_left hk] at h
               rw [Bool.and_eq_true, decide_eq_true_iff, hconj, decide_eq_true_iff] at hk
               have hc : isCovered L₀ reps t = true := by
                 unfold isCovered
@@ -59,7 +59,7 @@ theorem pickRun_sound (L₀ : List M) (inv : M → Bool) (conj : M → M → M �
                 · simp [hk.2]
               rw [hc]
               simpa using pickRun_sound L₀ inv conj gen hinv hconj hgen ts reps W' R h
-            · rw [if_neg hk] at h
+            · rw [ite_eq_right hk] at h
               exact absurd h (by simp)
     · rw [decide_eq_false ht] at h
       simp only [Bool.false_eq_true, ↓reduceIte] at h
@@ -88,29 +88,29 @@ theorem pickRun_cover (L₀ : List M) (inv : M → Bool) (conj : M → M → M �
     unfold pickRun at h
     rw [hinv] at h
     by_cases ht : t * t = 1 ∧ t ≠ 1
-    · rw [decide_eq_true ht, if_pos rfl] at h
+    · rw [decide_eq_true ht, ite_eq_left rfl] at h
       match W, h with
       | [], h => exact absurd h (by simp)
       | (j, d) :: W', h =>
         simp only at h
         by_cases hj : (j == reps.length) = true
-        · rw [if_pos hj] at h
+        · rw [ite_eq_left hj] at h
           by_cases hs : (L₀.any fun g => reps.any fun r => conj g t r) = true
-          · rw [if_pos hs] at h
+          · rw [ite_eq_left hs] at h
             exact absurd h (by simp)
-          · rw [if_neg hs] at h
+          · rw [ite_eq_right hs] at h
             obtain ⟨i1, i2⟩ := pickRun_cover L₀ inv conj gen hinv hconj hgen h1 ts _ W' R h
             refine ⟨fun r hr => i1 r (by simp [hr]), fun x hx hinvx => ?_⟩
             rcases List.mem_cons.1 hx with rfl | hx
             · exact isCovered_self h1 (i1 x (by simp))
             · exact i2 x hx hinvx
-        · rw [if_neg hj] at h
+        · rw [ite_eq_right hj] at h
           match hg : gen d, h with
           | none, h => exact absurd h (by simp)
           | some g, h =>
             simp only at h
             by_cases hk : (j < reps.length && conj g t (reps.getD j 1)) = true
-            · rw [if_pos hk] at h
+            · rw [ite_eq_left hk] at h
               obtain ⟨i1, i2⟩ := pickRun_cover L₀ inv conj gen hinv hconj hgen h1 ts reps W' R h
               rw [Bool.and_eq_true, decide_eq_true_iff, hconj, decide_eq_true_iff] at hk
               refine ⟨i1, fun x hx hinvx => ?_⟩
@@ -120,7 +120,7 @@ theorem pickRun_cover (L₀ : List M) (inv : M → Bool) (conj : M → M → M �
                 rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hk.1, Option.getD_some]
                 exact List.getElem_mem _
               · exact i2 x hx hinvx
-            · rw [if_neg hk] at h
+            · rw [ite_eq_right hk] at h
               exact absurd h (by simp)
     · rw [decide_eq_false ht] at h
       simp only [Bool.false_eq_true, ↓reduceIte] at h
@@ -146,6 +146,7 @@ theorem coverB_of_pickRun (L₀ : List M) (inv : M → Bool) (conj : M → M →
   | [] => [1]
   | T :: Ts => T.flatMap fun t => (productsOf Ts).map (t * ·)
 
+omit [DecidableEq M] in
 theorem mem_genP : ∀ (Ts : List (List M)) (d : List ℕ) (g : M), genP Ts d = some g →
     g ∈ productsOf Ts
   | [], [], g, h => by

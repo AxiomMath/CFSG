@@ -189,7 +189,7 @@ private theorem finite_gl {E W : Type*} [Field E] [Finite E] [AddCommGroup W] [M
 private theorem qTameGrp_gl {E W : Type*} [Field E] [Finite E] [AddCommGroup W] [Module E W]
     [FiniteDimensional E W] (hq : q.Prime) (hE : ringChar E = q) (h4 : 4 ≤ Nat.card E) :
     QTameGrp q (LinearMap.GeneralLinearGroup E W) := by
-  haveI := finite_gl (E := E) (W := W)
+  have := finite_gl (E := E) (W := W)
   by_cases hm : 2 ≤ Module.finrank E W
   · refine qTameGrp_of_ker (Units.map (LinearMap.det : Module.End E W →* E))
       (CFSG.RankThree.PartOne.KCUnitary.isQuasisimple_ker_det hm
@@ -203,13 +203,13 @@ private theorem qTameGrp_unitary {ℓ g : ℕ} {E : Type} [Field E] (hE : Unitar
     (h5 : 5 ≤ ℓ) {W : Type*} [AddCommGroup W] [Module E W] [FiniteDimensional E W]
     {Hf : W →ₛₗ[hE.bar] W →ₗ[E] E} (hHf : Hf.IsSymm) (hHfl : Hf.SeparatingLeft) :
     QTameGrp ℓ ↥(sesqUnitaryGroup Hf) := by
-  haveI := hE.finite
+  have := hE.finite
   have hℓ : ℓ.Prime := hE.prime
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP E ℓ := hE.charP
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP E ℓ := hE.charP
   have hEℓ : ringChar E = ℓ := ringChar.eq E ℓ
   have hQ : 5 ≤ ℓ ^ g := h5.trans (Nat.le_self_pow (by have := hE.one_le; omega) ℓ)
-  haveI := finite_gl (E := E) (W := W)
+  have := finite_gl (E := E) (W := W)
   by_cases hm : 2 ≤ Module.finrank E W
   · obtain ⟨-, -, -, -, hker, -⟩ :=
       CFSG.LinearGroups.unitary_full_group_order hE hHf hHfl rfl (by omega)
@@ -271,7 +271,7 @@ private theorem qTame_spSupported_of_factor [Finite K] {ℓ f p : ℕ} (hℓ : �
       exact qTame_of_mulEquiv φ (qTameGrp_unitary hE h5 hHf hHfl)
   · have hP := blocks.paired h (fun e => hself e.symm)
     obtain ⟨φ, -, -⟩ := hP.factor
-    haveI : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
+    have : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
     have hEℓ : ringChar (AdjoinRoot (h : K[X])) = ℓ :=
       (Algebra.ringChar_eq K (AdjoinRoot (h : K[X]))).symm.trans hKℓ
     have h4 : 4 ≤ Nat.card (AdjoinRoot (h : K[X])) := by
@@ -295,12 +295,12 @@ theorem qGen_conj_sp {ℓ f p : ℕ} (hℓ : ℓ.Prime) (h5 : 5 ≤ ℓ) (hf : 1
     (hx1 : x ≠ 1) : Inputs256e.QGen ℓ (MulAut.conj (SymplecticFlag.proj r K x)) := by
   classical
   have hq0 : ℓ ^ f ≠ 0 := pow_ne_zero f hℓ.ne_zero
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact hq0)
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact hq0)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have := Fintype.ofFinite K
   have hcardK : Fintype.card K = ℓ ^ f := by rw [Fintype.card_eq_nat_card, hK]
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) hcardK
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) hcardK
   have hKℓ : ringChar K = ℓ := ringChar.eq K ℓ
   have hZc : (SymplecticFlag.proj r K).ker ≤ Subgroup.center (StatedSp r K) := by
     rw [SymplecticHigher.ker_proj]
@@ -325,7 +325,7 @@ theorem qGen_conj_sp {ℓ f p : ℕ} (hℓ : ℓ.Prime) (h5 : 5 ≤ ℓ) (hf : 1
     rw [CharP.cast_eq_zero_iff K ℓ] at h
     exact hpℓ ((Nat.prime_dvd_prime_iff_eq hℓ hp).mp h).symm
   have hsq := (altPrimaryData_spLin hpK hx).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd x)) :=
+  have : Finite (reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   set A : reciprocalOrbits (spEnd x) → Subgroup (StatedSp r K) :=
@@ -380,15 +380,15 @@ variable {r : ℕ} {K : Type} [Field K]
 
 theorem ringChar_eq_of_card {K : Type} [Field K] [Finite K] {ℓ f : ℕ} (hℓ : ℓ.Prime)
     (hK : Nat.card K = ℓ ^ f) : ringChar K = ℓ := by
-  haveI := Fintype.ofFinite K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
   exact ringChar.eq K ℓ
 
 theorem qGen_fieldAut_sp [Finite K] {ℓ : ℕ} (hℓ : ℓ.Prime) (h5 : 5 ≤ ℓ) (hKℓ : ringChar K = ℓ)
     (hr : 2 ≤ r) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (σ : K ≃+* K) (hσ : orderOf σ = p) :
     Inputs256e.QGen ℓ (fieldAut r K σ) := by
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   have hσp : σ ^ p = 1 := by rw [← hσ]; exact pow_orderOf_eq_one σ
   have hfix : fixSubgroup (fieldAut r K σ) =
       (CFSG.RankThree.PartOne.KCSpComm.subfieldInj (r := r) σ).range := by
@@ -435,7 +435,7 @@ private theorem center_eq_bot_of_simple_perfect {T : Type*} [Group T] (hs : IsSi
 theorem qGen_projSp {ℓ f p : ℕ} (hℓ : ℓ.Prime) (h5 : 5 ≤ ℓ) (hf : 1 ≤ f) (hK : Nat.card K = ℓ ^ f)
     (hr : 2 ≤ r) (hp : p.Prime) (hp2 : p ≠ 2) (hpℓ : p ≠ ℓ) (β : MulAut (StatedProj (StatedSp r K)))
     (hβ : orderOf β = p) : Inputs256e.QGen ℓ β := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ hℓ.ne_zero)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ hℓ.ne_zero)
   have hβp : β ^ p = 1 := by rw [← hβ]; exact pow_orderOf_eq_one β
   have hO := CFSG.RankThree.PartOne.KCSpComm.spOuter (K := K) hℓ hf hr hK
   have hodd : Odd (orderOf β) := by rw [hβ]; exact hp.odd_of_ne_two hp2

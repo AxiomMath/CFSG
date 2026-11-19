@@ -14,12 +14,12 @@ namespace N7Setup
 
 variable {X : Type} [Group X] [Finite X] (S : N7Setup X)
 
-theorem le_F1_of_odd_normal {R : Subgroup X} (hFR : S.F1 ≤ R) (hRH : R ≤ S.H)
+theorem le_F1_of_odd_normal {R : Subgroup X} (_hFR : S.F1 ≤ R) (hRH : R ≤ S.H)
     (hnorm : ∀ h ∈ S.H, ∀ r ∈ R, h * r * h⁻¹ ∈ R) (hodd : Odd (S.F1.relIndex R)) :
     R ≤ S.F1 := by
   let T : Finset (Fin 8) := Finset.univ.erase 0
   let M : Subgroup (Equiv.Perm (Fin 8)) := (R.subgroupOf S.H).map S.permHom
-  haveI : (S.F1.subgroupOf R).Normal := by
+  have : (S.F1.subgroupOf R).Normal := by
     constructor
     intro n hn g
     rw [Subgroup.mem_subgroupOf] at hn ⊢

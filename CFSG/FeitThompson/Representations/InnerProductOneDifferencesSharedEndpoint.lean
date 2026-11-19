@@ -25,13 +25,13 @@ theorem eq_and_eq_of_single_sub_single_eq {a b c d : J} (hab : a ≠ b)
       = EuclideanSpace.single c 1 - EuclideanSpace.single d 1) : a = c ∧ b = d := by
   have h1 := congrArg (fun v : EuclideanSpace ℝ J => WithLp.ofLp v a) h
   have h2 := congrArg (fun v : EuclideanSpace ℝ J => WithLp.ofLp v b) h
-  simp only [ofLp_single_sub_single_apply, if_pos, if_neg hab, if_neg hab.symm] at h1 h2
+  simp only [ofLp_single_sub_single_apply, ite_eq_left, ite_eq_right hab, ite_eq_right hab.symm] at h1 h2
   refine ⟨?_, ?_⟩
   · by_contra hac
-    rw [if_neg hac] at h1
+    rw [ite_eq_right hac] at h1
     split_ifs at h1 <;> norm_num at h1
   · by_contra hbd
-    rw [if_neg hbd] at h2
+    rw [ite_eq_right hbd] at h2
     split_ifs at h2 <;> norm_num at h2
 
 private theorem exists_of_forall_eq_smul {R : Finset (EuclideanSpace ℝ J)} (ε : ℝ)

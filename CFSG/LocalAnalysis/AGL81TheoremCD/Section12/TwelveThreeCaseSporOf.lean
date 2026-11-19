@@ -168,6 +168,7 @@ private theorem primeComplementCore_map_le_xSub (h : TwelveCtx G M p Q H) {d : �
   rw [h1]
   exact Subgroup.one_mem _
 
+omit [Finite G] in
 private theorem mem_xSub_of_commutator_mem {d : ℕ} {Y₁ : Subgroup (StarGroup p H)}
     (hY₁ : Y₁ ≤ kStar p M H) (hcent : ∀ k ∈ kStar p M H, (∀ y ∈ Y₁, y * k = k * y) → k = 1)
     (hY : ∀ y ∈ Y₁, ∃ y₀ : ↥H, (y₀ : G) ∈ oPPrimeHull d (H ⊓ M) ∧
@@ -259,7 +260,7 @@ private theorem twelveThreeCaseSpor_of_inputs (hI : NineNineOneInput)
   have hq : CFSG.IsQuasisimple ↥(kStar p M H) :=
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup (by
       by_contra hc
-      exact hsim.2 (isSolvable_of_comm fun a b => not_not.mp fun hab => hc ⟨a, b, hab⟩))).1
+      exact hsim.2 (_root_.Group.isSolvable_of_comm fun a b => not_not.mp fun hab => hc ⟨a, b, hab⟩))).1
   obtain ⟨hK, hKM⟩ := (nineSettingGen h hEQ hE hEc hΓ).isComponent_kStar_of_isQuasisimple hA hq
   obtain ⟨hs, hcent⟩ :=
     socle_of_threeNineSocleCase hI hbridge hsoc h hns hd hXM hD hD1 hDK hcase hK hKM

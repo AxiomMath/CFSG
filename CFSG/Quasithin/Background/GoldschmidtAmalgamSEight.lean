@@ -63,7 +63,7 @@ theorem card_fixedSub_eight [Finite Q] (hQ : Nat.card Q = 8) (x : X) (hx : x ^ 3
   have h4 : Nat.card (fixedSub Q x) ≤ 8 := Nat.le_of_dvd (by norm_num) h2
   have h5 : 0 < Nat.card (fixedSub Q x) := Nat.card_pos
   unfold Nat.ModEq at h1
-  interval_cases hc : Nat.card (fixedSub Q x) <;> first | rfl | omega | skip
+  interval_cases hc : Nat.card (fixedSub Q x) <;> try first | rfl | omega
   exfalso
   have hCtop : fixedSub Q x = ⊤ := by
     rw [← Subgroup.card_eq_iff_eq_top]

@@ -84,7 +84,7 @@ private theorem fzc_zpowers_pow_four (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M
   · rw [hq1, one_pow]
   · rw [hq1, show (4 : ℕ) = 2 * 2 by norm_num, pow_mul, hs.t_sq, one_pow]
 
-private theorem fzc_commute_zpowers (hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U) {q₁ q₂ : G}
+private theorem fzc_commute_zpowers (_hs : FzCSy3bStr x₁ x₂ t a b c Wp F P M₂ M₃ U) {q₁ q₂ : G}
     (h₁ : q₁ ∈ zpowers t) (h₂ : q₂ ∈ zpowers t) : Commute q₁ q₂ := by
   obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.mp h₁
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp h₂

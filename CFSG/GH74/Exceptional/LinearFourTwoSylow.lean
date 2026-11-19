@@ -47,14 +47,14 @@ theorem mem_centralizer_UT_four_iff {g : GL (Fin 4) (ZMod 2)} :
     have two : ∀ x : ZMod 2, x = 0 ∨ x = 1 := by decide
     rcases two a with ha | ha
     · refine absurd hdet ?_
-      rw [Matrix.det_eq_zero_of_row_eq_zero 1 fun j => by simp [hab', ha, Matrix.single_apply]]
+      rw [Matrix.det_eq_zero_of_row_eq_zero 1 fun j => by simp [hab', ha]]
       exact not_isUnit_zero
     rcases two b with hb | hb
     · exact Or.inl (Units.ext (by rw [hab', ha, hb, Units.val_one]; simp))
     · refine Or.inr (Units.ext ?_)
       rw [hab', ha, hb, one_smul, one_smul]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [gl4T0, gl4T0M, Matrix.one_apply, Matrix.single_apply]
+      fin_cases i <;> fin_cases j <;> simp [gl4T0, gl4T0M]
   · rintro (rfl | rfl)
     · exact Subgroup.one_mem _
     · exact gl4T0_mem_centralizer_UT
@@ -162,7 +162,7 @@ theorem normalizer_centralizer_sylow_of_mulEquiv {Q : Type*} [Group Q]
   obtain ⟨h, hh⟩ := exists_conj_UT (hP.map (e : Q →* GL (Fin 4) (ZMod 2)))
     (by rwa [Subgroup.index_map_equiv])
   let φ : Q ≃* GL (Fin 4) (ZMod 2) := e.trans (MulAut.conj h⁻¹)
-  have hφq : ∀ q, φ q = h⁻¹ * e q * h := fun q => by simp [φ, MulAut.conj_apply]
+  have hφq : ∀ q, φ q = h⁻¹ * e q * h := fun q => by simp [φ]
   have hP' : P = (UT 4).comap (φ : Q →* GL (Fin 4) (ZMod 2)) := by
     ext q
     change q ∈ P ↔ φ q ∈ UT 4

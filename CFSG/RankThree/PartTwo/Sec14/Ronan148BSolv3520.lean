@@ -31,7 +31,7 @@ theorem isSolvable_of_card_dvd_3520 {G : Type*} [Group G] [Finite G]
     obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 11 G))
     have hSG := (S : Subgroup G).card_mul_index
     have hS : Nat.card S = 11 := by
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 11) (G := S)).1 S.isPGroup'
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 11) (G := S)).1 S.isPGroup
       have hdvd : 11 ^ k ∣ 11 ^ 1 * 2 ^ 6 * 5 := by
         rw [← hk]
         exact (Subgroup.card_subgroup_dvd_card _).trans (h.trans (by norm_num))
@@ -74,7 +74,7 @@ theorem isSolvable_of_card_dvd_3520 {G : Type*} [Group G] [Finite G]
     rcases hn' with hn1 | hn320
     ·
       have : Subsingleton (Sylow 11 G) := (Nat.card_eq_one_iff_unique.mp hn1).1
-      haveI hSn : (S : Subgroup G).Normal := Sylow.normal_of_subsingleton S
+      have hSn : (S : Subgroup G).Normal := Sylow.normal_of_subsingleton S
       have hQ : Nat.card (G ⧸ (S : Subgroup G)) ∣ 2 ^ 6 * 5 := by
         rw [← Subgroup.index_eq_card]
         exact hidx

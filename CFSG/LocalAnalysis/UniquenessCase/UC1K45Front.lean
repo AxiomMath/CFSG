@@ -48,11 +48,11 @@ theorem uc45_char_abelian_le_center (h : Base45 p G D) (A : Subgroup ↥(Xof G))
     [A.Characteristic] (hA : IsMulCommutative ↥A) :
     A.map (Xof G).subtype ≤ Subgroup.center G := by
   let Y : Subgroup G := A.map (Xof G).subtype
-  haveI hYnormal : Y.Normal := ConjAct.normal_of_characteristic_of_normal
+  have hYnormal : Y.Normal := ConjAct.normal_of_characteristic_of_normal
   have hY2 : IsPGroup 2 Y :=
     ((xof_isPGroup (G := G)).to_subgroup A).map (Xof G).subtype
   have hYab : IsMulCommutative ↥Y := by
-    haveI : IsMulCommutative ↥A := hA
+    have : IsMulCommutative ↥A := hA
     exact (A.equivMapOfInjective (Xof G).subtype Subtype.coe_injective).surjective.isMulCommutative
   exact uc45_normal_abelian_le_center h Y hY2 hYab
 
@@ -63,11 +63,11 @@ theorem uc45_class_two (h : Base45 p G D) :
     commutator ↥(Xof G) ≤ Subgroup.center ↥(Xof G) ∧
       ∀ x : ↥(Xof G), x ^ 2 ∈ Subgroup.center ↥(Xof G) := by
   have hX2 : IsPGroup 2 ↥(Xof G) := xof_isPGroup (G := G)
-  haveI : Group.IsNilpotent ↥(Xof G) := hX2.isNilpotent
+  have : Group.IsNilpotent ↥(Xof G) := hX2.isNilpotent
   have hchar : ∀ A : Subgroup ↥(Xof G), A.Characteristic → IsMulCommutative ↥A →
       A ≤ Subgroup.center ↥(Xof G) := by
     intro A hAchar hAab a ha
-    haveI : A.Characteristic := hAchar
+    have : A.Characteristic := hAchar
     have hcenter : A.map (Xof G).subtype ≤ Subgroup.center G :=
       uc45_char_abelian_le_center h A hAab
     have hamem : (a : G) ∈ A.map (Xof G).subtype := ⟨a, ha, rfl⟩

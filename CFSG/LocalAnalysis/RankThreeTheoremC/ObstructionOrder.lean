@@ -111,7 +111,7 @@ theorem ExtremalObstruction.card_eq_of_not_isMulCommutative {p : ℕ} {P : Sylow
     rw [hEc, hZc] at h
     calc Nat.card D ≤ p ^ 2 * p := h
       _ = p ^ 3 := by ring
-  have hDp : IsPGroup p D := P.isPGroup'.to_le hext.obstruction.2.1
+  have hDp : IsPGroup p D := P.isPGroup.to_le hext.obstruction.2.1
   obtain ⟨k, hk⟩ := hDp.exists_card_eq
   have hEltD : E < D := lt_of_le_of_ne hED fun h => hD (h ▸ hEe.toIsMulCommutative)
   have hlt : p ^ 2 < p ^ k := by

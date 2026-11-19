@@ -129,7 +129,7 @@ theorem HaradaFacts3.toHData3 {G : Type} [Group G] {t : G} (ht : orderOf t = 2)
       (Subgroup.orderOf_mk (H := centralizer ({t} : Set G)) x hx).trans hx3
     let N₀ : Subgroup ↥(centralizer ({t} : Set G)) := N.comap f
     have hfrange : f.range = centralizer ({t} : Set G) := by
-      simpa [f] using Subgroup.range_subtype (centralizer ({t} : Set G))
+      simp [f]
     have hNle' : N ≤ f.range := by
       rw [hfrange]
       intro y hy

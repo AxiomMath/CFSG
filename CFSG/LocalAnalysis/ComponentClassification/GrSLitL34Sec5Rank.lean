@@ -118,10 +118,10 @@ theorem exists_involution_commute_ne {X : Type*} [Group X] [Finite X] (h2 : 2 �
   have hkP' : k ∈ (P : Subgroup X) := hkP (mem_zpowers k)
   have hPnt : Nontrivial ↥(P : Subgroup X) :=
     ⟨⟨⟨k, hkP'⟩, 1, fun h => hk1 (congrArg Subtype.val h)⟩⟩
-  have hZnt : Nontrivial ↥(center ↥(P : Subgroup X)) := P.isPGroup'.center_nontrivial
+  have hZnt : Nontrivial ↥(center ↥(P : Subgroup X)) := P.isPGroup.center_nontrivial
   have h2Z : 2 ∣ Nat.card ↥(center ↥(P : Subgroup X)) := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := ↥(center ↥(P : Subgroup X)))).mp
-      (P.isPGroup'.to_subgroup _)
+      (P.isPGroup.to_subgroup _)
     rcases n with _ | n
     · rw [pow_zero] at hn
       exact absurd (Finite.one_lt_card_iff_nontrivial.mpr hZnt) (by rw [hn]; omega)

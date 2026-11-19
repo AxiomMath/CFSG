@@ -25,7 +25,7 @@ theorem exists_conj_mem_sylow_ne_of_isSimpleGroup (hG : IsSimpleGroup G)
   have hcen : (QuotientGroup.mk z : G ⧸ CFSG.oddCore G) ∈
       Subgroup.center (G ⧸ CFSG.oddCore G) :=
     (CFSG.Adapters.glauberman_zStar S ⟨z, hzS⟩ hzZ hzord h).2
-  haveI : IsSimpleGroup G := hG
+  have : IsSimpleGroup G := hG
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.oddCore G) with hbot | htop
   ·
     have hzcenter : z ∈ Subgroup.center G := by
@@ -51,7 +51,7 @@ theorem exists_conj_mem_sylow_ne_of_isSimpleGroup (hG : IsSimpleGroup G)
       rw [hz1, orderOf_one] at hz2
       exact absurd hz2 (by norm_num)
     ·
-      haveI : IsMulCommutative G := Subgroup.center_eq_top_iff.mp hctop
+      have : IsMulCommutative G := Subgroup.center_eq_top_iff.mp hctop
       have hp : (Nat.card G).Prime :=
         (Group.is_simple_iff_prime_card (α := G)).mp ‹IsSimpleGroup G›
       rcases hp.eq_one_or_self_of_dvd 4 h4 with h41 | h4G

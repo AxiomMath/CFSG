@@ -76,7 +76,7 @@ theorem D1CaseTwoDataAt.d1LiftX_le_nclIn_of_unique (hAut : KFactCycAut) (hS : KF
     map_le_normalizer_map π inf_le_right ((le_inf (inf_le_right.trans hME)
       (inf_le_left.trans Subgroup.le_normalizer)).trans Subgroup.inf_normalizer_le_normalizer_inf)
   obtain ⟨t, ⟨htV, htR, htL⟩, htp, -⟩ := exists_mem_centralizer_orderOf_eq
-    (Rbar.isPGroup'.to_le (inf_le_right.trans inf_le_left)) hmeet
+    (Rbar.isPGroup.to_le (inf_le_right.trans inf_le_left)) hmeet
   have hWRC : W ≤ (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊔ C := by
     rintro _ ⟨x, hx, rfl⟩
     refine hd.cfg.red.centralizer_le_sup_of_caseTwo hKL hL₁ hiso (hd.cyclic L₁ hL₁) ⟨htR, htL⟩
@@ -93,7 +93,7 @@ theorem D1CaseTwoDataAt.d1LiftX_le_nclIn_of_unique (hAut : KFactCycAut) (hS : KF
               Set (H ⧸ primeComplementCore (G := H) p)) := hWRC w.2
       rw [Subgroup.mul_normal] at hw
       obtain ⟨r, hrR, c, hcC, hrc⟩ := hw
-      obtain ⟨k, hk⟩ := Rbar.isPGroup' ⟨r, hrR⟩
+      obtain ⟨k, hk⟩ := Rbar.isPGroup ⟨r, hrR⟩
       have hk' : r ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
       have hwC : (w : H ⧸ primeComplementCore (G := H) p) ^ p ^ k ∈ C := by
         have hc1 : QuotientGroup.mk' C c = 1 := by
@@ -113,7 +113,7 @@ theorem D1CaseTwoDataAt.d1LiftX_le_nclIn_of_unique (hAut : KFactCycAut) (hS : KF
     have hWR : W ≤ (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) := by
       have h2 : IsPGroup p (W ⊔ (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) :
           Subgroup (H ⧸ primeComplementCore (G := H) p)) :=
-        IsPGroup.to_sup_of_normal_left' hWp Rbar.isPGroup' (hRX₀.trans hX₀W)
+        IsPGroup.to_sup_of_normal_left' hWp Rbar.isPGroup (hRX₀.trans hX₀W)
       exact le_sup_left.trans (Rbar.maximal_isPGroup.eq_of_ge h2 le_sup_right).le
     have hEH : E ⊓ H ≤ R ⊔ GLBPrimeCore p H := by
       rintro x ⟨hxE, hxH⟩

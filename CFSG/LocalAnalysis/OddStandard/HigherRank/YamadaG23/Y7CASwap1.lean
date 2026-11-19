@@ -61,13 +61,14 @@ private lemma y7c_commutator_mul_of_central {G : Type*} [Group G] {z x w y : G}
       _ = ((a : Γ) * (t * (a : Γ) * t⁻¹)) * ((b : Γ) * (t * (b : Γ) * t⁻¹)) := by
           simp [mul_assoc]
 
+omit [Finite Γ] in
 theorem y7cPhi_apply (hcomm : ∀ a ∈ K, ∀ b ∈ conjSub t K, a * b = b * a) (k : ↥K) :
     y7cPhi t K hcomm k = (k : Γ) * (t * (k : Γ) * t⁻¹) := rfl
 
 theorem y7c_phi_mem_J (c : K7Abs ρ t J Q P M6 M7) (hK : CFSG.IsComponent K)
     (hcomm : ∀ a ∈ K, ∀ b ∈ conjSub t K, a * b = b * a) (k : ↥K) :
     y7cPhi t K hcomm k ∈ J := by
-  haveI : Group.IsPerfect ↥K := hK.1.1
+  have : Group.IsPerfect ↥K := hK.1.1
   have hX : ⁅(y7cPhi t K hcomm).range, (y7cPhi t K hcomm).range⁆
       = (y7cPhi t K hcomm).range :=
     Subgroup.isPerfect_iff.mp (Group.IsPerfect.range (y7cPhi t K hcomm))
@@ -82,8 +83,8 @@ theorem y7c_phi_mem_J (c : K7Abs ρ t J Q P M6 M7) (hK : CFSG.IsComponent K)
     simpa [mul_assoc] using this
   exact htx.symm
 
-theorem y7c_J_le_phi (c : K7Abs ρ t J Q P M6 M7) (hK : CFSG.IsComponent K)
-    (hJK : J ≤ K ⊔ conjSub t K) (hne : conjSub t K ≠ K)
+theorem y7c_J_le_phi (c : K7Abs ρ t J Q P M6 M7) (_hK : CFSG.IsComponent K)
+    (hJK : J ≤ K ⊔ conjSub t K) (_hne : conjSub t K ≠ K)
     (hcomm : ∀ a ∈ K, ∀ b ∈ conjSub t K, a * b = b * a) {j : Γ} (hj : j ∈ J) :
     ∃ k : ↥K, y7cPhi t K hcomm k = j := by
   have htt : t * t = 1 := by rw [← pow_two]; exact c.t_sq

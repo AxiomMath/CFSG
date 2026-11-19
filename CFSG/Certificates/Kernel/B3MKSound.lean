@@ -684,7 +684,7 @@ theorem card_closure_elems {Ep Tp Dp n i0 p : ℕ} {par : List (ℕ × ℕ)} (hE
   have h2 := elems_sub_closure hE htr hpar hn hid hgs hg4 hT'
   have himg : (Units.val '' (Subgroup.closure T : Set (owEm_GL 4))) = ((E.map decW).toFinset : Set (Mat 4)) := by
     ext M
-    simp only [Set.mem_image, SetLike.mem_coe, Finset.mem_coe, List.mem_toFinset, List.mem_map]
+    simp only [Set.mem_image, SetLike.mem_coe, List.mem_toFinset, List.mem_map]
     constructor
     · rintro ⟨g, hg, rfl⟩
       obtain ⟨k, hk, ek⟩ := h1 g hg

@@ -15,7 +15,7 @@ section A3
 
 open Matrix CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 
-theorem mem_range_conj_A3_prime {q : PrimePower} (hq3 : 3 < q.p) (he : q.exponent = 1)
+theorem mem_range_conj_A3_prime {q : PrimePower} (_hq3 : 3 < q.p) (he : q.exponent = 1)
     (hv : (LieTypeIndex.A 3 q).Valid)
     {φ : MulAut (ValidLieTypeIndex.Group ⟨.A 3 q, hv⟩)} (hφ3 : φ ^ 3 = 1) :
     φ ∈ (MulAut.conj : ValidLieTypeIndex.Group ⟨.A 3 q, hv⟩ →*
@@ -50,7 +50,7 @@ section B2
 
 open CFSG.RankThree.PartOne.KCSpComm CFSG.Assembly.LowTwoRank
 
-theorem mem_range_conj_B2_prime {q : PrimePower} (hq3 : 3 < q.p) (he : q.exponent = 1)
+theorem mem_range_conj_B2_prime {q : PrimePower} (_hq3 : 3 < q.p) (he : q.exponent = 1)
     (hv : (LieTypeIndex.B 2 q).Valid)
     {E : Subgroup (MulAut (ValidLieTypeIndex.Group ⟨.B 2 q, hv⟩))}
     [CFSG.IsElementaryAbelian 3 E] {φ : MulAut (ValidLieTypeIndex.Group ⟨.B 2 q, hv⟩)}
@@ -85,7 +85,7 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.Uni
   CFSG.RankThree.PartOne.KCUnitaryModel
 open CFSG.ComponentClassification.OuterAutomorphisms (equivalence)
 
-theorem not_three_dvd_card_outer_twistedA_three_prime {q : PrimePower} (hq3 : 3 < q.p)
+theorem not_three_dvd_card_outer_twistedA_three_prime {q : PrimePower} (_hq3 : 3 < q.p)
     (he : q.exponent = 1) (hv : (LieTypeIndex.twistedA 3 q).Valid) :
     ¬ 3 ∣ Nat.card (Outer (ValidLieTypeIndex.Group ⟨.twistedA 3 q, hv⟩)) := by
   obtain ⟨hℓ, hf, hn3, hne, F, _, hU, ⟨θ⟩⟩ := exists_primeFormP_of_statedClassicalModel_PSU

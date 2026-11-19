@@ -184,7 +184,7 @@ theorem e9Move_projSp (hF3 : ¬ 3 ∣ Nat.card F) (h2 : (2 : F) ≠ 0) (h3 : (3 
   have hne : ∀ E : Subgroup (CFSG.PGLModel.projSp 2 F), CFSG.Assembly.IsElemAbelian 3 E →
       Nat.card E ≠ 27 := fun E hE h27 => hno ⟨E.map e.toMonoidHom,
     isElemAbelian_map e.toMonoidHom hE, by rw [Subgroup.card_map_of_injective e.injective, h27]⟩
-  haveI : Finite (CFSG.PGLModel.projSp 2 F) := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite (CFSG.PGLModel.projSp 2 F) := Finite.of_equiv _ e.symm.toEquiv
   have hle := card_le_nine_of_forall_ne hne
   rw [← CFSG.PGLModel.projImage_statedSp] at hsyl hle ⊢
   obtain ⟨a, b, w, hmat, ha3, hb3, hab, hind, hsa, hsb, hwa, hwb⟩ := exists_std h2 h3
@@ -201,8 +201,8 @@ end E9
 
 theorem two_three_ne_zero {F : Type} [Field F] [Finite F] {p : ℕ} [Fact p.Prime]
     (hp3 : 3 < p) (hF : Nat.card F = p) : (2 : F) ≠ 0 ∧ (3 : F) ≠ 0 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F p := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hF)
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F p := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hF)
   have hp : p.Prime := Fact.out
   refine ⟨fun h => ?_, fun h => ?_⟩
   · have h' : ((2 : ℕ) : F) = 0 := by exact_mod_cast h

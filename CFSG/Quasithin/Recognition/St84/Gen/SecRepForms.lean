@@ -15,6 +15,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {X N₀ N₁ : Subgroup G} {W W₀ : Type}
   [AddCommGroup W] [Module (ZMod 2) W] [AddCommGroup W₀] [Module (ZMod 2) W₀]
 
+omit [Finite G] in
 theorem SecRep.normal_subgroupOf (s : SecRep X N₀ N₁ W) : (N₀.subgroupOf N₁).Normal := by
   have h : N₀.subgroupOf N₁ = s.cls.ker := by
     refine Subgroup.ext fun n => ?_
@@ -30,6 +31,7 @@ noncomputable def SecRep.quotEquiv (s : SecRep X N₀ N₁ W) [(N₀.subgroupOf 
     rw [Subgroup.mem_subgroupOf, MonoidHom.mem_ker]
     exact (s.ker n).symm)
 
+omit [Finite G] in
 theorem SecRep.quotEquiv_mk (s : SecRep X N₀ N₁ W) [(N₀.subgroupOf N₁).Normal] (n : ↥N₁) :
     SecRep.quotEquiv s (QuotientGroup.mk n) = s.cls n := by
   rw [SecRep.quotEquiv]
@@ -43,6 +45,7 @@ noncomputable def SecRep.equivOfBot (s : SecRep X ⊥ N₁ W) : ↥N₁ ≃* Mul
       exact ⟨fun h => by rw [h, map_one], fun h =>
         Subtype.ext (by simpa using Subgroup.mem_bot.mp ((s.ker n).mp h))⟩))
 
+omit [Finite G] in
 theorem SecRep.equivOfBot_apply (s : SecRep X ⊥ N₁ W) (n : ↥N₁) :
     SecRep.equivOfBot s n = s.cls n := by
   rw [SecRep.equivOfBot, MulEquiv.trans_apply, QuotientGroup.quotientBot_symm_apply]
@@ -51,6 +54,7 @@ theorem SecRep.equivOfBot_apply (s : SecRep X ⊥ N₁ W) (n : ↥N₁) :
 private def commElem (hcomm : ∀ a ∈ N₁, ∀ b ∈ N₁, ⁅a, b⁆ ∈ N₀) (a b : ↥N₁) : ↥N₀ :=
   ⟨⁅(a : G), (b : G)⁆, hcomm a a.2 b b.2⟩
 
+omit [Finite G] in
 private theorem commElem_left (s : SecRep X N₀ N₁ W)
     (hc : ∀ z ∈ N₀, ∀ x ∈ N₁, z * x = x * z)
     (hcomm : ∀ a ∈ N₁, ∀ b ∈ N₁, ⁅a, b⁆ ∈ N₀) {a a' b : ↥N₁}
@@ -65,6 +69,7 @@ private theorem commElem_left (s : SecRep X N₀ N₁ W)
   show ⁅(a : G), (b : G)⁆ = ⁅(a' : G), (b : G)⁆
   rw [hza, h, hz1, one_mul]
 
+omit [Finite G] in
 private theorem commElem_right (s : SecRep X N₀ N₁ W)
     (hc : ∀ z ∈ N₀, ∀ x ∈ N₁, z * x = x * z)
     (hcomm : ∀ a ∈ N₁, ∀ b ∈ N₁, ⁅a, b⁆ ∈ N₀) (a : ↥N₁) {b b' : ↥N₁}
@@ -79,6 +84,7 @@ private theorem commElem_right (s : SecRep X N₀ N₁ W)
   show ⁅(a : G), (b : G)⁆ = ⁅(a : G), (b' : G)⁆
   rw [hzb, h, hz1, one_mul]
 
+omit [Finite G] in
 private theorem commVal_mul_left (s₀ : SecRep X ⊥ N₀ W₀) (hc : ∀ z ∈ N₀, ∀ x ∈ N₁, z * x = x * z)
     (hcomm : ∀ a ∈ N₁, ∀ b ∈ N₁, ⁅a, b⁆ ∈ N₀) (a a' b : ↥N₁) :
     s₀.cl (commElem hcomm (a * a') b) =
@@ -92,6 +98,7 @@ private theorem commVal_mul_left (s₀ : SecRep X ⊥ N₀ W₀) (hc : ∀ z ∈
     simpa only [commElem, Subgroup.coe_mul] using h
   rw [he, SecRep.cl_mul, add_comm]
 
+omit [Finite G] in
 private theorem commVal_mul_right (s₀ : SecRep X ⊥ N₀ W₀) (hc : ∀ z ∈ N₀, ∀ x ∈ N₁, z * x = x * z)
     (hcomm : ∀ a ∈ N₁, ∀ b ∈ N₁, ⁅a, b⁆ ∈ N₀) (a b b' : ↥N₁) :
     s₀.cl (commElem hcomm a (b * b')) =
@@ -170,6 +177,7 @@ noncomputable def SecRep.commForm (s : SecRep X N₀ N₁ W) (s₀ : SecRep X �
     | succ k ih => rw [succ_nsmul, succ_nsmul, hadd_right, ih]
   exact LinearMap.mk₂ (ZMod 2) f hadd_left hsmul_left hadd_right hsmul_right
 
+omit [Finite G] in
 theorem SecRep.commForm_cl (s : SecRep X N₀ N₁ W) (s₀ : SecRep X ⊥ N₀ W₀)
     (hc : ∀ z ∈ N₀, ∀ x ∈ N₁, z * x = x * z)
     (hcomm : ∀ a ∈ N₁, ∀ b ∈ N₁, ⁅a, b⁆ ∈ N₀) (a b : ↥N₁) :
@@ -181,6 +189,7 @@ theorem SecRep.commForm_cl (s : SecRep X N₀ N₁ W) (s₀ : SecRep X ⊥ N₀ 
   rw [commElem_left s hc hcomm (s.exists_cl (s.cl a)).choose_spec]
   exact congrArg s₀.cl (commElem_right s hc hcomm a (s.exists_cl (s.cl b)).choose_spec)
 
+omit [Finite G] in
 theorem SecRep.commForm_ρ (h : SecHyp X N₀ N₁) (s : SecRep X N₀ N₁ W)
     (s₀ : SecRep X ⊥ N₀ W₀) (hc : ∀ z ∈ N₀, ∀ x ∈ N₁, z * x = x * z)
     (hcomm : ∀ a ∈ N₁, ∀ b ∈ N₁, ⁅a, b⁆ ∈ N₀) (x : ↥X) (v w : W) :
@@ -211,6 +220,7 @@ theorem SecRep.commForm_ρ (h : SecHyp X N₀ N₁) (s : SecRep X N₀ N₁ W)
   simp only [commutatorElement_def]
   group
 
+omit [Finite G] in
 theorem SecRep.span_range_commForm (s : SecRep X N₀ N₁ W) (s₀ : SecRep X ⊥ N₀ W₀)
     (hc : ∀ z ∈ N₀, ∀ x ∈ N₁, z * x = x * z)
     (hcomm : ∀ a ∈ N₁, ∀ b ∈ N₁, ⁅a, b⁆ ∈ N₀) (hgen : ⁅N₁, N₁⁆ = N₀) :
@@ -277,6 +287,7 @@ theorem SecRep.span_range_commForm (s : SecRep X N₀ N₁ W) (s₀ : SecRep X �
   change s₀.cl n ∈ T at hnR
   rwa [hcl] at hnR
 
+omit [Finite G] in
 private theorem sqVal_eq (s : SecRep X N₀ N₁ W) (s₀ : SecRep X ⊥ N₀ W₀)
     (hc : ∀ z ∈ N₀, ∀ x ∈ N₁, z * x = x * z)
     (hsq : ∀ a ∈ N₁, a ^ 2 ∈ N₀) (h2 : ∀ z ∈ N₀, z ^ 2 = 1) {a a' : ↥N₁}
@@ -296,18 +307,20 @@ private theorem sqVal_eq (s : SecRep X N₀ N₁ W) (s₀ : SecRep X ⊥ N₀ W�
   exact congrArg s₀.cl helem
 
 noncomputable def SecRep.sqMap (s : SecRep X N₀ N₁ W) (s₀ : SecRep X ⊥ N₀ W₀)
-    (hc : ∀ z ∈ N₀, ∀ x ∈ N₁, z * x = x * z)
-    (hsq : ∀ a ∈ N₁, a ^ 2 ∈ N₀) (h2 : ∀ z ∈ N₀, z ^ 2 = 1) :
+    (_hc : ∀ z ∈ N₀, ∀ x ∈ N₁, z * x = x * z)
+    (hsq : ∀ a ∈ N₁, a ^ 2 ∈ N₀) (_h2 : ∀ z ∈ N₀, z ^ 2 = 1) :
     W → W₀ :=
   fun v => s₀.cl ⟨((s.exists_cl v).choose : G) ^ 2,
     hsq ((s.exists_cl v).choose) ((s.exists_cl v).choose).2⟩
 
+omit [Finite G] in
 theorem SecRep.sqMap_cl (s : SecRep X N₀ N₁ W) (s₀ : SecRep X ⊥ N₀ W₀)
     (hc : ∀ z ∈ N₀, ∀ x ∈ N₁, z * x = x * z)
     (hsq : ∀ a ∈ N₁, a ^ 2 ∈ N₀) (h2 : ∀ z ∈ N₀, z ^ 2 = 1) (a : ↥N₁) :
     SecRep.sqMap s s₀ hc hsq h2 (s.cl a) = s₀.cl ⟨(a : G) ^ 2, hsq a a.2⟩ :=
   sqVal_eq s s₀ hc hsq h2 (s.exists_cl (s.cl a)).choose_spec
 
+omit [Finite G] in
 theorem SecRep.sqMap_add (s : SecRep X N₀ N₁ W) (s₀ : SecRep X ⊥ N₀ W₀)
     (hc : ∀ z ∈ N₀, ∀ x ∈ N₁, z * x = x * z)
     (hsq : ∀ a ∈ N₁, a ^ 2 ∈ N₀) (h2 : ∀ z ∈ N₀, z ^ 2 = 1)
@@ -349,6 +362,7 @@ theorem SecRep.sqMap_add (s : SecRep X N₀ N₁ W) (s₀ : SecRep X ⊥ N₀ W�
     rw [hsqG, hsym]
   exact congrArg s₀.cl helem
 
+omit [Finite G] in
 theorem SecRep.sqMap_ρ (h : SecHyp X N₀ N₁) (s : SecRep X N₀ N₁ W)
     (s₀ : SecRep X ⊥ N₀ W₀) (hc : ∀ z ∈ N₀, ∀ x ∈ N₁, z * x = x * z)
     (hsq : ∀ a ∈ N₁, a ^ 2 ∈ N₀) (h2 : ∀ z ∈ N₀, z ^ 2 = 1)

@@ -23,7 +23,7 @@ theorem pks_AN_mod (p N : ℕ) (i j : Fin (N - 1)) (hij : i ≠ j) :
     ((CartanMatrix.A (N - 1) i j : ℤ) : ZMod p) =
       (if (i : ℕ) + 1 = (j : ℕ) ∨ (j : ℕ) + 1 = (i : ℕ) then ((-1 : ℤ) : ZMod p) else 0) := by
   rw [pks_cartanA_entry]
-  simp only [hij, if_false]
+  simp only [hij, ite_false]
   split_ifs <;> simp
 
 theorem pks_card_fin_eq {ι : Type} [Fintype ι] {n : ℕ} (e : Fin n ≃ ι) :
@@ -61,7 +61,7 @@ theorem pks_neg_one_ne_zero (p : ℕ) [Fact p.Prime] : ((-1 : ℤ) : ZMod p) ≠
   intro h
   have h1 : (1 : ZMod p) = 0 := by
     have := congrArg (fun x : ZMod p => -x) h
-    simpa using this
+    simp at this
   exact one_ne_zero h1
 
 theorem pks_two_ne_zero (p : ℕ) [Fact p.Prime] (hp3 : 3 ≤ p) : (2 : ZMod p) ≠ 0 := by
@@ -167,7 +167,7 @@ theorem pks_adj_vals (p : ℕ) [Fact p.Prime] (hp3 : 3 ≤ p)
 theorem pks_nonadj_vals (p : ℕ) [Fact p.Prime] (hp3 : 3 ≤ p)
     {Γ : Type*} {M : CoxeterMatrix Γ} {C : Matrix Γ Γ ℤ}
     (hC : CFSG.StandardType.GGIntCartan M C) {a b : Γ} (hab : a ≠ b) (h6 : M a b ≠ 6)
-    (ha : ((C a b : ℤ) : ZMod p) = 0) (hb : ((C b a : ℤ) : ZMod p) = 0) :
+    (ha : ((C a b : ℤ) : ZMod p) = 0) (_hb : ((C b a : ℤ) : ZMod p) = 0) :
     C a b = 0 ∧ M a b = 2 := by
   rcases hC.2 a b hab with
     ⟨hm, h1, h2⟩ | ⟨hm, h1, h2⟩ | ⟨hm, hpr, hn1, hn2⟩ | ⟨hm, hpr, hn1, hn2⟩

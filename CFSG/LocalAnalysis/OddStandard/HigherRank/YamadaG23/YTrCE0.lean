@@ -116,7 +116,7 @@ theorem s3_isE3_F (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
   have hH_eq : H = s.fr'.F ⊔ zpowers s.fr'.σ := by rw [Subgroup.zpowers_eq_closure]
   have hcomm : ∀ a ∈ s.fr'.F, ∀ b ∈ zpowers s.fr'.σ, a * b = b * a := by
     intro a ha b hb
-    haveI : IsMulCommutative ↥H := hH_el.1
+    have : IsMulCommutative ↥H := hH_el.1
     have hb' : b ∈ closure {s.fr'.σ} := by rwa [Subgroup.zpowers_eq_closure] at hb
     have hHa : a ∈ H := Subgroup.mem_sup_left ha
     have hHb : b ∈ H := Subgroup.mem_sup_right hb'

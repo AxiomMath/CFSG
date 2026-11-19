@@ -138,8 +138,8 @@ theorem u42_arith_psl_quad {f m ε e C₀ : ℕ} (hf : 1 ≤ f) (hm : 1 ≤ m)
     rw [hkey] at h1
     have h2 := Nat.le_of_dvd (by norm_num) h1
     omega
-  interval_cases m <;> interval_cases f <;> (try omega) <;>
-    (try norm_num [u42GL, Finset.prod_range_succ] at h he_le) <;>
+  interval_cases m <;> interval_cases f <;> (try omega);
+    (try norm_num [u42GL, Finset.prod_range_succ] at h he_le);
     rcases hC₀ with rfl | rfl <;> rcases hε with rfl | rfl <;> omega
 
 end CFSG.LocalAnalysis.EvenBN.UnitaryFiveTwo

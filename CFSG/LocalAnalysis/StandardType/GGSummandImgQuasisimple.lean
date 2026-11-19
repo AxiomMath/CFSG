@@ -18,7 +18,7 @@ theorem ggSum_img_isQuasisimple {p : ℕ} {Q : Subgroup X} {𝒞 : Set (Subgroup
     (hEK : E ≤ Subgroup.normalizer (K : Set X)) (hS : GGSummandStruct E K V Q 𝒞)
     {S : Subgroup X} (hS𝒞 : S ∈ 𝒞) :
     CFSG.Assembly.IsQuasisimple ↥(ggSumImg V E K S) := by
-  haveI : (Q.subgroupOf S).Normal := ggSum_normal_subgroupOf_Q hS hS𝒞
+  have : (Q.subgroupOf S).Normal := ggSum_normal_subgroupOf_Q hS hS𝒞
   obtain ⟨g, hg_surj, hg_ker, -⟩ :=
     ggSum_exists_central_surj V E K hp hp2 hE hEV hEK hS hS𝒞
   have hA : CFSG.Assembly.IsQuasisimple (↥S ⧸ Q.subgroupOf S) :=

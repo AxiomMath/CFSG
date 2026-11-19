@@ -78,7 +78,7 @@ theorem wkTrichotomy_of_wkTuple {t : List ℕ} {w : WeylGroup TwistTag.E6.tag}
       ring
     have hpair : ∑ j, TwistTag.E6.tag.cartan i j * γ j = -1 := by
       simp only [hγk, mul_sub, Finset.sum_sub_distrib, mul_ite, mul_one, mul_zero,
-        Finset.sum_ite_eq, Finset.mem_univ, if_true]
+        Finset.sum_ite_eq, Finset.mem_univ, ite_true]
       rw [hsum, Tag.cartan_self]
       norm_num
     have hrow : wkMatrix w i = reflect TwistTag.E6.tag i γ := by
@@ -88,9 +88,9 @@ theorem wkTrichotomy_of_wkTuple {t : List ℕ} {w : WeylGroup TwistTag.E6.tag}
       rw [Pi.sub_apply, Pi.smul_apply, hγk, smul_eq_mul, Pi.single_apply]
       by_cases hik : i = k
       · subst hik
-        simp only [if_true]
+        simp only [ite_true]
         ring
-      · rw [if_neg hik, if_neg (Ne.symm hik)]
+      · rw [ite_eq_right hik, ite_eq_right (Ne.symm hik)]
         ring
     rw [hrow]
     exact IsRoot.reflect i hγr

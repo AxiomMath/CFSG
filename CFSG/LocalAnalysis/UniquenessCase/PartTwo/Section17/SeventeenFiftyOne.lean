@@ -33,7 +33,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem oinf_eq_pCoreOf {L : Subgroup G}
     (hq : CFSG.Open.IsQuasisimple (Bar2 L)) (hZ : Subgroup.center (Bar2 L) = ⊥) :
     OInf L = pCoreOf 2 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSRn : (CFSG.solvableRadical ↥L).Normal := CFSG.ABGLocalTools.solvableRadical_normal
   have hSRs : Group.IsSolvable ↥(CFSG.solvableRadical ↥L) :=
     CFSG.ABGLocalTools.solvableRadical_isSolvable
@@ -76,7 +76,7 @@ theorem pCoreOf_le_inf_T {D : Data G} {V₀ V L X : Subgroup G} {p n l : ℕ}
     {C Dc : Subgroup G} {Gamma : Set G}
     (h49 : R17_49At D V₀ V) (ctx : Ctx17_42 D V₀ V L X p n l C Dc Gamma) :
     pCoreOf 2 L ≤ D.T ⊓ L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLM : L ≤ D.M := ctx.mem_calC.1.le
   have hLn : (L.subgroupOf D.M).Normal := ctx_L_normal h49 ctx
   have hTL : CFSG.ABGLocalTools.IsSylowOf 2 (D.T ⊓ L) L :=
@@ -102,7 +102,7 @@ theorem seventeen_fiftyone_hall_index
       (pCoreOf 2 L).relIndex (D.T ⊓ L) = 2 ^ k ∧
       (pCoreOf 2 L).relIndex C =
         (D.T ⊓ L).relIndex (L ⊓ normalizer (D.T ⊓ L : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLM : L ≤ D.M := ctx.mem_calC.1.le
   have hLn : (L.subgroupOf D.M).Normal := ctx_L_normal h49 ctx
   have hOInf : OInf L = pCoreOf 2 L := oinf_eq_pCoreOf ctx.mem_calC.2.2 hZ
@@ -142,7 +142,7 @@ theorem seventeen_fiftyone_sup_eq
     (h49 : R17_49At D V₀ V) (ctx : Ctx17_42 D V₀ V L X p n l C Dc Gamma)
     (hZ : Subgroup.center (Bar2 L) = ⊥) :
     L ⊓ normalizer ((D.T ⊓ L : Subgroup G) : Set G) = C ⊔ (D.T ⊓ L) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk, hQT, hQC⟩ := seventeen_fiftyone_hall_index h49 ctx hZ
   have hOInf : OInf L = pCoreOf 2 L := oinf_eq_pCoreOf ctx.mem_calC.2.2 hZ
   have hodd : Odd ((pCoreOf 2 L).relIndex C) := hOInf ▸ ctx.cartan.2.2.2.1
@@ -187,7 +187,7 @@ theorem seventeen_fiftyone_inf_eq
     (h49 : R17_49At D V₀ V) (ctx : Ctx17_42 D V₀ V L X p n l C Dc Gamma)
     (hZ : Subgroup.center (Bar2 L) = ⊥) :
     C ⊓ (D.T ⊓ L) = pCoreOf 2 L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk, hQT, hQC⟩ := seventeen_fiftyone_hall_index h49 ctx hZ
   have hOInf : OInf L = pCoreOf 2 L := oinf_eq_pCoreOf ctx.mem_calC.2.2 hZ
   have hsup := seventeen_fiftyone_sup_eq h49 ctx hZ
@@ -233,7 +233,7 @@ theorem seventeen_fiftyone_sylow_bar
     (h49 : R17_49At D V₀ V) (ctx : Ctx17_42 D V₀ V L X p n l C Dc Gamma) :
     IsSylowTwoOf (((D.T ⊓ L).subgroupOf L).map
       (QuotientGroup.mk' (CFSG.pCore 2 ↥L))) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLM : L ≤ D.M := ctx.mem_calC.1.le
   have hLn : (L.subgroupOf D.M).Normal := ctx_L_normal h49 ctx
   have hTLsyl : CFSG.ABGLocalTools.IsSylowOf 2 (D.T ⊓ L) L :=
@@ -257,7 +257,7 @@ theorem seventeen_fiftyone_cartan_normalizer_equiv
       Subgroup.normalizerQuotient
         (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Subgroup ↥L := CFSG.pCore 2 ↥L
   let S : Subgroup ↥L := (D.T ⊓ L).subgroupOf L
   let Sbar : Subgroup (Bar2 L) := S.map (QuotientGroup.mk' Q)
@@ -274,8 +274,8 @@ theorem seventeen_fiftyone_cartan_normalizer_equiv
     rw [show Q = (pCoreOf 2 L).subgroupOf L from (CFSG.openPCoreOf_subgroupOf 2 L).symm]
     exact (by rw [CFSG.openPCoreOf_subgroupOf 2 L]; infer_instance :
       ((pCoreOf 2 L).subgroupOf L).Normal)
-  haveI : (Q.Normal) := hQnormal
-  haveI hQCNormal : ((pCoreOf 2 L).subgroupOf C).Normal := by
+  have : (Q.Normal) := hQnormal
+  have hQCNormal : ((pCoreOf 2 L).subgroupOf C).Normal := by
     constructor
     intro n hn c
     rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -338,7 +338,7 @@ theorem seventeen_fiftyone_cartan_normalizer_equiv
         have heq : (⟨(n : G) * x * (n : G)⁻¹, hx.2⟩ : ↥L) =
             (n : ↥L) * (⟨x, hxL⟩ : ↥L) * (n : ↥L)⁻¹ := by
           ext
-          simp [Subgroup.coe_mul, Subgroup.coe_inv]
+          simp [Subgroup.coe_mul]
         have hxS' : (n : ↥L) * (⟨x, hxL⟩ : ↥L) * (n : ↥L)⁻¹ ∈ S := by
           rwa [← heq]
         have h := (Subgroup.mem_normalizer_iff.mp n.2 (⟨x, hxL⟩ : ↥L)).mpr hxS'
@@ -359,7 +359,7 @@ theorem seventeen_fiftyone_cartan_normalizer_equiv
     have hnBtop : nB ∈ C.subgroupOf B ⊔ (D.T ⊓ L).subgroupOf B := by
       rw [hsupB]
       exact Subgroup.mem_top nB
-    haveI := hS'normal
+    have := hS'normal
     obtain ⟨cB, hcB, sB, hsB, hcs⟩ :=
       (Subgroup.mem_sup_of_normal_right (s := C.subgroupOf B)
         (t := (D.T ⊓ L).subgroupOf B)).mp hnBtop
@@ -461,7 +461,7 @@ theorem seventeen_fiftyone_cartan_comm_card
       Nat.card (F11.Omega1p r (⊤ : Subgroup (↥C ⧸ (pCoreOf 2 L).subgroupOf C))) = r ^ 2 ∧
         Odd (Nat.card (↥C ⧸ (pCoreOf 2 L).subgroupOf C)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := seventeen_fiftyone_cartan_normalizer_equiv h49 ctx hZ
   have hSbar : IsSylowTwoOf
       (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))) ⊤ :=
@@ -509,7 +509,7 @@ theorem seventeen_fiftyone_cartan_factorization
     (Nat.card (Bar2 L)).factorization r =
       (Nat.card (↥C ⧸ (pCoreOf 2 L).subgroupOf C)).factorization r := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := seventeen_fiftyone_cartan_normalizer_equiv h49 ctx hZ
   have hSbar : IsSylowTwoOf
       (((D.T ⊓ L).subgroupOf L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))) ⊤ :=
@@ -529,7 +529,7 @@ theorem seventeen_fiftyone_factorization_bar2 {L : Subgroup G} {r : ℕ}
     (hr : r.Prime) (hr2 : r ≠ 2) :
     (Nat.card L).factorization r = (Nat.card (Bar2 L)).factorization r := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQp : IsPGroup 2 (CFSG.pCore 2 ↥L) := CFSG.pCore_isPGroup
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card.mp hQp)
   have hQr : (Nat.card (CFSG.pCore 2 ↥L)).factorization r = 0 := by
@@ -548,7 +548,7 @@ theorem seventeen_fiftyone_factorization_cartan {C L : Subgroup G} {r : ℕ}
     (Nat.card C).factorization r =
       (Nat.card (↥C ⧸ (pCoreOf 2 L).subgroupOf C)).factorization r := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQp0 : IsPGroup 2 (pCoreOf 2 L) := by
     rw [CFSG.openPCoreOf_eq_map_pCore]
     exact CFSG.pCore_isPGroup.map L.subtype
@@ -577,7 +577,7 @@ theorem seventeen_fiftyone_R_sylow_L
       (Nat.card (↥C ⧸ (pCoreOf 2 L).subgroupOf C)).factorization r) :
     CFSG.ABGLocalTools.IsSylowOf r R L := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hCL : C ≤ L := ctx.cartan.1
   have hRL : R ≤ L := hR.le.trans hCL
   have hfacC := seventeen_fiftyone_factorization_cartan (C := C) (L := L) hr hr2
@@ -596,8 +596,8 @@ theorem seventeen_fiftyone_R_abelian
     IsMulCommutative R ∧ (∀ x ∈ F11.Omega1p r R, x ^ r = 1) ∧
       F11.Omega1p r R ≤ C := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCL : C ≤ L := ctx.cartan.1
   let Qc : Subgroup ↥C := (pCoreOf 2 L).subgroupOf C
   let q : ↥C →* (↥C ⧸ Qc) := QuotientGroup.mk' Qc
@@ -621,7 +621,7 @@ theorem seventeen_fiftyone_R_abelian
           (QuotientGroup.eq_one_iff _).mp hq1
         have hc : ((⁅(⟨(x : G), hR.le x.2⟩ : ↥C), (⟨(y : G), hR.le y.2⟩ : ↥C)⁆ : ↥C) : G) =
             ((x : G) * (y : G) * (x : G)⁻¹ * (y : G)⁻¹) := by
-          simp [commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv]
+          simp [commutatorElement_def, Subgroup.coe_mul]
         simpa [Qc, Subgroup.mem_subgroupOf, hc] using hmemQc
     have h1 : ((x : G) * (y : G) * (x : G)⁻¹ * (y : G)⁻¹) = 1 := by
       have h2 : ((x : G) * (y : G) * (x : G)⁻¹ * (y : G)⁻¹) ∈ (⊥ : Subgroup G) := by
@@ -666,8 +666,8 @@ theorem seventeen_fiftyone_R_omega1p_card
       (↥C ⧸ (pCoreOf 2 L).subgroupOf C))) = r ^ 2) :
     r ^ 2 ≤ Nat.card (F11.Omega1p r R) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCL : C ≤ L := ctx.cartan.1
   let Qc : Subgroup ↥C := (pCoreOf 2 L).subgroupOf C
   let Rc : Subgroup ↥C := R.subgroupOf C
@@ -835,7 +835,7 @@ theorem seventeen_fiftyone_omega1p_isPGroup
   have hcomm := (seventeen_fiftyone_cartan_comm_card hKT h49 ctx hZ hshape hq hr hrdvd).1
   have hcardOmega := (seventeen_fiftyone_cartan_comm_card hKT h49 ctx hZ hshape hq hr hrdvd).2.1
   obtain ⟨-, hXexp, -⟩ := seventeen_fiftyone_R_abelian ctx hr hq hrdvd hR hcomm
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   refine IsPGroup.iff_orderOf.mpr ?_
   intro x
   have hx : x ^ r = 1 := Subtype.ext (by simpa using hXexp (x : G) x.2)
@@ -865,7 +865,7 @@ private noncomputable def seventeen_fiftyone_toNormalizer (D : Data G) (L : Subg
         rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf]
         have hconj : (((⟨(b : G), hbL⟩ : ↥L) * s * (⟨(b : G), hbL⟩ : ↥L)⁻¹ : ↥L) : G) =
             (b : G) * (s : G) * (b : G)⁻¹ := by
-          simp [Subgroup.coe_mul, Subgroup.coe_inv]
+          simp [Subgroup.coe_mul]
         rw [hconj]
         exact Subgroup.mem_normalizer_iff.mp hbN (s : G)
       exact Subgroup.le_normalizer_map (QuotientGroup.mk' (CFSG.pCore 2 ↥L))
@@ -949,8 +949,8 @@ theorem seventeen_fiftyone_permutes
     {R : Subgroup G} (hR : CFSG.ABGLocalTools.IsSylowOf r R C) :
     Permutes (F11.Omega1p r R) D.T := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
   let U : Subgroup G := D.T ⊓ L
   let B : Subgroup G := L ⊓ Subgroup.normalizer (U : Set G)
   let Q : Subgroup ↥L := CFSG.pCore 2 ↥L
@@ -1137,7 +1137,7 @@ theorem seventeen_fiftyone_kernel_le_pCore
       CFSG.ComponentClassification.OuterAutomorphisms.inner (Bar2 L)) :
     (u : G) ∈ pCoreOf 2 (F11.Omega1p r R ⊔ D.T) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let hNL : D.M ≤ Subgroup.normalizer (L : Set G) := seventeen_fiftyone_normalizer_le h49 ctx
   let Q : Subgroup ↥L := CFSG.pCore 2 ↥L
   let U : Subgroup G := D.T ⊓ L
@@ -1226,7 +1226,7 @@ theorem seventeen_fiftyone_kernel_le_pCore
       have hh : (MulAut.conj x)⁻¹ ((MulAut.conj x) y) ∈ Ubar := by
         rwa [map_inv, ← hx] at h
       have hcancel : (MulAut.conj x)⁻¹ ((MulAut.conj x) y) = y := by
-        simp [MulAut.conj_apply, map_inv]
+        simp [MulAut.conj_apply]
         group
       rwa [hcancel] at hh
   obtain ⟨eC⟩ := seventeen_fiftyone_cartan_normalizer_equiv h49 ctx hZ
@@ -1483,9 +1483,10 @@ theorem seventeen_fiftyone_omega1_T_cyclic
         (by rw [CFSG.openPCoreOf_subgroupOf 2 (_ ⊔ D.T)]; infer_instance :
           ((pCoreOf 2 (F11.Omega1p r R ⊔ D.T)).subgroupOf
             (F11.Omega1p r R ⊔ D.T)).Normal))
-  haveI : IsCyclic (CFSG.ComponentClassification.OuterAutomorphisms.Outer (Bar2 L)) := hOut
+  have : IsCyclic (CFSG.ComponentClassification.OuterAutomorphisms.Outer (Bar2 L)) := hOut
   exact omega1_eq_zpowers_sup_of_hom_cyclic φ hOT hkerφ
 
+omit [Finite G] in
 theorem normalizer_omega1p_le_of_normalizer_le {p : ℕ} {R P : Subgroup G}
     (hPR : P ≤ Subgroup.normalizer (R : Set G)) :
     P ≤ Subgroup.normalizer (F11.Omega1p p R : Set G) := by
@@ -1500,7 +1501,7 @@ theorem normalizer_omega1p_le_of_normalizer_le {p : ℕ} {R P : Subgroup G}
       rw [conj_pow, hwp]
       simp
     · show x * 1 * x⁻¹ ∈ F11.Omega1p p R
-      simpa using (F11.Omega1p p R).one_mem
+      simp
     · intro a b _ _ ha hb
       simpa [mul_assoc] using (F11.Omega1p p R).mul_mem ha hb
     · intro a _ ha
@@ -1565,7 +1566,7 @@ theorem seventeen_fiftyone_inP11_of_not_g2
     seventeen_fiftyone_R_abelian ctx hr hq hrdvd hR hcomm
   have hXnc : ¬ IsCyclic ↥(F11.Omega1p r R) :=
     seventeen_fiftyone_omega1p_not_cyclic ctx hr hq hrdvd hR hcomm hcardOmega hXexp
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hXp : IsPGroup r (F11.Omega1p r R) :=
     seventeen_fiftyone_omega1p_isPGroup h49 ctx hZ hshape hKT hq hr hrdvd hR
   have hperm : Permutes (F11.Omega1p r R) D.T :=
@@ -1675,11 +1676,11 @@ theorem seventeen_fiftyone_inP11_of_g2
   classical
   have hq : 2 < 2 ^ n := (h50 L X p n l C Dc Gamma ctx).2
   have hr2 : r ≠ 2 := by rw [hG2r.2]; norm_num
-  haveI : ((pCoreOf 2 L).subgroupOf C).Normal := seventeen_fiftyone_cartan_pCore_normal h49 ctx
+  have : ((pCoreOf 2 L).subgroupOf C).Normal := seventeen_fiftyone_cartan_pCore_normal h49 ctx
   have hcomm := (seventeen_fiftyone_cartan_comm_card hKT h49 ctx hZ hshape hq hr hrdvd).1
   have hcardOmega := (seventeen_fiftyone_cartan_comm_card hKT h49 ctx hZ hshape hq hr hrdvd).2.1
   obtain ⟨-, hXexp, -⟩ := seventeen_fiftyone_R_abelian ctx hr hq hrdvd hR hcomm
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hXp : IsPGroup r (F11.Omega1p r R) :=
     seventeen_fiftyone_omega1p_isPGroup h49 ctx hZ hshape hKT hq hr hrdvd hR
   have hXnc : ¬ IsCyclic ↥(F11.Omega1p r R) :=
@@ -1719,7 +1720,7 @@ theorem seventeen_fiftyone
       Type) [Group Y] (n : ℕ), IsG2 Y n → IsCyclic
       (CFSG.ComponentClassification.OuterAutomorphisms.Outer
       Y)) := Inputs1719.K_LieOuterCyclic_holds
-  haveI : ((pCoreOf 2 L).subgroupOf C).Normal :=
+  have : ((pCoreOf 2 L).subgroupOf C).Normal :=
     seventeen_fiftyone_cartan_pCore_normal h49 ctx
   have hP11 : F11.InP11 D (F11.Omega1p r R) := by
     by_cases hG2r : IsG2 (Bar2 L) n ∧ r = 3

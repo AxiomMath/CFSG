@@ -24,8 +24,8 @@ theorem burnsideF411T_rigid_of_swap {κ : GLKind} {p f : ℕ} {E : Type} [Group 
     (hFC : burnsideF411_CentSylow p Gp) (hSw : burnsideF411_Swap M₁ M₂) {Y : Type} [Group Y]
     (μ : Cpl M₁ M₂ Y) (hμ : μ.IsFaithful) (e : E ≃* μ.G0) :
     Amalgam.Completion.IsQuasiEquivalent μ.toCompletion (incl M₁ M₂).toCompletion := by
-  haveI : Finite E := hyp.finite
-  haveI : Fact p.Prime := ⟨burnsideF4a_prime_of_isGenLie hyp.model⟩
+  have : Finite E := hyp.finite
+  have : Fact p.Prime := ⟨burnsideF4a_prime_of_isGenLie hyp.model⟩
   have hBT := burnsideF411_borelTitsIn hyp hκ
   have hP := burnsideF4j_parabolics ChF.nativeChartCompatibility hyp
   have hRK := burnsideF411_rankOne_of_F45 as_F_4_5 ChF.nativeChartCompatibility hyp

@@ -152,8 +152,8 @@ theorem ggResTwoNodeIndepL_large (hKG : GGReflClassLargeInput') (hOrb : GGResCen
   obtain ⟨hRowN, h8⟩ := hRow
   have h8' : 8 ≤ labX.rank := by
     by_cases hp3 : p = 3
-    · rw [if_pos hp3] at h8; exact h8
-    · rw [if_neg hp3] at h8; omega
+    · rw [ite_eq_left hp3] at h8; exact h8
+    · rw [ite_eq_right hp3] at h8; omega
   obtain ⟨htag, hdvd⟩ := l6a_row_facts hRowN h8'
   rcases hD G p B Bs x L D J y K hH L x (Or.inl ⟨rfl, rfl⟩) labJ labX hJΛ hXΛ hJlab hXlab hRowN
       hxL with ⟨-, hA⟩ | ⟨hE', -⟩
@@ -163,12 +163,12 @@ theorem ggResTwoNodeIndepL_large (hKG : GGReflClassLargeInput') (hOrb : GGResCen
       rcases hA with hAx | ⟨hpg, hXA⟩
       · obtain ⟨Λ, iF, iD, M, C, V, iAC, iM, ι, φ, h, α, e, hMeq, hW, hC, hφ, hrefl, hpair, ⟨f, hf⟩,
           hAL, hind⟩ := hAx
-        letI := iF; letI := iD; letI := iAC; letI := iM
+        let := iF; let := iD; let := iAC; let := iM
         exact ggTwoNodeIndepAtL_three hKG hOrb hFix hp3 hH hx hN hdvd (ggIndep_moving_K hFixK hH hx)
           e hMeq hC hφ hrefl hpair hAL (hind hxL)
       · obtain ⟨Λ, iF, iD, M, C, V, iAC, iM, ι, φ, h, α, e, hMeq, hW, hC, hφ, hrefl, hpair, ⟨f, hf⟩,
           hAL⟩ := hXA
-        letI := iF; letI := iD; letI := iAC; letI := iM
+        let := iF; let := iD; let := iAC; let := iM
         by_cases hli : LinearIndependent (ZMod p) h
         · exact ggTwoNodeIndepAtL_three hKG hOrb hFix hp3 hH hx hN hdvd
             (ggIndep_moving_K hFixK hH hx) e hMeq hC hφ hrefl hpair hAL hli
@@ -185,14 +185,14 @@ theorem ggResTwoNodeIndepL_large (hKG : GGReflClassLargeInput') (hOrb : GGResCen
               (Or.inl ⟨⟨labJ, labX, hJΛ, hXΛ, hJlab, hXlab, ⟨hRowN, hp3, h9⟩⟩, hxL, hnc⟩)
     ·
       have hp5 : 5 ≤ p := l6a_five_le (Fact.out) hp2 hp3
-      have hN : 10 ≤ labX.rank + 1 := by rw [if_neg hp3] at h8; omega
+      have hN : 10 ≤ labX.rank + 1 := by rw [ite_eq_right hp3] at h8; omega
       rcases hA with hAx | ⟨hpg, hXA⟩
       · have hXA : GGResXDatumA p Bs L labX.rank := l6a_A_of_Ax hAx
         have hXs : GGResTwoNodeSideDatum p Bs L J :=
           (hJ2 G p B Bs x L D J y K hH).1 (l6a_xdatum_of_A hXA) hrow2
         obtain ⟨Λ, iF, iD, M, C, V, iAC, iM, ι, φ, h, α, e, hMeq, hW, hC, hφ, hrefl, hpair, ⟨f, hf⟩,
           hAL, hind⟩ := hAx
-        letI := iF; letI := iD; letI := iAC; letI := iM
+        let := iF; let := iD; let := iAC; let := iM
         exact l6a_closeL hKG hOrb hFix hFixK hJr hPump hLB hSP hp5 hH hx hN hdvd hXA hXs
           (l6a_reflGen_of_side hK) e hMeq hC hφ hrefl hpair hAL (hind hxL)
       · have hXs : GGResTwoNodeSideDatum p Bs L J :=
@@ -200,7 +200,7 @@ theorem ggResTwoNodeIndepL_large (hKG : GGReflClassLargeInput') (hOrb : GGResCen
         have hXA0 := hXA
         obtain ⟨Λ, iF, iD, M, C, V, iAC, iM, ι, φ, h, α, e, hMeq, hW, hC, hφ, hrefl, hpair, ⟨f, hf⟩,
           hAL⟩ := hXA
-        letI := iF; letI := iD; letI := iAC; letI := iM
+        let := iF; let := iD; let := iAC; let := iM
         by_cases hli : LinearIndependent (ZMod p) h
         · exact l6a_closeL hKG hOrb hFix hFixK hJr hPump hLB hSP hp5 hH hx hN hdvd hXA0 hXs
             (l6a_reflGen_of_side hK) e hMeq hC hφ hrefl hpair hAL hli
@@ -238,8 +238,8 @@ theorem ggResTwoNodeIndepK_large (hKG : GGReflClassLargeInput') (hOrbK : GGResCe
   obtain ⟨hRowN, h8⟩ := hRow
   have h8' : 8 ≤ labX.rank := by
     by_cases hp3 : p = 3
-    · rw [if_pos hp3] at h8; exact h8
-    · rw [if_neg hp3] at h8; omega
+    · rw [ite_eq_left hp3] at h8; exact h8
+    · rw [ite_eq_right hp3] at h8; omega
   obtain ⟨htag, hdvd⟩ := l6a_row_facts hRowN h8'
   have hN9 : 9 ≤ labX.rank + 1 := by omega
   have hLrefl : GGReflGenerated p (ggAutomizer L Bs) := l6a_reflGen_of_side hL
@@ -271,13 +271,13 @@ theorem ggResTwoNodeIndepK_large (hKG : GGReflClassLargeInput') (hOrbK : GGResCe
         (hJ2 G p B Bs x L D J y K hH).2 (l6a_xdatum_of_A hXA) hrow2
       obtain ⟨Λ, iF, iD, M, C, V, iAC, iM, ι, φ, h, α, e, hMeq, hW, hC, hφ, hrefl, hpair, ⟨f, hf⟩,
         hAK, hind⟩ := hInd
-      letI := iF; letI := iD; letI := iAC; letI := iM
+      let := iF; let := iD; let := iAC; let := iM
       rw [sup_comm]
       by_cases hp3 : p = 3
       · exact ggTwoNodeIndepAtK_three hKG hOrbK hp3 hH hy hstrong hLrefl hN9 hdvd
           (ggIndep_moving_L hFix hH hy hLrefl) e hMeq hC hφ hrefl hpair hAK hind
       · exact l6a_closeK hKG hOrbK hFix hJr hPump hLB hSP (l6a_five_le (Fact.out) hp2 hp3) hH hy
-          hstrong (by rw [if_neg hp3] at h8; omega) hdvd hXA hXs hLrefl e hMeq hC hφ hrefl hpair hAK
+          hstrong (by rw [ite_eq_right hp3] at h8; omega) hdvd hXA hXs hLrefl e hMeq hC hφ hrefl hpair hAK
           hind
     rcases hA with hAx | ⟨hpg, hXA⟩
     · exact key (l6a_A_of_Ax hAx) (by
@@ -290,7 +290,7 @@ theorem ggResTwoNodeIndepK_large (hKG : GGReflClassLargeInput') (hOrbK : GGResCe
       have hXA0 := hXA
       obtain ⟨Λ, iF, iD, M, C, V, iAC, iM, ι, φ, h, α, e, hMeq, hW, hC, hφ, hrefl, hpair, ⟨f, hf⟩,
         hAK⟩ := hXA
-      letI := iF; letI := iD; letI := iAC; letI := iM
+      let := iF; let := iD; let := iAC; let := iM
       by_cases hli : LinearIndependent (ZMod p) h
       · exact key hXA0 ⟨Λ, iF, iD, M, C, V, iAC, iM, ι, φ, h, α, e, hMeq, hW, hC, hφ, hrefl, hpair,
           ⟨f, hf⟩, hAK, hli⟩
@@ -304,7 +304,7 @@ theorem ggResTwoNodeIndepK_large (hKG : GGReflClassLargeInput') (hOrbK : GGResCe
             have h1 : p ^ 2 ∣ labX.rank + 1 := dvd_trans hpg (Nat.gcd_dvd_left _ _)
             have hp3 : p = 3 := by
               by_contra hp3
-              rw [if_neg hp3] at h8
+              rw [ite_eq_right hp3] at h8
               have h2 : p ^ 2 ≤ labX.rank + 1 := Nat.le_of_dvd (by omega) h1
               have h3 : 25 ≤ p ^ 2 := by
                 have := l6a_five_le (Fact.out) hp2 hp3

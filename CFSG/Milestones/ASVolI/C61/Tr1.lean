@@ -12,6 +12,7 @@ open scoped Pointwise
 variable {A B : Type} [Group A] [Group B] {f : A →* B} (hf : Function.Injective f)
 include hf
 
+omit hf in
 theorem burnsideC56_tr_eq_map_comap {X : Subgroup A} {Y : Subgroup B} (hY : Y ≤ X.map f) :
     (Y.comap f).map f = Y := by
   rw [Subgroup.map_comap_eq, inf_eq_right.mpr (hY.trans (Subgroup.map_le_range f X))]
@@ -135,13 +136,14 @@ theorem burnsideC56_tr_charTwo (X : Subgroup A) : CharTwo (X.map f) ↔ CharTwo 
   rw [burnsideC56_tr_pCoreOf hf, ← burnsideC56_tr_centralizer hf,
     Subgroup.map_le_map_iff_of_injective hf]
 
+omit hf in
 theorem burnsideC56_tr_rconj (g : A) (X : Subgroup A) :
     ChC.rconj (f g) (X.map f) = (ChC.rconj g X).map f := by
   unfold ChC.rconj conjByElt
   rw [Subgroup.map_map, Subgroup.map_map]
   congr 1
   ext a
-  simp [MulAut.conj_apply, map_mul, map_inv]
+  simp [map_mul, map_inv]
 
 theorem burnsideC56_tr_set_mul (X Y Z : Subgroup A) :
     ((X.map f : Subgroup B) : Set B) = ((Y.map f : Subgroup B) : Set B) * ((Z.map f : Subgroup B) : Set B) ↔
@@ -162,7 +164,7 @@ theorem burnsideC56_tr_isMaxElemAbelian (X Y : Subgroup A) :
     rwa [burnsideC56_tr_card hf, burnsideC56_tr_card hf] at this
   · rintro ⟨h1, h2, h3⟩
     refine ⟨h1, h2, fun B' hB hBe => ?_⟩
-    have hB' := burnsideC56_tr_eq_map_comap hf hB
+    have hB' := burnsideC56_tr_eq_map_comap hB
     rw [← hB'] at hBe ⊢
     rw [burnsideC56_tr_isElemAbelian hf] at hBe
     rw [burnsideC56_tr_card hf, burnsideC56_tr_card hf]
@@ -174,9 +176,9 @@ theorem burnsideC56_tr_AFam (X : Subgroup A) :
   constructor
   · intro hY
     have hle : Y ≤ X.map f := hY.1
-    refine ⟨Y.comap f, ?_, burnsideC56_tr_eq_map_comap hf hle⟩
+    refine ⟨Y.comap f, ?_, burnsideC56_tr_eq_map_comap hle⟩
     show IsMaxElemAbelian X (Y.comap f)
-    rw [← burnsideC56_tr_isMaxElemAbelian hf, burnsideC56_tr_eq_map_comap hf hle]
+    rw [← burnsideC56_tr_isMaxElemAbelian hf, burnsideC56_tr_eq_map_comap hle]
     exact hY
   · rintro ⟨Z, hZ, rfl⟩
     exact (burnsideC56_tr_isMaxElemAbelian hf X Z).mpr hZ
@@ -187,9 +189,9 @@ theorem burnsideC56_tr_thompsonJ (X : Subgroup A) :
   apply le_antisymm
   · refine iSup₂_le fun Y hY => ?_
     have hle : Y ≤ X.map f := hY.1
-    rw [← burnsideC56_tr_eq_map_comap hf hle]
+    rw [← burnsideC56_tr_eq_map_comap hle]
     refine Subgroup.map_mono (le_iSup₂_of_le (Y.comap f) ?_ le_rfl)
-    rw [← burnsideC56_tr_isMaxElemAbelian hf, burnsideC56_tr_eq_map_comap hf hle]
+    rw [← burnsideC56_tr_isMaxElemAbelian hf, burnsideC56_tr_eq_map_comap hle]
     exact hY
   · rw [Subgroup.map_le_iff_le_comap]
     refine iSup₂_le fun Z hZ => ?_

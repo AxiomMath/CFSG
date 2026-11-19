@@ -19,11 +19,13 @@ section Setting
 variable {G : Type} [Group G] [Finite G]
 variable {m p : ℕ} {M D L : Subgroup G}
 
+omit [Finite G] in
 private theorem fam_img_mono {M : Subgroup G} (N : Subgroup ↥M) [N.Normal] {Y Z : Subgroup G}
     (h : Y ≤ Z) :
     (Y.subgroupOf M).map (QuotientGroup.mk' N) ≤ (Z.subgroupOf M).map (QuotientGroup.mk' N) :=
   Subgroup.map_mono (Subgroup.comap_mono h)
 
+omit [Finite G] in
 private theorem fam_mem_img {M : Subgroup G} (N : Subgroup ↥M) [N.Normal] {Y : Subgroup G}
     {y : ↥M ⧸ N} :
     y ∈ (Y.subgroupOf M).map (QuotientGroup.mk' N) ↔
@@ -35,6 +37,7 @@ private theorem fam_mem_img {M : Subgroup G} (N : Subgroup ↥M) [N.Normal] {Y :
   · rintro ⟨x, hx, rfl⟩
     exact Subgroup.mem_map.2 ⟨x, Subgroup.mem_subgroupOf.2 hx, rfl⟩
 
+omit [Finite G] in
 private theorem fam_img_normalizes {M : Subgroup G} (N : Subgroup ↥M) [N.Normal] {x : ↥M}
     {Y : Subgroup G} (hx : (x : G) ∈ Subgroup.normalizer (Y : Set G)) :
     QuotientGroup.mk' N x ∈ Subgroup.normalizer
@@ -60,6 +63,7 @@ private theorem fam_img_normalizes {M : Subgroup G} (N : Subgroup ↥M) [N.Norma
     have h' := fwd x⁻¹ ((Subgroup.normalizer (Y : Set G)).inv_mem hx) _ hu
     simpa [map_inv, mul_assoc] using h'
 
+omit [Finite G] in
 private theorem fam_img_isElemAbelian {M : Subgroup G} {p : ℕ} (N : Subgroup ↥M) [N.Normal]
     {D : Subgroup G} (hD : IsElemAbelian p D) :
     IsElemAbelian p ((D.subgroupOf M).map (QuotientGroup.mk' N)) := by
@@ -78,7 +82,7 @@ private theorem fam_img_isElemAbelian {M : Subgroup G} {p : ℕ} (N : Subgroup �
 private theorem fam_img_pCoreOf_le {M : Subgroup G} (N : Subgroup ↥M) [N.Normal] (S : Subgroup G) :
     ((pCoreOf 2 S).subgroupOf M).map (QuotientGroup.mk' N) ≤
       pCoreOf 2 ((S.subgroupOf M).map (QuotientGroup.mk' N) : Subgroup (↥M ⧸ N)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
     (fam_img_mono N (CFSG.LieType.BorelTits.pCoreOf_le 2 S)) ?_ ?_
   · intro z hz
@@ -90,7 +94,7 @@ private theorem fam_img_pCoreOf_le {M : Subgroup G} (N : Subgroup ↥M) [N.Norma
 
 private theorem fam_pCoreOf_tl_le {M S : Subgroup G} (hS : S ≤ M) :
     pCoreOf 2 (tl M S) ≤ tl M (pCoreOf 2 S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨π, hπ⟩ : ∃ π : ↥S →* Mt M,
       ∀ g : ↥S, π g = QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨(g : G), hS g.2⟩ :=
     ⟨(QuotientGroup.mk' (CFSG.pCore 2 ↥M)).comp (Subgroup.inclusion hS), fun g => rfl⟩
@@ -128,12 +132,13 @@ private theorem fam_tl_pCoreOf_eq {M S : Subgroup G} (hS : S ≤ M) :
 
 private theorem fam_not_dvd_pCoreOf {M : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     ¬ p ∣ Nat.card (pCoreOf 2 M) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M).exists_card_eq
   rw [hk]
   intro h
   exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h))
 
+omit [Finite G] in
 private theorem fam_eq_one_of_mem {N : Subgroup G} {p : ℕ} (hp : p.Prime)
     (hN : ¬ p ∣ Nat.card N) {d : G} (hdN : d ∈ N) (hd : d ^ p = 1) : d = 1 := by
   have h1 : orderOf d ∣ p := orderOf_dvd_of_pow_eq_one hd
@@ -183,11 +188,13 @@ private theorem fam_normalizer_iSup {X : Type*} [Group X] {ι : Sort*} (H : ι �
     rw [e] at h'
     exact h'
 
+omit [Finite G] in
 private theorem fam_tl_term {M D : Subgroup G} {d : G} (hdM : d ∈ M) (hdD : d ∈ D) :
     tl M (pCoreOf 2 (Subgroup.centralizer ({d} : Set G))) ≤
       Hfam M D (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨d, hdM⟩) :=
   le_iSup_of_le d (le_iSup_of_le hdM (le_iSup_of_le hdD (le_iSup_of_le rfl le_rfl)))
 
+omit [Finite G] in
 private theorem fam_barX_term {p : ℕ} {M D : Subgroup G} {d : G} (hdM : d ∈ M) (hdD : d ∈ D) :
     barX p M (pCoreOf 2 (Subgroup.centralizer ({d} : Set G))) ≤
       Hbar p M D (QuotientGroup.mk' (GLAPPrimeCore p ↥M) ⟨d, hdM⟩) :=
@@ -204,7 +211,7 @@ theorem tl_centralizer_eq (h : IvSetting m p M D L) {d : G} (hdD : d ∈ D) (hdM
     tl M (Subgroup.centralizer ({d} : Set G)) =
       Subgroup.centralizer ({QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨d, hdM⟩} : Set (Mt M)) := by
   have hp : p.Prime := prime_of_standing h.standing
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdP : IsPGroup p (Subgroup.zpowers d) :=
     isPGroup_zpowers_of_pow_eq_one' (h.hyp.plane.1.2 d hdD)
   have hdN : d ∈ Subgroup.normalizer ((pCoreOf 2 M : Subgroup G) : Set G) :=
@@ -246,7 +253,7 @@ theorem tl_centralizer_eq (h : IvSetting m p M D L) {d : G} (hdD : d ∈ D) (hdM
 
 theorem hfam_family (h : IvSetting m p M D L) : SignalizerFamily p (tl M D) (Hfam M D) := by
   have hp : p.Prime := prime_of_standing h.standing
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hE : IsElemAbelian p D := h.hyp.plane.1
   have hDc : ∀ u ∈ D, ∀ v ∈ D, u * v = v * u := fun u hu v hv =>
     congrArg Subtype.val (isMulCommutative_iff.1 hE.1 ⟨u, hu⟩ ⟨v, hv⟩)
@@ -322,7 +329,7 @@ theorem tl_gammaD_le_pCore (h : IvSetting m p M D L) :
 theorem hbar_family (h : IvSetting m p M D L) :
     SignalizerFamily p (barX p M D) (Hbar p M D) ∧ SignalizerFamily.CInvariant (barX p M D) (Hbar p M D) := by
   have hp : p.Prime := prime_of_standing h.standing
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hE : IsElemAbelian p D := h.hyp.plane.1
   have hDc : ∀ u ∈ D, ∀ v ∈ D, u * v = v * u := fun u hu v hv =>
     congrArg Subtype.val (isMulCommutative_iff.1 hE.1 ⟨u, hu⟩ ⟨v, hv⟩)
@@ -379,7 +386,7 @@ theorem sigmaFam_hbar (h : IvSetting m p M D L) :
       ∀ e ∈ barX p M D, e ∈ Subgroup.normalizer
         ((barX p M (gammaD D) : Subgroup (↥M ⧸ GLAPPrimeCore p ↥M)) : Set (↥M ⧸ GLAPPrimeCore p ↥M)) := by
   have hp : p.Prime := prime_of_standing h.standing
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hE : IsElemAbelian p D := h.hyp.plane.1
   have hDp : ∀ x ∈ D, x ^ p = 1 := hE.2
   have hsig : sigmaFam (barX p M D) (Hbar p M D) = barX p M (sigmaStar D) := by

@@ -78,7 +78,7 @@ theorem eq_of_inf_normalizer_le {P Q : Subgroup G} (hQ : IsPGroup p Q) (hPQ : P 
     intro htop
     rw [subgroupOf_eq_top] at htop
     exact hne (le_antisymm hPQ htop)
-  obtain ⟨y, hy, hyU⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hU)
+  obtain ⟨y, hy, hyU⟩ := _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hU)
   rw [← subgroupOf_normalizer_eq hPQ, mem_subgroupOf] at hy
   exact hyU (mem_subgroupOf.mpr (h ⟨y.2, hy⟩))
 
@@ -195,7 +195,7 @@ theorem sup_eq_of_card_le {K₀ OK Z : Subgroup G} {L : Type*} [Group L] (f : K�
     exact Nat.Coprime.pow_right n (Nat.coprime_two_right.mpr hOK)
   have hrel : OK.relIndex Z = Nat.card Z := by
     have h := relIndex_mul_card OK Z
-    rw [inf_eq_bot_of_coprime hcop, card_bot, mul_one] at h
+    rw [(Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop)), card_bot, mul_one] at h
     exact h
   have hcardK₀ : Nat.card K₀ = Nat.card L * Nat.card OK := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup f.ker,

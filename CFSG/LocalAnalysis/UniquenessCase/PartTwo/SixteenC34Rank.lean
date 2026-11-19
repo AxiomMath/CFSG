@@ -30,7 +30,7 @@ theorem s16c34_uniqueMax_of_pRank (D : Data G) (h61 : UC6.R6_1 D) {p : ℕ} (hp 
   have hU : UniqueMax D.M E := h61 p hp E (hEX.trans hXM) hEp hEnc
   unfold UniqueMax calMOf at hU ⊢
   ext N
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨hN, hXN⟩
     have hmem : N ∈ {N | rankThreeIsMaxTwoLocal N ∧ E ≤ N} := ⟨hN, hEX.trans hXN⟩
@@ -42,7 +42,7 @@ theorem s16c34_uniqueMax_of_pRank (D : Data G) (h61 : UC6.R6_1 D) {p : ℕ} (hp 
 theorem s16c34_exists_noncyclic_of_lBar {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {L : Subgroup G} {p : ℕ} (hp : p.Prime) (h2 : 2 ≤ CFSG.Open.pRank p (lBar V₀ V hV L)) :
     ∃ P : Subgroup G, P ≤ L ∧ IsPGroup p P ∧ ¬ IsCyclic ↥P := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEL, hE, hEc⟩ := CFSG.SectionRank.exists_pRank hp.one_lt (lBar V₀ V hV L)
   have hEp : IsPGroup p E := CFSG.Open.IsElemAbelian.isPGroup hE
   have hEnc : ¬ IsCyclic ↥E := by
@@ -76,7 +76,7 @@ theorem s16c34_uniqueMax_of_lBar (D : Data G) (h61 : UC6.R6_1 D) {V₀ V L : Sub
   have hU : UniqueMax D.M P := h61 p hp P (hPL.trans hLM) hPp hPc
   unfold UniqueMax calMOf at hU ⊢
   ext N
-  simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨hN, hLN⟩
     have hmem : N ∈ {N | rankThreeIsMaxTwoLocal N ∧ P ≤ N} := ⟨hN, hPL.trans hLN⟩

@@ -14,8 +14,7 @@ open Subgroup CFSG.Blueprint CFSG.Blueprint.NativeSporadic CFSG.OddStandard.Smal
 theorem le_card_of_smallF3LieQuotient {Q : Type} [Group Q] (hQ : SmallF3LieQuotient Q) :
     5616 ≤ Nat.card Q := by
   have hmem := card_mem_smallF3Orders hQ
-  simp only [smallF3Orders, Finset.mem_insert, Finset.mem_singleton, Finset.notMem_empty,
-    or_false] at hmem
+  simp only [smallF3Orders, Finset.mem_insert, Finset.mem_singleton] at hmem
   rcases hmem with h | h | h | h | h | h | h | h <;> omega
 
 theorem not_card_dvd_card_of_isSporadic
@@ -23,8 +22,7 @@ theorem not_card_dvd_card_of_isSporadic
     (hG : IsSporadic G .M11 ∨ IsSporadic G .M12 ∨ IsSporadic G .J1 ∨ IsSporadic G .HS) :
     ¬ Nat.card Q ∣ Nat.card G := by
   have hmem := card_mem_smallF3Orders hQ
-  simp only [smallF3Orders, Finset.mem_insert, Finset.mem_singleton, Finset.notMem_empty,
-    or_false] at hmem
+  simp only [smallF3Orders, Finset.mem_insert, Finset.mem_singleton] at hmem
   rcases hG with h | h | h | h
   · have hc : Nat.card G = 7920 :=
       CFSG.GH74.card_eq_of_isSporadic (s := .M11) (n := 7920)

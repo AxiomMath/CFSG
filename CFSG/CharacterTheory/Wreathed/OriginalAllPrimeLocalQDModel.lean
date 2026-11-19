@@ -90,7 +90,7 @@ theorem torus_hyps_of_isQGroup {n : ℕ} (hmn : m = 2 ^ n)
     have h6 : 2 ≤ 2 ^ k := Nat.le_self_pow (by omega) 2
     omega
   have hR2 : 2 ^ (2 * n + 1) ≤ Nat.card (R : Subgroup A) := by
-    obtain ⟨e, he⟩ := R.isPGroup'.exists_card_eq
+    obtain ⟨e, he⟩ := R.isPGroup.exists_card_eq
     have hdvd : 2 ^ (2 * n) ∣ 2 ^ e := by
       rw [← hP'card, ← he]
       exact Subgroup.card_dvd_of_le hPR
@@ -107,7 +107,7 @@ theorem torus_hyps_of_isQGroup {n : ℕ} (hmn : m = 2 ^ n)
       have h2 : y₂ ∈ P' := hRP ▸ (Subgroup.mem_inf.mp hy₂).2
       exact Subtype.ext (hPcomm _ (Subgroup.mem_subgroupOf.mp h1) _ (Subgroup.mem_subgroupOf.mp h2))
   have hYcard : 2 ^ (n + 1) ≤ Nat.card Y := pow_le_card_of_isMaximalQuaternionIn hK.quaternion hR2
-  have hYp : IsPGroup 2 Y := R.isPGroup'.to_le inf_le_right
+  have hYp : IsPGroup 2 Y := R.isPGroup.to_le inf_le_right
   have hYdvd : 2 * m ∣ Nat.card Y := by
     obtain ⟨e, he⟩ := hYp.exists_card_eq
     rw [he] at hYcard ⊢

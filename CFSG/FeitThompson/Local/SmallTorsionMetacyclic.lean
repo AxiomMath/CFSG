@@ -110,7 +110,7 @@ theorem commutatorElement_mem_zpowers_of_closurePair {J : Subgroup R} [J.Normal]
   have htop : (⊤ : Subgroup ↥J) = closure {(⟨a, haJ⟩ : ↥J), ⟨z, hzJ⟩} := by
     apply Subgroup.map_injective J.subtype_injective
     rw [MonoidHom.map_closure, ← MonoidHom.range_eq_map, range_subtype,
-      show (J.subtype '' {(⟨a, haJ⟩ : ↥J), ⟨z, hzJ⟩}) = ({a, z} : Set R) by simp [Set.image_pair]]
+      show (J.subtype '' {(⟨a, haJ⟩ : ↥J), ⟨z, hzJ⟩}) = ({a, z} : Set R) by simp]
     exact hJ
   intro x hx
   have hmem : (⟨x, hx⟩ : ↥J) ∈ H := by

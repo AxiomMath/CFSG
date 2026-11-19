@@ -17,7 +17,7 @@ theorem false_of_graph_component (hGraph : FinGraphOdd) {G : Type} [Group G] [Fi
     (hφs : Function.Surjective φ) (hφk : ∀ k : ↥L, φ k = 1 ↔ (k : G) ∈ K)
     (hX : IsAlt X 6 ∨ IsSp4 X 2) {t : G} (htH : t ∈ H) (hDyn : ActsOnDynkinMod K L t)
     {Y : Type} [Group Y] [Finite Y] (π : ↥H →* Y) (hπs : Function.Surjective π)
-    (hπk : ∀ h : ↥H, π h = 1 → (h : G) ∈ K) {a : Y} (ha : orderOf a = 2)
+    (hπk : ∀ h : ↥H, π h = 1 → (h : G) ∈ K) {a : Y} (_ha : orderOf a = 2)
     (hOT : CFSG.Timmesfeld.Bridge.Asc72.IsOddTransp {x : Y | IsConj a x})
     (hgen : L ≤ ((Subgroup.normalClosure ({a} : Set Y)).comap π).map H.subtype) : False := by
   classical

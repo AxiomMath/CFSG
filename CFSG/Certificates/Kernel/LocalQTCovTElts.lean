@@ -61,12 +61,12 @@ theorem wordArr_eq_unpack {S SI : Nat → Nat}
   have hw : wordEqK 1755 11 (mask 11) (CFSG.KC.Enum.pidn 1755 11) S SI 13 wd
       (CFSG.KS.Raw.wordK 1755 11 (mask 11) (CFSG.KC.Enum.pidn 1755 11) S SI wd) = true := by
     rw [wordEqK]
-    simp only [bAnd_iff, hsz, hl, true_and]
+    simp only [hsz, hl]
     exact Nat.beq_refl _
   exact (wordEqK_sound hbase hp hw).1
 
 theorem wordK_range {S SI : Nat → Nat}
-    (hS : ∀ j < 13, titsDerivedArrs[j]! = CFSG.KS.Raw.unpack 1755 11 (S j))
+    (_hS : ∀ j < 13, titsDerivedArrs[j]! = CFSG.KS.Raw.unpack 1755 11 (S j))
     (hperm : ∀ j < 13, CFSG.KC.Enum.permOK 1755 11 (mask 11) (1755 * 11) (S j) (SI j) = true)
     (hsz : CFSG.KS.Raw.szOK 1755 11 = true) {wd : List Int} (hl : CFSG.KS.Raw.lettersK 13 wd = true) :
     ∀ i < 1755, CFSG.KC.Enum.pg 11 (mask 11) (CFSG.KS.Raw.wordK 1755 11 (mask 11) (CFSG.KC.Enum.pidn 1755 11) S SI wd) i < 1755 := by
@@ -517,7 +517,7 @@ private theorem goodT_step_prod_true
     (hrec : ∀ v, 0 < v → v < d.nV →
       E v = pcomp 1755 11 (mask 11) (E (getK P (v - 1) 0))
         (getK X (Nat.mod (lastK (getRG (rowsG d.words) v [])) 2) 0))
-    {v i : Nat} (hv : v < d.nV) (hstep : GoodTStep d E P X v i)
+    {v i : Nat} (_hv : v < d.nV) (hstep : GoodTStep d E P X v i)
     (hcond : (CFSG.KC.Ord.andB (CFSG.KC.Ord.notB (Nat.beq (d.tgt.getD (2 * v + i) d.nV) 0))
       (CFSG.KC.Ord.andB (Nat.beq (P.getD ((d.tgt.getD (2 * v + i) d.nV) - 1) 0) v)
         (Nat.beq (Nat.mod (lastK (d.words.getD
@@ -536,7 +536,7 @@ private theorem goodT_step_prod_true
   obtain ⟨hb, hm⟩ := hm
   rw [Bool.and_eq_true] at hm
   obtain ⟨hprodRaw, hback⟩ := hm
-  simp only [getRG_rowsG, Nat.add_eq, Nat.mul_eq, Nat.sub_eq] at hprodRaw hback
+  simp only [getRG_rowsG] at hprodRaw hback
   have htlt : d.tgt.getD (2 * v + i) d.nV < d.nV := by
     simpa [getRG_rowsG] using ht
   rw [hcond] at hprodRaw
@@ -582,7 +582,7 @@ private theorem goodT_step_prod
   obtain ⟨hb, hm⟩ := hm
   rw [Bool.and_eq_true] at hm
   obtain ⟨hprodRaw, hback⟩ := hm
-  simp only [getRG_rowsG, Nat.add_eq, Nat.mul_eq, Nat.sub_eq] at hprodRaw hback
+  simp only [getRG_rowsG] at hprodRaw hback
   have htlt : d.tgt.getD (2 * v + i) d.nV < d.nV := by
     simpa [getRG_rowsG] using ht
   have hERt : (List.map E (List.range d.nV)).getD (d.tgt.getD (2 * v + i) d.nV) 0 =
@@ -611,7 +611,7 @@ private theorem goodT_step_prod
     exact this
 
 private theorem goodT_step_check_aux
-    {d : CT} {E : Nat → Nat} {P X : List Nat} {v i : Nat}
+    {d : CT} {E : Nat → Nat} {_P _X : List Nat} {v i : Nat}
     (htA : (ofCT d).tgtA[2 * v + (i : Nat)]! = d.tgt.getD (2 * v + i) d.nV)
     (hbA : (ofCT d).backA[2 * v + (i : Nat)]! = d.back.getD (2 * v + i) d.nV)
     (hleft : (ofCT d).elaTab[d.tgt.getD (2 * v + i) d.nV]! =
@@ -661,7 +661,7 @@ private theorem goodT_step_check
   obtain ⟨hb, hm⟩ := hm
   rw [Bool.and_eq_true] at hm
   obtain ⟨hprodRaw, hback⟩ := hm
-  simp only [getRG_rowsG, Nat.add_eq, Nat.mul_eq, Nat.sub_eq] at hprodRaw hback
+  simp only [getRG_rowsG] at hprodRaw hback
   have htlt : d.tgt.getD (2 * v + i) d.nV < d.nV := by
     simpa [getRG_rowsG] using ht
   have hblt : d.back.getD (2 * v + i) d.nV < d.nV := by
@@ -684,7 +684,7 @@ private theorem goodT_step_check
     rw [hfo, hprod]
     rw [← CFSG.KC.LQT.Cov.T.compA_unpack (n := 1755) (w := 11) (by norm_num)
       (hXlt ⟨i, hi⟩), hX ⟨i, hi⟩]
-  exact goodT_step_check_aux (d := d) (E := E) (P := P) (X := X) htA hbA hleft hright hprodU ht hb hbd hback
+  exact goodT_step_check_aux (d := d) (E := E) (_P := P) (_X := X) htA hbA hleft hright hprodU ht hb hbd hback
 
 private theorem goodT_distinct_step
     (hdist : CFSG.KC.LQT.T2.distinctS ((List.range d.nV).map E) = true)
@@ -768,7 +768,7 @@ theorem goodT_sound (d : CT) (E : Nat → Nat) (P : List Nat) (X : List Nat)
     (hll : CFSG.KC.LQT.T2.allT d.xw (CFSG.KS.Raw.lettersK 13) = true)
     (hEunpack : ∀ v < d.nV, CFSG.KS.Raw.unpack 1755 11 (E v) = elaOf (ofCT d).xa (d.words.getD v []))
     (hEcanon : ∀ v < d.nV, E v >>> (1755 * 11) = 0)
-    (hElt : ∀ v < d.nV, ∀ j < 1755, CFSG.KC.Enum.pg 11 (mask 11) (E v) j < 1755)
+    (_hElt : ∀ v < d.nV, ∀ j < 1755, CFSG.KC.Enum.pg 11 (mask 11) (E v) j < 1755)
     (hX : ∀ i : Fin 2, CFSG.KS.Raw.unpack 1755 11 (getK X i 0) = (ofCT d).xa i)
     (hXlt : ∀ i : Fin 2, ∀ j < 1755,
       CFSG.KC.Enum.pg 11 (mask 11) (getK X i 0) j < 1755)
@@ -868,7 +868,7 @@ private theorem blkT_step_prod {d : CT} {E : Nat → Nat}
   rw [← hERa, ← hERb]
   simpa [getK_getD, List.getD_eq_getElem?_getD, had', hbd'] using s.hprod
 
-private theorem blkT_step_eq {d : CT} {E : Nat → Nat} {S SI : Nat → Nat}
+private theorem blkT_step_eq {d : CT} {E : Nat → Nat} {_S _SI : Nat → Nat}
     {bl : List Int × List Nat × List Nat × List (List (Nat × Bool))} {Ga Gi : Nat} {j : Nat}
     (hEunpack : ∀ v < d.nV, CFSG.KS.Raw.unpack 1755 11 (E v) =
       elaOf (ofCT d).xa (d.words.getD v []))
@@ -914,10 +914,10 @@ private theorem blkT_step_eq {d : CT} {E : Nat → Nat} {S SI : Nat → Nat}
   rw [hleft, hright, ← hU, hprod']
   exact CFSG.KS.Raw.eqA_self (CFSG.KS.Raw.unpack 1755 11 (E (bl.2.2.1.getD j d.nV)))
 
-theorem blkT_sound (d : CT) (E : Nat → Nat) (P : List Nat)
+theorem blkT_sound (d : CT) (E : Nat → Nat) (_P : List Nat)
     (S SI : Nat → Nat)
     (bl : List Int × List Nat × List Nat × List (List (Nat × Bool)))
-    (hwords : d.words.length = d.nV)
+    (_hwords : d.words.length = d.nV)
     (hEunpack : ∀ v < d.nV, CFSG.KS.Raw.unpack 1755 11 (E v) =
       elaOf (ofCT d).xa (d.words.getD v []))
     (hElt : ∀ v < d.nV, ∀ j < 1755, CFSG.KC.Enum.pg 11 (mask 11) (E v) j < 1755)
@@ -957,13 +957,12 @@ theorem blkT_sound (d : CT) (E : Nat → Nat) (P : List Nat)
     have hj' : j < lenK bl.2.1 := by
       simpa [blk, CFSG.KC.LQT.Cov.Parse.lenK_length] using hj
     have hm := hall j hj'
-    simp only [CFSG.KC.LQT.BW.Pf.allBs_cons, CFSG.KC.LQT.BW.Pf.allBs_nil,
-      Bool.and_true, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hm
+    simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hm
     obtain ⟨ha, hb, hprod⟩ := hm
     let s : BlkTStep d E bl Ga Gi j :=
       ⟨Nat.blt_eq.mpr ha, Nat.blt_eq.mpr hb, Nat.beq_eq.mpr hprod⟩
     obtain ⟨h1, h2⟩ := blkT_step_bounds (d := d) (E := E) s
-    exact ⟨h1, h2, (by simpa using blkT_step_eq (d := d) (E := E) (S := S) (SI := SI) hEunpack hElt hGa hGi hperm' s)⟩
+    exact ⟨h1, h2, (by simpa using blkT_step_eq (d := d) (E := E) (_S := S) (_SI := SI) hEunpack hElt hGa hGi hperm' s)⟩
 theorem buildE_range {d : CT} {E : Nat → Nat} {P : List Nat} {X : List Nat}
     (hE0 : E 0 = CFSG.KC.Enum.pidn 1755 11)
     (hrec : ∀ v, 0 < v → v < d.nV →

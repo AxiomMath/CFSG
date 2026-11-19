@@ -19,6 +19,7 @@ open CFSG.Blueprint (LieModel)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem w183fourodd_hasQuotShape {L : Subgroup G} {N : Set G}
     (h : (∃ p e : ℕ, p.Prime ∧ p ≠ 2 ∧ 9 < p ^ e ∧
             HasQuotShape L N (fun X _ => CFSG.Quasithin.F6.IsL2 p e X)) ∨
@@ -32,6 +33,7 @@ theorem w183fourodd_hasQuotShape {L : Subgroup G} {N : Set G}
   · exact ⟨X, hX, φ, hs, hk, Or.inr ⟨p, hp, h5, Or.inl ⟨h4, hP⟩⟩⟩
   · exact ⟨X, hX, φ, hs, hk, Or.inr ⟨p, hp, h5, Or.inr ⟨h4, hP⟩⟩⟩
 
+omit [Finite G] in
 theorem w183fourodd_three_dvd_relIndex {K L : Subgroup G}
     (hX : HasQuotShape L (K : Set G) (fun X _ => OddShape X)) : 3 ∣ K.relIndex L := by
   obtain ⟨X, hXg, φ, hs, hk, hP⟩ := hX
@@ -75,6 +77,7 @@ theorem w183fourodd_conj_cases {L T : Subgroup G}
   · exact Or.inl h
   · exact Or.inr h
 
+omit [Finite G] in
 theorem w183fourodd_le_normalizer {L T H : Subgroup G} (hLT : L ⊔ T = H)
     (h : ∀ t ∈ T, conjSubgroup L t = L) : H ≤ Subgroup.normalizer (L : Set G) := by
   rw [← hLT]

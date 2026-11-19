@@ -32,12 +32,8 @@ theorem isMon_mul {M N : Matrix (Fin 3) (Fin 3) (ZMod 5)} (hM : IsMon M) (hN : I
   rcases hm with ⟨m01, m10, m00, m11⟩ | ⟨m00, m11, m01, m10⟩ <;>
     rcases hn with ⟨n01, n10, n00, n11⟩ | ⟨n00, n11, n01, n10⟩ <;>
     simp only [m01, m10, m00, m11, n01, n10, n00, n11, mul_zero, zero_mul, add_zero, zero_add,
-      true_and, ne_eq, mul_eq_zero, or_self, not_false_eq_true, and_true, and_self, true_or,
-      or_true, false_or]
-  all_goals first
-    | exact Or.inl ⟨by simp [*], by simp [*]⟩
-    | exact Or.inr ⟨by simp [*], by simp [*]⟩
-    | simp [*]
+      ne_eq, mul_eq_zero, or_self, not_false_eq_true, and_self, true_or,
+      or_true]
 
 @[expose] noncomputable def T0 : Subgroup G35 :=
   Subgroup.closure {g : G35 | IsMon (g : Matrix (Fin 3) (Fin 3) (ZMod 5))}
@@ -87,7 +83,7 @@ theorem isMon_monMat (e : Bool) {a b : ZMod 5} (ha : a ≠ 0) (hb : b ≠ 0) :
     IsMon (monMat e a b) := by
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hab : a * b ≠ 0 := mul_ne_zero ha hb
-  cases e <;> simp [IsMon, monMat, ha, hb, hab]
+  cases e <;> simp [IsMon, monMat, ha, hb]
 
 theorem card_monPar : Nat.card {p : Bool × ZMod 5 × ZMod 5 // p.2.1 ≠ 0 ∧ p.2.2 ≠ 0} = 32 := by
   rw [Nat.card_eq_fintype_card]
@@ -112,8 +108,6 @@ theorem card_T0 : Nat.card T0 = 32 := by
       all_goals first
         | exact absurd h00 ha
         | exact absurd h00.symm ha'
-        | exact absurd h01 ha
-        | exact absurd h01.symm ha'
         | (subst h00; subst h11; rfl)
         | (subst h01; subst h10; rfl)
     · rintro ⟨g, hg⟩
@@ -139,7 +133,7 @@ theorem card_T0 : Nat.card T0 = 32 := by
           exact (eq_inv_of_mul_eq_one_left (by linear_combination hdet)).symm
         have h22' : -((g 1 0)⁻¹ * (g 0 1)⁻¹) = g 2 2 := by rw [← _root_.mul_inv_rev]; exact h22
         ext i j
-        fin_cases i <;> fin_cases j <;> simp [f, monMat, m02, m12, m20, m21, m00, m11, h22, h22']
+        fin_cases i <;> fin_cases j <;> simp [f, monMat, m02, m12, m20, m21, m00, m11, h22']
   rw [← Nat.card_congr (Equiv.ofBijective f hf)]
   exact card_monPar
 

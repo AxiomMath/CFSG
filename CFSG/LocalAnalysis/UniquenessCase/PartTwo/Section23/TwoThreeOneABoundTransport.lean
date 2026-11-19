@@ -19,6 +19,7 @@ section Image
 
 variable {A K : Subgroup G}
 
+omit [Finite G] in
 private theorem pCore_le_ker_barSubHom (hA : IsElemAbelian 2 A) (hKstab : K ≤ stabTil ⊥ A)
     (h2 : barSub ⊥ A hA (CFSG.Open.pCoreOf 2 K) = ⊥) :
     CFSG.pCore 2 ↥K ≤ (barSubHom hA K hKstab).ker := by
@@ -36,12 +37,14 @@ private noncomputable def quotHom (hA : IsElemAbelian 2 A) (hKstab : K ≤ stabT
     (h2 : barSub ⊥ A hA (CFSG.Open.pCoreOf 2 K) = ⊥) : Bar2 K →* ↥(barSub ⊥ A hA K) :=
   QuotientGroup.lift (CFSG.pCore 2 ↥K) (barSubHom hA K hKstab) (pCore_le_ker_barSubHom hA hKstab h2)
 
+omit [Finite G] in
 private theorem quotHom_mk (hA : IsElemAbelian 2 A) (hKstab : K ≤ stabTil ⊥ A)
     (h2 : barSub ⊥ A hA (CFSG.Open.pCoreOf 2 K) = ⊥) (l : ↥K) :
     ((quotHom hA hKstab h2 (QuotientGroup.mk l) : ↥(barSub ⊥ A hA K)) :
       MulAut (Vtil ⊥ A hA)) = actTil ⊥ A hA ⟨(l : G), hKstab l.2⟩ := by
   rw [quotHom, QuotientGroup.lift_mk, barSubHom_apply]
 
+omit [Finite G] in
 private theorem quotHom_surjective (hA : IsElemAbelian 2 A) (hKstab : K ≤ stabTil ⊥ A)
     (h2 : barSub ⊥ A hA (CFSG.Open.pCoreOf 2 K) = ⊥) :
     Function.Surjective (quotHom hA hKstab h2) := by
@@ -49,6 +52,7 @@ private theorem quotHom_surjective (hA : IsElemAbelian 2 A) (hKstab : K ≤ stab
   obtain ⟨x, rfl⟩ := barSubHom_surjective hA K hKstab y
   exact ⟨QuotientGroup.mk x, by rw [quotHom, QuotientGroup.lift_mk]⟩
 
+omit [Finite G] in
 private theorem ker_quotHom_le_center (hA : IsElemAbelian 2 A) (hKstab : K ≤ stabTil ⊥ A)
     (h2 : barSub ⊥ A hA (CFSG.Open.pCoreOf 2 K) = ⊥) (hK1 : barSub ⊥ A hA K ≠ ⊥)
     (hKq : CFSG.Open.IsQuasisimple (Bar2 K)) :
@@ -76,6 +80,7 @@ theorem pCore_barSub_eq_bot_of_quasisimple (hA : IsElemAbelian 2 A) (hKstab : K 
   rw [hbot, Subgroup.map_bot] at hmap
   exact hmap.symm
 
+omit [Finite G] in
 theorem actsNontrivOnDiagramIn_barSub (hA : IsElemAbelian 2 A) (hKstab : K ≤ stabTil ⊥ A)
     (h2 : barSub ⊥ A hA (CFSG.Open.pCoreOf 2 K) = ⊥) (hK1 : barSub ⊥ A hA K ≠ ⊥)
     (hKq : CFSG.Open.IsQuasisimple (Bar2 K)) {t : G}
@@ -150,6 +155,7 @@ theorem actsNontrivOnDiagramIn_barSub (hA : IsElemAbelian 2 A) (hKstab : K ≤ s
   · intro hIDF
     exact hnot ((uc22p22wi_isInnDiagFieldAut_congr φ θ).1 hIDF)
 
+omit [Finite G] in
 theorem isComponentOf_barSub_of_isSubnormal (hA : IsElemAbelian 2 A) (hKstab : K ≤ stabTil ⊥ A)
     (h2 : barSub ⊥ A hA (CFSG.Open.pCoreOf 2 K) = ⊥) (hK1 : barSub ⊥ A hA K ≠ ⊥)
     {H : Subgroup G} (hKH : CFSG.Open.IsSubnormal K H) (hKq : CFSG.Open.IsQuasisimple (Bar2 K)) :
@@ -158,6 +164,7 @@ theorem isComponentOf_barSub_of_isSubnormal (hA : IsElemAbelian 2 A) (hKstab : K
     TwelveTwentyThree.isSubnormal_barSub (V₀ := ⊥) hA hKH,
     TwelveTwentyThree.isQuasisimple_barSub (V₀ := ⊥) hA hKstab hKq h2 hK1⟩
 
+omit [Finite G] in
 theorem shape417_barSub (hA : IsElemAbelian 2 A) (hKstab : K ≤ stabTil ⊥ A)
     (h2 : barSub ⊥ A hA (CFSG.Open.pCoreOf 2 K) = ⊥) (hK1 : barSub ⊥ A hA K ≠ ⊥)
     (hKq : CFSG.Open.IsQuasisimple (Bar2 K)) {T : Subgroup G}

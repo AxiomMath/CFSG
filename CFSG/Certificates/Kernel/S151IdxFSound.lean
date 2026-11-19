@@ -83,7 +83,7 @@ theorem getD_append_left {A B : List (Array Nat)} {l : Nat} (hl : l < A.length) 
 
 theorem getD_append_right {A B : List (Array Nat)} {k : Nat} (hk : k < B.length) :
     (A ++ B).toArray.getD (A.length + k) #[] = B[k] := by
-  simp [Array.getD_eq_getD_getElem?, List.getElem?_append_right, hk]
+  simp [Array.getD_eq_getD_getElem?, hk]
 
 theorem getElem!_list_eq {α : Type} [Inhabited α] (l : List α) (i : Nat) : l[i]! = l.getD i default := by
   simp [List.getD_eq_getElem?_getD]

@@ -36,8 +36,8 @@ theorem datum_of_core {P G₀ : Type} [Group P] [Finite P] [Group G₀] [Finite 
         CFSG.Open.IsQuasisimple L ∧ 3 ∣ Nat.card (L ⧸ Subgroup.center L)) :
     KD264F8Datum P A := by
   classical
-  haveI := finite_mulAut' (P := P)
-  obtain ⟨b, hbA, hbout⟩ := SetLike.not_le_iff_exists.1 hnot
+  have := finite_mulAut' (P := P)
+  obtain ⟨b, hbA, hbout⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   obtain ⟨ι, hιinj, hιfix, hιnorm, hι3⟩ := desc b hbA hbout
   have hconjinj := conj_injective' hZ
   have hbnotinn : b ∉ (MulAut.conj : P →* MulAut P).range :=

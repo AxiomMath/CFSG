@@ -147,7 +147,7 @@ theorem solvAPI_of_isSolvTwoCompSL23In {X : Type} [Group X] [Finite X] {x : X} {
       ker_iff := hker
       Q_le := hQ
       P' := S
-      P'_two := S.isPGroup'
+      P'_two := S.isPGroup
       P'_card := E.card_sylow S
       w' := w
       w'_norm := hwN

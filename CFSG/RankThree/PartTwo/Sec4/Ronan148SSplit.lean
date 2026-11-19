@@ -44,7 +44,7 @@ theorem inner_split {G : Type} [Group G] [Finite G] {L A : Subgroup G}
   have hA27 : Nat.card A = 27 := hA.2
   have hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := by
     intro a ha b hb
-    haveI := hAel.1
+    have := hAel.1
     exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : A) ⟨b, hb⟩)
   have hA3 : ∀ a ∈ A, a ^ 3 = 1 := fun a ha => hAel.2 a ha
   have hAc' : ∀ a b : A, a * b = b * a := fun a b => Subtype.ext (hAc a a.2 b b.2)

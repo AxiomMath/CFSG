@@ -23,8 +23,8 @@ theorem p622_abstract_reduction {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : 
     (hN : ∀ U : Subgroup Y, U ≤ Vb → U ≠ ⊥ → IsPGroup 2 U →
       zb ∈ Subgroup.normalizer (U : Set Y) → Subgroup.normalizer (U : Set Y) ⊓ Xs ≤ Mb)
     (hEven : KFactFieldAutEvenAt p) (hOdd : KFactFieldAutOddAt p) : Xs ≤ Mb := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp0 : 0 < p := hp.pos
   have hzp : zb ^ p = 1 := by rw [← hzb]; exact pow_orderOf_eq_one zb
   have hzN : ∀ i : ℕ, zb ^ i ∈ Subgroup.normalizer (Xs : Set Y) := fun i => pow_mem hzX i
@@ -68,14 +68,14 @@ theorem p622_abstract_reduction {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : 
   by_cases hXbot : Xs = ⊥
   · rw [hXbot]
     exact bot_le
-  haveI : Nontrivial ↥Xs := by
+  have : Nontrivial ↥Xs := by
     obtain ⟨a, ha⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hXbot
     exact ⟨⟨a, 1, ha⟩⟩
   have hcomp : ∀ K : Subgroup ↥Xs, IsComponent K → K.map Xs.subtype ≤ Mb := by
     intro K hK
     have hKb : K.map Xs.subtype ≤ Xs := Subgroup.map_subtype_le K
     have hKnab : ¬ ∀ a b : ↥K, a * b = b * a := nonabelian_of_component hK
-    haveI hKsimp : IsSimpleGroup ↥K := isSimpleGroup_of_component hQ hodd hK
+    have hKsimp : IsSimpleGroup ↥K := isSimpleGroup_of_component hQ hodd hK
     let e : ↥K ≃* ↥(K.map Xs.subtype) := K.equivMapOfInjective Xs.subtype Xs.subtype_injective
     have hsimpKb : IsSimpleGroup ↥(K.map Xs.subtype) :=
       (MulEquiv.isSimpleGroup_congr e).mp hKsimp

@@ -127,7 +127,7 @@ theorem det_signMap (ε : Fin 3 → K) : LinearMap.det (signMap h F ε) = ∏ j,
     by_cases hij : i = j
     · subst hij
       simp
-    · rw [Finsupp.single_eq_of_ne hij, if_neg hij, mul_zero]
+    · rw [Finsupp.single_eq_of_ne hij, ite_eq_right hij, mul_zero]
   rw [hdiag, det_diagonal]
 
 end OFrame
@@ -139,7 +139,7 @@ theorem signTriple_mul (st st' : Fin 2 → ℤˣ) :
     (signTriple (st * st') : Fin 3 → K) = signTriple st * signTriple st' := by
   funext j
   fin_cases j <;>
-    simp [signTriple, Pi.mul_apply, Units.val_mul, Int.cast_mul] <;> ring
+    simp [signTriple, Pi.mul_apply, Units.val_mul, Int.cast_mul]; ring
 
 theorem unit_sq (u : ℤˣ) : ((u : ℤ) : K) * ((u : ℤ) : K) = 1 := by
   rcases Int.units_eq_one_or u with rfl | rfl <;> simp

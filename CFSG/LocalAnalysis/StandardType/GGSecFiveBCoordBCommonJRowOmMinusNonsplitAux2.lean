@@ -47,12 +47,12 @@ private theorem card_coord_centralizer {p m : ℕ} (hp : p.Prime) {G : Type*} [G
     (hcard : Nat.card ↥(τ.range ⊓ Subgroup.centralizer (J : Set G)) = p) :
     Nat.card {f : Fin m → Multiplicative (ZMod p) // ∀ j ∈ J, τ f * j = j * τ f} = p := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let eτ : (Fin m → Multiplicative (ZMod p)) ≃* ↥τ.range := MonoidHom.ofInjective hτ
   let C := {f : Fin m → Multiplicative (ZMod p) // ∀ j ∈ J, τ f * j = j * τ f}
   let Cτ := ↥(τ.range ⊓ Subgroup.centralizer (J : Set G))
-  haveI : Finite C := Subtype.finite
-  haveI : Finite Cτ := Subtype.finite
+  have : Finite C := Subtype.finite
+  have : Finite Cτ := Subtype.finite
   have h1 : Nat.card C ≤ Nat.card Cτ := by
     refine Nat.card_le_card_of_injective
       (fun f : C => (⟨τ f, ⟨⟨f, rfl⟩, fun j hj => (f.2 j hj).symm⟩⟩ : Cτ)) ?_
@@ -89,10 +89,10 @@ private theorem class_card_eq_of_ne_zero {p m : ℕ} (hp : p.Prime) {G : Type*} 
       ∀ j ∈ J, τ f * j = j * τ f} = p) (hm : 3 ≤ m) :
     Nat.card {i : Fin m // P i} = m := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let C := {f : Fin m → Multiplicative (ZMod p) // ∀ j ∈ J, τ f * j = j * τ f}
-  haveI : Finite C := Subtype.finite
+  have : Finite C := Subtype.finite
   have hPne : ∃ i, P i := by
     by_contra h
     push Not at h
@@ -116,13 +116,13 @@ private theorem class_card_eq_of_ne_zero {p m : ℕ} (hp : p.Prime) {G : Type*} 
   let e : ZMod p × ({i : Fin m // ¬ P i} → Multiplicative (ZMod p)) → C :=
     fun cg => ⟨fun i =>
       if h : P i then Multiplicative.ofAdd (cg.1 * Multiplicative.toAdd (f₀ i)) else cg.2 ⟨i, h⟩,
-      hcent _ ⟨cg.1, fun i hi => by rw [dif_pos hi, toAdd_ofAdd]⟩⟩
+      hcent _ ⟨cg.1, fun i hi => by rw [dite_eq_left hi, toAdd_ofAdd]⟩⟩
   have he : Function.Injective e := by
     rintro ⟨c, g⟩ ⟨c', g'⟩ hgg
     have h1 := congrFun (congrArg Subtype.val hgg)
     have hc : c = c' := by
       have h2 := congrArg (fun x => Multiplicative.toAdd x) (h1 i₀)
-      simp only [e, dif_pos hi₀, toAdd_ofAdd] at h2
+      simp only [e, dite_eq_left hi₀, toAdd_ofAdd] at h2
       exact mul_right_cancel₀ hf0 h2
     have hg : g = g' := by
       funext x
@@ -146,8 +146,8 @@ private theorem class_card_eq_of_ne_zero {p m : ℕ} (hp : p.Prime) {G : Type*} 
 private theorem class_card_ge_of_zero {p m : ℕ} (hp : p.Prime) {G : Type*} [Group G]
     (τ : (Fin m → Multiplicative (ZMod p)) →* G)
     (f₀ : Fin m → Multiplicative (ZMod p)) (J : Subgroup G) (P : Fin m → Prop)
-    {a : ZMod p} (ha : a = 0)
-    (hP : ∀ i, P i → Multiplicative.toAdd (f₀ i) = a ∨ Multiplicative.toAdd (f₀ i) = -a)
+    {a : ZMod p} (_ha : a = 0)
+    (_hP : ∀ i, P i → Multiplicative.toAdd (f₀ i) = a ∨ Multiplicative.toAdd (f₀ i) = -a)
     (hcent : ∀ f : Fin m → Multiplicative (ZMod p),
       (∃ c : ZMod p, ∀ i, P i → Multiplicative.toAdd (f i) = c * Multiplicative.toAdd (f₀ i)) →
         ∀ j ∈ J, τ f * j = j * τ f)
@@ -155,12 +155,12 @@ private theorem class_card_ge_of_zero {p m : ℕ} (hp : p.Prime) {G : Type*} [Gr
       ∀ j ∈ J, τ f * j = j * τ f} = p) (hm : 3 ≤ m) :
     m - 1 ≤ Nat.card {i : Fin m // P i} := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let C := {f : Fin m → Multiplicative (ZMod p) // ∀ j ∈ J, τ f * j = j * τ f}
-  haveI : Finite C := Subtype.finite
+  have : Finite C := Subtype.finite
   let e : ({i : Fin m // ¬ P i} → Multiplicative (ZMod p)) → C :=
     fun g => ⟨fun i => if h : P i then 1 else g ⟨i, h⟩,
-      hcent _ ⟨0, fun i hi => by rw [dif_pos hi, toAdd_one, zero_mul]⟩⟩
+      hcent _ ⟨0, fun i hi => by rw [dite_eq_left hi, toAdd_one, zero_mul]⟩⟩
   have he : Function.Injective e := by
     intro g g' hgg
     funext x
@@ -198,8 +198,8 @@ private theorem eq_one_of_sgnAut_eq_self {p m : ℕ} (hp : p.Prime) (hp2 : p ≠
     exact hp2 (le_antisymm (Nat.le_of_dvd (by norm_num) hd2) hp.two_le)
 
 private theorem not_component_of_trivial {K : Type} [Field K] [Finite K] {p m f : ℕ}
-    (hK : Nat.card K = 2 ^ f) (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ 2 ^ f + 1)
-    (hm : 3 ≤ m) (hmo : Odd m) {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
+    (hK : Nat.card K = 2 ^ f) (hp : p.Prime) (hp2 : p ≠ 2) (_hpq : p ∣ 2 ^ f + 1)
+    (hm : 3 ≤ m) (_hmo : Odd m) {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {τ : (Fin m → Multiplicative (ZMod p)) →* OrthRest.RMinus K m b c}
     (hτ : Function.Injective τ)
     (hsgn : ∀ i : Fin m, ∃ w : OrthRest.RMinus K m b c,
@@ -210,9 +210,9 @@ private theorem not_component_of_trivial {K : Type} [Field K] [Finite K] {p m f 
     (hcard : Nat.card ↥(τ.range ⊓ Subgroup.centralizer (J : Set (OrthRest.RMinus K m b c))) = p) :
     False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K 2 := by
-    haveI := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K 2 := by
+    have := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hR : CFSG.IsQuasisimple (OrthRest.RMinus K m b c) := by
     refine CFSG.LocalCores.isQuasisimple_of_mulEquiv
@@ -276,7 +276,7 @@ private theorem dense_exceptional {K : Type} [Field K] [Finite K] [CharP K 2]
     rintro rfl
     have hf1 : f = 1 := funext fun i => i.elim0
     rw [hf1, map_one] at hfj
-    simpa using hfj
+    simp at hfj
   have hg1 : g₀ ≠ 1 := by
     intro h
     exact hg₀ ⟨0, Nat.pos_of_ne_zero hr⟩ (congrFun h _)
@@ -314,7 +314,7 @@ private theorem dense_exceptional {K : Type} [Field K] [Finite K] [CharP K 2]
     have hdeg : h.natDegree = 2 :=
       CFSG.RankThree.PartOne.K159.natDegree_eq_two_of_dvd_card_add_one hx' Fact.out hp2 hpq
         hh hne
-    haveI : Fact (Irreducible h) :=
+    have : Fact (Irreducible h) :=
       ⟨CFSG.RankThree.PartOne.KCPrimary.irreducible_of_mem_primaryFactors hh⟩
     have hfr : Module.finrank K (CFSG.RankThree.PartOne.KCPrimary.primaryComponent
         ((Δ.τΩ hA g₀ : ↥(orthDerived Q)) : V ≃ₗ[K] V).toLinearMap h) = 8 := by
@@ -371,7 +371,7 @@ theorem ggCommonJRowOmMinusNonsplit_position {K : Type} [Field K] [Finite K] {p 
     (hK : Nat.card K = 2 ^ f) (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ 2 ^ f + 1)
     (hm : 3 ≤ m) (hmo : Odd m) {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {τ : (Fin m → Multiplicative (ZMod p)) →* OrthRest.RMinus K m b c}
-    (hτ : Function.Injective τ) (hsign : GGOmMinusNonsplitSignedNormalizer τ)
+    (hτ : Function.Injective τ) (_hsign : GGOmMinusNonsplitSignedNormalizer τ)
     (hsgn : ∀ i : Fin m, ∃ w : OrthRest.RMinus K m b c, ∀ f, w * τ f * w⁻¹ = τ (SpCoord.sgnAut i f))
     (hperm : ∀ σ : Equiv.Perm (Fin m), ∃ w : OrthRest.RMinus K m b c,
       ∀ f, w * τ f * w⁻¹ = τ (SpCoord.permAut σ f))
@@ -380,9 +380,9 @@ theorem ggCommonJRowOmMinusNonsplit_position {K : Type} [Field K] [Finite K] {p 
     (hcard : Nat.card ↥(τ.range ⊓ Subgroup.centralizer (J : Set (OrthRest.RMinus K m b c))) = p) :
     (GGCoordDense g ∧ LargeEvenInLambda2 ⟨.twA, m - 1, f⟩) ∨ (GGCoordSparse g ∧ g ≠ 1) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K 2 := by
-    haveI := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K 2 := by
+    have := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   let Q : QuadraticForm K (LargeEvenMinusIdx m → K) := TableBOrth.qMinusForm K m b c
   let e := OrthTorus.rMinusEquiv K m b c
@@ -427,9 +427,9 @@ theorem ggCommonJRowOmMinusNonsplit_position {K : Type} [Field K] [Finite K] {p 
   obtain ⟨r, τ₀, F, D, i₁, i₂, i₃, c', θ, hτF, hinj, hrange, hdim, hcp, hfix, htwist, hroots,
     hθinj, hθrange, hθact, hnorm, hswap, hdinv, hsignMove, hnoFix, hexFix⟩ :=
     OrthTorus.exists_torus_blocks (p := p) hp2 hpq' hQ hT hAΩ hApow hAcomm hmax hneA
-  letI := i₁
-  letI := i₂
-  letI := i₃
+  let := i₁
+  let := i₂
+  let := i₃
   let Δ : OrthTorus.TBJOmData Q p (E₁.map (orthDerived Q).subtype) r :=
     { τ := τ₀, F := F, D := D, c := c', θ := θ, τ_eq := hτF, τ_inj := hinj, τ_range := hrange,
       finrank_D := hdim, c_pow := hcp, c_fix := hfix, c_twist := htwist, c_roots := hroots,

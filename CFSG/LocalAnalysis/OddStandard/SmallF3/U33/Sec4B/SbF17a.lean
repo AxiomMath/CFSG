@@ -47,8 +47,8 @@ theorem l17_V_le_Y (hc : Ctx13 t L S x₁ x₂ lam rho tau om) :
 
 theorem l17_Q_sq_mem (hc : Ctx13 t L S x₁ x₂ lam rho tau om) :
     ∀ q ∈ ctxQ t tau x₁ x₂ rho, q ^ 2 ∈ fourGrp x₁ x₂ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥(ctxQ t tau x₁ x₂ rho)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥(ctxQ t tau x₁ x₂ rho)) :=
     ⟨IsPGroup.of_card (n := 6) (by rw [IsZ4Z4E4.card hc.q_iso]; norm_num)⟩
   intro q hq
   rw [← hc.phi_Q']

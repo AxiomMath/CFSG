@@ -42,7 +42,7 @@ theorem not_dvd_card_parabolicSubgroup_of_coatoms
     (J : Set (Fin τ.rank)) (hJ : J ≠ Set.univ) :
     ¬ r ∣ Nat.card (parabolicSubgroup τ F J) := by
   classical
-  haveI : Finite (ModGL τ F) := finite_modGL
+  have : Finite (ModGL τ F) := finite_modGL
   obtain ⟨i, hi⟩ := (Set.ne_univ_iff_exists_notMem J).1 hJ
   have hsub : J ⊆ ((maskSet τ (coat i) : Finset (Fin τ.rank)) : Set (Fin τ.rank)) := fun k hk => by
     exact_mod_cast hcov i k (fun h => hi (h ▸ hk))
@@ -67,7 +67,7 @@ theorem not_dvd_card_normalizer_of_adjointEquiv
     (R : Subgroup K) (hR2 : IsPGroup 2 R) (hR1 : R ≠ ⊥) :
     ¬ r ∣ Nat.card (Subgroup.normalizer (R : Set K)) := by
   intro hrN
-  haveI : Finite (ModGL τ F) := finite_modGL
+  have : Finite (ModGL τ F) := finite_modGL
   obtain ⟨J, hJ, hdvd⟩ := card_dvd_parabolic_of_normalizes τ (U := R.map θ.toMonoidHom)
     (E := Subgroup.normalizer ((R.map θ.toMonoidHom : Subgroup _) : Set _))
     (fun h => hR1 ((Subgroup.map_eq_bot_iff_of_injective _ θ.injective).1 h))

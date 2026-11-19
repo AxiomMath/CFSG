@@ -13,7 +13,8 @@ open CFSG.LocalAnalysis.GLTheoremB
 
 variable {G : Type} [Group G] [Finite G]
 
-private lemma barMap_mem_barX {p : ℕ} {X J N : Subgroup G} (hNJ : N ≤ J) (hJX : J ≤ X)
+omit [Finite G] in
+private lemma barMap_mem_barX {p : ℕ} {X J N : Subgroup G} (_hNJ : N ≤ J) (hJX : J ≤ X)
     {n : ↥J} (hn : n ∈ N.subgroupOf J) :
     ((barMap p hJX n : ↥(barX p X J)) : ↥X ⧸ GLAPPrimeCore p ↥X) ∈ barX p X N := by
   refine Subgroup.mem_map.2 ⟨Subgroup.inclusion hJX n, ?_, rfl⟩
@@ -73,7 +74,7 @@ theorem eq_of_normal_of_coprime_relIndex {p : ℕ} (hp : p.Prime) {X J N : Subgr
       exact hmap.symm
     have hMZ : M ≤ Subgroup.center ↥Kb :=
       le_center_of_normal_of_isQuasisimple hQ hMnorm hMne
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hpdvd : p ∣ (Subgroup.center ↥Kb).index := by
       rw [Subgroup.index_eq_card]
       exact CFSG.LocalAnalysis.GLTheoremA.I142.dvd_card_center_quot_of_pPrimeCore_eq_bot

@@ -78,18 +78,18 @@ private theorem sporKRest_unmarked_of_simple_index_two
       exact absurd (Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3) (by norm_num)
   let φ : (↥U ⧸ CFSG.pCore 2 ↥U) ≃* ↥U :=
     (QuotientGroup.quotientMulEquivOfEq hcore).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (↥U ⧸ CFSG.pCore 2 ↥U) := φ.isSimpleGroup
+  have : IsSimpleGroup (↥U ⧸ CFSG.pCore 2 ↥U) := φ.isSimpleGroup
   have hCtop : C' = ⊤ := by
     rcases CFSG.Assembly.IsSubnormal.eq_bot_or_top hC'.2.1 with h | h
     · exfalso
-      haveI : Subsingleton ↥C' := by rw [h]; infer_instance
-      haveI : Subsingleton (↥C' ⧸ Subgroup.center ↥C') := inferInstance
-      haveI : Nontrivial (↥C' ⧸ Subgroup.center ↥C') := hC'.2.2.2.toNontrivial
+      have : Subsingleton ↥C' := by rw [h]; infer_instance
+      have : Subsingleton (↥C' ⧸ Subgroup.center ↥C') := inferInstance
+      have : Nontrivial (↥C' ⧸ Subgroup.center ↥C') := hC'.2.2.2.toNontrivial
       exact (not_subsingleton (↥C' ⧸ Subgroup.center ↥C')) inferInstance
     · exact h
   let e2 : ↥C ≃* ↥U :=
     e.trans (((MulEquiv.subgroupCongr hCtop).trans Subgroup.topEquiv).trans φ)
-  haveI : IsSimpleGroup ↥C := e2.isSimpleGroup
+  have : IsSimpleGroup ↥C := e2.isSimpleGroup
   have hZ : Subgroup.center ↥C = ⊥ :=
     sporKRest_center_eq_bot_of_simple (by rw [Nat.card_congr e2.toEquiv, hU]; norm_num)
   have hq : Nat.card (↥C ⧸ Subgroup.center ↥C) = 126000 := by
@@ -157,7 +157,7 @@ private theorem sporKRest_coverOrUnmarked_hs100P
     (hmk : ∀ {L : Type} [Group L], Nat.card (L ⧸ Subgroup.center L) = 126000 →
       ¬ LargeEvenMarking L (fun _ _ _ _ _ _ => True)) :
     SporKRestCoverOrUnmarked 5 ↥hs100P := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hR0card : Nat.card (hsOR0.subgroupOf hs100P) =
       5 ^ (Nat.card ↥hs100P).factorization 5 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe sporKRest_hsOR0_le_hs100P).toEquiv,

@@ -129,7 +129,7 @@ theorem mem_normalizer_lift [Finite G] {Y : Subgroup (Bar A)} {g : G}
   rw [e]
   exact (mem_normalizer_iff.1 h _).1 hxY
 
-theorem bar_inf_of_inf_eq_bot {M H₁ H₂ : Subgroup G} (hM : M ≤ normalizer (A : Set G))
+theorem bar_inf_of_inf_eq_bot {M H₁ H₂ : Subgroup G} (_hM : M ≤ normalizer (A : Set G))
     (hMA : M ⊓ A = ⊥) (h₁ : H₁ ≤ M) (h₂ : H₂ ≤ M) :
     bar A H₁ ⊓ bar A H₂ = bar A (H₁ ⊓ H₂) := by
   refine le_antisymm (fun y hy => ?_) (le_inf (bar_mono inf_le_left) (bar_mono inf_le_right))

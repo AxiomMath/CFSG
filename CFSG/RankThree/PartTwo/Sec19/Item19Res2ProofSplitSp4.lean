@@ -199,7 +199,7 @@ theorem exists_sylow_le_range_slPair [Finite K] [CharP K 2] :
   set H := (slPair K).range with hH
   obtain ⟨S0⟩ : Nonempty (Sylow 3 H) := inferInstance
   set S1 : Subgroup (StatedSp 2 K) := (S0 : Subgroup H).map H.subtype with hS1def
-  have hS1 : IsPGroup 3 S1 := S0.isPGroup'.map H.subtype
+  have hS1 : IsPGroup 3 S1 := S0.isPGroup.map H.subtype
   have hidx : ¬ 3 ∣ S1.index := by
     rw [hS1def, Subgroup.index_map_subtype]
     intro h

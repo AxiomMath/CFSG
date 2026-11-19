@@ -539,7 +539,7 @@ variable {G : Type} [Group G]
 
 theorem exists_emb_of_aeIdent_small' [Finite G] {P P' : Set (Subgroup G)} (hPP : P ⊆ P') {j k : ℕ}
     (hj5 : 5 ≤ j) (hk5 : 5 ≤ k) (I : AEIdent P j) (I' : AEIdent P' k)
-    (hH : TL4.AECoverHyp I) (hzL : ∀ L ∈ P, ∃ u, IsUniqueInvolution L u) :
+    (hH : TL4.AECoverHyp I) (_hzL : ∀ L ∈ P, ∃ u, IsUniqueInvolution L u) :
     ∃ ι : Fin j ↪ Fin k, ∀ L ∈ P, ∀ (α : Finset (Fin j)) (hα : α.card = 4) (b : Bool),
       (L.subgroupOf (pSpan P)).map I.φ = memBar α hα b →
       ∃ (hα' : (α.map ι).card = 4) (b' : Bool),

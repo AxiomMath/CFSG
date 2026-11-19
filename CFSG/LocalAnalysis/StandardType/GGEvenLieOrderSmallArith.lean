@@ -239,10 +239,10 @@ theorem evenLieOrder_notExcThree_of_label {lab : LargeEvenLabel} (hlab : LargeEv
   ·
     by_cases hr : r = 3
     · simp only [markTag, markRank, markDeg, CFSG.SeitzReduction.F4Pilot.evenLieOrder,
-        if_pos hr, LargeEvenInLambda2] at hd hd3 hlab ⊢
+        ite_eq_left hr, LargeEvenInLambda2] at hd hd3 hlab ⊢
       exact ggoNotExcThreeOrderOrdA (d := 4) (a := n) (by norm_num) (by omega)
     · simp only [markTag, markRank, markDeg, CFSG.SeitzReduction.F4Pilot.evenLieOrder,
-        if_neg hr, LargeEvenInLambda2] at hd hd3 hlab ⊢
+        ite_eq_right hr, LargeEvenInLambda2] at hd hd3 hlab ⊢
       obtain ⟨hn, hr3⟩ := hlab
       have hr4 : 4 ≤ r := by omega
       have hN : 12 < n * (r * (r - 1)) := by
@@ -254,14 +254,14 @@ theorem evenLieOrder_notExcThree_of_label {lab : LargeEvenLabel} (hlab : LargeEv
   ·
     by_cases hr2 : r = 2
     · simp only [markTag, markRank, markDeg, CFSG.SeitzReduction.F4Pilot.evenLieOrder,
-        if_pos hr2, LargeEvenInLambda2] at hd hd3 hlab ⊢
+        ite_eq_left hr2, LargeEvenInLambda2] at hd hd3 hlab ⊢
       exact ggoNotExcThreeOrderOrdA (d := 2) (a := 2 * n) (by norm_num) (by omega)
     · by_cases hr3 : r = 3
       · simp only [markTag, markRank, markDeg, CFSG.SeitzReduction.F4Pilot.evenLieOrder,
-          if_neg hr2, if_pos hr3, LargeEvenInLambda2] at hd hd3 hlab ⊢
+          ite_eq_right hr2, ite_eq_left hr3, LargeEvenInLambda2] at hd hd3 hlab ⊢
         exact ggoNotExcThreeOrderOrdTwistedA (d := 4) (a := n) (by norm_num) hd
       · simp only [markTag, markRank, markDeg, CFSG.SeitzReduction.F4Pilot.evenLieOrder,
-          if_neg hr2, if_neg hr3, LargeEvenInLambda2] at hd hd3 hlab ⊢
+          ite_eq_right hr2, ite_eq_right hr3, LargeEvenInLambda2] at hd hd3 hlab ⊢
         obtain ⟨hn, hr2'⟩ := hlab
         have hr4 : 4 ≤ r := by omega
         have hN : 12 < n * (r * (r - 1)) := by

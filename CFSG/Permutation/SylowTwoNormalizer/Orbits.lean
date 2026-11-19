@@ -15,6 +15,7 @@ variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω]
   classical
   exact fun x => if x ∈ s then 0 else if x ∈ t then 1 else 2
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem threeColour_eq_zero {s t : Set Ω} {x : Ω} : threeColour s t x = 0 ↔ x ∈ s := by
   classical
   have h1 : (1 : Fin 3) ≠ 0 := by decide
@@ -24,6 +25,7 @@ theorem threeColour_eq_zero {s t : Set Ω} {x : Ω} : threeColour s t x = 0 ↔ 
   · simp [hx]
   · by_cases hxt : x ∈ t <;> simp [hx, hxt, h1, h2]
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem threeColour_eq_one {s t : Set Ω} (hst : Disjoint s t) {x : Ω} :
     threeColour s t x = 1 ↔ x ∈ t := by
   classical
@@ -33,18 +35,21 @@ theorem threeColour_eq_one {s t : Set Ω} (hst : Disjoint s t) {x : Ω} :
   unfold threeColour
   by_cases hx : x ∈ s
   · simp [hx, h x hx]
-  · by_cases hxt : x ∈ t <;> simp [hx, hxt, h0, h2]
+  · by_cases hxt : x ∈ t <;> simp [hx, hxt, h2]
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem card_threeColour_zero (s t : Set Ω) :
     Nat.card {x // threeColour s t x = 0} = Nat.card s := by
   classical
   rw [Nat.card_congr (Equiv.subtypeEquivRight (fun x => threeColour_eq_zero (s := s) (t := t)))]
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem card_threeColour_one (s t : Set Ω) (hst : Disjoint s t) :
     Nat.card {x // threeColour s t x = 1} = Nat.card t := by
   classical
   rw [Nat.card_congr (Equiv.subtypeEquivRight (fun x => threeColour_eq_one hst (s := s) (t := t)))]
 
+omit [DecidableEq Ω] in
 theorem card_threeColour_sum (s t : Set Ω) (hst : Disjoint s t) :
     Nat.card s + Nat.card t + Nat.card {x // threeColour s t x = 2} = Nat.card Ω := by
   classical
@@ -52,6 +57,7 @@ theorem card_threeColour_sum (s t : Set Ω) (hst : Disjoint s t) :
     rw [← Nat.card_congr (Equiv.sigmaFiberEquiv (threeColour s t)), Nat.card_sigma]
   rw [hsum, Fin.sum_univ_three, card_threeColour_zero, card_threeColour_one s t hst]
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem threeColour_apply_eq {R : Subgroup (Perm Ω)} {s t : Set Ω}
     (hRs : R ≤ stabilizer (Perm Ω) s) (hRt : R ≤ stabilizer (Perm Ω) t) :
     ∀ g ∈ R, ∀ x, threeColour s t (g x) = threeColour s t x := by
@@ -77,6 +83,7 @@ theorem not_pow_dvd_pow_padicValNat {m c n : ℕ} (hm : m ≠ 0) (hn : n = 2 * m
   rw [hn] at hle
   omega
 
+omit [DecidableEq Ω] in
 theorem two_dvd_index_of_disjoint {R : Subgroup (Perm Ω)} (hR : IsPGroup 2 R) {s t : Set Ω}
     (hst : Disjoint s t) (hs : s.Nonempty) (hcard : Nat.card s = Nat.card t)
     (hRs : R ≤ stabilizer (Perm Ω) s) (hRt : R ≤ stabilizer (Perm Ω) t) : 2 ∣ R.index := by
@@ -131,6 +138,7 @@ theorem two_dvd_relIndex_of_disjoint (h4 : 4 ≤ Nat.card Ω) {R : Subgroup (Per
     exact hyoung
   exact not_pow_dvd_pow_padicValNat hm0 (by omega) hdvd
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem le_stabilizer_orbit (R : Subgroup (Perm Ω)) (x : Ω) :
     R ≤ stabilizer (Perm Ω) (MulAction.orbit R x) := by
   intro g hg
@@ -166,17 +174,19 @@ theorem smul_orbit_eq_orbit_of_mem_normalizer {G α : Type*} [Group G] [MulActio
     · exact MulAction.mem_orbit_iff.2 ⟨⟨σ⁻¹ * (r : G) * σ, hconj⟩, rfl⟩
     · rw [Subgroup.smul_def]
       have h : σ * ((⟨σ⁻¹ * (r : G) * σ, hconj⟩ : R) : G) = (r : G) * σ := by
-        simp only [Subgroup.coe_mk]
+        simp only
         group
       rw [← mul_smul, h, mul_smul, ← Subgroup.smul_def]
       exact hr
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem mem_stabilizer_orbit {R : Subgroup (Perm Ω)} {σ : Perm Ω}
     (hσR : σ ∈ normalizer (R : Set (Perm Ω))) {x : Ω} (hx : σ x ∈ MulAction.orbit R x) :
     σ ∈ stabilizer (Perm Ω) (MulAction.orbit R x) := by
   rw [MulAction.mem_stabilizer_iff, smul_orbit_eq_orbit_of_mem_normalizer hσR x]
   exact MulAction.orbit_eq_iff.2 hx
 
+omit [DecidableEq Ω] in
 theorem apply_mem_orbit {R : Subgroup (Perm Ω)} (hR : IsPGroup 2 R) (hRi : ¬ 2 ∣ R.index)
     {σ : Perm Ω} (hσR : σ ∈ normalizer (R : Set (Perm Ω))) (x : Ω) :
     σ x ∈ MulAction.orbit R x := by

@@ -43,12 +43,12 @@ private lemma hdRo7CKStabAux_signChange_c2sp {V : Type} [AddCommGroup V] [Module
     C2SP 3 b (CFSG.StandardType.OrthF3.ggOrthSignChange b j) := by
   refine ⟨Equiv.refl _, fun i => if i = j then (-1 : ZMod 3) else 1, rfl, ?_, ?_, ?_⟩
   · dsimp only
-    rw [if_neg (fun h : (0 : Fin (n + 1)) = j => hj h.symm)]
+    rw [ite_eq_right (fun h : (0 : Fin (n + 1)) = j => hj h.symm)]
   · intro i
     dsimp only
     by_cases hi : i = j
-    · rw [if_pos hi]; exact Or.inr rfl
-    · rw [if_neg hi]; exact Or.inl rfl
+    · rw [ite_eq_left hi]; exact Or.inr rfl
+    · rw [ite_eq_right hi]; exact Or.inl rfl
   · intro i
     dsimp only
     by_cases hi : i = j
@@ -110,7 +110,7 @@ private lemma hdRo7CKStabAux_mem_zpowers
     by_cases hi : i = 0
     · subst hi
       simp [Module.Basis.coord_apply]
-    · rw [if_neg (fun h : (0 : Fin (n + 1)) = i => hi h.symm), smul_zero]
+    · rw [ite_eq_right (fun h : (0 : Fin (n + 1)) = i => hi h.symm), smul_zero]
       rw [← Module.Basis.coord_apply]
       exact hzero i hi
   have hv2 : v = (b.coord 0 v).val • b 0 := by
@@ -157,7 +157,7 @@ private theorem hdRo7CKStabAux_stab
     (hnc : ∃ S : Subgroup G, S ≤ K ∧ IsPGroup p S ∧ ¬ IsCyclic S)
     {n : ℕ} {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     (ι : Additive ↥Bs ≃+ V) (b : Module.Basis (Fin (n + 1)) (ZMod p) V) (hy : y ∈ Bs)
-    (h3 : p = 3) (hn : 5 ≤ n)
+    (h3 : p = 3) (_hn : 5 ≤ n)
     (hiy : ι (Additive.ofMul (⟨y, hy⟩ : ↥Bs)) = b 0)
     (hAK : ∀ a, a ∈ (ggAutomizer K Bs).map (ggLin (p := p) ι) ↔ C2SP p b a)
     {a : V ≃ₗ[ZMod p] V} (ha : a ∈ (ggAutomizer ⊤ Bs).map (ggLin (p := p) ι))

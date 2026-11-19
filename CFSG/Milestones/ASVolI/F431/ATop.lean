@@ -21,7 +21,7 @@ theorem burnsideF4m_eq_top_of_derived {E : Type} [Group E] [Finite E] {Gp : Subg
     [hGn : Gp.Normal] (hc : Subgroup.centralizer (Gp : Set E) = ⊥)
     (hcN : ∀ g ∈ Gp, (∀ n ∈ ⁅Gp, Gp⁆, g * n = n * g) → g = 1)
     (haut : Nat.card (MulAut ↥⁅Gp, Gp⁆) ≤ Nat.card Gp) : Gp = ⊤ := by
-  haveI hN : (⁅Gp, Gp⁆ : Subgroup E).Normal := Subgroup.commutator_normal Gp Gp
+  have hN : (⁅Gp, Gp⁆ : Subgroup E).Normal := Subgroup.commutator_normal Gp Gp
   have hinj : Function.Injective (MulAut.conjNormal : E →* MulAut ↥⁅Gp, Gp⁆) := by
     rw [injective_iff_map_eq_one]
     intro e he
@@ -56,7 +56,7 @@ theorem burnsideF4m_eq_top_of_derived {E : Type} [Group E] [Finite E] {Gp : Subg
         _ = e * g := by group
     rw [hc, Subgroup.mem_bot] at heC
     exact heC
-  haveI := burnsideF4m_finite_mulAut ↥⁅Gp, Gp⁆
+  have := burnsideF4m_finite_mulAut ↥⁅Gp, Gp⁆
   have hle : Nat.card E ≤ Nat.card (MulAut ↥⁅Gp, Gp⁆) := Nat.card_le_card_of_injective _ hinj
   exact Subgroup.eq_top_of_card_eq Gp
     (le_antisymm (Subgroup.card_le_card_group Gp) (hle.trans haut))
@@ -225,12 +225,12 @@ theorem burnsideF4m_titsA_card_mulAut :
 theorem burnsideF4m_top_of_F4two {E : Type} [Group E] [Finite E] {Gp : Subgroup E} [Gp.Normal]
     (hc : Subgroup.centralizer (Gp : Set E) = ⊥) (hmodel : IsGenLie ↥Gp .F4tw 2 1) : Gp = ⊤ := by
   obtain ⟨-, -, ⟨-, K, fK, finK, hK, ⟨e⟩⟩ | ⟨h3, -⟩⟩ := hmodel
-  · haveI : CharP K 2 := by
+  · have : CharP K 2 := by
       have : Fintype K := Fintype.ofFinite K
       have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact charP_of_card_eq_prime_pow (f := 1) (by rw [← Nat.card_eq_fintype_card, hK, pow_one])
-    haveI : CharP K F4.prime := (inferInstance : CharP K 2)
-    haveI : Fact (Nat.card K = 2) := ⟨hK⟩
+    have : CharP K F4.prime := (inferInstance : CharP K 2)
+    have : Fact (Nat.card K = 2) := ⟨hK⟩
     have hR : ExceptionalRoots.reeGroup K 0 = F4.reeGamma K 0 := burnsideF4gF4_reeGroup_eq
     let ψ1 : ↥(ExceptionalRoots.reeGroup K 0) ≃* ↥(F4.reeGamma K 0) := MulEquiv.subgroupCongr hR
     let ψ2 : ↥(reeFixed F4 K 0) ≃* ↥titsA := titsIso
@@ -260,8 +260,8 @@ set_option linter.unusedSectionVars false
 
 theorem burnsideF4m_top_G2two {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .G2 2 1 Gp M₁ M₂) : Gp = ⊤ := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   exact burnsideF4m_top_of_G2two hyp.centralizer_trivial hyp.model
 
 end TopTwo
@@ -273,8 +273,8 @@ set_option linter.unusedSectionVars false
 
 theorem burnsideF4m_top_F4two {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .F4tw 2 1 Gp M₁ M₂) : Gp = ⊤ := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   exact burnsideF4m_top_of_F4two hyp.centralizer_trivial hyp.model
 
 end TopF4

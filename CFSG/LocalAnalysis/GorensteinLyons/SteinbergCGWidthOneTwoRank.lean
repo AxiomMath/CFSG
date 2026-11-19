@@ -117,7 +117,7 @@ theorem extraspecial_width_one_two_rank_at_most_two {H : Type*} [Group H] [Finit
         refine hidx.trans ((Subgroup.card_dvd_of_injective f hf).trans ?_)
         rw [Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin]
         rfl
-      obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp S.isPGroup'
+      obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp S.isPGroup
       have hrel : Q.relIndex S ≤ 2 :=
         le_two_of_dvd_six_of_dvd_two_pow ((relIndex_dvd_index_of_le hQS).trans h6)
           (hn ▸ relIndex_dvd_card Q S)

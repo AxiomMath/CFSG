@@ -37,10 +37,10 @@ theorem false_of_ambiguousChev_two
     (hAmb : catalogIs (PSimple 3 L) (ambiguousChev 2)) : False := by
   obtain ⟨i, hi, ⟨f⟩⟩ := hAmb
   cases i with
-  | cyclic p hp => simpa [ambiguousChev] using hi
-  | sporadic s => simpa [ambiguousChev] using hi
+  | cyclic p hp => simp [ambiguousChev] at hi
+  | sporadic s => simp [ambiguousChev] at hi
   | alternating n hn =>
-    haveI : Nontrivial (alternatingGroup (Fin n)) := by
+    have : Nontrivial (alternatingGroup (Fin n)) := by
       simp only [ambiguousChev] at hi
       rcases hi with ⟨h5, -⟩ | ⟨h6, -⟩ | ⟨h8, -⟩
       · subst n
@@ -49,7 +49,7 @@ theorem false_of_ambiguousChev_two
         exact alternatingGroup.nontrivial_of_three_le_card (by rw [Nat.card_fin]; omega)
       · subst n
         exact alternatingGroup.nontrivial_of_three_le_card (by rw [Nat.card_fin]; omega)
-    haveI : Finite (MulAut (alternatingGroup (Fin n))) := finite_mulAut_of_finite _
+    have : Finite (MulAut (alternatingGroup (Fin n))) := finite_mulAut_of_finite _
     have hO : GLAPPrimeCore 3 ↥L ≤ Subgroup.center ↥L :=
       center_of_glaPPrimeCore_of_nontrivial hcfg (f.toEquiv.nontrivial)
     have h3 := three_le_of_cfg hcfg hO
@@ -75,18 +75,18 @@ theorem false_of_ambiguousChev_two
     cases d0 with
     | A r q =>
       cases r with
-      | zero => simpa [ambiguousChev] using hi
+      | zero => simp [ambiguousChev] at hi
       | succ r =>
         cases r with
         | zero =>
           have hq : q.card = 7 := by simpa [ambiguousChev] using hi
-          haveI : Finite (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group :=
+          have : Finite (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group :=
             (CFSG.Assembly.lie_finite_simple ⟨.A 1 q, hv⟩).1
-          haveI : Nontrivial (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group :=
+          have : Nontrivial (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group :=
             ((CFSG.Assembly.lie_finite_simple ⟨.A 1 q, hv⟩).2).toNontrivial
-          haveI : Finite (MulAut (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group) :=
+          have : Finite (MulAut (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group) :=
             finite_mulAut_of_finite _
-          haveI : Nontrivial (PSimple 3 L) :=
+          have : Nontrivial (PSimple 3 L) :=
             f.toEquiv.nontrivial
           have hO : GLAPPrimeCore 3 ↥L ≤ Subgroup.center ↥L :=
             center_of_glaPPrimeCore_of_nontrivial hcfg inferInstance
@@ -108,21 +108,21 @@ theorem false_of_ambiguousChev_two
             exact hi
     | twistedA r q =>
       cases r with
-      | zero => simpa [ambiguousChev] using hi
+      | zero => simp [ambiguousChev] at hi
       | succ r =>
         cases r with
-        | zero => simpa [ambiguousChev] using hi
+        | zero => simp [ambiguousChev] at hi
         | succ r =>
           cases r with
           | zero =>
             have hq : q.card = 3 := by simpa [ambiguousChev] using hi
-            haveI : Finite (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q, hv⟩).Group :=
+            have : Finite (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q, hv⟩).Group :=
               (CFSG.Assembly.lie_finite_simple ⟨.twistedA 2 q, hv⟩).1
-            haveI : Nontrivial (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q, hv⟩).Group :=
+            have : Nontrivial (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q, hv⟩).Group :=
               ((CFSG.Assembly.lie_finite_simple ⟨.twistedA 2 q, hv⟩).2).toNontrivial
-            haveI : Finite (MulAut (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q, hv⟩).Group) :=
+            have : Finite (MulAut (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q, hv⟩).Group) :=
               finite_mulAut_of_finite _
-            haveI : Nontrivial (PSimple 3 L) :=
+            have : Nontrivial (PSimple 3 L) :=
               f.toEquiv.nontrivial
             have hO : GLAPPrimeCore 3 ↥L ≤ Subgroup.center ↥L :=
               center_of_glaPPrimeCore_of_nontrivial hcfg inferInstance

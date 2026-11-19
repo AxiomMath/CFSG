@@ -48,7 +48,7 @@ theorem exists_normal_index_two_of_graphField_six {M : Subgroup G} (ρ : M →* 
   obtain ⟨P', hP'⟩ := hιp.exists_le_sylow
   have hιP' : (⟨ι, hιR⟩ : R) ∈ (P' : Subgroup R) := hP' (mem_zpowers _)
   obtain ⟨c₀, hc₀⟩ := IsCyclic.exists_generator (α := (P' : Subgroup R))
-  obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 P'.isPGroup'
+  obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 P'.isPGroup
   have hc₀o : orderOf c₀ = 2 ^ a := (orderOf_eq_card_of_forall_mem_zpowers hc₀).trans ha
   set c : Q := ((c₀ : R) : Q) with hcdef
   have hco : orderOf c = 2 ^ a := by

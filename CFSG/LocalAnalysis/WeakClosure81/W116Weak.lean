@@ -21,7 +21,7 @@ theorem w4Lem11_6Weak_holds :
     rw [w116_card_cover hZ hSp] at h1
     exact even_iff_two_dvd.2 (dvd_trans (by norm_num) h1)
   unfold E3.mParam
-  rw [if_pos hEven]
+  rw [ite_eq_left hEven]
   refine le_csInf ?_ ?_
   · obtain ⟨t, hto⟩ :=
       exists_prime_orderOf_dvd_card' (G := ↥Y) 2 (even_iff_two_dvd.1 hEven)

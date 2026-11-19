@@ -13,11 +13,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M V : Subgroup G}
 
+omit [Finite G] in
 private theorem mem_conjSubgroup_subgroupOf {M U : Subgroup G} {g x : ↥M} :
     x ∈ conjSubgroup g (U.subgroupOf M) ↔ (x : G) ∈ conjSubgroup (g : G) U := by
   rw [mem_conjSubgroup, mem_conjSubgroup, Subgroup.mem_subgroupOf]
   rfl
 
+omit [Finite G] in
 private theorem isTI_subgroupOf {M U : Subgroup G} (hTI : IsTI U) :
     IsTI (U.subgroupOf M) := by
   intro g
@@ -37,6 +39,7 @@ private theorem isTI_subgroupOf {M U : Subgroup G} (hTI : IsTI U) :
     rw [← h] at hx'
     exact (Subgroup.mem_inf.mp hx').2
 
+omit [Finite G] in
 private theorem isRootTypeTI_subgroupOf {M U : Subgroup G} (hUM : U ≤ M)
     (hroot : Tim78.IsRootTypeTI U) : Tim78.IsRootTypeTI (U.subgroupOf M) := by
   refine ⟨isTI_subgroupOf hroot.1, fun g hg a ha b hb => ?_⟩
@@ -163,6 +166,7 @@ theorem conj_le_Pc_or_inf_eq_bot (h : Hyp M V) (hroot : Tim78.IsRootTypeTI V) {g
       exact hcomm a ha b hb
     exact le_inf hUQ hUcent
 
+omit [Finite G] in
 private theorem map_conjNormal_subgroupOf_eq (h : Hyp M V)
     [((Pc M V).subgroupOf M).Normal] (a : ↥M) :
     Subgroup.map (MulAut.conjNormal (H := (Pc M V).subgroupOf M) a)
@@ -171,7 +175,7 @@ private theorem map_conjNormal_subgroupOf_eq (h : Hyp M V)
   let P0 : Subgroup ↥M := (Pc M V).subgroupOf M
   let V0 : Subgroup ↥M := V.subgroupOf M
   let N : Subgroup ↥P0 := V0.subgroupOf P0
-  haveI hV0_normal : V0.Normal :=
+  have hV0_normal : V0.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer h.le_M).mpr h.le_normalizer
   let ρ : ↥M →* MulAut ↥P0 := MulAut.conjNormal
   change Subgroup.map (ρ a) N = N
@@ -181,7 +185,7 @@ private theorem map_conjNormal_subgroupOf_eq (h : Hyp M V)
     obtain ⟨y, hy, rfl⟩ := hx
     rw [Subgroup.mem_subgroupOf] at hy ⊢
     have hconj : (((ρ a) y : ↥P0) : ↥M) = a * (y : ↥M) * a⁻¹ := by
-      simpa [ρ] using MulAut.conjNormal_apply (H := P0) (a : G) y
+      simp [ρ]
     change (((ρ a) y : ↥P0) : ↥M) ∈ V0
     rw [hconj]
     exact hV0_normal.conj_mem (y : ↥M) hy a
@@ -191,7 +195,7 @@ private theorem map_conjNormal_subgroupOf_eq (h : Hyp M V)
     · rw [Subgroup.mem_subgroupOf]
       have hxV : (x : ↥M) ∈ V0 := Subgroup.mem_subgroupOf.mp hx
       have hconj : (((ρ a⁻¹) x : ↥P0) : ↥M) = a⁻¹ * (x : ↥M) * a := by
-        simpa [ρ] using MulAut.conjNormal_apply (H := P0) ((a⁻¹ : ↥M) : G) x
+        simp [ρ]
       rw [hconj]
       simpa [mul_assoc] using hV0_normal.conj_mem (x : ↥M) hxV a⁻¹
     · have hprod : (ρ a) * (ρ a⁻¹) = 1 := by
@@ -199,6 +203,7 @@ private theorem map_conjNormal_subgroupOf_eq (h : Hyp M V)
       change (ρ a) ((ρ a⁻¹) x) = x
       rw [← MulAut.mul_apply, hprod, MulAut.one_apply]
 
+omit [Finite G] in
 private theorem subgroupOf_le_ker_quotientAction (h : Hyp M V)
     [((Pc M V).subgroupOf M).Normal]
     [((V.subgroupOf M).subgroupOf ((Pc M V).subgroupOf M)).Normal]
@@ -210,9 +215,9 @@ private theorem subgroupOf_le_ker_quotientAction (h : Hyp M V)
   let P0 : Subgroup ↥M := (Pc M V).subgroupOf M
   let V0 : Subgroup ↥M := V.subgroupOf M
   let N : Subgroup ↥P0 := V0.subgroupOf P0
-  haveI hV0_normal : V0.Normal :=
+  have hV0_normal : V0.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer h.le_M).mpr h.le_normalizer
-  haveI hN_normal : N.Normal := hV0_normal.subgroupOf P0
+  have hN_normal : N.Normal := hV0_normal.subgroupOf P0
   let ρ : ↥M →* MulAut ↥P0 := MulAut.conjNormal
   change X.subgroupOf M ≤ (quotientAction ρ N (map_conjNormal_subgroupOf_eq h)).ker
   intro x hx
@@ -241,6 +246,7 @@ private theorem subgroupOf_le_ker_quotientAction (h : Hyp M V)
     rw [hcoecalc]
     simpa [commutatorElement_def] using hcomm
 
+omit [Finite G] in
 private theorem commutator_mem_V_of_mem_ker (h : Hyp M V)
     [((Pc M V).subgroupOf M).Normal]
     [((V.subgroupOf M).subgroupOf ((Pc M V).subgroupOf M)).Normal]
@@ -252,9 +258,9 @@ private theorem commutator_mem_V_of_mem_ker (h : Hyp M V)
   let P0 : Subgroup ↥M := (Pc M V).subgroupOf M
   let V0 : Subgroup ↥M := V.subgroupOf M
   let N : Subgroup ↥P0 := V0.subgroupOf P0
-  haveI hV0_normal : V0.Normal :=
+  have hV0_normal : V0.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer h.le_M).mpr h.le_normalizer
-  haveI hN_normal : N.Normal := hV0_normal.subgroupOf P0
+  have hN_normal : N.Normal := hV0_normal.subgroupOf P0
   let ρ : ↥M →* MulAut ↥P0 := MulAut.conjNormal
   have hpM : p ∈ M := h.Pc_le_M hp
   let p0 : ↥P0 := ⟨⟨p, hpM⟩, Subgroup.mem_subgroupOf.mpr hp⟩
@@ -275,6 +281,7 @@ private theorem commutator_mem_V_of_mem_ker (h : Hyp M V)
   rw [Subgroup.mem_subgroupOf] at hdiv
   simpa [commutatorElement_def] using hdiv
 
+omit [Finite G] in
 private theorem commutator_normalClosure_le_V (h : Hyp M V) {X : Subgroup G}
     (hXP : ⁅Pc M V, X⁆ ≤ V) :
     ∀ m0 : ↥M, m0 ∈ Subgroup.normalClosure (X.subgroupOf M) →
@@ -283,18 +290,18 @@ private theorem commutator_normalClosure_le_V (h : Hyp M V) {X : Subgroup G}
   let P0 : Subgroup ↥M := P.subgroupOf M
   let V0 : Subgroup ↥M := V.subgroupOf M
   let N : Subgroup ↥P0 := V0.subgroupOf P0
-  haveI hP0_normal : P0.Normal :=
+  have hP0_normal : P0.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer h.Pc_le_M).mpr h.le_normalizer_Pc
-  haveI hV0_normal : V0.Normal :=
+  have hV0_normal : V0.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer h.le_M).mpr h.le_normalizer
-  haveI hN_normal : N.Normal := hV0_normal.subgroupOf P0
+  have hN_normal : N.Normal := hV0_normal.subgroupOf P0
   let ρ : ↥M →* MulAut ↥P0 := MulAut.conjNormal
   let φ : ↥M →* MulAut (↥P0 ⧸ N) :=
     quotientAction ρ N (fun a => map_conjNormal_subgroupOf_eq h a)
   have hX0_ker : X.subgroupOf M ≤ φ.ker :=
     subgroupOf_le_ker_quotientAction h hXP
   have hY0_ker : Subgroup.normalClosure (X.subgroupOf M) ≤ φ.ker := by
-    haveI : φ.ker.Normal := MonoidHom.normal_ker φ
+    have : φ.ker.Normal := MonoidHom.normal_ker φ
     exact Subgroup.normalClosure_le_normal hX0_ker
   intro m0 hm0 p hp
   exact commutator_mem_V_of_mem_ker h (hY0_ker hm0) hp
@@ -330,7 +337,7 @@ private theorem eq_one_of_odd_of_commutator_le (h : Hyp M V) {X : Subgroup G} {y
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hP2
   have hcoprime : Nat.Coprime (Nat.card R) (Nat.card P) := by
     rw [show Nat.card R = orderOf y by
-      simpa [R] using Nat.card_zpowers y, hk]
+      simp [R], hk]
     exact (Nat.coprime_two_left.mpr hyodd).symm.pow_right k
   have hPRbot :=
     CFSG.GorensteinWalter.commutator_eq_bot_of_coprime_double_commutator_eq_bot
@@ -361,9 +368,9 @@ private theorem eq_one_of_odd_of_mem_normalClosure (h : Hyp M V) {X : Subgroup G
     exact Subgroup.mem_centralizer_iff.mp (hXV hxX) (v : G) hvV
   have hY0_cent : Subgroup.normalClosure (X.subgroupOf M) ≤
       Subgroup.centralizer (V.subgroupOf M : Set ↥M) := by
-    haveI hV0_normal : (V.subgroupOf M).Normal :=
+    have hV0_normal : (V.subgroupOf M).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer h.le_M).mpr h.le_normalizer
-    haveI : (Subgroup.centralizer (V.subgroupOf M : Set ↥M)).Normal :=
+    have : (Subgroup.centralizer (V.subgroupOf M : Set ↥M)).Normal :=
       Subgroup.normal_centralizer
     exact Subgroup.normalClosure_le_normal hX0_cent
   have hy_cent : y ∈ Subgroup.centralizer (V : Set G) := by
@@ -411,7 +418,7 @@ theorem le_pCore_of_commutator_le (h : Hyp M V) {X : Subgroup G} (hXM : X ≤ M)
     rcases Nat.eq_two_pow_or_exists_odd_prime_and_dvd (Nat.card Y) with ⟨k, hk⟩ |
       ⟨q, hqprime, hqdvd, hqodd⟩
     · exact IsPGroup.of_card (p := 2) hk
-    · haveI : Fact (Nat.Prime q) := ⟨hqprime⟩
+    · have : Fact (Nat.Prime q) := ⟨hqprime⟩
       obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card' q hqdvd
       have hyY : (y : G) ∈ Y := y.2
       have hodd : Odd (orderOf (y : G)) := by
@@ -421,7 +428,7 @@ theorem le_pCore_of_commutator_le (h : Hyp M V) {X : Subgroup G} (hXM : X ≤ M)
       have hq1 : q = 1 := by
         rw [← hyord]
         have h2 : orderOf y = orderOf (y : G) := by
-          simpa using Subgroup.orderOf_mk (y : G) y.2
+          simp
         rw [h2, hy1, orderOf_one]
       exact absurd hq1 hqprime.ne_one
   have hYQ : Y ≤ inSubgroup (pCore 2) M :=

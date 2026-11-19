@@ -56,12 +56,12 @@ private theorem k14_2Small_aux
         rk ↥(⊤ : Subgroup I) = 6 ∧ E3.mParam X = 2 ∧
         ∀ c : MulAut I, (∀ l ∈ L, c * l = l * c) → c ^ 3 = 1) := by
   classical
-  haveI : Finite (MulAut I) :=
+  have : Finite (MulAut I) :=
     Finite.of_injective (fun f : MulAut I => (f : I → I)) DFunLike.coe_injective
-  haveI hperfL : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hS.1.1
+  have hperfL : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hS.1.1
   have hperfQ : Group.IsPerfect (↥L ⧸ Subgroup.center ↥L) :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective (Subgroup.center ↥L))
-  haveI hsimpleQ : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hS.1.2
+  have hsimpleQ : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hS.1.2
   have hnaQ : ∃ a b : (↥L ⧸ Subgroup.center ↥L), a * b ≠ b * a := by
     by_contra h
     push Not at h

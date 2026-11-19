@@ -39,7 +39,7 @@ theorem exists_modelB_projectiveSL (hN : N = 4 ∨ N = 5)
 
 theorem card_le_nine_projectiveSL (hN : N = 4 ∨ N = 5) (h3 : 3 ∣ Nat.card K + 1)
     (F : Subgroup (projectiveSL N K)) (hF : IsElemAbelian 3 F) : Nat.card F ≤ 3 ^ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hr : CFSG.Open.pRank 3 (⊤ : Subgroup (projectiveSL N K)) ≤ 2 := by
     rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num)
       ((LinearCover.projectiveSpecialLinearEquivProjectiveSL N K).symm.trans
@@ -65,7 +65,7 @@ theorem p3At_A_of_field
   have hQq : Q.p = q := by
     change (TauCeti.LieTypeIndex.A n Q).characteristic = q at hchar
     rwa [TauCeti.LieTypeIndex.characteristic_A] at hchar
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   set K := GaloisField Q.p Q.exponent with hKdef
   have hKcard : Nat.card K = Q.card := by
     rw [hKdef, GaloisField.card Q.p Q.exponent Q.exponent_pos.ne', TauCeti.PrimePower.card_def]
@@ -75,7 +75,7 @@ theorem p3At_A_of_field
     e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL n Q hv)
   have hZ : Subgroup.center ↥S = ⊥ := by
     refine H.center_eq_bot_of_multiplier e₁ ?_
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     have hK5 : 5 ≤ Fintype.card K := by
       rw [Fintype.card_eq_nat_card, hKcard, TauCeti.PrimePower.card_def]
       exact (Q.prime_p.five_le_of_ne_two_of_ne_three (hQq ▸ H.two) (hQq ▸ H.three)).trans
@@ -94,9 +94,9 @@ theorem p3At_A_of_field
     (exists_modelB_projectiveSL hN (hfield K (by rw [hchK]; exact H.two)
       (by rw [hchK]; exact H.three) (n + 1) hN)))
 
-theorem p3At_A_of_dvd_add_one {n : ℕ} (hn3 : 3 ≤ n) (hn4 : n ≤ 4) {Q : TauCeti.PrimePower}
-    (hv : (TauCeti.LieTypeIndex.A n Q).Valid) (h3 : 3 ∣ Q.card + 1) : P3At ⟨_, hv⟩ :=
-  p3At_A_of_field (fun K _ _ hK2 hK3 n hn σ hσ => Field.modelB_projectiveSL hn hK2 hK3 hσ) hn3 hn4
+theorem p3At_A_of_dvd_add_one {_n : ℕ} (hn3 : 3 ≤ _n) (hn4 : _n ≤ 4) {Q : TauCeti.PrimePower}
+    (hv : (TauCeti.LieTypeIndex.A _n Q).Valid) (h3 : 3 ∣ Q.card + 1) : P3At ⟨_, hv⟩ :=
+  p3At_A_of_field (fun _K _ _ hK2 hK3 _n hn _σ hσ => Field.modelB_projectiveSL hn hK2 hK3 hσ) hn3 hn4
     hv h3
 
 end CFSG.LocalAnalysis.GLTheoremA.S267.P3

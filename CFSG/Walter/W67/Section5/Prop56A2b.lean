@@ -51,7 +51,7 @@ theorem factorization_three_card_K_le (hp : s.p = 3) :
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 s.K) := inferInstance
   have h1 := s.card_le_q_of_le_K hp (Q := (P : Subgroup s.K).map s.K.subtype)
-    (P.isPGroup'.map _) (Subgroup.map_subtype_le _)
+    (P.isPGroup.map _) (Subgroup.map_subtype_le _)
   rw [Subgroup.card_map_of_injective s.K.subtype_injective, Sylow.card_eq_multiplicity, Hyp.q,
     hp] at h1
   exact (Nat.pow_le_pow_iff_right (by norm_num)).mp h1

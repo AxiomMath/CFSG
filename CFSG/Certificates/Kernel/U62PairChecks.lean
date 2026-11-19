@@ -123,7 +123,7 @@ theorem evalCodes_u62SbG : ∀ w : List ℤ, (∀ z ∈ w, 1 ≤ z ∧ z ≤ 13)
   | z :: w, h => by
     rw [evalCodes, List.map_cons, List.prod_cons,
       evalCodes_u62SbG w (fun y hy => h y (List.mem_cons_of_mem _ hy)),
-      if_pos (by have := (h z (List.mem_cons_self ..)).1; omega)]
+      ite_eq_left (by have := (h z (List.mem_cons_self ..)).1; omega)]
 
 theorem repRep {GV RV : ℕ} {gen : ℕ → SU0}
     (hg : ∀ k < 13, RepSU (f72 GV k) (gen k) ∧ piSU (gen k) = u62SbG.getD k 1)

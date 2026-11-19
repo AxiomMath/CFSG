@@ -131,8 +131,8 @@ theorem u62Covers_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) :
   have hOZ : CFSG.oddCore K ≤ center K := oddCore_le_center_of_even_quotient hqK hevenQ
   obtain ⟨p, hps, hpc, hp2⟩ := u62Cov_exists_cover hqK e hevenQ
   obtain ⟨p₀, hp₀s, hp₀k, hp₀c, hBperf⟩ := exists_lvlTwo_cover
-  haveI : Group.IsPerfect Fi22D := fi22D_isQuasisimple.1
-  haveI : Group.IsPerfect K := hperf
+  have : Group.IsPerfect Fi22D := fi22D_isQuasisimple.1
+  have : Group.IsPerfect K := hperf
   have hY : center (Fi22D ⧸ center Fi22D) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot Fi22D
   have hKbar : Group.IsPerfect (K ⧸ CFSG.oddCore K) :=

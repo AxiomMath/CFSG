@@ -61,7 +61,7 @@ theorem exists_surj_alt5_G (hKI3 : K.KI3) (hKI4 : K.KI4) (hc : Ctx19 S U M V x z
   have hzz : z₀ * z₀ = 1 := Subtype.ext hz2
   have hz1' : z₀ ≠ 1 := fun h => hz1 (congrArg Subtype.val h)
   have hS₀p : IsPGroup 2 ↥((S : Subgroup G).subgroupOf C) :=
-    Bar.isPGroup_subgroupOf S.isPGroup' C
+    Bar.isPGroup_subgroupOf S.isPGroup C
   have hS₀idx : ¬ 2 ∣ ((S : Subgroup G).subgroupOf C).index := fun hd =>
     S.not_dvd_index (hd.trans (Subgroup.relIndex_dvd_index_of_le hSC))
   have hRS : R.subgroupOf C ≤ (S : Subgroup G).subgroupOf C := fun r hr => hc.c19.R_le hr
@@ -157,7 +157,7 @@ theorem op_eq (hKI3 : K.KI3) (hKI4 : K.KI4) (hc : Ctx19 S U M V x z A B R) :
       rw [hh]
       exact (hc.conf.z_center s hs).symm)
   have hRC : R ≤ C := hc.c19.R_le.trans hSC
-  have hRp : IsPGroup 2 ↥R := S.isPGroup'.to_le hc.c19.R_le
+  have hRp : IsPGroup 2 ↥R := S.isPGroup.to_le hc.c19.R_le
   have hR₀p : IsPGroup 2 ↥(R.subgroupOf C) := Bar.isPGroup_subgroupOf hRp C
   have hO : pPrimeCore 2 ↥C ≤ ψ.ker := by rw [hker]; exact le_sup_right
   have hbar : ψ.ker.map (QuotientGroup.mk' (pPrimeCore 2 ↥C)) =
@@ -185,7 +185,7 @@ theorem lemma192_a (hKI3 : K.KI3) (hKI4 : K.KI4) (hc : Ctx19 S U M V x z A B R) 
       rw [hh]
       exact (hc.conf.z_center s hs).symm)
   have hRC : R ≤ C := hc.c19.R_le.trans hSC
-  have hRp : IsPGroup 2 ↥R := S.isPGroup'.to_le hc.c19.R_le
+  have hRp : IsPGroup 2 ↥R := S.isPGroup.to_le hc.c19.R_le
   have hR₀p : IsPGroup 2 ↥(R.subgroupOf C) := Bar.isPGroup_subgroupOf hRp C
   have hOodd : Odd (Nat.card (pPrimeCore 2 ↥C)) :=
     Nat.coprime_two_left.1 (CFSG.pPrimeCore_coprime_card (p := 2) (G := ↥C))
@@ -215,7 +215,7 @@ theorem lemma192_b (hKI3 : K.KI3) (hKI4 : K.KI4) (hc : Ctx19 S U M V x z A B R) 
       rw [hh]
       exact (hc.conf.z_center s hs).symm)
   have hRC : R ≤ C := hc.c19.R_le.trans hSC
-  have hRp : IsPGroup 2 ↥R := S.isPGroup'.to_le hc.c19.R_le
+  have hRp : IsPGroup 2 ↥R := S.isPGroup.to_le hc.c19.R_le
   have hR₀p : IsPGroup 2 ↥(R.subgroupOf C) := Bar.isPGroup_subgroupOf hRp C
   have hOodd : Odd (Nat.card (pPrimeCore 2 ↥C)) :=
     Nat.coprime_two_left.1 (CFSG.pPrimeCore_coprime_card (p := 2) (G := ↥C))

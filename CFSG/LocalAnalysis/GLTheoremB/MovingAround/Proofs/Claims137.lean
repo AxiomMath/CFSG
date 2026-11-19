@@ -43,7 +43,7 @@ theorem commute_of_mem_centralizer {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp
       W ≤ Subgroup.centralizer (K : Set Y))
     {c : Y} (hc : c ∈ Subgroup.centralizer (S : Set Y)) {w : Y} (hw : w ∈ W) :
     c * w = w * c := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set z : Y := c * w * c⁻¹ * w⁻¹ with hz
   have hz' : z = (c * w * c⁻¹) * w⁻¹ := rfl
   have hPn : (CFSG.Open.pCore p Y).Normal := inferInstance
@@ -116,7 +116,7 @@ theorem commutator_mem_pCore_two {X : Type*} [Group X] [Finite X] (Q : Subgroup 
     [hQn : Q.Normal] {g c : X} (hg2 : ∃ a : ℕ, g ^ (2 ^ a) = 1)
     (hgQ : ∀ q ∈ Q, g * q * g⁻¹ * q⁻¹ ∈ CFSG.pCore 2 X)
     (hcg : c * g * c⁻¹ * g⁻¹ ∈ Q) : c * g * c⁻¹ * g⁻¹ ∈ CFSG.pCore 2 X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup X := CFSG.pCore 2 X with hN
   set π : X →* X ⧸ N := QuotientGroup.mk' N with hπ
   set w : X := c * g * c⁻¹ * g⁻¹ with hw
@@ -220,6 +220,7 @@ section Joins
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_inf {A B : Subgroup G} {x : G} (hA : x ∈ Subgroup.normalizer (A : Set G))
     (hB : x ∈ Subgroup.normalizer (B : Set G)) : x ∈ Subgroup.normalizer ((A ⊓ B : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff] at hA hB ⊢
@@ -244,7 +245,7 @@ theorem card_eq_pow_of_dvd' {p : ℕ} [hp : Fact p.Prime] {Y S : Subgroup G}
   congr 1
   omega
 
-theorem factorization_card_sup {p : ℕ} [hp : Fact p.Prime] {H L : Subgroup G}
+theorem factorization_card_sup {p : ℕ} [_hp : Fact p.Prime] {H L : Subgroup G}
     (hHL : H ≤ Subgroup.normalizer (L : Set G)) (hint : ¬ p ∣ Nat.card ↥(H ⊓ L)) :
     (Nat.card ↥(H ⊔ L)).factorization p =
       (Nat.card ↥H).factorization p + (Nat.card ↥L).factorization p := by
@@ -323,6 +324,7 @@ theorem exists_sylow_join {p : ℕ} [hp : Fact p.Prime] (C : Subgroup G) (𝓛 :
     rw [hv]
     exact hdvdT
 
+omit [Finite G] in
 theorem isElemAbelian_sup {p : ℕ} {A B : Subgroup G} (hA : IsElemAbelian p A)
     (hB : IsElemAbelian p B) (hc : ∀ x ∈ A, ∀ y ∈ B, x * y = y * x) : IsElemAbelian p (A ⊔ B) := by
   have hAc : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := fun x hx y hy =>
@@ -347,13 +349,14 @@ theorem card_sup_of_comm {A B : Subgroup G} (hc : ∀ x ∈ A, ∀ y ∈ B, x * 
   have h := (CFSG.GroupTheory.card_sup_mul_card_inf_of_commute A B hc).1
   rwa [hbot, Subgroup.card_bot, mul_one] at h
 
+omit [Finite G] in
 theorem mod_comm_pow {p : ℕ} {E H : Subgroup G} (hE : IsElemAbelian p E)
     (hEH : E ≤ Subgroup.normalizer (H : Set G)) {x y : G} (hx : x ∈ E ⊔ H) (hy : y ∈ E ⊔ H) :
     x * y * x⁻¹ * y⁻¹ ∈ H ∧ x ^ p ∈ H := by
   set K : Subgroup G := E ⊔ H with hK
   have hHK : H ≤ K := le_sup_right
   have hEK : E ≤ K := le_sup_left
-  haveI hn : (H.subgroupOf K).Normal :=
+  have hn : (H.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hHK).2 (sup_le hEH Subgroup.le_normalizer)
   set π := QuotientGroup.mk' (H.subgroupOf K) with hπ
   have hdec : ∀ (z : G) (hz : z ∈ K), ∃ (e : G) (he : e ∈ E), π ⟨z, hz⟩ = π ⟨e, hEK he⟩ := by
@@ -478,12 +481,14 @@ theorem factorization_pow_mul {p : ℕ} (hp : p.Prime) (k v : ℕ) (hv : ¬ p �
     Nat.factorization_pow, Finsupp.smul_apply, Nat.Prime.factorization_self hp,
     Nat.factorization_eq_zero_of_not_dvd hv, smul_eq_mul, mul_one, add_zero]
 
+omit [Finite G] in
 theorem isElemAbelian_of_le {p : ℕ} {E F : Subgroup G} (hE : IsElemAbelian p E) (hFE : F ≤ E) :
     IsElemAbelian p F :=
   isElemAbelian_of_comm_pow
     (fun x hx y hy => congrArg Subtype.val (hE.1.is_comm.comm ⟨x, hFE hx⟩ ⟨y, hFE hy⟩))
     (fun x hx => hE.2 x (hFE hx))
 
+omit [Finite G] in
 theorem gLBConj_le_sup_inf {H L K : Subgroup G} (hHL : H ≤ Subgroup.normalizer (L : Set G))
     (hLH : L ≤ Subgroup.normalizer (H : Set G)) (hKL : K ≤ L) {h : G} (hh : h ∈ H) :
     GLBConj h K ≤ K ⊔ (H ⊓ L) := by
@@ -609,6 +614,7 @@ theorem two_factor_conj {p : ℕ} [hp : Fact p.Prime] {H L : Subgroup G}
   refine Subgroup.eq_of_le_of_card_ge hzc ?_
   rw [sec9_card_gLBConj, hE₁'c]
 
+omit [Finite G] in
 theorem le_normalizer_iSup_finset {K : Subgroup G} (S : Finset (Subgroup G))
     (h : ∀ L' ∈ S, K ≤ Subgroup.normalizer (L' : Set G)) :
     K ≤ Subgroup.normalizer ((⨆ L' ∈ S, L' : Subgroup G) : Set G) := by
@@ -754,6 +760,7 @@ theorem bound_join {p : ℕ} [hp : Fact p.Prime] (𝓛 : Finset (Subgroup G))
     exact Nat.mul_le_mul (ih3 _ inf_le_right (isElemAbelian_of_le hEe inf_le_left))
       (hFLmax F' hF'L hF'e)
 
+omit [Finite G] in
 theorem sup_inf_of_comm {A Y Z : Subgroup G} (hAZ : A ≤ Z) (hc : ∀ x ∈ A, ∀ y ∈ Y, x * y = y * x) :
     (A ⊔ Y) ⊓ Z = A ⊔ (Y ⊓ Z) := by
   apply le_antisymm
@@ -766,6 +773,7 @@ theorem sup_inf_of_comm {A Y Z : Subgroup G} (hAZ : A ≤ Z) (hc : ∀ x ∈ A, 
     exact (A ⊔ (Y ⊓ Z)).mul_mem (Subgroup.mem_sup_left ha) (Subgroup.mem_sup_right ⟨hy, hyZ⟩)
   · exact le_inf (sup_le_sup_left inf_le_left _) (sup_le hAZ (inf_le_right))
 
+omit [Finite G] in
 theorem decomp_join {B : Subgroup G} (hB : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x)
     (𝓛 : Finset (Subgroup G)) (C : Subgroup G → Subgroup G) (hCB : ∀ L ∈ 𝓛, C L ≤ B)
     (hdec : ∀ L ∈ 𝓛, B = (B ⊓ L) ⊔ C L)
@@ -806,15 +814,18 @@ section StepA
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem iof_le_istar (p : ℕ) (M D : Subgroup G) : Iof p M D ≤ Istar p M D :=
   le_iSup₂_of_le (f := fun g (_ : g ∈ M) => GLBConj g (Iof p M D)) 1 M.one_mem
     (by rw [gLBConj_one])
 
+omit [Finite G] in
 theorem conj_mem_istar (p : ℕ) {M D : Subgroup G} {g : G} (hg : g ∈ M) {x : G}
     (hx : x ∈ Istar p M D) : g * x * g⁻¹ ∈ Istar p M D := by
   have h1 : x ∈ GLBConj g (Istar p M D) := by rw [istar_conj_eq p hg]; exact hx
   exact mem_gLBConj.1 h1
 
+omit [Finite G] in
 theorem barX_istar_normal (p : ℕ) (M D : Subgroup G) : (barX p M (Istar p M D)).Normal := by
   refine ⟨fun y hy x => ?_⟩
   obtain ⟨i, hi, rfl⟩ := (mem_barX_iff p y).1 hy
@@ -831,14 +842,14 @@ theorem centB_core (h111 : Prop111Statement) (h1117 : Prop1117Statement)
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPH := prop95Hyp_of h111 h1117 h121 h127 h.toSec11 h.hD
   obtain ⟨-, hcent, -⟩ := hP95 G m p hS M D hPH
   have hΓM : gammaStar p D ≤ M :=
     (prop131_of_inputs h111 h1117 (prop121_cor_of h121) h127 h.toSec11 h.hD).2
   have hgM : g ∈ M := hΓM hg
   set π := QuotientGroup.mk' (GLAPPrimeCore p ↥M) with hπ
-  haveI hSn := barX_istar_normal p M D
+  have hSn := barX_istar_normal p M D
   have hW2 : IsPGroup 2 ↥(barX p M (gammaStar p D)) := isPGroup_barX (isPGroup_gammaStar p D)
   have hWF : barX p M (gammaStar p D) ≤
       Subgroup.centralizer (CFSG.Open.pCore p (↥M ⧸ GLAPPrimeCore p ↥M) : Set (↥M ⧸ GLAPPrimeCore p ↥M)) :=
@@ -1021,7 +1032,7 @@ theorem iSup_inf_le_core {p : ℕ} {M L : Subgroup G} (hL : GLAPComponent p M L)
 
 theorem not_dvd_card_of_isPGroup_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Subgroup G}
     (hX : IsPGroup 2 ↥X) : ¬ p ∣ Nat.card ↥X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hX
   rw [hk]
   intro hd
@@ -1045,7 +1056,7 @@ end Components
 
 section Numerics
 
-theorem pow_dvd_card_of_not_dvd_index {p : ℕ} [hp : Fact p.Prime] {X : Type*} [Group X] [Finite X]
+theorem pow_dvd_card_of_not_dvd_index {p : ℕ} [_hp : Fact p.Prime] {X : Type*} [Group X] [Finite X]
     (H : Subgroup X) (h : ¬ p ∣ H.index) : p ^ (Nat.card X).factorization p ∣ Nat.card ↥H := by
   have h1 := H.index_mul_card
   have h0a : H.index ≠ 0 := Subgroup.index_ne_zero_of_finite
@@ -1103,6 +1114,7 @@ section ConjMax
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem isPGroup_of_ea {p : ℕ} {E : Subgroup X} (hE : IsElemAbelian p E) : IsPGroup p ↥E :=
   Sec13h.isPGroup_of_isElemAbelian' hE
 
@@ -1119,6 +1131,7 @@ theorem card_comap_mk (V : Subgroup X) [V.Normal] (F : Subgroup (X ⧸ V)) :
   apply Nat.eq_of_mul_eq_mul_left (Nat.pos_of_ne_zero h0)
   rw [h1, h4, ← h2, mul_assoc]
 
+omit [Finite X] in
 theorem card_map_mk_of_isPGroup {p : ℕ} [hp : Fact p.Prime] (V : Subgroup X) [V.Normal]
     (hV : ¬ p ∣ Nat.card ↥V) {E : Subgroup X} (hE : IsPGroup p ↥E) :
     Nat.card ↥(E.map (QuotientGroup.mk' V)) = Nat.card ↥E := by
@@ -1135,13 +1148,14 @@ theorem card_map_mk_of_isPGroup {p : ℕ} [hp : Fact p.Prime] (V : Subgroup X) [
   rw [← hrange]
   exact (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
 
+omit [Finite X] in
 theorem map_gLBConj {Y : Type} [Group Y] (f : X →* Y) (x : X) (E : Subgroup X) :
     (GLBConj x E).map f = GLBConj (f x) (E.map f) := by
   unfold GLBConj
   rw [Subgroup.map_map, Subgroup.map_map]
   congr 1
   ext y
-  simp [MulAut.conj_apply]
+  simp
 
 theorem conjMaxEA_of_quotient {p : ℕ} [hp : Fact p.Prime] (V : Subgroup X) [hVn : V.Normal]
     (hV : ¬ p ∣ Nat.card ↥V) (hY : ConjMaxEA p (X ⧸ V)) : ConjMaxEA p X := by
@@ -1220,6 +1234,7 @@ theorem conjMaxEA_of_quotient {p : ℕ} [hp : Fact p.Prime] (V : Subgroup X) [hV
   refine Subgroup.eq_of_le_of_card_ge hz ?_
   rw [sec9_card_gLBConj, hE₁'c]
 
+omit [Finite X] in
 theorem ConjMaxEA.of_mulEquiv {p : ℕ} {Y : Type} [Group Y] (e : X ≃* Y) (h : ConjMaxEA p X) :
     ConjMaxEA p Y := by
   intro F₁ F₂ hF₁ hF₂ hm₁ hm₂
@@ -1286,6 +1301,7 @@ theorem conjMaxEA_of_input102 (hI : Input10_2Omega) {p : ℕ} (hp : p.Prime) (hp
   unfold GLBConj
   rw [inv_inv]
 
+omit [Finite G] in
 theorem conj_of_conjMaxEA {p : ℕ} {L : Subgroup G} (h : ConjMaxEA p ↥L) {E₁ E₂ : Subgroup G}
     (h₁ : Sec13h.IsMaxEA p L E₁) (h₂ : Sec13h.IsMaxEA p L E₂) : ∃ g ∈ L, GLBConj g E₁ = E₂ := by
   obtain ⟨hE₁L, hE₁, hm₁⟩ := h₁
@@ -1313,7 +1329,7 @@ theorem conj_of_conjMaxEA {p : ℕ} {L : Subgroup G} (h : ConjMaxEA p ↥L) {E�
 theorem conjMaxEA_comp {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hI102 : Input10_2Omega)
     {L : Subgroup G} (hsimple : IsSimpleGroup (↥L ⧸ CFSG.pCore 2 ↥L))
     (hpi : IsPiGroup p (↥L ⧸ CFSG.pCore 2 ↥L)) : ConjMaxEA p ↥L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine conjMaxEA_of_quotient (CFSG.pCore 2 ↥L)
     (not_dvd_card_of_isPGroup_two hp hp2 (CFSG.pCore_isPGroup : IsPGroup 2 ↥(CFSG.pCore 2 ↥L))) ?_
   set Y := ↥L ⧸ CFSG.pCore 2 ↥L with hY
@@ -1339,7 +1355,7 @@ theorem conjMaxEA_comp {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hI102 : Input10
         omega
       have h3 : Nat.card Y = 1 := by
         rw [← Nat.card_congr eZ.toEquiv, Nat.card_congr f.toEquiv, h1]
-      haveI : Nontrivial Y := hsimple.toNontrivial
+      have : Nontrivial Y := hsimple.toNontrivial
       have h4 := Finite.one_lt_card (α := Y)
       omega
     · exact ConjMaxEA.of_mulEquiv (f.symm.trans eZ) (conjMaxEA_alt hp hp2 (by nlinarith))
@@ -1427,7 +1443,7 @@ theorem not_dvd_index_comp (h111 : Prop111Statement) (h1117 : Prop1117Statement)
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPH := prop95Hyp_of h111 h1117 h121 h127 h.toSec11 h.hD
   obtain ⟨-, -, hcomp95⟩ := hP95 G m p hS M D hPH
   have hΓM : gammaStar p D ≤ M :=
@@ -1494,6 +1510,7 @@ variable {G : Type} [Group G] [Finite G]
 
 open CFSG.HardMathSupport.Solomon.LocalBalance (barAut)
 
+omit [Finite G] in
 theorem mem_centBar_iff' {p : ℕ} {X L : Subgroup G} {b : G} :
     b ∈ centBar p X L ↔ b ∈ X ∧ b ∈ Subgroup.normalizer (L : Set G) ∧
       ∀ x ∈ L, x⁻¹ * (b * x * b⁻¹) ∈ GLAPPrimeCoreOf p L := by
@@ -1569,8 +1586,8 @@ theorem core_le_pCore_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M L : Subgro
     rw [e]
     exact hO g⁻¹ (M.inv_mem hg) _ (O.inv_mem hgO)
 
-theorem b_decomp_of {m p : ℕ} {B M E A D T : Subgroup G} (hP95 : Prop95)
-    (hPH : Prop95Hyp p M D) (h133 : Lemma133Statement) (h : Sec13 G m p B M E A D T)
+theorem b_decomp_of {m p : ℕ} {B M E A D T : Subgroup G} (_hP95 : Prop95)
+    (_hPH : Prop95Hyp p M D) (h133 : Lemma133Statement) (h : Sec13 G m p B M E A D T)
     (C : Subgroup G → Subgroup G) (hCB : ∀ L ∈ compSet p M D, C L ≤ B)
     (hCbar : ∀ L ∈ compSet p M D, centBar p B L ≤ C L)
     (hcross : ∀ L ∈ compSet p M D, ∀ L' ∈ compSet p M D, L ≠ L' → B ⊓ L' ≤ C L) :
@@ -1593,7 +1610,7 @@ theorem istar_join_data (h111 : Prop111Statement) (h1117 : Prop1117Statement)
     (∀ L ∈ compSet p M D, ∀ L' ∈ compSet p M D, ∀ x ∈ B ⊓ L, ∀ y ∈ B ⊓ L', x * y = y * x) := by
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPH := prop95Hyp_of h111 h1117 h121 h127 h.toSec11 h.hD
   have hBel : IsElemAbelian p B := h.bOne.1.1
   refine ⟨fun L hL L' hL' => le_normalizer_of_comp hp
@@ -1616,7 +1633,7 @@ theorem isMaxEA_inf_istar (h111 : Prop111Statement) (h1117 : Prop1117Statement)
     Sec13h.IsMaxEA p (Istar p M D) (B ⊓ Istar p M D) := by
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBel : IsElemAbelian p B := h.bOne.1.1
   obtain ⟨hnorm, hint, hF, hFc⟩ := istar_join_data h111 h1117 h121 h127 hP95 h133 h
   obtain ⟨hJle, -, hJbound⟩ := bound_join (compSet p M D) hnorm hint (fun L => B ⊓ L) hF hFc
@@ -1627,9 +1644,10 @@ theorem isMaxEA_inf_istar (h111 : Prop111Statement) (h1117 : Prop1117Statement)
   exact (hJbound F hF hFe).trans (Subgroup.card_le_of_le hJB)
 
 @[expose] def hatCent (M B I : Subgroup G) : Subgroup G :=
-  B ⊓ Sec13h.cmSubgroup M I (pCoreOf 2 M) (fun a ha o ho =>
+  B ⊓ Sec13h.cmSubgroup M I (pCoreOf 2 M) (fun _a ha o ho =>
     ((Subgroup.mem_normalizer_iff.1 (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M ha)) o).1 ho)
 
+omit [Finite G] in
 theorem mem_hatCent {M B I : Subgroup G} {b : G} :
     b ∈ hatCent M B I ↔ b ∈ B ∧ b ∈ M ∧ ∀ x ∈ I, b * x * b⁻¹ * x⁻¹ ∈ pCoreOf 2 M := Iff.rfl
 
@@ -1640,7 +1658,7 @@ theorem b_eq_inf_sup_hatCent (h111 : Prop111Statement) (h1117 : Prop1117Statemen
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPH := prop95Hyp_of h111 h1117 h121 h127 h.toSec11 h.hD
   have hBM : B ≤ M := le_of_isPreUniquenessTwoLocal hS h.bOne h.pre
   have hO : ∀ a ∈ M, ∀ o ∈ pCoreOf 2 M, a * o * a⁻¹ ∈ pCoreOf 2 M := fun a ha o ho =>
@@ -1871,7 +1889,7 @@ theorem Claims137.inputSylowCentIstar_of_inputs (h111 : Prop111Statement)
   intro G _ _ m p B M E A D T h
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPH := prop95Hyp_of h111 h1117 h121 h127 h.toSec11 h.hD
   have hO : ∀ a ∈ M, ∀ o ∈ pCoreOf 2 M, a * o * a⁻¹ ∈ pCoreOf 2 M := fun a ha o ho =>
     ((Subgroup.mem_normalizer_iff.1 (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M ha)) o).1 ho
@@ -1900,7 +1918,7 @@ theorem Claims137.inputConjIstar_of_inputs (h111 : Prop111Statement) (h1117 : Pr
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hnorm, hint, hF, hFc⟩ := Claims137.istar_join_data h111 h1117 h121 h127 hP95 h133 h
   have hconj : ∀ L ∈ Claims137.compSet p M D, ∀ F₁ F₂ : Subgroup G, Sec13h.IsMaxEA p L F₁ →
       Sec13h.IsMaxEA p L F₂ → ∃ g ∈ L, GLBConj g F₁ = F₂ := by
@@ -1937,14 +1955,14 @@ theorem Claims137.bstar137_of_inputs_hat (h111 : Prop111Statement) (h1117 : Prop
     (hGlob : Claims137.InputB133IstarHat) (hCent : Claims137.InputCentBHat) : BStar137Statement := by
   intro G _ _ m p B M E A D T h
   have hS : GLStanding G m p := h.standing
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   have hΓM : gammaStar p D ≤ M := (prop131_of_inputs h111 h1117 h121 h127 h.toSec11 h.hD).2
   have hAM : A ≤ M := h.pair.1.2.1.1.1.1
   have hBM : B ≤ M := le_of_isPreUniquenessTwoLocal hS h.bOne h.pre
   have hO : ∀ a ∈ M, ∀ o ∈ pCoreOf 2 M, a * o * a⁻¹ ∈ pCoreOf 2 M := fun a ha o ho =>
     ((Subgroup.mem_normalizer_iff.1 (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M ha)) o).1 ho
   have hO2 : IsPGroup 2 ↥(pCoreOf 2 M) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M
   obtain ⟨hdec, hmax⟩ := hGlob G m p B M E A D T h
   exact Claims137.core_hat hS.ne_two M (Istar p M D) (gammaStar p D) (pCoreOf 2 M) A B hO hO2 hΓM

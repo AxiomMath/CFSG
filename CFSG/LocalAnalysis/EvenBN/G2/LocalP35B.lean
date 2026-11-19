@@ -182,6 +182,7 @@ private theorem yamadaW₃_inf_centralizer (hW : CFSG.Walter.WalterOrderForm) (h
   have h2 : x ∈ yamadaW₂ d t ⊓ centralizer ({t} : Set G) := ⟨h1, hxC⟩
   rwa [h.yamadaW₂_inf_centralizer d hK hD] at h2
 
+omit [Finite K] in
 private theorem mem_M_or_mem_D_of_mul_self_mem_W (d : G2Data L K) {s : G} (hs : s ∈ d.S)
     (hss : s * s ∈ d.W) : s ∈ d.M ∨ s ∈ d.D := by
   have hSW : d.S ≤ normalizer (d.W : Set G) := d.S_le_normalizers.2.2.2.1
@@ -217,7 +218,7 @@ private theorem yamadaM_le_yamadaL₃ (hW : CFSG.Walter.WalterOrderForm) (h : Se
   exact ((le_sup_left : d.M ≤ yamadaM₂ d t).trans
     (le_sup_right : yamadaM₂ d t ≤ yamadaM₃ d t)).trans hM₃L₃
 
-private theorem yamadaD_le_yamadaC₃ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
+private theorem yamadaD_le_yamadaC₃ (_hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) : d.D ≤ yamadaC₃ d t := by
   have hD := hQ.doubling
   have hC₁Cs : yamadaC₁ d t ≤ yamadaCstar d t := by

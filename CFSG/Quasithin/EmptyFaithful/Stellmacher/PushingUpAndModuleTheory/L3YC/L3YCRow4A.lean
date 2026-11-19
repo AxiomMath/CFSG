@@ -25,7 +25,7 @@ theorem blk4'_mul (A A' : Matrix (Fin 3) (Fin 3) (ZMod 2)) (x x' : Fin 3 → ZMo
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [blk4', Matrix.mul_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_four,
-      Fin.sum_univ_three] <;> ring
+      Fin.sum_univ_three]
 
 theorem blk4_one : blk4 0 1 = 1 := by
   ext i j
@@ -59,13 +59,13 @@ theorem transvection_cross4 (l : Fin 3) :
     (1 + Matrix.single (0 : Fin 4) l.succ (1 : ZMod 2) : Matrix (Fin 4) (Fin 4) (ZMod 2)) =
       blk4 (Pi.single l 1) 1 := by
   ext a b
-  fin_cases l <;> fin_cases a <;> fin_cases b <;> simp [blk4, Matrix.single_apply]
+  fin_cases l <;> fin_cases a <;> fin_cases b <;> simp [blk4]
 
 theorem transvection_cross4' (k : Fin 3) :
     (1 + Matrix.single k.castSucc (3 : Fin 4) (1 : ZMod 2) : Matrix (Fin 4) (Fin 4) (ZMod 2)) =
       blk4' 1 (Pi.single k 1) := by
   ext a b
-  fin_cases k <;> fin_cases a <;> fin_cases b <;> simp [blk4', Matrix.single_apply]
+  fin_cases k <;> fin_cases a <;> fin_cases b <;> simp [blk4']
 
 section Gen
 

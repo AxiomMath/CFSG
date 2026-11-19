@@ -26,7 +26,7 @@ theorem exists_radical_le_sylow (hBT : HoldsTits S q) (U : Sylow q S) {P Q : Sub
   have hR0 : R ≠ ⊥ := fun hb => hQ0 (le_bot_iff.1 (hb ▸ hle))
   have hPR : P ≤ Subgroup.normalizer (R : Set S) := hPN.trans hN
   have hUN : (U : Subgroup S) ≤ Subgroup.normalizer (R : Set S) := hUP.trans hPR
-  have hsup : IsPGroup q ↥(R ⊔ (U : Subgroup S)) := hRp.to_sup_of_normal_left' U.isPGroup' hUN
+  have hsup : IsPGroup q ↥(R ⊔ (U : Subgroup S)) := hRp.to_sup_of_normal_left' U.isPGroup hUN
   have h1 : R ⊔ (U : Subgroup S) = (U : Subgroup S) :=
       U.maximal_isPGroup.eq_of_ge hsup le_sup_right
   exact ⟨R, ⟨hR0, hRp, hcore, hnetop⟩, h1 ▸ le_sup_left, hPR⟩

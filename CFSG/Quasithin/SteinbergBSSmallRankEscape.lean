@@ -159,7 +159,7 @@ theorem ti_conjugate_commutation_excludes_small_rank_minimal_sylow_escape [Finit
   have hsyl : IsSylowOf 2 ((T' : Subgroup H) ⊓ N.subgroupOf H) (N.subgroupOf H) := by
     have h1 : IsSylowOf 2 (T' : Subgroup H) ⊤ := by
       rw [isSylowOf_iff]
-      refine ⟨le_top, T'.isPGroup', ?_⟩
+      refine ⟨le_top, T'.isPGroup, ?_⟩
       rw [relIndex_top_right]
       exact T'.not_dvd_index
     exact h1.inf_of_le_normalizer le_top (by rw [normalizer_eq_top_iff.2 hNn])
@@ -185,7 +185,7 @@ theorem ti_conjugate_commutation_excludes_small_rank_minimal_sylow_escape [Finit
     have : (((T' : Subgroup H) ⊓ N.subgroupOf H : Subgroup H)).Normal :=
       normalizer_eq_top_iff.1 hnt
     have hle : (T' : Subgroup H) ⊓ N.subgroupOf H ≤ pCore 2 H :=
-      le_pCore_of_normal T'.isPGroup'.to_inf_left
+      le_pCore_of_normal T'.isPGroup.to_inf_left
     refine hgR fun x hx => ⟨⟨x, hAH hx⟩, hle (mem_inf.2 ⟨(hT'mem _).2 (hgT hx), hAN hx⟩), rfl⟩
   ·
     have hYM := hmax Y hTY (lt_of_le_of_ne (map_subtype_le _) hYH)

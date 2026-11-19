@@ -133,7 +133,7 @@ theorem z0_mem_Pe (h07 : Node07 d) (h08 : Node08 d z₀) : z₀ ∈ Pe11 d := by
   rw [hgen y hy]
   exact mem_sup_right (Subgroup.subset_closure (by simp))
 
-theorem F_le_P1 (h49 : d.Thm49Statement) (hd : d.Hyp) (h08 : Node08 d z₀) : d.F ≤ P1 d := by
+theorem F_le_P1 (_h49 : d.Thm49Statement) (hd : d.Hyp) (h08 : Node08 d z₀) : d.F ≤ P1 d := by
   obtain ⟨-, hFPe, -, -, hPel, -⟩ := h08
   intro f hf
   refine mem_P1_iff.2 ⟨hd.s56_B_le_P (s56_F_le_B d hf), fun w hw => ?_⟩
@@ -173,7 +173,7 @@ theorem P1_inf_B (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀) (h07 
     rw [this]
     exact mul_mem (F_le_P1 h49 hd h08 hf) (inv_mem hbP)
 
-theorem CF_CNt_trivial (h49 : d.Thm49Statement) (hd : d.Hyp) {x : G} (hx : x ∈ d.F)
+theorem CF_CNt_trivial (_h49 : d.Thm49Statement) (hd : d.Hyp) {x : G} (hx : x ∈ d.F)
     (hc : ∀ c ∈ d.N ⊓ centralizer ({d.t} : Set G), x * c = c * x) : x = 1 := by
   have hU : x ∈ d.s56U11 := Data.s56_CF_K_le_U11 hx fun k hk => hc k (hd.s56_K_le_CNt hk)
   obtain ⟨hŷNC, -, -, -, -, hŷ11, hŷz⟩ := hd.s56_Y_facts

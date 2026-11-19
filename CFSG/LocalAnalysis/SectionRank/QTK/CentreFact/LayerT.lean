@@ -63,6 +63,7 @@ section Lift
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem layer_eq_one_of_mem_inter_commuting {L₁ L₂ : Subgroup H}
     (hc : ∀ a ∈ L₁, ∀ b ∈ L₂, Commute a b) {r : ℕ} (hr : r.Prime)
     (hrZ : ¬ r ∣ Nat.card (center ↥L₁)) {x : H} (hx₁ : x ∈ L₁) (hx₂ : x ∈ L₂)

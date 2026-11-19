@@ -384,7 +384,7 @@ theorem nineteen_glue_seven (V : LieAutVocab10) (D : Data G) {V₀ Vsub : Subgro
             simpa [pow_two] using hV0el.2 (a : G) ha
           rw [show a ^ 2 = 1 by rw [pow_two]; exact ha2, map_one]
       have hV0Zdisj : V₀ ⊓ Zsub K = ⊥ := by
-        refine Subgroup.inf_eq_bot_of_coprime ?_
+        refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
         obtain ⟨m, hm⟩ := hV0p.exists_card_eq
         rw [hm]
         exact (Nat.coprime_two_left.mpr hZodd).pow_left m
@@ -618,7 +618,7 @@ theorem nineteen_glue_seven (V : LieAutVocab10) (D : Data G) {V₀ Vsub : Subgro
         · exact h2
       have hex : ∃ w0 : ↥V₀, w0 ∉ Subgroup.zpowers v0 := by
         by_contra h
-        push_neg at h
+        push Not at h
         have hle : (⊤ : Subgroup ↥V₀) ≤ Subgroup.zpowers v0 := fun x _ => h x
         have hcardle := Subgroup.card_le_of_le hle
         rw [Nat.card_zpowers, hv0ord] at hcardle
@@ -710,20 +710,20 @@ theorem nineteen_glue_seven (V : LieAutVocab10) (D : Data G) {V₀ Vsub : Subgro
           have hmul : x * ((⟨v0, hV0N v0.2⟩ : ↥N) * x⁻¹ * (⟨v0, hV0N v0.2⟩ : ↥N)⁻¹) ∈
               K.subgroupOf N := (K.subgroupOf N).mul_mem hx.2 hconj
           rw [commutatorElement_def]
-          convert hmul using 1 <;> group
+          convert hmul using 1; group
         have hmemK : ⁅(x : G), (v0 : G)⁆ ∈ K := Subgroup.mem_subgroupOf.mp hmemK'
         have hmemZ : ⁅(x : G), (v0 : G)⁆ ∈ Zsub K := by
           rw [Zsub, CFSG.center_map_subtype_eq_inf_centralizer]
           exact ⟨hmemK, hmemC⟩
         have hcomm_odd : (v0 : G) * (x : G) * (v0 : G)⁻¹ * (x : G)⁻¹ ∈ Zsub K := by
           have hinv := (Zsub K).inv_mem hmemZ
-          convert hinv using 1 <;> group
+          convert hinv using 1; group
         have hcentZ : ∀ o ∈ Zsub K, o * (v0 : G) = (v0 : G) * o := by
           intro o ho
           exact (Subgroup.mem_centralizer_iff.mp (hZleC ho) (v0 : G) v0.2).symm
         have hcomm_odd' : (x : G) * (v0 : G) * (x : G)⁻¹ * (v0 : G)⁻¹ ∈ Zsub K := by
           have hinv := (Zsub K).inv_mem hcomm_odd
-          convert hinv using 1 <;> group
+          convert hinv using 1; group
         have hv0x : (v0 : G) * (x : G) = (x : G) * (v0 : G) :=
           (CFSG.ClassicalInvolution.Q3.Q3OF.commute_of_commutator_mem_odd
             (a := (v0 : G)) (l := (x : G)) hZodd hv0sqG
@@ -765,20 +765,20 @@ theorem nineteen_glue_seven (V : LieAutVocab10) (D : Data G) {V₀ Vsub : Subgro
           have hmul : x * ((⟨w0, hV0N w0.2⟩ : ↥N) * x⁻¹ * (⟨w0, hV0N w0.2⟩ : ↥N)⁻¹) ∈
               K.subgroupOf N := (K.subgroupOf N).mul_mem hx.2 hconj
           rw [commutatorElement_def]
-          convert hmul using 1 <;> group
+          convert hmul using 1; group
         have hmemK : ⁅(x : G), (w0 : G)⁆ ∈ K := Subgroup.mem_subgroupOf.mp hmemK'
         have hmemZ : ⁅(x : G), (w0 : G)⁆ ∈ Zsub K := by
           rw [Zsub, CFSG.center_map_subtype_eq_inf_centralizer]
           exact ⟨hmemK, hmemC⟩
         have hcomm_odd : (w0 : G) * (x : G) * (w0 : G)⁻¹ * (x : G)⁻¹ ∈ Zsub K := by
           have hinv := (Zsub K).inv_mem hmemZ
-          convert hinv using 1 <;> group
+          convert hinv using 1; group
         have hcentZ : ∀ o ∈ Zsub K, o * (w0 : G) = (w0 : G) * o := by
           intro o ho
           exact (Subgroup.mem_centralizer_iff.mp (hZleC ho) (w0 : G) w0.2).symm
         have hcomm_odd' : (x : G) * (w0 : G) * (x : G)⁻¹ * (w0 : G)⁻¹ ∈ Zsub K := by
           have hinv := (Zsub K).inv_mem hcomm_odd
-          convert hinv using 1 <;> group
+          convert hinv using 1; group
         have hw0x : (w0 : G) * (x : G) = (x : G) * (w0 : G) :=
           (CFSG.ClassicalInvolution.Q3.Q3OF.commute_of_commutator_mem_odd
             (a := (w0 : G)) (l := (x : G)) hZodd hw0sqG

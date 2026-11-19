@@ -69,7 +69,7 @@ theorem normalizesRNative_of_unip {τ : Tag} {K : Type} [Field K] {A : Subgroup 
 
 theorem f4RegularPure_one_of_pure (h : F4PureSplit) : F4RegularPure 1 := by
   intro K _ _ hres hK3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units]
     have := Nat.card_pos (α := K)
@@ -101,7 +101,7 @@ theorem f4ThreeNative_of_pilot {ε : ℕ} (hε : ε = 1 ∨ ε = 2)
       have : 1 < Nat.card K := Finite.one_lt_card
       omega
     have hnd : ¬ 3 ∣ Nat.card K := by omega
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rcases htor K hnd E₀ hexp hcard with ⟨⟨D⟩⟩ | hnorm
     · have hreg : ∀ α, IsRoot .F4 α → ¬ D.Kills α := fun α hα hk =>
         hn (normalizesRNative_of_unip (hNR K E₀ D α hα hk))

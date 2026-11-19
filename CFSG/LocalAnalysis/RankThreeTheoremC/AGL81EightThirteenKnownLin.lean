@@ -26,7 +26,7 @@ private theorem card_closure_pair_of_smul [Finite G] {V : Type*} [MulAction G V]
     {v : V} (hxy : x * y = y * x) (hx : x ^ 3 = 1) (hy : y ^ 3 = 1) (hx1 : x ≠ 1)
     (hxv : x • v = v) (hyv : y • v ≠ v) :
     Nat.card (Subgroup.closure ({x, y} : Set G)) = 3 ^ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.HardMathSupport.Dickson.I271.card_closure_pair_sq hxy hx hy hx1 ?_
   rw [Subgroup.zpowers_eq_closure]
   exact notMem_closure_of_smul (by rintro _ rfl; exact hxv) hyv

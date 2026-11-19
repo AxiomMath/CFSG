@@ -20,19 +20,22 @@ section Small
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 private theorem torusGroup_E7_eq_bot_of_card_two (hF : Nat.card F = 2) :
     torusGroup .E7 F = ⊥ := by
   refine torusGroup_eq_bot_of_forall_units_eq_one (τ := .E7) (K := F) fun u => ?_
   have hcard : Nat.card Fˣ = 1 := by rw [Nat.card_units, hF]
-  haveI : Subsingleton Fˣ := (Nat.card_eq_one_iff_unique.1 hcard).1
+  have : Subsingleton Fˣ := (Nat.card_eq_one_iff_unique.1 hcard).1
   exact Subsingleton.elim u 1
 
+omit [Finite F] in
 theorem parabolicLevi_eq_subsystemGroup_E7_two (hF : Nat.card F = 2)
     (J : Set (Fin Tag.E7.rank)) :
     parabolicLevi .E7 F J = subsystemGroup .E7 F J := by
   rw [parabolicLevi, torusGroup_E7_eq_bot_of_card_two hF, bot_sup_eq]
   rfl
 
+omit [Finite F] in
 theorem parabolicLevi_le_rootSpan_perpRoots_E7_two (hF : Nat.card F = 2)
     {J : Set (Fin Tag.E7.rank)} (hJ : J ⊆ perpNodes .E7) :
     parabolicLevi .E7 F J ≤ rootSpan .E7 F (perpRoots .E7) := by
@@ -56,8 +59,8 @@ private theorem card_le_pow_five_of_le_subsystemGroup_e7a6 (hF : Nat.card F = 2)
     {J : Set (Fin Tag.E7.rank)} (hi : (1 : Fin Tag.E7.rank) ∉ J)
     {E : Subgroup (ModGL .E7 F)} (hE : E ≤ subsystemGroup .E7 F J)
     (hEel : IsElemAbelian 3 E) : Nat.card E ≤ 3 ^ 5 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hpq : ¬ 3 ∣ Nat.card F - 1 := by rw [hF]; norm_num
   have hJ : J ⊆ CFSG.RankThree.PartOne.KE.e7a6support := by
@@ -80,8 +83,8 @@ private theorem card_le_pow_five_of_le_subsystemGroup_e7A1A5 (hF : Nat.card F = 
     {J : Set (Fin Tag.E7.rank)} (hi : (2 : Fin Tag.E7.rank) ∉ J)
     {E : Subgroup (ModGL .E7 F)} (hE : E ≤ subsystemGroup .E7 F J)
     (hEel : IsElemAbelian 3 E) : Nat.card E ≤ 3 ^ 5 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hpq : ¬ 3 ∣ Nat.card F - 1 := by rw [hF]; norm_num
   have hJ : J ⊆ {j : Fin Tag.E7.rank | j.val ≠ 2} := by
@@ -97,8 +100,8 @@ private theorem card_le_pow_five_of_le_subsystemGroup_e7A1A2A3 (hF : Nat.card F 
     {J : Set (Fin Tag.E7.rank)} (hi : (3 : Fin Tag.E7.rank) ∉ J)
     {E : Subgroup (ModGL .E7 F)} (hE : E ≤ subsystemGroup .E7 F J)
     (hEel : IsElemAbelian 3 E) : Nat.card E ≤ 3 ^ 5 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hpq : ¬ 3 ∣ Nat.card F - 1 := by rw [hF]; norm_num
   have hJ : J ⊆ {j : Fin Tag.E7.rank | j.val ≠ 3} := by
@@ -113,8 +116,8 @@ private theorem card_le_pow_five_of_le_subsystemGroup_e7A2A4 (hF : Nat.card F = 
     {J : Set (Fin Tag.E7.rank)} (hi : (4 : Fin Tag.E7.rank) ∉ J)
     {E : Subgroup (ModGL .E7 F)} (hE : E ≤ subsystemGroup .E7 F J)
     (hEel : IsElemAbelian 3 E) : Nat.card E ≤ 3 ^ 5 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hpq : ¬ 3 ∣ Nat.card F - 1 := by rw [hF]; norm_num
   have hKn : Nat.card F = 2 ^ 1 := by rw [hF]; norm_num
@@ -131,8 +134,8 @@ private theorem card_le_pow_five_of_le_subsystemGroup_e7A1D5 (hF : Nat.card F = 
     {J : Set (Fin Tag.E7.rank)} (hi : (5 : Fin Tag.E7.rank) ∉ J)
     {E : Subgroup (ModGL .E7 F)} (hE : E ≤ subsystemGroup .E7 F J)
     (hEel : IsElemAbelian 3 E) : Nat.card E ≤ 3 ^ 5 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hpq : ¬ 3 ∣ Nat.card F - 1 := by rw [hF]; norm_num
   have hKn : Nat.card F = 2 ^ 1 := by rw [hF]; norm_num
@@ -149,8 +152,8 @@ private theorem card_le_pow_five_of_le_subsystemGroup_e7E6 (hF : Nat.card F = 2)
     {J : Set (Fin Tag.E7.rank)} (hi : (6 : Fin Tag.E7.rank) ∉ J)
     {E : Subgroup (ModGL .E7 F)} (hE : E ≤ subsystemGroup .E7 F J)
     (hEel : IsElemAbelian 3 E) : Nat.card E ≤ 3 ^ 5 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hKn : Nat.card F = 2 ^ 1 := by rw [hF]; norm_num
   have hd : 3 ∣ 2 ^ 1 + 1 := by norm_num

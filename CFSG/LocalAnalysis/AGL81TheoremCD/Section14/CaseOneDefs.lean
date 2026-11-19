@@ -134,14 +134,15 @@ structure FourteenNineData (M L T : Subgroup G) : Prop where
   (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom (threeStar J)).comp
     (jStarAct J)
 
+omit [Finite G] in
 theorem jStarAct_apply_mk (J : Subgroup G) (n : ↥(Subgroup.normalizer (J : Set G))) (x : ↥J) :
     jStarAct J n (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J) x) =
       QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J) ⟨(n : G) * (x : G) * (n : G)⁻¹,
         (Subgroup.mem_normalizer_iff.mp n.2 (x : G)).mp x.2⟩ := by
-  simp only [jStarAct, MonoidHom.comp_apply, CFSG.SectionRank.Ccomm.autQuotient_mk,
-    Subgroup.normalizerMonoidHom_apply_apply_coe]
+  simp only [jStarAct, MonoidHom.comp_apply]
   rfl
 
+omit [Finite G] in
 theorem jBarAct_apply_mk (J : Subgroup G) (n : ↥(Subgroup.normalizer (J : Set G))) (x : ↥J) :
     jBarAct J n (QuotientGroup.mk' (Subgroup.center (threeStar J))
         (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J) x)) =
@@ -155,6 +156,7 @@ theorem jBarAct_apply_mk (J : Subgroup G) (n : ↥(Subgroup.normalizer (J : Set 
   rw [CFSG.ComponentClassification.PerfectAutomorphisms.onCenterQuotient_apply_mk,
     jStarAct_apply_mk]
 
+omit [Finite G] in
 theorem inf_le_normalizer_kSub (p : ℕ) (M H : Subgroup G) :
     H ⊓ M ≤ Subgroup.normalizer (kSub p M H : Set G) := by
   rintro y ⟨hyH, hyM⟩
@@ -174,7 +176,7 @@ variable {M E H : Subgroup G}
 
 theorem invariant_coprime_le_M (h : HypCGen G M 3 E H) {Y : Subgroup G}
     (hY : ¬ 3 ∣ Nat.card Y) (hEY : E ≤ Subgroup.normalizer (Y : Set G)) : Y ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : 3 ^ (1 + 1) ≤ Nat.card E := by
     rw [h.card]
   exact (CFSG.LocalAnalysis.AGL81TheoremC.le_glbCore_of_coprime h.elem hcard hY hEY).trans
@@ -195,7 +197,7 @@ theorem mem_centralizer_sup_core_of_commute_mod {M B : Subgroup G} {x : G} (hxM 
     (hBM : B ≤ M) (hB : IsPGroup 3 B)
     (hx : ∀ b ∈ B, x⁻¹ * (b * x * b⁻¹) ∈ CFSG.inSubgroup (CFSG.pPrimeCore 3) M) :
     x ∈ (M ⊓ Subgroup.centralizer (B : Set G)) ⊔ CFSG.inSubgroup (CFSG.pPrimeCore 3) M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let D : Subgroup G := CFSG.inSubgroup (CFSG.pPrimeCore 3) M
   have hD : ¬ 3 ∣ Nat.card D :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp
@@ -228,7 +230,7 @@ variable {M H J : Subgroup G}
 
 theorem le_oTwoZStar_of_normal {N : Subgroup G} (hJ : IsKComp M H J) (hNJ : N ≤ J)
     (hN : (N.subgroupOf J).Normal) (hne : N ≠ J) : N ≤ oTwoZStar J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let π : ↥J →* threeStar J := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J)
   let C : Subgroup (threeStar J) := (N.subgroupOf J).map π
   have hCnorm : C.Normal := hN.map π (QuotientGroup.mk'_surjective _)
@@ -240,7 +242,7 @@ theorem le_oTwoZStar_of_normal {N : Subgroup G} (hJ : IsKComp M H J) (hNJ : N �
       rw [show (N.subgroupOf J).map π = ⊤ by simpa [C] using hCtop,
         Subgroup.comap_top, QuotientGroup.ker_mk'] at h
       exact h.symm
-    letI : (N.subgroupOf J).Normal := hN
+    let : (N.subgroupOf J).Normal := hN
     have hdvd := CFSG.GroupTheory.WielandtProduct.index_dvd_card_of_sup_eq_top hsup
     have hcop : Nat.Coprime 3 (N.subgroupOf J).index :=
       CFSG.pPrimeCore_coprime_card.of_dvd_right hdvd
@@ -264,7 +266,7 @@ private theorem normalizes_and_commutator_of_isPComponentIn {H Y J : Subgroup G}
     (hY : IsPComponentIn 3 Y H) (hJ : IsPComponentIn 3 J H) (hne : Y ≠ J) :
     Y ≤ Subgroup.normalizer (J : Set G) ∧
       ⁅Y, J⁆ ≤ (CFSG.pPrimeCore 3 ↥J).map J.subtype := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hYne : Y.subgroupOf H ≠ J.subgroupOf H := by
     intro heq
     apply hne
@@ -306,12 +308,12 @@ private theorem normalizes_and_commutator_of_isPComponentIn {H Y J : Subgroup G}
 private theorem jStarAct_eq_one_of_le_M {M H J : Subgroup G}
     (hJ : IsKComp M H J) (hJleM : J ≤ M) (hL : ¬ pLayerIn 3 H ≤ M) :
     ∀ x : ↥J, jStarAct J ⟨x, Subgroup.le_normalizer x.2⟩ = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJp : IsPComponentIn 3 J H := hJ.isPComponentIn
   let S : Set (Subgroup G) := {Y | IsPComponentIn 3 Y H ∧ ¬ Y ≤ M}
   have hKdef : kSub 3 M H = sSup S := by
     unfold kSub
-    rw [if_neg hL]
+    rw [ite_eq_right hL]
   have hYdata : ∀ Y ∈ S, Y ≤ Subgroup.normalizer (J : Set G) ∧
       ⁅Y, J⁆ ≤ (CFSG.pPrimeCore 3 ↥J).map J.subtype := by
     intro Y hY
@@ -349,7 +351,7 @@ private theorem jStarAct_eq_one_of_le_M {M H J : Subgroup G}
 private theorem isMulCommutative_threeStar_of_le_M {M H J : Subgroup G}
     (hJ : IsKComp M H J) (hJleM : J ≤ M) (hL : ¬ pLayerIn 3 H ≤ M) :
     IsMulCommutative (threeStar J) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJact := jStarAct_eq_one_of_le_M hJ hJleM hL
   have hcommStar : ∀ a b : threeStar J, a * b = b * a := by
     intro a b
@@ -380,11 +382,11 @@ variable {M H J : Subgroup G}
 
 theorem not_le_M (hJ : IsKComp M H J) (hL : ¬ pLayerIn 3 H ≤ M) : ¬ J ≤ M := by
   intro hJM
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsMulCommutative (threeStar J) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsMulCommutative (threeStar J) :=
     isMulCommutative_threeStar_of_le_M hJ hJM hL
-  haveI : Group.IsPerfect (threeStar J) := hJ.isQuasisimple.1
-  haveI : Nontrivial (threeStar J) :=
+  have : Group.IsPerfect (threeStar J) := hJ.isQuasisimple.1
+  have : Nontrivial (threeStar J) :=
     CFSG.LocalCores.isQuasisimple_nontrivial hJ.isQuasisimple
   exact (Group.IsPerfect.not_isMulCommutative (G := threeStar J)) inferInstance
 
@@ -411,7 +413,7 @@ namespace IsKComp
 variable {M H J : Subgroup G}
 
 theorem ker_jBarAct (hJ : IsKComp M H J) : (jBarAct J).ker = (jStarAct J).ker := by
-  haveI : Group.IsPerfect (threeStar J) := hJ.isQuasisimple.1
+  have : Group.IsPerfect (threeStar J) := hJ.isQuasisimple.1
   ext x
   rw [MonoidHom.mem_ker, MonoidHom.mem_ker, jBarAct, MonoidHom.comp_apply]
   constructor
@@ -423,6 +425,7 @@ theorem ker_jBarAct (hJ : IsKComp M H J) : (jBarAct J).ker = (jStarAct J).ker :=
 
 end IsKComp
 
+omit [Finite G] in
 theorem jBarAct_surjective_inner (J : Subgroup G)
     (b : threeStar J ⧸ Subgroup.center (threeStar J)) :
     ∃ g : G, ∃ hg : g ∈ J, jBarAct J ⟨g, Subgroup.le_normalizer hg⟩ = MulAut.conj b := by
@@ -443,6 +446,7 @@ theorem jBarAct_surjective_inner (J : Subgroup G)
         (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J) ⟨g, g.2⟩))⁻¹
   simp only [map_mul, map_inv]
 
+omit [Finite G] in
 theorem mem_ker_jBarAct_of_commutator_le {J : Subgroup G}
     {x : ↥(Subgroup.normalizer (J : Set G))}
     (hx : ∀ g ∈ J, (x : G) * g * (x : G)⁻¹ * g⁻¹ ∈ oTwoZStar J) : x ∈ (jBarAct J).ker := by
@@ -471,6 +475,7 @@ theorem mem_ker_jBarAct_of_commutator_le {J : Subgroup G}
     (QuotientGroup.eq_one_iff _).mpr hc'
   rw [hc1, one_mul]
 
+omit [Finite G] in
 theorem jStarAct_eq_one_of_commutator_le {J : Subgroup G}
     {x : ↥(Subgroup.normalizer (J : Set G))}
     (hx : ∀ g ∈ J, (x : G) * g * (x : G)⁻¹ * g⁻¹ ∈
@@ -487,6 +492,7 @@ theorem jStarAct_eq_one_of_commutator_le {J : Subgroup G}
     simpa [commutatorElement_def, mul_assoc] using hcEq.symm
   rwa [heq]
 
+omit [Finite G] in
 theorem jBarAct_of_mem {J : Subgroup G} {g : G} (hg : g ∈ J) :
     jBarAct J ⟨g, Subgroup.le_normalizer hg⟩ = MulAut.conj
       (QuotientGroup.mk' (Subgroup.center (threeStar J))

@@ -15,7 +15,7 @@ theorem exists_orderOf_eq_fixed_of_coprime_ker (φ : H →* X) (hφ : Function.S
     (hρ : orderOf ρ ∣ p) (hcop : ¬ p ∣ Nat.card φ.ker) {n : ℕ} {x : X} (hxn : orderOf x = n)
     (hxfix : θ x = x) : ∃ y : H, orderOf y = n ∧ ρ y = y := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨h₀, hh₀⟩ := hφ x
   let S : Set H := {h | φ h = x}
   let K : Subgroup (MulAut H) :=

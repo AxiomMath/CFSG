@@ -83,7 +83,7 @@ theorem sylow_of_card (H : Subgroup G) {k m : ℕ} (hm : Odd m)
 theorem card_sylow_of_card (T : Sylow 2 G) {k m : ℕ} (hm : Odd m) (hG : Nat.card G = 2 ^ k * m) :
     Nat.card T = 2 ^ k := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 T.isPGroup'
+  obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 T.isPGroup
   have h := card_mul_index (T : Subgroup G)
   rw [hG, hj] at h
   rw [hj]

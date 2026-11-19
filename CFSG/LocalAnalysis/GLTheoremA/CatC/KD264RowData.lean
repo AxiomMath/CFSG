@@ -15,7 +15,7 @@ theorem kd264RowData_of_central {T : Type} [Group T] [Finite T] {p : ℕ} (hp : 
     {J₀ : Subgroup T} (hJ₀ : GLAPComponent p (Subgroup.centralizer ({z₀} : Set T)) J₀) :
     KD264RowData p T := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro A hA hAmax k hk1 hk2 hAk
   rcases (show k = 1 ∨ k = 2 by omega) with rfl | rfl
   swap

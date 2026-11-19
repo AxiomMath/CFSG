@@ -40,7 +40,7 @@ theorem card_center_dvd_hopfMultiplier_of_cover {Q S : Type} [Group Q] [Finite Q
 theorem pGroup_card_of_dvd {p m : ℕ} (hp : p.Prime) {Z : Type} [Group Z] [Finite Z]
     (hZ : IsPGroup p Z) (hne : Nontrivial Z) (hd : Nat.card Z ∣ m) :
     p ∣ m ∧ (¬ p ^ 2 ∣ m → Nat.card Z = p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := hZ.exists_card_eq
   have hn1 : 1 ≤ n := by
     by_contra h

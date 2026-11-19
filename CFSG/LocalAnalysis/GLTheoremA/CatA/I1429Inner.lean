@@ -41,8 +41,8 @@ theorem i1429_inner_lie_simple {Q : Type} [Group Q] [Finite Q] (hZ : Subgroup.ce
   have key : ∃ d : TauCeti.ValidLieTypeIndex, i = TauCeti.CFSGIndex.lie d ∧ d.1.characteristic = 3 := by
     cases i <;> first | exact ⟨_, rfl, hi⟩ | exact (hi : False).elim
   obtain ⟨d, rfl, hd⟩ := key
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv Q e.toEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv Q e.toEquiv
   have hq1 : q ≠ 1 := fun h => h1 (by rw [h, map_one])
   have hq3 : q ^ 3 = 1 := by
     have h' : MulAut.conj (q ^ 3) = 1 := by rw [map_pow, h3]

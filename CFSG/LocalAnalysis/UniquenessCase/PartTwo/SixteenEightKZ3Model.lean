@@ -174,11 +174,12 @@ private lemma s16k_piCurryFin_single (i : Fin 3) (j : Fin 2) (c : ZMod 2) :
       c • Pi.single i (Pi.single j (1 : ZMod 2)) := by
     funext k l
     by_cases hk : k = i <;> by_cases hl : l = j <;>
-      simp [Pi.single_apply, hk, hl, Pi.smul_apply, smul_eq_mul]
+      simp [hk, hl, Pi.smul_apply, smul_eq_mul]
   rw [h, map_smul, s16k_piCurryFin_single_one]
   funext n
   simp [Pi.single_apply]
 
+omit [Module OmegaField V] [IsScalarTower (ZMod 2) OmegaField V] in
 private lemma s16k_congrLinearEquiv_apply
     (e : V ≃ₗ[ZMod 2] (Fin 6 → ZMod 2))
     (g : LinearMap.GeneralLinearGroup (ZMod 2) V) (x : Fin 6 → ZMod 2) :
@@ -198,8 +199,8 @@ private lemma s16k_coordEquiv_basis (b3 : Basis (Fin 3) OmegaField V) (i : Fin 3
       (Pi.single i (s16k_omegaEquiv 1) : Fin 3 → Fin 2 → ZMod 2) := by
     funext j
     by_cases hj : j = i
-    · simp [Pi.single_apply, hj]
-    · simp [Pi.single_apply, hj]
+    · simp [hj]
+    · simp [hj]
   rw [s16k_coordEquiv, LinearEquiv.trans_apply, LinearEquiv.trans_apply]
   change s16k_piCurryFin (fun j : Fin 3 => s16k_omegaEquiv ((s16k_restrict b3) (b3 i) j)) = _
   rw [s16k_coordEquiv_apply_restrict b3 (b3 i), h1, h2, s16k_omegaEquiv_one,
@@ -220,8 +221,8 @@ private lemma s16k_coordEquiv_omega_basis (b3 : Basis (Fin 3) OmegaField V) (i :
       (Pi.single i (s16k_omegaEquiv CFSG.LinearAlgebra.omega) : Fin 3 → Fin 2 → ZMod 2) := by
     funext j
     by_cases hj : j = i
-    · simp [Pi.single_apply, hj, Pi.smul_apply]
-    · simp [Pi.single_apply, hj, Pi.smul_apply]
+    · simp [hj, Pi.smul_apply]
+    · simp [hj, Pi.smul_apply]
   rw [s16k_coordEquiv, LinearEquiv.trans_apply, LinearEquiv.trans_apply]
   change s16k_piCurryFin
       (fun j : Fin 3 =>
@@ -239,11 +240,11 @@ theorem s16k_z3_model {W : Type} [CommGroup W] [Finite W] (hW : ∀ x : W, x ^ 2
         ((φ g : S16kGL6) : Matrix (Fin 6) (Fin 6) (ZMod 2)).mulVec (Multiplicative.toAdd (e w))) ∧
       Lb.map φ.toMonoidHom = s16kScal := by
   classical
-  haveI hEA : IsElementaryAbelian 2 W :=
+  have hEA : IsElementaryAbelian 2 W :=
     { toIsMulCommutative := inferInstance
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr hW }
   let V := Additive W
-  haveI : Finite V := inferInstance
+  have : Finite V := inferInstance
   have hfin6 : Module.finrank (ZMod 2) V = 6 := by
     have h := card_eq_prime_pow_finrank (p := 2) (R := W)
     rw [hcard] at h
@@ -291,8 +292,8 @@ theorem s16k_z3_model {W : Type} [CommGroup W] [Finite W] (hW : ∀ x : W, x ^ 2
         rw [h1]
         rfl
       exact hv0
-  letI : Module OmegaField V := omegaModule z hzorder hzfix
-  haveI : IsScalarTower (ZMod 2) OmegaField V := omegaModule_isScalarTower z hzorder hzfix
+  let : Module OmegaField V := omegaModule z hzorder hzfix
+  have : IsScalarTower (ZMod 2) OmegaField V := omegaModule_isScalarTower z hzorder hzfix
   have homega : ∀ v : V, CFSG.LinearAlgebra.omega • v = (z : V →ₗ[ZMod 2] V) v :=
     omegaModule_omega_smul z hzorder hzfix
   have hfin3 : Module.finrank OmegaField V = 3 := by
@@ -368,7 +369,7 @@ theorem s16k_z3_model {W : Type} [CommGroup W] [Finite W] (hW : ∀ x : W, x ^ 2
       rw [s16kScal, Subgroup.zpowers_eq_closure]
       congr 1
       ext g
-      simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
       constructor
       · intro hg
         exact Units.ext (hg.trans hφω.symm)

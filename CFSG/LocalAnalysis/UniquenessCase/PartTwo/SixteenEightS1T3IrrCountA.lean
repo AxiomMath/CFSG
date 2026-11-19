@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {W : Type} [CommGroup W] [Finite W] {A L T : Subgroup (MulAut W)}
 
+omit [Finite W] in
 theorem s16t3_exists_stable_irr (h : ThreeNat A L T)
     (hodd : Odd (Nat.card ↥(irrSet L))) : ∃ I ∈ irrSet L, StableUnder T I := by
   have hTA : T ≤ A := h.sylow.le
@@ -23,7 +24,7 @@ theorem s16t3_exists_stable_irr (h : ThreeNat A L T)
     exact CFSG.LocalAnalysis.WeakClosure81.map_mem_irrSet
       (fun x hx => conj_mem_of_mem_normalizer ht hx)
       (fun x hx => inv_conj_mem_of_mem_normalizer ht hx) I.2
-  letI : MulAction ↥T ↥(irrSet L) :=
+  let : MulAction ↥T ↥(irrSet L) :=
     { smul := fun t I => ⟨(t : MulAut W) • (I : Subgroup W), hsmul t I⟩
       one_smul := fun I => by
         apply Subtype.ext

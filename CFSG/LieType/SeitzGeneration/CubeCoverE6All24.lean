@@ -30,7 +30,7 @@ theorem uniPlaneGen_e6_adjoint {k : Type} [Field k] [Finite k] (hk3 : ringChar k
     (hcard : Nat.card P = 3 ^ 2) :
     Inputs2311c.UniPlaneGen (ringChar k) P := by
   classical
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card k (ringChar k)
   let q : TauCeti.PrimePower := ⟨ringChar k, n, hℓ, n.pos⟩
   have hqK : Nat.card k = q.card := by
@@ -176,13 +176,13 @@ theorem seitzHyperGamma_eq_top_of_all24Plane {K : Type} [Group K] [Finite K]
   have hL : ∀ φ ∈ Q, ind φ ≠ 1 → Lfun φ ≤ seitzHyperGamma 3 E := by
     intro φ hφ hφ1
     dsimp only [Lfun]
-    rw [dif_pos ⟨hφ, hφ1⟩]
+    rw [dite_eq_left ⟨hφ, hφ1⟩]
     exact (Classical.choose_spec (key φ hφ hφ1)).1
   have hr : ∀ φ ∈ Q, ind φ ≠ 1 → ∀ c : adjointGroup Tag.E6 k, ind φ c = c →
       (∃ n : ℕ, c ^ (ringChar k ^ n) = 1) → c ∈ (Lfun φ).map π := by
     intro φ hφ hφ1 c hfix hpow
     dsimp only [Lfun]
-    rw [dif_pos ⟨hφ, hφ1⟩]
+    rw [dite_eq_left ⟨hφ, hφ1⟩]
     exact (Classical.choose_spec (key φ hφ hφ1)).2 c hfix hpow
   refine seitzHyperGamma_eq_top_of_uniPlaneGen_layers (π := π)
     hperf hπ hker ind (p := 3) (r := ringChar k) (E := E) (P := Q) ?_ Lfun hL hr

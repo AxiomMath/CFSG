@@ -25,6 +25,7 @@ private lemma y53_Z_le_C0 {c : Ctx5 G L} (hH : F33Hyp c.s c.e) :
 private lemma y53_C0_le_T {c : Ctx5 G L} : C0 c.e ≤ c.e.T₁ :=
   show c.e.T₁ ⊓ Subgroup.centralizer (c.s.fr.A : Set G) ≤ c.e.T₁ from inf_le_left
 
+omit [Finite G] in
 private lemma isElemAbelian_map_mk'_of_comm_sq {T H Z : Subgroup G}
     [(Z.subgroupOf T).Normal]
     (hcomm : ∀ a ∈ H, ∀ b ∈ H, ⁅a, b⁆ ∈ Z)
@@ -99,7 +100,7 @@ theorem y53_barK {c : Ctx5 G L} (hH : F33Hyp c.s c.e)
     rw [inf_eq_left.mpr (y53_Z_le_C0 hH), y5_C0_card c, hZ2] at hmul
     omega
 
-theorem y53_bar_cent {c : Ctx5 G L} (hH : F33Hyp c.s c.e)
+theorem y53_bar_cent {c : Ctx5 G L} (_hH : F33Hyp c.s c.e)
     [(c.s.fr.Z.subgroupOf c.e.T₁).Normal] :
     ∀ k ∈ y53Kbar c, ∀ a ∈ y53Abar c, k * a = a * k := by
   intro k hk a ha

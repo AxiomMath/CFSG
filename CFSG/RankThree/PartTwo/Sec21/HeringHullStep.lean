@@ -51,14 +51,14 @@ theorem le_centralizer_of_isQuasisimple {P Z : Subgroup G} {x : G} (hP : IsQuasi
   set θZ := inSubgroup (aschbacherSolvableCore 3) Z
   have hPN : P ≤ Subgroup.normalizer (θZ : Set G) :=
     hPZ.trans (CFSG.RankThree.PartTwo.Sec6.le_normalizer_theta Z)
-  haveI : (θZ.subgroupOf P).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hPN
+  have : (θZ.subgroupOf P).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hPN
   have hwP : ∀ p : P, (p : G)⁻¹ * (x * p * x⁻¹) ∈ P := fun p =>
     P.mul_mem (P.inv_mem p.2) ((Subgroup.mem_normalizer_iff.mp hxP (p : G)).mp p.2)
   have hcases := CFSG.LieType.CurtisTits.le_center_or_eq_top_of_isQuasisimple hP
     (θZ.subgroupOf P)
   rcases hcases with hc | htop
   ·
-    haveI : Group.IsPerfect P := hP.1
+    have : Group.IsPerfect P := hP.1
     have hcenG : ∀ a b : P, Commute ((a : G)⁻¹ * (x * a * x⁻¹)) (b : G) := by
       intro a b
       have hmem : (⟨(a : G)⁻¹ * (x * a * x⁻¹), hwP a⟩ : P) ∈ θZ.subgroupOf P :=
@@ -112,11 +112,11 @@ theorem le_centralizer_of_isQuasisimple {P Z : Subgroup G} {x : G} (hP : IsQuasi
         rw [htop]
         exact Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp hmem
-    haveI : Group.IsSolvable θZ := hθsolv
-    haveI : Group.IsSolvable P :=
+    have : Group.IsSolvable θZ := hθsolv
+    have : Group.IsSolvable P :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hPθ)
         (Subgroup.inclusion_injective hPθ)
-    haveI := hsimp
+    have := hsimp
     have hcomm := IsSimpleGroup.comm_iff_isSolvable.mpr
       (inferInstance : Group.IsSolvable (↥P ⧸ Subgroup.center ↥P))
     exact hab (hcomm a₀ b₀)

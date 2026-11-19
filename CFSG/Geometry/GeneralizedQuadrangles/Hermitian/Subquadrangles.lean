@@ -23,12 +23,12 @@ theorem degree_subquadrangleGraph (hΓ : IsThasQuadrangle Γ c q) {P' : Set V}
   · have hv : (⟨x, hxS⟩ : subquadrangleSet Γ c P') =
         ⟨x, mem_subquadrangleSet.mpr (Or.inl hxP)⟩ := Subtype.ext rfl
     rw [hv, degree_subquadrangleGraph_of_mem_point c hF hxP,
-      if_pos (by rw [subquadrangleColoring_apply, hF.1 x hxP])]
+      ite_eq_left (by rw [subquadrangleColoring_apply, hF.1 x hxP])]
   · have hv : (⟨x, hxS⟩ : subquadrangleSet Γ c P') =
         ⟨x, mem_subquadrangleSet.mpr (Or.inr (mem_subquadrangleLines.mp hxL))⟩ :=
       Subtype.ext rfl
     rw [hv, degree_subquadrangleGraph_of_mem_line c hΓ.deg hF hxL,
-      if_neg (by rw [subquadrangleColoring_apply, (mem_subquadrangleLines.mp hxL).1]; decide)]
+      ite_eq_right (by rw [subquadrangleColoring_apply, (mem_subquadrangleLines.mp hxL).1]; decide)]
 
 private theorem exists_fullSubquadrangle_of_isThas (hΓ : IsThasQuadrangle Γ c q) {L M : V}
     (hL : c L = 1) (hLM : Γ.dist L M = 4) :
@@ -160,14 +160,14 @@ private theorem eq_of_isFullSubquadrangle_of_neighborSet_subset (hΓ : IsThasQua
     intro z hz
     exact ⟨hF₀.2.1 K hK h2₀ hz, hF₁.2.1 K hK h2₁ hz⟩
   have hLpos : 0 < (Γ.neighborSet L).ncard := by
-    rw [SimpleGraph.ncard_neighborSet, hΓ.deg L, if_neg (by rw [hL]; decide)]
+    rw [SimpleGraph.ncard_neighborSet, hΓ.deg L, ite_eq_right (by rw [hL]; decide)]
     exact Nat.succ_pos _
   obtain ⟨x, hxL⟩ := (Set.ncard_pos (s := Γ.neighborSet L)).mp hLpos
   have hMpos : 1 < (Γ.neighborSet M).ncard := by
     have h2 : 2 ≤ q ^ 2 := by
       calc 2 ≤ q := hΓ.two_le
         _ ≤ q ^ 2 := Nat.le_self_pow (by norm_num) q
-    rw [SimpleGraph.ncard_neighborSet, hΓ.deg M, if_neg (by rw [hM]; decide)]
+    rw [SimpleGraph.ncard_neighborSet, hΓ.deg M, ite_eq_right (by rw [hM]; decide)]
     omega
   obtain ⟨yx, ⟨hyxM, hxyx2⟩, -⟩ :=
     existsUnique_adj_dist_two_of_mem_neighborSet hP c hL hxL hM hLM

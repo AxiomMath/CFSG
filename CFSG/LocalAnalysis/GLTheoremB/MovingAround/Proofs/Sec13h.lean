@@ -14,18 +14,18 @@ open scoped Pointwise
     ∀ F : Subgroup G, F ≤ Y → IsElemAbelian p F → Nat.card ↥F ≤ Nat.card ↥E
 
 @[expose] def InputSylowCentIstar : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (m p : ℕ) (B M E A D T : Subgroup G) (h : Sec13 G m p B M E A D T),
+  ∀ (G : Type) [Group G] [Finite G] (m p : ℕ) (B M E A D T : Subgroup G) (_h : Sec13 G m p B M E A D T),
     ∃ P : Subgroup G, P ≤ Istar p M D ∧ IsPGroup p ↥P ∧
       Nat.card ↥P = p ^ (Nat.card ↥(Istar p M D)).factorization p ∧
       ∀ x ∈ P, ∀ g ∈ gammaStar p D, x * g * x⁻¹ * g⁻¹ ∈ pCoreOf 2 M
 
 @[expose] def InputConjIstar : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (m p : ℕ) (B M E A D T : Subgroup G) (h : Sec13 G m p B M E A D T)
+  ∀ (G : Type) [Group G] [Finite G] (m p : ℕ) (B M E A D T : Subgroup G) (_h : Sec13 G m p B M E A D T)
     (E₁ E₂ : Subgroup G), IsMaxEA p (Istar p M D) E₁ → IsMaxEA p (Istar p M D) E₂ →
       ∃ g ∈ Istar p M D, GLBConj g E₁ = E₂
 
 @[expose] def InputANormGamma : Prop :=
-  ∀ (G : Type) [Group G] [Finite G] (m p : ℕ) (B M E A D T : Subgroup G) (h : Sec13 G m p B M E A D T),
+  ∀ (G : Type) [Group G] [Finite G] (m p : ℕ) (B M E A D T : Subgroup G) (_h : Sec13 G m p B M E A D T),
     A ≤ Subgroup.normalizer (gammaStar p D : Set G)
 
 section Helpers
@@ -118,14 +118,14 @@ theorem sylow_card_dvd_of_normal {Y : Type} [Group Y] [Finite Y] {p : ℕ} [hp :
     ∃ Q : Subgroup Y, X ≤ Q ∧ IsPGroup p ↥Q ∧
       p ^ (Nat.card ↥N).factorization p ∣ Nat.card ↥(Q ⊓ N) := by
   obtain ⟨Qs, hXQ⟩ := IsPGroup.exists_le_sylow hX
-  exact ⟨(Qs : Subgroup Y), hXQ, Qs.isPGroup', card_inf_normal_ge N (Qs : Subgroup Y)
+  exact ⟨(Qs : Subgroup Y), hXQ, Qs.isPGroup, card_inf_normal_ge N (Qs : Subgroup Y)
     (Sylow.card_eq_multiplicity Qs)⟩
 
 theorem sylow_inf_normal_dvd [Finite G] {p : ℕ} [hp : Fact p.Prime] (K C X : Subgroup G)
     (hCK : C ≤ K) (hCn : ∀ k ∈ K, ∀ c ∈ C, k * c * k⁻¹ ∈ C) (hXK : X ≤ K) (hX : IsPGroup p ↥X) :
     ∃ Q : Subgroup G, Q ≤ K ∧ X ≤ Q ∧ IsPGroup p ↥Q ∧
       p ^ (Nat.card ↥C).factorization p ∣ Nat.card ↥(Q ⊓ C) := by
-  haveI : (C.subgroupOf K).Normal :=
+  have : (C.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff hCK).2 (fun h k hh hk => hCn k hk h hh)
   have hX' : IsPGroup p ↥(X.subgroupOf K) := hX.of_equiv (Subgroup.subgroupOfEquivOfLe hXK).symm
   obtain ⟨Q', hXQ', hQ'p, hQ'd⟩ := sylow_card_dvd_of_normal (C.subgroupOf K) (X.subgroupOf K) hX'

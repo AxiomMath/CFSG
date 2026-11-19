@@ -101,7 +101,7 @@ theorem iform_single_self_e6 :
 
 theorem Std8.three_dvd_card_Rc (D : Std8 L) {ω : Lˣ} (hω : orderOf ω = 3)
     (i : KernelComponent (rootCharHom (a0 ω))) : 3 ∣ Nat.card ↥(D.Rc ω i) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e, he⟩ := exists_classEquiv hω
   have hω3 := pow_three_of_orderOf_three hω
   have hω9 : ω ^ 9 = 1 := by rw [show 9 = 3 * 3 by rfl, pow_mul, hω3, one_pow]
@@ -144,6 +144,7 @@ theorem Std8.three_dvd_card_Rc (D : Std8 L) {ω : Lˣ} (hω : orderOf ω = 3)
   have hdvd := orderOf_dvd_natCard y
   rwa [hord] at hdvd
 
+omit [CharP L 2] in
 theorem Std8.mem_iSup_Rc_iff (D : Std8 L) {ω : Lˣ} {g : ↥D.S.Γ} :
     g ∈ ⨆ i, D.Rc ω i ↔ (g : ModGL Tag.E6 L) ∈
       ⨆ i : KernelComponent (rootCharHom (a0 ω)),
@@ -156,6 +157,7 @@ theorem Std8.mem_iSup_Rc_iff (D : Std8 L) {ω : Lˣ} {g : ↥D.S.Γ} :
   rw [← hmap]
   exact (Subgroup.mem_map_iff_mem D.S.Γ.subtype_injective).symm
 
+omit [CharP L 2] in
 theorem Std8.pow_nine_of_commute_dV (D : Std8 L) {ω : Lˣ}
     (hω : orderOf ω = 3) {g : ↥D.S.Γ}
     (h : ∀ x : Fin Tag.E6.rank → ZMod 3, Commute (dV ω x) (g : ModGL Tag.E6 L)) : g ^ 9 = 1 := by
@@ -183,7 +185,7 @@ theorem Std8.isPGroup_centralizer_iSup_Rc (D : Std8 L) {ω : Lˣ}
 theorem Std8.glaPPrimeCore_z0_eq_bot
     (D : Std8 L) {ω : Lˣ} (hω : orderOf ω = 3) :
     GLAPPrimeCore 3 ↥(Subgroup.centralizer ({D.z0 hω} : Set ↥D.S.Γ)) = ⊥ := by
-  haveI := D.finite_Γ
+  have := D.finite_Γ
   exact glaPPrimeCore_eq_bot_of_subnormal_family Nat.prime_three (fun i => D.Rc ω i)
     (fun i => (D.isComponentOf_Rc hω i).2.1) (fun i => (D.Rc_quasisimple_lie hω i).1)
     (fun i => D.three_dvd_card_Rc hω i)
@@ -194,7 +196,7 @@ theorem Std8.exists_Rc_eq_of_glaPComponent
     (hω : orderOf ω = 3) {J : Subgroup ↥D.S.Γ}
     (hJ : GLAPComponent 3 (Subgroup.centralizer ({D.z0 hω} : Set ↥D.S.Γ)) J) :
     ∃ i : KernelComponent (rootCharHom (a0 ω)), J = D.Rc ω i := by
-  haveI := D.finite_Γ
+  have := D.finite_Γ
   have hcoreOf : GLAPPrimeCoreOf 3 (Subgroup.centralizer ({D.z0 hω} : Set ↥D.S.Γ)) = ⊥ := by
     unfold GLAPPrimeCoreOf
     rw [D.glaPPrimeCore_z0_eq_bot hω]
@@ -225,7 +227,7 @@ theorem Std8.threeComponents
       (∀ k l, k ≠ l → ∀ u ∈ T k, ∀ v ∈ T l, Commute u v) ∧ D.z0 hω ∈ ⨆ k, T k ∧
       IsPGroup 3 ↥(Subgroup.centralizer ((⨆ k, T k : Subgroup ↥D.S.Γ) : Set ↥D.S.Γ)) ∧
       GLAPPrimeCore 3 ↥(Subgroup.centralizer ({D.z0 hω} : Set ↥D.S.Γ)) = ⊥ := by
-  haveI := D.finite_Γ
+  have := D.finite_Γ
   obtain ⟨e, -⟩ := exists_classEquiv hω
   set T : Fin 3 → Subgroup ↥D.S.Γ := fun k => D.Rc ω (e.symm k) with hT
   have hjoin : (⨆ k, T k) = ⨆ i, D.Rc ω i := e.symm.iSup_comp (g := fun i => D.Rc ω i)

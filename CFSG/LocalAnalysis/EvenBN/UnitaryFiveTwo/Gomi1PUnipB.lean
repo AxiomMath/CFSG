@@ -16,7 +16,7 @@ private theorem gm1pB_frobHom_uElt (a b c d : K) :
   refine antiSp_ext ?_
   rw [glMat_frobHom, glMat_uElt, glMat_uElt]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [uMat] <;> linear_combination (a * b * d) * h2
+  fin_cases i <;> fin_cases j <;> simp [uMat]; linear_combination (a * b * d) * h2
 
 private theorem gm1pB_uElt_inj {a b c d a' b' c' d' : K}
     (h : uElt a b c d = uElt a' b' c' d') : a = a' ∧ b = b' ∧ c = c' ∧ d = d' :=
@@ -30,22 +30,25 @@ private theorem gm1pB_uElt_congr {a b c d a' b' c' d' : K} (h1 : a = a') (h2 : b
 private theorem gm1pB_one_eq : (1 : antiSp K) = uElt 0 0 0 0 :=
   antiSp_ext uMat_zero.symm
 
+omit [CharP K 2] in
 private theorem gm1pB_sq_eq_zero_or_one {s : K} (hs : s ^ 2 = s) : s = 0 ∨ s = 1 := by
   have hm : s * (s - 1) = 0 := by linear_combination hs
   rcases mul_eq_zero.mp hm with h | h
   · exact Or.inl h
   · exact Or.inr (sub_eq_zero.mp h)
 
+omit [CharP K 2] in
 private theorem gm1pB_pow_four [Finite K] (hK : Nat.card K = 4) (x : K) : x ^ 4 = x := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hc : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card, hK]
   have h := FiniteField.pow_card x
   rwa [hc] at h
 
+omit [CharP K 2] in
 private theorem gm1pB_exists_ne_zero_one [Finite K] (hK : Nat.card K = 4) :
     ∃ y : K, y ≠ 0 ∧ y ≠ 1 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hsurj : Function.Surjective (fun x : Fin 2 => if x = 0 then (0 : K) else 1) := by
     intro y
     by_cases hy : y = 0
@@ -73,6 +76,7 @@ private theorem gm1pB_exists_sq_add_self [Finite K] (hK : Nat.card K = 4) {s : K
       · exact h
     exact ⟨y, by linear_combination hq - h2⟩
 
+omit [CharP K 2] in
 private theorem gm1pB_card_fixed : Nat.card {x : K // x ^ 2 = x} = 2 := by
   refine Nat.card_eq_two_iff.mpr ⟨⟨0, by simp⟩, ⟨1, by simp⟩, ?_, ?_⟩
   · intro h
@@ -147,7 +151,7 @@ theorem antiUnipotent_cocycle_four [Finite K] (hK : Nat.card K = 4) {u : antiSp 
   · linear_combination (-1 : K) * Hγ - hm - (α * (b + a * δ ^ 2) + a * β + α ^ 3 * δ ^ 2) * h2
   · linear_combination (-1 : K) * Hδ
 
-theorem card_antiUnipotent_inf_fixed [Finite K] (hK : Nat.card K = 4) :
+theorem card_antiUnipotent_inf_fixed [Finite K] (_hK : Nat.card K = 4) :
     Nat.card ↥(antiUnipotent K ⊓ (frobHom K).eqLocus (MonoidHom.id (antiSp K))) = 2 ^ 4 := by
   refine (Nat.card_congr (Equiv.ofBijective _ (gm1pB_fixElt_bijective (K := K)))).symm.trans ?_
   norm_num [Nat.card_prod, gm1pB_card_fixed]

@@ -61,9 +61,9 @@ theorem linBlockModel_analysis {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     catalogIs (PSimple p J) (onLie isLinearCharTwoIdx) ∧
       CFSG.LocalAnalysis.GLTheoremA.MI.indAut p J y hN ∈ innAutDerived (PSimple p J) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Field h.E := h.fieldE
-  letI : Finite h.E := h.finiteE
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Field h.E := h.fieldE
+  let : Finite h.E := h.finiteE
   have hcat : catalogIs (LargeEvenProj (StatedSL h.a h.E)) (onLie isLinearCharTwoIdx) :=
     catalogIs_largeEvenProj_statedSL h.cardE h.two_le h.notSmall h.h3 h.h4
   have hmem : TableB.projConj (StatedSL h.a h.E) ⟨h.B, h.hBn⟩ ∈

@@ -21,7 +21,7 @@ private theorem c2slomqma8_d'Scalar_eq_dScalar {n : ℕ} (hn : 4 ≤ n) {K : Typ
     [Field k] (χ : spinGroup (quadMinus n K b c) → k) (i : Fin (n - 1)) :
     (SmallO8mCurtis.curtisDatum n hn hirr).d'Scalar χ i =
       (SmallO8mCurtis.curtisDatum n hn hirr).dScalar χ i := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.LieType.Steinberg.curtisDatumOf_d'Scalar_eq_dScalar
     (minusDatum_isCTGroupDatum n hirr hn) (minusDatum_steinbergExtras n hirr)
     (CFSG.LieType.Steinberg.CentralExt.SpinMinusClosed.bruhatExtras hirr hn) 2
@@ -52,7 +52,7 @@ theorem omq_omMinus_node_zero_dichotomy (h1l : OmqMinusWeightVectorLong) (h2 : O
     left
     have hodd : Odd (Nat.card Kˣ) := by
       rw [Nat.card_units]
-      letI : Fintype K := Fintype.ofFinite K
+      let : Fintype K := Fintype.ofFinite K
       obtain ⟨e, -, hcard⟩ := FiniteField.card K 2
       have hcard' : Nat.card K = 2 ^ (e : ℕ) := by
         rw [Nat.card_eq_fintype_card, hcard]

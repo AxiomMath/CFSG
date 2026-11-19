@@ -15,17 +15,19 @@ variable {W : Type} [CommGroup W] [Finite W] {A : Subgroup (MulAut W)} {t : MulA
 
 private theorem w16g_odd_card_of_isElemAbelian {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {X : Subgroup (MulAut W)} (hX : IsElemAbelian p X) : Odd (Nat.card X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hX.isPGroup
   rw [hn]
   exact (hp.odd_of_ne_two hp2).pow
 
+omit [Finite W] in
 private theorem w16g_stableUnder_bot {X : Subgroup (MulAut W)} :
     StableUnder X (⊥ : Subgroup W) := by
   intro x hx u hu
   rw [Subgroup.mem_bot] at hu ⊢
   rw [hu, map_one]
 
+omit [Finite W] in
 private theorem w16g_stableUnder_map_of_commute {X : Subgroup (MulAut W)} {V : Subgroup W}
     {g : MulAut W} (hg : ∀ x ∈ X, g * x = x * g) (hV : StableUnder X V) :
     StableUnder X (V.map g.toMonoidHom) := by
@@ -35,11 +37,13 @@ private theorem w16g_stableUnder_map_of_commute {X : Subgroup (MulAut W)} {V : S
   have h := congrArg (fun φ : MulAut W => φ v) (hg x hx)
   simpa only [MulAut.mul_apply, MulEquiv.coe_toMonoidHom] using h
 
+omit [Finite W] in
 private theorem w16g_le_s13IsoSum {X : Subgroup (MulAut W)} {U₀ V₁ : Subgroup W}
     (h : IsIrrOn X V₁ ⊥ ∧ SecIsoOn X V₁ ⊥ U₀ ⊥) : V₁ ≤ s13IsoSum X U₀ := by
   unfold s13IsoSum
   exact le_iSup₂ (f := fun W₁ (_ : IsIrrOn X W₁ ⊥ ∧ SecIsoOn X W₁ ⊥ U₀ ⊥) => W₁) V₁ h
 
+omit [Finite W] in
 private theorem w16g_secIsoOn_map_self {X : Subgroup (MulAut W)} {V : Subgroup W}
     {g : MulAut W} (hV : StableUnder X V) (hg : ∀ x ∈ X, g * x = x * g) :
     SecIsoOn X (V.map g.toMonoidHom) ⊥ V ⊥ := by

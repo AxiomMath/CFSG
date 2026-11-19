@@ -18,9 +18,9 @@ public theorem OrderIso.isAtomistic_of_isAtomistic [OrderBot α] [OrderBot β] (
   use (f '' Sα)
   constructor
   · constructor
-    · simp only [upperBounds, Set.mem_image, forall_exists_index, and_imp, forall_apply_eq_imp_iff₂, Set.mem_setOf_eq]
+    · simp only [upperBounds, Set.mem_image, forall_exists_index, and_imp, forall_apply_eq_imp_iff₂, Set.mem_ofPred_eq]
       exact fun _ h => (le_symm_apply f).mp (hα1.1 h)
-    · simp only [lowerBounds, upperBounds, Set.mem_image, forall_exists_index, and_imp, forall_apply_eq_imp_iff₂, Set.mem_setOf_eq]
+    · simp only [lowerBounds, upperBounds, Set.mem_image, forall_exists_index, and_imp, forall_apply_eq_imp_iff₂, Set.mem_ofPred_eq]
       intro b' ha
       have := @hα1.2 (f.symm b')
       rw [map_le_map_iff] at this

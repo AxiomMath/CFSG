@@ -47,7 +47,7 @@ theorem sl2_pair_core (k : Subfield F) (hK : Nat.card F = Nat.card k ^ 3)
       Matrix.SpecialLinearGroup.coe_mul (g * h) (u2 c), hgh, l2_coe, u2_coe,
       Matrix.mul_fin_two, Matrix.mul_fin_two]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp <;> field_simp
+    fin_cases i <;> fin_cases j <;> simp; field_simp
   have hgcomm : ∀ c : F, g * u2 c = u2 c * g := fun c => by
     rw [hg, ← u2_add, ← u2_add, add_comm]
   have hM'u : ∀ c ∈ k, u2 c ∈ M' := by
@@ -175,7 +175,7 @@ theorem sl2_pair_subfield (k : Subfield F) (hK : Nat.card F = Nat.card k ^ 3)
     have e : ((w * h * w : Matrix.SpecialLinearGroup (Fin 2) F) : Matrix (Fin 2) (Fin 2) F) 1 0 =
         (h : Matrix (Fin 2) (Fin 2) F) 0 1 := by
       rw [hwhw, Matrix.eta_fin_two (h : Matrix (Fin 2) (Fin 2) F)]
-      simp [Matrix.mul_fin_two]
+      simp
     rw [e]
     exact hij
   ·
@@ -197,7 +197,7 @@ variable {n : ℕ} {X : Type} [Field X] [Finite X] {σ : X ≃+* X}
 theorem A_le_of_pair (P : D4Par n X σ) (hn : 2 ≤ n) {S : Subgroup (C0 σ)}
     (hA0 : A0sub σ ≤ S) {h : C0 σ} (hh : h ∈ Asub σ) (hh0 : h ∉ A0sub σ)
     (hconj : ∀ y ∈ A0sub σ, h * y * h⁻¹ ∈ S) : Asub σ ≤ S := by
-  haveI := P.charP
+  have := P.charP
   rw [← iotaA_range P] at hh ⊢
   obtain ⟨h', rfl⟩ := hh
   set M : Subgroup (Matrix.SpecialLinearGroup (Fin 2) X) := S.comap (iotaA P) with hM

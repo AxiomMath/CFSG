@@ -62,7 +62,7 @@ theorem twisted_descend_torus
   obtain ⟨K, hF, hFin, hAlgΩ, σ, e, hK, hσ, he⟩ := hd
   obtain ⟨Fr, hFr, hΦeq⟩ := hΦ
   obtain ⟨ℓ, f, hℓ, hf, hqf⟩ := S.hqpow.1
-  haveI : IsAlgClosure K Ω := ⟨inferInstance, ⟨fun c => by
+  have : IsAlgClosure K Ω := ⟨inferInstance, ⟨fun c => by
     obtain ⟨n, hn, hc⟩ := hAlg c
     refine ⟨Polynomial.X ^ (S.D.q ^ n) - Polynomial.X, ?_, ?_⟩
     · have hq1 : 1 < S.D.q ^ n := Nat.one_lt_pow hn.ne' S.hqpow.1.one_lt
@@ -160,14 +160,14 @@ theorem langSetup_isAlgebraic_of_halg
     have h2dvd : 2 ∣ ℓ := (CharP.cast_eq_zero_iff Ω 2 ℓ).1 hz
     exact ((Nat.prime_dvd_prime_iff_eq Nat.prime_two (Nat.prime_iff.mpr hℓ)).1 h2dvd).symm
   subst hℓ2
-  letI : Algebra (ZMod 2) Ω := ZMod.algebra Ω 2
-  haveI : Algebra.IsAlgebraic (ZMod 2) Ω := halg
+  let : Algebra (ZMod 2) Ω := ZMod.algebra Ω 2
+  have : Algebra.IsAlgebraic (ZMod 2) Ω := halg
   intro c
   have hint : IsIntegral (ZMod 2) c := (Algebra.IsAlgebraic.isAlgebraic c).isIntegral
   have hfd : FiniteDimensional (ZMod 2) (IntermediateField.adjoin (ZMod 2) {c}) :=
     IntermediateField.adjoin.finiteDimensional hint
   have hfin : Finite (IntermediateField.adjoin (ZMod 2) {c}) := Module.finite_of_finite (ZMod 2)
-  letI : Fintype (IntermediateField.adjoin (ZMod 2) {c}) := Fintype.ofFinite _
+  let : Fintype (IntermediateField.adjoin (ZMod 2) {c}) := Fintype.ofFinite _
   set m := Module.finrank (ZMod 2) (IntermediateField.adjoin (ZMod 2) {c}) with hm
   have hmpos : 0 < m := Module.finrank_pos
   have hcard : Fintype.card (IntermediateField.adjoin (ZMod 2) {c}) = 2 ^ m := by

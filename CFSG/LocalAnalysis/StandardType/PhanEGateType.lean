@@ -94,7 +94,7 @@ theorem flipTypeMap_spec (hB : IsWeylDistanceBuilding cs δ)
       (flipPi cs δ w₀ t J a x₁)⁻¹ = cs.simple i'' := ⟨i', heq⟩
   have hmap : flipTypeMap cs δ w₀ t J a x₁ i = hex.choose := by
     unfold flipTypeMap
-    exact dif_pos hex
+    exact dite_eq_left hex
   have hchoose : hex.choose = i' :=
     CoxeterSystem.simple_injective cs ((Classical.choose_spec hex).symm.trans heq)
   exact ⟨by rw [hmap, hchoose]; exact hi', by rw [hmap]; exact Classical.choose_spec hex⟩

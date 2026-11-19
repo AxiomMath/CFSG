@@ -68,7 +68,7 @@ theorem qa45_involution_classes :
     have h := card_filter QA45 QA45_ok (p := fun g : Equiv.Perm (Fin 45) => g * g = 1 ∧ g ≠ 1)
     rw [← h]
     refine Nat.card_congr (Equiv.subtypeEquivRight fun y => ?_)
-    simp only [s, Set.mem_setOf_eq, ne_eq, Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_one]
+    simp only [s, Set.mem_ofPred_eq, ne_eq, Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_one]
   let r : Fin 4 → A45 := ![tA, uA * tA, vA, uA * vA]
   have hcard : ∀ i, Nat.card (Subgroup.centralizer ({r i} : Set A45)) =
       ![1152, 192, 96, 1440] i := by

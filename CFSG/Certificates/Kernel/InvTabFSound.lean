@@ -83,6 +83,7 @@ theorem all_congr_memF {α : Type*} {l : List α} {p q : α → Bool} (h : ∀ x
     simp only [List.all_cons]
     rw [h a List.mem_cons_self, ih fun x hx => h x (List.mem_cons_of_mem a hx)]
 
+omit [DecidableEq P] in
 theorem eq_one_iff {i : Nat} (hi : i ≤ m) : X i = 1 ↔ i = m := by
   constructor
   · intro h
@@ -127,6 +128,7 @@ theorem pos_X {i : Nat} (hi : i ≤ m) : pos (rinvF m X) (X i) = i := by
           rfl
   exact key m le_rfl i hi
 
+omit [DecidableEq P] in
 theorem subprods_mapF {l : List Nat} (hl : IsChainF m cA l) :
     (∀ s ∈ subprodsF m pA l, s ≤ m) ∧ subprods (l.map X) = (subprodsF m pA l).map X := by
   induction l with
@@ -158,6 +160,7 @@ theorem subprods_mapF {l : List Nat} (hl : IsChainF m cA l) :
       refine List.map_congr_left fun s hs => ?_
       exact (hT.prod y (le_of_lt hy) s (hle s hs) (hcomm s hs)).2
 
+omit [DecidableEq P] in
 theorem mem_subprods_mapF_iff {l : List Nat} (hl : IsChainF m cA l) {x : Nat} (hx : x ≤ m) :
     X x ∈ subprods (l.map X) ↔ x ∈ subprodsF m pA l := by
   obtain ⟨hle, heq⟩ := subprods_mapF hT hl

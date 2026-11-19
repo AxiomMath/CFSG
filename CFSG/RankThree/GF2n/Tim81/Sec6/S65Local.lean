@@ -162,6 +162,7 @@ abbrev ZU (U : Subgroup G) : Subgroup G := U ⊓ Subgroup.centralizer (U : Set G
 abbrev OmegaM (M V : Subgroup G) : Prop :=
   ∀ B ∈ omegaSet V, B ≤ M → B = V ∨ B ∈ sigmaSet M V
 
+omit [Finite G] in
 theorem classD_ne_one {t : G} (ht : t ∈ Tim78.classD V) : t ≠ 1 := by
   obtain ⟨g, b, -, hb1, rfl⟩ := ht
   intro h
@@ -170,6 +171,7 @@ theorem classD_ne_one {t : G} (ht : t ∈ Tim78.classD V) : t ≠ 1 := by
     _ = g⁻¹ * 1 * g := by rw [h]
     _ = 1 := by group
 
+omit [Finite G] in
 theorem exists_omegaSet_of_mem_classD {f : G} (hf : f ∈ Tim78.classD V) :
     ∃ B ∈ omegaSet V, f ∈ B := by
   obtain ⟨g, b, hb, -, rfl⟩ := hf
@@ -179,17 +181,20 @@ theorem exists_omegaSet_of_mem_classD {f : G} (hf : f ∈ Tim78.classD V) :
       show g⁻¹ * (g * b * g⁻¹) * g = b by group]
     exact hb
 
+omit [Finite G] in
 theorem mem_classD_of_mem {A : Subgroup G} (hA : A ∈ omegaSet V) {d : G} (hd : d ∈ A)
     (hd1 : d ≠ 1) : d ∈ Tim78.classD V := by
   obtain ⟨g, -, rfl⟩ := Tim79a.mem_omegaOf.mp hA
   exact Tim78.mem_classD_of_mem_conjSubgroup hd hd1
 
+omit [Finite G] in
 theorem RootHyp.mul_self_of_mem (h : RootHyp M V) {A : Subgroup G} (hA : A ∈ omegaSet V)
     {d : G} (hd : d ∈ A) : d * d = 1 := by
   obtain ⟨g, -, rfl⟩ := Tim79a.mem_omegaOf.mp hA
   exact Tim78.mul_self_of_mem_conj (fun v hv => by
     simpa [pow_two] using h.elem.2 v hv) hd
 
+omit [Finite G] in
 private theorem isElemAbelian_of_mem_omegaSet (h : RootHyp M V) {A : Subgroup G}
     (hA : A ∈ omegaSet V) : Assembly.IsElemAbelian 2 A := by
   obtain ⟨g, -, rfl⟩ := Tim79a.mem_omegaOf.mp hA
@@ -222,12 +227,13 @@ private theorem RootHyp.exists_omegaSet_le_M_of_mem (h : RootHyp M V) {d : G}
     rw [← h.toHyp.normalizer_eq]
     exact Subgroup.centralizer_le_normalizer (V : Set G))
 
+omit [Finite G] in
 theorem IsL2Gen.odd_orderOf_mul {A B : Subgroup G} (h : IsL2Gen A B) {a b : G}
     (ha : a ∈ A) (hb : b ∈ B) (ha1 : a ≠ 1) (hb1 : b ≠ 1) : Odd (orderOf (a * b)) := by
   obtain ⟨F, hField, hFin, hCharP, φ, -, hA, hB⟩ := h
-  letI := hField
-  letI := hFin
-  letI := hCharP
+  let := hField
+  let := hFin
+  let := hCharP
   let ψ : ↥(A ⊔ B) →* SL(2, F) := φ.toMonoidHom
   have hψinj : Function.Injective ψ := fun x y hxy => φ.injective hxy
   let a' : ↥(A ⊔ B) := ⟨a, Subgroup.mem_sup_left ha⟩
@@ -258,7 +264,7 @@ theorem IsL2Gen.odd_orderOf_mul {A B : Subgroup G} (h : IsL2Gen A B) {a b : G}
       ((ψ (a' * b') : SL(2, F)) : Matrix (Fin 2) (Fin 2) F) 1 1 ≠ 0 := by
     rw [map_mul, hs, ht]
     sl2_simp
-    simp only [one_mul, mul_one, mul_zero, zero_mul, zero_add, add_zero]
+    simp only [mul_one, mul_zero, zero_add]
     rw [show (1 + s * t) + 1 = s * t by
       rw [add_assoc, add_comm (s * t) (1 : F), ← add_assoc,
         CharTwo.add_self_eq_zero, zero_add]]
@@ -338,7 +344,7 @@ theorem Sec6Hyp.commute_of_pow_two_pow (hS : Sec6Hyp M V) (h64 : OmegaM M V) {d 
     (hd : d ∈ Tim78.classD V) (he : e ∈ Tim78.classD V) {k : ℕ}
     (hk : (d * e) ^ 2 ^ k = 1) : Commute d e := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hd2 : d * d = 1 := by
     obtain ⟨A, hA, hdA⟩ := exists_omegaSet_of_mem_classD hd
     exact hS.sec5.toRootHyp.mul_self_of_mem hA hdA
@@ -462,7 +468,7 @@ theorem Sec6Hyp.exists_odd_of_bad (hS : Sec6Hyp M V) (h64 : OmegaM M V) {d e : G
       rw [hk1', pow_one] at hnm
       rw [hm1, mul_one] at hnm
       exact hnm
-    exact hb (Or.inl (by simpa [hn2]))
+    exact hb (Or.inl (by simp [hn2]))
   have hm3 : 3 ≤ m := by
     obtain ⟨j, rfl⟩ := hm
     omega

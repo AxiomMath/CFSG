@@ -27,7 +27,7 @@ theorem caseVIClosure_of_coord {n : ℕ} (hcB : Ctx M Q Z B) (hw : Width Q Z n)
     (C : NatDualCoord (φ.comp (Subgroup.inclusion hSH)) ρ') :
     LB M Q B ⊓ S ≤ Q := by
   by_contra hnot
-  obtain ⟨a₀, ha₀, ha₀Q⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨a₀, ha₀, ha₀Q⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   have hSM : S ≤ M := fun x hx => (hSH hx).1
   set ρ : ↥S →* (M₀.E ≃ₗ[K] M₀.E) := φ.comp (Subgroup.inclusion hSH) with hρ
   have hn3 : 3 ≤ n := hn
@@ -35,7 +35,7 @@ theorem caseVIClosure_of_coord {n : ℕ} (hcB : Ctx M Q Z B) (hw : Width Q Z n)
   have hcard : Nat.card K = Nat.card Z := h.card
   have hK : ∃ c : K, c ≠ 0 ∧ c ^ 2 ≠ 1 :=
     exists_ne_zero_sq_ne_one_of_two_lt_card K (by rw [hcard]; omega)
-  haveI : CharP F 2 := charP_of_injective_ringHom C.θ₁.toRingHom.injective 2
+  have : CharP F 2 := charP_of_injective_ringHom C.θ₁.toRingHom.injective 2
   let Qd : QuadDatum K M₀.E := quadDatumOfModel M₀
   have hQρ : ∀ (g : ↥S) (e : M₀.E), Qd.Qf (ρ g e) = Qd.Qf e := fun g e => hφiso _ e
   have hZQ : Z ≤ Q := hcB.Z_le_Q

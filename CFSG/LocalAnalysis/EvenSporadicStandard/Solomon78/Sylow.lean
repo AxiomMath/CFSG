@@ -55,7 +55,7 @@ theorem exists_sylow_le_centralizer {t u : G} (ht : orderOf t = 2) (hu : orderOf
     exact hn
   have htT0 : tM ∈ T0 := hpt.le_sylow_of_normal T0 (mem_zpowers tM)
   set T : Subgroup G := (T0 : Subgroup M).map M.subtype with hT
-  have hTp : IsPGroup 2 T := T0.isPGroup'.map M.subtype
+  have hTp : IsPGroup 2 T := T0.isPGroup.map M.subtype
   have hTM : T ≤ M := map_subtype_le _
   have htT : t ∈ T := ⟨tM, htT0, rfl⟩
   have huT : u ∈ T := ⟨uM, huT0, rfl⟩
@@ -67,7 +67,7 @@ theorem exists_sylow_le_centralizer {t u : G} (ht : orderOf t = 2) (hu : orderOf
   have hPT : (P : Subgroup G) ≤ T := by
     by_contra hnot
     have hlt : T < P := lt_of_le_of_ne hTP (fun e => hnot e.ge)
-    have hnil : Group.IsNilpotent (P : Subgroup G) := P.isPGroup'.isNilpotent
+    have hnil : Group.IsNilpotent (P : Subgroup G) := P.isPGroup.isNilpotent
     have hH : T.subgroupOf P < ⊤ := by
       rw [lt_top_iff_ne_top, Ne, subgroupOf_eq_top]
       exact fun h => hnot h
@@ -124,7 +124,7 @@ theorem exists_sylow_le_centralizer {t u : G} (ht : orderOf t = 2) (hu : orderOf
         rw [e] at this
         exact this
     have hP2 : IsPGroup 2 ((zpowers xg).comap M.subtype) :=
-      (P.isPGroup'.to_le (zpowers_le.2 hxP)).comap_of_injective M.subtype M.subtype_injective
+      (P.isPGroup.to_le (zpowers_le.2 hxP)).comap_of_injective M.subtype M.subtype_injective
     have hx'z : x' ∈ (zpowers xg).comap M.subtype := mem_zpowers xg
     have hfin := hP2.inf_normalizer_sylow T0
     have hx'T0 : x' ∈ (zpowers xg).comap M.subtype ⊓ (T0 : Subgroup M) := by

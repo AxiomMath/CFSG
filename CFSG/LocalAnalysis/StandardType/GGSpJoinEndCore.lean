@@ -24,7 +24,7 @@ theorem spEnd_exists_endNode_of_compatible_lifts {p m : ℕ} (hp : p.Prime) (hp2
     (hx1 : x ≠ 1) :
     ∃ T : G, T ∈ L ⊔ K ∧ GGSpEndNode φ₁ T ∧ K = L.map (MulAut.conj T).toMonoidHom := by
   have h2 : (2 : F) = 0 := by simpa using (CharP.cast_eq_zero F 2)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let n0 : StatedSp (m + 1) F := weylRep (m + 1) F 0
   let a : G := φ₁ n0
   let b : G := φ₂ n0

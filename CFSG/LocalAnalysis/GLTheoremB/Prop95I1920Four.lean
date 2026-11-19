@@ -20,7 +20,7 @@ theorem isSolvable_statedOmega_plus_two :
     Group.IsSolvable ↥(StatedOmega (StatedQuadPlus 2 (ZMod 2))) := by
   have hcard : Nat.card ↥(orthGroup (StatedQuadPlus 2 (ZMod 2))) = 2 ^ 3 * 3 ^ 2 := by
     rw [card_orthGroup_quadPlus_two, Nat.card_zmod]; norm_num
-  haveI : Fintype ↥(orthGroup (StatedQuadPlus 2 (ZMod 2))) := Fintype.ofFinite _
+  have : Fintype ↥(orthGroup (StatedQuadPlus 2 (ZMod 2))) := Fintype.ofFinite _
   have hO : Group.IsSolvable ↥(orthGroup (StatedQuadPlus 2 (ZMod 2))) :=
     CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
       Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card, hcard])
@@ -37,13 +37,13 @@ theorem isSolvable_statedOmega_plus_two :
 
 theorem omegaFourComponentCentre_holds : OmegaFourComponentCentre := by
   intro ε X _ _ K hK hΩ
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
   obtain ⟨a, b, hab⟩ := (isQuasisimple_of_comp hK).2.2
   cases ε
   · obtain ⟨e⟩ := hΩ
-    haveI : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus 2 (ZMod 2) 1 1)) :=
+    have : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus 2 (ZMod 2) 1 1)) :=
       CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.isSimpleGroup_statedOmega_quadMinus_two
-    haveI : IsSimpleGroup ↥K := e.isSimpleGroup
+    have : IsSimpleGroup ↥K := e.isSimpleGroup
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥K) with h | h
     · exact h
     · exfalso
@@ -56,11 +56,11 @@ theorem omegaFourComponentCentre_holds : OmegaFourComponentCentre := by
       exact (Subgroup.mem_center_iff.1 hx y).symm
   · exfalso
     obtain ⟨e⟩ := hΩ
-    haveI : Group.IsSolvable ↥(StatedOmega (StatedQuadPlus 2 (ZMod 2))) :=
+    have : Group.IsSolvable ↥(StatedOmega (StatedQuadPlus 2 (ZMod 2))) :=
       isSolvable_statedOmega_plus_two
-    haveI : Group.IsSolvable ↥K :=
+    have : Group.IsSolvable ↥K :=
       Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
-    haveI : Group.IsSolvable (↥K ⧸ Subgroup.center ↥K) :=
+    have : Group.IsSolvable (↥K ⧸ Subgroup.center ↥K) :=
       Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective (Subgroup.center ↥K))
     exact hab ((IsSimpleGroup.comm_iff_isSolvable.2 inferInstance) a b)
 

@@ -206,7 +206,7 @@ theorem exists_comm_sqm1 {A X Y : GL (Fin 2) F} (G : Subgroup (GL (Fin 2) F)) (h
 
 theorem scalar_neg_one : (-1 : 𝕄) = Matrix.scalar (Fin 2) (-1 : F) := by
   ext i j
-  by_cases h : i = j <;> simp [Matrix.one_apply, h, Matrix.scalar_apply, Matrix.diagonal_apply]
+  by_cases h : i = j <;> simp [h, Matrix.scalar_apply]
 
 theorem false_of_sqm1_comm_linear {A x : GL (Fin 2) F}
     (hA : ∀ a : F, (A : 𝕄) ≠ Matrix.scalar (Fin 2) a) {ν : F}
@@ -264,7 +264,7 @@ theorem false_of_sqm1_comm_unitary {p : ℕ} [Fact p.Prime] {A x : GL (Fin 2) F}
     rw [h0] at hsq
     rw [hαβ, h0] at hxu
     have e := congrFun (congrFun hxu 0) 0
-    simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.scalar_apply, Matrix.diagonal_apply,
+    simp [Matrix.mul_apply, Matrix.scalar_apply, Matrix.diagonal_apply,
       zero_pow hp0] at e
     have hα : α ^ (p + 1) = 1 := by rw [pow_succ]; exact e
     have hα2 : α ^ (p + 1) = -1 := by

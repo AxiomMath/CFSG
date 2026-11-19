@@ -115,7 +115,7 @@ theorem rationalComponent_eq_conj_fix_of_unitary_frame {τ : Tag} {L : Type} [Fi
       ∀ g, g ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i ↔
         ∃ Y ∈ fixSubgroup (stdUnitaryEquiv (ν := ν) σQ), g = z * ψ Y * z⁻¹ := by
   classical
-  haveI : CharP L r := hchar
+  have : CharP L r := hchar
   obtain ⟨σQ, B, -, z, hσc, -, hstd, hzmem, hz⟩ :=
     KSGen.exists_unitary_pin S hT i hν hψ hΨ π hπ hr hchar he hq
   obtain ⟨W, hW⟩ :=
@@ -250,7 +250,7 @@ theorem original_twistedE6_frame_fixed_normalizer
     ∀ y ∈ adjointGroup Tag.E6 Ω,
       e6FrobEnd (iterateFrobeniusEquiv Ω 2 f).toRingHom η y = y →
       y ∈ Subgroup.normalizer (ΓW : Set (ModGL Tag.E6 Ω))
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap F Ω).injective 2
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap F Ω).injective 2
   have hσQ : ∀ c : Ω, (iterateFrobeniusEquiv Ω 2 f) c = c ^ (2 ^ f) :=
     fun c => iterateFrobeniusEquiv_def (R := Ω) (p := 2) (n := f) c
   let Fbar : Subfield Ω := (algebraMap F Ω).fieldRange

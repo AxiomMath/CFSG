@@ -120,14 +120,14 @@ private theorem mem_insU (a : List ℕ) : ∀ (l : List (List ℕ)) (x : List �
     | false =>
       cases h2 : (a == b) with
       | false =>
-        simp only [h, h2, cond_false, List.mem_cons, ih x]
+        simp only [Bool.cond_false, List.mem_cons, ih x]
         tauto
       | true =>
         have hab : a = b := by simpa using h2
-        simp only [h, h2, cond_false, cond_true, List.mem_cons, hab]
+        simp only [Bool.cond_false, _root_.Bool.cond_true, List.mem_cons, hab]
         tauto
     | true =>
-      simp only [h, cond_true, List.mem_cons]
+      simp only [_root_.Bool.cond_true, List.mem_cons]
 
 private theorem sortedLt_cons_iff (b : List ℕ) (m : List (List ℕ)) :
     sortedLt (b :: m) = true ↔ sortedLt m = true ∧ ∀ c ∈ m, lexLt b c = true := by
@@ -149,7 +149,7 @@ theorem sortedLt_insU (a : List ℕ) : ∀ (l : List (List ℕ)), sortedLt l = t
     rw [insU_cons]
     cases hlt : lexLt a b with
     | true =>
-      simp only [hlt, cond_true]
+      simp only [_root_.Bool.cond_true]
       exact (sortedLt_cons_iff a (b :: l)).2 ⟨h, fun c hc => by
         rcases List.mem_cons.mp hc with rfl | hc
         · exact hlt
@@ -157,9 +157,9 @@ theorem sortedLt_insU (a : List ℕ) : ∀ (l : List (List ℕ)), sortedLt l = t
     | false =>
       cases heq : (a == b) with
       | true =>
-        simpa only [hlt, heq, cond_false, cond_true] using h
+        simpa only [hlt, heq, Bool.cond_false, _root_.Bool.cond_true] using h
       | false =>
-        simp only [hlt, heq, cond_false]
+        simp only [Bool.cond_false]
         refine (sortedLt_cons_iff b (insU a l)).2 ⟨ih hs, fun c hc => ?_⟩
         have hba : lexLt b a = true := by
           rcases lexLt_trichotomy a b with hab | hab | hba
@@ -182,16 +182,16 @@ theorem insU_toFinset (a : List ℕ) : ∀ l : List (List ℕ),
     rw [insU_cons]
     cases hlt : lexLt a b with
     | true =>
-      simp only [hlt, cond_true, List.toFinset_cons]
+      simp only [_root_.Bool.cond_true, List.toFinset_cons]
     | false =>
       cases heq : (a == b) with
       | true =>
         have hab : a = b := by simpa using heq
         subst hab
-        simp only [hlt, heq, cond_false, cond_true, List.toFinset_cons]
+        simp only [Bool.cond_false, _root_.Bool.cond_true, List.toFinset_cons]
         simp
       | false =>
-        simp only [hlt, heq, cond_false, List.toFinset_cons, ih]
+        simp only [Bool.cond_false, List.toFinset_cons, ih]
         rw [Finset.insert_comm]
 
 theorem cntB_eq_length_filter {α : Type} (f : α → Bool) :
@@ -201,10 +201,10 @@ theorem cntB_eq_length_filter {α : Type} (f : α → Bool) :
     rw [cntB, List.filter_cons]
     cases h : f a with
     | false =>
-      rw [cond_false, if_neg (by simp)]
+      rw [Bool.cond_false, ite_eq_right (by simp)]
       exact cntB_eq_length_filter f l
     | true =>
-      rw [cond_true, if_pos rfl, List.length_cons, cntB_eq_length_filter f l]
+      rw [_root_.Bool.cond_true, ite_eq_left rfl, List.length_cons, cntB_eq_length_filter f l]
 
 theorem sortN_toFinset (l : List ℕ) : (sortN l).toFinset = l.toFinset := by
   ext a

@@ -75,7 +75,7 @@ theorem sec128_compat {G : Type} [Group G] {V D : Subgroup G} {φ₀ : (Fin 5 �
             by_cases hy : y = s * q
             · subst hy
               have hq : s⁻¹ * (s * q) = q := inv_mul_cancel_left s q
-              simp only [hq, if_pos rfl]
+              simp only [hq]
               exact hχ (f (s * q)) w hw
             · have hs : s⁻¹ * y ≠ q := fun h => hy ((inv_mul_eq_iff_eq_mul).mp h)
               simp only [hs, hy]

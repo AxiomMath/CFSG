@@ -16,16 +16,16 @@ variable {G : Type*} [Group G] [Finite G]
 theorem prop_3_7 (𝔖 : Sec3Setting G) (h₁ : IsDihNonab 𝔖.S₁) :
     ∃ S₁' S₂' : Subgroup G, DDDecomp (𝔖.S : Subgroup G) S₁' S₂' ∧ HasProductFusion S₁' S₂' := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₁', S₂', hd, h₂, h₃⟩ := lemma_3_9 𝔖 h₁
   have h₁'_raw : IsDihNonab S₁' := by
     rcases hd.dih₁.isKleinFour_or_isDihNonab with hK | hN
     · exfalso
-      haveI : IsKleinFour ↥S₁' := hK
-      haveI : Nontrivial ↥S₁' :=
+      have : IsKleinFour ↥S₁' := hK
+      have : Nontrivial ↥S₁' :=
         Finite.one_lt_card_iff_nontrivial.mp (by rw [IsKleinFour.card_four]; norm_num)
       obtain ⟨b, hb1⟩ := exists_ne (1 : ↥S₁')
-      haveI : Fintype ↥S₁' := Fintype.ofFinite ↥S₁'
+      have : Fintype ↥S₁' := Fintype.ofFinite ↥S₁'
       let s : Finset ↥S₁' := {1, b}
       have hs : s.card = 2 := by
         change ({1, b} : Finset ↥S₁').card = 2

@@ -146,7 +146,7 @@ variable {D : Data G} {V₀ V L : Subgroup G}
 
 private theorem s15_Three_awEquiv_map_K0 (h1217 : R1217 D) (h : Hyp151 D V₀ V L)
     (hL : barSub V₀ V h.isElemAbelian L ≠ ⊥)
-    {B : Subgroup (MulAut ↥(wStar D.M V₀ V h.isElemAbelian L))} (hBA : B ≤ s15AW h) :
+    {B : Subgroup (MulAut ↥(wStar D.M V₀ V h.isElemAbelian L))} (_hBA : B ≤ s15AW h) :
     ((barSub V₀ V h.isElemAbelian (s15K0 h B)).subgroupOf
         (barSub V₀ V h.isElemAbelian L)).map (s15AWEquiv h1217 h hL).toMonoidHom =
       B.subgroupOf (s15AW h) := by

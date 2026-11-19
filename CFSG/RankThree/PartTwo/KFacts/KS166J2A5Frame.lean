@@ -31,7 +31,7 @@ private theorem centralizer_le_centralizer_x
 
 private theorem VJ_le_centralizer_VJ :
     VJ ≤ centralizer (VJ : Set GJ) := by
-  haveI : IsMulCommutative VJ :=
+  have : IsMulCommutative VJ :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (G := VJ) (p := 2) (by
       rw [card_V]
       norm_num)
@@ -232,7 +232,7 @@ theorem eq_bot_or_eq_VJ
     obtain ⟨hgU, hgC⟩ := Subgroup.mem_inf.mp hg
     rw [← VJ_inf_centralizer_z]
     exact ⟨hUV hgU, hgC⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmod : Nat.card U ≡ 1 [MOD 3] :=
     CFSG.GroupTheory.card_modEq_one_of_isPGroup_normalizes_of_inf_centralizer_eq_bot hX hXW hC
   have hdvd : Nat.card U ∣ 4 := by
@@ -240,7 +240,6 @@ theorem eq_bot_or_eq_VJ
     rwa [card_V] at h
   have hmod' : Nat.card U % 3 = 1 := by
     have h := hmod
-    norm_num at h
     exact h
   obtain ⟨c, hc⟩ := hdvd
   have hc_dvd : c ∣ 4 := ⟨Nat.card U, by rw [mul_comm]; exact hc⟩

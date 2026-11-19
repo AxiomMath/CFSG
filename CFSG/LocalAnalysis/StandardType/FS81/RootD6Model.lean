@@ -23,16 +23,16 @@ theorem isEmSevenModel_holds : IsEmSevenModel := by
   obtain ⟨⟨t, r, n⟩, hP, hlab⟩ := exists_glaLabel hY
   obtain ⟨hmt, -, hn⟩ := hP
   have ht : t = .E7 := by rcases hmt with ⟨-, h⟩ | ⟨h, -⟩ <;> [exact h; omega]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hq, -, hM⟩ := quasisimple_markedModel_of_isLabel hlab
   have hL : LieModel (↥Y ⧸ Subgroup.center ↥Y) .E7 0 2 1 := by
     have h := lieModel_of_markedModel_E7 ht hM
     rwa [hn] at h
   obtain ⟨F, hF, hFin, hcard, ⟨iso⟩⟩ :=
     (hL.chevalleyExceptionalModel (by decide)).2
-  letI : Field F := hF
-  letI : Finite F := hFin
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hF
+  let : Finite F := hFin
+  have : Fintype F := Fintype.ofFinite F
   have hZ : Subgroup.center ↥Y = ⊥ :=
     CFSG.HardMathSupport.Meierfrankenfeld.Proving.E7Curtis.center_eq_bot_of_E7 hq le_rfl hcard iso
   let e0 : (↥Y ⧸ Subgroup.center ↥Y) ≃* ↥Y :=

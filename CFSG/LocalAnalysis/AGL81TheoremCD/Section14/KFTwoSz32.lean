@@ -21,12 +21,12 @@ theorem isSolvable_and_pRank_three_le_one_of_sz32
     (e : ↥(CFSG.generalizedFitting X) ≃* CFSG.AGLEmbedding.CatGroup d) :
     Group.IsSolvable ↥N ∧ CFSG.Open.pRank 3 ⁅N, N⁆ ≤ 1 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set K : Subgroup X := CFSG.generalizedFitting X with hKdef
   obtain ⟨hKs, -, hKn, hKC⟩ :=
     CFSG.RankThree.PartOne.Sec1511.spe_fstar (p := 5) (by norm_num) hO hN
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   obtain hSz := CFSG.AGLEmbeddingD2.sz32Normal_of_mulEquiv d hd hKn hKC e
   have hK1 : K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance
   obtain ⟨P, hPN, hPK, T, hT, -⟩ :=
@@ -35,7 +35,7 @@ theorem isSolvable_and_pRank_three_le_one_of_sz32
   have hle : Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ N.subgroupOf K := by
     rw [hT]
     exact normalizer_subgroupOf_le_of_isStronglyPEmbedded hN hPK
-      (P.isPGroup'.to_le inf_le_left) (inf_le_left.trans hPN) inf_le_right
+      (P.isPGroup.to_le inf_le_left) (inf_le_left.trans hPN) inf_le_right
   have hne : N.subgroupOf K ≠ ⊤ := fun h =>
     CFSG.LocalAnalysis.UniquenessCase.UCK.not_le_of_isStronglyPEmbedded hN P hPN hPK T hT
       (Subgroup.subgroupOf_eq_top.mp h)
@@ -52,7 +52,7 @@ theorem isSolvable_and_pRank_three_le_one_of_sz32
     change Nat.card (MulAut ↥K ⧸ inner ↥K) ∣ 5
     rw [← Subgroup.index_eq_card]
     exact hSz.outer
-  haveI : IsCyclic (Outer ↥K) := isCyclic_of_card_dvd_prime (p := 5) hOuterCard
+  have : IsCyclic (Outer ↥K) := isCyclic_of_card_dvd_prime (p := 5) hOuterCard
   have hout : Group.IsSolvable (Outer ↥K) :=
     Group.isSolvable_of_comm fun a b =>
       (IsCyclic.isMulCommutative (α := Outer ↥K)).is_comm.comm a b

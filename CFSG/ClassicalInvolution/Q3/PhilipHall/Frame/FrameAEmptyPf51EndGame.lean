@@ -21,7 +21,7 @@ open CFSG.Open CFSG.ClassicalInvolution CFSG.ClassicalInvolution.Generic
 theorem lemma39FStar_of_certs :
     Lemma39FStar := by
   intro G _ _ _ H z hH hz h1 h2
-  haveI : (genFittingFStar G).Normal := genFittingFStar_normal G
+  have : (genFittingFStar G).Normal := genFittingFStar_normal G
   have hFnab : ∃ x ∈ genFittingFStar G, ∃ y ∈ genFittingFStar G, x * y ≠ y * x := by
     obtain ⟨a, b, hab⟩ :=
       (CaseIAmbient.fstar_nonabelian : ∃ a b : ↥(genFittingFStar G), a * b ≠ b * a)
@@ -45,7 +45,7 @@ theorem endgame_fstar (h39 : Lemma39FStar)
     cfg.cz_le (Subgroup.mem_centralizer_singleton_iff.mpr rfl)
   have h1 : ∃! c : T ⧸ sigmaNorm K, z • c = c := fixesUnique_of_only_base hzM hU
   obtain ⟨hzF, hB⟩ := h39 T (sigmaNorm K) z cfg.sigmaNorm_ne_top hz2 h1 hprod
-  haveI : (genFittingFStar T).Normal := genFittingFStar_normal T
+  have : (genFittingFStar T).Normal := genFittingFStar_normal T
   exact FStar.frame_not_bender_normal cfg.datum (genFittingFStar T)
     CaseIAmbient.centralizer_fstar_eq_bot hzF hB
 

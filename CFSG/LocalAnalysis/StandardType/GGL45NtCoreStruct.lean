@@ -26,7 +26,7 @@ theorem ggL45NtCoreOn_of_geoOn :
     (largeEvenLabelAll_and (ggL45NtStructOn_all _ p hp hp2 lab hlab hkg hS)
       (hgeo p hp hp2 lab hlab hkg hS)).mono
       fun R _ I F ⟨⟨hfin, hI⟩, hg⟩ hs hna => by
-        haveI := hfin
+        have := hfin
         exact ggL45NtCore_of_geo hp hp2 (hI hs hna) (hg hs hna)
 
 end CFSG.StandardType

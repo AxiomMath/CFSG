@@ -14,6 +14,7 @@ open CFSG.RankThree.PartOne.KCPrimary
 variable {G : Type} [Group G] [Finite G]
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite G] [Finite K] in
 theorem center_le_centralizer_Bs_of_innerAction {Bs L : Subgroup G}
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4)
     (hperf : commutator ↥L = ⊤)
@@ -90,7 +91,7 @@ theorem exists_pow_mem_specialBlock_of_fixedSpace_eq_zero
         (x' : (Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] (Fin 4 ⊕ Fin 4 → K)) (X ^ 2 + X + 1)).subgroupOf
         (CFSG.RankThree.Classical2.orthDerived (TableBOrth.qPlusForm K 4)) := by
   classical
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; rfl)
   let Q : QuadraticForm K (Fin 4 ⊕ Fin 4 → K) := TableBOrth.qPlusForm K 4
   let xV : (Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] (Fin 4 ⊕ Fin 4 → K) := x'
@@ -107,7 +108,7 @@ theorem exists_pow_mem_specialBlock_of_fixedSpace_eq_zero
   have hmem' : (X ^ 2 + X + 1 : K[X]) ∈
       primaryFactors (x' : (Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] (Fin 4 ⊕ Fin 4 → K)).toLinearMap := by
     simpa [xV] using hmem
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
+  have : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) :=
     ⟨irreducible_of_mem_primaryFactors hmem'⟩
   have hs0 : s = 0 := by rw [hs] at h0; omega
   have hsm' : s + primaryMultiplicity xV.toLinearMap (X ^ 2 + X + 1) = 4 := by
@@ -194,7 +195,7 @@ theorem exists_pow_mem_specialBlock_of_fixedSpace_eq_zero
       (AdjoinRoot.powerBasis (irreducible_of_mem_primaryFactors hmem').ne_zero).finrank,
       AdjoinRoot.powerBasis_dim, CFSG.HardMathSupport.Dickson.Bal207.OrthFix.monic_phi.2, hK]
     norm_num
-  haveI : Finite (AdjoinRoot (X ^ 2 + X + 1 : K[X])) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot (X ^ 2 + X + 1 : K[X])) := Module.finite_of_finite K
   let vu : (AdjoinRoot (X ^ 2 + X + 1 : K[X]))ˣ := hunit.unit
   have hvu_val : (vu : AdjoinRoot (X ^ 2 + X + 1 : K[X])) = v := IsUnit.unit_spec hunit
   let αu : (AdjoinRoot (X ^ 2 + X + 1 : K[X]))ˣ := Units.mk0 α hα0

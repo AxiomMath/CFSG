@@ -25,13 +25,13 @@ theorem kgFieldRestrictionCont_twE6 {K : Type} [Field K] [Finite K] {n p : ℕ}
     KGFieldRestrictionCont p (LargeEvenCenterQuot (twistedE6RootGroup K σ))
       (RecipeExcLang.markIDImage (IsRoot TwistTag.E6.tag) K (twistedE6RootGroup K σ))
       (RecipeFieldExcInn.markFieldImage (IsRoot TwistTag.E6.tag) K (twistedE6RootGroup K σ)) := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := n * 2) (by rw [hK, ← pow_mul])
   have hOneModel := kgfniTw_hOne_model (t := TwistTag.E6) hp hp2 hn hK σ hσ
   intro f hf hord h hh hhp hcomm J₀ hJ₀ f' hf'
   by_cases hh1 : h = 1
   · exact hOneModel f hf hord h hh hhp hcomm hh1 J₀ hJ₀ f' hf'
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) :=
+  have : Finite ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) :=
     Finite.of_injective
       (Subtype.val : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) → ModGL TwistTag.E6.tag K)
       Subtype.val_injective

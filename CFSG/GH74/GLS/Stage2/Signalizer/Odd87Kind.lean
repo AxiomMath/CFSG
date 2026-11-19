@@ -325,7 +325,7 @@ theorem isConj_of_central (hctx : Stage2Ctx G z k S) {x : G} (hx : IsCentralInvo
   obtain ⟨hx2, S', hxS', hxc⟩ := hx
   have hS'G : CFSG.ABGLocalTools.IsSylowOf 2 (S' : Subgroup G) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, S'.isPGroup', ?_⟩
+    refine ⟨le_top, S'.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S'.not_dvd_index
   obtain ⟨c, -, hc⟩ := hctx.sylow_top.exists_mem_conj hS'G

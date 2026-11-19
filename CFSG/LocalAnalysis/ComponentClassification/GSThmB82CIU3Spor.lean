@@ -63,7 +63,7 @@ theorem cfQPUJ6ThreeSpor_holds :
     QPUSpor.false_of_components hMq hZ hD.oddCore e' htt htZ hJC hJc hna eJ fun u hu B hB =>
       ⟨fun eB => hD.inner (M ⧸ center M) inferInstance hMq.2.2 ⟨e'⟩ u hu B hB (hsmall B eB)⟩
   cases s
-  all_goals first | exact absurd rfl hsM | exact absurd h1 (by decide) | skip
+  all_goals try first | exact absurd rfl hsM | exact absurd h1 (by decide)
   case Suz =>
     refine QPUSpor.false_of_components hMq hZ CatalogueU.sporadicOddCoreFree_Suz e htt htZ hJC
       hJc hna eJ fun u hu B hB => ⟨fun eB => ?_⟩

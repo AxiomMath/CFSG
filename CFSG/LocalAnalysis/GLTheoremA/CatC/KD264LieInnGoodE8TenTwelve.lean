@@ -175,7 +175,7 @@ theorem perfectCentralizerPlanes_adjointE8_of_rigid
       Subgroup.centralizer ({x} : Set (adjointGroup Tag.E8 K))⁆⁆ =
     ⁅Subgroup.centralizer ({x} : Set (adjointGroup Tag.E8 K)),
       Subgroup.centralizer ({x} : Set (adjointGroup Tag.E8 K))⁆ := by
-    haveI : Group.IsPerfect ↥(⁅Subgroup.centralizer ({x} : Set (adjointGroup Tag.E8 K)),
+    have : Group.IsPerfect ↥(⁅Subgroup.centralizer ({x} : Set (adjointGroup Tag.E8 K)),
       Subgroup.centralizer ({x} : Set (adjointGroup Tag.E8 K))⁆ :
         Subgroup (adjointGroup Tag.E8 K)) := hDq.1
     exact Subgroup.commutator_eq_self
@@ -195,11 +195,11 @@ theorem perfectCentralizerPlanes_adjointGroup_E8_ten (K : Type) [Field K] [Finit
   obtain ⟨hp7', -, -, -⟩ := e8Ten_arith hp hp7 he
   obtain ⟨ℓ, f, hℓ, hcharK, hf, hK⟩ :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.exists_char_card K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := hcharK
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := hcharK
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   obtain ⟨F⟩ := exists_e8TenFrame K hf hK hp hp7 he L
   have hordW : ¬ p ∣ Nat.card (WeylGroup Tag.E8) :=
     not_dvd_card_weylGroup_E hp hp7' (Or.inr (Or.inr rfl))
@@ -219,11 +219,11 @@ theorem perfectCentralizerPlanes_adjointGroup_E8_twelve (K : Type) [Field K] [Fi
   classical
   obtain ⟨ℓ, f, hℓ, hcharK, hf, hK⟩ :=
     CFSG.SignalizerFunctorTheorem.CatalogBridge.exists_char_card K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := hcharK
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := hcharK
   let L := AlgebraicClosure K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   obtain ⟨hp7', -, hΦ, -⟩ := e8Twelve_arith hp hp7 he
   obtain ⟨F⟩ := exists_e8TwelveFrame K hf hK hp hp7 he L
   have hordW : ¬ p ∣ Nat.card (WeylGroup Tag.E8) :=

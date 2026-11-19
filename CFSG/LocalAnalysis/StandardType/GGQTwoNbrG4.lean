@@ -64,17 +64,18 @@ private theorem qTwoNbrH_comm_mul_left {Q : Type} [Group Q] (a b d : Q) (h : d *
   calc a * (b * d) * a⁻¹ * (b * d)⁻¹ = a * b * (d * a⁻¹ * d⁻¹) * b⁻¹ := by group
     _ = a * b * a⁻¹ * b⁻¹ := by rw [h']
 
+omit [Finite G] in
 private theorem qTwoNbrH_K_le_joinSup {p : ℕ} {B Bs L D J : Subgroup G} {x : G} {y : G}
     {K : Subgroup G} (hM : QTwoNbrModel p B Bs x L D J y K)
-    (hcomp : ggQTwoNbrCompProp hM) (hblock : ggQTwoNbrBlockProp hM)
+    (_hcomp : ggQTwoNbrCompProp hM) (hblock : ggQTwoNbrBlockProp hM)
     (htransport : ggQTwoNbrTransportProp hM) :
     K ≤ ggQTwoNbrJoinSup Bs J K := by
   classical
-  letI := hM.groupQ
-  letI := hM.fieldF0
-  letI := hM.finiteF0
-  letI := hM.charF0
-  letI := hM.factF0
+  let := hM.groupQ
+  let := hM.fieldF0
+  let := hM.finiteF0
+  let := hM.charF0
+  let := hM.factF0
   rcases htransport with ⟨I0, hI0card, htrans⟩
   let P : Subgroup G := ggQTwoNbrJoinSup Bs J K
   let qK : ↥K →* hM.Q := hM.q.comp (Subgroup.inclusion (le_sup_left : K ≤ K ⊔ Bs))
@@ -220,6 +221,7 @@ private theorem qTwoNbrH_K_le_joinSup {p : ℕ} {B Bs L D J : Subgroup G} {x : G
   calc K = ⁅K, K⁆ := hperf
     _ ≤ P := hcomm_le
 
+omit [Finite G] in
 theorem qTwoNbr_gen {p : ℕ} {B Bs L D J : Subgroup G} {x : G} {y : G} {K : Subgroup G}
     (hM : QTwoNbrModel p B Bs x L D J y K)
     (hcomp : ggQTwoNbrCompProp hM) (hblock : ggQTwoNbrBlockProp hM)

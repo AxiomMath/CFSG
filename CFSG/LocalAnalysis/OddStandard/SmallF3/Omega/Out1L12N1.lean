@@ -74,9 +74,9 @@ private theorem aor_l12_conj_comm_iff {t u : S} (h : L12Coord S t u)
 
 theorem aor_l12_z_central [Finite S] (hS : IsPGroup 2 S) {t u : S} (h : L12Coord S t u)
     (hnc : ¬ ∀ x : S, x * t = t * x) : ∀ x : S, x * u ^ 2 = u ^ 2 * x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial S := ⟨t, 1, h.t_ne_one⟩
-  haveI : Group.IsNilpotent S := IsPGroup.isNilpotent hS
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial S := ⟨t, 1, h.t_ne_one⟩
+  have : Group.IsNilpotent S := IsPGroup.isNilpotent hS
   obtain ⟨n, hn0, hncard⟩ := hS.nontrivial_iff_card.mp inferInstance
   have hdvd : 2 ∣ Nat.card S := hncard.symm ▸ dvd_pow_self 2 hn0.ne'
   have hcdvd : 2 ∣ Nat.card (Subgroup.center S) :=
@@ -162,10 +162,10 @@ theorem aor_l12_N_conj [Finite S] (hS : IsPGroup 2 S) {t u : S} (h : L12Coord S 
   · exact Or.inl h1
   · exact Or.inr (by rw [h1]; exact aor_l12_u2_comm_t h)
 
-theorem aor_l12_exists_N [Finite S] (hS : IsPGroup 2 S) {t u : S} (h : L12Coord S t u)
+theorem aor_l12_exists_N [Finite S] (hS : IsPGroup 2 S) {t u : S} (_h : L12Coord S t u)
     (hnc : ¬ ∀ x : S, x * t = t * x) : ∃ n ∈ L12N t, n * t ≠ t * n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent S := IsPGroup.isNilpotent hS
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent S := IsPGroup.isNilpotent hS
   have hRlt : L12R t < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro htop
@@ -174,7 +174,7 @@ theorem aor_l12_exists_N [Finite S] (hS : IsPGroup 2 S) {t u : S} (h : L12Coord 
     have hxR : x ∈ L12R t := by rw [htop]; trivial
     exact Subgroup.mem_centralizer_singleton_iff.mp hxR
   have hnormal := Group.normalizerCondition_of_isNilpotent (G := S) (L12R t) hRlt
-  obtain ⟨-, n, hnN, hnR⟩ := SetLike.lt_iff_le_and_exists.mp hnormal
+  obtain ⟨-, n, hnN, hnR⟩ := IsConcreteLE.lt_iff_le_and_exists.mp hnormal
   refine ⟨n, hnN, ?_⟩
   intro hcomm
   exact hnR (Subgroup.mem_centralizer_singleton_iff.mpr hcomm)

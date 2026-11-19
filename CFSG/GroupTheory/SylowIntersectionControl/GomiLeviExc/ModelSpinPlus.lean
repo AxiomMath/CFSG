@@ -25,10 +25,10 @@ theorem SpinPlusModel.isCharTwoSteinberg (K : Type) [Field K] [CharP K 2] {n : �
     · rw [h, Int.cast_neg, CharTwo.neg_eq]
       norm_num
   by_cases hr : α + β ∈ (SpinPlus.Φ n K hn).roots
-  · rw [if_pos hr, hcomm, (SpinPlus.commOrder_list_eq hn O hα hβ hαβ).1 hr,
+  · rw [ite_eq_left hr, hcomm, (SpinPlus.commOrder_list_eq hn O hα hβ hαβ).1 hr,
       List.map_singleton, List.prod_singleton, one_smul, one_smul, pow_one, pow_one]
     rw [hcoef, one_mul]
-  · rw [if_neg hr, hcomm, (SpinPlus.commOrder_list_eq hn O hα hβ hαβ).2 hr,
+  · rw [ite_eq_right hr, hcomm, (SpinPlus.commOrder_list_eq hn O hα hβ hαβ).2 hr,
       List.map_nil, List.prod_nil]
 
 variable (K : Type) [Field K] [Finite K] [CharP K 2] {n : ℕ}

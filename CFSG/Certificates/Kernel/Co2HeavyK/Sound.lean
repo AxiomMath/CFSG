@@ -70,7 +70,7 @@ private theorem sumBelow_eq_sum (m hi : ℕ) (f : ℕ → ℕ) (hm : m ≤ 64 * 
   rw [hgen hi, show 64 * hi = m + (64 * hi - m) by omega, Finset.sum_range_add]
   rw [Finset.sum_eq_zero (s := Finset.range (64 * hi - m)) (fun i _ => ite_eq_right (by omega)),
     Nat.add_zero]
-  exact Finset.sum_congr rfl fun i hi' => if_pos (Finset.mem_range.1 hi')
+  exact Finset.sum_congr rfl fun i hi' => ite_eq_left (Finset.mem_range.1 hi')
 
 private theorem sumBelow_nIf_eq_card (m hi : ℕ) (p : ℕ → Bool) (hm : m ≤ 64 * hi) :
     sumBelow m hi (fun i => nIf(p i, 1, 0)) =
@@ -102,7 +102,7 @@ private theorem sumBelow_comm2_card {m hi a b c d : ℕ} (T V : ℕ → ℕ) (K 
   rw [sumBelow_eq_sum m hi _ hm, Finset.card_filter]
   refine Finset.sum_congr rfl fun i _ => ?_
   cases hT : Nat.beq (T (V i)) 1
-  · rw [if_neg fun h => Nat.ne_of_beq_eq_false hT h.1]
+  · rw [ite_eq_right fun h => Nat.ne_of_beq_eq_false hT h.1]
   · rw [Nat.eq_of_beq_eq_true hT]
     cases K (S i) Y <;> rfl
 
@@ -227,8 +227,8 @@ private theorem sqc_strictN {a b : ℕ} (y I : ℕ) (G : ℕ → ℕ → ℕ) (h
   subst ha hb
   rw [strictN_eq']
   cases h : Nat.beq (G y y) I
-  · rw [if_neg (Nat.ne_of_beq_eq_false h)]
-  · rw [if_pos (Nat.eq_of_beq_eq_true h)]
+  · rw [ite_eq_right (Nat.ne_of_beq_eq_false h)]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true h)]
 
 private theorem sqc_sq01 (CF : ℕ → ℕ) (k : ℕ) :
     sq01 CF k = if mulV (elemAt CF k) (elemAt CF k) = IDP then 1 else 0 := by

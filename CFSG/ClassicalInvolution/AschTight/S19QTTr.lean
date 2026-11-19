@@ -73,7 +73,7 @@ theorem exists_conj_mem_of_index_two [IsSimpleGroup G] (hnc : ∃ x y : G, x * y
     rw [e, mul_one, inv_mul_cancel]
     exact Subgroup.one_mem _
   rcases CFSG.GH74.GLS.Bg.Thompson.thompson_transfer_1515 (p := 2) (P := (S : Subgroup G))
-      (Q := (S : Subgroup G) ⊓ H) S.isPGroup' S.not_dvd_index hQn hcyc huS (fun h => huH h.2) hb
+      (Q := (S : Subgroup G) ⊓ H) S.isPGroup S.not_dvd_index hQn hcyc huS (fun h => huH h.2) hb
       (fun g hg _ => by
         by_cases h : g⁻¹ * u * g ∈ H
         · exact Or.inl ⟨hg, h⟩

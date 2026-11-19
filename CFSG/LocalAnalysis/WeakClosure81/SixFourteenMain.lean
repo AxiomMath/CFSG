@@ -61,7 +61,7 @@ theorem six_fourteen_of_calOStar (h139 : Hyp139) {k p : ℕ} {M V₀ V : Subgrou
   have hcomm := commutator_barSub_BOf_ne_bot h hgen hirr hp hp2 hkd hX1 hXnorm hXp
   obtain ⟨b, hbB, hbx⟩ : ∃ b ∈ barSub V₀ V hV (BOf M V g), b * x ≠ x * b := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     apply hcomm
     rw [← le_bot_iff, Subgroup.commutator_le]
     intro y hy b hb
@@ -74,7 +74,7 @@ theorem six_fourteen_of_calOStar (h139 : Hyp139) {k p : ℕ} {M V₀ V : Subgrou
     rintro rfl
     exact hbx (by rw [one_mul, mul_one])
   have hbord : orderOf b = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (hBab.2 b hbB) hb1
   have hXx : ∀ a ∈ barSub V₀ V hV (BOf M V g), a * x * a⁻¹ ∈ Subgroup.zpowers x := by
     intro a ha
@@ -101,22 +101,22 @@ theorem six_fourteen_of_calOStar (h139 : Hyp139) {k p : ℕ} {M V₀ V : Subgrou
       (fun a ha β hβ => mem_fixV.1 (imgTil_NOf_le_fixV_barSub h ha) β hβ)
       (card_barSub_mul_index_eq h hgen) hkT
   subst hp3'
-  haveI : Nontrivial (Vtil V₀ V hV) := Finite.one_lt_card_iff_nontrivial.1
+  have : Nontrivial (Vtil V₀ V hV) := Finite.one_lt_card_iff_nontrivial.1
     (by rw [hWcard]; exact Nat.one_lt_pow (by omega) (by norm_num))
   have hO2 : pCoreOf 2 (Mbar M V₀ V hV) = ⊥ := pCoreOf_eq_bot_of_irreducible hW hirrW
   have hDne : 1 < Nat.card ↥(barSub V₀ V hV (BOf M V g) ⊓
       Subgroup.centralizer ({x} : Set (MulAut (Vtil V₀ V hV)))) := by
     rw [hDcard]
     exact Nat.one_lt_two_pow (by omega)
-  haveI : Finite ↥(barSub V₀ V hV (BOf M V g) ⊓
+  have : Finite ↥(barSub V₀ V hV (BOf M V g) ⊓
       Subgroup.centralizer ({x} : Set (MulAut (Vtil V₀ V hV)))) :=
     Nat.finite_of_card_ne_zero (by omega)
-  haveI := Finite.one_lt_card_iff_nontrivial.1 hDne
+  have := Finite.one_lt_card_iff_nontrivial.1 hDne
   obtain ⟨⟨t, htD⟩, ht1⟩ := exists_ne (1 : ↥(barSub V₀ V hV (BOf M V g) ⊓
       Subgroup.centralizer ({x} : Set (MulAut (Vtil V₀ V hV)))))
   have ht1' : t ≠ 1 := fun h' => ht1 (Subtype.ext h')
   have htord : orderOf t = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (hBab.2 t htD.1) ht1'
   have htrk : rkIdx (fixV (Subgroup.zpowers t)) ≤ 3 := by
     have h1 : Y ≤ fixV (Subgroup.zpowers t) := fun y hy =>

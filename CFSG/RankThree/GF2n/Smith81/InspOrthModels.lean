@@ -86,9 +86,9 @@ theorem card_mulAut_prod_dvd (hAB : Nat.card A < Nat.card B)
       exact Prod.ext rfl (congrArg (fun α : MulAut B => α x.2) h2)
     have hx : x = (x.1, 1) * (1, x.2) := by simp
     rw [MulAut.one_apply, hx, map_mul, ha, hb]
-  haveI : Finite (MulAut A) :=
+  have : Finite (MulAut A) :=
     Finite.of_injective (fun α : MulAut A => (α : A → A)) DFunLike.coe_injective
-  haveI : Finite (MulAut B) :=
+  have : Finite (MulAut B) :=
     Finite.of_injective (fun α : MulAut B => (α : B → B)) DFunLike.coe_injective
   have h1 : Nat.card (MulAut (A × B)) = Nat.card ρ.range :=
     Nat.card_congr (Equiv.ofInjective ρ hinj)
@@ -101,7 +101,7 @@ theorem exists_not_commute_of_simple {X : Type} [Group X] (hS : IsSimpleGroup X)
     (h4 : 4 ∣ Nat.card X) : ∃ x y : X, x * y ≠ y * x := by
   by_contra hc
   push Not at hc
-  haveI : IsMulCommutative X := ⟨⟨hc⟩⟩
+  have : IsMulCommutative X := ⟨⟨hc⟩⟩
   have hp := (Group.is_simple_iff_prime_card (α := X)).mp hS
   have h2 : 2 ∣ Nat.card X := (dvd_trans (by norm_num : 2 ∣ 4) h4)
   rcases hp.eq_one_or_self_of_dvd 2 h2 with h | h
@@ -113,9 +113,9 @@ theorem sl2_model_facts {A : Type} [Group A] {f : ℕ} (hf : 2 ≤ f)
     (hA : IsSLModel 2 (2 ^ f) A) :
     IsSimpleGroup A ∧ Nat.card A = 2 ^ f * ((2 ^ f) ^ 2 - 1) ∧ Nat.card (Outer A) ∣ f := by
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hA
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   let e₀ : Matrix.SpecialLinearGroup (Fin 2) K ≃* ↥(StatedSL 2 K) :=
     (MonoidHom.ofInjective Matrix.SpecialLinearGroup.toGL_injective).trans
       (MulEquiv.subgroupCongr (StatedAPI.statedSL_eq_range_toGL 2 K).symm)
@@ -154,15 +154,15 @@ theorem omegaPlus_model_facts {B : Type} [Group B] {m f : ℕ} (hm : 4 ≤ m) (h
     IsSimpleGroup B ∧ Nat.card B = ordD m (2 ^ f) ∧
       ordProj[2] (Nat.card (Outer B)) ≤ 4 * ordProj[2] f := by
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hB
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hv : ∃ v, (LieType.Universal.Spin.quadPlus m K) v ≠ 0 := by
     refine ⟨Pi.single (Sum.inl ⟨0, by omega⟩) 1 + Pi.single (Sum.inr ⟨0, by omega⟩) 1, ?_⟩
     rw [LieType.Universal.Spin.quadPlus_apply, Finset.sum_eq_single (⟨0, by omega⟩ : Fin m)]
     · simp
     · intro i _ hi
-      simp [Pi.single_apply, hi]
+      simp [hi]
     · simp
   let eP : StatedProj (StatedOmega (StatedQuadPlus m K)) ≃* ↥(StatedOmega (StatedQuadPlus m K)) :=
     (QuotientGroup.quotientMulEquivOfEq
@@ -180,9 +180,9 @@ theorem omegaMinus_model_facts {B : Type} [Group B] {m f : ℕ} (hm : 4 ≤ m) (
     IsSimpleGroup B ∧ Nat.card B = ordTwistedD m (2 ^ f) ∧
       ordProj[2] (Nat.card (Outer B)) ≤ 4 * ordProj[2] f := by
   obtain ⟨K, _, _, hK, b, c, hirr, ⟨e⟩⟩ := hB
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hv : ∃ v, (LieType.Universal.Spin.quadMinus m K b c) v ≠ 0 := by
     refine ⟨Pi.single (Sum.inr (Sum.inr 0)) 1, ?_⟩
     rw [LieType.Universal.Spin.quadMinus_apply]
@@ -222,9 +222,9 @@ theorem omegaPlus_three_model_facts {B : Type} [Group B] {f : ℕ} (hf : 2 ≤ f
     IsSimpleGroup B ∧ Nat.card B = ordD 3 (2 ^ f) ∧
       ordProj[2] (Nat.card (Outer B)) ≤ 4 * ordProj[2] f := by
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hB
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hK4 : 4 ≤ Nat.card K := by
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num
@@ -242,8 +242,8 @@ theorem omegaPlus_three_model_facts {B : Type} [Group B] {f : ℕ} (hf : 2 ≤ f
   have h : StatedClassicalModel B .PSL 4 2 f :=
     ⟨⟨Nat.prime_two, by omega, by norm_num, by simp, by simp⟩, K, inferInstance, inferInstance,
       hK, ⟨e'⟩⟩
-  haveI : Finite B := Finite.of_equiv _ e'.toEquiv.symm
-  haveI : Finite (MulAut B) :=
+  have : Finite B := Finite.of_equiv _ e'.toEquiv.symm
+  have : Finite (MulAut B) :=
     Finite.of_injective (fun α : MulAut B => (α : B → B)) DFunLike.coe_injective
   refine ⟨Timmesfeld.isSimpleGroup_of_lieModel (Or.inl ⟨by decide, h⟩), ?_, ?_⟩
   · rw [(Timmesfeld.card_statedClassicalModel_two h).1 rfl, ordA_three_eq_ordD_three (by omega)]

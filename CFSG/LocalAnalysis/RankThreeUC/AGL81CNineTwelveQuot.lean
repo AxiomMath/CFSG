@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem relPPrimeCore_eq_map' {p : ℕ} (hp : p.Prime) (C : Subgroup G) :
     CFSG.Open.relPPrimeCore p C = (primeComplementCore (G := ↥C) p).map C.subtype := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   apply le_antisymm
   · refine sSup_le fun N hN => ?_
     obtain ⟨hNC, hNn, hNc⟩ := hN
@@ -33,6 +33,7 @@ private theorem relPPrimeCore_eq_map' {p : ℕ} (hp : p.Prime) (C : Subgroup G) 
     · rw [Subgroup.card_map_of_injective C.subtype_injective]
       exact CFSG.pPrimeCore_coprime_card
 
+omit [Finite G] in
 private lemma range_comp_inclusion_mk'_eq_starImg {p : ℕ} {H A : Subgroup G} (hAH : A ≤ H) :
     ((QuotientGroup.mk' (primeComplementCore (G := ↥H) p)).comp
         (Subgroup.inclusion hAH)).range = starImg p H A := by
@@ -96,7 +97,7 @@ theorem exists_normal_index_eq_of_forall {p : ℕ} (hp : p.Prime) {H A : Subgrou
   let g : ↥(starImg p H A) →* W := (ρ'.liftOfSurjective hρ'surj) ⟨φ, hle⟩
   have hgcomp : g.comp ρ' = φ := by
     have hsymm := Equiv.symm_apply_apply (ρ'.liftOfSurjective hρ'surj) ⟨φ, hle⟩
-    simpa [g] using congrArg Subtype.val hsymm
+    simp [g]
   have hgrange : g.range = φ.range := by
     have h1 : (g.comp ρ').range = φ.range := by rw [hgcomp]
     rw [MonoidHom.range_comp, MonoidHom.range_eq_top.mpr hρ'surj, Subgroup.map_top] at h1
@@ -134,7 +135,7 @@ theorem not_dvd_card_map_of_isSylowOf {q : ℕ} [Fact q.Prime] {N R A : Subgroup
   have hψrange : ψ.range = J.map φ := by
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
   obtain ⟨S, hS⟩ := hR
-  have hRq : IsPGroup q R := hS ▸ S.isPGroup'.map N.subtype
+  have hRq : IsPGroup q R := hS ▸ S.isPGroup.map N.subtype
   have hRN : R ≤ N := by
     intro x hx
     rw [← hS] at hx
@@ -142,7 +143,7 @@ theorem not_dvd_card_map_of_isSylowOf {q : ℕ} [Fact q.Prime] {N R A : Subgroup
     exact s.2
   let T : Sylow q ↥J := Classical.choice (inferInstance : Nonempty (Sylow q ↥J))
   let T₀ : Subgroup G := ((T : Subgroup ↥J).map J.subtype).map A.subtype
-  have hT0q : IsPGroup q T₀ := (T.isPGroup'.map J.subtype).map A.subtype
+  have hT0q : IsPGroup q T₀ := (T.isPGroup.map J.subtype).map A.subtype
   have hT0A : T₀ ≤ A := Subgroup.map_subtype_le _
   have hT0N : T₀ ≤ N := by
     intro x hx

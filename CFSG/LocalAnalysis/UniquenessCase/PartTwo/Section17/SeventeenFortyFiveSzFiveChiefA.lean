@@ -347,7 +347,7 @@ theorem Rbar_normal : s.Rbar.Normal := by
 
 theorem Rbar_ne_bot : s.Rbar ≠ ⊥ := by
   intro h
-  obtain ⟨r, hrR, hrY⟩ := SetLike.exists_of_lt s.hYR
+  obtain ⟨r, hrR, hrY⟩ := _root_.IsConcreteLE.exists_of_lt s.hYR
   have hmem : s.π ⟨r, s.hRH hrR⟩ ∈ s.Rbar :=
     (s.mem_bar_iff s.hRH).mpr ⟨r, hrR, rfl⟩
   rw [h] at hmem
@@ -439,7 +439,7 @@ theorem exists_factorization_Rbar :
     ∃ (r : ℕ) (S : Fin r → Subgroup s.Q),
       CFSG.LocalAnalysis.GLTheoremB.Prop95Parts.NonAb.IsFactorization s.Rbar S :=
   exists_factorization s.Rbar_normal s.Rbar_ne_bot
-    (fun M hMn hMle => s.Rbar_min hMn hMle) s.Rbar_nonab
+    (fun _M hMn hMle => s.Rbar_min hMn hMle) s.Rbar_nonab
 
 theorem A_le_M : s.A ≤ D.M := by
   have hLM : s.L ≤ D.M := s13_le_of_mem_calC (by
@@ -480,7 +480,7 @@ theorem Mbar_sup_Rbar : s.Mbar ⊔ s.Rbar = ⊤ := by
   have hh : h ∈ ((D.M ⊓ s.H).subgroupOf s.H) ⊔ (s.R.subgroupOf s.H) := by
     rw [← Subgroup.subgroupOf_sup (inf_le_right : D.M ⊓ s.H ≤ s.H) s.hRH]
     exact hh'
-  haveI : (s.R.subgroupOf s.H).Normal :=
+  have : (s.R.subgroupOf s.H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer s.hRH).mpr s.hRn
   rw [Subgroup.mem_sup_of_normal_right] at hh
   obtain ⟨m, hm, r, hr, hmr⟩ := hh
@@ -576,7 +576,7 @@ theorem bar_le_Mbar {U : Subgroup G} (hUH : U ≤ s.H) (hUM : U ≤ D.M) :
     ⟨(u : G), ⟨hUM hu, hUH hu⟩, rfl⟩
 
 theorem Tbar_isSylow : CFSG.ABGLocalTools.IsSylowOf 2 (s.bar D.T) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTH : CFSG.ABGLocalTools.IsSylowOf 2 D.T s.H :=
     D.sylowG.of_le s.T_le_H le_top
   have hTsyl : CFSG.ABGLocalTools.IsSylowOf 2 (D.T.subgroupOf s.H) ⊤ := by
@@ -599,19 +599,19 @@ theorem factor_isSubnormal (hFac : IsFactorization s.Rbar S) (i : Fin r) :
   have hSR : CFSG.Open.IsSubnormal (S i) s.Rbar :=
     CFSG.Open.IsSubnormal.step (hFac.le i) (factor_normal_in_Rbar s hFac i)
       (CFSG.Open.IsSubnormal.refl s.Rbar)
-  haveI : s.Rbar.Normal := s.Rbar_normal
+  have : s.Rbar.Normal := s.Rbar_normal
   have hRbar : CFSG.Open.IsSubnormal s.Rbar ⊤ :=
     CFSG.Open.IsSubnormal.step le_top inferInstance (CFSG.Open.IsSubnormal.refl ⊤)
   exact CFSG.Open.IsSubnormal.trans hSR hRbar
 
 theorem SL_isSylow (hFac : IsFactorization s.Rbar S) (i : Fin r) :
     CFSG.ABGLocalTools.IsSylowOf 2 (s.bar D.T ⊓ S i) (S i) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact s.Tbar_isSylow.inf_of_isSubnormal (factor_isSubnormal s hFac i)
 
 theorem SL_ne_bot (hFac : IsFactorization s.Rbar S) (i : Fin r) :
     s.bar D.T ⊓ S i ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEven : Even (Nat.card ↥(S i)) :=
     CFSG.LocalAnalysis.ComponentInitial.even_card_of_simple_nonabelian
       (hFac.simple i) (hFac.nonab i)
@@ -627,7 +627,7 @@ theorem factor_not_le_Mbar (hFac : IsFactorization s.Rbar S) (i : Fin r) :
     ¬ S i ≤ s.Mbar := by
   classical
   intro hi
-  haveI : s.Rbar.Normal := s.Rbar_normal
+  have : s.Rbar.Normal := s.Rbar_normal
   have hconj : ∀ q : s.Q, cj q (S i) ≤ s.Mbar := by
     intro q
     have hq : q ∈ s.Mbar ⊔ s.Rbar := by rw [s.Mbar_sup_Rbar]; trivial

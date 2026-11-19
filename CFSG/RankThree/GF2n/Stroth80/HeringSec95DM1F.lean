@@ -16,6 +16,7 @@ namespace HS9
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem conj_comm_zpowers (g s : G) (S : Subgroup G) :
     conjSubgroup g ⁅S, Subgroup.zpowers s⁆ =
       ⁅conjSubgroup g S, Subgroup.zpowers (g * s * g⁻¹)⁆ := by
@@ -164,13 +165,13 @@ theorem lc95_of_M1 (h34 : Stroth34Statement) (h91b : Stroth91bStatement)
   have hζQ : ζ ∈ Q := hc.Z_le_Q hζZ
   have hbζQ : b₃ * ζ ∈ Q := Q.mul_mem hb₃Q hζQ
   have hπu₀ : M₀.π (z⁻¹ * u * z) = HS9.actM φ r (M₀.π b₃) := by
-    rw [hu₀e, S.pi_conj hrH hbζQ, M₀.π_mul _ hb₃Q _ hζQ, (S.pi_eq_zero_iff hζQ).mpr hζZ,
+    rw [hu₀e, S.pi_conj hrH hbζQ, M₀.π_mul _ hb₃Q _ hζQ, (CFSG.RankThree.GF2n.Stroth80.HS9.Setup95.pi_eq_zero_iff hζQ).mpr hζZ,
       add_zero]
   have hp'B : M₀.π b₃ ∈ M₀.img B := M₀.pi_mem_img hb₃B hb₃Q
   have hp'0 : M₀.π b₃ ≠ 0 := by
     intro h0
     apply huBZ
-    have hb₃Z : b₃ ∈ Z := (S.pi_eq_zero_iff hb₃Q).mp h0
+    have hb₃Z : b₃ ∈ Z := (CFSG.RankThree.GF2n.Stroth80.HS9.Setup95.pi_eq_zero_iff hb₃Q).mp h0
     have hu₀Z : z⁻¹ * u * z ∈ Z := by
       rw [hu₀e]
       exact (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 hrM) (b₃ * ζ)).mp
@@ -243,7 +244,7 @@ theorem lc95_of_M1 (h34 : Stroth34Statement) (h91b : Stroth91bStatement)
     have hdv : ⁅d, v'⁆ ∈ Z := by
       rw [e]
       exact (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 hzi) _).mp hcomm
-    have hq : M₀.π ⁅d, v'⁆ = 0 := (S.pi_eq_zero_iff (hc.Z_le_Q hdv)).mpr hdv
+    have hq : M₀.π ⁅d, v'⁆ = 0 := (CFSG.RankThree.GF2n.Stroth80.HS9.Setup95.pi_eq_zero_iff (hc.Z_le_Q hdv)).mpr hdv
     rw [S.pi_comm hdH hv'Q, hv'e] at hq
     exact sub_eq_zero.mp hq
 

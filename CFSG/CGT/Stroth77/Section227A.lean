@@ -176,7 +176,7 @@ theorem mem_normalizer_A_of_mem_normalizer
     rw [F.mem_A_iff_of_centralizer_inf_eq hCA, F.mem_A_iff_of_centralizer_inf_eq hCA]
     refine and_congr (hσ q) ?_
     rw [← forall_mem_map_iff σ hσ (fun q' => σ q * q' ^ 2 = q' ^ 2 * σ q)]
-    simp only [← map_pow, comm_map_iff σ hσ]
+    simp only [← map_pow, comm_map_iff σ]
     exact Iff.rfl
   rw [Subgroup.mem_normalizer_iff]
   intro h

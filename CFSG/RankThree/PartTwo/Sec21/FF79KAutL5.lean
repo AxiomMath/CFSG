@@ -54,7 +54,7 @@ private theorem isPGroup_sup_zpowers_three {y z : G52} (hy3 : y ^ 3 = 1) (hz3 : 
 theorem exists_sylow_zpowers_sup {y z : G52} (hy : orderOf y = 3) (hz : orderOf z = 3)
     (hyz : y * z = z * y) (hzy : z ∉ Subgroup.zpowers y) :
     ∃ Q : Sylow 3 G52, (Q : Subgroup G52) = Subgroup.zpowers y ⊔ Subgroup.zpowers z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hy3 : y ^ 3 = 1 := hy ▸ pow_orderOf_eq_one y
   have hz3 : z ^ 3 = 1 := hz ▸ pow_orderOf_eq_one z
   obtain ⟨Q, hQ⟩ := (isPGroup_sup_zpowers_three hy3 hz3 hyz).exists_le_sylow
@@ -179,7 +179,7 @@ private theorem orthCheck :
   have := this c4 h4
   simpa only [d04, d14, d24, d34, Bool.false_or] using this
 
-private theorem orth_no15 (M : M5) (h : M.transpose * M = 1) (h' : M * M.transpose = 1) :
+private theorem orth_no15 (M : M5) (_h : M.transpose * M = 1) (h' : M * M.transpose = 1) :
     M ^ 15 = 1 → M ^ 5 = 1 ∨ M ^ 3 = 1 := by
   intro h15
   have hdot : ∀ i j : Fin 5, dot5 (M i) (M j) = (1 : M5) i j := by

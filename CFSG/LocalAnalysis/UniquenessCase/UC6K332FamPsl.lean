@@ -33,8 +33,8 @@ theorem exists_frame_statedProj_sl {F : Type} [Field F] [Finite F] {n : ℕ}
         (∃ s : StatedProj (StatedSL n F), s ^ 3 = 1 ∧
           ∀ x, s * φ x * s⁻¹ = φ (Wreath.sh x)) ∧
         ¬ 3 ^ (3 * a + 2) ∣ Nat.card (StatedProj (StatedSL n F)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : NeZero n := ⟨by omega⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : NeZero n := ⟨by omega⟩
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   have hpq : ¬ 3 ∣ Nat.card F := by omega
   have hpq1 : ¬ 3 ∣ Nat.card F - 1 := by omega
@@ -50,8 +50,8 @@ theorem exists_frame_statedProj_sl {F : Type} [Field F] [Finite F] {n : ℕ}
   rw [he2] at hdvd hord
   generalize CrossNum.crossA 3 (Nat.card F) = a at ha1 hdvd hord
   rw [hn] at hord
-  haveI : NeZero (3 ^ a) := ⟨pow_ne_zero _ (by norm_num)⟩
-  haveI : Fact (ringChar F).Prime := ⟨CharP.char_is_prime F _⟩
+  have : NeZero (3 ^ a) := ⟨pow_ne_zero _ (by norm_num)⟩
+  have : Fact (ringChar F).Prime := ⟨CharP.char_is_prime F _⟩
   obtain ⟨ζ, hζ⟩ := CFSG.GroupTheory.WeirSylow.exists_units_orderOf_eq
     (L := FiniteField.Extension F (ringChar F) 2) (d := 3 ^ a)
     (by rwa [FiniteField.natCard_extension])
@@ -102,7 +102,7 @@ theorem exists_frame_statedProj_sl {F : Type} [Field F] [Finite F] {n : ℕ}
 theorem listRow_statedProj_sl_three {F : Type} [Field F] [Finite F] {n : ℕ}
     (hq : Nat.card F % 3 = 2) (hn : n / 2 = 3) : ListRow (StatedProj (StatedSL n F)) := by
   obtain ⟨a, ha, φ, hφ, htw, ⟨s, hs3, hs⟩, hS⟩ := exists_frame_statedProj_sl hq hn
-  haveI : NeZero (3 ^ a) := ⟨pow_ne_zero _ (by norm_num)⟩
+  have : NeZero (3 ^ a) := ⟨pow_ne_zero _ (by norm_num)⟩
   have hC : Nat.card (Multiplicative (ZMod (3 ^ a))) = 3 ^ a := by
     rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card]
   exact Wreath.listRow_of_wreath ha hC hφ (by omega) htw hs3 hs hS

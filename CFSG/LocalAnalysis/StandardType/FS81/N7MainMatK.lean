@@ -31,14 +31,14 @@ theorem rec_add_eq_sum (g : ℕ → ℕ) (k : ℕ) :
 theorem brec_beq_zero (x : ℕ) :
     Bool.rec (motive := fun _ => ℕ) 1 0 (Nat.beq x 0) = if x = 0 then 0 else 1 := by
   cases hb : Nat.beq x 0
-  · rw [if_neg (Nat.ne_of_beq_eq_false hb)]
-  · rw [if_pos (Nat.eq_of_beq_eq_true hb)]
+  · rw [ite_eq_right (Nat.ne_of_beq_eq_false hb)]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true hb)]
 
 theorem brec_of_iff {p : Prop} [Decidable p] {b : Bool} (h : p ↔ b = true) :
     Bool.rec (motive := fun _ => ℕ) 0 1 b = if p then 1 else 0 := by
   cases b
-  · rw [if_neg (fun hp => Bool.noConfusion (h.1 hp))]
-  · rw [if_pos (h.2 rfl)]
+  · rw [ite_eq_right (fun hp => Bool.noConfusion (h.1 hp))]
+  · rw [ite_eq_left (h.2 rfl)]
 
 theorem wtN_eq (m : ℕ) : wtN m = ∑ i : Fin 8, if m / 3 ^ (i : ℕ) % 3 = 0 then 0 else 1 := by
   rw [Fin.sum_univ_eq_sum_range (fun i => if m / 3 ^ i % 3 = 0 then 0 else 1) 8, wtN,
@@ -55,8 +55,8 @@ theorem wt_eq_wtN (v : Fin 8 → ZMod 3) :
       (congrFun ((finFunctionFinEquiv (m := 3) (n := 8)).symm_apply_apply v) i)
   rw [hd]
   by_cases h : v i = 0
-  · rw [if_neg (not_not.2 h), if_pos ((ZMod.val_eq_zero _).2 h)]
-  · rw [if_pos h, if_neg (fun h' => h ((ZMod.val_eq_zero _).1 h'))]
+  · rw [ite_eq_right (not_not.2 h), ite_eq_left ((ZMod.val_eq_zero _).2 h)]
+  · rw [ite_eq_left h, ite_eq_right (fun h' => h ((ZMod.val_eq_zero _).1 h'))]
 
 theorem sum_range_mul81 (g : ℕ → ℕ) : ∀ B : ℕ,
     ∑ m ∈ range (81 * B), g m = ∑ b ∈ range B, ∑ a ∈ range 81, g (a + 81 * b)

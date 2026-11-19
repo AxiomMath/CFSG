@@ -80,7 +80,7 @@ theorem bFirst_eq_sum_two [CharP k 2] {n : ℕ} (ε : Fin f → Finset (Fin n))
     intro a
     by_cases ha₁ : a = a₁
     · subst ha₁
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have hcond : ∀ b : Fin n, ((b : ℕ) = a + 1) ↔ b = b₁ := by
         intro b
         exact ⟨fun hb => Fin.ext (by rw [hb, hb₁]), fun hb => by rw [hb, hb₁]⟩
@@ -90,10 +90,10 @@ theorem bFirst_eq_sum_two [CharP k 2] {n : ℕ} (ε : Fin f → Finset (Fin n))
             else (0 : Matrix (BIdx ε) (BIdx ε) k) from by
         refine Finset.sum_congr rfl fun b _ => ?_
         simp only [hcond b]]
-      rw [Fintype.sum_ite_eq', hG r a b₁ hb₁, if_pos rfl]
+      rw [Fintype.sum_ite_eq', hG r a b₁ hb₁, ite_eq_left rfl]
     · by_cases ha₂ : a = a₂
       · subst ha₂
-        rw [if_neg ha₁, if_pos rfl]
+        rw [ite_eq_right ha₁, ite_eq_left rfl]
         have hcond : ∀ b : Fin n, ((b : ℕ) = a + 1) ↔ b = b₂ := by
           intro b
           exact ⟨fun hb => Fin.ext (by rw [hb, hb₂]), fun hb => by rw [hb, hb₂]⟩
@@ -103,13 +103,13 @@ theorem bFirst_eq_sum_two [CharP k 2] {n : ℕ} (ε : Fin f → Finset (Fin n))
               else (0 : Matrix (BIdx ε) (BIdx ε) k) from by
           refine Finset.sum_congr rfl fun b _ => ?_
           simp only [hcond b]]
-        rw [Fintype.sum_ite_eq', hG r a b₂ hb₂, if_neg ha₁, if_pos rfl]
-      · rw [if_neg ha₁, if_neg ha₂]
+        rw [Fintype.sum_ite_eq', hG r a b₂ hb₂, ite_eq_right ha₁, ite_eq_left rfl]
+      · rw [ite_eq_right ha₁, ite_eq_right ha₂]
         refine Finset.sum_eq_zero fun b _ => ?_
         by_cases hb : (b : ℕ) = a + 1
-        · rw [if_pos hb, hG r a b hb, if_neg ha₁, if_neg ha₂]
+        · rw [ite_eq_left hb, hG r a b hb, ite_eq_right ha₁, ite_eq_right ha₂]
           simp
-        · rw [if_neg hb]
+        · rw [ite_eq_right hb]
   calc ∑ a : Fin n, (∑ b : Fin n,
         if (b : ℕ) = a + 1 then G r a b • bDer ε (r, a, b)
         else (0 : Matrix (BIdx ε) (BIdx ε) k))
@@ -152,7 +152,7 @@ theorem bFirst_eq_sum_one [CharP k 2] {n : ℕ} (ε : Fin f → Finset (Fin n))
     intro a
     by_cases ha : a = a₁
     · subst ha
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have hcond : ∀ b : Fin n, ((b : ℕ) = a + 1) ↔ b = b₁ := by
         intro b
         exact ⟨fun hb => Fin.ext (by rw [hb, hb₁]), fun hb => by rw [hb, hb₁]⟩
@@ -162,13 +162,13 @@ theorem bFirst_eq_sum_one [CharP k 2] {n : ℕ} (ε : Fin f → Finset (Fin n))
             else (0 : Matrix (BIdx ε) (BIdx ε) k) from by
         refine Finset.sum_congr rfl fun b _ => ?_
         simp only [hcond b]]
-      rw [Fintype.sum_ite_eq', hG r a b₁ hb₁, if_pos rfl]
-    · rw [if_neg ha]
+      rw [Fintype.sum_ite_eq', hG r a b₁ hb₁, ite_eq_left rfl]
+    · rw [ite_eq_right ha]
       refine Finset.sum_eq_zero fun b _ => ?_
       by_cases hb : (b : ℕ) = a + 1
-      · rw [if_pos hb, hG r a b hb, if_neg ha]
+      · rw [ite_eq_left hb, hG r a b hb, ite_eq_right ha]
         simp
-      · rw [if_neg hb]
+      · rw [ite_eq_right hb]
   calc ∑ a : Fin n, (∑ b : Fin n, if (b : ℕ) = a + 1 then G r a b • bDer ε (r, a, b)
         else (0 : Matrix (BIdx ε) (BIdx ε) k))
       = ∑ a : Fin n, (if a = a₁ then c₁ r • bDer ε (r, a₁, b₁)
@@ -304,7 +304,7 @@ theorem rootMatrix_upper {n : ℕ} {i j : Fin n} (hij : (j : ℕ) = i + 1) (c : 
     rintro ⟨rfl, rfl⟩
     simp only [Fin.lt_def, Fin.val_rev] at hpq
     omega
-  rw [if_neg hpq', if_neg h1, if_neg h2]
+  rw [ite_eq_right hpq', ite_eq_right h1, ite_eq_right h2]
   ring
 
 theorem rootMatrix_diag {n : ℕ} {i j : Fin n} (hij : (j : ℕ) = i + 1) (c : F) (p : Fin n) :
@@ -320,7 +320,7 @@ theorem rootMatrix_diag {n : ℕ} {i j : Fin n} (hij : (j : ℕ) = i + 1) (c : F
     have hji : j = i := Fin.rev_injective (h1.trans h2.symm)
     rw [hji] at hij
     omega
-  rw [if_pos rfl, if_neg h1, if_neg h2]
+  rw [ite_eq_left rfl, ite_eq_right h1, ite_eq_right h2]
   ring
 
 theorem rootMatrix_apply_of_super {n : ℕ} {i j a b : Fin n} (hij : (j : ℕ) = i + 1)
@@ -331,27 +331,27 @@ theorem rootMatrix_apply_of_super {n : ℕ} {i j a b : Fin n} (hij : (j : ℕ) =
   have hj : (j : ℕ) < n := j.isLt
   rw [rootMatrix_apply]
   by_cases ha : a = i
-  · rw [ha, if_pos rfl]
+  · rw [ha, ite_eq_left rfl]
     have hb : b = j := Fin.ext (by rw [ha] at hab; rw [hab, hij])
     rw [hb]
-    rw [if_neg (by intro h; rw [h] at hij; omega), if_pos ⟨rfl, rfl⟩,
-      if_neg (by rintro ⟨h1, h2⟩; apply hno; simp only [Fin.ext_iff, Fin.val_rev] at h1 h2; omega)]
+    rw [ite_eq_right (by intro h; rw [h] at hij; omega), ite_eq_left ⟨rfl, rfl⟩,
+      ite_eq_right (by rintro ⟨h1, h2⟩; apply hno; simp only [Fin.ext_iff, Fin.val_rev] at h1 h2; omega)]
     ring
-  · rw [if_neg ha]
+  · rw [ite_eq_right ha]
     by_cases ha' : a = Fin.rev j
-    · rw [ha', if_pos rfl]
+    · rw [ha', ite_eq_left rfl]
       have hb : b = Fin.rev i := Fin.ext (by
         rw [ha'] at hab
         simp only [Fin.val_rev] at hab ⊢
         omega)
       rw [hb]
-      rw [if_neg (by intro h; have hji : j = i := Fin.rev_injective h; rw [hji] at hij; omega),
-        if_neg (by rintro ⟨h1, h2⟩; apply hno; simp only [Fin.ext_iff, Fin.val_rev] at h1 h2; omega),
-        if_pos ⟨rfl, rfl⟩]
+      rw [ite_eq_right (by intro h; have hji : j = i := Fin.rev_injective h; rw [hji] at hij; omega),
+        ite_eq_right (by rintro ⟨h1, h2⟩; apply hno; simp only [Fin.ext_iff, Fin.val_rev] at h1 h2; omega),
+        ite_eq_left ⟨rfl, rfl⟩]
       ring
-    · rw [if_neg ha']
-      rw [if_neg (by intro h; have := congrArg Fin.val h; omega),
-        if_neg (fun h => ha h.1.symm), if_neg (fun h => ha' h.1.symm)]
+    · rw [ite_eq_right ha']
+      rw [ite_eq_right (by intro h; have := congrArg Fin.val h; omega),
+        ite_eq_right (fun h => ha h.1.symm), ite_eq_right (fun h => ha' h.1.symm)]
       ring
 
 omit [Finite F] [CharP F 2] in
@@ -372,7 +372,7 @@ theorem longRootMatrix_upper {n : ℕ} {i : Fin n} (hii : (Fin.rev i : ℕ) = i 
     simp only [Fin.lt_def, Fin.val_rev] at hpq
     simp only [Fin.val_rev] at hii
     omega
-  rw [if_neg hpq', if_neg h1]
+  rw [ite_eq_right hpq', ite_eq_right h1]
   ring
 
 omit [Finite F] [CharP F 2] in
@@ -382,7 +382,7 @@ theorem longRootMatrix_diag {n : ℕ} {i : Fin n} (hi : i ≠ Fin.rev i) (c : F)
   have h1 : ¬ (i = p ∧ Fin.rev i = p) := by
     rintro ⟨h1, h2⟩
     exact hi (h1.trans h2.symm)
-  rw [if_pos rfl, if_neg h1]
+  rw [ite_eq_left rfl, ite_eq_right h1]
   ring
 
 omit [Finite F] [CharP F 2] in
@@ -391,14 +391,14 @@ theorem longRootMatrix_apply_of_super {n : ℕ} {i a b : Fin n} (hii : (Fin.rev 
     longRootMatrix (F := F) i c a b = if a = i then c else 0 := by
   rw [longRootMatrix_apply]
   by_cases ha : a = i
-  · rw [ha, if_pos rfl]
+  · rw [ha, ite_eq_left rfl]
     have hb : b = Fin.rev i := Fin.ext (by rw [ha] at hab; rw [hab, hii])
     rw [hb]
-    rw [if_neg (by intro h; rw [h] at hii; omega), if_pos ⟨rfl, rfl⟩]
+    rw [ite_eq_right (by intro h; rw [h] at hii; omega), ite_eq_left ⟨rfl, rfl⟩]
     ring
-  · rw [if_neg ha]
-    rw [if_neg (by intro h; have := congrArg Fin.val h; omega),
-      if_neg (fun h => ha h.1.symm)]
+  · rw [ite_eq_right ha]
+    rw [ite_eq_right (by intro h; have := congrArg Fin.val h; omega),
+      ite_eq_right (fun h => ha h.1.symm)]
     ring
 
 theorem heisenbergMatrix_apply {n : ℕ} {i k : Fin n} (c d : F) (p q : Fin n) :
@@ -432,7 +432,7 @@ theorem heisenbergMatrix_upper {n : ℕ} {i k : Fin n} (hik : (k : ℕ) = i + 1)
     simp only [Fin.lt_def, Fin.val_rev] at hpq
     simp only [Fin.val_rev] at hki
     omega
-  rw [if_neg hpq', if_neg h1, if_neg h2, if_neg h3]
+  rw [ite_eq_right hpq', ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
   ring
 
 theorem heisenbergMatrix_diag {n : ℕ} {i k : Fin n} (hi : i ≠ Fin.rev i) (hik' : i ≠ k)
@@ -448,7 +448,7 @@ theorem heisenbergMatrix_diag {n : ℕ} {i k : Fin n} (hi : i ≠ Fin.rev i) (hi
   have h3 : ¬ (i = p ∧ Fin.rev i = p) := by
     rintro ⟨h1, h2⟩
     exact hi (h1.trans h2.symm)
-  rw [if_pos rfl, if_neg h1, if_neg h2, if_neg h3]
+  rw [ite_eq_left rfl, ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
   ring
 
 theorem heisenbergMatrix_apply_of_super {n : ℕ} {i k a b : Fin n} (hik : (k : ℕ) = i + 1)
@@ -460,30 +460,30 @@ theorem heisenbergMatrix_apply_of_super {n : ℕ} {i k a b : Fin n} (hik : (k : 
   have hk : (k : ℕ) < n := k.isLt
   rw [heisenbergMatrix_apply]
   by_cases ha : a = i
-  · rw [ha, if_pos rfl]
+  · rw [ha, ite_eq_left rfl]
     have hb : b = k := Fin.ext (by rw [ha] at hab; rw [hab, hik])
     rw [hb]
-    rw [if_neg (by intro h; exact hik' h), if_pos ⟨rfl, rfl⟩,
-      if_neg (by rintro ⟨h1, -⟩; exact hik' h1.symm),
-      if_neg (by rintro ⟨-, h2⟩; exact hv h2.symm)]
+    rw [ite_eq_right (by intro h; exact hik' h), ite_eq_left ⟨rfl, rfl⟩,
+      ite_eq_right (by rintro ⟨h1, -⟩; exact hik' h1.symm),
+      ite_eq_right (by rintro ⟨-, h2⟩; exact hv h2.symm)]
     ring
-  · rw [if_neg ha]
+  · rw [ite_eq_right ha]
     by_cases ha' : a = k
-    · rw [ha', if_pos rfl]
+    · rw [ha', ite_eq_left rfl]
       have hb : b = Fin.rev i := Fin.ext (by
         rw [ha'] at hab
         simp only [Fin.val_rev] at hab hki ⊢
         omega)
       rw [hb]
-      rw [if_neg (by intro h; exact hv h),
-        if_neg (by rintro ⟨h1, -⟩; exact hik' h1),
-        if_pos ⟨rfl, rfl⟩,
-        if_neg (by rintro ⟨h1, -⟩; exact hik' h1)]
+      rw [ite_eq_right (by intro h; exact hv h),
+        ite_eq_right (by rintro ⟨h1, -⟩; exact hik' h1),
+        ite_eq_left ⟨rfl, rfl⟩,
+        ite_eq_right (by rintro ⟨h1, -⟩; exact hik' h1)]
       ring
-    · rw [if_neg ha']
-      rw [if_neg (by intro h; have := congrArg Fin.val h; omega),
-        if_neg (fun h => ha h.1.symm), if_neg (fun h => ha' h.1.symm),
-        if_neg (fun h => ha h.1.symm)]
+    · rw [ite_eq_right ha']
+      rw [ite_eq_right (by intro h; have := congrArg Fin.val h; omega),
+        ite_eq_right (fun h => ha h.1.symm), ite_eq_right (fun h => ha' h.1.symm),
+        ite_eq_right (fun h => ha h.1.symm)]
       ring
 
 @[expose] noncomputable def suRep [CharP k 2] (φ₀ : F →+* k) (n : ℕ) (ε : Fin f → Finset (Fin n)) :
@@ -546,9 +546,9 @@ theorem bDer_mulVec_homComp_mem_bRad_of_fixed [CharP k 2] (hF : Nat.card F = (2 
         intro r x y hxy
         rw [coe_suTwist_apply, Matrix.map_apply, hgt, longRootMatrix_apply_of_super hii' hxy]
         by_cases hxa : x = a
-        · simp only [if_pos hxa]
+        · simp only [ite_eq_left hxa]
           rw [suFrob_apply]
-        · simp only [if_neg hxa, map_zero]
+        · simp only [ite_eq_right hxa, map_zero]
       have h := hStep g hg hg1
       rw [bFirst_mulVec_eq_sum_one ε (fun r => (suTwist φ₀ f n g r : Matrix (Fin n) (Fin n) k))
         hab (fun r => φ₀ c ^ 2 ^ (r : ℕ)) hG] at h
@@ -617,13 +617,13 @@ theorem bDer_mulVec_homComp_mem_bRad_of_fixed [CharP k 2] (hF : Nat.card F = (2 
         rw [coe_suTwist_apply, Matrix.map_apply, hgt,
           heisenbergMatrix_apply_of_super hab hrev_a hne_ab hv hxz]
         by_cases hx1 : x = a
-        · simp only [if_pos hx1]
+        · simp only [ite_eq_left hx1]
           rw [suFrob_apply]
-        · simp only [if_neg hx1]
+        · simp only [ite_eq_right hx1]
           by_cases hx2 : x = b
-          · simp only [if_pos hx2]
+          · simp only [ite_eq_left hx2]
             rw [map_neg, suFrob_apply_unitaryInvolution hF, CharTwo.neg_eq]
-          · simp only [if_neg hx2, map_zero]
+          · simp only [ite_eq_right hx2, map_zero]
       have h := hStep gt hg hg1
       rw [bFirst_mulVec_eq_sum_two ε (fun r => (suTwist φ₀ f n gt r : Matrix (Fin n) (Fin n) k))
         hab hb₂ hne_ab (fun r => φ₀ t ^ 2 ^ (r : ℕ)) (fun r => φ₀ t ^ 2 ^ (f + (r : ℕ))) hG] at h
@@ -698,13 +698,13 @@ theorem bDer_mulVec_homComp_mem_bRad_of_fixed [CharP k 2] (hF : Nat.card F = (2 
             heisenbergMatrix_apply_of_super hik hrev_a₂ hik' hv hxz]
           by_cases hx1 : x = a₂
           · have hxa : ¬ x = a := by rw [hx1]; exact hik'
-            simp only [if_pos hx1, if_neg hxa]
+            simp only [ite_eq_left hx1, ite_eq_right hxa]
             rw [suFrob_apply_unitaryInvolution hF]
-          · simp only [if_neg hx1]
+          · simp only [ite_eq_right hx1]
             by_cases hx2 : x = a
-            · simp only [if_pos hx2]
+            · simp only [ite_eq_left hx2]
               rw [hσ t, CharTwo.neg_eq, suFrob_apply]
-            · simp only [if_neg hx2, map_zero]
+            · simp only [ite_eq_right hx2, map_zero]
         have h := hStep gt hg hg1
         rw [bFirst_mulVec_eq_sum_two ε (fun r => (suTwist φ₀ f n gt r : Matrix (Fin n) (Fin n) k))
           hab hb₂ hne (fun r => φ₀ t ^ 2 ^ (r : ℕ)) (fun r => φ₀ t ^ 2 ^ (f + (r : ℕ))) hG] at h
@@ -761,13 +761,13 @@ theorem bDer_mulVec_homComp_mem_bRad_of_fixed [CharP k 2] (hF : Nat.card F = (2 
           rw [coe_suTwist_apply, Matrix.map_apply, hgt,
             rootMatrix_apply_of_super hab hno hxz]
           by_cases hx1 : x = a
-          · simp only [if_pos hx1]
+          · simp only [ite_eq_left hx1]
             rw [suFrob_apply]
-          · simp only [if_neg hx1]
+          · simp only [ite_eq_right hx1]
             by_cases hx2 : x = Fin.rev b
-            · simp only [if_pos hx2]
+            · simp only [ite_eq_left hx2]
               rw [map_neg, suFrob_apply_unitaryInvolution hF, CharTwo.neg_eq]
-            · simp only [if_neg hx2, map_zero]
+            · simp only [ite_eq_right hx2, map_zero]
         have h := hStep g hg hg1
         rw [bFirst_mulVec_eq_sum_two ε (fun r => (suTwist φ₀ f n g r : Matrix (Fin n) (Fin n) k))
           hab hb₂ hne₂ (fun r => φ₀ t ^ 2 ^ (r : ℕ)) (fun r => φ₀ t ^ 2 ^ (f + (r : ℕ))) hG] at h

@@ -138,7 +138,7 @@ theorem false_of_not_le [Fact p.Prime] (hL : Lemma212Component p z D L)
     {g : X} (hg : IsPlaneDiagonal p D z g) (hbar : IsLinearOrUnitaryAt p (L ⧸ center L))
     (hB : GL83OutDiagPowerMap) (hDL : ¬ D ≤ L) : False := by
   have hp : p.Prime := Fact.out
-  haveI := hL.normal
+  have := hL.normal
   obtain ⟨d, hd, hdz⟩ := h.exists_mem_notMem_zpowers hp
   obtain ⟨a, b, hab, -, hsq, hne, hga, hgd⟩ := hg.exists_sq_ne_one h5
   obtain ⟨c, hc⟩ := hgd d hd hdz

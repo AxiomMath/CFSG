@@ -22,7 +22,7 @@ theorem exists_orderOf_eq_three_mem_normalizer_of_isJ1 {X : Type} [Group X] [Fin
   have hcard : Nat.card X = 175560 := by
     rw [Nat.card_congr (e.trans CFSG.Walter.walterJ1EquivNative.symm).toEquiv]
     exact CFSG.Walter.J1Props.card_walterJ1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2dvd : 2 ∣ Nat.card X := by rw [hcard]; norm_num
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥S) 2
     (Sylow.dvd_card_of_dvd_card S h2dvd)

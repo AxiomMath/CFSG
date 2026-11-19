@@ -20,7 +20,7 @@ theorem sporTwo_cases
     {s : TauCeti.SporadicName} (e : K ≃* (TauCeti.CFSGIndex.sporadic s).Group)
     (h2 : Open.pRank p (⊤ : Subgroup K) ≤ 2) (h3 : p ^ 3 ∣ Nat.card K) :
     IsNineThreeIndex p (.sporadic s) ∨ IsSporPlanePair s p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group s
   have hcard : Nat.card K = sporOrd s := (Nat.card_congr (e.trans b.symm).toEquiv).trans
     (card_carrier_eq_sporOrd CFSG.Milestones.fam_m_finiteness s)
@@ -28,7 +28,7 @@ theorem sporTwo_cases
   have hrank : P1ThreeSporList p s → ¬ (s = .J3 ∧ p = 3) → ¬ (s = .M22 ∧ p = 3) →
       ¬ (s = .Fi24Prime ∧ p = 7) → ¬ (s = .M ∧ p = 13) → False := by
     intro hs hJ3 hM22 hFi hM
-    haveI : Nontrivial K := by
+    have : Nontrivial K := by
       rw [← Finite.one_lt_card_iff_nontrivial]
       have hle := Nat.le_of_dvd Nat.card_pos h3
       have hpow : 1 < p ^ 3 := Nat.one_lt_pow (by norm_num) hp.one_lt
@@ -151,7 +151,7 @@ theorem Hyp.threeOne_two_lieCross
         ⟨hp3, Or.inr (Or.inr (Or.inl ⟨q, hq2, hq1, hd⟩))⟩)))))), ⟨e⟩⟩
     · subst hp3
       obtain ⟨hs, -, -⟩ := H.isCatalogGroup hZ
-      haveI := hs
+      have := hs
       have e₀ : K ⧸ Subgroup.center K ≃* (TauCeti.CFSGIndex.lie d).Group :=
         ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).trans e
       have hcyc : IsCyclic (Subgroup.center K) := by
@@ -171,7 +171,7 @@ theorem Hyp.threeOne_two_lieCross
         ⟨hp5, Or.inr (Or.inl hd)⟩)))))), ⟨e⟩⟩
     · exact ⟨.lie d, Or.inl (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
         ⟨hp5, Or.inl hd⟩)))))), ⟨e⟩⟩
-  · haveI := H.normal
+  · have := H.normal
     exact (hnot (le_glbCore_one_of_seitz
       CFSG.LieType.SeitzGeneration.kFactSeitzRankTwo_holds H.prime H.ne_two hC H.elem H.card_E d e
       hpd hex)).elim
@@ -180,7 +180,7 @@ theorem Hyp.threeOne_two_abelian
     (H : Hyp p K P E) (h3 : ¬ 3 ≤ Open.pRank p (P : Subgroup G))
     (hnot : ¬ K ≤ GLBCore p 1 E) (hZ : Subgroup.center K = ⊥) (hPK : (P : Subgroup G) ≤ K)
     (hcard : Nat.card (P : Subgroup G) = p ^ 2) : OnThreeOneList p K := by
-  haveI : Fact p.Prime := ⟨H.prime⟩
+  have : Fact p.Prime := ⟨H.prime⟩
   obtain ⟨hs, hnab, hcat⟩ := H.isCatalogGroup hZ
   have hPE : (P : Subgroup G) = E :=
     (Subgroup.eq_of_le_of_card_ge H.E_le (by rw [hcard, H.card_E])).symm
@@ -239,8 +239,8 @@ theorem Hyp.threeOne_two_alt
     have := H.pRank_top_le
     omega
   by_cases h3p : 3 * p + 1 ≤ n
-  · haveI : Fact p.Prime := ⟨H.prime⟩
-    haveI : IsSimpleGroup K := (H.isCatalogGroup hZ).1
+  · have : Fact p.Prime := ⟨H.prime⟩
+    have : IsSimpleGroup K := (H.isCatalogGroup hZ).1
     have hT := three_le_pRank_of_weakCore_eq_top H.prime
       (weakCore_eq_top_of_three_mul_lt H.prime H.ne_two h3p e' (default : Sylow p K))
     have := CFSG.PreuniquenessRankFour.Helpers.pRank_mono p H.prime

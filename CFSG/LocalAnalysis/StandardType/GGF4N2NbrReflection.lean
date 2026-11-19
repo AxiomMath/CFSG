@@ -26,14 +26,14 @@ theorem ringEquiv_eq_refl_of_fix {F : Type} [Field F] [Finite F] [CharP F 2]
     (hF : Nat.card F = 4) (σ : F ≃+* F) {c : F} (hc0 : c ≠ 0) (hc1 : c ≠ 1) (hσ : σ c = c) :
     σ = RingEquiv.refl F := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hne1 : c + 1 ≠ 0 := by
     intro h
     apply hc1
     calc c = c + 1 + 1 := by rw [add_assoc, CharTwo.add_self_eq_zero (1 : F), add_zero]
       _ = 1 := by rw [h, zero_add]
   have hne2 : c + 1 ≠ 1 := fun h => hc0 (by simpa using h)
-  have hne3 : c + 1 ≠ c := fun h => (one_ne_zero : (1 : F) ≠ 0) (by simpa using h)
+  have hne3 : c + 1 ≠ c := fun h => (one_ne_zero : (1 : F) ≠ 0) (by simp at h)
   have huniv : ({0, 1, c, c + 1} : Finset F) = Finset.univ := by
     apply Finset.eq_univ_of_card
     rw [Finset.card_insert_of_notMem (by simp [hc0.symm, hne1.symm]),

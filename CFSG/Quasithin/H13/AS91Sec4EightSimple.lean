@@ -66,7 +66,7 @@ omit hOut hTw hHat in
 theorem tb_mem_Qs : D.tb ∈ D.Qs :=
   D.toMb_mem_img (D.QG_le_N D.q0e_mem_QG) (le_sup_left (a := h.setting.QG) D.q0e_mem_QG)
 
-theorem Qs_le_Cb : D.Qs ≤ D.Cb := fun φ hφ =>
+theorem Qs_le_Cb : D.Qs ≤ D.Cb := fun _φ hφ =>
   mem_centralizer_singleton_iff.mpr (D.Qs_comm hOut hTw hHat hφ D.tb_mem_Qs)
 
 theorem isElemAbelian_Qs : IsElemAbelian 2 D.Qs := by
@@ -74,6 +74,7 @@ theorem isElemAbelian_Qs : IsElemAbelian 2 D.Qs := by
   rw [pow_two]
   exact (D.Qs_comm_sq hOut hTw hHat hx hx).2
 
+omit hHat in
 theorem conj_tb_mem_Qs {φ : ↥D.Mb} (hφ : φ ∈ D.Mz) : φ * D.tb * φ⁻¹ ∈ D.Qs := by
   obtain ⟨m, hm, rfl⟩ := (D.mem_Mz_iff hOut hTw).mp hφ
   have hq := D.q0e_mem_QG
@@ -97,7 +98,7 @@ include hOut hTw hHat
 
 theorem ncard_conj_Mz :
     {ψ : ↥D.Mb | ∃ φ ∈ D.Mz, ψ = φ * D.tb * φ⁻¹}.ncard = 45 := by
-  letI : MulAction ↥D.Mz ↥D.Mb :=
+  let : MulAction ↥D.Mz ↥D.Mb :=
     MulAction.compHom ↥D.Mb ((MulAut.conj : ↥D.Mb →* MulAut ↥D.Mb).comp D.Mz.subtype)
   have hsmul : ∀ (φ : ↥D.Mz) (x : ↥D.Mb), φ • x = (φ : ↥D.Mb) * x * (φ : ↥D.Mb)⁻¹ :=
     fun _ _ => rfl
@@ -130,7 +131,7 @@ theorem ncard_conj_Mz :
 theorem Qs_le_of_normal {N : Subgroup ↥D.Mb} (hN : N.Normal) (htN : D.tb ∈ N) : D.Qs ≤ N := by
   have hsub : {ψ : ↥D.Mb | ∃ φ ∈ D.Mz, ψ = φ * D.tb * φ⁻¹} ⊆ ((N ⊓ D.Qs : Subgroup ↥D.Mb) : Set ↥D.Mb) := by
     rintro _ ⟨φ, hφ, rfl⟩
-    exact ⟨hN.conj_mem _ htN φ, D.conj_tb_mem_Qs hOut hTw hHat hφ⟩
+    exact ⟨hN.conj_mem _ htN φ, D.conj_tb_mem_Qs hOut hTw hφ⟩
   have h45 : 45 ≤ Nat.card (N ⊓ D.Qs : Subgroup ↥D.Mb) := by
     have h1 : Nat.card (N ⊓ D.Qs : Subgroup ↥D.Mb) =
         ((N ⊓ D.Qs : Subgroup ↥D.Mb) : Set ↥D.Mb).ncard := (Nat.card_coe_set_eq _).symm.trans rfl
@@ -311,7 +312,7 @@ theorem eq_bot_of_odd {N : Subgroup ↥D.Mb} (hN : N.Normal) (hodd : Odd (Nat.ca
   exact orderOf_eq_one_iff.mp h1n
 
 theorem tb_mem_of_even {N : Subgroup ↥D.Mb} (hN : N.Normal) (h2 : 2 ∣ Nat.card N) : D.tb ∈ N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := D.nonempty_cb_mulEquiv hOut hTw hHat
   set F := CFSG.Quasithin.A94.frame0 e (D.orderOf_tb hOut hTw hHat) with hF
   obtain ⟨P, hP⟩ := CFSG.Quasithin.A94.s39_2 F
@@ -325,8 +326,8 @@ theorem tb_mem_of_even {N : Subgroup ↥D.Mb} (hN : N.Normal) (h2 : 2 ∣ Nat.ca
       rw [← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def]
       exact Subgroup.map_mono hQ
     exact hle ⟨x, mem_zpowers _, rfl⟩
-  haveI : Group.IsNilpotent ↥P := P.isPGroup'.isNilpotent
-  haveI := hN.subgroupOf (P : Subgroup ↥D.Mb)
+  have : Group.IsNilpotent ↥P := P.isPGroup.isNilpotent
+  have := hN.subgroupOf (P : Subgroup ↥D.Mb)
   have hH : N.subgroupOf (P : Subgroup ↥D.Mb) ≠ ⊥ := by
     rw [Subgroup.ne_bot_iff_exists_ne_one]
     refine ⟨⟨⟨g * x * g⁻¹, hgx⟩, Subgroup.mem_subgroupOf.mpr (hN.conj_mem x x.2 g)⟩, fun h1 => ?_⟩
@@ -354,11 +355,11 @@ theorem tb_mem_of_even {N : Subgroup ↥D.Mb} (hN : N.Normal) (h2 : 2 ∣ Nat.ca
     exact Subgroup.mem_subgroupOf.mp hyH
 
 theorem isSimpleGroup_Mb : IsSimpleGroup ↥D.Mb where
-  exists_pair_ne := ⟨1, D.tb, (D.tb_ne_one hOut hTw hHat).symm⟩
+  exists_pair_ne := ⟨1, D.tb, (D.tb_ne_one).symm⟩
   eq_bot_or_eq_top_of_normal N hN := by
     rcases Nat.even_or_odd (Nat.card N) with he | ho
     · right
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have htN := D.tb_mem_of_even hOut hTw hHat hN (even_iff_two_dvd.mp he)
       have hCN := D.Cb_le_of_normal hOut hTw hHat hN htN
       obtain ⟨e⟩ := D.nonempty_cb_mulEquiv hOut hTw hHat
@@ -367,7 +368,7 @@ theorem isSimpleGroup_Mb : IsSimpleGroup ↥D.Mb where
       have hPN : (P : Subgroup ↥D.Mb) ≤ N := by
         rw [hP]
         exact F.T_le_H.trans hCN
-      haveI := hN
+      have := hN
       have htop := Sylow.normalizer_sup_eq_top' P hPN
       have hnorm : normalizer (P : Set ↥D.Mb) ≤ N := by
         intro n hn

@@ -19,17 +19,17 @@ theorem exists_sylow_abelian_of_lieModel_trialityD4
     (hrd : r ∣ 2 ^ f - 1) :
     (∀ S : Sylow r X, IsMulCommutative ↥S) ∧ 2 ≤ CFSG.Open.pRank r (⊤ : Subgroup X) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := (CFSG.Blueprint.LieModel.admissible h).2.1
   have hTw : TwistedChevalleyModel X .D4 (2 ^ f) :=
     (h.chevalleyExceptionalModel (by decide)).2
   obtain ⟨K, _, _, σ, hKcard, hσ, ⟨e⟩⟩ :=
     exists_mulEquiv_graphFixedRootGroup_card (t := .D4) (p := 2) (f := f)
       Nat.prime_two hf hTw
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   let C := graphFixedRootGroup TwistTag.D4 K σ.toRingHom
-  haveI : Finite C := Subtype.finite
+  have : Finite C := Subtype.finite
   have hr5 : 5 ≤ r := by
     have h2 := hr.two_le
     have h4 : r ≠ 4 := by
@@ -53,12 +53,12 @@ theorem exists_sylow_abelian_of_lieModel_trialityD4
   ·
     intro S
     have hmapcomm : IsMulCommutative ↥(S.map (e : X →* C)) := by
-      refine hcommC (S.map (e : X →* C)) (S.isPGroup'.map (e : X →* C)) ?_
+      refine hcommC (S.map (e : X →* C)) (S.isPGroup.map (e : X →* C)) ?_
       rw [Subgroup.index_map_equiv]
       exact S.not_dvd_index
     let φ : ↥S ≃* ↥(S.map (e : X →* C)) :=
       Subgroup.equivMapOfInjective S (e : X →* C) e.injective
-    haveI : IsMulCommutative ↥(S.map (e : X →* C)) := hmapcomm
+    have : IsMulCommutative ↥(S.map (e : X →* C)) := hmapcomm
     refine IsMulCommutative.of_comm fun a b => φ.injective ?_
     rw [map_mul, map_mul]
     exact mul_comm' (φ a) (φ b)

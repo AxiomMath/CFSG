@@ -29,7 +29,7 @@ theorem z2BigProp6a4_of_parts (hChoice : Z2BigChoiceB r n) (hT1 : Z2BigT1 r n)
   refine false_of_transfer_1515 (p := 2) (P := (P : Subgroup Y))
     (Q := edgeCent (P : Subgroup Y) t u) (R₀ := R₀) (u := b)
     (fun _ _ f hf => LinkZ2B.hom_eq_one_of_sylow_tight hs.large.cls.2.1 hs.hR₀ f hf)
-    P.isPGroup' P.not_dvd_index (fun x hx q hq => hs.conj_mem_edgeCent hx hq)
+    P.isPGroup P.not_dvd_index (fun x hx q hq => hs.conj_mem_edgeCent hx hq)
     ⟨b, hbP, fun x hx => ?_⟩ hbP hbA
     (fun g k hg => hT2 hr Y R S t J u R₀ T₀ P hs h1 hall hno b hbP hbA hab g k hg)
     (fun g hg _ => hs.mem_or_mem_of_swap hbP hbt hg)

@@ -91,8 +91,8 @@ theorem gap5Perm_not_odd_index_four_five {n : ℕ} (hn : n = 4 ∨ n = 5) {τ : 
     omega
 
 theorem gap5Perm_card_le_six_of_klein_dichotomy {α : Type} [Fintype α] [DecidableEq α]
-    {x y : Perm α} (hx : x * x = 1) (hy : y * y = 1) (hxy : x * y = y * x) (hx1 : x ≠ 1)
-    (hy1 : y ≠ 1) (hne : x ≠ y)
+    {x y : Perm α} (hx : x * x = 1) (_hy : y * y = 1) (_hxy : x * y = y * x) (hx1 : x ≠ 1)
+    (_hy1 : y ≠ 1) (_hne : x ≠ y)
     (hdich : ∀ i j : α, i ≠ j →
       (x * swap i j = swap i j * x ∧ y * swap i j = swap i j * y) ∨
       (x * swap i j ≠ swap i j * x ∧ y * swap i j ≠ swap i j * y ∧
@@ -111,9 +111,9 @@ theorem gap5Perm_card_le_six_of_klein_dichotomy {α : Type} [Fintype α] [Decida
     have hcomm : x * swap b (x b) = swap b (x b) * x :=
       (w85g_mul_swap_commute_iff hbne).mpr (Or.inr ⟨rfl, hxx⟩)
     rcases hdich b (x b) hbne with ⟨_, hys⟩ | ⟨hxs, _⟩
-    · rcases (w85g_mul_swap_commute_iff hbne).mp hys with ⟨hy1, _⟩ | ⟨hy1, _⟩
-      · exact hyb hy1
-      · exact hxyb (by rw [hy1, hxx])
+    · rcases (w85g_mul_swap_commute_iff hbne).mp hys with ⟨_hy1, _⟩ | ⟨_hy1, _⟩
+      · exact hyb _hy1
+      · exact hxyb (by rw [_hy1, hxx])
     · exact hxs hcomm
   have hstep2 : ¬ ∃ a, x a = a ∧ y a = a := by
     rintro ⟨a, hxa, hya⟩
@@ -142,31 +142,31 @@ theorem gap5Perm_card_le_six_of_klein_dichotomy {α : Type} [Fintype α] [Decida
     · exact hxb hxb'
     · exact hab (by rw [← hxa', hxa])
   have hstep3x : ∀ b b', x b = b → x b' = b' → b ≠ b' → b' = y b := by
-    intro b b' hb hb' hne
+    intro b b' hb hb' _hne
     have hcomm : x * swap b b' = swap b b' * x :=
-      (w85g_mul_swap_commute_iff hne).mpr (Or.inl ⟨hb, hb'⟩)
-    rcases hdich b b' hne with ⟨_, hys⟩ | ⟨hxs, _⟩
-    · rcases (w85g_mul_swap_commute_iff hne).mp hys with ⟨hy1, _⟩ | ⟨hy1, _⟩
-      · exact absurd ⟨b, hb, hy1⟩ hstep2
-      · exact hy1.symm
+      (w85g_mul_swap_commute_iff _hne).mpr (Or.inl ⟨hb, hb'⟩)
+    rcases hdich b b' _hne with ⟨_, hys⟩ | ⟨hxs, _⟩
+    · rcases (w85g_mul_swap_commute_iff _hne).mp hys with ⟨_hy1, _⟩ | ⟨_hy1, _⟩
+      · exact absurd ⟨b, hb, _hy1⟩ hstep2
+      · exact _hy1.symm
     · exact absurd hcomm hxs
   have hstep3y : ∀ b b', y b = b → y b' = b' → b ≠ b' → b' = x b := by
-    intro b b' hb hb' hne
+    intro b b' hb hb' _hne
     have hcomm : y * swap b b' = swap b b' * y :=
-      (w85g_mul_swap_commute_iff hne).mpr (Or.inl ⟨hb, hb'⟩)
-    rcases hdich b b' hne with ⟨hxs, _⟩ | ⟨_, hys, _⟩
-    · rcases (w85g_mul_swap_commute_iff hne).mp hxs with ⟨hx1, _⟩ | ⟨hx1, _⟩
+      (w85g_mul_swap_commute_iff _hne).mpr (Or.inl ⟨hb, hb'⟩)
+    rcases hdich b b' _hne with ⟨hxs, _⟩ | ⟨_, hys, _⟩
+    · rcases (w85g_mul_swap_commute_iff _hne).mp hxs with ⟨hx1, _⟩ | ⟨hx1, _⟩
       · exact absurd ⟨b, hx1, hb⟩ hstep2
       · exact hx1.symm
     · exact absurd hcomm hys
   have hstep3xy : ∀ b b', x (y b) = b → x (y b') = b' → b ≠ b' → b' = x b := by
-    intro b b' hb hb' hne
+    intro b b' hb hb' _hne
     have hcomm : (x * y) * swap b b' = swap b b' * (x * y) :=
-      (w85g_mul_swap_commute_iff hne).mpr
+      (w85g_mul_swap_commute_iff _hne).mpr
         (Or.inl ⟨by simpa [Equiv.Perm.mul_apply] using hb,
           by simpa [Equiv.Perm.mul_apply] using hb'⟩)
-    rcases hdich b b' hne with ⟨hxs, _⟩ | ⟨_, _, hxys⟩
-    · rcases (w85g_mul_swap_commute_iff hne).mp hxs with ⟨hxb, _⟩ | ⟨hxb, _⟩
+    rcases hdich b b' _hne with ⟨hxs, _⟩ | ⟨_, _, hxys⟩
+    · rcases (w85g_mul_swap_commute_iff _hne).mp hxs with ⟨hxb, _⟩ | ⟨hxb, _⟩
       · have hyb : y b = b := by
           have : x (y b) = x b := by rw [hb, hxb]
           exact x.injective this
@@ -174,8 +174,8 @@ theorem gap5Perm_card_le_six_of_klein_dichotomy {α : Type} [Fintype α] [Decida
       · exact hxb.symm
     · exact absurd hcomm hxys
   have hFx : (Finset.univ.filter (fun b => x b = b)).card ≤ 2 := by
-    by_cases hne : (Finset.univ.filter (fun b => x b = b)).Nonempty
-    · obtain ⟨b, hb⟩ := hne
+    by_cases _hne : (Finset.univ.filter (fun b => x b = b)).Nonempty
+    · obtain ⟨b, hb⟩ := _hne
       have hb' : x b = b := by simpa using hb
       have hsub : Finset.univ.filter (fun b => x b = b) ⊆ {b, y b} := by
         intro b' hb''
@@ -188,11 +188,11 @@ theorem gap5Perm_card_le_six_of_klein_dichotomy {α : Type} [Fintype α] [Decida
       calc (Finset.univ.filter (fun b => x b = b)).card ≤ ({b, y b} : Finset α).card :=
             Finset.card_le_card hsub
         _ ≤ 2 := Finset.card_le_two
-    · rw [Finset.not_nonempty_iff_eq_empty] at hne
-      simp [hne]
+    · rw [Finset.not_nonempty_iff_eq_empty] at _hne
+      simp [_hne]
   have hFy : (Finset.univ.filter (fun b => y b = b)).card ≤ 2 := by
-    by_cases hne : (Finset.univ.filter (fun b => y b = b)).Nonempty
-    · obtain ⟨b, hb⟩ := hne
+    by_cases _hne : (Finset.univ.filter (fun b => y b = b)).Nonempty
+    · obtain ⟨b, hb⟩ := _hne
       have hb' : y b = b := by simpa using hb
       have hsub : Finset.univ.filter (fun b => y b = b) ⊆ {b, x b} := by
         intro b' hb''
@@ -205,11 +205,11 @@ theorem gap5Perm_card_le_six_of_klein_dichotomy {α : Type} [Fintype α] [Decida
       calc (Finset.univ.filter (fun b => y b = b)).card ≤ ({b, x b} : Finset α).card :=
             Finset.card_le_card hsub
         _ ≤ 2 := Finset.card_le_two
-    · rw [Finset.not_nonempty_iff_eq_empty] at hne
-      simp [hne]
+    · rw [Finset.not_nonempty_iff_eq_empty] at _hne
+      simp [_hne]
   have hFxy : (Finset.univ.filter (fun b => x (y b) = b)).card ≤ 2 := by
-    by_cases hne : (Finset.univ.filter (fun b => x (y b) = b)).Nonempty
-    · obtain ⟨b, hb⟩ := hne
+    by_cases _hne : (Finset.univ.filter (fun b => x (y b) = b)).Nonempty
+    · obtain ⟨b, hb⟩ := _hne
       have hb' : x (y b) = b := by simpa using hb
       have hsub : Finset.univ.filter (fun b => x (y b) = b) ⊆ {b, x b} := by
         intro b' hb''
@@ -222,8 +222,8 @@ theorem gap5Perm_card_le_six_of_klein_dichotomy {α : Type} [Fintype α] [Decida
       calc (Finset.univ.filter (fun b => x (y b) = b)).card ≤ ({b, x b} : Finset α).card :=
             Finset.card_le_card hsub
         _ ≤ 2 := Finset.card_le_two
-    · rw [Finset.not_nonempty_iff_eq_empty] at hne
-      simp [hne]
+    · rw [Finset.not_nonempty_iff_eq_empty] at _hne
+      simp [_hne]
   have hcover : (Finset.univ : Finset α) ⊆
       (Finset.univ.filter (fun b => x b = b)) ∪
         (Finset.univ.filter (fun b => y b = b)) ∪

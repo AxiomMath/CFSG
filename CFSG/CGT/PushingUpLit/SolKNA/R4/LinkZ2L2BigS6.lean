@@ -114,7 +114,7 @@ theorem Z2SetR.exists_conj_sup_le (hs : Z2SetR r n R S t J u R₀ T₀ P) {S₂ 
   have hKuN : E ≤ Subgroup.normalizer (Ku : Set Y) := le_normalizer_inf_actTrivSubgroup hEN
   have hKuE : Ku ≤ E := inf_le_left
   have hA2 : IsPGroup 2 ↥(edgeCent (P : Subgroup Y) t u) :=
-    P.isPGroup'.to_le (inf_le_left.trans inf_le_left)
+    P.isPGroup.to_le (inf_le_left.trans inf_le_left)
   have hAE : IsSylow2In (edgeCent (P : Subgroup Y) t u) E := by
     refine ⟨fun c hc => ⟨hc.1.2, hc.2⟩, hA2, fun V hVE hV2 hAV => ?_⟩
     obtain ⟨c, -, hcV⟩ := hs.exists_conj_le_edgeCent hV2 (hVE.trans inf_le_left)

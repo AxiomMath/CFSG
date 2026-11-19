@@ -71,6 +71,7 @@ variable [ShortCtx Q L]
   map_one' := by ext; simp
   map_mul' a b := by ext; simp [mul_assoc]
 
+omit [ShortCtx Q L] in
 theorem conjQ_mem_CQ (hMQ : ∀ m ∈ L ⊔ S, ∀ q ∈ Q, m * q * m⁻¹ ∈ Q)
     (hML : ∀ m ∈ L ⊔ S, ∀ l ∈ L, m * l * m⁻¹ ∈ L) (m : ↥(L ⊔ S)) {c : ↥Q} (hc : c ∈ CQ Q L) :
     conjQ hMQ m c ∈ CQ Q L := by
@@ -125,6 +126,7 @@ theorem convQ_mk (hMQ : ∀ m ∈ L ⊔ S, ∀ q ∈ Q, m * q * m⁻¹ ∈ Q)
 @[expose] def UW (Q V L : Subgroup G) [ShortCtx Q L] : AddSubgroup (Additive (↥Q ⧸ CQ Q L)) :=
   Subgroup.toAddSubgroup ((⁅V, L⁆.subgroupOf Q).map (QuotientGroup.mk' (CQ Q L)))
 
+omit [ShortCtx Q L] in
 theorem mem_UW [ShortCtx Q L] {x : Additive (↥Q ⧸ CQ Q L)} :
     x ∈ UW Q V L ↔ ∃ u : ↥Q, (u : G) ∈ ⁅V, L⁆ ∧ QuotientGroup.mk u = Additive.toMul x := by
   show Additive.toMul x ∈ (⁅V, L⁆.subgroupOf Q).map (QuotientGroup.mk' (CQ Q L)) ↔ _
@@ -142,6 +144,7 @@ section Pi
 variable {N : ℕ} [ShortCtx Q L] {π : ↥⁅V, L⁆ →* Multiplicative (altHeart N)}
   {θ : ↥(L ⊔ S) →* Perm (Fin N)}
 
+omit [ShortCtx Q L] in
 theorem piA_eq_of_mk_eq (H : ShortSection Q L V S π θ) {u u' : ↥Q} (hu : (u : G) ∈ ⁅V, L⁆)
     (hu' : (u' : G) ∈ ⁅V, L⁆)
     (h : (QuotientGroup.mk u : ↥Q ⧸ CQ Q L) = QuotientGroup.mk u') :
@@ -208,7 +211,7 @@ variable {N : ℕ} [ShortCtx Q L] {π : ↥⁅V, L⁆ →* Multiplicative (altHe
 theorem toMul_rhoQ (D : ShortData Q L V S) (m : ↥(L ⊔ S)) (v : Additive (↥Q ⧸ CQ Q L)) :
     Additive.toMul (rhoQ D.hMQ D.hML m v) = convQ D.hMQ D.hML m (Additive.toMul v) := rfl
 
-theorem piW_zero_iff (D : ShortData Q L V S) (H : ShortSection Q L V S π θ)
+theorem piW_zero_iff (_D : ShortData Q L V S) (H : ShortSection Q L V S π θ)
     (x : ↥(UW Q V L)) (hx : piW H x = 0) : (x : Additive (↥Q ⧸ CQ Q L)) = 0 := by
   obtain ⟨u, hu, hmk⟩ := mem_UW.1 x.2
   rw [piW_eq H x hu hmk] at hx
@@ -260,7 +263,7 @@ theorem piFrame_of_short (hN : 6 ≤ N) (hev : Even N) (D : ShortData Q L V S)
   have hstable : ∀ (m : ↥(L ⊔ S)), ∀ u ∈ UW Q V L, rhoQ D.hMQ D.hML m u ∈ UW Q V L := by
     intro m u hu
     obtain ⟨q, hqU, hq⟩ := mem_UW.1 hu
-    refine mem_UW.2 ⟨conjQ D.hMQ m q, D.conj_mem_U H m.2 hqU, ?_⟩
+    refine mem_UW.2 ⟨conjQ D.hMQ m q, D.conj_mem_U m.2 hqU, ?_⟩
     rw [toMul_rhoQ D, ← hq, convQ_mk]
   have hrho : ∀ (m : ↥(L ⊔ S)) (q : ↥Q), Additive.toMul (rhoQ D.hMQ D.hML m
       (Additive.ofMul (QuotientGroup.mk q))) = QuotientGroup.mk (conjQ D.hMQ m q) := fun m q => rfl
@@ -268,7 +271,7 @@ theorem piFrame_of_short (hN : 6 ≤ N) (hev : Even N) (D : ShortData Q L V S)
   ·
     intro m u
     obtain ⟨q, hqU, hq⟩ := mem_UW.1 u.2
-    have hconj : ((conjQ D.hMQ m q : ↥Q) : G) ∈ ⁅V, L⁆ := D.conj_mem_U H m.2 hqU
+    have hconj : ((conjQ D.hMQ m q : ↥Q) : G) ∈ ⁅V, L⁆ := D.conj_mem_U m.2 hqU
     have h1 : piW H u = piA π (q : G) := piW_eq H u hqU hq
     have h2 : piW H ⟨rhoQ D.hMQ D.hML m u, hstable m u u.2⟩ = piA π ((conjQ D.hMQ m q : ↥Q) : G) :=
       piW_eq H _ hconj (by rw [toMul_rhoQ D, ← hq, convQ_mk])
@@ -330,6 +333,7 @@ theorem piFrame_of_short (hN : 6 ≤ N) (hev : Even N) (D : ShortData Q L V S)
 @[expose] def YW (Q L S : Subgroup G) [ShortCtx Q L] : AddSubgroup (Additive (↥Q ⧸ CQ Q L)) :=
   Subgroup.toAddSubgroup ((⁅S, S⁆.subgroupOf Q).map (QuotientGroup.mk' (CQ Q L)))
 
+omit [ShortCtx Q L] in
 theorem mem_YW [ShortCtx Q L] {x : Additive (↥Q ⧸ CQ Q L)} :
     x ∈ YW Q L S ↔ ∃ u : ↥Q, (u : G) ∈ ⁅S, S⁆ ∧ QuotientGroup.mk u = Additive.toMul x := by
   show Additive.toMul x ∈ (⁅S, S⁆.subgroupOf Q).map (QuotientGroup.mk' (CQ Q L)) ↔ _

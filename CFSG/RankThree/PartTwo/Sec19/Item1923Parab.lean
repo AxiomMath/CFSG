@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G] {A M N L K : Subgroup G} {c : G}
 
 private theorem parab_isSylowTwoOf_top (X : Type) [Group X] [Finite X] (T : Sylow 2 X) :
     CFSG.QuasithinUnique.IsSylowTwoOf (T : Subgroup X) ⊤ := by
-  refine ⟨le_top, T.isPGroup', ?_⟩
+  refine ⟨le_top, T.isPGroup, ?_⟩
   change ¬ 2 ∣ (T : Subgroup X).relIndex ⊤
   rw [Subgroup.relIndex_top_right]
   exact Sylow.not_dvd_index T
@@ -110,6 +110,7 @@ theorem step1923_normalizer_parab {X : Type} [Group X] [Finite X] {P : Subgroup 
   obtain ⟨T, hT, hN⟩ := parab_exists_isSylowTwoOf_normalizer_le hP
   exact le_antisymm (parab_normalizer_le_of_isSylowTwoOf hT hN) Subgroup.le_normalizer
 
+omit [Finite G] in
 private theorem parab_barAut_maps_starIm (g : Subgroup.normalizer (K : Set G))
     (hg : (g : G) ∈ N) :
     ∀ s ∈ starIm K N, Sec3.Sims321.barAut K g s ∈ starIm K N := by
@@ -121,6 +122,7 @@ private theorem parab_barAut_maps_starIm (g : Subgroup.normalizer (K : Set G))
       (N.mul_mem (N.mul_mem hg (Subgroup.mem_subgroupOf.mp hz)) (N.inv_mem hg))
   · exact (Sec3.Sims321.barAut_mk K g z).symm
 
+omit [Finite G] in
 private theorem parab_normalizes_starIm {x : G} {k : K ⧸ CFSG.pCore 2 K} (hxN : x ∈ N)
     (hx : x ∈ Subgroup.normalizer (K : Set G))
     (hk : MulAut.conj k = Sec3.Sims321.barAut K ⟨x, hx⟩) :
@@ -140,7 +142,7 @@ private theorem parab_normalizes_starIm {x : G} {k : K ⧸ CFSG.pCore 2 K} (hxN 
     have e : k⁻¹ * (k * s * k⁻¹) * k = s := by group
     rwa [e] at h1
 
-theorem step1923_inner_mem_parab (h : Hyp1921 G A M N L)
+theorem step1923_inner_mem_parab (_h : Hyp1921 G A M N L)
     (hP : ParabolicShape (K ⧸ CFSG.pCore 2 K) (starIm K N)) {x : G} (hxN : x ∈ N)
     (hx : x ∈ Subgroup.normalizer (K : Set G))
     (hxi : Sec3.Sims321.barAut K ⟨x, hx⟩ ∈ inner (K ⧸ CFSG.pCore 2 K)) :

@@ -11,14 +11,14 @@ theorem exists_lift_noncyclic_two {S M : Type} [Group S] [Finite S] [Group M] (�
     (hVnc : ¬ IsCyclic V) :
     ∃ P : Subgroup S, IsPGroup 2 P ∧ ¬ IsCyclic P ∧ P ≤ V.comap ρ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T : Subgroup S := V.comap ρ with hT
   let g : T →* V := (ρ.domRestrict T).codRestrict V (fun t => t.2)
   have hg : Function.Surjective g := by
     rintro ⟨v, hv⟩
     obtain ⟨s, hs⟩ := hV hv
     exact ⟨⟨s, by rw [hT, Subgroup.mem_comap, hs]; exact hv⟩, Subtype.ext hs⟩
-  haveI : Finite V := Finite.of_surjective _ hg
+  have : Finite V := Finite.of_surjective _ hg
   obtain ⟨a, ha⟩ := hV2.exists_card_eq
   have hdvd : Nat.card V ∣ Nat.card T := Subgroup.card_dvd_of_surjective hg
   obtain ⟨Q⟩ : Nonempty (Sylow 2 T) := inferInstance
@@ -31,7 +31,7 @@ theorem exists_lift_noncyclic_two {S M : Type} [Group S] [Finite S] [Group M] (�
     exact Nat.pow_le_pow_right (by norm_num) ha'
   let P : Subgroup S := (Q : Subgroup T).map T.subtype
   let eQ : (Q : Subgroup T) ≃* P := Subgroup.equivMapOfInjective _ T.subtype T.subtype_injective
-  have hP2 : IsPGroup 2 P := IsPGroup.of_surjective Q.isPGroup' eQ.toMonoidHom eQ.surjective
+  have hP2 : IsPGroup 2 P := IsPGroup.of_surjective Q.isPGroup eQ.toMonoidHom eQ.surjective
   have hPT : P ≤ T := by
     rintro _ ⟨t, -, rfl⟩
     exact t.2

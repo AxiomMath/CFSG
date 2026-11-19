@@ -40,8 +40,8 @@ theorem ggUdPermModel {K : Type} [Field K] [Finite K] {n d p : ℕ}
               permAut σ (f : Fin d → Multiplicative (ZMod p)) →
               ggConjAut A hm (Θ f) = Θ g) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hd0 : 0 < d := by omega
   have hUF : UnitaryFieldData 2 n K := TableBU.unitaryFieldData_of_card hK hn
   obtain ⟨φ, hφs, hφker, hdiag⟩ :=
@@ -91,11 +91,11 @@ private theorem frameUdM_root_mem_sumZero {d p : ℕ} (i j : Fin d) :
 
 private theorem frameUdM_root_self {d p : ℕ} {i j : Fin d} (hij : i ≠ j) :
     frameUdM_root (p := p) i j i = Multiplicative.ofAdd (1 : ZMod p) := by
-  rw [frameUdM_root_apply, if_pos rfl, if_neg hij, sub_zero]
+  rw [frameUdM_root_apply, ite_eq_left rfl, ite_eq_right hij, sub_zero]
 
 private theorem frameUdM_root_of_ne {d p : ℕ} {i j k : Fin d} (hki : k ≠ i) (hkj : k ≠ j) :
     frameUdM_root (p := p) i j k = 1 := by
-  rw [frameUdM_root_apply, if_neg hki, if_neg hkj, sub_self]
+  rw [frameUdM_root_apply, ite_eq_right hki, ite_eq_right hkj, sub_self]
   rfl
 
 private theorem frameUdM_exists_notMem_four {d : ℕ} (hd : 5 ≤ d) (a b c e : Fin d) :
@@ -163,7 +163,7 @@ private theorem frameUdM_apply_eq_self {d p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
   · simpa using hii
   · exfalso
     by_cases hjj : σ i = j
-    · rw [if_neg hii, if_pos hjj] at hx
+    · rw [ite_eq_right hii, ite_eq_left hjj] at hx
       have h2 : (2 : ZMod p) = 0 := by
         have h3 : (-1 : ZMod p) = 1 := by simpa using hx
         linear_combination -h3
@@ -171,7 +171,7 @@ private theorem frameUdM_apply_eq_self {d p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
       have hle : p ≤ 2 := Nat.le_of_dvd (by norm_num) hdvd
       have hpge : 2 ≤ p := hp.two_le
       omega
-    · rw [if_neg hii, if_neg hjj] at hx
+    · rw [ite_eq_right hii, ite_eq_right hjj] at hx
       have h1 : ((1 : ℕ) : ZMod p) = 0 := by simpa using hx.symm
       have hdvd : p ∣ 1 := (ZMod.natCast_eq_zero_iff 1 p).mp h1
       have hle : p ≤ 1 := Nat.le_of_dvd (by norm_num) hdvd
@@ -220,8 +220,8 @@ theorem exists_udPermHom {K : Type} [Field K] [Finite K] {n d p : ℕ}
         (hw : MulAut.conj w ∈ Subgroup.normalizer (A : Set (MulAut L'))),
         GGTorusWeylElt p A w ∧ Φ σ = ggConjAut A hw := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hp2 : p ≠ 2 := TableBU.ne_two_of_dvd_two_pow_add_one hn hpq
   have hK' : UnitaryFieldData 2 n K := TableBU.unitaryFieldData_of_card hK hn
   have hd3 : 3 ≤ d := by omega

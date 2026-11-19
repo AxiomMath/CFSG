@@ -101,9 +101,9 @@ theorem ggKGTA_permModel {d p : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
       (hn : MulAut.conj n ∈ Subgroup.normalizer (A : Set (MulAut L'))),
         ∃ π : Equiv.Perm (Fin d), ggConjAut A hn = MulAut.congr Θ (permAutV π) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite (MulAut L') :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun f : MulAut L' => (f : L' → L')) fun f g h => by
       ext x
       exact congrFun h x
@@ -111,7 +111,7 @@ theorem ggKGTA_permModel {d p : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
   let u : Kˣ := Units.mk0 ζ (hζ.ne_zero hp.ne_zero)
   have hu : u ^ p = 1 := by
     ext
-    simp only [u, Units.val_pow_eq_pow_val, Units.val_one, Units.mk0_val]
+    simp only [u, Units.val_pow_eq_pow_val, Units.val_one]
     exact hζ.pow_eq_one
   have hord : orderOf u = p := by
     have hζu : IsPrimitiveRoot u p := IsPrimitiveRoot.coe_units_iff.mp hζ
@@ -140,7 +140,7 @@ theorem ggKGTA_permModel {d p : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     have ht'p : ∀ k, t' k ^ p = 1 := by
       intro k
       ext
-      simp only [t', Units.val_pow_eq_pow_val, Units.val_one, Units.mk0_val]
+      simp only [t', Units.val_pow_eq_pow_val, Units.val_one]
       exact ht k
     have hprodt' : ∏ k, t' k = 1 := by
       apply Units.ext

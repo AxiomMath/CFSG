@@ -47,10 +47,10 @@ private theorem foldl_digits : ∀ (L : List Char) (acc : Nat), (∀ c ∈ L, c.
     rw [List.foldl_cons, List.foldl_cons, ite_eq_right (digit_ne (h c List.mem_cons_self))]
     exact foldl_digits L _ fun c hc => h c (List.mem_cons_of_mem _ hc)
 
-theorem natGo_eq : ∀ (ds : List Char) (acc : ℕ),
-    natGo acc ds = ds.foldl (fun n c => n * 10 + (c.toNat - 48)) acc
+theorem natGo_eq : ∀ (ds : List Char) (_acc : ℕ),
+    natGo _acc ds = ds.foldl (fun n _c => n * 10 + (_c.toNat - 48)) _acc
   | [], _ => rfl
-  | c :: ds, acc => natGo_eq ds _
+  | _c :: ds, _acc => natGo_eq ds _
 
 private theorem toNat_of {r : String.Slice} {ds : List Char} (hr : r.copy.toList = ds)
     (hd : ∀ c ∈ ds, c.isDigit = true) (hne : ds ≠ []) : r.toNat? = some (natOfL ds) := by
@@ -285,42 +285,42 @@ theorem corr_word : Corr rdWord rlWord := corr_list corr_int
 theorem corr_words : Corr rdWords rlWords := corr_list corr_word
 
 theorem corr_chain (n : ℕ) : Corr (rdChain n) (rlChain n) :=
-  corr_bind (corr_arr (corr_perm n)) fun S => corr_bind corr_nat fun k =>
-    corr_bind (corr_list corr_nat) fun base => corr_bind (corr_arr corr_word) fun W =>
-      corr_bind corr_nat fun chunks => corr_pure _
+  corr_bind (corr_arr (corr_perm n)) fun _S => corr_bind corr_nat fun _k =>
+    corr_bind (corr_list corr_nat) fun _base => corr_bind (corr_arr corr_word) fun _W =>
+      corr_bind corr_nat fun _chunks => corr_pure _
 
 theorem corr_ctx (n : ℕ) : Corr (rdCtx n) (rlCtx n) :=
-  corr_bind (corr_chain n) fun chP => corr_bind (corr_chain n) fun chN =>
-    corr_bind corr_words fun normW => corr_bind corr_words fun transW =>
-      corr_bind (corr_list corr_nat) fun stabLetters => corr_pure _
+  corr_bind (corr_chain n) fun _chP => corr_bind (corr_chain n) fun _chN =>
+    corr_bind corr_words fun _normW => corr_bind corr_words fun _transW =>
+      corr_bind (corr_list corr_nat) fun _stabLetters => corr_pure _
 
 theorem corr_pair {α β : Type} {f : RdM α} {g : RL α} {f' : RdM β} {g' : RL β} (hf : Corr f g)
     (hf' : Corr f' g') : Corr (do let a ← f; let b ← f'; return (a, b)) (rlPair g g') :=
   corr_bind hf fun a => corr_bind hf' fun b => corr_pure (a, b)
 
 theorem corr_cover : Corr rdCover rlCover :=
-  corr_bind corr_words fun ws => corr_bind (corr_list (corr_pair corr_nat corr_word)) fun cj =>
+  corr_bind corr_words fun _ws => corr_bind (corr_list (corr_pair corr_nat corr_word)) fun _cj =>
     corr_pure _
 
 theorem corr_gen : Corr rdGen rlGen :=
-  corr_bind corr_words fun Aw => corr_bind (corr_list corr_nat) fun ka =>
-    corr_bind corr_words fun Bw => corr_bind (corr_list corr_nat) fun kb =>
-      corr_bind corr_words fun pw => corr_pure _
+  corr_bind corr_words fun _Aw => corr_bind (corr_list corr_nat) fun _ka =>
+    corr_bind corr_words fun _Bw => corr_bind (corr_list corr_nat) fun _kb =>
+      corr_bind corr_words fun _pw => corr_pure _
 
 theorem corr_rep (n : ℕ) : Corr (rdRep n) (rlRepC n) :=
-  corr_bind corr_word fun nuW => corr_bind (corr_chain n) fun chC =>
-  corr_bind corr_words fun cgW => corr_bind (corr_list (corr_pair corr_nat corr_int)) fun par =>
-  corr_bind (corr_list corr_nat) fun ord => corr_bind (corr_chain n) fun chX =>
-  corr_bind corr_words fun xgW => corr_bind (corr_list corr_words) fun xnorm =>
-  corr_bind (corr_list corr_words) fun xcomm => corr_bind (corr_chain n) fun chT =>
-  corr_bind corr_words fun tgW => corr_bind corr_nat fun sylA => corr_bind corr_nat fun sylM =>
-  corr_bind corr_cover fun tel => corr_bind corr_words fun epsW =>
-  corr_bind (corr_list corr_gen) fun gens => corr_pure _
+  corr_bind corr_word fun _nuW => corr_bind (corr_chain n) fun _chC =>
+  corr_bind corr_words fun _cgW => corr_bind (corr_list (corr_pair corr_nat corr_int)) fun _par =>
+  corr_bind (corr_list corr_nat) fun _ord => corr_bind (corr_chain n) fun _chX =>
+  corr_bind corr_words fun _xgW => corr_bind (corr_list corr_words) fun _xnorm =>
+  corr_bind (corr_list corr_words) fun _xcomm => corr_bind (corr_chain n) fun _chT =>
+  corr_bind corr_words fun _tgW => corr_bind corr_nat fun _sylA => corr_bind corr_nat fun _sylM =>
+  corr_bind corr_cover fun _tel => corr_bind corr_words fun _epsW =>
+  corr_bind (corr_list corr_gen) fun _gens => corr_pure _
 
 theorem corr_fc (n : ℕ) : Corr (rdFC n) (rlFC n) :=
-  corr_bind (corr_ctx n) fun ctx => corr_bind (corr_chain n) fun chTN =>
-  corr_bind corr_words fun tnW => corr_bind corr_nat fun sylA => corr_bind corr_nat fun sylM =>
-  corr_bind corr_cover fun tel => corr_bind (corr_list (corr_rep n)) fun reps => corr_pure _
+  corr_bind (corr_ctx n) fun _ctx => corr_bind (corr_chain n) fun _chTN =>
+  corr_bind corr_words fun _tnW => corr_bind corr_nat fun _sylA => corr_bind corr_nat fun _sylM =>
+  corr_bind corr_cover fun _tel => corr_bind (corr_list (corr_rep n)) fun _reps => corr_pure _
 
 theorem parseFC_eq (n : ℕ) {cs : List Char} (h : intsOK cs = true) :
     parseFC n (String.ofList cs) = parseFCL n (intsL cs) := by

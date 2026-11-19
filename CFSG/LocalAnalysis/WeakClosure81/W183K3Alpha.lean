@@ -26,7 +26,7 @@ theorem br3_alpha_false (rows : Br3Rows) (h : Assumption131 Y Γ VA i)
     (hτ : ∃ τ ∈ Y, ActsOnDynkinMod (quasiCentre L₁) L₁ τ) : False := by
   rcases hshape with h34 | h6
   · have hAY : A ≤ Y := h.le_G A hA
-    haveI : Finite (LGL 2 V) :=
+    have : Finite (LGL 2 V) :=
       Finite.of_injective (fun e : LGL 2 V => fun v : V => e v)
         (fun e f h => LinearEquiv.ext (congrFun h))
     have hcommZ : ∀ a ∈ quasiCentre L₁, ∀ b ∈ quasiCentre L₂, a * b = b * a :=

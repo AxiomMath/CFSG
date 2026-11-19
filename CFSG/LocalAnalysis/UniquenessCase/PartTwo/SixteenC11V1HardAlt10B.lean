@@ -140,7 +140,7 @@ private lemma s16c11_v1_closure_pair_card :
 private lemma s16c11_v1_closure_pair_isElementaryAbelian :
     IsElementaryAbelian 3 ↥(Subgroup.closure ({s16c11_v1_p123_ten, s16c11_v1_p456_ten} :
       Set (Equiv.Perm (Fin 10)))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hC : IsElementaryAbelian 3 ↥(Subgroup.zpowers s16c11_v1_p123_ten) :=
     IsElementaryAbelian.zpowers_of_pow_eq_one (p := 3) s16c11_v1_p123_ten_pow_three
   have hD : IsElementaryAbelian 3 ↥(Subgroup.zpowers s16c11_v1_p456_ten) :=
@@ -167,7 +167,7 @@ private lemma s16c11_v1_closure_pair_isElementaryAbelian :
   exact hsup
 
 theorem s16c11_v1_blocks_ten_of_realizes {J : Type} [CommGroup J] [Finite J]
-    (hJ : ∀ j : J, j ^ 2 = 1) {H : Subgroup (MulAut J)}
+    (_hJ : ∀ j : J, j ^ 2 = 1) {H : Subgroup (MulAut J)}
     (hReal : (altCoreModel 10).Realizes H ⊤ ⊥) :
     ∃ E : Subgroup (MulAut J), E ≤ H ∧ IsPGroup 3 ↥E ∧ ¬ IsCyclic ↥E ∧
       Nat.card ↥(fixV E) = 2 ^ 5 := by
@@ -187,12 +187,12 @@ theorem s16c11_v1_blocks_ten_of_realizes {J : Type} [CommGroup J] [Finite J]
     · exact Equiv.Perm.mem_alternatingGroup.mpr s16c11_v1_p456_ten_isThreeCycle.sign
   obtain ⟨E, hEH, hEiso, hEcard⟩ :=
     s16c11_v1_fixV_card_of_realizes (n := 10) (J := J) (by norm_num) hReal B hBle
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hBp : IsPGroup 3 ↥B := by
-    haveI := hBEA
+    have := hBEA
     exact IsElementaryAbelian.isPGroup 3 ↥B
   have hBc : ¬ IsCyclic ↥B := by
-    haveI := hBEA
+    have := hBEA
     exact IsElementaryAbelian.not_isCyclic_of_card_eq_prime_sq (p := 3)
       (by rw [hBcard]; norm_num)
   refine ⟨E, hEH, ?_, ?_, ?_⟩
@@ -217,8 +217,8 @@ private lemma s16c11_v1_ten_not_shift {x : Fin 10 → ZMod 2} (hx : ∑ i, x i =
   have hxS : x = fun i => if i ∈ S then 1 else 0 := by
     funext i
     by_cases hi : i ∈ S
-    · rw [if_pos hi]; exact hi
-    · rw [if_neg hi]
+    · rw [ite_eq_left hi]; exact hi
+    · rw [ite_eq_right hi]
       rcases (by decide : ∀ a : ZMod 2, a = 0 ∨ a = 1) (x i) with h0 | h1
       · exact h0
       · exact absurd h1 hi
@@ -347,10 +347,10 @@ private lemma s16c11_v1_ten_card_coreMod : Nat.card ↥(coreMod 10) = 2 ^ 9 := b
 
 theorem s16c11_v1_coreMod_ten_dimD1 {E : Subgroup (MulAut ↥(coreMod 10))}
     (hE : E ∈ E3.aSet 2 (G6.coreAct 10).range)
-    (h2 : IsPGroup 2 ↥E) (hEne : E ≠ ⊥) :
+    (_h2 : IsPGroup 2 ↥E) (hEne : E ≠ ⊥) :
     4 ≤ rkIdx (fixV E) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcore : Nat.card ↥(coreMod 10) = 2 ^ 9 := s16c11_v1_ten_card_coreMod
   have hpg : IsPGroup 2 ↥(coreMod 10) := IsPGroup.of_card (n := 9) hcore
   let P : Subgroup (Equiv.Perm (Fin 10)) := E.comap (G6.coreAct 10)
@@ -429,18 +429,18 @@ theorem s16c11_v1_coreMod_ten_dimD1 {E : Subgroup (MulAut ↥(coreMod 10))}
       change G6.permAct 10 τ (v.1 : PermMod 10) = (v.1 : PermMod 10) at h
       exact h
     have h1 : (v.1 : PermMod 10) (τ⁻¹ i) = (v.1 : PermMod 10) i := by
-      have h2 := congrFun (congrArg Multiplicative.toAdd hv') i
+      have _h2 := congrFun (congrArg Multiplicative.toAdd hv') i
       change Multiplicative.toAdd (G6.permAct 10 τ (v.1 : PermMod 10)) i =
-        Multiplicative.toAdd (v.1 : PermMod 10) i at h2
-      rw [G6.permAct_apply] at h2
-      exact h2
+        Multiplicative.toAdd (v.1 : PermMod 10) i at _h2
+      rw [G6.permAct_apply] at _h2
+      exact _h2
     have hτi' : τ⁻¹ i = j i := by
       have hτj : τ (j i) = i := by
         have hpow : τ ^ 2 = 1 := hPab.2 τ hτ
         calc τ (j i) = τ (τ i) := by rw [hτi]
           _ = i := by
-            have h2 : (τ ^ 2) i = i := by rw [hpow]; rfl
-            simpa [pow_two] using h2
+            have _h2 : (τ ^ 2) i = i := by rw [hpow]; rfl
+            simpa [pow_two] using _h2
       have h3 : τ⁻¹ i = τ⁻¹ (τ (j i)) := by rw [hτj]
       simpa using h3
     rw [← hτi']; exact h1

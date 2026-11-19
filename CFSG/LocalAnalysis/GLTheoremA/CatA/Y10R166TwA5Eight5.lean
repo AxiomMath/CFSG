@@ -80,16 +80,16 @@ theorem twA5_centralizer_lift {b : unitarySU 2 3 F 6}
     have hmem : ⁅b, s⁆ ∈ (unitaryProj h 6).ker := MonoidHom.mem_ker.mpr h1
     rwa [ker_unitaryProj] at hmem
   let f : unitaryLineRadical h →* Z := commutatorElementHom b hZA hxA
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [twA5_card_F h]; norm_num)
-  haveI : IsPGroup 2 (unitaryLineRadical h) := unitaryLineRadical_isPGroup h
-  haveI : Finite (unitaryLineRadical h) := Subtype.finite
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [twA5_card_F h]; norm_num)
+  have : IsPGroup 2 (unitaryLineRadical h) := unitaryLineRadical_isPGroup h
+  have : Finite (unitaryLineRadical h) := Subtype.finite
   let f' : unitaryLineRadical h →* f.range :=
     f.codRestrict f.range (fun x => ⟨x, rfl⟩)
   have hsurj : Function.Surjective f' := by
     intro y
     obtain ⟨x, hx⟩ := y.2
     exact ⟨x, Subtype.ext hx⟩
-  haveI : Finite f.range := Finite.of_surjective f' hsurj
+  have : Finite f.range := Finite.of_surjective f' hsurj
   have himg : IsPGroup 2 f.range := IsPGroup.of_surjective (unitaryLineRadical_isPGroup h) f' hsurj
   have hdvd : Nat.card f.range ∣ 3 := by
     have hle : f.range ≤ ⊤ := le_top

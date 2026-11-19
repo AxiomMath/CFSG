@@ -138,7 +138,7 @@ theorem not_dvd_card_centralizer_of_free {M : Type} [Group M] [Finite M] {q : �
     (hfree : ∀ y : M, orderOf y = q → ¬ 3 ∣ Nat.card (Subgroup.centralizer ({y} : Set M)))
     {x : M} (hx : orderOf x = 3) : ¬ q ∣ Nat.card ↥(Subgroup.centralizer ({x} : Set M)) := by
   intro hdvd
-  haveI := Fact.mk hq
+  have := Fact.mk hq
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' q hdvd
   have hy' : orderOf (y : M) = q := by rw [Subgroup.orderOf_coe]; exact hy
   refine hfree (y : M) hy' ?_
@@ -456,7 +456,7 @@ theorem sporL3DownInner_of_comp {s : TauCeti.SporadicName} (M : Type) [Group M] 
   · subst hx1
     have hCtop : Subgroup.centralizer ({1} : Set S) = ⊤ := by simp
     have hsn : CFSG.Open.IsSubnormal J ⊤ := hCtop ▸ hJ.2.1
-    haveI := hS
+    have := hS
     have hq : CFSG.Open.IsQuasisimple (barOf 3 J) := isQuasisimple_quotient_of_glaPComponent hJ
     have hnt := nontrivial_of_isQuasisimple hq
     rcases eq_bot_or_eq_top_of_isSubnormal hsn rfl with hJ0 | hJ1

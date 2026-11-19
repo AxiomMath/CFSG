@@ -173,7 +173,6 @@ theorem eq_or_eq_of_le_pCoreOf_conj_inf_centralizer [Finite G] [Finite K] (hG : 
     rw [Subgroup.mem_centralizer_singleton_iff] at hcent
     change (xl : G) ∈ Subgroup.centralizer ({n * b * n⁻¹} : Set G)
     rw [Subgroup.mem_centralizer_singleton_iff]
-    change (xl : G) * (n * b * n⁻¹) = (n * b * n⁻¹) * (xl : G)
     have hpre : (⟨(xl : G) * (n * b * n⁻¹), L.mul_mem xl.2 hnL⟩ : L) =
         ⟨(n * b * n⁻¹) * (xl : G), L.mul_mem hnL xl.2⟩ := by
       have h1 : (⟨(xl : G) * (n * b * n⁻¹), L.mul_mem xl.2 hnL⟩ : L) =
@@ -202,8 +201,8 @@ theorem eq_or_eq_of_le_pCoreOf_conj_inf_centralizer [Finite G] [Finite K] (hG : 
     eXφ.trans (MulEquiv.subgroupCongr hXLmap)
   let eX' : ↥XL ≃* ↥X := Subgroup.equivMapOfInjective XL L.subtype L.subtype_injective
   let eX : ↥X ≃* ↥(blockFourU hS.card_K) := eX'.symm.trans eXL
-  haveI hBLsimple : IsSimpleGroup ↥(blockFourU hS.card_K) := isSimpleGroup_blockFourU hS.card_K
-  haveI hXsimple : IsSimpleGroup ↥X := MulEquiv.isSimpleGroup eX
+  have hBLsimple : IsSimpleGroup ↥(blockFourU hS.card_K) := isSimpleGroup_blockFourU hS.card_K
+  have hXsimple : IsSimpleGroup ↥X := MulEquiv.isSimpleGroup eX
   have hXcard : Nat.card ↥X = 25920 := by
     have h1 : Nat.card ↥XL = 25920 := by
       rw [Nat.card_congr eXL.toEquiv, card_blockFourU hS.card_K]
@@ -213,10 +212,10 @@ theorem eq_or_eq_of_le_pCoreOf_conj_inf_centralizer [Finite G] [Finite K] (hG : 
     obtain ⟨hHnorm, hidx⟩ : (H.subgroupOf C).Normal ∧ (H.subgroupOf C).index ∣ 6 := by
       have h := normal_and_index_dvd_six hS'
       simpa only [H, R, C] using h
-    haveI : (H.subgroupOf C).Normal := hHnorm
+    have : (H.subgroupOf C).Normal := hHnorm
     let q : ↥C →* (↥C ⧸ (H.subgroupOf C)) := QuotientGroup.mk' _
     let fq : ↥(X.subgroupOf C) →* (↥C ⧸ (H.subgroupOf C)) := q.comp (X.subgroupOf C).subtype
-    haveI : IsSimpleGroup ↥(X.subgroupOf C) :=
+    have : IsSimpleGroup ↥(X.subgroupOf C) :=
       MulEquiv.isSimpleGroup (Subgroup.subgroupOfEquivOfLe hXC)
     rcases Subgroup.Normal.eq_bot_or_eq_top fq.ker with hbot | htop
     · exfalso
@@ -301,7 +300,7 @@ theorem eq_or_eq_of_le_pCoreOf_conj_inf_centralizer [Finite G] [Finite K] (hG : 
       intro r x hr hx
       exact ⟨X.mul_mem (X.mul_mem hx hr.1) (X.inv_mem hx),
         (Subgroup.mem_normalizer_iff.mp (hXNR hx) r).mp hr.2⟩
-    haveI : ((X ⊓ R).subgroupOf X).Normal := hnormal
+    have : ((X ⊓ R).subgroupOf X).Normal := hnormal
     rcases Subgroup.Normal.eq_bot_or_eq_top ((X ⊓ R).subgroupOf X) with hbot | htop
     · exact (Subgroup.subgroupOf_eq_bot.mp hbot).eq_bot_of_le inf_le_left
     · exfalso
@@ -364,7 +363,7 @@ theorem eq_or_eq_of_le_pCoreOf_conj_inf_centralizer [Finite G] [Finite K] (hG : 
     { toFun := fun x => (hex x).choose
       map_one' := by
         refine huniq 1 (hex 1).choose ⟨1, M.one_mem⟩ (hex 1).choose_spec ?_
-        simpa using R.one_mem
+        simp
       map_mul' := fun x y => by
         symm
         refine huniq (x * y) ((hex x).choose * (hex y).choose) (hex (x * y)).choose ?_
@@ -492,7 +491,7 @@ theorem eq_or_eq_of_le_pCoreOf_conj_inf_centralizer [Finite G] [Finite K] (hG : 
       have h2 : (y : G) ∈ Y := by
         have h1' := h1
         rw [show (f (x⁻¹) : G) = (f x : G)⁻¹ from by rw [map_inv]; rfl] at h1'
-        convert h1' using 1 <;> group
+        convert h1' using 1; group
       rw [Subgroup.mem_subgroupOf]
       exact h2
   have hXG_NQ : X'M.map M.subtype ≤ Subgroup.normalizer (Q : Set G) := by
@@ -575,8 +574,8 @@ theorem eq_or_eq_of_le_pCoreOf_conj_inf_centralizer [Finite G] [Finite K] (hG : 
       intro r x hr hx
       exact ⟨X'M.mul_mem (X'M.mul_mem hx hr.1) (X'M.inv_mem hx),
         (Subgroup.mem_normalizer_iff.mp (hX'M_normQ hx) r).mp hr.2⟩
-    haveI : IsSimpleGroup X'M := hX'M_simple
-    haveI : ((X'M ⊓ QM).subgroupOf X'M).Normal := hnormal
+    have : IsSimpleGroup X'M := hX'M_simple
+    have : ((X'M ⊓ QM).subgroupOf X'M).Normal := hnormal
     rcases Subgroup.Normal.eq_bot_or_eq_top ((X'M ⊓ QM).subgroupOf X'M) with hbot | htop
     · exact (Subgroup.subgroupOf_eq_bot.mp hbot).eq_bot_of_le inf_le_left
     · exfalso

@@ -44,7 +44,7 @@ theorem three_mul_card_blocksMeeting {X : Type*} [DecidableEq X] (P : Finset X)
   omega
 
 theorem four_le_card_blocksMeeting {X : Type*} [DecidableEq X] (P : Finset X)
-    (B : Finset (Finset X)) (hBP : ∀ O ∈ B, O ⊆ P) (h2 : ∀ p ∈ P, (B.filter (p ∈ ·)).card = 2)
+    (B : Finset (Finset X)) (_hBP : ∀ O ∈ B, O ⊆ P) (h2 : ∀ p ∈ P, (B.filter (p ∈ ·)).card = 2)
     (h1 : ∀ O ∈ B, ∀ O' ∈ B, O ≠ O' → (O ∩ O').card = 1) (S : Finset X) (hSP : S ⊆ P)
     (hS : S.Nonempty) (h3 : ∀ O ∈ B, ¬ Disjoint O S → (O ∩ S).card = 3) :
     4 ≤ (B.filter fun O => ¬ Disjoint O S).card := by

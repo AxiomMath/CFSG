@@ -347,7 +347,7 @@ theorem mask_induction {P : Nat → Prop} (h0 : P 0)
   refine step _ ?_ 7 (by decide) (step _ ?_ 6 (by decide) (step _ ?_ 5 (by decide)
     (step _ ?_ 4 (by decide) (step _ ?_ 3 (by decide) (step _ ?_ 2 (by decide)
     (step _ ?_ 1 (by decide) (step _ (by decide) 0 (by decide) h0))))))) <;>
-    repeat (first | exact xor_lt ‹_› ‹_› | apply xor_lt)
+    repeat (first | apply xor_lt)
   all_goals first | assumption | decide
 
 theorem nTau_xor {r : Lin8} (hr : r ∈ glList) {m n : Nat} (hm : m < 256) (hn : n < 256) :

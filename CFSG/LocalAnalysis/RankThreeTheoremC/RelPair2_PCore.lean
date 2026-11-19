@@ -105,7 +105,7 @@ theorem IsRelPairCandidate.pCore_quotient_eq_bot (hS : Setting G) (hD1 : Theorem
   obtain ⟨hDab, z, hzD, hz1, hzc, hzp, hN₀M, hCD, -⟩ :=
     hext.transitivity_data hS hD1 hp hPD hR h13
   obtain ⟨hM, hDP, -, -⟩ := hext.obstruction
-  have hDp : IsPGroup p D := P.isPGroup'.to_le hDP
+  have hDp : IsPGroup p D := P.isPGroup.to_le hDP
   have hDH : D ≤ H := (le_sup_right : D ≤ relPairBase R T ⊔ D).trans hH.base_le
   set K' : Subgroup H := primeComplementCore (G := H) p with hK'
   set π : H →* H ⧸ K' := QuotientGroup.mk' K' with hπ

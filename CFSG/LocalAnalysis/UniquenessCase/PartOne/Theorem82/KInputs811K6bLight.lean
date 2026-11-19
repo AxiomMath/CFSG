@@ -20,9 +20,9 @@ theorem three_le_pRank_centralizer_of_lieModel_psp6 {X : Type} [Group X] [Finite
     (hq : ¬ 3 ∣ r ^ f) (hm : LieModel X .PSp 3 r f) :
     ∀ y : X, orderOf y = 3 → 3 ≤ CFSG.Open.pRank 3 (Subgroup.centralizer {y}) := by
   obtain ⟨-, K, hK, hfin, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (t := .PSp) (by decide)
-  letI := hK
-  letI := hfin
-  haveI : Finite (StatedProj (StatedSp 3 K)) := Finite.of_equiv _ e.toEquiv
+  let := hK
+  let := hfin
+  have : Finite (StatedProj (StatedSp 3 K)) := Finite.of_equiv _ e.toEquiv
   exact CFSG.GroupTheory.CoprimeTransport.le_pRank_centralizer_of_mulEquiv e
     (fun y hy => i294CrossModelPSp6_holds K (hcard ▸ hq) y hy)
 
@@ -30,9 +30,9 @@ theorem three_le_pRank_centralizer_of_lieModel_omega7 {X : Type} [Group X] [Fini
     {r f : ℕ} (hq : ¬ 3 ∣ r ^ f) (hodd : Odd (r ^ f)) (hm : LieModel X .POmegaOdd 3 r f) :
     ∀ y : X, orderOf y = 3 → 3 ≤ CFSG.Open.pRank 3 (Subgroup.centralizer {y}) := by
   obtain ⟨-, K, hK, hfin, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (t := .POmegaOdd) (by decide)
-  letI := hK
-  letI := hfin
-  haveI : Finite (StatedProj (StatedOmega (StatedQuadOdd 3 K))) := Finite.of_equiv _ e.toEquiv
+  let := hK
+  let := hfin
+  have : Finite (StatedProj (StatedOmega (StatedQuadOdd 3 K))) := Finite.of_equiv _ e.toEquiv
   exact CFSG.GroupTheory.CoprimeTransport.le_pRank_centralizer_of_mulEquiv e
     (fun y hy => i294CrossModelPOmega7_holds K (hcard ▸ hq) (hcard ▸ hodd) y hy)
 
@@ -40,9 +40,9 @@ theorem three_le_pRank_centralizer_of_lieModel_psl4 {X : Type} [Group X] [Finite
     (h3 : 3 ∣ r ^ f - 1) (hm : LieModel X .PSL 4 r f) :
     ∀ y : X, orderOf y = 3 → 3 ≤ CFSG.Open.pRank 3 (Subgroup.centralizer {y}) := by
   obtain ⟨-, K, hK, hfin, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (t := .PSL) (by decide)
-  letI := hK
-  letI := hfin
-  haveI : Finite (StatedProj (StatedSL 4 K)) := Finite.of_equiv _ e.toEquiv
+  let := hK
+  let := hfin
+  have : Finite (StatedProj (StatedSL 4 K)) := Finite.of_equiv _ e.toEquiv
   exact CFSG.GroupTheory.CoprimeTransport.le_pRank_centralizer_of_mulEquiv e
     (fun y hy => i294CrossModelPSL4_holds K (hcard ▸ h3) y hy)
 
@@ -51,9 +51,9 @@ theorem three_le_pRank_centralizer_of_lieModel_psl67 {X : Type} [Group X] [Finit
     (hm : LieModel X .PSL n r f) :
     ∀ y : X, orderOf y = 3 → 3 ≤ CFSG.Open.pRank 3 (Subgroup.centralizer {y}) := by
   obtain ⟨-, K, hK, hfin, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (t := .PSL) (by decide)
-  letI := hK
-  letI := hfin
-  haveI : Finite (StatedProj (StatedSL n K)) := Finite.of_equiv _ e.toEquiv
+  let := hK
+  let := hfin
+  have : Finite (StatedProj (StatedSL n K)) := Finite.of_equiv _ e.toEquiv
   exact CFSG.GroupTheory.CoprimeTransport.le_pRank_centralizer_of_mulEquiv e
     (fun y hy => i294CrossModelPSL67_holds K (hcard ▸ h3) (hcard ▸ h3') n hn y hy)
 

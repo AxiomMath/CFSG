@@ -17,7 +17,7 @@ theorem ggA8NbrInfB_false_of_coord {G : Type} [Group G] {Bs : Subgroup G} (L K :
     (hgen : ∀ k : Fin 6, ∃ φ ∈ ggAutomizer L Bs ⊔ ggAutomizer K Bs, ∀ b : ↥Bs,
       ι (Additive.ofMul (φ b)) = Matrix.vecMul (ι (Additive.ofMul b)) (gensInfB a μ k)) :
     False := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let S : Submonoid M4 :=
     { carrier := {g | ∃ φ ∈ ggAutomizer L Bs ⊔ ggAutomizer K Bs, ∀ b : ↥Bs,
         ι (Additive.ofMul (φ b)) = Matrix.vecMul (ι (Additive.ofMul b)) g}

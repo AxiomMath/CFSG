@@ -83,7 +83,7 @@ theorem schurAltLift_holds : SchurAltLift := by
     rw [← hrange] at hg
     obtain ⟨x, rfl⟩ := hg
     exact ⟨x, rfl⟩
-  haveI : Group.IsPerfect E := ⟨hperf⟩
+  have : Group.IsPerfect E := ⟨hperf⟩
   have hle : Nat.card η.ker ≤ 2 :=
     CFSG.OddStandard.GlueAlt.card_ker_le_two_of_alt hm η hηsurj (hηker ▸ hker)
   have hlt : 1 < Nat.card η.ker := (Subgroup.one_lt_card_iff_ne_bot _).2 (hηker ▸ hne)
@@ -112,7 +112,7 @@ theorem glaubermanF_holds : GlaubermanF := by
       exact (Nat.not_even_iff_odd.mpr hodd) heven
   have hKle : K ≤ sylowFixingAut (S : Subgroup X) := fun α hα =>
     mem_sylowFixingAut.2 (hfix α hα)
-  haveI : Group.IsSolvable (sylowFixingAut (S : Subgroup X)) :=
+  have : Group.IsSolvable (sylowFixingAut (S : Subgroup X)) :=
     glaubermanSylowFixingSolvable X hcore S
   have hsolv : Group.IsSolvable K :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hKle)
@@ -125,7 +125,7 @@ section U42
 open CFSG.RankThree.PartTwo CitedProofsAux in
 theorem schurU42Lift_holds : SchurU42Lift := by
   intro E _ _ π hπ hperf hker _ L ⟨e⟩ hinj
-  haveI : Group.IsPerfect E := ⟨hperf⟩
+  have : Group.IsPerfect E := ⟨hperf⟩
   by_contra hne
   have hdvd : Nat.card π.ker ∣ 2 :=
     (Subgroup.card_dvd_of_surjective

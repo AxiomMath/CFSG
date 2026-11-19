@@ -22,12 +22,12 @@ private lemma coxeterMatrix_reindex_refl {ι : Type} (M : CoxeterMatrix ι) :
   rw [CoxeterMatrix.reindex_apply]
   simp
 
-private lemma le_three_A (m : ℕ) (i j : Fin m) (hij : i ≠ j) :
+private lemma le_three_A (m : ℕ) (i j : Fin m) (_hij : i ≠ j) :
     (CoxeterMatrix.A m).M i j ≤ 3 := by
   simp only [CoxeterMatrix.A, Matrix.of_apply]
   split_ifs <;> omega
 
-private lemma le_three_D (n : ℕ) (i j : Fin n) (hij : i ≠ j) :
+private lemma le_three_D (n : ℕ) (i j : Fin n) (_hij : i ≠ j) :
     (ggCoxeterMatrixD n).M i j ≤ 3 := by
   rw [ggCoxeterMatrixD_apply]
   split_ifs <;> omega

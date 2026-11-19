@@ -16,6 +16,7 @@ open scoped IsMulCommutative commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {T L I : Subgroup G} {K : Type} [Field K]
 
+omit [Finite G] in
 private lemma conj_inv_mem_centralizer_aux {X : Subgroup G} {t z : G}
     (ht : t ∈ Subgroup.normalizer (X : Set G)) (hz : z ∈ Subgroup.centralizer (X : Set G)) :
     t⁻¹ * z * t ∈ Subgroup.centralizer (X : Set G) := by
@@ -27,6 +28,7 @@ private lemma conj_inv_mem_centralizer_aux {X : Subgroup G} {t z : G}
     _ = t⁻¹ * (z * (t * h * t⁻¹)) * t := by rw [hc]
     _ = t⁻¹ * z * t * h := by group
 
+omit [Finite G] in
 theorem commutator_mem_Z_of_rElement [Finite K] (M : RModel T L I K) {r : ℕ} [Fact r.Prime]
     (hr : ¬ r ∣ Nat.card (Matrix.SpecialLinearGroup (Fin 2) K)) {k : G} (hk : k ∈ fsuML T L)
     (hk0 : ∀ l ∈ L, ⁅k, l⁆ ∈ Subgroup.centralizer (fsuVM T L I : Set G)) {j : ℕ}
@@ -52,8 +54,8 @@ theorem commutator_mem_Z_of_rElement [Finite K] (M : RModel T L I K) {r : ℕ} [
   exact h u hu
 
 theorem mem_centralizer_of_trivial_on_U
-    (h37 : Vol2Native.A37ForSQTKCat) (h38 : Vol2Native.A38ForSQTKCat) (hfsu : FSU G T L I)
-    (hlt : L < fsuL0 T L) [IsMulCommutative ↥(fsuVM T L I)] (hA : Concl326A T L I) {t : G}
+    (_h37 : Vol2Native.A37ForSQTKCat) (_h38 : Vol2Native.A38ForSQTKCat) (hfsu : FSU G T L I)
+    (_hlt : L < fsuL0 T L) [IsMulCommutative ↥(fsuVM T L I)] (hA : Concl326A T L I) {t : G}
     (ht : t ∈ T) (htn : t ∉ Subgroup.normalizer (L : Set G)) {k : G} (hk : k ∈ fsuM T L)
     (hk0 : ∀ l ∈ fsuL0 T L, ⁅k, l⁆ ∈ Subgroup.centralizer (fsuVM T L I : Set G))
     (hU : ∀ u ∈ fsuUL T L I,

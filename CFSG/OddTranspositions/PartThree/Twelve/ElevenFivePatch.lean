@@ -36,13 +36,13 @@ theorem LocalIso.coe_restr_of_mem {D : Set G} {u : G} {D' : Set G'} {u' : G'}
     (θ : LocalIso D u D' u') (c : D') {x : D} (hx : (x : G) ∈ commSet D u) :
     ((θ.restr c x : D') : G') = θ.app x := by
   unfold LocalIso.restr
-  rw [dif_pos hx]
+  rw [dite_eq_left hx]
 
 theorem LocalIso.restr_of_not_mem {D : Set G} {u : G} {D' : Set G'} {u' : G'}
     (θ : LocalIso D u D' u') (c : D') {x : D} (hx : (x : G) ∉ commSet D u) :
     θ.restr c x = c := by
   unfold LocalIso.restr
-  rw [dif_neg hx]
+  rw [dite_eq_right hx]
 
 theorem LocalIso.app_conj {D : Set G} {u : G} {D' : Set G'} {u' : G'} (θ : LocalIso D u D' u')
     {g x : G} (hg : g ∈ Subgroup.closure (commSet D u)) (hx : x ∈ Subgroup.closure (commSet D u)) :

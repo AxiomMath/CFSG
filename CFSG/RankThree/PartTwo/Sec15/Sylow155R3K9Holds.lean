@@ -65,7 +65,7 @@ theorem k9Rows_holds : K9Rows := by
     HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds
   have hLSC : HardMathSupport.Solomon.Coordinator.LieSemisimpleCent :=
     HardMathSupport.Solomon.Coordinator.LieSemisimple.lieSemisimpleCent
-  have hLC : HardMathSupport.Solomon.Coordinator.LieComp.LieComp := Sec4.Ronan148L.lieComp_holds
+  have hLC : HardMathSupport.Solomon.Coordinator.LieComp.LieCompAll := Sec4.Ronan148L.lieComp_holds
   exact
     { one := by
         intro p e _ hp2 he

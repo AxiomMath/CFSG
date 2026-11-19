@@ -24,6 +24,7 @@ namespace Ob5KN
 
 variable {G : Type} [Group G] [Finite G] {I K U : Subgroup G} {y : G}
 
+omit [Finite G] in
 theorem factor (S : Ob5KN I K U y) (g : G) (hg : g ∈ I ⊔ CFSG.Open.pCoreOf 2 K) :
     ∃ i ∈ I, ∃ q ∈ CFSG.Open.pCoreOf 2 K, g = i * q := by
   rw [Subgroup.sup_eq_closure] at hg
@@ -46,18 +47,20 @@ theorem factor (S : Ob5KN I K U y) (g : G) (hg : g ∈ I ⊔ CFSG.Open.pCoreOf 2
       rwa [inv_inv] at this
     · group
 
+omit [Finite G] in
 theorem Q_norm_K (κ : G) (hκ : κ ∈ K) (q : G) (hq : q ∈ CFSG.Open.pCoreOf 2 K) :
     κ * q * κ⁻¹ ∈ CFSG.Open.pCoreOf 2 K := by
   have hN : κ ∈ Subgroup.normalizer (K : Set G) := Subgroup.le_normalizer hκ
   have h2 := CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 K hN
   exact (Subgroup.mem_normalizer_iff.mp h2 q).mp hq
 
+omit [Finite G] in
 theorem conj_closure (n : G) (T : Set G) (hT : ∀ g ∈ T, n * g * n⁻¹ ∈ T) :
     ∀ x ∈ Subgroup.closure T, n * x * n⁻¹ ∈ Subgroup.closure T := by
   intro x hx
   induction hx using Subgroup.closure_induction with
   | mem x hx => exact Subgroup.subset_closure (hT x hx)
-  | one => simp [Subgroup.one_mem]
+  | one => simp
   | mul x y _ _ hx hy =>
     have e : n * (x * y) * n⁻¹ = (n * x * n⁻¹) * (n * y * n⁻¹) := by group
     rw [e]
@@ -116,6 +119,7 @@ theorem odd_mem_I (S : Ob5KN I K U y) (g : G) (hg : g ∈ I ⊔ CFSG.Open.pCoreO
   rw [← hdecomp] at hfinal
   exact hfinal
 
+omit [Finite G] in
 theorem orderOf_conj' (n g : G) : orderOf (n * g * n⁻¹) = orderOf g := by
   have := orderOf_injective (MulAut.conj n).toMonoidHom (MulEquiv.injective _) g
   simpa using this
@@ -225,7 +229,7 @@ theorem K_norm (S : Ob5KN I K U y) : ∀ κ ∈ K, ∀ p ∈ CFSG.Open.pCoreOf 2
       rw [e] at h1
       rw [h1]
       exact hu
-  haveI : L828T.PtActCentralAbelian (CFSG.Open.pCoreOf 2 I) U :=
+  have : L828T.PtActCentralAbelian (CFSG.Open.pCoreOf 2 I) U :=
     ⟨fun u hu p hp => S.hUc u hu p ((CFSG.LieType.BorelTits.pCoreOf_le 2 I) hp),
       fun p hp q hq => S.hPP p hp q hq⟩
   set δ : (↥(CFSG.Open.pCoreOf 2 I) ⧸ U.subgroupOf (CFSG.Open.pCoreOf 2 I)) →*

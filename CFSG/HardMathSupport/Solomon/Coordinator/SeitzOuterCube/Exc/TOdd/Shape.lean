@@ -14,7 +14,7 @@ namespace CFSG.HardMathSupport.Solomon.Coordinator.SeitzOuterCube.Exc.TOdd
 
 variable {ℓ f : ℕ} {X : Type} [Field X] [Finite X] {σ : X ≃+* X}
 
-theorem conj_injective_odd (P : D4ParOdd ℓ f X σ) :
+theorem conj_injective_odd (_P : D4ParOdd ℓ f X σ) :
     Function.Injective (MulAut.conj : C0 σ →* MulAut (C0 σ)) :=
   mulAut_conj_injective_of_center_eq_bot (exceptional_fixed_center_trivial TwistTag.D4 X σ)
 
@@ -44,9 +44,9 @@ theorem gal_cube_cases_odd (P : D4ParOdd ℓ f X σ) (ψ : X ≃+* X) (hψ : ψ 
     ψ = 1 ∨ ψ = σ ∨ ψ = σ ^ 2 := by
   obtain ⟨-, -, -, hcyc, hcard3, -, -, -⟩ :=
     odd_triality_exact_automorphism_normal_form P.prime P.ne_two P.one_le X P.card σ P.frob
-  haveI : Finite (X ≃+* X) :=
+  have : Finite (X ≃+* X) :=
     Nat.finite_of_card_ne_zero (by rw [hcard3]; have := P.one_le; omega)
-  haveI := hcyc
+  have := hcyc
   have hσ1 : σ ≠ 1 := sigma_ne_one_odd P
   exact mem_of_cube_eq_one_cyclic σ P.sigma_pow_three hσ1 (nf1_sq_ne_one σ P.sigma_pow_three hσ1)
     ψ hψ

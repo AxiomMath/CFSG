@@ -140,7 +140,7 @@ theorem card_cent_le
     (hdiff : ∀ k < NO, diffOK SV R H1 NO B Ps FL i1 k = true)
     (hN1 : ((Finset.range NO).filter fun k => selAt R 0 k = true).card ≤ N1)
     (hi1 : i1 < NO) (hj1 : j1 < NO) (hv1 : SV i1 = pt OB osh owd om j1)
-    (hHi : mul24 (gm HB GB j1) Hi = ident24) (hHi' : Hi < 2 ^ 576)
+    (hHi : mul24 (gm HB GB j1) Hi = ident24) (_hHi' : Hi < 2 ^ 576)
     (hm1 : ((Finset.range nT).filter fun e =>
       commAt HB TB (mul24 (mul24 (gm HB GB j1) T) Hi) 0 e = true).card ≤ m1) :
     Nat.card (Subgroup.centralizer ({mEl M T} : Set M)) ≤ N1 * m1 := by
@@ -195,7 +195,7 @@ theorem card_cent_le
   let V : Finset Vec24 := (Finset.range NO).image fun k => toVec (SV k)
   have hVS : ∀ u, u ∈ V ↔ u ∈ S := by
     intro u
-    simp only [V, Finset.mem_image, Finset.mem_range, S, ptSet, Set.mem_setOf_eq]
+    simp only [V, Finset.mem_image, Finset.mem_range, S, ptSet, Set.mem_ofPred_eq]
   let f : Vec24 → ℕ → ℕ := fun u =>
     compM S (toMat B) (Ps.map toMat) (FL.map toMat) u
   have hgrp : ∀ c ∈ Cf, ∀ d ∈ Cf, c * d⁻¹ ∈ Cf := by

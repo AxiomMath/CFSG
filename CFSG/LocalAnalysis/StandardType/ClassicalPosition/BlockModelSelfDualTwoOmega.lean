@@ -171,11 +171,11 @@ private lemma bmst_blockDegree_eq_two (f : ℕ) {N : Type} [Fintype N] [Decidabl
 private lemma bmst_fixed_eq_zero (f : ℕ) {N : Type} [Fintype N] [DecidableEq N]
     (Q : QuadraticForm (GaloisField 2 f) (N → GaloisField 2 f))
     (S : Set (GL N (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix Q).range)
+    (_hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix Q).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix N N (GaloisField 2 f)}
     (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmst_gram f Q) e = e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmst_gram f Q) e = e)
     (hdeg : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e = 2)
     {w : N → GaloisField 2 f} (hw : Matrix.mulVec e w = w)
     (hfix : ∀ s ∈ S, (s : Matrix N N (GaloisField 2 f)).mulVec w = w) : w = 0 := by
@@ -185,12 +185,12 @@ private lemma bmst_fixed_eq_zero (f : ℕ) {N : Type} [Fintype N] [DecidableEq N
     Algebra.adjoin (GaloisField 2 f) (Units.val '' S)
   obtain ⟨K, hKfield, hKalg, hKfin, hKmod, hKtower, π, hπsurj, hπker, hπdeg, hact⟩ :=
     TableCRes.exists_blockModule (S := S) (e := e) hS hodd he
-  letI : Field K := hKfield
-  letI : Algebra (GaloisField 2 f) K := hKalg
-  letI : Finite K := hKfin
-  letI : Module K ↥(TableCRes.blockSpace e) := hKmod
-  haveI : IsScalarTower (GaloisField 2 f) K ↥(TableCRes.blockSpace e) := hKtower
-  haveI : FiniteDimensional (GaloisField 2 f) K := Module.Finite.of_finite
+  let : Field K := hKfield
+  let : Algebra (GaloisField 2 f) K := hKalg
+  let : Finite K := hKfin
+  let : Module K ↥(TableCRes.blockSpace e) := hKmod
+  have : IsScalarTower (GaloisField 2 f) K ↥(TableCRes.blockSpace e) := hKtower
+  have : FiniteDimensional (GaloisField 2 f) K := Module.Finite.of_finite
   have hwmem : w ∈ TableCRes.blockSpace e := by
     unfold TableCRes.blockSpace
     exact LinearMap.mem_range.mpr ⟨w, by rw [Matrix.mulVecLin_apply, hw]⟩
@@ -297,8 +297,8 @@ private lemma bmst_quad_preserved (f : ℕ) {N : Type} [Fintype N] [DecidableEq 
           QuadraticMap.map_add (⇑Q) x y, hpol x y]
         abel }
   let Γ : Subgroup (GL N (GaloisField 2 f)) := Subgroup.closure S
-  haveI : Finite ↥Γ := inferInstance
-  letI : Fintype ↥Γ := Fintype.ofFinite ↥Γ
+  have : Finite ↥Γ := inferInstance
+  let : Fintype ↥Γ := Fintype.ofFinite ↥Γ
   have hΓcomm : ∀ x ∈ Γ, ∀ y ∈ Γ, Commute x y := by
     intro x hx
     refine Subgroup.closure_induction ?_ ?_ ?_ ?_ hx
@@ -472,11 +472,11 @@ private lemma bmst_quad_preserved (f : ℕ) {N : Type} [Fintype N] [DecidableEq 
 private lemma bmst_dickson_even (f : ℕ) {N : Type} [Fintype N] [DecidableEq N]
     (Q : QuadraticForm (GaloisField 2 f) (N → GaloisField 2 f))
     (S : Set (GL N (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix Q).range)
+    (_hSU : ∀ s ∈ S, s ∈ (Spin.spinMatrix Q).range)
     (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix N N (GaloisField 2 f)}
     (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmst_gram f Q) e = e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f)) (bmst_gram f Q) e = e)
     (hdeg : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e = 2)
     {u : GL N (GaloisField 2 f)}
     (hcomm : ∀ s ∈ S, Commute u s)
@@ -505,7 +505,7 @@ private lemma bmst_commSpace_toLin (f : ℕ) {N : Type} [Fintype N] [DecidableEq
   congr 1
   apply LinearMap.ext
   intro v
-  simp [bmst_toLin_apply, Matrix.sub_mulVec]
+  simp
 
 private lemma bmst_block_mem_range (f : ℕ) {N : Type} [Fintype N] [DecidableEq N]
     (Q : QuadraticForm (GaloisField 2 f) (N → GaloisField 2 f))
@@ -620,7 +620,7 @@ private lemma bmst_altGen_mulVec (f : ℕ) {N : Type} [Fintype N] [DecidableEq N
   rw [Matrix.add_mulVec, Matrix.one_mulVec, Matrix.smul_mulVec, Matrix.add_mulVec,
     Matrix.vecMulVec_mulVec, Matrix.vecMulVec_mulVec]
   have hop : ∀ (a : GaloisField 2 f) (u : N → GaloisField 2 f),
-      MulOpposite.op a • u = a • u := fun a u => by funext i; simp [op_smul_eq_mul, mul_comm]
+      MulOpposite.op a • u = a • u := fun a u => by funext i; simp [mul_comm]
   rw [hop, hop, dotProduct_comm ((bmst_gram f Q).mulVec w) x,
     dotProduct_comm ((bmst_gram f Q).mulVec v) x]
 
@@ -700,7 +700,7 @@ private lemma bmst_singular_of_altSiegel (f : ℕ) {N : Type} [Fintype N] [Decid
     have hv0 : Q v = 0 := by
       have h := bmst_altGen_isometry f Q hvw hle 1 x₁
       rw [bmst_altGen_mulVec f Q, h₁w, h₁v] at h
-      simp only [one_smul, zero_smul, add_zero, zero_add, smul_zero] at h
+      simp only [one_smul, zero_smul, add_zero] at h
       have hp : QuadraticMap.polar Q x₁ v = 0 := by
         rw [bmst_polar_eq_dot f Q, h₁v]
       have h2 := QuadraticMap.map_add (⇑Q) x₁ v
@@ -709,7 +709,7 @@ private lemma bmst_singular_of_altSiegel (f : ℕ) {N : Type} [Fintype N] [Decid
     have hw0 : Q w = 0 := by
       have h := bmst_altGen_isometry f Q hvw hle 1 x₂
       rw [bmst_altGen_mulVec f Q, h₂w, h₂v] at h
-      simp only [one_smul, zero_smul, add_zero, zero_add, smul_zero] at h
+      simp only [one_smul, zero_smul, zero_add] at h
       have hp : QuadraticMap.polar Q x₂ w = 0 := by
         rw [bmst_polar_eq_dot f Q, h₂w]
       have h2 := QuadraticMap.map_add (⇑Q) x₂ w
@@ -737,10 +737,10 @@ private lemma bmst_altGen_apply (f : ℕ) {N : Type} [Fintype N] [DecidableEq N]
   rw [Matrix.add_mulVec, Matrix.one_mulVec, Matrix.smul_mulVec, Matrix.add_mulVec,
     Matrix.vecMulVec_mulVec, Matrix.vecMulVec_mulVec]
   have hop : ∀ (a : GaloisField 2 f) (u : N → GaloisField 2 f),
-      MulOpposite.op a • u = a • u := fun a u => by funext i; simp [op_smul_eq_mul, mul_comm]
+      MulOpposite.op a • u = a • u := fun a u => by funext i; simp [mul_comm]
   rw [hop, hop, QuadraticMap.polar_smul_right, QuadraticMap.map_smul, hw, bmst_polar_eq_dot f Q,
     bmst_polar_eq_dot f Q]
-  simp only [dotProduct_comm, smul_add, smul_smul, smul_zero, zero_mul, mul_zero, add_zero]
+  simp only [dotProduct_comm, smul_add, smul_smul, smul_zero, zero_mul, add_zero]
   rw [sub_eq_add_neg]
   have hneg : ∀ u : N → GaloisField 2 f, -u = u := fun u => by
     funext i; exact CharTwo.neg_eq (u i)
@@ -891,17 +891,17 @@ def BMSTPSpModel
     (f : ℕ) {N : Type} [Fintype N] [DecidableEq N]
     (G : Matrix N N (GaloisField 2 f)) (H : Subgroup (GL N (GaloisField 2 f))) : Prop :=
   ∀ (S : Set (GL (N) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ H)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ H)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (N) (N) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f))
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f))
       G e =
       e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(H)}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer (H.subtype) S (e),
       glBlockCentralizer (H.subtype) S (e)⁆),
     ∃ (t' : StatedLieTag) (m g' : ℕ)
@@ -937,17 +937,17 @@ def BMSTPSpModelExplicit
     (f : ℕ) {N : Type} [Fintype N] [DecidableEq N]
     (G : Matrix N N (GaloisField 2 f)) (H : Subgroup (GL N (GaloisField 2 f))) : Prop :=
   ∀ (S : Set (GL (N) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ H)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ H)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (N) (N) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f))
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f))
       G e =
       e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(H)}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer (H.subtype) S (e),
       glBlockCentralizer (H.subtype) S (e)⁆),
     ∃ (r : ℕ)
@@ -986,17 +986,17 @@ def BMSTPSpClosureExplicit
     (f : ℕ) {N : Type} [Fintype N] [DecidableEq N]
     (G : Matrix N N (GaloisField 2 f)) (H : Subgroup (GL N (GaloisField 2 f))) : Prop :=
   ∀ (S : Set (GL (N) (GaloisField 2 f)))
-    (hSU : ∀ s ∈ S, s ∈ H)
-    (hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (hodd : ∀ s ∈ S, Odd (orderOf s))
+    (_hSU : ∀ s ∈ S, s ∈ H)
+    (_hS : ∀ s ∈ S, ∀ s' ∈ S, Commute s s') (_hodd : ∀ s ∈ S, Odd (orderOf s))
     {e : Matrix (N) (N) (GaloisField 2 f)}
-    (he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hadj : formAdj (RingHom.id (GaloisField 2 f))
+    (_he : IsPrimIdemIn (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hadj : formAdj (RingHom.id (GaloisField 2 f))
       G e =
       e)
-    (hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
-    (hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
+    (_hdeg₁ : 2 ≤ blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e)
+    (_hdeg₂ : blockDegree (Algebra.adjoin (GaloisField 2 f) (Units.val '' S)) e < 4)
     {J' : Subgroup ↥(H)}
-    (hJe : IsComponentOf J'
+    (_hJe : IsComponentOf J'
       ⁅glBlockCentralizer (H.subtype) S (e),
       glBlockCentralizer (H.subtype) S (e)⁆),
     ∃ (r : ℕ) (ι : (ggU .PSU r (max f 1)).K →* ↥(H)),

@@ -30,10 +30,10 @@ private theorem single_pm_facts {j : Fin D.rank} {γ : Fin D.rank → ℤ}
     γ ∈ D.roots ∧ (∀ m, m ≠ j → γ m = 0) ∧ γ j ≠ 0 := by
   rcases hγ with rfl | rfl
   · exact ⟨(RootSystem.ofCartan D.isFiniteType D.divisible).single_mem j,
-      fun m hm => by simp [Pi.single_apply, hm], by simp⟩
+      fun m hm => by simp [hm], by simp⟩
   · exact ⟨(RootSystem.ofCartan D.isFiniteType D.divisible).neg_mem _
       ((RootSystem.ofCartan D.isFiniteType D.divisible).single_mem j),
-      fun m hm => by simp [Pi.single_apply, hm], by simp⟩
+      fun m hm => by simp [hm], by simp⟩
 
 private theorem openCone_empty_nonadj {j k : Fin D.rank} (hjk : j ≠ k)
     (hjk0 : D.cartan j k = 0) (hkj0 : D.cartan k j = 0) {γ δ : Fin D.rank → ℤ}
@@ -57,7 +57,7 @@ private theorem openCone_empty_nonadj {j k : Fin D.rank} (hjk : j ≠ k)
   obtain ⟨l, hl, hE⟩ := eq_of_support_of_independent hJ hε hsupp
   have hzero : ∀ m, m ≠ l → (a • γ + b • δ) m = 0 := by
     intro m hm
-    rcases hE with h | h | h | h <;> rw [h] <;> simp [Pi.single_apply, hm]
+    rcases hE with h | h | h | h <;> rw [h] <;> simp [hm]
   have ha0 : (a : ℤ) ≠ 0 := by exact_mod_cast ha.ne'
   have hb0 : (b : ℤ) ≠ 0 := by exact_mod_cast hb.ne'
   have hEj : (a • γ + b • δ) j ≠ 0 := by
@@ -134,6 +134,7 @@ theorem parJ_le_normalizer_unipRad (J : Set (Fin D.rank)) :
     parJ_le_normalizer_radical hct hext hk
 
 include hct hext in
+omit hext in
 theorem unipJ_eq_sup (J : Set (Fin D.rank)) :
     unipJ D J = unipRad D J ⊔ ⨆ j ∈ J, rankOne D.rootGroup j := by
   unfold unipJ
@@ -143,6 +144,7 @@ theorem unipJ_eq_sup (J : Set (Fin D.rank)) :
   · exact sup_le ((unipRad_le_posUnipotent J).trans le_sup_left) le_sup_right
 
 include hct hext in
+omit hct in
 theorem rankOne_commute {j k : Fin D.rank} (hjk : j ≠ k) (h : D.cartan j k = 0) {x y : K}
     (hx : x ∈ rankOne D.rootGroup j) (hy : y ∈ rankOne D.rootGroup k) : x * y = y * x := by
   have hkj : D.cartan k j = 0 := D.isFiniteType.apply_eq_zero_symm h
@@ -161,6 +163,7 @@ theorem rankOne_commute {j k : Fin D.rank} (hjk : j ≠ k) (h : D.cartan j k = 0
   exact commute_join_join h₁ h₂ h₃ h₄ x hx y hy
 
 include hct hext in
+omit hct in
 theorem posUnipotentExcept_le_of_independent {J : Set (Fin D.rank)} {i : Fin D.rank} (hi : i ∈ J)
     (hJ : ∀ j ∈ J, ∀ k ∈ J, j ≠ k → D.cartan j k = 0) :
     posUnipotentExcept D i ≤

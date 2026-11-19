@@ -13,7 +13,7 @@ variable {S : Type} [Group S] [Finite S]
 theorem card_mod_three_fix (ρ : MulAut S) (hρ : ρ ^ 3 = 1) (H : Subgroup S)
     (hH : ∀ h ∈ H, ρ h ∈ H) : Nat.card H % 3 = Nat.card ↥(H ⊓ fixSub ρ) % 3 := by
   classical
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype H := Fintype.ofFinite H
   let f : Function.End H := fun h => ⟨ρ h, hH h h.2⟩
   have hf : ∀ k : ℕ, ∀ h : H, ((f ^ k) h : S) = (ρ ^ k) h := by
     intro k
@@ -57,7 +57,7 @@ theorem exists_fixed_in_coset_of_not_dvd (ρ : MulAut S) (hρ : ρ ^ 3 = 1) (A :
       rw [map_mul, map_inv]; group
     rw [h1]; exact mul_mem ht (hA _ hs)
   let α : Type := {s : S // t⁻¹ * s ∈ A}
-  haveI : Fintype α := Fintype.ofFinite α
+  have : Fintype α := Fintype.ofFinite α
   let f : Function.End α := fun s => ⟨ρ s.1, hmem s.1 s.2⟩
   have hf : ∀ k : ℕ, ∀ s : α, ((f ^ k) s : S) = (ρ ^ k) s.1 := by
     intro k

@@ -16,14 +16,14 @@ variable {C C' : Type} [Group C] [Group C'] {Q : Subgroup C} {Q' : Subgroup C'}
   {K : Subgroup C} {K' : Subgroup C'}
 
 open Classical in
-@[expose] noncomputable def liftSub (hK : Q ≤ K) (hK' : Q' ≤ K') (φ₀ : ↥Q ≃* ↥Q') : ↥K → ↥K' :=
+@[expose] noncomputable def liftSub (_hK : Q ≤ K) (hK' : Q' ≤ K') (φ₀ : ↥Q ≃* ↥Q') : ↥K → ↥K' :=
   fun l => if h : (l : C) ∈ Q then ⟨(φ₀ ⟨(l : C), h⟩ : C'), hK' (φ₀ ⟨(l : C), h⟩).2⟩ else 1
 
 theorem coe_liftSub_of_mem (hK : Q ≤ K) (hK' : Q' ≤ K') (φ₀ : ↥Q ≃* ↥Q') {l : ↥K}
     (h : (l : C) ∈ Q) :
     ((liftSub hK hK' φ₀ l : ↥K') : C') = (φ₀ ⟨(l : C), h⟩ : C') := by
   unfold liftSub
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem isSubIso_liftSub (hK : Q ≤ K) (hK' : Q' ≤ K') (φ₀ : ↥Q ≃* ↥Q') :
     IsSubIso (Q.subgroupOf K) (Q'.subgroupOf K') (liftSub hK hK' φ₀) := by

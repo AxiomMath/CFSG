@@ -51,8 +51,8 @@ theorem actK_eq : ∀ (cs : List ℕ) (m : ℕ), actK cs m = actM cs m
     congr 1
     cases hb : Nat.beq (m % 2) 1
     · have hm : ¬ m % 2 = 1 := fun h' => by rw [h'] at hb; exact absurd hb (by decide)
-      rw [if_neg hm]
-    · rw [if_pos (Nat.eq_of_beq_eq_true hb)]
+      rw [ite_eq_right hm]
+    · rw [ite_eq_left (Nat.eq_of_beq_eq_true hb)]
 
 @[expose] def parK (k m : ℕ) : Bool :=
   Nat.rec (motive := fun _ => ℕ → Bool) (fun _ => false)
@@ -253,8 +253,8 @@ theorem minK_eq (a b : ℕ) : minK a b = min a b := by
   unfold minK
   cases h : Nat.ble a b
   · have hab : ¬ a ≤ b := fun h' => by rw [Nat.ble_eq_true_of_le h'] at h; exact absurd h (by decide)
-    rw [Nat.min_def, if_neg hab]
-  · rw [Nat.min_def, if_pos (Nat.le_of_ble_eq_true h)]
+    rw [Nat.min_def, ite_eq_right hab]
+  · rw [Nat.min_def, ite_eq_left (Nat.le_of_ble_eq_true h)]
 
 @[expose] def redK (bs : List ℕ) (v : ℕ) : ℕ :=
   List.rec (motive := fun _ => ℕ → ℕ) (fun v => v) (fun p _ ih v => ih (minK v (Nat.xor v p))) bs v
@@ -286,8 +286,8 @@ theorem echK_eq (l : List ℕ) : ∀ bs, echK l bs =
     congr 1
     unfold echStepK
     cases hb : Nat.beq (reduceBy bs v) 0
-    · rw [if_neg (Nat.ne_of_beq_eq_false hb)]
-    · rw [if_pos (Nat.eq_of_beq_eq_true hb)]
+    · rw [ite_eq_right (Nat.ne_of_beq_eq_false hb)]
+    · rw [ite_eq_left (Nat.eq_of_beq_eq_true hb)]
 
 @[expose] def wActK (cs : List (List ℕ)) (u : List ℕ) (m : ℕ) : ℕ :=
   List.rec (motive := fun _ => ℕ → ℕ) (fun m => m) (fun i _ ih m => actK (cs.getD i []) (ih m)) u m

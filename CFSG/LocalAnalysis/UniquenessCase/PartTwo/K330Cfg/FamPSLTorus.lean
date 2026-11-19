@@ -263,7 +263,7 @@ private theorem k330c_torusBig_of_abelian_card {G : Type} [Group G] [Finite G] {
     (hcard : L ≤ Nat.card H) : TorusBig G L := by
   by_cases hsep : ∃ Z : Subgroup G, IsSylowOf 3 Z ⊤ ∧ Nat.card Z = 9
   · obtain ⟨Z₀, hZ₀, hZ₀9⟩ := hsep
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hG3 : (Nat.card G).factorization 3 = 2 := by
       have h1 : Nat.card Z₀ = 3 ^ (Nat.card (⊤ : Subgroup G)).factorization 3 := hZ₀.card_eq
       rw [hZ₀9, Subgroup.card_top] at h1
@@ -303,7 +303,7 @@ private theorem k330c_torusBig_psl4 {K : Type} [Field K] [Finite K] {p f : ℕ}
     (hK : Nat.card K = p ^ f) (hq : p ^ f % 3 = 2) {J : Type} [Group J] [Finite J]
     (e : J ≃* StatedProj (StatedSL 4 K)) : TorusBig J ((p ^ f - 1) ^ 3 / 4) := by
   obtain ⟨C, hCcyc, hCcard⟩ := CFSG.SectionRank.OddCover.exists_isCyclic_card_GL K 2
-  haveI : IsCyclic C := hCcyc
+  have : IsCyclic C := hCcyc
   have hqK : Nat.card K % 3 = 2 := by rw [hK]; exact hq
   have hq2 : 2 ≤ p ^ f := by
     rcases Nat.eq_zero_or_pos (p ^ f) with h0 | hpos
@@ -370,7 +370,7 @@ private theorem k330c_torusBig_psl4 {K : Type} [Field K] [Finite K] {p f : ℕ}
       exact h9D
     exact hcop.dvd_of_dvd_mul_right h9prod
   have hAcomm : IsMulCommutative A := by
-    haveI : IsMulCommutative D := hDcomm
+    have : IsMulCommutative D := hDcomm
     exact IsMulCommutative.of_comm fun x y => Subtype.ext (mul_comm' x.1 y.1)
   let φA : A →* (k330c_detProd (K := K)).ker :=
     { toFun := fun x => ⟨(x.1 : D), (MonoidHom.mem_ker).2 (by
@@ -470,7 +470,7 @@ private theorem k330c_torusBig_psl5 {K : Type} [Field K] [Finite K] {p f : ℕ}
     (hK : Nat.card K = p ^ f) (hq : p ^ f % 3 = 2) {J : Type} [Group J] [Finite J]
     (e : J ≃* StatedProj (StatedSL 5 K)) : TorusBig J (((p ^ f) ^ 2 - 1) ^ 2 / 5) := by
   obtain ⟨C, hCcyc, hCcard⟩ := CFSG.SectionRank.OddCover.exists_isCyclic_card_GL K 2
-  haveI : IsCyclic C := hCcyc
+  have : IsCyclic C := hCcyc
   have hqK : Nat.card K % 3 = 2 := by rw [hK]; exact hq
   let D : Subgroup (GL (Fin 2) K × GL (Fin 2) K) := C.prod C
   have hDcomm : IsMulCommutative D :=
@@ -572,14 +572,14 @@ theorem torusBig_PSL (n : ℕ) (hn : n = 4 ∨ n = 5) {J : Type} [Group J] [Fini
   rcases hn with rfl | rfl
   · obtain ⟨-, K, hfield, hfinite, hK, ⟨eiso⟩⟩ :=
       e.statedClassicalModel_of_ne_zero (by norm_num)
-    letI : Field K := hfield
-    letI : Finite K := hfinite
+    let : Field K := hfield
+    let : Finite K := hfinite
     change TorusBig J ((p ^ f - 1) ^ 3 / 4)
     exact k330c_torusBig_psl4 hK hq eiso
   · obtain ⟨-, K, hfield, hfinite, hK, ⟨eiso⟩⟩ :=
       e.statedClassicalModel_of_ne_zero (by norm_num)
-    letI : Field K := hfield
-    letI : Finite K := hfinite
+    let : Field K := hfield
+    let : Finite K := hfinite
     change TorusBig J (((p ^ f) ^ 2 - 1) ^ 2 / 5)
     exact k330c_torusBig_psl5 hK hq eiso
 

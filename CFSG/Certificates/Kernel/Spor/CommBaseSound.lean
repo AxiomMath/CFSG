@@ -84,14 +84,14 @@ theorem allowed_cases {b pr y : ℕ} {ex : List (ℕ × ℕ)} {sw : List (ℕ ×
   rw [bIf_eqC, bIf_eqC, bIf_eqC] at h
   by_cases h1 : y = b
   · exact Or.inl h1
-  rw [if_neg (by rwa [Nat.beq_eq])] at h
+  rw [ite_eq_right (by rwa [Nat.beq_eq])] at h
   by_cases h2 : pr = b
-  · rw [if_pos (by rwa [Nat.beq_eq])] at h
+  · rw [ite_eq_left (by rwa [Nat.beq_eq])] at h
     refine Or.inr (Or.inl ⟨h2, ?_⟩)
     split_ifs at h with h3
     · exact Or.inl (by simpa [Nat.beq_eq] using anyL_iff.1 h3)
     · exact Or.inr (by simpa [Nat.beq_eq] using anyL_iff.1 h)
-  · rw [if_neg (by rwa [Nat.beq_eq])] at h
+  · rw [ite_eq_right (by rwa [Nat.beq_eq])] at h
     exact Or.inr (Or.inr ⟨h2, Nat.eq_of_beq_eq_true h⟩)
 
 theorem sq_fix_of_baseOK (hL : ∀ z < nL, PRep n w (L z) (ℓ z)) {x : Equiv.Perm (Fin n)}
@@ -123,7 +123,7 @@ theorem sq_fix_of_baseOK (hL : ∀ z < nL, PRep n w (L z) (ℓ z)) {x : Equiv.Pe
   replace hall : ∀ y < n, fixAll w (mask w) L ss y = true → allowed b ex sw pr y = true :=
     fun y hy hf => by
       have := hall y hy
-      rwa [bIf_eqC, if_pos hf] at this
+      rwa [bIf_eqC, ite_eq_left hf] at this
   refine ⟨hb, ?_⟩
   set B : Fin n := ⟨b, hb⟩
   have hS : ∀ s ∈ ss, word ℓ s B = B := fun s hs =>
@@ -181,13 +181,13 @@ theorem eq_one_of_forestOK (hL : ∀ z < nL, PRep n w (L z) (ℓ z)) {X : Equiv.
       have hq := h p p.2
       rw [strictB_eq, bIf_eqC] at hq
       by_cases hqp : Nat.beq (pg w (mask w) PF p) p = true
-      · rw [if_pos hqp, anyL_iff] at hq
+      · rw [ite_eq_left hqp, anyL_iff] at hq
         obtain ⟨r, hr, hr1⟩ := hq
         have e : r.1 = p := Nat.eq_of_beq_eq_true hr1
         have := hB r hr (e ▸ p.2)
         have hp' : (⟨r.1, e ▸ p.2⟩ : Fin n) = p := Fin.ext e
         rwa [hp'] at this
-      · rw [if_neg hqp, bAnd_eq, Bool.and_eq_true, strictB_eq, bAnd_eq, bAnd_eq,
+      · rw [ite_eq_right hqp, bAnd_eq, Bool.and_eq_true, strictB_eq, bAnd_eq, bAnd_eq,
           Bool.and_eq_true, Bool.and_eq_true, Nat.blt_eq, Nat.blt_eq, Nat.blt_eq] at hq
         obtain ⟨hqn, hz, hd, hl⟩ := hq
         replace hl := Nat.eq_of_beq_eq_true hl

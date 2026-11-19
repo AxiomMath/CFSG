@@ -38,7 +38,7 @@ theorem isSylowOf_of_mem_scriptX (h186 : Item186H) (hH : Sec18H G A M H c)
   have hS' : IsPGroup 2 (S.subgroupOf X) := hS2.comap_subtype
   obtain ⟨Q, hSQ⟩ := IsPGroup.exists_le_sylow hS'
   have hPX : (Q : Subgroup X).map X.subtype ≤ X := Subgroup.map_subtype_le _
-  have hP2 : IsPGroup 2 ((Q : Subgroup X).map X.subtype) := Q.isPGroup'.map X.subtype
+  have hP2 : IsPGroup 2 ((Q : Subgroup X).map X.subtype) := Q.isPGroup.map X.subtype
   have hSP : S ≤ (Q : Subgroup X).map X.subtype :=
     (Subgroup.map_subgroupOf_eq_of_le hSX).symm.le.trans (Subgroup.map_mono hSQ)
   exact ⟨Q, hTS.2.2 _ hPX hP2 hSP⟩

@@ -48,16 +48,16 @@ variable (R Rm : Subgroup X) (hR : R ≤ J) (hR0 : GGRootPosG0 .POmegaMinus n f 
 include hR hR0 hKne
 
 theorem nbrpmmx_K_omega (hcase : e_J = ε ∧ blockDegree (AdS f S) e_J < 2)
-    (t' : StatedLieTag) (mJ : ℕ) (βJ : Fin (ggU t' mJ f).D.rank → ℤ)
-    (ht' : t' = .POmegaPlus ∨ t' = .POmegaMinus) (hmJ : 3 ≤ mJ) (hrankJ : rk f e_J = 2 * mJ) :
+    (t' : StatedLieTag) (mJ : ℕ) (_βJ : Fin (ggU t' mJ f).D.rank → ℤ)
+    (_ht' : t' = .POmegaPlus ∨ t' = .POmegaMinus) (_hmJ : 3 ≤ mJ) (hrankJ : rk f e_J = 2 * mJ) :
     ∃ (t'' : StatedLieTag) (mK : ℕ) (βK : Fin (ggU t'' mK f).D.rank → ℤ),
       (t'' = .POmegaPlus ∨ t'' = .POmegaMinus) ∧ mJ < mK ∧ βK ∈ (ggU t'' mK f).D.roots ∧
       GGLongRoot (ggU t'' mK f).D βK ∧ GGRootVia (ggU t'' mK f) K R βK := by
   have hψ : ψ.ker ≤ Subgroup.center (UK n f) := hH.2.1
   have hf : 1 ≤ f := (hH.2.2.1).admissible.2.1
   obtain ⟨S', K', R', ε', e', hSe, hKd, hEd, he', he'ε', hsplit', hJK', htie, hR'map, hR'J',
-    hgeo, hdeg⟩ := nbrpmmx_K_setup n f hn ψ p G₀ B₁ D J L x hH S J' ε e_J hB hF hE heJ e heD K
-      hKG₀ hKcomp hJK R Rm hR hR0 hKne
+    hgeo, hdeg⟩ := nbrpmmx_K_setup n f hn ψ p G₀ B₁ D J L x hH S J' ε hB hF hE e heD K
+      hKG₀ hKcomp hJK R Rm hR hR0
   obtain ⟨hSU', hS', hodd', hK'comp, hK'map⟩ := hKd
   obtain ⟨hε', hK'ε'⟩ := hEd
   obtain ⟨hSU, hS, hodd, hJ'comp, hJ'map⟩ := hB

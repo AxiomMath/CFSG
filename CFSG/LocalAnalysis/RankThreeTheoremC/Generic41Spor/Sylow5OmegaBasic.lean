@@ -34,7 +34,7 @@ variable [Finite K]
 
 theorem isMulCommutative_sylow_of_five_le_pRank (h : 5 ≤ pRank 5 (⊤ : Subgroup K))
     (S : Sylow 5 K) (hS : Nat.card S = 5 ^ 5) : IsMulCommutative (S : Subgroup K) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨E, -, hE, hEc⟩ := CFSG.SectionRank.exists_pRank (p := 5) (by norm_num) (⊤ : Subgroup K)
   have hEp : IsPGroup 5 E := fun x => ⟨1, by
     apply Subtype.ext
@@ -61,7 +61,7 @@ theorem isMulCommutative_sylow_of_five_le_pRank (h : 5 ≤ pRank 5 (⊤ : Subgro
 theorem not_isMulCommutative_omega5 {E : Subgroup K} {g : K} (hE : IsElemAbelian 5 E)
     (hg : g ^ 5 = 1) (hnorm : ∀ x ∈ E, g * x * g⁻¹ ∈ E) (hnc : ∃ x ∈ E, g * x ≠ x * g)
     (S : Sylow 5 K) : ¬ IsMulCommutative (omega5 (S : Subgroup K)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   intro hcomm
   obtain ⟨x, hxE, hx⟩ := hnc
   have hEp : IsPGroup 5 E := fun y => ⟨1, by

@@ -75,8 +75,7 @@ theorem basePointsRepresentation_flag (r : ℕ) (g : WithConv (H →ₐ[k] k))
     let : TauCeti.Comodule k H (FlagTensor k V 0) := flagTensorComodule (H := H) (V := V) 0
     exact basePointsRepresentation_eq_of_coact_eq_tmul_one z rfl g
   | succ r ih =>
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
+    induction z using TensorProduct.inductionOn with
     | tmul w p =>
       rw [basePointsRepresentation_tmul, flagMap_tmul, ih, basePointsRepresentation_exteriorPower]
     | add z z' hz hz' => simp only [map_add, hz, hz']

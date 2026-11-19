@@ -67,7 +67,7 @@ variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L]
   map_add' u v := by
     funext j
     by_cases hj : j.val ∈ J₂
-    · simp only [hj, if_true, Pi.add_apply, mul_add, Finset.sum_add_distrib]
+    · simp only [hj, ite_true, Pi.add_apply, mul_add, Finset.sum_add_distrib]
     · simp [hj]
 
 theorem coQ_apply (J₂ : Finset ℕ) (v : Fin τ.rank → ℤ) (j : Fin τ.rank) :
@@ -81,7 +81,7 @@ theorem rootDiagUnit_mem_rootSpan_of_chars {k : ℕ} (J₂ : Finset ℕ) (δ₀ 
         ∃ (c₀ : ℤ) (co : Fin k → ℤ), v = c₀ • δ₀ + ∑ m, co m • δ m)
     (a : Fin τ.rank → Lˣ) (h₀ : rootChar a δ₀ = 1) (hδ : ∀ m, rootChar a (δ m) = 1) :
     rootDiagUnit τ a ∈ rootSpan τ L (parabolicRoots τ {i : Fin τ.rank | i.val ∈ J₂}) := by
-  haveI := divisibleByUnits L
+  have := divisibleByUnits L
   have hker : (coQ τ J₂).ker ≤ (charHom a).ker := by
     intro v hv
     have hQ : ∀ j : Fin τ.rank, j.val ∈ J₂ → ∑ l, τ.cartan j l * v l = 0 := by

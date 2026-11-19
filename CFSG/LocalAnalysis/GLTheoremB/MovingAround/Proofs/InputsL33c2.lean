@@ -90,7 +90,7 @@ theorem large_noL33 (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
   intro hL
   obtain ⟨-, hcenter, hZ2, -, -, hsq, -⟩ :=
     CFSG.RankThree.Classical.orthogonal_high_Witt_derived_quotient_and_odd_lifts hQ hT
-  haveI := OmegaAux.finite_orthDerived Q
+  have := OmegaAux.finite_orthDerived Q
   set O := TauCeti.QuadraticMap.orthogonalGroup Q with hO
   have h5616 : Nat.card (↥(orthDerived Q) ⧸ Subgroup.center ↥(orthDerived Q)) = 5616 :=
     card_of_isLpType_three_three hL
@@ -110,8 +110,8 @@ theorem large_noL33 (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     exact ⟨⟨(g : V ≃ₗ[K] V) ^ 2, hsq g g.2⟩, Subtype.ext rfl⟩
   have hp2 : IsPGroup 2 (↥O ⧸ commutator ↥O) :=
     CFSG.LocalAnalysis.ComponentInitial.isPGroup_two_of_forall_sq_mem hsq'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥O := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥O := by
     have : Finite V := Module.finite_of_finite K
     have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
       fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
@@ -157,7 +157,7 @@ theorem large_noL33 (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     have hm3 : 3 ≤ m := by omega
     have h2 : ringChar K ≠ 2 := by
       intro h
-      haveI : CharP K 2 := ringChar.of_eq h
+      have : CharP K 2 := ringChar.of_eq h
       have hev := CFSG.ComponentClassification.UnbalancedCatalog.even_finrank_of_charTwo Q hQ
       rw [hm] at hev
       exact (Nat.not_even_iff_odd.2 ⟨m, rfl⟩) hev
@@ -184,6 +184,7 @@ open CFSG.RankThree.Classical2 CFSG.HardMathSupport.Solomon.Coordinator.LieComp
 variable {K : Type} [Field K] [Fintype K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [Fintype K] [FiniteDimensional K V] in
 private theorem not_isLpType_of_phi {L : Subgroup ↥(orthDerived Q)} (hL : CFSG.IsQuasisimple ↥L)
     {S : Type} [Group S] (hSq : CFSG.IsQuasisimple S)
     (hS : ¬ IsLpType 3 3 (S ⧸ Subgroup.center S))
@@ -229,7 +230,7 @@ private theorem noL33_four_split (hK3 : ringChar K = 3)
     ¬ IsLpType 3 3 (↥L ⧸ Subgroup.center ↥L) := by
   have hM : CFSG.IsComponent (L.map (OmegaAux.ιO Q)) := OmegaAux.isComponent_map_ιO Q hL
   by_cases hK : Nat.card K = 2 ∨ Nat.card K = 3
-  · haveI := OmegaAux.A.isSolvable_orthogonalGroup_of_smallFixedException Q hQ (by omega)
+  · have := OmegaAux.A.isSolvable_orthogonalGroup_of_smallFixedException Q hQ (by omega)
       (Or.inr ⟨⟨hd, hS⟩, hK⟩)
     exact (not_isComponent_of_isSolvable hM).elim
   push Not at hK
@@ -272,7 +273,7 @@ private theorem noL33_four_nonsplit (hK3 : ringChar K = 3)
   have : Fact (¬ IsSquare (δ : K)) := ⟨hns⟩
   have : Finite (extension (δ : K)) :=
     Finite.of_equiv (K × K) (QuadraticAlgebra.equivProd (δ : K) 0).symm
-  letI : Fintype (extension (δ : K)) := Fintype.ofFinite _
+  let : Fintype (extension (δ : K)) := Fintype.ofFinite _
   have hMeq := eq_commutator_of_isComponent hq hM
   have hcard := extension_card (δ : K)
   have h1 : 1 < Nat.card K := Finite.one_lt_card
@@ -329,7 +330,7 @@ private theorem noL33_six_nonsplit (hK3 : ringChar K = 3)
     orthogonal_nonsplit_six_derived hodd Q hQ hd hno
   have : Finite (extension (δ : K)) :=
     Finite.of_equiv (K × K) (QuadraticAlgebra.equivProd (δ : K) 0).symm
-  letI : Fintype (extension (δ : K)) := Fintype.ofFinite _
+  let : Fintype (extension (δ : K)) := Fintype.ofFinite _
   have hMeq := eq_commutator_of_isComponent hq hM
   obtain ⟨eU⟩ := exists_six_special_unitary_equiv (δ : K) h2'
   obtain ⟨n, hp, hn⟩ := FiniteField.card K (ringChar K)
@@ -453,7 +454,7 @@ private theorem orthL33_specialBlock_paired {p : ℕ} (hp : p.Prime) (hp2 : p �
     (hh : h ∈ primaryFactors x.toLinearMap) (hne1 : h ≠ X - 1)
     (hne : h ≠ reciprocalPolynomial h) (hq : CFSG.IsQuasisimple ↥(specialBlock Q x h)) :
     OrthL33 ↥(specialBlock Q x h) := by
-  letI : Fintype (AdjoinRoot h) := Fintype.ofFinite _
+  let : Fintype (AdjoinRoot h) := Fintype.ofFinite _
   have hm : 2 ≤ primaryMultiplicity x.toLinearMap h := by
     by_contra hlt
     have hpos := hx.primaryMultiplicity_pos hh
@@ -521,10 +522,10 @@ private theorem orthL33_specialBlock_selfDual {p : ℕ} (hp : p.Prime) (hp2 : p 
   let e₁ : ↥(specialBlock Q x h) ≃* ↥(sesqSpecialUnitaryGroup B) :=
     (MonoidHom.ofInjective (hx.specialBlockGL_injective hh)).trans
       (MulEquiv.subgroupCongr hrange)
-  haveI := hU.finite
-  haveI : Fact ℓ.Prime := ⟨hU.prime⟩
-  haveI := hU.charP
-  letI : Fintype (AdjoinRoot h) := Fintype.ofFinite _
+  have := hU.finite
+  have : Fact ℓ.Prime := ⟨hU.prime⟩
+  have := hU.charP
+  let : Fintype (AdjoinRoot h) := Fintype.ofFinite _
   have hE : Nat.card (AdjoinRoot h) = (ℓ ^ (f * d)) ^ 2 := by
     rw [hU.card, ← pow_mul, mul_comm]
   have hℓ : ringChar (AdjoinRoot h) = ℓ := ringChar.eq _ ℓ
@@ -550,10 +551,10 @@ private theorem orthL33_specialBlock_selfDual {p : ℕ} (hp : p.Prime) (hp2 : p 
       exact this
     obtain ⟨φ⟩ := CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hU hBsymm
       hBl hm2
-    letI : Fintype ↥hU.fixedField := Fintype.ofFinite _
+    let : Fintype ↥hU.fixedField := Fintype.ofFinite _
     have hcardF : Fintype.card ↥hU.fixedField = ℓ ^ (f * d) := by
       rw [Fintype.card_eq_nat_card, hU.card_fixedField]
-    haveI : CharP ↥hU.fixedField ℓ := charP_of_card_eq_prime_pow hcardF
+    have : CharP ↥hU.fixedField ℓ := charP_of_card_eq_prime_pow hcardF
     have hcharF : ringChar ↥hU.fixedField = 3 := by rw [ringChar.eq _ ℓ, hℓ3]
     exact not_isLpType_of_equiv_sl_two hcharF (e₁.trans φ).symm hL
   ·
@@ -579,7 +580,7 @@ private theorem orthL33_fixedFactor {p : ℕ} {K : Type} [Field K] [Finite K]
     (hFle : F ≤ supportedFixedDerived Q x)
     (hFn : (F.subgroupOf (supportedFixedDerived Q x)).Normal) : OrthL33 ↥F := by
   have hQW := hx.polarBilin_fixed_nondegenerate
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let e := supportedFixedDerivedEquiv hx
   let A : Subgroup ↥(supportedFixedDerived Q x) := F.subgroupOf (supportedFixedDerived Q x)
   let L : Subgroup ↥(orthDerived (Q.comp (fixedSpace x).subtype)) := A.map e.toMonoidHom
@@ -690,7 +691,7 @@ private theorem orthL33_component {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : 
       (fun hlist => by
         rw [← fixedLayerImage_of_listed hlist]
         exact le_sup_right)
-    haveI := hS₀sol
+    have := hS₀sol
     exact perfect_le_of_le_sup_solvable hENN hS₀N hENn hcomm hPN (Subgroup.isPerfect_iff.1 ⟨hP⟩)
   let Fm : ι₁ ⊕ Fin n → Subgroup (ProjOrthDerived Q) := Sum.elim S C
   have hFm : ∀ i, CFSG.Open.IsComponentOf (Fm i) N := by
@@ -705,7 +706,7 @@ private theorem orthL33_component {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : 
     (fun P hPN hP => hiSup ▸ hperf P hPN hP) hJ
   rcases i with ⟨⟨h, hh⟩, hne, hq⟩ | i
   · have hh' : h ∈ primaryFactors xe.toLinearMap := hRep.1 hh
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh'⟩
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh'⟩
     refine OrthL33.map_projective (hspecΩ ⟨⟨h, hh⟩, hne, hq⟩) ?_
     by_cases hself : h = reciprocalPolynomial h
     · exact orthL33_specialBlock_selfDual hp hp2 hK3 hx hh' hne hself hq
@@ -770,7 +771,7 @@ theorem noL33_omega_outer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 
   have hL1 := CFSG.LocalAnalysis.GLTheoremB.MovingAround.InputsL33.isLpType_center_map e hL
   rw [hJeq] at hL1
   have : Finite k := Finite.of_injective (algebraMap k K) (algebraMap k K).injective
-  letI : Fintype k := Fintype.ofFinite k
+  let : Fintype k := Fintype.ofFinite k
   have hk3 : ringChar k = 3 := (Algebra.ringChar_eq k K).trans hch
   have hodd : Odd (Nat.card k) :=
     CFSG.GroupTheory.WeirSylow.odd_card_of_ringChar_ne_two (by rw [hk3]; norm_num)
@@ -817,7 +818,7 @@ theorem noL33_orthogonal {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
     {K : Subgroup S}
     (hK : CFSG.Open.IsComponentOf K (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup α)) :
     ¬ IsLpType 3 3 (↥K ⧸ Subgroup.center ↥K) := by
-  haveI := hs
+  have := hs
   obtain ⟨e⟩ := he
   obtain ⟨t, n, f, ht, hG⟩ := exists_model_orth idx hor hc3 e
   have hp13 : (13 : ℕ).Prime := by norm_num

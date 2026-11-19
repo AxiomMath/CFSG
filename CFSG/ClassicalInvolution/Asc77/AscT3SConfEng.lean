@@ -53,7 +53,7 @@ theorem s_a_not_mem_closure_of (hzK : IsUniqueInvolution K z) (ht2 : t * t = 1)
   have hz2 : z * z = 1 := hzK.sq
   obtain ⟨r, hrK, hrS, hrt⟩ := htor
   have hrM : r ∈ K ⊔ K' := Subgroup.mem_sup_left hrK
-  have har : a * r = r * a := commutes_of_mem_centModOddCore S.isPGroup'
+  have har : a * r = r * a := commutes_of_mem_centModOddCore S.isPGroup
     (mem_centModOddCore_of_mem_centralizerModOdd hA) hA.1 hrM hrS
   have hrz : r * z = z * r := (hzK.commute_of_mem hrK).symm
   rcases closure_pair_cases hz2 ht2 hzt hmem with h | h | h | h

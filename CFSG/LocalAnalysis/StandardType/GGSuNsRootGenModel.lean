@@ -39,8 +39,8 @@ theorem exists_isDiagTorusModelU
   have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   have hn1 : 1 ≤ n := by omega
   have h := TableBU.unitaryFieldData_of_card hK hn1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := h.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := h.charP
   have hdq : (d, 2 ^ n) ≠ (3, 2) := by
     intro heq
     have := congrArg Prod.fst heq

@@ -117,7 +117,7 @@ theorem pow_648_of_mem_short_two
     ∀ y ∈ Subgroup.centralizer ({z} : Set (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)),
       y ^ 648 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two (k := f * 3)
     (by omega) (by rw [hK, pow_mul])
   set L := AlgebraicClosure K with hL
@@ -239,6 +239,7 @@ theorem theta_centralizer_conj_eq_bot (g b : G)
       (MulEquiv.subgroupCongr (centralizer_conj_eq_map g b).symm)
   exact CFSG.RankThree.PartTwo.Sec21.Item21Res7Proof.theta_eq_bot_of_mulEquiv e h
 
+omit [Finite G] in
 theorem closure_centralizers_of_planes {D : Subgroup G}
     (h : Subgroup.closure (CFSG.RankThree.PartOne.CTP.fixUnion
       (D.map (MulAut.conj : G →* MulAut G))) = ⊤) :
@@ -290,7 +291,7 @@ theorem theta_eq_bot_of_mem_Bsub_two
     (P : D4Par 1 X σ) {z : C0 σ} (hz : z ∈ Bsub σ)
     (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) :
     aschbacherSolvableCore 3 ↥(Subgroup.centralizer ({z} : Set _)) = ⊥ := by
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   have hL := layerOK_of_mem_Bsub P hz hz3 hz1
   have hcen := theta_central_of_derived z hL.1 hL.hZ3
   have h3 : ¬ 3 ∣ 2 ^ 1 := by decide
@@ -329,8 +330,8 @@ theorem alphaVanishes_C0_two
         Subgroup.closure {x : C0 σ | ∃ b ∈ D, b ≠ 1 ∧ x * b = b * x})
     {D : Subgroup (C0 σ)} (hDc : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a) (hDexp : ∀ x ∈ D, x ^ 3 = 1)
     (hD9 : Nat.card D = 9) : AlphaVanishes (C0 σ) D := by
-  haveI := P.charP
-  haveI : Finite (C0 σ) := finite_C0
+  have := P.charP
+  have : Finite (C0 σ) := finite_C0
   have hσ3 : σ ^ 3 = 1 := sigma_pow_three σ 1 P.card P.frob
   refine alphaVanishes_of_core (center_C0_eq_bot P) hDc (fun b hb hb1 => ?_) (hgen D hDc hDexp hD9)
   have hno : ∀ T : Subgroup (C0 σ), IsPGroup 2 T → T ≠ ⊥ →

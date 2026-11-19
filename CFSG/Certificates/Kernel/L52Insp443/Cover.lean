@@ -47,6 +47,7 @@ theorem exists_coset_of_cover (hcov : ∀ x ∈ s, ∀ k, ∃ j, (t j)⁻¹ * (x
     rw [← eq_inv_of_mul_eq_one_left e1]
     exact stepPow x hx _ y ih
 
+omit [Finite G] in
 theorem coset_unique {α : Type*} (key : G → α) (hkey : ∀ g, ∀ x ∈ S, key (g * x) = key g)
     (hinj : Function.Injective fun k => key (t k)) {g : G} {j k : Fin m}
     (hj : (t j)⁻¹ * g ∈ S) (hk : (t k)⁻¹ * g ∈ S) : j = k := by

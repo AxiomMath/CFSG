@@ -168,7 +168,7 @@ theorem mem_of_enum [Finite M] {gs : Set M} {E : ℕ → M} {N : ℕ} (h1 : ∃ 
   have hTf : T.Finite := by
     have : T = (fun i => E i) '' {i | i < N} := by
       ext y
-      simp only [hT, Set.mem_setOf_eq, Set.mem_image]
+      simp only [hT, Set.mem_ofPred_eq, Set.mem_image]
       constructor
       · rintro ⟨i, hi, rfl⟩
         exact ⟨i, hi, rfl⟩

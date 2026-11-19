@@ -28,6 +28,7 @@ section Main
 
 variable {H : Type} [Group H] [MulAction H V] [FaithfulSMul H V] [GraphAction H Γ]
 
+omit [FaithfulSMul H V] in
 theorem whorlGroup_fix_self (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) {p : V} {θ : H}
     (hθ : θ ∈ whorlGroup H Γ p) : θ • p = p := by
   classical
@@ -49,7 +50,8 @@ theorem whorlGroup_fix_self (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) {
     simpa [hfix₂] using h.symm
   exact (existsUnique_commonNeighbor hP hdist).unique ⟨hθ₁, hθ₂⟩ ⟨hL₁.symm, hL₂.symm⟩
 
-theorem elationGroup_le_whorlGroup (v : ZMod 8 → V) (hv : IsPolygonApartment Γ 4 v) :
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul H V] [GraphAction H Γ] in
+theorem elationGroup_le_whorlGroup (v : ZMod 8 → V) (_hv : IsPolygonApartment Γ 4 v) :
     elationGroup H Γ v ≤ whorlGroup H Γ (v 0) := by
   refine (Subgroup.closure_le (whorlGroup H Γ (v 0))).mpr ?_
   intro x hx
@@ -59,6 +61,7 @@ theorem elationGroup_le_whorlGroup (v : ZMod 8 → V) (hv : IsPolygonApartment �
   · exact ((mem_rootGroup H).mp hx).2.1
   · exact ((mem_rootGroup H).mp hx).1
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul H V] [GraphAction H Γ] in
 theorem aptRoot_eq_rootGroup (v : ZMod 8 → V) (k : ℤ) :
     aptRoot H Γ 4 v k =
       rootGroup H Γ (v ((k + 1 : ℤ) : ZMod 8)) (v ((k + 2 : ℤ) : ZMod 8))
@@ -84,6 +87,7 @@ theorem aptRoot_eq_rootGroup (v : ZMod 8 → V) (k : ℤ) :
     · exact (mem_fixingSubgroup_iff H).mp ((mem_rootGroup H).mp hx).2.1 w hw
     · exact (mem_fixingSubgroup_iff H).mp ((mem_rootGroup H).mp hx).2.2 w hw
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul H V] [GraphAction H Γ] in
 theorem rootGroup_five (v : ZMod 8 → V) :
     rootGroup H Γ (v 6) (v 7) (v 0) = aptRoot H Γ 4 v 5 := by
   rw [aptRoot_eq_rootGroup]
@@ -92,6 +96,7 @@ theorem rootGroup_five (v : ZMod 8 → V) :
   have h3 : ((5 + 3 : ℤ) : ZMod 8) = 0 := by decide
   rw [h1, h2, h3]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul H V] [GraphAction H Γ] in
 theorem rootGroup_six (v : ZMod 8 → V) :
     rootGroup H Γ (v 7) (v 0) (v 1) = aptRoot H Γ 4 v 6 := by
   rw [aptRoot_eq_rootGroup]
@@ -100,6 +105,7 @@ theorem rootGroup_six (v : ZMod 8 → V) :
   have h3 : ((6 + 3 : ℤ) : ZMod 8) = 1 := by decide
   rw [h1, h2, h3]
 
+omit [Fintype V] [DecidableRel Γ.Adj] [FaithfulSMul H V] [GraphAction H Γ] in
 theorem rootGroup_seven (v : ZMod 8 → V) :
     rootGroup H Γ (v 0) (v 1) (v 2) = aptRoot H Γ 4 v 7 := by
   rw [aptRoot_eq_rootGroup]
@@ -130,9 +136,9 @@ theorem card_opposite_of_adj (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) 
       · exact hy
     have hz0 : c z = 0 := by rw [hcz, hx0]
     have hdy : Γ.degree y = s + 1 := by
-      rw [hdeg y, if_neg (by rw [hy1]; decide)]
+      rw [hdeg y, ite_eq_right (by rw [hy1]; decide)]
     have hdz : Γ.degree z = t + 1 := by
-      rw [hdeg z, if_pos hz0]
+      rw [hdeg z, ite_eq_left hz0]
     have hcard := card_opposite hP hT c hdeg hx0
     rw [hcard, hdy, hdz]
     simp
@@ -153,24 +159,24 @@ theorem card_opposite_of_adj (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) 
     have hdeg' : ∀ v, Γ.degree v = if dc v = 0 then s + 1 else t + 1 := by
       intro v
       rcases hfin (c v) with hv | hv
-      · rw [hdeg v, if_pos hv]
+      · rw [hdeg v, ite_eq_left hv]
         have hdc : dc v ≠ 0 := by
           show 1 - c v ≠ 0
           rw [hv]; decide
-        rw [if_neg hdc]
-      · rw [hdeg v, if_neg (by rw [hv]; decide)]
+        rw [ite_eq_right hdc]
+      · rw [hdeg v, ite_eq_right (by rw [hv]; decide)]
         have hdc : dc v = 0 := by
           show 1 - c v = 0
           rw [hv]; decide
-        rw [if_pos hdc]
+        rw [ite_eq_left hdc]
     have hdcx : dc x = 0 := by
       show 1 - c x = 0
       rw [hx1]; decide
     have hcard := card_opposite (hP := hP) (hT := hT) (c := dc) (s := t) (t := s)
       (hdeg := hdeg') (x := x) (hx := hdcx)
-    have hdy : Γ.degree y = t + 1 := by rw [hdeg y, if_pos hy0]
+    have hdy : Γ.degree y = t + 1 := by rw [hdeg y, ite_eq_left hy0]
     have hdz : Γ.degree z = s + 1 := by
-      rw [hdeg z, if_neg (by rw [hz1]; decide)]
+      rw [hdeg z, ite_eq_right (by rw [hz1]; decide)]
     rw [hcard, hdy, hdz]
     simp
 
@@ -492,7 +498,8 @@ theorem card_elationGroup (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
     (Nat.card_congr (Equiv.ofBijective prodMap ⟨hinj, hsurj⟩)).symm
   rw [hcard, Nat.card_prod, Nat.card_prod, hcard5, hcard6, hcard7, Nat.mul_assoc]
 
-theorem exists_mem_elationGroup_smul_eq (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
+omit [FaithfulSMul H V] in
+theorem exists_mem_elationGroup_smul_eq (hP : IsGeneralizedPolygon Γ 4) (_hT : IsThick Γ)
     (hM : MoufangCondition H Γ 4) (v : ZMod 8 → V) (hv : IsPolygonApartment Γ 4 v)
     {w : V} (hw : Γ.dist (v 0) w = 4) :
     ∃ g ∈ elationGroup H Γ v, (g : H) • v 4 = w := by
@@ -580,7 +587,7 @@ theorem existsUnique_elationGroup (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick
     (hM : MoufangCondition H Γ 4) (v : ZMod 8 → V) (hv : IsPolygonApartment Γ 4 v) {w : V}
     (hw : Γ.dist (v 0) w = 4) : ∃! g : elationGroup H Γ v, (g : H) • v 4 = w := by
   classical
-  haveI : Fintype ↥(elationGroup H Γ v) :=
+  have : Fintype ↥(elationGroup H Γ v) :=
     Fintype.ofInjective (fun g : ↥(elationGroup H Γ v) => fun y : V => (g : H) • y) (by
       intro g h hgh
       apply Subtype.ext

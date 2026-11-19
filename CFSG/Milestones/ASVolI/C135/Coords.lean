@@ -22,11 +22,11 @@ variable {F : Type} [Field F]
     Subgroup (Multiplicative (Fin 2 → Fin 3 → F)) where
   carrier := {v | Multiplicative.toAdd v i = 0}
   mul_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [toAdd_mul, Pi.add_apply, ha, hb, add_zero]
   one_mem' := rfl
   inv_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [toAdd_inv, Pi.neg_apply, ha, neg_zero]
 
 @[expose] def burnsideC135_Wc {Q : Subgroup G} (β : ↥Q →* Multiplicative (Fin 2 → Fin 3 → F))
@@ -57,6 +57,7 @@ theorem burnsideC135_βc_apply (i : Fin 2) (w : ↥(burnsideC135_Wc β i)) :
 
 variable [Finite G] {L : Subgroup G} [Fintype F] [CharP F 2] {α : ↥L →* ↥(StatedSL 3 F)}
 
+omit [Finite G] [Fintype F] [CharP F 2] in
 theorem burnsideC135_dualSplit_of_coords (hα : IsModO2Surj L α) {Q : Subgroup G}
     (h1 : IsSumOfNaturalModulesVia L (centerOf Q) ⊥ α false 1)
     {β : ↥Q →* Multiplicative (Fin 2 → Fin 3 → F)}
@@ -246,6 +247,7 @@ theorem burnsideC135_mix_one (v : Multiplicative (Fin 2 → Fin 3 → F)) :
 
 variable [Finite G] {L : Subgroup G} {α : ↥L →* ↥(StatedSL 3 F)}
 
+omit [Finite G] in
 theorem burnsideC135_twist {Q U : Subgroup G} {β : ↥Q →* Multiplicative (Fin 2 → Fin 3 → F)}
     (hβs : Function.Surjective β) (hβk : β.ker = U.subgroupOf Q)
     (hβeq : ∀ (a : ↥L) (u v : ↥Q), (v : G) = a * u * a⁻¹ → ∀ i : Fin 2,

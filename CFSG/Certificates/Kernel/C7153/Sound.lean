@@ -202,7 +202,7 @@ theorem decP_idM : decP idM = 1 := by
   rw [idM, decP_pk9 (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
     (by norm_num) (by norm_num) (by norm_num) (by norm_num)]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [dec_zero, dec_one, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [dec_zero, dec_one]
 
 theorem pow5_eq (A : ℕ) : pow5 A = mulM (mulM (mulM A A) (mulM A A)) A := by
   unfold pow5
@@ -342,7 +342,7 @@ theorem block_of_mem {M : Matrix (Fin 3) (Fin 3) F25} (hdet : M.det = 1)
   have hpow : ∀ n : ℕ, (M ^ n) 2 0 = 0 ∧ (M ^ n) 2 1 = 0 ∧ (M ^ n) 2 2 = M 2 2 ^ n := by
     intro n
     induction n with
-    | zero => simp [Matrix.one_apply]
+    | zero => simp
     | succ n ih =>
       obtain ⟨i0, i1, i2⟩ := ih
       refine ⟨?_, ?_, ?_⟩ <;>

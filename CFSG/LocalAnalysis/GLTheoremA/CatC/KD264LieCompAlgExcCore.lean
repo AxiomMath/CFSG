@@ -61,7 +61,7 @@ private theorem centerQuotientHom_mem_innAutDerived_of_surjective_kd264alg {C R 
     (hker : θ.ker ≤ Subgroup.center C) {φ : MulAut C} {α : MulAut R}
     (hφα : ∀ c, θ (φ c) = α (θ c)) (hφ : φ ∈ innAutDerived C) :
     centerQuotientHom R α ∈ innAutDerived (R ⧸ Subgroup.center R) := by
-  haveI : Group.IsPerfect C := Group.isPerfect_def.2 hC
+  have : Group.IsPerfect C := Group.isPerfect_def.2 hC
   exact (CFSG.ComponentClassification.PerfectCentralQuotient.centerQuotientHom_mem_innAutDerived_iff_of_surjective
     θ hθ hker (fun c => (hφα c).symm)).2
     (CFSG.ComponentClassification.PerfectCentralQuotient.centerQuotientHom_mem_innAutDerived hφ)
@@ -406,7 +406,7 @@ theorem exists_sl2_fixed_of_map_eq_mul_scalar_kd264alg [IsAlgClosed L] [CharP L 
     simp only [Matrix.GeneralLinearGroup.map_det] at h1
     exact h1
   have hσε : σ ε = ε := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h1 : (σ ε - ε) ^ 2 = 0 := by
       rw [sub_pow_char (σ ε) ε, ← map_pow, hε, hdetσ, sub_self]
     exact sub_eq_zero.1 (pow_eq_zero_iff (by norm_num) |>.1 h1)
@@ -495,7 +495,7 @@ theorem exists_mem_rationalComponent_conj_eq_rankOne_kd264alg {a : Fin τ.rank �
   classical
   obtain ⟨β, hβ, hΨ⟩ := exists_pair_of_rank_one i hn
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
-  haveI : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) := ⟨hs0.ne'⟩
+  have : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) := ⟨hs0.ne'⟩
   have hinner : twistInner (componentRoots (rootCharHom a) i)
       ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
         (componentRoots (rootCharHom a) i)]) :=
@@ -567,8 +567,8 @@ theorem exists_mem_rationalComponent_conj_eq_rankOne_kd264alg {a : Fin τ.rank �
   set w : ModGL τ L := z * ψ A₁ * z⁻¹ with hw
   have hwR : w ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i := by
     obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-    haveI : Fact r.Prime := ⟨hr⟩
-    haveI : CharP L r := hchar
+    have : Fact r.Prime := ⟨hr⟩
+    have : CharP L r := hchar
     have hσ' : ∀ c, σ c = c ^ (r ^ (e * 1)) := fun c => by rw [hσ1, hq, mul_one]
     have hQ' : 4 ≤ r ^ (e * 1) := by rw [mul_one, ← hq]; exact hQ
     obtain ⟨t, ht⟩ := CFSG.HardMathSupport.Timmesfeld.LangTorus.exists_unit_sq_ne_one (L := L) σ hσ'
@@ -646,7 +646,7 @@ theorem exists_unitary_untwist_kd264alg {ta : Fin τ.rank → Lˣ}
     (π : Equiv.Perm (Fin ν))
     (hπ : ∀ a b, a ≠ b → (S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
       (componentRoots (rootCharHom ta) i)] (σ a b) = σ (π b) (π a))
-    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (he : 0 < e) (hq : S.D.q = r ^ e) :
+    {r e : ℕ} (hr : r.Prime) (hchar : CharP L r) (_he : 0 < e) (hq : S.D.q = r ^ e) :
     ∃ (σQ : L ≃+* L) (z : ModGL τ L),
       (∀ c, σQ c = c ^ (r ^ (e * componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i)))) ∧
       z ∈ torusGroup τ L ⊔ rootSpan τ L (kernelRoots (rootCharHom ta)) ∧
@@ -870,12 +870,12 @@ theorem centerQuotientHom_mem_innAutDerived_unitaryFrame_kd264alg [CharP L 2] {a
       innAutDerived (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc2 : CharP L 2 := inferInstance
   obtain ⟨σ₂, hσ₂⟩ := exists_ringEquiv_frob (L := L) 2 1
   set R := rationalComponent S.ρ S.Γ (rootCharHom a) i with hR
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨σQ, z, hσQ, hzZ, hnorm, hconj⟩ :=
     exists_unitary_untwist_kd264alg S hT i hν hψ hΨ π hπ hr hchar he hq
   rw [hs1] at hσQ hconj
@@ -982,7 +982,7 @@ theorem centerQuotientHom_mem_innAutDerived_unitaryFrame_kd264alg [CharP L 2] {a
     obtain ⟨A, rfl⟩ := hstdsurj B
     rw [hDm, conjSLn_mul, hMinv, hcomm, ← hM]
     group
-  haveI : Group.IsPerfect SL(ν, L) :=
+  have : Group.IsPerfect SL(ν, L) :=
     CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect hν
   have hDtriv : ∀ B : SL(ν, L), conjSLn Dm B = B := by
     have h1 : onCenterQuotient (conjSLnAut_kd264alg Dm) = 1 := by
@@ -1002,7 +1002,7 @@ theorem centerQuotientHom_mem_innAutDerived_unitaryFrame_kd264alg [CharP L 2] {a
   have hc0 : c ≠ 0 := by
     rintro rfl
     have h1 := congrArg Matrix.det hc
-    haveI : Nonempty (Fin ν) := ⟨⟨0, by omega⟩⟩
+    have : Nonempty (Fin ν) := ⟨⟨0, by omega⟩⟩
     rw [Matrix.scalar_apply, Matrix.diagonal_zero, Matrix.det_zero] at h1
     exact (Matrix.isUnits_det_units _).ne_zero h1
   set u : Lˣ := Units.mk0 c hc0 with hu
@@ -1052,7 +1052,7 @@ theorem centerQuotientHom_mem_innAutDerived_unitaryFrame_kd264alg [CharP L 2] {a
   have hσσ₂ : ∀ c, σQ (σ₂ c) = σ₂ (σQ c) := fun c => by
     rw [hσq, hσq, hσ₂c, hσ₂c, ← pow_mul, ← pow_mul, mul_comm]
   have hφinn : φ ∈ innAutDerived C := by
-    haveI := hc2
+    have := hc2
     exact mem_innAutDerived_of_unitary_conj_kd264alg (by omega) σQ σ₂ hσ₂c hσσ₂ G hGu φ hφ
   let θ' : C →* R := θ.codRestrict R (fun c => hθR ▸ ⟨c, rfl⟩)
   have hθ'surj : Function.Surjective θ' := by
@@ -1092,7 +1092,7 @@ theorem card_eq_of_compAlgEight_kd264alg {X : Type} [Group X] (e : TauCeti.Valid
   obtain ⟨ei, hv⟩ := e
   obtain ⟨eX⟩ := hX
   obtain ⟨q, hq, hqcard⟩ := he
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases hq with hA | htw
   · subst hA
     left
@@ -1202,8 +1202,8 @@ theorem orbitLength_eq_one_of_unitaryFrame_kd264alg [CharP L 2] (hq8 : S.D.q = 8
       2 ^ (3 * componentOrbitLength S.ρ (componentRoots (rootCharHom a) i)) := by
     rw [hfeq, hq8, show (8 : ℕ) = 2 ^ 3 by norm_num, ← pow_mul]
   have hrL : ringChar L = 2 := ringChar.eq L 2
-  haveI : Fact (ringChar L).Prime := ⟨hrL ▸ Nat.prime_two⟩
-  haveI : CharP K (ringChar L) := hring ▸ ringChar.charP K
+  have : Fact (ringChar L).Prime := ⟨hrL ▸ Nat.prime_two⟩
+  have : CharP K (ringChar L) := hring ▸ ringChar.charP K
   obtain ⟨hqs, -⟩ := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
     (F := K) (p := ringChar L) (f := f) hKcard hν h32
   have hperf : commutator ↥(StatedSU ν (ringChar L ^ f) K) = ⊤ := hqs.1.commutator_eq_top

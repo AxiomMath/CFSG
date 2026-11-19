@@ -21,7 +21,7 @@ theorem uc22p22q_isSylowOf_P1 (D : Data G) (hstd : Sigma23Std D) {p : ℕ} {P P�
     rw [D.sig_sub]
     exact Or.inl (Or.inr hH.mem_sig2)
   have hpP : p.Prime := (D.sig_prime p hpσ).1
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   have hPG : IsSylowOf p P ⊤ := uc22p22q_isSylowOf_top D hstd hpσ hH.sylow
   have hcen₀ : ∀ y ∈ P, ∀ z ∈ P₀, y * z = z * y :=
     uc22p22q_central_of_weaklyClosed hpP hH.sylow.isPGroup hH.le hH.card (uc22p22q_weak_elem hwc)
@@ -50,7 +50,7 @@ theorem uc22p22q_P1_elem (D : Data G) (hstd : Sigma23Std D) {p : ℕ} {P P₀ : 
     rw [D.sig_sub]
     exact Or.inl (Or.inr hH.mem_sig2)
   have hpP : p.Prime := (D.sig_prime p hpσ).1
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   obtain ⟨n, hn, hmodel⟩ := hL
   set L : Subgroup G := UC6.inftyOf (centralizer (P₀ : Set G)) with hLdef
   have hS : IsSylowOf p (P ⊓ L) L := uc22p22q_isSylowOf_P1 D hstd hH hwc
@@ -87,7 +87,7 @@ theorem uc22p22q_irr_P1 (D : Data G) (hstd : Sigma23Std D) {p : ℕ} {P P₀ : S
     rw [D.sig_sub]
     exact Or.inl (Or.inr hH.mem_sig2)
   have hpP : p.Prime := (D.sig_prime p hpσ).1
-  haveI : Fact p.Prime := ⟨hpP⟩
+  have : Fact p.Prime := ⟨hpP⟩
   have hP₁ := uc22p22q_P1_ne_bot D hstd hH hwc hL hp2
   have hNM := uc22p22q_normalizer_P1_le D hH hP₁ hΓ
   obtain ⟨n, hn, hmodel⟩ := hL

@@ -179,7 +179,7 @@ theorem lineListOK_of (T : Tabs P pl LT rb PL lf) (G : Geom rb PL lf) (hD : Line
       exact hv_mem
     have hruv : rb u v = true := hrel.perp_of_mem hx hy hr hu_Ln hv_Ln
     have hLT := T.LT_get u hu v hv
-    rw [if_pos hruv] at hLT
+    rw [ite_eq_left hruv] at hLT
     have hlm := G.lmem u hu v hv (Nat.ne_of_lt huv) hruv
     have hLn : Ln rb u v = Ln rb x y := hrel.Ln_eq hx hy hxy hr (Nat.ne_of_lt huv) hu_Ln hv_Ln
     rw [hLT, T.P_get u hu v hv]
@@ -221,7 +221,7 @@ theorem lineListOK_of (T : Tabs P pl LT rb PL lf) (G : Geom rb PL lf) (hD : Line
     · obtain ⟨i0, hi0, hlist⟩ := hD.surj x hx y hy hxy hr
       have hidx := hD.lineIdx_pair hrel hx hy hxy hi0 hlist
       have hLT := T.LT_get x hx y hy
-      rw [if_pos hr] at hLT
+      rw [ite_eq_left hr] at hLT
       have hlm := G.lmem x hx y hy hxy hr
       rw [hidx, hLT]
       simp only [Bool.or_eq_true, Bool.not_eq_true']

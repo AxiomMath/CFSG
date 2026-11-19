@@ -37,7 +37,7 @@ theorem center_eq_bot_of_sp6 {X : Type} [Group X] [Finite X] (hX : CFSG.IsQuasis
   have hZ : Nat.card (Subgroup.center X) ≠ 1 :=
     fun h => hne ((Subgroup.eq_bot_iff_card (Subgroup.center X)).mpr h)
   obtain ⟨p, hp, hpd⟩ := Nat.exists_prime_and_dvd hZ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := fun h => h2 (h ▸ hpd)
   have hp3 : p ≠ 3 := fun h => h3 (h ▸ hpd)
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' p hpd
@@ -51,7 +51,7 @@ theorem center_eq_bot_of_sp6 {X : Type} [Group X] [Finite X] (hX : CFSG.IsQuasis
       f = (QuotientGroup.mk' (Subgroup.center X)).comp (P : Subgroup X).subtype := ⟨_, rfl⟩
   have hfp : IsPGroup p f.range := by
     rw [hf, MonoidHom.range_comp, Subgroup.range_subtype]
-    exact P.isPGroup'.map _
+    exact P.isPGroup.map _
   have hdvd : Nat.card f.range ∣ p := by
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hfp
     have h1 := Subgroup.card_subgroup_dvd_card f.range
@@ -61,7 +61,7 @@ theorem center_eq_bot_of_sp6 {X : Type} [Group X] [Finite X] (hX : CFSG.IsQuasis
     · have h4 := pow_dvd_pow p (show n ≤ 1 by omega)
       rwa [pow_one] at h4
     · exact absurd ((pow_dvd_pow p hn2).trans h1) (not_sq_dvd_1451520 hp hp2 hp3)
-  haveI : IsCyclic f.range := isCyclic_of_card_dvd_prime hdvd
+  have : IsCyclic f.range := isCyclic_of_card_dvd_prime hdvd
   have hker : f.rangeRestrict.ker ≤ Subgroup.center (P : Subgroup X) := by
     intro x hx
     rw [MonoidHom.ker_rangeRestrict, MonoidHom.mem_ker, hf] at hx

@@ -42,7 +42,7 @@ private theorem s16t3_special_statedClassicalModel_two {K : Type} [Field K] [Fin
 private theorem s16t3_special_statedSL_three_zmod_two_eq_top :
     StatedSL 3 (ZMod 2) = ⊤ := by
   have hK : Nat.card (ZMod 2) = 2 := by simp
-  haveI : Subsingleton (ZMod 2)ˣ :=
+  have : Subsingleton (ZMod 2)ˣ :=
     (Nat.card_eq_one_iff_unique.mp (by rw [Nat.card_units, hK])).1
   refine eq_top_iff.mpr fun A _ => CFSG.Open.StatedAPI.mem_statedSL_iff.mpr ?_
   have h : Matrix.GeneralLinearGroup.det A = 1 := Subsingleton.elim _ _
@@ -64,8 +64,7 @@ private theorem s16t3_special_griessHopfMultiplier_gl3_card
   have hcard : Nat.card (CFSG.Blueprint.Multiplier.generic .PSL 3 2 1 ×
       CFSG.Blueprint.Multiplier.exceptional .PSL 3 2 1) = 2 := by
     simp [CFSG.Blueprint.Multiplier.generic, CFSG.Blueprint.Multiplier.exceptional,
-      CFSG.Blueprint.Multiplier.genericOrders, CFSG.Blueprint.Multiplier.exceptionalOrders,
-      Nat.card_prod]
+      CFSG.Blueprint.Multiplier.genericOrders, CFSG.Blueprint.Multiplier.exceptionalOrders]
   obtain ⟨-, ⟨m⟩⟩ := hGA _ .PSL 3 2 1 hmodel
   rw [Nat.card_congr m.toEquiv, hcard]
 
@@ -126,7 +125,7 @@ private theorem s16t3_special_kBar_mult_two_pow {W : Type} [CommGroup W] [Finite
 private theorem s16t3_special_not_isMulCommutative_of_card_168 {X : Type} [Group X] [Finite X]
     (hs : IsSimpleGroup X) (hcard : Nat.card X = 168) : ¬ IsMulCommutative X := by
   intro hc
-  haveI : IsMulCommutative X := hc
+  have : IsMulCommutative X := hc
   have hp : (Nat.card X).Prime := (Group.is_simple_iff_prime_card).1 hs
   rw [hcard] at hp
   norm_num at hp
@@ -155,12 +154,12 @@ private theorem s16t3_special_false_of_parabolic_three (h : S16gRowCtx D V₀ V 
 theorem S16gRowCtx.false_of_special_shape (h : S16gRowCtx D V₀ V L hV)
     (hGA : CFSG.Open.GriessAllModelsStatement)
     (hSchur : CFSG.ComponentClassification.SolAltLit.SchurAlternatingMultiplierInput)
-    (hsum : SumOfNatShape (lBar V₀ V hV L) (commSub ⊤ (lBar V₀ V hV L))
+    (_hsum : SumOfNatShape (lBar V₀ V hV L) (commSub ⊤ (lBar V₀ V hV L))
       (commSub ⊤ (lBar V₀ V hV L) ⊓ fixV (lBar V₀ V hV L)) 3)
     (hT : ThreeNat (Mbar D.M V₀ V hV) (lBar V₀ V hV L) (barSub V₀ V hV D.T))
     (h3 : 3 ∈ D.sig) (hS : T3SpecialShape (lBar V₀ V hV L)) : False := by
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
-  haveI : Finite ↥(lBar V₀ V hV L) := Subtype.finite
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite ↥(lBar V₀ V hV L) := Subtype.finite
   rcases hT.card_irrSet_eq with hIrr3 | hIrr7
   · exact h.false_of_card_irr_three_special hT hIrr3 hS
   · obtain ⟨N, hNA, hLN, -, hNcomm, hNKbot, hNKsup, hKord⟩ := hT.structure_of_seven hIrr7

@@ -67,7 +67,7 @@ theorem pElement_mem_primeCore_of_central_kernel_pTarget {G : Type u} {H : Type 
   have : Group.IsNilpotent G := Subgroup.isNilpotent_of_ker_le_center homomorphism hcentral
   obtain ⟨sylow, hle⟩ := hcyclic.exists_le_sylow
   have hnormal : (sylow : Subgroup G).Normal := inferInstance
-  exact le_pCore_of_normal prime _ hnormal sylow.isPGroup' (hle (Subgroup.mem_zpowers member))
+  exact le_pCore_of_normal prime _ hnormal sylow.isPGroup (hle (Subgroup.mem_zpowers member))
 
 theorem cyclic_subtype_isPGroup {G : Type u} [Group G] (prime : ℕ)
     (subgroup : Subgroup G) (member : subgroup)

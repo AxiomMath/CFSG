@@ -26,9 +26,9 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
-theorem sec8_flag (h34 : Stroth34Statement) (h51 : Stroth51Statement)
-    (h53 : Stroth53Statement) (h310chi : Stroth310ChiStatement) (hzt : Sec8ZtStatement)
-    (hA : Sec8AExistsStatement) (hc : Ctx M Q Z B) {n : ℕ} {t r : G} (hs : Sec8Hyp hc n t)
+theorem sec8_flag (h34 : Stroth34Statement) (_h51 : Stroth51Statement)
+    (h53 : Stroth53Statement) (h310chi : Stroth310ChiStatement) (_hzt : Sec8ZtStatement)
+    (_hA : Sec8AExistsStatement) (hc : Ctx M Q Z B) {n : ℕ} {t r : G} (hs : Sec8Hyp hc n t)
     (hr : Sec7A hc t r) (hC : Conc83 hc n t)
     {K : Type} [Field K] [Finite K] [CharP K 2] {γ : G → K} (M₀ : Tim79.QuadModel Q Z K γ)
     (hD : GlobalModelData M Q Z γ M₀) :
@@ -81,8 +81,8 @@ theorem sec8_flag (h34 : Stroth34Statement) (h51 : Stroth51Statement)
   have h53d := h53.2.2.2.1 G M Q Z B hc n t h5 hs.spNat r hr.mem hr.plane (conjSubgroup r B)
     (hc.CN t) (Rt M (LB M Q B) t) (Vt M (LB M Q B) B Z t) (Sec8W1 M Q Z B t r)
     (Sec8V1 M Q Z B t r) rfl rfl rfl rfl rfl rfl
-  haveI hEfin : Module.Finite K M₀.E := M₀.fin
-  haveI hEfinite : Finite M₀.E := Module.finite_of_finite K
+  have hEfin : Module.Finite K M₀.E := M₀.fin
+  have hEfinite : Finite M₀.E := Module.finite_of_finite K
   have hq : Nat.card K = Nat.card Z := hD.card
   have hq2 : 2 ≤ Nat.card Z := by have := hc.hyp.q4; omega
   obtain ⟨A, A₀, hAmem, hA₀mem, hA₀A, hdim⟩ := sec8_exists_codim_one h310chi h53.1 hc hs hr hD

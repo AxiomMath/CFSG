@@ -290,7 +290,7 @@ theorem ffLift_isLiftE16 (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
     have hyU : omegaToProj hQ ⟨v, hv'⟩ ∈ U := ((mem_ffLift_iff hQ).mp hv).2
     have hcomm : omegaToProj hQ ⟨u, hu'⟩ * omegaToProj hQ ⟨v, hv'⟩ =
         omegaToProj hQ ⟨v, hv'⟩ * omegaToProj hQ ⟨u, hu'⟩ := by
-      haveI : IsMulCommutative U := habel.1
+      have : IsMulCommutative U := habel.1
       exact congrArg Subtype.val (mul_comm' (⟨_, hxU⟩ : U) (⟨_, hyU⟩ : U))
     have heq : omegaToProj hQ ⟨u * v, (omegaGroup hQ).mul_mem hu' hv'⟩ =
         omegaToProj hQ ⟨v * u, (omegaGroup hQ).mul_mem hv' hu'⟩ := by

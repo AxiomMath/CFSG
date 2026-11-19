@@ -111,7 +111,7 @@ private instance : Algebra (ZMod 2) HeringF8 :=
   ZMod.algebra HeringF8 2
 
 private theorem heringF8_finrank : Module.finrank (ZMod 2) HeringF8 = 3 := by
-  letI : Module.Finite (ZMod 2) HeringF8 := Module.Finite.of_finite
+  let : Module.Finite (ZMod 2) HeringF8 := Module.Finite.of_finite
   have hcard : Nat.card HeringF8 =
       2 ^ Module.finrank (ZMod 2) HeringF8 := by
     simpa [ZMod.card] using

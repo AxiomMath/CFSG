@@ -59,12 +59,12 @@ theorem H_le_normalizer_rCoreL : m.H ≤ normalizer ((rCore m.r m.L : Subgroup G
 
 theorem le_M_of_coprime {V : Subgroup G} (hEV : m.E ≤ normalizer (V : Set G))
     (hVp : ¬ m.r ∣ Nat.card V) : V ≤ m.M := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
-  haveI : IsMulCommutative ↥m.E := m.d.E_el.1
-  haveI : CFSG.IsElementaryAbelian m.r ↥m.E :=
+  have : Fact m.r.Prime := ⟨m.hr⟩
+  have : IsMulCommutative ↥m.E := m.d.E_el.1
+  have : CFSG.IsElementaryAbelian m.r ↥m.E :=
     ⟨Monoid.exponent_dvd_of_forall_pow_eq_one fun x => Subtype.ext (by
       rw [Subgroup.coe_pow, Subgroup.coe_one]; exact m.d.E_el.2 x x.2)⟩
-  haveI : Nontrivial ↥m.E := (Subgroup.nontrivial_iff_ne_bot _).2 (Mc614.E_ne_bot m.toMc614)
+  have : Nontrivial ↥m.E := (Subgroup.nontrivial_iff_ne_bot _).2 (Mc614.E_ne_bot m.toMc614)
   refine (CFSG.RankThree.PartOne.KE8F.le_iSup_hyperplane_centralizers hEV hVp).trans
     (iSup₂_le fun B hB => inf_le_right.trans ?_)
   have hBc : Nat.card B = m.r := by
@@ -85,13 +85,13 @@ theorem le_M_of_coprime {V : Subgroup G} (hEV : m.E ≤ normalizer (V : Set G))
       (one_le_pRank_of_ne_bot m.hr hBp hBne)).trans m.d.E_gamma)
 
 theorem rCoreL_le_M : rCore m.r m.L ≤ m.M := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   exact m.le_M_of_coprime (m.hZ.E_le_centralizer.trans m.H_le_normalizer_rCoreL)
     ((Nat.Prime.coprime_iff_not_dvd m.hr).1 (coprime_card_rCore m.r m.L))
 
 theorem odd_card_rCoreL : Odd (Nat.card (rCore m.r m.L)) := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Y := rCore m.r m.L with hYdef
   have hEY : m.E ≤ normalizer (Y : Set G) :=
     m.hZ.E_le_centralizer.trans m.H_le_normalizer_rCoreL
@@ -125,7 +125,7 @@ theorem odd_card_rCoreL : Odd (Nat.card (rCore m.r m.L)) := by
     have : (x : G) ∈ T := ⟨x, hx, rfl⟩
     rw [h, mem_bot] at this
     exact (mem_bot).2 (Subtype.ext this)
-  have hloc : IsTwoLocal (normalizer (T : Set G)) := ⟨T, hT1, S.isPGroup'.map _, rfl⟩
+  have hloc : IsTwoLocal (normalizer (T : Set G)) := ⟨T, hT1, S.isPGroup.map _, rfl⟩
   have hEM : m.E ≤ m.M := fun x hx => m.R_le_M (m.E_le_R hx)
   have hE2 : 2 ≤ CFSG.Open.pRank m.r m.E :=
     le_pRank_of_elemAbelian m.hr le_rfl m.d.E_el m.d.E_card
@@ -154,7 +154,7 @@ theorem pRank_rCoreL_le_three (h619 : m.C619) {q : ℕ} (hq : q.Prime) (hq2 : q 
       exact sup_le hLM inf_le_right
     exact this
   by_cases hqσ : q ∈ uniqueFourSigma m.M
-  · haveI : Fact q.Prime := ⟨hq⟩
+  · have : Fact q.Prime := ⟨hq⟩
     have hnd : ¬ q ∣ Nat.card (rCore m.r m.L) := by
       intro hd
       obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow q ↥(rCore m.r m.L)))
@@ -171,7 +171,7 @@ theorem pRank_rCoreL_le_three (h619 : m.C619) {q : ℕ} (hq : q.Prime) (hq2 : q 
         rw [h, mem_bot] at this
         exact (mem_bot).2 (Subtype.ext this)
       have hQp : IsPGroup q ((P : Subgroup ↥(rCore m.r m.L)).map (rCore m.r m.L).subtype) :=
-        P.isPGroup'.map _
+        P.isPGroup.map _
       have hNQ := (m.isStronglyPEmbedded_M hqσ).normalizer_le hQne hQp
         ((map_subtype_le _).trans hOM)
       have hfr := frattini_of_isSylowOf (rCore_le m.r m.L) m.L_le_normalizer_rCoreL hQsyl
@@ -190,9 +190,9 @@ theorem pRank_rCoreL_le_three (h619 : m.C619) {q : ℕ} (hq : q.Prime) (hq2 : q 
 
 theorem Lbar_not_comm (h620 : m.C620) (hs : IsSimpleGroup m.Lbar) :
     ¬ ∀ a b : m.Lbar, a * b = b * a := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   intro hc
-  letI : CommGroup m.Lbar := { (inferInstance : Group m.Lbar) with mul_comm := hc }
+  let : CommGroup m.Lbar := { (inferInstance : Group m.Lbar) with mul_comm := hc }
   have hp : (Nat.card m.Lbar).Prime := IsSimpleGroup.prime_card
   have hgen : ∃ x : m.Lbar, x ≠ 1 ∧ ∃ a : ℕ, x ^ (m.r ^ a) = 1 := by
     by_contra hno
@@ -276,7 +276,7 @@ theorem gen_L (T : Subgroup ↥m.L)
   rwa [show y = x from Subtype.ext hyx] at hy
 
 theorem isSolvable_pPrimeCore_L : Group.IsSolvable ↥(CFSG.pPrimeCore m.r ↥m.L) := by
-  haveI := m.isSolvable_rCoreL
+  have := m.isSolvable_rCoreL
   let e : ↥(CFSG.pPrimeCore m.r ↥m.L) ≃* ↥(rCore m.r m.L) :=
     (CFSG.pPrimeCore m.r ↥m.L).equivMapOfInjective _ m.L.subtype_injective
   exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective

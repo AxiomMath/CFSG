@@ -159,7 +159,7 @@ theorem sq_eq {e g f0 w c0 c1 z0 z1 : ℕ} (he : e < 128) (hg : g < 512) (hf0 : 
       128 * ((MR ((MR g >>> (9 * ((MR w >>> (9 * c1)) &&& 511))) &&& 511) >>> (9 * z1)) &&& 511) := by
   rw [hFm, mul_code AR MR hmul hf0 hw hc0 hc1,
     mul_code AR MR hmul he hg (xor_lt hf0 (ln_lt _ _)) (mt_lt _ _ _), hzz,
-    mul_code AR MR hmul (xor_lt he (ln_lt _ _)) (mt_lt _ _ _) hz0 hz1, act_xor (hlin g hg) hf0 (ln_lt _ _)] <;>
+    mul_code AR MR hmul (xor_lt he (ln_lt _ _)) (mt_lt _ _ _) hz0 hz1, act_xor (hlin g hg) hf0 (ln_lt _ _)];
     simp only [Nat.xor_assoc]
 
 variable {Om : List ℕ} (hOm : ∀ w ∈ Om, w < 512) (hcov : ∀ e < 128, F e >>> 7 ∈ Om)
@@ -205,7 +205,7 @@ theorem fibI_eq {g w : ℕ} (hg : g < 512) (hw : w < 512) :
     by_cases hwe : F e >>> 7 = w
     · rw [usq_fib AR MR F z hmul hF hz hlin hFm he hg, hwe, hp, ln_xor, ln_xor, ln_IDX he,
         ln_RU (xor_lt (ln_lt _ _) (ln_lt _ _)) he]
-      simp only [hwe, decide_true, Bool.true_and, Nat.mul_zero, Nat.add_zero, beq_dec]
+      simp only [decide_true, Bool.true_and, Nat.mul_zero, Nat.add_zero, beq_dec]
       rfl
     · simp [hwe]
   · symm
@@ -257,7 +257,7 @@ theorem fibO_eq {g w : ℕ} (hg : g < 512) (hw : w < 512) :
       simp only [hwe, decide_true, Bool.true_and, Nat.mul_zero, Nat.add_zero, beq_dec]
       generalize (X >>> (7 * e)) &&& 127 = A
       generalize (linL (AR 0) X >>> (7 * e)) &&& 127 = B
-      by_cases h1 : A = 0 <;> by_cases h2 : A = B <;> simp [h1, h2, xor_eq_zero]
+      by_cases h1 : A = 0 <;> by_cases h2 : A = B <;> simp [h1, h2]
     · simp [hwe]
   · rw [zl_eq, flg_and]
     apply flg_congr
@@ -267,7 +267,7 @@ theorem fibO_eq {g w : ℕ} (hg : g < 512) (hw : w < 512) :
       simp only [hwe, decide_true, Bool.true_and, Nat.mul_zero, Nat.add_zero]
       have hp0 := Nat.pos_of_ne_zero hp
       have : ∀ A : ℕ, A + 128 * p ≠ 0 := fun A => by omega
-      simp [this, beq_dec, hp]
+      simp [beq_dec, hp]
     · simp [hwe]
   · symm
     apply flg_false
@@ -350,7 +350,7 @@ theorem unO_eq {g : ℕ} (hg : g < 512) :
       mul (mul (mul (e + 128 * g) (F (e + 128 * g))) z) (mul (mul (e + 128 * g) (F (e + 128 * g))) z) := by
     rw [extMulF_eq]
     unfold extMul
-    rw [if_pos hs, if_pos hs]
+    rw [ite_eq_left hs, ite_eq_left hs]
   rw [hss]
   simp only [hcov e he, usq, decide_true, Bool.true_and, ne_eq]
   rfl
@@ -360,7 +360,7 @@ theorem grpW_eq {g : ℕ} (hg : g < 512) (Q U : List ℕ) (nQ : ℕ) :
     grpW mul AR MR F z (lanesK (fun e => Nat.land (F e) 127) 128) (Om.map (fibOf F)) Q U nQ g =
       grpU mul AR MR F z Q U nQ g := by
   unfold grpU
-  rw [zIU_eq AR MR F z hmul hF hz g hg, zOU_eq AR MR F z hmul hF hz g hg]
+  rw [zIU_eq F z g hg, zOU_eq AR MR F z hmul hF hz g hg]
   unfold grpW
   simp only [cen_strictN]
   rw [unI_eq AR MR F z hmul hF hz hlin hOm hcov hFm hg, unO_eq AR MR F z hmul hF hz hlin hOm hcov hFm hg]

@@ -16,7 +16,7 @@ omit [Finite G] in
 theorem pCore_eq_sylow_of_normal (S : Sylow 2 G) (hSn : (S : Subgroup G).Normal) :
     pCore 2 G = (S : Subgroup G) :=
   le_antisymm ((pCore_isPGroup (p := 2) (G := G)).le_sylow_of_normal S)
-    (le_sSup ⟨hSn, S.isPGroup'⟩)
+    (le_sSup ⟨hSn, S.isPGroup⟩)
 
 theorem centralizer_le_of_normal (hO : pPrimeCore 2 G = ⊥) (S : Sylow 2 G)
     (td : TData (S : Subgroup G)) (hSn : (S : Subgroup G).Normal) :

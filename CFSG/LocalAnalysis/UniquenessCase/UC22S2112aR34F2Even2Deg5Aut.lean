@@ -27,29 +27,29 @@ private noncomputable def uc22s2112r34_deg5aut_coord {K : Type} [Field K] (u : K
     map_one' := by
       funext i
       by_cases h : (i : ℕ) < 4
-      · rw [dif_pos h]
+      · rw [dite_eq_left h]
         have h1 : (1 : Multiplicative (Fin 4 → ZMod 5)).toAdd = 0 := rfl
         rw [h1, Pi.zero_apply, ZMod.val_zero, pow_zero]
         rfl
-      · rw [dif_neg h]
+      · rw [dite_eq_right h]
         rfl
     map_mul' := by
       intro a b
       funext i
       by_cases h : (i : ℕ) < 4
-      · rw [dif_pos h, Pi.mul_apply, dif_pos h, dif_pos h]
+      · rw [dite_eq_left h, Pi.mul_apply, dite_eq_left h, dite_eq_left h]
         have h1 : (a * b).toAdd = a.toAdd + b.toAdd := rfl
         rw [h1, Pi.add_apply, uc22s2112r34_deg5aut_pow_val_add hu]
-      · rw [dif_neg h, Pi.mul_apply, dif_neg h, dif_neg h, mul_one] }
+      · rw [dite_eq_right h, Pi.mul_apply, dite_eq_right h, dite_eq_right h, mul_one] }
 
 private theorem uc22s2112r34_deg5aut_coord_lt {K : Type} [Field K] {u : Kˣ}
     (hu : orderOf u = 5) (v : Multiplicative (Fin 4 → ZMod 5)) {i : Fin 5}
     (h : (i : ℕ) < 4) :
-    uc22s2112r34_deg5aut_coord u hu v i = u ^ (v.toAdd ⟨i, h⟩).val := dif_pos h
+    uc22s2112r34_deg5aut_coord u hu v i = u ^ (v.toAdd ⟨i, h⟩).val := dite_eq_left h
 
 private theorem uc22s2112r34_deg5aut_coord_ge {K : Type} [Field K] {u : Kˣ}
     (hu : orderOf u = 5) (v : Multiplicative (Fin 4 → ZMod 5)) {i : Fin 5}
-    (h : ¬ (i : ℕ) < 4) : uc22s2112r34_deg5aut_coord u hu v i = 1 := dif_neg h
+    (h : ¬ (i : ℕ) < 4) : uc22s2112r34_deg5aut_coord u hu v i = 1 := dite_eq_right h
 
 private noncomputable def uc22s2112r34_deg5aut_diag {K : Type} [Field K] (u : Kˣ)
     (hu : orderOf u = 5) : Multiplicative (Fin 4 → ZMod 5) →* GL (Fin 5) K :=

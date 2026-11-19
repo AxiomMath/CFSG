@@ -281,7 +281,7 @@ theorem ggWeylIrred_of_sylowShape_twF4Large {G : Type} [Group G] [Finite G] {p e
     intro x hx
     have h1 : x ∈ cj (cj (Q₀ : Subgroup G) c) c⁻¹ := cj_le_cj (hEQ.trans hQS.le) c⁻¹ hx
     rwa [cj_cj] at h1
-  obtain ⟨φ₀⟩ := hshape (Q₀ : Subgroup G) Q₀.isPGroup' Q₀.not_dvd_index
+  obtain ⟨φ₀⟩ := hshape (Q₀ : Subgroup G) Q₀.isPGroup Q₀.not_dvd_index
   have hFexp : ∀ x ∈ cj E c⁻¹, x ^ p = 1 := fun x hx => pow_eq_one_of_mem_cj hE.2 hx
   have hFcard : Nat.card (cj E c⁻¹) ≤ p ^ 2 := by
     have h1 := card_le_sq_of_exponent hp

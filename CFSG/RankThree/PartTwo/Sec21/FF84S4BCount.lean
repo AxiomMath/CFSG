@@ -13,9 +13,9 @@ variable {G : Type} [Group G] [Finite G]
 theorem B_order5_fixed {S : Subgroup G} (hS : IsElemAb 2 6 S) {y : G} (hy : orderOf y = 5)
     (hn : y ∈ Nor S) (hnc : ¬ S ≤ Cen y) : Nat.card ↥(S ⊓ Cen y) = 4 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI := hS.1
-  haveI : Fintype ↥S := Fintype.ofFinite _
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have := hS.1
+  have : Fintype ↥S := Fintype.ofFinite _
   have hy5 : y ^ 5 = 1 := hy ▸ pow_orderOf_eq_one y
   let g : ↥S → ↥S := fun s => ⟨y * s * y⁻¹, (Subgroup.mem_normalizer_iff.1 hn s).1 s.2⟩
   let F : Function.End ↥S := g

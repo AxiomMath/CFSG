@@ -29,10 +29,10 @@ theorem stepBound_holds : StepBound := by
     (hcfg.cent x hcfg.mem).2 (Subgroup.mem_zpowers x)
   have hD9 : Nat.card D = 9 := by rw [hDcard]; norm_num
   have hcenter : Subgroup.center ↥K = ⊥ := by
-    haveI : IsSimpleGroup ↥K := hKsimple
+    have : IsSimpleGroup ↥K := hKsimple
     have hnc : ¬ IsMulCommutative ↥K := by
       intro hc
-      haveI : IsMulCommutative ↥K := hc
+      have : IsMulCommutative ↥K := hc
       have hp : Nat.Prime (Nat.card ↥K) := (Group.is_simple_iff_prime_card).1 hKsimple
       rw [hKcard] at hp
       exact (by norm_num : ¬ Nat.Prime 25920) hp
@@ -88,7 +88,7 @@ theorem stepBound_holds : StepBound := by
       show kb b = 1
       exact hconj_inj (by rw [← hkb b, hα1, map_one])
   have hBtop : IsElemAbelian 3 (⊤ : Subgroup ↥B) := by
-    haveI : IsMulCommutative ↥B := hB_elem.1
+    have : IsMulCommutative ↥B := hB_elem.1
     refine ⟨⟨⟨fun a b => Subtype.ext (mul_comm' (a : ↥B) (b : ↥B))⟩⟩, fun a _ => ?_⟩
     exact Subtype.ext (by simpa using hB_elem.2 (a : ↥B) a.2)
   have hrange_el : IsElemAbelian 3 φ.range := by

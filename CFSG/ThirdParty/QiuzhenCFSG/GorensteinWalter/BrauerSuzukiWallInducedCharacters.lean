@@ -61,7 +61,7 @@ public theorem BrauerSuzukiWallHypotheses.induced_linear_characters
   let sigmaH : ClassFunction h.H := inducedFromSub hKleH sigma
   have hsH : h.s ∈ h.H := by
     rw [h.H_eq_join]
-    exact SetLike.le_def.mp le_sup_right (Subgroup.mem_zpowers h.s)
+    exact _root_.IsConcreteLE.le_iff.mp le_sup_right (Subgroup.mem_zpowers h.s)
   have hsK : ∀ x : h.K, h.s * (x : G) * h.s⁻¹ ∈ h.K := by
     intro x
     rw [h.s_inverts_K (x : G) x.2]

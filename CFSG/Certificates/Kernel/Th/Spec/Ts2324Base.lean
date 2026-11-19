@@ -50,29 +50,29 @@ theorem rowsMatrix_pLet {RA RB : Array V4} {X Y Y5 : Matrix (Fin 248) (Fin 248) 
     (hl : l = 1 ∨ l = -1 ∨ l = 2 ∨ l = -2) :
     rowsMatrix (pLet RA RB l) = codeLetter X Y Y5 (wordCode l) := by
   rcases hl with rfl | rfl | rfl | rfl
-  · rw [show pLet RA RB 1 = m3x RA RB from if_pos (Or.inl rfl), hx, wordCode_one]
-    exact (if_pos rfl).symm
-  · rw [show pLet RA RB (-1) = m3x RA RB from if_pos (Or.inr rfl), hx, wordCode_neg_one]
-    exact (if_pos rfl).symm
+  · rw [show pLet RA RB 1 = m3x RA RB from ite_eq_left (Or.inl rfl), hx, wordCode_one]
+    exact (ite_eq_left rfl).symm
+  · rw [show pLet RA RB (-1) = m3x RA RB from ite_eq_left (Or.inr rfl), hx, wordCode_neg_one]
+    exact (ite_eq_left rfl).symm
   · rw [show pLet RA RB 2 = m3y RA RB from by
-        unfold pLet; rw [if_neg (by decide), if_pos rfl], hy, wordCode_two]
-    unfold codeLetter; rw [if_neg (by decide), if_pos rfl]
+        unfold pLet; rw [ite_eq_right (by decide), ite_eq_left rfl], hy, wordCode_two]
+    unfold codeLetter; rw [ite_eq_right (by decide), ite_eq_left rfl]
   · rw [show pLet RA RB (-2) = powRows (m3y RA RB) 5 from by
-        unfold pLet; rw [if_neg (by decide), if_neg (by decide), if_pos rfl], hy5, wordCode_neg_two]
-    unfold codeLetter; rw [if_neg (by decide), if_neg (by decide)]
+        unfold pLet; rw [ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_left rfl], hy5, wordCode_neg_two]
+    unfold codeLetter; rw [ite_eq_right (by decide), ite_eq_right (by decide)]
 
 theorem wfRows_pLet {RA RB : Array V4} (hx : WfRows (m3x RA RB)) (hy : WfRows (m3y RA RB))
     (l : ℤ) : WfRows (pLet RA RB l) := by
   unfold pLet
   by_cases h1 : l = 1 ∨ l = -1
-  · rw [if_pos h1]; exact hx
-  · rw [if_neg h1]
+  · rw [ite_eq_left h1]; exact hx
+  · rw [ite_eq_right h1]
     by_cases h2 : l = 2
-    · rw [if_pos h2]; exact hy
-    · rw [if_neg h2]
+    · rw [ite_eq_left h2]; exact hy
+    · rw [ite_eq_right h2]
       by_cases h3 : l = -2
-      · rw [if_pos h3]; exact hy.powRows 5
-      · rw [if_neg h3]; exact wfRows_idRows
+      · rw [ite_eq_left h3]; exact hy.powRows 5
+      · rw [ite_eq_right h3]; exact wfRows_idRows
 
 section Ts
 
@@ -81,21 +81,21 @@ variable {D : TsData} (L : TsLeaves D) {RA RB : Array V4} (hA : WfRows RA) (hB :
 
 end Ts
 
-@[expose] def twRegE : ℕ → ℕ
+def twRegE : ℕ → ℕ
   | 0 => 4 | 1 => 5 | 2 => 8 | 3 => 9 | 4 => 11 | 5 => 13 | 6 => 14 | 7 => 15 | 8 => 16
   | 9 => 18 | _ => 0
 
-@[expose] def twRegF : ℕ → ℕ
+def twRegF : ℕ → ℕ
   | 0 => 19 | 1 => 12 | 2 => 20 | 3 => 10 | 4 => 21 | 5 => 22 | 6 => 23 | 7 => 24 | 8 => 17
   | 9 => 25 | _ => 0
 
-@[expose] def tupM {M : Type*} (E F : ℕ → M) (l : ℤ) : M :=
+def tupM {M : Type*} (E F : ℕ → M) (l : ℤ) : M :=
   if 0 < l then E (l.toNat - 1) else F ((-l).toNat - 1)
 
-@[expose] def TwEntry (R : Array V4) (E F : Matrix (Fin 248) (Fin 248) (ZMod 2)) : Prop :=
+def TwEntry (R : Array V4) (E F : Matrix (Fin 248) (Fin 248) (ZMod 2)) : Prop :=
   WfRows R ∧ rowsMatrix R = E ∧ WfRows (invRows R) ∧ rowsMatrix (invRows R) = F
 
-@[expose] def TwEnts (Rs : List (Array V4)) (n : ℕ)
+def TwEnts (Rs : List (Array V4)) (n : ℕ)
     (E F : ℕ → Matrix (Fin 248) (Fin 248) (ZMod 2)) : Prop :=
   Rs.length = n ∧ ∀ i < n, TwEntry (Rs.getD i idRows) (E i) (F i)
 
@@ -105,11 +105,11 @@ theorem tupleRows_spec {Rs : List (Array V4)} {n : ℕ}
     WfRows (tupleRows Rs l) ∧ rowsMatrix (tupleRows Rs l) = tupM E F l := by
   unfold tupleRows tupM
   by_cases hp : 0 < l
-  · rw [if_pos hp, if_pos hp]
+  · rw [ite_eq_left hp, ite_eq_left hp]
     have hi : l.toNat - 1 < n := by omega
     obtain ⟨h1, h2, -, -⟩ := h.2 _ hi
     exact ⟨h1, h2⟩
-  · rw [if_neg hp, if_neg hp]
+  · rw [ite_eq_right hp, ite_eq_right hp]
     have hi : (-l).toNat - 1 < n := by omega
     have hlen : (-l).toNat - 1 < Rs.length := h.1 ▸ hi
     have e : (Rs.map invRows).getD ((-l).toNat - 1) idRows =

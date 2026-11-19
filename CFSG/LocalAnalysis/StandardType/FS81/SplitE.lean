@@ -102,8 +102,8 @@ theorem fs81_split_E {G : Type} [Group G] [Finite G] {b₀ : G} {K E : Subgroup 
   have hK_normal_C : (K.subgroupOf C).Normal := hKn
   have hKD_normal_C : ((K ⊔ D).subgroupOf C).Normal := by
     rw [Subgroup.subgroupOf_sup hK_le_C hD_le_C]
-    letI : (K.subgroupOf C).Normal := hK_normal_C
-    letI : (D.subgroupOf C).Normal := hD_normal_C
+    let : (K.subgroupOf C).Normal := hK_normal_C
+    let : (D.subgroupOf C).Normal := hD_normal_C
     exact Subgroup.sup_normal (K.subgroupOf C) (D.subgroupOf C)
   have hKD_index_coprime : ¬ 3 ∣ ((K ⊔ D).subgroupOf C).index := fs81Sp_no_three_index hKC hKn hOut
   have hE_pgroup : IsPGroup 3 E := IsElemAbelian.isPGroup hE.2.1
@@ -171,7 +171,7 @@ theorem fs81_split_E {G : Type} [Group G] [Finite G] {b₀ : G} {K E : Subgroup 
           exact ((show Commute d b₀ from hd_comm_b₀).zpow_left i).zpow_right j)).isPGroup
       have hH_cyc : IsCyclic ↥(Subgroup.zpowers d ⊔ Subgroup.zpowers b₀) :=
         hA2 (Subgroup.zpowers d ⊔ Subgroup.zpowers b₀) hH_le_CK hH_pgroup
-      haveI : IsCyclic ↥(Subgroup.zpowers d ⊔ Subgroup.zpowers b₀) := hH_cyc
+      have : IsCyclic ↥(Subgroup.zpowers d ⊔ Subgroup.zpowers b₀) := hH_cyc
       let dH : ↥(Subgroup.zpowers d ⊔ Subgroup.zpowers b₀) :=
         ⟨d, Subgroup.mem_sup_left (Subgroup.mem_zpowers d)⟩
       let b₀H : ↥(Subgroup.zpowers d ⊔ Subgroup.zpowers b₀) :=
@@ -218,7 +218,7 @@ theorem fs81_split_E {G : Type} [Group G] [Finite G] {b₀ : G} {K E : Subgroup 
       have hb₀_one : b₀ = 1 := by simpa using hb₀_inf
       rw [hb₀_one, orderOf_one] at hb₀
       exact Nat.succ_ne_zero 0 (by simpa using hb₀.symm)
-    haveI : Fact (Nat.card (Subgroup.zpowers b₀)).Prime := by
+    have : Fact (Nat.card (Subgroup.zpowers b₀)).Prime := by
       rw [Nat.card_zpowers, hb₀]
       exact ⟨by norm_num⟩
     let H := (Subgroup.zpowers b₀ ⊓ K).subgroupOf (Subgroup.zpowers b₀)

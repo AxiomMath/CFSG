@@ -148,14 +148,14 @@ variable {X : Type} [Group X] [Finite X] {p : ℕ} [Fact p.Prime]
 theorem not_hasNormalPComplement_of_perm_three (e : X ≃* Equiv.Perm (Fin 3)) :
     ¬ CFSG.HasNormalPComplement 3 X := by
   rintro ⟨N, hN, hc, hq⟩
-  haveI := hN
-  haveI : (N.map e.toMonoidHom).Normal := hN.map _ e.surjective
+  have := hN
+  have : (N.map e.toMonoidHom).Normal := hN.map _ e.surjective
   have hb := SevenFourL34.perm_three_normal_eq_bot (N.map e.toMonoidHom) (by
     rw [Subgroup.card_map_of_injective e.injective]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp hc)
   have hN1 : N = ⊥ := by rwa [Subgroup.map_eq_bot_iff_of_injective _ e.injective] at hb
   subst hN1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hq.exists_card_eq
   rw [Nat.card_congr (QuotientGroup.quotientBot (G := X)).toEquiv, Nat.card_congr e.toEquiv,
     Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin] at hk
@@ -187,6 +187,7 @@ theorem exists_mem_cZero_dvd {H L : Subgroup G} {p : ℕ} [Fact p.Prime]
   rw [Subgroup.card_map_of_injective (H ⊓ L).subtype_injective] at hdvd
   exact hp.coprime_iff_not_dvd.1 CFSG.pPrimeCore_coprime_card hdvd
 
+omit [Finite G] in
 theorem exists_surjective_of_le {I J : Subgroup G} (hIJ : I ≤ J) :
     ∃ (T : Subgroup (↥J ⧸ CFSG.pCore 2 ↥J)) (g : ↥T →* ↥I ⧸ CFSG.pCore 2 ↥I),
       Function.Surjective g := by
@@ -235,7 +236,7 @@ theorem agl81ElevenElevenJZeroShape_holds : AGL81ElevenElevenJZeroShape G := by
     rcases hd with ⟨h3, -⟩ | ⟨h5, -⟩
     exacts [Or.inl h3, Or.inr h5]
   have hp : p.Prime := by rcases hp35 with rfl | rfl <;> norm_num
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   obtain ⟨I, hI, hdI⟩ := exists_mem_cZero_dvd hpJ
   have hIJ : I ≤ jZero H L := le_iSup₂_of_le I hI le_rfl
@@ -247,7 +248,7 @@ theorem agl81ElevenElevenJZeroShape_holds : AGL81ElevenElevenJZeroShape G := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.pCore 2 ↥I)] at hdI'
     rcases (Nat.Prime.dvd_mul hp).1 hdI' with h | h
     · exact h
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥I)).exists_card_eq
       rw [hk] at h
       exact absurd ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow h)) hp2
@@ -269,7 +270,7 @@ theorem agl81ElevenElevenJZeroShape_holds : AGL81ElevenElevenJZeroShape G := by
         (CFSG.LocalAnalysis.GLTheoremB.MovingAround.InputsMisc5.hasNormalPComplement_of_injective
           T.subtype T.subtype_injective hN)
     rcases hI.shape with hc | ⟨-, hb⟩
-    · haveI : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.mpr hc.perfect
+    · have : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.mpr hc.perfect
       exact hp.coprime_iff_not_dvd.mp (coprime_card_of_perfect hQ) hdQ
     · have hp3 := h3 hb
       rcases hb with ⟨⟨e⟩⟩ | hSU

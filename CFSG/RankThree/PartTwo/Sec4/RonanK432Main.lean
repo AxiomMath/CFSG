@@ -32,8 +32,8 @@ theorem k432InnerThree_of_goodRow
     (hrow : ∀ (L : Type) [Group L] [Finite L], IsQuasisimple L → SectionFourHyp L →
       GoodRow (L ⧸ Subgroup.center L)) : K432InnerThree := by
   intro L _ _ hq hS h3 σ hσ3 hσ1 hwc
-  haveI : Group.IsPerfect L := hq.1
-  haveI : IsSimpleGroup (L ⧸ Subgroup.center L) := hq.2.1
+  have : Group.IsPerfect L := hq.1
+  have : IsSimpleGroup (L ⧸ Subgroup.center L) := hq.2.1
   have hZS := center_eq_bot_of_isQuasisimple_quot hq
   obtain ⟨hlist, houter⟩ := hrow L hq hS
   have hinj : Function.Injective (centerDescend L) := Res423Five.centerDescend_injective
@@ -73,8 +73,8 @@ theorem k432List_of_goodRow
     (hrow : ∀ (L : Type) [Group L] [Finite L], IsQuasisimple L → SectionFourHyp L →
       GoodRow (L ⧸ Subgroup.center L)) : K432List := by
   intro L _ _ hq hS hZ3 Z hZ hwc hnc
-  haveI : Group.IsPerfect L := hq.1
-  haveI : IsSimpleGroup (L ⧸ Subgroup.center L) := hq.2.1
+  have : Group.IsPerfect L := hq.1
+  have : IsSimpleGroup (L ⧸ Subgroup.center L) := hq.2.1
   obtain ⟨z, hzo, rfl⟩ := Item432Proof.exists_zpowers_eq hZ
   have hzc : z ∉ Subgroup.center L := fun h => hnc (Subgroup.zpowers_le.mpr h)
   have hz3 : z ^ 3 = 1 := by rw [← hzo]; exact pow_orderOf_eq_one z

@@ -38,7 +38,7 @@ theorem exists_sylow3_containing {K : Subgroup G} (hK : Nat.card K = 720) {y : G
     rw [P.card_eq_multiplicity, hK, fac720_three]
     norm_num
   refine ⟨(P : Subgroup K).map K.subtype, Subgroup.map_subtype_le _, ?_,
-    P.isPGroup'.map K.subtype, ?_⟩
+    P.isPGroup.map K.subtype, ?_⟩
   · exact ⟨⟨y, hy⟩, hP (mem_zpowers _), rfl⟩
   · rw [Subgroup.card_map_of_injective K.subtype_injective]
     exact hP9

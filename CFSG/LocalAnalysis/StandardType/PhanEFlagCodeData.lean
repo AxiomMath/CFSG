@@ -72,7 +72,7 @@ theorem q2cFCo_isCut_012 : IsCut 2 [0, 1, 2] := by
 theorem q2cFCo_isCut_02 : IsCut 2 [0, 2] := by
   refine ⟨rfl, rfl, fun i hi => ?_⟩
   have hi' : i < 1 := by simp only [List.length_cons, List.length_nil] at hi; omega
-  interval_cases i <;> decide
+  interval_cases i; decide
 
 theorem q2cFCo_isCut_0123 : IsCut 3 [0, 1, 2, 3] := by
   refine ⟨rfl, rfl, fun i hi => ?_⟩
@@ -87,7 +87,7 @@ theorem q2cFCo_isCut_013 : IsCut 3 [0, 1, 3] := by
 theorem q2cFCo_isCut_03 : IsCut 3 [0, 3] := by
   refine ⟨rfl, rfl, fun i hi => ?_⟩
   have hi' : i < 1 := by simp only [List.length_cons, List.length_nil] at hi; omega
-  interval_cases i <;> decide
+  interval_cases i; decide
 
 theorem q2cFCo_isCut_01234 : IsCut 4 [0, 1, 2, 3, 4] := by
   refine ⟨rfl, rfl, fun i hi => ?_⟩
@@ -117,14 +117,14 @@ theorem q2cFCo_isCut_014 : IsCut 4 [0, 1, 4] := by
 theorem q2cFCo_isCut_04 : IsCut 4 [0, 4] := by
   refine ⟨rfl, rfl, fun i hi => ?_⟩
   have hi' : i < 1 := by simp only [List.length_cons, List.length_nil] at hi; omega
-  interval_cases i <;> decide
+  interval_cases i; decide
 
 private theorem q2cFCo_flagPsi'_eq (hK : Nat.card K = (2 ^ f) ^ 2) {n : ℕ} {d : List ℕ}
     (hd : IsCut n d) (pol : List Bool) :
     flagPsi' K f hK n d pol = flagPsi hK hd pol := by
   funext x
   unfold flagPsi'
-  rw [dif_pos hd]
+  rw [dite_eq_left hd]
 
 private theorem q2cFCo_prod_isGallery_inl {I J : Type} {C D : Type}
     {X : ChamberSystem I C} {Y : ChamberSystem J D} {x : C × D} {γ : List (I × C)}
@@ -174,6 +174,7 @@ theorem q2cFCo_flagSg_stdFlag (hK : Nat.card K = (2 ^ f) ^ 2) (n : ℕ) :
   rw [flagSg_E]
   exact sgS_Vsub j
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFCo_adj_flagSys_one (x y : FlagK K 2) (i : Fin 1) :
     (flagSys K 1).adj i x y := by
   intro j hj
@@ -185,6 +186,7 @@ theorem q2cFCo_adj_flagSys_one (x y : FlagK K 2) (i : Fin 1) :
     · exact absurd rfl hj'
   · rw [x.top j h, y.top j h]
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFCo_adj_refSet_013 (x y : FlagK K 3) (hx : x ∈ refSet K 3 [0, 1, 3])
     (hy : y ∈ refSet K 3 [0, 1, 3]) : (flagSys K 2).adj 1 x y := by
   intro j hj
@@ -195,6 +197,7 @@ theorem q2cFCo_adj_refSet_013 (x y : FlagK K 3) (hx : x ∈ refSet K 3 [0, 1, 3]
     · exact absurd rfl hj
   · rw [x.top j h, y.top j h]
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFCo_cdist_eq_one_of_adj {m : ℕ} {i : Fin m} {x y : FlagK K (m + 1)}
     (hne : x ≠ y) (hadj : (flagSys K m).adj i x y) :
     cdist (flagSys K m) x y = 1 := by
@@ -202,6 +205,7 @@ theorem q2cFCo_cdist_eq_one_of_adj {m : ℕ} {i : Fin m} {x y : FlagK K (m + 1)}
   rw [(flagδ_eq_simple_iff x y i).mpr ⟨hne, hadj⟩]
   exact (symCox m).length_simple i
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFCo_cdist_le_one_of_adj {m : ℕ} {i : Fin m} {x y : FlagK K (m + 1)}
     (hadj : (flagSys K m).adj i x y) : cdist (flagSys K m) x y ≤ 1 := by
   rcases eq_or_ne x y with rfl | hne
@@ -231,6 +235,7 @@ theorem q2cFCo_exists_diam_psi_block (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤
     _ = cdist (flagSys K m) x (flagPsi hK hd pol x) := by
         rw [← hxlong, length_flagδ_eq_cdist]
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFCo_exists_cdist_eq_diam_flag (m : ℕ) :
     ∃ x y : FlagK K (m + 1), cdist (flagSys K m) x y = (m + 1) * m / 2 := by
   obtain ⟨F, hF⟩ := exists_opp (stdFlag K (m + 1))
@@ -238,6 +243,7 @@ theorem q2cFCo_exists_cdist_eq_diam_flag (m : ℕ) :
   rw [← length_flagδ_eq_cdist]
   exact (opp_iff_length_flagδ _ _).mp hF
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFCo_exists_cdist_eq_diam_exchA1A1 :
     ∃ x y : FlagK K 2 × FlagK K 2,
       cdist ((flagSys K 1).prod (flagSys K 1)) x y = 2 := by
@@ -249,6 +255,7 @@ theorem q2cFCo_exists_cdist_eq_diam_exchA1A1 :
     exact (opp_iff_length_flagδ _ _).mp hF
   rw [h1]
 
+omit [Finite K] [CharP K 2] in
 theorem q2cFCo_exists_cdist_eq_diam_exchA2A1 :
     ∃ x y : FlagK K 3 × FlagK K 2,
       cdist ((flagSys K 2).prod (flagSys K 1)) x y = 4 := by

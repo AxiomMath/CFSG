@@ -300,7 +300,7 @@ theorem ggDk_memberRoots_L_disjSupp_phan
     by_contra h
     have hempty : {r : MulAut ↥Bs | r ∈ ggAutomizer L Bs ∧ r ∈ ggCoxRefl M e} = ∅ := by
       ext r
-      simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
       exact fun hr => h ⟨r, hr⟩
     have hLbot : L = ⊥ := by
       rw [hgenL]

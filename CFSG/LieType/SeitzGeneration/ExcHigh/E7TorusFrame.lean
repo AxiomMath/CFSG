@@ -47,7 +47,7 @@ theorem rootGroup_le_comap_rootDiagAut {K : Type} [Field K] (a : Fin Tag.E7.rank
   have hF : CFSG.LieType.Steinberg.Adjoint.rootGroup (rootOperatorFamily Tag.E7) K δ =
       (rootOperatorFamily Tag.E7).rootSubgroup K ⟨δ, hδ⟩ := by
     unfold CFSG.LieType.Steinberg.Adjoint.rootGroup
-    exact dif_pos hδ
+    exact dite_eq_left hδ
   intro x hx
   rw [hF] at hx
   obtain ⟨c, rfl⟩ := (rootOperatorFamily Tag.E7).mem_rootSubgroup.1 hx

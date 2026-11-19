@@ -61,7 +61,7 @@ theorem ClsLin_holds : ClsLin := by
   obtain ⟨d, m, hd, _, hiff⟩ := famLin_recipe hΛ hfam
   obtain ⟨K, instF, instFin, hK, hQ⟩ := (hiff _).1 hraw
   obtain ⟨hsimple, hnonab, θ, -⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card_pow hK
+  have : CharP K 2 := charP_two_of_card_pow hK
   have hodd : Odd p := hp.odd_of_ne_two hp2
   set φ : MulAut (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) :=
     MulAut.congr θ (centerQuotAut S α) with hφdef

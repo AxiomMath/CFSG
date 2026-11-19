@@ -21,9 +21,9 @@ theorem s16h_H5_row_O4_b_bound [Finite W] {A L : Subgroup (MulAut W)} {t : MulAu
   intro q hq hq2 E hE hEab
   obtain ⟨K, hF, hFin, hCh, b, c, hK, hirr, D, hD, hDab, hcard⟩ :=
     s16h_H5_bridge_omegaMinus4 hc h hq hq2 hE hEab
-  letI := hF
-  letI := hFin
-  haveI := hCh
+  let := hF
+  let := hFin
+  have := hCh
   have hle := s16h_natNorm_elemAbelian_le_omegaMinus4 (K := K) (a := 3) ⟨by norm_num, le_rfl⟩ hK
     hirr hq hq2 hD hDab
   rw [← hcard]

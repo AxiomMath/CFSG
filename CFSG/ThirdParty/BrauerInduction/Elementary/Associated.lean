@@ -221,7 +221,7 @@ lemma E_card [Fact p.Prime] [Finite G]
     {a : G} (ha : IsPRegular p a) :
     Nat.card (E_subgroup p a) =
       orderOf a * Nat.card (P_of_Z p a) := by
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
 
   let H : Subgroup G := E_subgroup p a
 

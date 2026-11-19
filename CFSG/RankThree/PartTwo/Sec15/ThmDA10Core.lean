@@ -177,7 +177,7 @@ noncomputable def sylowPst : Sylow 3 (alternatingGroup (Fin 10)) := by
 theorem exists_conj_eq_Ebar {B : Subgroup (alternatingGroup (Fin 10))} (hB : Nat.card B = 27)
     (hab : ∀ x ∈ B, ∀ y ∈ B, Commute x y) :
     ∃ g : alternatingGroup (Fin 10), B.map (MulAut.conj g⁻¹).toMonoidHom = Ebar := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hB3 : IsPGroup 3 B := IsPGroup.of_card (n := 3) (by rw [hB]; norm_num)
   obtain ⟨Q, hBQ⟩ := hB3.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (alternatingGroup (Fin 10)) sylowPst Q
@@ -192,7 +192,7 @@ theorem exists_conj_eq_Ebar {B : Subgroup (alternatingGroup (Fin 10))} (hB : Nat
     have hs' : s ∈ Pst := hs
     have : (MulAut.conj g⁻¹).toMonoidHom x = s := by
       rw [hxs]
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
       group
     rw [this]
     exact hs'
@@ -230,7 +230,7 @@ theorem a10_fusion_core {H : Type*} [Group H] (θ : H →* alternatingGroup (Fin
   obtain ⟨g, hg⟩ := exists_conj_eq_Ebar hcardĀ habĀ
   let κ : alternatingGroup (Fin 10) →* alternatingGroup (Fin 10) := (MulAut.conj g⁻¹).toMonoidHom
   have hκinj : Function.Injective κ := (MulAut.conj g⁻¹).injective
-  have hκ : ∀ x, κ x = g⁻¹ * x * g := fun x => by simp [κ, MulAut.conj_apply]
+  have hκ : ∀ x, κ x = g⁻¹ * x * g := fun x => by simp [κ]
   have hAE : A.map (κ.comp θ) = Ebar := by
     rw [← Subgroup.map_map]
     exact hg

@@ -54,8 +54,8 @@ theorem perfectCentralizerPlanes_of_twoFrames {G : Type} {M₁ M₂ : Type*}
       _ = MulAut.conj g⁻¹ (ψA a * ψB y) := by rw [hy.eq]
       _ = MulAut.conj g⁻¹ (ψA a) * MulAut.conj g⁻¹ (ψB y) := by rw [map_mul]
       _ = x * MulAut.conj g⁻¹ (ψB y) := by rw [hx']
-  · haveI : Group.IsPerfect M₂ := hperf₂
-    haveI : Group.IsPerfect ψB.range := Group.IsPerfect.range ψB
+  · have : Group.IsPerfect M₂ := hperf₂
+    have : Group.IsPerfect ψB.range := Group.IsPerfect.range ψB
     exact Subgroup.isPerfect_iff.1
       (Group.IsPerfect.map (H := ψB.range) (MulAut.conj g⁻¹).toMonoidHom)
   · have hcardB : Nat.card ↥ψB.range = Nat.card M₂ :=

@@ -102,7 +102,7 @@ private theorem ggA6ShapeSimple_statedSp_one {K : Type} [Field K] [Finite K] [Ch
   have hproj : IsSimpleGroup (StatedProj (StatedSp 1 K)) :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_statedProj_statedSp K 1 (by omega)
       (Or.inl (Or.inr h4))
-  haveI : IsSimpleGroup
+  have : IsSimpleGroup
       (StatedSp 1 K ⧸ (StatedScalars (Fin 1 ⊕ Fin 1) K).subgroupOf (StatedSp 1 K)) := hproj
   have q : (StatedSp 1 K ⧸ (StatedScalars (Fin 1 ⊕ Fin 1) K).subgroupOf (StatedSp 1 K)) ≃*
       StatedSp 1 K :=
@@ -166,7 +166,7 @@ theorem ggA6_spA6 {F : Type} [Field F] {V : Type} [AddCommGroup V] [Module F V] 
   obtain ⟨e1, -⟩ := ggA6_sp_restr_equiv B hB hnd U hU
   obtain ⟨e2⟩ := ggA6_sp_std_equiv (V := V) (B.restrict U) hB' hU r hdim
   let e : H ≃* StatedSp r F := e1.trans e2
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨f, -, hfcard⟩ := FiniteField.card F 2
   have hcardF : Nat.card F = 2 ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card, hfcard]
@@ -196,7 +196,7 @@ theorem ggA6_spA6 {F : Type} [Field F] {V : Type} [AddCommGroup V] [Module F V] 
       have h4 : 4 ≤ Nat.card F := four_le_of_ne_two hcardF hF2
       obtain ⟨hshapeSp, hsimpleSp⟩ := ggA6ShapeSimple_statedSp_one (K := F) hcardF h4
       have hsimpleH : IsSimpleGroup ↥H := by
-        haveI : IsSimpleGroup (StatedSp 1 F) := hsimpleSp
+        have : IsSimpleGroup (StatedSp 1 F) := hsimpleSp
         exact MulEquiv.isSimpleGroup e
       exfalso
       exact false_of_a6_component hJ hA6 hsimpleH
@@ -215,7 +215,7 @@ theorem ggA6_spA6 {F : Type} [Field F] {V : Type} [AddCommGroup V] [Module F V] 
       obtain ⟨hshapeSp, hsimpleSp⟩ :=
         ggA6ShapeSimple_statedSp (K := F) (n := 2) (e := (f : ℕ)) (by omega) hcardF hne
       have hsimpleH : IsSimpleGroup ↥H := by
-        haveI : IsSimpleGroup (StatedSp 2 F) := hsimpleSp
+        have : IsSimpleGroup (StatedSp 2 F) := hsimpleSp
         exact MulEquiv.isSimpleGroup e
       exfalso
       exact false_of_a6_component hJ hA6 hsimpleH
@@ -228,7 +228,7 @@ theorem ggA6_spA6 {F : Type} [Field F] {V : Type} [AddCommGroup V] [Module F V] 
     obtain ⟨hshapeSp, hsimpleSp⟩ :=
       ggA6ShapeSimple_statedSp (K := F) (n := r) (e := (f : ℕ)) (by omega) hcardF hne
     have hsimpleH : IsSimpleGroup ↥H := by
-      haveI : IsSimpleGroup (StatedSp r F) := hsimpleSp
+      have : IsSimpleGroup (StatedSp r F) := hsimpleSp
       exact MulEquiv.isSimpleGroup e
     exfalso
     exact false_of_a6_component hJ hA6 hsimpleH

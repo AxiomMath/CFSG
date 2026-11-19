@@ -45,7 +45,7 @@ def IsFullTorus (p : ℕ) (A : Subgroup (GL (Fin m ⊕ Fin m) K)) : Prop :=
 
 theorem zpow_eq_self_of_order {p : ℕ} (hp : p.Prime) {u v : Kˣ} (hu : u ^ p = 1) (hu1 : u ≠ 1)
     (hv : v ^ p = 1) (hv1 : v ≠ 1) {s : ℤ} (h : u ^ s = u) : v ^ s = v := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hou : orderOf u = p := orderOf_eq_prime hu hu1
   have hov : orderOf v = p := orderOf_eq_prime hv hv1
   have h1 : u ^ s = u ^ (1 : ℤ) := by rw [zpow_one]; exact h
@@ -83,17 +83,17 @@ theorem plus_two_class {p : ℕ} (hp : p.Prime) {Ω A D : Subgroup (GL (Fin m �
         rcases h with h | h
         · exact Or.inr (by rw [h])
         · exact Or.inl (by rw [h, inv_inv])
-      simp only [hF, if_pos h, if_pos h']
+      simp only [hF, ite_eq_left h, ite_eq_left h']
     · have h' : ¬ (t⁻¹ = ν ∨ t⁻¹ = ν⁻¹) := by
         rintro (h' | h')
         · exact h (Or.inr (by rw [← h', inv_inv]))
         · exact h (Or.inl (by rw [← inv_inv t, h', inv_inv]))
-      simp only [hF, if_neg h, if_neg h', inv_one]
+      simp only [hF, ite_eq_right h, ite_eq_right h', inv_one]
   have hFp : ∀ t : Kˣ, t ^ p = 1 → F t ^ p = 1 := by
     intro t ht
     by_cases h : t = ν ∨ t = ν⁻¹
-    · simp only [hF, if_pos h, ht]
-    · simp only [hF, if_neg h, one_pow]
+    · simp only [hF, ite_eq_left h, ht]
+    · simp only [hF, ite_eq_right h, one_pow]
   set w : Fin m → Kˣ := fun k => F (α k) with hw
   have hwp : ∀ k, w k ^ p = 1 := fun k => hFp _ (hα k)
   have hxA : dgHom K m w ∈ A := hT.2 w hwp
@@ -109,7 +109,7 @@ theorem plus_two_class {p : ℕ} (hp : p.Prime) {Ω A D : Subgroup (GL (Fin m �
   have hFν : F ν = ν := by simp [hF]
   have hFj : F (α j) = 1 := by
     have : ¬ (α j = ν ∨ α j = ν⁻¹) := fun h => h.elim hj1 hj2
-    simp only [hF, if_neg this]
+    simp only [hF, ite_eq_right this]
   have hwi : w i = ν := hFν
   have hwj : w j = 1 := hFj
   have h1 : ν ^ s = ν := by rw [← hs i, hwi]
@@ -239,8 +239,8 @@ theorem plus_final_alpha [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {k 
     (hE : EndData p (LargeEvenOmega (LargeEvenQPlus K (k + 1))) A D
       (dgHom K (k + 1) (Pi.mulSingle (Fin.last k) ζ))) : BigConcl p A D := by
   classical
-  haveI := Fact.mk hp
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have := Fact.mk hp
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hζp : ζ ^ p = 1 := hζo ▸ pow_orderOf_eq_one ζ
   have hζ1 : ζ ≠ 1 := by
     rintro rfl
@@ -509,8 +509,8 @@ theorem plus_final_beta [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m :
     (hE : EndData p (LargeEvenOmega (LargeEvenQPlus K m)) A D (dgHom K m (fun _ => ν))) :
     BigConcl p A D := by
   classical
-  haveI := Fact.mk hp
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have := Fact.mk hp
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hνp : ν ^ p = 1 := hνo ▸ pow_orderOf_eq_one ν
   have hν2 : ν * ν ≠ 1 := by
     intro h
@@ -575,13 +575,13 @@ theorem plus_final_beta [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m :
     simp only [u, Pi.mul_apply, Units.val_mul, Finset.prod_mul_distrib, prod_tauPair, mul_one]
   have hu0 : ∀ f, u f i0 = z (f 0) := by
     intro f
-    simp [u, tauPair, Pi.mulSingle_apply, hi0, hi1, hi2, hi3, Fin.ext_iff]
+    simp [u, tauPair, hi0, hi1, hi2, hi3, Fin.ext_iff]
   have hu1 : ∀ f, u f i1 = (z (f 0))⁻¹ * z (f 1) := by
     intro f
-    simp [u, tauPair, Pi.mulSingle_apply, hi0, hi1, hi2, hi3, Fin.ext_iff]
+    simp [u, tauPair, hi0, hi1, hi2, hi3, Fin.ext_iff]
   have hu2 : ∀ f, u f i2 = (z (f 1))⁻¹ * z (f 2) := by
     intro f
-    simp [u, tauPair, Pi.mulSingle_apply, hi0, hi1, hi2, hi3, Fin.ext_iff]
+    simp [u, tauPair, hi0, hi1, hi2, hi3, Fin.ext_iff]
   have hginj : Function.Injective fun f => dgHom K m (u f) := by
     intro f f' h
     have huf : u f = u f' := dgHom_injective h
@@ -693,7 +693,7 @@ theorem plus_toral [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m : ℕ}
     (hE : EndData p (LargeEvenOmega (LargeEvenQPlus K m)) A D a) (hT : IsFullTorus p A) :
     BigConcl p A D := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨α, hα, rfl⟩ := hT.1 a hE.a_mem
   rcases plus_dichotomy hp hT hα hE with ⟨i₀, hi₀, hrest⟩ | hall
   ·
@@ -741,21 +741,21 @@ theorem plus_toral [Finite K] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {m : ℕ}
       (fun u k => if F k then (u k)⁻¹ else u k) (conj_dgHom_swapOn F)
       (fun u hu k => by
         by_cases h : F k
-        · simp only [if_pos h, inv_pow, hu k, inv_one]
-        · simp only [if_neg h, hu k])
+        · simp only [ite_eq_left h, inv_pow, hu k, inv_one]
+        · simp only [ite_eq_right h, hu k])
       (fun u' hu' => ⟨fun k => if F k then (u' k)⁻¹ else u' k, fun k => by
         by_cases h : F k
-        · simp only [if_pos h, inv_pow, hu' k, inv_one]
-        · simp only [if_neg h, hu' k], ?_⟩) ?_
+        · simp only [ite_eq_left h, inv_pow, hu' k, inv_one]
+        · simp only [ite_eq_right h, hu' k], ?_⟩) ?_
     · funext k
       by_cases h : F k <;> simp [h]
     · intro A' D' hE' hT'
       have e : (fun k => if F k then (α k)⁻¹ else α k) = fun _ => ν := by
         funext k
         by_cases h : F k
-        · simp only [if_pos h]
+        · simp only [ite_eq_left h]
           rw [show α k = ν⁻¹ from h, inv_inv]
-        · simp only [if_neg h]
+        · simp only [ite_eq_right h]
           exact (hcls k).resolve_right h
       rw [conj_dgHom_swapOn, e] at hE'
       exact plus_final_beta hp hp2 hm hord hT' hE'
@@ -765,7 +765,7 @@ theorem plus_big [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {A D : Subgroup (GL (Fin m ⊕ Fin m) K)} {a : GL (Fin m ⊕ Fin m) K}
     (hE : EndData p (LargeEvenOmega (LargeEvenQPlus K m)) A D a) (hr : p ^ m ≤ Nat.card A) :
     BigConcl p A D := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨ζ, hζo, -, -, -⟩ := exists_zeta (K := K) hp hp2 hpK
   obtain ⟨g, hgO, χ, hχ, hsurj⟩ := exists_orth_conj_plus hp2 hζo
     (hE.A_le.trans (omega_le_orth _)) hE.A_elem hr
@@ -799,7 +799,7 @@ theorem plusSplitInput_holds : PlusSplitInput := by
       rw [hK, h0, pow_zero] at this
       omega
     · exact h0
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hn hK
   have hp2 : p ≠ 2 := ne_two_of_dvd_two_pow_sub_one' hn hpn
   have hpK : p ∣ Nat.card K - 1 := by rw [hK]; exact hpn

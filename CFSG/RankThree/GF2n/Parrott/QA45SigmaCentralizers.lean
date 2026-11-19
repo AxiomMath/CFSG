@@ -198,7 +198,7 @@ theorem qa45_orderThree_subgroup_classes :
       (p := fun g : Equiv.Perm (Fin 45) => g * g * g = 1 ∧ g ≠ 1)
     rw [← h]
     refine Nat.card_congr (Equiv.subtypeEquivRight fun y => ?_)
-    simp only [s, Set.mem_setOf_eq, ne_eq, Subtype.ext_iff, Subgroup.coe_mul,
+    simp only [s, Set.mem_ofPred_eq, ne_eq, Subtype.ext_iff, Subgroup.coe_mul,
       Subgroup.coe_one]
   have ha3 : s1A ^ 3 = 1 := by
     have := pow_orderOf_eq_one s1A

@@ -30,10 +30,10 @@ theorem svRankTwB2_holds :
   obtain ⟨K, i1, i2, hK, hq'⟩ := hQ
   refine ⟨K, i1, i2, hK, hq', ?_⟩
   intro _ _ B hB hBI
-  haveI : Finite (LargeEvenSzGroup ((n - 1) / 2) K) := Subtype.finite
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenSzGroup ((n - 1) / 2) K)) :=
+  have : Finite (LargeEvenSzGroup ((n - 1) / 2) K) := Subtype.finite
+  have : Finite (LargeEvenCenterQuot (LargeEvenSzGroup ((n - 1) / 2) K)) :=
     Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
-  haveI := TableBSymp.finite_mulAut (R := LargeEvenCenterQuot (LargeEvenSzGroup ((n - 1) / 2) K))
+  have := TableBSymp.finite_mulAut (R := LargeEvenCenterQuot (LargeEvenSzGroup ((n - 1) / 2) K))
   obtain ⟨k, hk⟩ := hlab.2.2.1
   have hk' : n = 2 * k + 1 := hk
   have hna : 2 * ((n - 1) / 2) + 1 = n := by omega
@@ -47,7 +47,7 @@ theorem svRankTwB2_holds :
     refine dvd_trans (Subgroup.card_dvd_of_le hBr) (dvd_trans (Subgroup.card_range_dvd _) ?_)
     refine dvd_trans (Subgroup.card_quotient_dvd_card _) ?_
     rw [largeEvenSzGroup_eq _ K, CFSG.LieType.Ree.suzuki_order hK, hna]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnot : ¬ 3 ∣ (2 ^ n) ^ 2 * (2 ^ n - 1) * ((2 ^ n) ^ 2 + 1) :=
     TableBExc.not_dvd_card_suzuki Nat.prime_three (by norm_num)
       (three_dvd_two_pow_add_one_of_odd hlab.2.2.1)

@@ -22,6 +22,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {𝒢 : Set (Subgroup (LGL 2 V))}
   {Zs : Submodule (ZMod 2) V} {m i₀ : ℕ} {δ : Subgroup (LGL 2 V) → ℕ}
 
+omit [Finite V] in
 theorem w183k3_two_VA_inf_fixSub (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ)
     (hL : Br3TwoComp Y T L₁ L₂) {D : Subgroup (LGL 2 V)} (hD : D ∈ Γ)
     (hmem : D ≤ Subgroup.normalizer (L₁ : Set (LGL 2 V)))

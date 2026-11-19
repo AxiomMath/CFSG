@@ -83,8 +83,8 @@ private theorem toAdd_negOff_apply (j : Fin n) (f : Fin n → Multiplicative (ZM
     (k : Fin n) :
     toAdd (negOff j f k) = if k = j then toAdd (f k) else -toAdd (f k) := by
   by_cases hk : k = j
-  · rw [negOff_apply, if_pos hk, if_pos hk]
-  · rw [negOff_apply, if_neg hk, if_neg hk, toAdd_inv]
+  · rw [negOff_apply, ite_eq_left hk, ite_eq_left hk]
+  · rw [negOff_apply, ite_eq_right hk, ite_eq_right hk, toAdd_inv]
 
 private theorem toAdd_negOff_mul_apply_const_one (j : Fin n)
     {δ : MulAut (Fin n → Multiplicative (ZMod p))} {ε : Fin n → ZMod p}
@@ -142,9 +142,9 @@ private theorem apply_const_one_eq_or_inv_negOff_mul (i0 : Fin n)
     rw [toAdd_inv_apply, hε 1 k, toAdd_negOff_mul_apply_const_one i0 hε₀ k]
     by_cases hk : k = i0
     · subst hk
-      rw [if_pos rfl, hat, h1]
+      rw [ite_eq_left rfl, hat, h1]
       ring
-    · rw [if_neg hk, hoff k hk, h1]
+    · rw [ite_eq_right hk, hoff k hk, h1]
       ring
   · left
     apply eq_of_toAdd_eq
@@ -152,9 +152,9 @@ private theorem apply_const_one_eq_or_inv_negOff_mul (i0 : Fin n)
     rw [hε 1 k, toAdd_negOff_mul_apply_const_one i0 hε₀ k]
     by_cases hk : k = i0
     · subst hk
-      rw [if_pos rfl, hat, h1]
+      rw [ite_eq_left rfl, hat, h1]
       ring
-    · rw [if_neg hk, hoff k hk, h1]
+    · rw [ite_eq_right hk, hoff k hk, h1]
       ring
 
 private theorem apply_const_one_eq_or_inv_negOff (j : Fin n)
@@ -171,8 +171,8 @@ private theorem apply_const_one_eq_or_inv_negOff (j : Fin n)
       mul_one]
     by_cases hk : k = j
     · subst hk
-      rw [if_pos rfl, hat, h1]
-    · rw [if_neg hk, hoff k hk, h1]
+      rw [ite_eq_left rfl, hat, h1]
+    · rw [ite_eq_right hk, hoff k hk, h1]
       ring
   · left
     apply eq_of_toAdd_eq
@@ -180,9 +180,9 @@ private theorem apply_const_one_eq_or_inv_negOff (j : Fin n)
     rw [hε 1 k, toAdd_negOff_apply j (fun _ => ofAdd 1) k, toAdd_ofAdd, mul_one]
     by_cases hk : k = j
     · subst hk
-      rw [if_pos rfl, hat, h1]
+      rw [ite_eq_left rfl, hat, h1]
       ring
-    · rw [if_neg hk, hoff k hk, h1]
+    · rw [ite_eq_right hk, hoff k hk, h1]
 
 private theorem exists_common_sign_of_mem_closure_axis_const (hp : p.Prime) (hn : 2 ≤ n)
     {i0 : Fin n} {δ₀ δ : MulAut (Fin n → Multiplicative (ZMod p))} {c₀ c : ZMod p}

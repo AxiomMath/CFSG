@@ -223,7 +223,7 @@ theorem burnsideJ4NP_tree_h0 :
   congr 1
   ext g
   simp only [List.map_cons, List.map_nil, List.mem_cons, List.not_mem_nil, or_false,
-    Set.mem_setOf_eq, Set.mem_singleton_iff, burnsideJ4NP_treeElt, hK, mul_one]
+    Set.mem_ofPred_eq, Set.mem_singleton_iff, burnsideJ4NP_treeElt, hK, mul_one]
   rfl
 
 end Chunks

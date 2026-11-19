@@ -21,9 +21,6 @@ theorem s9M1_det : s9M1.det = 1 := by
 theorem s9P1_M1 : s9P1 s9M1 = 0 := by
   first
     | (unfold s9P1; decide)
-    | (unfold s9P1
-       ext i j
-       fin_cases i <;> fin_cases j <;> simp [s9M1, Matrix.mul_apply, Fin.sum_univ_three] <;> decide)
 
 theorem s9_P2_of_P1 (M : Matrix (Fin 3) (Fin 3) (ZMod 2)) (hM : M.det = 1) (h : s9P1 M = 0) :
     s9P2 (M⁻¹)ᵀ = 0 := by
@@ -188,7 +185,7 @@ private def s9Wit (a b c : ZMod 2) : Matrix (Fin 3) (Fin 3) (ZMod 2) :=
 
 private theorem s9Wit_det (a b c : ZMod 2) : (s9Wit a b c).det = 1 := by
   unfold s9Wit
-  split_ifs <;> simp [Matrix.det_fin_three] <;> decide
+  split_ifs <;> simp [Matrix.det_fin_three]
 
 private theorem s9Wit_mulVec : ∀ a b c : ZMod 2, ![a, b, c] ≠ 0 →
     s9Wit a b c *ᵥ s9e1 = ![a, b, c] := by
@@ -224,19 +221,18 @@ private theorem s9_orbit_e1 :
   rw [hset, Set.ncard_coe_finset]
   first
     | decide
-    | simp [Finset.card_erase_of_mem, Finset.card_univ, Fintype.card_fun, ZMod.card]
 
 private def s9E01 : SL(3, ZMod 2) :=
   ⟨!![1, 1, 0; 0, 1, 0; 0, 0, 1], by
     first
       | (rw [Matrix.det_fin_three]; decide)
-      | simp [Matrix.det_fin_three]⟩
+⟩
 
 private def s9E12 : SL(3, ZMod 2) :=
   ⟨!![1, 0, 0; 0, 1, 1; 0, 0, 1], by
     first
       | (rw [Matrix.det_fin_three]; decide)
-      | simp [Matrix.det_fin_three]⟩
+⟩
 
 private theorem s9E01_mem :
     s9E01 ∈ CFSG.LocalAnalysis.ComponentInitial.LinearFlag.unitriangular 3 (ZMod 2) := by
@@ -281,9 +277,9 @@ theorem s9_exists_parabolic (S : Subgroup SL(3, ZMod 2))
     (hS : CFSG.QuasithinUnique.IsSylowTwoOf S ⊤) :
     ∃ P : Subgroup SL(3, ZMod 2), IsMaxParabolic2 ⊤ P ∧
       ⊤ ⊓ Subgroup.normalizer (S : Set SL(3, ZMod 2)) ≤ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hG : Nat.card SL(3, ZMod 2) = 168 := s9_card_SL3_F2
-  haveI : Finite SL(3, ZMod 2) := Nat.finite_of_card_ne_zero (by rw [hG]; norm_num)
+  have : Finite SL(3, ZMod 2) := Nat.finite_of_card_ne_zero (by rw [hG]; norm_num)
   have hdvd : ¬ 2 ∣ S.index := by
     have h := hS.2.2
     rwa [show (S.subgroupOf ⊤).index = S.index from Subgroup.relIndex_top_right S] at h

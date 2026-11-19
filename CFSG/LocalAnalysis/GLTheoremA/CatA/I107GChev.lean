@@ -344,7 +344,7 @@ theorem chevTwoNonabelian_holds :
   intro S _ _ hS hchev
   by_contra hcomm
   push Not at hcomm
-  haveI : IsMulCommutative S := ⟨⟨fun a b => hcomm a b⟩⟩
+  have : IsMulCommutative S := ⟨⟨fun a b => hcomm a b⟩⟩
   have hprime : (Nat.card S).Prime := Group.is_simple_iff_prime_card.1 hS
   rcases hchev with ⟨i, hi, ⟨e⟩⟩ | ⟨i, hi, ⟨e⟩⟩
   · cases i with

@@ -20,12 +20,13 @@ namespace Data
 variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
   {h : UnitaryFieldData 2 f K} {d : Data G h}
 
+omit [Finite G] in
 theorem isSimpleGroup_L (d : Data G h) : IsSimpleGroup d.L :=
   d.e.isSimpleGroup_congr.2 (CFSG.Quasithin.H13.Sec53F.Unit.isSimpleGroup_hypPSU_five h)
 
 theorem Hyp.not_comm_L (hd : d.Hyp) : ¬ ∀ x ∈ d.L, ∀ y ∈ d.L, x * y = y * x := by
   intro hcomm
-  haveI := d.isSimpleGroup_L
+  have := d.isSimpleGroup_L
   obtain ⟨x, hx⟩ := exists_ne (1 : d.L)
   have hcen : x ∈ Subgroup.center d.L := by
     rw [Subgroup.mem_center_iff]
@@ -98,7 +99,7 @@ theorem OwnParts.false_of_caseBHyp (hB : d.CaseBHyp) : False := by
   have hN := op.p22 G f K h d hB
   have hperf := op.p3 G f K h d hB c h52
   have hnorm := op.p42 op.p41 G f K h d hB c h52
-  haveI : IsSimpleGroup G := hd.setting.std.simple
+  have : IsSimpleGroup G := hd.setting.std.simple
   have hNR : normalizer (d.tP : Set G) ≤
       normalizer ((c.Nc ⊔ c.Nc.map (MulAut.conj d.t).toMonoidHom : Subgroup G) : Set G) := by
     have e : c.Nc ⊔ c.Nc.map (MulAut.conj d.t).toMonoidHom = d.L ⊔ d.V := hgen

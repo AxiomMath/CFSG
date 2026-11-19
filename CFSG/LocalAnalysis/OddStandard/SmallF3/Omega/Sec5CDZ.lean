@@ -30,7 +30,7 @@ theorem phi_ones {t : G} (htL : t ∈ L) (htB : t ∈ B)
     refine (sec5c_isEvenVec_iff _).mpr ?_
     rw [sec5c_supp_one, Finset.card_univ, Fintype.card_fin]
     decide
-  rw [h.phi_even he, sec5c_supp_one]
+  rw [CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_even he, sec5c_supp_one]
   have hu := h.liftL_unique (b := ⟨t, htL⟩) htB
   rw [hπ, fr.piOrth_eq_signChange_univ] at hu
   exact congrArg Subtype.val hu
@@ -58,7 +58,7 @@ theorem weight_of_invType {v : Fin 6 → ZMod 2} (hv : IsEvenVec v)
     vecWeight v = 4 := by
   have hJ : Even (sec5c_supp v).card := (sec5c_isEvenVec_iff v).mp hv
   have hlift : (⟨sec5c_phi L B r i fr φc v, hvL⟩ : ↥L) =
-      sec5c_liftL L B φc (fr.signChange (sec5c_supp v)) := Subtype.ext (h.phi_even hv)
+      sec5c_liftL L B φc (fr.signChange (sec5c_supp v)) := Subtype.ext (CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_even hv)
   have hmap : (φc ⟨sec5c_phi L B r i fr φc v, hvL⟩ : OGroup Q) =
       fr.signChange (sec5c_supp v) := by
     rw [hlift]

@@ -13,6 +13,7 @@ namespace Sec715Frame
 variable {K E X : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensional K E] [Group X]
   {φ : X →* (E ≃ₗ[K] E)} {V L Nb Rb : Subgroup X} {Tt : X → Submodule K E}
 
+omit [FiniteDimensional K E] in
 theorem conj_inv_mem_Nb (F : Sec715Frame φ V L Nb Rb Tt) {g : X}
     (hcomm : ∀ a ∈ V, ∀ b ∈ V, a * (g * b * g⁻¹) = (g * b * g⁻¹) * a)
     (hN : ∀ b ∈ V, g * b * g⁻¹ ∈ Nb) (hR : ∀ a ∈ V, g⁻¹ * a * g ∈ Rb) {b₀ : X} (hb₀ : b₀ ∈ V)
@@ -20,7 +21,7 @@ theorem conj_inv_mem_Nb (F : Sec715Frame φ V L Nb Rb Tt) {g : X}
   intro a ha
   by_cases ha1 : a = 1
   · subst ha1
-    simpa using Nb.one_mem
+    simp
   have h0 : (Tt 1).map (opm (φ (g * b₀ * g⁻¹))) = ⊥ := by
     refine (Submodule.eq_bot_iff _).mpr fun w hw => ?_
     obtain ⟨u, hu, rfl⟩ := Submodule.mem_map.mp hw
@@ -36,6 +37,7 @@ theorem conj_inv_mem_Nb (F : Sec715Frame φ V L Nb Rb Tt) {g : X}
   rw [map_mul, map_mul, LinearEquiv.mul_apply, LinearEquiv.mul_apply, hmem,
     phi_inv_apply_phi φ g w]
 
+omit [FiniteDimensional K E] in
 theorem exists_bilin_opm_ne_zero (F : Sec715Frame φ V L Nb Rb Tt) {Bf : LinearMap.BilinForm K E}
     (hsep : ∀ v : E, (∀ e, Bf e v = 0) → v = 0) (hiso : ∀ x u v, Bf (φ x u) (φ x v) = Bf u v)
     {h : X} (hL : ∀ a ∈ V, h * a * h⁻¹ ∈ L) (hout : ¬ ∀ a ∈ V, h * a * h⁻¹ ∈ Nb) {a₀ : X}
@@ -46,7 +48,7 @@ theorem exists_bilin_opm_ne_zero (F : Sec715Frame φ V L Nb Rb Tt) {Bf : LinearM
   intro b hb
   by_cases hb1 : b = 1
   · subst hb1
-    simpa using Nb.one_mem
+    simp
   have hfix : (Tt h).map (opm (φ a₀)) = ⊥ := by
     refine (Submodule.eq_bot_iff _).mpr fun w hw => ?_
     obtain ⟨u₀, hu₀, rfl⟩ := Submodule.mem_map.mp hw
@@ -73,6 +75,7 @@ theorem exists_bilin_opm_ne_zero (F : Sec715Frame φ V L Nb Rb Tt) {Bf : LinearM
   rw [hsame, Submodule.mem_bot, opm_apply, sub_eq_zero] at hmem
   exact hmem
 
+omit [FiniteDimensional K E] in
 theorem exists_nonOrth_symNbrs (F : Sec715Frame φ V L Nb Rb Tt) {Bf : LinearMap.BilinForm K E}
     (hsep : ∀ v : E, (∀ e, Bf e v = 0) → v = 0) (hiso : ∀ x u v, Bf (φ x u) (φ x v) = Bf u v)
     (habs : ∀ k : X, ∀ b ∈ V, b ≠ 1 → k * b * k⁻¹ ∈ L → ∀ a ∈ V, k * a * k⁻¹ ∈ L)

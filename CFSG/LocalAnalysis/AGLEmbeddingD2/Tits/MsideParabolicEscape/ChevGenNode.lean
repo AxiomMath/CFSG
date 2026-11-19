@@ -11,7 +11,7 @@ open CFSG.LieType.Universal CFSG.LieType.CurtisTits CFSG.LieType.Steinberg
 
 theorem card_sl2_field {F : Type} [Field F] [Finite F] :
     Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) = Nat.card F * (Nat.card F ^ 2 - 1) := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have h := Matrix.card_SL_field (𝔽 := F) 2
   rw [Fintype.card_eq_nat_card] at h
   rw [h, Fin.prod_univ_two]
@@ -32,9 +32,9 @@ theorem card_sl2_field {F : Type} [Field F] [Finite F] :
   exact Nat.mul_div_cancel _ (by omega)
 
 theorem exists_order_inverted_sl2 {F : Type} [Field F] [Finite F] [CharP F 2] {p : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpd : p ∣ Nat.card F ^ 2 - 1) :
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hpd : p ∣ Nat.card F ^ 2 - 1) :
     ∃ w n : Matrix.SpecialLinearGroup (Fin 2) F, w ^ p = 1 ∧ w ≠ 1 ∧ n * w * n⁻¹ = w⁻¹ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : p ∣ Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) := by
     rw [card_sl2_field]
     exact hpd.mul_left _

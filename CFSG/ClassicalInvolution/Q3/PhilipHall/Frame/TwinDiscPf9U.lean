@@ -24,7 +24,7 @@ variable {n : ℕ} {Y : Type} [Group Y] [Finite Y] {R : Subgroup Y} {S : Sylow 2
 
 @[expose] def SecConnU (Ω : Set (Subgroup Y)) (u : Y) : Prop := T3.DStarConnected (secFam Ω u)
 
-theorem u_comm_z (hΩ : HypOmegaGen (CoreAssembly.conjClass (tightCore R)))
+theorem u_comm_z (_hΩ : HypOmegaGen (CoreAssembly.conjClass (tightCore R)))
     (hf : TwinFrameData (CoreAssembly.conjClass (tightCore R)) K K' z u J t) : u * z = z * u := by
   have hzK' : IsUniqueInvolution K' z := isUniqueInvolution_of_mem_twinSet hf.hz hf.hK'
   have hle : K ⊔ K' ≤ Subgroup.centralizer ({z} : Set Y) :=

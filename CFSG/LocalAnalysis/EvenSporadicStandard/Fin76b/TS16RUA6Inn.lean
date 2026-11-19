@@ -17,9 +17,9 @@ theorem fixed_of_comm_conj {γ : MulAut (alternatingGroup (Fin 6))} {a : alterna
 theorem inn_unique {H : Subgroup (MulAut (alternatingGroup (Fin 6)))}
     (e : ↥H ≃* alternatingGroup (Fin 6)) :
     H = (MulAut.conj : alternatingGroup (Fin 6) →* MulAut (alternatingGroup (Fin 6))).range := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     CFSG.EvenSporadicStandard.M24Std.DRes.alt6_simple
-  haveI hHsimple : IsSimpleGroup ↥H := e.isSimpleGroup
+  have hHsimple : IsSimpleGroup ↥H := e.isSimpleGroup
   have hIcard : Nat.card ↥(CFSG.ComponentClassification.OuterAutomorphisms.inner
       (alternatingGroup (Fin 6))) = 360 :=
     CFSG.ComponentClassification.CatalogueSchreierAlternating.DegreeSix.inner_card
@@ -31,10 +31,10 @@ theorem inn_unique {H : Subgroup (MulAut (alternatingGroup (Fin 6)))}
   have hquot : Nat.card (MulAut (alternatingGroup (Fin 6)) ⧸
       CFSG.ComponentClassification.OuterAutomorphisms.inner (alternatingGroup (Fin 6))) = 4 :=
     hIidx
-  haveI : Finite (MulAut (alternatingGroup (Fin 6)) ⧸
+  have : Finite (MulAut (alternatingGroup (Fin 6)) ⧸
       CFSG.ComponentClassification.OuterAutomorphisms.inner (alternatingGroup (Fin 6))) :=
     Nat.finite_of_card_ne_zero (by omega)
-  haveI : Finite ↥(CFSG.ComponentClassification.OuterAutomorphisms.inner
+  have : Finite ↥(CFSG.ComponentClassification.OuterAutomorphisms.inner
       (alternatingGroup (Fin 6))) :=
     Nat.finite_of_card_ne_zero (by omega)
   let φ : ↥H →* MulAut (alternatingGroup (Fin 6)) ⧸

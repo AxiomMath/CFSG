@@ -253,7 +253,6 @@ theorem concl_w5
     intro x hx
     rw [hmemR]
     refine mem_E_of_cent (hι.mem_heAutGroup x) fun i => ?_
-    change ι x * vW5 i = vW5 i * ι x
     obtain ⟨r, -, hr⟩ := hι.exists_of_mem (E_le_heP (vW5_mem_E i))
     have hrR : r ∈ R := by rw [hmemR, hr]; exact vW5_mem_E i
     rw [← hr, ← map_mul, ← map_mul, Subgroup.mem_centralizer_iff.mp hx r hrR]

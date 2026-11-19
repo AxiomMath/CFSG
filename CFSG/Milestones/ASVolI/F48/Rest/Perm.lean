@@ -83,7 +83,7 @@ theorem burnsideF48t_sift_of_mem (hn : 1 ≤ N) {O : Array (Array ℕ)} {W : Arr
   (mem_arrGen_iff_sift hn hb hc ht).2 hg
 
 theorem burnsideF48t_preserves {m : ℕ} {gens : Array (Array ℕ)} {σ : ℕ → Equiv.Perm (Fin m)}
-    (hrep : ∀ s < gens.size, CFSG.ONSchreier.PRep m gens[s]! (σ s)) {S : Set (Fin m)}
+    (_hrep : ∀ s < gens.size, CFSG.ONSchreier.PRep m gens[s]! (σ s)) {S : Set (Fin m)}
     (hS : ∀ s < gens.size, ∀ x ∈ S, σ s x ∈ S) :
     ∀ g ∈ Subgroup.closure (Set.range fun s : Fin gens.size => σ s), ∀ x ∈ S, g x ∈ S := by
   intro g hg

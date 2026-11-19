@@ -11,6 +11,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_inSubgroup_theta_iff_of_le {H : Subgroup G} (x : H) :
     (x : G) ∈ inSubgroup (aschbacherSolvableCore 3) H ↔ x ∈ aschbacherSolvableCore 3 H :=
   Subgroup.mem_map_iff_mem H.subtype_injective
@@ -56,7 +57,7 @@ theorem card_quot_lt_of_llRel (h45 : Sec4.Item4_5) (h48 : Sec4.Item4_8) (hG : Th
       (CFSG.RankThree.PartTwo.Sec6.theta_solvable_and_not_dvd K).2
         (h.trans (Subgroup.card_dvd_of_le hJK))
     have hJsol : Group.IsSolvable J := by
-      haveI : Group.IsSolvable (inSubgroup (aschbacherSolvableCore 3) K) :=
+      have : Group.IsSolvable (inSubgroup (aschbacherSolvableCore 3) K) :=
         (CFSG.RankThree.PartTwo.Sec6.theta_solvable_and_not_dvd K).1
       exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJK)
         (Subgroup.inclusion_injective hJK)

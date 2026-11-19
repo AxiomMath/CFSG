@@ -52,7 +52,7 @@ theorem normal_pElementSubgroup_top (S : Type) [Group S] :
     exact le_iSup₂_of_le (f := fun j (_ : j ∈ J) => pElementSubgroup 2 (⊤ : Subgroup S)) j hj
       le_rfl (Subgroup.subset_closure ⟨Subgroup.mem_top a, m, hm⟩)
   nonnorm := fun _ hle => by
-    haveI := normal_pElementSubgroup_top S
+    have := normal_pElementSubgroup_top S
     have hT : T ≠ ⊥ := fun e => h.coatom.1 (by
       rw [e]; exact Subgroup.normalizer_eq_top_iff.2 inferInstance)
     have hne : pElementSubgroup 2 (⊤ : Subgroup S) ≠ ⊥ := by

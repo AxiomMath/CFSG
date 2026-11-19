@@ -39,6 +39,7 @@ variable (hD : COrthLabelDict) (hRig : GGLabelRigidInput) (hJq : CFSG.Open.IsQua
   (hJp : Nonempty (↥J ⧸ Subgroup.center ↥J ≃* PSimple p J)) (hJt : Type167J p J)
 include hD hRig hJq hJp hJt
 
+omit [Finite G] in
 theorem i167COrth_type_no_unitary {m f : ℕ} (hm : 2 ≤ m) (hf : 1 ≤ f)
     (h : catalogIs (PSimple p J) (isUnA m (2 ^ f))) : False := by
   obtain ⟨e⟩ := hJp
@@ -71,6 +72,7 @@ theorem i167COrth_type_plus (hb : CatDistinct.OrderBridge) {m a : ℕ} (hm : 3 �
       (fun h3 => by omega) ((catalogIs_congr e).2 hc) h'
     exact ⟨n, k, hn, hk, hpk, hc, hnm, hka⟩
 
+omit [Finite G] in
 theorem i167COrth_type_minus {m a : ℕ} (hm : 4 ≤ m) (ha : 1 ≤ a)
     (h : catalogIs (PSimple p J) (isOmMA m (2 ^ a))) :
     p = 3 ∧ ∃ n : ℕ, Even n ∧ catalogIs (PSimple 3 J) (isOmMA n 2) ∧ n = m ∧ a = 1 := by

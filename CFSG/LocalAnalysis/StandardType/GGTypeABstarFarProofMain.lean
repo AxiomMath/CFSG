@@ -22,7 +22,7 @@ theorem ggTypeABstarFar_of_bstarDiag {B : Subgroup G} {x : G} {L D J : Subgroup 
     (hk₁ : φ₁.ker ≤ Subgroup.center (SpecialLinearGroup (Fin (n + 1)) (GaloisField 2 f)))
     (hK : φ₂.range = K)
     (hk₂ : φ₂.ker ≤ Subgroup.center (SpecialLinearGroup (Fin (n + 1)) (GaloisField 2 f)))
-    (hJ : (φ₁.comp (slLowerBlockHom n (GaloisField 2 f))).range = J)
+    (_hJ : (φ₁.comp (slLowerBlockHom n (GaloisField 2 f))).range = J)
     (hc : φ₁.comp (slLowerBlockHom n (GaloisField 2 f)) =
       φ₂.comp (slUpperBlockHom n (GaloisField 2 f)))
     (hdiag : ∀ c ∈ Bs, GGActsDiag φ₁ c ∧ GGActsDiag φ₂ c) {i j : Fin n} (hi : i.val = 0)
@@ -31,7 +31,7 @@ theorem ggTypeABstarFar_of_bstarDiag {B : Subgroup G} {x : G} {L D J : Subgroup 
         φ₁ (weylRep n (GaloisField 2 f) i) * φ₂ (weylRep n (GaloisField 2 f) j) ∈
       Subgroup.centralizer (Bs : Set G) := by
   have hC : GGFarCtx p Bs φ₁ φ₂ x y := ggFarCtx_of_cfg hN hL hk₁ hK hk₂ hc hdiag
-  haveI : Fact p.Prime := ⟨hC.prime⟩
+  have : Fact p.Prime := ⟨hC.prime⟩
   have hW : GGWeylOfType p (CoxeterMatrix.A (n + 1))
       (ggAutomizer L Bs ⊔ ggAutomizer K Bs) := by
     obtain ⟨-, -, -, -, -, -, -, -, -, -, hW, -⟩ := hN

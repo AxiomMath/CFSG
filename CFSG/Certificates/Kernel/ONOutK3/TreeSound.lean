@@ -107,7 +107,7 @@ theorem posMap3_spec {im : Array Pt3} {d : Nat}
           intro e
           have := hinj j hj k (by omega) e
           omega
-        rw [hne, if_neg (by simp)]
+        rw [hne, ite_eq_right (by simp)]
         exact h1 k a
       · subst a
         simp
@@ -115,7 +115,7 @@ theorem posMap3_spec {im : Array Pt3} {d : Nat}
       have hne : (im[j]! == t) = false := by
         rw [beq_eq_false_iff_ne]
         exact ht j (Nat.lt_succ_self j)
-      rw [hne, if_neg (by simp)]
+      rw [hne, ite_eq_right (by simp)]
       exact h2 t fun k hk => ht k (Nat.lt_succ_of_lt hk)
 
 theorem distinctOK_of_inj {n : Nat} {im : Array Pt3} (hn : im.size = n)

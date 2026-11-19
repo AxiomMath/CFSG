@@ -34,10 +34,10 @@ private theorem s168e3_om4_card_aut_five :
 private theorem s168e3_om4_card_mulAut_square_dvd :
     Nat.card (MulAut (alternatingGroup (Fin 5) × alternatingGroup (Fin 5))) ∣
       2 * 120 ^ 2 := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have h := CFSG.GroupTheory.card_mulAut_square_dvd (A := alternatingGroup (Fin 5))
     (fun N hN => by
-      haveI := hN
+      have := hN
       exact IsSimpleGroup.eq_bot_or_eq_top_of_normal N)
     (fun a ha => by
       have hc : a ∈ Subgroup.center (alternatingGroup (Fin 5)) := by
@@ -49,8 +49,8 @@ private theorem s168e3_om4_card_mulAut_square_dvd :
     (exists_ne 1)
   rwa [s168e3_om4_card_aut_five] at h
 
-theorem s168e3_om4_card_dvd [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
-    {A L : Subgroup (MulAut W)} (hLA : L ≤ A)
+theorem s168e3_om4_card_dvd [Finite W] (_hW : ∀ w : W, w ^ 2 = 1)
+    {A L : Subgroup (MulAut W)} (_hLA : L ≤ A)
     (hLn : ∀ g ∈ A, L.map (MulAut.conj g).toMonoidHom = L) (hL : IsOmegaPlus ↥L 4 2)
     (hnat : NatOmegaPlus L (⊤ : Subgroup W) ⊥ 4 2) :
     Nat.card ↥A ∣ 2 ^ 7 * 3 ^ 3 * 5 ^ 2 := by
@@ -93,8 +93,8 @@ theorem s168e3_om4_card_dvd [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
   have hker_dvd : Nat.card κ.ker ∣ 3 := by
     classical
     obtain ⟨K, hKf, hKfin, hK4, f, hf⟩ := s16e_omc_centralizer_embeds_units hnat
-    letI := hKf
-    haveI := Fintype.ofFinite K
+    let := hKf
+    have := Fintype.ofFinite K
     have hunits : Nat.card Kˣ = 3 := by
       rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hK4]
     rw [← hunits]
@@ -130,13 +130,13 @@ theorem s168e3_om4_card_mbar_dvd {D : Data G} {V₀ V L : Subgroup G} {hV : IsEl
     exact ⟨he, K, hKf, hKfin, hKa, ⟨e.trans e1⟩⟩
   have hleS : lStar D.M V₀ V hV L ≤ Mbar D.M (v1Sub D.M V₀ V hV L) V hV :=
     barSub_mono _ V hV c.setting.hyp151.le
-  haveI hNnorm : ((lBar V₀ V hV L).subgroupOf (Mbar D.M V₀ V hV)).Normal :=
+  have hNnorm : ((lBar V₀ V hV L).subgroupOf (Mbar D.M V₀ V hV)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer
       (barSub_mono V₀ V hV c.setting.hyp151.le)).2
         (fun _ hg => Subgroup.mem_normalizer_iff_map_conj_eq.2
           (lBar_conj_eq_of_s15_eq_one h.2.2 hg))
   obtain ⟨ρ, -, hρL⟩ := s16e_star_equiv D c.std.h1217 c.setting.hyp151 hV
-  haveI hSstar_normal : ((lStar D.M V₀ V hV L).subgroupOf
+  have hSstar_normal : ((lStar D.M V₀ V hV L).subgroupOf
       (Mbar D.M (v1Sub D.M V₀ V hV L) V hV)).Normal := by
     have hmap := hNnorm.map ρ.toMonoidHom ρ.surjective
     rwa [hρL] at hmap
@@ -204,7 +204,7 @@ private theorem s168e3_om4_comp_layer {D : Data G} {V₀ V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (c : S168e3Ctx D V₀ V L hV) (h : Case162_7 D V₀ V hV L) :
     (lBar V₀ V hV L).subgroupOf (Mbar D.M V₀ V hV) ≤
       CFSG.layer ↥(Mbar D.M V₀ V hV) := by
-  haveI := s168e3_om4_N_normal c.setting.hyp151.le h.2.2
+  have := s168e3_om4_N_normal c.setting.hyp151.le h.2.2
   obtain ⟨e⟩ := s16e_omc_equiv_alt_five_of_isOmegaPlus h.1
   have hle : lBar V₀ V hV L ≤ Mbar D.M V₀ V hV := barSub_mono V₀ V hV c.setting.hyp151.le
   exact s16e_omc_le_layer_of_equiv_alt_five ((Subgroup.subgroupOfEquivOfLe hle).trans e)
@@ -265,7 +265,7 @@ private theorem s168e3_om4_comp_centralizer {D : Data G} {V₀ V L : Subgroup G}
       Nonempty (↥(Subgroup.centralizer
           ((lBar V₀ V hV L).subgroupOf (Mbar D.M V₀ V hV) :
             Set ↥(Mbar D.M V₀ V hV))) ≃* Multiplicative (ZMod 3)) := by
-  haveI := s168e3_om4_N_normal c.setting.hyp151.le h.2.2
+  have := s168e3_om4_N_normal c.setting.hyp151.le h.2.2
   obtain ⟨e⟩ := s16e_omc_equiv_alt_five_of_isOmegaPlus h.1
   have hle : lBar V₀ V hV L ≤ Mbar D.M V₀ V hV := barSub_mono V₀ V hV c.setting.hyp151.le
   have he : ↥((lBar V₀ V hV L).subgroupOf (Mbar D.M V₀ V hV)) ≃*
@@ -275,7 +275,7 @@ private theorem s168e3_om4_comp_centralizer {D : Data G} {V₀ V L : Subgroup G}
       ((lBar V₀ V hV L).subgroupOf (Mbar D.M V₀ V hV) :
         Set ↥(Mbar D.M V₀ V hV)) ≠ ⊥ :=
     s16e_omc_centralizer_ne_bot he h27
-  haveI : Nontrivial ↥(Subgroup.centralizer
+  have : Nontrivial ↥(Subgroup.centralizer
       ((lBar V₀ V hV L).subgroupOf (Mbar D.M V₀ V hV) :
         Set ↥(Mbar D.M V₀ V hV))) :=
     (Subgroup.nontrivial_iff_ne_bot _).2 hne
@@ -287,11 +287,11 @@ private theorem s168e3_om4_comp_center_bot {D : Data G} {V₀ V L : Subgroup G}
     (lBar V₀ V hV L).subgroupOf (Mbar D.M V₀ V hV) ⊓ Subgroup.centralizer
         ((lBar V₀ V hV L).subgroupOf (Mbar D.M V₀ V hV) :
           Set ↥(Mbar D.M V₀ V hV)) = ⊥ := by
-  haveI := s168e3_om4_N_normal c.setting.hyp151.le h.2.2
+  have := s168e3_om4_N_normal c.setting.hyp151.le h.2.2
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨eΩ⟩⟩ := h.1
-  letI := hKf
-  letI := hKfin
-  haveI hKchar : CharP K 2 :=
+  let := hKf
+  let := hKfin
+  have hKchar : CharP K 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hKcard
   have h4 : 4 ≤ Nat.card K := by rw [hKcard]; norm_num
   obtain ⟨e4⟩ := nonempty_statedOmegaFour_mulEquiv_prod (K := K) h4
@@ -327,7 +327,7 @@ theorem s168e3_om4_fstarBar_equiv {D : Data G} {V₀ V L : Subgroup G} {hV : IsE
     (h27 : 27 ∣ Nat.card ↥(Mbar D.M V₀ V hV)) :
     Nonempty (↥(fstarBar D.M V₀ V hV) ≃*
       (Multiplicative (ZMod 3) × ↥(lBar V₀ V hV L))) := by
-  haveI hNnorm : ((lBar V₀ V hV L).subgroupOf (Mbar D.M V₀ V hV)).Normal :=
+  have hNnorm : ((lBar V₀ V hV L).subgroupOf (Mbar D.M V₀ V hV)).Normal :=
     s168e3_om4_N_normal c.setting.hyp151.le h.2.2
   obtain ⟨hCnil, hCiso⟩ := s168e3_om4_comp_centralizer c h h27
   have hFstar := s16e_omf_generalizedFitting_eq_sup_centralizer

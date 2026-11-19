@@ -174,7 +174,7 @@ private theorem langRatFISL_innerRecogOver_E6 {τ : Tag}
         θ.comp (blockSL K 3 2 1 (by omega)) = rootSL2 τ K (β (l j))) :
     langRatFISL_Recog p (p ^ f) ↥(rootSpan τ K (rootsOfFam β (Set.range l))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ⟩ := weakCT_data hτ β hroot l (edgeE 6) hgram hframe
   have hadm : StatedLieAdmissible .E6 0 p f := ⟨hp, hf, rfl⟩
   obtain ⟨-, -, -, hqs, -, hmodel⟩ := weakCT_e6_of_frame p f hadm hK U hgen hcomm hρ hψ
@@ -192,7 +192,7 @@ private theorem langRatFISL_innerRecogOver_E7 {τ : Tag}
         θ.comp (blockSL K 3 2 1 (by omega)) = rootSL2 τ K (β (l j))) :
     langRatFISL_Recog p (p ^ f) ↥(rootSpan τ K (rootsOfFam β (Set.range l))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ⟩ := weakCT_data hτ β hroot l (edgeE 7) hgram hframe
   have hadm : StatedLieAdmissible .E7 0 p f := ⟨hp, hf, rfl⟩
   obtain ⟨-, -, -, hqs, -, hmodel⟩ := weakCT_e7_of_frame p f hadm hK U hgen hcomm hρ hψ
@@ -210,7 +210,7 @@ private theorem langRatFISL_innerRecogOver_E8 {τ : Tag}
         θ.comp (blockSL K 3 2 1 (by omega)) = rootSL2 τ K (β (l j))) :
     langRatFISL_Recog p (p ^ f) ↥(rootSpan τ K (rootsOfFam β (Set.range l))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ⟩ := weakCT_data hτ β hroot l (edgeE 8) hgram hframe
   have hadm : StatedLieAdmissible .E8 0 p f := ⟨hp, hf, rfl⟩
   obtain ⟨-, -, -, hqs, -, hmodel⟩ := weakCT_e8_of_frame p f hadm hK U hgen hcomm hρ hψ
@@ -285,8 +285,8 @@ private theorem langRatFISL_ratCat_of_tree {τ : Tag} (K : KacData τ) {L : Type
     show rootSpan τ K' (componentRoots (rootCharHom a) i) = _
     rw [hroots, hset]
   rw [hcomp]
-  haveI : Fintype ↥K' := Fintype.ofFinite ↥K'
-  haveI : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
+  have : Fintype ↥K' := Fintype.ofFinite ↥K'
+  have : CharP ↥K' (ringChar ↥K') := ringChar.charP ↥K'
   obtain ⟨f, hprime, hcardK⟩ := FiniteField.card ↥K' (ringChar ↥K')
   have hring : ringChar ↥K' = ringChar L := ringChar_subfield' K'
   rw [hring] at hprime hcardK

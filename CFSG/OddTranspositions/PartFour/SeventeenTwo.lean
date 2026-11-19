@@ -25,7 +25,7 @@ theorem commutator_mem_pCore_of_mem_solvableRadical (h113 : PartThree.Theorem11_
     x * y * x⁻¹ * y⁻¹ ∈ CFSG.pCore 2 (Halpha D hC.alpha) := by
   let H := Halpha D hC.alpha
   let Q := CFSG.pCore 2 H
-  letI : Q.Normal := CFSG.pCore_normal
+  let : Q.Normal := CFSG.pCore_normal
   have hxcenter : QuotientGroup.mk' Q x ∈ Subgroup.center (H ⧸ Q) := by
     have hmem : QuotientGroup.mk' Q x ∈ (CFSG.solvableRadical H).map (QuotientGroup.mk' Q) :=
       Subgroup.mem_map.mpr ⟨x, hx, rfl⟩
@@ -39,12 +39,14 @@ theorem commutator_mem_pCore_of_mem_solvableRadical (h113 : PartThree.Theorem11_
     group
   exact (QuotientGroup.eq_one_iff _).mp hone
 
+omit [Finite G] in
 theorem Halpha_le_normalizer_block (D α : Set G) : Halpha D α ≤ Subgroup.normalizer α := by
   rw [Halpha, Subgroup.closure_le]
   rintro x ⟨β, hβ, hxβ⟩
   exact OddLocal.mem_normalizer_of_commute
     (fun y hy => ((mem_Dalpha_iff.mp hβ).2.2.2 y hy x hxβ).symm)
 
+omit [Finite G] in
 theorem conj_mem_Dalpha_of_mem_normalizer {D α β : Set G} (hN : IsNormalSet D)
     (hβ : β ∈ Dalpha D α) {x : G} (hx : x ∈ Subgroup.normalizer α) :
     (fun y => x * y * x⁻¹) '' β ∈ Dalpha D α := by
@@ -66,7 +68,7 @@ theorem commute_conj_of_mem_radical (h113 : PartThree.Theorem11_3) (hC : Hypothe
   have hbD : b ∈ D := DalphaStar_subset hC.isBlock_alpha hb
   rcases hC.setup.oddT.commute_or_odd hcD (hC.setup.normal (x : G) b hbD) with h | hodd
   · exact h
-  haveI : (CFSG.pCore 2 (Halpha D hC.alpha)).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 (Halpha D hC.alpha)).Normal := CFSG.pCore_normal
   let cH : Halpha D hC.alpha := ⟨c, Subgroup.subset_closure hc⟩
   let bH : Halpha D hC.alpha := ⟨b, Subgroup.subset_closure hb⟩
   have hcb2 : (cH * bH) ^ 2 = 1 := Subtype.ext (by
@@ -156,7 +158,7 @@ theorem pCore_le_center_of_forall_conj_eq (hC : HypothesisC D) {b : G}
   classical
   let H := Halpha D hC.alpha
   let Q := CFSG.pCore 2 H
-  letI : Q.Normal := CFSG.pCore_normal
+  let : Q.Normal := CFSG.pCore_normal
   intro q hq
   rw [Subgroup.mem_center_iff]
   intro y
@@ -186,6 +188,7 @@ theorem pCore_le_center_of_forall_conj_eq (hC : HypothesisC D) {b : G}
   exact Subgroup.mem_centralizer_singleton_iff.mp
     (show y ∈ Subgroup.centralizer ({q} : Set H) from hy)
 
+omit [Finite G] in
 theorem exists_conj_ne_of_not_mem_center (hC : HypothesisC D)
     {x : Halpha D hC.alpha} (hxZ : x ∉ Subgroup.center (Halpha D hC.alpha)) :
     ∃ s ∈ DstarH hC, x * s * x⁻¹ ≠ s := by
@@ -193,7 +196,6 @@ theorem exists_conj_ne_of_not_mem_center (hC : HypothesisC D)
   by_contra hno
   push Not at hno
   apply hxZ
-  change x ∈ Subgroup.center (Halpha D hC.alpha)
   rw [Subgroup.mem_center_iff]
   intro y
   have hle : Subgroup.closure (DstarH hC) ≤
@@ -218,7 +220,7 @@ theorem exists_pCore_conj_ne (h113 : PartThree.Theorem11_3) (hC : HypothesisC D)
   classical
   let H := Halpha D hC.alpha
   let Q := CFSG.pCore 2 H
-  letI : Q.Normal := CFSG.pCore_normal
+  let : Q.Normal := CFSG.pCore_normal
   by_contra hcon
   push Not at hcon
   have hQcenter : Q ≤ Subgroup.center H := pCore_le_center_of_forall_conj_eq hC hb hcon
@@ -289,7 +291,7 @@ theorem commute_of_mem_Dalpha (h89 : PartThree.Lemma8_9) (h113 : PartThree.Theor
     {β : Set G} (hβ : β ∈ Dalpha D hC.alpha) {a b : G} (ha : a ∈ β) (hb : b ∈ β) :
     Commute a b := by
   by_contra hnab
-  haveI : (CFSG.pCore 2 (Halpha D hC.alpha)).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 (Halpha D hC.alpha)).Normal := CFSG.pCore_normal
   have haD : a ∈ D := hβ.2.1 ha
   have hbD : b ∈ D := hβ.2.1 hb
   have hbStar : b ∈ DalphaStar D hC.alpha := ⟨β, hβ, hb⟩

@@ -87,7 +87,7 @@ theorem sumCongr_mem_normalizer {r s : ℕ} {σ₁ : Perm (Fin r × Bool)} (hσ�
   refine ⟨fun hh => key σ₁ hσ σ₂ h hh, fun hh => ?_⟩
   have := key σ₁⁻¹ ((blockStab (Fin r)).inv_mem hσ) σ₂⁻¹ _ hh
   have e : (Perm.sumCongr σ₁⁻¹ σ₂⁻¹) = (Perm.sumCongr σ₁ σ₂)⁻¹ := by
-    ext x <;> simp
+    ext x; simp
   have e2 : Perm.sumCongr σ₁⁻¹ σ₂⁻¹ * (Perm.sumCongr σ₁ σ₂ * h * (Perm.sumCongr σ₁ σ₂)⁻¹) *
       (Perm.sumCongr σ₁⁻¹ σ₂⁻¹)⁻¹ = h := by
     rw [e]; group

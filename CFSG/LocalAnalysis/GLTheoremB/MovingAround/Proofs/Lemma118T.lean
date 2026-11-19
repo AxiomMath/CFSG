@@ -93,6 +93,7 @@ theorem glbCore_gLBConj_le' {p k : ℕ} (hp1 : 1 < p) (H : Subgroup G) (g : G) :
         gLBConj_mono g key
     _ = GLBCore p k (GLBConj g H) := gLBConj_gLBConj_inv g _
 
+omit [Finite G] in
 theorem centralizer_gLBConj_eq (a g : G) :
     GLBConj g (Subgroup.centralizer ({a} : Set G)) =
       Subgroup.centralizer ({g⁻¹ * a * g} : Set G) := by
@@ -108,10 +109,12 @@ theorem centralizer_gLBConj_eq (a g : G) :
       _ = g * ((g⁻¹ * a * g) * y) * g⁻¹ := by rw [h]
       _ = a * (g * y * g⁻¹) := by group
 
+omit [Finite G] in
 theorem conj_pow_eq (a g : G) (k : ℕ) : (g⁻¹ * a * g) ^ k = g⁻¹ * a ^ k * g := by
   have := (map_pow (MulAut.conj g⁻¹) a k).symm
   simpa only [MulAut.conj_apply, inv_inv] using this
 
+omit [Finite G] in
 theorem isAltType_barOf_gLBConj {n p : ℕ} (g : G) (K : Subgroup G)
     (hn : IsAltType n (barOf p K)) : IsAltType n (barOf p (GLBConj g K)) := by
   obtain ⟨e⟩ := hn
@@ -233,6 +236,7 @@ theorem eq_one_of_mem_pPrimeCoreOf {p : ℕ} [hp : Fact p.Prime] {K : Subgroup G
   have : z = 1 := congrArg Subtype.val hz'
   simp [this]
 
+omit [Finite G] in
 theorem eq_one_of_central_barOf {p n : ℕ} (K : Subgroup G) (hn : IsAltType n (barOf p K))
     (hn4 : 4 ≤ n) (w : barOf p K) (hw : ∀ v : barOf p K, v * w = w * v) : w = 1 := by
   obtain ⟨e⟩ := hn
@@ -247,9 +251,11 @@ theorem eq_one_of_central_barOf {p n : ℕ} (K : Subgroup G) (hn : IsAltType n (
   rw [hcenter, Subgroup.mem_bot] at hc
   exact e.injective (by simpa using hc)
 
+omit [Finite G] in
 theorem normalizerMonoidHom_val {K : Subgroup G} (γ : ↥(Subgroup.normalizer (K : Set G)))
     (k : ↥K) : ((K.normalizerMonoidHom γ k : ↥K) : G) = (γ : G) * k * (γ : G)⁻¹ := rfl
 
+omit [Finite G] in
 theorem mk_conj_of_barAut_one {p : ℕ} {K : Subgroup G} {γ : ↥(Subgroup.normalizer (K : Set G))}
     (hγ : barAut p K γ = 1) (k : ↥K) :
     (QuotientGroup.mk (K.normalizerMonoidHom γ k) : barOf p K) = QuotientGroup.mk k := by
@@ -257,6 +263,7 @@ theorem mk_conj_of_barAut_one {p : ℕ} {K : Subgroup G} {γ : ↥(Subgroup.norm
   rw [barAut_mk, MulAut.one_apply] at this
   exact this
 
+omit [Finite G] in
 theorem barAut_eq_one_of_forall {p : ℕ} {K : Subgroup G} {γ : ↥(Subgroup.normalizer (K : Set G))}
     (h : ∀ k : ↥K, (QuotientGroup.mk (K.normalizerMonoidHom γ k) : barOf p K) = QuotientGroup.mk k) :
     barAut p K γ = 1 := by
@@ -264,6 +271,7 @@ theorem barAut_eq_one_of_forall {p : ℕ} {K : Subgroup G} {γ : ↥(Subgroup.no
   obtain ⟨k, rfl⟩ := QuotientGroup.mk_surjective q
   rw [barAut_mk, h k, MulAut.one_apply]
 
+omit [Finite G] in
 theorem exists_barAut_one_of_mem_centBar {p : ℕ} {K : Subgroup G} {a x : G}
     (hx : x ∈ centBar p (Cg a) K) :
     ∃ γ : ↥(Subgroup.normalizer (K : Set G)), barAut p K γ = 1 ∧ (γ : G) = x := by
@@ -272,6 +280,7 @@ theorem exists_barAut_one_of_mem_centBar {p : ℕ} {K : Subgroup G} {a x : G}
   obtain ⟨γ, hγ, hxγ⟩ := Subgroup.mem_map.1 hk
   exact ⟨γ, MonoidHom.mem_ker.1 hγ, by simpa using hxγ⟩
 
+omit [Finite G] in
 theorem mem_pPrimeCoreOf_of_central {p n : ℕ} [Fact p.Prime] {K : Subgroup G}
     (hn : IsAltType n (barOf p K)) (hn4 : 4 ≤ n) {z : G} (hzK : z ∈ K)
     (hz : ∀ k : ↥K, (QuotientGroup.mk (⟨z, hzK⟩ * k * (⟨z, hzK⟩ : ↥K)⁻¹ : ↥K) : barOf p K) =
@@ -292,7 +301,7 @@ theorem exists_sylow_normalized_by {p : ℕ} [hp : Fact p.Prime] (K X : Subgroup
     (hXN : X ≤ Subgroup.normalizer (K : Set G)) (hX : IsPGroup p ↥X) :
     ∃ P : Subgroup G, IsSylowIn p K P ∧ ∀ x ∈ X, ∀ y ∈ P, x⁻¹ * y * x ∈ P := by
   let ψ : ↥X →* MulAut ↥K := (K.normalizerMonoidHom).comp (Subgroup.inclusion hXN)
-  letI : MulAction ↥X (Sylow p ↥K) := MulAction.compHom (Sylow p ↥K) ψ
+  let : MulAction ↥X (Sylow p ↥K) := MulAction.compHom (Sylow p ↥K) ψ
   have hcard1 := IsPGroup.card_modEq_card_fixedPoints (p := p) (G := ↥X) (α := Sylow p ↥K) hX
   have hcard2 := card_sylow_modEq_one p ↥K
   have hpos : Nat.card (MulAction.fixedPoints ↥X (Sylow p ↥K)) ≠ 0 := by
@@ -317,8 +326,8 @@ theorem exists_sylow_normalized_by {p : ℕ} [hp : Fact p.Prime] (K X : Subgroup
       Subgroup.smul_mem_pointwise_smul y _ _ hy
     rw [hsub] at hmem
     refine ⟨(ψ ⟨x⁻¹, hxinv⟩) y, hmem, ?_⟩
-    simp [ψ, normalizerMonoidHom_val]
-  refine ⟨P0.toSubgroup.map K.subtype, ⟨Subgroup.map_subtype_le _, P0.isPGroup'.map K.subtype, ?_⟩, ?_⟩
+    simp [ψ]
+  refine ⟨P0.toSubgroup.map K.subtype, ⟨Subgroup.map_subtype_le _, P0.isPGroup.map K.subtype, ?_⟩, ?_⟩
   · intro R hRK hR hPR
     have hR' : IsPGroup p ↥(R.subgroupOf K) := hR.of_equiv (Subgroup.subgroupOfEquivOfLe hRK).symm
     have hle : P0.toSubgroup ≤ R.subgroupOf K := by
@@ -333,9 +342,11 @@ theorem exists_sylow_normalized_by {p : ℕ} [hp : Fact p.Prime] (K X : Subgroup
     obtain ⟨y0, hy0, rfl⟩ := Subgroup.mem_map.1 hy
     exact hnorm x hx y0 hy0
 
+omit [Finite G] in
 theorem isPGroup_of_isElemAbelian {p : ℕ} {R : Subgroup G} (hR : IsElemAbelian p R) :
     IsPGroup p ↥R := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (by simpa using hR.2 g g.2)⟩
 
+omit [Finite G] in
 theorem mem_pPrimeCoreOf_of_mem_centBar {p n : ℕ} [Fact p.Prime] {K : Subgroup G} {a z : G}
     (hn : IsAltType n (barOf p K)) (hn4 : 4 ≤ n) (hzK : z ∈ K)
     (hz : z ∈ centBar p (Cg a) K) : z ∈ GLAPPrimeCoreOf p K := by
@@ -350,6 +361,7 @@ theorem mem_pPrimeCoreOf_of_mem_centBar {p n : ℕ} [Fact p.Prime] {K : Subgroup
   rw [heq]
   exact hk
 
+omit [Finite G] in
 theorem mem_centBar_self {p : ℕ} {K : Subgroup G} {a : G} (haK : ∀ k ∈ K, k * a = a * k) :
     a ∈ centBar p (Cg a) K := by
   have hC : a ∈ Subgroup.centralizer (K : Set G) := Subgroup.mem_centralizer_iff.2 fun h hh => haK h hh
@@ -399,6 +411,7 @@ theorem pRank_sup_zpowers {p : ℕ} [hp : Fact p.Prime] {E : Subgroup G} {a : G}
   rw [pRank_eq_of_isElemAbelian_card hEc hcard]
   rw [pRank_eq_of_isElemAbelian_card hE hk]
 
+omit [Finite G] in
 theorem isElemAbelian_gLBConj' {p : ℕ} {H : Subgroup G} (hH : IsElemAbelian p H) (g : G) :
     IsElemAbelian p (GLBConj g H) := by
   refine ⟨⟨⟨fun x y => Subtype.ext ?_⟩⟩, fun x hx => ?_⟩
@@ -422,7 +435,7 @@ theorem inf_eq_bot_of_elemAb_le_centBar {p n : ℕ} [hp : Fact p.Prime] {K : Sub
   exact Subgroup.one_mem _
 
 theorem comm_of_normalized {p n : ℕ} [hp : Fact p.Prime] {K : Subgroup G} {a : G} {E : Subgroup G}
-    (hn : IsAltType n (barOf p K)) (hn4 : 4 ≤ n) (hEK : E ≤ K) (hEab : IsElemAbelian p E)
+    (_hn : IsAltType n (barOf p K)) (_hn4 : 4 ≤ n) (hEK : E ≤ K) (hEab : IsElemAbelian p E)
     {x : G} (hxC : x ∈ centBar p (Cg a) K) (hxE : GLBConj x E = E) (y : G) (hy : y ∈ E) :
     x * y = y * x := by
   obtain ⟨γ, hγ1, hγx⟩ := exists_barAut_one_of_mem_centBar hxC
@@ -500,6 +513,7 @@ theorem exists_transportData {p n : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) (hI
     (le_sup_right (a := E0) (b := Subgroup.zpowers a)) (Subgroup.mem_zpowers a),
     fun x hx y hy => (hcomm y hy x hx).symm⟩⟩
 
+omit [Finite G] in
 theorem le_centralizer_zpowers_of_comm {A : Subgroup G} {a : G} (hcomm : ∀ x ∈ A, x * a = a * x) :
     A ≤ Subgroup.centralizer (Subgroup.zpowers a : Set G) := fun x hx =>
   Subgroup.mem_centralizer_iff.2 fun h hh => by
@@ -605,7 +619,7 @@ theorem exists_conj_sylow_contains {p : ℕ} [hp : Fact p.Prime] {Q B : Subgroup
   obtain ⟨S, hBS⟩ := hB.exists_le_sylow
   obtain ⟨T, hQT⟩ := hQ.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G T S
-  refine ⟨g⁻¹, S.toSubgroup, S.isPGroup', ?_, hBS⟩
+  refine ⟨g⁻¹, S.toSubgroup, S.isPGroup, ?_, hBS⟩
   intro y hy
   rw [mem_gLBConj] at hy
   have hyT : g⁻¹ * y * g⁻¹⁻¹ ∈ T.toSubgroup := hQT hy
@@ -672,7 +686,7 @@ theorem lemma118Transport_of_inputs (hAlt : AltBalanceInput) (hI31_6 : Input31_6
   obtain ⟨n, hn, hrn, hpn⟩ := ht
   have hp : p.Prime := h.standing.prime
   have hp2 : p ≠ 2 := h.standing.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hr2 : 2 ≤ CFSG.Open.pRank p (E ⊓ A) := h.pair.1.2.2

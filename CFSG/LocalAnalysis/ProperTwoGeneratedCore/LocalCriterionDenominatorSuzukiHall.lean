@@ -22,7 +22,7 @@ theorem hall_sylow_map_subtype {G : Type*} [Group G] [Finite G]
   have hmapIndex : ¬ p ∣ ((P : Subgroup A).map A.subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact (Fact.out : p.Prime).not_dvd_mul P.not_dvd_index hpIndex
-  exact ⟨(P.isPGroup'.map A.subtype).toSylow hmapIndex, IsPGroup.toSylow_coe _ _⟩
+  exact ⟨(P.isPGroup.map A.subtype).toSylow hmapIndex, IsPGroup.toSylow_coe _ _⟩
 
 theorem whole_centralizer_conjugate_of_card_not_coprime
     {G : Type*} [Group G] [Finite G] (A B : Subgroup G)

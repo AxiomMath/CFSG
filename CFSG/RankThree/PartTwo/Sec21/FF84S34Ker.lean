@@ -12,6 +12,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21
 
 variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B : Subgroup G}
 
+omit [Finite G] in
 theorem exists_zpow_mul_of_mem_sup_cen {x : G} {H : Subgroup G}
     (hH : H ≤ Subgroup.centralizer ({x} : Set G)) {a : G} (ha : a ∈ Subgroup.zpowers x ⊔ H) :
     ∃ i : ℤ, ∃ h ∈ H, a = x ^ i * h := by
@@ -45,7 +46,7 @@ theorem exists_zpow_mul_of_mem_sup_cen {x : G} {H : Subgroup G}
 theorem mem_zpowers_of_cen_cen (hs : FF84Sec3 b L B b₁ b₂) (hO : Opp 3 (Cen b) = ⊥)
     (hZ : Subgroup.center L = ⊥) {y : G} (hy : y ∈ Cen b) (hyL : ∀ k ∈ L, y * k = k * y) :
     y ∈ Subgroup.zpowers b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup G := Cen b with hC
   set Y : Subgroup G := C ⊓ CenS L with hY
   have hLC : L ≤ C := hs.hyp.hLC

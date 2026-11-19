@@ -84,9 +84,9 @@ theorem factL34_hyps (V : Type) [CommGroup V] [Finite V] (hV : ∀ v : V, v ^ 2 
         (∀ l ∈ (CFSG.generalizedFitting ↥M).map M.subtype, x * l = l * x) → x = 1) ∧
       (∀ x ∈ ((CFSG.generalizedFitting ↥M).map M.subtype) ⊔ Subgroup.zpowers t,
         ∃ m : ℕ, x ^ 2 ^ m ∈ (CFSG.generalizedFitting ↥M).map M.subtype) := by
-  haveI : Finite (MulAut V) :=
+  have : Finite (MulAut V) :=
     Finite.of_injective (fun f : MulAut V => (f : V → V)) fun f g h => MulEquiv.ext (congrFun h)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := hL
   set F : Subgroup ↥M := CFSG.generalizedFitting ↥M with hFdef
   set L : Subgroup (MulAut V) := F.map M.subtype with hLdef

@@ -11,9 +11,9 @@ open scoped commutatorElement
 
 theorem l2_pauli_transfer {G H J : Type} [Group G] [Group H] [Group J] [Finite G]
     (α : G →* H) (hα : Function.Surjective α) (ρ : H →* J)
-    (hρk : ρ.ker = center H) (hH2 : IsPGroup 2 ↥(center H))
+    (_hρk : ρ.ker = center H) (_hH2 : IsPGroup 2 ↥(center H))
     {A : Subgroup J} (hE : IsE 4 ↥A) (hP : L2Pauli ρ A)
-    {m : G} (hm1 : m ≠ 1) (hm2 : m * m = 1) (hmk : m ∈ (ρ.comp α).ker)
+    {m : G} (_hm1 : m ≠ 1) (hm2 : m * m = 1) (_hmk : m ∈ (ρ.comp α).ker)
     (hmu : ∀ u ∈ (ρ.comp α).ker, u * u = 1 → u = 1 ∨ u = m)
     (hcen : ∀ u ∈ (ρ.comp α).ker, ∀ x : G, u * x = x * u) :
     (∀ x y : G, (ρ.comp α) x ∈ A → (ρ.comp α) y ∈ A → ⁅x, y⁆ = 1 ∨ ⁅x, y⁆ = m) ∧
@@ -36,7 +36,7 @@ theorem l2_pauli_transfer {G H J : Type} [Group G] [Group H] [Group J] [Finite G
     simpa using congrArg Subtype.val h
   have E3 : ∃ e ∈ A, e ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hbot : A = ⊥ := (Subgroup.eq_bot_iff_forall A).mpr h
     rw [hbot, Subgroup.card_bot] at hEcard
     norm_num at hEcard

@@ -107,6 +107,7 @@ private theorem mem_centerIn_J_fixed_eq_one_or_z (h : Tim79a.ParrottHyp z) {z₁
       _ = z₁ * z₁⁻¹ := by rw [heq]
       _ = 1 := mul_inv_cancel z₁
 
+omit [Finite G] in
 theorem qH_eq_t_of_mem_of_map_eq {T₁ : Subgroup G}
     (hmap : (T₁.subgroupOf (H z)).map (qH D) = Subgroup.closure
       ({⟨alpha2, alpha2_mem_A⟩, ⟨beta2, beta2_mem_A⟩} : Set QA45.originalSubgroup))

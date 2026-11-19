@@ -166,6 +166,7 @@ abbrev sigmaΩ
   CFSG.StandardType.F4ExplicitPos.B3Exact.Narrow.exceptionalEndoNarrow (t := ReeTag.F4) Ω
     (B3Exact.Narrow.F4_prime_cast_eq_zero Ω) (f4_shortFaithful_algebraic Ω)
 
+omit [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem j_xElement
     {E : Type} [Field E] [CharP E 2] (f : E →+* Ω)
     (i : Fin F4.tag.rank) (c : E) :
@@ -175,6 +176,7 @@ theorem j_xElement
   change bcGL (τ := F4.tag) f (xUnit F4.tag E i c) = xUnit F4.tag Ω i (f c)
   rw [bcGL_xUnit]
 
+omit [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem j_yElement
     {E : Type} [Field E] [CharP E 2] (f : E →+* Ω)
     (i : Fin F4.tag.rank) (c : E) :

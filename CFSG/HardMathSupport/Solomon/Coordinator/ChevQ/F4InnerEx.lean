@@ -66,7 +66,7 @@ theorem u1_sq (h2 : (2 : F) = 0) : (u1 : SL(2, F)) ^ 2 = 1 := by
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_pow, Matrix.SpecialLinearGroup.coe_one]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [u1, pow_succ, Matrix.mul_apply, Fin.sum_univ_two] <;>
+  fin_cases i <;> fin_cases j <;> simp [u1, pow_succ, Matrix.mul_apply, Fin.sum_univ_two];
     linear_combination h2
 
 theorem u1_ne_one : (u1 : SL(2, F)) ≠ 1 := by
@@ -262,7 +262,7 @@ theorem congr_eq_conj_imp {K C : Type} [Group K] [Group C] (e : K ≃* C) (α : 
   refine MulEquiv.ext fun k => ?_
   apply e.injective
   have hk := congrArg (fun φ : MulAut C => φ (e k)) h
-  simp only [MulAut.congr_apply, MulAut.conj_apply, MulEquiv.symm_apply_apply] at hk
+  simp only [MulAut.congr_apply, MulAut.conj_apply] at hk
   rw [MulAut.conj_apply, map_mul, map_mul]
   simp only [MulEquiv.apply_symm_apply, map_inv]
   rw [← hk]
@@ -344,7 +344,7 @@ theorem chevalley_data {Y : Type} [Group Y] [Finite Y] (hY : CFSG.Open.IsQuasisi
   refine ⟨hZ, GaloisField 2 3, inferInstance, ?_, ?_, ?_⟩
   · have h := CharP.cast_eq_zero (GaloisField 2 3) 2
     simpa using h
-  · haveI : CharP (GaloisField 2 3) CFSG.LieType.Ree.ReeTag.F4.prime :=
+  · have : CharP (GaloisField 2 3) CFSG.LieType.Ree.ReeTag.F4.prime :=
       inferInstanceAs (CharP (GaloisField 2 3) 2)
     obtain ⟨-, -, ⟨Θ, -, -, hΘker⟩, -⟩ :=
       CFSG.LieType.Chevalley.even_F4_exact_automorphism_normal_form (f := 3) (by norm_num)

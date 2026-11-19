@@ -26,6 +26,7 @@ theorem ggNSPosPE_one_le_f_aux {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hdvd 
   have hp_dvd_two : p ∣ 2 := by simpa [hf0] using hdvd
   exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp hp_dvd_two)
 
+omit [Finite K] [CharP K 2] in
 theorem ggNSPosPE_unitaryFieldData_aux {f : ℕ} (hcard : Nat.card K = (2 ^ f) ^ 2) (hf : 1 ≤ f) :
     UnitaryFieldData 2 f K :=
   ⟨Nat.prime_two, hf, by rw [hcard, ← pow_mul, mul_comm f 2]⟩
@@ -41,7 +42,7 @@ theorem ggNSPosPE_scalar_isUnitary_iff {f n : ℕ} (hn : 0 < n) (c : Kˣ) :
     simp only [conjTr, Matrix.scalar_apply, Matrix.transpose_apply, Matrix.map_apply,
       unitaryInvolution_apply]
     by_cases hij : i = j
-    · subst hij; simp [iterateFrobenius_def]
+    · subst hij; simp
     · simp [Matrix.diagonal_apply, Ne.symm hij]
       intro h
       exact absurd h hij

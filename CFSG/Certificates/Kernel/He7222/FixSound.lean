@@ -21,11 +21,11 @@ theorem fixCnt_eq (n w m x : ℕ) :
   | cons a l ih =>
     rw [List.foldr_cons, ih, List.filter_cons]
     rcases Bool.eq_false_or_eq_true (Nat.beq (pg w m x a) a) with hb | hb
-    · rw [if_pos hb, List.length_cons]
+    · rw [ite_eq_left hb, List.length_cons]
       change Nat.add _ (Bool.rec (motive := fun _ => Nat) 0 1 (Nat.beq (pg w m x a) a)) = _
       rw [hb]
       rfl
-    · rw [if_neg (by rw [hb]; simp)]
+    · rw [ite_eq_right (by rw [hb]; simp)]
       change Nat.add _ (Bool.rec (motive := fun _ => Nat) 0 1 (Nat.beq (pg w m x a) a)) = _
       rw [hb]
       rfl
@@ -60,7 +60,7 @@ theorem fixCnt_rep {x : ℕ} {g : Equiv.Perm (Fin n)} (hx : PRep n w x g) :
   rw [fixCnt_eq, count_range_eq]
   congr 1
   ext p
-  simp only [Finset.mem_filter, Finset.mem_univ, true_and, Nat.beq_eq_true_eq, hx p]
+  simp only [Finset.mem_filter, Finset.mem_univ, true_and, hx p]
   exact ⟨fun h => Fin.ext (Nat.eq_of_beq_eq_true h), fun h => by rw [h]; exact Nat.beq_refl _⟩
 
 theorem fixCnt_conj {x y : ℕ} {g h c : Equiv.Perm (Fin n)} (hx : PRep n w x g)
@@ -84,7 +84,7 @@ theorem fixCnt_conj {x y : ℕ} {g h c : Equiv.Perm (Fin n)} (hx : PRep n w x g)
 
 theorem not_conj_of_fixNeK {x y : ℕ} {g h : Equiv.Perm (Fin n)}
     (hne : fixNeK n w (mask w) x y = true) (hx : PRep n w x g) (hy : PRep n w y h) :
-    ∀ c : Equiv.Perm (Fin n), g ≠ c * h * c⁻¹ := fun c hc =>
+    ∀ _c : Equiv.Perm (Fin n), g ≠ _c * h * _c⁻¹ := fun _c hc =>
   fixNeK_sound hne (fixCnt_conj hx hy hc)
 
 end CFSG.KC.HeChain

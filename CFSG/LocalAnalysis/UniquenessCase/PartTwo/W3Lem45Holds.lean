@@ -22,7 +22,7 @@ theorem fourFive_quotCompFAS_of_compFactorAutInF {G : Type} [Group G] [Finite G]
   exact h Y hYH hY'
 
 theorem w3Lem45_2_holds (G : Type) [Group G] [Finite G] : W3Lem45_2 G :=
-  fun H S j Ω hj hS hΩ hF =>
+  fun _H _S _j _Ω hj hS hΩ hF =>
     fourFive_whole_subgroup hj hS hΩ (fourFive_quotCompFAS_of_compFactorAutInF hF)
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

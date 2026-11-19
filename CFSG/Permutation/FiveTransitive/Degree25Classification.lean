@@ -27,7 +27,7 @@ private theorem alternatingGroup_le_of_sylow_five_card_one_hundred_twenty_five
     (hScard : Nat.card S = 125) :
     alternatingGroup X ≤ P := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   let Y := SubMulAction.ofFixingSubgroup P s
   let R : Subgroup P :=
@@ -148,7 +148,7 @@ private theorem alternatingGroup_le_of_sylow_five_card_one_hundred_twenty_five
     exact congrArg Subtype.val (hq i)
   have hJfour :
       MulAction.IsMultiplyPretransitive J F 4 := by
-    letI : MulAction.IsMultiplyPretransitive J F 5 := hJmt
+    let : MulAction.IsMultiplyPretransitive J F 5 := hJmt
     apply MulAction.isMultiplyPretransitive_of_le
       (G := J) (α := F) (m := 4) (n := 5)
     · norm_num
@@ -164,7 +164,7 @@ private theorem alternatingGroup_le_of_sylow_five_card_one_hundred_twenty_five
     exact le_top
   have hAltCard :
       Nat.card (alternatingGroup F) = 60 := by
-    letI : Nontrivial F :=
+    let : Nontrivial F :=
       Fintype.one_lt_card_iff_nontrivial.mp (by
         rw [hFcard]
         norm_num)
@@ -228,7 +228,7 @@ private theorem alternatingGroup_le_of_sylow_five_card_one_hundred_twenty_five
     rw [hAltCard]
     intro hdvd
     exact hκNotFive ((by norm_num : 5 ∣ 60).trans hdvd)
-  letI : IsSimpleGroup (alternatingGroup F) :=
+  let : IsSimpleGroup (alternatingGroup F) :=
     alternatingGroup.isSimpleGroup (by
       rw [Nat.card_eq_fintype_card, hFcard])
   let C : Subgroup N := κ.ker
@@ -470,7 +470,7 @@ private theorem alternatingGroup_le_of_five_transitive_of_card_eq_twentyFive
     simpa only [H] using
       five_point_stabilizer_card_cases_five_cubed
         X P hcard h5 hnotAlt s hs
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let S : Sylow 5 H := Sylow.nonempty.some
   have hScard : Nat.card S = 125 := by
     rw [S.card_eq_multiplicity]

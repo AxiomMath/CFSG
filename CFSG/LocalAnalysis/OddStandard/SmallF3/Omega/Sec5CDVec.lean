@@ -80,7 +80,7 @@ theorem sec5c_permVec_single (σ : Equiv.Perm (Fin 6)) (j : Fin 6) :
   · subst hk
     simp [permVec]
   · have : σ.symm k ≠ j := fun h => hk (by rw [← h]; simp)
-    simp [permVec, Pi.single_apply, hk, this]
+    simp [permVec, hk, this]
 
 theorem sec5c_sum_eq_card (v : Fin 6 → ZMod 2) :
     ∑ j, v j = ((sec5c_supp v).card : ZMod 2) := by

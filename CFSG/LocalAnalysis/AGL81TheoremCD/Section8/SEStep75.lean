@@ -31,14 +31,14 @@ private theorem layerLift_map_data (k : S8Core G) {H : Subgroup G} (hH : k.Confi
                 CFSG.pPrimeCore k.q ↥H) := by
   classical
   have hp : k.q.Prime := k.prime
-  haveI : Fact k.q.Prime := ⟨hp⟩
+  have : Fact k.q.Prime := ⟨hp⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.q ↥H
   let π : ↥H →* (↥H ⧸ K₀) := QuotientGroup.mk' K₀
   let Lbar : Subgroup (↥H ⧸ K₀) := CFSG.generalizedFitting (↥H ⧸ K₀)
   let J : Subgroup G := CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.layerLift k.q H
   have hJH : J ≤ H := CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.layerLift_le k.q H
   have hsimple := k.isSimpleGroup_generalizedFitting_quotient hH
-  haveI : IsSimpleGroup ↥Lbar := hsimple.1
+  have : IsSimpleGroup ↥Lbar := hsimple.1
   have hLbarperf : ⁅Lbar, Lbar⁆ = Lbar :=
     Subgroup.isPerfect_iff.mp
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hsimple.2.1).1.1
@@ -84,10 +84,10 @@ private theorem layerLift_ker_data (k : S8Core G) {H : Subgroup G} (hH : k.Confi
               (CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.layerLift_le k.q H) x ∈
                 CFSG.pPrimeCore k.q ↥H) ∧
         Odd (Nat.card φ.ker) ∧ Nat.Coprime (Nat.card φ.ker) (2 * k.q) ∧
-          IsSolvable φ.ker := by
+          Group.IsSolvable φ.ker := by
   obtain ⟨φ, hφsurj, hker_mem⟩ := layerLift_map_data k hH
   have hp : k.q.Prime := k.prime
-  haveI : Fact k.q.Prime := ⟨hp⟩
+  have : Fact k.q.Prime := ⟨hp⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.q ↥H
   let J : Subgroup G := CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.layerLift k.q H
   let ι : ↥J →* ↥H :=
@@ -106,7 +106,7 @@ private theorem layerLift_ker_data (k : S8Core G) {H : Subgroup G} (hH : k.Confi
   have hK₀odd : Odd (Nat.card ↥K₀) := k.odd_card_pPrimeCore hH
   have hK₀solv : Group.IsSolvable ↥K₀ := CFSG.FeitThompson.isSolvable_of_odd_natCard ↥K₀ hK₀odd
   have hksolv : Group.IsSolvable φ.ker := by
-    haveI : Group.IsSolvable ↥K₀ := hK₀solv
+    have : Group.IsSolvable ↥K₀ := hK₀solv
     exact Group.isSolvable_of_isSolvable_injective (f := ψ) hψinj
   have hker_dvd : Nat.card φ.ker ∣ Nat.card ↥K₀ := Subgroup.card_dvd_of_injective ψ hψinj
   have hK₀cop : Nat.Coprime k.q (Nat.card ↥K₀) := CFSG.pPrimeCore_coprime_card
@@ -133,7 +133,7 @@ private lemma qPrimeElement_mem_centralizer
     (hρdef : ρ = (CFSG.OrderReductions.FrattiniAutomorphisms.quotientAutomorphism
       (frattini ↥D)).comp conjD) :
     ∀ j : ↥J, ¬ q ∣ orderOf j → (j : G) ∈ Subgroup.centralizer (R : Set G) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   intro j hjq
   have hρj : ρ j = 1 := by rw [hρ]; rfl
   rw [hρdef] at hρj
@@ -206,7 +206,7 @@ private lemma commutator_eq_bot_of_forall_qPrime_mem_centralizer
       have heq : g⁻¹ * (g * c * g⁻¹) * (g⁻¹)⁻¹ = c := by group
       rwa [heq] at hc'
   let C : Subgroup ↥J := CJ.subgroupOf J
-  haveI : C.Normal :=
+  have : C.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (show CJ ≤ J from inf_le_left)).mpr hJC
   have hC : ∀ x : ↥J, ¬ q ∣ orderOf x → x ∈ C := by
     intro x hx
@@ -232,8 +232,8 @@ theorem commutator_layerLift_pCoreOf_eq_bot (k : S8Core G) {H : Subgroup G}
       CFSG.Open.pCoreOf q ((CFSG.pPrimeCore k.q ↥H).map H.subtype)⁆ = ⊥ := by
   classical
   have hp : k.q.Prime := k.prime
-  haveI : Fact k.q.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact k.q.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.q ↥H
   let K : Subgroup G := K₀.map H.subtype
   let J : Subgroup G := CFSG.LocalAnalysis.UniquenessCase.PartOne.Section7.layerLift k.q H
@@ -259,7 +259,7 @@ theorem commutator_layerLift_pCoreOf_eq_bot (k : S8Core G) {H : Subgroup G}
   have hRq : IsPGroup q R := CFSG.LieType.BorelTits.pCoreOf_isPGroup q K
   have hq2 : q ≠ 2 := by
     intro hqeq
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2R : 2 ∣ Nat.card R := by
       rw [← hqeq]
       exact CFSG.RankThree.PartTwo.Sec21.dvd_card_of_isPGroup_ne_bot hRq hRne
@@ -323,7 +323,7 @@ theorem step75_of_coverActsTriviallyOnSmall (k : S8Core G)
         (CFSG.pPrimeCore k.q ↥H).map H.subtype⁆ = ⊥ := by
   intro H hH
   have hp : k.q.Prime := k.prime
-  haveI : Fact k.q.Prime := ⟨hp⟩
+  have : Fact k.q.Prime := ⟨hp⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.q ↥H
   let K : Subgroup G := K₀.map H.subtype
   have hKcard : Nat.card K = Nat.card ↥K₀ :=

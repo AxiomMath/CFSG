@@ -31,8 +31,8 @@ theorem nonempty_twistedA_of_isOmegaTwo_false_three {L : Type} [Group L] [Finite
   obtain ⟨eR⟩ :=
     nonempty_range_equiv_statedOmega
       (n := 3) ρ hcomm
-  haveI : CharP E 2 := CFSG.RankThree.PartOne.KCOrthogonal.charP_two_of_algebra (K := ZMod 2)
-  haveI := D.finite_E
+  have : CharP E 2 := CFSG.RankThree.PartOne.KCOrthogonal.charP_two_of_algebra (K := ZMod 2)
+  have := D.finite_E
   obtain ⟨f, hU, hK, hbar⟩ := D.exists_unitaryFieldData
   have hf : f = 1 := by
     rw [Nat.card_zmod] at hK
@@ -45,8 +45,8 @@ theorem nonempty_twistedA_of_isOmegaTwo_false_three {L : Type} [Group L] [Finite
   obtain ⟨-, K₀, _, _, hK₀, ⟨e₀⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 3 twoPP valid_twistedA_three_two
       (MulEquiv.refl _)
-  haveI : Fintype K₀ := Fintype.ofFinite _
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype K₀ := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite E
   have hKK : Fintype.card E = Fintype.card K₀ := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact hF.trans hK₀.symm

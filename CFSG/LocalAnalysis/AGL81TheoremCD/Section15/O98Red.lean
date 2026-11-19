@@ -90,7 +90,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem exists_elemAbelian_nine {Q : Subgroup G} (hQ : IsPGroup 3 Q)
     (hQc : ¬ IsCyclic ↥Q) : ∃ E : Subgroup G, E ≤ Q ∧ IsElemAbelian 3 E ∧ Nat.card E = 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨B, hB, hBcard⟩ := CFSG.GroupTheory.SteinbergBK.odd_noncyclic_pgroup_rank_two
     (p := 3) (by decide : Odd 3) hQ hQc
   refine ⟨B.map Q.subtype, Subgroup.map_subtype_le B, ?_, ?_⟩
@@ -130,7 +130,7 @@ private theorem centralizer_singleton_ne_top (hC : CStarGen G) {x : G}
       rw [htop]
       exact Subgroup.mem_top g
     exact Subgroup.mem_centralizer_singleton_iff.mp hg
-  haveI : IsSimpleGroup G := hC.simple
+  have : IsSimpleGroup G := hC.simple
   have hcentne : Subgroup.center G ≠ ⊥ := by
     intro hbot
     rw [hbot] at hxcent
@@ -283,7 +283,7 @@ theorem o98_red {G : Type} [Group G] [Finite G] (hC : CStarGen G) {M : Subgroup 
         Subgroup.centralizer ((AGL81C.starImg 3 H L : Subgroup _) : Set
           (AGL81C.StarGroup 3 H)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3A : 3 ∉ rankThreeSigmaA G := three_not_mem_sigmaA h3 hQM hQ hQc
   have h3M : CFSG.Open.pRank 3 M ≤ 3 :=
     hC.pRank_le_three_of_not_mem_sigmaSet hM Nat.prime_three (by norm_num)

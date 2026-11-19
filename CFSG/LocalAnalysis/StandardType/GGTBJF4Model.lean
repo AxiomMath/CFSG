@@ -26,8 +26,8 @@ theorem ggTBJ_f4_stdModel
       GGTBJF4Std p ζ ψ σ ∧ ∀ f, ((Θ f : ↥A) : MulAut L') = MulAut.conj (σ f) := by
   classical
   obtain ⟨hψ0, hker0, hperf0, hAe0, hAI0, hr0, h3_0, -⟩ := hA
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hZ : Subgroup.center ↥(adjointGroup Tag.F4 K) = ⊥ :=
     CFSG.LieType.Chevalley.center_adjointGroup_eq_bot (τ := .F4) (K := K)
   have hG : GGTorusWeylGenElt p 4 ↥(adjointGroup Tag.F4 K) :=

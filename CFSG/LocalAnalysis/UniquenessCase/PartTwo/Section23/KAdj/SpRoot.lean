@@ -34,7 +34,7 @@ theorem longRootSp2_le_lineStab {K : Type} [Field K] (m : ℕ) :
   refine ⟨1, ?_⟩
   rw [one_smul]
   exact mulVec_eq_self_of_isSupp hx' (fun t ht => by
-    rcases mem_coords.mp ht with rfl | rfl <;> simp [Pi.single_apply])
+    rcases mem_coords.mp ht with rfl | rfl <;> simp)
 
 theorem commutator_longRootSp2 {K : Type} [Field K] [Finite K] (hK : 4 ≤ Nat.card K) (m : ℕ) :
     ⁅longRootSp2 K (m + 2) 1, longRootSp2 K (m + 2) 1⁆ = longRootSp2 K (m + 2) 1 := by
@@ -45,19 +45,19 @@ theorem commutator_longRootSp2 {K : Type} [Field K] [Finite K] (hK : 4 ≤ Nat.c
 theorem not_isPGroup_longRootSp2 {K : Type} [Field K] [Finite K] (hK : 4 ≤ Nat.card K) (m : ℕ) :
     ¬ IsPGroup 2 ↥(longRootSp2 K (m + 2) 1) := by
   intro hp
-  haveI : Group.IsNilpotent ↥(longRootSp2 K (m + 2) 1) := hp.isNilpotent
+  have : Group.IsNilpotent ↥(longRootSp2 K (m + 2) 1) := hp.isNilpotent
   have hq := CFSG.AGLEmbedding.LeviBlock.isQuasisimple_SL_of_four_le (K := K) hK (m := 2) le_rfl
-  haveI hqs : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K ⧸
+  have hqs : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) K ⧸
       Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) K)) := hq.2
-  haveI : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) K) :=
+  have : Nontrivial (Matrix.SpecialLinearGroup (Fin 2) K) :=
     (QuotientGroup.mk_surjective
       (s := Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) K))).nontrivial
   let e := MonoidHom.ofInjective (longBlock_injective (K := K) (n := m + 2) 1)
-  haveI : Nontrivial ↥(longRootSp2 K (m + 2) 1) := e.injective.nontrivial
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K) := Group.isPerfect_def.mpr hq.1
-  haveI : Group.IsPerfect ↥(longRootSp2 K (m + 2) 1) :=
+  have : Nontrivial ↥(longRootSp2 K (m + 2) 1) := e.injective.nontrivial
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K) := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect ↥(longRootSp2 K (m + 2) 1) :=
     Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
-  exact (IsSolvable.commutator_lt_top_of_nontrivial
+  exact (Group.IsSolvable.commutator_lt_top_of_nontrivial
     ↥(longRootSp2 K (m + 2) 1)).ne (Group.isPerfect_def.mp inferInstance)
 
 theorem isQuasisimple_bar2_hinf_lineStab_sp {K : Type} [Field K] [Finite K] [CharP K 2]

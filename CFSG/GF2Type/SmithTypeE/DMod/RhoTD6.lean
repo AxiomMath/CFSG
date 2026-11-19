@@ -93,7 +93,7 @@ theorem fModel_rhoMod (g : TD6) (v w : V) : fModel (rhoMod g v) (rhoMod g w) = f
   simpa using this
 
 theorem rhoMod_injective : Function.Injective (rhoMod : TD6 →* (V ≃ₗ[ZMod 2] V)) := by
-  haveI := isSimpleGroup_TD6
+  have := isSimpleGroup_TD6
   rw [← MonoidHom.ker_eq_bot_iff]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal rhoMod.ker with h | h
   · exact h

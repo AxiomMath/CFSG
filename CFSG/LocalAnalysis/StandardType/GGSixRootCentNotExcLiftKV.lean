@@ -69,10 +69,12 @@ private noncomputable abbrev ggRCSKVt (V E K : Subgroup X)
   ((K ⊓ V).subgroupOf (E ⊔ K)).map
     (QuotientGroup.mk' ((ggRCSU V E K).subgroupOf (E ⊔ K)))
 
+omit [Finite X] in
 private theorem ggRCSKVt_le_tt : ggRCSKVt (V := V) (E := E) (K := K) ≤ ggRCSTt V E K := by
   unfold ggRCSKVt ggRCSTt
   exact Subgroup.map_mono (Subgroup.subgroupOf_mono _ le_sup_right)
 
+omit [Finite X] [((ggRCSU V E K).subgroupOf (E ⊔ K)).Normal] in
 private theorem ggRCS_sup_normalizes_inf (hEV : E ≤ V)
     (hEK : E ≤ Subgroup.normalizer (K : Set X)) :
     E ⊔ (K ⊓ V) ≤ Subgroup.normalizer ((K ⊓ V : Subgroup X) : Set X) := by
@@ -87,6 +89,7 @@ private theorem ggRCS_sup_normalizes_inf (hEV : E ≤ V)
       ((Subgroup.mem_normalizer_iff.mp (hVnorm he) x))
   exact sup_le hE Subgroup.le_normalizer
 
+omit [Finite X] in
 private theorem ggRCSKVt_normal (hEV : E ≤ V) (hEK : E ≤ Subgroup.normalizer (K : Set X)) :
     ((ggRCSKVt (V := V) (E := E) (K := K)).subgroupOf (ggRCSTt V E K)).Normal := by
   classical
@@ -114,8 +117,9 @@ section KVQuot
 variable {X : Type} [Group X] [Finite X] {V E K : Subgroup X}
   [((ggRCSU V E K).subgroupOf (E ⊔ K)).Normal]
 
-private theorem ggRCSKVt_quot_solvable (hEs : Group.IsSolvable ↥E) (hEV : E ≤ V)
-    (hEK : E ≤ Subgroup.normalizer (K : Set X))
+omit [Finite X] in
+private theorem ggRCSKVt_quot_solvable (hEs : Group.IsSolvable ↥E) (_hEV : E ≤ V)
+    (_hEK : E ≤ Subgroup.normalizer (K : Set X))
     [hN : ((ggRCSKVt V E K).subgroupOf (ggRCSTt V E K)).Normal] :
     Group.IsSolvable (↥(ggRCSTt V E K) ⧸
       (ggRCSKVt V E K).subgroupOf (ggRCSTt V E K)) := by
@@ -152,15 +156,17 @@ private theorem ggRCSKVt_quot_solvable (hEs : Group.IsSolvable ↥E) (hEV : E �
       Subgroup.subgroupOf_self]
   exact isSolvable_quotient_of_le_range_sup htop
 
+omit [Finite X] in
 private theorem ggRCS_perfect_le_kv (hEs : Group.IsSolvable ↥E) (hEV : E ≤ V)
     (hEK : E ≤ Subgroup.normalizer (K : Set X))
     {P : Subgroup (↥(E ⊔ K) ⧸ (ggRCSU V E K).subgroupOf (E ⊔ K))}
     (hPT : P ≤ ggRCSTt V E K) (hP : ⁅P, P⁆ = P) : P ≤ ggRCSKVt V E K := by
-  haveI hN : ((ggRCSKVt V E K).subgroupOf (ggRCSTt V E K)).Normal :=
+  have hN : ((ggRCSKVt V E K).subgroupOf (ggRCSTt V E K)).Normal :=
     ggRCSKVt_normal hEV hEK
   exact CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.perfect_le_of_solvable_quotient
     ggRCSKVt_le_tt (ggRCSKVt_quot_solvable hEs hEV hEK) hPT hP
 
+omit [Finite X] in
 private theorem ggRCS_hk_component_le_kv (hEs : Group.IsSolvable ↥E) (hEV : E ≤ V)
     (hEK : E ≤ Subgroup.normalizer (K : Set X))
     {C : Subgroup ↥(ggRCSHK V E K)} (hC : CFSG.Open.IsComponentOf C ⊤) :
@@ -175,6 +181,7 @@ private theorem ggRCS_hk_component_le_kv (hEs : Group.IsSolvable ↥E) (hEV : E 
     exact Subgroup.isPerfect_iff.mp ⟨hC.2.2.1⟩
   exact ggRCS_perfect_le_kv hEs hEV hEK hLT hLperf
 
+omit [Finite X] in
 private theorem ggRCS_component_of_kv (hEs : Group.IsSolvable ↥E) (hEV : E ≤ V)
     (hEK : E ≤ Subgroup.normalizer (K : Set X))
     {C : Subgroup ↥(ggRCSHK V E K)} (hC : CFSG.Open.IsComponentOf C ⊤) :
@@ -207,7 +214,7 @@ private theorem ggRCS_component_of_kv (hEs : Group.IsSolvable ↥E) (hEV : E ≤
   have hLleHK : L ≤ ggRCSHK V E K := by
     rintro y ⟨c, hc, rfl⟩; exact c.2
   let Wbar := ↥(E ⊔ K) ⧸ (ggRCSU V E K).subgroupOf (E ⊔ K)
-  haveI hFnorm : (CFSG.generalizedFitting Wbar).Normal :=
+  have hFnorm : (CFSG.generalizedFitting Wbar).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := Wbar)).2
   have hHKinf : ggRCSHK V E K ⊓ ggRCSKVt V E K =
       CFSG.generalizedFitting Wbar ⊓ ggRCSKVt V E K := by
@@ -238,7 +245,7 @@ private theorem ggRCS_component_of_kv (hEs : Group.IsSolvable ↥E) (hEV : E ≤
       (ggRCSHK V E K).subtype_injective
   let eL : ↥L ≃* ↥L' := (Subgroup.subgroupOfEquivOfLe hle).symm
   let e : ↥C ≃* ↥L' := eC.trans eL
-  haveI : Group.IsPerfect ↥C := ⟨hC.2.2.1⟩
+  have : Group.IsPerfect ↥C := ⟨hC.2.2.1⟩
   have hker : e.toMonoidHom.ker ≤ Subgroup.center ↥C := by
     intro x hx
     have hx1 : x = 1 := e.injective (by simpa using hx)
@@ -261,6 +268,7 @@ private noncomputable def ggRCSphi (V E K : Subgroup X)
     ((K ⊓ V).subgroupOf (E ⊔ K)).subtype).codRestrict
       (ggRCSKVt V E K) (fun a => Subgroup.mem_map_of_mem _ a.2)
 
+omit [Finite X] in
 private theorem ggRCSphi_surjective (V E K : Subgroup X)
     [((ggRCSU V E K).subgroupOf (E ⊔ K)).Normal] :
     Function.Surjective (ggRCSphi V E K) := by
@@ -268,6 +276,7 @@ private theorem ggRCSphi_surjective (V E K : Subgroup X)
   obtain ⟨a, ha, rfl⟩ := Subgroup.mem_map.mp hy
   exact ⟨⟨a, ha⟩, Subtype.ext rfl⟩
 
+omit [Finite X] in
 private theorem ggRCSphi_ker_le_center (V E K : Subgroup X)
     [((ggRCSU V E K).subgroupOf (E ⊔ K)).Normal] :
     (ggRCSphi V E K).ker ≤ Subgroup.center ↥((K ⊓ V).subgroupOf (E ⊔ K)) := by
@@ -302,7 +311,7 @@ theorem ggRCS_hk_componentInj_kv (hEs : Group.IsSolvable ↥E) (hEV : E ≤ V)
       ∀ C, CFSG.Open.IsComponentOf C ⊤ → CFSG.Open.IsComponentOf (F C) ⊤ ∧
         Nonempty (↥(F C) ⧸ Subgroup.center ↥(F C) ≃* ↥C ⧸ Subgroup.center ↥C) := by
   classical
-  haveI hN : ((ggRCSKVt V E K).subgroupOf (ggRCSTt V E K)).Normal :=
+  have hN : ((ggRCSKVt V E K).subgroupOf (ggRCSTt V E K)).Normal :=
     ggRCSKVt_normal hEV hEK
   let e : ↥((K ⊓ V).subgroupOf (E ⊔ K)) ≃* ↥(K ⊓ V) :=
     Subgroup.subgroupOfEquivOfLe (inf_le_left.trans le_sup_right)
@@ -354,7 +363,7 @@ theorem ggRCS_hk_componentInj_kv (hEs : Group.IsSolvable ↥E) (hEV : E ≤ V)
     obtain ⟨iso₂⟩ := hLift.2.2
     let eD : ↥(D C) ≃* ↥(F C) :=
       (D C).equivMapOfInjective e.toMonoidHom e.injective
-    haveI : Group.IsPerfect ↥(F C) := ⟨hDF.2.2.1⟩
+    have : Group.IsPerfect ↥(F C) := ⟨hDF.2.2.1⟩
     have hkerD : eD.symm.toMonoidHom.ker ≤ Subgroup.center ↥(F C) := by
       intro x hx
       have hx1 : x = 1 := eD.symm.injective (by simpa using hx)
@@ -372,7 +381,7 @@ theorem ggRCS_hk_component_lift (hEs : Group.IsSolvable ↥E) (hEV : E ≤ V)
           (QuotientGroup.mk' ((ggRCSU V E K).subgroupOf (E ⊔ K))) =
         C.map (ggRCSHK V E K).subtype := by
   classical
-  haveI hN : ((ggRCSKVt V E K).subgroupOf (ggRCSTt V E K)).Normal :=
+  have hN : ((ggRCSKVt V E K).subgroupOf (ggRCSTt V E K)).Normal :=
     ggRCSKVt_normal hEV hEK
   let A := ↥((K ⊓ V).subgroupOf (E ⊔ K))
   let incl : A →* ↥(E ⊔ K) := ((K ⊓ V).subgroupOf (E ⊔ K)).subtype

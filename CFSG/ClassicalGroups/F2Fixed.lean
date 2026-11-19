@@ -48,7 +48,7 @@ theorem card_fixedSub_conj (S : Set G) (g : G) :
   intro s hs
   have := m.2 (g * s * g⁻¹) ⟨s, hs, rfl⟩
   calc s • g⁻¹ • (m : M) = g⁻¹ • (g * s * g⁻¹) • (m : M) := by
-        simp only [mul_smul, smul_inv_smul, inv_smul_smul]
+        simp only [mul_smul, inv_smul_smul]
     _ = g⁻¹ • (m : M) := by rw [this]
 
 end Fixed
@@ -187,7 +187,7 @@ theorem fixedSub_mul_eq_bot (h2 : ∀ m : M, m + m = 0) {x y : G} (hx : x * x = 
 
 theorem dvd_card_sub_one_of_fixedSub_eq_bot [Finite M] {w : G} {r : ℕ} (hr : r.Prime)
     (hw : w ^ r = 1) (h : fixedSub M {w} = ⊥) : r ∣ Nat.card M - 1 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hP : IsPGroup r (Subgroup.zpowers w) := by
     intro g
     obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.mp g.2
@@ -357,7 +357,7 @@ theorem isCompl_fixedSub_conj {S T : Set G} (g : G)
     · intro hm s hs
       have := hm (g * s * g⁻¹) ⟨s, hs, rfl⟩
       calc s • g⁻¹ • m = g⁻¹ • (g * s * g⁻¹) • m := by
-            simp only [mul_smul, smul_inv_smul, inv_smul_smul]
+            simp only [mul_smul, inv_smul_smul]
         _ = g⁻¹ • m := by rw [this]
     · intro hm _ ⟨s, hs, hsx⟩
       subst hsx

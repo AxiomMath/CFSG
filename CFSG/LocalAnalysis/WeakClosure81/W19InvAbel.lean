@@ -56,7 +56,7 @@ theorem inv_and_comm_of_fixedPointFree {R X : Subgroup Q} {a : Q}
   classical
   have hRX : R ≤ X ⊔ R := le_sup_right
   have hZn : X ⊔ R ≤ normalizer (R : Set Q) := sup_le hXR Subgroup.le_normalizer
-  haveI hnorm : (R.subgroupOf (X ⊔ R)).Normal :=
+  have hnorm : (R.subgroupOf (X ⊔ R)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hRX).2 hZn
   let c : ↥(X ⊔ R) →* ↥(X ⊔ R) :=
     { toFun := fun z => ⟨a * z * a⁻¹, (Subgroup.mem_normalizer_iff.1 haX z).1 z.2⟩

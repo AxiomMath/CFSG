@@ -72,7 +72,7 @@ private theorem exists_good_of_spFixedLayer
     have hcomm := Subgroup.mem_centralizer_singleton_iff.mp (hF.1 hg)
     rw [← hcomm]
     group
-  · haveI : Group.IsPerfect ↥(spFixedLayerImage x) := hF.2.1.1
+  · have : Group.IsPerfect ↥(spFixedLayerImage x) := hF.2.1.1
     exact Subgroup.commutator_eq_self
   · obtain ⟨u, huM, hu0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hV
     obtain ⟨y, hyA, hyu⟩ := D.exists_spEnd_ne_of_mem_spLineSpace huM hu0
@@ -166,8 +166,8 @@ theorem innGoodAt_statedProj_sp {p r ℓ f : ℕ} {K : Type} [Field K] [Finite K
     (h32 : ¬ (p = 3 ∧ ℓ ^ f = 2)) :
     InnGoodAt p d (StatedProj (StatedSp r K)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : NeZero r := ⟨by omega⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : NeZero r := ⟨by omega⟩
   have hr1 : 1 ≤ r := by omega
   have hinj := spConj_injective (r := r) (K := K) hℓ hf hK hr hne
   intro E hE hEcard hEle
@@ -210,7 +210,7 @@ theorem innGoodAt_statedProj_sp {p r ℓ f : ℕ} {K : Type} [Field K] [Finite K
 theorem lieInnGood_symplectic : LieInnGood isSymplecticIdx := by
   intro d p hp hp2 hpc h3 h5 hd
   obtain ⟨r, hr, hne, hcard, ⟨e⟩⟩ := exists_mulEquiv_statedProj_of_isSymplecticIdx hd
-  haveI : Finite ↥d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
+  have : Finite ↥d.fixedField := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField d
   have hℓ : d.characteristic.Prime := d.characteristic_prime
   have hf : 1 ≤ d.fieldExponent := d.fieldExponent_pos
   have hK : Nat.card ↥d.fixedField = d.characteristic ^ d.fieldExponent := by

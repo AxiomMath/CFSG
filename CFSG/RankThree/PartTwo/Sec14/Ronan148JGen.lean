@@ -71,7 +71,7 @@ theorem commutator_le_img148_deltaZero_of_point (h142 : Concl142S14) {A L : Subg
     have hkey : QuotientGroup.mk' (ker148 A Y) ⟨a * w * a⁻¹, Subgroup.mem_sup_left hawY⟩ =
         alpha148 A Y a ha * QuotientGroup.mk' (ker148 A Y) ⟨w, Subgroup.mem_sup_left hwY⟩ *
           (alpha148 A Y a ha)⁻¹ := by
-      rw [alpha148_eq_mk', ← map_inv, ← map_mul, ← map_mul] <;> rfl
+      rw [alpha148_eq_mk', ← map_inv, ← map_mul, ← map_mul]; rfl
     have hwV : QuotientGroup.mk' (ker148 A Y) ⟨w, Subgroup.mem_sup_left hwY⟩ ∈ V :=
       ((hWmem hwY).mp hw).1
     have hVconj :

@@ -102,7 +102,7 @@ private lemma ggQ2xCA_refl_map_H {m : ℕ} (c : GGBCV m) (hc : c ⬝ᵥ c ≠ 0)
     rwa [hs] at h1
 
 private noncomputable def ggQ2xCA_reflFun {m : ℕ} (c : ↥(ggQ2_AH_H m))
-    (hc : (c : GGBCV m) ⬝ᵥ (c : GGBCV m) ≠ 0) : Module.Dual (ZMod 3) ↥(ggQ2_AH_H m) :=
+    (_hc : (c : GGBCV m) ⬝ᵥ (c : GGBCV m) ≠ 0) : Module.Dual (ZMod 3) ↥(ggQ2_AH_H m) :=
   (2 / ((c : GGBCV m) ⬝ᵥ (c : GGBCV m))) • ggQ2xCA_dotBilin m c
 
 private lemma ggQ2xCA_reflFun_self {m : ℕ} (c : ↥(ggQ2_AH_H m))
@@ -121,7 +121,7 @@ private lemma ggQ2xCA_Rs_coe {m : ℕ} (c : ↥(ggQ2_AH_H m))
     (ggQ2xCA_Rs c hc v : GGBCV m) = ggBCRefl (c : GGBCV m) hc v := by
   rw [ggQ2xCA_Rs, Module.reflection_apply, ggQ2x_ggBCRefl_apply]
   funext j
-  simp only [LinearMap.smul_apply, ggQ2xCA_dotBilin_apply, Submodule.coe_sub,
+  simp only [Submodule.coe_sub,
     Submodule.coe_smul, Pi.sub_apply, Pi.add_apply, Pi.smul_apply, smul_eq_mul]
   exact ggQ2x_scalar_refl _ _ _ _ hc
 
@@ -203,7 +203,7 @@ private lemma ggQ2xCA_ggBCRefl_smul {m : ℕ} (a : ZMod 3) (ha : a ≠ 0) (c : G
     rw [show a * (c ⬝ᵥ v) * (c ⬝ᵥ c) * a = (c ⬝ᵥ v * (c ⬝ᵥ c)) * (a * a) from by ring]
     rw [(by decide : ∀ x : ZMod 3, x ≠ 0 → x * x = 1) a ha, mul_one]]
 
-private lemma ggQ2xCA_refl_smul_eq {m : ℕ} (i j : Fin m) (hij : i ≠ j) (a : ZMod 3) (ha : a ≠ 0)
+private lemma ggQ2xCA_refl_smul_eq {m : ℕ} (i j : Fin m) (_hij : i ≠ j) (a : ZMod 3) (ha : a ≠ 0)
     (c d : ↥(ggQ2_AH_H m)) (hc : (c : GGBCV m) = a • (Pi.single i 1 - Pi.single j 1))
     (hd : (d : GGBCV m) = Pi.single i 1 - Pi.single j 1)
     (hcc : (c : GGBCV m) ⬝ᵥ (c : GGBCV m) ≠ 0)
@@ -289,7 +289,7 @@ private lemma ggQ2xCA_perm_single {m : ℕ} (σ : Equiv.Perm (Fin m)) (i : Fin m
       Pi.single_eq_of_ne (M := fun _ => ZMod 3)
         (fun hc => h (by rw [← hc, Equiv.apply_symm_apply]))]
 
-private lemma ggQ2xCA_sub_single_inj {m : ℕ} {a b c d : Fin m} (hab : a ≠ b) (hcd : c ≠ d)
+private lemma ggQ2xCA_sub_single_inj {m : ℕ} {a b c d : Fin m} (hab : a ≠ b) (_hcd : c ≠ d)
     (h : (Pi.single a (1 : ZMod 3) - Pi.single b (1 : ZMod 3) : GGBCV m) =
       (Pi.single c (1 : ZMod 3) - Pi.single d (1 : ZMod 3) : GGBCV m)) :
     a = c ∧ b = d := by
@@ -298,7 +298,7 @@ private lemma ggQ2xCA_sub_single_inj {m : ℕ} {a b c d : Fin m} (hab : a ≠ b)
   rw [h] at h1
   have hca : a = c := by
     by_contra hne
-    rw [Pi.sub_apply, Pi.single_apply, Pi.single_apply, if_neg hne] at h1
+    rw [Pi.sub_apply, Pi.single_apply, Pi.single_apply, ite_eq_right hne] at h1
     split_ifs at h1
     · exact (by decide : ¬ ((0 : ZMod 3) - 1 = 1)) h1
     · exact (by decide : ¬ ((0 : ZMod 3) - 0 = 1)) h1
@@ -311,12 +311,12 @@ private lemma ggQ2xCA_sub_single_inj {m : ℕ} {a b c d : Fin m} (hab : a ≠ b)
   · exact hbd
   · exfalso
     have hbc : ¬ b = c := fun hbc => hab (hbc.trans hca.symm).symm
-    rw [Pi.sub_apply, Pi.single_apply, Pi.single_apply, if_neg hbc, if_neg hbd] at h2
+    rw [Pi.sub_apply, Pi.single_apply, Pi.single_apply, ite_eq_right hbc, ite_eq_right hbd] at h2
     exact (by decide : ¬ ((0 : ZMod 3) - 0 = -1)) h2
 
 private lemma ggQ2xCA_permHom_injective (m : ℕ) (hm : 2 ≤ m) :
     Function.Injective (ggQ2xCA_permHom m) := by
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   intro σ τ h
   have h1 : ggQ2xCA_permH m (σ * τ⁻¹) = 1 := by
     change (ggQ2xCA_permHom m) (σ * τ⁻¹) = 1
@@ -417,7 +417,7 @@ private lemma ggQ2xCA_root_zero_of_ne {n : ℕ} (i : Fin n) (hi : (i : ℕ) ≠ 
     intro hh
     have := congrArg Fin.val hh
     simp at this
-  rw [if_neg h1, if_neg h2, sub_zero]
+  rw [ite_eq_right h1, ite_eq_right h2, sub_zero]
 
 private lemma ggQ2xCA_root_zero_self {n : ℕ} (hn : 1 ≤ n) :
     (ggQ2_AH_root n ⟨0, hn⟩ : GGBCV (n + 1)) 0 = 1 := by
@@ -428,7 +428,7 @@ private lemma ggQ2xCA_root_zero_self {n : ℕ} (hn : 1 ≤ n) :
     intro hh
     have := congrArg Fin.val hh
     simp at this
-  rw [if_pos h1, if_neg h2, sub_zero]
+  rw [ite_eq_left h1, ite_eq_right h2, sub_zero]
 
 private lemma ggQ2xCA_coeff_zero (D : GGQ2Lin 3) (hsym : ∀ i j, D.cartan i j = D.cartan j i)
     {n : ℕ} (hn : 1 ≤ n) (e : Fin n ≃ D.ι)
@@ -439,8 +439,8 @@ private lemma ggQ2xCA_coeff_zero (D : GGQ2Lin 3) (hsym : ∀ i j, D.cartan i j =
     (hx0 : ∀ i : Fin n, i ≠ ⟨0, hn⟩ → D.root (e i) x = 0) :
     z' x = (z : GGBCV (n + 1)) 0 * (D.root (e ⟨0, hn⟩)) x := by
   classical
-  haveI : Nonempty D.ι := ⟨D.a⟩
-  haveI : Nonempty (D.dual hsym).ι := ⟨D.a⟩
+  have : Nonempty D.ι := ⟨D.a⟩
+  have : Nonempty (D.dual hsym).ι := ⟨D.a⟩
   let b : Basis D.ι (ZMod 3) (Module.Dual (ZMod 3) D.V) :=
     basisOfLinearIndependentOfCardEqFinrank (ι := D.ι) (b := D.root) hbas'.1 hbas'.2
   have hb : ⇑b = D.root := coe_basisOfLinearIndependentOfCardEqFinrank hbas'.1 hbas'.2
@@ -537,7 +537,7 @@ private lemma ggQ2xCA_root_norm_ne {n : ℕ} (i : Fin n) :
   decide
 
 private lemma ggQ2xCA_linConj_simpleRefl (D : GGQ2Lin 3)
-    (hsym : ∀ i j, D.cartan i j = D.cartan j i) {n : ℕ} (hn : 1 ≤ n) (e : Fin n ≃ D.ι)
+    (hsym : ∀ i j, D.cartan i j = D.cartan j i) {n : ℕ} (_hn : 1 ≤ n) (e : Fin n ≃ D.ι)
     (τ : (D.dual hsym).V ≃ₗ[ZMod 3] ↥(ggQ2_AH_H (n + 1)))
     (hcor : ∀ i, τ ((D.dual hsym).coroot (e i)) =
       ⟨ggQ2_AH_root n i, ggQ2_AH_root_mem n i⟩)
@@ -547,7 +547,7 @@ private lemma ggQ2xCA_linConj_simpleRefl (D : GGQ2Lin 3)
     ggLinConj τ ((D.dual hsym).simpleRefl (e i)) =
       ggQ2xCA_permH (n + 1) (Equiv.swap i.castSucc i.succ) := by
   have hcc : (ggQ2_AH_root n i : GGBCV (n + 1)) ⬝ᵥ (ggQ2_AH_root n i : GGBCV (n + 1)) = 2 := by
-    rw [ggQ2_AH_dot_root_root n i i, if_pos rfl]
+    rw [ggQ2_AH_dot_root_root n i i, ite_eq_left rfl]
   have hfun : ((D.dual hsym).root (e i)).comp
       (τ.symm : ↥(ggQ2_AH_H (n + 1)) ≃ₗ[ZMod 3] (D.dual hsym).V).toLinearMap =
       (2 / ((ggQ2_AH_root n i : GGBCV (n + 1)) ⬝ᵥ (ggQ2_AH_root n i : GGBCV (n + 1)))) •
@@ -719,8 +719,7 @@ private lemma ggQ2xCA_lam1_refl_mem_K {n : ℕ} (c : ↥(ggQ2_AH_H (n + 1)))
     have hi0 : i ≠ 0 := fun hi => hij (hi.trans h0.symm)
     rw [h0] at hρ0
     simp only [Pi.smul_apply, smul_eq_mul, Pi.sub_apply, Pi.single_eq_same,
-      Pi.single_eq_of_ne (M := fun _ => ZMod 3) (Ne.symm hi0), sub_zero, mul_neg,
-      mul_one] at hρ0
+      Pi.single_eq_of_ne (M := fun _ => ZMod 3) (Ne.symm hi0)] at hρ0
     exact ha ((mul_eq_zero.mp hρ0).resolve_right (by decide : (0 : ZMod 3) - 1 ≠ 0))
   have hd : (Pi.single i (1 : ZMod 3) - Pi.single j (1 : ZMod 3) : GGBCV (n + 1)) ⬝ᵥ
       (Pi.single i (1 : ZMod 3) - Pi.single j (1 : ZMod 3) : GGBCV (n + 1)) ≠ 0 := by
@@ -851,7 +850,7 @@ private lemma ggQ2xCA_contra_fixes (D : GGQ2Lin 3)
     (hbas' : (D.dual hsym).Basis)
     (τ : Module.Dual (ZMod 3) D.V ≃ₗ[ZMod 3] ↥(ggQ2_AH_H (n + 1)))
     (hcor : ∀ i, τ (D.root (e i)) = ⟨ggQ2_AH_root n i, ggQ2_AH_root_mem n i⟩)
-    (hroot : ∀ i (v : Module.Dual (ZMod 3) D.V), v (D.coroot (e i)) =
+    (_hroot : ∀ i (v : Module.Dual (ZMod 3) D.V), v (D.coroot (e i)) =
       ∑ j : Fin (n + 1), ggQ2_AH_root n i j * (τ v : GGBCV (n + 1)) j)
     (z : ↥(ggQ2_AH_H (n + 1))) (hz : z.1 ⬝ᵥ z.1 ≠ 0)
     (g : D.V ≃ₗ[ZMod 3] D.V)
@@ -953,7 +952,7 @@ private lemma ggQ2xCA_Z_HL (D : GGQ2Lin 3)
     (hcor : ∀ i, τ (D.root (e i)) = ⟨ggQ2_AH_root n i, ggQ2_AH_root_mem n i⟩)
     (hroot : ∀ i (v : Module.Dual (ZMod 3) D.V), v (D.coroot (e i)) =
       ∑ j : Fin (n + 1), ggQ2_AH_root n i j * (τ v : GGBCV (n + 1)) j)
-    (A : Subgroup (D.V ≃ₗ[ZMod 3] D.V)) (hW : D.weyl ≤ A) (x : D.V)
+    (A : Subgroup (D.V ≃ₗ[ZMod 3] D.V)) (_hW : D.weyl ≤ A) (x : D.V)
     (hx0 : ∀ i : Fin n, i ≠ ⟨0, hn⟩ → D.root (e i) x = 0)
     (hHL : ∀ φ ∈ A, φ x ∈ Submodule.span (ZMod 3) {x} →
       φ ∈ Subgroup.normalizer (D.parab {k | k ≠ D.a} : Set (D.V ≃ₗ[ZMod 3] D.V)))
@@ -1041,7 +1040,7 @@ private lemma ggQ2xCA_dual_basis (D : GGQ2Lin 3)
     (hHL : ∀ φ ∈ A, φ x ∈ Submodule.span (ZMod 3) {x} →
       φ ∈ Subgroup.normalizer (D.parab {k | k ≠ D.a} : Set (D.V ≃ₗ[ZMod 3] D.V))) :
     (D.dual hsym).Basis := by
-  haveI : FiniteDimensional (ZMod 3) D.V :=
+  have : FiniteDimensional (ZMod 3) D.V :=
     FiniteDimensional.of_finrank_pos (by
       rw [← hII.1]
       exact Fintype.card_pos_iff.mpr ⟨D.a⟩)
@@ -1077,8 +1076,8 @@ private lemma ggQ2xCA_inner_phi (n : ℕ) (hn : 5 ≤ n) :
 private lemma ggQ2xCA_Z_eq_roots (D : GGQ2Lin 3)
     (hsym : ∀ i j, D.cartan i j = D.cartan j i) {n : ℕ} (hn : 5 ≤ n)
     (h3 : (n + 1) % 3 = 0) (e : Fin n ≃ D.ι)
-    (hA : D.coxeter = (CoxeterMatrix.A n).reindex e)
-    (ha0 : D.a = e ⟨0, by omega⟩)
+    (_hA : D.coxeter = (CoxeterMatrix.A n).reindex e)
+    (_ha0 : D.a = e ⟨0, by omega⟩)
     (τ : (D.dual hsym).V ≃ₗ[ZMod 3] ↥(ggQ2_AH_H (n + 1)))
     (hcor : ∀ i, τ ((D.dual hsym).coroot (e i)) =
       ⟨ggQ2_AH_root n i, ggQ2_AH_root_mem n i⟩)
@@ -1093,7 +1092,7 @@ private lemma ggQ2xCA_Z_eq_roots (D : GGQ2Lin 3)
     (hZHL : ∀ z ∈ ggQ2xCA_Z A'', z 0 = 0 → ∀ ρ ∈ ggARootsLam1 (n + 1),
       ∀ hz : z ⬝ᵥ z ≠ 0, ggBCRefl z hz ρ ∈ ggARootsLam1 (n + 1)) :
     ggQ2xCA_Z A'' = ggARoots (n + 1) := by
-  haveI : NeZero (n + 1) := ⟨by omega⟩
+  have : NeZero (n + 1) := ⟨by omega⟩
   have hW'' : (ggLinConj τ) '' (D.dual hsym).weyl ⊆ (A'' : Set _) := by
     rw [hA'']
     rintro _ ⟨w, hw, rfl⟩
@@ -1257,7 +1256,7 @@ private theorem ggQ2xCA_main (D : GGQ2Lin 3) (hsym : ∀ i j, D.cartan i j = D.c
     ∀ a ∈ A.map ggContra, ∃ g ∈ (D.dual hsym).weyl,
       (∀ f, a f = g f) ∨ (∀ f, a f = -(g f)) := by
   have h4 : 4 ≤ Fintype.card D.ι := ggQ2xCA_h4 D hm e
-  haveI : FiniteDimensional (ZMod 3) D.V :=
+  have : FiniteDimensional (ZMod 3) D.V :=
     FiniteDimensional.of_finrank_pos (by
       rw [← hII.1]
       exact Fintype.card_pos_iff.mpr ⟨D.a⟩)
@@ -1268,7 +1267,7 @@ private theorem ggQ2xCA_main (D : GGQ2Lin 3) (hsym : ∀ i j, D.cartan i j = D.c
     intro i hi
     have hmem : D.simpleRefl (e i) ∈ D.parab {k | k ≠ D.a} := by
       refine Subgroup.subset_closure ⟨e i, ?_, rfl⟩
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       rw [ha0]
       exact fun h => hi (e.injective h)
     have hfix : D.simpleRefl (e i) x = x :=

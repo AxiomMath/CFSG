@@ -17,7 +17,7 @@ theorem exists_lift_heisenberg_inverting {H Γ : Type*} [Group H] [Finite H] [Gr
     ∃ x y g : H, x ^ 3 = 1 ∧ Commute ⁅x, y⁆ x ∧ Commute ⁅x, y⁆ y ∧ π ⁅x, y⁆ ≠ 1 ∧
       g * ⁅x, y⁆ * g⁻¹ = ⁅x, y⁆⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P : Subgroup Γ := Subgroup.closure ({a, b} : Set Γ) with hPdef
   set M : Subgroup H := P.comap π with hM
   set f : M →* P := π.subgroupComap P with hf
@@ -97,7 +97,7 @@ theorem exists_lift_heisenberg_inverting {H Γ : Type*} [Group H] [Finite H] [Gr
     intro u huK huz
     exact hker u (Subgroup.zpowers_le.mpr hzQ huz) huK
   have hcardT : Nat.card T = 3 * Nat.card K := by
-    haveI : K.Normal := by rw [hK]; infer_instance
+    have : K.Normal := by rw [hK]; infer_instance
     have h1 : K.relIndex T = K.relIndex (Subgroup.zpowers z) :=
       Subgroup.relIndex_sup_right (Subgroup.zpowers z) K
     have h2 : K.relIndex (Subgroup.zpowers z) = 3 := by

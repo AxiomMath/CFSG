@@ -83,10 +83,10 @@ theorem exists_type1_lift {n : ℕ} (hn : 1 ≤ n) (hF : Nat.card F = 2 ^ (3 * n
     exfalso
     set T₀ : GL (Fin 3) F := ⟨!![1, 0, 0; 0, 1, 1; 0, 0, 1], !![1, 0, 0; 0, 1, 1; 0, 0, 1], by
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three, h2]
+      fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three]
       linear_combination h2, by
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three, h2]
+      fin_cases i <;> fin_cases j <;> simp [mul_apply, Fin.sum_univ_three]
       linear_combination h2⟩ with hT₀
     have hT₀T₀ : T₀ * T₀ = 1 := by
       apply Units.ext
@@ -193,7 +193,7 @@ theorem exists_type1_lift {n : ℕ} (hn : 1 ≤ n) (hF : Nat.card F = 2 ^ (3 * n
       have e : (Y - 1) * (Y - τ • 1) * (Y - τ ^ 2 • 1) =
           Y * Y * Y - (1 + τ + τ ^ 2) • (Y * Y) + (τ * (1 + τ + τ ^ 2)) • Y - τ ^ 3 • 1 := by
         simp only [sub_mul, mul_sub, smul_mul_assoc, mul_smul_comm, Matrix.one_mul,
-          Matrix.mul_one, smul_smul]
+          Matrix.mul_one]
         module
       rw [e, hY3, hsum, hτ, zero_smul, mul_zero, zero_smul, sub_zero, add_zero, one_smul,
         sub_self]

@@ -123,7 +123,7 @@ theorem kleinA_ne_one (h2 : (2 : K) ≠ 0) : kleinA h ≠ 1 := by
   intro h1
   have := entry_eq_of_eq h1 1
   simp only [coe_kleinA, signMatA, diagonal_apply_eq, OneMemClass.coe_one, Units.val_one,
-    one_apply_eq, Matrix.cons_val_one, Matrix.head_cons, Matrix.cons_val_zero] at this
+    one_apply_eq, Matrix.cons_val_one, Matrix.cons_val_zero] at this
   exact h2 (by linear_combination -this)
 
 theorem kleinB_ne_one (h2 : (2 : K) ≠ 0) : kleinB h ≠ 1 := by

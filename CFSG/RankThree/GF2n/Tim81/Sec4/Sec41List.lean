@@ -284,7 +284,7 @@ theorem RootHyp.four_le_card_imgK (h : RootHyp M V) (hPH : Pc M V ≤ H)
     (hH : H = Pc M V ⊔ conjSubgroup h₀ (Pc M V)) (hnM : ¬ H ≤ M) :
     4 ≤ Nat.card (imgK V H (Pc M V)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT := isElemAbelian_imgK h hPH hVH
   have hTp : IsPGroup 2 ↥(imgK V H (Pc M V)) := CFSG.Open.IsElemAbelian.isPGroup hT
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := ↥(imgK V H (Pc M V)))).mp hTp
@@ -310,7 +310,7 @@ theorem RootHyp.not_normal_imgK (h : RootHyp M V) (hPH : Pc M V ≤ H)
     ¬ (imgK V H (Pc M V)).Normal := by
   classical
   intro hN
-  haveI : (imgK V H (Pc M V)).Normal := hN
+  have : (imgK V H (Pc M V)).Normal := hN
   obtain ⟨y, hyH, hPy, -, hHy⟩ := h.exists_mem_conj_eq_of_eq_sup hPH hH
   have hne := (imgK_ne_bot_and_ne_of_sup h hPH hH hnM).2
   have hconj : conjSubgroup (piK V H ⟨y, hyH⟩) (imgK V H (Pc M V)) =
@@ -370,12 +370,12 @@ theorem RootHyp.le_center_of_isNilpotent_normal (h : RootHyp M V) (hPH : Pc M V 
     (E : Subgroup (HBar V H)) [E.Normal] (hE : Group.IsNilpotent ↥E) :
     E ≤ Subgroup.center (HBar V H) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Y := HBar V H
   have hEY : E ≤ Subgroup.center Y := by
     refine (normal_nilpotent_le_sup_pCore (G := Y) (N := E) ‹E.Normal› hE).trans ?_
     refine iSup_le fun p => ?_
-    haveI : Fact (Nat.Prime p.1.1) := ⟨Nat.prime_of_mem_primeFactors p.1.2⟩
+    have : Fact (Nat.Prime p.1.1) := ⟨Nat.prime_of_mem_primeFactors p.1.2⟩
     by_cases hp2 : p.1.1 = 2
     · rw [hp2]
       simpa [Y] using pCore_HBar_le_center h hPH hVH hH
@@ -400,7 +400,7 @@ theorem RootHyp.le_center_of_isSolvable_normal (h : RootHyp M V) (hPH : Pc M V �
   let F : Subgroup Y := fittingSubgroupOf (G := Y) R
   have hF_normal : F.Normal := fittingSubgroupOf_normal R ‹R.Normal›
   have hF_nil : Group.IsNilpotent ↥F := fittingSubgroupOf_isNilpotent R
-  haveI : F.Normal := hF_normal
+  have : F.Normal := hF_normal
   have hF_center : F ≤ Subgroup.center Y :=
     le_center_of_isNilpotent_normal h hPH hVH hH hnM F hF_nil
   have hR_le_C : R ≤ Subgroup.centralizer (F : Set Y) := by
@@ -431,7 +431,7 @@ theorem RootHyp.not_isSolvable_HBar (h : RootHyp M V) (hPH : Pc M V ≤ H)
     le_center_of_isSolvable_normal h hPH hVH hH hnM ⊤ hsolv_top
   have hcenter : Subgroup.center (HBar V H) = ⊤ :=
     le_antisymm le_top htop_le
-  haveI : IsMulCommutative (HBar V H) := Subgroup.center_eq_top_iff.mp hcenter
+  have : IsMulCommutative (HBar V H) := Subgroup.center_eq_top_iff.mp hcenter
   exact not_normal_imgK h hPH hH hnM (Subgroup.normal_of_isMulCommutative _)
 
 private theorem isSolvable_comap_mk {G : Type} [Group G] {N : Subgroup G} [N.Normal]
@@ -449,13 +449,13 @@ private theorem isSolvable_comap_mk {G : Type} [Group G] {N : Subgroup G} [N.Nor
   have hZ₀_comm : IsMulCommutative ↥Z₀ := by
     refine ⟨⟨fun a b => Subtype.ext ?_⟩⟩
     exact (Subgroup.mem_center_iff.mp (hZ₀_center a.2) b).symm
-  haveI : IsMulCommutative ↥Z₀ := hZ₀_comm
+  have : IsMulCommutative ↥Z₀ := hZ₀_comm
 
-  haveI : IsMulCommutative ↥N := hNcomm
-  haveI : (N.subgroupOf Z₂).Normal :=
+  have : IsMulCommutative ↥N := hNcomm
+  have : (N.subgroupOf Z₂).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hN_le_Z₂).mpr
       (Subgroup.le_normalizer_of_normal (H := N))
-  haveI : IsMulCommutative ↥(N.subgroupOf Z₂) := inferInstance
+  have : IsMulCommutative ↥(N.subgroupOf Z₂) := inferInstance
   have hψ_surj : Function.Surjective
       (MonoidHom.codRestrict (π.comp Z₂.subtype) Z₀ (fun x => x.2)) := by
     intro z
@@ -477,8 +477,8 @@ private theorem isSolvable_comap_mk {G : Type} [Group G] {N : Subgroup G} [N.Nor
   have hquot_iso : (↥Z₂ ⧸ N.subgroupOf Z₂) ≃* ↥Z₀ :=
     (QuotientGroup.quotientMulEquivOfEq hψ_ker.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective _ hψ_surj)
-  haveI : Group.IsSolvable ↥(N.subgroupOf Z₂) := inferInstance
-  haveI : Group.IsSolvable (↥Z₂ ⧸ N.subgroupOf Z₂) :=
+  have : Group.IsSolvable ↥(N.subgroupOf Z₂) := inferInstance
+  have : Group.IsSolvable (↥Z₂ ⧸ N.subgroupOf Z₂) :=
     Group.isSolvable_of_surjective (f := hquot_iso.symm.toMonoidHom)
       hquot_iso.symm.surjective
   exact Group.isSolvable_of_subgroup_quotient (N.subgroupOf Z₂)
@@ -492,13 +492,13 @@ private theorem RootHyp.exists_listGroup_quot_of_covering (h : RootHyp M V) (hPH
       ∃ _ : Z.Normal, ListGroup (HBar V H ⧸ Z) := by
   classical
   obtain ⟨-, Z₀, hZ₀_center, hZ₀_normal, hList⟩ := hcov
-  haveI : Z₀.Normal := hZ₀_normal
+  have : Z₀.Normal := hZ₀_normal
   let π : HBar V H →* HBar V H ⧸ N := QuotientGroup.mk' N
   let Z₂ : Subgroup (HBar V H) := Z₀.comap π
   have hZ₂_normal : Z₂.Normal := by
     dsimp [Z₂]
     infer_instance
-  haveI : Z₂.Normal := hZ₂_normal
+  have : Z₂.Normal := hZ₂_normal
   have hN_le_Z₂ : N ≤ Z₂ := by
     intro n hn
     exact Subgroup.mem_comap.mpr (by
@@ -508,7 +508,7 @@ private theorem RootHyp.exists_listGroup_quot_of_covering (h : RootHyp M V) (hPH
   have hZ₀_comm : IsMulCommutative ↥Z₀ := by
     refine ⟨⟨fun a b => Subtype.ext ?_⟩⟩
     exact (Subgroup.mem_center_iff.mp (hZ₀_center a.2) b).symm
-  haveI : IsMulCommutative ↥Z₀ := hZ₀_comm
+  have : IsMulCommutative ↥Z₀ := hZ₀_comm
   have hZ₂_solv : Group.IsSolvable ↥(Z₀.comap (QuotientGroup.mk' N)) :=
     isSolvable_comap_mk hN.1 hZ₀_center
   have hZ₂_center : Z₂ ≤ Subgroup.center (HBar V H) :=
@@ -548,7 +548,7 @@ theorem RootHyp.exists_listGroup_quot (hA : TheoremAStmt) (h : RootHyp M V)
       exact Subgroup.topEquiv
     exact conclusionFor_of_mulEquiv e h1'
   obtain ⟨N, hN_normal, hN_elem, hcase⟩ := hconcl
-  haveI : N.Normal := hN_normal
+  have : N.Normal := hN_normal
   have hNp : IsPGroup 2 ↥N := CFSG.Open.IsElemAbelian.isPGroup hN_elem
   have hN_le_pCore : N ≤ CFSG.pCore 2 Y := by
     rw [CFSG.pCore_eq_iSup]

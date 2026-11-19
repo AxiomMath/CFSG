@@ -15,8 +15,8 @@ theorem s1614_ln_hyperplane (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2
     ∃ c : Fin 4 → K, c ≠ 0 ∧
       ∀ v : Fin 4 → K, Multiplicative.ofAdd v ∈ H ↔ dotProduct c v = 0 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (Multiplicative (Fin 4 → K)) :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (Multiplicative (Fin 4 → K)) :=
     Fintype.ofEquiv (Fin 4 → K) Multiplicative.ofAdd
   have hK' : Fintype.card K = 2 := by
     rw [← Nat.card_eq_fintype_card]
@@ -28,9 +28,9 @@ theorem s1614_ln_hyperplane (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2
     rcases eq_or_ne x 0 with hx | hx
     · exact Or.inl hx
     · exact Or.inr (by rw [hy x hx, hy1])
-  haveI : Nonempty ↥H := ⟨⟨1, H.one_mem⟩⟩
-  haveI : Fintype ↥H := Subtype.fintype (fun x => x ∈ H)
-  haveI : Finite ↥H := Finite.of_fintype ↥H
+  have : Nonempty ↥H := ⟨⟨1, H.one_mem⟩⟩
+  have : Fintype ↥H := Subtype.fintype (fun x => x ∈ H)
+  have : Finite ↥H := Finite.of_fintype ↥H
   have hcardH : Nat.card ↥H ≠ 0 := (Nat.card_pos (α := ↥H)).ne'
   have hmul : Nat.card ↥H * H.index = Nat.card ↥H * 2 := by
     calc Nat.card ↥H * H.index = Nat.card (Multiplicative (Fin 4 → K)) :=
@@ -67,7 +67,7 @@ theorem s1614_ln_hyperplane (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2
     intro i
     rcases hZ (b i) with h | h
     · simp [c, h]
-    · simp [c, h, zero_ne_one]
+    · simp [c, h]
   have hfker : ∀ v : Fin 4 → K, f v = 0 ↔ Multiplicative.ofAdd v ∈ H := by
     intro v
     show (χ (Multiplicative.ofAdd v)).toAdd = 0 ↔ Multiplicative.ofAdd v ∈ H
@@ -81,7 +81,7 @@ theorem s1614_ln_hyperplane (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2
       change v = ∑ i, if v i = 1 then Pi.single i (1 : K) else 0
       conv_lhs => rw [pi_eq_sum_univ' v]
       refine Finset.sum_congr rfl fun i _ => ?_
-      rcases h01 (v i) with h | h <;> simp [h, zero_ne_one, one_ne_zero]
+      rcases h01 (v i) with h | h <;> simp [h, zero_ne_one]
     have hf : f v = ∑ i, if v i = 1 then b i else 0 := by
       calc f v = f w := by rw [hdecomp]
         _ = ∑ i, f (if v i = 1 then Pi.single i (1 : K) else 0) := by
@@ -90,17 +90,17 @@ theorem s1614_ln_hyperplane (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2
         _ = ∑ i, if v i = 1 then b i else 0 := by
               refine Finset.sum_congr rfl fun i _ => ?_
               by_cases hi : v i = 1
-              · rw [if_pos hi, if_pos hi]; exact hb i
-              · rw [if_neg hi, if_neg hi, map_zero]
+              · rw [ite_eq_left hi, ite_eq_left hi]; exact hb i
+              · rw [ite_eq_right hi, ite_eq_right hi, map_zero]
     have hsum_eq : (∑ i, b i * v' i) = ∑ i, if v i = 1 then b i else 0 := by
       refine Finset.sum_congr rfl fun i _ => ?_
       rcases h01 (v i) with h | h
       · rw [h]
         have hvi : v' i = 0 := by simp [v', h]
-        rw [hvi, mul_zero, if_neg zero_ne_one]
+        rw [hvi, mul_zero, ite_eq_right zero_ne_one]
       · rw [h]
         have hvi : v' i = 1 := by simp [v', h]
-        rw [hvi, mul_one, if_pos rfl]
+        rw [hvi, mul_one, ite_eq_left rfl]
     have hdot : dotProduct c v = ι (∑ i, b i * v' i) := by
       rw [dotProduct, map_sum]
       refine Finset.sum_congr rfl fun i _ => ?_

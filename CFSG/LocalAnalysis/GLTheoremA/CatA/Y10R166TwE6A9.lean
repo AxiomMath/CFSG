@@ -49,11 +49,11 @@ namespace TwE6A
 theorem exists_rootOfUnity_kernelComponent (F : Type) [Field F] [Finite F] {n : ℕ}
     (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 2 ≤ n) :
     ∃ (q : ℕ) (ζ : (AlgebraicClosure F)ˣ)
-      (i : KernelComponent (rootCharHom (twE6omega1Tuple ζ))),
+      (_i : KernelComponent (rootCharHom (twE6omega1Tuple ζ))),
       q.Prime ∧ q ≠ 2 ∧ q ∣ 2 ^ n + 1 ∧ (q ≠ 3 ∨ 9 ∣ 2 ^ n + 1) ∧ ζ ^ q = 1 ∧ ζ ≠ 1 := by
   classical
   obtain ⟨q, hq, hq2, hqdvd, hq3⟩ := TwE6A.exists_prime_dvd_two_pow_add_one hn
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hF2 : Nat.card F = 2 ^ (2 * n) := by
     rw [hF, mul_comm 2 n, pow_mul]
   have hqunits : q ∣ Nat.card Fˣ := by
@@ -102,15 +102,15 @@ theorem exists_mulEquiv_twE6C_of_isLabel {X : Type} [Group X] [Finite X] {lab : 
   classical
   obtain ⟨F, hField, hFin, σ, hcard, hσ, ⟨e1⟩⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.exists_twistedE6RootGroup_of_isLabel hX ht hZ
-  letI : Field F := hField
-  letI : Finite F := hFin
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hField
+  let : Finite F := hFin
+  have : Fintype F := Fintype.ofFinite F
   have hcard2 : Nat.card F = 2 ^ (lab.n * 2) := by
     rw [hcard, pow_mul]
   have hcardF : Fintype.card F = 2 ^ (lab.n * 2) := by
     rw [← Nat.card_eq_fintype_card, hcard2]
   have hcharF : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := lab.n * 2) hcardF
-  letI : CharP F 2 := hcharF
+  let : CharP F 2 := hcharF
   let Ω := AlgebraicClosure F
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 lab.n
   have hFr : ∀ c, Fr c = c ^ (2 ^ lab.n) := fun c => iterateFrobenius_def 2 lab.n c

@@ -39,7 +39,7 @@ theorem exists_conj_mem_torusGroup_of_pow_eq_one {τ : Tag} {p : ℕ} [hp : Fact
   have halg := isAlgebraic_zmod_algebraicClosure_of_finite K ℓ
   have hfin : ((Subgroup.zpowers x : Subgroup (ModGL τ L)) : Set (ModGL τ L)).Finite := by
     have : IsOfFinOrder x := isOfFinOrder_iff_pow_eq_one.2 ⟨p, hp.out.pos, hxp⟩
-    haveI : Finite (Subgroup.zpowers x) := finite_zpowers.2 this
+    have : Finite (Subgroup.zpowers x) := finite_zpowers.2 this
     exact Set.toFinite _
   have hexp : ∀ y ∈ Subgroup.zpowers x, y ^ p = 1 := by
     intro y hy
@@ -63,7 +63,7 @@ theorem ggExcToral_zpowers_of_monomialToral {τ : Tag} {p : ℕ} (hp : p.Prime)
     (htorus : ∀ a : Fin τ.rank → Kˣ, (∀ i, a i ^ p = 1) → rootDiagUnit τ a ∈ torusGroup τ K)
     {s : ↥(adjointGroup τ K)} (hs : s ^ p = 1) : GGExcToral τ K (Subgroup.zpowers s) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : Fintype K := Fintype.ofFinite K
   have hq1 : 1 < Nat.card K := Finite.one_lt_card
   have hpK : ¬ p ∣ Nat.card K := by

@@ -42,6 +42,7 @@ variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module 
   LinearMap.GeneralLinearGroup.ofLinearEquiv
     (specialToSL Q (x : V ≃ₗ[K] V) h d).toLinearEquiv
 
+omit [Finite K] [CharP K 2] in
 theorem orthPairedStatedSL_toLin (hx : OddOrderIsometry Q p (x : V ≃ₗ[K] V))
     (hh : h ∈ primaryFactors (x : V ≃ₗ[K] V).toLinearMap)
     (hne : h ≠ reciprocalPolynomial h)
@@ -57,6 +58,7 @@ theorem orthPairedStatedSL_toLin (hx : OddOrderIsometry Q p (x : V ≃ₗ[K] V))
     (specialToSL Q (x : V ≃ₗ[K] V) h d).toLinearEquiv
   rw [MulEquiv.apply_symm_apply]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem orthPairedGL_conj
     {y : V ≃ₗ[K] V}
     (hycen : y ∈ Subgroup.centralizer ({(x : V ≃ₗ[K] V)} : Set (V ≃ₗ[K] V)))
@@ -102,6 +104,7 @@ theorem orthPairedGL_conj
   (Matrix.GeneralLinearGroup.toLin' orthPairedBasis).symm
     (centralizerGL (x : V ≃ₗ[K] V) h ⟨(y : V ≃ₗ[K] V), hycen⟩)
 
+omit [Finite K] [CharP K 2] in
 theorem orthPairedStatedSL_conj (hx : OddOrderIsometry Q p (x : V ≃ₗ[K] V))
     (hh : h ∈ primaryFactors (x : V ≃ₗ[K] V).toLinearMap)
     (hne : h ≠ reciprocalPolynomial h)
@@ -124,6 +127,7 @@ theorem orthPairedStatedSL_conj (hx : OddOrderIsometry Q p (x : V ≃ₗ[K] V))
   simp only [orthPairedMatrix, MulEquiv.apply_symm_apply]
   rw [orthPairedGL_conj hycen hd]
 
+omit [Finite K] [CharP K 2] in
 theorem orthPairedMatrix_pow
     {y : V ≃ₗ[K] V}
     (hycen : y ∈ Subgroup.centralizer ({(x : V ≃ₗ[K] V)} : Set (V ≃ₗ[K] V)))
@@ -149,6 +153,7 @@ theorem orthPairedMatrix_pow
       (H := (specialBlock Q (x : V ≃ₗ[K] V) h).subgroupOf (orthDerived Q))
       (f := piOrth Q) hpi)).trans (MulEquiv.subgroupCongr hJeq.symm)
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] [Fact (Irreducible h)] in
 theorem orthPairedComponentEquiv_apply
     (hpi : Function.Injective (piOrth Q))
     (hspecΩ : specialBlock Q (x : V ≃ₗ[K] V) h ≤ orthDerived Q)
@@ -159,6 +164,7 @@ theorem orthPairedComponentEquiv_apply
       piOrth Q ⟨d.1, hspecΩ d.2⟩ :=
   rfl
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] [Fact (Irreducible h)] in
 theorem indAut_orthPairedComponentEquiv
     (hpi : Function.Injective (piOrth Q))
     (hspecΩ : specialBlock Q (x : V ≃ₗ[K] V) h ≤ orthDerived Q)
@@ -184,10 +190,11 @@ theorem indAut_orthPairedComponentEquiv
   apply Subtype.ext
   rw [Subgroup.normalizerMonoidHom_apply_apply_coe]
   rw [orthPairedComponentEquiv_apply, orthPairedComponentEquiv_apply]
-  simp only [Subtype.coe_mk]
+  simp only
   rw [← map_inv, ← map_inv, ← map_mul, ← map_mul]
   rfl
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] [Fact (Irreducible h)] in
 theorem exists_orthPaired_pSimpleEquiv
     (J : Subgroup (ProjOrthDerived Q))
     (eJ : ↥(specialBlock Q (x : V ≃ₗ[K] V) h) ≃* ↥J) :
@@ -212,6 +219,7 @@ theorem exists_orthPaired_pSimpleEquiv
   rw [CFSG.HardMathSupport.Dickson.I271.pQuotEquiv_mk]
   rfl
 
+omit [CharP K 2] [Fact (Irreducible h)] in
 theorem exists_orthPaired_centerQuot
     (hp : p.Prime) (hq : CFSG.IsQuasisimple ↥(specialBlock Q (x : V ≃ₗ[K] V) h))
     (hd : p ∣ Nat.card ↥(specialBlock Q (x : V ≃ₗ[K] V) h)) :
@@ -220,11 +228,12 @@ theorem exists_orthPaired_centerQuot
         PSimple p (specialBlock Q (x : V ≃ₗ[K] V) h),
       ∀ l : ↥(specialBlock Q (x : V ≃ₗ[K] V) h),
         eP (QuotientGroup.mk l) = QuotientGroup.mk (QuotientGroup.mk l) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq' : CFSG.Open.IsQuasisimple ↥(specialBlock Q (x : V ≃ₗ[K] V) h) :=
     (isQuasisimple_iff_open _).mp ((isQuasisimple_iff_native _).mpr hq)
   exact exists_pSimpleEquivCenterQuot_mk hp hq' hd
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem exists_orthPaired_pairedEquiv
     (J : Subgroup (ProjOrthDerived Q))
     (eJ : ↥(specialBlock Q (x : V ≃ₗ[K] V) h) ≃* ↥J)
@@ -280,6 +289,7 @@ theorem exists_orthPaired_pairedEquiv
   show e (chevQuotHom p J (eJ d)) = _
   simp only [e, MulEquiv.trans_apply, h1, h2, h3, h4]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem orthPaired_equiv
     (hpi : Function.Injective (piOrth Q))
     (hspecΩ : specialBlock Q (x : V ≃ₗ[K] V) h ≤ orthDerived Q)
@@ -326,8 +336,7 @@ theorem orthPaired_equiv
   rw [show LargeEvenProjMk (StatedSL (primaryMultiplicity (x : V ≃ₗ[K] V).toLinearMap h)
       (AdjoinRoot h)) (eSL d) =
       e (chevQuotHom p J (orthPairedComponentEquiv hpi hspecΩ J hJeq d)) from (he d).symm]
-  simp only [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_apply_apply,
-    MulEquiv.apply_symm_apply]
+  simp only [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
   rw [indAut_orthPairedComponentEquiv hpi hspecΩ J hJeq y hN d hd, he, hconjSL d hd]
 
 theorem orthPaired_small_inner {a : ℕ} {E : Type} [Field E] [Finite E] {p : ℕ}

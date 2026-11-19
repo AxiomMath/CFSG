@@ -26,7 +26,7 @@ theorem ggNSLieN3A_esuRecipe {p : ℕ} {lab : LargeEvenLabel} {Q : LargeEvenRawC
   · obtain rfl : rank = 3 := hr3
     obtain rfl : tag = .twD := htwD
     dsimp only [LargeEvenRawDatum, LargeEvenRecipeUnitary] at hraw
-    simp only [show ¬ (3 : ℕ) = 2 by norm_num, if_false, if_true] at hraw
+    simp only [show ¬ (3 : ℕ) = 2 by norm_num, ite_false, ite_true] at hraw
     obtain ⟨K, hf, hfin, hK, hQ⟩ := hraw
     exact ⟨K, hf, hfin, 4, by simpa using hK, by norm_num, by simp, hQ⟩
 

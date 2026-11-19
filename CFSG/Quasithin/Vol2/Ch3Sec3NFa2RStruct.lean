@@ -108,7 +108,7 @@ theorem index_le_relIndex_sup_of_mem {G : Type} [Group G] [Finite G] {N Q : Subg
     (hK : ∀ x : ↥N, (x : G) ∈ Q → x ∈ K) :
     K.index ≤ Q.relIndex (N ⊔ Q) := by
   have hN' : N ⊔ Q ≤ Subgroup.normalizer (Q : Set G) := sup_le hNQ Subgroup.le_normalizer
-  haveI : (Q.subgroupOf (N ⊔ Q)).Normal :=
+  have : (Q.subgroupOf (N ⊔ Q)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_right).2 hN'
   let φ : ↥N →* ↥(N ⊔ Q) ⧸ Q.subgroupOf (N ⊔ Q) :=
     (QuotientGroup.mk' (Q.subgroupOf (N ⊔ Q))).comp
@@ -149,7 +149,7 @@ theorem A2Cfg.R_le_liftU2_mul_Q (h9 : Stmt3_3_9) (hGA : GriessAllModelsStatement
     (hCZ : L ⊓ Subgroup.centralizer (quasithinOmegaOneCenter T : Set G) =
       L3316.liftPre α L3321.P2) :
     ∀ r ∈ pCoreOf 2 H, ∃ l : ↥L, α l ∈ U2 ∧ ∃ q ∈ pCoreOf 2 (L ⊔ T), r = (l : G) * q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP1L : L3316.liftPre α U2 ≤ L := L3316.liftPre_le α U2
   have hker : IsPGroup 2 α.ker := by
     rw [hαk]

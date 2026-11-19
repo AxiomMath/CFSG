@@ -172,14 +172,14 @@ private lemma twE6PermMap_single {k : Type} [Zero k] (i : Fin 8) (x : k) :
   funext j
   simp only [twE6PermMap, Pi.single_apply]
   by_cases hj : twE6Perm j = i
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     have : j = twE6Perm i := by
       have := congrArg twE6Perm hj
       simpa [twE6_perm_involutive] using this
-    rw [if_pos this]
-  · rw [if_neg hj]
+    rw [ite_eq_left this]
+  · rw [ite_eq_right hj]
     have : j ≠ twE6Perm i := fun h => hj (by rw [h, twE6_perm_involutive])
-    rw [if_neg this]
+    rw [ite_eq_right this]
 
 private lemma twE6TorusMap_single {k : Type} [Field k] (θ : k →+* k) (t : k)
     (i : Fin 8) (x : k) :
@@ -208,7 +208,7 @@ private lemma twE6TorusMu_mem {k : Type} [Field k] (θ : k →+* k) (t : k) (i :
 private lemma mul_inv_closure {k : Type} [Field k] [Finite k]
     (S : AddSubgroup k) (μ : k) (hμ : μ ≠ 0)
     (h : ∀ x ∈ S, μ * x ∈ S) : ∀ x ∈ S, μ⁻¹ * x ∈ S := by
-  haveI : Finite ↥S := inferInstance
+  have : Finite ↥S := inferInstance
   set φ : ↥S → ↥S := fun x => ⟨μ * x.1, h x.1 x.2⟩ with hφ
   have hφinj : Function.Injective φ := by
     intro x y hxy

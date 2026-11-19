@@ -215,6 +215,6 @@ theorem toArray_beq (a b : List Nat) : (a.toArray == b.toArray) = (a == b) := by
   · subst h
     simp
   · have h' : a.toArray ≠ b.toArray := fun e => h (List.toArray_inj e)
-    simp [h, h']
+    simp
 
 end CFSG.SmithL6.K

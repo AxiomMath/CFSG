@@ -59,8 +59,8 @@ theorem actual_langSetup_of_exceptional_datum {G : Type} [Group G]
       fullThreeTorus S = (exceptionalImage θ hN).map ι := by
   classical
   let Ω := AlgebraicClosure K
-  haveI : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK]; norm_num)
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK]; norm_num)
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
   let ι₀ : adjointGroup τ K →* ModGL τ Ω :=
     (baseChangeGL (algebraMap K Ω)).comp (adjointGroup τ K).subtype
   have hι₀ : Function.Injective ι₀ :=
@@ -147,9 +147,9 @@ theorem exists_rationalComponent_of_full_marking {G : Type} [Group G] [Finite G]
   obtain ⟨τ, K, instF, instFin, θ, hτ, hτrank, hK2, hI, hβEA, hβcard⟩ :=
     actual_beta_image_of_marking (hS := hS) (hp3 := rfl) (hq2 := hq2) (htag := htag)
       (hmark := hmark) (hN := hN) (e := GGQ2LieRank lab) hidx
-  letI : Field K := instF
-  letI : Finite K := instFin
-  haveI : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK2]; norm_num)
+  let : Field K := instF
+  let : Finite K := instFin
+  have : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK2]; norm_num)
   have hτF4 : τ = .F4 ∨ τ = .E7 ∨ τ = .E8 := hτ
   have hidxRank : ((Subgroup.centralizer (L : Set G)).subgroupOf Bs).index = 3 ^ τ.rank := by
     rw [hτrank]
@@ -160,7 +160,7 @@ theorem exists_rationalComponent_of_full_marking {G : Type} [Group G] [Finite G]
     actual_langSetup_of_exceptional_datum hτF4 hK2 θ hN hI Fr hFr D w hDΦ hDq hDn hneg htor
   have hqS : S.D.q = 2 := by rw [hSD, hDq]
   let Ω := AlgebraicClosure K
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
+  have : CharP Ω 2 := charP_of_injective_algebraMap (algebraMap K Ω).injective 2
   let hDL := d_le_normalizer hS hN
   obtain ⟨d, hd1, -, hfixD⟩ :=
     exists_beta_d_generator θ Nat.prime_three hS hN
@@ -301,8 +301,8 @@ theorem four_dvd_image_of_E7E8 {G : Type} [Group G] [Finite G]
   obtain ⟨τ, K, hfield, hfinite, S, a, i, hτRaw, hτrank, hq, hAlg, hρ,
     hT, ha3, h1, hQ, hcard⟩ :=
     exists_rationalComponent_of_full_marking hS hq2 (Or.inr htag) hmark hidx hN
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hτ : τ = .E7 ∨ τ = .E8 := by
     rcases hτRaw with hF4 | hE7 | hE8
     · subst τ
@@ -327,8 +327,8 @@ theorem four_dvd_image_of_F4 {G : Type} [Group G] [Finite G]
   obtain ⟨τ, K, hfield, hfinite, S, a, i, hτRaw, hτrank, hq, hAlg, hρ,
     hT, ha3, h1, hQ, hcard⟩ :=
     exists_rationalComponent_of_full_marking hS hq2 (Or.inl htag) hmark hidx hN
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   have hτ : τ = .F4 := by
     rcases hτRaw with hF4 | hE7 | hE8
     · exact hF4
@@ -337,7 +337,7 @@ theorem four_dvd_image_of_F4 {G : Type} [Group G] [Finite G]
     · subst τ
       simp [GGQ2LieRank, htag, Tag.rank] at hτrank
   subst τ
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     LangRat.charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by simpa using hq)
   rw [hcard]
   exact four_dvd_aut_of_quasisimple_F4 S hq hAlg hρ hT ha3 h1 i hQ

@@ -67,7 +67,7 @@ theorem exists_pair_of_threeLocal {G : Type} [Group G] {x : G} {R T A : Subgroup
     omega
   have hy₁A : y₁ ∈ A := hAX y₁ hy₁X
   have hxA : x ∈ A := hAX x hxX
-  haveI : CFSG.IsElementaryAbelian 3 A := hL.A_elementaryAbelian
+  have : CFSG.IsElementaryAbelian 3 A := hL.A_elementaryAbelian
   have hcomm : x * y₁ = y₁ * x := setLike_mul_comm hxA hy₁A
   have hy₁conj : IsConj x y₁ := hy₁X.2
   have hy₁1 : y₁ ≠ 1 := by

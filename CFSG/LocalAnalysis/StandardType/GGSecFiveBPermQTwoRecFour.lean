@@ -79,18 +79,18 @@ theorem ggSecFiveBPermQTwo_four_crossing_of_matching_sources
 theorem ggSecFiveBPermQTwoRecFourInput_of_matching_sources
     (hSources : ∀ (G : Type) [Group G] [Finite G]
       (B Bs : Subgroup G) (x : G) (L D J K : Subgroup G) (𝒦 : Finset (Subgroup G))
-      (m : ℕ) (i0 : Fin 4) (hRt : GGSecFiveRouteCfg 3 B Bs x L D J 𝒦)
+      (m : ℕ) (i0 : Fin 4) (_hRt : GGSecFiveRouteCfg 3 B Bs x L D J 𝒦)
       (eta : ↥Bs ≃* (Fin 4 → Multiplicative (ZMod 3)))
-      (hAL : (ggAutomizer L Bs).map (MulAut.congr eta).toMonoidHom = aPermutationFull 4 3)
-      (hc : GGSecFiveBPermQTwoCell 3 Bs L 𝒦 4 eta m K i0)
+      (_hAL : (ggAutomizer L Bs).map (MulAut.congr eta).toMonoidHom = aPermutationFull 4 3)
+      (_hc : GGSecFiveBPermQTwoCell 3 Bs L 𝒦 4 eta m K i0)
       (π : Fin 4 ≃ Fin 4) (g : (ZMod 2)[X]) [Fact (Irreducible g)] (d : ℕ)
       (ε : Fin m ≃ (Fin (CoordSL.rootPB g).dim × Fin 3) ⊕ Fin d)
       (hC : (CoordSL.rootMat g).det = 1) (hCp : CoordSL.rootMat g ^ 3 = 1)
       (κ : SL(m, ZMod 2) →* G)
-      (hFK : GGSecFiveBPermQTwoKFrame Bs K eta π ε hC hCp κ)
-      (hDim : (CoordSL.rootPB g).dim = 2) (hπ0 : π 0 = i0)
-      (y : G) (hy : y ∈ Bs)
-      (hK : CFSG.Open.IsComponentOf K (Subgroup.centralizer ({y} : Set G))),
+      (_hFK : GGSecFiveBPermQTwoKFrame Bs K eta π ε hC hCp κ)
+      (_hDim : (CoordSL.rootPB g).dim = 2) (_hπ0 : π 0 = i0)
+      (y : G) (_hy : y ∈ Bs)
+      (_hK : CFSG.Open.IsComponentOf K (Subgroup.centralizer ({y} : Set G))),
       ∃ S : Fin 4 → Subgroup G,
         (∀ a : Fin 3, S (π a.succ) =
           (coordBlockSL (ZMod 2) (CoordSL.frameBlockCoords ε {a})).map κ) ∧
@@ -102,16 +102,16 @@ theorem ggSecFiveBPermQTwoRecFourInput_of_matching_sources
           ⁅Subgroup.centralizer (ggBsCoordEq Bs eta (π a.succ) (π b.succ) : Set G), Bs⁆ =
             ((coordBlockSL (AdjoinRoot g) {a, b}).map (CoordSL.theta g ε)).map κ)) :
     GGSecFiveBPermQTwoRecFourInput := by
-  intro G _ _ p B Bs x L D J 𝒦 hRt hTier n e hPres hn eta hJoin hAL hNbr hG0 hBB hLab m K i0 hc
+  intro G _ _ p B Bs x L D J 𝒦 _hRt hTier n e hPres hn eta hJoin _hAL hNbr hG0 hBB hLab m K i0 _hc
   subst n
-  obtain rfl := hc.1
-  refine ggSecFiveBPermQTwo_recognition_of_crossing ggInnerDiagMpInput_holds hRt
-    (r := 2) (by decide) hAL hc ?_
-  intro π g _ d ε hC hCp κ hFK hDim hπ0 y hy hK
+  obtain rfl := _hc.1
+  refine ggSecFiveBPermQTwo_recognition_of_crossing ggInnerDiagMpInput_holds _hRt
+    (r := 2) (by decide) _hAL _hc ?_
+  intro π g _ d ε hC hCp κ _hFK _hDim _hπ0 y _hy _hK
   obtain ⟨S, hSK, hSeq, hRK⟩ :=
-    hSources G B Bs x L D J K 𝒦 m i0 hRt eta hAL hc π g d ε hC hCp κ hFK hDim hπ0 y hy hK
-  exact ggSecFiveBPermQTwo_four_crossing_of_matching_sources hRt eta hAL hc π ε hC hCp κ
-    hFK hDim hy hK S hSK hSeq hRK
+    hSources G B Bs x L D J K 𝒦 m i0 _hRt eta _hAL _hc π g d ε hC hCp κ _hFK _hDim _hπ0 y _hy _hK
+  exact ggSecFiveBPermQTwo_four_crossing_of_matching_sources _hRt eta _hAL _hc π ε hC hCp κ
+    _hFK _hDim _hy _hK S hSK hSeq hRK
 
 theorem ggSecFiveBPermQTwoRecFourInput_holds : GGSecFiveBPermQTwoRecFourInput := by
   apply ggSecFiveBPermQTwoRecFourInput_of_matching_sources

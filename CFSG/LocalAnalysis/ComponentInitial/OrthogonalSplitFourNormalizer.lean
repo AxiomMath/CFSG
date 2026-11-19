@@ -14,7 +14,7 @@ open scoped MatrixGroups
 variable {K : Type} [Field K]
 
 private theorem exists_mul_mul_ne_transpose {M N : Matrix (Fin 2) (Fin 2) K}
-    (hMN : M * N = 1) (hNM : N * M = 1) :
+    (_hMN : M * N = 1) (hNM : N * M = 1) :
     ∃ X : Matrix (Fin 2) (Fin 2) K, M * X * N ≠ Xᵀ := by
   by_contra hcon
   have hcon : ∀ X : Matrix (Fin 2) (Fin 2) K, M * X * N = Xᵀ :=
@@ -106,19 +106,23 @@ theorem conj_mem_determinantLeftFactor {g x : DeterminantIsometries K}
     MonoidHom.inr_apply]
   exact hconj.symm
 
+omit [Finite K] [CharP K 2] in
 private theorem specialRho_inl_mem (A : SL(2, K)) :
     specialRho (A, 1) ∈ determinantLeftFactor K :=
   ⟨A, by rw [MonoidHom.comp_apply, MonoidHom.inl_apply]⟩
 
+omit [Finite K] [CharP K 2] in
 private theorem specialRho_inr_mem (B : SL(2, K)) :
     specialRho (1, B) ∈ determinantRightFactor K :=
   ⟨B, by rw [MonoidHom.comp_apply, MonoidHom.inr_apply]⟩
 
+omit [Finite K] [CharP K 2] in
 private theorem unipotentSL_ne_one : (unipotentSL K : SL(2, K)) ≠ 1 := by
   intro h
   have h' := congrArg (fun A : SL(2, K) => (A : Matrix (Fin 2) (Fin 2) K) 0 1) h
-  simpa [unipotentSL] using h'
+  simp [unipotentSL] at h'
 
+omit [Finite K] in
 private theorem not_determinantLeftFactor_le_right :
     ¬ determinantLeftFactor K ≤ determinantRightFactor K := by
   intro hle
@@ -129,6 +133,7 @@ private theorem not_determinantLeftFactor_le_right :
   have hpair := congrArg Prod.fst (CFSG.RankThree.PartOne.specialRho_injective hB')
   exact unipotentSL_ne_one hpair
 
+omit [Finite K] in
 private theorem not_determinantRightFactor_le_left :
     ¬ determinantRightFactor K ≤ determinantLeftFactor K := by
   intro hle

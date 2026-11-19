@@ -96,7 +96,7 @@ section Monomial
 
 
 private noncomputable def frameWeylHom {f : ℕ} {A : Subgroup (TwE6C f)}
-    (hN : ∀ a ∈ A, ((a : TwE6C f) : TwE6GL f) ∈ TwE6N f) :
+    (hN : ∀ _a ∈ A, ((_a : TwE6C f) : TwE6GL f) ∈ TwE6N f) :
     A →* WeylGroup Tag.F4 :=
   (foldedWeylEquiv TwistTag.E6).toMonoidHom.comp
     (MonoidHom.codRestrict
@@ -104,9 +104,9 @@ private noncomputable def frameWeylHom {f : ℕ} {A : Subgroup (TwE6C f)}
         (MonoidHom.codRestrict
           ((Subgroup.subtype (graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
             (frobQ 2 f))).comp (Subgroup.subtype A))
-          (TwE6N f) (fun a => hN a a.2)))
+          (TwE6N f) (fun _a => hN _a _a.2)))
       (relWeylTwist TwistTag.E6)
-      (fun a => (graphFixedRootWeylHom_range TwistTag.E6 (GaloisField 2 (2 * f))
+      (fun _a => (graphFixedRootWeylHom_range TwistTag.E6 (GaloisField 2 (2 * f))
         (frobQ 2 f)).le ⟨_, rfl⟩))
 
 private theorem frameWeylHom_apply {f : ℕ} {A : Subgroup (TwE6C f)}

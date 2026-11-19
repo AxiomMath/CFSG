@@ -17,6 +17,7 @@ namespace Hyp65
 
 variable {n : ℕ} {M V₀ V : Subgroup G} {g : G}
 
+omit [Finite G] in
 theorem relIndex_U_eq_relIndex_B (h : Hyp65 n M V₀ V g) (hswap : SwapHyp V g) :
     (NOf M V g).relIndex (UOf M V g) = (NOf M V g).relIndex (BOf M V g) := by
   obtain ⟨l, hlL, h1, h2⟩ := hswap
@@ -57,7 +58,7 @@ theorem exists_commutator_mul_N (h : Hyp65 n M V₀ V g) (hgen : GenHyp M V g)
     (hlK : ∃ l ∈ LOf V g, conjSubgroup V g = conjSubgroup V l) (hswap : SwapHyp V g) {v : G}
     (hvV : v ∈ V) (hvU : v ∉ UOf M V g) :
     ∀ u ∈ UOf M V g, ∃ b ∈ BOf M V g, ∃ m ∈ NOf M V g, u = ⁅b, v⁆ * m := by
-  haveI : IsMulCommutative ↥(UOf M V g) :=
+  have : IsMulCommutative ↥(UOf M V g) :=
     IsMulCommutative.of_comm fun a b =>
       Subtype.ext (h.elemAbelian.comm (Subgroup.mem_inf.1 a.2).1 (Subgroup.mem_inf.1 b.2).1)
   have hmem : ∀ b ∈ BOf M V g, ⁅(b : G), v⁆ ∈ UOf M V g := fun b hb =>

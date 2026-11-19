@@ -49,7 +49,7 @@ theorem KConfig.m24_not_r2
   obtain ⟨hLN, hNL⟩ := KConfig.normal_step (X := eSub basis_r2) h hC h2
   have hNr : Subgroup.normalizer (eSub basis_r2 : Set G₀) = CB0 := eNorm_r2
   rw [hNr] at hLN hNL
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hx : MulAut.conj e xE ∈ L := by
     refine mem_of_sylow (p := 7) (N := CB0.map (MulAut.conj e).toMonoidHom)
       (M₀ := L) (x := MulAut.conj e xE) (y := y) ?_ ?_ ?_ hLN hNL hy hyk hy1
@@ -153,7 +153,7 @@ theorem KConfig.m24_eq_trio
     norm_num
   have hL2 : L ≤ Lq.map (MulAut.conj e).toMonoidHom :=
     le_of_perfect_of_relIndex_le hL1 h.perfect hi2
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hy7 : MulAut.conj e y7 ∈ L := by
     refine mem_of_sylow (p := 7) (N := (eNorm basis_et).map (MulAut.conj e).toMonoidHom)
       (M₀ := L) (x := MulAut.conj e y7) (y := y) ?_ ?_ ?_ hLN hNL hy hyk hy1

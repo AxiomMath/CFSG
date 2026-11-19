@@ -133,6 +133,7 @@ theorem exists_noncomm_of_perfect_simple {Q : Type} [Group Q] [IsSimpleGroup Q]
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem orderOf_centerQuotAut {ζ : MulAut K} (hK : commutator K = ⊤) (hζ : orderOf ζ = 2) :
     orderOf (centerQuotAut ζ) = 2 := by
   have h1 : ζ * ζ = 1 := by rw [← sq, ← hζ, pow_orderOf_eq_one]
@@ -181,10 +182,10 @@ theorem kd_reduce (hK : CFSG.Open.IsQuasisimple K) {ζ : MulAut K} (hζ : orderO
     LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hmodel
   have e : ↥((toBar D).range.subgroupOf (fixedSubgroup (centerQuotAut ζ))) ≃* ↥(toBar D).range :=
     Subgroup.subgroupOfEquivOfLe hle
-  haveI : IsSimpleGroup ↥((toBar D).range.subgroupOf (fixedSubgroup (centerQuotAut ζ))) :=
+  have : IsSimpleGroup ↥((toBar D).range.subgroupOf (fixedSubgroup (centerQuotAut ζ))) :=
     MulEquiv.isSimpleGroup e
-  haveI : Group.IsPerfect ↥D := Group.isPerfect_def.mpr hD.1
-  haveI : Group.IsPerfect ↥(toBar D).range :=
+  have : Group.IsPerfect ↥D := Group.isPerfect_def.mpr hD.1
+  have : Group.IsPerfect ↥(toBar D).range :=
     Group.IsPerfect.ofSurjective (f := (toBar D).rangeRestrict) (toBar D).rangeRestrict_surjective
   have hna : ∃ a b : ↥(toBar D).range, a * b ≠ b * a :=
     exists_noncomm_of_perfect_simple Group.IsPerfect.commutator_eq_top

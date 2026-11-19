@@ -344,7 +344,7 @@ theorem as_E_2_1 : E_2_1 := by
   intro Γ _ _ H T M h hSQ hsolv hR
   have hSQT : ∀ p : ℕ, p.Prime → p ≠ 2 → CFSG.Open.pRank p H ≤ 2 := by
     intro p hp hp2
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have h1 := hSQ.1 p hp hp2
     rw [CFSG.Quasithin.pRank_top_subtype] at h1
     exact h1
@@ -910,7 +910,7 @@ private theorem e216_gen {P : Type} [Group P] [Finite P] {z : P}
       (∀ k k', ⁅L k, L k'⁆ = z ^ (Matrix.J (Fin m) (ZMod 2) k k').val) ∧
       (∀ Y : Subgroup P, (∀ k, L k ∈ Y) → Y ⊔ Subgroup.center P = ⊤) := by
   classical
-  haveI := H.isElementaryAbelian_quotient
+  have := H.isElementaryAbelian_quotient
   obtain ⟨m, bs, _, hJ⟩ := H.exists_symplectic_basis
   let L : Fin m ⊕ Fin m → P := fun k => Quotient.out (Additive.toMul (bs k))
   have hLq : ∀ k, ((L k : P) : P ⧸ Subgroup.center P) = Additive.toMul (bs k) :=
@@ -1034,11 +1034,11 @@ private theorem e216_main {Γ : Type} [Group Γ] [Finite Γ] {X : Subgroup Γ} (
   have hCC : ∀ i i', ⁅c i, c i'⁆ = 1 := fun i i' => by
     rw [hc, hc, hLc', J_inr_inr, ZMod.val_zero, pow_zero]
   have hAC_diff : ∀ i i', i ≠ i' → ⁅a i, c i'⁆ = 1 := fun i i' hne => by
-    rw [ha, hc, hLc', J_inl_inr, if_neg hne, ZMod.val_zero, pow_zero]
+    rw [ha, hc, hLc', J_inl_inr, ite_eq_right hne, ZMod.val_zero, pow_zero]
   have hCA_diff : ∀ i i', i ≠ i' → ⁅c i, a i'⁆ = 1 := fun i i' hne => by
-    rw [hc, ha, hLc', J_inr_inl, if_neg hne, ZMod.val_zero, pow_zero]
+    rw [hc, ha, hLc', J_inr_inl, ite_eq_right hne, ZMod.val_zero, pow_zero]
   have hAC_same : ∀ i, ⁅a i, c i⁆ = z := fun i => by
-    rw [ha, hc, hLc', J_inl_inr, if_pos rfl]
+    rw [ha, hc, hLc', J_inl_inr, ite_eq_left rfl]
     have hv : (1 : ZMod 2).val = 1 := rfl
     rw [hv, pow_one]
   have hxz : ∀ i, a i * z = z * a i := fun i => Subgroup.mem_centralizer_iff.mp hzc (a i) (haX i)
@@ -1347,7 +1347,7 @@ theorem e266_gram_equiv [CharP F 2] (u : Fin 4 → Fin 4 → F)
     rw [hLx x, hLx y]
     simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul]
     simp only [hu]
-    simp [e266_sympForm4_apply, Pi.single_apply]
+    simp [e266_sympForm4_apply]
     ring
   have hinj : Function.Injective L := by
     rw [injective_iff_map_eq_zero]
@@ -1379,7 +1379,7 @@ theorem e266_exists_sp4_apply_zero [CharP F 2] {w : Fin 4 → F} (hw : w ≠ 0) 
     intro i j
     rw [hb]
     fin_cases i <;> fin_cases j <;>
-      simp [σ, Matrix.J, e266_sympForm4_apply, Pi.single_apply, CharTwo.neg_eq]
+      simp [σ, Matrix.J, e266_sympForm4_apply, CharTwo.neg_eq]
   obtain ⟨g, hg, hgi⟩ := e266_gram_equiv (fun i => b (σ i)) hu
   exact ⟨g, hg, by rw [hgi 0]; simpa [σ] using hbw⟩
 
@@ -1403,7 +1403,7 @@ theorem e266_exists_sp4_frame [CharP F 2] {w₀ w₁ : Fin 4 → F} (h₀ : w₀
       _ = y 0 • w₀ + g₁ ![0, y 1, y 2, 0] := by rw [map_add, map_smul, hg₁0]
   have hy12 : y 1 ≠ 0 ∨ y 2 ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hind (y 0)
     have h0 : (![0, y 1, y 2, 0] : Fin 4 → F) = 0 := by
       funext i
@@ -1419,7 +1419,7 @@ theorem e266_exists_sp4_frame [CharP F 2] {w₀ w₁ : Fin 4 → F} (h₀ : w₀
       fin_cases i <;> fin_cases j <;>
         first
         | rw [e266_sympForm4_self, e266_sympForm4_self]
-        | (simp [e266_sympForm4_apply, Pi.single_apply] <;> first | linear_combination hcd | ring))
+        | (simp [e266_sympForm4_apply]; try first | linear_combination hcd))
   refine ⟨h.trans g₁, ?_, ?_, -y 0, ?_⟩
   · intro a b
     simp only [LinearEquiv.trans_apply]
@@ -1429,7 +1429,7 @@ theorem e266_exists_sp4_frame [CharP F 2] {w₀ w₁ : Fin 4 → F} (h₀ : w₀
     simpa using hg₁0
   · simp only [LinearEquiv.trans_apply]
     rw [hh' 1]
-    simp only [Matrix.cons_val_one, Matrix.cons_val_zero, Matrix.head_cons]
+    simp only [Matrix.cons_val_one, Matrix.cons_val_zero]
     calc g₁ ![0, y 1, y 2, 0] = (y 0 • w₀ + g₁ ![0, y 1, y 2, 0]) - y 0 • w₀ := by abel
       _ = w₁ - y 0 • w₀ := by rw [← hsplit]
       _ = w₁ + (-y 0) • w₀ := by rw [neg_smul, sub_eq_add_neg]
@@ -1457,7 +1457,7 @@ theorem e266_polar [CharP F 2] (t : (Fin 4 → F) ≃ₗ[F] (Fin 4 → F))
   have hy := hA y
   have hx' := e266_sympForm4_self x
   have hy' := e266_sympForm4_self y
-  simp only [map_add, LinearMap.add_apply, map_sub, LinearMap.sub_apply] at h1 hxy ⊢
+  simp only [map_add, LinearMap.add_apply, map_sub] at h1 hxy ⊢
   linear_combination h1 - hx - hy - hxy + hx' + hy'
 
 theorem e266_range_iso [CharP F 2] (t : (Fin 4 → F) ≃ₗ[F] (Fin 4 → F))
@@ -1496,7 +1496,7 @@ theorem e266_root_of_rank_one [CharP F 2] (t : (Fin 4 → F) ≃ₗ[F] (Fin 4 �
     rw [e1, e2] at hs
     have hw' := e266_sympForm4_self w
     have hsy := e266_sympForm4_symm u0 w
-    simp only [map_add, LinearMap.add_apply, map_smul, LinearMap.smul_apply, smul_eq_mul]
+    simp only [map_add, LinearMap.add_apply, map_smul, smul_eq_mul]
       at hs
     linear_combination hs - c * hw' - c * hsy
   have hlam : sympForm4 w u0 ≠ 0 := by
@@ -1602,9 +1602,9 @@ theorem e266_finrank_short {a : F} (ha : a ≠ 0) :
       have h0 : a * (c0 * a⁻¹) = c0 := by field_simp
       have h1 : a * (c1 * a⁻¹) = c1 := by field_simp
       have hv2 : ((c0 * a⁻¹) • Pi.single 2 1 + (c1 * a⁻¹) • Pi.single 3 1 : Fin 4 → F) 2 =
-          c0 * a⁻¹ := by simp [Pi.single_apply]
+          c0 * a⁻¹ := by simp
       have hv3 : ((c0 * a⁻¹) • Pi.single 2 1 + (c1 * a⁻¹) • Pi.single 3 1 : Fin 4 → F) 3 =
-          c1 * a⁻¹ := by simp [Pi.single_apply]
+          c1 * a⁻¹ := by simp
       rw [e266_short_sub, hv2, hv3, smul_add, smul_smul, smul_smul, h0, h1]
   rw [hrange, ← Matrix.range_cons_cons_empty _ _ ![], finrank_span_eq_card hli, Fintype.card_fin]
 
@@ -1624,7 +1624,7 @@ theorem e266_L4 [CharP F 2] (t : (Fin 4 → F) ≃ₗ[F] (Fin 4 → F))
     have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
     rw [hz, LinearEquiv.symm_apply_apply, hg y (shortRoot4 a y), e266_shortRoot4_apply,
       e266_sympForm4_apply]
-    simp [Pi.single_apply]
+    simp
     linear_combination (y 0 * y 3 + y 1 * y 2 + a * y 2 * y 3) * h2
 
 theorem e266_rank_bounds [CharP F 2] (t : (Fin 4 → F) ≃ₗ[F] (Fin 4 → F))
@@ -1712,7 +1712,7 @@ theorem e266_root_of_lagrangian [CharP F 2] (t : (Fin 4 → F) ≃ₗ[F] (Fin 4 
     intro v
     obtain ⟨α, β, h⟩ := hcoord v
     rw [h, add_sub_cancel_left]
-    simp [Pi.single_apply]
+    simp
   have hy0 : ∃ y, T' y - y = Pi.single 0 1 := ⟨g.symm x0, by
     rw [hT', LinearEquiv.apply_symm_apply, ← map_sub, hx0, ← hg0, LinearEquiv.symm_apply_apply]⟩
   have hy1 : ∃ y, T' y - y = Pi.single 1 1 := by
@@ -1845,7 +1845,7 @@ theorem e266_main [CharP F 2] (t : (Fin 4 → F) ≃ₗ[F] (Fin 4 → F)) (ht : 
         omega
       refine ⟨hr2', ?_⟩
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hnP (key.mpr (Or.inr ⟨hr2', hcon⟩))
     · rintro ⟨h2, v, hv⟩ hP
       rcases key.mp hP with h1 | ⟨_, hA'⟩

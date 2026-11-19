@@ -78,8 +78,8 @@ theorem rootDiagUnit_coord_mem_closure (hDB : D ≤ B₁) {e : X} (he : e ∈ D)
     (p := fun a _ => rootDiagUnit τ (P.coord a) ∈ T) ?_ ?_ ?_ ?_ he'
   · intro y hy
     rcases (by simpa using hy) with rfl | rfl
-    · exact Subgroup.subset_closure (by simp [T])
-    · exact Subgroup.subset_closure (by simp [T])
+    · exact Subgroup.subset_closure (by simp)
+    · exact Subgroup.subset_closure (by simp)
   · have h1 : rootDiagUnit τ (P.coord (1 : X)) = 1 := by
       rw [← P.Θ_eq_coord (⟨1, hDB (one_mem D)⟩ : ↥B₁) (one_mem D)]
       rw [show (⟨1, hDB (one_mem D)⟩ : ↥B₁) = 1 from Subtype.ext rfl, map_one]
@@ -163,7 +163,7 @@ private theorem ukPk6_finite_inf_centralizer :
     Finite ↥(P.Δ.Γ ⊓ Subgroup.centralizer
       ({rootDiagUnit τ (P.coord x), rootDiagUnit τ (P.coord P.d)} :
         Set (ModGL τ (ExcOmega f)))) := by
-  haveI : Finite ↥P.Δ.model := P.finite
+  have : Finite ↥P.Δ.model := P.finite
   have hle : P.Δ.Γ ⊓ Subgroup.centralizer
       ({rootDiagUnit τ (P.coord x), rootDiagUnit τ (P.coord P.d)} :
         Set (ModGL τ (ExcOmega f))) ≤ P.Δ.model :=
@@ -182,7 +182,7 @@ private theorem ukPk6_map_J_eq_map_K {K : Subgroup X}
           Set (ModGL τ (ExcOmega f)))))
     (hJK' : (J.subgroupOf G₀).map P.η ≤ (K.subgroupOf G₀).map P.η) :
     (J.subgroupOf G₀).map P.η = (K.subgroupOf G₀).map P.η := by
-  haveI := ukPk6_finite_inf_centralizer (P := P)
+  have := ukPk6_finite_inf_centralizer (P := P)
   have hJ' := P.attach_J
   by_contra hne
   have hcomm : ⁅(J.subgroupOf G₀).map P.η, (K.subgroupOf G₀).map P.η⁆ = ⊥ :=

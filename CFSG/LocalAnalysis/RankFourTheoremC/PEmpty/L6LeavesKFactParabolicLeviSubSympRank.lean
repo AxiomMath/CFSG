@@ -15,9 +15,9 @@ open CFSG.LocalAnalysis.ComponentInitial.LinearFlag (scalars scalars_eq_center c
 open CFSG.LocalAnalysis.ComponentInitial.SymplecticTorusWeyl (torusHom torusHom_injective)
 
 theorem two_le_pRank_sp_of_dvd_sub_one {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 2 ≤ n)
-    {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hrq : r ∣ Nat.card K - 1) :
+    {r : ℕ} (hr : r.Prime) (_hr2 : r ≠ 2) (hrq : r ∣ Nat.card K - 1) :
     2 ≤ CFSG.Open.pRank r (⊤ : Subgroup (StatedSp n K)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hdvdK : r ∣ Nat.card Kˣ := by
     rw [Nat.card_units]
     exact hrq
@@ -59,20 +59,24 @@ section SLArith
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem card_SL_mul {k : ℕ} :
     Nat.card (SpecialLinearGroup (Fin k) K) =
       Nat.card (SpecialLinearGroup (Fin k) K ⧸ Subgroup.center (SpecialLinearGroup (Fin k) K)) *
         Nat.card (Subgroup.center (SpecialLinearGroup (Fin k) K)) :=
   Subgroup.card_eq_card_quotient_mul_card_subgroup _
 
+omit [CharP K 2] in
 theorem card_center_SL_dvd {k : ℕ} (hk : 1 ≤ k) :
     Nat.card (Subgroup.center (SpecialLinearGroup (Fin k) K)) ∣ Nat.card K - 1 := by
   rw [← scalars_eq_center k K]
   exact card_scalars_dvd hk
 
+omit [Finite K] in
 theorem card_center_SL_two : Nat.card (Subgroup.center (SpecialLinearGroup (Fin 2) K)) = 1 := by
   rw [← scalars_eq_center 2 K, LinearCover.scalars_two_eq_bot K, Subgroup.card_bot]
 
+omit [CharP K 2] in
 theorem dvd_card_slQuot {k : ℕ} (hk : 2 ≤ k) {p j : ℕ} (hp : p.Prime) (hj2 : 2 ≤ j) (hjk : j ≤ k)
     (hpj : p ∣ Nat.card K ^ j - 1) (hnd : ¬ p ∣ Nat.card K - 1) :
     p ∣ Nat.card (SpecialLinearGroup (Fin k) K ⧸
@@ -123,6 +127,7 @@ theorem dvd_card_slQuot_of_dvd_sub_one {k : ℕ} (hk : 2 ≤ k) {f : ℕ}
     rw [hmul, mul_comm] at hsq
     exact hf.trans (dvd_of_sq_dvd_mul hzpos hz hsq)
 
+omit [CharP K 2] in
 theorem three_dvd_card_slQuot {k : ℕ} (hk : 2 ≤ k) (hq : Nat.card K = 2) :
     3 ∣ Nat.card (SpecialLinearGroup (Fin k) K ⧸
       Subgroup.center (SpecialLinearGroup (Fin k) K)) := by

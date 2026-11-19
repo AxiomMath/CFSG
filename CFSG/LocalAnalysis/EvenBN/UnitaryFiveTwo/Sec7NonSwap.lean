@@ -55,6 +55,7 @@ theorem exists_elemAb_cent_of_cover {X : Subgroup G}
   simpa using this
 
 
+omit [Finite G] in
 theorem map_equiv_quotient_equiv {X : Subgroup G} (φ : G ≃* G) (e : X ⧸ center X ≃* SU52) :
     Nonempty ((X.map φ.toMonoidHom) ⧸ center (X.map φ.toMonoidHom) ≃* SU52) := by
   set e1 : X ≃* X.map φ.toMonoidHom := X.equivMapOfInjective φ.toMonoidHom φ.injective
@@ -62,6 +63,7 @@ theorem map_equiv_quotient_equiv {X : Subgroup G} (φ : G ≃* G) (e : X ⧸ cen
       center (X.map φ.toMonoidHom) := Subgroup.map_center_eq e1
   exact ⟨(QuotientGroup.congr _ _ e1 hc).symm.trans e⟩
 
+omit [Finite G] in
 theorem odd_center_map_equiv {X : Subgroup G} (φ : G ≃* G) (hZ : Odd (Nat.card (center X))) :
     Odd (Nat.card (center (X.map φ.toMonoidHom))) := by
   set e1 : X ≃* X.map φ.toMonoidHom := X.equivMapOfInjective φ.toMonoidHom φ.injective
@@ -70,6 +72,7 @@ theorem odd_center_map_equiv {X : Subgroup G} (φ : G ≃* G) (hZ : Odd (Nat.car
   rw [← hc, Subgroup.card_map_of_injective e1.injective]
   exact hZ
 
+omit [Finite G] in
 theorem eq_one_of_central_of_sq {X : Subgroup G} (hZ : Odd (Nat.card (center X))) {y : G}
     (hy : y ∈ X) (hyc : ∀ a ∈ X, a * y = y * a) (hsq : y * y = 1) : y = 1 := by
   have hmem : (⟨y, hy⟩ : X) ∈ center X :=
@@ -86,6 +89,7 @@ theorem eq_one_of_central_of_sq {X : Subgroup G} (hZ : Odd (Nat.card (center X))
   have h4 : (z : X) = 1 := by rw [hz1]; rfl
   exact congrArg Subtype.val h4
 
+omit [Finite G] in
 theorem comm_of_sq_eq_one {E : Subgroup G} (hsq : ∀ y ∈ E, y * y = 1) {x y : G} (hx : x ∈ E)
     (hy : y ∈ E) : x * y = y * x := by
   have h1 := hsq (x * y) (E.mul_mem hx hy)

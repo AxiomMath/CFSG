@@ -59,7 +59,7 @@ theorem le_normalizer_map_conj {B T : Subgroup G} {g : G} (hgB : g ∈ normalize
     simpa using this
   rw [mem_normalizer_iff]
   intro y
-  simp only [SetLike.mem_coe, mem_map_conj]
+  simp only [mem_map_conj]
   have key := mem_normalizer_iff.1 (hBT hβ') (g⁻¹ * y * g)
   have e : g⁻¹ * β * g * (g⁻¹ * y * g) * (g⁻¹ * β * g)⁻¹ = g⁻¹ * (β * y * β⁻¹) * g := by group
   rw [e] at key
@@ -101,7 +101,7 @@ theorem exists_sylow_two_invariant {N₀ B : Subgroup G} {t : G} {n : ℕ} (hB :
   obtain ⟨W₀⟩ := (inferInstance : Nonempty (Sylow 2 ↥C))
   set W : Subgroup G := (W₀ : Subgroup ↥C).map C.subtype
   have hWC : W ≤ C := map_subtype_le _
-  have hW2 : IsPGroup 2 W := W₀.isPGroup'.map _
+  have hW2 : IsPGroup 2 W := W₀.isPGroup.map _
   have hBW : B ≤ normalizer (W : Set G) :=
     (le_centralizer_iff.1 (hWC.trans inf_le_right)).trans (centralizer_le_normalizer _)
   obtain ⟨T₀, hT₀, hWT₀, hBT₀⟩ := CFSG.Goldschmidt.G310.exists_invariant_sylow_containing

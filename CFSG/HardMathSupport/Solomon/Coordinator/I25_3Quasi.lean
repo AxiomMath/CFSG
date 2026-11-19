@@ -133,7 +133,7 @@ theorem i253_glaPComponent_of_subnormal {X S : Subgroup G} (hSX : S ≤ X) (hsn 
       have : x = 1 := e0.symm.injective (by simpa using hx)
       simp [this])
   have hcop : Nat.Coprime 3 (Nat.card O) := coprime_card_gLAPPrimeCore_aux 3 ↥X
-  haveI : O.Normal := inferInstance
+  have : O.Normal := inferInstance
   have hNn : (O.subgroupOf Lb).Normal := Subgroup.Normal.subgroupOf inferInstance Lb
   have hN : O.subgroupOf Lb ≤ Subgroup.center ↥Lb := by
     rcases i253_normal_le_center_or_top hqL (O.subgroupOf Lb) with h | h
@@ -196,6 +196,7 @@ theorem i253_glaPComponent_of_subnormal {X S : Subgroup G} (hSX : S ≤ X) (hsn 
       exact Subgroup.mem_subgroupOf.1 (Subgroup.mem_subgroupOf.1 this)
     exact absurd hSJ (not_le_of_gt hJS)
 
+omit [Finite G] in
 theorem i253_central_or_eq_of_isSubnormal {K J : Subgroup G} (hsn : IsSubnormal J K) :
     CFSG.Open.IsQuasisimple ↥K →
     (∃ h : J ≤ K, ∀ x (hx : x ∈ J), (⟨x, h hx⟩ : ↥K) ∈ Subgroup.center ↥K) ∨ J = K := by
@@ -211,6 +212,7 @@ theorem i253_central_or_eq_of_isSubnormal {K J : Subgroup G} (hsn : IsSubnormal 
           have : (⟨x, hx⟩ : ↥M) ∈ H.subgroupOf M := by rw [h]; trivial
           exact Subgroup.mem_subgroupOf.1 this))
 
+omit [Finite G] in
 theorem i253_eq_of_isSubnormal {K J : Subgroup G} (hK : CFSG.Open.IsQuasisimple ↥K)
     (hJq : CFSG.Open.IsQuasisimple ↥J) (hsn : IsSubnormal J K) : J = K := by
   rcases i253_central_or_eq_of_isSubnormal hsn hK with ⟨h, hc⟩ | h

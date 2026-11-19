@@ -37,7 +37,7 @@ private lemma isQuasisimple_of_open {Q : Type*} [Group Q] (h : CFSG.Open.IsQuasi
     rw [map_commutatorElement, commutatorElement_def,
       hab ((QuotientGroup.mk' (Subgroup.center Q)) x), mul_inv_cancel_right, mul_inv_cancel]
   rw [hcomm] at hle
-  haveI := hsimple
+  have := hsimple
   obtain ⟨a, b, hne⟩ := exists_pair_ne (Q ⧸ Subgroup.center Q)
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a
   obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b

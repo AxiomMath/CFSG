@@ -66,8 +66,8 @@ def e8OrthogonalRoots : Fin 8 → Fin 8 → ℤ :=
 
 theorem six_le_twoLocalPrimeRank_adjointGroup_E7 (F : Type) [Field F] [Finite F]
     (hF : Nat.card F = 2) : 6 ≤ CFSG.Open.twoLocalPrimeRank 3 (adjointGroup Tag.E7 F) := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Finite (adjointGroup Tag.E7 F) :=
+  have : Fintype F := Fintype.ofFinite F
+  have : Finite (adjointGroup Tag.E7 F) :=
     CFSG.LieType.Chevalley.generated_group_finite Tag.E7 F
   have h2 : ringChar F = 2 :=
     (FiniteField.even_card_iff_char_two (F := F)).2 (by rw [← Nat.card_eq_fintype_card, hF])
@@ -85,8 +85,8 @@ theorem six_le_twoLocalOddRank_adjointGroup_E7 (F : Type) [Field F] [Finite F]
 
 theorem seven_le_twoLocalPrimeRank_adjointGroup_E8 (F : Type) [Field F] [Finite F]
     (hF : Nat.card F = 2) : 7 ≤ CFSG.Open.twoLocalPrimeRank 3 (adjointGroup Tag.E8 F) := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Finite (adjointGroup Tag.E8 F) :=
+  have : Fintype F := Fintype.ofFinite F
+  have : Finite (adjointGroup Tag.E8 F) :=
     CFSG.LieType.Chevalley.generated_group_finite Tag.E8 F
   have h2 : ringChar F = 2 :=
     (FiniteField.even_card_iff_char_two (F := F)).2 (by rw [← Nat.card_eq_fintype_card, hF])
@@ -110,8 +110,8 @@ theorem rk2_low_e7_one (K : Type) [Group K] [Finite K] (lab : GLALabel)
     lieModel_of_markedModel_E7 htag hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨e⟩⟩ := hM'.chevalleyExceptionalModel
     (by decide : StatedLieTag.E7 ∈ chevalleyExceptionalTags)
-  haveI : Finite F := hFin
-  haveI : Finite (adjointGroup Tag.E7 F) :=
+  have : Finite F := hFin
+  have : Finite (adjointGroup Tag.E7 F) :=
     CFSG.LieType.Chevalley.generated_group_finite Tag.E7 F
   have hQ' : CFSG.IsQuasisimple K :=
     (CFSG.Foundations.SteinbergCA.quasisimple_iff K).2.2.1.2 hQ
@@ -133,8 +133,8 @@ theorem rk2_low_e8_one (K : Type) [Group K] [Finite K] (lab : GLALabel)
     lieModel_of_markedModel_E8 htag hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨e⟩⟩ := hM'.chevalleyExceptionalModel
     (by decide : StatedLieTag.E8 ∈ chevalleyExceptionalTags)
-  haveI : Finite F := hFin
-  haveI : Finite (adjointGroup Tag.E8 F) :=
+  have : Finite F := hFin
+  have : Finite (adjointGroup Tag.E8 F) :=
     CFSG.LieType.Chevalley.generated_group_finite Tag.E8 F
   have hQ' : CFSG.IsQuasisimple K :=
     (CFSG.Foundations.SteinbergCA.quasisimple_iff K).2.2.1.2 hQ

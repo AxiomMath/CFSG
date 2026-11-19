@@ -595,7 +595,7 @@ theorem e6CompLabel_false_of_not_twA_five
     (hE6 : E6CompLabel q lab)
     (hres : ¬ (lab.tag = .twA ∧ lab.rank = 5)) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hΛ, hHas⟩ := e6Three_mark_data hMark
   rcases hE6 with ⟨htag, hrk, _hn⟩ | ⟨htagD, hrk4, _hn⟩ | ⟨htri, _hn⟩ |
     ⟨hrk2, _hn3, hsign⟩
@@ -675,7 +675,7 @@ theorem e6Three_J_twA4_two_false
     (hH : GGResHyp 3 B Bs x L D J y K) (hD : GGResLineJDatum 3 Bs J .A3)
     (hMark : GGInnerDiagOnLabel (fun _ l => l = (⟨.twA, 4, 1⟩ : LargeEvenLabel)) 3 Bs J) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hΛ, hHas⟩ := e6Three_mark_data hMark
   obtain ⟨lab3, hΛ3, hLine3, hHas3⟩ :=
     GGResHyp.exists_lineJLabel_A3_of_compatible_unitary_marking_coprime hH hD
@@ -801,7 +801,7 @@ theorem GGResHyp.exists_e6_exactThree_twisted_J_unitary_five
       LargeEvenInLambda2 labJ ∧ GGHasLabel labJ (↥J ⧸ Subgroup.center ↥J) ∧
       GGInnerDiagOnLabel (fun _ lab => lab = labJ) 3 Bs J ∧
       labJ.tag = .twA ∧ labJ.rank = 5 ∧ labJ.n = labL.n := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hD : GGResLineJDatum 3 Bs J .A3 := by
     rcases h3 with h3 | h3 <;> exact e6_exactThree_GGResLineJDatum_A3 h3
   obtain ⟨labL, labJ, hEL, hΛL, hHasL, hML, hΛJ, hHasJ, hMJ,
@@ -956,12 +956,12 @@ private theorem e6_exact_two_gamma_card_ge_pow_four {G : Type} [Group G] [Finite
   classical
   rcases hD with ⟨Λ, i1, i2, S, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α,
     hS, -, -, hML, hCL, -, -, htyp, hlin, hrefl, hpair, -, -, -, -, -, -, hconn, hclosJ⟩
-  letI := i1
-  letI := i2
-  letI := i3
-  letI := i4
-  letI := i5
-  letI := i6
+  let := i1
+  let := i2
+  let := i3
+  let := i4
+  let := i5
+  let := i6
   let T : Type := {i : Λ // i ∉ S}
   let C : Matrix T T ℤ := CL.submatrix (Subtype.val : T → Λ) (Subtype.val : T → Λ)
   let M : CoxeterMatrix T := parMatrix ML {i | i ∉ S}
@@ -1048,8 +1048,8 @@ private theorem gamma_card_eq_ggLAut_range {G : Type} [Group G] [Finite G]
   have h1 := Subgroup.card_ker_mul_card_range ψ
   have h2 := Subgroup.card_ker_mul_card_range (ggGamma J hN)
   rw [hker] at h1
-  haveI : Finite ↥(ggGamma J hN).ker := Subtype.finite
-  haveI : Finite ↥ψ.ker := Subtype.finite
+  have : Finite ↥(ggGamma J hN).ker := Subtype.finite
+  have : Finite ↥ψ.ker := Subtype.finite
   exact (Nat.eq_of_mul_eq_mul_left Nat.card_pos (h1.trans h2.symm)).symm
 
 private theorem false_of_actor_autR_bound {G : Type} [Group G] [Finite G]
@@ -1713,7 +1713,7 @@ theorem GGResHyp.actual_gamma_J_card_le_three_four
       (fun _ lab => lab.tag = .twA ∧ lab.rank = 4 ∧ lab.n = 1) 3 Bs J) :
     Nat.card (ggGamma J (GGResHyp.Bs_le_normalizer_J hH)).range ≤ 3 ^ 4 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hperfJ, lab, hΛ, hraw⟩ := hMark
   obtain ⟨tag, rank, n⟩ := lab
   obtain ⟨R₀, _, I₀, F₀, hQ₀⟩ := largeEvenRawDatum_exists hraw
@@ -1728,8 +1728,8 @@ theorem GGResHyp.actual_gamma_J_card_le_three_four
   have hraw0 := hraw
   dsimp only [LargeEvenRawDatum] at hraw
   obtain ⟨F, hFfield, hFfinite, hFcard, hQ⟩ := hraw
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
+  let : Field F := hFfield
+  let : Finite F := hFfinite
   obtain ⟨_hsimple, _hnonab, θ, hP⟩ := hQ
   obtain ⟨_hS, hN', hBsI'⟩ := hP
   let d : ℕ := 5
@@ -1804,7 +1804,7 @@ theorem GGResHyp.card_Bs_six_or_seven_of_e6_exactTwo
     (hMJ : GGInnerDiagOnLabel (fun _ lab => lab = (⟨.twA, 4, 1⟩ : LargeEvenLabel))
       3 Bs J) :
     Nat.card Bs = 3 ^ 6 ∨ Nat.card Bs = 3 ^ 7 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C : Subgroup G := Bs ⊓ Subgroup.centralizer (J : Set G)
   have hCpow : ∃ k, Nat.card C = 3 ^ k :=
     IsPGroup.iff_card.mp ((CFSG.Open.IsElemAbelian.isPGroup hH.1.2.1.2.1).to_le
@@ -1952,13 +1952,13 @@ theorem GGResHyp.twA_four_two_J_weyl_of_e6_exactTwo
     (hMJ : GGInnerDiagOnLabel (fun _ lab => lab = (⟨.twA, 4, 1⟩ : LargeEvenLabel))
       3 Bs J) :
     GGWeylOfType 3 (CoxeterMatrix.A 4) (ggAutomizer J Bs) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN := GGResHyp.Bs_le_normalizer_J hH
   obtain ⟨w, hw⟩ := twA_four_two_J_torData_of_e6_exactTwo hH hD hMJ
   obtain ⟨V, hVadd, hVmod, ⟨ι⟩⟩ :=
     exists_ggLinData (p := 3) (G := G) (Bs := Bs) hH.1.2.1.2.1
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod 3) V := hVmod
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod 3) V := hVmod
   obtain ⟨hnk, hbk, α, hlin, hpair, -, -⟩ :=
     ggTD_linearData (by norm_num : Odd (3 : ℕ)) (dvd_refl 3)
       hH.1.2.1.2.1 hH.1.2.1.2.2.2 hN w hw V ι
@@ -2238,7 +2238,7 @@ theorem rank_six_CK_E6_of_witness
     (hH : GGResHyp 3 B Bs x L D J y K)
     {Λ : Type} [Fintype Λ] [DecidableEq Λ] {S : Finset Λ}
     {Λa : Type} [Fintype Λa] [DecidableEq Λa]
-    {ML : CoxeterMatrix Λ} {CL : Matrix Λ Λ ℤ}
+    {_ML : CoxeterMatrix Λ} {_CL : Matrix Λ Λ ℤ}
     {MK : CoxeterMatrix ({i : Λ // i ∉ S} ⊕ Λa)}
     {CK : Matrix ({i : Λ // i ∉ S} ⊕ Λa) ({i : Λ // i ∉ S} ⊕ Λa) ℤ}
     {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
@@ -2256,7 +2256,7 @@ theorem rank_six_CK_E6_of_witness
     ∃ e : Fin 6 ≃ ({i : Λ // i ∉ S} ⊕ Λa),
       ∀ i j, CK (e i) (e j) = CartanMatrix.E 6 i j := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let φK : {i : Λ // i ∉ S} ⊕ Λa → MulAut ↥Bs :=
     fun o => φ (o.map Subtype.val id)
   have hgen : ggAutomizer K Bs = Subgroup.closure (Set.range φK) := by
@@ -2278,12 +2278,12 @@ theorem rank_six_CK_E6_of_witness
   have hrank_core : Matrix.rank (CK.map (Int.castRingHom (ZMod 3))) + 1 ≤
       Module.finrank (ZMod 3) V :=
     ggResK_rank_core_add_one hH hlinK hpairK hdiag hgen
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hVcard : Nat.card V = 3 ^ 6 := by
     have hcard_add : Nat.card (Additive ↥Bs) = Nat.card ↥Bs :=
       (Nat.card_congr (Additive.ofMul : ↥Bs ≃ Additive ↥Bs)).symm
     rw [← Nat.card_congr ι.toEquiv, hcard_add, hBs6]
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype V := Fintype.ofFinite V
   have hVdim : Module.finrank (ZMod 3) V = 6 := by
     have h := Module.card_eq_pow_finrank (K := ZMod 3) (V := V)
     have hVcardF : Fintype.card V = 3 ^ 6 := by
@@ -2389,7 +2389,7 @@ theorem GGResHyp.twE6_exactTwo_K_refinement
     hS2, hA1, hA3, hWML, hCLL, hWMK, hCKK, htyp, hlin, hrefl, hpairL, hpairK, hsel,
     hfL, hfK, hclosL, hclosK, hdel, hclosJ, hAa, hCases, hBs, ?_⟩
   intro h6 hK6
-  exact rank_six_CK_E6_of_witness (ML := ML) (CL := CL)
+  exact rank_six_CK_E6_of_witness (_ML := ML) (_CL := CL)
     hH hWMK hCKK hlin hpairK hclosK hK6 h6
 
 end TwE6KRankSixCertificates

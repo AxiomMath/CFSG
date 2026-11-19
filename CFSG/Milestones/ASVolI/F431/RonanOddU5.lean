@@ -42,10 +42,10 @@ theorem oddIndex_U5 : OddIndexU5 := by
   intro E _ Gp M₁ M₂ Y _ β M _ ε z hyp _hL
   classical
   by_contra hev
-  haveI := hyp.amalgam.finite
-  haveI := hyp.amalgam.normal
-  haveI := hyp.finite_M
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.amalgam.finite
+  have := hyp.amalgam.normal
+  have := hyp.finite_M
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hGp : Gp ≠ ⊤ := fun h => hev (by rw [h, Subgroup.index_top]; exact odd_one)
   have hidx2 : Gp.index = 2 := by
     rcases burnsideF429_F429_one_Un_two (Or.inr rfl) hyp.amalgam with h | h

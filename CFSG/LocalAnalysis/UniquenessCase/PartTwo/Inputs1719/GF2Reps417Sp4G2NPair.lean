@@ -60,6 +60,7 @@ section Pair
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem map_conj_map_subtype_eq_map_normalizerMonoidHom (L : Subgroup (MulAut W)) (t : MulAut W)
     (htN : t ∈ Subgroup.normalizer (L : Set (MulAut W))) (Z : Subgroup ↥L) :
     (Z.map L.subtype).map (MulAut.conj t).toMonoidHom =
@@ -94,12 +95,14 @@ theorem map_conj_subtype_eq_of_invariant (T L : Subgroup (MulAut W)) (S : Subgro
   have h := hZ _ (by rw [hSdef]; exact map_normalizerMonoidHom_subgroupOf_inf_eq T L t ht htN)
   rw [h]
 
+omit [Finite W] in
 theorem nonempty_bar2_subtype_map (L : Subgroup (MulAut W)) (Z : Subgroup ↥L) :
     Nonempty (Bar2 Z ≃* Bar2 (Z.map L.subtype)) := by
   let e : ↥Z ≃* ↥(Z.map L.subtype) := Z.equivMapOfInjective L.subtype L.subtype_injective
   exact ⟨QuotientGroup.congr (CFSG.pCore 2 ↥Z) (CFSG.pCore 2 ↥(Z.map L.subtype)) e
     (CFSG.pCore_map_iso 2 e)⟩
 
+omit [Finite W] in
 theorem isSylowIn_sup_of_le_of_isSylowIn {T Y : Subgroup (MulAut W)} (hsyl : IsSylowIn 2 T Y)
     {K : Subgroup (MulAut W)} (hKY : K ≤ Y) : IsSylowIn 2 T (K ⊔ T) := by
   refine ⟨le_sup_right, hsyl.2.1, fun h => hsyl.2.2 ?_⟩
@@ -250,7 +253,7 @@ end PairShape
 theorem isSylowTwoOf_subgroupOf_inf {W : Type} [CommGroup W] [Finite W]
     {Y L T : Subgroup (MulAut W)} (hcomp : IsComponentOf L Y) (hsyl : IsSylowIn 2 T Y) :
     CFSG.QuasithinUnique.IsSylowTwoOf ((T ⊓ L).subgroupOf L) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTL : IsSylowIn 2 (T ⊓ L) L :=
     CFSG.Quasithin.F6.isSylowIn_inf_of_isSubnormal hcomp.2.1 hsyl
   refine ⟨le_top, hTL.2.1.comap_of_injective L.subtype L.subtype_injective, ?_⟩

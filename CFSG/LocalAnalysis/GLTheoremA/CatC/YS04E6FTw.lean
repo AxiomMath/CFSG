@@ -117,10 +117,10 @@ theorem meets_inner_E6_tw {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) (hK : 
     twisted_E6_all_characteristic_exact_automorphism_normal_form hℓ hf K hK σ hσ
   have hKℓ : Nat.card K = ℓ ^ (f * 2) := by rw [hK, ← pow_mul]
   obtain ⟨hcardAut, hcyc⟩ := card_ringAut_and_isCyclic hℓ K hKℓ
-  haveI : IsCyclic (RingAut K) := hcyc
-  haveI : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; omega)
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
+  have : IsCyclic (RingAut K) := hcyc
+  have : Finite (RingAut K) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; omega)
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (twistedE6RootGroup K σ) := Subtype.finite
   have hσ2 : σ ^ 2 = 1 := by
     obtain ⟨σ', hσ', hord, -⟩ := finite_graph_field_parameter_fields TwistTag.E6 hℓ hf K hK
     have hσσ' : σ' = σ := RingEquiv.ext fun c => by rw [hσ', hσ]

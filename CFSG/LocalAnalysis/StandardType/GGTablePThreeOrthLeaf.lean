@@ -26,7 +26,7 @@ open CFSG CFSG.Assembly CFSG.RankThree.Classical2
 
 private theorem orthLeaf_charP_two_of_card_pow {F : Type} [Field F] [Finite F] {k : ℕ}
     (hk : 1 ≤ k) (h : Nat.card F = 2 ^ k) : CharP F 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   apply ringChar.of_eq
   rw [FiniteField.even_card_iff_char_two, ← Nat.card_eq_fintype_card, h]
   apply Nat.mod_eq_zero_of_dvd
@@ -80,34 +80,34 @@ private theorem orthLeaf_no_twA_two {s t : LargeEvenLabel} (hs : orthLeaf_SymLab
   obtain ⟨st, sr, sn⟩ := s
   obtain ⟨tt, tr, tn⟩ := t
   simp only [orthLeaf_SymLabelShape, GGLabelIso] at *
-  cases st <;> cases tt <;> simp_all <;> omega
+  cases st <;> cases tt <;> simp_all
 
 private theorem orthLeaf_A2_shape {s t : LargeEvenLabel} (hs : orthLeaf_SymLabelShape s)
     (ht : GGLabelA2 t) (h : GGLabelIso s t) : s.tag = .A ∧ s.rank = 2 := by
   obtain ⟨st, sr, sn⟩ := s
   obtain ⟨tt, tr, tn⟩ := t
   simp only [orthLeaf_SymLabelShape, GGLabelA2, GGLabelIso] at *
-  cases st <;> cases tt <;> simp_all <;> omega
+  cases st <;> cases tt <;> simp_all
 
 private theorem orthLeaf_eq_of_A1_shape {s t : LargeEvenLabel} (hs : orthLeaf_SymLabelShape s)
     (ht : t.tag = .A) (hr : t.rank = 1) (h : GGLabelIso s t) : s = t := by
   obtain ⟨st, sr, sn⟩ := s
   obtain ⟨tt, tr, tn⟩ := t
   simp only [orthLeaf_SymLabelShape, GGLabelIso] at *
-  cases st <;> cases tt <;> simp_all <;> omega
+  cases st <;> cases tt <;> simp_all
 
 private theorem orthLeaf_D4_of_iso {s t : LargeEvenLabel} (hs : orthLeaf_SymLabelShape s)
     (ht : t.tag = .D) (hr : t.rank = 4) (h : GGLabelIso s t) : s = ⟨.D, 4, t.n⟩ := by
   obtain ⟨st, sr, sn⟩ := s
   obtain ⟨tt, tr, tn⟩ := t
   simp only [orthLeaf_SymLabelShape, GGLabelIso] at *
-  cases st <;> cases tt <;> simp_all <;> omega
+  cases st <;> cases tt <;> simp_all
 
 private theorem orthLeaf_D_left {lab : LargeEvenLabel} {r n : ℕ} (hr : r ≠ 3)
     (h : GGLabelIso (⟨.D, r, n⟩ : LargeEvenLabel) lab) : lab = ⟨.D, r, n⟩ := by
   obtain ⟨t, l, m⟩ := lab
   simp only [GGLabelIso] at h
-  rcases h with h | h | h | h | h | h | h | h <;> simp_all <;> omega
+  rcases h with h | h | h | h | h | h | h | h <;> simp_all
 
 private theorem orthLeaf_exists_label_of_marking {K : Type} [Group K] {P : LargeEvenMarkProp K}
     (h : LargeEvenMarking K P) :
@@ -204,11 +204,11 @@ private theorem orthLeaf_frame
   by_cases hr3eq : rank = 3
   · subst hr3eq
     dsimp only [LargeEvenRawDatumLegacy] at hraw
-    rw [if_pos rfl] at hraw
+    rw [ite_eq_left rfl] at hraw
     obtain ⟨K, hfieldK, hfiniteK, hcardK, hQK⟩ := hraw
     obtain ⟨hsimpleK, hnaK, θK, hPK⟩ := hQK
-    letI := hfieldK
-    letI := hfiniteK
+    let := hfieldK
+    let := hfiniteK
     have hcharK : CharP K 2 := orthLeaf_charP_two_of_card_pow hn1 hcardK
     have hsplitK : 3 ∣ Nat.card K - 1 ∨ Nat.card K = 2 := by
       rcases hsplitD with h | h
@@ -224,11 +224,11 @@ private theorem orthLeaf_frame
       Or.inl ⟨rfl, hLin⟩⟩
   · have hr4 : 4 ≤ rank := by omega
     dsimp only [LargeEvenRawDatumLegacy] at hraw
-    rw [if_neg hr3eq] at hraw
+    rw [ite_eq_right hr3eq] at hraw
     obtain ⟨K, hfieldK, hfiniteK, hcardK, hQK⟩ := hraw
     obtain ⟨hsimpleK, hnaK, θK, hPK⟩ := hQK
-    letI := hfieldK
-    letI := hfiniteK
+    let := hfieldK
+    let := hfiniteK
     have hcharK : CharP K 2 := orthLeaf_charP_two_of_card_pow hn1 hcardK
     have hsimple : IsSimpleGroup (POmPlusG rank K) ∧
         ∃ a b : POmPlusG rank K, a * b ≠ b * a :=
@@ -286,8 +286,8 @@ private theorem orthLeaf_cell1
   rcases hbranch with ⟨hr3eq, hLin⟩ | ⟨hr4, hOrth⟩
   · obtain ⟨E, hfieldE, hfiniteE, m, j, hm2, hmE, hj1, hj3, hEcard, hjmN, hJiso, hj3p, hj2p,
       hm3p, hm2p⟩ := hLin
-    letI := hfieldE
-    letI := hfiniteE
+    let := hfieldE
+    let := hfiniteE
     have hcharE : CharP E 2 := by
       refine orthLeaf_charP_two_of_card_pow (Nat.mul_pos hn1 hj1) ?_
       rw [hEcard, pow_mul]
@@ -314,8 +314,8 @@ private theorem orthLeaf_cell2
     rcases hbranch with ⟨hr3eq, hLin⟩ | ⟨hr4, hOrth⟩
     · obtain ⟨E, hfieldE, hfiniteE, m, j, hm2, hmE, hj1, hj3, hEcard, hjmN, hJiso, hj3p, hj2p,
         hm3p, hm2p⟩ := hLin
-      letI := hfieldE
-      letI := hfiniteE
+      let := hfieldE
+      let := hfiniteE
       have hcharE : CharP E 2 := by
         refine orthLeaf_charP_two_of_card_pow (Nat.mul_pos hn1 hj1) ?_
         rw [hEcard, pow_mul]
@@ -372,7 +372,7 @@ private theorem orthLeaf_cell3
     {X : Type} [Group X] [Finite X] {A : Subgroup (MulAut X)} {δ : MulAut X} {J : Subgroup X}
     (hd : DatumOn (fam 3) X A δ J)
     (hmarkJ : LargeEvenMarking J (fun lab _ _ _ _ _ => GGLabelA2 lab ∧ lab.tag = .twA))
-    (hZ : Subgroup.center J ≠ ⊥) :
+    (_hZ : Subgroup.center J ≠ ⊥) :
     GGMarkingAll (K := X) fun lab _ _ _ _ _ => LargeEvenSplit 3 lab →
       (lab.tag = .twA ∧ lab.rank = 3) ∨ (lab.tag = .twD ∧ (lab.rank = 3 ∨ lab.rank = 4)) ∨
         (lab.tag = .twA ∧ lab.rank = 4 ∧ 3 ∣ 2 ^ lab.n + 1 ∧ Nat.card A = 3 ^ 3) ∨
@@ -384,8 +384,8 @@ private theorem orthLeaf_cell3
     rcases hbranch with ⟨hr3eq, hLin⟩ | ⟨hr4, hOrth⟩
     · obtain ⟨E, hfieldE, hfiniteE, m, j, hm2, hmE, hj1, hj3, hEcard, hjmN, hJiso, hj3p, hj2p,
         hm3p, hm2p⟩ := hLin
-      letI := hfieldE
-      letI := hfiniteE
+      let := hfieldE
+      let := hfiniteE
       have hcharE : CharP E 2 := by
         refine orthLeaf_charP_two_of_card_pow (Nat.mul_pos hn1 hj1) ?_
         rw [hEcard, pow_mul]
@@ -415,8 +415,8 @@ private theorem orthLeaf_cell4
     rcases hbranch with ⟨hr3eq, hLin⟩ | ⟨hr4, hOrth⟩
     · obtain ⟨E, hfieldE, hfiniteE, m, j, hm2, hmE, hj1, hj3, hEcard, hjmN, hJiso, hj3p, hj2p,
         hm3p, hm2p⟩ := hLin
-      letI := hfieldE
-      letI := hfiniteE
+      let := hfieldE
+      let := hfiniteE
       have hcharE : CharP E 2 := by
         refine orthLeaf_charP_two_of_card_pow (Nat.mul_pos hn1 hj1) ?_
         rw [hEcard, pow_mul]
@@ -444,8 +444,8 @@ private theorem orthLeaf_cell5
   rcases hbranch with ⟨hr3eq, hLin⟩ | ⟨hr4, hOrth⟩
   · obtain ⟨E, hfieldE, hfiniteE, m, j, hm2, hmE, hj1, hj3, hEcard, hjmN, hJiso, hj3p, hj2p,
       hm3p, hm2p⟩ := hLin
-    letI := hfieldE
-    letI := hfiniteE
+    let := hfieldE
+    let := hfiniteE
     have hcharE : CharP E 2 := by
       refine orthLeaf_charP_two_of_card_pow (Nat.mul_pos hn1 hj1) ?_
       rw [hEcard, pow_mul]
@@ -502,8 +502,8 @@ private theorem orthLeaf_cell6
     rcases hbranch with ⟨hr3eq, hLin⟩ | ⟨hr4, hOrth⟩
     · obtain ⟨E, hfieldE, hfiniteE, m, j, hm2, hmE, hj1, hj3, hEcard, hjmN, hJiso, hj3p, hj2p,
         hm3p, hm2p⟩ := hLin
-      letI := hfieldE
-      letI := hfiniteE
+      let := hfieldE
+      let := hfiniteE
       have hcharE : CharP E 2 := by
         refine orthLeaf_charP_two_of_card_pow (Nat.mul_pos hn1 hj1) ?_
         rw [hEcard, pow_mul]

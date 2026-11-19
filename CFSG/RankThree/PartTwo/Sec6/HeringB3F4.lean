@@ -32,7 +32,7 @@ theorem exists_order_three_reeGamma (hK : Nat.card K = 2 ^ (2 * a + 1)) :
 theorem perfSubnormalBot_centralizer_reeF4 (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
     (y : ReeTag.F4.reeGamma K a) (hy3 : y ^ 3 = 1) :
     PerfSubnormalBot (Subgroup.centralizer ({y} : Set (ReeTag.F4.reeGamma K a))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hy1 : y = 1
   · subst hy1
     have hC : Subgroup.centralizer ({1} : Set (ReeTag.F4.reeGamma K a)) = ⊤ := by
@@ -41,14 +41,14 @@ theorem perfSubnormalBot_centralizer_reeF4 (ha : 1 ≤ a) (hK : Nat.card K = 2 ^
       rw [Subgroup.mem_centralizer_singleton_iff]
       exact (mul_one z).trans (one_mul z).symm
     rw [hC]
-    haveI : IsSimpleGroup (ReeTag.F4.reeGamma K a) :=
+    have : IsSimpleGroup (ReeTag.F4.reeGamma K a) :=
       CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 ha hK
     obtain ⟨x, hx1, hx3⟩ := exists_order_three_reeGamma hK
     exact perfSubnormalBot_of_isSimpleGroup Subgroup.topEquiv.isSimpleGroup
       ⟨x, Subgroup.mem_top x, hx1, hx3⟩
   · have hyo : orderOf y = 3 := orderOf_eq_prime hy3 hy1
     obtain ⟨K', _, _, hK', ⟨e⟩⟩ := Sec8.ReeF4Conj2Proof.kF83ReeCentThree_holds a K ha hK y hyo
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h8 : 2 < 2 ^ (2 * a + 1) := by
       calc 2 < 2 ^ 3 := by norm_num
         _ ≤ 2 ^ (2 * a + 1) := Nat.pow_le_pow_right (by norm_num) (by omega)
@@ -83,9 +83,9 @@ theorem b3Fix_reeF4_of_outer (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
     Sec8.Item8KFactsProof.exists_fixedPoints_reeGammaFieldAut hK σ hσ
   have hmap := map_conj_fixed_eq x hx hC (R := ι.range) (fun y => hιrange y)
   have hB : B3Fix ι.range := by
-    haveI : CharP (fixSubfield σ) ReeTag.F4.prime := hchar
+    have : CharP (fixSubfield σ) ReeTag.F4.prime := hchar
     by_cases hb : 1 ≤ b
-    · haveI : IsSimpleGroup (ReeTag.F4.reeGamma (fixSubfield σ) b) :=
+    · have : IsSimpleGroup (ReeTag.F4.reeGamma (fixSubfield σ) b) :=
         CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 hb hcard
       have hs' : IsSimpleGroup ι.range := (MonoidHom.ofInjective hιinj).symm.isSimpleGroup
       obtain ⟨x₃, hx1, hx3⟩ := exists_order_three_reeGamma (K := fixSubfield σ) hcard

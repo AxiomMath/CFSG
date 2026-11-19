@@ -46,7 +46,7 @@ theorem generalizedFitting_eq_sup_of_isComponent {X : Type*} [Group X] [Finite X
 theorem isComponent_of_prodSplit {X : Type} [Group X] {N A B : Subgroup X} [N.Normal]
     (h : Close.ProdSplit N A B) : CFSG.IsComponent A := by
   have hns : Close.NonabSimple A := h.isA.nonabSimple
-  haveI : IsSimpleGroup ↥A := hns.1
+  have : IsSimpleGroup ↥A := hns.1
   obtain ⟨a, ha, b, hb, hab⟩ := hns.2
   have hq : CFSG.IsQuasisimple ↥A :=
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup (Q := ↥A)
@@ -81,7 +81,7 @@ theorem nonempty_fStar_equiv_U43_of_mulEquiv_U43Ext
       CFSG.EvenSporadicStandard.M24Std.CU43.psiEquiv.symm
   have hP'q : CFSG.IsQuasisimple ↥P' := by
     have hns := Close.u43_nonabSimple eP'
-    haveI : IsSimpleGroup ↥P' := hns.1
+    have : IsSimpleGroup ↥P' := hns.1
     obtain ⟨a, ha, b, hb, hab⟩ := hns.2
     exact (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup (Q := ↥P')
       ⟨⟨a, ha⟩, ⟨b, hb⟩, by simpa using hab⟩).1

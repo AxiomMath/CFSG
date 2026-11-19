@@ -36,7 +36,7 @@ theorem exists_card_centralizer_of_pow_three {n : ℕ} {τ : Perm (Fin n)} (h3 :
     exact h1 (cycleType_eq_zero.mp hrep)
   refine ⟨k, hk1, hsum, ?_⟩
   rw [nat_card_centralizer, hrep, Multiset.sum_replicate, Multiset.prod_replicate,
-    Fintype.card_fin, smul_eq_mul, Multiset.toFinset_replicate, if_neg (by omega),
+    Fintype.card_fin, smul_eq_mul, Multiset.toFinset_replicate, ite_eq_right (by omega),
     Finset.prod_singleton, Multiset.count_replicate_self, mul_comm k 3]
 
 theorem card_centralizer_le_nine {τ : Perm (Fin 9)} (h3 : τ ^ 3 = 1) (h1 : τ ≠ 1) :
@@ -53,7 +53,7 @@ theorem noCfgS429_alternatingGroup_nine :
   have hτ3 : τ ^ 3 = 1 := conjPerm_injective (by norm_num)
     (by rw [map_pow, hc.isE27.1.2 _ hc.mem, map_one])
   have hτ1 : τ ≠ 1 := fun h => hc.ne_one (by rw [h, map_one])
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   have h1 := le_card_of_isType429 hc.isType
   have h2 : Nat.card (K ⧸ CFSG.pCore 2 K) ≤ Nat.card K :=
     Nat.le_of_dvd Nat.card_pos (Subgroup.card_quotient_dvd_card _)

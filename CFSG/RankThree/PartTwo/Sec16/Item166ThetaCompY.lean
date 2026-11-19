@@ -22,7 +22,7 @@ theorem eq_bot_of_normal_of_not_three_dvd {T : Type*} [Group T] [Finite T]
   have hker : σ.ker = Subgroup.center T := by
     change (hT.2.some.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center T))).ker = _
     rw [MonoidHom.ker_comp_of_injective _ _ hT.2.some.injective, QuotientGroup.ker_mk']
-  haveI hNn : (N.map σ).Normal := Subgroup.Normal.map inferInstance σ hσ
+  have hNn : (N.map σ).Normal := Subgroup.Normal.map inferInstance σ hσ
   rcases alternatingGroup.normal_subgroup_eq_bot_or_eq_top (α := Fin 6) (by simp)
     (N := N.map σ) with hbot | htop
   · have hle : N ≤ Subgroup.center T := by
@@ -82,7 +82,7 @@ theorem inf_pPrimeCoreOf_eq {G : Type*} [Group G] [Finite G] {H X : Subgroup G}
       intro x hx
       exact Subgroup.inf_normalizer_le_normalizer_inf (Subgroup.mem_inf.mpr
         ⟨Subgroup.le_normalizer hx, (hXH.trans hHP) hx⟩)
-    haveI hUn : (U.subgroupOf X).Normal :=
+    have hUn : (U.subgroupOf X).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hUX).mpr hXN
     have hP3 : ¬ 3 ∣ Nat.card (pPrimeCoreOf 3 H) := by
       unfold pPrimeCoreOf
@@ -94,12 +94,12 @@ theorem inf_pPrimeCoreOf_eq {G : Type*} [Group G] [Finite G] {H X : Subgroup G}
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hUX).toEquiv
     have hU3sub : ¬ 3 ∣ Nat.card (U.subgroupOf X) := by
       rwa [hcard]
-    haveI hperfX : Group.IsPerfect ↥X := by
+    have hperfX : Group.IsPerfect ↥X := by
       rw [← hXdef]
       exact isPerfect_map_subtype hL.1
     let π : ↥X →* (↥X ⧸ aschbacherSolvableCore 3 ↥X) :=
       QuotientGroup.mk' (aschbacherSolvableCore 3 ↥X)
-    haveI hNmap : ((U.subgroupOf X).map π).Normal :=
+    have hNmap : ((U.subgroupOf X).map π).Normal :=
       hUn.map π (QuotientGroup.mk'_surjective _)
     have h3map : ¬ 3 ∣ Nat.card ((U.subgroupOf X).map π) := fun h =>
       hU3sub (h.trans (Subgroup.card_map_dvd _ π))

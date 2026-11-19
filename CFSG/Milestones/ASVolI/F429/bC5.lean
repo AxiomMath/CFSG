@@ -257,9 +257,9 @@ theorem burnsideF429b_G2_chartPB {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : 
     ⟨c', hk, -⟩ | ⟨hk, hp, hd, K, fK, finK, card, marking, h1, h2, h3, h4, h5⟩ |
     ⟨hk, -⟩ | ⟨hk, -⟩ | ⟨-, exponent, K, fK, finK, charK, scope, ⟨hk, -⟩ | ⟨hk, -⟩⟩
   · exact absurd hk (by cases c' <;> decide)
-  · letI := fK
-    haveI := finK
-    haveI : CharP K 2 := burnsideF4f_charP_of_card hd card
+  · let := fK
+    have := finK
+    have : CharP K 2 := burnsideF4f_charP_of_card hd card
     let Ψ : H13.F431.G2.C K ≃* ↥Gp := (H13.F431.G2.mk K).trans marking
     have hΨ : ∀ L : Subgroup (G2Native.Parent K),
         G2Native.fullImage K marking L = L.map Ψ.toMonoidHom := by
@@ -311,7 +311,7 @@ theorem burnsideF429b_G2_keyL {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     ∀ r ∈ M₁ ⊓ M₂, ∀ k : ℕ, r ^ 2 ^ k = 1 →
       (∀ b ∈ oPPrime 2 (Gp ⊓ M) ⊓ (M₁ ⊓ M₂),
         r * b * r⁻¹ * b⁻¹ ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) → r ∈ Gp := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨K, fK, finK, cK, hcard, Ψ, h1, h2, hB⟩ := burnsideF429b_G2_chartPB hyp.toHypF_4_4g
   obtain ⟨i, hMi⟩ := hM K fK cK Ψ h1 h2
   have hHB : torusSub Tag.G2 K ≤ borelSub Tag.G2 K :=

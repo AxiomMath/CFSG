@@ -106,11 +106,11 @@ theorem stabH_perfect {Γ : Type} [Group Γ] {m : ℕ} (h7 : 7 ≤ m) (ρ : Γ �
 theorem sum_epsVec {m : ℕ} (hodd : Odd m) (p : Fin m) : ∑ i, epsVec p i = 0 := by
   have h1 : ∀ i, epsVec p i = 1 + (if i = p then 1 else 0) := fun i => by
     unfold epsVec
-    by_cases h : i = p <;> simp [h] <;> decide
+    by_cases h : i = p <;> simp [h]; decide
   have h2 : ∑ i : Fin m, (1 : ZMod 2) = (m : ZMod 2) := by simp
   have h3 : ∑ i : Fin m, (if i = p then (1 : ZMod 2) else 0) = 1 := by simp
   simp only [h1]
-  rw [Finset.sum_add_distrib, h2, h3, ZMod.natCast_eq_one_iff_odd.mpr hodd] <;> decide
+  rw [Finset.sum_add_distrib, h2, h3, ZMod.natCast_eq_one_iff_odd.mpr hodd]; decide
 
 @[expose] def epsN {m : ℕ} (hodd : Odd m) (p : Fin m) : ↥(G6.coreMod m) :=
   ⟨Multiplicative.ofAdd (epsVec p), by
@@ -122,7 +122,7 @@ theorem coreAct_epsN {m : ℕ} (hodd : Odd m) (σ : Equiv.Perm (Fin m)) (p : Fin
   rw [G6.coreAct_coe]
   apply Multiplicative.toAdd.injective
   funext i
-  simp [epsN, G6.permAct_apply, epsVec, Equiv.Perm.inv_eq_iff_eq, Equiv.symm_apply_eq]
+  simp [epsN, G6.permAct_apply, epsVec, Equiv.symm_apply_eq]
 
 @[expose] def phiHom {W : Type} [CommGroup W] {U : Subgroup W} {m : ℕ}
     (e : (W ⧸ U) ≃* ↥(G6.coreMod m)) : W →* ↥(G6.coreMod m) :=
@@ -281,7 +281,7 @@ theorem sum_ite_epsVec {m : ℕ} (x : Fin m → ZMod 2) (hx : ∑ i, x i = 0) :
   have hpt : ∀ p, (if x p = 1 then epsVec p else 0) i = x p + (if i = p then x p else 0) := by
     intro p
     rcases (show ∀ z : ZMod 2, z = 0 ∨ z = 1 from by decide) (x p) with h | h <;>
-      by_cases hi : i = p <;> simp [h, hi, epsVec] <;> decide
+      by_cases hi : i = p <;> simp [h, hi, epsVec]; decide
   rw [Finset.sum_apply]
   simp only [hpt]
   simp [Finset.sum_add_distrib, hx]
@@ -302,7 +302,7 @@ theorem toAdd_phi_secS {W : Type} [CommGroup W] {U : Subgroup W} {m : ℕ} (hodd
     (hwphi : ∀ p, e (QuotientGroup.mk (wf p)) = epsN hodd p) (x : Fin m → ZMod 2) :
     Multiplicative.toAdd ((phiHom e (secS wf x) : ↥(G6.coreMod m)) : G6.PermMod m) =
       ∑ p, (if x p = 1 then epsVec p else 0) := by
-  rw [phi_secS hodd e wf hwphi x, SubmonoidClass.coe_finset_prod, toAdd_prod]
+  rw [phi_secS hodd e wf hwphi x, SubmonoidClass.coe_finsetProd, toAdd_prod]
   refine Finset.sum_congr rfl (fun p _ => ?_)
   split_ifs <;> rfl
 

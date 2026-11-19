@@ -16,7 +16,7 @@ namespace Sixteen21
 
 private theorem one_le_pRank_of_dvd_card {Q : Type*} [Group Q] [Finite Q] (J : Subgroup Q)
     {r : ℕ} (hr : r.Prime) (hd : r ∣ Nat.card J) : 1 ≤ CFSG.Open.pRank r J := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' r hd
   have hx' : orderOf (x : Q) = r := (Subgroup.orderOf_coe x).trans hx
   refine CFSG.SectionRank.le_pRank (p := r) (H := J) (E := Subgroup.zpowers (x : Q)) (k := 1)

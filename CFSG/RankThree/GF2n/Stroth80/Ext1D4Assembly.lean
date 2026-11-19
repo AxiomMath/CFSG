@@ -14,25 +14,31 @@ section Frob
 
 variable {K : Type*} [Field K] [Fintype K] [CharP K 2]
 
+omit [Fintype K] in
 theorem add_pow_two_pow (k : ℕ) (s t : K) : (s + t) ^ 2 ^ k = s ^ 2 ^ k + t ^ 2 ^ k :=
   add_pow_char_pow (x := s) (y := t) (n := k) (p := 2)
 
+omit [CharP K 2] in
 theorem pow_two_pow_card {f : ℕ} (hf : Fintype.card K = 2 ^ f) (t : K) : t ^ 2 ^ f = t := by
   rw [← hf]
   exact FiniteField.pow_card t
 
+omit [CharP K 2] in
 theorem pow_two_pow_pow_two_pow {f : ℕ} (hf : Fintype.card K = 2 ^ f) {k : ℕ} (hk : k ≤ f)
     (t : K) : (t ^ 2 ^ (f - k)) ^ 2 ^ k = t := by
   rw [← pow_mul, ← pow_add, Nat.sub_add_cancel hk, pow_two_pow_card hf]
 
+omit [CharP K 2] in
 theorem units_pow_two_pow_card {f : ℕ} (hf : Fintype.card K = 2 ^ f) (u : Kˣ) :
     u ^ 2 ^ f = u :=
   Units.ext (by rw [Units.val_pow_eq_pow_val, pow_two_pow_card hf])
 
+omit [Fintype K] [CharP K 2] in
 theorem wtChar_add_twist (m k j : ℕ) (v : Fin 4 → ℤ) (z : Fin 4 → Kˣ) :
     wtChar m (k + j) v z = wtChar m k v z ^ 2 ^ j := by
   rw [wtChar, wtChar, pow_add, pow_mul]
 
+omit [CharP K 2] in
 theorem wtChar_twist_card {f : ℕ} (hf : Fintype.card K = 2 ^ f) (m k : ℕ) (v : Fin 4 → ℤ)
     (z : Fin 4 → Kˣ) : wtChar m (k + f) v z = wtChar m k v z := by
   rw [wtChar_add_twist, units_pow_two_pow_card hf]
@@ -88,6 +94,7 @@ theorem natCard_torus_ne_zero : ((Nat.card (Fin 4 → Kˣ) : ℕ) : K) ≠ 0 := 
       odd_one
   exact fun h => (Nat.not_even_iff_odd.2 (hodd.pow (n := 4))) (even_iff_two_dvd.2 h)
 
+omit [Fintype K] [CharP K 2] in
 theorem sum_diagonal_smul {ι V : Type*} [Fintype ι] [DecidableEq ι] [AddCommGroup V] [Module K V]
     (d : ι → K) (v : ι → V) (j : ι) : ∑ i, diagonal d i j • v i = d j • v j := by
   rw [Finset.sum_eq_single j (fun i _ hij => by rw [diagonal_apply_ne _ hij, zero_smul])
@@ -128,8 +135,8 @@ theorem minWt_neg {W : Finset (Fin 4 → ℤ)} (hW : IsMinWt W) : ∀ χ ∈ W, 
 @[expose] def negWt {W : Finset (Fin 4 → ℤ)} (hW : IsMinWt W) : W ≃ W where
   toFun χ := ⟨-(χ : Fin 4 → ℤ), minWt_neg hW _ χ.2⟩
   invFun χ := ⟨-(χ : Fin 4 → ℤ), minWt_neg hW _ χ.2⟩
-  left_inv χ := Subtype.ext (neg_neg _)
-  right_inv χ := Subtype.ext (neg_neg _)
+  left_inv _χ := Subtype.ext (neg_neg _)
+  right_inv _χ := Subtype.ext (neg_neg _)
 
 theorem rootElt_negWt {K : Type*} [Field K] {W : Finset (Fin 4 → ℤ)} (hW : IsMinWt W)
     (β : Fin 4 → ℤ) (u : K) (ψ χ : W) :
@@ -151,6 +158,7 @@ section Four
 
 variable {K : Type*} [Field K] [Fintype K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem wtChar_succ_of_card_four (hq : Fintype.card K = 4) (m k : ℕ) (v : Fin 4 → ℤ)
     (z : Fin 4 → Kˣ) : wtChar m (k + 1) v z = wtChar m k (-v) z := by
   have hu : ∀ u : Kˣ, u ^ 2 = u⁻¹ := by

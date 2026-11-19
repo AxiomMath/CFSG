@@ -145,7 +145,7 @@ theorem exists_outer_involution
     push Not at hcon
     exact hTJ hcon
   obtain ⟨m, hm⟩ : ∃ m : ℕ, s ^ 2 ^ m = 1 := by
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨s, hsT⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨s, hsT⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hinn : (MulAut.conj : PG (ModelData.sp F) →* MulAut (PG (ModelData.sp F))).range ≤
       (actHom Φ).range := by

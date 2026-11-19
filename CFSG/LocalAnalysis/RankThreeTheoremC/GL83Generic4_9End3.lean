@@ -63,7 +63,7 @@ theorem gen49e_inf_le {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {M T R : Subgroup 
     le_sup_normalizer_of_isSylowOf hXN ⟨S, rfl⟩
   have hS'M : ¬ normalizer (S' : Set G) ≤ M := fun h => hXM (hfr.trans (sup_le hNM h))
   have hYS' : Y ≤ S' := le_sup_left.trans hYWS
-  have hS'2 : IsPGroup 2 S' := S.isPGroup'.map N.subtype
+  have hS'2 : IsPGroup 2 S' := S.isPGroup.map N.subtype
   have hS'0 : S' ≠ ⊥ := fun h => hY0 (le_bot_iff.mp (h ▸ hYS'))
   have hcard := hmax S' hS'0 hS'2 hRS hS'M
   have hSY : Y = S' := eq_of_le_of_card_ge hYS' hcard

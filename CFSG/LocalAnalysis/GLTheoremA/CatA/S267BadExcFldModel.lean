@@ -85,15 +85,15 @@ theorem modelBGen_frame [Finite K] (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨
       (MulAut.conj : ↥(adjointGroup τ K) →* MulAut ↥(adjointGroup τ K)).range) :
     ModelGen.ModelBGen p (frameSize τ) ↥(adjointGroup τ K) (entrywiseAdjointAut τ σ) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
   have hodd : Odd p := hp.odd_of_ne_two hp2
   have hd := hrRootData_of hτ
   set X := ↥(adjointGroup τ K)
   set ψ := entrywiseAdjointAut τ σ with hψ
   have hpK0 := dvd_card_fixSubfield_sq_sub_one hp hσ hpQ
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   obtain ⟨B₀, hB₀⟩ := exists_orderOf_eq_sl2 hp hpK0
   set A₀ := fixIncl σ B₀ with hA₀def
   have hA₀ : orderOf A₀ = p := by rw [hA₀def, orderOf_injective _ (fixIncl_injective σ), hB₀]

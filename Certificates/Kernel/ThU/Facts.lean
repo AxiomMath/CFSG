@@ -46,7 +46,7 @@ theorem pc_bound (J : Subgroup (GL (Fin 248) (ZMod 2)))
       Nat.card (pcSub J RB PR (f b) 12) := by
     intro b hb9
     obtain ⟨hok, efr, eto⟩ := blockAt_spec (hb b hb9)
-    have hfb : f b = blkFr BL b := by simp only [f, if_pos hb9, efr]
+    have hfb : f b = blkFr BL b := by simp only [f, ite_eq_left hb9, efr]
     have hfb1 : f (b + 1) = blkTo BL b := by
       rw [eto]
       interval_cases b <;> rfl
@@ -118,7 +118,7 @@ theorem thU_sub : ∃ g : Fin 3 → (CFSG.Blueprint.NativeSporadic.seedMonoid 2 
     have hall : allMarked PR 12 (runMarked slp2.c0 (n1 + 2048 * gmask3 GR) / 2048) = true := by
       rw [← Nat.eq_of_beq_eq_true chk_M]
       exact chk_mk
-    haveI := unitsHom_finite S
+    have := unitsHom_finite S
     exact le_card_closure_of_chain hk (unitsHom_injective S) x hx hpos2 hlt2 hall pc_bound
 
 end CFSG.KD.ThU

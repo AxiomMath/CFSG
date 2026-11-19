@@ -21,7 +21,7 @@ theorem pCoreOf_five_centralizer_eq_bot (F : A10Frame c) {B : Subgroup G} (hBA :
     (hB3 : Nat.card B = 3) (hBM : ¬ Subgroup.centralizer (B : Set G) ≤ D.M) :
     CFSG.Open.pCoreOf 5 (Subgroup.centralizer (B : Set G)) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set C : Subgroup G := Subgroup.centralizer (B : Set G)
   have hBL : B ≤ c.L := hBA.trans (F.A_le.trans F.P_le_L)
   have hBpg : IsPGroup 3 B := IsPGroup.of_card (n := 1) (by rw [hB3]; norm_num)

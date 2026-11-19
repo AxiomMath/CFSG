@@ -50,7 +50,7 @@ theorem orderOf_tvec_mul (v w : V) (f g : V →ₗ[ZMod 2] ZMod 2) (hfv : f v = 
     intro h
     have := congrArg (fun a : V ≃ₗ[ZMod 2] V => a v) h
     have e : (tvec v f hfv * tvec w g hgw) v = w := by
-      simp only [LinearEquiv.mul_apply, tvec_apply, map_add, map_smul, smul_eq_mul, hfv, hgw, hfw,
+      simp only [LinearEquiv.mul_apply, tvec_apply, map_add, map_smul, hfv, hfw,
         hgv]
       match_scalars <;> decide
     change (tvec v f hfv * tvec w g hgw) v = v at this

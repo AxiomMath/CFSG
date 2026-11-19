@@ -54,7 +54,7 @@ theorem burnsideB610_case_ge_two (hcomp : burnsideB610_CompFamTarget) {H T M V L
   have hLH : L ≤ H := burnsideB610_le_of_subnormal hL
   have hLN : L ≤ Subgroup.normalizer (V : Set G) := hLH.trans hHN
   obtain ⟨F, _, _, hFc, ⟨D⟩⟩ := exists_natData hn hnat
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hFc
+  have : CharP F 2 := charP_of_card_eq_prime_pow hFc
   have hF : Nat.card F = 2 ^ n := by rw [Nat.card_eq_fintype_card, hFc]
   have h4 : ∃ s : Finset F, s.card = 4 := by
     have h4le : 4 ≤ (Finset.univ : Finset F).card := by

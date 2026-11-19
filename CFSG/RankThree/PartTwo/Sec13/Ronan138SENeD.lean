@@ -51,7 +51,7 @@ theorem normalizer_of_mem_lA_d {A L E F : Subgroup G} {c x y t : G}
     (hfr : Frame138Base A L E F c x y t) {K : Subgroup G} (hK : K ∈ lA E ⁅x, y⁆)
     (hEK : ¬ E ⊓ K ≤ Subgroup.zpowers ⁅x, y⁆) :
     F ≤ Subgroup.normalizer (K : Set G) ∧ t ∈ Subgroup.normalizer (K : Set G) := by
-  obtain ⟨b, hbEK, hbd⟩ := SetLike.not_le_iff_exists.mp hEK
+  obtain ⟨b, hbEK, hbd⟩ := IsConcreteLE.not_le_iff_exists.mp hEK
   obtain ⟨hbE, hbK⟩ := Subgroup.mem_inf.mp hbEK
   refine ⟨fun f hf => mem_normalizer_of_mem_lA_of_not_mem hK hbE hbK hbd (hfr.hFN hf) ?_,
     mem_normalizer_of_mem_lA_of_not_mem hK hbE hbK hbd hfr.htE ?_⟩

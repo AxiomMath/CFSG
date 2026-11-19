@@ -20,7 +20,7 @@ open scoped Matrix
 
 private theorem sixteenC8SpinIso_nonempty_fixRho_mulEquiv (K : Type) [Field K] [Finite K]
     [CharP K 2] : Nonempty (↥(fixRho K) ≃* ↥(StatedSp 3 K)) := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hf, hK⟩ := FiniteField.card K 2
   have hf' : 1 ≤ (f : ℕ) := f.pos
   have hK' : Nat.card K = 2 ^ (f : ℕ) := by

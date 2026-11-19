@@ -72,7 +72,7 @@ private theorem isFStarGroup_of_isFStar {X : Type} [Group X] (hX : IsQuasisimple
   · exact Or.inl ⟨hX, Or.inl (Omega.smallF3OmegaQuotient_of_mulEquiv e.symm h)⟩
   · exact Or.inl ⟨hX, Or.inr (Omega.isTwoU43_of_mulEquiv e.symm h)⟩
 
-private theorem isFStar_of_isFStarGroup {X : Type} [Group X] (hX : IsQuasisimple X)
+private theorem isFStar_of_isFStarGroup {X : Type} [Group X] (_hX : IsQuasisimple X)
     (h : Omega.IsFStarGroup X) : IsFStar X := by
   let e : X ⧸ oddCore X ≃* X ⧸ pPrimeCore 2 X :=
     QuotientGroup.quotientMulEquivOfEq (oddCore_eq_pPrimeCore' X)
@@ -98,7 +98,7 @@ theorem isFStarGroup_iff_isFStar {X : Type} [Group X] (hX : IsQuasisimple X) :
     Omega.IsFStarGroup X ↔ IsFStar X :=
   ⟨isFStar_of_isFStarGroup hX, isFStarGroup_of_isFStar hX⟩
 
-theorem aschA2_of_hypA2 {G : Type} [Group G] [Finite G] (h : HypA2 G) : Omega.AschA2 G := by
+theorem aschA2_of_hypA2 {G : Type} [Group G] [Finite G] (h : CFSG.OddStandard.SmallF3.HypA2 G) : Omega.AschA2 G := by
   intro x y hx hy hcomm L K hL hK hLK hLstar
   have hLq : IsQuasisimple ↥L := hL.isQuasisimple
   have hKq : IsQuasisimple ↥K := hK.isQuasisimple
@@ -118,7 +118,7 @@ theorem aschA2_of_hypA2 {G : Type} [Group G] [Finite G] (h : HypA2 G) : Omega.As
 
 theorem smallF3OmegaV_of_hypA2
     (h : ∀ (G : Type) [Group G] [Finite G] (L : Subgroup G), SmallF3Cyclic G L →
-      ¬ Catalog G → HypA2 G) :
+      ¬ Catalog G → CFSG.OddStandard.SmallF3.HypA2 G) :
     Omega.SmallF3OmegaV := by
   intro G _ _ L hL hcat hQ hnot
   exact hnot (aschA2_of_hypA2 (h G L hL hcat))

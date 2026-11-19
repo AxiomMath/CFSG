@@ -211,6 +211,7 @@ noncomputable def equivMapMkOfInfEqBot {N : Subgroup G} [N.Normal] {H : Subgroup
       exact Subtype.ext (inv_mul_eq_one.mp h2),
      (QuotientGroup.mk' N).subgroupMap_surjective H⟩
 
+omit [Finite G] in
 theorem eq_of_map_mk_eq {N : Subgroup G} [N.Normal] {H K : Subgroup G} (hKH : K ≤ H)
     (h : H ⊓ N = ⊥) (hmap : H.map (QuotientGroup.mk' N) = K.map (QuotientGroup.mk' N)) :
     H = K := by
@@ -284,10 +285,10 @@ theorem big_normalClosure_inf_oddCore (hFA : BigEpsilonFaithfulAStatement) [Fini
   have hVM : V ≤ M := hc.V_le_P.trans (hc.P_le_Q.trans (hQM ▸ (inSubgroup_pCore_two M).2.1))
   set CAM : Subgroup ↥M := Subgroup.centralizer (((V ⊓ wOf V H).subgroupOf M : Subgroup ↥M) :
     Set ↥M) with hCAM
-  haveI : CAM.Normal := inferInstance
+  have : CAM.Normal := inferInstance
   set CA : Subgroup (Mbar M) :=
     CAM.map (QuotientGroup.mk' ((inSubgroup (pCore 2) M).subgroupOf M)) with hCA
-  haveI hCAn : CA.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
+  have hCAn : CA.Normal := Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   have hRCA : RbarM M V H ≤ CA := by
     apply Subgroup.map_mono
     intro r hr
@@ -373,8 +374,8 @@ theorem big_as_outcomes (hAS : AschbacherSeitzStatement) (hb : BigBarFactsA)
   have hq4 : 4 ≤ 2 ^ f := h2f ▸ hH.q_big
   obtain ⟨e⟩ := hb.rbarIso G M V Q P H hH n f hn h2f hiso
   have hm : 1 ≤ n - 1 := by omega
-  haveI : IsSimpleGroup ↥(RbarM M V H) := by
-    haveI := isSimpleGroup_statedSp_gf2f hm hf2
+  have : IsSimpleGroup ↥(RbarM M V H) := by
+    have := isSimpleGroup_statedSp_gf2f hm hf2
     exact e.isSimpleGroup
   have hnc : ¬ IsMulCommutative ↥(RbarM M V H) := by
     intro hc

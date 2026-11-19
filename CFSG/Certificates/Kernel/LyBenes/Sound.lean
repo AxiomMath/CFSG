@@ -92,7 +92,6 @@ theorem testBit_rawOf (T : Nat → Nat) {j s : Nat} (hj : j < 15) (hs : s < 7573
   have h := (testBit_planes (S := 75735) (fun j => Nat.land (T j) (ones 75735)) 15
     (fun b _ => land_ones_lt' (T b) 75735)).1 j hj s hs
   refine h.trans ?_
-  change (Nat.land (T j) (ones 75735)).testBit s = _
   rw [nland, Nat.testBit_and, KDense.SortAux.testBit_ones, decide_eq_true hs, Bool.and_true]
 
 theorem testBit_tabPlane {RAW b a : Nat} (ha : a < 66825) :

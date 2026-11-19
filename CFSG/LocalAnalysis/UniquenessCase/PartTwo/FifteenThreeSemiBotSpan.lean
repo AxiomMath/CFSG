@@ -140,7 +140,7 @@ theorem s15_semiBot_wTil_eq_iSup_of_span (h : Hyp151 D V₀ V L)
         exact Subgroup.mem_map_of_mem x.toMonoidHom ha
       exact le_iSup (fun m : N => U (m : MulAut Vt))
         ⟨x * (n : MulAut Vt), hxn⟩ ha'
-    · simpa using Subgroup.one_mem (⨆ n : N, U (n : MulAut Vt))
+    · simp
     · intro a b ha hb
       rw [map_mul]
       exact (⨆ n : N, U (n : MulAut Vt)).mul_mem ha hb

@@ -13,9 +13,9 @@ section ThreeFour
 variable {W : Type} [CommGroup W]
 
 theorem s168e3_pRank_lt_two_of_z3_four [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
-    (hcard : Nat.card W = 2 ^ 4) {A L : Subgroup (MulAut W)} (hLA : L ≤ A)
-    (hLn : ∀ g ∈ A, L.map (MulAut.conj g).toMonoidHom = L) (hL : IsElemAbelianOfRank 3 1 ↥L)
-    (hWL : commSub ⊤ L = ⊤) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hq3 : q ≠ 3) :
+    (hcard : Nat.card W = 2 ^ 4) {A L : Subgroup (MulAut W)} (_hLA : L ≤ A)
+    (_hLn : ∀ g ∈ A, L.map (MulAut.conj g).toMonoidHom = L) (_hL : IsElemAbelianOfRank 3 1 ↥L)
+    (_hWL : commSub ⊤ L = ⊤) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hq3 : q ≠ 3) :
     CFSG.Open.pRank q A < 2 :=
   s168e3_pRank_lt_two_of_rk_le_four hW (d := 4) le_rfl hcard hq
     (hq.five_le_of_ne_two_of_ne_three hq2 hq3) A
@@ -57,9 +57,9 @@ private theorem s168e3_cyc_not_sq_dvd_GL_six {q : ℕ} (hq : q.Prime) (hq2 : q �
   · norm_num at h
 
 theorem s168e3_pRank_lt_two_of_z7_six [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
-    (hcard : Nat.card W = 2 ^ 6) {A L : Subgroup (MulAut W)} (hLA : L ≤ A)
-    (hLn : ∀ g ∈ A, L.map (MulAut.conj g).toMonoidHom = L) (hL : IsElemAbelianOfRank 7 1 ↥L)
-    (hWL : commSub ⊤ L = ⊤) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hq3 : q ≠ 3) (hq7 : q ≠ 7) :
+    (hcard : Nat.card W = 2 ^ 6) {A L : Subgroup (MulAut W)} (_hLA : L ≤ A)
+    (_hLn : ∀ g ∈ A, L.map (MulAut.conj g).toMonoidHom = L) (_hL : IsElemAbelianOfRank 7 1 ↥L)
+    (_hWL : commSub ⊤ L = ⊤) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hq3 : q ≠ 3) (hq7 : q ≠ 7) :
     CFSG.Open.pRank q A < 2 := by
   by_contra hge
   push Not at hge

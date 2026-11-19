@@ -14,6 +14,7 @@ open CFSG.QuasithinUnique.Setup.X7
 variable {X : Type*} [Group X] {N : Type*} [AddCommGroup N] [Module (ZMod 2) N] [Finite N]
   (ρ : Representation (ZMod 2) X N) {x : X}
 
+omit [Finite N] in
 theorem commSub_zpowers_eq_range (hx : x * x = 1) :
     commSub ρ (Subgroup.zpowers x) = LinearMap.range (ρ x - 1) := by
   refine le_antisymm ?_ (range_le_commSub (Subgroup.mem_zpowers x))
@@ -31,6 +32,7 @@ theorem commSub_zpowers_eq_range (hx : x * x = 1) :
     simp
   · rw [hk]
 
+omit [Finite N] in
 theorem commSub_zpowers_le_fixedSub_zpowers (hx : x * x = 1) :
     commSub ρ (Subgroup.zpowers x) ≤ fixedSub ρ (Subgroup.zpowers x) := by
   rw [commSub_zpowers_eq_range ρ hx, fixedSub_zpowers]
@@ -99,6 +101,7 @@ theorem fixedSub_zpowers_conj {k : Type*} [Field k] {N' : Type*} [AddCommGroup N
     rfl
   rw [← hzp, fixedSub_map_conj]
 
+omit [Finite N] in
 theorem commSub_zpowers_conj (g x : X) :
     commSub ρ (Subgroup.zpowers (g * x * g⁻¹)) =
       (commSub ρ (Subgroup.zpowers x)).map (ρ g) := by

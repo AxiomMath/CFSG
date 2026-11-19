@@ -77,7 +77,7 @@ private theorem goodJ2_alternating_centralizer {n : ℕ} (hn : n ≤ 12)
 theorem rowOfK9_alternating {n : ℕ} (hn5 : 5 ≤ n) (hn : n ≤ 12) :
     RowOfK9 (alternatingGroup (Fin n)) := by
   intro S _ _ hs hna ⟨e⟩
-  haveI := hs
+  have := hs
   exact noCfgJ2_of_model e (RonanK429H.center_eq_bot_of_simple_nonab hna)
     (RonanK429H.not_three_dvd_outer_of_mulEquiv e (not_three_dvd_outer_alternatingGroup hn5))
     fun y hy => goodJ2_alternating_centralizer hn y hy

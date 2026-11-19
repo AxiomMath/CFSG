@@ -39,7 +39,7 @@ theorem filterW4P_lieTuple {t : StatedLieTag} {n p f : ℕ} (ht : t ∈ searchTa
   simp only [filterCheckW4P, decide_eq_true_eq] at hC
   exact hC hle
 
-theorem filterW4P_alt {n : ℕ} (hn5 : 5 ≤ n) (hord : n.factorial / 2 ∣ 348364800)
+theorem filterW4P_alt {n : ℕ} (_hn5 : 5 ≤ n) (_hord : n.factorial / 2 ∣ 348364800)
     (hle : n.factorial / 2 ≤ 30240) : n ≤ 8 := by
   by_contra h
   have h9 : 9 ≤ n := by omega
@@ -65,7 +65,7 @@ theorem filter_W4Plus {X : Type} [Group X] [IsSimpleGroup X] (hX : CFSG.Blueprin
   rcases catalog_model_cases hX hnonab with ⟨n, hn5, ⟨e⟩⟩ | ⟨t, n, p, f, ht, hp, hf, hn, hn0,
     hnB, hadm, hc, hm⟩ | ⟨p, f, h⟩ | ⟨p, f, h⟩ | ⟨s, ⟨e⟩⟩
   ·
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
     have hcard : Nat.card X = n.factorial / 2 := by
       rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     rw [hcard] at hord hle
@@ -112,7 +112,7 @@ theorem filter_W4Plus {X : Type} [Group X] [IsSimpleGroup X] (hX : CFSG.Blueprin
       have h60 : Nat.card X = 60 := by
         rw [hc]
         decide +kernel
-      haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [h60]; decide)
+      have : Finite X := Nat.finite_of_card_ne_zero (by rw [h60]; decide)
       exact Or.inl ⟨5, by norm_num, by norm_num,
         CFSG.QuasithinUnique.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty h60⟩
     ·
@@ -138,7 +138,7 @@ theorem filter_W4Plus {X : Type} [Group X] [IsSimpleGroup X] (hX : CFSG.Blueprin
       have h60 : Nat.card X = 60 := by
         rw [hc]
         decide +kernel
-      haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [h60]; decide)
+      have : Finite X := Nat.finite_of_card_ne_zero (by rw [h60]; decide)
       exact Or.inl ⟨5, by norm_num, by norm_num,
         CFSG.QuasithinUnique.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty h60⟩
     ·

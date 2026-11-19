@@ -18,13 +18,13 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V]
 
 private theorem TBJOmData.p_ne_zero (Δ : TBJOmData Q p A r) (i : Fin r) : p ≠ 0 := by
   rintro rfl
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V)) DFunLike.coe_injective
-  haveI : Finite (Fin r → Multiplicative (ZMod 0)) := Finite.of_injective Δ.τ Δ.τ_inj
-  haveI : Finite (Multiplicative (ZMod 0)) :=
+  have : Finite (Fin r → Multiplicative (ZMod 0)) := Finite.of_injective Δ.τ Δ.τ_inj
+  have : Finite (Multiplicative (ZMod 0)) :=
     Finite.of_surjective (Function.eval i) fun x => ⟨fun _ => x, rfl⟩
-  haveI : Finite (ZMod 0) :=
+  have : Finite (ZMod 0) :=
     Finite.of_injective (Multiplicative.ofAdd) Multiplicative.ofAdd.injective
   exact not_finite (ZMod 0)
 
@@ -32,7 +32,7 @@ theorem TBJOmData.τ_apply_eq_pow (Δ : TBJOmData Q p A r)
     {f f₀ : Fin r → Multiplicative (ZMod p)} {m : ZMod p} {i : Fin r}
     (hi : toAdd (f i) = m * toAdd (f₀ i)) {u : V} (hu : u ∈ Δ.F.U i) :
     Δ.τ f u = (Δ.τ f₀ ^ m.val) u := by
-  haveI : NeZero p := ⟨Δ.p_ne_zero i⟩
+  have : NeZero p := ⟨Δ.p_ne_zero i⟩
   rw [← Δ.θ_range i, LinearMap.mem_range] at hu
   obtain ⟨d, rfl⟩ := hu
   have h1 : toAdd (piMul r p f) i = toAdd (f i) := by simp [piMul_apply]

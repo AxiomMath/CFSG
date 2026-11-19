@@ -97,7 +97,7 @@ theorem chain :
       refine ⟨by rw [eY]; exact (HNXP.mm_sound cW c1).1, wordG pWords[labK K]! * y1,
         by rw [eY, (HNXP.mm_sound cW c1).2, mW, m1, matR_mul], fun f hf x => ?_⟩
       obtain ⟨f', rfl⟩ : ∃ f', f = f' + 1 := ⟨f - 1, by omega⟩
-      rw [evalLiftF, if_neg d1, d2, d3, e1 f' (by omega) x,
+      rw [evalLiftF, ite_eq_right d1, d2, d3, e1 f' (by omega) x,
         evalWordPt_eq hT hTi _ (pw_data _ d5).2.2 (y1 • x), mul_smul]
 
 theorem lift_pts

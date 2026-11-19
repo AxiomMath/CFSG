@@ -38,7 +38,7 @@ theorem isPerfect_of_isPerfect_center_quotient {X : Type} [Group X] [Finite X]
       rw [hncl, Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective N)]
     rw [Subgroup.map_normalClosure (S : Set X) (QuotientGroup.mk' N)
       (QuotientGroup.mk'_surjective N), ← Subgroup.coe_map] at h1
-    letI : (S.map (QuotientGroup.mk' N)).Normal := Subgroup.normal_of_isMulCommutative _
+    let : (S.map (QuotientGroup.mk' N)).Normal := Subgroup.normal_of_isMulCommutative _
     rwa [Subgroup.normalClosure_eq_self] at h1
   have hquot : IsPGroup 2 (X ⧸ N) := by
     have h2 := hS.map (QuotientGroup.mk' N)
@@ -63,7 +63,7 @@ theorem isPerfect_of_isPerfect_center_quotient {X : Type} [Group X] [Finite X]
     · exfalso
       exact hoddquot.not_two_dvd_nat (dvd_pow_self 2 (Nat.succ_ne_zero k))
   have hNtop : N = ⊤ := by
-    haveI : Subsingleton (X ⧸ N) := (Nat.card_eq_one_iff_unique.mp hcard).1
+    have : Subsingleton (X ⧸ N) := (Nat.card_eq_one_iff_unique.mp hcard).1
     exact QuotientGroup.subsingleton_iff.mp inferInstance
   exact Group.isPerfect_def.mpr hNtop
 
@@ -72,7 +72,7 @@ theorem card_center_eq_one_or_three (h : Hyp711 V H E) {X : Type} [Group X]
     (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     (e : X ⧸ Subgroup.center X ≃* alternatingGroup (Fin 6)) :
     Nat.card (Subgroup.center X) = 1 ∨ Nat.card (Subgroup.center X) = 3 := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   have hO2 : CFSG.pCore 2 X = ⊥ := pCore_eq_bot_of_isBarMap hφ
   have hodd : Odd (Nat.card (Subgroup.center X)) := CFSG.Quasithin.A36A.odd_card_center hO2
   let π : X →* alternatingGroup (Fin 6) :=
@@ -85,19 +85,20 @@ theorem card_center_eq_one_or_three (h : Hyp711 V H E) {X : Type} [Group X]
     change e (QuotientGroup.mk x) = 1 ↔ x ∈ Subgroup.center X
     rw [e.map_eq_one_iff, QuotientGroup.eq_one_iff]
   have hperfZ : Group.IsPerfect (X ⧸ Subgroup.center X) := by
-    haveI : Group.IsPerfect (alternatingGroup (Fin 6)) :=
+    have : Group.IsPerfect (alternatingGroup (Fin 6)) :=
       Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (by simp))
     exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hperf : Group.IsPerfect X :=
     isPerfect_of_isPerfect_center_quotient hperfZ hodd
       (isElemAbelian_barSub h.elemAbelian φ).isPGroup
       (normalClosure_barSub_eq_top h hφ)
-  haveI : Group.IsPerfect X := hperf
+  have : Group.IsPerfect X := hperf
   have hcov := (CFSG.SectionRank.alternating_small_odd_cover_bound (n := 6)
     (by norm_num) (by norm_num) π hπ (le_of_eq hker)
     (by rw [hker]; exact hodd)).2 (Or.inl rfl)
   rwa [hker] at hcov
 
+omit [Finite G] in
 theorem exists_isBarMap_alt6 {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X}
     (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)

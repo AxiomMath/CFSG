@@ -156,7 +156,7 @@ theorem isCyclic_sigmaCore_inf_conj [Finite G]
     intro r hr Q
     have hmap : IsCyclic ↥((Q : Subgroup ↥X).map X.subtype) :=
       isCyclic_of_isPGroup_le_sigmaCore_inf_conj h₂ hG hM hg hr
-        ((Q.isPGroup').map X.subtype) (hXdef ▸ Subgroup.map_subtype_le _)
+        ((Q.isPGroup).map X.subtype) (hXdef ▸ Subgroup.map_subtype_le _)
     exact isCyclic_of_surjective
       ((Q : Subgroup ↥X).equivMapOfInjective X.subtype X.subtype_injective).symm.toMonoidHom
       (MulEquiv.surjective _)

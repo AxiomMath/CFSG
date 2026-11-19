@@ -62,7 +62,7 @@ theorem exists_chief_factor_not_le_Y (hSch : CFSG.AGLEmbedding.KFactCatalogSchre
       hWmax ((U ⊓ M) ⊔ W) le_sup_right hXle (hNY _ le_sup_right hXle) hYSupW hXne
     rw [← hXeq]
     exact le_sup_left
-  haveI : (W.subgroupOf U).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hWle).mpr hWU
+  have : (W.subgroupOf U).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hWle).mpr hWU
   have hWsub_ne_top : W.subgroupOf U ≠ ⊤ := by
     intro htop
     apply hWne
@@ -138,7 +138,7 @@ theorem exists_chief_factor_not_le_Y (hSch : CFSG.AGLEmbedding.KFactCatalogSchre
     show ((QuotientGroup.mk' (W.subgroupOf U)) ⟨b * (u : G) * b⁻¹, hconjU⟩) ^ r = 1
     rw [← map_pow]
     exact (QuotientGroup.eq_one_iff _).mpr (Subgroup.mem_subgroupOf.mpr hpow)
-  haveI : Fact r.Prime := ⟨hprime⟩
+  have : Fact r.Prime := ⟨hprime⟩
   obtain ⟨q, hqord⟩ := exists_prime_orderOf_dvd_card' r hdvd
   obtain ⟨u₀, hu₀⟩ := QuotientGroup.mk_surjective (s := W.subgroupOf U) q
   have hu₀pow : ((QuotientGroup.mk' (W.subgroupOf U)) u₀) ^ r = 1 := by

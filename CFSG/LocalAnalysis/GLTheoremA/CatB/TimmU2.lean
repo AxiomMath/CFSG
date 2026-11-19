@@ -68,7 +68,7 @@ theorem unip_cube {A : Matrix (Fin (w + 2)) (Fin (w + 2)) F4} (hU : IsUnitaryMat
         have := congrFun (congrFun hρ i) j
         simp only [rhoM, Matrix.of_apply, Matrix.one_apply] at this
         rw [this]
-      simp only [hr, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
+      simp only [hr, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true]
     have hx' : x (Tp w 0) + x (Tp w 1) = 0 := by
       have := dot_e0 x
       rw [hx] at this

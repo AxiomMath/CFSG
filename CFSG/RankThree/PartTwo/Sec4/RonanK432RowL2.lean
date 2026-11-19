@@ -31,7 +31,7 @@ theorem goodRow_psl2 (F : Type) [Field F] [Finite F] : GoodRow (PSL2 F) := by
   refine ⟨?_, outerRow_psl2⟩
   by_cases h4 : 4 ≤ Nat.card F
   · by_cases h3 : ringChar F = 3
-    · haveI : CharP F 3 := h3 ▸ ringChar.charP F
+    · have : CharP F 3 := h3 ▸ ringChar.charP F
       exact listRow_psl2_of_char_three (nine_le_card_of_char_three h4)
     · exact listRow_psl2_of_char_ne_three h3 h4
   · have h1 : 1 < Nat.card F := Finite.one_lt_card

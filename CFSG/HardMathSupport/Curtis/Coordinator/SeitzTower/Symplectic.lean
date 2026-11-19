@@ -133,7 +133,7 @@ theorem p1OffCharAlmostSimpleNonNormalAt_C {r : ℕ} {q : TauCeti.PrimePower}
   have hr : 3 ≤ r :=
     ((TauCeti.LieTypeIndex.inStandardRange_iff _).1
       ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1).1
-  haveI := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.C r q, hv⟩
+  have := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.C r q, hv⟩
   exact p1OffCharAlmostSimpleNonNormalAt_of_outerComm
     (OuterComm.of_mulEquiv (CFSG.QuasithinUnique.SQTK.typeCGroupEquivStatedProj r q hv)
       (outerComm_statedProj_sp hr _))
@@ -141,7 +141,7 @@ theorem p1OffCharAlmostSimpleNonNormalAt_C {r : ℕ} {q : TauCeti.PrimePower}
 theorem p1OffCharAlmostSimpleNonNormalAt_B_two {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.B 2 q).Valid) :
     P1OffCharAlmostSimpleNonNormalAt ⟨.B 2 q, hv⟩ := by
-  haveI := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.B 2 q, hv⟩
+  have := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.B 2 q, hv⟩
   exact p1OffCharAlmostSimpleNonNormalAt_of_outerComm
     (OuterComm.of_mulEquiv (CFSG.QuasithinUnique.SQTK.typeB2GroupEquivStatedProj q hv)
       (outerComm_statedProj_sp_two _))
@@ -149,7 +149,7 @@ theorem p1OffCharAlmostSimpleNonNormalAt_B_two {q : TauCeti.PrimePower}
 theorem p1OffCharAlmostSimpleNonNormalAt_B_even {r : ℕ} {q : TauCeti.PrimePower} (hr : 3 ≤ r)
     (hq : q.p = 2) (hv : (TauCeti.LieTypeIndex.B r q).Valid) :
     P1OffCharAlmostSimpleNonNormalAt ⟨.B r q, hv⟩ := by
-  haveI := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.B r q, hv⟩
+  have := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField ⟨.B r q, hv⟩
   exact p1OffCharAlmostSimpleNonNormalAt_of_outerComm
     (OuterComm.of_mulEquiv
       (CFSG.RankThree.PartTwo.Census.Carrier.SpinB.typeBGroupEquivStatedProj r q hv hq hr)

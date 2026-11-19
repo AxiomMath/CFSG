@@ -93,24 +93,24 @@ theorem sum_rCount
       · have hyc : p.2 ≠ c := fun he => hxy (hxc.trans he.symm)
         by_cases hyS : p.2 ∈ S
         · simp only [hz₂ hyS hyc, zero_mul, hyS, not_true_eq_false, and_false,
-            hxS, false_and, or_self, if_false, add_zero]
+            hxS, false_and, or_self, ite_false, add_zero]
         · simp only [hxc, hyS, hc, not_false_eq_true, not_true_eq_false, and_true,
-            false_and, or_false, if_true, if_false, add_zero]
+            false_and, or_false, ite_true, ite_false, add_zero]
           exact (by simpa only [D, a, mul_assoc, hxc] using congrArg (fun z : ℕ => z * (Fintype.card X - 4)) (hfrom p.2 hyS))
       · simp only [hz₁ hxS hxc, zero_mul, hxc, false_and, hxS, not_true_eq_false,
-          or_self, if_false, add_zero]
+          or_self, ite_false, add_zero]
     · by_cases hyS : p.2 ∈ S
       · by_cases hyc : p.2 = c
         · have hxc : p.1 ≠ c := fun he => hxS (he ▸ hc)
           simp only [hxc, hxS, not_false_eq_true, hyc, hc, not_true_eq_false,
-            and_false, and_true, or_true, if_true, if_false, add_zero]
+            and_false, and_true, or_true, ite_true, ite_false, add_zero]
           exact (by simpa only [D, a, mul_assoc, hyc] using congrArg (fun z : ℕ => z * (Fintype.card X - 4)) (hto p.1 hxS))
         · simp only [hz₂ hyS hyc, zero_mul, hyS, not_true_eq_false, and_false,
-            hyc, or_self, if_false, add_zero]
+            hyc, or_self, ite_false, add_zero]
       · have hxc : p.1 ≠ c := fun he => hxS (he ▸ hc)
         have hyc : p.2 ≠ c := fun he => hyS (he ▸ hc)
-        simp only [hxc, false_and, hyc, and_false, or_self, if_false, hxS, hyS,
-          not_false_eq_true, and_self, if_true, zero_add]
+        simp only [hxc, false_and, hyc, and_false, or_self, ite_false, hxS, hyS,
+          not_false_eq_true, and_self, ite_true, zero_add]
         simpa only [D, b, mul_assoc] using hpair p.1 p.2 hxS hyS hxy
   simp only [rCount_eq_edges]
   rw [FamilyCommutatorAverage.sum_card_filter, Finset.sum_mul]

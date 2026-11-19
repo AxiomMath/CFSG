@@ -13,6 +13,7 @@ open scoped TensorProduct
 
 variable {K : Type*} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 private theorem finrank_ker_tensor_one_left {W : Type*} [AddCommGroup W] [Module K W]
     (S : W →ₗ[K] W) :
     Module.finrank K (LinearMap.ker
@@ -21,8 +22,7 @@ private theorem finrank_ker_tensor_one_left {W : Type*} [AddCommGroup W] [Module
   let Φ : (K ⊗[K] W) ≃ₗ[K] W := TensorProduct.lid K W
   have h : ∀ x, Φ (TensorProduct.map (1 : K →ₗ[K] K) S x) = S (Φ x) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul r w => simp [Φ, TensorProduct.map_tmul, TensorProduct.lid_tmul]
     | add x y hx hy => simp [map_add, hx, hy]
   exact (CFSG.QuasithinUnique.Setup.SL2Modules.finrank_ker_of_intertwining

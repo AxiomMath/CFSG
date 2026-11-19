@@ -36,7 +36,7 @@ theorem exists_decomp_of_comm_sq {w : G} (hw : w ∈ ctxWN t tau x₁ x₂ rho)
   have hcQm : w * t * w⁻¹ * t⁻¹ ∈ ctxQm t tau x₁ x₂ rho := hz.comm_W_t_mem_Qm hw
   obtain ⟨hcQ, hcCent⟩ := hcQm
   have hcinv : t * (w * t * w⁻¹ * t⁻¹) * t⁻¹ = (w * t * w⁻¹ * t⁻¹)⁻¹ :=
-    (hz.nGood.mem_cent_ttau_iff hz.tau_inv_Q hcQ).mp hcCent
+    (CFSG.OddStandard.SmallF3.HarrisU33.Z4Good.mem_cent_ttau_iff hz.tau_inv_Q hcQ).mp hcCent
   have hcY : w * t * w⁻¹ * t⁻¹ ∈ ctxYq t tau x₁ x₂ rho :=
     (hz.mem_Y_iff _).mpr ⟨hcQ, h⟩
   have hcsq : (w * t * w⁻¹ * t⁻¹) * (w * t * w⁻¹ * t⁻¹) = 1 := by
@@ -92,7 +92,7 @@ theorem W_invol_mem_Y {w : G} (hw : w ∈ ctxWN t tau x₁ x₂ rho) (h2 : w ^ 2
     group
   obtain ⟨b, hbB, a, haY, hwba⟩ := hz.exists_decomp_of_comm_sq hw hcomm2
   have hbQ : b ∈ ctxQ t tau x₁ x₂ rho := hz.base_le_Q hbB
-  have hba : b * a = a * b := hz.nPre.Q_comm b hbQ a (hz.nPre.Y_le_Q haY)
+  have hba : b * a = a * b := hz.nPre.Q_comm b hbQ a (CFSG.OddStandard.SmallF3.HarrisU33.Z4Pre.Y_le_Q haY)
   have hbsq : b ^ 2 = 1 := by
     have hw2' : (b * a) ^ 2 = 1 := by rw [← hwba]; exact h2
     rwa [Commute.mul_pow ((commute_iff_eq b a).mpr hba), hz.nPre.Y_sq haY,

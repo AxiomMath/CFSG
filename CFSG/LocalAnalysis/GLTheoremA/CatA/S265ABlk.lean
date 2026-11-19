@@ -36,13 +36,13 @@ theorem finrank_eq_fixedByEnd_add_nOut (hp : p.Prime) (hpF : (p : F) ≠ 0)
       by_cases haD : a ∈ D.1
       · rw [hfv, ((mem_blockSpace A).1 hv).1 a haD, sub_self]
         exact Submodule.zero_mem _
-      · simp only [hW, haD, if_false]
+      · simp only [hW, haD, ite_false]
         exact Submodule.sub_mem _ (blockSpace_invariant A hp hpF hA hv) hv
   have hge : (⨆ D, W D) ≤ LinearMap.range f := by
     refine iSup_le fun D => ?_
     by_cases haD : a ∈ D.1
-    · simp only [hW, haD, if_true, bot_le]
-    · simp only [hW, haD, if_false]
+    · simp only [hW, haD, ite_true, bot_le]
+    · simp only [hW, haD, ite_false]
       have hmaps : ∀ v ∈ blockSpace A D.1, f v ∈ blockSpace A D.1 := fun v hv =>
         Submodule.sub_mem _ (blockSpace_invariant A hp hpF hA hv) hv
       have hinj : Function.Injective (f.restrict hmaps) := by
@@ -64,7 +64,7 @@ theorem finrank_eq_fixedByEnd_add_nOut (hp : p.Prime) (hpF : (p : F) ≠ 0)
     refine Finset.sum_congr rfl fun D _ => ?_
     by_cases haD : a ∈ D.1
     · simp [hW, haD]
-    · have hWD : W D = blockSpace A D.1 := by simp only [hW, haD, if_false]
+    · have hWD : W D = blockSpace A D.1 := by simp only [hW, haD, ite_false]
       rw [hWD]
       simp [haD]
   omega

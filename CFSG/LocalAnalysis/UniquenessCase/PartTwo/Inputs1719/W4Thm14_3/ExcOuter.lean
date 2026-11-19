@@ -119,7 +119,7 @@ private theorem exists_not_commute_of_mem_normalizer {F : Type} [Field F] [Finty
         epsHom (B45L2.repOf θ φ) δ * (B42L2.unitsPsi θ a).val := by
   classical
   let ρ : Representation (ZMod 2) SL(2, F) W := B45L2.repOf θ φ
-  haveI : Fact ρ.IsIrreducible := by
+  have : Fact ρ.IsIrreducible := by
     dsimp [ρ]
     infer_instance
   have hD' : SixtyFourDescent ρ := hD
@@ -139,7 +139,7 @@ private theorem exists_not_commute_of_mem_normalizer {F : Type} [Field F] [Finty
     change B42L2.unitsPsi θ a ∉ (B45L2.repOf θ φ).toHomUnits.range
     rw [unitsPsi_mem_range_iff]
     exact haL
-  haveI : CFSG.IsElementaryAbelian 2 (Subgroup.zpowers u) :=
+  have : CFSG.IsElementaryAbelian 2 (Subgroup.zpowers u) :=
     CFSG.IsElementaryAbelian.zpowers_of_pow_eq_one (p := 2) hu2
   have hcard : Nat.card F = 2 ^ 6 := by
     rw [Nat.card_eq_fintype_card]
@@ -208,15 +208,15 @@ private theorem exists_not_commute_of_mem_normalizer {F : Type} [Field F] [Finty
     simp only [Units.val_mul, Module.End.mul_apply] at h2
     exact h2
   obtain ⟨hDcard, hDdata⟩ := hD'
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
-  haveI : Module.Finite (EndRing ρ) W := Module.Finite.of_finite
+  have : Finite (EndRing ρ) := finite_endRing ρ
+  have : Module.Finite (EndRing ρ) W := Module.Finite.of_finite
   let b : Module.Basis (Fin (Module.finrank (EndRing ρ) W)) (EndRing ρ) W :=
     Module.finBasis (EndRing ρ) W
   obtain ⟨E, hE, hEfin, hEchar, ιF, ιD, J, hJ, hΦ⟩ := hDdata b
-  letI : Field E := hE
-  letI : Finite E := hEfin
-  letI : CharP E 2 := hEchar
-  letI : Algebra F E := ιF.toAlgebra
+  let : Field E := hE
+  let : Finite E := hEfin
+  let : CharP E 2 := hEchar
+  let : Algebra F E := ιF.toAlgebra
   obtain ⟨Φ⟩ := hΦ
   have hF2 : Fintype.card F = 2 ^ (2 * 3) := by
     rw [hF]
@@ -251,12 +251,12 @@ private theorem mul_mem_of_mem_not_mem {F : Type} [Field F] [Fintype F] [CharP F
   classical
   by_contra hacL
   let ρ : Representation (ZMod 2) SL(2, F) W := B45L2.repOf θ φ
-  haveI : Fact ρ.IsIrreducible := by
+  have : Fact ρ.IsIrreducible := by
     dsimp [ρ]
     infer_instance
   have hD' : SixtyFourDescent ρ := hD
   have hWnt : Nontrivial W := (isIrreducible_iff ρ).mp Fact.out |>.1
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
+  have : Finite (EndRing ρ) := finite_endRing ρ
   have ha2 : a * a = 1 := hAea.2 a haA
   have hc2 : c * c = 1 := hAea.2 c hcA
   have hca : c * a = a * c := (hAea.1 a haA c hcA).symm
@@ -371,12 +371,12 @@ private theorem fixV_inf_ne_fixV {F : Type} [Field F] [Fintype F] [CharP F 2]
     fixV (A ⊓ L) ≠ fixV A := by
   classical
   let ρ : Representation (ZMod 2) SL(2, F) W := B45L2.repOf θ φ
-  haveI : Fact ρ.IsIrreducible := by
+  have : Fact ρ.IsIrreducible := by
     dsimp [ρ]
     infer_instance
   have hD' : SixtyFourDescent ρ := hD
   have hWnt : Nontrivial W := (isIrreducible_iff ρ).mp Fact.out |>.1
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
+  have : Finite (EndRing ρ) := finite_endRing ρ
   have hInt : Nontrivial I := by
     obtain ⟨w0, hw0⟩ := exists_ne (0 : W)
     refine ⟨⟨θ.symm (Multiplicative.ofAdd w0), 1, ?_⟩⟩

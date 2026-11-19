@@ -12,6 +12,7 @@ section Helpers
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem uc22pws_exists_mul_of_mem_sup {H K : Subgroup X} (hHK : H ≤ normalizer (K : Set X)) {x : X}
     (hx : x ∈ H ⊔ K) : ∃ h ∈ H, ∃ k ∈ K, x = h * k := by
   have hconj : ∀ h ∈ H, ∀ k ∈ K, h * k * h⁻¹ ∈ K := fun h hh k hk =>
@@ -31,21 +32,25 @@ theorem uc22pws_exists_mul_of_mem_sup {H K : Subgroup X} (hHK : H ≤ normalizer
     (fun k hk => ⟨1, H.one_mem, k, hk, (one_mul k).symm⟩)
   exact hle hx
 
+omit [Finite X] in
 theorem uc22pws_le_normalizer {E H K : Subgroup X} (hEab : IsMulCommutative E) (hH : H ≤ E)
     (hK : K ≤ E) : H ≤ normalizer (K : Set X) := by
-  haveI := hEab
+  have := hEab
   exact fun h hh => Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.2 fun k hk =>
     setLike_mul_comm (hK hk) (hH hh))
 
+omit [Finite X] in
 theorem uc22pws_isMulCommutative_of_le {E H : Subgroup X} (hEab : IsMulCommutative E) (h : H ≤ E) :
     IsMulCommutative H := by
-  haveI := hEab
+  have := hEab
   exact IsMulCommutative.of_comm fun a b =>
     Subtype.ext (setLike_mul_comm (h a.2) (h b.2))
 
+omit [Finite X] in
 theorem uc22pws_pow_card {H : Subgroup X} {x : X} (hx : x ∈ H) : x ^ Nat.card H = 1 :=
   congrArg Subtype.val (pow_card_eq_one' (x := (⟨x, hx⟩ : H)))
 
+omit [Finite X] in
 theorem uc22pws_eq_one_of_mem_inf {U E : Subgroup X} (hU2 : IsPGroup 2 U) (hEodd : Odd (Nat.card E))
     {x : X} (hxE : x ∈ E) (hxU : x ∈ U) : x = 1 := by
   obtain ⟨k, hk⟩ := hU2 ⟨x, hxU⟩
@@ -55,6 +60,7 @@ theorem uc22pws_eq_one_of_mem_inf {U E : Subgroup X} (hU2 : IsPGroup 2 U) (hEodd
   rw [(Nat.Coprime.pow_left k (Nat.coprime_two_left.2 hEodd)).gcd_eq_one] at h3
   exact orderOf_eq_one_iff.1 (Nat.dvd_one.1 h3)
 
+omit [Finite X] in
 theorem uc22pws_pow_mul {U : Subgroup X} {y : X} (hy : y ∈ normalizer (U : Set X)) {u : X}
     (hu : u ∈ U) (m : ℕ) : ∃ u' ∈ U, (y * u) ^ m = y ^ m * u' := by
   induction m with
@@ -72,9 +78,10 @@ theorem uc22pws_isPGroup_zpowers {G : Type*} [Group G] {p : ℕ} (hp : p.Prime) 
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow hp).1 (orderOf_dvd_of_pow_eq_one hg)
   exact IsPGroup.of_card (n := j) (by rw [Nat.card_zpowers, hj])
 
+omit [Finite X] in
 theorem uc22pws_mem_pCoreOf_iff {p : ℕ} (hp : p.Prime) {H : Subgroup X} (hH : IsMulCommutative H)
     {x : X} : x ∈ pCoreOf p H ↔ x ∈ H ∧ ∃ k : ℕ, x ^ (p ^ k) = 1 := by
-  haveI := hH
+  have := hH
   constructor
   · rintro ⟨y, hy, rfl⟩
     obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := p) (G := H)) ⟨y, hy⟩
@@ -87,10 +94,11 @@ theorem uc22pws_mem_pCoreOf_iff {p : ℕ} (hp : p.Prime) {H : Subgroup X} (hH : 
 
 theorem uc22pws_exists_orderOf {H : Subgroup X} {p : ℕ} (hp : p.Prime) (hdvd : p ∣ Nat.card H) :
     ∃ y ∈ H, orderOf y = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := H) p hdvd
   exact ⟨y, y.2, by rw [Subgroup.orderOf_coe]; exact hy⟩
 
+omit [Finite X] in
 theorem uc22pws_of_orderOf {p : ℕ} (hp : p.Prime) {y : X} (hy : orderOf y = p) :
     y ≠ 1 ∧ y ^ (p ^ 1) = 1 := by
   refine ⟨fun h => ?_, ?_⟩
@@ -102,11 +110,13 @@ theorem uc22pws_of_orderOf {p : ℕ} (hp : p.Prime) {y : X} (hy : orderOf y = p)
 @[expose] def uc22pwsInv (U : Subgroup X) (Φ : Set (MulAut X)) (W : Subgroup X) : Prop :=
   ∀ φ ∈ Φ, ∀ x ∈ W, φ x ∈ W ⊔ U
 
+omit [Finite X] in
 theorem uc22pws_inv_bot (U : Subgroup X) (Φ : Set (MulAut X)) : uc22pwsInv U Φ ⊥ := by
   intro φ _ x hx
   rw [Subgroup.mem_bot.1 hx, map_one]
   exact one_mem _
 
+omit [Finite X] in
 theorem uc22pws_inv_biSup {U : Subgroup X} {Φ : Set (MulAut X)} (S : Finset ℕ) (F : ℕ → Subgroup X)
     (h : ∀ q ∈ S, uc22pwsInv U Φ (F q)) : uc22pwsInv U Φ (⨆ q ∈ S, F q) := by
   intro φ hφ x hx
@@ -116,6 +126,7 @@ theorem uc22pws_inv_biSup {U : Subgroup X} {Φ : Set (MulAut X)} (S : Finset ℕ
       (sup_le_sup_right (le_iSup₂ (f := fun q _ => F q) q hq) U (h q hq φ hφ y hy))
   exact Subgroup.mem_comap.1 (hle hx)
 
+omit [Finite X] in
 theorem uc22pws_inv_pCoreOf {U E : Subgroup X} (hEU : E ≤ normalizer (U : Set X)) (hU2 : IsPGroup 2 U)
     (hEab : IsMulCommutative E) (hEodd : Odd (Nat.card E)) {Φ : Set (MulAut X)}
     (hΦE : ∀ φ ∈ Φ, ∀ x ∈ E, φ x ∈ E ⊔ U) {p : ℕ} (hp : p.Prime) :
@@ -152,6 +163,7 @@ theorem uc22pws_exists_min {U : Subgroup X} {Φ : Set (MulAut X)} {A : Subgroup 
 @[expose] def uc22pwsFam (E : Subgroup X) (F : ℕ → Subgroup X) (S : Finset ℕ) : Prop :=
   ∀ q ∈ S, q.Prime ∧ F q ≤ E ∧ ∀ x ∈ F q, ∃ k : ℕ, x ^ (q ^ k) = 1
 
+omit [Finite X] in
 theorem uc22pws_torsion {E : Subgroup X} (hEab : IsMulCommutative E) {F : ℕ → Subgroup X}
     (S : Finset ℕ) (hS : uc22pwsFam E F S) {p : ℕ} (hp : p.Prime) {x : X}
     (hx : x ∈ ⨆ q ∈ S, F q) {k : ℕ} (hk : x ^ (p ^ k) = 1) :
@@ -173,7 +185,7 @@ theorem uc22pws_torsion {E : Subgroup X} (hEab : IsMulCommutative E) {F : ℕ �
     rw [Finset.iSup_insert] at hx
     obtain ⟨f, hf, a, ha, rfl⟩ :=
       uc22pws_exists_mul_of_mem_sup (uc22pws_le_normalizer hEab hqE hJE) hx
-    haveI := hEab
+    have := hEab
     have hcomm : Commute f a := setLike_mul_comm (hqE hf) (hJE ha)
     have hk' : f ^ (p ^ k) * a ^ (p ^ k) = 1 := by rw [← hcomm.mul_pow]; exact hk
     obtain ⟨j, hj⟩ := hqg f hf
@@ -232,7 +244,7 @@ theorem uc22pws_squarefree {E : Subgroup X} (hEab : IsMulCommutative E) {F : ℕ
     Squarefree (Nat.card ↥(⨆ q ∈ S, F q)) := by
   rw [Nat.squarefree_iff_prime_squarefree]
   intro p hp hpp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥(⨆ q ∈ S, F q)) p (n := 2)
     (by rw [pow_two]; exact hpp)
   have hK' : Nat.card (K.map (⨆ q ∈ S, F q).subtype) = p ^ 2 := by
@@ -257,9 +269,9 @@ theorem uc22pws_squarefree {E : Subgroup X} (hEab : IsMulCommutative E) {F : ℕ
 theorem uc22pws_isCyclic {E : Subgroup X} (hEab : IsMulCommutative E) {F : ℕ → Subgroup X}
     {S : Finset ℕ} (hS : uc22pwsFam E F S) (hc : ∀ q ∈ S, Nat.card (F q) = q) :
     IsCyclic ↥(⨆ q ∈ S, F q) := by
-  haveI : IsMulCommutative ↥(⨆ q ∈ S, F q) :=
+  have : IsMulCommutative ↥(⨆ q ∈ S, F q) :=
     uc22pws_isMulCommutative_of_le hEab (iSup₂_le fun q hq => (hS q hq).2.1)
-  haveI : IsZGroup ↥(⨆ q ∈ S, F q) := IsZGroup.of_squarefree (uc22pws_squarefree hEab hS hc)
+  have : IsZGroup ↥(⨆ q ∈ S, F q) := IsZGroup.of_squarefree (uc22pws_squarefree hEab hS hc)
   infer_instance
 
 theorem uc22pws_sylow {E : Subgroup X} (hEab : IsMulCommutative E) {F : ℕ → Subgroup X}
@@ -268,14 +280,14 @@ theorem uc22pws_sylow {E : Subgroup X} (hEab : IsMulCommutative E) {F : ℕ → 
     (hd : p ∣ Nat.card ↥(⨆ q ∈ S, F q)) :
     ∃ P : Sylow p ↥(⨆ q ∈ S, F q), Nat.card P = p ^ 2 ∧ ¬ IsCyclic P := by
   have hpS : p ∈ S := uc22pws_mem_of_dvd hEab hS hp hd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hFJ : F p ≤ ⨆ q ∈ S, F q := le_iSup₂ (f := fun q _ => F q) p hpS
   have hQ0c : Nat.card ((F p).subgroupOf (⨆ q ∈ S, F q)) = p ^ 2 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hFJ).toEquiv]; exact hc p hpS
   obtain ⟨Q, hQ⟩ := (IsPGroup.of_card hQ0c).exists_le_sylow
   have hQle : (Q : Subgroup ↥(⨆ q ∈ S, F q)).map (⨆ q ∈ S, F q).subtype ≤ F p := by
     rintro _ ⟨g, hg, rfl⟩
-    obtain ⟨k, hk⟩ := Q.isPGroup' ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup ⟨g, hg⟩
     exact (uc22pws_torsion hEab S hS hp g.2 (k := k)
       (by simpa using congrArg Subtype.val (congrArg Subtype.val hk))).1 hpS
   have hc' : Nat.card Q = p ^ 2 := by
@@ -294,10 +306,11 @@ theorem uc22pws_sylow {E : Subgroup X} (hEab : IsMulCommutative E) {F : ℕ → 
   have h2 := hp.two_le
   nlinarith
 
+omit [Finite X] in
 theorem uc22pws_pCoreOf_biSup {E : Subgroup X} (hEab : IsMulCommutative E) {F : ℕ → Subgroup X}
     {S : Finset ℕ} (hS : uc22pwsFam E F S) {p : ℕ} (hp : p.Prime) (hpS : p ∈ S) :
     pCoreOf p (⨆ q ∈ S, F q) = F p := by
-  haveI : IsMulCommutative ↥(⨆ q ∈ S, F q) :=
+  have : IsMulCommutative ↥(⨆ q ∈ S, F q) :=
     uc22pws_isMulCommutative_of_le hEab (iSup₂_le fun q hq => (hS q hq).2.1)
   ext x
   rw [uc22pws_mem_pCoreOf_iff hp inferInstance]
@@ -310,7 +323,7 @@ theorem uc22pws_pCoreOf_biSup {E : Subgroup X} (hEab : IsMulCommutative E) {F : 
 theorem uc22pws_pCoreOf_elem {E : Subgroup X} (hEab : IsMulCommutative E)
     (hrank : ∀ p : ℕ, p.Prime → ∃ Q : Sylow p E, IsElemAbelian p (Q : Subgroup E) ∧ Nat.card Q ≤ p ^ 2)
     {p : ℕ} (hp : p.Prime) : (∀ x ∈ pCoreOf p E, x ^ p = 1) ∧ Nat.card (pCoreOf p E) ≤ p ^ 2 := by
-  haveI := hEab
+  have := hEab
   obtain ⟨Q, hQe, hQc⟩ := hrank p hp
   have hsub : pCoreOf p E ≤ (Q : Subgroup E).map E.subtype := by
     intro x hx
@@ -329,7 +342,7 @@ theorem uc22pws_pCoreOf_elem {E : Subgroup X} (hEab : IsMulCommutative E)
 theorem uc22pws_card_cases {p : ℕ} (hp : p.Prime) {E F : Subgroup X} (hE : IsMulCommutative E)
     (hF : F ≤ pCoreOf p E) (hF0 : F ≠ ⊥) (hc : Nat.card (pCoreOf p E) ≤ p ^ 2) :
     Nat.card F = p ∨ Nat.card F = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpg : IsPGroup p F := fun g => by
     obtain ⟨-, k, hk⟩ := (uc22pws_mem_pCoreOf_iff hp hE).1 (hF g.2)
     exact ⟨k, Subtype.ext (by simpa using hk)⟩
@@ -439,7 +452,7 @@ theorem uc22pw_select_mod {X : Type} [Group X] [Finite X] {U E : Subgroup X}
     (hEU : E ≤ normalizer (U : Set X)) (hU2 : IsPGroup 2 U) (hEab : IsMulCommutative E)
     (hEodd : Odd (Nat.card E))
     (hrank : ∀ p : ℕ, p.Prime → ∃ Q : Sylow p E, IsElemAbelian p (Q : Subgroup E) ∧ Nat.card Q ≤ p ^ 2)
-    (Φ : Set (MulAut X)) (hΦU : ∀ φ ∈ Φ, ∀ x : X, x ∈ U ↔ φ x ∈ U)
+    (Φ : Set (MulAut X)) (_hΦU : ∀ φ ∈ Φ, ∀ x : X, x ∈ U ↔ φ x ∈ U)
     (hΦE : ∀ φ ∈ Φ, ∀ x ∈ E, φ x ∈ E ⊔ U) :
     ∃ B C : Subgroup X, B ≤ E ∧ C ≤ E ∧ Disjoint B C ∧ IsCyclic B ∧ Squarefree (Nat.card B) ∧
       (∀ φ ∈ Φ, ∀ x ∈ B, φ x ∈ B ⊔ U) ∧ (∀ φ ∈ Φ, ∀ x ∈ C, φ x ∈ C ⊔ U) ∧

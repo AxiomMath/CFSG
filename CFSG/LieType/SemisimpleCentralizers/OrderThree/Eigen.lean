@@ -16,7 +16,7 @@ theorem exists_eigen_basis {n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 
     (hω : ω ^ 2 + ω + 1 = 0) (hωq : h.bar ω = ω) :
     ∃ (a k : ℕ) (R : Matrix (Fin d) (HypIndex a k) K), 2 * a + k = d ∧
       (R.map h.bar)ᵀ * R = hypGram a k K ∧ B * R = R * hypDiag a k ω 1 (ω ^ 2) := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hω3 : ω ^ 3 = 1 := by
     have hzero : ω ^ 3 - 1 = 0 := by
       rw [show ω ^ 3 - 1 = (ω - 1) * (ω ^ 2 + ω + 1) by ring, hω, mul_zero]

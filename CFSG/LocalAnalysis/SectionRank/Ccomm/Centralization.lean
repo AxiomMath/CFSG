@@ -187,11 +187,11 @@ theorem odd_nilpotent_kernel_centralization
       have : ((P : Subgroup C).map C.subtype).Normal :=
         ConjAct.normal_of_characteristic_of_normal
       refine pgroup_le_center_of_perfect C hodd hquot _ (map_subtype_le _)
-        (P.isPGroup'.map C.subtype) ?_
+        (P.isPGroup.map C.subtype) ?_
       exact (pRank_mono hr.out.one_lt (map_subtype_le _)).trans (hrank r hr.out hrC)
     ·
       have hP1 : Nat.card P = 1 := by
-        obtain ⟨n, hn⟩ := P.isPGroup'.exists_card_eq
+        obtain ⟨n, hn⟩ := P.isPGroup.exists_card_eq
         have hdvd := P.card_subgroup_dvd_card
         rw [hn] at hdvd ⊢
         cases n with

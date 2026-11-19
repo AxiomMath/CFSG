@@ -91,7 +91,7 @@ theorem exists_mul_of_card_eq {G : Type*} [Group G] [Finite G] (A B R : Subgroup
     ∀ r ∈ R, ∃ a ∈ A, ∃ b ∈ B, a * b = r := by
   intro r hr
   have hk : 0 < Nat.card ↥(A ⊓ B) := by
-    haveI : Nonempty ↥(A ⊓ B) := ⟨1⟩
+    have : Nonempty ↥(A ⊓ B) := ⟨1⟩
     exact Nat.card_pos
   have h1 := card_mul_set_mul_card_inf A B
   have hsub : (A : Set G) * (B : Set G) ⊆ (R : Set G) := by

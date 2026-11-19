@@ -22,6 +22,7 @@ section Steps
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K : Type} [Field K]
   [CharP K 2] [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [IsSimpleGroup G] in
 theorem sixFF_ff8b (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
     (hE : EmbConclusion φ t i) (hK : SixKConclusion φ t i) (f7 : FF7Concl φ t i) :
     ∀ v₀ : G, v₀ * v₀ = 1 → v₀ ∈ centralizer ({t} : Set G) →
@@ -32,10 +33,10 @@ theorem sixFF_ff8b (hS : SCSetting L K n φ t i) (hH : SixHConclusion φ t i)
   intro v₀ hv2 hvC hvF hn hvN
   have hle := f7.2.1
   have hNE := f7.2.2.1
-  haveI hNorm : ∀ k : Fin 6,
+  have hNorm : ∀ k : Fin 6,
       ((ffSeries φ t i k.castSucc).subgroupOf (ffSeries φ t i k.succ)).Normal :=
     fun k => (hNE k).choose
-  haveI hEA : ∀ k : Fin 6, IsElementaryAbelian 2 (↥(ffSeries φ t i k.succ) ⧸
+  have hEA : ∀ k : Fin 6, IsElementaryAbelian 2 (↥(ffSeries φ t i k.succ) ⧸
       (ffSeries φ t i k.castSucc).subgroupOf (ffSeries φ t i k.succ)) :=
     fun k => (hNE k).choose_spec
   refine ffBridge_card_sq (a := v₀) hv2 (r := 6) (ffSeries φ t i) rfl hle hvN ?_

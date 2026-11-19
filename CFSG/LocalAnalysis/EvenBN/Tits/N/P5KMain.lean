@@ -153,7 +153,7 @@ theorem imgIn_C_eq [Finite Γ] :
     have hkt : k * t * k⁻¹ * t⁻¹ ∈ centralizer (W : Set Γ) ⊓ Hs := by
       refine ⟨?_, mul_mem (mul_mem (mul_mem hkHs (h.C_le_Hs h.t_mem_C)) (Subgroup.inv_mem _ hkHs))
         (Subgroup.inv_mem _ (h.C_le_Hs h.t_mem_C))⟩
-      have h1 := h.conj_mem_centralizer (mul_mem hkN htn) (Subgroup.inv_mem _ hcomm)
+      have h1 := CFSG.LocalAnalysis.EvenBN.Tits.N.P5.KSet.conj_mem_centralizer (mul_mem hkN htn) (Subgroup.inv_mem _ hcomm)
       have e : k * t * k⁻¹ * t⁻¹ = (k * t) * ((k * t)⁻¹ * (t * k))⁻¹ * (k * t)⁻¹ := by group
       rw [e]
       exact h1

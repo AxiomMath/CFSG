@@ -23,22 +23,22 @@ theorem finE6Two27_holds : FinE6Two27 := by
   have hirr : IsIrrOn L ⊤ ⊥ := hctx.2.2.2.2.2
   have hperf : Group.IsPerfect ↥L := hq.1
   have hW' : ∀ w : W, w * w = 1 := fun w => by rw [← sq]; exact hW w
-  haveI : Nontrivial ↥L := by
-    haveI := hq.2.1
+  have : Nontrivial ↥L := by
+    have := hq.2.1
     exact (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
   have hLbot : L ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot L).1 inferInstance
   have hirr' : X1.IsIrrOn L := by
     refine ⟨?_, fun U hU => hirr.2.2.2 U hU bot_le le_top⟩
     by_contra hnt
     rw [not_nontrivial_iff_subsingleton] at hnt
-    haveI := hnt
+    have := hnt
     exact (ne_of_lt hirr.1) (Subgroup.ext fun x => by simp [Subsingleton.elim x 1])
   obtain ⟨K, _, _, _, hK, ⟨eS'⟩⟩ := exists_adjointEquiv_of_lieModel hlie
   obtain ⟨D, hDf⟩ := exists_hatData_of_adjointEquiv hK hperf eS'
   obtain ⟨δ, m, k, _, _, _, c, hδ, hm1, hkc, hWc, hρirr, hinj⟩ :=
     exists_moduleCoordinates hW' hperf hLbot hirr'
   obtain ⟨ιK⟩ := nonempty_ringHom_of_card_two (k := k) hK
-  letI : Algebra K k := ιK.toAlgebra
+  let : Algebra K k := ιK.toAlgebra
   have hρ : IsSimpleRep c.rep := (SL2Modules.isIrreducible_iff c.rep).1 hρirr
   have hρ' : IsSimpleRep (c.rep.comp D.π) := simpleRep_comp D.π D.hπs hρ
   have hnt : ∃ (x : ↥(e6Data_valid.minGroup K)) (v : Fin m → k), (c.rep.comp D.π) x v ≠ v := by

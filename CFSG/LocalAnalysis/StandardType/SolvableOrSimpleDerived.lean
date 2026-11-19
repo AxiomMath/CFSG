@@ -14,7 +14,7 @@ theorem SolvableOrSimpleDerived.of_mulEquiv {m : ℕ} {A B : Type} [Group A] [Gr
   rcases h with h | ⟨hs, hc⟩
   · exact Or.inl (isSolvable_of_mulEquiv e.symm h)
   · refine Or.inr ⟨?_, ?_⟩
-    · haveI := hs
+    · have := hs
       exact (commutatorEquiv e).symm.isSimpleGroup
     · rw [← Nat.card_congr (commutatorEquiv e).toEquiv]
       exact hc

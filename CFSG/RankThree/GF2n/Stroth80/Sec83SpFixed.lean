@@ -11,7 +11,7 @@ open Matrix
 
 theorem stroth_2_1_fixed_of_hom {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {X : Type*} [Group X] {M : Type*} [AddCommGroup M] [Finite M]
-    (φ : X →* GL (Fin m ⊕ Fin m) K) (hφ : φ.range = StatedSp m K) (hm : 1 ≤ m)
+    (φ : X →* GL (Fin m ⊕ Fin m) K) (hφ : φ.range = StatedSp m K) (_hm : 1 ≤ m)
     (h2 : ∀ a : M, a + a = 0) [DistribMulAction X M]
     (hker : ∀ x ∈ φ.ker, ∀ a : M, x • a = a) {u u' : Fin m ⊕ Fin m → K}
     (huu' : spForm m K u u' ≠ 0) {L₁ L₂ : Subgroup X}
@@ -27,7 +27,7 @@ theorem stroth_2_1_fixed_of_hom {m : ℕ} {K : Type} [Field K] [Finite K] [CharP
     rw [ker_toGsp] at hg
     exact hker g hg a
   have hΦ := toGsp_surjective φ hφ
-  letI : DistribMulAction (Gsp (spForm m K)) M := descendAction (toGsp φ hφ) hΦ hk
+  let : DistribMulAction (Gsp (spForm m K)) M := descendAction (toGsp φ hφ) hΦ hk
   have hsm : ∀ (g : X) (a : M), toGsp φ hφ g • a = g • a := fun g a =>
     descendAction_smul (toGsp φ hφ) hΦ hk g a
   have e1 : fixedSub M ((Lsp (spForm m K) spForm_isAlt u : Subgroup (Gsp (spForm m K))) :

@@ -89,7 +89,7 @@ theorem trace_rootDiagUnit_E8_of_kills (b : Fin Tag.E8.rank → Kˣ) (hb3 : ∀ 
     LinearMap.trace K (RootModule Tag.E8 K)
         ((rootDiagUnit Tag.E8 b : ModGL Tag.E8 K) : Module.End K (RootModule Tag.E8 K)) = 5 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Fintype.card {v : Fin Tag.E8.rank → ℤ // IsRoot Tag.E8 v} = 240 := by
     rw [card_isRoot]
     rfl

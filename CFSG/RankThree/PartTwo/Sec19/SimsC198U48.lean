@@ -215,7 +215,7 @@ private theorem perfect_hom_eq_one {L A : Type*} [Group L] [Group.IsPerfect L] [
     rw [commutator_def, Subgroup.commutator_le]
     intro a _ b _
     rw [MonoidHom.mem_ker, commutatorElement_def, map_mul, map_mul, map_inv, map_inv]
-    simp [mul_comm]
+    simp
   rw [Group.IsPerfect.commutator_eq_top] at h
   exact h (Subgroup.mem_top x)
 
@@ -314,7 +314,7 @@ private theorem aschbacherSolvableCore_eq_bot {G : Type*} [Group G] [Finite G]
     have : Nontrivial G := CFSG.LocalCores.isQuasisimple_nontrivial hq
     have hG : Group.IsSolvable G := by
       rw [h] at hsolv
-      exact solvable_of_surjective (G := (⊤ : Subgroup G))
+      exact Group.isSolvable_of_surjective (G := (⊤ : Subgroup G))
         (f := (Subgroup.topEquiv (G := G)).toMonoidHom) (Subgroup.topEquiv (G := G)).surjective
     have := hq.1
     exact Group.IsPerfect.not_isSolvable G hG
@@ -389,7 +389,7 @@ private theorem CompHyp.map (e : SU4 ≃* SU4) {c : SU4} {L : Subgroup SU4} (h :
     rw [hφ] at hsn
     exact hsn
   perf := by
-    haveI := h.perf
+    have := h.perf
     exact Group.IsPerfect.map e.toMonoidHom
   mem := Subgroup.mem_map_of_mem e.toMonoidHom h.mem
   nonab := by
@@ -571,7 +571,7 @@ private theorem exists_nf {c : SU4} (hc : orderOf c = 3) :
     rw [hmat, Matrix.submatrix_diagonal_equiv]
     rfl
   · simp only [hπ0, hπ1, hdij]
-  · simp only [hπ0, hπ3, hk]
+  · simp only [hπ0, hπ3]
     exact hk
 
 private theorem isMulCommutative_of_jointly_injective {Γ G₁ G₂ : Type*} [Group Γ] [Group G₁]
@@ -645,7 +645,7 @@ private theorem false_of_Z22 (L : Subgroup SU4) (hperf : Group.IsPerfect L)
     (hZ : ∀ x ∈ L, Z22 x)
     (hP : ∃ P : Subgroup SU4, P ≤ L ∧ IsPGroup 3 P ∧ ¬ IsMulCommutative P) : False := by
   obtain ⟨P, hPL, hP3, hPn⟩ := hP
-  haveI := hperf
+  have := hperf
   have hD1 : ∀ x ∈ L, (blk1 (mat x)).det = 1 :=
     perfect_mul_eq_one L (fun x => (blk1 (mat x)).det) (by simp [mat_one, blk1_one])
       (fun x hx y hy => by
@@ -703,9 +703,9 @@ private theorem false_of_Z22 (L : Subgroup SU4) (hperf : Group.IsPerfect L)
     have e201 := congrFun (congrFun e2 0) 1
     have e210 := congrFun (congrFun e2 1) 0
     have e211 := congrFun (congrFun e2 1) 1
-    simp only [blk1, blk2, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
+    simp only [blk1, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
       Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one] at e100 e101 e110 e111
-    simp only [blk1, blk2, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
+    simp only [blk2, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
       Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one] at e200 e201 e210 e211
     fin_cases i <;> fin_cases j <;> simp [hx.h02, hx.h03, hx.h12, hx.h13, hx.h20, hx.h21, hx.h30,
       hx.h31, hy.h02, hy.h03, hy.h12, hy.h13, hy.h20, hy.h21, hy.h30, hy.h31] <;> assumption
@@ -803,7 +803,7 @@ private theorem eq_R_of_le {c : SU4} {L : Subgroup SU4}
       simp [Subgroup.mem_subgroupOf]
     rwa [h2] at this
   have hperfR : Group.IsPerfect (L.subgroupOf R) := by
-    haveI := hperf
+    have := hperf
     exact Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hLR).symm.toMonoidHom)
       (MulEquiv.surjective _)
   have hne : L.subgroupOf R ≠ ⊥ := by
@@ -954,7 +954,7 @@ private theorem schur_R {y : SU4} (hy : ∀ x ∈ R, x * y = y * x) :
     rw [mat_mul, mat_mul, mat_p12] at this
     have h := congrFun (congrFun this 1) 2
     simp [Matrix.mul_apply, Fin.sum_univ_four, blockMat_apply, CFSG.ClassicalInvolution.Phan.rotMat,
-      y10, y12, y13, y20, y21, y23] at h
+      y10, y12, y13] at h
     exact h.symm
   refine ⟨mat y 0 0, mat y 3 3, ?_⟩
   ext i j
@@ -1067,7 +1067,7 @@ private theorem zero_of_mem_centralizer {c : SU4} {d : Fin 4 → K} (hc : mat c 
 private theorem concl_of_nfA {c : SU4} {L : Subgroup SU4} (h : CompHyp c L) {d : Fin 4 → K}
     (hc : mat c = diagonal d) (h01 : d 0 = d 1) (h12 : d 1 = d 2) (h30 : d 3 ≠ d 0) :
     CompConcl L := by
-  haveI := h.perf
+  have := h.perf
   have hZ : ∀ x ∈ L, Z31 x := fun x hx => by
     have hxc := h.le hx
     refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩

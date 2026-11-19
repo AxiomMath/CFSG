@@ -30,16 +30,16 @@ theorem pins : sBits 0 = pS.getD 0 0 ∧ sBits 1 = pS.getD 1 0 ∧ sBits 2 = pS.
 theorem hasBitsS_SS (i : Fin 4) : HasBitsS (ZMod 2) (sE i) (SS.getD i 0) := by
   obtain ⟨h0, h1, h2, h3, -⟩ := pins
   rcases i with ⟨_ | _ | _ | _ | n, hi⟩
-  · simp only [Fin.val_mk, List.getD_cons_zero]
+  · simp only [List.getD_cons_zero]
     rw [← h0]
     exact hasBitsS_sE _
-  · simp only [Fin.val_mk, Nat.zero_add, List.getD_cons_succ, List.getD_cons_zero]
+  · simp only [Nat.zero_add, List.getD_cons_succ, List.getD_cons_zero]
     rw [← h1]
     exact hasBitsS_sE _
-  · simp only [Fin.val_mk, Nat.zero_add, List.getD_cons_succ, List.getD_cons_zero]
+  · simp only [Nat.zero_add, List.getD_cons_succ, List.getD_cons_zero]
     rw [← h2]
     exact hasBitsS_sE _
-  · simp only [Fin.val_mk, Nat.zero_add, List.getD_cons_succ, List.getD_cons_zero]
+  · simp only [Nat.zero_add, List.getD_cons_succ, List.getD_cons_zero]
     rw [← h3]
     exact hasBitsS_sE _
   · omega
@@ -60,12 +60,12 @@ theorem hasBitsS_phiS (m : ℕ) : HasBitsS (ZMod 2) (phi sE g4E g5E m)
 theorem hasBitsS_tgtS (t : ℕ) : HasBitsS (ZMod 2) (trgE t) (tgtS SS t) := by
   have s : ∀ i : Fin 4, HasBitsS (ZMod 2) (sE i) (SS.getD i 0) := hasBitsS_SS
   by_cases h0 : t = 0
-  · simp only [trgE, tgtS, h0, if_true]
+  · simp only [trgE, tgtS, h0, ite_true]
     exact s 3
   by_cases h1 : t = 1
-  · simp only [trgE, tgtS, h1, if_true, one_ne_zero, if_false]
+  · simp only [trgE, tgtS, h1, ite_true, one_ne_zero, ite_false]
     exact (s 0).mul (s 1)
-  simp only [trgE, tgtS, h0, h1, if_false]
+  simp only [trgE, tgtS, h0, h1, ite_false]
   exact (((s 0).mul (s 0)).mul ((s 1).mul (s 1))).mul ((s 2).mul (s 2))
 
 theorem isConj_of_mul {x y c : F42C} (h : c * x = y * c) : IsConj x y :=
@@ -78,11 +78,11 @@ theorem row_sound {k n : ℕ} (h : (clsRowN pS tgt cpar clet ca cb cw cl k == n)
   have h := beq_iff_eq.1 h
   simp only [clsRowN, strictN_eq] at h
   by_cases hr : cpar.getD k 0 = 48
-  · rw [if_pos hr] at h ⊢
+  · rw [ite_eq_left hr] at h ⊢
     have e := toNat_eq_one h
     exact isConj_of_mul ((((hasBitsS_wordS _ _).mul (hasBitsS_phiS _)).eq_iff
       ((hasBitsS_tgtS _).mul (hasBitsS_wordS _ _))).2 e)
-  · rw [if_neg hr] at h ⊢
+  · rw [ite_eq_right hr] at h ⊢
     have e := toNat_eq_one h
     exact isConj_of_mul ((((hasBitsS_letS _).mul (hasBitsS_phiS _)).eq_iff
       ((hasBitsS_phiS _).mul (hasBitsS_letS _))).2 e)
@@ -137,10 +137,10 @@ theorem rep_conj : ∀ k, k < 48 →
     rw [hca] at hA
     have hrow := rows_sound k hk
     rcases hpar with hr | ⟨⟨⟨⟨hp, hb⟩, hcb⟩, ht⟩, hdp⟩
-    · rw [if_pos hr] at hrow
+    · rw [ite_eq_left hr] at hrow
       exact hA.symm.trans hrow
     · have hne : cpar.getD k 0 ≠ 48 := by omega
-      rw [if_neg hne] at hrow
+      rw [ite_eq_right hne] at hrow
       obtain ⟨-, hB⟩ := conj_code hb
       rw [hcb] at hB
       first

@@ -10,6 +10,7 @@ open CFSG CFSG.CGT.Timmesfeld75 CFSG.Open CFSG.Assembly.LowTwoRank
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem conj_le_M {L : Subgroup G} (hL : L ≤ M) {m : G} (hm : m ∈ M) :
     conjSubgroup m L ≤ M := by
   intro x hx
@@ -18,14 +19,17 @@ theorem conj_le_M {L : Subgroup G} (hL : L ≤ M) {m : G} (hm : m ∈ M) :
     M.mul_mem (M.mul_mem hm (hL hx)) (M.inv_mem hm)
   rwa [show m * (m⁻¹ * x * m) * m⁻¹ = x by group] at h2
 
+omit [Finite G] in
 theorem Lgen_le {L : Subgroup G} (hL : L ≤ M) : Lgen M L ≤ M := by
   unfold Lgen
   exact iSup₂_le fun m hm => conj_le_M hL hm
 
+omit [Finite G] in
 theorem conjSubgroup_iSup_eq {ι : Sort*} (k : G) (s : ι → Subgroup G) :
     conjSubgroup k (⨆ i, s i) = ⨆ i, conjSubgroup k (s i) :=
   Subgroup.map_iSup (MulAut.conj k).toMonoidHom s
 
+omit [Finite G] in
 theorem conjSubgroup_Lgen_le {L : Subgroup G} {k : G} (hk : k ∈ M) :
     conjSubgroup k (Lgen M L) ≤ Lgen M L := by
   unfold Lgen
@@ -36,6 +40,7 @@ theorem conjSubgroup_Lgen_le {L : Subgroup G} {k : G} (hk : k ∈ M) :
   rw [← CFSG.RankThree.GF2n.conjSubgroup_mul]
   exact le_iSup₂_of_le (k * m) (M.mul_mem hk hm) le_rfl
 
+omit [Finite G] in
 theorem Lgen_normal {L : Subgroup G} (hL : L ≤ M) : ((Lgen M L).subgroupOf M).Normal := by
   rw [Subgroup.normal_subgroupOf_iff (Lgen_le hL)]
   intro h k hh hk
@@ -44,6 +49,7 @@ theorem Lgen_normal {L : Subgroup G} (hL : L ≤ M) : ((Lgen M L).subgroupOf M).
     exact hh
   exact conjSubgroup_Lgen_le hk hmem
 
+omit [Finite G] in
 theorem le_Lgen (L : Subgroup G) : L ≤ Lgen M L := by
   have h1 : L ≤ conjSubgroup 1 L := by
     intro x hx
@@ -53,11 +59,13 @@ theorem le_Lgen (L : Subgroup G) : L ≤ Lgen M L := by
   unfold Lgen
   exact le_iSup₂_of_le (1 : G) M.one_mem le_rfl
 
+omit [Finite G] in
 theorem bar_normal [(Q.subgroupOf M).Normal] {S : Subgroup G}
     (hSn : (S.subgroupOf M).Normal) : (bar M Q S).Normal :=
   Subgroup.Normal.map hSn (QuotientGroup.mk' (Q.subgroupOf M))
     (QuotientGroup.mk'_surjective (N := Q.subgroupOf M))
 
+omit [Finite G] in
 theorem Ctx.pCore_two_Mbar [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) :
     pCore 2 (Mbar M Q) = ⊥ := by
   have hQ2 : IsPGroup 2 Q := by
@@ -85,11 +93,12 @@ theorem Ctx.pCore_two_Mbar [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) :
   exact (QuotientGroup.eq_one_iff (N := Q.subgroupOf M) y).mpr
     (Subgroup.mem_subgroupOf.mpr hyQ)
 
+omit [Finite G] in
 theorem bar_Lgen_eq_normalClosure_of_le [(Q.subgroupOf M).Normal] {L : Subgroup G}
     (hLM : L ≤ M) :
     bar M Q (Lgen M L) = Subgroup.normalClosure (bar M Q L : Set (Mbar M Q)) := by
   set N := Subgroup.normalClosure (bar M Q L : Set (Mbar M Q))
-  haveI hNn : N.Normal := Subgroup.normalClosure_normal
+  have hNn : N.Normal := Subgroup.normalClosure_normal
   set X : Subgroup M := N.comap (QuotientGroup.mk' (Q.subgroupOf M))
   have hinj : Function.Injective M.subtype := Subtype.coe_injective
   have hsub : Lgen M L ≤ X.map M.subtype := by
@@ -124,9 +133,10 @@ theorem bar_Lgen_eq_normalClosure_of_le [(Q.subgroupOf M).Normal] {L : Subgroup 
   have hmono : bar M Q L ≤ bar M Q (Lgen M L) :=
     Subgroup.map_mono (fun x hx => le_Lgen L (show (x : G) ∈ L from hx))
   have hnorm : (bar M Q (Lgen M L)).Normal := bar_normal (Lgen_normal hLM)
-  haveI := hnorm
+  have := hnorm
   exact Subgroup.normalClosure_le_normal (fun y hy => hmono (show y ∈ bar M Q L from hy))
 
+omit [Finite G] in
 theorem bar_Lgen_eq_normalClosure [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) :
     bar M Q (Lgen M (LB M Q B)) =
       Subgroup.normalClosure (bar M Q (LB M Q B) : Set (Mbar M Q)) :=

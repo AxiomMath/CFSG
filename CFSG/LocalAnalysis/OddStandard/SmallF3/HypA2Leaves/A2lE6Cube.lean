@@ -33,9 +33,9 @@ theorem a2lE6_scalar_neg_one_mem_SU (σ : K ≃+* K) :
         (-1 : K) • (1 : Matrix (Fin 6) (Fin 6) K) := by
       ext i j
       by_cases hij : i = j
-      · simp [conjTr, Matrix.smul_apply, Matrix.one_apply, hij]
+      · simp [conjTr, Matrix.smul_apply, hij]
       · have hji : ¬ j = i := fun h => hij h.symm
-        simp [conjTr, Matrix.smul_apply, Matrix.one_apply, hij, hji]
+        simp [conjTr, Matrix.smul_apply, hij, hji]
     rw [a2lE6_coe_scalar_neg_one, h, Matrix.smul_mul, Matrix.one_mul, Matrix.mul_smul,
       Matrix.mul_one, smul_smul]
     simp

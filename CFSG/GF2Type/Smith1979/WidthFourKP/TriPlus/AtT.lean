@@ -32,7 +32,7 @@ theorem e_ne_one (i : Fin 3) : eb T.σ i ≠ 1 := by
     apply Multiplicative.ofAdd.injective
     exact T.basis.inj (by simpa [eb] using h)
   have h2 := congrFun h1 i
-  simpa using h2
+  simp at h2
 
 theorem e_pow_three (i : Fin 3) : eb T.σ i ^ 3 = 1 := by
   simpa [T.basis.orderOf_eb i] using pow_orderOf_eq_one (eb T.σ i)
@@ -129,7 +129,7 @@ theorem comm_mem_zpowers (x : S.Mbar) {k : Fin 3} (hk : T.perm x k = k) :
     · subst h
       simp [negAt]
       ring
-    · simp [negAt, h, sub_eq_add_neg]
+    · simp [negAt, h]
   rw [h1, hconjneg, hsingle, T.basis.sigma_single_eq_pow k (2 * c k)]
   exact Subgroup.pow_mem (Subgroup.zpowers (eb T.σ k)) (Subgroup.mem_zpowers _) _
 
@@ -233,7 +233,7 @@ theorem TriData.exists_eq_l {S : Setting G} {g : G} (T : TriData S g) (H : Hyp4 
     rw [CFSG.LargeExtraspecial.S14.card_Rbar_eq H.conj_mem t,
       card_RmodN_eq_thirtysix H C ht ht1 hVQ hΩ h4 hplus]
     exact dvd_mul_of_dvd_right (by norm_num : 9 ∣ 36) _
-  letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨P, hPcard⟩ :=
     Sylow.exists_subgroup_card_pow_prime (G := Rbar S g t) 3 (n := 2) h9R
   have hPcard9 : Nat.card P = 9 := by
@@ -354,7 +354,7 @@ theorem TriData.exists_eq_l {S : Setting G} {g : G} (T : TriData S g) (H : Hyp4 
       funext j
       by_cases hj : j = i0
       · subst hj
-        rw [hi0neg, signAt, if_pos rfl]
+        rw [hi0neg, signAt, ite_eq_left rfl]
       · rw [hspos j hj, signAt]
         simp [hj]
     let x : S.O := t * (T.l i0)⁻¹

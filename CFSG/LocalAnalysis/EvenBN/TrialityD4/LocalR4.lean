@@ -214,7 +214,7 @@ theorem yamadaW₂_le_yamadaR₃_R4 (h : Setup G L f t) (d : TrialityD4Data L (2
 theorem yamadaR₄_le_normalizer_yamadaW₂_R4 (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
     (hlay : h.LayerHyp d) : yamadaR₄ d t ≤ normalizer (yamadaW₂ d t : Set G) := by
   layer_ctx
-  haveI hchar : ((yamadaW₂ d t).subgroupOf (yamadaR₃ d t)).Characteristic :=
+  have hchar : ((yamadaW₂ d t).subgroupOf (yamadaR₃ d t)).Characteristic :=
     characteristic_iff_map_le.2 fun ϕ => by
       rintro _ ⟨x, hx, rfl⟩
       replace hx := mem_subgroupOf.1 hx
@@ -424,7 +424,7 @@ theorem yamadaY₂_le_yamadaM₄_R4 (h : Setup G L f t) (d : TrialityD4Data L (2
     (hlay : h.LayerHyp d) : yamadaY₂ d t ≤ yamadaM₄ d t :=
   le_inf ((h.yamadaY₂_le_yamadaL₂_D1 d hlay).trans
     ((le_sup_left : yamadaL₂ d t ≤ yamadaR₂ d t).trans (h.yamadaR₂_le_yamadaR₄_R4 d hlay)))
-    fun y hy => mem_centralizer_iff.2 fun z hz => h.mul_comm_of_mem_yamadaY₂ d hlay hz hy
+    fun _y hy => mem_centralizer_iff.2 fun _z hz => h.mul_comm_of_mem_yamadaY₂ d hlay hz hy
 
 theorem yamadaW₃_le_yamadaM₄_R4 (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
     (hlay : h.LayerHyp d) : yamadaW₃ d t ≤ yamadaM₄ d t :=
@@ -530,6 +530,7 @@ theorem yamadaW₃_le_yamadaS₄_R4 (h : Setup G L f t) (d : TrialityD4Data L (2
     centralizer_le (yamadaV₁_le_yamadaY₂ d)
       (centralizer_le (le_sup_right : yamadaY₂ d t ≤ yamadaW₂ d t) (mem_inf.1 hx).2)
 
+omit [Finite G] in
 theorem yamadaM₄_le_yamadaS₄_R4 {q : ℕ} (d : TrialityD4Data L q) (t : G) :
     yamadaM₄ d t ≤ yamadaS₄ d t :=
   inf_le_inf_left _ (centralizer_le (yamadaV₁_le_yamadaY₂ d))

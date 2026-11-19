@@ -325,7 +325,7 @@ theorem normalizer_surjective_of_equiv [Finite L] (e : L ≃* PSL2 (ZMod p)) (hp
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : IsPGroup 2 ↥V := IsPGroup.of_card (n := 2) (by rw [hV.card_four]; norm_num)
   obtain ⟨S, hVS⟩ := h2.exists_le_sylow
-  have hS : IsSylowIn 2 (S : Subgroup L) ⊤ := ⟨le_top, S.isPGroup', by
+  have hS : IsSylowIn 2 (S : Subgroup L) ⊤ := ⟨le_top, S.isPGroup, by
     rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
   obtain ⟨m, hm, ⟨eS⟩⟩ := sylow_dihedral_of_equiv e (by omega) hp8 hS
   exact perfect_dihedral_fourgroup_normalizer_surjective S hm eS V hVS hV

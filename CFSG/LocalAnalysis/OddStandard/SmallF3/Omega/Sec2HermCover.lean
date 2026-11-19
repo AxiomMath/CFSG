@@ -82,7 +82,7 @@ theorem isQuasisimple_isTwoU43_of_cover {X : Type} [Group X] (θ : Su F9 3 1 4 �
   have hqX := CFSG.LieType.CurtisTits.isQuasisimple_of_surjective hq hθ hnt
   let e := CFSG.LieType.CurtisTits.centralQuotientEquivOfIsQuasisimple hq hθ hker_le
   refine ⟨hqX, ?_, ?_⟩
-  · haveI : Finite X := Finite.of_surjective θ hθ
+  · have : Finite X := Finite.of_surjective θ hθ
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup
       (Subgroup.center (Su F9 3 1 4))
     have h2 := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center X)

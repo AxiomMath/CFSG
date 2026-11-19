@@ -17,7 +17,7 @@ section Certified
 
 theorem IsPSUGp.exists_sylowCenter_sup_eq_top (hP : IsPSUGp P 3 n) {Q Q' : Sylow 2 P}
     (hne : Q ≠ Q') : ∃ Q'' : Sylow 2 P, sylowCenter Q ⊔ sylowCenter Q' ⊔ sylowCenter Q'' = ⊤ := by
-  haveI : Finite (Sylow 2 P) :=
+  have : Finite (Sylow 2 P) :=
     Finite.of_injective (SetLike.coe : Sylow 2 P → Set P) SetLike.coe_injective
   have hn2 : 2 ≤ n := two_le_of_isPSUGp hP
   have hq1 : 1 < 2 ^ n := one_lt_pow' (by norm_num) (by omega)
@@ -73,7 +73,7 @@ theorem IsPSUGp.exists_sylowCenter_sup_eq_top (hP : IsPSUGp P 3 n) {Q Q' : Sylow
         (x := g * y * g⁻¹)).mpr ?_
       rw [show g⁻¹ * (g * y * g⁻¹) * (g⁻¹)⁻¹ = y by group]
       exact hyi
-    · simpa using N.one_mem
+    · simp
     · intro a b ha hb
       rw [show g * (a * b) * g⁻¹ = (g * a * g⁻¹) * (g * b * g⁻¹) by group]
       exact N.mul_mem ha hb
@@ -90,7 +90,7 @@ theorem IsPSUGp.exists_sylowCenter_sup_eq_top (hP : IsPSUGp P 3 n) {Q Q' : Sylow
     (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity P 3 2 n
       (CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hP)).2
   have hNtop : N = ⊤ := by
-    letI : N.Normal := hNnormal
+    let : N.Normal := hNnormal
     exact (hsimple.eq_bot_or_eq_top_of_normal N).resolve_left hNne
   have hHtop : H = ⊤ := by
     rw [hNtop] at hNleH

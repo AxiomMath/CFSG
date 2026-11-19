@@ -175,6 +175,7 @@ variable {G : Type} [Group G] [Finite G]
   ∀ S T : Subgroup G, IsSylowIn 3 C S → IsSylowIn 3 C T → S ⊔ O ≠ T ⊔ O →
     (S ⊔ O) ⊓ (T ⊔ O) ≤ O
 
+omit [Finite G] in
 theorem isElemAbelian_map_val {C : Subgroup G} {E : Subgroup ↥C}
     (hE : CFSG.Open.IsElemAbelian 3 E) : CFSG.Open.IsElemAbelian 3 (E.map C.subtype) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, ?_⟩
@@ -193,7 +194,7 @@ theorem mem_of_pow_three_of_cyclic {C Z : Subgroup G} [IsCyclic ↥C] (hZC : Z �
   by_cases hc1 : c = 1
   · rw [hc1]; exact Z.one_mem
   have hcZ : Nat.card (Subgroup.zpowers (⟨c, hcC⟩ : ↥C)) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rw [Nat.card_zpowers]
     refine orderOf_eq_prime ?_ ?_
     · exact Subtype.ext hc3
@@ -216,7 +217,7 @@ theorem R1_structure (hI : Input31_2_three) (hcyc : Input_cyc3)
     IsCyclic ↥(centerOf R₁) ∧ R₁ = centerOf R₁ ⊔ omegaOne 3 R₁ ∧ Nat.card ↥(omegaOne 3 R₁) = 3 ^ 5 ∧
       ⁅omegaOne 3 R₁, omegaOne 3 R₁⁆ = centerOf (omegaOne 3 R₁) ∧
         Nat.card ↥(centerOf (omegaOne 3 R₁)) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup G := R₁ ⊓ Subgroup.centralizer (R₃ : Set G) with hCdef
   have hC_le : C ≤ R₁ := inf_le_left
   have hCcent : ∀ c ∈ C, ∀ r ∈ R₃, r * c = c * r := fun c hc r hr =>
@@ -284,7 +285,7 @@ theorem R1_structure (hI : Input31_2_three) (hcyc : Input_cyc3)
       have hmap := isElemAbelian_map_val hE'
       have := hCE (E'.map C.subtype) (Subgroup.map_subtype_le _) hmap
       rwa [Subgroup.card_map_of_injective (f := C.subtype) Subtype.coe_injective] at this
-  haveI := hCcyc
+  have := hCcyc
   have hCcomm : ∀ x ∈ C, ∀ y ∈ C, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (IsMulCommutative.is_comm.comm (⟨x, hx⟩ : ↥C) ⟨y, hy⟩)
   have hZ1 : centerOf R₁ = C := by
@@ -326,6 +327,7 @@ theorem R1_structure (hI : Input31_2_three) (hcyc : Input_cyc3)
   rw [hZ1, hΩ]
   exact ⟨hCcyc, hsup.trans (sup_comm _ _), hext.1, hext.2.2.1, hext.2.2.2⟩
 
+omit [Finite G] in
 theorem le_inf_of_TI3 {C O M R R' A : Subgroup G} (hTI : TI3 C O) (hOM : O ≤ M) (hRM : R ≤ M)
     (hR : IsSylowIn 3 C R) (hR' : IsSylowIn 3 C R') (hR'M : ¬ R' ≤ M) (hAR : A ≤ R) (hAR' : A ≤ R') :
     A ≤ R ⊓ O := by
@@ -352,6 +354,7 @@ theorem exists_isSylowIn_above' {p : ℕ} [Fact p.Prime] {X P : Subgroup G} (hPX
   exact ⟨Q, ⟨hQmax.1.1, hQmax.1.2, fun R' hR'X hR'p hQR' =>
     le_antisymm (hQmax.2 ⟨hR'X, hR'p⟩ hQR') hQR'⟩, hPQ⟩
 
+omit [Finite G] in
 theorem isPGroup_of_le' {p : ℕ} {P H : Subgroup G} (hP : IsPGroup p ↥P) (hHP : H ≤ P) :
     IsPGroup p ↥H := fun g => by
   obtain ⟨n, hn⟩ := hP ⟨g.1, hHP g.2⟩
@@ -367,35 +370,35 @@ section Assembly
 
 @[expose] def Claim1211_alpha : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G}
-    (h : Cex127 G m p B M E A N D), ∃ K : Subgroup G, AlphaData1211 p M E A N K
+    (_h : Cex127 G m p B M E A N D), ∃ K : Subgroup G, AlphaData1211 p M E A N K
 
 @[expose] def Claim1211_R3 : Prop :=
-  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (h : Cex127 G m p B M E A N D)
-    {K : Subgroup G} (hK : AlphaData1211 p M E A N K) {z : G} (hz : z ∈ A ∧ z ≠ 1)
-    (hz1 : IsPCentralIn p M z) (hz2 : ¬ Cg z ≤ M) {R : Subgroup G} (hR : IsSylowIn 3 (Cg z) R)
-    (hAR : A ≤ R) (hRM : R ≤ M),
+  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (_h : Cex127 G m p B M E A N D)
+    {K : Subgroup G} (_hK : AlphaData1211 p M E A N K) {z : G} (_hz : z ∈ A ∧ z ≠ 1)
+    (_hz1 : IsPCentralIn p M z) (_hz2 : ¬ Cg z ≤ M) {R : Subgroup G} (_hR : IsSylowIn 3 (Cg z) R)
+    (_hAR : A ≤ R) (_hRM : R ≤ M),
     ∃ R₃ : Subgroup G, R₃ ≤ R ⊓ pPrimePCore 3 (Cg z) ∧
       (R₃.subgroupOf (R ⊓ pPrimePCore 3 (Cg z))).Normal ∧ IsExtraspecialThreeFive R₃ ∧
       ⁅R ⊓ pPrimePCore 3 (Cg z), R₃⁆ ≤ centerOf R₃
 
 @[expose] def Claim1211_m3 : Prop :=
-  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (h : Cex127 G m p B M E A N D)
-    {K : Subgroup G} (hK : AlphaData1211 p M E A N K) {z : G} (hz : z ∈ A ∧ z ≠ 1)
-    (hz1 : IsPCentralIn p M z) (hz2 : ¬ Cg z ≤ M) {R : Subgroup G} (hR : IsSylowIn 3 (Cg z) R)
-    (hAR : A ≤ R) (hRM : R ≤ M),
+  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (_h : Cex127 G m p B M E A N D)
+    {K : Subgroup G} (_hK : AlphaData1211 p M E A N K) {z : G} (_hz : z ∈ A ∧ z ≠ 1)
+    (_hz1 : IsPCentralIn p M z) (_hz2 : ¬ Cg z ≤ M) {R : Subgroup G} (_hR : IsSylowIn 3 (Cg z) R)
+    (_hAR : A ≤ R) (_hRM : R ≤ M),
     ∀ E' : Subgroup G, E' ≤ R ⊓ pPrimePCore 3 (Cg z) → CFSG.Open.IsElemAbelian 3 E' →
       Nat.card E' ≤ 3 ^ 3
 
 @[expose] def Claim1211_TI : Prop :=
-  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (h : Cex127 G m p B M E A N D)
-    {K : Subgroup G} (hK : AlphaData1211 p M E A N K) {z : G} (hz : z ∈ A ∧ z ≠ 1)
-    (hz1 : IsPCentralIn p M z) (hz2 : ¬ Cg z ≤ M),
+  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (_h : Cex127 G m p B M E A N D)
+    {K : Subgroup G} (_hK : AlphaData1211 p M E A N K) {z : G} (_hz : z ∈ A ∧ z ≠ 1)
+    (_hz1 : IsPCentralIn p M z) (_hz2 : ¬ Cg z ≤ M),
     TI3 (Cg z) (pPrimePCore 3 (Cg z))
 
 @[expose] def Claim1211_OM : Prop :=
-  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (h : Cex127 G m p B M E A N D)
-    {K : Subgroup G} (hK : AlphaData1211 p M E A N K) {z : G} (hz : z ∈ A ∧ z ≠ 1)
-    (hz1 : IsPCentralIn p M z) (hz2 : ¬ Cg z ≤ M),
+  ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G} (_h : Cex127 G m p B M E A N D)
+    {K : Subgroup G} (_hK : AlphaData1211 p M E A N K) {z : G} (_hz : z ∈ A ∧ z ≠ 1)
+    (_hz1 : IsPCentralIn p M z) (_hz2 : ¬ Cg z ≤ M),
     pPrimePCore 3 (Cg z) ≤ M
 
 end Assembly
@@ -411,7 +414,7 @@ open CFSG.LocalAnalysis.GLTheoremB.MovingAround.Lemma1211
 
 theorem lemma1211_i_of_lemma129 (h129 : Lemma129PrintedStatement) :
     ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G}
-      (h : Cex127 G m p B M E A N D) {z : G} (hz : z ∈ A ∧ z ≠ 1) (hz1 : IsPCentralIn p M z),
+      (_h : Cex127 G m p B M E A N D) {z : G} (_hz : z ∈ A ∧ z ≠ 1) (_hz1 : IsPCentralIn p M z),
       ∃ R : Subgroup G, IsSylowIn p (Cg z) R ∧ A ≤ R ∧ R ≤ M := by
   intro G _ _ m p B M E A N D h z hz hz1
   obtain ⟨K, hK, -⟩ := h129 h
@@ -419,7 +422,7 @@ theorem lemma1211_i_of_lemma129 (h129 : Lemma129PrintedStatement) :
   have hEA := h.pair
   have hAM : A ≤ M := hEA.1.2.1.1.1.1
   have hAel : CFSG.Open.IsElemAbelian p A := hEA.1.2.1.1.1.2.1
-  haveI : Fact p.Prime := ⟨h.standing.prime⟩
+  have : Fact p.Prime := ⟨h.standing.prime⟩
   obtain ⟨R0, hR0M, hzR0⟩ := hz1
   have hR0G : IsSylowIn p ⊤ R0 :=
     (lemma104_iv_holds h.toSec11.toSec10Fails hEA hE2 hR0M).2.2
@@ -454,15 +457,14 @@ theorem lemma1211_iii_iv_of_inputs (hI : Input31_2_three) (hcyc : Input_cyc3)
     (h1210 : Lemma1210Statement) (hR3 : Claim1211_R3) (hm3 : Claim1211_m3) (hTI : Claim1211_TI)
     (hOM : Claim1211_OM) :
     ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G}
-      (h : Cex127 G m p B M E A N D) {K : Subgroup G} (hK : AlphaData1211 p M E A N K)
-      {z : G} (hz : z ∈ A ∧ z ≠ 1) (hz1 : IsPCentralIn p M z) (hz2 : ¬ Cg z ≤ M)
+      (_h : Cex127 G m p B M E A N D) {K : Subgroup G} (_hK : AlphaData1211 p M E A N K)
+      {z : G} (_hz : z ∈ A ∧ z ≠ 1) (_hz1 : IsPCentralIn p M z) (_hz2 : ¬ Cg z ≤ M)
       (R : Subgroup G), IsSylowIn 3 (Cg z) R → A ≤ R → R ≤ M →
         let R₁ := R ⊓ pPrimePCore 3 (Cg z)
         (IsCyclic (centerOf R₁) ∧ R₁ = centerOf R₁ ⊔ omegaOne 3 R₁ ∧
           Nat.card (omegaOne 3 R₁) = 3 ^ 5 ∧ ⁅omegaOne 3 R₁, omegaOne 3 R₁⁆ = centerOf (omegaOne 3 R₁) ∧
             Nat.card (centerOf (omegaOne 3 R₁)) = 3) ∧ A ≤ R₁ := by
-  intro G _ _ m p B M E A N D h K hK z hz hz1 hz2 R hR hAR hRM
-  intro R₁
+  intro G _ _ m p B M E A N D h K hK z hz hz1 hz2 R hR hAR hRM R₁
   have hR₁ : IsPGroup 3 ↥R₁ := isPGroup_of_le' hR.2.1 inf_le_left
   obtain ⟨R₃, hR₃R₁, hn, hext, hcomm⟩ := hR3 h hK hz hz1 hz2 hR hAR hRM
   have hm3' := hm3 h hK hz hz1 hz2 hR hAR hRM
@@ -484,7 +486,7 @@ theorem lemma1211_iii_iv_of_inputs (hI : Input31_2_three) (hcyc : Input_cyc3)
 
 theorem lemma1211_p_eq_three_of_alpha (hα : Claim1211_alpha) :
     ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D : Subgroup G}
-      (h : Cex127 G m p B M E A N D) {z : G} (_ : z ∈ A ∧ z ≠ 1) (_ : IsPCentralIn p M z)
+      (_h : Cex127 G m p B M E A N D) {z : G} (_ : z ∈ A ∧ z ≠ 1) (_ : IsPCentralIn p M z)
       (_ : ¬ Cg z ≤ M), p = 3 := by
   intro G _ _ m p B M E A N D h z _ _ _
   obtain ⟨K, hK⟩ := hα h

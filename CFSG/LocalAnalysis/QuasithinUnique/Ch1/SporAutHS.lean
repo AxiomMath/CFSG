@@ -62,7 +62,7 @@ theorem s0_isPGroup : IsPGroup 2 s0Chain.originalSubgroup :=
 theorem ltr_memP (k : ℕ) : hsLtr k ∈ hsChain.originalSubgroup := by
   by_cases hk : k < 4
   · exact ltr_mem k hk
-  · rw [hsLtr, if_neg hk]
+  · rw [hsLtr, ite_eq_right hk]
     exact hsGen_mem 1 (by norm_num)
 
 theorem wordElt_mem :

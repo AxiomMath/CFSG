@@ -54,7 +54,7 @@ theorem sxGen_le_normalizer_KS : sxGen ≤ Subgroup.normalizer (sxKS : Set S24) 
 
 theorem card_sxP0 :
     Nat.card ↥sxP0 = 69120 := by
-  haveI : Finite (MulAut W11) := CFSG.Quasithin.H.ZTrans.finite_mulAut_z (V := W11)
+  have : Finite (MulAut W11) := CFSG.Quasithin.H.ZTrans.finite_mulAut_z (V := W11)
   have hP0 : Nat.card ↥(imgCd sxP0) = Nat.card ↥sxP0 := card_imgCd sxP0_le
   have hQ : 69120 ≤ Nat.card ↥sxP0 := by
     rw [← hP0]
@@ -99,7 +99,7 @@ theorem perfectCore_sxGen :
 
 theorem card_imgCd_sxKS :
     Nat.card ↥(imgCd sxKS) = 64 := by
-  haveI : Finite (MulAut W11) := CFSG.Quasithin.H.ZTrans.finite_mulAut_z (V := W11)
+  have : Finite (MulAut W11) := CFSG.Quasithin.H.ZTrans.finite_mulAut_z (V := W11)
   have hP0 : Nat.card ↥(imgCd sxP0) = Nat.card ↥sxP0 := card_imgCd sxP0_le
   obtain ⟨-, -, -, -, -, -, -, hlast⟩ := lu_code_std (hS := card_stab_US_le)
   have hCK := card_centUS_mul_le

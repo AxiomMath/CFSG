@@ -132,7 +132,7 @@ theorem a6_main {A M : Subgroup (V6 ≃ₗ[ZMod 3] V6)} (h : A6Hyp A M) {r : V6 
       rw [hstep, hti]
       by_cases hji : j = i
       · subst hji
-        simp only [if_true, Equiv.Perm.coe_one, id]
+        simp only [ite_true, Equiv.Perm.coe_one, id]
         rw [show sign6 j (e6 j) = -e6 j from ?_, map_neg, neg_one_smul]
         rw [sign6, refl6_apply]
         funext k
@@ -140,7 +140,7 @@ theorem a6_main {A M : Subgroup (V6 ≃ₗ[ZMod 3] V6)} (h : A6Hyp A M) {r : V6 
         by_cases hk : k = j
         · subst hk; simp [dotProduct_single]; decide
         · simp [hk, dotProduct_single]
-      · simp only [hji, if_false, Equiv.Perm.coe_one, id, one_smul]
+      · simp only [hji, ite_false, Equiv.Perm.coe_one, id, one_smul]
         congr 1
         rw [sign6, refl6_apply]
         funext k

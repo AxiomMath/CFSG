@@ -67,6 +67,7 @@ theorem eq_sup_of_relIndex_eq {H M B : Subgroup G} (hMH : M ≤ H) (hBH : B ≤ 
   exact le_antisymm (sup_le hMH hBH) (Subgroup.relIndex_eq_one.mp hx1)
 
 
+omit [Finite G] in
 theorem not_dvd_card_sup_of_not_dvd {p : ℕ} (hp : p.Prime) {H K : Subgroup G}
     (hHK : H ≤ Subgroup.normalizer (K : Set G))
     (hH : ¬ p ∣ Nat.card H) (hK : ¬ p ∣ Nat.card K) :

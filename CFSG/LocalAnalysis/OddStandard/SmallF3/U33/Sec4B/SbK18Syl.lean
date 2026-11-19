@@ -12,12 +12,13 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem smul_conj_eq_cj (g : G) (P : Subgroup G) :
     MulAut.conj g • P = cj g P := rfl
 
 theorem exists_cj_of_isSylowIn {P P' H : Subgroup G} (hP : IsSylowIn 2 P H)
     (hP' : IsSylowIn 2 P' H) : ∃ c ∈ H, cj c P = P' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP2 : IsPGroup 2 (P.subgroupOf H) :=
     hP.2.1.of_equiv (Subgroup.subgroupOfEquivOfLe hP.1).symm
   have hP'2 : IsPGroup 2 (P'.subgroupOf H) :=
@@ -26,7 +27,7 @@ theorem exists_cj_of_isSylowIn {P P' H : Subgroup G} (hP : IsSylowIn 2 P H)
     simpa only [Subgroup.relIndex] using hP.2.2
   have hP'idx : ¬ 2 ∣ (P'.subgroupOf H).index := by
     simpa only [Subgroup.relIndex] using hP'.2.2
-  haveI : Finite (Sylow 2 ↥H) := Sylow.finite_of_finiteIndex (hP2.toSylow hPidx)
+  have : Finite (Sylow 2 ↥H) := Sylow.finite_of_finiteIndex (hP2.toSylow hPidx)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (↥H) (hP2.toSylow hPidx) (hP'2.toSylow hP'idx)
   have hg' : MulAut.conj g • (P.subgroupOf H) = P'.subgroupOf H := by
     have h := congrArg (fun S : Sylow 2 ↥H => (S : Subgroup ↥H)) hg
@@ -43,6 +44,7 @@ theorem exists_cj_of_isSylowIn {P P' H : Subgroup G} (hP : IsSylowIn 2 P H)
   rw [inf_eq_left.mpr hle, inf_eq_left.mpr hP'.1] at hinf
   exact hinf
 
+omit [Finite G] in
 theorem isSylowIn_cj {S H : Subgroup G} (hS : IsSylowIn 2 S H) (g : G) :
     IsSylowIn 2 (cj g S) (cj g H) := by
   refine ⟨cj_mono hS.1, isPGroup_cj hS.2.1, ?_⟩

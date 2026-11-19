@@ -70,7 +70,7 @@ private lemma bdp_isPrime_span_one_sub {A : Type} [CommRing A] [IsSemisimpleRing
     have hxy' : (x * y) * e = 0 := (hmem (x * y)).mp hxy
     rw [hmem x, hmem y]
     by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨hx, hy⟩ := h
     obtain ⟨f, hfidem, hspan⟩ := IsSemisimpleRing.ideal_eq_span_idempotent (Ideal.span {x * e})
     have hfmem : f ∈ Ideal.span ({x * e} : Set A) := by
@@ -167,14 +167,14 @@ theorem exists_blockField {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F] 
     show (s : Matrix ι ι F) * (s' : Matrix ι ι F) = (s' : Matrix ι ι F) * (s : Matrix ι ι F)
     rw [← Units.val_mul, ← Units.val_mul, h]
   let A : Subalgebra F (Matrix ι ι F) := Algebra.adjoin F (Units.val '' S)
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommP
-  letI : CommRing A := IsMulCommutative.instCommRing
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommP
+  let : CommRing A := IsMulCommutative.instCommRing
   have hredA : IsReduced A := bdp_isReduced hS hodd
-  haveI : IsReduced A := by
+  have : IsReduced A := by
     rw [isReduced_iff] at hredA ⊢
     exact hredA
-  haveI : IsArtinianRing A := IsArtinianRing.of_finite F A
-  haveI : IsSemisimpleRing A :=
+  have : IsArtinianRing A := IsArtinianRing.of_finite F A
+  have : IsSemisimpleRing A :=
     IsArtinianRing.isSemisimpleRing_of_isReduced A
   let eA : A := ⟨e, he.1⟩
   have heA : IsIdempotentElem eA := Subtype.ext he.2.1
@@ -187,17 +187,17 @@ theorem exists_blockField {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F] 
       rw [isIdempotentElem_iff] at hf ⊢
       simpa using congrArg Subtype.val hf
     have hfmem : (f : Matrix ι ι F) ∈ Algebra.adjoin F (Units.val '' S) := by
-      simpa [A] using f.2
+      simp [A]
     have hfeval : (f : Matrix ι ι F) * e = (f : Matrix ι ι F) := by
       simpa [eA] using congrArg Subtype.val hfe
     rcases he.2.2.2 (f : Matrix ι ι F) hfmem hfval hfeval with h0 | hee
     · exact Or.inl (Subtype.ext h0)
     · exact Or.inr (Subtype.ext hee)
   let I : Ideal A := Ideal.span {1 - eA}
-  haveI hIprime : I.IsPrime := bdp_isPrime_span_one_sub heA hneA hprimA
-  haveI hImax : I.IsMaximal := (IsArtinianRing.isPrime_iff_isMaximal I).mp hIprime
+  have hIprime : I.IsPrime := bdp_isPrime_span_one_sub heA hneA hprimA
+  have hImax : I.IsMaximal := (IsArtinianRing.isPrime_iff_isMaximal I).mp hIprime
   let K := A ⧸ I
-  letI : Field K := Ideal.Quotient.field I
+  let : Field K := Ideal.Quotient.field I
   have hmem : ∀ x : A, x ∈ I ↔ x * eA = 0 := by
     intro x
     unfold I
@@ -230,7 +230,7 @@ theorem exists_blockField {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F] 
   have hdeg : Module.finrank F K = blockDegree (Algebra.adjoin F (Units.val '' S)) e := by
     rw [h1, h3, hrange]
     rfl
-  haveI : Finite K := Finite.of_surjective (Ideal.Quotient.mk I) Ideal.Quotient.mk_surjective
+  have : Finite K := Finite.of_surjective (Ideal.Quotient.mk I) Ideal.Quotient.mk_surjective
   let π : A →ₐ[F] K := Ideal.Quotient.mkₐ F I
   refine ⟨K, inferInstance, inferInstance, inferInstance, π, ?_, ?_, ?_⟩
   · intro x
@@ -258,8 +258,8 @@ theorem blockDegree_eq_one_or_even_of_formAdj_eq {ι F : Type} [Fintype ι] [Dec
     show (s : Matrix ι ι F) * (s' : Matrix ι ι F) = (s' : Matrix ι ι F) * (s : Matrix ι ι F)
     rw [← Units.val_mul, ← Units.val_mul, h]
   let A : Subalgebra F (Matrix ι ι F) := Algebra.adjoin F (Units.val '' S)
-  haveI : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommP
-  letI : CommRing A := IsMulCommutative.instCommRing
+  have : IsMulCommutative A := Algebra.isMulCommutative_adjoin F hcommP
+  let : CommRing A := IsMulCommutative.instCommRing
   let eA : A := ⟨e, he.1⟩
   have heA : IsIdempotentElem eA := Subtype.ext he.2.1
   let gfun : A → A := fun a =>
@@ -309,9 +309,9 @@ theorem blockDegree_eq_one_or_even_of_formAdj_eq {ι F : Type} [Fintype ι] [Dec
     exact hadj
   obtain ⟨K, fieldK, algK, finiteK, π, hπsurj, hπker, hπdeg⟩ :=
     exists_blockField hS hodd he
-  letI : Field K := fieldK
-  letI : Algebra F K := algK
-  letI : Finite K := finiteK
+  let : Field K := fieldK
+  let : Algebra F K := algK
+  let : Finite K := finiteK
   have hH : RingHom.ker π ≤ RingHom.ker (π.comp f) := by
     intro a ha
     rw [RingHom.mem_ker] at ha ⊢
@@ -341,7 +341,7 @@ theorem blockDegree_eq_one_or_even_of_formAdj_eq {ι F : Type} [Fintype ι] [Dec
     rw [h2]
     exact congrArg π (AlgHom.congr_fun hff a)
   let tauK : K ≃ₐ[F] K := AlgEquiv.ofAlgHom fK fK hfK2 hfK2
-  haveI : FiniteDimensional F K := Module.Finite.of_finite
+  have : FiniteDimensional F K := Module.Finite.of_finite
   by_cases htau : tauK = 1
   · left
     have hfK_id : fK = AlgHom.id F K := by

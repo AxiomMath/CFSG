@@ -74,7 +74,7 @@ theorem false : False := by
   obtain ⟨hsS, hs2, hstw, -⟩ := hW.swap_facts
   obtain ⟨S, hSeq⟩ := hW.exists_sylow
   set S₂ := swapS₂ P U T with hS₂def
-  have hP2 : IsPGroup 2 S₂ := hSeq ▸ S.isPGroup'
+  have hP2 : IsPGroup 2 S₂ := hSeq ▸ S.isPGroup
   have hPidx : ¬ 2 ∣ S₂.index := hSeq ▸ S.not_dvd_index
   have htt : t * t = 1 := by rw [← sq, hS.start.sq_eq_one]
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_right htt

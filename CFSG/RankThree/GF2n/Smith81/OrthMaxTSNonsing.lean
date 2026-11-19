@@ -98,7 +98,7 @@ theorem card_le_sq_of_fixes_perp [FiniteDimensional K V]
       rw [polar_sub_left, h1, sub_self]
     obtain ⟨φ, hφ⟩ := Submodule.mem_span_singleton.mp hδ
     exact ⟨φ, by rw [hφ]; abel⟩
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hcard : Γ.card ≤ (Finset.univ : Finset (K × K)).card := by
     refine Finset.card_le_card_of_injOn (fun t => (t.1, polar Q (t.2 a₀) a₀))
       (fun _ _ => Finset.mem_univ _) ?_
@@ -188,7 +188,7 @@ theorem card_le_sq_of_fix_pair_of_map_ne_zero
     have hNdim : Module.finrank K N = 2 := by
       have h := finrank_span_eq_card hli
       have hr : Set.range ![u, b] = {u, b} := by
-        ext x; simp [Fin.exists_fin_two, or_comm]
+        ext x; simp [or_comm]
       rw [hr, Fintype.card_fin] at h
       exact h
     have hle : N ≤ LinearMap.BilinForm.orthogonal (polarBilin Q) N := by
@@ -277,7 +277,7 @@ theorem card_le_sq_of_fix_pair_of_map_ne_zero
     · rw [hα, hβ, hoc]; abel
     · rw [hβ, hβ', ← hα', hod]; abel
     · rw [hβ, hβ', ← hα']; exact hE2
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hcard : Γ.card ≤ (Finset.univ : Finset (K × K)).card := by
     refine Finset.card_le_card_of_injOn
       (fun t => (polar Q (t.2 c) c, polar Q (t.2 d) d)) (fun _ _ => Finset.mem_univ _) ?_
@@ -382,6 +382,7 @@ theorem snd_mem_span_of_eichlerStable_of_map_ne_zero {qU : QuadraticForm K (ι �
       polar_comm qU p₁.2 u, hSu p₁ hp₁, polar_self_eq_zero_charTwo qU u, hSu p₂ hp₂]
     ring
 
+omit [Finite K] [CharP K 2] [Fintype ι] in
 private theorem stable_basic {qU : QuadraticForm K (ι → K)} {u : ι → K}
     {D : Submodule K ((ι → K) × (ι → K))} (huD : ((u, 0) : (ι → K) × (ι → K)) ∈ D)
     (hts : ∀ p ∈ D, polar qU p.1 p.2 = 0) (hT : ∀ μ : K, ∀ p ∈ D, (p.1 + μ • p.2, p.2) ∈ D) :

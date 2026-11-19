@@ -528,7 +528,7 @@ theorem exists_wbar {f : ℕ} {V₁ V₂ : Subgroup G} (hR : Radicals d.V V₁ V
   obtain ⟨Q, hQ⟩ := (hQ₀2.comap_subtype (K := M)).exists_le_sylow
   set T := (Q : Subgroup M).map M.subtype with hT
   have hTM : T ≤ M := map_subtype_le _
-  have hT2 : IsPGroup 2 T := Q.isPGroup'.map _
+  have hT2 : IsPGroup 2 T := Q.isPGroup.map _
   have hQ₀T : Q₀ ≤ T := fun x hx => ⟨⟨x, hQ₀M hx⟩, hQ (mem_subgroupOf.mpr hx), rfl⟩
   have hinjT : ∀ x ∈ T, w.projTil x = 1 → x = 1 := by
     intro x hx h1

@@ -31,13 +31,13 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
   have hs : 2 ≤ s := two_le_s hP hT c hdeg
   have ht : 2 ≤ t := two_le_t hP hT c hdeg
   have hUdim : finrank K U = 4 := by omega
-  haveI : FiniteDimensional K U := Submodule.finiteDimensional_of_le hU
+  have : FiniteDimensional K U := Submodule.finiteDimensional_of_le hU
   have hline_notle : ∀ L, c L = 1 → ¬ ι L ≤ U := by
     intro L hL hle
     have hsub : Γ.neighborSet L ⊆ sectionPoints c ι U :=
       neighborSet_subset_of_sectionLines hι ⟨hL, hle⟩
     have h1 : 1 < (Γ.neighborSet L).ncard := by
-      rw [ncard_neighborSet, hdeg L, if_neg (by rw [hL]; decide)]
+      rw [ncard_neighborSet, hdeg L, ite_eq_right (by rw [hL]; decide)]
       omega
     obtain ⟨x, hx, y, hy, hxy⟩ := (Set.one_lt_ncard (s := Γ.neighborSet L)).mp h1
     have h2 : Γ.dist x y = 2 := dist_eq_two_of_adj_of_adj_of_ne hP hx.symm hy hxy
@@ -63,7 +63,7 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
     intro q
     have hq0 : c q.1 = 0 := q.2.1
     have hdegq : (Γ.neighborSet q.1).ncard = t + 1 := by
-      rw [ncard_neighborSet, hdeg q.1, if_pos hq0]
+      rw [ncard_neighborSet, hdeg q.1, ite_eq_left hq0]
     have e : {L : {L : V // c L = 1} // Γ.Adj L.1 q.1} ≃ ↥(Γ.neighborSet q.1) :=
       { toFun := fun L => ⟨L.1.1, L.2.symm⟩
         invFun := fun L => ⟨⟨L.1, color_eq_one_of_adj_of_color_eq_zero hq0 L.2⟩, L.2.symm⟩
@@ -73,8 +73,8 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
   have hdouble : Nat.card {L : V // c L = 1} * 1 =
       Nat.card {q : V // q ∈ sectionPoints c ι U} * (t + 1) := by
     classical
-    letI : Fintype {L : V // c L = 1} := Fintype.ofFinite _
-    letI : Fintype {q : V // q ∈ sectionPoints c ι U} := Fintype.ofFinite _
+    let : Fintype {L : V // c L = 1} := Fintype.ofFinite _
+    let : Fintype {q : V // q ∈ sectionPoints c ι U} := Fintype.ofFinite _
     let r : {L : V // c L = 1} → {q : V // q ∈ sectionPoints c ι U} → Prop :=
       fun L q => Γ.Adj L.1 q.1
     have hm : ∀ L : {L : V // c L = 1},
@@ -91,7 +91,7 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
       (s := (Finset.univ : Finset {L : V // c L = 1}))
       (t := (Finset.univ : Finset {q : V // q ∈ sectionPoints c ι U}))
       (fun L _ => hm L) (fun q _ => hn q)
-    simp only [Finset.card_univ, Nat.card_eq_fintype_card] at h
+    simp only [Finset.card_univ] at h
     simpa only [Nat.card_eq_fintype_card] using h
   have hlinecard : Nat.card {L : V // c L = 1} = (t + 1) * (s * t + 1) := by
     rw [show Nat.card {L : V // c L = 1} = (lineFinset c).card from ?_]
@@ -125,7 +125,7 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
   have hy0 : c y = 0 := hyS.1
   let H := perpSpan c ι y
   have hHA : H ≤ A := perpSpan_le_ambient hι y
-  haveI : FiniteDimensional K H := Submodule.finiteDimensional_of_le hHA
+  have : FiniteDimensional K H := Submodule.finiteDimensional_of_le hHA
   have hHdim : finrank K H + 1 = finrank K A := finrank_perpSpan_add_one hP hT hι hy0
   have hUneH : U ≠ H := by
     intro hEq
@@ -133,7 +133,7 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
     obtain ⟨M, hyM⟩ := (SimpleGraph.degree_pos_iff_exists_adj (G := Γ) (v := y)).mp hydeg
     have hM1 : c M = 1 := color_eq_one_of_adj_of_color_eq_zero hy0 hyM
     have h1 : 1 < (Γ.neighborSet M).ncard := by
-      rw [ncard_neighborSet, hdeg M, if_neg (by rw [hM1]; decide)]
+      rw [ncard_neighborSet, hdeg M, ite_eq_right (by rw [hM1]; decide)]
       omega
     obtain ⟨y', hy'M, hy'ne⟩ := Set.exists_ne_of_one_lt_ncard h1 y
     have hy'0 : c y' = 0 := color_eq_zero_of_adj_of_color_eq_one hM1 hy'M
@@ -150,7 +150,7 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
     exact hnc y hyS y' hy'S (Ne.symm hy'ne) hdist
   let E : Submodule K W := H ⊓ U
   have hEA : E ≤ A := inf_le_left.trans hHA
-  haveI : FiniteDimensional K E := Submodule.finiteDimensional_of_le hEA
+  have : FiniteDimensional K E := Submodule.finiteDimensional_of_le hEA
   have hhy : ι y ≤ E := le_inf (submodule_le_perpSpan ⟨hy0, by simp⟩) hyS.2
   have hEdim : finrank K E = 3 := by
     have hnotle : ¬ U ≤ H := by
@@ -186,8 +186,8 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
     exact Submodule.mem_sup.mpr ⟨a, ha, c, ⟨hc, hcE⟩, hac⟩
   have hRdim : finrank K R = 2 := by
     have hy1 : finrank K (ι y) = 1 := hι.finrank_point y hy0
-    haveI : FiniteDimensional K (ι y) := Module.finite_of_finrank_pos (by rw [hy1]; norm_num)
-    haveI : FiniteDimensional K R := Submodule.finiteDimensional_of_le hRE
+    have : FiniteDimensional K (ι y) := Module.finite_of_finrank_pos (by rw [hy1]; norm_num)
+    have : FiniteDimensional K R := Submodule.finiteDimensional_of_le hRE
     have h := Submodule.finrank_sup_add_finrank_inf_eq (ι y) R
     rw [hRsup, hEdim, hRdisj, finrank_bot, hy1] at h
     omega
@@ -215,12 +215,12 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
     rw [heq, finrank_bot] at h1
     omega
   let Fset : Set (Submodule K W) := {F | R ≤ F ∧ F ≤ U ∧ finrank K F = 3}
-  haveI : Finite A := Module.finite_of_finite K
-  haveI hfinU : Finite {T : Submodule K W // T ≤ A} := by
-    haveI : Finite (Submodule K A) :=
+  have : Finite A := Module.finite_of_finite K
+  have hfinU : Finite {T : Submodule K W // T ≤ A} := by
+    have : Finite (Submodule K A) :=
       Finite.of_injective (fun L : Submodule K A => (L : Set A)) SetLike.coe_injective
     exact Finite.of_equiv (Submodule K A) (Submodule.MapSubtype.orderIso A).toEquiv
-  haveI : Finite ↥Fset :=
+  have : Finite ↥Fset :=
     Finite.of_injective (fun F : Fset => (⟨F.1, F.2.2.1.trans hU⟩ :
       {T : Submodule K W // T ≤ A}))
       (fun a b h => Subtype.ext
@@ -253,13 +253,13 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
           exact (Submodule.span_singleton_le_iff_mem v R).mpr hv.1
         exact hRempty o.1 o.2.1 hoR
       have ho1 : finrank K (ι o.1) = 1 := hι.finrank_point o.1 o.2.1
-      haveI : FiniteDimensional K R := Submodule.finiteDimensional_of_le hRE
-      haveI : FiniteDimensional K (ι o.1) :=
+      have : FiniteDimensional K R := Submodule.finiteDimensional_of_le hRE
+      have : FiniteDimensional K (ι o.1) :=
         Module.finite_of_finrank_pos (by rw [ho1]; norm_num)
       have h := Submodule.finrank_sup_add_finrank_inf_eq R (ι o.1)
       rw [hbot, finrank_bot, hRdim, ho1] at h
       omega⟩⟩
-  letI : Fintype Fset := Fintype.ofFinite Fset
+  let : Fintype Fset := Fintype.ofFinite Fset
   let cF : Fset → ℕ := fun F => (sectionPoints c ι F.1).ncard
   have hsum : ∑ F : Fset, cF F = Nat.card {q : V // q ∈ sectionPoints c ι U} := by
     have hfiber : ∀ F : Fset,
@@ -273,13 +273,13 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
           invFun := fun q =>
             ⟨⟨q.1, ⟨q.2.1, q.2.2.trans F.2.2.1⟩⟩, by
               have ho1 : finrank K (ι q.1) = 1 := hι.finrank_point q.1 q.2.1
-              haveI : FiniteDimensional K (ι q.1) :=
+              have : FiniteDimensional K (ι q.1) :=
                 Module.finite_of_finrank_pos (by rw [ho1]; norm_num)
-              haveI : FiniteDimensional K F.1 :=
+              have : FiniteDimensional K F.1 :=
                 Submodule.finiteDimensional_of_le (F.2.2.1.trans hU)
               have hle : R ⊔ ι q.1 ≤ F.1 := sup_le F.2.1 q.2.2
               have hdim : finrank K ↥(R ⊔ ι q.1) = finrank K F.1 := by
-                haveI : FiniteDimensional K R := Submodule.finiteDimensional_of_le hRE
+                have : FiniteDimensional K R := Submodule.finiteDimensional_of_le hRE
                 have hbot : R ⊓ ι q.1 = ⊥ := by
                   rw [Submodule.eq_bot_iff]
                   intro v hv
@@ -340,10 +340,10 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
         right; right
         let Ho : Submodule K W := perpSpan c ι o
         have hHoA : Ho ≤ A := perpSpan_le_ambient hι o
-        haveI : FiniteDimensional K Ho := Submodule.finiteDimensional_of_le hHoA
+        have : FiniteDimensional K Ho := Submodule.finiteDimensional_of_le hHoA
         have hHodim : finrank K Ho + 1 = finrank K A := finrank_perpSpan_add_one hP hT hι ho0
         have hFdim : finrank K F.1 = 3 := F.2.2.2
-        haveI : FiniteDimensional K F.1 :=
+        have : FiniteDimensional K F.1 :=
           Submodule.finiteDimensional_of_le (F.2.2.1.trans hU)
         let Ro : Submodule K W := F.1 ⊓ Ho
         have hRoF : Ro ≤ F.1 := inf_le_left
@@ -351,7 +351,7 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
         have hioRo : ι o ≤ Ro :=
           le_inf hoF.2 (submodule_le_perpSpan ⟨ho0, by simp⟩)
         have hRoDim : finrank K Ro = 2 := by
-          haveI : FiniteDimensional K Ro := Submodule.finiteDimensional_of_le hRoF
+          have : FiniteDimensional K Ro := Submodule.finiteDimensional_of_le hRoF
           have hsup : Ho ⊔ F.1 = A :=
             perpSpan_sup_eq_of_not_le hP hT hι ho0 (F.2.2.1.trans hU) hle
           have h := Submodule.finrank_sup_add_finrank_inf_eq F.1 Ho
@@ -364,7 +364,7 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
           {N | ι o ≤ N ∧ N ≤ F.1 ∧ finrank K N = finrank K (ι o) + 1}
         have ho1 : finrank K (ι o) = 1 := hι.finrank_point o ho0
         have hRoMem : Ro ∈ Nset := ⟨hioRo, hRoF, by rw [hRoDim, ho1]⟩
-        haveI : Finite ↥Nset :=
+        have : Finite ↥Nset :=
           Finite.of_injective (fun N : Nset =>
             (⟨N.1, N.2.2.1.trans (F.2.2.1.trans hU)⟩ :
               {T : Submodule K W // T ≤ A}))
@@ -399,7 +399,7 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
               refine neighborSet_subset_of_sectionLines hι ?_
               exact ⟨hL, by rw [hLeq]⟩
             have h1 : 1 < (Γ.neighborSet L).ncard := by
-              rw [ncard_neighborSet, hdeg L, if_neg (by rw [hL]; decide)]
+              rw [ncard_neighborSet, hdeg L, ite_eq_right (by rw [hL]; decide)]
               omega
             obtain ⟨x, hx, y', hy', hxy⟩ :=
               (Set.one_lt_ncard (s := Γ.neighborSet L)).mp h1
@@ -452,7 +452,7 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
               Nq ⟨q.1, ⟨q.2.1.1, q.2.1.2.trans N.2.1.2.1⟩, q.2.2⟩ = N := by
             intro q
             apply Subtype.ext
-            haveI : FiniteDimensional K N.1 :=
+            have : FiniteDimensional K N.1 :=
               Submodule.finiteDimensional_of_le (N.2.1.2.1.trans (F.2.2.1.trans hU))
             have hq1 : finrank K (ι q.1) = 1 := hι.finrank_point q.1 q.2.1.1
             have hne' : ι o ≠ ι q.1 := fun h => q.2.2 (hι.injective h).symm
@@ -512,12 +512,12 @@ theorem not_isPairwiseNoncollinear_of_hyperplane (hP : IsGeneralizedPolygon Γ 4
             rw [← Nat.card_coe_set_eq]
             exact hNcount
           omega
-        haveI : Finite {N : Submodule K W // N ∈ Nset ∧ N ≠ Ro} :=
+        have : Finite {N : Submodule K W // N ∈ Nset ∧ N ≠ Ro} :=
           Finite.of_injective (fun N : {N : Submodule K W // N ∈ Nset ∧ N ≠ Ro} =>
             (⟨N.1, N.2.1⟩ : Nset))
             (fun a b h => Subtype.ext
               (congrArg (fun x : Nset => (x : Submodule K W)) h))
-        letI : Fintype {N : Submodule K W // N ∈ Nset ∧ N ≠ Ro} := Fintype.ofFinite _
+        let : Fintype {N : Submodule K W // N ∈ Nset ∧ N ≠ Ro} := Fintype.ofFinite _
         have hsig := Nat.card_congr (Equiv.sigmaFiberEquiv Nq)
         have hsum1 : Nat.card {q : V // q ∈ sectionPoints c ι F.1 ∧ q ≠ o} =
             ∑ N : {N : Submodule K W // N ∈ Nset ∧ N ≠ Ro},
@@ -647,7 +647,7 @@ theorem exists_line_le_of_le_perpSpan (hP : IsGeneralizedPolygon Γ 4) (hT : IsT
   have hw1 : finrank K (ι w) = 1 := hι.finrank_point w hw0
   let H := perpSpan c ι y
   have hHA : H ≤ A := perpSpan_le_ambient hι y
-  haveI : FiniteDimensional K H := Submodule.finiteDimensional_of_le hHA
+  have : FiniteDimensional K H := Submodule.finiteDimensional_of_le hHA
   have hHdim : finrank K H + 1 = finrank K A := finrank_perpSpan_add_one hP hT hι hy
   have hwNotH : ¬ ι w ≤ H := by
     intro hle
@@ -659,7 +659,7 @@ theorem exists_line_le_of_le_perpSpan (hP : IsGeneralizedPolygon Γ 4) (hT : IsT
     omega
   let U : Submodule K W := M ⊔ ι w
   have hUA : U ≤ A := sup_le (hM.trans hHA) (hι.le_ambient w)
-  haveI : FiniteDimensional K U := Submodule.finiteDimensional_of_le hUA
+  have : FiniteDimensional K U := Submodule.finiteDimensional_of_le hUA
   have hUnotH : ¬ U ≤ H := fun hle => hwNotH (le_sup_right.trans hle)
   have hsup : H ⊔ U = A := perpSpan_sup_eq_of_not_le hP hT hι hy hUA hUnotH
   have hdisj : M ⊓ ι w = ⊥ := by
@@ -673,15 +673,15 @@ theorem exists_line_le_of_le_perpSpan (hP : IsGeneralizedPolygon Γ 4) (hT : IsT
       exact (Submodule.span_singleton_le_iff_mem v M).mpr hv.1
     exact hwNotH (hle.trans hM)
   have hUdim : finrank K U = 4 := by
-    haveI : FiniteDimensional K (ι w) := Module.finite_of_finrank_pos (by rw [hw1]; norm_num)
-    haveI : FiniteDimensional K M := Submodule.finiteDimensional_of_le (hM.trans hHA)
+    have : FiniteDimensional K (ι w) := Module.finite_of_finrank_pos (by rw [hw1]; norm_num)
+    have : FiniteDimensional K M := Submodule.finiteDimensional_of_le (hM.trans hHA)
     have h := Submodule.finrank_sup_add_finrank_inf_eq M (ι w)
     rw [hdisj, finrank_bot, hM3, hw1] at h
     omega
   have hmeet : U ⊓ H = M := by
-    haveI : FiniteDimensional K ↥(U ⊓ H) := Submodule.finiteDimensional_of_le inf_le_right
-    haveI : FiniteDimensional K M := Submodule.finiteDimensional_of_le (hM.trans hHA)
-    haveI : FiniteDimensional K U := Submodule.finiteDimensional_of_le hUA
+    have : FiniteDimensional K ↥(U ⊓ H) := Submodule.finiteDimensional_of_le inf_le_right
+    have : FiniteDimensional K M := Submodule.finiteDimensional_of_le (hM.trans hHA)
+    have : FiniteDimensional K U := Submodule.finiteDimensional_of_le hUA
     have h := Submodule.finrank_sup_add_finrank_inf_eq U H
     rw [sup_comm U H, hsup, h5, hUdim] at h
     have hdimH : finrank K H = 4 := by omega

@@ -74,6 +74,7 @@ theorem bitsIs_bitsOfNat (n : Nat) : BitsIs (bitsOfNat n) fun y => n.testBit y =
   have e : 64 * (y / 64) + y % 64 = y := by omega
   simp only [Nat.mod_lt _ (by omega : 0 < 64), decide_true, Bool.true_and, e]
 
+set_option exponentiation.threshold 3520 in
 theorem bitsOfNat_inj {a b : Nat} (ha : a < 2 ^ 3520) (hb : b < 2 ^ 3520)
     (h : bitsOfNat a = bitsOfNat b) : a = b := by
   apply Nat.eq_of_testBit_eq
@@ -97,7 +98,7 @@ theorem bitsIs_empty : BitsIs (emptyBits ()) fun _ => False := by
   rw [getElem!_pos _ _ (by simp; omega), Array.getElem_replicate]
   simp
 
-theorem bitsIs_setBit {B : Bits} {S : Nat → Prop} (hB : BitsIs B S) {x : Nat} (hx : x < 3520) :
+theorem bitsIs_setBit {B : Bits} {S : Nat → Prop} (hB : BitsIs B S) {x : Nat} (_hx : x < 3520) :
     BitsIs (setBit B x) fun y => S y ∨ y = x := by
   have hs : (setBit B x).size = 55 := by
     unfold setBit
@@ -110,7 +111,7 @@ theorem bitsIs_setBit {B : Bits} {S : Nat → Prop} (hB : BitsIs B S) {x : Nat} 
   rw [getElem!_pos (B.modify (x / 64) fun w => w ||| (1 : UInt64) <<< UInt64.ofNat (x % 64))
     (y / 64) (by rw [Array.size_modify]; exact hw), Array.getElem_modify, getElem!_pos B _ hw]
   by_cases e : x / 64 = y / 64
-  · rw [if_pos e, UInt64.toNat_or, Nat.testBit_or, UInt64.toNat_shiftLeft]
+  · rw [ite_eq_left e, UInt64.toNat_or, Nat.testBit_or, UInt64.toNat_shiftLeft]
     have h1 : ((1 : UInt64).toNat <<< ((UInt64.ofNat (x % 64)).toNat % 64)) % 2 ^ 64 =
         2 ^ (x % 64) := by
       rw [UInt64.toNat_ofNat', show (1 : UInt64).toNat = 1 from rfl, Nat.one_shiftLeft]
@@ -125,7 +126,7 @@ theorem bitsIs_setBit {B : Bits} {S : Nat → Prop} (hB : BitsIs B S) {x : Nat} 
     · rintro (h | h)
       · exact Or.inl h
       · exact Or.inr (by omega)
-  · rw [if_neg e]
+  · rw [ite_eq_right e]
     constructor
     · exact Or.inl
     · rintro (h | h)
@@ -191,7 +192,7 @@ theorem bitsIs_fold (p : Nat → Bool) (g : Nat → Nat) : ∀ n, (∀ x < n, p 
     rw [Nat.fold_succ]
     have ih := bitsIs_fold p g n fun x hx => hg x (by omega)
     by_cases hp : p n = true
-    · rw [if_pos hp]
+    · rw [ite_eq_left hp]
       refine (bitsIs_setBit ih (hg n (by omega) hp)).congr fun y _ => ?_
       constructor
       · rintro (⟨x, hx, h1, h2⟩ | h)
@@ -203,7 +204,7 @@ theorem bitsIs_fold (p : Nat → Bool) (g : Nat → Nat) : ∀ n, (∀ x < n, p 
         · have : x = n := by omega
           subst this
           exact Or.inr h2.symm
-    · rw [if_neg hp]
+    · rw [ite_eq_right hp]
       refine ih.congr fun y _ => ?_
       constructor
       · rintro ⟨x, hx, h1, h2⟩

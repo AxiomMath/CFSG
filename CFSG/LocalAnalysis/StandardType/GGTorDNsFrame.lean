@@ -50,7 +50,7 @@ theorem exists_spanningCoherentFrame (hQ : (polarBilin Q).Nondegenerate) (hp : p
           intro h0
           have hf0 : f = 0 := congrArg Subtype.val h0
           rw [hf0] at hff'
-          simpa using hff'
+          simp at hff'
         rw [finrank_span_singleton hfnz, hdimH]
       · intro x hx
         obtain ⟨a, rfl⟩ := Submodule.mem_span_singleton.mp hx

@@ -70,8 +70,8 @@ theorem s168e3_cyc_gen {L : Subgroup (MulAut W)} {p : ℕ} (hp : p.Prime)
     ∃ x : MulAut W, L = Subgroup.zpowers x ∧ orderOf x = p := by
   have hcardL : Nat.card ↥L = p := by
     simpa using s168e3_cyc_card_of_isElemAbelianOfRank hL
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsCyclic ↥L := isCyclic_of_prime_card hcardL
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsCyclic ↥L := isCyclic_of_prime_card hcardL
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥L)
   have horder : orderOf g = p := (orderOf_eq_card_of_forall_mem_zpowers hg).trans hcardL
   refine ⟨(g : MulAut W), ?_, ?_⟩
@@ -131,9 +131,9 @@ theorem s168e3_cyc_fpf [Finite W] (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (Mul
 theorem s168e3_cyc_card_dvd [Finite W] {A L : Subgroup (MulAut W)} {p : ℕ} (hp : p.Prime)
     (hLcard : Nat.card ↥L = p) (hLn : ∀ g ∈ A, L.map (MulAut.conj g).toMonoidHom = L) :
     Nat.card ↥A ∣ (p - 1) * Nat.card ↥(A ⊓ Subgroup.centralizer (L : Set (MulAut W))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite ↥L := Nat.finite_of_card_ne_zero (hLcard ▸ hp.ne_zero)
-  haveI : IsCyclic ↥L := isCyclic_of_prime_card hLcard
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite ↥L := Nat.finite_of_card_ne_zero (hLcard ▸ hp.ne_zero)
+  have : IsCyclic ↥L := isCyclic_of_prime_card hLcard
   have hAN : A ≤ Subgroup.normalizer (L : Set (MulAut W)) := fun g hg =>
     Subgroup.mem_normalizer_iff_map_conj_eq.2 (hLn g hg)
   let φ : ↥A →* MulAut ↥L :=

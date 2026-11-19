@@ -34,7 +34,7 @@ theorem z18_exists_V2 (h : L41GPh15 t L S x₁ x₂ lam rho) :
     h.q1facts.V1_pGroup.comap_subtype
   obtain ⟨R, hR⟩ := hQ'.exists_le_sylow
   refine ⟨(R : Subgroup ↥H).map H.subtype, ?_, ?_, ?_, ?_⟩
-  · exact IsPGroup.of_surjective R.isPGroup' (H.subtype.subgroupMap (R : Subgroup ↥H))
+  · exact IsPGroup.of_surjective R.isPGroup (H.subtype.subgroupMap (R : Subgroup ↥H))
       (MonoidHom.subgroupMap_surjective _ _)
   · intro v hv
     exact ⟨⟨v, hV1H hv⟩, hR (Subgroup.mem_subgroupOf.mpr hv), rfl⟩

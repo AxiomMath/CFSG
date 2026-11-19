@@ -381,9 +381,9 @@ private theorem uc22s2112r34_swap_normalizes {X : Type} [Group X] [Finite X]
   exact hEq.symm
 
 private theorem uc22s2112r34_swap_inner_on {X : Type} [Group X] [Finite X] [IsSimpleGroup X]
-    (t : StatedLieTag) (n p f : ℕ) (hp : p.Prime) (hp2 : p ≠ 2)
-    (hadm : StatedLieAdmissible t n p f) (hX : LieModel X t n p f)
-    (hA1 : ¬ (t = .PSL ∧ n = 2)) (hRee : t ≠ .twistedG2)
+    (t : StatedLieTag) (n p f : ℕ) (_hp : p.Prime) (_hp2 : p ≠ 2)
+    (_hadm : StatedLieAdmissible t n p f) (_hX : LieModel X t n p f)
+    (_hA1 : ¬ (t = .PSL ∧ n = 2)) (_hRee : t ≠ .twistedG2)
     {K R : Subgroup X} (hK : IsFundamentalOver (p ^ f) K) (hRK : R ≤ K) {x : X}
     (hxN : x ∈ normalizer (K : Set X)) (hxo : Odd (orderOf x))
     (hxc : x ∈ centralizer (R : Set X)) :
@@ -518,7 +518,7 @@ private theorem uc22s2112r34_false_noswap_of {D : Data G} (c : Ctx21 D (Choice21
   obtain ⟨F₁, _, _, _, ρ₁, hρ₁, hQ₁⟩ := hin.2.2.1 Ka (Set.mem_insert _ _)
   obtain ⟨F₂, _, _, _, ρ₂, hρ₂, hQ₂⟩ := hin.2.2.1 Kb (Set.mem_insert_of_mem _ rfl)
   obtain ⟨u, huP, hu⟩ := uc22s2112r34_noswap_exists_inverter hp2 ρ₁ ρ₂ hρ₁ hρ₂
-    (fun a ha b hb => (mem_centralizer_iff.1 (haC ha) b hb).symm) P.isPGroup' hPa hPb hBNa
+    (fun a ha b hb => (mem_centralizer_iff.1 (haC ha) b hb).symm) P.isPGroup hPa hPb hBNa
     hBNb hBc hBo hpB' hpermB (hQ₁ hPa) (hQ₂ hPb) (hin.2.2.2 hPa hPb Ka (Set.mem_insert _ _))
     (hin.2.2.2 hPa hPb Kb (Set.mem_insert_of_mem _ rfl)) hr hr5 hyB hyr hyc
   obtain ⟨s, hsT, hsN, hsu⟩ := hPT u huP
@@ -784,19 +784,19 @@ theorem uc22s2112r34_false_swap_core_of (hKS : KFunSplit) (hKC : KFunCount) (hFC
     have hle : ψ.range ≤ K₁ := by
       rw [hRsup, hbot, sup_bot_eq]
       exact inf_le_right
-    exact hne (uc22s2112r34_eq_bot_of_swap hK12 hKK P.isPGroup' hwP hwK hoddB hle hperm)
+    exact hne (uc22s2112r34_eq_bot_of_swap hK12 hKK P.isPGroup hwP hwK hoddB hle hperm)
   have hR1ne : ψ.range ⊓ K₁ ≠ ⊥ := by
     intro hbot
     have hle : ψ.range ≤ K₂ := by
       rw [hRsup, hbot, bot_sup_eq]
       exact inf_le_right
     have hKK' : IsPGroup 2 ↥(K₂ ⊓ K₁) := by rwa [inf_comm]
-    exact hne (uc22s2112r34_eq_bot_of_swap hK21 hKK' P.isPGroup' hwPinv hwK' hoddB hle hperm)
+    exact hne (uc22s2112r34_eq_bot_of_swap hK21 hKK' P.isPGroup hwPinv hwK' hoddB hle hperm)
   have hperm1 : ((ψ.range ⊓ K₁ : Subgroup (BarInf L)) : Set (BarInf L)) *
       (((P ⊓ K₁ : Subgroup (BarInf L))) : Set (BarInf L)) =
       (((P ⊓ K₁ : Subgroup (BarInf L))) : Set (BarInf L)) *
         ((ψ.range ⊓ K₁ : Subgroup (BarInf L)) : Set (BarInf L)) :=
-    uc22s2112r34_proj_permutes hK12 hKK P.isPGroup' h₁.2 h₂.2 hRsup hperm
+    uc22s2112r34_proj_permutes hK12 hKK P.isPGroup h₁.2 h₂.2 hRsup hperm
   have hKK' : IsPGroup 2 ↥(K₂ ⊓ K₁) := by rwa [inf_comm]
   have hRsup2 : ψ.range = (ψ.range ⊓ K₂) ⊔ (ψ.range ⊓ K₁) :=
     hRsup.trans (sup_comm _ _)
@@ -804,7 +804,7 @@ theorem uc22s2112r34_false_swap_core_of (hKS : KFunSplit) (hKC : KFunCount) (hFC
       (((P ⊓ K₂ : Subgroup (BarInf L))) : Set (BarInf L)) =
       (((P ⊓ K₂ : Subgroup (BarInf L))) : Set (BarInf L)) *
         ((ψ.range ⊓ K₂ : Subgroup (BarInf L)) : Set (BarInf L)) :=
-    uc22s2112r34_proj_permutes hK21 hKK' P.isPGroup' h₂.2 h₁.2 hRsup2 hperm
+    uc22s2112r34_proj_permutes hK21 hKK' P.isPGroup h₂.2 h₁.2 hRsup2 hperm
   have hcardR1 : Nat.card ↥(ψ.range ⊓ K₁) ∣ r ^ 2 :=
     (Subgroup.card_dvd_of_le (inf_le_left : ψ.range ⊓ K₁ ≤ ψ.range)).trans
       (by rw [hcardB]; exact hRr2)

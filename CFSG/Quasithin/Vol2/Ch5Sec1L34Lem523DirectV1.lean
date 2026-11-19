@@ -13,6 +13,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {T M L V H B D D₃ Z₁ : Subgroup G} {n : ℕ}
 
+omit [Finite G] in
 theorem mem_sup_of_comm_decomp {W₁ W₂ : Subgroup G}
     (hc : ∀ a ∈ W₁, ∀ b ∈ W₂, a * b = b * a) {x : G} (hx : x ∈ W₁ ⊔ W₂) :
     ∃ a ∈ W₁, ∃ b ∈ W₂, a * b = x := by
@@ -35,6 +36,7 @@ theorem mem_sup_of_comm_decomp {W₁ W₂ : Subgroup G}
   obtain ⟨a, ha, b, hb, h⟩ := hle hx
   exact ⟨a, ha, b, hb, h⟩
 
+omit [Finite G] in
 theorem conj_mem_commVL' {VZ : Subgroup G} {ℓ : G} (hVZ : ℓ ∈ Subgroup.normalizer (VZ : Set G))
     (hL : ℓ ∈ Subgroup.normalizer (L : Set G)) {y : G} (hy : y ∈ ⁅VZ, L⁆) :
     ℓ * y * ℓ⁻¹ ∈ ⁅VZ, L⁆ := by
@@ -50,6 +52,7 @@ theorem conj_mem_commVL' {VZ : Subgroup G} {ℓ : G} (hVZ : ℓ ∈ Subgroup.nor
       ((Subgroup.mem_normalizer_iff.mp hL l).mp hl)
   exact key hy
 
+omit [Finite G] in
 theorem normalizer_conjClosure_of_centralizes (K : Subgroup G) {t : G}
     (ht : t ∈ Subgroup.normalizer (L : Set G)) (htK : ∀ k ∈ K, t * k * t⁻¹ = k) :
     t ∈ Subgroup.normalizer (conjClosure K L : Set G) := by
@@ -82,6 +85,7 @@ theorem normalizer_conjClosure_of_centralizes (K : Subgroup G) {t : G}
   have e : t⁻¹ * (t * x * t⁻¹) * t⁻¹⁻¹ = x := by group
   rwa [e] at h
 
+omit [Finite G] in
 theorem normalizes_of_irreducible {N : Subgroup G} {z : G} (hz : z ∈ N) (hz1 : z ≠ 1)
     (hLN : L ≤ Subgroup.normalizer (N : Set G))
     (hirr : ∀ X : Subgroup G, X ≤ N → L ≤ Subgroup.normalizer (X : Set G) → X = ⊥ ∨ X = N)
@@ -108,6 +112,7 @@ theorem normalizes_of_irreducible {N : Subgroup G} {z : G} (hz : z ∈ N) (hz1 :
   rw [← hY]
   exact normalizer_conjClosure_of_centralizes (Subgroup.zpowers z) ht hzp
 
+omit [Finite G] in
 theorem commVL_le_VZ {VZ : Subgroup G} (hVZ : ∀ ℓ ∈ L, ∀ x ∈ VZ, ℓ * x * ℓ⁻¹ ∈ VZ) :
     ⁅VZ, L⁆ ≤ VZ := by
   rw [Subgroup.commutator_le]
@@ -116,6 +121,7 @@ theorem commVL_le_VZ {VZ : Subgroup G} (hVZ : ∀ ℓ ∈ L, ∀ x ∈ VZ, ℓ *
   have := VZ.mul_mem hx (hVZ l hl x⁻¹ (VZ.inv_mem hx))
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem le_normalizer_inf_centralizer_nat {W : Subgroup G} (hW : IsNatModCh5 L W n) :
     L ≤ Subgroup.normalizer ((L ⊓ Subgroup.centralizer (W : Set G) : Subgroup G) : Set G) := by
   have key : ∀ g : G, g ∈ L → ∀ x ∈ L ⊓ Subgroup.centralizer (W : Set G),
@@ -171,6 +177,7 @@ theorem ker_eq_of_natural (h : Hyp5_1_14 G T M L V H B D n) (h5114 : Stmt5_1_14_
     rw [← e1] at h3
     exact h3.2
 
+omit [Finite G] in
 theorem mem_centralizer_of_mul {S W₁ W₂ : Subgroup G}
     (hS₁ : ∀ s ∈ S, ∀ a ∈ W₁, s * a * s⁻¹ ∈ W₁) (hS₂ : ∀ s ∈ S, ∀ b ∈ W₂, s * b * s⁻¹ ∈ W₂)
     (hsum : W₁ ⊓ W₂ = ⊥) {a b : G} (ha : a ∈ W₁) (hb : b ∈ W₂)

@@ -139,8 +139,8 @@ theorem sec52_center_eq_ker {A : Subgroup G} (hA : ⁅A, A.map (MulAut.conj t⁻
 
 theorem sec52_isPerfect_sup_conj {K : Subgroup G} (s : G) (hK : ⁅K, K⁆ = K) :
     Group.IsPerfect (K ⊔ K.map (MulAut.conj s).toMonoidHom : Subgroup G) := by
-  haveI : Group.IsPerfect K := (Common.isPerfect_subgroup_iff_commutator_eq K).2 hK
-  haveI : Group.IsPerfect (K.map (MulAut.conj s).toMonoidHom) :=
+  have : Group.IsPerfect K := (Common.isPerfect_subgroup_iff_commutator_eq K).2 hK
+  have : Group.IsPerfect (K.map (MulAut.conj s).toMonoidHom) :=
     (Common.isPerfect_subgroup_iff_commutator_eq _).2 (by rw [← Subgroup.map_commutator, hK])
   exact Common.isPerfect_sup_of_isPerfect
 
@@ -153,12 +153,13 @@ variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
 
 namespace CaseBData
 
+omit [Finite G] in
 theorem sec52_isSimpleGroup_L : IsSimpleGroup d.L :=
   d.e.isSimpleGroup_congr.2 (CFSG.Quasithin.H13.Sec53F.Unit.isSimpleGroup_hypPSU_five h)
 
 theorem sec52_not_comm_L (hB : d.CaseBHyp) : ¬ ∀ x ∈ d.L, ∀ y ∈ d.L, x * y = y * x := by
   intro hcomm
-  haveI : IsSimpleGroup d.L := sec52_isSimpleGroup_L
+  have : IsSimpleGroup d.L := sec52_isSimpleGroup_L
   obtain ⟨x, hx⟩ := exists_ne (1 : d.L)
   have hcen : x ∈ Subgroup.center d.L := by
     rw [Subgroup.mem_center_iff]
@@ -213,7 +214,7 @@ theorem sec52 (hB : d.CaseBHyp) (c : d.CaseBData) (h15 : CaseBData.Sec52Comm c) 
     rw [Common.diagonalHom_apply]
     simp only [ht']
   refine ⟨⟨?_, ?_⟩, ?_, hcomm, ?_, ?_, ⟨hIso⟩⟩
-  · haveI : Group.IsPerfect c.Nc := sec52_isPerfect_sup_conj d.s (c.commutator_Kc hB)
+  · have : Group.IsPerfect c.Nc := sec52_isPerfect_sup_conj d.s (c.commutator_Kc hB)
     exact Group.IsPerfect.commutator_eq_top
   · exact hIso.isSimpleGroup_congr.2
       (CFSG.Quasithin.H13.Sec53F.Unit.isSimpleGroup_hypPSU_five h)

@@ -133,7 +133,7 @@ theorem D1CaseTwoData.false_of_ree (hd : D1CaseTwoData 3 P M H R Rbar)
     exact ⟨r, ⟨r.2, hext.le_M hr⟩, rfl⟩
   have hCJ := hext.centralizer_le_of_reducedCentralizer hRz
     (hext.odd_card_primeCore hP'M hRP' hRz hRC (by omega)) hJ'X hJ'2 hJ'1
-    (Pbar.isPGroup'.to_le (inf_le_left.trans hYP)) (inf_le_left.trans (sup_le hRtX hUX))
+    (Pbar.isPGroup.to_le (inf_le_left.trans hYP)) (inf_le_left.trans (sup_le hRtX hUX))
     inf_le_right hXR (by omega)
   apply hB
   rintro _ ⟨k, hk, rfl⟩

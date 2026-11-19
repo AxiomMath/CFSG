@@ -12,7 +12,7 @@ theorem quot_fixed (S : Subgroup Gx) (hS2 : IsPGroup 2 S) (X : Submodule (ZMod 2
     (hX : ∀ g ∈ S, ∀ x ∈ X, rho g x = x) (hXne : X ≠ ⊤) :
     ∃ v, v ∉ X ∧ ∀ g ∈ S, rho g v - v ∈ X := by
   have hN : ∀ g ∈ S, ∀ n ∈ X, rho g n ∈ X := fun g hg n hn => by rw [hX g hg n hn]; exact hn
-  letI : MulAction S (Vx ⧸ X) :=
+  let : MulAction S (Vx ⧸ X) :=
     { smul := fun g q => quotHom S X hN g q
       one_smul := fun q => by
         change quotHom S X hN 1 q = q; rw [map_one]; rfl
@@ -40,10 +40,10 @@ theorem quot_fixed (S : Subgroup Gx) (hS2 : IsPGroup 2 S) (X : Submodule (ZMod 2
 def fixSub (S : Subgroup Gx) : Submodule (ZMod 2) Vx where
   carrier := {v | ∀ g ∈ S, rho g v = v}
   add_mem' := fun {a b} ha hb g hg => by
-    simp only [Set.mem_setOf_eq, map_add] at *; rw [ha g hg, hb g hg]
+    simp only [Set.mem_ofPred_eq, map_add] at *; rw [ha g hg, hb g hg]
   zero_mem' := fun g _ => by simp
   smul_mem' := fun c a ha g hg => by
-    simp only [Set.mem_setOf_eq, map_smul] at *; rw [ha g hg]
+    simp only [Set.mem_ofPred_eq, map_smul] at *; rw [ha g hg]
 
 theorem mem_fixSub {S : Subgroup Gx} {v : Vx} : v ∈ fixSub S ↔ ∀ g ∈ S, rho g v = v := Iff.rfl
 
@@ -119,13 +119,13 @@ theorem no_m2 (I : Subgroup Gx) (eI : I ≃* alternatingGroup (Fin 7)) {d : Gx} 
         rw [htW (c : Gx) c.2 _ hW', htU (c : Gx) c.2 _ hU']
     _ = v := by abel
 
-theorem no_m3 (I : Subgroup Gx) (eI : I ≃* alternatingGroup (Fin 7)) {d : Gx} (hd : d ^ 3 = 1)
+theorem no_m3 (I : Subgroup Gx) (eI : I ≃* alternatingGroup (Fin 7)) {d : Gx} (_hd : d ^ 3 = 1)
     (hc : ∀ i ∈ I, ∀ v, rho i (rho d v) = rho d (rho i v))
     (hU6 : Module.finrank (ZMod 2) (LinearMap.ker (epsE d)) = 6)
     (M : Submodule (ZMod 2) Vx) (hMd : ∀ v ∈ M, rho d v ∈ M) (hMI : ∀ i ∈ I, ∀ m ∈ M, rho i m ∈ M) :
     M = ⊥ ∨ M = ⊤ := by
   have hKtop : LinearMap.ker (epsE d) = ⊤ :=
-    Submodule.eq_top_of_finrank_eq (by simp [hU6, finrank_Vx])
+    Submodule.eq_top_of_finrank_eq (by simp [hU6])
   have hεv : ∀ v, v + rho d v + rho d (rho d v) = 0 := fun v => by
     have h : epsE d v = 0 := LinearMap.mem_ker.1 (hKtop ▸ Submodule.mem_top)
     rwa [epsE_apply] at h
@@ -170,7 +170,7 @@ theorem no_m3 (I : Subgroup Gx) (eI : I ≃* alternatingGroup (Fin 7)) {d : Gx} 
       have hz : rho d (rho d v) + rho d v + v = 0 := by
         rw [show rho d (rho d v) + rho d v + v = v + rho d v + rho d (rho d v) by abel]
         exact hεv v
-      exact (Submodule.Quotient.mk_eq_zero M).2 (by simpa [hz] using M.zero_mem)
+      exact (Submodule.Quotient.mk_eq_zero M).2 (by simp [hz])
     have hcomm : ∀ (i : I) (x : Vx ⧸ M), quotHom I M hMI i (R x) = R (quotHom I M hMI i x) := by
       intro i x
       obtain ⟨v, rfl⟩ := Submodule.Quotient.mk_surjective M x
@@ -305,7 +305,7 @@ theorem conj_sub_identity (n g : Gx) (v : Vx) :
 
 theorem fixSub_ne_bot (S : Subgroup Gx) (hS2 : IsPGroup 2 S) : fixSub S ≠ ⊥ := by
   intro h0
-  letI : MulAction S Vx := actV S
+  let : MulAction S Vx := actV S
   have hfp := fixed_point_ne hS2 (0 : Vx) (fun h => map_zero (rho (h : Gx))) (show 2 ∣ Nat.card Vx by
     rw [card_eq_two_pow, finrank_Vx]; norm_num)
   obtain ⟨a, ha0, hafix⟩ := hfp
@@ -334,7 +334,7 @@ theorem S_generic (I : Subgroup Gx) {d : Gx} (hd : d ^ 3 = 1)
     (hIS : ∀ i ∈ I, i ∈ Subgroup.normalizer (S : Set Gx))
     (j : Gx) (hj : ∀ v, rho j (rho d v) = rho d (rho j v))
     (hj' : ∀ v, rho j⁻¹ (rho d v) = rho d (rho j⁻¹ v))
-    (X : Submodule (ZMod 2) Vx) (hXeq : ∀ v, v ∈ X ↔ ∀ g ∈ S, rho g v = v) (hX0 : X ≠ ⊥) (hXne : X ≠ ⊤)
+    (X : Submodule (ZMod 2) Vx) (hXeq : ∀ v, v ∈ X ↔ ∀ g ∈ S, rho g v = v) (_hX0 : X ≠ ⊥) (hXne : X ≠ ⊤)
     (hXd : ∀ v ∈ X, rho d v ∈ X) (hXI : ∀ i ∈ I, ∀ m ∈ X, rho i m ∈ X)
     (hlist : ∀ F : Submodule (ZMod 2) Vx, (∀ v ∈ F, rho d v ∈ F) → (∀ i ∈ I, ∀ v ∈ F, rho i v ∈ F) →
       (∀ v ∈ X, v ∈ F) → F ≠ X → F = ⊤)
@@ -516,7 +516,7 @@ open CFSG.LocalAnalysis.GLTheoremA.CatB.L62F
 theorem l62Core_holds : L62Core := by
   intro D I J S hD hIJ hDI hDJ hI7 hJ8 hS hS2 hDN hIN
   obtain ⟨eI⟩ := hI7
-  haveI : Nontrivial D := Finite.one_lt_card_iff_nontrivial.1 (by rw [hD]; norm_num)
+  have : Nontrivial D := Finite.one_lt_card_iff_nontrivial.1 (by rw [hD]; norm_num)
   obtain ⟨x, hx⟩ := exists_ne (1 : D)
   have hx3 : x ^ 3 = 1 := by
     have := pow_card_eq_one' (G := D) (x := x)

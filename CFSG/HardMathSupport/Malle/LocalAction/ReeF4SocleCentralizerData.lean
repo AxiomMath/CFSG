@@ -22,7 +22,7 @@ theorem exists_omega_one (hsh : SylowShape 5 2 2 G) (P : Sylow 5 G) :
       (∀ a ∈ (P : Subgroup G), ∀ b ∈ (P : Subgroup G), a * b = b * a) ∧
       Z ≤ (P : Subgroup G) ∧ IsElemAbelian 5 Z ∧ Nat.card Z = 5 ^ 2 := by
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  obtain ⟨e⟩ := hsh (P : Subgroup G) P.isPGroup' P.not_dvd_index
+  obtain ⟨e⟩ := hsh (P : Subgroup G) P.isPGroup P.not_dvd_index
   have e' : (P : Subgroup G) ≃* Hc := e
   let E₀ : Subgroup Hc := (powMonoidHom 5 : Hc →* Hc).ker
   let Z : Subgroup G := (E₀.map e'.symm.toMonoidHom).map (P : Subgroup G).subtype

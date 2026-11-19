@@ -29,8 +29,8 @@ theorem t158Core_glAut_scalar (σ : K ≃+* K) (c : Kˣ) :
   ext i j
   by_cases hij : i = j
   · subst hij
-    simp [Matrix.scalar_apply, Matrix.diagonal_apply]
-  · simp [Matrix.scalar_apply, Matrix.diagonal_apply, hij]
+    simp [Matrix.scalar_apply]
+  · simp [Matrix.scalar_apply, hij]
 
 theorem t158Core_eq_one_of_scalar_eq_one {c : Kˣ} (h : GeneralLinearGroup.scalar (Fin 3) c = 1) :
     c = 1 := by
@@ -49,8 +49,8 @@ theorem t158Core_subfield_restrict (h : UnitaryFieldData 2 9 K) {σ : K ≃+* K}
       ∀ y, γ (primeSubfieldPSU h Nat.prime_three (by decide) hσ 3 y) =
         primeSubfieldPSU h Nat.prime_three (by decide) hσ 3 (x₀ y) := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hC : IsPrimeFormGram (1 : GL (Fin 3) K) := isPrimeFormGram_one
   have hn : 3 ≤ 3 := le_rfl
   have hne : ¬(3 = 3 ∧ 2 ^ 9 = 2) := by norm_num
@@ -67,9 +67,9 @@ theorem t158Core_subfield_restrict (h : UnitaryFieldData 2 9 K) {σ : K ≃+* K}
     rintro rfl
     rw [orderOf_one] at hσ
     norm_num at hσ
-  haveI : IsCyclic (K ≃+* K) :=
+  have : IsCyclic (K ≃+* K) :=
     CFSG.RankThree.PartOne.CTP.isCyclic_ringEquiv_of_card h.prime (by norm_num) h.card
-  haveI : Finite (K ≃+* K) := Finite.of_injective _ DFunLike.coe_injective
+  have : Finite (K ≃+* K) := Finite.of_injective _ DFunLike.coe_injective
   obtain ⟨k, -, hk⟩ := t158Core_pow_of_cyclic hσ3 hσ1
     (b := primeFormFieldFactor h hC hn hne γ) (by rw [← map_pow, hγ3, map_one])
   have hdD : γ * (fσ ^ k)⁻¹ ∈ primeFormD h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) := by
@@ -257,8 +257,8 @@ theorem t158FieldCoreU_holds : T158Inn.T158FieldCoreU := by
   subst hlab9
   dsimp only [CFSG.Assembly.LargeEvenRawDatum, CFSG.Assembly.LargeEvenRecipeUnitary] at hraw
   obtain ⟨K, hKf, hKfin, hKcard, -, -, θ, -, -, f, hf, u, hu, hord, hind⟩ := hraw
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have e1 : u * f * u⁻¹ = MulAut.congr θ (MI.indAut 3 S x₁ hx1N) := (MI.induces_indRel_iff hx1N θ).1 hind
   have hKcard' : Nat.card K = 2 ^ (2 * 9) := by rw [hKcard]; norm_num
   let h : UnitaryFieldData 2 9 K := ⟨Nat.prime_two, by norm_num, hKcard'⟩
@@ -308,7 +308,7 @@ theorem t158FieldCoreU_holds : T158Inn.T158FieldCoreU := by
     isSimpleGroup_primeFormP_one h₀ (by norm_num) hq₀
   have hP₀perf : Group.IsPerfect (primeFormP h₀
       ((1 : GL (Fin 3) (fixSubfield σ)) : Matrix (Fin 3) (Fin 3) (fixSubfield σ))) := by
-    haveI := isPerfect_gramSU_one h₀ (by norm_num) hq₀
+    have := isPerfect_gramSU_one h₀ (by norm_num) hq₀
     exact Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
   have hJC : j.range ≤ fixSubgroup fσ := fun y hy => by
     rw [mem_fixSubgroup]
@@ -329,7 +329,7 @@ theorem t158FieldCoreU_holds : T158Inn.T158FieldCoreU := by
       primeFormP h₀ ((1 : GL (Fin 3) (fixSubfield σ)) : Matrix (Fin 3) (Fin 3) (fixSubfield σ)) :=
     ((Subgroup.equivMapOfInjective _ (Φ : PSimple 3 S →* _) Φ.injective).trans
       (MulEquiv.subgroupCongr hCCmap)).trans (MonoidHom.ofInjective hjinj).symm
-  haveI hsCC : IsSimpleGroup ↥(⁅fixSubgroup β, fixSubgroup β⁆ : Subgroup (PSimple 3 S)) :=
+  have hsCC : IsSimpleGroup ↥(⁅fixSubgroup β, fixSubgroup β⁆ : Subgroup (PSimple 3 S)) :=
     (MulEquiv.isSimpleGroup_congr eCC).2 hP₀simple
   obtain ⟨hT1, -, hcT1⟩ := t158Core_transfer (hN x₁) hx1 hL1 hU1
   have hfixβ : fixSubgroup (chevAut 3 S ⟨x₁, hN x₁⟩) = fixSubgroup β := by
@@ -354,8 +354,8 @@ theorem t158FieldCoreU_holds : T158Inn.T158FieldCoreU := by
     rw [← MonoidHom.ofInjective_apply hjinj, MulEquiv.apply_symm_apply]
     rfl
   have hTq : CFSG.Open.IsQuasisimple ↥(chevTransfer 3 S L₁) := by
-    haveI hsT : IsSimpleGroup ↥(chevTransfer 3 S L₁) := (MulEquiv.isSimpleGroup_congr ε).2 hP₀simple
-    haveI : Group.IsPerfect ↥(chevTransfer 3 S L₁) :=
+    have hsT : IsSimpleGroup ↥(chevTransfer 3 S L₁) := (MulEquiv.isSimpleGroup_congr ε).2 hP₀simple
+    have : Group.IsPerfect ↥(chevTransfer 3 S L₁) :=
       Group.IsPerfect.ofSurjective (f := ε.symm.toMonoidHom) ε.symm.surjective
     have hZ : Subgroup.center ↥(chevTransfer 3 S L₁) = ⊥ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥(chevTransfer 3 S L₁)) with hZ | hZ

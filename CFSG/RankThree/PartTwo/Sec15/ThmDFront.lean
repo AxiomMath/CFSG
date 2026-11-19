@@ -17,6 +17,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commutator_zpowers_le_pPrimeCoreOf_of_dec {A Y Z : Subgroup G} {a : G} (haA : a ∈ A)
     (hAY : A ≤ Subgroup.normalizer (Y : Set G)) (hZa : Z ≤ Subgroup.centralizer ({a} : Set G))
     (hdec : Y = pPrimeCoreOf 3 Y ⊔ Z) : ⁅Y, Subgroup.zpowers a⁆ ≤ pPrimeCoreOf 3 Y := by

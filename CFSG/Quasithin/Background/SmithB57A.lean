@@ -1,7 +1,7 @@
 module
 
 public import CFSG.Timmesfeld.Orders.Bang
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Card
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.Etale.Weakly
@@ -336,7 +336,7 @@ theorem exists_conj_transvection {X : Matrix (Fin 3) (Fin 3) F} (hX : X * X = 1)
     · exact hg1
     · exact hg2
   set A : Matrix (Fin 3) (Fin 3) F := Matrix.of ![w, u, x] with hA
-  have hAu : IsUnit A := Matrix.linearIndependent_rows_iff_isUnit.mp hli
+  have hAu : IsUnit A := Matrix.linearIndependent_row_iff_isUnit.mp hli
   have hdet : A.det ≠ 0 := (Matrix.isUnit_iff_isUnit_det A).mp hAu |>.ne_zero
   set d : Fin 3 → F := ![1, (A.det)⁻¹, 1] with hd
   refine ⟨Aᵀ * Matrix.diagonal d, ?_, ?_⟩
@@ -407,7 +407,7 @@ theorem exists_three_involutions (hF : Fintype.card F = 2 ^ m) (hm : 0 < m)
   have hli := linearIndependent_cyclic hF hm hr hy hy1 he0
   set v : Fin 3 → Fin 3 → F := ![e, y *ᵥ e, y *ᵥ (y *ᵥ e)] with hv
   set A : Matrix (Fin 3) (Fin 3) F := Matrix.of v with hA
-  have hAu : IsUnit A := Matrix.linearIndependent_rows_iff_isUnit.mp hli
+  have hAu : IsUnit A := Matrix.linearIndependent_row_iff_isUnit.mp hli
   set Q : Matrix (Fin 3) (Fin 3) F := Aᵀ with hQ
   have hQdet : IsUnit Q.det := by
     rw [hQ, Matrix.det_transpose]

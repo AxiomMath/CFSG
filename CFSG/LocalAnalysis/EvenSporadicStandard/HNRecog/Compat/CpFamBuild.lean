@@ -27,9 +27,9 @@ theorem cp_exists_rep_with (K : Subgroup G) (t₀ : G) :
   · simp [hrefl]
   · intro t
     by_cases ht : ConjIn K t₀ t
-    · simpa [ht] using ht
+    · simp [ht]
     · show ConjIn K (if ConjIn K t₀ t then t₀ else Quotient.out (Quotient.mk s t)) t
-      rw [if_neg ht]
+      rw [ite_eq_right ht]
       exact Quotient.mk_out (s := s) t
   · intro t₁ t₂ h12
     by_cases h1 : ConjIn K t₀ t₁
@@ -103,7 +103,7 @@ theorem cpForm_iso (hβ : IsIsoOn (Gx b) (Gx (β b)) β) {r : G} (hr : r ∈ Gx 
   refine hcomp.congr fun x hx => ?_
   simp [cpForm, Function.comp]
 
-theorem cpForm_restrict (hβ : IsIsoOn (Gx b) (Gx (β b)) β) {r : G} (hr : r ∈ Gx b) {ψ : G → G'}
+theorem cpForm_restrict (hβ : IsIsoOn (Gx b) (Gx (β b)) β) {r : G} (_hr : r ∈ Gx b) {ψ : G → G'}
     (hres : ∀ x ∈ Gxy b r, ψ x = β x) {k : G} (hk : k ∈ Gx b) {x : G}
     (hx : x ∈ Gxy b (k * r * k⁻¹)) : cpForm β ψ k x = β x := by
   rw [mem_Gxy] at hx

@@ -15,8 +15,8 @@ variable {K : Type} [Field K] {A : Type} [AddCommGroup A] [Module K A] {r : ℕ}
   {qA : QuadraticForm K A}
 
 instance finite_tailModel [Finite K] [FiniteDimensional K A] : Finite (TailModel K A r) := by
-  haveI : Finite A := Module.finite_of_finite K
-  haveI : Finite (((Fin r ⊕ Fin r → K) × A) → ((Fin r ⊕ Fin r → K) × A)) := inferInstance
+  have : Finite A := Module.finite_of_finite K
+  have : Finite (((Fin r ⊕ Fin r → K) × A) → ((Fin r ⊕ Fin r → K) × A)) := inferInstance
   exact Finite.of_injective
     (fun f : TailModel K A r => (f : ((Fin r ⊕ Fin r → K) × A) → ((Fin r ⊕ Fin r → K) × A)))
     DFunLike.coe_injective
@@ -43,13 +43,13 @@ theorem eq_sum_hypVec_of_mem_tailFlag {v : (Fin r ⊕ Fin r → K) × A}
     · simp [Finset.sum_apply, h1a c]
   refine Prod.ext ?_ ?_
   · simpa [hypVec, Prod.fst_sum, Prod.smul_fst] using hsum
-  · simp [hypVec, h2, Prod.snd_sum, Prod.smul_snd]
+  · simp [hypVec, h2, Prod.snd_sum]
 
 theorem mem_tailLeviDom {i : Fin r} {g : TailModel K A r} :
     g ∈ tailLeviDom r qA i ↔ g ∈ orthElementaryGroup (quadTail r qA) ∧
       ∀ k, 1 ≤ k → k ≤ r → k ≠ i.val + 1 →
         (tailFlag K A r k).map (g : ((Fin r ⊕ Fin r → K) × A) →ₗ[K] _) = tailFlag K A r k := by
-  simp only [tailLeviDom, Subgroup.mem_inf, Subgroup.mem_iInf, Set.mem_diff, Set.mem_Icc,
+  simp only [tailLeviDom, Subgroup.mem_inf, Subgroup.mem_iInf, Set.mem_sdiff, Set.mem_Icc,
     Set.mem_singleton_iff, and_imp, Submodule.mem_stabilizer_submodule_iff_map_eq]
   rfl
 

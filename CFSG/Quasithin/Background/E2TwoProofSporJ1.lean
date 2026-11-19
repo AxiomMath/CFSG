@@ -57,7 +57,7 @@ theorem j1_Y_card {j : ℕ} (hj : j < 17) :
       (#[1, 15, 15, 15, 15, 15, 15, 7, 3, 15, 3, 3, 3, 3, 3, 3, 21] : Array ℕ)[j]! * 2 ^ 3 := by
   have h := ((Classical.choose_spec (Certificates.certificate7124).2).1 j hj).2
   unfold j1Y memberOrTop
-  rw [if_pos hj, h]
+  rw [ite_eq_left hj, h]
   interval_cases j <;> rfl
 
 theorem j1_cards :
@@ -77,11 +77,11 @@ theorem j1_all :
   · refine ⟨17, le_rfl, ?_⟩
     rw [h]
     unfold memberOrTop
-    rw [if_neg (lt_irrefl 17)]
+    rw [ite_eq_right (lt_irrefl 17)]
   · refine ⟨j, hj.le, ?_⟩
     rw [h]
     unfold memberOrTop j1Y memberOrTop
-    rw [if_pos hj, if_pos hj]
+    rw [ite_eq_left hj, ite_eq_left hj]
 
 theorem j1_Y_zero : j1Y 0 = j1S :=
   (Subgroup.eq_of_le_of_card_ge (j1_S_le_Y 0)

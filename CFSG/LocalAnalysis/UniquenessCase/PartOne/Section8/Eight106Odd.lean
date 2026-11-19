@@ -19,11 +19,11 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 
 private theorem exists_maximal_invariant_normal_of_solvable {K R : Subgroup G}
-    (hRK : K ≤ normalizer (R : Set G)) (hRs : IsSolvable ↥R) (hRnt : Nontrivial ↥R) :
+    (hRK : K ≤ normalizer (R : Set G)) (hRs : Group.IsSolvable ↥R) (hRnt : Nontrivial ↥R) :
     ∃ N : Subgroup G, ⁅R, R⁆ ≤ N ∧ N < R ∧ K ≤ normalizer (N : Set G) ∧
       ∀ X : Subgroup G, ⁅R, R⁆ ≤ X → X < R → K ≤ normalizer (X : Set G) →
         N ≤ X → X = N := by
-  haveI : Group.IsSolvable ↥R := hRs
+  have : Group.IsSolvable ↥R := hRs
   have hRRlt : ⁅R, R⁆ < R := CFSG.commutator_lt_self_of_isSolvable R
   have hKRR : K ≤ normalizer (⁅R, R⁆ : Subgroup G) :=
     CFSG.GroupTheory.FT63ChII.le_normalizer_commutator hRK hRK
@@ -59,12 +59,13 @@ private theorem exists_isChiefFactorUnder_of_maximal_invariant {K R N : Subgroup
     exact (Subgroup.commutator_mono hXR le_rfl).trans (hRR.trans hNX)
   exact hChiefH.2.2.2.2.2.2 X hNX hXR (sup_le hRX hKX)
 
+omit [Finite G] in
 private theorem dvd_card_of_isChiefFactorUnder {K R N : Subgroup G} {ℓ : ℕ} [Fact ℓ.Prime]
     (hNlt : N < R) (hNR : R ≤ normalizer (N : Set G))
     (hChief : CFSG.ABGLocalTools.IsChiefFactorUnder ℓ K R N) :
     ℓ ∣ Nat.card R := by
   let Q := ↥R ⧸ N.subgroupOf R
-  haveI hNsub : (N.subgroupOf R).Normal :=
+  have hNsub : (N.subgroupOf R).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hNR
   have hNsub_top : N.subgroupOf R ≠ ⊤ := by
     intro htop
@@ -82,6 +83,7 @@ private theorem dvd_card_of_isChiefFactorUnder {K R N : Subgroup G} {ℓ : ℕ} 
   rw [h]
   exact dvd_mul_of_dvd_left hℓdvdQ _
 
+omit [Finite G] in
 private theorem two_lt_of_isChiefFactorUnder_of_coprime_six {K R N : Subgroup G} {ℓ : ℕ}
     [Fact ℓ.Prime] (hNlt : N < R) (hNR : R ≤ normalizer (N : Set G))
     (hChief : CFSG.ABGLocalTools.IsChiefFactorUnder ℓ K R N)
@@ -98,7 +100,7 @@ private theorem two_lt_of_isChiefFactorUnder_of_coprime_six {K R N : Subgroup G}
 private theorem exists_mem_centralizer_not_mem_of_fixed_mod {R N D : Subgroup G}
     (hNleR : N ≤ R) (hNR : R ≤ normalizer (N : Set G))
     (hDR : D ≤ normalizer (R : Set G)) (hDN : D ≤ normalizer (N : Set G))
-    (hRs : IsSolvable ↥R) (hcop : Nat.Coprime (Nat.card D) (Nat.card R))
+    (hRs : Group.IsSolvable ↥R) (hcop : Nat.Coprime (Nat.card D) (Nat.card R))
     {w : G} (hwR : w ∈ R) (hwD : ∀ d ∈ D, ⁅d, w⁆ ∈ N) (hwN : w ∉ N) :
     ∃ c ∈ R, c ∉ N ∧ c ∈ centralizer (D : Set G) := by
   have hwSup : w ∈ (R ⊓ centralizer (D : Set G)) ⊔ N :=
@@ -114,23 +116,23 @@ private theorem exists_mem_centralizer_not_mem_of_fixed_mod {R N D : Subgroup G}
   exact hwN (hcm ▸ N.mul_mem hcN hm)
 
 private theorem commutator_le_of_chiefFactor_of_centralizer (hK462 : UCK.K462)
-    {K R N D : Subgroup G} {ℓ : ℕ} [Fact ℓ.Prime] (hK : ⁅K, K⁆ = K)
+    {K R N _D : Subgroup G} {ℓ : ℕ} [Fact ℓ.Prime] (hK : ⁅K, K⁆ = K)
     (hKk : CFSG.Open.IsKGroup ↥K) {m : ℕ} (hm4 : 4 ≤ m) (hme : Even m) (hL2 : IsL2 (Bar2 K) m)
     (hℓgt : 2 < ℓ) (hNlt : N < R) (hRK : K ≤ normalizer (R : Set G))
     (hKN : K ≤ normalizer (N : Set G)) (hNR : R ≤ normalizer (N : Set G))
-    (hChief : CFSG.ABGLocalTools.IsChiefFactorUnder ℓ K R N) (hRs : IsSolvable ↥R)
-    (hcopR : Nat.Coprime (Nat.card R) 3) {D : Subgroup G} (hDK : D ≤ K)
-    (hD3 : Nat.card D = 3)
-    (hCD : ∀ x ∈ R, (∀ d ∈ D, x * d = d * x) → x ∈ centralizer (K : Set G)) :
+    (hChief : CFSG.ABGLocalTools.IsChiefFactorUnder ℓ K R N) (hRs : Group.IsSolvable ↥R)
+    (hcopR : Nat.Coprime (Nat.card R) 3) {_D : Subgroup G} (hDK : _D ≤ K)
+    (hD3 : Nat.card _D = 3)
+    (hCD : ∀ x ∈ R, (∀ d ∈ _D, x * d = d * x) → x ∈ centralizer (K : Set G)) :
     ⁅R, K⁆ ≤ N := by
   classical
-  by_cases hfix : ∀ w ∈ R, (∀ d ∈ D, w * d * w⁻¹ * d⁻¹ ∈ N) → w ∈ N
+  by_cases hfix : ∀ w ∈ R, (∀ d ∈ _D, w * d * w⁻¹ * d⁻¹ ∈ N) → w ∈ N
   · exact absurd
       (false_of_isChiefFactorUnder_of_isL2 hK462 hK hKk hm4 hme hL2 hℓgt hChief hDK hD3 hfix)
       not_false
   push Not at hfix
   obtain ⟨w, hwR, hwD, hwN⟩ := hfix
-  have hwD' : ∀ d ∈ D, ⁅d, w⁆ ∈ N := fun d hd =>
+  have hwD' : ∀ d ∈ _D, ⁅d, w⁆ ∈ N := fun d hd =>
     (by rw [← commutatorElement_inv]
         exact N.inv_mem (by simpa [commutatorElement_def] using hwD d hd))
   obtain ⟨c, hcR, hcN, hcC⟩ :=
@@ -150,7 +152,7 @@ private theorem commutator_le_of_chiefFactor_of_centralizer (hK462 : UCK.K462)
     ⟨k, hkK, r, hrR, hkrN⟩ hcR (fun k' hk' => by
       have hcomm : k' * c = c * k' := Subgroup.mem_centralizer_iff.mp hcK k' hk'
       have h1 : k' * c * k'⁻¹ * c⁻¹ = 1 := by rw [hcomm]; group
-      simpa [h1] using N.one_mem))
+      simp [h1]))
 
 private theorem toMulAut_eq_one_of_isPerfect_of_isCyclic {K Q : Type*} [Group K] [Group Q]
     [Finite Q] [MulDistribMulAction K Q] (hK : Group.IsPerfect K) (hcyc : IsCyclic Q) :
@@ -159,7 +161,7 @@ private theorem toMulAut_eq_one_of_isPerfect_of_isCyclic {K Q : Type*} [Group K]
     intro a b
     apply (IsCyclic.mulAutMulEquiv Q).injective
     rw [map_mul, map_mul, mul_comm]
-  haveI : IsMulCommutative (MulAut Q) := IsMulCommutative.of_comm hcomm
+  have : IsMulCommutative (MulAut Q) := IsMulCommutative.of_comm hcomm
   let φ : K →* MulAut Q := MulDistribMulAction.toMulAut K Q
   have hker : (⊤ : Subgroup K) ≤ φ.ker := by
     rw [← hK.commutator_eq_top]
@@ -174,24 +176,24 @@ private theorem commutator_le_of_cyclic_quotient_of_isPerfect {K R : Subgroup G}
     (hcyc : IsCyclic (↥R ⧸ Rc)) :
     ⁅R, K⁆ ≤ Rc.map R.subtype := by
   classical
-  haveI : Subgroup.Normalizes K R := ⟨hRK⟩
-  letI : MulDistribMulAction ↥K ↥R :=
+  have : Subgroup.Normalizes K R := ⟨hRK⟩
+  let : MulDistribMulAction ↥K ↥R :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer K R hRK
   have hRc_sub : (Rc.map R.subtype).subgroupOf R = Rc :=
     Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective R) Rc
   have hRcInv : CFSG.IsInvariant ↥K ↥R Rc := by
     refine ⟨fun a g => ?_⟩
     have hg : g ∈ Rc ↔ (g : G) ∈ Rc.map R.subtype := by
-      simpa [hRc_sub] using Subgroup.mem_subgroupOf (H := Rc.map R.subtype) (K := R) (h := g)
+      simp
     have hga : (a • g) ∈ Rc ↔ ((a • g : ↥R) : G) ∈ Rc.map R.subtype := by
       simpa [hRc_sub] using
         Subgroup.mem_subgroupOf (H := Rc.map R.subtype) (K := R) (h := a • g)
     rw [hg, hga,
       Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe (A := K) (K := R) a g]
     exact Subgroup.mem_normalizer_iff.mp (hKRc a.2) (g : G)
-  haveI : MulAction.QuotientAction ↥K Rc :=
+  have : MulAction.QuotientAction ↥K Rc :=
     CFSG.quotientAction_of_isInvariant (A := ↥K) (G := ↥R) Rc hRcInv
-  letI : MulDistribMulAction ↥K (↥R ⧸ Rc) :=
+  let : MulDistribMulAction ↥K (↥R ⧸ Rc) :=
     CFSG.quotientMulDistribMulAction (A := ↥K) (G := ↥R) Rc hRcInv
   have hφ1 := toMulAut_eq_one_of_isPerfect_of_isCyclic
     (Subgroup.isPerfect_iff.mpr hK) hcyc
@@ -232,12 +234,13 @@ private theorem minFac_eq_three_of_odd_of_dvd {n : ℕ} (hodd : Odd n) (h3 : 3 �
   have h2le : 2 ≤ n.minFac := Nat.Prime.two_le hp
   omega
 
+omit [Finite G] in
 private theorem characteristic_complement_image_properties {R : Subgroup G} {Rc : Subgroup ↥R}
-    [Rc.Normal] (hRcChar : Rc.Characteristic) (hRs : IsSolvable ↥R)
+    [Rc.Normal] (_hRcChar : Rc.Characteristic) (hRs : Group.IsSolvable ↥R)
     (hRodd : Odd (Nat.card R)) (h3Rc : ¬ 3 ∣ Nat.card Rc) :
     Rc.map R.subtype ≤ R ∧ R ≤ normalizer (Rc.map R.subtype : Set G) ∧
-      IsSolvable ↥(Rc.map R.subtype) ∧ Nat.Coprime (Nat.card (Rc.map R.subtype)) 6 := by
-  haveI : Group.IsSolvable ↥R := hRs
+      Group.IsSolvable ↥(Rc.map R.subtype) ∧ Nat.Coprime (Nat.card (Rc.map R.subtype)) 6 := by
+  have : Group.IsSolvable ↥R := hRs
   have hR₀_le_R : Rc.map R.subtype ≤ R := Subgroup.map_subtype_le Rc
   have hcard : Nat.card (Rc.map R.subtype) = Nat.card Rc :=
     Subgroup.card_map_of_injective (Subgroup.subtype_injective R)
@@ -260,7 +263,7 @@ private theorem characteristic_complement_image_properties {R : Subgroup G} {Rc 
 
 private theorem le_centralizer_of_coprime_six_of_maximal (hK462 : UCK.K462) {K R : Subgroup G}
     (hK : ⁅K, K⁆ = K) (hKk : CFSG.Open.IsKGroup ↥K) {m : ℕ} (hm4 : 4 ≤ m) (hme : Even m)
-    (hL2 : IsL2 (Bar2 K) m) (hRK : K ≤ normalizer (R : Set G)) (hRs : IsSolvable ↥R)
+    (hL2 : IsL2 (Bar2 K) m) (hRK : K ≤ normalizer (R : Set G)) (hRs : Group.IsSolvable ↥R)
     (hR : Nat.Coprime (Nat.card R) 6) {D : Subgroup G} (hDK : D ≤ K)
     (hD3 : Nat.card D = 3)
     (hCD : ∀ x ∈ R, (∀ d ∈ D, x * d = d * x) → x ∈ centralizer (K : Set G))
@@ -276,10 +279,10 @@ private theorem le_centralizer_of_coprime_six_of_maximal (hK462 : UCK.K462) {K R
     exact (Subgroup.commutator_mono hNleR le_rfl).trans hN_RR
   obtain ⟨ℓ, hℓp, hChief⟩ :=
     exists_isChiefFactorUnder_of_maximal_invariant hRK hKN hNR hNlt hN_RR hNmax
-  haveI : Fact ℓ.Prime := ⟨hℓp⟩
+  have : Fact ℓ.Prime := ⟨hℓp⟩
   have hℓgt : 2 < ℓ := two_lt_of_isChiefFactorUnder_of_coprime_six hNlt hNR hChief hR
   have hRK_le_N : ⁅R, K⁆ ≤ N :=
-    commutator_le_of_chiefFactor_of_centralizer hK462 (D := D) hK hKk hm4 hme hL2 hℓgt
+    commutator_le_of_chiefFactor_of_centralizer hK462 (_D := D) hK hKk hm4 hme hL2 hℓgt
       hNlt hRK hKN hNR hChief hRs (hR.of_dvd_right (by norm_num : 3 ∣ 6)) hDK hD3 hCD
   have hNKbot : ⁅N, K⁆ = ⊥ :=
     Subgroup.commutator_eq_bot_iff_le_centralizer.mpr hN_le_C
@@ -288,13 +291,13 @@ private theorem le_centralizer_of_coprime_six_of_maximal (hK462 : UCK.K462) {K R
 
 theorem le_centralizer_of_coprime_six (hK462 : UCK.K462) {K R : Subgroup G} (hK : ⁅K, K⁆ = K)
     (hKk : CFSG.Open.IsKGroup ↥K) {m : ℕ} (hm4 : 4 ≤ m) (hme : Even m) (hL2 : IsL2 (Bar2 K) m)
-    (hRK : K ≤ normalizer (R : Set G)) (hRs : IsSolvable ↥R) (hR : Nat.Coprime (Nat.card R) 6)
+    (hRK : K ≤ normalizer (R : Set G)) (hRs : Group.IsSolvable ↥R) (hR : Nat.Coprime (Nat.card R) 6)
     {D : Subgroup G} (hDK : D ≤ K) (hD3 : Nat.card D = 3)
     (hCD : ∀ x ∈ R, (∀ d ∈ D, x * d = d * x) → x ∈ centralizer (K : Set G)) :
     R ≤ centralizer (K : Set G) := by
   classical
   let P : ℕ → Prop := fun n =>
-    ∀ R : Subgroup G, Nat.card R = n → K ≤ normalizer (R : Set G) → IsSolvable ↥R →
+    ∀ R : Subgroup G, Nat.card R = n → K ≤ normalizer (R : Set G) → Group.IsSolvable ↥R →
       Nat.Coprime (Nat.card R) 6 →
       (∀ x ∈ R, (∀ d ∈ D, x * d = d * x) → x ∈ centralizer (K : Set G)) →
       R ≤ centralizer (K : Set G)
@@ -305,11 +308,11 @@ theorem le_centralizer_of_coprime_six (hK462 : UCK.K462) {K R : Subgroup G} (hK 
       intro R hcard hRK hRs hR hCD
       by_cases hbot : R = ⊥
       · rw [hbot]; exact bot_le
-      haveI hRnt : Nontrivial ↥R := (Subgroup.nontrivial_iff_ne_bot R).mpr hbot
+      have hRnt : Nontrivial ↥R := (Subgroup.nontrivial_iff_ne_bot R).mpr hbot
       obtain ⟨N, hN_RR, hNlt, hKN, hNmax⟩ :=
         exists_maximal_invariant_normal_of_solvable hRK hRs hRnt
       have hNleR : N ≤ R := hNlt.le
-      haveI hRsolv : Group.IsSolvable ↥R := hRs
+      have hRsolv : Group.IsSolvable ↥R := hRs
       have hNsolv : Group.IsSolvable ↥N :=
         Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hNleR)
           (Subgroup.inclusion_injective hNleR)
@@ -326,7 +329,7 @@ theorem le_centralizer_of_coprime_six (hK462 : UCK.K462) {K R : Subgroup G} (hK 
 private theorem le_centralizer_of_odd_of_characteristic_complement (hK462 : UCK.K462)
     {K R : Subgroup G} (hK : ⁅K, K⁆ = K) (hKk : CFSG.Open.IsKGroup ↥K)
     {m : ℕ} (hm4 : 4 ≤ m) (hme : Even m) (hL2 : IsL2 (Bar2 K) m)
-    (hRK : K ≤ normalizer (R : Set G)) (hRs : IsSolvable ↥R) (hRodd : Odd (Nat.card R))
+    (hRK : K ≤ normalizer (R : Set G)) (hRs : Group.IsSolvable ↥R) (hRodd : Odd (Nat.card R))
     {D : Subgroup G} (hDK : D ≤ K) (hD3 : Nat.card D = 3)
     (hCD : ∀ x ∈ R, (∀ d ∈ D, x * d = d * x) → x ∈ centralizer (K : Set G))
     {Rc : Subgroup ↥R} [Rc.Normal] (hRcChar : Rc.Characteristic)
@@ -348,7 +351,7 @@ private theorem le_centralizer_of_odd_of_characteristic_complement (hK462 : UCK.
 
 theorem le_centralizer_of_odd (hK462 : UCK.K462) {K R : Subgroup G} (hK : ⁅K, K⁆ = K)
     (hKk : CFSG.Open.IsKGroup ↥K) {m : ℕ} (hm4 : 4 ≤ m) (hme : Even m) (hL2 : IsL2 (Bar2 K) m)
-    (hRK : K ≤ normalizer (R : Set G)) (hRs : IsSolvable ↥R) (hRodd : Odd (Nat.card R))
+    (hRK : K ≤ normalizer (R : Set G)) (hRs : Group.IsSolvable ↥R) (hRodd : Odd (Nat.card R))
     {B₀ : Subgroup G}
     (hB₀ : Nat.card B₀ = 3) (hB₀R : ∀ x ∈ R, x ^ 3 = 1 → x ∈ B₀)
     {D : Subgroup G} (hDK : D ≤ K) (hD3 : Nat.card D = 3)
@@ -356,7 +359,7 @@ theorem le_centralizer_of_odd (hK462 : UCK.K462) {K R : Subgroup G} (hK : ⁅K, 
     R ≤ centralizer (K : Set G) := by
   classical
   by_cases h3R : 3 ∣ Nat.card R
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hRne1 : Nat.card R ≠ 1 := by
       intro h1; rw [h1] at h3R; norm_num at h3R
     have hmin : (Nat.card R).minFac = 3 := minFac_eq_three_of_odd_of_dvd hRodd h3R hRne1
@@ -367,15 +370,15 @@ theorem le_centralizer_of_odd (hK462 : UCK.K462) {K R : Subgroup G} (hK : ⁅K, 
       rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup R]
       exact hRankR
     have hScyc : IsCyclic ↥(S : Subgroup ↥R) :=
-      CFSG.isCyclic_of_le_of_pRank_le_one Nat.prime_three (by norm_num) S.isPGroup'
+      CFSG.isCyclic_of_le_of_pRank_le_one Nat.prime_three (by norm_num) S.isPGroup
         le_top hRankTop
     have hNleC : normalizer ((S : Subgroup ↥R) : Set ↥R) ≤
         centralizer ((S : Subgroup ↥R) : Set ↥R) :=
       IsCyclic.normalizer_le_centralizer (G := ↥R) (p := 3) hmin hScyc
     obtain ⟨Rc, hRcNormal, h3Rc, -, -, hRcChar, -, -, -, ⟨e, -⟩, -⟩ :=
       CFSG.GroupTheory.burnside_normal_complement (p := 3) S hNleC
-    letI : Rc.Normal := hRcNormal
-    haveI : Rc.Characteristic := hRcChar
+    let : Rc.Normal := hRcNormal
+    have : Rc.Characteristic := hRcChar
     have hcyc : IsCyclic (↥R ⧸ Rc) := (MulEquiv.isCyclic e).mp hScyc
     exact le_centralizer_of_odd_of_characteristic_complement hK462 hK hKk hm4 hme hL2
       hRK hRs hRodd hDK hD3 hCD hRcChar h3Rc hcyc

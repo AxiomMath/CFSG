@@ -155,7 +155,7 @@ theorem exists_mem_stab_of_mem_reachSet {q : V6 → ZMod 2} (hq : IsQF q) (k : F
         refine ⟨transv u * g₀, Subgroup.mem_inf.mpr ⟨?_, ?_⟩, ?_⟩
         · rw [mem_stabK_iff]
           refine ⟨mul_mem (transv_mem_orthOf hq hu.1) hg₀K.1, fun i hi => ?_⟩
-          have hik : i < k := Fin.lt_iff_val_lt_val.mpr hi
+          have hik : i < k := Fin.lt_def.mpr hi
           have hui : bil u (bs i) = 0 := hu.2 i hik
           have hfixi : transv u (bs i) = bs i :=
             transv_apply_of_bil_eq_zero (u := u) (x := bs i) (by rw [bil_comm]; exact hui)
@@ -170,7 +170,7 @@ private lemma mem_Cset_of_mem_stabK {q : V6 → ZMod 2} (hq : IsQF q) {k : Fin 6
   rw [mem_stabK_iff] at hg
   rw [Cset, Finset.mem_filter]
   refine ⟨Finset.mem_univ _, hg.1.2 (bs k), fun i hi => ?_⟩
-  have hgi : g (bs i) = bs i := hg.2 i (Fin.lt_iff_val_lt_val.mp hi)
+  have hgi : g (bs i) = bs i := hg.2 i (Fin.lt_def.mp hi)
   calc bil (g (bs k)) (bs i) = bil (g (bs k)) (g (bs i)) := by rw [hgi]
     _ = bil (bs k) (bs i) := bil_apply_of_mem_orthOf hq hg.1 (bs k) (bs i)
 

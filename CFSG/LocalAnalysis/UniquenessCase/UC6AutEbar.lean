@@ -48,26 +48,26 @@ theorem card_Ebar (h620 : m.C620) : Nat.card m.Ebar = m.r ^ 2 := by
 theorem isSylowOf_Ebar_map (h620 : m.C620) {S₀ : Type} [Group S₀] [Finite S₀] (φ : m.Lbar ≃* S₀)
     (hS₀ : (Nat.card S₀).factorization m.r = 2) :
     IsSylowOf m.r (m.Ebar.map φ.toMonoidHom) ⊤ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   refine isSylowOf_of_card le_top ?_
   rw [Subgroup.card_map_of_injective φ.injective, m.card_Ebar h620, Subgroup.card_top, hS₀]
 
 theorem kc633_of_model (h620 : m.C620) {S₀ : Type} [Group S₀] [Finite S₀] (φ : m.Lbar ≃* S₀)
     (hS₀ : (Nat.card S₀).factorization m.r = 2) {E₀ : Subgroup S₀} (h₀ : IsSylowOf m.r E₀ ⊤)
     (hK : AbsKC S₀ m.r E₀) : m.KC633 := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   exact m.kc633_of_abs (AbsKC.of_iso_sylow φ h₀ (m.isSylowOf_Ebar_map h620 φ hS₀) hK)
 
 theorem kn633_of_model (h620 : m.C620) {S₀ : Type} [Group S₀] [Finite S₀] (φ : m.Lbar ≃* S₀)
     (hS₀ : (Nat.card S₀).factorization m.r = 2) {E₀ : Subgroup S₀} (h₀ : IsSylowOf m.r E₀ ⊤)
     (hK : AbsKN S₀ m.r E₀ (m.r = 3 ∧ CFSG.Blueprint.LieModel m.Lbar .PSL 3 2 2)) : m.KN633 := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   exact m.kn633_of_abs (AbsKN.of_iso_sylow φ h₀ (m.isSylowOf_Ebar_map h620 φ hS₀) hK)
 
 theorem kinv633_of_model (h620 : m.C620) {S₀ : Type} [Group S₀] [Finite S₀] (φ : m.Lbar ≃* S₀)
     (hS₀ : (Nat.card S₀).factorization m.r = 2) {E₀ : Subgroup S₀} (h₀ : IsSylowOf m.r E₀ ⊤)
     (hK : AbsKInv S₀ E₀) : m.KInv633 := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   exact m.kinv633_of_abs (AbsKInv.of_iso_sylow φ h₀ (m.isSylowOf_Ebar_map h620 φ hS₀) hK)
 
 end Mz614

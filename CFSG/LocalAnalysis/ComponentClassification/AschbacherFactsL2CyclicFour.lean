@@ -237,7 +237,7 @@ theorem dihedral_no_cyclic_four_holds : ∀ (G : Type) [Group G] [Finite G] (L :
       rw [injective_iff_map_eq_one]
       intro s hs
       have hsZ : (s : L) ∈ Z := (QuotientGroup.eq_one_iff _).mp hs
-      have h2 : IsPGroup 2 (S : Subgroup L) := S.isPGroup'
+      have h2 : IsPGroup 2 (S : Subgroup L) := S.isPGroup
       obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp h2) s
       have hodd := odd_orderOf_of_mem_center hZ hsZ
       rw [Subgroup.orderOf_coe, hk] at hodd

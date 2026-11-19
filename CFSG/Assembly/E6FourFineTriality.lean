@@ -176,13 +176,13 @@ theorem not_involution_of_leaf_threeCycle {a b c : Fin Tag.E6.rank}
       w' • α = u • permLattice (List.formPerm [a, b, c]) α)
     (hsq : ∀ α ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6), w' • w' • α = α) : False := by
   have ha' : a ∈ d4Nodes Tag.E6 := by
-    simp only [d4Nodes, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff] at ha ⊢
+    simp only [d4Nodes, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff] at ha ⊢
     omega
   have hb' : b ∈ d4Nodes Tag.E6 := by
-    simp only [d4Nodes, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff] at hb ⊢
+    simp only [d4Nodes, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff] at hb ⊢
     omega
   have hc' : c ∈ d4Nodes Tag.E6 := by
-    simp only [d4Nodes, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff] at hc ⊢
+    simp only [d4Nodes, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff] at hc ⊢
     omega
   have hroot_a : esingle a ∈ parabolicRoots Tag.E6 (d4Nodes Tag.E6) :=
     single_mem_parabolicRoots ha'

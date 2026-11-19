@@ -31,9 +31,9 @@ theorem seitzHyperGamma_eq_top_unitary_three {K : Type} [Group K] [Finite K]
   obtain ⟨hℓ, -, hn3, hne, Kf, _, hU, ⟨θ'⟩⟩ :=
     CFSG.RankThree.PartOne.exists_primeFormP_of_statedClassicalModel_PSU
       (CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA m q hv e)
-  haveI := hU.finite
-  haveI : Fact q.p.Prime := ⟨hℓ⟩
-  haveI : CharP Kf q.p := hU.charP
+  have := hU.finite
+  have : Fact q.p.Prime := ⟨hℓ⟩
+  have : CharP Kf q.p := hU.charP
   have hqcard : q.p ^ q.exponent = q.card := (TauCeti.PrimePower.card_def q).symm
   have hpq1 : 3 ∣ q.p ^ q.exponent + 1 := hqcard ▸ hq
   have hq2' : q.p ^ q.exponent ≠ 2 := hqcard ▸ hq2
@@ -154,7 +154,7 @@ theorem K37Setting.false_of_lie (hSR : CFSG.AGLEmbeddingD2.KFactSeitzRankTwo)
       exact seitzHyperGamma_eq_top_twE6_inner hperf e rfl hpd hci.2 hq2 hin hE hcard
     | _ => exact False.elim hci
   · have hZ : Subgroup.center ↥K = ⊥ := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       rcases h.isPGroup_center.card_eq_or_dvd with h1 | h3
       · exact Subgroup.eq_bot_of_card_eq _ h1
       · exact absurd h3 hz

@@ -28,7 +28,7 @@ theorem pRank_le_normalizer_of_beta (hβ : KFactBetaStructure) {p f : ℕ} (hf :
     Open.pRank p (P : Subgroup X) ≤ Open.pRank p (normalizer (T : Set X)) := by
   have hβs := hβ p X P x z hpl hcomp
   have hp := hpl.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set D : Subgroup X := primeComplementCore (G := X) p with hD
   have hD3 : ¬ p ∣ Nat.card D :=
     (Nat.Prime.coprime_iff_not_dvd hp).mp (primeComplementCore_coprime p)
@@ -89,7 +89,7 @@ theorem exists_pair_of_plane63 (h64 : KFactCenterCyclicGeFive) (h610 : GL83.I_6_
     ∃ a ∈ E, a ≠ 1 ∧ ∃ b ∈ E, b ≠ 1 ∧ ∀ g : X, g * a * g⁻¹ ∉ zpowers b := by
   have hcfg := cfg_of_plane63 hpl
   have hprime := hpl.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   set D : Subgroup X := primeComplementCore (G := X) p with hD
   set π : X →* X ⧸ D := QuotientGroup.mk' D with hπ
   obtain ⟨L, K, hL, hK, hLK⟩ := hcomp
@@ -105,7 +105,7 @@ theorem exists_pair_of_plane63 (h64 : KFactCenterCyclicGeFive) (h610 : GL83.I_6_
   have hl := compKer_le_layer hsplit h7131 hSplit
   have hEp : IsPGroup p E := hE.isPGroup
   have hEm : IsElemAbelian p (E.map π) := by
-    haveI := hE.1
+    have := hE.1
     refine ⟨inferInstance, ?_⟩
     rintro _ ⟨e, he, rfl⟩
     show (π e) ^ p = 1

@@ -79,7 +79,7 @@ theorem fixedField_iff_frobenius_eq {K L : Type} [Field K] [Finite K] [Field L]
     (ι : K →+* L) (σ : L →+* L) (hσ : ∀ b : L, σ b = b ^ Nat.card K) :
     ∀ b : L, σ b = b ↔ ∃ a : K, ι a = b := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   intro b
   rw [hσ]
   constructor

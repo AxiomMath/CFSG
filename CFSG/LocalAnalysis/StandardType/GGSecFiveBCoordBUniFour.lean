@@ -25,7 +25,7 @@ theorem ggSecFiveBCoordBUniFourInput_of_completion
     (hC : GGUniFourCompletion) : GGSecFiveBCoordBUniFourInput := by
   intro hMp hRig G _ _ p B Bs x L D J 𝒦 hR _ _ _ _ i0 _ _ _ hBB _ _ f K hcell
   obtain ⟨hp, hp2⟩ := ggRouteCfg_prime hR
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hf2 : 2 ≤ f := hcell.1
   have hpq : p ∣ 2 ^ f + 1 := hcell.2.2.1
   have hBsC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs :=

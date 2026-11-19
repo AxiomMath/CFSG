@@ -53,7 +53,7 @@ section Certs
 theorem innA8_of (hL : LinTwoA8) (hU : UniTwoNoA8) (hS : SympTwoNoA8) (hD : D4TwoNoA8)
     (hE : ExcTwoNoA8) : InnA8 := by
   intro d hq hfin hsimp β hmem hβ3 hβ1 hA8
-  haveI := hfin
+  have := hfin
   have hcard := CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds d
     (TauCeti.CFSGIndex.lie d).Group ⟨MulEquiv.refl _⟩
   have hdvd : 20160 ∣ CFSG.HardMathSupport.Solomon.Coordinator.I1420.lieOrderFormula d.1 := by

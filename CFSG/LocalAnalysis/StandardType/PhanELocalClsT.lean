@@ -12,9 +12,9 @@ variable {K : Type} [Field K]
 
 @[expose] def Vtail : Submodule K (Fin 4 → K) where
   carrier := {v | v 0 = 0}
-  add_mem' := fun ha hb => by simp [Set.mem_setOf_eq.mp ha, Set.mem_setOf_eq.mp hb]
+  add_mem' := fun ha hb => by simp [Set.mem_ofPred_eq.mp ha, Set.mem_ofPred_eq.mp hb]
   zero_mem' := rfl
-  smul_mem' := fun a _ hv => by simp [Set.mem_setOf_eq.mp hv]
+  smul_mem' := fun a _ hv => by simp [Set.mem_ofPred_eq.mp hv]
 
 @[expose] def tailProj : (Fin 4 → K) →ₗ[K] (Fin 4 → K) where
   toFun v j := if j = 0 then 0 else v j

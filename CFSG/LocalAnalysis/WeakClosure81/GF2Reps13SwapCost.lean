@@ -61,6 +61,7 @@ theorem secCost_add_le {t : MulAut W} {U₁ U₂ U₃ : Subgroup W} (htU₂ : �
   have hf : rk ↥U₁ ≤ rk ↥(B ⊔ U₁) := rk_mono le_sup_right
   omega
 
+omit [Finite W] in
 theorem secCost_top_bot (t : MulAut W) :
     secCost t ⊤ ⊥ = rk ↥(commSub ⊤ (Subgroup.zpowers t)) := by
   unfold secCost

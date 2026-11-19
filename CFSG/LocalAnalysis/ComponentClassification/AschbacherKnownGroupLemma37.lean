@@ -83,7 +83,7 @@ theorem setup [Finite G] {A C : Subgroup G} {t : G} (hC : C = A ⊓ centralizer 
     have hx'p : IsPGroup 2 (zpowers x') := by
       rw [IsPGroup.iff_card, Nat.card_zpowers, Subgroup.orderOf_mk, hxo]
       exact ⟨2, by norm_num⟩
-    have hQ := S₀.isPGroup'.to_sup_of_normal_left' hx'p (zpowers_le.2 hx'N)
+    have hQ := S₀.isPGroup.to_sup_of_normal_left' hx'p (zpowers_le.2 hx'N)
     have heq : (S₀ : Subgroup A) ⊔ zpowers x' = S₀ := S₀.maximal_isPGroup.eq_of_ge hQ le_sup_left
     have : x' ∈ (S₀ : Subgroup A) := by
       rw [← heq]
@@ -92,7 +92,7 @@ theorem setup [Finite G] {A C : Subgroup G} {t : G} (hC : C = A ⊓ centralizer 
   have hcent : ∀ s ∈ S, s * t = t * s → s ∈ zpowers x := by
     intro s hs hst
     set X := S ⊓ centralizer ({t} : Set G) with hX
-    have hXp : IsPGroup 2 X := (S₀.isPGroup'.map A.subtype).to_le inf_le_left
+    have hXp : IsPGroup 2 X := (S₀.isPGroup.map A.subtype).to_le inf_le_left
     have hXC : X ≤ C := fun g hg => (hCmem g).2
       ⟨map_subtype_le _ (mem_inf.1 hg).1, mem_centralizer_singleton_iff.1 (mem_inf.1 hg).2⟩
     have hRX : (R : Subgroup C).map C.subtype ≤ X := by
@@ -140,7 +140,7 @@ theorem lemma_3_7 (hK : AschbacherKnownGroupFacts) :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₀, x, hxS, hx4, hxt, htNS, hcent, htA⟩ := setup rfl htN ht2 R hRcyc hRcard
   set S := (S₀ : Subgroup A).map A.subtype with hS
-  have hSp : IsPGroup 2 S := S₀.isPGroup'.map _
+  have hSp : IsPGroup 2 S := S₀.isPGroup.map _
   have hSA : S ≤ A := map_subtype_le _
   have hmemS : ∀ h : A, (h : G) ∈ S ↔ h ∈ (S₀ : Subgroup A) := by
     intro h

@@ -46,6 +46,7 @@ theorem cor2Beta_wclSet_lift {N : Subgroup G} [N.Normal] (hN : Odd (Nat.card N))
   rw [← hr, hu]
   group
 
+omit [Finite G] in
 theorem cor2Beta_commute_of_wclSet {u v : G} (hu2 : u * u = 1)
     (hab : IsMulCommutative ↥(CFSG.LargeExtraspecial.S11.wcl u))
     (hv : v ∈ CFSG.LargeExtraspecial.S11.wclSet u) {N : Subgroup G} [N.Normal]
@@ -97,6 +98,7 @@ theorem cor2Beta_commute_of_wclSet {u v : G} (hu2 : u * u = 1)
   calc n * v = n * (n⁻¹ * v * n) := by rw [this]
     _ = v * n := by group
 
+omit [Finite G] in
 theorem cor2Beta_wcl_abelian_conj {t : G}
     (hab : IsMulCommutative ↥(CFSG.LargeExtraspecial.S11.wcl t)) (m : G) :
     IsMulCommutative ↥(CFSG.LargeExtraspecial.S11.wcl (m * t * m⁻¹)) := by
@@ -111,7 +113,7 @@ theorem cor2Beta_wcl_abelian_conj {t : G}
       · calc m⁻¹ * x * m * t = m⁻¹ * (x * (m * t * m⁻¹)) * m := by group
           _ = m⁻¹ * ((m * t * m⁻¹) * x) * m := by rw [hc]
           _ = t * (m⁻¹ * x * m) := by group
-    | one => simpa using Subgroup.one_mem _
+    | one => simp
     | mul x y _ _ hx hy =>
       have e : m⁻¹ * (x * y) * m = (m⁻¹ * x * m) * (m⁻¹ * y * m) := by group
       rw [e]

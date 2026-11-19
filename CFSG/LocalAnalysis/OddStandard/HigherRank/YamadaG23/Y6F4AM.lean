@@ -30,7 +30,7 @@ private lemma commutatorElement_mul_central {G : Type*} [Group G] {k k' z z' : G
 
 private lemma commutator_sup_central_le {G : Type*} [Group G] {K Z : Subgroup G}
     (hZ : Z ≤ Subgroup.center G) : ⁅K ⊔ Z, K ⊔ Z⁆ ≤ ⁅K, K⁆ := by
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZ
+  have : Z.Normal := Subgroup.normal_of_le_center hZ
   rw [Subgroup.commutator_le]
   intro x hx y hy
   obtain ⟨k, hk, z, hz, rfl⟩ := Subgroup.mem_sup_of_normal_right.mp hx

@@ -19,6 +19,7 @@ section Aux
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem resCent_eq_map (K : Subgroup G) {z : G} (hz : z ∈ K) :
     resCent K z = (inSubgroup perfectResidual
       (Subgroup.centralizer ({(⟨z, hz⟩ : K)} : Set K))).map K.subtype := by
@@ -63,6 +64,7 @@ theorem not_three_dvd_card_pCore_two (Y : Type) [Group Y] [Finite Y] :
   have := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3
   omega
 
+omit [Finite G] in
 theorem inf_centralizer_eq_of_mem_D {A K : Subgroup G} {a b x : G}
     (hAe : CFSG.Assembly.IsElemAbelian 3 A) (haA : a ∈ A) (hbA : b ∈ A)
     (hKb : K ≤ Subgroup.centralizer ({b} : Set G)) (hxD : x ∈ D129 a b)

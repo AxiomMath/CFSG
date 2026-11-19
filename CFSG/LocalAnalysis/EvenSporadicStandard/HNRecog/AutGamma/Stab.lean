@@ -51,9 +51,9 @@ theorem range_sup_vertexStab : (gammaConj a).range ⊔ vertexStab a = ⊤ := by
 
 @[expose] def gxToStab (a : G) :
     ↥(Gx a) →* ↥((gammaConj a).range.subgroupOf (vertexStab a)) where
-  toFun g := ⟨⟨gammaConj a g, (gammaConj_mem_vertexStab_iff g.1).2 g.2⟩, ⟨g.1, rfl⟩⟩
+  toFun _g := ⟨⟨gammaConj a _g, (gammaConj_mem_vertexStab_iff _g.1).2 _g.2⟩, ⟨_g.1, rfl⟩⟩
   map_one' := Subtype.ext (Subtype.ext (map_one _))
-  map_mul' := fun g h => Subtype.ext (Subtype.ext (map_mul _ _ _))
+  map_mul' := fun _g _h => Subtype.ext (Subtype.ext (map_mul _ _ _))
 
 noncomputable def gxEquivSubgroupOf (hinj : Function.Injective (gammaConj a)) :
     ↥(Gx a) ≃* ↥((gammaConj a).range.subgroupOf (vertexStab a)) := by

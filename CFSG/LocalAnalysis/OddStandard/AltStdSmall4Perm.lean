@@ -141,18 +141,18 @@ private theorem val_swap_pt (hn : 8 ≤ n) {a b : ℕ} (ha : a < 8) (hb : b < 8)
   unfold nswap
   rw [swap_apply_def]
   by_cases h1 : x.val = a
-  · rw [if_pos (Fin.ext h1 : x = pt hn a ha), if_pos h1] <;> rfl
+  · rw [ite_eq_left (Fin.ext h1 : x = pt hn a ha), ite_eq_left h1]
   · have h3 : x ≠ pt hn a ha := fun h => h1 (congrArg Fin.val h)
-    rw [if_neg h3, if_neg h1]
+    rw [ite_eq_right h3, ite_eq_right h1]
     by_cases h2 : x.val = b
-    · rw [if_pos (Fin.ext h2 : x = pt hn b hb), if_pos h2] <;> rfl
+    · rw [ite_eq_left (Fin.ext h2 : x = pt hn b hb), ite_eq_left h2]
     · have h4 : x ≠ pt hn b hb := fun h => h2 (congrArg Fin.val h)
-      rw [if_neg h4, if_neg h2]
+      rw [ite_eq_right h4, ite_eq_right h2]
 
 private theorem nswap_of_ge {a b k : ℕ} (ha : a < 8) (hb : b < 8) (hk : 8 ≤ k) :
     nswap a b k = k := by
   unfold nswap
-  rw [if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega)]
 
 theorem coe_quad_one (hn : 8 ≤ n) :
     ((quad hn 0 1 2 3 4 5 6 7 : alternatingGroup (Fin n)) : Perm (Fin n)) = tr hn 1 := by

@@ -15,12 +15,15 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22s13b_pCoreOf_le (M : Subgroup G) : CFSG.Open.pCoreOf 2 M ≤ M :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem uc22s13b_isPGroup_pCoreOf (M : Subgroup G) : IsPGroup 2 (CFSG.Open.pCoreOf 2 M) :=
   CFSG.pCore_isPGroup.map M.subtype
 
+omit [Finite G] in
 theorem uc22s13b_le_normalizer_pCoreOf (M : Subgroup G) :
     M ≤ normalizer (CFSG.Open.pCoreOf 2 M : Set G) := by
   have hsub : (CFSG.Open.pCoreOf 2 M).subgroupOf M = CFSG.pCore 2 ↥M :=
@@ -30,6 +33,7 @@ theorem uc22s13b_le_normalizer_pCoreOf (M : Subgroup G) :
     exact CFSG.pCore_normal
   exact (normal_subgroupOf_iff_le_normalizer (uc22s13b_pCoreOf_le M)).1 hnorm
 
+omit [Finite G] in
 theorem uc22s13b_mem_pCoreOf_iff {M : Subgroup G} {x : G} (hx : x ∈ M) :
     x ∈ CFSG.Open.pCoreOf 2 M ↔
       (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨x, hx⟩ : Bar2 M) = 1 := by
@@ -40,6 +44,7 @@ theorem uc22s13b_mem_pCoreOf_iff {M : Subgroup G} {x : G} (hx : x ∈ M) :
   · intro h
     exact ⟨⟨x, hx⟩, h, rfl⟩
 
+omit [Finite G] in
 theorem uc22s13b_commutator_mem {M : Subgroup G} {a b : G} (ha : a ∈ M) (hb : b ∈ M)
     (h : (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨a, ha⟩ : Bar2 M) *
         QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨b, hb⟩ =
@@ -54,24 +59,28 @@ theorem uc22s13b_commutator_mem {M : Subgroup G} {a b : G} (ha : a ∈ M) (hb : 
   rw [he, map_mul, map_mul, map_mul, map_inv, map_inv, h]
   group
 
+omit [Finite G] in
 theorem uc22s13b_mk_mem_barImage {M X : Subgroup G} {x : G} (hx : x ∈ M) (hxX : x ∈ X) :
     (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨x, hx⟩ : Bar2 M) ∈ barImage M X :=
   ⟨⟨x, hx⟩, hxX, rfl⟩
 
+omit [Finite G] in
 theorem uc22s13b_mem_cMStar {M X : Subgroup G} {x : G} (hx : x ∈ M)
     (h : (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨x, hx⟩ : Bar2 M) ∈
       centralizer (barImage M X : Set (Bar2 M))) : x ∈ cMStar M X :=
   ⟨⟨x, hx⟩, h, rfl⟩
 
+omit [Finite G] in
 theorem uc22s13b_of_mem_cMStar {M X : Subgroup G} {x : G} (h : x ∈ cMStar M X) :
     ∃ hx : x ∈ M, (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨x, hx⟩ : Bar2 M) ∈
       centralizer (barImage M X : Set (Bar2 M)) := by
   obtain ⟨x', hx', rfl⟩ := h
   exact ⟨x'.2, hx'⟩
 
-theorem uc22s13b_conj_mem_cMStar {M X : Subgroup G} (hXM : X ≤ M) (hXn : (X.subgroupOf M).Normal)
+omit [Finite G] in
+theorem uc22s13b_conj_mem_cMStar {M X : Subgroup G} (_hXM : X ≤ M) (hXn : (X.subgroupOf M).Normal)
     {m c : G} (hm : m ∈ M) (hc : c ∈ cMStar M X) : m * c * m⁻¹ ∈ cMStar M X := by
-  haveI : (barImage M X).Normal :=
+  have : (barImage M X).Normal :=
     hXn.map (QuotientGroup.mk' (CFSG.pCore 2 ↥M)) (QuotientGroup.mk'_surjective _)
   obtain ⟨hcM, hcC⟩ := uc22s13b_of_mem_cMStar hc
   have hmem : m * c * m⁻¹ ∈ M := M.mul_mem (M.mul_mem hm hcM) (M.inv_mem hm)
@@ -80,12 +89,13 @@ theorem uc22s13b_conj_mem_cMStar {M X : Subgroup G} (hXM : X ≤ M) (hXn : (X.su
   rw [he, map_mul, map_mul, map_inv]
   exact (normal_centralizer (H := barImage M X)).conj_mem _ hcC _
 
+omit [Finite G] in
 theorem uc22s13b_mem_sup_cMStar {M K : Subgroup G} (hKn : (K.subgroupOf M).Normal) {y : G}
     (hy : y ∈ M)
     (h : (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨y, hy⟩ : Bar2 M) ∈
       barImage M K ⊔ centralizer (barImage M K : Set (Bar2 M))) :
     y ∈ K ⊔ cMStar M K := by
-  haveI : (barImage M K).Normal :=
+  have : (barImage M K).Normal :=
     hKn.map (QuotientGroup.mk' (CFSG.pCore 2 ↥M)) (QuotientGroup.mk'_surjective _)
   obtain ⟨j, hj, c, hc, hjc⟩ := mem_sup_of_normal_left.1 h
   obtain ⟨k, hk, rfl⟩ := hj
@@ -99,6 +109,7 @@ theorem uc22s13b_mem_sup_cMStar {M K : Subgroup G} (hKn : (K.subgroupOf M).Norma
   rw [hyk]
   exact mul_mem_sup hk hkc
 
+omit [Finite G] in
 theorem uc22s13b_mem_sup_cMStar_of_inner {M K : Subgroup G} (hKn : (K.subgroupOf M).Normal)
     {y : G} (hy : y ∈ M)
     (h : ∃ j ∈ barImage M K, ∀ k ∈ barImage M K,
@@ -121,11 +132,12 @@ theorem uc22s13b_mem_sup_cMStar_of_inner {M K : Subgroup G} (hKn : (K.subgroupOf
   rw [hu]
   exact mul_mem_sup hj hc
 
+omit [Finite G] in
 theorem uc22s13b_commutator_le {M K : Subgroup G} (hKn : (K.subgroupOf M).Normal)
     (hOut : ∀ σ τ : MulAut ↥(barImage M K), ∃ y : ↥(barImage M K),
       σ * τ * σ⁻¹ * τ⁻¹ = MulAut.conj y) :
     ⁅M, M⁆ ≤ K ⊔ cMStar M K := by
-  haveI : (barImage M K).Normal :=
+  have : (barImage M K).Normal :=
     hKn.map (QuotientGroup.mk' (CFSG.pCore 2 ↥M)) (QuotientGroup.mk'_surjective _)
   have hQ := PartTwo.s13_commutator_le_sup_centralizer (barImage M K) hOut
   rw [commutator_le]
@@ -138,6 +150,7 @@ theorem uc22s13b_commutator_le {M K : Subgroup G} (hKn : (K.subgroupOf M).Normal
   rw [he, map_commutatorElement, commutator_def]
   exact commutator_mem_commutator (mem_top _) (mem_top _)
 
+omit [Finite G] in
 theorem uc22s13b_le_normalizer_of_commutator_le {M N : Subgroup G} (hMN : ⁅M, M⁆ ≤ N)
     (hNM : N ≤ M) : M ≤ normalizer (N : Set G) := by
   intro m hm
@@ -157,7 +170,7 @@ theorem uc22s13b_exists_cent {M A B : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 
     (hA : IsPGroup p A) (hBM : B ≤ M) (hAB : A ≤ normalizer (B : Set G))
     (hc : ∀ a ∈ A, ∀ b ∈ B, a * b * a⁻¹ * b⁻¹ ∈ CFSG.Open.pCoreOf 2 M) {b : G} (hb : b ∈ B) :
     ∃ c ∈ B ⊓ centralizer (A : Set G), c⁻¹ * b ∈ CFSG.Open.pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set O := CFSG.Open.pCoreOf 2 M
   have hO2 : IsPGroup 2 ↥(B ⊓ O) := (uc22s13b_isPGroup_pCoreOf M).to_le inf_le_right
   have hcop : Nat.Coprime p (Nat.card ↥(B ⊓ O)) := by
@@ -183,6 +196,7 @@ theorem uc22s13b_exists_cent {M A B : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 
     hAB inf_le_left hBN hcop hc' hb
   exact ⟨c, hcmem, hcb.2⟩
 
+omit [Finite G] in
 theorem uc22s13b_le_commutator_sup {M L C : Subgroup G} (hLM : L ≤ M) (hCM : C ≤ M)
     (hLperf : ⁅L, L⁆ = L) (hdec : ∀ l ∈ L, ∃ c ∈ C, c⁻¹ * l ∈ CFSG.Open.pCoreOf 2 M) :
     L ≤ ⁅C, C⁆ ⊔ CFSG.Open.pCoreOf 2 M := by

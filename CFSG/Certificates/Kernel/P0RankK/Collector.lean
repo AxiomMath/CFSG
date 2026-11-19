@@ -56,7 +56,7 @@ theorem cIn_le (s j : ℕ) (l : List ℕ) (hl : ∀ i ∈ l, i ≤ j) (a : ℕ) 
   | cons i l ih =>
     simp only [cIn, List.foldl_cons] at ih ⊢
     have hi : ¬ j < i := Nat.not_lt.2 (hl i (List.mem_cons_self ..))
-    rw [if_neg (by simp [hi])]
+    rw [ite_eq_right (by simp [hi])]
     exact ih (fun c hc => hl c (List.mem_cons_of_mem _ hc)) a
 
 theorem cIn_congr {s s' j : ℕ} (l : List ℕ) (h : ∀ i ∈ l, j < i → s.testBit i = s'.testBit i)
@@ -159,7 +159,7 @@ theorem lp_mul_gen (s j : ℕ) (hj : j < 16) : ∀ n, j < n → n ≤ 16 →
       rw [lp_succ, lp_succ, List.range_succ, cIn_append_single, hbit]
       by_cases hs : s.testBit n
       · have hd : (decide (j < n) && s.testBit n) = true := by simp [hlt, hs]
-        rw [if_pos hs, if_pos hd, tD_xor]
+        rw [ite_eq_left hs, ite_eq_left hd, tD_xor]
         have hc := pc_comm_tD (lD_mem_Lgrp (2 ^ n)) (cIn s j (List.range n) 0)
         calc lp s n * lD (2 ^ n) * lD (2 ^ j)
             = lp s n * (lD (2 ^ n) * lD (2 ^ j)) := by group
@@ -170,7 +170,7 @@ theorem lp_mul_gen (s j : ℕ) (hj : j < 16) : ∀ n, j < n → n ≤ 16 →
                 tD ((lCommN.getD n []).getD j 0) := by rw [ih']; group
           _ = _ := by rw [← hc]; group
       · have hd : (decide (j < n) && s.testBit n) = false := by simp [hs]
-        rw [if_neg hs, if_neg (by simp [hd]), mul_one, mul_one, ih']
+        rw [ite_eq_right hs, ite_eq_right (by simp [hd]), mul_one, mul_one, ih']
     · have hjn' : n = j := by omega
       subst hjn'
       have hlow : lp (s ^^^ 2 ^ n) n = lp s n := lp_congr fun i hi => by
@@ -184,7 +184,7 @@ theorem lp_mul_gen (s j : ℕ) (hj : j < 16) : ∀ n, j < n → n ≤ 16 →
         simp
       rw [lp_succ, lp_succ, hlow, hc0, pc_tD_zero, mul_one, hbit]
       by_cases hs : s.testBit n
-      · rw [if_pos hs, mul_assoc, lD_mul_self hn]
+      · rw [ite_eq_left hs, mul_assoc, lD_mul_self hn]
         simp [hs]
       · simp [hs]
 
@@ -199,7 +199,7 @@ theorem lD_mul_lp (s s' : ℕ) : ∀ n ≤ 16,
     have ih' := ih (by omega)
     rw [lp_succ, gPre_succ, ← mul_assoc, ih']
     by_cases hs' : s'.testBit n
-    · rw [if_pos hs', if_pos hs']
+    · rw [ite_eq_left hs', ite_eq_left hs']
       set x := s ^^^ s' % 2 ^ n with hx
       have hxs : x ^^^ 2 ^ n = s ^^^ s' % 2 ^ (n + 1) := by
         apply Nat.eq_of_testBit_eq
@@ -229,7 +229,7 @@ theorem lD_mul_lp (s s' : ℕ) : ∀ n ≤ 16,
         _ = lD (s ^^^ s' % 2 ^ (n + 1)) * (tD (cIn s n (List.range 16) 0) * tD (gPre s s' n)) := by
             rw [hstep]; group
         _ = _ := by rw [pc_tD_comm]
-    · rw [if_neg hs', if_neg hs', mul_one]
+    · rw [ite_eq_right hs', ite_eq_right hs', mul_one]
       congr 2
       apply Nat.eq_of_testBit_eq
       intro i
@@ -282,11 +282,11 @@ theorem pc_tD_eq_prod (τ : ℕ) :
   intro j hj
   have hj9 := List.mem_range.1 hj
   by_cases h : τ.testBit j
-  · rw [if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h]
     change _ = wordX (tWord (2 ^ j))
     congr 1
     interval_cases j <;> rfl
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
     rfl
 
 theorem pc_conj_tD {k : ℕ} (hk : k < 10) (τ : ℕ) :
@@ -348,9 +348,9 @@ private theorem pcL_foldr_conjk (κ : ℕ) (x : ℕ × ℕ) (l : List ℕ) (hl :
     rw [List.foldr_cons, List.map_cons, List.prod_cons]
     have ih' := ih (fun c hc => hl c (List.mem_cons_of_mem _ hc))
     by_cases h : κ.testBit k
-    · rw [if_pos h, if_pos h, pcL_conjk (hl k (List.mem_cons_self ..)), ih']
+    · rw [ite_eq_left h, ite_eq_left h, pcL_conjk (hl k (List.mem_cons_self ..)), ih']
       group
-    · rw [if_neg h, if_neg h, ih']
+    · rw [ite_eq_right h, ite_eq_right h, ih']
       group
 
 private theorem wordX_flatMap_uWord' (κ : ℕ) (l : List ℕ) :
@@ -411,7 +411,7 @@ private theorem prod_map_ite_filter (p : ℕ → Bool) (l : List ℕ) :
     (l.map fun c => if p c then uD c else 1).prod = ((l.filter p).map uD).prod := by
   induction l with
   | nil => rfl
-  | cons c l ih => by_cases h : p c <;> simp [List.filter_cons, h, ih]
+  | cons c l ih => by_cases h : p c <;> simp [h, ih]
 
 theorem uE_split {k : ℕ} (hk : k < 10) (κ : ℕ) :
     uE κ = (((List.range k).filter κ.testBit).map uD).prod * (if κ.testBit k then uD k else 1) *
@@ -459,7 +459,7 @@ theorem pcElt_rmulU (g : (ℕ × ℕ) × ℕ) {k : ℕ} (hk : k < 10) :
   have hsplit := uE_split hk κ
   rw [← hP, ← hQ] at hsplit
   by_cases hκ : κ.testBit k
-  · rw [if_pos hκ]
+  · rw [ite_eq_left hκ]
     have hP' : (List.range k).filter (κ ^^^ 2 ^ k).testBit = P :=
       List.filter_congr fun c hc => by
         have hkc : k ≠ c := by
@@ -481,13 +481,13 @@ theorem pcElt_rmulU (g : (ℕ × ℕ) × ℕ) {k : ℕ} (hk : k < 10) :
     rw [hP', hQ', hbit] at hs
     have hsq : pcL (p0Data.uSq.getD k (0, 0)) = uD k * uD k := (uD_mul_self hk).symm
     simp only [pcElt]
-    rw [hs, hsplit, if_pos hκ, pcL_lmul, hG, pcL_lmul, pcL_conjk hk, hsq]
+    rw [hs, hsplit, ite_eq_left hκ, pcL_lmul, hG, pcL_lmul, pcL_conjk hk, hsq]
     have hre : pcL x * (Pp * uD k * Qp) * uD k = pcL x * Pp * uD k * (Qp * uD k) := by group
     rw [hre, hY]
-    simp only [Bool.false_eq_true, if_false]
+    simp only [Bool.false_eq_true, ite_false]
     rw [← hPp, ← hQp]
     group
-  · rw [if_neg hκ]
+  · rw [ite_eq_right hκ]
     have hP' : (List.range k).filter (κ ||| 2 ^ k).testBit = P :=
       List.filter_congr fun c hc => by
         have hkc : k ≠ c := by
@@ -506,9 +506,9 @@ theorem pcElt_rmulU (g : (ℕ × ℕ) × ℕ) {k : ℕ} (hk : k < 10) :
       rw [Nat.testBit_or, Nat.testBit_two_pow]
       simp
     have hs := uE_split hk (κ ||| 2 ^ k)
-    rw [hP', hQ', hbit, if_pos rfl] at hs
+    rw [hP', hQ', hbit, ite_eq_left rfl] at hs
     simp only [pcElt]
-    rw [hs, hsplit, if_neg hκ, pcL_lmul, hG]
+    rw [hs, hsplit, ite_eq_right hκ, pcL_lmul, hG]
     have hre : pcL x * (Pp * 1 * Qp) * uD k = pcL x * Pp * (Qp * uD k) := by group
     rw [hre, hY]
     rw [← hPp, ← hQp]

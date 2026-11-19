@@ -17,10 +17,10 @@ theorem e9Solv_td4two
   obtain ⟨h1, h2⟩ :=
     primePower_eq_of_card_eq Nat.prime_two (s := 1) (by norm_num) (hq2.trans (by norm_num))
   obtain ⟨hfin, hsimp⟩ := CFSG.Assembly.lie_finite_simple ⟨.trialityD4 q, hv⟩
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group := hfin
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group := hsimp
-  haveI : Finite S := Finite.of_equiv _ e.symm.toEquiv
-  haveI : IsSimpleGroup S := e.isSimpleGroup
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group := hfin
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie ⟨.trialityD4 q, hv⟩).Group := hsimp
+  have : Finite S := Finite.of_equiv _ e.symm.toEquiv
+  have : IsSimpleGroup S := e.isSimpleGroup
   obtain ⟨⟨eT⟩, hZ, hA⟩ := CFSG.RankThree.PartTwo.Sec19.lineGroup_facts_of_isoLie q h1 h2 ⟨hv, ⟨e⟩⟩
   have hcardS : Nat.card S = 211341312 := by
     have hc := CFSG.AGLEmbedding.card_catGroup_trialityD4_even

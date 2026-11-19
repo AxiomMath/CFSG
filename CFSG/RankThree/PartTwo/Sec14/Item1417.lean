@@ -52,7 +52,7 @@ theorem center_sylow_eq_zpowers_of_quot_j2 (h415 : Sec4.Item4_15) {N : Subgroup 
     have hO : x⁻¹ * y ∈ N := by
       rw [← QuotientGroup.eq_one_iff, ← QuotientGroup.mk'_apply, map_mul, map_inv, hxy,
         inv_mul_cancel]
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨x⁻¹ * y, (S : Subgroup ↥L).mul_mem (inv_mem hx) hy⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨x⁻¹ * y, (S : Subgroup ↥L).mul_mem (inv_mem hx) hy⟩
     have h1 := eq_one_of_mem_of_pow_three_pow hN3 hO (k := k)
       (by simpa using congrArg Subtype.val hk)
     rw [inv_mul_eq_one] at h1
@@ -72,7 +72,7 @@ theorem center_sylow_eq_zpowers_of_quot_j2 (h415 : Sec4.Item4_15) {N : Subgroup 
     Subgroup.zpowers_le.mpr ⟨hdS, Subgroup.mem_centralizer_iff.mpr fun y hy =>
       Subgroup.mem_centralizer_singleton_iff.mp (hSd hy)⟩
   have hd'1 : d' ≠ 1 := fun h => hd1 (congrArg Subtype.val h)
-  have hZSp : IsPGroup 3 ZS := S.isPGroup'.to_le inf_le_left
+  have hZSp : IsPGroup 3 ZS := S.isPGroup.to_le inf_le_left
   have hdeq : Subgroup.zpowers d' = ZS := by
     refine Subgroup.eq_of_le_of_card_ge hdZ ?_
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (hZSp.to_le hdZ)
@@ -122,7 +122,7 @@ theorem residual_inf_centralizer_quasisimple_of_quot (h415 : Sec4.Item4_15)
       L.subtype L.subtype_injective, hCL,
       CFSG.RankThree.GroupTheory.SteinbergBY.map_subtype_centralizer_singleton]
   obtain ⟨S, hdS, hSd⟩ := hc
-  have hd3 : IsPGroup 3 (Subgroup.zpowers d') := S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hdS)
+  have hd3 : IsPGroup 3 (Subgroup.zpowers d') := S.isPGroup.to_le (Subgroup.zpowers_le.mpr hdS)
   have hCmap : CL.map π = Subgroup.centralizer ({π d'} : Set (↥L ⧸ N)) := by
     have h := CFSG.Semidihedral.Local.map_centralizer_eq_of_coprime 3 N hN3 (Subgroup.zpowers d')
       hd3
@@ -146,7 +146,7 @@ theorem residual_inf_centralizer_quasisimple_of_quot (h415 : Sec4.Item4_15)
   have hd'O : π d' ≠ 1 := by
     intro h
     rw [hπ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨d', hdS⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨d', hdS⟩
     exact hd1 (congrArg Subtype.val (eq_one_of_mem_of_pow_three_pow hN3 h (k := k)
       (by simpa using congrArg Subtype.val hk)))
   have hQqs : IsQuasisimple ↥Q := by

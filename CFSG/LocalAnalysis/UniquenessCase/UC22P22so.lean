@@ -29,19 +29,19 @@ namespace P22so
 
 theorem eq_bot_of_normal_of_isL2Ev {X : Type} [Group X] {n : ℕ} (h : IsL2Ev X n) {P : Subgroup X}
     (hP : P.Normal) (hP2 : IsPGroup 2 P) : P = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ := P22y.center_eq_bot_of_isL2Ev h
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := h
-  haveI := P22y.charP_two_of_card hF
-  haveI : Finite X := Finite.of_equiv _ e.toEquiv.symm
+  have := P22y.charP_two_of_card hF
+  have : Finite X := Finite.of_equiv _ e.toEquiv.symm
   have hn := P22y.one_le_of_card hF
   have hcard : Nat.card X = 2 ^ n * ((2 ^ n) ^ 2 - 1) := by
     rw [Nat.card_congr e.toEquiv, CFSG.Open.StatedAPI.card_statedSL_two, hF]
   by_cases h4 : 4 ≤ Nat.card F
-  · haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) := P22y.isSimpleGroup_sl2 h4
-    haveI : IsSimpleGroup X :=
+  · have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) := P22y.isSimpleGroup_sl2 h4
+    have : IsSimpleGroup X :=
       (e.trans (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 F).symm).isSimpleGroup
-    haveI := hP
+    have := hP
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal P with hb | ht
     · exact hb
     · exfalso
@@ -90,7 +90,7 @@ theorem eq_bot_of_normal_of_isL2Ev {X : Type} [Group X] {n : ℕ} (h : IsL2Ev X 
 
 theorem pCoreOf_le_of_isSylowOf {P H : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 2 P H) :
     pCoreOf 2 H ≤ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQp := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 H
   have hPN : P ≤ normalizer (pCoreOf 2 H : Set G) :=
     hP.le.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 H)
@@ -175,10 +175,12 @@ theorem exists_isMax_le (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch) (h3
   refine ⟨B, ⟨hBT, hBel, fun X hXT hXel => (hA'max X hXT hXel).trans hcard⟩, ?_⟩
   refine sup_le (le_inf (inf_le_right.trans hA'N) inf_le_left) (le_inf (U_le_proofN D) hUc)
 
+omit [Finite G] in
 theorem isMax_of_isMax_of_le {T R B A : Subgroup G} (hB : CFSG.Quasithin.IsMaxElemAbelian T B) (hBR : B ≤ R)
     (hRT : R ≤ T) (hA : CFSG.Quasithin.IsMaxElemAbelian R A) : CFSG.Quasithin.IsMaxElemAbelian T A :=
   ⟨hA.1.trans hRT, hA.2.1, fun Y hYT hYel => (hB.2.2 Y hYT hYel).trans (hA.2.2 B hBR hB.2.1)⟩
 
+omit [Finite G] in
 theorem isMax_of_le {T R B : Subgroup G} (hB : CFSG.Quasithin.IsMaxElemAbelian T B) (hBR : B ≤ R)
     (hRT : R ≤ T) : CFSG.Quasithin.IsMaxElemAbelian R B :=
   ⟨hBR, hB.2.1, fun Y hYR hYel => hB.2.2 Y (hYR.trans hRT) hYel⟩

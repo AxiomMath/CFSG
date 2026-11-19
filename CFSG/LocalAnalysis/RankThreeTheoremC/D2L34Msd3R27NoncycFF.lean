@@ -114,7 +114,7 @@ theorem exists_factorization_of_pairData_of_bound {V N T : Subgroup G} {hU : IsE
       hDp.of_equiv (Subgroup.subgroupOfEquivOfLe hDA).symm
     obtain ⟨Q', hDQ'⟩ := hDp'.exists_le_sylow
     set Q : Subgroup G := (Q' : Subgroup ↥𝒜).map 𝒜.subtype with hQ
-    have hQp : IsPGroup 3 Q := Q'.isPGroup'.map 𝒜.subtype
+    have hQp : IsPGroup 3 Q := Q'.isPGroup.map 𝒜.subtype
     have hQ𝒜 : Q ≤ 𝒜 := Subgroup.map_subtype_le _
     have hDQ : D ≤ Q := fun x hx => ⟨⟨x, hDA hx⟩, hDQ' (Subgroup.mem_subgroupOf.2 hx), rfl⟩
     have hQcard : 3 ^ 3 ∣ Nat.card Q := by

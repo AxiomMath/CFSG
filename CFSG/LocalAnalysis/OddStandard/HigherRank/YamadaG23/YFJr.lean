@@ -17,11 +17,13 @@ private def MaxRank (T U : Subgroup Γ) : Prop :=
 private def IsMaxAb (T U : Subgroup Γ) : Prop :=
   U ≤ T ∧ IsMulCommutative U ∧ MaxRank T U
 
+omit [Finite Γ] in
 private lemma pRank_map_equiv {Γ' : Type} [Group Γ'] [Finite Γ']
     (e : Γ ≃* Γ') (H : Subgroup Γ) :
     CFSG.pRank 2 (H.map e.toMonoidHom) = CFSG.pRank 2 H :=
   (CFSG.pRank_congr_of_mulEquiv (H.equivMapOfInjective e.toMonoidHom e.injective) 2).symm
 
+omit [Finite Γ] in
 private lemma thompsonRank_eq_sSup (T : Subgroup Γ) :
     thompsonRank T = sSup {U : Subgroup Γ | IsMaxAb T U} := by
   rw [thompsonRank]
@@ -31,11 +33,12 @@ private lemma thompsonRank_eq_sSup (T : Subgroup Γ) :
   · exact sSup_le fun U hU => le_iSup_of_le U (le_iSup_of_le hU.1 (le_iSup_of_le hU.2.1
       (le_iSup_of_le hU.2.2 le_rfl)))
 
+omit [Finite Γ] in
 private lemma isMaxAb_map {Γ' : Type} [Group Γ'] [Finite Γ']
     (e : Γ ≃* Γ') {T U : Subgroup Γ} (h : IsMaxAb T U) :
     IsMaxAb (T.map e.toMonoidHom) (U.map e.toMonoidHom) := by
   refine ⟨Subgroup.map_mono h.1, ?_, ?_⟩
-  · haveI : IsMulCommutative U := h.2.1
+  · have : IsMulCommutative U := h.2.1
     exact inferInstance
   · intro V' hV'T hV'c
     have hV'eq : (V'.comap e.toMonoidHom).map e.toMonoidHom = V' :=
@@ -47,7 +50,7 @@ private lemma isMaxAb_map {Γ' : Type} [Group Γ'] [Finite Γ']
       rw [← e.injective hte]
       exact ht
     have hVc : IsMulCommutative (V'.comap e.toMonoidHom) := by
-      haveI : IsMulCommutative V' := hV'c
+      have : IsMulCommutative V' := hV'c
       exact Subgroup.comap_injective_isMulCommutative V' e.injective
     calc CFSG.pRank 2 V' = CFSG.pRank 2 ((V'.comap e.toMonoidHom).map e.toMonoidHom) := by
           rw [hV'eq]
@@ -55,6 +58,7 @@ private lemma isMaxAb_map {Γ' : Type} [Group Γ'] [Finite Γ']
       _ ≤ CFSG.pRank 2 U := h.2.2 _ hVle hVc
       _ = CFSG.pRank 2 (U.map e.toMonoidHom) := (pRank_map_equiv e U).symm
 
+omit [Finite Γ] in
 private lemma isMaxAb_comap {Γ' : Type} [Group Γ'] [Finite Γ']
     (e : Γ ≃* Γ') {T : Subgroup Γ} {U' : Subgroup Γ'}
     (h : IsMaxAb (T.map e.toMonoidHom) U') :
@@ -65,19 +69,20 @@ private lemma isMaxAb_comap {Γ' : Type} [Group Γ'] [Finite Γ']
     obtain ⟨t, ht, hte⟩ := Subgroup.mem_map.1 (h.1 hx)
     rw [← e.injective hte]
     exact ht
-  · haveI : IsMulCommutative U' := h.2.1
+  · have : IsMulCommutative U' := h.2.1
     exact Subgroup.comap_injective_isMulCommutative U' e.injective
   · intro V hVT hVc
     have hU'eq : (U'.comap e.toMonoidHom).map e.toMonoidHom = U' :=
       Subgroup.map_comap_eq_self_of_surjective (f := e.toMonoidHom) e.surjective U'
     have hVc' : IsMulCommutative (V.map e.toMonoidHom) := by
-      haveI : IsMulCommutative V := hVc
+      have : IsMulCommutative V := hVc
       exact inferInstance
     calc CFSG.pRank 2 V = CFSG.pRank 2 (V.map e.toMonoidHom) := (pRank_map_equiv e V).symm
       _ ≤ CFSG.pRank 2 U' := h.2.2 _ (Subgroup.map_mono hVT) hVc'
       _ = CFSG.pRank 2 ((U'.comap e.toMonoidHom).map e.toMonoidHom) := by rw [hU'eq]
       _ = CFSG.pRank 2 (U'.comap e.toMonoidHom) := pRank_map_equiv e _
 
+omit [Finite Γ] in
 private lemma thompsonRank_map_equiv {Γ' : Type} [Group Γ'] [Finite Γ']
     (e : Γ ≃* Γ') (T : Subgroup Γ) :
     (thompsonRank T).map e.toMonoidHom = thompsonRank (T.map e.toMonoidHom) := by

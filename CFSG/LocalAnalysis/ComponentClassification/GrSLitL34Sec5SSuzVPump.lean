@@ -53,7 +53,7 @@ theorem le_normalizer_of_suz_pump
     ⟨hRP, hRsub.toSylow hRodd', IsPGroup.toSylow_coe hRsub hRodd'⟩
   have hoddP : Odd (Nat.card (oddIn P)) := odd_card_oddIn P
   have hbot : R ⊓ oddIn P = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hR2
     rw [hn]
     exact (hoddP.coprime_two_left).pow_left n

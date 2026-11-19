@@ -17,7 +17,7 @@ theorem ggE7Seven_linearIndependent_of_pair {V : Type} [AddCommGroup V] [Module 
     (z : Fin 7 → V) (β : Fin 7 → Module.Dual (ZMod 7) V)
     (hzβ : ∀ i j, β i (z j) = (CartanMatrix.E 7 i j : ZMod 7)) :
     LinearIndependent (ZMod 7) z := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   rw [Fintype.linearIndependent_iff]
   intro g hg
   have hβ : ∀ i, ∑ j, (CartanMatrix.E 7 i j : ZMod 7) * g j = 0 := by
@@ -52,7 +52,7 @@ theorem ggE7Seven_root_data {V : Type} [AddCommGroup V] [Module (ZMod 7) V]
       (∀ j, b j ⬝ᵥ (CartanMatrix.E 7 *ᵥ b j) = 2) ∧
       (∀ j, h j = c j • ∑ l, ((b j l : ℤ) : ZMod 7) • z l) ∧
       ∀ j k, α j (h k) = (c j)⁻¹ * c k * ((b j ⬝ᵥ (CartanMatrix.E 7 *ᵥ b k) : ℤ) : ZMod 7) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hFT : TauCeti.IsFiniteType (CartanMatrix.E 7) := by
     have h := TauCeti.DynkinType.isFiniteType_cartanMatrix_E7
     rwa [TauCeti.DynkinType.cartanMatrix_E7] at h
@@ -87,7 +87,7 @@ private theorem ggE7Seven_A6_linearIndependent_cartanA6_near {j k : Fin 6}
     rintro rfl
     rcases h with h | h <;> omega
   simp only [CartanMatrix.A, Matrix.of_apply]
-  rw [if_neg hne, if_pos h]
+  rw [ite_eq_right hne, ite_eq_left h]
 
 private theorem ggE7Seven_A6_linearIndependent_bounded_int_eq_pm_one {x : ℤ}
     (hlo : -2 ≤ x) (hhi : x ≤ 2) (hsq : ((x : ZMod 7) ^ 2 = 1)) :
@@ -109,7 +109,7 @@ theorem ggE7Seven_A6_linearIndependent {V : Type} [AddCommGroup V] [Module (ZMod
     (hrW : ∀ j, r j ∈ Subgroup.closure (Set.range s)) :
     LinearIndependent (ZMod 7) h := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have : Fact (Nat.Prime 7) := ⟨by decide⟩
   have hα : ∀ j, α j (h j) = 2 := by
     intro j
     rw [hpair j j]
@@ -189,7 +189,7 @@ theorem ggE7Seven_A6_linearIndependent {V : Type} [AddCommGroup V] [Module (ZMod
   let v : Matrix (Fin 6) (Fin 7) ℤ := Matrix.of b
   have hvCv : v * C * vᵀ = G := by
     ext j k
-    simp only [G, v, Matrix.mul_assoc, Matrix.mul_apply, Matrix.transpose_apply,
+    simp only [G, v, Matrix.mul_apply, Matrix.transpose_apply,
       Matrix.of_apply, dotProduct, mulVec]
     simp only [Finset.sum_mul, Finset.mul_sum]
     rw [Finset.sum_comm]
@@ -220,7 +220,7 @@ theorem ggE7Seven_A6_linearIndependent {V : Type} [AddCommGroup V] [Module (ZMod
   have hhfun : h = u • ρ := by
     funext j
     rw [hh j]
-    simp [u, ρ, Pi.smul_apply]
+    simp [u, ρ]
   rw [hhfun]
   exact hunits
 

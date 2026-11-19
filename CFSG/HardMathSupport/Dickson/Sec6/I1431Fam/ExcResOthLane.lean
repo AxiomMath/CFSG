@@ -281,7 +281,7 @@ theorem ssOth_d4_outer [E6Sub τ] (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8)
     {ℓ : ℕ} (hℓ : ℓ.Prime) [CharP L ℓ] :
     ExcOthNoL2 (rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨f, hf, hq⟩ := ssTw_exists_f S (ℓ := ℓ)
   set Ψ := componentRoots (rootCharHom a) i with hΨdef
   have hfin : Ψ.Finite := (finite_setOf_isRoot τ).subset fun γ hγ => hγ.1.1
@@ -369,7 +369,7 @@ theorem ssOth_d4_twE6 (hE6 : E6FixDNAll) (S : LangSetup .E6 L p)
   | D4 => exact absurd ht (by decide)
   | E6 =>
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   obtain ⟨f, hf, hq⟩ := ssTw_exists_f S (ℓ := ℓ)
   have hΦ' : ∀ g, S.D.Φ g = e6Diagram L * Units.map (entrywiseHom Fr) g * (e6Diagram L)⁻¹ := hΦ
   obtain ⟨w, hn⟩ := S.D.n_weyl
@@ -636,7 +636,7 @@ theorem ssOth_e6 {tau : Tag} [M27Ok tau] [E6Sub tau] {L : Type} [Field L] [IsAlg
     {l : ℕ} (hl : l.Prime) [CharP L l] :
     ExcOthNoL2 (rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
   classical
-  haveI : Fact l.Prime := ⟨hl⟩
+  have : Fact l.Prime := ⟨hl⟩
   obtain ⟨f, hf, hq⟩ := ssTw_exists_f S (ℓ := l)
   have hτ' : ∀ t : TwistTag, t.tag ≠ tau := by
     rcases M27Ok.isE7E8 (τ := tau) with rfl | rfl

@@ -76,10 +76,10 @@ private theorem s16t3_orthLeviGroup_two_card_dvd_six {K : Type} [Field K] [Finty
 
 theorem s16t3_minus_census_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     S16t3MinusCensus K 2 := by
-  haveI : IsF2 K := IsF2.of_natCard_eq_two hK
-  letI : Fintype K := Fintype.ofFinite K
+  have : IsF2 K := IsF2.of_natCard_eq_two hK
+  let : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
-  haveI : CharP K 2 := charP_of_card_eq_prime (p := 2) hK'
+  have : CharP K 2 := charP_of_card_eq_prime (p := 2) hK'
   have hirr : ∀ s : K, s ^ 2 + 1 * s + 1 ≠ 0 := irreducible_one_one
   have ha₀ : (Pi.single 0 1 : Fin 2 → K) ≠ 0 := fun h => by simpa using congrFun h 0
   have hEcard : Nat.card ↥(orthElementaryGroup (quadTail 2 (minusTailForm K 1 1))) = 25920 := by

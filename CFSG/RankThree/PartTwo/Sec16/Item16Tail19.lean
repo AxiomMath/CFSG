@@ -310,7 +310,7 @@ theorem exists_thirteen_of_conjQuot_ne_one {K : Subgroup G} {c : G}
   set X := (S : Subgroup ↥Yt).map Yt.subtype with hX
   have hXYt : X ≤ Yt := Subgroup.map_subtype_le _
   have hXK : X ≤ K := hXYt.trans hYtK
-  have hX13p : IsPGroup 13 X := S.isPGroup'.map _
+  have hX13p : IsPGroup 13 X := S.isPGroup.map _
   have hN2 : IsPGroup 2 N := CFSG.pCore_isPGroup (p := 2) (G := ↥K)
   have hXN : ∀ k : K, (k : G) ∈ X → k ∈ N → k = 1 := by
     intro k hkX hkN

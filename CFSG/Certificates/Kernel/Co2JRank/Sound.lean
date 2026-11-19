@@ -22,7 +22,7 @@ variable {M : Type*} [Monoid M]
 
 theorem xP_zero (f : ℕ → M) : ∀ k, xP f k 0 = 1
   | 0 => rfl
-  | k + 1 => by rw [xP, Nat.zero_testBit, if_neg Bool.false_ne_true, one_mul, xP_zero f k]
+  | k + 1 => by rw [xP, Nat.zero_testBit, ite_eq_right Bool.false_ne_true, one_mul, xP_zero f k]
 
 theorem xP_congr (f : ℕ → M) : ∀ k {u w : ℕ}, (∀ i < k, u.testBit i = w.testBit i) →
     xP f k u = xP f k w
@@ -35,9 +35,9 @@ theorem xP_two_pow (f : ℕ → M) : ∀ k j, j < k → xP f k (2 ^ j) = f j
   | k + 1, j, h => by
     rw [xP]
     rcases Nat.lt_succ_iff_lt_or_eq.1 h with h | rfl
-    · rw [Nat.testBit_two_pow_of_ne (by omega), if_neg Bool.false_ne_true, one_mul,
+    · rw [Nat.testBit_two_pow_of_ne (by omega), ite_eq_right Bool.false_ne_true, one_mul,
         xP_two_pow f k j h]
-    · rw [Nat.testBit_two_pow_self, if_pos rfl,
+    · rw [Nat.testBit_two_pow_self, ite_eq_left rfl,
         xP_congr f j (w := 0) fun i hi => by
           rw [Nat.testBit_two_pow_of_ne (by omega), Nat.zero_testBit],
         xP_zero, mul_one]
@@ -73,12 +73,12 @@ theorem xP_xor (hc : ∀ i < k, ∀ j < k, Commute (f i) (f j)) (hs : ∀ i < k,
       (xP_commute f k s fun i hi => hc i (by omega) k (by omega)).symm
     rw [xP, xP, xP, Nat.testBit_xor, ih']
     cases s.testBit k <;> cases t.testBit k
-    · simp only [Bool.xor_false, Bool.false_eq_true, if_false, one_mul]
-    · simp only [Bool.false_xor, if_true, Bool.false_eq_true, if_false, one_mul]
+    · simp only [Bool.xor_false, Bool.false_eq_true, ite_false, one_mul]
+    · simp only [Bool.false_xor, ite_true, Bool.false_eq_true, ite_false, one_mul]
       rw [← mul_assoc, ← mul_assoc, hcs.eq]
-    · simp only [Bool.xor_false, if_true, Bool.false_eq_true, if_false, one_mul]
+    · simp only [Bool.xor_false, ite_true, Bool.false_eq_true, ite_false, one_mul]
       rw [mul_assoc]
-    · simp only [Bool.xor_self, Bool.false_eq_true, if_false, if_true, one_mul]
+    · simp only [Bool.xor_self, Bool.false_eq_true, ite_false, ite_true, one_mul]
       rw [← mul_assoc, mul_assoc (f k) (xP f k s) (f k), ← hcs.eq, ← mul_assoc,
         hs k (by omega), one_mul]
 
@@ -169,7 +169,7 @@ theorem walkJ_sound {G : Nat → Nat} {pt : Nat → Nat → Bool} : ∀ k X v, w
         omega
       obtain ⟨Y, hY, hp⟩ := ih _ _ h2 u' hu'
       refine ⟨Y, ?_, ?_⟩
-      · rw [hY, MatP_mulV, xM, xP, ht, decide_eq_true hb, if_pos rfl, mul_assoc]
+      · rw [hY, MatP_mulV, xM, xP, ht, decide_eq_true hb, ite_eq_left rfl, mul_assoc]
         congr 2
         exact xP_congr _ k fun i hi => (Nat.testBit_two_pow_add_gt hi u').symm
       · have e : Nat.add v (Nat.shiftLeft 1 k) + u' = v + (2 ^ k + u') := by
@@ -180,7 +180,7 @@ theorem walkJ_sound {G : Nat → Nat} {pt : Nat → Nat → Bool} : ∀ k X v, w
     · have hu' : u < 2 ^ k := by omega
       obtain ⟨Y, hY, hp⟩ := ih _ _ h1 u hu'
       refine ⟨Y, ?_, hp⟩
-      rw [hY, xM, xP, ht, decide_eq_false hb, if_neg Bool.false_ne_true, one_mul]
+      rw [hY, xM, xP, ht, decide_eq_false hb, ite_eq_right Bool.false_ne_true, one_mul]
 
 theorem kAt_le (T v : Nat) : kAt T v ≤ 15 := by
   unfold kAt
@@ -205,7 +205,7 @@ theorem ptJ_sound {CR : Nat → Nat} {K1 K3 R vr X v : Nat} (h : ptJ CR K1 K3 R 
     have hb' : kAt K1 (Nat.xor v vr) = 10 := hb
     rw [andK_eq, ha, hb']
     rfl
-  rw [hc, if_pos rfl] at h
+  rw [hc, ite_eq_left rfl] at h
   have := rankL_sound (by have := kAt_le K3 v; omega) h.2
   rwa [MatP_mulV, MatP_xorI, MatP_xorI] at this
 
@@ -267,7 +267,7 @@ theorem nzK_sound {K1 N hi : Nat} (h : nzK K1 N hi = true) (hN : N ≤ 64 * hi) 
     ∀ v, 0 < v → v < N → 0 < kAt K1 v := by
   intro v hv hvN
   have e := allBelow_spec h v hvN (by omega)
-  rw [implK_eq, if_pos (blt_iff.2 hv)] at e
+  rw [implK_eq, ite_eq_left (blt_iff.2 hv)] at e
   exact blt_iff.1 e
 
 theorem ne_one_of_rank {A : Matrix (Fin 22) (Fin 22) (ZMod 2)} (h : 0 < (A + 1).rank) : A ≠ 1 := by

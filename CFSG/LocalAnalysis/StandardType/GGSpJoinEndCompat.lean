@@ -19,7 +19,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {G : Type} [Group G]
 private theorem isElemAbelian_zpowers_map {p : ℕ} (hp : p.Prime) {H N : Type} [Group H] [Group N]
     {g : H} (hg : g ^ p = 1) (hg1 : g ≠ 1) (f : H →* N) :
     IsElemAbelian p ((Subgroup.zpowers g).map f) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmem : ∀ x ∈ (Subgroup.zpowers g).map f, x ^ p = 1 := by
     intro x hx
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
@@ -27,7 +27,7 @@ private theorem isElemAbelian_zpowers_map {p : ℕ} (hp : p.Prime) {H N : Type} 
     rw [orderOf_eq_prime hg hg1] at hyord
     rw [← map_pow, (orderOf_dvd_iff_pow_eq_one.mp hyord), map_one]
   refine ⟨?_, hmem⟩
-  haveI : IsMulCommutative (Subgroup.zpowers g) := Subgroup.zpowers_isMulCommutative g
+  have : IsMulCommutative (Subgroup.zpowers g) := Subgroup.zpowers_isMulCommutative g
   exact Subgroup.map_isMulCommutative (Subgroup.zpowers g) f
 
 theorem spEnd_exists_conj_mem_zpowers {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
@@ -35,7 +35,7 @@ theorem spEnd_exists_conj_mem_zpowers {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hg₂1 : g₂ ≠ 1) : ∃ s : SpecialLinearGroup (Fin 2) F, s * g₂ * s⁻¹ ∈ Subgroup.zpowers g := by
   have h2 : (2 : F) = 0 := by simpa using CharP.cast_eq_zero F 2
   obtain ⟨ζ, _, hPlaneConj⟩ := exists_spPlaneConj (F := F) h2 hp hp2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set E₁ : Subgroup (StatedSp 1 F) := (Subgroup.zpowers g).map (lam (0 : Fin 1)) with hE₁
   set E₂ : Subgroup (StatedSp 1 F) := (Subgroup.zpowers g₂).map (lam (0 : Fin 1)) with hE₂
   have hcard₁ : p ^ 1 ≤ Nat.card E₁ := by
@@ -92,6 +92,7 @@ private theorem spEmbedMat_map_ringEquiv {m n : ℕ} {K : Type} [Field K] (σ : 
     Matrix.map_sub φ (map_sub φ), Matrix.map_one φ (map_zero φ) (map_one φ),
     Matrix.transpose_map, spIncl_map_ringEquiv]
 
+omit [Finite F] [CharP F 2] in
 private theorem fieldSp_spLeviBlock {m : ℕ} (σ : F ≃+* F) (h : StatedSp m F) :
     fieldSp (m + 1) F σ (spLeviBlock m F h) = spLeviBlock m F (fieldSp m F σ h) := by
   apply mat_injective

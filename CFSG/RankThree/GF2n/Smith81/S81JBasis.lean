@@ -234,7 +234,7 @@ theorem vI_eq [CharP K 2] (h0 : finrank K (A.Fix (Wc K I0)) = 1) {v₀ : V}
     decide
   have hτ := Classical.choose_spec (exists_perm_image_eq (I0.image σ) hcard)
   unfold vI
-  rw [dif_pos hcard]
+  rw [dite_eq_left hcard]
   exact act_pm_eq A h0 hτ.symm v₀ hv₀
 
 theorem vI_I0 [CharP K 2] (h0 : finrank K (A.Fix (Wc K I0)) = 1) {v₀ : V}
@@ -297,8 +297,8 @@ theorem span_vI [CharP K 2] (hV : finrank K V = 20)
     (hξ1 : ∃ c, ξ c ≠ 1) : Submodule.span K (Set.range (fun I : J3 => A.vI v₀ I.1)) = ⊤ := by
   have hli : LinearIndependent K (fun I : J3 => A.vI v₀ I.1) :=
     A.linearIndependent_vI h0 hv₀ hv0 hξ hξ1
-  haveI : FiniteDimensional K V := Module.finite_of_finrank_pos (by rw [hV]; norm_num)
-  letI : Fintype J3 := Fintype.ofFinite J3
+  have : FiniteDimensional K V := Module.finite_of_finrank_pos (by rw [hV]; norm_num)
+  let : Fintype J3 := Fintype.ofFinite J3
   apply hli.span_eq_top_of_card_eq_finrank'
   rw [← Nat.card_eq_fintype_card, card_J3, hV]
 

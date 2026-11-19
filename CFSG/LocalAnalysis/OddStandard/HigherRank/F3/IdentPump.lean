@@ -118,7 +118,7 @@ theorem isSimpleChevalleyOver_bar_of_pumpup
     (hwJ : w ∈ J) (hJK : J ≤ K) (hKc : IsTwoComponentIn K (centralizer {w})) (hwK : w ∈ K)
     (hKv : K.map (MulAut.conj v).toMonoidHom = K) :
     IsSimpleChevalleyOver 3 (↥K ⧸ Open.fusionZStar ↥K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKX : K ≤ centralizer ({w} : Set G) := hKc.1
   have hJY : J ≤ centralizer ({w} : Set G) ⊓ centralizer ({v} : Set G) := hJ.1
   have hJX : J ≤ centralizer ({w} : Set G) := hJY.trans inf_le_left

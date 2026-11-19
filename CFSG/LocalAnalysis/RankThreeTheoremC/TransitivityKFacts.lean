@@ -79,7 +79,7 @@ theorem ExtremalObstruction.exists_plane_map {p : ℕ} (hp : p.Prime) (hodd : p 
   have hDP : D ≤ (P : Subgroup G) := hext.obstruction.2.1
   have hDH : D ≤ H := hDP.trans hPH
   have hDHP : D.subgroupOf H ≤ (P : Subgroup G).subgroupOf H := fun x hx => hDP hx
-  have hPp : IsPGroup p ((P : Subgroup G).subgroupOf H) := P.isPGroup'.comap_subtype
+  have hPp : IsPGroup p ((P : Subgroup G).subgroupOf H) := P.isPGroup.comap_subtype
   have hDHp : IsPGroup p (D.subgroupOf H) := hPp.to_le hDHP
   have hrank : CFSG.Open.pRank p ((D.subgroupOf H).map (QuotientGroup.mk' O) ⊔
       (((P : Subgroup G).subgroupOf H).map (QuotientGroup.mk' O) ⊓ centralizer

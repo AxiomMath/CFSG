@@ -23,11 +23,11 @@ theorem permGL_conj_apply (σ : Equiv.Perm (Fin d)) (M : GL (Fin d) K) (i j : Fi
   have hinv : (permGL σ : GL (Fin d) K)⁻¹ = permGL σ⁻¹ := (map_inv (permGL (K := K)) σ).symm
   rw [hinv, Units.val_mul, Units.val_mul, Matrix.mul_apply]
   simp only [Matrix.mul_apply, permGL_apply, inv_inv, ite_mul, one_mul, zero_mul]
-  simp [Finset.sum_ite_eq, Finset.sum_comm]
+  simp [Finset.sum_ite_eq]
   rw [Finset.sum_eq_single (σ.symm j)]
   · simp
   · intro x _ hx
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     exact hx (by rw [← h]; simp)
   · intro h
@@ -78,6 +78,7 @@ section LayerConj
 
 variable {L' : Type} [Group L'] [Finite L'] {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem layer_conj_of_perm {φ : ↥(unitarySU 2 1 K 6) →* Qt L'} (hM : Model φ)
     {a₀ a₁ : MulAut L'}
     (hcomp₀ : IsComponentOf (LargeEvenLayer (ggFix (qAutHom L' a₀)))
@@ -118,6 +119,7 @@ theorem layer_conj_of_perm {φ : ↥(unitarySU 2 1 K 6) →* Qt L'} (hM : Model 
         rw [hl, ← hby]
   rw [hP]
 
+omit [Finite L'] in
 theorem largeEvenSmall_conj_iff {X Y : Subgroup L'} (l : L')
     (h : X = Y.map (MulAut.conj l).toMonoidHom) : LargeEvenSmall X ↔ LargeEvenSmall Y :=
   (largeEvenSmall_congr ((Subgroup.equivMapOfInjective Y (MulAut.conj l).toMonoidHom

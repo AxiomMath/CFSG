@@ -60,7 +60,7 @@ theorem sylow_data (hS : Setup G D)
   have hv₀ : v ∈ D ∩ (S₀ : Set G) := ⟨htri.2.1, hvS⟩
   have hd₀ : u * v * z ∈ D ∩ (S₀ : Set G) := ⟨hdD, hdS⟩
   have hLcomm : ∀ s ∈ D ∩ (S₀ : Set G), ∀ t ∈ D ∩ (S₀ : Set G), Commute s t :=
-    fun s hs t ht => hD.commute_of_isPGroup S₀.isPGroup' hs.1 ht.1 hs.2 ht.2
+    fun s hs t ht => hD.commute_of_isPGroup S₀.isPGroup hs.1 ht.1 hs.2 ht.2
   have hzuvd : z = u * v * (u * v * z) := by rw [← mul_assoc, huv2, one_mul]
   have hLz : ∀ s ∈ D ∩ (S₀ : Set G), Commute s z := fun s hs => by
     rw [hzuvd]

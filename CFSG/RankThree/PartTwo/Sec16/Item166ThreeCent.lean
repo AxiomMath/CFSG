@@ -17,7 +17,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec13
 theorem eq_bot_of_normal_odd {H : Type*} [Group H] [Finite H]
     (hF : CFSG.generalizedFitting H = CFSG.pCore 2 H) {D : Subgroup H} [D.Normal]
     (hD : ¬ 2 ∣ Nat.card D) : D = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hchar : CFSG.IsCharacteristicP 2 H :=
     (CFSG.isCharacteristicP_iff_generalizedFitting_eq_pCore H 2).mpr hF
   have hle : D ≤ CFSG.pPrimeCore 2 H := by

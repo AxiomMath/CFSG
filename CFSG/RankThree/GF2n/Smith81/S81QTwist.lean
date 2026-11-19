@@ -38,7 +38,7 @@ theorem wMap_single (e : K ≃+* K') (a : Idx0) (c : K) :
   by_cases hb : b = a
   · subst hb
     simp [wMap_apply]
-  · simp [wMap_apply, Finsupp.single_apply, Ne.symm hb]
+  · simp [wMap_apply, Ne.symm hb]
 
 @[expose] def conjAut (e : K ≃+* K') (g : W K ≃ₗ[K] W K) : W K' ≃ₗ[K'] W K' where
   toFun w := wMap e (g ((wMap e).symm w))
@@ -90,6 +90,7 @@ section Root
 
 variable {K K' : Type} [Field K] [Field K'] [CharP K 2] [CharP K' 2]
 
+omit [CharP K 2] [CharP K' 2] in
 theorem wMap_EW (e : K ≃+* K') (β : Fin (Tag.rank .E7) → ℤ) (w : W K) :
     wMap e (EW K β w) = EW K' β (wMap e w) := by
   ext b
@@ -155,6 +156,7 @@ theorem map_rootRad0 (e : K ≃+* K') :
       show eAut0Congr e ⟨vAut0 K (xuWUnit hγ (e.symm c')), _⟩ = _
       rw [eAut0Congr_xuWUnit, e.apply_symm_apply]
 
+omit [CharP K 2] in
 private theorem hm_single (i : Fin (Tag.rank .E7)) (c : Kˣ) (a : Fin e7Data.d) :
     (((e7Data_valid.hm K i c : ↥(e7Data_valid.minGroup K)) : (Module.End K (V K))ˣ) :
         Module.End K (V K)) (Finsupp.single a 1) =

@@ -152,7 +152,7 @@ theorem kf_relIndex_le_card {H : Type*} [Group H] [Finite H] (J E : Subgroup H)
       ((kf_act J).comp (Subgroup.inclusion hEN)).ker.index :=
     Nat.card_congr (QuotientGroup.quotientKerEquivRange _).toEquiv.symm
   rw [h1]
-  haveI : ((kf_act J).comp (Subgroup.inclusion hEN)).ker.FiniteIndex :=
+  have : ((kf_act J).comp (Subgroup.inclusion hEN)).ker.FiniteIndex :=
     Subgroup.finiteIndex_of_finite_quotient
   exact Subgroup.index_antitone (kf_ker_le J E hJ hEN)
 

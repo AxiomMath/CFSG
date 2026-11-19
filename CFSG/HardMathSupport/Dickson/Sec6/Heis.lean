@@ -55,7 +55,7 @@ theorem heisP {K : Type} [Field K] [Finite K] (hK : Nat.card K = 64)
   have hel' : IsElemAbelian 3 A' := isElemAbelian_map _ hAel
   have hcard' : Nat.card A' = 27 := by
     rw [hA', Subgroup.card_map_of_injective (MulAut.conj τ).injective, hA27]
-  haveI := charP_two_of_card hK
+  have := charP_two_of_card hK
   exact GenP_of_conj τ A (heis_gen_of_field hK hc3 hel' hcard' hf' hL')
 
 end Heis

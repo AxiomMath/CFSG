@@ -19,6 +19,7 @@ open scoped commutatorElement MatrixGroups
 
 variable {G : Type} [Group G] [Finite G] {Q Z K H : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 private theorem special_center_facts {Q : Subgroup G} {q w : ℕ} (hq : 2 ≤ q) (hw : 1 ≤ w)
     (h : IsSpecialPow 2 q w ↥Q) :
     frattini ↥Q = Subgroup.center ↥Q ∧ commutator ↥Q = Subgroup.center ↥Q ∧
@@ -49,10 +50,12 @@ private theorem two_le_two_pow_of_data (hd : D4qVertexOneData Q Z K H f) : 2 ≤
   calc 2 = 2 ^ 1 := by norm_num
     _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) (one_le_f_of_data hd)
 
+omit [Finite G] in
 theorem D4qVertexOneData.le (hd : D4qVertexOneData Q Z K H f) : Z ≤ Q := by
   rw [← hd.centerOf_eq]
   exact inf_le_left
 
+omit [Finite G] in
 theorem D4qVertexOneData.commute_of_mem (hd : D4qVertexOneData Q Z K H f) :
     ∀ z ∈ Z, ∀ x ∈ Q, z * x = x * z := by
   intro z hz x hx
@@ -73,7 +76,7 @@ theorem D4qVertexOneData.sq_mem (hd : D4qVertexOneData Q Z K H f) :
     ∀ x ∈ Q, x ^ 2 ∈ Z := by
   intro x hx
   have hfr := (special_center_facts (two_le_two_pow_of_data hd) (by norm_num) hd.special).1
-  haveI : Fact (IsPGroup 2 ↥Q) := ⟨hd.special.1.1⟩
+  have : Fact (IsPGroup 2 ↥Q) := ⟨hd.special.1.1⟩
   have hmem : (⟨x, hx⟩ : ↥Q) ^ 2 ∈ Subgroup.center ↥Q := by
     rw [← hfr]
     exact CFSG.pth_power_mem_frattini_of_isPGroup (p := 2) _
@@ -97,16 +100,19 @@ theorem D4qVertexOneData.card_center (hd : D4qVertexOneData Q Z K H f) :
     (p := 2) (q := 2 ^ f) (w := 4) (by norm_num) (two_le_two_pow_of_data hd) hd.special).2
   rwa [hd.centerOf_eq] at h
 
+omit [Finite G] in
 theorem D4qVertexOneData.card (hd : D4qVertexOneData Q Z K H f) :
     Nat.card Q = 2 ^ (9 * f) := by
   rw [hd.special.2.1, ← pow_mul]
   congr 1
   ring
 
+omit [Finite G] in
 theorem D4qVertexOneData.le_normalizer (hd : D4qVertexOneData Q Z K H f) :
     K ⊔ H ≤ Subgroup.normalizer (Q : Set G) :=
   sup_le hd.levi_le_normalizer hd.torus_le_normalizer
 
+omit [Finite G] in
 theorem D4qVertexOneData.conj_mem_center (hd : D4qVertexOneData Q Z K H f) :
     ∀ r ∈ K ⊔ H, ∀ z ∈ Z, r * z * r⁻¹ ∈ Z := by
   intro r hr z hz
@@ -116,6 +122,7 @@ theorem D4qVertexOneData.conj_mem_center (hd : D4qVertexOneData Q Z K H f) :
   have h := (Subgroup.mem_normalizer_iff.mp hN z).mp hz'
   rwa [hd.centerOf_eq] at h
 
+omit [Finite G] in
 theorem D4qVertexOneData.conj_mem_levi (hd : D4qVertexOneData Q Z K H f) :
     ∀ r ∈ K ⊔ H, ∀ k ∈ K, r * k * r⁻¹ ∈ K := by
   have hHc : H ≤ Subgroup.centralizer (K : Set G) := by
@@ -175,6 +182,7 @@ private def secRepRestrict {R K N₀ N₁ : Subgroup G} (hKR : K ≤ R) {W : Typ
   ker := s.ker
   act := fun x n m hm => s.act (Subgroup.inclusion hKR x) n m hm
 
+omit [Finite G] in
 private theorem secHyp_of_le {R K N₀ N₁ : Subgroup G} (hKR : K ≤ R) (h : SecHyp R N₀ N₁) :
     SecHyp K N₀ N₁ where
   le := h.le
@@ -195,6 +203,7 @@ private theorem secHyp_of_le {R K N₀ N₁ : Subgroup G} (hKR : K ≤ R) (h : S
     ext w
     simp [map_mul]
 
+omit [Finite G] in
 theorem leviRep_apply {R K : Subgroup G} (hKR : K ≤ R) {N₀ N₁ : Subgroup G} {W : Type}
     [AddCommGroup W] [Module (ZMod 2) W]
     (s : CFSG.Quasithin.H13.NFa2.SecRep R N₀ N₁ W) (k : ↥K) (w : W) :
@@ -240,7 +249,7 @@ theorem D4qVertexOneData.exists_leviRep_ne_one (hf : 2 ≤ f)
   have hnt : Nontrivial W := by
     by_contra hW
     rw [not_nontrivial_iff_subsingleton] at hW
-    haveI : Subsingleton W := hW
+    have : Subsingleton W := hW
     have hcard1 : Nat.card W = 1 := Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨0⟩⟩
     rw [hcard] at hcard1
     have hlt : 1 < 2 ^ (8 * f) := by
@@ -289,7 +298,7 @@ theorem D4qVertexOneData.isIrreducible_leviRep (hf : 2 ≤ f)
   refine ⟨?_, ?_⟩
   · by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
-    haveI : Subsingleton W := h
+    have : Subsingleton W := h
     obtain ⟨k, hk⟩ := hd.exists_leviRep_ne_one hf s
     exact hk (Subsingleton.elim _ _)
   · intro U hU
@@ -303,6 +312,7 @@ noncomputable def D4qVertexOneData.leviRepSL {W : Type} [AddCommGroup W] [Module
     Representation (ZMod 2) (SL(2, GaloisField 2 (3 * f))) W :=
   (leviRep le_sup_left s).comp hd.levi_mulEquiv.some.symm.toMonoidHom
 
+omit [Finite G] in
 theorem D4qVertexOneData.leviRepSL_apply {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
     (hd : D4qVertexOneData Q Z K H f) (s : SecRep (K ⊔ H) Z Q W) (k : ↥K) :
     hd.leviRepSL s (hd.levi_mulEquiv.some k) = leviRep le_sup_left s k := by
@@ -331,12 +341,12 @@ theorem D4qVertexOneData.card_endRing_leviRep (hf : 2 ≤ f)
     [Finite W] (s : SecRep (K ⊔ H) Z Q W) :
     Nat.card (CFSG.QuasithinUnique.Setup.SL2Modules.EndRing (leviRep le_sup_left s)) = 2 ^ f := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype (GaloisField 2 (3 * f)) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype (GaloisField 2 (3 * f)) := Fintype.ofFinite _
   have hF : Fintype.card (GaloisField 2 (3 * f)) = 2 ^ (3 * f) := by
     rw [Fintype.card_eq_nat_card]
     exact GaloisField.card 2 (3 * f) (by omega)
-  haveI : Fact (hd.leviRepSL s).IsIrreducible :=
+  have : Fact (hd.leviRepSL s).IsIrreducible :=
     ⟨hd.isIrreducible_leviRepSL hf s⟩
   have hnt := hd.exists_leviRepSL_ne_one hf s
   have hW : Nat.card W = 2 ^ (8 * f) := hd.card_secRep s
@@ -372,9 +382,9 @@ theorem D4qVertexOneData.mem_B1_leviRep (hf : 2 ≤ f) (hd : D4qVertexOneData Q 
     (s : CFSG.Quasithin.H13.NFa2.SecRep (K ⊔ H) Z Q W) :
     ∀ φ : ↥K → W, φ ∈ Z1 (leviRep le_sup_left s) → φ ∈ B1 (leviRep le_sup_left s) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype (GaloisField 2 (3 * f)) := Fintype.ofFinite _
-  haveI : Fact (hd.leviRepSL s).IsIrreducible :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype (GaloisField 2 (3 * f)) := Fintype.ofFinite _
+  have : Fact (hd.leviRepSL s).IsIrreducible :=
     ⟨hd.isIrreducible_leviRepSL hf s⟩
   have hnt := hd.exists_leviRepSL_ne_one hf s
   have hF : Fintype.card (GaloisField 2 (3 * f)) = 2 ^ (3 * f) := by
@@ -383,9 +393,9 @@ theorem D4qVertexOneData.mem_B1_leviRep (hf : 2 ≤ f) (hd : D4qVertexOneData Q 
   have hW : Nat.card W = 2 ^ (8 * f) := hd.card_secRep s
   obtain ⟨K', hK'field, hK'fin, hK'alg, hK'card, σ, β, hβ⟩ :=
     exists_kForm_model hf hF (hd.leviRepSL s) hnt hW
-  letI : Field K' := hK'field
-  letI : Fintype K' := hK'fin
-  letI : Algebra K' (GaloisField 2 (3 * f)) := hK'alg
+  let : Field K' := hK'field
+  let : Fintype K' := hK'fin
+  let : Algebra K' (GaloisField 2 (3 * f)) := hK'alg
   let τ : GaloisField 2 (3 * f) →ₐ[K'] GaloisField 2 (3 * f) :=
     FiniteField.frobeniusAlgHom K' (GaloisField 2 (3 * f))
   have hτ : ∀ a, τ a = a ^ 2 ^ f := by
@@ -420,9 +430,9 @@ theorem D4qVertexOneData.exists_invariant_form (hf : 2 ≤ f) (hd : D4qVertexOne
       (∀ k x y, B (leviRep le_sup_left s k x) (leviRep le_sup_left s k y) = B x y) ∧
       ∀ x, (∀ y, B x y = 0) → x = 0 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype (GaloisField 2 (3 * f)) := Fintype.ofFinite _
-  haveI : Fact (hd.leviRepSL s).IsIrreducible :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype (GaloisField 2 (3 * f)) := Fintype.ofFinite _
+  have : Fact (hd.leviRepSL s).IsIrreducible :=
     ⟨hd.isIrreducible_leviRepSL hf s⟩
   have hnt := hd.exists_leviRepSL_ne_one hf s
   have hF : Fintype.card (GaloisField 2 (3 * f)) = 2 ^ (3 * f) := by
@@ -431,9 +441,9 @@ theorem D4qVertexOneData.exists_invariant_form (hf : 2 ≤ f) (hd : D4qVertexOne
   have hW : Nat.card W = 2 ^ (8 * f) := hd.card_secRep s
   let ρD : Representation (ZMod 2) (SL(2, GaloisField 2 (3 * f)))
       (Module.Dual (ZMod 2) W) := (hd.leviRepSL s).dual
-  haveI : Fact ρD.IsIrreducible :=
+  have : Fact ρD.IsIrreducible :=
     ⟨CFSG.LocalAnalysis.GorensteinLyons.SteinbergBQ.isIrreducible_dual _ Fact.out⟩
-  haveI : Finite (Module.Dual (ZMod 2) W) := Module.finite_of_finite (ZMod 2)
+  have : Finite (Module.Dual (ZMod 2) W) := Module.finite_of_finite (ZMod 2)
   have hWdual : Nat.card (Module.Dual (ZMod 2) W) = 2 ^ (8 * f) := by
     rw [natCard_dual_eq, hW]
   have hntD : ∃ g, ρD g ≠ 1 := by
@@ -491,10 +501,10 @@ theorem D4qVertexOneData.crossedHomPrincipal (hf : 2 ≤ f)
     CrossedHomPrincipal Q Z (K ⊔ H) Z' R' e := by
   classical
   obtain ⟨W, hWadd, hWmod, hWfin, ⟨s⟩⟩ := exists_secRep hd.secHyp
-  letI : AddCommGroup W := hWadd
-  letI : Module (ZMod 2) W := hWmod
-  letI : Finite W := hWfin
-  haveI : Fact (leviRep le_sup_left s).IsIrreducible := ⟨hd.isIrreducible_leviRep hf s⟩
+  let : AddCommGroup W := hWadd
+  let : Module (ZMod 2) W := hWmod
+  let : Finite W := hWfin
+  have : Fact (leviRep le_sup_left s).IsIrreducible := ⟨hd.isIrreducible_leviRep hf s⟩
   obtain ⟨B, hB, hBnd⟩ := hd.exists_invariant_form hf s
   exact crossedHomPrincipal_of_secRep e hd.le_normalizer hd.conj_mem_center hR'Z' hZ'c hZ'2
     le_sup_left hd.conj_mem_levi hKZ' (secRepRestrict le_sup_left s) (leviRep le_sup_left s)

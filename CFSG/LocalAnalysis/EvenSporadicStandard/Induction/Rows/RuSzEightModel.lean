@@ -98,7 +98,7 @@ theorem centralizer_involution (hF : Nat.card F = 2 ^ (2 * 1 + 1)) {z : suzukiGr
     (CFSG.RankThree.Suzuki_involution_centralizers_and_inner_odd_centralizers (a := 1)
       (K := F) le_rfl hF).1 z hz
   rw [hCP]
-  exact ⟨P.isPGroup', sylow_not_commutative hF P⟩
+  exact ⟨P.isPGroup, sylow_not_commutative hF P⟩
 
 end Suzuki
 

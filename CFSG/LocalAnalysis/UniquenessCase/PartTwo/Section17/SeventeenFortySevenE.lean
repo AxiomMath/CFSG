@@ -182,6 +182,7 @@ theorem mem_centOverO2_conj {D : Data G} {L : Subgroup G}
       (m * y * m⁻¹) * l * (m * y * m⁻¹)⁻¹ * l⁻¹ := by group
   rwa [h3] at h2
 
+omit [Finite G] in
 theorem mem_pCoreOf_of_centralizesBar {L : Subgroup G} {x : G} (hxL : x ∈ L)
     (hcent : ∀ l ∈ L, x * l * x⁻¹ * l⁻¹ ∈ pCoreOf 2 L)
     (hZ : Subgroup.center (Bar2 L) = ⊥) : x ∈ pCoreOf 2 L := by
@@ -372,9 +373,9 @@ theorem s17_47_caseC_elements
     have h := s17_47_caseC_cartan_rank (D := D) (V₀ := V₀) (V := V) (L := L) (X := X)
       (n := n) (l := l) (C := C) (Dc := Dc) (Gamma := Gamma) ctx hL3 hK17 h3dvd
     by_cases hZ : 3 ∣ Nat.card (Subgroup.center (Bar2 L))
-    · rw [if_pos hZ] at h
+    · rw [ite_eq_left hZ] at h
       omega
-    · rw [if_neg hZ] at h
+    · rw [ite_eq_right hZ] at h
       omega
   have hCent1 : 1 ≤ CFSG.Open.pRank 3 (F08.CentOverO2 D.M L) := by
     have : Finite (MulAut (Bar2 L)) :=
@@ -559,7 +560,7 @@ theorem s17_47_cartan_cent_caseC
     have hC2 : 2 ≤ CFSG.Open.pRank 3 C := by
       have h := s17_47_caseC_cartan_rank (D := D) (V₀ := V₀) (V := V) (L := L) (X := X)
         (n := n) (l := l) (C := C) (Dc := Dc) (Gamma := Gamma) ctx hL3 hK17 h3dvd
-      rw [if_pos hZ3] at h
+      rw [ite_eq_left hZ3] at h
       exact h
     let S : Subgroup G := D.T ⊓ L
     let B : Subgroup G := L ⊓ Subgroup.normalizer (S : Set G)
@@ -607,7 +608,7 @@ theorem s17_47_cartan_cent_caseC
       rcases (Nat.dvd_prime Nat.prime_three).mp hKZ with h1 | h3
       · exact h1
       · exfalso
-        exact hZ3 (by simpa [h3] using (dvd_refl 3))
+        exact hZ3 (by simp [h3])
     have hZbot : Subgroup.center (Bar2 L) = ⊥ := Subgroup.card_eq_one.mp hZcard
     let Y : Subgroup G := D.M ⊓ Subgroup.centralizer (E : Set G)
     let P : Subgroup G := pCoreOf 2 L
@@ -799,15 +800,15 @@ theorem s17_47_cartan_cent_caseB
     by_cases h3 : CFSG.LocalAnalysis.RankThreeUC.S15.eP (2 ^ n) p ≤ 3
     · have h23 : CFSG.LocalAnalysis.RankThreeUC.S15.eP (2 ^ n) p = 2 ∨
           CFSG.LocalAnalysis.RankThreeUC.S15.eP (2 ^ n) p = 3 := by omega
-      rcases h23 with h | h <;> rw [h] <;> norm_num
+      rcases h23 with h | h <;> rw [h]
     · push Not at h3
       rw [Nat.div_eq_of_lt h3]
       omega
   have hrk : CFSG.LocalAnalysis.RankThreeUC.S15.rkLin 3 true (2 ^ n) p
       (Nat.card (Subgroup.center K')) ≤ 1 := by
     rw [CFSG.LocalAnalysis.RankThreeUC.S15.rkLin]
-    simp only [if_true]
-    rw [if_neg heP_ne]
+    simp only [ite_true]
+    rw [ite_eq_right heP_ne]
     exact hdiv
   have himg : CFSG.Open.pRank p (⊤ : Subgroup
       (Bar2 L ⧸ Subgroup.center (Bar2 L))) ≤ 1 := by

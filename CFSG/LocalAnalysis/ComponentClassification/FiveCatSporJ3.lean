@@ -34,7 +34,7 @@ theorem fiveSpor_J3 :
     have hrep : r.rep = j3CentTbl 9 := by rw [hr]
     rw [hrep] at E
     have hC : Nat.card (fixedSubgroup σ) = 60 * 2 ^ 5 := by
-      rw [hcardC, hr] <;> decide
+      rw [hcardC, hr]; decide
     exact false_of_five_witness_of_equiv h.2.1 h.2.2.1 eP' hC E hx hy hx5 hxy
   ·
     subst hr

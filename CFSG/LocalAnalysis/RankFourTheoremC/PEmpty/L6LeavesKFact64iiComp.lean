@@ -185,8 +185,8 @@ theorem not_isCyclic_sylow : ¬ IsCyclic (S : Subgroup Z) := by
   intro hcyc
   have hp := h.prime
   have hBS := h.plane_le
-  haveI : IsCyclic ↥((zpowers x ⊔ zpowers z).subgroupOf (S : Subgroup Z)) := inferInstance
-  haveI : IsCyclic ↥(zpowers x ⊔ zpowers z) :=
+  have : IsCyclic ↥((zpowers x ⊔ zpowers z).subgroupOf (S : Subgroup Z)) := inferInstance
+  have : IsCyclic ↥(zpowers x ⊔ zpowers z) :=
     isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hBS).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hBS).surjective
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥(zpowers x ⊔ zpowers z))
@@ -200,14 +200,14 @@ theorem not_isCyclic_sylow : ¬ IsCyclic (S : Subgroup Z) := by
 
 theorem exists_sylow_component {K : Subgroup Z} (hK : IsComponentOf K ⊤) :
     ∃ P : Sylow p ↥K, (P : Subgroup ↥K).map K.subtype = (S : Subgroup Z) ⊓ K := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   exact CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal S
     (CFSG.Open.IsSubnormal.top_iff.1 hK.2.1)
 
 theorem abelian_sylow_component {K : Subgroup Z} (hK : IsComponentOf K ⊤) (P : Sylow p ↥K)
     (hP : (P : Subgroup ↥K).map K.subtype = (S : Subgroup Z) ⊓ K) :
     ∀ a ∈ (P : Subgroup ↥K), ∀ b ∈ (P : Subgroup ↥K), a * b = b * a := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   by_contra hcon
   push Not at hcon
   obtain ⟨a, ha, b, hb, hab⟩ := hcon
@@ -221,23 +221,23 @@ theorem abelian_sylow_component {K : Subgroup Z} (hK : IsComponentOf K ⊤) (P :
       ((P : Subgroup ↥K).equivMapOfInjective K.subtype K.subtype_injective).symm hmeta1
   obtain ⟨N, hN, hNtop, hNp⟩ :=
     CFSG.Walter.huppertMetacyclicTheorem ↥K p h.ne_two P hnab hmeta
-  haveI : N.Normal := hN
-  haveI : Group.IsPerfect ↥K := ⟨hK.2.2.1⟩
-  haveI : Nontrivial (↥K ⧸ N) := by
+  have : N.Normal := hN
+  have : Group.IsPerfect ↥K := ⟨hK.2.2.1⟩
+  have : Nontrivial (↥K ⧸ N) := by
     rw [← not_subsingleton_iff_nontrivial]
     intro hs
     exact hNtop ((QuotientGroup.subsingleton_iff (N := N)).1 hs)
-  haveI : Fact (IsPGroup p (↥K ⧸ N)) := ⟨hNp⟩
+  have : Fact (IsPGroup p (↥K ⧸ N)) := ⟨hNp⟩
   exact Group.IsPerfect.not_isNilpotent (↥K ⧸ N) hNp.isNilpotent
 
 theorem center_component_eq_bot {K : Subgroup Z} (hK : IsComponentOf K ⊤) :
     Subgroup.center ↥K = ⊥ := by
   by_contra hne
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card (center ↥K) ≠ 1 := fun h1 => hne (Subgroup.card_eq_one.mp h1)
   obtain ⟨q, hq, hqd⟩ := Nat.exists_prime_and_dvd hcard
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' (G := center ↥K) q hqd
   set cK : ↥K := (c : ↥K) with hcK
   have hcc : ∀ g : ↥K, g * cK = cK * g := fun g => Subgroup.mem_center_iff.mp c.2 g
@@ -254,7 +254,7 @@ theorem center_component_eq_bot {K : Subgroup Z} (hK : IsComponentOf K ⊤) :
     have hcomm' : cK ∈ commutator ↥K := by
       rw [hK.2.2.1]
       exact mem_top _
-    have h1 : cK = 1 := L6LeavesNS.transfer_center_commutator P.isPGroup' P.not_dvd_index
+    have h1 : cK = 1 := L6LeavesNS.transfer_center_commutator P.isPGroup P.not_dvd_index
       (h.abelian_sylow_component hK P hP) hcP c.2 hcomm'
     rw [h1, orderOf_one] at hcord
     exact hq.one_lt.ne hcord
@@ -289,7 +289,7 @@ theorem pRank_sylow_component_le_one (hI121 : KFact64iiI121) {K : Subgroup Z}
   by_contra hrk
   push Not at hrk
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have habel := h.abelian_sylow_component hK P hP
   obtain ⟨hs1, hs2⟩ := h.isSimpleGroup_component hK
   have hcat := h.isCatalog_component hK
@@ -352,7 +352,7 @@ theorem isCyclic_sylow_component (hI121 : KFact64iiI121) {K : Subgroup Z}
     (hK : IsComponentOf K ⊤) (P : Sylow p ↥K)
     (hP : (P : Subgroup ↥K).map K.subtype = (S : Subgroup Z) ⊓ K) :
     IsCyclic ↥(P : Subgroup ↥K) :=
-  P64Asm.isCyclic_of_pRank_le_one h.prime h.ne_two P.isPGroup'
+  P64Asm.isCyclic_of_pRank_le_one h.prime h.ne_two P.isPGroup
     (h.pRank_sylow_component_le_one hI121 hK P hP)
 
 theorem pRank_component_le_one (hI121 : KFact64iiI121) {K : Subgroup Z}

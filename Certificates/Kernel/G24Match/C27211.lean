@@ -52,9 +52,9 @@ theorem f_spec {i v : Nat} (h : f27211 i v = true) :
   unfold f27211 at h
   simp only [m11_bIf_eq, m11_strictB_eq, Nat.blt_eq] at h
   refine ⟨fun h1 h2 => ?_, fun h1 => ?_⟩
-  · rw [if_neg (by omega), if_pos h2] at h
+  · rw [ite_eq_right (by omega), ite_eq_left h2] at h
     exact Nat.eq_of_beq_eq_true h
-  · rw [if_neg (by omega), if_neg (by omega)] at h
+  · rw [ite_eq_right (by omega), ite_eq_right (by omega)] at h
     exact Nat.eq_of_beq_eq_true h
 
 theorem pg_val {j k : Nat} (hj : j < 16) (hk : k < 1365) :
@@ -95,7 +95,7 @@ theorem take5 (M : List Nat) (h : 5 ≤ M.length) :
 theorem extract5 (a : Nat) (h : a + 6 ≤ L.length) :
     (tbl.extract (a + 1) (a + 6)).toList =
       [L.getD (a + 1) 0, L.getD (a + 2) 0, L.getD (a + 3) 0, L.getD (a + 4) 0, L.getD (a + 5) 0] := by
-  rw [tbl_eq', List.extract_toArray, List.toList_toArray, List.extract_eq_drop_take,
+  rw [tbl_eq', List.extract_toArray, List.toList_toArray, List.extract_eq_take_drop,
     show a + 6 - (a + 1) = 5 by omega, take5 _ (by simp; omega)]
   simp [List.getD_eq_getElem?_getD, List.getElem?_drop, Nat.add_comm, Nat.add_left_comm]
 

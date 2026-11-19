@@ -114,7 +114,7 @@ theorem etaLin_range_le_rootSubgroup_sup {i : Fin r} {a b : Fin r ⊕ Fin r}
     exact Subgroup.mem_sup_right hmem
   · exact absurd rfl hpq
 
-theorem rootSubgroup_sup_eq_etaLin_range (hr : 2 ≤ r) (i : Fin r) {a b : Fin r ⊕ Fin r}
+theorem rootSubgroup_sup_eq_etaLin_range (_hr : 2 ≤ r) (i : Fin r) {a b : Fin r ⊕ Fin r}
     (hab : coordIdx a ≠ coordIdx b)
     (h1 : ∀ t : K, rootElt r K (simpleRoot r i) t = rpElt a b t)
     (h2 : ∀ t : K, rootElt r K (-simpleRoot r i) t = rpElt b a t) :
@@ -138,14 +138,14 @@ theorem isPerfect_rootSubgroup_sup_simpleRoot (hr : 2 ≤ r) (i : Fin r) [CharP 
   have hα : simpleRoot r i ∈ roots r := posRoots_subset_roots (simpleRoot_mem_posRoots hr i)
   obtain ⟨a, b, hab, -, h1, h2⟩ := exists_rootElt_eq_rpElt (K := K) hα
   rw [rootSubgroup_sup_eq_etaLin_range hr i hab h1 h2]
-  haveI : Group.IsPerfect (SpecialLinearGroup (Fin 2) K) :=
+  have : Group.IsPerfect (SpecialLinearGroup (Fin 2) K) :=
     CFSG.LinearGroups.special_linear_dimension_two_perfect h4
   exact Group.IsPerfect.range (etaLin hab)
 
 theorem isSolvable_sl2_F2 [Finite K] (hK : Nat.card K = 2) :
     Group.IsSolvable (SpecialLinearGroup (Fin 2) K) := by
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype (SpecialLinearGroup (Fin 2) K) := Fintype.ofFinite _
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype (SpecialLinearGroup (Fin 2) K) := Fintype.ofFinite _
   have hcard : Fintype.card (SpecialLinearGroup (Fin 2) K) = 2 ^ 1 * 3 ^ 1 := by
     rw [← Nat.card_eq_fintype_card, CFSG.SL2MinimalFaithful.card_specialLinearGroup_fin_two, hK]
     norm_num
@@ -155,7 +155,7 @@ theorem isSolvable_sl2_F2 [Finite K] (hK : Nat.card K = 2) :
 theorem isSolvable_etaLin_range_F2 [Finite K] (hK : Nat.card K = 2)
     {a b : Fin r ⊕ Fin r} (hab : coordIdx a ≠ coordIdx b) :
     Group.IsSolvable ↥(etaLin (k := K) hab).range := by
-  haveI : Group.IsSolvable (SpecialLinearGroup (Fin 2) K) := isSolvable_sl2_F2 hK
+  have : Group.IsSolvable (SpecialLinearGroup (Fin 2) K) := isSolvable_sl2_F2 hK
   exact Group.isSolvable_of_surjective (f := (etaLin (k := K) hab).rangeRestrict)
     (etaLin (k := K) hab).rangeRestrict_surjective
 
@@ -557,7 +557,7 @@ theorem rankOneParabolic_eq_rankOneA_sup_torus (hr : 2 ≤ r) (i : Fin r) :
 
 theorem hinf_rankOneParabolic_le_rankOneA (hr : 2 ≤ r) (i : Fin r) :
     Hinf (rankOneParabolic K r i) ≤ rankOneA K r i := by
-  haveI : IsMulCommutative ↥(torus r K) := isMulCommutative_torus (K := K) (r := r)
+  have : IsMulCommutative ↥(torus r K) := isMulCommutative_torus (K := K) (r := r)
   rw [Hinf, CFSG.inSubgroup, ← CFSG.Quasithin.perfectCore_eq_map_perfectResidual]
   exact CFSG.Quasithin.perfectCore_le_of_sup_solvable
     (rankOneA_le_rankOneParabolic (K := K) (r := r) hr i)
@@ -579,14 +579,14 @@ theorem rankOneRootSup_equiv_sl2 (hr : 2 ≤ r) (i : Fin r) :
 theorem unipotentExcept_inf_rankOneRootSup_eq_bot (hr : 2 ≤ r) (i : Fin r) [Finite K]
     [CharP K 2] (h4 : ∃ s : Finset K, s.card = 4) :
     unipotentExcept r K i ⊓ rankOneRootSup K r i = ⊥ := by
-  haveI : Finite ((Fin r ⊕ Fin r → K) ≃ₗ[K] (Fin r ⊕ Fin r → K)) :=
+  have : Finite ((Fin r ⊕ Fin r → K) ≃ₗ[K] (Fin r ⊕ Fin r → K)) :=
     Finite.of_injective
       (fun e : (Fin r ⊕ Fin r → K) ≃ₗ[K] (Fin r ⊕ Fin r → K) =>
         (e : (Fin r ⊕ Fin r → K) → (Fin r ⊕ Fin r → K)))
       (fun e₁ e₂ h => LinearEquiv.ext (fun x => congrFun h x))
   obtain ⟨e⟩ := rankOneRootSup_equiv_sl2 (K := K) hr i
-  haveI : IsSimpleGroup (SpecialLinearGroup (Fin 2) K) := sl2_isSimple (K := K) h4
-  haveI : IsSimpleGroup ↥(rankOneRootSup K r i) := e.isSimpleGroup
+  have : IsSimpleGroup (SpecialLinearGroup (Fin 2) K) := sl2_isSimple (K := K) h4
+  have : IsSimpleGroup ↥(rankOneRootSup K r i) := e.isSimpleGroup
   have hnorm : ((unipotentExcept r K i).subgroupOf (rankOneRootSup K r i)).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer_inf]
     intro x hx
@@ -594,7 +594,7 @@ theorem unipotentExcept_inf_rankOneRootSup_eq_bot (hr : 2 ≤ r) (i : Fin r) [Fi
       ⟨rankOneParabolic_le_normalizer_unipotentExcept (K := K) (r := r) hr i
           (rankOneRootSup_le_rankOneParabolic (K := K) (r := r) hr i hx),
         Subgroup.le_normalizer hx⟩
-  haveI := hnorm
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     ((unipotentExcept r K i).subgroupOf (rankOneRootSup K r i)) with hbot | htop
   · refine le_bot_iff.mp ?_
@@ -611,12 +611,12 @@ theorem unipotentExcept_inf_rankOneRootSup_eq_bot (hr : 2 ≤ r) (i : Fin r) [Fi
         rw [htop]
         exact Subgroup.mem_top _
       exact hmem
-    haveI : IsPGroup 2 ↥(rankOneRootSup K r i) :=
+    have : IsPGroup 2 ↥(rankOneRootSup K r i) :=
       (isPGroup_unipotentExcept (K := K) (r := r) i).of_injective
         (Subgroup.inclusion hSleU) (Subgroup.inclusion_injective _)
-    haveI : Group.IsNilpotent ↥(rankOneRootSup K r i) :=
+    have : Group.IsNilpotent ↥(rankOneRootSup K r i) :=
       IsPGroup.isNilpotent (G := ↥(rankOneRootSup K r i)) (p := 2) ‹_›
-    haveI : Group.IsPerfect ↥(rankOneRootSup K r i) :=
+    have : Group.IsPerfect ↥(rankOneRootSup K r i) :=
       isPerfect_rootSubgroup_sup_simpleRoot (K := K) hr i h4
     exact (Group.IsPerfect.not_isNilpotent ↥(rankOneRootSup K r i)) inferInstance
 
@@ -656,7 +656,7 @@ theorem rankOneA_quotient_unipotentExcept_equiv_sl2 (hr : 2 ≤ r) (i : Fin r) [
     unipotentExcept_normal_in_rankOneA (K := K) (r := r) hr i
   let UA : Subgroup ↥(rankOneA K r i) :=
     (unipotentExcept r K i).subgroupOf (rankOneA K r i)
-  haveI : UA.Normal := hUA
+  have : UA.Normal := hUA
   have hSU := rankOneA_coe_eq_mul_rankOneRootSup_unipotentExcept (K := K) (r := r) hr i
   let φ : ↥(rankOneRootSup K r i) →* (↥(rankOneA K r i) ⧸ UA) :=
     (QuotientGroup.mk' UA).comp
@@ -704,7 +704,7 @@ theorem exists_sl2Surjection_rankOneParabolic (hr : 2 ≤ r) (i : Fin r) [Finite
       Function.Surjective f ∧ IsPGroup 2 f.ker := by
   let UA : Subgroup ↥(rankOneA K r i) :=
     (unipotentExcept r K i).subgroupOf (rankOneA K r i)
-  haveI : UA.Normal := unipotentExcept_normal_in_rankOneA (K := K) (r := r) hr i
+  have : UA.Normal := unipotentExcept_normal_in_rankOneA (K := K) (r := r) hr i
   obtain ⟨eA⟩ := rankOneA_quotient_unipotentExcept_equiv_sl2 (K := K) (r := r) hr i h4
   have hHA : Hinf (rankOneParabolic K r i) ≤ rankOneA K r i :=
     hinf_rankOneParabolic_le_rankOneA (K := K) (r := r) hr i
@@ -768,7 +768,7 @@ theorem exists_sl2Surjection_rankOneParabolic (hr : 2 ≤ r) (i : Fin r) [Finite
 
 theorem torus_eq_bot_of_card_two [Finite K] (hK : Nat.card K = 2) :
     torus r K = ⊥ := by
-  haveI : Subsingleton Kˣ := by
+  have : Subsingleton Kˣ := by
     rw [← Finite.card_le_one_iff_subsingleton, Nat.card_units, hK]
   have hrange : (torusElt r K).range = ⊥ := by
     refine le_antisymm ?_ bot_le
@@ -800,14 +800,14 @@ theorem rankOneParabolic_eq_rankOneA_sup_zpowers (hr : 2 ≤ r) (i : Fin r) [Fin
 
 theorem isSolvable_rankOneA_F2 (hr : 2 ≤ r) (i : Fin r) [Finite K] [CharP K 2]
     (hK : Nat.card K = 2) : Group.IsSolvable ↥(rankOneA K r i) := by
-  haveI : Finite ((Fin r ⊕ Fin r → K) ≃ₗ[K] (Fin r ⊕ Fin r → K)) :=
+  have : Finite ((Fin r ⊕ Fin r → K) ≃ₗ[K] (Fin r ⊕ Fin r → K)) :=
     Finite.of_injective
       (fun e : (Fin r ⊕ Fin r → K) ≃ₗ[K] (Fin r ⊕ Fin r → K) =>
         (e : (Fin r ⊕ Fin r → K) → (Fin r ⊕ Fin r → K)))
       (fun e₁ e₂ h => LinearEquiv.ext (fun x => congrFun h x))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsSolvable ↥(unipotentExcept r K i) := by
-    haveI : Group.IsNilpotent ↥(unipotentExcept r K i) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsSolvable ↥(unipotentExcept r K i) := by
+    have : Group.IsNilpotent ↥(unipotentExcept r K i) :=
       (isPGroup_unipotentExcept (K := K) (r := r) i).isNilpotent
     infer_instance
   have hUA : ((unipotentExcept r K i).subgroupOf (rankOneA K r i)).Normal := by
@@ -817,13 +817,13 @@ theorem isSolvable_rankOneA_F2 (hr : 2 ≤ r) (i : Fin r) [Finite K] [CharP K 2]
       (unipotentExcept_le_rankOneParabolic (K := K) (r := r) i)).mp
       (unipotentExcept_normal_in_rankOneParabolic (K := K) (r := r) hr i) h k hh
       (rankOneA_le_rankOneParabolic (K := K) (r := r) hr i hk)
-  haveI : ((unipotentExcept r K i).subgroupOf (rankOneA K r i)).Normal := hUA
-  haveI : Group.IsSolvable ↥((unipotentExcept r K i).subgroupOf (rankOneA K r i)) := by
+  have : ((unipotentExcept r K i).subgroupOf (rankOneA K r i)).Normal := hUA
+  have : Group.IsSolvable ↥((unipotentExcept r K i).subgroupOf (rankOneA K r i)) := by
     let e := Subgroup.subgroupOfEquivOfLe (unipotentExcept_le_rankOneA (K := K) (r := r) i)
     exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) (fun x => ⟨e x, by simp⟩)
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       (↥(rankOneA K r i) ⧸ ((unipotentExcept r K i).subgroupOf (rankOneA K r i))) := by
-    haveI : Group.IsSolvable ↥(rankOneRootSup K r i) :=
+    have : Group.IsSolvable ↥(rankOneRootSup K r i) :=
       isSolvable_rankOneRootSup_F2 (K := K) (r := r) hr i hK
     have hL : unipotentExcept r K i ⊔ rankOneRootSup K r i = rankOneA K r i := by
       rw [sup_comm]
@@ -875,15 +875,15 @@ theorem isSolvable_rankOneParabolic_F2 (hr : 2 ≤ r) (i : Fin r) [Finite K] [Ch
     (hK : Nat.card K = 2) : Group.IsSolvable ↥(rankOneParabolic K r i) := by
   have hRA : ((rankOneA K r i).subgroupOf (rankOneParabolic K r i)).Normal :=
     rankOneA_normal_in_rankOneParabolic (K := K) (r := r) hr i
-  haveI : ((rankOneA K r i).subgroupOf (rankOneParabolic K r i)).Normal := hRA
-  haveI : Group.IsSolvable ↥(rankOneA K r i) :=
+  have : ((rankOneA K r i).subgroupOf (rankOneParabolic K r i)).Normal := hRA
+  have : Group.IsSolvable ↥(rankOneA K r i) :=
     isSolvable_rankOneA_F2 (K := K) (r := r) hr i hK
-  haveI : Group.IsSolvable ↥((rankOneA K r i).subgroupOf (rankOneParabolic K r i)) := by
+  have : Group.IsSolvable ↥((rankOneA K r i).subgroupOf (rankOneParabolic K r i)) := by
     let e := Subgroup.subgroupOfEquivOfLe (rankOneA_le_rankOneParabolic (K := K) (r := r) hr i)
     exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) (fun x => ⟨e x, by simp⟩)
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       (↥(rankOneParabolic K r i) ⧸ ((rankOneA K r i).subgroupOf (rankOneParabolic K r i))) := by
-    haveI : Group.IsSolvable ↥(Subgroup.zpowers (weylElt r K i)) := inferInstance
+    have : Group.IsSolvable ↥(Subgroup.zpowers (weylElt r K i)) := inferInstance
     have hL : rankOneA K r i ⊔ Subgroup.zpowers (weylElt r K i) = rankOneParabolic K r i :=
       (rankOneParabolic_eq_rankOneA_sup_zpowers (K := K) (r := r) hr i hK).symm
     let f : ↥(Subgroup.zpowers (weylElt r K i)) →*
@@ -941,9 +941,9 @@ theorem isL2_rankOneParabolic_split_of_surjection [Finite K]
     IsL2 (Bar2 (Hinf (Subgroup.closure
       (((borel r K : Set ((Fin r ⊕ Fin r → K) ≃ₗ[K] (Fin r ⊕ Fin r → K)))) ∪
         {weylElt r K i})))) n := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
   have hK4 : ∃ s : Finset K, s.card = 4 := by
     refine exists_finset_card_four ?_
@@ -952,7 +952,7 @@ theorem isL2_rankOneParabolic_split_of_surjection [Finite K]
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
   have hnab : ∃ a b : SpecialLinearGroup (Fin 2) K, a * b ≠ b * a :=
     sl2_nonabelian (K := K) hK4
-  haveI : IsSimpleGroup (SpecialLinearGroup (Fin 2) K) := sl2_isSimple (K := K) hK4
+  have : IsSimpleGroup (SpecialLinearGroup (Fin 2) K) := sl2_isSimple (K := K) hK4
   have hmodel : LieModel (StatedProj (StatedSL 2 K)) .PSL 2 2 n :=
     CFSG.Models.LieModel.toBlueprint (by decide)
       (CFSG.RankThree.GF2n.Stroth80.lieModel_statedProj_sl (K := K) (m := 2) (f := n)

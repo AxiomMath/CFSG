@@ -42,7 +42,7 @@ theorem rckTwoD_pair_of_canonicalData
   have hk : k.val + 1 < n - 1 := by have := P.rank_four_le; dsimp [k, n]; omega
   have hct := minusDatum_isCTGroupDatum n (minusCoeffs_irr 2 h) P.rank_four_le
   have hirr : IsIrreducible M.D.cartan :=
-    isIrreducible_cartanB (by change 0 < n - 1; have := P.rank_four_le; omega)
+    isIrreducible_cartanB (by have := P.rank_four_le; omega)
   have hdiv : M.D.divisible = ∅ := rfl
   have hratio : ∀ j ∈ M.D.divisible, ∀ l,
       symmetrizer M.D.isFiniteType l < 4 * symmetrizer M.D.isFiniteType j := by
@@ -65,7 +65,7 @@ theorem rckTwoD_pair_of_canonicalData
   obtain ⟨u, hu, hu'⟩ := exists_map_conj_rankOne_of_isLongest hct hirr hratio hlong0 hlongβ
   obtain ⟨z, hzad, hstab, hstab', hfix, hfix'⟩ :=
     rckPair_assemble S σ P.z P.z_mem hzstep M.D.rootGroup P.φ hφmodel hφspan hγ
-      (by simp only [Set.mem_insert_iff, true_or, true_implies])
+      (by simp only [Set.mem_insert_iff, true_or])
       (by simp only [Set.mem_insert_iff, Set.mem_singleton_iff, or_true])
       hX hX' u hu hu'
   exact ⟨γ, hγΨ, z, hzad, hstab, hstab', hfix, hfix'⟩

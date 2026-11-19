@@ -41,7 +41,7 @@ theorem rankNotThree_of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃* Y)
 theorem pRank_ne_three_of_rankNotThree {X : Type} [Group X] [Finite X] (h : RankNotThree X)
     (Q : Sylow 5 X) : CFSG.Open.pRank 5 (Q : Subgroup X) ≠ 3 := by
   intro hQ
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rcases h with h | ⟨E, k, hk, hE, hc⟩
   · obtain ⟨E, -, hE, hc⟩ := CFSG.SectionRank.exists_pRank (by norm_num : 1 < 5) (Q : Subgroup X)
     rw [hQ] at hc
@@ -63,7 +63,7 @@ theorem pRank_ne_three_of_rankNotThree {X : Type} [Group X] [Finite X] (h : Rank
 
 theorem orderOf_five_cases {q : ℕ} (hq : ¬ 5 ∣ q) :
     orderOf (q : ZMod 5) = 1 ∨ orderOf (q : ZMod 5) = 2 ∨ orderOf (q : ZMod 5) = 4 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hq0 : (q : ZMod 5) ≠ 0 := fun h => hq ((ZMod.natCast_eq_zero_iff q 5).1 h)
   have h4 : orderOf (q : ZMod 5) ∣ 4 := ZMod.orderOf_dvd_card_sub_one hq0
   obtain ⟨e, he⟩ : ∃ e, orderOf (q : ZMod 5) = e := ⟨_, rfl⟩

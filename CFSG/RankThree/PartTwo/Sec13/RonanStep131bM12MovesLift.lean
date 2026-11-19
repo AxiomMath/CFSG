@@ -27,7 +27,7 @@ theorem s2lift_holds :
       ∃ ρ : G, ρ'⁻¹ * ρ ∈ Θ ∧ ρ ^ 3 = 1 ∧ ρ ∈ Subgroup.normalizer (E : Set G) := by
   intro G _ _ Θ E ρ' hΘ3 hE3 hEΘ hρΘ hρM hρ3
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set M : Subgroup G := E ⊔ Θ with hM
   have hEM : E ≤ M := le_sup_left
   have hΘM : Θ ≤ M := le_sup_right
@@ -67,7 +67,7 @@ theorem s2lift_holds :
   let P₂ : Sylow 3 M := IsPGroup.toSylow hp₂ (hidx _ hE'cardM)
   have hP₁ : (P₁ : Subgroup M) = E.subgroupOf M := IsPGroup.toSylow_coe _ _
   have hP₂ : (P₂ : Subgroup M) = E'.subgroupOf M := IsPGroup.toSylow_coe _ _
-  haveI : Finite (Sylow 3 M) := Sylow.finite_of_finiteIndex P₁
+  have : Finite (Sylow 3 M) := Sylow.finite_of_finiteIndex P₁
   obtain ⟨m, hm⟩ := MulAction.exists_smul_eq M P₁ P₂
   have hmS : MulAut.conj m • (P₁ : Subgroup M) = (P₂ : Subgroup M) := by
     rw [← Sylow.coe_subgroup_smul, hm]

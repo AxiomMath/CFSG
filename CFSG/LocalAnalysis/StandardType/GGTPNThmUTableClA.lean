@@ -42,34 +42,34 @@ private theorem ggTUClA_dvd_of_ord_eq_one {p n : ℕ} (h : ggMultOrd p n = 1) :
   unfold ggMultOrd at h
   by_cases h1 : p ∣ 2 ^ n - 1
   · exact h1
-  · rw [if_neg h1] at h
-    split_ifs at h <;> omega
+  · rw [ite_eq_right h1] at h
+    split_ifs at h; omega
 
 private theorem ggTUClA_dvd_of_ord_eq_two {p n : ℕ} (h : ggMultOrd p n = 2) :
     p ∣ 2 ^ n + 1 := by
   unfold ggMultOrd at h
   by_cases h1 : p ∣ 2 ^ n - 1
-  · rw [if_pos h1] at h
+  · rw [ite_eq_left h1] at h
     omega
-  · rw [if_neg h1] at h
+  · rw [ite_eq_right h1] at h
     by_cases h2 : p ∣ 2 ^ n + 1
     · exact h2
-    · rw [if_neg h2] at h
+    · rw [ite_eq_right h2] at h
       omega
 
 private theorem ggTUClA_ord_eq_one_or_two {p n : ℕ} (hd : ggMultOrd p n ≠ 0) :
     ggMultOrd p n = 1 ∨ ggMultOrd p n = 2 := by
   by_cases h1 : p ∣ 2 ^ n - 1
   · unfold ggMultOrd
-    rw [if_pos h1]
+    rw [ite_eq_left h1]
     exact Or.inl rfl
   · by_cases h2 : p ∣ 2 ^ n + 1
     · unfold ggMultOrd
-      rw [if_neg h1, if_pos h2]
+      rw [ite_eq_right h1, ite_eq_left h2]
       exact Or.inr rfl
     · exfalso
       unfold ggMultOrd at hd
-      rw [if_neg h1, if_neg h2] at hd
+      rw [ite_eq_right h1, ite_eq_right h2] at hd
       exact hd rfl
 
 private theorem ggTUClA_sum_eq_finset (m : List ℕ) :
@@ -337,7 +337,7 @@ private theorem ggTUClA_trivial_setup {r p n : ℕ} {tw : Bool} {D : GGKacDatum}
   obtain ⟨m, hmlen, hmsum, hQ, hDeq⟩ := (mem_ggMultTableCl_A hd).mp hD
   subst hDeq
   simp only [ggMultDatumA] at hDo hrZ ⊢
-  rw [if_pos htriv] at hDo hrZ
+  rw [ite_eq_left htriv] at hDo hrZ
   dsimp only at hDo hrZ
   obtain ⟨j₀, hS, ho⟩ := List.map_eq_singleton_iff.mp hDo
   have hj₀mem : j₀ ∈ (List.range p).filter (fun j => decide (2 ≤ m.getD j 0)) := by
@@ -501,7 +501,7 @@ private theorem ggTUClA_reflection_setup {r p n : ℕ} {tw : Bool} {D : GGKacDat
   have hp_eq : p = 2 * H + 1 := by
     rw [hH]
     exact (ggTUClA_two_mul_half_add_one hodd).symm
-  rw [if_neg htriv] at hDo hrZ
+  rw [ite_eq_right htriv] at hDo hrZ
   dsimp only at hDo hrZ
   set T := (List.range (H + 1)).filter (fun j => decide (1 ≤ j ∧ 0 < m.getD j 0)) with hT
   set U := (List.range (H + 1)).filter (fun j => decide (1 ≤ j ∧ 2 ≤ m.getD j 0)) with hU
@@ -531,7 +531,7 @@ private theorem ggTUClA_empty_data {r p n : ℕ} {tw : Bool} {m : List ℕ} {H :
     by_contra hlt
     have hnil : ggTUClAOrb0 n tw (m.headD 0) = [] := by
       unfold ggTUClAOrb0
-      rw [if_neg hlt]
+      rw [ite_eq_right hlt]
     rw [hnil] at horb0
     simp at horb0
   have hm0eq : m.headD 0 = r + 1 := by
@@ -550,7 +550,7 @@ private theorem ggTUClA_reflection_empty_A {r p n : ℕ} {tw : Bool} {m : List �
       decide (¬(m.headD 0 - 1 = 1 ∧ n = 1))⟩ := by
     have h' := horb0
     unfold ggTUClAOrb0 at h'
-    rw [if_pos hm0ge, if_pos rfl] at h'
+    rw [ite_eq_left hm0ge, ite_eq_left rfl] at h'
     exact (List.singleton_inj.mp h').symm
   have holab : o.lab = ⟨.A, r, n⟩ := by
     rw [hoA, show m.headD 0 - 1 = r by omega]
@@ -566,7 +566,7 @@ private theorem ggTUClA_reflection_empty_twA {r p n : ℕ} {tw : Bool} {m : List
   have hoA : o = ggMultBlockA (m.headD 0 - 1) n 2 := by
     have h' := horb0
     unfold ggTUClAOrb0 at h'
-    rw [if_pos hm0ge, if_neg (by simp)] at h'
+    rw [ite_eq_left hm0ge, ite_eq_right (by simp)] at h'
     exact (List.singleton_inj.mp h').symm
   by_cases hr1 : r = 1
   · exfalso
@@ -716,7 +716,7 @@ private theorem ggTUClA_reflection_one {r p n : ℕ} {tw : Bool} {m : List ℕ} 
         decide (¬(m.headD 0 - 1 = 1 ∧ n = 1))⟩ := by
       have h' := horb0
       unfold ggTUClAOrb0 at h'
-      rw [if_pos h2m0, if_pos rfl] at h'
+      rw [ite_eq_left h2m0, ite_eq_left rfl] at h'
       exact (List.singleton_inj.mp h').symm
     exact ggTUClA_reflection_one_A hn hd2 hoA hm0eq h2m0 hrk
   · have htw' : tw = true := Bool.of_not_eq_false htw
@@ -727,7 +727,7 @@ private theorem ggTUClA_reflection_one {r p n : ℕ} {tw : Bool} {m : List ℕ} 
     have hoA : o = ggMultBlockA (m.headD 0 - 1) n 2 := by
       have h' := horb0
       unfold ggTUClAOrb0 at h'
-      rw [if_pos h2m0, if_neg (by simp [htw'])] at h'
+      rw [ite_eq_left h2m0, ite_eq_right (by simp [htw'])] at h'
       exact (List.singleton_inj.mp h').symm
     subst htw'
     exact ggTUClA_reflection_one_twA hn hd1 hoA hm0eq h2m0 hrk
@@ -791,7 +791,7 @@ private theorem ggTUClA_reflection_pos_one {r p n : ℕ} {tw : Bool} {m : List �
     by_contra hlt
     have hnil : ggTUClAOrb0 n tw (m.headD 0) = [] := by
       unfold ggTUClAOrb0
-      rw [if_neg hlt]
+      rw [ite_eq_right hlt]
     rw [hnil] at horb0
     simp at horb0
   exact ggTUClA_reflection_one hn ⟨hm0ge, hm0eq, horb0⟩ hd htriv hX hrk
@@ -818,10 +818,10 @@ private theorem ggTUClA_reflection_pos_two {r p n : ℕ} {tw : Bool} {m : List �
       have h2 : 2 ≤ m.headD 0 := by omega
       have hne : ggTUClAOrb0 n tw (m.headD 0) ≠ [] := by
         unfold ggTUClAOrb0
-        rw [if_pos h2]
+        rw [ite_eq_left h2]
         by_cases htw : tw = false
-        · rw [if_pos htw]; simp
-        · rw [if_neg htw]; simp
+        · rw [ite_eq_left htw]; simp
+        · rw [ite_eq_right htw]; simp
       exact hne horb0nil
     have ha2 : 2 ≤ m.getD j₀ 0 := by
       have hmemU : j₀ ∈ U := by rw [hUj]; exact List.mem_singleton_self j₀

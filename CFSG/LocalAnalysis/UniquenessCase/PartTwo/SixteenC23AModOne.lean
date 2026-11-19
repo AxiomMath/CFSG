@@ -33,7 +33,7 @@ private theorem c23a_pow_mem {x : MulAut V} {E : Subgroup V} (hx : ∀ e ∈ E, 
       simpa [MulAut.mul_apply] using hx ((x ^ n) e) (ih e he)
 
 private theorem c23a_pow_apply_eq {x l : MulAut V} {E : Subgroup V}
-    (hx : ∀ e ∈ E, x e ∈ E) (hl : ∀ e ∈ E, l e ∈ E) (h : ∀ e ∈ E, x e = l e) (n : ℕ) :
+    (hx : ∀ e ∈ E, x e ∈ E) (_hl : ∀ e ∈ E, l e ∈ E) (h : ∀ e ∈ E, x e = l e) (n : ℕ) :
     ∀ e ∈ E, (x ^ n) e = (l ^ n) e := by
   induction n with
   | zero => intro e _; simp
@@ -62,7 +62,7 @@ private theorem c23a_commSub_sup (W₁ W₂ : Subgroup V) (X : Subgroup (MulAut 
 private theorem c23a_commSub_zpowers_eq [Finite V] {E : Subgroup V} {x l : MulAut V}
     (hxE : ∀ e ∈ E, x e ∈ E) (hlE : ∀ e ∈ E, l e ∈ E) (h : ∀ e ∈ E, x e = l e) :
     commSub E (Subgroup.zpowers x) = commSub E (Subgroup.zpowers l) := by
-  haveI : Finite (MulAut V) :=
+  have : Finite (MulAut V) :=
     Finite.of_injective (fun f : MulAut V => (f : V → V)) (fun f g h => MulEquiv.ext (congrFun h))
   apply le_antisymm
   · rw [commSub, Subgroup.closure_le]
@@ -133,7 +133,7 @@ private theorem c23a_three_le_rk_commSub_of_swap [Finite V] (hV : ∀ v : V, v ^
     rw [← he, hf]
     exact Subgroup.subset_closure ⟨t, Subgroup.mem_zpowers t, (e : V), Subgroup.mem_top _, rfl⟩
   have hcardE : Nat.card ↥E = 2 ^ 3 * Nat.card ↥Z := c23a_block_card_eq hblk
-  haveI : Nonempty ↥Z := ⟨⟨1, Z.one_mem⟩⟩
+  have : Nonempty ↥Z := ⟨⟨1, Z.one_mem⟩⟩
   have hZpos : 0 < Nat.card ↥Z := Nat.card_pos
   have hchain : 2 ^ 3 * Nat.card ↥Z ≤ Nat.card ↥Z *
       Nat.card ↥(commSub ⊤ (Subgroup.zpowers t)) := by
@@ -154,7 +154,7 @@ theorem c23a_modPair_oneSided [Finite V] {Mb L₁ L₂ : Subgroup (MulAut V)}
       ((∀ y ∈ E₁, t y = y) ∧ commSub ⊤ (Subgroup.zpowers t) ≤ E₂)) ∧
       2 ≤ rk ↥(commSub ⊤ (Subgroup.zpowers t)) := by
   classical
-  haveI : Finite (MulAut V) :=
+  have : Finite (MulAut V) :=
     Finite.of_injective (fun f : MulAut V => (f : V → V)) (fun f g h => MulEquiv.ext (congrFun h))
   rcases h.perm t ht with ⟨hN₁, hN₂, hE₁, hE₂⟩ | ⟨hsw₁, hsw₂⟩
   · obtain ⟨l₁, hl₁, hl₁e⟩ := c23a_normalizer_act h.blk₁ hN₁ hE₁

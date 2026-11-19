@@ -15,7 +15,7 @@ theorem ggL45NtGeoOn_of_normOn :
     (largeEvenLabelAll_and (ggL45NtStructOn_all _ p hp hp2 lab hlab hkg hS)
       (hn p hp hp2 lab hlab hkg hS)).mono
       fun R _ I F ⟨⟨hfin, hI⟩, hg⟩ hs hna => by
-        haveI := hfin
+        have := hfin
         exact ggL45NtGeo_of_normalized hp (hI hs hna) (hg hs hna)
 
 end CFSG.StandardType

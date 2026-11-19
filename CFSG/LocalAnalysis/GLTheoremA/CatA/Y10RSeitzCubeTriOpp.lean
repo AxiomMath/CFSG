@@ -36,6 +36,7 @@ theorem length_le_d4NegOne (w : WeylGroup TwistTag.D4.tag) :
   rw [← heq]
   exact hmax w
 
+omit [Finite K] in
 theorem canonicalRep_d4NegOne_mem (σ : K ≃+* K) :
     canonicalRep (coxeterSystem TwistTag.D4.tag) K CFSG.RankThree.PartOne.Q1327T.d4NegOne ∈
       graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=
@@ -51,6 +52,7 @@ noncomputable def n0Tri (σ : K ≃+* K) :
   (oppRadical TwistTag.D4.tag K (TwistTag.D4.orbitUnion J) ⊓
     graphFixedRootGroup TwistTag.D4 K σ.toRingHom).subgroupOf _
 
+omit [Finite K] in
 theorem oppRadical_inf_graphFixedRootGroup_eq_map_conj (σ : K ≃+* K)
     (J : Set (Fin TwistTag.D4.foldedTag.rank)) :
     oppRadical TwistTag.D4.tag K (TwistTag.D4.orbitUnion J) ⊓
@@ -99,6 +101,7 @@ theorem oppRadical_inf_graphFixedRootGroup_eq_map_conj (σ : K ≃+* K)
       twistedFixedGroup TwistTag.D4 K σ.toRingHom).map (MulAut.conj n).toMonoidHom
   rw [hmapinf, ← hopp]
 
+omit [Finite K] in
 theorem oppTri_eq_map_conj (σ : K ≃+* K) (J : Set (Fin TwistTag.D4.foldedTag.rank)) :
     oppTri σ J = (radTri K σ J).map (MulAut.conj (n0Tri σ)).toMonoidHom := by
   have hle := graphFixedParabolicRadical_le_graphFixedRootGroup (t := TwistTag.D4) K
@@ -109,7 +112,7 @@ theorem oppTri_eq_map_conj (σ : K ≃+* K) (J : Set (Fin TwistTag.D4.foldedTag.
 
 theorem isPGroup_radTri [CharP K 2] (σ : K ≃+* K) (J : Set (Fin TwistTag.D4.foldedTag.rank)) :
     IsPGroup 2 (radTri K σ J) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : IsPGroup 2 (graphFixedParabolicRadical TwistTag.D4 K σ.toRingHom J) :=
     (isPGroup_posUnipotent 2 TwistTag.D4.tag).to_le
       ((inf_le_left : graphFixedParabolicRadical TwistTag.D4 K σ.toRingHom J ≤
@@ -124,6 +127,7 @@ theorem isPGroup_oppTri [CharP K 2] (σ : K ≃+* K) (J : Set (Fin TwistTag.D4.f
   rw [oppTri_eq_map_conj σ J]
   exact (isPGroup_radTri σ J).map _
 
+omit [Finite K] in
 theorem radTri_sup_oppTri (σ : K ≃+* K) (J : Set (Fin TwistTag.D4.foldedTag.rank))
     (hJ : J ≠ Set.univ)
     [IsSimpleGroup ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)] :
@@ -269,11 +273,11 @@ theorem oppTri_map_conj_inv_invariant (σ : K ≃+* K) (J : Set (Fin TwistTag.D4
       rw [hm]
       simp only [SemidirectProduct.mul_left, SemidirectProduct.mul_right,
         SemidirectProduct.left_inl, SemidirectProduct.right_inl, map_one, MulAut.one_apply,
-        map_inv, one_mul]
+        one_mul]
       rw [show (SemidirectProduct.inl y)⁻¹ = SemidirectProduct.inl y⁻¹ by simp,
         SemidirectProduct.left_inl, map_inv]
     rw [hu, hmval]
-    simp only [map_mul, map_inv, MulEquiv.map_mul, MulEquiv.map_inv]
+    simp only [map_mul, map_inv]
     group
   have hle : ((oppTri σ J).map (MulAut.conj (⟨y, hyC⟩ :
         ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom))⁻¹).toMonoidHom).map α.toMonoidHom ≤
@@ -300,8 +304,8 @@ theorem seitzCubeTri_hcore (σ : K ≃+* K) {f : ℕ} (hf : 1 ≤ f)
   classical
   let C : Subgroup (ModGL TwistTag.D4.tag K) := graphFixedRootGroup TwistTag.D4 K σ.toRingHom
   have hK3 : Nat.card K = 2 ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
-  haveI hK2 : CharP K 2 := charP_two_of_card_two_pow hK3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hK2 : CharP K 2 := charP_two_of_card_two_pow hK3
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hfinM : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hNF : UniqueNormalFormOn C := uniqueNormalFormOn_D4 σ hf hK hσ
   have hH : ∀ δ : RingAut K, ∀ h ∈ C, fieldAutHom TwistTag.D4.tag K δ h ∈ C :=
@@ -309,7 +313,7 @@ theorem seitzCubeTri_hcore (σ : K ≃+* K) {f : ℕ} (hf : 1 ≤ f)
   set T := R.map (liftHomOn hNF hH) with hT
   have hTcard : Nat.card T = Nat.card R :=
     Subgroup.card_map_of_injective (liftHomOn_injective hNF hH)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hRodd : Nat.card R % 2 = 1 := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hR
     rw [hk]
@@ -333,7 +337,7 @@ theorem seitzCubeTri_hcore (σ : K ≃+* K) {f : ℕ} (hf : 1 ≤ f)
   have hperf : ⁅C, C⁆ = C :=
     commutator_graphFixedRootGroup_triality_char_two (ringChar.eq K 2) σ
       (fun c => ringEquiv_cube_apply_eq hK hσ c) h4
-  haveI hsimple : IsSimpleGroup ↥C :=
+  have hsimple : IsSimpleGroup ↥C :=
     (isSimpleGroup_graphFixedRootGroup_of_perfect (t := TwistTag.D4) (K := K) (σ := σ) hperf).1
   have hsup : radTri K σ J ⊔ oppTri σ J = ⊤ := radTri_sup_oppTri σ J hJ
   refine ⟨(oppTri σ J).map (MulAut.conj (⟨y, hyC⟩ : ↥C)⁻¹).toMonoidHom, ?_, ?_, ?_⟩

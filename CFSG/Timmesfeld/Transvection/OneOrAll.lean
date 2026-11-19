@@ -96,7 +96,7 @@ variable {H : Type*} [Group H] {Δ : Set (Subgroup H)}
 
 theorem meetsLines (h : TransvectionHyp H Δ) (hq : ∀ A ∈ Δ, 4 ≤ Nat.card A) :
     MeetsLines Δ := by
-  haveI := h.finite
+  have := h.finite
   exact meetsLines_of_four_le h.cls h.points h.rank hq
 
 end TransvectionHyp

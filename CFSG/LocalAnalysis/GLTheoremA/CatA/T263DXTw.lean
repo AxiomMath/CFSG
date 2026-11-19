@@ -16,8 +16,8 @@ open CFSG.ComponentClassification.OuterAutomorphisms (innAutDerived)
 
 private theorem ringChar_eq_two_of_card_eq_pow {K : Type} [Field K] [Finite K] {n : ℕ}
     (hK : Nat.card K = 2 ^ n) : ringChar K = 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n) (by rwa [← Nat.card_eq_fintype_card])
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := n) (by rwa [← Nat.card_eq_fintype_card])
   exact ringChar.eq K 2
 
 
@@ -51,7 +51,7 @@ theorem exists_comp_of_two_twistedE6 {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field 
       P ≤ J ⊔ (fixSubgroup β ⊓ Subgroup.centralizer (J : Set ↥(twistedE6RootGroup K σ))) := by
   have hK2 : ringChar K = 2 := ringChar_eq_two_of_card_eq_pow (n := f * 2)
     (by rw [hK, ← pow_mul])
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
   obtain ⟨h, rfl⟩ := mem_range_twistedE6InndiagConj_of_mem_innAutDerived Nat.prime_two hf hK σ hσ
     hβmem
   have hp1 : h ^ p = 1 := twistedE6InndiagConj_injective Nat.prime_two hf hK σ hσ
@@ -80,7 +80,7 @@ theorem exists_comp_of_two_trialityD4 {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field
         Subgroup.centralizer (J : Set ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom))) := by
   have hK2 : ringChar K = 2 := ringChar_eq_two_of_card_eq_pow (n := f * 3)
     (by rw [hK, ← pow_mul])
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
   have hβinn : β ∈ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) →*
       MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range :=
     sup_le le_rfl (CFSG.HardMathSupport.Dickson.Sec6.I1431.t6outtrid4_commutator_le_range

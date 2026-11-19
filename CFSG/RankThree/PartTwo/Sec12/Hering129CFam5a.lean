@@ -59,7 +59,7 @@ theorem kFCensus46Five_cover_M22 :
   intro Q Lb _ _ _ c a I X f hQ hD
   exfalso
   obtain ⟨s, J, g, hg⟩ := ppair_of_census_ext hD hQ
-  haveI := finite_of_isExtOf hQ
+  have := finite_of_isExtOf hQ
   exact hg.false_of_not_dvd not_twentySeven_dvd_M22
 
 theorem kFCensus46Five_cover_ON :
@@ -68,7 +68,7 @@ theorem kFCensus46Five_cover_ON :
   intro Q Lb _ _ _ c a I X f hQ hD
   exfalso
   obtain ⟨s, J, g, hg⟩ := ppair_of_census_ext hD hQ
-  haveI := finite_of_isExtOf hQ
+  have := finite_of_isExtOf hQ
   obtain ⟨β⟩ := CFSG.Sporadic.Bridge.ON.nonempty_mulEquiv
   exact hg.false_of_abelian_sylow (Sec4.Ronan148S.sylow_three_comm_of_ON β)
 

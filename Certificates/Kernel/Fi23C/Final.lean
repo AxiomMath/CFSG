@@ -97,10 +97,10 @@ theorem treeAct_cTab : ∀ k, ∀ m < 3510,
     · rw [dite_eq_left h, dite_eq_left h]
       by_cases hl : (ap orbL.lab k == 1) = true
       · have hm' : ap orbL.alpha m < 3510 := by rw [ap_alpha]; exact gA_lt hm
-        rw [if_pos hl, if_pos hl, ap_compT _ _ hm, ap_compT _ _ hm', ih _ h.2 _ hm']
+        rw [ite_eq_left hl, ite_eq_left hl, ap_compT _ _ hm, ap_compT _ _ hm', ih _ h.2 _ hm']
       · have hm' : ap (CFSG.Sporadic.Fi22.Native.genTables orbL (-2)) m < 3510 := by
           rw [(bi_get hm).1]; exact (bi_get hm).2
-        rw [if_neg hl, if_neg hl, ap_compT _ _ hm, ap_compT _ _ hm', ih _ h.2 _ hm']
+        rw [ite_eq_right hl, ite_eq_right hl, ap_compT _ _ hm, ap_compT _ _ hm', ih _ h.2 _ hm']
     · rw [dite_eq_right h, dite_eq_right h]
 
 theorem cK_idx {k m : ℕ} (hk : k < 3510) (hm : m < 3510) :

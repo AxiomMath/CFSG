@@ -29,6 +29,7 @@ private theorem factorial_factorization_two_eq_pred (n : ℕ) (h : Odd n) :
 theorem card_subtype_ne : Fintype.card {x // x ≠ α} = Fintype.card Ω - 1 := by
   rw [Fintype.card_subtype_compl (· = α), Fintype.card_subtype_eq]
 
+omit [Fintype Ω] in
 theorem range_ofSubtype_eq_stabilizer :
     (Perm.ofSubtype : Perm {x // x ≠ α} →* Perm Ω).range = MulAction.stabilizer (Perm Ω) α := by
   ext g
@@ -43,11 +44,13 @@ theorem range_ofSubtype_eq_stabilizer :
     rw [hx]
     exact hg
 
+omit [Fintype Ω] in
 theorem map_comap_ofSubtype_eq {K : Subgroup (Perm Ω)}
     (hK : K ≤ MulAction.stabilizer (Perm Ω) α) :
     (K.comap (Perm.ofSubtype : Perm {x // x ≠ α} →* Perm Ω)).map Perm.ofSubtype = K := by
   rw [Subgroup.map_comap_eq, range_ofSubtype_eq_stabilizer, inf_eq_right.mpr hK]
 
+omit [Fintype Ω] in
 theorem map_comap_ofSubtype_eq_inf (H : Subgroup (Perm Ω)) :
     (H.comap (Perm.ofSubtype : Perm {x // x ≠ α} →* Perm Ω)).map Perm.ofSubtype =
       H ⊓ MulAction.stabilizer (Perm Ω) α := by
@@ -77,6 +80,7 @@ theorem eq_alternatingGroup_of_comap_ofSubtype_eq (h3 : 3 ≤ Fintype.card Ω)
     obtain ⟨a, b, hab⟩ := Fintype.one_lt_card_iff.mp hcard
     exact CFSG.ComponentClassification.SymmetricLocal.alternatingGroup_ne_top hab htop
 
+omit [Fintype Ω] in
 theorem exists_ofSubtype_eq {σ : Perm Ω} (hα : σ α = α) :
     ∃ σ' : Perm {x // x ≠ α}, Perm.ofSubtype σ' = σ := by
   have h : ∀ x, (σ x ≠ α) ↔ (x ≠ α) := by
@@ -89,6 +93,7 @@ theorem exists_ofSubtype_eq {σ : Perm Ω} (hα : σ α = α) :
   exact ⟨σ.subtypePerm h,
     Perm.ofSubtype_subtypePerm h (fun x hx hxα => hx (by rw [hxα, hα]))⟩
 
+omit [Fintype Ω] in
 theorem comap_centralizer_ofSubtype (σ' : Perm {x // x ≠ α}) :
     (Subgroup.centralizer {Perm.ofSubtype σ'}).comap
         (Perm.ofSubtype : Perm {x // x ≠ α} →* Perm Ω) =

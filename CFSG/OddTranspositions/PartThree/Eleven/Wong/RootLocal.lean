@@ -267,7 +267,7 @@ private theorem u_mem_centralizer_A : D.u ∈ centralizer (D.A : Set G) := by
 
 private theorem centralizer_A_le_centralizer_D1 :
     centralizer (D.A : Set G) ≤ centralizer (D.D1 : Set G) :=
-  Subgroup.centralizer_le (fun x hx => D1_le_A D hx)
+  Subgroup.centralizer_le (fun _x hx => D1_le_A D hx)
 
 private theorem closure_t_u_le_centralizer_A :
     closure {D.t, D.u} ≤ centralizer (D.A : Set G) := by
@@ -536,7 +536,7 @@ private theorem sup_D1_closure_t_u_le_centralizer_D1_inf_centralizer_u [Finite G
     D.D1 ⊔ closure {D.t, D.u} ≤ centralizer (D.D1 : Set G) ⊓ centralizer {D.u} := by
   refine sup_le (le_inf ?_ ?_) (le_inf (closure_t_u_le_centralizer_D1 D) ?_)
   · rw [D.D1_eq_range]
-    haveI : IsMulCommutative (Multiplicative (ZMod 5)) :=
+    have : IsMulCommutative (Multiplicative (ZMod 5)) :=
       IsMulCommutative.of_comm (fun a b => mul_comm a b)
     exact Subgroup.le_centralizer _
   · intro z hz
@@ -632,7 +632,7 @@ private theorem map_centralizer_D1_y :
         rw [D.map_D1_y] at h
         simpa only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv] using h
       have hz' := (Subgroup.mem_centralizer_iff.mp hz) (D.y⁻¹ * d * D.y) hd'
-      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+      simp only [MulAut.conj_apply]
       calc d * (D.y * z * D.y⁻¹) = D.y * ((D.y⁻¹ * d * D.y) * z) * D.y⁻¹ := by group
         _ = D.y * (z * (D.y⁻¹ * d * D.y)) * D.y⁻¹ := by rw [← hz']
         _ = D.y * z * D.y⁻¹ * d := by group
@@ -690,7 +690,7 @@ private theorem R_inf_i1_range : D.R ⊓ D.i1.range = D.P1 := by
         mem_inf.mpr ⟨hp2L1, P2_le_i2 D hp2⟩
       rwa [D.range_inf] at h2
     have hbot : D.P2 ⊓ zpowers D.t = ⊥ := by
-      apply Subgroup.inf_eq_bot_of_coprime
+      apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
       rw [D.card_P2, show Nat.card (zpowers D.t) = 2 by rw [Nat.card_zpowers, D.orderOf_t]]
       norm_num
     rw [hbot] at hp2_inf
@@ -718,7 +718,7 @@ private theorem R_inf_i2_range : D.R ⊓ D.i2.range = D.P2 := by
         mem_inf.mpr ⟨P1_le_i1 D hp1, hp1L2⟩
       rwa [D.range_inf] at h2
     have hbot : D.P1 ⊓ zpowers D.t = ⊥ := by
-      apply Subgroup.inf_eq_bot_of_coprime
+      apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
       rw [D.card_P1, show Nat.card (zpowers D.t) = 2 by rw [Nat.card_zpowers, D.orderOf_t]]
       norm_num
     rw [hbot] at hp1_inf
@@ -778,7 +778,7 @@ private theorem i1_mem_normalizer_thetaHom_of_mem_normalizer_R [Finite G] {x y :
         = D.i1 (x * u) * D.i2 y * (D.i1 x⁻¹ * D.i2 y⁻¹) := by
             rw [show D.i1 u = D.i1 u * D.i2 1 by rw [map_one, mul_one],
               D.prod_mul_prod]
-            simp only [map_one, mul_one]
+            simp only [mul_one]
       _ = D.i1 ((x * u) * x⁻¹) * D.i2 (y * y⁻¹) := by rw [D.prod_mul_prod]
       _ = D.i1 (x * u * x⁻¹) := by rw [mul_inv_cancel, map_one, mul_one]
   have hmemR : D.i1 (x * u * x⁻¹) ∈ D.R := by

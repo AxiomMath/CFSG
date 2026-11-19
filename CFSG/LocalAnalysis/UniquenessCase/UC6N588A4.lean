@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {S Z : Subgroup G}
 
 theorem exists_orderOf_eq_of_isComponent (h : Hyp G p S Z) (hcore : CFSG.pPrimeCore p G = ⊥)
     {J : Subgroup G} (hJ : CFSG.IsComponent J) : ∃ x ∈ S ⊓ J, orderOf x = p := by
-  haveI := h.fact
+  have := h.fact
   have hsyl := isSylowOf_inf_of_isSubnormal h.sylow hJ.2
   have hdvd : p ∣ Nat.card (S ⊓ J : Subgroup G) := by
     rw [hsyl.card_eq]
@@ -36,9 +36,9 @@ theorem inf_eq_bot_of_not_le (h : Hyp G p S Z) {J : Subgroup G} (hZJ : ¬ Z ≤ 
 
 theorem concl_of_sup_ne_top (ih : IHBelow (Nat.card G)) (h : Hyp G p S Z)
     (hcore : CFSG.pPrimeCore p G = ⊥) {J : Subgroup G} (hJ : CFSG.IsComponent J)
-    (hZJ : ¬ Z ≤ Subgroup.centralizer (J : Set G)) (hNJ : Z ≤ Subgroup.normalizer (J : Set G))
+    (hZJ : ¬ Z ≤ Subgroup.centralizer (J : Set G)) (_hNJ : Z ≤ Subgroup.normalizer (J : Set G))
     (hY : Z ⊔ J ≠ ⊤) : CFSG.Open.pRank p (normalClosure (Z : Set G)) = 1 := by
-  haveI := h.fact
+  have := h.fact
   set Y : Subgroup G := Z ⊔ J with hYdef
   have hZY : Z ≤ Y := le_sup_left
   have hJY : J ≤ Y := le_sup_right

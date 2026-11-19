@@ -21,12 +21,12 @@ private theorem eq_one_of_forall_blockSpace (hpF : ((3 : ℕ) : F) ≠ 0)
   have hle : fixedSpaceOf X ⊔ (⨆ D : Hyperplane X 3, blockSpace X D.1) ≤
       LinearMap.ker ((a : V ≃ₗ[F] V).toLinearMap - LinearMap.id) := by
     refine sup_le (fun v hv => ?_) (iSup_le fun D => ?_)
-    · simp [sub_eq_zero, (mem_fixedSpaceOf X).1 hv a]
+    · simp [(mem_fixedSpaceOf X).1 hv a]
     · by_cases hD : blockSpace X D.1 = ⊥
       · rw [hD]
         exact bot_le
       · intro v hv
-        simp [sub_eq_zero, ((mem_blockSpace X).1 hv).1 a (ha D hD)]
+        simp [((mem_blockSpace X).1 hv).1 a (ha D hD)]
   rw [sup_fixedSpaceOf_iSup_blockSpace X Nat.prime_three hpF hX] at hle
   refine Subtype.ext (LinearEquiv.ext fun v => ?_)
   simpa [sub_eq_zero] using hle (Submodule.mem_top (x := v))

@@ -83,7 +83,7 @@ theorem Sec4FDCover.exists_lift_invol (h : Sec4FDCover L s X y ρ) {x : Pr} (hxX
     ((⟨d, hdL⟩ : ↥L) ^ Nat.card ρ.ker : ↥L).2, hvcomm, hvv', himg'⟩
 
 theorem Sec4FDCover.mem_conjClassIn (h : Sec4FDCover L s X y ρ) {v v' : G} (hvL : v ∈ L)
-    (hv'L : v' ∈ L) (hvs : v * s = s * v) (hv's : v' * s = s * v') (hvv : v * v = 1)
+    (hv'L : v' ∈ L) (_hvs : v * s = s * v) (_hv's : v' * s = s * v') (hvv : v * v = 1)
     (hv'v' : v' * v' = 1) {c : Pr} (hcX : c ∈ X) (hcy : c * y = y * c)
     (hc : ((ρ ⟨v', hv'L⟩ : ↥X) : Pr) = c * ((ρ ⟨v, hvL⟩ : ↥X) : Pr) * c⁻¹) :
     v' ∈ conjClassIn (L ⊓ centralizer ({s} : Set G)) v := by

@@ -13,6 +13,7 @@ open CFSG.HardMathSupport.Timmesfeld
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 theorem exc_type167J_clause_c {p : ℕ} {J : Subgroup Ω} (h : Type167J p J) (hp3 : p ≠ 3) :
     ∃ n k : ℕ, Odd n ∧ 3 ≤ n ∧ (k = 1 → 5 ≤ n) ∧ 1 ≤ k ∧ p ∣ 2 ^ k + 1 ∧
       catalogIs (PSimple p J) (isOmPA n (2 ^ k)) := by

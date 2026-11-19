@@ -56,7 +56,7 @@ theorem exists_point_of_j2_centPre148
             (centPre148 A Y J ⊓ Subgroup.normalizer (Subgroup.zpowers c₂ : Set G)) := by
   intro hJc h3Jα hZ2
   let := ker148_normal hY.2
-  letI := ker148_normal (le_normalizer_centPre148 (J := J) hY.2 hAJ)
+  let := ker148_normal (le_normalizer_centPre148 (J := J) hY.2 hAJ)
   have hne : img148 A Y J ≠ ⊥ := fun h0 => by
     rw [h0, Subgroup.card_bot] at h3Jα
     omega
@@ -148,7 +148,7 @@ theorem exists_point_of_j2_centPre148
       ∀ (b d : G) (Lb : Subgroup G), IsLBConfig A B b d Lb →
       YB ≤ pPrimeCoreOf 3 (Subgroup.centralizer (B : Set G)) ⊔ lB A B →
       letI := ker148_normal hY.2
-      ∀ J ∈ thetaComponentsIn Y, YB ≤ J → ∀ hAJ : A ≤ Subgroup.normalizer (J : Set G),
+      ∀ J ∈ thetaComponentsIn Y, YB ≤ J → ∀ _hAJ : A ≤ Subgroup.normalizer (J : Set G),
       ∀ Yd ∈ thetaComponentsIn (Y ⊓ Subgroup.centralizer ({d} : Set G)), YB ≤ Yd → Yd ≤ J →
         A ≤ Subgroup.normalizer (Yd : Set G) →
         YdType148 d Yd → d ∈ Late.sectionCentralizer A J (pPrimeCoreOf 3 Y) →

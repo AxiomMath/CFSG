@@ -60,7 +60,7 @@ theorem three_mul_le_rank_of_outer_matrix (hF : Fintype.card F = 2 ^ f) (hf : 2 
       _ ≤ _ := Finset.sum_le_sum hterm
   have hD : s.toLinearMap - 1 = Matrix.mulVecLin (A - 1) := by
     refine LinearMap.ext fun v => ?_
-    simp [s, Matrix.sub_mulVec]
+    simp [s]
   have hrn := LinearMap.finrank_range_add_finrank_ker (Matrix.mulVecLin (A - 1))
   rw [hD] at key
   unfold Matrix.rank
@@ -157,7 +157,7 @@ theorem outer_involution_displacement_ge (hf : 2 ≤ f) (hfodd : f % 2 = 1)
       by_cases hij : i = j <;> simp [A, hij]
     have e2 : (A₂ - 1).rank = Module.finrank (ZMod 2) (LinearMap.range (a.toLinearMap - 1)) := by
       have e3 : A₂ - 1 = LinearMap.toMatrix bas bas (a.toLinearMap - 1) := by
-        rw [map_sub, LinearMap.toMatrix_one] <;> rfl
+        rw [map_sub, LinearMap.toMatrix_one]
       rw [e3, Matrix.rank_eq_finrank_range_toLin _ bas bas, Matrix.toLin_toMatrix]
     rw [← e2, e1]
     exact rank_map_ringHom_le φ _

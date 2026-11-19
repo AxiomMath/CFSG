@@ -36,6 +36,7 @@ private noncomputable def conjAutHomOf (N A : Subgroup G)
       (n : G) * ((m : G) * (a : G) * (m : G)⁻¹) * (n : G)⁻¹
     group
 
+omit [Finite G] in
 private theorem conjAutHomOf_apply (N A : Subgroup G)
     (hA : ∀ n ∈ N, ∀ a ∈ A, n * a * n⁻¹ ∈ A) (n : ↥N) (a : ↥A) :
     ((conjAutHomOf N A hA n a : ↥A) : G) = (n : G) * (a : G) * (n : G)⁻¹ := rfl
@@ -56,7 +57,7 @@ theorem asl_split_sub {F X₀ Y N S : Subgroup G} (φ : G → G) (hFX : F ≤ X�
       M ⊔ X₀ = Y := by
   have hFY : F ≤ Y := hFX.trans hXY
   let Fy : Subgroup ↥Y := F.subgroupOf Y
-  haveI : Fy.Normal :=
+  have : Fy.Normal :=
     (Subgroup.normal_subgroupOf_iff hFY).mpr fun h k hh hk => hFn k hk h hh
   let conjY : ↥N →* MulAut ↥Y := conjAutHomOf N Y hNY
   let conjF : ↥N →* MulAut ↥F := conjAutHomOf N F hNF

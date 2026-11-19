@@ -14,8 +14,8 @@ open Subgroup
 theorem catCentFour_holds :
     CatCentFour := by
   intro S _ _ hS hna _hcat V hV hC
-  haveI := hS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hS
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, rfl⟩ := CentFour.exists_sylow_eq hV hC
   have hK : IsKleinFour (P : Subgroup S) :=
     CentFour.isKleinFour_of_not_isCyclic hV (CentFour.not_isCyclic_sylow_of_card_four hna P hV)
@@ -38,7 +38,7 @@ theorem catCentFour_holds :
       rcases Nat.eq_zero_or_pos k with rfl | hk
       · simp at h5
       · exact hk
-    haveI : Nontrivial (P : Subgroup S) :=
+    have : Nontrivial (P : Subgroup S) :=
       Finite.one_lt_card_iff_nontrivial.mp (by rw [hV]; norm_num)
     obtain ⟨⟨w, hwP⟩, hw1⟩ := exists_ne (1 : (P : Subgroup S))
     have hw1' : w ≠ 1 := fun h => hw1 (Subtype.ext h)
@@ -56,7 +56,7 @@ theorem catCentFour_holds :
     have hq5 : p ^ k = 5 := by
       rcases hmod with hm | hm
       · obtain ⟨f⟩ := h1 hm
-        haveI : NeZero ((p ^ k - 1) / 2) := ⟨by omega⟩
+        have : NeZero ((p ^ k - 1) / 2) := ⟨by omega⟩
         have := Nat.card_congr f.toEquiv
         rw [hcent, DihedralGroup.nat_card] at this
         omega

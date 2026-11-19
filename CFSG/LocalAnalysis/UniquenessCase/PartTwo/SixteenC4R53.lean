@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c4_two_root_bars {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
     (F : UFrame V₀ V hV L) {X : Subgroup (MulAut (Vtil V₀ V hV))}
     (hXL : X ≤ lBar V₀ V hV L) (hX2 : IsElemAbelian2 X) (hXc : Nat.card X = 2 ^ 4) :
@@ -45,6 +46,7 @@ theorem s16c4_two_root_bars {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
     · apply F.vec_injective
       rw [F.vec_mul, F.vec_ofVec, F.vec_ofVec, hsum]
 
+omit [Finite G] in
 theorem s16c4_le_of_preTil_cover {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {S₁ S₂ : Subgroup (Vtil V₀ V hV)} {K : Subgroup G}
     (hcov : ∀ w : Vtil V₀ V hV, ∃ w₁ ∈ S₁, ∃ w₂ ∈ S₂, w = w₁ * w₂)

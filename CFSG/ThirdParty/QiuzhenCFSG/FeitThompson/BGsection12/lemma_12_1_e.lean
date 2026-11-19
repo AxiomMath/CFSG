@@ -226,7 +226,7 @@ private theorem CFSG.section12_no_tau1_prime_dvd_derivedSubgroup
         D.subtype_injective).1 (by simpa [Pmap] using hPmap_bot)
     exact hP_ne_bot hP_bot
   have hPmap_p : IsPGroup p.val Pmap :=
-    IsPGroup.map P.isPGroup' D.subtype
+    IsPGroup.map P.isPGroup D.subtype
   have hDnil : Group.IsNilpotent D :=
     section12_nilpotent_derivedSubgroup_of_ambient hnilH
   have hP_normal_D : (P : Subgroup D).Normal :=
@@ -272,7 +272,7 @@ public theorem CFSG.section12_normal_pSubgroup_le_of_isHallSubgroup_of_prime_mem
   let Psub : Subgroup R := (PH : Subgroup H).map H.subtype
   have hPsub_p : IsPGroup p Psub := by
     simpa [Psub] using
-      (IsPGroup.map (p := p) (H := (PH : Subgroup H)) PH.isPGroup' H.subtype)
+      (IsPGroup.map (p := p) (H := (PH : Subgroup H)) PH.isPGroup H.subtype)
   have hp_not_dvd_Hindex : ¬ p ∣ H.index := by
     intro hp_dvd
     exact (hHall.p_in_pi_of_p_dvd_index ⟨p, Fact.out⟩ hp_dvd) hp_mem

@@ -72,7 +72,7 @@ theorem false_of_m12_lift
       ComponentClassification.M12Cover.fixedCount (π (u * x))) : False := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQ1
+  have : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQ1
   obtain ⟨H, hH⟩ := exists_index_two_of_isPGroup hQ2
   set Q₀ : Subgroup G := H.map Q.subtype with hQ₀
   have hQ₀Q : Q₀ ≤ Q := Subgroup.map_subtype_le H
@@ -84,7 +84,7 @@ theorem false_of_m12_lift
       rwa [← this]
     · intro hqH
       exact ⟨⟨q, hq⟩, hqH, rfl⟩
-  haveI : Q₀.Normal := Subgroup.normal_of_le_center (hQ₀Q.trans hQc)
+  have : Q₀.Normal := Subgroup.normal_of_le_center (hQ₀Q.trans hQc)
   have hHtop : H ≠ ⊤ := by
     intro hHt
     rw [hHt, Subgroup.index_top] at hH
@@ -158,7 +158,7 @@ theorem false_of_m12_lift
     exact h1
   have hLq : CFSG.Assembly.IsQuasisimple (G ⧸ Q₀) := by
     refine ⟨commutator_eq_top_of_surjective mk (QuotientGroup.mk'_surjective Q₀) hperf, ?_⟩
-    haveI : IsSimpleGroup NativeSporadic.M12 := CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
+    have : IsSimpleGroup NativeSporadic.M12 := CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
     exact (QuotientGroup.liftEquiv (Subgroup.center (G ⧸ Q₀)) hπLs
       (hZ.trans hkerL.symm)).isSimpleGroup
   obtain ⟨h40, h4, h0⟩ := ComponentClassification.M12Cover.m12_double_cover_involution_lift_orders
@@ -219,7 +219,7 @@ theorem S5Hyp.false_of_rowM12
   set φ : G →* NativeSporadic.M12 := (MulAut.conj g⁻¹).toMonoidHom.comp (θ.toMonoidHom.comp ρ)
     with hφ
   have hφx : ∀ a : G, φ a = g⁻¹ * θ (ρ a) * g := fun a => by
-    simp [hφ, MulAut.conj_apply]
+    simp [hφ]
   have hθφ : ∀ a : G, θ (ρ a) = g * φ a * g⁻¹ := fun a => by
     rw [hφx]
     group

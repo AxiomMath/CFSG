@@ -21,7 +21,7 @@ theorem range_conj_normal (Z : Type) [Group Z] :
   obtain ⟨z, rfl⟩ := MonoidHom.mem_range.mp hn
   refine MonoidHom.mem_range.mpr ⟨g z, ?_⟩
   ext x
-  simp [MulAut.mul_apply, MulAut.conj_apply, MulAut.apply_inv_self, map_mul, map_inv]
+  simp [MulAut.mul_apply, MulAut.conj_apply, map_mul, map_inv]
 
 theorem conj_mem_zpowers_conj {Z : Type} [Group Z] {g x : Z}
     (hx : x ∈ Subgroup.zpowers g) : MulAut.conj x ∈ Subgroup.zpowers (MulAut.conj g) := by
@@ -112,7 +112,7 @@ theorem v0Concl_of_outer {Z : Type} [Group Z] [Finite Z] {σ : MulAut Z} {ξ γ 
     (hZ : (Nat.card Z).factorization 3 = 2 * a)
     (hout : 3 ^ a ≤ orderOf σ) :
     V0Concl σ ξ γ := by
-  haveI := range_conj_normal Z
+  have := range_conj_normal Z
   unfold V0Concl
   have hUcard : orderOf σ * 3 ^ a ≤
       Nat.card (Subgroup.closure ({σ, MulAut.conj ξ} : Set (MulAut Z))) := by

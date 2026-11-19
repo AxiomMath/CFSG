@@ -169,7 +169,7 @@ theorem exists_linearEquiv_fiveForm_of_bilin {k : ℕ}
   have hone' : ∀ i, i ≠ Fin.last k → b (e' i) (e' i) = 1 := fun i hi => by
     simp [e', Basis.unitsSMul_apply, w, hi, hone i hi]
   have hlast' : b (e' (Fin.last k)) (e' (Fin.last k)) = -(if ε then 1 else 2) := by
-    simp only [e', Basis.unitsSMul_apply, Units.smul_def, w, if_true, map_smul,
+    simp only [e', Basis.unitsSMul_apply, Units.smul_def, w, ite_true, map_smul,
       LinearMap.smul_apply, hlast, smul_eq_mul, u, Units.val_mkOfMulEqOne]
     linear_combination hac
   have hexp : ∀ x y, b x y = ∑ i, e'.repr x i * (e'.repr y i * b (e' i) (e' i)) := by

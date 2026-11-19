@@ -13,7 +13,7 @@ open CFSG CFSG.Assembly OrthNs OrthExc OrthExcEven
 
 private theorem ggKGOe_two_dvd_card_of_char_two {K : Type} [Field K] [Finite K] [CharP K 2] :
     2 ∣ Nat.card K := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hcard⟩ := FiniteField.card K 2
   rw [Nat.card_eq_fintype_card, hcard]
   exact dvd_pow_self 2 f.pos.ne'

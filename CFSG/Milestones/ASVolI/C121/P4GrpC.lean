@@ -73,7 +73,7 @@ theorem K2_two : IsPGroup 2 ↥h.K2 := by
     have h2 := (convI_eq_one_iff h.hV _).1 h1
     simpa using h2
   rw [h.H_CV] at hC
-  obtain ⟨m, hm⟩ := h.Q_two ⟨_, hC⟩
+  obtain ⟨m, hm⟩ := CFSG.Quasithin.burnsideC121_p4_Hyp.Q_two ⟨_, hC⟩
   refine ⟨k + m, Subtype.ext ?_⟩
   have hm' : ((x : Ω) ^ 2 ^ k) ^ 2 ^ m = 1 := by simpa using congrArg Subtype.val hm
   simp only [Subgroup.coe_pow, Subgroup.coe_one]
@@ -93,12 +93,14 @@ variable {W : Subgroup Ω} (hWm : IsTwoReducedIn ((baum T ⊔ pCoreOf 2 X) ⊔ Y
 include hWm
 
 omit h in
+omit [Finite Ω] in
 theorem elemW : IsElemAbelian 2 W := hWm.1.2.2.1
 
+omit h in
 theorem O2H_le_CW : pCoreOf 2 ((baum T ⊔ pCoreOf 2 X) ⊔ Y) ≤ Subgroup.centralizer (W : Set Ω) :=
   pCoreOf_le_centralizer_of_isTwoReducedIn hWm.1
 
-theorem K2_le_CW : h.K2 ≤ Subgroup.centralizer (W : Set Ω) := h.K2_le_O2H.trans (h.O2H_le_CW hWm)
+theorem K2_le_CW : h.K2 ≤ Subgroup.centralizer (W : Set Ω) := h.K2_le_O2H.trans (burnsideC121_p4_Hyp.O2H_le_CW hWm)
 
 theorem ZV_le_W : V ⊓ Subgroup.centralizer (thompsonJ R : Set Ω) ≤ W := by
   set Z := V ⊓ Subgroup.centralizer (thompsonJ R : Set Ω) with hZ
@@ -156,7 +158,7 @@ theorem CW_le_K2
     rw [h.hYperf]
     refine (Subgroup.closure_le _).2 ?_
     rintro y ⟨hyY, hyo⟩
-    have hyH : y ∈ H := h.Y_le_H hyY
+    have hyH : y ∈ H := CFSG.Quasithin.burnsideC121_p4_Hyp.Y_le_H hyY
     have h1 : Odd (orderOf (h.phi2 ⟨y, hyH⟩)) := by
       have h2 : orderOf (⟨y, hyH⟩ : ↥H) = orderOf y := Subgroup.orderOf_mk y hyH
       exact (h2 ▸ hyo).of_dvd_nat (orderOf_map_dvd h.phi2 _)
@@ -187,15 +189,15 @@ theorem YCW
   set H := (baum T ⊔ pCoreOf 2 X) ⊔ Y with hHdef
   apply le_antisymm
   · have h1 : Y ⊓ Subgroup.centralizer (W : Set Ω) ≤ Y ⊓ pCoreOf 2 H :=
-      le_inf inf_le_left ((inf_le_inf_right _ h.Y_le_H).trans ((h.CW_le_K2 hWm hG).trans
+      le_inf inf_le_left ((inf_le_inf_right _ CFSG.Quasithin.burnsideC121_p4_Hyp.Y_le_H).trans ((h.CW_le_K2 hWm hG).trans
         h.K2_le_O2H))
     refine h1.trans (le_pCoreOf_of_le_normalizer 2 inf_le_left ?_ ?_)
     · exact B2F.le_normalizer_inf Subgroup.le_normalizer
-        (h.Y_le_H.trans (le_normalizer_pCoreOf 2 H))
+        (CFSG.Quasithin.burnsideC121_p4_Hyp.Y_le_H.trans (le_normalizer_pCoreOf 2 H))
     · exact (pCoreOf_isPGroup 2 H).to_le inf_le_right
   · refine le_inf (pCoreOf_le 2 Y) ((le_pCoreOf_of_le_normalizer 2 ((pCoreOf_le 2 Y).trans
-      h.Y_le_H) (h.H_le_NY.trans (normalizer_le_normalizer_pCoreOf 2 Y))
-      (pCoreOf_isPGroup 2 Y)).trans (h.O2H_le_CW hWm))
+      CFSG.Quasithin.burnsideC121_p4_Hyp.Y_le_H) (h.H_le_NY.trans (normalizer_le_normalizer_pCoreOf 2 Y))
+      (pCoreOf_isPGroup 2 Y)).trans (burnsideC121_p4_Hyp.O2H_le_CW hWm))
 
 theorem iota
     (hG : ∀ N : Subgroup (↥(autI h.hV (Y ⊔ thompsonJ R)) ⧸
@@ -272,6 +274,7 @@ theorem isFF
     (le_pCoreOf_of_isTwoReducedIn hWm.1).trans (h.O2H_le_R0.trans (sup_le h.S_le_R h.hQR))
   exact isFFModule_autOn (elemW hWm) hWR hWm.1.2.1 ((B6.le_thompsonJ hA).trans h.J_le_H) hA hAC
 
+omit h in
 theorem O2_bot : ∀ Q : Subgroup (MulAut (IntMod W (elemW hWm))),
     Q ≤ autI (elemW hWm) ((baum T ⊔ pCoreOf 2 X) ⊔ Y) →
     (Q.subgroupOf (autI (elemW hWm) ((baum T ⊔ pCoreOf 2 X) ⊔ Y))).Normal → IsPGroup 2 ↥Q →

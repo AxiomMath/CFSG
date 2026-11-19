@@ -43,7 +43,7 @@ theorem rankFourCoverG2_of_native
   rcases i with ⟨p, hp⟩ | ⟨n, hn⟩ | ⟨⟨li, hv⟩⟩ | ⟨s⟩
   · exact (hi : False).elim
   · exact (hi : False).elim
-  · cases li <;> first | exact (hi : False).elim | skip
+  · cases li <;> try exact (hi : False).elim
     rename_i q
     exact rankFourCover_G2_nine_of_native h q hv hi
   · exact (hi : False).elim

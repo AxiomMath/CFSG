@@ -150,7 +150,7 @@ theorem stroth108Core_of_inputs
     Stroth108CoreStatement := by
   intro G _ _ M Q Z B hc t H hdeg ht
   obtain ⟨Y, D⟩ := Sec108Data.exists_root h34 h311a hspread H hdeg ht
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   obtain ⟨AM⟩ := Smith81.Smith23E1.ActionModel.nonempty hc.hyp
   obtain ⟨ρ, μ, T, hL⟩ := D.exists_levi108 AM
   rcases hL.normal_or hAS Sec108.sec108OddCoverStatement with hX | ⟨hq, hexc⟩

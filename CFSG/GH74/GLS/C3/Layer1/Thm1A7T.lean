@@ -17,24 +17,31 @@ section TStruct
 
 variable {G : Type} [Group G] [Finite G] {x y : G} {K T : Subgroup G} {f z : G}
 
+omit [Finite G] in
 theorem A7Env.hTC (E : A7Env x y K T f z) : T ≤ centralizer ({x} : Set G) :=
   E.hsetup.sylowT.le
 
+omit [Finite G] in
 theorem A7Env.hfC (E : A7Env x y K T f z) : f ∈ centralizer ({x} : Set G) := E.hTC E.hfT
 
+omit [Finite G] in
 theorem A7Env.hKC (E : A7Env x y K T f z) : K ≤ centralizer ({x} : Set G) := E.hu2.1.1.2.1
 
+omit [Finite G] in
 theorem A7Env.hf2' (E : A7Env x y K T f z) : f * f = 1 := by
   have := pow_orderOf_eq_one f
   rwa [E.hf2, sq] at this
 
+omit [Finite G] in
 theorem A7Env.hz2' (E : A7Env x y K T f z) : z * z = 1 := by
   have := pow_orderOf_eq_one z
   rwa [E.hz2, sq] at this
 
+omit [Finite G] in
 theorem A7Env.hx1 (E : A7Env x y K T f z) : x ≠ 1 := fun h => by
   have := E.hu2.1.1.1; rw [h, orderOf_one] at this; omega
 
+omit [Finite G] in
 theorem A7Env.hz1 (E : A7Env x y K T f z) : z ≠ 1 := fun h => by
   have := E.hz2; rw [h, orderOf_one] at this; omega
 
@@ -42,15 +49,18 @@ theorem A7Env.hxT (E : A7Env x y K T f z) : x ∈ T :=
   Back.mem_of_isSylowOf_of_central E.hsetup.sylowT (mem_centralizer_singleton_iff.2 rfl)
     (fun _ hs => mem_centralizer_singleton_iff.1 hs) E.hu2.1.1.1
 
+omit [Finite G] in
 theorem A7Env.hxcommK (E : A7Env x y K T f z) : ∀ q ∈ K, q * x = x * q := fun _ hq =>
   mem_centralizer_singleton_iff.1 (E.hKC hq)
 
 theorem A7Env.hPK (E : A7Env x y K T f z) : IsSylowOf 2 (T ⊓ K) K :=
-  E.hsetup.sylowT.inf_of_le_normalizer E.hKC (fun c hc => U1a.mem_normalizer_of_norm E.hKN hc)
+  E.hsetup.sylowT.inf_of_le_normalizer E.hKC (fun _c hc => U1a.mem_normalizer_of_norm E.hKN hc)
 
+omit [Finite G] in
 theorem A7Env.hcen (E : A7Env x y K T f z) :
     Function.Injective (MulAut.conj : kBar K →* MulAut (kBar K)) := conj_injective_of_A7 E.e7.some
 
+omit [Finite G] in
 theorem A7Env.hxker (E : A7Env x y K T f z) :
     Back.actHom E.hKN ⟨x, mem_centralizer_singleton_iff.2 rfl⟩ = 1 :=
   (Back.actHom_eq_one_iff_commutator_mem E.hKN _).2 (fun k hk => by
@@ -94,18 +104,21 @@ theorem A7Env.card_P (E : A7Env x y K T f z) : Nat.card ↥(T ⊓ K) = 8 := by
   rw [this]
   norm_num
 
+omit [Finite G] in
 theorem A7Env.hxmemCMK (E : A7Env x y K T f z) : x ∈ CxK x K := by
   have hxC : x ∈ centralizer ({x} : Set G) := mem_centralizer_singleton_iff.2 rfl
   have hker : (⟨x, hxC⟩ : ↥(centralizer ({x} : Set G))) ∈ (Back.actHom E.hKN).ker := E.hxker
   rw [Back.actHom_ker E.hKN] at hker
   exact hker
 
+omit [Finite G] in
 theorem A7Env.hPnorm (E : A7Env x y K T f z) :
     ∀ t ∈ T, ∀ p ∈ T ⊓ K, t * p * t⁻¹ ∈ T ⊓ K := fun t ht p hp =>
   ⟨T.mul_mem (T.mul_mem ht hp.1) (T.inv_mem ht), E.hKN t (E.hTC ht) p hp.2⟩
 
+omit [Finite G] in
 theorem A7Env.hQnorm (E : A7Env x y K T f z) :
-    ∀ t ∈ T, ∀ q ∈ T ⊓ CxK x K, t * q * t⁻¹ ∈ T ⊓ CxK x K := fun t ht q hq =>
+    ∀ _t ∈ T, ∀ _q ∈ T ⊓ CxK x K, _t * _q * _t⁻¹ ∈ T ⊓ CxK x K := fun _t ht _q hq =>
   ⟨T.mul_mem (T.mul_mem ht hq.1) (T.inv_mem ht), P34Real.CMK_conj E.hKN (E.hTC ht) hq.2⟩
 
 theorem A7Env.hQcentP (E : A7Env x y K T f z) :
@@ -154,6 +167,7 @@ theorem A7Env.hQ_unique (E : A7Env x y K T f z) :
   have := E.hrk
   omega
 
+omit [Finite G] in
 theorem A7Env.outer_mul_inn (E : A7Env x y K T f z) {σ τ : MulAut (kBar K)}
     (hσ : σ ∉ innAut (kBar K)) (hτ : τ ∉ innAut (kBar K)) : σ * τ⁻¹ ∈ innAut (kBar K) := by
   have hinn : ∀ a : MulAut (kBar K), psiEquiv E.e7.some a ∈ alternatingGroup (Fin 7) ↔

@@ -80,7 +80,7 @@ theorem l34_stepG (hS : Setting G) (hU0 : FullCoreLocal G) (hD1 : TheoremD1 G)
       exact l34insp_eq_one_of_two hS hU0 hD1 hK1 hK2 hp hM hgen hJ (k := k)
         (by simpa using congrArg Subtype.val hk) h1
   have hsyl : IsSylowOf 2 (l34Img x J (S₁ ⊓ J)) (l34Img x J J) :=
-    l34insp_sylow hS hU0 hK1 hK2 hK4 hp hM hgen hJ (P.isPGroup'.to_le hUP) huU huJ hu1' hu3
+    l34insp_sylow hS hU0 hK1 hK2 hK4 hp hM hgen hJ (P.isPGroup.to_le hUP) huU huJ hu1' hu3
       hUxu hS₁J
   obtain ⟨hKn, hKc, hKt⟩ := l34_quot_data hS hU0 hK1 hK2 hp hM hgen hJ
   have huK : l34Hom x J ⟨u, huC⟩ ∈ l34Img x J J :=

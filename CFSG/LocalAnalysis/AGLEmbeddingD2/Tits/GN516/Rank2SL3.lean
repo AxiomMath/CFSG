@@ -13,10 +13,12 @@ open Matrix CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 variable (F : Type) [Field F] [Fintype F]
 
 
+omit [Fintype F] in
 theorem sl3_perfect : commutator (SpecialLinearGroup (Fin 3) F) = ⊤ :=
   (CFSG.LinearGroups.special_linear_isPerfect (K := F) (n := 3) (by norm_num)
     (Or.inl le_rfl)).commutator_eq_top
 
+omit [Fintype F] in
 theorem sl3_simple_mod_center : IsSimpleGroup (SpecialLinearGroup (Fin 3) F ⧸
     Subgroup.center (SpecialLinearGroup (Fin 3) F)) :=
   (CFSG.LinearGroups.linear_projective_simple (K := F) (n := 3) (by norm_num) (Or.inl le_rfl)).2.1
@@ -46,6 +48,7 @@ noncomputable def sl3_center_equiv :
   rw [Fintype.card_fin] at this
   exact this
 
+omit [Fintype F] in
 theorem sl3_center_card_le : Nat.card (Subgroup.center (SpecialLinearGroup (Fin 3) F)) ≤ 3 := by
   rw [Nat.card_congr (sl3_center_equiv F).toEquiv]
   exact card_rootsOfUnity F 3
@@ -57,6 +60,7 @@ theorem sl3_center_card_le_units :
     Nat.card_le_card_of_injective (fun x => (x : Fˣ)) Subtype.val_injective
   rwa [Nat.card_units, Nat.card_eq_fintype_card (α := F)] at this
 
+omit [Fintype F] in
 theorem sl3_center_odd : ∀ z ∈ Subgroup.center (SpecialLinearGroup (Fin 3) F), Odd (orderOf z) := by
   intro z hz
   have h1 : (sl3_center_equiv F ⟨z, hz⟩) ^ 3 = 1 :=
@@ -108,16 +112,19 @@ def sl3E01 : SpecialLinearGroup (Fin 3) F :=
 def sl3E12 : SpecialLinearGroup (Fin 3) F :=
   ⟨!![1, 0, 0; 0, 1, 1; 0, 0, 1], by simp [Matrix.det_fin_three]⟩
 
+omit [Fintype F] in
 theorem sl3E01_mem : sl3E01 F ∈ unitriangular 3 F := by
   refine ⟨fun i j hij => ?_, fun i => ?_⟩
   · fin_cases i <;> fin_cases j <;> simp_all [sl3E01]
   · fin_cases i <;> simp [sl3E01]
 
+omit [Fintype F] in
 theorem sl3E12_mem : sl3E12 F ∈ unitriangular 3 F := by
   refine ⟨fun i j hij => ?_, fun i => ?_⟩
   · fin_cases i <;> fin_cases j <;> simp_all [sl3E12]
   · fin_cases i <;> simp [sl3E12]
 
+omit [Fintype F] in
 theorem sl3E01_E12_noncomm : sl3E01 F * sl3E12 F ≠ sl3E12 F * sl3E01 F := by
   intro h
   have h' := congrArg (fun A : SpecialLinearGroup (Fin 3) F => (A : Matrix (Fin 3) (Fin 3) F)) h

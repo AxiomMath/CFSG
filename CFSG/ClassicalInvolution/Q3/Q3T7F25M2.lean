@@ -129,9 +129,9 @@ theorem c25_RS_proved : C25_RS := by
   have hKK' : K' ≠ K := hs.hne
   obtain ⟨S, R, R', hWS, hR, hR', hRS, hR'S⟩ := T7D.exists_sylow_frame hs hW hzW
   have hRK : K ⊓ (S : Subgroup G) = R :=
-    hR.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hR.1 hRS)
+    hR.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hR.1 hRS)
   have hRK' : K' ⊓ (S : Subgroup G) = R' :=
-    hR'.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hR'.1 hR'S)
+    hR'.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hR'.1 hR'S)
   refine ⟨S, R, R', ⟨mem_RSet_of_isSylow2In hK hR, hR.1, hRS⟩,
     ⟨mem_RSet_of_isSylow2In hK' hR', hR'.1, hR'S⟩, ?_⟩
   intro X hX hXS
@@ -180,7 +180,7 @@ open CFSG.ClassicalInvolution.Asc77.T7ER
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)}
 
 theorem omegaStarNbr_subset_omegaNbr_of_E4 {K K₁ : Subgroup G} (hs : AscStand Ω K)
-    {W₀ : Subgroup G} (hW₀ : W₀ ∈ WSet Ω) (hE4 : ∀ W' ∈ WSet Ω, MuIsoE4 Ω W') (hK₁ : K₁ ∈ Ω) :
+    {W₀ : Subgroup G} (_hW₀ : W₀ ∈ WSet Ω) (hE4 : ∀ W' ∈ WSet Ω, MuIsoE4 Ω W') (hK₁ : K₁ ∈ Ω) :
     omegaStarNbr Ω K₁ ⊆ omegaNbr Ω K₁ := by
   intro J hJ
   by_contra hnot
@@ -387,7 +387,7 @@ theorem exists_notNormalizing_conj (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) 
   have hRS : R ≤ (S : Subgroup G) := hyp.hR.2.2
   have hR'S : R' ≤ (S : Subgroup G) := hyp.hR'.2.2
   have hc : Commutes R R' := hΩ.commutes_of_twin_of_isPGroup hK hK' hKK'.symm hz hz'
-    (hRsyl.1) (hR'syl.1) (S.isPGroup'.to_le (sup_le hRS hR'S))
+    (hRsyl.1) (hR'syl.1) (S.isPGroup.to_le (sup_le hRS hR'S))
   have hRq : IsQuatSub R := hΩ.isQuatSub_of_mem_RSet hyp.hR.1
   have hR'q : IsQuatSub R' := hΩ.isQuatSub_of_mem_RSet hyp.hR'.1
   have hzR : IsUniqueInvolution R z :=

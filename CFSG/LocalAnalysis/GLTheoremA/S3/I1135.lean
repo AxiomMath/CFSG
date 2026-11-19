@@ -23,7 +23,7 @@ private theorem i1135_lift_rank {G : Type} [Group G] [Finite G] (X : Subgroup G)
     (hj : Nat.card E = 3 ^ j) (T : Subgroup (↥X ⧸ GLAPPrimeCore 3 ↥X)) (hT : T ≠ ⊥)
     (hT2 : IsPGroup 2 T) (hET : E ≤ Subgroup.normalizer (T : Set (↥X ⧸ GLAPPrimeCore 3 ↥X))) :
     j ≤ GLATwoLocalRank 3 ↥X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have htop : barX 3 X X = ⊤ := by
     rw [eq_top_iff]
     intro z _
@@ -103,7 +103,7 @@ private theorem i1135_qcore {G : Type} [Group G] [Finite G] {X K B' : Subgroup G
       Nat.card B' ≤ Nat.card E ∧ ∃ T : Subgroup (↥X ⧸ GLAPPrimeCore 3 ↥X), T ≠ ⊥ ∧ IsPGroup 2 T ∧
         E ≤ Subgroup.normalizer (T : Set (↥X ⧸ GLAPPrimeCore 3 ↥X)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbX : b ∈ X := hB'X hbB
   set e : barOf 3 K ≃* ↥(barX 3 X K) := quotEquivBarX Nat.prime_three hK.1 hK.2.1 with he
   have hH9 : ∀ E : Subgroup (MulAut ↥(barX 3 X K)), IsElemAbelian 3 E → Nat.card E ≤ 9 :=
@@ -206,7 +206,7 @@ private theorem i1135_core {G : Type} [Group G] [Finite G] {B K : Subgroup G} {y
     {g : G} (hg : g ∈ Subgroup.centralizer (B : Set G)) (hgo : orderOf g = 3) (hgB : g ∉ B) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set X : Subgroup G := Subgroup.centralizer ({y} : Set G) with hXdef
   have hBX : B ≤ X := le_centralizer_of_mem hBel hyB
   have hgX : g ∈ X := by

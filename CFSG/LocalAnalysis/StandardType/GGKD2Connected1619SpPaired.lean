@@ -125,7 +125,7 @@ theorem spPairedBlock_false {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2
     (CFSG.Assembly.isComponentOf_iff_open).mp hcompC'_SL
   have hord1 : (orderOf (1 : GL (Fin r) K) : K) ≠ 0 := by
     rw [orderOf_one]
-    simpa using (one_ne_zero : (1 : K) ≠ 0)
+    simp
   have hJ : CFSG.Open.IsComponentOf C'
       (Subgroup.centralizer ({1} : Set (GL (Fin r) K)) ⊓ StatedSL r K) := by
     have hcent : Subgroup.centralizer ({1} : Set (GL (Fin r) K)) = ⊤ := by
@@ -141,15 +141,15 @@ theorem spPairedBlock_false {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2
   obtain ⟨a, E, hEfield, hEalg, hEfin, ha2, ⟨eE⟩⟩ :=
     CFSG.LieType.SemisimpleCentralizers.Held.held_linear_components_unconditional
       (s := (1 : GL (Fin r) K)) (Subgroup.one_mem _) hord1 C' hJ
-  letI : Field E := hEfield
-  letI : Algebra K E := hEalg
-  letI : Finite E := hEfin
+  let : Field E := hEfield
+  let : Algebra K E := hEalg
+  let : Finite E := hEfin
   have hcardC : Nat.card (↥C ⧸ Subgroup.center ↥C) = 504 := by
     unfold GGHasLabel at hlab
     dsimp only [CFSG.StandardType.LargeEvenRawDatum, CFSG.Assembly.LargeEvenRecipeLinear] at hlab
     obtain ⟨K', hK'field, hK'fin, hK'card, ⟨e0⟩⟩ := hlab
-    letI : Field K' := hK'field
-    letI : Finite K' := hK'fin
+    let : Field K' := hK'field
+    let : Finite K' := hK'fin
     have hK'8 : Nat.card K' = 8 := by rw [hK'card]; norm_num
     calc Nat.card (↥C ⧸ Subgroup.center ↥C)
         = Nat.card (LargeEvenProj (LargeEvenSLGroup (Fin 2) K')) :=
@@ -165,14 +165,14 @@ theorem spPairedBlock_false {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2
     rw [← Nat.card_congr hqiso.toEquiv, hcardC]
   have hcardE : Nat.card (StatedProj (StatedSL a E)) = 504 := by
     rw [← Nat.card_congr eE.toEquiv, hcardC']
-  haveI : Algebra (ZMod 2) K := ZMod.algebra K 2
+  have : Algebra (ZMod 2) K := ZMod.algebra K 2
   set n : ℕ := Module.finrank (ZMod 2) K with hn
   have hKcard : Nat.card K = 2 ^ n := (FiniteField.pow_finrank_eq_natCard 2 K).symm
   set e : ℕ := n * Module.finrank K E with he
   have hEcard : Nat.card E = 2 ^ e := by
     rw [Module.natCard_eq_pow_finrank (K := K) (V := E), hKcard, pow_mul]
   have hEtwo : 2 ≤ Nat.card E := by
-    haveI : Fintype E := Fintype.ofFinite E
+    have : Fintype E := Fintype.ofFinite E
     have h : 1 < Fintype.card E := Fintype.one_lt_card (α := E)
     rw [Nat.card_eq_fintype_card]
     omega

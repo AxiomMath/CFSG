@@ -24,7 +24,7 @@ private theorem proposition_1_b_exists_rank_two_subgroup_le_Q
     (h2rank : TwoRankAtLeastTwo G) :
     ∃ A : Subgroup G, A ≤ Q ∧ Nat.card A = 4 ∧ ∀ x : A, x ^ 2 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E₀, hE₀card, hE₀sq⟩ := TwoRankAtLeastTwo.exists_subgroup h2rank
   have hE₀p : IsPGroup 2 E₀ := by
     refine IsPGroup.of_card (p := 2) (G := E₀) (n := 2) ?_
@@ -60,7 +60,7 @@ public theorem proposition_1_b_exists_two_distinct_nontrivial_of_card_four
     {A : Type*} [Group A] [Finite A] (hcard : Nat.card A = 4) :
     ∃ a b : A, a ≠ 1 ∧ b ≠ 1 ∧ a ≠ b := by
   classical
-  letI : Fintype A := Fintype.ofFinite A
+  let : Fintype A := Fintype.ofFinite A
   have hcardF : Fintype.card A = 4 := by
     simpa [Nat.card_eq_fintype_card] using hcard
   have htwo_lt : 2 < Fintype.card A := by

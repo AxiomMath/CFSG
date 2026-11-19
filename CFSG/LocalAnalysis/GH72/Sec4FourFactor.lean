@@ -517,7 +517,7 @@ theorem exists_factor_of_four
       rw [hb, card_bot] at h4
       omega
     · exact hf1 (hNI f (mem_inf.2 ⟨hFK₁ hf, hFC hf⟩) (hF₁2 f hf))
-  obtain ⟨τ, hτT, hτK⟩ := SetLike.not_le_iff_exists.1 hTK
+  obtain ⟨τ, hτT, hτK⟩ := IsConcreteLE.not_le_iff_exists.1 hTK
   have hτ1 : τ ∉ centralizer (F₁ : Set Y) := fun h => hτK (hFK₁ (by
     rw [← hCT]
     exact mem_inf.2 ⟨hτT, h⟩))

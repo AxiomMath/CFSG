@@ -100,10 +100,10 @@ private theorem exists_normalForm_twistedE6_sharp
   simp only [mul_inv_rev, mul_assoc]
 
 private theorem langFrame_core
-    {f p : ℕ} [Fact p.Prime] [NeZero p] (hp5 : 5 ≤ p) (hf : 1 ≤ f)
-    (K : Type) [Field K] [Finite K] (hK : Nat.card K = (2 ^ f) ^ 2) (σ : K →+* K)
-    (hσ : ∀ c, σ c = c ^ (2 ^ f)) (L : Type) [Field L] [Algebra K L] [IsAlgClosure K L]
-    [CharP L 2] {ζK : Kˣ} (hζKord : orderOf ζK = p)
+    {f p : ℕ} [Fact p.Prime] [NeZero p] (_hp5 : 5 ≤ p) (_hf : 1 ≤ f)
+    (K : Type) [Field K] [Finite K] (_hK : Nat.card K = (2 ^ f) ^ 2) (σ : K →+* K)
+    (_hσ : ∀ c, σ c = c ^ (2 ^ f)) (L : Type) [Field L] [Algebra K L] [IsAlgClosure K L]
+    [CharP L 2] {ζK : Kˣ} (_hζKord : orderOf ζK = p)
     (hζ : (Units.map (algebraMap K L).toMonoidHom ζK) ^ p = 1)
     {g₀ : ModGL TwistTag.E6.tag L} (hg₀C : g₀ ∈ adjointGroup TwistTag.E6.tag L)
     (ι₀ : Multiplicative (Fin TwistTag.E6.tag.rank → ZMod p) →*
@@ -127,7 +127,7 @@ private theorem langFrame_core
         β (ι₀ (Multiplicative.ofAdd s)) =
           ι₀ (Multiplicative.ofAdd ((m : ZMod p) • TableBExc.torusAct TwistTag.E6.tag p w s)) := by
   classical
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   let δL : L ≃+* L := IsAlgClosure.equivOfEquiv _ _ δ
   have hδL : ∀ c : K, δL (algebraMap K L c) = algebraMap K L (δ c) :=
     fun c => IsAlgClosure.equivOfEquiv_algebraMap _ _ δ c
@@ -188,7 +188,7 @@ private theorem langFrame_core
       rw [show y = g₀⁻¹ * xL * δg from rfl]
       group
     rw [hD, hz]
-    simp only [mul_inv_rev, inv_inv, mul_assoc]
+    simp only [mul_inv_rev, mul_assoc]
     rfl
   have himage : ∀ s : Fin TwistTag.E6.tag.rank → ZMod p,
       ∃ t : Fin TwistTag.E6.tag.rank → ZMod p,
@@ -256,7 +256,7 @@ theorem langFrame_aut {f p : ℕ} [Fact p.Prime] [NeZero p] (hp5 : 5 ≤ p) (hf 
     {g₀ : ModGL TwistTag.E6.tag L} (hg₀C : g₀ ∈ adjointGroup TwistTag.E6.tag L)
     (ι₀ : Multiplicative (Fin TwistTag.E6.tag.rank → ZMod p) →*
       ↥(graphFixedRootGroup TwistTag.E6 K σ))
-    (hι₀ : Function.Injective ι₀)
+    (_hι₀ : Function.Injective ι₀)
     (hbase : ∀ s : Fin TwistTag.E6.tag.rank → ZMod p,
       baseChangeGL (algebraMap K L)
         ((ι₀ (Multiplicative.ofAdd s) : _) : ModGL TwistTag.E6.tag K) =
@@ -269,7 +269,7 @@ theorem langFrame_aut {f p : ℕ} [Fact p.Prime] [NeZero p] (hp5 : 5 ≤ p) (hf 
   intro β hstab
   classical
   have hp : p.Prime := Fact.out
-  haveI hFinK : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have hFinK : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   let σ' : K ≃+* K := RingEquiv.ofBijective σ (Finite.injective_iff_bijective.mp σ.injective)
   have hσθ : σ'.toRingHom = σ := rfl
   have hσ' : ∀ c, σ' c = c ^ (2 ^ f) := fun c => hσ c

@@ -126,7 +126,7 @@ theorem closure_centralizers_eq_top_of_class (c : TwClass) (h : TwClassLeaves c)
     Subgroup.closure {k : ↥(adjointGroup c.tag K) | ∃ x ∈ E, x ≠ 1 ∧ Commute k x} = ⊤ := by
   obtain ⟨D⟩ := h.lang K
   have hb := h.basic K hK D
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact closure_centralizers_eq_top_of_subgroups hb.le₁ hb.le₂ hb.comm (h.closing K hK D)
     (h.normalizer K hK D) (h.planeData K hK D p hp hp5 hord) (h.third K hK p hp hp5 hord) E hEp hEc
 

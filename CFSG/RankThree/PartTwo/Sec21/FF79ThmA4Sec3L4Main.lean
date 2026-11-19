@@ -26,7 +26,7 @@ theorem ff79_3_4_of_in (hO : FF79KLemmaOP) (hG : IsSimpleGroup G)
   have hU := sec34_UFacts hs h ha hoa hK
   have haC : a ∈ CenS (U34 b a J A) := by
     intro x hx
-    haveI := hU.elemU.1
+    have := hU.elemU.1
     have := (IsMulCommutative.is_comm (M := ↥(U34 b a J A))).comm ⟨x, hx⟩ ⟨a, hU.a_mem⟩
     exact congrArg Subtype.val this
   have hd := sec34_APData hG hna hKp hs h hU hoa hK haC

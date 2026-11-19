@@ -106,7 +106,7 @@ theorem ggTPTorusLift {X P : Type} [Group X] [Finite X] [Group P] (π : X →* P
       (∀ x : GGTPTorus, θ x = 1 ↔ (x : Fin 6 → Multiplicative (ZMod 3)) ∈ GGTPTorusConst) ∧
       ∀ σ : Equiv.Perm (Fin 6), ∃ g : X, ∀ x : GGTPTorus, g * θ x * g⁻¹ = θ (ggTPPermAct σ x) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let E : Subgroup P := δ.range
   let Pt : Subgroup X := E.comap π
   have hE3 : IsPGroup 3 E := ggTP_isPGroup_range δ
@@ -133,7 +133,7 @@ theorem ggTPTorusLift {X P : Type} [Group X] [Finite X] [Group P] (π : X →* P
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp hE3
     rw [hn, Nat.factorization_pow_self Nat.prime_three]
   obtain ⟨S⟩ := Sylow.nonempty (p := 3) (G := Pt)
-  haveI : Finite (Sylow 3 Pt) := Sylow.finite_of_finiteIndex S
+  have : Finite (Sylow 3 Pt) := Sylow.finite_of_finiteIndex S
   have hScard : Nat.card S = Nat.card E := by
     rw [Sylow.card_eq_multiplicity S, hfac, ← hEcard]
   let f : S →* E := (π.comp (Pt.subtype.comp (S : Subgroup Pt).subtype)).codRestrict E

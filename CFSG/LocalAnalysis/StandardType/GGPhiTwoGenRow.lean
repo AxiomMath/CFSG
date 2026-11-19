@@ -26,7 +26,7 @@ private theorem ggPhiTwoRow_conj_injective {X : Type} [Group X]
     _ = y * 1 := by rw [h1]
     _ = y := by group
 
-theorem exists_hyperplane_family_of_rootGenAvoidKG {p r : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem exists_hyperplane_family_of_rootGenAvoidKG {p r : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
     {R : Type} [Group R] {I : Set (MulAut R)} (hrow : GGTorusRootGenAvoidKG p r R I)
     {X : Type} [Group X] [Finite X] (θ : X ≃* R) (hX : commutator X = ⊤)
     (hZ : ∀ z : X, (∀ x : X, z * x = x * z) → z = 1) {E : Subgroup X}
@@ -52,7 +52,7 @@ theorem exists_hyperplane_family_of_rootGenAvoidKG {p r : ℕ} (hp : p.Prime) (h
       obtain ⟨y, hy, hyb⟩ := Subgroup.mem_map.mp b.2
       change (↑a : MulAut X) * ↑b = ↑b * ↑a
       rw [← hxa, ← hyb, ← map_mul, ← map_mul]
-      haveI : IsMulCommutative ↥E := hE.1
+      have : IsMulCommutative ↥E := hE.1
       have hcomm : x * y = y * x :=
         congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥E) ⟨y, hy⟩)
       rw [hcomm]

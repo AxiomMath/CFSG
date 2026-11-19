@@ -26,7 +26,7 @@ theorem cyclic_two_sylow_oddCore_complement (sylow : Sylow 2 G)
     intro element hmem
     change transfer element = 1
     by_contra hnonidentity
-    have htwo : 2 ∣ orderOf (transfer element) := sylow.isPGroup'.dvd_orderOf hnonidentity
+    have htwo : 2 ∣ orderOf (transfer element) := sylow.isPGroup.dvd_orderOf hnonidentity
     have hdiv := htwo.trans ((orderOf_map_dvd transfer element).trans
       ((oddCore G).orderOf_dvd_natCard hmem))
     exact (oddCore_odd (G := G)).not_two_dvd_nat hdiv
@@ -39,6 +39,6 @@ theorem cyclic_two_sylow_oddCore_quotient (sylow : Sylow 2 G)
     IsPGroup 2 (G ⧸ oddCore G) := by
   let _ := oddCore_normal (G := G)
   let equivalence := (cyclic_two_sylow_oddCore_complement sylow hcyclic heven).symm.QuotientMulEquiv
-  exact sylow.isPGroup'.of_equiv equivalence.symm
+  exact sylow.isPGroup.of_equiv equivalence.symm
 
 end CFSG.DisconnectedInvolutionGraph.Helpers

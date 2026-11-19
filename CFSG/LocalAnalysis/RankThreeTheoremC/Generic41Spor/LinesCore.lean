@@ -17,11 +17,13 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def conjLinesIn (x : G) (S : Subgroup G) : Set (Subgroup G) :=
   {A | ∃ g : G, A = (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom ∧ A ≤ S}
 
+omit [Finite G] in
 theorem map_conj_zpowers (g a : G) :
     (Subgroup.zpowers a).map (MulAut.conj g).toMonoidHom = Subgroup.zpowers (g * a * g⁻¹) := by
   rw [MonoidHom.map_zpowers]
   rfl
 
+omit [Finite G] in
 theorem map_conj_map_conj (g h : G) (A : Subgroup G) :
     (A.map (MulAut.conj h).toMonoidHom).map (MulAut.conj g).toMonoidHom =
       A.map (MulAut.conj (g * h)).toMonoidHom := by
@@ -30,16 +32,19 @@ theorem map_conj_map_conj (g h : G) (A : Subgroup G) :
   ext y
   simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite G] in
 theorem map_conj_one (A : Subgroup G) : A.map (MulAut.conj (1 : G)).toMonoidHom = A := by
   ext y
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
+omit [Finite G] in
 theorem map_conj_cancel (g : G) (A : Subgroup G) :
     (A.map (MulAut.conj g).toMonoidHom).map (MulAut.conj g⁻¹).toMonoidHom = A := by
   rw [map_conj_map_conj]
   ext y
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
+omit [Finite G] in
 theorem map_conj_cancel' (g : G) (A : Subgroup G) :
     (A.map (MulAut.conj g⁻¹).toMonoidHom).map (MulAut.conj g).toMonoidHom = A := by
   have := map_conj_cancel g⁻¹ A
@@ -98,7 +103,7 @@ theorem lines_core {p : ℕ} [Fact p.Prime] (h5 : 5 ≤ p) {S T Γ : Subgroup G}
   classical
   have hp : p.Prime := Fact.out
   have hxo : orderOf x = p := orderOf_eq_prime hxp hx1
-  haveI : IsMulCommutative T := hTel.1
+  have : IsMulCommutative T := hTel.1
   have hTc : ∀ a ∈ T, ∀ b ∈ T, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : T) ⟨b, hb⟩)
   have hΓz : ∀ γ ∈ Γ, ∀ z ∈ Subgroup.zpowers x, γ * z * γ⁻¹ = z := by

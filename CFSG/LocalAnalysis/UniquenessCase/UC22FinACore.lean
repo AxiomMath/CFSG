@@ -34,7 +34,7 @@ theorem fina_core (hq : 8 ≤ Nat.card K) (φ : Γ →* projectiveSL 3 K)
     intro b hb
     exact Subtype.ext (hBker b b.2 hb)
   let eB : ↥B ≃* ↥(φ.domRestrict B).range := MonoidHom.ofInjective hinjB
-  have hE : (φ.domRestrict B).range = B.map φ := MonoidHom.restrict_range B φ
+  have hE : (φ.domRestrict B).range = B.map φ := MonoidHom.domRestrict_range B φ
   have hcardE : Nat.card (B.map φ) = Nat.card B := by
     rw [← hE]
     exact (Nat.card_congr eB.toEquiv).symm

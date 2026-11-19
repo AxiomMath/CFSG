@@ -20,8 +20,8 @@ section Certified
 
 theorem case_self (h : CentConfig X a b E Fus) (hE : IsComponentOf E ⊤) :
     TransferWitness X a Fus := by
-  haveI hEn : E.Normal := self_normal h hE
-  haveI hYn : (centralizer (E : Set X)).Normal := Subgroup.normal_centralizer
+  have hEn : E.Normal := self_normal h hE
+  have hYn : (centralizer (E : Set X)).Normal := Subgroup.normal_centralizer
   obtain ⟨S, U, A, haS, hUS, hUidx, haU, hAcyc, hbA, hUY, hP⟩ :=
     exists_sylow_split (self_comm E) (self_sup h hE) (self_inf h) h.b_sq h.b_ne
       (self_a_mem h) h.a_sq h.a_ne (self_a_not_mem h) (self_cent h) (self_card h)
@@ -31,7 +31,7 @@ theorem case_self (h : CentConfig X a b E Fus) (hE : IsComponentOf E ⊤) :
   obtain ⟨hw2, hw1, hD⟩ := h.fus w hwfus
   by_cases hwY : w ∈ centralizer (E : Set X)
   · have hwA : w ∈ A := hUY ⟨hwU, hwY⟩
-    haveI hAcycI : IsCyclic ↥A := hAcyc
+    have hAcycI : IsCyclic ↥A := hAcyc
     have hb2A : (⟨b, hbA⟩ : ↥A) ^ 2 = 1 := by
       apply Subtype.ext
       simpa [pow_two] using h.b_sq

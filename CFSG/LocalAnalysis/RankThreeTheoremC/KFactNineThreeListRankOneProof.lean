@@ -34,7 +34,7 @@ theorem linTwo {p : ℕ} {d : TauCeti.ValidLieTypeIndex} {q : TauCeti.PrimePower
     (h2 : 2 ≤ q.exponent) (hd : d.1 = .A 1 q) (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) :
     2 ≤ Open.pRank p (⊤ : Subgroup S) := by
   subst hq
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨b⟩ := CFSG.AGLEmbedding.nonempty_mulEquiv_psl2GF_of_isLinTwoIndex
     (p := q.p) (n := q.exponent) ⟨q, hd, rfl, rfl⟩
   have h := CFSG.Quasithin.H13.S3320.le_pRank_of_psl2 q.exponent_pos (e.trans b)
@@ -199,7 +199,7 @@ theorem altTen (e : S ≃* alternatingGroup (Fin 10)) : 2 ≤ Open.pRank 5 (⊤ 
 theorem of_cubic {X : Type} [Group X] {r : ℕ} (hr : r.Prime) (e : S ≃* X) {x y : X}
     (hx : x ^ r = 1) (hz1 : ⁅x, y⁆ ≠ 1) (hzx : Commute ⁅x, y⁆ x) (hzy : Commute ⁅x, y⁆ y) :
     2 ≤ Open.pRank r (⊤ : Subgroup S) := by
-  haveI : Finite X := Finite.of_equiv S e.toEquiv
+  have : Finite X := Finite.of_equiv S e.toEquiv
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt e]
   exact CFSG.RankThree.ThinCatalog.two_le_pRank_of_cubic_witness hr hx hz1 hzx hzy
 
@@ -221,7 +221,7 @@ theorem of_carrier_elem {s : TauCeti.SporadicName} {r k : ℕ} (hr : r.Prime)
     (e : S ≃* (TauCeti.CFSGIndex.sporadic s).Group) : k ≤ Open.pRank r (⊤ : Subgroup S) := by
   obtain ⟨b⟩ := hbr
   obtain ⟨E, hE, hc⟩ := hE
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier s) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier s) :=
     Finite.of_equiv S (e.trans b.symm).toEquiv
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt (e.trans b.symm)]
   exact CFSG.LocalAnalysis.RankFourTheoremC.le_pRank_of_isElemAbelian hr le_top hE hc.ge
@@ -245,7 +245,7 @@ theorem of_carrier_noncomm {s : TauCeti.SporadicName} {r : ℕ} (hr : r.Prime) (
     (hN : CFSG.RankThree.PartOne.StrongP.HasNoncommPair r (CFSG.Blueprint.NativeSporadic.Carrier s))
     (e : S ≃* (TauCeti.CFSGIndex.sporadic s).Group) : 2 ≤ Open.pRank r (⊤ : Subgroup S) := by
   obtain ⟨b⟩ := hbr
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier s) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier s) :=
     Finite.of_equiv S (e.trans b.symm).toEquiv
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt (e.trans b.symm)]
   exact of_noncommPair hr hr2 hN
@@ -302,7 +302,7 @@ theorem sporEleven
 
 theorem prod {L : Type} [Group L] {p : ℕ} (hp : p.Prime) (e : S ≃* L × L) {x : L}
     (hx : orderOf x = p) : 2 ≤ Open.pRank p (⊤ : Subgroup S) := by
-  haveI : Finite (L × L) := Finite.of_equiv S e.toEquiv
+  have : Finite (L × L) := Finite.of_equiv S e.toEquiv
   have h := CFSG.two_le_pRank_of_commute_independent (P := L × L) hp
     (e₁ := ((x, 1) : L × L)) (e₂ := ((1, x) : L × L))
     (Commute.prod (Commute.one_right x) (Commute.one_left x))
@@ -318,10 +318,10 @@ theorem prod {L : Type} [Group L] {p : ℕ} (hp : p.Prime) (e : S ≃* L × L) {
 
 theorem exists_orderOf_of_prod {L : Type} [Group L] {p : ℕ} (hp : p.Prime) (e : S ≃* L × L)
     (h : ∀ [Finite L], p ∣ Nat.card L) : ∃ x : L, orderOf x = p := by
-  haveI : Finite (L × L) := Finite.of_equiv S e.toEquiv
-  haveI : Finite L := Finite.of_injective (fun g : L => (g, (1 : L))) (fun a b h => by
+  have : Finite (L × L) := Finite.of_equiv S e.toEquiv
+  have : Finite L := Finite.of_injective (fun g : L => (g, (1 : L))) (fun a b h => by
     simpa using congrArg Prod.fst h)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact exists_prime_orderOf_dvd_card' p h
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.ListRankOne

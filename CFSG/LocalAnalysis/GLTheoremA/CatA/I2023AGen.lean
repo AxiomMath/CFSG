@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 noncomputable abbrev rho (L : Subgroup G) : ↥(Subgroup.normalizer (L : Set G)) →* MulAut (PQuot 3 L) :=
   CFSG.HardMathSupport.Solomon.LocalBalance.barAut 3 L
 
+omit [Finite G] in
 theorem rho_mk' (L : Subgroup G) {g : G} (hg : g ∈ Subgroup.normalizer (L : Set G)) (y y' : ↥L)
     (h : (y' : G) = g * y * g⁻¹) :
     rho L ⟨g, hg⟩ (QuotientGroup.mk y) = QuotientGroup.mk y' := by
@@ -25,18 +26,21 @@ theorem rho_mk' (L : Subgroup G) {g : G} (hg : g ∈ Subgroup.normalizer (L : Se
   rw [h]
   rfl
 
+omit [Finite G] in
 theorem mem_core_iff {p : ℕ} {L : Subgroup G} (x : ↥L) :
     (x : G) ∈ GLAPPrimeCoreOf p L ↔ x ∈ GLAPPrimeCore p ↥L :=
   ⟨fun ⟨c', hc', hv⟩ => by
     have : c' = x := Subtype.ext hv
     rwa [this] at hc', fun h => ⟨x, h, rfl⟩⟩
 
+omit [Finite G] in
 theorem mk_eq_iff (L : Subgroup G) (y z : ↥L) :
     (QuotientGroup.mk y : PQuot 3 L) = QuotientGroup.mk z ↔
       (y : G)⁻¹ * (z : G) ∈ GLAPPrimeCoreOf 3 L := by
   rw [QuotientGroup.eq, ← mem_core_iff]
   simp only [Subgroup.coe_mul, Subgroup.coe_inv]
 
+omit [Finite G] in
 theorem rho_eq_one_iff (L : Subgroup G) {g : G} (hg : g ∈ Subgroup.normalizer (L : Set G)) :
     rho L ⟨g, hg⟩ = 1 ↔ g ∈ centModSubgroup 3 L := by
   constructor
@@ -66,6 +70,7 @@ theorem rho_eq_one_iff (L : Subgroup G) {g : G} (hg : g ∈ Subgroup.normalizer 
     rw [e] at this
     exact this
 
+omit [Finite G] in
 theorem rho_inner (L : Subgroup G) (l : ↥L) :
     rho L ⟨(l : G), Subgroup.le_normalizer l.2⟩ = MulAut.conj (QuotientGroup.mk l : PQuot 3 L) := by
   apply MulEquiv.ext
@@ -102,7 +107,7 @@ theorem isElemAbelian_closure {M : Type*} [Group M] (s : Set M)
   | inv a ha iha => rw [inv_pow, iha, inv_one]
 
 theorem isElemAbelian_map_inj {H M : Type*} [Group H] [Group M] (f : H →* M)
-    (hf : Function.Injective f) {S₀ : Subgroup H} (h : IsElemAbelian 3 S₀) :
+    (_hf : Function.Injective f) {S₀ : Subgroup H} (h : IsElemAbelian 3 S₀) :
     IsElemAbelian 3 (S₀.map f) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun g hg => ?_⟩
   · obtain ⟨a₀, ha₀, ha⟩ := a.2
@@ -115,6 +120,7 @@ theorem isElemAbelian_map_inj {H M : Type*} [Group H] [Group M] (f : H →* M)
   · obtain ⟨s, hs, rfl⟩ := hg
     rw [← map_pow, h.2 s hs, map_one]
 
+omit [Finite G] in
 theorem mk_eq_iff_X (X : Subgroup G) (y z : ↥X) :
     (QuotientGroup.mk' (GLAPPrimeCore 3 ↥X) y) = QuotientGroup.mk' (GLAPPrimeCore 3 ↥X) z ↔
       (y : G)⁻¹ * (z : G) ∈ GLAPPrimeCoreOf 3 X := by

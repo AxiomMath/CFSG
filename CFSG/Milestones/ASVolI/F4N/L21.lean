@@ -38,7 +38,7 @@ theorem burnsideF4n_f1_alpha1 {α : RankTwoAmalgam.{0}} {Y : Type} [Group Y]
 theorem burnsideF4n_mem_of_normalizer_borel {D : Type} [Group D] [Finite D] {p : ℕ}
     (hp : p.Prime) {B P₁ P₂ : Subgroup D} (h : IsLieParabolics p (⊤ : Subgroup D) B P₁ P₂)
     {e : D} (he : e ∈ Subgroup.normalizer (B : Set D)) : e ∈ B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨S, ⟨-, hSp, hSidx⟩, hB⟩, -⟩ := h
   have hidx : ¬ p ∣ S.index := by rwa [Subgroup.relIndex_top_right] at hSidx
   let T : Sylow p D := hSp.toSylow hidx
@@ -161,7 +161,7 @@ theorem burnsideF4n_exists_conj_equiv {α : RankTwoAmalgam.{0}} {Y Y' : Type} [G
 theorem burnside_as_F_4_21_of
     (h46 : F_4_6) : F_4_21 := by
   intro κ p f E _ Gp M₁ M₂ hyp hGp hκ Y _ β hβ _hs Y' _ ρ hρ cc hcc hccl cc' hcc' hccl' hstab
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   subst hGp
   have hp : p.Prime := burnsideF4a_prime_of_isGenLie hyp.model
   have hP := burnsideF4n_parabolics_at hyp

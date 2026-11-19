@@ -30,12 +30,12 @@ theorem shapeRkAt_of_simple_small_index' {Good : ∀ (T : Type) [Group T], Prop}
     (hnd : ∀ n ≤ 14, ¬ Nat.card ↥E ∣ n.factorial)
     (hC : Nat.card ↥(Subgroup.centralizer ({t} : Set Q)) < 15 * Nat.card ↥E)
     (hG : Good ↥E) : ShapeRkAt 3 Good (fun _ _ => True) t := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := Subgroup.centralizer ({t} : Set Q) with hCdef
   have hEZ : Subgroup.center ↥E = ⊥ := center_eq_bot_of_simple_nonab hnab
   set E' : Subgroup ↥C := E.subgroupOf C with hE'def
   have eE : ↥E' ≃* ↥E := Subgroup.subgroupOfEquivOfLe hEC
-  haveI : IsSimpleGroup ↥E' := eE.isSimpleGroup_congr.2 hs
+  have : IsSimpleGroup ↥E' := eE.isSimpleGroup_congr.2 hs
   have hcardE' : Nat.card E' = Nat.card E := Nat.card_congr eE.toEquiv
   have hEpos : 0 < Nat.card E := Nat.card_pos
   have hidx : E'.index ≤ 14 := by
@@ -64,14 +64,14 @@ theorem shapeRkAt_of_simple_small_index' {Good : ∀ (T : Type) [Group T], Prop}
       exact hab (commutatorElement_eq_one_iff_mul_comm.1 h1)
     · exact h
   have hcore : GLAPPrimeCore 3 ↥E = ⊥ := by
-    haveI := hs
+    have := hs
     exact glaPPrimeCore_eq_bot_of_simple Nat.prime_three h3
   have hcent : IsPGroup 3 ↥(C ⊓ Subgroup.centralizer (E : Set Q)) := by
     set Z : Subgroup Q := C ⊓ Subgroup.centralizer (E : Set Q) with hZdef
     have hZC : Z ≤ C := inf_le_left
     set Z0 : Subgroup ↥C := Z.subgroupOf C with hZ0def
     have eZ : ↥Z0 ≃* ↥Z := Subgroup.subgroupOfEquivOfLe hZC
-    haveI hZ0n : Z0.Normal := by
+    have hZ0n : Z0.Normal := by
       constructor
       intro x hx g
       rw [Subgroup.mem_subgroupOf] at hx ⊢
@@ -152,7 +152,7 @@ theorem leaf_closure_of_six {X : Type} [Group X] (ε : Fin 6 → X) (hε : Satis
 
 theorem th_shape_S' (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) :
     ShapeRkAt 3 CFSG.LocalAnalysis.GLTheoremA.I1415Rows.ATypeThree (fun _ _ => True) thS := by
-  haveI : Finite ↥J := finite_J
+  have : Finite ↥J := finite_J
   obtain ⟨hrel, hcomm, hne⟩ := th_letters_spec
   have hε : SatisfiesG23Words thEps := fun r hr => (lift_mk_eq_evalW _ r).trans (hrel r hr)
   obtain ⟨hleaf, hsimp, hnab, hcard⟩ := leaf_closure_of_six thEps hε hne
@@ -167,7 +167,7 @@ theorem th_shape_S' (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridg
     th3_facts.2.2.2.2.2
   refine shapeRkAt_of_simple_small_index' CFSG.LocalAnalysis.GLTheoremA.I1415Rows.atypeThree_of_equiv
     hs3 hO _ hEC hsimp hnab ?_ ?_ ?_
-    (CFSG.LocalAnalysis.GLTheoremA.I1415Rows.atypeOK_of_card hb (N := 4245696) (by rw [hcard] <;> norm_num) (by norm_num) (by norm_num)
+    (CFSG.LocalAnalysis.GLTheoremA.I1415Rows.atypeOK_of_card hb (N := 4245696) (by rw [hcard]) (by norm_num) (by norm_num)
       (by simp only [Nat.primeFactorsList_ofNat]; decide +kernel) (by decide) (by decide))
   · rw [hcard]; norm_num
   · rw [hcard]
@@ -198,7 +198,7 @@ theorem th_shape_Z' : ShapeRkAt 3 ATypeThree (fun _ _ => True) thZ := by
   have hz : orderOf thZ = 3 := th_orderOf.2.1
   have hO : GLAPPrimeCoreOf 3 (Subgroup.centralizer ({thZ} : Set ↥CFSG.Sporadic.Th.J)) = ⊥ :=
     oPrimeCoreTrivialAt_Th_three_of_residual thThreeResidual_holds thZ hz
-  haveI : Finite ↥CFSG.Sporadic.Th.J := finite_J
+  have : Finite ↥CFSG.Sporadic.Th.J := finite_J
   exact pConstrainedShape_of_solvable Nat.prime_three
     (isSolvable_of_card_dvd_two_three card_centralizer_zJ_dvd) hO
 
@@ -208,13 +208,13 @@ theorem th_shape_U' : ShapeRkAt 3 ATypeThree (fun _ _ => True) thU := by
   refine pConstrainedShape_of_map_injective J.subtype J.subtype_injective ?_
   rw [map_centralizer_subtype']
   obtain ⟨R, hle, hnorm, hcard, hcent⟩ := th_caseU_spec
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact pConstrainedShape_of_normal_pgroup hle (normal_subgroupOf_of_conj hnorm)
     (IsPGroup.of_card (n := 5) hcard) hcent
 
 theorem th_centShapeRk' (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) :
     CentShapeRk 3 ATypeThree (fun _ _ => True) ↥J := by
-  haveI : Finite ↥J := finite_J
+  have : Finite ↥J := finite_J
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
   obtain ⟨hS3, hZ3, hU3⟩ := th_orders
   intro k hk1 hkp
@@ -245,9 +245,9 @@ theorem arow_Th_three
   have hs : IsSimpleGroup ↥CFSG.Sporadic.Th.J :=
     CFSG.Sporadic.Th.Kernel.isSimpleGroup_J CFSG.Sporadic.Th.th_kernel_facts
   have hnc : ∃ a c : ↥CFSG.Sporadic.Th.J, a * c ≠ c * a := by
-    haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
+    have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
       Finite.of_equiv _ CFSG.Sporadic.Th.thEquivJ.symm.toEquiv
-    haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
+    have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
       CFSG.Sporadic.Th.Kernel.isSimpleGroup_Th
         CFSG.Sporadic.Th.th_kernel_facts
     have hcC : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .Th) = 90745943887872000 :=

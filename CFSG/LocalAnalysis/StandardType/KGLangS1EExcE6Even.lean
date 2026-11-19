@@ -188,9 +188,9 @@ theorem kgLangS1E_cont_E6_even
   unfold CFSG.StandardType.LargeEvenRawDatum CFSG.Assembly.LargeEvenRecipeChevalley
   obtain ⟨K₁, hf₁, hfin₁, hK₁, hQ₁, hfc₁, hif₁, hpc₁⟩ := hraw
   refine ⟨K₁, hf₁, hfin₁, hK₁, hQ₁, ?_⟩
-  letI : Field K₁ := hf₁
-  letI : Finite K₁ := hfin₁
-  haveI : CharP K₁ 2 := charP_two_of_card hK₁
+  let : Field K₁ := hf₁
+  let : Finite K₁ := hfin₁
+  have : CharP K₁ 2 := charP_two_of_card hK₁
   have hn6 : 6 ≤ n := by
     have h1 : 1 ≤ n := hlab.1
     obtain ⟨a, ha⟩ : ∃ a, n = a + a := heven
@@ -201,18 +201,18 @@ theorem kgLangS1E_cont_E6_even
     calc 5 ≤ 2 ^ 6 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn6
   let L : Type := AlgebraicClosure K₁
-  letI : Field L := inferInstanceAs (Field (AlgebraicClosure K₁))
-  letI : IsAlgClosed L := inferInstanceAs (IsAlgClosed (AlgebraicClosure K₁))
-  letI : Algebra K₁ L := inferInstanceAs (Algebra K₁ (AlgebraicClosure K₁))
-  haveI : IsAlgClosure K₁ L := inferInstanceAs (IsAlgClosure K₁ (AlgebraicClosure K₁))
-  haveI : Algebra.IsAlgebraic K₁ L :=
+  let : Field L := inferInstanceAs (Field (AlgebraicClosure K₁))
+  let : IsAlgClosed L := inferInstanceAs (IsAlgClosed (AlgebraicClosure K₁))
+  let : Algebra K₁ L := inferInstanceAs (Algebra K₁ (AlgebraicClosure K₁))
+  have : IsAlgClosure K₁ L := inferInstanceAs (IsAlgClosure K₁ (AlgebraicClosure K₁))
+  have : Algebra.IsAlgebraic K₁ L :=
     inferInstanceAs (Algebra.IsAlgebraic K₁ (AlgebraicClosure K₁))
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K₁ L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K₁ L).injective 2
   have hq : CFSG.IsQuasisimple ↥(CFSG.Blueprint.Chevalley.adjointGroup .E6 K₁) :=
     CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e6 K₁
   obtain ⟨eQ⟩ := centerQuot_chevGroup_equiv K₁ .E6
   have hs : IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K₁ false)) := by
-    haveI : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .E6 K₁) := hq.2.1
+    have : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .E6 K₁) := hq.2.1
     exact eQ.isSimpleGroup
   have hna : ∃ a b : LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 6) K₁ false),
       a * b ≠ b * a := kgLangS1EExcE6EvenAux_nonabelian eQ.symm hq.2.2
@@ -228,7 +228,7 @@ theorem kgLangS1E_cont_E6_even
     ((adjointGroup .E6 K₁).subtype.comp εb.toMonoidHom)
   let F₀ : ModGL .E6 L →* ModGL .E6 L := frobTwistGL .E6 L 2 eb 1
   let G : Subgroup (ModGL .E6 L) := ratPts .E6 L (endPow F₀ 3)
-  haveI : Finite G := hfinB
+  have : Finite G := hfinB
   have hstab : ∀ g ∈ G, F₀ g ∈ G := by
     intro g hg
     refine ⟨hstab₀ g hg.1, ?_⟩

@@ -8,9 +8,9 @@ namespace CFSG.KC.DcK
 
 open CFSG.Quasithin.H13.LocDbl.DcNative CFSG.KC.E64F
 
-namespace DcK
+namespace DcKData
 
-variable (K : DcK)
+variable (K : DcKData)
 
 @[expose] def conjKey2 (i j k : Nat) : Nat :=
   keyNat K.n K.B.length ((ePts K.R K.rt (k + 1) k
@@ -53,13 +53,13 @@ variable (K : DcK)
   H.length == K.reps.size &&
     (List.range K.reps.size).all fun j => K.hitT xt xti j == some (H.getD j 0)
 
-end DcK
+end DcKData
 
-@[expose] def chkAllKN (K : DcK) (I H : List Nat) (P : Nat → Nat → Nat → Nat) : Bool :=
+@[expose] def chkAllKN (K : DcKData) (I H : List Nat) (P : Nat → Nat → Nat → Nat) : Bool :=
   K.invOK && K.basicOK && K.labOK && K.distOKN I P && K.edgesOK && K.vsOK && K.hitOK H &&
     K.massOK H
 
-@[expose] def chkAllKT (K : DcK) (I H : List Nat) (P : Nat → Nat → Nat → Nat)
+@[expose] def chkAllKT (K : DcKData) (I H : List Nat) (P : Nat → Nat → Nat → Nat)
     (xt xti : Nat → Nat → Nat) : Bool :=
   K.invOK && K.basicOK && K.labOK && K.distOKNT xt xti I P && K.edgesOK && K.vsOK &&
     K.hitOKT xt xti H && K.massOK H && K.tabsOK xt xti 0 K.reps.size

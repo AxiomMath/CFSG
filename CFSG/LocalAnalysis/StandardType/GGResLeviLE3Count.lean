@@ -69,7 +69,7 @@ private theorem ggNatCard_eq_pow_finrank {p : ℕ} [Fact p.Prime]
     {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     (ι : Additive ↥Bs ≃+ V) :
     Nat.card ↥Bs = p ^ Module.finrank (ZMod p) V := by
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   calc
     Nat.card ↥Bs = Nat.card (Additive ↥Bs) := Nat.card_congr Additive.ofMul
     _ = Nat.card V := Nat.card_congr ι.toEquiv
@@ -131,10 +131,10 @@ theorem ggLE3_card_le_of_fix {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
   classical
   obtain ⟨Λ, hΛfin, hΛdec, M, C, V, hVadd, hVmod, ι, φ, h, α, e, _, hW, hC,
     hlin, _, hpair, _, hclos⟩ := hXd
-  letI : Fintype Λ := hΛfin
-  letI : DecidableEq Λ := hΛdec
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
+  let : Fintype Λ := hΛfin
+  let : DecidableEq Λ := hΛdec
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
   have hfix' : ∀ b : ↥Bs, (∀ i, φ i b = b) → (b : G) ∈ Subgroup.zpowers w := by
     intro b hb
     exact hfix b (ggAutomizer_fix_of_range_fix hclos hb)
@@ -158,11 +158,11 @@ theorem ggLE3_three_card {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime
   classical
   obtain ⟨Λ, hΛfin, hΛdec, M, C, V, hVadd, hVmod, ι, φ, h, α, hcard, hW, hC,
     hlin, hpair, hclos⟩ := ggLE3_three_nodes hp2 hBs hN5 hXd hXs hY hY2
-  letI : Fintype Λ := hΛfin
-  letI : DecidableEq Λ := hΛdec
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  let : Fintype Λ := hΛfin
+  let : DecidableEq Λ := hΛdec
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hNle : N ≤ Module.finrank (ZMod p) V :=
     ggLE3_card_le_aux (p := p) hp2 ι φ h α hcard hW hC hlin hpair hclos hwB hw1 hwfix
   by_cases hdim : Module.finrank (ZMod p) V ≤ N
@@ -188,11 +188,11 @@ theorem ggLE3_three_card_fixY {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.
   classical
   obtain ⟨Λ, hΛfin, hΛdec, M, C, V, hVadd, hVmod, ι, φ, h, α, hcard, hW, hC,
     hlin, hpair, hclos⟩ := ggLE3_three_nodes hp2 hBs hN5 hXd hXs hY hY2
-  letI : Fintype Λ := hΛfin
-  letI : DecidableEq Λ := hΛdec
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  let : Fintype Λ := hΛfin
+  let : DecidableEq Λ := hΛdec
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hNle : N ≤ Module.finrank (ZMod p) V :=
     ggLE3_card_le_aux (p := p) hp2 ι φ h α hcard hW hC hlin hpair hclos hwB hw1 hwfix
   have hfix' : ∀ b : ↥Bs, (∀ i, φ i b = b) → (b : G) ∈ Subgroup.zpowers w := by

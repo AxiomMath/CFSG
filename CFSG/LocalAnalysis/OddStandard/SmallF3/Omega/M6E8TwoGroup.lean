@@ -14,15 +14,15 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem m6e8_rank_le_three {T K : Subgroup G} (hT : IsPGroup 2 T) (hKT : K ≤ T)
+theorem m6e8_rank_le_three {T K : Subgroup G} (_hT : IsPGroup 2 T) (hKT : K ≤ T)
     (hKi : K.relIndex T = 2)
     (hK2 : CFSG.GF2Type.Aschbacher1976Common.TwoGenSubgroups K) :
     CFSG.GH74.sectionalTwoRank T ≤ 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.GH74.sectionalTwoRank_le_iff]
   let N : Subgroup T := K.subgroupOf T
   have hNindex : N.index = 2 := hKi
-  haveI : N.Normal := Subgroup.normal_of_index_eq_two hNindex
+  have : N.Normal := Subgroup.normal_of_index_eq_two hNindex
   have hN2 : CFSG.GH74.SectionalTwoRankLE N 2 := by
     have h2g : CFSG.GF2Type.Aschbacher1976Common.TwoGenSubgroups ↥N :=
       CFSG.GF2Type.Aschbacher1976Common.twoGen_of_mulEquiv
@@ -46,11 +46,11 @@ theorem m6e8_two_group {T K : Subgroup G} {y r : G} (hT : IsPGroup 2 T)
     (hKR : Nat.card ↥(K ⊓ (T ⊓ centralizer ({y} : Set G))) = 4) :
     T ⊓ centralizer ({r} : Set G) = T ∧ CFSG.GH74.sectionalTwoRank T ≤ 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKT : K ≤ T := hK.trans inf_le_left
   have hRcomm : ∀ a ∈ T ⊓ centralizer ({y} : Set G),
       ∀ b ∈ T ⊓ centralizer ({y} : Set G), a * b = b * a := by
-    haveI : IsMulCommutative ↥(T ⊓ centralizer ({y} : Set G)) := hRab.1
+    have : IsMulCommutative ↥(T ⊓ centralizer ({y} : Set G)) := hRab.1
     intro a ha b hb
     simpa using congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥(T ⊓ centralizer ({y} : Set G)))
       ⟨b, hb⟩)
@@ -76,7 +76,7 @@ theorem m6e8_two_group {T K : Subgroup G} {y r : G} (hT : IsPGroup 2 T)
     rw [hn]
     have hn3 : 3 ≤ n := by
       by_contra h
-      push_neg at h
+      push Not at h
       have hlt : 4 < 2 ^ n := by rwa [← hn]
       interval_cases n <;> norm_num at hlt
     calc 8 = 2 ^ 3 := by norm_num
@@ -98,7 +98,7 @@ theorem m6e8_two_group {T K : Subgroup G} {y r : G} (hT : IsPGroup 2 T)
         Nat.card ↥(T ⊓ centralizer ({y} : Set G)) := by rw [heq]
     rw [hKR, hR8] at this
     omega
-  obtain ⟨c, hcR, hcKR⟩ := (SetLike.lt_iff_le_and_exists.mp hltKR).2
+  obtain ⟨c, hcR, hcKR⟩ := (IsConcreteLE.lt_iff_le_and_exists.mp hltKR).2
   have hcK : c ∉ K := fun hc => hcKR ⟨hc, hcR⟩
   have hcr : c * r = r * c := hRcomm c hcR r hrR
   have hcC : c ∈ T ⊓ centralizer ({r} : Set G) :=

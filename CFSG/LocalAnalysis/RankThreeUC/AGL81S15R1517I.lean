@@ -58,7 +58,7 @@ theorem xlevel_out1517_gen (hK4143 : K4143) (hD : K421Data) (hN : K421NonTransLi
   have hX3' : CFSG.Open.pRank 3 (⊤ : Subgroup X) = 3 := by
     have := CFSG.SectionRank.pRank_mono Nat.prime_three.one_lt (le_top : L ≤ ⊤)
     omega
-  haveI hSn : (barO2 L).Normal :=
+  have hSn : (barO2 L).Normal :=
     Subgroup.Normal.map hLn (QuotientGroup.mk' (CFSG.pCore 2 X)) (QuotientGroup.mk'_surjective _)
   have hbad' : Bad1517 p ↥(barO2 L) := bad1517_of_equiv e.symm hbad
   have hq : CFSG.Open.IsQuasisimple ↥(barO2 L) := hL.1.component.2.2

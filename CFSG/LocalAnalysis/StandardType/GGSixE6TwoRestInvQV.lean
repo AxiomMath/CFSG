@@ -163,7 +163,7 @@ private lemma e6iq_stdQRoots_ncard :
   have h : stdQRoots =
       ↑((rootFinset Tag.E6).filter (fun γ => 0 < iform γ E6Pilot.yLamAS)) := by
     ext γ
-    simp only [stdQRoots, Set.mem_setOf_eq, Finset.mem_filter, Finset.mem_coe, mem_rootFinset]
+    simp only [stdQRoots, Set.mem_ofPred_eq, Finset.mem_filter, Finset.mem_coe, mem_rootFinset]
   rw [h, Set.ncard_coe_finset]
   decide +kernel
 
@@ -172,7 +172,7 @@ private lemma e6iq_stdZRoots_ncard :
   have h : stdZRoots =
       ↑((rootFinset Tag.E6).filter (fun γ => iform γ E6Pilot.yLamAS = 2)) := by
     ext γ
-    simp only [stdZRoots, Set.mem_setOf_eq, Finset.mem_filter, Finset.mem_coe, mem_rootFinset]
+    simp only [stdZRoots, Set.mem_ofPred_eq, Finset.mem_filter, Finset.mem_coe, mem_rootFinset]
   rw [h, Set.ncard_coe_finset]
   decide +kernel
 
@@ -390,13 +390,13 @@ private lemma e6iq_exists_piHom {G : Type*} [Group G] (g : Fin 16 → G)
       (by
         intro x y
         rcases key x with rfl | rfl <;> rcases key y with rfl | rfl <;>
-          simp [ofAdd_zero, ofAdd_eq_one, toAdd_ofAdd, toAdd_mul, h2, hg2 i])
+          simp [toAdd_ofAdd, toAdd_mul, h2, hg2 i])
   have hcomm' : Pairwise fun i j : Fin 16 =>
       ∀ (x : Multiplicative (ZMod 2)) (y : Multiplicative (ZMod 2)),
         Commute ((f i) x) ((f j) y) := by
     intro i j hij x y
     rcases key x with rfl | rfl <;> rcases key y with rfl | rfl <;>
-      simp [f, ofAdd_zero, ofAdd_eq_one, toAdd_ofAdd, hcomm i j]
+      simp [f, ofAdd_eq_one, hcomm i j]
   refine ⟨(MonoidHom.noncommPiCoprod f hcomm').comp
     (MulEquiv.piMultiplicative (fun _ : Fin 16 => ZMod 2)).toMonoidHom, ?_⟩
   intro i
@@ -409,12 +409,12 @@ private lemma e6iq_exists_piHom {G : Type*} [Group G] (g : Fin 16 → G)
     rw [MulEquiv.piMultiplicative_apply, Pi.mulSingle_apply]
     by_cases hj : j = i
     · subst hj; simp [toAdd_ofAdd]
-    · simp [toAdd_ofAdd, Pi.single_eq_of_ne hj, if_neg hj, ofAdd_zero]
+    · simp [toAdd_ofAdd, Pi.single_eq_of_ne hj, ite_eq_right hj, ofAdd_zero]
   change (MonoidHom.noncommPiCoprod f hcomm')
     ((MulEquiv.piMultiplicative (fun _ : Fin 16 => ZMod 2))
       (Multiplicative.ofAdd (Pi.single i 1))) = g i
   rw [hx, MonoidHom.noncommPiCoprod_mulSingle]
-  simp [f, toAdd_ofAdd]
+  simp [f]
 
 private def e6iq_mulSubgroup (M : Submodule (ZMod 2) e6TwoRestQV) : Subgroup (Multiplicative e6TwoRestQV) where
   carrier := {x | Multiplicative.toAdd x ∈ M}
@@ -425,7 +425,7 @@ private def e6iq_mulSubgroup (M : Submodule (ZMod 2) e6TwoRestQV) : Subgroup (Mu
     exact M.add_mem ha hb
   one_mem' := by
     show Multiplicative.toAdd (1 : Multiplicative e6TwoRestQV) ∈ M
-    simpa using M.zero_mem
+    simp
   inv_mem' := by
     intro a ha
     show Multiplicative.toAdd (a⁻¹) ∈ M
@@ -445,8 +445,8 @@ private lemma e6iq_sum_single_eq (v : e6TwoRestQV) :
     by_cases h : j = i <;> simp [h, eq_comm]
   simp only [key, Finset.sum_ite_eq']
   by_cases hj : j ∈ Finset.univ.filter (fun i : Fin 16 => v i = 1)
-  · rw [if_pos hj]; exact ((Finset.mem_filter.1 hj).2).symm
-  · rw [if_neg hj]
+  · rw [ite_eq_left hj]; exact ((Finset.mem_filter.1 hj).2).symm
+  · rw [ite_eq_right hj]
     rcases e6iq_zmod_two (v j) with h | h
     · exact h.symm
     · exact absurd h (fun hv => hj (Finset.mem_filter.2 ⟨Finset.mem_univ j, hv⟩))
@@ -492,7 +492,7 @@ theorem exists_qcoord :
     have hx' : (x : EC) ∈ z0E := Subgroup.mem_subgroupOf.1 hx
     have hcomm := Subgroup.mem_centralizer_iff.1 (z0E_central hx') (y : EC) y.2
     exact Subtype.ext hcomm
-  haveI := hKnormal
+  have := hKnormal
   let π : ↥qE →* (↥qE ⧸ K) := QuotientGroup.mk' K
   let g : Fin 16 → (↥qE ⧸ K) := fun i => π ⟨xr (l1Root i), xr_l1Root_mem_qE i⟩
   have hg : ∀ i, g i = π ⟨xr (l1Root i), xr_l1Root_mem_qE i⟩ := fun _ => rfl
@@ -663,7 +663,7 @@ theorem qcoord_mem_U1_iff
         rw [Subgroup.mem_comap]
         rw [← hker, MonoidHom.mem_ker] at hx
         rw [hx]
-        simpa using invU1.zero_mem
+        simp
       · rw [e6iq_uMu1_closure]
         refine (Subgroup.closure_le _).mpr ?_
         rintro z ⟨β, hβ, hzβ⟩
@@ -679,7 +679,7 @@ theorem qcoord_mem_U1_iff
           (Multiplicative.ofAdd (Pi.single k (1 : ZMod 2))) ∈ invU1
         rw [toAdd_ofAdd]
         intro j hj
-        rw [Pi.single_apply, if_neg (by omega : ¬ j = k)]
+        rw [Pi.single_apply, ite_eq_right (by omega : ¬ j = k)]
     exact hsub (Subgroup.mem_subgroupOf.2 hq)
 
 theorem qcoord_mem_U2_iff 
@@ -757,7 +757,7 @@ theorem qcoord_mem_U2_iff
         rw [Subgroup.mem_comap]
         rw [← hker, MonoidHom.mem_ker] at hx
         rw [hx]
-        simpa using invU2.zero_mem
+        simp
       · rw [e6iq_uMu2_closure]
         refine (Subgroup.closure_le _).mpr ?_
         rintro z ⟨β, hβ, hzβ⟩
@@ -773,7 +773,7 @@ theorem qcoord_mem_U2_iff
           (Multiplicative.ofAdd (Pi.single k (1 : ZMod 2))) ∈ invU2
         rw [toAdd_ofAdd]
         intro j hj
-        rw [Pi.single_apply, if_neg (by omega : ¬ j = k)]
+        rw [Pi.single_apply, ite_eq_right (by omega : ¬ j = k)]
     exact hsub (Subgroup.mem_subgroupOf.2 hq)
 
 end CFSG.StandardType.GGSixE6Two

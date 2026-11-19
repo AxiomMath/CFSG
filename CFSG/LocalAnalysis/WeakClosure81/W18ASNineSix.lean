@@ -44,9 +44,9 @@ theorem noSocle185Factor_statedOmega_quadMinus_three_of_card_eq_three
     rw [show CFSG.Open.ordTwistedA (4 - 1) (3 ^ 1) = 3265920 by decide] at h
     exact h
   let e := statedOmegaEquivCommutator (coe_quadMinus 3 F b c)
-  haveI : Finite ↥(commutator ↥(TauCeti.QuadraticMap.orthogonalGroup (quadMinus 3 F b c))) :=
+  have : Finite ↥(commutator ↥(TauCeti.QuadraticMap.orthogonalGroup (quadMinus 3 F b c))) :=
     Finite.of_equiv _ e.toEquiv
-  haveI := hq.2.1
+  have := hq.2.1
   refine NoSocle185Factor.of_mulEquiv e.symm (NoSocle185Factor.of_normal _
     (NoSocle185Factor.of_commute fun a b => Subtype.ext (Subgroup.mem_center_iff.mp b.2 a.1))
     (NoSocle185Factor.of_isSimpleGroup fun T _ hT => ⟨fun eT => ?_⟩))
@@ -68,14 +68,14 @@ theorem noSocle185Factor_of_isOrth6MinusMod (hO : LieOrderFormulasInput) {Y : Ty
     (h : IsOrth6MinusMod Y) : NoSocle185Factor Y := by
   obtain ⟨F, _, _, hF3, b, c, hbc, N, hPN, hNO, ⟨e⟩⟩ := h
   refine NoSocle185Factor.of_mulEquiv e.symm ?_
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 2 ⊕ Fin 2 ⊕ Fin 2) F) := inferInstance
+  have : Finite (Matrix.ProjGenLinGroup (Fin 2 ⊕ Fin 2 ⊕ Fin 2) F) := inferInstance
   have hkey : ∀ x ∈ N, ∀ y ∈ N, ⁅x, y⁆ ∈ CFSG.PGLModel.projOmegaMinus 2 F b c := by
     intro x hx y hy
     obtain ⟨g, hg, rfl⟩ := hNO hx
     obtain ⟨h, hh, rfl⟩ := hNO hy
     rw [← map_commutatorElement Matrix.ProjGenLinGroup.mk]
     exact Subgroup.mem_map_of_mem _ (Subgroup.commutator_mem_commutator hg hh)
-  haveI : ((CFSG.PGLModel.projOmegaMinus 2 F b c).subgroupOf N).Normal := by
+  have : ((CFSG.PGLModel.projOmegaMinus 2 F b c).subgroupOf N).Normal := by
     refine ⟨fun a ha n => ?_⟩
     have h1 : ⁅(n : Matrix.ProjGenLinGroup (Fin 2 ⊕ Fin 2 ⊕ Fin 2) F),
         (a : Matrix.ProjGenLinGroup (Fin 2 ⊕ Fin 2 ⊕ Fin 2) F)⁆ ∈

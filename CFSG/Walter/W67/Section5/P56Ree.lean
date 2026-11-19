@@ -74,7 +74,7 @@ theorem exists_conj_of_card_le_two {D : Subgroup G} {J t : G} (hJD : J ∈ D) (h
     symm
     apply Subgroup.eq_of_le_of_card_ge hSle
     rw [Nat.card_zpowers, hy]
-    have := hD ((S : Subgroup D).map D.subtype) (Subgroup.map_subtype_le _) (S.isPGroup'.map _)
+    have := hD ((S : Subgroup D).map D.subtype) (Subgroup.map_subtype_le _) (S.isPGroup.map _)
     rwa [Subgroup.card_map_of_injective D.subtype_injective] at this
   obtain ⟨S₁, hS₁⟩ := hS J₁ hoJ₁
   obtain ⟨S₂, hS₂⟩ := hS J₂ hoJ₂

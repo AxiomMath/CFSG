@@ -214,7 +214,7 @@ theorem l44ExceptionModel : L44ExceptionModel := by
     rw [Φ_gOf]
     exact block_comm hxZ wM_mem_block
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (by rw [sq, ← gOf_mul, wM_mul_self, gOf_one])
       (fun h => wM_ne_one ((gOf_eq_one_iff Φ).mp h))
   ·
@@ -222,7 +222,7 @@ theorem l44ExceptionModel : L44ExceptionModel := by
   ·
     rw [hb₀eq, ← gOf_inv, ← gOf_mul, ← gOf_mul, wM_conj, gOf_inv]
   ·
-    haveI := isSimpleGroup_block01
+    have := isSimpleGroup_block01
     exact (pullEquiv Φ _).isSimpleGroup
   ·
     exact mem_pull.mpr ⟨hb₀I, by rw [hΦb₀]; exact hbM01⟩

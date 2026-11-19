@@ -82,7 +82,7 @@ private theorem exists_conj_heis {g : H}
   dsimp only
   rw [hx', hxeq]
 
-private noncomputable def heisImage (hθk : Odd (Nat.card θ.ker)) {g : H}
+private noncomputable def heisImage (_hθk : Odd (Nat.card θ.ker)) {g : H}
     (hg : ∀ x ∈ UC22.uc22pwsu3X (unitaryInvolution_involutive hFn),
       g * θ x * g⁻¹ ∈ (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ)
     (u v : F) : F × F := by
@@ -96,7 +96,7 @@ private theorem heisImage_valid (hθk : Odd (Nat.card θ.ker)) {g : H}
       g * θ x * g⁻¹ ∈ (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ)
     {u v : F} (hv : heisValid n u v) :
     heisValid n (heisImage hFn hθk hg u v).1 (heisImage hFn hθk hg u v).2 := by
-  rw [heisImage, dif_pos hv]
+  rw [heisImage, dite_eq_left hv]
   exact (Classical.choose_spec (exists_conj_heis hFn hg (u := u) (v := v))).1
 
 private theorem conj_heis_eq_heisImage (hθk : Odd (Nat.card θ.ker)) {g : H}
@@ -105,7 +105,7 @@ private theorem conj_heis_eq_heisImage (hθk : Odd (Nat.card θ.ker)) {g : H}
     {u v : F} (hv : heisValid n u v) :
     g * θ (heis₃ u v) * g⁻¹ =
       θ (heis₃ (heisImage hFn hθk hg u v).1 (heisImage hFn hθk hg u v).2) := by
-  rw [heisImage, dif_pos hv]
+  rw [heisImage, dite_eq_left hv]
   exact (Classical.choose_spec (exists_conj_heis hFn hg (u := u) (v := v))).2
 
 private theorem heis_eq_of_map_eq {u v u' v' : F} (hθk : Odd (Nat.card θ.ker))

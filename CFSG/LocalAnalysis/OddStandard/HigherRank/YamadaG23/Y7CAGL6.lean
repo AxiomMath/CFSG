@@ -11,7 +11,7 @@ open CFSG.OddStandard.HigherRank.G2Three.Sec1
 
 theorem y7c_mulAut_equiv_GL6 {M : Type} [Group M] [Finite M] (hM : IsE 6 M) :
     Nonempty (MulAut M ≃* Matrix.GeneralLinearGroup (Fin 6) (ZMod 2)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [IsE] at hM
   have hcomm : ∀ a b : M, a * b = b * a := fun a b =>
     congrArg Subtype.val
@@ -24,7 +24,7 @@ theorem y7c_card_mulAut_E6 {M : Type} [Group M] [Finite M] (hM : IsE 6 M) :
     Nat.card (MulAut M) = 20158709760 := by
   obtain ⟨e⟩ := y7c_mulAut_equiv_GL6 hM
   rw [Nat.card_congr e.toEquiv]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [Matrix.card_GL_field, ZMod.card]
   norm_num [Fin.prod_univ_succ]
 

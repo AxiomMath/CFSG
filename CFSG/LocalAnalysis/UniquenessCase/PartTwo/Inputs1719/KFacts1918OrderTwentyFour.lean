@@ -37,13 +37,13 @@ theorem card_pCore_of_card_eq_24 {H : Type} [Group H] [Finite H] (hH : Nat.card 
     rw [hnorm, hQidx]
   have hQnotNormal : ¬ (P : Subgroup H).Normal := by
     intro hQn
-    haveI : Unique (Sylow 2 H) := Sylow.unique_of_normal P hQn
+    have : Unique (Sylow 2 H) := Sylow.unique_of_normal P hQn
     have h1 : Nat.card (Sylow 2 H) = 1 := Nat.card_unique
     omega
   have hcoreEq : CFSG.pCore 2 H = (P : Subgroup H).normalCore := by
     refine le_antisymm ?_ ?_
     · exact Subgroup.normal_le_normalCore.mpr (CFSG.fitting_pCore_le_sylow P)
-    · exact le_sSup ⟨inferInstance, P.isPGroup'.to_le (Subgroup.normalCore_le _)⟩
+    · exact le_sSup ⟨inferInstance, P.isPGroup.to_le (Subgroup.normalCore_le _)⟩
   have hcoreIdx : (P : Subgroup H).normalCore.index = 6 := by
     have hdvd1 : (P : Subgroup H).index ∣ (P : Subgroup H).normalCore.index :=
       Subgroup.index_dvd_of_le (Subgroup.normalCore_le _)
@@ -120,8 +120,8 @@ theorem normalizer_sylow_eq_of_le_alt6 {H : Subgroup (alternatingGroup (Fin 6))}
     normalizer ((P : Subgroup ↥H) : Set ↥H) = P := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hHne : Nonempty ↥H := ⟨1⟩
-  haveI haltne : Nonempty (alternatingGroup (Fin 6)) := ⟨1⟩
+  have hHne : Nonempty ↥H := ⟨1⟩
+  have haltne : Nonempty (alternatingGroup (Fin 6)) := ⟨1⟩
   have hPcard : Nat.card (P : Subgroup ↥H) = 8 := by
     rw [Sylow.card_eq_multiplicity P]
     have hge : 3 ≤ (Nat.card ↥H).factorization 2 := by
@@ -150,7 +150,7 @@ theorem normalizer_sylow_eq_of_le_alt6 {H : Subgroup (alternatingGroup (Fin 6))}
     rw [Subgroup.index_eq_card_div, hcardS, CFSG.QuasithinUnique.Setup.X3.card_alt6]
     norm_num
   have hSylTop : CFSG.QuasithinUnique.IsSylowTwoOf S ⊤ := by
-    refine ⟨le_top, P.isPGroup'.map H.subtype, ?_⟩
+    refine ⟨le_top, P.isPGroup.map H.subtype, ?_⟩
     have h3 : (S.subgroupOf ⊤).index = S.index := Subgroup.relIndex_top_right S
     rw [h3]
     exact hSindex

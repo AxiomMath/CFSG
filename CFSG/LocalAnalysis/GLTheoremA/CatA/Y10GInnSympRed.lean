@@ -15,12 +15,12 @@ variable {m : ℕ} {K : Type} [Field K] [Finite K]
 theorem exists_conjAut_eq_conj (h2 : (2 : K) = 0) (A : gsp m K) :
     ∃ x : StatedSp m K, conjAut m K A = MulAut.conj (proj m K x) := by
   classical
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   obtain ⟨b, hb⟩ : ∃ b : K, (multiplierUnit A : K) = b * b :=
     FiniteField.isSquare_of_char_two (ringChar.eq (R := K) 2) (multiplierUnit A : K)
   have hb0 : b ≠ 0 := by
     rintro rfl
-    exact (multiplierUnit A).ne_zero (by simpa using hb)
+    exact (multiplierUnit A).ne_zero (by simp at hb)
   let lam : Kˣ := Units.mk0 b hb0
   have hlam : (lam : K) * (lam : K) = (multiplierUnit A : K) := by
     rw [Units.val_mk0 hb0, hb]
@@ -79,9 +79,10 @@ theorem exists_conjAut_eq_conj (h2 : (2 : K) = 0) (A : gsp m K) :
           rw [mul_assoc, mul_inv_cancel, mul_one]
   rw [conjAut_proj, MulAut.conj_apply, ← map_mul, ← map_inv, ← map_mul, hsub]
 
+omit [Finite K] in
 theorem pow_eq_one_of_proj_pow_eq_one (h2 : (2 : K) = 0) {x : StatedSp m K}
     {p : ℕ} (hx : proj m K x ^ p = 1) : x ^ p = 1 := by
-  haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
   have hmem : x ^ p ∈ (proj m K).ker := by
     rw [MonoidHom.mem_ker, map_pow, hx]
   rw [ker_proj] at hmem
@@ -90,6 +91,7 @@ theorem pow_eq_one_of_proj_pow_eq_one (h2 : (2 : K) = 0) {x : StatedSp m K}
   rw [hbot] at hmem
   exact Subgroup.mem_bot.mp hmem
 
+omit [Finite K] in
 theorem pow_eq_one_of_conj_pow_eq_one (h2 : (2 : K) = 0)
     (hZ : Subgroup.center (StatedProj (StatedSp m K)) = ⊥) {x : StatedSp m K} {p : ℕ}
     (hx : MulAut.conj (proj m K x) ^ p = 1) : x ^ p = 1 := by

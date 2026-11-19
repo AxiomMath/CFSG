@@ -27,7 +27,7 @@ open CFSG.RankThree.PartTwo.KFacts
 open scoped commutatorElement
 
 private theorem isCyclic_centralizer_of_mem_splitTorus
-    {F : Type} [Field F] [Fintype F] (hF2 : ringChar F ≠ 2)
+    {F : Type} [Field F] [Fintype F] (_hF2 : ringChar F ≠ 2)
     {y : PSL2 F} (hyT : y ∈ splitTorus F) (hyord : orderOf y = 3) :
     IsCyclic (Subgroup.centralizer ({y} : Set (PSL2 F))) := by
   have hy1 : y ≠ 1 := by
@@ -63,7 +63,7 @@ private theorem isCyclic_centralizer_of_mem_splitTorus
       have hdvd : orderOf y ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact hy2)
       have := Nat.le_of_dvd (by norm_num) hdvd
       omega
-  letI : IsCyclic (splitTorus F) := splitTorus_isCyclic
+  let : IsCyclic (splitTorus F) := splitTorus_isCyclic
   exact Subgroup.isCyclic_of_le hle
 
 private theorem isCyclic_centralizer_of_mem_nonsplitTorus
@@ -104,7 +104,7 @@ private theorem isCyclic_centralizer_of_mem_nonsplitTorus
       have hdvd : orderOf y ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact hy2)
       have := Nat.le_of_dvd (by norm_num) hdvd
       omega
-  letI : IsCyclic (nonsplitTorus ν) :=
+  let : IsCyclic (nonsplitTorus ν) :=
     CFSG.Glauberman.Dickson.MaxStructure.nonsplitTorus_isCyclic hν
   exact Subgroup.isCyclic_of_le hle
 
@@ -308,7 +308,7 @@ theorem cyclicCoreFact_three_psl2 (F : Type) [Field F] [Finite F]
         ((Subgroup.centralizer ({s} : Set (PSL2 F))).equivMapOfInjective
           (MulAut.conj : PSL2 F →* MulAut (PSL2 F))
           (l2op_conj_injective hZ)).isCyclic.mp hcyc
-      letI : IsCyclic ((Subgroup.centralizer ({s} : Set (PSL2 F))).map
+      let : IsCyclic ((Subgroup.centralizer ({s} : Set (PSL2 F))).map
           (MulAut.conj : PSL2 F →* MulAut (PSL2 F))) := hcycMap
       exact Subgroup.isCyclic_of_le (CFSG.HardMathSupport.Timmesfeld.Proving.GLAPPrimeCoreOf_le _)
     · have hcore : CFSG.pPrimeCore 3 ↥(l2opFix x) = ⊥ :=

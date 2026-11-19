@@ -14,7 +14,7 @@ theorem exists_injective_GL_of_mulAut {G A : Type} [Group G] [CommGroup A] [Fini
     apply Additive.toMul.injective
     rw [toMul_nsmul, toMul_zero]
     exact hA _
-  letI : Module (ZMod 2) (Additive A) := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) (Additive A) := AddCommGroup.zmodModule h2
   have hfin : Module.Finite (ZMod 2) (Additive A) := Module.Finite.of_finite
   have hdim : Module.finrank (ZMod 2) (Additive A) = rk A := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive A)

@@ -30,13 +30,15 @@ theorem rhoQ_mk [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))]
     rhoQ h hIU (QuotientGroup.mk x) =
       actH h.H_le_normalizer_V₁ (le_normalizer_conjClosure I H) x := rfl
 
-@[expose] def iotaQ (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClosure Vp H) :
+@[expose] def iotaQ (_h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClosure Vp H) :
     ↥(tildeOf V₁ (conjClosure I H)) → ↥(UT V₁ Vp H) :=
   Subgroup.inclusion (secImg_mono (conjClosure_le_conjClosure_U hIU le_rfl))
 
+omit [Finite G] in
 theorem iotaQ_injective (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClosure Vp H) :
     Function.Injective (iotaQ h hIU) := Subgroup.inclusion_injective _
 
+omit [Finite G] in
 theorem iotaQ_one (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClosure Vp H) :
     iotaQ h hIU 1 = 1 := rfl
 
@@ -142,7 +144,7 @@ theorem false_of_normalizer [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I 
       exact ⟨n, hn, l, hl, by
         show ((x : MulAut ↥(tildeOf V₁ (conjClosure I H))) l) * l⁻¹ = (rhoQ h hIU n) l * l⁻¹
         rw [← hnx]⟩
-  obtain ⟨m₀, hm₀M, hm₀C⟩ := SetLike.exists_of_lt hCM
+  obtain ⟨m₀, hm₀M, hm₀C⟩ := _root_.IsConcreteLE.exists_of_lt hCM
   have hm₀1 : m₀ ≠ 1 := fun h1 => hm₀C (by rw [h1]; exact C.one_mem)
   have hfix := hfpf (iotaQ h hIU m₀) (fun e he => by
     rw [psiH_iotaQ h hIU, hEtriv e he m₀ hm₀M])

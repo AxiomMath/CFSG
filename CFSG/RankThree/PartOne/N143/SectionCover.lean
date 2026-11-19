@@ -59,7 +59,7 @@ theorem section_cover_central_of_high_two_rank {G : Type} [Group G] [Finite G] (
   set T : Sylow 2 C := default with hT
   set R : Subgroup K := (T : Subgroup C).map C.subtype with hR
   have hRn : R.Normal := hCsyl 2 T
-  have hRp : IsPGroup 2 R := T.isPGroup'.map _
+  have hRp : IsPGroup 2 R := T.isPGroup.map _
   have hRC : R ≤ C := Subgroup.map_subtype_le _
   have hRr : ∀ r : ℕ, r.Prime → r ≠ 2 → ¬ r ∣ Nat.card R := by
     intro r hr hr2 hdvd

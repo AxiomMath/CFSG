@@ -120,7 +120,7 @@ theorem Ctx.exists_H0_conj (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec7Hyp hc
   have hQH : Q ≤ H0 M Z := hc.Q_le_H0'
   have hH0M : H0 M Z ≤ M := fun x hx => hx.1
   have hconf := hc.tiConfigC hs hZ0 hZt hZcard hN2 hTI hC
-  haveI hnormH := hc.normal_bar_H0
+  have hnormH := hc.normal_bar_H0
   have hHn : ∀ x : Mbar M Q, x ∈ Subgroup.normalizer
       ((bar M Q (H0 M Z) : Subgroup (Mbar M Q)) : Set (Mbar M Q)) := fun x => by
     rw [Subgroup.normalizer_eq_top]

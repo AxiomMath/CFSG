@@ -228,13 +228,13 @@ private theorem pairInner (hn : n ≤ 32) (x : H) : ∀ I : List H,
         exact hc
       rw [this]
       dsimp only
-      simp [List.filterMap_cons, hc]
+      simp [hc]
     · have : andB (notB (Nat.beq (cH H x) (cH H y))) (P.comm n (cH H x) (cH H y)) = false := by
         rw [← Bool.not_eq_true, P.andB_iff, P.notB_iff, beq_cH hn, comm_cH hn]
         exact hc
       rw [this]
       dsimp only
-      simp [List.filterMap_cons, hc]
+      simp [hc]
 
 theorem pairK_eq (hn : n ≤ 32) (I : List H) :
     pairK n (I.map (cH H)) = (pairG I).map (Prod.map (cH H) (cH H)) := by
@@ -431,7 +431,7 @@ theorem rank_sound' (hA : codeP (gA : Perm (Fin n)) = cA) (hB : codeP (gB : Perm
   · rw [lvl_zero]
     simp
   · intro c
-    simp [subprods, cH_one]
+    simp [subprods]
     rw [cH_one]
 
 end Rank

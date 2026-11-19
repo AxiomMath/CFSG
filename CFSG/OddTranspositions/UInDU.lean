@@ -43,7 +43,7 @@ theorem u_mem_closure_commSet (hD : IsOddTransp D) (hN : IsNormalSet D)
     Subgroup.zpowers_le.mp
       ((Subgroup.le_normalizer_iff_commutator_le_left (H := Subgroup.zpowers u) (K := Q)).mpr
         (by simpa only [E] using hEQ))
-  haveI : Fintype ↥E := Fintype.ofFinite ↥E
+  have : Fintype ↥E := Fintype.ofFinite ↥E
   have h3E : 3 ≤ Fintype.card ↥E := by
     rw [← Nat.card_eq_fintype_card]
     omega

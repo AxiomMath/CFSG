@@ -50,8 +50,8 @@ theorem isElemAbelian_of_card_eq_sixteen {G : Type*} [Group G] {Q : Subgroup G} 
     (hx5 : orderOf x = 5) (hnt : ∃ q ∈ Q, x * q * x⁻¹ ≠ q) :
     IsElemAbelian 2 Q ∧ ∀ q ∈ Q, x * q * x⁻¹ = q → q = 1 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Nontrivial Q :=
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Nontrivial Q :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hQ]; norm_num)
   have hQp : IsPGroup 2 Q := IsPGroup.of_card (n := 4) (by rw [hQ]; norm_num)
   let X : Subgroup G := Subgroup.zpowers x
@@ -135,7 +135,7 @@ theorem isElemAbelian_of_card_eq_sixteen {G : Type*} [Group G] {Q : Subgroup G} 
     CFSG.LieType.BorelTits.normalizer_le_normalizer_map_of_characteristic
       (K := Subgroup.center ↥Q) hxQ
   have hXZ : X ≤ Subgroup.normalizer (Z : Set G) := Subgroup.zpowers_le.mpr hxZ
-  haveI : Finite Z := Finite.of_injective
+  have : Finite Z := Finite.of_injective
     (fun z : Z => (⟨(z : G), hZle z.2⟩ : Q))
     (fun a b h => Subtype.ext (by simpa using congrArg (fun q : Q => (q : G)) h))
   let _ : MulDistribMulAction X Z := conjActOn X Z hXZ
@@ -201,14 +201,14 @@ theorem isElemAbelian_of_card_eq_sixteen {G : Type*} [Group G] {Q : Subgroup G} 
         intro a ha
         exact ⟨Q.inv_mem ha.1, by rw [inv_pow, ha.2, inv_one]⟩ }
   have hΩle : Ω ≤ Q := fun _ h => h.1
-  haveI : Finite Ω := Finite.of_injective
+  have : Finite Ω := Finite.of_injective
     (fun z : Ω => (⟨(z : G), hΩle z.2⟩ : Q))
     (fun a b h => Subtype.ext (by simpa using congrArg (fun q : Q => (q : G)) h))
   have hΩne1 : Nat.card Ω ≠ 1 := by
     intro h1
     have hbot : Ω = ⊥ := Ω.eq_bot_of_card_eq h1
     have h2dvd : 2 ∣ Nat.card ↥Q := by rw [hQ]; norm_num
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨q, hq⟩ := exists_prime_orderOf_dvd_card' 2 h2dvd
     have hq2 : (q : G) ^ 2 = 1 := by
       simpa [hq] using congrArg Subtype.val (pow_orderOf_eq_one q)
@@ -305,7 +305,7 @@ theorem exists_order_five_not_centralizing_pCoreOf {G : Type} [Group G] [Finite 
       exact CFSG.QuasithinUnique.A5.Delta5.a5_card
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (CFSG.Open.pCore 2 ↥L), h60]
     exact dvd_mul_of_dvd_left (by norm_num : 5 ∣ 60) _
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 5 h5dvd
   have hxL : (x : G) ∈ L := x.2
   have hx5 : orderOf (x : G) = 5 := by
@@ -323,7 +323,7 @@ theorem exists_order_five_not_centralizing_pCoreOf {G : Type} [Group G] [Finite 
           rw [hcon (x : G) hxL hx5 q hq]
       _ = (x : G) * q := by group
   have hxQ : (x : G) ∈ pCoreOf 2 P := hchar ⟨hxP, hxcent⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQp : IsPGroup 2 (pCoreOf 2 P) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 P
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hQp) ⟨(x : G), hxQ⟩
   rw [Subgroup.orderOf_mk, hx5] at hk

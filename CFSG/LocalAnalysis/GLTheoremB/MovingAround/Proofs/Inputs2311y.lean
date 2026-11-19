@@ -236,7 +236,7 @@ theorem uniTwoLineGen_of_core (hCore : FrameCoreTransvection) :
     triality_both_field_orientations_simple_full_ambient_fixed_group ℓ f hℓ hf K hK (AlgebraicClosure K) 1
       (Or.inl rfl) σ.toRingHom (fun c => by rw [pow_one]; exact hσ c)
       (iterateFrobenius (AlgebraicClosure K) ℓ f) (fun c => iterateFrobenius_def ℓ f c)
-  haveI : IsSimpleGroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := hsimple
+  have : IsSimpleGroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := hsimple
   have hgen := Inputs2311k.rClosure_eq_top_frame_three hℓ hℓ3 hf hq4 K hK σ hσ (Or.inr rfl) hdvd F'
     (isElementaryAbelian_closure_pair hx'3 hy'3 hx'y') (card_closure_pair hx'3 hx'1 hy'3 hx'y' hy'x')
     ⟨Φ, 1, fun e he => by

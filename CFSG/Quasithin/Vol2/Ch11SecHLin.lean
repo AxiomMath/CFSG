@@ -54,7 +54,7 @@ theorem det_eq_of_flag (g : Matrix (Fin 3) (Fin 3) F) {u₀ u₁ x : Fin 3 → F
     (h3 : g.mulVec x = α₃ • x + c₀ • u₀ + c₁ • u₁) : g.det = α₀ * α₁ * α₃ := by
   let S : Matrix (Fin 3) (Fin 3) F := Matrix.of fun i j => ![u₀, u₁, x] j i
   have hS : IsUnit S := by
-    rw [← Matrix.linearIndependent_cols_iff_isUnit]
+    rw [← Matrix.linearIndependent_col_iff_isUnit]
     convert hli using 1
     ext j i
     fin_cases j <;> rfl

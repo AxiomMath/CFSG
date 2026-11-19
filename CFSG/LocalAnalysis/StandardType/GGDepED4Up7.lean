@@ -79,9 +79,9 @@ theorem ggDepED4_align_two_weyl {G : Type} [Group G] [Finite G] {p : ℕ} [Fact 
     hM₁, hWM₁, hC₁, hlin₁, hrefl₁, hpair₁, f₁ex, hclos₁⟩ := hXL
   obtain ⟨f₁, hf₁⟩ := f₁ex
   obtain ⟨fL, hfL⟩ := fLex
-  letI := i1; letI := i2; letI := i1a; letI := i2a; letI := i3; letI := i4
-  letI := iΛ₁f; letI := iΛ₁d; letI := iV₁add; letI := iV₁mod
-  haveI : Finite V₁ := Finite.of_injective ι₁.toEquiv.symm ι₁.toEquiv.symm.injective
+  let := i1; let := i2; let := i1a; let := i2a; let := i3; let := i4
+  let := iΛ₁f; let := iΛ₁d; let := iV₁add; let := iV₁mod
+  have : Finite V₁ := Finite.of_injective ι₁.toEquiv.symm ι₁.toEquiv.symm.injective
   have hRC₁ : GGReflClosed (fun i => ggLin (p := p) ι₁ (φ₁ i)) :=
     l05nEA_reflClosed_of_datum hp2 e₁ hM₁ hWM₁ hC₁ (ι := ι₁) φ₁ h₁ α₁ hlin₁ hpair₁ hclos₁ f₁ hf₁
   have hconj : ∀ k : Λ, ∃ (w : ↥(ggAutomizer L Bs)) (i : Λ₁),
@@ -105,11 +105,11 @@ theorem ggDepED4Up7Cfg_of_alignedW (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInpu
   obtain ⟨Λ, hΛf, hΛd, b₁, b₂, Λa, hΛaf, hΛad, ML, CL, MK, CK, V, hVadd, hVmod,
     ι, φ, h, α, e, hb1, hb2, hcardΛa, hML, hMLweyl, hCLcartan, hMKweyl, hCKcartan,
     hform, hrefl, hpairL, hpairK, -, hAL, hAK, hAJ⟩ := hA
-  letI : Fintype Λ := hΛf
-  letI : DecidableEq Λ := hΛd
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  let : Fintype Λ := hΛf
+  let : DecidableEq Λ := hΛd
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hp2 : p ≠ 2 := by
     have hβ : p ∈ LargeEvenBeta 4 G := hH.1.1.2.2.2.2.2.1
     exact hβ.2.1
@@ -175,7 +175,7 @@ theorem ggDepED4Up7Cfg_of_alignedW (hFix : GGTBFixInput) (hFixK : GGTBFixNbrInpu
     have h := hframe.x_ker (e.symm i)
     simpa using h
   have hfinrank : Module.finrank (ZMod p) V = 7 := by
-    haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+    have : Module.Finite (ZMod p) V := Module.Finite.of_finite
     have hVcard : Nat.card V = p ^ Module.finrank (ZMod p) V := by
       have h := Module.natCard_eq_pow_finrank (K := ZMod p) (V := V)
       rwa [Nat.card_zmod] at h
@@ -222,13 +222,13 @@ theorem ggDepED4Up7Cfg_false {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
   obtain ⟨hb₁, hb₂, hcardk, hWMK, hCK, hφeq, hF, hpairK, hntCore, hex, _hAuto, _hJauto⟩ := hcore
   have hp3 : p = 3 := hF.p3
   subst hp3
-  letI := iΛ1
-  letI := iΛ2
-  letI := iΛa1
-  letI := iΛa2
-  letI := iV1
-  letI := iV2
-  haveI : FiniteDimensional (ZMod 3) V :=
+  let := iΛ1
+  let := iΛ2
+  let := iΛa1
+  let := iΛa2
+  let := iV1
+  let := iV2
+  have : FiniteDimensional (ZMod 3) V :=
     FiniteDimensional.of_finrank_pos (by rw [hdim]; norm_num)
   let eJ := l05nEC_eJ b₁ b₂ e hb₁ hb₂
   let ee : ({c : Fin 6 // GGDepED4In c} ⊕ Λa) ≃ ({i : Λ // i ≠ b₁ ∧ i ≠ b₂} ⊕ Λa) :=
@@ -244,10 +244,9 @@ theorem ggDepED4Up7Cfg_false {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
       (CK' (Sum.inl i) (Sum.inl j) : ZMod 3) = (CartanMatrix.E 6 i.1 j.1 : ZMod 3) := by
     intro i j
     have hpk := hpairK (Sum.inl (eJ i)) (Sum.inl (eJ j))
-    simp only [Sum.map_inl, id_eq] at hpk
+    simp only [Sum.map_inl] at hpk
     have hck : CK' (Sum.inl i) (Sum.inl j) = CK (Sum.inl (eJ i)) (Sum.inl (eJ j)) := by
-      simp only [CK', Matrix.submatrix_apply, ee, Equiv.sumCongr_apply, Sum.map_inl,
-        Sum.map_inr, Equiv.refl_apply]
+      simp only [CK', Matrix.submatrix_apply, ee, Equiv.sumCongr_apply, Sum.map_inl]
     have hgoal : α (Sum.inl (eJ i).1) (h (Sum.inl (eJ j).1)) =
         (CK (Sum.inl (eJ i)) (Sum.inl (eJ j)) : ZMod 3) := hpk
     rw [hck, ← hgoal]
@@ -369,8 +368,7 @@ theorem ggDepED4Up7Cfg_false {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
       have e3 := hrA a₁ (rA a₂ (rA a₁ v))
       simp only [ra2', LinearEquiv.mul_apply] at e1 e2 e3 ⊢
       rw [e3, e2, e1]
-      simp only [map_sub, map_smul, smul_eq_mul, h12', h21', hαdiag a₁, hαdiag a₂,
-        LinearMap.add_apply, αa2', ha2']
+      simp only [map_sub, map_smul, smul_eq_mul, h12', h21', hαdiag a₁, LinearMap.add_apply, αa2', ha2']
       module
     have hαa2' : αa2' ha2' = 2 := by
       simp only [αa2', ha2', LinearMap.add_apply, map_add, h12', h21', hαdiag a₁, hαdiag a₂]
@@ -396,8 +394,8 @@ theorem ggDepED4Up7Cfg_false {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.P
         simp only [Int.cast_zero] at h2
         rw [hcast] at h1
         constructor
-        · simp only [αa2', ha2', LinearMap.add_apply, h1.1, h2.1, add_zero]
-        · simp only [αa2', ha2', map_add, h1.2, h2.2, add_zero])
+        · simp only [αa2', LinearMap.add_apply, h1.1, h2.1, add_zero]
+        · simp only [ha2', map_add, h1.2, h2.2, add_zero])
       (hnt {rA a₁, ra2'} (by
         rintro x (rfl | rfl)
         · exact hgen a₁

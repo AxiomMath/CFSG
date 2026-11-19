@@ -41,8 +41,8 @@ theorem s16h_sl4_row_involution_codim
   obtain ⟨K, hKf, hKfin, hKcard, s', hs'N, hs'2, hs'1, hle⟩ :=
     s16h_sl4_induced_involution_reduce D S hσ hJP h hs2 ht ht2 ht1 htr hW hcomp hthin hZ
       hbad hrow hZ4 hs hsq hs1 hsN
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   exact le_trans (s16h_sl4_natNorm_involution hKcard hs'N hs'2 hs'1) hle
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

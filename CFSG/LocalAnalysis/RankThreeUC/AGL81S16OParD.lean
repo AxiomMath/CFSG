@@ -16,6 +16,7 @@ section ParD
 
 variable {G : Type} [Group G] [Finite G] {n : ℕ} {M L V : Subgroup G} (d : O6NatData G n L V)
 
+omit [Finite G] in
 theorem O6NatData.exists_frame (hn : 1 ≤ n) (hMV : M ≤ normalizer (V : Set G)) {T : Subgroup G}
     (hT : IsPGroup 2 T) :
     ∃ w u : OW d.F, LinearIndependent d.F ![w, u] ∧ quadMinus 3 d.F d.b d.c w = 0 ∧
@@ -45,6 +46,7 @@ noncomputable def O6NatData.radL (G₀ : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin
 noncomputable def O6NatData.radG (G₀ : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) d.F) : Subgroup G :=
   (d.radL G₀).map L.subtype
 
+omit [Finite G] in
 theorem O6NatData.mem_radG (G₀ : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) d.F) {x : G} :
     x ∈ d.radG G₀ ↔ ∃ hx : x ∈ L, RadHyp d.b d.c (G₀⁻¹ *
       ((d.ε ⟨x, hx⟩ : ↥(StatedOmega (StatedQuadMinus 3 d.F d.b d.c))) :
@@ -55,6 +57,7 @@ theorem O6NatData.mem_radG (G₀ : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) d.
   · rintro ⟨hx, h⟩
     exact ⟨⟨x, hx⟩, h, rfl⟩
 
+omit [Finite G] in
 theorem O6NatData.radG_isPGroup (G₀ : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) d.F) :
     IsPGroup 2 ↥(d.radG G₀) := by
   have hker : ((cvHom G₀).comp
@@ -68,6 +71,7 @@ theorem O6NatData.radG_isPGroup (G₀ : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 
       (by rw [hker]; exact CFSG.pCore_isPGroup)
   exact h1.map L.subtype
 
+omit [Finite G] in
 theorem O6NatData.radG_conj_mem (hLM : L ≤ M) (hML : M ≤ normalizer (L : Set G))
     (hMV : M ≤ normalizer (V : Set G)) {G₀ : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) d.F}
     (hG₀iso : ∀ v : OW d.F, quadMinus 3 d.F d.b d.c (gv G₀ v) = quadMinus 3 d.F d.b d.c v)
@@ -110,7 +114,7 @@ theorem O6NatData.parabolic_of_inputs {p : ℕ} (hn : 1 ≤ n) (hLM : L ≤ M)
             V ⊓ centralizer (B : Set G) ≤ centralizer (A : Set G)) →
           A ≤ L ⊔ (M ⊓ centralizer (V : Set G)) → ∀ a ∈ A, ∀ x ∈ P, ⁅x, a⁆ ∈ R := by
   intro T hT
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨w, u, hli, hQw, hQu, hpol, hframe⟩ := d.exists_frame hn hMV hT.isPGroup
   obtain ⟨G₀, hG₀O, hGw, hGu⟩ := hW hli hQw hQu hpol
   have hG₀iso : ∀ v : OW d.F, quadMinus 3 d.F d.b d.c (gv G₀ v) = quadMinus 3 d.F d.b d.c v :=

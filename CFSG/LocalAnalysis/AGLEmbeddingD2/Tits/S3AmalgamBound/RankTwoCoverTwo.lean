@@ -26,6 +26,7 @@ structure OrthSep {K Y : Type*} [Group K] [Group Y] (D : UniversalRootDatum K) (
 variable {W : Type} [Group W] [Finite W] {K : Type} [Group K] [Finite K]
   {D : UniversalRootDatum K} {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {M : ℕ}
 
+omit [Finite K] in
 theorem false_of_orthSep {L A : Subgroup W} (hL : IsComponentOf L ⊤)
     (htrans : ∀ E : Subgroup W, E ≤ A ⊓ L → IsElemAbelian 3 E → Nat.card E = 9 →
       TransitiveOnNonidentity (Subgroup.normalizer (E : Set W)) E)
@@ -72,6 +73,7 @@ theorem false_of_orthSep {L A : Subgroup W} (hL : IsComponentOf L ⊤)
     (by rw [hui, huj]; exact hnot)
   exact hφ ψ (by rw [← hui, ← huj, ← map_mul]; exact hψ)
 
+omit [Finite K] in
 theorem false_of_pair_in_cover {L A : Subgroup W} (hL : IsComponentOf L ⊤)
     (hA : CFSG.HallHigman.IsPSolvable 3 ↥A)
     (htrans : ∀ E : Subgroup W, E ≤ A ⊓ L → IsElemAbelian 3 E → Nat.card E = 9 →

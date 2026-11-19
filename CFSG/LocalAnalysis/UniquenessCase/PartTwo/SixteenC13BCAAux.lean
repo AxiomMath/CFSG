@@ -27,11 +27,11 @@ theorem s16c13bcA_mem_stabSub_of_map_eq {T : Type*} [CommGroup T] {W : Subgroup 
 theorem s16c13bcA_wBar_isPGroup (D : Data G) {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     IsPGroup 2 ↥(barSub ⊥ V hV (E3.wClos V D.k D.T)) :=
   s15_LP_isPGroup_barSub hV
-    (D.sylowM.isPGroup.to_le (E3.wClos_le_of_forall fun A hA => hA.1))
+    (D.sylowM.isPGroup.to_le (E3.wClos_le_of_forall fun _A hA => hA.1))
 
 theorem s16c13bcA_wBar_le_mbar (D : Data G) {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     barSub ⊥ V hV (E3.wClos V D.k D.T) ≤ Mbar D.M ⊥ V hV :=
-  barSub_mono ⊥ V hV ((E3.wClos_le_of_forall fun A hA => hA.1).trans D.sylowM.le)
+  barSub_mono ⊥ V hV ((E3.wClos_le_of_forall fun _A hA => hA.1).trans D.sylowM.le)
 
 theorem s16c13bcA_insp_of_fixing (D : Data G) {V : Subgroup G} (h : Hyp125 D ⊥ V) {p : ℕ}
     (hp : p ∈ D.sig) {n : Vtil ⊥ V h.isElemAbelian} (hn1 : n ≠ 1)
@@ -53,7 +53,7 @@ theorem s16c13bcA_pair_group {Γ : Type*} [Group Γ] [Finite Γ] {p : ℕ} (hp :
     (hao : orderOf a = p) (hbo : orderOf b = p) (hab : a * b = b * a)
     (hne : b ∉ Subgroup.zpowers a) :
     IsPGroup p (Subgroup.closure {a, b}) ∧ ¬ IsCyclic (Subgroup.closure {a, b}) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have ha2 : a ^ p = 1 := hao ▸ pow_orderOf_eq_one a
   have hb2 : b ^ p = 1 := hbo ▸ pow_orderOf_eq_one b
   set X : Subgroup Γ := Subgroup.closure {a, b} with hX

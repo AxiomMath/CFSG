@@ -123,7 +123,7 @@ theorem kgFieldCompCont_E7 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : Large
   obtain ⟨eQ⟩ := centerQuot_chevGroup_equiv K .E7
   have hRsimple :
       IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 7) K false)) := by
-    haveI : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .E7 K) := hq.2.1
+    have : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .E7 K) := hq.2.1
     exact eQ.isSimpleGroup
   have hRnab : ∃ a b : LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 7) K false),
       a * b ≠ b * a :=
@@ -148,15 +148,15 @@ theorem kgFieldCompCont_E7 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : Large
   obtain ⟨eQ₀⟩ := centerQuot_chevGroup_equiv k .E7
   have hR₀simple :
       IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 7) k false)) := by
-    haveI : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .E7 k) := hq₀.2.1
+    have : IsSimpleGroup (CFSG.Blueprint.AdjointQuotient .E7 k) := hq₀.2.1
     exact eQ₀.isSimpleGroup
   have hR₀nab : ∃ a b : LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 7) k false),
       a * b ≠ b * a :=
     kgFieldCompContE7Aux_nonabelian eQ₀.symm hq₀.2.2
-  haveI : IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 7) k false)) :=
+  have : IsSimpleGroup (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 7) k false)) :=
     hR₀simple
   have hCsimple : IsSimpleGroup C := eR₀.isSimpleGroup
-  haveI : IsSimpleGroup C := hCsimple
+  have : IsSimpleGroup C := hCsimple
   have hCnab : ∃ a b : C, a * b ≠ b * a :=
     kgFieldCompContE7Aux_nonabelian eR₀.symm hR₀nab
   have hcenterC : Subgroup.center C = ⊥ := center_eq_bot_of_simple_nonabelian hCnab

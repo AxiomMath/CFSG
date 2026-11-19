@@ -37,7 +37,7 @@ theorem card_borel_sup_rankOne_of_torus (h : BorelQuotient D n H π M) (i : Fin 
     (h6 : Nat.card (rankOne D.rootGroup i) = 6)
     (hnc : ∃ a ∈ rankOne D.rootGroup i, ∃ b ∈ rankOne D.rootGroup i, a * b ≠ b * a) :
     Nat.card (borel D H ⊔ rankOne D.rootGroup i : Subgroup K) = 3 * Nat.card (borel D H) := by
-  haveI := cartan_borel_weylN_normal h.ct h.extras
+  have := cartan_borel_weylN_normal h.ct h.extras
   set L := rankOne D.rootGroup i with hL
   set U := ⨆ j ∈ ({i} : Set (Fin D.rank))ᶜ, radical D j with hU
   set T₀ : Subgroup K := ⨆ k, H k with hT₀
@@ -157,7 +157,7 @@ theorem not_nine_dvd_card_rankOne_sup_torus (h : BorelQuotient D n H π M) {i j 
     (hij : i ≠ j) (hAij : D.cartan i j = -1) (hAji : D.cartan j i = -1)
     (hVT : (rankOne D.rootGroup i ⊔ rankOne D.rootGroup j) ⊓ (⨆ k, H k) = ⊥) :
     ¬ 9 ∣ Nat.card ↥(rankOne D.rootGroup i ⊔ rankOne D.rootGroup j) := by
-  haveI := cartan_borel_weylN_normal h.ct h.extras
+  have := cartan_borel_weylN_normal h.ct h.extras
   have hBN := isBNPair_borel_weylN h.ct h.extras
   set T₀ : Subgroup K := ⨆ k, H k with hT₀
   set U := posUnipotent D with hU

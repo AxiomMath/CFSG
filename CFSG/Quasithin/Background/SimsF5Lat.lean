@@ -69,9 +69,9 @@ theorem lat_closure_tGens_cons_le {x : GL6} {L : Subgroup GL6} (hT : latT ≤ L)
   · rw [List.mem_singleton.mp h]
     exact hx
 
-theorem latT_le_iff {L : Subgroup GL6} : latT ≤ L ↔ ∀ g ∈ f5TGens, g ∈ L :=
-  ⟨fun h g hg => h (Subgroup.subset_closure hg),
-    fun h => (Subgroup.closure_le L).mpr fun g hg => h g hg⟩
+theorem latT_le_iff {L : Subgroup GL6} : latT ≤ L ↔ ∀ _g ∈ f5TGens, _g ∈ L :=
+  ⟨fun h _g hg => h (Subgroup.subset_closure hg),
+    fun h => (Subgroup.closure_le L).mpr fun _g hg => h _g hg⟩
 
 theorem latM0_le_of_mem {L : Subgroup GL6} (hT : latT ≤ L) (hx : latExtra ∈ L) : latM0 ≤ L :=
   lat_closure_tGens_cons_le hT hx

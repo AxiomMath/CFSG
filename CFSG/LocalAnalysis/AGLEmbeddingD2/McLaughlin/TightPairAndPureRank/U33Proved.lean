@@ -119,7 +119,7 @@ theorem outU33_proved :
     OutU33 := by
   intro X _ hX
   obtain ⟨e⟩ := CFSG.GH74.KGroups.U33.equiv_of_lieModel (lieModel_of_isUThreeThree hX)
-  haveI : Finite X := CFSG.GH74.KGroups.U33.finite_K e
+  have : Finite X := CFSG.GH74.KGroups.U33.finite_K e
   obtain ⟨-, hcard, hcen⟩ := u33_simple_card_center hX
   refine autThreePowInner_of_card_mulAut hcen ?_
   rw [CFSG.GH74.KGroups.U33.card_mulAut e, hcard]
@@ -128,7 +128,7 @@ theorem u33FactsExact_proved : U33FactsExact := by
   intro X _ _ hX
   obtain ⟨hsimple, hcard, hcen⟩ := u33_simple_card_center hX
   refine ⟨hcen, ?_⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsu := isSmallUnitary_three_of_isUThreeThree hX
   obtain ⟨d, ⟨q, hqp, hqe, hdq⟩, ⟨e⟩⟩ := hsu
   have hdU : IsUnitaryIndex 3 d := ⟨q, hqp, hdq⟩

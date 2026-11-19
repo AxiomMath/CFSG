@@ -18,7 +18,7 @@ theorem spEnd_eq_map_conj_of_component {p : ℕ} (hp : p.Prime) {x y : G} {L K :
     (hZ : Subgroup.center K = ⊥) {e : G} (he1 : e ≠ 1) (heK : e ∈ K)
     (heL : e ∈ L.map (MulAut.conj T).toMonoidHom) :
     K = L.map (MulAut.conj T).toMonoidHom := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hLcomp : IsComponentOf (L.map (MulAut.conj T).toMonoidHom)
       (Subgroup.centralizer ({y} : Set G)) := by
     have h := isComponentOf_map_mulEquiv' (MulAut.conj T) hL

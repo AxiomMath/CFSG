@@ -106,10 +106,12 @@ open CFSG.RankThreeCoreUniqueness.Helpers
 variable {G : Type} [Group G] [Finite G] {M : Subgroup G} {p : ℕ} {Q H : Subgroup G} {d : ℕ}
   {L₁ L₂ L₃ : Subgroup G} {n₁ n₂ n₃ : ℕ}
 
+omit [Finite G] in
 private theorem starImg_sup {A B : Subgroup G} (hA : A ≤ H) (hB : B ≤ H) :
     starImg p H (A ⊔ B) = starImg p H A ⊔ starImg p H B := by
   rw [starImg, starImg, starImg, Subgroup.subgroupOf_sup hA hB, Subgroup.map_sup]
 
+omit [Finite G] in
 private theorem starImg_eq_starImg_inf (p : ℕ) (H M : Subgroup G) :
     starImg p H M = starImg p H (H ⊓ M) := by
   rw [starImg, starImg]
@@ -138,7 +140,7 @@ private theorem exists_isPComponentIn_le_of_not_commute (hp : p.Prime) {H I : Su
     (hC : CFSG.IsComponent C) (hCX : C ≤ starImg p H (H ⊓ M))
     (hCne : ⁅C, starImg p H I⁆ ≠ ⊥) :
     ∃ J : Subgroup G, IsPComponentIn p J H ∧ starImg p H J ≤ starImg p H I := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hIle : I ≤ H ⊓ M := hI.le
   have hIsub : CFSG.Open.IsSubnormal (starImg p H I) (starImg p H (H ⊓ M)) := by
     have h1 : CFSG.Open.IsSubnormal (I.subgroupOf H) ((H ⊓ M).subgroupOf H) :=
@@ -176,6 +178,7 @@ theorem starImg_le_cStarL_or_exists_isPComponentIn (hp : p.Prime) {I : Subgroup 
     exact Or.inr (exists_isPComponentIn_le_of_not_commute hp hI hC
       (isComponent_le_starImg_inf_of_pLayerIn_le hp hAM hC) hCne)
 
+omit [Finite G] in
 private theorem notMem_of_isComponent_ne_of_mem_center {H J K : Subgroup G}
     (hcomm : ⁅starImg p H J, starImg p H K⁆ = ⊥)
     {x : ↥(starImg p H J)} (hxZ : x ∉ Subgroup.center ↥(starImg p H J)) :
@@ -198,7 +201,7 @@ private theorem two_le_pRank_starImg_of_components (hp : p.Prime) {H J K : Subgr
     (hwp : w ^ p = 1) (hw1 : w ≠ 1) (hxZ : x ∉ Subgroup.center ↥(starImg p H J))
     (hxp : x ^ p = 1) :
     2 ≤ CFSG.Open.pRank p (starImg p H (pLayerIn p H)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxK : (x : StarGroup p H) ∉ starImg p H K :=
     notMem_of_isComponent_ne_of_mem_center hcomm hxZ
   have hx_not_zw : (x : StarGroup p H) ∉ Subgroup.zpowers w := fun hxw =>
@@ -236,7 +239,7 @@ private theorem two_le_pRank_starImg_of_components (hp : p.Prime) {H J K : Subgr
 private theorem eq_of_isPComponentIn_of_pRank_le_one (hp : p.Prime) (hp2 : p ≠ 2)
     {H J K : Subgroup G} (hJ : IsPComponentIn p J H) (hK : IsPComponentIn p K H)
     (hrank : CFSG.Open.pRank p (pLayerIn p H) ≤ 1) : K = J := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hne
   have hJc : CFSG.IsComponent (starImg p H J) := isComponent_starImg hJ
   have hKc : CFSG.IsComponent (starImg p H K) := isComponent_starImg hK
@@ -262,21 +265,21 @@ private theorem false_of_le_centralizer {Y : Type} [Group Y] {K : Subgroup Y}
     (hK : CFSG.IsQuasisimple ↥K) (hcent : K ≤ Subgroup.centralizer (K : Set Y)) : False := by
   have hcommK : IsMulCommutative ↥K :=
     Subgroup.le_centralizer_iff_isMulCommutative.mp hcent
-  haveI : Group.IsPerfect ↥K := hK.1
-  haveI : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK
+  have : Group.IsPerfect ↥K := hK.1
+  have : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK
   exact Group.IsPerfect.not_isMulCommutative (G := ↥K) hcommK
 
 private theorem starImg_eq_of_isPComponentIn_of_quasisimple (hp : p.Prime) {H K : Subgroup G}
     (hK : IsPComponentIn p K H)
     (hquasi : CFSG.IsQuasisimple ↥(starImg p H (pLayerIn p H))) :
     starImg p H K = starImg p H (pLayerIn p H) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAcomp : CFSG.IsComponent (starImg p H (pLayerIn p H)) := by
     refine ⟨hquasi, ?_⟩
     rw [starImg_pLayerIn hp H]
-    haveI : (CFSG.layer (StarGroup p H)).Characteristic :=
+    have : (CFSG.layer (StarGroup p H)).Characteristic :=
       CFSG.LocalCores.layer_characteristic
-    haveI : (CFSG.layer (StarGroup p H)).Normal := inferInstance
+    have : (CFSG.layer (StarGroup p H)).Normal := inferInstance
     exact (inferInstance : (CFSG.layer (StarGroup p H)).Normal).isSubnormal
   have hKle : starImg p H K ≤ starImg p H (pLayerIn p H) :=
     Subgroup.map_mono (Subgroup.comap_mono (le_pLayerIn hK))
@@ -289,6 +292,7 @@ private theorem starImg_eq_of_isPComponentIn_of_quasisimple (hp : p.Prime) {H K 
       Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcomm
     exact false_of_le_centralizer hKc.1 (hKle.trans hcent)
 
+omit [Finite G] in
 private theorem le_normalizer_of_forall_eq {H J : Subgroup G} (hJ : IsPComponentIn p J H)
     (hEq : ∀ K : Subgroup G, IsPComponentIn p K H → K = J) :
     H ≤ normalizer (J : Set G) := by
@@ -299,7 +303,7 @@ private theorem mem_of_isPComponentIn_of_eq_sup {H a b c K : Subgroup G} (hp : p
     (ha : IsPComponentIn p a H) (hb : IsPComponentIn p b H) (hc : IsPComponentIn p c H)
     (hsup : pLayerIn p H = a ⊔ b ⊔ c) (hK : IsPComponentIn p K H) :
     K ∈ ({a, b, c} : Set (Subgroup G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hKS
   have haH : a ≤ H := ha.1
   have hbH : b ≤ H := hb.1
@@ -333,6 +337,7 @@ private theorem mem_of_isPComponentIn_of_eq_sup {H a b c K : Subgroup G} (hp : p
   exact false_of_le_centralizer hKcomp.1
     ((Subgroup.map_mono (Subgroup.comap_mono (le_pLayerIn hK))).trans hAcent)
 
+omit [Finite G] in
 private theorem le_sup_inf_normalizer_of_conj {H M E J : Subgroup G} (hEH : E ≤ H)
     (hEM : E ≤ M)
     (hconj : ∀ h ∈ H, ∃ e ∈ E, J.map (MulAut.conj h).toMonoidHom =
@@ -368,7 +373,7 @@ theorem TwelveSixKCtx.le_of_inf_normalizer_le
     (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     (hA : pLayerIn p H ≤ M) {J : Subgroup G} (hJ : IsPComponentIn p J H)
     (hN : H ⊓ normalizer (J : Set G) ≤ M) : H ≤ M := by
-  haveI : Fact p.Prime := ⟨hc.ctx.p_prime⟩
+  have : Fact p.Prime := ⟨hc.ctx.p_prime⟩
   have hJne : J ≠ ⊥ := CFSG.ComponentClassification.CatFactsSp4.ne_bot_of_isPComponent hJ.2
   have hAne : pLayerIn p H ≠ ⊥ := ne_bot_of_le_ne_bot hJne (le_pLayerIn hJ)
   obtain ⟨E, hEQ, hE, hEc, hΓ⟩ := hc.ctx.exists_E_sq

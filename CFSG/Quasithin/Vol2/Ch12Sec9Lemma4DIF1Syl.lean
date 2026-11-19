@@ -74,17 +74,17 @@ open scoped Pointwise in
 theorem exists_conj_of_card_64 {G : Type} [Group G] [Finite G] (hG : Nat.card G = 20160)
     {H K : Subgroup G} (hH : IsPGroup 2 H) (hK : IsPGroup 2 K) (hHc : Nat.card H = 64)
     (hKc : Nat.card K = 64) : ∃ c : G, H = K.map (MulAut.conj c).toMonoidHom := by
-  haveI : Finite (Sylow 2 G) :=
+  have : Finite (Sylow 2 G) :=
     Finite.of_injective (fun P : Sylow 2 G => (P : Set G))
       (fun P Q h => Sylow.ext (SetLike.coe_injective h))
   obtain ⟨QH, hHQ⟩ := IsPGroup.exists_le_sylow hH
   obtain ⟨QK, hKQ⟩ := IsPGroup.exists_le_sylow hK
   have eH : H = (QH : Subgroup G) :=
     Subgroup.eq_of_le_of_card_ge hHQ
-      (le_of_eq ((card_sylow_eq_64 hG QH.isPGroup' hHQ hHc).trans hHc.symm))
+      (le_of_eq ((card_sylow_eq_64 hG QH.isPGroup hHQ hHc).trans hHc.symm))
   have eK : K = (QK : Subgroup G) :=
     Subgroup.eq_of_le_of_card_ge hKQ
-      (le_of_eq ((card_sylow_eq_64 hG QK.isPGroup' hKQ hKc).trans hKc.symm))
+      (le_of_eq ((card_sylow_eq_64 hG QK.isPGroup hKQ hKc).trans hKc.symm))
   obtain ⟨c, hc⟩ := MulAction.exists_smul_eq G QK QH
   have hsm : MulAut.conj c • (QK : Subgroup G) =
       (QK : Subgroup G).map (MulAut.conj c).toMonoidHom := rfl

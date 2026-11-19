@@ -119,7 +119,7 @@ theorem false_of_surjective_psl2GF_of_five_le {p n : ℕ} [Fact p.Prime] (hp5 : 
     · exact hm h5
   have hord : orderOf (ι (g ^ m)) ∣ ℓ ^ e' := (orderOf_map_dvd ι _).trans hxord
   have hcard : Nat.card (Fin (3 * p)) = 3 * p := Nat.card_fin _
-  have hcomm := conj_eq_of_mem_normalizer_of_card_lt (E.isPGroup'.map ι)
+  have hcomm := conj_eq_of_mem_normalizer_of_card_lt (E.isPGroup.map ι)
     (by rw [hcard]; omega) (by rw [hcard]; nlinarith)
     (Subgroup.le_normalizer_map ι (Subgroup.mem_map_of_mem ι (pow_mem hgN m)))
     ((Nat.Coprime.pow_left e' hℓ6).coprime_dvd_left hord)

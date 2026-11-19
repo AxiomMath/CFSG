@@ -22,7 +22,7 @@ theorem kdChevQ_sylow_le {p : ℕ} (hp : p.Prime) {Z : Type} [Group Z] [Finite Z
     (hout : ¬ p ∣ Nat.card (Outer K)) : (Q : Subgroup Z) ≤ K := by
   have : K.Normal := hKn
   intro r hr
-  obtain ⟨k, hk⟩ := Q.isPGroup' ⟨r, hr⟩
+  obtain ⟨k, hk⟩ := Q.isPGroup ⟨r, hr⟩
   have hrk : r ^ p ^ k = 1 := congrArg Subtype.val hk
   let ψ : Z →* Outer K := (QuotientGroup.mk' (inner K)).comp (MulAut.conjNormal (H := K))
   have hcop : (p ^ k).Coprime (Nat.card (Outer K)) :=
@@ -66,7 +66,7 @@ theorem kdChevQ_false_of_suzuki {p : ℕ} (hp : p.Prime) {Z : Type} [Group Z] [F
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hEK).toEquiv
   have hEqS : E.comap K.subtype = (S : Subgroup K) :=
     Subgroup.eq_of_le_of_card_ge hS ((hcyc S).2.trans hcardE.symm).le
-  haveI := (hcyc S).1
+  have := (hcyc S).1
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥(S : Subgroup K))
   have hgE : ∀ x : (S : Subgroup K), ((x : K) : Z) ^ p = 1 := by
     intro x
@@ -182,7 +182,7 @@ theorem kdI278ChevQ_holds
         have hsyl := tits_sylow ↥K hT
         have hQK : (Q : Subgroup Z) ≤ K := kdChevQ_sylow_le hp hKn hC hno
         obtain ⟨a, ha, b, hb, -, -, hab⟩ := hQnc
-        exact kdChevQ_false_of_tits Q.isPGroup' hQK hsyl ha hb hab
+        exact kdChevQ_false_of_tits Q.isPGroup hQK hsyl ha hb hab
       ·
         have hd' : d = TauCeti.LieTypeIndex.suzuki 2 := hd
         subst hd'

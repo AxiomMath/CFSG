@@ -35,7 +35,7 @@ theorem weak_alt {J : Subgroup G} (hJ : J ∈ CoreAssembly.conjClass K) {s : G}
   have hs2 : orderOf s = 2 :=
     orderOf_eq_prime (show s ^ 2 = 1 by rw [sq]; exact hJs.sq) hJs.ne_one
   have hy2 : IsPGroup 2 (Subgroup.zpowers y) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hyS)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr hyS)
   have hJC : Subgroup.zpowers y ≤ J ⊓ Subgroup.centralizer ({z} : Set G) :=
     Subgroup.zpowers_le.mpr ⟨hyJ, hd.hSz hyS⟩
   obtain ⟨V₀, hV₀, hyV₀'⟩ := IsSylow2In.exists_ge hy2 hJC

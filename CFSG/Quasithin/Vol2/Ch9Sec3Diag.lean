@@ -112,7 +112,6 @@ theorem exists_uni_mul_diag {g : SpecialLinearGroup (Fin 2) K} (hg : g ∈ utT K
     simp [Matrix.mul_apply, Fin.sum_univ_two, hg10, hadef]
   all_goals first
     | exact mul_inv_cancel₀ ha
-    | exact hdet
     | (rw [mul_comm]; exact hdet)
 
 theorem utT_le_normalizer_uni : utT K ≤ Subgroup.normalizer (uni K : Set _) := by

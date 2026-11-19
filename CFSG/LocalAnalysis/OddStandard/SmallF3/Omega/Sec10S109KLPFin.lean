@@ -107,7 +107,7 @@ theorem kl_core [Finite G] (hE : Asc82FactCE16) (h3 : Asc82Sec3Res10) (h : Asc82
     {φ : (Fin 5 → ZMod 2) → G}
     (hperm : IsPermModuleVia IsEvenVec φ (secB S L) (L ⊓ normalizer (secB S L : Set G))
       (alternatingGroup (Fin 5)))
-    (h4 : ∀ v, IsEvenVec v → vecWeight v = 4 → IsI4PlusIn L (φ v))
+    (_h4 : ∀ v, IsEvenVec v → vecWeight v = 4 → IsI4PlusIn L (φ v))
     (h2 : ∀ v, IsEvenVec v → vecWeight v = 2 → ¬ IsI4PlusIn L (φ v))
     (hBL : secB S L ≤ L) (hB16 : Nat.card (secB S L) = 2 ^ 4) {k : G}
     (hk : k⁻¹ * t * k = t * φ klV0) : False := by

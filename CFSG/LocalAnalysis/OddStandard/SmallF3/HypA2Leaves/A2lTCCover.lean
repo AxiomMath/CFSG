@@ -37,13 +37,13 @@ theorem a2l_center_core_quot {X : Type} [Group X] [Finite X] (hX : HypA2.IsFStar
     fun {_} => center_eq_bot_of_simple_of_quot (one_lt_card_of_tcSmall hQ)
   unfold HypA2.IsFStar at hX
   rcases hX with h1 | h2 | h3 | h4 | h5 | ⟨-, h6⟩
-  · haveI := isSimple_of_lieModel (by norm_num) h1; exact key
-  · haveI := isSimple_of_lieModel (by norm_num) h2; exact key
-  · haveI := isSimple_of_lieModel (by norm_num) h3; exact key
-  · haveI := isSimple_of_lieModel (by norm_num) h4; exact key
+  · have := isSimple_of_lieModel (by norm_num) h1; exact key
+  · have := isSimple_of_lieModel (by norm_num) h2; exact key
+  · have := isSimple_of_lieModel (by norm_num) h3; exact key
+  · have := isSimple_of_lieModel (by norm_num) h4; exact key
   · unfold SmallF3OmegaQuotient at h5
     rcases h5 with h | h | h | h | h | h <;>
-      · haveI := isSimple_of_lieModel (by norm_num) h; exact key
+      · have := isSimple_of_lieModel (by norm_num) h; exact key
   · exfalso
     have hc : Nat.card ((X ⧸ pPrimeCore 2 X) ⧸ center (X ⧸ pPrimeCore 2 X)) = 3265920 := by
       rw [GH74.card_of_lieModel_PSU (G := (X ⧸ pPrimeCore 2 X) ⧸ center (X ⧸ pPrimeCore 2 X))
@@ -64,7 +64,7 @@ theorem a2l_eq_one_of_mem_center {K : Type} [Group K] [Finite K] (hZ : IsPGroup 
     apply Subtype.ext
     exact Subgroup.mem_center_iff.mp hx (y : K)
   rw [hcen, Subgroup.mem_bot, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at hxc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact Holt.OddCoreHull.eq_one_of_mem_pPrimeCore (W := X) (P := center K) hZ hx hxc
 
 theorem a2l_center_eq_bot_of_lift {K : Type} [Group K] [Finite K] (hK : CFSG.IsQuasisimple K)
@@ -74,7 +74,7 @@ theorem a2l_center_eq_bot_of_lift {K : Type} [Group K] [Finite K] (hK : CFSG.IsQ
     (hst : s ≠ t)
     (hgθ : ((θ (QuotientGroup.mk g) : alternatingGroup (Fin (m + 2))) : Perm (Fin (m + 2))) =
       swap p q * swap s t) : center K = ⊥ := by
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   let η : K →* alternatingGroup (Fin (m + 2)) :=
     θ.toMonoidHom.comp (QuotientGroup.mk' (center K))
   have hη : Function.Surjective η :=

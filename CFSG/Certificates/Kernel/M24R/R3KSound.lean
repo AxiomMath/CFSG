@@ -22,10 +22,10 @@ theorem withL_eq (L : Int → Nat) (k : (Int → Nat) → Bool) : withL L k = k 
   have ite_L : ∀ {c z : Int} {X : Nat}, X = L z → (if z = c then L c else X) = L z :=
     fun {c z X} h => by
       by_cases e : z = c
-      · rw [if_pos e, e]
-      · rw [if_neg e, h]
+      · rw [ite_eq_left e, e]
+      · rw [ite_eq_right e, h]
   unfold withL
-  repeat (rw [strictB_eqR3]; beta_reduce)
+  repeat (rw [strictB_eqR3])
   exact congrArg k (funext fun z => by
     repeat (refine ite_L ?_)
     rfl)

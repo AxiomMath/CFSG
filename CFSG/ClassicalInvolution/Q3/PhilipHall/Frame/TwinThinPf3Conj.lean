@@ -44,7 +44,7 @@ theorem into_flip {ι : Fin 4 ↪ Fin 8} {j : Fin 8} (hj : j ∉ Set.range ι) :
     obtain ⟨w', hw', rfl⟩ := hw
     refine ⟨w', hw', ?_⟩
     simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_ofClass, MulAut.conj_apply, map_mul,
-      map_inv, hinv]
+      hinv]
     have h2 : mkQ 8 (twinVec ι j) * mkQ 8 (twinVec ι j) = 1 := by
       rw [← map_mul, twinVec_mul_self, map_one]
     have h3 : (mkQ 8 (twinVec ι j))⁻¹ = mkQ 8 (twinVec ι j) := inv_eq_of_mul_eq_one_right h2

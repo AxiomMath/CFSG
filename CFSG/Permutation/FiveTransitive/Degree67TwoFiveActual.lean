@@ -23,7 +23,7 @@ theorem easy_or_hard
         Nat.card (Family (X := X) (sylowImage X P s S) 4) = 15) := by
   classical
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hQcard : Nat.card Q = Nat.card S :=
     Subgroup.card_map_of_injective (fixingSubgroup P s).subtype_injective
   have hfixed : Nat.card (fixedPoints Q X) = 5 := by

@@ -34,7 +34,7 @@ private theorem w172_exists_acting_prime_group {G : Type*} [Group G] [Finite G]
     ∃ q : ℕ, q.Prime ∧ q ≠ 2 ∧ ∃ x ∈ CFSG.pCore q G,
       d * x * d⁻¹ * x⁻¹ ∉ (⁅CFSG.pCore q G, CFSG.pCore q G⁆ : Subgroup G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdF : d ∉ fittingSubgroup G := by
     intro hmem
     have hmem2 : d ∈ CFSG.pCore 2 G :=
@@ -74,11 +74,11 @@ private theorem w172_exists_acting_prime_group {G : Type*} [Group G] [Finite G]
     intro y hy
     by_contra hy'
     exact hcon ⟨y, hy, hy'⟩
-  haveI : Fact (q : ℕ).Prime := ⟨hqprime⟩
+  have : Fact (q : ℕ).Prime := ⟨hqprime⟩
   let P : Subgroup G := CFSG.pCore q G
-  haveI hPnorm : P.Normal := by dsimp [P]; infer_instance
+  have hPnorm : P.Normal := by dsimp [P]; infer_instance
   have hPp : IsPGroup q ↥P := by dsimp [P]; exact pCore_isPGroup
-  haveI : Fact (IsPGroup q ↥P) := ⟨hPp⟩
+  have : Fact (IsPGroup q ↥P) := ⟨hPp⟩
   let τ : MulAut ↥P := MulAut.conjNormal d
   have htop : (⊤ : Subgroup ↥P).map P.subtype = P := by
     ext y
@@ -158,6 +158,7 @@ theorem w172_exists_acting_prime {L : Subgroup Γ} (hsolv : Group.IsSolvable ↥
     exact hxnot ((Subgroup.mem_map_iff_mem (Subgroup.subtype_injective L)).mp hmem'')
 
 
+omit [Finite Γ] in
 private theorem w172_pCoreOf_top (p : ℕ) :
     pCoreOf p (⊤ : Subgroup Γ) = CFSG.pCore p Γ := by
   unfold CFSG.Open.pCoreOf
@@ -175,29 +176,29 @@ theorem w172_lift_abstract {S : Subgroup Γ} {d₀ : Γ} (hsolv : Group.IsSolvab
       ∃ B : Subgroup Γ, B ≤ Subgroup.centralizer ({d₀} : Set Γ) ∧ IsElemAbelian p B ∧
         Nat.card B = p ^ ((Subgroup.centralizer ({d₀} : Set Γ)).relIndex S - 1) := by
   classical
-  haveI : Fintype ↥S := Fintype.ofFinite ↥S
+  have : Fintype ↥S := Fintype.ofFinite ↥S
   have hsolvTop : Group.IsSolvable ↥(⊤ : Subgroup Γ) := by
-    haveI : IsSolvable Γ := hsolv
-    exact solvable_of_surjective (f := (Subgroup.topEquiv (G := Γ)).symm.toMonoidHom)
+    have : Group.IsSolvable Γ := hsolv
+    exact Group.isSolvable_of_surjective (f := (Subgroup.topEquiv (G := Γ)).symm.toMonoidHom)
       (Subgroup.topEquiv (G := Γ)).symm.surjective
   have hO2top : pCoreOf 2 (⊤ : Subgroup Γ) = ⊥ := by
     rw [w172_pCoreOf_top, hO2]
   obtain ⟨p, hpprime, hp2, x₀, hx₀P, hx₀not⟩ :=
     w172_exists_acting_prime (L := ⊤) hsolvTop hO2top (d := d₀) trivial hd₀ hd₀1
-  haveI : Fact p.Prime := ⟨hpprime⟩
+  have : Fact p.Prime := ⟨hpprime⟩
   let P : Subgroup Γ := pCoreOf p ⊤
   let N : Subgroup Γ := ⁅P, P⁆
   have hPdef : P = CFSG.pCore p Γ := by
     dsimp [P]
     exact w172_pCoreOf_top p
-  haveI hPnorm : P.Normal := by rw [hPdef]; infer_instance
+  have hPnorm : P.Normal := by rw [hPdef]; infer_instance
   have hPp : IsPGroup p ↥P := by rw [hPdef]; exact pCore_isPGroup
-  haveI hNnorm : N.Normal := by dsimp [N]; infer_instance
+  have hNnorm : N.Normal := by dsimp [N]; infer_instance
   let C : Subgroup Γ := Subgroup.centralizer ({d₀} : Set Γ)
   let D : Finset Γ := Finset.univ.image (fun s : ↥S => (s : Γ) * d₀ * (s : Γ)⁻¹)
   have hD_card : D.card = C.relIndex S := by
     let act : ↥S →* MulAut Γ := MulAut.conj.comp S.subtype
-    letI : MulAction ↥S Γ := MulAction.compHom Γ act
+    let : MulAction ↥S Γ := MulAction.compHom Γ act
     have horbit : MulAction.orbit ↥S d₀ = (D : Set Γ) := by
       ext y
       constructor
@@ -266,7 +267,7 @@ theorem w172_lift_abstract {S : Subgroup Γ} {d₀ : Γ} (hsolv : Group.IsSolvab
             ((s : Γ) * x₀ * (s : Γ)⁻¹) * ((s : Γ) * d₀ * (s : Γ)⁻¹)⁻¹ *
             ((s : Γ) * x₀ * (s : Γ)⁻¹)⁻¹) * (s : Γ) ∈ N := by
           simpa using hNnorm.conj_mem _ hmem (s : Γ)⁻¹
-        convert hconj using 1 <;> group
+        convert hconj using 1; group
       no_two_inverted := by
         intro e he f hf hef u huP heu hfu
         obtain ⟨s, -, hs⟩ := Finset.mem_image.mp (by simpa only [D] using he)

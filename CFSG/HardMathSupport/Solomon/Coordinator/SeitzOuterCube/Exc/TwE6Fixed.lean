@@ -18,7 +18,7 @@ open CFSG.Open CFSG.LieType.SeitzGeneration CFSG.AGLEmbeddingD2 CFSG.RankThree.P
 section Fixed
 
 
-theorem twE6_fixedSubgroup_equiv_subfield {ℓ f p : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) {K : Type}
+theorem twE6_fixedSubgroup_equiv_subfield {ℓ f p : ℕ} (_hℓ : ℓ.Prime) (_hf : 1 ≤ f) {K : Type}
     [Field K] [Finite K] (hK : Nat.card K = (ℓ ^ f) ^ 2) (σ : K ≃+* K)
     (hσ : ∀ c, σ c = c ^ (ℓ ^ f)) (hp : p.Prime) (hp3 : 3 < p) {η : K ≃+* K}
     (hη : orderOf η = p) :

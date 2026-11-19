@@ -116,13 +116,13 @@ theorem s1614_weights {W : Type} [CommGroup W] (hW : ∀ x : W, x * x = 1) {z g 
       (g * z ^ (j : ℕ)) w = w → E (i : ℕ) w = 1 := by
     intro i j hij w hw
     fin_cases j
-    · simp only [Fin.val_zero, pow_zero, mul_one] at hw
+    · simp only [pow_zero, mul_one] at hw
       have hgw : g w = w := hw
-      fin_cases i <;> simp only [Fin.val_zero, Fin.val_one, Fin.val_two] at hij ⊢
+      fin_cases i <;> simp only at hij ⊢
       · exact absurd rfl hij
       · rw [hE1 w, hgw, hgw]; exact hN w
       · rw [hE2 w, hgw, hgw]; exact hN' w
-    · simp only [Fin.val_one, pow_one] at hw
+    · simp only [pow_one] at hw
       have hz1 : z (g w) = w := by
         rw [MulAut.mul_apply, hgz1 w] at hw
         exact hw
@@ -131,12 +131,12 @@ theorem s1614_weights {W : Type} [CommGroup W] (hW : ∀ x : W, x * x = 1) {z g 
         rw [hz3_apply (g w)] at h2
         exact h2
       have hggw : g (g w) = z w := by rw [hgw, hgz1 (z w), hgz1 w, hz1]
-      fin_cases i <;> simp only [Fin.val_zero, Fin.val_one, Fin.val_two] at hij ⊢
+      fin_cases i <;> simp only at hij ⊢
       · rw [hE0 w, hggw, hgw]; exact hN' w
       · exact absurd rfl hij
       · have h1 : z (z (g w)) = z w := by rw [hgw, hz4_apply w]
         rw [hE2 w, h1, hggw]; exact hN w
-    · simp only [Fin.val_two] at hw
+    · simp only at hw
       have hz2' : z (z (g w)) = w := by
         simp only [pow_two, MulAut.mul_apply, hgz1 (z w), hgz1 w] at hw
         exact hw
@@ -145,7 +145,7 @@ theorem s1614_weights {W : Type} [CommGroup W] (hW : ∀ x : W, x * x = 1) {z g 
         rw [hz3_apply (g w)] at h3
         exact h3
       have hggw : g (g w) = z (z w) := by rw [hgw, hgz1 w, hgw]
-      fin_cases i <;> simp only [Fin.val_zero, Fin.val_one, Fin.val_two] at hij ⊢
+      fin_cases i <;> simp only at hij ⊢
       · rw [hE0 w, hggw, hgw]; exact hN w
       · have h1 : z (g w) = z (z w) := by rw [hgw]
         have h2 : z (z (g (g w))) = z w := by rw [hggw, hz4_apply w]

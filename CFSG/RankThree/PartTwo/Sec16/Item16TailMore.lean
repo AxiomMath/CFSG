@@ -133,7 +133,7 @@ theorem para1612_of :
   have hRQ : R ∈ scriptQ A (lB A) :=
     mem_scriptQ_of_le_of_normal haA (Subgroup.map_subtype_le _)
       (Subgroup.map_subtype_le _) (Proof169.centralizer_le_normalizer_thetaCen _) hΘ3 hAT
-  have hR2 : IsPGroup 2 R := T.isPGroup'.map _
+  have hR2 : IsPGroup 2 R := T.isPGroup.map _
   have hRQ2 : R ∈ scriptQPi A (lB A) ⊤ (piOf 2) :=
     ⟨⟨hRQ, le_top⟩, (isPiSubgroup_piOf_iff Nat.prime_two R).mpr hR2⟩
   subst hS1

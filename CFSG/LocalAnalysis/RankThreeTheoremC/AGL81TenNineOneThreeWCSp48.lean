@@ -43,7 +43,7 @@ theorem sp48_inner_of_fix (β : MulAut TF) (hβ3 : β ^ 3 = 1) (T : Subgroup TF)
     exact (QuotientGroup.eq_one_iff β).1 (orderOf_eq_one_iff.1 h1)
   have hβD : β ∉ spLinearAutGroup 2 F8 := fun h => hβin (hDinn h)
   have hβ1 : β ≠ 1 := fun h => hβin (h ▸ (innTF).one_mem)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf β = 3 := orderOf_eq_prime hβ3 hβ1
   obtain ⟨-, σ, hσ, -, h, hhD, hβeq⟩ := hfield 3 Nat.prime_three β hβE hβD hord
   obtain ⟨x, hx⟩ := MonoidHom.mem_range.1 (hDinn hhD)

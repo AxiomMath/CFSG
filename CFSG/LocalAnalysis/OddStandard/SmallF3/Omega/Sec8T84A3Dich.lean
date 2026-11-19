@@ -26,7 +26,7 @@ theorem qt_eq (hctx : Sec8Ctx G t L S z g B) (h : Sec8T84L1 G t L S z g B K L1) 
   have hex : ∃ l' ∈ L1, tauFn t l' = (b : G) ∧ l' * l' ∈ B :=
     ⟨l, hl, hb, h.K_data.sq_le l (h.le hl)⟩
   unfold qt
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact sq_eq_of_tau_eq hctx h hex.choose_spec.1 hl (hex.choose_spec.2.1.trans hb.symm)
 
 theorem qt_one (hctx : Sec8Ctx G t L S z g B) (h : Sec8T84L1 G t L S z g B K L1) :

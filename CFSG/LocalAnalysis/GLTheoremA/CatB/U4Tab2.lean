@@ -14,7 +14,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.HardMathSupport.Solomon.LocalB
 
 theorem exists_fixed_of_perm_pow_three {α : Type} [Finite α] (σ : Equiv.Perm α)
     (h3 : σ ^ 3 = 1) (hcop : Nat.Coprime 3 (Nat.card α)) : ∃ a : α, σ a = a := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let H : Subgroup (Equiv.Perm α) := Subgroup.zpowers σ
   have hH : IsPGroup 3 H := by
     have hord : orderOf σ ∣ 3 := orderOf_dvd_of_pow_eq_one h3
@@ -41,7 +41,7 @@ theorem exists_fixed_of_perm_pow_three {α : Type} [Finite α] (σ : Equiv.Perm 
 
 theorem pQuot_equiv_image {A : Type} [Group A] [Finite A] (L : Subgroup A) :
     Nonempty (PQuot 3 L ≃* PQuot 3 (L.map (QuotientGroup.mk' (GLAPPrimeCore 3 A)))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let π := QuotientGroup.mk' (GLAPPrimeCore 3 A)
   let f : ↥L →* ↥(L.map π) := (π.comp L.subtype).codRestrict (L.map π) (fun x => ⟨x, x.2, rfl⟩)
   have hf : Function.Surjective f := by

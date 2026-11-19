@@ -72,11 +72,11 @@ theorem indBetween_eq_indClassFun_subgroupOf [Fintype G] {K S : Subgroup G} (hKS
   by_cases hz : ((t : G)⁻¹ * (y : G) * (t : G)) ∈ K
   · have hz' : (t⁻¹ * y * t : ↥S) ∈ K.subgroupOf S := by
       simpa [Subgroup.mem_subgroupOf] using hz
-    rw [dif_pos hz, dif_pos hz']
+    rw [dite_eq_left hz, dite_eq_left hz']
     congr 1
   · have hz' : (t⁻¹ * y * t : ↥S) ∉ K.subgroupOf S := by
       simpa [Subgroup.mem_subgroupOf] using hz
-    rw [dif_neg hz, dif_neg hz']
+    rw [dite_eq_right hz, dite_eq_right hz']
 
 theorem isPConfigSetup_of_isPBridgeData [Fintype G] (hG : IsOddOrderMinimalSimple G)
     {S L U W₁ W₂ : Subgroup G} {I J : Type u} [Fintype I] [Fintype J]
@@ -277,7 +277,7 @@ theorem indBetween_eq_indClassFun_of_map [Fintype G] (L : Subgroup G) (K : Subgr
   by_cases hz : ((t : ↥L)⁻¹ * y * t) ∈ K
   · have hz' : ((t : ↥L) : G)⁻¹ * ((y : ↥L) : G) * ((t : ↥L) : G) ∈ M := by
       rw [← hcoe]; exact (hmem _).2 hz
-    rw [dif_pos hz, dif_pos hz']
+    rw [dite_eq_left hz, dite_eq_left hz']
     have heq : e ⟨(t : ↥L)⁻¹ * y * t, hz⟩
         = ⟨((t : ↥L) : G)⁻¹ * ((y : ↥L) : G) * ((t : ↥L) : G), hz'⟩ := by
       apply Subtype.ext; rw [he]; exact hcoe
@@ -286,7 +286,7 @@ theorem indBetween_eq_indClassFun_of_map [Fintype G] (L : Subgroup G) (K : Subgr
       intro hcon
       rw [← hcoe] at hcon
       exact hz ((hmem _).1 hcon)
-    rw [dif_neg hz, dif_neg hz']
+    rw [dite_eq_right hz, dite_eq_right hz']
 
 @[expose] noncomputable def hallCoreEquiv (L : Subgroup G) :
     ↥(hallCore ↥L) ≃* ↥(hallCoreIn L) :=

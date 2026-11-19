@@ -18,7 +18,7 @@ variable {L1 L2 S : Subgroup G} {a : ℕ}
 theorem normalizer_inf_eq_borel_sup_q2
     (hF : F112HypW L1 L2 S)
     (hB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
-    (ha : 1 ≤ a) (hSz : Nonempty (oTwoQuot ↥L1 ≃* Sz a))
+    (ha : 1 ≤ a) (_hSz : Nonempty (oTwoQuot ↥L1 ≃* Sz a))
     (hL2 : IsL2Quot (2 * a + 1) (oTwoQuot ↥L2))
     (H : Subgroup G) (hH : H = L2 ⊔ S) :
     H ⊓ Subgroup.normalizer (S : Set G) = borelOf L2 S ⊔ Q2 L1 L2 S := by
@@ -297,7 +297,7 @@ theorem frameT1 (hF : F112HypW L1 L2 S)
   have hH_le_P2 : H ≤ P2 L1 L2 S := by
     rw [show H = u3H L1 L2 S from rfl]
     exact u3H_le_p2 L1 L2 S
-  haveI hQHn : QH.Normal :=
+  have hQHn : QH.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQ2_le_H).mpr
       (hH_le_P2.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (P2 L1 L2 S)))
   have hQHp : IsPGroup 2 QH :=

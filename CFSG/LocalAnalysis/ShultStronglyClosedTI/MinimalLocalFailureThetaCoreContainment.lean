@@ -129,7 +129,7 @@ theorem minimalLocalFailure_theta_core_containment
       X ≤ Subgroup.normalizer (W : Set G) → W ≤ (CFSG.pPrimeCore p J).map J.subtype := by
     intro W hWJ hWcop hXW
     exact odd_subgroup_saturation_captures_complement J X (pairOddCore_odd H beta)
-      (hXV.trans hVJ) p hp hpodd (P.isPGroup'.map V.subtype) hcentral W hWJ hWcop hXW
+      (hXV.trans hVJ) p hp hpodd (P.isPGroup.map V.subtype) hcentral W hWJ hWcop hXW
   refine ⟨hV, hcentral, hcapture, ?_⟩
   have hthetaE : minimalLocalFailurePairConfinementTheta p E =
       (CFSG.pPrimeCore p V).map V.subtype :=

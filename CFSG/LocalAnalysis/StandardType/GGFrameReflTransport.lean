@@ -21,13 +21,13 @@ private lemma frameRT_f_of_mem (e : ↥𝒜 ≃* ↥𝒜') {φ : MulAut ↥A} (h
     frameRT_f e φ = (e ⟨φ, h⟩ : MulAut ↥A') := by
   classical
   unfold frameRT_f
-  exact dif_pos h
+  exact dite_eq_left h
 
 private lemma frameRT_g_of_mem (e : ↥𝒜 ≃* ↥𝒜') {ψ : MulAut ↥A'} (h : ψ ∈ 𝒜') :
     frameRT_g e ψ = (e.symm ⟨ψ, h⟩ : MulAut ↥A) := by
   classical
   unfold frameRT_g
-  exact dif_pos h
+  exact dite_eq_left h
 
 private lemma frameRT_f_mem (e : ↥𝒜 ≃* ↥𝒜') {φ : MulAut ↥A} (hφ : φ ∈ 𝒜) :
     frameRT_f e φ ∈ 𝒜' := by
@@ -42,12 +42,12 @@ private lemma frameRT_g_mem (e : ↥𝒜 ≃* ↥𝒜') {ψ : MulAut ↥A'} (hψ
 private lemma frameRT_g_f (e : ↥𝒜 ≃* ↥𝒜') {φ : MulAut ↥A} (hφ : φ ∈ 𝒜) :
     frameRT_g e (frameRT_f e φ) = φ := by
   rw [frameRT_f_of_mem e hφ, frameRT_g_of_mem e (e ⟨φ, hφ⟩).2]
-  simpa using congrArg (fun x : ↥𝒜 => (x : MulAut ↥A)) (e.symm_apply_apply ⟨φ, hφ⟩)
+  simp
 
 private lemma frameRT_f_g (e : ↥𝒜 ≃* ↥𝒜') {ψ : MulAut ↥A'} (hψ : ψ ∈ 𝒜') :
     frameRT_f e (frameRT_g e ψ) = ψ := by
   rw [frameRT_g_of_mem e hψ, frameRT_f_of_mem e (e.symm ⟨ψ, hψ⟩).2]
-  simpa using congrArg (fun x : ↥𝒜' => (x : MulAut ↥A')) (e.apply_symm_apply ⟨ψ, hψ⟩)
+  simp
 
 private lemma frameRT_f_coe_mul (e : ↥𝒜 ≃* ↥𝒜') {φ ψ : MulAut ↥A}
     (hφ : φ ∈ 𝒜) (hψ : ψ ∈ 𝒜) :

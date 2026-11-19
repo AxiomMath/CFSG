@@ -16,6 +16,7 @@ open CFSG.RankThree.GF2n.Smith81.U6Cube CFSG.RankThree.GF2n.Smith81.A5Cube
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {K : Type} [Field K]
 
+omit [Finite F] in
 private theorem isTransvec_mul_self_U {g : GL (Fin 6) F} (hg : IsTransvec F g) : g * g = 1 := by
   apply Units.ext
   have h := hg.1
@@ -32,17 +33,22 @@ private theorem isTransvec_mul_self_U {g : GL (Fin 6) F} (hg : IsTransvec F g) :
 private abbrev wv {σ : F ≃+* F} {e : K ≃+* Fσ σ} (w : E3UWspace σ e) : Cube F :=
   ((show Wform σ from w : Wform σ) : Cube F)
 
+omit [Finite F] [CharP F 2] in
 private theorem wv_sub {σ : F ≃+* F} {e : K ≃+* Fσ σ} (a b : E3UWspace σ e) :
     wv (a - b) = wv a - wv b := rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem wv_smul {σ : F ≃+* F} {e : K ≃+* Fσ σ} (c : K) (w : E3UWspace σ e) :
     wv (c • w) = ((e c : Fσ σ) : F) • wv w := rfl
 
+omit [Finite F] in
 private theorem wv_act {σ : F ≃+* F} {e : K ≃+* Fσ σ} (g : SUid σ 6) (w : E3UWspace σ e) :
     wv (e3uWact σ e g w) = rho F (g : GL (Fin 6) F) (wv w) := rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem wv_P0 {σ : F ≃+* F} {e : K ≃+* Fσ σ} : wv (e3uP0 σ e) = pt0 F := rfl
 
+omit [Finite F] in
 theorem isRtU_mul_self {σ : F ≃+* F} (e : K ≃+* Fσ σ) {r : E3UWspace σ e ≃ₗ[K] E3UWspace σ e}
     (hr : IsRtU σ e r) : r * r = 1 := by
   obtain ⟨g, hg, rfl⟩ := hr

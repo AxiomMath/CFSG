@@ -29,10 +29,10 @@ theorem qTwoLMSkel_divCoord_suFull
       IsQmModel m (QTwoQm m) C.permV ∧
         IsAugModel m ↥(sumZero m 3) C.permVT := by
   obtain ⟨Θ, hnorm, hind⟩ := qTwoLMDivF_fullW hG hBs hN hm h3 hL hFrameL hFm hk.2
-  letI := hFrameL.fieldF0
-  letI := hFrameL.finiteF0
-  letI := hFrameL.charF0
-  letI := hFrameL.groupL0
+  let := hFrameL.fieldF0
+  let := hFrameL.finiteF0
+  let := hFrameL.charF0
+  let := hFrameL.groupL0
   subst hFm
   have hU : QTwoDivInnerFrame hFrameL.m Bs L hN hFrameL.F0 hFrameL.L0 hFrameL.c hFrameL.πSU
       hFrameL.ρ :=
@@ -61,10 +61,10 @@ theorem qTwoLMSkel_divCoord_psuFull
       IsQmModel m (QTwoQm m) C.permV ∧
         IsHmModel m h3 (QTwoHm m h3) C.permVT := by
   obtain ⟨Θ, hnorm, hind⟩ := qTwoLMDivF_fullW hG hBs hN hm h3 hL hFrameL hFm hk.2
-  letI := hFrameL.fieldF0
-  letI := hFrameL.finiteF0
-  letI := hFrameL.charF0
-  letI := hFrameL.groupL0
+  let := hFrameL.fieldF0
+  let := hFrameL.finiteF0
+  let := hFrameL.charF0
+  let := hFrameL.groupL0
   subst hFm
   have hU : QTwoDivInnerFrame hFrameL.m Bs L hN hFrameL.F0 hFrameL.L0 hFrameL.c hFrameL.πSU
       hFrameL.ρ :=

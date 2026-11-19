@@ -75,7 +75,7 @@ theorem d4_pow_four_eq_one_of_isPerfect {K : Type} [Field K] [Finite K] {m : ℕ
   have h3q : ¬ 3 ∣ 2 ^ m := fun h => by
     have := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h
     omega
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (k := m * 3) (by omega) (by rw [hK, pow_mul])
   obtain ⟨h, hh⟩ := Sec11.KS11Lie6Proof.d4ThreeConj_holds K (2 ^ m) σ hK hσ h3q z hz3 hz1
   have hz'3 : (h * z * h⁻¹) ^ 3 = 1 := by rw [conj_pow, hz3, mul_one, mul_inv_cancel]
@@ -99,7 +99,7 @@ theorem d4_pow_four_eq_one_of_isPerfect {K : Type} [Field K] [Finite K] {m : ℕ
       le_of_isPerfect_of_commutator_mem hP'' (map_conj_le_centralizer hP'z c) hcomm
     have hy'' : c * (h * y * h⁻¹) * c⁻¹ ∈ R := hP''R ⟨_, hy', rfl⟩
     refine pow_eq_one_of_conj_pow_eq_one c _ ?_
-    haveI : CharP (AlgebraicClosure K) 2 :=
+    have : CharP (AlgebraicClosure K) 2 :=
       charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
     set x : R := ⟨c * (h * y * h⁻¹) * c⁻¹, hy''⟩ with hx
     obtain ⟨k, hk⟩ := conj_isTwoElt c h2'
@@ -118,7 +118,7 @@ theorem d4_pow_four_eq_one_of_isPerfect {K : Type} [Field K] [Finite K] {m : ℕ
     have hmem : ((h * y * h⁻¹ : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :
         ModGL TwistTag.D4.tag K) ∈ (orbitRankOneHom TwistTag.D4 K σ.toRingHom d4Outer).range :=
       hP'S hy'
-    haveI : CharP (orbitField TwistTag.D4 K σ.toRingHom d4Outer) 2 :=
+    have : CharP (orbitField TwistTag.D4 K σ.toRingHom d4Outer) 2 :=
       RingHom.charP (orbitField TwistTag.D4 K σ.toRingHom d4Outer).subtype
         Subtype.val_injective 2
     obtain ⟨k, hk⟩ := h2'
@@ -155,7 +155,7 @@ theorem lemmaB {Q : Type} [Group Q] [Finite Q] {m : ℕ} (hodd : Odd m)
       hP' hP'z ⟨y, hy, rfl⟩ ⟨k, by rw [MulEquiv.coe_toMonoidHom, ← map_pow, hk, map_one]⟩
     exact e.injective (by rw [map_pow, map_one]; exact h4)
   · obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hG
-    haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+    have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (k := 3 * m) (by have := hodd.pos; omega) hK
     have hring : ringChar K = 2 := ringChar.eq K 2
     have h3 : 3 ∣ Nat.card K + 1 := by

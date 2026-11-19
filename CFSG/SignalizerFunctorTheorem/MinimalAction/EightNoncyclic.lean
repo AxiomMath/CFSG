@@ -239,7 +239,7 @@ private theorem noncyclic_case_of_isPGroup (h : EightSetting P d W) {D : Subgrou
 
 theorem noncyclic_case (h : EightSetting P d W) (D : Sylow 3 G)
     (hdD : d ∈ (D : Subgroup G)) (hcyc : ¬ IsCyclic (D : Subgroup G)) : False :=
-  noncyclic_case_of_isPGroup h D.isPGroup' hdD hcyc
+  noncyclic_case_of_isPGroup h D.isPGroup hdD hcyc
 
 end EightSetting
 

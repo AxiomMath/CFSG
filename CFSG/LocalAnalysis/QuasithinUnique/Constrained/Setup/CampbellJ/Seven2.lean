@@ -35,9 +35,11 @@ variable {G : Type*} [Group G] [Finite G] {k : Type*} [Field k] [Finite k] {S : 
 
 local notation "J" => CFSG.Quasithin.thompsonJ (S : Subgroup G)
 
+omit [Finite G] [Finite k] in
 private theorem hV_Seven2 (c : DoubleSetupJ S ρ ψ Λ α A g) :
     aimg J α (Vmod G) ≤ CFSG.pCore 2 G := c.lam.vmod α c.hαΛ
 
+omit [Finite G] [Finite k] in
 private theorem hV'_Seven2 (c : DoubleSetupJ S ρ ψ Λ α A g) :
     aimg J α.symm (Vmod G) ≤ CFSG.pCore 2 G := by
   have h : α.symm ∈ Λ := by
@@ -111,7 +113,7 @@ private theorem B0_normalized_Seven2 (c : DoubleSetupJ S ρ ψ Λ α A g) {a : G
 private theorem cj_Za_Seven2 (c : DoubleSetupJ S ρ ψ Λ α A g) :
     cj (aimg J α (Zfix S)) g = aimg J α (Zfix S) :=
   cj_eq_of_le_centralizer_Hone_Seven2
-    (fun z hz => (aimgJ_Zfix_le_center_Hone c.seed α (hV_Seven2 c) (hF_Seven2 c) hz).2)
+    (fun _z hz => (aimgJ_Zfix_le_center_Hone c.seed α (hV_Seven2 c) (hF_Seven2 c) hz).2)
     c.hgH
 
 private theorem commutator_A_B0_le_ZZ_Seven2 (c : DoubleSetupJ S ρ ψ Λ α A g) :
@@ -132,6 +134,7 @@ private theorem Pminus_le_R0_Seven2 (h : IsSeed S ρ (Ecore G) ψ) (α : MulAut 
     PminusJ S α g ≤ CFSG.Quasithin.thompsonJ (CFSG.pCore 2 G) :=
   tr_Fcore_le_thompsonJ_coreJ h α.symm g hV'
 
+omit [Finite G] in
 private theorem isElemAbelian_Pminus_Seven2 (α : MulAut J) (g : G) :
     CFSG.Open.IsElemAbelian 2 (PminusJ S α g) :=
   isElemAbelian_cj (isElemAbelian_aimg (S := J) α.symm isElemAbelian_Fcore) g

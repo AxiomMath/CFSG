@@ -68,7 +68,7 @@ theorem exists_sylow_eq_map_of_normalizer_map_le [Finite G] {q : ℕ} [Fact q.Pr
     have hmapped := le_normalizer_map (S : Subgroup G).subtype (mem_map.mpr ⟨x, hx, rfl⟩)
     rw [hmap] at hmapped
     exact hN hmapped
-  have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (S : Subgroup G) := S.isPGroup.isNilpotent
   have htop := normalizerCondition_iff_only_full_group_self_normalizing.mp
     Group.normalizerCondition_of_isNilpotent _ hself
   have hSL : (S : Subgroup G) ≤ L := fun x hx => by

@@ -191,7 +191,7 @@ theorem order_of_two_involutions {A : Type*} [CommGroup A] [Finite A] (hexp : �
     (hd : Nat.card X = 4 ∨ Nat.card X = 16) :
     (a * b) ^ 2 ≠ 1 ∧
       ((a * b) ^ 3 = 1 ∨ (Nat.card X = 16 ∧ ((a * b) ^ 5 = 1 ∨ (a * b) ^ 6 = 1))) := by
-  letI : Module (ZMod 2) (Additive A) := OrderTwoInv.addZMod2 hexp
+  let : Module (ZMod 2) (Additive A) := OrderTwoInv.addZMod2 hexp
   obtain ⟨S, hSv, hSi, hSX⟩ : ∃ S : TwoInv (Additive A),
       S.v = OrderTwoInv.autLin a ∧ S.i = OrderTwoInv.autLin b ∧ S.X = OrderTwoInv.subm X :=
     ⟨OrderTwoInv.twoInv β hβl hβr hβalt hnd q hq a b ha hb hqa hqb X Y hXa hYb haX hbY hXY hqX hqY,

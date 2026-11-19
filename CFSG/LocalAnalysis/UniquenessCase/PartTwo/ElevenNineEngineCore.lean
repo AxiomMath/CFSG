@@ -38,8 +38,8 @@ theorem eq_top_of_sup_eq_top_of_components {A : Type} [Group A] [Finite A] {W X�
       rwa [hWcomm w hw x, mul_assoc, mul_inv_cancel, mul_one]
     · intro hx
       rwa [hWcomm w hw x, mul_assoc, mul_inv_cancel, mul_one] at hx
-  haveI : X₀.Normal := hX₀n
-  haveI : IsMulCommutative W :=
+  have : X₀.Normal := hX₀n
+  have : IsMulCommutative W :=
     IsMulCommutative.of_comm fun a b => Subtype.ext (hWcomm (b : A) b.2 (a : A)).symm
   have hcomm : commutator A ≤ X₀ :=
     Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top (N := X₀) (H := W)
@@ -48,6 +48,7 @@ theorem eq_top_of_sup_eq_top_of_components {A : Type} [Group A] [Finite A] {W X�
   rw [← hperf]
   exact hcomm
 
+omit [Finite G] in
 theorem sSup_barImage_conjSetOf_eq_top (M K : Subgroup G) :
     sSup ((barImage (conjClosure M K)) '' (conjSetOf M K)) = ⊤ := by
   set Y := conjClosure M K with hYdef
@@ -146,7 +147,7 @@ theorem sup_pCoreOf_eq_of_components {M Y W X₀ K : Subgroup G} (hK : K ∈ cal
     exact (Subgroup.mem_normalizer_iff.1 (hWn hg) x).2
       (by simpa only [MulAut.conj_apply] using
         hK₀W ⟨x, hx, by simp [MulAut.conj_apply]⟩)
-  haveI : (barImage Y W).Normal :=
+  have : (barImage Y W).Normal :=
     hWnorm.map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)) (QuotientGroup.mk'_surjective _)
   have htop : barImage Y X₀ = ⊤ :=
     eq_top_of_sup_eq_top_of_components (A := Bar2 Y) hperf' hsup' hS' hgen' hnot'

@@ -65,7 +65,7 @@ theorem le_centralizer_inf_of_forall_notMem_tau1Primes [Finite G]
   · refine le_centralizer_of_forall_sylow_map_le_centralizer fun r hr Q => ?_
     set R : Subgroup G := (Q : Subgroup ↥X).map X.subtype with hRdef
     have hRX : R ≤ X := Subgroup.map_subtype_le _
-    have hRp : IsPGroup r ↥R := Q.isPGroup'.map _
+    have hRp : IsPGroup r ↥R := Q.isPGroup.map _
     have := Fact.mk hr
     rcases hRp.card_eq_or_dvd with h1 | hdvd
     ·

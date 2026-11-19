@@ -30,7 +30,7 @@ variable {C : Subgroup Y} {x y : Y}
 theorem cls_of_mem (hx : x ∈ C) :
     cls C x = QuotientGroup.mk' (classicalInvolutionOddCore ↥C) ⟨x, hx⟩ := by
   unfold cls
-  rw [dif_pos hx]
+  rw [dite_eq_left hx]
 
 theorem cls_mul (hx : x ∈ C) (hy : y ∈ C) : cls C (x * y) = cls C x * cls C y := by
   rw [cls_of_mem (C.mul_mem hx hy), cls_of_mem hx, cls_of_mem hy, ← map_mul]
@@ -82,19 +82,19 @@ theorem uv_cases {B B' T U V : G} (hBB : B * B' = B' * B) (hB : B * B = T) (hB' 
   rcases h with ⟨hU | hU, hV | hV⟩ | ⟨hU | hU, hV | hV⟩
   · rw [hU, hV]; left; rfl
   · rw [hU, hV, inv_inv]; right
-    simp only [hB'i, mul_assoc, r1, r2, r3, r4, r5, r6, hTB, hTB', hBB', hB, hB', hT, mul_one]
+    simp only [hB'i, r1, r2, hT, mul_one]
   · rw [hU, hV]; right
-    simp only [hBi, hB'i, mul_assoc, r1, r2, r3, r4, r5, r6, hTB, hTB', hBB', hB, hB', hT, mul_one]
+    simp only [hBi, hB'i, mul_assoc, r1, r2, hT, mul_one]
   · rw [hU, hV, inv_inv]; left
-    simp only [hBi, hB'i, mul_assoc, r1, r2, r3, r4, r5, r6, hTB, hTB', hBB', hB, hB', hT, mul_one]
+    simp only [hBi, hB'i, mul_assoc, hTB']
   · rw [hU, hV]; left
-    simp only [hBi, hB'i, mul_assoc, r1, r2, r3, r4, r5, r6, hTB, hTB', hBB', hB, hB', hT, mul_one]
+    simp only [hBi, hB'i, r3]
   · rw [hU, hV, inv_inv]; right
-    simp only [hBi, hB'i, mul_assoc, r1, r2, r3, r4, r5, r6, hTB, hTB', hBB', hB, hB', hT, mul_one]
+    simp only [hB'i, r1, r2, hBB', hT, mul_one]
   · rw [hU, hV]; right
-    simp only [hBi, hB'i, mul_assoc, r1, r2, r3, r4, r5, r6, hTB, hTB', hBB', hB, hB', hT, mul_one]
+    simp only [hBi, hB'i, mul_assoc, r1, r2, hBB', hT, mul_one]
   · rw [hU, hV, inv_inv]; left
-    simp only [hBi, hB'i, mul_assoc, r1, r2, r3, r4, r5, r6, hTB, hTB', hBB', hB, hB', hT, mul_one]
+    simp only [hB'i, mul_assoc, r3, hTB]
 
 end Abstract
 
@@ -109,7 +109,7 @@ theorem sq_rel_of_member (h : PerpHypR r n Y R S t) {L : Subgroup Y}
     (hp : p = x * x) (hq : q = y * y) (hp2 : p * p = t') (hq2 : q * q = t') :
     q⁻¹ * p ∈ oddCoreIn L ∨ q * p ∈ oddCoreIn L := by
   obtain ⟨φ⟩ := h.quotEquiv hL
-  haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
   set N : Subgroup ↥L := classicalInvolutionOddCore ↥L with hN
   have hpL : p ∈ L := hp ▸ L.mul_mem hx hx
   have hqL : q ∈ L := hq ▸ L.mul_mem hy hy

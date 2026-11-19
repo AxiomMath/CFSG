@@ -40,7 +40,7 @@ theorem isShapeTwoTwoTimesTwoFourA5_of_hom {G : Type} [Group G] (X V S N : Subgr
     rw [Subgroup.mem_inf] at hx
     obtain ⟨hxV, hxS⟩ := hx
     exact Subtype.ext (hVS x.1 hxV hxS)
-  haveI : Finite ↥X := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
+  have : Finite ↥X := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   have hcardmul : Nat.card ↥V' * Nat.card ↥S' = Nat.card ↥X := by
     rw [hV'card, hS'card, hX]
   have hsup : V' ⊔ S' = ⊤ :=
@@ -48,7 +48,7 @@ theorem isShapeTwoTwoTimesTwoFourA5_of_hom {G : Type} [Group G] (X V S N : Subgr
       (Subgroup.isComplement'_of_card_mul_and_disjoint hcardmul (disjoint_iff.mpr hV'S'))
   obtain ⟨eX, _heX⟩ :=
     CFSG.RankThree.CentralExtension.exists_mulEquiv_prod_of_central hV'cen hsup hV'S'
-  haveI : Finite ↥S := Nat.finite_of_card_ne_zero (by rw [hS]; norm_num)
+  have : Finite ↥S := Nat.finite_of_card_ne_zero (by rw [hS]; norm_num)
   have hNsub_le : N.subgroupOf S ≤ ψ.ker := by
     intro n hn
     rw [MonoidHom.mem_ker]

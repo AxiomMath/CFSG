@@ -88,6 +88,7 @@ theorem sec5pu_oddCore_eq_bot {P : Type} [Group P] [Finite P] (hP : IsSL23Mod P)
   rw [hcard, hq] at h
   exact Subgroup.eq_bot_of_card_eq _ (by omega)
 
+omit [Finite A] [Finite B] in
 theorem sec5pu_map_twoCoreIn_le (K : Subgroup A) (ρ : A →* B) :
     (twoCoreIn K).map ρ ≤ twoCoreIn (K.map ρ) := by
   have hle : (twoCoreIn K).map ρ ≤ K.map ρ := Subgroup.map_mono (twoCoreIn_le_self K)
@@ -148,7 +149,7 @@ theorem sec5pu_map_twoCoreIn (h : OddCentralCover ρ) {K : Subgroup A} {y : A}
     rw [← MonoidHom.range_comp, ← hQ8]
     exact (Nat.card_congr (MonoidHom.ofInjective hρf).toEquiv).symm
   have hle8 : Nat.card ↥(twoCoreIn (K.map ρ)) ≤ 8 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (isPGroup_twoCoreIn (K.map ρ)).exists_card_eq
     have hdvd : Nat.card ↥(twoCoreIn (K.map ρ)) ∣ 24 :=
       hcard ▸ Subgroup.card_dvd_of_le (twoCoreIn_le_self (K.map ρ))

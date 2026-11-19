@@ -297,7 +297,7 @@ theorem not_hypothesisOne_of_full_conj {G : Type*} [Group G] [Finite G] {L : Sub
     apply Subgroup.eq_of_le_of_card_ge hPQ
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTQ).toEquiv, hTcard]
     have h := hQp ((PQ : Subgroup Q).map Q.subtype) (Subgroup.map_subtype_le _)
-      (PQ.isPGroup'.map _)
+      (PQ.isPGroup.map _)
     rwa [Subgroup.card_map_of_injective (Subgroup.subtype_injective Q)] at h
   have hPQcyc : IsCyclic (PQ : Subgroup Q) := by
     rw [hPQeq]

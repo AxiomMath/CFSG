@@ -41,14 +41,14 @@ theorem deletionChart_pairCovariance_three {H : Type} [Group H]
     (t : Equiv.Perm (Fin (3 + 1)) →* H) (κ : normOmega E 3 →* H)
     (hT1 : t.comp (Equiv.Perm.viaEmbeddingHom Fin.castSuccEmb) = κ.comp (normPerm E le_rfl))
     (hC : ∀ y ∈ (anchorBlock E (by norm_num : 2 ≤ 3)).map κ, Commute (t (Equiv.swap 2 3)) y) :
-    ∀ (P : Finset (Fin (3 + 1))) (σ : Equiv.Perm (Fin (3 + 1))) (hPcard : P.card = 2)
+    ∀ (P : Finset (Fin (3 + 1))) (σ : Equiv.Perm (Fin (3 + 1))) (_hPcard : P.card = 2)
       (hPD : P ⊆ deletionSet (Fin.last 3)) (hPσD : P.image σ ⊆ deletionSet (Fin.last 3))
       (x : normBlock E (3 + 1) P),
         deletionChart E 3 κ (Subgroup.inclusion (normBlock_mono E (3 + 1) hPσD)
             (conjMapHom (map_normBlock_normPerm E (by norm_num : 3 ≤ 3 + 1)) σ P x)) =
           t σ * deletionChart E 3 κ (Subgroup.inclusion (normBlock_mono E (3 + 1) hPD) x) *
             (t σ)⁻¹ := by
-  intro P σ hPcard hPD hPσD x
+  intro P σ _hPcard hPD hPσD x
   have hn : 3 ≤ 3 + 1 := by norm_num
   have huv : (0 : Fin (3 + 1)) ≠ 1 := by decide
   have hcu : (2 : Fin (3 + 1)) ≠ 0 := by decide
@@ -79,6 +79,6 @@ theorem deletionChart_pairCovariance_three {H : Type} [Group H]
     (ρ := normPerm E hn) (t := t) (a := deletionChart E 3 κ)
     (hBmap := map_normBlock_normPerm E hn) huv hcu hcv hdu hdv hcd
     (deletionChart_common E le_rfl t κ hT1) hbase hcross
-    P σ hPcard hPD hPσD x
+    P σ _hPcard hPD hPσD x
 
 end CFSG.ClassicalGroups.Orthogonal.UnitaryOmega

@@ -48,6 +48,7 @@ private theorem bcdLarge_isSec5Inv (h : Sec5Data X n z Z S) {s : X} (hs : IsSec5
     rw [h3, h2]
     group
 
+omit [Finite X] in
 private theorem bcdLarge_normalizes_E {Zs B : Subgroup X} {w : X}
     (hwN : w ∈ normalizer (Zs : Set X)) (hwB : w ∈ normalizer (B : Set X)) :
     w ∈ normalizer (oTwoPrimeOf (B ⊓ centralizer (Zs : Set X)) : Set X) := by
@@ -100,6 +101,7 @@ private noncomputable def bcdLargeImg (hn : 8 ≤ n) {B : Subgroup X} (MB : Ahat
     (K : Subgroup X) : Subgroup (Perm (Fin n)) :=
   (K.subgroupOf (normalizer (B : Set X))).map (MB.permHom hn)
 
+omit [Finite X] in
 private theorem mem_bcdLargeImg (hn : 8 ≤ n) {B : Subgroup X} (MB : AhatModel X n B)
     {K : Subgroup X} {x : Perm (Fin n)} :
     x ∈ bcdLargeImg hn MB K ↔
@@ -110,6 +112,7 @@ private theorem mem_bcdLargeImg (hn : 8 ≤ n) {B : Subgroup X} (MB : AhatModel 
   · rintro ⟨c, hcN, hcK, rfl⟩
     exact ⟨⟨c, hcN⟩, hcK, (MB.permX_of_mem hcN).symm⟩
 
+omit [Finite X] in
 private theorem card_bcdLargeImg_dvd (hn : 8 ≤ n) {B : Subgroup X} (MB : AhatModel X n B)
     (K : Subgroup X) : Nat.card (bcdLargeImg hn MB K) ∣ Nat.card K := by
   refine (Subgroup.card_map_dvd _ (MB.permHom hn)).trans ?_
@@ -120,6 +123,7 @@ private theorem card_bcdLargeImg_dvd (hn : 8 ≤ n) {B : Subgroup X} (MB : AhatM
   rw [h1]
   exact Subgroup.card_dvd_of_le inf_le_left
 
+omit [Finite X] in
 private theorem bcdLarge_oddCoreOf_le_oddTwoCoreOf (H : Subgroup X) :
     oddCoreOf H ≤ oddTwoCoreOf H := by
   rintro _ ⟨y, hy, rfl⟩
@@ -129,6 +133,7 @@ private theorem bcdLarge_oddCoreOf_le_oddTwoCoreOf (H : Subgroup X) :
   rw [h1]
   exact one_mem _
 
+omit [Finite X] in
 private theorem bcdLarge_permX_pow (hn : 8 ≤ n) {B : Subgroup X} (MB : AhatModel X n B) {c : X}
     (hc : c ∈ normalizer (B : Set X)) (m : ℕ) : MB.permX (c ^ m) = MB.permX c ^ m := by
   have h := map_pow (MB.permHom hn) (⟨c, hc⟩ : ↥(normalizer (B : Set X))) m
@@ -219,7 +224,7 @@ variable {X : Type} [Group X] [Finite X] {n : ℕ} {z : X} {Z : Subgroup X}
 
 theorem quatPermDataM_of_multi (hn : 13 ≤ n) (h : Sec5Data X n z Z S) {s : X}
     (hs : IsSec5Inv X Z s) {u : X} (huZ : u ∈ Z) (hu1 : u ≠ 1) (hus : u * s = s * u)
-    {Q : Subgroup X} (hQ2 : IsPGroup 2 ↥Q) (hQ8 : Nat.card ↥Q = 8) (huQ : u ∈ Q)
+    {Q : Subgroup X} (_hQ2 : IsPGroup 2 ↥Q) (hQ8 : Nat.card ↥Q = 8) (huQ : u ∈ Q)
     (hQpow : ∀ q ∈ Q, q ≠ 1 → u ∈ zpowers q) (hyQ : ∃ y ∈ Q, y * y = u)
     (hQo : Q ≤ oddTwoCoreOf (centralizer ({u} : Set X) ⊓ centralizer ({s} : Set X)))
     (hQn : ∀ B, Sec5Comp X n (centralizer ({s} : Set X)) B → Q ≤ normalizer (B : Set X)) :

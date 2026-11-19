@@ -146,7 +146,7 @@ theorem trivial_fixed_core_sylow_setup
       exact h2
   obtain ⟨P₀⟩ : Nonempty (Sylow ℓ (N t)) := inferInstance
   set Q₀ : Subgroup (C t) := (P₀ : Subgroup (N t)).map (N t).subtype with hQ₀
-  have hQ₀p : IsPGroup ℓ Q₀ := P₀.isPGroup'.map _
+  have hQ₀p : IsPGroup ℓ Q₀ := P₀.isPGroup.map _
   have hQ₀i : ¬ ℓ ∣ Q₀.index := by
     rw [hQ₀, Subgroup.index_map_subtype]
     intro h

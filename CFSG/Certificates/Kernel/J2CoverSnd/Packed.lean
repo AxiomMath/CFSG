@@ -18,7 +18,7 @@ open CFSG.Certificates.Native CFSG.Sporadic.Th.Native CFSG.Sporadic.Schreier.Nat
 open CFSG.ComponentClassification.J2Cover
 
 theorem pcomp_assoc' {n w p q r : Nat} (hp : canonK n w (mask w) (n * w) p = true)
-    (hq : canonK n w (mask w) (n * w) q = true) (hr : canonK n w (mask w) (n * w) r = true) :
+    (_hq : canonK n w (mask w) (n * w) q = true) (hr : canonK n w (mask w) (n * w) r = true) :
     pcomp n w (mask w) (pcomp n w (mask w) p q) r =
       pcomp n w (mask w) p (pcomp n w (mask w) q r) := by
   obtain ⟨hn, hw, -, -⟩ := PF.canon_facts hp
@@ -97,7 +97,7 @@ private theorem rec_divParts (m : Nat) (g : Nat → Bool) : ∀ k : Nat,
     rw [e1, e2]
     generalize (Nat.rec (motive := fun _ => Bool) true _ k) = a
     cases a <;> by_cases h1 : 1 < k <;> by_cases h2 : m % k = 0 <;>
-      simp [h1, h2, List.filter_cons, beq_iff_eq, Bool.beq_eq_decide_eq] <;>
+      simp [h1, h2, Bool.beq_eq_decide_eq];
       cases g (m / k) <;> rfl
 
 private theorem ordPK_eq (n w m X : Nat) :
@@ -161,7 +161,7 @@ private theorem powFixW_prodK {n w : Nat} {ws : List Nat} (hn : n < 16777216)
   · intro H i _ hi
     rw [apPowW_ppow hn hw hc e i hi, beq_iff_eq, H, PF.pg_pidn hn hw hi]
 
-theorem ordW_unpack' {n w m : Nat} {ws : List Nat} (hm : 0 < m) (hne : ws ≠ [])
+theorem ordW_unpack' {n w m : Nat} {ws : List Nat} (_hm : 0 < m) (hne : ws ≠ [])
     (hc : ∀ X ∈ ws, canonK n w (mask w) (n * w) X = true) :
     ordW n (ws.map fun X => arrTable n (unpack n w X)) m = ordPK n w m (prodK n w ws) := by
   obtain ⟨X0, hX0⟩ := List.exists_mem_of_ne_nil ws hne

@@ -139,12 +139,12 @@ theorem twE6A2A1_le_sup {F : Type} [Field F] [Finite F] [CharP F 2]
     ← CFSG.StandardType.F4Rest.subsystemGroup_union]
   refine CFSG.StandardType.F4Rest.subsystemGroup_mono ?_
   intro i hi
-  simp only [Set.mem_union, Set.mem_singleton_iff, Set.mem_setOf_eq] at hi ⊢
+  simp only [Set.mem_union, Set.mem_singleton_iff, Set.mem_ofPred_eq] at hi ⊢
   fin_cases i <;> simp [support13, support56] at hi ⊢ <;> decide
 
 private theorem A2A1_comm_N1_N2 {F : Type} [Field F] :
-    ∀ x ∈ e6NodeGroup F support13, ∀ y ∈ e6NodeGroup F support56, Commute x y :=
-  fun x hx y hy => commute_Q₁_Q₂ hx hy
+    ∀ _x ∈ e6NodeGroup F support13, ∀ _y ∈ e6NodeGroup F support56, Commute _x _y :=
+  fun _x hx _y hy => commute_Q₁_Q₂ hx hy
 
 private theorem A2A1_comm_L1_N1 {F : Type} [Field F] :
     ∀ x ∈ e6NodeGroup F ({e6Index 1} : Set (Fin Tag.E6.rank)),
@@ -278,7 +278,7 @@ private theorem A2A1_twist_N2 {F : Type} [Field F] [Finite F] (σ : F →+* F)
   intro x hx
   exact mapsTo_subsystemGroup_of_mapsTo φ σ hφx hφy hmap hx
 
-private theorem A2A1_twist_N {F : Type} [Field F] [Finite F] (σ : F →+* F)
+private theorem A2A1_twist_N {F : Type} [Field F] [Finite F] (_σ : F →+* F)
     {φ : ModGL Tag.E6 F →* ModGL Tag.E6 F}
     (hφN1 : ∀ x ∈ e6NodeGroup F support13, φ x ∈ e6NodeGroup F support56)
     (hφN2 : ∀ x ∈ e6NodeGroup F support56, φ x ∈ e6NodeGroup F support13) :
@@ -371,7 +371,7 @@ private theorem A2A1_core
     (hEel : IsElemAbelian p E) : Nat.card E ≤ p ^ 4 := by
   have hp2 : p ≠ 2 := by omega
   have hn : 1 ≤ n := one_le_exponent_of_card_sq hF
-  haveI : CharP F 2 := charP_two_of_card_sq hn hF
+  have : CharP F 2 := charP_two_of_card_sq hn hF
   have hrF : p ∣ Nat.card F - 1 := dvd_card_sub_one_of_dvd_two_pow_add_one hF hpq
   have hPRL := projective_rank_bound_of_dvd_card_sub_one hp hp2 hrF
   have hsub : E ≤ subsystemGroup TwistTag.E6.tag F {i | i.val ≠ 3} :=
@@ -605,7 +605,7 @@ private theorem A1A2_commXW {F : Type} [Field F] :
     ({e6Index 5} : Set (Fin TwistTag.E6.tag.rank))) at ha
   change b ∈ (({e6Index 1} : Set (Fin TwistTag.E6.tag.rank)) ∪
     ({e6Index 3} : Set (Fin TwistTag.E6.tag.rank))) at hb
-  simp only [Set.mem_union, Set.mem_singleton_iff] at ha hb
+  simp only [Set.mem_union] at ha hb
   rcases ha with rfl | rfl <;> rcases hb with rfl | rfl
   · exact e6_pair_support 0 1 (by decide) (by decide +kernel)
   · exact e6_pair_support 0 3 (by decide) (by decide +kernel)
@@ -629,9 +629,9 @@ private theorem A1A2_inf05 {F : Type} [Field F] [Finite F] [CharP F 2] :
 private theorem A1A2_infXW {F : Type} [Field F] [Finite F] [CharP F 2] :
     e6TwGroup F (twE6Node0 ∪ twE6Node5) ⊓ e6TwGroup F (twE6Node1 ∪ twE6Node3) = ⊥ :=
   inf_eq_bot_of_commute_of_center_trivial A1A2_Xsup A1A2_comm05 A1A2_commXW
-    (fun z hz hzc => eq_one_of_mem_subsystemGroup_singleton_of_centralizes
+    (fun _z hz hzc => eq_one_of_mem_subsystemGroup_singleton_of_centralizes
       (F := F) (i := e6Index 0) hz hzc)
-    (fun z hz hzc => eq_one_of_mem_subsystemGroup_singleton_of_centralizes
+    (fun _z hz hzc => eq_one_of_mem_subsystemGroup_singleton_of_centralizes
       (F := F) (i := e6Index 5) hz hzc)
 
 private theorem A1A2_subset {F : Type} [Field F] :
@@ -752,7 +752,7 @@ private theorem A1A2_core
     (hEel : IsElemAbelian p E) : Nat.card E ≤ p ^ 4 := by
   have hp2 : p ≠ 2 := by omega
   have hn : 1 ≤ n := one_le_exponent_of_card_sq hF
-  haveI : CharP F 2 := charP_two_of_card_sq hn hF
+  have : CharP F 2 := charP_two_of_card_sq hn hF
   have hrF : p ∣ Nat.card F - 1 := dvd_card_sub_one_of_dvd_two_pow_add_one hF hpq
   have hPRL := projective_rank_bound_of_dvd_card_sub_one hp hp2 hrF
   have hbound := card_le_mul_card_inf_subsystemGroup_A1A2 (F := F) (n := n) hF σ hσ
@@ -831,9 +831,9 @@ theorem omegaMinusLevi_isQuasisimple_model {F : Type} [Field F] [Finite F] {n : 
   let H := CFSG.SeitzReduction.TwistedE6Pilot.omegaMinusLevi (σ : F →+* F)
   have hmodel : LieModel H .POmegaMinus 4 2 n :=
     CFSG.SeitzReduction.TwistedE6Pilot.lieModel_omegaMinusLevi hn hF hσ
-  haveI hsimple : IsSimpleGroup H :=
+  have hsimple : IsSimpleGroup H :=
     CFSG.SeitzReduction.TwistedE6Pilot.isSimpleGroup_omegaMinusLevi hn hF hσ
-  haveI hperf : Group.IsPerfect H :=
+  have hperf : Group.IsPerfect H :=
     CFSG.SeitzReduction.TwistedE6Pilot.isPerfect_omegaMinusLevi hn hF hσ
   have hnc : ¬ IsMulCommutative H := Group.IsPerfect.not_isMulCommutative H
   have hnab : ∃ a b : H, a * b ≠ b * a := by
@@ -875,7 +875,7 @@ private theorem D4_core
     (hEel : IsElemAbelian p E) : Nat.card E ≤ p ^ 4 := by
   have hp2 : p ≠ 2 := by omega
   have hn : 1 ≤ n := one_le_exponent_of_card_sq hF
-  haveI : CharP F 2 := charP_two_of_card_sq hn hF
+  have : CharP F 2 := charP_two_of_card_sq hn hF
   have hbound :=
     card_le_mul_card_inf_subsystemGroup_D4 (F := F) (n := n) hF σ hσ hp hp2 hpq hE hEel
   let E' : Subgroup (ModGL TwistTag.E6.tag F) :=

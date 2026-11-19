@@ -48,7 +48,7 @@ theorem pure_or_zero_E (qU : QuadraticForm K (ι → K)) (g : Matrix (Fin 2) (Fi
   set a : K := c₁ + (g 0 0 * c₁ + g 0 1 * c₂) with ha
   set b : K := c₂ + (g 1 0 * c₁ + g 1 1 * c₂) with hb
   have e : (c₁ • u, c₂ • u) + orthTensor g id (c₁ • u, c₂ • u) = (a • u, b • u) := by
-    simp only [orthTensor, id, Prod.mk_add_mk, smul_smul, ha, hb, add_smul, smul_add]
+    simp only [orthTensor, id, Prod.mk_add_mk, smul_smul, ha, hb, add_smul]
   rw [e]
   by_cases hab : a = 0 ∧ b = 0
   · left
@@ -81,7 +81,7 @@ theorem pure_or_zero_A [CharP K 2] (qU : QuadraticForm K (ι → K)) {u' w' : ι
       (c₁ • s, c₂ • s) := by
     have h1 : orthTensor (1 : Matrix (Fin 2) (Fin 2) K) ⇑(eichler qU u' w') (c₁ • u, c₂ • u) =
         (eichler qU u' w' (c₁ • u), eichler qU u' w' (c₂ • u)) := by
-      simp [orthTensor, Matrix.one_apply]
+      simp [orthTensor]
     rw [h1]
     simp only [hs, map_smul, Prod.mk_add_mk, smul_add]
   rw [e]

@@ -59,9 +59,9 @@ private theorem l48dB_inv_line_fix {K : Type*} [Field K] [CharP K 2] [Finite K] 
     (hact : ∀ a ∈ E, ∀ v ∈ W, (ρ a : Module.End K V) v ∈ W) :
     W ≤ SmallRule.fixSpaceOf ρ E := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite W := Finite.of_injective (fun w : W => (w : V)) (fun _ _ h => Subtype.ext h)
-  haveI : Fintype W := Fintype.ofFinite W
+  have : Finite V := Module.finite_of_finite K
+  have : Finite W := Finite.of_injective (fun w : W => (w : V)) (fun _ _ h => Subtype.ext h)
+  have : Fintype W := Fintype.ofFinite W
   have hcardW : Fintype.card W = 2 := by
     rw [← Nat.card_eq_fintype_card, Module.natCard_eq_pow_finrank (K := K), hK, hfin]
     norm_num
@@ -175,7 +175,7 @@ theorem ggB2der_no_fixed_isotropic_plane {K : Type*} [Field K] [CharP K 2] [Fini
     (hr : B.IsRefl) (halt : ∀ v, B v v = 0)
     (hiso : ∀ g v w, B ((ρ g : Module.End K V) v) ((ρ g : Module.End K V) w) = B v w)
     (hdim : Module.finrank K V = 8) {E U : Subgroup G} (hE : IsElemAbelian 3 E)
-    (hEc : Nat.card E = 27) {z : G} (hzE : z ∈ E) (hz1 : z ≠ 1)
+    (hEc : Nat.card E = 27) {z : G} (hzE : z ∈ E) (_hz1 : z ≠ 1)
     (hW0 : Module.finrank K (SmallRule.fixSpaceOf ρ (Subgroup.zpowers z)) = 4)
     (hker : ∀ a ∈ E, (∀ v ∈ SmallRule.fixSpaceOf ρ (Subgroup.zpowers z),
         (ρ a : Module.End K V) v = v) → a ∈ Subgroup.zpowers z)
@@ -238,7 +238,7 @@ theorem ggB2der_no_fixed_isotropic_plane {K : Type*} [Field K] [CharP K 2] [Fini
     obtain ⟨a, rfl⟩ := MonoidHom.mem_range.mp hx
     rw [l48dB_restrict_apply, l48dB_restrict_apply, hφapply, hφapply]
     exact hiso (a : G) (v : V) (w : V)
-  haveI : Finite (Subgroup.zpowers z) :=
+  have : Finite (Subgroup.zpowers z) :=
     finite_zpowers.mpr (isOfFinOrder_iff_pow_eq_one.mpr ⟨3, by norm_num, by simpa using hz3⟩)
   have hker_le : Nat.card φ.ker ≤ 3 := by
     have hmem : ∀ a : φ.ker, (a.1 : G) ∈ Subgroup.zpowers z := by
@@ -397,7 +397,7 @@ theorem ggB2der_no_fixed_isotropic_plane {K : Type*} [Field K] [CharP K 2] [Fini
     rw [hW1def, LinearMap.BilinForm.mem_orthogonal_iff]
     intro w hw
     have hzw : (ρ z⁻¹ : Module.End K V) w = w :=
-      (SmallRule.mem_fixSpaceOf.mp hw) z⁻¹ (by simpa using Subgroup.zpow_mem_zpowers z (-1))
+      (SmallRule.mem_fixSpaceOf.mp hw) z⁻¹ (by simp)
     have hzt : (ρ z⁻¹ : Module.End K V) ((ρ z : Module.End K V) t) = t := by
       rw [← Module.End.mul_apply, ← Units.val_mul, map_inv, inv_mul_cancel, Units.val_one,
         Module.End.one_apply]

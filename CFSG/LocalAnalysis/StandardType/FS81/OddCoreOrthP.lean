@@ -32,20 +32,20 @@ theorem prod_succ_sgnOn {n : ℕ} (T : Finset (Fin (n + 1))) (h0 : (0 : Fin (n +
     ∏ i : Fin n, sgnOn T i.succ = (-1) ^ T.card := by
   rw [← prod_sgnOn T, Fin.prod_univ_succ]
   unfold sgnOn
-  rw [if_neg h0, one_mul]
+  rw [ite_eq_right h0, one_mul]
 
 theorem sgnOn_mem_evenFix0 {n : ℕ} (T : Finset (Fin (n + 1))) (h0 : (0 : Fin (n + 1)) ∉ T)
     (heven : Even T.card) : spMat 1 (sgnOn T) ∈ evenFix0 n := by
   refine ⟨1, sgnOn T, isSign_sgnOn T, ⟨rfl, ?_, ?_⟩, rfl⟩
   · unfold sgnOn
-    rw [if_neg h0]
+    rw [ite_eq_right h0]
   · rw [prod_succ_sgnOn T h0, heven.neg_one_pow]
 
 theorem eq_zero_of_mulVec_sgnOn {k : ℕ} {T : Finset (Fin k)} {v : Fin k → ZMod 3}
     (h : spMat 1 (sgnOn T) *ᵥ v = v) {i : Fin k} (hi : i ∈ T) : v i = 0 := by
   have h' := congrFun h i
-  simp only [spMat_mulVec, Equiv.Perm.one_symm, Equiv.Perm.one_apply] at h'
-  rw [show sgnOn T i = -1 from if_pos hi, neg_one_mul] at h'
+  simp only [spMat_mulVec, ← Equiv.Perm.inv_def 1, inv_one, Equiv.Perm.one_apply] at h'
+  rw [show sgnOn T i = -1 from ite_eq_left hi, neg_one_mul] at h'
   exact eq_zero_of_neg_eq_self h'
 
 theorem mulVec_swap_sgnOn {k : ℕ} {a b : Fin k} {T : Finset (Fin k)} (ha : a ∉ T) (hb : b ∉ T)
@@ -61,10 +61,10 @@ theorem mulVec_swap_sgnOn {k : ℕ} {a b : Fin k} {T : Finset (Fin k)} (ha : a �
     have hib : i ≠ b := fun h => hb (h ▸ hi)
     have := hc i
     rw [Equiv.symm_swap, Equiv.swap_apply_of_ne_of_ne hia hib,
-      show sgnOn T i = -1 from if_pos hi, neg_one_mul] at this
+      show sgnOn T i = -1 from ite_eq_left hi, neg_one_mul] at this
     exact eq_zero_of_neg_eq_self this
   · have := hc a
-    rw [Equiv.symm_swap, Equiv.swap_apply_left, show sgnOn T b = 1 from if_neg hb, one_mul] at this
+    rw [Equiv.symm_swap, Equiv.swap_apply_left, show sgnOn T b = 1 from ite_eq_right hb, one_mul] at this
     exact this.symm
 
 theorem spMat_congr {k : ℕ} {σ σ' : Equiv.Perm (Fin k)} {s s' : Fin k → ZMod 3} (h1 : σ = σ')
@@ -159,7 +159,7 @@ theorem orth_eq_one_of_fix {n : ℕ} (hn : 3 ≤ n) {Xg Mg : Subgroup (GL (Fin (
     have := hδ {j, l} hT0 hTe (π j)
     rw [Equiv.symm_apply_apply] at this
     unfold sgnOn at this
-    rw [if_neg (by simp [hj, hl.2.2.symm]), if_pos (by simp)] at this
+    rw [ite_eq_right (by simp [hj, hl.2.2.symm]), ite_eq_left (by simp)] at this
     exact absurd this (by decide)
   refine hsq m hm (Units.ext ?_)
   rw [Units.val_mul, hmat, hπ, Units.val_one]

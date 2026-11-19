@@ -19,6 +19,7 @@ section OpMap
 
 variable {G G' : Type} [Group G] [Group G'] [Finite G] [Finite G'] {p : ℕ} [Fact p.Prime]
 
+omit [Finite G] [Finite G'] [Fact p.Prime] in
 theorem Op_map_of_injective {f : G →* G'} (hf : Function.Injective f) (H : Subgroup G) :
     Op p (H.map f) = (Op p H).map f := by
   apply le_antisymm
@@ -37,6 +38,7 @@ theorem Op_map_of_injective {f : G →* G'} (hf : Function.Injective f) (H : Sub
     rintro _ ⟨h, hh, rfl⟩ _ ⟨x, hx, rfl⟩
     exact ⟨h * x * h⁻¹, L41.Op_conj_mem hh hx, by rw [map_mul, map_mul, map_inv]⟩
 
+omit [Finite G] [Finite G'] in
 theorem map_cen_inf_cen {f : G →* G'} (hf : Function.Injective f) {R : Subgroup G'}
     (hR : (⊤ : Subgroup G).map f = R) (a b : G) :
     (Cen a ⊓ Cen b).map f = R ⊓ Cen (f a) ⊓ Cen (f b) := by
@@ -229,7 +231,7 @@ theorem mem_nSub {s : H6}
   choose a ha ea using hl
   have hnd : [a 0 / 2, a 1 / 2, a 2 / 2].Nodup := by
     have d := fun i j (hij : i ≠ j) => conj_planes_ne hij (ha i) (ha j) (ea i) (ea j)
-    simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, or_false,
       not_or, List.nodup_nil, and_true, not_false_eq_true]
     exact ⟨⟨d 0 1 (by decide), d 0 2 (by decide)⟩, d 1 2 (by decide)⟩
   obtain ⟨n, hn, h0, h1, h2⟩ := exists_nSub_l1 (ha 0) (ha 1) (ha 2) hnd
@@ -266,7 +268,7 @@ theorem exists_hom_std {X : Type} [Group X] [Finite X] {L : Subgroup X}
   obtain ⟨k₃, hk₃, hp₃, m₃⟩ := mat6_l1 p₃ a₃ ha₃
   have hnd : [k₁ / 2, k₂ / 2, k₃ / 2].Nodup := by
     rw [hp₁, hp₂, hp₃]
-    simp only [List.nodup_cons, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false,
+    simp only [List.nodup_cons, List.mem_cons, List.not_mem_nil, or_false,
       not_or, List.nodup_nil, and_true, not_false_eq_true]
     exact ⟨⟨Fin.val_injective.ne h12, Fin.val_injective.ne h13⟩, Fin.val_injective.ne h23⟩
   obtain ⟨n, -, h0, h1, h2⟩ := exists_nSub_l1 hk₁ hk₂ hk₃ hnd

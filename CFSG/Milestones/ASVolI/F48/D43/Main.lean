@@ -22,8 +22,8 @@ theorem burnsideF48d_chart {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
       M₁ ⊓ M₂ = (burnsideF48d_P1 ⊓ burnsideF48d_P2).map θ.toMonoidHom ∧
       ((M₁ = burnsideF48d_P1.map θ.toMonoidHom ∧ M₂ = burnsideF48d_P2.map θ.toMonoidHom) ∨
         (M₁ = burnsideF48d_P2.map θ.toMonoidHom ∧ M₂ = burnsideF48d_P1.map θ.toMonoidHom)) := by
-  haveI : Finite E := hyp.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := hyp.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
   obtain ⟨ε₀⟩ := burnsideF48d_equiv_X _ hyp.model
   subst hGp
@@ -45,8 +45,8 @@ theorem burnsideF48d_small_D4tw_three_top (h45 : F_4_5) (h46 : F_4_6)
     {E : Type} [Group E]
     {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4 .D4tw 3 1 Gp M₁ M₂) (hGp : Gp = ⊤) :
     F48Concl .D4tw 3 1 Gp M₁ M₂ := by
-  haveI : Finite E := hyp.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := hyp.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hext := burnsideF48s_isLieExtGroup_E ChF.nativeChartCompatibility hyp
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
   obtain ⟨θ, hBθ, hor⟩ := burnsideF48d_chart hyp hGp

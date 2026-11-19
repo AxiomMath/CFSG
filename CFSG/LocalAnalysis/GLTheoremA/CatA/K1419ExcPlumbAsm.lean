@@ -33,7 +33,7 @@ theorem noL3U3Layer_exc_inner_untw_two {τ : Tag}
   have hτ''' : τ = .G2 ∨ τ = .F4 ∨ τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8 := by
     rcases hτ with h | h | h | h <;> simp [h]
   have hperf : commutator ↥(adjointGroup τ K) = ⊤ := single_edge_perfect τ K hτ''
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
   have h3K : ¬ 3 ∣ Nat.card K := by
     rw [hK]
     intro h3
@@ -52,7 +52,7 @@ theorem noL3U3Layer_exc_inner_untw_two {τ : Tag}
   obtain ⟨S, a, ι, -, -, hT, hap, h1, hinj, hrange, hconj⟩ :=
     exists_langSetup_of_inner_untw_of_prime hτ' Nat.prime_three h3K Nat.prime_five h5K
       (Or.inl le_rfl) hmon hperf β h hhL hβ hp1 hh1
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have h3L : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 :=
     natCast_ne_zero_algebraicClosure Nat.prime_three h3K
@@ -71,11 +71,11 @@ theorem noL3U3Layer_inndiag_twE6_two (hres : ∀ k, Char2L3U3 Tag.E6 k) {f : ℕ
   have hK0 : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ two_ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hK0
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := f * 2)
+  have : Finite K := Nat.finite_of_card_ne_zero hK0
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
   have h3K : ¬ 3 ∣ Nat.card K := by
     rw [hK]
     intro h3
@@ -90,7 +90,7 @@ theorem noL3U3Layer_inndiag_twE6_two (hres : ∀ k, Char2L3U3 Tag.E6 k) {f : ℕ
   obtain ⟨S, a, ι, -, -, hT, hap, h1, hinj, hrange, hconj⟩ :=
     exists_langSetup_of_inndiag_twE6_of_prime Nat.prime_two hf hK σ hσ Nat.prime_three
       (by norm_num) Nat.prime_five (by norm_num) (Or.inl le_rfl) hmon β h hh hβ hp1 hh1
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have h3L : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 :=
     natCast_ne_zero_algebraicClosure Nat.prime_three h3K

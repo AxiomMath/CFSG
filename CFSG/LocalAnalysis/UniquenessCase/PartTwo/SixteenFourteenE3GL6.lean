@@ -112,7 +112,7 @@ theorem s1614e3_pRank_seven_le_two {T : Type} [CommGroup T] [Finite T] (hT : ∀
   have hmul := s1614e3_card_mulAut_six hT hrk
   refine CFSG.SectionRank.pRank_le (by norm_num : 1 < 7) ?_
   intro E hEH hE
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hE7 : IsPGroup 7 E := fun x => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (by simpa using hE.2 (x : MulAut T) x.2)⟩
@@ -146,11 +146,11 @@ theorem s1614e3_factorization_three_le {T : Type} [CommGroup T] [Finite T]
 theorem s1614e3_exists_E27 {T : Type} [CommGroup T] [Finite T] (hT : ∀ t : T, t ^ 2 = 1)
     (hrk : rk T = 6) : ∃ E : Subgroup (MulAut T), IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let V := Multiplicative (Fin 2 → ZMod 2)
   have hV2 : ∀ v : V, v * v = 1 := by decide
   have hVcard : Nat.card V = 2 ^ 2 := by
-    simp [V, Nat.card_fun, ZMod.card]
+    simp [V, ZMod.card]
   have hV6 : Nat.card (MulAut V) = 6 :=
     (CFSG.GH74.GLS.Bg.TwoGroups.L218.card_mulAut_two hV2 2 hVcard).trans
       (by norm_num [Fin.prod_univ_succ])
@@ -210,7 +210,7 @@ theorem s1614e3_exists_E27 {T : Type} [CommGroup T] [Finite T] (hT : ∀ t : T, 
 theorem s1614e3_three_le_pRank_of_card {T : Type} [CommGroup T] [Finite T]
     (hT : ∀ t : T, t ^ 2 = 1) (hrk : rk T = 6) (H : Subgroup (MulAut T))
     (h81 : (Nat.card H).factorization 3 = 4) : 3 ≤ CFSG.Open.pRank 3 H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hE, hEcard⟩ := s1614e3_exists_E27 hT hrk
   have hle1 : (Nat.card H).factorization 3 ≤
       (Nat.card (⊤ : Subgroup (MulAut T))).factorization 3 := by

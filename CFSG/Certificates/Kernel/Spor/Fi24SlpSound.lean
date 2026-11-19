@@ -115,7 +115,7 @@ theorem inv_step {L : Array (Array W)} {S : Array Mat781} {n : Nat} (hI : Inv L 
     have e : (semStep gW S w).getD L.size 1 = semWord gW S w := by
       unfold semStep
       simp only [Array.getD_eq_getD_getElem?]
-      rw [Array.getElem?_push, if_neg (by simp; omega), Array.getElem?_push, if_pos hS.symm]
+      rw [Array.getElem?_push, ite_eq_right (by simp; omega), Array.getElem?_push, ite_eq_left hS.symm]
       rfl
     rw [e]
     exact good_mWord hI hn hw
@@ -124,7 +124,7 @@ theorem inv_step {L : Array (Array W)} {S : Array Mat781} {n : Nat} (hI : Inv L 
     have e : (semStep gW S w).getD (L.size + 1) 1 = semWordInv gW S w := by
       unfold semStep
       simp only [Array.getD_eq_getD_getElem?]
-      rw [Array.getElem?_push, if_pos (by simp; omega)]
+      rw [Array.getElem?_push, ite_eq_left (by simp; omega)]
       rfl
     rw [← e1, e]
     exact good_mWordInv hI hn hw
@@ -150,7 +150,7 @@ theorem mLetters_good {Ws : Array (List Int)} (hs : CFSG.Sporadic.Fi23.Native.sl
     unfold CFSG.Sporadic.Fi23.Native.slpOK CFSG.Sporadic.Th.Native.allIn at hs
     rw [Nat.all_eq_finRange_all, List.all_eq_true] at hs
     have := hs ⟨i, by simpa using hi⟩ (List.mem_finRange _)
-    simp only [Nat.sub_zero, Nat.zero_add, List.all_eq_true, Bool.and_eq_true, bne_iff_ne, ne_eq,
+    simp only [Nat.zero_add, List.all_eq_true, Bool.and_eq_true, bne_iff_ne, ne_eq,
       Bool.or_eq_true, decide_eq_true_eq] at this
     have hz' : z ∈ Ws[i]! := by
       rwa [getElem!_pos Ws i (by simpa using hi), ← Array.getElem_toList,

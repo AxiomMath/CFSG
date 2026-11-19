@@ -14,10 +14,10 @@ private theorem s16g_exists_commuting_of_dvd_card {M : Type*} [Group M] [Finite 
     {K : Subgroup M} {p : ℕ} (hp : p.Prime) (hKp : p ∣ Nat.card K) {x : M}
     (hx : orderOf x = p) (hxnorm : x ∈ Subgroup.normalizer (K : Set M)) :
     ∃ w ∈ K, orderOf w = p ∧ w * x = x * w := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxK : Subgroup.zpowers x ≤ Subgroup.normalizer (K : Set M) :=
     Subgroup.zpowers_le.mpr hxnorm
-  letI : MulDistribMulAction (Subgroup.zpowers x) ↥K :=
+  let : MulDistribMulAction (Subgroup.zpowers x) ↥K :=
     { smul := fun g n =>
         ⟨(g : M) * n * (g : M)⁻¹, (mem_normalizer_iff.mp (hxK g.2) n).mp n.2⟩
       one_smul := fun n => Subtype.ext (by change (1 : M) * n * 1⁻¹ = n; group)
@@ -69,8 +69,8 @@ theorem s16g_exists_noncyclic_of_kernel {M : Type*} [Group M] [Finite M] {K : Su
   obtain ⟨hE, hcard⟩ :=
     CFSG.GH74.Uniqueness.SU.SU1.isElemAbelian_card_sup_zpowers hp hwp hxp hw1 hxw hcomm
   refine ⟨Subgroup.zpowers w ⊔ Subgroup.zpowers x, hE.isPGroup, ?_, ?_⟩
-  · haveI : Fact p.Prime := ⟨hp⟩
-    haveI : CFSG.IsElementaryAbelian p ↥(Subgroup.zpowers w ⊔ Subgroup.zpowers x) :=
+  · have : Fact p.Prime := ⟨hp⟩
+    have : CFSG.IsElementaryAbelian p ↥(Subgroup.zpowers w ⊔ Subgroup.zpowers x) :=
       CFSG.Open.IsElemAbelian.isElementaryAbelian hE
     exact CFSG.IsElementaryAbelian.not_isCyclic_of_card_eq_prime_sq hcard
   · exact sup_le (hle.trans le_sup_right) le_sup_left
@@ -102,7 +102,7 @@ theorem s16g_false_of_fix_ker (D : Data G) (hS : S16gStd D) {V₀ V L : Subgroup
   intro x hx1
   obtain ⟨m, hmo, hm1, hmx⟩ := hfix x hx1
   set φ := barHom V₀ V hV hMst with hφ
-  haveI : φ.ker.Normal := MonoidHom.normal_ker φ
+  have : φ.ker.Normal := MonoidHom.normal_ker φ
   have hCM : F11.CTilde D.M V₀ V ≤ D.M := fun g hg =>
     (Subgroup.mem_iInf.1 (Subgroup.mem_iInf.1 hg 1) V.one_mem).1
   have hkerdvd : p ∣ Nat.card φ.ker := by

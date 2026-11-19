@@ -52,18 +52,18 @@ theorem eq_star_of_add_star_eq_add_star [Finite G] {η θ : G → ℂ} (hη : η
   have hpair : cfInner (η + star η) η = cfInner (θ + star θ) η := by rw [h]
   rw [cfInner_add_left, cfInner_add_left, cfInner_eq_ite_of_mem_Irr hη hη,
     cfInner_eq_ite_of_mem_Irr (star_mem_Irr hη) hη, cfInner_eq_ite_of_mem_Irr hθ hη,
-    cfInner_eq_ite_of_mem_Irr (star_mem_Irr hθ) hη, if_pos rfl, if_neg hne] at hpair
+    cfInner_eq_ite_of_mem_Irr (star_mem_Irr hθ) hη, ite_eq_left rfl, ite_eq_right hne] at hpair
   have hnr : star η ≠ η := by
     intro hc
-    rw [if_pos hc] at hpair
+    rw [ite_eq_left hc] at hpair
     by_cases h2 : star θ = η
-    · rw [if_pos h2] at hpair; norm_num at hpair
-    · rw [if_neg h2] at hpair; norm_num at hpair
+    · rw [ite_eq_left h2] at hpair; norm_num at hpair
+    · rw [ite_eq_right h2] at hpair; norm_num at hpair
   refine ⟨hnr, ?_⟩
-  rw [if_neg hnr] at hpair
+  rw [ite_eq_right hnr] at hpair
   by_cases h2 : star θ = η
   · rw [← h2, star_star]
-  · rw [if_neg h2] at hpair; norm_num at hpair
+  · rw [ite_eq_right h2] at hpair; norm_num at hpair
 
 section Main
 
@@ -144,7 +144,7 @@ theorem cfInner_coherentVal_one (hS : S ⊆ Irr L) (hS2 : 2 ≤ S.ncard)
   have hone : η χ ≠ (1 : G → ℂ) := by
     rintro h
     exact hηnr χ (by rw [h]; simp)
-  rw [hηeq χ, cfInner_smul_left, cfInner_eq_ite_of_mem_Irr (hηIrr χ) one_mem_Irr, if_neg hone,
+  rw [hηeq χ, cfInner_smul_left, cfInner_eq_ite_of_mem_Irr (hηIrr χ) one_mem_Irr, ite_eq_right hone,
     mul_zero]
 
 end Main

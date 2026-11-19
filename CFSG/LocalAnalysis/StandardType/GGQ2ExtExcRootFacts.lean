@@ -230,7 +230,7 @@ theorem root_single (m : Fin 6) (i : Root m) (k : Fin (dim m)) :
   rw [root_apply, Finset.sum_eq_single k]
   · simp
   · intro b _ hb
-    simp [Pi.single_apply, hb]
+    simp [hb]
   · intro h
     exact absurd (Finset.mem_univ k) h
 

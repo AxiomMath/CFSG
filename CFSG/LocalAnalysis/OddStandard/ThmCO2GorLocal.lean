@@ -23,7 +23,7 @@ theorem exists_sylow_subgroupOf (R : Sylow 2 Q) (K : Subgroup Q)
       (R : Subgroup Q).subgroupOf (normalizer (K : Set Q)) := rfl
   rw [Subgroup.inf_relIndex_right, h2,
     Subgroup.relIndex_subgroupOf (Subgroup.le_normalizer (H := K))] at h1
-  exact ⟨(R.isPGroup'.comap_subtype (K := K)).toSylow h1, rfl⟩
+  exact ⟨(R.isPGroup.comap_subtype (K := K)).toSylow h1, rfl⟩
 
 theorem exists_odd_complement (R : Sylow 2 Q)
     (habel : ∀ r ∈ (R : Subgroup Q), ∀ s ∈ (R : Subgroup Q), r * s = s * r)

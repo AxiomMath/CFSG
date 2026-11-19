@@ -23,7 +23,7 @@ theorem card_le_four_of_sq_eq_one_pgl2 (K : Type) [Field K] [Finite K]
   have h2m : 2 ≤ 2 ^ m := by
     calc 2 = 2 ^ 1 := rfl
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
-  exact CFSG.QuasithinUnique.card_le_four_of_dihedral T.isPGroup' h2m φ hET hE
+  exact CFSG.QuasithinUnique.card_le_four_of_dihedral T.isPGroup h2m φ hET hE
 
 theorem card_eq_mul_card_map {Γ Q : Type*} [Group Γ] [Group Q] [Finite Γ] (π : Γ →* Q)
     (A : Subgroup Γ) : Nat.card A = Nat.card ↥(A ⊓ π.ker) * Nat.card ↥(A.map π) := by

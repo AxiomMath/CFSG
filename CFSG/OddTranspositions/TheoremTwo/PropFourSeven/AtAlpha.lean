@@ -13,24 +13,28 @@ open CFSG.Timmesfeld CFSG.Timmesfeld.Bridge CFSG.Timmesfeld.Bridge.Asc72
 
 variable {G : Type} [Group G] [Finite G] {D : Set G} {u w v z a : G} {K₁ S' : Subgroup G}
 
+omit [Finite G] in
 theorem labelOf_of_mem (hC : HypothesisC D)
     (ε : (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) ≃* Perm (Fin 5))
     {x : G} (hx : x ∈ Halpha D hC.alpha) :
     labelOf ε x = ε (QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) ⟨x, hx⟩) :=
   piG_mem hx
 
+omit [Finite G] in
 theorem labelOf_eq_starImage (hC : HypothesisC D)
     (ε : (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) ≃* Perm (Fin 5))
     {d : G} (hd : d ∈ DalphaStar D hC.alpha) :
     labelOf ε d = ε (starImage hC d hd) :=
   labelOf_of_mem hC ε (Subgroup.subset_closure hd)
 
+omit [Finite G] in
 theorem labelOf_conj (hC : HypothesisC D)
     (ε : (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) ≃* Perm (Fin 5))
     {h x : G} (hh : h ∈ Halpha D hC.alpha) (hx : x ∈ Halpha D hC.alpha) :
     labelOf ε (h * x * h⁻¹) = labelOf ε h * labelOf ε x * (labelOf ε h)⁻¹ :=
   piG_conj hh hx
 
+omit [Finite G] in
 theorem labelOf_eq_iff (hC : HypothesisC D)
     (ε : (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) ≃* Perm (Fin 5))
     {x y : G} (hx : x ∈ Halpha D hC.alpha) (hy : y ∈ Halpha D hC.alpha) :
@@ -40,6 +44,7 @@ theorem labelOf_eq_iff (hC : HypothesisC D)
   rw [labelOf_of_mem hC ε hx, labelOf_of_mem hC ε hy]
   exact ε.injective.eq_iff
 
+omit [Finite G] in
 theorem commute_labelOf_iff (hC : HypothesisC D)
     (ε : (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) ≃* Perm (Fin 5))
     {x y : G} (hx : x ∈ Halpha D hC.alpha) (hy : y ∈ Halpha D hC.alpha) :
@@ -49,6 +54,7 @@ theorem commute_labelOf_iff (hC : HypothesisC D)
   rw [labelOf_of_mem hC ε hx, labelOf_of_mem hC ε hy]
   exact ⟨fun h => by simpa using h.map ε.symm, fun h => h.map ε⟩
 
+omit [Finite G] in
 theorem labelOf_mem_transpositions (hC : HypothesisC D)
     (ε : (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) ≃* Perm (Fin 5))
     (hε : ε '' imageClass hC = transpositions) {x : G} (hx : x ∈ DalphaStar D hC.alpha) :
@@ -56,6 +62,7 @@ theorem labelOf_mem_transpositions (hC : HypothesisC D)
   rw [labelOf_eq_starImage hC ε hx, ← hε]
   exact ⟨_, ⟨⟨x, Subgroup.subset_closure hx⟩, hx, rfl⟩, rfl⟩
 
+omit [Finite G] in
 theorem exists_labelOf_eq (hC : HypothesisC D)
     (ε : (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) ≃* Perm (Fin 5))
     (hε : ε '' imageClass hC = transpositions) {σ : Perm (Fin 5)} (hσ : σ ∈ transpositions) :
@@ -85,6 +92,7 @@ theorem commute_iff_labelOf (hC : HypothesisC D) (hQ : Config D u w v z a K₁ S
     · exact congrArg Subtype.val
         (commute_of_commute_mk_of_ne_H hC (a := ⟨x, hxH⟩) (b := ⟨y, hyH⟩) hx hy hc hne)
 
+omit [Finite G] in
 theorem labelOf_conj_DalphaStar (hC : HypothesisC D)
     (ε : (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) ≃* Perm (Fin 5))
     {x y : G} (hx : x ∈ DalphaStar D hC.alpha) (hy : y ∈ DalphaStar D hC.alpha) :

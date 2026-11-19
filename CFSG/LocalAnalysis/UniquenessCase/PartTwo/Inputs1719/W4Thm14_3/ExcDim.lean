@@ -43,7 +43,7 @@ private theorem finrank_zmod2_eq_mul_card {F : Type} [Field F] [Fintype F] [Char
   exact hmul.symm.trans (by rw [mul_comm])
 
 theorem sixtyFourDescent_of_finrank {F : Type} [Field F] [Fintype F] [CharP F 2] {n : ℕ}
-    (hn : 3 ≤ n) (hn4 : n ≠ 4) (hF : Fintype.card F = 2 ^ n) {W : Type} [AddCommGroup W]
+    (hn : 3 ≤ n) (_hn4 : n ≠ 4) (hF : Fintype.card F = 2 ^ n) {W : Type} [AddCommGroup W]
     [Module (ZMod 2) W] [Finite W] (ρ : Representation (ZMod 2) SL(2, F) W)
     [Fact ρ.IsIrreducible] (hnt : ∃ g, ρ g ≠ 1)
     (hdim : Module.finrank (ZMod 2) W = 2 * n + 4) : n = 6 ∧ SixtyFourDescent ρ := by

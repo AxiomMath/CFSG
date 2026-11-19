@@ -31,7 +31,7 @@ theorem chGen_tab : TabRep GX.F chGen := by
       fun q => (he q).trans (gen_tab hk q.2).symm
   have hγ : burnsideF48d_γ k = e := burnsideF48d_perm_eq hrep
   unfold chGen
-  rw [dif_pos hk]
+  rw [dite_eq_left hk]
   change ((burnsideF48d_γ k) p : ℕ) = _
   rw [hγ, he]
 

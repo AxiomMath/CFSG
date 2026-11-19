@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def Wimg (L T : Subgroup G) : Subgroup (PSimple 3 L) :=
   (T.subgroupOf L).map (piS 3 L)
 
+omit [Finite G] in
 theorem isPGroup_two_Wimg (L T : Subgroup G) (hT2 : IsPGroup 2 T) :
     IsPGroup 2 ↥(Wimg L T) := by
   rintro ⟨w, hw⟩

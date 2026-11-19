@@ -40,10 +40,10 @@ theorem EpsQuot.of_surjective {A B : Type} [Group A] [Group B] [Finite A] (f : A
 
 theorem isSimpleGroup_of_isTypeEps' {X : Type} [Group X] (h : IsTypeEps X) : IsSimpleGroup X := by
   obtain ⟨p, f, hp, -, hf, ⟨-, ⟨ψ⟩⟩ | ⟨-, hq2, ⟨ψ⟩⟩⟩ := h
-  · haveI := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (n := 3) (GaloisField p f) (by norm_num)
+  · have := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (n := 3) (GaloisField p f) (by norm_num)
       (Or.inl (by norm_num)) (Or.inl (by norm_num))
     exact ψ.isSimpleGroup
-  · haveI := CFSG.PGLModel.isSimpleGroup_projSU_of_admissible (n := 3) (p := p) (f := f)
+  · have := CFSG.PGLModel.isSimpleGroup_projSU_of_admissible (n := 3) (p := p) (f := f)
       ⟨Fact.out, hf, le_rfl, fun h => by have := (Prod.mk.inj h).2; omega⟩
     exact ψ.isSimpleGroup
 
@@ -63,9 +63,9 @@ variable {S G' : Type} [Group S] [Group G']
 theorem GoodEps.of_map {C : Subgroup S} (f : S →* G') (hf : Function.Injective f)
     (h : GoodEps (C.map f)) : GoodEps C := by
   intro K hKC hKp hKs hT
-  haveI := hKp
+  have := hKp
   have eK : K ≃* K.map f := K.equivMapOfInjective f hf
-  haveI : Group.IsPerfect (K.map f) := Group.IsPerfect.map f
+  have : Group.IsPerfect (K.map f) := Group.IsPerfect.map f
   refine h (K.map f) (Subgroup.map_mono hKC) inferInstance ?_ (hT.congr eK)
   let eC : C ≃* C.map f := C.equivMapOfInjective f hf
   have heC : ∀ x : C, ((eC x : C.map f) : G') = f x := fun x =>
@@ -74,7 +74,7 @@ theorem GoodEps.of_map {C : Subgroup S} (f : S →* G') (hf : Function.Injective
   have hmap := hKs.map hsurj
   have heq : (K.subgroupOf C).map (eC : C →* C.map f) = (K.map f).subgroupOf (C.map f) := by
     ext ⟨y, hy⟩
-    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, MonoidHom.coe_coe]
+    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, _root_.MonoidHom.coe_ofClass]
     constructor
     · rintro ⟨x, hxK, hxy⟩
       refine ⟨x, hxK, ?_⟩
@@ -126,7 +126,7 @@ theorem GoodEps.map_of_central [Finite S] (φ : S →* G') (hφ : Function.Surje
     (hZ : φ.ker ≤ Subgroup.center S) (h2 : IsPGroup 2 φ.ker) {C : Subgroup S}
     (hC : φ.ker ≤ C) (h : GoodEps C) : GoodEps (C.map φ) := by
   intro K hKC hKp hKs hT
-  haveI := hKp
+  have := hKp
   set Kt : Subgroup S := K.comap φ with hKt
   have hKtC : Kt ≤ C := by
     intro x hx
@@ -147,7 +147,7 @@ theorem GoodEps.map_of_central [Finite S] (φ : S →* G') (hφ : Function.Surje
     obtain ⟨y, hy, hyx⟩ := hφx
     refine ⟨y, hy, y⁻¹ * x, ?_, by group⟩
     rw [MonoidHom.mem_ker, map_mul, map_inv, hyx, inv_mul_cancel]
-  haveI hK1p : Group.IsPerfect K1 := by
+  have hK1p : Group.IsPerfect K1 := by
     rw [Subgroup.isPerfect_iff]
     refine le_antisymm (Subgroup.commutator_le_self K1) ?_
     rw [hK1, Subgroup.commutator_le]
@@ -224,12 +224,13 @@ section Block
 
 variable {G M : Type} [Group G] [Group M] [Finite G] [Finite M]
 
+omit [Finite M] in
 theorem false_of_quasisimple_block {C K : Subgroup G} (hKC : K ≤ C) [hKp : Group.IsPerfect K]
     (hKs : (K.subgroupOf C).IsSubnormal) (β : G →* M)
     (hβ : Function.Injective (β.comp K.subtype)) {Q : Subgroup M} (hQC : Q ≤ C.map β)
     (hKQ : K.map β ≤ Q) (hQ : IsQuasisimple Q) {z : M} (hzQ : z ∈ Q)
     (hz : ∀ q ∈ Q, q * z = z * q) (hz3 : orderOf z = 3) (hT : EpsQuot K) : False := by
-  haveI : Nontrivial K := hT.nontrivial
+  have : Nontrivial K := hT.nontrivial
   have hs := isSubnormal_subgroupOf_of_le hQC hKQ (isSubnormal_map_subgroupOf hKC β hKs)
   rcases Res429.eq_top_or_le_center_of_isSubnormal hQ hs with htop | hcen
   · have hzK : z ∈ K.map β := Subgroup.subgroupOf_eq_top.mp htop hzQ
@@ -238,7 +239,7 @@ theorem false_of_quasisimple_block {C K : Subgroup G} (hKC : K ≤ C) [hKp : Gro
       intro k'
       apply hβ
       simp only [MonoidHom.coe_comp, Function.comp_apply, Subgroup.coe_subtype,
-        Subgroup.coe_mul, map_mul, hkz]
+        map_mul, hkz]
       exact (hz (β k') (hKQ ⟨k', k'.2, rfl⟩)).symm
     have hko : orderOf (⟨k, hkK⟩ : K) = 3 := by
       rw [← hz3, ← hkz]
@@ -252,7 +253,7 @@ theorem false_of_quasisimple_block {C K : Subgroup G} (hKC : K ≤ C) [hKp : Gro
     have hne : (QuotientGroup.mk' (CFSG.pCore 2 K) ⟨k, hkK⟩ : K ⧸ CFSG.pCore 2 K) ≠ 1 := by
       intro h1
       rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h1
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup : IsPGroup 2 (CFSG.pCore 2 K)) ⟨_, h1⟩
       have hn' : (⟨k, hkK⟩ : K) ^ 2 ^ n = 1 := congrArg Subtype.val hn
       have hd : orderOf (⟨k, hkK⟩ : K) ∣ 2 ^ n := orderOf_dvd_of_pow_eq_one hn'
@@ -265,7 +266,7 @@ theorem false_of_quasisimple_block {C K : Subgroup G} (hKC : K ≤ C) [hKp : Gro
       intro a b
       apply hβ
       simp only [MonoidHom.coe_comp, Function.comp_apply, Subgroup.coe_subtype,
-        Subgroup.coe_mul, map_mul]
+        map_mul]
       have ha : (⟨β a, hKQ ⟨a, a.2, rfl⟩⟩ : Q) ∈ Subgroup.center Q := hcen (by
         show β a ∈ K.map β
         exact ⟨a, a.2, rfl⟩)
@@ -273,6 +274,7 @@ theorem false_of_quasisimple_block {C K : Subgroup G} (hKC : K ≤ C) [hKp : Gro
       exact (congrArg Subtype.val this).symm
     exact Group.IsPerfect.not_isSolvable K (Group.isSolvable_of_comm hab)
 
+omit [Finite M] in
 theorem false_of_quasisimple_block_on {C K : Subgroup G} (hKC : K ≤ C) [hKp : Group.IsPerfect K]
     (hKs : (K.subgroupOf C).IsSubnormal) (β : C →* M)
     (hβ : Function.Injective (β.comp (Subgroup.inclusion hKC))) {Q : Subgroup M}
@@ -281,7 +283,7 @@ theorem false_of_quasisimple_block_on {C K : Subgroup G} (hKC : K ≤ C) [hKp : 
     (hT : EpsQuot K) : False := by
   set K' : Subgroup C := K.subgroupOf C with hK'
   let e : K' ≃* K := Subgroup.subgroupOfEquivOfLe hKC
-  haveI : Group.IsPerfect K' :=
+  have : Group.IsPerfect K' :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hs : (K'.subgroupOf (⊤ : Subgroup C)).IsSubnormal := hKs.comap (⊤ : Subgroup C).subtype
   have hcomp : ∀ a : K', (β.comp K'.subtype) a = (β.comp (Subgroup.inclusion hKC)) (e a) :=
@@ -307,21 +309,21 @@ theorem subsingleton_of_isPerfect_of_isPGroup' {X : Type*} [Group X] [Finite X]
     [Group.IsPerfect X] {p : ℕ} [Fact p.Prime] (h : IsPGroup p X) : Subsingleton X := by
   by_contra hX
   rw [not_subsingleton_iff_nontrivial] at hX
-  haveI : Group.IsNilpotent X := h.isNilpotent
+  have : Group.IsNilpotent X := h.isNilpotent
   exact Group.IsPerfect.not_isSolvable X inferInstance
 
 theorem eq_or_commutator_eq_bot_of_normal_quasisimple {K Q : Subgroup C} [hKp : Group.IsPerfect K]
     (hKs : K.IsSubnormal) (hKsimple : IsSimpleGroup (K ⧸ CFSG.pCore 2 K)) (hQn : Q.Normal)
     (hQq : IsQuasisimple Q) : K = Q ∨ ⁅Q, K⁆ = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomp : IsComponent Q := ⟨hQq, hQn.isSubnormal⟩
   rcases CFSG.LocalCores.component_subnormal_subgroup hcomp hKs with hQK | hc
   · left
     set Q' : Subgroup K := Q.subgroupOf K with hQ'
-    haveI hQ'n : Q'.Normal := hQn.subgroupOf K
+    have hQ'n : Q'.Normal := hQn.subgroupOf K
     set π : K →* K ⧸ CFSG.pCore 2 K := QuotientGroup.mk' (CFSG.pCore 2 K) with hπ
     have hmn : (Q'.map π).Normal := hQ'n.map π (QuotientGroup.mk'_surjective _)
-    haveI := hKsimple
+    have := hKsimple
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Q'.map π) with hb | ht
     · exfalso
       have hle : Q' ≤ CFSG.pCore 2 K := by
@@ -330,7 +332,7 @@ theorem eq_or_commutator_eq_bot_of_normal_quasisimple {K Q : Subgroup C} [hKp : 
       have h2 : IsPGroup 2 Q' := (CFSG.pCore_isPGroup : IsPGroup 2 (CFSG.pCore 2 K)).to_le hle
       have e : Q' ≃* Q := Subgroup.subgroupOfEquivOfLe hQK
       have h2Q : IsPGroup 2 Q := h2.of_equiv e
-      haveI : Group.IsPerfect Q := hQq.1
+      have : Group.IsPerfect Q := hQq.1
       obtain ⟨a, b, hab⟩ := hQq.2.2
       have : Subsingleton Q := subsingleton_of_isPerfect_of_isPGroup' h2Q
       have : Subsingleton (Q ⧸ Subgroup.center Q) :=
@@ -354,7 +356,7 @@ theorem eq_or_commutator_eq_bot_of_normal_quasisimple {K Q : Subgroup C} [hKp : 
         exact hQ'n.conj_mem q hq k⁻¹
       have h2 : IsPGroup 2 (K ⧸ Q') :=
         (CFSG.pCore_isPGroup : IsPGroup 2 (CFSG.pCore 2 K)).of_surjective _ hsurj
-      haveI : Group.IsPerfect (K ⧸ Q') :=
+      have : Group.IsPerfect (K ⧸ Q') :=
         Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' Q') (QuotientGroup.mk'_surjective _)
       have hsub : Subsingleton (K ⧸ Q') := subsingleton_of_isPerfect_of_isPGroup' h2
       have htop : Q' = ⊤ := QuotientGroup.subsingleton_iff.mp hsub
@@ -372,7 +374,7 @@ theorem false_of_epsQuot_sl2 {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.P
   have hQ : IsQuasisimple X :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm (CFSG.GH74.GLS.IVK.GHInv.isQuasisimple_sl2 h4)
   have hchar : ringChar F ≠ 2 := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have := Fintype.ofFinite F
     have hc : CharP F p := charP_of_card_eq_prime_pow (p := p) (f := 1)
       (by rw [← Nat.card_eq_fintype_card, hF, pow_one])
@@ -384,7 +386,7 @@ theorem false_of_epsQuot_sl2 {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.P
   have hO2 : CFSG.pCore 2 X = Subgroup.center X := by
     refine le_antisymm (pCore_two_le_center' hQ) ?_
     apply le_sSup
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact ⟨inferInstance, IsPGroup.of_card (n := 1) (by rw [hZ2, pow_one])⟩
   have hcardX : Nat.card X = p * (p ^ 2 - 1) := by
     rw [Nat.card_congr e.toEquiv, card_SL_two, hF]

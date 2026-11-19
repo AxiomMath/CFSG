@@ -29,14 +29,17 @@ theorem le_centralizer_of_ne {L L' : Subgroup X} (hL : IsComponentOf L ⊤)
     (hL' : IsComponentOf L' ⊤) (hne : L ≠ L') : L ≤ centralizer (L' : Set X) :=
   Subgroup.commutator_eq_bot_iff_le_centralizer.mp (LocalComponents.commute_of_ne L L' hL hL' hne)
 
+omit [Finite X] in
 theorem isComponent_map_conj {L : Subgroup X} (hL : IsComponentOf L ⊤) (g : X) :
     IsComponentOf (L.map (MulAut.conj g).toMonoidHom) ⊤ :=
   (LocalComponents.equiv_iff (MulAut.conj g) L).mpr hL
 
+omit [Finite X] in
 theorem mem_normalizer_iff_map_conj {L : Subgroup X} {g : X} :
     g ∈ normalizer (L : Set X) ↔ L.map (MulAut.conj g).toMonoidHom = L :=
   CommutingComponentFamily.normalizer_iff_conjugate_eq L g
 
+omit [Finite X] in
 theorem component_not_comm {L : Subgroup X} (hL : IsComponentOf L ⊤) : ¬ IsMulCommutative ↥L := by
   intro hc
   have hnt : Nontrivial ↥L := Quasisimple.nontrivial hL.2.2
@@ -52,14 +55,14 @@ theorem component_not_comm {L : Subgroup X} (hL : IsComponentOf L ⊤) : ¬ IsMu
 theorem not_isPSolvable_of_simple {S : Type} [Group S] [Finite S] (hS : IsSimpleGroup S)
     (hnc : ¬ IsMulCommutative S) (h3 : 3 ∣ Nat.card S) : ¬ CFSG.HallHigman.IsPSolvable 3 S := by
   intro hsolv
-  haveI := hS
+  have := hS
   have hsimple : IsSimpleGroup (↥(⊤ : Subgroup S) ⧸ (⊥ : Subgroup ↥(⊤ : Subgroup S))) :=
     MulEquiv.isSimpleGroup ((QuotientGroup.quotientBot).trans Subgroup.topEquiv)
   have hidx : (⊥ : Subgroup ↥(⊤ : Subgroup S)).index = Nat.card S := by
     rw [Subgroup.index_bot, Nat.card_congr Subgroup.topEquiv.toEquiv]
   rcases hsolv ⊤ (Subgroup.Normal.isSubnormal inferInstance) ⊥ hsimple with h | h
   · rw [hidx] at h
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have : IsCyclic S := isCyclic_of_prime_card (p := 3) h
     exact hnc ⟨⟨fun a b => mul_comm a b⟩⟩
   · rw [hidx] at h
@@ -108,13 +111,13 @@ theorem t_cube_mem : t * t * t ∈ Qf x e₂ e₃ := by
 
 theorem Q_ne_bot : Qf x e₂ e₃ ≠ ⊥ := by
   intro h
-  have := hd.frame.x_mem
+  have := (CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.x_mem (x := x) (e₂ := e₂) (e₃ := e₃))
   rw [h, mem_bot] at this
   exact hd.frame.x_ne this
 
 theorem le_of_normal (N : Subgroup X) (hN : N.Normal) (hne : N ≠ ⊥) : Qf x e₂ e₃ ≤ N := by
   have hf := hd.frame
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : 3 ∣ Nat.card N := by
     by_contra h3
     exact hne (hd.core N hN ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr h3))
@@ -141,7 +144,7 @@ theorem le_of_normal (N : Subgroup X) (hN : N.Normal) (hne : N ≠ ⊥) : Qf x e
       rw [e]
       exact mem_inf.mpr ⟨P.mul_mem (P.mul_mem (P.inv_mem hqP) h1.1) hqP,
         by simpa using hN.conj_mem _ h1.2 q⁻¹⟩
-  have hmeet := hf.inf_ne_bot hd.cent hd.P_norm inf_le_left hne' hQn
+  have hmeet := CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.inf_ne_bot hd.cent hd.P_norm inf_le_left hne' hQn
   have hW : N ⊓ Qf x e₂ e₃ ≠ ⊥ := by
     intro hb
     apply hmeet
@@ -152,7 +155,7 @@ theorem le_of_normal (N : Subgroup X) (hN : N.Normal) (hne : N ≠ ⊥) : Qf x e
   have hinv : ∀ g ∈ normalizer ((Qf x e₂ e₃ : Subgroup X) : Set X), ∀ w ∈ N ⊓ Qf x e₂ e₃,
       g * w * g⁻¹ ∈ N ⊓ Qf x e₂ e₃ := fun g hg w hw =>
     mem_inf.mpr ⟨hN.conj_mem _ (mem_inf.mp hw).1 g,
-      hf.conj_mem_of_mem_normalizer hg (mem_inf.mp hw).2⟩
+      CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.conj_mem_of_mem_normalizer hg (mem_inf.mp hw).2⟩
   rcases hf.eq_bot_or_eq_of_invariant inf_le_right (hinv t hf.t_mem_normalizer)
     (hinv ρ hf.ρ_mem_normalizer) with hb | heq
   · exact absurd hb hW
@@ -162,9 +165,9 @@ theorem le_of_normal (N : Subgroup X) (hN : N.Normal) (hne : N ≠ ⊥) : Qf x e
 theorem free : SolvableRadical.Free X := by
   intro N hN hsolv
   by_contra hne
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   obtain ⟨A, hAN, hA⟩ := MinimalNormal.exists_le N hne
-  haveI : Group.IsSolvable ↥A :=
+  have : Group.IsSolvable ↥A :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hAN)
   obtain ⟨r, hr, -, hAr⟩ := MinimalNormal.elementaryAbelian_of_solvable A hA
   have hAn : A.Normal := hA.prop.1
@@ -172,7 +175,7 @@ theorem free : SolvableRadical.Free X := by
   by_cases hr3 : r = 3
   · subst hr3
     exact hd.no3 A hAn hAr (hd.le_of_normal A hAn hAne)
-  · haveI : Fact r.Prime := ⟨hr⟩
+  · have : Fact r.Prime := ⟨hr⟩
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hAr
     refine hAne (hd.core A hAn ?_)
     rw [hk]
@@ -183,7 +186,7 @@ theorem nontrivial : Nontrivial X :=
 
 theorem component_le {L : Subgroup X} (hL : IsComponentOf L ⊤) (N : Subgroup X) (hN : N.Normal)
     (hne : N ≠ ⊥) : L ≤ N := by
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   rcases LocalComponents.normal_contains_or_commutes L N hL with hle | hcomm
   · exact hle
   · exfalso
@@ -206,7 +209,7 @@ theorem component_le {L : Subgroup X} (hL : IsComponentOf L ⊤) (N : Subgroup X
     exact hd.Q_ne_bot (le_bot_iff.mp (hbot ▸ le_inf hQN hQC))
 
 theorem layer_ne_bot : Layer.subgroup X ≠ ⊥ := by
-  haveI := hd.nontrivial
+  have := hd.nontrivial
   obtain ⟨L, hL⟩ := RadicalFreeLayer.exists_component hd.free
   intro hb
   have hnt : Nontrivial ↥L := Quasisimple.nontrivial hL.2.2
@@ -225,7 +228,7 @@ theorem exists_component_three : ∃ L : Subgroup X, IsComponentOf L ⊤ ∧ 3 �
   by_contra hcon
   push Not at hcon
   let ι := {L : Subgroup X // IsComponentOf L ⊤}
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   let H : ι → Subgroup X := fun i => i.1
   have hcomm : Pairwise fun i j : ι => ∀ a b : X, a ∈ H i → b ∈ H j → Commute a b := by
     intro i j hij a b ha hb
@@ -248,7 +251,7 @@ theorem exists_component_three : ∃ L : Subgroup X, IsComponentOf L ⊤ ∧ 3 �
 
 theorem inf_ne_bot_of_three {L : Subgroup X} (hL : IsComponentOf L ⊤) (h3 : 3 ∣ Nat.card L) :
     Qf x e₂ e₃ ⊓ L ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set E := Layer.subgroup X with hEdef
   have hEn : E.Normal := Layer.normal X
   have hLE : L ≤ E := Layer.component_le hL
@@ -282,7 +285,7 @@ theorem inf_ne_bot_of_three {L : Subgroup X} (hL : IsComponentOf L ⊤) (h3 : 3 
         by simpa using hEn.conj_mem _ hgE q⁻¹⟩, ?_⟩
       have := (mem_normalizer_iff.mp ((normalizer _).inv_mem hqL) (q * g * q⁻¹)).mp hgL
       simpa using this
-  have hmeet := hd.frame.inf_ne_bot hd.cent hd.P_norm (inf_le_left.trans inf_le_left) hne hQn
+  have hmeet := CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.inf_ne_bot hd.cent hd.P_norm (inf_le_left.trans inf_le_left) hne hQn
   intro hbot
   apply hmeet
   rw [eq_bot_iff]

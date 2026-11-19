@@ -17,6 +17,7 @@ open scoped Pointwise
 variable {V : Type} {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
   {H : Type} [Group H] [MulAction H V] [FaithfulSMul H V] [GraphAction H Γ]
 
+omit [FaithfulSMul H V] in
 public theorem noSpansTwoSpanContradiction
     (hP : IsGeneralizedPolygon Γ 4) (c : Γ.Coloring (Fin 2)) {s t : ℕ}
     (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1) (hs2 : 2 ≤ s)
@@ -44,7 +45,7 @@ public theorem noSpansTwoSpanContradiction
   let S0 : Subgroup H := E ⊓ MulAction.stabilizer H M0
   let S1 : Subgroup H := E ⊓ MulAction.stabilizer H M1
   have htrace_card : (traceSet Γ L1 M0).ncard = s + 1 := by
-    rw [ncard_trace hP hL1M0_4, hdeg L1, if_neg (by rw [hcL1]; decide)]
+    rw [ncard_trace hP hL1M0_4, hdeg L1, ite_eq_right (by rw [hcL1]; decide)]
   have hL0_mem_trace : L0 ∈ traceSet Γ L1 M0 := by
     refine ⟨?_, ?_⟩
     · exact dist_eq_two_of_adj_of_adj_of_ne hP hL1.symm hL0 hL10'.symm

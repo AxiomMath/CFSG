@@ -74,7 +74,7 @@ theorem eq_of_projStabilizer_eq [Finite K] [CharP K 2] {W W' : Submodule K (Fin 
     (hW : 1 ≤ finrank K W ∧ finrank K W < m)
     (hW' : 1 ≤ finrank K W' ∧ finrank K W' < m)
     (h : projStabilizer W = projStabilizer W') : W = W' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact (maximal_parabolics (K := K) (n := m) 2 (by omega)).2.1
     (bot_lt_and_lt_top_of_finrank hW.1 hW.2)
     (bot_lt_and_lt_top_of_finrank hW'.1 hW'.2) h
@@ -117,9 +117,9 @@ theorem kDiag_projectiveSL_four [Finite K] [CharP K 2] :
         Subgroup.normalizer (P : Set (projectiveSL 4 K)) →
       ∀ x ∈ P, θ x ∈ P := by
   intro θ hθ S hSθ P hP hSP x hx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSP' : (S : Subgroup (projectiveSL 4 K)) ≤ P :=
-    IsParabolicTwo.le_of_le_normalizer hP S.isPGroup' hSP
+    IsParabolicTwo.le_of_le_normalizer hP S.isPGroup hSP
   have hNS : Subgroup.normalizer (S : Set (projectiveSL 4 K)) ≤ P :=
     hP.normalizer_le S hSP'
   have hSmap : Subgroup.map (θ : projectiveSL 4 K →* projectiveSL 4 K)
@@ -170,11 +170,11 @@ theorem kDiag_projectiveSL_four [Finite K] [CharP K 2] :
   have hcomp : ((MulAut.conj (x₀⁻¹) : projectiveSL 4 K →* projectiveSL 4 K)).comp
       (MulAut.conj x₀ : projectiveSL 4 K →* projectiveSL 4 K) = MonoidHom.id _ := by
     ext z
-    simp [MulAut.conj_apply, mul_assoc]
+    simp
   have hcomp' : ((MulAut.conj x₀ : projectiveSL 4 K →* projectiveSL 4 K)).comp
       (MulAut.conj (x₀⁻¹) : projectiveSL 4 K →* projectiveSL 4 K) = MonoidHom.id _ := by
     ext z
-    simp [MulAut.conj_apply, mul_assoc]
+    simp
   have hNmap : Subgroup.map (MulAut.conj (x₀⁻¹) : projectiveSL 4 K →* projectiveSL 4 K)
       (Subgroup.normalizer (S : Set (projectiveSL 4 K))) = projUpperTriangular 4 K := by
     rw [hx₀]
@@ -357,16 +357,16 @@ theorem kDiag_of_lieModel_psl4 {n : ℕ} {X : Type} [Group X] [Finite X]
     CFSG.Blueprint.LieModel.statedClassicalModel hX ht
   rw [CFSG.Open.StatedClassicalModel] at hmodel
   obtain ⟨hadm, K, hfield, hfinite, hcard, ⟨e₀⟩⟩ := hmodel
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : Fintype K := Fintype.ofFinite K
   rw [CFSG.Open.StatedLieAdmissible] at hadm
   have hn1 : 1 ≤ n := hadm.2.1
   have hEven : Fintype.card K % 2 = 0 := by
     rw [Fintype.card_eq_nat_card, hcard]
     exact Nat.mod_eq_zero_of_dvd (dvd_pow_self 2 (by omega))
   have hchar : ringChar K = 2 := FiniteField.even_card_iff_char_two.mpr hEven
-  haveI : CharP K 2 := ringChar.of_eq hchar
+  have : CharP K 2 := ringChar.of_eq hchar
   exact kDiag_transport
     (e := e₀.trans
       ((CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 4 K).symm.trans

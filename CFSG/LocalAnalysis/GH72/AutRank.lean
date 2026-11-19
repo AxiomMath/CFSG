@@ -105,7 +105,7 @@ theorem gw_inf_centralizer_ne_bot
   · exact absurd (card_le_of_inf_centralizer_eq_bot K E hEC hE
       (card_le_eight_of_mulAut_of_mulEquiv_alternatingGroup_four e)) (by omega)
   set F : Subgroup X := (commutator K).map K.subtype with hFdef
-  haveI : F.Normal := ConjAct.normal_of_characteristic_of_normal
+  have : F.Normal := ConjAct.normal_of_characteristic_of_normal
   have hKF : K ⊓ centralizer (F : Set X) = ⊥ := by
     rw [eq_bot_iff]
     rintro x ⟨hxK, hxC⟩

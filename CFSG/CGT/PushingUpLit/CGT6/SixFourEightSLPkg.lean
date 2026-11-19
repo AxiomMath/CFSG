@@ -65,7 +65,7 @@ theorem eight_sl_main {Y R : Subgroup G} {T : Sylow 2 G} (h : EightCtx Y T R) {n
   have hJN := h.jIn_le_normalizer
   have hJU : jIn (T : Subgroup G) ≤ Subgroup.normalizer (blockU Y : Set G) := fun g hg =>
     normalizer_le_normalizer_blockU Y (hJN hg)
-  have hJ2 : IsPGroup 2 ↥(jIn (T : Subgroup G)) := T.isPGroup'.to_le (jIn_le _)
+  have hJ2 : IsPGroup 2 ↥(jIn (T : Subgroup G)) := T.isPGroup.to_le (jIn_le _)
   have hQ2 : IsPGroup 2 ↥(autOn (jIn (T : Subgroup G)) (blockU Y)) :=
     hJ2.of_surjective (actOnRange (blockU Y) (jIn (T : Subgroup G)) hJU)
       (actOnRange_surjective _ _ hJU)

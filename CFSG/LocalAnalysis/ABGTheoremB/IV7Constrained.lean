@@ -482,7 +482,7 @@ private theorem x₂_mem_D' (hσ : σ.IsValid) : σ.x₂ ∈ σ.D :=
 
 omit [Finite G] in
 private theorem isPGroup_two_D : IsPGroup 2 σ.D :=
-  σ.S.isPGroup'.to_le σ.D_le_S
+  σ.S.isPGroup.to_le σ.D_le_S
 
 private theorem odd_card_of_isPGroup' {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Subgroup G}
     (hX : IsPGroup p X) : Odd (Nat.card X) := by
@@ -519,7 +519,7 @@ private theorem not_dvd_relIndex_inf_ON (hσ : σ.IsValid) (hII : σ.ChapterIIFa
       rwa [hII.N_solvRad, sup_comm] at this
     exact Dvd.intro _ (Subgroup.relIndex_mul_relIndex _ _ _ le_sup_right hXZ)
   rw [relIndex_sup_right_of_le_normalizer hZON] at hdvd
-  have hZ2 : IsPGroup 2 Z := σ.S.isPGroup'.to_le inf_le_left
+  have hZ2 : IsPGroup 2 Z := σ.S.isPGroup.to_le inf_le_left
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hZ2
   intro hrd
@@ -534,7 +534,7 @@ private theorem exists_two_pow_mem_ON (hσ : σ.IsValid) (hII : σ.NStructure) {
   have hy' : y ∈ ((centerOf (σ.S : Subgroup G) ⊔ σ.ON : Subgroup G) : Set G) := hy
   rw [Subgroup.coe_mul_of_left_le_normalizer_right _ _ hZON] at hy'
   obtain ⟨z, hz, o, ho, rfl⟩ := hy'
-  obtain ⟨a, ha⟩ := (σ.S.isPGroup'.to_le
+  obtain ⟨a, ha⟩ := (σ.S.isPGroup.to_le
     (inf_le_left : centerOf (σ.S : Subgroup G) ≤ σ.S)) ⟨z, hz⟩
   have ha' : z ^ 2 ^ a = 1 := by simpa using congrArg Subtype.val ha
   refine ⟨a, ?_⟩

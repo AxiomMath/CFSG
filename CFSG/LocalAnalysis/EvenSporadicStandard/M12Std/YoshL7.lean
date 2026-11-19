@@ -86,8 +86,8 @@ theorem yosh7_model [Finite G] (hG : IsSimpleGroup G) (D : FusionData 1 k) (E : 
   have Fu := l7Fusion_spec D E he2 hue hfus
   have Sy := l7Sylow_spec D E he2 hue hsyl
   have Ay := l7A_spec D E he2 hue hbad hA
-  haveI := hG
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hG
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hee : e * e = 1 := mul_self_eq_one_of_orderOf_eq_two he2
   have hna : ∃ a b : G, a * b ≠ b * a := ⟨d, e, not_commute_d_e hd⟩
   have hfac : (Nat.card G).factorization 2 = 10 :=
@@ -230,7 +230,7 @@ theorem yosh7_model [Finite G] (hG : IsSimpleGroup G) (D : FusionData 1 k) (E : 
           · exact Ay.gens.2.2.1
           · exact Ay.gens.2.2.2
         exact Ay.cls _ (hLE ℓ hℓ g (Ay.le hgA)) (hgconj.trans (isConj_iff.2 ⟨ℓ, rfl⟩))
-      | one => simpa using (AG E).one_mem
+      | one => simp
       | mul x y _ _ hx hy =>
         have := (AG E).mul_mem hx hy
         simpa [mul_assoc] using this

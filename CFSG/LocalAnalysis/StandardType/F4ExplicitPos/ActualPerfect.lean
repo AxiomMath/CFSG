@@ -93,6 +93,7 @@ theorem fixed_range_le_component_ambient {G : Type*} [Group G]
   rw [hN, hΓ]
   exact le_inf inf_le_right (inf_le_left.trans hH)
 
+omit [Finite X] in
 theorem f4_actual_etaJ_injective_range
     {n f : ℕ} {ψ : (ggU .F4 n f).K →* X} {G0 : Subgroup X}
     (hG0 : ψ.range = G0)

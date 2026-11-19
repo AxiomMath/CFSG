@@ -19,7 +19,7 @@ theorem d4_plane_trichotomy (G : Type) [Group G] {ℓ f : ℕ}
     (h : StatedClassicalModel G .POmegaPlus 4 ℓ f) (K : Type) [Field K] [Finite K]
     (hK : Nat.card K = ℓ ^ f) (e : G ≃* StatedProj (StatedOmega (StatedQuadPlus 4 K)))
     (D : Subgroup (MulAut (matrixProjectiveDerived (coordinateQuadPlus 4 K))))
-    (hD : IsElemAbelian 3 D) (hcard : Nat.card D = 3 ^ 2) :
+    (hD : IsElemAbelian 3 D) (_hcard : Nat.card D = 3 ^ 2) :
     D ≤ innerAut (matrixProjectiveDerived (coordinateQuadPlus 4 K)) ∨
     (∃ a ∈ D, a ∈ matrixProjectiveImage (coordinateQuadPlus 4 K) ∧
       a ∉ (linearConjugationHom (coordinateQuadPlus 4 K)).range ∧ orderOf a = 3) ∨
@@ -27,7 +27,7 @@ theorem d4_plane_trichotomy (G : Type) [Group G] {ℓ f : ℕ}
       D ⊓ matrixProjectiveImage (coordinateQuadPlus 4 K) ≤
         innerAut (matrixProjectiveDerived (coordinateQuadPlus 4 K))) := by
   classical
-  clear hcard
+  clear _hcard
   have hgates := orthogonal_large_prime_semilinear_field_and_diagonal_gates G .POmegaPlus
     (Or.inr (Or.inl rfl)) 4 ℓ f h K hK e
   obtain ⟨-, -, ⟨-, k, hrel⟩, -⟩ := hgates

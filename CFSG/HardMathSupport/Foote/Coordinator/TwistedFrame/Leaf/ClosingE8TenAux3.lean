@@ -164,7 +164,7 @@ theorem sgn_spec (w : WeylGroup Tag.E8) {μ : Fin Tag.E8.rank → ℤ} (h : IsRo
     sgn (L := L) w μ * sgn (L := L) w μ = 1 ∧ ∀ c : L,
       canonicalRep (coxeterSystem Tag.E8) L w * pinnedX Tag.E8 L μ c *
           (canonicalRep (coxeterSystem Tag.E8) L w)⁻¹ = pinnedX Tag.E8 L (w • μ) (sgn w μ * c) := by
-  simp only [sgn, dif_pos h]
+  simp only [sgn, dite_eq_left h]
   exact (exists_canonicalRep_mul_pinnedX_mul_inv L w h).choose_spec
 
 @[expose] def Mg (w : WeylGroup Tag.E8) (sg : (Fin Tag.E8.rank → ℤ) → L) : Fn L →ₗ[L] Fn L where
@@ -219,7 +219,7 @@ theorem actsBy_mono {n : ModGL Tag.E8 L} {w : WeylGroup Tag.E8}
         map_zero]
 
 theorem mono_canonicalRep (w : WeylGroup Tag.E8) :
-    Mono (canonicalRep (coxeterSystem Tag.E8) L w) w (sgn w) := fun β hβ => sgn_spec w hβ
+    Mono (canonicalRep (coxeterSystem Tag.E8) L w) w (sgn w) := fun _β hβ => sgn_spec w hβ
 
 theorem sigma_fixed_coords (ι : K →+* L) (Fr : L →+* L) (hfix : ∀ a : K, Fr (ι a) = ι a)
     {g n : ModGL Tag.E8 L} (hlang : Frob Fr g = g * n) {M : Fn L →ₗ[L] Fn L} (hn : ActsBy n M)

@@ -21,7 +21,7 @@ theorem bigPrimeFacts_carrier_M : BigPrimeFacts .M := by
   have hCo1 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) :=
     Karpilovsky.Proving.kernelTrivialAt_carrier_of_five_le
       CFSG.RankThree.PartOne.MultRes.sporadicResidualKernelsTrim_holds .Co1 (by decide) hp hp5
-  exact bigPrimeFacts_M CFSG.Open.Open.monster_y443_derived_card
+  exact bigPrimeFacts_M CFSG.Open.Thm.monster_y443_derived_card
     (kernelTrivialAt_carrier_M_five_of_baby_co1 (hB (by norm_num) le_rfl)
       (hCo1 (by norm_num) le_rfl))
     (kernelTrivialAt_carrier_M_seven_of_baby_co1 (hB (by norm_num) (by norm_num))
@@ -30,7 +30,7 @@ theorem bigPrimeFacts_carrier_M : BigPrimeFacts .M := by
 
 theorem nativeRow_M_of_b_three (hB : KernelTrivialAt (NativeSporadic.Carrier .B) 3) :
     Nat.card (hopfMultiplier (NativeSporadic.Carrier .M)) = sporadicMultiplierOrder .M := by
-  have hCM := carrierFacts_M CFSG.Open.Open.monster_y443_derived_card
+  have hCM := carrierFacts_M CFSG.Open.Thm.monster_y443_derived_card
     CFSG.Milestones.fam_m_simplicity
   have : IsSimpleGroup (NativeSporadic.Carrier .M) := hCM.2.1
   exact nativeRow_of_two_zero_three_zero rfl hCM CFSG.EvenSporadicStandard.rowBound_M

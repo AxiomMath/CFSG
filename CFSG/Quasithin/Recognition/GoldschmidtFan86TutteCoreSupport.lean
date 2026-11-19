@@ -195,7 +195,7 @@ theorem core_list (h : IsTutteSys s r l ξ Hs) {i : ℕ} (hi : 1 ≤ i) (his : 2
       rw [h]
       by_cases ha : a = (s : ℤ) - 2 * i
       · subst ha; simp
-      · rw [if_neg ha, List.count_eq_zero]; simp [ha]
+      · rw [ite_eq_right ha, List.count_eq_zero]; simp [ha]
     rw [c1, c2, c3, add_assoc]
 
 theorem core_support (h : IsTutteSys s r l ξ Hs) {i : ℕ} (hi : 1 ≤ i) (his : 2 * i ≤ s)

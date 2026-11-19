@@ -39,6 +39,7 @@ variable {F : Type} [Field F] [Fintype F] [CharP F 2]
 private def qRoot (a b : F) : SL(3, F) :=
   ⟨!![1, a, b; 0, 1, 0; 0, 0, 1], by simp [Matrix.det_fin_three]⟩
 
+omit [Fintype F] [CharP F 2] in
 private theorem coe_qRoot (a b : F) :
     (qRoot a b : Matrix (Fin 3) (Fin 3) F) = !![1, a, b; 0, 1, 0; 0, 0, 1] := rfl
 
@@ -52,7 +53,7 @@ private noncomputable def natCardHermFix (hK : Nat.card F = (2 ^ 1) ^ 2)
     (P : F → F → SL(3, F)) : ℕ :=
   Nat.card {M : H.L3Nine.HMod 1 F // ∀ a b, H.L3Nine.rho hK (P a b) M = M}
 
-private noncomputable def natCardHermFixDual (hK : Nat.card F = (2 ^ 1) ^ 2)
+private noncomputable def natCardHermFixDual (_hK : Nat.card F = (2 ^ 1) ^ 2)
     (P : F → F → SL(3, F)) : ℕ :=
   Nat.card {M : H.L3Nine.HMod 1 F // ∀ a b,
     H.L3Nine.tw 1 ((P a b : Matrix (Fin 3) (Fin 3) F))ᵀ (H.L3Nine.mat M) = H.L3Nine.mat M}
@@ -60,6 +61,7 @@ private noncomputable def natCardHermFixDual (hK : Nat.card F = (2 ^ 1) ^ 2)
 private noncomputable def transposeFinThreeGL (A : GL (Fin 3) F) : GL (Fin 3) F :=
   Matrix.GeneralLinearGroup.inverseTranspose A⁻¹
 
+omit [Fintype F] [CharP F 2] in
 private theorem coe_transposeFinThreeGL (A : GL (Fin 3) F) :
     ((transposeFinThreeGL A : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
       (A : Matrix (Fin 3) (Fin 3) F)ᵀ := by
@@ -124,6 +126,7 @@ private theorem tw_inv_iff (g : SL(3, F)) (X : Matrix (Fin 3) (Fin 3) F) :
     rw [H.L3Nine.tw_tw, hmul, H.L3Nine.tw_one] at h1
     exact h1.symm
 
+omit [Fintype F] [CharP F 2] in
 private theorem FN_eq_prod (P : F → F → SL(3, F)) :
     natCardFix P = Nat.card {v : Fin 3 → F // ∀ p : F × F,
       (P p.1 p.2 : Matrix (Fin 3) (Fin 3) F) *ᵥ v = v} := by
@@ -139,6 +142,7 @@ private theorem HN_eq_prod (hK : Nat.card F = (2 ^ 1) ^ 2)
   exact Nat.card_congr (Equiv.subtypeEquiv (Equiv.refl _) fun M =>
     ⟨fun h p => h p.1 p.2, fun h a b => h (a, b)⟩)
 
+omit [Finite U] [Fintype F] [CharP F 2] in
 private theorem fixN_transport_natural {ρ : Representation (ZMod 2) SL(3, F) U}
     {b : U ≃ₗ[ZMod 2] U} (ψ : SL(3, F) →* SL(3, F)) (E : U ≃+ (Fin 3 → F))
     (hE : ∀ g u, E (ρ g u) =
@@ -165,6 +169,7 @@ private theorem fixN_transport_natural {ρ : Representation (ZMod 2) SL(3, F) U}
     _ = natCardFix (fun a b => ψ (ν (P a b))) :=
         (FN_eq_prod (fun a b => ψ (ν (P a b)))).symm
 
+omit [Finite U] in
 private theorem herm_transport {ρ : Representation (ZMod 2) SL(3, F) U}
     {b : U ≃ₗ[ZMod 2] U} (hK : Nat.card F = (2 ^ 1) ^ 2)
     (ψ : SL(3, F) →* SL(3, F)) (E : Multiplicative U ≃* H.L3Nine.HMod 1 F)
@@ -208,6 +213,7 @@ private def SecondForm (β : SL(3, F) → SL(3, F)) : Prop :=
         ((((g⁻¹ : SL(3, F)) : Matrix (Fin 3) (Fin 3) F))ᵀ).map σ *
           ((A⁻¹ : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F)
 
+omit [Fintype F] [CharP F 2] in
 private theorem mulAut_of_involutive (ψ : SL(3, F) →* SL(3, F)) (hψ : ∀ g, ψ (ψ g) = g) :
     ∃ Ψ : MulAut (SL(3, F)), ∀ g, Ψ g = ψ g := by
   refine ⟨MonoidHom.toMulEquiv ψ ψ ?_ ?_, fun g => rfl⟩
@@ -218,6 +224,7 @@ private theorem mulAut_of_involutive (ψ : SL(3, F) →* SL(3, F)) (hψ : ∀ g,
     simp only [MonoidHom.comp_apply, MonoidHom.id_apply]
     rw [hψ g]
 
+omit [CharP F 2] in
 private theorem matrix_form_of_aut (ψ : SL(3, F) →* SL(3, F)) (hψ : ∀ g, ψ (ψ g) = g) :
     FirstForm ψ ∨ SecondForm ψ := by
   obtain ⟨Ψ, hΨ⟩ := mulAut_of_involutive ψ hψ
@@ -262,6 +269,7 @@ private def phiFirst (A : GL (Fin 3) F) (σ : F ≃+* F) :
     rw [Matrix.mulVec_mulVec, CFSG.Quasithin.G11.P4SL34.coe_inv_mul_coe A, Matrix.one_mulVec]
     exact σ.symm_apply_apply (w i)
 
+omit [Fintype F] [CharP F 2] in
 private theorem fixN_comp_first (β : SL(3, F) → SL(3, F)) (hβ : FirstForm β)
     (P : F → F → SL(3, F)) :
     natCardFix (fun a b => β (P a b)) = natCardFix P := by
@@ -378,6 +386,7 @@ private def phiFirstTD (A : GL (Fin 3) F) (σ : F ≃+* F) :
       Matrix.transpose_one, Matrix.one_mulVec]
     exact σ.symm_apply_apply (w i)
 
+omit [Fintype F] [CharP F 2] in
 private theorem fixD_comp_first (β : SL(3, F) → SL(3, F)) (hβ : FirstForm β)
     (P : F → F → SL(3, F)) :
     FD (fun a b => β (P a b)) = FD P := by
@@ -475,11 +484,13 @@ private theorem fixD_comp_first (β : SL(3, F) → SL(3, F)) (hβ : FirstForm β
 private noncomputable def slGraphAutDelta (g : SL(3, F)) : SL(3, F) :=
   CFSG.ComponentClassification.CatalogueBGraphForm.slGraphAut 3 F g
 
+omit [Fintype F] [CharP F 2] in
 private theorem coe_delta (g : SL(3, F)) :
     (slGraphAutDelta g : Matrix (Fin 3) (Fin 3) F) =
       ((g⁻¹ : SL(3, F)) : Matrix (Fin 3) (Fin 3) F)ᵀ :=
   CFSG.ComponentClassification.CatalogueBGraphForm.slGraphAut_matrix 3 F g
 
+omit [Fintype F] [CharP F 2] in
 private theorem FN_delta_comp (P : F → F → SL(3, F)) :
     natCardFix (fun a b => slGraphAutDelta (P a b)) = FD P := by
   apply Nat.card_congr
@@ -519,6 +530,7 @@ private theorem FN_delta_comp (P : F → F → SL(3, F)) :
       _ = v := by
             rw [Matrix.mulVec_mulVec, h3, Matrix.one_mulVec]
 
+omit [Fintype F] [CharP F 2] in
 private theorem FD_delta_comp (P : F → F → SL(3, F)) :
     FD (fun a b => slGraphAutDelta (P a b)) = natCardFix P := by
   apply Nat.card_congr
@@ -582,6 +594,7 @@ private theorem HD_delta_comp (hK : Nat.card F = (2 ^ 1) ^ 2)
     ⟨fun h p => (hiff (P p.1 p.2) M).mp (h p),
       fun h p => (hiff (P p.1 p.2) M).mpr (h p)⟩)
 
+omit [Fintype F] [CharP F 2] in
 private theorem fixN_comp_second (β : SL(3, F) → SL(3, F)) (hβ : SecondForm β)
     (P : F → F → SL(3, F)) :
     natCardFix (fun a b => β (P a b)) = FD P := by
@@ -615,6 +628,7 @@ private theorem fixN_comp_second (β : SL(3, F) → SL(3, F)) (hβ : SecondForm 
             exact fixN_comp_first β₁ hβ₁ (fun a b => slGraphAutDelta (P a b))
     _ = FD P := FN_delta_comp P
 
+omit [Fintype F] [CharP F 2] in
 private theorem fixD_comp_second (β : SL(3, F) → SL(3, F)) (hβ : SecondForm β)
     (P : F → F → SL(3, F)) :
     FD (fun a b => β (P a b)) = natCardFix P := by
@@ -711,8 +725,7 @@ private theorem herm_fixD_comp_first (hK : Nat.card F = (2 ^ 1) ^ 2)
     intro g
     apply Units.ext
     dsimp only [S]
-    simp only [coe_transposeFinThreeGL, htoGL g, Units.val_mul, Units.val_inv_eq_inv_val,
-      Matrix.GeneralLinearGroup.coe_inverseTranspose, H.L3Nine.coe_mapGL,
+    simp only [coe_transposeFinThreeGL, htoGL g, Units.val_mul, Matrix.GeneralLinearGroup.coe_inverseTranspose, H.L3Nine.coe_mapGL,
       Matrix.SpecialLinearGroup.coe_GL_coe_matrix,
       CFSG.ComponentClassification.OddSelector.coe_inverseTranspose_inv,
       Matrix.transpose_mul, Matrix.transpose_map, Matrix.mul_assoc]
@@ -828,6 +841,7 @@ private theorem herm_fixD_comp_second (hK : Nat.card F = (2 ^ 1) ^ 2)
             exact herm_fixD_comp_first hK β₁ hβ₁ (fun a b => slGraphAutDelta (P a b))
     _ = natCardHermFix hK P := HD_delta_comp hK P
 
+omit [CharP F 2] in
 private theorem fixN_lt_fixD : natCardFix (F := F) qRoot < FD (F := F) qRoot := by
   have hFN : natCardFix (F := F) qRoot ≤ Nat.card F := by
     refine Nat.card_le_card_of_injective (fun v => v.1 0) ?_
@@ -997,6 +1011,7 @@ private theorem herm_fixN_lt_fixD (hK : Nat.card F = (2 ^ 1) ^ 2) :
   rw [h2, hcard] at hHD
   omega
 
+omit [Finite U] in
 theorem not_isGraphType_of_intertwines (ρ : Representation (ZMod 2) SL(3, F) U)
     (hcase : IsTwistedNatural ρ ∨ IsTwistedHerm ρ) (b : U ≃ₗ[ZMod 2] U)
     (ν : MulAut SL(3, F)) (hb : ∀ x : SL(3, F), X7a.Intertwines ρ b x (ν x)) :

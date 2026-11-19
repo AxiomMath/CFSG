@@ -17,6 +17,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {b : G} {J B A P D : Subgroup G} {a : G}
 
+omit [Finite G] in
 theorem s35_cqImg_inf_layer {U As : Subgroup G} :
     cqImg U (As ⊓ OppE 3 (CenS U)) = cqImg U As ⊓ layer (CQ U) := by
   ext y
@@ -31,8 +32,8 @@ theorem s35_cqImg_inf_layer {U As : Subgroup G} :
 
 theorem s35_cqImg_sylow {U As : Subgroup G} (hAs : IsSylowOf 3 As (CenS U)) :
     IsSylowOf 3 (cqImg U As) ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (pPrimeCore 3 ↥(CenS U)).Normal := pPrimeCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (pPrimeCore 3 ↥(CenS U)).Normal := pPrimeCore_normal
   have hSyl : IsSylowOf 3 (As.subgroupOf (CenS U)) ⊤ := by
     refine L41.isSylowOf_of_card_p le_top ?_
     rw [Subgroup.card_top, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAs.1).toEquiv,
@@ -42,7 +43,7 @@ theorem s35_cqImg_sylow {U As : Subgroup G} (hAs : IsSylowOf 3 As (CenS U)) :
 theorem s35_card_Shat {U As : Subgroup G} (hAs : IsSylowOf 3 As (CenS U))
     (hL : IsLnq 3 2 2 (⊤ : Subgroup (layer (CQ U)))) :
     Nat.card ↥(As ⊓ OppE 3 (CenS U)) = 9 := by
-  haveI : (layer (CQ U)).Normal := s35_layer_normal
+  have : (layer (CQ U)).Normal := s35_layer_normal
   have h1 := s35_card_sylow_inf (s35_cqImg_sylow hAs) (s35_layer_card hL)
   rw [← s35_cqImg_inf_layer, cqImg_card (hAs.2.1.to_inf_left) (inf_le_left.trans hAs.1)] at h1
   exact h1
@@ -68,17 +69,17 @@ theorem s35_Shat_le_A (h : FF79Sec34In b J B A P D) (hU : FF79Sec34UFacts b a J 
   exact (hAdef x hx.1).mp (s35_comm_card27 hcard (Subgroup.mem_sup_left hx)
     (Subgroup.mem_sup_right (Subgroup.mem_zpowers b)))
 
-theorem sec35_split (hG : IsSimpleGroup G) (hna : ∃ x y : G, x * y ≠ y * x)
-    (hKp : KProper InCatalog G) (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D)
-    (hU : FF79Sec34UFacts b a J A) (hoa : orderOf a = 3)
-    (hK : IsLnq 2 2 2 (Lay (J ⊓ Cen a))) (haC : a ∈ CenS (U34 b a J A))
+theorem sec35_split (_hG : IsSimpleGroup G) (_hna : ∃ x y : G, x * y ≠ y * x)
+    (_hKp : KProper InCatalog G) (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D)
+    (hU : FF79Sec34UFacts b a J A) (_hoa : orderOf a = 3)
+    (_hK : IsLnq 2 2 2 (Lay (J ⊓ Cen a))) (_haC : a ∈ CenS (U34 b a J A))
     (hL : IsLnq 3 2 2 (⊤ : Subgroup (layer (CenS (U34 b a J A) ⧸
       pPrimeCore 3 (CenS (U34 b a J A)))))) :
     IsElemAb 3 2 (A ⊓ OppE 3 (CenS (U34 b a J A))) ∧
     U34 b a J A ⊓ (A ⊓ OppE 3 (CenS (U34 b a J A))) = ⊥ ∧
     U34 b a J A ⊔ (A ⊓ OppE 3 (CenS (U34 b a J A))) = A ∧
     b ∈ Nor (A ⊓ OppE 3 (CenS (U34 b a J A))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨As, hAs⟩ := h.star
   have hSyl := sec34_As_syl hs h hU hAs
   have h9 := s35_card_Shat hSyl hL

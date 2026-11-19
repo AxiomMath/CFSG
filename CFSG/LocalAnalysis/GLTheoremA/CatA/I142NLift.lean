@@ -70,7 +70,7 @@ theorem center_ne_top_of_commutator_top {Q : Type*} [Group Q] [Nontrivial Q]
 theorem quasisimple_dichotomy {Q : Type*} [Group Q] (hQ : IsQuasisimple Q)
     {N : Subgroup Q} [N.Normal] : N = ⊤ ∨ N ≤ Subgroup.center Q := by
   obtain ⟨hcomm, hsimp⟩ := hQ
-  haveI : (N.map (QuotientGroup.mk' (Subgroup.center Q))).Normal :=
+  have : (N.map (QuotientGroup.mk' (Subgroup.center Q))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   rcases hsimp.eq_bot_or_eq_top_of_normal (N.map (QuotientGroup.mk' (Subgroup.center Q))) with h | h
   · right
@@ -106,8 +106,8 @@ theorem isSimpleGroup_mod_center {Q : Type*} [Group Q]
     (hdich : ∀ N : Subgroup Q, N.Normal → N = ⊤ ∨ N ≤ Subgroup.center Q) :
     IsSimpleGroup (Q ⧸ Subgroup.center Q) := by
   refine { toNontrivial := hnt, eq_bot_or_eq_top_of_normal := fun M hM => ?_ }
-  haveI := hM
-  haveI : (M.comap (QuotientGroup.mk' (Subgroup.center Q))).Normal :=
+  have := hM
+  have : (M.comap (QuotientGroup.mk' (Subgroup.center Q))).Normal :=
     Subgroup.Normal.comap hM _
   rcases hdich (M.comap (QuotientGroup.mk' (Subgroup.center Q))) inferInstance with h | h
   · right
@@ -174,8 +174,8 @@ theorem isQuasisimple_of_commutator_map {π : G →* H}
     (hK : K = ⁅M, M⁆) (hM : M.map π = Kb) (hKb : IsQuasisimple Kb) : IsQuasisimple K := by
   obtain ⟨hKbc, hKbs⟩ := hKb
   have hKbq : IsQuasisimple Kb := ⟨hKbc, hKbs⟩
-  haveI : Nontrivial Kb := by
-    haveI := hKbs.toNontrivial
+  have : Nontrivial Kb := by
+    have := hKbs.toNontrivial
     obtain ⟨a, b, hab⟩ := exists_pair_ne (Kb ⧸ Subgroup.center Kb)
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -226,18 +226,18 @@ theorem isQuasisimple_of_commutator_map {π : G →* H}
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext (Subgroup.mem_center_iff.1 hc y)
-  haveI hKnt : Nontrivial K := hpK_surj.nontrivial
+  have hKnt : Nontrivial K := hpK_surj.nontrivial
   have hZne : Subgroup.center K ≠ ⊤ := center_ne_top_of_commutator_top hKcomm
-  haveI hnt : Nontrivial (K ⧸ Subgroup.center K) := by
+  have hnt : Nontrivial (K ⧸ Subgroup.center K) := by
     obtain ⟨g, hg⟩ : ∃ g : K, g ∉ Subgroup.center K := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hZne (eq_top_iff.2 fun g _ => hcon g)
     exact ⟨⟨QuotientGroup.mk g, 1, fun h => hg ((QuotientGroup.eq_one_iff g).1 h)⟩⟩
   refine ⟨hKcomm, isSimpleGroup_mod_center hnt ?_⟩
   intro N hN
-  haveI := hN
-  haveI : (N.map pK).Normal := Subgroup.Normal.map inferInstance pK hpK_surj
+  have := hN
+  have : (N.map pK).Normal := Subgroup.Normal.map inferInstance pK hpK_surj
   rcases quasisimple_dichotomy hKbq (N := N.map pK) with h | h
   · left
     have hle : commutator K ≤ N := by

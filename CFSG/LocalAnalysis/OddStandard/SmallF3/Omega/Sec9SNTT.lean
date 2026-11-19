@@ -102,7 +102,7 @@ theorem sec9n_stab_trans {P N : Subgroup G} {T : Set G} (hNP : N ≤ P)
   by_cases hcaseA : ∀ p ∈ P, p * c * p⁻¹ = c → p ∈ N
   · obtain ⟨p, hpP, hpc, hpxy⟩ := hP.2 c hc x hx c hc y hy hxc.symm hyc.symm
     exact ⟨p, hcaseA p hpP hpc, hpc, hpxy⟩
-  · push_neg at hcaseA
+  · push Not at hcaseA
     obtain ⟨p₀, hp₀P, hp₀c, hp₀N⟩ := hcaseA
     have hnorm := sec9n_normal_of_index_two hNP hidx
     have hp₀invP : p₀⁻¹ ∈ P := P.inv_mem hp₀P

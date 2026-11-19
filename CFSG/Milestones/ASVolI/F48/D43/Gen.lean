@@ -36,15 +36,15 @@ theorem burnsideF48d_g_mem (hσ3 : ∀ c, σ (σ (σ c)) = c) (k : ℕ) :
   have hn : (-1 : ℤ) = 1 ∨ (-1 : ℤ) = -1 := Or.inr rfl
   unfold burnsideF48d_g
   by_cases h0 : k = 0
-  · rw [if_pos h0]
+  · rw [ite_eq_left h0]
     exact twistedRootSubgroupD4_le_twistedGroup σ (isRoot_smul_single_G2 hp (ng 0))
       (xPar_two_mem σ hp (map_one σ))
-  rw [if_neg h0]
+  rw [ite_eq_right h0]
   by_cases h1 : k = 1
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     exact twistedRootSubgroupD4_le_twistedGroup σ (isRoot_smul_single_G2 hn (ng 0))
       (xPar_two_mem σ hn (map_one σ))
-  rw [if_neg h1]
+  rw [ite_eq_right h1]
   · exact twistedRootSubgroupD4_le_twistedGroup σ
       (isRoot_smul_single_G2 (burnsideF48d_sign k) (ng 1))
       (xOuter_mem σ (burnsideF48d_sign k) (hσ3 _))
@@ -98,22 +98,22 @@ variable (hK : Nat.card K = 27) (hσ : ∀ c, σ c = c ^ 3) (hω : ω ^ 3 = ω +
 
 include hK hσ in
 theorem burnsideF48d_sigma3 (c : K) : σ (σ (σ c)) = c := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   exact sigma_three_of_card (q := 3) (by rw [hK]; norm_num) hσ c
 
 include hK in
 theorem burnsideF48d_charP : CharP K 3 := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact charP_of_card_eq_prime_pow (f := 3) (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
 
 include hK hω in
 theorem burnsideF48d_φ_surj (c : K) : ∃ n < 27, burnsideF48d_φ ω n = c := by
   classical
-  haveI := burnsideF48d_charP hK
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI : Fintype K := Fintype.ofFinite K
+  have := burnsideF48d_charP hK
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Fintype K := Fintype.ofFinite K
   have hinj : Set.InjOn (burnsideF48d_φ ω) (Finset.range 27 : Set ℕ) := fun a ha b hb h =>
     burnsideF48d_φ_injOn ω hω (Finset.mem_range.1 ha) (Finset.mem_range.1 hb) h
   have hcard : ((Finset.range 27).image (burnsideF48d_φ ω)).card = Fintype.card K := by
@@ -126,7 +126,7 @@ theorem burnsideF48d_φ_surj (c : K) : ∃ n < 27, burnsideF48d_φ ω n = c := b
 
 include hK hσ hω in
 theorem burnsideF48d_twistedGroup_le : twistedGroup σ ≤ burnsideF48d_G8 σ ω := by
-  haveI := burnsideF48d_charP hK
+  have := burnsideF48d_charP hK
   have hσ3 := burnsideF48d_sigma3 σ hK hσ
   set R : Subgroup (adjointGroup d4 K) := burnsideF48d_G8 σ ω with hR
   have hφ1 : burnsideF48d_φ ω 1 = 1 := burnsideF48d_φ_one ω
@@ -177,8 +177,8 @@ theorem burnsideF48d_twistedGroup_le : twistedGroup σ ≤ burnsideF48d_G8 σ ω
       intro j hj
       have hk : (if 5 ≤ (if s = 1 then 2 + j else 5 + j) then (-1 : ℤ) else 1) = s := by
         rcases hs with rfl | rfl
-        · rw [if_pos rfl, if_neg (by omega)]
-        · rw [if_neg (show ¬((-1 : ℤ) = 1) by decide), if_pos (by omega)]
+        · rw [ite_eq_left rfl, ite_eq_right (by omega)]
+        · rw [ite_eq_right (show ¬((-1 : ℤ) = 1) by decide), ite_eq_left (by omega)]
       have hpar : burnsideF48d_par (if s = 1 then 2 + j else 5 + j) = 3 ^ j := by
         unfold burnsideF48d_par
         interval_cases j <;> rcases hs with rfl | rfl <;> simp
@@ -187,7 +187,7 @@ theorem burnsideF48d_twistedGroup_le : twistedGroup σ ≤ burnsideF48d_G8 σ ω
           xOuter s (burnsideF48d_φ ω (3 ^ j)) (σ (burnsideF48d_φ ω (3 ^ j)))
             (σ (σ (burnsideF48d_φ ω (3 ^ j)))) := by
         unfold burnsideF48d_g
-        rw [if_neg (by split_ifs <;> omega), if_neg (by split_ifs <;> omega), hk, hpar]
+        rw [ite_eq_right (by split_ifs <;> omega), ite_eq_right (by split_ifs <;> omega), hk, hpar]
       rw [← e]
       exact this
     obtain ⟨n, -, rfl⟩ := burnsideF48d_φ_surj ω hK hω c
@@ -254,8 +254,8 @@ theorem burnsideF48d_C0_eq :
     graphFixedRootGroup TwistTag.D4 K σ =
     Subgroup.closure (Set.range fun k : Fin 8 =>
       ((burnsideF48d_g σ ω k : adjointGroup d4 K) : ModGL d4 K)) := by
-  haveI := burnsideF48d_charP hK
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have := burnsideF48d_charP hK
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   rw [← CFSG.LieType.Steinberg.CentralExt.TrialityClosed.map_twistedGroup_eq_graphFixedRootGroup
     hK2 (q := 3) (by norm_num) (by rw [hK]; norm_num) hσ,
@@ -288,11 +288,11 @@ theorem burnsideF48d_xPar_val (k : ℕ) (i : Fin d4.rank) (c : K) :
       adjointGroup d4 K) : ModGL d4 K) : Module.End K (RootModule d4 K)) =
       burnsideF48d_op K (decide (5 ≤ k)) i c := by
   by_cases h : 5 ≤ k
-  · rw [if_pos h, burnsideF48d_xPar_neg_val, burnsideF48d_op,
-      dif_pos (show (i : ℕ) < 4 from i.2), decide_eq_true h, if_pos rfl]
+  · rw [ite_eq_left h, burnsideF48d_xPar_neg_val, burnsideF48d_op,
+      dite_eq_left (show (i : ℕ) < 4 from i.2), decide_eq_true h, ite_eq_left rfl]
     rfl
-  · rw [if_neg h, burnsideF48d_xPar_pos_val, burnsideF48d_op,
-      dif_pos (show (i : ℕ) < 4 from i.2), decide_eq_false h]
+  · rw [ite_eq_right h, burnsideF48d_xPar_pos_val, burnsideF48d_op,
+      dite_eq_left (show (i : ℕ) < 4 from i.2), decide_eq_false h]
     rfl
 
 variable [CharP K 3] (hσ : ∀ c, σ c = c ^ 3) (hω : ω ^ 3 = ω + 1)
@@ -304,23 +304,23 @@ theorem burnsideF48d_g_val (k : ℕ) :
   unfold burnsideF48d_g burnsideF48d_genEnd
   by_cases h0 : k = 0
   · subst h0
-    rw [if_pos rfl, burnsideF48d_xPar_pos_val]
-    simp only [burnsideF48d_genSpec, if_true, List.map_cons, List.map_nil, List.prod_cons,
+    rw [ite_eq_left rfl, burnsideF48d_xPar_pos_val]
+    simp only [burnsideF48d_genSpec, ite_true, List.map_cons, List.map_nil, List.prod_cons,
       List.prod_nil, mul_one, burnsideF48d_opEnd, burnsideF48d_φ_one]
-    rw [burnsideF48d_op, dif_pos (by norm_num)]
+    rw [burnsideF48d_op, dite_eq_left (by norm_num)]
     rfl
   by_cases h1 : k = 1
   · subst h1
-    rw [if_neg (by norm_num), if_pos rfl, burnsideF48d_xPar_neg_val]
-    simp only [burnsideF48d_genSpec, one_ne_zero, if_false, if_true, List.map_cons, List.map_nil,
+    rw [ite_eq_right (by norm_num), ite_eq_left rfl, burnsideF48d_xPar_neg_val]
+    simp only [burnsideF48d_genSpec, one_ne_zero, ite_false, ite_true, List.map_cons, List.map_nil,
       List.prod_cons, List.prod_nil, mul_one, burnsideF48d_opEnd, burnsideF48d_φ_one]
-    rw [burnsideF48d_op, dif_pos (by norm_num)]
+    rw [burnsideF48d_op, dite_eq_left (by norm_num)]
     rfl
-  rw [if_neg h0, if_neg h1]
+  rw [ite_eq_right h0, ite_eq_right h1]
   have hfrob : ∀ a, burnsideF48d_φ ω (burnsideF48d_frobC a) = σ (burnsideF48d_φ ω a) := by
     intro a
     rw [burnsideF48d_φ_frob ω hω, hσ]
-  simp only [burnsideF48d_genSpec, h0, h1, if_false, List.map_cons, List.map_nil, List.prod_cons,
+  simp only [burnsideF48d_genSpec, h0, h1, ite_false, List.map_cons, List.map_nil, List.prod_cons,
     List.prod_nil, mul_one, burnsideF48d_opEnd, hfrob]
   simp only [xOuter, Subgroup.coe_mul, Units.val_mul, burnsideF48d_xPar_val]
   exact mul_assoc _ _ _

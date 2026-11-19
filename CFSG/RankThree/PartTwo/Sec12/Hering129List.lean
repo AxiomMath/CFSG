@@ -24,7 +24,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem exists_fixed_rep {L : Subgroup G} {b : G} (hb : b ∈ Sec4.thetaQuotCentralizer L)
     (hb3 : orderOf b = 3) (l : L) :
     ∃ x : L, b * (x : G) * b⁻¹ = x ∧ x⁻¹ * l ∈ aschbacherSolvableCore 3 L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : Subgroup.zpowers b ≤ Sec4.thetaQuotCentralizer L := Subgroup.zpowers_le.mpr hb
   have hZN : Subgroup.zpowers b ≤ Subgroup.normalizer (L : Set G) :=
     hZ.trans (Sec6.thetaQuotCentralizer_le_normalizer L)
@@ -187,7 +187,7 @@ theorem false_of_lift_of_partTwoF_eq' (hFE : partTwoF G = partTwoE G) {L : Subgr
     CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
       3 2 Nat.prime_three Nat.prime_two El D hEl3 hElD hcop h2
   set U : Subgroup L := (T₀ : Subgroup D).map D.subtype with hU
-  have hU2 : IsPGroup 2 U := T₀.isPGroup'.map D.subtype
+  have hU2 : IsPGroup 2 U := T₀.isPGroup.map D.subtype
   set El' : Subgroup G := El.map L.subtype
   set Fl' : Subgroup G := Fl.map L.subtype
   set U' : Subgroup G := U.map L.subtype

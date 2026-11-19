@@ -101,7 +101,7 @@ public theorem secondCase_a7_A_normal_H
   have hCnormA : C ≤ Subgroup.normalizer (A : Set G) := by
     change C ≤ Subgroup.normalizer ((od.K ⊔ od.F : Subgroup G) : Set G)
     exact (le_inf hCnormK hCnormF).trans
-      (Subgroup.normalizer_inf_normalizer_le_normalizer_sup od.K od.F)
+      (Subgroup.inf_normalizer_le_normalizer_sup od.K od.F)
   have hHnormA : c.H ≤ Subgroup.normalizer (A : Set G) := by
     rw [← hUCeqH]
     exact sup_le hUnormA hCnormA

@@ -18,15 +18,15 @@ section Vocabulary
 
 variable {G : Type*} [Group G]
 
-@[expose] abbrev O (H : Subgroup G) : Subgroup G := (CFSG.oddCore H).map H.subtype
+abbrev O (H : Subgroup G) : Subgroup G := (CFSG.oddCore H).map H.subtype
 
-@[expose] abbrev O2 (H : Subgroup G) : Subgroup G := CFSG.GorensteinWalter.twoResidualOf H
+abbrev O2 (H : Subgroup G) : Subgroup G := CFSG.GorensteinWalter.twoResidualOf H
 
-@[expose] abbrev Bar (H : Subgroup G) : Type _ := H ⧸ CFSG.oddCore H
+abbrev Bar (H : Subgroup G) : Type _ := H ⧸ CFSG.oddCore H
 
 @[expose] def bar (H K : Subgroup G) : Subgroup (Bar H) := (K.subgroupOf H).map (QuotientGroup.mk' _)
 
-@[expose] abbrev C (a : G) : Subgroup G := centralizer ({a} : Set G)
+abbrev C (a : G) : Subgroup G := centralizer ({a} : Set G)
 
 @[expose] def IsIsolatedIn (H : Subgroup G) (t : G) : Prop :=
   t ∈ H ∧ orderOf t = 2 ∧ ∀ h ∈ H, Commute (h * t * h⁻¹) t → h * t * h⁻¹ = t

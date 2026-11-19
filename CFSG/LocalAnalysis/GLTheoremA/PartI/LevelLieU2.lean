@@ -39,7 +39,7 @@ theorem sum_blk (d : Fin 5 → F4) (c : F4) (f : Fin 5 → F4) (hf : ∀ k, d k 
   exact hx (hf x h)
 
 theorem blkM_mul (d : Fin 5 → F4) (c : F4) {M N : Matrix (Fin 5) (Fin 5) F4}
-    (hM : ∀ i j, d i ≠ d j → M i j = 0) (hN : ∀ i j, d i ≠ d j → N i j = 0) :
+    (hM : ∀ i j, d i ≠ d j → M i j = 0) (_hN : ∀ i j, d i ≠ d j → N i j = 0) :
     blkM d c (M * N) = blkM d c M * blkM d c N := by
   ext i j
   simp only [blkM, Matrix.mul_apply]
@@ -74,7 +74,7 @@ theorem eq_one_of_subsingleton {ι : Type} [Fintype ι] [DecidableEq ι] [Subsin
   rw [Subsingleton.elim i j, Units.val_one, Matrix.one_apply_eq]
   rcases isEmpty_or_nonempty ι with hι | ⟨⟨a⟩⟩
   · exact isEmptyElim j
-  · haveI : Unique ι := uniqueOfSubsingleton a
+  · have : Unique ι := uniqueOfSubsingleton a
     rw [Matrix.det_unique] at h
     rw [Subsingleton.elim j default]
     simpa using h
@@ -107,12 +107,12 @@ theorem reindexGL_val {ι κ : Type} [Fintype ι] [DecidableEq ι] [Fintype κ] 
 theorem isSolvable_statedSU_le_three (k : ℕ) (hk : k ≤ 3) :
     Group.IsSolvable ↥(StatedSU k (2 ^ 1) F4) := by
   interval_cases k
-  · haveI : Subsingleton ↥(StatedSU 0 (2 ^ 1) F4) :=
+  · have : Subsingleton ↥(StatedSU 0 (2 ^ 1) F4) :=
       ⟨fun a b => Subtype.ext (by
         rw [eq_one_of_subsingleton (a : GL (Fin 0) F4) (Matrix.det_isEmpty),
           eq_one_of_subsingleton (b : GL (Fin 0) F4) (Matrix.det_isEmpty)])⟩
     infer_instance
-  · haveI : Subsingleton ↥(StatedSU 1 (2 ^ 1) F4) :=
+  · have : Subsingleton ↥(StatedSU 1 (2 ^ 1) F4) :=
       ⟨fun a b => Subtype.ext (by
         rw [eq_one_of_subsingleton (a : GL (Fin 1) F4) (det_one_of_mem_statedSU le_rfl _ a.2),
           eq_one_of_subsingleton (b : GL (Fin 1) F4) (det_one_of_mem_statedSU le_rfl _ b.2)])⟩
@@ -193,7 +193,7 @@ theorem reindex_unitary {ι κ : Type} [Fintype ι] [DecidableEq ι] [Fintype κ
   rw [show (∑ x, bar (M (e.symm x) (e.symm a)) * M (e.symm x) (e.symm b)) =
     ∑ x, bar (M x (e.symm a)) * M x (e.symm b) from
       Equiv.sum_comp e.symm (fun x => bar (M x (e.symm a)) * M x (e.symm b)), hab]
-  simp [Equiv.apply_eq_iff_eq]
+  simp
 
 noncomputable def blkHom {g : M5} {d : Fin 5 → F4} (hg : mM5 g = Matrix.diagonal d) (c : F4) :
     ↥(Subgroup.centralizer {g}) →* GL (Blk d c) F4 :=
@@ -225,8 +225,8 @@ theorem blkPi_injective {g : M5} {d : Fin 5 → F4} (hg : mM5 g = Matrix.diagona
   simpa [mM5] using hM
 
 noncomputable def detHom {g : M5} {d : Fin 5 → F4} (hg : mM5 g = Matrix.diagonal d) :
-    ↥(Subgroup.centralizer {g}) →* ∀ c : F4, (F4)ˣ :=
-  MonoidHom.pi (fun c => Matrix.GeneralLinearGroup.det.comp (blkHom hg c))
+    ↥(Subgroup.centralizer {g}) →* ∀ _c : F4, (F4)ˣ :=
+  MonoidHom.pi (fun _c => Matrix.GeneralLinearGroup.det.comp (blkHom hg _c))
 
 theorem isSolvable_Ucat (d : Fin 5 → F4) (c : F4) (hc : Fintype.card (Blk d c) ≤ 3) :
     Group.IsSolvable ↥(Ucat d c) := by
@@ -237,7 +237,7 @@ theorem isSolvable_Ucat (d : Fin 5 → F4) (c : F4) (hc : Fintype.card (Blk d c)
     intro x y hxy
     apply Subtype.ext
     exact reindexGL_injective _ (congrArg Subtype.val hxy)
-  haveI := isSolvable_statedSU_le_three _ hc
+  have := isSolvable_statedSU_le_three _ hc
   exact Group.isSolvable_of_isSolvable_injective hinj
 
 theorem blkHom_mem_Ucat {g : M5} {d : Fin 5 → F4} (hg : mM5 g = Matrix.diagonal d) (c : F4)
@@ -263,7 +263,7 @@ theorem centralizer_diag_solvable (g : M5) (d : Fin 5 → F4) (hg : mM5 g = Matr
     exact hcnt c
   let K := (detHom hg).ker
   have hU : ∀ c : F4, Group.IsSolvable ↥(Ucat d c) := fun c => isSolvable_Ucat d c (hcard c)
-  haveI : Group.IsSolvable (∀ c : F4, ↥(Ucat d c)) :=
+  have : Group.IsSolvable (∀ c : F4, ↥(Ucat d c)) :=
     CFSG.SignalizerFunctorTheorem.McBride.Near.Thm210.isSolvable_pi_of_finite
   let F : ↥K →* ∀ c : F4, ↥(Ucat d c) := MonoidHom.pi fun c =>
     ((blkHom hg c).comp K.subtype).codRestrict (Ucat d c) (fun y => by
@@ -281,9 +281,9 @@ theorem centralizer_diag_solvable (g : M5) (d : Fin 5 → F4) (hg : mM5 g = Matr
     apply Subtype.ext
     apply blkPi_injective hg
     funext c
-    simp only [MonoidHom.pi_apply, map_one, Pi.one_apply]
+    simp only [MonoidHom.pi_apply]
     rw [h2 c, Subgroup.coe_one, map_one]
-  haveI : Group.IsSolvable ↥K := Group.isSolvable_of_isSolvable_injective hF
+  have : Group.IsSolvable ↥K := Group.isSolvable_of_isSolvable_injective hF
   exact Group.isSolvable_of_ker_le_range K.subtype (detHom hg) (by rw [Subgroup.range_subtype])
 
 end CFSG.LocalAnalysis.GLTheoremA.LevelLieU

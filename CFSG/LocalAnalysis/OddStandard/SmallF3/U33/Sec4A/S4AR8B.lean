@@ -19,10 +19,12 @@ theorem n4_rho_mem_N (h : L41GPh1 t L S x₁ x₂ lam rho) : rho ∈ l41N t x₁
 theorem n4_rho_inv_mem_N (h : L41GPh1 t L S x₁ x₂ lam rho) : rho⁻¹ ∈ l41N t x₁ x₂ :=
   Subgroup.inv_mem _ (n4_rho_mem_N h)
 
+omit [Finite G] in
 theorem mem_map_conj {g x : G} {E : Subgroup G} :
     x ∈ E.map (MulAut.conj g).toMonoidHom ↔ ∃ e ∈ E, g * e * g⁻¹ = x := by
   simp only [Subgroup.mem_map, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
 
+omit [Finite G] in
 theorem comm_conj_left (g e w : G) : ⁅g * e * g⁻¹, w⁆ = g * ⁅e, g⁻¹ * w * g⁻¹⁻¹⁆ * g⁻¹ := by
   simp only [commutatorElement_def]
   group
@@ -73,7 +75,7 @@ theorem n4_O_eq_join (h : L41GPh3 t L S x₁ x₂ lam rho) {E : Subgroup G}
     (hEO : E ≤ l41O2 t x₁ x₂) (hEW : ¬ E ≤ ctxW t x₁ x₂) :
     ctxW t x₁ x₂ ⊔ E ⊔ E.map (MulAut.conj rho).toMonoidHom = l41O2 t x₁ x₂ := by
   have hρN : rho ∈ l41N t x₁ x₂ := n4_rho_mem_N h.toL41GPh1
-  obtain ⟨e₀, he₀E, he₀W⟩ := SetLike.not_le_iff_exists.mp hEW
+  obtain ⟨e₀, he₀E, he₀W⟩ := IsConcreteLE.not_le_iff_exists.mp hEW
   refine n4_gen_O h (q := e₀) (le_sup_left.trans le_sup_left) ?_
     (Subgroup.mem_sup_left (Subgroup.mem_sup_right he₀E)) he₀W
     (Subgroup.mem_sup_right (mem_map_conj.mpr ⟨e₀, he₀E, rfl⟩))
@@ -116,7 +118,7 @@ private theorem mem_modCent {N F : Subgroup G} {hF : ∀ n ∈ N, ∀ f ∈ F, n
 private def sqSub (O F : Subgroup G) (hF : ∀ n ∈ O, ∀ f ∈ F, n * f * n⁻¹ ∈ F)
     (hab : ∀ a ∈ O, ∀ b ∈ O, ⁅a, b⁆ ∈ F) : Subgroup G where
   carrier := {q | q ∈ O ∧ q * q ∈ F}
-  one_mem' := ⟨O.one_mem, by simpa using F.one_mem⟩
+  one_mem' := ⟨O.one_mem, by simp⟩
   mul_mem' := by
     rintro a b ⟨haO, ha⟩ ⟨hbO, hb⟩
     refine ⟨O.mul_mem haO hbO, ?_⟩
@@ -150,7 +152,7 @@ theorem n4_O_norm_F (h : L41GPh3 t L S x₁ x₂ lam rho) :
 theorem n4_O_cent_W (h : L41GPh6 t L S x₁ x₂ lam rho) {q : G} (hq : q ∈ l41O2 t x₁ x₂)
     {w : G} (hw : w ∈ ctxW t x₁ x₂) : ⁅q, w⁆ ∈ fourGrp x₁ x₂ := by
   obtain ⟨E, hEO, -, -, -, -, hEW, -, hEc⟩ := h.e8
-  haveI : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
+  have : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
   have hF : ∀ n ∈ l41N t x₁ x₂, ∀ f ∈ fourGrp x₁ x₂, n * f * n⁻¹ ∈ fourGrp x₁ x₂ :=
     (n4_normal_F2 h.toL41GPh3).2
   have hρN : rho ∈ l41N t x₁ x₂ := n4_rho_mem_N h.toL41GPh1

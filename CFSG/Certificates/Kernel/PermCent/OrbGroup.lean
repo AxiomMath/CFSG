@@ -62,7 +62,7 @@ theorem conjOrb_reps (hn : n < 2 ^ 32) {ng N r : Nat} {G GI T E D S : Nat → Na
     {ps : List Nat} {g : Nat → Equiv.Perm (Fin n)} {t : Equiv.Perm (Fin n)}
     (hh : headK n w ng G GI = true) (hg : ∀ k < ng, PRep n w (G k) (g k))
     (hcl : ∀ i < N, closPt n w ng N G GI T E i = true)
-    (htr : ∀ i < N, treePt ng N r E D i = true) (hr : r < N) (ht : PRep n w (T r) t)
+    (htr : ∀ i < N, treePt ng N r E D i = true) (_hr : r < N) (ht : PRep n w (T r) t)
     (hps : ∀ p ∈ ps, p < n) (hK : distinctK N (fun i => pkeyK n w ps (T i)) S = true) :
     ∃ c : Nat → Equiv.Perm (Fin n), (∀ i < N, PRep n w (T i) (c i)) ∧
       (∀ i < N, ∃ h ∈ closure (g '' {k | k < ng}), c i = h * t * h⁻¹) ∧
@@ -86,7 +86,7 @@ theorem conjOrb_reps (hn : n < 2 ^ 32) {ng N r : Nat} {G GI T E D S : Nat → Na
   have hc : ∀ i < N, PRep n w (T i) (c i) := fun i hi => by
     obtain ⟨σ, hσ, -⟩ := hreach i hi
     have hx : ∃ σ, PRep n w (T i) σ := ⟨σ, hσ⟩
-    simp only [c, dif_pos hx]
+    simp only [c, dite_eq_left hx]
     exact hx.choose_spec
   refine ⟨c, hc, fun i hi => ?_, fun i hi k hk => ?_, fun i hi j hj e => ?_⟩
   · obtain ⟨σ, hσ, h, hm, e⟩ := hreach i hi
@@ -122,7 +122,7 @@ theorem leftOrb_reps (hn : n < 2 ^ 32) {ng N : Nat} {G T E D S : Nat → Nat} {p
   have hc : ∀ i < N, PRep n w (T i) (c i) := fun i hi => by
     obtain ⟨σ, hσ, -⟩ := hreach i hi
     have hx : ∃ σ, PRep n w (T i) σ := ⟨σ, hσ⟩
-    simp only [c, dif_pos hx]
+    simp only [c, dite_eq_left hx]
     exact hx.choose_spec
   refine ⟨c, prep_eq (hc 0 hN) h0, hc, fun i hi => ?_, fun i hi k hk => ?_,
     fun i hi j hj e => ?_⟩
@@ -140,6 +140,7 @@ section Group
 
 variable {X : Type*} [Group X] [Finite X]
 
+omit [Group X] in
 theorem surj_of_mapsTo {T : Set X} (f : X → X) (hf : Function.Injective f)
     (hm : ∀ y ∈ T, f y ∈ T) : ∀ y ∈ T, ∃ z ∈ T, f z = y := by
   intro y hy
@@ -148,6 +149,7 @@ theorem surj_of_mapsTo {T : Set X} (f : X → X) (hf : Function.Injective f)
   obtain ⟨z, hz⟩ := (Finite.injective_iff_surjective.1 hF) ⟨y, hy⟩
   exact ⟨z, z.2, congrArg Subtype.val hz⟩
 
+omit [Finite X] in
 theorem mem_map_closure (φ : X →* Equiv.Perm (Fin n)) {ng : Nat} (gx : Nat → X)
     {h : Equiv.Perm (Fin n)} (hm : h ∈ closure ((fun k => φ (gx k)) '' {k | k < ng})) :
     ∃ x ∈ closure (gx '' {k | k < ng}), φ x = h := by
@@ -157,6 +159,7 @@ theorem mem_map_closure (φ : X →* Equiv.Perm (Fin n)) {ng : Nat} (gx : Nat �
   rw [e] at hm
   exact hm
 
+omit [Finite X] in
 theorem ncard_of_reps (φ : X →* Equiv.Perm (Fin n)) (hφ : Function.Injective φ) {N : Nat}
     (c : Nat → Equiv.Perm (Fin n)) (hpre : ∀ i < N, ∃ y, φ y = c i)
     (hinj : ∀ i < N, ∀ j < N, c i = c j → i = j) :

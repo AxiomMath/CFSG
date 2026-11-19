@@ -40,31 +40,35 @@ noncomputable def subZ (hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)) (Y : Subgrou
       rcases hc with rfl | rfl
       · change ((chiefModBotMulEquiv W).symm ((0 : ZMod 2) • x).toMul : G) ∈ Y
         rw [zero_smul]
-        simpa using Y.one_mem
+        simp
       · change ((chiefModBotMulEquiv W).symm ((1 : ZMod 2) • x).toMul : G) ∈ Y
         rw [one_smul]
         simpa using hx }
 
+omit [Finite G] in
 theorem mem_subZ_iff {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)} {Y : Subgroup G} {w : ↥W} :
     Additive.ofMul (chiefModBotMulEquiv W w) ∈ subZ (W := W) hE Y ↔ (w : G) ∈ Y := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   change ((chiefModBotMulEquiv W).symm
     (Additive.ofMul (chiefModBotMulEquiv W w)).toMul : G) ∈ Y ↔ (w : G) ∈ Y
   rw [show (Additive.ofMul (chiefModBotMulEquiv W w)).toMul =
     chiefModBotMulEquiv W w from rfl, MulEquiv.symm_apply_apply]
 
+omit [Finite G] in
 theorem mem_subZ_iff' {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)} {Y : Subgroup G} {g : G}
     (hg : g ∈ W) :
     Additive.ofMul (chiefModBotMulEquiv W ⟨g, hg⟩) ∈ subZ (W := W) hE Y ↔ g ∈ Y :=
   mem_subZ_iff
 
+omit [Finite G] in
 theorem subZ_mono {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)} {Y Z : Subgroup G} (h : Y ≤ Z) :
     subZ (W := W) hE Y ≤ subZ (W := W) hE Z :=
   fun _ hx => h hx
 
+omit [Finite G] in
 theorem subZ_le_iff {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)} {Y Z : Subgroup G}
-    (hYW : Y ≤ W) (hZW : Z ≤ W) :
+    (hYW : Y ≤ W) (_hZW : Z ≤ W) :
     subZ (W := W) hE Y ≤ subZ (W := W) hE Z ↔ Y ≤ Z := by
   constructor
   · intro h g hg
@@ -72,6 +76,7 @@ theorem subZ_le_iff {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)} {Y Z : Subgroup
     exact (mem_subZ_iff' hgW).1 (h ((mem_subZ_iff' hgW).2 hg))
   · exact subZ_mono
 
+omit [Finite G] in
 theorem subZ_inj {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)} {Y Z : Subgroup G}
     (hYW : Y ≤ W) (hZW : Z ≤ W) :
     subZ (W := W) hE Y = subZ (W := W) hE Z ↔ Y = Z := by
@@ -81,10 +86,11 @@ theorem subZ_inj {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)} {Y Z : Subgroup G}
       ((subZ_le_iff hZW hYW).1 (le_of_eq h.symm))
   · rintro rfl; rfl
 
+omit [Finite G] in
 theorem subZ_bot {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)} :
     subZ (W := W) hE (⊥ : Subgroup G) = ⊥ := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   rw [Submodule.eq_bot_iff]
   intro x hx
   have h1 : ((chiefModBotMulEquiv W).symm x.toMul : G) = 1 := Subgroup.mem_bot.mp hx
@@ -96,10 +102,11 @@ theorem subZ_bot {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)} :
   rw [← hx', h2, map_one]
   rfl
 
+omit [Finite G] in
 theorem subZ_top {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)} :
     subZ (W := W) hE W = ⊤ := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   ext x
   constructor
   · intro _; exact Submodule.mem_top
@@ -145,11 +152,12 @@ noncomputable def subZPre (hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W))
       rw [show (⟨a⁻¹, W.inv_mem haW⟩ : ↥W) = ⟨a, haW⟩ from Subtype.ext hinv]
       exact ha }
 
+omit [Finite G] in
 theorem subZPre_subZ {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)} {Y : Subgroup G}
     (hW : IsElemAbelian 2 W) (hYW : Y ≤ W) :
     subZPre (W := W) hE hW (subZ (W := W) hE Y) = Y := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   ext g
   constructor
   · rintro ⟨hgW, hg⟩
@@ -157,11 +165,12 @@ theorem subZPre_subZ {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)} {Y : Subgroup 
   · intro hg
     exact ⟨hYW hg, (mem_subZ_iff' (hYW hg)).2 hg⟩
 
+omit [Finite G] in
 theorem subZ_subZPre {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)}
     (hW : IsElemAbelian 2 W) (U : ChiefSubmodule (W := W) hE) :
     subZ (W := W) hE (subZPre (W := W) hE hW U) = U := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   ext x
   set w : ↥W := (chiefModBotMulEquiv W).symm x.toMul with hw
   have hxw : Additive.ofMul (chiefModBotMulEquiv W w) = x := by
@@ -179,6 +188,7 @@ theorem subZ_subZPre {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)}
       exact ⟨w.2, by rwa [show (⟨(w : G), w.2⟩ : ↥W) = w from Subtype.ext rfl]⟩
   simpa [hxw] using hiff
 
+omit [Finite G] in
 theorem subZPre_mono {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)}
     (hW : IsElemAbelian 2 W)
     {U V : ChiefSubmodule (W := W) hE} (h : U ≤ V) :
@@ -188,6 +198,7 @@ theorem subZPre_mono {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)}
 
 variable {H : Subgroup G} {X : Type} [Group X]
 
+omit [Finite G] in
 theorem sectionRep_mem_subZ {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)}
     (hHW : H ≤ Subgroup.normalizer (W : Set G))
     (hO : pCoreOf 2 H ≤ centralizerMod (⊥ : Subgroup G) H W)
@@ -196,8 +207,8 @@ theorem sectionRep_mem_subZ {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)}
     {x : Additive (Ch3z.chiefMod ⊥ W)} (hx : x ∈ subZ (W := W) hE Y) :
     sectionRep (D14.le_normalizer_bot H) hHW (D14.le_normalizer_bot W) hE hO e g x ∈
       subZ (W := W) hE Y := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   set w : ↥W := (chiefModBotMulEquiv W).symm x.toMul with hw
   have hxw : Additive.ofMul (chiefModBotMulEquiv W w) = x := by
     apply Additive.ext
@@ -222,6 +233,7 @@ theorem sectionRep_mem_subZ {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)}
   rw [hact, mem_subZ_iff]
   exact (Subgroup.mem_normalizer_iff.mp (hY h.2) (w : G)).mp hwY
 
+omit [Finite G] in
 theorem sectionRep_subZPre_mem {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)}
     (hHW : H ≤ Subgroup.normalizer (W : Set G))
     (hO : pCoreOf 2 H ≤ centralizerMod (⊥ : Subgroup G) H W)
@@ -231,8 +243,8 @@ theorem sectionRep_subZPre_mem {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)}
       sectionRep (D14.le_normalizer_bot H) hHW (D14.le_normalizer_bot W) hE hO e g x ∈ U)
     {h : G} (hh : h ∈ H) {g : G} (hg : g ∈ subZPre (W := W) hE hW U) :
     h * g * h⁻¹ ∈ subZPre (W := W) hE hW U := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   obtain ⟨hgW, hgU⟩ := hg
   refine ⟨(Subgroup.mem_normalizer_iff.mp (hHW hh) g).mp hgW, ?_⟩
   have hstep := sectionRep_apply (H := H) (X := X) (L := ⊥) (N := W)
@@ -257,6 +269,7 @@ theorem sectionRep_subZPre_mem {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)}
   rw [himg] at hUx
   simpa using hUx
 
+omit [Finite G] in
 theorem sectionRep_sub_mem_subZ {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)}
     (hHW : H ≤ Subgroup.normalizer (W : Set G))
     (hO : pCoreOf 2 H ≤ centralizerMod (⊥ : Subgroup G) H W)
@@ -265,8 +278,8 @@ theorem sectionRep_sub_mem_subZ {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)}
     (g : X) (m : Additive (Ch3z.chiefMod ⊥ W)) :
     sectionRep (D14.le_normalizer_bot H) hHW (D14.le_normalizer_bot W) hE hO e g m - m ∈
       subZ (W := W) hE Y := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   set w : ↥W := (chiefModBotMulEquiv W).symm m.toMul with hw
   have hmw : Additive.ofMul (chiefModBotMulEquiv W w) = m := by
     apply Additive.ext
@@ -310,10 +323,11 @@ theorem sectionRep_sub_mem_subZ {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)}
   rw [hdiff]
   exact (mem_subZ_iff).2 hmem
 
+omit [Finite G] in
 theorem natCard_subZ {hE : IsElemAbelian 2 (Ch3z.chiefMod ⊥ W)} {Y : Subgroup G}
     (hYW : Y ≤ W) : Nat.card (subZ (W := W) hE Y) = Nat.card ↥Y := by
-  letI : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod ⊥ W) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod ⊥ W)) := l2ChiefSectionModule hE
   refine Nat.card_congr ?_
   refine
     { toFun := fun x => ⟨(chiefModBotMulEquiv W).symm x.1.toMul, x.2⟩

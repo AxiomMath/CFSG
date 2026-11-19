@@ -75,14 +75,14 @@ theorem wreathMod_of_dichotomy {Γ : Type} [Group Γ] [Finite Γ] (H : Subgroup 
     (hN₁ : Nonempty (↥N₁ ≃* alternatingGroup (Fin 6)))
     (hN₂ : Nonempty (↥N₂ ≃* alternatingGroup (Fin 6)))
     (hcomm : ∀ a ∈ N₁, ∀ b ∈ N₂, a * b = b * a) (hdisj : Disjoint N₁ N₂)
-    (hnorm : (N₁ ⊔ N₂).Normal) (hidx : (N₁ ⊔ N₂).index = 2)
+    (_hnorm : (N₁ ⊔ N₂).Normal) (hidx : (N₁ ⊔ N₂).index = 2)
     (hnot : (QuotientGroup.mk (⟨u, hu⟩ : ↥H) : ↥H ⧸ fusionOddCore ↥H) ∉ N₁ ⊔ N₂)
     (hconj : N₁.map (MulAut.conj
       (QuotientGroup.mk (⟨u, hu⟩ : ↥H) : ↥H ⧸ fusionOddCore ↥H)).toMonoidHom = N₂) :
     ∃ M1 M2 : Subgroup Γ, WreathMod H ((fusionOddCore ↥H).map H.subtype) M1 M2 u := by
   classical
   let O : Subgroup ↥H := fusionOddCore ↥H
-  haveI hOnorm : O.Normal := fusionOddCore_normal ↥H
+  have hOnorm : O.Normal := fusionOddCore_normal ↥H
   let π : ↥H →* (↥H ⧸ O) := QuotientGroup.mk' O
   let q : ↥H ⧸ O := QuotientGroup.mk (⟨u, hu⟩ : ↥H)
   let c1 : Subgroup ↥H := N₁.comap π

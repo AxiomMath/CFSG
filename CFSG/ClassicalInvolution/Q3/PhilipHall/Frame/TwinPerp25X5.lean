@@ -77,7 +77,7 @@ theorem mem_trivialOnQuot_of_mem_A (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) 
   have hs : Hyp23Setting Ω K K' z := hyp.std.setting
   have hΩ : HypOmegaMod Ω := hs.stand.hyp
   have hcpg : IsPGroup 2 (Subgroup.zpowers a) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr ha.1)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr ha.1)
   have hcent := Subgroup.mem_centralizer_iff.mp ha.2
   refine ⟨?_, ?_⟩
   · refine (Q3.PhilipHall.Frame.TwinLayer.mem_trivialOnQuot_iff_exists_sylow hΩ hyp.std.1.quot2 hcpg
@@ -106,7 +106,7 @@ theorem mem_trivialOnQuot_of_good (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) (
   have hzE : z ∈ E := Subgroup.mem_sup_right (Subgroup.mem_zpowers z)
   have hEA : E ≤ cA S R R' :=
     sup_le (Subgroup.zpowers_le.mpr heA) (Subgroup.zpowers_le.mpr hzA)
-  have hE2 : IsPGroup 2 E := S.isPGroup'.to_le (hEA.trans inf_le_left)
+  have hE2 : IsPGroup 2 E := S.isPGroup.to_le (hEA.trans inf_le_left)
   have hEb : E ≤ Subgroup.centralizer ({b} : Set G) :=
     sup_le (Subgroup.zpowers_le.mpr heb) (Subgroup.zpowers_le.mpr
       (Subgroup.mem_centralizer_singleton_iff.mpr (hzS b hbA.1).symm))

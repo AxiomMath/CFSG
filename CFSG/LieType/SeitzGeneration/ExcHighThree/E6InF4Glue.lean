@@ -83,7 +83,7 @@ theorem not_dvd_three_index_e6FixedF4 (K : Type) [Field K] [Finite K] (hK : Nat.
 theorem exists_conj_into_e6F4_two (K : Type) [Field K] [Finite K] (hK : Nat.card K % 3 = 2)
     {E₀ : Subgroup (adjointGroup .E6 K)} (hexp : ∀ x ∈ E₀, x ^ 3 = 1) :
     ∃ g : adjointGroup .E6 K, ∀ x ∈ E₀, g * x * g⁻¹ ∈ (e6F4Embed K).range := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 E₀ := fun x => ⟨1, by
     rw [pow_one]
     apply Subtype.ext
@@ -150,7 +150,7 @@ theorem e6HighInF4_two_of_inputs
             (e6F4Embed K).range) :
     E6HighInF4 2 :=
   e6HighInF4_of_inputs
-    (fun K _ _ hK E₀ hexp _ _ => exists_conj_into_e6F4_two K hK hexp) hMax hOut
+    (fun K _ _ hK _E₀ hexp _ _ => exists_conj_into_e6F4_two K hK hexp) hMax hOut
 
 end Glue
 

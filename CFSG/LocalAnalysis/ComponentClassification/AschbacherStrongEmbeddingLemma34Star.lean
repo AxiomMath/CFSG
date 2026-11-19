@@ -61,8 +61,8 @@ theorem Hyp.centralizer_le_of_involution (h : Hyp S A₁ A₂) (h12 : ¬ A₁ �
     {a : G} (ha : a ∈ (A₁ : Set G) ∪ A₂) (ha2 : orderOf a = 2) :
     Subgroup.centralizer ({a} : Set G) ≤ overlapClosure A₁ A₂ := by
   have hSH := h.sylow_le_overlapClosure h12 h21
-  have hp₁ : IsPGroup 2 A₁ := S.isPGroup'.to_le h.le_one
-  have hp₂ : IsPGroup 2 A₂ := S.isPGroup'.to_le h.le_two
+  have hp₁ : IsPGroup 2 A₁ := S.isPGroup.to_le h.le_one
+  have hp₂ : IsPGroup 2 A₂ := S.isPGroup.to_le h.le_two
   obtain ⟨X, hXU, hXS, hXcard⟩ : ∃ X : Subgroup G, (X : Set G) ⊆ (A₁ : Set G) ∪ A₂ ∧
       X ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ({a} : Set G) ∧ 4 ≤ Nat.card X := by
     rcases ha with ha | ha

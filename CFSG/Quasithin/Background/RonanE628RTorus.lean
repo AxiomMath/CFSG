@@ -52,7 +52,7 @@ theorem alphaBetaNonempty_of_isUniqueM_R (hBT : UniqueMBorelTorusR) {T M V : Sub
   refine alphaBetaNonempty_of_torus h hc (Y := Y) (B := Y) le_rfl ?_ hYc (by rw [hYcard, hV2]) ?_ ?_ ?_
   · exact le_inf (hYK.trans hKM) hYN
   · intro a ha b hb
-    letI : CommGroup ↥Y := IsCyclic.commGroup
+    let : CommGroup ↥Y := IsCyclic.commGroup
     have := (mul_comm (⟨a, ha⟩ : Y) ⟨b, hb⟩)
     exact congrArg Subtype.val this
   · exact Odd.of_dvd_nat hKodd (Subgroup.card_dvd_of_le hYK)

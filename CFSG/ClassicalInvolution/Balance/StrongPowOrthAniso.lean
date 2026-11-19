@@ -297,7 +297,7 @@ theorem orthGenAniso : OrthGenAniso := by
       (by omega) (by omega) fun v => ?_
     obtain ⟨f, hf, hv⟩ := hdecomp v
     exact ⟨f true true, hf _ _, f true false, hf _ _, f false true, hf _ _, f false false,
-      hf _ _, by rw [hv]; try abel⟩
+      hf _ _, by rw [hv]⟩
   by_cases c3 : Module.finrank F (Jp (false, true)) < 2
   · refine pivot (false, true) (true, true) (true, false) (false, false) (by decide)
       (by decide) (by decide) (by decide) (by decide) (by decide) (by omega) (by omega)

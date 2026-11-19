@@ -193,7 +193,7 @@ theorem exists_isPGroup_three_not_isCyclic_of_mulEquiv_alternatingGroup {X : Typ
   obtain ⟨P, hP, hPnc⟩ := exists_isPGroup_three_not_isCyclic_alternatingGroup hn
   refine ⟨P.map e.symm.toMonoidHom, IsPGroup.map hP e.symm.toMonoidHom, ?_⟩
   intro hcyc
-  haveI : IsCyclic ↥(P.map e.symm.toMonoidHom) := hcyc
+  have : IsCyclic ↥(P.map e.symm.toMonoidHom) := hcyc
   exact hPnc (isCyclic_of_injective
     (Subgroup.equivMapOfInjective P e.symm.toMonoidHom e.symm.injective).toMonoidHom
     (Subgroup.equivMapOfInjective P e.symm.toMonoidHom e.symm.injective).injective)
@@ -204,7 +204,7 @@ theorem false_of_isSimpleGroup_of_mulEquiv_alternatingGroup_of_le_four
     (e : Y ≃* alternatingGroup (Fin m)) : False := by
   have hperm : Group.IsSolvable (Equiv.Perm (Fin m)) :=
     Equiv.Perm.isSolvable (α := Fin m) (by simpa using hm)
-  haveI : Group.IsSolvable (alternatingGroup (Fin m)) :=
+  have : Group.IsSolvable (alternatingGroup (Fin m)) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (alternatingGroup (Fin m)).subtype) (Subgroup.subtype_injective _)
   have hsol : Group.IsSolvable Y :=

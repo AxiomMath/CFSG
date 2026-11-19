@@ -199,7 +199,7 @@ theorem secD_conj_tv12 (c : L) :
   ext a b
   fin_cases a <;> fin_cases b <;>
     simp [Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply,
-      Matrix.single_apply, hinv, Matrix.diagonal_apply, Matrix.map_apply] <;>
+      Matrix.single_apply, hinv, Matrix.diagonal_apply, Matrix.map_apply];
     grind
 
 theorem secD_conj_tv02 (c : L) :
@@ -213,7 +213,7 @@ theorem secD_conj_tv02 (c : L) :
   ext a b
   fin_cases a <;> fin_cases b <;>
     simp [Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply,
-      Matrix.single_apply, hinv, Matrix.diagonal_apply, Matrix.map_apply] <;>
+      Matrix.single_apply, hinv, Matrix.diagonal_apply, Matrix.map_apply];
     grind
 
 theorem secD_conj_tv10 (c : L) :
@@ -227,7 +227,7 @@ theorem secD_conj_tv10 (c : L) :
   ext a b
   fin_cases a <;> fin_cases b <;>
     simp [Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply,
-      Matrix.single_apply, hinv, Matrix.diagonal_apply, Matrix.map_apply] <;>
+      Matrix.single_apply, hinv, Matrix.diagonal_apply, Matrix.map_apply];
     grind
 
 theorem secD_conj_tv21 (c : L) :
@@ -255,7 +255,7 @@ theorem secD_conj_tv20 (c : L) :
   ext a b
   fin_cases a <;> fin_cases b <;>
     simp [Matrix.transvection, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply,
-      Matrix.single_apply, hinv, Matrix.diagonal_apply, Matrix.map_apply] <;>
+      Matrix.single_apply, hinv, Matrix.diagonal_apply, Matrix.map_apply];
     grind
 
 end Partners
@@ -273,7 +273,7 @@ theorem secD_conj_dgGL (μ : Lˣ) (Fr : L →+* L) (a : Fin TwistTag.D4.tag.rank
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [secTorD, frTuple, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply,
-      Matrix.map_apply, hs, hu, hμ0] <;>
+      Matrix.map_apply, hs, hu, hμ0];
     field_simp
 
 theorem secGraph_twistHom [IsAlgClosed L] {μ : Lˣ} (hμ : (μ : L) ^ 2 + μ + 1 = 0)

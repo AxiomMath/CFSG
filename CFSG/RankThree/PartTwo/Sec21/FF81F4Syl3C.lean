@@ -37,7 +37,7 @@ theorem elemAb_comm {G : Type} [Group G] {p k : ℕ} {B : Subgroup G} (h : IsEle
 
 theorem elemAb_pow {G : Type} [Group G] {p k : ℕ} {B : Subgroup G} (h : IsElemAb p k B) :
     ∀ x ∈ B, x ^ p = 1 := by
-  haveI := h.1
+  have := h.1
   intro x hx
   exact CFSG.elemPow_eq_one_of_isElementaryAbelian x hx
 
@@ -46,7 +46,7 @@ theorem e81_P0 {B : Subgroup F42C} (hB : B ≤ P0)
   (Classical.choose_spec Certificates.certificate799602).2.2.2.1 B hB hBe
 
 theorem P0_sylow : IsSylowOf 3 P0 (⊤ : Subgroup F42C) := by
-  haveI : Finite F42C := finite_adjF
+  have : Finite F42C := finite_adjF
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine isSylowOf_of_card_p le_top ?_
   rw [card_P0, Subgroup.card_top, card_F42C, factorization_three_card]
@@ -78,7 +78,7 @@ theorem inv_comm_C :
 
 theorem order_three_cases {x : F42C} (hx : orderOf x = 3) :
     (∃ c, c * x * c⁻¹ = rAE) ∨ (∃ c, c * x * c⁻¹ = rBE) ∨ (∃ c, c * x * c⁻¹ = zE) := by
-  haveI : Finite F42C := finite_adjF
+  have : Finite F42C := finite_adjF
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx3 : x ^ 3 = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
   have hxp : IsPGroup 3 (Subgroup.zpowers x) :=

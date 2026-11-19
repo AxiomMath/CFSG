@@ -19,11 +19,11 @@ section PSolv
 
 theorem isPSolvable_of_isPGroup_three {X : Type} [Group X] [Finite X] (h : IsPGroup 3 X) :
     CFSG.HallHigman.IsPSolvable 3 X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro H _ T _ hs
   left
   have hQ : IsPGroup 3 (↥H ⧸ T) := ((h.to_subgroup H).to_quotient T)
-  haveI := hs
+  have := hs
   have hnt : Nontrivial (↥H ⧸ T) := IsSimpleGroup.toNontrivial
   have hcen : center (↥H ⧸ T) = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center (↥H ⧸ T)) with hb | ht
@@ -31,7 +31,7 @@ theorem isPSolvable_of_isPGroup_three {X : Type} [Group X] [Finite X] (h : IsPGr
     · exact ht
   have hcomm : ∀ a b : ↥H ⧸ T, a * b = b * a := fun a b =>
     (mem_center_iff.mp (hcen ▸ mem_top b) a)
-  haveI : IsMulCommutative (↥H ⧸ T) := ⟨⟨hcomm⟩⟩
+  have : IsMulCommutative (↥H ⧸ T) := ⟨⟨hcomm⟩⟩
   have hprime : (Nat.card (↥H ⧸ T)).Prime := Group.is_simple_iff_prime_card.mp hs
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hQ
   rw [Subgroup.index_eq_card, hk]
@@ -53,14 +53,14 @@ theorem isPSolvable_of_coprime_three {X : Type} [Group X] [Finite X]
 theorem isPSolvable_of_hom {X Y : Type} [Group X] [Group Y] [Finite X] (f : X →* Y)
     (hker : CFSG.HallHigman.IsPSolvable 3 ↥f.ker)
     (him : CFSG.HallHigman.IsPSolvable 3 ↥f.range) : CFSG.HallHigman.IsPSolvable 3 X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact isPSolvable_of_normal f.ker hker
     (isPSolvable_of_mulEquiv (QuotientGroup.quotientKerEquivRange f).symm him)
 
 theorem isPSolvable_of_le_hom {X Y : Type} [Group X] [Group Y] [Finite X] (f : X →* Y)
     (H : Subgroup X) (hker : CFSG.HallHigman.IsPSolvable 3 ↥f.ker)
     (him : CFSG.HallHigman.IsPSolvable 3 ↥(H.map f)) : CFSG.HallHigman.IsPSolvable 3 ↥H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set g : ↥H →* Y := f.comp H.subtype with hg
   have hker' : g.ker = f.ker.subgroupOf H := by
     ext h
@@ -89,7 +89,7 @@ theorem isPSolvable_inf_centralizer (hS : Setting G) (hU0 : FullCoreLocal G)
     (hJ : IsA6Normal M x J) :
     CFSG.HallHigman.IsPSolvable 3 ↥(M ⊓ centralizer ({x} : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA1 : A6SylowData := a6SylowData_proved
   set C : Subgroup G := centralizer ({x} : Set G) with hCdef
   have hJC : J ≤ C := hJ.le_centralizer
@@ -141,11 +141,11 @@ theorem isPSolvable_inf_centralizer (hS : Setting G) (hU0 : FullCoreLocal G)
   set N : Subgroup (L34Quot x J) := normalizer (T : Set (L34Quot x J)) with hNdef
   have hNsolv : CFSG.HallHigman.IsPSolvable 3 ↥N := by
     have hTN : T ≤ N := Subgroup.le_normalizer
-    haveI hTn : (T.subgroupOf N).Normal :=
+    have hTn : (T.subgroupOf N).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hTN).mpr le_rfl
     refine isPSolvable_of_normal (T.subgroupOf N) ?_ ?_
     · refine isPSolvable_of_isPGroup_three ?_
-      have : IsPGroup 3 T := hST ▸ S.isPGroup'
+      have : IsPGroup 3 T := hST ▸ S.isPGroup
       exact this.comap_subtype
     · refine isPSolvable_of_coprime_three ?_
       rw [← Subgroup.index_eq_card]
@@ -201,7 +201,7 @@ theorem isPSolvable_centralizer_bar (hS : Setting G) (hU0 : FullCoreLocal G)
     CFSG.HallHigman.IsPSolvable 3 ↥(centralizer
       ({QuotientGroup.mk' ((GLBPrimeCore 3 M).subgroupOf M) (⟨x, hpd.x_memM⟩ : M)} :
         Set (M ⧸ (GLBPrimeCore 3 M).subgroupOf M))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set K : Subgroup ↥M := (GLBPrimeCore 3 M).subgroupOf M with hK
   set π := QuotientGroup.mk' K with hπ
   set xm : ↥M := ⟨x, hpd.x_memM⟩ with hxm

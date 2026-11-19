@@ -30,7 +30,7 @@ abbrev l43SL : Type := Matrix.SpecialLinearGroup (Fin 4) (ZMod 3)
 theorem det_of_unitri (A : l43Mat) (hlow : ∀ i j : Fin 4, j < i → A i j = 0)
     (hdiag : ∀ i : Fin 4, A i i = 1) : A.det = 1 := by
   rw [Matrix.det_of_isUpperTriangular]
-  · simp [Fin.prod_univ_four, hdiag]
+  · simp [hdiag]
   · intro i j hij
     exact hlow i j hij
 
@@ -76,10 +76,10 @@ theorem det_l43N (c : ZMod 3) : (l43N c).det = 1 :=
   det_of_unitri (l43N c) (l43N_unitri c) (l43N_diag c)
 
 theorem det_l43S : l43S.det = 1 := by
-  simp [l43S, Matrix.det_succ_row_zero, Fin.sum_univ_succ] <;> decide
+  simp [l43S, Matrix.det_succ_row_zero, Fin.sum_univ_succ]
 
 theorem det_l43Si : l43Si.det = 1 := by
-  simp [l43Si, Matrix.det_succ_row_zero, Fin.sum_univ_succ] <;> decide
+  simp [l43Si, Matrix.det_succ_row_zero, Fin.sum_univ_succ]
 
 @[expose] def l43RG01 : l43SL := ⟨l43G01, det_l43G01⟩
 
@@ -110,12 +110,11 @@ theorem l43RG23_mem : l43RG23 ∈ unitriangular 4 (ZMod 3) :=
 
 theorem l43Z_zero : l43Z 0 = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [l43Z, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [l43Z]
 
 theorem l43S_mul_Si : l43S * l43Si = 1 := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_four, l43S, l43Si,
-    Matrix.one_apply] <;> decide
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_four, l43S, l43Si]
 
 theorem l43S_mul_Z (c : ZMod 3) : l43S * l43Z c * l43Si = l43N c := by
   fin_cases c <;> ext i j <;> fin_cases i <;> fin_cases j <;>
@@ -127,7 +126,7 @@ theorem l43N_mul_Z (c : ZMod 3) : l43N c * l43Z c = l43Z c * l43N c := by
 
 theorem l43N_mul_Ninv (c : ZMod 3) : l43N c * l43N (-c) = 1 := by
   fin_cases c <;> ext i j <;> fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_four, l43N, Matrix.one_apply] <;> decide
+    simp [Matrix.mul_apply, Fin.sum_univ_four, l43N]
 
 theorem inv_l43NSL (c : ZMod 3) : (l43NSL c)⁻¹ = l43NSL (-c) := by
   apply inv_eq_of_mul_eq_one_right
@@ -146,11 +145,11 @@ theorem upper_of_comm_roots (A : l43Mat) (h01 : l43G01 * A = A * l43G01)
   have e6 := congrFun (congrFun h23 1) 3
   simp [Matrix.mul_apply, Fin.sum_univ_four, l43G01, l43G12, l43G23] at e1 e2 e3 e4 e5 e6
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
-  · first | linear_combination e3 | linear_combination -e3
-  · first | linear_combination e5 | linear_combination -e5
-  · first | linear_combination e6 | linear_combination -e6
-  · first | linear_combination e2 | linear_combination -e2
-  · first | linear_combination e4 | linear_combination -e4
+  · first | linear_combination e3
+  · first | linear_combination e5
+  · first | linear_combination e6
+  · first | linear_combination e2
+  · first | linear_combination e4
 
 theorem eq_l43Z_of (A : l43Mat) (h10 : A 1 0 = 0) (h20 : A 2 0 = 0) (h21 : A 2 1 = 0)
     (h30 : A 3 0 = 0) (h31 : A 3 1 = 0) (h32 : A 3 2 = 0)
@@ -164,7 +163,7 @@ theorem eq_l43Z_of (A : l43Mat) (h10 : A 1 0 = 0) (h20 : A 2 0 = 0) (h21 : A 2 1
 theorem scalar_entry_zero (X : l43SL) (hX : X ∈ scalars 4 (ZMod 3)) :
     (X : l43Mat) 0 2 = 0 := by
   rcases Item434RemL43.val_eq_one_or_neg_one_of_mem_scalars hX with h | h
-  · rw [h]; simp <;> decide
-  · rw [h]; simp <;> decide
+  · rw [h]; simp
+  · rw [h]; simp
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK432

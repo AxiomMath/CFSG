@@ -116,7 +116,7 @@ theorem sqrt3_not_mem_fixedSubfield : sqrt3 ∉ fixedSubfield := by
 
 theorem isSquare_fixedSubfield : ∀ x : fixedSubfield, IsSquare (x : K25) := by
   intro x
-  haveI : Fintype K25 := Fintype.ofFinite K25
+  have : Fintype K25 := Fintype.ofFinite K25
   by_cases hx0 : (x : K25) = 0
   · rw [hx0]
     exact ⟨0, by norm_num⟩

@@ -11,24 +11,29 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {n : ℕ}
 
-theorem Config.center_le_core (hC : Config z n) : centerAt z ≤ coreAt z :=
+omit [Finite G] in
+theorem Config.center_le_core (_hC : Config z n) : centerAt z ≤ coreAt z :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem Config.mem_core (hC : Config z n) : z ∈ coreAt z :=
   Config.center_le_core hC hC.mem_center
 
-theorem Config.core_le_centralizer (hC : Config z n) :
+omit [Finite G] in
+theorem Config.core_le_centralizer (_hC : Config z n) :
     coreAt z ≤ centralizer ({z} : Set G) :=
   Subgroup.map_subtype_le _
 
-theorem Config.conj_mem_core (hC : Config z n) {h : G} (hh : h ∈ centralizer ({z} : Set G))
+omit [Finite G] in
+theorem Config.conj_mem_core (_hC : Config z n) {h : G} (hh : h ∈ centralizer ({z} : Set G))
     {q : G} (hq : q ∈ coreAt z) : h * q * h⁻¹ ∈ coreAt z := by
   obtain ⟨q', hq', rfl⟩ := Subgroup.mem_map.mp hq
   exact Subgroup.mem_map.mpr
     ⟨(⟨h, hh⟩ : ↥(centralizer ({z} : Set G))) * q' * (⟨h, hh⟩ : ↥(centralizer ({z} : Set G)))⁻¹,
       Subgroup.Normal.conj_mem inferInstance q' hq' _, by simp⟩
 
-theorem Config.core_le_centralizer_center (hC : Config z n) :
+omit [Finite G] in
+theorem Config.core_le_centralizer_center (_hC : Config z n) :
     coreAt z ≤ centralizer (centerAt z : Set G) := by
   intro q hq
   rw [Subgroup.mem_centralizer_iff]
@@ -57,9 +62,10 @@ theorem Config.eq_sq_of_orderOf_eq_two {k : G} (hZk : centerAt z = zpowers k)
   · rw [orderOf_pow' (x := k) (n := 3) (by norm_num), hk4] at hx2
     norm_num at hx2
 
+omit [Finite G] in
 theorem Config.exists_gen_aux (hC : Config z n) :
     ∃ k : G, centerAt z = zpowers k ∧ orderOf k = 4 := by
-  haveI := hC.center_cyclic
+  have := hC.center_cyclic
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥(centerAt z))
   have hk : (g : G) ∈ centerAt z := g.2
   refine ⟨(g : G), ?_, ?_⟩

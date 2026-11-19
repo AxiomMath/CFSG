@@ -63,6 +63,7 @@ namespace SpEngine
 variable {F V : Type*} [Field F] [AddCommGroup V] [Module F V] [FiniteDimensional F V]
 variable (A : Subgroup (V ≃ₗ[F] V)) [Fintype A] {p : ℕ}
 
+omit [FiniteDimensional F V] in
 theorem fixedByEnd_blockEnd_eq_ker (hp : p.Prime) (hpF : (p : F) ≠ 0)
     (hA : IsElemAbelian p A) (t : Hyperplane A p → ↥A) (ht : ∀ D, t D ∉ D.1)
     (D : Hyperplane A p) :
@@ -137,6 +138,7 @@ theorem six_le_finrank_orthogonal_blockSpace {B : LinearMap.BilinForm F V} (hp :
   rw [orthogonal_blockSpace_eq_ker A hp hpF hA hB hBn D, ← hker]
   omega
 
+omit [FiniteDimensional F V] in
 theorem finrank_blockSpace_sup_le [FiniteDimensional F V] (hp : p.Prime)
     (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A) {D E G : Hyperplane A p}
     (hDE : D ≠ E) (hDG : D ≠ G) (hEG : E ≠ G) :
@@ -173,7 +175,7 @@ theorem finrank_blockSpace_sup_le [FiniteDimensional F V] (hp : p.Prime)
   omega
 
 theorem four_le_finrank_orthogonal_sup_blockSpace {B : LinearMap.BilinForm F V}
-    (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A) (hB : InvariantBilin A B)
+    (hp : p.Prime) (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A) (_hB : InvariantBilin A B)
     (hBn : B.Nondegenerate) {D E G : Hyperplane A p}
     (hDE : D ≠ E) (hDG : D ≠ G) (hEG : E ≠ G)
     (hDE' : Module.finrank F ↥(blockSpace A D.1) ≤

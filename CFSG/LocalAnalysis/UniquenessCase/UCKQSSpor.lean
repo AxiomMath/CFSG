@@ -22,9 +22,9 @@ open CFSG.RankThree.PartOne.KS.HNFive CFSG.RankThree.PartOne.Q1327S
 theorem pcaSpor_HN5 :
     PCASporAt .HN 5 := by
   intro K _ _ ⟨e⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨q, z, x, r, hR⟩ := exists_hn_rel
-  haveI hfin : Finite (NativeSporadic.Carrier .HN) :=
+  have hfin : Finite (NativeSporadic.Carrier .HN) :=
     Nat.finite_of_card_ne_zero (by
       show Nat.card NativeSporadic.HN ≠ 0
       rw [CFSG.Sporadic.HN.card_HN]; norm_num)
@@ -41,7 +41,7 @@ open CFSG.RankThree.Native
 
 theorem qsLy_pca :
     PCentralAbelianAt CFSG.Sporadic.Ly.J 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hQ := lyFiveMRelJ.q
   have hcardQ : Nat.card (fiveQ lyFiveXJ lyFiveVJ) = 5 ^ 5 := hQ.card_fiveQ
   exact PCentralAbelianAt.of_exponent (U := fiveQ lyFiveXJ lyFiveVJ) (IsPGroup.of_card hcardQ)
@@ -50,7 +50,7 @@ theorem qsLy_pca :
 theorem pcaSpor_Ly5 :
     PCASporAt .Ly 5 := by
   intro K _ _ ⟨e⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have e' : K ≃* NativeSporadic.Ly := e
   have φ : K ≃* CFSG.Sporadic.Ly.J := e'.trans CFSG.Sporadic.Ly.lyEquivJ
   exact @PCentralAbelianAt.of_mulEquiv K CFSG.Sporadic.Ly.J _ _ (inferInstance) (inferInstance) 5 _ φ qsLy_pca
@@ -64,8 +64,8 @@ open CFSG.Monster.B.Pinned CFSG.RankThree.Native
 theorem pcaSpor_B5 :
     PCASporAt .B 5 := by
   intro K _ _ ⟨e⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI hfin : Finite (NativeSporadic.Carrier .B) := finite_B
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have hfin : Finite (NativeSporadic.Carrier .B) := finite_B
   refine PCentralAbelianAt.of_mulEquiv e ?_
   have hR := bFiveRel
   have hcardQ : Nat.card (FiveLocal.Q qFive) = 5 ^ 5 := hR.card_Q
@@ -81,7 +81,7 @@ open CFSG.RankThree.PartOne.KS.ScalFive CFSG.RankThree.PartOne.KS.Co1Scal CFSG.M
 theorem qsCo1_pca_of_scalRel {G : Type} [Group G] [Finite G] {q : Fin 2 → G} {z s t : G}
     {M Sm : Matrix (Fin 2) (Fin 2) (ZMod 5)} {cs ct : Fin 2 → ℕ} {r : ZMod 5}
     (hR : ScalRel q z s t M Sm 0 1 cs r ct) : PCentralAbelianAt G 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hQP : IsPGroup 5 (QG q) := IsPGroup.of_card hR.card_Q
   refine PCentralAbelianAt.of_noncomm hQP (q_mem 1) (q_mem 0) (hR.pow_five_of_mem (q_mem 1)) ?_
   intro hc
@@ -99,8 +99,8 @@ theorem qsCo1_pca_of_scalRel {G : Type} [Group G] [Finite G] {q : Fin 2 → G} {
 
 theorem pcaSpor_Co1_5 : PCASporAt .Co1 5 := by
   intro K _ _ ⟨e⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI hfin : Finite (NativeSporadic.Carrier .Co1) := (inferInstance : Finite NativeSporadic.Co1)
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have hfin : Finite (NativeSporadic.Carrier .Co1) := (inferInstance : Finite NativeSporadic.Co1)
   exact PCentralAbelianAt.of_mulEquiv e (qsCo1_pca_of_scalRel co1Scal_rel)
 
 end Co1
@@ -124,12 +124,12 @@ section M5
 
 theorem pcaSpor_M5 : PCASporAt .M 5 := by
   intro K _ _ ⟨e⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : IsSimpleGroup (NativeSporadic.Carrier .M) :=
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : IsSimpleGroup (NativeSporadic.Carrier .M) :=
     CFSG.AGLEmbedding.Norton.OrdinaryProofs.carrier_M_simple
   obtain ⟨e'⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple
     (T := NativeSporadic.Carrier .M) (MulEquiv.refl _)
-  haveI : Finite CFSG.Monster.Generated.Gmat := Finite.of_equiv K (e.trans e').toEquiv
+  have : Finite CFSG.Monster.Generated.Gmat := Finite.of_equiv K (e.trans e').toEquiv
   obtain ⟨U, hU, hexp, hcard⟩ := qsM5_exists_exponent
   exact PCentralAbelianAt.of_mulEquiv (e.trans e') (PCentralAbelianAt.of_exponent hU hexp hcard)
 
@@ -139,13 +139,13 @@ section M7
 
 theorem pcaSpor_M7 : PCASporAt .M 7 := by
   intro K _ _ ⟨e⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : IsSimpleGroup (NativeSporadic.Carrier .M) :=
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : IsSimpleGroup (NativeSporadic.Carrier .M) :=
     CFSG.AGLEmbedding.Norton.OrdinaryProofs.carrier_M_simple
   obtain ⟨ε⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple
     (T := NativeSporadic.Carrier .M) (MulEquiv.refl _)
   have φ : K ≃* CFSG.Monster.Generated.Gmat := e.trans ε
-  haveI : Finite CFSG.Monster.Generated.Gmat := Finite.of_equiv K φ.toEquiv
+  have : Finite CFSG.Monster.Generated.Gmat := Finite.of_equiv K φ.toEquiv
   have hexp := CFSG.LocalAnalysis.RankThreeTheoremC.WeakClosureHeis.M7Spor.pcSub_pow_seven
   refine PCentralAbelianAt.of_mulEquiv φ (PCentralAbelianAt.of_exponent ?_ hexp
     CFSG.LocalAnalysis.RankThreeTheoremC.WeakClosureHeis.M7Spor.seven_pow_five_le_card)

@@ -55,6 +55,7 @@ open scoped MatrixGroups Pointwise commutatorElement
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 private theorem conj_mem_centerOf {O : Subgroup H} {g c : H}
     (hg : g ∈ Subgroup.normalizer (O : Set H)) (hc : c ∈ centerOf O) :
     g * c * g⁻¹ ∈ centerOf O := by
@@ -82,6 +83,7 @@ theorem f112ll_g2q_mem_K_of_left {L1 L2 S : Subgroup H} {m n f : ℕ} (hF : F112
     c ∈ f112saK L1 L2 S := by
   exact (hd.transferLeftData hF hm hn h1 h2).mem_K_of_left hF hm hn h1 h2 hcS hc
 
+omit [Finite H] in
 private theorem conj_mem_middle {L Q Z W : Subgroup H} {F : Type} [Field F]
     {α : ↥L →* SL(2, F)} (hWnat : IsNatSecOf L Q W α) (hα : Function.Surjective α)
     (hLQ : L ≤ Subgroup.normalizer (Q : Set H)) (hWQ : W ≤ Q)
@@ -126,9 +128,9 @@ private theorem f112ll_g2q_middle_of_edgeData {L1 L2 S : Subgroup H} {m n f : �
         (f112sa_P2_le_normalizer_P2' hF)
   obtain ⟨F, hField, hFintype, hFcard, α, hαsurj, hαker, -, W, hZW, hWQ, -, hWcomm, hWnat⟩ :=
     hd.local_.nat_right
-  letI : Field F := hField
-  letI : Fintype F := hFintype
-  letI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) hFcard
+  let : Field F := hField
+  let : Fintype F := hFintype
+  let : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f) hFcard
   rw [hQβ] at hZW hWQ hWcomm hWnat
   have hcLβ : c ∈ Subgroup.normalizer (Lβ : Set H) := mem_normalizer_oTwoPrime (hSNβ hcS)
   have hcQβ : c ∈ Subgroup.normalizer (Qβ : Set H) :=

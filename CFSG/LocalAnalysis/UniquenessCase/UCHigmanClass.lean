@@ -15,6 +15,7 @@ section Class
 
 variable {K : Type} [Field K] [CharP K 2] {k : Type} [Field k] [Algebra K k]
 
+omit [Algebra K k] in
 theorem splitOver_torus [Finite K] [IsAlgClosed k] :
     SplitOver k (sl2Datum (K := K)).H := by
   intro h hh
@@ -50,7 +51,7 @@ theorem d'Scalar_sl2 [Fintype K] (χ : SL(2, K) → k) (e : ℕ)
     (hχ : ∀ r : Kˣ, χ (hMat r) = algebraMap K k (r : K) ^ e) :
     (sl2Datum (K := K)).d'Scalar χ 0 = ∑ r : Kˣ, algebraMap K k (r : K) ^ e := by
   unfold CFSG.Quasithin.SmithCurtis.CurtisDatum.d'Scalar
-  letI : DecidableEq SL(2, K) := fun a b => Classical.propDecidable (a = b)
+  let : DecidableEq SL(2, K) := fun a b => Classical.propDecidable (a = b)
   refine (Finset.sum_bij (fun (r : Kˣ) _ => uEquivX K (r : K)) ?_ ?_ ?_ ?_).symm
   · intro r _
     refine Finset.mem_erase.2 ⟨?_, by simp⟩
@@ -78,8 +79,8 @@ theorem simple_iso_TRep [Finite K] [CharP k 2] [IsAlgClosed k] {n : ℕ}
     ∃ S : Finset ℕ, (∀ i ∈ S, i < n) ∧
       ∃ β : V ≃ₗ[k] ((↥S → Fin 2) → k), ∀ (g : SL(2, K)) (v : V), β (ρ g v) = TRep S g (β v) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK2 : 2 ≤ Nat.card K := Finite.one_lt_card
   have hn1 : 1 ≤ n := by
     by_contra h
@@ -103,12 +104,12 @@ theorem simple_iso_TRep [Finite K] [CharP k 2] [IsAlgClosed k] {n : ℕ}
     have hq : Fintype.card K = 2 ^ n := by rw [← Nat.card_eq_fintype_card, hn]
     by_cases he0 : e = 0
     · subst he0
-      rw [if_pos (dvd_zero _), if_pos rfl, map_neg, map_one, CharTwo.neg_eq]
+      rw [ite_eq_left (dvd_zero _), ite_eq_left rfl, map_neg, map_one, CharTwo.neg_eq]
     · have hnd : ¬ (Fintype.card K - 1 ∣ e) := by
         intro hd
         have := Nat.le_of_dvd (Nat.pos_of_ne_zero he0) hd
         omega
-      rw [if_neg hnd, if_neg he0, map_zero]
+      rw [ite_eq_right hnd, ite_eq_right he0, map_zero]
   have hS : ∃ S : Finset ℕ, (∀ i ∈ S, i < n) ∧
       (∀ r : Kˣ, χ (hMat r) = algebraMap K k (r : K) ^ wt S) ∧
       μ 0 = if S = Finset.range n then 1 else 0 := by
@@ -122,18 +123,18 @@ theorem simple_iso_TRep [Finite K] [CharP k 2] [IsAlgClosed k] {n : ℕ}
       rcases hmu with h0 | h1
       · refine ⟨∅, by simp, fun r => ?_, ?_⟩
         · rw [hχ r]; simp [wt]
-        · rw [h0, if_neg hrange_ne]
+        · rw [h0, ite_eq_right hrange_ne]
       · have hw : wt (Finset.range n) = 2 ^ n - 1 :=
           (wt_eq_iff (Finset.range n) (fun i hi => Finset.mem_range.1 hi)).2 rfl
         refine ⟨Finset.range n, fun i hi => Finset.mem_range.1 hi, fun r => ?_, ?_⟩
         · rw [hχ r, pow_zero, hw, ← hcard]
           exact ((CFSG.HardMathSupport.U4FF.units_pow_eq_one_iff (F := K) (k := k)
             (Nat.card Kˣ)).2 dvd_rfl r).symm
-        · rw [h1, hd1, if_pos rfl]
+        · rw [h1, hd1, ite_eq_left rfl]
     · have hmu0 : μ 0 = 0 := by
         rcases hmu with h0 | h1
         · exact h0
-        · rw [h1, hd', hsum, if_neg he0]
+        · rw [h1, hd', hsum, ite_eq_right he0]
       have hwt : wt e.bitIndices.toFinset = e := Finset.sum_toFinset_bitIndices_two_pow e
       have hlt : ∀ i ∈ e.bitIndices.toFinset, i < n := by
         intro i hi
@@ -145,7 +146,7 @@ theorem simple_iso_TRep [Finite K] [CharP k 2] [IsAlgClosed k] {n : ℕ}
         omega
       refine ⟨e.bitIndices.toFinset, hlt, fun r => ?_, ?_⟩
       · rw [hχ r, hwt]
-      · rw [hmu0, if_neg]
+      · rw [hmu0, ite_eq_right]
         intro h
         have hw : wt (Finset.range n) = 2 ^ n - 1 :=
           (wt_eq_iff (Finset.range n) (fun i hi => Finset.mem_range.1 hi)).2 rfl

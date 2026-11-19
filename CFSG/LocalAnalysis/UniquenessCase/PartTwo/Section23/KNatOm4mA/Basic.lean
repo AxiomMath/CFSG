@@ -21,7 +21,7 @@ theorem conj_mem_aSet {k : ℕ} {X A : Subgroup (MulAut V)} (hA : A ∈ E3.aSet 
     A.map (MulAut.conj g).toMonoidHom ∈ E3.aSet k (X.map (MulAut.conj g).toMonoidHom) := by
   have hcongr : H.congrHom g = (MulAut.conj g).toMonoidHom :=
     MonoidHom.ext fun x => MulEquiv.ext fun w => by
-      simp [H.congrHom_apply, MulAut.conj_apply]
+      simp [MulAut.conj_apply]
   rw [← hcongr]
   exact (H.map_mem_aSet_iff g).mpr hA
 

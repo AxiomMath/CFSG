@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 private theorem conj_apply_toMonoidHom (x y : G) :
     (MulAut.conj x : G →* G) y = x * y * x⁻¹ := by
   show MulAut.conj x y = x * y * x⁻¹

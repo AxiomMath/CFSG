@@ -48,7 +48,7 @@ theorem mem_nor_of_conj_mem [Finite G] {B : Subgroup G} {n : G}
   obtain ⟨y, hy, hyx⟩ := hx
   have : y = x := by
     have := hyx
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply] at this
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply] at this
     exact mul_left_cancel (mul_right_cancel this)
   exact this ▸ hy
 
@@ -74,20 +74,20 @@ theorem mem_nor_of_closure [Finite G] {S : Set G} {n : G}
   have hle : Subgroup.closure S ≤ (Subgroup.closure S).comap (MulAut.conj n).toMonoidHom :=
     (Subgroup.closure_le _).mpr fun s hs => by
       simpa only [SetLike.mem_coe, Subgroup.mem_comap, MulEquiv.toMonoidHom_eq_coe,
-        MonoidHom.coe_coe, MulAut.conj_apply] using h s hs
-  simpa only [Subgroup.mem_comap, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+        _root_.MonoidHom.coe_ofClass, MulAut.conj_apply] using h s hs
+  simpa only [Subgroup.mem_comap, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
     MulAut.conj_apply] using hle hx
 
 theorem mem_conjBy {g x : G} {H : Subgroup G} : x ∈ conjBy g H ↔ g⁻¹ * x * g ∈ H := by
   constructor
   · rintro ⟨y, hy, rfl⟩
     have e : g⁻¹ * ((MulAut.conj g).toMonoidHom y) * g = y := by
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
       group
     rwa [e]
   · intro hx
     refine ⟨_, hx, ?_⟩
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     group
 
 theorem card_le_three_of_cyclic {P : Subgroup G} [IsCyclic P]
@@ -419,7 +419,7 @@ theorem e81 (h : SettingCore b K z) {E : Subgroup G} (hEC : E ≤ Cen b)
       rw [(Commute.zpow_right (h.comm_of_mem g.2) j).eq, mul_inv_cancel_right]
     have e : (MulAut.conj (g : G)).toMonoidHom (b ^ j * vecElt (zs z) v) =
         b ^ j * ((g : G) * vecElt (zs z) v * (g : G)⁻¹) := by
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
       calc (g : G) * (b ^ j * vecElt (zs z) v) * (g : G)⁻¹ =
           ((g : G) * b ^ j * (g : G)⁻¹) * ((g : G) * vecElt (zs z) v * (g : G)⁻¹) := by group
         _ = _ := by rw [hgj]

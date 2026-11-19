@@ -24,7 +24,7 @@ theorem exists_radV1_of_card_ge (E : Subgroup (MulAut (PairN 5))) (hE : E ≤ Lg
   have hq : ∀ g ∈ E', ∀ h ∈ E', ((g : Matrix (Fin 5) (Fin 5) (ZMod 2)) - 1) *
       ((h : Matrix (Fin 5) (Fin 5) (ZMod 2)) - 1) = 0 := by
     by_contra hnq
-    push_neg at hnq
+    push Not at hnq
     have := card_le_sixteen_of_not_quadratic E' hcomm hsq hnq
     omega
   obtain ⟨D', hD'r, hD'⟩ := exists_rad_of_quadratic E' hcomm hsq hq h32'

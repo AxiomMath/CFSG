@@ -91,8 +91,7 @@ theorem orthPlus_isometry_map {F K : Type*} [Field F] [Field K] (f : F →+* K)
     · subst hab
       rw [hE0, add_zero]
     · have := hE (Pi.single a 1 + Pi.single b 1)
-      simp [Pi.single_apply, Pi.add_apply, add_mul, mul_add, Finset.sum_add_distrib, hab,
-        Ne.symm hab] at this
+      simp [Pi.single_apply, Pi.add_apply, mul_add, Finset.sum_add_distrib] at this
       rw [hE0, hE0] at this
       rw [add_comm]
       simpa [add_assoc] using this
@@ -128,6 +127,7 @@ noncomputable def orthPlusEmb (K : Type) [Field K] [CharP K 2] {r : ℕ} (hr : 4
     ((OrthogonalSplit.matrixEquiv 4 K).toMonoidHom.comp
       (Matrix.GeneralLinearGroup.map (ZMod.castHom (dvd_refl 2) K)))
 
+omit [CharP K 2] in
 theorem orthPlus_plusResExt_injective {r t m : ℕ} (htm : t + m = r) :
     Function.Injective (plusResExt K htm) := by
   intro h₁ h₂ h

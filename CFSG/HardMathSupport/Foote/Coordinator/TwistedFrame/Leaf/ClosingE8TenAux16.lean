@@ -140,7 +140,7 @@ theorem twClosing_e8Ten_three (h3 : 3 ≤ Nat.card K) :
   have hK : TwClass.e8Ten.minQ ≤ Nat.card K := by
     have : TwClass.e8Ten.minQ = 2 := rfl
     omega
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hb := twBasic TwClass.e8Ten K hK D
   have hq := twQuasi_of_ne_e6Six TwClass.e8Ten (by decide) K hK D
   have hc := twCentral TwClass.e8Ten K hK D
@@ -163,7 +163,7 @@ theorem twClosing_e8Ten_of_opp
   have hK : TwClass.e8Ten.minQ ≤ Nat.card K := by
     have : 2 ≤ Nat.card K := Finite.one_lt_card
     exact this
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hb := twBasic TwClass.e8Ten K hK D
   have hq := twQuasi_of_ne_e6Six TwClass.e8Ten (by decide) K hK D
   have hc := twCentral TwClass.e8Ten K hK D

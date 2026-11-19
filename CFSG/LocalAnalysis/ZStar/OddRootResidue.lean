@@ -180,7 +180,7 @@ theorem rootOfUnityToO2_coe {m : ℕ} (z : TwoAdicComplex)
 theorem exists_primitiveRoot_o2 (m : ℕ) [NeZero m] :
     ∃ z : O2, IsPrimitiveRoot z m := by
   obtain ⟨z, hz⟩ :=
-    HasEnoughRootsOfUnity.exists_primitiveRoot TwoAdicComplex m
+    HasEnoughRootsOfUnity.exists_isPrimitiveRoot TwoAdicComplex m
   let zO : O2 := rootOfUnityToO2 z (NeZero.ne m) hz.pow_eq_one
   refine ⟨zO, ?_⟩
   apply hz.of_map_of_injective (f := algebraMap O2 TwoAdicComplex)

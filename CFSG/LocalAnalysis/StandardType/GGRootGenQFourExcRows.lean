@@ -49,7 +49,7 @@ theorem ggRootGenKGAvoidOn_excSplit
     intro Q hQ
     dsimp only [LargeEvenRawDatum] at hQ ⊢
     obtain ⟨K, _, _, hK, hQ'⟩ := hQ
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : CharP K 2 := charP_two_of_card hK
     have hpq : p ∣ Nat.card K - 1 := by rw [hK]; exact hpn
     by_cases hp3 : p = 3
     · subst hp3
@@ -64,7 +64,7 @@ theorem ggRootGenKGAvoidOn_excSplit
     intro Q hQ
     dsimp only [LargeEvenRawDatum] at hQ ⊢
     obtain ⟨K, _, _, hK, hQ'⟩ := hQ
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : CharP K 2 := charP_two_of_card hK
     have hpq : p ∣ Nat.card K - 1 := by rw [hK]; exact hpn
     exact ⟨K, inferInstance, inferInstance, hK, hQ', 7,
       TableBExc.ggTorusLift_E7 hp hp2 hpq,
@@ -73,7 +73,7 @@ theorem ggRootGenKGAvoidOn_excSplit
     intro Q hQ
     dsimp only [LargeEvenRawDatum] at hQ ⊢
     obtain ⟨K, _, _, hK, hQ'⟩ := hQ
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : CharP K 2 := charP_two_of_card hK
     have hpq : p ∣ Nat.card K - 1 := by rw [hK]; exact hpn
     exact ⟨K, inferInstance, inferInstance, hK, hQ', 8,
       TableBExc.ggTorusLift_E8 hp hp2 hpq,
@@ -82,7 +82,7 @@ theorem ggRootGenKGAvoidOn_excSplit
     intro Q hQ
     dsimp only [LargeEvenRawDatum] at hQ ⊢
     obtain ⟨K, _, _, hK, hQ'⟩ := hQ
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : CharP K 2 := charP_two_of_card hK
     have hpq : p ∣ Nat.card K - 1 := by rw [hK]; exact hpn
     exact ⟨K, inferInstance, inferInstance, hK, hQ', 4,
       TableBF4.ggTorusLift_F4 hp hp2 hpq,
@@ -103,7 +103,7 @@ theorem ggRootGenKGAvoidOn_excPlus_of_lss92
     intro Q hQ
     dsimp only [LargeEvenRawDatum] at hQ ⊢
     obtain ⟨K, _, _, hK, hQ'⟩ := hQ
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : CharP K 2 := charP_two_of_card hK
     have hpq : p ∣ Nat.card K + 1 := by rw [hK]; exact hpn
     exact ⟨K, inferInstance, inferInstance, hK, hQ', 6, ggTorusLift_E7Plus hp hp2 hpq,
       ggTorusRootGenAvoidKG_excPlus_of_lss92 PhiTwoRootGen.phiTwoGenAt_E7 (Or.inl rfl) hp hp2 hpq
@@ -112,7 +112,7 @@ theorem ggRootGenKGAvoidOn_excPlus_of_lss92
     intro Q hQ
     dsimp only [LargeEvenRawDatum] at hQ ⊢
     obtain ⟨K, _, _, hK, hQ'⟩ := hQ
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : CharP K 2 := charP_two_of_card hK
     have hpq : p ∣ Nat.card K + 1 := by rw [hK]; exact hpn
     exact ⟨K, inferInstance, inferInstance, hK, hQ', 7, ggTorusLift_E8Plus hp hp2 hpq,
       ggTorusRootGenAvoidKG_excPlus_of_lss92 PhiTwoRootGen.phiTwoGenAt_E8 (Or.inr rfl) hp hp2 hpq
@@ -123,7 +123,7 @@ theorem ggRootGenKGAvoidOn_excPlus_of_lss92
     intro Q hQ
     dsimp only [LargeEvenRawDatum] at hQ ⊢
     obtain ⟨K, _, _, hK, hQ'⟩ := hQ
-    haveI : CharP K 2 := charP_two_of_card hK
+    have : CharP K 2 := charP_two_of_card hK
     have hpq : p ∣ Nat.card K + 1 := by rw [hK]; exact hpn
     exact ⟨K, inferInstance, inferInstance, hK, hQ', 3, ggTorusLift_F4Plus hp hp2 hpq,
       ggTorusRootGenAvoidKG_F4Plus hp hp5 hpq (hK4 hK)⟩

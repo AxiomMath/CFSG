@@ -39,7 +39,7 @@ theorem iso_of_swap_mod [Finite G] (h : ModData t B₀ ψ) (hF : CFSG.fittingSub
     (hL₂ : L₂ = L₁.map (MulAut.conj t).toMonoidHom) (hne : L₁ ≠ L₂)
     (hlayer : layer G = L₁ ⊔ L₂) : Nonempty (↥L₁ ≃* ↥B₀) := by
   subst hL₂
-  haveI hsimple : IsSimpleGroup ↥L₁ := component_isSimple hF hL₁
+  have hsimple : IsSimpleGroup ↥L₁ := component_isSimple hF hL₁
   have hL₂c : IsComponent (L₁.map (MulAut.conj t).toMonoidHom) := isComponent_conj hL₁ t
   have hcom : ∀ a ∈ L₁, ∀ b ∈ L₁.map (MulAut.conj t).toMonoidHom, a * b = b * a :=
     component_commute hL₁ hL₂c hne
@@ -90,7 +90,7 @@ theorem iso_of_swap_mod [Finite G] (h : ModData t B₀ ψ) (hF : CFSG.fittingSub
     intro c hc y hy
     refine ⟨?_, ?_⟩
     · have hyE : y ∈ layer G := by rw [hlayer]; exact hy.1
-      haveI hEc : (layer G).Characteristic := CFSG.LocalCores.layer_characteristic
+      have hEc : (layer G).Characteristic := CFSG.LocalCores.layer_characteristic
       have hcyE : c * y * c⁻¹ ∈ layer G :=
         (inferInstance : (layer G).Normal).conj_mem y hyE c
       rwa [hlayer] at hcyE
@@ -104,7 +104,7 @@ theorem iso_of_swap_mod [Finite G] (h : ModData t B₀ ψ) (hF : CFSG.fittingSub
     · exact absurd hbot hDne
     · exact hle
   have hcomap : B₀.comap θ = ⊤ := by
-    haveI : (B₀.comap θ).Normal := h.hR.normal.comap θ
+    have : (B₀.comap θ).Normal := h.hR.normal.comap θ
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (B₀.comap θ) with hbot | htop
     · exfalso
       obtain ⟨b, hb, hb1⟩ : ∃ b ∈ B₀, b ≠ 1 := by
@@ -142,7 +142,7 @@ theorem dichotomy_mod [Finite G] (h : ModData t B₀ ψ) (hF : CFSG.fittingSubgr
   by_cases hsw : L₂ = L₁
   · left
     have hlay : layer G = L₁ := by rw [hE, hsw, sup_idem]
-    haveI hEc : (layer G).Characteristic := CFSG.LocalCores.layer_characteristic
+    have hEc : (layer G).Characteristic := CFSG.LocalCores.layer_characteristic
     have hFix : FixedData G L₁ :=
       ⟨by rw [← hlay]; exact (inferInstance : (layer G).Normal), component_isSimple hF hL₁,
         component_nonab hF hL₁, by rw [← hlay]; exact centralizer_layer_eq_bot hF⟩

@@ -22,7 +22,7 @@ private theorem l937z_d4_layerCentre
         z * y = y * z) → z ^ 2 = 1 → z = 1 := by
   intro z hz hzc hz2
   classical
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL (τ := TwistTag.D4.tag) (K := K)
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL (τ := TwistTag.D4.tag) (K := K)
   let C₀ : Subgroup (ModGL TwistTag.D4.tag K) := graphFixedRootGroup TwistTag.D4 K σ.toRingHom
   set X : Subgroup ↥C₀ := Subgroup.centralizer (A : Set ↥C₀) with hXdef
   set E : Subgroup ↥C₀ := GLALayer X with hEdef

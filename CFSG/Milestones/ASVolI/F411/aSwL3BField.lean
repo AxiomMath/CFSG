@@ -10,7 +10,7 @@ variable {K : Type} [Field K]
 
 theorem burnsideF411a_ringEquiv_pow [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p]
     (ρ : K ≃+* K) : ∃ j : ℕ, ∀ x : K, ρ x = x ^ (p ^ j) := by
-  letI : Algebra (ZMod p) K := ZMod.algebra K p
+  let : Algebra (ZMod p) K := ZMod.algebra K p
   let ρ' : K ≃ₐ[ZMod p] K := AlgEquiv.ofRingEquiv (f := ρ) (fun x => by
     have : (ρ.toRingHom).comp (algebraMap (ZMod p) K) = algebraMap (ZMod p) K :=
       RingHom.ext_zmod _ _
@@ -119,6 +119,6 @@ theorem burnsideF411a_class_cube [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p]
     linear_combination h2
   refine ⟨x₁ * y₁ * k * n₂ * m₁ / (m₂ * n₁), ?_⟩
   rw [hk, hy₂', hy₀']
-  field_simp <;> ring
+  field_simp
 
 end CFSG.ASVolI

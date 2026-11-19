@@ -55,7 +55,7 @@ theorem mem_centMod_iff {X Y : Subgroup G} (hYX : Y ≤ X) (hXX : ⁅X, X⁆ ≤
   exact Iff.rfl
 
 theorem centMod_le (X Y : Subgroup G) (g : G) : centMod X Y g ≤ X :=
-  (Subgroup.closure_le X).mpr (fun x hx => hx.1)
+  (Subgroup.closure_le X).mpr (fun _x hx => hx.1)
 
 theorem le_centMod {X Y : Subgroup G} (hYX : Y ≤ X) (hXX : ⁅X, X⁆ ≤ Y) {g : G}
     (hgY : g ∈ Subgroup.normalizer (Y : Set G)) : Y ≤ centMod X Y g := by
@@ -65,7 +65,7 @@ theorem le_centMod {X Y : Subgroup G} (hYX : Y ≤ X) (hXX : ⁅X, X⁆ ≤ Y) {
 
 theorem inf_centMod_le_mul {X Y : Subgroup G} (hYX : Y ≤ X) (hXX : ⁅X, X⁆ ≤ Y) {g₁ g₂ : G}
     (hg₁Y : g₁ ∈ Subgroup.normalizer (Y : Set G))
-    (hg₂Y : g₂ ∈ Subgroup.normalizer (Y : Set G)) :
+    (_hg₂Y : g₂ ∈ Subgroup.normalizer (Y : Set G)) :
     centMod X Y g₁ ⊓ centMod X Y g₂ ≤ centMod X Y (g₁ * g₂) := by
   intro x hx
   rw [Subgroup.mem_inf] at hx
@@ -105,7 +105,7 @@ theorem centMod_inv {X Y : Subgroup G} (hYX : Y ≤ X) (hXX : ⁅X, X⁆ ≤ Y) 
 
 theorem centMod_mul_of_forall_of_normalizer {X Y : Subgroup G} (hYX : Y ≤ X)
     (hXX : ⁅X, X⁆ ≤ Y) {g c : G} (hgY : g ∈ Subgroup.normalizer (Y : Set G))
-    (hcY : c ∈ Subgroup.normalizer (Y : Set G))
+    (_hcY : c ∈ Subgroup.normalizer (Y : Set G))
     (hc : ∀ x ∈ X, c * x * c⁻¹ * x⁻¹ ∈ Y) :
     centMod X Y (g * c) = centMod X Y g := by
   ext x
@@ -139,7 +139,7 @@ theorem commutator_le_of_forall_centralizes {X Y L : Subgroup G}
   exact Y.inv_mem h1
 
 private lemma mem_centMod_conj_iff {X Y : Subgroup G} (hYX : Y ≤ X) (hXX : ⁅X, X⁆ ≤ Y)
-    {g m : G} (hgY : g ∈ Subgroup.normalizer (Y : Set G))
+    {g m : G} (_hgY : g ∈ Subgroup.normalizer (Y : Set G))
     (hmX : m ∈ Subgroup.normalizer (X : Set G))
     (hmY : m ∈ Subgroup.normalizer (Y : Set G)) {x : G} :
     x ∈ centMod X Y (m * g * m⁻¹) ↔
@@ -201,7 +201,7 @@ private lemma zpowers_mk'_eq_top_of_cyclic {T T₀ : Subgroup G} [hT0 : (T₀.su
     (hcyc : T ≤ T₀ ⊔ Subgroup.zpowers g₀) :
     Subgroup.zpowers (QuotientGroup.mk' (T₀.subgroupOf T) ⟨g₀, hg₀⟩) = ⊤ := by
   let T0 : Subgroup T := T₀.subgroupOf T
-  haveI hT0N : T0.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hT₀T).mpr hTN
+  have hT0N : T0.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hT₀T).mpr hTN
   let gT : T := ⟨g₀, hg₀⟩
   let q : T ⧸ T0 := QuotientGroup.mk' T0 gT
   rw [eq_top_iff]
@@ -238,7 +238,7 @@ private lemma exists_generator_of_cyclic_section {X T T₀ : Subgroup G}
         (QuotientGroup.mk' (T₀.subgroupOf T) x₀) ^ k := by
   classical
   let T0 : Subgroup T := T₀.subgroupOf T
-  haveI hT0N : T0.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hT₀T).mpr hTN
+  have hT0N : T0.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hT₀T).mpr hTN
   have hqtop : Subgroup.zpowers (QuotientGroup.mk' T0 ⟨g₀, hg₀⟩) = ⊤ :=
     zpowers_mk'_eq_top_of_cyclic hT₀T hTN hg₀ hcyc
   let S : Subgroup (T ⧸ T0) := (X.subgroupOf T).map (QuotientGroup.mk' T0)
@@ -294,7 +294,7 @@ private theorem relIndex_sup_inf_dvd_two {X Y T T₀ : Subgroup G} (hXT : X ≤ 
     (hcyc : T ≤ T₀ ⊔ Subgroup.zpowers g₀) (hsq : ∀ x ∈ X, x * x ∈ Y) :
     ((X ⊓ T₀) ⊔ Y).relIndex X ∣ 2 := by
   classical
-  haveI hT0N : (T₀.subgroupOf T).Normal :=
+  have hT0N : (T₀.subgroupOf T).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hT₀T).mpr hTN
   obtain ⟨x₀, hx₀, hgen⟩ := exists_generator_of_cyclic_section hXT hT₀T hTN hg₀ hcyc
   have hdecomp := exists_decomp_of_generator hXT hTN hx₀ hgen
@@ -350,7 +350,7 @@ private lemma commutator_eq_one_of_odd_pow {H : Type*} [Group H] {q x : H} {m : 
   exact h
 
 private lemma commutator_mem_of_odd_pow_quotient {X Y W K : Subgroup G}
-    [hYKN : (Y.subgroupOf K).Normal] (hWX : W ≤ X)
+    [_hYKN : (Y.subgroupOf K).Normal] (hWX : W ≤ X)
     (hsq : ∀ x ∈ X, x * x ∈ Y) {g a x : G} (hgK : g ∈ K) (hXK : X ≤ K) (hYK : Y ≤ K)
     (hKNY : K ≤ Subgroup.normalizer (Y : Set G))
     (hW : ∀ w ∈ W, g * w * g⁻¹ * w⁻¹ ∈ Y) (haW : a ∈ W) (hxX : x ∈ X)
@@ -358,7 +358,7 @@ private lemma commutator_mem_of_odd_pow_quotient {X Y W K : Subgroup G}
     (hgm : ∀ y ∈ X, g ^ m * y * (g ^ m)⁻¹ * y⁻¹ ∈ Y) :
     (QuotientGroup.mk' (Y.subgroupOf K)) ⟨a, hXK (hWX haW)⟩ = 1 := by
   let YK : Subgroup K := Y.subgroupOf K
-  haveI hYKN' : YK.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hYK).mpr hKNY
+  have hYKN' : YK.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hYK).mpr hKNY
   let gK : K := ⟨g, hgK⟩
   let xK : K := ⟨x, hXK hxX⟩
   let aK : K := ⟨a, hXK (hWX haW)⟩
@@ -428,7 +428,7 @@ theorem commutator_mem_of_odd_pow {X Y W : Subgroup G} (hWX : W ≤ X) (hYX : Y 
     · rw [Set.mem_singleton_iff] at hy
       simpa [hy] using hgY
     · exact hXNY hy
-  haveI hYKN : (Y.subgroupOf K).Normal :=
+  have hYKN : (Y.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYK).mpr hKNY
   let a : G := g * x * g⁻¹ * x⁻¹
   have haW : a ∈ W := hXW x hxX
@@ -469,7 +469,7 @@ private lemma exists_conj_perm {X W : Subgroup G} [hWN : (W.subgroupOf X).Normal
   have hXW : X ≤ Subgroup.normalizer (W : Set G) := by
     rw [Subgroup.le_normalizer_iff_commutator_le_right]
     exact (Subgroup.commutator_mono le_rfl hWX).trans hXXW
-  haveI hWN' : (W.subgroupOf X).Normal :=
+  have hWN' : (W.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWX).mpr hXW
   let θ : MulAut X := X.normalizerMonoidHom ⟨g, hgX⟩
   have hθW : (W.subgroupOf X).map θ.toMonoidHom = W.subgroupOf X := by
@@ -509,7 +509,7 @@ theorem pow_twentyFour_mem_of_relIndex_le_four [Finite G] {X W : Subgroup G} (hW
   have hXW : X ≤ Subgroup.normalizer (W : Set G) := by
     rw [Subgroup.le_normalizer_iff_commutator_le_right]
     exact (Subgroup.commutator_mono le_rfl hWX).trans hXXW
-  haveI hWN : (W.subgroupOf X).Normal :=
+  have hWN : (W.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWX).mpr hXW
   obtain ⟨π, hπ, hπpow⟩ := exists_conj_perm hWX hXXW hgX hgW
   have hπ24 : π ^ 24 = 1 :=

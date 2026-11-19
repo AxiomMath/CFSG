@@ -17,10 +17,12 @@ variable {G : Type} [Group G] [Finite G]
     G →* Equiv.Perm (Fin 5) :=
   (alternatingGroup (Fin 5)).subtype.comp (a.toMonoidHom.comp (QuotientGroup.mk' (pCore 2 G)))
 
+omit [Finite G] in
 theorem sig_mem (a : G ⧸ pCore 2 G ≃* alternatingGroup (Fin 5)) (g : G) :
     sig a g ∈ alternatingGroup (Fin 5) :=
   (a (QuotientGroup.mk' (pCore 2 G) g)).2
 
+omit [Finite G] in
 theorem sig_eq_one_iff (a : G ⧸ pCore 2 G ≃* alternatingGroup (Fin 5)) {g : G} :
     sig a g = 1 ↔ g ∈ pCore 2 G := by
   constructor
@@ -33,6 +35,7 @@ theorem sig_eq_one_iff (a : G ⧸ pCore 2 G ≃* alternatingGroup (Fin 5)) {g : 
     have h1 : a (QuotientGroup.mk' (pCore 2 G) g) = 1 := by rw [h2, map_one]
     exact congrArg Subtype.val h1
 
+omit [Finite G] in
 theorem exists_sig_eq (a : G ⧸ pCore 2 G ≃* alternatingGroup (Fin 5))
     (x : alternatingGroup (Fin 5)) : ∃ g : G, sig a g = x := by
   obtain ⟨g, hg⟩ := QuotientGroup.mk_surjective (a.symm x)
@@ -46,6 +49,7 @@ theorem exists_sig_eq (a : G ⧸ pCore 2 G ≃* alternatingGroup (Fin 5))
     (γ : Fin 5) : Prop :=
   ∀ l ∈ L, sig a l γ = γ
 
+omit [Finite G] in
 theorem isOver_conj (a : G ⧸ pCore 2 G ≃* alternatingGroup (Fin 5)) {L : Subgroup G}
     {γ : Fin 5} (hL : IsOver a L γ) (g : G) : IsOver a (conjSub g L) (sig a g γ) := by
   intro l hl
@@ -57,6 +61,7 @@ theorem isOver_conj (a : G ⧸ pCore 2 G ≃* alternatingGroup (Fin 5)) {L : Sub
     _ = sig a g (sig a (g⁻¹ * l * g) γ) := by rw [map_mul]; rfl
     _ = sig a g γ := by rw [h1]
 
+omit [Finite G] in
 private theorem exists_sig_apply_eq₂ (a : G ⧸ pCore 2 G ≃* alternatingGroup (Fin 5))
     {γ δ γ' δ' : Fin 5} (h : γ ≠ δ) (h' : γ' ≠ δ') :
     ∃ g : G, sig a g γ = γ' ∧ sig a g δ = δ' := by
@@ -64,6 +69,7 @@ private theorem exists_sig_apply_eq₂ (a : G ⧸ pCore 2 G ≃* alternatingGrou
   obtain ⟨g, hg⟩ := exists_sig_eq a x
   exact ⟨g, by rw [hg]; exact hx1, by rw [hg]; exact hx2⟩
 
+omit [Finite G] in
 private theorem exists_sig_apply_eq (a : G ⧸ pCore 2 G ≃* alternatingGroup (Fin 5))
     (γ γ' : Fin 5) : ∃ g : G, sig a g γ = γ' := by
   obtain ⟨δ, hδ⟩ : ∃ δ : Fin 5, δ ≠ γ := ⟨γ + 1, by revert γ; decide⟩
@@ -71,6 +77,7 @@ private theorem exists_sig_apply_eq (a : G ⧸ pCore 2 G ≃* alternatingGroup (
   obtain ⟨g, hg, -⟩ := exists_sig_apply_eq₂ a hδ.symm hδ'.symm
   exact ⟨g, hg⟩
 
+omit [Finite G] in
 private theorem isOver_iff_bar (a : G ⧸ pCore 2 G ≃* alternatingGroup (Fin 5))
     (L : Subgroup G) (γ : Fin 5) :
     IsOver a L γ ↔
@@ -82,6 +89,7 @@ private theorem isOver_iff_bar (a : G ⧸ pCore 2 G ≃* alternatingGroup (Fin 5
   · intro hγ l hl
     exact hγ _ (Subgroup.mem_map_of_mem _ hl)
 
+omit [Finite G] in
 private theorem isOver_of_bar_eq (a : G ⧸ pCore 2 G ≃* alternatingGroup (Fin 5))
     {K L : Subgroup G} {γ : Fin 5} (hKL : bar K = bar L) (hL : IsOver a L γ) :
     IsOver a K γ := by
@@ -93,6 +101,7 @@ private noncomputable abbrev imgA5 (a : G ⧸ pCore 2 G ≃* alternatingGroup (F
     (L : Subgroup G) : Subgroup (alternatingGroup (Fin 5)) :=
   (bar L).map a.toMonoidHom
 
+omit [Finite G] in
 private theorem isOver_iff_imgA5 (a : G ⧸ pCore 2 G ≃* alternatingGroup (Fin 5))
     (L : Subgroup G) (γ : Fin 5) :
     IsOver a L γ ↔ ∀ e ∈ imgA5 a L, (e : Equiv.Perm (Fin 5)) γ = γ := by
@@ -105,10 +114,11 @@ private theorem isOver_iff_imgA5 (a : G ⧸ pCore 2 G ≃* alternatingGroup (Fin
     exact hγ (a (QuotientGroup.mk' (pCore 2 G) l))
       (Subgroup.mem_map_of_mem _ (Subgroup.mem_map_of_mem _ hl))
 
+omit [Finite G] in
 private theorem prod_perm_eq {f : Fin 5 → G} (hf : ∀ i j, f i * f j = f j * f i)
     (σ : Equiv.Perm (Fin 5)) :
     f (σ 0) * f (σ 1) * f (σ 2) * f (σ 3) * f (σ 4) = f 0 * f 1 * f 2 * f 3 * f 4 := by
-  letI : CommGroup (Subgroup.closure (Set.range f)) :=
+  let : CommGroup (Subgroup.closure (Set.range f)) :=
     @IsMulCommutative.instCommGroup _ _ (Subgroup.isMulCommutative_closure
       (fun x hx y hy _ => by
         obtain ⟨i, rfl⟩ := hx

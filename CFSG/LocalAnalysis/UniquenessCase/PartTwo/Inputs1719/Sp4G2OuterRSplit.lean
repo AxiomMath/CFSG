@@ -60,8 +60,8 @@ theorem outerRSplit_two_of_sp4 {X : Type} [Group X] [Finite X] {n r : ℕ}
     OuterRSplit X r 2 := by
   have hn1 : 1 ≤ n := hX.admissible.2.1
   obtain ⟨K, hKf, hKfin, hcard, ⟨e⟩⟩ := (hX.statedClassicalModel (by decide)).2
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two hn1 hcard
   have hrK : r ∣ Nat.card K - 1 := by rwa [hcard]
@@ -80,8 +80,8 @@ theorem outerRSplit_two_of_g2 {X : Type} [Group X] [Finite X] {n r : ℕ}
   obtain ⟨hn2, K, hKf, hKfin, hcp, hcard, ⟨e⟩⟩ :=
     CFSG.QuasithinUnique.Setup.X6.exists_mulEquiv_G2_model
       (hX.chevalleyExceptionalModel (by decide))
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have := hcp
   have hrK : r ∣ Nat.card K - 1 := by rwa [hcard]
   have h2 : 2 ≤ CFSG.pRank r (CFSG.Blueprint.Chevalley.adjointGroup .G2 K) := by

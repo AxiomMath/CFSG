@@ -170,7 +170,7 @@ theorem exists_odd_normalized_of_two {X S C : Subgroup G} {t : G}
     apply le_antisymm
     · set P' : Subgroup G := (P : Subgroup ↥C).map C.subtype with hP'
       have hP'C : P' ≤ C := Subgroup.map_subtype_le _
-      have hP'p : IsPGroup 2 ↥P' := P.isPGroup'.map C.subtype
+      have hP'p : IsPGroup 2 ↥P' := P.isPGroup.map C.subtype
       obtain ⟨S', hP'S', hS'⟩ := exists_isSylowTwoOf_of_le (hP'C.trans hCX) hP'p
       obtain ⟨h, hhX, hconj⟩ := hS.exists_conj hS'
       have hSC' : S' ⊓ C = (S ⊓ C).map (MulAut.conj h).toMonoidHom := by

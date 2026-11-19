@@ -259,7 +259,7 @@ theorem eight_sl_nine {Y R : Subgroup G} {T : Sylow 2 G} (h : EightCtx Y T R) {n
   obtain ⟨A, hA, hnot, hJA, hJY, hrel, hN1, hN2⟩ := eight_sl_J h hn hnat
   set J : Subgroup G := jIn (T : Subgroup G) with hJ
   have hTtop : IsSylowOf 2 (T : Subgroup G) ⊤ :=
-    ⟨le_top, T.isPGroup', by simpa [Subgroup.relIndex_top_right] using T.not_dvd_index⟩
+    ⟨le_top, T.isPGroup, by simpa [Subgroup.relIndex_top_right] using T.not_dvd_index⟩
   have hV := isElemAbelian_omegaOneCenterIn R
   have hR2 := h.hR2
   have hRC : ∀ x : G, (∀ v ∈ omegaOneCenterIn R, x * v = v * x) → x ∈ R := by

@@ -21,7 +21,7 @@ theorem sylow_abelian_and_index_bound [Finite G] {θ : MulAut G} (hθ : θ * θ 
   have habel : ∀ a ∈ (P : Subgroup G), ∀ b ∈ (P : Subgroup G), a * b = b * a :=
     mul_comm_of_apply_eq_inv hPS
   refine ⟨habel, ?_⟩
-  have hbound := card_inverted_bound (θ := θ') P.isPGroup' hPS
+  have hbound := card_inverted_bound (θ := θ') P.isPGroup hPS
   rw [hcard] at hbound
   set cardS : ℕ := Nat.card {g : G // θ g = g⁻¹} with hcardS
   set cardC : ℕ := Nat.card (centralizer ((P : Subgroup G) : Set G)) with hcardC

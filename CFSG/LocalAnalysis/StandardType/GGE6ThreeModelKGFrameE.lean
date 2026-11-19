@@ -15,6 +15,7 @@ open CFSG CFSG.Assembly CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley TableBEx
 
 variable {R : Type} [Group R] [Finite R] {L' : Type} [Group L'] [Finite L'] (D : FrameData R)
 
+omit [Finite R] in
 theorem model_odd_of_good_diag (hAL : GGAbelianLift) (hD : D.Good)
     {ψ : L' →* R} (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')
     (hcard : Nat.card ψ.ker = 1 ∨ Nat.card ψ.ker = 3)
@@ -103,7 +104,7 @@ theorem kgFrame_core {K : Type} [Field K] [Finite K] [CharP K 2] {ζ : Kˣ} (hζ
       (∀ i : Fin 6, ∃ m : L', MulAut.conj m ∈ Subgroup.normalizer (A : Set (MulAut L')) ∧
         ∀ a b : A, (b : MulAut L') = MulAut.conj m * (a : MulAut L') * (MulAut.conj m)⁻¹ →
           Multiplicative.toAdd (κ b) = adRefl Tag.E6 3 i (Multiplicative.toAdd (κ a))) := by
-  haveI : Finite ↥(adjointGroup Tag.E6 K) := Finite.of_surjective ψ₀ hψ₀
+  have : Finite ↥(adjointGroup Tag.E6 K) := Finite.of_surjective ψ₀ hψ₀
   let D : FrameData ↥(adjointGroup Tag.E6 K) := eFrame K ζ hζ
   have hDH : D.H = (hatAut Tag.E6 K).range := rfl
   have hgood : D.Good := eFrame_good hζo hζ
@@ -164,7 +165,7 @@ theorem kgFrame_core {K : Type} [Field K] [Finite K] [CharP K 2] {ζ : Kˣ} (hζ
     exact (congrArg Subtype.val key).symm.trans h2
   · exact hinnaut
   · intro i
-    haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [h5]; norm_num)
+    have : Finite A := Nat.finite_of_card_ne_zero (by rw [h5]; norm_num)
     refine ⟨w i, kgFrame_conj_mem_normalizer (w i)
       (fun a => (hrefl i a).imp fun b hb => hb.1), ?_⟩
     intro a b hb
@@ -184,9 +185,9 @@ open CFSG CFSG.Assembly CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley TableBEx
 theorem kgFrameE6_holds : KGFrameE6 := by
   intro K _ _ n hn hK h3 ζ hζ hζo L' _ _ ψ A hTB h5
   obtain ⟨hψ, hker, hperf, hA, hAI, -, -, hsc⟩ := hTB
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := n) (by rw [← Nat.card_eq_fintype_card, hK])
   let ψ₀ : L' →* ↥(adjointGroup Tag.E6 K) := (recipeEquiv Tag.E6 K).toMonoidHom.comp ψ
   have hψ₀ : Function.Surjective ψ₀ := (recipeEquiv Tag.E6 K).surjective.comp hψ
   have hker₀ : ψ₀.ker = ψ.ker := by

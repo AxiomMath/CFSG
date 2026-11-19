@@ -51,7 +51,7 @@ theorem sec12N_alt2 [Finite G] {V : Subgroup G} (hΩ : Sec128Alt2 V) {t : G} (ht
     ∃ N0 : Subgroup G, N0 ≤ secN V ∧ (N0.subgroupOf (secN V)).Normal ∧
       N0.relIndex (secN V) = 2 ∧ t ∉ N0 := by
   obtain ⟨φ, hS, hE, hidx⟩ := sec12J_alt2_data hΩ
-  haveI : (MonoidHom.range φ).Normal := hE
+  have : (MonoidHom.range φ).Normal := hE
   set β : ↥(secN V) →* ↥(secNb V) := sec12J_beta V with hβ
   have hbsurj : Function.Surjective β := by
     intro x
@@ -64,7 +64,7 @@ theorem sec12N_alt2 [Finite G] {V : Subgroup G} (hΩ : Sec128Alt2 V) {t : G} (ht
   have hnot : β ⟨t, htN⟩ ∉ MonoidHom.range φ :=
     sec12N_not_mem_range hS.inj hy2 (sec12N_cent_card htN hcent)
   obtain ⟨H0, hH0n, hH0idx, hH0y⟩ := sec12N_index_two hidx hy2 hnot
-  haveI := hH0n
+  have := hH0n
   exact sec12N_of_hom β hbsurj hH0idx htN hH0y
 
 end CFSG.OddStandard.SmallF3.Omega

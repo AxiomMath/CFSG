@@ -23,7 +23,7 @@ theorem exists_trans
     {L : Subgroup G} (hL : IsHat ↥L ↥CFSG.Blueprint.NativeSporadic.M22) {V : Type} [CommGroup V]
     {ρ : G →* MulAut V} (hρ : IsFaithIrr12 (ρ.comp L.subtype)) :
     Nonempty (Trans G0 L glHom ρ) := by
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hρ.2.1]; norm_num)
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hρ.2.1]; norm_num)
   have hinj : Function.Injective (ρ.comp L.subtype) := hρ.2.2.1
   have hW : Nat.card V = 4096 := by rw [hρ.2.1]; norm_num
   let e : ↥L ≃* ↥(L.map ρ) :=

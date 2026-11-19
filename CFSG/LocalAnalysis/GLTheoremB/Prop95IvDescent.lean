@@ -96,6 +96,7 @@ theorem sigmaOf_descends (h : IvSetting m p M D L) :
   exact Subgroup.mem_subgroupOf.2
     ((gammaD_le_sigmaOf D) (h.hyp.clause_c ((CFSG.mem_openPCoreOf_iff x).2 hx)))
 
+omit [Finite G] in
 private theorem descent_isCharIn_map {S : Subgroup G} {So : Subgroup ↥M} (hSM : S ≤ M)
     (hSo : IsCharIn So (S.subgroupOf M)) : IsCharIn (So.map M.subtype) S := by
   unfold IsCharIn at hSo ⊢

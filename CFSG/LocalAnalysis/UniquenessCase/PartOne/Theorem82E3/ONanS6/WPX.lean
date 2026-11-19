@@ -31,7 +31,7 @@ theorem card_le_three_of_isCyclic_outer {H : Type*} [Group H] [Finite H]
     (h3H : ¬ 3 ∣ Nat.card H) (hout : IsCyclic (Outer H))
     {E : Subgroup (MulAut H)} (hE : ∀ x ∈ E, x ^ 3 = 1) : Nat.card E ≤ 3 := by
   classical
-  haveI : IsCyclic (Outer H) := hout
+  have : IsCyclic (Outer H) := hout
   have hEp : IsPGroup 3 E := fun x =>
     ⟨1, by rw [pow_one]; exact Subtype.ext (hE x x.2)⟩
   have hinner : Nat.card (inner H) ∣ Nat.card H :=

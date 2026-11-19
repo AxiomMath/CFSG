@@ -141,7 +141,7 @@ private theorem mem_U0sub' {x : PermV} : x ∈ U0sub ↔ Multiplicative.toAdd x 
 
 private theorem mem_Ucore' {x : PermV} :
     x ∈ Ucore ↔ Multiplicative.toAdd x 0 = 0 ∧ ∑ v : V3, Multiplicative.toAdd x v = 0 := by
-  simp [Ucore, mem_U0sub', AddMonoidHom.mem_ker, AddMonoidHom.finset_sum_apply]
+  simp [Ucore, mem_U0sub', AddMonoidHom.mem_ker]
 
 private theorem sum_mulVec_eq (h : GL (Fin 3) (ZMod 2)) (F : V3 → ZMod 2) :
     ∑ v : V3, F (((h : Matrix (Fin 3) (Fin 3) (ZMod 2))).mulVec v) = ∑ v : V3, F v := by
@@ -165,8 +165,8 @@ private theorem sum_omegaVec : ∑ v : V3, Multiplicative.toAdd omegaVec v = 1 :
     fun v => omegaVec_toAdd v
   rw [Finset.sum_congr rfl (fun v _ => h7 v)]
   rw [← Finset.sum_erase_add _ _ (Finset.mem_univ (0 : V3))]
-  rw [if_pos rfl, add_zero]
-  rw [Finset.sum_congr rfl (fun v hv => if_neg (Finset.ne_of_mem_erase hv))]
+  rw [ite_eq_left rfl, add_zero]
+  rw [Finset.sum_congr rfl (fun v hv => ite_eq_right (Finset.ne_of_mem_erase hv))]
   rw [Finset.sum_const, Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ]
   simp only [Fintype.card_fun, ZMod.card, Fintype.card_fin]
   decide
@@ -242,7 +242,7 @@ theorem as_H_5_1 : H_5_1 := by
         have := mulVec_inv_mulVec g v
         rw [h0, Matrix.mulVec_zero] at this
         exact this.symm
-      rw [if_neg hgv, if_neg hv]
+      rw [ite_eq_right hgv, ite_eq_right hv]
 
 @[expose] def H_5_2 : Prop :=
   (∀ r s t : Submodule (ZMod 2) V3, IsLine r → IsLine s → IsLine t → r ≠ s → t ≠ r → t ≠ s →
@@ -406,7 +406,7 @@ private theorem line_decide : ∀ F : Finset (Fin 3 → ZMod 2), (0 : Fin 3 → 
 private theorem natCard_submod_field {K : Type} [Field K] [Fintype K] {V : Type} [AddCommGroup V]
     {inst : Module K V} [Finite V] (W : Submodule K V) :
     Nat.card W = Fintype.card K ^ Module.finrank K W := by
-  haveI : Module.Finite K V := Module.Finite.of_finite
+  have : Module.Finite K V := Module.Finite.of_finite
   rw [Module.natCard_eq_pow_finrank (K := K) (V := W), Nat.card_eq_fintype_card]
 
 private theorem natCard_of_finrank_two (l : Submodule (ZMod 2) (Fin 3 → ZMod 2))
@@ -451,7 +451,7 @@ private theorem card_of_rk_two {A : Type} [CommGroup A] [Finite A] (hA : ∀ a :
 
 private theorem natCard_toAddSubgroup {A : Type} [CommGroup A] (W : Subgroup A) :
     Nat.card ↥(W.toAddSubgroup) = Nat.card ↥W :=
-  Nat.card_congr (Equiv.subtypeEquiv Additive.ofMul (fun a => Iff.rfl))
+  Nat.card_congr (Equiv.subtypeEquiv Additive.ofMul (fun _a => Iff.rfl))
 
 private theorem mem_Lpt (k : GL (Fin 3) (ZMod 2)) (p : Fin 3 → ZMod 2) :
     k ∈ Lpt p ↔ ∀ v ∈ ({p} : Set (Fin 3 → ZMod 2)), (k : Matrix (Fin 3) (Fin 3) (ZMod 2)).mulVec v = v :=
@@ -503,7 +503,7 @@ private theorem mem_Ll_iff (g : Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) :
     have h0 := (h (fun i => if i = 0 then 1 else 0) (by simp [mem_line0])).1
     have h1 := (h (fun i => if i = 1 then 1 else 0) (by simp [mem_line0])).1
     rw [slGL_coe, mem_line0] at h0 h1
-    simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three] at h0 h1
+    simp [Matrix.mulVec, dotProduct] at h0 h1
     exact ⟨h0, h1⟩
 
 private theorem mem_Lln_conj (c : GL (Fin 3) (ZMod 2)) (l : Submodule (ZMod 2) (Fin 3 → ZMod 2))
@@ -693,7 +693,7 @@ theorem as_H_5_5 : H_5_5 := by
   have hsetLl : {y : Additive A | ∃ g ∈ CFSG.Quasithin.H6.Ll, ρ g (Additive.ofMul x) = y} =
       Additive.toMul ⁻¹' ((fun h => act h x) '' (Lln l : Set (GL (Fin 3) (ZMod 2)))) := by
     ext y
-    simp only [Set.mem_setOf_eq, Set.mem_preimage, Set.mem_image, SetLike.mem_coe]
+    simp only [Set.mem_ofPred_eq, Set.mem_preimage, Set.mem_image, SetLike.mem_coe]
     constructor
     · rintro ⟨g, hg, rfl⟩
       exact ⟨c * slGL g * c⁻¹, hmemLl g hg, by rw [hρ]; rfl⟩
@@ -1021,13 +1021,13 @@ private theorem toAdd_uOf_of {S : Set V3} {v : V3} (h : v ≠ 0 ∧ v ∉ S) :
     Multiplicative.toAdd (uOf S) v = 1 := by
   unfold uOf
   simp only [toAdd_ofAdd]
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 private theorem toAdd_uOf_not {S : Set V3} {v : V3} (h : ¬ (v ≠ 0 ∧ v ∉ S)) :
     Multiplicative.toAdd (uOf S) v = 0 := by
   unfold uOf
   simp only [toAdd_ofAdd]
-  rw [if_neg h]
+  rw [ite_eq_right h]
 
 private theorem toAdd_uOf_congr {S : Set V3} {v w : V3}
     (h : v ≠ 0 ∧ v ∉ S ↔ w ≠ 0 ∧ w ∉ S) :
@@ -1043,12 +1043,12 @@ private theorem sum_toAdd_uOf (S : Set V3) :
   have h : ∀ v : V3, Multiplicative.toAdd (uOf S) v = if v ≠ 0 ∧ v ∉ S then 1 else 0 := by
     intro v
     by_cases hv : v ≠ 0 ∧ v ∉ S
-    · rw [toAdd_uOf_of hv, if_pos hv]
-    · rw [toAdd_uOf_not hv, if_neg hv]
+    · rw [toAdd_uOf_of hv, ite_eq_left hv]
+    · rw [toAdd_uOf_not hv, ite_eq_right hv]
   rw [Finset.sum_congr rfl (fun v _ => h v), Finset.sum_boole]
 
 private theorem card_univ_V3 : (Finset.univ : Finset V3).card = 8 := by
-  simp [Finset.card_univ, Fintype.card_fun, ZMod.card]
+  simp [Finset.card_univ, ZMod.card]
 
 open scoped Classical in
 private theorem card_mem_l (l : Submodule (ZMod 2) V3) (hl : IsLine l) :
@@ -1077,7 +1077,7 @@ private theorem card_mem_l_ne_zero (l : Submodule (ZMod 2) V3) (hl : IsLine l) :
     constructor
     · rintro ⟨h1, h2⟩; exact ⟨h2, h1⟩
     · rintro ⟨h2, h1⟩; exact ⟨h1, h2⟩
-  rw [hfe, Finset.card_erase_of_mem (by simp [Submodule.zero_mem]), h4]
+  rw [hfe, Finset.card_erase_of_mem (by simp), h4]
 
 private theorem uOf_pt_mem_Ucore (p : V3) (hp : p ≠ 0) : uOf ({p} : Set V3) ∈ Ucore := by
   rw [mem_Ucore']
@@ -1087,18 +1087,18 @@ private theorem uOf_pt_mem_Ucore (p : V3) (hp : p ≠ 0) : uOf ({p} : Set V3) �
     intro v
     by_cases h0 : v = 0
     · subst h0
-      rw [toAdd_uOf_not (S := ({p} : Set V3)) (v := 0) (by simp), if_pos (rfl : (0 : V3) = 0),
-        if_neg (Ne.symm hp)]
+      rw [toAdd_uOf_not (S := ({p} : Set V3)) (v := 0) (by simp), ite_eq_left (rfl : (0 : V3) = 0),
+        ite_eq_right (Ne.symm hp)]
       decide
     · by_cases hpv : v = p
       · subst hpv
-        rw [toAdd_uOf_not (S := ({v} : Set V3)) (v := v) (by simp), if_neg h0, if_pos (rfl : v = v)]
+        rw [toAdd_uOf_not (S := ({v} : Set V3)) (v := v) (by simp), ite_eq_right h0, ite_eq_left (rfl : v = v)]
         decide
-      · rw [toAdd_uOf_of (S := ({p} : Set V3)) (v := v) ⟨h0, by simpa using hpv⟩, if_neg h0,
-          if_neg hpv]
+      · rw [toAdd_uOf_of (S := ({p} : Set V3)) (v := v) ⟨h0, by simpa using hpv⟩, ite_eq_right h0,
+          ite_eq_right hpv]
         decide
   rw [Finset.sum_congr rfl (fun v _ => h v)]
-  simp [Finset.sum_add_distrib, Finset.sum_ite_eq', card_univ_V3]
+  simp [Finset.sum_add_distrib, Finset.sum_ite_eq']
   decide
 
 open scoped Classical in
@@ -1349,7 +1349,7 @@ private theorem H54_one (T : Subgroup (GL (Fin 3) (ZMod 2))) (p : V3) (l : Submo
   exact absurd h1 (by decide)
 
 private theorem H54_two (T : Subgroup (GL (Fin 3) (ZMod 2))) (p : V3) (l : Submodule (ZMod 2) V3)
-    (hyp : HypH5 T p l) (c : GL (Fin 3) (ZMod 2)) (hconjT : ∀ y ∈ B0, c * y * c⁻¹ ∈ T)
+    (hyp : HypH5 T p l) (c : GL (Fin 3) (ZMod 2)) (_hconjT : ∀ y ∈ B0, c * y * c⁻¹ ∈ T)
     (hpc : (c : Matrix (Fin 3) (Fin 3) (ZMod 2)).mulVec e1 = p)
     (hline : ∀ v : V3, (c : Matrix (Fin 3) (Fin 3) (ZMod 2)).mulVec v ∈ l ↔ v 2 = 0) :
     Ucore ⊓ fixV ((Lln l).map gl3Act) ≤
@@ -1501,7 +1501,7 @@ private theorem H5line_dot (r : Submodule (ZMod 2) V3) (hr : IsLine r) :
     ∃ a : V3, a ≠ 0 ∧ ∀ v, v ∈ r ↔ H5dot a v = 0 := by
   classical
   obtain ⟨a, ha, hF⟩ := H5lines_decide (Finset.univ.filter (fun v : V3 => v ∈ r))
-    (by simp [Submodule.zero_mem])
+    (by simp)
     (fun x hx y hy => by
       simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hx hy ⊢
       exact r.add_mem hx hy)
@@ -1513,13 +1513,13 @@ private theorem H5line_dot (r : Submodule (ZMod 2) V3) (hr : IsLine r) :
 private def H5sub (a : V3) : Submodule (ZMod 2) V3 where
   carrier := {v | H5dot a v = 0}
   add_mem' := fun {u v} hu hv => by
-    simp only [Set.mem_setOf_eq] at hu hv ⊢
+    simp only [Set.mem_ofPred_eq] at hu hv ⊢
     rw [H5dot_add_right, hu, hv, add_zero]
   zero_mem' := by
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     exact H5dot_zero_right a
   smul_mem' := fun c v hv => by
-    simp only [Set.mem_setOf_eq] at hv ⊢
+    simp only [Set.mem_ofPred_eq] at hv ⊢
     rw [H5dot_smul, hv, mul_zero]
 
 private theorem mem_H5sub {a v : V3} : v ∈ H5sub a ↔ H5dot a v = 0 := Iff.rfl
@@ -1552,10 +1552,10 @@ private theorem uOf_H5lin (a : V3) (r : Submodule (ZMod 2) V3)
   congr 1
   funext v
   by_cases h : H5dot a v = 0
-  · rw [if_neg (fun hh => hh.2 ((hr v).2 h)), h]
+  · rw [ite_eq_right (fun hh => hh.2 ((hr v).2 h)), h]
   · have hv0 : v ≠ 0 := fun h0 => h (by rw [h0, H5dot_zero_right])
     have hvr : v ∉ r := fun hh => h ((hr v).1 hh)
-    rw [if_pos ⟨hv0, hvr⟩, H5_one_of_ne _ h]
+    rw [ite_eq_left ⟨hv0, hvr⟩, H5_one_of_ne _ h]
 
 private def H5dualVec (g : GL (Fin 3) (ZMod 2)) (a : V3) : V3 :=
   (((g⁻¹ : GL (Fin 3) (ZMod 2)) : Matrix (Fin 3) (Fin 3) (ZMod 2)).transpose).mulVec a
@@ -1673,7 +1673,7 @@ private theorem gl3Act_uOf (g : GL (Fin 3) (ZMod 2)) (S : Set V3) :
   funext v
   rw [gl3Act_toAdd]
   apply toAdd_uOf_congr2
-  simp only [Set.mem_setOf_eq, ne_eq, gl_mulVec_zero_iff]
+  simp only [Set.mem_ofPred_eq, ne_eq, gl_mulVec_zero_iff]
 
 private theorem uOf_pt_mul_uOf_pt (q q' : V3) (hq : q ≠ 0) (hq' : q' ≠ 0) (hne : q ≠ q') :
     uOf ({q} : Set V3) * uOf ({q'} : Set V3) = pairV q q' := by
@@ -1706,7 +1706,7 @@ private theorem basisM_col (a b c : V3) : (basisM a b c).col = ![a, b, c] := by
 
 private theorem linIndep_iff_D3 (a b c : V3) :
     LinearIndependent (ZMod 2) ![a, b, c] ↔ D3 a b c ≠ 0 := by
-  rw [← basisM_col, Matrix.linearIndependent_cols_iff_isUnit, Matrix.isUnit_iff_isUnit_det,
+  rw [← basisM_col, Matrix.linearIndependent_col_iff_isUnit, Matrix.isUnit_iff_isUnit_det,
     isUnit_iff_ne_zero, basisM_det]
 
 private theorem complete1 : ∀ a : V3, a ≠ 0 → ∃ b c : V3, D3 a b c ≠ 0 := by decide
@@ -1758,7 +1758,7 @@ private theorem H5lin_ne_one {a : V3} (ha : a ≠ 0) : H5lin a ≠ 1 := by
 
 private theorem O2set_eq : O2set = {x | ∃ a : V3, a ≠ 0 ∧ x = H5lin a} := by
   ext x
-  simp only [O2set, Set.mem_setOf_eq]
+  simp only [O2set, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨r, hr, rfl⟩
     obtain ⟨a, ha, hmem⟩ := H5line_dot r hr
@@ -1769,7 +1769,7 @@ private theorem O2set_eq : O2set = {x | ∃ a : V3, a ≠ 0 ∧ x = H5lin a} := 
 
 private theorem O4set_eq : O4set = {x | ∃ a b c : V3, D3 a b c ≠ 0 ∧ x = uOf {a, b, c}} := by
   ext x
-  simp only [O4set, Set.mem_setOf_eq]
+  simp only [O4set, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨a, b, c, hind, rfl⟩
     exact ⟨a, b, c, (linIndep_iff_D3 a b c).1 hind, rfl⟩
@@ -1777,14 +1777,14 @@ private theorem O4set_eq : O4set = {x | ∃ a b c : V3, D3 a b c ≠ 0 ∧ x = u
     exact ⟨a, b, c, (linIndep_iff_D3 a b c).2 hD, rfl⟩
 
 private theorem mem_U0sub_pairV {a b : V3} (ha : a ≠ 0) (hb : b ≠ 0) : pairV a b ∈ U0sub := by
-  rw [mem_U0sub', toAdd_pairV, if_neg]
+  rw [mem_U0sub', toAdd_pairV, ite_eq_right]
   rintro (h | h)
   · exact ha h.symm
   · exact hb h.symm
 
 private theorem O3set_eq : O3set = {x | ∃ a b : V3, a ≠ 0 ∧ b ≠ 0 ∧ a ≠ b ∧ x = pairV a b} := by
   ext x
-  simp only [O3set, Set.mem_setOf_eq]
+  simp only [O3set, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hU, hcard⟩
     have hU0 : Multiplicative.toAdd x 0 = 0 := mem_U0sub'.1 hU
@@ -1801,9 +1801,9 @@ private theorem O3set_eq : O3set = {x | ∃ a b : V3, a ≠ 0 ∧ b ≠ 0 ∧ a 
     funext v
     rw [toAdd_pairV]
     by_cases h : v = a ∨ v = b
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact H5_one_of_ne _ ((hmem v).2 h)
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact not_not.1 (fun hh => h ((hmem v).1 hh))
   · rintro ⟨a, b, ha, hb, hab, rfl⟩
     refine ⟨mem_U0sub_pairV ha hb, ?_⟩
@@ -1813,9 +1813,9 @@ private theorem O3set_eq : O3set = {x | ∃ a b : V3, a ≠ 0 ∧ b ≠ 0 ∧ a 
       ext v
       rw [Finset.mem_filter, toAdd_pairV, Finset.mem_insert, Finset.mem_singleton]
       by_cases h : v = a ∨ v = b
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         simp [h]
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         simp [h]
     rw [hs, Finset.card_pair hab]
 
@@ -1934,14 +1934,14 @@ private theorem O3_ucore (x : PermV) (hx : x ∈ O3set) : x ∈ Ucore ∧ x ≠ 
   have key : ∀ a b : V3, a ≠ 0 → b ≠ 0 → a ≠ b →
       ∑ v : V3, Multiplicative.toAdd (pairV a b) v = 0 := by decide
   have h0 : Multiplicative.toAdd (pairV a b) 0 = 0 := by
-    rw [toAdd_pairV, if_neg]
+    rw [toAdd_pairV, ite_eq_right]
     rintro (h | h)
     · exact ha h.symm
     · exact hb h.symm
   refine ⟨mem_Ucore'.2 ⟨h0, key a b ha hb hab⟩, ?_⟩
   intro h1
   have h2 : Multiplicative.toAdd (pairV a b) a = 1 := by
-    rw [toAdd_pairV, if_pos (Or.inl rfl)]
+    rw [toAdd_pairV, ite_eq_left (Or.inl rfl)]
   rw [h1, toAdd_one, Pi.zero_apply] at h2
   exact zero_ne_one h2
 
@@ -1955,7 +1955,7 @@ private theorem O4_ucore (x : PermV) (hx : x ∈ O4set) : x ∈ Ucore ∧ x ≠ 
     simp only [toAdd_uOf3]
     exact key a b c hD
   have h0 : Multiplicative.toAdd (uOf ({a, b, c} : Set V3)) 0 = 0 := by
-    rw [toAdd_uOf3, if_neg]
+    rw [toAdd_uOf3, ite_eq_right]
     intro h
     exact h.1 rfl
   refine ⟨mem_Ucore'.2 ⟨h0, hsum⟩, ?_⟩
@@ -1979,7 +1979,7 @@ private theorem sum_zmod2_eq_card (f : V3 → ZMod 2) :
     intro v
     by_cases hv : f v = 0
     · simp [hv]
-    · simp [hv, H5_one_of_ne _ hv]
+    · simp [H5_one_of_ne _ hv]
   rw [Finset.sum_congr rfl (fun v _ => h v), Finset.sum_boole]
 
 private theorem eq_of_toAdd_eq (x y : PermV)
@@ -2050,11 +2050,11 @@ private theorem cover_Ucore (x : PermV) (hx : x ∈ Ucore) (hx1 : x ≠ 1) :
       intro v
       rw [toAdd_uOf3]
       by_cases hv0 : v = 0
-      · rw [hv0, if_neg (fun h => h.1 rfl), hU0]
+      · rw [hv0, ite_eq_right (fun h => h.1 rfl), hU0]
       · by_cases hvT : v = a ∨ v = b ∨ v = c
-        · rw [if_neg (fun h => h.2 hvT)]
+        · rw [ite_eq_right (fun h => h.2 hvT)]
           exact ((hTiff v).2 hvT).2
-        · rw [if_pos ⟨hv0, hvT⟩]
+        · rw [ite_eq_left ⟨hv0, hvT⟩]
           have hne : Multiplicative.toAdd x v ≠ 0 := fun h0 => hvT ((hTiff v).1 ⟨hv0, h0⟩)
           exact H5_one_of_ne _ hne
     by_cases hD : D3 a b c ≠ 0
@@ -2093,11 +2093,11 @@ private theorem cover_Ucore (x : PermV) (hx : x ∈ Ucore) (hx1 : x ≠ 1) :
     intro v
     rw [toAdd_uOf1]
     by_cases hv0 : v = 0
-    · rw [hv0, if_neg (fun h => h.1 rfl), hU0]
+    · rw [hv0, ite_eq_right (fun h => h.1 rfl), hU0]
     · by_cases hvq : v = q
-      · rw [if_neg (fun h => h.2 hvq)]
+      · rw [ite_eq_right (fun h => h.2 hvq)]
         exact ((hqiff v).2 hvq).2
-      · rw [if_pos ⟨hv0, hvq⟩]
+      · rw [ite_eq_left ⟨hv0, hvq⟩]
         have hne : Multiplicative.toAdd x v ≠ 0 := fun h0 => hvq ((hqiff v).1 ⟨hv0, h0⟩)
         exact H5_one_of_ne _ hne
 
@@ -2659,7 +2659,7 @@ private theorem H5_indecomposable (A B : Subgroup PermV) (hA : A ≤ Ucore) (hB 
     (hBi : ∀ g : GL (Fin 3) (ZMod 2), ∀ b ∈ B, gl3Act g b ∈ B)
     (hinf : A ⊓ B = ⊥) : A = ⊥ ∨ B = ⊥ := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hW0 : H5W ≤ A ⊓ B := le_inf (H5W_le_of_inv A hA hAi hcon.1) (H5W_le_of_inv B hB hBi hcon.2)
   rw [hinf, le_bot_iff] at hW0
   have hmem : H5lin (![1, 0, 0] : V3) ∈ H5W := ⟨Multiplicative.ofAdd ![1, 0, 0], by
@@ -2704,12 +2704,12 @@ private theorem S0_card : (Finset.univ.erase (0 : V3)).card = 7 := by decide
 
 private theorem H5lin_injective : Function.Injective H5lin := fun _ _ h => H5lin_inj h
 
-private theorem uOf_pt_inj {q q' : V3} (hq : q ≠ 0) (hq' : q' ≠ 0)
+private theorem uOf_pt_inj {q q' : V3} (hq : q ≠ 0) (_hq' : q' ≠ 0)
     (h : uOf ({q} : Set V3) = uOf ({q'} : Set V3)) : q = q' := by
   by_contra hne
   have h1 : Multiplicative.toAdd (uOf ({q} : Set V3)) q =
       Multiplicative.toAdd (uOf ({q'} : Set V3)) q := by rw [h]
-  rw [toAdd_uOf1, toAdd_uOf1, if_neg (fun hh => hh.2 rfl), if_pos ⟨hq, hne⟩] at h1
+  rw [toAdd_uOf1, toAdd_uOf1, ite_eq_right (fun hh => hh.2 rfl), ite_eq_left ⟨hq, hne⟩] at h1
   exact zero_ne_one h1
 
 private theorem ncard_O1 : O1set.ncard = 7 := by
@@ -2749,14 +2749,14 @@ private theorem indV_injective : Function.Injective indV := by
   have h1 := congrArg (fun F : PermV => Multiplicative.toAdd F v) h
   simp only [toAdd_indV] at h1
   by_cases hs : v ∈ s
-  · rw [if_pos hs] at h1
+  · rw [ite_eq_left hs] at h1
     by_cases ht : v ∈ t
     · exact ⟨fun _ => ht, fun _ => hs⟩
-    · rw [if_neg ht] at h1
+    · rw [ite_eq_right ht] at h1
       exact absurd h1 one_ne_zero
-  · rw [if_neg hs] at h1
+  · rw [ite_eq_right hs] at h1
     by_cases ht : v ∈ t
-    · rw [if_pos ht] at h1
+    · rw [ite_eq_left ht] at h1
       exact absurd h1.symm one_ne_zero
     · exact ⟨fun hh => absurd hh hs, fun hh => absurd hh ht⟩
 
@@ -2808,14 +2808,14 @@ private theorem uOf_finset_inj {s t : Finset V3} (hs : ∀ v ∈ s, v ≠ 0) (ht
     unfold uOf at h1
     simp only [toAdd_ofAdd, Finset.mem_coe] at h1
     by_cases hvs : v ∈ s
-    · rw [if_neg (fun hh => hh.2 hvs)] at h1
+    · rw [ite_eq_right (fun hh => hh.2 hvs)] at h1
       by_cases hvt : v ∈ t
       · exact ⟨fun _ => hvt, fun _ => hvs⟩
-      · rw [if_pos ⟨hv0, hvt⟩] at h1
+      · rw [ite_eq_left ⟨hv0, hvt⟩] at h1
         exact absurd h1.symm one_ne_zero
-    · rw [if_pos ⟨hv0, hvs⟩] at h1
+    · rw [ite_eq_left ⟨hv0, hvs⟩] at h1
       by_cases hvt : v ∈ t
-      · rw [if_neg (fun hh => hh.2 hvt)] at h1
+      · rw [ite_eq_right (fun hh => hh.2 hvt)] at h1
         exact absurd h1 one_ne_zero
       · exact ⟨fun hh => absurd hh hvs, fun hh => absurd hh hvt⟩
 
@@ -2922,7 +2922,7 @@ private theorem H52beta_nondeg (u : PermV) (hu : u ∈ Ucore) (hu1 : u ≠ 1) :
   obtain ⟨hu0, hsum⟩ := mem_Ucore'.1 hu
   obtain ⟨x, hx⟩ : ∃ x, Multiplicative.toAdd u x ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hu1
     apply eq_of_toAdd_eq
     intro v
@@ -2931,7 +2931,7 @@ private theorem H52beta_nondeg (u : PermV) (hu : u ∈ Ucore) (hu1 : u ≠ 1) :
   have hx0 : x ≠ 0 := fun h => hx (by rw [h]; exact hu0)
   obtain ⟨y, hy0, hyv⟩ : ∃ y, y ≠ 0 ∧ Multiplicative.toAdd u y = 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h := sum_zmod2_eq_card (fun v => Multiplicative.toAdd u v)
     rw [hsum] at h
     have hfil : Finset.univ.filter (fun v => Multiplicative.toAdd u v ≠ 0) =
@@ -3023,16 +3023,16 @@ private theorem H52_Lpt_fix (p : V3) (hp : p ≠ 0) :
         have hvS : v ∉ S := by
           rw [hS, Finset.mem_filter]
           exact fun h => h.2.1 hv0 |>.elim
-        rw [if_neg hpv, if_neg hvS, add_zero, hv0, hf0]
+        rw [ite_eq_right hpv, ite_eq_right hvS, add_zero, hv0, hf0]
       · by_cases hvp : v = p
         · have hvS : v ∉ S := by
             rw [hS, Finset.mem_filter]
             exact fun h => h.2.2 hvp
-          rw [if_pos hvp, if_neg hvS, add_zero, hvp]
+          rw [ite_eq_left hvp, ite_eq_right hvS, add_zero, hvp]
         · have hvS : v ∈ S := by
             rw [hS, Finset.mem_filter]
             exact ⟨Finset.mem_univ _, hv0, hvp⟩
-          rw [if_neg hvp, if_pos hvS, zero_add, hc]
+          rw [ite_eq_right hvp, ite_eq_left hvS, zero_add, hc]
           exact Lpt_fix_const p hp f hfix v w0 hv0 hvp hw0 hw0p
     have hsum := sum_struct (fun v => Multiplicative.toAdd f v) p S (Multiplicative.toAdd f p) c hpt
     rw [hfs, key2 p hp] at hsum
@@ -3104,10 +3104,10 @@ private theorem H52_Lln_fix (c : GL (Fin 3) (ZMod 2)) (l : Submodule (ZMod 2) V3
       intro v
       by_cases hvl : v ∈ l
       · by_cases hv0 : v = 0
-        · rw [if_neg (by simp [hv0]), if_neg (by simp [hvl]), add_zero, hv0, hf0]
-        · rw [if_pos (by simp [hvl, hv0]), if_neg (by simp [hvl]), add_zero]
+        · rw [ite_eq_right (by simp [hv0]), ite_eq_right (by simp [hvl]), add_zero, hv0, hf0]
+        · rw [ite_eq_left (by simp [hvl, hv0]), ite_eq_right (by simp [hvl]), add_zero]
           exact hcst v a0 hvl hv0 ha0.2.1 ha0.2.2
-      · rw [if_neg (by simp [hvl]), if_pos (by simp [hvl]), zero_add]
+      · rw [ite_eq_right (by simp [hvl]), ite_eq_left (by simp [hvl]), zero_add]
         exact hcst' v b0 hvl hb0.2
     have hsum := sum_two_sets (fun v => Multiplicative.toAdd f v)
       (Finset.univ.filter (fun v : V3 => v ∈ l ∧ v ≠ 0))
@@ -3137,7 +3137,7 @@ private theorem H52_Lln_fix (c : GL (Fin 3) (ZMod 2)) (l : Submodule (ZMod 2) V3
         simp only [toAdd_ofAdd, SetLike.mem_coe]
         by_cases hvl : v ∈ l
         · have hnot : ¬ (v ≠ 0 ∧ v ∉ l) := fun h => h.2 hvl
-          simp [hvl, hnot]
+          simp [hvl]
         · have hv0 : v ≠ 0 := fun h0 => hvl (h0 ▸ l.zero_mem)
           simp [hvl, hv0]
       rw [hf1]
@@ -3271,7 +3271,7 @@ private theorem H52_T_elem (T : Subgroup (GL (Fin 3) (ZMod 2))) (p : V3)
       rw [hBdef, Finset.mem_filter] at hh
       exact hh.2 (h ▸ hpl)
     by_cases hvp : v = p
-    · rw [if_pos hvp, if_neg (hvA hvp), if_neg (hnB' hvp), add_zero, add_zero, hvp]
+    · rw [ite_eq_left hvp, ite_eq_right (hvA hvp), ite_eq_right (hnB' hvp), add_zero, add_zero, hvp]
     · by_cases hvl : v ∈ l
       · by_cases hv0 : v = 0
         · have hnA : v ∉ A := fun hh => by
@@ -3280,14 +3280,14 @@ private theorem H52_T_elem (T : Subgroup (GL (Fin 3) (ZMod 2))) (p : V3)
           have hnB : v ∉ B := fun hh => by
             rw [hBdef, Finset.mem_filter] at hh
             exact hh.2 hvl
-          rw [if_neg hvp, if_neg hnA, if_neg hnB, add_zero, add_zero, hv0, hf0]
+          rw [ite_eq_right hvp, ite_eq_right hnA, ite_eq_right hnB, add_zero, add_zero, hv0, hf0]
         · have hvA' : v ∈ A := by
             rw [hAdef, Finset.mem_filter]
             exact ⟨Finset.mem_univ _, hvl, hv0, hvp⟩
           have hnB : v ∉ B := fun hh => by
             rw [hBdef, Finset.mem_filter] at hh
             exact hh.2 hvl
-          rw [if_neg hvp, if_pos hvA', if_neg hnB, zero_add, add_zero]
+          rw [ite_eq_right hvp, ite_eq_left hvA', ite_eq_right hnB, zero_add, add_zero]
           exact hcstL v a0 hvl hv0 hvp ha0'.1 ha0'.2.1 ha0'.2.2
       · have hvB : v ∈ B := by
           rw [hBdef]
@@ -3295,7 +3295,7 @@ private theorem H52_T_elem (T : Subgroup (GL (Fin 3) (ZMod 2))) (p : V3)
         have hnA : v ∉ A := fun hh => by
           rw [hAdef, Finset.mem_filter] at hh
           exact hvl hh.2.1
-        rw [if_neg hvp, if_neg hnA, if_pos hvB, zero_add, zero_add]
+        rw [ite_eq_right hvp, ite_eq_right hnA, ite_eq_left hvB, zero_add, zero_add]
         exact hcstO v b0 hvl hb0'
   have hsum : ∑ v : V3, Multiplicative.toAdd f v =
       Multiplicative.toAdd f p + ((A.card : ℕ) : ZMod 2) * α + ((B.card : ℕ) : ZMod 2) * β :=
@@ -3310,8 +3310,8 @@ private theorem H52_T_elem (T : Subgroup (GL (Fin 3) (ZMod 2))) (p : V3)
     intro v
     rw [hpt v]
     by_cases hvp : v = p
-    · rw [if_pos hvp, hfp, zero_add]
-    · rw [if_neg hvp, zero_add]
+    · rw [ite_eq_left hvp, hfp, zero_add]
+    · rw [ite_eq_right hvp, zero_add]
   rcases H5_zmod2_cases α with hα0 | hα1 <;> rcases H5_zmod2_cases β with hβ0 | hβ1
   · left
     apply eq_of_toAdd_eq
@@ -3327,13 +3327,13 @@ private theorem H52_T_elem (T : Subgroup (GL (Fin 3) (ZMod 2))) (p : V3)
         rw [hBdef, Finset.mem_filter] at hh
         exact hh.2 hvl
       have hn : ¬ (v ≠ 0 ∧ v ∉ l) := fun h => h.2 hvl
-      rw [if_neg hnB, if_neg hn, add_zero]
+      rw [ite_eq_right hnB, ite_eq_right hn, add_zero]
       simp
     · have hvB : v ∈ B := by
         rw [hBdef]
         exact Finset.mem_filter.2 ⟨Finset.mem_univ _, hvl⟩
       have hv0 : v ≠ 0 := fun h => hvl (h ▸ h0l)
-      rw [if_pos hvB, if_pos (show v ≠ 0 ∧ v ∉ l from ⟨hv0, hvl⟩)]
+      rw [ite_eq_left hvB, ite_eq_left (show v ≠ 0 ∧ v ∉ l from ⟨hv0, hvl⟩)]
       simp
   · right; right; right
     apply eq_of_toAdd_eq
@@ -3346,7 +3346,7 @@ private theorem H52_T_elem (T : Subgroup (GL (Fin 3) (ZMod 2))) (p : V3)
     intro v
     rw [hpt' v, hα1, hβ1, toAdd_uOf1]
     by_cases hvl : v ∈ l <;> by_cases hv0 : v = 0 <;> by_cases hvp : v = p <;>
-      simp [hAdef, hBdef, hvl, hv0, hvp, hpl, h0l, h11]
+      simp [hAdef, hBdef, hvl, hv0, hvp, hpl, h0l]
 
 private theorem H52_T_closure (T : Subgroup (GL (Fin 3) (ZMod 2))) (p : V3)
     (l : Submodule (ZMod 2) V3) (hyp : HypH5 T p l) (c : GL (Fin 3) (ZMod 2))
@@ -3413,13 +3413,13 @@ private theorem H52_T_rk (T : Subgroup (GL (Fin 3) (ZMod 2))) (p : V3)
   have hb00 : b0 ≠ 0 := fun h => hb0l (h ▸ h0l)
   have hb0p : b0 ≠ p := fun h => hb0l (h ▸ hpl)
   have hAp : Multiplicative.toAdd (uOf ({p} : Set V3)) a0 = 1 := by
-    rw [toAdd_uOf1, if_pos ⟨ha00, ha0p⟩]
+    rw [toAdd_uOf1, ite_eq_left ⟨ha00, ha0p⟩]
   have hAl : Multiplicative.toAdd (uOf (l : Set V3)) a0 = 0 := by
-    rw [toAdd_uOf_lset, if_neg (fun h => h.2 ha0l)]
+    rw [toAdd_uOf_lset, ite_eq_right (fun h => h.2 ha0l)]
   have hBp : Multiplicative.toAdd (uOf ({p} : Set V3)) b0 = 1 := by
-    rw [toAdd_uOf1, if_pos ⟨hb00, hb0p⟩]
+    rw [toAdd_uOf1, ite_eq_left ⟨hb00, hb0p⟩]
   have hBl : Multiplicative.toAdd (uOf (l : Set V3)) b0 = 1 := by
-    rw [toAdd_uOf_lset, if_pos ⟨hb00, hb0l⟩]
+    rw [toAdd_uOf_lset, ite_eq_left ⟨hb00, hb0l⟩]
   have hmulA : Multiplicative.toAdd (uOf ({p} : Set V3) * uOf (l : Set V3)) a0 = 1 := by
     rw [toAdd_mul, Pi.add_apply, hAp, hAl, add_zero]
   have hmulB : Multiplicative.toAdd (uOf ({p} : Set V3) * uOf (l : Set V3)) b0 = 0 := by
@@ -3665,13 +3665,13 @@ private theorem isPGroup_conjSub (c : GL (Fin 3) (ZMod 2))
 
 private theorem pCoreOf_le_of_odd_index {H S : Subgroup (GL (Fin 3) (ZMod 2))} (hSH : S ≤ H)
     (hS : IsPGroup 2 S) (hodd : ¬ 2 ∣ S.index) : CFSG.Open.pCoreOf 2 H ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hrel : ¬ 2 ∣ (S.subgroupOf H).index := fun h => hodd (by
     rw [← Subgroup.relIndex_mul_index hSH]
     exact Dvd.dvd.mul_right h _)
   have hS' : IsPGroup 2 (S.subgroupOf H) :=
     hS.of_equiv (Subgroup.subgroupOfEquivOfLe hSH).symm
-  haveI : (CFSG.pCore 2 ↥H).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥H).Normal := CFSG.pCore_normal
   let T : Sylow 2 H := hS'.toSylow hrel
   have hpc : CFSG.pCore 2 H ≤ (T : Subgroup H) :=
     (CFSG.pCore_isPGroup (G := H) (p := 2)).le_sylow_of_normal T
@@ -4123,7 +4123,6 @@ private theorem H52seven_notmem (l : Submodule (ZMod 2) V3) (hl : IsLine l) (q :
   have hT5 : ({0, q, s, M.mulVec s, M.mulVec (M.mulVec s)} : Finset V3).card = 5 := by
     rw [Finset.card_insert_of_notMem n1, Finset.card_insert_of_notMem n2,
       Finset.card_insert_of_notMem n3, Finset.card_pair hMsMMs]
-    all_goals norm_num
   have hsub : ({0, q, s, M.mulVec s, M.mulVec (M.mulVec s)} : Finset V3) ⊆
       Finset.univ.filter (fun v : V3 => v ∈ l) := by
     intro x hx
@@ -4156,7 +4155,6 @@ private theorem H52seven_orbit3 (M : Matrix (Fin 3) (Fin 3) (ZMod 2))
     simp only [Finset.mem_insert, Finset.mem_singleton, not_or]
     exact ⟨hs, h2⟩
   rw [Finset.card_insert_of_notMem n3, Finset.card_pair h1]
-  all_goals norm_num
 
 private theorem H52seven_const (M : Matrix (Fin 3) (Fin 3) (ZMod 2))
     (hMMM : ∀ v : V3, M.mulVec (M.mulVec (M.mulVec v)) = v)
@@ -4219,7 +4217,7 @@ private theorem H52seven_ident (l : Submodule (ZMod 2) V3) (q : V3) (hq : q ≠ 
     rw [hpt v, toAdd_mul, Pi.add_apply, toAdd_uOf_lset, toAdd_uOf1]
     rcases htri v with rfl | rfl | ⟨hvl, hv0⟩ | ⟨hvl, hvq⟩
     · simp [hl0, hq0]
-    · simp [hql, hq, h11]
+    · simp [hql, hq]
     · have hvq : v ≠ q := fun h => hql (h ▸ hvl)
       simp [hvl, hv0, hvq]
     · have hv0 : v ≠ 0 := fun h => hvl (h ▸ hl0)
@@ -4245,9 +4243,9 @@ private theorem H52seven_ident (l : Submodule (ZMod 2) V3) (q : V3) (hq : q ≠ 
     · simp [hl0, hq0]
     · simp [hql, hq, h11]
     · have hvq : v ≠ q := fun h => hql (h ▸ hvl)
-      simp [hvl, hv0, hvq, h11]
+      simp [hvl, hv0, hvq]
     · have hv0 : v ≠ 0 := fun h => hvl (h ▸ hl0)
-      simp [hvl, hvq, hv0, h11]
+      simp [hvl, hvq, hv0]
 
 private theorem H52seven_core (l : Submodule (ZMod 2) V3) (hl : IsLine l) (q : V3) (hq : q ≠ 0)
     (M : Matrix (Fin 3) (Fin 3) (ZMod 2))
@@ -4281,7 +4279,6 @@ private theorem H52seven_core (l : Submodule (ZMod 2) V3) (hl : IsLine l) (q : V
     have hqmem : q ∈ Finset.univ.filter (fun v : V3 => v ∉ l) :=
       Finset.mem_filter.2 ⟨Finset.mem_univ _, hql⟩
     rw [hfe, Finset.card_erase_of_mem hqmem, card_compl_l l hl]
-    all_goals norm_num
   have hA2card : A2.card = 3 := by
     rw [hA2def]
     exact card_mem_l_ne_zero l hl
@@ -4323,23 +4320,23 @@ private theorem H52seven_core (l : Submodule (ZMod 2) V3) (hl : IsLine l) (q : V
         have h' := ((hmemA2 v).1 h).1
         rw [hvq] at h'
         exact hql h'
-      rw [if_pos hvq, if_neg hnA1, if_neg hnA2]
+      rw [ite_eq_left hvq, ite_eq_right hnA1, ite_eq_right hnA2]
       simp only [add_zero]
       rw [hvq]
     · by_cases hvl : v ∈ l
       · by_cases hv0 : v = 0
         · have hnA1 : v ∉ A1 := fun h => ((hmemA1 v).1 h).1 hvl
           have hnA2 : v ∉ A2 := fun h => ((hmemA2 v).1 h).2 hv0
-          rw [if_neg hvq, if_neg hnA1, if_neg hnA2, hv0, hf0]
+          rw [ite_eq_right hvq, ite_eq_right hnA1, ite_eq_right hnA2, hv0, hf0]
           all_goals simp
         · have hvA2 : v ∈ A2 := (hmemA2 v).2 ⟨hvl, hv0⟩
           have hnA1 : v ∉ A1 := fun h => ((hmemA1 v).1 h).1 hvl
-          rw [if_neg hvq, if_neg hnA1, if_pos hvA2]
+          rw [ite_eq_right hvq, ite_eq_right hnA1, ite_eq_left hvA2]
           simp only [zero_add, add_zero]
           exact hc2 v hvA2
       · have hvA1 : v ∈ A1 := (hmemA1 v).2 ⟨hvl, hvq⟩
         have hnA2 : v ∉ A2 := fun h => hvl ((hmemA2 v).1 h).1
-        rw [if_neg hvq, if_pos hvA1, if_neg hnA2]
+        rw [ite_eq_right hvq, ite_eq_left hvA1, ite_eq_right hnA2]
         simp only [zero_add, add_zero]
         exact hc1 v hvA1
   have hsum : ∑ v : V3, Multiplicative.toAdd f v =
@@ -4385,9 +4382,9 @@ private theorem H52_seven (l : Submodule (ZMod 2) V3) (hl : IsLine l) :
       rcases hYC v hall with h | h
       · exact hv0 h
       · exact hvq h
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have hcard1 : 1 < Nat.card ↥Y := by
-      haveI : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).2 hYne
+      have : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).2 hYne
       exact Finite.one_lt_card
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 3)).1 hYp
     have h3dvd : 3 ∣ Nat.card ↥Y := by
@@ -4690,7 +4687,7 @@ private theorem H52B_transl {f : PermV} (hf : f ∈ Ucore ⊓ fixV ((Qpt e1).map
   by_cases hv : v 1 ≠ 0 ∨ v 2 ≠ 0
   · exact (H52B_fix_iff f).1 (Subgroup.mem_inf.1 hf).2 v hv
   · have key : ∀ w : V3, w 1 = 0 → w 2 = 0 → w = 0 ∨ w = e1 := by decide
-    push_neg at hv
+    push Not at hv
     have h0 := (mem_Ucore'.1 (Subgroup.mem_inf.1 hf).1).1
     rcases key v hv.1 hv.2 with rfl | rfl
     · rw [zero_add, H52B_e1_zero hf, h0]
@@ -4814,7 +4811,7 @@ private theorem H52Bl_psi_at (β x y : ZMod 2) (v : V3) :
 
 private theorem H52Bl_psi_N (β x y : ZMod 2) (v : V3) (hv : v 2 = 1) :
     Multiplicative.toAdd (H52Bl_psi β x y) v = β := by
-  rw [H52Bl_psi_at, if_pos hv]
+  rw [H52Bl_psi_at, ite_eq_left hv]
 
 private theorem H52Bl_psi_0 (β x y : ZMod 2) :
     Multiplicative.toAdd (H52Bl_psi β x y) 0 = 0 := by
@@ -4873,7 +4870,7 @@ private theorem H52Bl_K_const {f : PermV} (hf : f ∈ fixV ((Qlln line0).map gl3
       w := by
     rw [H52Bl_sGL_val, H52Bl_sM_mulVec, hv]
     funext i
-    fin_cases i <;> simp [hw] <;> ring
+    fin_cases i <;> simp [hw]
   have hfg : gl3Act (H52Bl_sGL (w 0 - v 0) (w 1 - v 1)) f = f :=
     (mem_fixV.1 hf) _ (Subgroup.mem_map_of_mem gl3Act (H52Bl_sGL_mem _ _))
   exact (fix_const f _ hfg v).trans (by rw [hgv])
@@ -5041,7 +5038,7 @@ private theorem H52Bl_comm_le_R1 : commOn Ucore ((Qlln line0).map gl3Act) ≤ H5
     rw [hterm v, H52Bl_Qlln_fix (Subgroup.inv_mem _ hg) v hv]
     exact H52Bl_add_self _
   · show ∑ v : V3, Multiplicative.toAdd (gl3Act g w * w⁻¹) v = 0
-    rw [Finset.sum_congr rfl (fun v _ => hterm v), Finset.sum_add_distrib, hs, hwsum] <;>
+    rw [Finset.sum_congr rfl (fun v _ => hterm v), Finset.sum_add_distrib, hs, hwsum];
       exact H52Bl_add_self 0
 
 private def H52Bl_Phi (a b c : ZMod 2) : PermV :=
@@ -5184,7 +5181,7 @@ private theorem rk_eq_three_of_card {G : Type*} [Group G] {H : Subgroup G}
   rw [h, show (8 : ℕ) = 2 ^ 3 from rfl, padicValNat.prime_pow]
 
 private theorem hgl3c_inj (c : GL (Fin 3) (ZMod 2)) :
-    Function.Injective (gl3Act c).toMonoidHom := fun x y h => (gl3Act c).injective h
+    Function.Injective (gl3Act c).toMonoidHom := fun _x _y h => (gl3Act c).injective h
 
 private theorem rk_eq_three_of_card_aux {K : Type*} [Group K] {f : PermV →* K}
     {L : Subgroup PermV} (hf : Function.Injective f) (h : Nat.card ↥L = 8) :

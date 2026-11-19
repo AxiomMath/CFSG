@@ -21,7 +21,7 @@ theorem inv_eq_of_mul_self (hτ2 : τ * τ = 1) : τ⁻¹ = τ :=
 theorem conj_inv_mem (hτ2 : τ * τ = 1) (hτN : ∀ n ∈ N, τ * n * τ⁻¹ ∈ N) {n : MulAut V}
     (hn : n ∈ N) : τ⁻¹ * n * τ ∈ N := by
   have h := hτN n hn
-  rwa [inv_eq_of_mul_self hτ2] at h ⊢
+  rw [inv_eq_of_mul_self hτ2] at h ⊢; assumption
 
 theorem conj_inv_inv_mem (hτ2 : τ * τ = 1) (hτN : ∀ n ∈ N, τ * n * τ⁻¹ ∈ N) {n : MulAut V}
     (hn : n ∈ N) : τ⁻¹ * n * τ⁻¹ ∈ N := by
@@ -153,7 +153,7 @@ theorem normal_inf_subgroupOf {N L : Subgroup G} (hNL : N ≤ normalizer (L : Se
 
 theorem inf_eq_bot_or_le {N L : Subgroup G} [IsSimpleGroup ↥N]
     (hNL : N ≤ normalizer (L : Set G)) : N ⊓ L = ⊥ ∨ N ≤ L := by
-  haveI := normal_inf_subgroupOf hNL
+  have := normal_inf_subgroupOf hNL
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((N ⊓ L).subgroupOf N) with h | h
   · left
     rw [subgroupOf_eq_bot] at h
@@ -389,6 +389,7 @@ theorem false_of_transvection (hV : ∀ v : V, v * v = 1) (N : Subgroup (MulAut 
     hx] at hdvd
   norm_num at hdvd
 
+omit [Finite V] in
 theorem mul_self_eq_one_of_central {N : Subgroup (MulAut V)} {τ n : MulAut V} (hτ2 : τ * τ = 1)
     (hn : n ∈ N) (hz : center ↥N = ⊥) (hc : ∀ m ∈ N, n * τ * m = m * (n * τ)) :
     n * τ * (n * τ) = 1 := by

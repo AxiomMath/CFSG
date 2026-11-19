@@ -32,6 +32,7 @@ private def hmnBlk {k : ℕ} (T : MulAut (StdMod (Fin k × ι) K)) (j' j : Fin k
     rw [blockVec_add, toAddMap_add]
     rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem hmnToAddMap_eq_sum_blk {k : ℕ} (T : MulAut (StdMod (Fin k × ι) K))
     (v : Fin k × ι → K) (p : Fin k × ι) :
     toAddMap T v p = ∑ j, hmnBlk T p.1 j (fun i => v (j, i)) p.2 := by
@@ -334,7 +335,7 @@ theorem exists_of_mem_normalizer_diag [Finite K] [Nonempty ι] {k : ℕ} [NeZero
     simpa only [toAddMap_apply_inv] using this
   have hT_surj : Function.Surjective (toAddMap T) := by
     intro y
-    exact ⟨toAddMap T⁻¹ y, by simpa only [toAddMap_inv_apply]⟩
+    exact ⟨toAddMap T⁻¹ y, by simp only [toAddMap_inv_apply]⟩
   have hG_inj : Function.Injective G := by
     intro x y hxy
     apply hT_inj
@@ -394,6 +395,7 @@ private def hmnCurryMul {k : ℕ} : StdMod (Fin k × ι) K ≃* (Fin k → StdMo
     funext i
     simp [toAdd_mul]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem rkIdx_fixV_of_diag_formula {k : ℕ} {T : MulAut (StdMod (Fin k × ι) K)}
     {A : MulAut (StdMod ι K)}
     (hT : ∀ (v : Fin k × ι → K) (p : Fin k × ι), toAddMap T v p =
@@ -462,6 +464,7 @@ theorem rkIdx_fixV_of_diag_formula {k : ℕ} {T : MulAut (StdMod (Fin k × ι) K
     _ = k * padicValNat 2 ((fixV (Subgroup.zpowers A)).index) := padicValNat.pow _ _
     _ = k * rkIdx (fixV (Subgroup.zpowers A)) := rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem hmnLineEmb_ne {k : ℕ} {u v : Fin k → K} (hu : u ≠ 0)
     (hv : v ∉ Submodule.span K ({u} : Set (Fin k → K))) {x : ι → K} (hx : x ≠ 0)
     (y : ι → K) :

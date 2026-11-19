@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {Γ₁ Γ₂ : Type} [Group Γ₁] [Group Γ₂] [Finite Γ₁] [Finite Γ₂] {f : Γ₁ →* Γ₂}
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma f12_c1 (hf : Function.Injective f) (gf : GFrame Γ₁) :
     ({C : Set Γ₂ | ∃ y ∈ invols (gf.map f).S, C = conjClass (gf.map f).S y} =
         Set.range (gf.map f).classes12) ↔
@@ -43,6 +44,7 @@ private lemma f12_c1 (hf : Function.Injective f) (gf : GFrame Γ₁) :
   rw [hL, hR]
   exact Set.image_eq_image (f := Set.image f) ((Set.image_injective (f := f)).mpr hf)
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma f12_c2 (hf : Function.Injective f) (gf : GFrame Γ₁) :
     Function.Injective (gf.map f).classes12 ↔ Function.Injective gf.classes12 := by
   have hcomp : (gf.map f).classes12 = (Set.image f) ∘ gf.classes12 := by
@@ -52,6 +54,7 @@ private lemma f12_c2 (hf : Function.Injective f) (gf : GFrame Γ₁) :
   exact Function.Injective.of_comp_iff (f := Set.image f)
     ((Set.image_injective (f := f)).mpr hf) gf.classes12
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma f12_c3 (hf : Function.Injective f) (gf : GFrame Γ₁) :
     (centEl (gf.map f).S (gf.map f).z = (gf.map f).S) ↔ (centEl gf.S gf.z = gf.S) := by
   constructor
@@ -63,6 +66,7 @@ private lemma f12_c3 (hf : Function.Injective f) (gf : GFrame Γ₁) :
     rw [GFrame.map_S (f := f) (gf := gf), GFrame.map_z (f := f) (gf := gf)]
     rw [centEl_map hf (f := f) gf.S gf.z, h]
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma f12_c4 (hf : Function.Injective f) (gf : GFrame Γ₁) :
     (centEl (gf.map f).S ((gf.map f).b₁ * (gf.map f).b₂) =
         closure {(gf.map f).a₁ * (gf.map f).a₂, (gf.map f).b₁, (gf.map f).b₂,
@@ -87,6 +91,7 @@ private lemma f12_c4 (hf : Function.Injective f) (gf : GFrame Γ₁) :
     rw [harg, centEl_map hf (f := f) gf.S (gf.b₁ * gf.b₂), ← hcl]
     exact congrArg (Subgroup.map f) h
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma f12_c5 (hf : Function.Injective f) (gf : GFrame Γ₁) :
     IsZ2xD8Decomp (centEl (gf.map f).S ((gf.map f).a₁ * (gf.map f).a₂))
         ((gf.map f).a₁ * (gf.map f).a₂)
@@ -111,6 +116,7 @@ private lemma f12_c5 (hf : Function.Injective f) (gf : GFrame Γ₁) :
   exact isZ2xD8Decomp_map hf (f := f) (X := centEl gf.S (gf.a₁ * gf.a₂))
     (c := gf.a₁ * gf.a₂) (D := closure {gf.a₁, gf.b₁ * gf.b₂})
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma f12_c6 (hf : Function.Injective f) (gf : GFrame Γ₁) :
     IsZ2xD8Decomp (centEl (gf.map f).S ((gf.map f).a₁ * (gf.map f).b₂))
         ((gf.map f).a₁ * (gf.map f).b₂)
@@ -135,6 +141,7 @@ private lemma f12_c6 (hf : Function.Injective f) (gf : GFrame Γ₁) :
   exact isZ2xD8Decomp_map hf (f := f) (X := centEl gf.S (gf.a₁ * gf.b₂))
     (c := gf.a₁ * gf.b₂) (D := closure {gf.a₁, gf.b₁ * gf.a₂})
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma f12_c7 (hf : Function.Injective f) (gf : GFrame Γ₁) :
     IsZ2xD8Decomp (centEl (gf.map f).S ((gf.map f).b₁ * (gf.map f).a₂))
         ((gf.map f).b₁ * (gf.map f).a₂)
@@ -159,6 +166,7 @@ private lemma f12_c7 (hf : Function.Injective f) (gf : GFrame Γ₁) :
   exact isZ2xD8Decomp_map hf (f := f) (X := centEl gf.S (gf.b₁ * gf.a₂))
     (c := gf.b₁ * gf.a₂) (D := closure {gf.b₁, gf.a₁ * gf.b₂})
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma f12_c8 (hf : Function.Injective f) (gf : GFrame Γ₁) :
     IsZ2xD8Decomp (centEl (gf.map f).S ((gf.map f).a₁ * (gf.map f).b₁ * (gf.map f).a₂))
         ((gf.map f).a₁ * (gf.map f).b₁ * (gf.map f).a₂)
@@ -184,6 +192,7 @@ private lemma f12_c8 (hf : Function.Injective f) (gf : GFrame Γ₁) :
   exact isZ2xD8Decomp_map hf (f := f) (X := centEl gf.S (gf.a₁ * gf.b₁ * gf.a₂))
     (c := gf.a₁ * gf.b₁ * gf.a₂) (D := closure {gf.a₂, gf.a₁ * gf.b₂})
 
+omit [Finite Γ₁] [Finite Γ₂] in
 private lemma f12_c9 (hf : Function.Injective f) (gf : GFrame Γ₁) :
     (centEl (gf.map f).S (gf.map f).h₀ =
         closure {(gf.map f).b₁ * (gf.map f).b₂, (gf.map f).h₀, (gf.map f).z} ∧
@@ -213,6 +222,7 @@ private lemma f12_c9 (hf : Function.Injective f) (gf : GFrame Γ₁) :
     · rw [hX, isE_map hf (f := f) 3 (centEl gf.S gf.h₀)]
       exact h2
 
+omit [Finite Γ₁] [Finite Γ₂] in
 theorem f12_map_iff (hf : Function.Injective f) (gf : GFrame Γ₁) :
     (gf.map f).F12 ↔ gf.F12 := by
   unfold GFrame.F12

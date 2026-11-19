@@ -75,7 +75,7 @@ theorem rootChar_torV17 {ζ : Lˣ} (h17 : ζ ^ 17 = 1) (x : Fin 8 → ZMod 17)
 
 theorem torV17_add {ζ : Lˣ} (h17 : ζ ^ 17 = 1) (x y : Fin 8 → ZMod 17) :
     torV17 ζ (x + y) = torV17 ζ x * torV17 ζ y :=
-  funext fun i => pow_val_add17 h17 _ _
+  funext fun _i => pow_val_add17 h17 _ _
 
 theorem torV17_zero (ζ : Lˣ) : torV17 ζ (0 : Fin 8 → ZMod 17) = 1 := by
   funext i
@@ -107,7 +107,7 @@ theorem getElem_flOf17 (g : Fin 2 → ZMod 17) {k : ℕ} (hk : k < (flOf17 g).le
   simp only [flOf17, List.getElem_ofFn]
 
 theorem flOf17_zero : flOf17 (0 : Fin 2 → ZMod 17) = List.replicate 2 0 := by
-  simp [flOf17, List.ofFn_const]
+  simp [flOf17]
 
 theorem ofFn_getD_eq17 {n : ℕ} {b : List ℤ} (hb : b.length = n) :
     List.ofFn (fun i : Fin n => b.getD i 0) = b := by
@@ -134,7 +134,7 @@ theorem rr17_ofFn8 (v : Fin 8 → ℤ) : rr17 (List.ofFn v) = flOf17 (rrv17 v) :
   refine hL.trans ?_
   rw [getElem_flOf17]
   show _ = ((rrv17 v ⟨k, hk⟩).val : ℤ)
-  rw [hrrv, ZMod.val_intCast] <;> rfl
+  rw [hrrv, ZMod.val_intCast]; rfl
 
 theorem rr17_ofFn (v : Fin Tag.E8.rank → ℤ) : rr17 (List.ofFn v) = flOf17 (rrv17 v) :=
   rr17_ofFn8 v

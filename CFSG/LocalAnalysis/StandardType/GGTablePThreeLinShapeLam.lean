@@ -45,7 +45,7 @@ private lemma one_ne_zero_matrix {N : ℕ} {K : Type} [Field K] (hN : 1 ≤ N) :
     (1 : Matrix (Fin N) (Fin N) K) ≠ 0 := by
   intro h
   have h00 := congrFun (congrFun h ⟨0, by omega⟩) ⟨0, by omega⟩
-  simp [Matrix.one_apply] at h00
+  simp at h00
 
 private lemma unit_ne_zero_of_eq_smul {N : ℕ} {K : Type} [Field K] (hN : 1 ≤ N)
     {X : GL (Fin N) K} {c : K} {B : Matrix (Fin N) (Fin N) K}
@@ -69,7 +69,7 @@ private lemma scalarGL_injective {N : ℕ} {K : Type} [Field K] (hN : 1 ≤ N) :
     simpa using congrArg (fun Y : GL (Fin N) K => (Y : Matrix (Fin N) (Fin N) K)) h
   rw [scalarGL_coe, scalarGL_coe] at h'
   have h00 := congrFun (congrFun h' ⟨0, by omega⟩) ⟨0, by omega⟩
-  simp [Matrix.smul_apply, Matrix.one_apply] at h00
+  simp [Matrix.smul_apply] at h00
   exact Units.ext h00
 
 private theorem congr_recipeEquiv_graphAut {K : Type} [Field K] {N : ℕ}
@@ -186,9 +186,9 @@ theorem linShape_rank_lambda
   have hN : 2 ≤ N := by
     by_contra h
     have h1 : N ≤ 1 := by omega
-    haveI : Subsingleton (LinearFlag.projectiveSL N K) :=
+    have : Subsingleton (LinearFlag.projectiveSL N K) :=
       CFSG.AGLEmbedding.ToralCensus.subsingleton_projectiveSL h1 K
-    haveI : Subsingleton (PSLg N K) :=
+    have : Subsingleton (PSLg N K) :=
       Subsingleton.intro fun x y =>
         (CFSG.StandardType.TypeA.recipeEquiv N K).injective (Subsingleton.elim _ _)
     have hδ : δ' = 1 := by
@@ -201,7 +201,7 @@ theorem linShape_rank_lambda
       LargeEvenGraphAut (LargeEvenProjMk (LargeEvenSLGroup (Fin N) K))
         (fun h h' => (h' : GL (Fin N) K) = A * h * A⁻¹) (a : MulAut (PSLg N K)) := by
     intro a
-    simpa only [LargeEvenMatConjImage, Set.mem_setOf_eq, Set.mem_univ, true_and] using
+    simpa only [LargeEvenMatConjImage, Set.mem_ofPred_eq, Set.mem_univ, true_and] using
       hĀI (a : MulAut (PSLg N K)) a.2
   choose g hg using hmem
   have hcongr : ∀ a : Ā, (MulAut.congr (CFSG.StandardType.TypeA.recipeEquiv N K))

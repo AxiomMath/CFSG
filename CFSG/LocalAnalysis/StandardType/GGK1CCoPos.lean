@@ -63,14 +63,14 @@ private theorem ggK1CPo_qs_hasOrbit (nf : ℕ) (k : ggK1CCo_Kind) :
       | zero => rfl
       | succ m =>
           cases m with
-          | zero => simp [ggK1CCo_kindOrbit, ggK1CCo_Kind.hasOrbit] at h
+          | zero => simp [ggK1CCo_kindOrbit] at h
           | succ m => rfl
   | su m =>
       cases m with
       | zero => rfl
       | succ m =>
           cases m with
-          | zero => simp [ggK1CCo_kindOrbit, ggK1CCo_Kind.hasOrbit] at h
+          | zero => simp [ggK1CCo_kindOrbit] at h
           | succ m => rfl
 
 private theorem ggK1CPo_card_fiber_eq_count {α γ : Type} [Fintype α] [DecidableEq γ]
@@ -100,7 +100,6 @@ private theorem ggK1CPo_Malpha {nf : ℕ} {ι : Type} [Fintype ι] (kind : ι �
         (Finset.univ : Finset ι).val := by
     apply Multiset.filter_congr; intro x _; rfl
   rw [hP, ← Multiset.filter_map]
-  congr 1
   rw [show (fun i => ggK1CCo_kindOrbit nf (kind i))
         = (ggK1CCo_kindOrbit nf) ∘ kind from rfl]
   rw [← Multiset.map_map, hmult]
@@ -127,8 +126,8 @@ private theorem ggK1CPo_Mbeta {nf : ℕ} (L : List ggK1CCo_Kind) (O : List GGKac
     apply List.filter_congr
     intro x _
     cases hx : (ggK1CCo_kindOrbit nf x).qs with
-    | false => simp [hx]
-    | true => simp [hx, ggK1CPo_qs_hasOrbit nf x hx]
+    | false => simp
+    | true => simp [ggK1CPo_qs_hasOrbit nf x hx]
   rw [hfil]
 
 theorem ggK1CCo_pos_equiv {nf : ℕ} {ι : Type} [Fintype ι] (kind : ι → ggK1CCo_Kind)

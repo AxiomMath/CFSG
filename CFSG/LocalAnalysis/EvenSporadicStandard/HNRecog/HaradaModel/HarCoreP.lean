@@ -121,7 +121,7 @@ theorem harCoreP (hB1 : TwoHSFacts ↥P1408 pA pZ pB pZ₁) {Ep : Subgroup ↥P1
         ((wordSubgroupP tpWords : Set ↥P1408) ∪
           {y | y ∈ wordSubgroupP sWords ⊓ Ep ∧ y ^ 2 = 1}) := by
       ext y
-      simp only [Set.mem_preimage, Set.mem_union, Set.mem_setOf_eq, Subgroup.mem_inf,
+      simp only [Set.mem_preimage, Set.mem_union, Set.mem_ofPred_eq, Subgroup.mem_inf,
         mem_wordSubgroupP, hEp y]
       constructor
       · intro h

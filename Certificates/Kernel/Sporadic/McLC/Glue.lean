@@ -113,11 +113,11 @@ theorem rep_wordTbl' {gs : List Table} {q : Nat → Equiv.Perm (Fin 275)} {w : L
 @[expose] noncomputable def beP : Equiv.Perm (Fin 275) := pf (r32 McLK.BE)
 
 theorem actN_alP {x : Nat} (hx : x < 275) : actN alP x = r32 McLK.AL x :=
-  actN_pf (g := r32 McLK.AL) (fun y hy => ⟨(McLK.inv_facts hy).1, (McLK.inv_facts hy).2.1⟩) hx
+  actN_pf (g := r32 McLK.AL) (fun _y hy => ⟨(McLK.inv_facts hy).1, (McLK.inv_facts hy).2.1⟩) hx
 
 theorem actN_beP {x : Nat} (hx : x < 275) : actN beP x = r32 McLK.BE x :=
   actN_pf (g := r32 McLK.BI)
-    (fun y hy => ⟨(McLK.inv_facts hy).2.2.1, (McLK.inv_facts hy).2.2.2.1⟩) hx
+    (fun _y hy => ⟨(McLK.inv_facts hy).2.2.1, (McLK.inv_facts hy).2.2.2.1⟩) hx
 
 theorem ap_Ta {x : Nat} (hx : x < 275) : ap McLData.Ta x = r32 McLK.AL x := by
   unfold McLData.Ta
@@ -147,20 +147,20 @@ theorem actN_sg {l x : Nat} (hl : l < 10) (hx : x < 275) : actN (sg l) x = LJ l 
 theorem GA_eq {l : Nat} (hl : l = 1 ∨ l = 2) {y : Nat} (hy : y < 275) :
     GA l y = actN (qAB l) y := by
   rcases hl with rfl | rfl
-  · have e : qAB 1 = alP := if_pos rfl
+  · have e : qAB 1 = alP := ite_eq_left rfl
     rw [e, actN_alP hy]
     rfl
-  · have e : qAB 2 = beP := if_neg (by decide)
+  · have e : qAB 2 = beP := ite_eq_right (by decide)
     rw [e, actN_beP hy]
     rfl
 
 theorem GK_eq (l : Nat) {y : Nat} (hy : y < 275) : GK l y = actN (qK l) y := by
   by_cases h : l = 1
   · subst h
-    have e : qK 1 = sg 0 := if_pos rfl
+    have e : qK 1 = sg 0 := ite_eq_left rfl
     rw [e, actN_sg (by norm_num) hy]
     rfl
-  · have e : qK l = sg 2 := if_neg h
+  · have e : qK l = sg 2 := ite_eq_right h
     have hb : Nat.beq l 1 = false := by
       cases h' : Nat.beq l 1
       · rfl
@@ -172,10 +172,10 @@ theorem GK_eq (l : Nat) {y : Nat} (hy : y < 275) : GK l y = actN (qK l) y := by
 theorem rep_abT {l : Nat} (hl : l = 1 ∨ l = 2) :
     Rep 275 (McLData.abT.getD (l - 1) (idT 275)) (qAB l) := by
   rcases hl with rfl | rfl
-  · have e : qAB 1 = alP := if_pos rfl
+  · have e : qAB 1 = alP := ite_eq_left rfl
     rw [e]
     exact rep_Ta
-  · have e : qAB 2 = beP := if_neg (by decide)
+  · have e : qAB 2 = beP := ite_eq_right (by decide)
     rw [e]
     exact rep_Tb
 
@@ -222,10 +222,10 @@ theorem rep_ky : Rep 275 McLProof.ky (sg 2) := by
 theorem rep_kgens {l : Nat} (hl : l = 1 ∨ l = 2) :
     Rep 275 (McLData.kgens.getD (l - 1) (idT 275)) (qK l) := by
   rcases hl with rfl | rfl
-  · have e : qK 1 = sg 0 := if_pos rfl
+  · have e : qK 1 = sg 0 := ite_eq_left rfl
     rw [e, kgens_eq]
     exact rep_kx
-  · have e : qK 2 = sg 2 := if_neg (by decide)
+  · have e : qK 2 = sg 2 := ite_eq_right (by decide)
     rw [e, kgens_eq]
     exact rep_ky
 
@@ -418,7 +418,7 @@ noncomputable abbrev gsK (j : Nat) : KK :=
 
 theorem gsK_val {j : Nat} (hj : 2 * j < 10) : (gsK j : Equiv.Perm (Fin 275)) = sg (2 * j) := by
   unfold gsK
-  rw [dif_pos hj]
+  rw [dite_eq_left hj]
 
 theorem idx_coeK (g : KK) (x : Nat) : idx 275 g x = idx 275 (g : Equiv.Perm (Fin 275)) x := rfl
 
@@ -503,10 +503,10 @@ theorem tau_mem {i : Nat} (hi : i < 3) : ∀ k < CNTJ i, tau i k ∈ KK := by
     intro hk
     rw [tau, twL, tw_eq]
     by_cases hc : 0 < k ∧ r32 (PARJ i) k < k
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       exact Subgroup.mul_mem _ (sg_mem (mem_lvK.1 (lab_mem chain_hyp hi hk hc.1)).1)
         (ih _ hc.2 (by omega))
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       exact Subgroup.one_mem _
 
 theorem BJ_lt {j : Nat} (hj : j < 3) : BJ j < 275 := by
@@ -519,13 +519,13 @@ theorem tau_fix {i : Nat} (hi : i < 3) : ∀ k < CNTJ i, ∀ j < i, actN (tau i 
     intro hk j hj
     rw [tau, twL, tw_eq]
     by_cases hc : 0 < k ∧ r32 (PARJ i) k < k
-    · rw [if_pos hc, actN_mul]
+    · rw [ite_eq_left hc, actN_mul]
       have e := ih _ hc.2 (by omega) j hj
       rw [tau, twL] at e
       have hl := mem_lvK.1 (lab_mem chain_hyp hi hk hc.1)
       rw [e, actN_sig chain_hyp hl.1 (BJ_lt (by omega))]
       exact hl.2 j hj
-    · rw [if_neg hc, actN_one]
+    · rw [ite_eq_right hc, actN_one]
 
 theorem tau_pt {i : Nat} (hi : i < 3) {k : Nat} (hk : k < CNTJ i) :
     actN (tau i k) (BJ i) = r32 (PTSJ i) k :=

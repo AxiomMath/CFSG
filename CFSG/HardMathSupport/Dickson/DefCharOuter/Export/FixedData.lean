@@ -116,7 +116,7 @@ theorem OuterCentData.ofFixedData {β : MulAut S} (h : FixedData3 (fixSubgroup �
   core _ := h.core
   cent _ := cent
   noHatSix _ := h.noHatSix
-  l227 hp3 I hI hL := absurd hL (h.noL227 I hI)
+  l227 _hp3 I hI hL := absurd hL (h.noL227 I hI)
 
 variable [Finite S] {β : MulAut S} {M : Subgroup S}
 
@@ -136,6 +136,7 @@ theorem FixedData3.ofSimpleNormal (h : SimpleNormalData 3 β M) (hL27 : ¬ IsLTw
     rw [h.eq_of_glaPComponent hI] at hL
     exact hL27 (isLTwoTwentySeven_of_mulEquiv (h.pSimpleEquivSelf Nat.prime_three) hL)
 
+omit [Finite S] in
 theorem FixedData3.ofNoComponent
     (hno : ∀ I : Subgroup S, ¬ GLAPComponent 3 (fixSubgroup β) I)
     (core : GLAPPrimeCoreOf 3 (fixSubgroup β) = ⊥) : FixedData3 (fixSubgroup β) where

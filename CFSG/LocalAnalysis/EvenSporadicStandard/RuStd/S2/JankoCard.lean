@@ -148,7 +148,7 @@ theorem exists_sylow_eq_E : ∃ S : Sylow 2 Γ, (S : Subgroup Γ) = E := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hES⟩ := h.isPGroup_E.exists_le_sylow
   refine ⟨S, ?_⟩
-  have hSp : IsPGroup 2 (S : Subgroup Γ) := S.isPGroup'
+  have hSp : IsPGroup 2 (S : Subgroup Γ) := S.isPGroup
   have htS : t ∈ (S : Subgroup Γ) := hES h.t_mem
   have : Nontrivial ↥(S : Subgroup Γ) :=
     ⟨⟨⟨t, htS⟩, 1, fun h1 => h.t_ne_one (congrArg Subtype.val h1)⟩⟩

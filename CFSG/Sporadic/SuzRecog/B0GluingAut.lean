@@ -268,9 +268,9 @@ theorem cSearch_leaf {P Z : ℕ → ℕ → ℕ} {G : ℕ → ℕ} (hGl : ∀ y 
       unfold cCands
       rw [repImg_length]
       by_cases h0 : m = 0
-      · rw [if_pos h0]
+      · rw [ite_eq_left h0]
         exact List.mem_range.2 (hGl _ (cReps_lt hm))
-      · rw [if_neg h0, repImg_getD (cPar_lt hm h0)]
+      · rw [ite_eq_right h0, repImg_getD (cPar_lt hm h0)]
         have := hadj _ _ (cPar_adj hm h0)
         simpa [eAdj] using this
     rw [cSearch, List.all_eq_true] at hs
@@ -312,7 +312,7 @@ theorem p0Gens_lt {k : ℕ} (hk : k < 4) {y : ℕ} (hy : y < 42) : p0F k y < 42 
 @[expose] def natMap (g : Equiv.Perm (Fin 42)) (x : ℕ) : ℕ := if h : x < 42 then g ⟨x, h⟩ else x
 
 theorem natMap_lt (g : Equiv.Perm (Fin 42)) {x : ℕ} (hx : x < 42) : natMap g x < 42 := by
-  rw [natMap, dif_pos hx]
+  rw [natMap, dite_eq_left hx]
   exact Fin.isLt _
 
 theorem eNbr_lt : ∀ x : Fin 42, ∀ z ∈ eNbr.getD x.val [], z < 42 := by decide
@@ -370,13 +370,13 @@ theorem centR_T0 {g : Equiv.Perm (Fin 42)}
     have hr := tabRep_p0Gens hk
     have e := congrArg (fun p : Equiv.Perm (Fin 42) => (p ⟨y, hy⟩ : ℕ)) (hcomm k hk)
     simp only [Equiv.Perm.mul_apply] at e
-    rw [p0F, p0F, hr.apply ⟨y, hy⟩, hG, natMap, dif_pos (Fin.isLt _), natMap, dif_pos hy,
+    rw [p0F, p0F, hr.apply ⟨y, hy⟩, hG, natMap, dite_eq_left (Fin.isLt _), natMap, dite_eq_left hy,
       hr.apply (g ⟨y, hy⟩)]
     exact e
   have hadj : ∀ x y, eAdj x y = true → eAdj (G x) (G y) = true := by
     intro x y h
     obtain ⟨hx, hy⟩ := eAdj_lt h
-    rw [hG, natMap, natMap, dif_pos hx, dif_pos hy, ← hEg ⟨x, hx⟩ ⟨y, hy⟩]
+    rw [hG, natMap, natMap, dite_eq_left hx, dite_eq_left hy, ← hEg ⟨x, hx⟩ ⟨y, hy⟩]
     exact h
   have hstab : ∀ m < 6, stabOK p0F (cReps.getD m 0) (G (cReps.getD m 0)) = true := by
     intro m hm
@@ -405,7 +405,7 @@ theorem centR_T0 {g : Equiv.Perm (Fin 42)}
     simp only [onto42, allBelow_eq_true, anyBelow_eq_true, beq_iff_eq]
     intro y hy
     refine ⟨(g⁻¹ ⟨y, hy⟩ : Fin 42), Fin.isLt _, ?_⟩
-    rw [hcm _ (Fin.isLt _), hG, natMap, dif_pos (Fin.isLt _)]
+    rw [hcm _ (Fin.isLt _), hG, natMap, dite_eq_left (Fin.isLt _)]
     simp
   have hmem : (anyBelow 4 fun j => allBelow 42 fun x =>
       cMap p0F (repImg G 6) x == (zRes[j]!)[x]!) = true := by
@@ -418,7 +418,7 @@ theorem centR_T0 {g : Equiv.Perm (Fin 42)}
   have e : zRes[j]! = rtabs[zI[j]!]! := getElem!_ofFn' _ hj'
   have hrep : TabRep zRes[j]! g := by
     refine ⟨by rw [e]; exact (tabRep_rtabs hz).1, fun i => ?_⟩
-    rw [← hjt i i.2, hcm i i.2, hG, natMap, dif_pos i.2]
+    rw [← hjt i i.2, hcm i i.2, hG, natMap, dite_eq_left i.2]
   refine ⟨tE zI[j]!, T0_le_J0 (tE_mem hz), hw, ?_⟩
   rw [j0Equiv_apply]
   have hrep' : TabRep zRes[j]! (resW0 ⟨tE zI[j]!, T0_le_centralizer_w0 (tE_mem hz)⟩) := by

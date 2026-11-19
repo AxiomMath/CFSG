@@ -14,9 +14,10 @@ variable {L N : Subgroup G}
 
 @[expose] noncomputable def sectionAction (hHL : H ≤ Subgroup.normalizer (L : Set G))
     (hHN : H ≤ Subgroup.normalizer (N : Set G))
-    (hE : IsElemAbelian 2 (Ch3z.chiefMod L N)) : ↥H →* MulAut ↥(Ch3z.chiefMod L N) :=
+    (_hE : IsElemAbelian 2 (Ch3z.chiefMod L N)) : ↥H →* MulAut ↥(Ch3z.chiefMod L N) :=
   (Ch3z.chiefAut H L N).subtype.comp (Ch3z.chiefHom hHL hHN)
 
+omit [Finite G] in
 theorem sectionAction_apply (hHL : H ≤ Subgroup.normalizer (L : Set G))
     (hHN : H ≤ Subgroup.normalizer (N : Set G))
     (hE : IsElemAbelian 2 (Ch3z.chiefMod L N)) (h : ↥H) :
@@ -43,6 +44,7 @@ theorem sectionAction_apply (hHL : H ≤ Subgroup.normalizer (L : Set G))
     rw [sectionAction_apply, h1]
     rfl)
 
+omit [Finite G] in
 theorem sectionQuotAction_mk (hHL : H ≤ Subgroup.normalizer (L : Set G))
     (hHN : H ≤ Subgroup.normalizer (N : Set G))
     (hNL : N ≤ Subgroup.normalizer (L : Set G))
@@ -77,6 +79,7 @@ theorem sectionQuotAction_mk (hHL : H ≤ Subgroup.normalizer (L : Set G))
   exact (CFSG.RankThree.FFModules.autRep (Ch3z.chiefMod L N)).comp
     (sectionXAction hHL hHN hNL hE hO e)
 
+omit [Finite G] in
 theorem sectionRep_apply (hHL : H ≤ Subgroup.normalizer (L : Set G))
     (hHN : H ≤ Subgroup.normalizer (N : Set G))
     (hNL : N ≤ Subgroup.normalizer (L : Set G))
@@ -87,8 +90,8 @@ theorem sectionRep_apply (hHL : H ≤ Subgroup.normalizer (L : Set G))
     letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
     sectionRep hHL hHN hNL hE hO e (e (QuotientGroup.mk h)) (Additive.ofMul w) =
       Additive.ofMul (sectionAction hHL hHN hE h w) := by
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   rw [sectionRep]
   change (CFSG.RankThree.FFModules.autRep (Ch3z.chiefMod L N))
     (sectionQuotAction hHL hHN hNL hE hO (e.symm (e (QuotientGroup.mk h))))

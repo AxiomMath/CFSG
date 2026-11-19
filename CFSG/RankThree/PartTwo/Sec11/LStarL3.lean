@@ -55,7 +55,7 @@ theorem lStarTransvectionL3_of (h97 : Sec9.Item97) (hK : LThreeMinusPiNoFixedSyl
     have hinj : ∀ z ∈ (Q : Subgroup L), π z = 1 → z = 1 := by
       intro z hz hz1
       rw [hπ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at hz1
-      obtain ⟨k, hk⟩ := Q.isPGroup' ⟨z, hz⟩
+      obtain ⟨k, hk⟩ := Q.isPGroup ⟨z, hz⟩
       have hk' : z ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
       have h1 : orderOf z ∣ 3 ^ k := orderOf_dvd_of_pow_eq_one hk'
       have h2 : orderOf z ∣ Nat.card (aschbacherSolvableCore 3 L) :=
@@ -63,7 +63,7 @@ theorem lStarTransvectionL3_of (h97 : Sec9.Item97) (hK : LThreeMinusPiNoFixedSyl
       have hcop : Nat.Coprime (3 ^ k) (Nat.card (aschbacherSolvableCore 3 L)) :=
         Nat.Coprime.pow_left k ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr hθ3)
       exact orderOf_eq_one_iff.mp (Nat.eq_one_of_dvd_coprimes hcop h1 h2)
-    obtain ⟨S, hS⟩ := (Q.isPGroup'.map π).exists_le_sylow
+    obtain ⟨S, hS⟩ := (Q.isPGroup.map π).exists_le_sylow
     have := hcyc S
     have hc : π x * π y = π y * π x := by
       have h1 := (IsCyclic.commGroup (α := S)).mul_comm ⟨π x, hS ⟨x, hx, rfl⟩⟩

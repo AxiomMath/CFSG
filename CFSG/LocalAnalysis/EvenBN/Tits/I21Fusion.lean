@@ -47,6 +47,7 @@ variable (h : Sec622Bar G t u x)
 
 include h
 
+omit [Finite G] in
 theorem x_pow_conj_z (k : ℕ) : x ^ k * u ^ 2 * (x ^ k)⁻¹ = x ^ (2 * k) * u ^ 2 := by
   have hinv : (x ^ k)⁻¹ = x ^ (4 * k) := by
     rw [inv_eq_iff_mul_eq_one, ← pow_add, show k + 4 * k = 5 * k by ring, pow_mul, h.x_five,
@@ -59,6 +60,7 @@ theorem x_pow_conj_z (k : ℕ) : x ^ k * u ^ 2 * (x ^ k)⁻¹ = x ^ (2 * k) * u 
       rw [show k + 4 * k * 2 ^ 2 = 2 * k + 5 * (3 * k) by ring, pow_add x (2 * k),
         pow_mul x 5 (3 * k), h.x_five, one_pow, mul_one]
 
+omit [Finite G] in
 theorem conj_t_x_pow (y : G) (hy : y * t * y⁻¹ = t * u ^ 2) (i : ℕ) :
     (x ^ (3 * i) * y) * t * (x ^ (3 * i) * y)⁻¹ = t * (x ^ i * u ^ 2) := by
   have hc := h.crel.t_comm_x_pow (3 * i)
@@ -140,7 +142,7 @@ theorem card_conj_inter_C (hy : ∃ y : G, y * t * y⁻¹ = t * u ^ 2) :
     have := (h.crel.nf_eq_one_iff).mp h1
     omega
   rcases h.x_cases.symm with hx5 | hx1
-  · rw [if_pos hx5, hF, Finset.card_insert_of_notMem, Finset.card_image_of_injOn,
+  · rw [ite_eq_left hx5, hF, Finset.card_insert_of_notMem, Finset.card_image_of_injOn,
       Finset.card_range]
     · intro i hi j hj hij
       have h1 : x ^ i = x ^ j := by
@@ -155,7 +157,7 @@ theorem card_conj_inter_C (hy : ∃ y : G, y * t * y⁻¹ = t * u ^ 2) :
       exact hznt i hi
   · have hne : ¬ orderOf x = 5 := by
       rw [hx1, orderOf_one]; norm_num
-    rw [if_neg hne, hF, Finset.card_insert_of_notMem]
+    rw [ite_eq_right hne, hF, Finset.card_insert_of_notMem]
     · have : (Finset.range 5).image (fun i => t * (x ^ i * u ^ 2)) = {t * u ^ 2} := by
         ext s
         simp only [Finset.mem_image, Finset.mem_range, Finset.mem_singleton, hx1, one_pow,
@@ -212,7 +214,7 @@ theorem exists_normal_index_two_of_big (S : Sylow 2 G) (hRS : secTwoR t u ≤ S)
     intro heq
     rw [heq, Subgroup.relIndex_self] at hbig
     omega
-  obtain ⟨y, -, -, -, hy⟩ := h.secTwo.exists_conj_t_eq S.isPGroup' hRS hne
+  obtain ⟨y, -, -, -, hy⟩ := h.secTwo.exists_conj_t_eq S.isPGroup hRS hne
   refine exists_normal_index_two_of_conj_class h.secTwo.t_mul_t
     (h.four_dvd_index_of_big S hRS hbig) ?_
   rw [h.card_conj_inter_C ⟨y, hy⟩]

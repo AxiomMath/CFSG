@@ -283,7 +283,6 @@ theorem tables_sound {UP POS POSN MVT : Nat} {R : Nat → Nat} {pts pos : Array 
   dsimp only at h2
   rw [allN_iff] at h2
   have h3 := h2 _ ha
-  try dsimp only at h3
   rw [beq_iff] at h3
   rw [h3]
   have hc : Nat.xor (up UP q) (scaleK (hermK (up UP q) (up UP m)) (up UP m)) < 4096 :=
@@ -306,7 +305,6 @@ theorem swap_rows {R : Nat → Nat} (hs : ∀ s < 21, swapK R (33 * s) 33 = true
   try dsimp only at h2
   rw [strictB_eq] at h2
   have h3 := allBelow_spec h2 (by norm_num) q hq
-  try dsimp only at h3
   rw [strictB_eq, orB_iff, beq_iff, beq_iff] at h3
   exact h3
 

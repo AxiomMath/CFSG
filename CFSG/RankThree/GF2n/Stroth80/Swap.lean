@@ -45,6 +45,7 @@ theorem Ctx.QB_inf_M_eq (hc : Ctx M Q Z B) :
   rw [← hc.hyp.normalizer_Z.1]
   exact hN hx.2
 
+omit [Finite G] in
 theorem conjSubgroup_centralizer (g : G) (S : Subgroup G) :
     conjSubgroup g (Subgroup.centralizer (S : Set G)) =
       Subgroup.centralizer ((conjSubgroup g S : Subgroup G) : Set G) := by
@@ -64,16 +65,19 @@ theorem conjSubgroup_centralizer (g : G) (S : Subgroup G) :
     have e' : (g⁻¹ * x * g) * y = g⁻¹ * (x * (g * y * g⁻¹)) * g := by group
     rw [e, e', this]
 
-theorem Ctx.conj_centralizer_B (hc : Ctx M Q Z B) {n : G} (h1 : conjSubgroup n Q = QB B)
+omit [Finite G] in
+theorem Ctx.conj_centralizer_B (_hc : Ctx M Q Z B) {n : G} (h1 : conjSubgroup n Q = QB B)
     (h3 : conjSubgroup n B = Z) :
     conjSubgroup n (Q ⊓ Subgroup.centralizer (B : Set G)) =
       QB B ⊓ Subgroup.centralizer (Z : Set G) := by
   rw [conjSubgroup_inf, conjSubgroup_centralizer, h1, h3]
 
+omit [Finite G] in
 theorem conjSubgroup_commutator (g : G) (H K : Subgroup G) :
     conjSubgroup g ⁅H, K⁆ = ⁅conjSubgroup g H, conjSubgroup g K⁆ :=
   Subgroup.map_commutator _ _ _
 
+omit [Finite G] in
 theorem conjSubgroup_sup' (g : G) (A B : Subgroup G) :
     conjSubgroup g (A ⊔ B) = conjSubgroup g A ⊔ conjSubgroup g B :=
   Subgroup.map_sup _ _ _
@@ -132,6 +136,7 @@ theorem Ctx.mem_QB_of_comm_mem (hc : Ctx M Q Z B) {x : G}
   rw [e]
   exact ⟨_, this, rfl⟩
 
+omit [Finite G] in
 theorem IsA2.conj {Q Z : Subgroup G} {a : G} (h : IsA2 Q Z a) (g : G) :
     IsA2 (conjSubgroup g Q) (conjSubgroup g Z) (g * a * g⁻¹) := by
   obtain ⟨hn, haQ, ha2, hcard, hel⟩ := h

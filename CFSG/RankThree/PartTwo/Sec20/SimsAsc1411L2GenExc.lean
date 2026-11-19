@@ -146,19 +146,19 @@ private theorem word1411_pglAction_swapGL (ν : Kˣ) :
       !![1, 1 - (ν : K) ^ 2; 0, 1]
     rw [Matrix.adjugate_fin_two_of, Matrix.adjugate_fin_two_of]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> grind
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]; grind
   · rw [coe_swapGL]
     change !![0, (ν : K); 1, 0] * !![0, 1; -1, 0] =
       !![0, -(ν : K); ((ν⁻¹ : Kˣ) : K), 0] * !![0, (ν : K); 1, 0]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> grind
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
   · rw [coe_swapGL]
     simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_inv]
     change !![0, (ν : K); 1, 0] * (adjugate !![1, 1; -1, 0] * !![1, -1; 0, 1]) =
       !![0, (ν : K); -((ν⁻¹ : Kˣ) : K), 0] * !![0, (ν : K); 1, 0]
     rw [Matrix.adjugate_fin_two_of]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> grind
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
 
 theorem exists_word1411_pglAction_swapGL_dvd {p : ℕ} [Fact p.Prime] [CharP K p] (ν : Kˣ)
     (hν : (ν : K) ^ 2 ≠ 1) :

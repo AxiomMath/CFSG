@@ -92,7 +92,7 @@ theorem decomp (σ : K ≃+* K) {ζ α : K} (hζ : ζ ^ 2 + ζ + 1 = 0) (hζσ :
 theorem Gj_mul_Zm (ζ α : K) (j : ℕ) : Gj ζ α j * Zm ζ = Gj ζ α (j + 1) := by
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, Zm_apply] <;> ring
+    simp [Matrix.mul_apply, Zm_apply] <;> ring
 
 theorem adjm_mul_Gj (σ : K ≃+* K) {ζ α : K} (hζN : σ ζ * ζ = 1) (hαN : σ α * α = 1) (j : ℕ) :
     adjm σ (Gj ζ α j) * Gj ζ α j = 1 := by
@@ -124,7 +124,7 @@ theorem diag_comm (ζ : K) (d : Fin 3 → K) :
     Matrix.diagonal d * Zm ζ = Zm ζ * Matrix.diagonal d := by
   have : Zm ζ = Matrix.diagonal ![1, ζ, ζ ^ 2] := by
     ext a b
-    fin_cases a <;> fin_cases b <;> simp [Zm, Matrix.diagonal_apply]
+    fin_cases a <;> fin_cases b <;> simp [Zm]
   rw [this, Matrix.diagonal_mul_diagonal, Matrix.diagonal_mul_diagonal]
   congr 1
   funext a

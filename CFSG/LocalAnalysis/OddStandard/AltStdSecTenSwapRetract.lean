@@ -43,15 +43,15 @@ theorem CentData.exists_twist (hC : CentData z ι) :
     have hab : sign (a * b) = sign a * sign b := Equiv.Perm.sign_mul a b
     rcases Int.units_eq_one_or (sign a) with ha | ha <;>
       rcases Int.units_eq_one_or (sign b) with hb | hb
-    · rw [if_pos (by rw [hab, ha, hb, one_mul]), if_pos ha, if_pos hb, map_mul]
-    · rw [if_neg (by rw [hab, ha, hb]; decide), if_pos ha, if_neg (by rw [hb]; decide),
+    · rw [ite_eq_left (by rw [hab, ha, hb, one_mul]), ite_eq_left ha, ite_eq_left hb, map_mul]
+    · rw [ite_eq_right (by rw [hab, ha, hb]; decide), ite_eq_left ha, ite_eq_right (by rw [hb]; decide),
         map_mul]
       rw [← mul_assoc, hC.comm a, mul_assoc]
-    · rw [if_neg (by rw [hab, ha, hb]; decide), if_neg (by rw [ha]; decide), if_pos hb,
+    · rw [ite_eq_right (by rw [hab, ha, hb]; decide), ite_eq_right (by rw [ha]; decide), ite_eq_left hb,
         map_mul]
       rw [mul_assoc]
-    · rw [if_pos (by rw [hab, ha, hb]; decide), if_neg (by rw [ha]; decide),
-        if_neg (by rw [hb]; decide), map_mul]
+    · rw [ite_eq_left (by rw [hab, ha, hb]; decide), ite_eq_right (by rw [ha]; decide),
+        ite_eq_right (by rw [hb]; decide), map_mul]
       have h : (z * ι a) * (z * ι b) = ι a * ι b := by
         calc (z * ι a) * (z * ι b) = z * (ι a * z) * ι b := by group
           _ = z * (z * ι a) * ι b := by rw [hC.comm a]
@@ -62,11 +62,11 @@ theorem CentData.exists_twist (hC : CentData z ι) :
   have h1 : ∀ σ, sign σ = 1 → ι' σ = ι σ := by
     intro σ hs
     show (if sign σ = 1 then ι σ else z * ι σ) = ι σ
-    rw [if_pos hs]
+    rw [ite_eq_left hs]
   have h2 : ∀ σ, sign σ = -1 → ι' σ = z * ι σ := by
     intro σ hs
     show (if sign σ = 1 then ι σ else z * ι σ) = z * ι σ
-    rw [if_neg]
+    rw [ite_eq_right]
     rw [hs]
     decide
   have hzι : ∀ σ, z * (z * ι σ) = ι σ := fun σ => by
@@ -121,7 +121,7 @@ theorem CentData.exists_twist (hC : CentData z ι) :
     · exact ⟨σ, Or.inl (by rw [hσ, h2 σ hs])⟩
 
 theorem NoSwapConj.twist (hC : CentData z ι) (hN : NoSwapConj z ι) {ι' : Perm (Fin 10) →* G}
-    (h1 : ∀ σ, sign σ = 1 → ι' σ = ι σ) (h2 : ∀ σ, sign σ = -1 → ι' σ = z * ι σ) :
+    (_h1 : ∀ σ, sign σ = 1 → ι' σ = ι σ) (h2 : ∀ σ, sign σ = -1 → ι' σ = z * ι σ) :
     NoSwapConj z ι' := by
   intro σ hσ
   have hs : sign σ = -1 := hσ.sign_eq
@@ -195,7 +195,7 @@ theorem isConj_of_retraction {x : G} {π : ↥(centralizer ({x} : Set G)) →* P
       have h := hκd
       rw [hd, map_mul, hκ] at h
       have := congrArg (fun u : ℤˣ => u * (κ c)⁻¹) h
-      simpa [mul_assoc] using this
+      simp at this
     exact absurd hc (by decide)
 
 private theorem mem_zpowers_iff_eq_one_or_of_mul_self {H : Type*} [Group H] {g : H}
@@ -447,8 +447,8 @@ theorem exists_complement [Finite G] (hC : CentData z ι) {x : G}
       2 ^ (Nat.card ↥(centralizer ({x} : Set G))).factorization 2 := by
     rw [hfac]
     exact hVQcard
-  haveI hVnorm : V.Normal := normal_zpowers_selfC x
-  haveI hVcomm : IsMulCommutative V := IsMulCommutative.of_comm fun a b => Subtype.ext (by
+  have hVnorm : V.Normal := normal_zpowers_selfC x
+  have hVcomm : IsMulCommutative V := IsMulCommutative.of_comm fun a b => Subtype.ext (by
     have ha : (a : ↥(centralizer ({x} : Set G))) ∈
         Subgroup.center ↥(centralizer ({x} : Set G)) :=
       zpowers_le.2 (selfC_mem_center x) a.2
@@ -477,7 +477,7 @@ theorem exists_retraction [Finite G] (hC : CentData z ι) {x : G}
   have hzx : z ∈ centralizer ({x} : Set G) := by
     rw [hOS.eq]
     exact hC.z_mem_centralizer τ₀
-  haveI hVnorm : V.Normal := normal_zpowers_selfC x
+  have hVnorm : V.Normal := normal_zpowers_selfC x
   have hiff : ∀ c d : C, c * d ∈ K ↔ (c ∈ K ↔ d ∈ K) := by
     intro c d
     have hc : c ∈ V ⊔ K := by rw [hVKsup]; trivial
@@ -518,12 +518,12 @@ theorem exists_retraction [Finite G] (hC : CentData z ι) {x : G}
   let κ₀ : C →* ℤˣ := MonoidHom.mk' (fun c : C => if c ∈ K then 1 else -1) (by
     intro c d
     by_cases hc : c ∈ K <;> by_cases hd : d ∈ K
-    · rw [if_pos ((hiff c d).2 (iff_of_true hc hd)), if_pos hc, if_pos hd, mul_one]
-    · rw [if_neg (fun h => hd (((hiff c d).1 h).mp hc)), if_pos hc, if_neg hd]
+    · rw [ite_eq_left ((hiff c d).2 (iff_of_true hc hd)), ite_eq_left hc, ite_eq_left hd, mul_one]
+    · rw [ite_eq_right (fun h => hd (((hiff c d).1 h).mp hc)), ite_eq_left hc, ite_eq_right hd]
       simp
-    · rw [if_neg (fun h => hc (((hiff c d).1 h).mpr hd)), if_neg hc, if_pos hd]
+    · rw [ite_eq_right (fun h => hc (((hiff c d).1 h).mpr hd)), ite_eq_right hc, ite_eq_left hd]
       simp
-    · rw [if_pos ((hiff c d).2 (iff_of_false hc hd)), if_neg hc, if_neg hd]
+    · rw [ite_eq_left ((hiff c d).2 (iff_of_false hc hd)), ite_eq_right hc, ite_eq_right hd]
       norm_num)
   have hself_notK : selfC x ∉ K := by
     intro h
@@ -532,7 +532,7 @@ theorem exists_retraction [Finite G] (hC : CentData z ι) {x : G}
     exact selfC_ne_one hx1 this
   have hκ₀self : κ₀ (selfC x) = -1 := by
     change (if selfC x ∈ K then (1 : ℤˣ) else -1) = -1
-    rw [if_neg hself_notK]
+    rw [ite_eq_right hself_notK]
   let zC : C := ⟨z, hzx⟩
   by_cases hz1 : κ₀ zC = 1
   · refine ⟨κ₀, ?_, ?_⟩

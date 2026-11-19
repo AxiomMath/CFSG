@@ -32,7 +32,7 @@ theorem ggNbrLSideRSExc_transport_of_datum
         rootDiagUnit τ a * ((e r : ↥S.Γ) : ModGL τ L) * (rootDiagUnit τ a)⁻¹) ∧
       (∀ r : R, ((e (ψ r) : ↥S.Γ) : ModGL τ L) = y * ((e r : ↥S.Γ) : ModGL τ L) * y⁻¹) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y₀, hy₀, hy₀u⟩ := hmem
   have hy₀u' : y₀ = D.g0⁻¹ * u * D.g0 := by
     have h : D.g0 * y₀ * D.g0⁻¹ = u := hy₀u

@@ -71,7 +71,7 @@ theorem eSp_mul (a b c a' b' c' : ZMod 3) :
 @[expose] def TphiQ : Multiplicative (ZMod 3 × ZMod 3 × ZMod 3) →* PSp43 :=
   (QuotientGroup.mk' ((StatedScalars (Fin 2 ⊕ Fin 2) (ZMod 3)).subgroupOf
     (StatedSp 2 (ZMod 3)))).comp
-    (MonoidHom.mk' (fun v => eSp v.toAdd.1 v.toAdd.2.1 v.toAdd.2.2) fun x y =>
+    (MonoidHom.mk' (fun v => eSp v.toAdd.1 v.toAdd.2.1 v.toAdd.2.2) fun _x _y =>
       (eSp_mul _ _ _ _ _ _).symm)
 
 theorem TphiQ_key : ∀ a b c : ZMod 3,
@@ -90,8 +90,7 @@ theorem TphiQ_injective : Function.Injective TphiQ := by
         GL (Fin 2 ⊕ Fin 2) (ZMod 3)).val = UmQ (SmQ v.toAdd.1 v.toAdd.2.1 v.toAdd.2.2) := rfl
     rw [← h2, ← h']
     ext i j
-    by_cases hij : i = j <;> simp [Matrix.GeneralLinearGroup.scalar, Matrix.diagonal_apply,
-      Matrix.one_apply, hij]
+    by_cases hij : i = j <;> simp [Matrix.GeneralLinearGroup.scalar, hij]
   have hz := TphiQ_key _ _ _ ⟨k, k.ne_zero, hm⟩
   exact Multiplicative.toAdd.injective (Prod.ext hz.1 (Prod.ext hz.2.1 hz.2.2))
 
@@ -147,8 +146,7 @@ theorem Psi_eq_one {x : QuaternionGroup 2 × QuaternionGroup 2} (h : Psi x = 1) 
   have h2 : ((psiHom x : StatedSp 2 (ZMod 3)) : GL (Fin 2 ⊕ Fin 2) (ZMod 3)).val = psi0 x := rfl
   rw [← h2, ← h']
   ext i j
-  by_cases hij : i = j <;> simp [Matrix.GeneralLinearGroup.scalar, Matrix.diagonal_apply,
-    Matrix.one_apply, hij]
+  by_cases hij : i = j <;> simp [Matrix.GeneralLinearGroup.scalar, hij]
 
 theorem Psi_zz : Psi zz = 1 := by
   rw [Psi, MonoidHom.comp_apply, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff,
@@ -158,8 +156,7 @@ theorem Psi_zz : Psi zz = 1 := by
   have h2 : ((psiHom zz : StatedSp 2 (ZMod 3)) : GL (Fin 2 ⊕ Fin 2) (ZMod 3)).val = psi0 zz := rfl
   rw [h2, h]
   ext i j
-  by_cases hij : i = j <;> simp [Matrix.GeneralLinearGroup.scalar, Matrix.diagonal_apply,
-    Matrix.one_apply, hij]
+  by_cases hij : i = j <;> simp [Matrix.GeneralLinearGroup.scalar, hij]
 
 theorem ker_eq : Psi.ker = Subgroup.zpowers zz := by
   apply le_antisymm

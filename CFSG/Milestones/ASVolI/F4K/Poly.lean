@@ -32,7 +32,7 @@ theorem burnsideF4k_pa_zf_inj {col : V → Bool} (hΓ : Γ.Connected)
     (hc : ∀ a b, Γ.Adj a b → col a ≠ col b) {m : ℕ} (hm : 2 ≤ m) (hU : UniqueGeod Γ m)
     {z : ℕ → V} (hz : ∀ i, Γ.Adj (z i) (z (i + 1))) (hnb : ∀ i, z i ≠ z (i + 2))
     (hper : ∀ i, z (i + 2 * m) = z i) : Function.Injective (burnsideF4k_pa_zf z m) := by
-  haveI : NeZero (2 * m) := ⟨by omega⟩
+  have : NeZero (2 * m) := ⟨by omega⟩
   intro a b h
   have h1 : z a.val = z b.val := h
   rw [GPath.periodic_eq_iff hΓ hc (by omega) hU z hz hnb hper] at h1
@@ -52,7 +52,7 @@ theorem burnsideF4k_pa_col_add {col : V → Bool} (hc : ∀ a b, Γ.Adj a b → 
 
 theorem burnsideF4k_pa_even_val {m : ℕ} (hm : 2 ≤ m) (x : ZMod (2 * m)) :
     Even x.val ↔ Even x := by
-  haveI : NeZero (2 * m) := ⟨by omega⟩
+  have : NeZero (2 * m) := ⟨by omega⟩
   constructor
   · rintro ⟨r, hr⟩
     refine ⟨(r : ZMod (2 * m)), ?_⟩
@@ -65,7 +65,7 @@ theorem burnsideF4k_pa_zf_col_iff {col : V → Bool} (hc : ∀ a b, Γ.Adj a b �
     {m : ℕ} (hm : 2 ≤ m) {z : ℕ → V} (hz : ∀ i, Γ.Adj (z i) (z (i + 1)))
     (hper : ∀ i, z (i + 2 * m) = z i) (s t : ZMod (2 * m)) :
     col (burnsideF4k_pa_zf z m t) = col (burnsideF4k_pa_zf z m s) ↔ Even (t - s) := by
-  haveI : NeZero (2 * m) := ⟨by omega⟩
+  have : NeZero (2 * m) := ⟨by omega⟩
   rw [← burnsideF4k_pa_even_val hm (t - s)]
   have e : burnsideF4k_pa_zf z m t = z (s.val + (t - s).val) := by
     rw [← burnsideF4k_pa_zf_natCast hper]
@@ -77,7 +77,7 @@ theorem burnsideF4k_pa_zf_col_iff {col : V → Bool} (hc : ∀ a b, Γ.Adj a b �
 
 theorem burnsideF4k_pa_two_mul_eq_zero {m : ℕ} (hm : 2 ≤ m) (x : ZMod (2 * m)) :
     2 * x = 0 ↔ x = 0 ∨ x = (m : ZMod (2 * m)) := by
-  haveI : NeZero (2 * m) := ⟨by omega⟩
+  have : NeZero (2 * m) := ⟨by omega⟩
   constructor
   · intro h
     have h1 : ((2 * x.val : ℕ) : ZMod (2 * m)) = 0 := by
@@ -113,7 +113,7 @@ theorem burnsideF4k_pa_dist_ge {col : V → Bool} (hΓ : Γ.Connected)
 
 theorem burnsideF4k_pa_exists_d {z : ℕ → V} {m : ℕ} (hm : 2 ≤ m)
     (hper : ∀ i, z (i + 2 * m) = z i) (i j : ℕ) : ∃ d, d < 2 * m ∧ z j = z (i + d) := by
-  haveI : NeZero (2 * m) := ⟨by omega⟩
+  have : NeZero (2 * m) := ⟨by omega⟩
   refine ⟨((j : ZMod (2 * m)) - i).val, ZMod.val_lt _, ?_⟩
   rw [← burnsideF4k_pa_zf_natCast hper j, ← burnsideF4k_pa_zf_natCast hper (i + _)]
   congr 1
@@ -157,7 +157,7 @@ theorem burnsideF4k_pa_zf_nbr {col : V → Bool} (hΓ : Γ.Connected)
     (hper : ∀ i, z (i + 2 * m) = z i) (a : ZMod (2 * m)) {w : V} (hw : w ∈ Set.range z)
     (hadj : Γ.Adj (burnsideF4k_pa_zf z m a) w) :
     w = burnsideF4k_pa_zf z m (a + 1) ∨ w = burnsideF4k_pa_zf z m (a - 1) := by
-  haveI : NeZero (2 * m) := ⟨by omega⟩
+  have : NeZero (2 * m) := ⟨by omega⟩
   rcases burnsideF4k_pa_nbr hΓ hc hm hU hz hnb hper a.val hw hadj with h | h
   · left
     rw [h, ← burnsideF4k_pa_zf_natCast hper]
@@ -187,7 +187,7 @@ theorem burnsideF4k_pa_swap_act {z : ℕ → V} (hz : ∀ i, Γ.Adj (z i) (z (i 
     (h1 : g • GPath.arc₁ z hz m i = GPath.arc₂ z hz m i)
     (h2 : g • GPath.arc₂ z hz m i = GPath.arc₁ z hz m i) (t : ZMod (2 * m)) :
     g • burnsideF4k_pa_zf z m t = burnsideF4k_pa_zf z m (2 * (i : ZMod (2 * m)) - t) := by
-  haveI : NeZero (2 * m) := ⟨by omega⟩
+  have : NeZero (2 * m) := ⟨by omega⟩
   have e1 : ∀ j, j ≤ m → g • z (i + j) = z (i + 2 * m - j) := by
     intro j hj
     have := (GPath.smul_eq_iff.mp h1) j hj
@@ -283,7 +283,7 @@ def burnsideF4k_pa_flag {m : ℕ} (f : ZMod (2 * m) → V) (p : Fin m × Bool) :
 
 theorem burnsideF4k_pa_flag_inj {m : ℕ} (hm : 2 ≤ m) {f : ZMod (2 * m) → V}
     (hf : Function.Injective f) : Function.Injective (burnsideF4k_pa_flag f) := by
-  haveI : NeZero (2 * m) := ⟨by omega⟩
+  have : NeZero (2 * m) := ⟨by omega⟩
   rintro ⟨k, b⟩ ⟨k', b'⟩ h
   simp only [burnsideF4k_pa_flag, Prod.mk.injEq] at h
   obtain ⟨h1, h2⟩ := h
@@ -317,7 +317,7 @@ theorem burnsideF4k_pa_flag_inj {m : ℕ} (hm : 2 ≤ m) {f : ZMod (2 * m) → V
 theorem burnsideF4k_pa_flag_mem {m : ℕ} (hm : 2 ≤ m) (f : ZMod (2 * m) → V) {a e : ZMod (2 * m)}
     (ha : Even a) (he : e = 1 ∨ e = -1) :
     (f a, f (a + e)) ∈ Set.range (burnsideF4k_pa_flag f) := by
-  haveI : NeZero (2 * m) := ⟨by omega⟩
+  have : NeZero (2 * m) := ⟨by omega⟩
   obtain ⟨j, hj⟩ := (burnsideF4k_pa_even_val hm a).mpr ha
   have hlt : a.val < 2 * m := ZMod.val_lt a
   have ha' : 2 * ((j : ℕ) : ZMod (2 * m)) = a := by
@@ -404,7 +404,7 @@ theorem burnsideF4k_polyNbr : burnsideF4k_PolyNbr := by
 
 theorem burnsideF4k_polyRefl : burnsideF4k_PolyRefl := by
   intro α Z _ c m hm hU z hz hnb hper i g h1 h2
-  haveI : NeZero (2 * m) := ⟨by omega⟩
+  have : NeZero (2 * m) := ⟨by omega⟩
   have hconn := connected_graph c
   have hbip : ∀ a b : c.Γ, c.graph.Adj a b → CosetGeom.vtype a ≠ CosetGeom.vtype b :=
     fun _ _ h => CosetGeom.vtype_ne_of_adj h
@@ -440,7 +440,7 @@ theorem burnsideF4k_polyRefl : burnsideF4k_PolyRefl := by
       omega
     have hfix : {w : c.Γ | w ∈ Set.range z ∧ g • w = w} = {z i, z (i + m)} := by
       ext w
-      simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
       constructor
       · rintro ⟨⟨k, rfl⟩, hk⟩
         rw [← hcast k, hact] at hk
@@ -470,7 +470,7 @@ theorem burnsideF4k_polyRefl : burnsideF4k_PolyRefl := by
 
 theorem burnsideF4k_polyW : burnsideF4k_PolyW := by
   intro α Z _ c m hm hU z hz hnb hper hz0 hz1 sx sl hx1 hx2 hl1 hl2
-  haveI : NeZero (2 * m) := ⟨by omega⟩
+  have : NeZero (2 * m) := ⟨by omega⟩
   have hconn := connected_graph c
   have hbip : ∀ a b : c.Γ, c.graph.Adj a b → CosetGeom.vtype a ≠ CosetGeom.vtype b :=
     fun _ _ h => CosetGeom.vtype_ne_of_adj h

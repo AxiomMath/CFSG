@@ -415,12 +415,12 @@ theorem comm_VW_mem_Z (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀)
   have hs : ∀ a : ↥d.s56V, a * a = 1 := fun a => by
     have := hVel.2 a a.2
     exact Subtype.ext (by simpa [pow_two] using this)
-  haveI : Fact (∀ a b : ↥d.s56V, a * b = b * a) := ⟨hc⟩
-  haveI : Fact (∀ a : ↥d.s56V, a * a = 1) := ⟨hs⟩
+  have : Fact (∀ a b : ↥d.s56V, a * b = b * a) := ⟨hc⟩
+  have : Fact (∀ a : ↥d.s56V, a * a = 1) := ⟨hs⟩
   obtain ⟨h₀, hh₀, hh⟩ := hconj
   have M := mdata_d h49 hd hz hinv hcard hh₀ hh
   let Wb : Subgroup ↥(Hs d) := (Ws d).subgroupOf (Hs d)
-  haveI : Wb.Normal := ⟨fun n hn g => by
+  have : Wb.Normal := ⟨fun n hn g => by
     exact Subgroup.mem_subgroupOf.2 (by
       simpa using hWnorm (g : MulAut ↥d.s56V) g.2 n (Subgroup.mem_subgroupOf.1 hn))⟩
   have hW2 : ∀ w ∈ Wb, w * w = 1 := by
@@ -484,7 +484,7 @@ theorem commutator_eq_Z (h49 : d.Thm49Statement) (hd : d.Hyp) (hz : d.S56Z0 z₀
       intro v hv w hw
       rw [Subgroup.mem_comap]
       have e : (MulAut.conj h).toMonoidHom ⁅v, w⁆ = ⁅h * v * h⁻¹, h * w * h⁻¹⁆ := by
-        simp only [commutatorElement_def, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe,
+        simp only [commutatorElement_def, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass,
           MulAut.conj_apply]
         group
       rw [e]

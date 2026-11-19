@@ -93,7 +93,7 @@ theorem mem_normalizer_E_of_tElt_eq {r : Tc} {g : X} (hg : tElt K r = g)
     g ∈ Subgroup.normalizer
       ((Subgroup.closure {K.x ^ 2, K.y ^ 2, K.uv, K.t} : Subgroup X) : Set X) := by
   rw [← hg, closure_E_eq]
-  haveI : Finite ((Esub K : Subgroup X) : Set X) :=
+  have : Finite ((Esub K : Subgroup X) : Set X) :=
     ((Set.toFinite {p : Tc | IsEc p}).image (tElt K)).to_subtype
   refine Subgroup.mem_normalizer_fintype ?_
   rintro _ ⟨q, hq, rfl⟩

@@ -53,7 +53,7 @@ theorem etaGenIn_le (S : Subgroup G) : etaGenIn Ω S ≤ S :=
   iSup₂_le fun _ ⟨_, hγ, hU⟩ => hγ.2 _ hU
 
 theorem isPGroup_etaGenIn (S : Sylow 2 G) : IsPGroup 2 (etaGenIn Ω (S : Subgroup G)) :=
-  S.isPGroup'.to_le (etaGenIn_le _)
+  S.isPGroup.to_le (etaGenIn_le _)
 
 theorem image_conj_mem_etaGIn (hΩ : ConjInvariant Ω) {S : Subgroup G} {γ : Set (Subgroup G)}
     (hγ : γ ∈ etaGIn Ω S) {g : G} (hg : ∀ V ∈ γ, conjSub g V ≤ S) :

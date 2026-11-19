@@ -18,6 +18,7 @@ open Certificates.FzR10A Certificates.FzR10 Subgroup CFSG.OddStandard.SmallF3.Ha
 
 variable {G : Type} [Group G] [Finite G] {t : G} {x₁ x₂ lam rho tau : G} {T₂ : Subgroup G}
 
+omit [Finite G] in
 theorem fzr_a_base_le_wreath :
     (baseGrp x₁ x₂ : Subgroup G) ≤ wreathGrp x₁ x₂ lam := by
   unfold baseGrp wreathGrp

@@ -263,7 +263,7 @@ private lemma l05nLE_frameMats_lin {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) (hN
       exact List.mem_map.mpr ⟨i.val, List.mem_range.mpr i.isLt, rfl⟩
     · have hiN : i.val + 1 < N := by omega
       have hval : GGTWNValid p N (ggTWNGen p N [] i.val) :=
-        ggTWNGen_valid hp hN (by simp) (by simpa using i.isLt)
+        ggTWNGen_valid hp hN (by simp) (by simp)
       have hgen : ggTWNGen p N [] i.val = (ggTWNH p N i.val, ggTWNA p N i.val) := by
         simp [ggTWNGen, hiN]
       have hlin := (ggTWLMatOfPair_lin (p := p) (N := N) (q := ggTWNGen p N [] i.val) hval).2

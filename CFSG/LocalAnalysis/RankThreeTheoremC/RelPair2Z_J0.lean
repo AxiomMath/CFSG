@@ -41,7 +41,7 @@ theorem zjo_solvable_of_normal_sylow_two {Y : Type} [Group Y] [Finite Y] {K S : 
     infer_instance
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : Group.IsSolvable (Q : Subgroup K) := by
-    have : Group.IsNilpotent (Q : Subgroup K) := Q.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (Q : Subgroup K) := Q.isPGroup.isNilpotent
     infer_instance
   have hodd : Odd (Nat.card (K ⧸ (Q : Subgroup K))) := by
     rw [← Subgroup.index, Nat.odd_iff]

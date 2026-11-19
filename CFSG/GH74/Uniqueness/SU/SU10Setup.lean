@@ -148,7 +148,7 @@ theorem Hyp21.centralizer_ne_top (h : Hyp21 S M z) : centralizer ({z} : Set G) �
 
 theorem Hyp21.isSylowIn (h : Hyp21 S M z) :
     IsSylowIn (centralizer ({z} : Set G)) (S : Subgroup G) := by
-  refine ⟨h.S_le_centralizer, S.isPGroup', ?_⟩
+  refine ⟨h.S_le_centralizer, S.isPGroup, ?_⟩
   have hdvd : (S : Subgroup G).relIndex (centralizer ({z} : Set G)) ∣ (S : Subgroup G).index :=
     Subgroup.relIndex_dvd_index_of_le h.S_le_centralizer
   exact Nat.not_even_iff_odd.mp fun hev =>

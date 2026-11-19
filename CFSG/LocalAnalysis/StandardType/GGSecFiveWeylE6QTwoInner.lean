@@ -24,8 +24,8 @@ private theorem centerQuotientEquiv_apply {L : Type*} [Group L]
 private theorem isPerfect_psuSix (hK : Nat.card K = 4) :
     Group.IsPerfect (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) := by
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect ↥(LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 2) (f := 1) hK' (n := 6)
       (by norm_num) (by norm_num)
   exact Group.IsPerfect.ofSurjective
@@ -35,7 +35,7 @@ private theorem isPerfect_psuSix (hK : Nat.card K = 4) :
 theorem card_inf_eq_and_exists_map_eq_torU (hK : Nat.card K = 4) {Bs L : Subgroup G} {x : G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hZ : Subgroup.center L = ⊥) (hBs : IsElemAbelian 3 Bs) (hcard : Nat.card Bs = 3 ^ 5)
-    (hx : x ∈ Bs) (hx1 : x ≠ 1) (hLx : L ≤ Subgroup.centralizer {x})
+    (hx : x ∈ Bs) (hx1 : x ≠ 1) (_hLx : L ≤ Subgroup.centralizer {x})
     (hBL : Bs ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x)
     (hstar : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs)
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G))
@@ -48,9 +48,9 @@ theorem card_inf_eq_and_exists_map_eq_torU (hK : Nat.card K = 4) {Bs L : Subgrou
   let φ : L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :=
     (centerQuotientEquiv hZ).trans θ
   have hperf : commutator ↥L = ⊤ := by
-    haveI : Group.IsPerfect (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :=
+    have : Group.IsPerfect (LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :=
       isPerfect_psuSix hK
-    haveI : Group.IsPerfect ↥L := Group.IsPerfect.ofSurjective
+    have : Group.IsPerfect ↥L := Group.IsPerfect.ofSurjective
       (f := φ.symm.toMonoidHom) φ.symm.surjective
     exact Group.IsPerfect.commutator_eq_top
   have hZ2 : IsPGroup 2 (Subgroup.center L) := hZ ▸ IsPGroup.of_bot

@@ -150,11 +150,11 @@ private theorem omk_diagAct_eigenspace {n : ℕ} {F : Type} [Field F] {b c : F}
     · have h := ht.1 i
       rw [show (Pi.single (Sum.inl i) (1 : F) : Vm n F) = minusVec n i true from rfl, h]
       congr 1
-      by_cases hi : i = m <;> simp [hlam, Pi.mulSingle_apply, hi]
+      by_cases hi : i = m <;> simp [hlam, hi]
     · have h := ht.2.1 i
       rw [show (Pi.single (Sum.inr (Sum.inl i)) (1 : F) : Vm n F) = minusVec n i false from rfl, h]
       congr 1
-      by_cases hi : i = m <;> simp [hlam, Pi.mulSingle_apply, hi]
+      by_cases hi : i = m <;> simp [hlam, hi]
     · have h := ht.2.2 (Pi.single j 1)
       rw [show (Pi.single (Sum.inr (Sum.inr j)) (1 : F) : Vm n F) = planeVec n (Pi.single j 1)
         from omk_single_plane j, h,
@@ -184,14 +184,14 @@ private theorem omk_diagAct_eigenspace {n : ℕ} {F : Type} [Field F] {b c : F}
   · by_cases hi : i = m
     · rw [hi]
       simp [eVec]
-    · rw [hzero (Sum.inl i) (by simp only [hlam]; rw [if_neg hi]; exact Ne.symm hζ1)]
+    · rw [hzero (Sum.inl i) (by simp only [hlam]; rw [ite_eq_right hi]; exact Ne.symm hζ1)]
       simp [eVec, hi]
   · by_cases hi : i = m
     · rw [hi]
       rw [hzero (Sum.inr (Sum.inl m)) (by simp only [hlam]; exact hζinv)]
       simp [eVec]
-    · rw [hzero (Sum.inr (Sum.inl i)) (by simp only [hlam]; rw [if_neg hi]; exact Ne.symm hζ1)]
-      simp [eVec, hi]
+    · rw [hzero (Sum.inr (Sum.inl i)) (by simp only [hlam]; rw [ite_eq_right hi]; exact Ne.symm hζ1)]
+      simp [eVec]
   · rw [hzero (Sum.inr (Sum.inr j)) (by simp only [hlam]; exact Ne.symm hζ1)]
     simp [eVec]
 
@@ -222,11 +222,11 @@ private theorem omk_diagAct_eigenspace_f {n : ℕ} {F : Type} [Field F] {b c : F
     · have h := ht.1 i
       rw [show (Pi.single (Sum.inl i) (1 : F) : Vm n F) = minusVec n i true from rfl, h]
       congr 1
-      by_cases hi : i = m <;> simp [hlam, Pi.mulSingle_apply, hi]
+      by_cases hi : i = m <;> simp [hlam, hi]
     · have h := ht.2.1 i
       rw [show (Pi.single (Sum.inr (Sum.inl i)) (1 : F) : Vm n F) = minusVec n i false from rfl, h]
       congr 1
-      by_cases hi : i = m <;> simp [hlam, Pi.mulSingle_apply, hi]
+      by_cases hi : i = m <;> simp [hlam, hi]
     · have h := ht.2.2 (Pi.single j 1)
       rw [show (Pi.single (Sum.inr (Sum.inr j)) (1 : F) : Vm n F) = planeVec n (Pi.single j 1)
         from omk_single_plane j, h,
@@ -257,13 +257,13 @@ private theorem omk_diagAct_eigenspace_f {n : ℕ} {F : Type} [Field F] {b c : F
     · rw [hi]
       rw [hzero (Sum.inl m) (by simp only [hlam]; exact hζinv)]
       simp [fVec]
-    · rw [hzero (Sum.inl i) (by simp only [hlam]; rw [if_neg hi]; exact Ne.symm hζ1)]
-      simp [fVec, hi]
+    · rw [hzero (Sum.inl i) (by simp only [hlam]; rw [ite_eq_right hi]; exact Ne.symm hζ1)]
+      simp [fVec]
   · by_cases hi : i = m
     · rw [hi]
       simp [fVec]
     · rw [hzero (Sum.inr (Sum.inl i))
-          (by simp only [hlam]; rw [if_neg hi]; exact Ne.symm hζ1)]
+          (by simp only [hlam]; rw [ite_eq_right hi]; exact Ne.symm hζ1)]
       simp [fVec, hi]
   · rw [hzero (Sum.inr (Sum.inr j)) (by simp only [hlam]; exact Ne.symm hζ1)]
     simp [fVec]
@@ -363,7 +363,6 @@ private theorem omk_eta_of_conj {p n r f : ℕ} [Fact p.Prime]
       rw [Subgroup.mem_center_iff]
       intro s
       first
-        | exact (hcen s).eq
         | exact (hcen s).eq.symm
     rw [PsiDiag.SpinM.center_eq_bot (b := (minusCoeffs 2 f).1) (c := (minusCoeffs 2 f).2)
       (minusCoeffs_irr 2 f) (by omega : 4 ≤ r + 2), Subgroup.mem_bot] at hmem
@@ -538,9 +537,9 @@ private theorem omk_rLong_torus_mem_coordZero (hF : GGSecFiveBPermLinOmKFrame Bs
     have h5 : (Fin.last r) ≠ (⟨k.val + 1, hk⟩ : Fin (r + 1)) := by
       intro hh
       have h4 := congrArg Fin.val hh
-      simp only [Fin.val_last, Fin.val_mk] at h4
+      simp only [Fin.val_last] at h4
       omega
-    rw [if_neg h1, if_neg h5, add_zero]
+    rw [ite_eq_right h1, ite_eq_right h5, add_zero]
   rw [h2, h3, zpow_zero, map_one]
 
 private theorem omk_diag_mem (hF : GGSecFiveBPermLinOmKFrame Bs K eta π κ χ)
@@ -590,8 +589,8 @@ private theorem omk_eta_diag (hF : GGSecFiveBPermLinOmKFrame Bs K eta π κ χ) 
   refine hF.2.2.1 ?_
   refine hentries.trans ?_
   by_cases hm : m = Fin.last r
-  · rw [hm, Pi.mulSingle_eq_same, if_pos rfl]
-  · rw [Pi.mulSingle_eq_of_ne hm, if_neg hm, map_one]
+  · rw [hm, Pi.mulSingle_eq_same, ite_eq_left rfl]
+  · rw [Pi.mulSingle_eq_of_ne hm, ite_eq_right hm, map_one]
 
 private theorem omk_centralizer_le_normalizer [Finite G]
     (hF : GGSecFiveBPermLinOmKFrame Bs K eta π κ χ) (hp2 : p ≠ 2) (hf : 2 ≤ f) (hr : 2 ≤ r)
@@ -683,8 +682,7 @@ private theorem omk_centralizer_le_normalizer [Finite G]
       CFSG.ClassicalInvolution.Models.TwistedPairs.torusHom_eq_diagSL2] at h3
     have h6 := congrFun (congrFun (congrArg (fun M : SL(2, GaloisField 2 f) =>
       ((M : Matrix (Fin 2) (Fin 2) (GaloisField 2 f)))) h3) 0) 1
-    simp only [CFSG.LocalAnalysis.EvenBN.U4.coe_upperSL2,
-      CFSG.LocalAnalysis.EvenBN.U4.coe_diagSL2, Matrix.SpecialLinearGroup.coe_mul,
+    simp only [Matrix.SpecialLinearGroup.coe_mul,
       Matrix.mul_apply, Fin.sum_univ_two] at h6
     have h7 : (ggSecFiveBZeta χ : (GaloisField 2 f)ˣ) = (ggSecFiveBZeta χ)⁻¹ := by
       refine Units.ext ?_

@@ -350,7 +350,7 @@ theorem odd_orderOf_mul_of_dihedral [Finite G] {t u : G} (ht : orderOf t = 2)
       rw [h, orderOf_one] at hu; exact absurd hu (by norm_num)
     have htH : t ∈ Subgroup.zpowers x := by rw [← hHdef, hHtop]; trivial
     have huH : u ∈ Subgroup.zpowers x := by rw [← hHdef, hHtop]; trivial
-    letI : IsCyclic G := hcyc
+    let : IsCyclic G := hcyc
     have hcomm : t * x = x * t := mul_comm' t x
     have hxconj : t * x * t⁻¹ = x := by rw [hcomm, mul_assoc, mul_inv_cancel, mul_one]
     have hxinv : x⁻¹ = x := by rw [← hxt, hxconj]

@@ -185,7 +185,7 @@ private theorem spanN_foldl_nd (vs : List ℕ) (S : List ℕ) (hSn : S.Nodup)
         exact hv (by
           have h2 : v = a ^^^ c := by
             rw [hab]
-            simp [Nat.xor_assoc, Nat.xor_comm, Nat.xor_left_comm, Nat.xor_self, Nat.xor_zero]
+            simp [Nat.xor_comm]
           rw [h2]; exact hSxor a ha c hc)
       have hS1xor : ∀ a ∈ S ++ S.map (· ^^^ v), ∀ b ∈ S ++ S.map (· ^^^ v),
           a ^^^ b ∈ S ++ S.map (· ^^^ v) := by
@@ -199,7 +199,7 @@ private theorem spanN_foldl_nd (vs : List ℕ) (S : List ℕ) (hSn : S.Nodup)
         · obtain ⟨c, hc, rfl⟩ := List.mem_map.mp ha
           rcases List.mem_append.mp hb with hb | hb
           · exact List.mem_append.mpr (Or.inr (List.mem_map.mpr
-              ⟨c ^^^ b, hSxor c hc b hb, by simp [Nat.xor_assoc, Nat.xor_comm, Nat.xor_left_comm]⟩))
+              ⟨c ^^^ b, hSxor c hc b hb, by simp [Nat.xor_comm, Nat.xor_left_comm]⟩))
           · obtain ⟨d, hd, rfl⟩ := List.mem_map.mp hb
             exact List.mem_append.mpr (Or.inl (by
               simpa [Nat.xor_assoc, Nat.xor_comm, Nat.xor_left_comm, Nat.xor_self, Nat.xor_zero]
@@ -470,8 +470,8 @@ theorem spanN_ptSub {c : ℕ} (hc : c < 4096) :
       cases h : c == 0 with
       | false => rfl
       | true => exact absurd (beq_iff_eq.mp h) hc0
-    simp only [hc0', Bool.false_eq_true, if_false, lineOf, List.mem_cons, List.not_mem_nil,
-      or_false, or_assoc]
+    simp only [hc0', Bool.false_eq_true, ite_false, lineOf, List.mem_cons, List.not_mem_nil,
+      or_false]
 
 theorem mem_ptSub_iff {c : ℕ} (hc : c < 4096) (v : Vec12) :
     v ∈ ptSub c ↔ cd v = 0 ∨ cd v ∈ lineOf c := by
@@ -513,7 +513,7 @@ private theorem mem_lineOf_omega2 {c x : ℕ} (hc : c < 4096) :
   have h3 := omega_cube hc
   have h4 : mvN z12 (mvN z12 (mvN z12 (mvN z12 c))) = mvN z12 c := congrArg (mvN z12) h3
   rw [show lineOf (mvN z12 (mvN z12 c)) = [mvN z12 (mvN z12 c), c, mvN z12 c] from by
-    simp only [lineOf, h3, h4]]
+    simp only [lineOf, h3]]
   simp only [lineOf, List.mem_cons, List.not_mem_nil, or_false]
   tauto
 
@@ -549,7 +549,7 @@ theorem ptSub_eq_of_mem {c d : ℕ} (hc0 : 0 < c) (hc : c < 4096) (hd : d ∈ li
     ptSub c = ptSub d :=
   (ptSub_eq_iff hc0 hc (lineOf_lt hc d hd)).mpr hd
 
-theorem gmv_omega {g : Γ12} (hg : g ∈ G0) {c : ℕ} (hc : c < 4096) :
+theorem gmv_omega {g : Γ12} (hg : g ∈ G0) {c : ℕ} (_hc : c < 4096) :
     gmv g (mvN z12 c) = mvN z12 (gmv g c) := by
   have hz : ∀ x, gmv zU x = mvN z12 x := fun x => by
     rw [gmv, zU_val, colsN_decN validN_z12]

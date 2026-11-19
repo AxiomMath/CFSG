@@ -81,8 +81,8 @@ theorem qtwo_A3_cases (i j k : Fin (m + 1))
   · have hm2 : m ≤ 2 := by omega
     interval_cases m
     · exfalso
-      fin_cases i <;> fin_cases j <;> fin_cases k <;>
-        simp [CFSG.StandardType.ggCoxeterMatrixD_apply] at h1
+      fin_cases i; fin_cases j; fin_cases k;
+        simp at h1
     · exfalso
       fin_cases i <;> fin_cases j <;> fin_cases k <;>
         simp [CFSG.StandardType.ggCoxeterMatrixD_apply, CartanMatrix.D] at h1 h2 h3
@@ -104,7 +104,7 @@ theorem qtwoStd_pair (i j : Fin (m + 1))
   rcases lt_or_gt_of_ne hij with hlt | hgt
   · refine ⟨(stdFamilyV E m hm).θ i j, 1, ?_, ?_, Or.inl ⟨?_, ?_⟩⟩
     · unfold qtwoStdW
-      rw [if_pos h, if_pos hlt]
+      rw [ite_eq_left h, ite_eq_left hlt]
     · have hinj := stdFamilyV_θ_inj E hm i j hlt h
       rw [(MonoidHom.ker_eq_bot_iff _).mpr hinj]
       exact bot_le
@@ -119,7 +119,7 @@ theorem qtwoStd_pair (i j : Fin (m + 1))
       exact h
     refine ⟨(stdFamilyV E m hm).θ j i, 1, ?_, ?_, Or.inr ⟨?_, ?_⟩⟩
     · unfold qtwoStdW
-      rw [if_pos h, if_neg (not_lt_of_gt hgt)]
+      rw [ite_eq_left h, ite_eq_right (not_lt_of_gt hgt)]
     · have hinj := stdFamilyV_θ_inj E hm j i hgt hMji
       rw [(MonoidHom.ker_eq_bot_iff _).mpr hinj]
       exact bot_le

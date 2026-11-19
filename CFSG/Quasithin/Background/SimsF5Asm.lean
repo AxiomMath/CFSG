@@ -59,7 +59,7 @@ end Std
 
 theorem f56 : F56 := by
   intro E _ Gp M₁ M₂ Y _ β M _ ε z Tb fb h
-  haveI := h.f431.finite_M
+  have := h.f431.finite_M
   obtain ⟨Θ, zb, Φ, hz, hC, hμ, hΦ⟩ := exists_std h
   obtain ⟨R, hR, hTR⟩ := exists_R (ctxOfMarked h hμ.1 hz (hypF5_normalizers' h))
   obtain ⟨-, -, -, h56⟩ := autCtx_conf (ctxOfMarked h hμ.1 hz (hypF5_normalizers' h)) hR hTR
@@ -198,7 +198,7 @@ end F54Aux
 
 theorem f54 : F54 := by
   intro E _ Gp M₁ M₂ Y _ β M _ ε z Tb fb R h hR t ht
-  haveI := h.f431.finite_M
+  have := h.f431.finite_M
   obtain ⟨Θ, zb, Φ, hz, hC, hμ, hΦ⟩ := exists_std h
   have hinj := psiOf_injective Φ
   have hf : (ctxOfMarked h hμ.1 hz (hypF5_normalizers' h)).iso.toG fhB = fOf β ε fb :=
@@ -273,7 +273,7 @@ theorem f54 : F54 := by
       have hcj := cj_A2_eq (autIsoOfMarked h hμ.1) hy' hyt'
       rw [hA2] at hcj
       ext A
-      simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+      simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
       have hiff := isMaxElemAbelian_imgG_iff (autIsoOfMarked h hμ.1) A
       rw [hTi, hA1, hA2, hVA, ← hcj] at hiff
       exact hiff

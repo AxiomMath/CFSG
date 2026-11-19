@@ -25,7 +25,7 @@ theorem card_sq_le_of_elemAbelian_linear_two
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) (d : ℕ)
     (E : Subgroup (LargeEvenProj (LargeEvenSLGroup (Fin d) K)))
     (hE : CFSG.Open.IsElemAbelian 3 E) : Nat.card E ^ 2 ≤ 3 ^ d := by
-  letI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
+  let : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
     (f := 1) (by simpa using hK)
   have hsc : (LargeEvenScalars (Fin d) K).subgroupOf (LargeEvenSLGroup (Fin d) K) = ⊥ := by
     rw [largeEvenSLGroup_eq_statedSL]
@@ -70,8 +70,8 @@ theorem not_full_linear_of_marking
     · simpa only [LargeEvenRawDatumLegacy, LargeEvenRawDatum, hD, hr, ↓reduceIte,
         Nat.reduceAdd] using hraw
   obtain ⟨K, hField, hFinite, hcard, -, -, θ, hP⟩ := hlin
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   have hn : lab.n = 1 := by
     have := hlab'.1
     change lab.n < 2 at hq2
@@ -133,9 +133,9 @@ theorem not_full_triality_of_marking
       (fun lab' _ _ _ _ _ hP => ⟨hP.1.symm ▸ htag, hP⟩) hmark
   obtain ⟨-, lab', -, hraw⟩ := largeEvenMarking_triD4_innRank hm
   obtain ⟨R, hGroup, I, F, hs, hna, θ, hP⟩ := largeEvenRawDatum_exists hraw
-  letI : Group R := hGroup
-  letI : IsSimpleGroup R := hs
-  letI : Finite R := Finite.of_surjective θ θ.surjective
+  let : Group R := hGroup
+  let : IsSimpleGroup R := hs
+  let : Finite R := Finite.of_surjective θ θ.surjective
   have hnc : ¬ IsMulCommutative R := by
     intro h
     obtain ⟨a, b, hab⟩ := hna
@@ -182,19 +182,18 @@ theorem not_full_tits_of_marking
     simp only [LargeEvenInLambda2, htag] at hv
     exact hv.2.2
   try rw [LargeEvenRawDatumLegacy] at hraw
-  try rw [LargeEvenRawDatum] at hraw
   rw [htag, hn] at hraw
   dsimp at hraw
   obtain ⟨K, hField, hFinite, hcard, hs, hna, θ, hP⟩ := hraw
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   have hK : Nat.card K = 2 := by simpa using hcard
-  letI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
+  let : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
     (f := 1) (by simpa using hK)
   let R := LargeEvenCenterQuot (LargeEvenTwF4H 0 K)
-  letI : IsSimpleGroup R := hs
-  letI : Finite R := Finite.of_surjective θ θ.surjective
-  letI : Subsingleton Kˣ :=
+  let : IsSimpleGroup R := hs
+  let : Finite R := Finite.of_surjective θ θ.surjective
+  let : Subsingleton Kˣ :=
     (Nat.card_eq_one_iff_unique.mp (by rw [Nat.card_units, hK])).1
   have hnc : ¬ IsMulCommutative R := by
     intro h

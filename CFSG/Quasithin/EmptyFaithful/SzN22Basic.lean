@@ -100,7 +100,7 @@ theorem le_of_orderThree_mem [Finite Ω] {Y Q : Subgroup Ω}
     obtain ⟨P, hP⟩ := hz.exists_le_sylow
     have hPle : Nat.card ↥(P : Subgroup ↥Y) ≤ 3 := by
       have hmap : IsPGroup 3 ↥((P : Subgroup ↥Y).map Y.subtype) :=
-        P.isPGroup'.of_equiv (Subgroup.equivMapOfInjective _ _ Y.subtype_injective)
+        P.isPGroup.of_equiv (Subgroup.equivMapOfInjective _ _ Y.subtype_injective)
       have hle : (P : Subgroup ↥Y).map Y.subtype ≤ Y := fun x ⟨y, _, hy⟩ => hy ▸ y.2
       have := hY3 _ hle hmap
       rwa [Subgroup.card_map_of_injective Y.subtype_injective] at this

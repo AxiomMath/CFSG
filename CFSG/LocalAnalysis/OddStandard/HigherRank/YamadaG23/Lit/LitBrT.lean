@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {Γ : Type} [Group Γ] [Finite Γ] {Gh Zh Ah : Subgroup Γ} {t : Γ}
 
+omit [Finite Γ] in
 private theorem lit_subgroupOf_inf (G H K : Subgroup Γ) :
     (H ⊓ K).subgroupOf G = H.subgroupOf G ⊓ K.subgroupOf G := by
   ext x

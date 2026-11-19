@@ -20,6 +20,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem t6r_conj_mem {N : Subgroup G} {g n : G} (hg : g ∈ normalizer (N : Set G))
     (hn : n ∈ N) : g * n * g⁻¹ ∈ N :=
   (mem_normalizer_iff.mp hg n).mp hn
@@ -32,8 +33,10 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem D2_le_K : t.D2 ≤ t.K := le_sup_right
 
+omit [Finite G] in
 private theorem D2_le_Gv (i : ℤ) : t.D2 ≤ t.Gv i := t.D2_le_K.trans (t.K_le_Gv i)
 
 private theorem Q2_le_S (hF : F112HypW L1 L2 S) : Q2 L1 L2 S ≤ S :=
@@ -81,6 +84,7 @@ theorem card_le_mul_card_inf_Gv_sub_one {a f : ℕ}
   rw [← h3]
   exact Nat.mul_le_mul_right _ h2
 
+omit [Finite G] in
 private theorem tl_map_conj_eq_of_mem {H : Subgroup G} {g : G}
     (hg : g ∈ normalizer (H : Set G)) : H.map (MulAut.conj g).toMonoidHom = H := by
   ext y
@@ -89,6 +93,7 @@ private theorem tl_map_conj_eq_of_mem {H : Subgroup G} {g : G}
   rw [inv_inv] at this
   exact this.symm
 
+omit [Finite G] in
 private theorem tl_mem_normalizer_sup {H K : Subgroup G} {g : G}
     (hH : g ∈ normalizer (H : Set G)) (hK : g ∈ normalizer (K : Set G)) :
     g ∈ normalizer ((H ⊔ K : Subgroup G) : Set G) :=
@@ -101,15 +106,18 @@ private theorem tl_pCoreOf_le_Qv_one (hF : Hyp111 L1 L2 S) : pCoreOf 2 L2 ≤ t.
   rw [t.Qv_one]
   exact h
 
+omit [Finite G] in
 private theorem tl_P2_le_normalizer_L2 (hF : Hyp111 L1 L2 S) :
     P2 L1 L2 S ≤ normalizer (L2 : Set G) := by
   have h := bigB_le_normalizer_of_hyp111 hF.symm
   rw [bigB_comm] at h
   exact sup_le le_normalizer h
 
+omit [Finite G] in
 private theorem tl_D2_le_normalizer_T : t.D2 ≤ normalizer ((S ⊓ L2 : Subgroup G) : Set G) :=
   t.hD2hall.1.trans inf_le_right
 
+omit [Finite G] in
 private theorem tl_T_le_normalizer_Qv_one : S ⊓ L2 ≤ normalizer (t.Qv 1 : Set G) := by
   have h : P2 L1 L2 S ≤ normalizer (t.Qv 1 : Set G) := by
     rw [← t.Gv_one]
@@ -127,7 +135,7 @@ private theorem tl_S_eq_sup_Qv_one {a f : ℕ}
 private theorem tl_ne_conj_x₂ {a f : ℕ}
     (hfr : Frame L1 L2 S a f) :
     S ⊓ L2 ≠ (S ⊓ L2).map (MulAut.conj t.x₂).toMonoidHom := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTsyl : IsSylowTwoOf (S ⊓ L2) L2 := hfr.hF.1.h2.sylow
   have hSQ : S = t.Qv 1 ⊔ (S ⊓ L2) := t.tl_S_eq_sup_Qv_one hfr
   intro heq
@@ -151,7 +159,7 @@ private theorem tl_ne_conj_x₂ {a f : ℕ}
   have hSle : S ≤ t.Qv 1 := hSQ.le.trans (sup_le le_rfl hTQ)
   have hQS : (t.Qv 1).relIndex S = 1 := Subgroup.relIndex_eq_one.mpr hSle
   have h9 := (t.relIndex_Qv_pCoreOf hfr 1).1
-  rw [sub_self, t.pCoreOf_Gw_zero_one hfr, if_neg Int.not_even_one, hQS] at h9
+  rw [sub_self, t.pCoreOf_Gw_zero_one hfr, ite_eq_right Int.not_even_one, hQS] at h9
   have h4 : 4 ≤ 2 ^ f :=
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hfr.hf
@@ -161,7 +169,7 @@ theorem S_le_sup_Qv_one_of_torus {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {Y : Subgroup G} (hYS : Y ≤ S)
     (hYD : t.D2 ≤ normalizer (Y : Set G)) (hYQ : ¬ Y ≤ t.Qv 1) :
     S ≤ Y ⊔ t.Qv 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTsyl : IsSylowTwoOf (S ⊓ L2) L2 := hfr.hF.1.h2.sylow
   have hQ2le : pCoreOf 2 L2 ≤ t.Qv 1 := t.tl_pCoreOf_le_Qv_one hfr.hF.1
   have hTQ' : S ⊓ L2 ≤ normalizer (t.Qv 1 : Set G) := t.tl_T_le_normalizer_Qv_one
@@ -194,7 +202,7 @@ theorem L2_le_sup_Qv_one_of_sylow {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {X : Subgroup G} (hT : S ⊓ L2 ≤ X ⊔ t.Qv 1)
     (hx : t.x₂ ∈ normalizer (X : Set G)) :
     L2 ≤ X ⊔ t.Qv 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTsyl : IsSylowTwoOf (S ⊓ L2) L2 := hfr.hF.1.h2.sylow
   have hQ2le : pCoreOf 2 L2 ≤ t.Qv 1 := t.tl_pCoreOf_le_Qv_one hfr.hF.1
   have hx₂L2 : t.x₂ ∈ normalizer (L2 : Set G) :=
@@ -216,23 +224,28 @@ theorem L2_le_sup_Qv_one_of_sylow {a f : ℕ}
 
 private def VZ : Subgroup G := ⨆ g ∈ P1 L1 L2 S, (t.Zv 1).map (MulAut.conj g).toMonoidHom
 
+omit [Finite G] in
 private theorem le_VZ {g : G} (hg : g ∈ P1 L1 L2 S) :
     (t.Zv 1).map (MulAut.conj g).toMonoidHom ≤ t.VZ :=
   le_iSup₂ (f := fun g (_ : g ∈ P1 L1 L2 S) => (t.Zv 1).map (MulAut.conj g).toMonoidHom) g hg
 
+omit [Finite G] in
 private theorem t6v_conj_mem {g z : G} (hg : g ∈ P1 L1 L2 S) (hz : z ∈ t.Zv 1) :
     g * z * g⁻¹ ∈ t.VZ :=
   t.le_VZ hg (mem_map_conj_iff.mpr (by simpa [mul_assoc] using hz))
 
+omit [Finite G] in
 private theorem t6v_VZ_le {K : Subgroup G}
     (h : ∀ g ∈ P1 L1 L2 S, ∀ z ∈ t.Zv 1, g * z * g⁻¹ ∈ K) : t.VZ ≤ K := by
   refine iSup₂_le fun g hg y hy => ?_
   have h1 := h g hg _ (mem_map_conj_iff.mp hy)
   simpa [mul_assoc] using h1
 
+omit [Finite G] in
 private theorem Zv_one_le_VZ : t.Zv 1 ≤ t.VZ := fun z hz => by
   simpa using t.t6v_conj_mem (one_mem _) hz
 
+omit [Finite G] in
 private theorem P1_le_normalizer_VZ : P1 L1 L2 S ≤ normalizer (t.VZ : Set G) := by
   have key : ∀ h ∈ P1 L1 L2 S, ∀ y ∈ t.VZ, h * y * h⁻¹ ∈ t.VZ := by
     intro h hh
@@ -258,6 +271,7 @@ private theorem VZ_le_Qv_zero {a f : ℕ} (hfr : Frame L1 L2 S a f)
     t.Gv_le_normalizer_Qv 0 (by rw [t.Gv_zero]; exact hg)
   exact (mem_normalizer_iff.mp hgN z).mp (hZQ hz)
 
+omit [Finite G] in
 private theorem t6v_P1_le_normalizer_Zv_zero :
     P1 L1 L2 S ≤ normalizer (t.Zv 0 : Set G) := by
   rw [t.Zv_zero]
@@ -311,6 +325,7 @@ private theorem commutator_mem_Zv_zero_of_mem_Qv_zero {a f : ℕ}
   intro v hv
   exact (hle hv).2
 
+omit [Finite G] in
 private theorem t6v_sq_conj_eq_one {g z : G} (hz : z ∈ t.Zv 1) : (g * z * g⁻¹) ^ 2 = 1 := by
   rw [t.Zv_eq 1] at hz
   rw [conj_pow, A4.sq_eq_one_of_mem_omegaOneCenterOf hz]
@@ -326,7 +341,7 @@ private theorem isElemSec_VZ {a f : ℕ} (hfr : Frame L1 L2 S a f)
   refine ⟨hZ10.trans t.Zv_one_le_VZ, Subgroup.commutator_le.mpr hcomm, ?_⟩
   let K : Subgroup G :=
     { carrier := {v | v ∈ t.VZ ∧ v ^ 2 ∈ t.Zv 0}
-      one_mem' := ⟨one_mem _, by simpa using one_mem (t.Zv 0)⟩
+      one_mem' := ⟨one_mem _, by simp⟩
       mul_mem' := by
         rintro v w ⟨hv, hv2⟩ ⟨hw, hw2⟩
         refine ⟨mul_mem hv hw, ?_⟩
@@ -343,6 +358,7 @@ private theorem isElemSec_VZ {a f : ℕ} (hfr : Frame L1 L2 S a f)
     ⟨t.t6v_conj_mem hg hz, by rw [t.t6v_sq_conj_eq_one hz]; exact one_mem _⟩
   exact fun e he => (hle he).2
 
+omit [Finite G] in
 private theorem t6v_P2_le_normalizer_Z2 : P2 L1 L2 S ≤ normalizer (Z2 L1 L2 S : Set G) :=
   (le_normalizer_pCoreOf 2 _).trans (A4.normalizer_le_normalizer_omegaOneCenterOf _)
 
@@ -428,6 +444,7 @@ private theorem t6o_Qv_le_Gw {a f : ℕ}
   · exact t.Qv_le_Gv_self _ hy
   · exact (t.Qv_le_Gv hfr v).2 hy
 
+omit [Finite G] in
 private theorem t6o_mem_Gw_union {u m w : ℤ} {y : G} (h1 : y ∈ t.Gw u m) (h2 : y ∈ t.Gw m w) :
     y ∈ t.Gw u w := by
   refine mem_win_iff.mpr fun i hi1 hi2 => ?_
@@ -438,7 +455,7 @@ private theorem t6o_mem_Gw_union {u m w : ℤ} {y : G} (h1 : y ∈ t.Gw u m) (h2
 private theorem card_S_le_of_t6 {a f : ℕ} (hfr : Frame L1 L2 S a f)
     (hwlog : pCoreOf 2 (t.Gw (-2) 4) = ⊥) :
     Nat.card S ≤ (2 ^ f) ^ 3 * ((2 ^ (2 * a + 1)) ^ 2) ^ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSp : IsPGroup 2 S := by
     have h := pCoreOf_isPGroup 2 (t.Gw 0 1)
     rwa [t.pCoreOf_Gw_zero_one hfr] at h
@@ -465,11 +482,11 @@ private theorem card_S_le_of_t6 {a f : ℕ} (hfr : Frame L1 L2 S a f)
     rw [hwlog] at h
     exact le_bot_iff.mp h
   rw [hbot, Subgroup.card_bot] at c5
-  rw [if_pos (show Even (0 : ℤ) by decide)] at c1
-  rw [if_neg (show ¬ Even (1 : ℤ) by decide)] at c2
-  rw [if_neg (show ¬ Even (-1 : ℤ) by decide)] at c3
-  rw [if_pos (show Even (2 : ℤ) by decide)] at c4
-  rw [if_neg (show ¬ Even (3 : ℤ) by decide)] at c5
+  rw [ite_eq_left (show Even (0 : ℤ) by decide)] at c1
+  rw [ite_eq_right (show ¬ Even (1 : ℤ) by decide)] at c2
+  rw [ite_eq_right (show ¬ Even (-1 : ℤ) by decide)] at c3
+  rw [ite_eq_left (show Even (2 : ℤ) by decide)] at c4
+  rw [ite_eq_right (show ¬ Even (3 : ℤ) by decide)] at c5
   have key : Nat.card S ≤ (2 ^ (2 * a + 1)) ^ 2 * (2 ^ f * (2 ^ f * ((2 ^ (2 * a + 1)) ^ 2 *
       (2 ^ f * 1)))) := by
     refine c1.trans (Nat.mul_le_mul_left _ ?_)
@@ -487,7 +504,7 @@ private theorem card_Qv_zero_le_of_t6 {a f : ℕ}
   have hS := t.card_S_le_of_t6 hfr hwlog
   have h1 := (t.relIndex_Qv_pCoreOf hfr 0).2
   rw [show (0 : ℤ) + 1 = 1 by norm_num, t.pCoreOf_Gw_zero_one hfr,
-    if_pos (show Even (0 : ℤ) by decide)] at h1
+    ite_eq_left (show Even (0 : ℤ) by decide)] at h1
   have hQS : t.Qv 0 ≤ S := by
     rw [t.Qv_zero]
     exact Q1_le_S hfr.hF
@@ -520,8 +537,8 @@ private theorem Qv_zero_inf_Qv_two_eq_of_t6 {a f : ℕ}
     rw [hwlog] at h
     exact le_bot_iff.mp h
   rw [hbot, Subgroup.card_bot] at c2
-  rw [if_neg (show ¬ Even (3 : ℤ) by decide)] at c1
-  rw [if_neg (show ¬ Even (-1 : ℤ) by decide)] at c2
+  rw [ite_eq_right (show ¬ Even (3 : ℤ) by decide)] at c1
+  rw [ite_eq_right (show ¬ Even (-1 : ℤ) by decide)] at c2
   have hle0 : t.Zv 1 ≤ t.Qv 0 :=
     t.le_Qv_of_le_Gw hfr (u := -1) (w := 3) (j := 0) (by norm_num) (by norm_num)
       (t.isPGroup_Zv 1) hZ0
@@ -535,9 +552,11 @@ private theorem Qv_zero_inf_Qv_two_eq_of_t6 {a f : ℕ}
       _ = 2 ^ f * 2 ^ f := by rw [mul_one]
   exact (Subgroup.eq_of_le_of_card_ge (le_inf hle0 hle2) hcard).symm
 
+omit [Finite G] in
 private theorem t6p_P1_le_normalizer_Z1 : P1 L1 L2 S ≤ normalizer (Z1 L1 L2 S : Set G) :=
   (le_normalizer_pCoreOf 2 _).trans (A4.normalizer_le_normalizer_omegaOneCenterOf _)
 
+omit [Finite G] in
 private theorem t6p_mem_normalizer_of_map_eq {H : Subgroup G} {g : G}
     (h : H.map (MulAut.conj g).toMonoidHom = H) : g ∈ normalizer (H : Set G) := by
   rw [mem_normalizer_iff]
@@ -553,10 +572,12 @@ private theorem t6p_mem_normalizer_of_map_le {H : Subgroup G} {g : G}
   refine Subgroup.eq_of_le_of_card_ge h ?_
   rw [Subgroup.card_map_of_injective (MulAut.conj g).injective]
 
+omit [Finite G] in
 private theorem t6p_conj_mem {H : Subgroup G} {g y : G} (hg : g ∈ normalizer (H : Set G))
     (hy : y ∈ H) : g * y * g⁻¹ ∈ H :=
   (mem_normalizer_iff.mp hg y).mp hy
 
+omit [Finite G] in
 private theorem t6p_mem_normalizer_inf {A B : Subgroup G} {g : G}
     (hA : g ∈ normalizer (A : Set G)) (hB : g ∈ normalizer (B : Set G)) :
     g ∈ normalizer ((A ⊓ B : Subgroup G) : Set G) := by
@@ -564,6 +585,7 @@ private theorem t6p_mem_normalizer_inf {A B : Subgroup G} {g : G}
   intro x
   rw [mem_inf, mem_inf, hA x, hB x]
 
+omit [Finite G] in
 private theorem t6p_mem_normalizer_sup {A B : Subgroup G} {g : G}
     (hA : g ∈ normalizer (A : Set G)) (hB : g ∈ normalizer (B : Set G)) :
     g ∈ normalizer ((A ⊔ B : Subgroup G) : Set G) := by
@@ -602,10 +624,11 @@ private theorem S_le_Zv_neg_one_sup_Qv_one {a f : ℕ}
   · intro h
     exact hZ2' (h.trans (t.Qv_one_le_Gv_two hfr))
 
+omit [Finite G] in
 private theorem x₂_mem_normalizer_A {a f : ℕ}
-    (hfr : Frame L1 L2 S a f) :
+    (_hfr : Frame L1 L2 S a f) :
     t.x₂ ∈ normalizer (((t.Qv 1 ⊓ t.Qv 0) ⊔ (t.Qv 1 ⊓ t.Qv 2) : Subgroup G) : Set G) := by
-  clear hfr
+  clear _hfr
   have hmap : ∀ i : ℤ, (t.Qv i).map (MulAut.conj t.x₂).toMonoidHom = t.Qv (2 - i) := fun i =>
     t.track.map_qv_x₂ (le_normalizer_pCoreOf 2 _) (le_normalizer_pCoreOf 2 _) i
   have h0 := hmap 0
@@ -791,7 +814,7 @@ theorem exists_omega_of_sz {a f : ℕ} (hfr : Frame L1 L2 S a f) :
   · rw [t.mem_rootOmega_iff hfr 0, hR]
   · exact t.commutator_rootOmega_le hfr 0
       (Subgroup.commutator_mem_commutator hω (by rw [hR]; exact hs))
-  · rw [t.relIndex_rootOmega hfr 0, if_pos (by decide)]
+  · rw [t.relIndex_rootOmega hfr 0, ite_eq_left (by decide)]
 
 private theorem exists_R_of_t6 {a f : ℕ} (hfr : Frame L1 L2 S a f)
     (hD : t.Qv 0 ⊓ t.Qv 2 = t.Zv 1) (hZ0 : t.Zv 1 ≤ t.Gw (-1) 3)
@@ -881,12 +904,14 @@ private theorem exists_R_of_t6 {a f : ℕ} (hfr : Frame L1 L2 S a f)
     _ ≤ (t.Qv 0).relIndex Ω := Subgroup.relIndex_le_of_le_right hRΩ (t6r_relIndex_ne_zero _ _)
     _ ≤ 2 ^ (2 * a + 1) := hΩidx
 
+omit [Finite G] in
 private theorem t6f_sq_mul {Z : Subgroup G} {x y : G} (hx : x ∈ normalizer (Z : Set G))
     (hc : ⁅y, x⁆ ∈ Z) : ∃ z ∈ Z, (x * y) ^ 2 = z * (x ^ 2 * y ^ 2) := by
   refine ⟨x * ⁅y, x⁆ * x⁻¹, (mem_normalizer_iff.mp hx _).mp hc, ?_⟩
   simp only [commutatorElement_def, pow_two]
   group
 
+omit [Finite G] in
 private theorem t6f_mem_normalizer_of_comm {Z R : Subgroup G} {g : G} (hZR : Z ≤ R)
     (h : ∀ y ∈ R, ⁅g, y⁆ ∈ Z) (h' : ∀ y ∈ R, ⁅g⁻¹, y⁆ ∈ Z) :
     g ∈ normalizer (R : Set G) := by
@@ -903,6 +928,7 @@ private theorem t6f_mem_normalizer_of_comm {Z R : Subgroup G} {g : G} (hZR : Z �
     have := mul_mem (hZR (h' _ hy)) hy
     rwa [e] at this
 
+omit [Finite G] in
 private theorem t6f_mem_normalizer_R {Q0 Q1 Q2 R : Subgroup G} {g : G}
     (hQ0 : g ∈ normalizer (Q0 : Set G)) (hQ1 : g ∈ normalizer (Q1 : Set G))
     (hQ2 : g ∈ normalizer (Q2 : Set G)) (hRmem : ∀ y, y ∈ R ↔ y ∈ Q1 ⊓ Q2 ∧ y ^ 2 ∈ Q0) :
@@ -915,6 +941,7 @@ private theorem t6f_mem_normalizer_R {Q0 Q1 Q2 R : Subgroup G} {g : G}
   rw [hRmem, hRmem, e]
   exact and_congr (mem_normalizer_iff.mp h12 y) (mem_normalizer_iff.mp hQ0 (y ^ 2))
 
+omit [Finite G] in
 private theorem t6f_conj_data {Q0 Q1 Q2 Z R R' : Subgroup G} {c : G}
     (hcQ1 : c ∈ normalizer (Q1 : Set G)) (hcZ : c ∈ normalizer (Z : Set G))
     (h02 : ∀ w, w ∈ Q0 ↔ c⁻¹ * w * c ∈ Q2) (h20 : ∀ w, w ∈ Q2 ↔ c⁻¹ * w * c ∈ Q0)
@@ -964,14 +991,17 @@ private structure t6f_Data (Q0 Q1 Q2 Z R R' : Subgroup G) : Prop where
   hRmem' : ∀ y, y ∈ R' ↔ y ∈ Q1 ⊓ Q0 ∧ y ^ 2 ∈ Q2
   hRQ' : ∀ q ∈ Q1, ∀ y ∈ R', ⁅q, y⁆ ∈ Z
 
+omit [Finite G] in
 private theorem t6f_Z_le_Q0 {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q2 Z R R') :
     Z ≤ Q0 := by
   rw [← h.hD]; exact inf_le_left
 
+omit [Finite G] in
 private theorem t6f_Z_le_Q2 {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q2 Z R R') :
     Z ≤ Q2 := by
   rw [← h.hD]; exact inf_le_right
 
+omit [Finite G] in
 private theorem t6f_AB {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q2 Z R R') :
     (Q1 ⊓ Q0) ⊓ (Q1 ⊓ Q2) = Z := by
   refine le_antisymm ?_ (le_inf (le_inf h.hZQ (t6f_Z_le_Q0 h)) (le_inf h.hZQ (t6f_Z_le_Q2 h)))
@@ -981,38 +1011,45 @@ private theorem t6f_AB {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q2 Z R
   rw [← h.hD]
   exact mem_inf.mpr ⟨h0, h2⟩
 
+omit [Finite G] in
 private theorem t6f_A_le_normalizer_B {Q0 Q1 Q2 Z R R' : Subgroup G}
     (h : t6f_Data Q0 Q1 Q2 Z R R') :
     (Q1 ⊓ Q0) ≤ normalizer ((Q1 ⊓ Q2 : Subgroup G) : Set G) := fun x hx =>
   t6f_mem_normalizer_of_comm (le_inf h.hZQ (t6f_Z_le_Q2 h)) (fun y hy => h.hAA x hx y hy)
     (fun y hy => h.hAA x⁻¹ (inv_mem hx) y hy)
 
+omit [Finite G] in
 private theorem t6f_R'_le_normalizer_R {Q0 Q1 Q2 Z R R' : Subgroup G}
     (h : t6f_Data Q0 Q1 Q2 Z R R') : R' ≤ normalizer (R : Set G) := fun x hx =>
   t6f_mem_normalizer_of_comm h.hZR (fun y hy => h.hAA x (h.hRA' hx) y (h.hRA hy))
     (fun y hy => h.hAA x⁻¹ (h.hRA' (inv_mem hx)) y (h.hRA hy))
 
+omit [Finite G] in
 private theorem t6f_sup_decomp {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q2 Z R R')
     {p : G} (hp : p ∈ R' ⊔ R) : ∃ r ∈ R, ∃ r' ∈ R', p = r * r' := by
   rw [sup_comm] at hp
   exact (F1.mem_sup_iff_exists_mul_of_normalizes (t6f_R'_le_normalizer_R h)).mp hp
 
+omit [Finite G] in
 private theorem t6f_sup_le_Q1 {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q2 Z R R') :
     R' ⊔ R ≤ Q1 :=
   sup_le (h.hRA'.trans inf_le_left) (h.hRA.trans inf_le_left)
 
+omit [Finite G] in
 private theorem t6f_sq_R {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q2 Z R R')
     {r : G} (hr : r ∈ R) : r ^ 2 ∈ Z := by
   have h1 := (h.hRmem r).mp hr
   rw [← h.hD]
   exact mem_inf.mpr ⟨h1.2, (mem_inf.mp (pow_mem h1.1 2)).2⟩
 
+omit [Finite G] in
 private theorem t6f_sq_R' {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q2 Z R R')
     {r : G} (hr : r ∈ R') : r ^ 2 ∈ Z := by
   have h1 := (h.hRmem' r).mp hr
   rw [← h.hD]
   exact mem_inf.mpr ⟨(mem_inf.mp (pow_mem h1.1 2)).2, h1.2⟩
 
+omit [Finite G] in
 private theorem t6f_comm_P0 {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q2 Z R R') :
     ∀ q ∈ Q1, ∀ v ∈ R' ⊔ R, ⁅q, v⁆ ∈ Z := by
   intro q hq v hv
@@ -1024,6 +1061,7 @@ private theorem t6f_comm_P0 {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q
   exact mul_mem (h.hRQ q hq r hr)
     ((mem_normalizer_iff.mp (h.hQN hrQ) _).mp (h.hRQ' q hq r' hr'))
 
+omit [Finite G] in
 private theorem t6f_sq_P0 {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q2 Z R R')
     {p : G} (hp : p ∈ R' ⊔ R) : p ^ 2 ∈ Z := by
   obtain ⟨r, hr, r', hr', rfl⟩ := t6f_sup_decomp h hp
@@ -1032,6 +1070,7 @@ private theorem t6f_sq_P0 {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q2 
   rw [hzeq]
   exact mul_mem hz (mul_mem (t6f_sq_R h hr) (t6f_sq_R' h hr'))
 
+omit [Finite G] in
 private theorem t6f_isElemSec {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q2 Z R R') :
     CFSG.GH74.QTGen4.DSGen4.IsElemSec Z (R' ⊔ R) := by
   unfold CFSG.GH74.QTGen4.DSGen4.IsElemSec
@@ -1040,6 +1079,7 @@ private theorem t6f_isElemSec {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1
   intro p hp v hv
   exact t6f_comm_P0 h p (t6f_sup_le_Q1 h hp) v hv
 
+omit [Finite G] in
 private theorem t6f_mem_sup_iff {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q2 Z R R')
     (p : G) : p ∈ R' ⊔ R ↔ p ∈ (Q1 ⊓ Q0) ⊔ (Q1 ⊓ Q2) ∧ p ^ 2 ∈ Z := by
   constructor
@@ -1071,6 +1111,7 @@ private theorem t6f_mem_sup_iff {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 
     have haR' : a ∈ R' := (h.hRmem' a).mpr ⟨ha, t6f_Z_le_Q2 h h5⟩
     exact mul_mem (mem_sup_right hbR) (mem_sup_left haR')
 
+omit [Finite G] in
 private theorem t6f_mem_normalizer_P0 {Q0 Q1 Q2 Z R R' : Subgroup G}
     (h : t6f_Data Q0 Q1 Q2 Z R R') {g : G}
     (hgP : g ∈ normalizer (((Q1 ⊓ Q0) ⊔ (Q1 ⊓ Q2) : Subgroup G) : Set G))
@@ -1082,6 +1123,7 @@ private theorem t6f_mem_normalizer_P0 {Q0 Q1 Q2 Z R R' : Subgroup G}
   rw [t6f_mem_sup_iff h, t6f_mem_sup_iff h, e]
   exact and_congr (mem_normalizer_iff.mp hgP p) (mem_normalizer_iff.mp hgZ (p ^ 2))
 
+omit [Finite G] in
 private theorem t6f_inf_RR' {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q2 Z R R') :
     R ⊓ R' = Z := by
   refine le_antisymm ?_ (le_inf h.hZR h.hZR')
@@ -1089,6 +1131,7 @@ private theorem t6f_inf_RR' {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q
   rw [← t6f_AB h]
   exact mem_inf.mpr ⟨h.hRA' (mem_inf.mp hy).2, h.hRA (mem_inf.mp hy).1⟩
 
+omit [Finite G] in
 private theorem t6f_relIndex_sup {Q0 Q1 Q2 Z R R' : Subgroup G} (h : t6f_Data Q0 Q1 Q2 Z R R') :
     Z.relIndex (R' ⊔ R) = Z.relIndex R' * Z.relIndex R := by
   have h1 := Subgroup.relIndex_mul_relIndex Z R (R' ⊔ R) h.hZR le_sup_right

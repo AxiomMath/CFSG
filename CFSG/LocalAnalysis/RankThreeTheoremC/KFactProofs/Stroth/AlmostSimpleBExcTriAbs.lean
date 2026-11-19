@@ -23,10 +23,10 @@ theorem exists_normalized_two_group {X : Type*} [Group X] [Finite X] {p : ℕ} (
       (P : Subgroup C).map C.subtype ≤ Subgroup.normalizer (R : Set X) := by
   classical
   have h2 : 2 ∣ Nat.card N := (Nat.not_odd_iff_even.1 hodd).two_dvd
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := exists_sylow_normalized_of_isPGroup (ℓ := 2) N (P : Subgroup C)
-    P.isPGroup' hcop
+    P.isPGroup hcop
   have hSne : (S : Subgroup N) ≠ ⊥ := by
     intro h0
     have h1 : Nat.card (S : Subgroup N) = 1 := by rw [h0]; simp
@@ -40,7 +40,7 @@ theorem exists_normalized_two_group {X : Type*} [Group X] [Finite X] {p : ℕ} (
   have hR2 : IsPGroup 2 R := by
     intro x
     obtain ⟨_, ⟨s, hs, rfl⟩, hx⟩ := x.2
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     refine ⟨k, ?_⟩
     have hk' : s ^ 2 ^ k = 1 := congrArg Subtype.val hk
     apply Subtype.ext
@@ -60,7 +60,7 @@ theorem false_of_sylow_subgroup {C G : Type*} [Group C] [Finite C] [Group G] {p 
       Nat.card E' ≤ m)
     (hE : m < Nat.card E) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set E₁ : Subgroup C := E.comap φ with hE₁
   have hE₁exp : ∀ e ∈ E₁, e ^ p = 1 := fun e he =>
     hφ (by rw [map_pow, map_one]; exact hEp _ he)

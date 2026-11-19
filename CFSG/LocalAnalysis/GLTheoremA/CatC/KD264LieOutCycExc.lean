@@ -65,8 +65,8 @@ private theorem outCycAt_e6_three {q : TauCeti.PrimePower}
   obtain ⟨K, _, _, hK, -, ⟨e⟩⟩ :=
     exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e6 q hv
   have hK' : Nat.card K = q.p ^ q.exponent := hK.trans q.card_def
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK']; exact pow_ne_zero _ q.prime_p.ne_zero)
-  haveI : IsCyclic (RingAut K) := (card_ringAut_and_isCyclic q.prime_p K hK').2
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK']; exact pow_ne_zero _ q.prime_p.ne_zero)
+  have : IsCyclic (RingAut K) := (card_ringAut_and_isCyclic q.prime_p K hK').2
   obtain ⟨Θ, -, -, hker, -, -⟩ :=
     ordinary_E_field_graph_quotient_and_involutions Tag.E6 (Or.inl rfl) K
   let φ : (⊤ : Subgroup (MulAut (adjointGroup Tag.E6 K))) →* RingAut K :=
@@ -89,7 +89,7 @@ private theorem outCycAt_g2 (p : ℕ) (hp : p.Prime) {q : TauCeti.PrimePower}
       q.exponent :=
     ⟨⟨q.prime_p, q.exponent_pos, rfl, hq3⟩,
       untwistedChevalleyModel_of_bridge Even.chevalleyBridgesAll.g2 (MulEquiv.refl _)⟩
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group :=
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group :=
     CFSG.LieType.Simplicity.fam_chevalley_exceptional_finiteness _ .G2 q.p q.exponent hm
   by_cases h2 : q.p = 2
   · rw [h2] at hm
@@ -106,7 +106,7 @@ private theorem outCycAt_f4 (p : ℕ) (hp : p.Prime) {q : TauCeti.PrimePower}
       q.exponent :=
     ⟨⟨q.prime_p, q.exponent_pos, rfl⟩,
       untwistedChevalleyModel_of_bridge Even.chevalleyBridgesAll.f4 (MulEquiv.refl _)⟩
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.F4 q, hv⟩).Group :=
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.F4 q, hv⟩).Group :=
     CFSG.LieType.Simplicity.fam_chevalley_exceptional_finiteness _ .F4 q.p q.exponent hm
   by_cases h2 : q.p = 2
   · rw [h2] at hm
@@ -120,7 +120,7 @@ private theorem outCycAt_e6 (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) {q : TauCet
       q.exponent :=
     ⟨⟨q.prime_p, q.exponent_pos, rfl⟩,
       untwistedChevalleyModel_of_bridge Even.chevalleyBridgesAll.e6 (MulEquiv.refl _)⟩
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.E6 q, hv⟩).Group :=
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.E6 q, hv⟩).Group :=
     CFSG.LieType.Simplicity.fam_chevalley_exceptional_finiteness _ .E6 q.p q.exponent hm
   by_cases h3p : p = 3
   · subst h3p
@@ -134,7 +134,7 @@ private theorem outCycAt_e7 (p : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) {q : TauCet
       q.exponent :=
     ⟨⟨q.prime_p, q.exponent_pos, rfl⟩,
       untwistedChevalleyModel_of_bridge Even.chevalleyBridgesAll.e7 (MulEquiv.refl _)⟩
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.E7 q, hv⟩).Group :=
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.E7 q, hv⟩).Group :=
     CFSG.LieType.Simplicity.fam_chevalley_exceptional_finiteness _ .E7 q.p q.exponent hm
   exact outCycAt_of_outPChain hp (outPNice_E7_gen hp hp2 hm).toChain
 
@@ -145,7 +145,7 @@ private theorem outCycAt_e8 (p : ℕ) (hp : p.Prime) {q : TauCeti.PrimePower}
       q.exponent :=
     ⟨⟨q.prime_p, q.exponent_pos, rfl⟩,
       untwistedChevalleyModel_of_bridge Even.chevalleyBridgesAll.e8 (MulEquiv.refl _)⟩
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.E8 q, hv⟩).Group :=
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.E8 q, hv⟩).Group :=
     CFSG.LieType.Simplicity.fam_chevalley_exceptional_finiteness _ .E8 q.p q.exponent hm
   exact outCycAt_of_outPChain hp (outPNice_E8_gen hp hm).toChain
 

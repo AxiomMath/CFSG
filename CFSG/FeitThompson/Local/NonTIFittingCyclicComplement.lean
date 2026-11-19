@@ -66,17 +66,18 @@ noncomputable def sylowSubgroupIn (X : Subgroup G) (p : ℕ) : Subgroup G :=
     ((Classical.arbitrary (Sylow p ↥X) : Subgroup ↥X)).map X.subtype
   else ⊥
 
+omit [Finite G] in
 theorem sylowSubgroupIn_of_not_prime (X : Subgroup G) (hp : ¬ p.Prime) :
     sylowSubgroupIn X p = ⊥ := by
-  rw [sylowSubgroupIn, dif_neg hp]
+  rw [sylowSubgroupIn, dite_eq_right hp]
 
 theorem isSylowSubgroupIn_sylowSubgroupIn (X : Subgroup G) (hp : p.Prime) :
     IsSylowSubgroupIn (sylowSubgroupIn X p) X p := by
   have := Fact.mk hp
   refine ⟨?_, ?_⟩
-  · rw [sylowSubgroupIn, dif_pos hp]
+  · rw [sylowSubgroupIn, dite_eq_left hp]
     exact Subgroup.map_subtype_le _
-  · rw [sylowSubgroupIn, dif_pos hp, Subgroup.card_map_of_injective X.subtype_injective]
+  · rw [sylowSubgroupIn, dite_eq_left hp, Subgroup.card_map_of_injective X.subtype_injective]
     exact Sylow.card_eq_multiplicity _
 
 theorem sylowSubgroupIn_le (X : Subgroup G) (p : ℕ) : sylowSubgroupIn X p ≤ X := by

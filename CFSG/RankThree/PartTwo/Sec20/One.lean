@@ -112,10 +112,10 @@ theorem isSylowOf_top_of_normalizer_le {T M : Subgroup G}
   have hTS' : T = S := by
     by_contra hne
     obtain ⟨y, hyS, hyT, hyN⟩ :=
-      exists_mem_normalizer_not_mem_of_lt S.isPGroup' (lt_of_le_of_ne hTS hne)
+      exists_mem_normalizer_not_mem_of_lt S.isPGroup (lt_of_le_of_ne hTS hne)
     have hQ : T ⊔ Subgroup.zpowers y = T :=
       hT.eq_of_le le_sup_left (sup_le hT.le (Subgroup.zpowers_le.mpr (hN hyN)))
-        (S.isPGroup'.to_le (sup_le hTS (Subgroup.zpowers_le.mpr hyS)))
+        (S.isPGroup.to_le (sup_le hTS (Subgroup.zpowers_le.mpr hyS)))
     exact hyT (hQ ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers y))
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨le_top, hT.isPGroup, ?_⟩

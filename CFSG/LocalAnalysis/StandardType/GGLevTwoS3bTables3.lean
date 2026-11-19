@@ -154,9 +154,9 @@ theorem levTwoS3u_foldl_testBit_mono (inPat : List ℤ → Bool) (roots : List (
       intro acc i hi
       rw [List.foldl_cons]
       by_cases h : inPat (roots.getD j [])
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         exact ih (acc ||| (1 <<< j)) i (by rw [Nat.testBit_lor]; simp [hi])
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         exact ih acc i hi
 
 theorem levTwoS3u_foldl_testBit_of_mem (inPat : List ℤ → Bool) (roots : List (List ℤ)) :
@@ -170,13 +170,13 @@ theorem levTwoS3u_foldl_testBit_of_mem (inPat : List ℤ → Bool) (roots : List
       intro acc i hi hin
       rw [List.foldl_cons]
       rcases List.mem_cons.mp hi with rfl | hi
-      · rw [if_pos hin]
+      · rw [ite_eq_left hin]
         exact levTwoS3u_foldl_testBit_mono inPat roots l (acc ||| (1 <<< i)) i
           (by rw [Nat.testBit_lor]; simp)
       · by_cases hj : inPat (roots.getD j [])
-        · rw [if_pos hj]
+        · rw [ite_eq_left hj]
           exact ih (acc ||| (1 <<< j)) i hi hin
-        · rw [if_neg hj]
+        · rw [ite_eq_right hj]
           exact ih acc i hi hin
 
 theorem levTwoS3u_patMask_testBit (N : ℕ) (inPat : List ℤ → Bool) (roots : List (List ℤ))

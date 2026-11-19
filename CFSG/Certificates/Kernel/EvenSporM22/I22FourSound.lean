@@ -81,7 +81,7 @@ theorem toNat?_piece {q : List Char} (hq : ∀ c ∈ q, c.isDigit = true) :
   cases q with
   | nil =>
     have e : ([] : List Char).isEmpty = true := rfl
-    rw [if_pos e]
+    rw [ite_eq_left e]
     refine String.toNat?_eq_none ?_
     rw [Bool.eq_false_iff]
     intro h
@@ -232,7 +232,7 @@ theorem comm_fix (hF : LInv n F) {i : Nat} {u : List (Nat × Bool)} {ζ : Nat �
   rw [hu _ (hF (i, false) _ hq).1, hc _ _ hq, hz]
   exact (hF (i, false) p hp).2
 
-theorem comm_inv {f g ζ : Nat → Nat} (hf : ∀ y < n, f y < n) (hg : ∀ y < n, g y < n)
+theorem comm_inv {f g ζ : Nat → Nat} (_hf : ∀ y < n, f y < n) (hg : ∀ y < n, g y < n)
     (hgf : ∀ y < n, g (f y) = y) (hfg : ∀ y < n, f (g y) = y) (hζ : ∀ y < n, ζ y < n)
     (hc : ∀ y < n, ζ (f y) = f (ζ y)) : ∀ y < n, ζ (g y) = g (ζ y) := by
   intro y hy
@@ -358,7 +358,7 @@ theorem recK_spec : ∀ {wl : List (Nat × Nat × Nat)} {v w : Nat}, recK wl v w
     by_cases hc : (Nat.beq r.1 v && Nat.beq r.2.1 w) = true
     · rw [Bool.and_eq_true] at hc
       exact ⟨r, List.mem_cons_self, Nat.eq_of_beq_eq_true hc.1, Nat.eq_of_beq_eq_true hc.2⟩
-    · rw [if_neg hc] at h
+    · rw [ite_eq_right hc] at h
       obtain ⟨r', hr', h1, h2⟩ := recK_spec h
       exact ⟨r', List.mem_cons_of_mem _ hr', h1, h2⟩
 
@@ -390,9 +390,9 @@ theorem len_filter_le {α : Type} {p q : α → Bool} : ∀ (l : List α),
     have ih := len_filter_le l (fun y hy => h y (List.mem_cons_of_mem _ hy))
     rw [List.filter_cons, List.filter_cons]
     by_cases hp : p x = true
-    · rw [if_pos hp, if_pos (h x List.mem_cons_self hp), List.length_cons, List.length_cons]
+    · rw [ite_eq_left hp, ite_eq_left (h x List.mem_cons_self hp), List.length_cons, List.length_cons]
       omega
-    · rw [if_neg hp]
+    · rw [ite_eq_right hp]
       split
       · rw [List.length_cons]
         omega
@@ -521,9 +521,9 @@ theorem i22fCheckT_of {A AI B BI Z cA cB : Nat} {ca cb ct : List Char} {WL : Lis
     have hg : ∀ l, TR 32256 (gen l) (GLt A AI B BI sAK sBK l) := by
       intro l
       by_cases hl : l = 0
-      · simp only [hgen, GLt, hl, if_true]
+      · simp only [hgen, GLt, hl, ite_true]
         exact rAP
-      · simp only [hgen, GLt, hl, if_false]
+      · simp only [hgen, GLt, hl, ite_false]
         exact rBP
     have hxwOf : ∀ i : Fin 3, covData.xwOf i = getK D.xw i.val [] := by
       intro i

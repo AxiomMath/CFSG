@@ -131,10 +131,10 @@ theorem ggQ2xKDt_h'_li (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ {k // k ≠ D.a}
 theorem ggQ2xKDt_h'_span (D : GGQ2Lin 3) {n : ℕ} (e : Fin n ≃ {k // k ≠ D.a})
     (hind : LinearIndependent (ZMod 3) (fun i : {k // k ≠ D.a} => D.coroot i)) :
     Submodule.span (ZMod 3) (Set.range (ggQ2xKDt_h' D e)) = ⊤ := by
-  haveI : Module.Finite (ZMod 3) (ggQ2xKDt_U0 D) :=
+  have : Module.Finite (ZMod 3) (ggQ2xKDt_U0 D) :=
     Module.Finite.span_of_finite (ZMod 3) (Set.finite_range _)
   have hb : D.b ≠ D.a := fun h => D.a_ne_b h.symm
-  haveI : Nonempty (Fin n) := ⟨e.symm ⟨D.b, hb⟩⟩
+  have : Nonempty (Fin n) := ⟨e.symm ⟨D.b, hb⟩⟩
   refine LinearIndependent.span_eq_top_of_card_eq_finrank (ggQ2xKDt_h'_li D e hind) ?_
   rw [ggQ2xKDt_U0, finrank_span_eq_card hind]
   exact Fintype.card_congr e
@@ -385,8 +385,8 @@ theorem ggQ2xKDt_T'_inv_conj (D : GGQ2Lin 3) (T : D.V ≃ₗ[ZMod 3] D.V)
 theorem GGQ2Lin.inner_of_transport (D : GGQ2Lin 3) {n : ℕ} (C : Matrix (Fin n) (Fin n) ℤ)
     (e : Fin n ≃ {k // k ≠ D.a}) (hC : ∀ i j, D.cartan (e i) (e j) = C i j)
     (hind : LinearIndependent (ZMod 3) (fun i : {k // k ≠ D.a} => D.coroot i))
-    (hdim : Module.finrank (ZMod 3) D.V ≤ Fintype.card {k // k ≠ D.a} + 1)
-    (hTF : TransvectionFree (D.parab {k | k ≠ D.a})) (hW : GGQ2WeylInner n C)
+    (_hdim : Module.finrank (ZMod 3) D.V ≤ Fintype.card {k // k ≠ D.a} + 1)
+    (_hTF : TransvectionFree (D.parab {k | k ≠ D.a})) (hW : GGQ2WeylInner n C)
     (T : D.V ≃ₗ[ZMod 3] D.V)
     (hT : T ∈ Subgroup.normalizer (D.parab {k | k ≠ D.a} : Set (D.V ≃ₗ[ZMod 3] D.V))) :
     ∃ w ∈ D.parab {k | k ≠ D.a}, ∀ g ∈ D.parab {k | k ≠ D.a}, T * g * T⁻¹ = w * g * w⁻¹ := by

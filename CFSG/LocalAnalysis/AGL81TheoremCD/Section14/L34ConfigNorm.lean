@@ -29,7 +29,7 @@ theorem exists_char_normal_of_l34_sup_pCoreOf
       (D.subgroupOf (CFSG.Open.pCoreOf 2 (A ⊔ T))).Characteristic ∧
       kSub 3 M H ≤ Subgroup.normalizer (D : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup G := kSub 3 M H
   let R : Subgroup G := CFSG.Open.pCoreOf 2 (A ⊔ T)
   let X : Subgroup G := K ⊔ R
@@ -169,7 +169,7 @@ theorem normalizer_pCoreOf_sup_le
     (hmax : ∀ H₁ ∈ H2StarFam M A, kSub 3 M H ≤ kSub 3 M H₁ → kSub 3 M H₁ = kSub 3 M H)
     {T : Subgroup G} (hT : CFSG.ABGLocalTools.IsSylowOf 2 T (H ⊓ M)) :
     Subgroup.normalizer (CFSG.Open.pCoreOf 2 (A ⊔ T) : Set G) ≤ H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let R : Subgroup G := CFSG.Open.pCoreOf 2 (A ⊔ T)
   obtain ⟨D, hDne, hDR, hDchar, hKD⟩ :=
     h.exists_char_normal_of_l34_sup_pCoreOf hC3 hTwo hK hAK hT

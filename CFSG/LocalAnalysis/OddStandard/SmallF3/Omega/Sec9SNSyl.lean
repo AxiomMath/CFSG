@@ -34,17 +34,21 @@ theorem sec9n_h68 (h68 : Asc82Lemma68) (hB : Asc82Sec8B) (hctx : Sec9Choice G t 
   have hBg : B ≤ CFSG.conjugate L g := fun x hx => (hctx.choice.le hx).2
   exact h68 G t L hS hctx.omega6m B hctx.B_e16 (fun x hx => (hctx.B_le hx).1) g hne hmem hBg
 
+omit [Finite G] in
 private theorem sec9n_A8_le_A : (zpowers t ⊔ B : Subgroup G) ≤ Asub9 t t₀ B := by
   rw [Asub9]
   exact sup_le (le_sup_left.trans le_sup_left) le_sup_right
 
+omit [Finite G] in
 private theorem sec9n_t_mem_A : t ∈ Asub9 t t₀ B :=
   sec9n_A8_le_A (Subgroup.mem_sup_left (Subgroup.mem_zpowers t))
 
+omit [Finite G] in
 private theorem sec9n_t0_mem_A : t₀ ∈ Asub9 t t₀ B := by
   rw [Asub9]
   exact Subgroup.mem_sup_left (Subgroup.mem_sup_right (Subgroup.mem_zpowers t₀))
 
+omit [Finite G] in
 private theorem sec9n_mem_normalizer_centralizer {H : Subgroup G} {s : G}
     (hs : s ∈ normalizer (H : Set G)) : s ∈ normalizer (centralizer (H : Set G)) := by
   rw [Subgroup.mem_normalizer_iff] at hs ⊢
@@ -64,6 +68,7 @@ private theorem sec9n_mem_normalizer_centralizer {H : Subgroup G} {s : G}
       _ = s⁻¹ * ((s * c * s⁻¹) * (s * x * s⁻¹)) * s := by rw [h]
       _ = c * x := by group
 
+omit [Finite G] in
 private theorem sec9n_commutator_mem_centralizer {y c t : G} {L : Subgroup G}
     (hyN : y ∈ normalizer (L : Set G)) (htN : t ∈ normalizer (L : Set G))
     (hyt : y * t = t * y) (hc : c ∈ centralizer (L : Set G)) :
@@ -97,6 +102,7 @@ theorem sec9n_cent_le_normalizer (h36 : Asc82Lemma36) {t : G} {L : Subgroup G}
       ((Subgroup.mem_centralizer_iff.mp hc t ht).symm)
   exact sec9n_mem_normalizer_of_conjugate_eq (conjugate_eq_self_of_lemma36 h36 hS c hct)
 
+omit [Finite G] in
 theorem sec9n_sylow_of_le {P K H : Subgroup G} (hP : IsSylow2Of P H) (hPK : P ≤ K)
     (hKH : K ≤ H) : IsSylow2Of P K := by
   refine ⟨hPK, hP.2.1, fun h2 => hP.2.2 ?_⟩
@@ -112,7 +118,7 @@ theorem sec9n_sylow_cent8 (h36 : Asc82Lemma36) (h68 : Asc82Lemma68) (hB : Asc82S
   have hA2 : IsPGroup 2 (Asub9 t t₀ B) := hAel.isPGroup
   have hA8C : Asub9 t t₀ B ≤ centralizer ((zpowers t ⊔ B : Subgroup G) : Set G) := by
     have hAC : Asub9 t t₀ B ≤ centralizer (Asub9 t t₀ B : Set G) := by
-      haveI : IsMulCommutative (Asub9 t t₀ B) := hAel.1
+      have : IsMulCommutative (Asub9 t t₀ B) := hAel.1
       intro a ha
       exact Subgroup.mem_centralizer_iff.mpr fun a' ha' => setLike_mul_comm ha' ha
     exact hAC.trans (Subgroup.centralizer_le sec9n_A8_le_A)
@@ -173,7 +179,7 @@ theorem sec9n_sylow_centA (h36 : Asc82Lemma36) (h68 : Asc82Lemma68) (hB : Asc82S
     IsSylow2Of (Asub9 t t₀ B) (centralizer (Asub9 t t₀ B : Set G)) := by
   have hAel : CFSG.Open.IsElemAbelian 2 (Asub9 t t₀ B) := sec9n_A_elem hctx.toSec9Ctx
   have hAC : Asub9 t t₀ B ≤ centralizer (Asub9 t t₀ B : Set G) := by
-    haveI : IsMulCommutative (Asub9 t t₀ B) := hAel.1
+    have : IsMulCommutative (Asub9 t t₀ B) := hAel.1
     intro a ha
     exact Subgroup.mem_centralizer_iff.mpr fun a' ha' => setLike_mul_comm ha' ha
   exact sec9n_sylow_of_le (sec9n_sylow_cent8 h36 h68 hB hT hctx) hAC

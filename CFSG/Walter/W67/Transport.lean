@@ -18,7 +18,7 @@ theorem Hyp.sylow_of_subgroup (h : Hyp G) {M : Subgroup G}
     (hM : ∃ S : Sylow 2 G, (S : Subgroup G) ≤ M) (P : Sylow 2 M) :
     IsMulCommutative (P : Subgroup M) ∧ Nat.card (P : Subgroup M) = 8 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hP2 : IsPGroup 2 ((P : Subgroup M).map M.subtype) := P.isPGroup'.map _
+  have hP2 : IsPGroup 2 ((P : Subgroup M).map M.subtype) := P.isPGroup.map _
   have hab := h.isMulCommutative_of_isPGroup hP2
   have eP := (P : Subgroup M).equivMapOfInjective M.subtype M.subtype_injective
   refine ⟨⟨⟨fun a b => eP.injective (by rw [map_mul, map_mul]; exact hab.is_comm.comm _ _)⟩⟩, ?_⟩
@@ -27,7 +27,7 @@ theorem Hyp.sylow_of_subgroup (h : Hyp G) {M : Subgroup G}
     rwa [Subgroup.card_map_of_injective M.subtype_injective] at this
   · obtain ⟨S, hSM⟩ := hM
     have hS2 : IsPGroup 2 ((S : Subgroup G).subgroupOf M) :=
-      S.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hSM).symm
+      S.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hSM).symm
     obtain ⟨Q, hQ⟩ := hS2.exists_le_sylow
     have h8 : Nat.card ((S : Subgroup G).subgroupOf M) = 8 := by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSM).toEquiv, h.card_sylow S]
@@ -207,7 +207,7 @@ theorem Hyp.sylow_of_quotient (hN : Odd (Nat.card N)) (P : Sylow 2 (G ⧸ N)) :
   have hQN : (Q : Subgroup G) ⊓ N = ⊥ := by
     rw [eq_bot_iff]
     intro x hx
-    exact eq_one_of_odd_of_isPGroup Q.isPGroup' hx.1
+    exact eq_one_of_odd_of_isPGroup Q.isPGroup hx.1
       (Odd.of_dvd_nat hN (Subgroup.orderOf_dvd_natCard _ hx.2))
   have eQ := mapQuotientEquiv N hQN
   have hab := h.abelian_sylow Q
@@ -284,13 +284,13 @@ theorem IsJRSubgroup.nonempty_jrGroup : S_IsJRSubgroup_nonempty_jrGroup := by
       ∃ x : G, ∀ y ∈ (P : Subgroup L).map ι, x * y * x⁻¹ ∈ (S : Subgroup G) := by
     intro P
     have hS2 : IsPGroup 2 ((S : Subgroup G).subgroupOf L) :=
-      S.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hSL).symm
+      S.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hSL).symm
     obtain ⟨Q, hQ⟩ := hS2.exists_le_sylow
     have hSL8 : Nat.card ((S : Subgroup G).subgroupOf L) = 8 := by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hSL).toEquiv, hS8]
     have hP8 : Nat.card (P : Subgroup L) = 8 := by
       apply le_antisymm
-      · have hP2 : IsPGroup 2 ((P : Subgroup L).map ι) := P.isPGroup'.map _
+      · have hP2 : IsPGroup 2 ((P : Subgroup L).map ι) := P.isPGroup.map _
         obtain ⟨S', hS'⟩ := hP2.exists_le_sylow
         have h1 := Subgroup.card_le_of_le hS'
         rw [Subgroup.card_map_of_injective hι] at h1

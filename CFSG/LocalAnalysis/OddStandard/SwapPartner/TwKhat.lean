@@ -83,7 +83,7 @@ private theorem tw_map_comm_of_comm (hK : ⁅K, K⁆ = K) {h : H}
   obtain ⟨n, hn, hpn⟩ := Subgroup.mem_map.mp hm'
   rw [← hpn, ← map_mul, ← map_mul, hcomm n hn]
 
-private theorem tw_comm_of_comm_mod (hxc : ∀ h : H, h * x = x * h) (hK : ⁅K, K⁆ = K) {h : H}
+private theorem tw_comm_of_comm_mod (hxc : ∀ h : H, h * x = x * h) (_hK : ⁅K, K⁆ = K) {h : H}
     (hcommK : ∀ m ∈ K,
       QuotientGroup.mk' (zpowers x) h * m = m * QuotientGroup.mk' (zpowers x) h) :
     ∀ n ∈ hatSub x K, h * n = n * h := by
@@ -128,7 +128,7 @@ private theorem tw_comm_of_comm_mod (hxc : ∀ h : H, h * x = x * h) (hK : ⁅K,
   exact Subgroup.mem_centralizer_iff.mp (hsub hn) h (Set.mem_singleton h)
 
 theorem mem_center_hatSub_iff (hxc : ∀ h : H, h * x = x * h) (hK : ⁅K, K⁆ = K) {k : H}
-    (hk : k ∈ hatSub x K) :
+    (_hk : k ∈ hatSub x K) :
     (∀ n ∈ hatSub x K, k * n = n * k) ↔
       ∀ m ∈ K, QuotientGroup.mk' (zpowers x) k * m = m * QuotientGroup.mk' (zpowers x) k :=
   ⟨tw_map_comm_of_comm hK, tw_comm_of_comm_mod hxc hK⟩

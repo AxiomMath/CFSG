@@ -55,8 +55,8 @@ theorem burnsideB49x_five_quad (hK : Nat.card K = 2)
   set hG := burnsideB49_hG hreal with hGdef
   set Â := burnsideB49x_hatW hV U G hG A with hÂ
   have hquot : CFSG.ASVolI.ChB.QuotIsoSub G U ∨ CFSG.ASVolI.ChB.QuotIsoDual G U := Or.inr hdual
-  haveI : Finite (burnsideB49_W hV U) := inferInstance
-  haveI : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
+  have : Finite (burnsideB49_W hV U) := inferInstance
+  have : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
   have hn : finrank (ZMod 2) (burnsideB49_W hV U) = 5 := burnsideB49_finrank_W hV hK hreal hquot
   have hcard : Nat.card Â = Nat.card A :=
     burnsideB49x_card_hatW hV U G hG (burnsideB49_iota_injective hV hreal hquot) hAG

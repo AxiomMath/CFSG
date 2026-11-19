@@ -31,10 +31,10 @@ private theorem cmInv_step {n : Nat} {c : Array Nat} {s : Nat} {mp : Std.HashMap
   rw [Std.HashMap.getD_insert]
   by_cases hca : c[s]! = a
   · have hb : (c[s]! == a) = true := beq_iff_eq.2 hca
-    rw [if_pos hb]
+    rw [ite_eq_left hb]
     exact ⟨fun _ => ⟨Nat.lt_succ_self s, hca⟩, fun hne => absurd ⟨s, Nat.lt_succ_self s, hca⟩ hne⟩
   · have hb : ¬ (c[s]! == a) = true := fun hh => hca (beq_iff_eq.1 hh)
-    rw [if_neg hb]
+    rw [ite_eq_right hb]
     refine ⟨fun ⟨w, hw, hwa⟩ => ?_, fun hne => ?_⟩
     · have hws : w < s := by
         rcases Nat.lt_succ_iff_lt_or_eq.1 hw with h' | h'
@@ -171,7 +171,7 @@ private theorem recOK_ext {gens : Array (Array Nat)} {reps : List Nat} {oc oc' :
     · rw [hp']; exact h5
 
 private theorem recOK_child {gens : Array (Array Nat)} {reps : List Nat} {oc' : Array OE}
-    {y x g k d : Nat} (hk : k ≠ 0) (hkl : k ≤ reps.length) (hy : oc'[y]! = (k, x, g, d + 1))
+    {y x g k d : Nat} (_hk : k ≠ 0) (hkl : k ≤ reps.length) (hy : oc'[y]! = (k, x, g, d + 1))
     (hx1 : (oc'[x]!).1 = k) (hx2 : (oc'[x]!).2.2.2 = d) (hd : 0 < d) (hg : g < gens.size)
     (hxy : (gens[g]!)[x]! = y) : orbitRecOK gens reps oc' y = true := by
   refine (recOK_iff hy).2 (Or.inr ⟨hkl, Nat.succ_pos d, Or.inr ⟨by omega, hx1, ?_, hg, hxy⟩⟩)
@@ -299,7 +299,7 @@ private theorem gLoop_inv {n : Nat} {gens : Array (Array Nat)} {reps : List Nat}
       rw [hstep]
       have hh' : h0 < (queue.push ((gens[j]!)[x]!)).size := by rw [Array.size_push]; omega
       have hx' : (queue.push ((gens[j]!)[x]!))[h0]? = some x := by
-        rw [Array.getElem?_push, if_neg (by omega)]; exact hx
+        rw [Array.getElem?_push, ite_eq_right (by omega)]; exact hx
       have hj' : ∀ g < j + 1, g < gens.size → (gens[g]!)[x]! < n →
           ((oc.set! ((gens[j]!)[x]!) (k1, x, j, (oc[x]!).2.2.2 + 1))[(gens[g]!)[x]!]!).1 ≠ 0 := by
         intro g hg hgs hy'
@@ -310,7 +310,7 @@ private theorem gLoop_inv {n : Nat} {gens : Array (Array Nat)} {reps : List Nat}
       exact ⟨oc2, q2, e, h1, h2, h3, h4, oext_trans hext h5⟩
     · have hstep : gBody n gens k1 x j (oc, queue) = pure (ForInStep.yield (oc, queue)) := by
         unfold gBody
-        exact if_neg hc
+        exact ite_eq_right hc
       rw [hstep]
       have hj' : ∀ g < j + 1, g < gens.size → (gens[g]!)[x]! < n →
           (oc[(gens[g]!)[x]!]!).1 ≠ 0 := by
@@ -470,7 +470,7 @@ private theorem rLoop_inv {n : Nat} {gens : Array (Array Nat)} {reps : List Nat}
         · exact hz3 z hz hzn
     · have hstep : rBody n gens a (oc, k) = pure (ForInStep.yield (oc, k + 1)) := by
         unfold rBody
-        exact if_neg hc
+        exact ite_eq_right hc
       obtain ⟨oc3, k3, e3, hg3, hext3, hz3⟩ := ih oc (k + 1) hdrop' hg
       refine ⟨oc3, k3, ?_, hg3, hext3, ?_⟩
       · rw [hstep]; exact e3
@@ -512,7 +512,7 @@ theorem orbitCert_rep {n : Nat} {gens : Array (Array Nat)} {reps : List Nat} {r 
   (orbitCert_gi n gens reps).2 r hr hrn
 
 theorem orbitCert_closed {n : Nat} {gens : Array (Array Nat)} {reps : List Nat} {x g : Nat}
-    (hx : x < n) (hxm : ((orbitCert n gens reps)[x]!).1 ≠ 0) (hg : g < gens.size)
+    (_hx : x < n) (hxm : ((orbitCert n gens reps)[x]!).1 ≠ 0) (hg : g < gens.size)
     (hy : (gens[g]!)[x]! < n) : ((orbitCert n gens reps)[(gens[g]!)[x]!]!).1 ≠ 0 :=
   (orbitCert_gi n gens reps).1.closed x hxm g hg hy
 

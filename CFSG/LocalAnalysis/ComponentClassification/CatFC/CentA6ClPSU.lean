@@ -25,7 +25,7 @@ theorem oddA6Shape_PSU (hO : LieOrderFormulasInput) (hgls : GLS3OddFamilyInput .
   intro S _ _ n p f hp hp2 hadm hm
   obtain ⟨K, _, h, ⟨ψ⟩⟩ := nonempty_mulEquiv_primeFormP_of_lieModel' hadm hm
   have hn : 3 ≤ n := hadm.2.2.1
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   refine ⟨primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K), inferInstance,
     inferInstance, ψ, ?_⟩
   intro σ D hσ hA

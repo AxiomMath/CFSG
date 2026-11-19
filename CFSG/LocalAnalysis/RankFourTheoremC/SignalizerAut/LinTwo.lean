@@ -12,7 +12,7 @@ open CFSG.AGLEmbedding Subgroup
 theorem signalizerAutAt_linTwo {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {d : TauCeti.ValidLieTypeIndex} {n : ℕ} (hn : 2 ≤ n) (hd : IsLinTwoIndex p n d) :
     SignalizerAutAt p (.lie d) := by
-  haveI hpf : Fact p.Prime := ⟨hp⟩
+  have hpf : Fact p.Prime := ⟨hp⟩
   have hout : ¬ GL83OuterType24 p (.lie d) := by
     rintro ⟨d', hd', ⟨-, hq'⟩ | ⟨-, hs⟩⟩
     · obtain rfl := TauCeti.CFSGIndex.lie.inj hd'

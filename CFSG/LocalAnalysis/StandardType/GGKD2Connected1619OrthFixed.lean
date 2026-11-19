@@ -48,7 +48,7 @@ private theorem ltromf_isSolvable_supportedFixedDerived_of_finrank_le_two
   classical
   set R := Q.comp (fixedSpace x).subtype with hR
   have hRnd : (QuadraticMap.polarBilin R).Nondegenerate := hx.polarBilin_fixed_nondegenerate
-  haveI : Group.IsSolvable ↥(orthDerived R) := by
+  have : Group.IsSolvable ↥(orthDerived R) := by
     rcases Nat.lt_or_ge (Module.finrank K (fixedSpace x)) 2 with h1 | h2'
     · refine CFSG.GH74.Generic.S3.isSolvable_of_comm fun a b => ?_
       have ha1 : (a : fixedSpace x ≃ₗ[K] fixedSpace x) = 1 :=
@@ -83,8 +83,8 @@ private theorem ltromf_supportedFixedDerived_le_sup_centralizer
     (hFn : (F.subgroupOf (supportedFixedDerived Q x)).Normal) :
     supportedFixedDerived Q x ≤ F ⊔ Subgroup.centralizer (F : Set (V ≃ₗ[K] V)) := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   obtain ⟨n, Ff, hFf, hcomm, hsup, -⟩ := exists_fixedFactors_comm hx
   have hFcomp : CFSG.Open.IsComponentOf F (supportedFixedDerived Q x) :=
@@ -119,15 +119,15 @@ private theorem ltromf_supportedFixedDerived_le_sup_centralizer
 
 theorem orthFixedBlock_action {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type}
     [AddCommGroup V] [Module F V] [FiniteDimensional F V] {Q : QuadraticForm F V}
-    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hV : 8 ≤ Module.finrank F V)
+    (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (_hV : 8 ≤ Module.finrank F V)
     {x : ↥(orthDerived Q)} (hx : orderOf x = 3) {G : Subgroup (V ≃ₗ[F] V)}
     (hGq : CFSG.IsQuasisimple ↥G) (hGle : G ≤ supportedFixedDerived Q (x : V ≃ₗ[F] V))
     (hGn : (G.subgroupOf (supportedFixedDerived Q (x : V ≃ₗ[F] V))).Normal)
-    (hGdim : Module.finrank F (fixedSpace (x : V ≃ₗ[F] V)) ≤ 4 ∨
+    (_hGdim : Module.finrank F (fixedSpace (x : V ≃ₗ[F] V)) ≤ 4 ∨
       G = supportedFixedDerived Q (x : V ≃ₗ[F] V))
     {L : Subgroup ↥(orthDerived Q)} (hL : L = G.subgroupOf (orthDerived Q))
-    (hlab : GGHasLabel (⟨.A, 1, 3⟩ : LargeEvenLabel) (↥L ⧸ Subgroup.center ↥L))
-    {y : ↥(orthDerived Q)} (hxy : x * y = y * x) (hyL : ∀ c ∈ L, MulAut.conj y c ∈ L) :
+    (_hlab : GGHasLabel (⟨.A, 1, 3⟩ : LargeEvenLabel) (↥L ⧸ Subgroup.center ↥L))
+    {y : ↥(orthDerived Q)} (hxy : x * y = y * x) (_hyL : ∀ c ∈ L, MulAut.conj y c ∈ L) :
     QuotientInner L (MulAut.conj y) := by
   classical
   have hpl : (3 : ℕ) ≠ ringChar F := by rw [ringChar.eq F 2]; norm_num
@@ -146,13 +146,13 @@ theorem orthFixedBlock_action {F : Type} [Field F] [Finite F] [CharP F 2] {V : T
     by_contra hlt
     push Not at hlt
     have h2 : Module.finrank F (fixedSpace (x : V ≃ₗ[F] V)) ≤ 2 := by omega
-    haveI hsol := ltromf_isSolvable_supportedFixedDerived_of_finrank_le_two hxodd h2
+    have hsol := ltromf_isSolvable_supportedFixedDerived_of_finrank_le_two hxodd h2
     exact (CFSG.Quasithin.EmptyFaithfulMultiple.Insp15418.not_isQuasisimple_of_isSolvable
       (G.subgroupOf (supportedFixedDerived Q (x : V ≃ₗ[F] V)))) hFq'
   have hlist : FixedLayerListed Q (x : V ≃ₗ[F] V) := by
     refine ⟨hdim3, ?_⟩
     intro hS
-    haveI hsol := isSolvable_supportedFixedDerived_of_smallFixedException hxodd hdim3 hS
+    have hsol := isSolvable_supportedFixedDerived_of_smallFixedException hxodd hdim3 hS
     exact (CFSG.Quasithin.EmptyFaithfulMultiple.Insp15418.not_isQuasisimple_of_isSolvable
       (G.subgroupOf (supportedFixedDerived Q (x : V ≃ₗ[F] V)))) hFq'
   have hX1 : (X - 1 : F[X]) ∈ primaryFactors (x : V ≃ₗ[F] V).toLinearMap :=

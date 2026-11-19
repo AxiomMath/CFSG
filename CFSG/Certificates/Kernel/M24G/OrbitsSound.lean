@@ -56,11 +56,11 @@ theorem lookW_eq {α : Type} [Inhabited α] [BEq α] [LawfulBEq α] {n w : Nat} 
   funext i
   unfold lookW
   by_cases hi : i < n
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     have := h.2 i (h.1 ▸ hi)
     rw [Nat.zero_add, beq_iff_eq] at this
     exact this
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
 
 theorem reachOK_of_reachK {n : Nat} {steps : List (Nat → Nat)} {p : Nat} {c : List Nat}
     {r : List Nat × List Nat × List Nat} (h : reachK n steps p c r = true) :
@@ -198,7 +198,7 @@ theorem sextSteps_eq_sextStepsK {SL : List (List Nat)}
   funext i
   rw [hS, toArray_getElem!_eq_getD]
   by_cases hi : i < Native.nSext
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     have hi' : i < SL.length := by
       rw [hSl]
       exact hi
@@ -213,7 +213,7 @@ theorem sextSteps_eq_sextStepsK {SL : List (List Nat)}
     rw [sextIdx_eq_idxNat, hS, idxNat_eq_idxK hpos (by rw [hSl]; rfl) fun y hy e => by
       obtain ⟨zl, zb⟩ := sextItem_facts (List.all_eq_true.1 hSi y hy)
       exact keyL_inj y _ (by rw [zl, il]) zb ib e, imgSext_eq (hg g hgs)]
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
 
 theorem tsRows_lt {TL : List (Nat × Nat × Nat)} {SL : List (List Nat)} {TS : List (List Nat)}
     (h : tsRowsOK TL SL TS = true) {p : Nat} (hp : p < 3795) :

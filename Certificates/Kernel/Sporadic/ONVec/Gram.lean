@@ -27,9 +27,8 @@ theorem allBelowN_eq (n : Nat) (p : Nat → Bool) : allBelowN n p = (List.range 
 
 theorem gramConnK : gramConnOK gramV (gramTree gramV).1 (gramTree gramV).2 = true := by
   unfold gramConnOK gramTree
-  simp only [Id.run_bind, Id.run_pure, Std.Legacy.Range.forIn_eq_forIn_range',
-    CFSG.KS.ONOut.InvV.ite_pure_yield, List.forIn_pure_yield_eq_foldl, pure_bind, bind_pure,
-    Std.Legacy.Range.size, Nat.add_sub_cancel, Nat.div_one, Nat.sub_zero, allBelowN_eq]
+  simp only [Id.run_pure, Std.Legacy.Range.forIn_eq_forIn_range',
+    CFSG.KS.ONOut.InvV.ite_pure_yield, List.forIn_pure_yield_eq_foldl, pure_bind, Std.Legacy.Range.size, Nat.add_sub_cancel, Nat.div_one, Nat.sub_zero, allBelowN_eq]
   quickRfl
 
 end CertificateChecks.KernelSpor.ONVec

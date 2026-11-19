@@ -154,7 +154,7 @@ private theorem s16kOm8_statedScalars_eq_bot (hK : Nat.card K = 2) :
     StatedScalars (Fin 4 ⊕ Fin 4) K = ⊥ := by
   have hunits : Nat.card Kˣ = 1 := by
     rw [Nat.card_units K, hK]
-  haveI : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.mp hunits).1
+  have : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.mp hunits).1
   rw [StatedScalars, MonoidHom.range_eq_bot_iff]
   ext c
   rw [Subsingleton.elim c 1]
@@ -189,12 +189,12 @@ private theorem s16kOm8_statedClassicalModel {K : Type} [Field K] [Finite K]
 
 theorem om8_center_eq_bot {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     Subgroup.center (Om8 K) = ⊥ := by
-  haveI hsimple : IsSimpleGroup (Om8 K) :=
+  have hsimple : IsSimpleGroup (Om8 K) :=
     (CFSG.ClassicalGroups.Orthogonal.isSimpleGroup_of_statedClassicalModel_POmegaPlus
       (Om8 K) 4 2 1 (s16kOm8_statedClassicalModel hK)).2
   refine TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative ?_
   intro hcomm
-  haveI : IsMulCommutative (Om8 K) := hcomm
+  have : IsMulCommutative (Om8 K) := hcomm
   have hcard : Nat.card (Om8 K) = 174182400 := by
     have := (CFSG.Timmesfeld.card_statedClassicalModel_two (t := .POmegaPlus) (n := 4) (f := 1)
       (s16kOm8_statedClassicalModel hK)).2.2.2.1 rfl

@@ -44,7 +44,7 @@ theorem isSylowOf_of_maximal {A O S : Subgroup G} (hA3 : IsPGroup 3 A)
     intro x hx
     exact ⟨⟨x, hSN hx⟩, hST₀ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
   have hTN : T ≤ N := Subgroup.map_subtype_le _
-  have hT2 : IsPGroup 2 T := T₀.isPGroup'.map _
+  have hT2 : IsPGroup 2 T := T₀.isPGroup.map _
   have hTS : T = S := le_antisymm (hmax T (hTN.trans inf_le_left) hT2 hAT₀ hST) hST
   have hSylN : IsSylowOf 2 S N := ⟨T₀, hT.symm.trans hTS⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hS2

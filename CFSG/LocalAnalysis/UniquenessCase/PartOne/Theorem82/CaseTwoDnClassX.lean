@@ -37,7 +37,7 @@ theorem Dn_le_of_inClassXBlock (hK11 : K11) (hK32 : CFSG.LocalAnalysis.Uniquenes
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) {N : Subgroup G} (hKN : t.Ky ≤ N)
     (hrank : CFSG.Open.pRank 3 (t.Dn N) = 1) (hO : t.On N ≤ c.S.M)
     (hX : CFSG.AGLEmbedding.InClassXBlock (t.Dn N)) : t.Dn N ≤ c.S.M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZN : t.Z ≤ N := t.Z_le_Ky.trans hKN
   have hsimpleDhat : IsSimpleGroup (t.Dhat N) := t.isSimpleGroup_Dhat hZN hrank
   obtain ⟨a, b, hab⟩ := t.exists_mul_ne_mul_Dhat hK32 hGA hSp hKN
@@ -53,7 +53,7 @@ theorem Dn_le_of_inClassXBlock (hK11 : K11) (hK32 : CFSG.LocalAnalysis.Uniquenes
       rwa [htop, Subgroup.card_top] at h
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp hcop hZdvd
   have hnotdvd : ¬ 3 ∣ Nat.card (CFSG.pCore 2 ↥(t.Dn N)) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2)
       (G := ↥(CFSG.pCore 2 ↥(t.Dn N)))).mp
       (CFSG.pCore_isPGroup (p := 2) (G := ↥(t.Dn N)))
@@ -71,8 +71,8 @@ theorem Dn_le_of_inClassXBlock (hK11 : K11) (hK32 : CFSG.LocalAnalysis.Uniquenes
     ·
       subst h1
       obtain ⟨F, instF, instFinF, hFcard, α, hαs, hker, -⟩ := hlin
-      letI : Field F := instF
-      letI : Fintype F := instFinF
+      let : Field F := instF
+      let : Fintype F := instFinF
       have hF2 : Nat.card F = 2 := by
         rw [Nat.card_eq_fintype_card, hFcard]
         norm_num
@@ -95,24 +95,24 @@ theorem Dn_le_of_inClassXBlock (hK11 : K11) (hK32 : CFSG.LocalAnalysis.Uniquenes
                   (by simpa using QuotientGroup.mk_surjective) (by simpa using hO2le))
           _ = 6 := hQcard
           _ ≤ 12 := by norm_num
-      haveI := hsimpleDhat
+      have := hsimpleDhat
       exfalso
       exact hab ((IsSimpleGroup.comm_iff_isSolvable).mpr
         (CFSG.Quasithin.SzPS8.S6Class.isSolvable_of_card_le_twelve hcard) a b)
     ·
       have hlin0 := hlin
       obtain ⟨F, instF, instFinF, hFcard, α, hαs, hker, -⟩ := hlin
-      letI : Field F := instF
-      letI : Fintype F := instFinF
+      let : Field F := instF
+      let : Fintype F := instFinF
       have hF : Nat.card F = 2 ^ n := by rw [Nat.card_eq_fintype_card, hFcard]
-      haveI hchar : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hF
+      have hchar : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hF
       have h4 : 4 ≤ Nat.card F := by
         rw [hF]
         calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
-      haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :=
+      have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) :=
         Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
-      haveI : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
+      have : IsSimpleGroup (Matrix.SpecialLinearGroup (Fin 2) F) :=
         (CFSG.Timmesfeld.RankOne.psl2EquivSL2 F).symm.isSimpleGroup
       let eQ : (↥(t.Dn N) ⧸ CFSG.pCore 2 ↥(t.Dn N)) ≃*
           Matrix.SpecialLinearGroup (Fin 2) F :=
@@ -154,7 +154,7 @@ theorem Dn_le_of_inClassXBlock (hK11 : K11) (hK32 : CFSG.LocalAnalysis.Uniquenes
                   (by simpa using QuotientGroup.mk_surjective) (by simpa using hO2le))
           _ = 3 := hQcard
           _ ≤ 12 := by norm_num
-      haveI := hsimpleDhat
+      have := hsimpleDhat
       exfalso
       exact hab ((IsSimpleGroup.comm_iff_isSolvable).mpr
         (CFSG.Quasithin.SzPS8.S6Class.isSolvable_of_card_le_twelve hcard) a b)
@@ -162,7 +162,7 @@ theorem Dn_le_of_inClassXBlock (hK11 : K11) (hK32 : CFSG.LocalAnalysis.Uniquenes
       subst h2
       have h5 : CFSG.QuasithinUnique.IsAltType (t.Dn N) 5 := halt
       obtain ⟨α, hαs, hker, -⟩ := halt
-      haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+      have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
         alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card]; norm_num)
       let eQ : (↥(t.Dn N) ⧸ CFSG.pCore 2 ↥(t.Dn N)) ≃* alternatingGroup (Fin 5) :=
         (QuotientGroup.quotientMulEquivOfEq hker.symm).trans

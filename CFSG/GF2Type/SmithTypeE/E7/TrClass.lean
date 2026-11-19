@@ -177,7 +177,7 @@ theorem orderOf_repV12 (hl : 1 ≤ tr7Dim12 j) : orderOf (repV12 j) = 2 := by
 include hj in
 theorem suzukiLetter_repV12_a (hj4 : j < 4) : suzukiLetter Q12 (repV12 j) = .a := by
   obtain ⟨-, -, -, -, -, hlet⟩ := chk12_parts hj
-  rw [if_pos hj4] at hlet
+  rw [ite_eq_left hj4] at hlet
   rw [suzukiLetter_eq_a_iff]
   refine ⟨?_, fun x hx => ?_⟩
   · rw [finrank_commSpace_repV12 hj]
@@ -192,7 +192,7 @@ theorem suzukiLetter_repV12_a (hj4 : j < 4) : suzukiLetter Q12 (repV12 j) = .a :
 include hj in
 theorem suzukiLetter_repV12_c (hj4 : 4 ≤ j) : suzukiLetter Q12 (repV12 j) = .c := by
   obtain ⟨-, -, -, -, -, hlet⟩ := chk12_parts hj
-  rw [if_neg (by omega)] at hlet
+  rw [ite_eq_right (by omega)] at hlet
   rw [suzukiLetter_eq_c_iff]
   refine ⟨?_, ?_⟩
   · rw [finrank_commSpace_repV12 hj]

@@ -37,7 +37,7 @@ variable (K) in
     apply Subtype.ext
     unfold uc22pwI3dm
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply]
+    fin_cases i <;> fin_cases j <;> simp
   map_mul' a b := Subtype.ext (uc22pwI3dm_mul a b)
 
 theorem coe_uc22pwI3dSL (a : Kˣ) :
@@ -77,7 +77,7 @@ variable (K) in
 @[expose] def uc22pwI3Jsl [CharP K 2] : SpecialLinearGroup (Fin 3) K := ⟨uc22pwI3J K, det_uc22pwI3J⟩
 
 open Module in
-theorem uc22pwI3_upper_of_invariant {n : ℕ} (g h : Matrix (Fin n) (Fin n) K) (hgh : g * h = 1)
+theorem uc22pwI3_upper_of_invariant {n : ℕ} (g h : Matrix (Fin n) (Fin n) K) (_hgh : g * h = 1)
     (hhg : h * g = 1)
     (hN : ∀ u ∈ unitriangular n K, ∃ N : Matrix (Fin n) (Fin n) K, N.IsUpperTriangular ∧
       (u : Matrix (Fin n) (Fin n) K) * g = g * N) : g.IsUpperTriangular := by
@@ -182,7 +182,7 @@ theorem uc22pwI3_graph_dm {φ : K ≃+* K} {i : ℕ} (hi : ∀ x : K, φ x = x ^
   rw [uc22pwI3J_conj]
   unfold uc22pwI3dm
   rw [Matrix.diagonal_transpose]
-  fin_cases r <;> fin_cases c <;> simp [Matrix.diagonal_apply, hi, Fin.rev]
+  fin_cases r <;> fin_cases c <;> simp [hi, Fin.rev]
 
 theorem uc22pwI3dm_upper (c : Kˣ) : (uc22pwI3dm c : Matrix (Fin 3) (Fin 3) K).IsUpperTriangular := by
   intro i j hij
@@ -311,7 +311,7 @@ theorem uc22pwI3Jsl_conj_dSL [CharP K 2] (a : Kˣ) :
   show (uc22pwI3J K * uc22pwI3dm a * uc22pwI3J K) i j = uc22pwI3dm a⁻¹ i j
   rw [uc22pwI3J_conj]
   unfold uc22pwI3dm
-  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply, Fin.rev]
+  fin_cases i <;> fin_cases j <;> simp [Fin.rev]
 
 theorem uc22pwI3Jsl_not_mem_stabilizer [CharP K 2] {i : ℕ} (hi1 : 1 ≤ i) (hi2 : i ≤ 2) :
     uc22pwI3Jsl K ∉ stabilizer (flagSpace 3 K i) := by

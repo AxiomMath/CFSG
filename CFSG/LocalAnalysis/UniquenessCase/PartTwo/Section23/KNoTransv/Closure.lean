@@ -100,7 +100,7 @@ theorem conj_eq_of_commutator_mem_centralizer {H : Subgroup G} (hH : ⁅H, H⁆ 
       exact Commute.commutator_eq (Subgroup.mem_center_iff.mp hcx (c y')).symm
     have hker : ⁅x', y'⁆ ∈ c.ker := MonoidHom.mem_ker.mpr hcomm1
     refine Subgroup.mem_map.mpr ⟨⁅x', y'⁆, hker, ?_⟩
-    simpa [x', y'] using map_commutatorElement H.subtype x' y'
+    simp [x', y']
   have hH_le : H ≤ (c.ker).map H.subtype := by
     simpa [hH] using hcomm_le
   have hc1 : h * s * h⁻¹ * s⁻¹ = 1 := by
@@ -182,7 +182,7 @@ theorem le_conjClosure_of_simple {H : Subgroup G} (hH : ⁅H, H⁆ = H) {s : G}
       exact conj_mem_inf hh hn
     · intro hn
       simpa [N, mul_assoc] using conj_mem_inf (H.inv_mem hh) hn
-  haveI : ((N.subgroupOf H).map f).Normal := hNnormal.map f hf
+  have : ((N.subgroupOf H).map f).Normal := hNnormal.map f hf
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((N.subgroupOf H).map f) with hbot | htop
   · have hNker : N.subgroupOf H ≤ f.ker := by
       intro x hx

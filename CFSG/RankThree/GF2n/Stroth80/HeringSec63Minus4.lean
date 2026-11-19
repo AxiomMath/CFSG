@@ -56,7 +56,7 @@ theorem ofAdd_smul_mem_lineGrp (w : W) (c : K) :
 theorem card_lineGrp [Finite K] {w : W} (hw : w ≠ 0) : Nat.card (lineGrp K w) = Nat.card K := by
   rw [← Nat.card_congr (lineEquiv hw).toEquiv, Nat.card_congr Multiplicative.toAdd]
 
-theorem lineGrp_eq_iff {w w' : W} (hw : w ≠ 0) (hw' : w' ≠ 0) :
+theorem lineGrp_eq_iff {w w' : W} (_hw : w ≠ 0) (hw' : w' ≠ 0) :
     lineGrp K w = lineGrp K w' ↔ ∃ c : K, c ≠ 0 ∧ w' = c • w := by
   constructor
   · intro h
@@ -82,6 +82,7 @@ section Minus
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {W : Type} [AddCommGroup W] [Module K W]
   [FiniteDimensional K W] {Q : QuadraticForm K W}
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K W] in
 theorem lineGrp_inf_eq_bot {w w' : W} (hw : w ≠ 0) (hw' : w' ≠ 0)
     (hne : lineGrp K w ≠ lineGrp K w') : lineGrp K w ⊓ lineGrp K w' = ⊥ := by
   rw [eq_bot_iff]
@@ -105,12 +106,14 @@ theorem lineGrp_inf_eq_bot {w w' : W} (hw : w ≠ 0) (hw' : w' ≠ 0)
     _ = d⁻¹ • (c • w) := by rw [h1]
     _ = (c * d⁻¹) • w := by rw [smul_smul, mul_comm]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K W] in
 theorem map_add_smul_singular {w₀ w₁ : W} (h₀ : Q w₀ = 0) (h₁ : Q w₁ = 0) (a b : K) :
     Q (a • w₀ + b • w₁) = a * b * polar Q w₀ w₁ := by
   rw [QuadraticMap.map_add Q, map_smul_eq_sq, map_smul_eq_sq, h₀, h₁, polar_smul_left_eq,
     polar_smul_right_eq]
   ring
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K W] in
 theorem polar_ne_zero_of_isMinus (h : IsMinus Q 2) {w₀ w₁ : W} (h₀ : Q w₀ = 0) (h₁ : Q w₁ = 0)
     (hw₀ : w₀ ≠ 0) (hind : ∀ c : K, w₁ ≠ c • w₀) : polar Q w₀ w₁ ≠ 0 := by
   intro hp
@@ -135,6 +138,7 @@ theorem polar_ne_zero_of_isMinus (h : IsMinus Q 2) {w₀ w₁ : W} (h₀ : Q w�
   apply hQu
   rw [map_add_smul_singular h₀ h₁, hp, mul_zero]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K W] in
 theorem lineGrp_sum_of_isMinus (h : IsMinus Q 2) {w₀ w₁ w : W} (h₀ : Q w₀ = 0) (h₁ : Q w₁ = 0)
     (hQ : Q w = 0) (hw₀ : w₀ ≠ 0) (hw₁ : w₁ ≠ 0) (hw : w ≠ 0)
     (hne : lineGrp K w₀ ≠ lineGrp K w₁) (hle : lineGrp K w ≤ lineGrp K w₀ ⊔ lineGrp K w₁) :
@@ -180,6 +184,7 @@ variable {K : Type} [Field K] [CharP K 2] {W : Type} [AddCommGroup W] [Module K 
 
 @[expose] def hypVec (P : HypPair Q) (y : W) : W := P.f + Q y • P.e + y
 
+omit [CharP K 2] in
 theorem Q_comb (P : HypPair Q) {y : W} (hy : y ∈ P.perp) (a : K) :
     Q (P.f + a • P.e + y) = a + Q y := by
   obtain ⟨hye, hyf⟩ := HypPair.mem_perp.mp hy
@@ -192,12 +197,14 @@ theorem Q_hypVec (P : HypPair Q) {y : W} (hy : y ∈ P.perp) : Q (hypVec P y) = 
   rw [hypVec, Q_comb P hy]
   exact CharTwo.add_self_eq_zero _
 
+omit [CharP K 2] in
 theorem polar_e_comb (P : HypPair Q) {y : W} (hy : y ∈ P.perp) (a : K) :
     polar Q P.e (P.f + a • P.e + y) = 1 := by
   obtain ⟨hye, -⟩ := HypPair.mem_perp.mp hy
   rw [polar_add_right, polar_add_right, polar_smul_right_eq, P.polar_ee, P.polar_ef, hye]
   ring
 
+omit [CharP K 2] in
 theorem polar_f_comb (P : HypPair Q) {y : W} (hy : y ∈ P.perp) (a : K) :
     polar Q (P.f + a • P.e + y) P.f = a := by
   obtain ⟨-, hyf⟩ := HypPair.mem_perp.mp hy
@@ -205,6 +212,7 @@ theorem polar_f_comb (P : HypPair Q) {y : W} (hy : y ∈ P.perp) (a : K) :
     hyf]
   ring
 
+omit [CharP K 2] in
 theorem proj_comb (P : HypPair Q) {y : W} (hy : y ∈ P.perp) (a : K) :
     P.proj (P.f + a • P.e + y) = y := by
   obtain ⟨hye, hyf⟩ := HypPair.mem_perp.mp hy
@@ -250,16 +258,19 @@ theorem exists_singular_of_isMinus (h : IsMinus Q 2) : ∃ w : W, Q w = 0 ∧ w 
   rw [h0, polar_zero_left] at hxx
   exact zero_ne_one hxx
 
+omit [Finite K] [CharP K 2] in
 theorem finrank_perp_of_isMinus (h : IsMinus Q 2) (P : HypPair Q) :
     Module.finrank K P.perp = 2 := by
   have := Submodule.finrank_add_eq_of_isCompl P.isCompl_perp
   rw [P.finrank_span, h.finrank_eq] at this
   omega
 
+omit [Finite K] [CharP K 2] in
 theorem card_perp_of_isMinus (h : IsMinus Q 2) (P : HypPair Q) :
     Nat.card P.perp = Nat.card K ^ 2 := by
   rw [Module.natCard_eq_pow_finrank (K := K), finrank_perp_of_isMinus h P]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K W] in
 theorem mem_line_of_orth (h : IsMinus Q 2) (P : HypPair Q) {x : W} (hx : Q x = 0)
     (hex : polar Q P.e x = 0) : ∃ c : K, x = c • P.e := by
   by_contra hcon
@@ -276,7 +287,7 @@ noncomputable def hypVecEquiv (P : HypPair Q) :
   right_inv y := Subtype.ext (proj_comb P y.2 _)
 
 theorem ncard_singLines (h : IsMinus Q 2) : (singLines K Q).ncard = Nat.card K ^ 2 + 1 := by
-  haveI : Finite W := Module.finite_of_finite K
+  have : Finite W := Module.finite_of_finite K
   obtain ⟨e, he, he0⟩ := exists_singular_of_isMinus h
   obtain ⟨P, rfl⟩ := exists_hypPair h.nondeg he he0
   let T₁ : Set W := {x | Q x = 0 ∧ polar Q P.e x = 1}
@@ -334,9 +345,11 @@ section Span
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {W : Type} [AddCommGroup W] [Module K W]
   [FiniteDimensional K W] {Q : QuadraticForm K W}
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K W] in
 theorem hypVec_zero (P : HypPair Q) : hypVec P 0 = P.f := by
   simp [hypVec]
 
+omit [Finite K] [FiniteDimensional K W] in
 theorem hypVec_add_four (P : HypPair Q) (a b : W) :
     hypVec P a + hypVec P b + hypVec P (a + b) + hypVec P 0 = polar Q a b • P.e := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
@@ -348,6 +361,7 @@ theorem hypVec_add_four (P : HypPair Q) (a b : W) :
   rw [h2, zero_smul, sub_eq_zero] at hsum
   exact hsum
 
+omit [Finite K] in
 theorem singLines_span (h : IsMinus Q 2) {ℓ₀ : Subgroup (Multiplicative W)}
     (hℓ₀ : ℓ₀ ∈ singLines K Q) :
     (⨆ ℓ ∈ singLines K Q, ⨆ (_ : ℓ ≠ ℓ₀), ℓ) = ⊤ := by

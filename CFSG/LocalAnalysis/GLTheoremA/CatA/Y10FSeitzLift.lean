@@ -89,7 +89,7 @@ theorem isPGroup_Z2 (K : Type) [Group K] : IsPGroup 2 ↥(Z2 K) := by
 
 theorem not_dvd_card_Z2 (K : Type) [Group K] [Finite K] {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) :
     ¬ q ∣ Nat.card (Z2 K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨j, hj⟩ := (isPGroup_Z2 K).exists_card_eq
   rw [hj]
   intro hd
@@ -99,7 +99,7 @@ theorem exists_fixed_two_lift {K : Type} [Group K] [Finite K] {q : ℕ} (hq : q.
     {F : Subgroup (MulAut K)} (hF : IsPGroup q ↥F) {s : K ⧸ Subgroup.center K} {b : ℕ}
     (hs : s ^ (2 ^ b) = 1) (hfix : ∀ f ∈ F, centerQuotAut K f s = s) :
     ∃ x : K, (QuotientGroup.mk x : K ⧸ Subgroup.center K) = s ∧ ∀ f ∈ F, f x = x := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨x₁, hx₁s, a, hx₁a⟩ := exists_two_lift (QuotientGroup.mk' (Subgroup.center K))
     (QuotientGroup.mk'_surjective _) hs
   have hρ : ∀ y : MulAut K, (Z2 K).map (MonoidHom.id (MulAut K) y).toMonoidHom = Z2 K :=
@@ -217,7 +217,7 @@ theorem seitzGen_of_simple (C : ∀ (S : Type) [Group S], Prop)
     (hS : ∀ (S : Type) [Group S] [Finite S], C S → SeitzSimpleStmt S) : SeitzGen := by
   intro K _ _ hK q hq hq2 E hE hcard hT
   obtain ⟨T, hT2, hTc, hTinv⟩ := hT
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨hperf, -⟩ := hasLabel_isQuasisimple hK
   have hfinj : Function.Injective (centerQuotAut K) :=
     (injective_iff_map_eq_one _).2 fun σ h => eq_one_of_trivial_centerQuot hperf σ h

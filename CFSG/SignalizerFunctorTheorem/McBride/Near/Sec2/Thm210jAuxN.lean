@@ -61,7 +61,7 @@ theorem exists_fixed_ne_one {W X T R : Subgroup Γ} [IsMulCommutative W] {ℓ : 
     have hPR : (P : Subgroup ↥T) ≤ R' := by
       intro x hx
       have h1 : ∃ k : ℕ, ((x : ↥T) : Γ) ^ (ℓ ^ k) = 1 := by
-        obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+        obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
         exact ⟨k, by simpa using congrArg (fun y : ↥P => (((y : ↥T)) : Γ)) hk⟩
       exact hRℓ _ x.2 h1
     exact fun hd => P.not_dvd_index (hd.trans (Subgroup.index_dvd_of_le hPR))

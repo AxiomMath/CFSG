@@ -25,12 +25,14 @@ structure s16h_MixedCfg {G : Type} [Group G] (M B₀ Y Z₁ : Subgroup G) (x : G
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma s16h_mixed_conj_eq_self {K : Subgroup G} {g : G}
     (h : ∀ z ∈ K, g * z = z * g) {z : G} (hz : z ∈ K) :
     g * z * g⁻¹ = z := by
   rw [h z hz]
   group
 
+omit [Finite G] in
 private lemma s16h_mixed_map_conj_eq_of_centralizes {K : Subgroup G} {g : G}
     (h : ∀ z ∈ K, g * z = z * g) : K.map (MulAut.conj g).toMonoidHom = K := by
   apply le_antisymm
@@ -45,15 +47,18 @@ private lemma s16h_mixed_map_conj_eq_of_centralizes {K : Subgroup G} {g : G}
     change g * z * g⁻¹ = z
     exact s16h_mixed_conj_eq_self h hz
 
+omit [Finite G] in
 private lemma s16h_mixed_Z₁_le {M B₀ Y Z₁ : Subgroup G} {x : G}
     (hB : s16h_MixedCfg M B₀ Y Z₁ x) : Z₁ ≤ Y := by
   rw [hB.sup]; exact le_sup_left
 
+omit [Finite G] in
 private lemma s16h_mixed_Z₂_le {M B₀ Y Z₁ : Subgroup G} {x : G}
     (hB : s16h_MixedCfg M B₀ Y Z₁ x) :
     Z₁.map (MulAut.conj x).toMonoidHom ≤ Y := by
   rw [hB.sup]; exact le_sup_right
 
+omit [Finite G] in
 private lemma s16h_mixed_Z₂_ne_Z₁ {Z₁ : Subgroup G} {x e : G}
     (heZ₁ : ∀ z ∈ Z₁, e * z = z * e)
     (heZ₂ : ∃ z ∈ Z₁.map (MulAut.conj x).toMonoidHom, e * z ≠ z * e) :
@@ -62,6 +67,7 @@ private lemma s16h_mixed_Z₂_ne_Z₁ {Z₁ : Subgroup G} {x e : G}
   obtain ⟨z, hz, hne⟩ := heZ₂
   exact hne (heZ₁ z (h ▸ hz))
 
+omit [Finite G] in
 private lemma s16h_mixed_Z₂_map_conj_e {M B₀ Y Z₁ : Subgroup G} {x e : G}
     (hB : s16h_MixedCfg M B₀ Y Z₁ x) (heM : e ∈ M)
     (heZ₁ : ∀ z ∈ Z₁, e * z = z * e)
@@ -73,6 +79,7 @@ private lemma s16h_mixed_Z₂_map_conj_e {M B₀ Y Z₁ : Subgroup G} {x e : G}
   · exact absurd (h1 ▸ s16h_mixed_map_conj_eq_of_centralizes heZ₁)
       (s16h_mixed_Z₂_ne_Z₁ heZ₁ heZ₂)
 
+omit [Finite G] in
 private lemma s16h_mixed_Z₂_map_conj_x {M B₀ Y Z₁ : Subgroup G} {x e : G}
     (hB : s16h_MixedCfg M B₀ Y Z₁ x)
     (heZ₁ : ∀ z ∈ Z₁, e * z = z * e)
@@ -82,16 +89,19 @@ private lemma s16h_mixed_Z₂_map_conj_x {M B₀ Y Z₁ : Subgroup G} {x e : G}
   · exact absurd h1 (s16h_mixed_Z₂_ne_Z₁ heZ₁ heZ₂)
   · exact h2
 
+omit [Finite G] in
 private lemma s16h_mixed_f_mem_M {M B₀ Y Z₁ : Subgroup G} {x e : G}
     (hB : s16h_MixedCfg M B₀ Y Z₁ x) (heM : e ∈ M) : x * e * x⁻¹ ∈ M :=
   M.mul_mem (M.mul_mem hB.mem heM) (M.inv_mem hB.mem)
 
+omit [Finite G] in
 private lemma s16h_mixed_f_pow {x e : G} {q : ℕ} (heq : e ^ q = 1) :
     (x * e * x⁻¹) ^ q = 1 := by
   have h : ((MulAut.conj x).toMonoidHom e) ^ q = 1 := by
     rw [← map_pow, heq, map_one]
   simpa using h
 
+omit [Finite G] in
 private lemma s16h_mixed_f_centralizes_Z₂ {Z₁ : Subgroup G} {x e : G}
     (heZ₁ : ∀ z ∈ Z₁, e * z = z * e) :
     ∀ z ∈ Z₁.map (MulAut.conj x).toMonoidHom,
@@ -102,6 +112,7 @@ private lemma s16h_mixed_f_centralizes_Z₂ {Z₁ : Subgroup G} {x e : G}
     (MulAut.conj x).toMonoidHom z' * (MulAut.conj x).toMonoidHom e
   rw [← map_mul, heZ₁ z' hz', map_mul]
 
+omit [Finite G] in
 private lemma s16h_mixed_f_moves_Z₁ {M B₀ Y Z₁ : Subgroup G} {x e : G}
     (hB : s16h_MixedCfg M B₀ Y Z₁ x)
     (heZ₁ : ∀ z ∈ Z₁, e * z = z * e)
@@ -126,6 +137,7 @@ private lemma s16h_mixed_f_moves_Z₁ {M B₀ Y Z₁ : Subgroup G} {x e : G}
     calc e * z₂ = e * z₂ * e⁻¹ * e := by group
       _ = z₂ * e := by rw [hconj]
 
+omit [Finite G] in
 private lemma s16h_mixed_f_mem_B₀ {M B₀ Y Z₁ : Subgroup G} {x e : G}
     (hB : s16h_MixedCfg M B₀ Y Z₁ x) (heM : e ∈ M)
     (heZ₁ : ∀ z ∈ Z₁, e * z = z * e)
@@ -144,8 +156,8 @@ private lemma s16h_mixed_f_mem_B₀ {M B₀ Y Z₁ : Subgroup G} {x e : G}
 
 
 theorem s16h_mixed_card_ge_eight {M B₀ Y Z₁ : Subgroup G} {x : G}
-    (hB : s16h_MixedCfg M B₀ Y Z₁ x) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {e : G} (heM : e ∈ M)
-    (heq : e ^ q = 1) (heZ₁ : ∀ z ∈ Z₁, e * z = z * e)
+    (hB : s16h_MixedCfg M B₀ Y Z₁ x) {q : ℕ} (_hq : q.Prime) (_hq2 : q ≠ 2) {e : G} (heM : e ∈ M)
+    (_heq : e ^ q = 1) (heZ₁ : ∀ z ∈ Z₁, e * z = z * e)
     (heZ₂ : ∃ z ∈ Z₁.map (MulAut.conj x).toMonoidHom, e * z ≠ z * e) : 8 ≤ Nat.card ↥Y := by
   have hZ₁Y : Z₁ ≤ Y := s16h_mixed_Z₁_le hB
   have hZ₂Y : Z₁.map (MulAut.conj x).toMonoidHom ≤ Y := s16h_mixed_Z₂_le hB
@@ -162,7 +174,7 @@ theorem s16h_mixed_card_ge_eight {M B₀ Y Z₁ : Subgroup G} {x : G}
     rw [h] at hz'
     have hz'1 : z' = 1 := Subgroup.mem_bot.mp hz'
     exact hne (by rw [← hzx, hz'1, map_one, mul_one, one_mul])
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hYP : IsPGroup 2 ↥Y := fun y =>
     ⟨1, by rw [pow_one]; exact Subtype.ext (hB.elem.2 y y.2)⟩
   obtain ⟨n, hn⟩ := hYP.exists_card_eq
@@ -323,7 +335,7 @@ theorem s16h_mixed_stab_of_two_group {M B₀ Y Z₁ : Subgroup G} {x : G}
       rw [← map_pow]
       apply MonoidHom.mem_ker.mp
       rw [Subgroup.normalizerMonoidHom_ker, Subgroup.mem_subgroupOf]
-      simpa [heq] using Subgroup.one_mem (centralizer (Z₁ : Set G))
+      simp [heq]
     obtain ⟨n, hn⟩ := hK2 (k * e * k⁻¹ * e⁻¹) hc₀K
     have hc₀pow : (k * e * k⁻¹ * e⁻¹) ^ 2 ^ n ∈ centralizer (Z₁ : Set G) := by
       rw [Subgroup.mem_centralizer_iff]
@@ -384,7 +396,7 @@ theorem s16h_mixed_two_reduced {M B₀ Y Z₁ : Subgroup G} {x : G}
         f ^ r ∈ centralizer (Z₁ : Set G)) → K ≤ centralizer (Z₁ : Set G)) :
     TwoReduced M Y := by
   intro K hKM hKN hCK hexp
-  haveI hNorm : ((centralizer (Y : Set G)).subgroupOf K).Normal :=
+  have hNorm : ((centralizer (Y : Set G)).subgroupOf K).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       have hcoe : (↑(g * n * g⁻¹) : G) = (↑g : G) * ↑n * (↑g : G)⁻¹ := by simp
@@ -455,7 +467,7 @@ theorem s16h_exists_noncyclic_of_le_range {N H : Type*} [Group N] [Finite N] [Gr
     (hEq : IsPGroup q E) (hEn : ¬ IsCyclic ↥E) :
     ∃ S : Subgroup N, IsPGroup q S ∧ ¬ IsCyclic ↥S := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let P : Subgroup N := E.comap φ
   let ψ : ↥P →* ↥E := (φ.comp P.subtype).codRestrict E (fun x => x.2)
   have hψ : Function.Surjective ψ := by
@@ -465,7 +477,7 @@ theorem s16h_exists_noncyclic_of_le_range {N H : Type*} [Group N] [Finite N] [Gr
   obtain ⟨S₀⟩ : Nonempty (Sylow q ↥P) := inferInstance
   have htop : (S₀.mapSurjective hψ : Subgroup ↥E) = ⊤ :=
     ((S₀.mapSurjective hψ).maximal_isPGroup.eq_of_le (hEq.of_equiv Subgroup.topEquiv.symm) le_top)
-  refine ⟨(S₀ : Subgroup ↥P).map P.subtype, S₀.isPGroup'.map P.subtype, ?_⟩
+  refine ⟨(S₀ : Subgroup ↥P).map P.subtype, S₀.isPGroup.map P.subtype, ?_⟩
   rintro hcyc
   apply hEn
   have hmap : ((S₀ : Subgroup ↥P).map P.subtype).map φ = E := by
@@ -490,7 +502,7 @@ theorem s16h_exists_noncyclic_of_le_range {N H : Type*} [Group N] [Finite N] [Gr
     rw [Subgroup.mem_map] at he
     obtain ⟨s, hs, hse⟩ := he
     exact ⟨⟨s, hs⟩, Subtype.ext hse⟩
-  haveI : IsCyclic ↥((S₀ : Subgroup ↥P).map P.subtype) := hcyc
+  have : IsCyclic ↥((S₀ : Subgroup ↥P).map P.subtype) := hcyc
   exact isCyclic_of_surjective φS hφS
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo

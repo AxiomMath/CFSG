@@ -25,7 +25,7 @@ private theorem card_le_card_quotient_of_eichler_cover {ι : Type} [Fintype ι] 
     Nat.card ↥F ≤ Nat.card K ^ (Module.finrank K Y - 1) := by
   classical
   let KuY : Submodule K Y := Submodule.span K {⟨u, huY⟩}
-  haveI : Finite (Y ⧸ KuY) :=
+  have : Finite (Y ⧸ KuY) :=
     Finite.of_surjective Submodule.Quotient.mk (Submodule.Quotient.mk_surjective KuY)
   let W : ↥F → ι → K := fun g => Classical.choose (hcover g g.2)
   have hWX : ∀ g : ↥F, W g ∈ X := fun g => (Classical.choose_spec (hcover g g.2)).1

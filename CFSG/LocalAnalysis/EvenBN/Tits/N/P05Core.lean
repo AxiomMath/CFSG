@@ -125,7 +125,7 @@ theorem z_mem_CQ2X (hd : d.Hyp) : d.z ∈ CQ2X d :=
   mem_CQ2X_iff.2 ⟨hd.s56_E_le_Q2 hd.s56_z_mem_E, hd.s56_x5_comm_z⟩
 
 theorem t_mem_Q2 (hd : d.Hyp) : d.t ∈ d.s56Q2 :=
-  Data.s56_mem_Q2_iff.2 ⟨d.s56_t_mem_M, fun e he => hd.L_comm_t (Data.s56_E_le_L d he)⟩
+  Data.s56_mem_Q2_iff.2 ⟨d.s56_t_mem_M, fun _e he => hd.L_comm_t (Data.s56_E_le_L d he)⟩
 
 theorem z0_mem_CQ2X {z₀ : G} (hz : d.S56Z0 z₀) : z₀ ∈ CQ2X d :=
   mem_CQ2X_iff.2 ⟨hz.mem_Q2, hz.comm_x⟩
@@ -136,7 +136,7 @@ theorem CQ2X_inf_E (hd : d.Hyp) : CQ2X d ⊓ d.E = zpowers d.z := by
     exact hd.s56_E_cent_x5 heE (mem_CQ2X_iff.1 heZ).2.symm
   · exact le_inf (zpowers_le.2 (z_mem_CQ2X hd)) (zpowers_le.2 hd.s56_z_mem_E)
 
-theorem CA_le_Q2 : centralizer (d.A : Set G) ≤ d.s56Q2 := fun c hc =>
+theorem CA_le_Q2 : centralizer (d.A : Set G) ≤ d.s56Q2 := fun _c hc =>
   Data.s56_mem_Q2_iff.2 ⟨d.s56_centralizer_A_le_M hc, fun e he =>
     mem_centralizer_iff.1 hc e (Data.s56_E_le_A d he)⟩
 

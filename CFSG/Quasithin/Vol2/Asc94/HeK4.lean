@@ -41,25 +41,30 @@ variable (e : ↥(Cz z) ≃* L52.Hc) (hF6 : L52.F6Model) (S : Setting G z e)
   (hxN : x ∈ normalizer ((tr e L52.A1 ⊔ tr e L52.A2 : Subgroup G) : Set G))
   (hxa : x ∈ centralizer ({a} : Set G)) (hx3 : orderOf x = 3)
 
+omit [Finite G] in
 theorem comm_tr_A1 {y y' : G} (hy : y ∈ tr e L52.A1) (hy' : y' ∈ tr e L52.A1) : y * y' = y' * y := by
   obtain ⟨u, hu, rfl⟩ := hy
   obtain ⟨u', hu', rfl⟩ := hy'
   rw [← map_mul, ← map_mul]
   exact congrArg _ (congrArg Subtype.val (L52.isElemAbelian_A1.1.is_comm.comm ⟨u, hu⟩ ⟨u', hu'⟩))
 
+omit [Finite G] in
 theorem comm_tr_A2 {y y' : G} (hy : y ∈ tr e L52.A2) (hy' : y' ∈ tr e L52.A2) : y * y' = y' * y := by
   obtain ⟨u, hu, rfl⟩ := hy
   obtain ⟨u', hu', rfl⟩ := hy'
   rw [← map_mul, ← map_mul]
   exact congrArg _ (congrArg Subtype.val (L52.isElemAbelian_A2.1.is_comm.comm ⟨u, hu⟩ ⟨u', hu'⟩))
 
+omit [Finite G] in
 theorem HeB_le_inf : HeB e x ≤ tr e L52.A1 ⊓ tr e L52.A2 := inf_le_left
 
+omit [Finite G] in
 theorem isElemAbelian_HeB : IsElemAbelian 2 (HeB e x) := by
   refine ⟨⟨⟨fun a b => Subtype.ext (comm_tr_A1 e (HeB_le_inf e a.2).1 (HeB_le_inf e b.2).1)⟩⟩, ?_⟩
   intro y hy
   exact (isElemAbelian_tr e L52.isElemAbelian_A1).2 y (HeB_le_inf e hy).1
 
+omit [Finite G] in
 theorem A1_le_HeL : tr e L52.A1 ≤ HeL e (HeB e x) := by
   refine le_trans ?_ le_sup_left
   intro y hy
@@ -69,6 +74,7 @@ theorem A1_le_HeL : tr e L52.A1 ≤ HeL e (HeB e x) := by
   intro b hb
   exact comm_tr_A1 e (HeB_le_inf e (x := x) hb).1 hy
 
+omit [Finite G] in
 theorem A2_le_HeL : tr e L52.A2 ≤ HeL e (HeB e x) := by
   refine le_trans ?_ le_sup_right
   intro y hy
@@ -78,9 +84,11 @@ theorem A2_le_HeL : tr e L52.A2 ≤ HeL e (HeB e x) := by
   intro b hb
   exact comm_tr_A2 e (HeB_le_inf e (x := x) hb).2 hy
 
+omit [Finite G] in
 theorem J_le_HeL : (tr e L52.A1 ⊔ tr e L52.A2 : Subgroup G) ≤ HeL e (HeB e x) :=
   sup_le (A1_le_HeL e) (A2_le_HeL e)
 
+omit [Finite G] in
 theorem B_le_HeL : HeB e x ≤ HeL e (HeB e x) :=
   le_trans (le_trans (HeB_le_inf e) inf_le_left) (A1_le_HeL e)
 
@@ -93,6 +101,7 @@ theorem x_mem_HeL : x ∈ HeL e (HeB e x) := by
   intro b hb
   exact mem_centralizer_singleton_iff.1 hb.2
 
+omit [Finite G] in
 theorem mem_normalizer_centralizer {X : Subgroup G} {g : G} (hg : g ∈ normalizer (X : Set G)) :
     g ∈ normalizer ((centralizer (X : Set G) : Subgroup G) : Set G) := by
   rw [mem_normalizer_iff]
@@ -132,6 +141,7 @@ variable (hC : He42Concl e (HeB e x))
 
 include hF6 S h1 h2 ha ham hxN hxa hx3 hC
 
+omit hxa hx3 in
 theorem centralizer_HeL : centralizer ((HeL e (HeB e x) : Subgroup G) : Set G) = HeB e x := by
   have hD := HeJ.data40 e hF6 S h1 h2 ha ham
   have hxL := x_mem_HeL e hF6 S h1 h2 ha ham hxN
@@ -152,9 +162,10 @@ theorem centralizer_HeL : centralizer ((HeL e (HeB e x) : Subgroup G) : Set G) =
     rw [mem_centralizer_iff] at hl'
     exact (hl' c hb).symm
 
+omit hxa hx3 in
 theorem center_HeL :
     center ↥(HeL e (HeB e x)) = (HeB e x).subgroupOf (HeL e (HeB e x)) := by
-  have hcl := centralizer_HeL e hF6 S h1 h2 ha ham hxN hxa hx3 hC
+  have hcl := centralizer_HeL e hF6 S h1 h2 ha ham hxN hC
   ext ⟨y, hy⟩
   rw [Subgroup.mem_center_iff, Subgroup.mem_subgroupOf]
   have hmem : y ∈ centralizer ((HeL e (HeB e x) : Subgroup G) : Set G) ↔ y ∈ HeB e x := by
@@ -174,13 +185,14 @@ theorem card_HeL : Nat.card ↥(HeL e (HeB e x)) = 80640 := by
   have hq := card_rankTwoQuot_of_typeL34 hC.2.1
   have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (center ↥(HeL e (HeB e x)))
   have hc : Nat.card ↥(center ↥(HeL e (HeB e x))) = 4 := by
-    rw [center_HeL e hF6 S h1 h2 ha ham hxN hxa hx3 hC,
+    rw [center_HeL e hF6 S h1 h2 ha ham hxN hC,
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe (B_le_HeL e)).toEquiv,
       card_HeB e hF6 S h1 h2 ha ham hxN hxa hx3]
   rw [h, hc]
   have : Nat.card (↥(HeL e (HeB e x)) ⧸ center ↥(HeL e (HeB e x))) = 20160 := hq
   rw [this]
 
+omit hxN hxa hx3 hC in
 theorem Z_le_commutator_HeL : ∀ y ∈ tr e L52.A1 ⊓ tr e L52.A2,
     y ∈ (commutator ↥(HeL e (HeB e x))).map (HeL e (HeB e x)).subtype := by
   have hD := HeJ.data40 e hF6 S h1 h2 ha ham
@@ -224,18 +236,19 @@ theorem Z_le_commutator_HeL : ∀ y ∈ tr e L52.A1 ⊓ tr e L52.A2,
   exact fun y hy => key _ y hy rfl
 
 include hF6 S h1 h2 ha ham hxN hxa hx3 hC in
+omit hxa hx3 in
 theorem commutator_HeL : commutator ↥(HeL e (HeB e x)) = ⊤ := by
   have hD := HeJ.data40 e hF6 S h1 h2 ha ham
   set L := HeL e (HeB e x) with hL
   have hsimple : IsSimpleGroup (rankTwoQuot L) :=
     (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 2 hC.2.1).2
   have hq := card_rankTwoQuot_of_typeL34 hC.2.1
-  have hcen := center_HeL e hF6 S h1 h2 ha ham hxN hxa hx3 hC
+  have hcen := center_HeL e hF6 S h1 h2 ha ham hxN hC
   have hZC : center ↥L ≤ commutator ↥L := by
     intro y hy
     rw [hcen, Subgroup.mem_subgroupOf] at hy
     have hyZ : (y : G) ∈ tr e L52.A1 ⊓ tr e L52.A2 := HeB_le_inf e hy
-    obtain ⟨w, hw, hwy⟩ := Z_le_commutator_HeL e hF6 S h1 h2 ha ham hxN hxa hx3 hC _ hyZ
+    obtain ⟨w, hw, hwy⟩ := Z_le_commutator_HeL e hF6 S h1 h2 ha ham _ hyZ
     have : w = y := Subtype.ext hwy
     rw [← this]
     exact hw
@@ -245,12 +258,12 @@ theorem commutator_HeL : commutator ↥(HeL e (HeB e x)) = ⊤ := by
       have hcz : Subgroup.center (rankTwoQuot L) = ⊤ :=
         (commutator_eq_bot_iff_center_eq_top (rankTwoQuot L)).1 h
       have h2 : 2 ∣ Nat.card (rankTwoQuot L) := by rw [hq]; norm_num
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := rankTwoQuot L) 2 h2
       have hcomm : ∀ g n : rankTwoQuot L, g * n = n * g := fun g n => by
         have hn : n ∈ Subgroup.center (rankTwoQuot L) := by rw [hcz]; exact Subgroup.mem_top _
         exact (Subgroup.mem_center_iff.1 hn) g
-      haveI : (Subgroup.zpowers y).Normal := ⟨fun n hn g => by
+      have : (Subgroup.zpowers y).Normal := ⟨fun n hn g => by
         have : g * n * g⁻¹ = n := by rw [hcomm g n, mul_inv_cancel_right]
         rw [this]; exact hn⟩
       rcases hsimple.eq_bot_or_eq_top_of_normal (Subgroup.zpowers y) with hb | ht
@@ -280,12 +293,12 @@ theorem commutator_HeL : commutator ↥(HeL e (HeB e x)) = ⊤ := by
   simpa using this
 
 theorem standard_HeL : standardComponentIsStandard (HeL e (HeB e x)) := by
-  have hcl := centralizer_HeL e hF6 S h1 h2 ha ham hxN hxa hx3 hC
+  have hcl := centralizer_HeL e hF6 S h1 h2 ha ham hxN hC
   have hcardB := card_HeB e hF6 S h1 h2 ha ham hxN hxa hx3
   have hcardL := card_HeL e hF6 S h1 h2 ha ham hxN hxa hx3 hC
   have hsimple : IsSimpleGroup (rankTwoQuot (HeL e (HeB e x))) :=
     (CFSG.LieType.Simplicity.fam_PSL_simplicity _ 3 2 2 hC.2.1).2
-  refine ⟨⟨commutator_HeL e hF6 S h1 h2 ha ham hxN hxa hx3 hC, hsimple⟩, ?_, ?_, ?_, ?_⟩
+  refine ⟨⟨commutator_HeL e hF6 S h1 h2 ha ham hxN hC, hsimple⟩, ?_, ?_, ?_, ?_⟩
   · rw [hcl, hcardB]
     exact ⟨2, rfl⟩
   · intro g hg
@@ -317,9 +330,10 @@ theorem standard_HeL : standardComponentIsStandard (HeL e (HeB e x)) := by
     rw [Subgroup.card_map_of_injective (MulAut.conj g).injective, hcardL, hcardB] at h1
     omega
 
+omit hxa hx3 in
 theorem normalizer_HeL :
     normalizer ((HeL e (HeB e x) : Subgroup G) : Set G) = normalizer ((HeB e x : Subgroup G) : Set G) := by
-  have hcl := centralizer_HeL e hF6 S h1 h2 ha ham hxN hxa hx3 hC
+  have hcl := centralizer_HeL e hF6 S h1 h2 ha ham hxN hC
   apply le_antisymm
   · intro g hg
     have := mem_normalizer_centralizer (X := HeL e (HeB e x)) hg
@@ -332,7 +346,7 @@ theorem normalizer_HeL :
 
 theorem heGeometry_of_concl : HeGeometry e := by
   have hD := HeJ.data40 e hF6 S h1 h2 ha ham
-  have hcl := centralizer_HeL e hF6 S h1 h2 ha ham hxN hxa hx3 hC
+  have hcl := centralizer_HeL e hF6 S h1 h2 ha ham hxN hC
   have hcardB := card_HeB e hF6 S h1 h2 ha ham hxN hxa hx3
   have hcardL := card_HeL e hF6 S h1 h2 ha ham hxN hxa hx3 hC
   obtain ⟨n, hnN, hinter, hsum⟩ := hD.exists_swap hxN hxa hx3
@@ -360,10 +374,10 @@ theorem heGeometry_of_concl : HeGeometry e := by
     norm_num
   ·
     intro hg
-    rw [normalizer_HeL e hF6 S h1 h2 ha ham hxN hxa hx3 hC] at hg
+    rw [normalizer_HeL e hF6 S h1 h2 ha ham hxN hC] at hg
     have hn : n ∈ normalizer ((HeB e x : Subgroup G) : Set G) := by simpa using inv_mem hg
     have ha1 := hD.a_ne_one
-    have haB := hD.a_mem_B hxN hxa hx3
+    have haB := hD.a_mem_B hxa
     have h1' : n * a * n⁻¹ ∈ HeB e x := (mem_normalizer_iff.1 hn a).1 haB
     exact ha1 (hinter a haB _ h1' rfl)
   ·
@@ -390,7 +404,7 @@ theorem heGeometry_of_concl : HeGeometry e := by
       show z ∈ centralizer (((tr e L52.A1 ⊔ tr e L52.A2 : Subgroup G)) : Set G)
       rw [mem_centralizer_iff]
       intro y hy
-      exact hD.hT.Z_central hD.hK.Aab hD.hK.A'ab hz hy
+      exact CFSG.Quasithin.A94.HeJ.TData.Z_central hD.hK.Aab hD.hK.A'ab hz hy
     · intro y hy
       exact hD.hK.cent y (fun w hw => (mem_centralizer_iff.1 hy.2 w hw).symm)
   ·

@@ -13,9 +13,9 @@ namespace Item1120V0Bar
 
 theorem isCyclic_sylow_three_sl2 {F : Type} [Field F] [Finite F] (h2 : ringChar F = 2)
     (P : Sylow 3 (Matrix.SpecialLinearGroup (Fin 2) F)) : IsCyclic P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI hchar : CharP F 2 := by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype F := Fintype.ofFinite F
+  have hchar : CharP F 2 := by
     rw [← h2]
     exact ringChar.charP F
   have hneg : (-1 : F) = 1 := CharTwo.neg_eq 1
@@ -41,7 +41,7 @@ theorem isCyclic_sylow_three_sl2 {F : Type} [Field F] [Finite F] (h2 : ringChar 
     have hF2 : Nat.card F = 2 := by
       rw [hcard, hn1, pow_one]
     have hSL : Nat.card (Matrix.SpecialLinearGroup (Fin 2) F) = 6 := by
-      rw [CFSG.BenderSuzuki.External.huppert614_card_specialLinearGroup, hF2] <;> norm_num
+      rw [CFSG.BenderSuzuki.External.huppert614_card_specialLinearGroup, hF2]; norm_num
     exact CFSG.RankThree.PartTwo.Sec11.KS11LieProof.isCyclic_sylow_three_of_not_nine_dvd
       (by rw [hSL]; norm_num) P
   ·
@@ -55,7 +55,7 @@ theorem exists_big_elt_of_cyclic_sylow {Z : Type} [Group Z] [Finite Z] {M : Subg
     (hM : ∀ P : Sylow 3 M, IsCyclic P) {z : Z} (hzM : z ∈ M) (hz3 : z ^ 3 = 1) :
     ∃ ζ ∈ M, z * ζ = ζ * z ∧ (∃ k : ℕ, ζ ^ 3 ^ k = 1) ∧
       orderOf ζ = 3 ^ (Nat.card M).factorization 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hzP : IsPGroup 3 (Subgroup.zpowers z) := by
     refine IsPGroup.of_card_dvd_pow (n := 1) ?_
     rw [Nat.card_zpowers, pow_one]
@@ -68,7 +68,7 @@ theorem exists_big_elt_of_cyclic_sylow {Z : Type} [Group Z] [Finite Z] {M : Subg
   have Φ : ↥T ≃* ↥(Q : Subgroup ↥M) :=
     (MulEquiv.subgroupCongr hQ.symm).trans
       (Subgroup.equivMapOfInjective (Q : Subgroup ↥M) M.subtype M.subtype_injective).symm
-  haveI : IsCyclic ↥T := (MulEquiv.isCyclic Φ).mpr (hM Q)
+  have : IsCyclic ↥T := (MulEquiv.isCyclic Φ).mpr (hM Q)
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥T)
   have hzg : (⟨z, hzT (Subgroup.mem_zpowers z)⟩ : ↥T) ∈ Subgroup.zpowers g := hg _
   obtain ⟨m, hm⟩ := Subgroup.mem_zpowers_iff.mp hzg

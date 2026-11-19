@@ -19,6 +19,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {ℓ n p : ℕ}
 private def partnerCompl (X : Set (Fin ℓ ⊕ Fin ℓ)) : Set (Fin ℓ ⊕ Fin ℓ) :=
   {b | par b ∉ X}
 
+omit [Finite F] [CharP F 2] in
 private theorem mem_coordSpan_orthogonal_iff {X : Set (Fin ℓ ⊕ Fin ℓ)} {v : Fin ℓ ⊕ Fin ℓ → F} :
     (∀ u ∈ coordSpan (F := F) X, form u v = 0) ↔
       v ∈ coordSpan (F := F) (partnerCompl X) := by
@@ -53,16 +54,18 @@ private theorem partnerCompl_image {τ : Equiv.Perm (Fin ℓ ⊕ Fin ℓ)} (hτ 
     partnerCompl (τ '' X) = τ '' partnerCompl X := by
   ext b
   have h1 : b ∈ partnerCompl (τ '' X) ↔ τ.symm (par b) ∉ X := by
-    rw [partnerCompl, Set.mem_setOf_eq, Set.mem_image_equiv]
+    rw [partnerCompl, Set.mem_ofPred_eq, Set.mem_image_equiv]
   have h2 : b ∈ τ '' partnerCompl X ↔ par (τ.symm b) ∉ X := by
-    rw [Set.mem_image_equiv, partnerCompl, Set.mem_setOf_eq]
+    rw [Set.mem_image_equiv, partnerCompl, Set.mem_ofPred_eq]
   rw [h1, h2, hτ.symm b]
 
+omit [Finite F] [CharP F 2] in
 private theorem form_spEnd (k : ↥(StatedSp ℓ F)) (u v : Fin ℓ ⊕ Fin ℓ → F) :
     form (spEnd k u) (spEnd k v) = form u v := by
   rw [spEnd_apply, spEnd_apply]
   exact form_mulVec k u v
 
+omit [Finite F] [CharP F 2] in
 private theorem orthogonal_invariant_of_preserves {K : Subgroup ↥(StatedSp ℓ F)}
     {X : Set (Fin ℓ ⊕ Fin ℓ)}
     (h : ∀ k ∈ K, ∀ w ∈ coordSpan (F := F) X,
@@ -81,7 +84,7 @@ private theorem orthogonal_invariant_of_preserves {K : Subgroup ↥(StatedSp ℓ
 
 private theorem mem_partnerCompl_iff {τ : Equiv.Perm (Fin ℓ ⊕ Fin ℓ)} {X : Set (Fin ℓ ⊕ Fin ℓ)}
     {b : Fin ℓ ⊕ Fin ℓ} : b ∈ partnerCompl (τ '' X) ↔ τ.symm (par b) ∉ X := by
-  rw [partnerCompl, Set.mem_setOf_eq, Set.mem_image_equiv]
+  rw [partnerCompl, Set.mem_ofPred_eq, Set.mem_image_equiv]
 
 private theorem special_inl {S : Set (Fin ℓ ⊕ Fin ℓ)} {i : Fin ℓ}
     (h1 : Sum.inl i ∈ S) (h2 : Sum.inr i ∉ S) :
@@ -162,10 +165,10 @@ private theorem pair_not_mem_of_disjoint {S : Set (Fin ℓ ⊕ Fin ℓ)} {j : Fi
     have := Set.mem_inter (show Sum.inr j ∈ ({Sum.inl j, Sum.inr j} : Set _) from by simp) h
     rwa [hdisj] at this
 
-private theorem special_pair_subset {S : Set (Fin ℓ ⊕ Fin ℓ)} {i j : Fin ℓ} (hij : i ≠ j)
+private theorem special_pair_subset {S : Set (Fin ℓ ⊕ Fin ℓ)} {i j : Fin ℓ} (_hij : i ≠ j)
     (hpair : ∀ k, Sum.inl k ∈ S ↔ Sum.inr k ∈ S)
     (hsub : ({Sum.inl i, Sum.inr i} : Set (Fin ℓ ⊕ Fin ℓ)) ⊆ S)
-    (hdisj : ({Sum.inl j, Sum.inr j} : Set (Fin ℓ ⊕ Fin ℓ)) ∩ S = ∅) :
+    (_hdisj : ({Sum.inl j, Sum.inr j} : Set (Fin ℓ ⊕ Fin ℓ)) ∩ S = ∅) :
     S ∩ partnerCompl ((Equiv.Perm.sumCongr (Equiv.swap i j) (Equiv.swap i j)) '' S) ⊆
       {Sum.inl i, Sum.inr i} := by
   rintro b ⟨hbS, hbY⟩
@@ -202,7 +205,7 @@ private theorem special_pair_subset {S : Set (Fin ℓ ⊕ Fin ℓ)} {i j : Fin �
       exact (hpair k).mpr hbS
 
 private theorem special_pair_superset {S : Set (Fin ℓ ⊕ Fin ℓ)} {i j : Fin ℓ}
-    (hij : i ≠ j)
+    (_hij : i ≠ j)
     (hsub : ({Sum.inl i, Sum.inr i} : Set (Fin ℓ ⊕ Fin ℓ)) ⊆ S)
     (hdisj : ({Sum.inl j, Sum.inr j} : Set (Fin ℓ ⊕ Fin ℓ)) ∩ S = ∅) :
     {Sum.inl i, Sum.inr i} ⊆ S ∩ partnerCompl
@@ -210,7 +213,7 @@ private theorem special_pair_superset {S : Set (Fin ℓ ⊕ Fin ℓ)} {i j : Fin
   have hj := pair_not_mem_of_disjoint hdisj
   rintro x (rfl | rfl)
   · refine ⟨hsub (by simp), ?_⟩
-    rw [partnerCompl, Set.mem_setOf_eq, Set.mem_image_equiv, sumCongr_swap_symm]
+    rw [partnerCompl, Set.mem_ofPred_eq, Set.mem_image_equiv, sumCongr_swap_symm]
     show Equiv.Perm.sumCongr (Equiv.swap i j) (Equiv.swap i j) (par (Sum.inl i)) ∉ S
     rw [par_inl]
     have hx : Equiv.Perm.sumCongr (Equiv.swap i j) (Equiv.swap i j) (Sum.inr i) =
@@ -218,7 +221,7 @@ private theorem special_pair_superset {S : Set (Fin ℓ ⊕ Fin ℓ)} {i j : Fin
     rw [hx]
     exact hj.2
   · refine ⟨hsub (by simp), ?_⟩
-    rw [partnerCompl, Set.mem_setOf_eq, Set.mem_image_equiv, sumCongr_swap_symm]
+    rw [partnerCompl, Set.mem_ofPred_eq, Set.mem_image_equiv, sumCongr_swap_symm]
     show Equiv.Perm.sumCongr (Equiv.swap i j) (Equiv.swap i j) (par (Sum.inr i)) ∉ S
     rw [par_inr]
     have hx : Equiv.Perm.sumCongr (Equiv.swap i j) (Equiv.swap i j) (Sum.inl i) =
@@ -236,6 +239,7 @@ private theorem special_pair {S : Set (Fin ℓ ⊕ Fin ℓ)} {i j : Fin ℓ} (hi
   Set.Subset.antisymm (special_pair_subset hij hpair hsub hdisj)
     (special_pair_superset hij hsub hdisj)
 
+omit [Finite F] [CharP F 2] in
 private theorem coordSpan_image_special {S T : Set (Fin ℓ ⊕ Fin ℓ)}
     {τ0 τ1 : Equiv.Perm (Fin ℓ ⊕ Fin ℓ)}
     (hspecial : S ∩ partnerCompl (τ0 '' S) = T) (hτ1par : CommutesPar τ1) :
@@ -244,6 +248,7 @@ private theorem coordSpan_image_special {S T : Set (Fin ℓ ⊕ Fin ℓ)}
   rw [← hspecial, Set.image_inter (Equiv.injective τ1), ← partnerCompl_image hτ1par,
     coordSpan_inter]
 
+omit [Finite F] [CharP F 2] in
 private theorem invariant_pair_of_monomial {K : Subgroup ↥(StatedSp ℓ F)}
     {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)} {S : Set (Fin ℓ ⊕ Fin ℓ)}
     (hW : W = coordSpan (F := F) S)
@@ -272,6 +277,7 @@ private theorem invariant_pair_of_monomial {K : Subgroup ↥(StatedSp ℓ F)}
   rw [Set.image_image] at hw ⊢
   exact orthogonal_invariant_of_preserves (K := K) (X := (τ1 * τ0) '' S) h2 k hk w hw
 
+omit [Finite F] [CharP F 2] in
 private theorem coordSpan_singleton_invariant {K : Subgroup ↥(StatedSp ℓ F)}
     {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)} {S : Set (Fin ℓ ⊕ Fin ℓ)}
     (hW : W = coordSpan (F := F) S)
@@ -304,6 +310,7 @@ private theorem coordSpan_singleton_invariant {K : Subgroup ↥(StatedSp ℓ F)}
   rw [h3, Submodule.mem_inf] at hsingle ⊢
   exact ⟨h1 k hk _ hsingle.1, h2' k hk _ hsingle.2⟩
 
+omit [Finite F] [CharP F 2] in
 private theorem preserves_lines_of_singleton {K : Subgroup ↥(StatedSp ℓ F)}
     {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)} {S : Set (Fin ℓ ⊕ Fin ℓ)}
     (hW : W = coordSpan (F := F) S)
@@ -328,6 +335,7 @@ private theorem preserves_lines_of_singleton {K : Subgroup ↥(StatedSp ℓ F)}
   obtain ⟨c, hc⟩ := hmem
   exact ⟨c, hc.symm⟩
 
+omit [Finite F] in
 private theorem coordSpan_pair_invariant (hp : p.Prime) (hp2 : p ≠ 2) (hn : Nat.card F = 2 ^ n)
     (hpq : p ∣ 2 ^ n - 1) {K : Subgroup ↥(StatedSp ℓ F)}
     {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)} {S : Set (Fin ℓ ⊕ Fin ℓ)}
@@ -365,6 +373,7 @@ private theorem coordSpan_pair_invariant (hp : p.Prime) (hp2 : p ≠ 2) (hn : Na
   rw [h3, Submodule.mem_inf] at hw ⊢
   exact ⟨h1 k hk _ hw.1, h2' k hk _ hw.2⟩
 
+omit [Finite F] in
 private theorem preserves_planes_of_pair (hp : p.Prime) (hp2 : p ≠ 2) (hn : Nat.card F = 2 ^ n)
     (hpq : p ∣ 2 ^ n - 1) {K : Subgroup ↥(StatedSp ℓ F)}
     {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)} {S : Set (Fin ℓ ⊕ Fin ℓ)}
@@ -388,6 +397,7 @@ private theorem preserves_planes_of_pair (hp : p.Prime) (hp2 : p ≠ 2) (hn : Na
   · have h := hmem (Pi.single (Sum.inr i) (1 : F)) (Submodule.subset_span (by simp))
     rwa [coordSpan_pair] at h
 
+omit [CharP F 2] in
 private theorem coordSupport_nonempty (hn : Nat.card F = 2 ^ n) (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ 2 ^ n - 1) {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)} (hW0 : W ≠ ⊥)
     (hWV : ∀ g ∈ CFSG.LocalAnalysis.GLTheoremA.Y10F.symplecticQTorus (F := F) (ℓ := ℓ) p,
@@ -399,6 +409,7 @@ private theorem coordSupport_nonempty (hn : Nat.card F = 2 ^ n) (hp : p.Prime) (
   rw [eq_coordSpan_coordSupport hn hp hp2 hpq hWV, h]
   rw [coordSpan, Set.image_empty, Submodule.span_empty]
 
+omit [CharP F 2] in
 private theorem coordSupport_ne_univ (hn : Nat.card F = 2 ^ n) (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ 2 ^ n - 1) {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)} (hWtop : W ≠ ⊤)
     (hWV : ∀ g ∈ CFSG.LocalAnalysis.GLTheoremA.Y10F.symplecticQTorus (F := F) (ℓ := ℓ) p,
@@ -452,6 +463,7 @@ private theorem exists_pair_support_data {S : Set (Fin ℓ ⊕ Fin ℓ)} (hSne :
   rw [hj0] at h3
   exact h3
 
+omit [Finite F] in
 private theorem case_half_pair (hp : p.Prime) (hp2 : p ≠ 2) (hn : Nat.card F = 2 ^ n)
     (hpq : p ∣ 2 ^ n - 1) {K : Subgroup ↥(StatedSp ℓ F)}
     {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)} {S : Set (Fin ℓ ⊕ Fin ℓ)}
@@ -476,6 +488,7 @@ private theorem case_half_pair (hp : p.Prime) (hp2 : p ≠ 2) (hn : Nat.card F =
       (isMonomial_mul (isMonomial_spSwapSp i) isMonomial_sAllSp)
       (special_inr hcase.1 hcase.2) (exists_isMonomial_map_inr hp hp2 hn hpq i)
 
+omit [Finite F] in
 private theorem case_union_pairs (hp : p.Prime) (hp2 : p ≠ 2) (hn : Nat.card F = 2 ^ n)
     (hpq : p ∣ 2 ^ n - 1) {K : Subgroup ↥(StatedSp ℓ F)}
     {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)} {S : Set (Fin ℓ ⊕ Fin ℓ)}

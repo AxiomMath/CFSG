@@ -30,8 +30,8 @@ noncomputable def frob (hF : Nat.card F = 9) : F →+* F :=
   frobenius F 3
 
 theorem frob_apply (hF : Nat.card F = 9) (x : F) : frob hF x = x ^ 3 := by
-  haveI := charP_three hF
-  haveI : ExpChar F 3 := ExpChar.prime Nat.prime_three
+  have := charP_three hF
+  have : ExpChar F 3 := ExpChar.prime Nat.prime_three
   simp [frob, frobenius_def]
 
 open CFSG.Assembly.LowTwoRank in
@@ -43,13 +43,13 @@ theorem mem_statedSU_iff (hF : Nat.card F = 9) (g : GL (Fin 3) F) :
   have hadj : ∀ A : Matrix (Fin 3) (Fin 3) F, adj (frob hF) A = (A.map (· ^ 3))ᵀ := fun A => by
     have : (frob hF : F → F) = (· ^ 3) := funext (frob_apply hF)
     simp [adj, this]
-  simp only [Set.mem_setOf_eq, hadj]
+  simp only [Set.mem_ofPred_eq, hadj]
 
 theorem poly_cube (hF : Nat.card F = 9) (ν : Matrix (Fin 3) (Fin 3) F) (hν3 : ν ^ 3 = 0)
     (a b c : F) :
     (a • (1 : Matrix (Fin 3) (Fin 3) F) + b • ν + c • ν ^ 2) ^ 3 =
       (a ^ 3) • (1 : Matrix (Fin 3) (Fin 3) F) := by
-  haveI := charP_three hF
+  have := charP_three hF
   have h3 : (3 : F) = 0 := by
     have := CharP.cast_eq_zero F 3
     simpa using this
@@ -73,6 +73,7 @@ theorem poly_cube (hF : Nat.card F = 9) (ν : Matrix (Fin 3) (Fin 3) F) (hν3 : 
 
 abbrev SU (F : Type) [Field F] : Subgroup (GL (Fin 3) F) := CFSG.Assembly.LowTwoRank.StatedSU 3 3 F
 
+omit [Finite F] in
 theorem card_zeros_le (p : Polynomial F) (hp : p.natDegree = 3) (s : Finset F)
     (h : ∀ x ∈ s, p.eval x = 0) : s.card ≤ 3 := by
   have hp0 : p ≠ 0 := Polynomial.ne_zero_of_natDegree_gt (n := 0) (by omega)
@@ -86,7 +87,7 @@ theorem card_centralizer_regular_le (hF : Nat.card F = 9) (y : ↥(SU F))
     (hν2 : (((y : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) - 1) ^ 2 ≠ 0) :
     Nat.card (Subgroup.centralizer ({y} : Set ↥(SU F))) ≤ 9 := by
   classical
-  haveI := charP_three hF
+  have := charP_three hF
   set σ : F →+* F := frob hF with hσdef
   set ν : Matrix (Fin 3) (Fin 3) F := ((y : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) - 1 with hν
   set C := Subgroup.centralizer ({y} : Set ↥(SU F)) with hC
@@ -119,7 +120,7 @@ theorem card_centralizer_regular_le (hF : Nat.card F = 9) (y : ↥(SU F))
       exact h1
     obtain ⟨r1, r2, r3⟩ := unitary_poly_relations σ _ hyU hν3 hν2 a b c hmu
     have hdet : mm.det = 1 := hmem.2
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     have hcube := poly_cube hF ν hν3 a b c
     have hmm3 : mm ^ 3 = (a ^ 3) • (1 : Matrix (Fin 3) (Fin 3) F) := by rw [hm]; exact hcube
     have h1 : a ^ 9 = 1 := by
@@ -138,7 +139,7 @@ theorem card_centralizer_regular_le (hF : Nat.card F = 9) (y : ↥(SU F))
     refine ⟨b, c, by rw [hm]; simp [hν], hσb, ?_⟩
     linear_combination r3
   choose fb fc hfb using key
-  haveI : Fintype C := Fintype.ofFinite C
+  have : Fintype C := Fintype.ofFinite C
   have hσx : ∀ x : F, σ x = x ^ 3 := frob_apply hF
   have hinj : Function.Injective (fun m : C => (fb m, fc m)) := by
     intro m m' h
@@ -159,7 +160,7 @@ theorem card_centralizer_regular_le (hF : Nat.card F = 9) (y : ↥(SU F))
     intro b hb
     have hinj' : Set.InjOn fc (Finset.univ.filter (fun m : C => fb m = b) : Set C) := by
       intro m hm m' hm' h
-      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hm hm'
+      simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hm hm'
       exact hinj (Prod.ext (hm.trans hm'.symm) h)
     rw [← Finset.card_image_of_injOn hinj']
     apply card_zeros_le (Polynomial.X ^ 3 + Polynomial.X - Polynomial.C (b ^ 2 - b))

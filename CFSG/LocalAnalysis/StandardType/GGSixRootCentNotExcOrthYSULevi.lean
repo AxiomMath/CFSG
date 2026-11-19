@@ -34,7 +34,7 @@ theorem ggRootInvol_exists_levi_PSU {G : Type} [Group G] [Finite G] {f k : ℕ} 
           (QuotientGroup.mk' (CFSG.Open.pCore 2
             ↥(Subgroup.centralizer ({r} : Set G) ⊓ ψ.range))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let σ := unitaryInvolution (GaloisField 2 (2 * f)) 2 f
   have hF : Nat.card (GaloisField 2 (2 * f)) = (2 ^ f) ^ 2 :=
     card_galoisField_two_mul 2 f hf
@@ -122,7 +122,7 @@ theorem ggRootInvol_exists_levi_PSU {G : Type} [Group G] [Finite G] {f k : ℕ} 
   let Nv : Subgroup ↥V := N.subgroupOf V
   let O : Subgroup ↥V := CFSG.Open.pCore 2 ↥V
   let π : ↥V →* (↥V ⧸ O) := QuotientGroup.mk' O
-  haveI hNvN : Nv.Normal := hNnormal
+  have hNvN : Nv.Normal := hNnormal
   let e : ↥Nv ≃* ↥N := Subgroup.subgroupOfEquivOfLe hNV
   have hQNsub : Q ≤ N := hQN
   have hQNnormal : (Q.subgroupOf N).Normal :=
@@ -196,16 +196,16 @@ theorem ggRootInvol_exists_levi_PSU {G : Type} [Group G] [Finite G] {f k : ℕ} 
     rw [MonoidHom.range_comp, Subgroup.range_subtype]
   have hMnormal : ((N.subgroupOf V).map π).Normal :=
     hNvN.map π (QuotientGroup.mk'_surjective O)
-  haveI hfrange_normal : f.range.Normal := hfrange ▸ hMnormal
+  have hfrange_normal : f.range.Normal := hfrange ▸ hMnormal
   have hsolv : Group.IsSolvable (↥V ⧸ (Nv ⊔ O)) := by
     have hmap : Function.Surjective (QuotientGroup.map Nv (Nv ⊔ O) (MonoidHom.id ↥V)
-        (by simpa using (show Nv ≤ Nv ⊔ O from fun z hz => Subgroup.mem_sup_left hz))) := by
+        (by simp)) := by
       intro z
       obtain ⟨v, rfl⟩ := QuotientGroup.mk'_surjective (Nv ⊔ O) z
       refine ⟨QuotientGroup.mk' Nv v, ?_⟩
       rw [QuotientGroup.map_mk']
       rfl
-    haveI : Group.IsSolvable (↥V ⧸ Nv) := hVNsolv
+    have : Group.IsSolvable (↥V ⧸ Nv) := hVNsolv
     exact Group.isSolvable_of_surjective hmap
   have hquot : Group.IsSolvable ((↥V ⧸ O) ⧸ f.range) := by
     have hker : Nv ⊔ O ≤ Subgroup.comap (QuotientGroup.mk' O) f.range := by
@@ -226,13 +226,13 @@ theorem ggRootInvol_exists_levi_PSU {G : Type} [Group G] [Finite G] {f k : ℕ} 
       obtain ⟨v, rfl⟩ := QuotientGroup.mk'_surjective O w
       refine ⟨QuotientGroup.mk' (Nv ⊔ O) v, ?_⟩
       exact QuotientGroup.map_mk' (Nv ⊔ O) f.range (QuotientGroup.mk' O) hker v
-    haveI : Group.IsSolvable (↥V ⧸ (Nv ⊔ O)) := hsolv
+    have : Group.IsSolvable (↥V ⧸ (Nv ⊔ O)) := hsolv
     exact Group.isSolvable_of_surjective hφ
   have hMsolv : Group.IsSolvable ((↥V ⧸ O) ⧸ (N.subgroupOf V).map π) := by
     let e := QuotientGroup.quotientMulEquivOfEq hfrange
     exact Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective
-  haveI hMn : ((N.subgroupOf V).map π).Normal := hMnormal
-  haveI hMs : Group.IsSolvable ((↥V ⧸ O) ⧸ (N.subgroupOf V).map π) := hMsolv
+  have hMn : ((N.subgroupOf V).map π).Normal := hMnormal
+  have hMs : Group.IsSolvable ((↥V ⧸ O) ⧸ (N.subgroupOf V).map π) := hMsolv
   have hMcomp : ∀ C : Subgroup (GGInvolCentBar ψ.range r), CFSG.Open.IsComponentOf C ⊤ →
       C ≤ (N.subgroupOf V).map π := by
     intro C hC

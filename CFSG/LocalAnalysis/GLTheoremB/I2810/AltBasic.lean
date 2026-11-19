@@ -19,7 +19,7 @@ theorem ker_le_center_of_quasisimple (hG : CFSG.IsQuasisimple G) (f : G →* H) 
     f.ker ≤ Subgroup.center G := by
   obtain ⟨hperf, hsimp, -⟩ := hG
   have hperf' : commutator G = ⊤ := hperf.commutator_eq_top
-  haveI hM : (f.ker.map (QuotientGroup.mk' (Subgroup.center G))).Normal :=
+  have hM : (f.ker.map (QuotientGroup.mk' (Subgroup.center G))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     (f.ker.map (QuotientGroup.mk' (Subgroup.center G))) with h0 | h1
@@ -126,10 +126,12 @@ noncomputable def barLift {A : Type*} [Group A] (θ : ↥K →* A)
     rw [MonoidHom.mem_ker, toBar_eq_one_iff] at hk
     exact hθ k hk⟩
 
+omit [Finite X] in
 theorem barLift_toBar {A : Type*} [Group A] (θ : ↥K →* A)
     (hθ : ∀ k : ↥K, (k : X) ∈ W → θ k = 1) (k : ↥K) : barLift θ hθ (toBar W K k) = θ k :=
   MonoidHom.liftOfRightInverse_comp_apply _ _ _ _ k
 
+omit [Finite X] in
 theorem exists_iso_of_alt (hR : Red28 W K S) {m : ℕ} (hm : 5 ≤ m)
     (θ : ↥K →* ↥(alternatingGroup (Fin m))) (hsurj : Function.Surjective θ)
     (hθ : ∀ k : ↥K, (k : X) ∈ W → θ k = 1) :
@@ -166,6 +168,7 @@ theorem exists_iso_of_alt (hR : Red28 W K S) {m : ℕ} (hm : 5 ≤ m)
   rw [← hcomp k]
   rfl
 
+omit [Finite X] in
 theorem theta_ker (hR : Red28 W K S) (hZ : Subgroup.center ↥(bar W K) = ⊥) {m : ℕ} (hm : 5 ≤ m)
     (θ : ↥K →* ↥(alternatingGroup (Fin m))) (hsurj : Function.Surjective θ)
     (hθ : ∀ k : ↥K, (k : X) ∈ W → θ k = 1) : ∀ k : ↥K, θ k = 1 → (k : X) ∈ W := by

@@ -88,7 +88,7 @@ theorem Qθ_le_scalGood (c : Kˣ) :
       by_cases hβ : β = α
       · subst hβ
         simp
-      · simp [Pi.single_apply, hβ]
+      · simp [hβ]
   · subst h
     have hconj := torus_conj_pinnedX hθ hθ c z
     refine ⟨hQ z, ?_, ?_⟩

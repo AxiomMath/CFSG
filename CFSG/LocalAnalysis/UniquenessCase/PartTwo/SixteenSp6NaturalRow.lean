@@ -36,7 +36,7 @@ theorem s168e3_concl163F_of_naturalSp_six
   have hAut : ∀ p : ℕ, p.Prime → p ≠ 2 → p ≠ 3 →
       CFSG.Open.pRank p (⊤ : Subgroup (MulAut ↥(lBar V₀ V hV L))) ≤ 1 := by
     intro p hp hp2 hp3
-    simpa only [if_neg hp3] using s16k_pRank_aut_sp6 hSp hp hp2
+    simpa only [ite_eq_right hp3] using s16k_pRank_aut_sp6 hSp hp hp2
   have h3 : 3 ∈ D.sig :=
     s168e3_three_mem_sig_of_natural_aut_rank c hs hperf hAut
   have hnot : ¬ s15ExcList ↥(lBar V₀ V hV L) := by

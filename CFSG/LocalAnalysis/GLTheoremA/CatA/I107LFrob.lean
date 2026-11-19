@@ -11,13 +11,13 @@ open Polynomial
 variable {K : Type} [Field K] [Finite K]
 
 theorem charP_two_of_card_sq {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) : CharP K 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply CFSG.SectionRank.ClassicalOdd.charP_of_card (p := 2) (f := 2 * n)
   rw [hK, ← pow_mul, mul_comm]
 
 theorem pow_pow_frob_eq {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) (x : K) :
     (x ^ 2 ^ n) ^ 2 ^ n = x := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h := FiniteField.pow_card (K := K) x
   rw [← Nat.card_eq_fintype_card, hK] at h
   rw [← pow_mul, ← sq]
@@ -26,7 +26,7 @@ theorem pow_pow_frob_eq {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) (x : K) :
 theorem card_fixed_frob_le {n : ℕ} (hn : 1 ≤ n) :
     Nat.card {x : K // x ^ 2 ^ n = x} ≤ 2 ^ n := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hq1 : 1 < 2 ^ n := Nat.one_lt_two_pow (by omega)
   let p : K[X] := X ^ 2 ^ n - X
   have hdeg : p.natDegree = 2 ^ n := FiniteField.X_pow_card_sub_X_natDegree_eq K hq1
@@ -46,7 +46,7 @@ theorem card_fixed_frob_le {n : ℕ} (hn : 1 ≤ n) :
 theorem card_fixed_frob {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
     Nat.card {x : K // x ^ 2 ^ n = x} = 2 ^ n := by
   classical
-  haveI : CharP K 2 := charP_two_of_card_sq hK
+  have : CharP K 2 := charP_two_of_card_sq hK
   have hup : Nat.card {x : K // x ^ 2 ^ n = x} ≤ 2 ^ n := card_fixed_frob_le hn
   let σ : K →+* K := iterateFrobenius K 2 n
   have hσ : ∀ x : K, σ x = x ^ 2 ^ n := fun x => rfl

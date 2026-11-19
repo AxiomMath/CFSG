@@ -46,7 +46,7 @@ theorem dihedral_or_cyclic_of_le {X X' : Subgroup G} (hX : X ≤ X')
   set Pm : Subgroup G := (P' : Subgroup ↥(O2Of X)).map (O2Of X).subtype with hPm
   have hPmO : Pm ≤ O2Of X' := (Subgroup.map_subtype_le _).trans hO
   set P'' : Subgroup ↥(O2Of X') := Pm.subgroupOf (O2Of X') with hP''
-  have h2 : IsPGroup 2 ↥P'' := (P'.isPGroup'.map (O2Of X).subtype).comap_subtype
+  have h2 : IsPGroup 2 ↥P'' := (P'.isPGroup.map (O2Of X).subtype).comap_subtype
   obtain ⟨S, hS⟩ := h2.exists_le_sylow
   have hdih := hF S
   let Y : Subgroup ↥(S : Subgroup ↥(O2Of X')) := P''.subgroupOf S

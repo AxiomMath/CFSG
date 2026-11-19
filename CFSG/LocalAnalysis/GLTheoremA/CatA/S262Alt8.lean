@@ -51,8 +51,8 @@ theorem K8_equiv_alt5 : Nonempty (K8 ≃* alternatingGroup (Fin 5)) := by
     (GL83.PiGen.altOn_le_alternatingGroup (s8 : Set (Fin 8)))).trans e⟩
 
 theorem K8_isSimpleGroup : IsSimpleGroup K8 := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
-    alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+    (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   obtain ⟨e⟩ := K8_equiv_alt5
   exact e.isSimpleGroup
 
@@ -117,7 +117,7 @@ theorem K8_normal : (K8.subgroupOf (Subgroup.centralizer ({c8} : Set Alt8))).Nor
 
 theorem glaPLayer_centralizer_threeCycle_ne_bot :
     GLAPLayer 3 (Subgroup.centralizer ({c8} : Set Alt8)) ≠ ⊥ := by
-  haveI : IsSimpleGroup K8 := K8_isSimpleGroup
+  have : IsSimpleGroup K8 := K8_isSimpleGroup
   have hle := CFSG.HardMathSupport.Solomon.Coordinator.le_glaPLayer_of_normal_simple
     (p := 3) (by norm_num)
     K8_le_centralizer K8_normal K8_not_commutative K8_three_dvd_card
@@ -136,9 +136,9 @@ theorem i262Alt8_aux :
     ∀ A : Subgroup (MulAut Alt8), IsElemAbelian 3 A → 9 ≤ Nat.card A →
       ∃ a ∈ A, a ≠ 1 ∧ GLAPLayer 3 (fixSubgroup a) ≠ ⊥ := by
   intro A hA h9
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hcardAut : Nat.card (MulAut Alt8) = 40320 := card_mulAut_alt8
-  haveI : Finite (MulAut Alt8) :=
+  have : Finite (MulAut Alt8) :=
     Nat.finite_of_card_ne_zero (by rw [hcardAut]; norm_num)
   have hAdvd : Nat.card A ∣ 40320 := by
     calc Nat.card A ∣ Nat.card (MulAut Alt8) := Subgroup.card_subgroup_dvd_card A

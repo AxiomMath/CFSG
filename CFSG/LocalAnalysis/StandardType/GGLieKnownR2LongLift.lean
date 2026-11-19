@@ -23,7 +23,7 @@ theorem four_lift_of_odd_central_ker
     ⁅pCoreOf 2 (Subgroup.normalizer (S : Set U)), pCoreOf 2 (Subgroup.normalizer (S : Set U))⁆ ≤
         S ∧
       pCoreOf 2 (Subgroup.normalizer (S : Set U)) ≤ Subgroup.centralizer (S : Set U) := by
-  haveI : Finite U := finite_of_odd_card_ker hodd
+  have : Finite U := finite_of_odd_card_ker hodd
   set Q : Subgroup U := pCoreOf 2 (Subgroup.normalizer (S : Set U)) with hQ
   set QX : Subgroup X :=
     pCoreOf 2 (Subgroup.normalizer ((S.map ψ : Subgroup X) : Set X)) with hQX

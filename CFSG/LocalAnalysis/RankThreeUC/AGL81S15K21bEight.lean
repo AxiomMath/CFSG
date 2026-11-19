@@ -21,7 +21,7 @@ theorem center_eq_bot (F : Type) [Field F] [Finite F] (hF : Nat.card F = 8)
     {z : SpecialLinearGroup (Fin 3) F}
     (hz : z ∈ Subgroup.center (SpecialLinearGroup (Fin 3) F)) : z = 1 := by
   obtain ⟨r, hr3, hr⟩ := Matrix.SpecialLinearGroup.mem_center_iff.mp hz
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   rw [Fintype.card_fin] at hr3
   have hr0 : r ≠ 0 := by
     intro h

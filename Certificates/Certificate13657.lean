@@ -66,7 +66,7 @@ theorem sc_stab7 : (e6ThreeStab7.check e6Certificate &&
 private theorem e6_three_sc_check_0 : e6ThreeScCheck () = true := by
   unfold e6ThreeScCheck e6ThreeStabs
   simp only [List.all_cons, List.all_nil, sc_orbit, sc_stab0, sc_stab1, sc_stab2, sc_stab3, sc_stab4, sc_stab5, sc_stab6,
-    sc_stab7, Bool.and_true, Bool.true_and, Bool.and_self]
+    sc_stab7, Bool.and_self]
 
 end CertificateChecks.Batch13657
 

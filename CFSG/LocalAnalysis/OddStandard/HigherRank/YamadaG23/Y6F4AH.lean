@@ -23,6 +23,7 @@ private lemma zpowers_eq_one_or_self_of_orderOf {G : Type*} [Group G] {u : G}
   · left; rw [h, zpow_zero]
   · right; rw [h, zpow_one]
 
+omit [(zpowers g).Normal] in
 private lemma y6f4a_closure_pair_isMulCommutative (hd : Y6CData g t P M) :
     IsMulCommutative ↥(closure ({g, t} : Set C)) := by
   refine Subgroup.isMulCommutative_closure ?_
@@ -69,8 +70,8 @@ theorem y6f4a_D_quot_solvable (hd : Y6CData g t P M)
       P.subgroupOf (centralizer ({t} : Set C))) := by
   let D : Subgroup C := centralizer ({t} : Set C)
   let V : Subgroup C := closure ({g, t} : Set C)
-  haveI hPn : (P.subgroupOf D).Normal := y6f4a_P_normal_in_D hd
-  haveI hVc : IsMulCommutative ↥V := y6f4a_closure_pair_isMulCommutative hd
+  have hPn : (P.subgroupOf D).Normal := y6f4a_P_normal_in_D hd
+  have hVc : IsMulCommutative ↥V := y6f4a_closure_pair_isMulCommutative hd
   have hstep : ∀ x : ↥D, ∃ v : ↥D, (v : C) ∈ V ∧
       (QuotientGroup.mk x : ↥D ⧸ P.subgroupOf D) = QuotientGroup.mk v := by
     intro x
@@ -104,7 +105,7 @@ theorem y6f4a_D_quot_solvable (hd : Y6CData g t P M)
   exact Group.isSolvable_of_comm hcomm
 
 theorem y6f4a_J_perf [Finite C] (hd : Y6CData g t P M) {J : Subgroup C}
-    (hJP : J ≤ P) (hJperf : ∀ B : Subgroup C, B ≤ P → Group.IsPerfect ↥B → B ≤ J) :
+    (_hJP : J ≤ P) (hJperf : ∀ B : Subgroup C, B ≤ P → Group.IsPerfect ↥B → B ≤ J) :
     ∀ B : Subgroup (C ⧸ zpowers g),
       B ≤ centralizer ({(QuotientGroup.mk t : C ⧸ zpowers g)} : Set (C ⧸ zpowers g)) →
         Group.IsPerfect ↥B → B ≤ J.map (QuotientGroup.mk' (zpowers g)) := by
@@ -115,8 +116,8 @@ theorem y6f4a_J_perf [Finite C] (hd : Y6CData g t P M) {J : Subgroup C}
     rw [show π.ker = zpowers g from QuotientGroup.ker_mk' (zpowers g)]
     exact Subgroup.zpowers_le.mpr hd.g_central
   have hlift := y6f4a_perfect_lift hπ hker hBperf
-  haveI hPn : (P.subgroupOf (centralizer ({t} : Set C))).Normal := y6f4a_P_normal_in_D hd
-  haveI hSol : Group.IsSolvable
+  have hPn : (P.subgroupOf (centralizer ({t} : Set C))).Normal := y6f4a_P_normal_in_D hd
+  have hSol : Group.IsSolvable
       (↥(centralizer ({t} : Set C)) ⧸ P.subgroupOf (centralizer ({t} : Set C))) :=
     y6f4a_D_quot_solvable hd
   have hAD : P ≤ centralizer ({t} : Set C) := by

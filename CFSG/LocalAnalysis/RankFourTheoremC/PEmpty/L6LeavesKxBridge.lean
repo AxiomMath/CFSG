@@ -141,7 +141,7 @@ section SporThree
 theorem kFactSporThree_holds
     : KFactSporThree := by
   intro A _ _ L s hL e h3
-  haveI := hL
+  have := hL
   by_contra hJ
   have h2 := CFSG.AGLEmbeddingD2.Tits.S3AmalgamBound.ThreeRankSpor.two_le_pRank_three_sporadic_ne_J1
     (S := ↥L) hJ e
@@ -178,7 +178,7 @@ section Ree
 
 theorem kFactReeSylowTwo_holds : KFactReeSylowTwo := by
   intro A _ _ L E hsimp h hEsyl
-  haveI := hsimp
+  have := hsimp
   obtain ⟨i, hi, ⟨e⟩⟩ := h
   cases i with
   | lie d =>
@@ -200,7 +200,7 @@ section J1
 
 theorem kFactJ1Sylow_holds : KFactJ1Sylow := by
   intro A _ _ L T hsimp e hT
-  haveI := hsimp
+  have := hsimp
   obtain ⟨e'⟩ := e
   obtain ⟨b⟩ := CFSG.RankThree.PartOne.TCB.nonempty_carrier_mulEquiv_group .J1
   have hJ : Nonempty (↥L ≃* CFSG.Open.goldschmidtJ1) :=

@@ -24,7 +24,7 @@ theorem torusDiag_om200_of_odd (hm : 1 ≤ m) {d : Fin 3 → ℤ}
   refine (om200_eq_iff hm _ _).mpr fun i => ?_
   have hd : ∀ i, d i % 2 = 1 := by intro i; fin_cases i <;> assumption
   have := hd i
-  simp only [Int.ModEq, Int.mul_emod, this, one_mul, Int.emod_emod_of_dvd, Int.emod_emod]
+  simp only [Int.ModEq, Int.mul_emod, this, one_mul, Int.emod_emod]
 
 end Stroth47Core
 
@@ -76,6 +76,7 @@ variable {D : Subgroup G} {m : ℕ} (dD : StrothWeakTypeData D (.t200 m)) {e : G
     funext i
     fin_cases i <;> simp
 
+omit [Finite G] in
 theorem t200inv_φe {p : ℕ}
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p) (x : Fin 3 → ℤ) :
     (dD.t200invEAction hrel).φe (Torus.ofInt _ x) =
@@ -94,6 +95,7 @@ namespace Stroth47Core
 
 variable {D : Subgroup G} {m : ℕ} (dD : StrothWeakTypeData D (.t200 m)) {e : G}
 
+omit [Finite G] in
 theorem t200inv_φe_om {p : ℕ}
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p) (hm : 1 ≤ m)
     (ε : Fin 3 → ℤ) :
@@ -104,6 +106,7 @@ theorem t200inv_φe_om {p : ℕ}
     om200 m ε
   exact torusDiag_om200_of_odd hm (by norm_num) hγ hγ ε
 
+omit [Finite G] in
 theorem t200_inv_mem_CSc₁ {p : ℕ}
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p) (hm : 1 ≤ m) {y : G}
     (hy : y ∈ (D ⊔ Subgroup.closure {dD.uv, dD.t, dD.u} ⊔ Subgroup.zpowers e) ⊓
@@ -126,6 +129,7 @@ theorem t200_inv_mem_CSc₁ {p : ℕ}
     obtain ⟨rfl, rfl⟩ := t200_d8Act_c₁ hm ((dD.nf_commute_iff _ _ _ _ _).mp hyc)
     exact ⟨v, l, true, rfl⟩
 
+omit [Finite G] in
 theorem t200_inv_comm_u {p : ℕ}
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p)
     (v₀ : Torus (StrothTypeIndex.t200 m).k) (k : Bool) (x : Fin 3 → ℤ)
@@ -147,6 +151,7 @@ theorem t200_inv_comm_u {p : ℕ}
     obtain ⟨-, h1, -⟩ := hc
     simpa using h1
 
+omit [Finite G] in
 theorem t200_inv_comm_e {p : ℕ} (hm : 1 ≤ m)
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p)
     (v₀ : Torus (StrothTypeIndex.t200 m).k) (x : Fin 3 → ℤ)
@@ -195,6 +200,7 @@ namespace Stroth47Core
 
 variable {D : Subgroup G} {m : ℕ} (dD : StrothWeakTypeData D (.t200 m)) {e : G}
 
+omit [Finite G] in
 theorem t200_inv_h9 {p : ℕ} (hm : 2 ≤ m)
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p) :
     ∀ X : Subgroup G, X ≤ (D ⊔ Subgroup.closure {dD.uv, dD.t, dD.u} ⊔ Subgroup.zpowers e) ⊓
@@ -206,9 +212,9 @@ theorem t200_inv_h9 {p : ℕ} (hm : 2 ≤ m)
   have hDcard : Nat.card D = 2 ^ (m + (m + 2) + (m + 2)) := dD.card
   have hcomm : ∀ a ∈ X, ∀ b ∈ X, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hab.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
-  haveI : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
-  haveI : NeZero (2 ^ (m + 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m + 2)) := ⟨by positivity⟩
   have hnf : ∀ y ∈ X, ∃ (v : Torus (StrothTypeIndex.t200 m).k) (l k : Bool),
       y = dD.ofTorus v * dD.d8 false false l * bpow e k :=
     fun y hy => t200_inv_mem_CSc₁ dD hrel (by omega) (hX hy)
@@ -230,7 +236,7 @@ theorem t200_inv_h9 {p : ℕ} (hm : 2 ≤ m)
     · exact h.choose_spec.1
     · exact X.one_mem
   by_cases hD : ∀ x ∈ X, x ∈ D
-  · haveI : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
+  · have : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
     exact Subgroup.eq_of_le_of_card_ge hD hcard.ge
   exfalso
   push Not at hD
@@ -381,12 +387,14 @@ theorem t200_card_CSz_le (F : StrothFrame G) (hm : 1 ≤ m) {p : ℕ}
       ≤ Nat.card (↥D) * (2 * 2) := hle
     _ = 4 * Nat.card (↥D) := by ring
 
+omit [Finite G] in
 theorem t200_rho_c : dD.ρ⁻¹ * (dD.c : G) * dD.ρ = dD.c := by
   rw [dD.c_eq, dD.conj_ofTorus dD.ρ_mem dD.ρ_conj]
   congr 1
   rw [Stroth34T200.c_eq_ofInt, t200_φρ_vec]
   simp
 
+omit [Finite G] in
 theorem t200_rho_c₂ : dD.ρ⁻¹ * (dD.c : G) ^ 2 ^ (m - 2) * dD.ρ =
     (dD.c : G) ^ 2 ^ (m - 2) := by
   have hcomm : Commute dD.ρ (dD.c : G) := by
@@ -423,7 +431,7 @@ theorem t200_normalizer_conj_c₂ (F : StrothFrame G) (h : F.IsD D dD) (hm : 2 �
     n⁻¹ * (dD.c : G) ^ 2 ^ (m - 2) * n = (dD.c : G) ^ 2 ^ (m - 2) ∨
       n⁻¹ * (dD.c : G) ^ 2 ^ (m - 2) * n = ((dD.c : G) ^ 2 ^ (m - 2))⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hne
   rw [not_or] at hne
   obtain ⟨hne1, hne2⟩ := hne
@@ -521,8 +529,8 @@ theorem t200_normalizer_conj_c₂ (F : StrothFrame G) (h : F.IsD D dD) (hm : 2 �
     have q5 := hQe _ _ _ q2
     cases b₀ <;> cases b₁ <;> cases b₂ <;> cases d₀ <;> cases d₁ <;> cases d₂ <;>
       simp only [Bool.or_false, Bool.or_true, Bool.false_eq_true, Bool.xor_false,
-        Bool.xor_true, Bool.not_false, Bool.not_true, Bool.false_or] at hb hd q1 q2 q3 q4 q5 ⊢ <;>
-      first | assumption | exact absurd hb (by decide) | exact absurd hd (by decide)
+        Bool.xor_true, Bool.not_false, Bool.not_true] at hb hd q1 q2 q3 q4 q5 ⊢ <;>
+      first | assumption
   have hx₀O : n⁻¹ * c₂ * n ∈ O := ⟨n⁻¹, N.inv_mem hn, by group⟩
   have hx₀D : n⁻¹ * c₂ * n ∈ D :=
     (Subgroup.mem_normalizer_iff''.mp (Subgroup.mem_inf.1 hn).1 c₂).mp hc₂D

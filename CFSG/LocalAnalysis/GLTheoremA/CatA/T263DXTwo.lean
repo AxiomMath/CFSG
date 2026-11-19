@@ -20,13 +20,14 @@ open CFSG.LocalAnalysis.GLTheoremA
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 private theorem normalizer_le_normalizer_centralizer' (J : Subgroup Ω) :
     Subgroup.normalizer (J : Set Ω) ≤
       Subgroup.normalizer ((Subgroup.centralizer (J : Set Ω) : Subgroup Ω) : Set Ω) :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer (Subgroup.centralizer_le_normalizer _)).1
     (Subgroup.normal_subgroupOf_centralizer_normalizer _)
 
-theorem exists_two_of_act {X₀ J P B : Subgroup Ω} (hJX : J ≤ X₀) (hJ : IsQuasisimple ↥J)
+theorem exists_two_of_act {X₀ J P B : Subgroup Ω} (_hJX : J ≤ X₀) (_hJ : IsQuasisimple ↥J)
     (hP2 : IsPGroup 2 ↥P) (hPX : P ≤ X₀) (hinn : P ≤ J ⊔ (X₀ ⊓ Subgroup.centralizer (J : Set Ω)))
     (hact : ⁅P, J⁆ ≠ ⊥) (hBX : B ≤ Subgroup.normalizer (X₀ : Set Ω))
     (hBJ : B ≤ Subgroup.normalizer (J : Set Ω)) (hBP : B ≤ Subgroup.normalizer (P : Set Ω)) :
@@ -91,15 +92,15 @@ theorem exists_two_of_act {X₀ J P B : Subgroup Ω} (hJX : J ≤ X₀) (hJ : Is
     have : (⟨p, hPM hp⟩ : ↥(Subgroup.normalizer (M : Set Ω))) ^ 2 ^ n = 1 :=
       Subtype.ext (by simpa using hpn)
     rw [this, map_one]
-  haveI : Group.IsNilpotent ↥f.range := hpg.isNilpotent
-  haveI : Group.IsNilpotent ↥Y :=
+  have : Group.IsNilpotent ↥f.range := hpg.isNilpotent
+  have : Group.IsNilpotent ↥Y :=
     Subgroup.isNilpotent_of_ker_le_center f.rangeRestrict
       (by rw [MonoidHom.ker_rangeRestrict]; exact hcent)
   obtain ⟨Q⟩ : Nonempty (Sylow 2 ↥Y) := inferInstance
   have hQc : (Q : Subgroup ↥Y).Characteristic :=
     Sylow.characteristic_of_normal Q inferInstance
   refine ⟨(Q : Subgroup ↥Y).map Y.subtype, (Subgroup.map_subtype_le _).trans hYJ,
-    Q.isPGroup'.map Y.subtype, ?_, ?_⟩
+    Q.isPGroup.map Y.subtype, ?_, ?_⟩
   · rw [Subgroup.le_normalizer_iff]
     intro b hb t ht
     obtain ⟨q, hq, rfl⟩ := Subgroup.mem_map.mp ht

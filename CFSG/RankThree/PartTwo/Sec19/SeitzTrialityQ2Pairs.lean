@@ -25,7 +25,7 @@ theorem exp_eq_of_conj_eq {a b : ℕ} (ha : a < 3) (hb : b < 3) {x : lineGroup}
   have h3 : phiT * phiT * phiT = 1 := by
     have := phiT_pow_three
     simpa [pow_succ, mul_assoc] using this
-  interval_cases a <;> interval_cases b <;> first | rfl | skip
+  interval_cases a <;> interval_cases b <;> try rfl
   ·
     exfalso
     apply phiT_ne_conj x⁻¹

@@ -71,7 +71,7 @@ theorem pPrimeCore_of_unitary_four (hsymm : Hf.IsSymm) (hsep : Hf.SeparatingLeft
   have hkercard : Nat.card ↥(CFSG.LinearGroups.unitaryDet Hf).ker = 25920 := by
     rw [hker, ← hSUcard]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe (sesqSpecialUnitaryGroup_le Hf)).toEquiv
-  haveI : Finite ↥(CFSG.LinearGroups.unitaryDet Hf).ker :=
+  have : Finite ↥(CFSG.LinearGroups.unitaryDet Hf).ker :=
     Nat.finite_of_card_ne_zero (by rw [hkercard]; norm_num)
   have hLeq : L.map ι = (CFSG.LinearGroups.unitaryDet Hf).ker := by
     refine Subgroup.eq_of_le_of_card_ge hLker ?_
@@ -110,9 +110,9 @@ theorem pPrimeCore_of_unitary_four (hsymm : Hf.IsSymm) (hsep : Hf.SeparatingLeft
     have h3 := congrArg Subtype.val hly
     exact h3
   let e := MulEquiv.ofBijective φ ⟨hφinj, hφsurj⟩
-  haveI : Finite ↥(sesqSpecialUnitaryGroup Hf) :=
+  have : Finite ↥(sesqSpecialUnitaryGroup Hf) :=
     Nat.finite_of_card_ne_zero (by rw [hSUcard]; norm_num)
-  haveI := CFSG.LargeExtraspecial.S14.PSLPSU10.isSimpleGroup_sesqSpecialUnitaryGroup hE hsymm hsep
+  have := CFSG.LargeExtraspecial.S14.PSLPSU10.isSimpleGroup_sesqSpecialUnitaryGroup hE hsymm hsep
     hn (by norm_num) (by norm_num)
   have hker' : CFSG.pPrimeCore 3 ↥f.ker = ⊥ :=
     pPrimeCore_eq_bot_of_mulEquiv e (pPrimeCore_eq_bot_of_simple (by rw [hSUcard]; norm_num))
@@ -145,7 +145,7 @@ theorem isSimpleGroup_sp_three : IsSimpleGroup (StatedSp 3 (ZMod 2)) := by
 theorem not_comm_of_simple_of_card {T : Type*} [Group T] [IsSimpleGroup T]
     (h : ¬ (Nat.card T).Prime) : ¬ ∀ a b : T, a * b = b * a := by
   intro hcomm
-  letI : CommGroup T := { (inferInstance : Group T) with mul_comm := hcomm }
+  let : CommGroup T := { (inferInstance : Group T) with mul_comm := hcomm }
   exact h ((CommGroup.is_simple_iff_prime_card (α := T)).1 inferInstance)
 
 theorem pPrimeCore_centralizer_sp8 {s : StatedSp 4 (ZMod 2)} (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1)
@@ -168,8 +168,8 @@ theorem pPrimeCore_centralizer_sp8 {s : StatedSp 4 (ZMod 2)} (hs3 : s ^ 3 = 1) (
     subst hs₀
     obtain ⟨-, e₀⟩ := hc.fixed.resolve_left (by omega)
     obtain ⟨e₀⟩ := e₀
-    haveI := isSimpleGroup_sp_three
-    haveI : IsSimpleGroup ↥A₀ := e₀.isSimpleGroup
+    have := isSimpleGroup_sp_three
+    have : IsSimpleGroup ↥A₀ := e₀.isSimpleGroup
     have hcard₀ : Nat.card ↥A₀ = 1451520 := by
       rw [Nat.card_congr e₀.toEquiv]; exact card_sp_three
     have hcard₁ : Nat.card ↥A₁ = 3 := by rw [hA₁]; exact card_unitary_one hE hsymm hsep hdim

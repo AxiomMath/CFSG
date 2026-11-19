@@ -131,7 +131,7 @@ theorem normalClosure_le_thompsonCenter_of_class_two {group : Type*} [Group grou
   have : inside.Normal := inferInstance
   have inside_central := subgroupOf_commutator_central closure sylow closure_le central
   have inside_derived := internal_derived_le_of_ambient closure sylow closure_le _ derived_le
-  rcases CFSG.OrderReductions.GlaubermanReplacement.glauberman_replacement prime odd_prime sylow.isPGroup'
+  rcases CFSG.OrderReductions.GlaubermanReplacement.glauberman_replacement prime odd_prime sylow.isPGroup
       inside inside_central inside_derived with all_contain | witness
   · have inside_le : inside ≤ thompsonCenter (sylow : Subgroup group) := by
       rw [thompsonCenter_eq_intersection]

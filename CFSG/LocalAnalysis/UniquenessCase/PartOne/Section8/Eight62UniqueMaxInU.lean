@@ -11,13 +11,14 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem inU_of_uniqueMax {M E : Subgroup G} (hmax : rankThreeIsMaxTwoLocal M)
     (h : CFSG.LocalAnalysis.UniquenessCase.UC22.UniqueMax M E) :
     CFSG.LocalAnalysis.UniquenessCase.UC6.InU M E := by
   have hmem : M ∈ CFSG.LocalAnalysis.UniquenessCase.UC22.calMOf E := by
     have h1 : M ∈ ({M} : Set (Subgroup G)) := Set.mem_singleton M
     rwa [← h] at h1
-  have hEM : E ≤ M := (Set.mem_setOf.mp hmem).2
+  have hEM : E ≤ M := (Set.mem_ofPred.mp hmem).2
   refine ⟨hEM, ?_⟩
   intro g hEconj
   have hmaxg : rankThreeIsMaxTwoLocal (CFSG.Open.uniqueFourConj g M) :=

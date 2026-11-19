@@ -53,7 +53,7 @@ theorem i294Alt_false {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {X : Type} [Group
     (hn5 : 5 ≤ n) (e : L ≃* alternatingGroup (Fin n)) (hcen : centralizer (L : Set X) = ⊥)
     (h3 : 3 ≤ CFSG.Open.pRank p (⊤ : Subgroup X)) {x : X} (hxL : x ∈ L) (hxo : orderOf x = p)
     (hx2 : CFSG.Open.pRank p (centralizer ({x} : Set X)) ≤ 2) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   let ι : X →* MulAut L := MulAut.conjNormal
   have hι : Function.Injective ι := by
@@ -68,7 +68,7 @@ theorem i294Alt_false {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {X : Type} [Group
         _ = g * h := by group
     rw [hcen, Subgroup.mem_bot] at hgc
     exact hgc
-  haveI : Group.IsPerfect L := isPerfect_of_simple_nonabelian' hnab
+  have : Group.IsPerfect L := isPerfect_of_simple_nonabelian' hnab
   have hcenter : center L = ⊥ := center_eq_bot_of_simple_nonabelian hnab
   let e' : (L ⧸ center L) ≃* alternatingGroup (Fin n) :=
     (QuotientGroup.quotientMulEquivOfEq hcenter).trans (QuotientGroup.quotientBot.trans e)

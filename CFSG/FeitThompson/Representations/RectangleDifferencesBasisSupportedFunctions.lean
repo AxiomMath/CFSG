@@ -94,8 +94,8 @@ theorem cfInner_prodCharAlpha_prodChar (h : IsCyclicTIPair W W1 W2) [Fintype ↥
   rw [prodCharAlpha_eq, hone, h1, h2, cfInner_add_left, cfInner_sub_left, cfInner_sub_left,
     h.cfInner_prodChar_eq_ite_and, h.cfInner_prodChar_eq_ite_and,
     h.cfInner_prodChar_eq_ite_and, h.cfInner_prodChar_eq_ite_and,
-    if_neg (fun hc => hk hc.1.symm), if_neg (fun hc => hl hc.2.symm),
-    if_neg (fun hc => hk hc.1.symm)]
+    ite_eq_right (fun hc => hk hc.1.symm), ite_eq_right (fun hc => hl hc.2.symm),
+    ite_eq_right (fun hc => hk hc.1.symm)]
   ring
 
 theorem linearIndependent_prodCharAlpha (h : IsCyclicTIPair W W1 W2) :
@@ -117,7 +117,7 @@ theorem linearIndependent_prodCharAlpha (h : IsCyclicTIPair W W1 W2) :
     rw [cfInner_smul_left, hw, h.cfInner_prodCharAlpha_prodChar _ _ _ _ p.1.2 p.2.2]
     by_cases hqp : q = p
     · subst hqp; simp
-    · rw [if_neg, mul_zero, if_neg hqp]
+    · rw [ite_eq_right, mul_zero, ite_eq_right hqp]
       intro hc
       exact hqp (Prod.ext (Subtype.ext hc.1) (Subtype.ext hc.2))
   rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq' s p g] at h0

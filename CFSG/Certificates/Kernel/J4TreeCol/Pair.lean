@@ -156,14 +156,14 @@ theorem pairRunP_succ (G : Mats) (P qp n c i j t : Nat) :
   · have hb : Nat.blt (Nat.succ j) n = true := by
       rw [Nat.blt_eq]
       exact h
-    rw [hb, if_pos h]
+    rw [hb, ite_eq_left h]
     cases Nat.beq (fld qp 7 t + gRank G (pairP G P i j)) 112 <;> rfl
   · have hb : Nat.blt (Nat.succ j) n = false := by
       cases hb' : Nat.blt (Nat.succ j) n
       · rfl
       · rw [Nat.blt_eq] at hb'
         exact absurd hb' h
-    rw [hb, if_neg h]
+    rw [hb, ite_eq_right h]
     cases Nat.beq (fld qp 7 t + gRank G (pairP G P i j)) 112 <;> rfl
 
 theorem pairRunP_spec (G : Mats) (P qp n : Nat) : ∀ (c i j t : Nat),
@@ -178,12 +178,12 @@ theorem pairRunP_spec (G : Mats) (P qp n : Nat) : ∀ (c i j t : Nat),
     obtain ⟨hq, hr⟩ := h
     rcases Nat.lt_or_ge t (pIdx n a b) with hlt | hge
     · by_cases hjn' : j + 1 < n
-      · rw [if_pos hjn'] at hr
+      · rw [ite_eq_left hjn'] at hr
         refine pairRunP_spec G P qp n c i (j + 1) (t + 1) hr (by omega) (fun _ => hjn') ?_
           (by omega) a b hab hb (by omega) (by omega)
         rw [pIdx_eq] at hp ⊢
         omega
-      · rw [if_neg hjn'] at hr
+      · rw [ite_eq_right hjn'] at hr
         have hd := pIdx_diag_succ (by omega : i < n)
         have hp' := hp
         rw [pIdx_eq n i j] at hp'
@@ -250,10 +250,10 @@ theorem covOK_spec {R : Nat → CRec} {it : Nat → List Nat} {np nn : Nat}
   obtain ⟨x, hx, hfx⟩ := List.mem_filterMap.1 hq
   obtain ⟨p, hp, rfl⟩ := List.mem_map.1 hx
   by_cases hxj : (it p).getD 0 0 = j
-  · rw [if_pos hxj] at hfx
+  · rw [ite_eq_left hxj] at hfx
     obtain rfl := Option.some.inj hfx
     exact ⟨p, List.mem_range.1 hp, hxj, hq1, hq2⟩
-  · rw [if_neg hxj] at hfx
+  · rw [ite_eq_right hxj] at hfx
     cases hfx
 
 theorem pairs_sound {G : Mats} {R : Nat → CRec} {it : Nat → List Nat} {np nn : Nat}

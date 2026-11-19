@@ -43,9 +43,9 @@ theorem ggL45NtRecOn_e6 :
   have hp3 : p ≠ 3 := hfam.1
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, hField, hFinite, hK, hQ'⟩ := hQ
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 := charP_two_of_card hK
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 := charP_two_of_card hK
   refine ⟨K, hField, hFinite, hK, hQ', fun _ _ => ⟨?_, ?_, ?_⟩⟩
   · intro r
     exact Subgroup.subset_closure (Or.inl ⟨r, rfl⟩)
@@ -63,9 +63,9 @@ theorem ggL45NtRecOn_E6_odd :
   subst hE6
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
   obtain ⟨K, hf, hfin, hK, hQ⟩ := hQ
-  letI : Field K := hf
-  letI : Finite K := hfin
-  haveI : CharP K 2 := charP_two_of_card hK
+  let : Field K := hf
+  let : Finite K := hfin
+  have : CharP K 2 := charP_two_of_card hK
   have hmod : 2 ^ n % 3 = 2 := by
     obtain ⟨k, rfl⟩ := hodd
     rw [pow_succ, pow_mul, Nat.mul_mod, Nat.pow_mod]

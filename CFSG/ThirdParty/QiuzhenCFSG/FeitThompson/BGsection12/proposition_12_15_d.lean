@@ -247,7 +247,7 @@ private theorem CFSG.section12_sylow_inf_derived_eq_bot_of_not_mem_derived
   let CD : Subgroup (derivedSubgroup H) := C.subgroupOf (derivedSubgroup H)
   let CS : Subgroup (S : Subgroup H) := C.subgroupOf (S : Subgroup H)
   have hCSp : IsPGroup p.val CS :=
-    S.isPGroup'.to_subgroup CS
+    S.isPGroup.to_subgroup CS
   have hCp : IsPGroup p.val C :=
     hCSp.of_equiv
       (Subgroup.subgroupOfEquivOfLe (H := C) (K := (S : Subgroup H)) hC_le_S)
@@ -327,7 +327,7 @@ public theorem CFSG.section12_sylow_map_subtype_of_sup_hall
   let SG : Subgroup H := (S : Subgroup U).map U.subtype
   have hSGp : IsPGroup p.val SG := by
     simpa [SG] using
-      IsPGroup.map (p := p.val) (H := (S : Subgroup U)) S.isPGroup' U.subtype
+      IsPGroup.map (p := p.val) (H := (S : Subgroup U)) S.isPGroup U.subtype
   have hU_not_index : ¬ p.val ∣ U.index :=
     section12_prime_not_dvd_index_of_sup_hall hKHall hpπ hKU
   have hSG_not_index : ¬ p.val ∣ SG.index := by
@@ -475,7 +475,7 @@ private theorem CFSG.section12_tau1_transfer_of_malpha_products
         (Nat.card (section10MalphaSubgroup M)) :=
     section8_coprime_card_of_isPGroup_of_isPiSubgroup_compl
       (G := M) (π := ({r} : Set Nat.Primes)) (r := r)
-      (by simp) SM.isPGroup' hKpiM
+      (by simp) SM.isPGroup hKpiM
   have : Group.IsSolvable M :=
     IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.2 hM.1)
   have hSM_infM_eq :

@@ -35,7 +35,7 @@ theorem exists_conj_sl3four (J₀ : Subgroup (Matrix.SpecialLinearGroup (Fin 6) 
     ∃ c : Matrix.SpecialLinearGroup (Fin 6) F2,
       J₀.map (MulAut.conj c).toMonoidHom = sl3four := by
   classical
-  haveI : Finite ↥J₀ := inferInstance
+  have : Finite ↥J₀ := inferInstance
   have hdim : Module.finrank (ZMod 2) (Fin 6 → F2) = 6 := by
     rw [Module.finrank_pi_fintype]
     simp [GaloisField.finrank (p := 2) (n := 1) (by norm_num)]

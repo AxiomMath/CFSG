@@ -30,7 +30,7 @@ theorem glMap_pow_succ (σ : F ≃+* F) (k : ℕ) (x : GL ι F) :
 theorem glMap_one (x : GL ι F) : glMap (1 : F ≃+* F) x = x := by
   apply Units.ext
   ext i j
-  simp [coe_glMap]
+  simp
 
 theorem glMap_pow_zero (σ : F ≃+* F) (x : GL ι F) : glMap (σ ^ 0) x = x := by
   rw [pow_zero, glMap_one]
@@ -211,7 +211,7 @@ theorem glMap_mem_center (σ : F ≃+* F) {x : GL ι F} (hx : x ∈ Subgroup.cen
   have hw : glMap σ (glMap σ.symm w) = w := by
     apply Units.ext
     ext i j
-    simp [coe_glMap]
+    simp
   rw [← hw, ← map_mul, ← map_mul, hx]
 
 theorem slTwist_scalars_mem (σ : F ≃+* F) (g : GL ι F) {x : slGL ι F} (hx : x ∈ slScalars ι F) :

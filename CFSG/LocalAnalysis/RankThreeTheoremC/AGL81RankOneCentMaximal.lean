@@ -37,7 +37,7 @@ theorem normalizer_ne_top_of_simple {K : Type*} [Group K] [Finite K] [IsSimpleGr
     (hS : Nat.card (S : Subgroup K) = p ^ k) :
     normalizer ((S : Subgroup K) : Set K) ≠ ⊤ := by
   intro h
-  haveI : (S : Subgroup K).Normal := normalizer_eq_top_iff.mp h
+  have : (S : Subgroup K).Normal := normalizer_eq_top_iff.mp h
   have hp : p.Prime := Fact.out
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (S : Subgroup K) with h0 | h1
   · rw [h0, Subgroup.card_bot] at hS
@@ -45,7 +45,7 @@ theorem normalizer_ne_top_of_simple {K : Type*} [Group K] [Finite K] [IsSimpleGr
     omega
   · have hsurj : Function.Surjective (S : Subgroup K).subtype := fun x =>
       ⟨⟨x, by rw [h1]; trivial⟩, rfl⟩
-    have hpg : IsPGroup p K := S.isPGroup'.of_surjective _ hsurj
+    have hpg : IsPGroup p K := S.isPGroup.of_surjective _ hsurj
     have h2 : Nat.card K = p := hpg.isSimpleGroup_iff_card_eq.1 inferInstance
     rw [h1, Subgroup.card_top] at hS
     have := Nat.pow_lt_pow_right hp.one_lt (by omega : 1 < k)
@@ -59,7 +59,7 @@ theorem center_eq_bot_of_simple {K : Type*} [Group K] [Finite K] [IsSimpleGroup 
   · refine absurd ?_ h
     have hcomm : ∀ a b : K, a * b = b * a := fun a b =>
       (mem_center_iff.1 (h1 ▸ mem_top a) b).symm
-    letI : CommGroup K := { ‹Group K› with mul_comm := hcomm }
+    let : CommGroup K := { ‹Group K› with mul_comm := hcomm }
     exact IsSimpleGroup.prime_card (α := K)
 
 theorem isCoatom_of_forall_le {K : Type*} [Group K] {N : Subgroup K} (hne : N ≠ ⊤)
@@ -75,7 +75,7 @@ open CFSG.AGLEmbedding
 
 theorem isCoatom_a6 {K : Type} [Group K] [Finite K] (e : K ≃* alternatingGroup (Fin 6))
     (S : Sylow 3 K) : IsCoatom (normalizer ((S : Subgroup K) : Set K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hF : Nat.card (GaloisField 3 2) = 9 := by
     rw [GaloisField.card 3 2 (by norm_num)]
     norm_num
@@ -87,7 +87,7 @@ theorem isCoatom_a6 {K : Type} [Group K] [Finite K] (e : K ≃* alternatingGroup
 private theorem isCoatom_l225 {K : Type} [Group K] [Finite K] {d : TauCeti.ValidLieTypeIndex}
     (hd : IsLinTwoIndex 5 2 d) (e : K ≃* (TauCeti.CFSGIndex.lie d).Group) (S : Sylow 5 K) :
     IsCoatom (normalizer ((S : Subgroup K) : Set K)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨φ⟩ := nonempty_mulEquiv_psl2GF_of_isLinTwoIndex hd
   exact isCoatom_of_mulEquiv (e.trans φ)
     (fun S' => psl2GF_borelCoatom 5 2 (by norm_num) (by norm_num) S') S
@@ -139,12 +139,12 @@ private theorem isCoatom_tits {K : Type} [Group K] [Finite K]
     (hK : ∃ hv : TauCeti.LieTypeIndex.tits.Valid,
       Nonempty (K ≃* (TauCeti.CFSGIndex.lie ⟨.tits, hv⟩).Group)) (S : Sylow 5 K) :
     IsCoatom (normalizer ((S : Subgroup K) : Set K)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨hv, ⟨e⟩⟩ := hK
   obtain ⟨eD⟩ := CFSG.AGLEmbedding.KFactProofs.SmallIdent.nonempty_equiv_tits (K := K)
     ⟨⟨.tits, hv⟩, rfl, ⟨e⟩⟩
-  haveI : IsSimpleGroup K := by
-    haveI := titsD_simple
+  have : IsSimpleGroup K := by
+    have := titsD_simple
     exact eD.isSimpleGroup
   have hcard : Nat.card K = 17971200 := by rw [Nat.card_congr eD.toEquiv, card_titsD]
   have hKc : centralizer (((⊤ : Subgroup K) : Subgroup K) : Set K) = ⊥ := by
@@ -163,11 +163,11 @@ open CFSG.AGLEmbeddingD2
 private theorem isCoatom_mcl {K : Type} [Group K] [Finite K]
     (hK : Nonempty (K ≃* (TauCeti.CFSGIndex.sporadic .McL).Group)) (S : Sylow 5 K) :
     IsCoatom (normalizer ((S : Subgroup K) : Set K)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨e⟩ := hK
   obtain ⟨eC⟩ := CFSG.Sporadic.Bridge.McL.nonempty_mulEquiv
   have e' : K ≃* CFSG.Blueprint.NativeSporadic.McL := e.trans eC.symm
-  haveI : IsSimpleGroup K :=
+  have : IsSimpleGroup K :=
     @MulEquiv.isSimpleGroup K _ CFSG.Blueprint.NativeSporadic.McL _
       CFSG.Sporadic.McL.isSimpleGroup_McL e'
   have hcard : Nat.card K = 898128000 := by
@@ -187,11 +187,11 @@ open CFSG.AGLEmbeddingD2
 private theorem isCoatom_m11 {K : Type} [Group K] [Finite K]
     (hL : Nonempty (K ≃* (TauCeti.CFSGIndex.sporadic .M11).Group)) (S : Sylow 3 K) :
     IsCoatom (normalizer ((S : Subgroup K) : Set K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hL
   obtain ⟨eC⟩ := CFSG.Sporadic.Bridge.M11.nonempty_mulEquiv
   have e' : K ≃* CFSG.Blueprint.NativeSporadic.M11 := e.trans eC.symm
-  haveI : IsSimpleGroup K :=
+  have : IsSimpleGroup K :=
     @MulEquiv.isSimpleGroup K _ CFSG.Blueprint.NativeSporadic.M11 _
       CFSG.Sporadic.Mathieu.fam_m11_simplicity.2.2 e'
   obtain ⟨R₀, hR₀⟩ := m11_three_localData
@@ -208,16 +208,16 @@ section L34
 
 private theorem isCoatom_l34 {K : Type} [Group K] [Finite K] (hL : IsRankThreeL34 K)
     (T : Sylow 3 K) : IsCoatom (normalizer ((T : Subgroup K) : Set K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hcard, -, hmax, -⟩ := kFactL34Three K hL T
   obtain ⟨q, -, -, hv, ⟨e⟩⟩ := hL
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have e' := e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 q hv)
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin (2 + 1))
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin (2 + 1))
       (GaloisField q.p q.exponent)) :=
     (CFSG.LinearGroups.linear_projective_simple (K := GaloisField q.p q.exponent) (n := 3)
       (by norm_num) (Or.inl le_rfl)).2.1
-  haveI : IsSimpleGroup K := e'.isSimpleGroup
+  have : IsSimpleGroup K := e'.isSimpleGroup
   exact isCoatom_of_forall_le (normalizer_ne_top_of_simple (by norm_num) T hcard) hmax
 
 end L34
@@ -226,7 +226,7 @@ end CFSG.LocalAnalysis.RankThreeTheoremC.RankOneCent.Maximal
 
 namespace CFSG.LocalAnalysis.RankThreeTheoremC.RankOneCent
 
-open Maximal
+open _root_.CFSG.LocalAnalysis.RankThreeTheoremC.RankOneCent.Maximal
 
 theorem kFactStepThreeMaximal_holds :
     KFactStepThreeMaximal := by
@@ -243,7 +243,7 @@ theorem kFactStepThreeMaximal_holds :
     rcases hi with ⟨rfl, hi⟩ | ⟨rfl, hi⟩
     · rcases hi with ⟨q, hqp, hqe, hd⟩ | ⟨q, hqp, hqe, hd⟩ | ⟨q, hqp, hqe, hd⟩
       · obtain rfl : d = .twistedA 2 q := hd
-        haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+        have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
         exact isCoatom_unitary ⟨q, hqp, rfl⟩ e S
       · exact isCoatom_l28 ⟨⟨d, hdv⟩, Or.inl ⟨rfl, q, hqp, hqe, hd⟩, ⟨e⟩⟩ S
       · obtain rfl : d = .A 2 q := hd
@@ -252,7 +252,7 @@ theorem kFactStepThreeMaximal_holds :
       · obtain rfl : d = .A 1 q := hd
         exact isCoatom_l225 ⟨q, rfl, hqp, hqe⟩ e S
       · obtain rfl : d = .twistedA 2 q := hd
-        haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+        have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
         exact isCoatom_unitary ⟨q, hqp, rfl⟩ e S
       · obtain rfl : d = .suzuki 2 := hd
         exact isCoatom_sz32 ⟨rfl, hdv, ⟨e⟩⟩ S

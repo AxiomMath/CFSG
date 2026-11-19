@@ -195,7 +195,7 @@ private theorem actsByMats_ne22 (τ : S24) (hτ : τ ∈ M24g) (hτO : τ • oc
       hvme (actM (koMats11.getD t []) m), actM_koMats11 t m ht16]
 
 private theorem actsByMats_eq22 (τ : S24) (hτ : τ ∈ M24g) (hτO : τ • octad0 = O)
-    (hΓ : Γ ≤ M2ab a b) (hfix : octFix O ≤ Γ)
+    (_hΓ : Γ ≤ M2ab a b) (hfix : octFix O ≤ Γ)
     (hmem : ∀ γ : ↥Γ, τ⁻¹ * (γ : S24) * τ ∈ mog22plus)
     (e : V ≃* W10)
     (he : ∀ (γ : ↥Γ) (v : V),
@@ -296,13 +296,13 @@ theorem exists_kFrame (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) :
       have hmem := conj_mem_mog22plus hM.cfg.ne hτ h0 h1 h2
       have hreal : IsMathModule false 22 a b Γ ρ := by rw [← hd]; exact ⟨β, hM.real⟩
       obtain ⟨e, he0⟩ := CFSG.Quasithin.AppendixH.H14.exists_equiv_cocode22 hM.cfg.ne hτ h0 h1 h2 hreal
-      exact ⟨D10, MaskCoords.ofEquiv e, D10_good, by rw [if_pos hd]; rfl, by rw [if_pos hd]; rfl,
+      exact ⟨D10, MaskCoords.ofEquiv e, D10_good, by rw [ite_eq_left hd]; rfl, by rw [ite_eq_left hd]; rfl,
         actsByMats_eq22 τ hτ hτO h2 (mctx_octFix_le hM) hmem e
           (fun x v => he0 x v (hmem x))⟩
   · have hΓ : Γ ≤ AutPerm := mctx_le_M24 hM
     obtain ⟨e, he⟩ := CFSG.Quasithin.AppendixH.H14.exists_equiv_cocode hd hΓ ⟨β, hM.real⟩
     obtain ⟨τ, hτ, hτO⟩ := exists_smul_octad_eq isOctad_octad0 hM.cfg.octad
-    exact ⟨D11, _, D11_good, by rw [if_neg hd]; rfl, by rw [if_neg hd]; rfl,
+    exact ⟨D11, _, D11_good, by rw [ite_eq_right hd]; rfl, by rw [ite_eq_right hd]; rfl,
       actsByMats_ne22 τ hτ hτO hΓ (mctx_octFix_le hM) e he⟩
 
 end CFSG.ASVolI.AppH

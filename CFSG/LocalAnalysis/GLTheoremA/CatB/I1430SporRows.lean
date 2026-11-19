@@ -31,9 +31,9 @@ theorem a6Row_of_elem
     (h : ∀ (S : Type) [Group S] [Finite S], Nonempty (S ≃* (TauCeti.CFSGIndex.sporadic s).Group) →
       ∀ x : S, orderOf x = 3 → A6Free x) : A6Row s := by
   intro S _ _ ⟨e⟩ β hβ hβ1 J hJ hT hZ
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.sporadic s).Group :=
+  have : IsSimpleGroup (TauCeti.CFSGIndex.sporadic s).Group :=
     CFSG.LocalAnalysis.GLTheoremA.S8.CfgI.sporadic_isSimple_of_ne_M s hsM
-  haveI : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr e).2 inferInstance
+  have : IsSimpleGroup S := (MulEquiv.isSimpleGroup_congr e).2 inferInstance
   have hcS : Nat.card S = sporOrd s := (Nat.card_congr e.toEquiv).trans (hOrd s)
   have hncS : ∃ a c : S, a * c ≠ c * a := by
     refine CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple ?_
@@ -63,11 +63,9 @@ theorem a6Row_of_elem
     · intro h
       first
         | exact h.eq
-        | exact h.eq.symm
     · intro h
       first
         | exact h
-        | exact h.symm
   rw [heq] at hJ
   exact h S ⟨e⟩ x hxo J hJ (ClsRed.card_a6 hB hT) hZ
 
@@ -159,7 +157,7 @@ theorem a6Row_M24
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo) : A6Row .M24 := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.M24.nonempty_mulEquiv
   refine a6Row_of_elem hB hOrd hOut (by decide) fun S _ _ ⟨e⟩ x hx => ?_
-  haveI : Finite CFSG.Blueprint.NativeSporadic.M24 := Finite.of_equiv _ (e.trans b.symm).toEquiv
+  have : Finite CFSG.Blueprint.NativeSporadic.M24 := Finite.of_equiv _ (e.trans b.symm).toEquiv
   let φ : S ≃* CFSG.Blueprint.NativeSporadic.M24 := e.trans b.symm
   refine a6Free_of_mulEquiv_apply φ (a6Free_of_threeCases (by rwa [MulEquiv.orderOf_eq]) ?_)
   exact CFSG.RankThree.PartTwo.Sec12.Hering129SP.threeCases_M24 (φ x) (by rwa [MulEquiv.orderOf_eq])
@@ -192,7 +190,7 @@ theorem a6Row_M12
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo) : A6Row .M12 := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.M12.nonempty_mulEquiv
   refine a6Row_of_elem hB hOrd hOut (by decide) fun S _ _ ⟨e⟩ x hx => ?_
-  haveI : Finite ↥CFSG.Blueprint.NativeSporadic.M12 := Finite.of_equiv _ (e.trans b.symm).toEquiv
+  have : Finite ↥CFSG.Blueprint.NativeSporadic.M12 := Finite.of_equiv _ (e.trans b.symm).toEquiv
   let φ : S ≃* ↥CFSG.Blueprint.NativeSporadic.M12 := e.trans b.symm
   have hx' : orderOf (φ x) = 3 := by rwa [MulEquiv.orderOf_eq]
   refine a6Free_of_mulEquiv_apply φ (a6Free_of_not_dvd hx' fun hd => ?_)
@@ -245,8 +243,8 @@ theorem a6Row_Ru
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo)
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) : A6Row .Ru := by
   have e : CFSG.Blueprint.NativeSporadic.Ru ≃* ↥ruP := CFSG.Sporadic.RuSchreier.ruEquivP
-  haveI hfin : Finite ↥ruP := Finite.of_equiv _ e.toEquiv
-  haveI hs : IsSimpleGroup ↥ruP :=
+  have hfin : Finite ↥ruP := Finite.of_equiv _ e.toEquiv
+  have hs : IsSimpleGroup ↥ruP :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Ru.isSimpleGroup_Ru e.symm
   have hc : Nat.card ↥ruP = 145926144000 :=
     (Nat.card_congr e.toEquiv).symm.trans CFSG.Sporadic.Ru.card_Ru
@@ -276,7 +274,7 @@ theorem exists_sylow_of_factorization
       (Nat.card (Subgroup.centralizer ({x} : Set G))).factorization 3) :
     ∃ P' : Sylow 3 G, x ∈ (P' : Subgroup G) ∧
       (P' : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := Subgroup.centralizer ({x} : Set G) with hC
   obtain ⟨P0⟩ := (inferInstance : Nonempty (Sylow 3 ↥C))
   set H := (P0 : Subgroup ↥C).map C.subtype with hH
@@ -286,14 +284,13 @@ theorem exists_sylow_of_factorization
   show x ∈ H
   have hxC : x ∈ C := Subgroup.mem_centralizer_singleton_iff.2 rfl
   set x' : ↥C := ⟨x, hxC⟩
-  haveI hN : (Subgroup.zpowers x').Normal := by
+  have hN : (Subgroup.zpowers x').Normal := by
     refine ⟨fun n hn g => ?_⟩
     have hcomm : g * x' = x' * g := by
       apply Subtype.ext
       have := Subgroup.mem_centralizer_singleton_iff.1 g.2
       simp only [Subgroup.coe_mul, x']
       first
-        | exact this.symm
         | exact this
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hn
     have : g * x' ^ k * g⁻¹ = x' ^ k := by
@@ -312,8 +309,8 @@ theorem isQuasisimple_of_tripleCover
     CFSG.IsQuasisimple X := by
   obtain ⟨-, ⟨φ⟩⟩ := h
   have h6 : 5 ≤ Nat.card (Fin 6) := by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; norm_num
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup h6
-  haveI hs : IsSimpleGroup (X ⧸ Subgroup.center X) := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup h6
+  have hs : IsSimpleGroup (X ⧸ Subgroup.center X) := (MulEquiv.isSimpleGroup_congr φ).2 inferInstance
   have hc : Nat.card (X ⧸ Subgroup.center X) = 360 := by
     rw [Nat.card_congr φ.toEquiv, nat_card_alternatingGroup, Nat.card_fin]; decide
   refine ⟨hperf, hs, ?_⟩
@@ -334,7 +331,7 @@ theorem a6Row_J2 (hB : LieOrderBridge)
     CFSG.Monster.B.Co2.permOfArr j2S3Data.n j2S3Data.B} :
     Set (Equiv.Perm (Fin j2S3Data.n))) with hPdef
   have b : ↥P ≃* (TauCeti.CFSGIndex.sporadic .J2).Group := e.symm.trans (hbr .J2).some
-  haveI hs : IsSimpleGroup ↥P := @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.J2.isSimpleGroup_J2 e.symm
+  have hs : IsSimpleGroup ↥P := @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.J2.isSimpleGroup_J2 e.symm
   have hord : j2S3Data.ord = 604800 := rfl
   have hnc : ∃ a c : ↥P, a * c ≠ c * a :=
     CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hcardP, hord]; norm_num)

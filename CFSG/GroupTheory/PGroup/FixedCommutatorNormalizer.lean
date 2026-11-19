@@ -45,7 +45,7 @@ theorem false_of_lt_of_commutator_mem_of_centralizer_le [Finite G] {D E Q Z Y : 
     (hYQ : ∀ l ∈ Y, ∀ x ∈ Q, l * x * l⁻¹ = x)
     (hCE : ∀ e ∈ E, (∀ l ∈ Y, l * e * l⁻¹ = e) → e ∈ Q)
     (hN : D ⊓ normalizer (Q : Set G) ≤ E) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨d, hd, hdnotE⟩ := IsConcreteLE.exists_of_lt (lt_inf_normalizer_of_isPGroup hD hED)
   refine hdnotE (hN (mem_inf.mpr ⟨hd.1, ?_⟩))
   exact mem_normalizer_of_commutator_mem_of_centralizer_le hE hQE hZE hDY hYQ hCE hd.1 hd.2

@@ -14,14 +14,14 @@ open scoped Matrix
 
 private theorem ggTBJE8Levi_exists_section {G : Type} [Group G] {p : ℕ} [Fact p.Prime]
     {Bs : Subgroup G} {V : Type} [AddCommGroup V] [Module (ZMod p) V]
-    (ι : Additive ↥Bs ≃+ V) {h : Fin 8 → V} {α : Fin 8 → Module.Dual (ZMod p) V}
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p)) :
+    (_ι : Additive ↥Bs ≃+ V) {h : Fin 8 → V} {α : Fin 8 → Module.Dual (ZMod p) V}
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p)) :
     ∃ σ : (Fin 8 → ZMod p) →ₗ[ZMod p] V,
       ∀ t, LinearMap.pi α (σ t) = t := by
   classical
   let M : Matrix (Fin 8) (Fin 8) (ZMod p) := Matrix.of fun i j => α i (h j)
   have hMdet : M.det = 1 := by
-    have hmat : M = (CartanMatrix.E₈).map (Int.cast : ℤ → ZMod p) := by
+    have hmat : M = ((CartanMatrix.E 8)).map (Int.cast : ℤ → ZMod p) := by
       ext i j
       exact hpair i j
     rw [hmat, ← Int.cast_det, CartanMatrix.E₈_det, Int.cast_one]
@@ -60,7 +60,7 @@ private theorem ggTBJE8Levi_exists_section {G : Type} [Group G] {p : ℕ} [Fact 
 private theorem ggTBJE8Levi_finrank_rootAnn {G : Type} [Group G] [Finite G] {p : ℕ}
     [Fact p.Prime] {Bs : Subgroup G} {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     (ι : Additive ↥Bs ≃+ V) {h : Fin 8 → V} {α : Fin 8 → Module.Dual (ZMod p) V}
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p))
     (hX : ∃ b : ↥Bs, b ≠ 1 ∧ ∀ j, α j (ι (Additive.ofMul b)) = 0)
     (Ψ : Set (Fin Tag.E8.rank → ℤ))
     (hcount : Nat.card {b : ↥Bs // ∀ c ∈ Ψ,
@@ -131,7 +131,7 @@ private theorem ggTBJE8Levi_finrank_rootAnn {G : Type} [Group G] [Finite G] {p :
       _ = Nat.card ((ZMod p) × ggRootAnn p Ψ) := (Nat.card_prod _ _).symm
       _ ≤ Nat.card B := Nat.card_le_card_of_injective φ hφinj
       _ ≤ p ^ 3 := hBcard
-  haveI : Module.Finite (ZMod p) (ggRootAnn p Ψ) := Module.Finite.of_finite
+  have : Module.Finite (ZMod p) (ggRootAnn p Ψ) := Module.Finite.of_finite
   have hpow : Nat.card (ggRootAnn p Ψ) =
       p ^ Module.finrank (ZMod p) (ggRootAnn p Ψ) := by
     simpa [Nat.card_zmod] using
@@ -155,7 +155,7 @@ theorem ggTBJE8Levi_of_class
     {φ : Fin 8 → MulAut ↥Bs} {h : Fin 8 → V} {α : Fin 8 → Module.Dual (ZMod p) V}
     (hlin : ∀ i w, ggLin (p := p) ι (φ i) w = w - α i w • h i)
     (hrefl : ∀ i, GGIsReflection p (φ i))
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p))
     {f : CoxeterMatrix.E₈.Group ≃* ↥(ggAutomizer X Bs)}
     (hf : ∀ i, (f (CoxeterMatrix.E₈.simple i) : MulAut ↥Bs) = φ i)
     (hclos : ggAutomizer X Bs = Subgroup.closure (Set.range φ))
@@ -213,7 +213,7 @@ theorem ggTBJE8Levi_of_class
         Subgroup.closure {s : WeylGroup .E8 | ∃ γ ∈ Ψ, s = rootReflection γ} := by
       congr 1
       ext s
-      simp only [Set.mem_image, Set.mem_setOf_eq]
+      simp only [Set.mem_image, Set.mem_ofPred_eq]
       exact ⟨fun ⟨γ, hγ, e⟩ => ⟨γ, hγ, e.symm⟩, fun ⟨γ, hγ, e⟩ => ⟨γ, hγ, e.symm⟩⟩
     have hJrefl : ggAutomizer J Bs = Subgroup.closure
         ((fun c => ((F (rootReflection c) : ↥(ggAutomizer X Bs)) : MulAut ↥Bs)) '' Ψ) := by
@@ -251,7 +251,7 @@ theorem ggTBJE8Levi_of_class
           (fun j : {j : Fin 8 // j ∉ S} =>
             (f u : MulAut ↥Bs) * φ j.1 * (f u : MulAut ↥Bs)⁻¹) := funext hgen
       rw [hfunext]
-    exact ggE8LeviDatum_of_conj (p := p) (M := CoxeterMatrix.E₈) (C := CartanMatrix.E₈)
+    exact ggE8LeviDatum_of_conj (p := p) (M := CoxeterMatrix.E₈) (C := (CartanMatrix.E 8))
       hp2 rfl ggIntCartan_E₈ hlin hrefl hpair hf hclos u hS hJ'
   · exfalso
     exact hA8 hp3 v hΨclass

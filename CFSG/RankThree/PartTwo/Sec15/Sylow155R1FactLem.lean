@@ -13,13 +13,13 @@ namespace CFSG.RankThree.PartTwo.Sec15.Sylow155R1
 private theorem exists_pow_three_mem_center_of_normal {P : Type*} [Group P] [Finite P]
     (hP : IsPGroup 3 P) {V : Subgroup P} [V.Normal] (hV : V ≠ ⊥) :
     ∃ w ∈ V, w ≠ 1 ∧ w ^ 3 = 1 ∧ w ∈ Subgroup.center P := by
-  haveI : Group.IsNilpotent P := hP.isNilpotent
+  have : Group.IsNilpotent P := hP.isNilpotent
   have h1 : V ⊓ Subgroup.center P ≠ ⊥ := Group.IsNilpotent.inf_center_ne_bot_of_normal hV
-  haveI : Nontrivial ↥(V ⊓ Subgroup.center P) := (Subgroup.nontrivial_iff_ne_bot _).mpr h1
+  have : Nontrivial ↥(V ⊓ Subgroup.center P) := (Subgroup.nontrivial_iff_ne_bot _).mpr h1
   obtain ⟨n, hn, hcard⟩ :=
     (hP.to_subgroup (V ⊓ Subgroup.center P)).nontrivial_iff_card.mp inferInstance
   have h3 : 3 ∣ Nat.card ↥(V ⊓ Subgroup.center P) := hcard ▸ dvd_pow_self 3 hn.ne'
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 h3
   refine ⟨(x : P), x.2.1, ?_, ?_, x.2.2⟩
   · intro h
@@ -34,7 +34,7 @@ theorem exists_isCyclic_sylow {Q : Type*} [Group Q] [Finite Q] {Y At : Subgroup 
     (hAt : IsPGroup 3 At) {x : Q} (hxA : x ∈ At) (hxY : x ∈ Y) (hx1 : x ≠ 1) (hx3 : x ^ 3 = 1)
     (hR1 : ∀ y ∈ Y, y * x = x * y → y ^ 3 = 1 → y ∈ Subgroup.zpowers x) :
     ∃ P : Sylow 3 Y, IsCyclic (P : Subgroup Y) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hAS⟩ := hAt.exists_le_sylow
   obtain ⟨P, hP⟩ := CFSG.HardMathSupport.Foote.E27.exists_sylow_subgroupOf_eq Y S
   have hxS : x ∈ (S : Subgroup Q) := hAS hxA
@@ -42,8 +42,8 @@ theorem exists_isCyclic_sylow {Q : Type*} [Group Q] [Finite Q] {Y At : Subgroup 
     rw [Subgroup.ne_bot_iff_exists_ne_one]
     exact ⟨⟨⟨x, hxS⟩, hxY⟩, fun h => hx1 (congrArg
       (fun z : ↥(Y.subgroupOf (S : Subgroup Q)) => ((z : ↥S) : Q)) h)⟩
-  haveI : (Y.subgroupOf (S : Subgroup Q)).Normal := inferInstance
-  obtain ⟨w, hwV, hw1, hw3, hwc⟩ := exists_pow_three_mem_center_of_normal S.isPGroup' hV
+  have : (Y.subgroupOf (S : Subgroup Q)).Normal := inferInstance
+  obtain ⟨w, hwV, hw1, hw3, hwc⟩ := exists_pow_three_mem_center_of_normal S.isPGroup hV
   have hwY : ((w : ↥S) : Q) ∈ Y := hwV
   have hw3' : ((w : ↥S) : Q) ^ 3 = 1 := by simpa using congrArg (fun z : ↥S => (z : Q)) hw3
   have hw1' : ((w : ↥S) : Q) ≠ 1 := fun h => hw1 (Subtype.ext h)
@@ -72,7 +72,7 @@ theorem exists_isCyclic_sylow {Q : Type*} [Group Q] [Finite Q] {Y At : Subgroup 
   have hb1 : b ≠ 1 := fun h => hx1
     (congrArg (fun z : ↥(P : Subgroup Y) => ((z : ↥Y) : Q)) h)
   refine CFSG.RankThree.PartOne.K1214.isCyclic_of_pow_eq_one_subset Nat.prime_three
-    (by norm_num) P.isPGroup' (b := b) (orderOf_eq_prime hb3 hb1) ?_
+    (by norm_num) P.isPGroup (b := b) (orderOf_eq_prime hb3 hb1) ?_
   intro g hg
   have hg3 : ((g : ↥Y) : Q) ^ 3 = 1 := by
     simpa using congrArg (fun z : ↥(P : Subgroup Y) => ((z : ↥Y) : Q)) hg
@@ -95,11 +95,11 @@ theorem center_eq_bot_of_unique_three {Y : Type*} [Group Y] [Finite Y] {x : Y} (
     (hR1 : ∀ y : Y, y * x = x * y → y ^ 3 = 1 → y ∈ Subgroup.zpowers x)
     (hZ : IsPGroup 3 (Subgroup.center Y))
     (hI : ∃ u : Y, u ^ 3 = 1 ∧ ∃ y : Y, u * y ≠ y * u) : Subgroup.center Y = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx : x ∉ Subgroup.center Y := not_mem_center_of_unique_three hR1 hI
   have hx1 : x ≠ 1 := fun h => hx (h ▸ one_mem _)
   by_contra hne
-  haveI : Nontrivial ↥(Subgroup.center Y) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+  have : Nontrivial ↥(Subgroup.center Y) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
   obtain ⟨n, hn, hcard⟩ := hZ.nontrivial_iff_card.mp inferInstance
   have h3 : 3 ∣ Nat.card ↥(Subgroup.center Y) := hcard ▸ dvd_pow_self 3 hn.ne'
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 3 h3
@@ -129,7 +129,7 @@ theorem pRank_top_le_one_of_isCyclic_sylow {Y : Type*} [Group Y] [Finite Y] {p :
     CFSG.Open.pRank p (⊤ : Subgroup Y) ≤ 1 := by
   obtain ⟨E, -, hE, hcard⟩ := CFSG.SectionRank.exists_pRank hp.out.one_lt (⊤ : Subgroup Y)
   obtain ⟨R, hER⟩ := hE.isPGroup.exists_le_sylow
-  haveI : IsCyclic (R : Subgroup Y) := isCyclic_of_surjective (Sylow.equiv P R)
+  have : IsCyclic (R : Subgroup Y) := isCyclic_of_surjective (Sylow.equiv P R)
     (Sylow.equiv P R).surjective
   exact (CFSG.SectionRank.le_pRank hp.out.one_lt hER hE hcard).trans
     (CFSG.SectionRank.pRank_le_one_of_isCyclic hp.out inferInstance)

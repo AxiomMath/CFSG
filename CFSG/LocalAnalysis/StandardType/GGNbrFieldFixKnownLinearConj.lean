@@ -120,7 +120,7 @@ theorem exists_conj_of_commute (hd : 3 ≤ d) {σ : K ≃+* K}
     ext i j
     rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
     ring
-  haveI : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, by omega⟩⟩
   obtain ⟨μ, B, hdesc⟩ := exists_descend_of_map_eq_smul σ A c hmat
   refine ⟨B, fun g g' hgg' => ?_⟩
   have hBmap : Matrix.GeneralLinearGroup.map (fixF σ).subtype B =

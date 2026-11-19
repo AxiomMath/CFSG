@@ -57,7 +57,7 @@ theorem olRow_alt_le_four {n : ℕ} (hn : n ≤ 4) :
       (QuotientGroup.mk_surjective :
         Function.Surjective (QuotientGroup.mk : ↥L → ↥L ⧸ aschbacherSolvableCore 3 ↥L)).subsingleton
     exact not_subsingleton _ hs
-  haveI := hcfg.perfL
+  have := hcfg.perfL
   exact Group.IsPerfect.not_isSolvable _ hsolL
 
 section Rows
@@ -74,7 +74,7 @@ theorem noncomm_alt_five : ∃ a b : alternatingGroup (Fin 5), a * b ≠ b * a :
     ⟨swap 0 1 * swap 1 3, Perm.mem_alternatingGroup.mpr (by decide)⟩, by decide⟩
 
 theorem olRow_alt_five : OLRow (fun T _ => Nonempty (T ≃* alternatingGroup (Fin 5))) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   refine olRow_of_inner _ noncomm_alt_five
     (fun α hα => CFSG.ASVolI.burnsideA315x_alt_odd_inner (Or.inl rfl) hα)
     (fun B V => not_innerCfg_of_not_dvd (by rw [card_alt_five]; norm_num) B V)
@@ -109,7 +109,7 @@ theorem b0Six_noInv : ∀ x ∈ b0Six, x ≠ 1 → ∀ v : Perm (Fin 6), Perm.si
     v * x = x * v → v = 1 := by decide +kernel
 
 theorem olRow_alt_six : OLRow (fun T _ => Nonempty (T ≃* alternatingGroup (Fin 6))) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   refine olRow_of_inner _ noncomm_alt_six
     (fun α hα => CFSG.ASVolI.burnsideA315x_alt6_odd_inner hα) (fun B V hc => ?_)
   set B₀' := finsetSubgroup b0Six b0Six_one b0Six_mul b0Six_inv with hB₀'
@@ -235,7 +235,7 @@ theorem mem_invariant_seven {F : Finset (Perm (Fin 7))} (h1 : (1 : Perm (Fin 7))
     exact hnorm _ hb _ hv
 
 theorem olRow_alt_seven : OLRow (fun T _ => Nonempty (T ≃* alternatingGroup (Fin 7))) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
   refine olRow_of_inner _ noncomm_alt_seven
     (fun α hα => CFSG.ASVolI.burnsideA315x_alt_odd_inner (Or.inr le_rfl) hα) (fun B V hc => ?_)
   set B₀' := finsetSubgroup b0Seven b0Seven_one b0Seven_mul b0Seven_inv with hB₀'

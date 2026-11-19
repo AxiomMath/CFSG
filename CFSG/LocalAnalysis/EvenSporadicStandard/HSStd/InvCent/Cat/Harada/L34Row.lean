@@ -87,7 +87,7 @@ theorem false_of_three_cent_l34
 theorem noTwoCfgL34_holds :
     NoTwoCfgL34 := by
   intro G _ _ S hSn hS hcent t v J h _
-  haveI := hSn
+  have := hSn
   have htop : centralizer ({t} : Set G) ≠ ⊤ := centralizer_singleton_ne_top hcent h.t_ne_one
   have h480 := h.card_centralizer htop
   have hv1 : orderOf v = 2 :=

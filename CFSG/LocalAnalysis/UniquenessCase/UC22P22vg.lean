@@ -34,8 +34,8 @@ private theorem uc22p22vg_rankThreeLayer_eq_self {A : Type} [Group A] {L : Subgr
 private theorem uc22p22vg_not_isPGroup {A : Type} [Group A] [Finite A] (hq : CFSG.Open.IsQuasisimple A) {p : ℕ}
     [Fact p.Prime] : ¬ IsPGroup p A := by
   intro hp
-  haveI : Group.IsPerfect A := ⟨hq.1⟩
-  haveI : Nontrivial A := CFSG.ComponentClassification.Quasisimple.nontrivial hq
+  have : Group.IsPerfect A := ⟨hq.1⟩
+  have : Nontrivial A := CFSG.ComponentClassification.Quasisimple.nontrivial hq
   exact Group.IsPerfect.not_isNilpotent A hp.isNilpotent
 
 private theorem uc22p22vg_isPerfect_map {A B : Type} [Group A] [Group B] {K : Subgroup A} (hK : ⁅K, K⁆ = K)
@@ -45,6 +45,7 @@ private theorem uc22p22vg_isPerfect_map {A B : Type} [Group A] [Group B] {K : Su
     rw [← MonoidHom.range_eq_map, Subgroup.range_subtype]
   rw [commutator_def, Subgroup.map_commutator, htop, ← Subgroup.map_commutator, hK]
 
+omit [Finite G] in
 private theorem uc22p22vg_commutator_subgroupOf {Y K : Subgroup G} (hKY : K ≤ Y) (hK : ⁅K, K⁆ = K) :
     ⁅K.subgroupOf Y, K.subgroupOf Y⁆ = K.subgroupOf Y := by
   apply Subgroup.map_injective Y.subtype_injective
@@ -54,9 +55,9 @@ theorem uc22p22vg_exists_calC_onto {Y : Subgroup G} {Lb : Type} [Group Lb] [Fini
     (hLb : CFSG.Open.IsQuasisimple Lb) (g : ↥Y →* Lb) (hg : Function.Surjective g)
     (hlayer : CFSG.layer (Bar2 Y) = ⊤) :
     ∃ K ∈ calC Y, (K.subgroupOf Y).map g = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P : Subgroup Lb := (CFSG.pCore 2 ↥Y).map g
-  haveI hPn : P.Normal := (CFSG.pCore_normal (p := 2) (G := ↥Y)).map g hg
+  have hPn : P.Normal := (CFSG.pCore_normal (p := 2) (G := ↥Y)).map g hg
   have hPne : P ≠ ⊤ := by
     intro hPt
     have h2 : IsPGroup 2 ↥P := (CFSG.pCore_isPGroup (p := 2) (G := ↥Y)).map g
@@ -73,7 +74,7 @@ theorem uc22p22vg_exists_calC_onto {Y : Subgroup G} {Lb : Type} [Group Lb] [Fini
     intro C hC
     obtain ⟨K, hK, hKC⟩ := uc22p21c_exists_calC_of_component Y hC
     have hKY : K ≤ Y := hK.1.le
-    haveI : Group.IsPerfect ↥((K.subgroupOf Y).map g) :=
+    have : Group.IsPerfect ↥((K.subgroupOf Y).map g) :=
       uc22p22vg_isPerfect_map (uc22p22vg_commutator_subgroupOf hKY hK.2.1) g
     have hsubn : CFSG.Open.IsSubnormal ((K.subgroupOf Y).map g) ⊤ :=
       CFSG.Open.IsSubnormal.of_mathlib (hK.1.subgroupOf.map hg)
@@ -101,8 +102,8 @@ theorem uc22p22vg_exists_calC_image (D : Data G) {V : Subgroup G}
     (hMV : D.M ≤ normalizer (V : Set G)) (hH : F11.Hyp11 D ⊥ V) (h119 : R119W D)
     {Lb : Subgroup (MBar D.M V)} (hLb : IsComponentOf Lb ⊤) :
     ∃ K ∈ calC D.M, mbarImage D.M V K = Lb := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hN := cTilde_bot_normal D.M V hMV
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hN := cTilde_bot_normal D.M V hMV
   set e := mbarEquiv D.M V
   set L' : Subgroup (F11.MBar11 D.M ⊥ V) := Lb.map e.toMonoidHom with hL'
   have hL'q : CFSG.Open.IsQuasisimple ↥L' :=

@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace ElevenNine
 
+omit [Finite G] in
 private theorem le_normalizer_centralizer {A V : Subgroup G}
     (h : A ≤ normalizer (V : Set G)) :
     A ≤ normalizer ((centralizer (V : Set G) : Subgroup G) : Set G) := by
@@ -29,6 +30,7 @@ private theorem le_normalizer_centralizer {A V : Subgroup G}
     _ = a * (v * (a⁻¹ * w * a)) * a⁻¹ := by rw [hv']
     _ = (a * v * a⁻¹) * w := by group
 
+omit [Finite G] in
 private theorem map_conj_mul (H : Subgroup G) (a b : G) :
     (H.map (MulAut.conj a).toMonoidHom).map (MulAut.conj b).toMonoidHom =
       H.map (MulAut.conj (b * a)).toMonoidHom := by
@@ -71,7 +73,7 @@ theorem le_centralizer_sup_normalizer_of_sylow {M T Y V₀ : Subgroup G}
     Y ≤ (Y ⊓ centralizer (V₀ : Set G)) ⊔
       (Y ⊓ normalizer ((T ⊓ centralizer (V₀ : Set G) : Subgroup G) : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Z : Subgroup G := centralizer (V₀ : Set G)
   let Q : Subgroup G := T ⊓ Z
   let W : Subgroup G := Y ⊓ Z

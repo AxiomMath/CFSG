@@ -363,7 +363,6 @@ private theorem closure_pair_eq {V : Type*} [Group V] [Finite V] {a : MulAut V} 
            first
              | exact absurd hij' hv1
              | exact absurd hij' hv1.symm
-             | exact absurd hij' hne1
              | exact absurd hij' hne1.symm
              | exact absurd hij' hne2
              | exact absurd hij' hne2.symm)

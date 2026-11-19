@@ -10,6 +10,7 @@ namespace CFSG.RankThree.GF2n.Stroth80.Classify
 variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {F : LinearMap.BilinForm K V}
 
+omit [Finite K] in
 theorem quad_eq_zero_of_orth (hnd : F.Nondegenerate) (halt : F.IsAlt)
     (hdim : 3 ≤ Module.finrank K V) {e f : V} (hef : F e f = 1)
     {A : Subgroup (V ≃ₗ[K] V)} (hfull : ElationFull F (A : Set _) e)
@@ -43,15 +44,16 @@ theorem quad_eq_zero_of_orth (hnd : F.Nondegenerate) (halt : F.IsAlt)
   · exact absurd (mul_self_eq_zero.mp h7) hωy
   · exact h7
 
+omit [CharP K 2] in
 theorem finite_linearEquiv : Finite (V ≃ₗ[K] V) := by
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   exact Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V)) DFunLike.coe_injective
 
 theorem card_le_of_elationFull (hnd : F.Nondegenerate) (halt : F.IsAlt)
     (hdim : 3 ≤ Module.finrank K V) {e f : V} (hef : F e f = 1)
     {A : Subgroup (V ≃ₗ[K] V)} (hA : A ≤ pointRadSubgroup F e)
     (hfull : ElationFull F (A : Set _) e) : Nat.card K ^ 2 ≤ Nat.card A := by
-  haveI := finite_linearEquiv (K := K) (V := V)
+  have := finite_linearEquiv (K := K) (V := V)
   have hD : (A : Set (V ≃ₗ[K] V)) ⊆ pointRad F e := fun g hg => hA hg
   obtain ⟨w, hw0, hwe, hwf⟩ := exists_perp_ne_zero (F := F) hdim e f
   obtain ⟨w', hw'e, hw'f, hww'⟩ := exists_partner hnd halt hef hwe hwf hw0

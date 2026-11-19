@@ -17,6 +17,7 @@ section Row26X
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem commutator_gnV_sup_gnC (T L : Subgroup X) : ⁅gnV T, L ⊔ gnC T⁆ = ⁅L, gnV T⁆ := by
   apply le_antisymm
   · rw [Subgroup.commutator_comm L (gnV T)]
@@ -36,6 +37,7 @@ theorem commutator_gnV_sup_gnC (T L : Subgroup X) : ⁅gnV T, L ⊔ gnC T⁆ = �
   · rw [Subgroup.commutator_comm L (gnV T)]
     exact Subgroup.commutator_mono le_rfl le_sup_left
 
+omit [Finite X] in
 theorem commutator_gnV_le (T L : Subgroup X) : ⁅gnV T, L⁆ ≤ gnV T := by
   rw [Subgroup.commutator_le]
   intro v hv l hl
@@ -126,6 +128,7 @@ section Row26X2
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem commute_action_of_mem_cMLStar {T L : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)}
     (hL : L.map (toStar T) = Ls) {x : X}
     (hx : toStar T x ∈ Subgroup.centralizer (Ls : Set (X ⧸ gnC T)))
@@ -153,6 +156,7 @@ theorem commute_action_of_mem_cMLStar {T L : Subgroup X} {Ls : Subgroup (X ⧸ g
     _ = l * ((l⁻¹ * (x * l * x⁻¹)) * (x * u * x⁻¹) * (l⁻¹ * (x * l * x⁻¹))⁻¹) * l⁻¹ := by group
     _ = l * (x * u * x⁻¹) * l⁻¹ := by rw [hz]; group
 
+omit [Finite X] in
 theorem mem_normalizer_commutator {L V : Subgroup X} [hV : V.Normal] {x : X}
     (hx : L.map (MulAut.conj x).toMonoidHom = L) :
     x ∈ Subgroup.normalizer ((⁅L, V⁆ : Subgroup X) : Set X) := by
@@ -164,10 +168,11 @@ theorem mem_normalizer_commutator {L V : Subgroup X} [hV : V.Normal] {x : X}
   show Subgroup.map (MulAut.conj x).toMonoidHom ⁅L, V⁆ = ⁅L, V⁆
   rw [Subgroup.map_commutator L V (MulAut.conj x).toMonoidHom, hx, hVx]
 
-theorem le_normalizer_commutator_s15 {T L : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)} :
+omit [Finite X] in
+theorem le_normalizer_commutator_s15 {T L : Subgroup X} {_Ls : Subgroup (X ⧸ gnC T)} :
     L ≤ Subgroup.normalizer ((⁅L, gnV T⁆ : Subgroup X) : Set X) := by
   intro l hl
-  haveI : (gnV T).Normal := Subgroup.normalClosure_normal
+  have : (gnV T).Normal := Subgroup.normalClosure_normal
   exact mem_normalizer_commutator (liftOf_conj_aux1 (Subgroup.le_normalizer hl))
 
 end Row26X2
@@ -176,6 +181,7 @@ section Row26M
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem conj_mem_CY {T T₁ T₂ : Subgroup X} (h : IsGNPair T T₁ T₂) {I : Subgroup X}
     (hI : I ∈ CY T T₁ T₂) {t : X} (ht : t ∈ T) : conjSub t I ∈ CY T T₁ T₂ := by
   obtain ⟨Is, hIs, hIl⟩ := hI
@@ -194,6 +200,7 @@ section Row26G
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isTwoLocal_centralizer_of_sq {u : G} (hu1 : u ≠ 1) (hu2 : u * u = 1) :
     IsTwoLocal (Subgroup.centralizer ({u} : Set G)) := by
   have hord : orderOf u = 2 := by
@@ -241,7 +248,8 @@ theorem centralizer_le_of_two_le_pRank_gen {M : Subgroup G} {P : Sylow 7 G}
   hw.le_of_le_of_two_le_pRank Nat.prime_seven hRM hR
     (isTwoLocal_centralizer_of_sq hu1 hu2) hRc
 
-theorem isTI_of_centralizer_le {M U : Subgroup G} (hUM : U ≤ M)
+omit [Finite G] in
+theorem isTI_of_centralizer_le {M U : Subgroup G} (_hUM : U ≤ M)
     (hTIM : ∀ m ∈ M, U.map (MulAut.conj m).toMonoidHom = U ∨
       U ⊓ U.map (MulAut.conj m).toMonoidHom = ⊥)
     (hC : ∀ u ∈ U, u ≠ 1 → Subgroup.centralizer ({u} : Set G) ≤ M ∧
@@ -284,6 +292,7 @@ theorem isTI_of_centralizer_le {M U : Subgroup G} (hUM : U ≤ M)
     · exact inf_eq_left.2 (le_of_eq h.symm)
     · exact absurd h hbot
 
+omit [Finite G] in
 theorem map_subtype_conjSub {M : Subgroup G} (U : Subgroup ↥M) (x : ↥M) :
     (conjSub x U).map M.subtype = (U.map M.subtype).map (MulAut.conj (x : G)).toMonoidHom := by
   unfold conjSub
@@ -338,7 +347,7 @@ theorem eq_ystar_of_simple {T T₁ T₂ : Subgroup X} (hS : IsSimpleGroup ↥(Ys
       have hcen : J ≤ Subgroup.centralizer (Ls : Set (X ⧸ gnC T)) :=
         Subgroup.commutator_eq_bot_iff_le_centralizer.1 hc
       exact hcen.trans (Subgroup.centralizer_le_normalizer _)
-  haveI : (Ls.subgroupOf (Ystar T T₁ T₂)).Normal :=
+  have : (Ls.subgroupOf (Ystar T T₁ T₂)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hle).2 hnorm
   rcases hS.eq_bot_or_eq_top_of_normal (Ls.subgroupOf (Ystar T T₁ T₂)) with h | h
   · exfalso
@@ -376,7 +385,7 @@ theorem eq_of_mem_CY_of_simple {T T₁ T₂ : Subgroup X}
 theorem yLifts_eq_of_simple {T T₁ T₂ : Subgroup X} (hX : GNSetting X T)
     (hS : IsSimpleGroup ↥(Ystar T T₁ T₂)) {Ls : Subgroup (X ⧸ gnC T)} {L : Subgroup X}
     (hLs : GNYComponent T T₁ T₂ Ls) (hL : LiftOf T L Ls) : yLifts T T₁ T₂ = L :=
-  le_antisymm (iSup₂_le fun I hI => (eq_of_mem_CY_of_simple hX hS hLs hL hI).le)
+  le_antisymm (iSup₂_le fun _I hI => (eq_of_mem_CY_of_simple hX hS hLs hL hI).le)
     (le_iSup₂ (f := fun L (_ : L ∈ CY T T₁ T₂) => L) L ⟨Ls, hLs, hL⟩)
 
 end YSimple

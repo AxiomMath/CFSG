@@ -47,14 +47,14 @@ theorem five_point_stabilizer_card_eq_two_or_seventy_two
   have hPcard : Nat.card P = 1395360 * h := by
     rw [hHindex] at hHindexCard
     exact hHindexCard.symm
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let S₅ : Sylow 5 P := Sylow.nonempty.some
   have hfive :=
     sylow_five_normalizer_card_eq_one_twenty
       X P hcard h5 hnotAlt s hs S₅
   have hmodFive : (3 * h) % 5 = 1 := by
     exact hfive.2
-  letI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 17) := ⟨by norm_num⟩
   let S₁₇ : Sylow 17 P := Sylow.nonempty.some
   have hS₁₇card : Nat.card S₁₇ = 17 :=
     sylow_long_prime_card_eq_prime
@@ -109,7 +109,7 @@ theorem five_point_stabilizer_card_eq_two_or_seventy_two
     change 19 - g.support.card = 2
     rw [hgsupport]
   have hP2 : MulAction.IsMultiplyPretransitive P X 2 := by
-    letI : MulAction.IsMultiplyPretransitive P X 5 := hP5
+    let : MulAction.IsMultiplyPretransitive P X 5 := hP5
     exact MulAction.isMultiplyPretransitive_of_le
       (G := P) (α := X) (m := 2) (n := 5)
         (by omega) (by
@@ -149,7 +149,7 @@ theorem five_point_stabilizer_card_eq_two_or_seventy_two
       _ = r₁₇ % 17 := by
         rw [Nat.mul_mod, hseventeen.2.2.1]
         simp
-  letI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 19) := ⟨by norm_num⟩
   let S₁₉ : Sylow 19 P := Sylow.nonempty.some
   have hS₁₉card : Nat.card S₁₉ = 19 :=
     sylow_long_prime_card_eq_prime

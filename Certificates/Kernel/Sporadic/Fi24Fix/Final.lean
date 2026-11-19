@@ -152,7 +152,7 @@ theorem coe_iso_wordProd (w : List (ℕ × Bool)) (hw : ∀ l ∈ w, l.1 < 11) :
 theorem pE_eq : (pE : Fi24AutomorphismGroup) = (PW.map g0).prod := by
   rw [coe_iso_wordProd pv pv_lt]
   simp only [wordProd, pv, PW, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-    mul_inv_rev, g0_inv, if_true, if_false, Bool.false_eq_true, mul_assoc, g0_mul_self_mul, mul_one,
+    mul_inv_rev, g0_inv, ite_true, ite_false, Bool.false_eq_true, mul_assoc, g0_mul_self_mul, mul_one,
     Nat.reduceAdd]
 
 theorem eA_inv_eq : ((eA : Fi24AutomorphismGroup))⁻¹ = (AW.map g0).prod := by
@@ -354,7 +354,7 @@ theorem certificate1017_proof : ∃ Γ : Subgroup (GL (Fin 781) (ZMod 3)),
   have hkψ : ∀ j < 31671, P (kψ j) = F (R (walk TG PW (S j))) := by
     intro j hj
     have h := (hψ j hj).1
-    simp only [kψ, dif_pos h]
+    simp only [kψ, dite_eq_left h]
     exact hkOf _
   have hkinj : Set.InjOn kψ (Finset.range 31671 : Set ℕ) := by
     intro j hj j' hj' h

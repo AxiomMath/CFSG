@@ -118,7 +118,7 @@ private theorem lt_of_secIsoL_data {I Z I' Z' : Subgroup V}
     (hβk : ∀ u : ↥I, β u = 1 ↔ (u : V) ∈ Z) (hlt : Z < I) : Z' < I' := by
   refine lt_of_le_of_ne hZ'I' ?_
   intro heq
-  obtain ⟨z, hzI, hzZ⟩ := (SetLike.lt_iff_le_and_exists.1 hlt).2
+  obtain ⟨z, hzI, hzZ⟩ := (IsConcreteLE.lt_iff_le_and_exists.1 hlt).2
   have hzβ : β ⟨z, hzI⟩ ≠ 1 := fun hβ1 => hzZ ((hβk _).1 hβ1)
   obtain ⟨m, hm⟩ := QuotientGroup.mk_surjective (β ⟨z, hzI⟩)
   apply hzβ

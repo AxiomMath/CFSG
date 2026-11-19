@@ -14,14 +14,17 @@ variable {α : Type*} [Fintype α] [DecidableEq α]
 
 private def tc (a b c : α) : Perm α := swap a b * swap b c
 
+omit [Fintype α] in
 private lemma tc_apply_a {a b c : α} (hab : a ≠ b) (hac : a ≠ c) :
     tc a b c a = b := by
   simp [tc, Equiv.Perm.mul_apply, swap_apply_of_ne_of_ne hab hac, swap_apply_left]
 
+omit [Fintype α] in
 private lemma tc_apply_b {a b c : α} (hac : a ≠ c) (hbc : b ≠ c) :
     tc a b c b = c := by
   simp [tc, Equiv.Perm.mul_apply, swap_apply_left, swap_apply_of_ne_of_ne hac.symm hbc.symm]
 
+omit [Fintype α] in
 private lemma tc_apply_of_ne {a b c x : α} (hxa : x ≠ a) (hxb : x ≠ b) (hxc : x ≠ c) :
     tc a b c x = x := by
   simp [tc, Equiv.Perm.mul_apply, swap_apply_of_ne_of_ne hxb hxc,
@@ -30,13 +33,14 @@ private lemma tc_apply_of_ne {a b c x : α} (hxa : x ≠ a) (hxb : x ≠ b) (hxc
 private lemma tc_support {a b c : α} (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) :
     (tc a b c).support = {a, b, c} := by
   rw [tc, Equiv.Perm.support_swap_mul_swap]
-  simp [hab, hac, hbc, Ne.symm hab, Ne.symm hac, Ne.symm hbc]
+  simp [hab, hac, hbc]
 
 private lemma tc_isThreeCycle {a b c : α} (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) :
     (tc a b c).IsThreeCycle := by
   rw [← card_support_eq_three_iff, tc_support hab hac hbc]
   simp [hab, hac, hbc]
 
+omit [Fintype α] in
 private lemma tc_conj (σ : Perm α) (a b c : α) :
     σ * tc a b c * σ⁻¹ = tc (σ a) (σ b) (σ c) := by
   simp only [tc, Equiv.swap_apply_apply]
@@ -261,7 +265,7 @@ private lemma isThreeCycle_mem_pairClosure_of_mem_notMem {u v : α} (huv : u ≠
   exact tc_u_mem_pairClosure huv hpu hpv hqu hqv hpq hcu hcv hcp hcq
 
 private lemma isThreeCycle_mem_pairClosure_of_notMem_mem {u v : α} (huv : u ≠ v)
-    (hcard : 6 ≤ Fintype.card α) {g : Perm α} (hg : g.IsThreeCycle)
+    (_hcard : 6 ≤ Fintype.card α) {g : Perm α} (hg : g.IsThreeCycle)
     (hu : u ∉ g.support) (hv : v ∈ g.support) :
     g ∈ Subgroup.closure (pairThreeCycles u v) := by
   classical
@@ -373,7 +377,7 @@ private lemma exists_two_fixed_points
     ∃ u v : Fin 11, u ≠ v ∧ u ∈ MulAction.fixedPoints F (Fin 11) ∧
       v ∈ MulAction.fixedPoints F (Fin 11) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Fix := MulAction.fixedPoints F (Fin 11)
   have hmod := hF.isPGroup.card_modEq_card_fixedPoints (Fin 11)
   have hmod' : Nat.card Fix % 3 = 2 := by
@@ -474,7 +478,7 @@ private lemma orbit_compl_eq_pair {F : Subgroup (alternatingGroup (Fin 11))}
   have horb : (MulAction.orbit F w).ncard = 9 := orbit_card_nine hFcard hw
   have hcomp : (MulAction.orbit F w)ᶜ.ncard = 2 := by
     rw [Set.ncard_compl, horb]
-    simp [Nat.card_fin]
+    simp
   have hsub : ({u, v} : Set (Fin 11)) ⊆ (MulAction.orbit F w)ᶜ := by
     intro x hx
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
@@ -524,7 +528,7 @@ private lemma cycleOf_mem_Y {F Y : Subgroup (alternatingGroup (Fin 11))}
       (⟨(((x : alternatingGroup (Fin 11)) : Perm (Fin 11)).cycleOf p),
         h3.mem_alternatingGroup⟩ : alternatingGroup (Fin 11)) ∈ Y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set xA : alternatingGroup (Fin 11) := (x : F).1 with hxA
   set xP : Perm (Fin 11) := (xA : Perm (Fin 11)) with hxP
   have hxneA : xA ≠ 1 := by
@@ -574,7 +578,7 @@ private lemma moves_of_mem_orbit {F : Subgroup (alternatingGroup (Fin 11))} {w :
     {x : F} (hx : x ≠ 1) {p : Fin 11} (hp : p ∈ MulAction.orbit F w) :
     (((x : alternatingGroup (Fin 11)) : Perm (Fin 11))) p ≠ p := by
   classical
-  haveI : IsMulCommutative F := hFcomm
+  have : IsMulCommutative F := hFcomm
   let xP : Perm (Fin 11) := ((x : alternatingGroup (Fin 11)) : Perm (Fin 11))
   obtain ⟨y, hy⟩ := MulAction.mem_orbit_iff.mp hp
   have hy' : (((y : alternatingGroup (Fin 11)) : Perm (Fin 11))) w = p := by
@@ -779,7 +783,7 @@ private lemma subtypePerm_of_support_subset {f : Perm (Fin 11)} {s : Finset (Fin
     (hs : f.support ⊆ s) :
     Equiv.Perm.ofSubtype (f.subtypePerm (Equiv.Perm.isInvariant_of_support_le hs)) = f :=
   Equiv.Perm.ofSubtype_subtypePerm (Equiv.Perm.isInvariant_of_support_le hs)
-    (fun x hx => hs (Equiv.Perm.mem_support.mpr hx))
+    (fun _x hx => hs (Equiv.Perm.mem_support.mpr hx))
 
 private lemma subtypePerm_apply_val {F : Subgroup (alternatingGroup (Fin 11))}
     {w u v : Fin 11}
@@ -805,7 +809,7 @@ private lemma orbitG_exists_smul_eq {F Y : Subgroup (alternatingGroup (Fin 11))}
     (hF : CFSG.Open.IsElemAbelian 3 F)
     (hcond : ∀ F₀ : Subgroup (alternatingGroup (Fin 11)), F₀ ≤ F → F₀ ≠ ⊥ →
       Subgroup.normalizer (F₀ : Set (alternatingGroup (Fin 11))) ≤ Y)
-    (hFcard : Nat.card F = 9)
+    (_hFcard : Nat.card F = 9)
     (hw : ∀ x : F, x ≠ 1 →
       (((x : alternatingGroup (Fin 11)) : Perm (Fin 11))) w ≠ w)
     (hcompl : (MulAction.orbit F w)ᶜ = ({u, v} : Set (Fin 11)))
@@ -961,10 +965,10 @@ private lemma block_ncard_eq_three {F Y : Subgroup (alternatingGroup (Fin 11))}
     (hBnt : B.Nontrivial) (hBne : B ≠ Set.univ) :
     B.ncard = 3 := by
   classical
-  letI : MulAction ↥(orbitG F w) ↥(orbitFinset F w) :=
+  let : MulAction ↥(orbitG F w) ↥(orbitFinset F w) :=
     Subgroup.instMulActionSubtypeMem (S := orbitG F w)
-  letI : MulAction ↥(orbitG F w) (Set ↥(orbitFinset F w)) := Set.mulActionSet
-  haveI : MulAction.IsPretransitive ↥(orbitG F w) ↥(orbitFinset F w) :=
+  let : MulAction ↥(orbitG F w) (Set ↥(orbitFinset F w)) := Set.mulActionSet
+  have : MulAction.IsPretransitive ↥(orbitG F w) ↥(orbitFinset F w) :=
     orbitG_isPretransitive hF hcond hFcard hw hcompl hfixu hfixv
   have hcard9 : Nat.card ↥(orbitFinset F w) = 9 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_coe, orbitFinset_card hFcard hw]
@@ -1106,18 +1110,18 @@ private lemma exists_block_setup {F : Subgroup (alternatingGroup (Fin 11))} {w :
     block_ncard_eq_three hF hcond hFcard hw hcompl hfixu hfixv hB hBnt hBne
   obtain ⟨p, hpB⟩ := hBnt.nonempty
   have hdiffcard : (B \ {p}).ncard = 2 := by
-    have h := Set.ncard_diff_singleton_add_one hpB
+    have h := Set.ncard_sdiff_singleton_add_one hpB
     omega
   obtain ⟨q1, q2, _, hdiff⟩ := Set.ncard_eq_two.mp hdiffcard
   have hq1diff : q1 ∈ B \ {p} := by rw [hdiff]; simp
   have hq2diff : q2 ∈ B \ {p} := by rw [hdiff]; simp
-  have hq1B : q1 ∈ B := (Set.mem_diff q1).mp hq1diff |>.1
+  have hq1B : q1 ∈ B := (Set.mem_sdiff q1).mp hq1diff |>.1
   have hq1ne : q1 ≠ p := by
-    have h := (Set.mem_diff q1).mp hq1diff |>.2
+    have h := (Set.mem_sdiff q1).mp hq1diff |>.2
     simpa using h
-  have hq2B : q2 ∈ B := (Set.mem_diff q2).mp hq2diff |>.1
+  have hq2B : q2 ∈ B := (Set.mem_sdiff q2).mp hq2diff |>.1
   have hq2ne : q2 ≠ p := by
-    have h := (Set.mem_diff q2).mp hq2diff |>.2
+    have h := (Set.mem_sdiff q2).mp hq2diff |>.2
     simpa using h
   have hpO : (p : Fin 11) ∈ MulAction.orbit F w := mem_orbitFinset.mp p.2
   have hq1in : (q1 : Fin 11) ∈ MulAction.orbit F (p : Fin 11) := by
@@ -1290,13 +1294,13 @@ private lemma block_final {F : Subgroup (alternatingGroup (Fin 11))} {w : Fin 11
     (hcompl : (MulAction.orbit F w)ᶜ = ({u, v} : Set (Fin 11)))
     (hfixu : ∀ x : F, (((x : alternatingGroup (Fin 11)) : Perm (Fin 11))) u = u)
     (hfixv : ∀ x : F, (((x : alternatingGroup (Fin 11)) : Perm (Fin 11))) v = v) : False := by
-  letI : MulAction ↥(orbitG F w) ↥(orbitFinset F w) :=
+  let : MulAction ↥(orbitG F w) ↥(orbitFinset F w) :=
     Subgroup.instMulActionSubtypeMem (S := orbitG F w)
-  letI : MulAction ↥(orbitG F w) (Set ↥(orbitFinset F w)) := Set.mulActionSet
+  let : MulAction ↥(orbitG F w) (Set ↥(orbitFinset F w)) := Set.mulActionSet
   have hfp_notin_B : (⟨blockFP S, S.hfpO⟩ : ↥(orbitFinset F w)) ∉ B := by
     intro hmem
     have hmemdiff : (⟨blockFP S, S.hfpO⟩ : ↥(orbitFinset F w)) ∈ B \ {S.p} := by
-      refine Set.mem_diff _ |>.mpr ⟨hmem, ?_⟩
+      refine Set.mem_sdiff _ |>.mpr ⟨hmem, ?_⟩
       simp only [Set.mem_singleton_iff]
       intro h
       exact S.hfp_ne (Subtype.ext_iff.mp h)
@@ -1391,9 +1395,9 @@ private lemma orbitG_isPreprimitive {F Y : Subgroup (alternatingGroup (Fin 11))}
     (hfixv : ∀ x : F, (((x : alternatingGroup (Fin 11)) : Perm (Fin 11))) v = v) :
     MulAction.IsPreprimitive ↥(orbitG F w) ↥(orbitFinset F w) := by
   classical
-  letI : MulAction ↥(orbitG F w) ↥(orbitFinset F w) :=
+  let : MulAction ↥(orbitG F w) ↥(orbitFinset F w) :=
     Subgroup.instMulActionSubtypeMem (S := orbitG F w)
-  haveI : MulAction.IsPretransitive ↥(orbitG F w) ↥(orbitFinset F w) :=
+  have : MulAction.IsPretransitive ↥(orbitG F w) ↥(orbitFinset F w) :=
     orbitG_isPretransitive hF hcond hFcard hw hcompl hfixu hfixv
   refine MulAction.IsPreprimitive.mk ?_
   intro B hB
@@ -1481,7 +1485,7 @@ private lemma cycleFactorsFinset_card_three {x : Perm (Fin 11)}
     (hx3 : x ^ 3 = 1) (hxsupp : x.support.card = 9) :
     x.cycleFactorsFinset.card = 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcyc : x.cycleType = Multiset.replicate x.cycleType.card 3 :=
     Equiv.Perm.cycleType_of_pow_prime_eq_one hx3
   have hsum : x.cycleType.sum = 9 := by
@@ -1513,7 +1517,7 @@ private lemma sw_spec {c : Perm (Fin 11)} (hc : c.IsThreeCycle) :
   have hspec := Classical.choose_spec (Classical.choose_spec
     (CFSG.AGLEmbeddingD2.AltCentralExtOne.exists_swap_inv_of_isThreeCycle hc))
   refine ⟨?_, hspec.1, hspec.2.1, hspec.2.2.1, hspec.2.2.2⟩
-  simp only [sw, dif_pos hc]
+  simp only [sw, dite_eq_left hc]
 
 end CFSG.LocalAnalysis.AGL81TheoremCD.Section14
 
@@ -1574,7 +1578,7 @@ open Equiv Equiv.Perm Subgroup
 private lemma cycleFactor_isThreeCycle {x c : Perm (Fin 11)} (hx3 : x ^ 3 = 1)
     (hxne : x ≠ 1) (hc : c ∈ x.cycleFactorsFinset) : c.IsThreeCycle := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxorder : orderOf x = 3 := orderOf_eq_prime hx3 hxne
   have hcorder : orderOf c = 3 :=
     CFSG.RankThree.GroupTheory.orderOf_eq_of_mem_cycleFactorsFinset
@@ -1632,7 +1636,7 @@ private lemma a11TwoSetStab_isCoatom {i j : Fin 11} (hij : i ≠ j) :
     have hcompl : (({i, j} : Set (Fin 11))ᶜ).ncard = 9 := by
       rw [Set.ncard_compl]
       rw [Set.ncard_pair hij]
-      simp [Nat.card_fin]
+      simp
     rw [hcompl]
     norm_num
 

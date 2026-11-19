@@ -123,7 +123,7 @@ theorem localSubgroup_stronglyClosed (T : Sylow 2 G) (U : Subgroup G)
     fusionStronglyClosed (localSubgroup U u : Set (localCentralizer u)) (Q : Subgroup _) := by
   let X := localCentralizer u
   let P := (Q : Subgroup X).map X.subtype
-  have hPtwo : IsPGroup 2 P := Q.isPGroup'.map X.subtype
+  have hPtwo : IsPGroup 2 P := Q.isPGroup.map X.subtype
   obtain ⟨R, hPR⟩ := hPtwo.exists_le_sylow
   obtain ⟨a, ha⟩ := MulAction.exists_smul_eq G R T
   have hRmap : (R : Subgroup G).map (MulAut.conj a).toMonoidHom = T := by

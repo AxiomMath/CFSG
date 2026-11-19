@@ -186,7 +186,7 @@ private theorem m24Mems_o2_of_order_21504 :
 theorem card_pCoreOf_cent_koOne :
     Nat.card ↥(pCoreOf 2 (M24g ⊓ Subgroup.centralizer ({koPerm 1} : Set S24))) = 128 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup S24 := M24g ⊓ Subgroup.centralizer ({koPerm 1} : Set S24)
   let X : Type := ↥AutPerm
   have hle : C ≤ AutPerm := inf_le_left
@@ -212,7 +212,7 @@ theorem card_pCoreOf_cent_koOne :
     rw [Sylow.card_eq_multiplicity, hfac]
   have hcardT : Nat.card ↥T = 2 ^ 10 := by
     rw [Subgroup.card_map_of_injective Y.subtype_injective, hP2card]
-  have hT2 : IsPGroup 2 T := IsPGroup.map P₂.isPGroup' Y.subtype
+  have hT2 : IsPGroup 2 T := IsPGroup.map P₂.isPGroup Y.subtype
   have hTY : T ≤ Y := Subgroup.map_subtype_le (P₂ : Subgroup ↥Y)
   have hIdx : T.index = 239085 := by
     have h := Subgroup.card_mul_index T

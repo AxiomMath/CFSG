@@ -120,11 +120,11 @@ theorem ggNbrLSideLin_commScalar {K : Type} [Field K] (h2 : (2 : K) = 0) {d : �
   by_cases hd : d = 0
   · subst hd
     refine ⟨1, ?_⟩
-    haveI : Subsingleton (GL (Fin 0) K) :=
+    have : Subsingleton (GL (Fin 0) K) :=
       ⟨fun a b => Units.ext (Subsingleton.elim (a : Matrix (Fin 0) (Fin 0) K) b)⟩
     exact Subsingleton.elim (B * A * B⁻¹) (Matrix.GeneralLinearGroup.scalar (Fin 0) 1 * A)
   · have hdpos : 0 < d := Nat.pos_of_ne_zero hd
-    haveI : Nonempty (Fin d) := ⟨⟨0, hdpos⟩⟩
+    have : Nonempty (Fin d) := ⟨⟨0, hdpos⟩⟩
     let C : GL (Fin d) K := (A * B)⁻¹ * (B * A)
     have key : ∀ h : ↥(StatedSL d K), ∃ c : Kˣ,
         C * (h : GL (Fin d) K) * C⁻¹ =
@@ -232,8 +232,8 @@ theorem ggNbrLSideLin_lift {K : Type} [Field K] [Finite K] (h2 : (2 : K) = 0) {d
   have hd : 1 ≤ d := by
     by_contra hd0
     obtain rfl : d = 0 := by omega
-    haveI : Subsingleton (LargeEvenProj (StatedSL 0 K)) := inferInstance
-    haveI := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial
+    have : Subsingleton (LargeEvenProj (StatedSL 0 K)) := inferInstance
+    have := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial
       (CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ)
     obtain ⟨a, b, hab⟩ := exists_pair_ne (CFSG.Yardstones.Md0ec50421ce4.PQuot 3 J)
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a

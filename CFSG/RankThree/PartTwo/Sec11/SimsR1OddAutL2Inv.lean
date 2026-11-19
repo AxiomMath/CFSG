@@ -165,9 +165,9 @@ theorem exists_finset_of_commuting_involutions (h2 : (2 : F) ≠ 0)
 theorem exists_central_involution {G : Type*} [Group G] [Finite G] {Q : Subgroup G}
     (hQ : IsPGroup 2 Q) (hQ1 : Q ≠ ⊥) :
     ∃ z ∈ Q, z ^ 2 = 1 ∧ z ≠ 1 ∧ ∀ y ∈ Q, y * z = z * y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQ1
-  haveI : Nontrivial (Subgroup.center Q) := hQ.center_nontrivial
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQ1
+  have : Nontrivial (Subgroup.center Q) := hQ.center_nontrivial
   have hZ : IsPGroup 2 (Subgroup.center Q) :=
     hQ.of_injective (Subgroup.center Q).subtype Subtype.val_injective
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hZ
@@ -222,7 +222,7 @@ theorem isSolvable_of_normalizes_isPGroup_two [Finite F] (h2 : (2 : F) ≠ 0)
       _ ≤ (↑t : Set _).ncard := Set.ncard_le_ncard hIt t.finite_toSet
       _ = t.card := Set.ncard_coe_finset t
       _ ≤ 3 := htc
-  haveI : Finite I := Set.toFinite I
+  have : Finite I := Set.toFinite I
   have hsolv : Group.IsSolvable ↥(S ⊓ Subgroup.centralizer ({z₀} : Set _)) := by
     refine isSolvable_of_le_centralizer_ne_one hz₀1 (fun s hs => ?_)
     have := (Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hs).2) z₀ rfl

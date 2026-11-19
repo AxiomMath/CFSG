@@ -16,7 +16,7 @@ section Main
 open scoped FixedPoints
 
 public theorem CFSG.theorem_4_18_e {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
-    (hsolv : IsSolvable G) (hodd : Odd (Nat.card G)) (hp_mem : p ∣ Nat.card G)
+    (hsolv : Group.IsSolvable G) (hodd : Odd (Nat.card G)) (hp_mem : p ∣ Nat.card G)
     (hrank : primeRank p G ≤ 2) :
     Nat.Coprime p (Nat.card (G ⧸ Op_p'p p G)) ∧ IsMulCommutative (G ⧸ Op_p'p p G) := by
   let D : Subgroup G := derivedSubgroup G
@@ -103,14 +103,14 @@ public theorem CFSG.theorem_4_18_e {G : Type*} [Group G] [Finite G] {p : ℕ} [F
     exact hmap_bot
   have hQnot_dvd : ¬ p ∣ Nat.card (G ⧸ Op_p'p p G) := by
     intro hp_dvd_Q
-    letI : IsMulCommutative (G ⧸ Op_p'p p G) := hQcomm
-    letI : CommGroup (G ⧸ Op_p'p p G) := IsMulCommutative.instCommGroup
+    let : IsMulCommutative (G ⧸ Op_p'p p G) := hQcomm
+    let : CommGroup (G ⧸ Op_p'p p G) := IsMulCommutative.instCommGroup
     let S : Sylow p (G ⧸ Op_p'p p G) :=
       Classical.choice (inferInstance : Nonempty (Sylow p (G ⧸ Op_p'p p G)))
     have hS_le_core : (S : Subgroup (G ⧸ Op_p'p p G)) ≤ pCore p (G ⧸ Op_p'p p G) := by
       exact le_sSup
         ⟨Subgroup.normal_of_isMulCommutative (H := (S : Subgroup (G ⧸ Op_p'p p G))),
-          S.isPGroup'⟩
+          S.isPGroup⟩
     have hS_eq_bot : (S : Subgroup (G ⧸ Op_p'p p G)) = ⊥ := by
       refine le_antisymm ?_ bot_le
       exact hS_le_core.trans (by simp [hQcore_bot])

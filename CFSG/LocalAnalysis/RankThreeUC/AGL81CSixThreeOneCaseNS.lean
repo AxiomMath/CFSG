@@ -54,17 +54,17 @@ private theorem map_le_center_of_characteristic_abelian {p : ℕ} [Fact p.Prime]
     A.map (CFSG.pCore 2 ↥G).subtype ≤ Subgroup.center ↥G := by
   classical
   let Q := CFSG.pCore 2 ↥G
-  haveI : Q.Normal := CFSG.pCore_normal
-  haveI : A.Characteristic := hA
+  have : Q.Normal := CFSG.pCore_normal
+  have : A.Characteristic := hA
   have hAn : (A.map Q.subtype).Normal := ConjAct.normal_of_characteristic_of_normal
-  haveI : (A.map Q.subtype).Normal := hAn
+  have : (A.map Q.subtype).Normal := hAn
   have hQp : IsPGroup 2 ↥Q := CFSG.pCore_isPGroup
   have hAp : IsPGroup 2 ↥(A.map Q.subtype) := hQp.to_le (Subgroup.map_subtype_le A)
-  have hAs : IsSolvable ↥(A.map Q.subtype) := @IsNilpotent.to_isSolvable _ _ hAp.isNilpotent
+  have hAs : Group.IsSolvable ↥(A.map Q.subtype) := @IsNilpotent.to_isSolvable _ _ hAp.isNilpotent
   refine le_center_of_solvable_normal hp5 (σ := Fin 2 ⊕ Fin 2) (by simp) hG hO _
     hAs ?_
   intro _ S a _ b _
-  haveI : IsMulCommutative ↥A := hab
+  have : IsMulCommutative ↥A := hab
   exact isMulCommutative_iff.mp (Subgroup.map_isMulCommutative A Q.subtype) a b
 
 private theorem eq_one_or_neg_one_of_mem_statedSp_of_matrix_eq_scalar [Fact (Nat.Prime 5)]
@@ -93,8 +93,8 @@ private theorem eq_one_or_neg_one_of_mem_statedSp_of_matrix_eq_scalar [Fact (Nat
     ext i j
     by_cases hij : i = j
     · subst hij
-      simp [Matrix.scalar_apply, Matrix.diagonal_apply, Matrix.one_apply, Matrix.neg_apply]
-    · simp [Matrix.scalar_apply, Matrix.diagonal_apply, Matrix.one_apply, Matrix.neg_apply,
+      simp [Matrix.scalar_apply, Matrix.neg_apply]
+    · simp [Matrix.scalar_apply, Matrix.neg_apply,
         hij]
 
 private theorem le_center_of_five_elements_centralize [Fact (Nat.Prime 5)]
@@ -164,7 +164,7 @@ private theorem commutator_eq_one_or_neg_one_of_mem_map
   have hc : ⁅xQ, yQ⁆ ∈ Subgroup.zpowers z := hzcomm xQ yQ
   have hmap : G.subtype x * G.subtype y * (G.subtype x)⁻¹ * (G.subtype y)⁻¹ =
       ((⁅xQ, yQ⁆ : ↥Q) : GL (Fin 2 ⊕ Fin 2) (ZMod 5)) := by
-    simp [commutatorElement_def, xQ, yQ, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp [commutatorElement_def, xQ, yQ, Subgroup.coe_mul]
   rcases (CFSG.RankThree.GroupTheory.SteinbergBY.mem_zpowers_of_orderOf_eq_two hzord).mp hc
     with h1 | hz1
   · left
@@ -211,7 +211,7 @@ private theorem trace_le_and_scalar_of_pCore_two [Fact (Nat.Prime 5)]
 
 private theorem eq_one_or_neg_one_of_commute_of_card_thirty_two [Fact (Nat.Prime 5)]
     {G : Subgroup (GL (Fin 2 ⊕ Fin 2) (ZMod 5))} (hGS : G ≤ CFSG.Open.StatedSp 2 (ZMod 5))
-    {Q : Subgroup ↥G} [Q.Normal] (hcard : Nat.card ↥Q = 32)
+    {Q : Subgroup ↥G} [Q.Normal] (_hcard : Nat.card ↥Q = 32)
     (hscalar : ∀ M : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) (ZMod 5),
       (∀ w ∈ Q.map G.subtype, w * M = M * w) →
         ∃ c : ZMod 5, M = Matrix.scalar (Fin 2 ⊕ Fin 2) c)
@@ -239,7 +239,7 @@ private theorem eq_five_of_not_le_center_pCore_two {p : ℕ} [Fact p.Prime] (hp5
   by_contra hpne
   have hO : CFSG.pCore p ↥G = ⊥ := pCore_eq_bot_of_isIrreducibleOn hirr
   have hQp : IsPGroup 2 ↥(CFSG.pCore 2 ↥G) := CFSG.pCore_isPGroup
-  have hQsolv : IsSolvable ↥(CFSG.pCore 2 ↥G) :=
+  have hQsolv : Group.IsSolvable ↥(CFSG.pCore 2 ↥G) :=
     @IsNilpotent.to_isSolvable _ _ hQp.isNilpotent
   exact hO2 (le_center_of_solvable_normal hp5 (σ := Fin 2 ⊕ Fin 2) (by simp) hG hO
     (CFSG.pCore 2 ↥G) hQsolv (fun h => absurd h hpne))
@@ -253,7 +253,7 @@ private theorem not_isMulCommutative_pCore_two [Fact (Nat.Prime 5)]
   apply hO2
   have hO : CFSG.pCore 5 ↥G = ⊥ := pCore_eq_bot_of_isIrreducibleOn hirr
   have hQp : IsPGroup 2 ↥(CFSG.pCore 2 ↥G) := CFSG.pCore_isPGroup
-  have hQsolv : IsSolvable ↥(CFSG.pCore 2 ↥G) :=
+  have hQsolv : Group.IsSolvable ↥(CFSG.pCore 2 ↥G) :=
     @IsNilpotent.to_isSolvable _ _ hQp.isNilpotent
   refine le_center_of_solvable_normal (p := 5) (by norm_num) (σ := Fin 2 ⊕ Fin 2) (by simp)
     hG hO (CFSG.pCore 2 ↥G) hQsolv ?_
@@ -283,12 +283,12 @@ private theorem structure_of_central_pCore_two [Fact (Nat.Prime 5)]
     change Q ≤ Subgroup.center ↥G
     rw [hbot]
     exact bot_le
-  haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
+  have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
   have hsymp : ∀ A : Subgroup ↥Q, A.Characteristic → IsMulCommutative ↥A → IsCyclic ↥A := by
     intro A hA hab
     have hmap := map_le_center_of_characteristic_abelian (p := 5) (by norm_num) hG hO hA hab
-    haveI : IsCyclic ↥(Subgroup.center ↥G) := isCyclic_center_of_isIrreducibleOn hirr
-    haveI : IsCyclic ↥(A.map Q.subtype) :=
+    have : IsCyclic ↥(Subgroup.center ↥G) := isCyclic_center_of_isIrreducibleOn hirr
+    have : IsCyclic ↥(A.map Q.subtype) :=
       isCyclic_of_injective (Subgroup.inclusion hmap) (Subgroup.inclusion_injective hmap)
     exact (MulEquiv.isCyclic (Subgroup.equivMapOfInjective A Q.subtype Q.subtype_injective)).mpr
       ‹IsCyclic ↥(A.map Q.subtype)›
@@ -476,7 +476,7 @@ theorem structure_of_pCore_two_not_le_center {p : ℕ} [Fact p.Prime] (hp5 : 5 �
   rcases structure_of_central_pCore_two hG hirr hO2 with
     hcyc | ⟨z, hz, hzord, -, hzcomm, -, -, -, w, hw1, hquot⟩
   · exfalso
-    haveI : IsCyclic ↥Q := hcyc
+    have : IsCyclic ↥Q := hcyc
     exact hQnab IsCyclic.isMulCommutative
   obtain ⟨hZeq, hzneg⟩ := center_eq_zpowers_and_neg_one_of_mem_center hGS hG hirr hz hzord
   have htrace := trace_le_and_scalar_of_pCore_two hZeq hzord hzneg hzcomm

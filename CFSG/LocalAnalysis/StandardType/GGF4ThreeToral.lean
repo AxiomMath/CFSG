@@ -53,7 +53,7 @@ theorem ggF4Sh_toral_of_notA2A2
     have hAle : A ≤ adjointGroup Tag.F4 L := by
       rintro _ ⟨x, -, rfl⟩
       exact CFSG.LieType.Chevalley.baseChangeGL_mem_adjointGroup _ x.2
-    haveI : Finite (adjointGroup Tag.F4 K) := Subtype.finite
+    have : Finite (adjointGroup Tag.F4 K) := Subtype.finite
     have hAfin : Finite A := by
       change Finite ↥(E.map φ)
       exact Finite.Set.finite_image _ _

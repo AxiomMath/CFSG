@@ -81,7 +81,7 @@ theorem exists_conjSub_eq_of_mem_sup [Finite G] {X T A S C : Subgroup G}
     (hgA : g ∈ Subgroup.centralizer (A : Set G)) (hg : g ∈ X ⊔ Γ) :
     ∃ t ∈ Γ, A1b.conjSub g (E111R.diagSub S C h.diagComm) =
       A1b.conjSub t (E111R.diagSub S C h.diagComm) := by
-  haveI : X.Normal := h.red.1
+  have : X.Normal := h.red.1
   rw [sup_comm] at hg
   obtain ⟨t, ht, x, hx, htx⟩ := Subgroup.mem_sup_of_normal_right.mp hg
   have hxA : x ∈ Subgroup.centralizer (A : Set G) := by

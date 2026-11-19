@@ -22,6 +22,7 @@ local notation "GL8" => Matrix.GeneralLinearGroup (Fin 8) (ZMod 2)
 set_option quotPrecheck false in
 local notation "A45" => ↥QA45.originalSubgroup
 
+omit hN in
 private theorem vecToV_zero_eq_one (h : Tim79a.ParrottHyp z) (P : GL8) : vecToV h P 0 = 1 := by
   have h0 := vecToV_add h P 0 0
   rw [add_zero] at h0
@@ -37,6 +38,7 @@ private theorem exists_conj_eq_vecToV (h : Tim79a.ParrottHyp z) (P : GL8)
   · rw [qVZMod_vecToV_eq_q D h P hP]
     exact hq₀
 
+omit [Finite G] in
 private theorem qH_mem_gens_of_mem_lifts {y : ↥(H z)}
     (hy : y ∈ ({uH D, vH D, a1H D, b1H D, a2H D, b2H D} : Set ↥(H z))) :
     qH D y ∈ ({⟨u, u_mem_A⟩, ⟨v, v_mem_A⟩, ⟨alpha1, alpha1_mem_A⟩, ⟨beta1, beta1_mem_A⟩,

@@ -198,7 +198,7 @@ private theorem isSylowOf_top_of_sylow_three {X : Type} [Group X] [Finite X] (S 
     IsSylowOf 3 (S : Subgroup X) ⊤ := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-  exact ⟨le_top, S.isPGroup', S.not_dvd_index⟩
+  exact ⟨le_top, S.isPGroup, S.not_dvd_index⟩
 
 private theorem rank_sylow_three_le_two_of_list880 {G : Type} [Group G] [Finite G]
     {L Q : Subgroup G}

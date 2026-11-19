@@ -88,7 +88,7 @@ theorem sylow_kernel_eq_bot_of_commute [Finite E] [Group.IsPerfect E] {p : ℕ} 
     CFSG.ShultStronglyClosedTI.central_pSubgroup_le_sylow P
       ((Cp : Subgroup π.ker).map π.ker.subtype)
       ((Subgroup.map_subtype_le (Cp : Subgroup π.ker)).trans hC)
-      (Cp.isPGroup'.map π.ker.subtype) (Subgroup.mem_map.2 ⟨c, hc, rfl⟩)
+      (Cp.isPGroup.map π.ker.subtype) (Subgroup.mem_map.2 ⟨c, hc, rfl⟩)
   have hker : (⟨(c : E), hcP⟩ : (P : Subgroup E)) ∈ (π.subgroupMap (P : Subgroup E)).ker :=
     Subtype.ext c.2
   have h1 := Subgroup.mem_bot.1 (hle hker)

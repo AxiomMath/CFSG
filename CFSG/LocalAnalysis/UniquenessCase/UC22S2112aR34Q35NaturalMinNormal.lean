@@ -30,7 +30,7 @@ private lemma pow_two_eq_of_modEq_five {b d : ℕ} (hdb : d ≤ b) (hbd : b - d 
   have hk := two_pow_modEq_one_five hbd hpow
   omega
 
-theorem exists_normal_elementary_of_lt [Finite Γ] (hΓ : IsSolvable Γ) {Z X : Subgroup Γ}
+theorem exists_normal_elementary_of_lt [Finite Γ] (hΓ : Group.IsSolvable Γ) {Z X : Subgroup Γ}
     [Z.Normal] [X.Normal] (hZX : Z < X) :
     ∃ N : Subgroup Γ, N.Normal ∧ Z < N ∧ N ≤ X ∧ ∃ r : ℕ, r.Prime ∧ (∀ x ∈ N, x ^ r ∈ Z) ∧
       ∀ x ∈ N, ∀ y ∈ N, x * y * x⁻¹ * y⁻¹ ∈ Z := by
@@ -60,7 +60,7 @@ theorem exists_normal_elementary_of_lt [Finite Γ] (hΓ : IsSolvable Γ) {Z X : 
     exact Subgroup.eq_of_le_of_card_ge hKM (le_of_eq h4.symm)
   have hcommNorm : ⁅M, M⁆.Normal := Subgroup.commutator_normal M M
   have hcommLe : ⁅M, M⁆ ≤ M := Subgroup.commutator_le_left M M
-  have hcommLt : ⁅M, M⁆ < M := IsSolvable.commutator_lt_of_ne_bot hMne
+  have hcommLt : ⁅M, M⁆ < M := Group.IsSolvable.commutator_lt_of_ne_bot hMne
   have hcommBot : ⁅M, M⁆ = ⊥ := by
     by_contra hne
     have heq : ⁅M, M⁆ = M := hmin ⁅M, M⁆ hcommNorm hne (hcommLe.trans hMY) hcommLe

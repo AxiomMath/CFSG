@@ -30,7 +30,7 @@ open CFSG CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers Subgroup I291
 theorem kFactSingleComponentThreeRank_of_kdata (hMult : KDMultP5) (hEx : KDR3Exclusion) :
     KFactSingleComponentThreeRank := by
   intro A _ _ p P X x z hpl _ hU
-  haveI : Fact p.Prime := ⟨hpl.prime⟩
+  have : Fact p.Prime := ⟨hpl.prime⟩
   have hPX : (P : Subgroup A) ≤ X := hpl.sylow_le
   have hBP : zpowers x ⊔ zpowers z ≤ (P : Subgroup A) := hpl.plane.isIsolatedPlane.1
   have hxX : x ∈ X := hPX (hBP (Subgroup.mem_sup_left (mem_zpowers x)))

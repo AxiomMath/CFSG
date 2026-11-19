@@ -33,7 +33,7 @@ theorem exists_mem_conj_eq_of_le [Finite G] {T : Subgroup G} (hT : IsWC T) {X : 
     ((isPGroup_two_of_isElemAbelian (isElemAbelian_conjSubgroup hT.1 g)).comap_subtype
       (K := X)).exists_le_sylow
   obtain ⟨x, hx⟩ := MulAction.exists_smul_eq X S S'
-  have hPp : IsPGroup 2 ((S : Subgroup X).map X.subtype) := S.isPGroup'.map X.subtype
+  have hPp : IsPGroup 2 ((S : Subgroup X).map X.subtype) := S.isPGroup.map X.subtype
   have hTP : T ≤ (S : Subgroup X).map X.subtype := fun t ht => ⟨⟨t, hTX ht⟩, hS ht, rfl⟩
   have hkP : conjSubgroup ((x : G)⁻¹ * g) T ≤ (S : Subgroup X).map X.subtype := by
     intro z hz

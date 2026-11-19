@@ -17,7 +17,7 @@ variable {Y : Type} [Group Y] {X Q : Subgroup Y} {Γ : Subgroup (MulAut Y)} {x :
 
 theorem ListData189.eq_top_of_inner (h : ListData189 X Q Γ x)
     (hinn : ∀ φ : MulAut ↥X, ∃ g : ↥X, φ = MulAut.conj g) : X = ⊤ := by
-  haveI := h.normal
+  have := h.normal
   rw [eq_top_iff]
   intro y _
   obtain ⟨g, hg⟩ := hinn (MulAut.conjNormal y)

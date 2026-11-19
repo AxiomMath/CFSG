@@ -22,7 +22,7 @@ theorem ggQ2s08_bigB_holds
     (hCav : 4 ∣ Nat.card ↥(ggAutomizer J Bs))
     (hnc : ∃ S : Subgroup G, S ≤ L ∧ IsPGroup 3 S ∧ ¬ IsCyclic S)
     (M : GGQ2LDatum 3 Bs L x) (hB : M.ShapeB)
-    (hRig : GGLabelRigidInput) {lab : LargeEvenLabel}
+    (_hRig : GGLabelRigidInput) {lab : LargeEvenLabel}
     (hlab : GGQ2S08BigLabel lab) (hmark : GGQ2TBMarked 3 L lab)
     (hInn : GGInnerDiagOnLab (fun p lab' => p = 3 ∧ GGQ2S08BigLabel lab') 3 Bs L)
     (hMW : GGQ2LabelWeyl lab M.coxeter) (htag : lab.tag = .twA) (h3 : 3 ∣ lab.rank + 1)
@@ -38,8 +38,8 @@ theorem ggQ2s08_bigB_holds
       M.model.injective (by rw [map_zero]; exact h0)
     have h2 : (⟨x, M.hx⟩ : ↥Bs) = 1 := Additive.ofMul.injective (by simpa using h1)
     exact hune h2
-  haveI : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
-  haveI : Module.Finite (ZMod 3) M.V := Module.Finite.of_finite
+  have : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
+  have : Module.Finite (ZMod 3) M.V := Module.Finite.of_finite
   have hMW' : GGQ2LabelWeyl lab M.coxeter := hMW
   simp only [GGQ2LabelWeyl, htag] at hMW'
   obtain ⟨e, -⟩ := hMW'

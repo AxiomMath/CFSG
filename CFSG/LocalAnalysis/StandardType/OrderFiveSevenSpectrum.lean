@@ -23,10 +23,12 @@ open Matrix
 variable {E : Type*} [Field E] [IsAlgClosed E] [CharP E 2] {ι : Type*} [Fintype ι]
   [DecidableEq ι]
 
+omit [IsAlgClosed E] [CharP E 2] [DecidableEq ι] in
 theorem dotProduct_mulVec_transpose (A : Matrix ι ι E) (x y : ι → E) :
     (A *ᵥ x) ⬝ᵥ y = x ⬝ᵥ (Aᵀ *ᵥ y) := by
   rw [Matrix.dotProduct_mulVec, Matrix.vecMul_transpose]
 
+omit [IsAlgClosed E] [CharP E 2] in
 theorem exists_eigenvector_of_mem_spectrum {X : Matrix ι ι E} {θ : E}
     (hθ : θ ∈ spectrum E X) : ∃ u : ι → E, u ≠ 0 ∧ X *ᵥ u = θ • u := by
   have hnu : ¬ IsUnit (algebraMap E (Matrix ι ι E) θ - X) := (spectrum.mem_iff).mp hθ
@@ -42,6 +44,7 @@ theorem exists_eigenvector_of_mem_spectrum {X : Matrix ι ι E} {θ : E}
   rw [sub_mulVec, Matrix.smul_mulVec, Matrix.one_mulVec, sub_eq_zero] at hkill
   exact hkill.symm
 
+omit [IsAlgClosed E] [CharP E 2] in
 theorem pow_mulVec_eigenvector {X : Matrix ι ι E} {θ : E} {u : ι → E}
     (hmul : X *ᵥ u = θ • u) (n : ℕ) : X ^ n *ᵥ u = θ ^ n • u := by
   induction n with
@@ -50,6 +53,7 @@ theorem pow_mulVec_eigenvector {X : Matrix ι ι E} {θ : E} {u : ι → E}
       rw [pow_succ', ← Matrix.mulVec_mulVec, ih, Matrix.mulVec_smul, hmul, smul_smul,
         ← pow_succ]
 
+omit [IsAlgClosed E] [CharP E 2] in
 theorem pow_eq_one_of_mem_spectrum {X : Matrix ι ι E} {θ : E} {m : ℕ}
     (hθ : θ ∈ spectrum E X) (hX : X ^ m = 1) : θ ^ m = 1 := by
   obtain ⟨u, hu, hmul⟩ := exists_eigenvector_of_mem_spectrum hθ
@@ -60,12 +64,14 @@ theorem pow_eq_one_of_mem_spectrum {X : Matrix ι ι E} {θ : E} {m : ℕ}
   simp only [Pi.smul_apply, smul_eq_mul] at h
   exact (mul_right_cancel₀ hi (by rw [one_mul]; exact h)).symm
 
+omit [IsAlgClosed E] [CharP E 2] in
 theorem pow_inj_of_orderOf {θ : E} {n : ℕ} (hx : IsOfFinOrder θ) (h : orderOf θ = n)
     (i j : ℕ) (hi : i < n) (hj : j < n) (hij : θ ^ i = θ ^ j) : i = j := by
   have hp := hx.pow_eq_pow_iff_modEq.mp hij
   rw [h] at hp
   exact hp.eq_of_lt_of_lt hi hj
 
+omit [IsAlgClosed E] in
 theorem one_add_sq (N : Matrix ι ι E) : (1 + N) ^ 2 = 1 + N ^ 2 := by
   have h2E : (2 : E) = 0 := CharP.cast_eq_zero E 2
   have h2 : (2 : Matrix ι ι E) = 0 := by
@@ -74,6 +80,7 @@ theorem one_add_sq (N : Matrix ι ι E) : (1 + N) ^ 2 = 1 + N ^ 2 := by
   have h : (1 + N) ^ 2 = 1 + N ^ 2 + 2 * N := by noncomm_ring
   rw [h, show (2 : Matrix ι ι E) * N = 0 from by rw [h2, zero_mul], add_zero]
 
+omit [IsAlgClosed E] [CharP E 2] in
 theorem sq_mem_spectrum_of_conj_sq {X Y : Matrix ι ι E} (hY : IsUnit Y)
     (hXY : Y * X = X ^ 2 * Y) {θ : E} (hθ : θ ∈ spectrum E X) : θ ^ 2 ∈ spectrum E X := by
   obtain ⟨u, rfl⟩ := hY
@@ -85,6 +92,7 @@ theorem sq_mem_spectrum_of_conj_sq {X Y : Matrix ι ι E} (hY : IsUnit Y)
   rw [← hspec]
   exact spectrum.pow_mem_pow X 2 hθ
 
+omit [CharP E 2] in
 theorem card_spectrum_le (X : Matrix ι ι E) :
     (spectrum E X).Finite ∧ (spectrum E X).ncard ≤ Fintype.card ι := by
   classical
@@ -104,7 +112,7 @@ theorem card_spectrum_le (X : Matrix ι ι E) :
 theorem eq_one_of_spectrum_subset_one {m : ℕ} (hm : Odd m) {X : Matrix ι ι E} (hX : X ^ m = 1)
     (hs : spectrum E X ⊆ {1}) : X = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hroot : ∀ r : E, X.charpoly.IsRoot r → r = 1 := by
     intro r hr
     have hmem : r ∈ spectrum E X := (Matrix.mem_spectrum_iff_isRoot_charpoly).mpr hr
@@ -160,7 +168,7 @@ theorem eq_one_of_pow_five_of_card_le_three (hι : Fintype.card ι ≤ 3) {X Y :
   have hθne : θ ≠ 1 := by simpa using hθnot
   have hθ5 : θ ^ 5 = 1 := pow_eq_one_of_mem_spectrum hθ hX
   have hord : orderOf θ = 5 := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     exact orderOf_eq_prime hθ5 hθne
   have hfinθ : IsOfFinOrder θ := isOfFinOrder_iff_pow_eq_one.mpr ⟨5, by norm_num, hθ5⟩
   have hinj := pow_inj_of_orderOf hfinθ hord
@@ -207,6 +215,7 @@ theorem eq_one_of_pow_five_of_card_le_three (hι : Fintype.card ι ≤ 3) {X Y :
   have hcard := (card_spectrum_le X).2
   omega
 
+omit [IsAlgClosed E] [CharP E 2] in
 theorem inv_mem_spectrum_of_form (σ : E ≃+* E)
     (hσ : ∀ η : E, η ^ 7 = 1 → ∃ k : ℕ, σ η = η ^ 2 ^ k) {G : Matrix ι ι E} (hG : IsUnit G)
     {X Y : Matrix ι ι E} (hY : IsUnit Y) (hXY : Y * X = X ^ 2 * Y) (hX : X ^ 7 = 1)
@@ -316,7 +325,7 @@ theorem eq_one_of_pow_seven_of_form (σ : E ≃+* E)
   have hθne : θ ≠ 1 := by simpa using hθnot
   have hθ7 : θ ^ 7 = 1 := pow_eq_one_of_mem_spectrum hθ hX
   have hord : orderOf θ = 7 := by
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     exact orderOf_eq_prime hθ7 hθne
   have hfinθ : IsOfFinOrder θ := isOfFinOrder_iff_pow_eq_one.mpr ⟨7, by norm_num, hθ7⟩
   have hinj := pow_inj_of_orderOf hfinθ hord

@@ -16,7 +16,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 
 theorem eq_inf_centralizer_sup_pCoreOf_two {K W N : Subgroup G}
-    (hWK : W ≤ normalizer (K : Set G)) (hW : IsPGroup 3 W) (hNK : N ≤ K)
+    (hWK : W ≤ normalizer (K : Set G)) (hW : IsPGroup 3 W) (_hNK : N ≤ K)
     (hperf : ⁅K, K⁆ = K) (hKW : ⁅W, K⁆ ≤ N) (hN : ⁅K, N⁆ ≤ pCoreOf 2 K) :
     K = (K ⊓ centralizer (W : Set G)) ⊔ pCoreOf 2 K := by
   set O : Subgroup G := pCoreOf 2 K with hO

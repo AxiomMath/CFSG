@@ -17,9 +17,9 @@ theorem isShapeCentralizerFiveC_of_data {G : Type} [Group G] [Finite G] (X L Y :
     (hY : Nat.card ↥Y = 240) (hψ : Nat.card ↥ψ.range = 120) (haY : a ∈ Y) (ha2 : a * a = 1)
     (ha1 : a ≠ 1) (hacen : ∀ y ∈ Y, y * a = a * y) (haψ : ψ ⟨a, haY⟩ = 1) (hu : u ∈ Y)
     (hv : v ∈ Y) (hcomm : u * v * u⁻¹ * v⁻¹ = a) : IsShapeCentralizerFiveC ↥X := by
-  haveI : Finite ↥Y := Nat.finite_of_card_ne_zero (by rw [hY]; norm_num)
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥Y := Nat.finite_of_card_ne_zero (by rw [hY]; norm_num)
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨eX⟩ := nonempty_mulEquiv_prod_of_central X L Y hLX hYX hLcen hLY hX
   have hZ5card : Nat.card (Multiplicative (ZMod 5)) = 5 := by simp
   have hLiso : Nonempty (↥L ≃* Multiplicative (ZMod 5)) :=
@@ -47,7 +47,7 @@ theorem isShapeCentralizerFiveC_of_data {G : Type} [Group G] [Finite G] (X L Y :
     change Subgroup.zpowers a' ≤ Subgroup.center ↥Y
     rw [Subgroup.zpowers_le]
     exact ha'cen
-  haveI : Z.Normal := Subgroup.normal_of_le_center hZcen
+  have : Z.Normal := Subgroup.normal_of_le_center hZcen
   have hker_card : Nat.card ψ.ker = 2 := by
     have h := Subgroup.card_ker_mul_card_range ψ
     rw [hY, hψ] at h

@@ -19,7 +19,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V]
 
 omit [CharP K 2] in
 private instance finite_linearEquiv_orth : Finite (V ≃ₗ[K] V) := by
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   exact Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun _ _ h => LinearEquiv.ext (congrFun h)
 
@@ -155,10 +155,10 @@ private theorem permAut_swap_mulSingle (j k : Fin r) :
     · intro h
       simpa [h] using (Equiv.swap_apply_self j k m).symm
     · intro h
-      simpa [h] using Equiv.swap_apply_right j k
+      simp [h]
   by_cases hm : m = k
-  · rw [if_pos (hiff.mpr hm), if_pos hm]
-  · rw [if_neg (fun h => hm (hiff.mp h)), if_neg hm]
+  · rw [ite_eq_left (hiff.mpr hm), ite_eq_left hm]
+  · rw [ite_eq_right (fun h => hm (hiff.mp h)), ite_eq_right hm]
 
 omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 private theorem exists_conj_single_orth {τ : (Fin r → Multiplicative (ZMod p)) →* (V ≃ₗ[K] V)}
@@ -388,7 +388,7 @@ theorem ggTorusGenR_orthDerived (hp : p.Prime) (hp2 : p ≠ 2)
   intro E hE hcard hmaxE
   let E' : Subgroup (V ≃ₗ[K] V) := E.map (orthDerived Q).subtype
   have hE' : CFSG.Open.IsElemAbelian p E' := CFSG.Open.IsElemAbelian.map hE _
-  haveI : IsMulCommutative E' := hE'.1
+  have : IsMulCommutative E' := hE'.1
   have hcard' : Nat.card E' = Nat.card E :=
     Subgroup.card_map_of_injective (orthDerived Q).subtype_injective
   have hE3' : p ^ 3 ≤ Nat.card E' := by rw [hcard']; exact hcard

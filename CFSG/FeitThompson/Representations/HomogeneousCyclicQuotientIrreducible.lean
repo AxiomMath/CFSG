@@ -139,7 +139,7 @@ theorem tensorLine_apply_apply (w : Fin m → k) (u : M) (i : Fin m) :
     map_sum, Finset.sum_eq_single i]
   · rw [LinearMap.smul_apply, map_smul, DirectSum.component.lof_self]
   · intro j _ hj
-    rw [LinearMap.smul_apply, map_smul, DirectSum.component.of, dif_neg hj, smul_zero]
+    rw [LinearMap.smul_apply, map_smul, DirectSum.component.of, dite_eq_right hj, smul_zero]
   · simp
 
 theorem tensorLine_eq_sum (w : Fin m → k) (u : M) :
@@ -150,7 +150,7 @@ theorem tensorLine_eq_sum (w : Fin m → k) (u : M) :
     Finset.sum_eq_single i]
   · rw [DirectSum.component.lof_self]
   · intro j _ hj
-    rw [DirectSum.component.of, dif_neg hj]
+    rw [DirectSum.component.of, dite_eq_right hj]
   · simp
 
 noncomputable def dsFinOneEquiv : (⨁ _ : Fin 1, M) ≃ₗ[k] M :=

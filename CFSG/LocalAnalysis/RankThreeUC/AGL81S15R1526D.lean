@@ -100,7 +100,7 @@ theorem uOf_props {X : Type} [Group X] [Finite X] {T T₁ T₂ : Subgroup X} (hX
     have hs : IsSimpleGroup (↥Ls ⧸ Subgroup.center ↥Ls) := hLs.1.2.2.2
     obtain ⟨a, b, hab⟩ := hs.toNontrivial.exists_pair_ne
     exact hab (Subsingleton.elim a b)
-  · haveI : (gnV T).Normal := Subgroup.normalClosure_normal
+  · have : (gnV T).Normal := Subgroup.normalClosure_normal
     exact (Subgroup.commutator_le_right L (gnV T)).trans
       ((gnV_le_pCore hX).trans (pCore_le_gnC_aux1 hX.sylow))
 

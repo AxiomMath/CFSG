@@ -21,7 +21,7 @@ theorem s16fh_rk_of_realizes_nat [Finite W] {K : Type} [Field K] [Finite K] {d a
     CFSG.Quasithin.G64.card_natMod (StatedSL d K)
   have hcard : Nat.card ↥I = 2 ^ (d * a) * Nat.card ↥Z := by
     rw [h1, h2, hK, ← pow_mul, Nat.mul_comm a d]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpow : (2 : ℕ) ^ (d * a) ≠ 0 := pow_ne_zero _ (by norm_num)
   have hZ : Nat.card ↥Z ≠ 0 := Nat.card_pos.ne'
   calc rk ↥I = padicValNat 2 (Nat.card ↥I) := rfl

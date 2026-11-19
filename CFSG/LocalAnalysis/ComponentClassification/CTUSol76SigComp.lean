@@ -22,6 +22,7 @@ theorem exists_isKleinFour_le {B : Subgroup G} (hB : CFSG.Open.IsElemAbelian 2 B
   · rintro _ ⟨x, -, rfl⟩
     exact hB.2 x x.2
 
+omit [Finite G] in
 theorem isPGroup_sup_of_le_centralizer {B V : Subgroup G} (hB2 : IsPGroup 2 B)
     (hV2 : IsPGroup 2 V) (hBV : B ≤ centralizer (V : Set G)) : IsPGroup 2 (B ⊔ V : Subgroup G) :=
   IsPGroup.to_sup_of_normal_right' hB2 hV2

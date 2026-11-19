@@ -115,8 +115,7 @@ theorem coe_embE6F4_xE (K : Type) [Field K] (j : Fin Tag.F4.rank) (c : K) :
       (((e6FixedF4EquivAll K).symm (xE Tag.F4 K j c) :
         twistedFixedGroup TwistTag.E6 K (RingHom.id K)) : ModGL TwistTag.E6.tag K) := by
     unfold embE6F4 isoE6F4
-    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.trans_apply,
-      Subgroup.coe_subtype]
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, Subgroup.coe_subtype]
     rfl
   rw [h1, hT]
   rfl
@@ -130,8 +129,7 @@ theorem coe_embE6F4_yE (K : Type) [Field K] (j : Fin Tag.F4.rank) (c : K) :
       (((e6FixedF4EquivAll K).symm (yE Tag.F4 K j c) :
         twistedFixedGroup TwistTag.E6 K (RingHom.id K)) : ModGL TwistTag.E6.tag K) := by
     unfold embE6F4 isoE6F4
-    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.trans_apply,
-      Subgroup.coe_subtype]
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, Subgroup.coe_subtype]
     rfl
   rw [h1, hT]
   rfl

@@ -19,7 +19,7 @@ theorem TwelveSixKCtx.commutator_le_xSub
     (hc : TwelveSixKCtx G M p Q H d L₁ L₂ L₃ n₁ n₂ n₃)
     {L L' I W : Subgroup G} (hL : L ∈ weakBlockSet M H) (hL' : L' ∈ weakBlockSet M H)
     (hne : L ≠ L') (hIL : I ≤ H ⊓ L) (hWL : W ≤ H ⊓ L') : ⁅I, W⁆ ≤ xSub p M H := by
-  haveI : Fact p.Prime := ⟨hc.ctx.p_prime⟩
+  have : Fact p.Prime := ⟨hc.ctx.p_prime⟩
   have hpcore : ⁅I, W⁆ ≤ pCoreOf 2 M :=
     (Subgroup.commutator_mono (hIL.trans inf_le_right) (hWL.trans inf_le_right)).trans
       (IsTwoPrimeComponent.commutator_le hL.toIsTwoPrimeComponent hL'.toIsTwoPrimeComponent hne)

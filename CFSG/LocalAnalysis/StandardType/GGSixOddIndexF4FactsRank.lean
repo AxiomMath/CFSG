@@ -98,7 +98,7 @@ theorem ggF4_card_le_sq_of_sylowShape {p e : ℕ} (hp : p.Prime)
     (hA : ∀ a ∈ A, a ^ p = 1) : Nat.card A ≤ p ^ 2 := by
   have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hAS⟩ := (ggF4_isPGroup_of_pow_eq_one hp hA).exists_le_sylow
-  obtain ⟨φ⟩ := hs (S : Subgroup X) S.isPGroup' S.not_dvd_index
+  obtain ⟨φ⟩ := hs (S : Subgroup X) S.isPGroup S.not_dvd_index
   have hcard : Nat.card ((A.subgroupOf S).map φ.toMonoidHom) = Nat.card A := by
     rw [Subgroup.card_map_of_injective φ.injective]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAS).toEquiv

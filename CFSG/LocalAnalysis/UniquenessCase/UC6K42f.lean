@@ -76,6 +76,7 @@ theorem center_le_commutator_uc6 {x : G} {D Q : Subgroup G} (hD : D = Subgroup.z
   rw [← Abelianization.ker_of]
   exact h2
 
+omit [Finite G] in
 theorem centralizer_le_center_uc6 {D Q : Subgroup G} (hcomm : ⁅D, Q⁆ = Q)
     (hcomm1 : commutator ↥Q ≤ center ↥Q)
     (hDZ : ∀ d ∈ D, ∀ z ∈ (center ↥Q).map Q.subtype, d * z = z * d)
@@ -130,6 +131,7 @@ theorem zpowers_eq_of_ne_one_uc6 {r : ℕ} (hr : r.Prime) {D : Subgroup G} (hD :
   refine Subgroup.eq_of_le_of_card_ge ((Subgroup.zpowers_le).2 hx) ?_
   rw [Nat.card_zpowers, hord, hD]
 
+omit [Finite G] in
 theorem isExtraspecial_uc6 {Q : Subgroup G} (hcard : Nat.card (center ↥Q) = 2)
     (hcomm1 : commutator ↥Q ≤ center ↥Q) (hsq : ∀ x : ↥Q, x ^ 2 ∈ center ↥Q)
     (hnab : ¬ IsMulCommutative ↥Q) : CFSG.IsExtraspecial 2 ↥Q where
@@ -177,7 +179,7 @@ theorem structure2_uc6 {r : ℕ} (hr : r.Prime) {D Q : Subgroup G} (hD : Nat.car
     rw [h2] at h1
     rw [sq]
     exact h1.symm
-  letI : CommGroup ↥(center ↥Q) := IsMulCommutative.instCommGroup
+  let : CommGroup ↥(center ↥Q) := IsMulCommutative.instCommGroup
   let Ω : Subgroup ↥Q :=
     (powMonoidHom 2 : ↥(center ↥Q) →* ↥(center ↥Q)).ker.map (center ↥Q).subtype
   have hΩ : commutator ↥Q ≤ Ω := by
@@ -189,8 +191,8 @@ theorem structure2_uc6 {r : ℕ} (hr : r.Prime) {D Q : Subgroup G} (hD : Nat.car
     show (powMonoidHom 2 : ↥(center ↥Q) →* ↥(center ↥Q)) ⟨⁅x, y⁆, hxy⟩ = 1
     apply Subtype.ext
     simpa using hcsq x y
-  haveI := hcyc
-  haveI : IsCyclic ↥(commutator ↥Q) := Subgroup.isCyclic_of_le hcomm1
+  have := hcyc
+  have : IsCyclic ↥(commutator ↥Q) := Subgroup.isCyclic_of_le hcomm1
   have hcard1 : Nat.card ↥(commutator ↥Q) ∣ 2 := by
     rw [← IsCyclic.exponent_eq_card]
     apply Monoid.exponent_dvd_of_forall_pow_eq_one

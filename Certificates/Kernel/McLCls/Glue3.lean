@@ -99,7 +99,7 @@ theorem IE_closed {c : Nat → Equiv.Perm (Fin 275)}
   have hK : F.H ≤ K := by
     rw [H_eq, closure_le]
     rintro _ ⟨T, hT, rfl⟩
-    simp only [List.toArray, Set.mem_setOf_eq, List.mem_toArray, List.mem_cons, List.not_mem_nil,
+    simp only [List.toArray, Set.mem_ofPred_eq, List.mem_toArray, List.mem_cons, List.not_mem_nil,
       or_false] at hT
     rcases hT with rfl | rfl
     · rintro y ⟨i, hi, rfl⟩

@@ -49,7 +49,7 @@ theorem le_pCore_of_isPGroup_of_le_fitting {D : Subgroup H} (hD : IsPGroup p D)
   have hSc : (S : Subgroup F).Characteristic := Sylow.characteristic_of_normal S hSn
   have hmapn : ((S : Subgroup F).map F.subtype).Normal := inferInstance
   have hle : (S : Subgroup F).map F.subtype ≤ pCore p H :=
-    le_sSup ⟨hmapn, S.isPGroup'.map _⟩
+    le_sSup ⟨hmapn, S.isPGroup.map _⟩
   intro x hx
   exact hle ⟨⟨x, hDF hx⟩, hS hx, rfl⟩
 

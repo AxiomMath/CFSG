@@ -143,7 +143,7 @@ theorem propIV91_of (hσ : σ.IsValid) (hII : σ.ChapterIIFacts) (hN : σ.IVNFac
         V56.three_dvd_automizerIndex_of_subset_mul (O := ⊥) bot_le (fun _ _ => by
             rw [Subgroup.mem_normalizer_iff]; intro; simp)
           (by simp) (fun g hg => ⟨1, rfl, g, hg, one_mul g⟩) le_rfl inf_le_right hTQP
-          (σ.S.isPGroup'.to_le (σ.T_le_S hσ))
+          (σ.S.isPGroup.to_le (σ.T_le_S hσ))
           (fun a ha _ hb => (Subgroup.mem_centralizer_iff.mp (σ.T_le_C hσ hb)) a ha) h95.2.2
       have hcomm3 : ⁅⁅e.U, e.U⁆, e.U⁆ = ⊥ := by
         rw [eq_bot_iff, Subgroup.commutator_le]

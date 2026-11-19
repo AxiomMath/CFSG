@@ -34,10 +34,10 @@ theorem false_of_outerRest (hR : Fin76bOuterRest) (h : StdHyp G L)
   have := h.simple
   obtain ⟨z, t, T, hcfg⟩ := exists_outerConfig h hS hZ hcZ hOD hout hidx
   obtain ⟨Q, x, hTQ, hxQ, hxT, hxN, hxz, hxt⟩ := hcfg.exists_swap h.nonabelian
-  have htQ := hcfg.t_central_Q Q.isPGroup' hTQ hxQ hxz hxt
+  have htQ := hcfg.t_central_Q Q.isPGroup hTQ hxQ hxz hxt
   have hcomm := hcfg.z_mem_commutator h.nonabelian
   exact hR G L z t T Q x h hJ hS hidx hcfg hTQ hxQ hxT hxN hxz hxt htQ
-    (hcfg.inf_centralizer_eq Q.isPGroup' hTQ) ⟨_, hcomm, rfl⟩
+    (hcfg.inf_centralizer_eq Q.isPGroup hTQ) ⟨_, hcomm, rfl⟩
 
 theorem fin76bThmCSimple_of_outerRest
     (hR : Fin76bOuterRest) (hOJ2 : OuterData ↥ComponentClassification.J2Cover.Models.P)

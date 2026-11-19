@@ -109,6 +109,7 @@ theorem Coord95.mem_QB_conj_iff (C : Coord95 hc t K) (hs : Sec9Hyp hc n t) {ρ :
     rw [e1]
     exact (QB B).mul_mem (Subgroup.mem_inf.mp hwVQ).2 (hZQB hzw)
 
+omit [Finite K] [CharP K 2] in
 theorem card_polar_orth_two95 {u₁ u₂ : Fin 2 ⊕ Fin 2 → K} (h₁ : u₁ ≠ 0)
     (hind : ∀ a : K, u₂ ≠ a • u₁) :
     Nat.card {y : Fin 2 ⊕ Fin 2 → K // polar (quadPlus 2 K) u₁ y = 0 ∧
@@ -134,7 +135,7 @@ theorem card_polar_orth_two95 {u₁ u₂ : Fin 2 ⊕ Fin 2 → K} (h₁ : u₁ �
     have h := finrank_span_eq_card hli
     have hrange : Set.range ![u₁, u₂] = {u₁, u₂} := by
       ext x
-      simp [Fin.exists_fin_two, eq_comm]
+      simp [eq_comm]
       exact or_comm
     rw [hrange] at h
     simpa [hSp] using h

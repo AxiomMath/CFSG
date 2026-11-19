@@ -14,15 +14,18 @@ variable {G : Type} [Group G] [Finite G]
 
 @[expose] def sec414W (V : Subgroup G) : Subgroup G := (CFSG.pCore 2 ↥V).map V.subtype
 
+omit [Finite G] in
 theorem sec414W_isPGroup (V : Subgroup G) : IsPGroup 2 ↥(sec414W V) :=
   (CFSG.pCore_isPGroup (p := 2) (G := ↥V)).map V.subtype
 
+omit [Finite G] in
 theorem sec414W_conj {V : Subgroup G} {v p : G} (hv : v ∈ V) (hp : p ∈ sec414W V) :
     v * p * v⁻¹ ∈ sec414W V := by
   obtain ⟨q, hq, rfl⟩ := hp
   exact ⟨⟨v, hv⟩ * q * ⟨v, hv⟩⁻¹,
     (CFSG.pCore_normal (p := 2) (G := ↥V)).conj_mem q hq ⟨v, hv⟩, rfl⟩
 
+omit [Finite G] in
 theorem mem_sec414W_iff {V : Subgroup G} {x : G} (hx : x ∈ V) :
     x ∈ sec414W V ↔ Sec414InO2 V x := by
   rw [sec414_inO2_iff hx]
@@ -32,10 +35,12 @@ theorem mem_sec414W_iff {V : Subgroup G} {x : G} (hx : x ∈ V) :
   · intro h
     exact ⟨⟨x, hx⟩, h, rfl⟩
 
+omit [Finite G] in
 theorem sec414_mem_pCore_iff {V : Subgroup G} (y : ↥V) :
     y ∈ CFSG.pCore 2 ↥V ↔ (y : G) ∈ sec414W V := by
   rw [mem_sec414W_iff y.2, sec414_inO2_iff y.2]
 
+omit [Finite G] in
 theorem sec414_inO2_of_mem_W {V X : Subgroup G} (hXV : X ≤ V) {t : G} (htX : t ∈ X)
     (htW : t ∈ sec414W V) : Sec414InO2 X t := by
   refine ⟨X ⊓ sec414W V, inf_le_left, (sec414W_isPGroup V).to_le inf_le_right, ?_, ⟨htX, htW⟩⟩
@@ -43,7 +48,7 @@ theorem sec414_inO2_of_mem_W {V X : Subgroup G} (hXV : X ≤ V) {t : G} (htX : t
   exact ⟨X.mul_mem (X.mul_mem hv hp.1) (X.inv_mem hv), sec414W_conj (hXV hv) hp.2⟩
 
 theorem sec414_isPGroup_zpowers {z : G} (hz : z * z = 1) : IsPGroup 2 ↥(Subgroup.zpowers z) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [IsPGroup.iff_card, Nat.card_zpowers]
   have hdvd : orderOf z ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact hz)
   rcases (Nat.dvd_prime Nat.prime_two).mp hdvd with h | h
@@ -64,6 +69,7 @@ theorem sec414_mem_W_of_central {V : Subgroup G} {z : G} (hzV : z ∈ V) (hz2 : 
   rw [this]
   exact Subgroup.zpow_mem_zpowers z k
 
+omit [Finite G] in
 theorem sec414_conj_le_of_mem {T V : Subgroup G} (hTV : T ≤ V) {u : G} (hu : u ∈ V) :
     conjSubgroup u T ≤ V := by
   intro y hy
@@ -76,6 +82,7 @@ structure Sec414Min (A A0 : Subgroup G) (g : G) : Prop where
   min : ∀ h : G, (¬ ∀ x ∈ A0, Sec414InO2 (A ⊔ conjSubgroup h A) x) →
     Nat.card ↥(A ⊔ conjSubgroup g A) ≤ Nat.card ↥(A ⊔ conjSubgroup h A)
 
+omit [Finite G] in
 theorem Sec414Sys.linked_not_comm {A A0 : Subgroup G} (S : Sec414Sys A A0) {C : Subgroup G}
     (h : normalizerIn A C = A0) : ¬ Sec414Comm A C := by
   intro hc
@@ -111,14 +118,16 @@ theorem inO2_of_lt {g₁ g₂ : G}
     rw [← hjoin, card_conjSubgroup]
   omega
 
+omit M [Finite G] in
 theorem sup_le_V {g₁ g₂ : G} (h₁ : g₁ ∈ A ⊔ conjSubgroup g A) (h₂ : g₂ ∈ A ⊔ conjSubgroup g A) :
     conjSubgroup g₁ A ⊔ conjSubgroup g₂ A ≤ A ⊔ conjSubgroup g A :=
   sup_le (sec414_conj_le_of_mem le_sup_left h₁) (sec414_conj_le_of_mem le_sup_left h₂)
 
+omit M in
 theorem lt_of_ne {g₁ g₂ : G} (h₁ : g₁ ∈ A ⊔ conjSubgroup g A) (h₂ : g₂ ∈ A ⊔ conjSubgroup g A)
     (hne : conjSubgroup g₁ A ⊔ conjSubgroup g₂ A ≠ A ⊔ conjSubgroup g A) :
     Nat.card ↥(conjSubgroup g₁ A ⊔ conjSubgroup g₂ A) < Nat.card ↥(A ⊔ conjSubgroup g A) :=
-  Subgroup.card_lt_of_lt (lt_of_le_of_ne (M.sup_le_V h₁ h₂) hne)
+  Subgroup.card_lt_of_lt (lt_of_le_of_ne (Sec414Min.sup_le_V h₁ h₂) hne)
 
 theorem free (S : Sec414Sys A A0) :
     normalizerIn A (conjSubgroup g A) = ⊥ ∧ normalizerIn (conjSubgroup g A) A = ⊥ ∧
@@ -163,7 +172,7 @@ theorem sup_eq_of_normalizerIn (S : Sec414Sys A A0) {g₁ g₂ : G}
     (hN : normalizerIn (conjSubgroup g₁ A) (conjSubgroup g₂ A) = ⊥) :
     conjSubgroup g₁ A ⊔ conjSubgroup g₂ A = A ⊔ conjSubgroup g A := by
   by_contra hne
-  have hin := M.inO2_of_lt (M.lt_of_ne h₁ h₂ hne)
+  have hin := M.inO2_of_lt (CFSG.RankThree.GF2n.Tim77.Sec414Min.lt_of_ne h₁ h₂ hne)
   obtain ⟨⟨x, hx⟩, hx1'⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp (S.conj g₁).a0_ne
   have hx1 : x ≠ 1 := fun e => hx1' (Subtype.ext e)
   have hxA : x ∈ conjSubgroup g₁ A := (S.conj g₁).a0_le hx
@@ -258,7 +267,7 @@ theorem pair_conj (S : Sec414Sys A A0) {a e : G} (ha : a ∈ A) (ha0 : a ∉ A0)
   have hAV : A ≤ A ⊔ conjSubgroup g A := le_sup_left
   have hBV : conjSubgroup g A ≤ A ⊔ conjSubgroup g A := le_sup_right
   have haD : a ∈ Sec414D A A0 := ⟨1, a, ha, ha0, by group⟩
-  have heD : e ∈ Sec414D A A0 := S.mem_D_of_conj he he0
+  have heD : e ∈ Sec414D A A0 := CFSG.RankThree.GF2n.Tim77.Sec414Sys.mem_D_of_conj he he0
   have ha2 := S.D_sq haD
   have he2 := S.D_sq heD
   have hxy : a * e ≠ e * a := fun h => (M.free S).2.2 (S.comm_of_commute ha ha0 g he he0 h)

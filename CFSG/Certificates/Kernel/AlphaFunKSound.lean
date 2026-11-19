@@ -31,12 +31,12 @@ private theorem sum_ind1F {n : Nat} (hn : 0 < n) (q k : Nat) (G : Nat → Int) :
     rw [Finset.sum_eq_single ⟨k % n, Nat.mod_lt _ hn⟩]
     · simp [h]
     · intro j _ hj
-      rw [if_neg]
+      rw [ite_eq_right]
       intro e
       exact hj (Fin.ext e.2)
     · simp
   · rename_i h
-    exact Finset.sum_eq_zero fun j _ => if_neg fun e => h e.1
+    exact Finset.sum_eq_zero fun j _ => ite_eq_right fun e => h e.1
 
 private theorem ind_mulF (k i : Nat) (F : Int) :
     (if k = i then (1 : Int) else 0) * F = if i = k then F else 0 := by
@@ -73,8 +73,8 @@ private theorem wSum_filterF (P : Nat → Prop) [DecidablePred P] (f : Nat → I
     beta_reduce at ih ⊢
     rw [List.filter_cons]
     by_cases h : P e.1
-    · simp only [h, if_true, decide_true, List.map_cons, List.sum_cons, ih]
-    · simp only [h, if_false, decide_false, Bool.false_eq_true, List.map_cons, List.sum_cons,
+    · simp only [h, ite_true, decide_true, List.map_cons, List.sum_cons, ih]
+    · simp only [h, ite_false, decide_false, Bool.false_eq_true, List.map_cons, List.sum_cons,
         mul_zero, zero_add, ih]
 
 theorem sum_wSumF {n J : Nat} (hn : 0 < n) (hJ : 0 < J) (Q : Nat) (F : Nat → Nat → Int)
@@ -103,7 +103,7 @@ theorem funOK_of_funW {p n J N : Nat} {m : NMod} {sp : List (Nat × Nat)}
   subst hn hJ
   have hget : ∀ j : Fin m.acts.length, m.acts.get j = m.acts.getD j default := fun j => by
     rw [List.get_eq_getElem, List.getElem_eq_getD default]
-  simp only [NMod.funOK, List.all_eq_true, List.mem_finRange, true_implies, forall_const,
+  simp only [NMod.funOK, List.all_eq_true, List.mem_finRange, forall_const,
     beq_iff_eq]
   intro r₀ r
   have hn : 0 < m.basis.length := Nat.lt_of_le_of_lt (Nat.zero_le _) r₀.isLt

@@ -71,9 +71,9 @@ theorem t5_cover_of_model (hS : Asc82SchurU43) (hL : IsOm6Z2 L)
     ∃ φ : ↥L →* omegaGroup hQ, IsCoverMap L φ ∧
       ∀ l : ↥L, e (QuotientGroup.mk l) = omegaToProj hQ (φ l) := by
   obtain ⟨V', i1, i2, i3, Q', hQ', φ₀, hcov⟩ := t5_exists_cover hS hL
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   obtain ⟨e₀, he₀⟩ := t5_exists_model hL hcov
   have hdim' : Module.finrank (ZMod 3) V' = 6 := hcov.finrank_eq
   have hs' : quadSign Q' = -1 := hcov.quadSign_eq

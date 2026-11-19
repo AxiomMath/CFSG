@@ -129,7 +129,7 @@ theorem baseChangeIntertwiningMap_exact (K' : Type*) [Field K'] [Algebra k K']
     (Φ : ρX.IntertwiningMap ρY) (h : Function.Exact Φ F) :
     Function.Exact (baseChangeIntertwiningMap K' Φ) (baseChangeIntertwiningMap K' F) := by
   change Function.Exact (Φ.toLinearMap.baseChange K') (F.toLinearMap.baseChange K')
-  rw [LinearMap.baseChange_eq_ltensor, LinearMap.baseChange_eq_ltensor]
+  rw [LinearMap.baseChange_eq_lTensor, LinearMap.baseChange_eq_lTensor]
   exact Module.Flat.lTensor_exact K' h
 
 theorem repMultiplicity_baseChange_eq_of_exact_pair [FiniteDimensional k X]

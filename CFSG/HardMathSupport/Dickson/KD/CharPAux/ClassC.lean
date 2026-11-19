@@ -70,7 +70,7 @@ theorem frame_PSp_of_gen [NeZero r] {p : ℕ} [Fact p.Prime] [CharP K p] [Finite
     (y : StatedProj (StatedSp r K)) (hy : orderOf y = p) : Frame p y := by
   obtain ⟨sg, N, hsg, hN, hN0, hy0⟩ := sp_exists_nilpotent_of_orderOf_eq hp2 y hy
   have hs := sp_hs sg hsg
-  haveI : Nonempty (Fin r ⊕ Fin r) := ⟨Sum.inl ⟨0, Nat.pos_of_neZero r⟩⟩
+  have : Nonempty (Fin r ⊕ Fin r) := ⟨Sum.inl ⟨0, Nat.pos_of_neZero r⟩⟩
   refine ⟨modelGenC r K N, {y}, ?_, ?_, ?_, ?_, ?_⟩
   · rintro q (hq | hq)
     · rw [hy0]
@@ -116,7 +116,7 @@ theorem kdCharPAt_C (q : TauCeti.PrimePower) (r : ℕ) (hv : (TauCeti.LieTypeInd
   have hchar : CharP K' q.p := by
     have := Fintype.ofFinite K'
     exact charP_of_card_eq_prime_pow (f := q.exponent) (by rw [← Nat.card_eq_fintype_card, hKq])
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   have hp3 : 3 ≤ q.p := by
     have := q.prime_p.two_le
     omega
@@ -148,9 +148,9 @@ theorem kdCharPAt_B_two (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.B 2
     have : ((2 : ℕ) : K') = 0 := by exact_mod_cast h
     rw [CharP.cast_eq_zero_iff K' q.p] at this
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hprime.1 Nat.prime_two).1 this)
-  haveI : NeZero 2 := ⟨by norm_num⟩
+  have : NeZero 2 := ⟨by norm_num⟩
   have hgen := (CFSG.RankThree.PartOne.AUTSL.SpTwo.automorphism_generation_two h2K).2
-  haveI : IsSimpleGroup (TauCeti.ValidLieTypeIndex.Group ⟨.B 2 q, hv⟩) := hsimple
+  have : IsSimpleGroup (TauCeti.ValidLieTypeIndex.Group ⟨.B 2 q, hv⟩) := hsimple
   exact kdCharPAt_of_frame_simple e e.symm.isSimpleGroup fun y hy => frame_PSp_of_gen hp2 hgen y hy
 
 end C

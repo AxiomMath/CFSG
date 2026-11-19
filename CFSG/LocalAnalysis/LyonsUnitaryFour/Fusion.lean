@@ -73,7 +73,7 @@ theorem weak_closure_central_fusion {p : ℕ} [Fact p.Prime] (S : Sylow p G) {Q 
     intro q hq
     rw [hC, Subgroup.mem_centralizer_singleton_iff]
     exact hf q hq
-  obtain ⟨c, hcC, hc⟩ := exists_conj_le_sylow_of_le (g • S) hSC hQC (S.isPGroup'.to_le hQS)
+  obtain ⟨c, hcC, hc⟩ := exists_conj_le_sylow_of_le (g • S) hSC hQC (S.isPGroup.to_le hQS)
   set m := g⁻¹ * c with hm
   have hmap : Q.map (MulAut.conj m).toMonoidHom ≤ (S : Subgroup G) := by
     rintro _ ⟨q, hq, rfl⟩

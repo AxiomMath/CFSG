@@ -74,7 +74,7 @@ public theorem exists_kleinFour_lift_centralizing_of_odd_central_kernel
     rw [← hker, Subgroup.index_ker]
     have hrange : f.range = ⊤ := MonoidHom.range_eq_top.mpr hfsurj
     rw [hrange]
-    simpa using hVK.card_four
+    simp
   have hNcard : Nat.card N = Nat.card Z :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZleL).toEquiv
   have hNodd : Odd (Nat.card N) := by simpa [hNcard] using hZodd

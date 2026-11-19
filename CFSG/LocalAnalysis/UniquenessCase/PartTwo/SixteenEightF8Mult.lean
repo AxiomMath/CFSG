@@ -154,9 +154,9 @@ theorem s16g_trivial_sl3 (hGA : CFSG.Open.GriessAllModelsStatement) {X : Type} [
     [Finite X] (h : IsSLn X 3 3) :
     Nat.card (Subgroup.center X) = 1 ∧ Nat.card (CFSG.Open.griessHopfMultiplier X) = 1 := by
   obtain ⟨K, hKfield, hKfinite, hcard, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : Fintype K := Fintype.ofFinite K
   have hK8 : Nat.card K = 8 := by rw [hcard]; norm_num
   have hbot : Subgroup.center (StatedSL 3 K) = ⊥ :=
     s16g_center_statedSL_eq_bot hK8 (by norm_num)
@@ -174,9 +174,9 @@ theorem s16g_trivial_sl4 (hGA : CFSG.Open.GriessAllModelsStatement) {X : Type} [
     [Finite X] (h : IsSLn X 4 3) :
     Nat.card (Subgroup.center X) = 1 ∧ Nat.card (CFSG.Open.griessHopfMultiplier X) = 1 := by
   obtain ⟨K, hKfield, hKfinite, hcard, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : Fintype K := Fintype.ofFinite K
   have hK8 : Nat.card K = 8 := by rw [hcard]; norm_num
   have hbot : Subgroup.center (StatedSL 4 K) = ⊥ :=
     s16g_center_statedSL_eq_bot hK8 (by norm_num)
@@ -195,9 +195,9 @@ theorem s16g_trivial_sp4 (hGA : CFSG.Open.GriessAllModelsStatement) {X : Type} [
     Nat.card (Subgroup.center X) = 1 ∧ Nat.card (CFSG.Open.griessHopfMultiplier X) = 1 := by
   simp only [IsSpn, Nat.reduceDiv] at h
   obtain ⟨-, K, hKfield, hKfinite, hcard, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : Fintype K := Fintype.ofFinite K
   have hK8 : Nat.card K = 8 := by rw [hcard]; norm_num
   have hbot : Subgroup.center (StatedSp 2 K) = ⊥ := s16g_center_statedSp_eq_bot hK8 2
   have hclass : StatedClassicalModel X .PSp 2 2 3 :=
@@ -215,17 +215,17 @@ theorem s16g_trivial_omegaMinus6 (hGA : CFSG.Open.GriessAllModelsStatement) {X :
     Nat.card (Subgroup.center X) = 1 ∧ Nat.card (CFSG.Open.griessHopfMultiplier X) = 1 := by
   simp only [IsOmegaMinus, Nat.reduceDiv] at h
   obtain ⟨-, K, hKfield, hKfinite, b, c, hcard, hirr, ⟨e⟩⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : Fintype K := Fintype.ofFinite K
   have hK8 : Nat.card K = 8 := by rw [hcard]; norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := s16g_charP_two_of_card_eight hK8
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := s16g_charP_two_of_card_eight hK8
   obtain ⟨E, hEfield, hUFD, ⟨eSU⟩⟩ :=
     CFSG.ComponentClassification.RankTwoClassical.nonempty_statedOmega_quadMinus_three_equiv
       (m := 3) hcard hirr
-  letI : Field E := hEfield
-  haveI : Finite E := hUFD.finite
+  let : Field E := hEfield
+  have : Finite E := hUFD.finite
   have hE : Nat.card E = (2 ^ 3) ^ 2 := hUFD.card_eq_sq
   have hnq : ((4 : ℕ), 2 ^ 3) ≠ (3, 2) := by decide
   have hSU := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
@@ -241,7 +241,7 @@ theorem s16g_trivial_omegaMinus6 (hGA : CFSG.Open.GriessAllModelsStatement) {X :
       StatedProj (StatedSU 4 (2 ^ 3) E) :=
     QuotientGroup.congr _ _ eSU hmap
   have hmodeliso : X ≃* StatedProj (StatedSU 4 (2 ^ 3) E) := e.trans hproj
-  haveI : Group.IsPerfect (StatedSU 4 (2 ^ 3) E) := hSU.1.1
+  have : Group.IsPerfect (StatedSU 4 (2 ^ 3) E) := hSU.1.1
   have hZproj : Subgroup.center (StatedProj (StatedSU 4 (2 ^ 3) E)) = ⊥ :=
     s16g_center_eq_bot_of_mulEquiv (QuotientGroup.quotientMulEquivOfEq hSU.2.symm)
       (Group.IsPerfect.center_quotient_center_eq_bot (G := StatedSU 4 (2 ^ 3) E))

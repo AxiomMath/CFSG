@@ -44,7 +44,7 @@ theorem qsAlt_prime_dvd_card {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : p ∣ Na
 
 theorem exists_elemAbelian_four_alt {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h4 : 4 * p ≤ n) :
     ∃ E : Subgroup (alternatingGroup (Fin n)), IsElemAbelian p E ∧ Nat.card E = p ^ 4 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨φ, hφ⟩ := qsAlt_exists_injective_pi (k := 4) (m := p) (n := n) h4
   obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' p (qsAlt_prime_dvd_card hp hp2)
   set C : Subgroup (alternatingGroup (Fin p)) := Subgroup.zpowers c
@@ -70,7 +70,7 @@ theorem exists_elemAbelian_four_alt {n p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
 
 theorem pcaAlt_holds : PCAAlt := by
   intro n hn p hp hp5
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   by_cases h4 : n < 4 * p
   · have hsq : 4 * p ≤ p ^ 2 := by

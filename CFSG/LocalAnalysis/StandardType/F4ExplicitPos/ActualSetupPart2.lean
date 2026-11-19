@@ -20,6 +20,7 @@ open CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley
 namespace CFSG.StandardType.F4ExplicitPos.ActualSetup
 variable {K L X : Type} [Field K] [Finite K] [Field L] [Algebra K L] [Group X] [Finite X]
 
+omit [Finite X] [Finite K] in
 theorem f4_coordinates_actual
     (ψ : adjointGroup .F4 K →* X) (G0 B1 D : Subgroup X)
     (hG0 : ψ.range = G0) (hker : ψ.ker ≤ Subgroup.center (adjointGroup .F4 K))

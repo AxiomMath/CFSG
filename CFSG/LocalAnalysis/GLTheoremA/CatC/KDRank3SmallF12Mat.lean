@@ -40,7 +40,7 @@ theorem comm2_mem_span {p q r s : K} (hG : q ≠ 0 ∨ r ≠ 0 ∨ p ≠ s)
         exact (mul_eq_zero.1 this).resolve_left hps'
       refine ⟨X 0 0 - β * p, β, ?_⟩
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [hb, hc, hq, hr] <;>
+      fin_cases i <;> fin_cases j <;> simp [hb, hc, hq, hr];
         linear_combination (-1 : K) * hd
     ·
       set β : K := X 1 0 / r with hβ
@@ -58,7 +58,7 @@ theorem comm2_mem_span {p q r s : K} (hG : q ≠ 0 ∨ r ≠ 0 ∨ p ≠ s)
         exact mul_left_cancel₀ hr this
       refine ⟨X 0 0 - β * p, β, ?_⟩
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [hb, hc] <;> linear_combination (-1 : K) * hd
+      fin_cases i <;> fin_cases j <;> simp [hb, hc]; linear_combination (-1 : K) * hd
   ·
     set β : K := X 0 1 / q with hβ
     have hb : X 0 1 = β * q := by rw [hβ]; field_simp
@@ -70,7 +70,7 @@ theorem comm2_mem_span {p q r s : K} (hG : q ≠ 0 ∨ r ≠ 0 ∨ p ≠ s)
       exact mul_left_cancel₀ hq this
     refine ⟨X 0 0 - β * p, β, ?_⟩
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [hb, hc] <;> linear_combination (-1 : K) * hd
+    fin_cases i <;> fin_cases j <;> simp [hb, hc]; linear_combination (-1 : K) * hd
 
 
 theorem trace2_of_pow3_eq_zero {X : Matrix (Fin 2) (Fin 2) K} (hX : X * X * X = 0) :

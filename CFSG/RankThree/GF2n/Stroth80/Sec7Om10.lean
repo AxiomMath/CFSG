@@ -75,12 +75,12 @@ theorem step71VanishOmega10_of (h34 : Stroth34Statement) (hRoot : Stroth310RootS
   have hxM : x ∈ M := hx.1
   have hom' := hom
   obtain ⟨K, fK, finK, hK, hnat⟩ := hom
-  haveI : CharP K 2 := sec7ctr_charP hc hK
+  have : CharP K 2 := sec7ctr_charP hc hK
   have hnat' := hnat
   obtain ⟨φ, hφ, hker, hact⟩ := hnat
   obtain ⟨-, hnrm, ψ, hψ⟩ := hact
-  haveI := hnrm
-  haveI : Nonempty (Fin 5 ⊕ Fin 5) := ⟨Sum.inl 0⟩
+  have := hnrm
+  have : Nonempty (Fin 5 ⊕ Fin 5) := ⟨Sum.inl 0⟩
   have hm3 : 3 ≤ 5 := by norm_num
   have hX := addCommutantScalar_statedOmegaPlus (K := K) hm3
   have hQnd := nondegenerate_polarBilin_quadPlus 5 K
@@ -161,7 +161,7 @@ theorem step71VanishOmega10_of (h34 : Stroth34Statement) (hRoot : Stroth310RootS
       (Subgroup.mem_normalizer_iff.mp (hc.hyp.Z_normal.2 ha'M) _).mp
         (Smith81.comm_mem_Z hc.hyp hx2 (hVQ k.2))
     convert hz using 1
-    simp only [commutatorElement_def, pow_two, Subgroup.coe_mk]
+    simp only [commutatorElement_def, pow_two]
     group
   have hN : ∀ A : GL (Fin 5 ⊕ Fin 5) K,
       (∀ g ∈ StatedOmega (StatedQuadPlus 5 K), A * g * A⁻¹ ∈ StatedOmega (StatedQuadPlus 5 K)) →

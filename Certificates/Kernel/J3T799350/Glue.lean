@@ -66,7 +66,7 @@ theorem initG_mem {r : Nat} (hr : r < 19) : initG r ∈ j3R := by
   · interval_cases r
     · exact Subgroup.mem_sup_left (Subgroup.subset_closure (by simp [initG]))
     · exact Subgroup.mem_sup_left (Subgroup.subset_closure (by simp [initG]))
-    · exact Subgroup.mem_sup_right (by simpa [initG] using Subgroup.mem_zpowers j3u)
+    · exact Subgroup.mem_sup_right (by simp [initG])
   · refine Subgroup.mem_sup_left ?_
     have hw : iwOK r = true := by
       rcases Nat.lt_or_ge r 11 with h11 | h11

@@ -106,7 +106,7 @@ theorem diagUnits_mul_cycThree_cube (a b c : Kˣ) :
   rw [Units.val_mul, coe_diagUnits_eq, coe_cycThree]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [pow_succ, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply] <;> ring
+    simp [pow_succ, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
 
 theorem diagTau_conj_cycThree {τ : K} (hτ : τ ^ 3 = 1) (hτ0 : τ ≠ 0) :
     diagTau hτ * cycThree * (diagTau hτ)⁻¹ =
@@ -122,7 +122,7 @@ theorem diagTau_conj_cycThree {τ : K} (hτ : τ ^ 3 = 1) (hτ0 : τ ≠ 0) :
     rw [h4, ← pow_add, show 2 + 2 = 3 + 1 from rfl, pow_add, hτ, one_mul, pow_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_three, h1, h2, h3, Units.val_inv_eq_inv_val]
+    simp [Matrix.mul_apply, Fin.sum_univ_three, h2, h3, Units.val_inv_eq_inv_val]
 
 theorem CentConfig.mem_zpowers_of_conj_of_commute (hK : PiField π p f K)
     (hq : ModThree π (p ^ f)) (hq2 : 2 < p ^ f) {α : ι → MulAut (projImage (slPi π 3 (p ^ f) K))}
@@ -185,7 +185,7 @@ theorem CentConfig.false_of_singer [CharP K 2] (hK : PiField true 2 2 K)
   ·
     have hYs : Y ∈ slPi true 3 (2 ^ 2) K := by
       rw [mem_slPi_true, hYm, det_fin_three]
-      simp [Matrix.vecHead, Matrix.vecTail]
+      simp
       have : ((a * b * c : Kˣ) : K) = 1 := hμ1
       rw [Units.val_mul, Units.val_mul] at this
       linear_combination this
@@ -215,7 +215,7 @@ theorem CentConfig.false_of_singer [CharP K 2] (hK : PiField true 2 2 K)
   obtain ⟨h4, h16, h64, h9⟩ := singer_powers hA3 hμ3
   have hdet1 : (1 + A).det = 1 + (μ : K) := by
     rw [hAm, hμ, Units.val_mul, Units.val_mul, det_fin_three]
-    simp [Matrix.vecHead, Matrix.vecTail]
+    simp
   have hne : (1 : K) + μ ≠ 0 := fun h => hμ1 (by linear_combination h - h2)
   set U : GL (Fin 3) K := GeneralLinearGroup.mkOfDetNeZero (1 + A) (by rw [hdet1]; exact hne)
     with hUdef
@@ -323,7 +323,7 @@ theorem CentConfig.false_of_singer [CharP K 2] (hK : PiField true 2 2 K)
   have h01 := congrArg (fun g : GL (Fin 3) K => (g : Matrix (Fin 3) (Fin 3) K) 0 1) hs'
   simp only [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] at h01
   rw [hz, hAm] at h01
-  simp [sq, Matrix.mul_apply, Fin.sum_univ_three] at h01
+  simp [sq] at h01
 
 theorem exists_monomial_two_sq (a b c : Kˣ) :
     ∃ a' b' c' : Kˣ, (diagUnits a b c * cycThree ^ 2) ^ 2 = diagUnits a' b' c' * cycThree := by

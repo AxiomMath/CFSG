@@ -111,7 +111,7 @@ def reachSub (A B : Subgroup G) : Subgroup G where
     · rw [mul_smul]; exact hx1.trans (reachable_smul x hy1)
     · rw [mul_smul]; exact hx1.trans (reachable_smul x hy2)
   one_mem' := by
-    simp only [Set.mem_setOf_eq, one_smul]
+    simp only [Set.mem_ofPred_eq, one_smul]
     exact ⟨SimpleGraph.Reachable.refl _, adj_alphaV_betaV.reachable⟩
   inv_mem' := by
     rintro x ⟨hx1, -⟩
@@ -165,7 +165,7 @@ def coreInf (A B : Subgroup G) : Subgroup G where
     exact (A ⊓ B).mul_mem (ha x hx) (hb x hx)
   one_mem' := by
     intro x hx
-    simpa using (A ⊓ B).one_mem
+    simp
   inv_mem' := by
     intro a ha x hx
     have : x⁻¹ * a⁻¹ * x = (x⁻¹ * a * x)⁻¹ := by group
@@ -226,7 +226,7 @@ theorem mem_normalizer_coreInf_of_mem {A B : Subgroup G} {y : G}
 
 theorem le_coreInf_of_forall_reachable_le_kernelAt {Z : Subgroup G}
     (h : ∀ ε, (amalgamGraph A B).Reachable (alphaV A B) ε → Z ≤ kernelAt (amalgamGraph A B) ε) :
-    Z ≤ coreInf A B := fun z hz x hx =>
+    Z ≤ coreInf A B := fun _z hz _x hx =>
   conj_mem_inf_of_forall_reachable_le_kernelAt h hx hz
 
 end Basic

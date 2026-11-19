@@ -115,7 +115,7 @@ theorem reducible_false {Γ X : Type} [Group Γ] [Finite Γ] [Group X] (hSL : Is
   obtain ⟨T, hT⟩ := Sylow.mapSurjective_surjective hπ 2 S
   have hTS : (T : Subgroup Γ).map π = (S : Subgroup X) := by
     rw [← Sylow.coe_mapSurjective hπ T, hT]
-  have hTp : IsPGroup 2 (T : Subgroup Γ) := T.isPGroup'
+  have hTp : IsPGroup 2 (T : Subgroup Γ) := T.isPGroup
   have hcomm : ∀ t ∈ (T : Subgroup Γ), ∀ s ∈ (T : Subgroup Γ), π t * π s = π s * π t := by
     intro t ht s hs
     have hW1 := commutator_map_eq_one (ρW.comp (T : Subgroup Γ).subtype)

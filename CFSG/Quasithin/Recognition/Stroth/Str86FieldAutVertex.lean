@@ -22,23 +22,27 @@ abbrev fieldAutK (P P' L Q' : Subgroup G) : Subgroup G :=
 abbrev fieldAutN (P P' L Q' : Subgroup G) : Subgroup G :=
   centralizerMod Q' (fieldAutC P L Q') (fieldAutK P P' L Q')
 
+omit [Finite G] in
 theorem mem_fieldAutC {P L Q' : Subgroup G} {x : G} :
     x ∈ fieldAutC P L Q' ↔ x ∈ P ∧ x ∈ Subgroup.normalizer (Q' : Set G) ∧
       ∀ l ∈ L, x * l * x⁻¹ * l⁻¹ ∈ Q' :=
   Iff.rfl
 
+omit [Finite G] in
 theorem le_normalizer_fieldAutC {P L Q' : Subgroup G}
     (hPQ' : P ≤ Subgroup.normalizer (Q' : Set G))
     (hPL : P ≤ Subgroup.normalizer (L : Set G)) :
     P ≤ Subgroup.normalizer (fieldAutC P L Q' : Set G) :=
   CFSG.Quasithin.le_normalizer_centralizerMod hPQ' Subgroup.le_normalizer hPL
 
+omit [Finite G] in
 theorem le_normalizer_fieldAutK {P P' L Q' : Subgroup G}
     (hPP' : P ≤ Subgroup.normalizer (P' : Set G))
     (hPC : P ≤ Subgroup.normalizer (fieldAutC P L Q' : Set G)) :
     P ≤ Subgroup.normalizer (fieldAutK P P' L Q' : Set G) :=
-  fun x hx => CFSG.ABGLocalTools.mem_normalizer_inf (hPC hx) (hPP' hx)
+  fun _x hx => CFSG.ABGLocalTools.mem_normalizer_inf (hPC hx) (hPP' hx)
 
+omit [Finite G] in
 theorem le_normalizer_fieldAutN {P P' L Q' : Subgroup G}
     (hPQ' : P ≤ Subgroup.normalizer (Q' : Set G))
     (hPC : P ≤ Subgroup.normalizer (fieldAutC P L Q' : Set G))
@@ -46,6 +50,7 @@ theorem le_normalizer_fieldAutN {P P' L Q' : Subgroup G}
     P ≤ Subgroup.normalizer (fieldAutN P P' L Q' : Set G) :=
   CFSG.Quasithin.le_normalizer_centralizerMod hPQ' hPC hPK
 
+omit [Finite G] in
 theorem pCoreOf_le_fieldAutC {P P' L Q' : Subgroup G} (hQ' : Q' = pCoreOf 2 P')
     (hP'P : P' ≤ P) (hLP' : L ≤ P')
     (hP'Q' : P' ≤ Subgroup.normalizer (Q' : Set G)) :
@@ -63,6 +68,7 @@ theorem pCoreOf_le_fieldAutC {P P' L Q' : Subgroup G} (hQ' : Q' = pCoreOf 2 P')
   have e : q * l * q⁻¹ * l⁻¹ = l * ((l⁻¹ * q * l) * q⁻¹) * l⁻¹ := by group
   rwa [e]
 
+omit [Finite G] in
 theorem pCoreOf_le_fieldAutK {P P' L Q' : Subgroup G} (hQ' : Q' = pCoreOf 2 P')
     (hP'P : P' ≤ P) (hLP' : L ≤ P')
     (hP'Q' : P' ≤ Subgroup.normalizer (Q' : Set G)) :
@@ -70,6 +76,7 @@ theorem pCoreOf_le_fieldAutK {P P' L Q' : Subgroup G} (hQ' : Q' = pCoreOf 2 P')
   le_inf (pCoreOf_le_fieldAutC hQ' hP'P hLP' hP'Q')
     (hQ'.le.trans (pCoreOf_le 2 P'))
 
+omit [Finite G] in
 theorem pCoreOf_le_fieldAutN {P P' L Q' : Subgroup G} (hQ' : Q' = pCoreOf 2 P')
     (hP'P : P' ≤ P) (hLP' : L ≤ P')
     (hP'Q' : P' ≤ Subgroup.normalizer (Q' : Set G)) :
@@ -87,6 +94,7 @@ theorem pCoreOf_le_fieldAutN {P P' L Q' : Subgroup G} (hQ' : Q' = pCoreOf 2 P')
   have e : q * x * q⁻¹ * x⁻¹ = x * ((x⁻¹ * q * x) * q⁻¹) * x⁻¹ := by group
   rwa [e]
 
+omit [Finite G] in
 theorem inf_fieldAutK_eq_pCoreOf {P P' L S' Q' : Subgroup G}
     (hQ'S' : Q' ≤ S') (hQ'K : Q' ≤ fieldAutK P P' L Q')
     (hE2 : ∀ s ∈ S', (∀ l ∈ L, s * l * s⁻¹ * l⁻¹ ∈ Q') → s ∈ Q') :
@@ -98,7 +106,7 @@ theorem inf_fieldAutK_eq_pCoreOf {P P' L S' Q' : Subgroup G}
 
 theorem odd_relIndex_fieldAutK {P P' L S' Q' : Subgroup G}
     (hSK : S' ⊓ fieldAutK P P' L Q' = Q')
-    (hQ'K : Q' ≤ fieldAutK P P' L Q')
+    (_hQ'K : Q' ≤ fieldAutK P P' L Q')
     (hKP' : fieldAutK P P' L Q' ≤ P')
     (hS'P' : S' ≤ P')
     (hS'K : S' ≤ Subgroup.normalizer (fieldAutK P P' L Q' : Set G))
@@ -134,6 +142,7 @@ theorem commutator_mem_of_fieldAut {P P' L T Q' Z' : Subgroup G}
       calc t * z * t⁻¹ = (z * t) * t⁻¹ := by rw [h]
         _ = z := by group)
 
+omit [Finite G] in
 theorem ker_map_le_center_of_commutator_mem {N K Q' : Subgroup G}
     (hQN : (Q'.subgroupOf N).Normal) (hM : ((N ⊓ K).subgroupOf N).Normal)
     (hcomm : ∀ y ∈ N, ∀ x ∈ N ⊓ K, y * x * y⁻¹ * x⁻¹ ∈ Q')
@@ -142,8 +151,8 @@ theorem ker_map_le_center_of_commutator_mem {N K Q' : Subgroup G}
       (MonoidHom.id ↥N) (by simpa [Subgroup.comap_id] using hle)).ker ≤
       Subgroup.center (↥N ⧸ Q'.subgroupOf N) := by
   classical
-  haveI := hQN
-  haveI := hM
+  have := hQN
+  have := hM
   rw [QuotientGroup.ker_map]
   rintro z ⟨x, hx, rfl⟩
   rw [Subgroup.mem_center_iff]
@@ -177,12 +186,12 @@ theorem le_pCoreOf_of_fieldAut {P P' L S S' T Q' Z' : Subgroup G}
     (hNF : Str86NF L Q' Z') :
     T ≤ pCoreOf 2 P := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP'P : P' ≤ P := hP.symm ▸ le_sup_left
   have hPnormP' : P ≤ Subgroup.normalizer (P' : Set G) :=
     hP.symm ▸ sup_le Subgroup.le_normalizer hSP'
   have hSleP : S ≤ P := hP.symm ▸ le_sup_right
-  haveI hP'normal : (P'.subgroupOf P).Normal :=
+  have hP'normal : (P'.subgroupOf P).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hP'P).mpr hPnormP'
   have hquot2 : IsPGroup 2 (↥P ⧸ P'.subgroupOf P) :=
     isPGroup_quotient_sup_of_isPGroup hP hSP' hS2
@@ -229,13 +238,13 @@ theorem le_pCoreOf_of_fieldAut {P P' L S S' T Q' Z' : Subgroup G}
       hPQ' (hTS.trans hSleP ht), fun x hx => hcommK t ht x hx⟩
   have hNQ' : fieldAutN P P' L Q' ≤ Subgroup.normalizer (Q' : Set G) :=
     centralizerMod_le_normalizer _ _ _
-  haveI hQNnormal : (Q'.subgroupOf (fieldAutN P P' L Q')).Normal :=
+  have hQNnormal : (Q'.subgroupOf (fieldAutN P P' L Q')).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQ'N).mpr hNQ'
   have hNn : fieldAutN P P' L Q' ≤
       Subgroup.normalizer ((fieldAutN P P' L Q' ⊓ fieldAutK P P' L Q') : Set G) :=
     fun x hx => Subgroup.inf_normalizer_le_normalizer_inf
       ⟨hPN (hNleP hx), hPK (hNleP hx)⟩
-  haveI hNKnormal :
+  have hNKnormal :
       ((fieldAutN P P' L Q' ⊓ fieldAutK P P' L Q').subgroupOf
         (fieldAutN P P' L Q')).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left).mpr hNn
@@ -255,7 +264,7 @@ theorem le_pCoreOf_of_fieldAut {P P' L S S' T Q' Z' : Subgroup G}
       ⟨hQ'N (Subgroup.mem_subgroupOf.mp hq), hQ'K (Subgroup.mem_subgroupOf.mp hq)⟩
   have hker := ker_map_le_center_of_commutator_mem hQNnormal hNKnormal
     (fun y hy x hx => (mem_centralizerMod.mp hy).2.2 x hx.2) hle
-  haveI : Group.IsNilpotent
+  have : Group.IsNilpotent
       (↥(fieldAutN P P' L Q') ⧸
         (fieldAutN P P' L Q' ⊓ fieldAutK P P' L Q').subgroupOf
           (fieldAutN P P' L Q')) := hquotN.isNilpotent

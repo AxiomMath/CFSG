@@ -93,7 +93,7 @@ public theorem exists_sylow_sup_zpowers_of_normalized_kleinFour
   let QG : Subgroup G := (Q : Subgroup R).map R.subtype
   have hQGcard : Nat.card QG = Nat.card (Q : Subgroup R) :=
     Subgroup.card_map_of_injective R.subtype_injective
-  have hQGp : IsPGroup 2 QG := Q.isPGroup'.map R.subtype
+  have hQGp : IsPGroup 2 QG := Q.isPGroup.map R.subtype
   obtain ⟨T, hQGleT⟩ := hQGp.exists_le_sylow
   have hTcard : Nat.card (T : Subgroup G) = 8 := by
     calc

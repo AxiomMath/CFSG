@@ -48,6 +48,7 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] [Finite 
 @[expose] noncomputable def isoGL (Q : QuadraticForm K (ι → K)) : Subgroup (GL ι K) :=
   (TauCeti.QuadraticMap.orthogonalGroup Q).comap (toLinEquiv ι K).toMonoidHom
 
+omit [Finite K] in
 theorem mem_isoGL_iff (hQ : ⇑Q = Q₀) {g : GL ι K} :
     g ∈ isoGL Q ↔ ∀ v, Q₀ ((g : Matrix ι ι K) *ᵥ v) = Q₀ v := by
   rw [isoGL, Subgroup.mem_comap, TauCeti.QuadraticMap.mem_orthogonalGroup_iff]

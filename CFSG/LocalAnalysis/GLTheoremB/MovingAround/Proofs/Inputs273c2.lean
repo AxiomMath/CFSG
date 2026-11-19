@@ -86,7 +86,7 @@ theorem input27_4SporDown_of_rows (hOut : SporadicOuterLeTwo) (hBr : SporadicBri
     (hrows : ∀ name p, SporadicOnePair name p ∨ CubeRow name p → DownRow name p) :
     Inputs273.Input27_4SporDown := by
   intro S _ _ hS hnab s he p hp hp2 α hα hα1 I hI
-  haveI := hS
+  have := hS
   have hcen : Subgroup.center S = ⊥ := center_eq_bot_of_isSimpleGroup hnab
   have hout : Nat.card (Outer S) ≤ 2 := hOut S hS hnab s he
   obtain ⟨e⟩ := he
@@ -96,12 +96,12 @@ theorem input27_4SporDown_of_rows (hOut : SporadicOuterLeTwo) (hBr : SporadicBri
   · left
     have hcop : Nat.Coprime p (Nat.card (Outer S)) := coprime_of_le_two hp hp2 Nat.card_pos.ne' hout
     have hαp : IsPGroup p (Subgroup.zpowers α) := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, orderOf_eq_prime hα hα1, pow_one])
     obtain ⟨x, rfl⟩ := le_inner_of_isPGroup hcop hαp (Subgroup.mem_zpowers α)
     have hinj : Function.Injective (MulAut.conj : S →* MulAut S) := conj_injective_of_center_eq_bot hcen
     have hxo : orderOf x = p := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       rw [← orderOf_injective _ hinj x]
       exact orderOf_eq_prime hα hα1
     rw [Inputs1415.fixSubgroup_conj] at hI
@@ -167,12 +167,12 @@ theorem mem_normalizer_glaPPrimeCoreOf {G : Type*} [Group G] {p : ℕ} {C : Subg
 theorem isLocallyOneBalancedAbs_L28 {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = 8) {T : Type} [Group T] [Finite T] (hT : IsSimpleGroup T) (hnab : ∃ a b : T, a * b ≠ b * a)
     (e : T ≃* CFSG.GorensteinWalter.PSL2 F) : IsLocallyOneBalancedAbs 3 T := by
-  haveI := hT
+  have := hT
   intro x hx H hH _
   have hcen : Subgroup.center T = ⊥ := center_eq_bot_of_isSimpleGroup hnab
   have hinj : Function.Injective (MulAut.conj : T →* MulAut T) := conj_injective_of_center_eq_bot hcen
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
     (by rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hF' : Fintype.card F = 8 := by rw [Fintype.card_eq_nat_card, hF]
   have hTcard : Nat.card T = 504 := by
@@ -183,9 +183,9 @@ theorem isLocallyOneBalancedAbs_L28 {F : Type} [Field F] [Finite F]
     rw [← hTcard]
     exact (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
   have hQ : IsPGroup 3 (Subgroup.zpowers x) := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hx, pow_one])
-  haveI : (innerAut T).Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal T
+  have : (innerAut T).Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal T
   have hQN : Subgroup.zpowers x ≤ Subgroup.normalizer ((innerAut T : Subgroup (MulAut T)) : Set (MulAut T)) := by
     rw [Subgroup.normalizer_eq_top]
     exact le_top
@@ -204,7 +204,7 @@ theorem isLocallyOneBalancedAbs_U42 {q : TauCeti.PrimePower}
     {hv : (TauCeti.LieTypeIndex.twistedA 3 q).Valid} (hq : q.card = 2) {T : Type} [Group T] [Finite T]
     (hT : IsSimpleGroup T) (hnab : ∃ a b : T, a * b ≠ b * a)
     (e : T ≃* CFSG.HardMathSupport.Dickson.I271.Amb.U4Group q hv) : IsLocallyOneBalancedAbs 3 T := by
-  haveI := hT
+  have := hT
   intro x hx H hH _
   have hx3 : x ^ 3 = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
   have hxi := CFSG.HardMathSupport.Dickson.I271.Amb.u4_inner_of_pow_three hq (center_eq_bot_of_isSimpleGroup hnab) e x hx3
@@ -243,7 +243,7 @@ theorem balanced_of_chevSimple (hIn : DefCharInnerCoreFree)
           · simp only [CFSG.Yardstones.Md0ec50421ce4.ambiguousChev] at hi
             rcases hi with ⟨-, h2⟩ | ⟨hq8, rfl⟩
             · exact absurd h2 hp2
-            · haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+            · have : Fact q.p.Prime := ⟨q.prime_p⟩
               have hF8 : Nat.card (GaloisField q.p q.exponent) = 8 := by
                 rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', ← TauCeti.PrimePower.card_def]
                 exact hq8
@@ -301,7 +301,7 @@ theorem balanced_of_goodSpor (hIn : DefCharInnerCoreFree)
 
 theorem balanced_five_of_dvd {T : Type} [Group T] [Finite T] (hT : IsSimpleGroup T)
     (hnab : ∃ a b : T, a * b ≠ b * a) (h : 5 * Nat.card T ∣ 3000) : IsLocallyOTwoBalancedWrtP 5 1 T := by
-  haveI := hT
+  have := hT
   have h1 : Nat.card T ∣ 600 := Nat.dvd_of_mul_dvd_mul_left (by norm_num : 0 < 5) (by simpa using h)
   have h60 := CFSG.LocalAnalysis.GLTheoremA.KDSpor.card_eq_sixty_of_dvd_3000 hnab (h1.trans (by norm_num))
   obtain ⟨e⟩ := CFSG.BenderSuzuki.nonempty_mulEquiv_alternatingGroup_five h60
@@ -310,7 +310,7 @@ theorem balanced_five_of_dvd {T : Type} [Group T] [Finite T] (hT : IsSimpleGroup
 theorem false_of_card_eq_pow_mul_pow {T : Type} [Group T] [Finite T] (hT : IsSimpleGroup T)
     (hnab : ∃ a b : T, a * b ≠ b * a) {p q a b : ℕ} (hp : p.Prime) (hq : q.Prime) (hpq : p ≠ q)
     (h : Nat.card T = p ^ a * q ^ b) : False := by
-  haveI := hT
+  have := hT
   have hs := CFSG.LocalAnalysis.GLTheoremA.KDSpor.isSolvable_of_card_eq hp hq hpq h
   obtain ⟨x, y, hxy⟩ := hnab
   exact hxy ((IsSimpleGroup.comm_iff_isSolvable.2 hs) x y)
@@ -333,7 +333,7 @@ theorem downRow_of_centTypes {p : ℕ} (hp : p.Prime) {name : TauCeti.SporadicNa
     (hbal : ∀ (T : Type) [Group T] [Finite T], IsSimpleGroup T → (∃ a b : T, a * b ≠ b * a) → Good T →
       IsLocallyOTwoBalancedWrtP p 1 T) : DownRow name p := by
   intro T _ _ ⟨f⟩ s hs I hI
-  haveI : Finite Q := Finite.of_equiv T (f.trans e.symm).toEquiv
+  have : Finite Q := Finite.of_equiv T (f.trans e.symm).toEquiv
   obtain ⟨hI', ⟨g⟩⟩ := Inputs1415.comp_transport hp (f.trans e.symm) hI
   have hs' : orderOf ((f.trans e.symm) s) = p := by rw [MulEquiv.orderOf_eq, hs]
   obtain ⟨hS, hnab⟩ := CFSG.LocalAnalysis.GLTheoremA.chev_pSimple_simple_nonabelian hp hI'
@@ -505,7 +505,7 @@ theorem compGood_of_lines {n p : ℕ} (hp : p.Prime) {Good : ∀ (T : Type) [Gro
     (hlines : ∀ H : Subgroup (Equiv.Perm (Fin n)), H ≤ Q → Nat.card H = p → ∃ j, H = Subgroup.zpowers (line j))
     (hmem : ∀ j, line j ∈ P) (hline : ∀ j, CompGood p Good (⟨line j, hmem j⟩ : ↥P)) :
     ∀ k : ↥P, orderOf k = p → CompGood p Good k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro k hk
   have hko : orderOf (k : Equiv.Perm (Fin n)) = p := by rw [Subgroup.orderOf_coe]; exact hk
   obtain ⟨g, hgP, hgQ⟩ :=
@@ -566,12 +566,12 @@ theorem compGood_of_derived_record {n p : ℕ} {P R : Subgroup (Equiv.Perm (Fin 
     (hcore : GLAPPrimeCoreOf p (Subgroup.centralizer ({x} : Set (Equiv.Perm (Fin n))) ⊓ P) = ⊥)
     (hpD : p ∣ Nat.card ↥D) {Good : ∀ (T : Type) [Group T], Prop} (hG : SporTables.TypeInv Good)
     (hgood : Good ↥D) : CompGood p Good (⟨x, hxP⟩ : ↥P) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set k : ↥P := ⟨x, hxP⟩ with hk
   set Cq : Subgroup ↥P := Subgroup.centralizer ({k} : Set ↥P) with hCq
   set L : Subgroup ↥P := D.subgroupOf P with hL
   let eL : ↥L ≃* ↥D := Subgroup.subgroupOfEquivOfLe hDP
-  haveI hLs : IsSimpleGroup ↥L := (MulEquiv.isSimpleGroup_congr eL).2 hDs
+  have hLs : IsSimpleGroup ↥L := (MulEquiv.isSimpleGroup_congr eL).2 hDs
   have hLnab : ∃ a b : ↥L, a * b ≠ b * a := by
     obtain ⟨g, hg, h, hh, hgh⟩ := hDnab
     refine ⟨eL.symm ⟨g, hg⟩, eL.symm ⟨h, hh⟩, fun he => hgh ?_⟩
@@ -655,7 +655,7 @@ open CFSG.Sporadic.SmallOddCore CFSG.Sporadic.Schreier CFSG.RankThree.PartOne
 
 theorem sporOneAt_J2_five : SporOneAt .J2 5 := by
   intro U _ _ hU hnab ⟨e⟩
-  haveI := hU
+  have := hU
   obtain ⟨bJ⟩ := CFSG.Sporadic.Bridge.J2.nonempty_mulEquiv
   let θ : U ≃* ↥j2P := e.trans (bJ.symm.trans j2PermEquiv)
   have hM := j2_autModel
@@ -664,7 +664,7 @@ theorem sporOneAt_J2_five : SporOneAt .J2 5 := by
     rw [Nat.card_congr (equivalence θ).toEquiv]
     exact j2_outer_card_le
   refine isLocallyOneBalancedAbs_of_autModel Nat.prime_five (by norm_num) hM θ hcen hout fun y hy => ?_
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact forall_of_lines Nat.prime_five j2FiveQ_le_P (card_eq_of_sylow_subgroupOf j2FiveQ_le_P j2FiveQ_sylow)
     j2FiveLine (lines_of_eq j2FiveQ_lines.1)
     (fun x => GLAPPrimeCoreOf 5 (Subgroup.centralizer ({x} : Set (Equiv.Perm (Fin 315))) ⊓ j2R) = ⊥)
@@ -789,7 +789,7 @@ theorem downRow_ON_seven (hBr : SporadicBridges) : DownRow .ONan 7 := by
   refine downRow_of_card_dvd (N := 1372) (by norm_num)
     (CFSG.ONSchreier.onEquivPv.symm.trans (hBr .ONan).some) (fun x hx => ?_) fun T _ _ hT hnab h => ?_
   · rcases CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.KF148ONA7.card_centralizer_seven_Pv hx with
-      h | h <;> rw [h] <;> norm_num
+      h | h <;> rw [h]; norm_num
   · exact (false_of_card_dvd_pow_mul_pow (q := 7) (a := 2) (b := 2) hT hnab Nat.prime_two (by norm_num) (by norm_num)
       (Nat.dvd_of_mul_dvd_mul_left (by norm_num : 0 < 7) (by simpa using h))).elim
 
@@ -804,7 +804,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 theorem centTypes_J4_eleven : SporTables.CentTypes 11 (fun _ _ => False) ↥J := by
   have hp : Nat.Prime 11 := by norm_num
-  haveI : Fact (Nat.Prime 11) := ⟨hp⟩
+  have : Fact (Nat.Prime 11) := ⟨hp⟩
   intro x hx I hI
   obtain ⟨h, hh⟩ := exists_conj_mem_of_orderOf Q11 card_Q11 not_dvd_card_J hx
   refine CFSG.LocalAnalysis.GLTheoremA.KDSpor.no_comp_of_conj hp h x (fun I hI => ?_) I hI
@@ -835,7 +835,7 @@ theorem centTypes_J4_eleven : SporTables.CentTypes 11 (fun _ _ => False) ↥J :=
       (by norm_num) (by norm_num) (by norm_num) (by rw [hk]; rcases hk2 with rfl | rfl <;> norm_num)
 
 theorem downRow_J4_eleven (hBr : SporadicBridges) : DownRow .J4 11 := by
-  haveI := CFSG.Sporadic.finite_carrier_of_ne_M .J4 (by decide)
+  have := CFSG.Sporadic.finite_carrier_of_ne_M .J4 (by decide)
   exact downRow_of_centTypes (by norm_num) (hBr .J4).some
     (@SporTables.CentTypes.of_equiv 11 (by norm_num) (fun _ _ => False) (fun _ _ _ _ _ h => h)
       ↥J (CFSG.Blueprint.NativeSporadic.Carrier .J4) (Subgroup.toGroup J)
@@ -852,7 +852,7 @@ open CFSG.RankThree.PartOne CFSG.Sporadic.HeldB
 theorem downRow_He_seven (hIn : DefCharInnerCoreFree) (hOutC : CFSG.HardMathSupport.Dickson.I271.DefCharOuterCoreFree)
     (hBr : SporadicBridges) : DownRow .He 7 := by
   have hp7 : Nat.Prime 7 := by norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨hp7⟩
+  have : Fact (Nat.Prime 7) := ⟨hp7⟩
   obtain ⟨⟨hQP, hQsyl, -, -⟩, ⟨hlinesSet, -⟩, htrans, hrecmem, -, ⟨hC0, -⟩, ⟨hC1, -⟩, ⟨hC2, -⟩,
     ⟨hA0C, hA0n, hA0P, hA0card, -, -, hA0c⟩, ⟨hDs, hDnab, hDcard, hDP, hDcent, -⟩,
     ⟨hA2C, hA2n, hA2P, hA2card, -, hA2c⟩⟩ := R3E_He_full_seven_centralizer_structures
@@ -869,12 +869,12 @@ theorem downRow_He_seven (hIn : DefCharInnerCoreFree) (hOutC : CFSG.HardMathSupp
   have hord : ∀ j, orderOf (heSevenLine j) = 7 := fun j => by
     rw [← Nat.card_zpowers]; exact (hlineQ j).2
   have hD1bal : IsLocallyOTwoBalancedWrtP 7 1 ↥heSevenD1 := by
-    haveI : Finite ↥heSevenD1 := Nat.finite_of_card_ne_zero (by rw [hDcard]; norm_num)
+    have : Finite ↥heSevenD1 := Nat.finite_of_card_ne_zero (by rw [hDcard]; norm_num)
     obtain ⟨S, hS⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.He7.heSevenD1_dihedral_sylow
     have hnab : ∃ a b : ↥heSevenD1, a * b ≠ b * a := by
       obtain ⟨g, hg, h, hh, hgh⟩ := hDnab
       exact ⟨⟨g, hg⟩, ⟨h, hh⟩, fun e => hgh (congrArg Subtype.val e)⟩
-    haveI := hDs
+    have := hDs
     exact balanced_of_chevSimple hIn hOutC hp7 (by norm_num) hDs hnab (fun h => by omega)
       (CFSG.LocalAnalysis.GLTheoremA.KDSpor.He7.isChevSimple_seven_of_dihedral hnab hDcard S hS)
   have hL0 : CompGood 7 (fun T _ => IsLocallyOTwoBalancedWrtP 7 1 T) (⟨heSevenLine 0, hmem 0⟩ : ↥heP) :=
@@ -931,7 +931,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 
 theorem compGood_C7 : CompGood 7 GoodA7 (CFSG.HardMathSupport.Dickson.I271.Fi7.C7) := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   intro I hI
   refine (CFSG.LocalAnalysis.GLTheoremA.KDSpor.false_of_glaPComponent_of_solvable (by norm_num) ?_ hI).elim
   exact CFSG.LocalAnalysis.GLTheoremA.KDSpor.isSolvable_of_card_two_mul (p := 3) (q := 7) (a := 1) (b := 3)
@@ -958,7 +958,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 theorem exists_compGood_conj_Y7 :
     ∃ y : CFSG.Sporadic.Fi24.J, (∃ g : CFSG.Sporadic.Fi24.J, g * y * g⁻¹ = CFSG.HardMathSupport.Dickson.I271.Fi7.Y7) ∧ CompGood 7 GoodA7 y := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   obtain ⟨y0, hy0, e0, he0, hy7, hy1, he5, he1, hey, hM⟩ := fi24Seven_parts
   obtain ⟨y, hyv⟩ : ∃ y : J, (y : GL (Fin 781) (ZMod 3)) = y0 := ⟨⟨y0, hy0⟩, rfl⟩
   obtain ⟨e, hev⟩ : ∃ e : J, (e : GL (Fin 781) (ZMod 3)) = e0 := ⟨⟨e0, he0⟩, rfl⟩
@@ -994,7 +994,7 @@ theorem exists_compGood_conj_Y7 :
     (by norm_num) m hmoore).2.2.2.2.2 (by norm_num) ⟨1, ⟨le_rfl, by norm_num⟩, hm1⟩
   set L : Subgroup J := Subgroup.closure (m '' Set.Icc 1 (7 - 2)) with hL
   obtain ⟨hs, hnab, hcardL⟩ := alt7_subgroup_data eL
-  haveI : Finite ↥(⊤ : Subgroup J) := inferInstance
+  have : Finite ↥(⊤ : Subgroup J) := inferInstance
   have hLC : L ≤ Subgroup.centralizer ({((⟨y, Subgroup.mem_top y⟩ : ↥(⊤ : Subgroup J)) : J)} :
       Set J) ⊓ ⊤ := by
     refine le_inf ((Subgroup.closure_le _).2 ?_) le_top
@@ -1008,7 +1008,7 @@ theorem exists_compGood_conj_Y7 :
     (compGood_of_shapeRkAt (by norm_num) hshape)
 
 theorem centTypes_fi24_seven : SporTables.CentTypes 7 GoodA7 CFSG.Sporadic.Fi24.J := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   intro k hk
   obtain ⟨y, ⟨g, hgy⟩, hy⟩ := exists_compGood_conj_Y7
   have hY : CompGood 7 GoodA7 CFSG.HardMathSupport.Dickson.I271.Fi7.Y7 := by
@@ -1084,7 +1084,7 @@ theorem isLocallyOneBalancedAbs_L33 {T : Type}
   obtain ⟨M, -, hA⟩ := L33.autModel (ε.trans e3)
   have hcard : Nat.card (MulAut T) = 11232 :=
     CFSG.HardMathSupport.Dickson.BMRows.M13L33.card_mulAut_of_equiv_sl e
-  haveI : Finite (MulAut T) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (MulAut T) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hno : ∀ g ∈ QA.originalSubgroup, orderOf g ≠ 26 ∧ orderOf g ≠ 39 := by
     intro g hg
     have h := forall_of_all QA QA_ok (Certificates.certificate273013) g hg
@@ -1138,7 +1138,7 @@ section MThirteenRow
 open CFSG.Monster.Generated CFSG.Monster.Existence in
 theorem centTypes_gmat_thirteen (φ : Gmat ≃* MGriess) :
     SporTables.CentTypes 13 (fun T _ => CFSG.HardMathSupport.Dickson.BMRows.M13L33.GoodL33 T) Gmat := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   intro s hs I hI
   obtain ⟨m, k, hk, h | h⟩ := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.MonsterThirteen.census_thirteen s hs
   · exact (CFSG.HardMathSupport.Dickson.BMRows.noComp_conj_c13 hk h I hI).elim
@@ -1149,7 +1149,7 @@ theorem downRow_M_thirteen (hBr : SporadicBridges) : DownRow .M 13 := by
   obtain ⟨e₀⟩ := CFSG.Blueprint.NativeSporadic.MonsterModel.iso_griess_y443Derived
   let e : CFSG.Monster.Existence.MGriess ≃* CFSG.Blueprint.NativeSporadic.Carrier .M := e₀
   have φ := CFSG.YGroups.Y443.griessEquivGmat CFSG.YGroups.Y443.Gmat_eq_AutO_of_stroth
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   exact downRow_of_centTypes (by norm_num) ((φ.symm.trans e).trans (hBr .M).some) (centTypes_gmat_thirteen φ.symm)
     fun T _ _ _ _ ⟨e⟩ => balanced_of_one (by norm_num) (by norm_num) (isLocallyOneBalancedAbs_L33 e)
 
@@ -1211,61 +1211,61 @@ theorem downRows_of_rest
   · simp only [SporadicOnePair, Finset.mem_insert, Finset.mem_singleton] at h
     rcases h with ⟨rfl, h⟩ | ⟨rfl, h⟩ | ⟨rfl, rfl⟩
     · rcases h with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
-      · haveI := CFSG.Sporadic.finite_carrier_of_ne_M .J3 (by decide)
+      · have := CFSG.Sporadic.finite_carrier_of_ne_M .J3 (by decide)
         exact downRow_of_split hIn hOutC hBr h3 (by norm_num) centShapeSplit_J3
-      · haveI := CFSG.Sporadic.finite_carrier_of_ne_M .McL (by decide)
+      · have := CFSG.Sporadic.finite_carrier_of_ne_M .McL (by decide)
         refine downRow_of_noComp hBr h3 (centTypes_of_constrained h3 fun k hk => ?_)
         refine mcl_constrainedShape_three CFSG.HardMathSupport.Timmesfeld.SporadicBalance.oPrimeCoreTrivialAt_McL k
           (fun h1 => ?_) (by rw [← hk]; exact pow_orderOf_eq_one k)
         rw [h1, orderOf_one] at hk
         norm_num at hk
-      · haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Suz (by decide)
+      · have := CFSG.Sporadic.finite_carrier_of_ne_M .Suz (by decide)
         exact downRow_of_split hIn hOutC hBr h3 (by norm_num) centShapeSplit_Suz
-      · haveI := CFSG.Sporadic.finite_carrier_of_ne_M .ONan (by decide)
+      · have := CFSG.Sporadic.finite_carrier_of_ne_M .ONan (by decide)
         exact downRow_of_centTypes h3 (hBr .ONan).some (SporTables.centTypes_of_centShapeRk h3 onThree_centShapeRk)
           fun _ _ _ _ _ ⟨_, ⟨e⟩⟩ => balanced_of_alt (m := 6) h3 (by norm_num) (by norm_num) (by norm_num) e
-      · haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Co3 (by decide)
+      · have := CFSG.Sporadic.finite_carrier_of_ne_M .Co3 (by decide)
         exact downRow_of_leafShape hIn hOutC hBr h3 (by norm_num) leafShape_Co3
-      · haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Co2 (by decide)
+      · have := CFSG.Sporadic.finite_carrier_of_ne_M .Co2 (by decide)
         exact downRow_of_leafShape hIn hOutC hBr h3 (by norm_num) leafShape_Co2
-      · haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Co1 (by decide)
+      · have := CFSG.Sporadic.finite_carrier_of_ne_M .Co1 (by decide)
         refine downRow_of_goodSpor hIn hOutC hBr h3 (by norm_num) (names := [.Suz]) (fun S hS => ?_)
           (SporTables.centTypes_of_centShapeRk h3 (TabCo1.centShapeRk_Co1_three hBr (TabCo1.co1ThreeAShape_holds hOut hBr)))
         rw [List.mem_singleton] at hS
         subst hS
         exact sporOneAt_of_onePair h3 (by norm_num) hOut hBr
           CFSG.HardMathSupport.Timmesfeld.SporadicBalance.sporadicOnePairHolds_Suz_three
-      · haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Fi22 (by decide)
+      · have := CFSG.Sporadic.finite_carrier_of_ne_M .Fi22 (by decide)
         exact downRow_of_leafShape hIn hOutC hBr h3 (by norm_num) leafShape_Fi22
-      · haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Fi23 (by decide)
+      · have := CFSG.Sporadic.finite_carrier_of_ne_M .Fi23 (by decide)
         exact downRow_of_leafShape hIn hOutC hBr h3 (by norm_num) (TabFi23.leafShape_Fi23_of
             TabFi23.pConstrained_t3_two)
-      · haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Fi24Prime (by decide)
+      · have := CFSG.Sporadic.finite_carrier_of_ne_M .Fi24Prime (by decide)
         exact downRow_of_leafShape hIn hOutC hBr h3 (by norm_num) leafShape_Fi24_three
-      · haveI := CFSG.Sporadic.finite_carrier_of_ne_M .HN (by decide)
+      · have := CFSG.Sporadic.finite_carrier_of_ne_M .HN (by decide)
         exact downRow_of_leafShape hIn hOutC hBr h3 (by norm_num) leafShape_HN
-      · haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Ly (by decide)
+      · have := CFSG.Sporadic.finite_carrier_of_ne_M .Ly (by decide)
         refine downRow_of_goodSpor hIn hOutC hBr h3 (by norm_num) (names := [.McL]) (fun S hS => ?_)
           (SporTables.centTypes_of_centShapeRk h3 (tabLy_centShapeRk hOut hBr))
         rw [List.mem_singleton] at hS
         subst hS
         exact sporOneAt_of_onePair h3 (by norm_num) hOut hBr
           CFSG.HardMathSupport.Timmesfeld.SporadicBalance.sporadicOnePairHolds_McL
-      · haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Th (by decide)
+      · have := CFSG.Sporadic.finite_carrier_of_ne_M .Th (by decide)
         exact downRow_of_leafShape hIn hOutC hBr h3 (by norm_num) leafShape_Th
       · exact hB3
       · exact hM3
     · rcases h with rfl | rfl | rfl | rfl | rfl
-      · haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Co1 (by decide)
+      · have := CFSG.Sporadic.finite_carrier_of_ne_M .Co1 (by decide)
         refine downRow_of_goodSpor hIn hOutC hBr h5 (by norm_num) (names := [.J2]) (fun S hS => ?_)
           (SporTables.centTypes_of_centShapeMulti h5 (TabCo1.centShapeMulti_Co1_five hOut))
         rw [List.mem_singleton] at hS
         subst hS
         exact sporOneAt_J2_five
-      · haveI := CFSG.Sporadic.finite_carrier_of_ne_M .HN (by decide)
+      · have := CFSG.Sporadic.finite_carrier_of_ne_M .HN (by decide)
         exact downRow_of_goodSpor hIn hOutC hBr h5 (by norm_num) (names := []) (fun S hS => (List.not_mem_nil hS).elim)
           (SporTables.centTypes_of_centShapeRk' h5 (hn5_centShapeRk'_HN hnFiveMoved_holds))
-      · haveI := CFSG.Sporadic.finite_carrier_of_ne_M .Ly (by decide)
+      · have := CFSG.Sporadic.finite_carrier_of_ne_M .Ly (by decide)
         exact downRow_of_noComp hBr h5 (centTypes_of_constrained h5 fun k hk =>
           pConstrainedShape_Ly_five _ ⟨MulEquiv.refl _⟩ hk)
       · exact hB5
@@ -1295,7 +1295,7 @@ theorem input27_4SporDown_of_rest
     (hrest : DownRowsRest) : Inputs273.Input27_4SporDown :=
   input27_4SporDown_of_rows CFSG.HardMathSupport.Timmesfeld.Proving.sporadicOuterLeTwo_holds
     CFSG.Sporadic.Bridge.nonempty_carrier_mulEquiv_group
-    (CFSG.AGLEmbedding.card_carrier_eq_sporOrd CFSG.Open.Open.monster_y443_derived_card)
+    (CFSG.AGLEmbedding.card_carrier_eq_sporOrd CFSG.Open.Thm.monster_y443_derived_card)
     (CFSG.HardMathSupport.Timmesfeld.Tables.Census.offPair_carrier
       CFSG.HardMathSupport.Timmesfeld.Coordinator.sporadicBMData_holds)
     (downRows_of_rest hrest)
@@ -1308,7 +1308,7 @@ open Equiv Equiv.Perm
 
 theorem exists_unit_sign_neg_one {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠ 2) :
     ∃ u : (ZMod p)ˣ, Equiv.Perm.sign (MulAction.toPerm u : Equiv.Perm (ZMod p)) = -1 := by
-  haveI := ZMod.isCyclic_units_prime hp.out
+  have := ZMod.isCyclic_units_prime hp.out
   obtain ⟨m, hm⟩ := IsCyclic.exists_generator (α := (ZMod p)ˣ)
   refine ⟨m, ?_⟩
   set f : Equiv.Perm (ZMod p) := MulAction.toPerm m with hf
@@ -1433,7 +1433,7 @@ theorem altRegConj_holds :
   intro p hp hp5 n δ hδ1 hδp hnr T T' hT hT' hTc hT'c hmax hmax' hκex i hi
   classical
   obtain ⟨κ, hκ, hκ1⟩ := hκex
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   have hpn : ¬ p ∣ n := by
@@ -1658,7 +1658,7 @@ theorem altRegConj_holds :
       pow_two]
   have hTeq := hsupEq T hcommT hTc hκT e heT heκ heo
   have hT'eq := hsupEq T' hcommT' hT'c hκT' a haT' haκ hao
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   have hpowval : ∀ g : Perm (Fin n), orderOf g = p → ∀ x y : ZMod p, g ^ (x + y).val = g ^ x.val * g ^ y.val := by
     intro g hg x y
     have h1 := pow_mod_orderOf g (x.val + y.val)
@@ -1821,7 +1821,7 @@ theorem input27_3AltRegularTwo_of_conj : Inputs273.Input27_3AltRegularTwo := by
   · exact Or.inr (Or.inr (Or.inr (Or.inl ⟨hEr, hA3⟩)))
   push Not at hA3
   refine Or.inr (Or.inr (Or.inl ?_))
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 : 5 ≤ p := by
     have h2 := hp.two_le
     rcases (by omega : p = 2 ∨ p = 3 ∨ p = 4 ∨ 5 ≤ p) with h | h | h | h

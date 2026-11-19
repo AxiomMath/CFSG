@@ -35,6 +35,7 @@ theorem cfInner_self_sub_conj_of_mem_signedIrr {ρ : G → ℂ} (hρ : ρ ∈ si
     cfInner_self_of_mem_signedIrr hρ, cfInner_self_of_mem_signedIrr hcmem, h0, h0']
   ring
 
+omit [Group G] [Fintype G] in
 theorem conj_sub_conj_conj_eq_neg (ρ : G → ℂ) :
     ((fun x => conj (ρ x)) - fun x => conj (conj (ρ x))) = -(ρ - fun x => conj (ρ x)) := by
   funext x

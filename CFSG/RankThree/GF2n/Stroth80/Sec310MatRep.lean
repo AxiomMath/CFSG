@@ -111,7 +111,7 @@ theorem exists_vecMulVec_of_sub_smul {m : ℕ} {K : Type} [Field K] {u : Fin m �
     by_cases hij : i = j
     · subst hij
       simp
-    · rw [Pi.single_eq_of_ne hij, if_neg hij]
+    · rw [Pi.single_eq_of_ne hij, ite_eq_right hij]
   rw [h2] at h1
   rw [mul_comm] at h1
   linear_combination h1

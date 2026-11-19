@@ -29,7 +29,7 @@ private lemma sq_eq_one_of_mem_zpowers {z e : G} (hz : z * z = 1) (he : e ∈ zp
   · rw [h]; exact hz
 
 private lemma sec11_comm_z_of_conj_mem {z ρ : G} {Q : Subgroup G} (hQ : Sec11Q8 G z Q)
-    (hρQ : ∀ q ∈ Q, ρ * q * ρ⁻¹ ∈ Q) (hρiQ : ∀ q ∈ Q, ρ⁻¹ * q * ρ ∈ Q)
+    (_hρQ : ∀ q ∈ Q, ρ * q * ρ⁻¹ ∈ Q) (hρiQ : ∀ q ∈ Q, ρ⁻¹ * q * ρ ∈ Q)
     (hρzQ : ρ * z * ρ⁻¹ ∈ Q) : ρ * z = z * ρ := by
   have hwcomm : ∀ q ∈ Q, (ρ * z * ρ⁻¹) * q = q * (ρ * z * ρ⁻¹) := by
     intro q hq

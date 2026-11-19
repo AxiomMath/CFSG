@@ -45,8 +45,8 @@ theorem IsA5Ext.subgroupOf {X : Type*} [Group X] {A V M : Subgroup X} (h : IsA5E
 theorem le_ker_of_normal_pGroup {B : Type*} [Group B] (φ : B →* alternatingGroup (Fin 5))
     (hφ : Function.Surjective φ) {N : Subgroup B} (hNn : N.Normal) (hN : IsPGroup 2 N) :
     N ≤ φ.ker := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  haveI hmapn : (N.map φ).Normal := hNn.map φ hφ
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  have hmapn : (N.map φ).Normal := hNn.map φ hφ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map φ) with hbot | htop
   · intro w hw
     have := Subgroup.mem_map_of_mem φ hw
@@ -65,7 +65,7 @@ theorem le_ker_of_normal_pGroup {B : Type*} [Group B] (φ : B →* alternatingGr
 
 theorem IsA5Ext.pCoreOf_eq {X : Type*} [Group X] [Finite X] {A V : Subgroup X}
     (h : IsA5Ext A V) : pCoreOf 2 A = V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hVA, hV2, φ, hφs, hφk⟩ := h
   apply le_antisymm
   · have hC := le_ker_of_normal_pGroup φ hφs (CFSG.LieType.BorelTits.pCore_normal 2)
@@ -87,7 +87,7 @@ theorem goodFamily_of_normal_S5 {T L : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hK 
       A.map α.toMonoidHom = A ∧ P.map α.toMonoidHom = P) :
     GoodFamily T 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSK : IsSylowTwoOf (T ⊓ L) L :=
     isSylowTwoOf_inf_normal hT le_top fun x _ => by
       rw [Subgroup.normalizer_eq_top_iff.mpr hK]

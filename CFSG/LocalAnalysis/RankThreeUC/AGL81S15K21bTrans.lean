@@ -17,7 +17,7 @@ open scoped Pointwise
 namespace K21bTransProof
 
 theorem isElemAbelian_map_inj {S P : Type} [Group S] [Group P] {p : ℕ} {f : S →* P}
-    (hf : Function.Injective f) {E : Subgroup S} (hE : CFSG.Open.IsElemAbelian p E) :
+    (_hf : Function.Injective f) {E : Subgroup S} (hE : CFSG.Open.IsElemAbelian p E) :
     CFSG.Open.IsElemAbelian p (E.map f) := by
   unfold CFSG.Open.IsElemAbelian at hE ⊢
   obtain ⟨hcomm, hexp⟩ := hE
@@ -51,7 +51,7 @@ theorem sylow_conj_exists {P : Type} [Group P] [Finite P] {U U₀ : Subgroup P}
   obtain ⟨-, hUp₀, hUd₀⟩ := (CFSG.ABGLocalTools.isSylowOf_iff).mp hU₀
   rw [Subgroup.relIndex_top_right] at hUd
   rw [Subgroup.relIndex_top_right] at hUd₀
-  haveI : Finite (Sylow 2 P) :=
+  have : Finite (Sylow 2 P) :=
     Finite.of_injective (fun Q : Sylow 2 P => (Q : Set P)) SetLike.coe_injective
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq P (hUp.toSylow hUd) (hUp₀.toSylow hUd₀)
   refine ⟨g, ?_⟩
@@ -66,7 +66,7 @@ theorem sylow_conj_exists {P : Type} [Group P] [Finite P] {U U₀ : Subgroup P}
 theorem isSylowOf_top_map_mulEquiv {S P : Type} [Group S] [Group P] [Finite S] (e : S ≃* P)
     {U : Subgroup S} (hU : CFSG.ABGLocalTools.IsSylowOf 2 U ⊤) :
     CFSG.ABGLocalTools.IsSylowOf 2 (U.map (e : S →* P)) ⊤ := by
-  haveI : Finite P := Finite.of_equiv S e.toEquiv
+  have : Finite P := Finite.of_equiv S e.toEquiv
   obtain ⟨-, hUp, hUd⟩ := (CFSG.ABGLocalTools.isSylowOf_iff).mp hU
   refine (CFSG.ABGLocalTools.isSylowOf_iff).mpr ⟨le_top, hUp.map (e : S →* P), ?_⟩
   rw [Subgroup.relIndex_top_right, Subgroup.index_map_equiv]

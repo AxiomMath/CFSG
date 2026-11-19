@@ -20,7 +20,7 @@ theorem burnsideF4m_tEl_mem_titsK : CFSG.Quasithin.H13.F431.TwoF4.tEl.1 ∈ tits
 
 theorem burnsideF4m_tD_mem_O2N : CFSG.Quasithin.H13.F431.TitsD.tD ∈ pCoreOf 2 titsND := by
   have hp : IsPGroup 2 titsK := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact IsPGroup.of_card (n := 10) (by rw [titsQK_facts.2.2.2]; norm_num)
   have hK : titsK ≤ pCoreOf 2 titsN :=
     CFSG.LieType.BorelTits.le_pCoreOf 2 titsK_le_titsN titsK_normal_N hp

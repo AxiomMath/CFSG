@@ -37,7 +37,7 @@ theorem lens : co2Rec.chain.generators.length = 2 ∧ co2Rec.chain.derivations.l
 theorem extract_toArray (L : List (List Nat)) :
     ((L.map List.toArray).toArray.extract 0 2) = ((L.take 2).map List.toArray).toArray := by
   rw [List.extract_toArray]
-  simp [List.extract_eq_drop_take, List.map_take]
+  simp [List.map_take]
 
 theorem orig_eq : co2OrigArrs = co2StrongArrs.extract 0 2 := by
   unfold co2OrigArrs co2StrongArrs ChainRecord.origArrs ChainRecord.strongArrs
@@ -57,10 +57,10 @@ theorem wordArrs_eq (c : ChainRecord) {s : Nat} (hg : c.generators.length = 2)
   · intro i h1 h2
     simp only [List.getElem_toArray, Array.getElem_ofFn]
     by_cases hi : i < 2
-    · rw [if_pos hi, List.getElem_append_left (by simp [hg]; omega)]
+    · rw [ite_eq_left hi, List.getElem_append_left (by simp [hg]; omega)]
       simp
     · have hlt : i - 2 < c.derivations.length := by simp [hg] at h1; omega
-      rw [if_neg hi, List.getElem_append_right (by simp [hg]; omega),
+      rw [ite_eq_right hi, List.getElem_append_right (by simp [hg]; omega),
         List.getD_eq_getElem _ _ hlt]
       simp only [List.length_replicate, hg]
 

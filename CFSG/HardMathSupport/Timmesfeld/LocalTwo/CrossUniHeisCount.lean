@@ -56,6 +56,7 @@ variable (b : Basis ι K V) (μ : ι → K)
 noncomputable def classSpan (lam : K) : Submodule K V :=
   Submodule.span K (Set.range fun i : {i // μ i = lam} => b i)
 
+omit [DecidableEq ι] in
 theorem finrank_classSpan [FiniteDimensional K V] (lam : K) :
     finrank K (classSpan b μ lam) = Nat.card {i // μ i = lam} := by
   classical
@@ -68,6 +69,7 @@ theorem finrank_classSpan [FiniteDimensional K V] (lam : K) :
 
 variable {b μ}
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem eigen_of_mem_classSpan {a : Module.End K V} (ha : ∀ i, a (b i) = μ i • b i) {lam : K}
     {x : V} (hx : x ∈ classSpan b μ lam) : a x = lam • x := by
   unfold classSpan at hx
@@ -79,6 +81,7 @@ theorem eigen_of_mem_classSpan {a : Module.End K V} (ha : ∀ i, a (b i) = μ i 
   | add x y _ _ hx hy => rw [map_add, hx, hy, smul_add]
   | smul r x _ hx => rw [map_smul, hx, smul_comm]
 
+omit [DecidableEq ι] in
 theorem mem_classSpan_of_eigen {a : Module.End K V} (ha : ∀ i, a (b i) = μ i • b i) {lam : K}
     {y : V} (hy : a y = lam • y) : y ∈ classSpan b μ lam := by
   have hrepr : ∀ i, μ i * b.repr y i = lam * b.repr y i := by
@@ -106,6 +109,7 @@ theorem mem_classSpan_of_eigen {a : Module.End K V} (ha : ∀ i, a (b i) = μ i 
       exact hi (mul_right_cancel₀ hne h4)
     simp [this]
 
+omit [DecidableEq ι] in
 theorem finrank_classSpan_le [FiniteDimensional K V] {a : Module.End K V}
     (ha : ∀ i, a (b i) = μ i • b i) (β : V ≃ₗ[K] V) {c : K}
     (hrel : ∀ v, a (β v) = c • β (a v)) (lam : K) :
@@ -123,6 +127,7 @@ theorem finrank_classSpan_le [FiniteDimensional K V] {a : Module.End K V}
     exact congrArg Subtype.val hxy
   exact LinearMap.finrank_le_finrank_of_injective hg
 
+omit [DecidableEq ι] in
 theorem card_class_eq [FiniteDimensional K V] {a : Module.End K V}
     (ha : ∀ i, a (b i) = μ i • b i) (β : V ≃ₗ[K] V) {c : K} (hc : c ≠ 0)
     (hrel : ∀ v, a (β v) = c • β (a v)) (lam : K) :
@@ -146,6 +151,7 @@ section Partner
 
 variable {b : Basis ι K V} {μ : ι → K}
 
+omit [DecidableEq ι] in
 theorem exists_partner [FiniteDimensional K V] {a : Module.End K V}
     (ha : ∀ i, a (b i) = μ i • b i) (β : V ≃ₗ[K] V) {c : K} {p : ℕ} (hp : p.Prime)
     (hc : IsPrimitiveRoot c p) (hrel : ∀ v, a (β v) = c • β (a v)) (hμ : ∀ i, μ i ^ p = 1)

@@ -28,7 +28,7 @@ section Reduction
 theorem ggOrdPToralE7Rest_of_hard (h : GGOrdPToralE7RestHard) : GGOrdPToralE7Rest := by
   intro f p hf hp hp2 hsplit hA
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
-  haveI : Finite (adjointGroup .E7 (GaloisField 2 f)) := generated_group_finite .E7 _
+  have : Finite (adjointGroup .E7 (GaloisField 2 f)) := generated_group_finite .E7 _
   have hpq : ¬ p ∣ Nat.card (GaloisField 2 f) := by
     rw [hK]
     exact fun hd => hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).1 (hp.dvd_of_dvd_pow hd))

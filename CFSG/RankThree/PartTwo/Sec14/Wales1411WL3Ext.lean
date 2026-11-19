@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {M : Type} [Group M] [Finite M]
 
+omit [Finite M] in
 theorem map_pCoreOf_subgroupOf (p : ℕ) {N X : Subgroup M} (hX : X ≤ N) :
     (CFSG.Open.pCoreOf p (X.subgroupOf N)).map N.subtype = CFSG.Open.pCoreOf p X := by
   let e : ↥(X.subgroupOf N) ≃* ↥X := Subgroup.subgroupOfEquivOfLe hX
@@ -21,7 +22,7 @@ theorem map_pCoreOf_subgroupOf (p : ℕ) {N X : Subgroup M} (hX : X ≤ N) :
   rw [Subgroup.map_map, ← h1, Subgroup.map_map]
   congr 1
 
-theorem mem_normalizer_of_subgroupOf {N E : Subgroup M} [hN : N.Normal] (hEN : E ≤ N) {n : N}
+theorem mem_normalizer_of_subgroupOf {N E : Subgroup M} [_hN : N.Normal] (hEN : E ≤ N) {n : N}
     (hn : n ∈ Subgroup.normalizer ((E.subgroupOf N : Subgroup N) : Set N)) :
     (n : M) ∈ Subgroup.normalizer (E : Set M) := by
   refine Subgroup.mem_normalizer_fintype fun x hx => ?_

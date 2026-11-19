@@ -70,7 +70,7 @@ theorem isSimpleGroup_of_isComponentOf {K : Subgroup X} (hK : IsComponentOf K �
   have h1 : IsSimpleGroup (K ⧸ center K) := hK.2.2.2
   have e : (K ⧸ center K) ≃* K :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
-  haveI := h1
+  have := h1
   exact MulEquiv.isSimpleGroup e.symm
 
 theorem exists_noncomm_of_isComponentOf {K : Subgroup X} (hK : IsComponentOf K ⊤) :
@@ -90,7 +90,7 @@ theorem bal3NoPermute_of_schreier
   classical
   intro H _ _ hcat P z D hconf hemb hcon hQ K hK
   by_contra hnorm
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : (3 : ℕ).Prime := Nat.prime_three
   set O : Subgroup H := primeComplementCore (G := H) 3 with hOdef
   have hO : (3 : ℕ).Coprime (Nat.card O) := primeComplementCore_coprime 3
@@ -103,10 +103,10 @@ theorem bal3NoPermute_of_schreier
   have hexK : ∃ K₁ : Subgroup (H ⧸ O), IsComponentOf K₁ ⊤ ∧
       ¬ D.map π ≤ normalizer (K₁ : Set (H ⧸ O)) := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     exact hnorm' (hred.le_normalizer_of_forall hQ hall hK)
   obtain ⟨K₁, hK₁, hDK₁⟩ := hexK
-  obtain ⟨d, hdD, hdN⟩ := SetLike.not_le_iff_exists.1 hDK₁
+  obtain ⟨d, hdD, hdN⟩ := IsConcreteLE.not_le_iff_exists.1 hDK₁
   have hd3 : d ^ 3 = 1 := hred.elem.2 d hdD
   obtain ⟨K₂, K₃, hK₂eq, hK₃eq, hK₂, hK₃, h12, h13, h23, hc₃, hall⟩ :=
     orbit_three hd3 hK₁ hdN hred.card_components_le
@@ -153,8 +153,8 @@ theorem bal3NoPermute_of_schreier
     rw [hlayer]
     exact noSimpleSec_centralizer_inf_layer hred.core hred.pRank_top.le hK₁ hK₂ hK₃ h12 h13 h23
       hZ₁ hZ₂ hZ₃ (hlayer ▸ hzE) hred.ord hw₁ hw₂ hw₂'
-  haveI hch : (CFSG.layer (H ⧸ O)).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI : (CFSG.layer (H ⧸ O)).Normal := inferInstance
+  have hch : (CFSG.layer (H ⧸ O)).Characteristic := CFSG.LocalCores.layer_characteristic
+  have : (CFSG.layer (H ⧸ O)).Normal := inferInstance
   have hX : CatalogSimpleSections (H ⧸ O) := hcat.quotient _
   have hF : CFSG.fittingSubgroup (H ⧸ O) = ⊥ := by
     rw [CFSG.Fitting_eq_pcore _ 3 hred.core, hQ]
@@ -199,7 +199,7 @@ theorem bal3NoPermute_of_schreier
     (hcm hK₃ hK₁ h13.symm) (hcm hK₃ hK₂ h23.symm) hZ₁
   have hd₀p : IsPGroup 3 (zpowers d₀) :=
     (elementary_isPGroup 3 D hconf.elem).to_le (zpowers_le.2 hd₀D)
-  haveI : IsSimpleGroup K₁ := isSimpleGroup_of_isComponentOf hK₁ hZ₁
+  have : IsSimpleGroup K₁ := isSimpleGroup_of_isComponentOf hK₁ hZ₁
   have hpK : 3 ∣ Nat.card K₁ :=
     (prime_dvd_card_center_quotient_of_isComponentOf hp3 hred.core hK₁).trans
       (Subgroup.card_quotient_dvd_card (center K₁))

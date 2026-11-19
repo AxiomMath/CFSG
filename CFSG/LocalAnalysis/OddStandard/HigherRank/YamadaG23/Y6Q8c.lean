@@ -12,7 +12,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] {a₁ b₁ a₂ b₂ z : G}
 
 theorem y6q8_sqz_iff (h : Y6ARel a₁ b₁ a₂ b₂ z) (hz : z ≠ 1)
-    (hA : Nat.card ↥(closure {a₁, b₁, a₂, b₂} : Subgroup G) = 32) :
+    (_hA : Nat.card ↥(closure {a₁, b₁, a₂, b₂} : Subgroup G) = 32) :
     ∀ a ∈ (closure {a₁, b₁, a₂, b₂} : Subgroup G), a ^ 2 = z ↔
       (a ∈ (closure {a₁, b₁} : Subgroup G) ∨ a ∈ (closure {a₂, b₂} : Subgroup G)) ∧ a ≠ 1 ∧
         a ≠ z := by
@@ -74,7 +74,7 @@ theorem y6q8_card (h : Y6ARel a₁ b₁ a₂ b₂ z) (hz : z ≠ 1)
   obtain ⟨hUcard, hWcard, hinter⟩ := y6q8_card_UW h hz hA
   have hUsubA : U ≤ A := y6q8_U_le_A
   have hWsubA : W ≤ A := y6q8_W_le_A
-  haveI : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hA]; decide)
+  have : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hA]; decide)
   have hfinA : (A : Set G).Finite := Set.finite_coe_iff.mp inferInstance
   have hfinU : (U : Set G).Finite := hfinA.subset hUsubA
   have hfinW : (W : Set G).Finite := hfinA.subset hWsubA
@@ -139,8 +139,8 @@ theorem y6q8_gen_sq1 (h : Y6ARel a₁ b₁ a₂ b₂ z) (hz : z ≠ 1)
     intro x hx
     rw [hSdef] at hx
     exact hx.1
-  haveI : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hA]; decide)
-  haveI : Finite ↥Scl := Finite.of_injective (fun x => (⟨x.1, hScl_le_A x.2⟩ : ↥A))
+  have : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hA]; decide)
+  have : Finite ↥Scl := Finite.of_injective (fun x => (⟨x.1, hScl_le_A x.2⟩ : ↥A))
     (by intro x y hxy; exact Subtype.ext (congrArg (Subtype.val : ↥A → G) hxy))
   have hle : Nat.card ↥S ≤ Nat.card ↥Scl := by
     refine Nat.card_le_card_of_injective (fun s : ↥S => (⟨s.1, ?_⟩ : ↥Scl)) ?_

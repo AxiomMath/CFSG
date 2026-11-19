@@ -57,7 +57,7 @@ private theorem s16e_om_not_cube_dvd_gl8 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
 theorem s16e_om_mem_sig_eq_three (D : Data G) (hx : DataExt D)
     (h4 : 3 < CFSG.Open.evenRank G) (h61 : UC6.R6_1 D) (h127 : R127 D) (h1217 : R1217 D)
     {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V) (hset : Setting16 D V₀ V L)
-    (hL : barSub V₀ V hV L ≠ ⊥) (hconc : Conc4_136 D V₀ V hV L)
+    (hL : barSub V₀ V hV L ≠ ⊥) (_hconc : Conc4_136 D V₀ V hV L)
     (h : Case162_7 D V₀ V hV L) {p : ℕ} (hp : p ∈ D.sig) : p = 3 := by
   obtain ⟨hprime, hp2⟩ := D.sig_prime p hp
   by_contra hp3

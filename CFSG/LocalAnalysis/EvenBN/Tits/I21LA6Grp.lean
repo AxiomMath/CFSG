@@ -69,11 +69,11 @@ theorem a6_branch_structure (H : HypYW ρ t u x h)
   obtain ⟨hinv, habel, hzc⟩ :=
     a6grp_oddCore_abelian H.sec H.ord_x H.tx H.ux H.cent H.fuse hxO
   obtain ⟨e⟩ := a6grp_equiv_A6 hLP
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup L := e.isSimpleGroup
-  haveI : Group.IsPerfect (alternatingGroup (Fin 6)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup L := e.isSimpleGroup
+  have : Group.IsPerfect (alternatingGroup (Fin 6)) :=
     ⟨commutator_alternatingGroup_eq_top (by simp)⟩
-  haveI : Group.IsPerfect L :=
+  have : Group.IsPerfect L :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hL360 : Nat.card L = 360 := by rw [Nat.card_congr e.toEquiv, a6grp_card_A6]
   have hzO : u ^ 2 ∉ O := fun hz =>
@@ -83,7 +83,7 @@ theorem a6_branch_structure (H : HypYW ρ t u x h)
   have hcent := a6grp_oddCore_le_center O hzJ hzO habel hzc
   obtain ⟨hJ₀O, hperf⟩ := a6grp_J0_perfect O hOodd hxJ hxO H.tx hinv
   set J₀ := normalClosure ({x} : Set Y) with hJ₀
-  haveI : Group.IsPerfect J₀ := hperf
+  have : Group.IsPerfect J₀ := hperf
   have hJ₀J : J₀ ≤ L.comap (QuotientGroup.mk' O) := hJ₀O ▸ le_sup_left
   have hxJ₀ : x ∈ J₀ := subset_normalClosure (Set.mem_singleton x)
   have hbot : J₀ ⊓ O = ⊥ :=

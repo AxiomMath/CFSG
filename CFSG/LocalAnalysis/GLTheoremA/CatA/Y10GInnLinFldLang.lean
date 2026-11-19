@@ -26,7 +26,7 @@ theorem lang_fixed {d : ℕ} {K : Type} [Field K] [Finite K] (hd : 3 ≤ d) (A :
       Y ≤ fixSubgroup β ∧ (Y.subgroupOf (fixSubgroup β)).Normal ∧
         ⁅fixSubgroup β, fixSubgroup β⁆ ≤ Y ∧
         Nonempty (↥Y ≃* StatedProj (StatedSL d ↥(fixField σ))) := by
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   obtain ⟨Y₀, hY₀F, hY₀n, hFY₀, ⟨e₀⟩⟩ := exists_psl_fix_equiv σ A c hg
   obtain ⟨eP⟩ := nonempty_psl_equiv_statedProj d ↥(fixField σ)
   have hcomp : ∀ y : PSL (Fin d) K,

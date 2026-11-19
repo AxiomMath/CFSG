@@ -94,7 +94,6 @@ theorem ggKGLn_signedEltSC_of_centralQuotient {p : ℕ} (hp : p.Prime) {G R : Ty
     obtain ⟨f'', hf''⟩ := h1
     have hqf : q (τG f'') = τ f' := by
       rw [hf'']
-      change q (ĝ * τG f * ĝ⁻¹) = τ f'
       rw [map_mul, map_mul, map_inv]
       exact hff'
     have hff'' : f'' = f' := hτinj hqf
@@ -105,7 +104,7 @@ theorem ggKGLn_signedEltSC_of_centralQuotient {p : ℕ} (hp : p.Prime) {G R : Ty
 theorem ggKGLn_signedEltSC_projectiveSL {d p : ℕ} {K : Type} [Field K] [Finite K]
     (hp : p.Prime) (hp2 : p ≠ 2) (hpK0 : (p : K) ≠ 0) (hpq : p ∣ Nat.card K + 1)
     (hd : 0 < d) : GGTorusSignedEltSC p (projectiveSL d K) := by
-  haveI : Nonempty K := ⟨0⟩
+  have : Nonempty K := ⟨0⟩
   have hpK' : ¬ p ∣ Nat.card K - 1 := SpNS.not_dvd_card_sub_one hp hp2 hpq
   refine ggKGLn_signedEltSC_of_centralQuotient hp (proj d K) (proj_surjective d K) ?_ ?_
     (ggKGLn_signedEltSC_specialLinear hp hp2 hpK0 hpq)

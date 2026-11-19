@@ -482,7 +482,7 @@ private theorem omega_factorization {b c : GaloisField 2 1}
 private theorem omega_card_wreathW {b c : GaloisField 2 1}
     (hbc : ∀ s : GaloisField 2 1, s ^ 2 + b * s + c ≠ 0) :
     Nat.card (wreathW omegaZs omegaTt) = 81 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle := CFSG.RankThree.PartTwo.Sec4.Item434AltPerm.card_le_of_isPGroup
     (isPGroup_wreathW omega_wreath)
   rw [omega_factorization hbc] at hle

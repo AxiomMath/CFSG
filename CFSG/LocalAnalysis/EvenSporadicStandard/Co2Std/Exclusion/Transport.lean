@@ -25,7 +25,7 @@ private theorem mulAut_congr_symm_apply {A A' : Type*} [Group A] [Group A'] (e :
 private theorem mulAut_congr_conj {A A' : Type*} [Group A] [Group A'] (e : A ≃* A')
     (z : A) : MulAut.congr e (MulAut.conj z) = MulAut.conj (e z) := by
   ext f
-  simp [mulAut_congr_apply, MulAut.conj_apply, map_mul]
+  simp [MulAut.conj_apply, map_mul]
 
 private theorem map_centralizer_mulEquiv {G H : Type*} [Group G] [Group H] (e : G ≃* H)
     (D : Subgroup G) :
@@ -165,7 +165,7 @@ theorem ModuleFacts.map_mulEquiv {A A' : Type*} [Group A] [Group A'] {Q : Subgro
       exact (Subgroup.mem_map_iff_mem (f := c.toMonoidHom) c.injective).mp hstep
     have hmem : c (c.symm g') ∈ Q' := (hmemQ' (c.symm g')).mpr hg
     simpa using hmem
-  · haveI : IsSimpleGroup ↥⁅Q, Q⁆ := h.derived_simple
+  · have : IsSimpleGroup ↥⁅Q, Q⁆ := h.derived_simple
     rw [← hD]
     exact MulEquiv.isSimpleGroup
       (Subgroup.equivMapOfInjective ⁅Q, Q⁆ c.toMonoidHom c.injective).symm
@@ -209,9 +209,9 @@ theorem ModuleFacts.map_mulEquiv {A A' : Type*} [Group A] [Group A'] {Q : Subgro
       have h := hf' (c g) hch (e a)
       dsimp only [f]
       simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
-      have h1 : e (g a) = c g (e a) := by simp [c, mulAut_congr_apply]
+      have h1 : e (g a) = c g (e a) := by simp [c]
       have h2 : e (g (e.symm (f' (e a)))) = c g (f' (e a)) := by
-        simp [c, mulAut_congr_apply]
+        simp [c]
       rw [h1, h, ← h2, e.symm_apply_apply]
     rcases h.endo_derived f hf with hf1 | hfid
     · left
@@ -236,7 +236,7 @@ theorem ModuleFacts.map_mulEquiv {A A' : Type*} [Group A] [Group A'] {Q : Subgro
       intro y hy
       rcases Subgroup.mem_map.mp hy with ⟨y', hy', rfl⟩
       exact Subgroup.mem_map_equiv.mp (hY'Q' hy')
-    haveI hYel : IsElementaryAbelian 2 Y :=
+    have hYel : IsElementaryAbelian 2 Y :=
       IsElementaryAbelian.of_mulEquiv
         (Subgroup.equivMapOfInjective Y' (MulAut.congr e).symm.toMonoidHom
           (MulAut.congr e).symm.injective) hY'elem
@@ -270,8 +270,8 @@ theorem ModuleFacts.map_mulEquiv {A A' : Type*} [Group A] [Group A'] {Q : Subgro
     · intro g hg a b
       have hch : c g ∈ Q' := (hmemQ' g).mpr hg
       dsimp only [β]
-      have h1 : e (g a) = c g (e a) := by simp [c, mulAut_congr_apply]
-      have h2 : e (g b) = c g (e b) := by simp [c, mulAut_congr_apply]
+      have h1 : e (g a) = c g (e a) := by simp [c]
+      have h2 : e (g b) = c g (e b) := by simp [c]
       rw [h1, h2]
       exact hinv (c g) hch (e a) (e b)
   · intro γ' hγadd hγcoc
@@ -286,7 +286,7 @@ theorem ModuleFacts.map_mulEquiv {A A' : Type*} [Group A] [Group A'] {Q : Subgro
       have hqg : ((qiso g : ↥Q') : MulAut A') = c (g : MulAut A) := rfl
       have h1 : ((qiso g : ↥Q') : MulAut A')⁻¹ (e a) = e ((g : MulAut A)⁻¹ a) := by
         rw [hqg, ← map_inv]
-        simp [c, mulAut_congr_apply]
+        simp [c]
       show γ' (qiso (g * h)) (e a)
         = γ' (qiso g) (e a) + γ' (qiso h) (e ((g : MulAut A)⁻¹ a))
       rw [map_mul, hγcoc, h1]
@@ -302,7 +302,7 @@ theorem ModuleFacts.map_mulEquiv {A A' : Type*} [Group A] [Group A'] {Q : Subgro
       have hqc : ((qiso g : ↥Q') : MulAut A') = c (g : MulAut A) := rfl
       have harg : e.symm ((g' : MulAut A')⁻¹ a') = ((g : ↥Q) : MulAut A)⁻¹ (e.symm a') := by
         rw [← hqgM, hqc, ← map_inv]
-        simp [c, mulAut_congr_apply]
+        simp [c]
       have h1 : γ' g' a' = γ g (e.symm a') := by
         show γ' g' a' = γ' (qiso g) (e (e.symm a'))
         rw [hqg]
@@ -331,11 +331,11 @@ theorem ModuleFacts.map_mulEquiv {A A' : Type*} [Group A] [Group A'] {Q : Subgro
       rw [halt (e a), map_one]
     · intro g hg a b
       have hch : c g ∈ Q' := (hmemQ' g).mpr hg
-      have h1 : e (g a) = c g (e a) := by simp [c, mulAut_congr_apply]
-      have h2 : e (g b) = c g (e b) := by simp [c, mulAut_congr_apply]
+      have h1 : e (g a) = c g (e a) := by simp [c]
+      have h2 : e (g b) = c g (e b) := by simp [c]
       show e.symm (β' (e (g a)) (e (g b))) = g (e.symm (β' (e a) (e b)))
       rw [h1, h2, hinv (c g) hch (e a) (e b)]
-      simp [c, mulAut_congr_apply]
+      simp [c]
   · intro V _ ρ' ι' hι' hρ' hsq hexp hlifts
     let qiso : ↥Q ≃* ↥Q' := Subgroup.equivMapOfInjective Q c.toMonoidHom c.injective
     let ρ : ↥Q →* MulAut V := ρ'.comp qiso.toMonoidHom
@@ -349,7 +349,7 @@ theorem ModuleFacts.map_mulEquiv {A A' : Type*} [Group A] [Group A'] {Q : Subgro
       have hqg : ((qiso g : ↥Q') : MulAut A') = c (g : MulAut A) := rfl
       have h1 : ((qiso g : ↥Q') : MulAut A') (e a) = e ((g : MulAut A) a) := by
         rw [hqg]
-        simp [c, mulAut_congr_apply]
+        simp [c]
       have h := hρ' (qiso g) (e a)
       dsimp only [ρ, ι]
       simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
@@ -377,7 +377,7 @@ theorem ModuleFacts.map_mulEquiv {A A' : Type*} [Group A] [Group A'] {Q : Subgro
       have hqg : ((qiso g : ↥Q') : MulAut A') = c (g : MulAut A) := rfl
       have h1 : ((qiso g : ↥Q') : MulAut A')⁻¹ (e a) = e ((g : MulAut A)⁻¹ a) := by
         rw [hqg, ← map_inv]
-        simp [c, mulAut_congr_apply]
+        simp [c]
       have hstep : Γ' (qiso (g * h)) (e a)
           = Γ' (qiso g) (e a)
             * ((qiso g : ↥Q') : MulAut A')
@@ -390,7 +390,7 @@ theorem ModuleFacts.map_mulEquiv {A A' : Type*} [Group A] [Group A'] {Q : Subgro
       rw [hstep, map_mul, h1]
       congr 1
       rw [hqg]
-      simp [c, mulAut_congr_apply]
+      simp [c]
     have hfix' : ∃ u : A, ∀ g : ↥Q, (g : MulAut A) t = t → Γ g t = u * (g : MulAut A) u := by
       obtain ⟨u', hu'⟩ := hfix
       refine ⟨e.symm u', ?_⟩
@@ -398,14 +398,14 @@ theorem ModuleFacts.map_mulEquiv {A A' : Type*} [Group A] [Group A'] {Q : Subgro
       have hq : ((qiso g : ↥Q') : MulAut A') (e t) = e t := by
         have hqg : ((qiso g : ↥Q') : MulAut A') = c (g : MulAut A) := rfl
         rw [hqg]
-        simp [c, mulAut_congr_apply, hg]
+        simp [c, hg]
       have h := hu' (qiso g) hq
       show e.symm (Γ' (qiso g) (e t))
         = e.symm u' * (g : MulAut A) (e.symm u')
       rw [h, map_mul]
       congr 1
       rw [show ((qiso g : ↥Q') : MulAut A') = c (g : MulAut A) from rfl]
-      simp [c, mulAut_congr_apply]
+      simp [c]
     obtain ⟨X, hX⟩ := h.split_of_fixed Γ hΓadd' hΓcoc' hfix'
     let X' : A' →* A' := e.toMonoidHom.comp (X.comp e.symm.toMonoidHom)
     refine ⟨X', ?_⟩
@@ -416,19 +416,19 @@ theorem ModuleFacts.map_mulEquiv {A A' : Type*} [Group A] [Group A'] {Q : Subgro
     have hqc : ((qiso g : ↥Q') : MulAut A') = c (g : MulAut A) := rfl
     have h1 : ((qiso g : ↥Q') : MulAut A')⁻¹ a' = e ((g : MulAut A)⁻¹ (e.symm a')) := by
       rw [hqc, ← map_inv]
-      simp [c, mulAut_congr_apply]
+      simp [c]
     have hΓ : Γ' g' a' = e (Γ g (e.symm a')) := by
       show Γ' g' a' = e (e.symm (Γ' (qiso g) (e (e.symm a'))))
       rw [hqg]
       simp
     have harg : e.symm ((g' : MulAut A')⁻¹ a') = ((g : ↥Q) : MulAut A)⁻¹ (e.symm a') := by
       rw [← hqgM, hqc, ← map_inv]
-      simp [c, mulAut_congr_apply]
+      simp [c]
     rw [hΓ, hX]
     dsimp only [X']
     simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
     rw [map_mul, harg, ← hqgM, hqc]
-    simp [c, mulAut_congr_apply]
+    simp [c]
 
 private theorem mem_normalizer_iff_of_mulEquiv {G G' : Type*} [Group G] [Group G']
     {L A : Subgroup G} {A' : Subgroup G'} (hAL : A ≤ L) (φ : ↥L ≃* G')
@@ -475,7 +475,7 @@ private theorem mem_normalizer_iff_of_mulEquiv {G G' : Type*} [Group G] [Group G
 
 private theorem mulAut_congr_conjN {G G' : Type*} [Group G] [Group G']
     {L A : Subgroup G} {A' : Subgroup G'} (hAL : A ≤ L) (φ : ↥L ≃* G')
-    (hA : ∀ x : ↥L, (x : G) ∈ A ↔ φ x ∈ A')
+    (_hA : ∀ x : ↥L, (x : G) ∈ A ↔ φ x ∈ A')
     (eA : ↥A ≃* ↥A') (heA : ∀ a : ↥A, ((eA a : ↥A') : G') = φ ⟨a.1, hAL a.2⟩)
     (x : ↥(L ⊓ normalizer (A : Set G)))
     (y : ↥(⊤ ⊓ normalizer (A' : Set G'))) (hy : (y : G') = φ ⟨x.1, x.2.1⟩) :
@@ -568,13 +568,13 @@ theorem JcFacts.of_mulEquiv {G G' : Type*} [Group G] [Group G'] {L A T : Subgrou
     rwa [← ht] at hm
   let eA : ↥A ≃* ↥A' :=
     { toFun := fun a => ⟨φ ⟨a.1, hAL a.2⟩, (hA ⟨a.1, hAL a.2⟩).mp a.2⟩
-      invFun := fun a' => ⟨(φ.symm a'.1).1, (hA (φ.symm a'.1)).mpr (by simpa using a'.2)⟩
+      invFun := fun a' => ⟨(φ.symm a'.1).1, (hA (φ.symm a'.1)).mpr (by simp)⟩
       left_inv := fun a => Subtype.ext (by simp)
       right_inv := fun a' => Subtype.ext (by simp)
       map_mul' := fun a b => Subtype.ext (by
         simpa using map_mul φ ⟨a.1, hAL a.2⟩ ⟨b.1, hAL b.2⟩) }
   have heA : ∀ a : ↥A, ((eA a : ↥A') : G') = φ ⟨a.1, hAL a.2⟩ := fun a => rfl
-  haveI hAe : IsElementaryAbelian 2 ↥A := by
+  have hAe : IsElementaryAbelian 2 ↥A := by
     exact IsElementaryAbelian.of_mulEquiv eA.symm h.module.elemAb
   refine
     { le := hAL
@@ -629,8 +629,8 @@ theorem JcFacts.of_mulEquiv {G G' : Type*} [Group G] [Group G'] {L A T : Subgrou
   · let E : Subgroup G := L ⊓ centralizer ({t} : Set G)
     let E' : Subgroup G' := ⊤ ⊓ centralizer ({t'} : Set G')
     let φE : ↥E ≃* ↥E' := fixedCentralizerEquiv φ htL ht
-    haveI : Group.IsPerfect ↥E' := ⟨h.perfectE⟩
-    haveI : Group.IsPerfect ↥E :=
+    have : Group.IsPerfect ↥E' := ⟨h.perfectE⟩
+    have : Group.IsPerfect ↥E :=
       Group.IsPerfect.ofSurjective (f := φE.symm.toMonoidHom) φE.symm.surjective
     exact Group.IsPerfect.commutator_eq_top
   · let E : Subgroup G := L ⊓ centralizer ({t} : Set G)

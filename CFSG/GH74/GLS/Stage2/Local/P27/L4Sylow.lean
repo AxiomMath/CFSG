@@ -158,7 +158,7 @@ theorem isSylowOf_top_of_central {z : G} {S : Subgroup G} (hz : IsCentralInvolut
   obtain ⟨-, Q, hzQ, hzc⟩ := hz
   have hQC : (Q : Subgroup G) ≤ centralizer ({z} : Set G) := fun q hq =>
     mem_centralizer_iff.2 (fun h hh => by rw [Set.mem_singleton_iff.1 hh]; exact (hzc q hq).symm)
-  obtain ⟨c, -, hc⟩ := CFSG.ComponentClassification.GHarris.exists_conj_le_of_isSylowOf hS hQC Q.isPGroup'
+  obtain ⟨c, -, hc⟩ := CFSG.ComponentClassification.GHarris.exists_conj_le_of_isSylowOf hS hQC Q.isPGroup
   have hQS : cj c (Q : Subgroup G) ≤ S := by
     rintro y ⟨q, hq, rfl⟩
     exact hc q hq
@@ -168,7 +168,7 @@ theorem isSylowOf_top_of_central {z : G} {S : Subgroup G} (hz : IsCentralInvolut
   have h2 : Nat.card ↥S ≤ Nat.card ↥(Q : Subgroup G) := by
     have hQ' : IsSylowOf 2 (Q : Subgroup G) ⊤ := by
       rw [isSylowOf_iff]
-      refine ⟨le_top, Q.isPGroup', ?_⟩
+      refine ⟨le_top, Q.isPGroup, ?_⟩
       rw [Subgroup.relIndex_top_right]
       exact Q.not_dvd_index
     obtain ⟨k, -, hk⟩ := CFSG.ComponentClassification.GHarris.exists_conj_le_of_isSylowOf hQ'

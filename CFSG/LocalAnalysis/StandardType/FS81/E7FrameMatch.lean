@@ -13,7 +13,7 @@ open CFSG.ClassicalInvolution.WeakCT CFSG.LieType CFSG.Timmesfeld
 
 private lemma edgeE_castSucc_iff {n : ℕ} (i j : Fin n) :
     edgeE (n + 1) i.castSucc j.castSucc ↔ edgeE n i j := by
-  simp only [edgeE, Fin.coe_castSucc]
+  simp only [edgeE, Fin.val_castSucc]
 
 theorem weakCT_e7_two_rankOne {X : Type} [Group X] (U : Fin 7 → Subgroup X)
     (hgen : ⨆ k, U k = ⊤)

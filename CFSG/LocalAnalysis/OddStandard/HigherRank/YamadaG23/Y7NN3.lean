@@ -18,7 +18,7 @@ private theorem conjSub_inv_le_centralizer {G : Type} [Group G] {a t x : G}
   obtain ⟨e, heE, rfl⟩ := hz
   rw [Subgroup.mem_centralizer_singleton_iff]
   simp only [inv_inv]
-  haveI : IsMulCommutative ↥E := hE.1
+  have : IsMulCommutative ↥E := hE.1
   have hcomm : Commute e x := by
     exact congrArg Subtype.val (mul_comm' (⟨e, heE⟩ : E) (⟨x, hxE⟩ : E))
   have hconj : Commute (a⁻¹ * e * a) (a⁻¹ * x * a) := by

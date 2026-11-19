@@ -25,12 +25,12 @@ theorem burnsideC135_transvection_mem_ut {i j : Fin 3} (hij : i < j) (b : F) :
   refine ⟨fun k l hlk => ?_, fun k => ?_⟩
   · rw [Matrix.SpecialLinearGroup.transvection_coe, Matrix.add_apply, Matrix.one_apply_ne
       (ne_of_gt hlk), Matrix.single_apply]
-    rw [if_neg]
+    rw [ite_eq_right]
     · rw [zero_add]
     · rintro ⟨rfl, rfl⟩
       exact absurd (hij.trans hlk) (lt_irrefl _)
   · rw [Matrix.SpecialLinearGroup.transvection_coe, Matrix.add_apply, Matrix.one_apply_eq,
-      Matrix.single_apply, if_neg, add_zero]
+      Matrix.single_apply, ite_eq_right, add_zero]
     rintro ⟨rfl, rfl⟩
     exact lt_irrefl _ hij
 
@@ -140,6 +140,7 @@ section Image
 
 variable [Finite G] {X S L : Subgroup G} {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem burnsideC135_image_sylow (hS : IsSylowTwoOf S X) (hLX : L ≤ X)
     (hXL : X ≤ Subgroup.normalizer (L : Set G))
     {ρ : ↥L →* Matrix.SpecialLinearGroup (Fin 3) F} (hρ : Function.Surjective ρ) :

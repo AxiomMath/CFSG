@@ -57,7 +57,7 @@ theorem ys03_glaPPrimeCoreOf_sup_le {p : ℕ} (hp : p.Prime) {L B : Subgroup G}
   have hLM : L ≤ M := le_sup_left
   have hBM : B ≤ M := le_sup_right
   have hMN : M ≤ Subgroup.normalizer (L : Set G) := sup_le Subgroup.le_normalizer hBN
-  haveI hLn : (L.subgroupOf M).Normal :=
+  have hLn : (L.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLM).2 hMN
   set φ : ↥M →* ↥M ⧸ L.subgroupOf M := QuotientGroup.mk' (L.subgroupOf M) with hφ
   have hBp : IsPGroup p (B.subgroupOf M) := hB.of_equiv (Subgroup.subgroupOfEquivOfLe hBM).symm
@@ -112,7 +112,7 @@ section CoprimeAction
 variable {G : Type} [Group G] [Finite G]
 
 theorem ys03_exists_mul_mem_centralizer_of_coprime {p : ℕ} (hp : p.Prime) {M E : Subgroup G}
-    (hEM : E ≤ M) (hE : IsPGroup p E) {l : G} (hl : l ∈ M)
+    (hEM : E ≤ M) (hE : IsPGroup p E) {l : G} (_hl : l ∈ M)
     (hcomm : ∀ e ∈ E, ⁅l⁻¹, e⁆ ∈ GLAPPrimeCoreOf p M) :
     ∃ o ∈ GLAPPrimeCoreOf p M, l * o ∈ Subgroup.centralizer (E : Set G) := by
   classical
@@ -120,7 +120,7 @@ theorem ys03_exists_mul_mem_centralizer_of_coprime {p : ℕ} (hp : p.Prime) {M E
   have hOM : ∀ g ∈ M, ∀ o ∈ GLAPPrimeCoreOf p M, g * o * g⁻¹ ∈ GLAPPrimeCoreOf p M :=
     fun g hg o ho => (Subgroup.mem_normalizer_iff.1 (le_normalizer_glaPPrimeCoreOf p M hg) o).1 ho
   have hOp : ¬ p ∣ Nat.card (GLAPPrimeCoreOf p M) := not_dvd_card_glaPPrimeCoreOf hp M
-  letI act : MulAction ↥E ↥(GLAPPrimeCoreOf p M) :=
+  let act : MulAction ↥E ↥(GLAPPrimeCoreOf p M) :=
     { smul := fun g o => ⟨l⁻¹ * ((g : G) * (l * (o : G)) * (g : G)⁻¹), by
         have h1 : ⁅l⁻¹, (g : G)⁆ ∈ GLAPPrimeCoreOf p M := hcomm g g.2
         rw [commutatorElement_def, inv_inv] at h1
@@ -155,10 +155,12 @@ variable {G : Type} [Group G] [Finite G]
 abbrev ys03_qMap (p : ℕ) (M : Subgroup G) : ↥M →* PQuot p M :=
   QuotientGroup.mk' (GLAPPrimeCore p ↥M)
 
+omit [Finite G] in
 theorem ys03_qMap_eq_one_iff {p : ℕ} {M : Subgroup G} (x : ↥M) :
     ys03_qMap p M x = 1 ↔ x ∈ GLAPPrimeCore p ↥M :=
   QuotientGroup.eq_one_iff x
 
+omit [Finite G] in
 theorem ys03_mem_primeCoreOf_iff_qMap {p : ℕ} {M : Subgroup G} {x : G} (hx : x ∈ M) :
     x ∈ GLAPPrimeCoreOf p M ↔ ys03_qMap p M ⟨x, hx⟩ = 1 := by
   rw [ys03_qMap_eq_one_iff, GLAPPrimeCoreOf, Subgroup.mem_map]
@@ -293,6 +295,7 @@ end ImageCentralizer
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ys03_exists_component_ne_bot {p : ℕ} {X : Subgroup G}
     (h : GLAPLayer p X ≠ ⊥) : ∃ J : Subgroup G, GLAPComponent p X J ∧ J ≠ ⊥ := by
   by_contra hne

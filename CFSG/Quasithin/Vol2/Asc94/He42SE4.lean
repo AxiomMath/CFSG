@@ -38,12 +38,12 @@ theorem piHom_ne_one_of_zC {x : L52.Hc} (h : L52.zC x 1 0 = 1) : L52.piHom x ≠
 
 theorem isPGroup_centralizer_of_piHom_ne_one {y : L52.Hc} (hy : L52.piHom y ≠ 1) (hy2 : y * y = 1) :
     IsPGroup 2 (Subgroup.centralizer ({y} : Set L52.Hc)) := by
-  haveI : Finite L52.Hc := Nat.finite_of_card_ne_zero (by rw [L52.card_Hc]; norm_num)
+  have : Finite L52.Hc := Nat.finite_of_card_ne_zero (by rw [L52.card_Hc]; norm_num)
   have hprime : ∀ {q : ℕ}, q.Prime →
       q ∣ Nat.card (Subgroup.centralizer ({y} : Set L52.Hc)) → q = 2 := by
     intro q hq hqd
     by_contra hq2
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     obtain ⟨g, hg⟩ :=
       exists_prime_orderOf_dvd_card' (G := Subgroup.centralizer ({y} : Set L52.Hc)) q hqd
     have hgq : orderOf (g : L52.Hc) = q := by rw [Subgroup.orderOf_coe, hg]

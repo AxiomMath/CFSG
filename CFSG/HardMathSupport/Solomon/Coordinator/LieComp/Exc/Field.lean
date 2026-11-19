@@ -31,11 +31,11 @@ theorem lieCompExport_entrywiseAdjointAut_of_simple {q : ℕ} (τ : Tag) {K : Ty
   have hJnc : ∃ x y : ι.range, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
     exact ⟨e x, e y, fun h => hxy (e.injective (by simpa using h))⟩
-  haveI : Finite (fixSubfield σ) := Subtype.finite
-  haveI : Finite (ModGL τ (fixSubfield σ)) := finite_modGL
-  haveI : Finite ↥(adjointGroup τ (fixSubfield σ)) := Subtype.finite
-  haveI := hs
-  haveI := hJn
+  have : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (ModGL τ (fixSubfield σ)) := finite_modGL
+  have : Finite ↥(adjointGroup τ (fixSubfield σ)) := Subtype.finite
+  have := hs
+  have := hJn
   refine lieCompExport_of_normal_quasisimple hJC (isQuasisimple_of_isSimpleGroup hJs hJnc) hsol
     ⟨↥(adjointGroup τ (fixSubfield σ)), inferInstance, inferInstance,
       lieFactorData_of_simple hnc hchev, ι.rangeRestrict, ι.rangeRestrict_surjective, ?_⟩ ?_
@@ -54,11 +54,11 @@ theorem lieCompExport_entrywiseAdjointAut_G2_two {q : ℕ} {K : Type} [Field K] 
   have : Finite (ModGL .G2 K) := finite_modGL
   obtain ⟨ι, hι, hJC, hJn, hsol⟩ := ExcCopy.exists_fixed_structure .G2 σ
   obtain ⟨hDs, hDcard⟩ := ExcCopy.g2Two_derived_exc hk
-  haveI : Finite (fixSubfield σ) := Subtype.finite
-  haveI : Finite (ModGL .G2 (fixSubfield σ)) := finite_modGL
-  haveI : Finite ↥(adjointGroup .G2 (fixSubfield σ)) := Subtype.finite
-  haveI : Finite ↥(commutator ↥(adjointGroup .G2 (fixSubfield σ))) := Subtype.finite
-  haveI := hDs
+  have : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (ModGL .G2 (fixSubfield σ)) := finite_modGL
+  have : Finite ↥(adjointGroup .G2 (fixSubfield σ)) := Subtype.finite
+  have : Finite ↥(commutator ↥(adjointGroup .G2 (fixSubfield σ))) := Subtype.finite
+  have := hDs
   have hDnc : ∃ a b : ↥(commutator ↥(adjointGroup .G2 (fixSubfield σ))), a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
@@ -77,9 +77,9 @@ theorem lieCompExport_entrywiseAdjointAut_G2_two {q : ℕ} {K : Type} [Field K] 
     obtain ⟨x, y, hxy⟩ := hDnc
     exact ⟨e x, e y, fun h => hxy (e.injective (by simpa using h))⟩
   have hDq : CFSG.IsQuasisimple ↥⁅ι.range, ι.range⁆ := isQuasisimple_of_isSimpleGroup hDs' hDnc'
-  haveI := hJn
+  have := hJn
   have hDJ : ⁅ι.range, ι.range⁆ ≤ ι.range := Subgroup.commutator_le_self _
-  haveI : (⁅ι.range, ι.range⁆.subgroupOf ι.range).Normal :=
+  have : (⁅ι.range, ι.range⁆.subgroupOf ι.range).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (Subgroup.normalizer_commutator_ge_left _ _)
   have hcomp : IsComponentOf ⁅ι.range, ι.range⁆ (fixSubgroup (entrywiseAdjointAut .G2 σ)) :=
     isComponentOf_of_normal_normal hDJ hJC inferInstance inferInstance hDq
@@ -108,9 +108,9 @@ theorem lieCompExport_entrywiseAdjointAut_G2_two {q : ℕ} {K : Type} [Field K] 
 theorem exists_primePower_card_subfield {K : Type} [Field K] [Finite K] {ℓ : ℕ} (hℓ : ringChar K = ℓ)
     (k : Subfield K) : ∃ q : TauCeti.PrimePower, q.p = ℓ ∧ Nat.card k = q.card := by
   classical
-  haveI : Fintype k := Fintype.ofFinite _
-  haveI : CharP K ℓ := hℓ ▸ ringChar.charP K
-  haveI : CharP k ℓ := (k.subtype.charP_iff k.subtype_injective ℓ).2 inferInstance
+  have : Fintype k := Fintype.ofFinite _
+  have : CharP K ℓ := hℓ ▸ ringChar.charP K
+  have : CharP k ℓ := (k.subtype.charP_iff k.subtype_injective ℓ).2 inferInstance
   obtain ⟨n, hp, hcard⟩ := FiniteField.card k ℓ
   exact ⟨⟨ℓ, n, hp, n.pos⟩, rfl, by
     rw [Nat.card_eq_fintype_card, hcard, TauCeti.PrimePower.card_def]⟩
@@ -125,7 +125,7 @@ theorem lieCompExport_entrywiseAdjointAut_untw {τ : Tag} {c : TauCeti.PrimePowe
     LieCompExport ℓ (entrywiseAdjointAut τ σ) := by
   classical
   obtain ⟨q, hqp, hqcard⟩ := exists_primePower_card_subfield hℓ (fixSubfield σ)
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   by_cases hG2 : τ = .G2 ∧ Nat.card (fixSubfield σ) = 2
   · obtain ⟨rfl, hk⟩ := hG2
     have hℓ2 : ℓ = 2 := by

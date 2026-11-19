@@ -13,17 +13,20 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sq_eq_one_Vtil {A : Subgroup G} (hA : IsElemAbelian 2 A) (w : Vtil ⊥ A hA) :
     w ^ 2 = 1 := by
   obtain ⟨x, rfl⟩ := mkTil_surjective ⊥ A hA w
   rw [← map_pow, IntMod.sq_eq_one, map_one]
 
+omit [Finite G] in
 theorem mkTil_mk_eq_one_iff {A : Subgroup G} (hA : IsElemAbelian 2 A) {z : G} (hz : z ∈ A) :
     mkTil ⊥ A hA (IntMod.mk hA ⟨z, hz⟩) = 1 ↔ z = 1 := by
   rw [← map_one (mkTil ⊥ A hA), mkTil_eq_iff, Subgroup.mem_bot]
   show z * (1 : G)⁻¹ = 1 ↔ z = 1
   simp
 
+omit [Finite G] in
 theorem mkTil_commutator_eq {A : Subgroup G} (hA : IsElemAbelian 2 A) {g : G}
     (hg : g ∈ stabTil ⊥ A) {z : G} (hz : z ∈ A) :
     ∃ hu : g * z * g⁻¹ * z⁻¹ ∈ A, mkTil ⊥ A hA (IntMod.mk hA ⟨g * z * g⁻¹ * z⁻¹, hu⟩) =
@@ -46,6 +49,7 @@ theorem mkTil_commutator_eq {A : Subgroup G} (hA : IsElemAbelian 2 A) {g : G}
     _ = actTil ⊥ A hA ⟨g, hg⟩ (mkTil ⊥ A hA (IntMod.mk hA ⟨z, hz⟩)) *
           (mkTil ⊥ A hA (IntMod.mk hA ⟨z, hz⟩))⁻¹ := by rw [actTil_mk]
 
+omit [Finite G] in
 theorem le_centralizer_of_mkTil_mem_fixV {A Y : Subgroup G} (hA : IsElemAbelian 2 A)
     (hY : Y ≤ stabTil ⊥ A) {u : G} (hu : u ∈ A)
     (hfix : mkTil ⊥ A hA (IntMod.mk hA ⟨u, hu⟩) ∈ fixV (barSub ⊥ A hA Y)) :
@@ -62,6 +66,7 @@ theorem le_centralizer_of_mkTil_mem_fixV {A Y : Subgroup G} (hA : IsElemAbelian 
   rw [Subgroup.mem_centralizer_singleton_iff, ← hxu]
   exact Subgroup.mem_centralizer_iff.mp hxcent y hy
 
+omit [Finite G] in
 private theorem mem_normalizer_subtype_of_mem_normalizer_subgroupOf_Tor6 {P X : Subgroup G}
     (hPX : P ≤ X) (x : ↥X) (hx : x ∈ Subgroup.normalizer (P.subgroupOf X : Set ↥X)) :
     (x : G) ∈ Subgroup.normalizer (P : Set G) := by
@@ -82,6 +87,7 @@ private theorem mem_normalizer_subtype_of_mem_normalizer_subgroupOf_Tor6 {P X : 
       exact hp
     exact Subgroup.mem_subgroupOf.mp ((hx ⟨p, hpX⟩).2 h1)
 
+omit [Finite G] in
 private theorem map_barSubHom_sylow_eq_Tor6 {A X P : Subgroup G} (hA : IsElemAbelian 2 A)
     (hX : X ≤ stabTil ⊥ A) (hP : IsSylowIn 2 P X) :
     (((hP.toSylow : Subgroup ↥X).map (barSubHom hA X hX)).map
@@ -106,6 +112,7 @@ private theorem map_barSubHom_sylow_eq_Tor6 {A X P : Subgroup G} (hA : IsElemAbe
           MulAut (Vtil ⊥ A hA)) = actTil ⊥ A hA g
       rw [barSubHom_apply]
 
+omit [Finite G] in
 private theorem mem_normalizer_map_barSubHom_sylow_Tor6 {A X P : Subgroup G}
     (hA : IsElemAbelian 2 A) (hX : X ≤ stabTil ⊥ A) (hP : IsSylowIn 2 P X)
     {φ : MulAut (Vtil ⊥ A hA)} (hφX : φ ∈ barSub ⊥ A hA X)
@@ -178,7 +185,7 @@ theorem barSub_L_eq_sup {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch) {A : 
   have hKleL' : K ≤ c.L := by
     refine le_trans ?_ (hKleL ⟨1, D.T.one_mem⟩)
     intro k hk
-    exact Subgroup.mem_map.mpr ⟨k, hk, by simp [MulAut.conj_apply]⟩
+    exact Subgroup.mem_map.mpr ⟨k, hk, by simp⟩
   have hKstab : K ≤ stabTil ⊥ A := hKleL'.trans (c.L_le_N.trans hNstab)
   refine le_antisymm ?_ ?_
   · rw [hLK, PartTwo.barSub_iSup_of_le hA hKstab']

@@ -24,7 +24,7 @@ theorem isSz_star_lt {F : Frame126 T L V} {H K : Subgroup G}
     IsSz n ↥(star H K) := by
   have hq : CFSG.IsQuasisimple ↥(star H K) :=
     CFSG.Quasithin.H13.P31Sec.isQuasisimple_star h918.K_cComp h918.K_quasisimple
-  haveI : Group.IsPerfect ↥(star H K) := hq.1
+  have : Group.IsPerfect ↥(star H K) := hq.1
   exact suzukiModel_of_odd_center (P31A.odd_card_center_star_K F h918) hSz
 
 theorem exists_odd_normal_fpf_lt (h1222 : Stmt12_2_2)
@@ -45,7 +45,7 @@ theorem exists_odd_normal_fpf_lt (h1222 : Stmt12_2_2)
     CFSG.Quasithin.H13.P31Sec.isQuasisimple_star hKc h918.K_quasisimple
   have hNn : (star H (conjClosure K T)).Normal := normal_star h918.K₀_normal
   have hSzM : SuzukiModel (↥(star H K) ⧸ Subgroup.center ↥(star H K)) 2 n := hSz
-  haveI : Group.IsPerfect ↥(star H K) := hq.1
+  have : Group.IsPerfect ↥(star H K) := hq.1
   have hOut : IsCyclic (Outer ↥(star H K)) :=
     ((CFSG.LieType.Suzuki.Suzuki_model_and_perfect_cover_outer_cyclicity.{0} _ 2 n hSzM).2
       ↥(star H K) ⟨MulEquiv.refl _⟩).1
@@ -159,7 +159,7 @@ theorem exists_odd_normal_fpf_lt (h1222 : Stmt12_2_2)
     | mem u hu =>
       obtain ⟨t, ht, rfl⟩ := hu
       exact Subgroup.subset_closure ⟨s * t, S.mul_mem hs ht, by group⟩
-    | one => simpa using E₀.one_mem
+    | one => simp
     | mul a b _ _ ha hb =>
       have := E₀.mul_mem ha hb
       simpa [mul_assoc] using this

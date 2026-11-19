@@ -14,7 +14,7 @@ open CFSG CFSG.StandardType CFSG.Assembly CFSG.Yardstones.Md0ec50421ce4
 private theorem gkq_pPrimeCore_subgroupOf_top {H : Type} [Group H] [Finite H] {p : ℕ}
     (hp : p.Prime) {Y : Subgroup H} (hY : Y.IsSubnormal) :
     (CFSG.pPrimeCore p H).subgroupOf Y = CFSG.pPrimeCore p ↥Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hkey := CFSG.LocalCores.prime_set_core_subnormal_intersection
     {q : Nat.Primes | q.val ≠ p} hY
   rw [← CFSG.pPrimeCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore] at hkey

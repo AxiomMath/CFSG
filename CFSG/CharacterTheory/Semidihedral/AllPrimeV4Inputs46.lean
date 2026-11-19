@@ -201,7 +201,7 @@ private theorem qd46_right_eq_one_of_mem_L {σ : Setting G} (hσv : σ.IsValid) 
     refine ⟨⟨x, hxN⟩, ?_, rfl⟩
     rw [SetLike.mem_coe, MonoidHom.mem_ker, MonoidHom.comp_apply,
       SemidirectProduct.rightHom_eq_right]
-    obtain ⟨k, hk⟩ := σ.S.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := σ.S.isPGroup ⟨x, hx⟩
     have hk' : (⟨x, hxN⟩ : σ.N) ^ (2 ^ k) = 1 :=
       Subtype.ext (by simpa using congrArg Subtype.val hk)
     have hpow : (φ ⟨x, hxN⟩).right ^ (2 ^ k) = 1 := by

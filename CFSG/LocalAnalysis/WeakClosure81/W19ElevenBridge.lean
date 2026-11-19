@@ -43,7 +43,7 @@ theorem exists_plane_Z193 (c : MinCex193 D V₀ V p X) (h162 : W3Thm162Gt2 G)
       normalizer (Z193 D V : Set G) ≤ normalizer (I : Set G) ∧
       ∃ g ∈ normalizer (Z193 D V : Set G), g ∉ D.M ∧ g ^ 2 ∈ D.M := by
   classical
-  haveI hcomm : IsMulCommutative ↥(Z193 D V) := c.isElemAbelian_Z193.1
+  have hcomm : IsMulCommutative ↥(Z193 D V) := c.isElemAbelian_Z193.1
   obtain ⟨v, hvV, hv1, hV₀⟩ := c.exists_v₀ h2
   have hvZ : v ∈ Z193 D V := c.V₀_le_Z193 h2 hvV
   obtain ⟨g₀, hg₀N, hg₀M⟩ := c.exists_mem_normalizer_Z

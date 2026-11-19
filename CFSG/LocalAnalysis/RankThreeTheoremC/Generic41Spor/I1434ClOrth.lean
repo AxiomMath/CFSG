@@ -155,7 +155,7 @@ theorem exists_components_named {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Q : Qu
       (fun hlist => by
         rw [← fixedLayerImage_of_listed hlist]
         exact le_sup_right)
-    haveI := hS₀sol
+    have := hS₀sol
     exact perfect_le_of_le_sup_solvable hENN hS₀N hENn hcomm hPN (Subgroup.isPerfect_iff.1 ⟨hP⟩)
   let Fm : ι₁ ⊕ Fin n → Subgroup (ProjOrthDerived Q) := Sum.elim S C
   have hFm : ∀ i, CFSG.Open.IsComponentOf (Fm i) N := by

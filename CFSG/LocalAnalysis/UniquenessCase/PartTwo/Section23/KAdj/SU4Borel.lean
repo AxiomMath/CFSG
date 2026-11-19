@@ -80,8 +80,8 @@ private theorem hypTorus_card_odd_D02 : ¬ 2 ∣ Nat.card ↥(hypTorus h 2 0) :=
 theorem su4_exists_conj_mem_hypTorus {t : ↥(hypSU h 2 0)} (ht : t ∈ hypBorel h 2 0)
     (hodd : ¬ 2 ∣ orderOf t) :
     ∃ e ∈ hypUnitriangular h 2 0, e * t * e⁻¹ ∈ hypTorus h 2 0 := by
-  haveI : Finite K := h.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite K := h.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hET : hypTorus h 2 0 ≤
       Subgroup.normalizer (hypUnitriangular h 2 0 : Set (hypSU h 2 0)) := by
     intro b hb

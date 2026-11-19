@@ -36,13 +36,13 @@ private theorem lr2otd_factorization_eq_of_normalForm {S Q : Type} [Group S] [Gr
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup Θ.ker,
       Nat.card_congr (QuotientGroup.quotientKerEquivRange Θ).toEquiv, mul_comm]
   have hker_ne : Nat.card Θ.ker ≠ 0 := by
-    haveI : Nonempty Θ.ker := ⟨1, one_mem Θ.ker⟩
-    haveI : Finite Θ.ker := inferInstance
+    have : Nonempty Θ.ker := ⟨1, one_mem Θ.ker⟩
+    have : Finite Θ.ker := inferInstance
     exact (Nat.card_pos (α := Θ.ker)).ne'
   have hrange_ne : Nat.card Θ.range ≠ 0 := by
-    haveI : Nonempty Θ.range := ⟨1, one_mem Θ.range⟩
-    haveI : Finite Θ.range := by
-      haveI : Finite ((MulAut S) ⧸ Θ.ker) := inferInstance
+    have : Nonempty Θ.range := ⟨1, one_mem Θ.range⟩
+    have : Finite Θ.range := by
+      have : Finite ((MulAut S) ⧸ Θ.ker) := inferInstance
       exact (QuotientGroup.quotientKerEquivRange Θ).toEquiv.finite_iff.mp inferInstance
     exact (Nat.card_pos (α := Θ.range)).ne'
   calc (Nat.card (MulAut S)).factorization 7
@@ -114,7 +114,7 @@ theorem ord7Param_trialityD4
     rcases (Nat.prime_seven.dvd_mul.mp h) with h3 | hf'
     · norm_num at h3
     · exact h7 hf'
-  haveI : Finite (CFSG.LieType.Chevalley.graphFixedRootGroup .D4 K σ.toRingHom) := inferInstance
+  have : Finite (CFSG.LieType.Chevalley.graphFixedRootGroup .D4 K σ.toRingHom) := inferInstance
   have hcore := lr2otd_factorization_eq_of_normalForm hZ Θ hker h7Aut
   have hAutEq : Nat.card (MulAut R) =
       Nat.card (MulAut (CFSG.LieType.Chevalley.graphFixedRootGroup .D4 K σ.toRingHom)) :=

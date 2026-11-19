@@ -43,7 +43,7 @@ theorem sec63P_third_swap [Finite G] {y b : G} {J : Subgroup G} (hy : orderOf y 
     by_contra ha
     have h1 : (a : G) ≠ 1 := fun h => ha (Subtype.ext h)
     have hv : orderOf (a : G) = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime (hE₄ea.2 (a : G) a.2) h1
     have hW : J ≤ centralizer ({(a : G)} : Set G) := fun g hg =>
       Subgroup.mem_centralizer_singleton_iff.mpr (hcommJ g hg).symm
@@ -116,7 +116,7 @@ theorem sec63P_third_swap [Finite G] {y b : G} {J : Subgroup G} (hy : orderOf y 
     omega
 
 theorem sec63P_third_out [Finite G] {y b : G} {J : Subgroup G} (hy : orderOf y = 2)
-    (hb : orderOf b = 2) (hyb : y * b = b * y)
+    (hb : orderOf b = 2) (_hyb : y * b = b * y)
     (hJc : IsComponentIn J (centralizer ({b} : Set G))) (hJs : IsL29 J ∨ IsL281 J)
     (hJy : CFSG.conjugate J y = J) (hyJ : y ∉ zpowers b ⊔ J) :
     ∃ E : Subgroup G, CFSG.Open.IsElemAbelian 2 E ∧ 4 ≤ Nat.card E ∧
@@ -253,7 +253,7 @@ theorem sec63P_third_in [Finite G] {y b : G} {J : Subgroup G} (hy : orderOf y = 
             have h1 : y = b⁻¹ := eq_inv_of_mul_eq_one_right hby
             rwa [sec63P_inv_eq hb] at h1
           exact hne hyb_eq
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         exact orderOf_eq_prime (by rw [pow_two]; exact hjj) hjne
       · rw [hy_eq, htb]
   obtain ⟨j, hjJ, hjo, hjy⟩ := hji

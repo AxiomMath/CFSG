@@ -19,11 +19,11 @@ theorem leafSylow2Cent
   have NL : ∀ (R Q : Subgroup G), IsPGroup 2 R → Q ≤ R → Q ≠ R →
       ∃ n : G, n ∈ R ∧ n ∈ Subgroup.normalizer (Q : Set G) ∧ n ∉ Q := by
     intro R Q hR hQR hne
-    haveI : Group.IsNilpotent R := hR.isNilpotent
+    have : Group.IsNilpotent R := hR.isNilpotent
     have hlt : Q.subgroupOf R < ⊤ :=
       lt_top_iff_ne_top.mpr fun h => hne (le_antisymm hQR (Subgroup.subgroupOf_eq_top.mp h))
     obtain ⟨n, hnN, hnQ⟩ :=
-      SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent (Q.subgroupOf R) hlt)
+      _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent (Q.subgroupOf R) hlt)
     have hnN' : (n : G) ∈ Subgroup.normalizer (Q : Set G) := by
       have h : n ∈ (Subgroup.normalizer (Q : Set G)).subgroupOf R := by
         rw [Subgroup.subgroupOf_normalizer_eq hQR]
@@ -98,7 +98,7 @@ theorem leafSylow2Cent
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hz', pow_one])
   obtain ⟨P, hTP⟩ := IsPGroup.exists_le_sylow hT
   have hzP : (⟨z, hzY⟩ : Y) ∈ (P : Subgroup Y) := hTP (Subgroup.mem_zpowers _)
-  have hR₀ := hz0 ((P : Subgroup Y).map Y.subtype) (P.isPGroup'.map Y.subtype)
+  have hR₀ := hz0 ((P : Subgroup Y).map Y.subtype) (P.isPGroup.map Y.subtype)
     (Subgroup.map_subtype_le _) (Subgroup.zpowers_le.mpr (Subgroup.mem_map_of_mem Y.subtype hzP))
   have hPcard : Nat.card (P : Subgroup Y) = 2 := by
     rw [← Subgroup.card_map_of_injective Y.subtype_injective, hR₀, Nat.card_zpowers, hz]

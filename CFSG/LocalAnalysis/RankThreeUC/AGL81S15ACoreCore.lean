@@ -16,7 +16,7 @@ variable {G : Type*} [Group G] [Finite G] {r : ℕ} [hr : Fact r.Prime]
 theorem pRank_quot_eq_of_le (A B : Subgroup G) [A.Normal] [B.Normal] (hAB : A ≤ B)
     (hA : IsPGroup r A) (h : ∀ y ∈ B, (∃ k : ℕ, y ^ (r ^ k) = 1) → y ∈ A) :
     CFSG.Open.pRank r (⊤ : Subgroup (G ⧸ B)) = CFSG.Open.pRank r (⊤ : Subgroup (G ⧸ A)) := by
-  haveI : (B.map (QuotientGroup.mk' A)).Normal := Subgroup.Normal.map ‹B.Normal› _
+  have : (B.map (QuotientGroup.mk' A)).Normal := Subgroup.Normal.map ‹B.Normal› _
     (QuotientGroup.mk'_surjective A)
   have e := QuotientGroup.quotientQuotientEquivQuotient A B hAB
   rw [← pRank_top_eq_of_mulEquiv hr.out.one_lt e]
@@ -51,7 +51,7 @@ section CardLemmas
 theorem card_comap_surj {A B : Type*} [Group A] [Group B] [Finite A] (f : A →* B)
     (hf : Function.Surjective f) (E : Subgroup B) :
     Nat.card (E.comap f) = Nat.card f.ker * Nat.card E := by
-  haveI : Finite B := Finite.of_surjective f hf
+  have : Finite B := Finite.of_surjective f hf
   have h1 := Subgroup.card_mul_index (E.comap f)
   have h2 := Subgroup.card_mul_index E
   have h3 := Subgroup.index_comap_of_surjective E hf
@@ -197,7 +197,7 @@ theorem core_elem_card_le (hperm : PermBound r m) (hr2 : r ≠ 2) (hm : 4 ≤ m)
     intro x hx x' hx'
     obtain ⟨y, hyE, hxy⟩ := hlift x hx
     obtain ⟨y', hy'E, hxy'⟩ := hlift x' hx'
-    haveI := hE.1
+    have := hE.1
     have h1 : mk y * mk y' = mk y' * mk y :=
       congrArg Subtype.val (mul_comm' (⟨mk y, hyE⟩ : E) ⟨mk y', hy'E⟩)
     have h2 : ⁅y, y'⁆ ∈ N := by
@@ -217,6 +217,7 @@ theorem core_elem_card_le (hperm : PermBound r m) (hr2 : r ≠ 2) (hm : 4 ≤ m)
         ring
     _ ≤ r ^ (m - 1) * Nat.card ↥(C₀ ⊓ Ωsc r m C) := hmon
 
+omit [Fintype F] in
 theorem scalarGL_injective (hm : 1 ≤ m) :
     Function.Injective (Matrix.GeneralLinearGroup.scalar (Fin m) : Fˣ →* GL (Fin m) F) := by
   intro u u' h
@@ -253,7 +254,7 @@ theorem pRank_quot_core (hperm : PermBound r m) (hr2 : r ≠ 2) (hm : 4 ≤ m) [
   have hZrsc : Zr ≤ StatedScalars (Fin m) F := by
     rintro _ ⟨z, -, rfl⟩
     exact ⟨e z, rfl⟩
-  haveI hZrN : (Zr.subgroupOf G).Normal := by
+  have hZrN : (Zr.subgroupOf G).Normal := by
     apply Subgroup.normal_of_le_center
     intro x hx
     rw [Subgroup.mem_center_iff]
@@ -301,7 +302,7 @@ theorem pRank_quot_core (hperm : PermBound r m) (hr2 : r ≠ 2) (hm : 4 ≤ m) [
       E hE
     have hC₀pos : 0 < Nat.card C₀ := Nat.card_pos
     by_cases htop : ∀ z : C, Matrix.GeneralLinearGroup.scalar (Fin m) (e z) ∈ Z
-    · rw [if_pos htop]
+    · rw [ite_eq_left htop]
       have hC₀top : C₀ = ⊤ := Subgroup.eq_top_iff' _ |>.2 fun z => (hmemC₀ z).2 (htop z)
       have h1 : Nat.card ↥(C₀ ⊓ Ωsc r m C) ≤ Nat.card (powMonoidHom r : C →* C).range := by
         apply Subgroup.card_le_of_le
@@ -336,7 +337,7 @@ theorem pRank_quot_core (hperm : PermBound r m) (hr2 : r ≠ 2) (hm : 4 ≤ m) [
         exact Nat.le_of_mul_le_mul_right this hr.out.pos
       have : m - 1 - 1 = m - 1 - 1 := rfl
       exact h6
-    · rw [if_neg htop]
+    · rw [ite_eq_right htop]
       have h1 : Nat.card ↥(C₀ ⊓ Ωsc r m C) ≤ Nat.card C₀ :=
         Subgroup.card_le_of_le inf_le_left
       have h2 : Nat.card E * Nat.card C₀ ≤ r ^ (m - 1) * Nat.card C₀ :=

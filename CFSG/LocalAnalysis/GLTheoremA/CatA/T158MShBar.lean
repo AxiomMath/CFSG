@@ -37,7 +37,7 @@ theorem zpowers_sup_inf_centralizer_eq_bot {p : ℕ} (hp : p.Prime) (hp2 : p ≠
     (hfd : FGOn p d L₂) (hfb : FGOn p b L₁) :
     (Subgroup.zpowers d ⊔ Subgroup.zpowers b) ⊓
       (B ⊓ Subgroup.centralizer (K : Set G)) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [eq_bot_iff]
   rintro z ⟨hzH, hzW⟩
   obtain ⟨hzB, hzC⟩ := Subgroup.mem_inf.1 hzW

@@ -162,7 +162,7 @@ theorem false_of_le_R_of_t2m1 (h : F.IsD D dD)
         Subgroup.centralizer ((F.A : Subgroup G) : Set G) := fun y hy =>
       Subgroup.mem_inf.mpr ⟨(Subgroup.mem_inf.mp (hBR hy)).1, hBA hy⟩
     have hBD : ¬ B ≤ D := fun hle => hne (Subgroup.eq_of_le_of_card_ge hle hcard.ge)
-    obtain ⟨x, hxB, hxD⟩ := SetLike.not_le_iff_exists.mp hBD
+    obtain ⟨x, hxB, hxD⟩ := IsConcreteLE.not_le_iff_exists.mp hBD
     have hxK := hBK hxB
     obtain ⟨hxS, hxN⟩ := Subgroup.mem_inf.mp (Subgroup.mem_inf.mp hxK).1
     have hx5 := (hCA x hxK).resolve_left fun h1 =>
@@ -171,7 +171,7 @@ theorem false_of_le_R_of_t2m1 (h : F.IsD D dD)
     have hidx : D.relIndex B ≤ 2 := (Subgroup.relIndex_le_of_le_right hBK (hne0 _)).trans hDK2
     exact false_of_relIndex_mul_card_lt hB hcard hxB hidx (by omega)
   ·
-    obtain ⟨x, hxB, hxA⟩ := SetLike.not_le_iff_exists.mp hBA
+    obtain ⟨x, hxB, hxA⟩ := IsConcreteLE.not_le_iff_exists.mp hBA
     have hle := Subgroup.card_le_of_le (h.inf_centralizer_le_omegaIn_of_t2m1 hτ hCA (hBR hxB) hxA)
     have h8 : Nat.card ↥(omegaIn 1 D) = 8 := by
       rw [h.omegaIn_one_eq]

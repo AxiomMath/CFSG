@@ -108,7 +108,7 @@ theorem card_projSL_two_dvd (p e : ℕ) [Fact p.Prime] (he : 1 ≤ e) :
 
 theorem not_seven_dvd_projSL_two_three (e : ℕ) (he : 1 ≤ e) (h3 : ¬ 3 ∣ e) :
     ¬ 7 ∣ Nat.card (projSL 2 (GaloisField 3 e)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro h
   exact not_seven_dvd_three_pow e h3 (h.trans (card_projSL_two_dvd 3 e he))
 
@@ -122,7 +122,7 @@ theorem sq_mod_seven (hq : q % 7 = 2 ∨ q % 7 = 4) : q ^ 2 % 7 = 4 ∨ q ^ 2 % 
 
 theorem cube_mod_seven (hq : q % 7 = 2 ∨ q % 7 = 4) : q ^ 3 % 7 = 1 := by
   rw [Nat.pow_mod]
-  rcases hq with h | h <;> rw [h] <;> norm_num
+  rcases hq with h | h <;> rw [h]
 
 theorem fourth_mod_seven (hq : q % 7 = 2 ∨ q % 7 = 4) : q ^ 4 % 7 = 2 ∨ q ^ 4 % 7 = 4 := by
   rw [Nat.pow_mod]
@@ -230,7 +230,7 @@ theorem kF418ModelOn_twistedF4 : KF418ModelOn (fun X _ => IsTwistedF4NotDvd X) :
   ∃ k : ℕ, 1 ≤ k ∧ ¬ 3 ∣ k ∧ Nonempty (X ≃* projSp 2 (GaloisField 2 k))
 
 theorem kF418ModelOn_spFour : KF418ModelOn (fun X _ => IsSpFourNotDvd X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine kF418ModelOn_of_not_dvd ?_
   rintro X _ _ ⟨k, hk, h3, ⟨φ⟩⟩ h63
   rw [Nat.card_congr φ.toEquiv, CFSG.PGLModel.card_projSp_of_charTwo,
@@ -247,7 +247,7 @@ theorem kF418ModelOn_spFour : KF418ModelOn (fun X _ => IsSpFourNotDvd X) := by
   ∃ k : ℕ, 1 ≤ k ∧ ¬ 3 ∣ k ∧ Nonempty (X ≃* projSU 3 2 k)
 
 theorem kF418ModelOn_uThree : KF418ModelOn (fun X _ => IsUThreeNotDvd X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine kF418ModelOn_of_not_dvd ?_
   rintro X _ _ ⟨k, hk, h3, ⟨φ⟩⟩ h63
   rw [Nat.card_congr φ.toEquiv] at h63
@@ -281,7 +281,7 @@ theorem kF418ModelOn_suThree : KF418ModelOn (fun X _ => IsSUThreeNotDvd X) := by
   Nonempty (X ≃* projSL 2 (GaloisField 2 1))
 
 theorem kF418ModelOn_L2TwoOne : KF418ModelOn (fun X _ => IsLTwoTwoOne X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine kF418ModelOn_of_not_dvd ?_
   rintro X _ _ ⟨φ⟩ h63
   rw [Nat.card_congr φ.toEquiv] at h63
@@ -293,7 +293,7 @@ theorem kF418ModelOn_L2TwoOne : KF418ModelOn (fun X _ => IsLTwoTwoOne X) := by
 
 theorem not_seven_dvd_projSU_four {k : ℕ} (hk : 1 ≤ k) (h3 : ¬ 3 ∣ k) :
     ¬ 7 ∣ Nat.card (projSU 4 2 k) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU := Sec4.unitaryFieldData_galoisField 2 k hk
   have : Finite (CFSG.Assembly.LowTwoRank.StatedSU 4 (2 ^ k) (GaloisField 2 (2 * k))) :=
     Subtype.finite

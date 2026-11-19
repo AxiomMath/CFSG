@@ -40,16 +40,16 @@ structure RSplit (t z : G) : Prop where
 
 theorem rSplit {t z : G} (hJ : JBasic t z) (hKD : KData t z) (hU : U42Facts) : RSplit t z := by
   obtain ⟨X, hXgrp, π, hπ, hker, hXU⟩ := hKD.quot
-  letI : Group X := hXgrp
+  let : Group X := hXgrp
   obtain ⟨hsplit1, hsplit2⟩ := split_of_complete (J := Jg t z) (K := Kg t z) (O := OKg t z)
     (Kg_le_Jg t z) (OKg_le_Kg t z) hJ.conj_K hJ.conj_OK π hπ hker
     (hU.center_bot X hXU) (hU.complete X hXU)
   have hKJn : ((Kg t z).subgroupOf (Jg t z)).Normal :=
     (Subgroup.normal_subgroupOf_iff (Kg_le_Jg t z)).mpr
       (fun h k hh hk => hJ.conj_K k hk h hh)
-  haveI := hKJn
+  have := hKJn
   have hRJn : ((Rg t z).subgroupOf (Jg t z)).Normal := TwoB.normal_subgroupOf_O2In (Jg t z)
-  haveI := hRJn
+  have := hRJn
   have hOnK : ((OKg t z).subgroupOf (Kg t z)).Normal := TwoB.normal_subgroupOf_O2In (Kg t z)
   have hO_le_C1 : OKg t z ≤ C1g hJ := by
     intro o ho
@@ -115,7 +115,7 @@ theorem rSplit {t z : G} (hJ : JBasic t z) (hKD : KData t z) (hU : U42Facts) : R
     rw [e]
     exact hmem
   have hC1_le_J : C1g hJ ≤ Jg t z := fun c hc => hc.1
-  haveI hC1n : ((C1g hJ).subgroupOf (Jg t z)).Normal :=
+  have hC1n : ((C1g hJ).subgroupOf (Jg t z)).Normal :=
     (Subgroup.normal_subgroupOf_iff hC1_le_J).mpr (fun h k hh hk => hC1_normal k hk h hh)
   have hC1_pgroup : IsPGroup 2 (C1g hJ) := IsPGroup.of_card hC1_card
   have hC1_le_R : C1g hJ ≤ Rg t z := TwoB.le_O2In hC1_le_J hC1n hC1_pgroup

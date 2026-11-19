@@ -128,7 +128,7 @@ theorem eq_one_of_dihedral_eighteen {K : Subgroup X} [K.Normal] (hKi : K.index =
   have hQleP : Q ≤ (P : Subgroup X) := hQP
   have hQsubEq : Q.subgroupOf (P : Subgroup X) = K.subgroupOf (P : Subgroup X) := by
     ext q
-    simp [Q, Subgroup.mem_subgroupOf, and_comm]
+    simp [Q, Subgroup.mem_subgroupOf]
   have hQnormP : (Q.subgroupOf (P : Subgroup X)).Normal := by
     rw [hQsubEq]
     exact Subgroup.normal_subgroupOf (H := (P : Subgroup X)) (N := K)

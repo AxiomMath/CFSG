@@ -141,8 +141,8 @@ theorem uc22r899c3_exists_lift {M : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : 
       d * uc22p21cPi M ⟨a₂, ha₂⟩ = uc22p21cPi M ⟨a₂, ha₂⟩ * d) :
     ∃ A : Subgroup G, A ≤ M ∧ IsElemAbelian p A ∧ Nat.card A = p ^ 2 ∧
       ∀ e ∈ zpowers a₁ ⊔ zpowers a₂, ∀ a ∈ A, e * a * e⁻¹ * a⁻¹ ∈ pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hPn : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hPn : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
   have hpo : Odd p := hp.odd_of_ne_two hp2
   obtain ⟨K, hKc, hKD, hKinj⟩ := CFSG.CGT.Timmesfeld75.osg_exists_lift (CFSG.pCore 2 ↥M)
     CFSG.pCore_isPGroup D (by rw [hDc]; exact hpo.pow)

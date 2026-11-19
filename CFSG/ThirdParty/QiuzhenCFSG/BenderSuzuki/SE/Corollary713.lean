@@ -145,7 +145,7 @@ public theorem corollary713_recognition_borel_of_theoremSEBenderConclusion
       (twoPrimeCore C).map e.toMonoidHom = twoPrimeCore L := by
     simpa [twoPrimeCore] using
       (pPrimeCore_map_iso (p := 2) e)
-  letI : ((twoPrimeCore C).map e.toMonoidHom).Normal :=
+  let : ((twoPrimeCore C).map e.toMonoidHom).Normal :=
     Subgroup.Normal.map (inferInstance : (twoPrimeCore C).Normal)
       e.toMonoidHom e.surjective
   let q0 : (C ⧸ twoPrimeCore C) ≃*
@@ -287,7 +287,7 @@ public theorem corollary713_oddCore_le_centralizer_of_theorem4b
         (pPrimeCore_coprime_card (p := 2) (G := L)))
   obtain ⟨g, hgL, hgM⟩ : ∃ g : X, g ∈ L ∧ g ∉ M := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hnotle h
   let alpha : conjugateCosetSpace M := QuotientGroup.mk 1
   let beta : conjugateCosetSpace M := QuotientGroup.mk g
@@ -507,7 +507,7 @@ involution of `M ∩ F°`. -/
 public theorem corollary713_solvable_of_unique_core_involution
     {X : Type u} [Group X] [Finite X]
     {M F : Subgroup X} (hM : IsStronglyEmbedded M)
-    (hsolv : IsSolvable (involutionCoreIn F))
+    (hsolv : Group.IsSolvable (involutionCoreIn F))
     {u : X} (huCoreM : u ∈ involutionCoreIn F ⊓ M)
     (hu : IsInvolution u)
     (hunique : ∀ v : X,
@@ -715,14 +715,14 @@ public theorem corollary713_core_twoTransitive_of_bender_borel
   · intro z hz
     change (z : X) ∈ MulAction.stabilizer X alpha
     rw [show MulAction.stabilizer X alpha = M by
-      simpa [alpha] using baseCoset_stabilizer M]
+      simp [alpha]]
     exact hcore_le_M
       (Subgroup.mem_map_of_mem (involutionCoreIn F).subtype hz)
   · have hpoint :
         pointStabilizerIn (involutionCoreIn F) alpha =
           (M ⊓ involutionCoreIn F).subgroupOf (involutionCoreIn F) := by
       ext z
-      simp [pointStabilizerIn, alpha, baseCoset_stabilizer]
+      simp [pointStabilizerIn, alpha]
     rw [hpoint]
     exact simpleBender_borel_coset_twoTransitive hBorel hbender
 
@@ -795,7 +795,7 @@ before using the model action. -/
     (M F : Subgroup X) : Prop :=
   ¬ involutionCoreIn F ≤ M ∧
     (Corollary713SolvableConclusion M F ∨
-      (¬ IsSolvable (involutionCoreIn F) ∧
+      (¬ Group.IsSolvable (involutionCoreIn F) ∧
         Corollary713NonsolvableConclusion M F ∧
         IsBorelSubgroup
           (((M ⊓ involutionCoreIn F).subgroupOf
@@ -818,7 +818,7 @@ public theorem corollary713_borel_of_source_endpoints
   have hnotle :=
     proposition44_involutionCore_not_le M F hM hFnotle huFM hu
   refine ⟨hnotle, ?_⟩
-  by_cases hsolv : IsSolvable (involutionCoreIn F)
+  by_cases hsolv : Group.IsSolvable (involutionCoreIn F)
   · left
     let L : Subgroup X := involutionCoreIn F
     let ML : Subgroup L := M.comap L.subtype
@@ -848,7 +848,7 @@ public theorem corollary713_borel_of_source_endpoints
     have hfixed : Lemma312FixedPointCondition ML uL :=
       lemma312_fixedPointCondition_of_theorem4b_comap
         M L hM h4b huML huL
-    have h312 := lemma_3_12 ML (show IsSolvable L from hsolv)
+    have h312 := lemma_3_12 ML (show Group.IsSolvable L from hsolv)
       hLeven hML huML huL hfixed
     have huCoreM : u ∈ involutionCoreIn F ⊓ M := ⟨huLmem, huFM.2⟩
     have hunique : ∀ v : X, v ∈ involutionCoreIn F ⊓ M →
@@ -888,7 +888,7 @@ public theorem corollary713_borel_of_source_endpoints
         hMLproper ⟨uL, huML, huL⟩
     have hCtop : involutionCore L = ⊤ := by
       simpa [L] using involutionCore_involutionCoreIn_eq_top F
-    have hLnotSolvable : ¬ IsSolvable L := by
+    have hLnotSolvable : ¬ Group.IsSolvable L := by
       simpa [L] using hsolv
     have hrank : TwoRankAtLeastTwo ML :=
       hML.twoRankAtLeastTwo_of_not_solvable_of_involutionCore_eq_top

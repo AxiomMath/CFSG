@@ -43,12 +43,12 @@ theorem liftF_spec {m : Nat} [Small m] (p : Fin (m + 1)) (e : CV m) (i : Nat) (h
     have hne : (ev e ⟨i, by omega⟩).succ ≠ 0 := Fin.succ_ne_zero _
     have hv : ((ev e ⟨i, by omega⟩).succ : Nat) = img m e.1 i + 1 := by
       rw [Fin.val_succ, ev_apply]
-    rw [if_neg hne]
-    simp only [liftF, Nat.add_one_ne_zero, if_false, Nat.add_sub_cancel]
+    rw [ite_eq_right hne]
+    simp only [liftF, Nat.add_one_ne_zero, ite_false, Nat.add_sub_cancel]
     by_cases hp : (ev e ⟨i, by omega⟩).succ = p
-    · rw [if_pos hp, ← hv, hp, if_pos rfl]
+    · rw [ite_eq_left hp, ← hv, hp, ite_eq_left rfl]
       rfl
-    · rw [if_neg hp, ← hv, if_neg (fun h => hp (Fin.ext h))]
+    · rw [ite_eq_right hp, ← hv, ite_eq_right (fun h => hp (Fin.ext h))]
 
 @[expose] noncomputable def liftC {m : Nat} [Small m] [Small (m + 1)] (p : Fin (m + 1)) (e : CV m) :
     CV (m + 1) :=

@@ -138,7 +138,7 @@ private lemma sixteenC8SpinIrr_frameE_ne_zero (k : Fin 4) : frameE (ZMod 2) k �
   intro h
   have h1 : coordX (ZMod 2) (frameE (ZMod 2) k) k = 1 := by
     rw [coordX_frameE]
-    exact if_pos rfl
+    exact ite_eq_left rfl
   rw [h, coordX_zero] at h1
   exact zero_ne_one h1
 
@@ -146,7 +146,7 @@ private lemma sixteenC8SpinIrr_frameF_ne_zero (k : Fin 4) : frameF (ZMod 2) k �
   intro h
   have h1 : coordY (ZMod 2) (frameF (ZMod 2) k) k = 1 := by
     rw [coordY_frameF]
-    exact if_pos rfl
+    exact ite_eq_left rfl
   rw [h, coordY_zero] at h1
   exact zero_ne_one h1
 
@@ -211,7 +211,7 @@ theorem spinH_irr : IsIrrOn spinH (⊤ : Subgroup SpinW) ⊥ := by
               change Multiplicative.ofAdd (0 : Fin (2 * 4) → ZMod 2) ∈ J
               exact J.one_mem
             add_mem' := fun {x y} hx hy => by
-              simp only [Set.mem_setOf_eq, ofAdd_add]
+              simp only [Set.mem_ofPred_eq, ofAdd_add]
               exact J.mul_mem hx hy
             smul_mem' := fun c {v} hv => by
               rcases sixteenC8SpinIrr_zmod_two_eq_zero_or_eq_one c with rfl | rfl
@@ -238,7 +238,7 @@ theorem spinH_irr : IsIrrOn spinH (⊤ : Subgroup SpinW) ⊥ := by
           exact sixteenC8SpinIrr_zmod_two_eq_one (fun h0 => hsing ⟨w, hw, hw1, h0⟩)
         obtain ⟨e⟩ := nonempty_spinSeven_mulEquiv (ZMod 2)
         let eH : ↥spinH ≃* ↥(StatedSp 3 (ZMod 2)) := spinHEquiv.symm.trans e
-        haveI : IsSimpleGroup ↥(StatedSp 3 (ZMod 2)) :=
+        have : IsSimpleGroup ↥(StatedSp 3 (ZMod 2)) :=
           CFSG.StandardType.SpFixed.isSimpleGroup_statedSp (F := ZMod 2) (m := 3) (by norm_num)
         have hsimple : IsSimpleGroup ↥spinH := eH.isSimpleGroup
         have hcard : Nat.card ↥spinH = 1451520 := by

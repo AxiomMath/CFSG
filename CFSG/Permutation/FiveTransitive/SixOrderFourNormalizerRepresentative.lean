@@ -70,7 +70,7 @@ theorem exists_conjugate
   let f := fixedPermHom G X Q ⟨a', ha'N⟩
   have ha' : orderOf a' = 4 := by
     have h := orderOf_injective (MulAut.conj c⁻¹).toMonoidHom (MulAut.conj c⁻¹).injective a
-    simpa only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv, ha] using h
+    simpa only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv, ha] using h
   have ha'4 : a' ^ 4 = 1 := ha' ▸ pow_orderOf_eq_one a'
   have hf4 : f ^ 4 = 1 := by
     change fixedPermHom G X Q ⟨a', ha'N⟩ ^ 4 = 1

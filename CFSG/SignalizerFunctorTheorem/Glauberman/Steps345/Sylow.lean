@@ -19,7 +19,7 @@ theorem IsSylowOf.le {q : ℕ} {T U : Subgroup G} (h : IsSylowOf q T U) : T ≤ 
 
 theorem IsSylowOf.isPGroup {q : ℕ} {T U : Subgroup G} (h : IsSylowOf q T U) : IsPGroup q T := by
   obtain ⟨P, rfl⟩ := h
-  exact P.isPGroup'.map U.subtype
+  exact P.isPGroup.map U.subtype
 
 theorem IsSylowOf.eq_of_le {q : ℕ} {T U Y : Subgroup G} (h : IsSylowOf q T U)
     (hY : IsPGroup q Y) (hTY : T ≤ Y) (hYU : Y ≤ U) : Y = T := by

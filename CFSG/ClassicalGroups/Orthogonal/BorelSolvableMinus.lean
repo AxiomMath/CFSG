@@ -15,7 +15,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 theorem isSolvable_tailTorus {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (r : ℕ) :
     Group.IsSolvable ↥(tailTorus r (minusTailForm K b c)) := by
   let qA : QuadraticForm K (Fin 2 → K) := minusTailForm K b c
-  haveI : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
+  have : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin r ⊕ Fin r → K) × (Fin 2 → K))) :=
     Finite.of_injective (fun g : ((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
         ((Fin r ⊕ Fin r → K) × (Fin 2 → K)) => (g : _ → _)) DFunLike.coe_injective
@@ -31,7 +31,7 @@ theorem isSolvable_tailTorus {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 
         ↥(TauCeti.QuadraticMap.orthogonalGroup qA)) => tailDiag r x.1 x.2.1
       map_one' := by
         refine LinearEquiv.ext fun v => ?_
-        simp [tailDiag_apply, torusElt_apply]
+        simp [tailDiag_apply]
       map_mul' := fun x y => by
         change tailDiag r (x.1 * y.1) (x.2.1 * y.2.1) =
           tailDiag r x.1 x.2.1 * tailDiag r y.1 y.2.1
@@ -43,11 +43,11 @@ theorem isSolvable_tailTorus {b c : K} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 
       exact ⟨x.1, x.2.1, x.2.2, rfl⟩
     · rintro ⟨t, h, hh, rfl⟩
       exact ⟨(t, ⟨h, hh⟩), rfl⟩
-  haveI hsrc : Group.IsSolvable
+  have hsrc : Group.IsSolvable
       ((Fin r → Kˣ) × ↥(TauCeti.QuadraticMap.orthogonalGroup qA)) := by
-    haveI : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup qA) := hO
+    have : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup qA) := hO
     infer_instance
-  haveI hdiag : Group.IsSolvable ↥(tailDiagGroup r qA) := by
+  have hdiag : Group.IsSolvable ↥(tailDiagGroup r qA) := by
     refine Group.isSolvable_of_surjective
       (f := φ.codRestrict (tailDiagGroup r qA) fun x => hrange ▸ ⟨x, rfl⟩) ?_
     intro y
@@ -66,25 +66,25 @@ theorem isSolvable_borel_orth_minus {b c : K}
   let qA : QuadraticForm K (Fin 2 → K) := minusTailForm K b c
   let B := tailBorel r qA
   let U := tailUnipotent r qA
-  haveI : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
+  have : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin r ⊕ Fin r → K) × (Fin 2 → K))) :=
     Finite.of_injective (fun g : ((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
         ((Fin r ⊕ Fin r → K) × (Fin 2 → K)) => (g : _ → _)) DFunLike.coe_injective
-  haveI : Finite ↥B := Subtype.finite
+  have : Finite ↥B := Subtype.finite
   have hani : qA.Anisotropic := anisotropic_minusTailForm hirr
   have hUle : U ≤ B := tailUnipotent_le_tailBorel hani
   have hUn : (U.subgroupOf B).Normal := tailUnipotent_normal hani
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU2 : IsPGroup 2 (U.subgroupOf B) := by
     have h := isPGroup_tailUnipotent (p := 2) (r := r) (qA := qA) hani
     exact h.of_equiv ((Subgroup.subgroupOfEquivOfLe tailUnipotent_le).trans
       (Subgroup.subgroupOfEquivOfLe hUle).symm)
-  haveI : Group.IsSolvable ↥(U.subgroupOf B) := by
-    haveI : Finite ↥(U.subgroupOf B) := Subtype.finite
-    haveI : Group.IsNilpotent ↥(U.subgroupOf B) := IsPGroup.isNilpotent hU2
+  have : Group.IsSolvable ↥(U.subgroupOf B) := by
+    have : Finite ↥(U.subgroupOf B) := Subtype.finite
+    have : Group.IsNilpotent ↥(U.subgroupOf B) := IsPGroup.isNilpotent hU2
     infer_instance
-  haveI hT : Group.IsSolvable ↥(tailTorus r qA) := isSolvable_tailTorus hirr r
-  haveI : Group.IsSolvable (↥B ⧸ U.subgroupOf B) := by
+  have hT : Group.IsSolvable ↥(tailTorus r qA) := isSolvable_tailTorus hirr r
+  have : Group.IsSolvable (↥B ⧸ U.subgroupOf B) := by
     obtain ⟨e⟩ := nonempty_quotient_mulEquiv_tailTorus (r := r) (qA := qA) hani
     exact Group.isSolvable_of_surjective
       (f := (e.symm : ↥(tailTorus r qA) →* (↥B ⧸ U.subgroupOf B)))

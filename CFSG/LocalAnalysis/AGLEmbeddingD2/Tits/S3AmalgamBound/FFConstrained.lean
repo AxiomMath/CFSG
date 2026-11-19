@@ -42,7 +42,7 @@ theorem small_of_noncyclic_sylow (C : Subgroup G) (S : Sylow 3 ↥C)
   obtain ⟨D', hED'⟩ := hE'.exists_le_sylow
   set Dm : Subgroup G := (D' : Subgroup ↥C).map C.subtype with hDm
   have hDmC : Dm ≤ C := Subgroup.map_subtype_le _
-  have hDmp : IsPGroup 3 Dm := D'.isPGroup'.map _
+  have hDmp : IsPGroup 3 Dm := D'.isPGroup.map _
   have hDmc : ¬ IsCyclic Dm := by
     intro hcyc
     have h1 : IsCyclic ↥(D' : Subgroup ↥C) :=

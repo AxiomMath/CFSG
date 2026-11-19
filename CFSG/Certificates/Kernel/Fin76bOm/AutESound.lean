@@ -21,7 +21,7 @@ theorem autEFact_of_fixAll {H : Type*} [Group H]
     simpa only [MulAut.mul_apply] using this
   let a' := MulAut.conj d⁻¹ * a
   have ha' : ∀ x, a' x = d⁻¹ * a x * d := fun x => by
-    simp [a', MulAut.conj_apply]
+    simp [a']
   have hcomm : a' * b = b * a' := by
     ext x
     simp only [MulAut.mul_apply]
@@ -64,9 +64,9 @@ theorem eAEK_spec {ET : ℕ → ℕ} {cnt : ℕ} {T : ℕ → ℕ} (h : eAEK ET 
     · exact beq_t.2 (hfix x hx (beq_t.1 hb))
   have hm : eAEComm (T i) (T k) = true := allN_iff.2 fun x hx => beq_t.2 (hcomm x hx)
   have h1 := allN_iff.1 h i hi
-  simp only [strictB_eq, hc, hid, bIf_eq, if_true, Bool.false_eq_true, ↓reduceIte] at h1
+  simp only [strictB_eq, hc, hid, bIf_eq, Bool.false_eq_true, ↓reduceIte] at h1
   have h2 := allN_iff.1 h1 k hk
-  simp only [strictB_eq, hf, hm, bIf_eq, if_true] at h2
+  simp only [hf, hm, ite_true] at h2
   unfold eAEConc at h2
   obtain ⟨d, hd, hd2⟩ := eAnyN_spec h2
   simp only [bAnd_eq, Bool.and_eq_true] at hd2

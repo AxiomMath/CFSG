@@ -34,14 +34,14 @@ private theorem frameExcMat_simple_entry {τ : Tag}
   rw [frameExcMat_cartan_eq hτ]
   push_cast
   by_cases hpq : p = q
-  · rw [if_pos hpq.symm, if_pos hpq]
+  · rw [ite_eq_left hpq.symm, ite_eq_left hpq]
     by_cases hqi : q = i
-    · rw [if_pos hqi, if_pos hqi, (CartanMatrix.E_isSymm τ.rank).apply i p]
-    · rw [if_neg hqi, if_neg hqi]
-  · rw [if_neg hpq, if_neg (Ne.symm hpq)]
+    · rw [ite_eq_left hqi, ite_eq_left hqi, (CartanMatrix.E_isSymm τ.rank).apply i p]
+    · rw [ite_eq_right hqi, ite_eq_right hqi]
+  · rw [ite_eq_right hpq, ite_eq_right (Ne.symm hpq)]
     by_cases hqi : q = i
-    · rw [if_pos hqi, if_pos hqi, (CartanMatrix.E_isSymm τ.rank).apply i p]
-    · rw [if_neg hqi, if_neg hqi]
+    · rw [ite_eq_left hqi, ite_eq_left hqi, (CartanMatrix.E_isSymm τ.rank).apply i p]
+    · rw [ite_eq_right hqi, ite_eq_right hqi]
 
 @[expose] noncomputable def frameAdMat (τ : Tag) :
     WeylGroup τ →* Matrix (Fin τ.rank) (Fin τ.rank) (ZMod 3) where

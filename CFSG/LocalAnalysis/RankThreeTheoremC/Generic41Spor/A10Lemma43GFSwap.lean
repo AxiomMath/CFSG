@@ -18,7 +18,7 @@ theorem a10t1_fs_fiveRes_map {G : Type} [Group G] (e : G ≃* G) (H : Subgroup G
   rw [MonoidHom.map_closure]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h, ⟨hH, k, hk⟩, rfl⟩
     refine ⟨⟨h, hH, rfl⟩, k, ?_⟩
@@ -95,7 +95,7 @@ theorem a10t1_fs_zpowers_conj {G : Type} [Group G] {T L₁ L₂ : Subgroup G} {a
 theorem a10_F_swap (hS : Setting G) (hU0 : FullCoreLocal G) (hX : A10Facts)
     (hc : PointConfig IsA10Type G 5 P M x J) {Q : Type} [Group Q] [Finite Q] (ψ : ↥J →* Q)
     (hψ : Function.Surjective ψ) (hker : ψ.ker = (rankThreePrimeCore 5 J).subgroupOf J)
-    (hQ : IsA10Type 5 Q) {S : Sylow 5 Q} (hSyl : (S : Subgroup Q) = ((u3T P x J).subgroupOf J).map ψ)
+    (_hQ : IsA10Type 5 Q) {S : Sylow 5 Q} (hSyl : (S : Subgroup Q) = ((u3T P x J).subgroupOf J).map ψ)
     {Λ₁ Λ₂ : Subgroup Q} (hΛ : A10GammaStructAt Q (S : Subgroup Q) Λ₁ Λ₂) {a₁ a₂ : G}
     (ha₁M : a₁ ∈ M) (ha₂M : a₂ ∈ M)
     (hz₁ : Subgroup.zpowers a₁ = u3T P x J ⊓ a10Pre J ψ Λ₁)
@@ -104,7 +104,7 @@ theorem a10_F_swap (hS : Setting G) (hU0 : FullCoreLocal G) (hX : A10Facts)
       (a10Img M (a10E J ψ Λ₁)).map (MulAut.conj f).toMonoidHom = a10Img M (a10E J ψ Λ₂) ∧
       (Subgroup.zpowers (a10π M ⟨a₁, ha₁M⟩)).map (MulAut.conj f).toMonoidHom =
         Subgroup.zpowers (a10π M ⟨a₂, ha₂M⟩) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨n, hnN, hn⟩ := hΛ.swap
   have hnT : n ∈ Subgroup.normalizer ((((u3T P x J).subgroupOf J).map ψ : Subgroup Q) : Set Q) := by
     rw [← hSyl]; exact hnN

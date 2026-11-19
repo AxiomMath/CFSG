@@ -130,7 +130,7 @@ theorem isElemTwo_card_zGammaThree_of_surjective {A B : Type} [Group A] [Finite 
     IsElemTwo (zGammaThree (D : Subgroup A)) ∧
       Nat.card (zGammaThree (D : Subgroup A)) = n := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hD2 : IsPGroup 2 (D : Subgroup A) := D.isPGroup'
+  have hD2 : IsPGroup 2 (D : Subgroup A) := D.isPGroup
   have hbot : (D : Subgroup A) ⊓ f.ker = ⊥ :=
     eq_bot_of_le_two_group_of_le_odd hD2 hker inf_le_left inf_le_right
   have hinj : Set.InjOn f (D : Set A) := by
@@ -451,7 +451,7 @@ theorem false_of_suz_normal_center_two (hGold : GoldschmidtStronglyClosedInput)
         rw [← map_mul, he.2 a ha, map_one]
     · rw [hz, Subgroup.card_map_of_injective P.subtype_injective, hc']
   have hSinfOdd : S ⊓ oddIn M = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2) (G := ↥S)).mp hS2
     rw [hk]
     exact (Nat.coprime_two_left.mpr hOddInOdd).pow_left k
@@ -483,7 +483,7 @@ theorem false_of_suz_normal_center_two (hGold : GoldschmidtStronglyClosedInput)
   have hZxcard : Nat.card Zx = 2 := by
     rw [show Zx = (Subgroup.center ↥L).map L.subtype from rfl,
       Subgroup.card_map_of_injective L.subtype_injective, hZcard]
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   have hZxnorm : Zx.Normal := by
     change ((Subgroup.center ↥L).map L.subtype).Normal
     exact ConjAct.normal_of_characteristic_of_normal
@@ -508,7 +508,7 @@ theorem false_of_suz_normal_center_two (hGold : GoldschmidtStronglyClosedInput)
     have h2 : x * y⁻¹ = 1 := M.subtype_injective h1
     exact mul_inv_eq_one.mp h2
   have hzL2 : IsPGroup 2 (Subgroup.zpowers z) := (isElemTwo_zpowers hz2).isPGroup
-  haveI : (Subgroup.zpowers z).Normal :=
+  have : (Subgroup.zpowers z).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hzcentral)
   have hz_syl : z ∈ (R'.mapSurjective hf_surj : Subgroup ↥L) := by
     have hle : Subgroup.zpowers z ≤ (R'.mapSurjective hf_surj : Subgroup ↥L) :=
@@ -610,7 +610,7 @@ theorem false_of_suz_normal_center_two (hGold : GoldschmidtStronglyClosedInput)
         show g⁻¹ * aG * g = M.subtype (m'⁻¹ * a * m')
         rw [hmeq, hm_eq]
         change M.subtype m'⁻¹ * M.subtype a * M.subtype m' = M.subtype (m'⁻¹ * a * m')
-        simp only [← map_mul, ← map_inv]
+        simp only [← map_mul]
       have hπ_left : π ⟨g⁻¹ * aG * g, hSM hgS⟩ = (z : X) := by
         rw [hy_eq_m, map_mul, map_mul, map_inv, haπX]
         calc (π m')⁻¹ * (z : X) * π m' = (π m')⁻¹ * ((z : X) * π m') := by group
@@ -624,7 +624,7 @@ theorem false_of_suz_normal_center_two (hGold : GoldschmidtStronglyClosedInput)
         simpa [aG] using h
       rw [hfix]
       exact Subgroup.mem_zpowers aG
-  haveI hGsimple : IsSimpleGroup G := hc.base.1
+  have hGsimple : IsSimpleGroup G := hc.base.1
   have htopF : GeneralizedFitting.subgroup G = ⊤ :=
     GSLit.generalizedFitting_eq_top_of_simple
   let eF : GeneralizedFitting.subgroup G ≃* G := (MulEquiv.subgroupCongr htopF).trans topEquiv
@@ -639,7 +639,7 @@ theorem false_of_suz_normal_center_two (hGold : GoldschmidtStronglyClosedInput)
   let CHM : Subgroup ↥M := HM ⊓ Subgroup.centralizer (E : Set ↥M)
   have hmapCHM : CHM.map π = L := by
     have hE2 : IsPGroup 2 E := (isElemTwo_zpowers ha2).isPGroup
-    haveI : HM.Normal := hHMnorm
+    have : HM.Normal := hHMnorm
     have hEY : E ≤ Subgroup.normalizer (HM : Set ↥M) :=
       Subgroup.le_normalizer_of_normal (H := HM) (K := E)
     have hφodd : ¬ 2 ∣ Nat.card π.ker := by
@@ -661,7 +661,7 @@ theorem false_of_suz_normal_center_two (hGold : GoldschmidtStronglyClosedInput)
       Subgroup.centralizer_eq_top_iff_subset.mpr (Subgroup.zpowers_le.mpr hzX_center)
     rw [hcentz, inf_top_eq]
   have hsolvCHM : Group.IsSolvable ↥CHM := by
-    haveI : Group.IsSolvable ↥(Subgroup.centralizer (A : Set G)) := hsolvA
+    have : Group.IsSolvable ↥(Subgroup.centralizer (A : Set G)) := hsolvA
     have hle : Subgroup.centralizer (A : Set G) ≤ Subgroup.centralizer ({aG} : Set G) :=
       Subgroup.centralizer_le (by
         intro x hx
@@ -674,7 +674,7 @@ theorem false_of_suz_normal_center_two (hGold : GoldschmidtStronglyClosedInput)
         Subgroup.centralizer_closure]
     have hsolvCaG : Group.IsSolvable ↥(Subgroup.centralizer ({aG} : Set G)) :=
       hCeq ▸ hsolvA
-    haveI : Group.IsSolvable ↥(Subgroup.centralizer ({aG} : Set G)) := hsolvCaG
+    have : Group.IsSolvable ↥(Subgroup.centralizer ({aG} : Set G)) := hsolvCaG
     let fCH : ↥CHM →* ↥(Subgroup.centralizer ({aG} : Set G)) :=
       { toFun := fun x =>
           ⟨(x.1 : G), by
@@ -698,10 +698,10 @@ theorem false_of_suz_normal_center_two (hGold : GoldschmidtStronglyClosedInput)
     obtain ⟨x, hx, hxy⟩ := Subgroup.mem_map.mp hy
     exact ⟨⟨x, hx⟩, Subtype.ext hxy⟩
   have hsolvL : Group.IsSolvable ↥L := by
-    haveI : Group.IsSolvable ↥CHM := hsolvCHM
+    have : Group.IsSolvable ↥CHM := hsolvCHM
     exact Group.isSolvable_of_surjective hfL_surj
-  haveI : Nontrivial ↥L := hLnt
-  haveI : Group.IsPerfect ↥L := hLperf
+  have : Nontrivial ↥L := hLnt
+  have : Group.IsPerfect ↥L := hLperf
   exact Group.IsPerfect.not_isSolvable ↥L hsolvL
 
 theorem false_of_suz_normal_component (hGold : GoldschmidtStronglyClosedInput)
@@ -979,7 +979,7 @@ theorem false_of_suz_normal_component (hGold : GoldschmidtStronglyClosedInput)
         rw [← map_mul, he.2 a ha, map_one]
     · rw [hz, Subgroup.card_map_of_injective P.subtype_injective, hc']
   have hSinfOdd : S ⊓ oddIn M = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 2) (G := ↥S)).mp hS2
     rw [hk]
     exact (Nat.coprime_two_left.mpr hOddInOdd).pow_left k
@@ -996,7 +996,7 @@ theorem false_of_suz_normal_component (hGold : GoldschmidtStronglyClosedInput)
     have hA₀8 : 8 ≤ Nat.card A₀ := by rw [hA₀card]; norm_num
     have hA₀16 : 16 ≤ Nat.card A₀ := by rw [hA₀card]
     have hA₀infOdd : A₀ ⊓ oddIn M = ⊥ := by
-      refine Subgroup.inf_eq_bot_of_coprime ?_
+      refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
       have h2 : Nat.Coprime 2 (Nat.card (oddIn M)) := Nat.coprime_two_left.mpr hOddInOdd
       have h16 : Nat.card A₀ = 2 ^ 4 := by rw [hA₀card]; norm_num
       rw [h16]

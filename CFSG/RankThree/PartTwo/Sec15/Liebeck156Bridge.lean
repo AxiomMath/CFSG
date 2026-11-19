@@ -28,9 +28,9 @@ private theorem ker_le_of_isSolvable (hYp : Group.IsPerfect Y) (Q : Subgroup Y) 
     (hY5 : Nonempty (Y ⧸ Q ≃* alternatingGroup (Fin 5))) (ρ : Y →* Z)
     (hsol : Group.IsSolvable ρ.ker) : ρ.ker ≤ Q := by
   obtain ⟨e⟩ := hY5
-  haveI := hYp
-  haveI : IsSimpleGroup (Y ⧸ Q) :=
-    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have := hYp
+  have : IsSimpleGroup (Y ⧸ Q) :=
+    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
     e.isSimpleGroup
   exact Sec4.Census.le_of_isSolvable_of_normal inferInstance hsol
 
@@ -46,7 +46,7 @@ private theorem le_ker_of_typeK156 (hK : TypeK156)
     (hτQ : ∀ q ∈ Q, τ q ∈ Q) (hτc : ∀ y, τ y * y⁻¹ ∈ Q)
     (hτfix : ∀ q ∈ Q, τ q = q → q = 1) : Q ≤ ρ.ker := by
   have hker : ρ.ker ≤ Q := ker_le_of_isSolvable hYp Q hY5 ρ hsol
-  haveI := hYp
+  have := hYp
   have hle : Q.map ρ ≤ ρ.range := Subgroup.map_le_range ρ Q
   have hsub : (Q.map ρ).subgroupOf ρ.range = Q.map ρ.rangeRestrict := by
     ext z
@@ -59,7 +59,7 @@ private theorem le_ker_of_typeK156 (hK : TypeK156)
   have hquot : Nonempty (↥ρ.range ⧸ (Q.map ρ).subgroupOf ρ.range ≃*
       alternatingGroup (Fin 5)) := by
     obtain ⟨e⟩ := hY5
-    haveI := hN
+    have := hN
     let φ : Y →* ↥ρ.range ⧸ (Q.map ρ).subgroupOf ρ.range :=
       (QuotientGroup.mk' _).comp ρ.rangeRestrict
     have hφs : Function.Surjective φ :=
@@ -149,7 +149,7 @@ theorem pCoreOf_le_theta_of_typeK156 (hK : TypeK156) {G : Type} [Group G] [Finit
     have h : σ (ι y) = ι (τ y) := Subtype.ext (by rw [hσ, hι, hι, hτ])
     rw [hρ, hρ, hγ, h]
   have hsol : Group.IsSolvable ρ.ker := by
-    haveI : Group.IsSolvable (aschbacherSolvableCore 3 ↥X) :=
+    have : Group.IsSolvable (aschbacherSolvableCore 3 ↥X) :=
       (solvable_prime_complement_core_characterization (H := ↥X) Nat.prime_three).1
     have hmem : ∀ k : ρ.ker, (ι.comp ρ.ker.subtype) k ∈ aschbacherSolvableCore 3 ↥X := fun k => by
       have h : ρ (k : ↥Y) = 1 := k.2

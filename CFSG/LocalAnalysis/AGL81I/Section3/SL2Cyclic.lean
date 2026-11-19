@@ -110,9 +110,9 @@ theorem isCyclic_nonsplitSL {ν : F} (hν : ¬ IsSquare ν) :
         intro A B
         ext
         · simp only [Subgroup.coe_mul, CFSG.PSL2Table.mul_apply_SL, QuadraticAlgebra.re_mul,
-            A.2.2, mul_zero, zero_mul, add_zero]
+            A.2.2]
         · simp only [Subgroup.coe_mul, CFSG.PSL2Table.mul_apply_SL, QuadraticAlgebra.im_mul,
-            A.2.1, B.2.1]
+            A.2.1]
           ring }
   apply isCyclic_of_injective_ringHom f
   intro A B h

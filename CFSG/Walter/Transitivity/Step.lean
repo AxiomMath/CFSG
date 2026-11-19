@@ -141,7 +141,7 @@ theorem exists_conjBy_of_le_normalizer {X Q₁ Q₂ V : Subgroup G} {q : Nat.Pri
       (Nat.Coprime.coprime_dvd_right (Subgroup.card_dvd_of_le inf_le_left) (hodd hQ.1.2.1))
       (le_normalizer_inf hQ.1.2.2 hTnC)
   have hcop : Nat.Coprime (Nat.card (T : Subgroup G)) (Nat.card K) := by
-    obtain ⟨n, hn⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := T.isPGroup.exists_card_eq
     rw [hn]
     exact Nat.Coprime.pow_left n (coprime_card_map_pPrimeCore Y)
   obtain ⟨S, hSK, hSπ, hTS, hL₁S, c, hc, hL₂S⟩ := exists_conjBy_of_coprime_action

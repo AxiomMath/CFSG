@@ -13,6 +13,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem imgTil_map_conj {A W : Subgroup G} (hA : IsElemAbelian 2 A) (hWA : W ≤ A)
     {g : G} (hg : g ∈ stabTil (⊥ : Subgroup G) A) :
     imgTil (⊥ : Subgroup G) A hA (W.map (MulAut.conj g).toMonoidHom) =
@@ -45,8 +46,9 @@ theorem imgTil_map_conj {A W : Subgroup G} (hA : IsElemAbelian 2 A) (hWA : W ≤
         actTil (⊥ : Subgroup G) A hA ⟨g, hg⟩ (mkTil (⊥ : Subgroup G) A hA x)
       exact (actTil_mk (⊥ : Subgroup G) A hA ⟨g, hg⟩ x).symm
 
+omit [Finite G] in
 theorem imgTil_conjClosure_le_iSup {A S H : Subgroup G} (hA : IsElemAbelian 2 A)
-    (hS : S ≤ A) (hH : H ≤ Subgroup.normalizer (A : Set G)) :
+    (hS : S ≤ A) (_hH : H ≤ Subgroup.normalizer (A : Set G)) :
     (⨆ k ∈ barSub (⊥ : Subgroup G) A hA H,
         (imgTil (⊥ : Subgroup G) A hA S).map
           (k : MulAut (Vtil (⊥ : Subgroup G) A hA)).toMonoidHom) ≤
@@ -61,6 +63,7 @@ theorem imgTil_conjClosure_le_iSup {A S H : Subgroup G} (hA : IsElemAbelian 2 A)
     (S.map (MulAut.conj (g : G)).toMonoidHom) ⟨(g : G), hgH, rfl⟩ le_rfl)
     (Subgroup.mem_map_of_mem _ hs)
 
+omit [Finite G] in
 theorem imgTil_conjClosure_ge_iSup {A S H : Subgroup G} (hA : IsElemAbelian 2 A)
     (hS : S ≤ A) (hH : H ≤ Subgroup.normalizer (A : Set G)) :
     imgTil (⊥ : Subgroup G) A hA (conjClosure H S) ≤
@@ -104,6 +107,7 @@ theorem imgTil_conjClosure_ge_iSup {A S H : Subgroup G} (hA : IsElemAbelian 2 A)
     _ = P := Subgroup.comap_map_eq_self_of_injective
       (fun _ _ h => IntMod.val_injective h) P
 
+omit [Finite G] in
 theorem imgTil_conjClosure_eq_iSup {A S H : Subgroup G} (hA : IsElemAbelian 2 A)
     (hS : S ≤ A) (hH : H ≤ Subgroup.normalizer (A : Set G))
     {K : Subgroup (MulAut (Vtil (⊥ : Subgroup G) A hA))}
@@ -116,8 +120,9 @@ theorem imgTil_conjClosure_eq_iSup {A S H : Subgroup G} (hA : IsElemAbelian 2 A)
   exact le_antisymm (imgTil_conjClosure_le_iSup hA hS hH)
     (imgTil_conjClosure_ge_iSup hA hS hH)
 
+omit [Finite G] in
 theorem iSup_map_conj_eq_self {A H T : Subgroup G} (hA : IsElemAbelian 2 A)
-    (hH : H ≤ stabTil (⊥ : Subgroup G) A) (hT : T ≤ stabTil (⊥ : Subgroup G) A)
+    (hH : H ≤ stabTil (⊥ : Subgroup G) A) (_hT : T ≤ stabTil (⊥ : Subgroup G) A)
     (hTH : T ≤ Subgroup.normalizer (H : Set G)) :
     (⨆ t ∈ barSub (⊥ : Subgroup G) A hA T,
         (barSub (⊥ : Subgroup G) A hA H).map (MulAut.conj t).toMonoidHom) =
@@ -133,7 +138,7 @@ theorem iSup_map_conj_eq_self {A H T : Subgroup G} (hA : IsElemAbelian 2 A)
       ((barSub (⊥ : Subgroup G) A hA T).one_mem) ?_
     apply le_of_eq
     ext x
-    simp [MulAut.conj_apply]
+    simp
 
 theorem Hinf_barSub_eq {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
     {A P : Subgroup G} (hA : IsElemAbelian 2 A)

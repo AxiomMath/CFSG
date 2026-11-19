@@ -83,9 +83,11 @@ namespace Hyp
 
 variable {X J L : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem le_normalizer (h : Hyp X J L z) : X ≤ normalizer (J : Set G) :=
   (normal_subgroupOf_iff_le_normalizer h.le).mp h.normal
 
+omit [Finite G] in
 theorem le_X (h : Hyp X J L z) : L ≤ X :=
   h.comp.1.trans inf_le_left
 
@@ -102,8 +104,8 @@ theorem exists_red (h : Hyp X J L z) :
   have hN := h.le_normalizer
   have hLJ := h.le_J
   have hLX := h.le_X
-  haveI := h.simple
-  haveI hκn : (GroupTheory.quasisimpleActionKernel X J hN).Normal :=
+  have := h.simple
+  have hκn : (GroupTheory.quasisimpleActionKernel X J hN).Normal :=
     GroupTheory.quasisimpleActionKernel_normal X J hN
   set κ := GroupTheory.quasisimpleActionKernel X J hN with hκ
   have hκmem : ∀ y : ↥X, y ∈ κ ↔ (y : G) ∈ centralizer (J : Set G) := fun y => by
@@ -244,9 +246,11 @@ include r
     rw [← r.range_eq]
     exact ⟨j, rfl⟩
 
+omit [Finite G] in
 @[simp] theorem coe_ψS (j : ↥J) : (r.ψS j : H) = r.ψ j :=
   rfl
 
+omit [Finite G] in
 theorem ψS_surjective : Function.Surjective r.ψS := by
   intro y
   have hy : (y : H) ∈ r.ψ.range := by
@@ -255,6 +259,7 @@ theorem ψS_surjective : Function.Surjective r.ψS := by
   obtain ⟨j, hj⟩ := hy
   exact ⟨j, Subtype.ext hj⟩
 
+omit [Finite G] in
 theorem ker_ψS : r.ψS.ker = center ↥J := by
   rw [ψS, MonoidHom.ker_codRestrict, r.ker_eq]
 
@@ -262,8 +267,9 @@ noncomputable def quotEquiv : (↥J ⧸ center ↥J) ≃* ↥(generalizedFitting
   (QuotientGroup.quotientMulEquivOfEq r.ker_ψS.symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective r.ψS r.ψS_surjective)
 
+omit [Finite G] in
 theorem pcomp [Finite H] : IsPComponent 2 (r.Lb.subgroupOf (centralizer ({r.x} : Set H))) := by
-  haveI := r.simpleL
+  have := r.simpleL
   have hq : CFSG.IsQuasisimple ↥(r.Lb.subgroupOf (centralizer ({r.x} : Set H))) :=
     (CFSG.IsQuasisimple.congr ((subgroupOfEquivOfLe r.le_C).trans r.eL)).mpr
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup r.nonabL).1

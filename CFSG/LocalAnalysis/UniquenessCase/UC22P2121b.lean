@@ -37,7 +37,7 @@ theorem uc22p2121b_pRank_le_centE_add_sum (M : Subgroup G) {p : ℕ} (hp : p.Pri
       ∑ C ∈ s, CFSG.Open.pRank p (Subgroup.normalizerMonoidHom C).range := by
   have hnorm : ∀ i : {C // C ∈ s}, ∀ y : ↥M, uc22p21cPi M y ∈ normalizer ((i.1 : Subgroup (Bar2 M)) : Set (Bar2 M)) :=
     fun i y => by
-      haveI := hsN i.1 i.2
+      have := hsN i.1 i.2
       rw [Subgroup.normalizer_eq_top]
       exact Subgroup.mem_top _
   let f : ∀ i : {C // C ∈ s}, ↥M →* MulAut ↥i.1 := fun i =>

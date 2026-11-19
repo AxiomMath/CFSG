@@ -43,7 +43,7 @@ theorem a2l_g23_explicit {K : Type} [Field K] [Finite K] [CharP K ReeTag.G2.prim
       exact absurd hβ (by norm_num)
     obtain ⟨-, -, -, -, hq3⟩ := odd_G2_toral_involution_fixed_p_components K hKodd b hb
     have hsolv : Group.IsSolvable (toralCentralizer .G2 K b) := (hq3 hK (hb1 hβ1)).1
-    haveI : Group.IsSolvable X := Group.isSolvable_of_isSolvable_injective
+    have : Group.IsSolvable X := Group.isSolvable_of_isSolvable_injective
       (f := (Ψ.trans Θ).toMonoidHom) (Ψ.trans Θ).injective
     exact not_isComponent_of_isSolvable hL
   ·

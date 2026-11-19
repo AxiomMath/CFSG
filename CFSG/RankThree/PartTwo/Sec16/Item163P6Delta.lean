@@ -18,6 +18,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G}
 
+omit [Finite G] in
 private theorem mem_commutatorInSubgroup_map_conj {P D : Subgroup G} {g : G}
     (hgP : g ∈ Subgroup.normalizer (P : Set G))
     (hgD : g ∈ Subgroup.normalizer (D : Set G)) {x : G}
@@ -38,6 +39,7 @@ private theorem mem_commutatorInSubgroup_map_conj {P D : Subgroup G} {g : G}
     rw [hconj]
     exact (Subgroup.mem_normalizer_iff.mp hgD _).mp hd
 
+omit [Finite G] in
 private theorem map_conj_commutatorInSubgroup {P D : Subgroup G} {g : G}
     (hgP : g ∈ Subgroup.normalizer (P : Set G))
     (hgD : g ∈ Subgroup.normalizer (D : Set G)) :
@@ -74,7 +76,7 @@ private theorem isPGroup_centralizer_inf_commutatorInSubgroup
     IsPGroup 2 (Subgroup.centralizer (D : Set G) ⊓
       commutatorInSubgroup (CFSG.Open.pCoreOf 2
         (Subgroup.normalizer (D : Set G))) D : Subgroup G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P := CFSG.Open.pCoreOf 2 (Subgroup.normalizer (D : Set G)) with hPdef
   set T := commutatorInSubgroup P D with hTdef
   set St := Subgroup.centralizer (D : Set G) ⊓ T with hStdef
@@ -84,7 +86,7 @@ private theorem isPGroup_centralizer_inf_commutatorInSubgroup
   rcases Nat.eq_two_pow_or_exists_odd_prime_and_dvd (Nat.card St) with
     ⟨k, hk⟩ | ⟨r, hr, hdvd, hodd⟩
   · exact IsPGroup.of_card (p := 2) (n := k) hk
-  · haveI : Fact (Nat.Prime r) := ⟨hr⟩
+  · have : Fact (Nat.Prime r) := ⟨hr⟩
     obtain ⟨z, hzord⟩ := exists_prime_orderOf_dvd_card' r hdvd
     have hzordG : orderOf (z : G) = r := by rw [Subgroup.orderOf_coe, hzord]
     have hzSt : (z : G) ∈ St := z.2
@@ -172,8 +174,8 @@ theorem lt_delta_pCoreOf_inf_sup (hG : CFSG.Open.IsCharTwoType G) (hA : Late.IsE
     D < delta A (lB A)
       (CFSG.Open.pCoreOf 2 (Subgroup.normalizer (D : Set G)) ⊓
         (D ⊔ Subgroup.centralizer (D : Set G))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P := CFSG.Open.pCoreOf 2 (Subgroup.normalizer (D : Set G)) with hPdef
   set M := D ⊔ Subgroup.centralizer (D : Set G) with hMdef
   set V := P ⊓ M with hVdef
@@ -284,7 +286,7 @@ theorem exists_delta_of_hyperplane (hA : Late.IsE27 A) (h1444 : Item1444 A (lB A
     ∃ R : Subgroup G, R ∈ scriptQPi A (lB A) ⊤ (piOf 2) ∧
       xA A ≤ Subgroup.normalizer (R : Set G) ∧ D < R ∧
       R ≤ D ⊔ Subgroup.centralizer (D : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P := CFSG.Open.pCoreOf 2 (Subgroup.normalizer (D : Set G)) with hPdef
   set M := D ⊔ Subgroup.centralizer (D : Set G) with hMdef
   set V := P ⊓ M with hVdef

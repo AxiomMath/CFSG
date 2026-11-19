@@ -87,7 +87,7 @@ theorem normal_pSubgroup_bot_of_pSubgroups_central {K : Type*} [Group K] [Finite
       exact Subgroup.mem_comap.1 hy
     refine ⟨_, hφ, ?_⟩
     simp
-  have hSp : IsPGroup p S := P.isPGroup'.map N.subtype
+  have hSp : IsPGroup p S := P.isPGroup.map N.subtype
   have hSz : S ≤ Subgroup.center K := h S hSn hSp
   have hPA : (P.mapSurjective hf : Subgroup ↥A) = ⊤ := by
     have hAtop : IsPGroup p (⊤ : Subgroup ↥A) := hAp.of_equiv Subgroup.topEquiv.symm

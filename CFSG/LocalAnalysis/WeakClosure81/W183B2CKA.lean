@@ -25,9 +25,9 @@ theorem w183b2_core_k_caseA_of_abs {G : Type} [Group G] [Finite G] {Q : Type} [A
     Nat.card ↥Δ ≤ 4 := by
   obtain ⟨U₁, U₂, _, _, _, _, _, _, ρ₁, ρ₂, E, hirr₁, hirr₂, hE₁, hE₂⟩ :=
     w183b2_outer_decomp h hsimple
-  haveI hnt₁ : Nontrivial U₁ := ((isIrreducible_iff ρ₁).1 hirr₁).1
-  haveI hnt₂ : Nontrivial U₂ := ((isIrreducible_iff ρ₂).1 hirr₂).1
-  haveI hfinΔ : Finite ↥Δ := Finite.of_injective (Subtype.val : ↥Δ → G) Subtype.val_injective
+  have hnt₁ : Nontrivial U₁ := ((isIrreducible_iff ρ₁).1 hirr₁).1
+  have hnt₂ : Nontrivial U₂ := ((isIrreducible_iff ρ₂).1 hirr₂).1
+  have hfinΔ : Finite ↥Δ := Finite.of_injective (Subtype.val : ↥Δ → G) Subtype.val_injective
   have hend₁ : ∀ f : U₁ →ₗ[AlgebraicClosure (ZMod 2)] U₁,
       (∀ a x, f (ρ₁ a x) = ρ₁ a (f x)) → ∃ c : AlgebraicClosure (ZMod 2), f = c • 1 := by
     intro f hf
@@ -145,7 +145,6 @@ theorem w183b2_core_k_caseA_of_abs {G : Type} [Group G] [Finite G] {Q : Type} [A
     rw [hT d, ← hconj₁ a, ← hconj₁ ⟨(d : G) * (a : G) * (d : G)⁻¹,
       h.norm₁ (d : G) d.2 (a : G) a.2⟩]
     rw [← map_mul, ← map_mul]
-    congr 1
     rw [← map_mul, ← map_mul]
     congr 1
     group
@@ -157,7 +156,6 @@ theorem w183b2_core_k_caseA_of_abs {G : Type} [Group G] [Finite G] {Q : Type} [A
     rw [hT d, ← hconj₂ b, ← hconj₂ ⟨(d : G) * (b : G) * (d : G)⁻¹,
       h.norm₂ (d : G) d.2 (b : G) b.2⟩]
     rw [← map_mul, ← map_mul]
-    congr 1
     rw [← map_mul, ← map_mul]
     congr 1
     group

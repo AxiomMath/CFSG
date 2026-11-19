@@ -57,6 +57,7 @@ theorem T_comm_nrmG_uc6 (σ : E →* Module.End k V) (T : Module.End k V) (α : 
   rw [h2, map_sum]
   exact Finset.sum_congr rfl fun e _ => h e
 
+omit [Fintype E] in
 theorem pow_mul_σ_gen_uc6 (σ : E →* Module.End k V) (T : Module.End k V) (α : MulAut E)
     (hTα : ∀ e, T * σ e = σ (α e) * T) (i : ℕ) (e : E) :
     T ^ i * σ e = σ ((α ^ i) e) * T ^ i := by
@@ -104,7 +105,7 @@ theorem frobenius_identity_gen_uc6 (σ : E →* Module.End k V) (T : Module.End 
   obtain ⟨r', rfl⟩ : ∃ r', r = r' + 1 := ⟨r - 1, by omega⟩
   rw [Finset.sum_range_succ' (fun i => if i = 0 then (Fintype.card E : Module.End k V)
       else nrmG σ * T ^ i), Finset.sum_range_succ' (fun i => T ^ i)]
-  simp only [Nat.succ_ne_zero, if_false, if_true, pow_zero, add_sub_cancel_right]
+  simp only [Nat.succ_ne_zero, ite_false, ite_true, pow_zero, add_sub_cancel_right]
   rw [Finset.mul_sum, add_comm]
 
 theorem exists_fixed_vector_gen_uc6 (σ : E →* Module.End k V) (hE : (Fintype.card E : k) ≠ 0)
@@ -170,6 +171,7 @@ section Abelian
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {V : Type} [AddCommGroup V] [Module (ZMod p) V]
 
+omit [Finite G] in
 theorem mem_fixV_zpowers_uc6 (ρ : Representation (ZMod p) G V) (x : G) (v : V) :
     v ∈ fixV ρ (Subgroup.zpowers x) ↔ ρ x v = v := by
   refine ⟨fun h => h x (Subgroup.mem_zpowers x), fun hx a ha => ?_⟩
@@ -190,14 +192,14 @@ theorem abelian_false_uc6 [Fact p.Prime] (ρ : Representation (ZMod p) G V)
     (D : Subgroup G) (hD : Nat.card D = r) (hfix : fixV ρ D = ⊥) (Q : Subgroup G)
     (hQp : IsPGroup q Q) (hQne : Q ≠ ⊥) (hQab : IsMulCommutative ↥Q)
     (hDQ : D ≤ normalizer (Q : Set G)) (hcomm : ⁅D, Q⁆ = Q) : False := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨x, hxD, hxord⟩ := exists_generator_uc6 hr hD
   have hx0 : x ∈ D := hxD ▸ Subgroup.mem_zpowers x
   have hfpf := fixedPointFree_of_commutator_eq_uc6 hxD hQab hDQ hcomm
   have hxN : x ∈ normalizer (Q : Set G) := hDQ hx0
   have hxr : x ^ r = 1 := hxord ▸ pow_orderOf_eq_one x
-  haveI : Fintype ↥Q := Fintype.ofFinite _
-  letI : CommGroup ↥Q := IsMulCommutative.instCommGroup
+  have : Fintype ↥Q := Fintype.ofFinite _
+  let : CommGroup ↥Q := IsMulCommutative.instCommGroup
   let σ : Representation (ZMod p) ↥Q V := ρ.comp Q.subtype
   let α : MulAut ↥Q := Q.normalizerMonoidHom ⟨x, hxN⟩
   have hαe : ∀ e : ↥Q, ((α e : ↥Q) : G) = x * (e : G) * x⁻¹ := fun e => rfl

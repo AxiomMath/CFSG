@@ -117,7 +117,7 @@ theorem layer_ne_bot_of_surjective_of_card (h : ReducedNongeneration p X R X₀)
     obtain ⟨c, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center C) v
     rw [← map_pow]
     exact (QuotientGroup.eq_one_iff _).mpr (hpowC c)
-  obtain ⟨k, hkindex, hkfix⟩ := exists_kernel_of_card_eq_one_or_sq S.isPGroup' hVcard hVpow
+  obtain ⟨k, hkindex, hkfix⟩ := exists_kernel_of_card_eq_one_or_sq S.isPGroup hVcard hVpow
   set g : (S : Subgroup A) →* L := f.comp (S : Subgroup A).subtype with hg
   have hkg : k ≤ g.ker := by
     intro e he

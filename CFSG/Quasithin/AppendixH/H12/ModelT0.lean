@@ -12,7 +12,7 @@ open CFSG.Quasithin CFSG.Quasithin.H.Mathieu CFSG.Quasithin.H.Mathieu.H12Cert
 open CFSG.ASVolI.ChH (IsIsoPoint)
 
 theorem isSylowIn_T0 : IsSylowIn 2 T0 G0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine isSylowIn_of_card_eq T0_le_G ?_
   rw [card_T0, show Nat.card G0 = 1330560 from card_G]
   have hf : (1330560 : ℕ).factorization 2 = 7 := by decide +kernel
@@ -121,7 +121,7 @@ theorem fixV_T0_le :
       !(tG.all fun g => mvN g d == d) || (lineOf 5).contains d) = true := by decide +kernel
   have hc' := (List.all_eq_true.mp hcheck) (cd v) (List.mem_range.mpr hc)
   rw [hall] at hc'
-  simp only [Bool.not_true, Bool.false_or, Bool.or_false, Bool.or_eq_true] at hc'
+  simp only [Bool.not_true, Bool.or_false, Bool.or_eq_true] at hc'
   rw [← dc_cd v]
   rcases hc' with h0 | hline
   · rw [beq_iff_eq.mp h0, dc_zero]

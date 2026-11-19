@@ -163,6 +163,6 @@ theorem thompson_centralized_internal_seeds_have_normal_baumann_centralizer {H :
   have hSn : S.Normal := by
     rw [hSE]
     infer_instance
-  exact ⟨hJ', hE', hVE, hSE, hSC, hS1, hSn, T.isPGroup'.to_le (hSC.trans hCT)⟩
+  exact ⟨hJ', hE', hVE, hSE, hSC, hS1, hSn, T.isPGroup.to_le (hSC.trans hCT)⟩
 
 end CFSG.Quasithin.SteinbergBQ

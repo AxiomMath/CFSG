@@ -501,7 +501,7 @@ theorem card_inf_F
   have h8 := h.mod_eight hp
   set V := (S : Subgroup G) ⊓ h.F with hVdef
   have hVF : V ≤ h.F := inf_le_right
-  have hVp : IsPGroup 2 V := S.isPGroup'.to_le inf_le_left
+  have hVp : IsPGroup 2 V := S.isPGroup.to_le inf_le_left
   have e : V.subgroupOf h.F ≃* V := Subgroup.subgroupOfEquivOfLe hVF
   obtain ⟨P, hP⟩ := (hVp.of_equiv e.symm).exists_le_sylow
   set W := (P : Subgroup h.F).map h.F.subtype
@@ -526,7 +526,7 @@ theorem card_inf_F
         (Subgroup.mem_sup_right (hVW ⟨(S : Subgroup G).mul_mem htS hx, hxF⟩))
   have heq : Subgroup.zpowers h.t ⊔ W = ↑S :=
     S.maximal_isPGroup.eq_of_ge
-      (IsPGroup.to_sup_of_normal_left' ht2 (P.isPGroup'.map _) hWN) hSW
+      (IsPGroup.to_sup_of_normal_left' ht2 (P.isPGroup.map _) hWN) hSW
   have hWV : W ≤ V := fun x hx => ⟨heq ▸ Subgroup.mem_sup_right hx, hWF hx⟩
   rw [le_antisymm hVW hWV]
   exact hWcard

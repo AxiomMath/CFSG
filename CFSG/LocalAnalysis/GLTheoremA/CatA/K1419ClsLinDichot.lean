@@ -31,9 +31,9 @@ theorem k1419ClsLinDichot {F : Type} [Field F] [Finite F] (h2 : (2 : F) = 0) {n 
     CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.cast_orderOf_ne_zero_of_odd h2 A hodd
   obtain ⟨r, D, d, hFld, hFin, hAlg, Φ, θ, hd, hΦ, hθ, hθA, hθΦ, i, hi, hMeq⟩ :=
     k1419ClsLinBlock_exists A hord M hM
-  letI : ∀ i, Field (D i) := hFld
-  letI : ∀ i, Finite (D i) := hFin
-  letI : ∀ i, Algebra F (D i) := hAlg
+  let : ∀ i, Field (D i) := hFld
+  let : ∀ i, Finite (D i) := hFin
+  let : ∀ i, Algebra F (D i) := hAlg
   have hms : Function.Injective
       (MonoidHom.mulSingle (fun k => GL (Fin (d k)) (D k)) i) := by
     intro a b hab

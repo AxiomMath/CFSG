@@ -54,7 +54,7 @@ theorem sec7_nu_img {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
     {γ : G → K} (M₀ : Tim79.QuadModel Q Z K γ)
     (ρ : Mbar M Q →* Multiplicative (AddAut M₀.E)) (b : M₀.E)
     (hS : IsTensorSetup hc n M₀ ρ b) {m : G} (hm : m ∈ M) {S : Subgroup G}
-    (hZS : Z ≤ S) (hSQ : S ≤ Q) (hmS : conjSubgroup m S = S) (e : M₀.E) :
+    (hZS : Z ≤ S) (_hSQ : S ≤ Q) (hmS : conjSubgroup m S = S) (e : M₀.E) :
     e ∈ M₀.img S ↔ (ρ (QuotientGroup.mk ⟨m, hm⟩)).toAdd e ∈ M₀.img S := by
   obtain ⟨x, hxQ, rfl⟩ := M₀.π_surj e
   have hmxQ : m * x * m⁻¹ ∈ Q := (hc.conj_mem_Q_of_mem_M hm).1 x hxQ

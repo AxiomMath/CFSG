@@ -3,7 +3,7 @@ module
 public import CFSG.LocalAnalysis.LyonsUnitaryFour.Exclusions.RowSums
 public import CFSG.LocalAnalysis.LyonsUnitaryFour.FiveColumns.SignedDegreeData
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 

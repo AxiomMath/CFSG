@@ -46,7 +46,7 @@ private theorem card_center_eq_one_of_dvd {Y : Type} [Group Y] [Finite Y]
     Nat.card (Subgroup.center Y) = 1 := by
   by_contra hne
   have hpos : 0 < Nat.card (Subgroup.center Y) := Nat.card_pos
-  haveI : Nontrivial (Subgroup.center Y) :=
+  have : Nontrivial (Subgroup.center Y) :=
     Finite.one_lt_card_iff_nontrivial.1 (by omega)
   have hZ : IsPGroup 3 (Subgroup.center Y) := by
     intro g

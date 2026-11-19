@@ -39,7 +39,7 @@ private theorem Ctx.layerT_transport (hZcard : Sec7ZCardStatement) (hZc : Sec7Ce
         Ψ w' = (φΩ r : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) K') *ᵥ Ψ w := by
   classical
   obtain ⟨hRV, hZVn, ψ, hψ⟩ := hSA
-  haveI := hZVn
+  have := hZVn
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre ht hZ0
   have hZ0M : Z0 ≤ M := hc.centre_le_M t hZ0
@@ -255,10 +255,10 @@ theorem Ctx.eq_one_of_smul_layerT (hZcard : Sec7ZCardStatement) (hZc : Sec7Centr
     (CFSG.LieType.Universal.Spin.coe_quadPlus 3 K') hmem v₀
   have hQv₀ : CFSG.LieType.Universal.Spin.quadPlus 3 K' v₀ = 1 := by
     rw [CFSG.LieType.Universal.Spin.quadPlus_apply, Fin.sum_univ_three, hv₀]
-    simp [Pi.single_apply]
+    simp
   rw [hmat, QuadraticMap.map_smul, hQv₀, smul_eq_mul, mul_one] at hpres
   obtain ⟨e', -, he, -⟩ := hc.hyp.cp
-  haveI : CharP K' 2 := charP_two_of_card_eq_two_pow (hK'.trans he)
+  have : CharP K' 2 := charP_two_of_card_eq_two_pow (hK'.trans he)
   have hθc : θ c = 1 := by
     have h2 : (θ c - 1) ^ 2 = 0 := by
       rw [sub_pow_char, one_pow, sq, hpres, sub_self]

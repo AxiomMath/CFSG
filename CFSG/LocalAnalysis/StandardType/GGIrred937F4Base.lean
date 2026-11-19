@@ -220,7 +220,7 @@ theorem exists_lang_w0_F4_three
   classical
   set L := AlgebraicClosure K
   set ι : K →+* L := algebraMap K L
-  haveI : CharP L ℓ := charP_of_injective_algebraMap ι.injective _
+  have : CharP L ℓ := charP_of_injective_algebraMap ι.injective _
   set F : ModGL Tag.F4 L →* ModGL Tag.F4 L := entrywiseFrobGL Tag.F4 L ℓ f with hF
   set n₀ := canonicalRep (coxeterSystem Tag.F4) L w₀ with hn₀
   set d := rootDiagUnit Tag.F4 a with hd
@@ -271,7 +271,6 @@ theorem exists_lang_w0_F4_three
     refine ⟨mul_mem hnG (inv_mem hn₀G), ?_⟩
     first
       | exact hcomm
-      | exact hcomm.symm
   rw [CFSG.HardMathSupport.Timmesfeld.Steinberg.toralCentralizer_eq_toralRootGroup_F4_three _ a ha,
     toralRootGroup_eq_familyGroup] at hm
   have hpq : Nat.Coprime 3 (ℓ ^ f) := by
@@ -309,7 +308,7 @@ section Assembly
 private theorem isCyclic_false_of_elemAbelian_nine {H : Type} [Group H] {P : Subgroup H}
     (hP : IsElemAbelian 3 P) (h9 : Nat.card P = 9) : ¬ IsCyclic P := by
   intro hc
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [h9]; norm_num)
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [h9]; norm_num)
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := P)
   have h3 : g ^ 3 = 1 := Subtype.ext (by simpa using hP.2 g g.2)
   have := orderOf_dvd_of_pow_eq_one h3
@@ -326,8 +325,8 @@ theorem not_fixCompCyclic_of_a2a2
     (hga : baseChangeGL (algebraMap K (AlgebraicClosure K)) (e : ModGL Tag.F4 K) =
       g * rootDiagUnit Tag.F4 a * g⁻¹) :
     ¬ GGFixCompCyclic 3 (MulAut.conj e) := by
-  haveI : Finite (adjointGroup Tag.F4 K) := Subtype.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (adjointGroup Tag.F4 K) := Subtype.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨J₁, J₂, P₁, P₂, hJ₁, hJ₂, hne, hP₁, hP₂, hE₁, hE₂, h₁, h₂⟩ :=
     hB K hq hq2 e g hg a ha h12 hga
   have hp : ∀ {P : Subgroup (adjointGroup Tag.F4 K)}, IsElemAbelian 3 P → IsPGroup 3 P :=
@@ -375,7 +374,7 @@ theorem toral_of_fixCompCyclic
     have hAle : A ≤ adjointGroup Tag.F4 L := by
       rintro _ ⟨x, -, rfl⟩
       exact CFSG.LieType.Chevalley.baseChangeGL_mem_adjointGroup _ x.2
-    haveI : Finite (adjointGroup Tag.F4 K) := Subtype.finite
+    have : Finite (adjointGroup Tag.F4 K) := Subtype.finite
     have hAfin : Finite A := by
       change Finite ↥(E.map φ)
       exact Finite.Set.finite_image _ _

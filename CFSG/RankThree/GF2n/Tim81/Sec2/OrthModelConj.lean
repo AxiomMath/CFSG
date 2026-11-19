@@ -14,6 +14,7 @@ open CFSG.QuasithinUnique.Setup.X7 CFSG.QuasithinUnique.Setup.SL2Modules
 variable {F : Type} [Field F] [Fintype F] [CharP F 2] [Algebra (ZMod 2) F]
   {l : ℕ} (hF : Fintype.card F = 2 ^ (2 * l))
 
+omit [Algebra (ZMod 2) F] in
 private theorem hermAct_wMat_mul_uMat_11 (δ : F) (X : ↥(hermA l F)) :
     ((hermAct l (sig_sig hF) (wMat * uMat δ) X : ↥(hermA l F)) :
         Matrix (Fin 2) (Fin 2) F) 1 1 =
@@ -29,6 +30,7 @@ private theorem hermAct_wMat_mul_uMat_11 (δ : F) (X : ↥(hermA l F)) :
   rw [hcomp, hermAct_wMat l hF]
   exact hermAct_uMat_00 l (sig_sig hF) δ (X := X)
 
+omit [Algebra (ZMod 2) F] in
 private theorem exists_mul_sig_eq' (hF : Fintype.card F = 2 ^ (2 * l))
     {e : F} (he : e ^ 2 ^ l = e) :
     ∃ ε : F, ε * ε ^ 2 ^ l = e := by
@@ -37,6 +39,7 @@ private theorem exists_mul_sig_eq' (hF : Fintype.card F = 2 ^ (2 * l))
   · obtain ⟨c, -, hc⟩ := exists_mul_sig_eq (hF := hF) he he0
     exact ⟨c, hc⟩
 
+omit [Fintype F] [CharP F 2] [Algebra (ZMod 2) F] in
 theorem eq_map_conj_upperSylow_of_forall_mem_iff {A : Subgroup SL(2, F)} {x : SL(2, F)}
     (hx : ∀ a, a ∈ A ↔ x⁻¹ * a * x ∈ upperSylow) :
     A = upperSylow.map (MulAut.conj x).toMonoidHom := by
@@ -97,6 +100,7 @@ theorem exists_hermRep_mem_commSub_upperSylow (X : ↥(hermA l F)) :
 variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
   {ρ : Representation (ZMod 2) SL(2, F) W}
 
+omit [Finite W] in
 theorem IsOrthModule.exists_conj_mem_commSub (horth : IsOrthModule hF ρ)
     (A : Subgroup SL(2, F)) (hA2 : ∀ a ∈ A, a * a = 1)
     (hA : Nat.card A = 2 ^ (2 * l)) (w : W) :

@@ -41,19 +41,19 @@ structure Cex15 (M V₀ V U S : Subgroup G) : Prop where
 
 theorem Hyp15.of_setting {D : Data G} {V₀ V : Subgroup G}
     (h : WeakClosureSetting D V₀ V) (hV₀ : V₀ ≠ ⊥) : Hyp15 D.M V₀ V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ⟨⟨h.pair.elemAbelian, h.normalizer_eq, h.pair.le, h.pair.le_normalizer₀,
     fun hh => (h.ti₀ hh).2, fun hh => (h.ti₀ hh).1, h.normalizer₀,
     fun hh v hv hv₀ => (h.gen hh v hv hv₀).symm⟩, hV₀, h.even hV₀, h.hyp14₂ hV₀,
     h.hyp14₁ hV₀, fun Q hQ => h.v1 Q ((CFSG.ABGLocalTools.isSylowOf_iff (p := 2)).2 hQ)⟩
 
 theorem Std15.of_data (D : Data G) : Std15 G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨D.standing.charTwo, fun H hH => ?_⟩
   obtain ⟨P, hP, hP2, rfl⟩ := hH
   refine D.standing.kProper.isKGroup _ fun htop => ?_
-  haveI : P.Normal := Subgroup.normalizer_eq_top_iff.1 htop
-  haveI := D.standing.simple
+  have : P.Normal := Subgroup.normalizer_eq_top_iff.1 htop
+  have := D.standing.simple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal P with h | h
   · exact hP h
   · subst h
@@ -62,7 +62,7 @@ theorem Std15.of_data (D : Data G) : Std15 G := by
       obtain ⟨k, hk⟩ := hP2 ⟨g, Subgroup.mem_top g⟩
       exact ⟨k, congrArg Subtype.val hk⟩
     obtain ⟨a, b, hab⟩ := D.standing.nonab
-    haveI := hG.center_nontrivial
+    have := hG.center_nontrivial
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center G) with hc | hc
     · obtain ⟨x, hx⟩ := exists_ne (1 : Subgroup.center G)
       exact hx (Subtype.ext ((Subgroup.mem_bot.1 (hc ▸ x.2))))
@@ -72,15 +72,20 @@ namespace Hyp15
 
 variable {M V₀ V : Subgroup G}
 
+omit [Finite G] in
 theorem le_M (h : Hyp15 M V₀ V) : V ≤ M := h.h6.le_M
 
+omit [Finite G] in
 theorem isTI (h : Hyp15 M V₀ V) : CFSG.CGT.Timmesfeld75.IsTI V₀ := h.h6.isTI h.ne_bot
 
+omit [Finite G] in
 theorem normalizer₀ (h : Hyp15 M V₀ V) : normalizer (V₀ : Set G) = M :=
   h.h6.normalizer₀ h.ne_bot
 
+omit [Finite G] in
 theorem isPGroup (h : Hyp15 M V₀ V) : IsPGroup 2 V := B2F.isPGroup_of_isElemAbelian h.h6.elemAbelian
 
+omit [Finite G] in
 theorem elemAbelian₀ (h : Hyp15 M V₀ V) : IsElemAbelian 2 V₀ :=
   CFSG.Open.IsElemAbelian.mono h.h6.elemAbelian h.h6.le
 
@@ -93,12 +98,14 @@ theorem conj_inf_eq_bot (h : Hyp15 M V₀ V) {g : G} (hg : g ∉ M) :
     conjSubgroup V₀ g ⊓ V₀ = ⊥ :=
   conjSubgroup_inf_self_eq_bot h.normalizer₀ h.isTI hg
 
+omit [Finite G] in
 theorem uniqueMax_self (h : Hyp15 M V₀ V) : UniqueMax M M := by
   refine h.hyp14a M le_rfl inf_le_left ?_
   refine Set.Subset.antisymm ?_ fun x hx => ⟨x, hx, 1, (F11.CTilde M V₀ V).one_mem, mul_one x⟩
   rintro _ ⟨a, ha, b, hb, rfl⟩
   exact M.mul_mem ha (cTilde_le_M M V₀ V hb)
 
+omit [Finite G] in
 theorem isMax (h : Hyp15 M V₀ V) : rankThreeIsMaxTwoLocal M := by
   have h1 : calMOf M = {M} := h.uniqueMax_self
   have h2 : M ∈ calMOf M := by rw [h1]; exact Set.mem_singleton M
@@ -115,6 +122,7 @@ theorem s14c (h : Hyp15 M V₀ V) : FourteenTwo.S14c M V₀ V := by
       exact ⟨x, hx, c, hc, rfl⟩
   exact normalizer_le_of_inCalU hX inf_le_right hU1 (h.isPGroup.to_le hUV)
 
+omit [Finite G] in
 theorem exists_cTilde_not_le (h : Hyp15 M V₀ V) :
     ∃ a ∈ F11.CTilde M V₀ V, a ∉ centralizer (V : Set G) := by
   by_contra hcon

@@ -30,7 +30,7 @@ theorem not_all_sylow_three_cyclic_of_four {G : Type} [Group G] [Finite G]
   classical
   obtain ⟨Q, hEQ⟩ := IsPGroup.exists_le_sylow (P := E) hE
   have hc := hall Q
-  haveI : Fintype ↥(↑Q : Subgroup G) := Fintype.ofFinite _
+  have : Fintype ↥(↑Q : Subgroup G) := Fintype.ofFinite _
   let y₁ : ↥(↑Q : Subgroup G) := ⟨x₁, hEQ h₁⟩
   let y₂ : ↥(↑Q : Subgroup G) := ⟨x₂, hEQ h₂⟩
   let y₃ : ↥(↑Q : Subgroup G) := ⟨x₃, hEQ h₃⟩
@@ -63,9 +63,7 @@ theorem not_all_sylow_three_cyclic_of_four {G : Type} [Group G] [Finite G]
   have g4 : (1 : ↥(↑Q : Subgroup G)) ≠ y₄ := hne _ _ (fun h => n₄ h.symm)
   have hcard : S5.card = 5 := by
     simp only [S5]
-    simp [Finset.card_insert_of_notMem, f12, f13, f14, f23, f24, f34, g1, g2, g3, g4,
-      Ne.symm f12, Ne.symm f13, Ne.symm f14, Ne.symm f23, Ne.symm f24, Ne.symm f34,
-      Ne.symm g1, Ne.symm g2, Ne.symm g3, Ne.symm g4]
+    simp [Finset.card_insert_of_notMem, f12, f13, f14, f23, f24, f34, g1, g2, g3, g4]
   have hle := Finset.card_le_card hS5
   have h3 := IsCyclic.card_pow_eq_one_le (α := ↥(↑Q : Subgroup G)) (n := 3) (by norm_num)
   omega
@@ -132,14 +130,14 @@ theorem cyc3a_ne_one : cyc3a ≠ 1 := by
   intro h
   have : (cyc3a : Equiv.Perm (Fin 6)) 0 = 0 := by rw [h]; rfl
   revert this
-  simp only [cyc3a, Subgroup.coe_mul]
+  simp only [cyc3a]
   decide
 
 theorem cyc3b_ne_one : cyc3b ≠ 1 := by
   intro h
   have : (cyc3b : Equiv.Perm (Fin 6)) 3 = 3 := by rw [h]; rfl
   revert this
-  simp only [cyc3b, Subgroup.coe_mul]
+  simp only [cyc3b]
   decide
 
 theorem cyc3_distinct : cyc3a ≠ cyc3a ^ 2 ∧ cyc3a ≠ cyc3b ∧ cyc3a ≠ cyc3b ^ 2 ∧
@@ -178,7 +176,7 @@ theorem nonempty_alt6_of_catalogIs_isA6 {S : Type} [Group S] (hS : catalogIs S S
           obtain ⟨hp3, hf2⟩ := Nat.Prime.pow_inj' hpp Nat.prime_three hf.ne' (by norm_num) hpf
           subst hp3
           subst hf2
-          haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+          have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
           have eP := CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 ⟨3, 2, hpp, hf⟩ hv
           have hcard : Nat.card (GaloisField 3 2) = 9 := by
             rw [GaloisField.card 3 2 (by norm_num)]

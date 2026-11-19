@@ -31,7 +31,7 @@ theorem pumpingUpFacts_of_open
 theorem pumpingUpFacts_of_lieComp
     (h33 : CFSG.HardMathSupport.Solomon.LocalBalance.Lemma27Ns.Input14_33TypeSameField)
     (hBM : NoOrderSixtyFiveBM) (hSS : Fi22LieSSC) (hUn : Fi22LieUnipC) (hOut : Fi22LieOuterC)
-    (hR : ∀ name ∈ restNamesOpen, SporNoPumpup name) (hLie : LieComp.LieComp) :
+    (hR : ∀ name ∈ restNamesOpen, SporNoPumpup name) (hLie : LieComp.LieCompAll) :
     CFSG.Yardstones.M67c2c3e09a6b.PumpingUpFacts :=
   pumpingUpFacts_of_open h33 hBM hSS hUn hOut hR
     (LieComp.lieDownChev_of_lieComp hLie lieOrderBridge_holds inputONGroup_holds)
@@ -40,7 +40,7 @@ theorem pumpingUpFacts_of_lieComp
 theorem pumpingUpFacts_of_lieComps
     (h33 : CFSG.HardMathSupport.Solomon.LocalBalance.Lemma27Ns.Input14_33TypeSameField)
     (hBM : NoOrderSixtyFiveBM) (hR : ∀ name ∈ restNamesOpen, SporNoPumpup name)
-    (hLie : LieComp.LieComp) (h5 : ∀ F, LieComp.LieCompsOn 5 F)
+    (hLie : LieComp.LieCompAll) (h5 : ∀ F, LieComp.LieCompsOn 5 F)
     (hQ5 : YS08.LieQ.LieQConstrainedInner 5) :
     CFSG.Yardstones.M67c2c3e09a6b.PumpingUpFacts :=
   pumpingUpFacts_of_lieComp h33 hBM (LieComp.fi22LieSSC_of_lieCompsOn lieOrderBridge_holds h5)

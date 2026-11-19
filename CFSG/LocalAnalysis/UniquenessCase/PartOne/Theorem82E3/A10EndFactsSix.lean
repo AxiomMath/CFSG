@@ -272,7 +272,7 @@ private theorem isSylowOf_subgroupOf_centralizer (F : A10Frame c)
     (hNA : Subgroup.normalizer (F.A : Set G) ≤ D.M) {B : Subgroup G} (hBA : B ≤ F.A)
     (hB3 : Nat.card B = 3) (hB6 : F.deg B = 6) :
     CFSG.ABGLocalTools.IsSylowOf 3 (F.A.subgroupOf (Subgroup.centralizer (B : Set G))) ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   refine (CFSG.ABGLocalTools.isSylowOf_map_subtype_iff (p := 3)
     (K := Subgroup.centralizer (B : Set G))).mp ?_
   simpa [Subgroup.map_subgroupOf_eq_of_le (A_le_centralizer F hBA), Subgroup.map_top,
@@ -341,7 +341,7 @@ private theorem isWeaklyClosedIn_subgroupOf_of_six_basis (F : A10Frame c)
       (by simpa [data.hφz] using data.hz_supp)
       (by simpa [data.hφz] using data.hz_not)
 
-private theorem subgroupOf_centralizer_le_center (F : A10Frame c) {B : Subgroup G} :
+private theorem subgroupOf_centralizer_le_center (_F : A10Frame c) {B : Subgroup G} :
     B.subgroupOf (Subgroup.centralizer (B : Set G)) ≤
       Subgroup.center ↥(Subgroup.centralizer (B : Set G)) := by
   intro w hw
@@ -389,7 +389,7 @@ private theorem top_le_sup_pPrimeCore_centralizer (F : A10Frame c) (hK332 : UCK.
       D.M.subgroupOf (Subgroup.centralizer (B : Set G)) ⊔
         CFSG.pPrimeCore 3 ↥(Subgroup.centralizer (B : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨data⟩ := exists_six_basis F hBA hB3 hB6
   let H : Subgroup G := Subgroup.centralizer (B : Set G)
   let S : Subgroup ↥H := F.A.subgroupOf H

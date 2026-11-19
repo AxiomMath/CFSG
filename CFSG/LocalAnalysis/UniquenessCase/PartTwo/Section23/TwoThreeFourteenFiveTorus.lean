@@ -68,7 +68,7 @@ private theorem torus_setup_Tor7 {D : Data G} {Ch : Choice2011 G}
 private theorem exists_torus_pair_Tor7 {D : Data G} {Ch : Choice2011 G}
     (c : Ctx23L D Ch) {A : Subgroup G} (hA : IsElemAbelian 2 A) (hAV : A ≤ c.V)
     (hAne : A ≠ ⊥) (hAN : c.N ≤ Subgroup.normalizer (A : Set G)) {K : Subgroup G}
-    {t : G} (htT : t ∈ D.T)
+    {t : G} (_htT : t ∈ D.T)
     (hcomp : CFSG.Open.IsComponentOf (barSub ⊥ A hA K) (barSub ⊥ A hA c.N))
     (hne : barSub ⊥ A hA (K.map (MulAut.conj t).toMonoidHom) ≠ barSub ⊥ A hA K)
     (hsum : IsDirSumOver (conjSet (barSub ⊥ A hA K) (barSub ⊥ A hA c.N)) (fun X => commV X))
@@ -78,7 +78,7 @@ private theorem exists_torus_pair_Tor7 {D : Data G} {Ch : Choice2011 G}
     (hgT : g ∈ barSub ⊥ A hA D.T)
     (hX' : (barSub ⊥ A hA K).map (MulAut.conj g).toMonoidHom =
       barSub ⊥ A hA (K.map (MulAut.conj t).toMonoidHom)) :
-    ∃ (z : G) (hzA : z ∈ A) (hzZ : z ∈ D.Z) (v v' : Vtil ⊥ A hA),
+    ∃ (z : G) (hzA : z ∈ A) (_hzZ : z ∈ D.Z) (v v' : Vtil ⊥ A hA),
       v ∈ commV (barSub ⊥ A hA K) ∧
       v' ∈ commV (barSub ⊥ A hA (K.map (MulAut.conj t).toMonoidHom)) ∧
       v * v' = mkTil ⊥ A hA (IntMod.mk hA ⟨z, hzA⟩) ∧ v ≠ 1 ∧
@@ -87,14 +87,14 @@ private theorem exists_torus_pair_Tor7 {D : Data G} {Ch : Choice2011 G}
   obtain ⟨z, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
     (Ctx23L.inf_Z_ne_bot c hAV hAne ((Ctx23L.T_le_N c).trans hAN))
   have hzA : (z : G) ∈ A := z.2.1
-  have hzZ : (z : G) ∈ D.Z := z.2.2
+  have _hzZ : (z : G) ∈ D.Z := z.2.2
   have hz1' : (z : G) ≠ 1 := fun h => hz1 (Subtype.ext h)
   let zt : Vtil ⊥ A hA := mkTil ⊥ A hA (IntMod.mk hA ⟨(z : G), hzA⟩)
   have hzt_ne : zt ≠ 1 := fun h => hz1' ((TwoConj.mkTil_mk_eq_one_iff hA hzA).1 h)
   have hzt_fix : zt ∈ fixV (barSub ⊥ A hA D.T) := by
     rw [fixV_T_barSub_eq c hA hAV hAN]
     exact (mem_imgTil ⊥ A hA (A ⊓ D.Z) zt).2
-      ⟨IntMod.mk hA ⟨(z : G), hzA⟩, ⟨hzA, hzZ⟩, rfl⟩
+      ⟨IntMod.mk hA ⟨(z : G), hzA⟩, ⟨hzA, _hzZ⟩, rfl⟩
   have hgz : g zt = zt := (mem_fixV.mp hzt_fix) g hgT
   obtain ⟨v, hv, v', hv', hvsum, hv1⟩ :=
     TwoConj.exists_mul_eq_ne_one hg hX' hne hsum htwo hzt_ne hgz
@@ -104,7 +104,7 @@ private theorem exists_torus_pair_Tor7 {D : Data G} {Ch : Choice2011 G}
     have hsDT : s ∈ barSub ⊥ A hA D.T := barSub_mono ⊥ A hA inf_le_left hs.1
     have hxv : s (v * v') = v * v' := by rw [hvsum]; exact (mem_fixV.mp hzt_fix) s hsDT
     exact TwoConj.apply_eq_of_apply_mul_eq hcomp hg hX' hne hsum hs.2 hv' hxv
-  exact ⟨z, hzA, hzZ, v, v', hv, hv', hvsum, hv1, hvS0⟩
+  exact ⟨z, hzA, _hzZ, v, v', hv, hv', hvsum, hv1, hvS0⟩
 
 private theorem exists_torus_borel_Tor7 {D : Data G} {Ch : Choice2011 G}
     (c : Ctx23L D Ch) (h207 : S20_7 D) (h209 : S20_9 D) (hBS : KBorelSolv20_7)
@@ -132,7 +132,7 @@ private theorem exists_torus_borel_Tor7 {D : Data G} {Ch : Choice2011 G}
     ∃ (bA : MulAut (Vtil ⊥ A hA)), (bA ∈ barSub ⊥ A hA K ∧ bA v ≠ v) ∧
       ∃ b : ↥(stabTil ⊥ A), (b : G) ∈ D.M ∧ actTil ⊥ A hA b = bA := by
   classical
-  haveI : Finite (MulAut (Vtil ⊥ A hA)) := Finite.of_injective
+  have : Finite (MulAut (Vtil ⊥ A hA)) := Finite.of_injective
     (fun (g : MulAut (Vtil ⊥ A hA)) (w : Vtil ⊥ A hA) => g w)
     (fun a b h => MulEquiv.ext (congrFun h))
   have hv2 : v ^ 2 = 1 := TwoConj.sq_eq_one_Vtil hA v
@@ -220,7 +220,7 @@ theorem false_of_case_one_of_two_conjugates {D : Data G} {Ch : Choice2011 G}
       barSub ⊥ A hA (K.map (MulAut.conj t).toMonoidHom) :=
     (TwelveTwentyThree.barSub_map_conj hA hKst htst).symm
   have hcommXX' := TwoConj.mul_comm_of_map_conj hcomp hg hX' hne
-  haveI : Finite (MulAut (Vtil ⊥ A hA)) := Finite.of_injective
+  have : Finite (MulAut (Vtil ⊥ A hA)) := Finite.of_injective
     (fun (g : MulAut (Vtil ⊥ A hA)) (w : Vtil ⊥ A hA) => g w)
     (fun a b h => MulEquiv.ext (congrFun h))
   have hS0 : IsSylowIn 2 (barSub ⊥ A hA (D.T ⊓ c.L) ⊓ barSub ⊥ A hA K)

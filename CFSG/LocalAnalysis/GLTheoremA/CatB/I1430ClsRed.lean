@@ -56,7 +56,7 @@ theorem kdAltDown_mod (n p : ℕ) (hn : 5 ≤ n) (hp : p.Prime) (hp2 : p ≠ 2)
       simpa using Finset.card_le_univ ((x : Perm (Fin n)).support)
     omega
   have hdvd : p ∣ n - m := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hct := Equiv.Perm.cycleType_of_pow_prime_eq_one hσp
     have hsum := Equiv.Perm.sum_cycleType (x : Perm (Fin n))
     rw [hct, Multiset.sum_replicate, smul_eq_mul] at hsum
@@ -70,10 +70,10 @@ theorem kdAltDown_mod (n p : ℕ) (hn : 5 ≤ n) (hp : p.Prime) (hp2 : p ≠ 2)
     have h1 := Subgroup.card_dvd_of_le hIF
     rw [Nat.card_congr e.toEquiv] at h1
     exact h1.trans (by simpa using natCard_alternatingGroup_dvd_factorial (Fin m))
-  haveI : Nontrivial ↥I := nontrivial_of_glaPComponent hp hI
+  have : Nontrivial ↥I := nontrivial_of_glaPComponent hp hI
   have hm5 : 5 ≤ m := by
     by_contra hlt
-    haveI : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hI)
+    have : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hI)
     exact false_of_isPerfect_of_card_dvd_twentyFour
       (hIdvd.trans (factorial_dvd_twentyFour (not_le.1 hlt)))
   have hmp : p ≤ m := by
@@ -82,8 +82,8 @@ theorem kdAltDown_mod (n p : ℕ) (hn : 5 ≤ n) (hp : p.Prime) (hp2 : p ≠ 2)
     have hpm : ¬ p ∣ m.factorial := fun h => hlt ((Nat.Prime.dvd_factorial hp).1 h)
     exact ((Nat.Prime.coprime_iff_not_dvd hp).2 hpm).coprime_dvd_right hIdvd
   have hm5' : 5 ≤ Nat.card (Fin m) := by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hm5
-  haveI : IsSimpleGroup (alternatingGroup (Fin m)) := alternatingGroup.isSimpleGroup hm5'
-  haveI : IsSimpleGroup ↥(alternatingGroup.ofSubtype ((x : Perm (Fin n)).support)ᶜ).range :=
+  have : IsSimpleGroup (alternatingGroup (Fin m)) := alternatingGroup.isSimpleGroup hm5'
+  have : IsSimpleGroup ↥(alternatingGroup.ofSubtype ((x : Perm (Fin n)).support)ᶜ).range :=
     e.isSimpleGroup
   have hFC : (alternatingGroup.ofSubtype ((x : Perm (Fin n)).support)ᶜ).range ≤
       fixSubgroup (MulAut.conj x) := fun k hk =>
@@ -98,7 +98,7 @@ variable {Q : Type} [Group Q] [Finite Q]
 theorem core_eq_bot {K I₀ : Subgroup Q} {y : Q} (hM : I1430Model K I₀ y) :
     GLAPPrimeCore 3 ↥K = ⊥ := by
   obtain ⟨-, hq, hZ, -, -, -, hI, -, -⟩ := hM
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card (GLAPPrimeCore 3 ↥K)) := CFSG.pPrimeCore_coprime_card
   have hne : GLAPPrimeCore 3 ↥K ≠ ⊤ := by
     intro htop
@@ -152,7 +152,6 @@ theorem not_centMod {K I₀ : Subgroup Q} {y : Q} (hM : I1430Model K I₀ y) : �
   rw [hb, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at h
   first
     | exact h
-    | exact h.symm
 
 theorem chevAut_ne_one {K I₀ : Subgroup Q} {y : Q} (hM : I1430Model K I₀ y) :
     chevAut 3 K ⟨y, hM.2.2.2.1⟩ ≠ 1 := fun h =>
@@ -178,7 +177,6 @@ theorem center_card_chevTransfer {K I₀ : Subgroup Q} {y : Q} (hM : I1430Model 
       Subgroup.card_dvd_of_surjective hsurj
     have h2 : Nat.card (PQuot 3 I₀) = Nat.card (↥A ⧸ GLAPPrimeCore 3 ↥A) := by
       first
-        | exact (Nat.card_congr g₀.toEquiv)
         | exact (Nat.card_congr g₀.toEquiv).symm
     rw [h2]
     exact h1
@@ -279,7 +277,7 @@ theorem i1430Cls_of_parts (hB : LieOrderBridge) (hOrd : SporadicOrdersTable) (hS
   | alternating n hn =>
     have hcAn : Nat.card (↥K ⧸ Subgroup.center ↥K) = n.factorial / 2 := by
       rw [Nat.card_congr e.toEquiv]
-      haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+      have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
       show Nat.card (alternatingGroup (Fin n)) = _
       rw [nat_card_alternatingGroup, Nat.card_fin]
     have hcAn' : ∀ N k : ℕ, k.factorial < 2 * N → 2 * N < (k + 1).factorial →
@@ -305,7 +303,7 @@ theorem i1430Cls_of_parts (hB : LieOrderBridge) (hOrd : SporadicOrdersTable) (hS
     have hm6 : m = 6 := by
       have h1 := card_a6 hB hIt.1
       rw [Nat.card_congr (g₁.trans (e₁.trans f)).toEquiv] at h1
-      haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
+      have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
       rw [nat_card_alternatingGroup, Nat.card_fin] at h1
       rcases (show m = 5 ∨ m = 6 ∨ 7 ≤ m by omega) with rfl | rfl | h7
       · norm_num [Nat.factorial] at h1

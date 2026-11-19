@@ -176,6 +176,7 @@ theorem mem_kuV2_iff_detw (h : KuHyp G T M H P z) {w0 : Fin 2 → h.mNat.data.K}
     obtain ⟨A, hA⟩ := h.mNat.data.exists_matrix_of_mem g (kuR_le hg)
     rw [hA, Matrix.mulVec_smul, ← hA, hfix g hg]
 
+omit [Finite G] in
 theorem detw_conj (h : KuHyp G T M H P z) {w0 : Fin 2 → h.mNat.data.K}
     (hfix : ∀ g : Subgroup.normalizer (pCoreOf 2 M : Set G), (g : G) ∈ kuR T M →
       h.mNat.data.conj g w0 = w0)
@@ -393,6 +394,7 @@ def conjR {y : G} (hyR : y ∈ Subgroup.normalizer (kuR T M : Set G)) :
   map_one' := Subtype.ext (by simp)
   map_mul' x x' := Subtype.ext (by simp only [Subgroup.coe_mul]; group)
 
+omit [Finite G] in
 theorem V_le_comap_conjR (h : KuHyp G T M H P z) {y : G} (hyL : y ∈ oTwoUpper M)
     (hyR : y ∈ Subgroup.normalizer (kuR T M : Set G)) :
     (pCoreOf 2 M).subgroupOf (kuR T M) ≤
@@ -409,6 +411,7 @@ def Nq (h : KuHyp G T M H P z) [((pCoreOf 2 M).subgroupOf (kuR T M)).Normal] {y 
   QuotientGroup.map ((pCoreOf 2 M).subgroupOf (kuR T M)) ((pCoreOf 2 M).subgroupOf (kuR T M))
     (conjR hyR) (h.V_le_comap_conjR hyL hyR)
 
+omit [Finite G] in
 theorem conjR_pow3 {y : G} (hyR : y ∈ Subgroup.normalizer (kuR T M : Set G)) (hy3 : y ^ 3 = 1)
     (a : ↥(kuR T M)) : conjR hyR (conjR hyR (conjR hyR a)) = a := by
   apply Subtype.ext
@@ -418,6 +421,7 @@ theorem conjR_pow3 {y : G} (hyR : y ∈ Subgroup.normalizer (kuR T M : Set G)) (
     group
   rw [e, h3, inv_one, mul_one, one_mul]
 
+omit [Finite G] in
 theorem Nq_pow3 (h : KuHyp G T M H P z) [((pCoreOf 2 M).subgroupOf (kuR T M)).Normal] {y : G}
     (hyL : y ∈ oTwoUpper M) (hyR : y ∈ Subgroup.normalizer (kuR T M : Set G))
     (hy3 : y ^ 3 = 1) (x : ↥(kuR T M) ⧸ (pCoreOf 2 M).subgroupOf (kuR T M)) :
@@ -426,6 +430,7 @@ theorem Nq_pow3 (h : KuHyp G T M H P z) [((pCoreOf 2 M).subgroupOf (kuR T M)).No
   simp only [Nq, QuotientGroup.map_mk]
   rw [conjR_pow3 hyR hy3 a]
 
+omit [Finite G] in
 theorem Nq_fix (h : KuHyp G T M H P z) [((pCoreOf 2 M).subgroupOf (kuR T M)).Normal] {y : G}
     (hyL : y ∈ oTwoUpper M) (hyR : y ∈ Subgroup.normalizer (kuR T M : Set G))
     (hcl : ∀ r ∈ kuR T M, y * r * y⁻¹ * r⁻¹ ∈ pCoreOf 2 M → r ∈ pCoreOf 2 M)
@@ -444,12 +449,14 @@ theorem Nq_fix (h : KuHyp G T M H P z) [((pCoreOf 2 M).subgroupOf (kuR T M)).Nor
   rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
   exact hcl a a.2 hc
 
+omit [Finite G] in
 theorem Nq_mk (h : KuHyp G T M H P z) [((pCoreOf 2 M).subgroupOf (kuR T M)).Normal] {y : G}
     (hyL : y ∈ oTwoUpper M) (hyR : y ∈ Subgroup.normalizer (kuR T M : Set G))
     (p : ↥(kuR T M)) :
     h.Nq hyL hyR (QuotientGroup.mk p) = QuotientGroup.mk (conjR hyR p) := by
   simp only [Nq, QuotientGroup.map_mk]
 
+omit [Finite G] in
 theorem a_ne_zero (h : KuHyp G T M H P z) {w0 : Fin 2 → h.mNat.data.K} (hw0 : w0 ≠ 0)
     {y : G} (hyL : y ∈ oTwoUpper M) (hyV : y ∈ Subgroup.normalizer (pCoreOf 2 M : Set G))
     {a : h.mNat.data.K} (hA : h.mNat.data.conj ⟨y, hyV⟩ w0 = a • w0) : a ≠ 0 := by

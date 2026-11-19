@@ -38,7 +38,7 @@ theorem nc2_of_isQuasisimple {J : Type} [Group J] [Finite J] (hq : IsQuasisimple
     push Not at hcon
     exact hPnot hcon
   refine ⟨x, ?_, ?_⟩
-  · obtain ⟨n, hn⟩ := P.isPGroup' ⟨x, hxP⟩
+  · obtain ⟨n, hn⟩ := P.isPGroup ⟨x, hxP⟩
     exact ⟨n, congrArg Subtype.val hn⟩
   · by_contra hcon
     push Not at hcon
@@ -90,7 +90,7 @@ theorem exists_fixed_two_element {J A : Type} [Group J] [Finite J] [Group A] [Fi
   have huniq : ∀ y ∈ MulAction.fixedPoints A (P : Subgroup J), y = 1 := by
     intro y hy
     by_contra hy1
-    obtain ⟨n, hn⟩ := P.isPGroup' y
+    obtain ⟨n, hn⟩ := P.isPGroup y
     obtain ⟨a, ha⟩ := hcon (y : J) (fun h => hy1 (Subtype.ext h)) ⟨n, congrArg Subtype.val hn⟩
     exact ha (congrArg Subtype.val (hy a))
   have hcardfix : Nat.card (MulAction.fixedPoints A (P : Subgroup J)) = 1 := by

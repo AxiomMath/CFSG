@@ -16,12 +16,14 @@ variable {W : Type} [CommGroup W] [Finite W]
 private abbrev w16g_phiHom (b : MulAut W) : W →* W :=
   MonoidHom.mk' (fun w => b w * w⁻¹) (by
     intro x y
-    simp only [map_mul, map_inv, mul_inv_rev, inv_inv]
+    simp only [map_mul, mul_inv_rev]
     ac_rfl)
 
+omit [Finite W] in
 private theorem w16g_phiHom_apply (b : MulAut W) (w : W) : w16g_phiHom b w = b w * w⁻¹ :=
   rfl
 
+omit [Finite W] in
 private theorem w16g_phi_gen (A B : Subgroup (MulAut W))
     (hcomm : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
     {b : MulAut W} (hb : b ∈ B) {a : MulAut W} (ha : a ∈ A)
@@ -41,6 +43,7 @@ private theorem w16g_phi_gen (A B : Subgroup (MulAut W))
   exact Subgroup.subset_closure
     ⟨a, ha, w16g_phiHom b u, hbu, (w16g_phiHom_apply a (w16g_phiHom b u)).symm⟩
 
+omit [Finite W] in
 private theorem w16g_commSub_le (A B : Subgroup (MulAut W)) (hAB : ⁅A, B⁆ = ⊥) (U : Subgroup W) :
     commSub (commSub U A) B ≤ commSub (commSub U B) A := by
   have hcomm : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a := by
@@ -65,15 +68,17 @@ private theorem w16g_commSub_le (A B : Subgroup (MulAut W)) (hAB : ⁅A, B⁆ = 
       exact (commSub (commSub U B) A).inv_mem ihx)
     hc
 
+omit [Finite W] in
 theorem s13_commSub_comm (A B : Subgroup (MulAut W)) (hAB : ⁅A, B⁆ = ⊥) (U : Subgroup W) :
     commSub (commSub U A) B = commSub (commSub U B) A :=
   le_antisymm (w16g_commSub_le A B hAB U)
     (w16g_commSub_le B A (by rw [Subgroup.commutator_comm]; exact hAB) U)
 
+omit [Finite W] in
 private theorem w16g_mem_perfect_chain (R : Subgroup (MulAut W)) (hR : ⁅R, R⁆ = R)
     (Y₀ Y₁ Y : Subgroup W) (h1 : commSub Y₁ R ≤ Y₀) (h2 : commSub Y R ≤ Y₁)
     {r : MulAut W} (hr : r ∈ R) {y : W} (hy : y ∈ Y) : r y * y⁻¹ ∈ Y₀ := by
-  haveI : Group.IsPerfect ↥R := Subgroup.isPerfect_iff.mpr hR
+  have : Group.IsPerfect ↥R := Subgroup.isPerfect_iff.mpr hR
   let θ : ↥R →* W ⧸ Y₀ :=
     { toFun := fun s => QuotientGroup.mk ((s : MulAut W) y * y⁻¹)
       map_one' := by simp
@@ -106,6 +111,7 @@ private theorem w16g_mem_perfect_chain (R : Subgroup (MulAut W)) (hR : ⁅R, R�
     exact hθ
   exact (QuotientGroup.eq_one_iff (r y * y⁻¹)).mp h1'
 
+omit [Finite W] in
 theorem s13_perfect_chain (R : Subgroup (MulAut W)) (hR : ⁅R, R⁆ = R) (Y₀ Y₁ Y : Subgroup W)
     (h1 : commSub Y₁ R ≤ Y₀) (h2 : commSub Y R ≤ Y₁) : commSub Y R ≤ Y₀ := by
   rw [commSub, Subgroup.closure_le]

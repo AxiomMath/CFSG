@@ -91,11 +91,11 @@ theorem s16c34_inducesTransvection_of_resHom {W : Type} [CommGroup W] {U : Subgr
 theorem s16c34_not_quasisimple_of_odd_card_dvd_168 {X : Type*} [Group X] [Finite X]
     (hq : CFSG.Open.IsQuasisimple X) (hd : Nat.card X ∣ 168) (hodd : Odd (Nat.card X)) :
     False := by
-  haveI : Nontrivial X := by
+  have : Nontrivial X := by
     obtain ⟨-, hs⟩ := hq
-    haveI := hs.toNontrivial
+    have := hs.toNontrivial
     exact (QuotientGroup.mk'_surjective (Subgroup.center X)).nontrivial
-  haveI : Group.IsPerfect X := ⟨hq.1⟩
+  have : Group.IsPerfect X := ⟨hq.1⟩
   have hcop8 : Nat.Coprime (Nat.card X) 8 := by
     rw [show (8 : ℕ) = 2 ^ 3 by norm_num]
     exact (Nat.coprime_two_right.mpr hodd).pow_right 3

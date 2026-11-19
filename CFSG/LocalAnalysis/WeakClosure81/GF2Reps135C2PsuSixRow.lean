@@ -43,16 +43,16 @@ theorem psuSixOuterRow_of_gs03
     (h : GS03AlphaOuterFor fun t n f => t = .PSU ∧ n = 6 ∧ f = 1) : PsuSixOuterRow := by
   classical
   intro W _ _ h2 Y L t hctx htY htL ht2 hlie hcard
-  haveI hZNorm : ((Zc L).subgroupOf Y).Normal := w135c2_Zc_normal_in hctx
+  have hZNorm : ((Zc L).subgroupOf Y).Normal := w135c2_Zc_normal_in hctx
   let N : Subgroup ↥Y := (Zc L).subgroupOf Y
-  haveI hN' : N.Normal := hZNorm
+  have hN' : N.Normal := hZNorm
   let π : ↥Y →* (↥Y ⧸ N) := QuotientGroup.mk' N
   let S : Subgroup (↥Y ⧸ N) := (L.subgroupOf Y).map π
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
-  haveI : Finite ↥Y :=
+  have : Finite ↥Y :=
     Finite.of_injective (fun y : ↥Y => (y : MulAut W)) Subtype.coe_injective
-  haveI : Finite (↥Y ⧸ N) := inferInstance
+  have : Finite (↥Y ⧸ N) := inferInstance
   let tb : ↥Y ⧸ N := π ⟨t, htY⟩
   have ht_sq : t ^ 2 = 1 := by
     have hh := pow_orderOf_eq_one t
@@ -67,7 +67,7 @@ theorem psuSixOuterRow_of_gs03
     have hmem : (⟨t, htY⟩ : ↥Y) ∈ N := (QuotientGroup.eq_one_iff _).mp h1
     exact w135c2_not_mem_Zc_of_order_two hctx ht2 (Subgroup.mem_subgroupOf.mp hmem)
   have hord : orderOf tb = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime htb2 htb1
   have hSnormal : S.Normal := w135c2_S_normal hctx
   have hScent : Subgroup.centralizer (S : Set (↥Y ⧸ N)) = ⊥ :=

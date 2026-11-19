@@ -13,11 +13,13 @@ section SL2
 
 variable {k : Type} [Field k] [CharP k 2]
 
+omit [CharP k 2] in
 theorem inv_apply_one_zero {g : SL(2, k)} (hg : (g : Matrix (Fin 2) (Fin 2) k) 1 0 = 0) :
     ((g⁻¹ : SL(2, k)) : Matrix (Fin 2) (Fin 2) k) 1 0 = 0 := by
   rw [Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_two]
   simp [hg]
 
+omit [CharP k 2] in
 theorem conj_upperElt_mem {g : SL(2, k)} (hg : (g : Matrix (Fin 2) (Fin 2) k) 1 0 = 0) (t : k) :
     g * upperElt k t * g⁻¹ ∈ upperUnipotent k := by
   rw [mem_upperUnipotent_iff]
@@ -33,6 +35,7 @@ theorem conj_upperElt_mem {g : SL(2, k)} (hg : (g : Matrix (Fin 2) (Fin 2) k) 1 
   · ring
   · linear_combination hdet
 
+omit [CharP k 2] in
 theorem conj_mem_upperUnipotent {g : SL(2, k)} (hg : (g : Matrix (Fin 2) (Fin 2) k) 1 0 = 0)
     {b : SL(2, k)} (hb : b ∈ upperUnipotent k) : g * b * g⁻¹ ∈ upperUnipotent k := by
   obtain ⟨t, rfl⟩ := (mem_upperUnipotent_iff k).mp hb
@@ -357,6 +360,7 @@ theorem centralizer_X₂ {y : G} (hy : y ∈ d.X₂) (hyF : y ∉ d.F) {s : G} (
   have e : d.u * (d.u⁻¹ * s * d.u) * d.u⁻¹ = s := by group
   rwa [e] at h1
 
+omit [Finite G] in
 theorem mem_normalizer_of_cube {B : Subgroup G} {g : G} (hg3 : g * g * g = 1)
     (h : ∀ y ∈ B, g * y * g⁻¹ ∈ B) : g ∈ normalizer (B : Set G) := by
   rw [mem_normalizer_iff]

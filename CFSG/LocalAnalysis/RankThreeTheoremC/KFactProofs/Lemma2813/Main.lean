@@ -19,7 +19,7 @@ variable {A : Type} [Group A] [Finite A] {X K R P : Subgroup A}
 theorem Hyp2813.module_conclusions (h : Hyp2813 X K R P) (hS : pCoreOf 2 P ≠ ⊥)
     {ψ : ↥X →* GL32} (hψs : Function.Surjective ψ) (hψk : ψ.ker = (pCoreOf 2 X).subgroupOf X)
     {N : Type} [AddCommGroup N] [Finite N] [DistribMulAction GL32 N] {ι : ↥(TT X) → N}
-    (hι : IsTBridge X ψ ι) (hN2 : ∀ n : N, n + n = 0)
+    (hι : IsTBridge X ψ ι) (_hN2 : ∀ n : N, n + n = 0)
     {M : Type} [AddCommGroup M] [Finite M] [DistribMulAction GL32 M] {π : N →+ M}
     (hπs : Function.Surjective π) (hπk : ∀ n, π n = 0 ↔ n ∈ fixSub N ⊤)
     (hπe : ∀ (g : GL32) (n : N), π (g • n) = g • π n) (hM2 : ∀ m : M, m + m = 0)

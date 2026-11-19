@@ -22,7 +22,7 @@ theorem w135c2_psl_adjoint {W : Type} [CommGroup W] [Finite W] {L : Subgroup (Mu
   have hinj : Function.Injective φ := (MonoidHom.ker_eq_bot_iff φ).mp hkerbot
   let e : SpecialLinearGroup (Fin 3) K ≃* ↥L := MulEquiv.ofBijective φ ⟨hinj, hφ⟩
   have hunits : Fintype.card Kˣ = 1 := by rw [Fintype.card_units, hK]
-  haveI : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp hunits.le
+  have : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.mp hunits.le
   have hScal : CFSG.Open.StatedScalars (Fin 3) K = ⊥ := by
     rw [CFSG.Open.StatedScalars, MonoidHom.range_eq_bot_iff]
     ext x

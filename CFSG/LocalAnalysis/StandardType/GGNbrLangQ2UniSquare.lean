@@ -19,7 +19,7 @@ theorem unitaryFieldData_card_sq {k : ℕ} {E : Type} [Field E] (hE : UnitaryFie
 
 theorem exists_unitaryFieldData_two {E : Type} [Field E] [Finite E] [CharP E 2] {Q : ℕ}
     (hE : Nat.card E = Q ^ 2) : ∃ k : ℕ, Q = 2 ^ k ∧ UnitaryFieldData 2 k E := by
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   obtain ⟨f, hQf, hUF⟩ := CFSG.GroupTheory.WeirSylow.exists_unitaryFieldData E (q := Q)
     (by rw [← Nat.card_eq_fintype_card]; exact hE)
   have h2 : ringChar E = 2 := ringChar.eq E 2
@@ -34,7 +34,7 @@ theorem guFull_eq_unitGroup {m k : ℕ} {E : Type} [Field E] (hE : UnitaryFieldD
         (A : Matrix (Fin m) (Fin m) E) = 1} =
       (TableB.unitGroup (ι := Fin m) hE.bar : Set (GL (Fin m) E)) := by
     ext A
-    rw [Set.mem_setOf_eq, SetLike.mem_coe, TableB.mem_unitGroup]
+    rw [Set.mem_ofPred_eq, SetLike.mem_coe, TableB.mem_unitGroup]
     have hmap : (A : Matrix (Fin m) (Fin m) E).map (· ^ 2 ^ k) =
         (A : Matrix (Fin m) (Fin m) E).map hE.bar := by
       ext i j
@@ -88,8 +88,8 @@ theorem center_largeEvenSU_eq_scalars {m k : ℕ} {E : Type} [Field E]
     (hE : UnitaryFieldData 2 k E) (hm : 3 ≤ m) (hmk : ¬ (m = 3 ∧ k = 1)) :
     Subgroup.center ↥(LargeEvenSUGroup (Fin m) E (2 ^ k)) =
       (LargeEvenScalars (Fin m) E).subgroupOf (LargeEvenSUGroup (Fin m) E (2 ^ k)) := by
-  haveI := hE.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hE.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (p := 2) (f := k)
     (F := E) (n := m) (unitaryFieldData_card_sq hE) hm ?_).2
   intro h
@@ -151,8 +151,8 @@ theorem unitaryBlockQuotientMarking_square {H : Type} [Group H] {F X : Subgroup 
     CFSG.HardMathSupport.C14Cl.uniConj hE m (e (ρ g))
         (unitaryBlockQuotientMarking hE hm hmk e hC0 (QuotientGroup.mk c)) =
       unitaryBlockQuotientMarking hE hm hmk e hC0 (QuotientGroup.mk c') := by
-  haveI := hE.finite
-  haveI := hE.charP
+  have := hE.finite
+  have := hE.charP
   have hkey : ∀ x : ↥C0, unitaryBlockQuotientMarking hE hm hmk e hC0 (QuotientGroup.mk x) =
       largeEvenSUQuotEquivProj hE hm hmk (QuotientGroup.mk
         (componentEquivLargeEvenSUOfUnitaryFull (unitaryFieldData_card_sq hE)
@@ -215,8 +215,8 @@ theorem q2UnitaryLift_of_blockHom {H : Type} [Group H] {X J : Subgroup H}
       α (QuotientGroup.mk j) = QuotientGroup.mk j') :
     Q2UnitaryLift M := by
   obtain ⟨a, mD, D, hDf, hD, ψ, π, hπ⟩ := hblock
-  haveI : IsMulCommutative T := hT
-  haveI : IsMulCommutative (T.subgroupOf X) :=
+  have : IsMulCommutative T := hT
+  have : IsMulCommutative (T.subgroupOf X) :=
     ⟨⟨fun x y => by
       apply Subtype.ext
       apply Subtype.ext

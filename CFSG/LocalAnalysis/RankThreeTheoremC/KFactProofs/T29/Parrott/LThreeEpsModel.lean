@@ -119,6 +119,7 @@ section Exists
 
 variable {X : Type} [Group X] [Finite X] {L : Subgroup X}
 
+omit [Finite X] in
 theorem exists_lModel_of_center_eq_bot (hq : CFSG.Open.IsQuasisimple ↥L)
     (hT : IsLThreeEps (↥L ⧸ Subgroup.center ↥L)) (hZ : Subgroup.center ↥L = ⊥) :
     ∃ (π : Bool) (p f : ℕ) (K : Type) (_ : Field K) (ν : ↥(slPi π 3 (p ^ f) K) →* ↥L),
@@ -168,6 +169,7 @@ theorem exists_lModel_of_center_eq_bot (hq : CFSG.Open.IsQuasisimple ↥L)
       exact h2
     · simp [(QuotientGroup.eq_one_iff s).2 hs]
 
+omit [Finite X] in
 theorem ker_scalar_of_injective {π : Bool} {p f : ℕ} {K : Type} [Field K]
     {ν : ↥(slPi π 3 (p ^ f) K) →* ↥L} (hν : Function.Injective ν) (s : ↥(slPi π 3 (p ^ f) K))
     (hs : ν s = 1) : (s : GL (Fin 3) K) ∈ StatedScalars (Fin 3) K := by
@@ -180,13 +182,13 @@ theorem exists_lModel_of_card_center (hq : CFSG.Open.IsQuasisimple ↥L)
     (hT : IsLThreeEps (↥L ⧸ Subgroup.center ↥L)) (hZ : Nat.card (Subgroup.center ↥L) = 3) :
     ∃ (π : Bool) (p f : ℕ) (K : Type) (_ : Field K) (ν : ↥(slPi π 3 (p ^ f) K) →* ↥L),
       LModel L π p f K ν := by
-  haveI : Group.IsPerfect ↥L := (Group.isPerfect_def).2 hq.1
+  have : Group.IsPerfect ↥L := (Group.isPerfect_def).2 hq.1
   rcases hT with ⟨K, _, _, hK3, ⟨θ⟩⟩ | ⟨K, _, _, q, hKq, hq3, ⟨θ⟩⟩
   · obtain ⟨p, f, hK, hmod⟩ := l3b_exists_piField_true hK3
     have hcard : Nat.card K = p ^ f := hK.card
-    haveI : Fact p.Prime := ⟨hK.prime⟩
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K p := charP_of_card_eq_prime_pow (f := f)
+    have : Fact p.Prime := ⟨hK.prime⟩
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K p := charP_of_card_eq_prime_pow (f := f)
       (by rw [← Nat.card_eq_fintype_card, hcard])
     have hsplit : ∀ (E : Type) [Group E] [Finite E] (ρ : E →* ↥(StatedSL 3 K)),
         Function.Surjective ρ → ρ.ker ≤ Subgroup.center E → Odd (Nat.card ρ.ker) →
@@ -213,8 +215,8 @@ theorem exists_lModel_of_card_center (hq : CFSG.Open.IsQuasisimple ↥L)
   · obtain ⟨p, f, rfl, hK, hmod⟩ := l3b_exists_piField_false hKq hq3
     have h2 : 2 < p ^ f :=
       two_lt_pow_of_quasisimple_statedSU (isQuasisimple_quotient_center hq) hK.unitary θ
-    haveI : Fact p.Prime := ⟨hK.prime⟩
-    haveI : CharP K p := hK.unitary.charP
+    have : Fact p.Prime := ⟨hK.prime⟩
+    have : CharP K p := hK.unitary.charP
     have hsplit : ∀ (E : Type) [Group E] [Finite E] (ρ : E →* ↥(StatedSU 3 (p ^ f) K)),
         Function.Surjective ρ → ρ.ker ≤ Subgroup.center E → Odd (Nat.card ρ.ker) →
         ∃ s : ↥(StatedSU 3 (p ^ f) K) →* E, ∀ g, ρ (s g) = g := by
@@ -259,7 +261,7 @@ theorem mem_center_of_eq_one (M : LModel L π p f K ν) {s : ↥(slPi π 3 (p ^ 
 
 theorem mem_center_of_map_mem (M : LModel L π p f K ν) {s : ↥(slPi π 3 (p ^ f) K)}
     (hs : ν s ∈ Subgroup.center ↥L) : s ∈ Subgroup.center ↥(slPi π 3 (p ^ f) K) := by
-  haveI := M.isPerfect
+  have := M.isPerfect
   have hc : ∀ t : ↥(slPi π 3 (p ^ f) K),
       s * t * s⁻¹ * t⁻¹ ∈ Subgroup.center ↥(slPi π 3 (p ^ f) K) := fun t =>
     M.mem_center_of_eq_one (by

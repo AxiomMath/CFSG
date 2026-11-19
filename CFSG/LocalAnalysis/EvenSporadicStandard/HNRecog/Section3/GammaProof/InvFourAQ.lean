@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {a z : G}
 
+omit [Finite G] in
 theorem gamma_fourA_Q (H : GammaHyps a z) {y t c : G} (hy : y ∈ orb4A a z a)
     (ht : t ∈ orb2A a y) (hc : c ∈ Qz ((a * y) ^ 2)) (hcy : c * y = y * c)
     (hct : c * t = t * c) (hc2 : orderOf c = 2) (hcy2 : orderOf (c * y) = 2) :

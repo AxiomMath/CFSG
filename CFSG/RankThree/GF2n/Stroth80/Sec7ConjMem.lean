@@ -39,7 +39,7 @@ theorem sec7_conj_mem_of_proportional {G : Type} [Group G] [Finite G] {M Q Z : S
   rw [← hg'] at hprop
   have hmk : (QuotientGroup.mk (⟨m * t * m⁻¹, hm'⟩ : ↥M) : Mbar M Q) = g' * g * g'⁻¹ := by
     rw [hg, hg', ← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul,
-      ← QuotientGroup.mk_mul] <;> rfl
+      ← QuotientGroup.mk_mul]; rfl
   have hprop' : ∀ e, (ρ g').toAdd (ψ ((ρ g').toAdd.symm e)) = μ⁻¹ • ψ e := by
     intro e
     rw [hprop e, inv_smul_smul₀ hμ]

@@ -264,7 +264,7 @@ theorem wordOK (r : ℕ) (hr : r < 8) : CFSG.RankThree.PartTwo.Sec4.Ronan148V.wo
   have hSIp : ∀ h < 3, permB 315 9 (SIC r h) = true := fun h hh => permB_pinvS hw (hSp h hh)
   have hSI : ∀ h < 3, ((wGens mArrs[r]!).map (invCand 315))[h]! = unpack 315 9 (SIC r h) := by
     intro h hh
-    rw [map_get! (by simp [wGens]; omega), hS h hh, inv_unpack hw (hSp h hh)]
+    rw [map_get! (by simp [wGens]; omega), hS h hh, inv_unpack (hSp h hh)]
     rfl
   have hl := (allN_iff _ _).1 lK r hr
   rw [Bool.and_eq_true] at hl

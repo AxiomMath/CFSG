@@ -12,8 +12,8 @@ open CFSG.KC.Enum CFSG.KC.Pack CFSG.KC.G24Key
 theorem nif_beq' (c k t e : ℕ) :
     Bool.rec (motive := fun _ => ℕ) e t (Nat.beq c k) = if c = k then t else e := by
   cases h : Nat.beq c k
-  · rw [if_neg fun e => by rw [e, Nat.beq_refl] at h; exact Bool.noConfusion h]
-  · rw [if_pos (Nat.eq_of_beq_eq_true h)]
+  · rw [ite_eq_right fun e => by rw [e, Nat.beq_refl] at h; exact Bool.noConfusion h]
+  · rw [ite_eq_left (Nat.eq_of_beq_eq_true h)]
 
 theorem bif_eq (c t e : Bool) : Bool.rec (motive := fun _ => Bool) e t c =
     (if c = true then t else e) := by
@@ -86,9 +86,9 @@ theorem ordK_spec {w : List ℕ} {v : ℕ} (hF : ∀ c ∈ w, ∀ x : Fin 1365, 
   refine ⟨pow_eq_one_of_fixN hF hg hsep h1, fun m hm hm0 e => ?_⟩
   have := allN_spec h2 m hm
   simp only [bif_eq] at this
-  rw [if_neg (by rw [Nat.beq_eq]; omega)] at this
+  rw [ite_eq_right (by rw [Nat.beq_eq]; omega)] at this
   have hfx : fixN (wG F w) m = true := (fixN_iff (wG_eq w hF) m).2 fun x _ => by rw [e]; rfl
-  rw [if_pos hfx] at this
+  rw [ite_eq_left hfx] at this
   exact Bool.false_ne_true this
 
 theorem ownK_spec : ∀ {T : List (List ℕ × ℕ)}, ownK F T = true → ∀ t ∈ T, ordK F t.1 t.2 = true
@@ -119,10 +119,10 @@ theorem refK_spec {T : List (List ℕ × ℕ)} {r : ℕ}
   have hgt := hg _ (List.getElem_mem hlt')
   rw [bif_eq] at h
   by_cases hm : Nat.blt m 3 = true
-  · rw [if_pos hm, bif_eq] at h
+  · rw [ite_eq_left hm, bif_eq] at h
     have hm3 : m < 3 := Nat.le_of_ble_eq_true hm
     by_cases hb : Nat.beq (itN (wG F T[t].1) T[t].2 m) m = true
-    · rw [if_pos hb] at h
+    · rw [ite_eq_left hb] at h
       exact Bool.false_ne_true h
     · apply hb
       have hp1 : (T[t].1.map g).prod ^ T[t].2 = 1 := by
@@ -134,7 +134,7 @@ theorem refK_spec {T : List (List ℕ × ℕ)} {r : ℕ}
         simpa using e1
       rw [e2]
       exact Nat.beq_refl _
-  · rw [if_neg hm] at h
+  · rw [ite_eq_right hm] at h
     obtain ⟨hd, hfx⟩ := band_iff.1 h
     have hd' : Nat.sub m 2 < T[t].2 := Nat.le_of_ble_eq_true hd
     have hm3 : 3 ≤ m := by
@@ -153,7 +153,7 @@ theorem levK_spec {G : ℕ → ℕ → ℕ → ℕ} {T : List (List ℕ × ℕ)}
   intro k hk hr hs
   have := allN_spec h k hk
   simp only [strictB_eq, bif_eq] at this
-  rw [if_neg (by rw [Nat.beq_eq]; exact hr), if_pos (by rw [Nat.beq_eq]; exact hs)] at this
+  rw [ite_eq_right (by rw [Nat.beq_eq]; exact hr), ite_eq_left (by rw [Nat.beq_eq]; exact hs)] at this
   exact this
 
 theorem cntK_eq (R SK : ℕ → ℕ) (n : ℕ) :

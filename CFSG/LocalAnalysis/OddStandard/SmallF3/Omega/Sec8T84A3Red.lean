@@ -73,7 +73,7 @@ theorem decomp_unique (S : Setup N O V) {v v' o o' : G} (hv : v ∈ V) (hv' : v'
   exact (inv_mul_eq_one.mp h4).symm
 
 open Classical in
-@[expose] noncomputable def act (N O V : Subgroup G) (n v : G) : G :=
+@[expose] noncomputable def act (_N O V : Subgroup G) (n v : G) : G :=
   if h : ∃ v' ∈ V, ∃ o ∈ O, n * v * n⁻¹ = v' * o then h.choose else 1
 
 theorem act_spec (S : Setup N O V) {n v : G} (hn : n ∈ N) (hv : v ∈ V) :
@@ -81,7 +81,7 @@ theorem act_spec (S : Setup N O V) {n v : G} (hn : n ∈ N) (hv : v ∈ V) :
   have hex : ∃ v' ∈ V, ∃ o ∈ O, n * v * n⁻¹ = v' * o :=
     (mem_sup_iff S).mp (S.inv n hn v hv)
   unfold act
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact ⟨hex.choose_spec.1, hex.choose_spec.2⟩
 
 theorem act_mem (S : Setup N O V) {n v : G} (hn : n ∈ N) (hv : v ∈ V) : act N O V n v ∈ V :=

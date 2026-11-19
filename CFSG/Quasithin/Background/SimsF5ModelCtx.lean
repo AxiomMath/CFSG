@@ -110,8 +110,7 @@ theorem mc_normalizer_subgroupOf {B K : Subgroup X} (hBK : B ≤ K) :
     Subgroup.normalizer ((B.subgroupOf K : Subgroup ↥K) : Set ↥K) =
       (K ⊓ Subgroup.normalizer (B : Set X)).subgroupOf K := by
   ext g
-  simp only [Subgroup.mem_normalizer_iff, Subgroup.mem_subgroupOf, Subgroup.mem_inf,
-    SetLike.mem_coe]
+  simp only [Subgroup.mem_normalizer_iff, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
   constructor
   · intro h
     refine ⟨g.2, fun b => ?_⟩

@@ -73,8 +73,8 @@ theorem twin_false_of_model (h : PerpHypS n Y R S t) {P : Type} [Group P]
   have hq₂ : CFSG.IsQuasisimple ↥H₂ := isQuasisimple_of_open hK₂.2.2
   have hs₁ := hK₁.2.1
   have hs₂ := hK₂.2.1
-  haveI hsimple := h.core.simple
-  haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+  have hsimple := h.core.simple
+  have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
   have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
     Nobq.centralizer_genFittingFStar_eq_bot h.core.nonab
   have hK₀solv : Group.IsSolvable ↥(tightCore R) := isSolvable_core h
@@ -121,11 +121,11 @@ theorem twin_false_of_model (h : PerpHypS n Y R S t) {P : Type} [Group P]
     let Fix : Subgroup P :=
       { carrier := {p | ψ a p = p}
         mul_mem' := fun {x y} hx hy => by
-          simp only [Set.mem_setOf_eq] at hx hy ⊢
+          simp only [Set.mem_ofPred_eq] at hx hy ⊢
           rw [map_mul, hx, hy]
         one_mem' := map_one _
         inv_mem' := fun {x} hx => by
-          simp only [Set.mem_setOf_eq] at hx ⊢
+          simp only [Set.mem_ofPred_eq] at hx ⊢
           rw [map_inv, hx] }
     have hfixH : ∀ H : Subgroup P,
         (∀ x ∈ (H.map e.symm.toMonoidHom).map (genFittingFStar Y).subtype,

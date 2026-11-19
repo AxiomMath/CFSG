@@ -71,6 +71,7 @@ variable {G : Type} [Group G] [Finite G] {S D : Subgroup G} (hS : Local.Setting 
       group
     exact ⟨inv_mem ha.1, key x ha.2.1, key y ha.2.2⟩
 
+omit [Finite G] in
 theorem exists_sq_mem {x y e₀ : G} (he₀ : e₀ ∈ hS.R1 x y) (he₀D : e₀ ∉ D) :
     ∃ e ∈ hS.R1 x y, e ∉ D ∧ e * e ∈ D := by
   classical
@@ -93,27 +94,32 @@ namespace StrothWeakTypeData
 variable {G : Type} [Group G] [Finite G] {D : Subgroup G} {τ : StrothTypeIndex}
   (dD : StrothWeakTypeData D τ)
 
+omit [Finite G] in
 theorem thetaT_congr {g g' : G} (hg : g ∈ Subgroup.normalizer (D : Set G))
     (hg' : g' ∈ Subgroup.normalizer (D : Set G)) (h : g = g') (x : Torus τ.k) :
     dD.thetaT hg x = dD.thetaT hg' x := by
   subst h; rfl
 
+omit [Finite G] in
 theorem thetaT_thetaT_inv {g : G} (hg : g ∈ Subgroup.normalizer (D : Set G)) (x : Torus τ.k) :
     dD.thetaT hg (dD.thetaT (inv_mem hg) x) = x := by
   rw [← dD.thetaT_mul (inv_mem hg) hg]
   exact dD.thetaT_of_mem_centralizer _ (by rw [inv_mul_cancel]; exact one_mem _) x
 
+omit [Finite G] in
 theorem thetaT_inv_thetaT {g : G} (hg : g ∈ Subgroup.normalizer (D : Set G)) (x : Torus τ.k) :
     dD.thetaT (inv_mem hg) (dD.thetaT hg x) = x := by
   rw [← dD.thetaT_mul hg (inv_mem hg)]
   exact dD.thetaT_of_mem_centralizer _ (by rw [mul_inv_cancel]; exact one_mem _) x
 
+omit [Finite G] in
 theorem thetaT_conj {e h : G} (he : e ∈ Subgroup.normalizer (D : Set G))
     (hh : h ∈ Subgroup.normalizer (D : Set G)) (x : Torus τ.k) :
     dD.thetaT (mul_mem (mul_mem (inv_mem hh) he) hh) x =
       dD.thetaT hh (dD.thetaT he (dD.thetaT (inv_mem hh) x)) := by
   rw [dD.thetaT_mul (mul_mem (inv_mem hh) he) hh, dD.thetaT_mul (inv_mem hh) he]
 
+omit [Finite G] in
 theorem thetaT_comm_of_conj_mem {e g : G} (he : e ∈ Subgroup.normalizer (D : Set G))
     (hg : g ∈ Subgroup.normalizer (D : Set G)) (hr : e⁻¹ * g * e * g⁻¹ ∈ D) (x : Torus τ.k) :
     dD.thetaT he (dD.thetaT hg x) = dD.thetaT hg (dD.thetaT he x) := by
@@ -124,6 +130,7 @@ theorem thetaT_comm_of_conj_mem {e g : G} (he : e ∈ Subgroup.normalizer (D : S
     dD.thetaT_of_mem _ hr] at key
   exact key
 
+omit [Finite G] in
 theorem thetaT_of_two {e : G} (he : e ∈ Subgroup.normalizer (D : Set G))
     (hc : e ∈ Subgroup.centralizer ((omegaIn 1 D : Subgroup G) : Set G)) {x : Torus τ.k}
     (hx : x + x = 0) : dD.thetaT he x = x := by
@@ -132,6 +139,7 @@ theorem thetaT_of_two {e : G} (he : e ∈ Subgroup.normalizer (D : Set G))
   rw [thetaT_apply, mul_assoc, Subgroup.mem_centralizer_iff.mp hc _ hmem, inv_mul_cancel_left,
     crdT_ofT]
 
+omit [Finite G] in
 theorem thetaT_thetaT_of_sq {e : G} (he : e ∈ Subgroup.normalizer (D : Set G)) (hsq : e * e ∈ D)
     (x : Torus τ.k) : dD.thetaT he (dD.thetaT he x) = x := by
   rw [← dD.thetaT_mul he he]
@@ -146,6 +154,7 @@ theorem thetaT_proj {S : Subgroup G} (hS : Local.Setting S D) {h r : G}
     dD.thetaT_mul (hS.R_le_normalizer hp) (hS.O_le_normalizer ho),
     dD.thetaT_of_mem_centralizer _ (hS.O_le_centralizer ho)]
 
+omit [Finite G] in
 theorem thetaT_rho_conj (hτ : VFacts τ) {e : G} (he : e ∈ Subgroup.normalizer (D : Set G))
     {α : ℤ} {w : Torus τ.k} (hw : InW w) (hδ : ∀ x, dD.thetaT he x = α • x + (x 0).val • w)
     (x : Torus τ.k) :
@@ -226,11 +235,13 @@ theorem exists_nu_pair (hτ : VFacts τ) {S : Subgroup G} (hS : Local.Setting S 
   rw [dD.thetaT_proj hS dD.ρ_mem he₂R, dD.thetaT_rho_conj hτ _ hw₂ hθe₂' x, one_zsmul]
   rfl
 
+omit [Finite G] in
 theorem mem_of_thetaT_id {S : Subgroup G} (hS : Local.Setting S D) {g : G} (hgS : g ∈ S)
     (hg : g ∈ Subgroup.normalizer (D : Set G)) (hid : ∀ x, dD.thetaT hg x = x) : g ∈ D := by
   rw [← hS.cent]
   exact Subgroup.mem_inf.mpr ⟨hgS, dD.mem_centralizer_of_thetaT hg hid⟩
 
+omit [Finite G] in
 theorem conj_mem_of_thetaT_comm {S : Subgroup G} (hS : Local.Setting S D) {e g : G} (heS : e ∈ S)
     (hgS : g ∈ S) (he : e ∈ Subgroup.normalizer (D : Set G))
     (hg : g ∈ Subgroup.normalizer (D : Set G))
@@ -254,12 +265,14 @@ theorem nu_comm_t (hτ : VFacts τ) {w : Torus τ.k} (hw : InW w) (x : Torus τ.
   congr 1
   exact nsmul_eq_of_mod_two hw.2 (hτ.par_t x)
 
+omit [Finite G] in
 theorem thetaT_inv_of_nu {g : G} (hg : g ∈ Subgroup.normalizer (D : Set G)) {v : Torus τ.k}
     (hv : InW v) (hθ : ∀ x, dD.thetaT hg x = nuMap v x) (x : Torus τ.k) :
     dD.thetaT (inv_mem hg) x = nuMap v x := by
   have key := dD.thetaT_inv_thetaT hg (nuMap v x)
   rwa [hθ, nuMap_nuMap hv.1, hv.2, nuMap_zero] at key
 
+omit [Finite G] in
 theorem crdT_commutator_mul (hk : 1 ≤ τ.k 0) {e f d₁ d₂ : G}
     (he : e ∈ Subgroup.normalizer (D : Set G)) (hf : f ∈ Subgroup.normalizer (D : Set G))
     (hd₁ : d₁ ∈ D) (hd₂ : d₂ ∈ D) (hz : e⁻¹ * f⁻¹ * e * f ∈ D) {v v' : Torus τ.k} (hv : InW v)
@@ -282,9 +295,10 @@ theorem crdT_commutator_mul (hk : 1 ≤ τ.k 0) {e f d₁ d₂ : G}
     nsmul_eq_of_mod_two hv.2 (val_neg_mod_two hk (crdT dD.e d₂ 0))]
   abel
 
+omit [Finite G] in
 theorem exists_comm_nu_pair (hτ : VFacts τ) {S : Subgroup G} (hS : Local.Setting S D)
     (huvS : dD.uv ∈ S) (htS : dD.t ∈ S) {e f : G} (he : e ∈ hS.R) (hf : f ∈ hS.R)
-    {w : Torus τ.k} (hw : InW w) (hw0 : w ≠ 0) (hPw : τ.action.φρ w ≠ w)
+    {w : Torus τ.k} (hw : InW w) (hw0 : w ≠ 0) (_hPw : τ.action.φρ w ≠ w)
     (hθe : ∀ x, dD.thetaT (hS.R_le_normalizer he) x = nuMap w x)
     (hθf : ∀ x, dD.thetaT (hS.R_le_normalizer hf) x = nuMap (τ.action.φρ w) x) :
     ∃ e', ∃ he' : e' ∈ hS.R, ∃ f', ∃ hf' : f' ∈ hS.R, e' * f' = f' * e' ∧

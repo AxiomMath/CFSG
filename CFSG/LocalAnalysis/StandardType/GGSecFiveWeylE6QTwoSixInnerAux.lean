@@ -13,6 +13,7 @@ namespace CFSG.StandardType.E6QTwo
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem mem_largeEvenGUSet_iff (hK : Nat.card K = 4) {A : GL (Fin 6) K} :
     A ∈ LargeEvenGUSet (Fin 6) K (2 ^ 1) ↔
       ((A : Matrix (Fin 6) (Fin 6) K).map (fieldDataFour hK).bar)ᵀ *
@@ -47,12 +48,14 @@ theorem mem_largeEvenGUSet_iff (hK : Nat.card K = 4) {A : GL (Fin 6) K} :
     rw [hmapbar]
     exact hA
 
+omit [Finite K] in
 theorem mem_largeEvenGUSet_of_mem_SU (hK : Nat.card K = 4)
     {u : GL (Fin 6) K} (hu : u ∈ LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :
     u ∈ LargeEvenGUSet (Fin 6) K (2 ^ 1) := by
   rw [mem_largeEvenGUSet_iff hK]
   exact ((mem_SU_iff (fieldDataFour hK)).mp hu).2
 
+omit [Finite K] in
 theorem mul_mem_largeEvenGUSet (hK : Nat.card K = 4)
     {A B : GL (Fin 6) K} (hA : A ∈ LargeEvenGUSet (Fin 6) K (2 ^ 1))
     (hB : B ∈ LargeEvenGUSet (Fin 6) K (2 ^ 1)) :
@@ -86,7 +89,7 @@ theorem conj_mem_largeEvenSUGroup (hK : Nat.card K = 4) {A g : GL (Fin 6) K}
     (hA : A ∈ LargeEvenGUSet (Fin 6) K (2 ^ 1))
     (hg : g ∈ LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :
     A * g * A⁻¹ ∈ LargeEvenSUGroup (Fin 6) K (2 ^ 1) := by
-  haveI : CharP K 2 := USixTwo.charP_two_of_card_four hK
+  have : CharP K 2 := USixTwo.charP_two_of_card_four hK
   exact CFSG.LocalAnalysis.GLTheoremA.T156.Uni.conj_mem_su (j := 1) hA hg
 
 theorem exists_inducing_conj (hK : Nat.card K = 4)
@@ -112,7 +115,7 @@ theorem exists_inducing_conj (hK : Nat.card K = 4)
     mem_largeEvenGUSet_of_mem_SU hK u.2
   have huInvGU : ((u : GL (Fin 6) K))⁻¹ ∈ LargeEvenGUSet (Fin 6) K (2 ^ 1) :=
     mem_largeEvenGUSet_of_mem_SU hK (by
-      simpa using (LargeEvenSUGroup (Fin 6) K (2 ^ 1)).inv_mem u.2)
+      simp)
   have hA'GU : (u : GL (Fin 6) K) * A * (u : GL (Fin 6) K)⁻¹ ∈
       LargeEvenGUSet (Fin 6) K (2 ^ 1) := by
     have hAu : (A * (u : GL (Fin 6) K)⁻¹ : GL (Fin 6) K) ∈
@@ -136,7 +139,7 @@ theorem exists_inducing_conj (hK : Nat.card K = 4)
         show (u : GL (Fin 6) K)⁻¹ * (h' : GL (Fin 6) K) * (u : GL (Fin 6) K) =
           A * ((u : GL (Fin 6) K)⁻¹ * (h : GL (Fin 6) K) * (u : GL (Fin 6) K)) * A⁻¹
         rw [hrel]
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+        simp only [Subgroup.coe_inv]
         group
       have hψh : ψ (P h1) = P h1' := hAgr h1 h1' hrel1
       have e1 : g⁻¹ * P h * g = P h1 := by
@@ -160,7 +163,7 @@ theorem exists_inducing_conj (hK : Nat.card K = 4)
       ((θ.trans (MulAut.conj g)) (QuotientGroup.mk l)) =
       (θ.trans (MulAut.conj g)) (QuotientGroup.mk l')
     simp only [MulEquiv.trans_apply, MulAut.mul_apply, MulAut.conj_apply,
-      MulAut.conj_inv_apply, MulEquiv.symm_apply_apply]
+      MulAut.conj_inv_apply]
     have h1 : g⁻¹ * (g * θ (QuotientGroup.mk l) * g⁻¹) * g = θ (QuotientGroup.mk l) := by
       group
     rw [h1, hψind l l' hl']
@@ -172,6 +175,7 @@ namespace CFSG.StandardType.E6QTwo
 variable {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Finite K]
 variable {Bs L : Subgroup G} {x : G} {ω : K}
 
+omit [Finite G] [Finite K] in
 theorem piOf_ker_aux
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1))) :
     (piOf (K := K) θ).ker = Subgroup.center L := by
@@ -187,6 +191,7 @@ theorem piOf_ker_aux
     rw [QuotientGroup.mk'_apply,
       (QuotientGroup.eq_one_iff (N := Subgroup.center L) y).mpr h, map_one]
 
+omit [Finite G] [Finite K] in
 theorem piOf_inj_inf (hZ2 : IsPGroup 2 (Subgroup.center L))
     (hBs : IsElemAbelian 3 Bs)
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -197,12 +202,15 @@ theorem piOf_inj_inf (hZ2 : IsPGroup 2 (Subgroup.center L))
 
 @[expose] def ZL : Subgroup G := L ⊓ Subgroup.centralizer (L : Set G)
 
+omit [Finite G] in
 theorem mem_ZL {z : G} : z ∈ ZL (L := L) ↔ z ∈ L ∧ z ∈ Subgroup.centralizer (L : Set G) :=
   Subgroup.mem_inf
 
+omit [Finite G] in
 theorem ZL_central {z l : G} (hz : z ∈ ZL (L := L)) (hl : l ∈ L) : z * l = l * z :=
   (Subgroup.mem_centralizer_iff.mp hz.2 l hl).symm
 
+omit [Finite G] in
 theorem isMulCommutative_ZL : IsMulCommutative ↥(ZL (L := L)) :=
   ⟨⟨fun (a b : ↥(ZL (L := L))) => by
     apply Subtype.ext
@@ -210,6 +218,7 @@ theorem isMulCommutative_ZL : IsMulCommutative ↥(ZL (L := L)) :=
     rw [Subgroup.coe_mul, Subgroup.coe_mul]
     exact (ZL_central (L := L) b.2 ((mem_ZL (L := L)).mp a.2).1).symm⟩⟩
 
+omit [Finite G] in
 theorem isPGroup_ZL (hZ2 : IsPGroup 2 (Subgroup.center L)) :
     IsPGroup 2 ↥(ZL (L := L)) := by
   rw [isPGroup_iff_orderOf_dvd_pow] at hZ2 ⊢
@@ -230,6 +239,7 @@ theorem isPGroup_ZL (hZ2 : IsPGroup 2 (Subgroup.center L)) :
   rw [e1, e2, e3]
   exact hk
 
+omit [Finite G] in
 theorem le_normalizer_ZL_of_le_normalizer {H : Subgroup G}
     (hH : H ≤ Subgroup.normalizer (L : Set G)) :
     H ≤ Subgroup.normalizer (ZL (L := L) : Set G) := by
@@ -277,10 +287,12 @@ theorem le_normalizer_ZL_of_le_normalizer {H : Subgroup G}
               rw [hcomm.symm]
           _ = l * y := by group
       exact hy.symm
+omit [Finite G] in
 theorem le_normalizer_ZL (hNL : Bs ≤ Subgroup.normalizer (L : Set G)) :
     Bs ≤ Subgroup.normalizer (ZL (L := L) : Set G) :=
   le_normalizer_ZL_of_le_normalizer hNL
 
+omit [Finite G] in
 theorem le_normalizer_ZL_self :
     L ≤ Subgroup.normalizer (ZL (L := L) : Set G) :=
   le_normalizer_ZL_of_le_normalizer Subgroup.le_normalizer
@@ -302,12 +314,14 @@ theorem le_normalizer_ZL_self :
 @[expose] def cElem (hNL : Bs ≤ Subgroup.normalizer (L : Set G)) (n : ↥L) (b : ↥Bs) : ↥L :=
   n * conjBL hNL b n⁻¹
 
+omit [Finite G] in
 @[simp] theorem deltaElem_coe (hNL : Bs ≤ Subgroup.normalizer (L : Set G))
     (n : ↥L) (b : ↥Bs) :
     ((deltaElem hNL n b : ↥L) : G) =
       (b : G)⁻¹ * (n : G) * (b : G) * (n : G)⁻¹ := by
   simp [deltaElem, conjBLinv, mul_assoc]
 
+omit [Finite G] in
 @[simp] theorem cElem_coe (hNL : Bs ≤ Subgroup.normalizer (L : Set G))
     (n : ↥L) (b : ↥Bs) :
     ((cElem hNL n b : ↥L) : G) =

@@ -117,7 +117,7 @@ theorem not_normalizes_of_eq {Y : Type*} [Group Y] {F T₂ : Subgroup Y} {v : Y}
       · have hyz : y = z := Subtype.ext h
         rw [hyz]
         exact Subgroup.mem_zpowers z
-    haveI : Fintype T₂ := Fintype.ofEquiv (alternatingGroup (Fin 5)) e₂.toEquiv.symm
+    have : Fintype T₂ := Fintype.ofEquiv (alternatingGroup (Fin 5)) e₂.toEquiv.symm
     have hbound : Nat.card (Subgroup.centralizer ({z} : Set T₂)) ≤ 2 := by
       have h1 : Nat.card (Subgroup.centralizer ({z} : Set T₂)) ≤ Nat.card (Subgroup.zpowers z) :=
         Subgroup.card_le_of_le hCle
@@ -127,7 +127,7 @@ theorem not_normalizes_of_eq {Y : Type*} [Group Y] {F T₂ : Subgroup Y} {v : Y}
       omega
     omega
   ·
-    haveI : Fintype T₂ := Fintype.ofEquiv (alternatingGroup (Fin 5)) e₂.toEquiv.symm
+    have : Fintype T₂ := Fintype.ofEquiv (alternatingGroup (Fin 5)) e₂.toEquiv.symm
     let N : Subgroup Y := Subgroup.normalizer (T₂ : Set Y)
     have hT₂N : T₂ ≤ N := Subgroup.le_normalizer
     have hvN : v ∈ N := by
@@ -141,10 +141,10 @@ theorem not_normalizes_of_eq {Y : Type*} [Group Y] {F T₂ : Subgroup Y} {v : Y}
           calc v * (v * h * v⁻¹) * v⁻¹ = (v * v) * h * (v * v)⁻¹ := by group
             _ = h := by rw [hv2]; group
         rwa [h3] at h2
-    haveI : (T₂.subgroupOf N).Normal := by
+    have : (T₂.subgroupOf N).Normal := by
       show (T₂.subgroupOf (Subgroup.normalizer (T₂ : Set Y))).Normal
       infer_instance
-    haveI : Finite (T₂.subgroupOf N) :=
+    have : Finite (T₂.subgroupOf N) :=
       Finite.of_injective (Subgroup.subgroupOfEquivOfLe hT₂N).toFun
         (Subgroup.subgroupOfEquivOfLe hT₂N).injective
     have hv' : (⟨v, hvN⟩ : N) * ⟨v, hvN⟩ = 1 := by ext; simpa using hv2

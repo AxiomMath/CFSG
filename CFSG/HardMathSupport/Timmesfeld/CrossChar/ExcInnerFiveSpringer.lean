@@ -43,7 +43,7 @@ theorem springer_exists_lang_untw (hF : FrobeniusOnRoots) {τ : Tag} (d : ℕ)
   classical
   have hperf' : commutator ↥(adjointGroup τ K) = ⊤ := hperf.commutator_eq_top
   have : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
   have : Fact (ringChar K).Prime := ⟨hℓ⟩
@@ -203,7 +203,7 @@ theorem springer_exists_lang_twE6 (hF : FrobeniusOnRoots) {ℓ f : ℕ} (hℓ : 
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero)
   have : Finite K := Nat.finite_of_card_ne_zero hK0
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   let L := AlgebraicClosure K

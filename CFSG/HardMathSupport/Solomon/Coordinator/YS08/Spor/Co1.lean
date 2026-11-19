@@ -36,8 +36,8 @@ section Seven
 theorem not_seven_sq_dvd {s : ↥GA} (hs : orderOf s = 3) :
     ¬ 7 ^ 2 ∣ Nat.card ↥(Subgroup.centralizer ({s} : Set ↥GA)) := by
   intro h
-  haveI : Finite ↥GA := Co1T.finite_GA
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite ↥GA := Co1T.finite_GA
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime
     (G := ↥(Subgroup.centralizer ({s} : Set ↥GA))) 7 h
   let R : Subgroup ↥GA := K.map (Subgroup.centralizer ({s} : Set ↥GA)).subtype
@@ -93,7 +93,7 @@ theorem l3ExclD_Co1_7_13 : L3ExclD 4157776806543360000 7 13 :=
 
 theorem noL3Comp_GA (x : ↥GA) (hx : orderOf x = 3) :
     NoL3Comp (Subgroup.centralizer ({x} : Set ↥GA)) := by
-  haveI : Finite ↥GA := Co1T.finite_GA
+  have : Finite ↥GA := Co1T.finite_GA
   obtain ⟨k, r, hr, hkr⟩ := Co1Spor.exists_rep hx
   refine noL3Comp_centralizer_of_isConj (x := r) (isConj_iff.2 ⟨k, hkr⟩) ?_
   obtain ⟨⟨o0, a0⟩, ⟨o1, a1⟩, ⟨o2, a2⟩, ⟨o3, a3⟩⟩ := pairs_facts
@@ -140,7 +140,7 @@ private noncomputable def co1Iota (hbr : SporadicBridges) :
 
 theorem sporL3DownInner_Co1
     (hbr : SporadicBridges) : SporL3DownInner .Co1 := by
-  haveI : Finite ↥GA := Co1T.finite_GA
+  have : Finite ↥GA := Co1T.finite_GA
   have hM : Nonempty (↥GA ≃* (TauCeti.CFSGIndex.sporadic .Co1).Group) := ⟨(co1Iota hbr).symm⟩
   have h1 := @sporL3DownInner_of_comp .Co1 ↥GA inferInstance inferInstance hM
   have hcard : NoL3Eq (Nat.card ↥GA) := by

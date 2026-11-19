@@ -14,8 +14,8 @@ theorem dvd_card_sub_one_of_index {P X : Type*} [Group P] [Finite P] [MulAction 
     {x₀ : X} (hx₀ : ∀ g : P, g • x₀ = x₀) {m : ℕ}
     (hm : ∀ x : X, x ≠ x₀ → m ∣ (MulAction.stabilizer P x).index) : m ∣ Nat.card X - 1 := by
   classical
-  haveI : Fintype X := Fintype.ofFinite X
-  haveI : Fintype (MulAction.orbitRel.Quotient P X) := Fintype.ofFinite _
+  have : Fintype X := Fintype.ofFinite X
+  have : Fintype (MulAction.orbitRel.Quotient P X) := Fintype.ofFinite _
   have hsum : Nat.card X = ∑ ω : MulAction.orbitRel.Quotient P X,
       (MulAction.stabilizer P ω.out).index := by
     rw [Nat.card_congr (MulAction.selfEquivSigmaOrbits P X), Nat.card_sigma]
@@ -61,14 +61,14 @@ theorem card_dvd_pow_of_isPGroup {X : Type*} [Group X] {p : ℕ} [Fact p.Prime] 
   inv_mem' := by
     rintro a ⟨haT, ha, ha2⟩
     have hai : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha2
-    rw [Set.mem_setOf_eq, hai]
+    rw [Set.mem_ofPred_eq, hai]
     exact ⟨haT, ha, ha2⟩
 
 theorem centralInvSub_ne_bot {X : Type*} [Group X] {T : Subgroup X} [Finite T] (hT : IsPGroup 2 T)
     (hne : T ≠ ⊥) : centralInvSub T ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).2 hne
-  haveI : Nontrivial (Subgroup.center T) := hT.center_nontrivial
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).2 hne
+  have : Nontrivial (Subgroup.center T) := hT.center_nontrivial
   have hZ2 : IsPGroup 2 (Subgroup.center T) := hT.to_subgroup _
   obtain ⟨n, hn⟩ := hZ2.exists_card_eq
   have hn0 : n ≠ 0 := by
@@ -94,8 +94,8 @@ theorem centralInvSub_ne_bot {X : Type*} [Group X] {T : Subgroup X} [Finite T] (
 theorem card_sylow_three_titsD
     (S : Sylow 3 CFSG.Sporadic.Schreier.Tits.titsD) :
     Nat.card (S : Subgroup CFSG.Sporadic.Schreier.Tits.titsD) = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   have hdvd : 3 ^ k ∣ 17971200 := by
     rw [← hk, ← CFSG.Sporadic.Schreier.Tits.card_titsD]
     exact Subgroup.card_subgroup_dvd_card _
@@ -114,7 +114,7 @@ open CFSG.Sporadic.Schreier.Tits
 
 theorem card_inf_centralizer_dvd_three {R : Subgroup titsD} (hR : IsPGroup 3 R) {v : titsD}
     (hv : orderOf v = 2) : Nat.card (R ⊓ centralizer ({v} : Set titsD) : Subgroup titsD) ∣ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set X : Subgroup titsD := R ⊓ centralizer ({v} : Set titsD) with hX
   have hX3 : IsPGroup 3 X := hR.to_le inf_le_left
   have key : ∀ (c u : titsD), c * u * c⁻¹ = v →
@@ -153,8 +153,8 @@ theorem titsConj_of_mem_titsD (s : titsD) :
 theorem twoSigTriv_titsD : TwoSigTriv 3 titsD := by
   classical
   intro S W hW hnorm
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hWne
   set W₁ : Subgroup titsA := W.comap titsConjEquiv.toMonoidHom with hW₁
   have hW₁2 : IsPGroup 2 W₁ := hW.comap_of_injective _ titsConjEquiv.injective
@@ -232,7 +232,7 @@ theorem twoSigTriv_titsD : TwoSigTriv 3 titsD := by
           map_mul' := fun x y => Subtype.ext (by simp [mul_assoc]) }
       map_one' := MulEquiv.ext fun x => Subtype.ext (by simp)
       map_mul' := fun s t => MulEquiv.ext fun x => Subtype.ext (by simp [mul_assoc]) }
-  letI : MulAction ↥(S : Subgroup titsD) ↥V := MulAction.compHom ↥V act
+  let : MulAction ↥(S : Subgroup titsD) ↥V := MulAction.compHom ↥V act
   have hsmul : ∀ (s : ↥(S : Subgroup titsD)) (x : ↥V),
       ((s • x : ↥V) : Equiv.Perm (Fin 1755)) =
         ((s : titsD) : Equiv.Perm (Fin 1755)) * x * ((s : titsD) : Equiv.Perm (Fin 1755))⁻¹ :=
@@ -277,7 +277,7 @@ theorem twoSigTriv_titsD : TwoSigTriv 3 titsD := by
         (Subgroup.card_map_of_injective (Subgroup.subtype_injective _)).symm
       rw [h1]
       exact (Subgroup.card_dvd_of_le hle).trans
-        (card_inf_centralizer_dvd_three S.isPGroup' hv2)
+        (card_inf_centralizer_dvd_three S.isPGroup hv2)
     have hmul := St.card_mul_index
     rw [hS27] at hmul
     rcases (Nat.dvd_prime Nat.prime_three).1 hcardSt with h | h
@@ -307,7 +307,7 @@ theorem twoSigTriv_tits_three {K : Type} [Group K] (d : TauCeti.ValidLieTypeInde
   simp only at hd
   subst hd
   obtain ⟨eS⟩ := titsModelEquiv K 2 1 (CFSG.RankThree.PartOne.CTP.reeTitsModel_tits ⟨hv, ⟨e⟩⟩)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact twoSigTriv_titsD.of_mulEquiv eS.symm
 
 end Tits

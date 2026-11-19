@@ -33,8 +33,8 @@ theorem ggK1CBl_ff_selfDual {K : Type} [Field K] [Fintype K] {p : ℕ} (hp : p.P
     (hmon : h.Monic) (hdvd : h ∣ X ^ p - 1) (hne : h ≠ X - 1) :
     reciprocalPolynomial h = h := by
   classical
-  haveI : Fact (Irreducible h) := ⟨hirr⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Irreducible h) := ⟨hirr⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : (p : K) ≠ 0 := by
     intro hc
     have hℓ : (ringChar K).Prime := CharP.char_is_prime K (ringChar K)

@@ -133,8 +133,8 @@ theorem exists_fixed_lift {K : Subgroup X} [K.Normal] [Finite K] {p : ℕ} [Fact
     ext s
     rw [hσ p s, ha]
     simp
-  haveI : Finite S := inferInstance
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Finite S := inferInstance
+  have : Fintype S := Fintype.ofFinite S
   have hcard : Fintype.card S = Nat.card (center ↥K) := by
     rw [← Nat.card_eq_fintype_card]
     refine Nat.card_congr

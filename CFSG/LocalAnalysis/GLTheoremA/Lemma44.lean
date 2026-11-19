@@ -13,9 +13,11 @@ open CFSG.HardMathSupport.Solomon.UniquenessMaximal
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem gLBConj_mono {g : G} {H K : Subgroup G} (h : H ≤ K) : GLBConj g H ≤ GLBConj g K :=
   fun _ hy => mem_gLBConj.2 (h (mem_gLBConj.1 hy))
 
+omit [Finite G] in
 private theorem le_gLBConj_glaPLayer {p : ℕ} {X : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (X : Set G)) :
     GLAPLayer p X ≤ GLBConj g (GLAPLayer p X) := by
@@ -29,6 +31,7 @@ private theorem le_gLBConj_glaPLayer {p : ℕ} {X : Subgroup G} {g : G}
   rw [e]
   exact gLBConj_mono (le_sSup h1)
 
+omit [Finite G] in
 theorem mem_normalizer_glaPLayer {p : ℕ} {X : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (X : Set G)) :
     g ∈ Subgroup.normalizer (GLAPLayer p X : Set G) := by
@@ -37,6 +40,7 @@ theorem mem_normalizer_glaPLayer {p : ℕ} {X : Subgroup G} {g : G}
   have h := gLBConj_mono (g := g) (le_gLBConj_glaPLayer (p := p) (Subgroup.inv_mem _ hg))
   rwa [gLBConj_gLBConj, inv_mul_cancel, gLBConj_one] at h
 
+omit [Finite G] in
 private theorem le_gLBConj_closureIn {I H : Subgroup G} {g : G}
     (hI : g ∈ Subgroup.normalizer (I : Set G)) (hH : g ∈ Subgroup.normalizer (H : Set G)) :
     closureIn I H ≤ GLBConj g (closureIn I H) := by
@@ -51,6 +55,7 @@ private theorem le_gLBConj_closureIn {I H : Subgroup G} {g : G}
   rw [closureIn_eq_iSup_gLBConj]
   exact le_biSup (fun h => GLBConj h I) hc
 
+omit [Finite G] in
 theorem mem_normalizer_closureIn {I H : Subgroup G} {g : G}
     (hI : g ∈ Subgroup.normalizer (I : Set G)) (hH : g ∈ Subgroup.normalizer (H : Set G)) :
     g ∈ Subgroup.normalizer (closureIn I H : Set G) := by
@@ -65,6 +70,7 @@ theorem isGoodComp_of_le_MxB {p : ℕ} (hp : p.Prime) {Club : Subgroup G → Pro
     (h : K ≤ MxB p Club B x) : IsGoodComp p Club B x K :=
   mem_of_le_sSup_glaPComponent hp {Y | IsGoodComp p Club B x Y} (fun _ hL => hL.1) hK h
 
+omit [Finite G] in
 theorem le_closureIn_self (I H : Subgroup G) : I ≤ closureIn I H := by
   rw [closureIn_eq_iSup_gLBConj]
   have := le_biSup (fun g => GLBConj g I) (Subgroup.one_mem H)
@@ -85,7 +91,7 @@ theorem lemma44b_closure {p : ℕ} (hp : p.Prime) {Exc Club : Subgroup G → Pro
       L' → L' = closureIn (GLAPLayer p (L ⊓ Subgroup.centralizer ({x'} : Set G)))
         (GLAPLayer p (Subgroup.centralizer ({x'} : Set G))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Cx := Subgroup.centralizer ({x} : Set G)
   set Cx' := Subgroup.centralizer ({x'} : Set G)
   have hx'B' : x' ∈ B' := hx'.1

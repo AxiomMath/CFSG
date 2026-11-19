@@ -14,6 +14,7 @@ variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
 @[expose] noncomputable def D121 : TData K where
   okL p L := p ⊓ Vsub 4 3 = ⊥ ∧ (L ⊓ Vsub 4 3) ⊓ sgS K f 4 (L ⊓ Vsub 4 3) = ⊥
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_mem_Vsub_three_iff (v : Fin 4 → K) : v ∈ Vsub 4 3 ↔ v 3 = 0 := by
   constructor
   · intro hv
@@ -23,18 +24,21 @@ private theorem plh_mem_Vsub_three_iff (v : Fin 4 → K) : v ∈ Vsub 4 3 ↔ v 
     subst hj3
     exact hv
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_tailProj_mem_Vsub_three_iff (v : Fin 4 → K) :
     tailProj v ∈ Vsub 4 3 ↔ v ∈ Vsub 4 3 := by
   rw [plh_mem_Vsub_three_iff, plh_mem_Vsub_three_iff]
   show (tailProj v) 3 = 0 ↔ v 3 = 0
   simp [tailProj]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_comap_Vsub_three :
     (Vsub 4 3 : Submodule K (Fin 4 → K)).comap tailProj = Vsub 4 3 := by
   ext v
   rw [Submodule.mem_comap]
   exact plh_tailProj_mem_Vsub_three_iff v
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_map_tailProj_le_Vtail (A : Submodule K (Fin 4 → K)) :
     A.map tailProj ≤ Vtail := by
   rintro w ⟨a, -, rfl⟩
@@ -54,6 +58,7 @@ private theorem plh_sgS_comap_tailProj (X : Submodule K (Fin 4 → K)) :
   simp only [sgS, Submodule.mem_comap]
   rw [plh_tailProj_sgv]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_comap_eq_Vsub_iff {Z : Submodule K (Fin 4 → K)} (hZ : Z ≤ Vtail) :
     Z.comap tailProj = Vsub 4 1 ↔ Z = ⊥ := by
   constructor
@@ -71,6 +76,7 @@ private theorem plh_comap_eq_Vsub_iff {Z : Submodule K (Fin 4 → K)} (hZ : Z �
   · intro h
     rw [h, Submodule.comap_bot, ker_tailProj]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_inf_Vsub_three_iff_map {X : Submodule K (Fin 4 → K)}
     (hX : X ⊓ Vsub 4 1 = ⊥) :
     X ⊓ Vsub 4 3 = ⊥ ↔ X.map tailProj ⊓ Vsub 4 3 = ⊥ := by
@@ -125,7 +131,7 @@ private theorem plh_key121 (L : Submodule K (Fin 4 → K)) :
   rw [hstep, plh_sgS_comap_tailProj f, ← Submodule.comap_inf]
   exact plh_comap_eq_Vsub_iff hZle
 
-theorem adm121_iff_admT (hK : Nat.card K = (2 ^ f) ^ 2) {p L H : Submodule K (Fin 4 → K)}
+theorem adm121_iff_admT (_hK : Nat.card K = (2 ^ f) ^ 2) {p L H : Submodule K (Fin 4 → K)}
     (hf : IsFlag p L H) : Adm121 f p L H ↔ AdmT (D121 (K := K) f) p L H := by
   by_cases hH : H ⊓ Vsub 4 1 = ⊥
   · have hp1 : p ⊓ Vsub 4 1 = ⊥ :=
@@ -145,7 +151,7 @@ theorem adm121_iff_admT (hK : Nat.card K = (2 ^ f) ^ 2) {p L H : Submodule K (Fi
 theorem admSet_a3_121_eq (hK : Nat.card K = (2 ^ f) ^ 2) :
     admSet (Adm121 (K := K) f) = admSet (AdmT (D121 (K := K) f)) := by
   ext x
-  simp only [admSet, Set.mem_setOf_eq]
+  simp only [admSet, Set.mem_ofPred_eq]
   exact adm121_iff_admT f hK
     ⟨FlagK.finrank_E_one x, FlagK.finrank_E_two x, FlagK.finrank_E_three x,
       FlagK.E_one_le_two x, FlagK.E_two_le_three x⟩

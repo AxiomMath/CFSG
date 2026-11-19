@@ -84,7 +84,7 @@ theorem moore_of_chain {D : Set G} (hsq : ∀ x ∈ D, x * x = 1)
 
 theorem mooreOfChain_one_ne {s : ℕ → G} (h : s 0 * s 1 ≠ s 1 * s 0) : mooreOfChain s 1 ≠ 1 := by
   intro h1
-  simp only [mooreOfChain, if_true] at h1
+  simp only [mooreOfChain, ite_true] at h1
   apply h
   have : s 1 = (s 0)⁻¹ := eq_inv_of_mul_eq_one_right h1
   rw [this, mul_inv_cancel, inv_mul_cancel]

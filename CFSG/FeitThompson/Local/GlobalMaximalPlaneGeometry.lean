@@ -10,7 +10,7 @@ import CFSG.FeitThompson.Local.AbelianPlaneCentralizerNoncentralOrbit
 import CFSG.FeitThompson.Local.FrattiniArgumentNormalSylow
 import CFSG.FeitThompson.Foundations.SolvableHallExistence
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.RingTheory.WittVector.IsPoly
 public import Mathlib.Tactic.Polynomial.Basic
 public import Mathlib.Tactic.ReduceModChar
@@ -80,7 +80,7 @@ theorem exists_line_ne_of_card_eq_sq [Finite G] (hp : p.Prime) {A Z : Subgroup G
     refine lt_of_le_of_ne hZA fun h => ?_
     rw [h, hAcard] at hZcard
     nlinarith [hZcard, pow_pos hp.pos 2, hp.two_le]
-  obtain ⟨x, hxA, hxZ⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨x, hxA, hxZ⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hx1 : x ≠ 1 := fun h => hxZ (h ▸ one_mem _)
   have := Fact.mk hp
   exact ⟨zpowers x, zpowers_le.2 hxA,
@@ -151,7 +151,7 @@ theorem FPL_global_maximal_plane_geometry
   obtain ⟨n, hn⟩ := hPcard
   have hPp : IsPGroup p ↥P := IsPGroup.of_card hn
   obtain ⟨S, hPS⟩ := hPp.exists_le_sylow
-  have hSp : IsPGroup p ↥(S : Subgroup G) := S.isPGroup'
+  have hSp : IsPGroup p ↥(S : Subgroup G) := S.isPGroup
   have hAS : A ≤ (S : Subgroup G) := hAP.trans hPS
   have hsylow : CFSG.FeitThompson.Prep06.IsSylowIn p (S : Subgroup G) ⊤ := by
     refine CFSG.FeitThompson.Prep06.isSylowIn_iff.2 ⟨le_top, ?_⟩

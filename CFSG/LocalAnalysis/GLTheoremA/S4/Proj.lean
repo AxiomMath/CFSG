@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem closureIn_eq_sSup (I H : Subgroup G) :
     closureIn I H = sSup {X | ∃ g ∈ H, X = GLBConj g I} := by
   rw [closureIn_eq_iSup_gLBConj]
@@ -19,6 +20,7 @@ private theorem closureIn_eq_sSup (I H : Subgroup G) :
   · exact iSup₂_le fun g hg => le_sSup ⟨g, hg, rfl⟩
   · exact sSup_le fun X ⟨g, hg, hX⟩ => hX ▸ le_biSup (fun g => GLBConj g I) hg
 
+omit [Finite G] in
 private theorem mem_normalizer_sSup_of_perm {S : Set (Subgroup G)} {g : G}
     (h1 : ∀ X ∈ S, GLBConj g X ∈ S) (h2 : ∀ X ∈ S, GLBConj g⁻¹ X ∈ S) :
     g ∈ Subgroup.normalizer ((sSup S : Subgroup G) : Set G) := by
@@ -34,6 +36,7 @@ private theorem mem_normalizer_sSup_of_perm {S : Set (Subgroup G)} {g : G}
   have h' := CFSG.LocalAnalysis.GLTheoremB.gLBConj_mono g (key g⁻¹ h2)
   rwa [gLBConj_gLBConj, inv_mul_cancel, gLBConj_one] at h'
 
+omit [Finite G] in
 private theorem mem_normalizer_inf {X Y : Subgroup G} {g : G}
     (hX : g ∈ Subgroup.normalizer (X : Set G)) (hY : g ∈ Subgroup.normalizer (Y : Set G)) :
     g ∈ Subgroup.normalizer ((X ⊓ Y : Subgroup G) : Set G) := by
@@ -58,6 +61,7 @@ private def cmSub (N Z : Subgroup G) : Subgroup G where
       (N.inv_mem (hZa z hz))
     simpa [inv_inv] using this
 
+omit [Finite G] in
 private theorem commutator_le_of_forall_gen {N X : Subgroup G} {𝒴 : Set (Subgroup G)}
     (h𝒴 : ∀ Y ∈ 𝒴, Y ≤ Subgroup.normalizer (N : Set G))
     (h : ∀ Y ∈ 𝒴, (⁅X, Y⁆ : Subgroup G) ≤ N) : (⁅X, sSup 𝒴⁆ : Subgroup G) ≤ N := by
@@ -65,6 +69,7 @@ private theorem commutator_le_of_forall_gen {N X : Subgroup G} {𝒴 : Set (Subg
     ⟨h𝒴 Y hY hy, fun x hx => h Y hY (Subgroup.commutator_mem_commutator hx hy)⟩
   exact Subgroup.commutator_le.2 fun x hx y hy => (hle hy).2 x hx
 
+omit [Finite G] in
 private theorem commutator_sSup_sSup_le {N : Subgroup G} {𝒳 𝒴 : Set (Subgroup G)}
     (h𝒳 : ∀ X ∈ 𝒳, X ≤ Subgroup.normalizer (N : Set G))
     (h𝒴 : ∀ Y ∈ 𝒴, Y ≤ Subgroup.normalizer (N : Set G))
@@ -76,6 +81,7 @@ private theorem commutator_sSup_sSup_le {N : Subgroup G} {𝒳 𝒴 : Set (Subgr
     rw [Subgroup.commutator_comm]
     exact h X hX Y hY
 
+omit [Finite G] in
 private theorem commutator_le_of_le_normalizer {N X : Subgroup G}
     (hX : X ≤ Subgroup.normalizer (N : Set G)) : (⁅X, N⁆ : Subgroup G) ≤ N := by
   refine Subgroup.commutator_le.2 fun x hx n hn => ?_
@@ -83,6 +89,7 @@ private theorem commutator_le_of_le_normalizer {N X : Subgroup G}
   rw [commutatorElement_def]
   exact N.mul_mem h1 (N.inv_mem hn)
 
+omit [Finite G] in
 private theorem pow_mul_mem {N : Subgroup G} {t z : G}
     (ht : t ∈ Subgroup.normalizer (N : Set G)) (hz : z ∈ N) (m : ℕ) :
     ∃ z' ∈ N, (t * z) ^ m = t ^ m * z' := by
@@ -99,7 +106,7 @@ private theorem pow_mul_mem {N : Subgroup G} {t z : G}
 
 private theorem not_dvd_card_of_isPGroup_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {S : Subgroup G} (hS : IsPGroup 2 S) : ¬ p ∣ Nat.card S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hS.exists_card_eq
   rw [hk]
   intro h
@@ -127,7 +134,7 @@ private theorem exists_conj_le_map_sylow {Y R : Subgroup G} (S₀ : Sylow 2 ↥Y
 private theorem exists_sylow_two_sup_eq {Y Q : Subgroup G} (hQY : Q ≤ Y)
     (hYQ : Y ≤ Subgroup.normalizer (Q : Set G)) (h2 : ∀ y ∈ Y, ∃ n : ℕ, y ^ (2 ^ n) ∈ Q) :
     ∃ S₀ : Sylow 2 ↥Y, (S₀ : Subgroup ↥Y).map Y.subtype ⊔ Q = Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₀⟩ : Nonempty (Sylow 2 ↥Y) := inferInstance
   refine ⟨S₀, ?_⟩
   have hQn : (Q.subgroupOf Y).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hQY).2 hYQ
@@ -170,13 +177,13 @@ private theorem exists_invariant_two_subgroup {p : ℕ} (hp : p.Prime) (hp2 : p 
     (hAO : A ≤ Subgroup.normalizer (O : Set G)) (hnQ : ¬ Y ≤ Q) :
     ∃ S : Subgroup G, S ≤ Y ∧ IsPGroup 2 S ∧ A ≤ Subgroup.normalizer (S : Set G) ∧
       ¬ S ≤ Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₀, hS₀Q⟩ := exists_sylow_two_sup_eq hQY hYQ h2
   obtain ⟨S₁, hS₁def⟩ : ∃ S₁ : Subgroup G, S₁ = (S₀ : Subgroup ↥Y).map Y.subtype := ⟨_, rfl⟩
   rw [← hS₁def] at hS₀Q
   have hS₁Y : S₁ ≤ Y := hS₁def ▸ Subgroup.map_subtype_le _
-  have hS₁2 : IsPGroup 2 S₁ := hS₁def ▸ S₀.isPGroup'.map Y.subtype
+  have hS₁2 : IsPGroup 2 S₁ := hS₁def ▸ S₀.isPGroup.map Y.subtype
   obtain ⟨W, hWdef⟩ : ∃ W : Subgroup G, W = S₁ ⊔ O := ⟨_, rfl⟩
   have hS₁W : S₁ ≤ W := hWdef ▸ le_sup_left
   have hOW : O ≤ W := hWdef ▸ le_sup_right
@@ -234,7 +241,7 @@ private theorem exists_invariant_two_subgroup {p : ℕ} (hp : p.Prime) (hp2 : p 
   obtain ⟨P, hP⟩ := CFSG.LocalAnalysis.GLTheoremB.exists_sylow_normalized (r := 2) (p := p)
     hAW hAp hWp
   have hSW : (P : Subgroup ↥W).map W.subtype ≤ W := Subgroup.map_subtype_le _
-  refine ⟨(P : Subgroup ↥W).map W.subtype, hSW.trans hWY, P.isPGroup'.map W.subtype, hP,
+  refine ⟨(P : Subgroup ↥W).map W.subtype, hSW.trans hWY, P.isPGroup.map W.subtype, hP,
     fun hSQ => hnQ ?_⟩
   obtain ⟨w, hw, hS₁w⟩ := exists_conj_le_map_sylow P hS₁W hS₁2
   have hwQ : GLBConj w ((P : Subgroup ↥W).map W.subtype) ≤ Q :=
@@ -269,7 +276,7 @@ theorem exists_two_subgroup_le_closureIn_sup {p : ℕ} (hp : p.Prime) (hp2 : p �
   have hK : closureIn L B = sSup 𝓛 := closureIn_eq_sSup L B
   have hH : closureIn L A = sSup 𝓗 := closureIn_eq_sSup L A
   have hLHM : sSup 𝓛 = sSup 𝓗 ⊔ sSup 𝓜 := by
-    rw [← sSup_union, Set.union_diff_cancel (fun X hX => hLH X hX)]
+    rw [← sSup_union, Set.union_sdiff_cancel (fun X hX => hLH X hX)]
   have hTKs : T ≤ sSup 𝓛 := hK ▸ hTK
   set H : Subgroup G := sSup 𝓗 with hHdef
   set M : Subgroup G := sSup 𝓜 with hMdef

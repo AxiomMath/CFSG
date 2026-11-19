@@ -30,6 +30,7 @@ theorem burnsideC135_two_mul_card_le {S V : Subgroup G} (hSV : S ≤ V) (hne : �
   rw [← e]
   exact Nat.mul_le_mul_right _ (by omega)
 
+omit [Finite G] in
 theorem burnsideC135_isElemAbelian_mono {A B : Subgroup G} (hB : IsElemAbelian 2 B)
     (hAB : A ≤ B) : IsElemAbelian 2 A :=
   ⟨⟨⟨fun a b => Subtype.ext (mul_comm_of_isElemAbelian hB (hAB a.2) (hAB b.2))⟩⟩,
@@ -201,7 +202,7 @@ theorem pCoreOf_eq : pCoreOf 2 X = c134Q X L := by
       intro h
       apply hEU
       intro e he
-      exact H.inf_WE_le ⟨h (Subgroup.mem_sup_right he), he⟩
+      exact CFSG.ASVolI.burnsideC135_H1.inf_WE_le ⟨h (Subgroup.mem_sup_right he), he⟩
     have h1 : k ≠ 1 := fun h => hne (Subgroup.relIndex_eq_one.mp h)
     omega
   have hVcard : Nat.card ↥(pCoreOf 2 X ⊓ Subgroup.centralizer (burnsideC135_Wc β 1 : Set G)) =
@@ -236,7 +237,7 @@ theorem pCoreOf_eq : pCoreOf 2 X = c134Q X L := by
     have hATC : A ⊓ pCoreOf 2 X ≤ C := fun t ht =>
       ⟨ht.1, Subgroup.mem_centralizer_iff.mpr fun e he => (H.T_comm_E ht.2 he).symm⟩
     have hEel : IsElemAbelian 2 (pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G)) :=
-      burnsideC135_isElemAbelian_mono hVel H.E_le_V
+      burnsideC135_isElemAbelian_mono hVel CFSG.ASVolI.burnsideC135_H1.E_le_V
     have hCel : IsElemAbelian 2 C := burnsideC135_isElemAbelian_mono hA inf_le_left
     have hjoin := burnsideC135_isElemAbelian_sup hEel hCel fun e he c hc =>
       Subgroup.mem_centralizer_iff.mp hc.2 e he
@@ -255,7 +256,7 @@ theorem pCoreOf_eq : pCoreOf 2 X = c134Q X L := by
       f₀ * f₁ := by
     have hsub : A ⊓ (pCoreOf 2 X ⊓ Subgroup.centralizer (c134Q X L : Set G)) ≤
         A ⊓ (pCoreOf 2 X ⊓ Subgroup.centralizer (burnsideC135_Wc β 1 : Set G)) :=
-      inf_le_inf_left _ H.E_le_V
+      inf_le_inf_left _ CFSG.ASVolI.burnsideC135_H1.E_le_V
     have h1 := burnsideC135_card_le_of_hom hsub (fun x => H.projE (x : G))
       (fun x y => H.projE_mul (hVS x.2.2) (hVS y.2.2))
       (fun x => by
@@ -290,7 +291,7 @@ theorem pCoreOf_eq : pCoreOf 2 X = c134Q X L := by
       have := H.q1.rep_add (hAX.trans H.normW) (hAX.trans H.normU) x 0 0
       rw [add_zero] at this
       exact left_eq_add.mp this
-    haveI : Nonempty (fixAll (H.q1.rep (hAX.trans H.normW) (hAX.trans H.normU))) := ⟨⟨0, h0⟩⟩
+    have : Nonempty (fixAll (H.q1.rep (hAX.trans H.normW) (hAX.trans H.normU))) := ⟨⟨0, h0⟩⟩
     exact Nat.card_pos
   have hVA' := hVA
   rw [hVcard] at hVA'

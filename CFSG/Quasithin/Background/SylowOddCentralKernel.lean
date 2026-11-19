@@ -10,6 +10,7 @@ namespace CFSG.Quasithin
 
 variable {G X : Type*} [Group G] [Finite G] [Group X] [Finite X]
 
+omit [Finite X] in
 theorem omegaOneOf_map_of_odd_ker (φ : G →* X) (hodd : Odd (Nat.card φ.ker))
     {T : Subgroup G} (hT : IsPGroup 2 T) :
     (omegaOneOf T).map φ = omegaOneOf (T.map φ) := by
@@ -27,11 +28,12 @@ theorem omegaOneOf_map_of_odd_ker (φ : G →* X) (hodd : Odd (Nat.card φ.ker))
       (a₁ := ⟨x ^ 2, T.pow_mem hxT 2⟩) (a₂ := 1) (by simpa using hx2')
     simpa using congrArg Subtype.val h
 
+omit [Finite X] in
 theorem sylow_mapSurjective_bijective_of_odd_central_ker (φ : G →* X)
     (hφ : Function.Surjective φ) (hcen : φ.ker ≤ Subgroup.center G)
     (hodd : Odd (Nat.card φ.ker)) :
     Function.Bijective (fun T : Sylow 2 G => Sylow.mapSurjective hφ T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨?_, Sylow.mapSurjective_surjective hφ 2⟩
   intro T T' hTT'
   have hmap : (T : Subgroup G).map φ = (T' : Subgroup G).map φ := by
@@ -51,9 +53,9 @@ theorem sylow_mapSurjective_bijective_of_odd_central_ker (φ : G →* X)
       Odd.of_dvd_nat hodd (Subgroup.orderOf_dvd_natCard φ.ker hmem)
     have hcomm : Commute y k := Subgroup.mem_center_iff.mp hkcen y
     have hx2 : ∃ n, orderOf x = 2 ^ n := by
-      simpa [Subgroup.orderOf_mk] using T.isPGroup'.exists_orderOf_eq_pow ⟨x, hx⟩
+      simpa [Subgroup.orderOf_mk] using T.isPGroup.exists_orderOf_eq_pow ⟨x, hx⟩
     have hy2 : ∃ n, orderOf y = 2 ^ n := by
-      simpa [Subgroup.orderOf_mk] using T'.isPGroup'.exists_orderOf_eq_pow ⟨y, hy⟩
+      simpa [Subgroup.orderOf_mk] using T'.isPGroup.exists_orderOf_eq_pow ⟨y, hy⟩
     have hxeq : x = y * k := by rw [hk]; group
     have hk1 : k = 1 := eq_one_of_mul_eq_of_two_pow_of_odd hcomm hxeq hx2 hy2 hkodd
     have hxy' : x = y := by rw [hxeq, hk1, mul_one]

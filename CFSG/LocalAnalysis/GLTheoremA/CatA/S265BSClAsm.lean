@@ -75,7 +75,7 @@ theorem qsConcl_of_section {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgroup 
         Subgroup.centralizer ({e} : Set G)).comap eS) ≠ ⊥) :
     QSConcl 3 S B D K := by
   classical
-  haveI := Fact.mk Nat.prime_three
+  have := Fact.mk Nat.prime_three
   obtain ⟨hDB, -, hD9, -, -, hKc, -⟩ := h.std
   have hSN : ∀ g : Ω, g ∈ Subgroup.normalizer (S : Set Ω) := fun g =>
     (Subgroup.normalizer_eq_top_iff.2 h.normal) ▸ Subgroup.mem_top g

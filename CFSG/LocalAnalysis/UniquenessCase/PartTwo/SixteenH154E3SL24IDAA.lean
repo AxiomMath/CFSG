@@ -18,7 +18,8 @@ open CFSG.Quasithin CFSG.Open CFSG.GH74.KGroups Subgroup CFSG.ASVolI CFSG.ASVolI
 
 variable {W : Type} [CommGroup W] [Finite W]
 
-theorem s16h_sl24_sec_gf4 (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)}
+omit [Finite W] in
+theorem s16h_sl24_sec_gf4 (_hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)}
     (hrow : s16h_H5RowSL2 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 2)
     (hU : ∀ l ∈ L, ∀ u ∈ commSub ⊤ L, l u ∈ commSub ⊤ L) :
     ∃ (π : ↥(StatedSL 2 GF4) →* ↥L)
@@ -32,9 +33,9 @@ theorem s16h_sl24_sec_gf4 (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)}
   obtain ⟨K, hKf, hKfin, hKcard, π₀, β₀, hπ₀, hβ₀s, hβ₀k, hβ₀e⟩ :=
     s16h_sl24_cover_coord (L := L) (U := commSub ⊤ L)
       (Z := commSub ⊤ L ⊓ fixV L) hrow
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = Fintype.card GF4 := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hKcard,
       Nat.card_eq_fintype_card]

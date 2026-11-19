@@ -17,6 +17,7 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem c8k_mem_uniqueSet {M A : Subgroup G} (hM : IsStronglyPEmbedded 3 M)
     (hAM : A ≤ M) (hA : Nat.card A = 3) :
     A ∈ CFSG.LocalAnalysis.RankThreeUC.uniqueSet M := by
@@ -60,7 +61,7 @@ theorem c8_hyp91 (D : Data G) (hse : IsStronglyPEmbedded 3 D.M) {K : Subgroup G}
     exact K.mul_mem (K.mul_mem h.2 (hOppK hy)) (K.inv_mem h.2)
   have hdJ : d ∈ J :=
     Subgroup.mem_iSup_of_mem (1 : ↥K)
-      (Subgroup.mem_map.2 ⟨d, hdO, by simp [MulAut.conj_apply]⟩)
+      (Subgroup.mem_map.2 ⟨d, hdO, by simp⟩)
   have hlow : 1 ≤ CFSG.Open.pRank 3 J :=
     CFSG.SectionRank.le_pRank (by norm_num) (Subgroup.zpowers_le.2 hdJ)
       (CFSG.Open.isElemAbelian_zpowers hd1) (k := 1) (by rw [hcard, pow_one])

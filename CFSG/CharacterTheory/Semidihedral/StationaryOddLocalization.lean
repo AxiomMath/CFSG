@@ -485,7 +485,7 @@ theorem stationary_localization_from_actual_factorizations [Finite G]
           · exact htW
         obtain ⟨x, hxQ, hx1, hxinv, hxcomm, _⟩ :=
           odd_pgroup_inverted_centralizing_witness hell hellodd t ht QG
-            (Q.isPGroup'.map M.subtype) htQ hQnot
+            (Q.isPGroup.map M.subtype) htQ hQnot
         have hxC : x ∈ Subgroup.centralizer (P1 : Set G) := by
           apply Subgroup.mem_centralizer_iff.mpr
           intro y hy
@@ -500,7 +500,7 @@ theorem stationary_localization_from_actual_factorizations [Finite G]
           rw [MonoidHom.map_zpowers]
           change Subgroup.zpowers (t * x * t⁻¹) = X
           rw [hxinv, Subgroup.zpowers_inv]
-        have hXC := hind X hXN ((Q.isPGroup'.map M.subtype).to_le hXQ) htX
+        have hXC := hind X hXN ((Q.isPGroup.map M.subtype).to_le hXQ) htX
         have hxfix := (conj_fixed_iff t x).mpr (hXC (Subgroup.mem_zpowers x))
         have hxsq : x ^ 2 = 1 := by
           calc
@@ -913,7 +913,7 @@ theorem actual_stationary_localization_of_cover_factorizations [Finite G]
           W ≤ C t ∧ ⁅W, Subgroup.zpowers t⁆ = ⊥ ∧ ∀ w ∈ W, t * w * t⁻¹ = w) := by
   intro Pa U hU hUP hVU
   have hellodd : Odd ell := (actual_centralizer_core_odd t).of_dvd_nat hellN
-  have hPp : IsPGroup ell Pa := (P.isPGroup'.map (N t).subtype).map (C t).subtype
+  have hPp : IsPGroup ell Pa := (P.isPGroup.map (N t).subtype).map (C t).subtype
   have hPN : Pa ≤ (N t).map (C t).subtype :=
     Subgroup.map_mono (Subgroup.map_subtype_le _)
   have hPC : Pa ≤ C t := Subgroup.map_subtype_le _
@@ -1570,7 +1570,7 @@ theorem even_card_of_noncyclic_sylow_two {A : Type v} [Group A] [Finite A]
   by_contra heven
   have hodd : Odd (Nat.card A) := Nat.not_even_iff_odd.mp heven
   let P : Sylow 2 A := Classical.choice inferInstance
-  rcases P.isPGroup'.card_eq_or_dvd with hcard | hdvd
+  rcases P.isPGroup.card_eq_or_dvd with hcard | hdvd
   · apply hnc P
     exact isCyclic_of_card_le_orderOf (1 : P) (by rw [hcard, orderOf_one])
   · have hdiv : 2 ∣ Nat.card A := hdvd.trans (Subgroup.card_subgroup_dvd_card (P : Subgroup A))
@@ -2028,7 +2028,7 @@ theorem actual_stationary_subgroup_normalizer_original_cover_geometry
           ∀ x, (fG x : G) = ((fH x : H) : G) := by
   intro Pa V U hU hUP hVU H
   have hellodd : Odd ell := (actual_centralizer_core_odd t).of_dvd_nat hellN
-  have hPa : IsPGroup ell Pa := (P.isPGroup'.map (N t).subtype).map (C t).subtype
+  have hPa : IsPGroup ell Pa := (P.isPGroup.map (N t).subtype).map (C t).subtype
   have hUodd := odd_card_of_pgroup hell hellodd U (hPa.to_le hUP)
   have hcovU := centralizer_cover_descends (C t) (nu t)
     ((CFSG.generalizedFitting (Gamma t)).comap (barKappa t)) Pa U hUP hcover

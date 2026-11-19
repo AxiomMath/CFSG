@@ -23,6 +23,7 @@ section Gates
 
 variable {K : Type} [Field K] [Finite K] {d : ℕ}
 
+omit [Finite K] in
 theorem no_E9_of_orthogonalGates (Q : QuadraticForm K (Fin d → K)) {f : ℕ}
     (hG : OrthogonalGates Q f) (X : Subgroup (MulAut (matrixProjectiveDerived Q)))
     (hX : IsElemAbelian 3 X) (hXc : Nat.card X = 3 ^ 2) (hXE : X ≤ matrixProjectiveImage Q)
@@ -71,7 +72,7 @@ theorem no_E9_of_orthogonalGates (Q : QuadraticForm K (Fin d → K)) {f : ℕ}
       ⟨x.2, h2⟩
     rw [hXD, Subgroup.mem_bot] at h3
     exact Subtype.ext h3
-  haveI : IsCyclic ψ.range := hcyc
+  have : IsCyclic ψ.range := hcyc
   have hXcyc : IsCyclic ↥X := isCyclic_of_injective χ hχinj
   have hexp : Monoid.exponent ↥X ∣ 3 :=
     Monoid.exponent_dvd_of_forall_pow_eq_one (fun x => Subtype.ext (hX.2 x.1 x.2))

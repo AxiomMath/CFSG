@@ -85,7 +85,7 @@ theorem rad_c15 :
   have hx2 : x.2 = 1 ∨ x.2 = 3 := by omega
   set g : S4 := toS4 x.1 (validB_symp hx) with hg
   have hauto : autOf x = MulAut.conj g * minorAut GF4 ^ x.2 := by
-    rw [autOf, dif_pos hx, ← hg]
+    rw [autOf, dite_eq_left hx, ← hg]
   have hτU : (antiUnipotent GF4).map (autOf x).toMonoidHom = antiUnipotent GF4 := by
     have hU := hτ
     rw [Psub_inf_inner] at hU

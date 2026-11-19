@@ -136,7 +136,7 @@ theorem isOrthMarked_compSet_of_isOrthReflection (hN : IsNormalSet D) (hD : IsOd
   let ι : G → Fin n → K := fun z =>
     if hz : z ∈ Ω then ι₀ ⟨z, Subgroup.subset_closure hz⟩ else 0
   have hι : ∀ z (hz : z ∈ Ω), ι z = ι₀ ⟨z, Subgroup.subset_closure hz⟩ := fun z hz => by
-    simp only [ι, dif_pos hz]
+    simp only [ι, dite_eq_left hz]
   have hmemΩ : ∀ z (hz : z ∈ Ω), (⟨z, Subgroup.subset_closure hz⟩ : S) ∈ inClosure Ω :=
     fun z hz => hz
   have hψι : ∀ z (hz : z ∈ Ω), ψ (QuotientGroup.mk' R ⟨z, Subgroup.subset_closure hz⟩) =

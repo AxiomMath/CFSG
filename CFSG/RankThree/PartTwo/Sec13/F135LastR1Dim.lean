@@ -64,7 +64,7 @@ theorem r1d_dim_of_data {L : Type} [Group L] [Finite L] {p : ℕ} [Fact p.Prime]
       Subgroup.centralizer ({z} : Set L)) ⊔ O) :
     4 ≤ Module.finrank (ZMod p) (Module.End.eigenspace (ρ z) (-1 : ZMod p)) ∧
       (Module.finrank (ZMod p) (Module.End.eigenspace (ρ z) (-1 : ZMod p)) ≤ 4 → 7 ≤ p) := by
-  haveI : IsSimpleGroup T := hT.simple
+  have : IsSimpleGroup T := hT.simple
   have hp2 : p ≠ 2 := by omega
   have hzmem : z ∈ Subgroup.centralizer ({z} : Set L) :=
     Subgroup.mem_centralizer_singleton_iff.mpr rfl
@@ -89,7 +89,7 @@ theorem r1d_dim_of_data {L : Type} [Group L] [Finite L] {p : ℕ} [Fact p.Prime]
     apply Subtype.ext
     rw [restrictRep_apply, Submodule.coe_neg]
     exact (Module.End.mem_eigenspace_iff.mp w.2).trans (neg_one_smul (ZMod p) _)
-  haveI : FiniteDimensional (ZMod p) ↥(Module.End.eigenspace (ρ z) (-1 : ZMod p)) :=
+  have : FiniteDimensional (ZMod p) ↥(Module.End.eigenspace (ρ z) (-1 : ZMod p)) :=
     Module.finite_iff_finite.mpr inferInstance
   have hkerW := r1_ker_le O hOodd hperf hp2
     (restrictRep (ρ.comp (Subgroup.centralizer ({z} : Set L)).subtype)
@@ -136,7 +136,7 @@ theorem r1_dim_W {G : Type} [Group G] [Finite G] {L : Subgroup G}
     r1_L_data (X := ↥L) (O := CFSG.oddCore L) (θ := aschbacherSolvableCore 3 L)
       (CFSG.ABGDGroups.odd_card_oddCore L) hZ.isQuasisimple.1 hcenter e hZ.comap_center
   have hyo : orderOf (Subgroup.inclusion hLN z) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     apply orderOf_eq_prime
     · rw [← map_pow, sq, hz2, map_one]
     · intro h
@@ -195,8 +195,8 @@ theorem r1_count {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {Dg : 
       Module.finrank (ZMod p) (Module.End.eigenspace (frattiniLinN p Dg z) (-1 : ZMod p)) ≤
         Module.finrank (ZMod p) (↥(Module.End.eigenspace (frattiniLinN p Dg z) (-1 : ZMod p) ⊓
           Module.End.eigenspace (frattiniLinN p Dg u) (1 : ZMod p))) + 2 := by
-  haveI : Finite (Additive (↥Dg ⧸ frattini ↥Dg)) := inferInstance
-  haveI : Module.Finite (ZMod p) (Additive (↥Dg ⧸ frattini ↥Dg)) := Module.Finite.of_finite
+  have : Finite (Additive (↥Dg ⧸ frattini ↥Dg)) := inferInstance
+  have : Module.Finite (ZMod p) (Additive (↥Dg ⧸ frattini ↥Dg)) := Module.Finite.of_finite
   have hz2 : z ^ 2 = 1 := by
     have h := pow_orderOf_eq_one z
     rwa [hz] at h

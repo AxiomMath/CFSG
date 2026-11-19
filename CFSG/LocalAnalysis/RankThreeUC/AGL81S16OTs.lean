@@ -13,6 +13,7 @@ open CFSG.HardMathSupport.Curtis.NaturalModuleCensus.AltIb.OmegaMinus
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
 
+omit [CharP F 2] in
 theorem exists_ts_span (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (S : AddSubgroup (OW F))
     (hS : ∀ x ∈ S, StatedQuadMinus 3 F b c x = 0) :
     ∃ U : Submodule F (OW F), (∀ x ∈ S, x ∈ U) ∧ (∀ x ∈ U, StatedQuadMinus 3 F b c x = 0) ∧
@@ -51,7 +52,7 @@ theorem exists_ts_span (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (S : AddSubgr
     | smul r x _ h => rw [map_smul_eq_sq, h, mul_zero]
   have hdim : Module.finrank F U ≤ 2 := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     let bU : Module.Basis (Fin (Module.finrank F U)) F U := Module.finBasisOfFinrankEq F U rfl
     let v : Fin 3 → OW F := fun i => ((bU (Fin.castLE hlt i) : U) : OW F)
     have hvli : LinearIndependent F v :=
@@ -70,6 +71,7 @@ theorem exists_ts_span (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (S : AddSubgr
   rw [← quadMinus_eq_stated]
   exact hQU x hx
 
+omit [CharP F 2] in
 theorem ts_card_le (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (S : AddSubgroup (OW F))
     (hS : ∀ x ∈ S, StatedQuadMinus 3 F b c x = 0) : Nat.card S ≤ Nat.card F ^ 2 := by
   obtain ⟨U, hSU, -, hdim⟩ := exists_ts_span hirr S hS
@@ -83,6 +85,7 @@ theorem ts_card_le (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (S : AddSubgroup 
     _ = Nat.card F ^ Module.finrank F U := hcardU
     _ ≤ Nat.card F ^ 2 := Nat.pow_le_pow_right Nat.card_pos hdim
 
+omit [CharP F 2] in
 theorem ts_eq_plane (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (S : AddSubgroup (OW F))
     (hS : ∀ x ∈ S, StatedQuadMinus 3 F b c x = 0) (hcard : Nat.card S = Nat.card F ^ 2) :
     ∃ Y : Submodule F (OW F), (∀ x, x ∈ S ↔ x ∈ Y) ∧ Module.finrank F Y = 2 ∧
@@ -99,7 +102,7 @@ theorem ts_eq_plane (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (S : AddSubgroup
   have hk : Module.finrank F U = 2 := by
     refine le_antisymm hdim ?_
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h3 : Nat.card F ^ Module.finrank F U < Nat.card F ^ 2 :=
       Nat.pow_lt_pow_right (by omega) hlt
     rw [← hcardU] at h3

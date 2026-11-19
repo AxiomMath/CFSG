@@ -57,7 +57,7 @@ private theorem pCore_two_eq_bot_of_isSimpleGroup_of_isAlt_five {H : Type} [Grou
       Nat.card_eq_one_iff_unique.mpr ⟨hs, ⟨1⟩⟩
     have h60 := card_isAlt_five h
     omega
-  haveI : (CFSG.pCore 2 H).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 H).Normal := CFSG.pCore_normal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.pCore 2 H) with hbot | htop
   · exact hbot
   · exact absurd (by rw [htop]; exact QuotientGroup.subsingleton_quotient_top) hnt
@@ -73,7 +73,7 @@ private theorem unique_five_of_isCyclic {G : Type} [Group G] [Finite G] {H : Sub
 
 private theorem center_eq_bot_of_isU4 {X : Type} [Group X] {n : ℕ} (h : IsU4 X n) :
     Subgroup.center X = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := UCK.K332Route.nonempty_projSU_of_lieModel h
   have hn1 : 1 ≤ n := h.admissible.2.1
   have hZ : Subgroup.center (projSU 4 2 n) = ⊥ := center_projSU_four_eq_bot hn1
@@ -104,7 +104,7 @@ private theorem conj_injective_of_isU4 {X : Type} [Group X] {n : ℕ} (h : IsU4 
 private theorem false_of_isU5_of_isAlt_five {X : Type} [Group X] [Finite X]
     {A : Subgroup X} (hU5 : IsU5 X 2) (hA : Nat.card A = 3)
     (hAlt : IsAlt (Bar2 (JOf A)) 5) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e5⟩ := UCK.K332Route.nonempty_projSU_of_lieModel hU5
   have hJ := ks222U5 X ⊤ A ⟨Subgroup.topEquiv.trans e5⟩ le_top hA
   change Nonempty (JOf A ≃* projSL 2 (GaloisField 2 4)) ∨
@@ -113,9 +113,9 @@ private theorem false_of_isU5_of_isAlt_five {X : Type} [Group X] [Finite X]
     rcases hJ with h1 | hSt
     · obtain ⟨e1⟩ := h1
       have hpc : CFSG.pCore 2 ↥(JOf A) = ⊥ := by
-        haveI : IsSimpleGroup (projSL 2 (GaloisField 2 4)) :=
+        have : IsSimpleGroup (projSL 2 (GaloisField 2 4)) :=
           isSimpleGroup_projSL_two (m := 4) (by norm_num)
-        haveI : IsSimpleGroup ↥(JOf A) := e1.isSimpleGroup
+        have : IsSimpleGroup ↥(JOf A) := e1.isSimpleGroup
         exact pCore_two_eq_bot_of_isSimpleGroup_of_isAlt_five (H := ↥(JOf A)) hAlt
       calc Nat.card ↥(JOf A) = Nat.card (Bar2 (JOf A)) :=
             (Nat.card_congr (bar2EquivOfPCore hpc).toEquiv).symm
@@ -123,7 +123,7 @@ private theorem false_of_isU5_of_isAlt_five {X : Type} [Group X] [Finite X]
     · have hpc : CFSG.pCore 2 ↥(JOf A) = ⊥ := by
         have hLie : CFSG.Blueprint.LieModel ↥(JOf A) .PSU 3 2 2 :=
           Or.inl ⟨by decide, hSt⟩
-        haveI : IsSimpleGroup ↥(JOf A) :=
+        have : IsSimpleGroup ↥(JOf A) :=
           UC22.uc22p22r_lieModel_isSimple_classical (t := .PSU)
             (Or.inr (Or.inl rfl)) hLie
         exact pCore_two_eq_bot_of_isSimpleGroup_of_isAlt_five (H := ↥(JOf A)) hAlt
@@ -154,9 +154,9 @@ private theorem u4_shape_projSL_of_isAlt_five {X : Type} [Group X] [Finite X] {n
     have hn1 : 1 ≤ n := hU4.admissible.2.1
     omega
   have hpc : CFSG.pCore 2 ↥(JOf A) = ⊥ := by
-    haveI : IsSimpleGroup (projSL 2 (GaloisField 2 n)) :=
+    have : IsSimpleGroup (projSL 2 (GaloisField 2 n)) :=
       isSimpleGroup_projSL_two (m := n) hn2
-    haveI : IsSimpleGroup ↥(JOf A) := e1.isSimpleGroup
+    have : IsSimpleGroup ↥(JOf A) := e1.isSimpleGroup
     exact pCore_two_eq_bot_of_isSimpleGroup_of_isAlt_five (H := ↥(JOf A)) hAlt
   have hcardJ : Nat.card ↥(JOf A) = 60 := by
     calc Nat.card ↥(JOf A) = Nat.card (Bar2 (JOf A)) :=
@@ -178,9 +178,9 @@ private theorem false_of_u4_shape_projSL_sq {X : Type} [Group X] [Finite X] {n :
   have hn1 : 1 ≤ n := hU4.admissible.2.1
   have hn2 : 2 ≤ 2 * n := by omega
   have hpc : CFSG.pCore 2 ↥(JOf A) = ⊥ := by
-    haveI : IsSimpleGroup (projSL 2 (GaloisField 2 (2 * n))) :=
+    have : IsSimpleGroup (projSL 2 (GaloisField 2 (2 * n))) :=
       isSimpleGroup_projSL_two (m := 2 * n) hn2
-    haveI : IsSimpleGroup ↥(JOf A) := e2.isSimpleGroup
+    have : IsSimpleGroup ↥(JOf A) := e2.isSimpleGroup
     exact pCore_two_eq_bot_of_isSimpleGroup_of_isAlt_five (H := ↥(JOf A)) hAlt
   have hcardJ : Nat.card ↥(JOf A) = 60 := by
     calc Nat.card ↥(JOf A) = Nat.card (Bar2 (JOf A)) :=
@@ -201,7 +201,7 @@ private theorem u4_shape_of_isAlt_five {X : Type} [Group X] [Finite X] {n : ℕ}
     (hAlt : IsAlt (Bar2 (JOf A)) 5) :
     IsU4 X 2 ∧ n = 2 ∧ CFSG.pCore 2 ↥(JOf A) = ⊥ ∧
       Nonempty (↥(JOf A) ≃* projSL 2 (GaloisField 2 2)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e4⟩ := UCK.K332Route.nonempty_projSU_of_lieModel hU4
   have hJ := ks222U4Even X ⊤ A n (by have := hU4.admissible.2.1; omega) hEven
     ⟨Subgroup.topEquiv.trans e4⟩ le_top hA
@@ -226,7 +226,7 @@ private theorem isL2_bar2_of_shape {X : Type} [Group X] {A : Subgroup X}
     (hpCore : CFSG.pCore 2 ↥(JOf A) = ⊥)
     (eJ : ↥(JOf A) ≃* projSL 2 (GaloisField 2 2)) :
     IsL2 (Bar2 (JOf A)) 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hadm : StatedLieAdmissible .PSL 2 2 2 := by
     unfold StatedLieAdmissible
     norm_num
@@ -248,7 +248,7 @@ private theorem eq_bot_of_perfect_le_altFive {X : Type} [Group X] [Finite X] {A 
     (bar2EquivOfPCore hpCore).symm.trans eBar
   let T : Subgroup ↥(JOf A) := P.subgroupOf (JOf A)
   have hTperf : Group.IsPerfect ↥T := by
-    haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hPperf
+    have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.mpr hPperf
     exact Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hPJ).symm.toMonoidHom)
       (MulEquiv.surjective _)
   by_cases hTbot : T = ⊥

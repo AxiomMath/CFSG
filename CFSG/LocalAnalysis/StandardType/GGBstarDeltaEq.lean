@@ -23,6 +23,7 @@ section Cyclic
 
 variable {W : Type*} [Group W] [Finite W]
 
+omit [Finite W] in
 theorem pow_eq_one_of_fix {p k : ℕ} [IsCyclic W] (hW : Nat.card W = p ^ (k + 1))
     (σ : MulAut W) {x : W} (hx : orderOf x = p) (hσx : σ x = x) : σ ^ p ^ k = 1 := by
   obtain ⟨m, hm⟩ := MonoidHom.map_cyclic σ.toMonoidHom
@@ -35,7 +36,6 @@ theorem pow_eq_one_of_fix {p k : ℕ} [IsCyclic W] (hW : Nat.card W = p ^ (k + 1
   have h2 := dvd_sub_pow_of_dvd_sub h1 k
   rw [one_pow] at h2
   obtain ⟨c, hc⟩ := h2
-  push_cast at hc
   have hiter : ∀ j : ℕ, ∀ g : W, (σ ^ j) g = g ^ (m ^ j) := by
     intro j
     induction j with
@@ -64,7 +64,7 @@ theorem normalizer_le_centralizer_of_central (W : Sylow p Y) (hWc : IsCyclic (W 
   intro n hn
   set f := (W : Subgroup Y).normalizerMonoidHom with hf
   set σ := f ⟨n, hn⟩ with hσ
-  obtain ⟨k', hk'⟩ := W.isPGroup'.exists_card_eq
+  obtain ⟨k', hk'⟩ := W.isPGroup.exists_card_eq
   have hk0 : k' ≠ 0 := by
     rintro rfl
     rw [pow_zero] at hk'
@@ -112,7 +112,7 @@ theorem mem_ker_transfer_iff (W : Sylow p Y)
   · intro hy
     rw [MonoidHom.mem_ker]
     set z := MonoidHom.transferSylow W hNC y
-    obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp W.isPGroup' z
+    obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp W.isPGroup z
     have hzd : orderOf z ∣ orderOf y := orderOf_map_dvd _ y
     rw [hj] at hzd
     have hj0 : j = 0 := by
@@ -148,7 +148,7 @@ theorem exists_sylow_two_normalized {p : ℕ} [Fact p.Prime] {N A : Subgroup G}
         (⟨a, ha⟩ : A) • (P : Subgroup N) := Sylow.pointwise_smul_def
     rw [← hsub, hfix] at hmem
     exact ⟨_, hmem, rfl⟩
-  refine ⟨(P : Subgroup N).map N.subtype, map_subtype_le _, P.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(P : Subgroup N).map N.subtype, map_subtype_le _, P.isPGroup.map _, ?_, ?_⟩
   · intro h2 hbot
     exact P.ne_bot_of_dvd_card h2 ((map_eq_bot_iff_of_injective _ N.subtype_injective).mp hbot)
   · intro a ha
@@ -166,7 +166,7 @@ theorem exists_coprimeCore {p : ℕ} [hp : Fact p.Prime] (Y : Subgroup G)
       ∀ g : G, g ∈ K ↔ g ∈ Y ∧ Nat.Coprime p (orderOf g) := by
   obtain ⟨W⟩ := Sylow.nonempty (p := p) (G := Y)
   have hWc : IsCyclic (W : Subgroup Y) := by
-    have h := hcyc ((W : Subgroup Y).map Y.subtype) (map_subtype_le _) (W.isPGroup'.map _)
+    have h := hcyc ((W : Subgroup Y).map Y.subtype) (map_subtype_le _) (W.isPGroup.map _)
     exact isCyclic_of_surjective _
       (Subgroup.equivMapOfInjective (W : Subgroup Y) Y.subtype Y.subtype_injective).symm.surjective
   have hxZ' : (⟨x, hxY⟩ : Y) ∈ center Y := by
@@ -212,7 +212,7 @@ theorem bstar_eq_of_twoSub {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgro
       IsPGroup 2 T₀ ∧ T₀ ≠ ⊥) :
     Bs = B := by
   obtain ⟨hp, hBsE, hxBs, hLx, -⟩ := GGConfig.tableB_facts hC
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hS : LargeEvenSStar p B x L := hC.1.2.2.2.2.2.2.1
   have hp2 : p ≠ 2 := hC.1.2.2.2.2.2.1.2.1
   have hBBs : B ≤ Bs := hC.2.1.1

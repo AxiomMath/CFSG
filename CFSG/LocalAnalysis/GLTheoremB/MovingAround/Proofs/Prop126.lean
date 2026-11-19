@@ -37,8 +37,8 @@ theorem of_mem_inD {A₁ M : Subgroup G} {a : G} (hA₁ : inD 3 M A₁) (haA₁ 
 theorem exists_order_three_central_mem {R N : Subgroup G} (hR : IsPGroup 3 ↥R)
     (hNR : ∀ r ∈ R, ∀ x ∈ N, r * x * r⁻¹ ∈ N) (hne : N ⊓ R ≠ ⊥) :
     ∃ z : G, z ∈ N ∧ z ∈ centerOf R ∧ orderOf z = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsNilpotent ↥R := hR.isNilpotent
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsNilpotent ↥R := hR.isNilpotent
   let H : Subgroup ↥R := N.subgroupOf R
   have hHn : H.Normal :=
     ⟨fun x hx g => by
@@ -82,7 +82,7 @@ theorem exists_order_three_central_mem {R N : Subgroup G} (hR : IsPGroup 3 ↥R)
 
 theorem sylow_ne_bot_of_three_dvd {M R : Subgroup G} (hR : IsSylowIn 3 M R)
     (h3 : 3 ∣ Nat.card ↥M) : R ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro hR0
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥M) 3 h3
   have hgM : (g : G) ∈ M := g.2
@@ -106,7 +106,7 @@ theorem inf_sylow_ne_bot {M N R : Subgroup G} (hR : IsSylowIn 3 M R) (hR1 : R �
     (hNM : N ≤ M) (hN : ∀ g ∈ M, ∀ x ∈ N, g * x * g⁻¹ ∈ N) (h3 : 3 ∣ Nat.card ↥N) :
     N ⊓ R ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro h0
   have hNn : (N.subgroupOf M).Normal :=
     ⟨fun x hx g => by
@@ -167,11 +167,11 @@ theorem an_branch_false {m : ℕ} {B M E A : Subgroup G} (h : Sec11 G m 3 B M E 
 @[expose] def autFixSub {K : Type} [Group K] (x : MulAut K) : Subgroup K where
   carrier := {k | x k = k}
   mul_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   one_mem' := by simp
   inv_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 @[expose] def Input14_15_3 : Prop :=
@@ -202,7 +202,7 @@ theorem jstar3_dichotomy {G : Type} [Group G] [Finite G] (hsimp : IsSimpleGroup 
       (∃ L : ZMod 3 → Subgroup G, (∀ i, GLAPComponent 3 (Subgroup.centralizer ({a} : Set G)) (L i)) ∧
         Function.Injective L ∧ (∀ i, GLBConj z (L i) = L (i + 1)) ∧ jstar3 a J₀ = ⨆ i, L i ∧
           GLAPComponent 3 (jstar3 a J₀ ⊓ Subgroup.centralizer ({z} : Set G)) J₀) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h2 := hI2 3 Nat.prime_three (by decide) G hsimp hnab hkp z a hz ha hza J₀ hJ₀
   have h1 := hI1 3 Nat.prime_three (by decide) G hsimp hnab hkp z a hz ha hza J₀ hJ₀
   rcases h1 with ⟨L, hL, hJL, hzL⟩ | ⟨L, hL, hLinj, hLcyc, hJL⟩

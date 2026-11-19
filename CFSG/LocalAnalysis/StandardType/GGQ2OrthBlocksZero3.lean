@@ -39,7 +39,7 @@ theorem liftV_restrV_eq (t : ℕ) (δ : Fin 2) (S : Finset (Fin t)) (u : PlaneRa
   | left i =>
     rw [emb_castAdd, liftV_apply_castAdd, liftV_apply_castAdd, restrV]
     have hi : (i : ℕ) < S.card := i.isLt
-    rw [dif_pos hi]
+    rw [dite_eq_left hi]
   | right j =>
     rw [emb_natAdd, liftV_apply_natAdd, liftV_apply_natAdd]
 
@@ -126,9 +126,9 @@ theorem otau_eq_orthExt_otau (t : ℕ) (δ : Fin 2) (S : Finset (Fin t))
       rw [spEmbedMat_apply_image (emb_injective t δ S), WitSpNs.planeMat_apply,
         WitSpNs.planeMat_apply, plane_embSum, plane_embSum, side_embSum, side_embSum]
       by_cases hxy : WitSpNs.plane x = WitSpNs.plane y
-      · rw [if_pos (congrArg (emb t δ S) hxy), if_pos hxy]
+      · rw [ite_eq_left (congrArg (emb t δ S) hxy), ite_eq_left hxy]
         exact congrFun (congrFun (hkey (WitSpNs.plane y)) (WitSpNs.side x)) (WitSpNs.side y)
-      · rw [if_neg (fun h => hxy (emb_injective t δ S h)), if_neg hxy]
+      · rw [ite_eq_right (fun h => hxy (emb_injective t δ S h)), ite_eq_right hxy]
     · obtain ⟨x, rfl⟩ := ha
       rw [spEmbedMat_apply_of_not_mem _ (fun h => hb h.2), WitSpNs.planeMat_apply,
         plane_embSum]
@@ -145,7 +145,7 @@ theorem otau_eq_orthExt_otau (t : ℕ) (δ : Fin 2) (S : Finset (Fin t))
       have hne_plane : emb t δ S (WitSpNs.plane x) ≠ WitSpNs.plane b := by
         intro h
         exact hzb (h ▸ hmemL)
-      rw [if_neg hne_plane]
+      rw [ite_eq_right hne_plane]
       change (0 : K) = (1 : Matrix (Fin (t + δ.val) ⊕ Fin (t + δ.val))
         (Fin (t + δ.val) ⊕ Fin (t + δ.val)) K) (embSum t δ S x) b
       rw [Matrix.one_apply_ne (by rintro rfl; exact hb (Set.mem_range_self x))]
@@ -158,7 +158,7 @@ theorem otau_eq_orthExt_otau (t : ℕ) (δ : Fin 2) (S : Finset (Fin t))
         liftV_apply_of_not_mem t δ S hu hza, ofAdd_zero, map_one,
         Matrix.SpecialLinearGroup.coe_one]
     by_cases hpp : WitSpNs.plane a = WitSpNs.plane b
-    · rw [if_pos hpp]
+    · rw [ite_eq_left hpp]
       have hAb : ((ζ (Multiplicative.ofAdd (liftV t δ u (WitSpNs.plane b))) :
           SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) = 1 := by
         rw [show liftV t δ u (WitSpNs.plane b) = 0 from
@@ -166,9 +166,9 @@ theorem otau_eq_orthExt_otau (t : ℕ) (δ : Fin 2) (S : Finset (Fin t))
           Matrix.SpecialLinearGroup.coe_one]
       rw [hAb, Matrix.one_apply, Matrix.one_apply]
       by_cases hside : WitSpNs.side a = WitSpNs.side b
-      · rw [if_pos hside, if_pos (WitSpNs.eq_of_plane_side hpp hside)]
-      · rw [if_neg hside, if_neg (fun hab => hside (congrArg WitSpNs.side hab))]
-    · rw [if_neg hpp, Matrix.one_apply_ne (fun hab => hpp (congrArg WitSpNs.plane hab))]
+      · rw [ite_eq_left hside, ite_eq_left (WitSpNs.eq_of_plane_side hpp hside)]
+      · rw [ite_eq_right hside, ite_eq_right (fun hab => hside (congrArg WitSpNs.side hab))]
+    · rw [ite_eq_right hpp, Matrix.one_apply_ne (fun hab => hpp (congrArg WitSpNs.plane hab))]
 
 end
 

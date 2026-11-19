@@ -16,7 +16,7 @@ theorem t158IdentU6_of (hU : T158CompUni) : T158IdentU6 := by
   cases i with
   | twistedA r q =>
     rcases r with _ | _ | _ | _ | _ | _ | r
-    all_goals first | exact hP.elim | skip
+    all_goals try exact hP.elim
     obtain ⟨hq2, hqe⟩ := hP
     have hcard : q.card = 2 ^ n := by rw [TauCeti.PrimePower.card_def, hq2, hqe]
     have hsh : I171.I171LieShape 3 (.twistedA 5 q) := by

@@ -13,7 +13,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16h_e3_CycTwoP3M6_noncyclic (D : Data G) (S : s16h_Std D)
-    (hr3 : CFSG.Open.evenRank G = 3)
+    (_hr3 : CFSG.Open.evenRank G = 3)
     (hσ : D.sig = D.sig1) {V₀ V L : Subgroup G} (h : Setting16 D V₀ V L)
     (hc : Conc4_136 D V₀ V h.hyp151.isElemAbelian L)
     (hLp : IsCyclicOrd ↥(lBar V₀ V h.hyp151.isElemAbelian L) 3)

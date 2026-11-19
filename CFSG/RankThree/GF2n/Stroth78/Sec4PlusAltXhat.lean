@@ -70,7 +70,7 @@ theorem conj_mem_XsubHat (S : Setting z E F) (a : G) {h x : G} (hh : h ∈ H z)
   obtain ⟨hxH, hxX⟩ := (mem_XsubHat_iff S a).mp hx
   have hconjH : h * x * h⁻¹ ∈ H z := (H z).mul_mem ((H z).mul_mem hh hxH) ((H z).inv_mem hh)
   refine (mem_XsubHat_iff S a).mpr ⟨hconjH, ?_⟩
-  haveI := Xsub_normal S a
+  have := Xsub_normal S a
   have h1 : (QuotientGroup.mk (⟨h * x * h⁻¹, hconjH⟩ : ↥(H z)) : Hbar z) =
       (QuotientGroup.mk (⟨h, hh⟩ : ↥(H z)) : Hbar z) * QuotientGroup.mk (⟨x, hxH⟩ : ↥(H z)) *
         (QuotientGroup.mk (⟨h, hh⟩ : ↥(H z)) : Hbar z)⁻¹ := by

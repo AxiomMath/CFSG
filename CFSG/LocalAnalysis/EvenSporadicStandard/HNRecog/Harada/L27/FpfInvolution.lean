@@ -19,7 +19,7 @@ theorem normal_fpf_involution {X : Type*} [Group X] {S : Subgroup X} [S.Normal] 
       map_one' := by ext; simp
       map_mul' := fun a b => by
         ext
-        simp only [Subgroup.coe_mul, Subtype.coe_mk]
+        simp only [Subgroup.coe_mul]
         group }
   have hφ : MonoidHom.FixedPointFree φ := by
     intro s hs

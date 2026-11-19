@@ -42,14 +42,14 @@ theorem fixVSub_linToMulAut (g : M ≃ₗ[F] M) :
   · unfold fixVSub
     rw [Submodule.span_le]
     intro m hm
-    rw [Set.mem_setOf_eq, mem_fixV_zpowers_iff, linToMulAut_ofAdd] at hm
+    rw [Set.mem_ofPred_eq, mem_fixV_zpowers_iff, linToMulAut_ofAdd] at hm
     refine LinearMap.mem_ker.mpr ?_
     rw [show u m = g.toLinearMap m - m from rfl]
     exact sub_eq_zero.mpr (Multiplicative.ofAdd.injective hm)
   · intro m hm
     rw [LinearMap.mem_ker] at hm
     refine Submodule.subset_span ?_
-    rw [Set.mem_setOf_eq, mem_fixV_zpowers_iff, linToMulAut_ofAdd]
+    rw [Set.mem_ofPred_eq, mem_fixV_zpowers_iff, linToMulAut_ofAdd]
     have h : g.toLinearMap m = m := by
       rw [show u m = g.toLinearMap m - m from rfl] at hm
       exact sub_eq_zero.mp hm

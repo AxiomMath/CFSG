@@ -26,7 +26,7 @@ private theorem shapeModelNormAt_adjointGroup {τ : CFSG.Blueprint.Chevalley.Tag
       PerfectInLayer (MulAut.conj x)) :
     ShapeModelNormAt ↥(CFSG.Blueprint.Chevalley.adjointGroup τ K) p := by
   intro x y hx1 hxp _hyp hxy J hJ
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hCN : CompNormal (MulAut.conj x) := by
     by_cases hEp : τ = .E6 ∧ p = 3
     · obtain ⟨rfl, hp3⟩ := hEp
@@ -67,16 +67,16 @@ theorem excUNorm_of (hL : CatLayer) (hI : ShapeModelNormIso) :
       obtain ⟨K, hKf, hKfin, hKcard, hKchar, ⟨eAd⟩⟩ :=
         CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
           CFSG.TauCetiBridge.Even.chevalleyBridgesAll.g2 q hv
-      letI := hKf
-      letI := hKfin
-      haveI : CharP K 2 := by rw [← hq2]; exact hKchar
+      let := hKf
+      let := hKfin
+      have : CharP K 2 := by rw [← hq2]; exact hKchar
       have h4 : 4 ≤ Nat.card K := by
         rw [hKcard, TauCeti.PrimePower.card_def, hq2]
         have hr := (TauCeti.LieTypeIndex.inStandardRange_iff _).1
           ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
         have hq3 : 3 ≤ 2 ^ q.exponent := by
           have h := hr
-          simp only [TauCeti.LieTypeIndex.inStandardRange_iff] at h
+          simp only at h
           rw [TauCeti.PrimePower.card_def, hq2] at h
           exact h
         have h2 : 2 ≤ q.exponent := by
@@ -105,9 +105,9 @@ theorem excUNorm_of (hL : CatLayer) (hI : ShapeModelNormIso) :
       obtain ⟨K, hKf, hKfin, hKcard, hKchar, ⟨eAd⟩⟩ :=
         CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
           CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv
-      letI := hKf
-      letI := hKfin
-      haveI : CharP K 2 := by rw [← hq2]; exact hKchar
+      let := hKf
+      let := hKfin
+      have : CharP K 2 := by rw [← hq2]; exact hKchar
       have hchar : (TauCeti.LieTypeIndex.F4 q).characteristic = 2 := by
         rw [TauCeti.LieTypeIndex.characteristic_F4]; exact hq2
       have hcatA : catalogIs ↥(CFSG.Blueprint.Chevalley.adjointGroup .F4 K)
@@ -126,9 +126,9 @@ theorem excUNorm_of (hL : CatLayer) (hI : ShapeModelNormIso) :
       obtain ⟨K, hKf, hKfin, hKcard, hKchar, ⟨eAd⟩⟩ :=
         CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
           CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e6 q hv
-      letI := hKf
-      letI := hKfin
-      haveI : CharP K 2 := by rw [← hq2]; exact hKchar
+      let := hKf
+      let := hKfin
+      have : CharP K 2 := by rw [← hq2]; exact hKchar
       have hE6 : (.E6 : CFSG.Blueprint.Chevalley.Tag) = .E6 → p = 3 →
           ¬ 3 ∣ Nat.card K - 1 := by
         intro _ hp3 h3
@@ -154,9 +154,9 @@ theorem excUNorm_of (hL : CatLayer) (hI : ShapeModelNormIso) :
       obtain ⟨K, hKf, hKfin, hKcard, hKchar, ⟨eAd⟩⟩ :=
         CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
           CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e7 q hv
-      letI := hKf
-      letI := hKfin
-      haveI : CharP K 2 := by rw [← hq2]; exact hKchar
+      let := hKf
+      let := hKfin
+      have : CharP K 2 := by rw [← hq2]; exact hKchar
       have hchar : (TauCeti.LieTypeIndex.E7 q).characteristic = 2 := by
         rw [TauCeti.LieTypeIndex.characteristic_E7]; exact hq2
       have hcatA : catalogIs ↥(CFSG.Blueprint.Chevalley.adjointGroup .E7 K)
@@ -176,9 +176,9 @@ theorem excUNorm_of (hL : CatLayer) (hI : ShapeModelNormIso) :
       obtain ⟨K, hKf, hKfin, hKcard, hKchar, ⟨eAd⟩⟩ :=
         CFSG.LieType.SeitzGeneration.exists_catEquiv_adjointGroup
           CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
-      letI := hKf
-      letI := hKfin
-      haveI : CharP K 2 := by rw [← hq2]; exact hKchar
+      let := hKf
+      let := hKfin
+      have : CharP K 2 := by rw [← hq2]; exact hKchar
       have hchar : (TauCeti.LieTypeIndex.E8 q).characteristic = 2 := by
         rw [TauCeti.LieTypeIndex.characteristic_E8]; exact hq2
       have hcatA : catalogIs ↥(CFSG.Blueprint.Chevalley.adjointGroup .E8 K)

@@ -42,9 +42,9 @@ theorem exists_plusCoords {W : Type} [CommGroup W] [Finite W] {H : Subgroup (Mul
           ∃ c' : K, Multiplicative.toAdd (e w) = c' • KTabC.e1P K := by
   classical
   obtain ⟨-, K, hK, hKfin, hKcard, hR⟩ := hN
-  letI : Field K := hK
-  letI : Finite K := hKfin
-  haveI hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
+  let : Field K := hK
+  let : Finite K := hKfin
+  have hchar : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq hKcard
   have h4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num

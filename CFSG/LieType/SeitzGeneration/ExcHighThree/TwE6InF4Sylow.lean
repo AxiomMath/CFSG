@@ -50,7 +50,7 @@ theorem threeSubgroup_conj_into_F4 {k K : Type} [Field k] [Finite k] [Field K] [
     ∃ g : twistedE6RootGroup K σ,
       E₀.map (MulAut.conj g).toMonoidHom ≤
         ((phiG σ hfix).comp (e6FixedF4EquivAll k).symm.toMonoidHom).range := by
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   obtain ⟨n, hn, hkcard⟩ := FiniteField.card k (ringChar k)
   have hℓ : (ringChar k).Prime := hn
   have hf : 1 ≤ (n : ℕ) := n.pos
@@ -67,7 +67,7 @@ theorem threeSubgroup_conj_into_F4 {k K : Type} [Field k] [Finite k] [Field K] [
     exact factorization_three_ordTwistedE6 hq hq2
   have hφ : Function.Injective ((phiG σ hfix).comp (e6FixedF4EquivAll k).symm.toMonoidHom) :=
     (phiG_injective σ hfix).comp (MulEquiv.injective _)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE3 : IsPGroup 3 E₀ := fun x => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (by simpa using hE₀ x.1 x.2)⟩

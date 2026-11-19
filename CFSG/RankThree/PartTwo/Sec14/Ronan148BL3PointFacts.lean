@@ -76,7 +76,7 @@ theorem isList46_of_le_thetaQuot (h46 : Sec4.Item4_6) (hG : TheoremFourHyp G) {b
   set R₁ := CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual ↥K₁ with hR₁
   have hR₁p : Group.IsPerfect ↥R₁ :=
     CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidual_isPerfect
-  haveI := hK₀p
+  have := hK₀p
   have hR₁map : R₁.map π₁ = ⊤ :=
     CFSG.RankThreeCoreUniqueness.Helpers.finite_perfectResidual_surjects_to_perfect_image π₁ hπ₁s
   set ψ : ↥R₁ →* ↥K₀ := π₁.comp R₁.subtype with hψ
@@ -98,7 +98,7 @@ theorem isList46_of_le_thetaQuot (h46 : Sec4.Item4_6) (hG : TheoremFourHyp G) {b
   have hθ3 := (solvable_prime_complement_core_characterization (H := ↥L) Nat.prime_three).2.2.1
   have hkers : Group.IsSolvable ψ.ker := by
     have e := ψ.ker.equivMapOfInjective ι hιinj
-    haveI : Group.IsSolvable (ψ.ker.map ι) :=
+    have : Group.IsSolvable (ψ.ker.map ι) :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hkerθ)
     exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
   have hker3 : ¬ 3 ∣ Nat.card ψ.ker := by

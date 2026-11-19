@@ -65,8 +65,8 @@ theorem ThCyc.card_omega1_inf_centralizer_of_transvection (H : ThCyc G L R t)
   have hAcomm : ∀ x y : ↥A, x * y = y * x := fun x y => Subtype.ext (W.A_comm x x.2 y y.2)
   have hVcomm : ∀ x y : ↥V, x * y = y * x := fun x y =>
     Subtype.ext (H.omega1_comm W W2 hD x.2 y.2)
-  letI : CommGroup ↥A := { (inferInstance : Group ↥A) with mul_comm := hAcomm }
-  letI : CommGroup ↥V := { (inferInstance : Group ↥V) with mul_comm := hVcomm }
+  let : CommGroup ↥A := { (inferInstance : Group ↥A) with mul_comm := hAcomm }
+  let : CommGroup ↥V := { (inferInstance : Group ↥V) with mul_comm := hVcomm }
   have hAsq : ∀ a : ↥A, a * a = 1 := fun a => Subtype.ext (by
     simpa [pow_two] using W.A_sq a a.2)
   have hVsq : ∀ v : ↥V, v * v = 1 := fun v => Subtype.ext (H.omega1_mul_self W W2 hD v.2)
@@ -78,10 +78,10 @@ theorem ThCyc.card_omega1_inf_centralizer_of_transvection (H : ThCyc G L R t)
     intro x
     apply (Additive.toMul (α := ↥V)).injective
     simp [pow_two, hVsq (Additive.toMul x)]
-  letI : Module (ZMod 2) (Additive ↥A) := AddCommGroup.zmodModule (n := 2) hsmulA
-  letI : Module (ZMod 2) (Additive ↥V) := AddCommGroup.zmodModule (n := 2) hsmulV
-  haveI : Finite (Additive ↥A) := inferInstance
-  haveI : Finite (Additive ↥V) := inferInstance
+  let : Module (ZMod 2) (Additive ↥A) := AddCommGroup.zmodModule (n := 2) hsmulA
+  let : Module (ZMod 2) (Additive ↥V) := AddCommGroup.zmodModule (n := 2) hsmulV
+  have : Finite (Additive ↥A) := inferInstance
+  have : Finite (Additive ↥V) := inferInstance
   have hfinrankA : Module.finrank (ZMod 2) (Additive ↥A) = 4 := by
     have hcard : Nat.card (Additive ↥A) = 2 ^ 4 := by
       rw [Nat.card_congr Additive.toMul, W.A_card]
@@ -261,7 +261,7 @@ theorem ThCyc.card_omega1_inf_centralizer_of_transvection (H : ThCyc G L R t)
       (MulEquiv.toAdditive (G := ↥A) (H := ↥A)).symm e.toAddEquiv
     have heM : ∀ a : ↥A, eM a = Additive.toMul (e (Additive.ofMul a)) := fun a => rfl
     let f : G → G := fun y => if hy : y ∈ A then ((eM ⟨y, hy⟩ : ↥A) : G) else 1
-    have hf : ∀ (a : G) (ha : a ∈ A), f a = ((eM ⟨a, ha⟩ : ↥A) : G) := fun a ha => dif_pos ha
+    have hf : ∀ (a : G) (ha : a ∈ A), f a = ((eM ⟨a, ha⟩ : ↥A) : G) := fun a ha => dite_eq_left ha
     have hfA : ∀ a ∈ A, f a ∈ A := by
       intro a ha
       rw [hf a ha]
@@ -336,7 +336,7 @@ theorem ThCyc.card_omega1_inf_centralizer_of_transvection (H : ThCyc G L R t)
       rfl
   have hkerfin : Module.finrank (ZMod 2) (LinearMap.ker
       ((pi ⟨n, hn⟩).toLinearMap - LinearMap.id)) = 3 := by
-    haveI : Finite ↥(LinearMap.ker ((pi ⟨n, hn⟩).toLinearMap - LinearMap.id)) := Subtype.finite
+    have : Finite ↥(LinearMap.ker ((pi ⟨n, hn⟩).toLinearMap - LinearMap.id)) := Subtype.finite
     have h := Module.natCard_eq_pow_finrank (K := ZMod 2)
       (V := LinearMap.ker ((pi ⟨n, hn⟩).toLinearMap - LinearMap.id))
     rw [Nat.card_zmod, hker_card, hfix, show (8 : ℕ) = 2 ^ 3 by norm_num] at h

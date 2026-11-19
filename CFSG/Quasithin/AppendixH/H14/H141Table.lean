@@ -63,8 +63,7 @@ theorem tab64OK_spec {tab : Array (Array ℕ)} (h : tab64OK tab = true) :
     decide +kernel
   have hmul : ∀ n < 64, ∀ m < 64,
       permOfArrD tab[n]! * permOfArrD tab[m]! = permOfArrD tab[n ^^^ m]! := by
-    intro n hn
-    intro m
+    intro n hn m
     induction m using Nat.strong_induction_on with
     | _ m ih =>
       intro hm
@@ -326,7 +325,7 @@ theorem exists_deriv_of_derivOK {L : List ℕ} {D : List (ℕ × ℕ)} (h : deri
     omega
 
 theorem irreducible_of_two_orbits64 (hT : tab64OK tab = true) {M : Subgroup S24}
-    (hEM : tab64Sub tab hT ≤ M) {v₁ v₂ : ℕ} {L₁ L₂ : List ℕ} {D₁ : List (ℕ × ℕ)}
+    (_hEM : tab64Sub tab hT ≤ M) {v₁ v₂ : ℕ} {L₁ L₂ : List ℕ} {D₁ : List (ℕ × ℕ)}
     (h1 : ∀ b ∈ L₁, b < 64 ∧ ∃ g ∈ M, g * tab64Perm tab v₁ * g⁻¹ = tab64Perm tab b)
     (h2 : ∀ b ∈ L₂, b < 64 ∧ ∃ g ∈ M, g * tab64Perm tab v₂ * g⁻¹ = tab64Perm tab b)
     (hcover : ∀ n, 0 < n → n < 64 → n ∈ L₁ ∨ n ∈ L₂)

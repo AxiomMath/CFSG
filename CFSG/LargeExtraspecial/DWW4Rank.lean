@@ -172,6 +172,7 @@ theorem pGeneratorRank_ker_toMbar_le (hw : S.width = 4) {P : Subgroup S.M} (hP :
     · have := (Nat.pow_le_pow_iff_right (by norm_num)).mp (h2.trans h8)
       omega
 
+omit [Finite G] in
 theorem commutator_ne_one_ne_z {g x : G} (hx : x ∈ S.QG)
     (h : S.cl (g * x * g⁻¹) ≠ S.cl x) : ⁅x, g⁆ ≠ 1 ∧ ⁅x, g⁆ ≠ S.z := by
   constructor
@@ -318,6 +319,7 @@ section CoreSetting
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem timmesfeld_core_hypotheses
     (hext : IsExtraspecialPGroup 2 (inSubgroup generalizedFitting (centralizer ({z} : Set G))))
     (hcard : Nat.card (inSubgroup generalizedFitting (centralizer ({z} : Set G))) = 2 ^ 9) :
@@ -357,6 +359,7 @@ section Reducible
 
 variable {G : Type*} [Group G] [Finite G] (S : Setting G)
 
+omit [Finite G] in
 theorem mem_center_map_QG_iff {x : G} :
     x ∈ (center S.QG).map S.QG.subtype ↔ x = 1 ∨ x = S.z := by
   constructor
@@ -372,7 +375,7 @@ theorem isReducible_of_lt {A : Subgroup G} (hlo : (center S.QG).map S.QG.subtype
   have hAQ : A ≤ S.QG := hhi.le
   have hzA : S.z ∈ A := hlo.le ((mem_center_map_QG_iff S).mpr (Or.inr rfl))
   refine ⟨S.clSub A, ?_, ?_, ?_⟩
-  · obtain ⟨x, hxA, hxn⟩ := (SetLike.lt_iff_le_and_exists.mp hlo).2
+  · obtain ⟨x, hxA, hxn⟩ := (IsConcreteLE.lt_iff_le_and_exists.mp hlo).2
     intro hbot
     have hxQ := hAQ hxA
     have h0 : S.cl x = 0 := by

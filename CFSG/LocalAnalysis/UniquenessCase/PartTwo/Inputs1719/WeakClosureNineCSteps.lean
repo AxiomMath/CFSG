@@ -27,7 +27,7 @@ theorem conj_mul_le_T {g t : G} (hg : conjSubgroup V g ≤ T) (ht : t ∈ T) :
   rw [← hTt]
   exact E3.conjSubgroup_mono_left t hg
 
-omit [Finite X] in
+omit [Finite X] [Finite G] in
 theorem isElemAbelian_bar (g : G) : IsElemAbelian 2 (barSub ψ (conjSubgroup V g)) :=
   ((isElemAbelian_conjSubgroup' c.elem g).subgroupOf N).map ψ
 

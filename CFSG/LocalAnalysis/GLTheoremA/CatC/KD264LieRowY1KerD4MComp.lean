@@ -70,7 +70,7 @@ theorem exists_component (hU : IsCompl U (perpOf Q U)) (hperp : ∃ w ∈ perpOf
   have hHvO : Hv ≤ orthogonalGroup Q := by
     rintro _ ⟨n, rfl⟩
     exact (extU hU (Subgroup.inclusion hNO n)).2
-  haveI : IsSimpleGroup N := hs
+  have : IsSimpleGroup N := hs
   obtain ⟨hq, hZ⟩ := isQuasisimple_of_simple_nonabelian hna
   have hperfHv : Group.IsPerfect Hv := by
     rw [Group.isPerfect_def]

@@ -25,9 +25,9 @@ theorem AschbacherHyp.exists_conj_of_isOuterInvolution (hC : AschbacherHyp C Q)
   obtain ⟨τ, hτL, hτ⟩ := hC.exists_conj_mod_centerOf hC' α ht
   let β : ↥(commutator C') ≃* ↥(commutator C') := α.symm.trans ((MulAut.conjNormal t).trans α)
   let γ : ↥(commutator C') ≃* ↥(commutator C') := β.trans (MulAut.conjNormal τ⁻¹)
-  haveI := hC'.plus.finite
+  have := hC'.plus.finite
   have hE' := hC'.plus.isExtraspecialPGroup
-  letI : Module (ZMod 2) (Additive (Abelianization Q')) :=
+  let : Module (ZMod 2) (Additive (Abelianization Q')) :=
     CFSG.GroupTheory.extraspecialQuotientModule hE'
   have hγ : ∀ x : ↥(commutator C'), (x : C') ∈ Q' →
       ((γ x : ↥(commutator C')) : C') * (x : C')⁻¹ ∈ centerOf Q' := by

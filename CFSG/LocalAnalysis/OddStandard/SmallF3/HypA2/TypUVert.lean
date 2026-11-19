@@ -12,7 +12,7 @@ theorem typU_of_psp_case (hI : Phase1Inputs) {H : Type} [Group H] [Finite H]
     (hH : SectionRank.IsKGroupCat H) {M : Subgroup H} {x : H} {T : Subgroup H} {w : H}
     (h : VCSetting M x T w) (hT : LieModel (↥T ⧸ Open.fusionZStar ↥T) .PSp 2 3 1) :
     TypU ↥M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hChev : HarrisLit.IsSimpleChevalleyOver 3 (↥M ⧸ Open.fusionZStar ↥M) :=
     hI.p8 H hH M h.hM x h.ox h.hxM T h.hTM h.hTx h.hT hT w h.ow h.hwT h.hwZ
   by_cases hIn : GH74.GLS.InChev2 (↥M ⧸ Open.fusionZStar ↥M)

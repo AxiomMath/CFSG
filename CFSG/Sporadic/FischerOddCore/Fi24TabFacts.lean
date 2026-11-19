@@ -14,10 +14,10 @@ theorem ap_set (t : Table) (p : ℕ) (x : UInt32) (k : ℕ) :
   by_cases hk : k = p
   · subst hk
     by_cases hp : k < t.size
-    · rw [if_pos ⟨rfl, hp⟩, Array.set!, getElem!_pos _ k (by simpa using hp),
+    · rw [ite_eq_left ⟨rfl, hp⟩, Array.set!, getElem!_pos _ k (by simpa using hp),
         Array.getElem_setIfInBounds_self]
-    · rw [if_neg (fun h => hp h.2), Array.set!, Array.setIfInBounds, dif_neg hp]
-  · rw [if_neg (fun h => hk h.1)]
+    · rw [ite_eq_right (fun h => hp h.2), Array.set!, Array.setIfInBounds, dite_eq_right hp]
+  · rw [ite_eq_right (fun h => hk h.1)]
     by_cases hk' : k < t.size
     · rw [Array.set!, getElem!_pos _ k (by simpa using hk'), getElem!_pos t k hk',
         Array.getElem_setIfInBounds_ne hk' (Ne.symm hk)]
@@ -70,14 +70,14 @@ theorem tPT_zero_entry (O : Enum) (tA tB : Table) : ∀ s, ap (tPT O tA tB s) 0 
     rw [getElem!_pos _ 0 (by simp; decide), Array.getElem_replicate]
     rfl
   | s + 1 => by
-    rw [tPT_succ, tPStep, ap_set, if_neg (by omega)]
+    rw [tPT_succ, tPStep, ap_set, ite_eq_right (by omega)]
     exact tPT_zero_entry O tA tB s
 
 theorem tPT_stable (O : Enum) (tA tB : Table) {s k : ℕ} (hk : k < 1 + s) :
     ∀ d, ap (tPT O tA tB (s + d)) k = ap (tPT O tA tB s) k
   | 0 => rfl
   | d + 1 => by
-    rw [← Nat.add_assoc, tPT_succ, tPStep, ap_set, if_neg (by omega)]
+    rw [← Nat.add_assoc, tPT_succ, tPStep, ap_set, ite_eq_right (by omega)]
     exact tPT_stable O tA tB hk d
 
 theorem tPOK_tPTable (O : Enum) (tA tB : Table)
@@ -96,9 +96,9 @@ theorem tPOK_tPTable (O : Enum) (tA tB : Table)
       exact tPT_stable O tA tB hk _
   have hq := hpar (s + 1) (by omega) hp
   have e : ap (tPT O tA tB (s + 1)) (ap O.par (s + 1)) = ap (tPT O tA tB s) (ap O.par (s + 1)) := by
-    rw [tPT_succ, tPStep, ap_set, if_neg (by omega)]
+    rw [tPT_succ, tPStep, ap_set, ite_eq_right (by omega)]
   rw [hfin (s + 1) (by omega), hfin _ (by omega), e, tPT_succ, tPStep, ap_set,
-    if_pos ⟨by omega, by rw [tPT_size]; omega⟩, show 1 + s = s + 1 by omega]
+    ite_eq_left ⟨by omega, by rw [tPT_size]; omega⟩, show 1 + s = s + 1 by omega]
   split <;> exact UInt32.toNat_ofNat_of_lt' (ap_lt _ _)
 
 theorem invT_eq_foldl24 (n : ℕ) (P : Table) :
@@ -169,7 +169,7 @@ theorem rep_invT24 {G : Type*} [Group G] [MulAction G (Fin 306936)] {T : Table} 
   unfold ap
   rw [h, UInt32.toNat_ofNat', Nat.mod_eq_of_lt (hi.trans (by norm_num))]
 
-theorem pack_facts {p l : ℕ} (hp : p < 2 ^ 30) (hl : l < 4) :
+theorem pack_facts {p l : ℕ} (hp : p < 2 ^ 30) (_hl : l < 4) :
     treePar (p ||| (l <<< 30)) = p ∧ treeLab (p ||| (l <<< 30)) = l := by
   have hpb : ∀ i, 30 ≤ i → p.testBit i = false := fun i hi =>
     Nat.testBit_eq_false_of_lt (lt_of_lt_of_le hp (Nat.pow_le_pow_right (by norm_num) hi))

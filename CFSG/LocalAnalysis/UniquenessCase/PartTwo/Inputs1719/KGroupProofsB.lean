@@ -84,7 +84,7 @@ theorem kU34Data_twoRank :
   · obtain ⟨U⟩ := (inferInstance : Nonempty (Sylow 2 X))
     obtain ⟨hUcard, hZcard, hZsq⟩ :=
       CFSG.RankTwoShapes.unitaryFour_sylow_card hSC' U
-    haveI hZcomm : IsMulCommutative ↥(Subgroup.center (U : Subgroup X)) :=
+    have hZcomm : IsMulCommutative ↥(Subgroup.center (U : Subgroup X)) :=
       Subgroup.center.isMulCommutative (G := ↥(U : Subgroup X))
     have hEA : CFSG.Open.IsElemAbelian 2 (Subgroup.center (U : Subgroup X)) :=
       ⟨hZcomm, fun z hz => hZsq z hz⟩
@@ -110,7 +110,7 @@ theorem kU34Data_fiveRank :
     (CFSG.SectionRank.pRank_eq_open_pRank_top 5 ↥(⊤ : Subgroup X)).trans
       (CFSG.SectionRank.pRank_eq_pRank_top_subgroup (p := 5) (⊤ : Subgroup X)).symm
   rw [hbr5]
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   apply le_antisymm
   ·
     refine CFSG.SectionRank.pRank_le (p := 5) (H := (⊤ : Subgroup X)) Nat.prime_five.one_lt
@@ -321,8 +321,8 @@ theorem kU5OddTorusRank_holds :
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero
       (by have := hX.admissible.2.1; omega) hX
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := hSC
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have htrans : CFSG.Open.pRank 5 (⊤ : Subgroup X) =
       CFSG.Open.pRank 5 (⊤ : Subgroup (StatedProj (StatedSU 5 (2 ^ n) K))) :=
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num) e
@@ -348,7 +348,7 @@ theorem kU5OddTorusRank_holds :
       have h := CFSG.LocalAnalysis.RankThreeUC.S15.uniCoreMatrix K (2 ^ n) 5 5
         Nat.prime_five (by norm_num) hF hdvd (by norm_num) (by norm_num) (by omega)
         ((StatedScalars (Fin 5) K).subgroupOf (StatedSU 5 (2 ^ n) K)) le_rfl
-      rw [if_pos] at h
+      rw [ite_eq_left] at h
       · simpa using h
       · refine ⟨rfl, by norm_num, ?_⟩
         rw [hpv, padicValNat_self]

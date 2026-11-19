@@ -72,6 +72,7 @@ theorem Nh_not_W_inv (hII : II4_4_4_center) (hs : Setup8 G z S K₁ K₂ W₁ W�
     exact (mul_eq_left.1 hz1.symm)
   · exact h1
 
+omit [Finite G] in
 theorem mem_Nh_of_comm {c : G} (hcS : c ∈ S) (hch : h * c = c * h) : c ∈ Nh S h := by
   refine mem_Nh.2 ⟨hcS, ?_⟩
   rw [Subgroup.mem_normalizer_iff]

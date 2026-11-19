@@ -20,8 +20,8 @@ theorem k144Swap16_holds : K144Swap16 := by
   obtain ⟨g, hgY, hg⟩ := hgen
   obtain ⟨F, hFld, hFin, β, ρ, σ, hF, hM, hO⟩ :=
     exists_sqModel_of_swap16 hW hX hcomm ha₁ ha₂ (hYN hgY) hg hirr hrk
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hlt : bParam L₁ Y < 2 := by
     rw [bParam_lt_iff (by norm_num : 0 < 2) L₁ Y]
     intro A hA

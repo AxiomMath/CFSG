@@ -60,7 +60,7 @@ theorem false_of_validClass_oversize {d : ℕ} {refs : Array (Array (Array ℕ))
           rw [Pi.smul_apply]
           have hbval : b.val ≠ k₀.val := fun h => hbne (Fin.ext h)
           rcases lt_or_gt_of_ne hbval with hlt | hgt
-          · rw [ih b (Fin.lt_iff_val_lt_val.mpr hlt), zero_smul]
+          · rw [ih b (Fin.lt_def.mpr hlt), zero_smul]
           · have hbit0 : (vec (xorSel c.masks[b.val]! c.L))
                 ⟨c.piv[k₀.val]!, hpiv⟩ = 0 := by
               rw [vec, toVecD_apply]

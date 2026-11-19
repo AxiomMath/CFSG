@@ -34,7 +34,7 @@ private theorem seven_group_action_on_selected_group_is_trivial
         Nat.card R = 25 ∨ Nat.card R = 81) :
     ∀ t : T, ∀ r : R, t • r = r := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let F : Subgroup R :=
     Degree19.fixedPointsSubgroup T R
   have hFset :
@@ -76,7 +76,7 @@ private theorem exists_fixed_point_of_seven_group_action
     (hT : IsPGroup 7 T)
     (hnotSeven : ¬7 ∣ Nat.card α) :
     ∃ a : α, ∀ t : T, t • a = a := by
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨a, ha⟩ :=
     hT.nonempty_fixed_point_of_prime_not_dvd_card
       α hnotSeven
@@ -104,8 +104,8 @@ private theorem fixed_selected_sylow_under_seven_action_is_trivial
             exact Subgroup.smul_mem_pointwise_smul
               (r : Q) t (R : Subgroup Q) r.prop
           rwa [hRfixed t] at hr⟩ : R) }
-  letI : SMul T R := rsmul
-  letI : MulDistribMulAction T R :=
+  let : SMul T R := rsmul
+  let : MulDistribMulAction T R :=
     Subtype.coe_injective.mulDistribMulAction
       (R : Subgroup Q).subtype (fun _ _ => rfl)
   have htr :=
@@ -180,7 +180,7 @@ theorem five_point_stabilizer_card_ne_two_thousand_sixteen_and_ne_one_million_ei
     Nat.card (fixingSubgroup P s) ≠ 2016 ∧
       Nat.card (fixingSubgroup P s) ≠ 1088640 := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let H : Subgroup P := fixingSubgroup P s
   have hFalse
       (hCases :
@@ -208,7 +208,7 @@ theorem five_point_stabilizer_card_ne_two_thousand_sixteen_and_ne_one_million_ei
     let transfer : H →* S :=
       MonoidHom.transferSylow S hnormalizer
     let Q : Subgroup H := transfer.ker
-    letI : Q.Normal := by
+    let : Q.Normal := by
       dsimp only [Q, transfer]
       infer_instance
     have hcomplement : IsComplement' Q S := by
@@ -218,7 +218,7 @@ theorem five_point_stabilizer_card_ne_two_thousand_sixteen_and_ne_one_million_ei
     have hQcard :
         Nat.card Q = 288 ∨
           Nat.card Q = 155520 := by
-      have hcardMul := hcomplement.card_mul
+      have hcardMul := hcomplement.card_mul_card
       rcases hCases with hH | hH
       · left
         rw [hScard, hH] at hcardMul
@@ -226,7 +226,7 @@ theorem five_point_stabilizer_card_ne_two_thousand_sixteen_and_ne_one_million_ei
       · right
         rw [hScard, hH] at hcardMul
         nlinarith
-    letI : MulDistribMulAction S Q :=
+    let : MulDistribMulAction S Q :=
       MulDistribMulAction.compHom Q
         ((MulAut.conjNormal (H := Q)).comp
           (S : Subgroup H).subtype)
@@ -238,7 +238,7 @@ theorem five_point_stabilizer_card_ne_two_thousand_sixteen_and_ne_one_million_ei
         sylowSeven_centralizer_card_dvd_ninety_eight
           X P hcard h5 hnotAlt s hs S hScard
     rcases hQcard with hQcard | hQcard
-    · letI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    · let : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       let R₀ : Sylow 3 Q := Sylow.nonempty.some
       have hR₀card : Nat.card R₀ = 9 := by
         rw [R₀.card_eq_multiplicity, hQcard]
@@ -287,7 +287,7 @@ theorem five_point_stabilizer_card_ne_two_thousand_sixteen_and_ne_one_million_ei
               rfl) hRtrivial
       have := hNineDvd.trans hCdvd
       norm_num at this
-    · letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    · let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
       let R₀ : Sylow 5 Q := Sylow.nonempty.some
       have hR₀card : Nat.card R₀ = 5 := by
         rw [R₀.card_eq_multiplicity, hQcard]

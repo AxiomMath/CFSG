@@ -48,7 +48,7 @@ theorem commutator_le_of_forall_chief {G : Type*} [Group G] [Finite G] {J H P N�
       have hNleP : N ≤ P := hNlt.le
       have hPN : ⁅P, J⁆ ≤ N := hchief N P hN₀N hNlt le_rfl hHN hHP hmax
       have hNsolv : Group.IsSolvable N := by
-        haveI : Group.IsSolvable ↥P := hPs
+        have : Group.IsSolvable ↥P := hPs
         exact Group.isSolvable_of_isSolvable_injective
           (f := (Subgroup.subgroupOfEquivOfLe hNleP).symm.toMonoidHom)
           (Subgroup.subgroupOfEquivOfLe hNleP).symm.injective
@@ -99,7 +99,7 @@ theorem commutator_eq_bot_of_forall_chief_pCoreOf {G : Type*} [Group G] [Finite 
   have hJJ : ⁅J, J⁆ = J := Subgroup.isPerfect_iff.mp hJ
   have h : ∀ q : ℕ, q.Prime → ⁅J, CFSG.Open.pCoreOf q Θ⁆ = ⊥ := by
     intro q hq
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     rcases eq_or_ne q 2 with hq2 | hq2
     · subst q
       rw [h2, Subgroup.commutator_bot_right]
@@ -117,7 +117,7 @@ theorem commutator_eq_bot_of_forall_chief_pCoreOf {G : Type*} [Group G] [Finite 
       refine sup_le (sup_le Subgroup.le_normalizer ?_) ?_
       · exact hJΘ.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf (r := q) Θ)
       · exact hXΘ.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf (r := q) Θ)
-    haveI : Group.IsNilpotent ↥(CFSG.Open.pCoreOf q Θ) :=
+    have : Group.IsNilpotent ↥(CFSG.Open.pCoreOf q Θ) :=
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup (r := q) Θ).isNilpotent
     have hsolv : Group.IsSolvable (CFSG.Open.pCoreOf q Θ) := IsNilpotent.to_isSolvable
     have hbotnorm : ∀ S : Subgroup G, S ≤ Subgroup.normalizer (⊥ : Subgroup G) := by

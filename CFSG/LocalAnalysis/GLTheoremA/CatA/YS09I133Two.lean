@@ -37,7 +37,7 @@ theorem i133_pow_two_le_twoPart {k n : ℕ} (hn : n ≠ 0) (h : 2 ^ k ∣ n) : 2
 
 theorem i133_exists_card_eq_twoPart (H : Type) [Group H] [Finite H] :
     ∃ K : Subgroup H, Nat.card K = twoPart (Nat.card H) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := H) 2
     (n := (Nat.card H).factorization 2) (Nat.ordProj_dvd _ _)
   exact ⟨K, hK⟩
@@ -52,7 +52,7 @@ theorem i133ImageHom_apply (p : ℕ) {G : Type} [Group G] {J I : Subgroup G} (hI
 theorem i133_card2_le_twoPart_image {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {J I : Subgroup G} (hIJ : I ≤ J) :
     card2 p I ≤ twoPart (Nat.card (i133ImageHom p hIJ).range) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set ι := i133ImageHom p hIJ with hι
   set K₀ : Subgroup ↥I := ι.ker with hK₀
   set O : Subgroup ↥I := GLAPPrimeCore p ↥I with hO

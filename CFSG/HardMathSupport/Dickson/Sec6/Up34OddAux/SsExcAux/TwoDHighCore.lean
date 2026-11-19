@@ -282,7 +282,7 @@ theorem ssexc_twoD_core (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) 
         apply Multiplicative.toAdd.injective
         rw [toAdd_pow, toAdd_one]
         apply Subtype.ext
-        simp [nsmul_eq_mul, CharP.cast_eq_zero L r]
+        simp [nsmul_eq_mul]
       rw [hc0, map_one]
     · have hcard : Nat.card φ.range = Nat.card (D.orbitField (thetaOrbit D.θ β₀)) := by
         calc Nat.card φ.range = Nat.card (Multiplicative (D.orbitField (thetaOrbit D.θ β₀))) :=

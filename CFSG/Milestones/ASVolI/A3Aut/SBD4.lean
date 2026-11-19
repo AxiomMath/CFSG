@@ -48,7 +48,7 @@ theorem burnsideAut_solvBorel_graphFixed
         rw [orbitX_zero]
         exact h
       exact one_ne_zero (orbitX_injective σ.toRingHom a h2)
-    haveI := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card
+    have := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card
       (orbitField t K σ.toRingHom a) (hL a)
     exact burnsideAut_not_isSolvable_of_perfect_hom _ hR1 hR hY's
   have hY'B : Y' ≤ graphFixedRootBorel t K σ.toRingHom := by

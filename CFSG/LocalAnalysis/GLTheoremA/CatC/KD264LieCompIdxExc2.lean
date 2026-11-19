@@ -187,13 +187,13 @@ theorem lieModel_rationalComponent_of_e6_outer {τ : Tag} [hτ : M27Ok τ] [E6Su
             · rw [Finset.sum_eq_single k]
               · simp
               · intro b hb hbk
-                simp [Pi.single_apply, Ne.symm hbk]
+                simp [Ne.symm hbk]
               · intro hk'
                 exact absurd (by simpa using hk) hk'
             · rw [hαJ k hk, Finset.sum_eq_zero]
               intro b hb
               have hbk : k ≠ b := fun h => hk (h ▸ (Finset.mem_filter.1 hb).2)
-              simp [Pi.single_apply, hbk]
+              simp [hbk]
           rw [hα_eq, Finset.smul_sum, Finset.smul_sum]
           refine Finset.sum_congr rfl fun j hj => ?_
           have hjJ : j ∈ e6Set τ := (Finset.mem_filter.1 hj).2
@@ -266,7 +266,7 @@ theorem lieModel_rationalComponent_of_e6_outer {τ : Tag} [hτ : M27Ok τ] [E6Su
   let e4 : ↥(psi2 τ L ℓ f).range ≃* ↥(fixedGroup (K2 L ℓ f) (theta2 L ℓ f)) :=
     (MonoidHom.ofInjective hψ).symm
   let e := e1.trans (e2.trans (e3.trans e4))
-  haveI : Finite (K2 L ℓ f) := finite_frobeniusFixedField (by omega)
+  have : Finite (K2 L ℓ f) := finite_frobeniusFixedField (by omega)
   have hk : Nat.card (K2 L ℓ f) = (ℓ ^ f) ^ 2 := by rw [card_K2 hf, pow_mul']
   have hk4 : 4 ≤ Nat.card (K2 L ℓ f) := by
     rw [hk]
@@ -334,7 +334,7 @@ theorem lieModel_rationalComponent_of_outer_E7 {L : Type} [Field L] [IsAlgClosed
       (by rw [e7_card c hc, hc6]) h72
     refine lieModel_rationalComponent_of_e6_outer S hTor i v ?_ hout
     rw [hroots, hCeq, rootsOf_eq_parabolicRoots kacE7 facts_E7 (J := e6Nodes Tag.E7)
-      (by decide) (fun j => by simp only [e6Nodes, Set.mem_setOf_eq]; revert j; decide)]
+      (by decide) (fun j => by simp only [e6Nodes, Set.mem_ofPred_eq]; revert j; decide)]
   ·
     exfalso
     apply hout
@@ -389,7 +389,7 @@ theorem lieModel_rationalComponent_of_outer_E8 {L : Type} [Field L] [IsAlgClosed
       (by rw [e8_card c hc, hc6]) h72
     refine lieModel_rationalComponent_of_e6_outer S hTor i v ?_ hout
     rw [hroots, hCeq, rootsOf_eq_parabolicRoots kacE8 facts_E8 (J := e6Nodes Tag.E8)
-      (by decide) (fun j => by simp only [e6Nodes, Set.mem_setOf_eq]; revert j; decide)]
+      (by decide) (fun j => by simp only [e6Nodes, Set.mem_ofPred_eq]; revert j; decide)]
   ·
     exfalso
     apply hout
@@ -455,7 +455,7 @@ theorem catalogueIdx_statedProj_minus {K : Type} [Field K] [Fintype K] (n : ℕ)
       n q hv
   obtain ⟨φ⟩ := nonempty_ringEquiv_fixedField_excU (K := K) ⟨.twistedD n q, hv⟩ (by
     simp [TauCeti.ValidLieTypeIndex.fieldOrder, q, hcard])
-  haveI : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD n q, hv⟩) :=
+  have : Finite ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.twistedD n q, hv⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   obtain ⟨e2⟩ := CFSG.Blueprint.EvenSource.nonempty_statedOmegaMinus_equiv (n := n) (by omega)
     (CFSG.ClassicalInvolution.Upgrade.irreducible_map φ hirr) hirr₀
@@ -476,7 +476,7 @@ theorem catalogueOver_of_lieModel_pominus {X : Type} [Group X] {n p f : ℕ}
   have hf : 0 < f := hadm.2.1
   rcases h with ⟨-, hmod⟩ | ⟨-, ht, -⟩ | ⟨-, ht, -⟩ | ⟨-, ht, -⟩
   · obtain ⟨-, K, _, _, hK, b, c, hirr, ⟨e⟩⟩ := hmod
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hring : ringChar K = p := ringChar_eq_of_natCard_eq_pow hp hK hf
     obtain ⟨i, ⟨φ⟩, hi⟩ := catalogueIdx_statedProj_minus (K := K) n hn4 hirr
     refine ⟨i, ⟨e.trans φ⟩, ?_⟩
@@ -691,7 +691,7 @@ theorem lieModel_orbitGroup_of_datum_core_four_of_root_data {τ : Tag}
     have hlt : j.val < m - 1 := by omega
     have := le_iSup (fun i : Fin (m - 1) => if i.val + 2 < m then linNode i.val else Vg)
       ⟨j.val, hlt⟩
-    simpa only [if_pos (show (⟨j.val, hlt⟩ : Fin (m - 1)).val + 2 < m from hj)] using this
+    simpa only [ite_eq_left (show (⟨j.val, hlt⟩ : Fin (m - 1)).val + 2 < m from hj)] using this
   have hle_fork : Vg ≤ ⨆ i : Fin (m - 1), if i.val + 2 < m then linNode i.val else Vg := by
     have hlt : m - 2 < m - 1 := by omega
     have hcond : ¬ (⟨m - 2, hlt⟩ : Fin (m - 1)).val + 2 < m := by
@@ -699,12 +699,12 @@ theorem lieModel_orbitGroup_of_datum_core_four_of_root_data {τ : Tag}
       omega
     have := le_iSup (fun i : Fin (m - 1) => if i.val + 2 < m then linNode i.val else Vg)
       ⟨m - 2, hlt⟩
-    simpa only [if_neg hcond] using this
+    simpa only [ite_eq_right hcond] using this
   have hC : (⨆ i : Fin (m - 1), if i.val + 2 < m then linNode i.val else Vg) =
       D.orbitGroup := by
     refine le_antisymm (iSup_le fun i => ?_) ?_
     · by_cases hi : i.val + 2 < m
-      · rw [if_pos hi]
+      · rw [ite_eq_left hi]
         rintro _ ⟨A, rfl⟩
         refine sl2_hom_mem_of_gens _ D.orbitGroup (fun t => ?_) (fun t => ?_) A
         · have h := (hlongmem ⟨i.val, by omega⟩ hi (t : L)
@@ -717,7 +717,7 @@ theorem lieModel_orbitGroup_of_datum_core_four_of_root_data {τ : Tag}
           rw [← hρi ⟨i.val, by omega⟩] at h
           simp only [MonoidHom.comp_apply, map_vSL']
           exact h
-      · rw [if_neg hi]
+      · rw [ite_eq_right hi]
         rintro _ ⟨B, rfl⟩
         refine sl2_hom_mem_of_gens _ D.orbitGroup (fun t => ?_) (fun t => ?_) B
         · have h := (hforkmem (t : L) (CFSG.LieType.Chevalley.mem_frobeniusFixedField.1 t.2)).1
@@ -804,8 +804,8 @@ theorem lieModel_orbitGroup_of_datum_four_of_root_data {τ : Tag}
         ⟨m - 1, by omega⟩).surjective.range_comp b).symm
     · have e : Equiv.swap (⟨m - 2, by omega⟩ : Fin m) ⟨m - 1, by omega⟩ j = j :=
         Equiv.swap_apply_of_ne_of_ne
-          (fun h' => by rw [h'] at hj; simp only [Fin.val_mk] at hj; omega)
-          (fun h' => by rw [h'] at hj; simp only [Fin.val_mk] at hj; omega)
+          (fun h' => by rw [h'] at hj; simp only at hj; omega)
+          (fun h' => by rw [h'] at hj; simp only at hj; omega)
       show D.θ (toReal (b (Equiv.swap _ _ j))) = toReal (b (Equiv.swap _ _ j))
       rw [e]
       exact hfix j hj
@@ -919,8 +919,8 @@ theorem lieModel_rationalComponent_of_dClassTwistedG (hτ : τ = .D4 ∨ τ = .E
   classical
   obtain ⟨r, e, m, hr, hchar, hm5, z, ε, D, hq, he, hDe, hRC, hDs, hCart, hfix, hswap⟩ :=
     CompsPTwoDExport.exists_twoD_export S hτ hTor i hkind h5
-  haveI := hr
-  haveI := hchar
+  have := hr
+  have := hchar
   have hrc : ringChar L = r := ringChar.eq L r
   have hQ' : Q r (r ^ e) := by
     have h := hQ
@@ -954,8 +954,8 @@ theorem lieModel_rationalComponent_of_dClassTwistedG (hτ : τ = .D4 ∨ τ = .E
       exact (ε.symm j).2
     · intro hβ
       exact ⟨ε ⟨β, hβ⟩, by simp⟩
-  have hsw := hswap ⟨m - 2, by omega⟩ ⟨m - 1, by omega⟩ (by simp only [Fin.val_mk]; omega)
-    (by simp only [Fin.val_mk]; omega)
+  have hsw := hswap ⟨m - 2, by omega⟩ ⟨m - 1, by omega⟩ (by simp only; omega)
+    (by simp only; omega)
   have hlie := lieModel_orbitGroup_of_datum_four hτ D (by omega) hR
     (fun j : Fin m => (ε.symm j : Fin τ.rank → ℤ)) hbroot hbinj hG (hDs.trans hrange.symm) hfix
     hsw.1 hsw.2
@@ -993,7 +993,7 @@ theorem lieModel_rationalComponent_of_dClassTwistedG_E6 (S : LangSetup Tag.E6 L 
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) .POmegaMinus m
         (ringChar L) e :=
   lieModel_rationalComponent_of_dClassTwistedG (Or.inr (Or.inl rfl)) kacE6 facts_E6 e6_tree
-    e6_adj e6_check e6_lt e6_card e6_dcount e6_dtrees (fun {F} _ x y h => e6_frames x y h) S hp
+    e6_adj e6_check e6_lt e6_card e6_dcount e6_dtrees (fun {_F} _ x y h => e6_frames x y h) S hp
     hpL hTor hTp i h5 hn hkind Q hrec hQ
 
 theorem lieModel_rationalComponent_of_dClassTwistedG_E7 (S : LangSetup Tag.E7 L p₀) (hp : p.Prime)
@@ -1010,7 +1010,7 @@ theorem lieModel_rationalComponent_of_dClassTwistedG_E7 (S : LangSetup Tag.E7 L 
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) .POmegaMinus m
         (ringChar L) e :=
   lieModel_rationalComponent_of_dClassTwistedG (Or.inr (Or.inr (Or.inl rfl))) kacE7 facts_E7
-    e7_tree e7_adj e7_check e7_lt e7_card e7_dcount e7_dtrees (fun {F} _ x y h => e7_frames x y h)
+    e7_tree e7_adj e7_check e7_lt e7_card e7_dcount e7_dtrees (fun {_F} _ x y h => e7_frames x y h)
     S hp hpL hTor hTp i h5 hn hkind Q hrec hQ
 
 theorem lieModel_rationalComponent_of_dClassTwistedG_E8 (S : LangSetup Tag.E8 L p₀) (hp : p.Prime)
@@ -1027,7 +1027,7 @@ theorem lieModel_rationalComponent_of_dClassTwistedG_E8 (S : LangSetup Tag.E8 L 
         Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) .POmegaMinus m
         (ringChar L) e :=
   lieModel_rationalComponent_of_dClassTwistedG (Or.inr (Or.inr (Or.inr rfl))) kacE8 facts_E8
-    e8_tree e8_adj e8_check e8_lt e8_card e8_dcount e8_dtrees (fun {F} _ x y h => e8_frames x y h)
+    e8_tree e8_adj e8_check e8_lt e8_card e8_dcount e8_dtrees (fun {_F} _ x y h => e8_frames x y h)
     S hp hpL hTor hTp i h5 hn hkind Q hrec hQ
 
 variable {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
@@ -1055,7 +1055,7 @@ theorem lieModel_rationalComponent_of_twoD_highG {p : ℕ} (hp : p.Prime) {τ : 
   have hTp := rootDiagUnit_pow_eq_one_of_forall hap
   have hkind : twistKind S.ρ (rootCharHom a) i = .twoD := by
     unfold twistKind
-    rw [if_neg hout, if_neg, if_pos ⟨by omega, hn⟩]
+    rw [ite_eq_right hout, ite_eq_right, ite_eq_left ⟨by omega, hn⟩]
     rintro (⟨h6, h72⟩ | ⟨h4', -, -⟩)
     · rw [hn, h6] at h72
       omega

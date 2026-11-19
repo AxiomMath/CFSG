@@ -260,10 +260,10 @@ theorem q8OK_sound (hn : n ≤ 8) (he : enc (1 : Wr n) = e) (hp : enc (allOnes n
     · have := eqPi_perm' hxy
       simp only [mul_perm] at this ⊢
       exact this
-  simp only [strictB_eq, lvl_fst, pm_enc hn] at h3 hpre
+  simp only [lvl_fst, pm_enc hn] at h3 hpre
   rw [hpre, Bool.not_true, Bool.false_or] at h3
   have h4 := List.all_eq_true.1 h3 _ hVy
-  simp only [strictB_eq, pm_enc hn, ofVec_mul_ofPerm, q8P_enc hn he hp, hq, Bool.not_true,
+  simp only [pm_enc hn, ofVec_mul_ofPerm, q8P_enc hn he hp, hq, Bool.not_true,
     Bool.false_or, List.any_map, List.any_eq_true, Bool.and_eq_true, Function.comp_apply,
     eqPiP_enc hn hp] at h4
   exact h4

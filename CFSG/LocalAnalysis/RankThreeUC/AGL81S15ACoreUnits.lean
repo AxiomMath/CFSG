@@ -29,7 +29,7 @@ theorem unitsPPart_isPGroup (F : Type) [Field F] [Finite F] (r : ℕ) [Fact r.Pr
 theorem unitsPPart_eq_sylow (F : Type) [Field F] [Finite F] (r : ℕ) [Fact r.Prime]
     (P : Sylow r Fˣ) : unitsPPart F r = P := by
   refine le_antisymm ((unitsPPart_isPGroup F r).le_sylow_of_normal P) fun u hu => ?_
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨u, hu⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨u, hu⟩
   exact ⟨k, by simpa using congrArg Subtype.val hk⟩
 
 theorem card_unitsPPart (F : Type) [Field F] [Fintype F] (r : ℕ) [Fact r.Prime] :

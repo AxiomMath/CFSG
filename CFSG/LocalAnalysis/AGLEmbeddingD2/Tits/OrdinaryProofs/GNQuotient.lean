@@ -103,11 +103,11 @@ theorem not_isPSolvable_of_isComponent {W : Type} [Group W] [Finite W]
         exact ⟨⟨x, Subgroup.mem_top x⟩, Subgroup.mem_subgroupOf.mpr hx, rfl⟩
     let e := QuotientGroup.congr ((Subgroup.center ↥K).subgroupOf (⊤ : Subgroup ↥K))
       (Subgroup.center ↥K) (Subgroup.topEquiv : ↥(⊤ : Subgroup ↥K) ≃* ↥K) hTeq
-    haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hsimp
+    have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hsimp
     have hsimpT : IsSimpleGroup
         (↥(⊤ : Subgroup ↥K) ⧸ (Subgroup.center ↥K).subgroupOf (⊤ : Subgroup ↥K)) :=
       e.isSimpleGroup
-    haveI : ((Subgroup.center ↥K).subgroupOf (⊤ : Subgroup ↥K)).Normal := inferInstance
+    have : ((Subgroup.center ↥K).subgroupOf (⊤ : Subgroup ↥K)).Normal := inferInstance
     have hnsn : (⊤ : Subgroup ↥K).IsSubnormal := Subgroup.Normal.isSubnormal inferInstance
     have hT := hA ⊤ hnsn ((Subgroup.center ↥K).subgroupOf (⊤ : Subgroup ↥K)) hsimpT
     have hidx : ((Subgroup.center ↥K).subgroupOf (⊤ : Subgroup ↥K)).index =
@@ -117,7 +117,7 @@ theorem not_isPSolvable_of_isComponent {W : Type} [Group W] [Finite W]
     rcases hT with h3 | h3
     · exfalso
       rw [hidx] at h3
-      haveI : IsCyclic (↥K ⧸ Subgroup.center ↥K) := by
+      have : IsCyclic (↥K ⧸ Subgroup.center ↥K) := by
         apply isCyclic_of_prime_card (p := 3)
         exact h3
       exact hab (mul_comm a0 b0)
@@ -141,9 +141,9 @@ theorem not_isPSolvable_of_isComponent {W : Type} [Group W] [Finite W]
   obtain ⟨P⟩ : Nonempty (Sylow 3 ↥K) := inferInstance
   have hPcen : ∀ g ∈ P.toSubgroup, g ∈ Subgroup.center ↥K := by
     intro g hg
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hg⟩
     exact hcen g k (by simpa using congrArg Subtype.val hk)
-  haveI hPn : P.toSubgroup.Normal := ⟨fun n hn g => by
+  have hPn : P.toSubgroup.Normal := ⟨fun n hn g => by
     rw [(Subgroup.mem_center_iff.mp (hPcen n hn) g), mul_inv_cancel_right]
     exact hn⟩
   have hcop : Nat.Coprime (Nat.card P.toSubgroup) P.toSubgroup.index :=

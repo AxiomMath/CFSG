@@ -33,15 +33,15 @@ theorem false_of_equiv_alternatingGroup_six_le_centralizer {G : Type*} [Group G]
       Equiv.Perm (Fin 5))
     {X : Subgroup G} (hX : X ≤ centralizer ({g} : Set G))
     (ψ : ↥X ≃* alternatingGroup (Fin 6)) : False := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥X := ψ.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥X := ψ.isSimpleGroup
   exact false_of_simple_le_centralizer f hX inferInstance
     ((Nat.card_congr ψ.toEquiv).trans natCard_alternatingGroup_six)
 
 theorem harris311HiS_of_cat (h : CatHarrisAS) (h15 : NoFifteen) (hout : OutNoOdd) :
     Harris311HiS := by
   intro G _ _ hK hO t ht ⟨e⟩ g hg ⟨f⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have hnab : ∃ a b : alternatingGroup (Fin 6), a * b ≠ b * a :=
     exists_noncommute_of_center_eq_bot (alternatingGroup.center_eq_bot (by simp))
   have hR := rhyp_mulAut hnab
@@ -85,7 +85,7 @@ theorem harris311HiS_of_cat (h : CatHarrisAS) (h15 : NoFifteen) (hout : OutNoOdd
     · refine false_of_equiv_alternatingGroup_six_le_centralizer f (X := S₁) (fun a ha => ?_) ψ₁
       exact mem_centralizer_singleton_iff.2 (hs.commute a ha g hg2)
   ·
-    haveI := hF.simple
+    have := hF.simple
     have hBne : (MulAut.conj :
         alternatingGroup (Fin 6) →* MulAut (alternatingGroup (Fin 6))).range.map (embA e) ≠ ⊥ := by
       intro hbot

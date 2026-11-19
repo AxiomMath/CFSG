@@ -82,7 +82,7 @@ theorem Sec3Hyp.exists_mem_Tset_of_fix {S : Setting z E F} {a : G} {w : ℕ}
       g ∈ QaOf (a * z) ∧ g * a * g⁻¹ = z ∧
       (t : G) = g * (r : G) * g⁻¹ ∧
       (QuotientGroup.mk t : Hbar z) ∈ Tset S a := by
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   obtain ⟨g, hgQaz, hga⟩ :=
     exists_conj_eq_z_of_mem_QaOf_mul_z S h.mem_Q h.isConj h.not_mem_ZQ h.mem_Qa
   have hgz : g * z * g⁻¹ = a :=
@@ -113,11 +113,11 @@ theorem Sec3Hyp.exists_mem_Tset_of_fix {S : Setting z E F} {a : G} {w : ℕ}
 theorem Sec3Hyp.exists_smul_preimage_of_fix {S : Setting z E F} {a g : G} {w : ℕ}
     (h : Sec3Hyp S a w) (hgQaz : g ∈ QaOf (a * z)) (hga : g * a * g⁻¹ = z)
     (r : ↥(Q z))
-    (hfix : ∀ ℓ ∈ Lbar S a, rhoLin S ℓ (Additive.ofMul (mkQbar S r)) =
+    (_hfix : ∀ ℓ ∈ Lbar S a, rhoLin S ℓ (Additive.ofMul (mkQbar S r)) =
       Additive.ofMul (mkQbar S r))
     (t : ↥(H z)) (ht : (t : G) = g * (r : G) * g⁻¹)
-    (hq : qS S (Additive.ofMul (mkQbar S r)) = 0)
-    (hspan : Additive.ofMul (mkQbar S r) ∉ (ZMod 2) ∙ aVec S h.mem_Q) :
+    (_hq : qS S (Additive.ofMul (mkQbar S r)) = 0)
+    (_hspan : Additive.ofMul (mkQbar S r) ∉ (ZMod 2) ∙ aVec S h.mem_Q) :
     ∃ (s : ↥(H z)) (r' : ↥(Q z)) (t' : ↥(H z)),
       (QuotientGroup.mk s : Hbar z) ∈ Tset S a ∧
       Additive.ofMul (mkQbar S r') = Additive.ofMul (mkQbar S r) ∧
@@ -195,7 +195,7 @@ theorem Sec3Hyp.not_forall_Lbar_fix_commSpace {S : Setting z E F} {a : G} {w : �
     {α : Hbar z} (hα : IsA2Hbar S α) :
     ¬ ∀ ℓ ∈ Lbar S a, ∀ v ∈ commSpace (rhoLin S α), rhoLin S ℓ v = v := by
   intro hall
-  letI : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
+  let : Module (ZMod 2) (Additive (Abelianization F)) := modAbF S
   have htype : CFSG.LargeExtraspecial.IsTypeA (qS S) (rhoLin S α) 2 := by
     simpa [rhoLin] using isTypeA_rhoBar_of_isA2Hbar S hα
   have hle : commSpace (rhoLin S α) ≤ (ZMod 2) ∙ aVec S h.mem_Q := by

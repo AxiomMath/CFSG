@@ -367,7 +367,7 @@ theorem unitri_of_noncomm [Finite K] (hVc : ∀ v ∈ V, ∀ y ∈ Q, v * y = y 
     { toFun := fun u => D₁.vinv u.c * (D₁.uinv u.b * S₂ u.a)
       map_one' := by
         rw [UT3.one_def]
-        simp only [D₁.vinv_zero, D₁.uinv_zero, hS₂zero, one_mul, mul_one]
+        simp only [D₁.vinv_zero, D₁.uinv_zero, hS₂zero, mul_one]
       map_mul' := fun u u' => by
         rw [UT3.mul_def]
         simp only

@@ -131,12 +131,12 @@ theorem no_faithful_E27_small {V B : Type} [Group V] [Finite V] [Group B] [Finit
     (hV : Nat.card V ≤ q ^ 2) (hBab : ∀ a b : B, a * b = b * a) (hB3 : ∀ b : B, b ^ 3 = 1)
     (hB27 : Nat.card B = 27) (ρ : B →* MulAut V) (hρ : Function.Injective ρ) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hBm : IsMulCommutative B := ⟨⟨hBab⟩⟩
-  haveI : IsElementaryAbelian 3 B :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hBm : IsMulCommutative B := ⟨⟨hBab⟩⟩
+  have : IsElementaryAbelian 3 B :=
     { toIsMulCommutative := hBm, exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one hB3 }
-  haveI : Nontrivial B := Finite.one_lt_card_iff_nontrivial.mp (by rw [hB27]; norm_num)
-  letI : MulDistribMulAction B V := MulDistribMulAction.compHom V ρ
+  have : Nontrivial B := Finite.one_lt_card_iff_nontrivial.mp (by rw [hB27]; norm_num)
+  let : MulDistribMulAction B V := MulDistribMulAction.compHom V ρ
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hVq
   have hq1 : 1 < q := (Fact.out : q.Prime).one_lt
   have hk2 : k ≤ 2 := by
@@ -148,7 +148,7 @@ theorem no_faithful_E27_small {V B : Type} [Group V] [Finite V] [Group B] [Finit
     exact hq3 ((Nat.prime_dvd_prime_iff_eq Nat.prime_three (Fact.out : q.Prime)).mp
       (Nat.prime_three.dvd_of_dvd_pow h)).symm
   have hsup : (⨆ (B₀ : Subgroup B) (_ : B₀.index = 3), CFSG.fixedPointSubgroup B₀ V) = ⊤ := by
-    letI : CommGroup V := { ‹Group V› with mul_comm := hVab }
+    let : CommGroup V := { ‹Group V› with mul_comm := hVab }
     exact CFSG.SolvableHall.abelian_hyperplane_generation hndvd
   have hcard9 : ∀ H : Subgroup B, H.index = 3 → Nat.card H = 9 := by
     intro H hH
@@ -206,7 +206,7 @@ theorem cr_comm_of_le_sq {V : Type} [Group V] [Finite V] {q : ℕ} [Fact q.Prime
   interval_cases n
   · have : Subsingleton V := (Nat.card_eq_one_iff_unique.mp (by simpa using hn)).1
     exact fun a b => Subsingleton.elim _ _
-  · haveI := isCyclic_of_prime_card (α := V) (p := q) (by simpa using hn)
+  · have := isCyclic_of_prime_card (α := V) (p := q) (by simpa using hn)
     have : IsMulCommutative V := inferInstance
     exact fun a b => this.is_comm.comm a b
   · exact fun a b => (IsPGroup.isMulCommutative_of_card_eq_prime_sq hn).is_comm.comm a b

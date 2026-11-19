@@ -25,13 +25,13 @@ theorem ggCSR_of_lib {lab : LargeEvenLabel}
   refine h.mono fun R _ I F hR A hAI hA => ?_
   have hlt : Nat.card A < 3 ^ 3 := hR A (fun a ha => hAI a ha) hA
   by_cases hfin : Finite A
-  · haveI : Finite A := hfin
+  · have : Finite A := hfin
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 3) (G := A)).mp
       (TableB.isPGroup_of_isElemAbelian hA)
     rw [hk] at hlt ⊢
     have hk3 : k < 3 := (Nat.pow_lt_pow_iff_right (by norm_num : 1 < 3)).mp hlt
     exact Nat.pow_le_pow_right (by norm_num : 0 < 3) (by omega)
-  · haveI : Infinite A := not_finite_iff_infinite.mp hfin
+  · have : Infinite A := not_finite_iff_infinite.mp hfin
     rw [Nat.card_eq_zero_of_infinite]
     exact Nat.zero_le _
 

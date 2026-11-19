@@ -131,6 +131,7 @@ section Elementary
 
 variable {p : ℕ}
 
+omit [Finite G] in
 theorem isElemAbelian_gLBConj {E : Subgroup G} (hE : IsElemAbelian p E) (g : G) :
     IsElemAbelian p (GLBConj g E) ∧ Nat.card (GLBConj g E) = Nat.card E := by
   refine ⟨⟨⟨⟨fun u v => ?_⟩⟩, fun y hy => ?_⟩, ?_⟩
@@ -174,6 +175,7 @@ theorem normalizer_le_normalizer_centMod (J : Subgroup G) :
     Subgroup.normalizer (J : Set G) ≤ Subgroup.normalizer (centModSubgroup p J : Set G) :=
   fun _ hg => mem_normalizer_of_conj_le fun _ ha => S3.conj_mem_centModSubgroup hg ha
 
+omit [Finite G] in
 theorem commutator_le_of_le_normalizer {H A : Subgroup G} (hA : A ≤ Subgroup.normalizer (H : Set G)) :
     ⁅H, A⁆ ≤ H := by
   rw [Subgroup.commutator_le]
@@ -184,6 +186,7 @@ theorem commutator_le_of_le_normalizer {H A : Subgroup G} (hA : A ≤ Subgroup.n
   rw [h2]
   exact H.mul_mem hh h1
 
+omit [Finite G] in
 theorem closureIn_eq_iSup_gLBConj (I H : Subgroup G) :
     closureIn I H = ⨆ g ∈ H, GLBConj g I := by
   unfold closureIn
@@ -247,7 +250,7 @@ theorem no_centMod_two (hp : p.Prime) (hp2 : p ≠ 2) {B E I D J W : Subgroup G}
     exact mem_normalizer_of_conj_le fun y hy => key ⟨y, hy, rfl⟩
   exact rank_contra hp hB hE hbig (hEID.trans (sup_le hIH hDH)) hcop h2
 
-theorem twoLocalRank_le_pRank (hp : p.Prime) {B X : Subgroup G} (hB : GLAIsBmax p B) (hBX : B ≤ X) :
+theorem twoLocalRank_le_pRank (hp : p.Prime) {B X : Subgroup G} (hB : GLAIsBmax p B) (_hBX : B ≤ X) :
     GLATwoLocalRank p ↥X ≤ CFSG.Open.pRank p B := by
   refine le_trans ?_ (CFSG.SectionRank.le_pRank hp.one_lt le_rfl hB.1 hB.2.1)
   unfold GLATwoLocalRank CFSG.Open.twoLocalPrimeRank
@@ -299,6 +302,7 @@ theorem cfgI_big (hp : p.Prime) (c : SporCfg G p x L row)
         Nat.mul_le_mul_left _ h1
     _ ≤ Nat.card E := hbig
 
+omit [Finite G] in
 theorem I_le_cfgJa (p : ℕ) (I : Subgroup G) (a : G) : I ≤ cfgJa p I a := by
   have h : I = I.map (MulAut.conj (1 : G)).toMonoidHom := by
     rw [map_one]
@@ -421,8 +425,8 @@ theorem tstar_facts (hp : p.Prime) (hp2 : p ≠ 2) (c : SporCfg G p x L row) {Q 
       rw [c.hD.2.2.1]
       exact Nat.Coprime.pow_left 2 (coprime_card_of_two hp hp2 hQ2)
     have hsolv : Group.IsSolvable ↥Q := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI := hQ2.isNilpotent
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have := hQ2.isNilpotent
       infer_instance
     rw [GL83.commutator_double_eq_self c.D Q hDQ hcop hsolv]
   · exact le_normalizer_commutator' hQn

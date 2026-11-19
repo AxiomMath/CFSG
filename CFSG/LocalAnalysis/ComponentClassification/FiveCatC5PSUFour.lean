@@ -156,7 +156,7 @@ theorem psu_graph_lift_unique (hn : 3 ≤ n) (A : primeFormUnitary h (idGram K n
   (Matrix.GeneralLinearGroup.toLin : GL (Fin n) K ≃*
     LinearMap.GeneralLinearGroup K (Fin n → K)).toMonoidHom.comp (gramSU h (idGram K n)).subtype
 
-theorem suToLin_injective : Function.Injective (suToLin h (n := n)) := fun x y hxy =>
+theorem suToLin_injective : Function.Injective (suToLin h (n := n)) := fun _x _y hxy =>
   Subtype.ext (Matrix.GeneralLinearGroup.toLin.injective hxy)
 
 theorem psiLift_fixed_map (A : primeFormUnitary h (idGram K n)) (φ : K ≃+* K)

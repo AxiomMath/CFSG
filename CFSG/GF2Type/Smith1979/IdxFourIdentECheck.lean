@@ -117,10 +117,10 @@ theorem candidates_E {H : Subgroup G12} (hR0 : R0 ≤ H) (a b : Fin 4) (s : ZMod
     have hU := (Umat_hasRows a b).mul (Delta0_hasRows s)
     rcases MonAux.zmod2_cases ε with rfl | rfl
     · have h0 : k.eps = 0 := he
-      rw [zRowsE, if_pos h0, ha, hb, hs, ZMod.natCast_zmod_val, ZMod.val_zero, pow_zero, mul_one]
+      rw [zRowsE, ite_eq_left h0, ha, hb, hs, ZMod.natCast_zmod_val, ZMod.val_zero, pow_zero, mul_one]
       exact hU
     · have h1 : ¬ k.eps = 0 := by rw [he]; decide
-      rw [zRowsE, if_neg h1, ha, hb, hs, ZMod.natCast_zmod_val, ZMod.val_one, pow_one]
+      rw [zRowsE, ite_eq_right h1, ha, hb, hs, ZMod.natCast_zmod_val, ZMod.val_one, pow_one]
       exact hU.mul s12_hasRows
   cases hg : k.good
   · simp only [candCheckE, hg, Bool.false_eq_true, ↓reduceIte, candBadE, Bool.and_eq_true,

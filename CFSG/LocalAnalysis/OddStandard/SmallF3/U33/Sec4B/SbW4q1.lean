@@ -38,7 +38,7 @@ theorem w4q_exists_psi
       ∀ g, φ g = 1 → (g : G) ∈ ctxX t tau x₁ x₂ := by
   have htX : t ∈ ctxX t tau x₁ x₂ := Subgroup.subset_closure (by simp)
   have htauX : tau ∈ ctxX t tau x₁ x₂ := Subgroup.subset_closure (by simp)
-  haveI : IsMulCommutative ↥(fourGrp x₁ x₂) := (hc.wreath.fourGrp_eq_omega).2.1.1
+  have : IsMulCommutative ↥(fourGrp x₁ x₂) := (hc.wreath.fourGrp_eq_omega).2.1.1
   have hV1 : ∀ g : ↥(ctxO t tau x₁ x₂), (g : G) * t * (g : G)⁻¹ * t⁻¹ ∈ fourGrp x₁ x₂ :=
     fun g => w4q_O_comm_X hc g.2 htX
   have hV2 : ∀ g : ↥(ctxO t tau x₁ x₂), (g : G) * tau * (g : G)⁻¹ * tau⁻¹ ∈ fourGrp x₁ x₂ :=
@@ -77,6 +77,7 @@ theorem w4q_exists_psi
   exact w4_mem_X_of_mem_R hc.toCtx10.toCtx4
     (w4_O_le_R (w4q_toW4Ctxc hc).toW4Ctxb g.2) hgt hgtau
 
+omit [Finite G] in
 theorem w4q_comm_of_comm_eq_one {a b : G} (h : a * b * a⁻¹ * b⁻¹ = 1) : a * b = b * a := by
   have h1 : a * b * a⁻¹ = b := mul_inv_eq_one.mp h
   exact mul_inv_eq_iff_eq_mul.mp h1

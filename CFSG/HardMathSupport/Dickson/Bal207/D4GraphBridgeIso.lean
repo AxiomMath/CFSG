@@ -17,6 +17,7 @@ section Iso
 variable (K : Type) [Field K] [Finite K]
 
 
+omit [Finite K] in
 theorem exists_thetaOmega_ne_one : ∃ x, thetaOmega K x ≠ 1 := by
   obtain ⟨c, hc⟩ := exists_ne_one_adjointGroup_D4 K
   obtain ⟨x, rfl⟩ := thetaOmega_surjective K c
@@ -64,7 +65,7 @@ variable {K : Type} [Field K] (σ : K ≃+* K)
 
 theorem statedQuadPlus_map (v : Fin 4 ⊕ Fin 4 → K) :
     StatedQuadPlus 4 K (fun i => σ (v i)) = σ (StatedQuadPlus 4 K v) := by
-  simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, map_sum]
+  simp [StatedQuadPlus, map_sum]
 
 @[expose] def sigmaOmega :
     StatedOmega (StatedQuadPlus 4 K) ≃* StatedOmega (StatedQuadPlus 4 K) :=

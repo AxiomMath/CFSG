@@ -110,14 +110,14 @@ private lemma l05nE4_roots_length {p N : ℕ} {u : List ℕ} (hu : u ∈ ggTWNRo
   simp only [List.mem_flatMap, List.mem_range] at hu
   obtain ⟨i, _hi, j, _hj, hu⟩ := hu
   by_cases hij : i ≤ j
-  · rw [if_pos hij] at hu
+  · rw [ite_eq_left hij] at hu
     simp only [List.mem_cons] at hu
     rcases hu with rfl | rfl | hu
     · exact l05nE4_sum_length p N i j
     · rw [ggDepANSmul, List.length_map]
       exact l05nE4_sum_length p N i j
     · cases hu
-  · rw [if_neg hij] at hu
+  · rw [ite_eq_right hij] at hu
     cases hu
 
 private lemma l05nE4_contains_of_OK {p N : ℕ} (hR : ggTWNRootsOK p N (ggTWNRoots p N) = true) :
@@ -196,10 +196,10 @@ private lemma l05nE4_getD_take {α : Type*} (l : List α) (k : ℕ) (d : α) {j 
 private lemma l05nE4_x_apply_zero {p N : ℕ} (j : Fin (N - 1)) (hj : j.val < N - 2) :
     ggTWx p N j = 0 := by
   simp only [ggTWx]
-  rw [if_neg (by change ¬ (j.val + 2 = N); omega)]
+  rw [ite_eq_right (by omega)]
 
 private lemma l05nE4_orbit_aux {p N : ℕ} [Fact p.Prime]
-    (hcontains : ∀ i : Fin (N - 1), ggTWNH p N i.val ∈ ggTWNRoots p N)
+    (_hcontains : ∀ i : Fin (N - 1), ggTWNH p N i.val ∈ ggTWNRoots p N)
     (hstable : ∀ u ∈ ggTWNRoots p N, ∀ g : Fin (N - 1),
       ggTWNRefl p (ggTWNH p N g.val, ggTWNA p N g.val) u ∈ ggTWNRoots p N)
     (hlen : ∀ u ∈ ggTWNRoots p N, u.length = N - 1) :
@@ -222,7 +222,7 @@ private lemma l05nE4_orbit_aux {p N : ℕ} [Fact p.Prime]
       obtain ⟨u2, hu2, hu2eq⟩ := ihx u1 hu1
       exact ⟨u2, hu2, by rw [hu2eq, hu1eq]; rfl⟩
 
-theorem ggTWNRoots_orbit {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p)
+theorem ggTWNRoots_orbit {p N : ℕ} [Fact p.Prime] (_hp : 3 ≤ p)
     (hR : ggTWNRootsOK p N (ggTWNRoots p N) = true) :
     ∀ v ∈ ggTWRoots (ggTWFrameGens p N) (Set.range (ggTWh p N)),
       ∃ u ∈ ggTWNRoots p N, ggTWNToZ p N u = v := by
@@ -258,7 +258,7 @@ private lemma l05nE4_apply_mem_aux {p N : ℕ} [Fact p.Prime] {w : List ℕ}
       rw [hstep, hHg, hAg, hWv]
       rfl
 
-theorem ggTWNApply_mem {p N : ℕ} [Fact p.Prime] (hp : 3 ≤ p) {w : List ℕ}
+theorem ggTWNApply_mem {p N : ℕ} [Fact p.Prime] (_hp : 3 ≤ p) {w : List ℕ}
     (hw : ∀ g ∈ w, g + 1 < N) {i : ℕ} (hi : i + 1 < N) :
     ggTWNToZ p N (ggTWNApply p N w (ggTWNH p N i)) ∈
       ggTWRoots (ggTWFrameGens p N) (Set.range (ggTWh p N)) := by

@@ -13,7 +13,7 @@ open scoped commutatorElement
 
 theorem isPGroup_zpowers_two {K : Type*} [Group K] {x : K} (h : x ^ 4 = 1) :
     IsPGroup 2 (Subgroup.zpowers x) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hd : orderOf x ∣ 2 ^ 2 := by simpa using orderOf_dvd_of_pow_eq_one h
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hd
   exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
@@ -68,7 +68,7 @@ theorem degenerate_of_card_two (hd : Sec23Data V H) (h2 : Nat.card (barOf V H V)
   have hv1 : v ≠ 1 := fun h => hv1' (Subtype.ext h)
   have hvX : v ∈ barOf V H (xOf V H) := barOf_V_le V H hvV
   set v' : Xbar V H := ⟨v, hvX⟩ with hv'
-  have hv'D : v' ∈ Dy V H := hc.barOf_V_subset_dbarOf hvV hv1
+  have hv'D : v' ∈ Dy V H := CFSG.RankThree.GF2n.Tim79a.MinCex.barOf_V_subset_dbarOf hvV hv1
   obtain ⟨d₀, hd₀⟩ := hd.isClass
   have hcl : ∀ g ∈ Dy V H, IsConj v' g := fun g hg => by
     have h1 : IsConj d₀ v' := by rw [hd₀] at hv'D; exact hv'D
@@ -94,7 +94,7 @@ theorem degenerate_of_card_two (hd : Sec23Data V H) (h2 : Nat.card (barOf V H V)
     rw [← this]; exact h4
   have hvw4' : (v' * w) ^ 4 = 1 := by rw [← hvw4]; exact pow_orderOf_eq_one _
   obtain ⟨x', -, hx'z⟩ := mem_barOf_iff.mp z.2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hv2 : v * v = 1 := by
     have := congrArg Subtype.val hv'2
     simpa using this

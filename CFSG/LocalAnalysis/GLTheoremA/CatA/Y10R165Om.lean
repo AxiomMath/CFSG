@@ -132,7 +132,7 @@ theorem even_finrank_fixedSpace (hx : OddOrderIsometry Q p x)
 
 theorem isQuasisimple_supportedFixedDerived_of_six_le [Finite F]
     {Q : QuadraticForm F V} {p : ℕ} {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x)
-    (h2 : (2 : F) = 0) (h6 : 6 ≤ Module.finrank F ↥(fixedSpace x)) :
+    (_h2 : (2 : F) = 0) (h6 : 6 ≤ Module.finrank F ↥(fixedSpace x)) :
     CFSG.IsQuasisimple ↥(supportedFixedDerived Q x) := by
   have h3 : 3 ≤ Module.finrank F ↥(fixedSpace x) := by omega
   have hnexc : ¬ SmallFixedException (Q.comp (fixedSpace x).subtype) := by

@@ -33,21 +33,21 @@ theorem piB_E8 (p f : ℕ) : piB .E8 p f = 1 := rfl
 
 theorem piB_E6_of_dvd {p : ℕ} (f : ℕ) (h : p ∣ 2 ^ f - 1) : piB .E6 p f = 1 := by
   rw [piB_E6_eq]
-  exact if_pos h
+  exact ite_eq_left h
 
 theorem piB_E6_of_not_dvd {p : ℕ} (f : ℕ) (h : ¬ p ∣ 2 ^ f - 1) :
     piB .E6 p f = TwistTag.perm .E6 := by
   rw [piB_E6_eq]
-  exact if_neg h
+  exact ite_eq_right h
 
 theorem piB_twistedE6_of_dvd {p : ℕ} (f : ℕ) (h : p ∣ 2 ^ f + 1) : piB .twistedE6 p f = 1 := by
   rw [piB_twistedE6_eq]
-  exact if_pos h
+  exact ite_eq_left h
 
 theorem piB_twistedE6_of_not_dvd {p : ℕ} (f : ℕ) (h : ¬ p ∣ 2 ^ f + 1) :
     piB .twistedE6 p f = TwistTag.perm .E6 := by
   rw [piB_twistedE6_eq]
-  exact if_neg h
+  exact ite_eq_right h
 
 theorem perm_E6_ne_one (f : ℕ) :
     (TwistTag.perm .E6 : Equiv.Perm (Fin (ggU .E6 6 f).D.rank)) ≠ 1 :=

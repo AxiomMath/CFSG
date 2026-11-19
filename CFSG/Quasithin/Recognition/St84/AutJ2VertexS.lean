@@ -17,7 +17,7 @@ open CFSG.QuasithinUnique
 
 variable {G : Type*} [Group G]
 
-private theorem relIndex_subgroupOf_pCore_le_two [Finite G] {P Q : Subgroup G} (hQP : Q ≤ P)
+private theorem relIndex_subgroupOf_pCore_le_two [Finite G] {P Q : Subgroup G} (_hQP : Q ≤ P)
     (hO : Q.relIndex (pCoreOf 2 P) ≤ 2) :
     (Q.subgroupOf P).relIndex (pCore 2 ↥P) ≤ 2 := by
   have hpcore : (pCoreOf 2 P).subgroupOf P = pCore 2 ↥P := by
@@ -197,7 +197,7 @@ theorem card_normalizer_eq_36_and_inf_ker_eq_bot {X : Type*} [Group X] [Finite X
 
 private theorem normalizer_sylow_inf_subgroupOf_eq_bot [Finite G] {P Q R A : Subgroup G}
     (hPQ : P ≤ Subgroup.normalizer (Q : Set G)) (χ : ↥Q ≃* Q1M)
-    (hAP : A ≤ P) (hRA : R ≤ A) (hAR : A ≤ Subgroup.normalizer (R : Set G))
+    (hAP : A ≤ P) (hRA : R ≤ A) (_hAR : A ≤ Subgroup.normalizer (R : Set G))
     {T : Sylow 3 ↥P} (hTcoe : (T : Subgroup ↥P) = R.subgroupOf P)
     {r0 : G} (hr0R : r0 ∈ R)
     (hρ : parAct hPQ χ ⟨r0, hAP (hRA hr0R)⟩ = ρM) (hRQ : R ⊓ Q = ⊥) :

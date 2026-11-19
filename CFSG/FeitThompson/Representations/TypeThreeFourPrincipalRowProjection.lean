@@ -462,7 +462,7 @@ private theorem principalRowProjection_of_mem
     have h0' : cfInner ζ (h.primeTIrow σ (principalIrr ↥(W₂.subgroupOf M))) = 0 := by
       rw [← conj_cfInner, h0, map_zero]
     rw [cfInner_sub_left, cfInner_sub_right, cfInner_sub_right, h0, h0',
-      h.cfInner_self_primeTIrow hσ, cfInner_eq_ite_of_mem_Irr hζIrr hζIrr, if_pos rfl, hcard1]
+      h.cfInner_self_primeTIrow hσ, cfInner_eq_ite_of_mem_Irr hζIrr hζIrr, ite_eq_left rfl, hcard1]
     ring
   have hV : ∀ v ∈ cyclicTIDiff (W₁ ⊔ W₂) W₁ W₂, ψ v = 0 := by
     intro v hv

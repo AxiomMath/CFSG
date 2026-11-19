@@ -216,7 +216,7 @@ theorem exists_conj_diag_of_orderOf {p : ℕ} (hp : p.Prime) (hp3 : p ≠ 3) (hp
     funext k i
     rfl
   refine ⟨l, s, hlord, ?_, ?_⟩
-  · rw [← Matrix.linearIndependent_cols_iff_isUnit, hscol]
+  · rw [← Matrix.linearIndependent_col_iff_isUnit, hscol]
     exact hli
   · ext i k
     rw [Matrix.mul_diagonal, Matrix.mul_apply]

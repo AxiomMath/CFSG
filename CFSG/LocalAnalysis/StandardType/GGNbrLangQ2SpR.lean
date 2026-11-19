@@ -46,7 +46,7 @@ theorem q2RToral_sp {d p : ℕ} (hd : 3 ≤ d) (hp : p.Prime) (hp2 : p ≠ 2)
         α (QuotientGroup.mk j) = QuotientGroup.mk j') :
     Q2LinearLift M := by
   classical
-  haveI : NeZero d := ⟨by omega⟩
+  have : NeZero d := ⟨by omega⟩
   let φ : ↥(LargeEvenSpGroup K d) →* MulAut (LargeEvenProj (LargeEvenSpGroup K d)) :=
     (MulAut.conj :
         LargeEvenProj (LargeEvenSpGroup K d) →* MulAut (LargeEvenProj (LargeEvenSpGroup K d))).comp
@@ -98,7 +98,7 @@ theorem q2RToral_sp {d p : ℕ} (hd : 3 ≤ d) (hp : p.Prime) (hp2 : p ≠ 2)
     exact hJ
   obtain ⟨m, D, iD, iFin, ψ, πblk, hsquare⟩ := q2Sp_block hd b hbodd J hJb θ
   let E : Subgroup ↥(LargeEvenSpGroup K d) := A.comap φ
-  haveI hEcomm : IsMulCommutative E := by
+  have hEcomm : IsMulCommutative E := by
     refine ⟨⟨fun x y => ?_⟩⟩
     apply Subtype.ext
     apply hφinj
@@ -162,12 +162,11 @@ theorem q2RLevel_symplectic : Q2RLevel .symplectic := by
   all_goals
     intro Qc hQc
     dsimp only [LargeEvenRawDatum] at hQc ⊢
-    try simp only [↓reduceIte] at hQc ⊢
     obtain ⟨K, i1, i2, hK, hq⟩ := hQc
     refine ⟨K, i1, i2, hK, hq, ?_⟩
     intro A hAab hAI u hu hou J hJ hAJ Kq iq iFq hKq hne M hM
-    haveI : CharP K 2 := charP_two_of_card hK
-    haveI : CharP Kq 2 := charP_two_of_card (hKq.trans hQ)
+    have : CharP K 2 := charP_two_of_card hK
+    have : CharP Kq 2 := charP_two_of_card (hKq.trans hQ)
     simp only [LargeEvenInLambda2] at hΛ
     have hd : 3 ≤ d := by
       have h2 : 2 ≤ d := hΛ.2.1

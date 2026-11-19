@@ -49,6 +49,7 @@ theorem w4q_conj_comm (hc : Ctx4C t L S x₁ x₂ lam rho tau) {m l x u : G}
     _ = m * (l * (x * u) * l⁻¹ * (x * u)⁻¹) * m⁻¹ := by group
     _ = m * (l * x * l⁻¹ * x⁻¹) * m⁻¹ := by rw [h1]
 
+omit [Finite G] in
 private theorem w4q_aux_sq (k l₀ w : G) (hk2 : k * k = 1)
     (hw : w = l₀ * k * l₀⁻¹ * k⁻¹) (hkw : k * w = w * k)
     (hcomm : (l₀ * l₀) * w = w * (l₀ * l₀)) : (k * l₀) * (k * l₀) = (l₀ * l₀) * w := by

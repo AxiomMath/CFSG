@@ -216,11 +216,11 @@ private lemma normFrame_coord {K M U V : Type} [Field K] [Finite K] [CharP K 2]
     intro u
     by_cases hu : u = 0
     · subst hu
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       have hz : Φ ((Pi.single i (0 : M) : Fin n → M), (0 : U)) = 0 := by simp
       change Q (Φ ((Pi.single i (0 : M) : Fin n → M), (0 : U))) = 0
       rw [hz, map_zero]
-    · rw [if_neg hu]
+    · rw [ite_eq_right hu]
       have hmemu := hmem u hu
       simp only [Finset.mem_insert, Finset.mem_singleton] at hmemu
       rcases hmemu with rfl | rfl | rfl
@@ -232,7 +232,7 @@ private lemma normFrame_coord {K M U V : Type} [Field K] [Finite K] [CharP K 2]
   have hnorm : τ u * u = if u = 0 then 0 else 1 := by
     by_cases hu : u = 0
     · simp [hu]
-    · rw [if_neg hu]
+    · rw [ite_eq_right hu]
       calc τ u * u = u ^ 2 * u := by rw [hτ]
         _ = u ^ 3 := by ring
         _ = 1 := frame_pow_three_eq_one hM hu

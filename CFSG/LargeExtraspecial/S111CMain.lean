@@ -97,7 +97,7 @@ theorem Cfg111.exists_shult (C : Cfg111 S g A)
     exact mem_normalizer_Ybar (C.map_eq_of_mem_normalizer hmN)
   have hYP : Ybar S A ≤ P' :=
     le_map_sylow_of_le_normalizer P Ybar_le_Mbar (isPGroup_Ybar C.inc) hPY
-  obtain ⟨t, ht, ht1, htc⟩ := exists_ne_one_commute_of_le_normalizer (P.isPGroup'.map _)
+  obtain ⟨t, ht, ht1, htc⟩ := exists_ne_one_commute_of_le_normalizer (P.isPGroup.map _)
     (inf_le_right.trans hYP) C.Lbar_inf_Ybar_ne_bot
     fun x hx => mem_normalizer_inf (hPN hx) (hPY hx)
   refine ⟨P, t, ht.1, ht1, fun x hx => htc x ⟨x, hx, rfl⟩, ?_⟩

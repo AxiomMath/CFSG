@@ -12,6 +12,7 @@ open Subgroup CFSG.EvenSporadicStandard.HNRecog.HaradaLA
 variable {G : Type} [Group G] [Finite G] {t z z₁ : G} {ι : Elem2 6 →* G} {zv : V6}
   {R0 F : Subgroup G}
 
+omit [Finite G] in
 private lemma coordElt_injective (hι : Function.Injective ι) :
     Function.Injective (coordElt ι) := by
   intro u v huv
@@ -100,7 +101,7 @@ theorem card_center_Rgrp (h : Setting25 G t z z₁ ι zv R0 F) :
     Nat.card (center ↥(Rgrp h)) = 2 := by
   have hle : zpowers z ≤ Rgrp h := Subgroup.zpowers_le.mpr (z_mem_Rgrp h)
   rw [center_Rgrp_eq h, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hle).toEquiv]
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   rw [Nat.card_eq_fintype_card, Fintype.card_zpowers]
   exact orderOf_eq_prime h.z_sq h.z_ne_one
 
@@ -115,7 +116,7 @@ theorem isExtraspecial_Rgrp (h : Setting25 G t z z₁ ι zv R0 F) :
     rw [center_Rgrp_eq h, Subgroup.mem_subgroupOf]
     simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using Rgrp_comm h x.2 y.2
   · by_contra hnt
-    push_neg at hnt
+    push Not at hnt
     have htop : center ↥(Rgrp h) = ⊤ := by
       rw [eq_top_iff]
       intro x _

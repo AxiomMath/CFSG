@@ -33,7 +33,7 @@ theorem uc22p2014c_inf_W_le {H C : Subgroup G} (hC : C ∈ CFSG.Quasithin.cComp 
     rw [← CFSG.Quasithin.perfect_of_mem_cComp hC, Subgroup.commutator_le]
     intro a ha b hb
     exact (hCW hb).1.2 a ha
-  haveI : Group.IsSolvable ↥(CFSG.Quasithin.solvRad H) := CFSG.Quasithin.solvRad_isSolvable H
+  have : Group.IsSolvable ↥(CFSG.Quasithin.solvRad H) := CFSG.Quasithin.solvRad_isSolvable H
   exact CFSG.Quasithin.not_isSolvable_of_mem_cComp hC
     (Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hCR)
       (Subgroup.inclusion_injective hCR))
@@ -50,7 +50,7 @@ theorem uc22p2014c_two_le_pRank {p : ℕ} (hp : p.Prime) {H : Subgroup G} {a c :
   have hdisj : Disjoint (zpowers a) (zpowers c) :=
     (uc22p20d_disjoint_zpowers p hp c hcp hc1 _ hca).symm
   have hpair : ({a, c} : Set G).Pairwise Commute := Set.pairwise_pair.2 fun _ => ⟨hac, hac.symm⟩
-  haveI hEc : IsMulCommutative (closure ({a, c} : Set G)) := isMulCommutative_closure hpair
+  have hEc : IsMulCommutative (closure ({a, c} : Set G)) := isMulCommutative_closure hpair
   have hE : closure ({a, c} : Set G) = zpowers a ⊔ zpowers c := by
     rw [Set.insert_eq, Subgroup.closure_union, ← zpowers_eq_closure, ← zpowers_eq_closure]
   refine CFSG.SectionRank.le_pRank hp.one_lt (k := 2) ?_ ⟨hEc, fun y hy => ?_⟩ ?_
@@ -73,7 +73,7 @@ theorem uc22p2014c_eq_of_dvd_card (D : Data G) (hB : ListBNonabelian) (h1930 : H
     {H : Subgroup G} (hH : H ∈ hSet D.T D.M) {C C' : Subgroup G}
     (hC : C ∈ CFSG.Quasithin.cComp H) (hC' : C' ∈ CFSG.Quasithin.cComp H)
     (hpC : p ∣ Nat.card C) (hpC' : p ∣ Nat.card C') : C = C' := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hne
   set R := CFSG.Quasithin.solvRad H with hRdef
   have hR : ¬ p ∣ Nat.card R := uc22p2014a_not_dvd_card_solvRad D hB h1930 hsp hH

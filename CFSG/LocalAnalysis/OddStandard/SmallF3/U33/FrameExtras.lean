@@ -40,7 +40,7 @@ private theorem conj_mulAut_conj {G : Type*} [Group G] (γ : MulAut G) (w : G) :
     MulAut.conj γ (MulAut.conj w) = MulAut.conj (γ w) := by
   ext x
   simp only [MulAut.conj_apply, MulAut.mul_apply, MulAut.inv_apply, map_mul, map_inv,
-    MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply]
+    MulEquiv.apply_symm_apply]
 
 private theorem mem_normalizer_of_forall_conj_mem {G : Type*} [Group G] (W : Subgroup G)
     [Finite W] {g : G} (h : ∀ w ∈ W, g * w * g⁻¹ ∈ W) :
@@ -122,7 +122,7 @@ theorem U33FrameExtras.map {x₁ x₂ lam rho : K} {α : MulAut K}
         rw [← baseGrp_map_aut]
         exact Subgroup.mem_map_of_mem γ.toMonoidHom hw
       have hkey : (γ⁻¹ * γ' * γ) w = γ.symm (γ' (γ w)) := by
-        simp only [MulAut.mul_apply, MulAut.inv_apply, MulEquiv.symm_apply_apply]
+        simp only [MulAut.mul_apply, MulAut.inv_apply]
       rw [hkey]
       have hmem : γ (γ.symm (γ' (γ w))) ∈ (baseGrp x₁ x₂).map γ.toMonoidHom := by
         rw [baseGrp_map_aut]
@@ -286,7 +286,7 @@ theorem exists_frame_extras_of_sylow (h : LieModel K .PSU 3 3 1) (S : Sylow 2 (M
       U33FrameExtras x₁ x₂ lam rho α ∧
       m12Grp (MulAut.conj x₁) (MulAut.conj x₂) (MulAut.conj lam) α = (S : Subgroup (MulAut K)) := by
   obtain ⟨m⟩ := K28.exists_model28 h
-  haveI hFinAut : Finite (MulAut K) :=
+  have hFinAut : Finite (MulAut K) :=
     Finite.of_injective m.Φ.toEquiv.toFun m.Φ.injective
   obtain ⟨x₁, x₂, lam, rho, α, hf, he⟩ := exists_frame_extras_of_psu33 h
   let S₀ : Subgroup (MulAut K) := m12Grp (MulAut.conj x₁) (MulAut.conj x₂) (MulAut.conj lam) α

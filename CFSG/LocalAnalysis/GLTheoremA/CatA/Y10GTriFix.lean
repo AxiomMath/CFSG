@@ -97,13 +97,13 @@ theorem triFixModel {f : ℕ} (hf : 1 ≤ f) {K₃ : Type} [Field K₃] [Finite 
       Nonempty (↥(fixSubgroup φ) ≃* ↥(adjointGroup Tag.G2 F₀))) ∨
     (∃ (F : Type) (_ : Field F) (π : Bool), Sec4.PiField π 2 f F ∧
       Nonempty (↥(fixSubgroup φ) ≃* ↥(projImage (Sec4.glPi π 3 (2 ^ f) F)))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq : 2 ≤ 2 ^ f := by
     calc 2 = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
   have hF : Nat.card (fixSubfield Fr) = 2 ^ f :=
     CFSG.GH74.GLS.Stage4.Hex.card_fixedField_of_cube Fr.toRingHom hq hK₃ hFr
-  haveI : Finite (fixSubfield Fr) := Subtype.finite
+  have : Finite (fixSubfield Fr) := Subtype.finite
   have hG2 : ↥(fixSubgroup (fieldActor (t := TwistTag.D4) Fr Fr)) ≃* ↥(adjointGroup Tag.G2 (fixSubfield Fr)) :=
     (nonempty_fixSubgroup_fieldActor_equiv_G2 (ℓ := 2) (by norm_num) hf (Or.inl rfl) hK₃ Fr hFr).some
   rcases Sec8.Item8KFacts2Proof.isStdGraphFieldConj_or_nonempty_autFix_equiv hf hK₃ hFr hφ3 hφ with

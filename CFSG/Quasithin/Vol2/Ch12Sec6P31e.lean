@@ -26,7 +26,7 @@ theorem card_inf_centralizer_eq_center {Y : Type*} [Group Y] (X : Subgroup Y) :
 
 theorem isPSL_statedProj_card_four_P31 {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4) :
     IsPSL 3 2 2 (StatedProj (StatedSL 3 F)) := by
-  letI := Fintype.ofFinite F
+  let := Fintype.ofFinite F
   have hF' : Fintype.card F = 2 ^ 2 := by
     rw [← Nat.card_eq_fintype_card, hF]
     norm_num
@@ -38,7 +38,7 @@ theorem isPSL_statedProj_card_four_P31 {F : Type} [Field F] [Finite F] (hF : Nat
 theorem not_comm_of_simple_card {X : Type*} [Group X] [Finite X] [IsSimpleGroup X]
     (hc : ¬ (Nat.card X).Prime) : ¬ ∀ a b : X, a * b = b * a := by
   intro h
-  letI : CommGroup X := { (inferInstance : Group X) with mul_comm := h }
+  let : CommGroup X := { (inferInstance : Group X) with mul_comm := h }
   exact hc (IsSimpleGroup.prime_card (α := X))
 
 
@@ -83,7 +83,7 @@ theorem case1_of (hLie : L34LieFacts12631) (h1222 : Stmt12_2_2) (h1228 : Stmt12_
   set Bs := star H (Li L F.V1 ⊔ T) with hBs
   set Ls := star H (Li L F.V1) with hLs
   set Rs := star H (Ri T L F.V1) with hRs
-  haveI hKsn : Ks.Normal := normal_star hKn
+  have hKsn : Ks.Normal := normal_star hKn
   have hsup : Ks ⊔ Bs = ⊤ := by
     rw [hKs, hBs, ← star_sup hKH hL1TH, ← hHeq, star_self]
   have h27 : ¬ 27 ∣ Nat.card Ms := fun hd =>

@@ -43,7 +43,7 @@ theorem exists_t_lift {H : Type} [Group H] [Finite H] {R : Subgroup H} [R.Normal
     (ht2 : t₁ ^ 2 ∈ R) (htb : b * t₁ * b⁻¹ * t₁⁻¹ ∈ R) (htc : t₁ * c * t₁⁻¹ * c ∈ R) :
     ∃ t : H, t₁⁻¹ * t ∈ R ∧ IsPGroup 2 (Subgroup.zpowers t) ∧ b * t = t * b ∧
       t * c * t⁻¹ = c⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨π, hmem, hcoset⟩ : ∃ π : H →* H ⧸ R, (∀ x, x ∈ R ↔ π x = 1) ∧
       ∀ y, t₁⁻¹ * y ∈ R ↔ π y = π t₁ :=
     ⟨QuotientGroup.mk' R, fun x => (QuotientGroup.eq_one_iff x).symm,

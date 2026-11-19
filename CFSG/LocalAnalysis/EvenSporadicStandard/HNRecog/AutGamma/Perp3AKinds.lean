@@ -10,7 +10,7 @@ open CFSG.EvenSporadicStandard.HNRecog CFSG.EvenSporadicStandard.HNRecog.Section
 
 variable {G : Type} [Group G] {a z : G}
 
-theorem not_centralizes_of_mem_kinds [Finite G] (hF : IsF5Type a z) (hL : F5Local G a z)
+theorem not_centralizes_of_mem_kinds [Finite G] (_hF : IsF5Type a z) (hL : F5Local G a z)
     (hnc : ¬ IsConj a z) {x : G} (hx : x ∈ orb3A a a) {y : G}
     (hy : y ∈ orb4A a z a ∪ orb4B a a ∪ orb6A a a ∪ orb5A a a ∪ orb5E a a) :
     ¬ ∀ s ∈ Gxy a x, y * s = s * y := by

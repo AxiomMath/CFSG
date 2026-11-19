@@ -9,7 +9,7 @@ namespace CFSG.RankThree.PartTwo.Sec13.RonanStep131b
 theorem s1red_isMaxThreeSub_map {G : Type} [Group G] (B : Subgroup G) (Q : Sylow 3 ↥B) :
     IsMaxThreeSub B ((Q : Subgroup B).map B.subtype) := by
   unfold IsMaxThreeSub
-  refine ⟨Q.isPGroup'.map B.subtype, ?_, ?_⟩
+  refine ⟨Q.isPGroup.map B.subtype, ?_, ?_⟩
   · rintro _ ⟨y, _, rfl⟩
     exact y.2
   · intro R hR hRB hQR
@@ -39,7 +39,7 @@ theorem s1red_conj_mem {G : Type} [Group G] [Finite G] (B X : Subgroup G) (Q : S
     ∃ g : G, ∀ x ∈ X, g⁻¹ * x * g ∈ (Q : Subgroup B).map B.subtype := by
   have hX' : IsPGroup 3 (X.subgroupOf B) := hX.comap_subtype
   obtain ⟨Q₁, hQ₁⟩ := IsPGroup.exists_le_sylow hX'
-  haveI : Finite (Sylow 3 ↥B) := Sylow.finite_of_finiteIndex Q
+  have : Finite (Sylow 3 ↥B) := Sylow.finite_of_finiteIndex Q
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (↥B) Q Q₁
   refine ⟨(g : G), fun x hx => ?_⟩
   have hxB : (⟨x, hXB hx⟩ : B) ∈ X.subgroupOf B := Subgroup.mem_subgroupOf.mpr hx

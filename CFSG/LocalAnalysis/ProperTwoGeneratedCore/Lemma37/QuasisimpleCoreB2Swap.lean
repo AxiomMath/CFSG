@@ -13,7 +13,7 @@ theorem exists_mem_normalizer_not_mem_of_lt_sylow {G : Type} [Group G] [Finite G
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨E, hTE, -, hES⟩ :=
     CFSG.DisconnectedInvolutionGraph.Helpers.pgroup_strict_normalizer_extension 2 T S
-      S.isPGroup' (lt_of_le_of_ne hTS (Ne.symm hne))
+      S.isPGroup (lt_of_le_of_ne hTS (Ne.symm hne))
   obtain ⟨x, hxE, hxT⟩ := IsConcreteLE.exists_of_lt hTE
   exact ⟨x, (hES hxE).1, (hES hxE).2, hxT⟩
 

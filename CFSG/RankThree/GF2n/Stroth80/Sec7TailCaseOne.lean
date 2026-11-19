@@ -160,7 +160,7 @@ theorem sec717CaseOne_of_inputs
   obtain ⟨D, hVD, hDL, hDab, hD64, hDn⟩ := exists_elemAbelian_of_sq_le Vy Ly (Nat.card Z) hq4
     hbase.VL hbase.Vcard hbase.Lcard hbase.Lcomm hLsq hbase.Vsq
   obtain ⟨K₀, hKf, hKfin, hK₀, hnormN, hquot⟩ := Ctx.recog_quot_equiv hc hp3
-  haveI := hnormN
+  have := hnormN
   obtain ⟨hnormY, hquotY⟩ := nonempty_quot_equiv_bar (M := M) (Q := Q) (H := H0 M Z) hQN hNR
     hRH hHM hquot
   obtain ⟨y, hyR, hyQ, hy3, hyC⟩ := hY G M Q Z B hc n t hs Z0 hZ0
@@ -179,7 +179,7 @@ theorem sec717CaseOne_of_inputs
         intro h
         have h' := congrArg Subtype.val h
         exact hyQ (Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff _).mp h'))
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact orderOf_eq_prime h3 hne
     · intro x hx hxc
       obtain ⟨x0, hx0⟩ := QuotientGroup.mk'_surjective (Q.subgroupOf M) (x : Mbar M Q)

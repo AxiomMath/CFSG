@@ -69,7 +69,7 @@ theorem exists_posStable_frame {K : Type} [Field K] [Finite K]
     have hu' : nρ⁻¹ * u * nρ ∈ familyGroup (K := L) F.a :=
       mul_mem (mul_mem (inv_mem hnρM) hu) hnρM
     have hc := (F.commute_plane hu' q hq).map (MulAut.conj nρ)
-    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at hc
+    simp only [MulAut.conj_apply] at hc
     have e1 : nρ * (nρ⁻¹ * u * nρ) * nρ⁻¹ = u := by group
     have e2 : (F.g * nρ⁻¹)⁻¹ * baseChangeGL (algebraMap K L) (q : ModGL Tag.E8 K) * (F.g * nρ⁻¹) =
         nρ * (F.g⁻¹ * baseChangeGL (algebraMap K L) (q : ModGL Tag.E8 K) * F.g) * nρ⁻¹ := by

@@ -201,7 +201,7 @@ private theorem actB_factor (d : Fin 6 → Kˣ) (hd : ∏ i, d i = 1) :
   funext i
   apply Units.ext
   fin_cases i <;> simp [cOn, Pi.mul_apply] <;> field_simp
-  all_goals first | ring1 | linear_combination hK
+  all_goals linear_combination hK
 
 theorem exists_xi [CharP K 2] (h0 : finrank K (A.Fix (Wc K I0)) = 1) :
     ∃ ξ : Kˣ →* Kˣ, ∀ c : Kˣ, ∀ v ∈ A.Fix (Wc K I0),
@@ -216,7 +216,7 @@ theorem exists_xi [CharP K 2] (h0 : finrank K (A.Fix (Wc K I0)) = 1) :
     intro c c'
     funext i
     simp only [cOn, Pi.mul_apply]
-    split_ifs <;> simp_all [mul_inv, mul_comm]
+    split_ifs <;> simp_all [mul_comm]
   have hsmul : ∀ c c' : Kˣ, s (c * c') = s c * s c' := by
     intro c c'
     refine smul_left_injective K hne ?_

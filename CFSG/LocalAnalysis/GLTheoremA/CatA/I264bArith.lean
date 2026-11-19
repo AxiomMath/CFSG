@@ -43,7 +43,7 @@ theorem exists_noncomm_of_simple_card {S : Type} [Group S] [Finite S] [IsSimpleG
     (hS : Nat.card S = n) (hn : ¬ n.Prime) : ∃ a b : S, a * b ≠ b * a := by
   by_contra h
   push Not at h
-  letI : CommGroup S := { ‹Group S› with mul_comm := fun a b => h a b }
+  let : CommGroup S := { ‹Group S› with mul_comm := fun a b => h a b }
   have := IsSimpleGroup.prime_card (α := S)
   rw [hS] at this
   exact hn this

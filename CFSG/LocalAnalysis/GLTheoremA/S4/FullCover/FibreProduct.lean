@@ -116,14 +116,14 @@ theorem fibreCoreProj_surjective (h₁ : Function.Surjective π₁) (h₂ : Func
 
 theorem isSimpleGroup_of_quasisimple {Q : Type} [Group Q] (hQ : CFSG.Open.IsQuasisimple Q) (π : Q →* S)
     (hπ : Function.Surjective π) (hk : π.ker = Subgroup.center Q) : IsSimpleGroup S := by
-  haveI := hQ.2
+  have := hQ.2
   exact ((QuotientGroup.quotientMulEquivOfEq hk.symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective π hπ)).symm.isSimpleGroup
 
 theorem center_eq_bot_of_quasisimple {Q : Type} [Group Q] (hQ : CFSG.Open.IsQuasisimple Q) (π : Q →* S)
     (hπ : Function.Surjective π) (hk : π.ker = Subgroup.center Q) :
     Subgroup.center S = ⊥ := by
-  haveI := isSimpleGroup_of_quasisimple hQ π hπ hk
+  have := isSimpleGroup_of_quasisimple hQ π hπ hk
   refine (IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S)).resolve_right
     fun htop => ?_
   have hcomm : commutator S = ⊥ := (commutator_eq_bot_iff_center_eq_top S).2 htop
@@ -131,7 +131,7 @@ theorem center_eq_bot_of_quasisimple {Q : Type} [Group Q] (hQ : CFSG.Open.IsQuas
     rw [← MonoidHom.comap_bot, ← Subgroup.map_le_iff_le_comap, commutator_def, Subgroup.map_commutator,
       Subgroup.map_top_of_surjective π hπ, ← commutator_def, hcomm]
   rw [hQ.1, hk] at hle
-  haveI := hQ.2
+  have := hQ.2
   obtain ⟨a, b, hab⟩ := exists_pair_ne (Q ⧸ Subgroup.center Q)
   obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
   obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -163,7 +163,7 @@ theorem fibreCore_isQuasisimple (hQ₁ : CFSG.Open.IsQuasisimple Q₁) (h₁ : F
   · apply Subgroup.map_injective (fibreCore π₁ π₂).subtype_injective
     rw [Subgroup.map_subtype_commutator, fibreCore_perfect h₂ hc₂ hQ₁.1,
       ← MonoidHom.range_eq_map, Subgroup.range_subtype]
-  · haveI := isSimpleGroup_of_quasisimple hQ₁ π₁ h₁ hk₁
+  · have := isSimpleGroup_of_quasisimple hQ₁ π₁ h₁ hk₁
     exact ((QuotientGroup.quotientMulEquivOfEq (fibreCoreProj_ker hQ₁ h₁ h₂ hk₁ hc₂).symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective _
         (fibreCoreProj_surjective h₁ h₂ hQ₁.1))).isSimpleGroup
@@ -262,17 +262,17 @@ theorem maximalOddCover_of_oddBound (i : TauCeti.CFSGIndex) {Q : Type} [Group Q]
       ∀ ρ : D →* i.Group, Function.Surjective ρ → ρ.ker = Subgroup.center D →
         Odd (Nat.card (Subgroup.center D)) → Nat.card (Subgroup.center D) ∣ 3) :
     MaximalOddCover Q i := by
-  haveI hsimple := isSimpleGroup_of_quasisimple hQ π hπ hker
+  have hsimple := isSimpleGroup_of_quasisimple hQ π hπ hker
   have hS := center_eq_bot_of_quasisimple hQ π hπ hker
   have h3 : Odd (Nat.card (Subgroup.center Q)) := hZ ▸ by decide
   refine ⟨inferInstance, hQ, hsimple, ?_, π, hπ, hker, ?_, h3, ?_⟩
   · by_contra h
-    push_neg at h
+    push Not at h
     obtain ⟨a, ha⟩ := exists_ne (1 : i.Group)
     have hac : a ∈ Subgroup.center i.Group := Subgroup.mem_center_iff.2 fun g => h g a
     rw [hS] at hac
     exact ha hac
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact isCyclic_of_prime_card hZ
   · intro U _ _ hU ρ hρ hρk hUodd
     have hker' := fibreCoreProj_ker hQ hπ hρ hker hρk.le

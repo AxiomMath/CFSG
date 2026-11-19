@@ -45,7 +45,7 @@ private theorem MGenU.mem_normalizer_closure {G : Type*} [Group G] {S : Set G} {
 private theorem MGenU.isPGroup_closure_of_sq_comm {G : Type*} [Group G] {S : Set G}
     (hsq : ∀ x ∈ S, x * x = 1) (hcomm : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) :
     IsPGroup 2 (Subgroup.closure S) := by
-  haveI : IsMulCommutative (Subgroup.closure S) :=
+  have : IsMulCommutative (Subgroup.closure S) :=
     Subgroup.isMulCommutative_closure fun x hx y hy _ => hcomm x hx y hy
   have key : ∀ x ∈ Subgroup.closure S, x * x = 1 := by
     intro x hx
@@ -136,7 +136,7 @@ theorem MGenU.genUW_of_holds {G : Type} [Group G] {a b : G} {c : MGenU}
     (hmu : (c.base.g.ms.getD c.u0 ([], 0)).1 = c.us.getD 0 [])
     (h : MGenU.Holds a b c) (htop : Subgroup.closure ({a, b} : Set G) = ⊤) :
     GenUW G c.base.g.p := by
-  haveI : Fact c.base.g.p.Prime := ⟨hp⟩
+  have : Fact c.base.g.p.Prime := ⟨hp⟩
   have hzN : evalPW a b c.base.g.z ∈
       Subgroup.normalizer (Subgroup.closure (c.uSet a b) : Set G) := by
     refine MGenU.mem_normalizer_closure ?_ ?_
@@ -314,10 +314,10 @@ theorem MGenU.wordUnit_reg {C : MCert} (hC : mcertCheck O sA sB C = true) (c : M
   by_cases hi : i < c.base.g.ns.length + c.base.g.ms.length
   · have hl : i < (c.base.g.regs (regUnit Sp hC 0) (regUnit Sp hC 1)).length := by
       rw [hlen]; exact hi
-    rw [if_pos hi, wordUnit_regW Sp hC c.base.g i, List.getD_append _ _ _ _ hl]
+    rw [ite_eq_left hi, wordUnit_regW Sp hC c.base.g i, List.getD_append _ _ _ _ hl]
   · have hl : (c.base.g.regs (regUnit Sp hC 0) (regUnit Sp hC 1)).length ≤ i := by
       rw [hlen]; omega
-    rw [if_neg hi, wordUnit_pwToWord Sp hC, List.getD_append_right _ _ _ _ hl, hlen,
+    rw [ite_eq_right hi, wordUnit_pwToWord Sp hC, List.getD_append_right _ _ _ _ hl, hlen,
       ← Nat.sub_sub]
     exact (getD_map_evalPW (regUnit Sp hC 0) (regUnit Sp hC 1) c.ks (fun k => k.1) ([], [])
       rfl (i - c.base.g.ns.length - c.base.g.ms.length)).symm

@@ -212,7 +212,7 @@ private theorem idPSL_hrs_of_mul_eq {F : Type} [Field F] [CharP F 2]
     simpa [M, Matrix.SpecialLinearGroup.coe_mul] using this
   have h01e := congrFun (congrFun hmat_eq 0) 1
   rw [hM, Matrix.mul_apply, Matrix.mul_apply, Fin.sum_univ_two, Fin.sum_univ_two] at h01e
-  simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.single_apply, Matrix.one_apply] at h01e
+  simp [Matrix.SpecialLinearGroup.transvection_coe] at h01e
   rcases h01e with h | h
   · have hrs : r * s = -1 :=
       ((neg_eq_iff_add_eq_zero (a := (1 : F)) (b := r * s)).mpr h).symm
@@ -306,7 +306,7 @@ private theorem idPSL_exists_conj_one {F : Type} [Field F] [CharP F 2] {X : Type
     fin_cases i <;> fin_cases j
     · exact absurd rfl hij
     · simp [d, r]
-    · simp [d, r, s]
+    · simp [d, r]
       rw [mul_comm s r, hrs]
     · exact absurd rfl hij
   refine ⟨InnerDiagA.diagGL d, fun u => ?_⟩
@@ -328,7 +328,7 @@ theorem exists_isGLLift_PSL (m : ℕ) (F : Type) [Field F] [CharP F 2]
   have hm_cases : m = 0 ∨ m = 1 ∨ 2 ≤ m := by omega
   rcases hm_cases with rfl | rfl | hm
   · refine ⟨1, fun u => ⟨u, by group, ?_⟩⟩
-    haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin (0 + 1)) F) :=
+    have : Subsingleton (Matrix.SpecialLinearGroup (Fin (0 + 1)) F) :=
       (inferInstance : Subsingleton (Matrix.SpecialLinearGroup (Fin 1) F))
     have hu : u = 1 := Subsingleton.elim u 1
     rw [hu, map_one]

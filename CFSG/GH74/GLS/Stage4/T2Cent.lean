@@ -75,7 +75,7 @@ theorem t2C_exists_odd_normal {X : Type} [Group X] [Finite X] (Z : Subgroup X) (
     exact Nat.odd_iff.2 (by omega)
   · intro x hx
     rw [MonoidHom.mem_ker]
-    obtain ⟨k, hk⟩ := (P.isPGroup' (φ x))
+    obtain ⟨k, hk⟩ := (P.isPGroup (φ x))
     have h1 : orderOf (φ x) ∣ orderOf x := orderOf_map_dvd φ x
     have h2 : orderOf (φ x) ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one hk
     obtain ⟨i, hi, hio⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 h2

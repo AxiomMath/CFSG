@@ -44,7 +44,7 @@ private theorem exists_centralP_of_central (hZ : Subgroup.center lineGroup = ⊥
     (hc : ∀ y ∈ sGrp, x * y = y * x) : ∃ p ∈ HuppertD4Q2.centralP (), Rep p x := by
   obtain ⟨p, hp, hpx⟩ := exists_rep_of_mem_sGrp hsyl hx
   refine ⟨p, mem_centralP.mpr ⟨hp, fun g hg => ?_⟩, hpx⟩
-  simp only [HuppertD4Q2.sGenP, List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hg
+  simp only [HuppertD4Q2.sGenP, List.mem_cons, List.not_mem_nil, or_false] at hg
   rcases hg with rfl | rfl | rfl
   · exact (rep_commP hZ hpx (rep_wordP HuppertD4Q2.sWordA)).mpr (hc _ wordAut_sWordA_mem)
   · exact (rep_commP hZ hpx (rep_wordP HuppertD4Q2.sWordB)).mpr (hc _ wordAut_sWordB_mem)
@@ -79,8 +79,8 @@ theorem OuterData.card_eq_of_outer (hOut : Nat.card (Outer lineGroup) = 3)
     (hAut : Nat.card (MulAut lineGroup) = 3 * 211341312)
     {P A B : Subgroup (MulAut lineGroup)} {c : MulAut lineGroup}
     (h : OuterData lineGroup P A B c) : Nat.card P = 3 ^ 5 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut lineGroup) := Nat.finite_of_card_ne_zero (by rw [hAut]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut lineGroup) := Nat.finite_of_card_ne_zero (by rw [hAut]; norm_num)
   have hcA : c ∈ A := by
     rw [h.eq_sup]
     exact Subgroup.mem_sup_left (Subgroup.mem_zpowers c)
@@ -102,7 +102,7 @@ theorem OuterData.card_eq_of_outer (hOut : Nat.card (Outer lineGroup) = 3)
 
 theorem central_of_dichotomy {G : Type} [Group G] {P A B : Subgroup G} {c : G}
     (hP : Nat.card P = 3 ^ 5) (hA : IsElemAbelian 3 A) (hA27 : Nat.card A = 27) (hAP : A ≤ P)
-    (hBA : B ≤ A) (hB9 : Nat.card B = 9) (hsup : A = Subgroup.zpowers c ⊔ B) (hc : c ∉ B)
+    (hBA : B ≤ A) (hB9 : Nat.card B = 9) (hsup : A = Subgroup.zpowers c ⊔ B) (_hc : c ∉ B)
     (hd : (∀ x ∈ P, x * c = c * x) ∨
       ((∀ x ∈ P, (∀ a ∈ A, x * a = a * x) → x ∈ A) ∧
         ∀ b ∈ B, ∃ x ∈ P ⊓ Subgroup.centralizer (B : Set G), x * c * x⁻¹ = b * c)) :
@@ -110,7 +110,7 @@ theorem central_of_dichotomy {G : Type} [Group G] {P A B : Subgroup G} {c : G}
   rcases hd with h1 | ⟨-, h3⟩
   · exact Or.inl h1
   refine Or.inr ?_
-  haveI : Inhabited G := ⟨1⟩
+  have : Inhabited G := ⟨1⟩
   have hcA : c ∈ A := by
     rw [hsup]
     exact Subgroup.mem_sup_left (Subgroup.mem_zpowers c)
@@ -146,9 +146,9 @@ theorem central_of_dichotomy {G : Type} [Group G] {P A B : Subgroup G} {c : G}
     have haa : a = a' := mul_left_cancel hEq'
     subst haa
     rfl
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
   have hQle : P ⊓ Subgroup.centralizer (B : Set G) ≤ P := inf_le_left
-  haveI : Finite ↥(P ⊓ Subgroup.centralizer (B : Set G)) :=
+  have : Finite ↥(P ⊓ Subgroup.centralizer (B : Set G)) :=
     Finite.of_injective _ (Subgroup.inclusion_injective hQle)
   have hcardQ : Nat.card (↥B × ↥A) ≤ Nat.card ↥(P ⊓ Subgroup.centralizer (B : Set G)) :=
     Nat.card_le_card_of_injective ψ hψ
@@ -167,7 +167,7 @@ theorem center_props_of_card (hZ : Subgroup.center lineGroup = ⊥)
     (∀ x ∈ P, (∀ y ∈ P, x * y = y * x) → x ∈ innerAut lineGroup) ∧
     (∀ E : Subgroup (MulAut lineGroup), E ≤ P → (∀ x ∈ E, ∀ y ∈ P, x * y = y * x) →
       Nat.card E ≤ 3) := by
-  haveI : Finite (MulAut lineGroup) := Nat.finite_of_card_ne_zero (by rw [hAut]; norm_num)
+  have : Finite (MulAut lineGroup) := Nat.finite_of_card_ne_zero (by rw [hAut]; norm_num)
   have hsyl : HuppertD4Q2.sylowCheck () = true := (centerCheck_parts h).1
   have hS : Nat.card sGrp = 3 ^ (Nat.card (MulAut lineGroup)).factorization 3 := by
     rw [card_sGrp hZ hsyl, hAut, factorization_three_aut]
@@ -235,7 +235,7 @@ theorem noOuterData_d42 :
     ∀ (X : Type) [Group X] [Finite X], Sec4.IsSmallTwoD42 X → NoOuterData X := by
   intro X _ _ hX
   have hmod := Sec4.Item434SmallTwoIII.chevalleyExceptionalModel_of_d42 hX
-  haveI : IsSimpleGroup X := (CFSG.LieType.Simplicity.fam_3d4_simplicity X 2 1 hmod).2
+  have : IsSimpleGroup X := (CFSG.LieType.Simplicity.fam_3d4_simplicity X 2 1 hmod).2
   obtain ⟨q, hq, hq2, hq1, ⟨e⟩⟩ := hX
   obtain ⟨⟨e'⟩, hZ, hAut⟩ :=
     Sec19.lineGroup_facts_of_isoLie q hq2 hq1 (K := X) ⟨hq, ⟨e⟩⟩

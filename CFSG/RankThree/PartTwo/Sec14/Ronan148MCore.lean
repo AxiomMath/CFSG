@@ -25,7 +25,7 @@ theorem ker148_eq_pPrimeCore_sup (hAY : A ≤ Subgroup.normalizer (Y : Set G))
     (hA3 : ∀ a ∈ A, a ^ 3 = 1) :
     letI := ker148_normal hAY
     ker148 A Y = CFSG.pPrimeCore 3 ↥(Y ⊔ A) := by
-  letI := ker148_normal hAY
+  let := ker148_normal hAY
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply le_antisymm
   · refine le_sSup ⟨inferInstance, ?_⟩
@@ -74,7 +74,7 @@ theorem pPrimeCore_quot148_eq_bot (hAY : A ≤ Subgroup.normalizer (Y : Set G))
     (hA3 : ∀ a ∈ A, a ^ 3 = 1) :
     letI := ker148_normal hAY
     CFSG.pPrimeCore 3 (↥(Y ⊔ A) ⧸ ker148 A Y) = ⊥ := by
-  letI := ker148_normal hAY
+  let := ker148_normal hAY
   have key : ∀ (K : Subgroup ↥(Y ⊔ A)) [K.Normal], K = CFSG.pPrimeCore 3 ↥(Y ⊔ A) →
       CFSG.pPrimeCore 3 (↥(Y ⊔ A) ⧸ K) = ⊥ := by
     intro K _ hK
@@ -86,7 +86,7 @@ theorem fittingSubgroup_quot148 (hAY : A ≤ Subgroup.normalizer (Y : Set G))
     (hA3 : ∀ a ∈ A, a ^ 3 = 1) :
     letI := ker148_normal hAY
     CFSG.fittingSubgroup (↥(Y ⊔ A) ⧸ ker148 A Y) = CFSG.pCore 3 (↥(Y ⊔ A) ⧸ ker148 A Y) := by
-  letI := ker148_normal hAY
+  let := ker148_normal hAY
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.Fitting_eq_pcore _ 3 (pPrimeCore_quot148_eq_bot hAY hA3)
 
@@ -239,7 +239,7 @@ theorem pCore_le_centralizer_img148 (hAY : A ≤ Subgroup.normalizer (Y : Set G)
       exact P.mul_mem hxP' (hPn.conj_mem _ (P.inv_mem hxP') qq)
     have h3 : xx * qq * xx⁻¹ * qq⁻¹ = 1 := by
       have hdisj : P ⊓ Rb = ⊥ := by
-        refine Subgroup.inf_eq_bot_of_coprime ?_
+        refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
         obtain ⟨n, hn⟩ := hPp.exists_card_eq
         rw [hn]
         exact Nat.Coprime.pow_left _ hRbcop
@@ -274,7 +274,7 @@ section Core
 
 theorem step148Core_of_layer (hLay : Core148Layer) : Step148Core := by
   intro G _ _ A c L h Y hY hs hYB B hB Q hQ hQY hQb
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA := h.isE27
   have hA3 : ∀ a ∈ A, a ^ 3 = 1 := hA.1.2

@@ -195,7 +195,7 @@ theorem permutesPoints_of_codes {σ : GF4 ≃+* GF4}
     exact semilinear_image_span h hu v
 
 theorem codes_of_permutesPoints {σ : GF4 ≃+* GF4}
-    {γ : MulAut (Multiplicative (Fin 3 → GF4))} (h : SemilinearOf3 σ γ)
+    {γ : MulAut (Multiplicative (Fin 3 → GF4))} (_h : SemilinearOf3 σ γ)
     (hγ : PermutesPoints γ OmegaH) :
     ∀ p ∈ hypCodes, codes18.contains
       (codeOf3 (Multiplicative.toAdd (γ (Multiplicative.ofAdd (wOfCode3 p))))) = true := by

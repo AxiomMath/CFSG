@@ -662,7 +662,7 @@ theorem oppositeFixed_graphFixedRootGroup_E6 [Finite K] (σ : K ≃+* K) {f : �
     (hK : Nat.card K = (2 ^ f) ^ 2) (hσ : ∀ c, σ c = c ^ (2 ^ f)) :
     OppositeFixed ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) := by
   have hK2 : Nat.card K = 2 ^ (f * 2) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 := charP_two_of_card_two_pow hK2
+  have : CharP K 2 := charP_two_of_card_two_pow hK2
   have hσ2 : ∀ c, σ (σ c) = c := fun c => by
     have : Fintype K := Fintype.ofFinite K
     have hcard : Fintype.card K = (2 ^ f) ^ 2 := by rw [← Nat.card_eq_fintype_card, hK]

@@ -120,19 +120,19 @@ theorem fCls_spec {i v : ℕ} (h : fCls i v = true) :
     (8192 ≤ i → i < 19112 → v = ap (RG ((i - 8192) / 1365)) ((i - 8192) % 1365)) ∧
       (19112 ≤ i → i < 23207 → v ≤ i - 19112) ∧ (23207 ≤ i → i < 27302 → v < 8) := by
   unfold fCls at h
-  simp only [bIf_eq, strictB_eq, Nat.blt_eq, Nat.ble_eq, Nat.beq_eq] at h
+  simp only [bIf_eq, strictB_eq, Nat.blt_eq] at h
   refine ⟨fun h1 h2 => ?_, fun h1 h2 => ?_, fun h1 h2 => ?_⟩
-  · rw [if_neg (by omega), if_pos h2] at h
+  · rw [ite_eq_right (by omega), ite_eq_left h2] at h
     exact Nat.eq_of_beq_eq_true h
-  · rw [if_neg (by omega), if_neg (by omega), if_pos h2] at h
+  · rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left h2] at h
     exact Nat.le_of_ble_eq_true h
-  · rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_pos h2] at h
+  · rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left h2] at h
     exact Nat.le_of_ble_eq_true h
 
 theorem rdGens_get {j : ℕ} (hj : j < 8) :
     rdGens[j]! = clsNums.extract (8192 + 1365 * j) (8192 + 1365 * (j + 1)) := by
   unfold rdGens
-  simp [getElem!_def, hj]
+  simp [hj]
 
 theorem rdGens_size : rdGens.size = 8 := by
   unfold rdGens
@@ -217,10 +217,10 @@ theorem fLa_spec {i v : ℕ} (h : fLa i v = true) :
   unfold fLa at h
   simp only [bIf_eq, strictB_eq, Nat.blt_eq] at h
   refine ⟨fun h1 h2 => ?_, fun h1 h2 => ?_⟩
-  · rw [if_neg (by omega), if_pos h2] at h
+  · rw [ite_eq_right (by omega), ite_eq_left h2] at h
     split_ifs at h with hh
     exact ⟨Nat.le_of_ble_eq_true hh, Nat.eq_of_beq_eq_true h⟩
-  · rw [if_neg (by omega), if_neg (by omega), if_pos h2] at h
+  · rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left h2] at h
     split_ifs at h with hh
     exact ⟨hh, Nat.eq_of_beq_eq_true h⟩
 
@@ -513,12 +513,12 @@ theorem main_facts :
       · left
         refine ⟨w, hwD, hpts (PK 6) tA ptTA htAD fun b hb => ?_⟩
         have := (hall b hb).2
-        rw [if_pos hR] at this
+        rw [ite_eq_left hR] at this
         exact this
       · right
         refine ⟨w, hwD, hpts (LC.S 0) xBar ptX hxD fun b hb => ?_⟩
         have := (hall b hb).2
-        rw [if_neg hR] at this
+        rw [ite_eq_right hR] at this
         exact this
   have hfus := fusion_of_sylow hTD (by rw [hTcard, card_twoBD, fact2]; norm_num) hfusT
   have hrdgen := rmulList_gen (γ := gR) (gs := rdGens)

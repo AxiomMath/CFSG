@@ -138,7 +138,7 @@ theorem isM10_m10 : IsM10 ↥A6Models.m10 := by
   let φ : ↥A6Models.m10 →* Multiplicative (ZMod 2) := ι.toMonoidHom.comp (QuotientGroup.mk' N)
   have hker : φ.ker = N := by
     ext x
-    simp [φ, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp [φ]
   refine ⟨φ, ι.surjective.comp (QuotientGroup.mk'_surjective N), ⟨?_⟩, fun x hx hx2 => hx ?_⟩
   · exact ((MulEquiv.subgroupCongr hker).trans
       (Subgroup.subgroupOfEquivOfLe Out21.A6.psl29_le_m10)).trans ψ

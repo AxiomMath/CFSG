@@ -30,9 +30,8 @@ def pieceSetoid : Setoid β where
     · rcases h with ⟨h1, h2, h3⟩ | ⟨h1, h2, h3, h4⟩ | ⟨h1, h2, h3, h4, h5⟩ <;>
       rcases h' with ⟨k1, k2, k3⟩ | ⟨k1, k2, k3, k4⟩ | ⟨k1, k2, k3, k4, k5⟩
       · exact Or.inl ⟨h1, k2, t₁.trans h3 k3⟩
-      all_goals first
+      all_goals try first
         | exact absurd h2 k1 | exact absurd k1 h2 | exact absurd h4 k3 | exact absurd k3 h4
-        | skip
       · exact Or.inr (Or.inl ⟨h1, k2, h3, k4⟩)
       · exact Or.inr (Or.inr ⟨h1, k2, h3, k4, t₂.trans h5 k5⟩)
 

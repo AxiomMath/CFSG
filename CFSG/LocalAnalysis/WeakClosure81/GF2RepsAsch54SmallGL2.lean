@@ -50,7 +50,7 @@ theorem not_isCompositionFactor_quotient_of_injective_GL2
     exact CFSG.GH74.SectionalTwoRankLE.of_surjective ((QuotientGroup.mk' N).subgroupMap d.ker)
       ((QuotientGroup.mk' N).subgroupMap_surjective d.ker) hker
   · refine not_isCompositionFactor_of_isSolvable (fun L _ _ hL => (hP L hL).1)
-      (isSolvable_of_comm fun a b => ?_)
+      (_root_.Group.isSolvable_of_comm fun a b => ?_)
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective a

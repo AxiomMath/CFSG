@@ -135,14 +135,14 @@ theorem rep_tbl14 (σ : Equiv.Perm (Fin 12)) : Rep 14 (tbl14 σ) (extHom σ) := 
     simp [tbl14, hi]
   simp only [ap, hget]
   by_cases h : i < 12
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     have := extHom_apply_lt σ ⟨i, hi⟩ h
     simp only [Equiv.Perm.smul_def]
     rw [this]
     simp
     have := (σ ⟨i, h⟩).2
     omega
-  · rw [dif_neg h]
+  · rw [dite_eq_right h]
     have := extHom_apply_ge σ ⟨i, hi⟩ h
     simp only [Equiv.Perm.smul_def]
     rw [this]

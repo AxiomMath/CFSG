@@ -48,11 +48,11 @@ theorem nsTwE6Plus_card_le
     (hL : GGInnerDiagOnLabel GGTBTwE6PlusLabel p Bs L) :
     Nat.card ↥Bs ≤ p ^ 7 := by
   obtain ⟨hp, hBs, -, -, -⟩ := hHyp.1.tableB_facts
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨V, _, _, ⟨ιV⟩⟩ := exists_ggLinData hBs
   have h7 : Module.finrank (ZMod p) V ≤ 7 := ggTwE6Row_finrank_le_seven hHyp hL ιV
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ιV.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   rw [card_eq_of_ggLin ιV, Module.natCard_eq_pow_finrank (K := ZMod p) (V := V), Nat.card_zmod]
   exact Nat.pow_le_pow_right hp.pos h7
 

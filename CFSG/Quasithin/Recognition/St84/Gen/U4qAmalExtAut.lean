@@ -41,7 +41,7 @@ theorem exists_stdAut_eq_of_agree_inf_u4 (hm : 2 ≤ m) (θ₁ : MulAut ↥(parP
         (MulAut.conj (e : hypSU h 2 0)⁻¹ * u4StdAut h d ρ) x) ∧
       ∀ x : ↥(parP2 h), ((θ₂ x : ↥(parP2 h)) : hypSU h 2 0) =
         (MulAut.conj (e : hypSU h 2 0)⁻¹ * u4StdAut h d ρ) x := by
-  haveI := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   have hB : ∀ b : ↥(parP h ⊓ parP2 h),
       ((θ₁ ⟨b, b.2.1⟩ : ↥(parP h)) : hypSU h 2 0) ∈ parP h ⊓ parP2 h := fun b =>
     ⟨(θ₁ _).2, by rw [hθ ⟨b, b.2.1⟩ ⟨b, b.2.2⟩ rfl]; exact (θ₂ _).2⟩

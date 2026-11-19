@@ -106,7 +106,7 @@ theorem c13_CV_sigma (hc : Ctx11 t L S x₁ x₂ lam rho tau) :
     have := hV.2 ((x₁ * x₂) ^ 2) hzV
     rwa [pow_two] at this
   have hyz : x₁ ^ 2 * (x₁ * x₂) ^ 2 = (x₁ * x₂) ^ 2 * x₁ ^ 2 := by
-    haveI : IsMulCommutative ↥(fourGrp x₁ x₂) := hV.1
+    have : IsMulCommutative ↥(fourGrp x₁ x₂) := hV.1
     exact congrArg Subtype.val (mul_comm' (⟨x₁ ^ 2, hyV⟩ : ↥(fourGrp x₁ x₂))
       ⟨(x₁ * x₂) ^ 2, hzV⟩)
   intro v hv hfix
@@ -137,6 +137,7 @@ theorem c13_CV_sigma (hc : Ctx11 t L S x₁ x₂ lam rho tau) :
       simpa [mul_assoc] using this.symm
     exact (c13_V_ne hc).2.1 hz1
 
+omit [Finite G] in
 private theorem c13_conj_fix_of_mem_cent {σ a : G}
     (h : a ∈ centralizer ({σ} : Set G)) : σ * a * σ⁻¹ = a := by
   have h2 : a * σ = σ * a := Subgroup.mem_centralizer_singleton_iff.mp h

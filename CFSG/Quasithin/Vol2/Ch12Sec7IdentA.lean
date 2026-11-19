@@ -32,7 +32,7 @@ abbrev Gz (z : G) : Subgroup G := Subgroup.centralizer ({z} : Set G)
   Q := pCore 2 ↥(Gz z)
   normal := inferInstance
   extraspecial := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact isExtraspecialPGroup_of_mulEquiv
       (Subgroup.equivMapOfInjective (pCore 2 ↥(Gz z)) (Gz z).subtype Subtype.val_injective).symm
       hext
@@ -124,7 +124,7 @@ theorem centralizer_iso_transvection_of_structAt [Finite G] {z : G} {V : Subgrou
   classical
   have hS0 := hS
   obtain ⟨hext, hP128, hcent, ⟨f, hfsurj, hfker⟩, A, B, hA, hB, -, -, hAB, hAB', hCA, hCB⟩ := hS
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz2 : orderOf z = 2 := orderOf_eq_prime (by simpa using hV.2 z hzV) hz1
   have hVG : V ≤ Gz z := fun v hv => by
     rw [Subgroup.mem_centralizer_singleton_iff]

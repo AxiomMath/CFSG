@@ -27,7 +27,7 @@ lemma three_dvd_sq_sub_one_of_mod_ne_zero {q : ℕ} (hq : q % 3 ≠ 0) : 3 ∣ q
     have hlt : q % 3 < 3 := Nat.mod_lt _ (by norm_num)
     have hcases : q % 3 = 1 ∨ q % 3 = 2 := by omega
     rw [pow_two, Nat.mul_mod]
-    rcases hcases with h | h <;> rw [h] <;> norm_num
+    rcases hcases with h | h <;> rw [h]
   obtain ⟨m, hm⟩ : ∃ m, q ^ 2 = 3 * m + 1 := by
     refine ⟨q ^ 2 / 3, ?_⟩
     have h := Nat.div_add_mod (q ^ 2) 3
@@ -48,7 +48,8 @@ lemma two_pow_mod_three_of_even {f : ℕ} (hf : Even f) : 2 ^ f % 3 = 1 := by
   have hne0 : 2 ^ f % 3 ≠ 0 := two_pow_mod_three_ne_zero f
   omega
 
-theorem exists_cubeRoot (hF : Nat.card F = (2 ^ f) ^ 2) (hf : 1 ≤ f) :
+omit [CharP F 2] in
+theorem exists_cubeRoot (hF : Nat.card F = (2 ^ f) ^ 2) (_hf : 1 ≤ f) :
     ∃ ζ : F, ζ ≠ 1 ∧ ζ ^ 3 = 1 := by
   have hdvd : 3 ∣ Nat.card Fˣ := by
     rw [Nat.card_units, hF]

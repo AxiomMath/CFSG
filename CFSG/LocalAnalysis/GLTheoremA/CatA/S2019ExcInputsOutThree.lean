@@ -24,7 +24,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA.S2019
 section Generic
 
 theorem mem_of_pow_eq_one_of_pow_mem {G : Type*} [Group G] {I : Subgroup G} {x : G} {p m : ℕ}
-    (hp : 1 < p) (hcop : Nat.Coprime m p) (hxp : x ^ p = 1) (hxm : x ^ m ∈ I) : x ∈ I := by
+    (_hp : 1 < p) (hcop : Nat.Coprime m p) (hxp : x ^ p = 1) (hxm : x ^ m ∈ I) : x ∈ I := by
   have hord : orderOf x ∣ p := orderOf_dvd_of_pow_eq_one hxp
   obtain ⟨k, hk⟩ := exists_pow_eq_self_of_coprime (Nat.Coprime.coprime_dvd_right hord hcop)
   rw [← hk]
@@ -60,6 +60,7 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.Lin
 
 variable {n : ℕ} {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 private theorem conjAut_toGL_eq_conj (g : Matrix.SpecialLinearGroup (Fin n) F) :
     conjAut n F (Matrix.SpecialLinearGroup.toGL g) = MulAut.conj (proj n F g) := by
   ext x
@@ -77,10 +78,10 @@ theorem exists_conj_of_pow_prime_projectiveSL_three (hn : 3 ≤ n) (hF : Nat.car
     (hp : p.Prime) (hp5 : 5 ≤ p) (β : MulAut (projectiveSL n F)) (hβ : β ^ p = 1) :
     ∃ y, β = MulAut.conj y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP F 3 :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP F 3 :=
     charP_of_card_eq_prime_pow (p := 3) (f := 1) (by rw [← Nat.card_eq_fintype_card, hF, pow_one])
   have hβE : β ∈ semilinearAutGroup n F :=
     mem_semilinearAutGroup_of_pow_odd hn (hp.odd_of_ne_two (by omega)) hβ
@@ -154,7 +155,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (inner inner_normal)
 theorem exists_conj_of_pow_prime_psp_three {r : ℕ} (hr : 2 ≤ r) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 3) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     (β : MulAut (StatedProj (StatedSp r K))) (hβ : β ^ p = 1) : ∃ y, β = MulAut.conj y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hO := spOuter (K := K) Nat.prime_three le_rfl hr (by rw [hK, pow_one])
   have hodd : Odd (orderOf β) :=
     (hp.odd_of_ne_two (by omega)).of_dvd_nat (orderOf_dvd_of_pow_eq_one hβ)
@@ -190,9 +191,9 @@ theorem exists_conj_of_pow_prime_omegaOdd_three {G : Type} [Group G] {n : ℕ}
   have hgates := orthogonal_large_prime_semilinear_field_and_diagonal_gates G .POmegaOdd
     (Or.inl rfl) n 3 1 hG K hK e
   set e' := coordinateOddWitnessEquiv K e
-  haveI : Finite G := Finite.of_equiv _ e.toEquiv.symm
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadOdd n K)) := Finite.of_equiv _ e'.toEquiv
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite G := Finite.of_equiv _ e.toEquiv.symm
+  have : Finite (matrixProjectiveDerived (coordinateQuadOdd n K)) := Finite.of_equiv _ e'.toEquiv
+  have : Fact p.Prime := ⟨hp⟩
   have hβ' : MulAut.congr e' β ^ p = 1 := by rw [← map_pow, hβ, map_one]
   have hE := mem_E_of_pow_eq_one_omega hgates hp (Or.inl (by omega)) hβ'
   by_cases hD : MulAut.congr e' β ∈ (linearConjugationHom (coordinateQuadOdd n K)).range
@@ -214,11 +215,11 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Ree
 theorem exists_conj_of_pow_prime_g2_three {K : Type} [Field K] [Finite K] (hK : Nat.card K = 3)
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (β : MulAut (adjointGroup Tag.G2 K)) (hβ : β ^ p = 1) :
     ∃ y, β = MulAut.conj y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 3 :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 3 :=
     charP_of_card_eq_prime_pow (p := 3) (f := 1) (by rw [← Nat.card_eq_fintype_card, hK, pow_one])
-  haveI : CharP K ReeTag.G2.prime := by
+  have : CharP K ReeTag.G2.prime := by
     show CharP K 3
     infer_instance
   obtain ⟨-, -, ⟨Θ, -, -, hker⟩, -⟩ :=

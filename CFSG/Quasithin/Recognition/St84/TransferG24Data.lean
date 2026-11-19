@@ -41,6 +41,7 @@ structure G24EdgeData (Ea Eb K T : Subgroup H) : Prop where
 abbrev G24TransferData (L1 L2 S : Subgroup H) : Prop :=
   G24EdgeData (f112saP1' L1 L2 S) (f112saP2' L1 L2 S) (f112saK L1 L2 S) (S ⊓ f112saK L1 L2 S)
 
+omit [Finite H] in
 theorem g24TransferData_swap_iff (L1 L2 S : Subgroup H) :
     G24TransferData L2 L1 S ↔
       G24EdgeData (f112saP2' L1 L2 S) (f112saP1' L1 L2 S) (f112saK L1 L2 S)
@@ -48,12 +49,14 @@ theorem g24TransferData_swap_iff (L1 L2 S : Subgroup H) :
   rw [G24TransferData, f112saP1'_eq_P2'_swap L2 L1 S, f112saP2'_eq_P1'_swap L2 L1 S,
     f112saK_comm]
 
+omit [Finite H] in
 theorem G24EdgeData.card_pCoreOf_left {Ea Eb K T : Subgroup H}
     (h : G24EdgeData Ea Eb K T) : Nat.card ↥(pCoreOf 2 Ea) = 2 ^ 10 := by
   have h := h.special_left.2.1
   norm_num at h ⊢
   exact h
 
+omit [Finite H] in
 theorem G24EdgeData.card_centerOf_left {Ea Eb K T : Subgroup H}
     (h : G24EdgeData Ea Eb K T) : Nat.card ↥(centerOf (pCoreOf 2 Ea)) = 2 ^ 2 := by
   rw [CFSG.Quasithin.A1c.centerOf_eq_map_center,

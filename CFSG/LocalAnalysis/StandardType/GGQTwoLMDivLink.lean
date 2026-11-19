@@ -34,7 +34,7 @@ theorem exists_bstar_conj_eq_commutator (hN : Bs ≤ Subgroup.normalizer (L : Se
     rw [ggGamma_coe L hN β x] at hx
     refine hx.trans ?_
     simp only [MulAut.mul_apply, MulAut.conj_apply, MulAut.conj_inv_apply, ggGamma_coe,
-      MulEquiv.coe_toMonoidHom, Subgroup.coe_mul, Subgroup.coe_inv]
+      Subgroup.coe_mul, Subgroup.coe_inv]
     group
   have hbnL : b * (n : G)⁻¹ * b⁻¹ ∈ L :=
     (Subgroup.mem_normalizer_iff.mp (hN hb) (n : G)⁻¹).mp (L.inv_mem n.2)
@@ -65,6 +65,7 @@ local instance : CharP F.F0 2 := F.charF0
 local instance : Group F.L0 := F.groupL0
 local instance : Finite F.L0 := F.finiteL0
 
+omit [Finite G] in
 theorem qTwoFrameL_kernel_commute :
     ∀ k ∈ F.c.ker.map L.subtype, ∀ l ∈ L, k * l = l * k := by
   intro k hk l hl
@@ -95,7 +96,7 @@ theorem qTwoFrameL_kernel_le_normalizer :
 
 theorem qTwoFrameL_kernel_coprime (hBs : GGBstar 3 B Bs) :
     Nat.Coprime (Nat.card (F.c.ker.map L.subtype)) (Nat.card Bs) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKcard : Nat.card (F.c.ker.map L.subtype) = Nat.card F.c.ker :=
     Subgroup.card_map_of_injective L.subtype_injective
   rw [hKcard]
@@ -103,6 +104,7 @@ theorem qTwoFrameL_kernel_coprime (hBs : GGBstar 3 B Bs) :
   exact IsPGroup.coprime_card_of_ne 2 3 (by norm_num) F.c.ker Bs F.hc_two hBsp
 
 
+omit [Finite G] in
 private theorem qTwoFrameL_rho_eq_c {β : G} (hβ : β ∈ Bs) {l : G} (hl : l ∈ L)
     (hconj : ∀ l₁ ∈ L, β * l₁ * β⁻¹ = l * l₁ * l⁻¹) :
     ∀ y : F.L0, F.ρ ⟨β, hβ⟩ y = F.c ⟨l, hl⟩ * y * (F.c ⟨l, hl⟩)⁻¹ := by
@@ -122,6 +124,7 @@ private theorem qTwoFrameL_rho_eq_c {β : G} (hβ : β ∈ Bs) {l : G} (hl : l �
           exact Subtype.ext rfl
     _ = F.c ⟨l, hl⟩ * F.c l₁ * (F.c ⟨l, hl⟩)⁻¹ := by simp [map_mul]
 
+omit [Finite G] in
 theorem qTwoFrameL_exists_diag_of_conj_eq {β : G} (hβ : β ∈ Bs) {l : G} (hl : l ∈ L)
     (hconj : ∀ l₁ ∈ L, β * l₁ * β⁻¹ = l * l₁ * l⁻¹) :
     ∃ w : Su F.F0 2 1 F.m, ggIsDiagMat (w : GL (Fin F.m) F.F0) ∧
@@ -173,6 +176,7 @@ theorem qTwoFrameL_exists_diag_of_conj_eq {β : G} (hβ : β ∈ Bs) {l : G} (hl
   rw [hwmat, hd]
   simp only [D, Matrix.diagonal_mul_diagonal]
 
+omit [Finite G] in
 private theorem qTwoFrameL_conj_mem_sup (hN : Bs ≤ Subgroup.normalizer (L : Set G))
     (hlift : ∀ u : Su F.F0 2 1 F.m, ggIsDiagMat (u : GL (Fin F.m) F.F0) →
       ∃ ℓ : ↥L, F.c ℓ = F.πSU u ∧ (ℓ : G) ∈ Bs)

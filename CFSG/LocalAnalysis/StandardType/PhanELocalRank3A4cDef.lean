@@ -14,11 +14,13 @@ variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
 @[expose] noncomputable def Adm4c (p L H : Submodule K (Fin 4 → K)) : Prop :=
   p ⊓ sgS K f 4 H = ⊥ ∧ L ⊓ sgS K f 4 L = ⊥ ∧ H ⊓ sgS K f 4 p = ⊥
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_blockU_a3_4c (x : FlagK K 4) (r : ℕ) :
     blockU K 4 [0, 4] x.E 0 r = x.E r := by
-  simp only [blockU, List.getD_cons_zero, List.getD_cons_succ, List.getD_nil, Nat.sub_self,
+  simp only [blockU, List.getD_cons_zero, List.getD_cons_succ, Nat.sub_self,
     Nat.zero_add, Vsub_self, Vsub_zero, inf_top_eq, sup_bot_eq]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_mem_farSet_a3_4c (x : FlagK K 4) : x ∈ farSet 4 [0, 4] := by
   intro i hi j hj
   have hi2 : i < 2 := by simpa using hi
@@ -42,13 +44,13 @@ private theorem plh_blockOK_a3_4c_iff (x : FlagK K 4) :
     have hi1 : i < 1 := by
       have : i + 1 < 2 := by simpa using hi
       omega
-    interval_cases i <;> decide
+    interval_cases i; decide
   have hget : ([0, 4] : List ℕ).getD 1 0 = 4 := rfl
   have hget0 : ([0, 4] : List ℕ).getD 0 0 = 0 := rfl
   rw [blockOK_iff_of_far (K := K) (f := f) hd hmono (plh_mem_farSet_a3_4c x) (i := 0)
     (by decide)]
   simp only [plh_blockU_a3_4c, hget, hget0, Vsub_zero, Nat.sub_zero, List.getD_cons_zero,
-    List.getD_cons_succ, List.getD_nil, Bool.false_eq_true, ↓reduceIte]
+    Bool.false_eq_true, ↓reduceIte]
   constructor
   · intro h
     refine ⟨?_, ?_, ?_⟩
@@ -65,7 +67,7 @@ private theorem plh_blockOK_a3_4c_iff (x : FlagK K 4) :
 theorem genSet_a3_4c_eq :
     genSet K f 4 [0, 4] [false] = admSet (Adm4c (K := K) f) := by
   ext x
-  simp only [genSet, Set.mem_setOf_eq, admSet, Adm4c]
+  simp only [genSet, Set.mem_ofPred_eq, admSet, Adm4c]
   constructor
   · rintro ⟨-, hblock⟩
     exact (plh_blockOK_a3_4c_iff (K := K) (f := f) x).mp (hblock 0 (by decide))

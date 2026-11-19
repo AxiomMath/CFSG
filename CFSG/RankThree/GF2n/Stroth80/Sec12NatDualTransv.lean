@@ -155,9 +155,9 @@ theorem Qf_eq_zero_of_mem_range (hn : 2 ≤ n) (hrange : ρ'.range = StatedSL n 
 
 theorem finrank_eq_two_of_equiv [Finite K] (θ : K ≃+* F) (R : Submodule K E)
     (e : F × F ≃ R) : Module.finrank K R = 2 := by
-  haveI : Finite F := Finite.of_equiv K θ.toEquiv
-  haveI : Finite R := Finite.of_equiv (F × F) e
-  haveI : Module.Finite K R := Module.finite_iff_finite.mpr inferInstance
+  have : Finite F := Finite.of_equiv K θ.toEquiv
+  have : Finite R := Finite.of_equiv (F × F) e
+  have : Module.Finite K R := Module.finite_iff_finite.mpr inferInstance
   have hFK : Nat.card F = Nat.card K := (Nat.card_congr θ.toEquiv).symm
   have hcard : Nat.card R = Nat.card K ^ 2 := by
     rw [← Nat.card_congr e, Nat.card_prod, hFK, sq]

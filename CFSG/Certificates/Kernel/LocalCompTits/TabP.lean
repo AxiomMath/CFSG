@@ -65,7 +65,7 @@ theorem ap_tabP {N P : Nat} (h : Bd N P) (i : Nat) : ap (tabP N P) i = pg 11 (ma
   · exact ap_tabP_lt hi
   · rw [ap_tabP_ge N P (by omega), pg_ge_of_bd h (by omega)]
 
-theorem tabP_TR {N P : Nat} (hN : N < 2 ^ 32) (h : Mp N P) :
+theorem tabP_TR {N P : Nat} (_hN : N < 2 ^ 32) (h : Mp N P) :
     TR N (tabP N P) (pg 11 (mask 11) P) :=
   ⟨tabP_size N P, fun i hi => ⟨ap_tabP_lt hi, h i hi⟩⟩
 
@@ -203,14 +203,14 @@ theorem letterT_eq {N : Nat} {TG : Nat → Nat} {tbls : Array Table}
   by_cases h1 : 0 < z ∧ z ≤ 4
   · have h1' : 0 < z ∧ z ≤ ((4 : Nat) : Int) := h1
     have hj : z.toNat - 1 < 4 := by omega
-    rw [if_pos h1', if_pos h1, hg, tbls_get hj]
+    rw [ite_eq_left h1', ite_eq_left h1, hg, tbls_get hj]
     exact ⟨rfl, (permOK_facts (hTG _ hj)).1⟩
   · by_cases h2 : z < 0 ∧ -z ≤ 4
     · have h2' : z < 0 ∧ -z ≤ ((4 : Nat) : Int) := h2
       have hj : (-z).toNat - 1 < 4 := by omega
-      rw [if_neg (by omega), if_neg h1, if_pos h2', if_pos h2, hg, tbls_get hj]
+      rw [ite_eq_right (by omega), ite_eq_right h1, ite_eq_left h2', ite_eq_left h2, hg, tbls_get hj]
       exact ⟨tabP_inv (by omega) (hTG _ hj), (permOK_facts (hTG _ hj)).2.1⟩
-    · rw [if_neg (by omega), if_neg h1, if_neg (by omega), if_neg h2]
+    · rw [ite_eq_right (by omega), ite_eq_right h1, ite_eq_right (by omega), ite_eq_right h2]
       exact ⟨(tabP_pidn hN).symm, gd_pidn hN⟩
 
 theorem map_eq_compT {N : Nat} {L T : Table} (hT : T.size = N) :
@@ -275,8 +275,8 @@ theorem letters_sound {TG TL : Nat → Nat} {words : Array (List Int)} {tbls : A
   show (if i.val % 2 = 0 then wordT 1755 (letterT 1755 tbls) words[j]! else
     invT 1755 (wordT 1755 (letterT 1755 tbls) words[j]!)) = tabP 1755 (TL i.val)
   rcases hi2 with hi | hi
-  · rw [hi, if_pos (by omega), hword.1, ← e4']
-  · rw [hi, if_neg (by omega), hword.1, ← e4']
+  · rw [hi, ite_eq_left (by omega), hword.1, ← e4']
+  · rw [hi, ite_eq_right (by omega), hword.1, ← e4']
     exact tabP_inv (by omega) h7'
 
 end CFSG.KC.LocalComp.TitsSound

@@ -35,7 +35,7 @@ private theorem natCard_fixedPoints_of_mul_self (σ : Equiv.Perm (Fin 6)) (h2 : 
 
 theorem exists_swap_of_elemAbelian_order_eight (K : Subgroup (Equiv.Perm (Fin 6)))
     (hcard : Nat.card ↥K = 8) (hexp : ∀ k ∈ K, k * k = 1)
-    (hcomm : ∀ a ∈ K, ∀ b ∈ K, a * b = b * a) : ∃ k ∈ K, k.IsSwap := by
+    (_hcomm : ∀ a ∈ K, ∀ b ∈ K, a * b = b * a) : ∃ k ∈ K, k.IsSwap := by
   classical
   by_contra hno
   push Not at hno
@@ -51,8 +51,8 @@ theorem exists_swap_of_elemAbelian_order_eight (K : Subgroup (Equiv.Perm (Fin 6)
     intro k
     by_cases hk : k = 1
     · subst hk
-      simp [MulAction.fixedBy_one_eq_univ, Nat.card_univ]
-    · rw [if_neg hk, add_zero]
+      simp [MulAction.fixedBy_one_eq_univ]
+    · rw [ite_eq_right hk, add_zero]
       have hk' : (k : Equiv.Perm (Fin 6)) ≠ 1 := fun h => hk (Subtype.ext h)
       exact natCard_fixedPoints_of_mul_self (k : Equiv.Perm (Fin 6)) (hexp k k.2) hk' (hno k k.2)
   have hB := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group (↥K) (Fin 6)
@@ -113,7 +113,7 @@ private theorem eq_or_eq_of_pairVec_eq {a b c d : Fin 6} (hab : a ≠ b)
   rw [pairVec_apply, pairVec_apply] at h'
   by_contra hne
   push Not at hne
-  simp [Pi.single_apply, hab, hab.symm, hne.1, hne.2, hne.1.symm, hne.2.symm] at h'
+  simp [hab.symm, hne.1.symm, hne.2.symm] at h'
 
 private theorem exists_ne_four (a b c d : Fin 6) :
     ∃ m : Fin 6, m ≠ a ∧ m ≠ b ∧ m ≠ c ∧ m ≠ d := by
@@ -136,7 +136,7 @@ theorem ActsAs.unique {β : ↥(permCore 6) →ₗ[ZMod 2] U}
       obtain ⟨m, h1m, h2m, h3m, h4m⟩ := exists_ne_four (σ i) (σ j) (τ i) (τ j)
       have e' : permAct σ (pairVec i j) m - permAct τ (pairVec i j) m = 1 := e m
       rw [permAct_pairVec, permAct_pairVec, pairVec_apply, pairVec_apply] at e'
-      simp [Pi.single_apply, h1m.symm, h2m.symm, h3m.symm, h4m.symm] at e'
+      simp [h1m.symm, h2m.symm, h3m.symm, h4m.symm] at e'
   refine Equiv.ext fun i => ?_
   obtain ⟨j, k, hji, hki, hjk⟩ : ∃ j k : Fin 6, j ≠ i ∧ k ≠ i ∧ j ≠ k := by
     revert i
@@ -190,7 +190,7 @@ private theorem exists_actsAs_perm {β : ↥(permCore 6) →ₗ[ZMod 2] U}
     have h1 := β_pmap_eq_zero hker τ h0
     rw [map_sub, map_sub, sub_eq_zero] at h1
     exact h1
-  refine ⟨LinearEquiv.ofLinear (β ∘ₗ pmap σ ∘ₗ s) (β ∘ₗ pmap σ⁻¹ ∘ₗ s) ?_ ?_, fun u => hf σ u⟩
+  refine ⟨LinearEquiv.ofLinearMap (β ∘ₗ pmap σ ∘ₗ s) (β ∘ₗ pmap σ⁻¹ ∘ₗ s) ?_ ?_, fun u => hf σ u⟩
   · apply LinearMap.ext
     intro v
     obtain ⟨u, rfl⟩ := hsurj v
@@ -237,7 +237,7 @@ theorem mem_of_actsAs_even {r : GLV U} {σ : Equiv.Perm (Fin 6)} (h : ActsAs β 
 
 include hker hequ in
 theorem phi_conj_of_actsAs {r : GLV U} {σ : Equiv.Perm (Fin 6)} (h : ActsAs β r σ)
-    (hr : ∀ h ∈ H', r * h * r⁻¹ ∈ H') (g : ↥H') (hg : r * (g : GLV U) * r⁻¹ ∈ H') :
+    (_hr : ∀ h ∈ H', r * h * r⁻¹ ∈ H') (g : ↥H') (hg : r * (g : GLV U) * r⁻¹ ∈ H') :
     ((φ ⟨r * g * r⁻¹, hg⟩ : ↥(alternatingGroup (Fin 6))) : Equiv.Perm (Fin 6)) =
       σ * ((φ g : ↥(alternatingGroup (Fin 6))) : Equiv.Perm (Fin 6)) * σ⁻¹ :=
   (((h.mul (actsAs_phi φ hequ g)).mul h.inv).unique hker (actsAs_phi φ hequ ⟨_, hg⟩)).symm

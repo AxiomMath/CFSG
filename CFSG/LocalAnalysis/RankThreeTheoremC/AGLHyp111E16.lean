@@ -57,11 +57,12 @@ theorem not_hasPrimeConstraint_of_component {X : Type} [Group X] [Finite X] {p :
   have : Group.IsNilpotent ↥L := hLp.isNilpotent
   exact Group.IsPerfect.not_isSolvable ↥L inferInstance
 
+omit [Finite G] in
 theorem exists_sylow_of_maximal {p : ℕ} [Fact p.Prime] {N T : Subgroup G} (hTN : T ≤ N)
     (hT : IsPGroup p T) (hmax : ∀ V : Subgroup G, V ≤ N → IsPGroup p V → T ≤ V → V = T) :
     ∃ S : Sylow p N, (S : Subgroup N).map N.subtype = T := by
   obtain ⟨S, hS⟩ := (hT.comap_subtype (K := N)).exists_le_sylow
-  refine ⟨S, hmax _ (Subgroup.map_subtype_le _) (S.isPGroup'.map _) fun t ht => ?_⟩
+  refine ⟨S, hmax _ (Subgroup.map_subtype_le _) (S.isPGroup.map _) fun t ht => ?_⟩
   exact ⟨⟨t, hTN ht⟩, hS ht, rfl⟩
 
 theorem exists_sylowBase {p : ℕ} {P : Sylow p G} {M H₁ R₁ B H₀ : Subgroup G}
@@ -129,6 +130,7 @@ theorem d1KBar_ne_bot {p : ℕ} {M H : Subgroup G}
   rw [h, le_bot_iff] at hle
   exact hLX (hle ▸ bot_le)
 
+omit [Finite G] in
 theorem card_d1KBar_of_isAltTwoP {p : ℕ} {M H : Subgroup G} (h : IsAltTwoP 3 (d1KBar p M H)) :
     d1Kappa p M H = 360 := by
   obtain ⟨e⟩ := h
@@ -176,14 +178,14 @@ theorem e16_of_base (h9 : AGL81NineCompetitorQ G) (h98 : AGL81NineEightTwo G)
           ∃ H₂ : Subgroup G, AGLAscentStep p M H H₂ ∧ IsLinThreeFour (d1KBar p M H₂)))) := by
   have hg := aglGlobal_of_setting hS
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hμ := muAt_of_escape he
   obtain ⟨H₀, hc, hH₀, hH₀M, hK₀, ⟨B₀, hB₀, hBH₀⟩, -, hinv, hfac⟩ :=
     exists_sizeMax_of_ascent h9 hg hμ hH hHM hK ⟨B, hB, hBH⟩
   have hat₀ := (h9 hg p P M H₀ hμ hH₀ hH₀M hK₀ B₀ H₀ hB₀ hBH₀ hH₀ hH₀M hBH₀
     (aglCovers_self H₀ _)).1
   have hatH := (h9 hg p P M H hμ hH hHM hK B H hB hBH hH hHM hBH (aglCovers_self H _)).1
-  haveI := hat₀.nineThree.normal
+  have := hat₀.nineThree.normal
   obtain ⟨Q₀, -, hQH₀, hQ₀, S, hS₀⟩ := exists_sylowBase he hB₀ hBH₀
   have hsyl := sylowK_of_sylow (K := d1KBar p M H₀) S hS₀
   have listH := hatH.list (d1KBar_ne_bot hK)
@@ -278,7 +280,7 @@ theorem eq_of_isSubnormal_of_isSimpleGroup {Y : Type*} [Group Y] {L K : Subgroup
   | @step H M K hHM hn hMK ih =>
     have hM : M = K := ih hK (fun hb => hL (le_bot_iff.mp (hb ▸ hHM)))
     subst hM
-    haveI := hK
+    have := hK
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (H.subgroupOf M) with h | h
     · exact absurd (((Subgroup.subgroupOf_eq_bot).mp h).eq_bot_of_le hHM) hL
     · exact le_antisymm hHM ((Subgroup.subgroupOf_eq_top).mp h)

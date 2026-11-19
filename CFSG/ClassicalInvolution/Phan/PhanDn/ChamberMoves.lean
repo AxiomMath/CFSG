@@ -113,7 +113,7 @@ def FlipFrame.ofOrthonormal (v : Fin n → (Fin n ⊕ Fin n → K))
     · intro u hu hper
       obtain ⟨a, rfl⟩ := Submodule.mem_span_singleton.mp hu
       have h := hper (v i) (Submodule.mem_span_singleton_self _)
-      rw [flipHerm_smul_left, hh i i, if_pos rfl, mul_one] at h
+      rw [flipHerm_smul_left, hh i i, ite_eq_left rfl, mul_one] at h
       rw [h, zero_smul]
   polar_eq_zero i j hij u hu v hv := by
     obtain ⟨a, rfl⟩ := Submodule.mem_span_singleton.mp hu
@@ -123,7 +123,7 @@ def FlipFrame.ofOrthonormal (v : Fin n → (Fin n ⊕ Fin n → K))
   flipHerm_eq_zero i j hij u hu v hv := by
     obtain ⟨a, rfl⟩ := Submodule.mem_span_singleton.mp hu
     obtain ⟨b, rfl⟩ := Submodule.mem_span_singleton.mp hv
-    rw [flipHerm_smul_left, flipHerm_smul_right, hh i j, if_neg hij]
+    rw [flipHerm_smul_left, flipHerm_smul_right, hh i j, ite_eq_right hij]
     simp
 
 theorem DChamber.exists_line_zero_eq (hσ : IsUnitaryInvolution σ) {k : ℕ} (hk : 1 ≤ k)
@@ -232,11 +232,11 @@ theorem DChamber.exists_line_zero_eq (hσ : IsUnitaryInvolution σ) {k : ℕ} (h
       · simpa [v] using hv0h
       · intro l
         rw [show v 0 = v0 from rfl, show v (Fin.succ l) = (B l : N) from rfl, hbN l,
-          if_neg (Fin.succ_ne_zero l).symm]
+          ite_eq_right (Fin.succ_ne_zero l).symm]
     · intro l
       refine Fin.cases ?_ ?_ j
       · rw [show v 0 = v0 from rfl, show v (Fin.succ l) = (B l : N) from rfl,
-          if_neg (Fin.succ_ne_zero l)]
+          ite_eq_right (Fin.succ_ne_zero l)]
         exact (flipHerm_eq_zero_iff hσ.invol).mpr (hbN l)
       · intro m
         simpa [v] using hB l m

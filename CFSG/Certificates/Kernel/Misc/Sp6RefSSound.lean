@@ -178,16 +178,16 @@ private theorem bits_step {S : Nat → Nat} (P : Nat → Bool) (h0 : S 0 = 0)
     obtain ⟨h1, h2⟩ := ih
     rw [hs L]
     cases hP : P L
-    · refine ⟨by rw [cond_false, Nat.zero_add, Nat.pow_succ]; omega, fun y => ?_⟩
-      rw [cond_false, Nat.zero_add, h2]
+    · refine ⟨by rw [Bool.cond_false, Nat.zero_add, Nat.pow_succ]; omega, fun y => ?_⟩
+      rw [Bool.cond_false, Nat.zero_add, h2]
       rcases Nat.lt_trichotomy y L with hy | rfl | hy
       · simp [hy, Nat.lt_succ_of_lt hy]
       · simp [hP]
       · have a : ¬ y < L := by omega
         have b : ¬ y < L + 1 := by omega
         simp [a, b]
-    · refine ⟨by rw [cond_true, Nat.pow_succ]; omega, fun y => ?_⟩
-      rw [cond_true]
+    · refine ⟨by rw [_root_.Bool.cond_true, Nat.pow_succ]; omega, fun y => ?_⟩
+      rw [_root_.Bool.cond_true]
       rcases Nat.lt_trichotomy y L with hy | rfl | hy
       · rw [Nat.testBit_two_pow_add_gt hy, h2]
         simp [hy, Nat.lt_succ_of_lt hy]
@@ -249,7 +249,7 @@ theorem look_sound {A WX QI RT RS RI RW : Nat → Nat} (h : lookK A WX QI RT RS 
     cases hb : Nat.beq (elt A WX n) ONE with
     | false => rfl
     | true => exact absurd (Nat.eq_of_beq_eq_true hb) hne
-  simp only [b1, b2, Bool.not_false, Bool.not_true, Bool.true_and, Bool.and_true, Bool.false_or,
+  simp only [b1, b2, Bool.not_false, Bool.not_true, Bool.and_true, Bool.false_or,
     Bool.and_eq_true] at e
   have e2 := allBelow_sound (by decide) e.2 x hx
   have bx : Nat.beq x 0 = false := by

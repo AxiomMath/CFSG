@@ -63,10 +63,12 @@ private theorem s3a5_dictionary {L1 L2 S : Subgroup H}
   exact ⟨D.gi_zero_map, D.Q_zero_map, D.Q_one_map, D.L_zero_map, D.L_one_map, D.S_map,
     D.isSylowTwoOf_pCoreOf⟩
 
+omit [Finite H] in
 private theorem map_bot_eq_ofA_bot (L1 L2 S : Subgroup H) :
     (⊥ : Subgroup ↥(f112EOdd L1 L2 S)).map (f112EOdd L1 L2 S).subtype = f112OfA L1 L2 S ⊥ := by
   rw [Subgroup.map_bot, f112OfA, Subgroup.bot_subgroupOf, Subgroup.map_bot]
 
+omit [Finite H] in
 private theorem map_bot_eq_ofB_bot (L1 L2 S : Subgroup H) :
     (⊥ : Subgroup ↥(f112EOdd L1 L2 S)).map (f112EOdd L1 L2 S).subtype = f112OfB L1 L2 S ⊥ := by
   rw [Subgroup.map_bot, f112OfB, Subgroup.bot_subgroupOf, Subgroup.map_bot]
@@ -218,7 +220,7 @@ theorem exists_zSigma_of_treeJ2Data {L1 L2 S : Subgroup H}
         simpa [mul_assoc] using hw
       show ((⟨g, hP1' hg⟩ * a * (⟨g, hP1' hg⟩)⁻¹ : ↥(f112P1 L1 L2 S)) : H) ∈ Zs
       refine hmem _ ⟨e * w * e⁻¹, hew, ?_⟩
-      simp only [map_mul, map_inv, Subgroup.coe_subtype, Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [map_mul, map_inv, Subgroup.coe_subtype]
       rw [← hea, ← hwa]
       rfl
     exact Subgroup.le_normalizer_iff.mpr hconj

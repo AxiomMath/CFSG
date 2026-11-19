@@ -26,6 +26,7 @@ private theorem ne_zero_of_isRootElt (hQ : (polarBilin Q).Nondegenerate) {a : V}
   intro x
   simpa using (hE e he).2.2 x (by simp)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem pointStabilizer_fix {a : V} (ha0 : a ≠ 0) {s : Gom Q}
     (hs : s ∈ pointStabilizer Q a) :
     s.app a = a ∧ ((s : V ≃ₗ[ZMod 2] V))⁻¹ a = a := by
@@ -229,8 +230,8 @@ private theorem imgCore_isRootElt (hE : BlockCase J m) {u : ↥(blockU J)} (hu1 
       (fun ℓ hℓJ hℓu t ht => conj_mem_pCoreOf_centralizer_of_centralizes hw hℓJ hℓu ht)
       hxR hz
 
-private theorem imgCore_normalized (hE : EvenCase J m) {u : ↥(blockU J)} (hu1 : u ≠ 1)
-    (hu : quadQ m (S.vec u) = 0) {w : G} (hw : w ∈ blockW J) (hZ : blockZ J = ⊥) :
+private theorem imgCore_normalized (_hE : EvenCase J m) {u : ↥(blockU J)} (_hu1 : u ≠ 1)
+    (_hu : quadQ m (S.vec u) = 0) {w : G} (hw : w ∈ blockW J) (hZ : blockZ J = ⊥) :
     ∀ g ∈ elementaryGroup (quadQ m), g (S.vec u) = S.vec u →
       ∀ e ∈ imgCore S hZ u w, g * e * g⁻¹ ∈ imgCore S hZ u w := by
   intro g hg hgv e he
@@ -455,7 +456,7 @@ private theorem mem_center_exists_mul (hE : EvenCase J m) {u : ↥(blockU J)} (h
     exact (S.vec_injective hZ hc).symm
 
 private theorem Z0_le_coreCen (hE : EvenCase J m) {u : ↥(blockU J)} (hu1 : u ≠ 1)
-    (hu : quadQ m (S.vec u) = 0) {w : G} (hw : w ∈ blockW J) (hZ : blockZ J = ⊥) :
+    (_hu : quadQ m (S.vec u) = 0) {w : G} (hw : w ∈ blockW J) (hZ : blockZ J = ⊥) :
     Z0Of u w ≤ coreCen u w := by
   intro x hx
   have hxW : x ∈ blockW J := hx.1
@@ -491,7 +492,7 @@ private theorem inf_centralizer_blockW_ne_bot (S : Setting G M J m) (hE : EvenCa
       rwa [hEq] at hthis
   let P : Subgroup G := R ⊔ blockW J
   have hP2 : IsPGroup 2 ↥P := hR.to_sup_of_normal_right' hW2 hRNW
-  haveI : Group.IsNilpotent ↥P := hP2.isNilpotent
+  have : Group.IsNilpotent ↥P := hP2.isNilpotent
   have hWP : blockW J ≤ P := le_sup_right
   have hNW : P ≤ Subgroup.normalizer (blockW J : Set G) :=
     sup_le hRNW Subgroup.le_normalizer

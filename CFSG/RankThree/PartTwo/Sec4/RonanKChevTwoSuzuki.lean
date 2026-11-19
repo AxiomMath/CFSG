@@ -113,7 +113,7 @@ theorem suzukiGroup_not_pullDatum {a : ℕ} {K : Type} [Field K]
 
 end Suzuki
 
-theorem kChevTwo_suzuki (n : ℕ) (hn : Odd n) :
+theorem kChevTwo_suzuki (n : ℕ) (_hn : Odd n) :
     ∀ (X : Type) [Group X] [Finite X], IsQuasisimple X → Blueprint.SuzukiModel X 2 n →
       ∀ β : MulAut X, orderOf β = 3 → ¬ InnThetaNoncyclic β := by
   intro X _ _ _ hm β hβ

@@ -26,7 +26,7 @@ theorem bPerm_aux {K : Type*} [Field K] (C D : Matrix (Fin 2) (Fin 2) K) (h : C 
     (C 0 0 • (D 0 0 • v.1 + D 0 1 • v.2) + C 0 1 • (D 1 0 • v.1 + D 1 1 • v.2),
       C 1 0 • (D 0 0 • v.1 + D 0 1 • v.2) + C 1 1 • (D 1 0 • v.1 + D 1 1 • v.2)) = v := by
   rw [mix_mul_aux, h]
-  simp [Matrix.one_apply]
+  simp
 
 section Defs
 

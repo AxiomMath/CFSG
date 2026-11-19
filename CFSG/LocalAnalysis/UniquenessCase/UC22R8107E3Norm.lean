@@ -180,7 +180,7 @@ theorem normalizer_le_of_le_of_r847 {D : Data G} (hSg : UC6S846.SigmaStd D)
     (hs : F08.Thin8 L ∨ ∃ n : ℕ, IsU3 (Bar2 L) n) (hXL : X ≤ L)
     (hX : Nat.card X = 3) (hXB : X ≤ B) {y : G} (hy : orderOf y = p)
     (hyB : y ∈ centralizer (B : Set G)) : normalizer (B : Set G) ≤ D.M := by
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
   have hC : centralizer (B : Set G) ≤ D.M := (centralizer_le hXB).trans
     ((centralizer_le_normalizer _).trans (h847 L hL r X hXL hX p hp hp3 hs))
   refine (UC6S846.sp_of_mem_sig hSg (UC6S846.not_solvable_of_mem_calC hL)

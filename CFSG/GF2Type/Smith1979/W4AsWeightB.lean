@@ -64,7 +64,7 @@ theorem false_of_two_prL_eq_zero {E : Subgroup S.O} (C : Omega83Pre S) (hEM : E 
       rw [hX1, Subgroup.mem_bot] at this
       exact hθ1 i this
     · exact h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne : (⟨C.theta i, hθX i hi⟩ : X) ≠ 1 := fun h => hθ1 i (congrArg Subtype.val h)
   obtain ⟨n, hn⟩ := Submonoid.mem_powers_iff _ _ |>.mp
     (mem_powers_of_prime_card (g' := (⟨C.theta j, hθX j hj⟩ : X)) hcard hne)

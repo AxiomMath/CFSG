@@ -248,7 +248,7 @@ theorem centralizer_eq_of_inner_action {X : Type*} [Group X] {G₀ B D : Subgrou
         (QuotientGroup.mk n : ↥G₀ ⧸ Subgroup.center ↥G₀) = ν d} := by
   ext y
   simp only [Subgroup.mem_subgroupOf, Subgroup.mem_inf, Subgroup.mem_centralizer_iff,
-    Set.mem_setOf_eq, SetLike.mem_coe]
+    Set.mem_ofPred_eq, SetLike.mem_coe]
   constructor
   · rintro ⟨-, hy⟩ n ⟨d, hdD, hnd⟩
     obtain ⟨n₀, hn₀, hconj⟩ := hact d

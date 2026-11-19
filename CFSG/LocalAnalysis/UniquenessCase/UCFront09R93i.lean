@@ -19,11 +19,12 @@ open CFSG.LocalAnalysis.UniquenessCase.UCK (fixV)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normalClosure_subgroupOf_eq_top {K Z : Subgroup G} (hZK : Z ≤ K)
     (hKgen : ∀ B : Subgroup G, B ≤ K → K ≤ normalizer (B : Set G) → Z ≤ B → B = K) :
     normalClosure ((Z.subgroupOf K : Subgroup ↥K) : Set ↥K) = ⊤ := by
   set Nc : Subgroup ↥K := normalClosure ((Z.subgroupOf K : Subgroup ↥K) : Set ↥K) with hNc
-  haveI : Nc.Normal := Subgroup.normalClosure_normal
+  have : Nc.Normal := Subgroup.normalClosure_normal
   have hDNc : Z.subgroupOf K ≤ Nc := Subgroup.subset_normalClosure
   have hsub : (Nc.map K.subtype).subgroupOf K = Nc := by
     rw [← Subgroup.comap_subtype]
@@ -50,10 +51,10 @@ theorem chief_quot_cases (hK461 : UCK.K461) (hK462 : UCK.K462) {K Z U W : Subgro
           (fun V _ => CFSG.GH74.Uniqueness.SU.SU5.IsQ8D8 (⊤ : Subgroup V))
           (fun Y _ => CFSG.Quasithin.IsAlt 5 Y)) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI hWn : (W.subgroupOf U).Normal := hUW.normal
-  haveI hEl : IsElementaryAbelian r (↥U ⧸ W.subgroupOf U) := hUW.isElementaryAbelian
-  haveI : Nontrivial (↥U ⧸ W.subgroupOf U) := by
+  have : Fact r.Prime := ⟨hr⟩
+  have hWn : (W.subgroupOf U).Normal := hUW.normal
+  have hEl : IsElementaryAbelian r (↥U ⧸ W.subgroupOf U) := hUW.isElementaryAbelian
+  have : Nontrivial (↥U ⧸ W.subgroupOf U) := by
     rw [QuotientGroup.nontrivial_iff]
     intro htop
     exact hUW.1.ne ((Subgroup.subgroupOf_eq_top.mp htop).antisymm hUW.1.le).symm
@@ -90,7 +91,7 @@ theorem chief_quot_cases (hK461 : UCK.K461) (hK462 : UCK.K462) {K Z U W : Subgro
     rw [← hZ3]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZK).toEquiv
   have hperf : commutator ↥K = ⊤ := by
-    haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKperf
+    have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hKperf
     exact Group.IsPerfect.commutator_eq_top
   obtain ⟨hN3, hcases⟩ := quot_ker_cases hK461 hK462 hKK hE9 hperf hD3
     (normalClosure_subgroupOf_eq_top hZK hKgen) ρ hirr hfixV

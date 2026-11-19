@@ -15,6 +15,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem permutes_subgroupOf {A B N : Subgroup G} (hA : A ≤ N) (hB : B ≤ N)
     (h : Permutes A B) : Permutes (A.subgroupOf N) (B.subgroupOf N) := by
   unfold Permutes at h ⊢
@@ -46,7 +47,7 @@ theorem piSet_congr {H H' : Type} [Group H] [Finite H] [Group H'] [Finite H']
     {X : Subgroup H} {Y : Subgroup H'} (h : Nat.card ↥X = Nat.card ↥Y) :
     piSet X = piSet Y := by
   ext p
-  simp only [piSet, Set.mem_setOf_eq, h]
+  simp only [piSet, Set.mem_ofPred_eq, h]
 
 namespace Ctx23L
 
@@ -180,9 +181,9 @@ theorem Astar_le_Y0 (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) {A : Subgroup G
 
 theorem phiL_mem_CH_iff (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) (x : ↥c.L) :
     c.phiL hV x ∈ c.CH hV ↔ (x : G) ∈ Subgroup.centralizer (D.Z : Set G) := by
-  letI : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
+  let : MulDistribMulAction ↥(c.H hV) (c.W hV) :=
     MulDistribMulAction.compHom (c.W hV) (c.H hV).subtype
-  letI : MulAction ↥(c.H hV) (c.W hV) := MulAction.compHom (c.W hV) (c.H hV).subtype
+  let : MulAction ↥(c.H hV) (c.W hV) := MulAction.compHom (c.W hV) (c.H hV).subtype
   exact c.phiL_mem_fixingSubgroup_Ztil_iff hV x
 
 theorem phiL_eq_one_of_mem_of_le (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
@@ -248,7 +249,7 @@ theorem isMulCommutative_Astar (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
       ⟨(b : G), Subgroup.mem_subgroupOf.mp b.2⟩
     have hG : (a : G) * (b : G) = (b : G) * (a : G) := congrArg Subtype.val hA
     exact Subtype.ext (Subtype.ext hG)
-  haveI : IsMulCommutative ↥(A.subgroupOf c.L) := ⟨⟨hcomm⟩⟩
+  have : IsMulCommutative ↥(A.subgroupOf c.L) := ⟨⟨hcomm⟩⟩
   exact Subgroup.map_isMulCommutative (H := A.subgroupOf c.L) (c.phiL hV)
 
 theorem odd_card_Astar (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) {A : Subgroup G}
@@ -286,7 +287,7 @@ theorem card_sup_sylowStar_Astar (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) {A
     rwa [← c.sylowStar_coe hV] at h
   have hdisj : c.Astar hV A ⊓ (c.sylowStar hV : Subgroup ↥(c.H hV)) = ⊥ :=
     uc22p2214_inf_eq_bot_of_odd (c.odd_card_Astar hV hA0 hAodd hinj)
-      (c.sylowStar hV).isPGroup'
+      (c.sylowStar hV).isPGroup
   have h := uc22p2214_card_sup_of_permutes hpermH hdisj
   rwa [sup_comm, mul_comm] at h
 
@@ -314,7 +315,7 @@ theorem inf_map_phiL_CH (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) (K : Subgro
         (c.phiL_mem_CH_iff hV y).2 (Subgroup.mem_inf.mp hy).2⟩
 
 theorem inf_Astar_CH (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) {A : Subgroup G}
-    (hA0 : A ≤ c.L0) :
+    (_hA0 : A ≤ c.L0) :
     c.Astar hV A ⊓ c.CH hV =
       ((A ⊓ Subgroup.centralizer (D.Z : Set G)).subgroupOf c.L).map (c.phiL hV) := by
   have hzero : A.subgroupOf c.L ⊓ (Subgroup.centralizer (D.Z : Set G)).subgroupOf c.L =
@@ -425,7 +426,7 @@ theorem map_subgroupOf_le_Bstar (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V) {E 
   Subgroup.map_mono (Subgroup.subgroupOf_mono c.L hE)
 
 theorem inf_map_subgroupOf_CH_eq_bot (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
-    {E : Subgroup G} (hE : E ≤ c.B)
+    {E : Subgroup G} (_hE : E ≤ c.B)
     (hEdisj : E ⊓ Subgroup.centralizer (D.Z : Set G) = ⊥) :
     (E.subgroupOf c.L).map (c.phiL hV) ⊓ c.CH hV = ⊥ := by
   have hzero : E.subgroupOf c.L ⊓ (Subgroup.centralizer (D.Z : Set G)).subgroupOf c.L = ⊥ := by

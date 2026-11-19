@@ -21,7 +21,7 @@ theorem exists_mem_unitarySet_orderOf {Ω : Type} [Field Ω] [IsAlgClosed Ω] {�
     [CharP Ω ℓ] (hf : 1 ≤ f) {p : ℕ} (hp : p.Prime) (hpq : p ∣ (ℓ ^ f) ^ 2 + 1) :
     ∃ Y ∈ unitarySet (Ω := Ω) (ℓ ^ f) 4, orderOf Y = p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨K, hKcard, hKmem⟩ := mnSyl_exists_subfield (Ω := Ω) (ℓ := ℓ) hf
   have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hKcard]
@@ -32,7 +32,7 @@ theorem exists_mem_unitarySet_orderOf {Ω : Type} [Field Ω] [IsAlgClosed Ω] {�
   have hinj : Function.Injective
       (GeneralLinearGroup.map K.subtype : GL (Fin 4) K →* GL (Fin 4) Ω) :=
     fun A B h => Units.ext (Matrix.map_injective K.subtype_injective (congrArg Units.val h))
-  haveI : CharP K ℓ := (RingHom.charP_iff K.subtype K.subtype_injective ℓ).mpr inferInstance
+  have : CharP K ℓ := (RingHom.charP_iff K.subtype K.subtype_injective ℓ).mpr inferInstance
   have himg := mnSyl_image_SUid K.subtype hrange 4 (ℓ := ℓ) (f := f)
   have hcardeq : Nat.card (unitarySet (Ω := Ω) (ℓ ^ f) 4 : Set (GL (Fin 4) Ω)) =
       Nat.card (SUid (unitaryInvolution K ℓ f) 4) := by

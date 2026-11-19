@@ -26,7 +26,7 @@ theorem fixed_mem_iff
     have hrx : r • x = x := mem_fixedPoints.mp hx ⟨r, hr⟩
     change (q : G) • (c • x) = c • x
     rw [← hqr]
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply,
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply,
       mul_smul, inv_smul_smul, hrx]
   · intro hx
     rw [mem_fixedPoints]

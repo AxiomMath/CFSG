@@ -20,9 +20,9 @@ theorem ten_dvd_finrank_of_geomSum_eq_zero {F V : Type*} [Field F] [AddCommGroup
   have hfin : Finite F := Nat.finite_of_card_ne_zero (by omega)
   have h2 : ∀ w : N, (2 : ℕ) • w = 0 := fun w => by
     rw [← Nat.cast_smul_eq_nsmul F, CharP.cast_eq_zero, zero_smul]
-  letI : Module (ZMod 2) N := AddCommGroup.zmodModule h2
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : FiniteDimensional (ZMod 2) N := Module.Finite.of_finite
+  let : Module (ZMod 2) N := AddCommGroup.zmodModule h2
+  have : Finite V := Module.finite_of_finite F
+  have : FiniteDimensional (ZMod 2) N := Module.Finite.of_finite
   let T' : Module.End (ZMod 2) N := ((T.restrict hTN : N →ₗ[F] N) : N →+ N).toZModLinearMap 2
   have hpow : ∀ (i : ℕ) (n : N), ((T' ^ i) n : V) = (T ^ i) (n : V) := by
     intro i
@@ -49,7 +49,7 @@ theorem fixedByEnd_eq_bot_of_commute_eleven {F V : Type*} [Field F] [Finite F] [
     [Module F V] (hF : Nat.card F = 2) (hV : Module.finrank F V = 10) {d y : V ≃ₗ[F] V}
     (hd : d ≠ 1) (hy : y ^ 11 = 1) (hy1 : y ≠ 1) (hdy : d * y = y * d) :
     fixedByEnd d = ⊥ := by
-  haveI : FiniteDimensional F V := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional F V := Module.finite_of_finrank_pos (by omega)
   set T : Module.End F V := (y : V →ₗ[F] V) with hTdef
   have hT11 : T ^ 11 = 1 := by
     ext v

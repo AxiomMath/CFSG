@@ -16,6 +16,7 @@ section Dichotomy
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem eInvFour_of_conj_four {Ē : Subgroup (MulAut Y)} {g : Y} {B : Subgroup Y}
     (hrange : ∀ σ ∈ Ē, ∃ x : Y, MulAut.conj x = σ)
     (hBiff : ∀ x : Y, MulAut.conj x ∈ Ē ↔ g * x * g⁻¹ ∈ B) {W : Subgroup Y}
@@ -28,9 +29,9 @@ theorem eInvFour_of_conj_four {Ē : Subgroup (MulAut Y)} {g : Y} {B : Subgroup Y
     intro v
     constructor
     · rintro ⟨w, hw, rfl⟩
-      exact ⟨w, hw, by simp [MulAut.conj_apply]⟩
+      exact ⟨w, hw, by simp⟩
     · rintro ⟨w, hw, rfl⟩
-      exact ⟨w, hw, by simp [MulAut.conj_apply]⟩
+      exact ⟨w, hw, by simp⟩
   refine ⟨W', CFSG.Open.IsElemAbelian.map hWab _, ?_, ?_, ?_⟩
   · rw [hW', Subgroup.card_map_of_injective (show Function.Injective
       (MulAut.conj g⁻¹).toMonoidHom from (MulAut.conj g⁻¹).injective), hW4]
@@ -136,8 +137,6 @@ theorem eInvFour_of_bad_inner (hZ : Subgroup.center Y = ⊥) {Ē Ū : Subgroup (
       fin_cases i <;> fin_cases j <;> first
         | rfl
         | (exfalso; simp only [f] at hij; simp_all)
-        | (exfalso; simp only [f] at hij; exact h01 hij)
-        | (exfalso; simp only [f] at hij; exact h01 hij.symm)
     have := Nat.card_le_card_of_injective f hf
     simpa using this
   have hU4 : Nat.card U = 4 := by
@@ -162,7 +161,7 @@ theorem eInvFourFact_of_sylow_dichotomy (hZ : Subgroup.center Y = ⊥)
       FourDatum x y ∨ ∀ u : Y, u * u = 1 → u ≠ 1 → ¬ (u * x = x * u ∧ u * y = y * u)) :
     EInvFourFact Y := by
   intro Ē Ū hd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, B, hBle, hBexp, hB9, hrange, hBiff⟩ :=
     exists_sylow_conj_inner hZ (fun α _ => hinn α) P₀ hd.elem3 hd.card9
   have hBcomm : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a := by
@@ -195,6 +194,7 @@ theorem eInvFourFact_of_sylow_dichotomy (hZ : Subgroup.center Y = ⊥)
         obtain ⟨y, hy⟩ := hinn σ
         exact ⟨y, hy.symm⟩) hBad
 
+omit [Finite Y] in
 theorem mul_mul_inv_mem_range_conj {a c : MulAut Y}
     (hc : c ∈ (MulAut.conj : Y →* MulAut Y).range) :
     a * c * a⁻¹ ∈ (MulAut.conj : Y →* MulAut Y).range := by
@@ -288,7 +288,7 @@ theorem eInvFourFact_of_sylow_dichotomy_aut (hZ : Subgroup.center Y = ⊥)
         ¬ (τ * MulAut.conj x = MulAut.conj x * τ ∧ τ * MulAut.conj y = MulAut.conj y * τ)) :
     EInvFourFact Y := by
   intro Ē Ū hd
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, B, hBle, hBexp, hB9, hrange, hBiff⟩ :=
     exists_sylow_conj_inner hZ hout P₀ hd.elem3 hd.card9
   have hBcomm : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a := by

@@ -102,28 +102,28 @@ theorem rho_wdF {a : Fin 4 → W} {x : Fin 4 → M4} (hx : ∀ i, R.ρ (a i) = (
 theorem wordsB_form (j : Fin 4) :
     ∃ (l : List (Fin 4)) (c : Fin 4), wordsB j = l ++ [c] ++ l.reverse := by
   fin_cases j
-  · exact ⟨[0, 1, 2], 3, by first | rfl | decide⟩
-  · exact ⟨[1, 2], 3, by first | rfl | decide⟩
-  · exact ⟨[2], 3, by first | rfl | decide⟩
-  · exact ⟨[], 3, by first | rfl | decide⟩
+  · exact ⟨[0, 1, 2], 3, by first | rfl⟩
+  · exact ⟨[1, 2], 3, by first | rfl⟩
+  · exact ⟨[2], 3, by first | rfl⟩
+  · exact ⟨[], 3, by first | rfl⟩
 
 theorem wordsD_form (j : Fin 4) :
     ∃ (l : List (Fin 4)) (c : Fin 4), wordsD j = l ++ [c] ++ l.reverse := by
   fin_cases j
-  · exact ⟨[], 0, by first | rfl | decide⟩
-  · exact ⟨[], 2, by first | rfl | decide⟩
-  · exact ⟨[], 3, by first | rfl | decide⟩
-  · exact ⟨[1, 0, 2, 3], 1, by first | rfl | decide⟩
+  · exact ⟨[], 0, by first | rfl⟩
+  · exact ⟨[], 2, by first | rfl⟩
+  · exact ⟨[], 3, by first | rfl⟩
+  · exact ⟨[1, 0, 2, 3], 1, by first | rfl⟩
 
 theorem rho_quad {a : Fin 4 → W} {x0 x1 x2 x3 : M4} (ρ0 : R.ρ (a 0) = x0.toMat)
     (ρ1 : R.ρ (a 1) = x1.toMat) (ρ2 : R.ρ (a 2) = x2.toMat) (ρ3 : R.ρ (a 3) = x3.toMat) :
     ∀ i, R.ρ (a i) = (quadF x0 x1 x2 x3 i).toMat := by
   intro i
   fin_cases i
-  · first | exact ρ0 | simpa [quadF] using ρ0
-  · first | exact ρ1 | simpa [quadF] using ρ1
-  · first | exact ρ2 | simpa [quadF] using ρ2
-  · first | exact ρ3 | simpa [quadF] using ρ3
+  · first | exact ρ0
+  · first | exact ρ1
+  · first | exact ρ2
+  · first | exact ρ3
 
 theorem rank_four_pack (H : Subgroup W) {a : Fin 4 → W} (ha : ∀ i, R.IsRefl (a i))
     (haH : ∀ i, a i ∈ H) (words : Fin 4 → List (Fin 4))

@@ -188,13 +188,13 @@ theorem y63_theta {D : Data} [Group Y63TG] (hmul : ∀ x y : Y63TG, (x * y).val 
       by_cases ha : i / 512 = 1
       · have hzA : (⟨if i / 512 = 1 then D.tau k (j % 512) else j % 512, hz⟩ : Y63TG)
             = ⟨D.tau k (j % 512), hτlt (j % 512) (Nat.mod_lt _ (by norm_num))⟩ := by
-          apply Y63TG.ext; exact if_pos ha
-        rw [congrArg (fun u : Y63TG => ((φ.symm u : ↥P) : G)) hzA, if_pos ha,
+          apply Y63TG.ext; exact ite_eq_left ha
+        rw [congrArg (fun u : Y63TG => ((φ.symm u : ↥P) : G)) hzA, ite_eq_left ha,
           hτ' ⟨j % 512, hmod j⟩]
       · have hzB : (⟨if i / 512 = 1 then D.tau k (j % 512) else j % 512, hz⟩ : Y63TG)
             = ⟨j % 512, Nat.mod_lt _ (by norm_num)⟩ := by
-          apply Y63TG.ext; exact if_neg ha
-        rw [congrArg (fun u : Y63TG => ((φ.symm u : ↥P) : G)) hzB, if_neg ha]
+          apply Y63TG.ext; exact ite_eq_right ha
+        rw [congrArg (fun u : Y63TG => ((φ.symm u : ↥P) : G)) hzB, ite_eq_right ha]
     rw [hzval]
     have ha01 : i / 512 = 0 ∨ i / 512 = 1 := by omega
     have hb01 : j / 512 = 0 ∨ j / 512 = 1 := by omega
@@ -203,17 +203,17 @@ theorem y63_theta {D : Data} [Group Y63TG] (hmul : ∀ x y : Y63TG, (x * y).val 
       exact inv_eq_of_mul_eq_one_left h2
     rcases ha01 with ha | ha <;> rcases hb01 with hb | hb
     · rw [ha, hb]
-      rw [if_neg (by decide : ¬ ((0 : ℕ) = 1)), if_pos (rfl : (0 : ℕ) = 0)]
+      rw [ite_eq_right (by decide : ¬ ((0 : ℕ) = 1)), ite_eq_left (rfl : (0 : ℕ) = 0)]
       simp only [pow_zero, mul_one]
     · rw [ha, hb]
-      rw [if_neg (by decide : ¬ ((0 : ℕ) = 1)), if_neg (by decide : ¬ ((0 : ℕ) = 1))]
-      simp only [pow_zero, pow_one, mul_one, one_mul, mul_assoc]
+      rw [ite_eq_right (by decide : ¬ ((0 : ℕ) = 1)), ite_eq_right (by decide : ¬ ((0 : ℕ) = 1))]
+      simp only [pow_zero, pow_one, mul_one, mul_assoc]
     · rw [ha, hb]
-      rw [if_pos rfl, if_neg (by decide : ¬ ((1 : ℕ) = 0))]
-      simp only [pow_zero, pow_one, mul_one, one_mul, mul_assoc, inv_mul_cancel]
+      rw [ite_eq_left rfl, ite_eq_right (by decide : ¬ ((1 : ℕ) = 0))]
+      simp only [pow_zero, pow_one, mul_one, mul_assoc, inv_mul_cancel]
     · rw [ha, hb]
-      rw [if_pos rfl, if_pos rfl, htinv]
-      simp only [pow_zero, pow_one, mul_one, one_mul, mul_assoc]
+      rw [ite_eq_left rfl, ite_eq_left rfl, htinv]
+      simp only [pow_zero, pow_one, mul_one, mul_assoc]
   exact ⟨Θ, hmem, hinj, hsurj, hone, hmemP, hsurjP, hmq_lt, hmul'⟩
 
 end CFSG.OddStandard.HigherRank.YamadaG23

@@ -123,7 +123,7 @@ theorem sylMeetCheck_of {S RA PAS PBS PAA PBA : ℕ → ℕ}
     change i < 32 * (i / 32) + 32
     omega
   have e := (CFSG.KC.Misc.Clos.allR_iff _ _ _).1 hcq i hlo hhi
-  rw [Nat.blt_eq.mpr hi, cond_true] at e
+  rw [Nat.blt_eq.mpr hi, _root_.Bool.cond_true] at e
   rw [e4 i hi]
   beta_reduce
   rw [wordA_eq hG sylMeetWord (by decide), wordA_eq hG sylMeetWord.reverse (by decide), arrN_mul,

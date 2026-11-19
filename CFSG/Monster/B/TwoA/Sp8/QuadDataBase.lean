@@ -15,9 +15,9 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.Spin CFSG.Monster.SpinLattice
   CFSG.Monster.Griess CFSG.Monster.Visible CFSG.Monster.Generated CFSG.Monster.B.Short
   CFSG.Monster.B CFSG.Monster.B.TwoA CFSG.Monster.B.TwoA.Co2Inv
 
-@[expose] def cQ : Dfull := dhat 0 2
+def cQ : Dfull := dhat 0 2
 
-@[expose] def P3 : Subgroup Dfull := K3 ⊓ Subgroup.centralizer {cQ}
+def P3 : Subgroup Dfull := K3 ⊓ Subgroup.centralizer {cQ}
 
 theorem cQ_mem_Ehat : cQ ∈ Ehat := dhat_mem_Ehat 0 2
 

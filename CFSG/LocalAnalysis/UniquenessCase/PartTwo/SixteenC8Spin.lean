@@ -15,9 +15,9 @@ open CFSG.ClassicalInvolution.Q3.Q3Z (spMap spMap_injective spMap_surjective)
 theorem isSpn_six_one_exists_eq_conj {X : Type} [Group X] (hX : IsSpn X 6 1) (α : MulAut X) :
     ∃ x : X, α = MulAut.conj x := by
   obtain ⟨-, K, instK, instFin, hK, ⟨e₀⟩⟩ := hX
-  letI : Field K := instK
-  letI : Finite K := instFin
-  haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := instK
+  let : Finite K := instFin
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by
     rw [← Nat.card_eq_fintype_card]
     simpa using hK
@@ -66,7 +66,7 @@ theorem c8_eq_of_map_conj_eq {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W
   have hcomm : ∀ x ∈ H, c * x = x * c := by
     intro x hx
     have h := hconj ⟨x, hx⟩
-    simp only [Subgroup.coe_mk] at h
+    simp only at h
     calc c * x = (ℓ : MulAut W)⁻¹ * (φ * x * φ⁻¹) * φ := by rw [hc]; group
       _ = x * c := by rw [h, hc]; group
   have hc1 : c = 1 := hC W hW H hH hrk hirr c hcomm

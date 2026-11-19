@@ -16,18 +16,21 @@ namespace TwelveTwentyThree
 
 variable {M V₀ V : Subgroup G}
 
+omit [Finite G] in
 theorem le_conjClosure (M L : Subgroup G) : L ≤ UC22.conjClosure M L := by
   intro z hz
   have hle : L.map (MulAut.conj (1 : G)).toMonoidHom ≤ UC22.conjClosure M L :=
     le_iSup₂_of_le (f := fun K (_ : K ∈ UC22.conjSetOf M L) => K) _ ⟨1, M.one_mem, rfl⟩ le_rfl
-  exact hle ⟨z, hz, by simp [MulAut.conj_apply]⟩
+  exact hle ⟨z, hz, by simp⟩
 
+omit [Finite G] in
 theorem conjClosure_le {M L : Subgroup G} (hLM : L ≤ M) : UC22.conjClosure M L ≤ M := by
   refine iSup₂_le fun K hK => ?_
   obtain ⟨x, hx, rfl⟩ := hK
   rintro _ ⟨z, hz, rfl⟩
   simpa [MulAut.conj_apply] using M.mul_mem (M.mul_mem hx (hLM hz)) (M.inv_mem hx)
 
+omit [Finite G] in
 theorem le_normalizer_conjClosure (M L : Subgroup G) :
     M ≤ normalizer (UC22.conjClosure M L : Set G) := by
   have key : ∀ g ∈ M, ∀ w ∈ UC22.conjClosure M L, g * w * g⁻¹ ∈ UC22.conjClosure M L := by
@@ -59,7 +62,7 @@ theorem le_normalizer_conjClosure (M L : Subgroup G) :
 theorem barSub_pCoreOf_eq_bot (hV : IsElemAbelian 2 V) (hV₀V : V₀ ≤ V) (hne : V₀ ≠ V)
     (hM : M ≤ normalizer (V : Set G)) (hM₀ : M ≤ normalizer (V₀ : Set G))
     (hirr : ConjGenerated M V₀ V) : barSub V₀ V hV (pCoreOf 2 M) = ⊥ := by
-  haveI : Nontrivial (Vtil V₀ V hV) := by
+  have : Nontrivial (Vtil V₀ V hV) := by
     by_contra hnt
     rw [not_nontrivial_iff_subsingleton] at hnt
     have h1 : Nat.card (Vtil V₀ V hV) ≤ 1 := Finite.card_le_one_iff_subsingleton.2 hnt
@@ -73,7 +76,7 @@ theorem barSub_pCoreOf_eq_bot (hV : IsElemAbelian 2 V) (hV₀V : V₀ ≤ V) (hn
   have hP2 : IsPGroup 2 ↥(barSub V₀ V hV (pCoreOf 2 M)) := by
     intro φ
     obtain ⟨a, haP, ha⟩ := (mem_barSub V₀ V hV _ φ).1 φ.2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M ⟨(a : G), haP⟩
     have han : a ^ (2 ^ n) = 1 := Subtype.ext (by simpa using congrArg Subtype.val hn)
     refine ⟨n, Subtype.ext ?_⟩
@@ -84,14 +87,16 @@ theorem barSub_pCoreOf_eq_bot (hV : IsElemAbelian 2 V) (hV₀V : V₀ ≤ V) (hn
 theorem barSub_pCoreOf_eq_bot_of_isSubnormal (hV : IsElemAbelian 2 V) {L : Subgroup G}
     (hL : CFSG.Open.IsSubnormal L M) (h0 : barSub V₀ V hV (pCoreOf 2 M) = ⊥) :
     barSub V₀ V hV (pCoreOf 2 L) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact le_bot_iff.1 (h0 ▸ barSub_mono V₀ V hV (A4.pCoreOf_le_of_subnormal 2 hL))
 
+omit [Finite G] in
 theorem isSubnormal_barSub (hV : IsElemAbelian 2 V) {L : Subgroup G}
     (hL : CFSG.Open.IsSubnormal L M) :
     CFSG.Open.IsSubnormal (barSub V₀ V hV L) (barSub V₀ V hV M) := by
   exact (hL.comap (stabTil V₀ V).subtype).map (actTil V₀ V hV)
 
+omit [Finite G] in
 theorem isQuasisimple_barSub (hV : IsElemAbelian 2 V) {L : Subgroup G}
     (hLS : L ≤ stabTil V₀ V) (hLq : CFSG.Open.IsQuasisimple (UC22.Bar2 L))
     (h2 : barSub V₀ V hV (pCoreOf 2 L) = ⊥) (hL1 : barSub V₀ V hV L ≠ ⊥) :
@@ -111,7 +116,7 @@ theorem isQuasisimple_barSub (hV : IsElemAbelian 2 V) {L : Subgroup G}
       actTil_mem_barSub V₀ V hV hxP (hLS x.2)
     rw [h2, Subgroup.mem_bot] at h1
     exact Subtype.ext h1
-  haveI : Nontrivial ↥(barSub V₀ V hV L) := (Subgroup.nontrivial_iff_ne_bot _).2 hL1
+  have : Nontrivial ↥(barSub V₀ V hV L) := (Subgroup.nontrivial_iff_ne_bot _).2 hL1
   let ψ : UC22.Bar2 L →* ↥(barSub V₀ V hV L) := QuotientGroup.lift (CFSG.pCore 2 ↥L) φ hker
   have hψ : Function.Surjective ψ := by
     intro y
@@ -119,6 +124,7 @@ theorem isQuasisimple_barSub (hV : IsElemAbelian 2 V) {L : Subgroup G}
     exact ⟨QuotientGroup.mk x, rfl⟩
   exact uc22br4_isQuasisimple_of_surjective hLq ψ hψ
 
+omit [Finite G] in
 theorem barSub_map_conj (hV : IsElemAbelian 2 V) {L : Subgroup G} (hLS : L ≤ stabTil V₀ V)
     {g : G} (hg : g ∈ stabTil V₀ V) :
     barSub V₀ V hV (L.map (MulAut.conj g).toMonoidHom) =
@@ -215,6 +221,7 @@ theorem xCond1218_conjClosure {D : Data G} (h : Hyp125 D V₀ V) (hV₀ : V₀ �
     (le_stabTil hP.le_normalizer hP.le_normalizer₀) hL hLq
     (barSub_pCoreOf_eq_bot h.isElemAbelian hP.le hne hP.le_normalizer hP.le_normalizer₀ hirr))
 
+omit [Finite G] in
 theorem barSub_conjClosure_ne_bot (hV : IsElemAbelian 2 V) {L : Subgroup G}
     (hL1 : barSub V₀ V hV L ≠ ⊥) : barSub V₀ V hV (UC22.conjClosure M L) ≠ ⊥ := by
   exact fun h0 => hL1 (le_bot_iff.1 (h0 ▸ barSub_mono V₀ V hV (le_conjClosure M L)))

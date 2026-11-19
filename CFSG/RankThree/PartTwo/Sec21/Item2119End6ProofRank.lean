@@ -167,7 +167,7 @@ theorem item2127Rank_holds : Item2127Rank := by
       rw [map_pow, map_one]
       exact @CFSG.elemPow_eq_one_of_isElementaryAbelian 3 _ _ _ hEA (e' u)
         (Subgroup.mem_map_of_mem _ hu)
-  obtain ⟨S, hSE, hSinj⟩ := exists_lift_of_isPGroup hsurj hker Eb.isPGroup'
+  obtain ⟨S, hSE, hSinj⟩ := exists_lift_of_isPGroup hsurj hker Eb.isPGroup
   have hxbE : xb ∈ (Eb : Subgroup (lBar L)) := hEb (Subgroup.mem_zpowers xb)
   rw [← hSE] at hxbE
   obtain ⟨q, hqS, hφq⟩ := hxbE

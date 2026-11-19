@@ -177,7 +177,7 @@ theorem le_normalizer_wClos {U : Subgroup G} {u : G} (w : Witness V T U u) {Kb Y
   · exact absurd h2 (c.commutator_cClos_ne_bot w hY hYb h3 hU')
   · exact absurd h3' (c.not_nineOneThree w hY hYb h3 hU')
 
-omit [Finite X] in
+omit [Finite X] [Finite G] in
 theorem conj_le_pCoreOf_of_le_normalizer {K : Subgroup G}
     (hK : K ≤ normalizer (E3.wClos V 0 (K ⊓ T) : Set G)) {g : G}
     (hA : conjSubgroup V g ≤ K ⊓ T) : conjSubgroup V g ≤ pCoreOf 2 K := by

@@ -51,24 +51,24 @@ theorem bound_of (hd : RegData n gens E p) (hgs : gens.size = 7)
   · rw [inv_eq hd (INV := fun a => pg w (mask w) IVP a) (fun a ha => ?_) a]
     · unfold iW
       by_cases ha : a < n
-      · rw [if_pos ha]
-      · rw [if_neg ha]
+      · rw [ite_eq_left ha]
+      · rw [ite_eq_right ha]
     · have h := bindW_parts hb ha
-      have e : iW n w IVP a = pg w (mask w) IVP a := by unfold iW; rw [if_pos ha]
+      have e : iW n w IVP a = pg w (mask w) IVP a := by unfold iW; rw [ite_eq_left ha]
       rw [← e]
       exact ⟨h.2.2.1, by rw [hm]; exact h.2.2.2.1⟩
   · change (gens.map fun t => t[0]!)[j]! = gW w G j
     unfold gW
     by_cases hj : j < 7
-    · rw [if_pos hj, getElem!_pos _ _ (by simpa [hgs] using hj), Array.getElem_map,
+    · rw [ite_eq_left hj, getElem!_pos _ _ (by simpa [hgs] using hj), Array.getElem_map,
         ← getElem!_pos gens j (by rw [hgs]; exact hj), (hG.2 j hj).1, unpack_get' hn]
-    · rw [if_neg hj, getElem!_neg _ _ (by simpa [hgs] using hj)]
+    · rw [ite_eq_right hj, getElem!_neg _ _ (by simpa [hgs] using hj)]
       rfl
   · unfold oW
     by_cases hi : i < n
     · change (E.tabs.map fun t => t[0]!)[i]! = _
-      rw [if_pos hi, hd.order_get hi, tabs_get hE hi, unpack_get' hn]
-    · rw [if_neg hi, getElem!_neg _ _ (by rw [hT.size_order]; exact hi)]
+      rw [ite_eq_left hi, hd.order_get hi, tabs_get hE hi, unpack_get' hn]
+    · rw [ite_eq_right hi, getElem!_neg _ _ (by rw [hT.size_order]; exact hi)]
       rfl
   · change (E.par.map fun q => (E.tabs[q]!)[0]!)[i]! = _
     rw [hd.parent_get]
@@ -78,19 +78,19 @@ theorem bound_of (hd : RegData n gens E p) (hgs : gens.size = 7)
         subst hE
         rw [penumRec_eq, getElem!_pos _ _ (by simpa using hi), Array.getElem_ofFn]
       have hpl := (bindW_parts hb hi).2.2.2.2
-      rw [if_pos hi, hp, tabs_get hE hpl, unpack_get' hn]
+      rw [ite_eq_left hi, hp, tabs_get hE hpl, unpack_get' hn]
     · have hp : E.par[i]! = 0 := by
         subst hE
         rw [penumRec_eq, getElem!_neg _ _ (by simpa using hi)]
         rfl
-      rw [if_neg hi, hp, hd.tab_zero_zero]
+      rw [ite_eq_right hi, hp, hd.tab_zero_zero]
   · change E.lab[i]! = _
     unfold lW
     by_cases hi : i < n
     · subst hE
-      rw [if_pos hi, penumRec_eq, getElem!_pos _ _ (by simpa using hi), Array.getElem_ofFn]
+      rw [ite_eq_left hi, penumRec_eq, getElem!_pos _ _ (by simpa using hi), Array.getElem_ofFn]
     · subst hE
-      rw [if_neg hi, penumRec_eq, getElem!_neg _ _ (by simpa using hi)]
+      rw [ite_eq_right hi, penumRec_eq, getElem!_neg _ _ (by simpa using hi)]
       rfl
 
 variable {M : RegModel}
@@ -111,8 +111,8 @@ theorem autMap_of (hB : Bound M n w T PL G IXP IVP) (hn : 0 < n) {img : Array �
   rw [autMap_get hB.tree (by rw [hB.N_eq]; exact hn) img (f := aW n w P) h0 (fun i hi0 hi => ?_) x]
   · unfold aW
     by_cases hx : x < n
-    · rw [hB.N_eq, if_pos hx, if_pos hx]
-    · rw [hB.N_eq, if_neg hx, if_neg hx]
+    · rw [hB.N_eq, ite_eq_left hx, ite_eq_left hx]
+    · rw [hB.N_eq, ite_eq_right hx, ite_eq_right hx]
   · obtain ⟨-, -, -, hl, -⟩ := hB.tree.step i hi0 hi
     have hi' : i < n := by rw [← hB.N_eq]; exact hi
     rw [hB.order_eq, hB.parent_eq, hB.m_eq, himg _ hl, hB.label_eq]
@@ -153,7 +153,7 @@ theorem mW_row {x y : ℕ} (hx : x < n) (hy : y < n) :
   have e2 : (x * n + y) % n = y := by
     rw [Nat.add_comm, Nat.add_mul_mod_self_right, Nat.mod_eq_of_lt hy]
   unfold mW
-  rw [if_pos h1, e1, e2]
+  rw [ite_eq_left h1, e1, e2]
 
 theorem ltW_spec {P : ℕ} (h : ltW n w P = true) {x : ℕ} (hx : x < n) : aW n w P x < n :=
   Nat.blt_eq.mp (allN_spec h x hx)
@@ -262,7 +262,7 @@ theorem permOrd_of (hB : Bound M n w T PL G IXP IVP) {a : Array ℕ} {P x0 : ℕ
     rw [List.find?_range_eq_some]
     refine ⟨p3, by simp, fun j hj => ?_⟩
     interval_cases j
-    · simpa using p0
+    · simp
     · simpa using p1
     · simpa using p2
   rw [key]

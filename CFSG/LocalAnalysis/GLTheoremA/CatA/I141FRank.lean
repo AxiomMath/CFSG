@@ -27,8 +27,8 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4
 
 theorem isSimpleGroup_of_mulEquiv' {A B : Type} [Group A] [Group B] (e : A ≃* B)
     (hA : IsSimpleGroup A) : IsSimpleGroup B := by
-  haveI : Nontrivial A := hA.toNontrivial
-  haveI : Nontrivial B := e.symm.surjective.nontrivial
+  have : Nontrivial A := hA.toNontrivial
+  have : Nontrivial B := e.symm.surjective.nontrivial
   refine { eq_bot_or_eq_top_of_normal := fun H hH => ?_ }
   rcases hA.eq_bot_or_eq_top_of_normal (H.comap e.toMonoidHom) with h | h
   · left
@@ -45,7 +45,7 @@ theorem exists_noncomm_of_quasisimple {Q : Type} [Group Q] (hq : CFSG.Open.IsQua
     by_contra h
     exact hcon ⟨a, b, h⟩
   obtain ⟨hcomm, hsimp⟩ := hq
-  haveI : Nontrivial (Q ⧸ Subgroup.center Q) := hsimp.toNontrivial
+  have : Nontrivial (Q ⧸ Subgroup.center Q) := hsimp.toNontrivial
   have hcomm' : ⁅(⊤ : Subgroup Q), ⊤⁆ = (⊤ : Subgroup Q) := hcomm
   have hbot : ⁅(⊤ : Subgroup (Q ⧸ Subgroup.center Q)), (⊤ : Subgroup (Q ⧸ Subgroup.center Q))⁆ = ⊥ := by
     rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
@@ -72,18 +72,18 @@ theorem mem_map_subtype_iff {G : Type} [Group G] {K : Subgroup G} (M : Subgroup 
 
 theorem catalog_of_component {G : Type} [Group G] [Finite G] {C K : Subgroup G}
     (hKG : CFSG.Open.IsKGroup ↥C) (hK : GLAPComponent 3 C K) : IsCatalogGroup (PSimple 3 K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKC : K ≤ C :=
     ((CFSG.HardMathSupport.Solomon.Coordinator.i183_glaPComponent_iff_isPComponent
       Nat.prime_three).1 hK).1
   have hq : CFSG.Open.IsQuasisimple (PQuot 3 K) :=
     isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hK
-  haveI hNn : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
+  have hNn : (CFSG.pPrimeCore 3 ↥K).Normal := CFSG.pPrimeCore_normal
   set N : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K with hN
   set Z : Subgroup (↥K ⧸ N) := Subgroup.center (↥K ⧸ N) with hZ
-  haveI hZn : Z.Normal := inferInstance
+  have hZn : Z.Normal := inferInstance
   set MK : Subgroup ↥K := Z.comap (QuotientGroup.mk' N) with hMK
-  haveI hMKn : MK.Normal := inferInstance
+  have hMKn : MK.Normal := inferInstance
   have hNMK : N ≤ MK := by
     intro n hn
     have h1 : QuotientGroup.mk' N n = 1 := (QuotientGroup.eq_one_iff n).2 hn
@@ -101,7 +101,7 @@ theorem catalog_of_component {G : Type} [Group G] [Finite G] {C K : Subgroup G}
     obtain ⟨m', hm', rfl⟩ := Subgroup.mem_map.1 hm
     have hg' : (⟨g, hg⟩ : ↥K) * m' * (⟨g, hg⟩ : ↥K)⁻¹ ∈ MK := hMKn.conj_mem m' hm' _
     exact Subgroup.mem_map_of_mem K.subtype hg'
-  haveI hL'n : (L'.subgroupOf K').Normal := by
+  have hL'n : (L'.subgroupOf K').Normal := by
     constructor
     intro n hn g
     rw [Subgroup.mem_subgroupOf, hL'] at hn ⊢
@@ -130,14 +130,14 @@ theorem catalog_of_component {G : Type} [Group G] [Finite G] {C K : Subgroup G}
       rw [hval]
       exact (mem_map_subtype_iff MK k).2 hk
   have e₂ : ↥K' ⧸ L'.subgroupOf K' ≃* ↥K ⧸ MK := QuotientGroup.congr (L'.subgroupOf K') MK e₁ hmapL
-  haveI hMKmap : (MK.map (QuotientGroup.mk' N)).Normal := hMKn.map _ (QuotientGroup.mk'_surjective N)
+  have hMKmap : (MK.map (QuotientGroup.mk' N)).Normal := hMKn.map _ (QuotientGroup.mk'_surjective N)
   have hmapMK : MK.map (QuotientGroup.mk' N) = Z :=
     Subgroup.map_comap_eq_self_of_surjective (f := QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N) Z
   let e₃ : (↥K ⧸ N) ⧸ MK.map (QuotientGroup.mk' N) ≃* ↥K ⧸ MK :=
     QuotientGroup.quotientQuotientEquivQuotient N MK hNMK
   let e₄ : (↥K ⧸ N) ⧸ Z ≃* ↥K ⧸ MK := (QuotientGroup.quotientMulEquivOfEq hmapMK).symm.trans e₃
   let e : ↥K' ⧸ L'.subgroupOf K' ≃* PSimple 3 K := e₂.trans e₄.symm
-  haveI hsimp : IsSimpleGroup (↥K' ⧸ L'.subgroupOf K') := isSimpleGroup_of_mulEquiv' e.symm hq.2
+  have hsimp : IsSimpleGroup (↥K' ⧸ L'.subgroupOf K') := isSimpleGroup_of_mulEquiv' e.symm hq.2
   have hnc : ∃ a b : ↥K' ⧸ L'.subgroupOf K', a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := exists_noncomm_of_quasisimple hq
     refine ⟨e.symm a, e.symm b, fun h => hab ?_⟩

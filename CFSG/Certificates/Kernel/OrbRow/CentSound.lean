@@ -60,8 +60,8 @@ theorem memK_of_mem {x : ℕ} : ∀ {L : List ℕ}, x ∈ L → memK x L = true
       rfl
     rw [h', PK.bIf_eq]
     by_cases hxy : x = y
-    · rw [if_pos ((cent_beq _ _).2 hxy)]
-    · rw [if_neg (fun hb => hxy ((cent_beq _ _).1 hb))]
+    · rw [ite_eq_left ((cent_beq _ _).2 hxy)]
+    · rw [ite_eq_right (fun hb => hxy ((cent_beq _ _).1 hb))]
       exact memK_of_mem ((List.mem_cons.1 h).resolve_left hxy)
 
 private theorem cent_lenS : ∀ L : List ℕ, lenS L = L.length
@@ -80,11 +80,11 @@ theorem fixSetK_sound {n w m x : ℕ} {F : List ℕ} (h : fixSetK n w m x F = tr
   have h1 := allN_spec h i hi
   simp only [PK.bIf_eq] at h1
   by_cases hb : Nat.beq (pg w m x i) i = true
-  · rw [if_pos hb] at h1
+  · rw [ite_eq_left hb] at h1
     exact ⟨fun _ => memK_sound h1, fun _ => (cent_beq _ _).1 hb⟩
-  · rw [if_neg hb] at h1
+  · rw [ite_eq_right hb] at h1
     refine ⟨fun he => absurd ((cent_beq _ _).2 he) hb, fun hF => ?_⟩
-    rw [if_pos (memK_of_mem hF)] at h1
+    rw [ite_eq_left (memK_of_mem hF)] at h1
     exact absurd h1 Bool.false_ne_true
 
 theorem actFK_sound {w m x : ℕ} {B img : List ℕ} (h : actFK w m x B img = true) {t : ℕ}
@@ -100,7 +100,7 @@ theorem lvCommK_sound {n w m : ℕ} {S : List ℕ} {k lv x : ℕ} (h : lvCommK n
   obtain ⟨hjk, hjb⟩ := lvOk_iff.1 hj
   have h1 := allN_spec h j hjk
   simp only [PK.bIf_eq] at h1
-  rw [if_pos ((lvBit_iff _ _).2 hjb)] at h1
+  rw [ite_eq_left ((lvBit_iff _ _).2 hjb)] at h1
   exact (cent_beq _ _).1 (allN_spec h1 i hi)
 
 theorem powIdK_sound {n w m x e : ℕ} (h : powIdK n w m x e = true) {i : ℕ} (hi : i < n) :
@@ -115,7 +115,7 @@ theorem movesK_sound {n w m x : ℕ} (h : movesK n w m x = true) : ∃ i < n, pg
   refine Classical.byContradiction fun hc => ?_
   have hc' : ∀ i < n, pg w m x i = i := fun i hi =>
     Classical.byContradiction fun hne => hc ⟨i, hi, hne⟩
-  rw [if_pos (PK.allN_iff.2 fun i hi => (cent_beq _ _).2 (hc' i hi))] at h'
+  rw [ite_eq_left (PK.allN_iff.2 fun i hi => (cent_beq _ _).2 (hc' i hi))] at h'
   exact absurd h' Bool.false_ne_true
 
 inductive ActReach (act : ℕ → ℕ → ℕ) (k root : ℕ) : ℕ → Prop
@@ -148,9 +148,9 @@ private theorem cent_recK {act : ℕ → ℕ → ℕ} {k fw fm root cnt : ℕ} {
   obtain ⟨h1, h2⟩ := (bAnd_iff _ _).1 h
   rw [PK.bIf_eq] at h1
   refine ⟨fun hd => ?_, fun hd => ?_, fun l hl => ?_⟩
-  · rw [if_pos ((cent_beq _ _).2 hd)] at h1
+  · rw [ite_eq_left ((cent_beq _ _).2 hd)] at h1
     exact (cent_beq _ _).1 h1
-  · rw [if_neg (fun hb => hd ((cent_beq _ _).1 hb))] at h1
+  · rw [ite_eq_right (fun hb => hd ((cent_beq _ _).1 hb))] at h1
     obtain ⟨hp, h1⟩ := (bAnd_iff _ _).1 h1
     obtain ⟨hj, h1⟩ := (bAnd_iff _ _).1 h1
     obtain ⟨hdd, he⟩ := (bAnd_iff _ _).1 h1
@@ -195,7 +195,7 @@ private theorem cent_recsFrom {act : ℕ → ℕ → ℕ} {ord : ℕ → ℕ} {k
         exact hp (Nat.succ_ne_zero i) e' he'
       · intro hi e' he'
         have hlt : prev < ord e := by
-          rw [PK.bIf_eq, if_neg (fun hb => hi ((cent_beq _ _).1 hb))] at h1
+          rw [PK.bIf_eq, ite_eq_right (fun hb => hi ((cent_beq _ _).1 hb))] at h1
           exact (cent_blt _ _).1 h1
         rcases List.mem_cons.1 he' with rfl | he'
         · exact hlt

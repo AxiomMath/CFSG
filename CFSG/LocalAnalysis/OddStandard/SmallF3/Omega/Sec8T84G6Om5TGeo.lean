@@ -18,6 +18,7 @@ private noncomputable def sec8t84g6t_phi {t : OGroup Q} (htt : t * t = 1) :
     OGroup (Q.restrict (commSp t)) →* ProjOrth Q :=
   (toProj Q).comp ((blockHom htt).comp (MonoidHom.inr _ _))
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec8t84g6t_phi_apply {t : OGroup Q} (htt : t * t = 1)
     (b : OGroup (Q.restrict (commSp t))) :
     sec8t84g6t_phi htt b = toProj Q (blockHom htt (1, b)) := rfl

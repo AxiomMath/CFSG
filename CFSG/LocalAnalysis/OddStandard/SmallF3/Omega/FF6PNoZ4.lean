@@ -36,8 +36,8 @@ theorem ff6p_z4_sq_cases (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
   · exact Or.inr (Or.inl h3)
   · exact Or.inr (Or.inr h4)
 
-theorem ff6p_z4_flip (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = 1) (fr : PFrame Q (Option (Fin 5)) ffC) {z : ProjSim Q}
+theorem ff6p_z4_flip (hQ : Q.Nondegenerate) (_hdim : Module.finrank (ZMod 3) V = 6)
+    (_hsgn : quadSign Q = 1) (fr : PFrame Q (Option (Fin 5)) ffC) {z : ProjSim Q}
     (hz4 : z ^ 4 = 1) (hz2 : z ^ 2 ≠ 1)
     (hnorm : ∀ p ∈ ffP1p hQ fr,
       ffOmegaToSim hQ p * z * (ffOmegaToSim hQ p)⁻¹ ∈ Subgroup.zpowers z) :

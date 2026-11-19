@@ -172,7 +172,7 @@ theorem S₁_sylow_N₁ : ABGLocalTools.IsSylowOf 2 C.D₁.S₁
   obtain ⟨P, hP⟩ := h2.exists_le_sylow
   have hle : C.D₁.S₁ ≤ (P : Subgroup N₁).map N₁.subtype :=
     fun x hx => ⟨⟨x, hS₁N hx⟩, hP hx, rfl⟩
-  have heq := C.D₁.S₁_maximal _ (P.isPGroup'.map _) hle
+  have heq := C.D₁.S₁_maximal _ (P.isPGroup.map _) hle
     ((Subgroup.map_subtype_le _).trans inf_le_right)
   exact ⟨P, heq⟩
 

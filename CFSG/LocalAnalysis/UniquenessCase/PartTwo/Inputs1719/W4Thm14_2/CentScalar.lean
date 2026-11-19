@@ -71,7 +71,7 @@ private lemma exists_mem_apply_mul_inv_not_mem {W : Type} [CommGroup W] [Finite 
   exact (not_le_of_gt hUV.1) hUleV
 
 theorem pow_three_mem_of_isIrrOn {W : Type} [CommGroup W] [Finite W]
-    (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)} (hL : IsSL3 ↥L 2)
+    (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)} (_hL : IsSL3 ↥L 2)
     (hrk : rk ↥(⊤ : Subgroup W) ≤ 12) {K : Type} [Field K] [Finite K] [CharP K 2]
     (α : SL(3, K) →* ↥L) (hα : Function.Surjective α) (hK : Nat.card K = 4)
     (hcen : (LinearFlag.scalars 3 K).map α = Subgroup.center ↥L) {z : MulAut W} (hzL : z ∈ L)
@@ -81,8 +81,8 @@ theorem pow_three_mem_of_isIrrOn {W : Type} [CommGroup W] [Finite W]
     (hcV : ∀ v ∈ V, c v ∈ V) : ∀ u ∈ U, (c ^ 3) u * u⁻¹ ∈ V := by
   classical
   have hKcard : Nat.card K = 4 := hK
-  letI : Fintype K := Fintype.ofFinite K
-  letI : CommGroup ↥U := inferInstance
+  let : Fintype K := Fintype.ofFinite K
+  let : CommGroup ↥U := inferInstance
   let ρU : ↥L →* MulAut ↥U := CFSG.Quasithin.H13.VolI.resHom L U hUV.2.1
   let Q := ↥U ⧸ (V.subgroupOf U)
   let π : ↥U →* Q := QuotientGroup.mk' (V.subgroupOf U)
@@ -119,13 +119,13 @@ theorem pow_three_mem_of_isIrrOn {W : Type} [CommGroup W] [Finite W]
     rw [QuotientGroup.congr_mk]
   have hntQ : Nontrivial Q := by
     obtain ⟨hVU, hU⟩ := hUV
-    obtain ⟨u, hu, huv⟩ := SetLike.exists_of_lt hVU
+    obtain ⟨u, hu, huv⟩ := _root_.IsConcreteLE.exists_of_lt hVU
     refine ⟨QuotientGroup.mk (⟨u, hu⟩ : ↥U), 1, ?_⟩
     intro h
     have hv : (⟨u, hu⟩ : ↥U) ∈ V.subgroupOf U := (QuotientGroup.eq_one_iff _).mp h
     rw [Subgroup.mem_subgroupOf] at hv
     exact huv hv
-  haveI : Nontrivial Q := hntQ
+  have : Nontrivial Q := hntQ
   have hIrrσ : IsIrrOn σ.range ⊤ ⊥ := by
     refine ⟨bot_lt_top, ?_, ?_, ?_⟩
     · intro x hx a ha
@@ -205,9 +205,9 @@ theorem pow_three_mem_of_isIrrOn {W : Type} [CommGroup W] [Finite W]
               = QuotientGroup.mk ((u : ↥U) * (u : ↥U)) := (map_mul π u u).symm
             _ = QuotientGroup.mk 1 := by rw [hu2]
             _ = 1 := map_one π)
-  letI : AddCommGroup Ibin := hIadd
-  letI : Module (ZMod 2) Ibin := hImod
-  letI : Finite Ibin := hIfin
+  let : AddCommGroup Ibin := hIadd
+  let : Module (ZMod 2) Ibin := hImod
+  let : Finite Ibin := hIfin
   let τX : SL(3, K) →* ↥X := τ.codRestrict X (fun g => ⟨g, rfl⟩)
   have hτX : Function.Surjective τX := by
     intro x
@@ -253,7 +253,7 @@ theorem pow_three_mem_of_isIrrOn {W : Type} [CommGroup W] [Finite W]
     have hτX1 : τX s = 1 := subRep_injective θ X hsub'
     exact hτs_ne (congrArg Subtype.val hτX1)
   have hcardI : Nat.card Ibin = 2 ^ Module.finrank (ZMod 2) Ibin := by
-    haveI : Module.Finite (ZMod 2) Ibin := Module.Finite.of_finite (R := ZMod 2) (M := Ibin)
+    have : Module.Finite (ZMod 2) Ibin := Module.Finite.of_finite (R := ZMod 2) (M := Ibin)
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Ibin), Nat.card_zmod]
   have hcardQ : Nat.card Q = Nat.card Ibin :=
     Nat.card_congr (θ.toEquiv.trans Multiplicative.toAdd)
@@ -282,7 +282,7 @@ theorem pow_three_mem_of_isIrrOn {W : Type} [CommGroup W] [Finite W]
     have hmem : u ∈ U.map (c : W →* W) := hUmap.symm ▸ hu
     obtain ⟨v, hv, hvc⟩ := Subgroup.mem_map.mp hmem
     have hcv : c⁻¹ ((c : W →* W) v) = v := by
-      simpa using MulAut.inv_apply_self W c v
+      simp
     rw [← hvc, hcv]
     exact hv
   have hVmap' : V.map (c : W →* W) = V := by
@@ -297,7 +297,7 @@ theorem pow_three_mem_of_isIrrOn {W : Type} [CommGroup W] [Finite W]
     have hmem : v ∈ V.map (c : W →* W) := hVmap'.symm ▸ hv
     obtain ⟨w, hw, hwv⟩ := Subgroup.mem_map.mp hmem
     have hcw : c⁻¹ ((c : W →* W) w) = w := by
-      simpa using MulAut.inv_apply_self W c w
+      simp
     rw [← hwv, hcw]
     exact hw
   let ρUc : MulAut ↥U := CFSG.Quasithin.H13.VolI.restrictAut U c hcU hcUinv
@@ -401,7 +401,7 @@ theorem pow_three_mem_of_isIrrOn {W : Type} [CommGroup W] [Finite W]
         have hne : (Pi.single (0 : Fin 3) (1 : K)) ≠ (0 : Fin 3 → K) := by
           intro h
           have := congrFun h 0
-          simpa using this
+          simp at this
         exact hne (hf_bij.1 heq)
       have hc3 : c ^ 3 = 1 := by
         have h := FiniteField.pow_card_sub_one_eq_one c hc0
@@ -480,7 +480,6 @@ theorem pow_three_mem_of_isIrrOn {W : Type} [CommGroup W] [Finite W]
     | succ k ih =>
       intro x
       rw [pow_succ', MulAut.mul_apply]
-      change ((ρUc) ((ρUc ^ k) x) : W) = (c ^ (k + 1)) (x : W)
       rw [show ((ρUc) ((ρUc ^ k) x) : W) = c (((ρUc ^ k) x : ↥U) : W) from rfl, ih,
         pow_succ']
       rfl

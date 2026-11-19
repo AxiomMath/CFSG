@@ -35,7 +35,7 @@ theorem isQuasisimple_specialBlock_cyc3 {x : W ≃ₗ[ZMod 2] W} (hx : OddOrderI
     (hm : 4 ≤ primaryMultiplicity x.toLinearMap (CFSG.HardMathSupport.Timmesfeld.CrossChar.cyc3 (ZMod 2))) :
     CFSG.IsQuasisimple ↥(specialBlock R x (X ^ 2 + X + 1)) := by
   have hK : Nat.card (ZMod 2) = 2 := by simp
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : (ZMod 2)[X])) :=
+  have : Fact (Irreducible (X ^ 2 + X + 1 : (ZMod 2)[X])) :=
     ⟨CFSG.HardMathSupport.Timmesfeld.CrossChar.irreducible_cyc3 hK⟩
   exact CFSG.HardMathSupport.Timmesfeld.CrossChar.orth2_isQuasisimple_specialBlock_selfDual hx
     (Nat.odd_iff.2 rfl)
@@ -45,14 +45,14 @@ theorem isQuasisimple_specialBlock_cyc3 {x : W ≃ₗ[ZMod 2] W} (hx : OddOrderI
 
 theorem isSolvable_orthDerived_of_finrank_two (hW : finrank (ZMod 2) W = 2) :
     Group.IsSolvable ↥(orthDerived R) := by
-  haveI := isSolvable_linearEquiv_of_finrank_two hW
+  have := isSolvable_linearEquiv_of_finrank_two hW
   exact Group.isSolvable_of_isSolvable_injective (f := (orthDerived R).subtype)
     (orthDerived R).subtype_injective
 
 theorem not_isSolvable_of_isQuasisimple_aux {X : Type*} [Group X] (hX : CFSG.IsQuasisimple X) :
     ¬ Group.IsSolvable X := by
   intro hs
-  haveI : Nontrivial X := CFSG.LocalCores.isQuasisimple_nontrivial hX
+  have : Nontrivial X := CFSG.LocalCores.isQuasisimple_nontrivial hX
   exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (G := X)).ne
     (@Group.IsPerfect.commutator_eq_top _ _ hX.1)
 
@@ -62,6 +62,7 @@ theorem layerIs_of_glaLayer_eq {G : Type} [Group G] {X D : Subgroup G} (hD : GLA
   subst hD
   exact ⟨hc, h⟩
 
+omit [FiniteDimensional (ZMod 2) W] in
 private theorem oddOrderIsometry_three_of_orderOf_eq_three (hR : (QuadraticMap.polarBilin R).Nondegenerate)
     {x : ↥(orthDerived R)} (hx3 : orderOf x = 3) :
     OddOrderIsometry R 3 (x : W ≃ₗ[ZMod 2] W) := by
@@ -74,7 +75,7 @@ private theorem oddOrderIsometry_three_of_orderOf_eq_three (hR : (QuadraticMap.p
 private theorem natCard_adjoinRoot_cyc3
     [Fact (Irreducible (CFSG.HardMathSupport.Timmesfeld.CrossChar.cyc3 (ZMod 2)))] :
     Nat.card (AdjoinRoot (CFSG.HardMathSupport.Timmesfeld.CrossChar.cyc3 (ZMod 2))) = 2 ^ 2 := by
-  haveI : Finite (AdjoinRoot (CFSG.HardMathSupport.Timmesfeld.CrossChar.cyc3 (ZMod 2))) :=
+  have : Finite (AdjoinRoot (CFSG.HardMathSupport.Timmesfeld.CrossChar.cyc3 (ZMod 2))) :=
     finite_adjoinRoot_of_fact _
   have h1 : finrank (ZMod 2) (AdjoinRoot (CFSG.HardMathSupport.Timmesfeld.CrossChar.cyc3 (ZMod 2))) =
       2 := by
@@ -125,7 +126,7 @@ theorem catalogIs_pSimple_specialBlock_isUnA (hR : (QuadraticMap.polarBilin R).N
     catalogIs (PSimple 3 ((specialBlock R (x : W ≃ₗ[ZMod 2] W) (X ^ 2 + X + 1)).subgroupOf
       (orthDerived R))) (isUnA k 2) := by
   have hK : Nat.card (ZMod 2) = 2 := by simp
-  haveI : Fact (Irreducible (CFSG.HardMathSupport.Timmesfeld.CrossChar.cyc3 (ZMod 2))) :=
+  have : Fact (Irreducible (CFSG.HardMathSupport.Timmesfeld.CrossChar.cyc3 (ZMod 2))) :=
     ⟨CFSG.HardMathSupport.Timmesfeld.CrossChar.irreducible_cyc3 hK⟩
   obtain ⟨ℓ, f, hU, B, hℓf, hBs, hBl, ⟨φ⟩⟩ :=
     exists_mulEquiv_specialBlock_sesqSpecialUnitary hR hx3 hk hmult
@@ -142,12 +143,12 @@ private theorem eq_specialBlock_of_isComponentOf_centralizer (hR : (QuadraticMap
   rcases comp_cases_orthDerived hR hx3 hL with ⟨-, -, hLeq⟩ | ⟨F, hFq, hFle, -, -, hLeq⟩
   · exact hLeq
   · exfalso
-    haveI := isSolvable_orthDerived_of_finrank_two
+    have := isSolvable_orthDerived_of_finrank_two
       (R := R.comp (fixedSpace (x : W ≃ₗ[ZMod 2] W)).subtype) hfix
-    haveI : Group.IsSolvable ↥(supportedFixedDerived R (x : W ≃ₗ[ZMod 2] W)) :=
+    have : Group.IsSolvable ↥(supportedFixedDerived R (x : W ≃ₗ[ZMod 2] W)) :=
       Group.isSolvable_of_isSolvable_injective (f := (restrictDerivedEquiv hx).toMonoidHom)
         (restrictDerivedEquiv hx).injective
-    haveI : Group.IsSolvable ↥F :=
+    have : Group.IsSolvable ↥F :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hFle)
         (Subgroup.inclusion_injective hFle)
     exact not_isSolvable_of_isQuasisimple_aux hFq inferInstance

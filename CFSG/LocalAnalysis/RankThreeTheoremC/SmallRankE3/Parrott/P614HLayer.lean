@@ -18,7 +18,7 @@ theorem mulAut_comm_of_isCyclic {C : Type*} [Group C] [IsCyclic C] (σ τ : MulA
 
 theorem commutator_le_centralizer_of_isCyclic {Y : Type*} [Group Y] (E : Subgroup Y) [E.Normal]
     [IsCyclic E] : commutator Y ≤ centralizer (E : Set Y) := by
-  haveI : IsMulCommutative (MulAut E) := ⟨⟨mulAut_comm_of_isCyclic⟩⟩
+  have : IsMulCommutative (MulAut E) := ⟨⟨mulAut_comm_of_isCyclic⟩⟩
   intro g hg
   have h := Abelianization.commutator_subset_ker (MulAut.conjNormal (H := E)) hg
   rw [MonoidHom.mem_ker] at h
@@ -33,11 +33,11 @@ theorem false_of_isComponent {Y : Type*} [Group Y] [Finite Y] (hcore : CFSG.pPri
     (hrank : CFSG.Open.pRank 3 (⊤ : Subgroup Y) ≤ 1) {E : Subgroup Y} [E.Normal]
     (hE : IsPGroup 3 E) {w : Y} (hwE : w ∈ E) (hw : orderOf w = 3) {L : Subgroup Y}
     (hL : CFSG.IsComponent L) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hw3 : w ^ 3 = 1 := by
     have h := pow_orderOf_eq_one w
     rwa [hw] at h
-  haveI hEc : IsCyclic E := isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) hE
+  have hEc : IsCyclic E := isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) hE
     ((CFSG.SectionRank.pRank_mono (by norm_num) le_top).trans hrank)
   have hcomm := commutator_le_centralizer_of_isCyclic E
   have hLperf : ⁅L, L⁆ = L := Subgroup.isPerfect_iff.1 hL.1.1
@@ -122,9 +122,9 @@ theorem false_of_isComponent {Y : Type*} [Group Y] [Finite Y] (hcore : CFSG.pPri
   obtain ⟨S₃, hS₃⟩ := ((CFSG.Open.isElemAbelian_zpowers hw'3).isPGroup).exists_le_sylow
   have hS₃c : IsCyclic ((S₃ : Subgroup (normalClosure (L : Set Y))).map
       (normalClosure (L : Set Y)).subtype) :=
-    isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) (S₃.isPGroup'.map _)
+    isCyclic_of_pRank_le_one Nat.prime_three (by norm_num) (S₃.isPGroup.map _)
       ((CFSG.SectionRank.pRank_mono (by norm_num) le_top).trans hrank)
-  haveI : IsCyclic (S₃ : Subgroup (normalClosure (L : Set Y))) :=
+  have : IsCyclic (S₃ : Subgroup (normalClosure (L : Set Y))) :=
     isCyclic_of_injective ((normalClosure (L : Set Y)).subtype.subgroupMap
       (S₃ : Subgroup (normalClosure (L : Set Y))))
       (fun a b h => Subtype.ext (Subtype.ext (by
@@ -140,7 +140,7 @@ theorem pLayer_eq_bot {X : Type*} [Group X] [Finite X]
     (hrank : CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ 1) {D E : Subgroup X} [D.Normal] [E.Normal]
     (hD : Nat.Coprime 3 (Nat.card D)) (hDE : ∀ e ∈ E, ∃ n : ℕ, e ^ 3 ^ n ∈ D) {w : X}
     (hwE : w ∈ E) (hw : orderOf w = 3) : CFSG.pLayer X 3 = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [eq_bot_iff]
   apply sSup_le
   rintro L ⟨K₁, hK₁, -, -, -⟩
@@ -152,7 +152,7 @@ theorem pLayer_eq_bot {X : Type*} [Group X] [Finite X]
     rw [CFSG.SectionRank.pRank_quotient_eq _ ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1
       (CFSG.pPrimeCore_coprime_card (p := 3) (G := X)))]
     exact hrank
-  haveI : (E.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 X))).Normal :=
+  have : (E.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 X))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   have hE' : IsPGroup 3 (E.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 X))) := by
     rintro ⟨_, ⟨e, he, rfl⟩⟩

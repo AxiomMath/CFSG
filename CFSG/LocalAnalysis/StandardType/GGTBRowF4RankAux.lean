@@ -19,7 +19,7 @@ theorem ggF4Row_card_le_of_recipe
       (X : Set (MulAut (TableBF4.RecipeGroup K))) ⊆ TableBF4.RecipeID K →
         IsElemAbelian p X → Nat.card X ≤ p ^ 4 := by
   intro X hXI hX
-  haveI := TableBF4.finite_recipeGroup (K := K)
+  have := TableBF4.finite_recipeGroup (K := K)
   obtain ⟨A', hA', hA'c⟩ := TableBSymp.exists_of_subset_inn (R := TableBF4.RecipeGroup K)
     (TableBF4.center_recipeGroup_eq_bot K)
     (fun φ hφ => TableBF4.idImage_subset_inn K (hXI hφ)) hX
@@ -40,7 +40,7 @@ theorem ggF4Row_labelAll_card
   subst htag
   intro Q hQ
   obtain ⟨K, _, _, hK, hQK⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   have hp2 := ne_two_of_dvd_two_pow_sub_one hlab.1 hpn
   have hpq : p ∣ Nat.card K - 1 := by
     rw [hK]

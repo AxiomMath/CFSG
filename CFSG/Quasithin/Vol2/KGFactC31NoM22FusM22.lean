@@ -17,7 +17,7 @@ theorem m22_facts_eleven :
         m22a * m22b⁻¹ * m22a * m22b * m22a * m22b * m22b * m22a * m22b⁻¹)⁻¹ =
       (m22a * m22b) ^ 3 := by
   refine ⟨?_, ?_⟩
-  · haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
     apply orderOf_eq_prime
     · decide +kernel
     · decide +kernel
@@ -34,7 +34,7 @@ theorem m22_facts_five :
         m22a * m22b * m22a * m22b * m22a * m22b)⁻¹ =
       (m22a * m22b * m22b) ^ 3 := by
   refine ⟨?_, ?_⟩
-  · haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     apply orderOf_eq_prime
     · decide +kernel
     · decide +kernel
@@ -61,7 +61,7 @@ theorem five_dvd_of_three_pow_modEq_eleven {m : ℕ} (h : 3 ^ m ≡ 1 [MOD 11]) 
     push_cast at this
     exact this
   have h5 : orderOf (3 : ZMod 11) = 5 := by
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     apply orderOf_eq_prime
     · decide
     · decide

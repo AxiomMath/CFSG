@@ -79,12 +79,14 @@ section Rho6
 
 variable {G : Type} [Group G] {W K : Subgroup G} [(K.subgroupOf W).Normal]
 
+omit [(K.subgroupOf W).Normal] in
 theorem mk_eq_mk_iff {x y : G} (hx : x ∈ W) (hy : y ∈ W) :
     (QuotientGroup.mk ⟨x, hx⟩ : ↥W ⧸ K.subgroupOf W) = QuotientGroup.mk ⟨y, hy⟩ ↔
       x⁻¹ * y ∈ K := by
   rw [QuotientGroup.eq, Subgroup.mem_subgroupOf]
   rfl
 
+omit [(K.subgroupOf W).Normal] in
 theorem mk_eq_mk_of_mul_inv_mem (hWK : W ≤ Subgroup.normalizer (K : Set G)) {x y : G}
     (hx : x ∈ W) (hy : y ∈ W) (h : x * y⁻¹ ∈ K) :
     (QuotientGroup.mk ⟨x, hx⟩ : ↥W ⧸ K.subgroupOf W) = QuotientGroup.mk ⟨y, hy⟩ := by
@@ -326,7 +328,7 @@ theorem delta_le_fixZ {c : G} {L : Subgroup G} (h : Sec14Std G A c L) (hC : Ctx1
     (hZ : Nat.card (Subgroup.center
       (↥(w155 A M X) ⧸ (pPrimeCoreOf 3 M).subgroupOf (w155 A M X))) = 3) :
     delta A (lB A) M ≤ fixZ (w155 A M X) (pPrimeCoreOf 3 M) :=
-  sSup_le fun V hV => le_fixZ h.mem_partTwoF (Sylow155B2.a_le_nWK hC)
+  sSup_le fun _V hV => le_fixZ h.mem_partTwoF (Sylow155B2.a_le_nWK hC)
     (Sylow155B2.w155_le_normalizer A M X)
     ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp (coprime_card_pPrimeCoreOf 3 M)) hZ
     ((le_delta hV.1 hV.2).trans (Sylow155B2.delta_le_nWK hIX)) hV.1.1.2.2

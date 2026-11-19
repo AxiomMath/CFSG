@@ -18,6 +18,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
 private def ffOutFF6PStarN1_supp (v : Fin 5 → ZMod 2) : Finset (Fin 5) :=
   Finset.univ.filter fun i => v i ≠ 0
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ffOutFF6PStarN1_ffVecT (fr : PFrame Q (Option (Fin 5)) ffC)
     (v : Fin 5 → ZMod 2) :
     ffVecT fr v = fr.signChange (ffOpt (ffOutFF6PStarN1_supp v)) := rfl
@@ -211,7 +212,7 @@ theorem ff6p_star_quotEquivTo (hQ : Q.Nondegenerate)
       exact hgB0
 
 theorem ff6p_star_centralizer (hQ : Q.Nondegenerate)
-    (hdim : Module.finrank (ZMod 3) V = 6) (hsgn : quadSign Q = 1)
+    (hdim : Module.finrank (ZMod 3) V = 6) (_hsgn : quadSign Q = 1)
     (fr : PFrame Q (Option (Fin 5)) ffC) {n : ↥(omegaProj hQ)}
     (hc : ∀ b ∈ ffB1p hQ fr, n * b = b * n) : n ∈ ffB1p hQ fr := by
   have hz : ∀ b ∈ ffB1p hQ fr,
@@ -247,7 +248,7 @@ theorem ff6p_star_permModule (hQ : Q.Nondegenerate)
     else 1
   have hκ : ∀ v (hv : IsEvenVec v), κ v =
       omegaToProj hQ ⟨ffVecT fr v, ffOutFF6PStarN1_ffVecT_mem_omega hQ fr hv⟩ :=
-    fun v hv => by dsimp only [κ]; exact dif_pos hv
+    fun v hv => by dsimp only [κ]; exact dite_eq_left hv
   refine ⟨κ, ?_⟩
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
   · intro v w hv hw

@@ -36,13 +36,13 @@ theorem Wp_perp (v : V12) (h : ∀ y ∈ Wp, B12 v y = 0) : v ∈ Wp := by
     intro i hi
     have hy : ((0 : Fin 6 → ZMod 2), (Pi.single i 1 : Fin 6 → ZMod 2)) ∈ Wp := by
       rw [mem_Wp_iff]
-      exact ⟨fun _ _ => rfl, by simp [Pi.single_apply, hi, Ne.symm hi]⟩
+      exact ⟨fun _ _ => rfl, by simp [Ne.symm hi]⟩
     have h0 := h _ hy
     rwa [B12_zero_single_right] at h0
   have hb5 : b 5 = 0 := by
     have hy : ((Pi.single 5 1 : Fin 6 → ZMod 2), (0 : Fin 6 → ZMod 2)) ∈ Wp := by
       rw [mem_Wp_iff]
-      exact ⟨fun k hk => by simp [Pi.single_apply, hk, Ne.symm hk], rfl⟩
+      exact ⟨fun k hk => by simp [hk], rfl⟩
     have h0 := h _ hy
     rwa [B12_E_right] at h0
   exact (mem_Wp_iff (a, b)).2 ⟨hA, hb5⟩
@@ -54,13 +54,13 @@ theorem Cc_perp (v : V12) (h : ∀ y ∈ Cc, B12 v y = 0) : v ∈ Cc := by
     intro i hi
     have hy : ((0 : Fin 6 → ZMod 2), (Pi.single i 1 : Fin 6 → ZMod 2)) ∈ Cc := by
       rw [mem_Cc_iff]
-      exact ⟨fun _ _ => rfl, by simp [Pi.single_apply, hi, Ne.symm hi]⟩
+      exact ⟨fun _ _ => rfl, by simp [Ne.symm hi]⟩
     have h0 := h _ hy
     rwa [B12_zero_single_right] at h0
   have hab5 : a 5 = b 5 := by
     have hy : ((Pi.single 5 1 : Fin 6 → ZMod 2), (Pi.single 5 1 : Fin 6 → ZMod 2)) ∈ Cc := by
       rw [mem_Cc_iff]
-      exact ⟨fun k hk => by simp [Pi.single_apply, hk, Ne.symm hk], rfl⟩
+      exact ⟨fun k hk => by simp [hk], rfl⟩
     have h0 := h _ hy
     rw [B12_E_diag] at h0
     exact key _ _ h0
@@ -116,7 +116,7 @@ theorem hs2t5_transpose_mulVec {v a : Fin 6 → ZMod 2} (hv : v 5 = 0)
   have h4 : a 4 = 0 := ha 4 (by decide)
   funext i
   fin_cases i <;>
-    simp [Tmat, Matrix.mulVec, Matrix.vecMul, dotProduct, Fin.sum_univ_six, Matrix.one_apply,
+    simp [Tmat, Matrix.mulVec, dotProduct, Fin.sum_univ_six, Matrix.one_apply,
       Matrix.of_apply, Matrix.transpose_apply, h0, h1, h2, h3, h4, hv]
 
 theorem hs2t5_mulVec_of_eq_zero {N : M6} {a : Fin 6 → ZMod 2} (ha : ∀ i, i ≠ 5 → a i = 0) :
@@ -127,7 +127,7 @@ theorem hs2t5_mulVec_of_eq_zero {N : M6} {a : Fin 6 → ZMod 2} (ha : ∀ i, i �
   have h3 : a 3 = 0 := ha 3 (by decide)
   have h4 : a 4 = 0 := ha 4 (by decide)
   funext i
-  simp [Matrix.mulVec, dotProduct, Fin.sum_univ_six, h0, h1, h2, h3, h4] <;> ring
+  simp [Matrix.mulVec, dotProduct, Fin.sum_univ_six, h0, h1, h2, h3, h4]; ring
 
 theorem sAkN_apply_Wp {A : GL6} {v : Fin 6 → ZMod 2} (hv : v 5 = 0) (hA : (A : M6) = Tmat v)
     (hAi : ((A⁻¹ : GL6) : M6) = Tmat v) {N : M6} (hN : IsAlt N) {a b : Fin 6 → ZMod 2}
@@ -162,7 +162,7 @@ theorem mem_UFix_Wp_iff (x : Stab0) {v : Fin 6 → ZMod 2} (hv : v 5 = 0)
   constructor
   · intro h i
     have h0 : ∀ j : Fin 6, j ≠ 5 → (Pi.single 5 1 : Fin 6 → ZMod 2) j = 0 := fun j hj => by
-      simp [Pi.single_apply, hj]
+      simp [hj]
     have h1 := h ((Pi.single 5 1 : Fin 6 → ZMod 2), (0 : Fin 6 → ZMod 2)) ⟨h0, rfl⟩
     rw [hs, sAkN_apply_Wp hv hA hAi hN h0 rfl] at h1
     have h2 := congrFun (congrArg Prod.snd h1) i
@@ -183,7 +183,7 @@ theorem mem_UFix_Cc_iff (x : Stab0) {v : Fin 6 → ZMod 2} (hv : v 5 = 0)
   constructor
   · intro h i
     have h0 : ∀ j : Fin 6, j ≠ 5 → (Pi.single 5 1 : Fin 6 → ZMod 2) j = 0 := fun j hj => by
-      simp [Pi.single_apply, hj]
+      simp [hj]
     have h1 := h ((Pi.single 5 1 : Fin 6 → ZMod 2), (Pi.single 5 1 : Fin 6 → ZMod 2)) ⟨h0, rfl⟩
     rw [hs, sAkN_apply_Cc hv hA hAi hN h0 rfl] at h1
     have h2 := congrArg Prod.snd h1

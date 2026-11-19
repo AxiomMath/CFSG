@@ -34,7 +34,7 @@ theorem structGz_isMinusExtraspecial_map {C G : Type} [Group C] [Group G] {f : C
     rw [← Subgroup.card_map_of_injective (K := E) hf, hE'map, hE'card]
   have hEel : CFSG.Open.IsElemAbelian 2 E := by
     refine ⟨?_, ?_⟩
-    · haveI : IsMulCommutative ↥E' := hE'el.1
+    · have : IsMulCommutative ↥E' := hE'el.1
       refine isMulCommutative_iff.mpr fun a b => ?_
       apply Subtype.ext
       apply hf

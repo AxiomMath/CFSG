@@ -94,8 +94,7 @@ theorem exists_odd_normal_form (hK : ringChar K = 2) {m : ℕ} (hm : Odd m)
   refine ⟨c * ⟨rootDiagUnit Tag.D4 a, hdC⟩, σ, ε, hε3, fun h => ?_⟩
   rw [hβ, MulAut.mul_apply, MulAut.mul_apply, MulAut.conj_apply, Subgroup.coe_mul,
     Subgroup.coe_mul, coe_exactNormalAut_zero, coe_d4Graph, Subgroup.coe_inv]
-  simp only [Subgroup.coe_mul, map_mul, map_inv, map_pow,
-    units_map_entrywiseHom_diagramMap]
+  simp only [Subgroup.coe_mul, map_mul, map_inv, map_pow]
   have hP : Units.map (entrywiseHom σ.toRingHom) (d4P K) = d4P K :=
     units_map_entrywiseHom_diagramMap σ.toRingHom
   rw [hP]

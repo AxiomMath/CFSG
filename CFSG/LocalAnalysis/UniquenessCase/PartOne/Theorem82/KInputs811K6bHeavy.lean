@@ -18,9 +18,9 @@ theorem three_le_pRank_centralizer_of_lieModel_psu4 {X : Type} [Group X] [Finite
     (h3 : 3 ∣ r ^ f + 1) (hm : LieModel X .PSU 4 r f) :
     ∀ y : X, orderOf y = 3 → 3 ≤ CFSG.Open.pRank 3 (Subgroup.centralizer {y}) := by
   obtain ⟨-, K, hK, hfin, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (t := .PSU) (by decide)
-  letI := hK
-  letI := hfin
-  haveI : Finite (StatedProj (StatedSU 4 (r ^ f) K)) := Finite.of_equiv _ e.toEquiv
+  let := hK
+  let := hfin
+  have : Finite (StatedProj (StatedSU 4 (r ^ f) K)) := Finite.of_equiv _ e.toEquiv
   exact CFSG.GroupTheory.CoprimeTransport.le_pRank_centralizer_of_mulEquiv e
     (fun y hy => i294CrossModelPSU4_holds (r ^ f) K hcard h3 y hy)
 
@@ -29,9 +29,9 @@ theorem three_le_pRank_centralizer_of_lieModel_psu67 {X : Type} [Group X] [Finit
     (hm : LieModel X .PSU n r f) :
     ∀ y : X, orderOf y = 3 → 3 ≤ CFSG.Open.pRank 3 (Subgroup.centralizer {y}) := by
   obtain ⟨-, K, hK, hfin, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (t := .PSU) (by decide)
-  letI := hK
-  letI := hfin
-  haveI : Finite (StatedProj (StatedSU n (r ^ f) K)) := Finite.of_equiv _ e.toEquiv
+  let := hK
+  let := hfin
+  have : Finite (StatedProj (StatedSU n (r ^ f) K)) := Finite.of_equiv _ e.toEquiv
   exact CFSG.GroupTheory.CoprimeTransport.le_pRank_centralizer_of_mulEquiv e
     (fun y hy => i294CrossModelPSU67_holds (r ^ f) K hcard h3 h3' n hn y hy)
 
@@ -40,9 +40,9 @@ theorem three_le_pRank_centralizer_of_lieModel_pomega8m {X : Type} [Group X] [Fi
     ∀ y : X, orderOf y = 3 → 3 ≤ CFSG.Open.pRank 3 (Subgroup.centralizer {y}) := by
   obtain ⟨-, K, hK, hfin, hcard, b, c, hbc, ⟨e⟩⟩ :=
     hm.statedClassicalModel (t := .POmegaMinus) (by decide)
-  letI := hK
-  letI := hfin
-  haveI : Finite (StatedProj (StatedOmega (StatedQuadMinus 4 K b c))) :=
+  let := hK
+  let := hfin
+  have : Finite (StatedProj (StatedOmega (StatedQuadMinus 4 K b c))) :=
     Finite.of_equiv _ e.toEquiv
   exact CFSG.GroupTheory.CoprimeTransport.le_pRank_centralizer_of_mulEquiv e
     (fun y hy => i294CrossModelPOmegaMinus4_holds K (hcard ▸ hq) b c hbc y hy)

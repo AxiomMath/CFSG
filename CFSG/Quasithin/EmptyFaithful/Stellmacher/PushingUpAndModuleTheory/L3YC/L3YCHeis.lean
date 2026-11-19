@@ -39,7 +39,7 @@ theorem fn_add_self (f : Fin 3 → ZMod 2) : f + f = 0 := by
 
 instance : Group Heis where
   mul_assoc a b c := by
-    ext <;> simp [add_assoc, add_dotProduct, dotProduct_add] <;> ring
+    ext <;> simp [add_assoc, add_dotProduct, dotProduct_add]; ring
   one_mul a := by ext <;> simp
   mul_one a := by ext <;> simp
   inv_mul_cancel a := by

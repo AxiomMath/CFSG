@@ -18,6 +18,7 @@ open CFSG.LocalAnalysis.WeakClosure81.GF2Reps139
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_commSub_map_conj (A : Subgroup (MulAut W)) (φ : MulAut W) :
     commSub (⊤ : Subgroup W) (A.map (MulAut.conj φ).toMonoidHom) =
       (commSub (⊤ : Subgroup W) A).map φ.toMonoidHom := by
@@ -33,6 +34,7 @@ private theorem w1369_commSub_map_conj (A : Subgroup (MulAut W)) (φ : MulAut W)
     refine ⟨φ * x * φ⁻¹, ⟨x, hx, rfl⟩, φ w, Subgroup.mem_top _, ?_⟩
     simp [MulAut.mul_apply]
 
+omit [Finite W] in
 private theorem w1369_mem_commSub_map_conj {A : Subgroup (MulAut W)} (φ : MulAut W) {u : W}
     (hu : u ∈ commSub (⊤ : Subgroup W) A) :
     φ u ∈ commSub (⊤ : Subgroup W) (A.map (MulAut.conj φ).toMonoidHom) := by
@@ -128,10 +130,10 @@ private theorem w1369_commutator_eq_self_of_isQuasisimple {G : Type*} [Group G] 
 private theorem w1369_ne_bot_of_isQuasisimple {G : Type*} [Group G] {K : Subgroup G}
     (h : CFSG.IsQuasisimple ↥K) : K ≠ ⊥ := by
   intro hbot
-  haveI : Nontrivial (↥K ⧸ Subgroup.center ↥K) := h.2.1.toNontrivial
+  have : Nontrivial (↥K ⧸ Subgroup.center ↥K) := h.2.1.toNontrivial
   have hsurj : Function.Surjective (QuotientGroup.mk' (Subgroup.center ↥K)) :=
     QuotientGroup.mk'_surjective _
-  haveI hnt : Nontrivial ↥K := hsurj.nontrivial
+  have hnt : Nontrivial ↥K := hsurj.nontrivial
   have hsub : Subsingleton ↥K := by
     rw [hbot]
     exact ⟨fun a b => Subtype.ext (by
@@ -140,7 +142,7 @@ private theorem w1369_ne_bot_of_isQuasisimple {G : Type*} [Group G] {K : Subgrou
 
 theorem cost_one_summand (hw2 : ∀ w : W, w ^ 2 = 1)
     {Y : Subgroup (MulAut W)} {t : MulAut W} {L : Subgroup (MulAut W)} (c : Ctx136 Y t L)
-    {J : Subgroup W} (hCJ : Cd L ≤ J) (hJW : J ≤ Wd L) (hJ : IsIrrOn L J (Cd L))
+    {J : Subgroup W} (hCJ : Cd L ≤ J) (_hJW : J ≤ Wd L) (hJ : IsIrrOn L J (Cd L))
     (hLJ : commSub J L ⊔ Cd L = J) (hJt : StableUnder (Subgroup.zpowers t) J)
     (hcost : tcost t L J = 1) :
     Subgroup.centralizer ((secSub J (Cd L) L : Subgroup (MulAut (Sect J (Cd L)))) :

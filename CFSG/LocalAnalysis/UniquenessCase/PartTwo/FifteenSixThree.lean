@@ -74,6 +74,7 @@ theorem s15_Six_two_le_mQuot_ker (D : Data G) {V₀ V L : Subgroup G} (h : Hyp15
   have h4 := E3.mQuot_mono (V := conjSubgroup (wSub V₀ V hV L) g) hle
   omega
 
+omit [Finite G] in
 theorem s15_Six_comm_cancel {V : Subgroup G} (hV : IsElemAbelian 2 V) {b x y : G}
     (hb : b ∈ normalizer (V : Set G)) (hx : x ∈ V) (hy : y ∈ V)
     (h : b * y * b⁻¹ * y⁻¹ = b * x * b⁻¹ * x⁻¹) :
@@ -136,7 +137,7 @@ theorem s15_Six_le_normalizer_of_ker (D : Data G) {V₀ V L : Subgroup G} (h : H
         ((wSub V₀ V hV L ⊔ v1Sub D.M V₀ V hV L : Subgroup G) : Set G) (v1Sub D.M V₀ V hV L))) :
     conjSubgroup (wSub V₀ V hV L) g ≤ normalizer (wSub V₀ V hV L : Set G) := by
   by_contra hBN
-  obtain ⟨b, hbB, hbN⟩ := SetLike.not_le_iff_exists.1 hBN
+  obtain ⟨b, hbB, hbN⟩ := IsConcreteLE.not_le_iff_exists.1 hBN
   have hWV : wSub V₀ V hV L ≤ V := preTil_le V₀ V hV _
   have hV₁V : v1Sub D.M V₀ V hV L ≤ V := s15_Infra_v1Sub_le h.hyp125 hV
   obtain ⟨hBA, hBM⟩ := s15_Six_conj_wSub_le_M (V₀ := V₀) (L := L) D hV hg

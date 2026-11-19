@@ -15,7 +15,7 @@ private def ggKGCANum_gl (n : ℕ) : ℕ :=
 
 private theorem ggKGCANum_card_GL (n : ℕ) :
     Nat.card (Matrix.GeneralLinearGroup (Fin n) GGKGCF) = ggKGCANum_gl n := by
-  haveI : Fintype GGKGCF := Fintype.ofFinite GGKGCF
+  have : Fintype GGKGCF := Fintype.ofFinite GGKGCF
   have hcard : Fintype.card GGKGCF = 2 := by
     rw [Fintype.card_eq_nat_card, ggKGCANum_card_field]
   rw [Matrix.card_GL_field, ggKGCANum_gl,
@@ -139,7 +139,7 @@ theorem ggKGCANum_card_SL_eq_GL (m : ℕ) :
       Nat.card (Matrix.GeneralLinearGroup (Fin m) GGKGCF) := by
   have hunits : Nat.card GGKGCFˣ = 1 := by
     rw [Nat.card_units, ggKGCANum_card_field]
-  haveI : Subsingleton GGKGCFˣ := (Nat.card_eq_one_iff_unique.mp hunits).1
+  have : Subsingleton GGKGCFˣ := (Nat.card_eq_one_iff_unique.mp hunits).1
   have hdet : ∀ g : Matrix.GeneralLinearGroup (Fin m) GGKGCF,
       Matrix.GeneralLinearGroup.det g = 1 := fun g => Subsingleton.elim _ _
   have hsurj : Function.Surjective

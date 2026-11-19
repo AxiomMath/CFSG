@@ -84,9 +84,9 @@ private theorem ciaOrder_dvd_two {p q : ℕ} (hq : 0 < q) (h : p ∣ q ^ 2 - 1) 
   rw [Nat.cast_sub (Nat.one_le_pow _ _ hq), Nat.cast_pow, Nat.cast_one, sub_eq_zero] at h0
   exact orderOf_dvd_of_pow_eq_one h0
 
-private theorem ciaFixCard_one {p : ℕ} (hp : p.Prime) (R : ℕ) :
+private theorem ciaFixCard_one {p : ℕ} (_hp : p.Prime) (R : ℕ) :
     GGFixCard p (1 : Equiv.Perm (Fin R)) = p ^ R := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨_hp.ne_zero⟩
   unfold GGFixCard
   have h : Nat.card {z : Fin R → ZMod p // ∀ i, z ((1 : Equiv.Perm (Fin R)) i) = z i} =
       Nat.card (Fin R → ZMod p) :=
@@ -129,7 +129,7 @@ theorem ggKnownSetting_autU
     GGKnownSetting t n f (ggPsiU t n f) := by
   obtain ⟨hadm', hrk⟩ := hadm
   obtain ⟨hcomm, -⟩ := ggU_perfect_lieModel hadm' hrk
-  haveI hperf : Group.IsPerfect (ggU t n f).K := Group.isPerfect_def.mpr hcomm
+  have hperf : Group.IsPerfect (ggU t n f).K := Group.isPerfect_def.mpr hcomm
   have hZ : Subgroup.center ((ggU t n f).K ⧸ Subgroup.center (ggU t n f).K) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot _
   have hker : (ggPsiU t n f).ker ≤ Subgroup.center (ggU t n f).K := by
@@ -145,7 +145,7 @@ theorem ggKnownSetting_autU
     rw [hZ, Subgroup.mem_bot] at h1
     exact (QuotientGroup.eq_one_iff k).1 h1
   refine ⟨⟨hadm', hrk⟩, hker, ⟨?_, lieModel_range_centerQuot hadm' hrk (ggPsiU t n f) hker⟩, ?_⟩
-  · haveI := Group.IsPerfect.range (ggPsiU t n f)
+  · have := Group.IsPerfect.range (ggPsiU t n f)
     exact Group.IsPerfect.commutator_eq_top
   · rw [eq_bot_iff]
     intro σ hσ
@@ -183,9 +183,9 @@ theorem ggInnDiagU_mem_range_of_untwisted
     · exact Or.inl rfl
     · exact Or.inr (Or.inr (Or.inl rfl))
     · exact Or.inr (Or.inr (Or.inr (Or.inl rfl)))
-  haveI : Finite (ggU t n f).K := ggU_finite_exc hexc hadm
-  haveI : Finite (GGAutU t n f) := GGSFCore.finite_ggAutU
-  haveI hN : ((ggPsiU t n f).range).Normal := GGSFCore.normal_range_ggPsiU t n f
+  have : Finite (ggU t n f).K := ggU_finite_exc hexc hadm
+  have : Finite (GGAutU t n f) := GGSFCore.finite_ggAutU
+  have hN : ((ggPsiU t n f).range).Normal := GGSFCore.normal_range_ggPsiU t n f
   obtain ⟨⟨hadm', hrk⟩, hker, ⟨hcomm, hlie⟩, hcent⟩ := ggKnownSetting_autU hadm
   have hpres : GGPresentsG0 (ggPsiU t n f).range (ggU t n f).D t n f (ggPsiU t n f) :=
     ⟨⟨hadm', hrk⟩, ⟨rfl, hker⟩, hcomm, hlie⟩

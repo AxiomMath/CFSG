@@ -155,6 +155,7 @@ theorem conj_injective_of_center_eq_bot {Q : Type*} [Group Q] (hZ : Subgroup.cen
   rw [hZ, Subgroup.mem_bot] at hc
   exact inv_mul_eq_one.mp hc
 
+omit [Finite G] in
 theorem pCoreOf_le_and_nonempty_quot_equiv {X Y : Subgroup G} (hXY : X ≤ Y) {S : Type*}
     [Group S] [IsSimpleGroup S] (hS : ¬ IsPGroup 2 S)
     (e : ((X.subgroupOf Y).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y))) ≃* S) :

@@ -174,12 +174,11 @@ theorem permAct_lineCompl (k : Fin 2) (g : ↥(alternatingGroup (Fin 6))) (l : A
   funext w
   show lineCompl (Mk k) l (ρk k g⁻¹ w) = lineCompl (Mk k) (lmap k g l) w
   unfold lineCompl
-  beta_reduce
   have hiff : (ρk k g⁻¹ w = 0 ∨ ρk k g⁻¹ w ∈ l) ↔ (w = 0 ∨ w ∈ lmap k g l) :=
     or_congr (ρk_inv_eq_zero k g w) Iff.rfl
   by_cases h : ρk k g⁻¹ w = 0 ∨ ρk k g⁻¹ w ∈ l
-  · rw [if_pos h, if_pos (hiff.mp h)]
-  · rw [if_neg h, if_neg (fun h' => h (hiff.mpr h'))]
+  · rw [ite_eq_left h, ite_eq_left (hiff.mp h)]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h (hiff.mpr h'))]
 
 theorem lmap_mem_singLines (k : Fin 2) (g : ↥(alternatingGroup (Fin 6))) (l : AddSubgroup V4)
     (hl : l ∈ singLines (Mk k) B0form) : lmap k g l ∈ singLines (Mk k) B0form := by

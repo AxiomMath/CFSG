@@ -132,12 +132,13 @@ variable {K : Type} [Field K] {ι : Type} [Fintype ι] [DecidableEq ι]
   right_inv v := by
     funext x
     simp only [LinearEquiv.piRing_symm_apply, Finset.sum_apply, Pi.smul_apply, smul_eq_mul,
-      Pi.single_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true,
+      Pi.single_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true,
       Fin.rev_rev]
     congr 1
     funext o
     cases o <;> rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem homOptEquiv_apply (f : (Fin 2 → K) →ₗ[K] ((ι → Fin 2) → K)) (a : Fin 2) (y : ι → Fin 2) :
     homOptEquiv f (optCons a y) = f (Pi.single a.rev 1) y :=
   rfl
@@ -177,6 +178,7 @@ variable {K : Type} [Field K] [CharP K 2]
 
 variable [Fintype K] {n : ℕ}
 
+omit [CharP K 2] in
 theorem pos_of_card_eq_two_pow (hK : Fintype.card K = 2 ^ n) : 0 < n := by
   rcases Nat.eq_zero_or_pos n with rfl | h
   · have := Fintype.one_lt_card (α := K)

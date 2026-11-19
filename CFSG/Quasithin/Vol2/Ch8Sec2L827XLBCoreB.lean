@@ -42,7 +42,7 @@ private theorem chi_dualAct {p : ℕ} {F : Type*} [Field F] {E : Type*} [AddComm
 private theorem chi_ne_one_of_ne_zero {p : ℕ} [Fact p.Prime] {F : Type*} [Field F] {ζ : F}
     (hζ : IsPrimitiveRoot ζ p) {E : Type*} [AddCommGroup E] [Module (ZMod p) E]
     (f : Module.Dual (ZMod p) E) {y : E} (hy : f y ≠ 0) : chi ζ f y ≠ 1 := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   intro h
   have h' : ζ ^ (f y).val = 1 := h
   have hdvd : p ∣ (f y).val := (hζ.pow_eq_one_iff_dvd _).mp h'
@@ -76,7 +76,7 @@ private theorem idem_zero_eq_zero_of_fixed {p : ℕ} [Fact p.Prime] {F : Type*} 
   intro x
   have h := congrArg (fun L : Module.End F M => L v)
     (rho_mul_idem hζ ρ hρadd (0 : Module.Dual (ZMod p) E) x)
-  simp only [Module.End.mul_apply, LinearMap.smul_apply, chi_dual_zero, one_smul] at h
+  simp only [Module.End.mul_apply, chi_dual_zero, one_smul] at h
   exact h
 
 private theorem idem_apply_eq_zero_of_fixed {p : ℕ} [Fact p.Prime] {F : Type*} [Field F]
@@ -223,7 +223,7 @@ theorem core_sixteen_le {p : ℕ} [Fact p.Prime] {F : Type*} [Field F] {ζ : F}
     {y : E} (hy : y ≠ 0) :
     16 ≤ Module.finrank F (LinearMap.range (ρ y - 1)) := by
   classical
-  letI : MulAction Γ (Module.Dual (ZMod p) E) := dualMulAction σ
+  let : MulAction Γ (Module.Dual (ZMod p) E) := dualMulAction σ
   have horb : ∀ ω : Module.Dual (ZMod p) E,
       MulAction.orbit Γ ω = {g | ∃ γ : Γ, dualAct (σ γ) ω = g} := by
     intro ω

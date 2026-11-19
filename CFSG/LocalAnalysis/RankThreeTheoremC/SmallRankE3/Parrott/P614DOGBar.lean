@@ -33,6 +33,7 @@ theorem barMk_eq_one_iff {H : Subgroup G} (h : ↥H) :
   rw [← map_subtype_primeComplementCore, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   exact (Subgroup.mem_map_iff_mem H.subtype_injective).symm
 
+omit [Finite G] in
 theorem kb_normal {H K : Subgroup G} (hKH : K ≤ H) (hKn : H ≤ normalizer (K : Set G)) :
     (kb H K).Normal :=
   haveI : (K.subgroupOf H).Normal := (normal_subgroupOf_iff_le_normalizer hKH).mpr hKn
@@ -42,7 +43,7 @@ variable {M H Q K : Subgroup G} {x z : G}
 
 theorem pPrimeCore_eq_inf (hD : Data278 M H x z Q K) :
     CFSG.pPrimeCore 3 ↥K = (K ⊓ rankThreePrimeCore 3 H).subgroupOf K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn : ((K ⊓ rankThreePrimeCore 3 H).subgroupOf K).Normal := by
     constructor
     intro n hn k
@@ -109,8 +110,8 @@ theorem pRank_top_bar (hD : Data278 M H x z Q K) :
 
 theorem centralizer_kb_eq_bot (hD : Data278 M H x z Q K) :
     centralizer (kb H K : Set (Bar ↥H)) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := kb_normal hD.K_le hD.K_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := kb_normal hD.K_le hD.K_normal
   obtain ⟨e⟩ := nonempty_kb_equiv hD
   have hno : ¬ 3 ∣ Nat.card (centralizer (kb H K : Set (Bar ↥H))) := by
     intro h3
@@ -149,8 +150,8 @@ theorem centralizer_kb_eq_bot (hD : Data278 M H x z Q K) :
   exact le_bot_iff.mp hle
 
 theorem card_qb (hD : Data278 M H x z Q K) : Nat.card (qb H Q) = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := kb_normal hD.K_le hD.K_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := kb_normal hD.K_le hD.K_normal
   obtain ⟨e⟩ := nonempty_kb_equiv hD
   have hQH := hD.syl.le
   have hQp := hD.syl.isPGroup

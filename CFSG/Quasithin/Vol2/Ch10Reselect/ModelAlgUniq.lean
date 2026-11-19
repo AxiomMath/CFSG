@@ -16,6 +16,7 @@ open Matrix
 
 variable {K : Type*} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 private lemma uniq_phi_smul (g : Matrix.SpecialLinearGroup (Fin 2) K) (σ : RingAut K)
     (B : GL (Fin 2) K) (c : K) (v : UTilde K) :
     phi K g σ B (c • v) = σ c • phi K g σ B v := by
@@ -32,10 +33,12 @@ private lemma uniq_phi_smul (g : Matrix.SpecialLinearGroup (Fin 2) K) (σ : Ring
   simp only [phi, Equiv.Perm.mul_apply]
   rw [hB, hS, hR]
 
+omit [CharP K 2] in
 private lemma uniq_phi_zero (g : Matrix.SpecialLinearGroup (Fin 2) K) (σ : RingAut K)
     (B : GL (Fin 2) K) : phi K g σ B 0 = 0 := by
   simpa using uniq_phi_smul g σ B 0 0
 
+omit [CharP K 2] in
 private lemma uniq_phi_ne_zero (g : Matrix.SpecialLinearGroup (Fin 2) K) (σ : RingAut K)
     (B : GL (Fin 2) K) : phi K g σ B (![1, 0], 0) ≠ 0 := by
   intro h0
@@ -45,11 +48,13 @@ private lemma uniq_phi_ne_zero (g : Matrix.SpecialLinearGroup (Fin 2) K) (σ : R
   have h3 := congrArg (fun p : UTilde K => p.1 0) h2
   simp at h3
 
+omit [CharP K 2] in
 private lemma uniq_bPerm_one : bPerm K (1 : GL (Fin 2) K) = 1 := by
   apply Equiv.ext
   intro v
   simp [bPerm_apply]
 
+omit [CharP K 2] in
 private lemma uniq_bPerm_inv (B : GL (Fin 2) K) : bPerm K B⁻¹ = (bPerm K B)⁻¹ := by
   apply eq_inv_of_mul_eq_one_right
   rw [← bPerm_mul, mul_inv_cancel, uniq_bPerm_one]
@@ -146,7 +151,7 @@ theorem phi_inj {g g' : Matrix.SpecialLinearGroup (Fin 2) K} {σ σ' : RingAut K
     rw [hX i j]
     by_cases hij : i = j
     · subst hij; simp
-    · simp [Matrix.one_apply, hij]
+    · simp [hij]
   have hB1 : B' * B⁻¹ = 1 := Units.ext hMat
   have hBB : B = B' := (mul_inv_eq_one.mp hB1).symm
   exact ⟨hg, hσ, hBB⟩

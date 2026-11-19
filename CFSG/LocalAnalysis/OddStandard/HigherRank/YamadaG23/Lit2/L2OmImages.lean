@@ -16,7 +16,7 @@ theorem l2_om_images {E H S Ω : Type} [Group E] [Finite E] [Group H] [Group S] 
     (hE : IsE 4 ↥A) (hP : L2Pauli ρ A) {ζ : E} (hζk : ζ ∈ (ρ.comp α).ker)
     (hζ4 : orderOf ζ = 4) (hζg : ∀ u ∈ (ρ.comp α).ker, ∃ k : ℕ, u = ζ ^ k)
     (hcen : ∀ u ∈ (ρ.comp α).ker, ∀ x : E, u * x = x * u)
-    (π : Ω →* S) (hπ2 : ∀ u ∈ π.ker, u * u = 1) (hπcen : ∀ u ∈ π.ker, ∀ w : Ω, u * w = w * u)
+    (π : Ω →* S) (hπ2 : ∀ u ∈ π.ker, u * u = 1) (_hπcen : ∀ u ∈ π.ker, ∀ w : Ω, u * w = w * u)
     (θ : E →* Ω) (hθ : π.comp θ = ρ.comp α) :
     ∃ y : Fin 4 → Ω, (∀ i, y i * y i = 1) ∧ (∀ i j, y i * y j = y j * y i) ∧
       ∀ d : Ω, (∀ i, y i * d = d * y i) → ∀ a ∈ A, a * π d = π d * a := by

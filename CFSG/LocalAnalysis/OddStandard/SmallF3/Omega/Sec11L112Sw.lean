@@ -38,7 +38,7 @@ theorem sec11_swap_central : ∀ σ : Equiv.Perm (Fin 6),
 theorem sec11_swap_mem_of_card (H : Subgroup (Equiv.Perm (Fin 6)))
     (hH : ∀ σ ∈ H, (σ 0 = 0 ∧ σ 1 = 1) ∨ (σ 0 = 1 ∧ σ 1 = 0)) (hcard : Nat.card ↥H = 16) :
     Equiv.swap 0 1 ∈ H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hHN : H ≤ sec11Stab01 := fun σ hσ => hH σ hσ
   have hsN : (Equiv.swap (0 : Fin 6) 1) ∈ sec11Stab01 := Or.inr ⟨by decide, by decide⟩
   let x : ↥sec11Stab01 := ⟨Equiv.swap 0 1, hsN⟩
@@ -53,7 +53,7 @@ theorem sec11_swap_mem_of_card (H : Subgroup (Equiv.Perm (Fin 6)))
   have hcomm : ∀ n : ↥sec11Stab01, n * x = x * n := fun n => Subtype.ext (by
     show (n : Equiv.Perm (Fin 6)) * Equiv.swap 0 1 = Equiv.swap 0 1 * (n : Equiv.Perm (Fin 6))
     exact sec11_swap_central n n.2)
-  haveI hZn : (zpowers x).Normal := ⟨fun z hz n => by
+  have hZn : (zpowers x).Normal := ⟨fun z hz n => by
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hz
     have hc : Commute n x := hcomm n
     have : n * x ^ k * n⁻¹ = x ^ k := by

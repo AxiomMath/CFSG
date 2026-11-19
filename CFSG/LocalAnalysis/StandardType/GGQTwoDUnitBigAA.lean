@@ -64,7 +64,7 @@ lemma qtwoDB41_eq_smul_of_ker_eq {m : ℕ} {f g : Module.Dual (ZMod 3) (DVec m)}
 lemma qtwoDB41_dSign_mem_dEven {m : ℕ} {a b : Fin m} (hab : a ≠ b) :
     dSign m a b ∈ dEven m := by
   have h : dSign m a b = (dPerm m (Equiv.swap a b))⁻¹ * dTau m true a b := by
-    rw [dTau, if_pos rfl]
+    rw [dTau, ite_eq_left rfl]
     group
   rw [h]
   exact (dEven m).mul_mem ((dEven m).inv_mem (dPerm_mem_dEven m _)) (dTau_mem_dEven m true hab)
@@ -90,7 +90,7 @@ lemma qtwoDB41_dSign_mem_stab {m : ℕ} {c a b : Fin m} (hab : a ≠ b)
     dSign m a b ∈ dEvenStab m (Pi.single c 1) := by
   refine ⟨qtwoDB41_dSign_mem_dEven hab, ?_⟩
   have hb : Pi.single c 1 = dBasis m c := (Pi.basisFun_apply (ZMod 3) (Fin m) c).symm
-  rw [hb, dSign_apply, if_neg (fun h => h.elim (fun h1 => hca h1.symm) (fun h2 => hcb h2.symm))]
+  rw [hb, dSign_apply, ite_eq_right (fun h => h.elim (fun h1 => hca h1.symm) (fun h2 => hcb h2.symm))]
   simp
 
 lemma qtwoDB41_mem_supp_map_dPerm {m : ℕ} {H : Submodule (ZMod 3) (DVec m)}
@@ -137,16 +137,16 @@ lemma qtwoDB41_mem_supp_map_dSign {m : ℕ} {H : Submodule (ZMod 3) (DVec m)}
   have hiff : ((if i = a ∨ i = b then (-1 : ZMod 3) else 1) • dBasis m i ∈ H) ↔
       dBasis m i ∈ H := by
     by_cases hi : i = a ∨ i = b
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       simp
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       simp
   exact not_congr hiff
 
 lemma qtwoDB41_dSign_ne {m : ℕ} {H : Submodule (ZMod 3) (DVec m)}
     {f : Module.Dual (ZMod 3) (DVec m)} (hf : H = LinearMap.ker f)
-    {a b c' : Fin m} (hab : a ≠ b) (hca : c' ≠ a) (hcb : c' ≠ b)
-    (ha : f (dBasis m a) ≠ 0) (hb : f (dBasis m b) ≠ 0) (hc : f (dBasis m c') ≠ 0) :
+    {a b c' : Fin m} (_hab : a ≠ b) (hca : c' ≠ a) (hcb : c' ≠ b)
+    (ha : f (dBasis m a) ≠ 0) (_hb : f (dBasis m b) ≠ 0) (hc : f (dBasis m c') ≠ 0) :
     H.map (dSign m a b).toLinearMap ≠ H := by
   intro heq
   have hmap := qtwoDB41_map_eq_ker hf (dSign m a b)
@@ -162,7 +162,7 @@ lemma qtwoDB41_dSign_ne {m : ℕ} {H : Submodule (ZMod 3) (DVec m)}
     have h1 := congrFun (congrArg DFunLike.coe hmu) (dBasis m c')
     simp only [LinearMap.comp_apply, LinearMap.smul_apply, smul_eq_mul,
       LinearEquiv.coe_toLinearMap] at h1
-    rw [qtwoDB41_dSign_symm_apply, dSign_apply, if_neg (by
+    rw [qtwoDB41_dSign_symm_apply, dSign_apply, ite_eq_right (by
       intro h; exact h.elim (fun h1 => hca h1) (fun h2 => hcb h2))] at h1
     simp only [one_smul] at h1
     have h1' : mu * f (dBasis m c') = 1 * f (dBasis m c') := by
@@ -171,7 +171,7 @@ lemma qtwoDB41_dSign_ne {m : ℕ} {H : Submodule (ZMod 3) (DVec m)}
   have h2 := congrFun (congrArg DFunLike.coe hmu) (dBasis m a)
   simp only [LinearMap.comp_apply, LinearMap.smul_apply, smul_eq_mul, hmu_eq, one_mul,
     LinearEquiv.coe_toLinearMap] at h2
-  rw [qtwoDB41_dSign_symm_apply, dSign_apply, if_pos (Or.inl rfl), map_smul] at h2
+  rw [qtwoDB41_dSign_symm_apply, dSign_apply, ite_eq_left (Or.inl rfl), map_smul] at h2
   have hzero : f (dBasis m a) = 0 := by
     have h2' : (-1 : ZMod 3) * f (dBasis m a) = f (dBasis m a) := by
       simpa using h2
@@ -223,18 +223,18 @@ lemma qtwoDB41_supp_nonempty {m : ℕ} (hm : 1 ≤ m) {H : Submodule (ZMod 3) (D
 lemma qtwoDB41_dSign_apply_of_ne {m : ℕ} (f : Module.Dual (ZMod 3) (DVec m))
     {a b i : Fin m} (hia : i ≠ a) (hib : i ≠ b) :
     f ((dSign m a b) (dBasis m i)) = f (dBasis m i) := by
-  rw [dSign_apply, if_neg (fun h => h.elim hia hib), map_smul, one_smul]
+  rw [dSign_apply, ite_eq_right (fun h => h.elim hia hib), map_smul, one_smul]
 
 lemma qtwoDB41_dSign_apply_self {m : ℕ} (f : Module.Dual (ZMod 3) (DVec m))
-    {a b : Fin m} (hab : a ≠ b) :
+    {a b : Fin m} (_hab : a ≠ b) :
     f ((dSign m a b) (dBasis m a)) = -f (dBasis m a) := by
-  rw [dSign_apply, if_pos (Or.inl rfl), map_smul, smul_eq_mul]
+  rw [dSign_apply, ite_eq_left (Or.inl rfl), map_smul, smul_eq_mul]
   ring
 
 lemma qtwoDB41_dSign_apply_right {m : ℕ} (f : Module.Dual (ZMod 3) (DVec m))
-    {a b : Fin m} (hab : a ≠ b) :
+    {a b : Fin m} (_hab : a ≠ b) :
     f ((dSign m a b) (dBasis m b)) = -f (dBasis m b) := by
-  rw [dSign_apply, if_pos (Or.inr rfl), map_smul, smul_eq_mul]
+  rw [dSign_apply, ite_eq_left (Or.inr rfl), map_smul, smul_eq_mul]
   ring
 
 lemma qtwoDB41_mem_supp_map_dSign' {m : ℕ} {H : Submodule (ZMod 3) (DVec m)}
@@ -257,7 +257,7 @@ lemma qtwoDB41_dSign_symm_toLinearMap {m : ℕ} (a b : Fin m) :
   rw [qtwoDB41_dSign_symm_apply]
 
 lemma qtwoDB41_exists_third {m : ℕ} {B : Finset (Fin m)} (hB : 3 ≤ B.card)
-    {a b : Fin m} (ha : a ∈ B) (hb : b ∈ B) (hab : a ≠ b) :
+    {a b : Fin m} (_ha : a ∈ B) (_hb : b ∈ B) (_hab : a ≠ b) :
     ∃ c' ∈ B, c' ≠ a ∧ c' ≠ b := by
   by_contra h
   have hsub : B ⊆ {a, b} := by
@@ -294,7 +294,7 @@ lemma qtwoDB41_dSign_family_inj {m : ℕ} {H : Submodule (ZMod 3) (DVec m)}
     {f : Module.Dual (ZMod 3) (DVec m)} (hfker : H = LinearMap.ker f)
     {B : Finset (Fin m)} {a x x' : Fin m}
     (hfsupp : ∀ i, i ∈ B → f (dBasis m i) ≠ 0)
-    (haB : a ∈ B) (hxB : x ∈ B) (hx'B : x' ∈ B)
+    (haB : a ∈ B) (hxB : x ∈ B) (_hx'B : x' ∈ B)
     (hxa : x ≠ a) (hx'a : x' ≠ a)
     (heq : H.map (dSign m a x).toLinearMap = H.map (dSign m a x').toLinearMap) :
     x = x' := by

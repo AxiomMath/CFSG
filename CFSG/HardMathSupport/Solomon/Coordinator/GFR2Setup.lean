@@ -12,6 +12,7 @@ open CFSG.HardMathSupport.Solomon.LocalBalance.Lemma512Ns
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem gfr2_le_conjHull {a : G} {J : Subgroup G} : J ≤ conjHull a J := by
   have := le_iSup₂ (f := fun g (_ : g ∈ GLAPLayer 3 (Cen a)) => GLBConj g J) 1 (one_mem _)
   rwa [gLBConj_one] at this

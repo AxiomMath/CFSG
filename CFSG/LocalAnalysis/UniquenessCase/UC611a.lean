@@ -99,22 +99,27 @@ section Pres
 
 variable {R B : Subgroup G} {ι : QuaternionGroup 2 →* G}
 
+omit [Finite G] in
 theorem uc611_pres_mul_mem (h : Q8CCPres R B ι) (X : QuaternionGroup 2) {b : G} (hb : b ∈ B) :
     ι X * b ∈ R := (h.mem_R _).2 ⟨X, b, hb, rfl⟩
 
+omit [Finite G] in
 theorem uc611_pres_range_mem (h : Q8CCPres R B ι) (X : QuaternionGroup 2) : ι X ∈ R := by
   simpa using uc611_pres_mul_mem h X B.one_mem
 
+omit [Finite G] in
 theorem uc611_pres_B_mem (h : Q8CCPres R B ι) {b : G} (hb : b ∈ B) : b ∈ R := by
   simpa using uc611_pres_mul_mem h 1 hb
 
+omit [Finite G] in
 theorem uc611_pres_comm_R (h : Q8CCPres R B ι) {b r : G} (hb : b ∈ B) (hr : r ∈ R) :
     b * r = r * b := by
-  haveI := h.cyc
+  have := h.cyc
   obtain ⟨X, b', hb', rfl⟩ := (h.mem_R r).1 hr
   exact (Commute.mul_right (h.comm X b hb).symm (setLike_mul_comm hb hb') :
     Commute b (ι X * b')).eq
 
+omit [Finite G] in
 theorem uc611_pres_mem_of_central (h : Q8CCPres R B ι) {r : G} (hr : r ∈ R)
     (hc : ∀ r' ∈ R, r * r' = r' * r) : r ∈ B := by
   obtain ⟨X, b, hb, rfl⟩ := (h.mem_R r).1 hr
@@ -130,6 +135,7 @@ theorem uc611_pres_mem_of_central (h : Q8CCPres R B ι) {r : G} (hr : r ∈ R)
     exact (mul_right_cancel h2).symm
   exact B.mul_mem ((h.mem_iff X).2 ((CFSG.Semidihedral.Local.qEight_center X).1 hX)) hb
 
+omit [Finite G] in
 theorem uc611_pres_conj_mem (h : Q8CCPres R B ι) {w : G} (hw : w ∈ normalizer (R : Set G)) {b : G}
     (hb : b ∈ B) : w * b * w⁻¹ ∈ B := by
   have hwR : w * b * w⁻¹ ∈ R := (mem_normalizer_iff.1 hw b).1 (uc611_pres_B_mem h hb)
@@ -140,6 +146,7 @@ theorem uc611_pres_conj_mem (h : Q8CCPres R B ι) {w : G} (hw : w ∈ normalizer
     _ = w * ((w⁻¹ * r * w) * b) * w⁻¹ := by rw [h1]
     _ = r * (w * b * w⁻¹) := by group
 
+omit [Finite G] in
 theorem uc611_pres_c (h : Q8CCPres R B ι) :
     ι (QuaternionGroup.a 2) ∈ B ∧ ι (QuaternionGroup.a 2) ≠ 1 ∧ ι (QuaternionGroup.a 2) ^ 2 = 1 := by
   refine ⟨(h.mem_iff _).2 (Or.inr rfl), fun h1 => ?_, ?_⟩
@@ -148,12 +155,12 @@ theorem uc611_pres_c (h : Q8CCPres R B ι) :
 
 theorem uc611_pres_eq_of_sq (h : Q8CCPres R B ι) {b : G} (hb : b ∈ B) (hb2 : b ^ 2 = 1) :
     b = 1 ∨ b = ι (QuaternionGroup.a 2) := by
-  haveI := h.cyc
+  have := h.cyc
   classical
   by_contra hne
   obtain ⟨hne1, hne2⟩ := not_or.1 hne
   obtain ⟨hc, hc1, hc2⟩ := uc611_pres_c h
-  letI : Fintype ↥B := Fintype.ofFinite _
+  let : Fintype ↥B := Fintype.ofFinite _
   have key := IsCyclic.card_pow_eq_one_le (α := ↥B) (n := 2) (by norm_num)
   have hsub : ({1, ⟨_, hc⟩, ⟨b, hb⟩} : Finset ↥B) ⊆
       Finset.univ.filter (fun a : ↥B => a ^ 2 = 1) := by
@@ -174,7 +181,7 @@ theorem uc611_pres_eq_of_sq (h : Q8CCPres R B ι) {b : G} (hb : b ∈ B) (hb2 : 
 
 theorem uc611_pres_comm_z (h : Q8CCPres R B ι) {n : ℕ} (hn : Nat.card B = 2 ^ n) {z : G}
     (hz3 : z ^ 3 = 1) (hzR : z ∈ normalizer (R : Set G)) : ∀ b ∈ B, z * b = b * z := by
-  haveI := h.cyc
+  have := h.cyc
   have hzB : z ∈ normalizer (B : Set G) := by
     rw [mem_normalizer_iff]
     intro b
@@ -254,6 +261,7 @@ theorem uc611_pres_commutator (h : Q8CCPres R B ι) {w : G} (hw : w ∈ normaliz
 
 end Pres
 
+omit [Finite G] in
 theorem uc611_exists_aut {ι : QuaternionGroup 2 →* G} (hι : Function.Injective ι) {z : G}
     (hz : ∀ X, ∃ Y, z * ι X * z⁻¹ = ι Y) :
     ∃ φ : QuaternionGroup 2 →* QuaternionGroup 2, ∀ X, ι (φ X) = z * ι X * z⁻¹ := by
@@ -278,7 +286,7 @@ theorem uc611_pres_of {R : Subgroup G} {n : ℕ} (hR : rankThreeIsQ8CentralCycli
     apply hι
     rw [map_pow, map_one, h2]
   have hc : ι (QuaternionGroup.a 2) ∈ B := by
-    haveI : Nontrivial ↥(A ⊓ B) := Finite.one_lt_card_iff_nontrivial.1 (by rw [hinf]; norm_num)
+    have : Nontrivial ↥(A ⊓ B) := Finite.one_lt_card_iff_nontrivial.1 (by rw [hinf]; norm_num)
     obtain ⟨⟨y, hyA, hyB⟩, hy1⟩ := exists_ne (1 : ↥(A ⊓ B))
     obtain ⟨Y, rfl⟩ := hAι y hyA
     have hY1 : Y ≠ 1 := fun h' => hy1 (Subtype.ext (by simp [h']))
@@ -411,7 +419,7 @@ theorem uc611_q8cc_cyclic {R : Subgroup G} {n : ℕ} (hR : rankThreeIsQ8CentralC
     {T : Subgroup G} (hTR : T ≤ R) (hT : IsMulCommutative T) (hzT : z ∈ normalizer (T : Set G)) :
     IsCyclic ↥T := by
   obtain ⟨B, -, -, hBc, -, -, -, hT'⟩ := uc611_q8cc_core hR hz3 hzR hnt
-  haveI := hBc
+  have := hBc
   exact Subgroup.isCyclic_of_le (hT' T hTR hT hzT)
 
 end CFSG.LocalAnalysis.UniquenessCase.UC6

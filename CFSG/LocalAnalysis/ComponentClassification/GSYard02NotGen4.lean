@@ -63,7 +63,7 @@ lemma negU_central (g : GL (Fin 4) F) : negU * g = g * negU := by
 lemma zsU_central (b : Bool) (g : GL (Fin 4) F) : zsU b * g = g * zsU b := by
   cases b
   · simp [zsU]
-  · simp only [zsU, if_true]; exact negU_central g
+  · simp only [zsU, ite_true]; exact negU_central g
 
 lemma negU_mul_negU : negU * negU = (1 : GL (Fin 4) F) := by
   apply Units.ext; simp [negU]
@@ -93,8 +93,8 @@ lemma gr_0_1 (i : F) (hi : i * i = -1) :
   apply Units.ext
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+    simp [gen, sig, zsU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
+      Matrix.mul_apply, Fin.sum_univ_four]
 
 lemma gr_0_2 (i : F) (hi : i * i = -1) :
     gen i hi 0 * gen i hi 2 = zsU (sig 0 2) * (gen i hi 2 * gen i hi 0) := by
@@ -102,31 +102,31 @@ lemma gr_0_2 (i : F) (hi : i * i = -1) :
   ext a b
   fin_cases a <;> fin_cases b <;>
     simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply]
 
 lemma gr_0_3 (i : F) (hi : i * i = -1) :
     gen i hi 0 * gen i hi 3 = zsU (sig 0 3) * (gen i hi 3 * gen i hi 0) := by
   apply Units.ext
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+    simp [gen, sig, zsU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
+      Matrix.mul_apply, Fin.sum_univ_four]
 
 lemma gr_0_4 (i : F) (hi : i * i = -1) :
     gen i hi 0 * gen i hi 4 = zsU (sig 0 4) * (gen i hi 4 * gen i hi 0) := by
   apply Units.ext
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+    simp [gen, sig, zsU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
+      Matrix.mul_apply, Matrix.one_apply]
 
 lemma gr_1_0 (i : F) (hi : i * i = -1) :
     gen i hi 1 * gen i hi 0 = zsU (sig 1 0) * (gen i hi 0 * gen i hi 1) := by
   apply Units.ext
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+    simp [gen, sig, zsU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
+      Matrix.mul_apply, Fin.sum_univ_four]
 
 lemma gr_1_1 (i : F) (hi : i * i = -1) :
     gen i hi 1 * gen i hi 1 = zsU (sig 1 1) * (gen i hi 1 * gen i hi 1) := by
@@ -137,8 +137,8 @@ lemma gr_1_2 (i : F) (hi : i * i = -1) :
   apply Units.ext
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+    simp [gen, sig, zsU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
+      Matrix.mul_apply, Fin.sum_univ_four]
 
 lemma gr_1_3 (i : F) (hi : i * i = -1) :
     gen i hi 1 * gen i hi 3 = zsU (sig 1 3) * (gen i hi 3 * gen i hi 1) := by
@@ -146,15 +146,15 @@ lemma gr_1_3 (i : F) (hi : i * i = -1) :
   ext a b
   fin_cases a <;> fin_cases b <;>
     simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply]
 
 lemma gr_1_4 (i : F) (hi : i * i = -1) :
     gen i hi 1 * gen i hi 4 = zsU (sig 1 4) * (gen i hi 4 * gen i hi 1) := by
   apply Units.ext
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+    simp [gen, sig, zsU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
+      Matrix.mul_apply, Matrix.one_apply]
 
 lemma gr_2_0 (i : F) (hi : i * i = -1) :
     gen i hi 2 * gen i hi 0 = zsU (sig 2 0) * (gen i hi 0 * gen i hi 2) := by
@@ -162,15 +162,15 @@ lemma gr_2_0 (i : F) (hi : i * i = -1) :
   ext a b
   fin_cases a <;> fin_cases b <;>
     simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply]
 
 lemma gr_2_1 (i : F) (hi : i * i = -1) :
     gen i hi 2 * gen i hi 1 = zsU (sig 2 1) * (gen i hi 1 * gen i hi 2) := by
   apply Units.ext
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+    simp [gen, sig, zsU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
+      Matrix.mul_apply, Fin.sum_univ_four]
 
 lemma gr_2_2 (i : F) (hi : i * i = -1) :
     gen i hi 2 * gen i hi 2 = zsU (sig 2 2) * (gen i hi 2 * gen i hi 2) := by
@@ -181,24 +181,24 @@ lemma gr_2_3 (i : F) (hi : i * i = -1) :
   apply Units.ext
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+    simp [gen, sig, zsU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
+      Matrix.mul_apply, Fin.sum_univ_four]
 
 lemma gr_2_4 (i : F) (hi : i * i = -1) :
     gen i hi 2 * gen i hi 4 = zsU (sig 2 4) * (gen i hi 4 * gen i hi 2) := by
   apply Units.ext
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+    simp [gen, sig, zsU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
+      Matrix.mul_apply, Matrix.one_apply]
 
 lemma gr_3_0 (i : F) (hi : i * i = -1) :
     gen i hi 3 * gen i hi 0 = zsU (sig 3 0) * (gen i hi 0 * gen i hi 3) := by
   apply Units.ext
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+    simp [gen, sig, zsU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
+      Matrix.mul_apply, Fin.sum_univ_four]
 
 lemma gr_3_1 (i : F) (hi : i * i = -1) :
     gen i hi 3 * gen i hi 1 = zsU (sig 3 1) * (gen i hi 1 * gen i hi 3) := by
@@ -206,15 +206,15 @@ lemma gr_3_1 (i : F) (hi : i * i = -1) :
   ext a b
   fin_cases a <;> fin_cases b <;>
     simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply]
 
 lemma gr_3_2 (i : F) (hi : i * i = -1) :
     gen i hi 3 * gen i hi 2 = zsU (sig 3 2) * (gen i hi 2 * gen i hi 3) := by
   apply Units.ext
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+    simp [gen, sig, zsU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
+      Matrix.mul_apply, Fin.sum_univ_four]
 
 lemma gr_3_3 (i : F) (hi : i * i = -1) :
     gen i hi 3 * gen i hi 3 = zsU (sig 3 3) * (gen i hi 3 * gen i hi 3) := by
@@ -225,40 +225,40 @@ lemma gr_3_4 (i : F) (hi : i * i = -1) :
   apply Units.ext
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+    simp [gen, sig, zsU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
+      Matrix.mul_apply, Matrix.one_apply]
 
 lemma gr_4_0 (i : F) (hi : i * i = -1) :
     gen i hi 4 * gen i hi 0 = zsU (sig 4 0) * (gen i hi 0 * gen i hi 4) := by
   apply Units.ext
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+    simp [gen, sig, zsU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
+      Matrix.mul_apply, Matrix.one_apply]
 
 lemma gr_4_1 (i : F) (hi : i * i = -1) :
     gen i hi 4 * gen i hi 1 = zsU (sig 4 1) * (gen i hi 1 * gen i hi 4) := by
   apply Units.ext
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+    simp [gen, sig, zsU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
+      Matrix.mul_apply, Matrix.one_apply]
 
 lemma gr_4_2 (i : F) (hi : i * i = -1) :
     gen i hi 4 * gen i hi 2 = zsU (sig 4 2) * (gen i hi 2 * gen i hi 4) := by
   apply Units.ext
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+    simp [gen, sig, zsU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
+      Matrix.mul_apply, Matrix.one_apply]
 
 lemma gr_4_3 (i : F) (hi : i * i = -1) :
     gen i hi 4 * gen i hi 3 = zsU (sig 4 3) * (gen i hi 3 * gen i hi 4) := by
   apply Units.ext
   ext a b
   fin_cases a <;> fin_cases b <;>
-    simp [gen, sig, zsU, negU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, hi]
+    simp [gen, sig, zsU, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4',
+      Matrix.mul_apply, Matrix.one_apply]
 
 lemma gr_4_4 (i : F) (hi : i * i = -1) :
     gen i hi 4 * gen i hi 4 = zsU (sig 4 4) * (gen i hi 4 * gen i hi 4) := by
@@ -300,7 +300,7 @@ lemma fac_rel (i : F) (hi : i * i = -1) (k j : Fin 5) (e : Bool) :
     gen i hi k * fac i hi e j = zsU (e && sig k j) * (fac i hi e j * gen i hi k) := by
   cases e
   · simp [fac, zsU]
-  · simp only [fac, Bool.true_and, if_true]
+  · simp only [fac, Bool.true_and, ite_true]
     exact gen_rel i hi k j
 
 lemma comm_mul {g x y : GL (Fin 4) F} {a c : Bool} (hx : g * x = zsU a * (x * g))
@@ -348,12 +348,12 @@ lemma negU_mem (i : F) (hi : i * i = -1) : (negU : GL (Fin 4) F) ∈ Hgrp i hi :
 
 lemma zsU_mem (i : F) (hi : i * i = -1) (b : Bool) : zsU (F := F) b ∈ Hgrp i hi := by
   cases b
-  · simpa [zsU] using (Hgrp i hi).one_mem
+  · simp [zsU]
   · simpa [zsU] using negU_mem i hi
 
 lemma fac_mem (i : F) (hi : i * i = -1) (e : Bool) (j : Fin 5) : fac i hi e j ∈ Hgrp i hi := by
   cases e
-  · simpa [fac] using (Hgrp i hi).one_mem
+  · simp [fac]
   · simpa [fac] using gen_mem i hi j
 
 lemma prodE_mem (i : F) (hi : i * i = -1) (e : Fin 5 → Bool) : prodE i hi e ∈ Hgrp i hi :=
@@ -383,7 +383,7 @@ lemma gsq_3 (i : F) (hi : i * i = -1) : gen i hi 3 * gen i hi 3 = negU := by
 
 lemma gsq_4 (i : F) (hi : i * i = -1) : gen i hi 4 * gen i hi 4 = negU := by
   apply Units.ext; ext a b; fin_cases a <;> fin_cases b <;>
-    simp [gen, scalarU, negU, hi, Matrix.one_apply]
+    simp [gen, scalarU, negU, hi]
 
 lemma gen_sq_mem (i : F) (hi : i * i = -1) (k : Fin 5) :
     gen i hi k * gen i hi k = 1 ∨ gen i hi k * gen i hi k = negU := by
@@ -516,7 +516,7 @@ theorem core_contra [Finite F] (h2 : (2 : F) ≠ 0) {i : F} (hi : i * i = -1)
     exact hT k
   obtain ⟨ψ, hψ⟩ : ∃ ψ : Hgrp i hi →* Y, ∀ x : Hgrp i hi, ψ x = φ ⟨x.1, hHT x.2⟩ :=
     ⟨φ.comp (Subgroup.inclusion hHT), fun x => rfl⟩
-  haveI hPf : Finite ψ.range :=
+  have hPf : Finite ψ.range :=
     Finite.of_surjective ψ.rangeRestrict (MonoidHom.rangeRestrict_surjective ψ)
   obtain ⟨w, hw⟩ : ∃ w : ψ.range, (w : Y) = ψ ⟨negU, negU_mem i hi⟩ :=
     ⟨⟨ψ ⟨negU, negU_mem i hi⟩, MonoidHom.mem_range.mpr ⟨_, rfl⟩⟩, rfl⟩
@@ -533,7 +533,7 @@ theorem core_contra [Finite F] (h2 : (2 : F) ≠ 0) {i : F} (hi : i * i = -1)
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hn
     rw [((show Commute g w from hwc g).zpow_right k).eq, mul_inv_cancel_right]
     exact Subgroup.zpow_mem _ (Subgroup.mem_zpowers w) k
-  haveI := hN
+  have := hN
   obtain ⟨πQ, hπQ⟩ : ∃ π : Hgrp i hi →* (ψ.range ⧸ Subgroup.zpowers w),
       ∀ x : Hgrp i hi, π x = QuotientGroup.mk ⟨ψ x, MonoidHom.mem_range.mpr ⟨x, rfl⟩⟩ :=
     ⟨(QuotientGroup.mk' (Subgroup.zpowers w)).comp ψ.rangeRestrict, fun x => rfl⟩
@@ -665,7 +665,7 @@ lemma det4_expand (M : Matrix (Fin 4) (Fin 4) F) :
 lemma det_0 (i : F) (hi : i * i = -1) :
     ((gen i hi 0 : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F).det = 1 := by
   rw [det4_expand]
-  simp [gen, U1, mat1] <;> ring
+  simp [gen, U1, mat1]
 
 lemma unit_0 (q : ℕ) (hq : Odd q) (hq4 : q % 4 = 3) (i : F) (hi : i * i = -1) :
     (((gen i hi 0 : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F).map (· ^ q))ᵀ *
@@ -673,15 +673,14 @@ lemma unit_0 (q : ℕ) (hq : Odd q) (hq4 : q % 4 = 3) (i : F) (hi : i * i = -1) 
   obtain ⟨hiq, hneg⟩ := usu_pre q hq hq4 i hi
   have hq0 : q ≠ 0 := by omega
   ext a b; fin_cases a <;> fin_cases b <;>
-    simp [gen, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4', hiq, hneg, hq0,
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, Matrix.transpose_apply,
-      Matrix.map_apply, zero_pow hq0, one_pow, hi] <;> ring
+    simp [gen, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4', Matrix.mul_apply, Fin.sum_univ_four, Matrix.transpose_apply,
+      Matrix.map_apply, zero_pow hq0, one_pow]
 
 lemma det_1 (i : F) (hi : i * i = -1) :
     ((gen i hi 1 : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F).det = 1 := by
   have h4 : i ^ 4 = 1 := by linear_combination (i * i - 1) * hi
   simp +decide [gen, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, Matrix.det_succ_row_zero,
-    Fin.sum_univ_succ, Matrix.det_smul, h4] <;> ring
+    Fin.sum_univ_succ]
 
 lemma unit_1 (q : ℕ) (hq : Odd q) (hq4 : q % 4 = 3) (i : F) (hi : i * i = -1) :
     (((gen i hi 1 : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F).map (· ^ q))ᵀ *
@@ -689,15 +688,14 @@ lemma unit_1 (q : ℕ) (hq : Odd q) (hq4 : q % 4 = 3) (i : F) (hi : i * i = -1) 
   obtain ⟨hiq, hneg⟩ := usu_pre q hq hq4 i hi
   have hq0 : q ≠ 0 := by omega
   ext a b; fin_cases a <;> fin_cases b <;>
-    simp [gen, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4', hiq, hneg, hq0,
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, Matrix.transpose_apply,
-      Matrix.map_apply, zero_pow hq0, one_pow, hi] <;> ring
+    simp [gen, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4', hneg, Matrix.mul_apply, Fin.sum_univ_four, Matrix.transpose_apply,
+      Matrix.map_apply, zero_pow hq0, one_pow]
 
 lemma det_2 (i : F) (hi : i * i = -1) :
     ((gen i hi 2 : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F).det = 1 := by
   have h4 : i ^ 4 = 1 := by linear_combination (i * i - 1) * hi
   simp +decide [gen, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, Matrix.det_succ_row_zero,
-    Fin.sum_univ_succ, Matrix.det_smul, h4] <;> ring
+    Fin.sum_univ_succ]
 
 lemma unit_2 (q : ℕ) (hq : Odd q) (hq4 : q % 4 = 3) (i : F) (hi : i * i = -1) :
     (((gen i hi 2 : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F).map (· ^ q))ᵀ *
@@ -705,14 +703,13 @@ lemma unit_2 (q : ℕ) (hq : Odd q) (hq4 : q % 4 = 3) (i : F) (hi : i * i = -1) 
   obtain ⟨hiq, hneg⟩ := usu_pre q hq hq4 i hi
   have hq0 : q ≠ 0 := by omega
   ext a b; fin_cases a <;> fin_cases b <;>
-    simp [gen, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4', hiq, hneg, hq0,
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, Matrix.transpose_apply,
-      Matrix.map_apply, zero_pow hq0, one_pow, hi] <;> ring
+    simp [gen, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4', hneg, Matrix.mul_apply, Fin.sum_univ_four, Matrix.transpose_apply,
+      Matrix.map_apply, zero_pow hq0, one_pow]
 
 lemma det_3 (i : F) (hi : i * i = -1) :
     ((gen i hi 3 : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F).det = 1 := by
   rw [det4_expand]
-  simp [gen, U4, mat4] <;> ring
+  simp [gen, U4, mat4]
 
 lemma unit_3 (q : ℕ) (hq : Odd q) (hq4 : q % 4 = 3) (i : F) (hi : i * i = -1) :
     (((gen i hi 3 : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F).map (· ^ q))ᵀ *
@@ -720,15 +717,13 @@ lemma unit_3 (q : ℕ) (hq : Odd q) (hq4 : q % 4 = 3) (i : F) (hi : i * i = -1) 
   obtain ⟨hiq, hneg⟩ := usu_pre q hq hq4 i hi
   have hq0 : q ≠ 0 := by omega
   ext a b; fin_cases a <;> fin_cases b <;>
-    simp [gen, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4', hiq, hneg, hq0,
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, Matrix.transpose_apply,
-      Matrix.map_apply, zero_pow hq0, one_pow, hi] <;> ring
+    simp [gen, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4', hneg, Matrix.mul_apply, Fin.sum_univ_four, Matrix.transpose_apply,
+      Matrix.map_apply, zero_pow hq0, one_pow]
 
 lemma det_4 (i : F) (hi : i * i = -1) :
     ((gen i hi 4 : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F).det = 1 := by
   have h4 : i ^ 4 = 1 := by linear_combination (i * i - 1) * hi
-  simp +decide [gen, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, Matrix.det_succ_row_zero,
-    Fin.sum_univ_succ, Matrix.det_smul, h4] <;> ring
+  simp +decide [gen, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, h4]
 
 lemma unit_4 (q : ℕ) (hq : Odd q) (hq4 : q % 4 = 3) (i : F) (hi : i * i = -1) :
     (((gen i hi 4 : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F).map (· ^ q))ᵀ *
@@ -736,9 +731,8 @@ lemma unit_4 (q : ℕ) (hq : Odd q) (hq4 : q % 4 = 3) (i : F) (hi : i * i = -1) 
   obtain ⟨hiq, hneg⟩ := usu_pre q hq hq4 i hi
   have hq0 : q ≠ 0 := by omega
   ext a b; fin_cases a <;> fin_cases b <;>
-    simp [gen, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4', hiq, hneg, hq0,
-      Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply, Matrix.transpose_apply,
-      Matrix.map_apply, zero_pow hq0, one_pow, hi] <;> ring
+    simp [gen, U1, U2, U3, U4, scalarU, mat1, mat2, mat3, mat4, mat4', hiq, Matrix.mul_apply, Matrix.one_apply, Matrix.transpose_apply,
+      Matrix.map_apply, zero_pow hq0, hi]
 
 theorem mem_statedSU_of_unitary {q : ℕ} {A : GL (Fin 4) F}
     (h1 : (A : Matrix (Fin 4) (Fin 4) F).det = 1)
@@ -773,7 +767,7 @@ theorem not_gen4_of_SL4 {F : Type} [Field F] [Finite F] {i : F} (hi : i * i = -1
   fun hY => core_contra h2 hi (CFSG.Open.StatedSL 4 F) (fun k => gen_mem_SL i hi k) φ hker hY
 
 theorem not_gen4_of_SU4 {F : Type} [Field F] [Finite F] {q : ℕ} (hq : Odd q)
-    (hq4 : q % 4 = 3) (hF : Nat.card F = q ^ 2) {i : F} (hi : i * i = -1)
+    (hq4 : q % 4 = 3) (_hF : Nat.card F = q ^ 2) {i : F} (hi : i * i = -1)
     (h2 : (2 : F) ≠ 0) {Y : Type} [Group Y] (φ : ↥(CFSG.Open.StatedSU 4 q F) →* Y)
     (hker : ∀ g ∈ φ.ker, (g : GL (Fin 4) F) = 1 ∨ (g : GL (Fin 4) F) = -1) :
     ¬ CFSG.GH74.Gen4 Y :=

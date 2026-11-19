@@ -10,7 +10,7 @@ open scoped commutatorElement
 
 theorem uexc_comm_eq_bot {Ω : Type*} [Group Ω] {P Q : Subgroup Ω} (hP : ⁅P, P⁆ = P)
     (hPQ : ⁅P, Q⁆ ≤ Subgroup.centralizer (P : Set Ω)) : ⁅P, Q⁆ = ⊥ := by
-  haveI : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.2 hP
+  have : Group.IsPerfect ↥P := Subgroup.isPerfect_iff.2 hP
   refine CFSG.ComponentClassification.Quasisimple.perfect_double_commutator P Q ?_
   rw [eq_bot_iff, Subgroup.commutator_le]
   intro g hg h hh

@@ -68,7 +68,7 @@ private theorem nontrivial_of_not_actsTrivially_sec9
     (h : ¬ ActsTrivially (A := A) (G := X)) :
     Nontrivial X := by
   by_contra hnt
-  haveI : Subsingleton X := not_nontrivial_iff_subsingleton.mp hnt
+  have : Subsingleton X := not_nontrivial_iff_subsingleton.mp hnt
   exact h (fun a x => Subsingleton.elim (a • x) x)
 
 private theorem nontrivial_of_mulEquiv_sec9
@@ -199,32 +199,32 @@ private theorem theorem_9_4_typeII_core_sec9
   let cf : ChiefFactor M := { V := C, U := MF.subgroupOf M, isChief := hchiefM }
   let π : M →* M ⧸ C := QuotientGroup.mk' C
   let Uq : Subgroup (M ⧸ C) := (MF.subgroupOf M).map π
-  haveI : Uq.Normal := by
+  have : Uq.Normal := by
     simpa [Uq, π, cf] using
       hchiefM.normal_H.map π (QuotientGroup.mk'_surjective C)
-  haveI : IsMinimalNormal Uq := by
+  have : IsMinimalNormal Uq := by
     simpa [Uq, π, cf] using chiefFactor_quotient_isMinimalNormal (G := M) cf
   have hsolvMFsub : Group.IsSolvable (MF.subgroupOf M) := by
     have hsolvMF : Group.IsSolvable MF := by
-      letI : Group.IsNilpotent MF := hMFnil
+      let : Group.IsNilpotent MF := hMFnil
       exact IsNilpotent.to_isSolvable
     let eMF : MF.subgroupOf M ≃* MF :=
       Subgroup.subgroupOfEquivOfLe (H := MF) (K := M) hMFleM
-    letI : Group.IsSolvable MF := hsolvMF
+    let : Group.IsSolvable MF := hsolvMF
     exact Group.isSolvable_of_surjective
       (f := eMF.symm.toMonoidHom) eMF.symm.surjective
-  haveI : Group.IsSolvable Uq := by
-    letI : Group.IsSolvable (MF.subgroupOf M) := hsolvMFsub
+  have : Group.IsSolvable Uq := by
+    let : Group.IsSolvable (MF.subgroupOf M) := hsolvMFsub
     simpa [Uq, π] using
       Group.isSolvable_of_surjective
         (f := π.subgroupMap (MF.subgroupOf M))
         (MonoidHom.subgroupMap_surjective π (MF.subgroupOf M))
   rcases minimalNormal_solvable_exists_isElementaryAbelian (G := M ⧸ C) Uq with
     ⟨p, hpprime, hUqElem⟩
-  haveI : Fact p.Prime := ⟨hpprime⟩
+  have : Fact p.Prime := ⟨hpprime⟩
   have hquotMFsubElem : IsElementaryAbelian p
       (MF.subgroupOf M ⧸ C.subgroupOf (MF.subgroupOf M)) := by
-    haveI : IsElementaryAbelian p Uq := hUqElem
+    have : IsElementaryAbelian p Uq := hUqElem
     exact isElementaryAbelian_of_mulEquiv_sec9
       (quotientSubgroupRangeEquiv (MF.subgroupOf M) C)
   have hquotMFElem : IsElementaryAbelian p (MF ⧸ H0.subgroupOf MF) := by
@@ -239,7 +239,7 @@ private theorem theorem_9_4_typeII_core_sec9
         (MF ⧸ H0.subgroupOf MF) :=
       QuotientGroup.congr (C.subgroupOf (MF.subgroupOf M))
         (H0.subgroupOf MF) eMF hmap_eq
-    haveI : IsElementaryAbelian p
+    have : IsElementaryAbelian p
         (MF.subgroupOf M ⧸ C.subgroupOf (MF.subgroupOf M)) := hquotMFsubElem
     exact isElementaryAbelian_of_mulEquiv_sec9 eQ.symm
   refine ⟨H0, ⟨p, hpprime⟩, ?_⟩
@@ -285,7 +285,7 @@ private theorem pCore_isInvariant_of_normalizes_sec9
     {A MF : Subgroup G} {p : ℕ} [Fact p.Prime]
     [Subgroup.Normalizes A MF] :
     IsInvariant A MF (pCore p MF) := by
-  haveI : (pCore p MF).Characteristic := pCore_characteristic (G := MF) (p := p)
+  have : (pCore p MF).Characteristic := pCore_characteristic (G := MF) (p := p)
   exact isInvariant_of_characteristic (A := A) (G := MF) (pCore p MF)
 
 private theorem theorem_9_4_typeIIIIV_prime_coprime_UW1_sec9
@@ -362,8 +362,8 @@ private theorem theorem_9_4_typeIIIIV_pCore_frattini_nontrivial_sec9
   intro h92 hnot
   let p := Nat.card W2
   have hpcore_p : IsPGroup p (pCore p MF) := pCore_isPGroup (G := MF) (p := p)
-  letI : Fact (IsPGroup p (pCore p MF)) := ⟨hpcore_p⟩
-  letI : IsInvariant U MF (pCore p MF) :=
+  let : Fact (IsPGroup p (pCore p MF)) := ⟨hpcore_p⟩
+  let : IsInvariant U MF (pCore p MF) :=
     pCore_isInvariant_of_normalizes_sec9 (A := U) (MF := MF) (p := p)
   have hcop :
       Nat.Coprime (Nat.card U) (Nat.card (pCore p MF)) := by
@@ -392,10 +392,10 @@ private theorem exists_simple_submodule_nontrivial_of_not_actsTrivially_subgroup
   let ρ : Representation (ZMod p) A (Additive V) :=
     Theory.Representation.ofElementaryAbelianAction (A := A) (G := V) (p := p)
   let instAdd : AddCommGroup ρ.asModule := Representation.instAddCommGroupAsModule ρ
-  letI : AddCommGroup ρ.asModule := instAdd
+  let : AddCommGroup ρ.asModule := instAdd
   let instMod : Module (MonoidAlgebra (ZMod p) A) ρ.asModule :=
     Representation.instModuleMonoidAlgebraAsModule ρ
-  letI : Module (MonoidAlgebra (ZMod p) A) ρ.asModule := instMod
+  let : Module (MonoidAlgebra (ZMod p) A) ρ.asModule := instMod
   have hHker : ¬ H ≤ ρ.ker := by
     intro hHle
     apply hH
@@ -442,10 +442,10 @@ private theorem invariant_subgroup_of_submodule_nontrivial_sec9
             ¬ ∀ h : H, ∀ q : Q, (h : A) • (q : V) = (q : V) := by
   classical
   let instAdd : AddCommGroup ρ.asModule := Representation.instAddCommGroupAsModule ρ
-  letI : AddCommGroup ρ.asModule := instAdd
+  let : AddCommGroup ρ.asModule := instAdd
   let instMod : Module (MonoidAlgebra (ZMod p) A) ρ.asModule :=
     Representation.instModuleMonoidAlgebraAsModule ρ
-  letI : Module (MonoidAlgebra (ZMod p) A) ρ.asModule := instMod
+  let : Module (MonoidAlgebra (ZMod p) A) ρ.asModule := instMod
   intro m hm_nontriv
   let S : Subrepresentation ρ := Subrepresentation.ofSubmodule' m
   let η : Subgroup V ≃o Submodule (ZMod p) (Additive V) :=
@@ -522,14 +522,14 @@ private theorem theorem_9_4_typeIIIIV_frattini_quotient_complement_sec9
   intro h92 Q hQ_inv
   let UW1 : Subgroup G := U ⊔ W1
   let P : Subgroup MF := pCore (Nat.card W2) MF
-  letI : IsInvariant UW1 MF P := by
+  let : IsInvariant UW1 MF P := by
     simpa [UW1, P] using
       pCore_isInvariant_of_normalizes_sec9
         (A := (U ⊔ W1 : Subgroup G)) (MF := MF) (p := Nat.card W2)
-  letI : MulDistribMulAction UW1 (P ⧸ frattini P) :=
+  let : MulDistribMulAction UW1 (P ⧸ frattini P) :=
     quotientMulDistribMulAction (A := UW1) (G := P) (frattini P)
       (isInvariant_of_characteristic (A := UW1) (G := P) (frattini P))
-  haveI : IsInvariant UW1 (P ⧸ frattini P) Q := by
+  have : IsInvariant UW1 (P ⧸ frattini P) Q := by
     simpa [UW1, P] using hQ_inv
   have hcop :
       Nat.Coprime (Nat.card W2) (Nat.card UW1) := by
@@ -538,7 +538,7 @@ private theorem theorem_9_4_typeIIIIV_frattini_quotient_complement_sec9
   have hElem : IsElementaryAbelian (Nat.card W2) (P ⧸ frattini P) := by
     simpa [P] using
       elementaryAbelian_pCore_quotient_frattini (G := MF) (p := Nat.card W2)
-  letI : IsElementaryAbelian (Nat.card W2) (P ⧸ frattini P) := hElem
+  let : IsElementaryAbelian (Nat.card W2) (P ⧸ frattini P) := hElem
   exact exists_isCompl_isInvariant_of_elementaryAbelian_coprime
     (G := P ⧸ frattini P) (A := UW1) (p := Nat.card W2) hcop Q
 
@@ -602,22 +602,22 @@ private theorem theorem_9_4_typeIIIIV_frattini_simple_factor_sec9
   let UW1 : Subgroup G := U ⊔ W1
   let P : Subgroup MF := pCore (Nat.card W2) MF
   let V : Type u := P ⧸ frattini P
-  letI : IsInvariant U MF P :=
+  let : IsInvariant U MF P :=
     pCore_isInvariant_of_normalizes_sec9
       (A := U) (MF := MF) (p := Nat.card W2)
   let hFr_inv_U : IsInvariant U P (frattini P) :=
     isInvariant_of_characteristic (A := U) (G := P) (frattini P)
-  letI : MulAction.QuotientAction U (frattini P) :=
+  let : MulAction.QuotientAction U (frattini P) :=
     quotientAction_of_isInvariant (A := U) (G := P) (frattini P) hFr_inv_U
-  letI : MulDistribMulAction U V :=
+  let : MulDistribMulAction U V :=
     quotientMulDistribMulAction (A := U) (G := P) (frattini P) hFr_inv_U
-  letI : IsInvariant UW1 MF P :=
+  let : IsInvariant UW1 MF P :=
     pCore_isInvariant_of_normalizes_sec9
       (A := UW1) (MF := MF) (p := Nat.card W2)
-  letI : MulDistribMulAction UW1 V :=
+  let : MulDistribMulAction UW1 V :=
     quotientMulDistribMulAction (A := UW1) (G := P) (frattini P)
       (isInvariant_of_characteristic (A := UW1) (G := P) (frattini P))
-  letI : IsElementaryAbelian (Nat.card W2) V := by
+  let : IsElementaryAbelian (Nat.card W2) V := by
     simpa [V, P] using hElem
   have hUsub : ¬ ActsTrivially (A := U.subgroupOf UW1) (G := V) := by
     intro htriv
@@ -674,11 +674,11 @@ private theorem theorem_9_4_typeIIIIV_UW1_frattini_nontrivial_sec9
   apply hU
   intro u x
   let P : Subgroup MF := pCore (Nat.card W2) MF
-  letI : IsInvariant U MF P := by
+  let : IsInvariant U MF P := by
     simpa [P] using
       pCore_isInvariant_of_normalizes_sec9
         (A := U) (MF := MF) (p := Nat.card W2)
-  letI : IsInvariant (U ⊔ W1 : Subgroup G) MF P := by
+  let : IsInvariant (U ⊔ W1 : Subgroup G) MF P := by
     simpa [P] using
       pCore_isInvariant_of_normalizes_sec9
         (A := (U ⊔ W1 : Subgroup G)) (MF := MF) (p := Nat.card W2)
@@ -717,10 +717,10 @@ private theorem not_actsTrivially_quotient_of_isCompl_nontrivial_subgroup_sec9
   classical
   let hC_inv_H : IsInvariant H V C :=
     { invariant := fun h v => hC_inv.invariant (h : A) v }
-  letI : IsInvariant H V C := hC_inv_H
-  letI : MulAction.QuotientAction H C :=
+  let : IsInvariant H V C := hC_inv_H
+  let : MulAction.QuotientAction H C :=
     quotientAction_of_isInvariant (A := H) (G := V) C hC_inv_H
-  letI : MulDistribMulAction H (V ⧸ C) :=
+  let : MulDistribMulAction H (V ⧸ C) :=
     quotientMulDistribMulAction (A := H) (G := V) C hC_inv_H
   intro htriv
   apply hQ_nontriv
@@ -848,7 +848,7 @@ private theorem theorem_9_4_typeIIIIV_liftedH0_subgroupOf_MF_normal_sec9
     (hK_le_centP.trans hcentP_le_centCmap).trans
       (centralizer_le_normalizer Cmap)
   have htop_le_PK : (⊤ : Subgroup MF) ≤ P ⊔ K := by
-    haveI : Group.IsNilpotent MF := hMFnil
+    have : Group.IsNilpotent MF := hMFnil
     have hnilTop : Group.IsNilpotent (↥(⊤ : Subgroup MF)) := by
       exact Group.nilpotent_of_mulEquiv
         (G := MF) (G' := ↥(⊤ : Subgroup MF))
@@ -865,7 +865,7 @@ private theorem theorem_9_4_typeIIIIV_liftedH0_subgroupOf_MF_normal_sec9
     · subst hqp
       exact le_sup_left
     · have hqprime : Nat.Prime q.1 := Nat.prime_of_mem_primeFactors q.1.2
-      letI : Fact (Nat.Prime q.1) := ⟨hqprime⟩
+      let : Fact (Nat.Prime q.1) := ⟨hqprime⟩
       obtain ⟨n, hn⟩ := (pCore_isPGroup (G := MF) (p := q.1)).exists_card_eq
       have hcop : Nat.Coprime p (Nat.card (pCore q.1 MF)) := by
         rw [hn]
@@ -887,8 +887,8 @@ private theorem theorem_9_4_typeIIIIV_liftedH0_subgroupOf_MF_normal_sec9
       htop_le_norm_Cmap (by simp)
     exact ((Subgroup.mem_normalizer_iff.mp hg_norm n).1 hn)
   have hH0MF_normal : (Cmap ⊔ K).Normal := by
-    haveI : Cmap.Normal := hCmap_normal
-    haveI : K.Normal := by
+    have : Cmap.Normal := hCmap_normal
+    have : K.Normal := by
       simpa [K] using (pPrimeCore_normal (G := MF) (p := p))
     exact Subgroup.sup_normal Cmap K
   rw [theorem_9_4_typeIIIIV_liftedH0_subgroupOf_MF_eq_sec9]
@@ -905,7 +905,7 @@ private theorem isInvariant_comap_quotient_mk'_sec9
       IsInvariant A (R ⧸ N) Q) :
     IsInvariant A R (Q.comap (QuotientGroup.mk' N)) := by
   classical
-  letI : MulDistribMulAction A (R ⧸ N) :=
+  let : MulDistribMulAction A (R ⧸ N) :=
     quotientMulDistribMulAction (A := A) (G := R) N hN_inv
   have hQ_inv' : IsInvariant A (R ⧸ N) Q := hQ_inv
   refine ⟨?_⟩
@@ -955,11 +955,11 @@ private theorem theorem_9_4_typeIIIIV_liftedH0_subgroupOf_MF_isInvariant_sec9
   let C : Subgroup P := Qcompl.comap (QuotientGroup.mk' (frattini P))
   let Cmap : Subgroup MF := C.map P.subtype
   let K : Subgroup MF := pPrimeCore p MF
-  letI : IsInvariant A MF P :=
+  let : IsInvariant A MF P :=
     pCore_isInvariant_of_normalizes_sec9 (A := A) (MF := MF) (p := p)
   let hFr_inv : IsInvariant A P (frattini P) :=
     isInvariant_of_characteristic (A := A) (G := P) (frattini P)
-  letI : MulDistribMulAction A (P ⧸ frattini P) :=
+  let : MulDistribMulAction A (P ⧸ frattini P) :=
     quotientMulDistribMulAction (A := A) (G := P) (frattini P) hFr_inv
   have hQcompl_inv' : IsInvariant A (P ⧸ frattini P) Qcompl := by
     simpa [P] using hQcompl_inv
@@ -968,14 +968,14 @@ private theorem theorem_9_4_typeIIIIV_liftedH0_subgroupOf_MF_isInvariant_sec9
       isInvariant_comap_quotient_mk'_sec9
         (A := A) (R := P) (N := frattini P) hFr_inv Qcompl hQcompl_inv'
   have hCmap_inv : IsInvariant A MF Cmap := by
-    haveI : IsInvariant A P C := hC_inv
+    have : IsInvariant A P C := hC_inv
     simpa [Cmap] using isInvariant_map_subtype (A := A) (G := MF) P C
   have hK_inv : IsInvariant A MF K := by
     simpa [K] using
       isInvariant_of_characteristic (A := A) (G := MF) (pPrimeCore p MF)
   have hsup_inv : IsInvariant A MF (Cmap ⊔ K) := by
-    haveI : IsInvariant A MF Cmap := hCmap_inv
-    haveI : IsInvariant A MF K := hK_inv
+    have : IsInvariant A MF Cmap := hCmap_inv
+    have : IsInvariant A MF K := hK_inv
     exact isInvariant_sup Cmap K
   rw [theorem_9_4_typeIIIIV_liftedH0_subgroupOf_MF_eq_sec9]
   simpa [P, C, Cmap, K] using hsup_inv
@@ -1111,7 +1111,7 @@ private theorem nilpotent_top_le_pCore_sup_pPrimeCore_sec9
     (hQnil : Group.IsNilpotent Q) :
     (⊤ : Subgroup Q) ≤ pCore p Q ⊔ pPrimeCore p Q := by
   classical
-  haveI : Group.IsNilpotent Q := hQnil
+  have : Group.IsNilpotent Q := hQnil
   have hnilTop : Group.IsNilpotent (↥(⊤ : Subgroup Q)) := by
     exact Group.nilpotent_of_mulEquiv
       (G := Q) (G' := ↥(⊤ : Subgroup Q))
@@ -1127,7 +1127,7 @@ private theorem nilpotent_top_le_pCore_sup_pPrimeCore_sec9
   · subst hqp
     exact le_sup_left
   · have hqprime : Nat.Prime q.1 := Nat.prime_of_mem_primeFactors q.1.2
-    letI : Fact (Nat.Prime q.1) := ⟨hqprime⟩
+    let : Fact (Nat.Prime q.1) := ⟨hqprime⟩
     obtain ⟨n, hn⟩ := (pCore_isPGroup (G := Q) (p := q.1)).exists_card_eq
     have hcop : Nat.Coprime p (Nat.card (pCore q.1 Q)) := by
       rw [hn]
@@ -1308,7 +1308,7 @@ private theorem theorem_9_4_typeIIIIV_liftedH0_pCore_subgroupOf_eq_sec9
   let C : Subgroup P := Qcompl.comap (QuotientGroup.mk' (frattini P))
   let Cmap : Subgroup MF := C.map P.subtype
   let K : Subgroup MF := pPrimeCore p MF
-  haveI : K.Normal := by
+  have : K.Normal := by
     simpa [K] using (pPrimeCore_normal (G := MF) (p := p))
   have hH_eq' : H = Cmap ⊔ K := by
     simpa [P, C, Cmap, K] using hH_eq
@@ -1339,10 +1339,10 @@ private theorem inf_simple_factor_eq_bot_or_eq_self_sec9
   classical
   intro ρ m hm_simple hQ_eq
   let instAddRho : AddCommGroup ρ.asModule := Representation.instAddCommGroupAsModule ρ
-  letI : AddCommGroup ρ.asModule := instAddRho
+  let : AddCommGroup ρ.asModule := instAddRho
   let instModRho : Module (MonoidAlgebra (ZMod p) A) ρ.asModule :=
     Representation.instModuleMonoidAlgebraAsModule ρ
-  letI : Module (MonoidAlgebra (ZMod p) A) ρ.asModule := instModRho
+  let : Module (MonoidAlgebra (ZMod p) A) ρ.asModule := instModRho
   let η : Subgroup V ≃o Submodule (ZMod p) (Additive V) :=
     Subgroup.toAddSubgroup.trans (AddSubgroup.toZModSubmodule (n := p))
   let RQ : Subgroup V := L ⊓ Q
@@ -1425,7 +1425,7 @@ private theorem subgroup_eq_complement_of_le_of_inf_eq_bot_sec9
     (hL_inf_Q : L ⊓ Q = ⊥) :
     L = Qcompl := by
   classical
-  haveI : Qcompl.Normal := Subgroup.normal_of_isMulCommutative Qcompl
+  have : Qcompl.Normal := Subgroup.normal_of_isMulCommutative Qcompl
   apply le_antisymm
   · intro x hxL
     have hx_top : x ∈ Q ⊔ Qcompl := by
@@ -1525,9 +1525,9 @@ private theorem theorem_9_4_typeIIIIV_liftedH0_source_sec9
   dsimp only
   intro Q Qcompl _hQ_inv _hQcompl_inv _hQcompl m _hm_simple _hQ_eq
     _hQcompl_inv_U _hQcompl_nontriv_U
-  haveI : IsElementaryAbelian (Nat.card W2)
+  have : IsElementaryAbelian (Nat.card W2)
       ((pCore (Nat.card W2) MF) ⧸ frattini (pCore (Nat.card W2) MF)) := hElem
-  haveI : Qcompl.Normal := by
+  have : Qcompl.Normal := by
     refine ⟨?_⟩
     intro n hn g
     simpa [mul_assoc, mul_left_comm, mul_comm] using hn
@@ -1571,7 +1571,7 @@ private theorem theorem_9_4_typeIIIIV_liftedH0_source_sec9
   let C : Subgroup P := Qcompl.comap (QuotientGroup.mk' (frattini P))
   let H0 : Subgroup G := theorem_9_4_typeIIIIV_liftedH0_sec9 MF p Qcompl
   let H0MF : Subgroup MF := H0.subgroupOf MF
-  haveI : H0MF.Normal := by
+  have : H0MF.Normal := by
     simpa [H0MF, H0, p] using hH0_normal_MF
   have hH0MF_eq :
       H0MF = C.map P.subtype ⊔ pPrimeCore p MF := by
@@ -1585,36 +1585,36 @@ private theorem theorem_9_4_typeIIIIV_liftedH0_source_sec9
       quotient_comap_equiv_quotient_quotient_sec9
         (G := P) (N := frattini P) Qcompl
   have eMFV : (MF ⧸ H0MF) ≃* (V ⧸ Qcompl) := ePC_MF.symm.trans ePV
-  haveI : IsElementaryAbelian p V := by
+  have : IsElementaryAbelian p V := by
     simpa [V, P, p] using hElem
   have hVquot_elem : IsElementaryAbelian p (V ⧸ Qcompl) :=
     isElementaryAbelian_quotient_of_normal_sec9 Qcompl
   have hH0MF_elem : IsElementaryAbelian p (MF ⧸ H0MF) := by
-    haveI : IsElementaryAbelian p (V ⧸ Qcompl) := hVquot_elem
+    have : IsElementaryAbelian p (V ⧸ Qcompl) := hVquot_elem
     exact isElementaryAbelian_of_mulEquiv_sec9 eMFV
-  letI : IsInvariant U MF P :=
+  let : IsInvariant U MF P :=
     pCore_isInvariant_of_normalizes_sec9 (A := U) (MF := MF) (p := p)
   let hFr_inv_U : IsInvariant U P (frattini P) :=
     isInvariant_of_characteristic (A := U) (G := P) (frattini P)
-  letI : MulAction.QuotientAction U (frattini P) :=
+  let : MulAction.QuotientAction U (frattini P) :=
     quotientAction_of_isInvariant (A := U) (G := P) (frattini P) hFr_inv_U
-  letI : MulDistribMulAction U V :=
+  let : MulDistribMulAction U V :=
     quotientMulDistribMulAction (A := U) (G := P) (frattini P) hFr_inv_U
   have hQcompl_inv_U' : IsInvariant U V Qcompl := by
     simpa [V, P, p] using _hQcompl_inv_U
-  letI : IsInvariant U V Qcompl := hQcompl_inv_U'
-  letI : MulAction.QuotientAction U Qcompl :=
+  let : IsInvariant U V Qcompl := hQcompl_inv_U'
+  let : MulAction.QuotientAction U Qcompl :=
     quotientAction_of_isInvariant (A := U) (G := V) Qcompl hQcompl_inv_U'
-  letI : MulDistribMulAction U (V ⧸ Qcompl) :=
+  let : MulDistribMulAction U (V ⧸ Qcompl) :=
     quotientMulDistribMulAction (A := U) (G := V) Qcompl hQcompl_inv_U'
   have hVQ_nontriv : Nontrivial (V ⧸ Qcompl) :=
     nontrivial_of_not_actsTrivially_sec9 (by
       simpa [V, P, p] using _hQcompl_nontriv_U)
   have hMFQ_nontriv : Nontrivial (MF ⧸ H0MF) := by
-    haveI : Nontrivial (V ⧸ Qcompl) := hVQ_nontriv
+    have : Nontrivial (V ⧸ Qcompl) := hVQ_nontriv
     exact nontrivial_of_mulEquiv_sec9 eMFV
   have hH0MF_ne_top : H0MF ≠ ⊤ := by
-    haveI : Nontrivial (MF ⧸ H0MF) := hMFQ_nontriv
+    have : Nontrivial (MF ⧸ H0MF) := hMFQ_nontriv
     exact QuotientGroup.nontrivial_iff.mp inferInstance
   have hH0_lt_MF' : H0 < MF := by
     have hH0_le_MF' : H0 ≤ MF := by
@@ -1719,7 +1719,7 @@ private theorem theorem_9_4_typeIIIIV_liftedH0_source_sec9
         exact (not_le_of_gt hH0_lt_MF') hMF_le_H0
     · intro N hN_normal hH0M_le_N hN_le_MFM
       let K : Subgroup MF := pPrimeCore p MF
-      haveI : K.Normal := by
+      have : K.Normal := by
         simpa [K] using (pPrimeCore_normal (G := MF) (p := p))
       have hPK_top : P ⊔ K = (⊤ : Subgroup MF) := by
         exact top_unique (by
@@ -1766,13 +1766,13 @@ private theorem theorem_9_4_typeIIIIV_liftedH0_source_sec9
         rcases Subgroup.mem_map.mp hxCmap with ⟨c, hcC, hc_eq⟩
         exact Subgroup.mem_map.mpr ⟨c, hC_le_NP hcC, hc_eq⟩
       let UW1 : Subgroup G := U ⊔ W1
-      letI : IsInvariant UW1 MF P :=
+      let : IsInvariant UW1 MF P :=
         pCore_isInvariant_of_normalizes_sec9 (A := UW1) (MF := MF) (p := p)
       let hFr_inv_UW1 : IsInvariant UW1 P (frattini P) :=
         isInvariant_of_characteristic (A := UW1) (G := P) (frattini P)
-      letI : MulAction.QuotientAction UW1 (frattini P) :=
+      let : MulAction.QuotientAction UW1 (frattini P) :=
         quotientAction_of_isInvariant (A := UW1) (G := P) (frattini P) hFr_inv_UW1
-      letI : MulDistribMulAction UW1 V :=
+      let : MulDistribMulAction UW1 V :=
         quotientMulDistribMulAction (A := UW1) (G := P) (frattini P) hFr_inv_UW1
       have hNP_forward : ∀ (a : UW1) (x : P), x ∈ NP → a • x ∈ NP := by
         intro a x hx
@@ -1825,7 +1825,7 @@ private theorem theorem_9_4_typeIIIIV_liftedH0_source_sec9
               (AddSubgroup.toZModSubmodule (n := p))).symm
             (Subrepresentation.ofSubmodule' m).toSubmodule := by
         simpa [UW1, V, P, p] using _hQ_eq
-      haveI : CommGroup V := IsMulCommutative.instCommGroup
+      have : CommGroup V := IsMulCommutative.instCommGroup
       have hL_cases : L ⊓ Q = ⊥ ∨ L ⊓ Q = Q := by
         simpa [UW1, V, P, p] using
           inf_simple_factor_eq_bot_or_eq_self_sec9
@@ -1965,19 +1965,19 @@ private theorem theorem_9_4_typeIIIIV_maschke_frattini_source_sec9
   let UW1 : Subgroup G := U ⊔ W1
   let P : Subgroup MF := pCore (Nat.card W2) MF
   let V : Type u := P ⧸ frattini P
-  letI : IsInvariant U MF P :=
+  let : IsInvariant U MF P :=
     pCore_isInvariant_of_normalizes_sec9
       (A := U) (MF := MF) (p := Nat.card W2)
-  letI : MulDistribMulAction U V :=
+  let : MulDistribMulAction U V :=
     quotientMulDistribMulAction (A := U) (G := P) (frattini P)
       (isInvariant_of_characteristic (A := U) (G := P) (frattini P))
-  letI : IsInvariant UW1 MF P :=
+  let : IsInvariant UW1 MF P :=
     pCore_isInvariant_of_normalizes_sec9
       (A := UW1) (MF := MF) (p := Nat.card W2)
-  letI : MulDistribMulAction UW1 V :=
+  let : MulDistribMulAction UW1 V :=
     quotientMulDistribMulAction (A := UW1) (G := P) (frattini P)
       (isInvariant_of_characteristic (A := UW1) (G := P) (frattini P))
-  letI : IsElementaryAbelian (Nat.card W2) V := by
+  let : IsElementaryAbelian (Nat.card W2) V := by
     simpa [V, P] using hElem
   obtain ⟨m, hm_simple, hm_nontriv⟩ := by
     simpa [UW1, V, P] using
@@ -1994,8 +1994,8 @@ private theorem theorem_9_4_typeIIIIV_maschke_frattini_source_sec9
     simpa [UW1, V, P] using
       theorem_9_4_typeIIIIV_frattini_quotient_complement_sec9
         M MF U W1 W2 q h92 Q hQ_inv
-  letI : CommGroup V := IsMulCommutative.instCommGroup
-  haveI : Qcompl.Normal := Subgroup.normal_of_isMulCommutative Qcompl
+  let : CommGroup V := IsMulCommutative.instCommGroup
+  have : Qcompl.Normal := Subgroup.normal_of_isMulCommutative Qcompl
   have hQcompl_inv_Usub : IsInvariant (U.subgroupOf UW1) V Qcompl :=
     { invariant := fun h v => hQcompl_inv.invariant (h : UW1) v }
   have hQcompl_nontriv :
@@ -2017,11 +2017,11 @@ private theorem theorem_9_4_typeIIIIV_maschke_frattini_source_sec9
       letI : MulDistribMulAction U (V ⧸ Qcompl) :=
         quotientMulDistribMulAction (A := U) (G := V) Qcompl hQcompl_inv_U
       ¬ ActsTrivially (A := U) (G := V ⧸ Qcompl) := by
-    letI : IsInvariant U V Qcompl := hQcompl_inv_U
-    letI : MulDistribMulAction U (V ⧸ Qcompl) :=
+    let : IsInvariant U V Qcompl := hQcompl_inv_U
+    let : MulDistribMulAction U (V ⧸ Qcompl) :=
       quotientMulDistribMulAction (A := U) (G := V) Qcompl hQcompl_inv_U
-    letI : IsInvariant (U.subgroupOf UW1) V Qcompl := hQcompl_inv_Usub
-    letI : MulDistribMulAction (U.subgroupOf UW1) (V ⧸ Qcompl) :=
+    let : IsInvariant (U.subgroupOf UW1) V Qcompl := hQcompl_inv_Usub
+    let : MulDistribMulAction (U.subgroupOf UW1) (V ⧸ Qcompl) :=
       quotientMulDistribMulAction (A := U.subgroupOf UW1) (G := V)
         Qcompl hQcompl_inv_Usub
     intro htriv
@@ -2109,7 +2109,7 @@ private theorem theorem_9_4_typeIIIIV_not_actsTrivially_pCore_sec9
   intro h92 hIIIIV
   let p := Nat.card W2
   let P : Subgroup MF := pCore p MF
-  letI : IsInvariant U MF P := by
+  let : IsInvariant U MF P := by
     simpa [P, p] using
       pCore_isInvariant_of_normalizes_sec9 (A := U) (MF := MF) (p := p)
   intro htrivP
@@ -2184,13 +2184,13 @@ private theorem theorem_9_4_typeIIIIV_source_core_sec9
   rcases theorem_9_4_typeIIIIV_pf93_facts_sec9 M MF U W1 W2 q h92 hIIIIV with
     ⟨hW2prime, _hUW1centralizer, _hMFcard⟩
   let _p : Nat.Primes := ⟨Nat.card W2, hW2prime⟩
-  haveI : Fact (Nat.card W2).Prime := ⟨hW2prime⟩
+  have : Fact (Nat.card W2).Prime := ⟨hW2prime⟩
   have hUW1_norm_MF : U ⊔ W1 ≤ Subgroup.normalizer (MF : Set G) :=
     (theorem_9_3_action_normalizes_and_solvable_sec9 M MF U W1 W2 q h92).1
   have hU_norm_MF : U ≤ Subgroup.normalizer (MF : Set G) :=
     le_sup_left.trans hUW1_norm_MF
-  haveI : Subgroup.Normalizes U MF := ⟨hU_norm_MF⟩
-  haveI : Subgroup.Normalizes (U ⊔ W1 : Subgroup G) MF := ⟨hUW1_norm_MF⟩
+  have : Subgroup.Normalizes U MF := ⟨hU_norm_MF⟩
+  have : Subgroup.Normalizes (U ⊔ W1 : Subgroup G) MF := ⟨hUW1_norm_MF⟩
   have hUW1_pCore_inv :
       IsInvariant (U ⊔ W1 : Subgroup G) MF (pCore (Nat.card W2) MF) := by
     exact pCore_isInvariant_of_normalizes_sec9

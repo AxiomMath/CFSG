@@ -34,13 +34,13 @@ theorem inner_swap_identity {K : Type} [Field K] {ω : K} (hω0 : ω ≠ 0) (s :
   simp only [Matrix.smul_apply, smul_eq_mul, Matrix.mul_diagonal, Matrix.diagonal_mul,
     Matrix.of_apply]
   by_cases h : i = k + s
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     subst h
     have h1 := hf (k + s)
     have h2 := hf k
     have hW : ω ^ ((s : ℕ) * ((k + s : Fin 5) : ℕ)) ≠ 0 := pow_ne_zero _ hω0
     field_simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     simp
 
 end One

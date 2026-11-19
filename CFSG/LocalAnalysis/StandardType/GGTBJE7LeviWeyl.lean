@@ -55,14 +55,14 @@ private theorem e7Lift_cartan_eq : Tag.cartan .E7 = CartanMatrix.E 7 := by
   exact cartanE_eq 7
 
 private theorem e7Lift_symm (i j : Fin Tag.E7.rank) :
-    CartanMatrix.E₇ i j = CartanMatrix.E₇ j i := by
+    (CartanMatrix.E 7) i j = (CartanMatrix.E 7) j i := by
   fin_cases i <;> fin_cases j <;> rfl
 
 private theorem e7Lift_cartan_diag (i : Fin Tag.E7.rank) : Tag.cartan .E7 i i = 2 := by
   change Tag.cartanE 7 i i = 2
-  exact if_pos rfl
+  exact ite_eq_left rfl
 
-private theorem e7Lift_det : (CartanMatrix.E₇).det = 2 := by
+private theorem e7Lift_det : ((CartanMatrix.E 7)).det = 2 := by
   rw [← CFSG.LieType.Chevalley.laplaceDet_eq_det]
   decide +kernel
 
@@ -177,12 +177,12 @@ private theorem e7Lift_A_smul_right {p : ℕ} {V : Type*} [AddCommGroup V] [Modu
 
 private theorem e7Lift_A_h {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZMod p) V]
     (h : Fin Tag.E7.rank → V) (α : Fin Tag.E7.rank → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p))
     (x : Fin Tag.E7.rank → ℤ) (j : Fin Tag.E7.rank) :
     e7Lift_A p α x (h j) = ((e7Lift_label x j : ℤ) : ZMod p) := by
   rw [e7Lift_A]
   have h1 : ∀ k, (x k : ZMod p) * α k (h j) =
-      ((CartanMatrix.E₇ j k * x k : ℤ) : ZMod p) := by
+      (((CartanMatrix.E 7) j k * x k : ℤ) : ZMod p) := by
     intro k
     rw [hpair k j, ← Int.cast_mul, e7Lift_symm k j, mul_comm]
   rw [Finset.sum_congr rfl (fun k _ => h1 k), ← Int.cast_sum]
@@ -199,13 +199,13 @@ private theorem e7Lift_A_reflect_left {p : ℕ} {V : Type*} [AddCommGroup V] [Mo
 
 private theorem e7Lift_alpha_H {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZMod p) V]
     (h : Fin Tag.E7.rank → V) (α : Fin Tag.E7.rank → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p))
     (x : Fin Tag.E7.rank → ℤ) (i : Fin Tag.E7.rank) :
     α i (e7Lift_H p h x) = ((e7Lift_label x i : ℤ) : ZMod p) := by
   rw [e7Lift_H]
   simp only [map_sum, map_smul, smul_eq_mul]
   have h1 : ∀ k, (x k : ZMod p) * α i (h k) =
-      ((CartanMatrix.E₇ i k * x k : ℤ) : ZMod p) := by
+      (((CartanMatrix.E 7) i k * x k : ℤ) : ZMod p) := by
     intro k
     rw [hpair i k, ← Int.cast_mul, mul_comm]
   rw [Finset.sum_congr rfl (fun k _ => h1 k), ← Int.cast_sum]
@@ -230,7 +230,7 @@ private theorem e7LiftEquiv_simple (i : Fin 7) :
 
 private theorem e7Lift_claim1 {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZMod p) V]
     (h : Fin Tag.E7.rank → V) (α : Fin Tag.E7.rank → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p))
     (ρ : WeylGroup .E7 →* (V ≃ₗ[ZMod p] V))
     (hρ : ∀ (i : Fin Tag.E7.rank) (v : V), ρ (simple .E7 i) v = v - α i v • h i) :
     ∀ (w : WeylGroup .E7) (x : Fin Tag.E7.rank → ℤ),
@@ -247,7 +247,7 @@ private theorem e7Lift_claim1 {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZM
 
 private theorem e7Lift_A_simple {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZMod p) V]
     (h : Fin Tag.E7.rank → V) (α : Fin Tag.E7.rank → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p))
     (ρ : WeylGroup .E7 →* (V ≃ₗ[ZMod p] V))
     (hρ : ∀ (i : Fin Tag.E7.rank) (v : V), ρ (simple .E7 i) v = v - α i v • h i)
     (i : Fin Tag.E7.rank) (x : Fin Tag.E7.rank → ℤ) (v : V) :
@@ -260,7 +260,7 @@ private theorem e7Lift_A_simple {p : ℕ} {V : Type*} [AddCommGroup V] [Module (
 
 private theorem e7Lift_claim2 {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZMod p) V]
     (h : Fin Tag.E7.rank → V) (α : Fin Tag.E7.rank → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p))
     (ρ : WeylGroup .E7 →* (V ≃ₗ[ZMod p] V))
     (hρ : ∀ (i : Fin Tag.E7.rank) (v : V), ρ (simple .E7 i) v = v - α i v • h i) :
     ∀ (w : WeylGroup .E7) (x : Fin Tag.E7.rank → ℤ) (v : V),
@@ -277,7 +277,7 @@ private theorem e7Lift_claim2 {p : ℕ} {V : Type*} [AddCommGroup V] [Module (ZM
 private theorem e7Lift_weyl_coroot_smul {p : ℕ} {V : Type*} [AddCommGroup V]
     [Module (ZMod p) V] (h : Fin Tag.E7.rank → V)
     (α : Fin Tag.E7.rank → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p))
     (ρ : WeylGroup .E7 →* (V ≃ₗ[ZMod p] V))
     (hρ : ∀ (i : Fin Tag.E7.rank) (v : V), ρ (simple .E7 i) v = v - α i v • h i)
     (w : WeylGroup .E7) (x : Fin Tag.E7.rank → ℤ) :
@@ -287,7 +287,7 @@ private theorem e7Lift_weyl_coroot_smul {p : ℕ} {V : Type*} [AddCommGroup V]
 private theorem e7Lift_weyl_dual_smul {p : ℕ} {V : Type*} [AddCommGroup V]
     [Module (ZMod p) V] (h : Fin Tag.E7.rank → V)
     (α : Fin Tag.E7.rank → Module.Dual (ZMod p) V)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p))
     (ρ : WeylGroup .E7 →* (V ≃ₗ[ZMod p] V))
     (hρ : ∀ (i : Fin Tag.E7.rank) (v : V), ρ (simple .E7 i) v = v - α i v • h i)
     (w : WeylGroup .E7) (x : Fin Tag.E7.rank → ℤ) (v : V) :
@@ -299,7 +299,7 @@ theorem ggTBJE7Levi_weylLift
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] (ι : Additive ↥Bs ≃+ V)
     {φ : Fin 7 → MulAut ↥Bs} {h : Fin 7 → V} {α : Fin 7 → Module.Dual (ZMod p) V}
     (hlin : ∀ i w, ggLin (p := p) ι (φ i) w = w - α i w • h i)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p))
     {f : CoxeterMatrix.E₇.Group ≃* ↥(ggAutomizer X Bs)}
     (hf : ∀ i, (f (CoxeterMatrix.E₇.simple i) : MulAut ↥Bs) = φ i) :
     ∃ e : WeylGroup .E7 ≃* CoxeterMatrix.E₇.Group,

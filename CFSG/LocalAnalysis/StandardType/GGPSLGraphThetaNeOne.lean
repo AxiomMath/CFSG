@@ -99,7 +99,7 @@ private lemma pslB1_formAdj_single {n : ℕ} {K : Type} [Field K]
 private lemma pslB1_single_neg_one {n : ℕ} {K : Type} [Field K] (i j : Fin n) :
     Matrix.single i j (-1 : K) = (-1 : K) • Matrix.single i j (1 : K) := by
   ext p q
-  by_cases h : i = p ∧ j = q <;> simp [Matrix.single_apply, Matrix.smul_apply, h]
+  by_cases h : i = p ∧ j = q <;> simp [Matrix.smul_apply, h]
 
 private lemma pslB1_formAdj_transvection {n : ℕ} {K : Type} [Field K]
     (G : Matrix (Fin n) (Fin n) K) (hG : IsUnit G.det) (i j : Fin n) :
@@ -116,9 +116,9 @@ private lemma pslB1_single_mul_apply {n : ℕ} {K : Type} [Field K]
   rw [Finset.sum_eq_single i]
   · rw [Matrix.single_apply]
     by_cases h : a = j
-    · rw [if_pos h, if_pos ⟨h.symm, rfl⟩, one_mul]
+    · rw [ite_eq_left h, ite_eq_left ⟨h.symm, rfl⟩, one_mul]
     · have h' : ¬ (j = a ∧ i = i) := fun hh => h hh.1.symm
-      rw [if_neg h', if_neg h, zero_mul]
+      rw [ite_eq_right h', ite_eq_right h, zero_mul]
   · intro x _ hx
     rw [Matrix.single_apply]
     simp [Ne.symm hx]
@@ -132,9 +132,9 @@ private lemma pslB1_mul_single_apply {n : ℕ} {K : Type} [Field K]
   rw [Finset.sum_eq_single i]
   · rw [Matrix.single_apply]
     by_cases h : b = j
-    · rw [if_pos h, if_pos ⟨rfl, h.symm⟩, mul_one]
+    · rw [ite_eq_left h, ite_eq_left ⟨rfl, h.symm⟩, mul_one]
     · have h' : ¬ (i = i ∧ j = b) := fun hh => h hh.2.symm
-      rw [if_neg h', if_neg h, mul_zero]
+      rw [ite_eq_right h', ite_eq_right h, mul_zero]
   · intro x _ hx
     rw [Matrix.single_apply]
     simp [Ne.symm hx]
@@ -151,9 +151,9 @@ private lemma pslB1_conj_single_apply {n : ℕ} {K : Type} [Field K]
     rw [Finset.sum_eq_single i]
     · rw [Matrix.single_apply]
       by_cases h : x = j
-      · rw [if_pos h, if_pos ⟨h.symm, rfl⟩, one_mul]
+      · rw [ite_eq_left h, ite_eq_left ⟨h.symm, rfl⟩, one_mul]
       · have h' : ¬ (j = x ∧ i = i) := fun hh => h hh.1.symm
-        rw [if_neg h', if_neg h, zero_mul]
+        rw [ite_eq_right h', ite_eq_right h, zero_mul]
     · intro y _ hy
       rw [Matrix.single_apply]
       simp [Ne.symm hy]
@@ -161,9 +161,9 @@ private lemma pslB1_conj_single_apply {n : ℕ} {K : Type} [Field K]
       exact absurd (Finset.mem_univ i) hi
   simp only [hinner]
   rw [Finset.sum_eq_single j]
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
   · intro x _ hx
-    rw [if_neg hx, mul_zero]
+    rw [ite_eq_right hx, mul_zero]
   · intro hj
     exact absurd (Finset.mem_univ j) hj
 
@@ -258,17 +258,17 @@ private lemma pslB1_not_all {n : ℕ} {K : Type} [Field K]
   have hij : i ≠ j := by
     intro h
     have hv := congrArg Fin.val h
-    simp only [i, j, Fin.val_mk] at hv
+    simp only [i, j] at hv
     omega
   have hij' : i ≠ j' := by
     intro h
     have hv := congrArg Fin.val h
-    simp only [i, j', Fin.val_mk] at hv
+    simp only [i, j'] at hv
     omega
   have hjj' : j ≠ j' := by
     intro h
     have hv := congrArg Fin.val h
-    simp only [j, j', Fin.val_mk] at hv
+    simp only [j, j'] at hv
     omega
   have hrowj := pslB1_row_support hG hn hall i j hij
   have hrowj' := pslB1_row_support hG hn hall i j' hij'

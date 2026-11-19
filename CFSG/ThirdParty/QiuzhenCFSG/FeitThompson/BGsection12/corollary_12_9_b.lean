@@ -48,7 +48,7 @@ public lemma CFSG.unique_subgroup_of_prime_order_in_cyclic_pre
       have hcard1 : Nat.card L = 1 := by
         simp [hbot]
       rw [hL] at hcard1; exact hp_prime.ne_one hcard1
-    haveI : Nontrivial L := (Subgroup.nontrivial_iff_ne_bot L).mpr hL_ne_bot
+    have : Nontrivial L := (Subgroup.nontrivial_iff_ne_bot L).mpr hL_ne_bot
     obtain ⟨h, hh⟩ := IsCyclic.exists_monoid_generator (α := L)
     have hh_order_L : orderOf (h : L) = p := by
       have h_eq : orderOf (h : L) = Nat.card L :=
@@ -100,8 +100,8 @@ public theorem CFSG.corollary_12_9_b
     (hcomm : ⁅A, Q⁆ ≠ ⊥) :
     section12NotConjugate ⁅A, Q⁆ (subgroupCentralizerIn A Q) := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.2⟩
-  haveI : Fact q.val.Prime := ⟨q.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact q.val.Prime := ⟨q.2⟩
   have h_a := corollary_12_9_a hM hE hp hA hq hQ hCQ hcomm
   rcases h_a with ⟨hA0_prime, hA0_eq_CMsigma, hA0_norm_M⟩
   let A0 : Subgroup G := ⁅A, Q⁆
@@ -222,12 +222,12 @@ public theorem CFSG.corollary_12_9_b
     intro hQ_cent_A0
     have hA_elem : IsElementaryAbelian p.val A := by
       rcases section12_rankTwo_elementary hA with ⟨_, hAelem⟩; exact hAelem
-    haveI : IsElementaryAbelian p.val A := hA_elem
+    have : IsElementaryAbelian p.val A := hA_elem
     have hA_exp_p : ∀ a : A, a ^ p.val = 1 := by
       intro a
       apply Monoid.exponent_dvd_iff_forall_pow_eq_one.mp
         (IsElementaryAbelian.exponent_dvd_p p.val A) a
-    haveI : IsCyclic Q := isCyclic_of_prime_card hQ_card
+    have : IsCyclic Q := isCyclic_of_prime_card hQ_card
     obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Q)
     let gG := (g : Q).val
     have hgG_mem_Q : gG ∈ Q := (g : Q).property
@@ -498,7 +498,7 @@ public theorem CFSG.corollary_12_9_b
     rw [h_card_eq, hQsub_card]
   have hQsub_m_le_SX : Qsub_m ≤ (SX : Subgroup M) := h_Qsub_m_le_SX
   -- SX is cyclic, apply unique subgroup lemma
-  haveI hSX_cyc : IsCyclic (SX : Subgroup M) := h_sylow_cyclic SX
+  have hSX_cyc : IsCyclic (SX : Subgroup M) := h_sylow_cyclic SX
   have h_eq_in_SX : Qsub_m.subgroupOf (SX : Subgroup M) = Xsub.subgroupOf (SX : Subgroup M) :=
     unique_subgroup_of_prime_order_in_cyclic_pre
       (H := Qsub_m.subgroupOf (SX : Subgroup M))

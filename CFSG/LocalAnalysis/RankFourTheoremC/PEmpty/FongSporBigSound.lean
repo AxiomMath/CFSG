@@ -21,7 +21,7 @@ theorem MGen.exists_norm_of_checkBase {M V : Type} {O : Ops M V} {pf d : ℕ} (S
   obtain ⟨hwf, hC⟩ := h
   simp only [MGen.wf, Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true] at hwf
   obtain ⟨⟨⟨⟨hp, hlen⟩, hms⟩, -⟩, -⟩ := hwf
-  haveI : Fact c.g.p.Prime := ⟨hp⟩
+  have : Fact c.g.p.Prime := ⟨hp⟩
   have hf : ∀ f ∈ c.baseFacts, f ∈ (⟨2, [], c.baseFacts⟩ : MCert).facts := fun f hf => hf
   have hB := MGen.holdsBase_of_facts Sp hC c hlen hms hf
   unfold PGen.holdsBase at hB
@@ -35,7 +35,7 @@ theorem PClaim.exists_norm_of_check {M V : Type} {O : Ops M V} {pf d : ℕ} (Sp 
   unfold PClaim.check at h
   rw [Bool.and_eq_true] at h
   obtain ⟨hp, hC⟩ := h
-  haveI : Fact c.p.Prime := ⟨of_decide_eq_true hp⟩
+  have : Fact c.p.Prime := ⟨of_decide_eq_true hp⟩
   have hfz : MFact.ord c.rz c.p ∈ (⟨c.nregs, c.prog, c.facts⟩ : MCert).facts := by
     simp [PClaim.facts]
   have hfn : MFact.ord c.rn c.en ∈ (⟨c.nregs, c.prog, c.facts⟩ : MCert).facts := by
@@ -69,7 +69,7 @@ theorem OClaim.exists_orderOf_of_check {M V : Type} {O : Ops M V} {pf d : ℕ} (
   unfold OClaim.check at h
   rw [Bool.and_eq_true] at h
   obtain ⟨hp, hC⟩ := h
-  haveI : Fact c.p.Prime := ⟨of_decide_eq_true hp⟩
+  have : Fact c.p.Prime := ⟨of_decide_eq_true hp⟩
   have hfg : MFact.ord c.rg (c.p ^ (c.n + 1)) ∈ (⟨c.nregs, c.prog, c.facts⟩ : MCert).facts := by
     simp [OClaim.facts]
   have hfne : MFact.ne [(c.rg, c.p ^ c.n)] [] c.t ∈ (⟨c.nregs, c.prog, c.facts⟩ : MCert).facts := by
@@ -94,8 +94,8 @@ theorem BClaim.exists_bigW_of_check {M V : Type} {O : Ops M V} {pf d : ℕ} (Sp 
   simp only [BClaim.wf, Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true,
     List.any_eq_true] at hwf
   obtain ⟨⟨hp, hr⟩, hzwReg⟩ := hwf
-  haveI : Fact c.p.Prime := ⟨hp⟩
-  haveI : Fact c.r.Prime := ⟨hr⟩
+  have : Fact c.p.Prime := ⟨hp⟩
+  have : Fact c.r.Prime := ⟨hr⟩
   have hfz : MFact.ord c.rz c.p ∈ (⟨c.nregs, c.prog, c.facts⟩ : MCert).facts := by
     simp [BClaim.facts]
   have hfzne : MFact.ne [(c.rz, 1)] [] c.zt ∈ (⟨c.nregs, c.prog, c.facts⟩ : MCert).facts := by

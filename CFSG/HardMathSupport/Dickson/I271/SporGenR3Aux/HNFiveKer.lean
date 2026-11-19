@@ -250,7 +250,7 @@ theorem HNMovedIn.map (φ : G ≃* G) {C : Subgroup G} (h : HNMovedIn C) :
     have := (Subgroup.mem_normalizer_iff.1 (hN hg)) (φ.symm h)
     rw [this]
     simp only [MulEquiv.coe_toMonoidHom, map_mul, map_inv, MulEquiv.symm_apply_apply]
-  · haveI := hQs
+  · have := hQs
     exact Group.isSolvable_of_surjective
       (f := (Subgroup.equivMapOfInjective Q φ.toMonoidHom φ.injective).toMonoidHom)
       (fun x => ⟨(Subgroup.equivMapOfInjective Q φ.toMonoidHom φ.injective).symm x,
@@ -284,7 +284,7 @@ theorem HNMovedIn.of_isConj {x z : G} (h : IsConj x z)
 theorem not_dvd_card_of_normal [Finite G] {C K : Subgroup G} (hKC : K ≤ C)
     (hKn : (K.subgroupOf C).Normal) (h9 : ¬ 3 ^ 2 ∣ Nat.card ↥C) {s : G} (hsC : s ∈ C)
     (hs : orderOf s = 3) (hsK : s ∉ K) : ¬ 3 ∣ Nat.card ↥K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro h3
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 3 h3
   have hto : orderOf (⟨t.1, hKC t.2⟩ : ↥C) = 3 := by
@@ -387,10 +387,10 @@ theorem actsTrivM2_conj {y c g : JH} (hg : g ∈ Subgroup.centralizer ({y} : Set
   rw [e, ← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec, hw, comm_T2 hg]
 
 noncomputable def hnKer (y : JH) : Subgroup JH where
-  carrier := {c | c ∈ Subgroup.centralizer ({y} : Set JH) ∧ ActsTrivM2 y c}
+  carrier := {_c | _c ∈ Subgroup.centralizer ({y} : Set JH) ∧ ActsTrivM2 y _c}
   one_mem' := ⟨Subgroup.one_mem _, actsTrivM2_one y⟩
-  mul_mem' := fun {c d} hc hd => ⟨Subgroup.mul_mem _ hc.1 hd.1, actsTrivM2_mul hc.1 hc.2 hd.2⟩
-  inv_mem' := fun {c} hc => ⟨Subgroup.inv_mem _ hc.1, actsTrivM2_inv hc.1 hc.2⟩
+  mul_mem' := fun {_c _d} hc hd => ⟨Subgroup.mul_mem _ hc.1 hd.1, actsTrivM2_mul hc.1 hc.2 hd.2⟩
+  inv_mem' := fun {_c} hc => ⟨Subgroup.inv_mem _ hc.1, actsTrivM2_inv hc.1 hc.2⟩
 
 theorem hnKer_le (y : JH) : hnKer y ≤ Subgroup.centralizer ({y} : Set JH) := fun _ hc => hc.1
 

@@ -48,7 +48,7 @@ private lemma ltrra1_commutator_eq_top {R : Type} [Group R] [IsSimpleGroup R]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator R) with h | h
   · exfalso
     obtain ⟨a, b, hab⟩ := hna
-    letI : Bracket R R := commutatorElement
+    let : Bracket R R := commutatorElement
     have hmem : ⁅a, b⁆ ∈ commutator R :=
       Subgroup.commutator_mem_commutator (Subgroup.mem_top a) (Subgroup.mem_top b)
     rw [h] at hmem
@@ -73,7 +73,7 @@ theorem raModelSelfMarking_holds : S2MathAs51600RAMarking.RAModelSelfMarking := 
     obtain ⟨K, hfK, hfinK, hcard, hQK⟩ := hQ
     refine ⟨K, hfK, hfinK, hcard, hQK, ?_⟩
     rintro hR hna β hβ
-    haveI := hR
+    have := hR
     dsimp only [CFSG.LocalAnalysis.GLTheoremA.Y10GField.InnDiagKind,
       CFSG.Assembly.LargeEvenMarking]
     refine ⟨ltrra1_commutator_eq_top hna, ⟨⟨.A, rank, n⟩, hlab, ?_⟩⟩
@@ -87,7 +87,7 @@ theorem raModelSelfMarking_holds : S2MathAs51600RAMarking.RAModelSelfMarking := 
     obtain ⟨K, hfK, hfinK, hcard, hQK⟩ := hQ
     refine ⟨K, hfK, hfinK, hcard, hQK, ?_⟩
     rintro hR hna β hβ
-    haveI := hR
+    have := hR
     dsimp only [CFSG.LocalAnalysis.GLTheoremA.Y10GField.InnDiagKind,
       CFSG.Assembly.LargeEvenMarking]
     refine ⟨ltrra1_commutator_eq_top hna, ⟨⟨.twA, rank, n⟩, hlab, ?_⟩⟩

@@ -31,14 +31,14 @@ theorem le_inner_of_perfect_outSolvable {S : Type} [Group S]
     P ≤ CFSG.ComponentClassification.OuterAutomorphisms.inner S := by
   intro x hx
   by_contra hxS
-  haveI := hPp
-  haveI := hOut
+  have := hPp
+  have := hOut
   let φ : ↥P →* Outer S :=
     (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner S)).comp P.subtype
-  haveI : Group.IsPerfect φ.range :=
+  have : Group.IsPerfect φ.range :=
     Group.IsPerfect.ofSurjective (f := φ.rangeRestrict) (MonoidHom.rangeRestrict_surjective φ)
   have hne : φ ⟨x, hx⟩ ≠ 1 := fun h => hxS ((QuotientGroup.eq_one_iff x).mp h)
-  haveI : Nontrivial φ.range :=
+  have : Nontrivial φ.range :=
     ⟨⟨⟨φ ⟨x, hx⟩, ⟨⟨x, hx⟩, rfl⟩⟩, 1, fun h => hne (congrArg Subtype.val h)⟩⟩
   exact Group.IsPerfect.not_isSolvable φ.range inferInstance
 
@@ -88,9 +88,9 @@ theorem row143_of_outSolvable {S : Type} [Group S] [Finite S] (hS : IsSimpleGrou
     intro h
     apply hP
     rw [← hYmap, h, Subgroup.map_bot]
-  haveI : Nontrivial Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hYne
+  have : Nontrivial Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hYne
   obtain ⟨N, hN, f, hf⟩ := exists_suzuki_section_of_isPerfect hYK hYperf hY3 inferInstance
-  haveI := hN
+  have := hN
   exact hNo Y N 2 f hf
 
 section Rows
@@ -99,7 +99,7 @@ section Rows
 theorem row143_of_ghList_card {S : Type} [Group S] [Finite S] (hS : IsSimpleGroup S)
     (hnc : ∃ a b : S, a * b ≠ b * a) (hGH : CFSG.GH74.GHList S) {N : ℕ}
     (hN : Nat.card S ∣ N) (h10 : ¬ 2 ^ 10 ∣ N) (h1 : ¬ suzukiOrder 1 ∣ N) : Row143 S := by
-  haveI := hS
+  have := hS
   exact row143_of_outSolvable hS hnc
     (CFSG.GH74.GLS.Stage2.Local.GHSch.ghSchreier_thm S hnc hGH)
     (noSzSection_of_dvd_two_pow_ten_suzuki hN h10 h1)
@@ -110,7 +110,7 @@ theorem row143_projSL_three_of {S : Type} [Group S] [Finite S] (hS : IsSimpleGro
     (h10 : ¬ 2 ^ 10 ∣ (3 ^ e) ^ 3 * (((3 ^ e) ^ 2 - 1) * ((3 ^ e) ^ 3 - 1)))
     (h1 : ¬ suzukiOrder 1 ∣ (3 ^ e) ^ 3 * (((3 ^ e) ^ 2 - 1) * ((3 ^ e) ^ 3 - 1))) :
     Row143 S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hadm : CFSG.Open.StatedLieAdmissible .PSL 3 3 e :=
     ⟨Nat.prime_three, he, by norm_num,
       fun h => by have := (Prod.mk.inj h).1; norm_num at this,
@@ -129,7 +129,7 @@ theorem row143_projSU_three_of {S : Type} [Group S] [Finite S] (hS : IsSimpleGro
     (h10 : ¬ 2 ^ 10 ∣ (3 ^ e) ^ 3 * (((3 ^ e) ^ 2 - 1) * ((3 ^ e) ^ 3 + 1)))
     (h1 : ¬ suzukiOrder 1 ∣ (3 ^ e) ^ 3 * (((3 ^ e) ^ 2 - 1) * ((3 ^ e) ^ 3 + 1))) :
     Row143 S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hadm : CFSG.Open.StatedLieAdmissible .PSU 3 3 e :=
     ⟨Nat.prime_three, he, by norm_num, fun h => row_three_pow_ne_two he (Prod.mk.inj h).2⟩
   have hL : CFSG.Blueprint.LieModel S .PSU 3 3 e :=
@@ -181,7 +181,7 @@ theorem rowOf143_l4_three : RowOf143 (projSL 4 (GaloisField 3 1)) := by
   unfold RowOf143
   intro S _ _ hS hnc hφ _
   obtain ⟨φ⟩ := hφ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hadm : CFSG.Open.StatedLieAdmissible .PSL 4 3 1 :=
     ⟨Nat.prime_three, le_rfl, by norm_num,
       fun h => by have := (Prod.mk.inj h).1; norm_num at this,
@@ -201,7 +201,7 @@ theorem rowOf143_u4_three : RowOf143 (projSU 4 3 1) := by
   unfold RowOf143
   intro S _ _ hS hnc hφ _
   obtain ⟨φ⟩ := hφ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hadm : CFSG.Open.StatedLieAdmissible .PSU 4 3 1 :=
     ⟨Nat.prime_three, le_rfl, by norm_num, fun h => by have := (Prod.mk.inj h).1; norm_num at this⟩
   have hL : CFSG.Blueprint.LieModel S .PSU 4 3 1 :=
@@ -226,7 +226,7 @@ theorem rowOf143_ree27 (hr : (TauCeti.LieTypeIndex.reeG2 1).Valid) :
   obtain ⟨φ⟩ := hφ
   have hK : Nat.card (GaloisField 3 (2 * 1 + 1)) = 3 ^ (2 * 1 + 1) :=
     GaloisField.card 3 (2 * 1 + 1) (by norm_num)
-  haveI : CharP (GaloisField 3 (2 * 1 + 1)) CFSG.LieType.Ree.ReeTag.G2.prime :=
+  have : CharP (GaloisField 3 (2 * 1 + 1)) CFSG.LieType.Ree.ReeTag.G2.prime :=
     inferInstanceAs (CharP (GaloisField 3 (2 * 1 + 1)) 3)
   obtain ⟨ψ⟩ := CFSG.HardMathSupport.Meierfrankenfeld.LieOdd.nonempty_reeGamma_equiv hr hK
   have hN : Nat.card S =

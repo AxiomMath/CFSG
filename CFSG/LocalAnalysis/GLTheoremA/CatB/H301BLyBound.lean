@@ -11,6 +11,7 @@ open Equiv Equiv.Perm MulAction Subgroup
 
 variable {X : Type*} [Fintype X] [DecidableEq X]
 
+omit [Fintype X] [DecidableEq X] in
 theorem mem_normalizer_inf_fixing {T : Subgroup (Perm X)} {g : Perm X} (hg : g ∈ normalizer T)
     (S : Set X) (hgS : ∀ z ∈ S, g z = z) :
     g ∈ normalizer (T ⊓ fixingSubgroup (Perm X) S : Subgroup (Perm X)) :=

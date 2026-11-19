@@ -60,17 +60,17 @@ theorem facts : (h11B = h11Poly 1 ∧ comp11 h11B h11Binv = idRows 11 ∧ Bounde
     rw [hX_eq, powKF_eq 2 _ 3 (by norm_num), CFSG.KS.SporSch.C11.id_eq] at h3
     rw [hX_eq, CFSG.KS.SporSch.C11.id_eq]
     by_cases hY : Nat.beq (powKF 2 (xK w) 3) pidK = true
-    · rw [bIf_eq, if_pos hY, bIf_eq] at h
+    · rw [bIf_eq, ite_eq_left hY, bIf_eq] at h
       by_cases hX : Nat.beq (xK w) pidK = true
       · exact Or.inl (by rw [Nat.eq_of_beq_eq_true hX])
-      · rw [if_neg hX] at h
+      · rw [ite_eq_right hX] at h
         right
         rw [fix_sound (Nat.beq_refl _)]
         exact J4Three.lt_of_blt h
-    · rw [bIf_eq, if_neg hY] at h
+    · rw [bIf_eq, ite_eq_right hY] at h
       exact absurd h3 (ne_sound h)
   · have h := allN_spec q3fix k hk
-    rw [bIf_eq, if_neg (by rw [J4Three.beq_ne hk0]; exact Bool.false_ne_true)] at h
+    rw [bIf_eq, ite_eq_right (by rw [J4Three.beq_ne hk0]; exact Bool.false_ne_true)] at h
     rw [J4Three.C_eq hk, fix_sound (Nat.beq_refl _)]
     exact Nat.le_of_ble_eq_true h
   · rw [CFSG.KS.SporSch.C11.id_eq]

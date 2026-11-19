@@ -47,6 +47,7 @@ noncomputable def iotaOf (F : ElemFrame P E K) (h : A5Pre P L E K)
   (QuotientGroup.lift (CFSG.Open.pCore 2 ↥L) (F.M.comp (Subgroup.inclusion h.le)) hker).comp
     e.symm.toMonoidHom
 
+omit [Finite G] in
 theorem iotaOf_mk (F : ElemFrame P E K) (h : A5Pre P L E K)
     (hker : ∀ y : ↥L, y ∈ CFSG.Open.pCore 2 ↥L → F.M (Subgroup.inclusion h.le y) = 1)
     (e : oTwoQuot ↥L ≃* Alt5) (l : ↥L) :
@@ -54,11 +55,12 @@ theorem iotaOf_mk (F : ElemFrame P E K) (h : A5Pre P L E K)
   simp [iotaOf]
   rfl
 
+omit [Finite G] in
 theorem iotaOf_injective (F : ElemFrame P E K) (h : A5Pre P L E K)
     (hker : ∀ y : ↥L, y ∈ CFSG.Open.pCore 2 ↥L → F.M (Subgroup.inclusion h.le y) = 1)
     (e : oTwoQuot ↥L ≃* Alt5) : Function.Injective (iotaOf F h hker e) := by
   rw [← MonoidHom.ker_eq_bot_iff]
-  have hsimple : IsSimpleGroup Alt5 := alternatingGroup.isSimpleGroup_five
+  have hsimple : IsSimpleGroup Alt5 := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (iotaOf F h hker e).ker with h1 | h1
   · exact h1
   · exfalso
@@ -110,7 +112,7 @@ theorem exists_eq_of_injective {H : Finset Mat4} (hH : GroupFacts H) (f : Alt5 �
     (hf : Function.Injective f) (hmem : ∀ σ, f σ ∈ H) : ∀ m ∈ H, ∃ σ, f σ = m := by
   obtain ⟨-, -, -, hcard, -, -⟩ := hH
   classical
-  haveI : Fintype Alt5 := Fintype.ofFinite _
+  have : Fintype Alt5 := Fintype.ofFinite _
   have h60 : Fintype.card Alt5 = 60 := by rw [← Nat.card_eq_fintype_card]; exact a5_card
   have hsub : (Finset.univ : Finset Alt5).image f ⊆ H := by
     intro m hm
@@ -201,6 +203,7 @@ theorem exists_model_of_conj {H : Finset Mat4} (hH : GroupFacts H) {a₀ b₀ : 
     rw [map_mul, map_mul, map_inv]
     simp only [glMat, Units.val_mul, mul_assoc, Units.inv_mul, mul_one]
 
+omit [Finite G] in
 theorem not_mem_pCoreOf_of_orderOf_three {x : G} (hx3 : orderOf x = 3) : x ∉ pCoreOf 2 L := by
   intro hx
   have hp : IsPGroup 2 (pCoreOf 2 L) := CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_isPGroup 2 L
@@ -211,6 +214,7 @@ theorem not_mem_pCoreOf_of_orderOf_three {x : G} (hx3 : orderOf x = 3) : x ∉ p
   · have : 2 ∣ 2 ^ (k + 1) := dvd_pow_self 2 (Nat.succ_ne_zero k)
     omega
 
+omit [Finite G] in
 theorem fixFree_iff (F : ElemFrame P E K) (hPE : P ≤ Subgroup.normalizer (E : Set G)) (x : ↥P) :
     FixFree K E (x : G) ↔ ∀ v : Fin 4 → ZMod 2, glMat (F.M x) *ᵥ v = v → v = 0 := by
   constructor
@@ -240,6 +244,7 @@ theorem fixFree_iff (F : ElemFrame P E K) (hPE : P ≤ Subgroup.normalizer (E : 
       simpa using h0
     exact (F.ker e').mp this
 
+omit [Finite G] in
 theorem A5Model.order3 {H : Finset Mat4} (M : A5Model P L E K H) {x : G} (hxL : x ∈ L)
     (hxP : x ∈ P) (hx3 : orderOf x = 3) :
     glMat (M.F.M ⟨x, hxP⟩) ∈ H ∧ glMat (M.F.M ⟨x, hxP⟩) ≠ 1 ∧
@@ -262,10 +267,11 @@ theorem exists_orderOf_three (h : A5Pre P L E K) : ∃ x ∈ L, orderOf x = 3 :=
   have h3 : 3 ∣ Nat.card ↥L := by
     rw [hcard]
     exact Dvd.dvd.mul_right (by rw [show Nat.card (↥L ⧸ CFSG.Open.pCore 2 ↥L) = 60 from h60]; norm_num) _
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 h3
   exact ⟨x, x.2, by rw [Subgroup.orderOf_coe]; exact hx⟩
 
+omit [Finite G] in
 theorem natSec_of_model_N (hF : Certificates.A5GL42.Facts) (h : A5Pre P L E K)
     (M : A5Model P L E K Certificates.A5GL42.HN) : NatSec L K E := by
   intro x hxL hx3

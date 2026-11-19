@@ -60,7 +60,7 @@ theorem exists_trialityRep (h : Hyp711 V H E) {X : Type} [Group X]
     have hmem := hIN.conj_mem (⟨x, hIleH hx⟩ : H)
       (Subgroup.mem_subgroupOf.mpr hx) (⟨(k : G), hKI k.2⟩ : H)
     simpa using (Subgroup.mem_subgroupOf.mp hmem)
-  letI : CommGroup ↥(iSub V H E) :=
+  let : CommGroup ↥(iSub V H E) :=
     { (inferInstance : Group ↥(iSub V H E)) with
       mul_comm := fun a b => hIel.1.is_comm.comm a b }
   have h2 : ∀ x : Additive ↥(iSub V H E), 2 • x = 0 := by
@@ -71,18 +71,18 @@ theorem exists_trialityRep (h : Hyp711 V H E) {X : Type} [Group X]
       simpa using hIel.2 (a : G) a.2
     rw [← ofMul_pow, ha]
     rfl
-  letI : Module (ZMod 2) (Additive ↥(iSub V H E)) :=
+  let : Module (ZMod 2) (Additive ↥(iSub V H E)) :=
     AddCommGroup.zmodModule (n := 2) h2
   let conjMulEquiv : ↥(kSub V H E) → ↥(iSub V H E) ≃* ↥(iSub V H E) := fun k =>
     { toFun := fun x => ⟨(k : G) * x * (k : G)⁻¹, hKN k x x.2⟩
       invFun := fun x => ⟨(k : G)⁻¹ * x * (k : G), by
         simpa using hKN k⁻¹ x x.2⟩
       left_inv := fun x => Subtype.ext (by
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv]; group)
+        simp only; group)
       right_inv := fun x => Subtype.ext (by
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv]; group)
+        simp only; group)
       map_mul' := fun x y => Subtype.ext (by
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv]; group) }
+        simp only [Subgroup.coe_mul]; group) }
   have hconj : ∀ (k : ↥(kSub V H E)) (y : ↥(iSub V H E)),
       (conjMulEquiv k y : ↥(iSub V H E)) =
         ⟨(k : G) * (y : G) * (k : G)⁻¹, hKN k (y : G) y.2⟩ := fun k y => rfl
@@ -109,7 +109,7 @@ theorem exists_trialityRep (h : Hyp711 V H E) {X : Type} [Group X]
         apply congrArg Additive.ofMul
         rw [hconj (k * l) y, hconj l y, hconj k]
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+        simp only [Subgroup.coe_mul]
         group }
   have hρ_apply : ∀ (k : ↥(kSub V H E)) (y : ↥(iSub V H E)),
       ρ k (Additive.ofMul y) = Additive.ofMul (conjMulEquiv k y) := by

@@ -88,12 +88,12 @@ theorem commTreeP_eq (O : WOrbit) (D bi : Table) (z : PBits) (S : Array Nat) :
     fun (s : CSt) => (pure (s.1, s.2.1) : Id (Array Nat × Array Nat)))) (funext fun h => funext fun s => ?_)).trans rfl
   unfold cBody
   by_cases hh : h < s.1.size
-  · simp only [hh, if_true]
+  · simp only [hh, ite_true]
     rw [← Array.forIn_toList, forIn_yield _ (fun y t => cStep O D bi s.1[h]! h y t) (fun y t => by
       unfold cStep
       split <;> rfl)]
     rfl
-  · simp only [hh, if_false]
+  · simp only [hh, ite_false]
 
 structure CInvT (O : WOrbit) (D bi : Table) (S : Array Nat) (Dn : Nat → Nat → Prop) (s : CSt) :
     Prop where
@@ -127,7 +127,7 @@ theorem cStep_inv {O : WOrbit} {D bi : Table} {S : Array Nat} {Dn : Nat → Nat 
   unfold cStep
   dsimp only
   by_cases hc : (!pBit seen y && tauAct O D bi ord[h]! y == y) = true
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     dsimp only
     rw [Bool.and_eq_true, Bool.not_eq_true', beq_iff_eq] at hc
     obtain ⟨hns, hcomm⟩ := hc
@@ -139,8 +139,8 @@ theorem cStep_inv {O : WOrbit} {D bi : Table} {S : Array Nat} {Dn : Nat → Nat 
     have hpush : ∀ k < ord.size + 1, (ord.push y)[k]! = if k < ord.size then ord[k]! else y := by
       intro k hk
       by_cases hk' : k < ord.size
-      · rw [if_pos hk', get!_push_lt _ _ hk']
-      · rw [if_neg hk', get!_push_of (by omega)]
+      · rw [ite_eq_left hk', get!_push_lt _ _ hk']
+      · rw [ite_eq_right hk', get!_push_of (by omega)]
     have hss : seen.size = 3959 := Hss
     refine ⟨⟨by simp, by rw [get!_push_lt _ _ Hpos]; exact Hroot, by simp [Hps],
       by rw [size_pSet]; exact hss, fun k hk => ?_, fun y' => ?_, fun i hi j hj e => ?_,
@@ -166,11 +166,11 @@ theorem cStep_inv {O : WOrbit} {D bi : Table} {S : Array Nat} {Dn : Nat → Nat 
       rw [Array.size_push] at hi hj
       rw [hpush i hi, hpush j hj] at e
       by_cases hi' : i < ord.size <;> by_cases hj' : j < ord.size
-      · rw [if_pos hi', if_pos hj'] at e
+      · rw [ite_eq_left hi', ite_eq_left hj'] at e
         exact Hinj i hi' j hj' e
-      · rw [if_pos hi', if_neg hj'] at e
+      · rw [ite_eq_left hi', ite_eq_right hj'] at e
         exact absurd e (hnew i hi')
-      · rw [if_neg hi', if_pos hj'] at e
+      · rw [ite_eq_right hi', ite_eq_left hj'] at e
         exact absurd e.symm (hnew j hj')
       · omega
     · dsimp only at *
@@ -194,7 +194,7 @@ theorem cStep_inv {O : WOrbit} {D bi : Table} {S : Array Nat} {Dn : Nat → Nat 
         exact ⟨j, by rw [Array.size_push]; omega, by rw [get!_push_lt _ _ hj]; exact e⟩
       · subst hy1
         exact ⟨ord.size, by simp, get!_push_eq _ _⟩
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     refine ⟨{ H with clos := fun k hk y' hy' hd he => ?_ }, Nat.le_refl _, fun _ _ => rfl⟩
     rcases hd with hd | ⟨hk1, hy1⟩
     · exact Hclos k hk y' hy' hd he
@@ -280,7 +280,7 @@ theorem commTreeP_spec (O : WOrbit) (D bi : Table) {z : PBits} (hz : z.size = 39
   · rintro q s hq ⟨H, hqs⟩
     unfold cBody
     by_cases hlt : q < s.1.size
-    · rw [if_pos hlt]
+    · rw [ite_eq_left hlt]
       have := cFold_inv (O := O) (D := D) (bi := bi) hS hlt S.toList [] s
         (fun y hy => Array.mem_toList_iff.1 hy)
         (H.mono fun k y _ hd => by
@@ -293,7 +293,7 @@ theorem commTreeP_spec (O : WOrbit) (D bi : Table) {z : PBits} (hz : z.size = 39
       rcases Nat.lt_succ_iff_lt_or_eq.1 hd with hd | hd
       · exact Or.inl hd
       · exact Or.inr ⟨hd, by simpa using hy⟩
-    · rw [if_neg hlt]
+    · rw [ite_eq_right hlt]
       have e : q = s.1.size := by omega
       exact e ▸ H
   · rintro s ⟨H, hs⟩

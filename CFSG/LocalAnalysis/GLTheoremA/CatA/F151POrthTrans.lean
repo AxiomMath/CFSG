@@ -101,8 +101,8 @@ theorem orthModelTrans_holds : OrthModelTrans := by
       have hLM := T171Sh.lieModel_of_catalogIs_D hcatD
       have hclass := hLM.statedClassicalModel (by simp [CFSG.Blueprint.classicalTags])
       obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨eS⟩⟩ := hclass
-      letI : Field K := hKfield
-      letI : Finite K := hKfinite
+      let : Field K := hKfield
+      let : Finite K := hKfinite
       have hplus := hPlus m q.exponent K hm4 hKcard p hp hp2
       have eS' : S ≃* CFSG.Assembly.LargeEvenProj
           (CFSG.Assembly.LargeEvenOmega (CFSG.Assembly.LargeEvenQPlus K m)) := eS
@@ -119,8 +119,8 @@ theorem orthModelTrans_holds : OrthModelTrans := by
       have hLM := T171Sh.lieModel_of_catalogIs_twistedD hcatD
       have hclass := hLM.statedClassicalModel (by simp [CFSG.Blueprint.classicalTags])
       obtain ⟨-, K, hKfield, hKfinite, hKcard, b, c, hbc, ⟨eS⟩⟩ := hclass
-      letI : Field K := hKfield
-      letI : Finite K := hKfinite
+      let : Field K := hKfield
+      let : Finite K := hKfinite
       have hminus := hMinus m q.exponent K hm4 hKcard b c hbc p hp hp2
       have eS' : S ≃* CFSG.Assembly.LargeEvenProj
           (CFSG.Assembly.LargeEvenOmega (CFSG.Assembly.LargeEvenQMinus (m - 1) b c)) :=

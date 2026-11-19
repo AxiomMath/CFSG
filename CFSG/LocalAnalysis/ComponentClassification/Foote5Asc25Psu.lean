@@ -74,7 +74,7 @@ theorem false_of_psu3 {x : G} (hx : orderOf x = 4)
   have hmemQ : ∀ m : M, m ∈ (Q₀ : Subgroup M) ↔ (m : G) ∈ S := fun m => by
     rw [hQ₀, mem_subgroupOf, mem_inf]
     exact ⟨fun h => h.1, fun h => ⟨h, m.2⟩⟩
-  have hQp : IsPGroup 2 (Q₀ : Subgroup M) := Q₀.isPGroup'
+  have hQp : IsPGroup 2 (Q₀ : Subgroup M) := Q₀.isPGroup
   have hinj : ∀ a ∈ (Q₀ : Subgroup M), ∀ b ∈ (Q₀ : Subgroup M), π a = π b → a = b :=
     fun a ha b hb hab => injOn_of_odd_ker hOodd hQp ha hb hab
   set Pb : Sylow 2 (↥M ⧸ O) := Q₀.mapSurjective hπs with hPb

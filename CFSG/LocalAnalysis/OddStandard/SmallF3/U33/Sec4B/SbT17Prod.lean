@@ -91,12 +91,12 @@ theorem isElemAbelian_sup {H K : Subgroup G} (hH : CFSG.Open.IsElemAbelian 2 H)
     fun x => mem_sup_iff_of_normalizes (H := H) (K := K) hnorm
   have hcommH : ∀ h h' : G, h ∈ H → h' ∈ H → h * h' = h' * h := by
     intro h h' hh hh'
-    haveI : IsMulCommutative ↥H := hH.1
+    have : IsMulCommutative ↥H := hH.1
     have key := mul_comm' (⟨h, hh⟩ : ↥H) (⟨h', hh'⟩ : ↥H)
     simpa using congrArg Subtype.val key
   have hcommK : ∀ k k' : G, k ∈ K → k' ∈ K → k * k' = k' * k := by
     intro k k' hk hk'
-    haveI : IsMulCommutative ↥K := hK.1
+    have : IsMulCommutative ↥K := hK.1
     have key := mul_comm' (⟨k, hk⟩ : ↥K) (⟨k', hk'⟩ : ↥K)
     simpa using congrArg Subtype.val key
   refine ⟨IsMulCommutative.of_comm ?_, ?_⟩

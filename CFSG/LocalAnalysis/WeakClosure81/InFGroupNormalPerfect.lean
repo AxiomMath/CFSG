@@ -58,9 +58,9 @@ private theorem pCoreOf_le_map_solvableRadical {G : Type} [Group G] [Finite G]
   have hNn : ((pCoreOf 2 J).subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQK).mpr hKnorm
   have hNs : Group.IsSolvable ↥((pCoreOf 2 J).subgroupOf K) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsSolvable ↥(pCoreOf 2 J) := by
-      haveI := (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 J).isNilpotent
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsSolvable ↥(pCoreOf 2 J) := by
+      have := (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 J).isNilpotent
       exact IsNilpotent.to_isSolvable
     exact Group.isSolvable_of_surjective
       (f := (Subgroup.subgroupOfEquivOfLe hQK).symm.toMonoidHom)
@@ -71,7 +71,7 @@ private theorem pCoreOf_le_map_solvableRadical {G : Type} [Group G] [Finite G]
   rwa [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hQK] at hmap
 
 private theorem inf_map_solvableRadical_le_pCoreOf {G : Type} [Group G] [Finite G]
-    {K J : Subgroup G} (hJK : J ≤ K) (hJn : (J.subgroupOf K).Normal)
+    {K J : Subgroup G} (hJK : J ≤ K) (_hJn : (J.subgroupOf K).Normal)
     (hJperf : ⁅J, J⁆ = J) (hJs : IsSimpleGroup (ModO2 J)) :
     (CFSG.solvableRadical ↥K).map K.subtype ⊓ J ≤ pCoreOf 2 J := by
   have hJnormR : J ≤ Subgroup.normalizer
@@ -92,28 +92,28 @@ private theorem inf_map_solvableRadical_le_pCoreOf {G : Type} [Group G] [Finite 
         exact ⟨(Subgroup.mem_normalizer_iff.mp (hJnormR hj) x).mpr hxR,
           (Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer hj) x).mpr hxJ⟩
   have hMsolv : Group.IsSolvable ↥M := by
-    haveI : Group.IsSolvable ↥(CFSG.solvableRadical ↥K) := A3.solvableRadical_isSolvable
+    have : Group.IsSolvable ↥(CFSG.solvableRadical ↥K) := A3.solvableRadical_isSolvable
     have hRsolv : Group.IsSolvable ↥((CFSG.solvableRadical ↥K).map K.subtype) :=
       Group.isSolvable_of_surjective
         (f := (Subgroup.equivMapOfInjective (CFSG.solvableRadical ↥K) K.subtype
           K.subtype_injective).toMonoidHom)
         (Subgroup.equivMapOfInjective (CFSG.solvableRadical ↥K) K.subtype
           K.subtype_injective).surjective
-    haveI := hRsolv
+    have := hRsolv
     have hNsolv : Group.IsSolvable ↥N :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion inf_le_left)
         (Subgroup.inclusion_injective inf_le_left)
-    haveI := hNsolv
+    have := hNsolv
     exact Group.isSolvable_of_surjective
       (f := (Subgroup.subgroupOfEquivOfLe inf_le_right).symm.toMonoidHom)
       (by simpa using (Subgroup.subgroupOfEquivOfLe inf_le_right).symm.surjective)
-  haveI : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr hJperf
-  haveI : Group.IsPerfect (ModO2 J) :=
+  have : Group.IsPerfect ↥J := Subgroup.isPerfect_iff.mpr hJperf
+  have : Group.IsPerfect (ModO2 J) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (CFSG.pCore 2 ↥J))
       (QuotientGroup.mk'_surjective _)
   let q : ↥J →* ModO2 J := QuotientGroup.mk' (CFSG.pCore 2 ↥J)
   have hqMn : (M.map q).Normal := hMnorm.map q (QuotientGroup.mk'_surjective _)
-  haveI : (M.map q).Normal := hqMn
+  have : (M.map q).Normal := hqMn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (M.map q) with hbot | htop
   · have hle : M ≤ CFSG.pCore 2 ↥J := by
       rw [← QuotientGroup.ker_mk' (CFSG.pCore 2 ↥J)]
@@ -129,7 +129,7 @@ private theorem inf_map_solvableRadical_le_pCoreOf {G : Type} [Group G] [Finite 
       rw [Subgroup.mem_map] at hy
       obtain ⟨x, hx, hqx⟩ := hy
       exact ⟨⟨x, hx⟩, hqx⟩
-    haveI : Group.IsSolvable (ModO2 J) :=
+    have : Group.IsSolvable (ModO2 J) :=
       Group.isSolvable_of_surjective (f := q.comp M.subtype) hsurj
     exact Group.IsPerfect.not_isSolvable (ModO2 J) inferInstance
 
@@ -158,7 +158,7 @@ private theorem isPGroup_solvableRadical_of_simple {G : Type} [Group G] [Finite 
   exact hm'
 
 private theorem isSimpleGroup_map_solvableRadical {G : Type} [Group G] [Finite G]
-    {K J : Subgroup G} (hJK : J ≤ K) (hJn : (J.subgroupOf K).Normal)
+    {K J : Subgroup G} (hJK : J ≤ K) (_hJn : (J.subgroupOf K).Normal)
     (hJperf : ⁅J, J⁆ = J) (hJs : IsSimpleGroup (ModO2 J))
     (hInter : (CFSG.solvableRadical ↥K).map K.subtype ⊓ J = pCoreOf 2 J) :
     IsSimpleGroup ((J.subgroupOf K).map (QuotientGroup.mk' (CFSG.solvableRadical ↥K))) ∧
@@ -193,10 +193,10 @@ private theorem isSimpleGroup_map_solvableRadical {G : Type} [Group G] [Finite G
       rwa [hEq]
   have hrange : φ.range = (J.subgroupOf K).map π := by
     rw [MonoidHom.range_comp, Subgroup.inclusion_range]
-  haveI : IsSimpleGroup (ModO2 J) := hJs
-  haveI : IsSimpleGroup (↥J ⧸ φ.ker) :=
+  have : IsSimpleGroup (ModO2 J) := hJs
+  have : IsSimpleGroup (↥J ⧸ φ.ker) :=
     (QuotientGroup.quotientMulEquivOfEq hker.symm).symm.isSimpleGroup
-  haveI : IsSimpleGroup ↥φ.range :=
+  have : IsSimpleGroup ↥φ.range :=
     (QuotientGroup.quotientKerEquivRange φ).symm.isSimpleGroup
   have hsimple : IsSimpleGroup ((J.subgroupOf K).map π) :=
     (MulEquiv.subgroupCongr hrange).symm.isSimpleGroup
@@ -250,11 +250,11 @@ theorem eCaseII_of_normal_perfect {G : Type} [Group G] [Finite G] {T A K J : Sub
     ⟨R, ⟨le_rfl, hR2, by rw [Subgroup.relIndex_self]; norm_num⟩,
       by rw [Subgroup.subgroupOf_self]; infer_instance⟩
   obtain ⟨hLsimple, hLnonab⟩ := isSimpleGroup_map_solvableRadical hJK hJn hJperf hJs hInter
-  haveI : IsSimpleGroup L := hLsimple
+  have : IsSimpleGroup L := hLsimple
   have hLq : CFSG.IsQuasisimple L :=
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hLnonab).1
   have hLn : L.Normal := Subgroup.Normal.map hJn π (QuotientGroup.mk'_surjective R)
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   have hJ'perf : ⁅J', J'⁆ = J' := by
     apply Subgroup.map_injective K.subtype_injective
     rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hJK, hJperf]

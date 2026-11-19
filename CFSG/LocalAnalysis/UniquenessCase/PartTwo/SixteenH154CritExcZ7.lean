@@ -178,7 +178,7 @@ theorem s16h_three_le_rk_of_normalizes_Z7 {W : Type} [CommGroup W] [Finite W]
     have hY : IsPGroup 7 ↥(Subgroup.zpowers x) :=
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hord]; norm_num)
     have hdvd3 : 3 ∣ rk ↥(commSub (⊤ : Subgroup W) (Subgroup.zpowers i)) := by
-      haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
       have hdvd := CFSG.GroupTheory.orderOf_two_dvd_rk_of_inf_fixV_eq_bot (V := W) (p := 7)
         hW (Y := Subgroup.zpowers x) hY hW_inv hfix
       rwa [horder2] at hdvd

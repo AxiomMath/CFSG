@@ -22,7 +22,6 @@ theorem gen_sq {l : ℕ} (h1 : 1 ≤ l) (h7 : l ≤ 7) : elemW [l] * elemW [l] =
   have h := CFSG.KS.Raw.Orb.allN_iff.1 ch441872_inv (l - 1) (by change l - 1 < 7; omega)
   beta_reduce at h
   rw [strictB_eq] at h
-  beta_reduce at h
   have e : Nat.add (l - 1) (nat_lit 1) = l := by
     change l - 1 + 1 = l
     omega

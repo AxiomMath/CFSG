@@ -39,7 +39,7 @@ theorem orthogonalModuleRep_inducesOmega {R N : Subgroup G}
       invFun := fun T => e.trans (T.trans e.symm)
       left_inv := fun T => by ext x; simp
       right_inv := fun T => by ext x; simp
-      map_mul' := fun T S => by ext x; simp [mul_assoc] }
+      map_mul' := fun T S => by ext x; simp }
   have hmap : (TauCeti.QuadraticMap.orthogonalGroup M₀.toQuadraticForm).map c.toMonoidHom =
       TauCeti.QuadraticMap.orthogonalGroup (quadPlus 3 K) := by
     ext A
@@ -98,8 +98,8 @@ variable {M Q Z B : Subgroup G} [(Q.subgroupOf M).Normal]
 theorem l4Orthogonal_case_false (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n) (hn : 2 ≤ n)
     {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     (hD : GlobalModelData M Q Z γ M₀)
-    {X₁ X₂ : Subgroup G} (hX₂ : X₂ = Q) (hX₁ : X₁ = Z)
-    (nat : NaturalRep (ι := Fin 3 ⊕ Fin 3) K (StatedOmega (StatedQuadPlus 3 K))
+    {X₁ X₂ : Subgroup G} (_hX₂ : X₂ = Q) (_hX₁ : X₁ = Z)
+    (_nat : NaturalRep (ι := Fin 3 ⊕ Fin 3) K (StatedOmega (StatedQuadPlus 3 K))
       (XbarPre M Q Z B) X₂ X₁ (XbarPreCenter M Q Z B))
     (hΩ : InducesOmega M₀ (XbarPre M Q Z B)) : False :=
   BeisiegelSatz5Stroth hc.hyp hD hw hn (XbarPre_le_H0 hc) hΩ

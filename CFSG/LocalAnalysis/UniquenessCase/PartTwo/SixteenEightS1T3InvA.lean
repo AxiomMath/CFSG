@@ -174,7 +174,7 @@ theorem s16t3_inv_eight_le_range_of_move [Finite V]
     exact Subtype.ext (Subtype.ext h1)
   have hI8 : 8 * Nat.card ↥Z ≤ Nat.card ↥I := SumOfNatShape.eight_mul_card_le hq hnat
   have hcard := Subgroup.card_ker_mul_card_range f
-  haveI : Nonempty ↥f.ker := ⟨1⟩
+  have : Nonempty ↥f.ker := ⟨1⟩
   have hpos : 0 < Nat.card f.ker := Nat.card_pos
   have h8ker : 8 * Nat.card f.ker ≤ Nat.card f.ker * Nat.card f.range := by
     calc 8 * Nat.card f.ker ≤ 8 * Nat.card ↥Z := Nat.mul_le_mul_left 8 hker_le

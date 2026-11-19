@@ -39,7 +39,7 @@ private theorem irgK2_exists_long_of_ggLongRoot_minus_three {F : Type} [Field F]
       · exfalso
         set e : Fin (3 - 1) → ℤ :=
           Pi.single ⟨0, by omega⟩ 1 + Pi.single ⟨1, by omega⟩ 1 with he
-        have h01 : (⟨0, by omega⟩ : Fin (3 - 1)) ≠ ⟨1, by omega⟩ := by simp [Fin.ext_iff]
+        have h01 : (⟨0, by omega⟩ : Fin (3 - 1)) ≠ ⟨1, by omega⟩ := by simp
         have hδ := ofStdB_mem_rootsB (n := 3 - 1) (e := e)
           (Or.inl ⟨⟨0, by omega⟩, ⟨1, by omega⟩, 1, 1, h01, Or.inl rfl, Or.inl rfl, rfl⟩)
         have h1 : @CFSG.LieType.Steinberg.ht (Fin (3 - 1)) _ (ofStdB (3 - 1) e) ≤
@@ -297,19 +297,19 @@ theorem irgK2_compat_psiSUEven {F K : Type} [Field F] [Field K] [Algebra F K] [F
     have hn : toStdB 2 (-β') =
         Pi.single (0 : Fin 2) (boolSign true) + Pi.single (1 : Fin 2) (boolSign true) := by
       rw [show toStdB 2 (-β') = -toStdB 2 β' from toStdB_neg 2 β', hst]
-      ext j <;> fin_cases j <;> simp [boolSign]
+      ext j; fin_cases j <;> simp [boolSign]
     have hβn : (minusDatum 3 hirr).rootGroup (-β') = _ := minusRootGroup_eq_long 3 hirr fin_zero_ne_one true true hn
     refine ⟨-ggTopRoot 4, ⟨hroot3, hlong3⟩, 1, ?_, ?_⟩
     · rw [hβ, irgK2_map_f0f1 D hK hirr]
       rw [show (Unitary.rootDatum hK 4).rootGroup =
           rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4 from rfl,
         show (MulAut.conj (1 : SU (unitaryInvolution K 2 f) 4)).toMonoidHom =
-          MonoidHom.id _ from by ext x; simp [MulAut.conj], Subgroup.map_id] <;> exact congrArg (rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4) (by funext i; first | rfl | exact (neg_neg _).symm)
+          MonoidHom.id _ from by ext x; simp [MulAut.conj], Subgroup.map_id]
     · rw [hβn, irgK2_map_e0e1 D hK hirr]
       rw [show (Unitary.rootDatum hK 4).rootGroup =
           rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4 from rfl,
         show (MulAut.conj (1 : SU (unitaryInvolution K 2 f) 4)).toMonoidHom =
-          MonoidHom.id _ from by ext x; simp [MulAut.conj], Subgroup.map_id] <;> exact congrArg (rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4) (by funext i; first | rfl | exact (neg_neg _).symm)
+          MonoidHom.id _ from by ext x; simp [MulAut.conj], Subgroup.map_id]; exact congrArg (rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4) (by funext i; first | exact (neg_neg _).symm)
   · have hst' : toStdB 2 β' =
         Pi.single (1 : Fin 2) (boolSign true) + Pi.single (0 : Fin 2) (boolSign false) := by
       rw [hst, add_comm]
@@ -317,24 +317,24 @@ theorem irgK2_compat_psiSUEven {F K : Type} [Field F] [Field K] [Algebra F K] [F
     have hn : toStdB 2 (-β') =
         Pi.single (0 : Fin 2) (boolSign true) + Pi.single (1 : Fin 2) (boolSign false) := by
       rw [show toStdB 2 (-β') = -toStdB 2 β' from toStdB_neg 2 β', hst]
-      ext j <;> fin_cases j <;> simp [boolSign]
+      ext j; fin_cases j <;> simp [boolSign]
     have hβn : (minusDatum 3 hirr).rootGroup (-β') = _ := minusRootGroup_eq_long 3 hirr fin_zero_ne_one true false hn
     refine ⟨-Pi.single (1 : Fin 2) 1, ⟨hroot2, hlong2⟩, 1, ?_, ?_⟩
     · rw [hβ, irgK2_map_e1f0 D hK hirr]
       rw [show (Unitary.rootDatum hK 4).rootGroup =
           rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4 from rfl,
         show (MulAut.conj (1 : SU (unitaryInvolution K 2 f) 4)).toMonoidHom =
-          MonoidHom.id _ from by ext x; simp [MulAut.conj], Subgroup.map_id] <;> exact congrArg (rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4) (by funext i; first | rfl | exact (neg_neg _).symm)
+          MonoidHom.id _ from by ext x; simp [MulAut.conj], Subgroup.map_id]
     · rw [hβn, irgK2_map_e0f1 D hK hirr]
       rw [show (Unitary.rootDatum hK 4).rootGroup =
           rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4 from rfl,
         show (MulAut.conj (1 : SU (unitaryInvolution K 2 f) 4)).toMonoidHom =
-          MonoidHom.id _ from by ext x; simp [MulAut.conj], Subgroup.map_id] <;> exact congrArg (rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4) (by funext i; first | rfl | exact (neg_neg _).symm)
+          MonoidHom.id _ from by ext x; simp [MulAut.conj], Subgroup.map_id]; exact congrArg (rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4) (by funext i; first | exact (neg_neg _).symm)
   · have hβ : (minusDatum 3 hirr).rootGroup β' = _ := minusRootGroup_eq_long 3 hirr fin_zero_ne_one true false hst
     have hn : toStdB 2 (-β') =
         Pi.single (0 : Fin 2) (boolSign false) + Pi.single (1 : Fin 2) (boolSign true) := by
       rw [show toStdB 2 (-β') = -toStdB 2 β' from toStdB_neg 2 β', hst]
-      ext j <;> fin_cases j <;> simp [boolSign]
+      ext j; fin_cases j <;> simp [boolSign]
     have hn' : toStdB 2 (-β') =
         Pi.single (1 : Fin 2) (boolSign true) + Pi.single (0 : Fin 2) (boolSign false) := by
       rw [hn, add_comm]
@@ -344,28 +344,28 @@ theorem irgK2_compat_psiSUEven {F K : Type} [Field F] [Field K] [Algebra F K] [F
       rw [show (Unitary.rootDatum hK 4).rootGroup =
           rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4 from rfl,
         show (MulAut.conj (1 : SU (unitaryInvolution K 2 f) 4)).toMonoidHom =
-          MonoidHom.id _ from by ext x; simp [MulAut.conj], Subgroup.map_id] <;> exact congrArg (rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4) (by funext i; first | rfl | exact (neg_neg _).symm)
+          MonoidHom.id _ from by ext x; simp [MulAut.conj], Subgroup.map_id]; exact congrArg (rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4) (by funext i; first | rfl)
     · rw [hβn, irgK2_map_e1f0 D hK hirr]
       rw [show (Unitary.rootDatum hK 4).rootGroup =
           rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4 from rfl,
         show (MulAut.conj (1 : SU (unitaryInvolution K 2 f) 4)).toMonoidHom =
-          MonoidHom.id _ from by ext x; simp [MulAut.conj], Subgroup.map_id] <;> exact congrArg (rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4) (by funext i; first | rfl | exact (neg_neg _).symm)
+          MonoidHom.id _ from by ext x; simp [MulAut.conj], Subgroup.map_id]; exact congrArg (rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4) (by funext i; first | rfl)
   · have hβ : (minusDatum 3 hirr).rootGroup β' = _ := minusRootGroup_eq_long 3 hirr fin_zero_ne_one true true hst
     have hn : toStdB 2 (-β') =
         Pi.single (0 : Fin 2) (boolSign false) + Pi.single (1 : Fin 2) (boolSign false) := by
       rw [show toStdB 2 (-β') = -toStdB 2 β' from toStdB_neg 2 β', hst]
-      ext j <;> fin_cases j <;> simp [boolSign]
+      ext j; fin_cases j <;> simp [boolSign]
     have hβn : (minusDatum 3 hirr).rootGroup (-β') = _ := minusRootGroup_eq_long 3 hirr fin_zero_ne_one false false hn
     refine ⟨ggTopRoot 4, ⟨hrootθ, hθ⟩, 1, ?_, ?_⟩
     · rw [hβ, irgK2_map_e0e1 D hK hirr]
       rw [show (Unitary.rootDatum hK 4).rootGroup =
           rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4 from rfl,
         show (MulAut.conj (1 : SU (unitaryInvolution K 2 f) 4)).toMonoidHom =
-          MonoidHom.id _ from by ext x; simp [MulAut.conj], Subgroup.map_id] <;> exact congrArg (rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4) (by funext i; first | rfl | exact (neg_neg _).symm)
+          MonoidHom.id _ from by ext x; simp [MulAut.conj], Subgroup.map_id]
     · rw [hβn, irgK2_map_f0f1 D hK hirr]
       rw [show (Unitary.rootDatum hK 4).rootGroup =
           rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4 from rfl,
         show (MulAut.conj (1 : SU (unitaryInvolution K 2 f) 4)).toMonoidHom =
-          MonoidHom.id _ from by ext x; simp [MulAut.conj], Subgroup.map_id] <;> exact congrArg (rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4) (by funext i; first | rfl | exact (neg_neg _).symm)
+          MonoidHom.id _ from by ext x; simp [MulAut.conj], Subgroup.map_id]; exact congrArg (rootGroup (unitaryInvolution K 2 f) (unitaryInvolution_involutive hK) 4) (by funext i; first | rfl)
 
 end CFSG.StandardType.RCKRP

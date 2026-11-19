@@ -109,7 +109,7 @@ section FixedSpace
 variable {V : Type} [CommGroup V] [Module (ZMod 2) (Additive V)]
 variable {A L T : Subgroup (MulAut V)}
 
-private noncomputable def kappaZOfThreeNat (h : ThreeNat A L T) :
+private noncomputable def kappaZOfThreeNat (_h : ThreeNat A L T) :
     Representation (ZMod 2) ↥(s1t3KBar A L) ↥(s16smSubmod (fixV L)) :=
   (s16smRepW (W := V) (H := s1t3KBar A L) (MonoidHom.id ↥(s1t3KBar A L))).subrepresentation
     (s16smSubmod (fixV L)) (by
@@ -169,7 +169,7 @@ private noncomputable def quotRepT (hTL : T ≤ Subgroup.normalizer (L : Set (Mu
 private theorem quotRepT_apply (hTL : T ≤ Subgroup.normalizer (L : Set (MulAut V))) (t : ↥T) (v : V) :
     quotRepT (L := L) hTL t (quotFixMap (L := L) (Additive.ofMul v)) =
       quotFixMap (L := L) (Additive.ofMul ((t : MulAut V) v)) := by
-  letI := quotAct (X := L) (T := T) (W := (⊤ : Subgroup V)) hTL
+  let := quotAct (X := L) (T := T) (W := (⊤ : Subgroup V)) hTL
     (fun _ _ _ _ => Subgroup.mem_top _)
   rw [quotFixMap_apply, quotFixMap_apply, quotRepT, s16smRepW_apply]
   congr 1
@@ -223,17 +223,20 @@ private noncomputable abbrev quotLImage (h : ThreeNat A L T) :
     Subgroup (MulAut (V ⧸ modFix L (⊤ : Subgroup V))) :=
   (quotLActionHom h).range
 
+omit [Finite V] in
 private theorem quotAlphaL_apply (h : ThreeNat A L T) (l : ↥L) (v : V) :
     quotAlphaL h l (quotFixMap (L := L) (Additive.ofMul v)) =
       quotFixMap (L := L) (Additive.ofMul ((l : MulAut V) v)) :=
   quotRepT_apply (L := L) (T := A) h.normal (Subgroup.inclusion h.le l) v
 
+omit [Finite V] in
 private theorem quotAlphaL_apply_mk (h : ThreeNat A L T) (l : ↥L) (v : V) :
     quotAlphaL h l (Additive.ofMul (QuotientGroup.mk v)) =
       Additive.ofMul (QuotientGroup.mk ((l : MulAut V) v)) := by
   have h2 := quotAlphaL_apply h l v
   rwa [quotFixMap_apply] at h2
 
+omit [Finite V] [Module (ZMod 2) (Additive V)] in
 private theorem quotLActionHom_apply (h : ThreeNat A L T) (l : ↥L) (q : V ⧸ modFix L (⊤ : Subgroup V)) :
     quotLActionHom h l q = Additive.toMul ((quotAlphaL h l) (Additive.ofMul q)) := by
   have h2 := mulAutOfEndUnits_apply (W := V ⧸ modFix L (⊤ : Subgroup V))
@@ -242,6 +245,7 @@ private theorem quotLActionHom_apply (h : ThreeNat A L T) (l : ↥L) (q : V ⧸ 
   rw [quotLActionHom, MonoidHom.comp_apply, unitsToMulAutHom_apply]
   exact Additive.ofMul.injective h2
 
+omit [Finite V] in
 private theorem binaryNaturalSL_tilde (h : ThreeNat A L T) {I : Subgroup V}
     (hI : BinaryNaturalSL L I (fixV L) 3 1) :
     BinaryNaturalSL (quotLImage h) (tilde L (⊤ : Subgroup V) I) ⊥ 3 1 := by
@@ -290,6 +294,7 @@ variable {V : Type} [CommGroup V] [Finite V] [Module (ZMod 2) (Additive V)]
 variable {A L T : Subgroup (MulAut V)}
 variable [Module (ZMod 2) (Additive (V ⧸ modFix L (⊤ : Subgroup V)))]
 
+omit [Finite V] in
 private theorem quotAlphaL_apply_smul (h : ThreeNat A L T) (l : ↥L)
     (z : V ⧸ modFix L (⊤ : Subgroup V)) :
     quotAlphaL h l (Additive.ofMul z) = Additive.ofMul (l • z) := by
@@ -297,12 +302,14 @@ private theorem quotAlphaL_apply_smul (h : ThreeNat A L T) (l : ↥L)
   rw [quotAlphaL_apply_mk]
   exact congrArg Additive.ofMul (XMod.smul_quotMk (L := (⊤ : Subgroup V)) l v).symm
 
+omit [Finite V] in
 private theorem toMul_quotAlphaL (h : ThreeNat A L T) (l : ↥L)
     (v : Additive (V ⧸ modFix L (⊤ : Subgroup V))) :
     Additive.toMul (quotAlphaL h l v) = l • Additive.toMul v := by
   have h2 := congrArg Additive.toMul (quotAlphaL_apply_smul h l (Additive.toMul v))
   simpa using h2
 
+omit [Finite V] [Module (ZMod 2) (Additive V)] in
 private theorem card_submod (Y : Subgroup (V ⧸ modFix L (⊤ : Subgroup V))) :
     Nat.card ↥(s16smSubmod Y) = Nat.card ↥Y := by
   refine Nat.card_congr ?_
@@ -312,6 +319,7 @@ private theorem card_submod (Y : Subgroup (V ⧸ modFix L (⊤ : Subgroup V))) :
       left_inv := fun x => Subtype.ext (by simp)
       right_inv := fun y => Subtype.ext (by simp) }
 
+omit [Module (ZMod 2) (Additive V)] in
 private theorem finrank_submod_of_binaryNaturalSL_three
     {H : Subgroup (MulAut (V ⧸ modFix L (⊤ : Subgroup V)))}
     {Y : Subgroup (V ⧸ modFix L (⊤ : Subgroup V))} (hY : BinaryNaturalSL H Y ⊥ 3 1) :
@@ -320,7 +328,7 @@ private theorem finrank_submod_of_binaryNaturalSL_three
     rw [card_submod, s15_T7_card_eight hY]
   have h2 : Nat.card ↥(s16smSubmod Y) =
       2 ^ Module.finrank (ZMod 2) ↥(s16smSubmod Y) := by
-    haveI : Module.Finite (ZMod 2) ↥(s16smSubmod Y) := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) ↥(s16smSubmod Y) := Module.Finite.of_finite
     have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := ↥(s16smSubmod Y))
     rwa [Nat.card_zmod] at h
   rw [hcard] at h2
@@ -328,6 +336,7 @@ private theorem finrank_submod_of_binaryNaturalSL_three
     rw [← h2]; norm_num
   exact (Nat.pow_right_injective (by norm_num) h3).symm
 
+omit [Finite V] [Module (ZMod 2) (Additive V)] in
 private theorem s16smSubmod_ne_bot_of_isIrr {Y : Subgroup (V ⧸ modFix L (⊤ : Subgroup V))}
     (hY : XMod.IsIrr ↥L Y) : s16smSubmod Y ≠ ⊥ := by
   intro hbot
@@ -349,6 +358,7 @@ private theorem s16smSubmod_ne_bot_of_isIrr {Y : Subgroup (V ⧸ modFix L (⊤ :
     simpa using (Subgroup.mem_bot.mp hmem)
   exact hy1 (Additive.ofMul.injective h2)
 
+omit [Finite V] in
 private theorem isIrrSubmodule_of_isIrr (h : ThreeNat A L T)
     {Y : Subgroup (V ⧸ modFix L (⊤ : Subgroup V))} (hY : XMod.IsIrr ↥L Y) :
     ∀ U ≤ s16smSubmod Y,
@@ -403,11 +413,13 @@ private noncomputable def quotD (h : ThreeNat A L T) :
     Subgroup (Module.End (ZMod 2) (Additive (V ⧸ modFix L (⊤ : Subgroup V))))ˣ :=
   (quotAlphaL h).asGroupHom.range
 
+omit [Finite V] [Module (ZMod 2) (Additive V)] in
 private theorem mem_quotD {h : ThreeNat A L T} {d : (Module.End (ZMod 2)
     (Additive (V ⧸ modFix L (⊤ : Subgroup V))))ˣ} :
     d ∈ quotD h ↔ ∃ l : ↥L, (quotAlphaL h).asGroupHom l = d :=
   MonoidHom.mem_range
 
+omit [Finite V] in
 private theorem submod_invariant (h : ThreeNat A L T) (hY : XMod.IsIrr ↥L Y) :
     ∀ l : ↥L, s16smSubmod Y ≤ (s16smSubmod Y).comap (quotAlphaL h l) := by
   intro l v hv
@@ -416,6 +428,7 @@ private theorem submod_invariant (h : ThreeNat A L T) (hY : XMod.IsIrr ↥L Y) :
   rw [hv', quotAlphaL_apply_smul]
   exact hY.1 l (Additive.toMul v) hv
 
+omit [Finite V] in
 private theorem submod_invariant_D (h : ThreeNat A L T) (hY : XMod.IsIrr ↥L Y) :
     ∀ d ∈ quotD h, ∀ v ∈ s16smSubmod Y, (d.1 : Module.End (ZMod 2)
       (Additive (V ⧸ modFix L (⊤ : Subgroup V)))) v ∈ s16smSubmod Y := by
@@ -423,6 +436,7 @@ private theorem submod_invariant_D (h : ThreeNat A L T) (hY : XMod.IsIrr ↥L Y)
   obtain ⟨l, rfl⟩ := mem_quotD.mp hd
   exact Submodule.mem_comap.mp (submod_invariant h hY l hv)
 
+omit [Finite V] in
 private theorem isIrrSubmodule_D (h : ThreeNat A L T) (hY : XMod.IsIrr ↥L Y) :
     ∀ U ≤ s16smSubmod Y,
       (∀ d ∈ quotD h, ∀ v ∈ U, (d.1 : Module.End (ZMod 2)
@@ -436,6 +450,7 @@ private noncomputable def rhoQOf (h : ThreeNat A L T) (hY : XMod.IsIrr ↥L Y) :
     Representation (ZMod 2) ↥L ↥(s16smSubmod Y) :=
   (quotAlphaL h).subrepresentation (s16smSubmod Y) (submod_invariant h hY)
 
+omit [Finite V] in
 private theorem isIrrSubmodule_subtype (h : ThreeNat A L T) (hYirr : XMod.IsIrr ↥L Y) :
     ∀ U : Submodule (ZMod 2) ↥(s16smSubmod Y),
       (∀ (l : ↥L), ∀ v ∈ U, rhoQOf h hYirr l v ∈ U) → U = ⊥ ∨ U = ⊤ := by
@@ -509,6 +524,7 @@ private theorem no_fixed_Q_of (h : ThreeNat A L T) (hYirr : XMod.IsIrr ↥L Y)
     rw [finrank_span_singleton hq0] at h2
     omega
 
+omit [Finite V] in
 private theorem no_invariant_Q_of (h : ThreeNat A L T) (hYirr : XMod.IsIrr ↥L Y)
     (hYnat : BinaryNaturalSL (quotLImage h) Y ⊥ 3 1) :
     ∀ psi : ↥(s16smSubmod Y) →ₗ[ZMod 2] ZMod 2,
@@ -540,12 +556,14 @@ variable {V : Type} [CommGroup V] [Finite V] [Module (ZMod 2) (Additive V)]
 variable {A L T : Subgroup (MulAut V)}
 variable [Module (ZMod 2) (Additive (V ⧸ modFix L (⊤ : Subgroup V)))]
 
+omit [Finite V] in
 private theorem quotRepT_apply_mk (hTL : T ≤ Subgroup.normalizer (L : Set (MulAut V))) (t : ↥T) (v : V) :
     quotRepT (L := L) hTL t (Additive.ofMul (QuotientGroup.mk v)) =
       Additive.ofMul (QuotientGroup.mk ((t : MulAut V) v)) := by
   have h := quotRepT_apply (L := L) hTL t v
   rwa [quotFixMap_apply] at h
 
+omit [Finite V] in
 private theorem isIrr_of_minimal_submodule (h : ThreeNat A L T)
     {I : Submodule (ZMod 2) (Additive (V ⧸ modFix L (⊤ : Subgroup V)))}
     (hIne : I ≠ ⊥) (hIinv : ∀ l : ↥L, ∀ v ∈ I, quotAlphaL h l v ∈ I)
@@ -625,7 +643,7 @@ private theorem isIrr_of_minimal_submodule (h : ThreeNat A L T)
       simpa using h1
   exact ⟨Y, ⟨hYinv, hYpos, hYsec⟩, hYmem⟩
 
-private theorem irreducible_quot_A (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet L) = 7) :
+private theorem irreducible_quot_A (h : ThreeNat A L T) (_h7 : Nat.card ↥(irrSet L) = 7) :
     ∀ W : Submodule (ZMod 2) (Additive (V ⧸ modFix L (⊤ : Subgroup V))),
       (∀ a : ↥A, ∀ v ∈ W, quotRepT (L := L) (T := A) h.normal a v ∈ W) →
       W = ⊥ ∨ W = ⊤ := by
@@ -690,30 +708,35 @@ private noncomputable def quotK (h : ThreeNat A L T) :
     Subgroup (Module.End (ZMod 2) (Additive (V ⧸ modFix L (⊤ : Subgroup V))))ˣ :=
   (quotAlphaK h).asGroupHom.range
 
+omit [Finite V] [Module (ZMod 2) (Additive V)] in
 private theorem mem_quotD_of (h : ThreeNat A L T) (l : ↥L) :
     (quotAlphaL h).asGroupHom l ∈ quotD h := ⟨l, rfl⟩
 
+omit [Finite V] [Module (ZMod 2) (Additive V)] in
 private theorem mem_quotK_of (h : ThreeNat A L T) (k : ↥(s1t3KBar A L)) :
     (quotAlphaK h).asGroupHom k ∈ quotK h := ⟨k, rfl⟩
 
+omit [Finite V] [Module (ZMod 2) (Additive V)] in
 private theorem mem_quotD_of_mem (h : ThreeNat A L T) {l : ↥A} (hl : (l : MulAut V) ∈ L) :
     (quotRepT (L := L) (T := A) h.normal).asGroupHom l ∈ quotD h := by
   have h1 : (Subgroup.inclusion h.le ⟨(l : MulAut V), hl⟩ : ↥A) = l := Subtype.ext rfl
   rw [← h1]
   exact mem_quotD_of h ⟨_, hl⟩
 
+omit [Finite V] [Module (ZMod 2) (Additive V)] in
 private theorem mem_quotK_of_mem (h : ThreeNat A L T) {k : ↥A} (hk : (k : MulAut V) ∈ s1t3KBar A L) :
     (quotRepT (L := L) (T := A) h.normal).asGroupHom k ∈ quotK h := by
   have h1 : (Subgroup.inclusion inf_le_left ⟨(k : MulAut V), hk⟩ : ↥A) = k := Subtype.ext rfl
   rw [← h1]
   exact mem_quotK_of h ⟨_, hk⟩
 
+omit [Finite V] [Module (ZMod 2) (Additive V)] in
 private theorem quotA_mem_sup (h : ThreeNat A L T)
     (hsup : L ⊔ s1t3KBar A L = A) (a : ↥A) :
     (quotRepT (L := L) (T := A) h.normal).asGroupHom a ∈ quotD h ⊔ quotK h := by
   have hLnorm : (L.subgroupOf A).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer h.le).mpr h.normal
-  haveI := hLnorm
+  have := hLnorm
   have hK : s1t3KBar A L = A ⊓ Subgroup.centralizer (L : Set (MulAut V)) := rfl
   have hsup' : L ⊔ (A ⊓ Subgroup.centralizer (L : Set (MulAut V))) = A := by
     rw [← hK]
@@ -751,6 +774,7 @@ variable {V : Type} [CommGroup V] [Finite V] [Module (ZMod 2) (Additive V)]
 variable {A L T : Subgroup (MulAut V)}
 variable [Module (ZMod 2) (Additive (V ⧸ modFix L (⊤ : Subgroup V)))]
 
+omit [Finite V] [Module (ZMod 2) (Additive V)] in
 private theorem quotLActionHom_ker (h : ThreeNat A L T) : MonoidHom.ker (quotLActionHom h) = ⊥ := by
   rw [eq_bot_iff]
   intro l hl
@@ -770,10 +794,12 @@ private theorem quotLActionHom_ker (h : ThreeNat A L T) : MonoidHom.ker (quotLAc
   have h1 : (l : MulAut V) = 1 := h.faithful (l : MulAut V) (h.le l.2) hfix
   exact Subgroup.mem_bot.mpr (Subtype.ext h1)
 
+omit [Finite V] [Module (ZMod 2) (Additive V)] in
 private theorem quotLActionHom_injective (h : ThreeNat A L T) :
     Function.Injective (quotLActionHom h) :=
   (MonoidHom.ker_eq_bot_iff (quotLActionHom h)).mp (quotLActionHom_ker h)
 
+omit [Finite V] [Module (ZMod 2) (Additive V)] in
 private theorem card_quotLImage (h : ThreeNat A L T) (hL : IsL3 ↥L 1) :
     Nat.card ↥(quotLImage h) = 168 := by
   have hker := quotLActionHom_injective h
@@ -791,6 +817,7 @@ variable {V : Type} [CommGroup V] [Finite V] [Module (ZMod 2) (Additive V)]
 variable {A L T : Subgroup (MulAut V)}
 variable [Module (ZMod 2) (Additive (V ⧸ modFix L (⊤ : Subgroup V)))]
 
+omit [Module (ZMod 2) (Additive V)] in
 private theorem exists_theta (h : ThreeNat A L T) (hL : IsL3 ↥L 1)
     {π : ↥(StatedSL 3 (ZMod 2)) →* ↥(quotLImage h)}
     (hπsurj : Function.Surjective π) :
@@ -800,8 +827,8 @@ private theorem exists_theta (h : ThreeNat A L T) (hL : IsL3 ↥L 1)
     ⟨fun a b hab => quotLActionHom_injective h (congrArg Subtype.val hab),
       MonoidHom.rangeRestrict_surjective _⟩
   have hbijπ : Function.Bijective π := by
-    haveI : Fintype ↥(StatedSL 3 (ZMod 2)) := Fintype.ofFinite _
-    haveI : Fintype ↥(quotLImage h) := Fintype.ofFinite _
+    have : Fintype ↥(StatedSL 3 (ZMod 2)) := Fintype.ofFinite _
+    have : Fintype ↥(quotLImage h) := Fintype.ofFinite _
     refine (Fintype.bijective_iff_surjective_and_card π).mpr ⟨hπsurj, ?_⟩
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card,
       CFSG.Open.StatedAPI.card_statedSL_three_zmod_two,
@@ -835,12 +862,14 @@ private noncomputable def coordQOf {Y : Subgroup (V ⧸ modFix L (⊤ : Subgroup
       have hc : c = 0 ∨ c = 1 := by revert c; decide
       rcases hc with rfl | rfl <;> simp)
 
+omit [Finite V] [Module (ZMod 2) (Additive V)] in
 private theorem coordQOf_apply {Y : Subgroup (V ⧸ modFix L (⊤ : Subgroup V))}
     (e : ↥Y ≃* Multiplicative (Fin 3 → ZMod 2))
     (z : Additive (V ⧸ modFix L (⊤ : Subgroup V))) (hz : z ∈ s16smSubmod Y) :
     coordQOf (L := L) e ⟨z, hz⟩ =
       Multiplicative.toAdd (e ⟨Additive.toMul z, hz⟩) := rfl
 
+omit [Finite V] in
 private theorem coordQOf_rhoQOf (h : ThreeNat A L T)
     {Y : Subgroup (V ⧸ modFix L (⊤ : Subgroup V))} (hYirr : XMod.IsIrr ↥L Y)
     {π : ↥(StatedSL 3 (ZMod 2)) →* ↥(quotLImage h)}
@@ -887,6 +916,7 @@ private theorem coordQOf_rhoQOf (h : ThreeNat A L T)
   rw [h5]
   rfl
 
+omit [Finite V] in
 private theorem commutantD_eq_bot (h : ThreeNat A L T)
     {Y : Subgroup (V ⧸ modFix L (⊤ : Subgroup V))} (hYirr : XMod.IsIrr ↥L Y)
     {π : ↥(StatedSL 3 (ZMod 2)) →* ↥(quotLImage h)}
@@ -950,6 +980,7 @@ private theorem commutantD_eq_bot (h : ThreeNat A L T)
   rw [h7, Algebra.algebraMap_eq_smul_one]
   simp
 
+omit [Finite V] in
 private theorem quotAlphaK_apply_mk (h : ThreeNat A L T) (k : ↥(s1t3KBar A L)) (v : V) :
     quotAlphaK h k (Additive.ofMul (QuotientGroup.mk v)) =
       Additive.ofMul (QuotientGroup.mk ((k : MulAut V) v)) := by
@@ -958,6 +989,7 @@ private theorem quotAlphaK_apply_mk (h : ThreeNat A L T) (k : ↥(s1t3KBar A L))
   rw [quotRepT_apply_mk]
   rfl
 
+omit [Finite V] in
 private theorem quotK_commutes_quotD (h : ThreeNat A L T) :
     ∀ x ∈ quotK h, ∀ d ∈ quotD h, x * d = d * x := by
   rintro x ⟨k, rfl⟩ d ⟨l, rfl⟩
@@ -1015,6 +1047,7 @@ private theorem exists_eval_data (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet 
     (hirr_quot h h7 hL) (s16smSubmod_ne_bot_of_isIrr hYirr) hΦ (by norm_num)
     (commutantD_eq_bot h hYirr he htheta)).1
 
+omit [Finite V] in
 private theorem evalHom_map_lTensor (h : ThreeNat A L T)
     {Y : Subgroup (V ⧸ modFix L (⊤ : Subgroup V))} (hYirr : XMod.IsIrr ↥L Y)
     (d : ↥(quotD h)) (t : ↥(s16smSubmod Y) ⊗[ZMod 2] ↥(CommutingFactor.homD
@@ -1030,6 +1063,7 @@ private theorem evalHom_map_lTensor (h : ThreeNat A L T)
     exact f.2 d q
   | add t t' ht ht' => rw [map_add, map_add, map_add, ht, ht', map_add]
 
+omit [Finite V] in
 private theorem evalHom_map_rTensor (h : ThreeNat A L T)
     {Y : Subgroup (V ⧸ modFix L (⊤ : Subgroup V))} (hYirr : XMod.IsIrr ↥L Y)
     (x : ↥(quotK h)) (t : ↥(s16smSubmod Y) ⊗[ZMod 2] ↥(CommutingFactor.homD
@@ -1076,21 +1110,21 @@ private theorem exists_qW_data (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet L)
   obtain ⟨hbijE, hDev, hXev, hinjX, hntriv, hinvSub⟩ :=
     CommutingFactor.tensor_case hDI Φ hCD (hirr_quot h h7 hL)
       (s16smSubmod_ne_bot_of_isIrr hYirr) hΦ (by norm_num) hbot
-  haveI : Finite ↥(s16smSubmod Y) := inferInstance
-  haveI : Finite (Additive (V ⧸ modFix L (⊤ : Subgroup V))) := inferInstance
-  haveI : Finite (↥(s16smSubmod Y) → Additive (V ⧸ modFix L (⊤ : Subgroup V))) := inferInstance
-  haveI : Finite (↥(s16smSubmod Y) →ₗ[ZMod 2]
+  have : Finite ↥(s16smSubmod Y) := inferInstance
+  have : Finite (Additive (V ⧸ modFix L (⊤ : Subgroup V))) := inferInstance
+  have : Finite (↥(s16smSubmod Y) → Additive (V ⧸ modFix L (⊤ : Subgroup V))) := inferInstance
+  have : Finite (↥(s16smSubmod Y) →ₗ[ZMod 2]
       Additive (V ⧸ modFix L (⊤ : Subgroup V))) :=
     Finite.of_injective (fun f : ↥(s16smSubmod Y) →ₗ[ZMod 2]
       Additive (V ⧸ modFix L (⊤ : Subgroup V)) => (f : ↥(s16smSubmod Y) → _))
       (fun f g h => LinearMap.ext (congrFun h))
-  haveI : Finite ↥(CommutingFactor.homD hDI) := Finite.of_injective _ Subtype.val_injective
+  have : Finite ↥(CommutingFactor.homD hDI) := Finite.of_injective _ Subtype.val_injective
   let ev : ↥(s16smSubmod Y) ⊗[ZMod 2] ↥(CommutingFactor.homD hDI) ≃ₗ[ZMod 2]
       Additive (V ⧸ modFix L (⊤ : Subgroup V)) :=
     LinearEquiv.ofBijective (CommutingFactor.evalHom hDI) hbijE
   have hX3 : Module.finrank (ZMod 2) ↥(CommutingFactor.homD hDI) = 3 := by
     obtain ⟨eX⟩ := CommutingFactor.homD_equiv_pi hDI Φ hΦ
-    haveI : Nontrivial ↥(s16smSubmod Y) :=
+    have : Nontrivial ↥(s16smSubmod Y) :=
       Submodule.nontrivial_iff_ne_bot.mpr (s16smSubmod_ne_bot_of_isIrr hYirr)
     have hcard1 : Nat.card ↥(CommutingFactor.commutantD hDI) = 2 := by
       rw [hbot, Nat.card_congr (Algebra.botEquiv (ZMod 2)
@@ -1100,7 +1134,7 @@ private theorem exists_qW_data (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet L)
       norm_num
     have h2 : Nat.card ↥(CommutingFactor.homD hDI) =
         2 ^ Module.finrank (ZMod 2) ↥(CommutingFactor.homD hDI) := by
-      haveI : Module.Finite (ZMod 2) ↥(CommutingFactor.homD hDI) := Module.Finite.of_finite
+      have : Module.Finite (ZMod 2) ↥(CommutingFactor.homD hDI) := Module.Finite.of_finite
       have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := ↥(CommutingFactor.homD hDI))
       rwa [Nat.card_zmod] at h
     rw [hcard] at h2
@@ -1150,11 +1184,11 @@ private theorem exists_qW_data (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet L)
         quotAlphaK h k (CommutingFactor.evalHom hDI (qW w)) :=
       evalHom_map_rTensor h hYirr ⟨(quotAlphaK h).asGroupHom k, ⟨k, rfl⟩⟩ (qW w)
     rw [hevEq, hKmap, hqWevE w]
-  letI : AddCommGroup ↥(CommutingFactor.homD hDI) :=
+  let : AddCommGroup ↥(CommutingFactor.homD hDI) :=
     Submodule.addCommGroup (p := CommutingFactor.homD hDI)
-  letI : Module (ZMod 2) ↥(CommutingFactor.homD hDI) :=
+  let : Module (ZMod 2) ↥(CommutingFactor.homD hDI) :=
     Submodule.module (p := CommutingFactor.homD hDI)
-  letI : Nontrivial ↥(CommutingFactor.homD hDI) := hntriv
+  let : Nontrivial ↥(CommutingFactor.homD hDI) := hntriv
   let kappaX : Representation (ZMod 2) ↥(s1t3KBar A L) ↥(CommutingFactor.homD hDI) :=
     (CommutingFactor.homAct hCD hDI).comp ((quotAlphaK h).asGroupHom.rangeRestrict)
   have hXirr : kappaX.IsIrreducible := by
@@ -1184,6 +1218,7 @@ private theorem exists_qW_data (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet L)
     intro k w
     exact hqWK k w
 
+omit [Finite V] in
 private theorem exists_dual_model (h : ThreeNat A L T)
     {Y : Subgroup (V ⧸ modFix L (⊤ : Subgroup V))} (hYirr : XMod.IsIrr ↥L Y)
     {cq : ↥(s16smSubmod Y) ≃ₗ[ZMod 2] (Fin 3 → ZMod 2)}
@@ -1195,7 +1230,7 @@ private theorem exists_dual_model (h : ThreeNat A L T)
     Explicit.BinaryNaturalSL (Representation.dual (rhoQOf h hYirr)) 3 (ZMod 2) .dual := by
   show (FFModel.dualNat (StatedSL 3 (ZMod 2))).IsModel (Representation.dual (rhoQOf h hYirr))
   let cqA : ↥(s16smSubmod Y) ≃+ (Fin 3 → ZMod 2) := cq.toAddEquiv
-  letI modN : Module (ZMod 2) (Fin 3 → ZMod 2) := by
+  let modN : Module (ZMod 2) (Fin 3 → ZMod 2) := by
     letI : Module (ZMod 2) (ZMod 2) := (ZMod.algebra (ZMod 2) 2).toModule
     infer_instance
   let cqNat : ↥(s16smSubmod Y) ≃ₗ[ZMod 2] (Fin 3 → ZMod 2) :=
@@ -1255,8 +1290,8 @@ theorem ThreeNat.exists_naturalThreeMultiplicityData
     (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet L) = 7) (hL : IsL3 ↥L 1) :
     letI := MulAutTwo.zmod2Module h.elem
     Nonempty (NaturalThreeMultiplicityData A L) := by
-  letI : Module (ZMod 2) (Additive V) := MulAutTwo.zmod2Module h.elem
-  letI : Module (ZMod 2) (Additive (V ⧸ modFix L (⊤ : Subgroup V))) :=
+  let : Module (ZMod 2) (Additive V) := MulAutTwo.zmod2Module h.elem
+  let : Module (ZMod 2) (Additive (V ⧸ modFix L (⊤ : Subgroup V))) :=
     quotFixModule (L := L) h.elem
   obtain ⟨I₀, hnat₀, hYirr, hind, htop⟩ := s16t3_quot_summands h.quasi h.sum
   have hb : BinaryNaturalSL L (I₀ 0) (fixV L) 3 1 :=
@@ -1272,9 +1307,9 @@ theorem ThreeNat.exists_naturalThreeMultiplicityData
   have hdual : Explicit.BinaryNaturalSL (Representation.dual (rhoQOf h (hYirr 0))) 3 (ZMod 2) .dual :=
     exists_dual_model h (hYirr 0) (cq := coordQOf (L := L) e) (theta := theta)
       (coordQOf_rhoQOf h (hYirr 0) he htheta)
-  letI : AddCommGroup X := xAdd
-  letI : Module (ZMod 2) X := xModule
-  letI : Finite X := xFinite
+  let : AddCommGroup X := xAdd
+  let : Module (ZMod 2) X := xModule
+  let : Finite X := xFinite
   exact ⟨{
     Q := ↥(s16smSubmod (tilde L (⊤ : Subgroup V) (I₀ 0)))
     X := X

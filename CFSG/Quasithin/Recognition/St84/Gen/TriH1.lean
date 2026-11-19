@@ -31,7 +31,7 @@ private theorem hypMatrix_mul {F : Type} [Field F] (τ : F →+* F) (g h : Mat2 
   conv_rhs =>
     rw [Matrix.mul_apply]
     simp only [Fintype.sum_prod_type]
-  simp only [hypMatrix, Matrix.mul_apply, map_sum, map_mul, Finset.sum_mul, Finset.mul_sum,
+  simp only [hypMatrix, Matrix.mul_apply, map_sum, map_mul, Finset.mul_sum,
     mul_assoc, mul_comm, mul_left_comm]
   let f : Fin 2 → Fin 2 → Fin 2 → F := fun a b c =>
     g p.1 a * (h a q.1 * (τ (g p.2.1 b) * (τ (h b q.2.1) *
@@ -69,7 +69,7 @@ theorem _root_.CFSG.RankThree.GF2n.Smith81.D3.act_one {F : Type} [Field F]
     act τ (1 : Mat2 F) x = x := by
   funext i j k
   fin_cases i <;> fin_cases j <;> fin_cases k <;>
-    simp [act, Fin.sum_univ_two, Matrix.one_apply]
+    simp [act, Matrix.one_apply]
 
 @[expose] def kFormAct {K F : Type} [Field K] [Field F] [Algebra K F] (τ : F →ₐ[K] F)
     (hτ3 : ∀ a, τ (τ (τ a)) = a) : SL(2, F) →* AddMonoid.End ↥(kForm τ) where

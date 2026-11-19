@@ -21,8 +21,8 @@ theorem uc22ine229_exists_conj_centralizer {Y X : Subgroup G} (hXY : X ≤ Y) {q
     (hT : IsCyclic T) (hqT : q ∣ Nat.card T) :
     ∃ g : Bar2 Y, ∀ τ ∈ T, g * τ * g⁻¹ ∈ centralizer
       (((X.subgroupOf Y).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y))) : Set (Bar2 Y)) := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI := hT
+  have : Fact q.Prime := ⟨hq⟩
+  have := hT
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' q hqT
   have hZc : Nat.card (zpowers (x : Bar2 Y)) = q := by
     rw [Nat.card_zpowers, Subgroup.orderOf_coe, hx]
@@ -36,7 +36,7 @@ theorem uc22ine229_exists_conj_centralizer {Y X : Subgroup G} (hXY : X ≤ Y) {q
   obtain ⟨w, hw, rfl⟩ := hz
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hw
   have hc : (τ : Bar2 Y) * (x : Bar2 Y) ^ k = (x : Bar2 Y) ^ k * τ := by
-    letI : CommGroup T := IsCyclic.commGroup
+    let : CommGroup T := IsCyclic.commGroup
     have h : (⟨τ, hτ⟩ : T) * x = x * ⟨τ, hτ⟩ := mul_comm _ _
     have h' : Commute (τ : Bar2 Y) (x : Bar2 Y) := congrArg Subtype.val h
     exact h'.zpow_right k
@@ -51,6 +51,7 @@ theorem uc22ine229_prime_dvd_of_dvd_three_mul {p a c : ℕ} (hp : p.Prime) (hp3 
     have := Nat.le_of_dvd (by norm_num) h
     omega
 
+omit [Finite G] in
 theorem uc22ine229_mk_mem_center_of_comm {Y : Subgroup G} {ρ : ↥Y}
     (h : ∀ y ∈ Y, (ρ : G) * y * (ρ : G)⁻¹ * y⁻¹ ∈ pCoreOf 2 Y) :
     QuotientGroup.mk' (CFSG.pCore 2 ↥Y) ρ ∈ center (Bar2 Y) := by
@@ -65,11 +66,11 @@ theorem uc22ine229_mk_mem_center_of_comm {Y : Subgroup G} {ρ : ↥Y}
   exact (mul_inv_eq_iff_eq_mul.1 (mul_inv_eq_one.1 h2)).symm
 
 theorem uc22ine229_exists_prime_order_normalizer (hT : uc22pwTorusSU3)
-    (hgr : GriessAllModelsStatement) {M Y : Subgroup G} (hY : Y ∈ calC M) {n : ℕ} (hn : 2 < n)
+    (hgr : GriessAllModelsStatement) {M Y : Subgroup G} (_hY : Y ∈ calC M) {n : ℕ} (hn : 2 < n)
     (hX : IsSU3 (Bar2 Y) n) {q : ℕ} (hq : q.Prime) (hq5 : 5 ≤ q) (hqn : q ∣ 2 ^ n - 1)
     {X : Subgroup G} (hXY : X ≤ Y) (hXc : Nat.card X = q) {r : ℕ} (hr : r.Prime) (hr3 : 3 < r)
     (hrn : r ∣ 2 ^ n + 1) : ∃ ρ ∈ Y ⊓ normalizer (X : Set G), orderOf ρ = r := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hq2 : q ≠ 2 := by omega
   have hrank := uc22ine229_pRank_le_one_of_isSU3 hX hq hq2
     (uc22ine229_not_dvd_two_pow_add_one hq hq2 hqn)
@@ -97,12 +98,12 @@ theorem uc22ine229_exists_prime_order_normalizer (hT : uc22pwTorusSU3)
     orderOf_pow_orderOf_div (orderOf_pos _).ne' hdy⟩
 
 theorem uc22ine229_exists_three_noncentral (hT : uc22pwTorusSU3) (hgr : GriessAllModelsStatement)
-    {M Y : Subgroup G} (hY : Y ∈ calC M) {n : ℕ} (hn : 2 < n) (hX : IsSU3 (Bar2 Y) n)
+    {M Y : Subgroup G} (_hY : Y ∈ calC M) {n : ℕ} (hn : 2 < n) (hX : IsSU3 (Bar2 Y) n)
     (h9 : 9 ∣ 2 ^ n + 1) {q : ℕ} (hq : q.Prime) (hq5 : 5 ≤ q) (hqn : q ∣ 2 ^ n - 1)
     {X : Subgroup G} (hXY : X ≤ Y) (hXc : Nat.card X = q) :
     ∃ ρ ∈ Y ⊓ normalizer (X : Set G), IsPGroup 3 (Subgroup.zpowers ρ) ∧
       ∃ y ∈ Y, ρ * y * ρ⁻¹ * y⁻¹ ∉ pCoreOf 2 Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq2 : q ≠ 2 := by omega
   have hrank := uc22ine229_pRank_le_one_of_isSU3 hX hq hq2
     (uc22ine229_not_dvd_two_pow_add_one hq hq2 hqn)

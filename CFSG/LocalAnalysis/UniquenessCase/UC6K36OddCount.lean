@@ -18,7 +18,7 @@ include h
 theorem le_of_relIndex_pow {K C : Subgroup G} (hEK : E ≤ Subgroup.normalizer (K : Set G))
     (hCM : C ≤ M) {n : ℕ} (hC : C.relIndex K = p ^ n) : K ≤ M := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   set M₀ : G ⧸ M := ((1 : G) : G ⧸ M) with hM₀
   have hfix1 : ∀ e ∈ M, e • M₀ = M₀ := by
     intro e he

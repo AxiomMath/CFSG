@@ -36,9 +36,9 @@ theorem mem_R_of_mem_normalizer {E : Subgroup G} (hE : IsE64 T E) {α w₀ w₁ 
       w₀ ∈ D.B₀ ⊓ normalizer ((E ⊓ D.B₀ : Subgroup G) : Set G) ∧
       w₁ ∈ D.B₁ ⊓ normalizer ((E ⊓ D.B₁ : Subgroup G) : Set G) := by
   obtain ⟨-, hA, hB₀, hB₁⟩ := D.E64_decomp hE
-  haveI := hA.finite
-  haveI := hB₀.finite
-  haveI := hB₁.finite
+  have := hA.finite
+  have := hB₀.finite
+  have := hB₁.finite
   refine ⟨mem_inf.2 ⟨hα, mem_normalizer_of_forall_conj_mem fun v hv => ?_⟩,
     mem_inf.2 ⟨hw₀, mem_normalizer_of_forall_conj_mem fun v hv => ?_⟩,
     mem_inf.2 ⟨hw₁, mem_normalizer_of_forall_conj_mem fun v hv => ?_⟩⟩

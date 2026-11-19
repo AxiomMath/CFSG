@@ -30,7 +30,7 @@ private theorem qTwoDegFrame_path_aux {Ω : Type*} [DecidableEq Ω] :
     have hp2 : p 2 = k := by simp [p]
     refine ⟨p, ?_, ?_⟩
     · intro x hx y hy hxy
-      interval_cases x <;> interval_cases y <;> simp_all [hp0, hp1, hp2]
+      interval_cases x <;> interval_cases y <;> simp_all
     · intro m hm
       interval_cases m
       · rw [h0, e1]; simp [hp0, hp1]
@@ -144,7 +144,7 @@ theorem qTwoDegFrame_path_labelling {Ω : Type*} [DecidableEq Ω] {n : ℕ} (hn 
     have hp1 : p 1 = b := by simp [p]
     refine ⟨p, ?_, ?_⟩
     · intro i hi j hj hij
-      interval_cases i <;> interval_cases j <;> simp_all [hp0, hp1]
+      interval_cases i <;> interval_cases j <;> simp_all
     · intro m hm
       interval_cases m
       rw [h0]; simp [hp0, hp1]

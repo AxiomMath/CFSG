@@ -37,7 +37,7 @@ theorem dvd_card_map_of_perfect {L G : Type*} [Group L] [Finite L] [Group G] (ψ
     Group.isPerfect_def.mp (LayerFacts.ggIsPerfect_of_commutator_eq hS)
   have hPc : (P : Subgroup S) ≤ Subgroup.center S := by
     intro g hg
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hg⟩
     have hgk : (g : L) ^ (p ^ k) = 1 := by
       simpa using congrArg (fun x : (P : Subgroup S) => ((x : S) : L)) hk
     have hmem : ψ (g : L) ∈ S.map ψ := Subgroup.mem_map_of_mem ψ g.2

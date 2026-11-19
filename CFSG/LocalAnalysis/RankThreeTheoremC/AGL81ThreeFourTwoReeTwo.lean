@@ -33,11 +33,11 @@ theorem reeTwo_catalog_facts {m : ℕ} {d : TauCeti.ValidLieTypeIndex}
       Group.IsSolvable (Outer (TauCeti.CFSGIndex.lie d).Group) := by
   have hdR : IsReeGTwoIndex 3 d := ⟨rfl, m, hd⟩
   obtain ⟨a, ha, -, ⟨e⟩⟩ := ReeModel.exists_equiv_reeGamma hdR ⟨MulEquiv.refl _⟩
-  haveI := isSimpleGroup_reeGamma ha
-  haveI : Finite (ModGL ReeTag.G2.tag (GaloisField 3 (2 * a + 1))) :=
+  have := isSimpleGroup_reeGamma ha
+  have : Finite (ModGL ReeTag.G2.tag (GaloisField 3 (2 * a + 1))) :=
     CFSG.LieType.Chevalley.finite_modGL
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv _ e.symm.toEquiv
-  haveI : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := (MulEquiv.isSimpleGroup_congr e).2 ‹_›
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv _ e.symm.toEquiv
+  have : IsSimpleGroup (TauCeti.CFSGIndex.lie d).Group := (MulEquiv.isSimpleGroup_congr e).2 ‹_›
   refine ⟨inferInstance, ?_, kFactReeOuterSolvable _ d hdR ⟨MulEquiv.refl _⟩⟩
   have hK : Nat.card (GaloisField 3 (2 * a + 1)) = 3 ^ (2 * a + 1) :=
     GaloisField.card 3 (2 * a + 1) (by omega)
@@ -51,12 +51,12 @@ theorem reeTwo_isSolvable_of_sylow_le {m : ℕ} {d : TauCeti.ValidLieTypeIndex}
     (hd : d.1 = .reeG2 m) {L : Type} [Group L] [Finite L]
     (hL : Nonempty (L ≃* (TauCeti.CFSGIndex.lie d).Group)) (T : Sylow 3 L) (H : Subgroup L)
     (hTH : (T : Subgroup L) ≤ H) (hH : H ≠ ⊤) : Group.IsSolvable H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha, -, ⟨e⟩⟩ := ReeModel.exists_equiv_reeGamma ⟨rfl, m, hd⟩ hL
   set F := GaloisField 3 (2 * a + 1)
   have hK : Nat.card F = 3 ^ (2 * a + 1) := GaloisField.card 3 (2 * a + 1) (by omega)
-  haveI : Finite (ModGL ReeTag.G2.tag F) := CFSG.LieType.Chevalley.finite_modGL
-  haveI := isSimpleGroup_reeGamma ha
+  have : Finite (ModGL ReeTag.G2.tag F) := CFSG.LieType.Chevalley.finite_modGL
+  have := isSimpleGroup_reeGamma ha
   obtain ⟨⟨P, hP⟩, hNU, -, hcard⟩ := ReeModel.std_facts hK
   obtain ⟨e', he'⟩ := ReeModel.exists_equiv_map_eq e T P
   obtain ⟨w₀, hw₀, -⟩ := CFSG.LieType.Chevalley.weyl_longest_element ReeTag.G2.tag
@@ -68,7 +68,7 @@ theorem reeTwo_isSolvable_of_sylow_le {m : ℕ} {d : TauCeti.ValidLieTypeIndex}
     rw [hcard]
     exact Dvd.dvd.mul_right (Dvd.dvd.mul_right
       (dvd_pow (dvd_pow_self 3 (by omega)) three_ne_zero) _) _
-  letI : MulAction (ReeTag.G2.reeGamma F a) (ReeTag.G2.reeGamma F a ⧸
+  let : MulAction (ReeTag.G2.reeGamma F a) (ReeTag.G2.reeGamma F a ⧸
       (ReeTag.G2.reeFixedBorel F a).subgroupOf (ReeTag.G2.reeGamma F a)) :=
     MulAction.quotient _ _
   have hle : H.map e'.toMonoidHom ≤ MulAction.stabilizer (ReeTag.G2.reeGamma F a)
@@ -85,7 +85,7 @@ theorem reeTwo_isSolvable_of_sylow_le {m : ℕ} {d : TauCeti.ValidLieTypeIndex}
       have h := congrArg (Subgroup.comap e'.toMonoidHom) htop
       rwa [Subgroup.comap_map_eq_self_of_injective e'.injective, Subgroup.comap_top] at h
   rw [hstab] at hle
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       ((ReeTag.G2.reeFixedBorel F a).subgroupOf (ReeTag.G2.reeGamma F a)) :=
     ReeModel.isSolvable_stdB
   exact Group.isSolvable_of_isSolvable_injective
@@ -98,7 +98,7 @@ theorem threeFourTwoReeTwo_inf {m : ℕ} {d : TauCeti.ValidLieTypeIndex}
     (hd : d.1 = .reeG2 m) {Y : Type} [Group Y] [Finite Y] {K Y₀ : Subgroup Y} (R : Sylow 3 Y)
     (hK : K.Normal) (hKX : Nonempty (K ≃* (TauCeti.CFSGIndex.lie d).Group))
     (hRY₀ : (R : Subgroup Y) ≤ Y₀) (hKY₀ : ¬ K ≤ Y₀) : Group.IsSolvable (K ⊓ Y₀ : Subgroup Y) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact isSolvable_inf_of_forall_sylow_le R
     (fun T H hTH hH => reeTwo_isSolvable_of_sylow_le hd hKX T H hTH hH) hRY₀ hKY₀
 

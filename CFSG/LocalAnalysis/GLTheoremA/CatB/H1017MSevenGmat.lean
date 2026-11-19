@@ -22,7 +22,7 @@ open CFSG.HardMathSupport.Dickson.I271.TabMSeven (qZG qFG orderOf_qZG orderOf_qF
 private theorem card_le_two_of_sylow_quat {C : Type*} [Group C] [Finite C] (P : Sylow 2 C)
     (e : (P : Subgroup C) ≃* QuaternionGroup 4) {A : Subgroup C} (hA : ∀ a ∈ A, a ^ 2 = 1) :
     Nat.card A ≤ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hA' : ∀ a : A, a ^ 2 = 1 := fun a => Subtype.ext (by simpa using hA a a.2)
   obtain ⟨Q, hQ⟩ := IsPGroup.exists_le_sylow (p := 2) (P := A) fun a => ⟨1, by simpa using hA' a⟩
   let φ : A →* QuaternionGroup 4 :=
@@ -54,7 +54,7 @@ private theorem exists_conj_mem_of_card_eq {G : Type*} [Group G] [Finite G] {p :
   obtain ⟨Q, hQ⟩ := (IsPGroup.of_card hF').exists_le_sylow
   have hQF : (Q : Subgroup C) = F.subgroupOf C := by
     refine (Subgroup.eq_of_le_of_card_ge hQ ?_).symm
-    have h := hC _ (Q.isPGroup'.map C.subtype) (Subgroup.map_subtype_le _)
+    have h := hC _ (Q.isPGroup.map C.subtype) (Subgroup.map_subtype_le _)
     rwa [Subgroup.card_map_of_injective C.subtype_injective, ← hF'] at h
   obtain ⟨P, hP⟩ := (IsPGroup.of_card (n := 1) (G := Subgroup.zpowers (⟨z, hzC⟩ : C))
     (by rw [Nat.card_zpowers, Subgroup.orderOf_mk, hz, pow_one])).exists_le_sylow
@@ -73,7 +73,7 @@ private theorem conj_ne_pow_of_five {G : Type*} [Group G] [Finite G] {z f t d : 
       Nat.card ↥(Subgroup.centralizer ({u} : Set G) ⊓ Subgroup.centralizer ({d} : Set G)) =
         150528)
     (g : G) (m : ℕ) : g * z * g⁻¹ ≠ d ^ m := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   intro h
   by_cases hm : d ^ m = 1
   · rw [hm] at h
@@ -103,8 +103,8 @@ theorem seven_sq_not_le_centralizer_Gmat
     (hW : IsElemAbelian 2 W) (hW8 : 2 ^ 3 ≤ Nat.card W) :
     ¬ F ≤ Subgroup.centralizer (W : Set Gmat) := by
   intro hFW
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨hcls, h2A, h2B, hG5⟩ := gmat_seven_bounds
   obtain ⟨hHk, ⟨e⟩⟩ := tabMSeven_he_le_cent_dG
   obtain ⟨-, htA, huB, h2Bd⟩ := tabMSeven_sevenA_facts hePE8 hcls h2A h2B hG5 orderOf_dG hHk e
@@ -152,7 +152,7 @@ theorem seven_sq_not_le_centralizer_Gmat
 
 theorem glaTwoLocalRank_seven_Gmat
     : GLATwoLocalRank 7 Gmat ≤ 2 := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   refine H1016M5.twoLocalRankCriterion_holds Gmat 7 2 3 (by norm_num) (by norm_num) ?_
     (fun t ht E hE hEa => card_isPGroup_seven_le_of_involution ht
       (fun g => ⟨1, Subtype.ext (by simpa using hEa.2 g g.2)⟩) hE)

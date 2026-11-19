@@ -158,7 +158,7 @@ theorem commute_of_mem_sylow_of_psl2 [Finite G] (hS : Setup G D) {F : Subgroup G
   · exact (hz haF b).symm
   rcases hdec b hb with hbF | ⟨d', hd', hd'S, hd'F⟩
   · exact hz hbF a
-  have hdd' : Commute d d' := hS.oddT.commute_of_isPGroup S.isPGroup' hd hd' hdS hd'S
+  have hdd' : Commute d d' := hS.oddT.commute_of_isPGroup S.isPGroup hd hd' hdS hd'S
   rw [show a = d * (d⁻¹ * a) by group, show b = d' * (d'⁻¹ * b) by group]
   exact (hdd'.mul_right (hz hd'F d)).mul_left (hz hdF _).symm
 

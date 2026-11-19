@@ -11,9 +11,11 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {t g : G} {P U S F M : Subgroup G}
 
+omit [Finite G] in
 private lemma inv_mul_inv_comm {a b : G} (h : a * b = b * a) : a⁻¹ * b⁻¹ = b⁻¹ * a⁻¹ := by
   rw [← mul_inv_rev, ← mul_inv_rev, h]
 
+omit [Finite G] in
 private lemma conj_conjSub_eq {t g v : G} (htg : t * g = g * t) :
     g * (t * v * t⁻¹) * g⁻¹ = t * (g * v * g⁻¹) * t⁻¹ := by
   calc g * (t * v * t⁻¹) * g⁻¹ = (g * t) * v * (t⁻¹ * g⁻¹) := by group
@@ -21,6 +23,7 @@ private lemma conj_conjSub_eq {t g v : G} (htg : t * g = g * t) :
     _ = (t * g) * v * (g⁻¹ * t⁻¹) := by rw [inv_mul_inv_comm htg]
     _ = t * (g * v * g⁻¹) * t⁻¹ := by group
 
+omit [Finite G] in
 private lemma conj_conj_of_sq {t : G} (ht2 : t * t = 1) (x : G) :
     t * (t * x * t⁻¹) * t⁻¹ = x := by
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_left ht2
@@ -28,6 +31,7 @@ private lemma conj_conj_of_sq {t : G} (ht2 : t * t = 1) (x : G) :
   calc t * (t * x * t) * t = (t * t) * x * (t * t) := by group
     _ = x := by rw [ht2]; group
 
+omit [Finite G] in
 private lemma conj_conjSub_inv {t g b : G} (htg : t * g = g * t) (ht2 : t * t = 1) :
     t * (g * (t * b * t⁻¹)⁻¹ * g⁻¹) * t⁻¹ = g * b⁻¹ * g⁻¹ := by
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_left ht2
@@ -43,6 +47,7 @@ private lemma conj_conjSub_inv {t g b : G} (htg : t * g = g * t) (ht2 : t * t = 
             ht2, show t⁻¹ * t⁻¹ = 1 from by rw [htinv, ht2]]
           group
 
+omit [Finite G] in
 private lemma conj_mem_of_normalizes (h : Wr7 t P U) {g : G} (htg : t * g = g * t)
     (hgU : ∀ u ∈ U, g * u * g⁻¹ ∈ U) {x : G} (hx : x ∈ P) : g * x * g⁻¹ ∈ P := by
   obtain ⟨u, hu, v', hv', hxuv⟩ := h.decomp hx
@@ -56,16 +61,19 @@ private lemma conj_mem_of_normalizes (h : Wr7 t P U) {g : G} (htg : t * g = g * 
   exact h.mul_mem' (hgU u hu)
     ((mem_conjSub_iff' t U _).mpr ⟨g * v * g⁻¹, hgU v hv, rfl⟩)
 
+omit [Finite G] in
 private lemma proj1_eq (h : Wr7 t P U) {x u v : G} (hu : u ∈ U) (hv : v ∈ conjSub t U)
     (hx : x = u * v) (hxP : x ∈ P) : ((h.proj1 ⟨x, hxP⟩ : ↥U) : G) = u := by
   rw [show (⟨x, hxP⟩ : ↥P) = ⟨u * v, h.mul_mem' hu hv⟩ from Subtype.ext hx]
   exact (h.proj_of_mul hu hv).1
 
+omit [Finite G] in
 private lemma proj2_eq (h : Wr7 t P U) {x u v : G} (hu : u ∈ U) (hv : v ∈ conjSub t U)
     (hx : x = u * v) (hxP : x ∈ P) : ((h.proj2 ⟨x, hxP⟩ : ↥(conjSub t U)) : G) = v := by
   rw [show (⟨x, hxP⟩ : ↥P) = ⟨u * v, h.mul_mem' hu hv⟩ from Subtype.ext hx]
   exact (h.proj_of_mul hu hv).2
 
+omit [Finite G] in
 private lemma inv_decomp (h : NtTwo t g P U S F M) {p : G} (hp : p ∈ P)
     (hp2 : (p * g) ^ 2 = 1) :
     ∃ u ∈ centEl U g, ∃ v ∈ centEl U g, p = u * (t * v * t⁻¹) := by
@@ -104,6 +112,7 @@ private lemma inv_decomp (h : NtTwo t g P U S F M) {p : G} (hp : p ∈ P)
       _ = v⁻¹ := by group
   exact ⟨u, hFU.inv u hu hu_inv, v, hFU.inv v hv hv_eq, by rw [hpuv, hv'eq]⟩
 
+omit [Finite G] in
 private lemma fu_comp (h : NtTwo t g P U S F M) {u a : G} (hu : u ∈ centEl U g) (ha : a ∈ U)
     (heq : a * u * (g * a⁻¹ * g⁻¹) = u) : a ∈ centEl U g := by
   have hFU := y7n_fuFacts h

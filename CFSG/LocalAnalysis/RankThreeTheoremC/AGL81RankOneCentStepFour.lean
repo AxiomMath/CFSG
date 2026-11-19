@@ -125,6 +125,7 @@ variable [hK : K.Normal]
 
 local notation "φ" => RankOneSylow.act (primeComplementCore (G := C) p) K
 
+omit [Fact (Nat.Prime p)] [Finite G] in
 theorem mem_d1PlusCore_iff_mem_ker (x : C) : (x : G) ∈ d1PlusCore p C K ↔ x ∈ MonoidHom.ker φ := by
   rw [RankOneSylow.d1PlusCore_eq]
   exact Subgroup.mem_map_iff_mem C.subtype_injective

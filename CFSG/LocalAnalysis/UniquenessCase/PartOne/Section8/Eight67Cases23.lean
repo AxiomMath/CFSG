@@ -130,7 +130,7 @@ theorem isCyclic_of_le_of_sup_cyclic_of_inf_eq_bot
   have hQC' : Q.subgroupOf P ⊔ C.subgroupOf P = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hQP hCP, hQC, Subgroup.subgroupOf_self]
   have hCcyc' : IsCyclic (C.subgroupOf P) := by
-    haveI : IsCyclic C := hCcyc
+    have : IsCyclic C := hCcyc
     exact isCyclic_of_injective (Subgroup.subgroupOfEquivOfLe hCP).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hCP).injective
   have hYQ' : Y.subgroupOf P ⊓ Q.subgroupOf P = ⊥ := by
@@ -138,7 +138,7 @@ theorem isCyclic_of_le_of_sup_cyclic_of_inf_eq_bot
     simp
   have hYcyc' : IsCyclic (Y.subgroupOf P) :=
     isCyclic_of_inf_eq_bot_of_sup_cyclic_right hQC' hCcyc' hYQ'
-  haveI : IsCyclic (Y.subgroupOf P) := hYcyc'
+  have : IsCyclic (Y.subgroupOf P) := hYcyc'
   exact isCyclic_of_injective (Subgroup.subgroupOfEquivOfLe hYP).symm.toMonoidHom
     (Subgroup.subgroupOfEquivOfLe hYP).symm.injective
 

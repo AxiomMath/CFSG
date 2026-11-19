@@ -63,7 +63,7 @@ private theorem mulAut_eq_one_of_card_le_two {Q : Type} [Group Q] [Finite Q]
     have := hQ
     omega
   rcases hQ' with h1 | h2
-  · haveI : Subsingleton Q := (Nat.card_eq_one_iff_unique.mp h1).1
+  · have : Subsingleton Q := (Nat.card_eq_one_iff_unique.mp h1).1
     ext x
     exact Subsingleton.elim _ _
   · exact mulAut_eq_one_of_card_two h2 f
@@ -141,7 +141,7 @@ private theorem action_eq_one_of_card_lt {L : Subgroup G} [Finite ↥L] {n : ℕ
     simpa using h
   · let P := oTwoQuot ↥L
     let π : ↥L →* P := QuotientGroup.mk' (CFSG.pCore 2 ↥L)
-    haveI : Finite P := inferInstance
+    have : Finite P := inferInstance
     let ρP : P →* MulAut Q :=
       QuotientGroup.lift (CFSG.pCore 2 ↥L) ρ (fun x hx => hcore x hx)
     obtain ⟨f, hf⟩ := hQ2.exists_card_eq
@@ -169,14 +169,14 @@ theorem comm_le_of_relIndex_lt_two_pow {L E N : Subgroup G} [Finite ↥L] {n : �
     (hlt : N.relIndex E < 2 ^ (2 * n)) :
     ⁅E, L⁆ ≤ N := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hNnormal : (N.subgroupOf E).Normal :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hNnormal : (N.subgroupOf E).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNE).mpr hEN
   let Q := ↥E ⧸ N.subgroupOf E
   have hQ2 : IsPGroup 2 Q := hE.to_quotient (N.subgroupOf E)
   let ρ : ↥L →* MulAut Q := CFSG.GroupTheory.conjQuotHom hLE hLN
   have hQcard : Nat.card Q = N.relIndex E := rfl
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQcard]; exact h0)
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQcard]; exact h0)
   rcases lt_or_ge n 2 with hn1 | hn2
   · have hn' : 1 ≤ n := hn
     have hn_eq : n = 1 := by omega
@@ -300,14 +300,14 @@ private theorem exists_fixed_central_subgroup {Q L' : Type} [Group Q] [Group L']
     ∃ A : Subgroup Q, A ≠ ⊥ ∧ A ≤ Subgroup.center Q ∧ (∀ a ∈ A, a ^ 2 = 1) ∧
       (∀ l : L', ∀ a ∈ A, ρ l a ∈ A) ∧ (∀ p ∈ P, ∀ a ∈ A, ρ p a = a) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial Q := hQnt
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial Q := hQnt
   let Z : Subgroup Q := Subgroup.center Q
   let Ω : Subgroup ↥Z := CFSG.omega₁ ↥Z (p := 2)
   let Z0 : Subgroup Q := Ω.map Z.subtype
   have hZ0char : Z0.Characteristic := by
     dsimp only [Z0, Ω, Z]
-    letI : (CFSG.omega₁ ↥(Subgroup.center Q) (p := 2)).Characteristic :=
+    let : (CFSG.omega₁ ↥(Subgroup.center Q) (p := 2)).Characteristic :=
       CFSG.omega₁_characteristic ↥(Subgroup.center Q)
     infer_instance
   have hZ0sq : ∀ z ∈ Z0, z ^ 2 = 1 := by
@@ -346,7 +346,7 @@ private theorem exists_fixed_central_subgroup {Q L' : Type} [Group Q] [Group L']
     exact dvd_pow_self 2 (by omega)
   let ρZ0 : L' →* MulAut Z0 := (MulAut.characteristic Z0).comp ρ
   let ρP : ↥P →* MulAut Z0 := ρZ0.comp P.subtype
-  letI : MulAction ↥P Z0 := MulAction.compHom Z0 ρP
+  let : MulAction ↥P Z0 := MulAction.compHom Z0 ρP
   have hfix1 : (1 : Z0) ∈ MulAction.fixedPoints ↥P Z0 := by
     intro p
     exact map_one (ρP p)
@@ -399,13 +399,13 @@ private theorem odd_eq_one_of_action_of_card_lt {L : Subgroup G} [Finite ↥L] {
   | ind m ih =>
     intro Q _ _ hm hQ2 hlt ρ y hy
     by_cases hsub : Subsingleton Q
-    · haveI := hsub
+    · have := hsub
       ext q
       exact Subsingleton.elim _ _
     · have hQnt : Nontrivial Q := by
         by_contra h
         exact hsub (not_nontrivial_iff_subsingleton.mp h)
-      haveI : Nontrivial Q := hQnt
+      have : Nontrivial Q := hQnt
       obtain ⟨A, hAne, hAcenter, hA2, hAinv, hAfix⟩ :=
         exists_fixed_central_subgroup (Q := Q) (L' := ↥L) ρ (CFSG.pCore 2 ↥L)
           hQ2 (CFSG.pCore_isPGroup (p := 2) (G := ↥L)) hQnt
@@ -430,7 +430,7 @@ private theorem odd_eq_one_of_action_of_card_lt {L : Subgroup G} [Finite ↥L] {
         have hltA : Nat.card A < 2 ^ (2 * n) := hAcardlt.trans_le hlt.le
         have hltQA : Nat.card (Q ⧸ A) < 2 ^ (2 * n) := hQA_lt.trans_le hlt.le
         have hAnormal : A.Normal := Subgroup.normal_of_le_center hAcenter
-        letI : A.Normal := hAnormal
+        let : A.Normal := hAnormal
         have hQ2A : IsPGroup 2 A := hQ2.to_subgroup A
         have hQ2QA : IsPGroup 2 (Q ⧸ A) := hQ2.to_quotient A
         let ρA : ↥L →* MulAut A := restrictAction ρ hAinv
@@ -492,15 +492,15 @@ theorem isElemSec_of_relIndex_eq_two_pow {L E N : Subgroup G} [Finite ↥L] {n :
     (h : N.relIndex E = 2 ^ (2 * n))
     (hnt : ∃ y ∈ L, Odd (orderOf y) ∧ ∃ e ∈ E, ⁅e, y⁆ ∉ N) : IsElemSec N E := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hNnormal : (N.subgroupOf E).Normal :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hNnormal : (N.subgroupOf E).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNE).mpr hEN
   let Q := ↥E ⧸ N.subgroupOf E
   have hQcard : Nat.card Q = 2 ^ (2 * n) := by
     change N.relIndex E = 2 ^ (2 * n)
     exact h
   have hQ2 : IsPGroup 2 Q := IsPGroup.of_card (p := 2) (n := 2 * n) hQcard
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQcard]; positivity)
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [hQcard]; positivity)
   let ρ : ↥L →* MulAut Q := CFSG.GroupTheory.conjQuotHom hLE hLN
   have hQnt : Nontrivial Q := by
     have h1 : 1 < Nat.card Q := by
@@ -512,7 +512,7 @@ theorem isElemSec_of_relIndex_eq_two_pow {L E N : Subgroup G} [Finite ↥L] {n :
     exists_fixed_central_subgroup (Q := Q) (L' := ↥L) ρ (CFSG.pCore 2 ↥L)
       hQ2 (CFSG.pCore_isPGroup (p := 2) (G := ↥L)) hQnt
   have hAnormal : A.Normal := Subgroup.normal_of_le_center hAcenter
-  letI : A.Normal := hAnormal
+  let : A.Normal := hAnormal
   have hAtop : A = ⊤ := by
     by_contra hAtop
     have hAlt : A < ⊤ := lt_of_le_of_ne le_top hAtop

@@ -45,6 +45,7 @@ theorem mem_Halpha_of_mem_commSet (hC : HypothesisC D) (hα : hC.alpha = {hC.d})
     (hx : x ∈ commSet D hC.d) : x ∈ Halpha D hC.alpha :=
   Subgroup.subset_closure ((Nine.DalphaStar_eq_commSet hC hα).symm ▸ hx)
 
+omit [Finite G] in
 theorem mem_DstarH_of_mem_commSet (hC : HypothesisC D) (hα : hC.alpha = {hC.d}) {x : G}
     (hx : x ∈ commSet D hC.d) :
     (⟨x, mem_Halpha_of_mem_commSet hC hα hx⟩ : Halpha D hC.alpha) ∈ DstarH hC :=

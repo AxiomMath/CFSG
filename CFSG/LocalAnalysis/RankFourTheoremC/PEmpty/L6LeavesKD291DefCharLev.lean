@@ -26,9 +26,11 @@ variable {ι : Type} [Fintype ι]
 
 variable {K : Type} [Field K] (pos : ι → ℕ)
 
+omit [Fintype ι] in
 theorem mem_Fil {M : Matrix ι ι K} {k : ℕ} :
     M ∈ Fil K pos k ↔ ∀ a b, pos b < pos a + k → M a b = 0 := Iff.rfl
 
+omit [Fintype ι] in
 theorem Fil_mono {j k : ℕ} (h : j ≤ k) : Fil K pos k ≤ Fil K pos j :=
   fun _ hM a b hab => hM a b (by omega)
 
@@ -41,10 +43,12 @@ theorem Fil_mul {j k : ℕ} {M N : Matrix ι ι K} (hM : M ∈ Fil K pos j) (hN 
   · rw [hM a b hab, zero_mul]
   · rw [hN b c (by omega), mul_zero]
 
+omit [Fintype ι] in
 theorem eq_zero_of_mem_Fil {k : ℕ} (hD : ∀ a b : ι, pos b < pos a + k) {M : Matrix ι ι K}
     (hM : M ∈ Fil K pos k) : M = 0 :=
   Matrix.ext fun a b => hM a b (hD a b)
 
+omit [Fintype ι] in
 theorem one_mem_Fil_zero [DecidableEq ι] : (1 : Matrix ι ι K) ∈ Fil K pos 0 := by
   intro a b hab
   have : a ≠ b := by
@@ -355,6 +359,7 @@ section Reindex
 
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
 
+omit [Fintype ι] in
 theorem sub_one_mem_Fil_one_iff_reindex {N : ℕ} (e : ι ≃ Fin N) (M : Matrix ι ι K) :
     M - 1 ∈ Fil K (fun x => (e x : ℕ)) 1 ↔
       (Matrix.reindex e e M).IsUpperTriangular ∧ ∀ a, Matrix.reindex e e M a a = 1 := by
@@ -397,6 +402,7 @@ theorem mem_Lev_one_iff_reindex [Finite K] {N : ℕ} (e : ι ≃ Fin N) (H : Sub
         ∀ a, Matrix.reindex e e ((g : GL ι K) : Matrix ι ι K) a a = 1 :=
   sub_one_mem_Fil_one_iff_reindex e _
 
+omit [Fintype ι] in
 theorem sub_one_mem_Fil_one_iff_blockTriangular {pos : ι → ℕ} (hpos : Function.Injective pos)
     (M : Matrix ι ι K) :
     M - 1 ∈ Fil K pos 1 ↔ M.BlockTriangular pos ∧ ∀ a, M a a = 1 := by

@@ -102,11 +102,11 @@ private theorem piBetaSq_tab {j : Nat} (hj : j < 3) : piBetaSqT j = tabT (unpack
 private theorem ap_tab (X p : Nat) : ap (tabT (unpack 3850 12 X)) p = imgK X p := by
   unfold imgK
   by_cases hp : p < 3850
-  · rw [if_pos hp, ap_tabT _ (by
+  · rw [ite_eq_left hp, ap_tabT _ (by
       rw [CFSG.KS.Raw.Orb.unpack_get hp]
       exact (CFSG.KS.PF.pg_lt 12 X p).trans (by norm_num)), CFSG.KS.Raw.Orb.unpack_get hp]
     rfl
-  · rw [if_neg hp]
+  · rw [ite_eq_right hp]
     unfold ap
     rw [tabT_get]
     have hs : (unpack 3850 12 X).size = 3850 := by simp [unpack]
@@ -256,7 +256,7 @@ private theorem step_m {m p g : Nat} (h1 : 1 ≤ m) (h2 : m ≤ 4124) (hpar : pa
   have hpush := arrM_push m
   unfold orbitStep
   dsimp only
-  rw [dif_pos hc]
+  rw [dite_eq_left hc]
   rw [hget, hnew, hpush]
 
 private theorem fold_m : ∀ (L : List (Nat × Nat)) (m : Nat), 1 ≤ m → m + L.length ≤ 4125 →

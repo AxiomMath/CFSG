@@ -33,7 +33,7 @@ theorem not_two_le_mQuot (h15 : Hyp15 M V₀ V) (h : Hyp65 n M V₀ V g)
         _ ≤ 2 ^ E3.mQuot V (conjSubgroup M g) := Nat.pow_le_pow_right (by norm_num) h2
     omega
   obtain ⟨p, hp, hpY⟩ := Nat.exists_prime_and_dvd hYne1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hodd : Odd (Nat.card Y) := by
     rw [hYcard]
     have hm : E3.mQuot V (conjSubgroup M g) ≠ 0 := by omega

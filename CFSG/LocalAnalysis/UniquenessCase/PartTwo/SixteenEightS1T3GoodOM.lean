@@ -90,11 +90,11 @@ theorem s16t3_good_nat_om {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) 
         Matrix (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) K).mulVec
           x = x := by
   classical
-  haveI hprime : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hchar : CharP K 2 := by
+  have hprime : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hchar : CharP K 2 := by
     let _ := Fintype.ofFinite K
     exact charP_of_card_eq_prime (p := 2) (Nat.card_eq_fintype_card.symm.trans hK)
-  haveI hF2 : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
+  have hF2 : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
     CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2.of_natCard_eq_two hK
   have hc : c = 1 := by
     apply CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2.eq_one_of_ne_zero
@@ -225,7 +225,7 @@ theorem s16t3_good_nat_om {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) 
     · have hx0ne : (Pi.single (Sum.inl i2) 1 : Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) ≠ 0 := by
         intro h
         have h1 := congrFun h (Sum.inl i2)
-        simpa using h1
+        simp at h1
       have hxy : StatedQuadMinus m K 1 1 (Pi.single (Sum.inl i2) 1) =
           StatedQuadMinus m K 1 1 x := by
         rw [show StatedQuadMinus m K 1 1 (Pi.single (Sum.inl i2) 1) = 0 from by
@@ -235,7 +235,7 @@ theorem s16t3_good_nat_om {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) 
     · have hx0ne : minusA m K i2 ≠ (0 : Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
         intro h
         have h1 := congrFun h (Sum.inl i2)
-        simpa [minusA] using h1
+        simp [minusA] at h1
       have hxy : StatedQuadMinus m K 1 1 (minusA m K i2) = StatedQuadMinus m K 1 1 x := by
         rw [show StatedQuadMinus m K 1 1 (minusA m K i2) = 1 from
           Q_minusA (n := m) (1 : K) (1 : K) i2, hQx]

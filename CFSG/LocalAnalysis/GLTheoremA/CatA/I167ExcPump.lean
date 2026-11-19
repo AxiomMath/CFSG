@@ -34,7 +34,7 @@ private theorem center_pQuot_eq_bot_of_type167J_aux1 {S : Type} [Group S] {n : �
   obtain ⟨i, hi, ⟨e⟩⟩ := h
   rcases hi with hi | ⟨h, -⟩ | ⟨h, -⟩ | ⟨h, -⟩ | ⟨h, -⟩
   · obtain ⟨m, F, _, _, hm, hF, ⟨e'⟩⟩ := exists_psl_of_isLnEps (S := S) ⟨i, hi, ⟨e⟩⟩
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     obtain ⟨-, ⟨eP⟩⟩ := CFSG.LieType.Steinberg.CentralExt.SLClosed.psl_hopfMultiplier_of_five_le
       (k := F) (n := m + 1) (by omega)
     have h1 : Nat.card (CFSG.Open.griessHopfMultiplier S) = 1 := by
@@ -121,7 +121,7 @@ private theorem center_pQuot_eq_bot_of_type167J_aux3_l4 {S : Type} [Group S] {k 
   obtain ⟨i, hi, ⟨e⟩⟩ := h
   rcases hi with hi | ⟨h, -⟩ | ⟨h, -⟩ | ⟨h, -⟩ | ⟨-, h, -⟩
   · obtain ⟨m, F, _, _, hm, hF, ⟨e'⟩⟩ := exists_psl_of_isLnEps (S := S) ⟨i, hi, ⟨e⟩⟩
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     obtain ⟨-, ⟨eP⟩⟩ := CFSG.LieType.Steinberg.CentralExt.SLClosed.psl_hopfMultiplier_of_three_le
       (k := F) (n := m + 1) (by omega) (by
         rw [Fintype.card_eq_nat_card, hF]
@@ -161,7 +161,7 @@ private theorem center_pQuot_eq_bot_of_type167J_aux3 {S : Type} [Group S] {n k :
 
 theorem center_pQuot_eq_bot_of_type167J {p : ℕ} {C J : Subgroup Ω} (hp : p.Prime) (hp2 : p ≠ 2)
     (hJ : GLAPComponent p C J) (h : Type167J p J) : Subgroup.center (PQuot p J) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple (PQuot p J) :=
     CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_pQuot_of_glaPComponent hp hJ
   have hpg := CFSG.LocalAnalysis.GLTheoremA.I2611.isPGroup_center_pQuot' hp J
@@ -179,6 +179,7 @@ theorem center_pQuot_eq_bot_of_type167J {p : ℕ} {C J : Subgroup Ω} (hp : p.Pr
 
 end
 
+omit [Finite Ω] in
 private theorem exists_fixed_element_aux1 {p : ℕ} {X : Subgroup Ω}
     (hnt : Nontrivial (PSimple p X)) : GLAPPrimeCore p ↥X ≠ ⊤ := by
   intro htop
@@ -190,6 +191,7 @@ private theorem exists_fixed_element_aux1 {p : ℕ} {X : Subgroup Ω}
     (QuotientGroup.mk'_surjective (Subgroup.center (PQuot p X))).subsingleton
   exact (not_subsingleton_iff_nontrivial.2 hnt) hsub2
 
+omit [Finite Ω] in
 private theorem exists_fixed_element_aux2 {p : ℕ} {X : Subgroup Ω} {x l : Ω}
     (hxN : x ∈ Subgroup.normalizer (X : Set Ω)) (hl : l ∈ X)
     (hlx : ∀ y ∈ X, (l⁻¹ * y * l)⁻¹ * (x⁻¹ * y * x) ∈ GLAPPrimeCoreOf p X) :
@@ -206,6 +208,7 @@ private theorem exists_fixed_element_aux2 {p : ℕ} {X : Subgroup Ω} {x l : Ω}
     rw [← map_inv, ← hsub, hbar_inv, map_inv]
   exact inv_inj.1 h2
 
+omit [Finite Ω] in
 private theorem exists_fixed_element_aux3 {p : ℕ} {X : Subgroup Ω} {x : Ω}
     (hX : CFSG.Open.IsQuasisimple ↥X) (hOZ : GLAPPrimeCore p ↥X ≤ Subgroup.center ↥X)
     (hcm : x ∈ centModSubgroup p X) : x ∈ cs X := by
@@ -233,6 +236,7 @@ private theorem exists_fixed_element_aux3 {p : ℕ} {X : Subgroup Ω} {x : Ω}
       _ = y * x := by rw [h]
   exact hxy.symm
 
+omit [Finite Ω] in
 private theorem exists_fixed_element_aux4 {p : ℕ} {X : Subgroup Ω} {x : Ω} {a : PQuot p X}
     (hxN : x ∈ Subgroup.normalizer (X : Set Ω)) (hxp : x ^ p = 1)
     (hbar : CFSG.HardMathSupport.Solomon.LocalBalance.barAut p X ⟨x, hxN⟩ = MulAut.conj a) :
@@ -258,6 +262,7 @@ private theorem exists_fixed_element_aux4 {p : ℕ} {X : Subgroup Ω} {x : Ω} {
   rw [← map_pow]
   exact (QuotientGroup.eq_one_iff (a ^ p)).2 hcenter
 
+omit [Finite Ω] in
 private theorem exists_fixed_element_aux5 {p : ℕ} {X J : Subgroup Ω} {x : Ω} {a : PQuot p X}
     (hJX : J ≤ X) (hxN : x ∈ Subgroup.normalizer (X : Set Ω)) (hxJ : x ∈ cs J)
     (hbar : CFSG.HardMathSupport.Solomon.LocalBalance.barAut p X ⟨x, hxN⟩ = MulAut.conj a) :
@@ -288,6 +293,7 @@ private theorem exists_fixed_element_aux5 {p : ℕ} {X J : Subgroup Ω} {x : Ω}
       (QuotientGroup.mk' (Subgroup.center (PQuot p X))) a
   rw [← map_mul, hcomm, ← map_mul]
 
+omit [Finite Ω] in
 private theorem exists_fixed_element_aux6 {p : ℕ} {X : Subgroup Ω} {x : Ω} {a : PQuot p X}
     (hX : CFSG.Open.IsQuasisimple ↥X) (hxN : x ∈ Subgroup.normalizer (X : Set Ω))
     (hxX : x ∉ cs X) (hOZ : GLAPPrimeCore p ↥X ≤ Subgroup.center ↥X)
@@ -308,7 +314,8 @@ private theorem exists_fixed_element_aux6 {p : ℕ} {X : Subgroup Ω} {x : Ω} {
     (centMod_iff).1 ((chev_barAut_eq_one_iff_centMod hxN).1 hbar1)
   exact hxX (exists_fixed_element_aux3 hX hOZ hcm)
 
-theorem exists_fixed_element {p : ℕ} {X J : Subgroup Ω} {x : Ω} (hp : p.Prime)
+omit [Finite Ω] in
+theorem exists_fixed_element {p : ℕ} {X J : Subgroup Ω} {x : Ω} (_hp : p.Prime)
     (hX : CFSG.Open.IsQuasisimple ↥X) (hnt : Nontrivial (PSimple p X)) (hJX : J ≤ X)
     (hxN : x ∈ Subgroup.normalizer (X : Set Ω)) (hxp : x ^ p = 1) (hxX : x ∉ cs X)
     (hxJ : x ∈ cs J) (hinner : InducesInnerMod p X x) :
@@ -333,7 +340,7 @@ theorem exists_fixed_element {p : ℕ} {X J : Subgroup Ω} {x : Ω} (hp : p.Prim
 
 theorem ker_excJMap_le {p : ℕ} {X J : Subgroup Ω} (hp : p.Prime) (hJX : J ≤ X)
     (hZ : Subgroup.center (PQuot p J) = ⊥) : (excJMap p hJX).ker ≤ GLAPPrimeCore p ↥J := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   intro j hj
   rw [MonoidHom.mem_ker] at hj
   have hqX : (QuotientGroup.mk (Subgroup.inclusion hJX j) : PQuot p X) ∈
@@ -367,11 +374,11 @@ theorem ker_excJMap_le {p : ℕ} {X J : Subgroup Ω} (hp : p.Prime) (hJX : J ≤
     simpa [hZ] using hcenterJ
   exact (QuotientGroup.eq_one_iff j).mp hzero
 
-private theorem exists_lift_elemAbelian_aux1 {p : ℕ} {X J : Subgroup Ω} (hp : p.Prime) (hJX : J ≤ X)
+private theorem exists_lift_elemAbelian_aux1 {p : ℕ} {X J : Subgroup Ω} (hp : p.Prime) (_hJX : J ≤ X)
     (hZ : Subgroup.center (PQuot p J) = ⊥) {E : Subgroup (PSimple p J)} (hE : IsElemAbelian p E) :
     ∃ S : Subgroup ↥J, IsElemAbelian p S ∧ Nat.card S = Nat.card E ∧
       Disjoint S (GLAPPrimeCore p ↥J) := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let e : PSimple p J ≃* PQuot p J :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   let E' : Subgroup (PQuot p J) := E.map e.toMonoidHom
@@ -393,7 +400,7 @@ private theorem exists_lift_elemAbelian_aux2 {p : ℕ} {X J : Subgroup Ω} (hp :
     (hZ : Subgroup.center (PQuot p J) = ⊥) {S : Subgroup ↥J}
     (hdisj : Disjoint S (GLAPPrimeCore p ↥J)) :
     Nat.card (S.map (excJMap p hJX)) = Nat.card S := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let φ : ↥S →* PSimple p X := (excJMap p hJX).comp S.subtype
   have hφinj : Function.Injective φ := by
     intro a b hab
@@ -422,7 +429,7 @@ private theorem exists_lift_elemAbelian_aux3 {p : ℕ} {X J : Subgroup Ω} (hp :
     (hdisj : Disjoint S (GLAPPrimeCore p ↥J)) :
     ∀ f ∈ S.map (excJMap p hJX),
       (∀ j : ↥J, f * excJMap p hJX j = excJMap p hJX j * f) → f = 1 := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   rintro f hf hcomm
   rw [Subgroup.mem_map] at hf
   obtain ⟨x, hxS, rfl⟩ := hf
@@ -453,7 +460,7 @@ theorem exists_lift_elemAbelian {p : ℕ} {X J : Subgroup Ω} (hp : p.Prime) (hJ
     ∃ F₀ : Subgroup (PSimple p X), IsElemAbelian p F₀ ∧ Nat.card F₀ = Nat.card E ∧
       F₀ ≤ (excJMap p hJX).range ∧
       ∀ f ∈ F₀, (∀ j : ↥J, f * excJMap p hJX j = excJMap p hJX j * f) → f = 1 := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hSelem, hScard, hdisj⟩ := exists_lift_elemAbelian_aux1 hp hJX hZ hE
   refine ⟨S.map (excJMap p hJX), IsElemAbelian.map hSelem (excJMap p hJX),
     (exists_lift_elemAbelian_aux2 hp hJX hZ hdisj).trans hScard, ?_,
@@ -468,7 +475,7 @@ theorem exists_elemAbelian_pumpup {p : ℕ} {X J : Subgroup Ω} (hp : p.Prime) (
     ∃ F : Subgroup (PSimple p X), IsElemAbelian p F ∧ Nat.card F = p * Nat.card E := by
   obtain ⟨F₀, hF₀, hcard, hrange, hfree⟩ := exists_lift_elemAbelian hp hJX hZ hE
   have hsF : s ∉ F₀ := fun h => hs1 (hfree s h hsc)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpg : IsPGroup p F₀ := fun g => ⟨1, by
     apply Subtype.ext
     simpa using hF₀.2 g g.2⟩

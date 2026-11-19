@@ -32,7 +32,7 @@ theorem ruP_localPair
     have := Subgroup.card_le_of_le hle
     rw [card_ruP, card_ruN] at this
     omega
-  refine ⟨ruS.subgroupOf ruP, ruC.subgroupOf ruP, ruN.subgroupOf ruP, ruSylow.isPGroup',
+  refine ⟨ruS.subgroupOf ruP, ruC.subgroupOf ruP, ruN.subgroupOf ruP, ruSylow.isPGroup,
     ruSylow.not_dvd_index, invariant_of_selfNormalizing hSC mulAut_inner hself,
     invariant_of_selfNormalizing hSN mulAut_inner hself, hC, hN, ?_, ruC_goodLocal,
     ruN_goodLocal⟩

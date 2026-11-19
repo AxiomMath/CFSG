@@ -66,10 +66,10 @@ theorem blockComponent_fixed_pow {K V : Type} [Field K] [Finite K] [AddCommGroup
         apply_mem_primaryComponent_of_mem_centralizer (Subgroup.pow_mem _ hyc k) hv
       rw [pow_succ', LinearEquiv.mul_apply]
       by_cases haX : a = X - 1
-      · rw [pow_succ', LinearEquiv.mul_apply, ih a ha v hv, if_pos haX,
+      · rw [pow_succ', LinearEquiv.mul_apply, ih a ha v hv, ite_eq_left haX,
           hyW_apply a ha ((y ^ k) v) hyk]
         simp [haX]
-      · rw [pow_succ', LinearEquiv.mul_apply, ih a ha v hv, if_neg haX,
+      · rw [pow_succ', LinearEquiv.mul_apply, ih a ha v hv, ite_eq_right haX,
           hyW_apply a ha v hv]
         simp [haX]
   have hmap : ((yW ^ n : V ≃ₗ[K] V) : V →ₗ[K] V) = 1 := by
@@ -81,8 +81,8 @@ theorem blockComponent_fixed_pow {K V : Type} [Field K] [Finite K] [AddCommGroup
     change (yW ^ n) v = v
     rw [hpow n a ha v hv]
     by_cases haX : a = X - 1
-    · rw [if_pos haX, hynv]
-    · rw [if_neg haX]
+    · rw [ite_eq_left haX, hynv]
+    · rw [ite_eq_right haX]
   exact LinearEquiv.ext fun v => by
     have := congrArg (fun f : V →ₗ[K] V => f v) hmap
     simpa using this
@@ -107,14 +107,14 @@ private theorem blockComponent_fixed_inv_apply {K V : Type} [Field K] [Finite K]
       (Subgroup.mem_inf.mp (inv_mem hy)).2 hv
   by_cases haX : a = X - 1
   · apply yW.injective
-    rw [if_pos haX]
+    rw [ite_eq_left haX]
     change yW (yW.symm v) = yW (y.symm v)
-    rw [yW.apply_symm_apply, hyW_apply a ha (y.symm v) hyinv, if_pos haX]
+    rw [yW.apply_symm_apply, hyW_apply a ha (y.symm v) hyinv, ite_eq_left haX]
     exact (y.apply_symm_apply v).symm
   · apply yW.injective
-    rw [if_neg haX]
+    rw [ite_eq_right haX]
     change yW (yW.symm v) = yW v
-    rw [yW.apply_symm_apply, hyW_apply a ha v hv, if_neg haX]
+    rw [yW.apply_symm_apply, hyW_apply a ha v hv, ite_eq_right haX]
 
 theorem blockComponent_fixed_conj_eq {K V : Type} [Field K] [Finite K] [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V} {p : ℕ}
@@ -146,12 +146,12 @@ theorem blockComponent_fixed_conj_eq {K V : Type} [Field K] [Finite K] [AddCommG
     · have hfmem : f (y⁻¹ v) ∈ primaryComponent x.toLinearMap a :=
         apply_mem_primaryComponent_of_mem_centralizer hc hyinv
       change y (f (y⁻¹ v)) = yW (f (yW⁻¹ v))
-      rw [hyWinv_apply a ha v hv, if_pos haX, hyW_apply a ha (f (y⁻¹ v)) hfmem, if_pos haX]
+      rw [hyWinv_apply a ha v hv, ite_eq_left haX, hyW_apply a ha (f (y⁻¹ v)) hfmem, ite_eq_left haX]
     · have hfv : f (y⁻¹ v) = y⁻¹ v := by
         refine apply_eq_of_mem_supportedBlock hf ha haX ?_ hyinv
         rwa [reciprocalPolynomial_X_sub_one]
       have hyWinv : yW⁻¹ v ∈ primaryComponent x.toLinearMap a := by
-        rw [hyWinv_apply a ha v hv, if_neg haX]; exact hv
+        rw [hyWinv_apply a ha v hv, ite_eq_right haX]; exact hv
       have hfW : f (yW⁻¹ v) = yW⁻¹ v := by
         refine apply_eq_of_mem_supportedBlock hf ha haX ?_ hyWinv
         rwa [reciprocalPolynomial_X_sub_one]

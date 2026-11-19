@@ -311,16 +311,16 @@ theorem exists_sylow_wreathData : ∃ (Q : Sylow 2 (alternatingGroup (Fin 8)))
     have hg' : (↑(↑g) : Equiv.Perm (Fin 8)) ∈ ({1, u0, w0, u0 * w0} : Set _) := by
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hg ⊢
       rcases hg with h | h | h | h
-      · left; rw [h]; simp [uQ, wQ, uA8, wA8]
-      · right; left; rw [h]; simp [uQ, wQ, uA8, wA8]
-      · right; right; left; rw [h]; simp [uQ, wQ, uA8, wA8]
+      · left; rw [h]; simp
+      · right; left; rw [h]; simp [uQ, uA8]
+      · right; right; left; rw [h]; simp [wQ, wA8]
       · right; right; right; rw [h]; simp [uQ, wQ, uA8, wA8]
     have hh' : (↑(↑h) : Equiv.Perm (Fin 8)) ∈ ({1, u0, w0, u0 * w0} : Set _) := by
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hh ⊢
       rcases hh with h | h | h | h
-      · left; rw [h]; simp [uQ, wQ, uA8, wA8]
-      · right; left; rw [h]; simp [uQ, wQ, uA8, wA8]
-      · right; right; left; rw [h]; simp [uQ, wQ, uA8, wA8]
+      · left; rw [h]; simp
+      · right; left; rw [h]; simp [uQ, uA8]
+      · right; right; left; rw [h]; simp [wQ, wA8]
       · right; right; right; rw [h]; simp [uQ, wQ, uA8, wA8]
     have hc := conj_comm_perm _ hg' _ hh'
     rw [commute_iff_eq] at hc ⊢

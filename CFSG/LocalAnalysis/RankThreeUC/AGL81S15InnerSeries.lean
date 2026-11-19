@@ -69,7 +69,7 @@ theorem exists_nontriv_series_factor {K Lg : Type} [Group K] [Group Lg] (α : Lg
   have h0 : nontrivCount (ρ.comp α) = 0 := by
     rw [hsum]
     refine Finset.sum_eq_zero fun i _ => ?_
-    haveI : Finite (↥(Vs i.succ).toSubmodule ⧸ factorSub (Vs i.castSucc) (Vs i.succ)) :=
+    have : Finite (↥(Vs i.succ).toSubmodule ⧸ factorSub (Vs i.castSucc) (Vs i.succ)) :=
       factor_finite _ _
     exact nontrivCount_eq_zero_of_trivial _ fun l => hcon i l
   obtain ⟨l, hl⟩ := hnt
@@ -116,7 +116,7 @@ theorem exists_chief_factor {G : Type} [Group G] [Finite G] {V : Type} [AddCommG
   let BK : Subgroup ↥(L ⊔ B) := B.subgroupOf (L ⊔ B)
   let SU : Subrepresentation (ρ.comp (L ⊔ B).subtype) :=
     ⟨U, fun g w hw => hinv (g : G) g.2 w hw⟩
-  haveI : Finite ↥SU.toSubmodule := inferInstanceAs (Finite ↥U)
+  have : Finite ↥SU.toSubmodule := inferInstanceAs (Finite ↥U)
   obtain ⟨r, Vs, hVs⟩ := exists_isCompositionSeries SU.toRepresentation
   have hnt : ∃ l : ↥LK, SU.toRepresentation (LK.subtype l) ≠ 1 := by
     by_contra hcon
@@ -128,7 +128,7 @@ theorem exists_chief_factor {G : Type} [Group G] [Finite G] {V : Type} [AddCommG
     exact congrArg Subtype.val (LinearMap.congr_fun h1 ⟨u, hu⟩)
   obtain ⟨i, l0, hl0⟩ := exists_nontriv_series_factor LK.subtype hctx.quasi.1 hVs hnt
   have hcov : Vs i.castSucc ⋖ Vs i.succ := hVs.covBy i
-  haveI hfin : Finite (↥(Vs i.succ).toSubmodule ⧸ factorSub (Vs i.castSucc) (Vs i.succ)) :=
+  have hfin : Finite (↥(Vs i.succ).toSubmodule ⧸ factorSub (Vs i.castSucc) (Vs i.succ)) :=
     factor_finite _ _
   refine ⟨_, inferInstance, inferInstance, hfin, factorRep (Vs i.castSucc) (Vs i.succ), ?_⟩
   have hLκ : ∃ l ∈ LK, ∃ z, factorRep (Vs i.castSucc) (Vs i.succ) l z ≠ z := by

@@ -51,7 +51,7 @@ theorem e8T12_comb_arith {p : ℕ} (hp : p.Prime) {q : ℤ} (hΦ : (p : ℤ) ∣
     simp only [mul_zero, zero_add, mul_one] at h1
     exact hp.one_lt.ne' (by exact_mod_cast Int.eq_one_of_dvd_one (by positivity) h1)
 
-theorem e8T12_exists_order_p_mem_D4 {L : Type} [Field L] {p : ℕ} (hp : p.Prime) (hp7 : 7 < p)
+theorem e8T12_exists_order_p_mem_D4 {L : Type} [Field L] {p : ℕ} (hp : p.Prime) (_hp7 : 7 < p)
     {ζ : Lˣ} (hζ : orderOf ζ = p) {n : ModGL Tag.E8 L} {Fr : L →+* L} {q : ℕ}
     (hFr : ∀ x, Fr x = x ^ q) (hΦ : (q : ZMod p) ^ 4 - (q : ZMod p) ^ 2 + 1 = 0)
     (hT : twistedTorusOf n (Units.map (entrywiseHom Fr)) =

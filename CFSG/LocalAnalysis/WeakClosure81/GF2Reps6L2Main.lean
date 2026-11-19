@@ -25,7 +25,7 @@ theorem asch6_4Odd_holds : Asch6_4Odd := by
   have h4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     omega
-  letI : IsSimpleGroup (CFSG.GorensteinWalter.PSL2 K) :=
+  let : IsSimpleGroup (CFSG.GorensteinWalter.PSL2 K) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
   have hL : IsSimpleGroup ↥L := eL.isSimpleGroup
   have hZ : Subgroup.center ↥L = ⊥ := by
@@ -59,7 +59,7 @@ theorem asch6_4Seven_holds : Asch6_4Seven := by
   have h4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     norm_num
-  letI : IsSimpleGroup (CFSG.GorensteinWalter.PSL2 K) :=
+  let : IsSimpleGroup (CFSG.GorensteinWalter.PSL2 K) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple h4
   have hL : IsSimpleGroup ↥L := eL.isSimpleGroup
   have hZ : Subgroup.center ↥L = ⊥ := by

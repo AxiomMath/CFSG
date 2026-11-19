@@ -60,12 +60,12 @@ theorem mem_invEnum {x : M3} (hx : x.R) (hdet : x.det = 1) (h2 : mul x x = one)
   refine List.mem_flatMap.2 ⟨a, List.mem_range.2 ha, List.mem_flatMap.2 ⟨b, List.mem_range.2 hb,
     List.mem_flatMap.2 ⟨c, List.mem_range.2 hc, List.mem_flatMap.2 ⟨d, List.mem_range.2 hd,
     List.mem_flatMap.2 ⟨g, List.mem_range.2 hg, ?_⟩⟩⟩⟩⟩
-  rw [if_pos c00]
+  rw [ite_eq_left c00]
   refine List.mem_flatMap.2 ⟨e, List.mem_range.2 he,
     List.mem_flatMap.2 ⟨h, List.mem_range.2 hh, ?_⟩⟩
-  rw [if_pos c01]
+  rw [ite_eq_left c01]
   refine List.mem_flatMap.2 ⟨f, List.mem_range.2 hf, ?_⟩
-  rw [if_pos c1x]
+  rw [ite_eq_left c1x]
   refine List.mem_filter.2 ⟨List.mem_map.2 ⟨i, List.mem_range.2 hi, rfl⟩, ?_⟩
   simp [eqM_eq_decide, h2, hdet, h1]
 

@@ -84,7 +84,7 @@ theorem eq_bot_of_isPerfect_of_isCyclic_sylow [Group.IsPerfect X] {Z : Subgroup 
   set f : (P : Subgroup X) →* X ⧸ Z := (QuotientGroup.mk' Z).comp (P : Subgroup X).subtype
     with hf
   have hR : IsPGroup p f.range :=
-    (P.isPGroup').of_surjective f.rangeRestrict f.rangeRestrict_surjective
+    (P.isPGroup).of_surjective f.rangeRestrict f.rangeRestrict_surjective
   obtain ⟨Q, hRQ⟩ := hR.exists_le_sylow
   have hQ := h p hp hpZ Q
   have hcyc : IsCyclic f.range :=
@@ -98,7 +98,7 @@ theorem sylow_comm_of_not_sq_dvd {Z : Subgroup X} [Z.Normal] (hZc : Z ≤ Subgro
   set f : (P : Subgroup X) →* X ⧸ Z := (QuotientGroup.mk' Z).comp (P : Subgroup X).subtype
     with hf
   have hR : IsPGroup p f.range :=
-    (P.isPGroup').of_surjective f.rangeRestrict f.rangeRestrict_surjective
+    (P.isPGroup).of_surjective f.rangeRestrict f.rangeRestrict_surjective
   obtain ⟨k, hk⟩ := hR.exists_card_eq
   have hk1 : k ≤ 1 := by
     by_contra hk1
@@ -119,7 +119,7 @@ theorem eq_bot_of_isPerfect_of_not_sq_dvd [Group.IsPerfect X] {Z : Subgroup X} [
     (h : ∀ p : ℕ, p.Prime → p ∣ Nat.card Z → ¬ p ^ 2 ∣ Nat.card (X ⧸ Z)) : Z = ⊥ := by
   refine eq_bot_of_isPerfect_of_isCyclic_sylow hZc fun p hp hpZ Q => ?_
   have : Fact p.Prime := ⟨hp⟩
-  obtain ⟨k, hk⟩ := Q.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := Q.isPGroup.exists_card_eq
   have hk1 : k ≤ 1 := by
     by_contra hk1
     apply h p hp hpZ

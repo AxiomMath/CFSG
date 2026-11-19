@@ -74,7 +74,7 @@ theorem exists_section {X Y : Type*} (π : Y → X) (hπ : Function.Surjective �
   · intro x
     by_cases hx : x = x0
     · simp [hx, hy0]
-    · simp only [hx, if_false]
+    · simp only [hx, ite_false]
       rw [pi_zpow π σ τ hπστ, hyrep, hkk]
   · intro x
     by_cases hx : x = x0
@@ -86,7 +86,7 @@ theorem exists_section {X Y : Type*} (π : Y → X) (hπ : Function.Surjective �
         apply hx
         have : σ x = σ x0 := by rw [h, (hfix x0).2 rfl]
         exact σ.injective this
-      simp only [hx, hσx, if_false, hrep2]
+      simp only [hx, hσx, ite_false, hrep2]
       have hz := hrep3 x hx
       have hd : (r : ℤ) ∣ kk (σ x) - (kk x + 1) := by
         apply dvd_of_fix σ r hr hσ x0 hfix _ hz

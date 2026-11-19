@@ -230,7 +230,7 @@ theorem W_comm (hz : orderOf z = 2) (e : Elts G z) (f : FPart9 z e) (l : Lem232 
       (fun g hg => mem_normalizer_of_center hPc hPT hZT hg)
       (fun R' hR'H hR'p hTR' => hmax R' hR'H hR'p hTR') hR hTR
   obtain ⟨Q, hQ⟩ := hTp.exists_le_sylow
-  have hQeq : (Q : Subgroup G) = T := hmaxG Q Q.isPGroup' hQ
+  have hQeq : (Q : Subgroup G) = T := hmaxG Q Q.isPGroup hQ
   have hQcard : Nat.card Q = 3 ^ 7 := by
     have : Nat.card (Q : Subgroup G) = Nat.card T := by rw [hQeq]
     rw [← hTcard]; exact this

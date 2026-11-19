@@ -80,7 +80,7 @@ theorem e0_eq : e0Elems = I0f.map tab := by
 theorem tab_good {k : Nat} (hk : k ∈ I0f) : Good 100 (tab k) (mF k) :=
   good_mElems k (List.mem_range.1 (List.mem_filter.1 hk).1)
 
-theorem e0_all {t : Array Nat} {f : Nat → Nat} (ht : Good 100 t f) (g : Nat → Nat → Nat)
+theorem e0_all {t : Array Nat} {f : Nat → Nat} (_ht : Good 100 t f) (g : Nat → Nat → Nat)
     (hg : ∀ k ∈ I0f, ∀ s, Good 100 s (mF k) → commT t s = commF f (g k)) :
     e0Elems.all (commT t) = I0.all fun j => commF f (g j) := by
   rw [e0_eq, List.all_map]

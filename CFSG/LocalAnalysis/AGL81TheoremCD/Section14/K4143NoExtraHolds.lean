@@ -87,7 +87,7 @@ private theorem false_of_g2 {X : Type} [Group X] [Finite X] {L : Subgroup X} [L.
 
 theorem k4143NoExtraspecial_holds : K4143NoExtraspecial := by
   intro X _ _ L hLn hq hZ hcl h3L h3X R hR
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   rcases hcl with ⟨d, hd, ⟨e⟩⟩ | ⟨n, hn, ⟨e⟩⟩ | ⟨d, hd, ⟨e⟩⟩
   · by_cases hG2 : ∃ q, d.1 = .G2 q
     · obtain ⟨x, hv⟩ := d

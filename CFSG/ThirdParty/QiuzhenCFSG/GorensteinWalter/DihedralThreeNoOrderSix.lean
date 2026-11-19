@@ -27,7 +27,7 @@ public theorem dihedralGroup_three_orderOf_ne_six
     rw [h] at hdvd
     norm_num at hdvd
   · have hsq : (DihedralGroup.sr i : DihedralGroup 3) ^ 2 = 1 := by
-      simpa [pow_two] using DihedralGroup.sr_mul_self i
+      simp [pow_two]
     have hdvd : orderOf (DihedralGroup.sr i : DihedralGroup 3) ∣ 2 :=
       orderOf_dvd_of_pow_eq_one hsq
     intro h

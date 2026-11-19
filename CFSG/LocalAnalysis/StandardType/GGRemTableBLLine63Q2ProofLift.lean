@@ -20,8 +20,8 @@ theorem exists_sylow_lift {H Q : Type*} [Group H] [Finite H] [Group Q] (π : H �
     ∃ S : Subgroup H, B ≤ S ∧ IsPGroup 3 S ∧ S.map π = Sbar ∧
       ∀ s ∈ S, π s = 1 → s = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P : Subgroup H := Sbar.comap π with hP
   have hBP : B ≤ P := fun b hb => hBS ⟨b, hb, rfl⟩
   have hB' : IsPGroup 3 (B.subgroupOf P) := by
@@ -64,8 +64,8 @@ theorem exists_fixed_lift {L' : Type} [Group L'] [Finite L'] {Z : Subgroup L'}
     (hZa : ∀ z ∈ Z, a z ∈ Z) {l : L'} (hl : l⁻¹ * a l ∈ Z) :
     ∃ z ∈ Z, a (l * z) = l * z := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut L') :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun φ : MulAut L' => (φ : L' → L')) DFunLike.coe_injective
   have hcen : ∀ y ∈ Z, ∀ g : L', g * y = y * g := fun y hy g =>
     Subgroup.mem_center_iff.mp (hZ hy) g

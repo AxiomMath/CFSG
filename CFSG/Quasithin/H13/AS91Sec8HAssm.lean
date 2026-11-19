@@ -176,7 +176,7 @@ theorem exists_mulEquiv_SQ_of_isometry
     intro n hn
     rw [hzp, Subgroup.mem_subgroupOf]
     have hcoe : ((n * x * n⁻¹ : ↥c.S.M) : G) = (n : G) * (x0 : G) * (n : G)⁻¹ := by
-      simp [x, c.coe_toSM]
+      simp [x]
     rw [hcoe]
     exact (Subgroup.normal_subgroupOf_iff c.X_le_NX).mp c.X_normal_NX (x0 : G) (n : G)
       x0.2 (c.mem_NXm_iff.mp hn)

@@ -21,10 +21,10 @@ theorem trialityThreeCore_holds : TrialityThreeCore := by
   refine hgood ?_
   obtain ⟨w, s, r, r', hs, hr, hr', hw⟩ := exists_twistedConj_longForm hf hK σ hσ hu hu3
   refine defCharGoodPlus_conj (MulAut.conj w⁻¹) _ ?_
-  rw [conj_mul_twisted hf hK σ hσ (fieldActor (t := TwistTag.D4) σ σ) u w, hw]
+  rw [conj_mul_twisted σ (fieldActor (t := TwistTag.D4) σ σ) u w, hw]
   by_cases hne : s = 0 ∧ r = 0 ∧ r' = 0
   · obtain ⟨rfl, rfl, rfl⟩ := hne
-    rw [longElt_zero hf hK σ hσ, longElt_zero hf hK σ hσ, longElt_zero hf hK σ hσ]
+    rw [longElt_zero σ, longElt_zero σ, longElt_zero σ]
     simp only [mul_one, map_one, one_mul]
     exact Or.inl ⟨isSimpleGroup_fixSubgroup_fieldActor_D4 3 f Nat.prime_three (by norm_num) K hK σ hσ,
       nonabelian_fixSubgroup_fieldActor_D4 3 f Nat.prime_three (by norm_num) K hK σ hσ⟩

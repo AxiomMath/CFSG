@@ -15,7 +15,7 @@ theorem two_pow_twentyone_dvd_half_factorial_24 : 2 ^ 21 ∣ Nat.factorial 24 / 
 theorem ds81Lemma210_alt {Y : Type} [Group Y] {n : ℕ} (hn : 5 ≤ n)
     (θ : Y ≃* alternatingGroup (Fin n)) (h19 : 2 ^ 19 ∣ Nat.card Y)
     (h21 : ¬ 2 ^ 21 ∣ Nat.card Y) : False := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
   have hY : Nat.card Y = n.factorial / 2 := by
     rw [Nat.card_congr θ.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
   have h2 : 2 ∣ n.factorial := Nat.dvd_factorial (by norm_num) (by omega)

@@ -19,6 +19,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
 
+omit [Finite Ω] in
 private theorem excLang_twE6_marking_aux1 {p : ℕ} {X : Subgroup Ω} {x : Ω}
     {qc : TauCeti.PrimePower} (hqc : qc.p = 2) {hv : (LocalTwo.excIndex .twistedE6 qc).Valid}
     (hQ : catalogIs (PSimple p X) K155X.l154ExcTwE6)
@@ -59,6 +60,7 @@ private theorem excLang_twE6_marking_aux1 {p : ℕ} {X : Subgroup Ω} {x : Ω}
     CFSG.StandardType.charP_two_of_card (m := lab.n * 2) (by rw [hK, pow_mul]), hΛ.1, hK, hσ,
     hpow, hφ, hix⟩
 
+omit [Finite Ω] in
 private theorem excLang_twE6_marking_aux3 {p : ℕ} {X : Subgroup Ω} {x : Ω}
     {K : Type} [Field K] [Finite K] {σ : K ≃+* K}
     {θ : PSimple p X ≃* ↥(twistedE6RootGroup K σ)}
@@ -73,6 +75,7 @@ private theorem excLang_twE6_marking_aux3 {p : ℕ} {X : Subgroup Ω} {x : Ω}
     rw [hw1']; exact map_one _
   exact hcm (K155X.l154_centMod_of_induces_one hX.1 hxN θ (h1 ▸ hθx))
 
+omit [Finite Ω] in
 private theorem excLang_twE6_marking_aux2 {p : ℕ} {X : Subgroup Ω} {x : Ω} {qc : TauCeti.PrimePower}
     {K : Type} [Field K] [Finite K] {n : ℕ} {σ : K ≃+* K}
     {θ₀ : PSimple p X ≃* CFSG.Assembly.LargeEvenCenterQuot (twistedE6RootGroup K σ)}
@@ -113,7 +116,8 @@ private theorem excLang_twE6_marking_aux2 {p : ℕ} {X : Subgroup Ω} {x : Ω} {
   · intro c; rw [hσ c, hpow]
   · rw [← Subgroup.coe_pow, hwp]; rfl
 
-theorem excLang_twE6_marking {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Subgroup Ω} {x : Ω}
+omit [Finite Ω] in
+theorem excLang_twE6_marking {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2) {X : Subgroup Ω} {x : Ω}
     {qc : TauCeti.PrimePower} (hqc : qc.p = 2) {hv : (LocalTwo.excIndex .twistedE6 qc).Valid}
     (hX : CFSG.Open.IsQuasisimple ↥X) (hcat : Nonempty (PSimple p X ≃* LocalTwo.CatT ⟨LocalTwo.excIndex .twistedE6 qc, hv⟩))
     (hxp : x ^ p = 1) (hxN : x ∈ Subgroup.normalizer (X : Set Ω)) (hcm : ¬ CentMod p X x)

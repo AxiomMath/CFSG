@@ -89,7 +89,7 @@ theorem hermFourRho_sl2Upper_sub (s : E) (X : hermFourSpace D.σ)
   apply Subtype.ext
   rw [Submodule.coe_sub, Submodule.coe_smul, coe_hermFourRho_sl2Upper, coe_hermFourE11]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Algebra.smul_def, hX, hc] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [Algebra.smul_def, hX, hc]; ring
 
 variable {W : Type*} [AddCommGroup W] [Module K W] {Q : QuadraticForm K W}
 
@@ -129,8 +129,7 @@ theorem exists_hypPair_sl2_rootGroups (hQ : (polarBilin Q).Nondegenerate)
     rw [hf, hρ, coe_hermFourRho, hψe, coe_hermFourE11, coe_sl2Antidiag]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.map_apply, Matrix.transpose_apply,
-        Matrix.vecMul, dotProduct]
+      simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.map_apply, Matrix.transpose_apply]
   have hpolef : polar Q e f = 1 := by
     apply (algebraMap K E).injective
     rw [algebraMap_polar_hermFour D ψ hψ, hψe, hψf, coe_hermFourE11, map_one]
@@ -171,7 +170,7 @@ theorem card_eq_pow_of_sl2_model {K V : Type*} [Field K] [Finite K] [CharP K 2]
     {Q : QuadraticForm K V} (hQ : (polarBilin Q).Nondegenerate) (hdim : Module.finrank K V = 4)
     {E : Type*} [Field E] [Finite E] [CharP E 2] (hE : Nat.card E = Nat.card K ^ 2)
     (ρ : SL(2, E) →* (V ≃ₗ[K] V)) (hinj : Function.Injective ρ)
-    (hρO : ∀ g, ρ g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (P₀ : HypPair Q)
+    (_hρO : ∀ g, ρ g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (P₀ : HypPair Q)
     (hPU : ∀ s, ρ (sl2Upper E s) ∈ rootGroup Q P₀.e)
     (hPL : ∀ t, ρ (sl2Lower E t) ∈ rootGroup Q P₀.f)
     {M : Type*} [AddCommGroup M] [Finite M] (h2 : ∀ m : M, m + m = 0)
@@ -234,12 +233,12 @@ theorem omegaMinus4_card_eq_pow {K V : Type*} [Field K] [Finite K] [CharP K 2]
     (hdec : IsCompl (fixedSub M (Lom Q u : Set (Gom Q))) (fixedSub M (Lom Q u' : Set (Gom Q)))) :
     ∃ n : ℕ, Nat.card M = Nat.card K ^ (4 * n) := by
   obtain ⟨K₀, _, ⟨e⟩⟩ := exists_field_equiv_type K
-  letI : Module K₀ V := Module.compHom V (e : K₀ →+* K)
+  let : Module K₀ V := Module.compHom V (e : K₀ →+* K)
   have hsmul : ∀ (c : K₀) (v : V), c • v = e c • v := fun _ _ => rfl
-  haveI : Finite K₀ := Finite.of_equiv K e.symm.toEquiv
-  haveI : CharP K₀ 2 := charP_of_injective_ringHom (f := (e.symm : K →+* K₀)) e.symm.injective 2
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : FiniteDimensional K₀ V := Module.Finite.of_finite
+  have : Finite K₀ := Finite.of_equiv K e.symm.toEquiv
+  have : CharP K₀ 2 := charP_of_injective_ringHom (f := (e.symm : K →+* K₀)) e.symm.injective 2
+  have : Finite V := Module.finite_of_finite K
+  have : FiniteDimensional K₀ V := Module.Finite.of_finite
   have hcard : Nat.card K₀ = Nat.card K := Nat.card_congr e.toEquiv
   have hK₀ : 2 ≤ Nat.card K₀ := Finite.one_lt_card
   have hQ₀ : (polarBilin (formOfRingEquiv e hsmul Q)).Nondegenerate :=
@@ -272,8 +271,8 @@ theorem omegaMinus4_card_eq_pow {K V : Type*} [Field K] [Finite K] [CharP K 2]
   obtain ⟨E, _, _, D, ψ, ρ₀, hψ, hρ, hinj, hρO, -⟩ :=
     CFSG.RankThree.PartOne.even_minus_four_actual_derived_extraction (formOfRingEquiv e hsmul Q)
       hQ₀ hdim₀ hts₀
-  haveI : Finite E := D.finite_E
-  haveI : CharP E 2 := charP_two_of_algebra (K := K₀)
+  have : Finite E := D.finite_E
+  have : CharP E 2 := charP_two_of_algebra (K := K₀)
   obtain ⟨P₀', hPU, hPL⟩ := exists_hypPair_sl2_rootGroups D hQ₀ ψ hψ ρ₀ hρ hρO
   have hP₀e : Q P₀'.e = 0 := by
     have := P₀'.Q_e

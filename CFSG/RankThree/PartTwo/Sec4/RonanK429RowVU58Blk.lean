@@ -23,9 +23,11 @@ abbrev fibBlk (t : ι → α) (κ : α) (M : Matrix ι ι F) :
     Matrix {i // t i = κ} {i // t i = κ} F :=
   M.submatrix Subtype.val Subtype.val
 
+omit [DecidableEq α] [Fintype ι] in
 theorem fibBlk_one (κ : α) : fibBlk t κ (1 : Matrix ι ι F) = 1 :=
   submatrix_one _ Subtype.val_injective
 
+omit [DecidableEq ι] in
 theorem fibBlk_mul (κ : α) {M N : Matrix ι ι F} (hM : IsBlockDiag t M) :
     fibBlk t κ (M * N) = fibBlk t κ M * fibBlk t κ N := by
   ext ⟨a, ha⟩ ⟨b, hb⟩
@@ -51,6 +53,7 @@ theorem fibBlk_unitary (κ : α) (f : F →+* F) {M : Matrix ι ι F} (hM : IsBl
   rw [h]
   rfl
 
+omit [DecidableEq α] [Fintype ι] in
 theorem entry_of_fibBlk_eq_one (κ : α) {M : Matrix ι ι F} (h : fibBlk t κ M = 1) {a b : ι}
     (ha : t a = κ) (hb : t b = κ) : M a b = (1 : Matrix ι ι F) a b := by
   have h1 := congrFun (congrFun h ⟨a, ha⟩) ⟨b, hb⟩
@@ -58,6 +61,7 @@ theorem entry_of_fibBlk_eq_one (κ : α) {M : Matrix ι ι F} (h : fibBlk t κ M
   rw [h1, Matrix.one_apply, Matrix.one_apply]
   simp [Subtype.ext_iff]
 
+omit [Fintype ι] in
 theorem eq_one_of_blocks {M : Matrix ι ι F} (hM : IsBlockDiag t M)
     (h : ∀ a b, t a = t b → M a b = (1 : Matrix ι ι F) a b) : M = 1 := by
   ext a b
@@ -65,6 +69,7 @@ theorem eq_one_of_blocks {M : Matrix ι ι F} (hM : IsBlockDiag t M)
   · exact h a b hab
   · rw [hM a b hab, Matrix.one_apply_ne (fun e => hab (congrArg t e))]
 
+omit [DecidableEq α] [DecidableEq ι] in
 theorem mul_apply_singleton {M N : Matrix ι ι F} (hM : IsBlockDiag t M) {j : ι}
     (hj : ∀ k, t k = t j → k = j) : (M * N) j j = M j j * N j j := by
   rw [Matrix.mul_apply, Finset.sum_eq_single j]
@@ -217,7 +222,6 @@ theorem card_SU4_eight : Nat.card (StatedSU 4 (2 ^ 3) K) = 8 ^ 6 * (63 * (513 * 
   have e : Finset.Icc 2 4 = {2, 3, 4} := by decide
   rw [e] at h
   simp at h
-  norm_num at h
   exact_mod_cast h
 
 end Order

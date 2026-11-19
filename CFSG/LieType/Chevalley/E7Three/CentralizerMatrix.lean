@@ -47,16 +47,15 @@ theorem mul_heisXMat_apply (B : Matrix (Fin 3) (Fin 3) K) (i j : Fin 3) :
 
 theorem heisXMat_mul_apply (B : Matrix (Fin 3) (Fin 3) K) (i j : Fin 3) :
     (heisXMat ζ * B) i j = ![1, ζ, ζ ^ 2] i * B i j := by
-  fin_cases i <;> simp [heisXMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.vecMul, dotProduct]
+  fin_cases i <;> simp [heisXMat, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem mul_heisYMat_apply (B : Matrix (Fin 3) (Fin 3) K) (i j : Fin 3) :
     (B * (heisYMat : Matrix (Fin 3) (Fin 3) K)) i j = B i (j + 1) := by
-  fin_cases j <;> simp [heisYMat, Matrix.mul_apply, Fin.sum_univ_three] <;> rfl
+  fin_cases j <;> simp [heisYMat, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem heisYMat_mul_apply (B : Matrix (Fin 3) (Fin 3) K) (i j : Fin 3) :
     ((heisYMat : Matrix (Fin 3) (Fin 3) K) * B) i j = B (i + 2) j := by
-  fin_cases i <;> simp [heisYMat, Matrix.mul_apply, Fin.sum_univ_three, Matrix.vecMul, dotProduct] <;>
-    rfl
+  fin_cases i <;> simp [heisYMat, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem heisXMat_eq_diagonal : heisXMat ζ = Matrix.diagonal ![1, ζ, ζ ^ 2] := by
   ext i j
@@ -169,16 +168,14 @@ theorem one_kronecker_mul_apply (A : Matrix (Fin 3) (Fin 3) K)
     (((1 : Matrix (Fin 2) (Fin 2) K) ⊗ₖ A) * N) (i, j) (i', j') =
       (A * Matrix.of fun l l' => N (i, l) (i', l')) j j' := by
   fin_cases i <;> fin_cases i' <;>
-    simp [Matrix.mul_apply, Fintype.sum_prod_type, Matrix.kroneckerMap_apply, Matrix.one_apply,
-      Fin.sum_univ_two]
+    simp [Matrix.mul_apply, Fintype.sum_prod_type, Matrix.kroneckerMap_apply, Matrix.one_apply]
 
 theorem mul_one_kronecker_apply (A : Matrix (Fin 3) (Fin 3) K)
     (N : Matrix (Fin 2 × Fin 3) (Fin 2 × Fin 3) K) (i i' : Fin 2) (j j' : Fin 3) :
     (N * ((1 : Matrix (Fin 2) (Fin 2) K) ⊗ₖ A)) (i, j) (i', j') =
       ((Matrix.of fun l l' => N (i, l) (i', l')) * A) j j' := by
   fin_cases i <;> fin_cases i' <;>
-    simp [Matrix.mul_apply, Fintype.sum_prod_type, Matrix.kroneckerMap_apply, Matrix.one_apply,
-      Fin.sum_univ_two]
+    simp [Matrix.mul_apply, Fintype.sum_prod_type, Matrix.kroneckerMap_apply, Matrix.one_apply]
 
 theorem eq_kronecker_one_of_commute (hζ : IsPrimitiveRoot ζ 3)
     {N : Matrix (Fin 2 × Fin 3) (Fin 2 × Fin 3) K}

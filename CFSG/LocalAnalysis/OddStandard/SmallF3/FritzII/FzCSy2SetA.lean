@@ -143,7 +143,7 @@ theorem fzc_sy2_rho_t (h : Ctx0 t L S x₁ x₂ lam rho) : rho * t * rho⁻¹ = 
   group
 
 theorem fzc_sy2_W_rank (h : Ctx0 t L S x₁ x₂ lam rho) : S4A.RankLE (ctxW t x₁ x₂) 3 := by
-  haveI := h.hyp.isCyclic
+  have := h.hyp.isCyclic
   have hcomm12 : ∀ u ∈ zpowers x₁, ∀ v ∈ zpowers x₂, u * v = v * u := by
     intro u hu v hv
     obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.mp hu

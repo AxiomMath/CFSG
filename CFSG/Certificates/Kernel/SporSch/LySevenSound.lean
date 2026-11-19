@@ -151,7 +151,7 @@ theorem vbfs_sound {kg c nS Hh : Nat} {GP E PL C : Nat → Nat} {root : Array Na
   CFSG.KS.SporSch.LySvB.vbfs_soundL hg hroot hE0 hPL0 hc hcov hC0 hrun hCn
 
 theorem cbfs_sound {kg c nS Hh cap QM : Nat} {KC ET WT PT SO SOI C : Nat → Nat} {root : Array Nat}
-    {gens : Array (Array Nat × Array Nat)} (hg : gens.size = kg) (hkg : kg ≤ 5)
+    {gens : Array (Array Nat × Array Nat)} (hg : gens.size = kg) (_hkg : kg ≤ 5)
     (hK : ∀ j < kg, ∀ t < 49, ∀ s < 49, fld(KC t, 980 * j + 20 * s, 1048575) =
       gens[j]!.1[7 * (s / 7) + t / 7]! * gens[j]!.2[7 * (t % 7) + s % 7]! % 5)
     (hKb : ∀ t < 49, KC t < 2 ^ (980 * kg)) (hQM : QM = qmK (49 * kg))

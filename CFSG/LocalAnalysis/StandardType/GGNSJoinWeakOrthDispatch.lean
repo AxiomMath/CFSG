@@ -60,18 +60,18 @@ theorem nsNbr_two_le_n_of_qFour
     · omega
 
 theorem nsWeakNbr_orthMarking_typeD
-    (hRk : GGTwE6ThreeNbrRankInput) (hNQ4 : NSNbrQFourInputOf (fun {ι} M => NSTypeD M))
+    (hRk : GGTwE6ThreeNbrRankInput) (hNQ4 : NSNbrQFourInputOf (fun {_ι} M => NSTypeD M))
     {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
     {𝒦 : Finset (Subgroup G)} (hcfg : GGSecFiveRouteCfg p B Bs x L D J 𝒦)
-    (hnsL : ¬ GGSplitLie p L) (hguard : NSJoinGuardOf (fun {ι} M => NSTypeD M) p L Bs 𝒦)
+    (hnsL : ¬ GGSplitLie p L) (hguard : NSJoinGuardOf (fun {_ι} M => NSTypeD M) p L Bs 𝒦)
     {K : Subgroup G} (hK : GGSecFiveWeakNbr p B Bs x L D J 𝒦 K) (hns : ¬ GGSplitLie p K)
     (hnU : ¬ GGMemberUnitary p Bs K) :
     GGInnerDiagOnLabel (fun p lab => (ggRowP_EOmP p lab ∨ ggRowP_EOmM p lab) ∧ 2 ≤ lab.n)
       p Bs K := by
   have hRig : GGLabelRigidInput := ggLabelRigidInput_holds
   obtain ⟨hp, hodd⟩ := ggRouteCfg_prime hcfg
-  obtain ⟨ι, M, e, hpres, hD, -⟩ := id hguard
-  have hle3 : ∀ i j : ι, i ≠ j → M.M i j ≤ 3 := GGIsWeylMatrixAD.le_three (Or.inr hD)
+  obtain ⟨_ι, M, e, hpres, hD, -⟩ := id hguard
+  have hle3 : ∀ i j : _ι, i ≠ j → M.M i j ≤ 3 := GGIsWeylMatrixAD.le_three (Or.inr hD)
   obtain ⟨⟨y, hnb⟩, hKA⟩ := id hK
   have hX : K = L ∨ ∃ y, GGNbr p B x D J y K := Or.inr ⟨y, hnb⟩
   have hNP : GGNoReflE6Pat p Bs K := ggX_noReflE6Pat_typeD hcfg hpres hD hKA

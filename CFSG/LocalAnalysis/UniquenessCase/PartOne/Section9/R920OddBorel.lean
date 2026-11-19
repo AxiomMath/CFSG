@@ -19,13 +19,13 @@ theorem exists_conj_pow_of_isL2Odd {Y : Type} [Group Y] {q : ℕ} (hq : 5 < q)
       orderOf (k : ZMod q) = (q - 1) / 2 := by
   classical
   have hqp : q.Prime := hY.admissible.1
-  haveI : Fact q.Prime := ⟨hqp⟩
-  haveI : NeZero q := ⟨hqp.ne_zero⟩
+  have : Fact q.Prime := ⟨hqp⟩
+  have : NeZero q := ⟨hqp.ne_zero⟩
   obtain ⟨-, K, _, hKf, hcard, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hY
     (by decide)
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hcard' : Fintype.card K = q := by rw [← Nat.card_eq_fintype_card, hcard, pow_one]
-  haveI : CharP K q := charP_of_card_eq_prime hcard'
+  have : CharP K q := charP_of_card_eq_prime hcard'
   have hchar : ringChar K = q := ringChar.eq K q
   have hF2 : ringChar K ≠ 2 := by omega
   let ψ : SL(2, K) →* Y := e.symm.toMonoidHom.comp
@@ -59,7 +59,7 @@ theorem exists_conj_pow_of_quotient {Γ : Type} [Group Γ] [Finite Γ] {q : ℕ}
     (hu : orderOf u₀ = q) (hdu : d₀ * u₀ * d₀⁻¹ = u₀ ^ k) :
     ∃ u d : Γ, orderOf u = q ∧ d * u * d⁻¹ = u ^ k := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨u, hu', rfl⟩ := CFSG.GroupTheory.CoprimeTransport.exists_orderOf_eq_prime_mk_eq hO hu
   have hS : IsPGroup q (zpowers u) := IsPGroup.of_card (n := 1) (by
     rw [Nat.card_zpowers, hu', pow_one])
@@ -88,14 +88,14 @@ theorem exists_conj_pow_lbar9 (S : Slice D L D₃ Y H q) :
       orderOf (k : ZMod q) = (q - 1) / 2 := by
   classical
   have hqp := S.prime
-  haveI : Fact q.Prime := ⟨hqp⟩
+  have : Fact q.Prime := ⟨hqp⟩
   have hq2 : q ≠ 2 := by
     have := S.gt
     omega
   have hXH : Opp 3 Y ≤ H := (opp_le 3 Y).trans S.Y_le_H
   obtain ⟨u₀, d₀, k, hu₀, hdu₀, hk⟩ := exists_conj_pow_of_isL2Odd S.gt S.shape_opp
   have hO : ¬ q ∣ Nat.card (CFSG.pCore 2 ↥(Opp 3 Y)) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup (p := 2) (G := ↥(Opp 3 Y)))
     rw [hn]
     exact fun h => hq2 ((Nat.prime_dvd_prime_iff_eq hqp Nat.prime_two).mp (hqp.dvd_of_dvd_pow h))

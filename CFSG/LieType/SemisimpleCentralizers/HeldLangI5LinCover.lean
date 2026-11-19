@@ -21,7 +21,7 @@ theorem card_center_SL_le {K : Type} [Field K] [Finite K] {N : ℕ} [NeZero N] :
   have e := Matrix.SpecialLinearGroup.center_equiv_rootsOfUnity' (n := Fin N) (R := K)
     ⟨0, Nat.pos_of_ne_zero (NeZero.ne N)⟩
   rw [Nat.card_congr e.toEquiv, Fintype.card_fin]
-  haveI : NeZero (Nat.gcd N (Nat.card K - 1)) :=
+  have : NeZero (Nat.gcd N (Nat.card K - 1)) :=
     ⟨(Nat.gcd_pos_of_pos_left _ (Nat.pos_of_ne_zero (NeZero.ne N))).ne'⟩
   have hle : rootsOfUnity N K ≤ rootsOfUnity (Nat.gcd N (Nat.card K - 1)) K := by
     intro ζ hζ
@@ -42,7 +42,7 @@ theorem nonempty_SL_mulEquiv_of_cover {K : Type} [Field K] [Finite K] {m : ℕ} 
     (hL : Function.Surjective πL) (hcL : πL.ker ≤ Subgroup.center L)
     (hcard : Nat.card πL.ker = Nat.gcd (m + 1) (Nat.card K - 1)) :
     Nonempty (Matrix.SpecialLinearGroup (Fin (m + 1)) K ≃* L) := by
-  haveI : NeZero (m + 1) := ⟨Nat.succ_ne_zero m⟩
+  have : NeZero (m + 1) := ⟨Nat.succ_ne_zero m⟩
   refine nonempty_mulEquiv_of_central_covers (QuotientGroup.mk' _) πL (QuotientGroup.mk'_surjective _) hL hcL
     hperf (fun E _ _ π hπ hc => CFSG.LieType.Steinberg.CentralExt.SLClosed.sl_exists_section_of_separating hm
       (CFSG.LieType.Steinberg.CentralExt.SLClosed.separating_of_card hm hK2 h4 h3) hπ hc) ?_
@@ -54,7 +54,7 @@ theorem i5CoverIsSL_of_ne (n : ℕ) (q : TauCeti.PrimePower) (hd : (TauCeti.LieT
     (L : Type) [Group L] [Finite L] (hL : IsI5UniversalCover ⟨.A n q, hd⟩ L) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K), Nat.card K = q.card ∧
       Nonempty (L ≃* Matrix.SpecialLinearGroup (Fin (n + 1)) K) := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨e0⟩ := hL.2.1
   let eL : L ⧸ Subgroup.center L ≃*
       Matrix.ProjectiveSpecialLinearGroup (Fin (n + 1)) (GaloisField q.p q.exponent) :=
@@ -91,7 +91,7 @@ theorem false_of_outer_three_A_small (n : ℕ) (q : TauCeti.PrimePower)
     (L : Type) [Group L] [Finite L] (hL : IsI5UniversalCover ⟨.A n q, hd⟩ L)
     (β : MulAut L) (hβ3 : β ^ 3 = 1)
     (hout : onCenterQuotient β ∉ innAutDerived (L ⧸ Subgroup.center L)) : False := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨e0⟩ := hL.2.1
   let e' : L ⧸ Subgroup.center L ≃* projectiveSL (n + 1) (GaloisField q.p q.exponent) :=
     (e0.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL n q hd)).trans

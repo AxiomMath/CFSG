@@ -81,11 +81,11 @@ private lemma s1614_ls_sq_mul_h (K : Type) [Field K] (h2 : (1 : K) + 1 = 0) :
   fin_cases i <;> fin_cases j <;>
     simp [s1614_ls_h, Matrix.mul_apply, Fin.sum_univ_four, h2]
 
-private lemma s1614_ls_comm (K : Type) [Field K] (h2 : (1 : K) + 1 = 0) :
+private lemma s1614_ls_comm (K : Type) [Field K] (_h2 : (1 : K) + 1 = 0) :
     s1614_ls_g K * s1614_ls_h K = s1614_ls_h K * s1614_ls_g K := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [s1614_ls_g, s1614_ls_h, Matrix.mul_apply, Fin.sum_univ_four, h2]
+    simp [s1614_ls_g, s1614_ls_h, Matrix.mul_apply, Fin.sum_univ_four]
 
 private lemma s1614_ls_g_act (K : Type) [Field K] (v : Fin 4 → K)
     (hv2 : v 2 = 0) (hv3 : v 3 = 0) :
@@ -101,13 +101,13 @@ private lemma s1614_ls_h_act (K : Type) [Field K] (v : Fin 4 → K)
     · rw [Matrix.mulVec_apply_eq_sum, Fin.sum_univ_four]
       simp [s1614_ls_h, hv2, hv3]
 
-private lemma s1614_ls_g2_act (K : Type) [Field K] (h2 : (1 : K) + 1 = 0) (v : Fin 4 → K)
+private lemma s1614_ls_g2_act (K : Type) [Field K] (_h2 : (1 : K) + 1 = 0) (v : Fin 4 → K)
     (hv2 : v 2 = 0) (hv3 : v 3 = 0) :
     ((s1614_ls_g K * s1614_ls_g K) *ᵥ v) 2 = 0 ∧
       ((s1614_ls_g K * s1614_ls_g K) *ᵥ v) 3 = 0 := by
   constructor <;>
     · rw [Matrix.mulVec_apply_eq_sum, Fin.sum_univ_four]
-      simp [s1614_ls_g, Matrix.mul_apply, Fin.sum_univ_four, hv2, hv3, h2]
+      simp [s1614_ls_g, Matrix.mul_apply, Fin.sum_univ_four, hv2, hv3]
 
 private lemma s1614_ls_h2_act (K : Type) [Field K] (h2 : (1 : K) + 1 = 0) (v : Fin 4 → K)
     (hv2 : v 2 = 0) (hv3 : v 3 = 0) :
@@ -135,7 +135,7 @@ theorem s1614_ln_std (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2) :
     rcases h01 ((1 : K) + 1) with h | h
     · exact h
     · exfalso
-      exact one_ne_zero (add_right_cancel (show (1 : K) + 1 = 0 + 1 by simpa using h))
+      exact one_ne_zero (add_right_cancel (show (1 : K) + 1 = 0 + 1 by simp at h))
   have hGmm : s1614_ls_g K * (s1614_ls_g K * s1614_ls_g K) = 1 := s1614_ls_g_mul_sq K h2
   have hGmm' : (s1614_ls_g K * s1614_ls_g K) * s1614_ls_g K = 1 := s1614_ls_sq_mul_g K h2
   have hHmm : s1614_ls_h K * (s1614_ls_h K * s1614_ls_h K) = 1 := s1614_ls_h_mul_sq K h2

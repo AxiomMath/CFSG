@@ -14,7 +14,7 @@ theorem KD264F8KerLn_holds : KD264F8KerLn := by
   intro d _hfin _hns _hk2 _hk3 _hov hP A hA
   obtain ⟨d1, hd1⟩ := d
   obtain ⟨n, q, rfl, hn3, hn6, hq⟩ := hP
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let e : (TauCeti.CFSGIndex.lie ⟨.A n q, hd1⟩).Group ≃*
       projectiveSL (n + 1) (GaloisField q.p q.exponent) :=
     (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL n q hd1).trans

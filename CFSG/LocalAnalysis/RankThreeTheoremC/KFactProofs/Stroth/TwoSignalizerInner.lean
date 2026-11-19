@@ -68,8 +68,8 @@ theorem twoSignalizerFi22_holds :
   intro X _ _ K hKn _hs _hnab B _hB hBc _hBC hcase T hT hBT
   obtain ⟨hK, hBK⟩ := hcase
   obtain ⟨φ⟩ := hK
-  haveI : K.Normal := hKn
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : K.Normal := hKn
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨β⟩ := CFSG.Sporadic.Bridge.Fi22.nonempty_mulEquiv
   have hcardK : Nat.card K = 64561751654400 := by
     rw [Nat.card_congr (φ.trans β.symm).toEquiv]
@@ -185,8 +185,8 @@ theorem twoSignalizerM11_holds :
   intro X _ _ K hKn _hs _hnab B _hB hBc _hBC hcase T hT hBT
   obtain ⟨hK, hBK⟩ := hcase
   obtain ⟨φ⟩ := hK
-  haveI : K.Normal := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : K.Normal := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨β⟩ := CFSG.Sporadic.Bridge.M11.nonempty_mulEquiv
   let e : ↥K ≃* ↥NativeSporadic.M11 := φ.trans β.symm
   have hcardK : Nat.card K = 7920 := by
@@ -201,7 +201,7 @@ theorem twoSignalizerM11_holds :
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBK).toEquiv, hBc, hfac]
   obtain ⟨T₀, hT₀⟩ := exists_sylow_m11T0
   obtain ⟨Φ, hΦ⟩ := exists_mulEquiv_map_eq_sylow e (R := m11T0)
-    (by rw [← hT₀]; exact T₀.isPGroup') (by rw [← hT₀]; exact T₀.not_dvd_index)
+    (by rw [← hT₀]; exact T₀.isPGroup) (by rw [← hT₀]; exact T₀.not_dvd_index)
     (Sylow.ofCard (B.subgroupOf K) hcardB)
   have hΦ' : B.subgroupOf K = m11T0.map Φ.toMonoidHom := hΦ
   refine le_of_eq_of_le (commutator_eq_bot_of_noTwo hBK hT hBT fun U hU hBU => ?_) bot_le

@@ -32,7 +32,7 @@ private lemma trace_uform (hsq : ∀ x : W, x * x = 1) (q : MulAut W) (hq3 : q ^
   simp only [map_mul]
   rw [autPow_three q hq3]
   calc _ = (v * v) * (q v * q v) * (q (q v) * q (q v)) := by ac_rfl
-    _ = 1 := by simp only [hsq, mul_one]
+    _ = 1 := by simp only [hsq]
 
 private lemma exists_fixed_mul_uform (hsq : ∀ x : W, x * x = 1) (q : MulAut W) (hq3 : q ^ 3 = 1)
     (x : W) : ∃ t v' : W, q t = t ∧ x = t * (v' * q v') := by
@@ -41,7 +41,7 @@ private lemma exists_fixed_mul_uform (hsq : ∀ x : W, x * x = 1) (q : MulAut W)
   calc x = x * (q x * q x) * (q (q x) * q (q x)) := by simp only [hsq, mul_one]
     _ = _ := by ac_rfl
 
-private lemma eq_of_fixed_uform (hsq : ∀ x : W, x * x = 1) (q : MulAut W) (hq3 : q ^ 3 = 1)
+private lemma eq_of_fixed_uform (_hsq : ∀ x : W, x * x = 1) (q : MulAut W) (hq3 : q ^ 3 = 1)
     (v : W) (h : q (v * q v) = v * q v) : q v = v := by
   rw [map_mul] at h
   have h2 : q (q v) = v := mul_left_cancel (a := q v) (h.trans (mul_comm v (q v)))
@@ -109,10 +109,10 @@ private lemma comm_mem_of_perfect {V Y : Subgroup R} {d : R}
     (hYV : Y ≤ normalizer (V : Set R)) (hYp : Group.IsPerfect ↥Y)
     (hYd : ∀ y ∈ Y, y * d * y⁻¹ * d⁻¹ ∈ V) :
     ∀ y ∈ Y, ⁅y, d⁆ ∈ ⁅V, Y⁆ := by
-  letI : CommGroup ↥V :=
+  let : CommGroup ↥V :=
     { (inferInstance : Group ↥V) with mul_comm := fun a b => Subtype.ext (hcomm a a.2 b b.2) }
   set N' : Subgroup ↥V := (⁅V, Y⁆).subgroupOf V
-  have hnorm : N'.Normal := Subgroup.normal_of_comm N'
+  have hnorm : N'.Normal := normal_of_isMulCommutative N'
   let f : ↥Y →* ↥V ⧸ N' :=
     { toFun := fun y => QuotientGroup.mk (⟨⁅(y : R), d⁆, hYd y y.2⟩ : ↥V)
       map_one' := by
@@ -172,7 +172,7 @@ private theorem aux_main {V Y : Subgroup R} {c d : R}
     V ≤ centralizer ({d} : Set R) := by
   have hcomm : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x := fun x hx y hy => comm_of_sq hV2 hx hy
   have hN := comm_mem_of_perfect hcomm hYV hYp hYd
-  letI : CommGroup ↥V :=
+  let : CommGroup ↥V :=
     { (inferInstance : Group ↥V) with mul_comm := fun a b => Subtype.ext (hcomm a a.2 b b.2) }
   have hsqW : ∀ x : ↥V, x * x = 1 := fun x => Subtype.ext (hV2 x x.2)
   let σ := V.normalizerMonoidHom
@@ -301,13 +301,13 @@ private theorem core {G : Type*} [Group G] {Φ P Y : Subgroup G} [Φ.Normal] {c 
   let q : G →* G ⧸ Φ := QuotientGroup.mk' Φ
   have hq1 : ∀ a : G, q a = 1 ↔ a ∈ Φ := fun a => QuotientGroup.eq_one_iff a
   have hqe : ∀ a b : G, q a = q b ↔ a⁻¹ * b ∈ Φ := fun a b => QuotientGroup.eq
-  haveI hVn : (P.map q).Normal := Subgroup.Normal.map hPn q (QuotientGroup.mk'_surjective Φ)
+  have hVn : (P.map q).Normal := Subgroup.Normal.map hPn q (QuotientGroup.mk'_surjective Φ)
   have hnorm : ∀ r : G ⧸ Φ, r ∈ normalizer ((P.map q : Subgroup (G ⧸ Φ)) : Set (G ⧸ Φ)) := by
     intro r
     rw [Subgroup.normalizer_eq_top_iff.2 hVn]
     trivial
-  haveI : Group.IsPerfect ↥Y := hYp
-  haveI hYp' : Group.IsPerfect ↥(Y.map q) := Group.IsPerfect.map q
+  have : Group.IsPerfect ↥Y := hYp
+  have hYp' : Group.IsPerfect ↥(Y.map q) := Group.IsPerfect.map q
   have hcomm_iff : ∀ a b : G, q a * q b = q b * q a ↔ ⁅a, b⁆ ∈ Φ := by
     intro a b
     rw [← hq1, map_commutatorElement, commutatorElement_eq_one_iff_mul_comm]
@@ -362,8 +362,10 @@ variable {G : Type} [Group G] [Finite G]
 
 private abbrev fr (P : Subgroup G) : Subgroup G := (frattini ↥P).map P.subtype
 
+omit [Finite G] in
 private lemma fr_le (P : Subgroup G) : fr P ≤ P := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 private lemma fr_conj {P : Subgroup G} {g x : G} (hg : g ∈ normalizer (P : Set G))
     (hx : x ∈ fr P) : g * x * g⁻¹ ∈ fr P := by
   obtain ⟨f, hf, rfl⟩ := hx
@@ -376,8 +378,8 @@ private lemma fr_conj {P : Subgroup G} {g x : G} (hg : g ∈ normalizer (P : Set
 
 private lemma fr_comm {P : Subgroup G} (hP2 : IsPGroup 2 ↥P) {x y : G} (hx : x ∈ P)
     (hy : y ∈ P) : ⁅x, y⁆ ∈ fr P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hP2⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hP2⟩
   have h1 : ⁅(⟨x, hx⟩ : ↥P), (⟨y, hy⟩ : ↥P)⁆ ∈ frattini ↥P :=
     CFSG.commutator_le_frattini_of_isPGroup (p := 2)
       (Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _))
@@ -385,14 +387,14 @@ private lemma fr_comm {P : Subgroup G} (hP2 : IsPGroup 2 ↥P) {x y : G} (hx : x
 
 private lemma fr_sq {P : Subgroup G} (hP2 : IsPGroup 2 ↥P) {x : G} (hx : x ∈ P) :
     x * x ∈ fr P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hP2⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hP2⟩
   have h1 : (⟨x, hx⟩ : ↥P) ^ 2 ∈ frattini ↥P :=
     CFSG.pth_power_mem_frattini_of_isPGroup (p := 2) _
   exact ⟨_, h1, by simp [pow_two]⟩
 
 private lemma card_fr_not_dvd {P : Subgroup G} (hP2 : IsPGroup 2 ↥P) : ¬ 3 ∣ Nat.card (fr P) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : Nat.card (fr P) = Nat.card (frattini ↥P) :=
     Subgroup.card_map_of_injective (Subgroup.subtype_injective P)
   obtain ⟨n, hn⟩ := (hP2.to_subgroup (frattini ↥P)).exists_card_eq
@@ -406,7 +408,7 @@ private lemma exists_fixed_lift {P : Subgroup G} (hP2 : IsPGroup 2 ↥P) {e x : 
     (hfix : e * x * e⁻¹ * x⁻¹ ∈ fr P) :
     ∃ u ∈ P, e * u * e⁻¹ = u ∧ x⁻¹ * u ∈ fr P := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxn : x⁻¹ ∈ normalizer (P : Set G) :=
     (normalizer (P : Set G)).inv_mem (Subgroup.le_normalizer hx)
   have hmap : ∀ g : G, x⁻¹ * g ∈ fr P → x⁻¹ * (e * g * e⁻¹) ∈ fr P := by
@@ -427,11 +429,11 @@ private lemma exists_fixed_lift {P : Subgroup G} (hP2 : IsPGroup 2 ↥P) {e x : 
     calc e * (e * (e * (g : G) * e⁻¹) * e⁻¹) * e⁻¹
         = (e * e * e) * (g : G) * (e * e * e)⁻¹ := by group
       _ = g := by rw [he3']; group
-  haveI : Finite S := Subtype.finite
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Finite S := Subtype.finite
+  have : Fintype S := Fintype.ofFinite S
   let eqv : S ≃ fr P :=
     { toFun := fun g => ⟨x⁻¹ * g, g.2⟩
-      invFun := fun φ => ⟨x * φ, by simpa using φ.2⟩
+      invFun := fun φ => ⟨x * φ, by simp⟩
       left_inv := fun g => by apply Subtype.ext; simp
       right_inv := fun φ => by apply Subtype.ext; simp }
   have hcard : Fintype.card S = Nat.card (fr P) := by
@@ -456,8 +458,8 @@ private lemma exists_fixed_lift {P : Subgroup G} (hP2 : IsPGroup 2 ↥P) {e x : 
 private lemma centralizes_of_comm_mem_fr {P : Subgroup G} (hP2 : IsPGroup 2 ↥P) {d : G}
     (hd : d ∈ normalizer (P : Set G)) (hd3 : d ^ 3 = 1)
     (h : ∀ x ∈ P, d * x * d⁻¹ * x⁻¹ ∈ fr P) : ∀ x ∈ P, d * x = x * d := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥P) := ⟨hP2⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥P) := ⟨hP2⟩
   let C' : Subgroup ↥P := (centralizer ({d} : Set G)).subgroupOf P
   have hsup : C' ⊔ frattini ↥P = ⊤ := by
     rw [eq_top_iff]
@@ -490,7 +492,7 @@ private lemma claim2 {Y P K : Subgroup G} (hP2 : IsPGroup 2 ↥P) (hPY : P ≤ Y
     ∀ y ∈ Y, ⁅y, u⁆ ∈ fr P := by
   let T : Subgroup G :=
     { carrier := {y | y ∈ Y ∧ ⁅y, u⁆ ∈ fr P}
-      one_mem' := ⟨Y.one_mem, by simpa using (fr P).one_mem⟩
+      one_mem' := ⟨Y.one_mem, by simp⟩
       mul_mem' := by
         rintro a b ⟨haY, ha⟩ ⟨hbY, hb⟩
         refine ⟨Y.mul_mem haY hbY, ?_⟩
@@ -518,6 +520,7 @@ private lemma claim2 {Y P K : Subgroup G} (hP2 : IsPGroup 2 ↥P) (hPY : P ≤ Y
   intro y hy
   exact (sup_le hKT hPT (hKP hy)).2
 
+omit [Finite G] in
 private lemma le_inf_sup_of_le_sup {Y P K : Subgroup G} (hPY : P ≤ Y)
     (hKN : K ≤ normalizer (P : Set G)) (hY : Y ≤ K ⊔ P) : Y ≤ (K ⊓ Y) ⊔ P := by
   let T : Subgroup G :=
@@ -580,7 +583,7 @@ theorem le_centralizer_of_perfect_of_fix_inf {Y P : Subgroup G} {c d : G}
     P ≤ Subgroup.centralizer ({d} : Set G) := by
   have _ := hcY
   have _ := hdY
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set M : Subgroup G := normalizer (P : Set G)
   have hPM : P ≤ M := Subgroup.le_normalizer
   have hEM : Subgroup.closure ({c, d} : Set G) ≤ M := by
@@ -593,16 +596,16 @@ theorem le_centralizer_of_perfect_of_fix_inf {Y P : Subgroup G} {c d : G}
   have hEmem : ∀ i : ℕ, c * d ^ i ∈ Subgroup.closure ({c, d} : Set G) := fun i =>
     mul_mem (Subgroup.subset_closure (by simp)) (pow_mem (Subgroup.subset_closure (by simp)) i)
   let ΦM : Subgroup ↥M := (fr P).subgroupOf M
-  haveI hΦn : ΦM.Normal := ⟨fun x hx g => by
+  have hΦn : ΦM.Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact fr_conj g.2 hx⟩
   let P' : Subgroup ↥M := P.subgroupOf M
   let Y' : Subgroup ↥M := Y.subgroupOf M
-  haveI hP'n : P'.Normal := Subgroup.normal_in_normalizer
+  have hP'n : P'.Normal := Subgroup.normal_in_normalizer
   let c' : ↥M := ⟨c, hcP⟩
   let d' : ↥M := ⟨d, hdP⟩
-  haveI : Group.IsPerfect ↥Y := hYp
-  haveI hY'p : Group.IsPerfect ↥Y' :=
+  have : Group.IsPerfect ↥Y := hYp
+  have hY'p : Group.IsPerfect ↥Y' :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hYP).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hYP).symm.surjective
   have key := core (Φ := ΦM) (P := P') (Y := Y') (c := c') (d := d') hP'n

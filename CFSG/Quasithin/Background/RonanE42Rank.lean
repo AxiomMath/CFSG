@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem rank_card_image_eq_relIndex {K B : Subgroup G} :
     Nat.card ((B.subgroupOf K).map
         (QuotientGroup.mk' (CFSG.pCore 2 ↥K) : ↥K →* ↥K ⧸ CFSG.pCore 2 ↥K)) =
@@ -20,6 +21,7 @@ private theorem rank_card_image_eq_relIndex {K B : Subgroup G} :
   rw [QuotientGroup.ker_mk'] at h
   exact h.symm
 
+omit [Finite G] in
 private theorem rank_relIndex_pCore_eq {K B : Subgroup G} (hBK : B ≤ K) :
     (CFSG.pCore 2 ↥K).relIndex (B.subgroupOf K) = (pCoreOf 2 K).relIndex B := by
   have h := Subgroup.relIndex_map_map_of_injective (f := K.subtype) (CFSG.pCore 2 ↥K)
@@ -27,6 +29,7 @@ private theorem rank_relIndex_pCore_eq {K B : Subgroup G} (hBK : B ≤ K) :
   rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hBK] at h
   exact h.symm
 
+omit [Finite G] in
 private theorem rank_isElemAbelian_image {K B : Subgroup G} (hB2 : ∀ b ∈ B, b ^ 2 = 1)
     (hBc : ∀ a ∈ B, ∀ b ∈ B, a * b = b * a) :
     IsElemAbelian 2 ((B.subgroupOf K).map

@@ -22,14 +22,14 @@ open CFSG.RankThree.PartOne.KCOrthogonal
 open CFSG.StandardType.TableBSymp
 
 private theorem ggK1CCe_charP_two {K : Type} [Field K] [Finite K] {nf : ℕ}
-    (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) : CharP K 2 := by
-  haveI := Fintype.ofFinite K
+    (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) : CharP K 2 := by
+  have := Fintype.ofFinite K
   exact charP_of_card_eq_prime_pow (p := 2) (f := nf) (by rw [Fintype.card_eq_nat_card, hK])
 
 private theorem ggK1CCe_proj_injective {K : Type} [Field K] [Finite K] (r : ℕ)
     [NeZero r] [Fact (Nat.Prime 2)] (hchar : CharP K 2) :
     Function.Injective (proj r K) := by
-  haveI : CharP K 2 := hchar
+  have : CharP K 2 := hchar
   exact (CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.proj_bijective_of_charTwo
     (r := r)).1
 
@@ -118,23 +118,23 @@ private theorem ggK1CCe_paired_scalar {p nf r : ℕ} {K : Type} [Field K] [Finit
   let i : primaryFactors (spEnd x) := ⟨h, hh⟩
   have hB : SpPairedBlock 2 nf p x i := H.paired i (by simpa using hne)
   obtain ⟨φ, -, -⟩ := hB.factor
-  haveI : Fact (Irreducible (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X]))) :=
+  have : Fact (Irreducible (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X]))) :=
       ⟨irreducible_of_mem_primaryFactors i.2⟩
   have hcard : Nat.card (AdjoinRoot (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X]))) = (2 ^ nf) ^
       h.natDegree := hB.card_field
-  haveI : Finite (AdjoinRoot (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X]))) :=
+  have : Finite (AdjoinRoot (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X]))) :=
       Nat.finite_of_card_ne_zero (by
     rw [hcard]
     exact (pow_pos (pow_pos (by norm_num) nf) h.natDegree).ne')
-  haveI : Fintype (AdjoinRoot (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X]))) := Fintype.ofFinite _
-  haveI : Fintype (AdjoinRoot (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X])))ˣ := Fintype.ofFinite
+  have : Fintype (AdjoinRoot (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X]))) := Fintype.ofFinite _
+  have : Fintype (AdjoinRoot (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X])))ˣ := Fintype.ofFinite
       _
-  haveI : Nontrivial (primaryComponent (spEnd x) (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X]))) :=
+  have : Nontrivial (primaryComponent (spEnd x) (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X]))) :=
     Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hh)
   have hdvd : p ∣ Nat.card (AdjoinRoot (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X])))ˣ := by
     rw [Nat.card_units, hcard]
     exact hB.dvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := (AdjoinRoot (((⟨h, hh⟩ : primaryFactors
       (spEnd x)) : K[X])))ˣ) p hdvd
   let g : (Module.End (AdjoinRoot (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X])))
@@ -167,7 +167,7 @@ private theorem ggK1CCe_paired_scalar {p nf r : ℕ} {K : Type} [Field K] [Finit
     simpa [Subgroup.coe_mul] using congrArg Subtype.val hsub
 
 private theorem ggK1CCe_selfDual_scalar {p nf r : ℕ} {K : Type} [Field K] [Finite K]
-    {x : ↥(StatedSp r K)} {h : K[X]} (hp : p.Prime) (hpq : p ∣ 2 ^ nf + 1)
+    {x : ↥(StatedSp r K)} {h : K[X]} (hp : p.Prime) (_hpq : p ∣ 2 ^ nf + 1)
     (hsq : Squarefree (minpoly K (spEnd x)))
     (H : SpPrimaryBlocks 2 nf p x (proj r K x))
     (hh : h ∈ primaryFactors (spEnd x)) (hne : h ≠ X - 1)
@@ -178,15 +178,15 @@ private theorem ggK1CCe_selfDual_scalar {p nf r : ℕ} {K : Type} [Field K] [Fin
   classical
   let i : primaryFactors (spEnd x) := ⟨h, hh⟩
   have hB : SpSelfDualBlock 2 nf p x i := H.selfDual i (by simpa using hne) (by simpa using hself)
-  haveI : Fact (Irreducible (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X]))) :=
+  have : Fact (Irreducible (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X]))) :=
       ⟨irreducible_of_mem_primaryFactors i.2⟩
-  haveI : Nontrivial (primaryComponent (spEnd x) (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X]))) :=
+  have : Nontrivial (primaryComponent (spEnd x) (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X]))) :=
     Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hh)
   obtain ⟨d, hd, hpqd, σ, hσ, hσne, hσ2, hσroot, hσadj, hE, hbar, Hf, hHf, hHfsep,
     ⟨η, hη0, hηneg, hηtr⟩, ⟨eB, heB⟩, φ, hφ⟩ := hB.exists_half
   have hpq' : p ∣ 2 ^ (nf * d) + 1 := by
     simpa [pow_mul] using hpqd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ζ, hζord, hζnorm⟩ :=
     CFSG.RankThree.Classical2.exists_orderOf_eq_norm_one hE hp hpq'
   have hbarζ : hE.bar (ζ : AdjoinRoot (((⟨h, hh⟩ : primaryFactors (spEnd x)) : K[X]))) = (ζ :
@@ -257,7 +257,7 @@ private theorem ggK1CCe_block_elemAbelian {p nf r : ℕ} {K : Type} [Field K] [F
       E0 ≤ Subgroup.centralizer ({x} : Set ↥(StatedSp r K)) ∧
       (∀ z ∈ E0, ∀ g ∈ Subgroup.centralizer ({x} : Set ↥(StatedSp r K)), g * z = z * g) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let φ : (i : ι) → Multiplicative (ZMod p) →* ↥(StatedSp r K) :=
     fun i => zmodPowHom (hp_pow i)
   have hφmem : ∀ (i : ι) (a : Multiplicative (ZMod p)),
@@ -353,7 +353,7 @@ private theorem ggK1CCe_block_elemAbelian {p nf r : ℕ} {K : Type} [Field K] [F
     rw [← ha, ← map_pow]
     have hap : a ^ p = 1 := by
       ext i
-      simpa [Fintype.card_multiplicative, ZMod.card] using pow_card_eq_one (x := a i)
+      simp
     rw [hap, map_one]
   · intro z hz
     exact Subgroup.mem_centralizer_singleton_iff.mpr
@@ -397,16 +397,16 @@ private theorem ggK1CCe_filter_range_getD_length (l : List ℕ) :
         apply congrArg (List.map Nat.succ)
         apply List.filter_congr
         intro j _
-        simp [Function.comp_apply, List.getD_cons_succ]
+        simp [Function.comp_apply]
       by_cases hp : 0 < a
       · have ha' : a ≠ 0 := Nat.pos_iff_ne_zero.mp hp
-        rw [if_pos (by simpa using hp), List.length_cons, hmap, List.length_map, ih,
-          List.filter_cons, if_pos (by simp [ha']), List.length_cons]
+        rw [ite_eq_left (by simpa using hp), List.length_cons, hmap, List.length_map, ih,
+          List.filter_cons, ite_eq_left (by simp [ha']), List.length_cons]
       · have ha : a = 0 := by omega
-        rw [if_neg (by simpa using hp), hmap, List.length_map, ih,
-          List.filter_cons, if_neg (by simp [ha])]
+        rw [ite_eq_right (by simpa using hp), hmap, List.length_map, ih,
+          List.filter_cons, ite_eq_right (by simp [ha])]
 
-private theorem ggK1CCe_rZ_eq_tail (p : ℕ) (m : List ℕ) (H : ℕ)
+private theorem ggK1CCe_rZ_eq_tail (_p : ℕ) (m : List ℕ) (H : ℕ)
     (hlen : m.length = H + 1) :
     ((List.range (H + 1)).filter
         (fun j => decide (1 ≤ j ∧ 0 < m.getD j 0))).length =
@@ -421,21 +421,21 @@ private theorem ggK1CCe_rZ_eq_tail (p : ℕ) (m : List ℕ) (H : ℕ)
           = ((List.range t.length).filter (fun k => decide (0 < t.getD k 0))).map Nat.succ := by
         rw [ggK1CCe_range_succ_cons t.length]
         rw [List.filter_cons]
-        rw [if_neg (by simp)]
+        rw [ite_eq_right (by simp)]
         rw [List.filter_map]
         congr 1
       rw [h1, List.length_map, ggK1CCe_filter_range_getD_length t]
 
 private theorem ggK1CCe_reciprocal_eq_self {p nf r : ℕ} {K : Type} [Field K] [Finite K]
     {x : ↥(StatedSp r K)} {h : K[X]} (hsq : Squarefree (minpoly K (spEnd x)))
-    (hp : p.Prime) (hK : Nat.card K = 2 ^ nf) (hpq : p ∣ 2 ^ nf + 1)
-    (hh : h ∈ primaryFactors (spEnd x)) (hne : h ≠ X - 1)
+    (_hp : p.Prime) (hK : Nat.card K = 2 ^ nf) (hpq : p ∣ 2 ^ nf + 1)
+    (hh : h ∈ primaryFactors (spEnd x)) (_hne : h ≠ X - 1)
     (hord : orderOf (AdjoinRoot.root h) = p) :
     reciprocalPolynomial h = h := by
   classical
   have hmon : h.Monic := monic_of_mem_primaryFactors hh
   have hirr : Irreducible h := irreducible_of_mem_primaryFactors hh
-  haveI : Fact (Irreducible h) := ⟨hirr⟩
+  have : Fact (Irreducible h) := ⟨hirr⟩
   have h0 : h.coeff 0 ≠ 0 := coeff_zero_ne_zero_of_mem_primaryFactors hsq hh
   let E := AdjoinRoot h
   let lam : E := AdjoinRoot.root h
@@ -502,7 +502,7 @@ private theorem ggK1CCe_lift_commute {r : ℕ} {K : Type} [Field K]
     intro u v; ext g; simp [MulAut.conj_apply, mul_assoc]
   have hconj_inv : ∀ u : StatedProj (StatedSp r K),
       MulAut.conj u⁻¹ = (MulAut.conj u)⁻¹ := by
-    intro u; ext g; simp [MulAut.conj_apply]
+    intro u; ext g; simp
   have heq : MulAut.conj (a * b) = MulAut.conj (b * a) := by
     rw [hconj_mul, hconj_mul, hc.eq]
   let u : StatedProj (StatedSp r K) := (a * b) * (b * a)⁻¹
@@ -523,7 +523,7 @@ private theorem ggK1CCe_finish {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
     (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
     (hprojinj : Function.Injective (proj r K))
     (H : SpPrimaryBlocks 2 nf p x (proj r K x))
-    (hm : GGK1CMultOf p nf d r K x m) (n : ℕ)
+    (_hm : GGK1CMultOf p nf d r K x m) (n : ℕ)
     (E0 : Subgroup ↥(StatedSp r K)) (hE0ab : IsElemAbelian p E0)
     (hE0card : Nat.card E0 = p ^ n)
     (hE0C : E0 ≤ Subgroup.centralizer ({x} : Set ↥(StatedSp r K)))
@@ -535,7 +535,7 @@ private theorem ggK1CCe_finish {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
       (MulAut.conj (proj r K x)) := by
   classical
   intro h2
-  haveI : CharP K 2 := hchar
+  have : CharP K 2 := hchar
   let E : Subgroup (StatedProj (StatedSp r K)) := E0.map (proj r K)
   have hcenterS : Subgroup.center (StatedSp r K) = ⊥ := by
     rw [CFSG.LieType.Universal.Symplectic.center_eq,
@@ -549,7 +549,7 @@ private theorem ggK1CCe_finish {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
     rw [hcenterS, Subgroup.map_bot] at h
     exact h.symm
   refine ⟨E, ?_, ?_, ?_, ?_, ?_⟩
-  · haveI : IsMulCommutative ↥E0 := hE0ab.1
+  · have : IsMulCommutative ↥E0 := hE0ab.1
     refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, ?_⟩
     · obtain ⟨a0, ha0, ha⟩ := a.2
       obtain ⟨b0, hb0, hb⟩ := b.2
@@ -587,7 +587,7 @@ private theorem ggK1CCe_finish {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
     group
 
 theorem ggK1C_core_center {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
-    (hp : p.Prime) (hp2 : p ≠ 2) (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1)
     (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf) (hd : d = ggMultOrd p nf)
     {x : ↥(StatedSp r K)} {m : List ℕ} (hm : GGK1CMultOf p nf d r K x m)
     (hx : x ^ p = 1) :
@@ -597,7 +597,7 @@ theorem ggK1C_core_center {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
   classical
   intro h2
   have hchar : CharP K 2 := ggK1CCe_charP_two hnf hK
-  haveI : CharP K 2 := hchar
+  have : CharP K 2 := hchar
   have hpK : (p : K) ≠ 0 := by
     intro h0
     have h2p : 2 ∣ p := (CharP.cast_eq_zero_iff K 2 p).mp h0
@@ -607,11 +607,11 @@ theorem ggK1C_core_center {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
     subst hd
     unfold ggMultOrd at h
     by_cases h1 : p ∣ 2 ^ nf - 1
-    · rw [if_pos h1] at h; omega
-    · rw [if_neg h1] at h
+    · rw [ite_eq_left h1] at h; omega
+    · rw [ite_eq_right h1] at h
       by_cases h2 : p ∣ 2 ^ nf + 1
       · exact h2
-      · rw [if_neg h2] at h; omega
+      · rw [ite_eq_right h2] at h; omega
   by_cases hx1 : x = 1
   · subst hx1
     have hdim : Module.finrank K
@@ -660,16 +660,16 @@ theorem ggK1C_core_center {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
               ((List.range ((p - 1) / 2 + 1)).filter
                 (fun j => decide (1 ≤ j ∧ 0 < (a :: t).getD j 0))).length from rfl, this] at h2
           omega
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     have hxord : orderOf x = p := orderOf_eq_prime hx hx1
     have hr : 1 ≤ r := by
       by_contra h
       have hr0 : r = 0 := by omega
       subst hr0
-      haveI : Subsingleton ↥(StatedSp 0 K) := inferInstance
+      have : Subsingleton ↥(StatedSp 0 K) := inferInstance
       exact hx1 (Subsingleton.elim x 1)
-    haveI : NeZero r := ⟨by omega⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : NeZero r := ⟨by omega⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hprojinj : Function.Injective (proj r K) := ggK1CCe_proj_injective r hchar
     have haord : orderOf (proj r K x) = p := by
       rw [← hxord]
@@ -682,13 +682,12 @@ theorem ggK1C_core_center {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
         Nat.prime_two hnf hK hp hp2 hp2 hr (proj r K x) haord).2 x rfl hxord
     rcases hm.blocks_eq with ⟨hd1, P, hP, hmult⟩ | ⟨hd2b, hmult⟩
     · let ι := {h : K[X] // h ∈ P}
-      haveI : Fintype ι := inferInstance
-      haveI : DecidableEq ι := inferInstance
+      have : Fintype ι := inferInstance
+      have : DecidableEq ι := inferInstance
       let f : ι → reciprocalOrbits (spEnd x) := fun i =>
         ⟨({i.1, reciprocalPolynomial i.1} : Set K[X]), ⟨i.1, (hP.1 i.1 i.2).1, rfl⟩⟩
       have hne : ∀ i j, i ≠ j → f i ≠ f j := by
-        intro i j hij
-        intro hfij
+        intro i j hij hfij
         have hmem : i.1 ∈ ({j.1, reciprocalPolynomial j.1} : Set K[X]) := by
           have hset := congrArg (fun O : reciprocalOrbits (spEnd x) => (O : Set K[X])) hfij
           change i.1 ∈ (f j : Set K[X])
@@ -725,12 +724,12 @@ theorem ggK1C_core_center {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
             ((List.range ((p - 1) / 2 + 1)).filter
               (fun j => decide (1 ≤ j ∧ 0 < m.getD j 0))).length from rfl,
           hlen, hcard_mult]
-        simpa [ι] using (Finset.card_attach (s := P))
+        simp [ι]
       exact (ggK1CCe_finish hchar hnf hK hprojinj H hm (Fintype.card ι) E0 hE0ab hE0card
         hE0C hE0cent hrZ) h2
     · let ι := {h : K[X] // h ∈ ggK1CSelfDualFactors x}
-      haveI : Fintype ι := inferInstance
-      haveI : DecidableEq ι := inferInstance
+      have : Fintype ι := inferInstance
+      have : DecidableEq ι := inferInstance
       have hsd : ∀ i : ι, reciprocalPolynomial i.1 = i.1 := by
         intro i
         have hi := Finset.mem_filter.mp i.2
@@ -774,7 +773,7 @@ theorem ggK1C_core_center {p nf d r : ℕ} {K : Type} [Field K] [Finite K]
             ((List.range ((p - 1) / 2 + 1)).filter
               (fun j => decide (1 ≤ j ∧ 0 < m.getD j 0))).length from rfl,
           hlen, hcard_mult]
-        simpa [ι] using (Finset.card_attach (s := ggK1CSelfDualFactors x))
+        simp [ι]
       exact (ggK1CCe_finish hchar hnf hK hprojinj H hm (Fintype.card ι) E0 hE0ab hE0card
         hE0C hE0cent hrZ) h2
 

@@ -43,7 +43,7 @@ theorem card_centralizer_eq_of_isConj {a b : C} (h : IsConj a b) :
 
 theorem exists_involution_mem_of_even [Finite C] {K : Subgroup C} (h : Even (Nat.card K)) :
     ∃ u ∈ K, orderOf u = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 2 (even_iff_two_dvd.1 h)
   exact ⟨u, u.2, by rw [Subgroup.orderOf_coe]; exact hu⟩
 

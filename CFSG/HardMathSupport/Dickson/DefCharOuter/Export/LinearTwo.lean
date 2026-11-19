@@ -189,9 +189,6 @@ theorem mem_zpowers_fieldAut_of_fixes_two {p : ℕ} [Fact p.Prime] [CharP K p] {
       rw [SpecialLinearGroup.transvection_coe]
       simp only [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
       split_ifs <;> first
-        | exact k.zero_mem
-        | exact k.one_mem
-        | exact hc
         | exact add_mem k.one_mem hc
         | simp_all
     have h1 := hα _ hmem
@@ -277,8 +274,8 @@ theorem exists_inner_projectiveSL_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
 theorem isChevSimple_projectiveSL_two {p f : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hf : 1 ≤ f) {F : Type} [Field F] (hF : Nat.card F = p ^ f)
     (h3 : p ^ f ≠ 3) : IsChevSimple p (projectiveSL 2 F) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; exact pow_ne_zero _ hp.ne_zero)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; exact pow_ne_zero _ hp.ne_zero)
   have hodd : Odd (p ^ f) := (hp.odd_of_ne_two hp2).pow
   have hmod : p ^ f % 2 = 1 := Nat.odd_iff.1 hodd
   have hge : 3 ≤ p ^ f := by
@@ -310,7 +307,7 @@ theorem isChevSimple_projectiveSL_two {p f : ℕ} (hp : p.Prime)
     subst hp3
     simp [ambiguousChev]
   · let q : TauCeti.PrimePower := ⟨p, f, hp, hf⟩
-    haveI : Fact q.p.Prime := ⟨hp⟩
+    have : Fact q.p.Prime := ⟨hp⟩
     have hqc : q.card = p ^ f := TauCeti.PrimePower.card_def q
     have hv : (TauCeti.LieTypeIndex.A 1 q).Valid := by
       rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
@@ -328,7 +325,7 @@ theorem isChevSimple_projectiveSL_two {p f : ℕ} (hp : p.Prime)
 
 theorem exists_finset_card_four {F : Type*} [Finite F] (h : 4 ≤ Nat.card F) :
     ∃ s : Finset F, s.card = 4 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   rw [Nat.card_eq_fintype_card, ← Finset.card_univ] at h
   obtain ⟨t, -, ht⟩ := Finset.exists_subset_card_eq h
   exact ⟨t, ht⟩
@@ -341,7 +338,7 @@ theorem simple_nonabelian_projectiveSL_two {F : Type} [Field F] [Finite F]
     le_rfl hcond
   have hperf := CFSG.LinearGroups.linear_projective_perfect (K := F) (n := 2) le_rfl hcond
   let e := LinearCover.projectiveSpecialLinearEquivProjectiveSL 2 F
-  haveI := hnt
+  have := hnt
   refine ⟨e.symm.isSimpleGroup, ?_⟩
   obtain ⟨a, b, hab⟩ := exists_noncomm_of_isPerfect hperf
   exact ⟨e a, e b, fun h => hab (by simpa using congrArg e.symm h)⟩
@@ -350,8 +347,8 @@ theorem outerCentData_fieldAut_two {p f : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hf : 1 ≤ f) (hK : Nat.card K = p ^ f) {τ : K ≃+* K} (hτ : orderOf τ = p)
     (hout : fieldAut 2 K τ ∉ innerAut (projectiveSL 2 K)) :
     OuterCentData p (fieldAut 2 K τ) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := finite_field_prime_power_characteristic hp hf hK
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := finite_field_prime_power_characteristic hp hf hK
   set k : Subfield K := semilinearFixedSubfield τ with hk_def
   have hk : ∀ x, x ∈ k ↔ τ x = x := fun x => RingHom.mem_eqLocusField
   obtain ⟨hpf, hkcard⟩ := card_semilinearFixedSubfield hp hf hK hτ
@@ -436,7 +433,7 @@ theorem outerCentData_fieldAut_two {p f : ℕ} (hp : p.Prime)
       have : p ^ (f / p) ≤ p ^ f := Nat.pow_le_pow_right hp.pos (Nat.div_le_self f p)
       omega
     have hZ : Subgroup.center (projectiveSL 2 K) = ⊥ := by
-      haveI := (simple_nonabelian_projectiveSL_two hK4).1
+      have := (simple_nonabelian_projectiveSL_two hK4).1
       exact b3Lie_center_eq_bot (simple_nonabelian_projectiveSL_two hK4).2
     refine OuterCentData.ofSimpleNormal hp (SimpleNormalData.ofSimple hs hnc hchev hdvd) ?_ ?_
     · intro _ w hw _ hfix
@@ -458,8 +455,8 @@ theorem exists_conj_fieldAut_of_outer_two {p f : ℕ} (hp : p.Prime) (hf : 1 ≤
     (hout : β ∉ innerAut (projectiveSL 2 K)) :
     ∃ (τ : K ≃+* K) (h : MulAut (projectiveSL 2 K)), orderOf τ = p ∧
       β = h * fieldAut 2 K τ * h⁻¹ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := finite_field_prime_power_characteristic hp hf hK
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := finite_field_prime_power_characteristic hp hf hK
   obtain ⟨β₀, hββ₀⟩ : ∃ β₀ : MulAut (PSL2 K), MulAut.congr (psl2Equiv K) β₀ = β :=
     ⟨(MulAut.congr (psl2Equiv K)).symm β, (MulAut.congr (psl2Equiv K)).apply_symm_apply β⟩
   have hβ₀ord : orderOf β₀ = p := by
@@ -509,7 +506,7 @@ theorem outerCentData_A_one (q : TauCeti.PrimePower)
     (hpq : p = q.p) {β : MulAut S} (hβ : orderOf β = p) (hout : β ∉ innerAut S) :
     OuterCentData p β := by
   subst hpq
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let e' : S ≃* projectiveSL 2 (GaloisField q.p q.exponent) :=
     e.trans ((CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 q hv).trans
       (LinearCover.projectiveSpecialLinearEquivProjectiveSL 2 _))

@@ -30,7 +30,7 @@ theorem exists_subgroup_card_le {G : Type*} [Group G] (x y : G)
   rw [SporadicName.Group, m24_presentation_eq] at hfin hcard
   let f := presHom Sporadic.m24Presentation (img2 x y) h
   have hsurj : Function.Surjective f.rangeRestrict := f.rangeRestrict_surjective
-  haveI := hfin
+  have := hfin
   refine ⟨f.range, ⟨presGen Sporadic.m24Presentation 0, ?_⟩,
     ⟨presGen Sporadic.m24Presentation 1, ?_⟩, Finite.of_surjective _ hsurj,
     (Nat.card_le_card_of_surjective _ hsurj).trans hcard⟩

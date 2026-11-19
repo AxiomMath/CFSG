@@ -464,7 +464,7 @@ theorem g2L_injective : Function.Injective (g2L L) := by
     have hcast : (fun j : Fin 3 => (((Pi.single k (1 : ℤ) : Fin 3 → ℤ) j : ℤ) : L)) =
         (Pi.single k 1 : Fin 3 → L) := by
       funext j
-      by_cases hj : j = k <;> simp [Pi.single_apply, hj]
+      by_cases hj : j = k <;> simp [hj]
     rw [hcast] at h1
     exact h1
   have hX1 : (X : Matrix (Fin 3) (Fin 3) L) = 1 :=
@@ -527,7 +527,7 @@ theorem g2LRho_diag_mat (d : Fin 3 → Lˣ) (h : (d 0 : L) * d 1 * d 2 = 1) (a b
     simp only [Matrix.of_apply, Matrix.single_apply, Prod.smul_mk, Matrix.smul_apply, smul_eq_mul]
     by_cases hij : a = i ∧ b = j
     · obtain ⟨rfl, rfl⟩ := hij
-      simp only [and_self, if_true]
+      simp only [and_self, ite_true]
       ring
     · simp [hij]
   · funext i
@@ -562,7 +562,7 @@ theorem g2LRho_diag_vec (d : Fin 3 → Lˣ) (h : (d 0 : L) * d 1 * d 2 = 1) (k :
     by_cases hik : i = k
     · subst hik
       simp
-    · simp [Pi.single_apply, hik]
+    · simp [hik]
   · funext i
     simp
 
@@ -579,7 +579,7 @@ theorem g2LRho_diag_dual (d : Fin 3 → Lˣ) (h : (d 0 : L) * d 1 * d 2 = 1) (k 
     by_cases hik : i = k
     · subst hik
       simp
-    · simp [Pi.single_apply, hik]
+    · simp [hik]
 
 theorem g2LCast_mat (M : Matrix (Fin 3) (Fin 3) ℤ) :
     (g2LCast ((M, 0, 0) : G2LModel ℤ) : G2LModel L) = (M.map (Int.castRingHom L), 0, 0) := by
@@ -617,7 +617,7 @@ theorem vec_single_cast (k : Fin 3) :
     (fun j : Fin 3 => (((Pi.single k (1 : ℤ) : Fin 3 → ℤ) j : ℤ) : L)) =
       (Pi.single k 1 : Fin 3 → L) := by
   funext j
-  by_cases hj : j = k <;> simp [Pi.single_apply, hj]
+  by_cases hj : j = k <;> simp [hj]
 
 theorem g2LCast_mat_single (a b : Fin 3) :
     (g2LCast ((Matrix.single a b 1, 0, 0) : G2LModel ℤ) : G2LModel L) =
@@ -633,7 +633,7 @@ theorem g2LCast_mat_neg_single (a b : Fin 3) :
   by_cases hij : a = i ∧ b = j
   · obtain ⟨rfl, rfl⟩ := hij
     simp
-  · simp [Matrix.single_apply, hij]
+  · simp [hij]
 
 theorem g2LCast_vec_single (k : Fin 3) :
     (g2LCast ((0, Pi.single k 1, 0) : G2LModel ℤ) : G2LModel L) = (0, Pi.single k (1 : L), 0) := by
@@ -652,7 +652,7 @@ theorem g2LCast_dual_neg_single (k : Fin 3) :
   by_cases hj : j = k
   · subst hj
     simp
-  · simp [Pi.single_apply, hj]
+  · simp [hj]
 
 theorem rootChar_g2LVec (b : Fin Tag.G2.rank → Lˣ) (x y : ℤ) :
     rootChar b (g2LVec x y) = b 0 ^ x * b 1 ^ y :=
@@ -677,62 +677,62 @@ theorem g2LRho_diag_data (b : Fin Tag.G2.rank → Lˣ) : ∀ p < 14,
     have w : g2LWt 2 = g2LVec 1 0 := rfl
     rw [e, g2LCast_mat_single, g2LRho_diag_mat, w]
     congr 1
-    simp [g2LDiag, rootChar_g2LVec] <;> field_simp
+    simp [g2LDiag, rootChar_g2LVec]
   · have e : g2LData 3 = ((0, Pi.single 1 1, 0) : G2LModel ℤ) := rfl
     have w : g2LWt 3 = g2LVec 0 1 := rfl
     rw [e, g2LCast_vec_single, g2LRho_diag_vec, w]
     congr 1
-    simp [g2LDiag, rootChar_g2LVec] <;> field_simp
+    simp [g2LDiag, rootChar_g2LVec]
   · have e : g2LData 4 = ((-Matrix.single 1 0 1, 0, 0) : G2LModel ℤ) := rfl
     have w : g2LWt 4 = g2LVec (-1) (0) := rfl
     rw [e, g2LCast_mat_neg_single, g2LRho_diag_mat, w]
     congr 1
-    simp [g2LDiag, rootChar_g2LVec] <;> field_simp
+    simp [g2LDiag, rootChar_g2LVec]
   · have e : g2LData 5 = ((Matrix.single 1 2 1, 0, 0) : G2LModel ℤ) := rfl
     have w : g2LWt 5 = g2LVec 1 3 := rfl
     rw [e, g2LCast_mat_single, g2LRho_diag_mat, w]
     congr 1
-    simp [g2LDiag, rootChar_g2LVec] <;> field_simp
+    simp [g2LDiag, rootChar_g2LVec]; field_simp
   · have e : g2LData 6 = ((0, Pi.single 0 1, 0) : G2LModel ℤ) := rfl
     have w : g2LWt 6 = g2LVec 1 1 := rfl
     rw [e, g2LCast_vec_single, g2LRho_diag_vec, w]
     congr 1
-    simp [g2LDiag, rootChar_g2LVec] <;> field_simp
+    simp [g2LDiag, rootChar_g2LVec]
   · have e : g2LData 7 = ((0, 0, -Pi.single 1 1) : G2LModel ℤ) := rfl
     have w : g2LWt 7 = g2LVec (0) (-1) := rfl
     rw [e, g2LCast_dual_neg_single, g2LRho_diag_dual, w]
     congr 1
-    simp [g2LDiag, rootChar_g2LVec] <;> field_simp
+    simp [g2LDiag, rootChar_g2LVec]
   · have e : g2LData 8 = ((Matrix.single 2 1 1, 0, 0) : G2LModel ℤ) := rfl
     have w : g2LWt 8 = g2LVec (-1) (-3) := rfl
     rw [e, g2LCast_mat_single, g2LRho_diag_mat, w]
     congr 1
-    simp [g2LDiag, rootChar_g2LVec] <;> field_simp
+    simp [g2LDiag, rootChar_g2LVec]; field_simp
   · have e : g2LData 9 = ((Matrix.single 0 2 1, 0, 0) : G2LModel ℤ) := rfl
     have w : g2LWt 9 = g2LVec 2 3 := rfl
     rw [e, g2LCast_mat_single, g2LRho_diag_mat, w]
     congr 1
-    simp [g2LDiag, rootChar_g2LVec] <;> field_simp
+    simp [g2LDiag, rootChar_g2LVec]; field_simp
   · have e : g2LData 10 = ((0, 0, -Pi.single 2 1) : G2LModel ℤ) := rfl
     have w : g2LWt 10 = g2LVec 1 2 := rfl
     rw [e, g2LCast_dual_neg_single, g2LRho_diag_dual, w]
     congr 1
-    simp [g2LDiag, rootChar_g2LVec] <;> field_simp
+    simp [g2LDiag, rootChar_g2LVec]
   · have e : g2LData 11 = ((0, 0, Pi.single 0 1) : G2LModel ℤ) := rfl
     have w : g2LWt 11 = g2LVec (-1) (-1) := rfl
     rw [e, g2LCast_dual_single, g2LRho_diag_dual, w]
     congr 1
-    simp [g2LDiag, rootChar_g2LVec] <;> field_simp
+    simp [g2LDiag, rootChar_g2LVec]; field_simp
   · have e : g2LData 12 = ((-Matrix.single 2 0 1, 0, 0) : G2LModel ℤ) := rfl
     have w : g2LWt 12 = g2LVec (-2) (-3) := rfl
     rw [e, g2LCast_mat_neg_single, g2LRho_diag_mat, w]
     congr 1
-    simp [g2LDiag, rootChar_g2LVec] <;> field_simp
+    simp [g2LDiag, rootChar_g2LVec]; field_simp
   · have e : g2LData 13 = ((0, Pi.single 2 1, 0) : G2LModel ℤ) := rfl
     have w : g2LWt 13 = g2LVec (-1) (-2) := rfl
     rw [e, g2LCast_vec_single, g2LRho_diag_vec, w]
     congr 1
-    simp [g2LDiag, rootChar_g2LVec] <;> field_simp
+    simp [g2LDiag, rootChar_g2LVec]; field_simp
 
 theorem g2LWt_root : ∀ p < 14, Tag.G2.rank ≤ p →
     Tag.G2.rootCertificate.root (p - Tag.G2.rank) = g2LWt p := by
@@ -745,10 +745,10 @@ theorem rootDiag_posVec_G2 (b : Fin Tag.G2.rank → Lˣ) : ∀ p < 14,
   by_cases h : p < Tag.G2.rank
   · have hp2 : p < 2 := h
     have hw : g2LWt p = 0 := by interval_cases p <;> rfl
-    rw [RootOps.posVec, dif_pos h, rootDiag_hVec, hw, rootChar_zero, Units.val_one, one_smul]
+    rw [RootOps.posVec, dite_eq_left h, rootDiag_hVec, hw, rootChar_zero, Units.val_one, one_smul]
   · have hr : Tag.G2.rank = 2 := rfl
     have hlen : Tag.G2.rootCertificate.roots.length = 12 := rfl
-    rw [RootOps.posVec, dif_neg h, rootDiag_rootVec b (RootWalk.isRoot_rootCertificate_root
+    rw [RootOps.posVec, dite_eq_right h, rootDiag_rootVec b (RootWalk.isRoot_rootCertificate_root
       (show p - Tag.G2.rank < Tag.G2.rootCertificate.roots.length by omega)),
       g2LWt_root p hp (not_lt.1 h)]
 

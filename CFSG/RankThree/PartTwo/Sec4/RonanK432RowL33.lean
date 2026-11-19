@@ -27,7 +27,7 @@ theorem swapL3_mul_uSL (c : K) : swapL3 * uSL 0 0 c = uSL (-c) 0 0 * swapL3 := b
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [swapL3, coe_uSL, CFSG.SectionRank.OddCover.u3Mat, Matrix.mul_apply,
-      Fin.sum_univ_three] <;> ring
+      Fin.sum_univ_three]
 
 theorem swapL3_conj_uSL (c : K) : swapL3 * uSL 0 0 c * swapL3⁻¹ = uSL (-c) 0 0 := by
   rw [swapL3_mul_uSL, mul_assoc, mul_inv_cancel, mul_one]

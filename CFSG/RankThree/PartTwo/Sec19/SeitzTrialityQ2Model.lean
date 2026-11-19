@@ -63,7 +63,7 @@ theorem lineGroup_facts_of_isoLie (q : TauCeti.PrimePower) (hq : q.p = 2) (hq1 :
   have hcardT : Nat.card lineGroup = 211341312 := by
     rw [← Nat.card_congr eT.toEquiv]
     exact hcardK
-  haveI : IsSimpleGroup lineGroup := eT.symm.isSimpleGroup
+  have : IsSimpleGroup lineGroup := eT.symm.isSimpleGroup
   have hnab : ∃ a b : lineGroup, a * b ≠ b * a := by
     refine ⟨letterX 1, letterX 10, fun hab => ?_⟩
     have hm := congrArg (fun x : lineGroup => ((x : GL (Fin 8) CFSG.Quasithin.GF8) : Matrix (Fin 8) (Fin 8) CFSG.Quasithin.GF8))

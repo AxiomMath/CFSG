@@ -65,7 +65,7 @@ theorem pairRep_ext (hρ : Function.Injective ρ) (hψ : Function.Injective ψ) 
   subst this
   exact hρ (hx.trans hy.symm)
 
-theorem pairRep_inj (hφ3 : φ ^ 3 = 1) (hψ : Function.Injective ψ)
+theorem pairRep_inj (hφ3 : φ ^ 3 = 1) (_hψ : Function.Injective ψ)
     (hid : ∀ (g : C) (j : ℕ), j < 3 → MulAut.conj g * φ ^ j = 1 → j = 0 ∧ g = 1) {p q : Pr}
     {x : X} (hp : PairRep ρ ψ φ p x) (hq : PairRep ρ ψ φ q x) : p = q := by
   obtain ⟨hpa, hpj, g, hg, hx⟩ := hp

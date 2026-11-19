@@ -94,8 +94,8 @@ theorem kd291OuterLie_of_fixedRank
     (hSpor : SporadicCarrierOutOdd) (hD : ∀ t, OuterFixedRankDefAt t)
     (hC : ∀ t, OuterFixedRankCrossAt t) : KD291OuterLie := by
   intro p hp hp5 Y _ _ L _ hs hnab hnlu hlie hcen h3 x hxL hxo hxc
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup ↥L := hs
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup ↥L := hs
   obtain ⟨d, ⟨e⟩⟩ := hlie
   have hcat : CFSG.Open.IsCatalogGroup ↥L := ⟨TauCeti.CFSGIndex.lie d, ⟨e⟩⟩
   have hxp : x ^ p = 1 := hxo ▸ pow_orderOf_eq_one x

@@ -59,10 +59,10 @@ theorem closure_niel : ∀ (prog : List ℕ) (R : ℕ → G), nielOK prog = true
     have hc' : opC r = 0 := Nat.eq_of_beq_eq_true hc
     have hab' : opA r + opB r = 1 := Nat.eq_of_beq_eq_true hab
     unfold stepA
-    rw [if_pos hc']
+    rw [ite_eq_left hc']
     rcases (by omega : opK r = 0 ∨ opK r = 1) with hk0 | hk0 <;>
     rcases (by omega : opA r = 0 ∧ opB r = 1 ∨ opA r = 1 ∧ opB r = 0) with ⟨ha, hb⟩ | ⟨ha, hb⟩ <;>
-    simp only [Function.update_apply, hk0, ha, hb, if_true, one_ne_zero, zero_ne_one, if_false]
+    simp only [Function.update_apply, hk0, ha, hb, ite_true, one_ne_zero, zero_ne_one, ite_false]
     · exact closure_mul_right _ _
     · exact closure_mul_left _ _
     · rw [Set.pair_comm, closure_mul_left, Set.pair_comm]

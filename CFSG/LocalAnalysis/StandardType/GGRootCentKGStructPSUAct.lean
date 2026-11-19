@@ -18,6 +18,7 @@ open CFSG.LieType.BorelTits (unitaryInvolution)
 
 variable {f : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem diag_comm_one_add_single {n : ℕ} (t : Fin n → K) {i j : Fin n}
     (h : t i = t j) :
     Matrix.diagonal t * (1 + Matrix.single i j (1 : K)) =
@@ -30,12 +31,14 @@ private theorem diag_comm_one_add_single {n : ℕ} (t : Fin n → K) {i j : Fin 
     rw [h, mul_one, one_mul]
   · simp
 
+omit [Finite K] [CharP K 2] in
 private theorem commute_single_of_commute_add {n : ℕ} {M : Matrix (Fin n) (Fin n) K}
     {a b : Fin n} (h : M * (1 + Matrix.single a b 1) = (1 + Matrix.single a b 1) * M) :
     M * Matrix.single a b 1 = Matrix.single a b 1 * M := by
   rw [Matrix.mul_add, Matrix.mul_one, Matrix.add_mul, Matrix.one_mul] at h
   exact add_left_cancel h
 
+omit [Finite K] [CharP K 2] in
 private theorem col_of_commute_single {n : ℕ} {M : Matrix (Fin n) (Fin n) K} {a b : Fin n}
     (h : M * Matrix.single a b 1 = Matrix.single a b 1 * M) (i : Fin n) :
     M i a = if i = a then M b b else 0 := by
@@ -54,9 +57,10 @@ private theorem col_of_commute_single {n : ℕ} {M : Matrix (Fin n) (Fin n) K} {
     have hright : ((Matrix.single a b (1 : K) : Matrix (Fin n) (Fin n) K) * M) i b = 0 :=
       Matrix.single_mul_apply_of_ne (1 : K) a b i b hi M
     rw [hleft, hright] at h'
-    rw [if_neg hi]
+    rw [ite_eq_right hi]
     exact h'
 
+omit [Finite K] [CharP K 2] in
 private theorem row_of_commute_single {n : ℕ} {M : Matrix (Fin n) (Fin n) K} {a b : Fin n}
     (h : M * Matrix.single a b 1 = Matrix.single a b 1 * M) (j : Fin n) :
     M b j = if j = b then M a a else 0 := by
@@ -66,7 +70,7 @@ private theorem row_of_commute_single {n : ℕ} {M : Matrix (Fin n) (Fin n) K} {
   have := col_of_commute_single hT j
   simpa [Matrix.transpose_apply] using this
 
-private theorem diagGL_comm_rootU (h : UnitaryFieldData 2 f K) {k : ℕ}
+private theorem diagGL_comm_rootU (_h : UnitaryFieldData 2 f K) {k : ℕ}
     {t : Fin (k + 2) → K} (ht : ∀ a, t a ≠ 0) (h0 : t 0 = 1)
     (hl : t (Fin.last (k + 1)) = 1) :
     (RootDetectSU.diagGL t ht : GL (Fin (k + 2)) K) *
@@ -130,14 +134,14 @@ private theorem mat_eq_diag_mul_iota_of_mem_suL (h : UnitaryFieldData 2 f K) {k 
   rw [Matrix.diagonal_mul]
   by_cases ham : a ∈ Set.range (mid (m := k))
   · obtain ⟨i, rfl⟩ := ham
-    rw [if_neg (by simp [mid_ne_zero i, mid_ne_last i])]
+    rw [ite_eq_right (by simp [mid_ne_zero i, mid_ne_last i])]
     by_cases hb0 : b = 0
     · subst hb0
       have h1 : iotaMat ((mat (unitaryInvolution K 2 f) (k + 2) x).submatrix mid mid)
           (mid i) 0 = 0 := by
         rw [iotaMat_isBlkOn _ (mid i) 0 (Or.inr RootCentSU.zero_not_mem_range_mid)]
         exact Matrix.one_apply_ne (mid_ne_zero i)
-      rw [h1, mul_zero, hcol0 (mid i), if_neg (mid_ne_zero i)]
+      rw [h1, mul_zero, hcol0 (mid i), ite_eq_right (mid_ne_zero i)]
     by_cases hbl : b = Fin.last (k + 1)
     · subst hbl
       have h1 : iotaMat ((mat (unitaryInvolution K 2 f) (k + 2) x).submatrix mid mid)
@@ -145,7 +149,7 @@ private theorem mat_eq_diag_mul_iota_of_mem_suL (h : UnitaryFieldData 2 f K) {k 
         rw [iotaMat_isBlkOn _ (mid i) (Fin.last (k + 1))
           (Or.inr RootCentSU.last_not_mem_range_mid)]
         exact Matrix.one_apply_ne (mid_ne_last i)
-      rw [h1, mul_zero, hcollast (mid i), if_neg (mid_ne_last i)]
+      rw [h1, mul_zero, hcollast (mid i), ite_eq_right (mid_ne_last i)]
     · obtain ⟨j, rfl⟩ : b ∈ Set.range (mid (m := k)) := by
         rw [mem_range_mid]
         have h0 : (b : ℕ) ≠ 0 := fun h => hb0 (Fin.ext (by simpa using h))
@@ -155,13 +159,13 @@ private theorem mat_eq_diag_mul_iota_of_mem_suL (h : UnitaryFieldData 2 f K) {k 
       rw [iotaMat_mid, one_mul]
       rfl
   · rcases eq_zero_or_eq_last_of_not_mem_mid ham with rfl | rfl
-    · rw [if_pos (Or.inl rfl)]
+    · rw [ite_eq_left (Or.inl rfl)]
       rw [iotaMat_isBlkOn _ 0 b (Or.inl RootCentSU.zero_not_mem_range_mid),
         Matrix.one_apply, hrow0 b]
       by_cases hb : b = 0
       · simp [hb]
       · simp [hb, Ne.symm hb]
-    · rw [if_pos (Or.inr rfl)]
+    · rw [ite_eq_left (Or.inr rfl)]
       rw [iotaMat_isBlkOn _ (Fin.last (k + 1)) b
           (Or.inl RootCentSU.last_not_mem_range_mid),
         Matrix.one_apply, hrowlast b]
@@ -169,6 +173,7 @@ private theorem mat_eq_diag_mul_iota_of_mem_suL (h : UnitaryFieldData 2 f K) {k 
       · simp [hb]
       · simp [hb, Ne.symm hb]
 
+omit [Finite K] [CharP K 2] in
 private theorem diagonal_mul_iotaMat_of_eq_one {k : ℕ} {d : Fin (k + 2) → K}
     (hd : ∀ i, d (mid i) = 1) (M : Matrix (Fin k) (Fin k) K) :
     Matrix.diagonal d * iotaMat M = iotaMat M * Matrix.diagonal d := by
@@ -183,19 +188,19 @@ private theorem diagonal_mul_iotaMat_of_eq_one {k : ℕ} {d : Fin (k + 2) → K}
       by_cases hib : mid i = b
       · subst hib
         exact absurd ⟨i, rfl⟩ hb
-      · rw [if_neg hib, zero_mul]
+      · rw [ite_eq_right hib, zero_mul]
   · by_cases hb : b ∈ Set.range (mid (m := k))
     · obtain ⟨j, rfl⟩ := hb
       rw [iotaMat_isBlkOn M a (mid j) (Or.inl ha), Matrix.one_apply, hd j, mul_one]
       by_cases haj : a = mid j
       · subst haj
         exact absurd ⟨j, rfl⟩ ha
-      · rw [if_neg haj, mul_zero]
+      · rw [ite_eq_right haj, mul_zero]
     · rw [iotaMat_isBlkOn M a b (Or.inl ha), Matrix.one_apply]
       by_cases hab : a = b
       · subst hab
-        rw [if_pos rfl, mul_one, one_mul]
-      · rw [if_neg hab, zero_mul, mul_zero]
+        rw [ite_eq_left rfl, mul_one, one_mul]
+      · rw [ite_eq_right hab, zero_mul, mul_zero]
 
 private def iotaGL {k : ℕ} (M : GL (Fin k) K) : GL (Fin (k + 2)) K where
   val := iotaMat (M : Matrix (Fin k) (Fin k) K)
@@ -205,15 +210,18 @@ private def iotaGL {k : ℕ} (M : GL (Fin k) K) : GL (Fin (k + 2)) K where
   inv_val := by
     rw [← iotaMat_mul, ← Units.val_mul, inv_mul_cancel, Units.val_one, iotaMat_one]
 
+omit [Finite K] [CharP K 2] in
 private theorem coe_iotaGL {k : ℕ} (M : GL (Fin k) K) :
     ((iotaGL M : GL (Fin (k + 2)) K) : Matrix (Fin (k + 2)) (Fin (k + 2)) K) =
       iotaMat (M : Matrix (Fin k) (Fin k) K) := rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem iotaGL_mul {k : ℕ} (M N : GL (Fin k) K) :
     iotaGL (M * N) = iotaGL M * iotaGL N := by
   apply Units.ext
   rw [Units.val_mul, coe_iotaGL, coe_iotaGL, coe_iotaGL, Units.val_mul, iotaMat_mul]
 
+omit [Finite K] [CharP K 2] in
 private theorem diagGL_mul_iotaGL {k : ℕ} {d : Fin (k + 2) → K} (ht : ∀ i, d i ≠ 0)
     (hd : ∀ i, d (mid i) = 1) (M : GL (Fin k) K) :
     RootDetectSU.diagGL d ht * iotaGL M = iotaGL M * RootDetectSU.diagGL d ht := by
@@ -222,6 +230,7 @@ private theorem diagGL_mul_iotaGL {k : ℕ} {d : Fin (k + 2) → K} (ht : ∀ i,
     iotaMat (M : Matrix (Fin k) (Fin k) K) * Matrix.diagonal d
   exact diagonal_mul_iotaMat_of_eq_one hd (M : Matrix (Fin k) (Fin k) K)
 
+omit [Finite K] [CharP K 2] in
 private theorem diagGL_conj_iotaGL {k : ℕ} {d : Fin (k + 2) → K} (ht : ∀ i, d i ≠ 0)
     (hd : ∀ i, d (mid i) = 1) (M : GL (Fin k) K) :
     RootDetectSU.diagGL d ht * iotaGL M * (RootDetectSU.diagGL d ht)⁻¹ = iotaGL M := by
@@ -250,6 +259,7 @@ private theorem sum_mid_eq {M : Type*} [AddCommMonoid M] {k : ℕ} (F : Fin (k +
     · exact h0
     · exact hl
 
+omit [Finite K] [CharP K 2] in
 private theorem isJUnitary_submatrix_mid {k : ℕ} {σ : K ≃+* K}
     {A : Matrix (Fin (k + 2)) (Fin (k + 2)) K} {M : GL (Fin k) K}
     {d : Fin (k + 2) → K} (hA : A = Matrix.diagonal d * iotaMat (M : Matrix (Fin k) (Fin k) K))
@@ -276,6 +286,7 @@ private theorem isJUnitary_submatrix_mid {k : ℕ} {σ : K ≃+* K}
         (Or.inl RootCentSU.last_not_mem_range_mid),
       Matrix.one_apply_ne (Ne.symm (mid_ne_last i)), mul_zero, map_zero, zero_mul]
 
+omit [Finite K] [CharP K 2] in
 private theorem diagonal_eq_iotaMat_of_eq_one_outside {k : ℕ} {d : Fin (k + 2) → K}
     (h0 : d 0 = 1) (hl : d (Fin.last (k + 1)) = 1) :
     Matrix.diagonal d = iotaMat (Matrix.diagonal (fun i => d (mid i))) := by
@@ -285,14 +296,14 @@ private theorem diagonal_eq_iotaMat_of_eq_one_outside {k : ℕ} {d : Fin (k + 2)
     rw [Matrix.diagonal_apply]
     by_cases hab' : a = b
     · subst hab'
-      rw [if_pos rfl, Matrix.one_apply_eq]
+      rw [ite_eq_left rfl, Matrix.one_apply_eq]
       rcases eq_zero_or_eq_last_of_not_mem_mid (c := a) (by
         rcases hab with h | h
         · exact h
         · exact h) with rfl | rfl
       · exact h0
       · exact hl
-    · rw [if_neg hab', Matrix.one_apply_ne hab']
+    · rw [ite_eq_right hab', Matrix.one_apply_ne hab']
   · rw [Matrix.submatrix_diagonal _ _ mid_injective, submatrix_iotaMat]
     rfl
 
@@ -377,7 +388,7 @@ theorem exists_suConjSet_of_fix (h : UnitaryFieldData 2 f K) {k : ℕ} (hk : 2 �
   have h0 : dfun 0 = 1 := by
     rw [hdfundef]
     exact RootDetectSU.pairDiag_of_ne
-      (by simp [hbdef, AutPSL.idxOne, Fin.ext_iff])
+      (by simp [hbdef, AutPSL.idxOne])
       (by simp only [hbdef, AutPSL.idxOne, ne_eq, Fin.ext_iff, Fin.val_rev,
         Fin.val_zero]; omega) ρ
   have hl : dfun (Fin.last (k + 1)) = 1 := by
@@ -557,20 +568,20 @@ theorem exists_suConjSet_of_fix (h : UnitaryFieldData 2 f K) {k : ℕ} (hk : 2 �
     intro i
     change (if mid i = 0 ∨ mid i = Fin.last (k + 1) then
       mat σ (k + 2) g0 0 0 else 1) = 1
-    rw [if_neg]
+    rw [ite_eq_right]
     simp [mid_ne_zero i, mid_ne_last i]
   have hdgval_ne : ∀ i, dgval i ≠ 0 := by
     intro i
     change (if i = 0 ∨ i = Fin.last (k + 1) then mat σ (k + 2) g0 0 0 else 1) ≠ 0
     by_cases hi : i = 0 ∨ i = Fin.last (k + 1)
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       have hcorner : mat σ (k + 2) g0 (Fin.last (k + 1)) (Fin.last (k + 1)) =
           mat σ (k + 2) g0 0 0 :=
         RootCentSU.corner_eq_of_commute (RCSTSU.commute_of_mem hg0C)
       have hcn := RCSTSU.corner_norm (σ := σ) hg0C
       rw [hcorner] at hcn
       exact right_ne_zero_of_mul_eq_one hcn
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       exact one_ne_zero
   have hisoX : CFSG.LieType.Universal.Unitary.conjTr σ
       (X : Matrix (Fin (k + 2)) (Fin (k + 2)) K) * antidiag (k + 2) *

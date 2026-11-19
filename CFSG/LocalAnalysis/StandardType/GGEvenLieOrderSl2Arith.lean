@@ -100,7 +100,7 @@ private theorem sl2_dvd_ordA {k q : ℕ} (hk : 1 ≤ k) (hq : Even q) (hq2 : 2 �
     have hprod : (∏ i ∈ Finset.Icc 2 (1 + 1), (q ^ i - 1)) = q ^ 2 - 1 := by
       rw [show (1 : ℕ) + 1 = 2 from rfl, Finset.Icc_self, Finset.prod_singleton]
     have he1 : 1 * (1 + 1) / 2 = 1 := by norm_num
-    simpa [hprod, he1, hg] using dvd_refl (q * (q ^ 2 - 1))
+    simp [he1, hg]
   · have hk2 : 2 ≤ k := by omega
     set P : ℕ := ∏ i ∈ Finset.Icc 2 (k + 1), (q ^ i - 1) with hPdef
     set P' : ℕ := ∏ i ∈ (Finset.Icc 2 (k + 1)).erase 2, (q ^ i - 1) with hP'def
@@ -121,7 +121,7 @@ private theorem sl2_dvd_ordA {k q : ℕ} (hk : 1 ≤ k) (hq : Even q) (hq2 : 2 �
     rw [← hPdef]
     exact sl2_dvd_pow_mul_div (expA_ne_zero hk2) hg hA
 
-private theorem sl2_dvd_ordTwistedA {k q : ℕ} (hk : 2 ≤ k) (hq2 : 2 ≤ q) :
+private theorem sl2_dvd_ordTwistedA {k q : ℕ} (hk : 2 ≤ k) (_hq2 : 2 ≤ q) :
     q * (q ^ 2 - 1) ∣ ordTwistedA k q := by
   set P : ℕ := ∏ i ∈ Finset.Icc 2 (k + 1), ((q : ℤ) ^ i - (-1 : ℤ) ^ i).toNat with hPdef
   set P' : ℕ := ∏ i ∈ (Finset.Icc 2 (k + 1)).erase 2,
@@ -168,7 +168,7 @@ private theorem sl2_dvd_ordD {k q : ℕ} (hk : 2 ≤ k) (hq : Even q) (hq2 : 2 �
   simpa using dvd_mul_of_dvd_right
     (Finset.dvd_prod_of_mem (fun i => q ^ (2 * i) - 1) h1mem) (q ^ k - 1)
 
-private theorem sl2_dvd_ordTwistedD {k q : ℕ} (hk : 2 ≤ k) (hq : Even q) (hq2 : 2 ≤ q) :
+private theorem sl2_dvd_ordTwistedD {k q : ℕ} (hk : 2 ≤ k) (hq : Even q) (_hq2 : 2 ≤ q) :
     q * (q ^ 2 - 1) ∣ ordTwistedD k q := by
   have hg : Nat.gcd 4 (q ^ k + 1) = 1 :=
     gcd_four_eq_one_of_odd (odd_pow_add_one hq (by omega))
@@ -265,7 +265,7 @@ theorem evenLieOrder_sl2_dvd_of_label {lab : LargeEvenLabel} (hlab : LargeEvenIn
       CFSG.SeitzReduction.F4Pilot.evenLieOrder (markTag lab) (markRank lab) (markDeg lab) := by
   obtain ⟨t, r, n⟩ := lab
   obtain ⟨hn, hlab⟩ := hlab
-  simp only [LargeEvenLabel.n, LargeEvenLabel.rank, LargeEvenLabel.tag] at hn hlab hc h1 h2 h3
+  simp only at hn hlab hc h1 h2 h3
   have hEvenN : Even (2 ^ n) := even_iff_two_dvd.mpr (dvd_pow_self 2 (by omega))
   have h2N : 2 ≤ 2 ^ n := by
     have h := one_lt_pow' (show (1 : ℕ) < 2 by norm_num) (by omega : n ≠ 0)

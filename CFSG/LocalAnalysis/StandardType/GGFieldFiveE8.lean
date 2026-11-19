@@ -35,7 +35,7 @@ theorem isComponentOf_range {G : Type} [Group G] {ψ : E8Two →* G} (hψ : Func
 
 theorem five_dvd_natCard_of_pow_eq_one {H : Type} [Group H] [Finite H] {s : H} (hs5 : s ^ 5 = 1)
     (hs1 : s ≠ 1) : 5 ∣ Nat.card H := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact (orderOf_eq_prime hs5 hs1) ▸ orderOf_dvd_natCard s
 
 theorem false_of_ggConjPairs_one {G : Type} [Group G] [Finite G] {ψ : E8Two →* G}
@@ -70,7 +70,7 @@ theorem false_of_isFiveB {G : Type} [Group G] [Finite G] {ψ : E8Two →* G}
     {K₀ : Subgroup E8Two} (hK₀ : IsFiveB s K₀) {L : Subgroup G}
     (hL : IsComponentOf L (ψ.range ⊓ Subgroup.centralizer {x}))
     (hLmark : GGNbrClauseFiveMarking 5 x L) : False := by
-  haveI : Finite E8Two := Finite.of_injective ψ hψ
+  have : Finite E8Two := Finite.of_injective ψ hψ
   rw [ExcNonsplit.range_inf_centralizer_eq_map_centralizer hψ hs] at hL
   have hLr : L ≤ ψ.range := hL.1.trans (by rintro _ ⟨u, -, rfl⟩; exact ⟨u, rfl⟩)
   have hQ : IsComponentOf (L.comap ψ) (Subgroup.centralizer {s}) := by
@@ -91,7 +91,7 @@ theorem exists_of_ggConjPairs_one {G : Type} [Group G] [Finite G] {ψ : E8Two �
     ∃ y ∈ D, y ≠ 1 ∧ ∃ K : Subgroup G,
       IsComponentOf K (ψ.range ⊓ Subgroup.centralizer {y}) ∧ J ≤ K ∧ 5 ∣ Nat.card K ∧
       x ∉ Subgroup.centralizer (K : Set G) ∧ ¬ GGNbrClauseFiveMarking 5 x K := by
-  haveI : Finite E8Two := Finite.of_injective ψ hψ
+  have : Finite E8Two := Finite.of_injective ψ hψ
   have hZ : Subgroup.center E8Two = ⊥ :=
     CFSG.LieType.Chevalley.center_adjointGroup_eq_bot (τ := .E8) (K := GaloisField 2 1)
   have hcomm : ∀ u, y * ψ u = ψ u * y := fun u => by
@@ -134,7 +134,7 @@ theorem exists_of_plane (h5 : E8TwoFiveCentInput) (hpl : E8TwoFivePlaneCentInput
     ∃ y ∈ D, y ≠ 1 ∧ ∃ K : Subgroup G,
       IsComponentOf K (ψ.range ⊓ Subgroup.centralizer {y}) ∧ J ≤ K ∧ 5 ∣ Nat.card K ∧
       x ∉ Subgroup.centralizer (K : Set G) ∧ ¬ GGNbrClauseFiveMarking 5 x K := by
-  haveI : Finite E8Two := Finite.of_injective ψ hψ
+  have : Finite E8Two := Finite.of_injective ψ hψ
   have hZ : Subgroup.center E8Two = ⊥ :=
     CFSG.LieType.Chevalley.center_adjointGroup_eq_bot (τ := .E8) (K := GaloisField 2 1)
   have hAel := isElemAbelian_conjOf hψ hZ hDel hDs
@@ -185,7 +185,7 @@ theorem exists_of_plane (h5 : E8TwoFiveCentInput) (hpl : E8TwoFivePlaneCentInput
         _ = sx * u := by rw [h4]
     have hmem : sx ∈ Subgroup.zpowers y' :=
       mem_zpowers_of_mem_centralizer_of_isFiveB hK₀ hsxC hsxK
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     have hsx5 : sx ^ 5 = 1 := pow_eq_one_of_mem_ggConjPairs hψ hZ hsx (hDel.2 x hxD)
     have ho1 : orderOf sx = 5 := orderOf_eq_prime hsx5 hs1
     have ho2 : orderOf y' = 5 := orderOf_eq_prime hy'5 hy'1
@@ -208,7 +208,7 @@ theorem fieldFive_e8 (h5 : E8TwoFiveCentInput) (hpl : E8TwoFivePlaneCentInput)
       IsComponentOf K (ψ.range ⊓ Subgroup.centralizer {y}) ∧ J ≤ K ∧ 5 ∣ Nat.card K ∧
       x ∉ Subgroup.centralizer (K : Set G) ∧ ¬ GGNbrClauseFiveMarking 5 x K := by
   classical
-  haveI : Finite E8Two := Finite.of_injective ψ hψ
+  have : Finite E8Two := Finite.of_injective ψ hψ
   have hZ : Subgroup.center E8Two = ⊥ :=
     CFSG.LieType.Chevalley.center_adjointGroup_eq_bot (τ := .E8) (K := GaloisField 2 1)
   have hJq : CFSG.IsQuasisimple J := (AssemblyBPredicates.isQuasisimple_iff_native J).mp hJ.2.2

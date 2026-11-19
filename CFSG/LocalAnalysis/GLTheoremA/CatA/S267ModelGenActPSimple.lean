@@ -13,6 +13,7 @@ open CFSG.HardMathSupport.Solomon.LocalBalance (barAut)
 
 variable {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω}
 
+omit [Finite Ω] in
 private theorem chevQuotHom_ker_le_center (hcore : GLAPPrimeCore p ↥S = ⊥) :
     (chevQuotHom p S).ker ≤ Subgroup.center ↥S := by
   intro x hx
@@ -26,6 +27,7 @@ private theorem chevQuotHom_ker_le_center (hcore : GLAPPrimeCore p ↥S = ⊥) :
   rw [map_mul, map_mul]
   exact Subgroup.mem_center_iff.1 hx' (pQuotHom p S s)
 
+omit [Finite Ω] in
 theorem exists_actHom_pSimple (hS : S.Normal) (hperf : ⁅S, S⁆ = S) {X : Type} [Group X]
     (e : PSimple p S ≃* X) :
     ∃ Γ : Ω →* MulAut X, (∀ (b : Ω) (g : ↥S), Γ b (e (chevQuotHom p S g)) =
@@ -36,8 +38,8 @@ theorem exists_actHom_pSimple (hS : S.Normal) (hperf : ⁅S, S⁆ = S) {X : Type
   set Γ : Ω →* MulAut X := (MulAut.congr e).toMonoidHom.comp
     ((chevAut p S).comp ((MonoidHom.id Ω).codRestrict _ hN)) with hΓ
   have hΓb : ∀ b : Ω, Γ b = MulAut.congr e (chevAut p S ⟨b, hN b⟩) := fun b => rfl
-  haveI : Group.IsPerfect ↥S := Subgroup.isPerfect_iff.2 hperf
-  haveI : Group.IsPerfect (PQuot p S) := Group.IsPerfect.ofSurjective (pQuotHom_surjective p S)
+  have : Group.IsPerfect ↥S := Subgroup.isPerfect_iff.2 hperf
+  have : Group.IsPerfect (PQuot p S) := Group.IsPerfect.ofSurjective (pQuotHom_surjective p S)
   refine ⟨Γ, fun b g => ?_, ?_⟩
   · rw [hΓb, MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.trans_apply,
       MulEquiv.symm_apply_apply, chevAut_chevQuotHom]

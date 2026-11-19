@@ -21,17 +21,17 @@ private def l3w (F : Type) [Field F] : SL(3, F) :=
 private lemma l3x1_sq (F : Type) [Field F] : l3x1 F * l3x1 F = 1 := by
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul]
-  simp [l3x1, Matrix.mul_fin_three, Matrix.one_fin_three]
+  simp [l3x1, Matrix.one_fin_three]
 
 private lemma l3x2_sq (F : Type) [Field F] : l3x2 F * l3x2 F = 1 := by
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul]
-  simp [l3x2, Matrix.mul_fin_three, Matrix.one_fin_three]
+  simp [l3x2, Matrix.one_fin_three]
 
 private lemma l3w_sq (F : Type) [Field F] : l3w F * l3w F = 1 := by
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul]
-  simp [l3w, Matrix.mul_fin_three, Matrix.one_fin_three]
+  simp [l3w, Matrix.one_fin_three]
 
 private lemma l3x1_ne_one (F : Type) [Field F] (h2 : (2 : F) ≠ 0) : l3x1 F ≠ 1 := by
   intro h
@@ -54,7 +54,7 @@ private lemma l3x1x2_coe (F : Type) [Field F] :
     ((l3x1 F * l3x2 F : SL(3, F)) : Matrix (Fin 3) (Fin 3) F) =
       !![0, 1, 0; -1, 0, 0; 0, 0, 1] := by
   rw [Matrix.SpecialLinearGroup.coe_mul]
-  simp [l3x1, l3x2, Matrix.mul_fin_three]
+  simp [l3x1, l3x2]
 
 private lemma l3x1x2_sq (F : Type) [Field F] :
     (l3x1 F * l3x2 F) ^ 2 = l3w F := by
@@ -122,7 +122,7 @@ theorem s16c1_G47_L3_trans {F : Type} [Field F] [Finite F] (hF : Nat.card F = 5)
   obtain ⟨a₂, ha₂⟩ := l3_conj_of_gl_conj hF ⟨P₀, hP₀⟩ ⟨P₂, hP₂⟩
   refine ⟨a₁, a₂, ?_⟩
   rw [ha₁, ha₂]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz2 := l3x1x2_sq F
   have hwne := l3w_ne_one F h2
   have hz2ne : (l3x1 F * l3x2 F) ^ 2 ≠ 1 := by

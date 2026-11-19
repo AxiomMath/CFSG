@@ -114,7 +114,7 @@ theorem exists_threeCentral_of_card_nine (h415 : Sec4.Item4_15) {L : Subgroup G}
     have hO : x⁻¹ * y ∈ N := by
       rw [← QuotientGroup.eq_one_iff, ← QuotientGroup.mk'_apply, map_mul, map_inv, hxy,
         inv_mul_cancel]
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨x⁻¹ * y, (S : Subgroup ↥L).mul_mem (inv_mem hx) hy⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨x⁻¹ * y, (S : Subgroup ↥L).mul_mem (inv_mem hx) hy⟩
     have h1 := eq_one_of_mem_of_pow_three_pow hN3 hO (k := k)
       (by simpa using congrArg Subtype.val hk)
     rw [inv_mul_eq_one] at h1

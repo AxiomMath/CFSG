@@ -101,7 +101,7 @@ theorem gap5Grp_mem_centralizer_of_involution {Y : Type} [Group Y] [Finite Y] {N
             = t * (c * (t * n * t)) * c⁻¹ * t := by simp only [mul_assoc]
         _ = t * ((t * n * t) * c) * c⁻¹ * t := by rw [← hn'c]
         _ = t * (t * n * t) * t := by
-              simp only [mul_assoc, mul_inv_cancel_left, mul_inv_cancel_right, mul_one]
+              simp only [mul_assoc, mul_inv_cancel_left]
         _ = n := by
               calc
                 t * (t * n * t) * t = (t * t) * n * (t * t) := by simp only [mul_assoc]

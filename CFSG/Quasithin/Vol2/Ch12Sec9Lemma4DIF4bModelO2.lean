@@ -23,8 +23,8 @@ theorem HM_ne_zero (h : ↥HM) {s : VM} (hs : s ≠ 0) : (h : VM ≃ₗ[ZMod 2] 
 
 instance : MulAction ↥HM TSm where
   smul h s := ⟨(h : VM ≃ₗ[ZMod 2] VM) s.1, HM_mem_Sm h s.2.1, HM_ne_zero h s.2.2⟩
-  one_smul s := Subtype.ext rfl
-  mul_smul h k s := Subtype.ext rfl
+  one_smul _s := Subtype.ext rfl
+  mul_smul _h _k _s := Subtype.ext rfl
 
 theorem smul_TSm_val (h : ↥HM) (s : TSm) : (h • s).1 = (h : VM ≃ₗ[ZMod 2] VM) s.1 := rfl
 
@@ -152,7 +152,7 @@ theorem pCore_HM : CFSG.pCore 2 ↥HM = K0.subgroupOf HM := by
   · apply sSup_le
     rintro N ⟨hNn, hNp⟩
     intro n hn
-    haveI := hNn
+    have := hNn
     rw [Subgroup.mem_subgroupOf]
     exact ⟨(Subgroup.mem_inf.1 n.2).2, fun v hv =>
       fix_Sm_of_TSm n (fun s => normal_two_fixes hNp s ⟨n, hn⟩) v hv⟩

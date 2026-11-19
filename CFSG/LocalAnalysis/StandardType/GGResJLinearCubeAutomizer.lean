@@ -1122,9 +1122,9 @@ theorem exists_compatible_splitLinear_marking_factorial
   dsimp only [LargeEvenRawDatum] at hraw
   obtain ⟨K, hKfield, hKfinite, hKcard, hP⟩ := hraw
   obtain ⟨_hsimple, _hnonab, θ, _hS', hN, hind⟩ := hP
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : CharP K 2 := charP_two_of_card hKcard
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : CharP K 2 := charP_two_of_card hKcard
   have hpK : 3 ∣ Nat.card K - 1 := by rw [hKcard]; exact h3n
   let hN0 : Bs ≤ Subgroup.normalizer (J : Set G) := GGResHyp.Bs_le_normalizer_J hH
   have hgamma : ggGamma J hN = ggGamma J hN0 := by ext b; rfl
@@ -1204,9 +1204,9 @@ theorem GGResHyp.exists_lineJLabel_A2_of_compatible_splitLinear_marking
   dsimp only [LargeEvenRawDatum] at hraw
   obtain ⟨K, hKfield, hKfinite, hKcard, hP⟩ := hraw
   obtain ⟨_hsimple, _hnonab, θ, _hS', hN, hind⟩ := hP
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : CharP K 2 := charP_two_of_card hKcard
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : CharP K 2 := charP_two_of_card hKcard
   have hpK : 3 ∣ Nat.card K - 1 := by rw [hKcard]; exact h3n
   have hN0 : Bs ≤ Subgroup.normalizer (J : Set G) := GGResHyp.Bs_le_normalizer_J hH
   have hgamma : ggGamma J hN = ggGamma J hN0 := by ext b; rfl
@@ -1271,9 +1271,9 @@ theorem GGResHyp.not_exists_matched_splitLinear_marking_B3C3
   dsimp only [LargeEvenRawDatum] at hraw
   obtain ⟨K, hKfield, hKfinite, hKcard, hP⟩ := hraw
   obtain ⟨_hsimple, _hnonab, θ, _hS', hN, hind⟩ := hP
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : CharP K 2 := charP_two_of_card hKcard
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : CharP K 2 := charP_two_of_card hKcard
   have hpK : 3 ∣ Nat.card K - 1 := by rw [hKcard]; exact h3n
   let hN0 : Bs ≤ Subgroup.normalizer (J : Set G) := GGResHyp.Bs_le_normalizer_J hH
   have hgamma : ggGamma J hN = ggGamma J hN0 := by ext b; rfl
@@ -1340,9 +1340,9 @@ theorem GGResHyp.matched_splitLinear_marking_B2_rank_two
   dsimp only [LargeEvenRawDatum] at hraw
   obtain ⟨K, hKfield, hKfinite, hKcard, hP⟩ := hraw
   obtain ⟨_hsimple, _hnonab, θ, _hS', hN, hind⟩ := hP
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : CharP K 2 := charP_two_of_card hKcard
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : CharP K 2 := charP_two_of_card hKcard
   have hpK : 3 ∣ Nat.card K - 1 := by rw [hKcard]; exact h3n
   let hN0 : Bs ≤ Subgroup.normalizer (J : Set G) := GGResHyp.Bs_le_normalizer_J hH
   have hgamma : ggGamma J hN = ggGamma J hN0 := by ext b; rfl
@@ -1475,8 +1475,8 @@ theorem b2_coroot_closure_of_data
   let A : Subgroup (MulAut ↥J) := (ggGamma J hN).range
   let X : Subgroup (MulAut R) := TypeA.inducedSub ψ A
   obtain ⟨V, instA, instM, ι, r, hvec, α, hform, hrefl, hpair, hindep, hgenLine⟩ := hD
-  letI : AddCommGroup V := instA
-  letI : Module (ZMod 3) V := instM
+  let : AddCommGroup V := instA
+  let : Module (ZMod 3) V := instM
   have hpK : 3 ∣ Nat.card K - 1 := by rw [hKcard]; exact h3n
   have hdet : (CartanMatrix.B 2).det = 2 := by
     simpa using CartanMatrix.B_det (by norm_num : 0 < 2)
@@ -1732,9 +1732,9 @@ theorem actual_B2_core
   dsimp only [LargeEvenRawDatum] at hraw
   obtain ⟨K, hKfield, hKfinite, hKcard, hP⟩ := hraw
   obtain ⟨_hsimple, _hnonab, θ, _hS', hN, hind⟩ := hP
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  haveI : CharP K 2 := charP_two_of_card hKcard
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  have : CharP K 2 := charP_two_of_card hKcard
   have hpK : 3 ∣ Nat.card K - 1 := by rw [hKcard]; exact h3n
   let hN0 : Bs ≤ Subgroup.normalizer (J : Set G) := GGResHyp.Bs_le_normalizer_J hH
   have hgamma : ggGamma J hN = ggGamma J hN0 := by ext b; rfl
@@ -1825,7 +1825,7 @@ theorem actual_B2_core
       have hnorm : ((J.normalizerMonoidHom ⟨eG i, hN0 (hmem i).1⟩) l : ↥J) =
           ⟨eG i, (hmem i).2⟩ * l * ⟨eG i, (hmem i).2⟩⁻¹ := by
         apply Subtype.ext
-        simpa using normalizerMonoidHom_coe (L := J) ⟨eG i, hN0 (hmem i).1⟩ l
+        simp
       rw [hpc, ggLAut_apply, hnorm]
       rfl
   let XiD : Fin 2 → Dpre := fun i => ⟨MNi i, by
@@ -1875,7 +1875,7 @@ theorem actual_B2_core
       have hnorm : ((J.normalizerMonoidHom ⟨n0, hn0Nj⟩) l : ↥J) =
           ⟨n0, hn0J⟩ * l * ⟨n0, hn0J⟩⁻¹ := by
         apply Subtype.ext
-        simpa using normalizerMonoidHom_coe (L := J) ⟨n0, hn0Nj⟩ l
+        simp
       rw [hpc, ggLAut_apply, hnorm]
       rfl
   have hl : MulAut.conj (⟨n0, hn0J⟩ : ↥J) ∈ Subgroup.normalizer (A : Set (MulAut ↥J)) := by
@@ -2035,7 +2035,7 @@ theorem actual_B2_core
     have hn0 : n = 0 := by omega
     rw [hn0, pow_zero] at hKcard
     have hK2 : 1 < Nat.card K := by
-      letI : Fintype K := Fintype.ofFinite K
+      let : Fintype K := Fintype.ofFinite K
       simpa [Nat.card_eq_fintype_card] using (Fintype.one_lt_card (α := K))
     omega
   have hScalOdd : Odd (Nat.card ((LargeEvenScalars (Fin 3) K).subgroupOf

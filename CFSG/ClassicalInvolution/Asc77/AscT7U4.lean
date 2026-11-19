@@ -76,7 +76,7 @@ theorem exists_sq_mem_zpowers_of_isFAut (h : T7F2.Hyp25T p f Ω K K' W S R R' z 
   have hVN : R ⊔ Subgroup.zpowers a ≤ T7F2.Nsub S R :=
     sup_le h.R_le_N (Subgroup.zpowers_le.mpr haN)
   have hVS : R ⊔ Subgroup.zpowers a ≤ (S : Subgroup G) := hVN.trans inf_le_left
-  have hV2 : IsPGroup 2 ↥(R ⊔ Subgroup.zpowers a) := S.isPGroup'.to_le hVS
+  have hV2 : IsPGroup 2 ↥(R ⊔ Subgroup.zpowers a) := S.isPGroup.to_le hVS
   have hVR : ∀ y ∈ R ⊔ Subgroup.zpowers a, conjSub y R = R := fun y hy =>
     (T7F2.mem_Nsub.mp (hVN hy)).2
   have haV : a ∈ R ⊔ Subgroup.zpowers a := Subgroup.mem_sup_right (Subgroup.mem_zpowers a)

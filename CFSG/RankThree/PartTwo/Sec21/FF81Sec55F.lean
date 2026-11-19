@@ -30,6 +30,7 @@ namespace S55
 
 open scoped Pointwise
 
+omit [Finite G] in
 theorem le_of_norm {W M : Subgroup G} {z : G} (hz : z ^ 3 = 1)
     (hW : ∀ x ∈ W, ∀ y ∈ W, x * y = y * x)
     (hzW : ∀ x ∈ W, z * x * z⁻¹ ∈ W) (hzM : ∀ x ∈ M, z * x * z⁻¹ ∈ M)
@@ -119,6 +120,7 @@ theorem le_nor_of_norm {D P Q : Subgroup G} {z : G} (hD : IsPGroup 2 D) (hPD : P
       (Nor P).mul_mem ((Nor P).mul_mem hzP hx'.2) ((Nor P).inv_mem hzP)⟩
   exact fun x hx => (key hx).2
 
+omit [Finite G] in
 theorem le_cenS_of_norm {P Q : Subgroup G} {s z : G} (hPQ : P ≤ Nor Q) (hQP : Q ≤ Nor P)
     (hint : ∀ y ∈ Q ⊓ P, y = 1 ∨ y = s) (hs2 : s * s = 1) (hsQ : ∀ x ∈ Q, x * s = s * x)
     (hsP : ∀ a ∈ P, a * s = s * a) (hQab : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x) (hz : z ^ 3 = 1)
@@ -173,6 +175,7 @@ end S55
 
 namespace S55
 
+omit [Finite G] in
 theorem Coord.mem_cenS {ε : (Fin 3 → ZMod 3) → G} {A : Subgroup G} (h : Coord ε A) {y : G}
     (h0 : y * ε ![1, 0, 0] = ε ![1, 0, 0] * y) (h1 : y * ε ![0, 1, 0] = ε ![0, 1, 0] * y)
     (h2 : y * ε ![0, 0, 1] = ε ![0, 0, 1] * y) : y ∈ CenS A := by
@@ -288,7 +291,7 @@ theorem FF81Sec5.W₂_le_cenS_W₃ (hW2 : IsElemAb 2 3 (h5.W 2)) (hW1 : Nat.card
   have h3D := hWD 3 (by decide)
   have hDp : IsPGroup 2 D := (op_two_isPGroup s₀).to_le inf_le_left
   have hab2 : ∀ x ∈ h5.W 2, ∀ y ∈ h5.W 2, x * y = y * x := by
-    haveI := hW2.1
+    have := hW2.1
     intro x hx y hy
     exact congrArg Subtype.val ((IsMulCommutative.is_comm (M := ↥(h5.W 2))).comm ⟨x, hx⟩ ⟨y, hy⟩)
   have hab3 : ∀ x ∈ h5.W 3, ∀ y ∈ h5.W 3, x * y = y * x := by

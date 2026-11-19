@@ -51,12 +51,12 @@ variable {n : ℕ}
   Nat.rec (motive := fun _ => ℕ) 0 (fun i m => Nat.lor m (Nat.shiftLeft 1 (valF σ i))) d
 
 theorem valF_lt (σ : Perm (Fin n)) {i : ℕ} (hi : i < n) : valF σ i < n := by
-  rw [valF, dif_pos hi]
+  rw [valF, dite_eq_left hi]
   exact Fin.isLt _
 
 theorem valF_inj (σ : Perm (Fin n)) {i j : ℕ} (hi : i < n) (hj : j < n)
     (h : valF σ i = valF σ j) : i = j := by
-  rw [valF, valF, dif_pos hi, dif_pos hj] at h
+  rw [valF, valF, dite_eq_left hi, dite_eq_left hj] at h
   have e := σ.injective (Fin.ext h)
   exact congrArg Fin.val e
 
@@ -134,8 +134,8 @@ theorem bitK_eq (x y : ℕ) :
   · have hn : ¬ x ≤ y := by
       rw [← Nat.ble_eq, h]
       exact Bool.false_ne_true
-    exact (if_neg hn).symm
-  · exact (if_pos (Nat.le_of_ble_eq_true h)).symm
+    exact (ite_eq_right hn).symm
+  · exact (ite_eq_left (Nat.le_of_ble_eq_true h)).symm
 
 theorem rowK_eq (c a m : ℕ) : rowK c a m = ∑ b ∈ range m, if rd c a ≤ rd c b then 1 else 0 := by
   induction m with

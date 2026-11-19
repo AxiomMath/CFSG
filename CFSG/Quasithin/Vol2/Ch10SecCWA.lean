@@ -39,6 +39,7 @@ theorem nonempty_mulEquiv_zmod_prod {p : ℕ} [hp : Fact p.Prime] {X : Type*} [G
 
 variable {G : Type} [Group G] [Finite G] {T L I : Subgroup G}
 
+omit [Finite G] in
 theorem fsuV_le_of {Vp : Subgroup G}
     (hV : Sub326iii T L I ∧ Vp = fsuVM T L I ∨ ¬ Sub326iii T L I ∧ Vp = fsuV T I) :
     fsuV T I ≤ Vp := by

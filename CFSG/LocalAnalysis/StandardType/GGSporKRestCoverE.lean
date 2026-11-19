@@ -64,11 +64,11 @@ theorem sporKRest_exists_independent_pair {K : Type} [Group K] {p : ℕ} (hp : p
   classical
   have hfin : Finite ↥E :=
     Nat.finite_of_card_ne_zero (by rw [hE2]; exact pow_ne_zero 2 hp.ne_zero)
-  haveI := hfin
-  letI : Fintype ↥E := Fintype.ofFinite ↥E
+  have := hfin
+  let : Fintype ↥E := Fintype.ofFinite ↥E
   have hcardE : 1 < Nat.card ↥E := by rw [hE2]; nlinarith [hp.two_le]
   have hbot : E ≠ ⊥ := (Subgroup.one_lt_card_iff_ne_bot E).mp hcardE
-  haveI : Nontrivial ↥E := (Subgroup.nontrivial_iff_ne_bot E).mpr hbot
+  have : Nontrivial ↥E := (Subgroup.nontrivial_iff_ne_bot E).mpr hbot
   obtain ⟨a, haE, ha1⟩ := Subgroup.exists_ne_one_of_nontrivial E
   have hex : ∃ b ∈ E, ∀ i : ℕ, a ^ i ≠ b := by
     by_contra hno
@@ -108,14 +108,14 @@ theorem sporKRest_cover_of_data_E {K : Type} [Group K] [Finite K] {p : ℕ} (hp 
     (hgood : ∀ i, i < T.length → good.getD i false = true →
       ∃ r ∈ reps, ∃ g : K, g⁻¹ * r * g = T.getD i 1)
     (hcond : sporKRestECond T.length p mul good = true) : SporKRestCover p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hST : ∀ x : K, x ∈ (S : Subgroup K) ↔ x ∈ T := fun x => ⟨hT x, hTS x⟩
   intro E hE hE2
   obtain ⟨a, haE, b, hbE, ha1, hb⟩ :=
     sporKRest_exists_independent_pair hp E hE2 hE.2
   have hEpgroup : IsPGroup p ↥E := IsPGroup.of_card hE2
   obtain ⟨Q, hEQ⟩ := hEpgroup.exists_le_sylow
-  letI : MulAction.IsPretransitive K (Sylow p K) :=
+  let : MulAction.IsPretransitive K (Sylow p K) :=
     Sylow.isPretransitive_of_finite (p := p) (G := K)
   obtain ⟨g, hg⟩ := MulAction.IsPretransitive.exists_smul_eq (M := K) S Q
   have hconjS : ∀ y ∈ E, g⁻¹ * y * g ∈ (S : Subgroup K) := by

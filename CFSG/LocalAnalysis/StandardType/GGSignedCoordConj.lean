@@ -117,15 +117,15 @@ theorem conj_permAut_swap_eq_of_mul_eq_neg_one
   rw [conj_permAut_swap_apply hε hu a b f i]
   rw [negTrans_apply (p := p) (π a) (π b) hcd f (π i)]
   by_cases hia : i = a
-  · rw [hia, Equiv.swap_apply_left, if_pos rfl, toAdd_inv, hs]
+  · rw [hia, Equiv.swap_apply_left, ite_eq_left rfl, toAdd_inv, hs]
     ring
   · by_cases hib : i = b
-    · rw [hib, Equiv.swap_apply_right, if_neg (Ne.symm hcd), if_pos rfl, toAdd_inv]
+    · rw [hib, Equiv.swap_apply_right, ite_eq_right (Ne.symm hcd), ite_eq_left rfl, toAdd_inv]
       have hba : ε b * ε a = -1 := by rw [mul_comm, hs]
       rw [hba]
       ring
     · rw [Equiv.swap_apply_of_ne_of_ne hia hib,
-        if_neg (fun h => hia (π.injective h)), if_neg (fun h => hib (π.injective h)),
+        ite_eq_right (fun h => hia (π.injective h)), ite_eq_right (fun h => hib (π.injective h)),
         coord_sign_mul_self (hε i), one_mul]
 
 private theorem conj_negTrans_eq_of_mul_eq_one

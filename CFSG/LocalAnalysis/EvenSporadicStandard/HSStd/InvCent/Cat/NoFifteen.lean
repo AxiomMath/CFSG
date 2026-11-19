@@ -39,7 +39,7 @@ theorem orderOf_ne_fifteen_projSU_four_three (t : projSU 4 3 1) : orderOf t ≠ 
 
 theorem noFifteen_holds : NoFifteen := by
   intro S _ _ hS x
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases hS with h | h | h
   · obtain ⟨e⟩ := projSU_of_statedClassicalModel_gen (h.statedClassicalModel (by decide))
     exact orderOf_ne_fifteen_of_mulEquiv e orderOf_ne_fifteen_projSU_four_three x

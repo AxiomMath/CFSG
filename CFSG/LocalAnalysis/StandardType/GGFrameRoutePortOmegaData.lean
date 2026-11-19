@@ -81,7 +81,7 @@ private def idxL : List Idx := [ix 0, ix 1, ix 2, ix 3, iy 0, iy 1, iy 2, iy 3, 
 
 private theorem mem_idxL : ∀ i : Idx, i ∈ idxL := by decide
 
-private def decEqMatIdxFast : DecidableEq (Matrix Idx Idx (ZMod 2)) := fun A B =>
+@[instance_reducible] private def decEqMatIdxFast : DecidableEq (Matrix Idx Idx (ZMod 2)) := fun A B =>
   decidable_of_iff ((idxL.all fun i => idxL.all fun j => decide (A i j = B i j)) = true) (by
     simp only [List.all_eq_true, decide_eq_true_eq]
     exact ⟨fun h => Matrix.ext fun i j => h i (mem_idxL i) j (mem_idxL j),

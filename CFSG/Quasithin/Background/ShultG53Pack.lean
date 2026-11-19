@@ -126,11 +126,11 @@ theorem rd_totK (σ : Perm (Fin 6)) (j : Fin 6) : rd (totK (enc σ)) j = totalId
     j.isLt, tK_eq]
 
 theorem vc_Rm0 (σ : Perm (Fin 6)) (v : V4) : vc (Rm 0 σ *ᵥ v) = hK (enc σ) (vc v) := by
-  rw [Rm, if_pos rfl]
+  rw [Rm, ite_eq_left rfl]
   exact vc_heart σ (enc σ) (rd_enc (by norm_num) σ) v
 
 theorem vc_Rm1 (σ : Perm (Fin 6)) (v : V4) : vc (Rm 1 σ *ᵥ v) = hK (totK (enc σ)) (vc v) := by
-  rw [Rm, if_neg (by decide)]
+  rw [Rm, ite_eq_right (by decide)]
   exact vc_heart (totalIdx σ) (totK (enc σ)) (rd_totK σ) v
 
 end CFSG.Quasithin.ShultG53.Pack

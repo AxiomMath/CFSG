@@ -151,7 +151,7 @@ theorem coe_conj_eq_of_eq_smul {R : Type*} [Field R] (N : GL (Fin 3) R)
       _ = c⁻¹ • B' := by
           simp only [Matrix.smul_mul, Matrix.mul_smul, ← Matrix.mul_assoc, hNN', Matrix.one_mul]
   rw [hinv, hN]
-  simp only [Matrix.smul_mul, Matrix.mul_smul, smul_smul, mul_inv_cancel₀ hc, inv_mul_cancel₀ hc,
+  simp only [Matrix.smul_mul, Matrix.mul_smul, smul_smul, inv_mul_cancel₀ hc,
     one_smul]
 
 theorem linear_layer_model_of_interface (D C : Subgroup G₀)

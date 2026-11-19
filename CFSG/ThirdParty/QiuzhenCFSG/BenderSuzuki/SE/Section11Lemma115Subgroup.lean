@@ -48,7 +48,7 @@ public theorem lemma115_fixedPoints_card_le_two_of_inverted
     have hle := Nat.card_le_card_of_injective F hFinj
     rw [hM.involution_fixedPoints_card_eq_one ht] at hle
     omega
-  · push_neg at hall
+  · push Not at hall
     obtain ⟨lambda, hxLambda, htLambdaNe⟩ := hall
     have hxInvLambda : x⁻¹ • lambda = lambda := by
       calc
@@ -235,7 +235,7 @@ public theorem lemma115_fixedPoints_eq_empty_of_commuting_prime
   let FixedX := {omega : Omega //
     omega ∈ fixedPointsOfSubgroup X Omega (Subgroup.zpowers x)}
   let omega0 : FixedX := ⟨hnonempty.choose, hnonempty.choose_spec⟩
-  letI : Nonempty FixedX := ⟨omega0⟩
+  let : Nonempty FixedX := ⟨omega0⟩
   let P : Subgroup X := Subgroup.zpowers x
   let N : Subgroup X := Subgroup.normalizer (P : Set X)
   have haCent : a ∈ Subgroup.centralizer (P : Set X) := by
@@ -252,8 +252,8 @@ public theorem lemma115_fixedPoints_eq_empty_of_commuting_prime
   have hApg : IsPGroup f A := by
     apply IsPGroup.of_card (p := f) (G := A) (n := 1)
     simp [A, Nat.card_zpowers, haNorder]
-  letI : Fact (Nat.Prime f) := ⟨hf⟩
-  letI : MulAction N FixedX := normalizerFixedPointAction X Omega P
+  let : Fact (Nat.Prime f) := ⟨hf⟩
+  let : MulAction N FixedX := normalizerFixedPointAction X Omega P
   have hnotdvd : ¬ f ∣ Nat.card FixedX := by
     intro hdiv
     have hpos : 0 < Nat.card FixedX := Nat.card_pos

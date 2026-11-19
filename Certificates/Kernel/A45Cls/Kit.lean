@@ -66,7 +66,7 @@ theorem closure_gA : Subgroup.closure (gA' '' {k | k < 3}) = A := by
   rw [QA45, certificate_originalSubgroup]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false, tab_eq]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false, tab_eq]
   constructor
   · rintro ⟨k, hk, rfl⟩
     interval_cases k

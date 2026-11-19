@@ -43,8 +43,8 @@ theorem y7c_B_J_iso (c : Ctx7 G L) (hb : B7Std c) :
   have hN : normIn L c.s.fr.F = JF c.s := y7c_NLF_eq_JF hb.hH
   have hz : zL L ⊔ c.s.fr.F = c.s.fr.F := by rw [f3_zL_eq_bot hb.hH, bot_sup_eq]
   obtain ⟨hNsub, ⟨eN⟩⟩ := hb.hH.hLF.fact18.2.2.2.2.1
-  letI := hNsub
-  haveI hFJ : (c.s.fr.F.subgroupOf (JF c.s)).Normal :=
+  let := hNsub
+  have hFJ : (c.s.fr.F.subgroupOf (JF c.s)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (by rw [← hN]; exact inf_le_right)
   let ψ' : ↥(JF c.s) →* ↥(y7cJC c) :=
     ψ.codRestrict (y7cJC c) (fun x => by rw [← hψran]; exact ⟨x, rfl⟩)
@@ -109,7 +109,7 @@ theorem y7c_fix_M3 (c : Ctx5 G L) (hH : F33Hyp c.s c.e) {x m : G} (hx : x ∈ JF
     exact (Subgroup.mem_inf.mp hxNL).2
   have hxN : x ∈ normIn c.s.H c.s.fr.F := Subgroup.mem_inf.mpr ⟨hxH, hxnorm⟩
   obtain ⟨hNsub, hP⟩ := (y54_fact c hH).1.2.2.2
-  letI := hNsub
+  let := hNsub
   obtain ⟨φ, hφ⟩ := hP
   let m₀ : ↥(M3 c.s) := ⟨m, hm⟩
   have heq := hφ x hxN m₀ m₀ h.symm

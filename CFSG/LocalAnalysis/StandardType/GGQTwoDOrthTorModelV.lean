@@ -69,16 +69,16 @@ theorem torV₀_torStdM {ζ : normOne (unitaryInvolution K 2 1)} (hζ : ζ ≠ 1
     rw [torV₀, LinearMap.mem_ker] at hz
     have hcoord := congrFun hz i
     simp only [Pi.zero_apply] at hcoord
-    rw [plh_torStdM_sub_apply, if_neg (not_lt.mpr hi)] at hcoord
+    rw [plh_torStdM_sub_apply, ite_eq_right (not_lt.mpr hi)] at hcoord
     exact (mul_eq_zero.mp hcoord).resolve_left hsub
   · intro hz
     rw [torV₀, LinearMap.mem_ker]
     funext i
     rw [Pi.zero_apply, plh_torStdM_sub_apply]
     by_cases hi : i.val < a
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       ring
-    · rw [if_neg hi, hz i (not_lt.mp hi), mul_zero]
+    · rw [ite_eq_right hi, hz i (not_lt.mp hi), mul_zero]
 
 theorem torV₁_torStdM {ζ : normOne (unitaryInvolution K 2 1)} (hζ : ζ ≠ 1) (m a : ℕ) :
     torV₁ (torStdM (F := F) ζ m a) = torStdV₁ m a := by
@@ -93,7 +93,7 @@ theorem torV₁_torStdM {ζ : normOne (unitaryInvolution K 2 1)} (hζ : ζ ≠ 1
     rw [torV₁, LinearMap.mem_range] at hz
     obtain ⟨w, hw⟩ := hz
     have hcoord := congrFun hw i
-    rw [plh_torStdM_sub_apply, if_pos hi] at hcoord
+    rw [plh_torStdM_sub_apply, ite_eq_left hi] at hcoord
     simpa using hcoord.symm
   · intro hz
     rw [torV₁, LinearMap.mem_range]
@@ -106,9 +106,9 @@ theorem torV₁_torStdM {ζ : normOne (unitaryInvolution K 2 1)} (hζ : ζ ≠ 1
       (if i.val < a then 0 else
         z i / ((((ζ : normOne (unitaryInvolution K 2 1)) : Kˣ) : K) - 1)) = z i
     by_cases hi : i.val < a
-    · rw [if_pos hi, if_pos hi, hz i hi]
+    · rw [ite_eq_left hi, ite_eq_left hi, hz i hi]
       ring
-    · rw [if_neg hi, if_neg hi]
+    · rw [ite_eq_right hi, ite_eq_right hi]
       exact mul_div_cancel₀ (z i) hsub
 
 end ModelV

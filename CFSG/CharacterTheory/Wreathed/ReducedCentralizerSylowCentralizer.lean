@@ -83,7 +83,7 @@ theorem actual_reduced_centralizer_defining_sylow_centralizer_is_center_times_sy
       rw [Matrix.SpecialLinearGroup.coe_pow, ← hr, ← map_pow]
       simp only [Fintype.card_fin] at hr2
       rw [hr2, map_one, Matrix.SpecialLinearGroup.coe_one]
-    obtain ⟨k, hk⟩ := P.isPGroup' v
+    obtain ⟨k, hk⟩ := P.isPGroup v
     have h1 : orderOf v ∣ 2 := orderOf_dvd_of_pow_eq_one (Subtype.ext hsq)
     have h2 : orderOf v ∣ p ^ k := orderOf_dvd_of_pow_eq_one hk
     have hcop : Nat.Coprime 2 (p ^ k) :=

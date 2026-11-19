@@ -24,8 +24,8 @@ theorem kzLiftPowThree_kz3 {X : Type} [Group X] [Finite X] (N : Subgroup X) [N.N
     (hN : IsPGroup 2 N) (A : Subgroup (X ⧸ N)) (k : ℕ) (hA : Nat.card A = 3 ^ k) :
     ∃ S : Subgroup X, Nat.card S = 3 ^ k ∧ S ⊓ N = ⊥ ∧ S.map (QuotientGroup.mk' N) = A := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R : Subgroup X := A.comap (QuotientGroup.mk' N) with hR
   have hRN : N ≤ R := fun x hx => by
     rw [hR, Subgroup.mem_comap, QuotientGroup.mk'_apply, (QuotientGroup.eq_one_iff x).mpr hx]
@@ -77,7 +77,7 @@ theorem kzLiftPowThree_kz3 {X : Type} [Group X] [Finite X] (N : Subgroup X) [N.N
 theorem kzRankContra_kz3 {Γ : Type} [Group Γ] [Finite Γ]
     (hrk : CFSG.Open.SQTKTauCeti.StronglyQuasithin Γ) (E : Subgroup Γ)
     (hE : IsMulCommutative E) (hexp : ∀ e ∈ E, e ^ 3 = 1) (hcard : 9 < Nat.card E) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 E := fun x => ⟨1, Subtype.ext (by simpa using hexp x x.2)⟩
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card).mp hp
   have hm2 : 2 < m := by
@@ -102,9 +102,9 @@ theorem kzClosureCommExp_kz3 {Γ : Type} [Group Γ] {s : Set Γ}
     (hcomm : ∀ x ∈ s, ∀ y ∈ s, x * y = y * x) (hexp : ∀ x ∈ s, x ^ 3 = 1) :
     IsMulCommutative (Subgroup.closure s) ∧ (∀ a ∈ Subgroup.closure s, ∀ b ∈ Subgroup.closure s,
       a * b = b * a) ∧ ∀ e ∈ Subgroup.closure s, e ^ 3 = 1 := by
-  haveI hmc : IsMulCommutative (Subgroup.closure s) :=
+  have hmc : IsMulCommutative (Subgroup.closure s) :=
     Subgroup.isMulCommutative_closure (fun x hx y hy _ => hcomm x hx y hy)
-  letI : CommMonoid (Subgroup.closure s) :=
+  let : CommMonoid (Subgroup.closure s) :=
     { (inferInstance : Monoid (Subgroup.closure s)) with
       mul_comm := fun a b => mul_comm' a b }
   refine ⟨inferInstance, fun a ha b hb => ?_, ?_⟩
@@ -137,7 +137,7 @@ theorem kzThreeRank2OfAlt6OrHat_kz3 {Q : Type} [Group Q] [Finite Q]
   · obtain ⟨-, hc, he⟩ : CFSG.IsQuasisimple Q ∧ Nat.card (Subgroup.center Q) = 3 ∧
         Nonempty (Q ⧸ Subgroup.center Q ≃* alternatingGroup (Fin 6)) := hH
     obtain ⟨e⟩ := he
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     let φ : Q →* alternatingGroup (Fin 6) :=
       e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center Q))
     have hsurj : Function.Surjective φ := e.surjective.comp (QuotientGroup.mk'_surjective _)
@@ -156,8 +156,8 @@ theorem kzCardCenterLeThree_kz3 {Q : Type} [Group Q] [Finite Q]
     Nat.card (Subgroup.center Q) ≤ 3 := by
   rcases hQ with hA | hH
   · obtain ⟨e⟩ : Nonempty (Q ≃* alternatingGroup (Fin 6)) := hA
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-    haveI : IsSimpleGroup Q := MulEquiv.isSimpleGroup e
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup Q := MulEquiv.isSimpleGroup e
     have hcardQ : Nat.card Q = 360 := by
       have h := two_mul_nat_card_alternatingGroup (α := Fin 6)
       have hperm : Nat.card (Equiv.Perm (Fin 6)) = 720 := by

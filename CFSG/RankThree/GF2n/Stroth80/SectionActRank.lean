@@ -109,7 +109,7 @@ theorem card_comm_zpowers_sup_of_sectionAct {G : Type} [Group G] {ι : Type} [Fi
     have hv2 := hconj s v1 v2 hv2e
     have hv3 := hconj (s * t) v v2 (by
       rw [hv2e, hv1e]
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [Subgroup.coe_mul]
       group)
     rw [← hv, ← Matrix.mulVec_mulVec, ← hv3, hv2, hv1]
   have hone : act (φ 1) = 1 := by

@@ -14,6 +14,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffE8Lines_zsmul_eq_cast (x : V) (z : ℤ) :
     (z : ZMod 3) • x = z • x :=
   Int.cast_smul_eq_zsmul (R := ZMod 3) z x
@@ -48,6 +49,7 @@ private lemma ffE8Lines_sign_mul {k l : Fin 4} (h : k ≠ l) :
       | (exfalso; exact h rfl)
       | decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffE8Lines_polar_eq_zero {g : OGroup Q} {x y : V} {u v : ZMod 3}
     (huv : u * v = -1) (hx : (g : V ≃ₗ[ZMod 3] V) x = u • x)
     (hy : (g : V ≃ₗ[ZMod 3] V) y = v • y) :
@@ -61,6 +63,7 @@ private lemma ffE8Lines_polar_eq_zero {g : OGroup Q} {x y : V} {u v : ZMod 3}
     exact eq_neg_iff_add_eq_zero.mp h1.symm
   exact (mul_eq_zero.mp h2).resolve_left (by decide)
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffE8Lines_coeff_eq_zero {f : Fin 4 → V} (hli : LinearIndependent (ZMod 3) f)
     {g e : OGroup Q} {c : Fin 4 → ZMod 3} {k : Fin 4} {σ : Fin 4 → ZMod 3}
     (hc : ∑ l, c l • f l = (e : V ≃ₗ[ZMod 3] V) (f k))
@@ -100,7 +103,7 @@ theorem ffE8Lines_exists (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
       (∀ e ∈ E, ∀ k, ∃ c : ZMod 3, (e : V ≃ₗ[ZMod 3] V) (f k) = c • f k) := by
   obtain ⟨a, b, ha_fix, hb_fix, hQa, hQb, hpolar_ab, hspan_ab⟩ :=
     ffE8Hyp_exists_ab hQ hdim hsgn h.t_sq h.t_dim h.t_sign
-  haveI : IsMulCommutative ↥E := h.elemAb.1.1
+  have : IsMulCommutative ↥E := h.elemAb.1.1
   have hcommE : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x := by
     intro x hx y hy
     exact congrArg Subtype.val (h.elemAb.1.1.is_comm.comm (⟨x, hx⟩ : ↥E) ⟨y, hy⟩)

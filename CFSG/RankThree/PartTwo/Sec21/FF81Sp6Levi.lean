@@ -74,7 +74,7 @@ section H6
 
 
 theorem levi_H6 {p₁ p₂ p₃ : Fin 3} {a₁ a₂ a₃ : ZMod 3} (h12 : p₁ ≠ p₂) (h23 : p₂ ≠ p₃)
-    (ha₂ : a₂ ≠ 0) (ha₃ : a₃ ≠ 0) (ha₁ : a₁ ≠ 0) :
+    (ha₂ : a₂ ≠ 0) (ha₃ : a₃ ≠ 0) (_ha₁ : a₁ ≠ 0) :
     LeviJ ⊤ (zH p₁ ^ a₁.val) (zH p₂ ^ a₂.val) (zH p₃ ^ a₃.val) ∧
       LeviN ⊤ (zH p₂ ^ a₂.val) (zH p₃ ^ a₃.val) := by
   refine ⟨?_, leviN_zH h23 ha₂ ha₃⟩

@@ -86,7 +86,7 @@ theorem T0_relIndex_le (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P)
   have hnorm : ¬ M ≤ Subgroup.normalizer (T₀ : Set G) := fun hMn =>
     hT₀B (H.eq_B_of_normal_comm hBT₀ inf_le_left hMn fun a ha b hb =>
       comm_of_isElemAbelian hT₀e ha hb)
-  obtain ⟨h, hhM, hh⟩ := SetLike.not_le_iff_exists.mp hnorm
+  obtain ⟨h, hhM, hh⟩ := IsConcreteLE.not_le_iff_exists.mp hnorm
   set E := conjSubgroup h T₀ with hE
   have hhT : h ∈ Subgroup.normalizer (T : Set G) := H.M_le_normalizer_T hhM
   have hET : E ≤ T := by
@@ -325,7 +325,7 @@ theorem false_of_T0_eq_B (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P)
     (H.isPGroup_Q.to_le H.T_le_Q) H.B_le_T H.elemAb hq
     (fun k hk => H.M_le_normalizer_T (hK₁M hk)) (fun k hk => H.M_le_normalizer_B (hK₁M hk))
     hfaith ψ hψker hψsurj hψH
-  obtain ⟨x₀, hx₀T, hx₀B⟩ := SetLike.exists_of_lt (lt_of_le_of_ne H.B_le_T H.B_ne_T)
+  obtain ⟨x₀, hx₀T, hx₀B⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne H.B_le_T H.B_ne_T)
   have h1 : x₀ ∈ T ⊓ Subgroup.centralizer (T : Set G) :=
     ⟨hx₀T, Subgroup.mem_centralizer_iff.mpr fun h hh => hTab h hh x₀ hx₀T⟩
   rw [H.inf_centralizer_eq_B H.B_le_T H.T_le_Q H.M_le_normalizer_T] at h1
@@ -374,7 +374,7 @@ theorem l2_numerics (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P)
     have h4 : m = 2 ^ f := by nlinarith
     have hmne : m ≠ 1 := by omega
     have hlt := hm1 hmne
-    obtain ⟨x₀, hx₀, hx₀B⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨x₀, hx₀, hx₀B⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     refine H.false_of_regular hx₀.1 hx₀B (CFSG.Open.IsElemAbelian.mul_self_eq_one hT₀e hx₀)
       (hE1.2 ?_)
     rw [← hmul, h3, h4]

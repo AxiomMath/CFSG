@@ -260,8 +260,8 @@ theorem ggSL9_torusCoord_ne_zero_of_order73 {f : Fin 3 → ZMod 7} (hf : f ≠ 0
 theorem exists_orderOf_seventythree_lowerBlock {G : Type} [Group G]
     (φ : SpecialLinearGroup (Fin (3 + 1)) (GaloisField 2 3) →* G) (hφ : Function.Injective φ) :
     ∃ w ∈ (φ.comp (slLowerBlockHom 3 (GaloisField 2 3))).range, orderOf w = 73 := by
-  haveI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
-  haveI : Fact (Nat.Prime 73) := ⟨by norm_num⟩
+  have : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 73) := ⟨by norm_num⟩
   have h73 : 73 ∣ Nat.card (SpecialLinearGroup (Fin 3) (GaloisField 2 3)) := by
     rw [Matrix.card_SL_field (𝔽 := GaloisField 2 3) 3]
     have hq : Fintype.card (GaloisField 2 3) = 8 := by

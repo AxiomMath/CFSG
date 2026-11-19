@@ -345,7 +345,7 @@ theorem not_nonCentral_of_normalizes_sylow {Q : Type*} [Group Q] [Finite Q]
     have hsM : (s' : Q) ∈ M := s'.2
     have hnorm : (s' : Q) ∈ Subgroup.normalizer ((Subgroup.zpowers y : Subgroup Q) : Set Q) :=
       mem_normalizer_zpowers_of_conj_mem (hM _ hsM)
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨s', hs'⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨s', hs'⟩
     have hk1 : s' ^ 3 ^ k = 1 := by
       have := congrArg Subtype.val hk
       simpa using this

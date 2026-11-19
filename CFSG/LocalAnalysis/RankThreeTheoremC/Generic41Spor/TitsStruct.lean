@@ -29,7 +29,7 @@ theorem tits_normalizer_T_le (hS : Setting G) (hU0 : FullCoreLocal G)
     Subgroup.normalizer ((u3T P x J : Subgroup G) : Set G) ≤ M := by
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
   have hTP : u3T P x J ≤ (P : Subgroup G) := inf_le_left.trans inf_le_left
-  have hTp : IsPGroup p (u3T P x J) := P.isPGroup'.to_le hTP
+  have hTp : IsPGroup p (u3T P x J) := P.isPGroup.to_le hTP
   exact normalizer_le_of_le_of_two_le_pRank hS hU0 hc.sigma hc.core hTp (hTP.trans hPM)
     (tits_two_le_pRank hc.prime.one_lt hE hcard)
 
@@ -50,9 +50,9 @@ theorem tits_trans_of_quotient
     (hc : PointConfig Typ G p P M x J) :
     ∀ a ∈ u3T P x J, a ≠ 1 → ∀ b ∈ u3T P x J, b ≠ 1 →
       ∃ n ∈ J ⊓ Subgroup.normalizer ((u3T P x J : Subgroup G) : Set G), n * a * n⁻¹ = b := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   obtain ⟨Q, hQg, ψ, hψ, hker, hQ⟩ := hc.typ
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   have hcop : Nat.Coprime p (Nat.card ψ.ker) := tits_ker_coprime ψ hker
   have hcop' : ¬ p ∣ Nat.card ψ.ker := (hc.prime.coprime_iff_not_dvd).mp hcop
   have hTJ : u3T P x J ≤ J := inf_le_right
@@ -60,7 +60,7 @@ theorem tits_trans_of_quotient
     hc.generic.2.2.1.inf_of_le_normalizer hc.le_cent hc.cent_le
   obtain ⟨Tsyl, hTsyl⟩ := hSylJ.exists_sylow_eq_subgroupOf
   have hTinj : ∀ t ∈ (Tsyl : Subgroup ↥J), ψ t = 1 → t = 1 :=
-    u3main_eq_one_of_ker ψ hcop' Tsyl.isPGroup'
+    u3main_eq_one_of_ker ψ hcop' Tsyl.isPGroup
   let Tsyl' : Sylow p Q := Tsyl.mapSurjective hψ
   have hTsyl' : (Tsyl' : Subgroup Q) = (Tsyl : Subgroup ↥J).map ψ :=
     Sylow.coe_mapSurjective hψ Tsyl
@@ -78,7 +78,7 @@ theorem tits_trans_of_quotient
     (by rw [hTsyl']; exact ⟨_, hb0, rfl⟩) hψb
   obtain ⟨j, rfl⟩ := hψ n
   rw [hTsyl'] at hn
-  obtain ⟨n₁, hn₁, hψn₁⟩ := typeII_frattini_ker ψ hcop Tsyl.isPGroup' hn
+  obtain ⟨n₁, hn₁, hψn₁⟩ := typeII_frattini_ker ψ hcop Tsyl.isPGroup hn
   refine ⟨(n₁ : G), Subgroup.mem_inf.mpr ⟨n₁.2, ?_⟩, ?_⟩
   · have := CFSG.LocalAnalysis.RankThreeTheoremC.u3main_mem_normalizer_map hn₁
     rwa [hTsyl, Subgroup.map_subgroupOf_eq_of_le hTJ] at this
@@ -104,7 +104,7 @@ theorem tits_NJ_trans_of_plane (hS : Setting G) (hU0 : FullCoreLocal G) (hX : Ti
         ∃ n ∈ J ⊓ Subgroup.normalizer ((u3T P x J : Subgroup G) : Set G), n * a * n⁻¹ = b :=
   ⟨inf_le_right.trans (tits_normalizer_T_le hS hU0 hc hcard hE), tits_trans_of_quotient hX.trans hc⟩
 
-theorem tits_NJ_trans (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (hX : TitsFacts)
+theorem tits_NJ_trans (hS : Setting G) (_hD1 : TheoremD1 G) (hU0 : FullCoreLocal G) (hX : TitsFacts)
     (hc : PointConfig IsTitsType G 5 P M x J) :
     (J ⊓ Subgroup.normalizer ((u3T P x J : Subgroup G) : Set G) ≤ M) ∧
       ∀ a ∈ u3T P x J, a ≠ 1 → ∀ b ∈ u3T P x J, b ≠ 1 →

@@ -77,7 +77,7 @@ theorem card_psu3_ne {K K₀ : Type} [Field K] [Finite K] [Field K₀] [Finite K
     (h64 : Nat.card K₀ = 64) {q : ℕ} (hK : Nat.card K = q ^ 2) :
     Nat.card (StatedProj (StatedSU 3 q K)) ≠ Nat.card (StatedProj (StatedSL 3 K₀)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hpc, n, hp, hn⟩ := FiniteField.card' (K := K)
   have hqn : q ^ 2 = p ^ (n : ℕ) := by rw [← hK, Nat.card_eq_fintype_card, hn]
   have hqd : q ∣ p ^ (n : ℕ) := ⟨q, by rw [← hqn]; ring⟩

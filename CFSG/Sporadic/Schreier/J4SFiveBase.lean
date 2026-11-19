@@ -29,7 +29,7 @@ theorem bounded_comp11 {C D : Array ℕ} (hC : Bounded C) (hD : Bounded D) :
     Array.getElem?_eq_getElem (by rw [hD.1]; exact hj), Option.map_some, Option.getD_some]
   exact vecMulN_lt (bounded_getD hC) _
 
-@[expose] def colsOf (k : J) : Array ℕ := by
+def colsOf (k : J) : Array ℕ := by
   classical
   exact Array.ofFn (n := 11) fun j =>
     if h : ∃ a < 2048, η a = k * u j * k⁻¹ then Classical.choose h else 0
@@ -39,17 +39,17 @@ theorem signedWord_bWord {G : Type*} [Group G] (x y : G) :
   simp only [signedWord, bWord, letter, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil]
   norm_num [mul_assoc]
 
-@[expose] def bElt : J := signedWord x y bWord
+def bElt : J := signedWord x y bWord
 
-@[expose] def qElt : J := bElt ^ 48964608
+def qElt : J := bElt ^ 48964608
 
 theorem qElt_mem_K : qElt ∈ K := K.pow_mem (signedWord_mem_K _) _
 
-@[expose] def q7Elt : J := signedWord x y w7 ^ 2
+def q7Elt : J := signedWord x y w7 ^ 2
 
 theorem q7Elt_mem_K : q7Elt ∈ K := K.pow_mem (signedWord_mem_K _) _
 
-@[expose] def q23Elt : J := signedWord x y w23 ^ 10644480
+def q23Elt : J := signedWord x y w23 ^ 10644480
 
 theorem q23Elt_mem_K : q23Elt ∈ K := K.pow_mem (signedWord_mem_K _) _
 

@@ -15,16 +15,19 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_cSub15_iff {M V₀ V U H P : Subgroup G} {x : G} :
     x ∈ cSub15 M V₀ V U H P ↔
       x ∈ tSub15 M V₀ V U P ∧ x ∈ centralizer (kHull15 V₀ H : Set G) := by
   unfold cSub15
   exact Subgroup.mem_inf
 
+omit [Finite G] in
 theorem cSub15_le_tSub15 (M V₀ V U H P : Subgroup G) :
     cSub15 M V₀ V U H P ≤ tSub15 M V₀ V U P :=
   fun _ hx => (mem_cSub15_iff.1 hx).1
 
+omit [Finite G] in
 theorem cSub15_le_centralizer (M V₀ V U H P : Subgroup G) :
     cSub15 M V₀ V U H P ≤ centralizer (kHull15 V₀ H : Set G) :=
   fun _ hx => (mem_cSub15_iff.1 hx).2
@@ -54,6 +57,7 @@ private theorem conj_mem_cSub15 (c : Cfg1511 M V₀ V U S H P Q₀ p) {t y : G}
       _ = t * (y * (t⁻¹ * k * t)) * t⁻¹ := by rw [hcomm]
       _ = (t * y * t⁻¹) * k := by group
 
+omit [Finite G] in
 private theorem b15_le_normalizer_of_conj_mem (S C : Subgroup G)
     (h : ∀ g ∈ S, ∀ y ∈ C, g * y * g⁻¹ ∈ C) : S ≤ normalizer (C : Set G) := by
   intro g hg
@@ -79,7 +83,7 @@ theorem le_normalizer_cSub15 (c : Cfg1511 M V₀ V U S H P Q₀ p) :
 
 theorem cSub15_le_qSub15 (c : Cfg1511 M V₀ V U S H P Q₀ p) :
     cSub15 M V₀ V U H P ≤ qSub15 M V₀ V U H P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold qSub15
   refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 ?_ ?_ ?_
   · exact (cSub15_le_tSub15 M V₀ V U H P).trans le_sup_right
@@ -96,7 +100,7 @@ variable {M V₀ V U S H P Q₀ X : Subgroup G} {p : ℕ} {v : G}
 theorem commutator_mem_iHull15
     (c : Cfg1511 M V₀ V U S H P Q₀ p) (hX : XData15 V₀ U H Q₀ p X v) {x q : G} (hx : x ∈ X)
     (hq : q ∈ qSub15 M V₀ V U H P) : ⁅x, q⁆ ∈ iHull15 V₀ U H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← c.qSub15_inf_kHull15]
   refine Subgroup.mem_inf.2 ⟨?_, ?_⟩
   · have hxN : x ∈ normalizer (qSub15 M V₀ V U H P : Set G) :=
@@ -230,8 +234,8 @@ variable {M V₀ V U S H P Q₀ X : Subgroup G} {p : ℕ} {v : G}
 theorem qSub15_eq_sup (c : Cfg1511 M V₀ V U S H P Q₀ p)
     (hX : XData15 V₀ U H Q₀ p X v) :
     qSub15 M V₀ V U H P = iHull15 V₀ U H ⊔ cSub15 M V₀ V U H P := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨c.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm ?_ (sup_le c.iHull15_le_qSub15 c.cSub15_le_qSub15)
   have hI : IsPGroup 2 (iHull15 V₀ U H) :=
     c.hyp.sylow.isPGroup.to_le (c.hyp.iHull15_le_P c.cex)
@@ -251,6 +255,7 @@ theorem qSub15_eq_sup (c : Cfg1511 M V₀ V U S H P Q₀ p)
     hle.trans (sup_le (hsub.trans le_sup_left) le_sup_right)
   rwa [sup_comm] at hle'
 
+omit [Finite G] in
 theorem iHull15_inf_cSub15 (hX : XData15 V₀ U H Q₀ p X v) :
     iHull15 V₀ U H ⊓ cSub15 M V₀ V U H P = ⊥ := by
   rw [eq_bot_iff]

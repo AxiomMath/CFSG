@@ -78,7 +78,7 @@ theorem mem_closure_rootReflection_of_fix_E8
         s = rootReflection γ} := by
     congr 1
     ext s
-    simp only [Set.mem_image, Set.mem_setOf_eq]
+    simp only [Set.mem_image, Set.mem_ofPred_eq]
     exact ⟨fun ⟨γ, hγ, e⟩ => ⟨γ, hγ, e.symm⟩, fun ⟨γ, hγ, e⟩ => ⟨γ, hγ, e.symm⟩⟩
   have huC' : u ∈ Subgroup.closure {s : WeylGroup .E8 | ∃ γ ∈ componentRoots (rootCharHom a) i,
       s = rootReflection γ} := hset ▸ huC
@@ -151,7 +151,7 @@ theorem ggTBJE8Levi_mem_closure_of_fix
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] (ι : Additive ↥Bs ≃+ V)
     {φ : Fin 8 → MulAut ↥Bs} {h : Fin 8 → V} {α : Fin 8 → Module.Dual (ZMod p) V}
     (hlin : ∀ i w, ggLin (p := p) ι (φ i) w = w - α i w • h i)
-    (hpair : ∀ i j, α i (h j) = ((CartanMatrix.E₈ i j : ℤ) : ZMod p))
+    (hpair : ∀ i j, α i (h j) = (((CartanMatrix.E 8) i j : ℤ) : ZMod p))
     {f : CoxeterMatrix.E₈.Group ≃* ↥(ggAutomizer X Bs)}
     (hf : ∀ i, (f (CoxeterMatrix.E₈.simple i) : MulAut ↥Bs) = φ i)
     {L : Type} [Field L] {ζ : Lˣ} (hζ : IsPrimitiveRoot (ζ : L) p)
@@ -221,11 +221,11 @@ theorem ggTBJE8Levi_mem_closure_of_fix
     have hli8 : LinearIndependent (ZMod p) h := by
       have hdet : (Matrix.of fun j k => α j (h k)).det ≠ 0 := by
         have hmat : (Matrix.of fun j k => α j (h k)) =
-            (CartanMatrix.E₈).map (Int.cast : ℤ → ZMod p) := by
+            ((CartanMatrix.E 8)).map (Int.cast : ℤ → ZMod p) := by
           ext j k
           simpa using hpair j k
         rw [hmat, ← Int.cast_det, CartanMatrix.E₈_det]
-        simpa using (one_ne_zero : (1 : ZMod p) ≠ 0)
+        simp
       exact linearIndependent_of_det_ne_zero h α hdet
     have hli : LinearIndependent (ZMod p) (fun j : Fin Tag.E8.rank => h j) := hli8
     have hH : (∑ j, (((w • c) j : ZMod p)) • h j) =

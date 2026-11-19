@@ -61,11 +61,11 @@ theorem commutator_fixSubgroup_primeFormFieldHom_le (h : UnitaryFieldData ℓ f 
 theorem s2019UniOuter : S2019UniOuter := by
   intro p q hp hp2 hq hq2 hqp f K _ h n hn β hβp hβ
   classical
-  haveI := h.finite
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (GL (Fin n) K) := Finite.of_injective (fun g : GL (Fin n) K =>
+  have := h.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (GL (Fin n) K) := Finite.of_injective (fun g : GL (Fin n) K =>
     (g : Matrix (Fin n) (Fin n) K)) Units.val_injective
-  haveI : Finite (primeFormP h (idGram K n)) :=
+  have : Finite (primeFormP h (idGram K n)) :=
     Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
   have hqodd : Odd q := hq.odd_of_ne_two hq2
   have hnq : ¬(n = 3 ∧ q ^ f = 2) := by
@@ -99,7 +99,7 @@ theorem s2019UniOuter : S2019UniOuter := by
     have := hqodd.pow (n := f / p)
     rw [h2] at this
     exact absurd this (by decide)
-  haveI := isSimpleGroup_primeFormP_one (fixSubfield_unitaryFieldData h hp hp2 hσord) hn hq₀
+  have := isSimpleGroup_primeFormP_one (fixSubfield_unitaryFieldData h hp hp2 hσord) hn hq₀
   exact s2019FixCentralizes_conj_of_nonLocalized p _ _ (range_subfieldPSU_le h n _ hbar)
     (commutator_fixSubgroup_primeFormFieldHom_le h n _ hbar)
     (MonoidHom.ofInjective (subfieldPSU_injective h _ hbar n (by omega))).symm.isSimpleGroup

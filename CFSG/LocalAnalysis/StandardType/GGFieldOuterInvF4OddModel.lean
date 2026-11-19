@@ -71,7 +71,7 @@ theorem fieldOuterInvModel_F4_odd
     rintro _ ⟨x, hx, rfl⟩
     have e := hEfix x hx
     change ReeTag.F4.finiteReeAut K m (h⁻¹ * x * h⁻¹⁻¹) = h⁻¹ * x * h⁻¹⁻¹
-    simp only [MulAut.mul_apply, MulAut.conj_apply, map_inv, MulAut.inv_apply,
+    simp only [MulAut.mul_apply, MulAut.conj_apply, MulAut.inv_apply,
       MulAut.conj_symm_apply] at e
     rw [inv_inv]
     calc ReeTag.F4.finiteReeAut K m (h⁻¹ * x * h) = h⁻¹ * (h * ReeTag.F4.finiteReeAut K m

@@ -42,7 +42,7 @@ private theorem ggHalfX0Sound_insertCheck (t : GGHalfX0BST) (a : ℕ) (t' : GGHa
       intro h hinv
       simp only [ggHalfX0BSTInsertCheck] at h
       by_cases hax : a < x
-      · rw [if_pos hax] at h
+      · rw [ite_eq_left hax] at h
         cases hl : ggHalfX0BSTInsertCheck l a with
         | none => rw [hl] at h; simp at h
         | some l' =>
@@ -67,9 +67,9 @@ private theorem ggHalfX0Sound_insertCheck (t : GGHalfX0BST) (a : ℕ) (t' : GGHa
             · intro y
               simp only [ggHalfX0Sound_mem_bstElems_node, hmeml y]
               tauto
-      · rw [if_neg hax] at h
+      · rw [ite_eq_right hax] at h
         by_cases hxa : x < a
-        · rw [if_pos hxa] at h
+        · rw [ite_eq_left hxa] at h
           cases hr : ggHalfX0BSTInsertCheck r a with
           | none => rw [hr] at h; simp at h
           | some r' =>
@@ -95,7 +95,7 @@ private theorem ggHalfX0Sound_insertCheck (t : GGHalfX0BST) (a : ℕ) (t' : GGHa
               · intro y
                 simp only [ggHalfX0Sound_mem_bstElems_node, hmemr y]
                 tauto
-        · rw [if_neg hxa] at h
+        · rw [ite_eq_right hxa] at h
           simp at h
 
 private theorem ggHalfX0Sound_checkNodupAux (t : GGHalfX0BST) (l : List ℕ)
@@ -177,9 +177,9 @@ private theorem ggHalfX0Sound_mem_insert {a c : ℕ} {l : List ℕ} :
   | cons b t ih =>
       rw [ggHalfX0Insert]
       by_cases hab : a ≤ b
-      · rw [if_pos hab]
+      · rw [ite_eq_left hab]
         simp only [List.mem_cons]
-      · rw [if_neg hab]
+      · rw [ite_eq_right hab]
         simp only [List.mem_cons]
         rw [ih]
         tauto
@@ -191,8 +191,8 @@ private theorem ggHalfX0Sound_insert_perm (a : ℕ) (l : List ℕ) :
   | cons b t ih =>
       rw [ggHalfX0Insert]
       by_cases hab : a ≤ b
-      · rw [if_pos hab]
-      · rw [if_neg hab]
+      · rw [ite_eq_left hab]
+      · rw [ite_eq_right hab]
         exact (List.Perm.cons b ih).trans (List.Perm.swap a b t)
 
 private theorem ggHalfX0Sound_insert_sorted (a : ℕ) :
@@ -209,14 +209,14 @@ private theorem ggHalfX0Sound_insert_sorted (a : ℕ) :
       obtain ⟨hb, ht⟩ := hl
       rw [ggHalfX0Insert]
       by_cases hab : a ≤ b
-      · rw [if_pos hab, List.sortedLE_cons]
+      · rw [ite_eq_left hab, List.sortedLE_cons]
         exact ⟨fun c hc => by
           rw [List.mem_cons] at hc
           rcases hc with rfl | hc
           · exact hab
           · exact le_trans hab (hb c hc),
           List.sortedLE_cons.mpr ⟨hb, ht⟩⟩
-      · rw [if_neg hab, List.sortedLE_cons]
+      · rw [ite_eq_right hab, List.sortedLE_cons]
         have hba : b ≤ a := le_of_lt (not_le.mp hab)
         exact ⟨fun c hc => by
           rw [ggHalfX0Sound_mem_insert] at hc

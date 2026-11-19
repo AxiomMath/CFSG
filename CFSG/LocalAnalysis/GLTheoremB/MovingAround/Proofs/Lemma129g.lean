@@ -58,7 +58,7 @@ theorem alt_F_ne_A (h23 : Input23_5) (h : Cex127 G m p B M E A N D) (hs : Setup2
     (D' : AltData p N K F) : F ≠ A := by
   intro hFA'
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 := ne_two_of h
   have hAN := A_le_N h
   have hAK : A ≤ Subgroup.normalizer (K : Set G) := hFA' ▸ hs.hFK

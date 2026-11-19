@@ -16,6 +16,7 @@ section General
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_inf_mul_relIndex (H K : Subgroup G) :
     Nat.card ↥(H ⊓ K) * H.relIndex K = Nat.card K := by
   rw [← Subgroup.inf_relIndex_right, Subgroup.relIndex,
@@ -32,7 +33,7 @@ theorem eq_of_card_inf_centralizer_le {Q A₀ A : Subgroup G} (hA₀Q : A₀ ≤
   by_contra hne
   have hnle : ¬ A ≤ A₀ := fun hle =>
     hne (Subgroup.eq_of_le_of_card_ge hle (by rw [hc, hc₀]))
-  obtain ⟨x, hxA, hxA₀⟩ := SetLike.not_le_iff_exists.1 hnle
+  obtain ⟨x, hxA, hxA₀⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
   have hI : A₀ ⊓ A ≤ A₀ ⊓ Subgroup.centralizer ({x} : Set G) := by
     intro y hy
     refine Subgroup.mem_inf.2 ⟨hy.1, Subgroup.mem_centralizer_iff.2 ?_⟩
@@ -97,6 +98,7 @@ theorem eq_of_card_inf_centralizer_le {Q A₀ A : Subgroup G} (hA₀Q : A₀ ≤
     have := Subgroup.card_le_of_le hIZ
     omega
 
+omit [Finite G] in
 theorem inf_centralizer_mul_eq {A₀ : Subgroup G} (hA₀ : ∀ a ∈ A₀, ∀ b ∈ A₀, a * b = b * a)
     (t : G) {a : G} (ha : a ∈ A₀) :
     A₀ ⊓ Subgroup.centralizer ({t * a} : Set G) = A₀ ⊓ Subgroup.centralizer ({t} : Set G) := by
@@ -119,6 +121,7 @@ theorem inf_centralizer_mul_eq {A₀ : Subgroup G} (hA₀ : ∀ a ∈ A₀, ∀ 
       _ = t * (a * y) := by rw [hay]
       _ = t * a * y := (mul_assoc _ _ _).symm
 
+omit [Finite G] in
 theorem card_inf_centralizer_le_of_reps {Q A₀ : Subgroup G}
     (hA₀ : ∀ a ∈ A₀, ∀ b ∈ A₀, a * b = b * a) {b : ℕ}
     (hrep : ∀ x ∈ Q, x ∉ A₀ → ∃ t a, a ∈ A₀ ∧ x = t * a ∧
@@ -151,6 +154,7 @@ theorem card_inf_centralizer_lt_of_injective {Q : Subgroup G} (hQ : Nat.card Q =
   have : Nat.card ↥(Q ⊓ S) * 4 ≤ 729 := hr ▸ Nat.mul_le_mul_left _ h4
   omega
 
+omit [Finite G] in
 theorem card_le_of_determined {K : Subgroup G} (f : G → ℕ) (T : Finset ℕ)
     (hinj : ∀ x ∈ K, ∀ y ∈ K, f x = f y → x = y) (hT : ∀ x ∈ K, f x ∈ T) :
     Nat.card K ≤ T.card := by
@@ -187,17 +191,19 @@ theorem pElemsClosed_of_card_two_mul_pow {K : Subgroup G} {n : ℕ} (hK : Nat.ca
   have hPa := hmem ⟨a, ha⟩ ⟨m, Subtype.ext (by simpa using hm)⟩
   have hPb := hmem ⟨b, hb⟩ ⟨m', Subtype.ext (by simpa using hm')⟩
   have hab := (P : Subgroup K).mul_mem hPa hPb
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup') ⟨_, hab⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup) ⟨_, hab⟩
   refine ⟨k, ?_⟩
   have := pow_orderOf_eq_one (⟨_, hab⟩ : (P : Subgroup K))
   rw [hk] at this
   simpa using congrArg (fun z : (P : Subgroup K) => ((z : K) : G)) this
 
+omit [Finite G] in
 theorem card_centralizer_map_conj (g : G) (D : Subgroup G) :
     Nat.card ↥(Subgroup.centralizer ((D.map (MulAut.conj g).toMonoidHom : Subgroup G) : Set G)) =
       Nat.card ↥(Subgroup.centralizer (D : Set G)) := by
   rw [centralizer_map_conj, Subgroup.card_map_of_injective (MulAut.conj g).injective]
 
+omit [Finite G] in
 theorem conj_comm_iff (g c c' : G) :
     g * c * g⁻¹ * (g * c' * g⁻¹) = g * c' * g⁻¹ * (g * c * g⁻¹) ↔ c * c' = c' * c := by
   have e1 : g * c * g⁻¹ * (g * c' * g⁻¹) = g * (c * c') * g⁻¹ := by group

@@ -197,7 +197,7 @@ theorem lp_rec_xor (r : ℕ → ℕ) (a b : ℕ) : ∀ n,
     Nat.rec (motive := fun _ => ℕ) 0 (fun k acc => if b.testBit k then r k ^^^ acc else acc) n
   | 0 => (Nat.zero_xor 0).symm
   | n + 1 => by
-    simp only [lp_rec_succ]
+    simp only
     rw [lp_rec_xor r a b n, Nat.testBit_xor]
     generalize Nat.rec (motive := fun _ => ℕ) 0
       (fun k acc => if a.testBit k then r k ^^^ acc else acc) n = X
@@ -205,7 +205,7 @@ theorem lp_rec_xor (r : ℕ → ℕ) (a b : ℕ) : ∀ n,
       (fun k acc => if b.testBit k then r k ^^^ acc else acc) n = Y
     cases a.testBit n <;> cases b.testBit n <;>
       simp only [Bool.false_xor, Bool.true_xor, Bool.not_true, Bool.not_false, Bool.false_eq_true,
-        eq_self_iff_true, ↓reduceIte]
+        ↓reduceIte]
     · exact lp_x3 _ _ _
     · exact lp_x2 _ _ _
     · exact lp_x1 _ _ _
@@ -229,9 +229,9 @@ theorem lp_rec_xorM (rA rB r : ℕ → ℕ) (hr : ∀ k, r k = rA k ^^^ rB k) (v
     Nat.rec (motive := fun _ => ℕ) 0 (fun k acc => if v.testBit k then rB k ^^^ acc else acc) n
   | 0 => (Nat.zero_xor 0).symm
   | n + 1 => by
-    simp only [lp_rec_succ]
+    simp only
     rw [lp_rec_xorM rA rB r hr v n, hr]
-    cases v.testBit n <;> simp only [Bool.false_eq_true, eq_self_iff_true, ↓reduceIte]
+    cases v.testBit n <;> simp only [Bool.false_eq_true, ↓reduceIte]
     exact lp_xor4 _ _ _ _
 
 theorem lp_vmF_xorM (A B v : ℕ) : vmF 24 (A ^^^ B) v = vmF 24 A v ^^^ vmF 24 B v := by
@@ -242,9 +242,9 @@ theorem lp_rec_zero (r : ℕ → ℕ) (v : ℕ) (hr : ∀ k, v.testBit k = true 
     Nat.rec (motive := fun _ => ℕ) 0 (fun k acc => if v.testBit k then r k ^^^ acc else acc) n = 0
   | 0 => rfl
   | n + 1 => by
-    simp only [lp_rec_succ]
+    simp only
     rw [lp_rec_zero r v hr n]
-    cases h : v.testBit n <;> simp only [Bool.false_eq_true, eq_self_iff_true, ↓reduceIte]
+    cases h : v.testBit n <;> simp only [Bool.false_eq_true, ↓reduceIte]
     rw [hr n h]
     all_goals rfl
 
@@ -328,7 +328,7 @@ theorem lp_e_span {E : List ℕ} {eT : ℕ}
   | succ n ih =>
     intro hn
     obtain ⟨a, ha⟩ := ih (by omega)
-    simp only [lp_rec_succ]
+    simp only
     split_ifs
     · refine ⟨crdK E (fget eT n 24) ^^^ a, ?_⟩
       rw [lp_selK_xor, hcrd n (by omega), ← ha]
@@ -434,7 +434,7 @@ theorem lp_pack_bit : ∀ (SL : List ℕ) (r0 k j : ℕ), k < SL.length → j < 
       List.getD_cons_zero]
     have e : 24 * (r0 + 0) + j - 24 * r0 = j := by omega
     have : 24 * (r0 + 0) + j ≥ 24 * r0 := by omega
-    simp [e, this]
+    simp
   | c :: SL, r0, k + 1, j, hk, hj => by
     change (((slotU BT U c) <<< (24 * r0)) ||| _).testBit _ = _
     have e : 24 * (r0 + (k + 1)) + j = 24 * (r0 + 1 + k) + j := by omega
@@ -485,7 +485,7 @@ theorem lp_agree {f g : ℕ → ℕ} (hf : Equi XB BT f) (hg : Equi XB BT g) {P 
   | succ n ih =>
     intro hn
     obtain ⟨hlt, heq⟩ := ih (by omega)
-    simp only [lp_rec_succ]
+    simp only
     have hrow : rowF 24 P n < 2 ^ 24 := CFSG.KC.F2W.rowF_lt 24 P n
     split_ifs
     · refine ⟨lp_xor_lt hrow hlt, ?_⟩

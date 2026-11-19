@@ -37,19 +37,19 @@ private theorem eq_of_orderOf_eq_two_of_isCyclic' {Z : Type*} [Group Z] [Finite 
 theorem central_sq_of_twoCore {G : Type} [Group G] [Finite G] {z : G} {K : Subgroup G}
     (hq : CFSG.IsQuasisimple ↥K) (hz : orderOf z = 2) (hzK : z ∈ K)
     (hzc : K ≤ centralizer ({z} : Set G)) (hc : IsCyclic ↥(pCoreOf 2 K))
-    (h4 : Nat.card ↥(pCoreOf 2 K) = 4) {u : G} (hu : u ∈ pCoreOf 2 K) (hu4 : orderOf u = 4) :
+    (_h4 : Nat.card ↥(pCoreOf 2 K) = 4) {u : G} (hu : u ∈ pCoreOf 2 K) (hu4 : orderOf u = 4) :
     u ^ 2 = z ∧ ∀ k ∈ K, k * u = u * k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpc_not_top : CFSG.pCore 2 ↥K ≠ ⊤ := by
     intro htop
-    haveI : Finite ↥K := inferInstance
+    have : Finite ↥K := inferInstance
     have hPK : IsPGroup 2 ↥K := by
       have h' : IsPGroup 2 (⊤ : Subgroup ↥K) :=
         htop ▸ (CFSG.pCore_isPGroup (p := 2) (G := ↥K))
       exact h'.of_equiv Subgroup.topEquiv
-    haveI : Group.IsNilpotent ↥K := hPK.isNilpotent
-    haveI : Group.IsPerfect ↥K := hq.1
-    haveI : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hq
+    have : Group.IsNilpotent ↥K := hPK.isNilpotent
+    have : Group.IsPerfect ↥K := hq.1
+    have : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hq
     exact Group.IsPerfect.not_isNilpotent ↥K inferInstance
   have hpc_le_center : CFSG.pCore 2 ↥K ≤ Subgroup.center ↥K :=
     (CFSG.LocalCores.quasisimple_normal_subgroups hq (N := CFSG.pCore 2 ↥K)
@@ -91,7 +91,7 @@ theorem central_sq_of_twoCore {G : Type} [Group G] [Finite G] {z : G} {K : Subgr
   simpa using congrArg Subtype.val hsq_eq
 
 theorem mem_zpowers_of_central_two {G : Type} [Group G] [Finite G] {K : Subgroup G}
-    (hc : IsCyclic ↥(pCoreOf 2 K)) (h4 : Nat.card ↥(pCoreOf 2 K) = 4) {u : G}
+    (_hc : IsCyclic ↥(pCoreOf 2 K)) (h4 : Nat.card ↥(pCoreOf 2 K) = 4) {u : G}
     (hu : u ∈ pCoreOf 2 K) (hu4 : orderOf u = 4) {c : G} (hcK : c ∈ K)
     (hcc : ∀ k ∈ K, k * c = c * k) (hc2 : IsPGroup 2 (zpowers c)) : c ∈ zpowers u := by
   let c' : ↥K := ⟨c, hcK⟩
@@ -124,7 +124,7 @@ theorem mem_zpowers_of_central_two {G : Type} [Group G] [Finite G] {K : Subgroup
 theorem exists_orderOf_four_of_twoCore {G : Type} [Group G] [Finite G] {K : Subgroup G}
     (hc : IsCyclic ↥(pCoreOf 2 K)) (h4 : Nat.card ↥(pCoreOf 2 K) = 4) :
     ∃ u : G, u ∈ pCoreOf 2 K ∧ orderOf u = 4 := by
-  haveI := hc
+  have := hc
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥(CFSG.Open.pCoreOf 2 K))
   refine ⟨g, g.2, ?_⟩
   rw [Subgroup.orderOf_coe, hg, h4]

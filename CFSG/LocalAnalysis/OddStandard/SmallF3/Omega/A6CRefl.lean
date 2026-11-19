@@ -13,6 +13,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {ι : Type} [Fintype ι] [DecidableEq ι] {c : ZMod 3}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem a6c_commSp_signChange (fr : NFrame Q ι c) (J : Finset ι) :
     commSp (fr.signChange J) = Submodule.span (ZMod 3) (fr.b '' (J : Set ι)) := by
   ext v
@@ -24,7 +25,7 @@ private theorem a6c_commSp_signChange (fr : NFrame Q ι c) (J : Finset ι) :
     have h1 : fr.b.repr (((fr.signChange J : OGroup Q) : V ≃ₗ[ZMod 3] V) v) i =
         fr.b.repr (-v) i := by rw [hv]
     rw [fr.repr_signChange J v i, map_neg, Finsupp.neg_apply,
-      if_neg (by simpa only [Finset.mem_coe] using hiJ)] at h1
+      ite_eq_right (by simpa only [Finset.mem_coe] using hiJ)] at h1
     have h2 : (2 : ZMod 3) * fr.b.repr v i = 0 := by
       rw [two_mul]
       exact eq_neg_iff_add_eq_zero.mp h1
@@ -42,6 +43,7 @@ private theorem a6c_commSp_signChange (fr : NFrame Q ι c) (J : Finset ι) :
         exact hiJ (by simpa only [Finset.mem_coe] using hsupp hmem)
       simp [hiJ, h0]
 
+omit [FiniteDimensional (ZMod 3) V] [DecidableEq ι] in
 private theorem a6c_finrank_span_frame (fr : NFrame Q ι c) (J : Finset ι) :
     Module.finrank (ZMod 3) (Submodule.span (ZMod 3) (fr.b '' (J : Set ι))) = J.card := by
   have hli : LinearIndependent (ZMod 3) (fun i : J => fr.b (i : ι)) :=
@@ -51,6 +53,7 @@ private theorem a6c_finrank_span_frame (fr : NFrame Q ι c) (J : Finset ι) :
       Set.range_comp, Subtype.range_coe]
   rw [← hrange, finrank_span_eq_card hli, Fintype.card_coe]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem a6c_invDim_signChange_single (fr : NFrame Q ι c) (i : ι) :
     invDim (fr.signChange {i}) = 1 := by
   simp only [invDim]

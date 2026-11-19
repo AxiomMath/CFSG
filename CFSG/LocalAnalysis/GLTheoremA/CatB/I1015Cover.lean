@@ -12,6 +12,7 @@ section Assembly
 
 variable {H L X : Type} [Group H] [Finite H] [Group L] [Finite L] [Group X]
 
+omit [Finite H] [Finite L] in
 theorem cover_assembly (α : H →* X) (β : L →* X) (φ : H →* L) (hφs : Function.Surjective φ)
     (hβφ : β.comp φ = α) {D E' : Subgroup H} (hker : α.ker = D) {m : ℕ} (hE'card : Nat.card E' = m)
     (hE'D : E' ⊓ D = ⊥) (hE : IsElemAbelian 3 (E' ⊔ D)) {s₀ : H} (hs2 : s₀ * s₀ = 1) (hsD : s₀ ∉ D)

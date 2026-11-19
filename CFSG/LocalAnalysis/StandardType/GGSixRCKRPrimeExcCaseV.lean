@@ -72,9 +72,9 @@ private theorem rckExc_exists_ne_one_centralizer {X : Type} [Group X] [Finite X]
     ∃ y ∈ U, y ≠ 1 ∧ y ∈ Subgroup.centralizer (D : Set X) := by
   have hB : IsPGroup p (↥(U ⊔ D)) := hUp.to_sup_of_normal_left' hDp hDU
   have hBN : U ⊔ D ≤ Subgroup.normalizer (U : Set X) := sup_le Subgroup.le_normalizer hDU
-  haveI : (U.subgroupOf (U ⊔ D)).Normal :=
+  have : (U.subgroupOf (U ⊔ D)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).2 hBN
-  haveI : Group.IsNilpotent ↥(U ⊔ D) := hB.isNilpotent
+  have : Group.IsNilpotent ↥(U ⊔ D) := hB.isNilpotent
   have hne : U.subgroupOf (U ⊔ D) ≠ ⊥ := by
     obtain ⟨u, hu1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hUne
     intro hbot
@@ -185,7 +185,7 @@ theorem rck_centralizer_L_eq_zpowers_core
   have hDnotc' : ¬ (D : Set X) ⊆ (Subgroup.centralizer (L : Set X) : Set X) := hDnotc
   obtain ⟨c, hcD, hcC⟩ := Set.not_subset.mp hDnotc'
   have hcW : c ∉ A ⊓ Subgroup.centralizer (L : Set X) := fun hc => hcC hc.2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxpow : x ^ p = 1 := hAel.2 x hxA
   have hxord : orderOf x = p := orderOf_eq_prime hxpow hx1
   have hWeq : A ⊓ Subgroup.centralizer (L : Set X) = Subgroup.zpowers x :=
@@ -297,7 +297,7 @@ theorem rckExcCaseVData_of_caseEightV_core
     have h2 : a⁻¹ * (a * u * a⁻¹) * a⁻¹⁻¹ = u := by group
     rw [h2] at h1
     exact h1
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hUtriv : U = ⊥ := by
     by_contra hne
     obtain ⟨y, hyU, hy1, hyC⟩ :=
@@ -401,12 +401,12 @@ theorem rckExcCaseV_selfCent_core
   unfold RCKCompCore at h
   rcases h with
     ⟨-, -, hp, -, -, -, -, -, -, -, -, -, -, hSC, -⟩
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   constructor
   · intro n hnfix hn3
     have hnA : (n : X) ∈ A := by
       by_cases hn1 : (n : X) = 1
-      · simpa [hn1] using A.one_mem
+      · simp [hn1]
       · apply hSC (n : X) ⟨Subgroup.mem_sup_right n.2, ?_⟩ ?_
         · refine Subgroup.mem_centralizer_iff.2 ?_
           intro a ha
@@ -775,9 +775,9 @@ open CFSG.HardMathSupport.Timmesfeld.CrossChar CFSG.LieType.Chevalley
 
 theorem map_baseChangeGL_su6Levi
     {F L : Type} [Field F] [Field L] {σ : F ≃+* F} {δ : L ≃+* L}
-    (ε : F →+* L) (hε : ∀ x, δ (ε x) = ε (σ x)) (hεsurj : Function.Surjective ε)
+    (ε : F →+* L) (_hε : ∀ x, δ (ε x) = ε (σ x)) (hεsurj : Function.Surjective ε)
     {f : ℕ} (hf : 1 ≤ f)
-    (hF : Nat.card F = (2 ^ f) ^ 2) (hL : Nat.card L = (2 ^ f) ^ 2)
+    (hF : Nat.card F = (2 ^ f) ^ 2) (_hL : Nat.card L = (2 ^ f) ^ 2)
     (hσ : ∀ x, σ x = x ^ 2 ^ f) (hδ : ∀ x, δ x = x ^ 2 ^ f) :
     (CFSG.SeitzReduction.TwistedE6Pilot.su6Levi σ.toRingHom).map (baseChangeGL ε) =
       CFSG.SeitzReduction.TwistedE6Pilot.su6Levi δ.toRingHom := by
@@ -797,9 +797,9 @@ theorem map_baseChangeGL_su6Levi
 
 theorem baseChangeGL_mem_twistedE6InndiagGL
     {F L : Type} [Field F] [Field L] {σ : F ≃+* F} {δ : L ≃+* L}
-    (ε : F →+* L) (hε : ∀ x, δ (ε x) = ε (σ x)) (hεsurj : Function.Surjective ε)
+    (ε : F →+* L) (hε : ∀ x, δ (ε x) = ε (σ x)) (_hεsurj : Function.Surjective ε)
     {f : ℕ} (hf : 1 ≤ f)
-    (hF : Nat.card F = (2 ^ f) ^ 2) (hL : Nat.card L = (2 ^ f) ^ 2)
+    (hF : Nat.card F = (2 ^ f) ^ 2) (_hL : Nat.card L = (2 ^ f) ^ 2)
     (hσ : ∀ x, σ x = x ^ 2 ^ f) (hδ : ∀ x, δ x = x ^ 2 ^ f)
     {g : ModGL TwistTag.E6.tag F} (hg : g ∈ twistedE6InndiagGL F σ) :
     baseChangeGL ε g ∈ twistedE6InndiagGL L δ := by
@@ -918,7 +918,7 @@ theorem ker_conjAction_quotient_equiv
       have h1 : cL.symm (αI a) = 1 := η.injective (by simpa using h)
       exact cL.symm.injective (by simpa using h1)
     · intro h
-      simpa [h]
+      simp [h]
   change (η.toMonoidHom.comp (cL.symm.toMonoidHom.comp αI)).ker =
     (Subgroup.zpowers x).subgroupOf A
   rw [hρker, hαIker, hαker]
@@ -1034,7 +1034,7 @@ theorem rckExcCaseV_model_data_core
   have hconjtx : twistedE6InndiagConj F σ tx = MulAut.conj xF := by
     refine MulEquiv.ext fun z => ?_
     apply Subtype.ext
-    simpa [twistedE6InndiagConj_apply, MulAut.conj_apply, tx]
+    simp [twistedE6InndiagConj_apply, MulAut.conj_apply, tx]
   have hAFel : IsElemAbelian 3 AF := hA0el.map eF.toMonoidHom
   have hEelModel : IsElemAbelian 3 E := hAFel.map (MulAut.conj : (twistedE6RootGroup F σ) →* MulAut (twistedE6RootGroup F σ))
   have hcardAF : Nat.card AF = 3 ^ 4 := by
@@ -1050,7 +1050,7 @@ theorem rckExcCaseV_model_data_core
     refine ⟨⟨aF.val, Subgroup.mem_sup_left aF.2⟩, ?_⟩
     refine MulEquiv.ext fun z => ?_
     apply Subtype.ext
-    simpa [twistedE6InndiagConj_apply, MulAut.conj_apply]
+    simp [twistedE6InndiagConj_apply, MulAut.conj_apply]
   have hfixcent : ggFix (MulAut.conj xF : MulAut (twistedE6RootGroup F σ)) =
       Subgroup.centralizer ({xF} : Set (twistedE6RootGroup F σ)) :=
     CFSG.StandardType.E6ThreeEnd.ggFix_conj xF
@@ -1144,9 +1144,9 @@ theorem rckExcCaseV_model_data_core
   have hmarkLF : LargeEvenMarking ↥LF (fun lab _ _ _ _ _ => lab = ⟨.twA, 5, f⟩) :=
     largeEvenMarking_of_mulEquiv
       (L₀.equivMapOfInjective eF.toMonoidHom eF.injective).symm hmarkL0
-  haveI : CharP F 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hf hFcard
-  haveI : IsAlgClosed (AlgebraicClosure F) := inferInstance
-  haveI : CharP (AlgebraicClosure F) 2 := charP_of_injective_algebraMap (algebraMap F (AlgebraicClosure F)).injective 2
+  have : CharP F 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hf hFcard
+  have : IsAlgClosed (AlgebraicClosure F) := inferInstance
+  have : CharP (AlgebraicClosure F) 2 := charP_of_injective_algebraMap (algebraMap F (AlgebraicClosure F)).injective 2
   let Fr : (AlgebraicClosure F) →+* (AlgebraicClosure F) := iterateFrobenius (AlgebraicClosure F) 2 f
   have hFr : ∀ c, Fr c = c ^ 2 ^ f := fun c => iterateFrobenius_def 2 f c
   have hrat := CFSG.RankThree.Classical2.twisted_E6_full_rational_fixed_group_order
@@ -1233,7 +1233,7 @@ theorem rckExcCaseV_model_data_core
         ⟨(eF a).val, Subgroup.mem_sup_left (eF a).2⟩ = MulAut.conj (eF a) := by
       refine MulEquiv.ext fun z => ?_
       apply Subtype.ext
-      simpa [twistedE6InndiagConj_apply, MulAut.conj_apply]
+      simp [twistedE6InndiagConj_apply, MulAut.conj_apply]
     rw [hc]
     exact Subgroup.mem_map_of_mem (MulAut.conj : (twistedE6RootGroup F σ) →* MulAut (twistedE6RootGroup F σ))
       (Subgroup.mem_map_of_mem eF.toMonoidHom ha)
@@ -1280,8 +1280,8 @@ theorem rckExcCaseV_model_data_core
     rw [← htuple]
     exact hconj
   let k : Type := ↥(CFSG.LieType.Chevalley.fixSubfield σ)
-  letI : Field k := (CFSG.LieType.Chevalley.fixSubfield σ).toField
-  letI : Algebra k F := (CFSG.LieType.Chevalley.fixSubfield σ).toAlgebra
+  let : Field k := (CFSG.LieType.Chevalley.fixSubfield σ).toField
+  let : Algebra k F := (CFSG.LieType.Chevalley.fixSubfield σ).toAlgebra
   have hk : Nat.card k = 2 ^ f := by
     change Nat.card (CFSG.LieType.Chevalley.fixSubfield σ) = 2 ^ f
     exact CFSG.LieType.SeitzGeneration.card_fixSubfield_sq Nat.prime_two hf hFcard σ hσ
@@ -1402,8 +1402,8 @@ theorem rckExcCaseV_exists_finite_model_core
   obtain ⟨F, hField, hFinite, σ, hFcard, hσ, ⟨ε⟩⟩ :=
     CFSG.HardMathSupport.Dickson.Sec6.I923.exists_twistedE6RootGroup_equiv
       Nat.prime_two hf hTCM
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   let eQ : ↥G₀ ≃* (↥G₀ ⧸ Subgroup.center ↥G₀) :=
     QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)
   let eF : ↥G₀ ≃* twistedE6RootGroup F σ := eQ.trans ε.symm
@@ -1426,11 +1426,11 @@ theorem rckExcCaseV_inner_on_L_core
   obtain ⟨hFcard, hσ, hk, hxD, hx0A0, hxord0, hWeq, hxcomp, hLf,
     c, Q, m, hB, hBm1, hcx, hLimage, hntX, hSCgeom⟩ := hdata
   let x : X := (x₀ : X)
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   let k : Type := ↥(CFSG.LieType.Chevalley.fixSubfield σ)
-  letI : Field k := (CFSG.LieType.Chevalley.fixSubfield σ).toField
-  letI : Algebra k F := (CFSG.LieType.Chevalley.fixSubfield σ).toAlgebra
+  let : Field k := (CFSG.LieType.Chevalley.fixSubfield σ).toField
+  let : Algebra k F := (CFSG.LieType.Chevalley.fixSubfield σ).toAlgebra
   let A₀ : Subgroup ↥G₀ := A.subgroupOf G₀
   let L₀ : Subgroup ↥G₀ := L.subgroupOf G₀
   let xF : twistedE6RootGroup F σ := eF x₀
@@ -1575,9 +1575,9 @@ theorem exists_canonical_fieldRange_frame
   let Fbar : Subfield Ω := j.fieldRange
   let ε : F ≃+* Fbar := j.rangeRestrictFieldEquiv
   let σbar : Fbar ≃+* Fbar := ε.symm.trans (σ.trans ε)
-  letI : Algebra k Fbar := (ε.toRingHom.comp (algebraMap k F)).toAlgebra
-  haveI : CharP F 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hf hFcard
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap
+  let : Algebra k Fbar := (ε.toRingHom.comp (algebraMap k F)).toAlgebra
+  have : CharP F 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hf hFcard
+  have : CharP Ω 2 := charP_of_injective_algebraMap
     (algebraMap F (AlgebraicClosure F)).injective 2
   let bε : ModGL TwistTag.E6.tag F →* ModGL TwistTag.E6.tag Fbar := baseChangeGL (τ := Tag.E6) ε.toRingHom
   let ιbar : H →* ModGL TwistTag.E6.tag Fbar := bε.comp ι₀
@@ -1763,11 +1763,11 @@ theorem rckExcCaseV_exists_original_canonical_frame_core
   dsimp only at hdata
   obtain ⟨hFcard, hσ, hk, hxD, hx0A0, hxord0, hWeq, hxcomp, hLf,
     c, Q, m, hQ, hQm, hcx, hL, hntX, hSCgeom⟩ := hdata
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   let k : Type := ↥(CFSG.LieType.Chevalley.fixSubfield σ)
-  letI : Field k := (CFSG.LieType.Chevalley.fixSubfield σ).toField
-  letI : Algebra k F := (CFSG.LieType.Chevalley.fixSubfield σ).toAlgebra
+  let : Field k := (CFSG.LieType.Chevalley.fixSubfield σ).toField
+  let : Algebra k F := (CFSG.LieType.Chevalley.fixSubfield σ).toAlgebra
   let A₀ : Subgroup ↥G₀ := A.subgroupOf G₀
   let L₀ : Subgroup ↥G₀ := L.subgroupOf G₀
   let xF : twistedE6RootGroup F σ := eF x₀
@@ -1918,8 +1918,8 @@ theorem rckExcCaseV_exists_original_canonical_frame
 theorem exists_projective_action_kernel
     {X : Type} [Group X] [Finite X] {G₀ A B₁ D J L R Rm K : Subgroup X} {e : X}
     {t : StatedLieTag} {n f : ℕ} {ψ : (ggU t n f).K →* X} {p : ℕ} {x : X}
-    (h : RCKRPConfig t n f ψ p G₀ A B₁ D J L R Rm K e)
-    (hV : RCKExcCaseVData t f p G₀ A B₁)
+    (_h : RCKRPConfig t n f ψ p G₀ A B₁ D J L R Rm K e)
+    (_hV : RCKExcCaseVData t f p G₀ A B₁)
     {Fbar : Type} [Field Fbar] [Finite Fbar]
     (hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 f Fbar)
     {L₀ : Subgroup ↥G₀} (eL : L₀ ≃* ↥L)
@@ -1935,7 +1935,7 @@ theorem exists_projective_action_kernel
         LargeEvenProj (LargeEvenSUGroup (Fin 6) Fbar (2 ^ f)) :=
       (QuotientGroup.congr (Subgroup.center ↥L) (Subgroup.center ↥L₀) eL.symm
         (Subgroup.map_center_eq eL.symm)).trans θ
-    let ΦL : CFSG.Open.StatedSU 6 (2 ^ f) Fbar →* ↥L := eL.toMonoidHom.comp Φ
+    let _ΦL : CFSG.Open.StatedSU 6 (2 ^ f) Fbar →* ↥L := eL.toMonoidHom.comp Φ
     let η : ↥L ⧸ Subgroup.center ↥L ≃* P :=
     θL.trans (CFSG.StandardType.InndiagSU.projEquiv hU (by norm_num))
     let π : ↥L →* P := η.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥L))
@@ -1952,7 +1952,7 @@ theorem exists_projective_action_kernel
       LargeEvenProj (LargeEvenSUGroup (Fin 6) Fbar (2 ^ f)) :=
     (QuotientGroup.congr (Subgroup.center ↥L) (Subgroup.center ↥L₀) eL.symm
       (Subgroup.map_center_eq eL.symm)).trans θ
-  let ΦL : CFSG.Open.StatedSU 6 (2 ^ f) Fbar →* ↥L := eL.toMonoidHom.comp Φ
+  let _ΦL : CFSG.Open.StatedSU 6 (2 ^ f) Fbar →* ↥L := eL.toMonoidHom.comp Φ
   let η : ↥L ⧸ Subgroup.center ↥L ≃* P :=
     θL.trans (CFSG.StandardType.InndiagSU.projEquiv hU (by norm_num))
   let π : ↥L →* P := η.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥L))
@@ -2191,12 +2191,12 @@ theorem exists_JP_component
     {ψ : (ggU t n f).K →* X} {p : ℕ}
     {G₀ A B₁ D J L R Rm K : Subgroup X} {e x : X}
     (h : RCKRPConfig t n f ψ p G₀ A B₁ D J L R Rm K e)
-    (hV : RCKExcCaseVData t f p G₀ A B₁)
+    (_hV : RCKExcCaseVData t f p G₀ A B₁)
     (hDA : D ≤ A)
     {Fbar : Type} [Field Fbar] [Finite Fbar]
     (hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 f Fbar)
     {L₀ : Subgroup ↥G₀} (eL : L₀ ≃* ↥L)
-    {Φ : CFSG.Open.StatedSU 6 (2 ^ f) Fbar →* ↥L₀}
+    {_Φ : CFSG.Open.StatedSU 6 (2 ^ f) Fbar →* ↥L₀}
     {θ : ↥L₀ ⧸ Subgroup.center ↥L₀ ≃*
       LargeEvenProj (LargeEvenSUGroup (Fin 6) Fbar (2 ^ f))}
     (hAL : A ≤ Subgroup.normalizer (L : Set X))
@@ -2463,7 +2463,7 @@ private theorem rckExcCaseV_exists_original_pair
     (h3dvd : 3 ∣ 2 ^ f + 1)
     (hAel : CFSG.Open.IsElemAbelian 3 A)
     (hAL : A ≤ Subgroup.normalizer (L : Set X))
-    (hAJ : A ≤ Subgroup.normalizer (J : Set X))
+    (_hAJ : A ≤ Subgroup.normalizer (J : Set X))
     {ψ : Matrix.SpecialLinearGroup (Fin 6) Ω →* ModGL Tag.E6 Ω}
     {σ' : Fin 6 → Fin 6 → Fin Tag.E6.rank → ℤ} (hψ : IsSLFrame ψ σ')
     {S : Matrix.SpecialLinearGroup (Fin 6) Ω}
@@ -2499,8 +2499,8 @@ private theorem rckExcCaseV_exists_original_pair
     (hρcov : ∀ (a : A) (l : ↥L), π (α a l) = ρ a * π l * (ρ a)⁻¹)
     (B : CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.primeFormUnitary hU
       (CFSG.RankThree.PartOne.KCUnitaryModel.idGram Fbar 6))
-    (hB3 : (B : GL (Fin 6) Fbar) ^ 3 = 1)
-    (hBns : ¬ ∃ c : Fbarˣ,
+    (_hB3 : (B : GL (Fin 6) Fbar) ^ 3 = 1)
+    (_hBns : ¬ ∃ c : Fbarˣ,
       (B : GL (Fin 6) Fbar) = Matrix.GeneralLinearGroup.scalar (Fin 6) c)
     (dA : A)
     (hBconj : CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.primeFormConjHom hU
@@ -3071,12 +3071,12 @@ private theorem rckExcCaseV_exists_original_pair_with_natural_block
   obtain ⟨a₁, a₂, g₁, g₂, κ, hact₁, hact₂, hgnc, hκ3, hκ1, hκ12, hcomm12,
     h1B, h2B, hN₁, hN₂, hfOdd⟩ :=
     rckExcCaseV_exists_original_pair (Ω := Ω) (Fbar := Fbar) (hU := hU) (hFmem := hFmem)
-      (h3dvd := h3dvd) (hAel := hAel) (hAL := hAL) (hAJ := hAJ)
+      (h3dvd := h3dvd) (hAel := hAel) (hAL := hAL) (_hAJ := hAJ)
       (ψ := ψ) (hψ := hψ) (S := S) (hS := hS)
       (ι := ι) (hι := hι) (hXM := hXM) (hNT := hNT) (hFix := hFix)
       (eL := eL) (heL := heL) (Φ := Φ) (θ := θ) (hΦ := hΦ) (hθ := hθ)
       (α := α) (hα := hα) (π := π) (hπ := hπ) (ρ := ρ) (hρcov := hρcov)
-      (B := B) (hB3 := hB3) (hBns := hBns) (dA := dA) (hBconj := hBconj) (hN := hN)
+      (B := B) (_hB3 := hB3) (_hBns := hBns) (dA := dA) (hBconj := hBconj) (hN := hN)
   refine ⟨a₁, a₂, g₁, g₂, κ, hact₁, hact₂, hgnc, hκ3, hκ1, hκ12, hcomm12, h1B, h2B,
     hN₁, hN₂, hfOdd, ?_⟩
   exact CFSG.HardMathSupport.Dickson.Sec6.I1431.u6r_three_plus_three_of_normalizes_component
@@ -3545,19 +3545,19 @@ theorem rckExcCaseV_original_strong_pair
     nθ, hnθ, ⟨aξ, haξ⟩, S, hX, hLmap, hS, hFix,
     ⟨ζ, hζ3, hζeq⟩, ⟨J6, hJ6mat, hJ6eq⟩, Φ, θ, hΦ, hθ⟩ :=
     rckExcCaseV_exists_original_canonical_frame h hV
-  letI : Field F := hField
-  letI : Finite F := hFinite
+  let : Field F := hField
+  let : Finite F := hFinite
   let Ω := AlgebraicClosure F
   let iF : F →+* Ω := algebraMap F Ω
   let Fbar : Subfield Ω := iF.fieldRange
   let ε : F ≃+* Fbar := iF.rangeRestrictFieldEquiv
   let σbar : Fbar ≃+* Fbar := ε.symm.trans (σ.trans ε)
   let k : Type := ↥(CFSG.LieType.Chevalley.fixSubfield σ)
-  letI : Field k := (CFSG.LieType.Chevalley.fixSubfield σ).toField
-  letI : Algebra k F := (CFSG.LieType.Chevalley.fixSubfield σ).toAlgebra
-  letI : Algebra k Fbar := (ε.toRingHom.comp (algebraMap k F)).toAlgebra
-  haveI : CharP F 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hf hFcard
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap
+  let : Field k := (CFSG.LieType.Chevalley.fixSubfield σ).toField
+  let : Algebra k F := (CFSG.LieType.Chevalley.fixSubfield σ).toAlgebra
+  let : Algebra k Fbar := (ε.toRingHom.comp (algebraMap k F)).toAlgebra
+  have : CharP F 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hf hFcard
+  have : CharP Ω 2 := charP_of_injective_algebraMap
     (algebraMap F (AlgebraicClosure F)).injective 2
   let σQ : Ω ≃+* Ω := iterateFrobeniusEquiv Ω 2 f
   let bε : ModGL TwistTag.E6.tag F →* ModGL TwistTag.E6.tag Fbar :=
@@ -3574,10 +3574,10 @@ theorem rckExcCaseV_original_strong_pair
   have hFbarcard : Nat.card ↥Fbar = (2 ^ f) ^ 2 := by
     rw [← Nat.card_congr ε.toEquiv]
     exact hFcard
-  haveI : Finite ↥Fbar := Finite.of_surjective ε ε.surjective
+  have : Finite ↥Fbar := Finite.of_surjective ε ε.surjective
   let hU : UnitaryFieldData 2 f ↥Fbar :=
     ⟨Nat.prime_two, hf, by rw [hFbarcard, ← pow_mul, mul_comm]⟩
-  haveI : CharP ↥Fbar 2 := hU.charP
+  have : CharP ↥Fbar 2 := hU.charP
   have hFmem : ∀ z : Ω, z ∈ Fbar ↔ z ^ ((2 ^ f) ^ 2) = z := by
     intro z
     change z ∈ (algebraMap F Ω).fieldRange ↔ z ^ ((2 ^ f) ^ 2) = z
@@ -3615,7 +3615,7 @@ theorem rckExcCaseV_original_strong_pair
     rw [Subgroup.orderOf_coe, hxord0]
   have hJq : CFSG.Assembly.IsQuasisimple ↥J := hJcomp.2.2
   have hLperfect : Group.IsPerfect ↥L := ⟨hxcomp.2.2.1⟩
-  haveI : Group.IsPerfect ↥L := hLperfect
+  have : Group.IsPerfect ↥L := hLperfect
 
   let eL : ↥(L.subgroupOf G₀) ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLG0
   have heL : ∀ l₀ : ↥(L.subgroupOf G₀), (eL l₀ : X) = (l₀ : X) := fun _ => rfl
@@ -3663,7 +3663,7 @@ theorem rckExcCaseV_original_strong_pair
         (Subgroup.map_center_eq eL.symm)).trans θ).trans projP)
         (QuotientGroup.mk' (Subgroup.center ↥L) (eL l0)) =
       (θ.trans projP) (QuotientGroup.mk' (Subgroup.center ↥L₀) l0)
-    simp only [MulEquiv.trans_apply, MonoidHom.comp_apply, QuotientGroup.mk'_apply,
+    simp only [MulEquiv.trans_apply, QuotientGroup.mk'_apply,
       QuotientGroup.congr_mk, eL.symm_apply_apply]
   have hJ0leL0 : J₀ ≤ L₀ := Subgroup.subgroupOf_mono G₀ hJL
   have hJLmap : (J₀.subgroupOf L₀).map eL.toMonoidHom = J.subgroupOf L := by
@@ -3697,7 +3697,7 @@ theorem rckExcCaseV_original_strong_pair
       Matrix.GeneralLinearGroup.scalar (Fin 6) c := hBns
   have hBconj' : primeFormConjHom hU (idGram Fbar 6) B = MulAut.conj (ρ dA) := hBconj
   obtain ⟨hJPcomp, hN⟩ :=
-    exists_JP_component h hV hDA (Fbar := ↥Fbar) hU eL (Φ := Φ) (θ := θ) hAL hAJ hWeq
+    exists_JP_component h hV hDA (Fbar := ↥Fbar) hU eL (_Φ := Φ) (θ := θ) hAL hAJ hWeq
       (d := d) hdD hsup (B := B) ρ hρcov hBconj'
   have hgg : CFSG.StandardType.ggFix (primeFormConjHom hU (idGram Fbar 6) B) =
       CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup
@@ -3733,14 +3733,14 @@ theorem rckExcCaseV_original_strong_pair
           (J.subgroupOf L).map π := hjmap
     exact hJPL.trans
       ((CFSG.StandardType.SCFourCover.map_range_eq_of_subgroupOfEquiv eL π0 π hπcomp hJLmap).symm)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype ↥Fbar := Fintype.ofFinite ↥Fbar
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype ↥Fbar := Fintype.ofFinite ↥Fbar
   let E := GaloisField 2 (2 * f)
   have hEcard : Nat.card E = (2 ^ f) ^ 2 :=
     CFSG.LieType.Universal.card_galoisField_two_mul 2 f hU.one_le
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hEcard]; positivity)
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hEcard]; positivity)
+  have : Fintype E := Fintype.ofFinite E
   have hcard : Fintype.card E = Fintype.card ↥Fbar := by
     simpa only [Nat.card_eq_fintype_card] using hEcard.trans hU.card_eq_sq.symm
   let τGF : E ≃+* ↥Fbar := FiniteField.ringEquivOfCardEq (K := E) (K' := ↥Fbar) hcard
@@ -3796,8 +3796,7 @@ theorem rckExcCaseV_original_strong_pair
     apply MonoidHom.ext
     intro x
     dsimp only [ιW, u]
-    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MonoidHom.coe_coe,
-      MulAut.conj_apply]
+    simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     group
   have hW := CFSG.StandardType.SCFourCover.original_twistedE6_frame_fixed_normalizer
     (F := F) (f := f) hf hFcard σ hσ eF c aξ nθ hnθ haξ S J6 hJ6mat hJ6eq

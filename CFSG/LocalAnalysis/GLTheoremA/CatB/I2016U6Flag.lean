@@ -44,7 +44,7 @@ theorem flag_exists (T : Subgroup M6) (hT0 : T ≠ ⊥) (hT2 : IsPGroup 2 ↥T) 
         (∀ t ∈ T, ∃ t' ∈ T, (t' : GL (Fin 6) F4) = g * (t : GL (Fin 6) F4) * g⁻¹) →
         (∀ t ∈ T, ∃ t' ∈ T, (t' : GL (Fin 6) F4) = g⁻¹ * (t : GL (Fin 6) F4) * g) →
         ∀ w ∈ W, (g : Matrix (Fin 6) (Fin 6) F4) *ᵥ w ∈ W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let i : M6 →* ↥isoU := Subgroup.inclusion statedSU_le_isoU
   have hi : Function.Injective i := Subgroup.inclusion_injective _
   let R : Subgroup ↥isoU := T.map i

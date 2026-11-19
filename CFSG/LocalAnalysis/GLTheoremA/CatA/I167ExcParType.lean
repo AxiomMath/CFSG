@@ -86,7 +86,7 @@ theorem exc_survivors {r nc n j : ℕ} (hshape : ExcShape r nc) (hn : Odd n) (hn
 theorem exc_finite_ratComp {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ}
     (S : LangSetup τ L p₀) (a : Fin τ.rank → Lˣ) (i : KernelComponent (rootCharHom a)) :
     Finite ↥(excRatComp S a i) := by
-  haveI := S.finite
+  have := S.finite
   have hcomm : ∀ H : Subgroup (ModGL τ L), ⁅H, H⁆ ≤ H := fun H =>
     Subgroup.commutator_le.2 fun g₁ h₁ g₂ h₂ =>
       mul_mem (mul_mem (mul_mem h₁ h₂) (inv_mem h₁)) (inv_mem h₂)
@@ -97,7 +97,7 @@ theorem exc_finite_ratComp {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀
 
 theorem exc_odd_cofactor {p e j : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpe : p ∣ 2 ^ e + 1)
     (hpk : p ∣ 2 ^ (e * j) + 1) : Odd j := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hj
   rw [Nat.not_odd_iff_even] at hj
   have h1 : (2 : ZMod p) ^ e = -1 := by
@@ -216,7 +216,7 @@ private theorem exc_rational_false_aux4 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         (componentRoots (rootCharHom a) i).ncard = 60 ∧ n = 3) ∨
       (compRank (componentRoots (rootCharHom a) i) = 7 ∧
         (componentRoots (rootCharHom a) i).ncard = 84 ∧ (n = 7 ∨ n = 3)) := by
-  haveI := exc_finite_ratComp S a i
+  have := exc_finite_ratComp S a i
   have hq4 : 4 ≤ S.D.q := by
     rcases Nat.lt_or_ge e 2 with h | h
     · have he1 : e = 1 := by omega

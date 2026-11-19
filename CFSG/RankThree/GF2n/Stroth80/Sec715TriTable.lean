@@ -36,10 +36,10 @@ theorem step_neg_iff : ∀ (i j : Fin 4) (u v : Bool) (s s' : SignVec), i ≠ j 
 theorem step_apply_left {i j : Fin 4} {u v : Bool} {s s' : SignVec} (hij : i ≠ j)
     (h : step i j u v s = some s') : s' i = u := by
   by_cases hc : s i = !u ∧ s j = !v
-  · rw [step, if_pos hc, Option.some.injEq] at h
+  · rw [step, ite_eq_left hc, Option.some.injEq] at h
     subst h
     rw [Function.update_of_ne hij, Function.update_self]
-  · rw [step, if_neg hc] at h
+  · rw [step, ite_eq_right hc] at h
     exact absurd h (by simp)
 
 theorem step_not_both {i j : Fin 4} {u v : Bool} {s₁ s₂ t : SignVec} (hij : i ≠ j) :
@@ -144,7 +144,7 @@ theorem octMul_single_single {K : Type*} [CommRing K] [CharP K 2] (m n : Fin 4 �
   refine oct_ext_coords ?_ ?_ ?_ ?_ ?_ ?_ ?_ ?_ <;>
   simp only [octA_octMul, octB_octMul, octU_octMul, octW_octMul, dot3, cross3_apply_zero,
     cross3_apply_one, cross3_apply_two] <;>
-  simp [octMulTab, octA, octB, octU, octW, Pi.single_apply, CharTwo.neg_eq]
+  simp [octMulTab, octA, octB, octU, octW, CharTwo.neg_eq]
 
 @[expose] def natIdx (k : Fin 4) (r : Bool) : Fin 4 ⊕ Fin 4 := if r then .inl k else .inr k
 

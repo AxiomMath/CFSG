@@ -23,6 +23,7 @@ namespace SixCtx
 
 variable (c : SixCtx T L)
 
+omit [Finite X] in
 theorem le_of_closure {K : Subgroup (X ⧸ gnC T)} {Sig : Set (Perm (Fin 7))}
     (hgen : alternatingGroup (Fin 7) ≤ Subgroup.closure Sig)
     (hSig : ∀ σ ∈ Sig, ∃ l : ↥L, (l : X ⧸ gnC T) ∈ K ∧ (c.eL l : Perm (Fin 7)) = σ) : L ≤ K := by

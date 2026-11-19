@@ -54,20 +54,20 @@ end Inv
 theorem setb_get {a : Array Bool} {e x : Nat} (hx : x < a.size) :
     (a.set! e true)[x]! = (if x = e then true else a[x]!) := by
   rw [getElem!_pos _ x (by simpa using hx), getElem!_pos a x hx]
-  simp only [Array.set!_eq_setIfInBounds, Array.getElem_setIfInBounds]
+  simp only [Array.set!_eq_setIfInBounds]
   by_cases h : x = e
   · subst h
-    simp [hx]
+    simp
   · simp only [h, ↓reduceIte]
     exact Array.getElem_setIfInBounds_ne hx (Ne.symm h)
 
 theorem setl_get {a : Array (List Nat)} {e x : Nat} {v : List Nat} (hx : x < a.size) :
     (a.set! e v)[x]! = (if x = e then v else a[x]!) := by
   rw [getElem!_pos _ x (by simpa using hx), getElem!_pos a x hx]
-  simp only [Array.set!_eq_setIfInBounds, Array.getElem_setIfInBounds]
+  simp only [Array.set!_eq_setIfInBounds]
   by_cases h : x = e
   · subst h
-    simp [hx]
+    simp
   · simp only [h, ↓reduceIte]
     exact Array.getElem_setIfInBounds_ne hx (Ne.symm h)
 
@@ -228,7 +228,7 @@ theorem outer_spec {n : Nat} {idxGens setGens : Array (Array Nat)} {F : Array (L
       (innerBody idxGens setGens s.2.2.1[s.2.2.2]!)) with ht
     have hsz' : s.2.2.1.size ≤ t.2.2.size := hsz
     have hle' : s.2.2.2 ≤ s.2.2.1.size := hle
-    refine ⟨(t.1, t.2.1, t.2.2, s.2.2.2 + 1), by rw [outerBody, if_pos hc], hI',
+    refine ⟨(t.1, t.2.1, t.2.2, s.2.2.2 + 1), by rw [outerBody, ite_eq_left hc], hI',
       by dsimp only; omega, ?_, ?_⟩
     · rcases hor with e | e
       · dsimp only

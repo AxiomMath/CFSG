@@ -40,7 +40,7 @@ theorem bval_subgen {H : Type*} [Group H] (y : ℕ → H) {j : ℕ} (hj : j < 10
   simp only [bval, List.range_one, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
     mul_one, h3, letV]
   have : ¬ (2 * j = 255) := by omega
-  rw [if_neg this, if_pos (by omega)]
+  rw [ite_eq_right this, ite_eq_left (by omega)]
   congr 1
   omega
 
@@ -73,7 +73,7 @@ theorem kchain {H : Type*} [Group H] (y : ℕ → H)
   have e3 : ((fun j => bval y (wWord (ST3 j)) (wLen (ST3 j))) '' {j | j < 5}) =
       y '' {g | 2 * g < 10} := by
     ext z
-    simp only [Set.mem_image, Set.mem_setOf_eq]
+    simp only [Set.mem_image, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨j, hj, rfl⟩
       refine ⟨j, by omega, ?_⟩
@@ -86,7 +86,7 @@ theorem kchain {H : Type*} [Group H] (y : ℕ → H)
   rw [e3] at hne3 hle3
   have hle : Subgroup.closure (y '' {g | 2 * g < 10}) ≤ Subgroup.closure (y '' {g | 2 * g < 14}) :=
     Subgroup.closure_mono (Set.image_mono fun g hg => by
-      simp only [Set.mem_setOf_eq] at hg ⊢
+      simp only [Set.mem_ofPred_eq] at hg ⊢
       omega)
   have hchain := Subgroup.relIndex_mul_relIndex (⊥ : Subgroup H)
     (Subgroup.closure (y '' {g | 2 * g < 10})) (Subgroup.closure (y '' {g | 2 * g < 14}))
@@ -94,7 +94,7 @@ theorem kchain {H : Type*} [Group H] (y : ℕ → H)
   rw [Subgroup.relIndex_bot_left, Subgroup.relIndex_bot_left] at hchain
   have hset : {g : ℕ | g < 7} = {g | 2 * g < 14} := by
     ext g
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     omega
   rw [hset]
   have hcard0 : Nat.card (Subgroup.closure (y '' {g | 2 * g < 14})) ≠ 0 := by

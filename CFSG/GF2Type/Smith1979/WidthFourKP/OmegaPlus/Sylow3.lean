@@ -82,7 +82,7 @@ theorem card_map_resV (hCE : CentralExtInput.{0}) (hw : S.width = 4) (H : Hyp4 S
 private theorem map_subgroupOf_resV_le_omegaGroup (H : Hyp4 S g) {t : S.O}
     {Q : QuadraticForm (ZMod 2) (Vt S g t)}
     (hQ : Q.polarBilin.Nondegenerate) (hR : RmodN S g t = omegaGroup Q hQ)
-    {P : Subgroup S.O} (hPR : P ≤ Rbar S g t) :
+    {P : Subgroup S.O} (_hPR : P ≤ Rbar S g t) :
     (P.subgroupOf (Rbar S g t)).map (resV H.conj_mem t) ≤ omegaGroup Q hQ := by
   rw [← hR, ← range_resV H.conj_mem t]
   intro p hp

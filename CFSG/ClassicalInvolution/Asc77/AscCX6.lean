@@ -360,7 +360,7 @@ theorem false_of_growth (h6 : Layer6Twin p f) (hyp : Hyp25 p f Ω K K' W S R R' 
   set E := D ⊔ Subgroup.zpowers x ⊔ Subgroup.zpowers z with hE
   have hEA : E ≤ (S : Subgroup G) ⊓ Subgroup.centralizer ((R ⊔ R' : Subgroup G) : Set G) :=
     sup_le (sup_le hDA (Subgroup.zpowers_le.mpr hxA)) (Subgroup.zpowers_le.mpr hzA)
-  have hE2 : IsPGroup 2 E := S.isPGroup'.to_le (hEA.trans inf_le_left)
+  have hE2 : IsPGroup 2 E := S.isPGroup.to_le (hEA.trans inf_le_left)
   have hEb : E ≤ Subgroup.centralizer ({b} : Set G) := by
     refine sup_le (sup_le ?_ ?_) ?_
     · intro d hd

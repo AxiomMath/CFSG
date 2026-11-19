@@ -29,7 +29,7 @@ theorem exists_sylow_of_maximal_two_subgroup {N P : Subgroup X} (hP : IsPGroup 2
     simpa [P', Subgroup.mem_subgroupOf] using hmem
   have hP'lt : P' < ⊤ := lt_of_le_of_ne le_top hP'ne
   have hnc : NormalizerCondition (T : Subgroup X) := by
-    haveI : Group.IsNilpotent (↑T : Subgroup X) := T.isPGroup'.isNilpotent
+    have : Group.IsNilpotent (↑T : Subgroup X) := T.isPGroup.isNilpotent
     exact Group.normalizerCondition_of_isNilpotent
   obtain ⟨y, hyNorm, hyNotP'⟩ := IsConcreteLE.exists_of_lt (hnc P' hP'lt)
   have hyNormX : (y : X) ∈ normalizer (P : Set X) := by
@@ -49,7 +49,7 @@ theorem exists_sylow_of_maximal_two_subgroup {N P : Subgroup X} (hP : IsPGroup 2
     refine sup_le hPN ?_
     rw [Subgroup.zpowers_le]
     exact hnorm hyNormX
-  have hQgrp : IsPGroup 2 Q := T.isPGroup'.to_le hQT
+  have hQgrp : IsPGroup 2 Q := T.isPGroup.to_le hQT
   have hQeq : Q = P := hmax Q hQgrp hQN le_sup_left
   have hyQ : (y : X) ∈ Q := Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
   exact hyNotPX (hQeq ▸ hyQ)

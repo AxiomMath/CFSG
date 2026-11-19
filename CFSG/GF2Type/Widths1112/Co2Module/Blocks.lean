@@ -97,8 +97,8 @@ theorem finrank_piE_and_eK22 [FiniteDimensional (ZMod 2) V]
   · have hne : ¬ (cls w = 1) := by
       rw [hk]
       decide
-    rw [if_neg hne, hval w hw 0 w0 hw0R hw0c hk, ha0]
-  · rw [if_pos hk, hval w hw 1 w1 hw1R hw1c hk, hb2]
+    rw [ite_eq_right hne, hval w hw 0 w0 hw0R hw0c hk, ha0]
+  · rw [ite_eq_left hk, hval w hw 1 w1 hw1R hw1c hk, hb2]
 
 end Counting
 
@@ -139,6 +139,7 @@ theorem exists_coeffs_of_mem_range_eK {w₁ v₀ : F3Vec}
   have := congrArg Subtype.val hc
   simpa [Fin.sum_univ_two, bx, bTx] using this.symm
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem sum_eK_add_piE_of_zero {R : Finset F3Vec} (hR : IsLineReps R) {S : Finset F3Vec}
     (hS : S ⊆ R) (hzero : ∀ w ∈ R, w ∉ S → eK ρ ι w = 0) :
     ∑ w ∈ S, eK ρ ι w + piE ρ ι = 1 := by
@@ -250,7 +251,7 @@ theorem exists_basis_of_orbits22 (hV : Module.finrank (ZMod 2) V = 22)
       exact hw' i hi
     simp [hne]
   have hdimw₁ : Module.finrank (ZMod 2) (LinearMap.range (eK ρ ι w₁)) = 2 := by
-    rw [hd w₁ hw₁R, if_pos hw₁cls]
+    rw [hd w₁ hw₁R, ite_eq_left hw₁cls]
   exact exists_basis_of_blocks22 ρ ι hV hR w hinj hwR hzero hdimw₁ hv₀ hx hx0 r A c hr hc hwA v0
 
 omit [FiniteDimensional (ZMod 2) V] in

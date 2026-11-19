@@ -344,7 +344,7 @@ theorem SylowFacts.of_mulEquiv_isSylow {X X' : Type*} [Group X] [Group X'] [Fini
 
 theorem isSylowTwoOf_top_of_sylow {X : Type*} [Group X] [Finite X] (P : Sylow 2 X) :
     IsSylowTwoOf (P : Subgroup X) ⊤ :=
-  ⟨le_top, P.isPGroup', by
+  ⟨le_top, P.isPGroup, by
     rw [show ((P : Subgroup X).subgroupOf ⊤).index = (P : Subgroup X).index from
       Subgroup.relIndex_top_right _]
     exact P.not_dvd_index⟩

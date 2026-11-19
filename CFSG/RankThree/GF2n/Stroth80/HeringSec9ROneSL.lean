@@ -28,7 +28,7 @@ theorem elation_mul {u f₁ f₂ : ι → K} (h : f₁ ⬝ᵥ u = 0) :
 
 def elationGroup [CharP K 2] (u : ι → K) : Subgroup (GL ι K) where
   carrier := {g | ∃ f : ι → K, f ⬝ᵥ u = 0 ∧ (g : Matrix ι ι K) = 1 + Matrix.vecMulVec u f}
-  one_mem' := ⟨0, by simp, by ext i j; simp [Matrix.vecMulVec_apply]⟩
+  one_mem' := ⟨0, by simp, by ext i j; simp⟩
   mul_mem' := by
     rintro a b ⟨f₁, h₁, ha⟩ ⟨f₂, h₂, hb⟩
     refine ⟨f₁ + f₂, by rw [add_dotProduct, h₁, h₂, add_zero], ?_⟩
@@ -127,7 +127,7 @@ theorem not_slMNat_of_three_le (h34 : Stroth34Statement) (h311a : Stroth311aStat
     have h2 : Nat.card Z ^ (m - 1) ≤ Nat.card Z := Nat.le_of_dvd Nat.card_pos h1
     have h3 : Nat.card Z ^ 2 ≤ Nat.card Z ^ (m - 1) := Nat.pow_le_pow_right (by omega) (by omega)
     nlinarith
-  obtain ⟨e, he, heN⟩ := SetLike.not_le_iff_exists.mp hEN
+  obtain ⟨e, he, heN⟩ := IsConcreteLE.not_le_iff_exists.mp hEN
   have h35all := stroth_3_5 h34 hc hs5.width hs5.n_gt hs5.noA2 hs5.gen
   have hVQB : Vt M (LB M Q B) B Z x ≤ QB B :=
     stroth310SL_of_34 h34 G M Q Z B hc n x hsx ⟨K, inferInstance, inferInstance, hK, m, by omega,
@@ -162,7 +162,7 @@ theorem not_slMNat_of_three_le (h34 : Stroth34Statement) (h311a : Stroth311aStat
     refine hφN' e heR (Units.ext ?_)
     rw [hφe]
     ext i j
-    simp [Matrix.vecMulVec_apply]
+    simp
   have heig : ∀ (y : G) (hy : y ∈ Y), ∃ c : GaloisField 2 n', c ≠ 0 ∧
       (φ' ⟨y, hYR hy⟩ : Matrix (Fin m') (Fin m') (GaloisField 2 n')) *ᵥ c' ⟨b, hbV⟩ =
         c • c' ⟨b, hbV⟩ := by

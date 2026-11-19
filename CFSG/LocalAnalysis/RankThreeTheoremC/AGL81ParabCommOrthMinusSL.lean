@@ -20,7 +20,7 @@ theorem transvection_mulVec {k : ℕ} {i j : Fin k} (hij : i ≠ j) (t : K) (v :
   by_cases h : l = i
   · subst h
     simp
-  · simp [Pi.single_apply, h]
+  · simp [h]
 
 theorem sl_schur {k : ℕ} (hk : 2 ≤ k) (σ : K ≃+* K) (φ : (Fin k → K) → (Fin k → K))
     (hadd : ∀ u v, φ (u + v) = φ u + φ v)
@@ -38,7 +38,7 @@ theorem sl_schur {k : ℕ} (hk : 2 ≤ k) (σ : K ≃+* K) (φ : (Fin k → K) �
     by_cases h : l = i
     · subst h
       simp
-    · simp [Pi.single_apply, h]
+    · simp [h]
   have key : ∀ i j : Fin k, i ≠ j → ∀ (t : K) (u : Fin k → K),
       σ (t * u j) • φ (Pi.single i 1) = Pi.single i (t * φ u j) := by
     intro i j hij t u

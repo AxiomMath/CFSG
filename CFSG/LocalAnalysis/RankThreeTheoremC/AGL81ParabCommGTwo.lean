@@ -71,12 +71,13 @@ section Transfer
 variable {G : Type} [Group G] [Finite G] {Y P : Subgroup G}
   {π : adjointGroup .G2 K →* ↥Y} (hπ : Function.Bijective π)
 
-@[expose] noncomputable def toPHom (hPY : P ≤ Y) : ↥((P.subgroupOf Y).comap π) →* ↥P where
+@[expose] noncomputable def toPHom (_hPY : P ≤ Y) : ↥((P.subgroupOf Y).comap π) →* ↥P where
   toFun a := ⟨((π a : ↥Y) : G), a.2⟩
   map_one' := by simp
   map_mul' a b := by ext; simp
 
 omit [Finite G] in
+omit [Finite K] [CharP K 2] in
 theorem toPHom_bijective (hπ : Function.Bijective π) (hPY : P ≤ Y) :
     Function.Bijective (toPHom (π := π) hPY) := by
   refine ⟨fun a b h => Subtype.ext (hπ.1 (Subtype.ext ?_)), fun x => ?_⟩
@@ -92,11 +93,12 @@ theorem toPHom_bijective (hπ : Function.Bijective π) (hPY : P ≤ Y) :
     ↥((P.subgroupOf Y).comap π) ≃* ↥P :=
   MulEquiv.ofBijective (toPHom hPY) (toPHom_bijective hπ hPY)
 
-omit [Finite G] in
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem coe_toP (hPY : P ≤ Y) (a : ↥((P.subgroupOf Y).comap π)) :
     ((toP hπ hPY a : ↥P) : G) = ((π a : ↥Y) : G) :=
   rfl
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem mem_pCoreOf_of_toP (hPY : P ≤ Y) {a : ↥((P.subgroupOf Y).comap π)}
     (h : toP hπ hPY a ∈ CFSG.pCore 2 ↥P) :
     (a : adjointGroup .G2 K) ∈ CFSG.Open.pCoreOf 2 ((P.subgroupOf Y).comap π) := by
@@ -105,6 +107,7 @@ theorem mem_pCoreOf_of_toP (hPY : P ≤ Y) {a : ↥((P.subgroupOf Y).comap π)}
   have : a' = a := (toP hπ hPY).injective he
   exact ⟨a, this ▸ ha', rfl⟩
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem toP_mem_pCore (hPY : P ≤ Y) {a : ↥((P.subgroupOf Y).comap π)}
     (h : (a : adjointGroup .G2 K) ∈ CFSG.Open.pCoreOf 2 ((P.subgroupOf Y).comap π)) :
     toP hπ hPY a ∈ CFSG.pCore 2 ↥P := by
@@ -114,6 +117,7 @@ theorem toP_mem_pCore (hPY : P ≤ Y) {a : ↥((P.subgroupOf Y).comap π)}
   exact ⟨a', ha', by rw [this]; rfl⟩
 
 include hπ in
+omit [Finite G] in
 theorem toHat_rankOne_mem_wSup (hPY : P ≤ Y)
     (hBA : borel (g2Datum K) (torus (τ := .G2) K) ≤ (P.subgroupOf Y).comap π)
     {i : Fin (Tag.rank .G2)} (hI : negIndices (g2Datum K) ((P.subgroupOf Y).comap π) = {i})
@@ -131,7 +135,7 @@ theorem toHat_rankOne_mem_wSup (hPY : P ≤ Y)
       (Subgroup.inclusion hMA)) with hρ
   have hUO := posUnipotentExcept_le_pCoreOf hBA hI
   have hN := le_normalizer_rankOne_sup hBA hI
-  haveI : Finite ↥(adjointGroup .G2 K) := generated_group_finite .G2 _
+  have : Finite ↥(adjointGroup .G2 K) := generated_group_finite .G2 _
   have hB := borelQuotient_g2 (CFSG.AGLEmbedding.ParabAutIrr.adjointQuotientEquiv K).symm
   have hMU : M ≤ Subgroup.normalizer (U : Set (adjointGroup .G2 K)) :=
     rankOne_le_normalizer_posUnipotentExcept hB.ct hB.extras i
@@ -164,7 +168,7 @@ theorem parabCommOn_idxG2_of (hGA : CFSG.Open.GriessAllModelsStatement) :
     ParabCommOn (IsLieOf IdxG2) := by
   intro G _ _ Y P p hp hp2 hY h2 hF hpar hne hna
   left
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd := Lin.odd_card_center_of_pCore_eq_bot (pCore_eq_bot_of_pCoreOf h2)
   obtain ⟨f, hf, ⟨e⟩⟩ := exists_mulEquiv_g2_of_isLieOf hGA hY hodd hF
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)

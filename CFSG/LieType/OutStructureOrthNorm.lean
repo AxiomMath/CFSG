@@ -19,10 +19,10 @@ theorem exists_pow_eq_of_ringAut {K : Type} [Field K] [Finite K]
   classical
   let p := ringChar K
   have hp : p.Prime := CharP.char_is_prime K p
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := ringChar.of_eq rfl
-  letI : Algebra (ZMod p) K := ZMod.algebra K p
-  haveI : Algebra.IsAlgebraic (ZMod p) K := Algebra.IsAlgebraic.of_finite _ _
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := ringChar.of_eq rfl
+  let : Algebra (ZMod p) K := ZMod.algebra K p
+  have : Algebra.IsAlgebraic (ZMod p) K := Algebra.IsAlgebraic.of_finite _ _
   let σa : K ≃ₐ[ZMod p] K := AlgEquiv.ofRingEquiv (f := σ) (fun x => by
     have h : (σ : K →+* K).comp (algebraMap (ZMod p) K) = algebraMap (ZMod p) K :=
       RingHom.ext_zmod _ _
@@ -82,7 +82,7 @@ theorem exists_fieldPart_of_outPChain_outLift {X : Type} [Group X] [Finite X] {p
       exact hmem
   have hRcyc : IsCyclic ↥R := by
     classical
-    haveI : Fintype R := Fintype.ofFinite R
+    have : Fintype R := Fintype.ofFinite R
     obtain ⟨r, hr⟩ := Finite.exists_max (fun x : R => orderOf x)
     have hgen : ∀ y : R, y ∈ Subgroup.zpowers r := by
       intro y

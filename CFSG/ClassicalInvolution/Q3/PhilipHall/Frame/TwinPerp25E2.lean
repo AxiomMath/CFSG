@@ -59,7 +59,7 @@ variable {G : Type} [Group G] [Finite G] [CoreLike G] {Ω : Set (Subgroup G)}
 theorem quot_equiv_q8 (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) {J : Subgroup G} (hJ : J ∈ Ω) :
     Nonempty (↥J ⧸ classicalInvolutionOddCore ↥J ≃* QuaternionGroup 2) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP, -⟩ := IsSylow2In.exists_ge (T := (⊥ : Subgroup G)) (P := J)
     (IsPGroup.of_card (n := 0) (by simp)) bot_le
   obtain ⟨e⟩ := layer_hq hyp J hJ P hP
@@ -681,9 +681,9 @@ theorem perfect_le_oddCore (C : Ctx Ω K K' W S R R' z t u₁ u₂ a)
   have hnorm := C.normalizes_of_perfect hLz hLp
   obtain ⟨e⟩ := quot_equiv_q8 C.hyp hs.stand.mem
   obtain ⟨e'⟩ := quot_equiv_q8 C.hyp hs.hK'.1
-  haveI : Group.IsSolvable (MulAut (QuaternionGroup 2)) := by
+  have : Group.IsSolvable (MulAut (QuaternionGroup 2)) := by
     simpa using CFSG.ProperTwoGeneratedCore.quaternion_power_two_automorphism_solvable 1
-  haveI : Group.IsPerfect ↥L₀ := Subgroup.isPerfect_iff.mpr hLp
+  have : Group.IsPerfect ↥L₀ := Subgroup.isPerfect_iff.mpr hLp
   have hK1 : ∀ g ∈ L₀, g ∈ trivialOnQuot K := by
     intro g hg
     have h1 := hom_eq_one_of_perfect_of_solvable (quotAutHom K L₀ (fun g hg => (hnorm g hg).1) e)
@@ -708,7 +708,7 @@ theorem false_of_perfect (C : Ctx Ω K K' W S R R' z t u₁ u₂ a)
     {Q : Type} [Group Q] [IsSimpleGroup Q] (hQ : ∃ x y : Q, x * y ≠ y * x)
     (φ : ↥L₀ →* Q) (hφ : Function.Surjective φ) : False := by
   classical
-  haveI : Finite Q := Finite.of_surjective φ hφ
+  have : Finite Q := Finite.of_surjective φ hφ
   have hodd : Odd (Nat.card L₀) :=
     Odd.of_dvd_nat (odd_card_oddCoreIn _) (Subgroup.card_dvd_of_le (C.perfect_le_oddCore hLz hLp))
   have hQodd : Odd (Nat.card Q) := Odd.of_dvd_nat hodd (Subgroup.card_dvd_of_surjective (f := φ) hφ)

@@ -34,7 +34,7 @@ theorem lam_single {τ : Tag} (K : KacPt τ) (i : Fin τ.rank) :
   rw [lam, Finset.sum_eq_single i]
   · simp
   · intro b _ hb
-    simp [Pi.single_eq_of_ne, hb, Ne.symm hb]
+    simp [Pi.single_eq_of_ne, hb]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 

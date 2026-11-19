@@ -19,7 +19,7 @@ theorem qtwoOrth_jlabel_of_frame {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs
       GGHasLabel labJ (↥J ⧸ Subgroup.center ↥J) ∧ labJ.n = 1 ∧ labJ.tag ≠ .A ∧
         (labJ.tag = .twD → labJ.rank ≠ 2) := by
   have hp : p.Prime := hcfg.1.1.1.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hStd : LargeEvenStdSubPre p B x L D J := hcfg.1.1.2.2.1
   have hBstar : GGBstar p B Bs := hcfg.1.1.2.1
   have hS : LargeEvenSStar p B x L := hcfg.1.1.1.2.2.2.2.2.2.1
@@ -38,7 +38,7 @@ theorem qtwoOrth_jAnchor_of_frame {G : Type} [Group G] [Finite G] {p : ℕ} (hp 
     ∃ x' y' : OmPlusIdx Φ.r,
       omPlusRefl p x' * omPlusRefl p y' ≠ omPlusRefl p y' * omPlusRefl p x' ∧
         Φ.img (Φ.rank2 x' y') ≤ J := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h := Φ.inf_centralizer_eq_img ⟨x, hx⟩
   have hJc' : IsComponentOf J (Φ.img (Φ.torC (Φ.toral ⟨x, hx⟩))) := by
     rw [← h]

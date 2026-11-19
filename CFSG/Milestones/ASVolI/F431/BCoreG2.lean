@@ -60,10 +60,10 @@ theorem burnsideF4m_G2_chart {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subg
         M₁.subgroupOf Gp = (H13.F431.G2.Cent.Pr K).map Ψ.toMonoidHom ∧
         M₂.subgroupOf Gp = (H13.F431.G2.Cent.Pa K).map Ψ.toMonoidHom := by
   obtain ⟨K, fK, finK, hcard, marking, h1, h2⟩ := burnsideF4g_chart_G2 h
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   have hf1 : 1 ≤ f := h.model.2.1
-  haveI : CharP K 2 := burnsideF4f_charP_of_card hf1 hcard
+  have : CharP K 2 := burnsideF4f_charP_of_card hf1 hcard
   let Ψ : H13.F431.G2.C K ≃* ↥Gp := (H13.F431.G2.mk K).trans marking
   have hΨ : ∀ L : Subgroup (G2Native.Parent K),
       G2Native.fullImage K marking L = L.map Ψ.toMonoidHom := by
@@ -80,7 +80,7 @@ theorem burnsideF4m_core12_G2 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Sub
     (∀ x ∈ centerOf (perfectCore M₁), x ≠ 1 → x * x = 1 → x ∈ ctr (oPPrime 2 (Gp ⊓ M₁))) ∧
     (∀ x ∈ centerOf (perfectCore M₂), x ≠ 1 → x * x = 1 →
       GLKind.G2 = .Sp4 ∧ x ∈ ctr (oPPrime 2 (Gp ⊓ M₂))) := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨K, fK, finK, cK, hcard, Ψ, h1, h2⟩ := burnsideF4m_G2_chart hyp.toHypF_4_4g
   have hc : ∀ a b : E, ⁅a, b⁆ ∈ Gp := burnsideF4m_commutator_mem_of_out hyp.centralizer_trivial
     (burnsideF4m_out_transport Ψ (burnsideF4m_G2_out_comm hf hcard))

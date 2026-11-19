@@ -81,7 +81,7 @@ theorem qsConcl_of_fix_pair {Ω : Type} [Group Ω] [Finite Ω] {S B T : Subgroup
     (hdN : d ∈ Subgroup.normalizer (S : Set Ω)) (heN : e ∈ Subgroup.normalizer (S : Set Ω))
     (hlay : GLAPLayer 3 (fixSubgroup (chevAut 3 S ⟨d, hdN⟩) ⊓
       fixSubgroup (chevAut 3 S ⟨e, heN⟩)) ≠ ⊥) : QSConcl 3 S B D K := by
-  haveI := Fact.mk Nat.prime_three
+  have := Fact.mk Nat.prime_three
   obtain ⟨hDB, -, hDc, hxD, -⟩ := h.std
   have hdB : d ∈ B := hDB hdD
   have hordx : Nat.card (Subgroup.zpowers x) = 3 := by
@@ -139,7 +139,7 @@ theorem exists_order_eleven_chevAut_ne_one {Ω : Type} [Group Ω] [Finite Ω]
     (hK : catalogIs (PSimple 3 K) S9.isU5two ∨ catalogIs (PSimple 3 K) S9.isU6two) :
     ∃ y ∈ K, orderOf y = 11 ∧
       ∀ hy : y ∈ Subgroup.normalizer (S : Set Ω), chevAut 3 S ⟨y, hy⟩ ≠ 1 := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨-, -, -, -, -, hKc, -⟩ := h.std
   have hKS : K ≤ S := hKc.1.trans inf_le_left
   have h11 : 11 ∣ Nat.card K :=

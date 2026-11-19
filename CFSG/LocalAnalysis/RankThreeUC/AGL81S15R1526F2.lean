@@ -19,7 +19,7 @@ variable {X : Type} [Group X] [Finite X]
 theorem not_isPSolvable_centralizer_of_commute_aux1 {F : Subgroup X} (hF : IsPGroup 3 F) :
     Subgroup.centralizer (barO2 F : Set (X ⧸ CFSG.pCore 2 X)) ≤
       barO2 (Subgroup.centralizer (F : Set X)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro y hy
   obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective y
   have hl : ∀ a ∈ F, x⁻¹ * (a * x * a⁻¹) ∈ CFSG.pCore 2 X := by
@@ -55,7 +55,7 @@ theorem not_isPSolvable_centralizer_of_commute_aux1 {F : Subgroup X} (hF : IsPGr
 theorem not_isPSolvable_centralizer_of_commute {F K : Subgroup X} (hF : IsPGroup 3 F)
     (hcomm : ⁅barO2 F, barO2 K⁆ = ⊥) (hK : ¬ CFSG.HallHigman.IsPSolvable 7 ↥(barO2 K)) :
     ¬ CFSG.HallHigman.IsPSolvable 7 ↥(Subgroup.centralizer (F : Set X)) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   intro hps
   apply hK
   have h2 : CFSG.HallHigman.IsPSolvable 7 ↥(barO2 (Subgroup.centralizer (F : Set X))) :=

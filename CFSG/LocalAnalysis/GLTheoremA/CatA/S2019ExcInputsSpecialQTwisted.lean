@@ -346,7 +346,7 @@ theorem hasS2019SpecialQ_derivedCentralQuotient_of_sl3 {M : Type} [Group M] (H :
     {k : Type} [Field k] [Finite k] {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) [CharP k q]
     (ρ : Matrix.SpecialLinearGroup (Fin 3) k →* M) (hρ : Function.Injective ρ)
     (hH : ∀ g, ρ g ∈ H) : HasS2019SpecialQ q (Nat.card k) (DerivedCentralQuotient H) := by
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) k) :=
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) k) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_of_three_le le_rfl
   have hmem : ∀ g, ρ g ∈ ⁅H, H⁆ := fun g => by
     have hg : g ∈ commutator (Matrix.SpecialLinearGroup (Fin 3) k) :=
@@ -379,7 +379,7 @@ theorem hasS2019SpecialQ_twistedE6 {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h
     HasS2019SpecialQ p (p ^ f) (DerivedCentralQuotient (twistedFixedGroup .E6 K σ)) := by
   set k : Subfield K := RingHom.eqLocusField σ (RingHom.id K) with hkdef
   have hk : Nat.card k = p ^ f := card_eqLocusField_twist .E6 hp hf hK hσ
-  haveI : CharP k p :=
+  have : CharP k p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hk
   have hfix : ∀ c : k, σ (algebraMap k K c) = algebraMap k K c := fun c => c.2
   obtain ⟨ρ₁, hρ₁, -⟩ := CFSG.ClassicalInvolution.ModelFacts.Levi.exists_sl3_simple_F4 k
@@ -406,7 +406,7 @@ theorem hasS2019SpecialQ_trialityD4 {p f : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
   have hσσ : σ'.toRingHom = σ := RingHom.ext fun _ => rfl
   have hk : Nat.card (fixSubfield σ') = p ^ f :=
     card_eqLocusField_twist .D4 hp hf hK (σ := σ'.toRingHom) hσ
-  haveI : CharP (fixSubfield σ') p :=
+  have : CharP (fixSubfield σ') p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hk
   have h3 : (3 : ℕ∞) ≤ ENat.card (fixSubfield σ') := by
     rw [ENat.card_eq_coe_natCard, hk]

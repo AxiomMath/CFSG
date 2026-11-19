@@ -37,6 +37,7 @@ theorem sec4I_class_card_le {v w : Fin 7 → ZMod 2} (hv : IsEvenVec v) (hv6 : v
   rw [hj] at hwv ⊢
   exact sec4I_class_card_le_canon j w hw hw0 hwv i
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec4I_repr_eq_zero_of_comm_T {fr : Sec4IFrame Q} {g : OGroup Q}
     {s : Fin 7 → ZMod 2} (hgs : g * sec4IT fr s = sec4IT fr s * g) {k m : Fin 7}
     (h : s m ≠ s k) : fr.b.repr ((g : V ≃ₗ[ZMod 3] V) (fr.b k)) m = 0 := by
@@ -99,7 +100,7 @@ theorem sec4I_eq_one_of_pow_seven (fr : Sec4IFrame Q) {v w : Fin 7 → ZMod 2}
         exact h.2
       have hne : v m ≠ v k ∨ w m ≠ w k := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         exact hm (by
           simp only [S, Finset.mem_filter, Finset.mem_univ, true_and]
           exact ⟨hcon.1.trans hvk, hcon.2.trans hwk⟩)

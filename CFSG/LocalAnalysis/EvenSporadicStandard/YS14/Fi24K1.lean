@@ -30,7 +30,7 @@ theorem MR_centralizes_eq_one {x : R} (hx : x ∈ MR) (hc : ∀ m ∈ MR, m * x 
   rw [h1, map_one]
 
 theorem MR_perfect : MR ≤ ⁅MR, MR⁆ := by
-  haveI := CFSG.Sporadic.Fi24.isSimpleGroup_M
+  have := CFSG.Sporadic.Fi24.isSimpleGroup_M
   have hne : CFSG.Sporadic.Fi24.fi23EquivM.symm CFSG.Sporadic.Fi23.a *
       CFSG.Sporadic.Fi24.fi23EquivM.symm CFSG.Sporadic.Fi23.y ≠
       CFSG.Sporadic.Fi24.fi23EquivM.symm CFSG.Sporadic.Fi23.y *
@@ -54,7 +54,7 @@ theorem MR_perfect : MR ≤ ⁅MR, MR⁆ := by
 
 theorem fourClassesLarge_centralizer_tR :
     FourClassesLarge ↥(Subgroup.centralizer ({tR} : Set R)) := by
-  haveI : Finite R := inferInstance
+  have : Finite R := inferInstance
   refine CFSG.EvenSporadicStandard.HypOne.Fi23.fourClassesLarge_of_perfect_few
     (K := Subgroup.centralizer ({tR} : Set R)) (P := MR) ?_ MR_perfect ?_
   · intro m hm

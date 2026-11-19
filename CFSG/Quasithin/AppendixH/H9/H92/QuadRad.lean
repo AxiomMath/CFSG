@@ -15,7 +15,7 @@ private theorem two_or_three_of_le_mul {a b : ℕ} (hba : b ≤ a) (ha : a ≤ 5
   interval_cases a <;> interval_cases b <;> omega
 
 theorem exists_rad_of_quadratic (E : Subgroup (GL (Fin 5) (ZMod 2)))
-    (hcomm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (hsq : ∀ a ∈ E, a * a = 1)
+    (_hcomm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (_hsq : ∀ a ∈ E, a * a = 1)
     (hq : ∀ g ∈ E, ∀ h ∈ E, ((g : Matrix (Fin 5) (Fin 5) (ZMod 2)) - 1) *
       ((h : Matrix (Fin 5) (Fin 5) (ZMod 2)) - 1) = 0)
     (h32 : 32 ≤ Nat.card E) :

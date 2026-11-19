@@ -26,7 +26,7 @@ theorem w135c2_rotate_of_hasTwistedLabel {m f : ℕ} {K : Type} [Field K] [Finty
   let E := Module.End (MonoidAlgebra (ZMod 2)
     (SpecialLinearGroup (Fin (m + 1)) K)) ρ.asModule
   obtain ⟨k, _, _, _, _, y, χ, J, h0, ht, hχ, _, _, _⟩ := hε
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hsimp := isSimpleRep_extendScalars_endFieldRep ρ k
   have hval : ∀ g ∈ (curtisDatum m K 2).H, ∃ c : E, χ g = algebraMap E k c :=
     chi_mem_range_of_isCoverType_extendScalars (m := m) (F := K) (E := E) (k := k)

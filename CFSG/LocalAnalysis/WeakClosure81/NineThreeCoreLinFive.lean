@@ -38,30 +38,30 @@ private def nine3_la5_Psi {T' W : Type} [CommGroup T'] [CommGroup W]
 
 private lemma nine3_la5_Phi_e0 {T W : Type} [CommGroup T] [CommGroup W]
     (φ : Fin 5 → T →* W) (i : T) : nine3_la5_Phi φ nine3_la5_e0 i = φ 2 i := by
-  simp [nine3_la5_Phi, nine3_la5_e0, nine3_la5_tau, Fin.prod_univ_three]
+  simp [nine3_la5_Phi, nine3_la5_e0, nine3_la5_tau]
 
 private lemma nine3_la5_Phi_e1 {T W : Type} [CommGroup T] [CommGroup W]
     (φ : Fin 5 → T →* W) (i : T) : nine3_la5_Phi φ nine3_la5_e1 i = φ 3 i := by
-  simp [nine3_la5_Phi, nine3_la5_e1, nine3_la5_tau, Fin.prod_univ_three]
+  simp [nine3_la5_Phi, nine3_la5_e1, nine3_la5_tau]
 
 private lemma nine3_la5_Phi_e2 {T W : Type} [CommGroup T] [CommGroup W]
     (φ : Fin 5 → T →* W) (i : T) : nine3_la5_Phi φ nine3_la5_e2 i = φ 4 i := by
-  simp [nine3_la5_Phi, nine3_la5_e2, nine3_la5_tau, Fin.prod_univ_three]
+  simp [nine3_la5_Phi, nine3_la5_e2, nine3_la5_tau]
 
 private lemma nine3_la5_Phi_p01 {T W : Type} [CommGroup T] [CommGroup W]
     (φ : Fin 5 → T →* W) (i : T) :
     nine3_la5_Phi φ nine3_la5_p01 i = φ 2 i * φ 3 i := by
-  simp [nine3_la5_Phi, nine3_la5_p01, nine3_la5_tau, Fin.prod_univ_three, mul_assoc]
+  simp [nine3_la5_Phi, nine3_la5_p01, nine3_la5_tau, Fin.prod_univ_three]
 
 private lemma nine3_la5_Phi_p02 {T W : Type} [CommGroup T] [CommGroup W]
     (φ : Fin 5 → T →* W) (i : T) :
     nine3_la5_Phi φ nine3_la5_p02 i = φ 2 i * φ 4 i := by
-  simp [nine3_la5_Phi, nine3_la5_p02, nine3_la5_tau, Fin.prod_univ_three, mul_assoc]
+  simp [nine3_la5_Phi, nine3_la5_p02, nine3_la5_tau, Fin.prod_univ_three]
 
 private lemma nine3_la5_Phi_p12 {T W : Type} [CommGroup T] [CommGroup W]
     (φ : Fin 5 → T →* W) (i : T) :
     nine3_la5_Phi φ nine3_la5_p12 i = φ 3 i * φ 4 i := by
-  simp [nine3_la5_Phi, nine3_la5_p12, nine3_la5_tau, Fin.prod_univ_three, mul_assoc]
+  simp [nine3_la5_Phi, nine3_la5_p12, nine3_la5_tau, Fin.prod_univ_three]
 
 private lemma nine3_la5_Phi_top {T W : Type} [CommGroup T] [CommGroup W]
     (φ : Fin 5 → T →* W) (i : T) :
@@ -74,30 +74,30 @@ private lemma nine3_la5_Phi_zero {T W : Type} [CommGroup T] [CommGroup W]
 
 private lemma nine3_la5_Psi_e0 {T' W : Type} [CommGroup T'] [CommGroup W]
     (ψ : Fin 5 → T' →* W) (j : T') : nine3_la5_Psi ψ nine3_la5_e0 j = ψ 2 j := by
-  simp [nine3_la5_Psi, nine3_la5_e0, nine3_la5_tau, Fin.prod_univ_three]
+  simp [nine3_la5_Psi, nine3_la5_e0, nine3_la5_tau]
 
 private lemma nine3_la5_Psi_e1 {T' W : Type} [CommGroup T'] [CommGroup W]
     (ψ : Fin 5 → T' →* W) (j : T') : nine3_la5_Psi ψ nine3_la5_e1 j = ψ 3 j := by
-  simp [nine3_la5_Psi, nine3_la5_e1, nine3_la5_tau, Fin.prod_univ_three]
+  simp [nine3_la5_Psi, nine3_la5_e1, nine3_la5_tau]
 
 private lemma nine3_la5_Psi_e2 {T' W : Type} [CommGroup T'] [CommGroup W]
     (ψ : Fin 5 → T' →* W) (j : T') : nine3_la5_Psi ψ nine3_la5_e2 j = ψ 4 j := by
-  simp [nine3_la5_Psi, nine3_la5_e2, nine3_la5_tau, Fin.prod_univ_three]
+  simp [nine3_la5_Psi, nine3_la5_e2, nine3_la5_tau]
 
 private lemma nine3_la5_Psi_p01 {T' W : Type} [CommGroup T'] [CommGroup W]
     (ψ : Fin 5 → T' →* W) (j : T') :
     nine3_la5_Psi ψ nine3_la5_p01 j = ψ 2 j * ψ 3 j := by
-  simp [nine3_la5_Psi, nine3_la5_p01, nine3_la5_tau, Fin.prod_univ_three, mul_assoc]
+  simp [nine3_la5_Psi, nine3_la5_p01, nine3_la5_tau, Fin.prod_univ_three]
 
 private lemma nine3_la5_Psi_p02 {T' W : Type} [CommGroup T'] [CommGroup W]
     (ψ : Fin 5 → T' →* W) (j : T') :
     nine3_la5_Psi ψ nine3_la5_p02 j = ψ 2 j * ψ 4 j := by
-  simp [nine3_la5_Psi, nine3_la5_p02, nine3_la5_tau, Fin.prod_univ_three, mul_assoc]
+  simp [nine3_la5_Psi, nine3_la5_p02, nine3_la5_tau, Fin.prod_univ_three]
 
 private lemma nine3_la5_Psi_p12 {T' W : Type} [CommGroup T'] [CommGroup W]
     (ψ : Fin 5 → T' →* W) (j : T') :
     nine3_la5_Psi ψ nine3_la5_p12 j = ψ 3 j * ψ 4 j := by
-  simp [nine3_la5_Psi, nine3_la5_p12, nine3_la5_tau, Fin.prod_univ_three, mul_assoc]
+  simp [nine3_la5_Psi, nine3_la5_p12, nine3_la5_tau, Fin.prod_univ_three]
 
 private lemma nine3_la5_Psi_top {T' W : Type} [CommGroup T'] [CommGroup W]
     (ψ : Fin 5 → T' →* W) (j : T') :
@@ -115,7 +115,7 @@ private lemma nine3_la5_Phi_add {T W : Type} [CommGroup T] [CommGroup W]
   rw [nine3_la5_Phi, nine3_la5_Phi, nine3_la5_Phi, ← Finset.prod_mul_distrib]
   refine Finset.prod_congr rfl ?_
   intro t _
-  cases hc : c t <;> cases hd : d t <;> simp [hc, hd, hW]
+  cases hc : c t <;> cases hd : d t <;> simp [hW]
 
 private lemma nine3_la5_Psi_add {T' W : Type} [CommGroup T'] [CommGroup W]
     (hW : ∀ w : W, w * w = 1) (ψ : Fin 5 → T' →* W) (c d : Fin 3 → Bool) (j : T') :
@@ -124,7 +124,7 @@ private lemma nine3_la5_Psi_add {T' W : Type} [CommGroup T'] [CommGroup W]
   rw [nine3_la5_Psi, nine3_la5_Psi, nine3_la5_Psi, ← Finset.prod_mul_distrib]
   refine Finset.prod_congr rfl ?_
   intro t _
-  cases hc : c t <;> cases hd : d t <;> simp [hc, hd, hW]
+  cases hc : c t <;> cases hd : d t <;> simp [hW]
 
 private lemma nine3_la5_eq_one {W : Type} [CommMonoid W] (hW : ∀ w : W, w * w = 1)
     {a b : W} (h : a * b = 1) : a = b := by
@@ -160,7 +160,7 @@ private lemma nine3_la5_psi_special {T' W : Type} [CommGroup T'] [CommGroup W]
     ψ 0 j = ψ 2 j * ψ 3 j * ψ 4 j := by
   have h := hψsum j
   rw [Fin.prod_univ_five] at h
-  simp only [hψ1 j, one_mul] at h
+  simp only [hψ1 j] at h
   have h' : ψ 0 j * (ψ 2 j * ψ 3 j * ψ 4 j) = 1 := by
     simpa [mul_assoc] using h
   exact nine3_la5_eq_one hW h'
@@ -210,9 +210,9 @@ private lemma nine3_la5_Phi_rep {T W : Type} [CommGroup T] [CommGroup W]
   have h0 : (if ε 0 then φ 0 i else 1) = 1 := by cases ε 0 <;> simp [hφ0 i]
   rw [h5, h0, one_mul]
   rcases Bool.dichotomy (ε 1) with h1 | h1
-  · rw [h1, if_neg (by decide), one_mul]
+  · rw [h1, ite_eq_right (by decide), one_mul]
     simp only [Bool.xor_false]
-  · rw [h1, if_pos rfl]
+  · rw [h1, ite_eq_left rfl]
     have hr : (fun t => ε (nine3_la5_tau t) ^^ true) =
         fun t => !(ε (nine3_la5_tau t)) := by
       funext t
@@ -234,9 +234,9 @@ private lemma nine3_la5_Psi_rep {T' W : Type} [CommGroup T'] [CommGroup W]
   have h1 : (if π 1 then ψ 1 j else 1) = 1 := by cases π 1 <;> simp [hψ1 j]
   rw [h5, h1, mul_one]
   rcases Bool.dichotomy (π 0) with h0 | h0
-  · rw [h0, if_neg (by decide), one_mul]
+  · rw [h0, ite_eq_right (by decide), one_mul]
     simp only [Bool.xor_false]
-  · rw [h0, if_pos rfl]
+  · rw [h0, ite_eq_left rfl]
     have hr : (fun t => π (nine3_la5_tau t) ^^ true) =
         fun t => !(π (nine3_la5_tau t)) := by
       funext t
@@ -358,7 +358,7 @@ private lemma nine3_la5_Psi_ext {T' W : Type} [CommGroup T'] [CommGroup W]
   rw [← nine3_la5_Psi_add hW ψ a b j, h j, hW]
 
 private lemma nine3_la5_cross_single {T' W : Type} [CommGroup T'] [CommGroup W]
-    (hW : ∀ w : W, w * w = 1) (P : Fin 5 → Subgroup W)
+    (_hW : ∀ w : W, w * w = 1) (P : Fin 5 → Subgroup W)
     (hP : ∀ k l, k ≠ l → P k ⊓ P l = ⊥)
     (ψ : Fin 5 → T' →* W) (hψP : ∀ l j, ψ l j ∈ P l)
     (iψ : ∀ l, l ≠ 1 → Function.Injective (ψ l))
@@ -383,7 +383,7 @@ private lemma nine3_la5_cross_pair {T' W : Type} [CommGroup T'] [CommGroup W]
   exact iψ y hy1 (by rw [hmem, map_one])
 
 private lemma nine3_la5_cross_top {T' W : Type} [CommGroup T'] [CommGroup W]
-    (hW : ∀ w : W, w * w = 1) (P : Fin 5 → Subgroup W)
+    (_hW : ∀ w : W, w * w = 1) (P : Fin 5 → Subgroup W)
     (hP : ∀ k l, k ≠ l → P k ⊓ P l = ⊥)
     (ψ : Fin 5 → T' →* W) (hψP : ∀ l j, ψ l j ∈ P l)
     (iψ : ∀ l, l ≠ 1 → Function.Injective (ψ l))
@@ -394,7 +394,7 @@ private lemma nine3_la5_cross_top {T' W : Type} [CommGroup T'] [CommGroup W]
   exact iψ 0 (by decide) (by rw [hmem, map_one])
 
 private lemma nine3_la5_cross_compl {T' W : Type} [CommGroup T'] [CommGroup W]
-    (hW : ∀ w : W, w * w = 1) (P : Fin 5 → Subgroup W)
+    (_hW : ∀ w : W, w * w = 1) (P : Fin 5 → Subgroup W)
     (hP : ∀ k l, k ≠ l → P k ⊓ P l = ⊥)
     (ψ : Fin 5 → T' →* W) (hψP : ∀ l j, ψ l j ∈ P l)
     (iψ : ∀ l, l ≠ 1 → Function.Injective (ψ l))
@@ -447,11 +447,11 @@ private lemma nine3_la5_pair_terms {T T' W : Type} [CommGroup T] [CommGroup T']
   exact nine3_la5_eq_one hW h3
 
 private lemma nine3_la5_cross_single_L {T W : Type} [CommGroup T] [CommGroup W]
-    (hW : ∀ w : W, w * w = 1) (P : Fin 5 → Subgroup W)
+    (_hW : ∀ w : W, w * w = 1) (P : Fin 5 → Subgroup W)
     (hP : ∀ k l, k ≠ l → P k ⊓ P l = ⊥)
     (φ : Fin 5 → T →* W) (hφP : ∀ k i, φ k i ∈ P k)
     (iφ : ∀ k, k ≠ 0 → Function.Injective (φ k))
-    {x y : Fin 5} (hxy : x ≠ y) (hx0 : x ≠ 0) (hy0 : y ≠ 0) {i : T} {a : W}
+    {x y : Fin 5} (hxy : x ≠ y) (_hx0 : x ≠ 0) (hy0 : y ≠ 0) {i : T} {a : W}
     (hax : a ∈ P x) (h : a = φ y i) : i = 1 := by
   have hmem : φ y i ∈ P x ⊓ P y := ⟨by rw [← h]; exact hax, hφP y i⟩
   rw [hP x y hxy, Subgroup.mem_bot] at hmem
@@ -462,7 +462,7 @@ private lemma nine3_la5_cross_pair_L {T W : Type} [CommGroup T] [CommGroup W]
     (hP : ∀ k l, k ≠ l → P k ⊓ P l = ⊥)
     (φ : Fin 5 → T →* W) (hφP : ∀ k i, φ k i ∈ P k)
     (iφ : ∀ k, k ≠ 0 → Function.Injective (φ k))
-    {x y : Fin 5} (hxy : x ≠ y) (hx0 : x ≠ 0) (hy0 : y ≠ 0) {i : T} {a : W}
+    {x y : Fin 5} (hxy : x ≠ y) (_hx0 : x ≠ 0) (hy0 : y ≠ 0) {i : T} {a : W}
     (hax : a ∈ P x) (h : a = φ x i * φ y i) : i = 1 := by
   have hmem : φ y i ∈ P x ⊓ P y := by
     refine ⟨?_, hφP y i⟩
@@ -472,7 +472,7 @@ private lemma nine3_la5_cross_pair_L {T W : Type} [CommGroup T] [CommGroup W]
   exact iφ y hy0 (by rw [hmem, map_one])
 
 private lemma nine3_la5_cross_special {T W : Type} [CommGroup T] [CommGroup W]
-    (hW : ∀ w : W, w * w = 1) (P : Fin 5 → Subgroup W)
+    (_hW : ∀ w : W, w * w = 1) (P : Fin 5 → Subgroup W)
     (hP : ∀ k l, k ≠ l → P k ⊓ P l = ⊥)
     (φ : Fin 5 → T →* W) (hφP : ∀ k i, φ k i ∈ P k)
     (iφ : ∀ k, k ≠ 0 → Function.Injective (φ k))
@@ -483,7 +483,7 @@ private lemma nine3_la5_cross_special {T W : Type} [CommGroup T] [CommGroup W]
   exact iφ 1 (by decide) (by rw [hmem, map_one])
 
 private lemma nine3_la5_cross_compl_L {T W : Type} [CommGroup T] [CommGroup W]
-    (hW : ∀ w : W, w * w = 1) (P : Fin 5 → Subgroup W)
+    (_hW : ∀ w : W, w * w = 1) (P : Fin 5 → Subgroup W)
     (hP : ∀ k l, k ≠ l → P k ⊓ P l = ⊥)
     (φ : Fin 5 → T →* W) (hφP : ∀ k i, φ k i ∈ P k)
     (iφ : ∀ k, k ≠ 0 → Function.Injective (φ k))
@@ -628,14 +628,14 @@ theorem nine3_la_five {T T' W : Type} [CommGroup T] [CommGroup T'] [CommGroup W]
         simp only [nine3_la5_Psi]
         rw [← Finset.prod_mul_distrib]
         exact Finset.prod_congr rfl (fun t _ => by
-          cases h : d i t <;> simp [h, map_mul])
+          cases h : d i t <;> simp [map_mul])
       have hbeta_mul_left : ∀ i i' j, β (i * i') j = β i j * β i' j := by
         intro i i' j
         rw [hcE j (i * i'), hcE j i, hcE j i']
         simp only [nine3_la5_Phi]
         rw [← Finset.prod_mul_distrib]
         exact Finset.prod_congr rfl (fun t _ => by
-          cases h : c j t <;> simp [h, map_mul])
+          cases h : c j t <;> simp [map_mul])
       have hc_add : ∀ j j', c (j * j') = fun t => c j t ^^ c j' t := by
         intro j j'
         refine nine3_la5_Phi_ext hW P hP φ hφ0 hφP iφ hφsum ⟨i0, hi0⟩ ?_
@@ -654,7 +654,7 @@ theorem nine3_la_five {T T' W : Type} [CommGroup T] [CommGroup T'] [CommGroup W]
         have h1 : c (j * j') = nine3_la5_gzero := by
           rw [hc_add j j', h]
           funext t
-          simp [nine3_la5_gzero, Bool.xor_self]
+          simp [nine3_la5_gzero]
         have hjj : j * j' ≠ 1 := by
           intro hh
           exact hne (nine3_la5_eq_of_mul_eq_one' hT' hh).symm
@@ -665,7 +665,7 @@ theorem nine3_la_five {T T' W : Type} [CommGroup T] [CommGroup T'] [CommGroup W]
         have h1 : d (i * i') = nine3_la5_gzero := by
           rw [hd_add i i', h]
           funext t
-          simp [nine3_la5_gzero, Bool.xor_self]
+          simp [nine3_la5_gzero]
         have hii : i * i' ≠ 1 := by
           intro hh
           exact hne (nine3_la5_eq_of_mul_eq_one' hT hh).symm

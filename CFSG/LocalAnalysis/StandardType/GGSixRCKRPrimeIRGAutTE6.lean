@@ -19,7 +19,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Steinberg.Adjo
 private theorem irgT6_neg_mem_roots {K : Type*} [Group K] (D : UniversalRootDatum K)
     {γ : Fin D.rank → ℤ} (hγ : γ ∈ D.roots) : -γ ∈ D.roots := by
   simp only [UniversalRootDatum.roots, CFSG.LieType.RootSystem.roots, Set.mem_union,
-    Set.mem_setOf_eq] at hγ ⊢
+    Set.mem_ofPred_eq] at hγ ⊢
   rcases hγ with ⟨w, i, rfl⟩ | ⟨w, i, hi, rfl⟩
   · left
     refine ⟨w * (coxeterMatrix D.isFiniteType).toCoxeterSystem.simple i, i, ?_⟩

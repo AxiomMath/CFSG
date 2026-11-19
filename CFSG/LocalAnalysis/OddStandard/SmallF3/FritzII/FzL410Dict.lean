@@ -80,6 +80,7 @@ private lemma fz410_vpart_mem_P (x : FzL410.TM) (hx : fz410Mu emb t s lam x ∈ 
     group
   rwa [h2] at h1
 
+omit [Finite G] M in
 theorem mu_pe (a : FzL410.A) : fz410Mu emb t s lam (FzL410.pe a) = emb a := by
   simp [fz410Mu, FzL410.pe]
 
@@ -89,6 +90,7 @@ theorem mu_tM : fz410Mu emb t s lam FzL410.tM = t := by
 theorem mu_tsM : fz410Mu emb t s lam FzL410.tsM = t * s := by
   simp [fz410Mu, FzL410.tsM, M.emb.emb_zero, ZMod.val_one 2]
 
+omit [Finite G] M in
 theorem mu_eE (a b : ZMod 4) : fz410Mu emb t s lam (FzL410.eE a b) = emb (a, b, 0, 0) := by
   simp [fz410Mu, FzL410.eE]
 

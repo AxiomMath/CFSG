@@ -201,11 +201,11 @@ open CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley CFSG.LieType.Chevall
 
 local notation "Γ₂" F => ModGL TwistTag.E6.tag F
 
-theorem thetaTorus_le_twistedE6DiagGL {f : ℕ} (hf : 1 ≤ f) {k F : Type} [Field k] [Field F]
-    [Algebra k F] (hk : Nat.card k = 2 ^ f) (hF : Nat.card F = (2 ^ f) ^ 2)
+theorem thetaTorus_le_twistedE6DiagGL {f : ℕ} (_hf : 1 ≤ f) {k F : Type} [Field k] [Field F]
+    [Algebra k F] (hk : Nat.card k = 2 ^ f) (_hF : Nat.card F = (2 ^ f) ^ 2)
     {σ : F ≃+* F} (hσ : ∀ c, σ c = c ^ 2 ^ f) :
     thetaTorus (algebraMap k F) ≤ twistedE6DiagGL F σ := by
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
   have hfix : TwistTag.E6.perm (e6Idx 1) = e6Idx 1 := by decide
   rintro g hg
   obtain ⟨a, rfl⟩ := (mem_thetaTorus (algebraMap k F)).1 hg
@@ -224,9 +224,9 @@ theorem thetaTorus_le_twistedE6DiagGL {f : ℕ} (hf : 1 ≤ f) {k F : Type} [Fie
       exact hi h'
     rw [Pi.mulSingle_eq_of_ne hρ, Pi.mulSingle_eq_of_ne hi, map_one]
 
-theorem twistedE6DiagGL_le_normalizer_su6Levi {f : ℕ} (hf : 1 ≤ f) {k F : Type} [Field k]
-    [Field F] [Algebra k F] (hk : Nat.card k = 2 ^ f) (hF : Nat.card F = (2 ^ f) ^ 2)
-    {σ : F ≃+* F} (hσ : ∀ c, σ c = c ^ 2 ^ f) :
+theorem twistedE6DiagGL_le_normalizer_su6Levi {f : ℕ} (_hf : 1 ≤ f) {k F : Type} [Field k]
+    [Field F] [Algebra k F] (_hk : Nat.card k = 2 ^ f) (_hF : Nat.card F = (2 ^ f) ^ 2)
+    {σ : F ≃+* F} (_hσ : ∀ c, σ c = c ^ 2 ^ f) :
     twistedE6DiagGL F σ ≤ Subgroup.normalizer (su6Levi σ.toRingHom : Set (Γ₂ F)) := by
   intro d hd
   obtain ⟨b, hb, rfl⟩ := (mem_twistedE6DiagGL_iff F σ).1 hd
@@ -239,7 +239,7 @@ private theorem rootChar_e6HighestRoot_fixed {f : ℕ} (hf : 1 ≤ f) {k F : Typ
     {σ : F ≃+* F} (hσ : ∀ c, σ c = c ^ 2 ^ f) {b : Fin TwistTag.E6.tag.rank → Fˣ}
     (hb : TwCompat F σ.toRingHom b) :
     σ ((rootChar b e6HighestRoot : Fˣ) : F) = ((rootChar b e6HighestRoot : Fˣ) : F) := by
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
   have h2 : (2 : F) = 0 := two_eq_zero_of_card_sq hf hF
   have hxJ : pinnedX TwistTag.E6.tag F e6HighestRoot 1 ∈
       thetaRankOneGroup (algebraMap k F) :=
@@ -269,7 +269,7 @@ private theorem exists_sq_rootChar_e6HighestRoot {f : ℕ} (hf : 1 ≤ f) {k F :
     {σ : F ≃+* F} (hσ : ∀ c, σ c = c ^ 2 ^ f) {b : Fin TwistTag.E6.tag.rank → Fˣ}
     (hb : TwCompat F σ.toRingHom b) :
     ∃ l : kˣ, Units.map (algebraMap k F).toMonoidHom l ^ 2 = rootChar b e6HighestRoot := by
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
   obtain ⟨μ, hμ⟩ := (sigma_eq_self_iff (f := f) (k := k) (K := F) (σ := σ.toRingHom) hk
     hσ _).1 (rootChar_e6HighestRoot_fixed hf hk hF hσ hb)
   have hμne : μ ≠ 0 := by
@@ -282,9 +282,9 @@ private theorem exists_sq_rootChar_e6HighestRoot {f : ℕ} (hf : 1 ≤ f) {k F :
   exact Units.ext hμ
 
 private theorem conj_rootDiagUnit_eq_conj_thetaTorus {f : ℕ} (hf : 1 ≤ f) {k F : Type} [Field k]
-    [Field F] [Algebra k F] (hk : Nat.card k = 2 ^ f) (hF : Nat.card F = (2 ^ f) ^ 2)
-    {σ : F ≃+* F} (hσ : ∀ c, σ c = c ^ 2 ^ f) {b : Fin TwistTag.E6.tag.rank → Fˣ}
-    (hb : TwCompat F σ.toRingHom b) {l : kˣ}
+    [Field F] [Algebra k F] (_hk : Nat.card k = 2 ^ f) (hF : Nat.card F = (2 ^ f) ^ 2)
+    {σ : F ≃+* F} (_hσ : ∀ c, σ c = c ^ 2 ^ f) {b : Fin TwistTag.E6.tag.rank → Fˣ}
+    (_hb : TwCompat F σ.toRingHom b) {l : kˣ}
     (hl : Units.map (algebraMap k F).toMonoidHom l ^ 2 = rootChar b e6HighestRoot)
     {x : Γ₂ F} (hx : x ∈ thetaRankOneGroup (algebraMap k F)) :
     rootDiagUnit TwistTag.E6.tag b * x * (rootDiagUnit TwistTag.E6.tag b)⁻¹ =
@@ -375,8 +375,8 @@ private theorem exists_conj_eq_thetaTorus_of_mem_sup {f : ℕ} (hf : 1 ≤ f)
     _ = s * (h * y * h⁻¹) * s⁻¹ := by rw [hd]
     _ = h * y * h⁻¹ := by rw [hsc.eq, mul_assoc, mul_inv_cancel, mul_one]
 
-private theorem inv_mul_mem_centralizer_of_conj_eq {f : ℕ} (hf : 1 ≤ f) {k F : Type} [Field k]
-    [Field F] [Algebra k F] {σ : F ≃+* F} (hσ : ∀ c, σ c = c ^ 2 ^ f) {a : Γ₂ F} {l : kˣ}
+private theorem inv_mul_mem_centralizer_of_conj_eq {f : ℕ} (_hf : 1 ≤ f) {k F : Type} [Field k]
+    [Field F] [Algebra k F] {σ : F ≃+* F} (_hσ : ∀ c, σ c = c ^ 2 ^ f) {a : Γ₂ F} {l : kˣ}
     (hconj : ∀ y ∈ thetaRankOneGroup (algebraMap k F),
       a * y * a⁻¹ = thetaTorusHom F (Units.map (algebraMap k F).toMonoidHom l) * y *
         (thetaTorusHom F (Units.map (algebraMap k F).toMonoidHom l))⁻¹) :
@@ -394,7 +394,7 @@ private theorem inv_mul_mem_centralizer_of_conj_eq {f : ℕ} (hf : 1 ≤ f) {k F
   exact hzy.symm
 
 private theorem pow_thetaTorus_eq_one_of_conj_eq {f : ℕ} (hf : 1 ≤ f) {k F : Type} [Field k]
-    [Field F] [Algebra k F] (hk : Nat.card k = 2 ^ f) (hF : Nat.card F = (2 ^ f) ^ 2)
+    [Field F] [Algebra k F] (_hk : Nat.card k = 2 ^ f) (hF : Nat.card F = (2 ^ f) ^ 2)
     {σ : F ≃+* F} (hσ : ∀ c, σ c = c ^ 2 ^ f) {n : ℕ} {a : Γ₂ F} {l : kˣ}
     (hconj : ∀ y ∈ thetaRankOneGroup (algebraMap k F),
       a * y * a⁻¹ = thetaTorusHom F (Units.map (algebraMap k F).toMonoidHom l) * y *
@@ -430,7 +430,7 @@ private theorem pow_thetaTorus_eq_one_of_conj_eq {f : ℕ} (hf : 1 ≤ f) {k F :
 
 private theorem eq_one_of_pow_thetaTorus_eq_one {f : ℕ} (hf : 1 ≤ f) {k F : Type} [Field k]
     [Field F] [Algebra k F] [Finite F] (hk : Nat.card k = 2 ^ f)
-    (hF : Nat.card F = (2 ^ f) ^ 2) {σ : F ≃+* F} (hσ : ∀ c, σ c = c ^ 2 ^ f)
+    (hF : Nat.card F = (2 ^ f) ^ 2) {σ : F ≃+* F} (_hσ : ∀ c, σ c = c ^ 2 ^ f)
     {n : ℕ} {l : kˣ}
     (hpow : (thetaTorusHom F (Units.map (algebraMap k F).toMonoidHom l)) ^ (3 ^ n) = 1)
     (h3 : 3 ∣ 2 ^ f + 1) : l = 1 := by
@@ -486,9 +486,9 @@ theorem le_centralizer_thetaRankOneGroup {f : ℕ} (hf : 1 ≤ f) {k F : Type} [
     (hAL : A ≤ graphFixedParabolicLevi TwistTag.E6 F σ.toRingHom twE6MaxA5 ⊔
       twistedE6DiagGL F σ) :
     A ≤ Subgroup.centralizer (E6GraphLevi.thetaRankOneGroup (algebraMap k F) : Set (Γ₂ F)) := by
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Finite (ModGL TwistTag.E6.tag F) := finite_modGL
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Finite (ModGL TwistTag.E6.tag F) := finite_modGL
   have hsup := (su6Levi_facts hf hk hF (σ := σ.toRingHom) hσ).2.1
   have hW := thetaTorus_le_twistedE6DiagGL hf hk hF hσ
   have hL : graphFixedParabolicLevi TwistTag.E6 F σ.toRingHom twE6MaxA5 ≤
@@ -540,13 +540,13 @@ theorem exists_involution_pair_thetaRankOneGroup {f : ℕ} (hf : 1 ≤ f) {k F :
         t * s ∉ graphFixedParabolicLevi TwistTag.E6 F σ.toRingHom twE6MaxA5 ⊔
           twistedE6DiagGL F σ := by
   classical
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have h2 : (2 : F) = 0 := two_eq_zero_of_card_sq hf hF
   have hF2 : Nat.card F = 2 ^ (2 * f) := by
     rw [hF, ← pow_mul, Nat.mul_comm f 2]
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (f := 2 * f)
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (f := 2 * f)
     (by rw [Fintype.card_eq_nat_card]; exact hF2)
   have htJ : pinnedX TwistTag.E6.tag F e6HighestRoot 1 ∈
       thetaRankOneGroup (algebraMap k F) :=

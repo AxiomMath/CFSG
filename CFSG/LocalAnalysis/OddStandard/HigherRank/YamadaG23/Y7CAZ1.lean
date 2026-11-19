@@ -13,7 +13,7 @@ theorem y7c_card_invariant_mod_seven {M : Type} [Group M] [Finite M] {σ : MulAu
     (hσ : σ ^ 7 = 1) (hfpf : ∀ m : M, σ m = m → m = 1) {V : Subgroup M}
     (hV : ∀ v ∈ V, σ v ∈ V) : Nat.card ↥V % 7 = 1 := by
   classical
-  haveI : Fintype M := Fintype.ofFinite M
+  have : Fintype M := Fintype.ofFinite M
   let S : Finset M := (V : Set M).toFinset
   have hS : ∀ s ∈ S, σ s ∈ S := by
     intro s hs

@@ -14,7 +14,7 @@ open Subgroup
 
 section ObsWD1
 
-theorem oPrimeResidualOf_subgroupOf {G : Type*} [Group G] [Finite G] (p : ℕ) (hp : p.Prime)
+theorem oPrimeResidualOf_subgroupOf {G : Type*} [Group G] [Finite G] (p : ℕ) (_hp : p.Prime)
     (H K : Subgroup G) (hHK : H ≤ K) :
     CFSG.GH74.GLS.oPrimeResidualOf p (H.subgroupOf K) =
       (CFSG.GH74.GLS.oPrimeResidualOf p H).subgroupOf K := by
@@ -145,7 +145,7 @@ end ObsWD3b
 
 section ObsWD5b
 
-theorem pCore_map_mulEquiv {H K : Type*} [Group H] [Group K] [Finite H] [Finite K] (p : ℕ) (hp : p.Prime)
+theorem pCore_map_mulEquiv {H K : Type*} [Group H] [Group K] [Finite H] [Finite K] (p : ℕ) (_hp : p.Prime)
     (e : H ≃* K) : (CFSG.pCore p H).map e.toMonoidHom = CFSG.pCore p K :=
   CFSG.pCore_map_iso p e
 
@@ -257,8 +257,8 @@ theorem qsLike_map_of_subgroupOf_eq {M : Type*} [Group M] [Finite M] (N Y : Subg
   have hKq : CFSG.IsQuasisimple ↥(Y.map (QuotientGroup.mk' N)) :=
     CFSG.IsQuasisimple.of_mulEquiv e hq
   obtain ⟨hperf, hsimp, -⟩ := hKq
-  haveI := hperf
-  haveI := hsimp
+  have := hperf
+  have := hsimp
   set K : Subgroup (M ⧸ N) := Y.map (QuotientGroup.mk' N)
   have htop : Subgroup.map K.subtype ⊤ = K := by
     rw [← MonoidHom.range_eq_map, Subgroup.range_subtype]
@@ -268,7 +268,7 @@ theorem qsLike_map_of_subgroupOf_eq {M : Type*} [Group M] [Finite M] (N Y : Subg
     rw [← hcomm, Group.IsPerfect.commutator_eq_top, htop]
   have hKo : CFSG.Open.IsQuasisimple ↥K := ⟨Group.IsPerfect.commutator_eq_top, hsimp⟩
   refine ⟨⟨hK1, fun H hHK hHn => ?_⟩, ⟨e⟩⟩
-  haveI := hHn
+  have := hHn
   rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hKo
     (H.subgroupOf K) with hle | hcase
   · right
@@ -398,7 +398,7 @@ private theorem cover_orderOf_three (hZ : Nat.card (Subgroup.center T) = 3)
     exact hki
   · exact absurd hki hne9
 
-private theorem cover_centralizer_pow_nine (hZ : Nat.card (Subgroup.center T) = 3)
+private theorem cover_centralizer_pow_nine (_hZ : Nat.card (Subgroup.center T) = 3)
     (e : T ⧸ Subgroup.center T ≃* alternatingGroup (Fin 6)) {t : T}
     (ht : t ∉ Subgroup.center T) (ht3 : t ^ 3 ∈ Subgroup.center T) {g : T}
     (hg : g * t = t * g) : g ^ 9 ∈ Subgroup.center T := by
@@ -439,7 +439,7 @@ private theorem cover_centralizer_pow_nine (hZ : Nat.card (Subgroup.center T) = 
     rw [h, hpow, map_one]
   exact (QuotientGroup.eq_one_iff (g ^ 9)).mp hg9
 
-private theorem exists_noncentral_of_cover (hZ : Nat.card (Subgroup.center T) = 3)
+private theorem exists_noncentral_of_cover (_hZ : Nat.card (Subgroup.center T) = 3)
     (e : T ⧸ Subgroup.center T ≃* alternatingGroup (Fin 6)) :
     ∃ k : T, k ∉ Subgroup.center T ∧ k ^ 3 ∈ Subgroup.center T := by
   have h01 : (0 : Fin 6) ≠ 1 := by decide
@@ -470,7 +470,7 @@ private theorem exists_noncentral_of_cover (hZ : Nat.card (Subgroup.center T) = 
 end Cover
 
 private theorem exists_cover_of_not_cent {G : Type*} [Group G] (H : Subgroup G) [Group.IsPerfect H]
-    (hZ : Nat.card (Subgroup.center H) = 3)
+    (_hZ : Nat.card (Subgroup.center H) = 3)
     (e : H ⧸ Subgroup.center H ≃* alternatingGroup (Fin 6))
     {g : G} (hg : g ∈ Subgroup.normalizer (H : Set G)) (hg3 : g ^ 3 = 1)
     (hgH : g ∉ Subgroup.centralizer (H : Set G)) :
@@ -550,7 +550,7 @@ private theorem exists_good_elt {M : Type*} [Group M] [Finite M] (N Y A : Subgro
     ∃ x : M ⧸ N, x ∈ Y.map (QuotientGroup.mk' N) ∧ orderOf x = 3 ∧
       (∀ a ∈ A, Commute x (QuotientGroup.mk' N a)) ∧
       x ∉ Subgroup.centralizer ((Y.map (QuotientGroup.mk' N) : Subgroup (M ⧸ N)) : Set (M ⧸ N)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpA : 3 ≤ Nat.card A := by rw [hA27]; norm_num
   have hAcomm : IsMulCommutative ↥A := ⟨⟨fun a b => Subtype.ext (hAc a.1 a.2 b.1 b.2)⟩⟩
   have hAel : CFSG.Open.IsElemAbelian 3 A := by
@@ -731,6 +731,7 @@ open Subgroup CFSG.RankThree.PartTwo.Sec15.F153Obs
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_subgroupOf (P Y S : Subgroup G)
     (hS : S ≤ Subgroup.normalizer (Y : Set G)) :
     S.subgroupOf P ≤ Subgroup.normalizer ((Y.subgroupOf P : Subgroup ↥P) : Set ↥P) := by
@@ -740,6 +741,7 @@ theorem le_normalizer_subgroupOf (P Y S : Subgroup G)
   have := (Subgroup.mem_normalizer_iff.mp (hS hs)) (z : G)
   simpa [Subgroup.mem_subgroupOf] using this
 
+omit [Finite G] in
 theorem mem_iSup_subgroupOf (P Y A : Subgroup G) (hYP : Y ≤ P)
     (hgen : ∀ y ∈ Y, y ∈ ⨆ (Q : Subgroup G) (_ : Q ≤ Y ∧ A ≤ Subgroup.normalizer (Q : Set G) ∧
       (Nat.card Q).Coprime 3), Q) :
@@ -785,10 +787,10 @@ theorem normalizes_of_coprime_invariant_inG (X Y A R : Subgroup G) (hYX : Y ≤ 
   set P := Subgroup.normalizer (X : Set G) with hPdef
   have hXP : X ≤ P := Subgroup.le_normalizer
   have hYP : Y ≤ P := hYX.trans hXP
-  haveI hXn : (X.subgroupOf P).Normal := Subgroup.normal_in_normalizer
+  have hXn : (X.subgroupOf P).Normal := Subgroup.normal_in_normalizer
   set N : Subgroup ↥P := CFSG.pCore 2 ↥P with hNdef
   have hN : (Nat.card N).Coprime 3 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h2 : IsPGroup 2 N := CFSG.pCore_isPGroup
     obtain ⟨k, hk⟩ := h2.exists_card_eq
     rw [hk]

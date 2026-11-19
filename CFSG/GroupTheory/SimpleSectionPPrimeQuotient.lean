@@ -19,9 +19,9 @@ theorem card_dvd_of_isSimpleGroup_quotient_of_isPPrimeQuotient
     Nat.card S ∣ Nat.card L := by
   classical
   let Y₀ : Subgroup ↥Y := L.subgroupOf Y
-  haveI hY₀ : Y₀.Normal := inferInstance
+  have hY₀ : Y₀.Normal := inferInstance
   have hmapn : (Y₀.map f).Normal := hY₀.map f hf
-  haveI := hmapn
+  have := hmapn
   rcases hS.eq_bot_or_eq_top_of_normal (Y₀.map f) with hbot | htop
   ·
     have hY₀ker : Y₀ ≤ f.ker := by

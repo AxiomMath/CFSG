@@ -202,9 +202,9 @@ theorem VMod.centralizes {V L Z Yb : Subgroup G} (m : VMod V L Z) {x : G}
   have hc2 : vmodPhi m (vmodComm m ⟨y₀, hy₀L⟩ v2) = Pi.single 2 1 + Pi.single 4 1 := by
     rw [vmodPhi_comm, hv2, hM, wedgeMat4_gA_basis.2.2.1]
   have hc3 : vmodPhi m (vmodComm m ⟨y₀, hy₀L⟩ v3) = Pi.single 1 1 := by
-    rw [vmodPhi_comm, hv3, hM, wedgeMat4_gA_basis.2.1] <;> decide +kernel
+    rw [vmodPhi_comm, hv3, hM, wedgeMat4_gA_basis.2.1]; decide +kernel
   have hc4 : vmodPhi m (vmodComm m ⟨y₀, hy₀L⟩ v4) = Pi.single 2 1 := by
-    rw [vmodPhi_comm, hv4, hM, wedgeMat4_gA_basis.2.2.2] <;> decide +kernel
+    rw [vmodPhi_comm, hv4, hM, wedgeMat4_gA_basis.2.2.2]; decide +kernel
   have hs0 : (Pi.single 0 1 : Fin 6 → ZMod 2) ∈ E :=
     (hE _).2 ⟨vmodZ0 m, vmodPhi_z0 m, hxz0⟩
   have hs1 : (Pi.single 1 1 : Fin 6 → ZMod 2) ∈ E :=
@@ -213,11 +213,11 @@ theorem VMod.centralizes {V L Z Yb : Subgroup G} (m : VMod V L Z) {x : G}
     (hE _).2 ⟨vmodComm m ⟨y₀, hy₀L⟩ v4, hc4, hcomm v4⟩
   have hs3 : (Pi.single 3 1 : Fin 6 → ZMod 2) ∈ E :=
     (hE _).2 ⟨vmodComm m ⟨y₀, hy₀L⟩ v1 * vmodComm m ⟨y₀, hy₀L⟩ v3,
-      by rw [vmodPhi_mul, hc1, hc3] <;> decide +kernel,
+      by rw [vmodPhi_mul, hc1, hc3]; decide +kernel,
       (hcomm v1).mul_right (hcomm v3)⟩
   have hs4 : (Pi.single 4 1 : Fin 6 → ZMod 2) ∈ E :=
     (hE _).2 ⟨vmodComm m ⟨y₀, hy₀L⟩ v2 * vmodComm m ⟨y₀, hy₀L⟩ v4,
-      by rw [vmodPhi_mul, hc2, hc4] <;> decide +kernel,
+      by rw [vmodPhi_mul, hc2, hc4]; decide +kernel,
       (hcomm v2).mul_right (hcomm v4)⟩
   have hdecomp : ∀ vec : Fin 6 → ZMod 2, vec 5 = 0 →
       vec = (if vec 0 = 0 then 0 else Pi.single 0 1) + (if vec 1 = 0 then 0 else Pi.single 1 1) +
@@ -282,7 +282,7 @@ theorem VMod.centralizes {V L Z Yb : Subgroup G} (m : VMod V L Z) {x : G}
       _ = (a : G) * (b : G) := mul_inv_cancel_right _ _
   have h5 : ∀ i : Fin 5, vmodPhi m (s i * s 0) 5 = 0 := by
     intro i
-    rw [vmodPhi_mul, Pi.add_apply, hsphi' i, hsphi' 0, lamS_k1, lamS_k1] <;> decide
+    rw [vmodPhi_mul, Pi.add_apply, hsphi' i, hsphi' 0, lamS_k1, lamS_k1]; decide
   have hrel : ∀ i : Fin 5, vmodPhi m (vmodXconj hxV (s i)) + vmodPhi m (vmodXconj hxV (s 0)) =
       vmodPhi m (s i) + vmodPhi m (s 0) := by
     intro i
@@ -316,7 +316,7 @@ theorem VMod.centralizes {V L Z Yb : Subgroup G} (m : VMod V L Z) {x : G}
     · exact hstar v h5v
     · have h1 : vmodPhi m v 5 = 1 := (by decide : ∀ a : ZMod 2, a ≠ 0 → a = 1) _ h5v
       have h2 : vmodPhi m (v * s 0) 5 = 0 := by
-        rw [vmodPhi_mul, Pi.add_apply, h1, hsphi' 0, lamS_k1] <;> decide
+        rw [vmodPhi_mul, Pi.add_apply, h1, hsphi' 0, lamS_k1]; decide
       have hc : Commute x ((v * s 0 : ↥V) : G) := hstar (v * s 0) h2
       have h3 : Commute x ((v : G) * (s 0 : G) * (s 0 : G)⁻¹) := hc.mul_right hcs0.inv_right
       rwa [mul_inv_cancel_right] at h3

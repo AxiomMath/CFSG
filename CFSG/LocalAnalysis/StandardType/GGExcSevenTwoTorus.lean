@@ -211,16 +211,16 @@ private theorem langSeven_torus_aux
   classical
   obtain ⟨w, hw⟩ := hM
   have hperf' : commutator ↥(adjointGroup τ K) = ⊤ := hperf.commutator_eq_top
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
   have hq : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : CharP K (ringChar K) := ringChar.charP K
   let L := AlgebraicClosure K
-  haveI : CharP L (ringChar K) := charP_of_injective_algebraMap (algebraMap K L).injective _
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : CharP L (ringChar K) := charP_of_injective_algebraMap (algebraMap K L).injective _
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   let Fr : L →+* L := iterateFrobenius L (ringChar K) (f : ℕ)
   have hFr : ∀ c, Fr c = c ^ Nat.card K := fun c => by
     rw [hq]

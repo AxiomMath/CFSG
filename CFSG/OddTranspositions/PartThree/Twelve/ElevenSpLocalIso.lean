@@ -59,7 +59,7 @@ private theorem mem_Halpha_conj_of_mem_Halpha_of_commute (c : SpChart hC B.hα k
   rw [← HypothesisC.conj_d hC g]
   exact Subgroup.mem_centralizer_singleton_iff.mpr hcomm.eq
 
-omit [Fintype F] [DecidableEq F] in
+omit [Fintype F] [DecidableEq F] [Finite G] in
 private theorem mem_spMarkedStab_iff_commute {g : G}
     (cv : SpChart (hC.conj g) (B.conj g).hα k F)
     (ev : ↥(Halpha D (hC.conj g).alpha) ≃* SpMarkedGroup k F)
@@ -670,6 +670,7 @@ private theorem spMarkedStabEquiv_forward_mark (c : SpChart hC B.hα k F) {g : G
   exact he.2.2.2 x hx0 (mem_centralizer_mRefl_mLift (Q₀ := Q₀) he.1 he.2.1 x)
 
 omit [Fintype F] [DecidableEq F] in
+omit [Finite G] in
 private theorem exists_ev_symm_eq_of_mem_spMarkedSet {g : G}
     (cv : SpChart (hC.conj g) (B.conj g).hα k F)
     (ev : ↥(Halpha D (hC.conj g).alpha) ≃* SpMarkedGroup k F)
@@ -723,7 +724,7 @@ private theorem exists_mLift_eq_of_mem_commSet (c : SpChart hC B.hα k F) {g : G
   exact exists_mLift_eq_of_isometry (Q₀ := Q₀) hQ₀ hγ hγU
     (mForm_mLift (Q₀ := Q₀) (c.vec z)) hWV₀ hWne
 
-omit [Fintype F] [DecidableEq F] [CharP F 2] in
+omit [Fintype F] [DecidableEq F] [CharP F 2] [Finite G] in
 private theorem eq_transvection_of_ev_symm_eq {g : G}
     (cv : SpChart (hC.conj g) (B.conj g).hα k F)
     (ev : ↥(Halpha D (hC.conj g).alpha) ≃* SpMarkedGroup k F)
@@ -1145,7 +1146,7 @@ private theorem exists_semilinear_localIso_chart
     exists_mLift_eq_of_isometry (Q₀ := Q₀) hQ₀ hγ hγU (mForm_mU) hV₀perp hV₀U.symm
   exact ⟨γ, eV, y', he, hγ, hγU, hy'0, hγy'U⟩
 
-omit [DecidableEq F] in
+omit [DecidableEq F] [Finite G] in
 private theorem exists_semilinear_localIso_mark {g : G}
     (cv : SpChart (hC.conj g) (B.conj g).hα k F)
     (evc : ↥(Halpha D (hC.conj g).alpha) ≃* SpMarkedGroup k F)
@@ -1209,7 +1210,7 @@ private theorem exists_eq_mRefl_of_mem_commSet
     fun h => hm.2.2 (by rw [h])
   exact ⟨x, hx0, by rw [hγx]⟩
 
-omit [DecidableEq F] in
+omit [DecidableEq F] [Finite G] in
 private theorem exists_semilinear_localIso_onto {g : G}
     (cv : SpChart (hC.conj g) (B.conj g).hα k F)
     (evc : ↥(Halpha D (hC.conj g).alpha) ≃* SpMarkedGroup k F)
@@ -1268,7 +1269,7 @@ private theorem exists_semilinear_localIso_V0U (c : SpChart hC B.hα k F) {g : G
     simpa [hV₀def, mLift, mU] using this
   exact c.vec_ne_zero (hC.conj g).d hv hvec
 
-omit [DecidableEq F] in
+omit [DecidableEq F] [Finite G] in
 private theorem exists_semilinear_localIso_extension {g : G}
     (hv : (hC.conj g).d ∈ commSet D hC.d)
     (cv : SpChart (hC.conj g) (B.conj g).hα k F) (hnk : B.n = 2 * k)

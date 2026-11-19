@@ -95,7 +95,7 @@ theorem exists_normal_complement {Y : Subgroup M} {r : ℕ} [Fact r.Prime] (S : 
     exact (Nat.Prime.coprime_iff_not_dvd hr).mpr fun h => h2 (h.trans h1)
   · rintro ⟨hxY, hx⟩
     refine ⟨⟨x, hxY⟩, MonoidHom.mem_ker.mpr ?_, rfl⟩
-    obtain ⟨k, hk⟩ := S.isPGroup' (τ ⟨x, hxY⟩)
+    obtain ⟨k, hk⟩ := S.isPGroup (τ ⟨x, hxY⟩)
     have h1 : orderOf (τ ⟨x, hxY⟩) ∣ r ^ k := orderOf_dvd_of_pow_eq_one hk
     have h2 : orderOf (τ ⟨x, hxY⟩) ∣ orderOf x := by
       rw [← Subgroup.orderOf_mk x hxY]
@@ -161,7 +161,7 @@ theorem exists_le_of_family {E : Subgroup M} (hE3 : IsPGroup 3 E) (Θ : M → Su
   obtain ⟨S, hSE⟩ := exists_invariant_sylow hE3 hY3 hEY r
   set R : Subgroup M := (S : Subgroup Y).map Y.subtype with hR
   have hRY : R ≤ Y := Subgroup.map_subtype_le _
-  have hRr : IsPGroup r R := S.isPGroup'.map _
+  have hRr : IsPGroup r R := S.isPGroup.map _
   have hRcard : Nat.card R = Nat.card S := Subgroup.card_map_of_injective Y.subtype_injective
   have hR1 : R ≠ ⊥ := map_sylow_ne_bot S hrY
   obtain ⟨b, hbE, hb1, -, hRn⟩ := ha r hr3 R hRr hR1 hSE
@@ -212,7 +212,7 @@ theorem exists_le_of_family {E : Subgroup M} (hE3 : IsPGroup 3 E) (Θ : M → Su
     obtain ⟨S', hS'E⟩ := exists_invariant_sylow hE3 hN3 hEN s
     set R' : Subgroup M := (S' : Subgroup N).map N.subtype with hR'
     have hR'N : R' ≤ N := Subgroup.map_subtype_le _
-    have hR'r : IsPGroup s R' := S'.isPGroup'.map _
+    have hR'r : IsPGroup s R' := S'.isPGroup.map _
     have hR'1 : R' ≠ ⊥ := map_sylow_ne_bot S' hsN
     obtain ⟨b'', hb''E, hb''1, hR'c, hR'n⟩ := ha s hs3 R' hR'r hR'1 hS'E
     have hNb'' : N ≤ Θ b'' := fun x hx =>

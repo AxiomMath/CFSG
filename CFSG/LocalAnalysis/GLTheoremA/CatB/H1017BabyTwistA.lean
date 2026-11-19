@@ -129,7 +129,7 @@ theorem le_centralizer_of_threeA {E T : Subgroup NativeSporadic.B} (hE : IsElemA
     (hsE : s ∈ E) (hs1 : s ≠ 1) (hd : BabyInv 0 d) (hinv : d * s * d⁻¹ = s⁻¹)
     (hTs : T ≤ Subgroup.centralizer ({s} : Set NativeSporadic.B)) :
     T ≤ Subgroup.centralizer (E : Set NativeSporadic.B) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hs3 : orderOf s = 3 := orderOf_eq_prime (hE.2 s hsE) hs1
   obtain ⟨v, w, hw, hρ⟩ := tabBThree_typeThree_of_inverted hs3 hd hinv
   have hS := comm_of_typeThree hw

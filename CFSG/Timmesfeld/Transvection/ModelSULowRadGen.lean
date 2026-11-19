@@ -29,14 +29,14 @@ private theorem lowVec_apply_lowIdx (u : Fin (m / 2) → F) (a : Fin (m / 2)) :
   simp only [lowVec, Fintype.sum_apply]
   refine (Finset.sum_eq_single a ?_ ?_).trans ?_
   · intro b _ hba
-    rw [Pi.smul_apply, Pi.single_apply, if_neg, smul_zero]
+    rw [Pi.smul_apply, Pi.single_apply, ite_eq_right, smul_zero]
     intro h
     exact hba (Fin.ext (by
       have := congrArg Fin.val h
       simpa [val_lowIdx] using this.symm))
   · intro ha
     exact absurd (Finset.mem_univ a) ha
-  · rw [Pi.smul_apply, Pi.single_apply, if_pos rfl, smul_eq_mul, mul_one]
+  · rw [Pi.smul_apply, Pi.single_apply, ite_eq_left rfl, smul_eq_mul, mul_one]
 
 private theorem lowVec_ne_zero {u : Fin (m / 2) → F} (hu : u ≠ 0) : lowVec F m u ≠ 0 := by
   intro h
@@ -67,7 +67,7 @@ private theorem exists_mem_lowRad_lowBlock_eq_of_forall_le [CharP F 2]
     rintro M ⟨c, u, hc, rfl⟩
     by_cases hu : u = 0
     · subst u
-      simpa using S.zero_mem
+      simp
     · let v : Fin m → F := lowVec F m u
       have hv : v ∈ lowSpan F m := lowVec_mem u
       have hv0 : v ≠ 0 := lowVec_ne_zero hu

@@ -14,12 +14,14 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem commutator_self_le_of_subgroup (K : Subgroup G) : ⁅K, K⁆ ≤ K := by
   rw [Subgroup.commutator_le]
   intro a ha b hb
   rw [commutatorElement_def]
   exact K.mul_mem (K.mul_mem (K.mul_mem ha hb) (K.inv_mem ha)) (K.inv_mem hb)
 
+omit [Finite G] in
 private theorem subgroupOf_commutator_eq {K H₁ H₂ : Subgroup G} (h₁ : H₁ ≤ K) (h₂ : H₂ ≤ K) :
     (⁅H₁, H₂⁆).subgroupOf K = ⁅H₁.subgroupOf K, H₂.subgroupOf K⁆ := by
   apply Subgroup.map_injective K.subtype_injective
@@ -28,6 +30,7 @@ private theorem subgroupOf_commutator_eq {K H₁ H₂ : Subgroup G} (h₁ : H₁
     Subgroup.map_subgroupOf_eq_of_le
       ((Subgroup.commutator_mono h₁ h₂).trans (commutator_self_le_of_subgroup K))]
 
+omit [Finite G] in
 private theorem relIndex_eq_card_map_quotient {H C Q : Subgroup G} (hQH : Q ≤ H)
     [hD : (C.subgroupOf H).Normal] :
     C.relIndex Q =
@@ -43,17 +46,17 @@ private theorem relIndex_eq_card_map_quotient {H C Q : Subgroup G} (hQH : Q ≤ 
 
 private theorem le_normalizer_self {Γ : Type*} [Group Γ] (K : Subgroup Γ) :
     K ≤ Subgroup.normalizer (K : Set Γ) :=
-  Subgroup.le_normalizer_iff.mpr fun a ha b hb => K.mul_mem (K.mul_mem ha hb) (K.inv_mem ha)
+  Subgroup.le_normalizer_iff.mpr fun _a ha _b hb => K.mul_mem (K.mul_mem ha hb) (K.inv_mem ha)
 
 private theorem odd_card_of_nilpotent_normal {Γ : Type*} [Group Γ] [Finite Γ]
     (hO2 : ∀ P : Subgroup Γ, P.Normal → IsPGroup 2 P → P = ⊥)
     {A : Subgroup Γ} [A.Normal] [Group.IsNilpotent ↥A] : Odd (Nat.card A) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q⟩ := Sylow.nonempty (p := 2) (G := ↥A)
-  haveI hQchar : (Q : Subgroup ↥A).Characteristic :=
+  have hQchar : (Q : Subgroup ↥A).Characteristic :=
     Sylow.characteristic_of_normal Q (inferInstance : Q.Normal)
-  haveI hQxn : ((Q : Subgroup ↥A).map A.subtype).Normal := inferInstance
-  have hQx2 : IsPGroup 2 ((Q : Subgroup ↥A).map A.subtype) := Q.isPGroup'.map A.subtype
+  have hQxn : ((Q : Subgroup ↥A).map A.subtype).Normal := inferInstance
+  have hQx2 : IsPGroup 2 ((Q : Subgroup ↥A).map A.subtype) := Q.isPGroup.map A.subtype
   have hQbotx := hO2 _ hQxn hQx2
   have hQbot : (Q : Subgroup ↥A) = ⊥ := by
     have h := congrArg (fun X : Subgroup Γ => X.subgroupOf A) hQbotx
@@ -71,10 +74,11 @@ private theorem odd_card_of_nilpotent_normal {Γ : Type*} [Group Γ] [Finite Γ]
   have hcard : Nat.card A = (Q : Subgroup ↥A).index := by
     have h := Subgroup.card_mul_index (Q : Subgroup ↥A)
     rw [hQbot, Subgroup.card_bot, one_mul] at h
-    simpa [hQbot] using h.symm
+    simp [hQbot]
   rw [hcard]
   exact Nat.not_even_iff_odd.mp fun hE => Q.not_dvd_index (even_iff_two_dvd.mp hE)
 
+omit [Finite G] in
 private theorem le_normalizer_centralizer_of_le_normalizer {H E : Subgroup G}
     (hHE : H ≤ Subgroup.normalizer (E : Set G)) :
     H ≤ Subgroup.normalizer (Subgroup.centralizer (E : Set G) : Set G) := by
@@ -179,14 +183,14 @@ theorem le_centralizer_conjClosure_of_two_pow_relIndex {H T E₀ P : Subgroup G}
     le_normalizer_conjClosure E₀ H
   have hHnC : H ≤ Subgroup.normalizer (C : Set G) :=
     le_normalizer_centralizer_of_le_normalizer hEH
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S₀⟩ := Sylow.nonempty (p := 2) (G := ↥P)
   set S : Subgroup G := (S₀ : Subgroup ↥P).map P.subtype with hS
   have hSP : S ≤ P := Subgroup.map_subtype_le _
-  have hS2 : IsPGroup 2 S := S₀.isPGroup'.map P.subtype
+  have hS2 : IsPGroup 2 S := S₀.isPGroup.map P.subtype
   have hSsub : S.subgroupOf P = (S₀ : Subgroup ↥P) := by
     ext x
-    simp only [Subgroup.mem_subgroupOf, Subgroup.mem_map, Subgroup.subtype_apply]
+    simp only [Subgroup.mem_subgroupOf]
     constructor
     · rintro ⟨y, hy, hyx⟩
       have : y = x := Subtype.ext hyx
@@ -234,10 +238,10 @@ theorem le_centralizer_conjClosure_of_two_pow_relIndex {H T E₀ P : Subgroup G}
   exact sup_le hSC inf_le_right
 
 private theorem exists_normal_sylow_two_of_le_center_of_index {Γ : Type*} [Group Γ] [Finite Γ]
-    {Z : Subgroup Γ} [hZnorm : Z.Normal] (hZ : Z ≤ Subgroup.center Γ)
+    {Z : Subgroup Γ} [_hZnorm : Z.Normal] (hZ : Z ≤ Subgroup.center Γ)
     (h2 : ∃ m, Z.index = 2 ^ m) :
     ∃ S : Sylow 2 Γ, S.Normal ∧ (Z ⊔ (S : Subgroup Γ) = ⊤) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S⟩ := Sylow.nonempty (p := 2) (G := Γ)
   have htop : Z ⊔ (S : Subgroup Γ) = ⊤ := by
     apply Subgroup.index_eq_one.mp
@@ -266,9 +270,9 @@ theorem centralizer_le_of_normal_of_two_pow_index {X : Type*} [Group X] [Finite 
     {N : Subgroup X} [N.Normal] (hN : ∃ k : ℕ, N.index = 2 ^ k) :
     Subgroup.centralizer (N : Set X) ≤ N := by
   set C := Subgroup.centralizer (N : Set X) with hC
-  haveI hCnorm : C.Normal := Subgroup.normal_centralizer
+  have hCnorm : C.Normal := Subgroup.normal_centralizer
   set Z : Subgroup X := C ⊓ N with hZ
-  haveI hZnorm : Z.Normal := by rw [hZ]; infer_instance
+  have hZnorm : Z.Normal := by rw [hZ]; infer_instance
   have hZcenter : (Z.subgroupOf C) ≤ Subgroup.center ↥C := by
     intro z hz
     rw [Subgroup.mem_center_iff]
@@ -293,9 +297,9 @@ theorem centralizer_le_of_normal_of_two_pow_index {X : Type*} [Group X] [Finite 
     obtain ⟨m, -, hm⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (hk ▸ hdvd)
     exact ⟨m, hm⟩
   obtain ⟨S, hSnorm, hStop⟩ := exists_normal_sylow_two_of_le_center_of_index hZcenter hidx
-  haveI hSchar : (S : Subgroup ↥C).Characteristic := Sylow.characteristic_of_normal S hSnorm
-  haveI hSxn : ((S : Subgroup ↥C).map C.subtype).Normal := inferInstance
-  have hSx2 : IsPGroup 2 ((S : Subgroup ↥C).map C.subtype) := S.isPGroup'.map C.subtype
+  have hSchar : (S : Subgroup ↥C).Characteristic := Sylow.characteristic_of_normal S hSnorm
+  have hSxn : ((S : Subgroup ↥C).map C.subtype).Normal := inferInstance
+  have hSx2 : IsPGroup 2 ((S : Subgroup ↥C).map C.subtype) := S.isPGroup.map C.subtype
   have hSxbot : (S : Subgroup ↥C) = ⊥ :=
     (Subgroup.map_eq_bot_iff_of_injective ((S : Subgroup ↥C)) C.subtype_injective).mp
       (hX _ hSxn hSx2)
@@ -361,13 +365,13 @@ theorem odd_relIndex_of_commutator_le {H T E₀ K Y : Subgroup G}
   have hKle : K ≤ H := by rw [hKT]; exact le_sup_left
   have hTle : T ≤ H := by rw [hKT]; exact le_sup_right
   set D' : Subgroup ↥H := C.subgroupOf H with hD'
-  haveI hD'norm : D'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hHnC
+  have hD'norm : D'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hHnC
   let π : ↥H →* (↥H ⧸ D') := QuotientGroup.mk' D'
   have hO2X : ∀ P : Subgroup (↥H ⧸ D'), P.Normal → IsPGroup 2 P → P = ⊥ :=
     eq_bot_of_normal_isPGroup_two_quot_centralizer (H := H) (T := T) (E₀ := E₀)
       (hD := hD'norm) hT hE₀
   set Kbar : Subgroup (↥H ⧸ D') := (K.subgroupOf H).map π with hKbar
-  haveI hKbarnorm : Kbar.Normal := by
+  have hKbarnorm : Kbar.Normal := by
     rw [hKbar]
     exact Subgroup.Normal.map hKH π (QuotientGroup.mk'_surjective D')
   have hTsub2 : IsPGroup 2 ((T.subgroupOf H).map π) :=
@@ -402,11 +406,11 @@ theorem odd_relIndex_of_commutator_le {H T E₀ K Y : Subgroup G}
     centralizer_le_of_normal_of_two_pow_index hO2X hKidx
   set Z0 : Subgroup (↥H ⧸ D') := Kbar ⊓ Subgroup.centralizer (Kbar : Set (↥H ⧸ D')) with hZ0
   have hYle : Ybar ≤ Z0 := le_inf (hYcent.trans hCK) hYcent
-  haveI hZnorm : Z0.Normal := by
+  have hZnorm : Z0.Normal := by
     rw [hZ0]
     exact Subgroup.normal_inf_normal _ _
-  haveI hZnil : Group.IsNilpotent ↥Z0 := by
-    haveI : IsMulCommutative ↥Z0 :=
+  have hZnil : Group.IsNilpotent ↥Z0 := by
+    have : IsMulCommutative ↥Z0 :=
       IsMulCommutative.of_comm fun a b =>
         Subtype.ext (Subgroup.mem_centralizer_iff.mp b.2.2 a.1 a.2.1)
     infer_instance

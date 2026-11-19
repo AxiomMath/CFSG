@@ -11,15 +11,15 @@ open CFSG CFSG.Assembly
 
 theorem ggQ2n_closure_two_part {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p = 3)
     {Bs : Subgroup G} (hBs : IsElemAbelian p Bs) {Z F : Subgroup G} (hZBs : Z ≤ Bs)
-    (hFBs : F ≤ Bs) (hZ : Nat.card ↥Z ≤ p ^ 2) (hZF : Z ⊓ F ≠ ⊥) (S : Set (MulAut ↥Bs))
+    (_hFBs : F ≤ Bs) (hZ : Nat.card ↥Z ≤ p ^ 2) (hZF : Z ⊓ F ≠ ⊥) (S : Set (MulAut ↥Bs))
     (hS : ∀ φ ∈ S, (∀ b : ↥Bs, ((b⁻¹ * φ b : ↥Bs) : G) ∈ Z) ∧
       ∀ f : ↥Bs, (f : G) ∈ F → φ f = f) :
     ¬ 4 ∣ Nat.card ↥(Subgroup.closure S) := by
   subst hp
   have hcomm : ∀ a b : ↥Bs, a * b = b * a := fun a b => hBs.1.is_comm.comm a b
-  letI : CommGroup ↥Bs := { (inferInstance : Group ↥Bs) with mul_comm := hcomm }
-  haveI : Fact (Nat.Prime 3) := Nat.fact_prime_three
-  letI : Module (ZMod 3) (Additive ↥Bs) :=
+  let : CommGroup ↥Bs := { (inferInstance : Group ↥Bs) with mul_comm := hcomm }
+  have : Fact (Nat.Prime 3) := Nat.fact_prime_three
+  let : Module (ZMod 3) (Additive ↥Bs) :=
     AddCommGroup.zmodModule (n := 3) fun a => by
       have h : (Additive.toMul a) ^ 3 = 1 := Subtype.ext (hBs.2 _ (Additive.toMul a).2)
       rw [← ofMul_toMul a, ← ofMul_pow, h, ofMul_one]

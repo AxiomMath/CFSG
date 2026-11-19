@@ -27,7 +27,7 @@ lemma thirteen_le_card_quotient_subgroupOf_of_simple_card_5616 {Q : Type*} [Grou
   by_contra hlt
   rw [not_le] at hlt
   let H : Subgroup ↥L := Y.subgroupOf L
-  haveI : IsSimpleGroup ↥L := hL
+  have : IsSimpleGroup ↥L := hL
   rcases hL.eq_bot_or_eq_top_of_normal (MulAction.toPermHom ↥L (↥L ⧸ H)).ker with hbot | htop
   · have hinj : Function.Injective (MulAction.toPermHom ↥L (↥L ⧸ H)) :=
       (MonoidHom.ker_eq_bot_iff _).mp hbot
@@ -75,7 +75,7 @@ theorem isSolvable_of_lt_simple_card_5616 {Q : Type*} [Group Q] [Finite Q] {L Y 
       (by rw [h]; norm_num)
   · exact isSolvable_of_coprime (a := 4) (b := 3) (m := 13) (by rw [h]; norm_num)
       (by rw [h]; norm_num)
-  · haveI : Fintype ↥Y := Fintype.ofFinite _
+  · have : Fintype ↥Y := Fintype.ofFinite _
     refine CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
       (p := 3) (q := 13) (a := 3) (b := 1) (by norm_num) (by norm_num) (by norm_num) ?_
     rw [← Nat.card_eq_fintype_card, h]; norm_num
@@ -106,7 +106,7 @@ theorem solvableOrSimpleDerived_of_le_index_two {Q : Type} [Group Q] [Finite Q]
     have h := Subgroup.index_mul_card (L.subgroupOf M)
     rw [hcardL', hidx] at h
     exact Nat.eq_of_mul_eq_mul_right (by rw [hcard]; norm_num) h
-  haveI : (L.subgroupOf M).Normal := Subgroup.normal_of_index_eq_two hidxL'
+  have : (L.subgroupOf M).Normal := Subgroup.normal_of_index_eq_two hidxL'
   let φ : ↥Y →* ↥M ⧸ L.subgroupOf M :=
     (QuotientGroup.mk' (L.subgroupOf M)).comp (Subgroup.inclusion hYM)
   have hker : φ.ker = (Y ⊓ L).subgroupOf Y := by
@@ -125,12 +125,12 @@ theorem solvableOrSimpleDerived_of_le_index_two {Q : Type} [Group Q] [Finite Q]
       simpa using (Subgroup.mem_subgroupOf.mpr this)
   have hQcard : Nat.card (↥M ⧸ L.subgroupOf M) = 2 := by
     rw [← Subgroup.index_eq_card]; exact hidxL'
-  haveI : IsCyclic (↥M ⧸ L.subgroupOf M) := isCyclic_of_prime_card (p := 2) hQcard
-  haveI : IsMulCommutative (↥M ⧸ L.subgroupOf M) := inferInstance
+  have : IsCyclic (↥M ⧸ L.subgroupOf M) := isCyclic_of_prime_card (p := 2) hQcard
+  have : IsMulCommutative (↥M ⧸ L.subgroupOf M) := inferInstance
   rcases lt_or_eq_of_le (inf_le_right : Y ⊓ L ≤ L) with hlt | heq
   · have hsolvY1 : Group.IsSolvable ↥(Y ⊓ L) :=
       isSolvable_of_lt_simple_card_5616 hL hcard hlt h27
-    haveI : Group.IsSolvable ↥((Y ⊓ L).subgroupOf Y) :=
+    have : Group.IsSolvable ↥((Y ⊓ L).subgroupOf Y) :=
       isSolvable_of_mulEquiv (Subgroup.subgroupOfEquivOfLe (inf_le_left : Y ⊓ L ≤ Y)) hsolvY1
     refine Or.inl ?_
     refine Group.isSolvable_of_ker_le_range (Subgroup.subtype ((Y ⊓ L).subgroupOf Y)) φ ?_
@@ -138,14 +138,14 @@ theorem solvableOrSimpleDerived_of_le_index_two {Q : Type} [Group Q] [Finite Q]
   · have hY1eq : Y ⊓ L = L := heq
     have hLY : L ≤ Y := by rw [← hY1eq]; exact inf_le_left
     have hkerB : φ.ker = L.subgroupOf Y := by rw [hker, hY1eq]
-    haveI : (L.subgroupOf Y).Normal := by
+    have : (L.subgroupOf Y).Normal := by
       rw [← hkerB]
       infer_instance
-    haveI : IsSimpleGroup ↥L := hL
+    have : IsSimpleGroup ↥L := hL
     have hperfect : commutator ↥L = ⊤ := by
       rcases hL.eq_bot_or_eq_top_of_normal (commutator ↥L) with hbot | htop
       · exfalso
-        haveI : IsMulCommutative ↥L := (commutator_eq_bot_iff (G := ↥L)).mp hbot
+        have : IsMulCommutative ↥L := (commutator_eq_bot_iff (G := ↥L)).mp hbot
         have hprime : (Nat.card ↥L).Prime :=
           (Group.is_simple_iff_prime_card (α := ↥L)).mp inferInstance
         rw [hcard] at hprime

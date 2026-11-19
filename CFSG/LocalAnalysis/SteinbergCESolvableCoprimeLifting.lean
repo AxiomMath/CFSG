@@ -2,7 +2,7 @@ module
 
 public import CFSG.CharacterTheory.Semidihedral.Principal.CoprimeFixedPointLifting
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Tactic.Basify
 public import Std.Tactic.BVDecide.Normalize.Prop
 
@@ -155,7 +155,7 @@ theorem solvable_coprime_fixed_point_lifting {A : Type u} {G : Type v} [Group A]
     have h3 := Nat.dvd_gcd hqB hqN
     rw [hcop'.gcd_eq_one, Nat.dvd_one] at h3
     exact hMp.one_lt.ne' h3
-  obtain ⟨c, hc, hcfix⟩ := (coprime_invariant_coset_fixed q Q.isPGroup'
+  obtain ⟨c, hc, hcfix⟩ := (coprime_invariant_coset_fixed q Q.isPGroup
     (β.comp (Q : Subgroup B).subtype) N₁ hcopq g₁).2 hinv
   refine ⟨c, fun b => ?_, ?_⟩
   ·

@@ -73,6 +73,7 @@ variable {Q V Z R : Subgroup G} {t : G} {ι : Type} [Fintype ι] [DecidableEq ι
     (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) (y : ↥Q) : ι → K :=
   secVec ψ ⟨⁅(y : G), t⁆, D.comm_t_mem y y.2⟩
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem kapVec_mul (D : NatCommData Q V Z R t)
     (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) (y₁ y₂ : ↥Q) :
     kapVec D ψ (y₁ * y₂) = kapVec D ψ y₁ + kapVec D ψ y₂ := by
@@ -88,6 +89,7 @@ theorem kapVec_mul (D : NatCommData Q V Z R t)
   unfold kapVec
   rw [e, secVec_mul, secVec_mul, (secVec_eq_zero_iff ψ ⟨_, D.ZV hz⟩).mpr hz, zero_add, add_comm]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem kapVec_one (D : NatCommData Q V Z R t)
     (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) : kapVec D ψ (1 : ↥Q) = 0 := by
   unfold kapVec
@@ -97,6 +99,7 @@ theorem kapVec_one (D : NatCommData Q V Z R t)
   rw [h]
   exact Z.one_mem
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem kapVec_inv (D : NatCommData Q V Z R t)
     (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) (y : ↥Q) :
     kapVec D ψ y⁻¹ = -kapVec D ψ y := by
@@ -123,6 +126,7 @@ theorem kapVec_conj (D : NatCommData Q V Z R t)
     exact D.R_equiv r r.2 y y.2
   exact h2.trans h1
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem exists_kapVec (D : NatCommData Q V Z R t)
     (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) (x : ι → K) :
     ∃ y : ↥Q, kapVec D ψ y = x := by
@@ -136,6 +140,7 @@ theorem exists_kapVec (D : NatCommData Q V Z R t)
     (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) (b : ↥V) (x : ι → K) : G :=
   ⁅(b : G), ((Classical.choose (exists_kapVec D ψ x) : ↥Q) : G)⁆
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem pairVec_eq (D : NatCommData Q V Z R t)
     (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) (b : ↥V) {x : ι → K} (y : ↥Q)
     (hy : kapVec D ψ y = x) : pairVec D ψ b x = ⁅(b : G), (y : G)⁆ := by
@@ -149,6 +154,7 @@ theorem pairVec_eq (D : NatCommData Q V Z R t)
   unfold pairVec
   rw [h2, D.comm_mul_right (D.VQ b.2) (y * y₀⁻¹).2 y₀.2, h1, one_mul]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem pairVec_add (D : NatCommData Q V Z R t)
     (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K)) (b : ↥V) (x₁ x₂ : ι → K) :
     pairVec D ψ b (x₁ + x₂) = pairVec D ψ b x₁ * pairVec D ψ b x₂ := by
@@ -220,7 +226,7 @@ theorem spForm_ne_zero_of_commData {m : ℕ} {B C : Subgroup G} (D : NatCommData
 
 theorem polar_ne_zero_of_commData {ι : Type} [Fintype ι] [DecidableEq ι]
     {Q' : QuadraticForm K (ι → K)} {X : Subgroup (GL ι K)} {B C : Subgroup G}
-    [(Z.subgroupOf V).Normal] (E : ElemMatrixIso Q' X) (hQ : (polarBilin Q').Nondegenerate)
+    (E : ElemMatrixIso Q' X) (hQ : (polarBilin Q').Nondegenerate)
     (h3 : 3 ≤ Module.finrank K (ι → K)) (D : NatCommData Q V Z R t) (φ : ↥R →* GL ι K)
     (hφ : φ.range = X) (ψ : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative (ι → K))
     (hψ : ∀ (s : ↥R) (v w : ↥V), (w : G) = (s : G) * v * (s : G)⁻¹ →

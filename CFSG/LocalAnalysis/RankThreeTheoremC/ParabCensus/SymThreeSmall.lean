@@ -13,7 +13,7 @@ theorem normal_of_symThree_of_card_dvd {J : Type} [Group J] [Finite J] {Z : Subg
     [Z.Normal] (hZ : Z ≤ center J) (hZo : Odd (Nat.card Z)) (h96 : Nat.card (J ⧸ Z) ∣ 96)
     {U : Subgroup (J ⧸ CFSG.pCore 2 J)} (hU : TwelveNotLe.Sym.IsSymThree U) : U.Normal := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : J →* J ⧸ Z := QuotientGroup.mk' Z with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective Z
   have hπker : π.ker = Z := QuotientGroup.ker_mk' Z
@@ -36,11 +36,11 @@ theorem normal_of_symThree_of_card_dvd {J : Type} [Group J] [Finite J] {Z : Subg
         rw [hπ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]; exact hz]
       exact (T₀ : Subgroup (J ⧸ Z)).one_mem
     have hquot : IsPGroup 2 (↥M ⧸ Z.subgroupOf M) :=
-      isPGroup_quotient_subgroupOf_comap hπs hπker.symm T₀.isPGroup'
+      isPGroup_quotient_subgroupOf_comap hπs hπker.symm T₀.isPGroup
     have hMD : M ≤ Z ⊔ CFSG.pCore 2 J :=
       le_sup_pCore_two_of_central_odd_quotient_two hMn hZM hZ hZo hquot
     have hpcM : CFSG.pCore 2 J ≤ M := by
-      haveI hn : ((CFSG.pCore 2 J).map π).Normal :=
+      have hn : ((CFSG.pCore 2 J).map π).Normal :=
         (CFSG.pCore_normal (p := 2) (G := J)).map π hπs
       have hle : (CFSG.pCore 2 J).map π ≤ (T₀ : Subgroup (J ⧸ Z)) :=
         IsPGroup.le_sylow_of_normal

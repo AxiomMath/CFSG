@@ -145,19 +145,19 @@ theorem fullCoverLevel_congr {p : ℕ} (e : Q ≃* Q') : fullCoverLevel p Q = fu
   unfold fullCoverLevel
   by_cases c1 : K1Cover p Q
   · have c1' : K1Cover p Q' := k1Cover_of_mulEquiv e c1
-    rw [if_pos c1, if_pos c1']
+    rw [ite_eq_left c1, ite_eq_left c1']
   · have c1' : ¬ K1Cover p Q' := fun h => c1 (k1Cover_of_mulEquiv e.symm h)
-    rw [if_neg c1, if_neg c1']
+    rw [ite_eq_right c1, ite_eq_right c1']
     by_cases c2 : K2Cover p Q
     · have c2' : K2Cover p Q' := k2Cover_of_mulEquiv e c2
-      rw [if_pos c2, if_pos c2']
+      rw [ite_eq_left c2, ite_eq_left c2']
     · have c2' : ¬ K2Cover p Q' := fun h => c2 (k2Cover_of_mulEquiv e.symm h)
-      rw [if_neg c2, if_neg c2']
+      rw [ite_eq_right c2, ite_eq_right c2']
       by_cases c3 : K3Cover p Q
       · have c3' : K3Cover p Q' := k3Cover_of_mulEquiv e c3
-        rw [if_pos c3, if_pos c3']
+        rw [ite_eq_left c3, ite_eq_left c3']
       · have c3' : ¬ K3Cover p Q' := fun h => c3 (k3Cover_of_mulEquiv e.symm h)
-        rw [if_neg c3, if_neg c3']
+        rw [ite_eq_right c3, ite_eq_right c3']
 
 end CoverTransport
 

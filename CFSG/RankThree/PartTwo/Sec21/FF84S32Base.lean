@@ -25,7 +25,7 @@ theorem isSylowOf_iff_isSylowIn {p : ℕ} [Fact p.Prime] {P K : Subgroup G} :
     change (P.subgroupOf K).map K.subtype = P
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.2 hPK]
   · rintro ⟨Q, rfl⟩
-    refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, ?_⟩
+    refine ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, ?_⟩
     have : ((Q : Subgroup ↥K).map K.subtype).subgroupOf K = (Q : Subgroup ↥K) :=
       Subgroup.comap_map_eq_self_of_injective Subtype.val_injective _
     change Nat.Coprime p (((Q : Subgroup ↥K).map K.subtype).subgroupOf K).index
@@ -51,7 +51,7 @@ variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ :
 theorem cmul (h : FF84Sec3 b L B b₁ b₂) (a c d a' c' d' : ℤ) :
     (b ^ a * b₁ ^ c * b₂ ^ d) * (b ^ a' * b₁ ^ c' * b₂ ^ d') =
       b ^ (a + a') * b₁ ^ (c + c') * b₂ ^ (d + d') := by
-  haveI : IsMulCommutative ↥B := h.mono.1.1.toIsMulCommutative
+  have : IsMulCommutative ↥B := h.mono.1.1.toIsMulCommutative
   let β : ↥B := ⟨b, mem_B_b h⟩
   let β₁ : ↥B := ⟨b₁, mem_B_b₁ h⟩
   let β₂ : ↥B := ⟨b₂, mem_B_b₂ h⟩
@@ -61,6 +61,7 @@ theorem cmul (h : FF84Sec3 b L B b₁ b₂) (a c d a' c' d' : ℤ) :
     ac_rfl
   exact congrArg Subtype.val key
 
+omit [Finite G] in
 theorem zpow_eq_one_of_dvd3 {g : G} (hg : g ^ 3 = 1) {k : ℤ} (hk : (3 : ℤ) ∣ k) : g ^ k = 1 := by
   obtain ⟨t, rfl⟩ := hk
   rw [zpow_mul]
@@ -85,6 +86,7 @@ theorem ceq (h : FF84Sec3 b L B b₁ b₂) {a c d a' c' d' : ℤ} :
       zpow_eq_one_of_dvd3 (pow3_of_mem_B h (mem_B_b₂ h)) h3]
     simp
 
+omit [Finite G] in
 theorem six_coord {x : G} (hx : x ∈ ({b, b⁻¹, b₁, b₁⁻¹, b₂, b₂⁻¹} : Set G)) :
     ∃ a c d : ℤ, x = b ^ a * b₁ ^ c * b₂ ^ d ∧
       ((a = 1 ∧ c = 0 ∧ d = 0) ∨ (a = -1 ∧ c = 0 ∧ d = 0) ∨ (a = 0 ∧ c = 1 ∧ d = 0) ∨

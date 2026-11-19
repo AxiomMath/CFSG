@@ -124,14 +124,14 @@ theorem commutator_mem_pCoreOf_of_not_mem_normalizer {M H L : Subgroup G}
 theorem not_three_dvd_card_of_perfect {L I : Subgroup G} (hIL : I ≤ L) (hperf : ⁅I, I⁆ = I)
     (h : ∀ x ∈ I, (∃ k : ℕ, x ^ 3 ^ k = 1) → ∀ l ∈ L, x * l * x⁻¹ * l⁻¹ ∈ pCoreOf 2 L) :
     ¬ 3 ∣ Nat.card I := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O := CFSG.pCore 2 ↥I with hO
   set φ := QuotientGroup.mk' O with hφ
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow 3 ↥I))
   set T' : Sylow 3 (↥I ⧸ O) := T.mapSurjective (QuotientGroup.mk'_surjective O) with hT'
   have hcomm : ∀ t ∈ (T : Subgroup ↥I), ∀ g : ↥I, φ t * φ g = φ g * φ t := by
     intro t ht g
-    obtain ⟨k, hk⟩ := T.isPGroup' ⟨t, ht⟩
+    obtain ⟨k, hk⟩ := T.isPGroup ⟨t, ht⟩
     have hk' : (t : G) ^ 3 ^ k = 1 := by
       have := congrArg (fun y : (T : Subgroup ↥I) => ((y : ↥I) : G)) hk
       simpa using this
@@ -190,7 +190,7 @@ theorem agl81TwelveNormalizes_of (h1031 : AGL81TenThreeOneAt G) (h2255 : AGL81Te
       (h3.trans (Subgroup.card_dvd_of_le (oUpperTwo_le_self I₀)))
     refine Subgroup.subset_closure ⟨hx, ?_⟩
     exact Odd.of_dvd_nat (Odd.pow (by decide : Odd 3)) (orderOf_dvd_of_pow_eq_one hk)
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 h3
     have hx' : orderOf (x : G) = 3 := by rwa [Subgroup.orderOf_coe]
     have hx3 : (x : G) ^ 3 ^ 1 = 1 := by rw [pow_one, ← hx', pow_orderOf_eq_one]

@@ -24,7 +24,7 @@ theorem l34SigmaFourInput_holds : L34SigmaFourInput := by
   obtain ⟨E, _, _, _, ψ, hdim, hker⟩ := exists_rep_LO ha
   let π : ↥(ctxLO t tau x₁ x₂) →* ↥ψ.range := ψ.rangeRestrict
   have hπ : Function.Surjective π := ψ.rangeRestrict_surjective
-  haveI : Finite ↥ψ.range := Finite.of_surjective π hπ
+  have : Finite ↥ψ.range := Finite.of_surjective π hπ
   have hπker : π.ker = (ctxO t tau x₁ x₂).subgroupOf (ctxLO t tau x₁ x₂) := by
     rw [MonoidHom.ker_rangeRestrict]
     exact hker
@@ -40,7 +40,7 @@ theorem l34SigmaFourInput_holds : L34SigmaFourInput := by
       _ = t * rho⁻¹ * t⁻¹ := by rw [hc.lam_rho]
       _ = rho⁻¹ := by rw [hct.inv_right.eq]; group
   have hcrit := crit_of_surj (ctxLO t tau x₁ x₂) (ctxO t tau x₁ x₂) (ctxPL t tau x₁ x₂) W
-    (O_le_ctxPL ha) ((O_le_U hl).trans hv.U_le) (normal_ctxPL ha).1 hv.sylow.1 π hπ hπker
+    (O_le_ctxPL ha) ((CFSG.OddStandard.SmallF3.HarrisU33.L34.O_le_U).trans hv.U_le) (normal_ctxPL ha).1 hv.sylow.1 π hπ hπker
     ψ.range.subtype hι hdim (rho_mem_LO ha) hσL (rho_cubed hc) (rho_not_mem_ctxPL ha)
     (q_mul_self hc) hσρ (normal_ctxPL ha).2 (card_LO_eq_six_mul_card_PL ha)
     (fun _ hp hcomm => fpf_core ha hp hcomm) hv.sylow.2.1 hv.sylow.2.2

@@ -68,7 +68,7 @@ theorem fixed_of_component_of_odd [Finite G] {D : Set G}
   have key : ∀ x ∈ normalizer (compSet D ω), x * x = 1 → ∃ f ∈ compSet D ω, x * f * x⁻¹ = f := by
     intro x hx hx2
     obtain ⟨y, hy, hyT⟩ := exists_conj_mem_of_le T hTN hx hx2
-    obtain ⟨e, he, hfix⟩ := exists_fixed_of_odd_ncard (K := (T : Subgroup G)) T.isPGroup'
+    obtain ⟨e, he, hfix⟩ := exists_fixed_of_odd_ncard (K := (T : Subgroup G)) T.isPGroup
       (Ω := (T : Set G) ∩ D)
       (fun k hk s hs => ⟨T.mul_mem (T.mul_mem hk hs.1) (T.inv_mem hk), hDinv k s hs.2⟩) hodd
     refine ⟨y⁻¹ * e * y⁻¹⁻¹, (mem_set_normalizer_iff.1 (inv_mem hy) e).1 (hΩΔ he), ?_⟩

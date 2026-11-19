@@ -19,18 +19,21 @@ namespace U3Frame
 variable {A : Type} [Group A] [Finite A] {T : Subgroup A} [T.Normal] {R : Subgroup A} {S : Sylow 2 R} {z : A}
   {p f : ℕ} {K : Type} [Field K] {h : UnitaryFieldData p f K} (F : U3Frame T z p f h)
 
+omit [Finite A] [T.Normal] in
 theorem J_le : F.J ≤ T ⊓ Subgroup.centralizer ({z} : Set A) := by
   rw [← F.hrange]
   exact Subgroup.map_le_range _ _
 
+omit [Finite A] [T.Normal] in
 theorem comm_le :
     ⁅T ⊓ Subgroup.centralizer ({z} : Set A), T ⊓ Subgroup.centralizer ({z} : Set A)⁆ ≤ F.J := by
   rw [← F.hrange]
   exact commutator_range_le F.π
 
+omit [Finite A] [T.Normal] in
 theorem J_perfect {F₀ : Type} [Field F₀] [Finite F₀] (h4 : 4 ≤ Nat.card F₀)
     (eJ : ↥(slPart (GU2Stated (p ^ f) K)) ≃* SL(2, F₀)) : Group.IsPerfect ↥F.J := by
-  haveI : Group.IsPerfect ↥(slPart (GU2Stated (p ^ f) K)) := isPerfect_of_equiv_sl2 h4 eJ
+  have : Group.IsPerfect ↥(slPart (GU2Stated (p ^ f) K)) := isPerfect_of_equiv_sl2 h4 eJ
   exact Group.IsPerfect.map F.π
 
 @[expose] noncomputable def Φ {F₀ : Type} [Field F₀] (eJ : ↥(slPart (GU2Stated (p ^ f) K)) ≃* SL(2, F₀)) :
@@ -38,10 +41,12 @@ theorem J_perfect {F₀ : Type} [Field F₀] [Finite F₀] (h4 : 4 ≤ Nat.card 
   (MulAut.conjNormal (H := T)).comp
     ((F.π.comp (slPart (GU2Stated (p ^ f) K)).subtype).comp eJ.symm.toMonoidHom)
 
+omit [Finite A] in
 theorem Φ_injective {F₀ : Type} [Field F₀] (eJ : ↥(slPart (GU2Stated (p ^ f) K)) ≃* SL(2, F₀))
     (hC : Subgroup.centralizer (T : Set A) = ⊥) : Function.Injective (F.Φ eJ) :=
   (conjNormal_injective hC).comp ((injective_slPart F.hk).comp eJ.symm.injective)
 
+omit [Finite A] in
 theorem Φ_range {F₀ : Type} [Field F₀] (eJ : ↥(slPart (GU2Stated (p ^ f) K)) ≃* SL(2, F₀)) :
     (F.Φ eJ).range = F.J.map (MulAut.conjNormal (H := T)) := by
   ext x
@@ -54,6 +59,7 @@ theorem Φ_range {F₀ : Type} [Field F₀] (eJ : ↥(slPart (GU2Stated (p ^ f) 
       ↥(GU2Stated (p ^ f) K))) = _
     rw [MulEquiv.symm_apply_apply]
 
+omit [Finite A] [T.Normal] in
 theorem J_centralizes (hRJ : R ≤ Subgroup.centralizer ((F.J : Subgroup A) : Set A)) :
     ∀ y ∈ F.J, ∀ s ∈ sylowSet S, y * s = s * y := by
   intro y hy s hs

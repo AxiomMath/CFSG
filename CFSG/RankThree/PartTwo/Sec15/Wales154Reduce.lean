@@ -45,6 +45,7 @@ theorem innQ_normal (Y : Subgroup G) : (innQ Y).Normal := by
   obtain ⟨g, rfl⟩ := hτ
   exact ⟨σ g, (mul_conj_mul_inv_eq σ g).symm⟩
 
+omit [Finite G] in
 theorem commutator_le_pCoreOf_of_barR_eq_bot {Y R : Subgroup G}
     (hRY : R ≤ Subgroup.normalizer (Y : Set G)) (h : barR Y R = ⊥) :
     ⁅R, Y⁆ ≤ CFSG.Open.pCoreOf 2 Y := by
@@ -79,6 +80,7 @@ theorem actQ_mem_normalizer_barR {Y R : Subgroup G} {x : G}
   rw [e, map_inv, inv_inv] at h1
   simpa [mul_assoc] using h1
 
+omit [Finite G] in
 theorem commute_of_barR_inf_innQ_eq_bot {X Y R : Subgroup G} (hXY : X ≤ Y)
     (hXR : X ≤ Subgroup.normalizer (R : Set G)) (h : barR Y R ⊓ innQ Y = ⊥)
     {σ : MulAut (↥Y ⧸ CFSG.pCore 2 ↥Y)} (hσ : σ ∈ barR Y R) {x : G} (hx : x ∈ X) :
@@ -103,6 +105,7 @@ theorem commute_of_barR_inf_innQ_eq_bot {X Y R : Subgroup G} (hXY : X ≤ Y)
   calc σ * τ = (σ * τ * σ⁻¹ * τ⁻¹) * τ * σ := by group
     _ = τ * σ := by rw [hbot, one_mul]
 
+omit [Finite G] in
 theorem barR_inf_innQ_facts {X Y R A : Subgroup G} (hRY : R ≤ Subgroup.normalizer (Y : Set G))
     (hR2 : IsPGroup 2 R) (hXY : X ≤ Y) (hXR : X ≤ Subgroup.normalizer (R : Set G))
     (hAY : A ≤ Subgroup.normalizer (Y : Set G)) (hAR : A ≤ Subgroup.normalizer (R : Set G)) :
@@ -132,6 +135,7 @@ theorem barR_inf_innQ_facts {X Y R A : Subgroup G} (hRY : R ≤ Subgroup.normali
   · exact actQ_mem_normalizer_barR (Y.le_normalizer (hXY hx)) (hXR hx)
   · exact actQ_mem_normalizer_barR (hAY ha) (hAR ha)
 
+omit [Finite G] in
 theorem trichotomy154 {X Y R : Subgroup G} (hRY : R ≤ Subgroup.normalizer (Y : Set G))
     (hXY : X ≤ Y) (hXR : X ≤ Subgroup.normalizer (R : Set G)) :
     ⁅R, Y⁆ ≤ CFSG.Open.pCoreOf 2 Y ∨ barR Y R ⊓ innQ Y ≠ ⊥ ∨

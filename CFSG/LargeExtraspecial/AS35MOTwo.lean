@@ -85,7 +85,7 @@ theorem mem_oTwoSub_of_central [Finite G] {P N : Subgroup G}
   obtain ⟨S₂, hS₂⟩ := (isPGroup_zpowers_of_pow_two_pow (g := (⟨p, hp⟩ : P))
     (Subtype.ext (by simpa using hpk))).exists_le_sylow
   have hS₂n := Group.IsNilpotent.sylow_normal hnil 2 S₂
-  have hle : (S₂ : Subgroup P) ≤ CFSG.pCore 2 P := le_sSup ⟨hS₂n, S₂.isPGroup'⟩
+  have hle : (S₂ : Subgroup P) ≤ CFSG.pCore 2 P := le_sSup ⟨hS₂n, S₂.isPGroup⟩
   exact ⟨⟨p, hp⟩, hle (hS₂ (mem_zpowers _)), rfl⟩
 
 theorem exists_pow_two_mul_eq_one {p n : G} {k : ℕ} (hpn : p ^ (2 ^ k) = n)

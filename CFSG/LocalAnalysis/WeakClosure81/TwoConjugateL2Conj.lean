@@ -33,13 +33,13 @@ theorem exists_conj_u2_eq_l2 {μ : F} (hμ : μ ≠ 0) :
   apply Subtype.ext
   simp only [Matrix.SpecialLinearGroup.coe_mul, u2_coe, l2_coe]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [γ, Matrix.mul_apply, Fin.sum_univ_two, ht0, ht] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [γ, Matrix.mul_apply, Fin.sum_univ_two, ht0, ht]; ring
 
 theorem exists_conj_le_u2 {B : Subgroup (SpecialLinearGroup (Fin 2) F)} (hB : IsPGroup 2 B) :
     ∃ h : SpecialLinearGroup (Fin 2) F, ∀ b ∈ B, ∃ a : F, h⁻¹ * b * h = u2 a := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
   set P := CFSG.Quasithin.B45L2.rootSub (⊤ : AddSubgroup F) with hP
   have hPc : Nat.card P = Nat.card F := by
     rw [CFSG.Quasithin.B45L2.card_rootSub]

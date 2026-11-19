@@ -108,7 +108,7 @@ theorem torusT_pow {q : ℕ} (a : ↥(torusT F q)) : a ^ (q + 1) = 1 := by
   exact ha1 i
 
 private lemma mulSingle_mul_inv_mem {q : ℕ} {x : Fˣ} (hx : x ^ (q + 1) = 1) {k l : Fin 4}
-    (hkl : k ≠ l) : Pi.mulSingle k x * Pi.mulSingle l x⁻¹ ∈ torusT F q := by
+    (_hkl : k ≠ l) : Pi.mulSingle k x * Pi.mulSingle l x⁻¹ ∈ torusT F q := by
   have hpow : ∀ (c : Fin 4) (y : Fˣ), y ^ (q + 1) = 1 → ∀ m : Fin 4,
       (Pi.mulSingle (M := fun _ : Fin 4 => Fˣ) c y m) ^ (q + 1) = 1 := by
     intro c y hy m

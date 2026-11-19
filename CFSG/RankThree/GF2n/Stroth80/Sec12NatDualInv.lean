@@ -67,7 +67,7 @@ theorem invariant_classification (hn : 3 ≤ n) (hrange : ρ'.range = StatedSL n
     obtain ⟨s, hs⟩ : g ∈ ρ'.range := hrange ▸ hg
     obtain ⟨e, heS, rfl⟩ := AddSubgroup.mem_map.mp hp
     refine AddSubgroup.mem_map.mpr ⟨ρ s e, hS s e heS, ?_⟩
-    simp only [AddEquiv.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe]
+    simp only [AddEquiv.toAddMonoidHom_eq_coe, _root_.AddMonoidHom.coe_ofClass]
     rw [C.act, hs]
     rfl
   have hcl := natDual_invariant_addSubgroup hn W hWinv
@@ -80,7 +80,7 @@ theorem invariant_classification (hn : 3 ≤ n) (hrange : ρ'.range = StatedSL n
   · left
     rw [h]
     ext e
-    simp [AddSubgroup.mem_comap]
+    simp
   · right; left
     rw [h]
     rfl
@@ -90,7 +90,7 @@ theorem invariant_classification (hn : 3 ≤ n) (hrange : ρ'.range = StatedSL n
   · right; right; right
     rw [h]
     ext e
-    simp [AddSubgroup.mem_comap]
+    simp
 
 theorem ρ_mem_W₁ (g : Γ) {e : E} (h : e ∈ C.W₁) : ρ g e ∈ C.W₁ := by
   rw [C.eq_inl_of_mem_W₁ h, ρ_inl]
@@ -115,7 +115,7 @@ theorem map_invariant (T : E ≃ₗ[K] E) (hT : ∀ g : Γ, ∃ g' : Γ, ∀ e, 
   obtain ⟨e₀, he₀, rfl⟩ := AddSubgroup.mem_map.mp he
   obtain ⟨g', hg'⟩ := hT g
   refine AddSubgroup.mem_map.mpr ⟨ρ g' e₀, hW g' e₀ he₀, ?_⟩
-  simp only [AddEquiv.toAddMonoidHom_eq_coe, AddMonoidHom.coe_coe, LinearEquiv.coe_toAddEquiv]
+  simp only [AddEquiv.toAddMonoidHom_eq_coe, _root_.AddMonoidHom.coe_ofClass, LinearEquiv.coe_toAddEquiv]
   exact (hg' e₀).symm
 
 theorem inr_mem_W₁_iff {y : Fin n → F} : C.inr y ∈ C.W₁ ↔ y = 0 := by

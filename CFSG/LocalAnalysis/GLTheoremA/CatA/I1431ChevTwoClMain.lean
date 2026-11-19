@@ -34,7 +34,7 @@ theorem false_of_local81_group (hGA : CFSG.Open.GriessAllModelsStatement) {Y : T
 theorem u42FieldTwoAt_classical_of (hGA : CFSG.Open.GriessAllModelsStatement)
     (hLO : LieOrderBridge) : U42FieldTwoAt U42Classical := by
   rintro Y _ _ hY - hRk d hd hc hf ⟨e⟩ α hα hP
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
   have hn : ∃ a b : Y ⧸ Subgroup.center Y, a * b ≠ b * a :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Y hY
   obtain ⟨d, hv⟩ := d

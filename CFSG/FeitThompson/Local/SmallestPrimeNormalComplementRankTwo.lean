@@ -86,6 +86,7 @@ theorem pComplCore_isNormalHall_of_smallest_prime [Group.IsSolvable X] (hp : p.P
   ⟨pComplCore_normal p X, not_dvd_natCard_pComplCore hp X,
     exists_index_pComplCore_eq_pow hp hpX hmin hodd hrank⟩
 
+omit [Group X] in
 private theorem minFac_prime_natCard [Nontrivial X] : (Nat.card X).minFac.Prime :=
   Nat.minFac_prime (by have := Finite.one_lt_card (α := X); omega)
 

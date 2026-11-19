@@ -28,7 +28,7 @@ theorem three_dvd_card_of_isComponent {Q : Type*} [Group Q] [Finite Q]
 theorem exists_pow_three_not_commute_of_isComponent {Q : Type*} [Group Q] [Finite Q]
     (hO : CFSG.pPrimeCore 3 Q = ⊥) {Y : Subgroup Q} (hY : CFSG.IsComponent Y) :
     ∃ u ∈ Y, u ^ 3 = 1 ∧ ∃ y ∈ Y, u * y ≠ y * u := by
-  haveI : Group.IsPerfect Y := hY.1.1
+  have : Group.IsPerfect Y := hY.1.1
   obtain ⟨x, hx3, hxc⟩ :=
     CFSG.Quasithin.Vol2.Ch11.SecS.KF.exists_pow_eq_one_not_mem_center (p := 3) (by norm_num)
       (three_dvd_card_of_isComponent hO hY)
@@ -42,13 +42,13 @@ private theorem exists_isPGroup_two_ne_bot_of_isComponent {Q : Type*} [Group Q] 
     {Y : Subgroup Q} (hY : CFSG.IsComponent Y) :
     ∃ T : Subgroup Q, T ≤ Y ∧ T ≠ ⊥ ∧ IsPGroup 2 T := by
   have hnt : Nontrivial Y := CFSG.LocalCores.isQuasisimple_nontrivial hY.1
-  haveI : Group.IsPerfect Y := hY.1.1
+  have : Group.IsPerfect Y := hY.1.1
   have h2 : 2 ∣ Nat.card Y := by
     by_contra h
     exact Group.IsPerfect.not_isSolvable Y
       (CFSG.FeitThompson.isSolvable_of_odd_natCard _ (Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp h)))
   obtain ⟨P⟩ : Nonempty (Sylow 2 Y) := inferInstance
-  refine ⟨(P : Subgroup Y).map Y.subtype, ?_, ?_, P.isPGroup'.map _⟩
+  refine ⟨(P : Subgroup Y).map Y.subtype, ?_, ?_, P.isPGroup.map _⟩
   · rintro _ ⟨y, -, rfl⟩
     exact y.2
   · intro h
@@ -58,9 +58,9 @@ private theorem exists_isPGroup_two_ne_bot_of_isComponent {Q : Type*} [Group Q] 
 private theorem exists_pow_three_mem_center_of_normal {P : Type*} [Group P] [Finite P]
     (hP : IsPGroup 3 P) {V : Subgroup P} [V.Normal] (hV : V ≠ ⊥) :
     ∃ w ∈ V, w ≠ 1 ∧ w ^ 3 = 1 ∧ w ∈ Subgroup.center P := by
-  haveI : Group.IsNilpotent P := hP.isNilpotent
+  have : Group.IsNilpotent P := hP.isNilpotent
   have h1 : V ⊓ Subgroup.center P ≠ ⊥ := Group.IsNilpotent.inf_center_ne_bot_of_normal hV
-  haveI : Nontrivial ↥(V ⊓ Subgroup.center P) := (Subgroup.nontrivial_iff_ne_bot _).mpr h1
+  have : Nontrivial ↥(V ⊓ Subgroup.center P) := (Subgroup.nontrivial_iff_ne_bot _).mpr h1
   obtain ⟨n, hn, hcard⟩ :=
     (hP.to_subgroup (V ⊓ Subgroup.center P)).nontrivial_iff_card.mp inferInstance
   have h3 : 3 ∣ Nat.card ↥(V ⊓ Subgroup.center P) := hcard ▸ dvd_pow_self 3 hn.ne'
@@ -97,8 +97,8 @@ private theorem exists_pow_three_commute_of_le_normalizer {G : Type*} [Group G] 
     refine ⟨⟨⟨(x : ↥H), hxS⟩, x.2⟩, fun h => hx1 ?_⟩
     apply Subtype.ext
     exact Subtype.ext (congrArg (fun z : ↥(S : Subgroup ↥H) => (z : ↥H)) (Subtype.ext_iff.mp h))
-  haveI : ((V.subgroupOf H).subgroupOf (S : Subgroup ↥H)).Normal := hnorm.subgroupOf _
-  obtain ⟨w, hwW, hw1, hw3, hwc⟩ := exists_pow_three_mem_center_of_normal S.isPGroup' hW
+  have : ((V.subgroupOf H).subgroupOf (S : Subgroup ↥H)).Normal := hnorm.subgroupOf _
+  obtain ⟨w, hwW, hw1, hw3, hwc⟩ := exists_pow_three_mem_center_of_normal S.isPGroup hW
   refine ⟨((w : ↥H) : G), hwW, ?_, ?_, fun a ha => ?_⟩
   · intro h
     exact hw1 (Subtype.ext (Subtype.ext h))

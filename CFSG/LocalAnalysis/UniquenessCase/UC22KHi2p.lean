@@ -40,6 +40,7 @@ variable (W : Type*) [Group W] [IsKleinFour W]
   map_one' := by ext; rfl
   map_mul' σ τ := by ext; rfl
 
+omit [IsKleinFour W] in
 theorem s3_restrict_injective : Function.Injective (s3_restrict W) := by
   intro σ τ h
   ext v
@@ -67,7 +68,7 @@ theorem s3_autEquiv_apply (σ : MulAut W) : s3_autEquiv W σ = s3_restrict W σ 
 theorem s3_card_omega : Nat.card {v : W // v ≠ 1} = 3 := by
   classical
   have h4 : Nat.card W = 4 := IsKleinFour.card_four
-  haveI : Fintype W := Fintype.ofFinite W
+  have : Fintype W := Fintype.ofFinite W
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype_compl, Fintype.card_subtype_eq]
   rw [Nat.card_eq_fintype_card] at h4
   omega
@@ -76,7 +77,7 @@ theorem s3_exists_equiv_perm_fin3 :
     ∃ (e : MulAut W ≃* Equiv.Perm (Fin 3)) (f : {v : W // v ≠ 1} ≃ Fin 3),
       ∀ (σ : MulAut W) (ω : {v : W // v ≠ 1}), e σ (f ω) = f (s3_restrict W σ ω) := by
   classical
-  haveI : Fintype {v : W // v ≠ 1} := Fintype.ofFinite _
+  have : Fintype {v : W // v ≠ 1} := Fintype.ofFinite _
   have h3 : Fintype.card {v : W // v ≠ 1} = Fintype.card (Fin 3) := by
     rw [← Nat.card_eq_fintype_card, s3_card_omega]; simp
   let f : {v : W // v ≠ 1} ≃ Fin 3 := Fintype.equivOfCardEq h3
@@ -122,11 +123,12 @@ theorem s3_prime_dvd_natCard {N : Subgroup A} {σ : A} (hσ : σ ∈ N) (hσ1 : 
 
 theorem s3_three_dvd_natCard {N : Subgroup A} {σ : A} (hσ : σ ∈ N) (hσ1 : σ ≠ 1) (h3 : σ ^ 3 = 1) :
     3 ∣ Nat.card N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have := orderOf_eq_prime h3 hσ1
   rw [← this]
   exact Subgroup.orderOf_dvd_natCard N hσ
 
+omit [Group A] in
 theorem s3_finite_of_card_six (hA : Nat.card A = 6) : Finite A :=
   Nat.finite_of_card_ne_zero (by omega)
 
@@ -135,7 +137,7 @@ theorem s3_card_dvd_six (hA : Nat.card A = 6) (N : Subgroup A) : Nat.card N ∣ 
 
 theorem s3_eq_top_of_dvd (hA : Nat.card A = 6) {N : Subgroup A} (h2 : 2 ∣ Nat.card N)
     (h3 : 3 ∣ Nat.card N) : N = ⊤ := by
-  haveI := s3_finite_of_card_six hA
+  have := s3_finite_of_card_six hA
   have h6 : 6 ∣ Nat.card N := by omega
   have hle : Nat.card N ≤ 6 := Nat.le_of_dvd (by norm_num) (s3_card_dvd_six hA N)
   have h7 : 6 ≤ Nat.card N := Nat.le_of_dvd Nat.card_pos h6
@@ -146,14 +148,14 @@ theorem s3_card_eq_two_of_dvd (hA : Nat.card A = 6) {N : Subgroup A} (h2 : 2 ∣
   have hd := s3_card_dvd_six hA N
   have hle : Nat.card N ≤ 6 := Nat.le_of_dvd (by norm_num) hd
   have hpos : 0 < Nat.card N := by
-    haveI := s3_finite_of_card_six hA
+    have := s3_finite_of_card_six hA
     exact Nat.card_pos
   interval_cases hc : Nat.card N <;> omega
 
 theorem s3_card_le_two_of_isPGroup (hA : Nat.card A = 6) {N : Subgroup A} (hN : IsPGroup 2 N) :
     Nat.card N ≤ 2 := by
-  haveI := s3_finite_of_card_six hA
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := s3_finite_of_card_six hA
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hN
   have hd := s3_card_dvd_six hA N
   rw [hn] at hd ⊢
@@ -168,10 +170,10 @@ theorem s3_card_le_two_of_isPGroup (hA : Nat.card A = 6) {N : Subgroup A} (hN : 
 theorem s3_normal_two_trivial (hA : Nat.card A = 6)
     (hZ : ∀ τ : A, (∀ g : A, g * τ = τ * g) → τ = 1) (N : Subgroup A) [hN : N.Normal]
     (h2 : ∀ n ∈ N, ∃ k : ℕ, n ^ 2 ^ k = 1) : N = ⊥ := by
-  haveI := s3_finite_of_card_six hA
+  have := s3_finite_of_card_six hA
   have h3 : ¬ 3 ∣ Nat.card N := by
     intro h3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := N) 3 h3
     obtain ⟨k, hk⟩ := h2 x x.2
     have h1 : orderOf (x : A) = 3 := by rw [Subgroup.orderOf_coe]; exact hx
@@ -210,9 +212,11 @@ variable {P V₀ : Subgroup G}
 @[expose] noncomputable def s3_psi (hP : P ≤ normalizer (V₀ : Set G)) : ↥P →* MulAut ↥V₀ :=
   (normalizerMonoidHom V₀).comp (Subgroup.inclusion hP)
 
+omit [Finite G] in
 theorem s3_psi_coe (hP : P ≤ normalizer (V₀ : Set G)) (p : ↥P) (v : ↥V₀) :
     ((s3_psi hP p v : ↥V₀) : G) = (p : G) * (v : G) * (p : G)⁻¹ := rfl
 
+omit [Finite G] in
 theorem s3_psi_eq_one_iff (hP : P ≤ normalizer (V₀ : Set G)) (p : ↥P) :
     s3_psi hP p = 1 ↔ (p : G) ∈ centralizer (V₀ : Set G) := by
   rw [mem_centralizer_iff]
@@ -228,10 +232,12 @@ theorem s3_psi_eq_one_iff (hP : P ≤ normalizer (V₀ : Set G)) (p : ↥P) :
     rw [mul_inv_eq_iff_eq_mul]
     exact (h v v.2).symm
 
+omit [Finite G] in
 theorem s3_psi_mk_eq_one_iff (hP : P ≤ normalizer (V₀ : Set G)) {x : G} (hx : x ∈ P) :
     s3_psi hP ⟨x, hx⟩ = 1 ↔ x ∈ centralizer (V₀ : Set G) :=
   s3_psi_eq_one_iff hP ⟨x, hx⟩
 
+omit [Finite G] in
 theorem s3_psi_mk_pow (hP : P ≤ normalizer (V₀ : Set G)) {x : G} (hx : x ∈ P) (n : ℕ) :
     s3_psi hP ⟨x, hx⟩ ^ n = s3_psi hP ⟨x ^ n, P.pow_mem hx n⟩ := by
   rw [← map_pow]
@@ -241,14 +247,17 @@ theorem s3_psi_mk_pow (hP : P ≤ normalizer (V₀ : Set G)) {x : G} (hx : x ∈
     Subgroup (MulAut ↥V₀) :=
   (X.subgroupOf P).map (s3_psi hP)
 
+omit [Finite G] in
 theorem s3_mem_img {hP : P ≤ normalizer (V₀ : Set G)} {X : Subgroup G} {σ : MulAut ↥V₀} :
     σ ∈ s3_img hP X ↔ ∃ x : ↥P, (x : G) ∈ X ∧ s3_psi hP x = σ := by
   simp [s3_img, Subgroup.mem_map, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem s3_psi_mem_img {hP : P ≤ normalizer (V₀ : Set G)} {X : Subgroup G} {x : G} (hxP : x ∈ P)
     (hxX : x ∈ X) : s3_psi hP ⟨x, hxP⟩ ∈ s3_img hP X :=
   s3_mem_img.2 ⟨⟨x, hxP⟩, hxX, rfl⟩
 
+omit [Finite G] in
 theorem s3_img_mono {hP : P ≤ normalizer (V₀ : Set G)} {X Y : Subgroup G} (hXY : X ≤ Y) :
     s3_img hP X ≤ s3_img hP Y := fun _ hσ => by
   obtain ⟨x, hx, rfl⟩ := s3_mem_img.1 hσ
@@ -256,6 +265,7 @@ theorem s3_img_mono {hP : P ≤ normalizer (V₀ : Set G)} {X Y : Subgroup G} (h
 
 end Psi
 
+omit [Finite G] in
 theorem s3_exists_pow_eq_one {T : Subgroup G} (hT : IsPGroup 2 T) {t : G} (ht : t ∈ T) :
     ∃ k : ℕ, t ^ 2 ^ k = 1 := by
   obtain ⟨k, hk⟩ := hT ⟨t, ht⟩
@@ -270,25 +280,27 @@ include h
 theorem s3_isKleinFour : IsKleinFour ↥V₀ where
   card_four := h.card
   exponent_two := by
-    haveI : Nontrivial ↥V₀ := Finite.one_lt_card_iff_nontrivial.1 (by rw [h.card]; norm_num)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Nontrivial ↥V₀ := Finite.one_lt_card_iff_nontrivial.1 (by rw [h.card]; norm_num)
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine (Monoid.exponent_eq_prime_iff Nat.prime_two).2 fun g hg => ?_
     refine orderOf_eq_prime ?_ hg
     apply Subtype.ext
     simpa using h.elem.2 g g.2
 
 theorem s3_card_aut : Nat.card (MulAut ↥V₀) = 6 := by
-  haveI := h.s3_isKleinFour
+  have := h.s3_isKleinFour
   exact s3_card_mulAut ↥V₀
 
 theorem s3_aut_center (τ : MulAut ↥V₀) (hτ : ∀ g : MulAut ↥V₀, g * τ = τ * g) : τ = 1 := by
-  haveI := h.s3_isKleinFour
+  have := h.s3_isKleinFour
   exact s3_mulAut_center ↥V₀ τ hτ
 
+omit [Finite G] in
 theorem s3_psi_ne_one_of_acts {x : G} (hx : x ∈ P) (hact : ActsOrdThree V₀ x) :
     s3_psi h.norm ⟨x, hx⟩ ≠ 1 := fun h1 =>
   hact.1 ((s3_psi_mk_eq_one_iff h.norm hx).1 h1)
 
+omit [Finite G] in
 theorem s3_psi_pow_three_of_acts {x : G} (hx : x ∈ P) (hact : ActsOrdThree V₀ x) :
     s3_psi h.norm ⟨x, hx⟩ ^ 3 = 1 := by
   rw [s3_psi_mk_pow]
@@ -297,7 +309,7 @@ theorem s3_psi_pow_three_of_acts {x : G} (hx : x ∈ P) (hact : ActsOrdThree V�
 theorem s3_psi_surjective : Function.Surjective (s3_psi h.norm) := by
   have hA := h.s3_card_aut
   obtain ⟨x, hxP, hxact⟩ := h.ord3
-  obtain ⟨t, htT, htC⟩ := SetLike.not_le_iff_exists.1 h.act
+  obtain ⟨t, htT, htC⟩ := IsConcreteLE.not_le_iff_exists.1 h.act
   have h3 : 3 ∣ Nat.card (s3_psi h.norm).range :=
     s3_three_dvd_natCard (N := (s3_psi h.norm).range) (σ := s3_psi h.norm ⟨x, hxP⟩)
       (MonoidHom.mem_range.2 ⟨_, rfl⟩) (h.s3_psi_ne_one_of_acts hxP hxact)
@@ -311,11 +323,13 @@ theorem s3_psi_surjective : Function.Surjective (s3_psi h.norm) := by
       exact (s3_psi_mk_eq_one_iff h.norm _).2 (by simp [hk])
   exact MonoidHom.range_eq_top.1 (s3_eq_top_of_dvd hA h2 h3)
 
+omit [Finite G] in
 theorem s3_le_normalizer_ker :
-    P ≤ normalizer ((P ⊓ centralizer (V₀ : Set G) : Subgroup G) : Set G) := fun g hg =>
+    P ≤ normalizer ((P ⊓ centralizer (V₀ : Set G) : Subgroup G) : Set G) := fun _g hg =>
   Subgroup.inf_normalizer_le_normalizer_inf
     ⟨Subgroup.le_normalizer hg, B6.le_normalizer_centralizer h.norm hg⟩
 
+omit [Finite G] in
 theorem s3_isPGroup_img_T₁ : IsPGroup 2 (s3_img h.norm T₁) := by
   intro σ
   obtain ⟨x, hxT, hxσ⟩ := s3_mem_img.1 σ.2
@@ -326,7 +340,7 @@ theorem s3_isPGroup_img_T₁ : IsPGroup 2 (s3_img h.norm T₁) := by
 
 theorem s3_card_img_T₁ : Nat.card (s3_img h.norm T₁) = 2 := by
   have hA := h.s3_card_aut
-  obtain ⟨t, htT, htC⟩ := SetLike.not_le_iff_exists.1 h.act
+  obtain ⟨t, htT, htC⟩ := IsConcreteLE.not_le_iff_exists.1 h.act
   have h2 : 2 ∣ Nat.card (s3_img h.norm T₁) := by
     obtain ⟨k, hk⟩ := s3_exists_pow_eq_one h.pgroup htT
     refine s3_prime_dvd_natCard (N := s3_img h.norm T₁) (σ := s3_psi h.norm ⟨t, h.le htT⟩)
@@ -335,15 +349,15 @@ theorem s3_card_img_T₁ : Nat.card (s3_img h.norm T₁) = 2 := by
     · rw [s3_psi_mk_pow]
       exact (s3_psi_mk_eq_one_iff h.norm _).2 (by simp [hk])
   have hle := s3_card_le_two_of_isPGroup hA h.s3_isPGroup_img_T₁
-  haveI := s3_finite_of_card_six hA
+  have := s3_finite_of_card_six hA
   have hpos : 0 < Nat.card (s3_img h.norm T₁) := Nat.card_pos
   have := Nat.le_of_dvd hpos h2
   omega
 
 theorem s3_exists_actsOrdThree_of_three_dvd {X : Subgroup G}
     (h3 : 3 ∣ Nat.card (s3_img h.norm X)) : ∃ x ∈ X, ActsOrdThree V₀ x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := s3_finite_of_card_six h.s3_card_aut
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := s3_finite_of_card_six h.s3_card_aut
   obtain ⟨σ, hσ⟩ := exists_prime_orderOf_dvd_card' (G := s3_img h.norm X) 3 h3
   obtain ⟨x, hxX, hxσ⟩ := s3_mem_img.1 σ.2
   have hord : orderOf (σ : MulAut ↥V₀) = 3 := by rw [Subgroup.orderOf_coe]; exact hσ
@@ -357,6 +371,7 @@ theorem s3_exists_actsOrdThree_of_three_dvd {X : Subgroup G}
     rw [← hxσ, ← map_pow] at h1
     exact (s3_psi_eq_one_iff h.norm _).1 h1
 
+omit [Finite G] in
 theorem s3_le_sup_of_img_le {X : Subgroup G} (hXP : X ≤ P)
     (hX : s3_img h.norm X ≤ s3_img h.norm T₁) : X ≤ (P ⊓ centralizer (V₀ : Set G)) ⊔ T₁ := by
   intro x hx
@@ -371,6 +386,7 @@ theorem s3_le_sup_of_img_le {X : Subgroup G} (hXP : X ≤ P)
   rw [hx']
   exact Subgroup.mul_mem_sup hk htT
 
+omit [Finite G] in
 theorem s3_img_ker_sup_le :
     s3_img h.norm ((P ⊓ centralizer (V₀ : Set G)) ⊔ T₁) ≤ s3_img h.norm T₁ := by
   intro σ hσ
@@ -387,6 +403,7 @@ theorem s3_img_ker_sup_le :
   have : s3_psi h.norm ⟨k, hk.1⟩ = 1 := (s3_psi_eq_one_iff h.norm _).2 hk.2
   rw [this, one_mul]
 
+omit [Finite G] in
 theorem s3_exists_pow_mem_centralizer {x : G} (hxP : x ∈ P)
     (hx : x ∈ (P ⊓ centralizer (V₀ : Set G)) ⊔ T₁) :
     ∃ k : ℕ, x ^ 2 ^ k ∈ centralizer (V₀ : Set G) := by
@@ -403,7 +420,7 @@ end S3Frame
 theorem S3Frame.isTwoReduced {P T₁ V₀ : Subgroup G} (h : S3Frame P T₁ V₀) : IsTwoReducedIn P V₀ := by
   refine ⟨h.v₀le, h.norm, h.elem, fun D hDP hDn hD2 => ?_⟩
   have hsurj := h.s3_psi_surjective
-  haveI hNormal : (s3_img h.norm D).Normal := by
+  have hNormal : (s3_img h.norm D).Normal := by
     refine ⟨fun σ hσ g => ?_⟩
     obtain ⟨d, hd, rfl⟩ := s3_mem_img.1 hσ
     obtain ⟨p, rfl⟩ := hsurj g
@@ -458,7 +475,7 @@ theorem S3Frame.minParabolic {P T₁ V₀ : Subgroup G} (h : S3Frame P T₁ V₀
         have := s3_card_eq_two_of_dvd hA h2 h3
         apply hnle
         have heq : s3_img h.norm T₁ = s3_img h.norm Y := by
-          haveI := s3_finite_of_card_six hA
+          have := s3_finite_of_card_six hA
           exact Subgroup.eq_of_le_of_card_ge hTYimg (by omega)
         exact heq.symm.le
       obtain ⟨x, hxY, hxact⟩ := h.s3_exists_actsOrdThree_of_three_dvd h3
@@ -475,7 +492,7 @@ theorem S3Frame.minParabolic {P T₁ V₀ : Subgroup G} (h : S3Frame P T₁ V₀
       have hc := s3_card_eq_two_of_dvd hA h2 h3
       have hNle : N ≤ (P ⊓ centralizer (V₀ : Set G)) ⊔ T₁ := by
         refine h.s3_le_sup_of_img_le hNP ?_
-        haveI := s3_finite_of_card_six hA
+        have := s3_finite_of_card_six hA
         exact (Subgroup.eq_of_le_of_card_ge hTNimg (by omega)).symm.le
       by_contra hne
       exact absurd (hNmax _ (lt_of_le_of_ne hNle hne) hMP) (ne_of_lt hMlt)
@@ -497,7 +514,7 @@ open CFSG.LieType.BorelTits
 
 theorem s3_pCoreOf_eq_inf {P H : Subgroup G} (hHP : H ≤ P) (hHn : P ≤ normalizer (H : Set G)) :
     pCoreOf 2 H = H ⊓ pCoreOf 2 P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply le_antisymm
   · refine le_inf (pCoreOf_le 2 H) ?_
     exact le_pCoreOf_of_le_normalizer 2 ((pCoreOf_le 2 H).trans hHP)
@@ -508,6 +525,7 @@ theorem s3_pCoreOf_eq_inf {P H : Subgroup G} (hHP : H ≤ P) (hHn : P ≤ normal
     exact Subgroup.inf_normalizer_le_normalizer_inf
       ⟨Subgroup.le_normalizer hg, le_normalizer_pCoreOf 2 P (hHP hg)⟩
 
+omit [Finite G] in
 theorem s3_conj_eq_of_commute_commutator {y q : G} {r : ℕ} (hr : Odd r) (hy : y ^ r = 1)
     (hc2 : ∃ b : ℕ, (y * q * y⁻¹ * q⁻¹) ^ (2 ^ b) = 1)
     (hcomm : y * (y * q * y⁻¹ * q⁻¹) = (y * q * y⁻¹ * q⁻¹) * y) : y * q * y⁻¹ = q := by
@@ -545,6 +563,7 @@ theorem s3_conj_eq_of_commute_commutator {y q : G} {r : ℕ} (hr : Odd r) (hy : 
   have : y * q * y⁻¹ * q⁻¹ * q = q := by rw [← hc, hc1, one_mul]
   simpa using this
 
+omit [Finite G] in
 theorem s3_eq_one_of_odd_of_isPGroup {Q : Subgroup G} (hQ : IsPGroup 2 Q) {y : G} (hyQ : y ∈ Q)
     {r : ℕ} (hr : Odd r) (hyr : y ^ r = 1) : y = 1 := by
   obtain ⟨b, hb⟩ := s3_exists_pow_eq_one hQ hyQ
@@ -555,7 +574,7 @@ theorem s3_eq_one_of_odd_of_isPGroup {Q : Subgroup G} (hQ : IsPGroup 2 Q) {y : G
 theorem s3_fstar_of_normal {P H : Subgroup G} (hHP : H ≤ P) (hHn : P ≤ normalizer (H : Set G))
     (hF : P ⊓ centralizer (pCoreOf 2 P : Set G) ≤ pCoreOf 2 P) :
     H ⊓ centralizer (pCoreOf 2 H : Set G) ≤ pCoreOf 2 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRe := s3_pCoreOf_eq_inf hHP hHn
   have hQ2 : IsPGroup 2 (pCoreOf 2 P) := pCoreOf_isPGroup 2 P
   have hQn : P ≤ normalizer (pCoreOf 2 P : Set G) := le_normalizer_pCoreOf 2 P
@@ -622,14 +641,17 @@ section HGen
 
 variable {P T₁ S : Subgroup G}
 
+omit [Finite G] in
 theorem s3_hGen_eq_iSup (P S : Subgroup G) :
     hGen P S = ⨆ l ∈ twoResidual P, B6.conjSub l S := rfl
 
+omit [Finite G] in
 theorem s3_le_hGen (P S : Subgroup G) : S ≤ hGen P S := by
   rw [s3_hGen_eq_iSup]
   refine le_iSup₂_of_le (1 : G) (Subgroup.one_mem _) ?_
   rw [B6.conjSub_one]
 
+omit [Finite G] in
 theorem s3_hGen_le_of_le (hSP : S ≤ P) : hGen P S ≤ P := by
   rw [s3_hGen_eq_iSup]
   refine iSup₂_le fun l hl x hx => ?_
@@ -638,6 +660,7 @@ theorem s3_hGen_le_of_le (hSP : S ≤ P) : hGen P S ≤ P := by
   have := P.mul_mem (P.mul_mem hlP (hSP hx)) (P.inv_mem hlP)
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem s3_conjSub_hGen_le {g : G}
     (hg : ∀ l ∈ twoResidual P, ∃ l' ∈ twoResidual P,
       B6.conjSub (g * l) S ≤ B6.conjSub l' S) :
@@ -649,6 +672,7 @@ theorem s3_conjSub_hGen_le {g : G}
   rw [← B6.conjSub_mul]
   exact hle.trans (le_iSup₂ (f := fun l (_ : l ∈ twoResidual P) => B6.conjSub l S) l' hl')
 
+omit [Finite G] in
 theorem s3_conjSub_hGen_le_of_mem_T (hTP : T₁ ≤ P) (hSn : T₁ ≤ normalizer (S : Set G)) {t : G}
     (ht : t ∈ T₁) : B6.conjSub t (hGen P S) ≤ hGen P S := by
   refine s3_conjSub_hGen_le (P := P) (S := S) (g := t) ?_
@@ -661,12 +685,14 @@ theorem s3_conjSub_hGen_le_of_mem_T (hTP : T₁ ≤ P) (hSn : T₁ ≤ normalize
     rw [B6.conjSub_mul, B6.conjSub_eq_self (hSn ht)]
   exact ⟨t * l * t⁻¹, hl', le_of_eq e⟩
 
+omit [Finite G] in
 theorem s3_conjSub_hGen_le_of_mem_L {g : G} (hg : g ∈ twoResidual P) :
     B6.conjSub g (hGen P S) ≤ hGen P S := by
   refine s3_conjSub_hGen_le (P := P) (S := S) (g := g) ?_
   intro l hl
   exact ⟨g * l, (twoResidual P).mul_mem hg hl, le_rfl⟩
 
+omit [Finite G] in
 theorem s3_le_normalizer_hGen_of_sup_eq (hTP : T₁ ≤ P) (hSn : T₁ ≤ normalizer (S : Set G))
     (hP : T₁ ⊔ twoResidual P = P) : P ≤ normalizer (hGen P S : Set G) := by
   refine hP.symm.le.trans (sup_le (fun t ht => ?_) (fun g hg => ?_))
@@ -706,7 +732,7 @@ theorem s3_exists_twoResidual_actsOrdThree : ∃ y ∈ twoResidual P, ActsOrdThr
       rw [s3_psi_mk_pow]
       exact (s3_psi_mk_eq_one_iff h.norm _).2 hC
     have h3 := orderOf_dvd_of_pow_eq_one h1
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rw [orderOf_eq_prime (h.s3_psi_pow_three_of_acts hxP hxact) (h.s3_psi_ne_one_of_acts hxP hxact)]
       at h3
     have := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3
@@ -716,8 +742,8 @@ theorem s3_exists_twoResidual_actsOrdThree : ∃ y ∈ twoResidual P, ActsOrdThr
     exact (centralizer (V₀ : Set G)).pow_mem hxact.2 _
 
 theorem s3_le_twoResidual : V₀ ≤ twoResidual P := by
-  haveI := h.s3_isKleinFour
-  haveI : IsMulCommutative ↥V₀ := h.elem.1
+  have := h.s3_isKleinFour
+  have : IsMulCommutative ↥V₀ := h.elem.1
   obtain ⟨y, hyL, hyact⟩ := h.s3_exists_twoResidual_actsOrdThree
   have hyP : y ∈ P := twoResidual_le P hyL
   have hfix := s3_mulAut_fixed ↥V₀ (s3_psi h.norm ⟨y, hyP⟩) (h.s3_psi_pow_three_of_acts hyP hyact)
@@ -734,6 +760,7 @@ theorem s3_le_twoResidual : V₀ ≤ twoResidual P := by
   rw [e]
   exact (twoResidual P).mul_mem h1 ((twoResidual P).inv_mem hyL)
 
+omit [Finite G] in
 theorem s3_hGen_le (hS : S ≤ T₁) : hGen P S ≤ P := s3_hGen_le_of_le (hS.trans h.le)
 
 theorem s3_le_normalizer_hGen (hSn : T₁ ≤ normalizer (S : Set G)) :
@@ -751,7 +778,7 @@ theorem s3_twoResidual_le_hGen (hS : S ≤ T₁) (hSn : T₁ ≤ normalizer (S :
 
 theorem s3_img_eq_top {X : Subgroup G} (hS : S ≤ T₁) (hSact : ¬ S ≤ centralizer (V₀ : Set G))
     (hSX : S ≤ X) (hLX : twoResidual P ≤ X) : s3_img h.norm X = ⊤ := by
-  obtain ⟨s, hsS, hsC⟩ := SetLike.not_le_iff_exists.1 hSact
+  obtain ⟨s, hsS, hsC⟩ := IsConcreteLE.not_le_iff_exists.1 hSact
   obtain ⟨y, hyL, hyact⟩ := h.s3_exists_twoResidual_actsOrdThree
   have hyP := twoResidual_le P hyL
   have h3 : 3 ∣ Nat.card (s3_img h.norm X) :=
@@ -768,6 +795,7 @@ theorem s3_img_eq_top {X : Subgroup G} (hS : S ≤ T₁) (hSact : ¬ S ≤ centr
       exact (s3_psi_mk_eq_one_iff h.norm _).2 (by simp [hk])
   exact s3_eq_top_of_dvd h.s3_card_aut h2 h3
 
+omit [Finite G] in
 theorem s3_sup_ker_eq_of_img_eq_top {Y : Subgroup G} (hYP : Y ≤ P) (hY : s3_img h.norm Y = ⊤) :
     Y ⊔ (P ⊓ centralizer (V₀ : Set G)) = P := by
   refine le_antisymm (sup_le hYP inf_le_left) fun p hp => ?_

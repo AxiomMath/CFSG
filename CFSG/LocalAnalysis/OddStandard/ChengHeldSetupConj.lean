@@ -57,7 +57,7 @@ theorem isCyclic_sylow_of_eq_conjugate {C C' : Subgroup G} {g : G}
     (hcyc : ∀ T : Subgroup G, T ≤ C → IsPGroup 2 T → IsCyclic T) (R : Sylow 2 C') :
     IsCyclic (R : Subgroup C') := by
   set T : Subgroup G := (R : Subgroup C').map C'.subtype with hT
-  have hTp : IsPGroup 2 T := R.isPGroup'.map _
+  have hTp : IsPGroup 2 T := R.isPGroup.map _
   have hTC : T ≤ C' := map_subtype_le _
   have hT₀ : T.map (MulAut.conj g⁻¹).symm.toMonoidHom ≤ C := by
     rintro _ ⟨y, hy, rfl⟩

@@ -14,7 +14,7 @@ open CFSG.LieType.Steinberg.CentralExt.SLClosed
 
 theorem exists_central_cover_specialLinear_of_centrallyClosed
     {L : Type} [Group L] [Finite L] (hL : CFSG.Open.IsQuasisimple L)
-    (m : ℕ) (hm : 1 ≤ m) (Q : TauCeti.PrimePower) (hQ : Q.p = 2)
+    (m : ℕ) (_hm : 1 ≤ m) (Q : TauCeti.PrimePower) (hQ : Q.p = 2)
     (hv : (TauCeti.LieTypeIndex.A m Q).Valid)
     (e : L ⧸ Subgroup.center L ≃* (TauCeti.CFSGIndex.lie
         (⟨TauCeti.LieTypeIndex.A m Q, hv⟩ : TauCeti.ValidLieTypeIndex)).Group)
@@ -28,12 +28,12 @@ theorem exists_central_cover_specialLinear_of_centrallyClosed
       (π : SpecialLinearGroup (Fin (m + 1)) F →* L),
       Nat.card F = Q.card ∧ Function.Surjective π ∧
       π.ker ≤ Subgroup.center (SpecialLinearGroup (Fin (m + 1)) F) := by
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
-  haveI : Group.IsPerfect L := Group.isPerfect_def.2 hL.1
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Group.IsPerfect L := Group.isPerfect_def.2 hL.1
   let F := GaloisField Q.p Q.exponent
   have hcardF : Nat.card F = Q.card := by
     rw [GaloisField.card Q.p Q.exponent Q.exponent_pos.ne', TauCeti.PrimePower.card_def]
-  haveI : CharP F 2 := CharP.congr Q.p hQ
+  have : CharP F 2 := CharP.congr Q.p hQ
   let Cov := SpecialLinearGroup (Fin (m + 1)) F
   let X := (TauCeti.CFSGIndex.lie
     (⟨TauCeti.LieTypeIndex.A m Q, hv⟩ : TauCeti.ValidLieTypeIndex)).Group

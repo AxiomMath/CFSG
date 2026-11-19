@@ -50,6 +50,7 @@ theorem not_lieModel_twistedB2 {n p f : ℕ} (hm : LieModel W .twistedB2 n p f) 
   · exact UnbalancedCorr.faithful_suzuki_socle_involution_component_exclusion hWs hWnab hCW ha
       hLW hL p f hsz
 
+omit hLW in
 theorem not_lieModel_large_ree_tits {t : StatedLieTag} (ht : t = .twistedF4 ∨ t = .Tits)
     {n p f : ℕ} (hm : LieModel W t n p f) : False := by
   have hmod : ReeTitsModel W t p f := by

@@ -26,7 +26,7 @@ theorem rkY_false_twE6 {Y : Type} [Group Y] [Finite Y] (hrk : RkY Y) {p f : ℕ}
   classical
   obtain ⟨K, hKf, hKfin, hKcard, θ, hθq, ⟨e⟩⟩ := hE.2
   have hKq : Nat.card K = (p ^ f) ^ 2 := hKcard
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hθ : ∀ c, θ (θ c) = c := fun c => by
     rw [hθq, hθq, ← pow_mul, ← sq, ← hKq, Nat.card_eq_fintype_card, FiniteField.pow_card]
   have hq2le : 2 ≤ p ^ f := hp.two_le.trans (Nat.le_self_pow (by omega) p)
@@ -60,7 +60,7 @@ theorem rkY_false_twE6 {Y : Type} [Group Y] [Finite Y] (hrk : RkY Y) {p f : ℕ}
         rw [h, map_one]
     rw [show θ'.ker = (ψ.comp iso).ker from rfl, hker]
     exact TwistedE6Closed.ker_twistedIsogeny_eq_center hθ hK4
-  haveI : Group.IsPerfect ↥(fixedGroup K θ) := fixedGroup_isPerfect_of_four_le_card θ hθ hK4
+  have : Group.IsPerfect ↥(fixedGroup K θ) := fixedGroup_isPerfect_of_four_le_card θ hθ hK4
   have hcardker : Nat.card θ'.ker = Nat.gcd 3 (p ^ f + 1) := by
     rw [hθ'ker]
     exact (TwistedE6Closed.card_center_fixedGroup hKq hθq).1
@@ -81,10 +81,10 @@ theorem rkY_false_twE6 {Y : Type} [Group Y] [Finite Y] (hrk : RkY Y) {p f : ℕ}
     by_cases hq2 : p = 2 ∧ f = 1
     · refine exists_elemAbelian_lift_of_hopf_two_power θ' hθ'surj (hθ'ker ▸ le_rfl) hM0
         ⟨2, ?_⟩ π hπ hπker.le hEa
-      rw [hcardM, hcardker, if_pos hq2]
+      rw [hcardM, hcardker, ite_eq_left hq2]
       ring
     · obtain ⟨ρ, hρ⟩ := exists_hom_lift_of_hopf_card θ' hθ'surj (hθ'ker ▸ le_rfl)
-        (by rw [hcardM, hcardker, if_neg hq2, mul_one]) hM0 π hπ hπker.le
+        (by rw [hcardM, hcardker, ite_eq_right hq2, mul_one]) hM0 π hπ hπker.le
       refine ⟨E.map ρ, IsElemAbelian.map hEa ρ, ?_⟩
       have hcomp : π.comp ρ = θ' := MonoidHom.ext hρ
       rw [Subgroup.map_map, hcomp]

@@ -12,10 +12,12 @@ variable {G : Type} [Group G] [Finite G] {Y : Subgroup G} {rho v : G}
 
 @[expose] def orbitGrp (rho v : G) : Subgroup G := closure ({v, rho * v * rho⁻¹} : Set G)
 
+omit [Finite G] in
 private lemma comm_of_mem (hY : CFSG.Open.IsElemAbelian 2 Y) {a b : G} (ha : a ∈ Y)
     (hb : b ∈ Y) : a * b = b * a :=
   congrArg Subtype.val (hY.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
 
+omit [Finite G] in
 private lemma mem_zpowers_invol {z x : G} (hz : z * z = 1) (hx : x ∈ zpowers z) :
     x = 1 ∨ x = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -27,21 +29,25 @@ private lemma mem_zpowers_invol {z x : G} (hz : z * z = 1) (hx : x ∈ zpowers z
   · right
     rw [← Int.emod_add_mul_ediv k 2, h, zpow_add, zpow_mul, h2, one_zpow, mul_one, zpow_one]
 
+omit [Finite G] in
 private lemma mul_self_eq_inv (hρ3 : rho ^ 3 = 1) : rho * rho = rho⁻¹ := by
   rw [eq_inv_iff_mul_eq_one, ← pow_three']
   exact hρ3
 
+omit [Finite G] in
 private lemma inv_mul_inv (hρ3 : rho ^ 3 = 1) : rho⁻¹ * rho⁻¹ = rho := by
   have h3 : rho * rho * rho = 1 := by rw [← pow_three']; exact hρ3
   rw [← mul_self_eq_inv hρ3,
     show (rho * rho) * (rho * rho) = rho * (rho * rho * rho) by group, h3, mul_one]
 
+omit [Finite G] in
 private lemma rho_conj_inv (hρ3 : rho ^ 3 = 1) (x : G) :
     rho * (rho * x * rho⁻¹) * rho⁻¹ = rho⁻¹ * x * rho := by
   calc rho * (rho * x * rho⁻¹) * rho⁻¹
       = (rho * rho) * x * (rho⁻¹ * rho⁻¹) := by group
     _ = rho⁻¹ * x * rho := by rw [mul_self_eq_inv hρ3, inv_mul_inv hρ3]
 
+omit [Finite G] in
 private lemma mul_rotate (hY : CFSG.Open.IsElemAbelian 2 Y) {x y z : G} (hx : x ∈ Y)
     (hy : y ∈ Y) (hz : z ∈ Y) : x * y * z = z * x * y := by
   calc x * y * z = x * (y * z) := mul_assoc x y z
@@ -49,11 +55,13 @@ private lemma mul_rotate (hY : CFSG.Open.IsElemAbelian 2 Y) {x y z : G} (hx : x 
     _ = x * z * y := (mul_assoc x z y).symm
     _ = z * x * y := by rw [comm_of_mem hY hx hz]
 
+omit [Finite G] in
 private lemma eq_one_of_eq_mul_left {v b : G} (h : b = v * b) : v = 1 := by
   have hh := congrArg (fun z => z * b⁻¹) h
   simp only [mul_assoc, mul_inv_cancel, mul_one] at hh
   exact hh.symm
 
+omit [Finite G] in
 theorem orbit_norm (hY : CFSG.Open.IsElemAbelian 2 Y) (hρ3 : rho ^ 3 = 1)
     (hρY : ∀ x ∈ Y, rho * x * rho⁻¹ ∈ Y) (hfix : ∀ x ∈ Y, rho * x * rho⁻¹ = x → x = 1)
     (hv : v ∈ Y) : rho⁻¹ * v * rho = v * (rho * v * rho⁻¹) := by
@@ -83,11 +91,13 @@ theorem orbit_norm (hY : CFSG.Open.IsElemAbelian 2 Y) (hρ3 : rho ^ 3 = 1)
   rw [hv_inv, hb_inv]
   exact (comm_of_mem hY hv hb).symm
 
+omit [Finite G] in
 theorem orbit_ne (hfix : ∀ x ∈ Y, rho * x * rho⁻¹ = x → x = 1) (hv : v ∈ Y) (hv1 : v ≠ 1) :
     v ≠ rho * v * rho⁻¹ := by
   intro h
   exact hv1 (hfix v hv h.symm)
 
+omit [Finite G] in
 theorem mem_orbitGrp_iff (hY : CFSG.Open.IsElemAbelian 2 Y)
     (hρY : ∀ x ∈ Y, rho * x * rho⁻¹ ∈ Y) (hv : v ∈ Y) {x : G} :
     x ∈ orbitGrp rho v ↔ x = 1 ∨ x = v ∨ x = rho * v * rho⁻¹ ∨ x = v * (rho * v * rho⁻¹) := by
@@ -100,7 +110,7 @@ theorem mem_orbitGrp_iff (hY : CFSG.Open.IsElemAbelian 2 Y)
   unfold orbitGrp
   exact h
 
-theorem orbitGrp_props (hY : CFSG.Open.IsElemAbelian 2 Y) (hρ3 : rho ^ 3 = 1)
+theorem orbitGrp_props (hY : CFSG.Open.IsElemAbelian 2 Y) (_hρ3 : rho ^ 3 = 1)
     (hρY : ∀ x ∈ Y, rho * x * rho⁻¹ ∈ Y) (hfix : ∀ x ∈ Y, rho * x * rho⁻¹ = x → x = 1)
     (hv : v ∈ Y) (hv1 : v ≠ 1) :
     orbitGrp rho v ≤ Y ∧ CFSG.Open.IsElemAbelian 2 (orbitGrp rho v) ∧
@@ -165,6 +175,7 @@ theorem orbitGrp_props (hY : CFSG.Open.IsElemAbelian 2 Y) (hρ3 : rho ^ 3 = 1)
   norm_num at hprod
   exact hprod
 
+omit [Finite G] in
 theorem orbitGrp_inv (hY : CFSG.Open.IsElemAbelian 2 Y) (hρ3 : rho ^ 3 = 1)
     (hρY : ∀ x ∈ Y, rho * x * rho⁻¹ ∈ Y) (hfix : ∀ x ∈ Y, rho * x * rho⁻¹ = x → x = 1)
     (hv : v ∈ Y) : ∀ x ∈ orbitGrp rho v, rho * x * rho⁻¹ ∈ orbitGrp rho v := by
@@ -190,6 +201,7 @@ theorem orbitGrp_inv (hY : CFSG.Open.IsElemAbelian 2 Y) (hρ3 : rho ^ 3 = 1)
                 show (rho * v * rho⁻¹) * (rho * v * rho⁻¹) = 1 by
                   simpa [pow_two] using hY.2 (rho * v * rho⁻¹) hb, mul_one]]
 
+omit [Finite G] in
 theorem orbitGrp_sigma (hY : CFSG.Open.IsElemAbelian 2 Y) (hρ3 : rho ^ 3 = 1)
     (hρY : ∀ x ∈ Y, rho * x * rho⁻¹ ∈ Y) (hfix : ∀ x ∈ Y, rho * x * rho⁻¹ = x → x = 1)
     (hv : v ∈ Y) (hv1 : v ≠ 1) {σ : G} (hσv : σ * v * σ⁻¹ = v)
@@ -252,6 +264,7 @@ theorem orbitGrp_sigma (hY : CFSG.Open.IsElemAbelian 2 Y) (hρ3 : rho ^ 3 = 1)
       have h := congrArg (fun z => z * σ) hσv
       simpa [mul_assoc] using h.symm
 
+omit [Finite G] in
 theorem orbitGrp_inf (hY : CFSG.Open.IsElemAbelian 2 Y) (hρ3 : rho ^ 3 = 1)
     (hρY : ∀ x ∈ Y, rho * x * rho⁻¹ ∈ Y) (hfix : ∀ x ∈ Y, rho * x * rho⁻¹ = x → x = 1)
     (hv : v ∈ Y) {W : Subgroup G} (hWρ : ∀ x ∈ W, rho * x * rho⁻¹ ∈ W) (hvW : v ∉ W) :

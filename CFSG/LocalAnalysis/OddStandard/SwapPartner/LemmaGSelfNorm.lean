@@ -25,7 +25,7 @@ private theorem b2_mem_centralizer : b2 ∈ centralizer ({ρ₄'} : Set (Perm (F
   decide
 
 private theorem a2_mul_b2_orderOf : orderOf (a2 * b2) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 private theorem commute_tau0_apply_eight_or_nine {σ : Perm (Fin 10)}
@@ -51,7 +51,7 @@ private theorem mem_of_sq_one_of_normalizes {C : Subgroup (Perm (Fin 8))}
     (hx : x ∈ C) (hx2 : x * x = 1)
     (hnorm : x ∈ normalizer (P : Set (Perm (Fin 8)))) : x ∈ P := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hx1 : x = 1
   · rw [hx1]; exact P.one_mem
   · have hxord : orderOf x = 2 := orderOf_eq_prime (by rwa [pow_two]) hx1
@@ -93,7 +93,7 @@ private theorem mem_of_sq_one_of_normalizes {C : Subgroup (Perm (Fin 8))}
 theorem liftS8_mem_of_normalizes {Q : Subgroup (Perm (Fin 10))} (hQ : GoodQ Q) {ρ : Perm (Fin 8)}
     (hn : ∀ q : Perm (Fin 10), q ∈ Q → liftS8 ρ * q * (liftS8 ρ)⁻¹ ∈ Q) : liftS8 ρ ∈ Q := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardC : Nat.card (centralizer ({ρ₄'} : Set (Perm (Fin 8)))) = 2 ^ 7 * 3 := by
     rw [CFSG.OddStandard.AltStdSec.nat_card_centralizer_of_mul_self ρ₄'_mul_self,
       card_cycleType_ρ₄']

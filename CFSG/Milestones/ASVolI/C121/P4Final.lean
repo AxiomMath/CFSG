@@ -16,7 +16,7 @@ open scoped MatrixGroups Matrix
 
 theorem burnsideC121_part4
     {Ω : Type} [Group Ω] [Finite Ω] {X L T R : Subgroup Ω}
-    (hX : CharTwo X) (hLX : L = oTwoUpper X) (hLc : L ∈ cComp X)
+    (_hX : CharTwo X) (hLX : L = oTwoUpper X) (_hLc : L ∈ cComp X)
     (hLq : CFSG.IsQuasisimple (↥L ⧸ CFSG.pCore 2 ↥L))
     (hT : IsPGroup 2 T) (hSR : baum T ≤ R) (hRT : R ≤ T) (hQR : pCoreOf 2 X ≤ R) (hRX : R ≤ X) :
     ∀ V : Subgroup Ω, IsTwoReducedIn X V →
@@ -45,7 +45,7 @@ theorem burnsideC121_part4
   refine ⟨W, hWm, ?_⟩
   have hW : IsElemAbelian 2 W := burnsideC121_p4_Hyp.elemW hWm
   have hHW : (baum T ⊔ pCoreOf 2 X) ⊔ Y ≤ Subgroup.normalizer (W : Set Ω) := hWred.2.1
-  have hYW : Y ≤ Subgroup.normalizer (W : Set Ω) := h.Y_le_H.trans hHW
+  have hYW : Y ≤ Subgroup.normalizer (W : Set Ω) := CFSG.Quasithin.burnsideC121_p4_Hyp.Y_le_H.trans hHW
   have h2W : ∀ w : IntMod W hW, w ^ 2 = 1 := IntMod.sq_eq_one
   have hYne : autI hW Y ≠ ⊥ := fun hb =>
     h.Y_not_le_CW hWm ((autI_eq_bot_iff hW hYW).1 hb)
@@ -79,14 +79,14 @@ theorem burnsideC121_part4
     obtain ⟨β, hβs, hβk, hβe⟩ := burnsideC121_p4_psl_natural h2W hn2 hKc θ hAG hA1 hAe hAFF
     have : IsSimpleGroup ↥(autI hW ((baum T ⊔ pCoreOf 2 X) ⊔ Y)) := MulEquiv.isSimpleGroup θ
     have hYH : autI hW Y = autI hW ((baum T ⊔ pCoreOf 2 X) ⊔ Y) := by
-      rcases burnsideC121_p4_normal_cases (autI hW Y) (autI_mono hW h.Y_le_H) hYnorm with h1 | h1
+      rcases burnsideC121_p4_normal_cases (autI hW Y) (autI_mono hW CFSG.Quasithin.burnsideC121_p4_Hyp.Y_le_H) hYnorm with h1 | h1
       · exact absurd h1 hYne
       · exact h1
     have h4 : 4 ≤ Nat.card K := by
       rw [hKc']
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn2
-    refine ⟨n, by omega, burnsideC121_p4_isNatL2Section hW h.Y_le_H hHW hKc θ β hβs
+    refine ⟨n, by omega, burnsideC121_p4_isNatL2Section hW CFSG.Quasithin.burnsideC121_p4_Hyp.Y_le_H hHW hKc θ β hβs
       (by rw [hYH]; exact hβk) hβe (h.YCW hWm hG) ?_⟩
     rw [hYH, Subgroup.subgroupOf_self, ← MonoidHom.range_eq_map,
       MonoidHom.range_eq_top.2 θ.surjective, C126.Nat.commutator_sl2_eq_top h4]
@@ -103,12 +103,12 @@ theorem burnsideC121_part4
     have hH6 : Nat.card ↥(autI hW ((baum T ⊔ pCoreOf 2 X) ⊔ Y)) = 6 := by
       rw [Nat.card_congr ι.toEquiv, hG6]
     obtain ⟨θ, β, hβs, hβk, hβe⟩ :=
-      burnsideC121_p4_s3_natural h2W hH6 (h.O2_bot hWm) (h.isFF hWm hG heven)
+      burnsideC121_p4_s3_natural h2W hH6 (CFSG.Quasithin.burnsideC121_p4_Hyp.O2_bot hWm) (h.isFF hWm hG heven)
     have hYsl : ∀ g : ↥(autI hW ((baum T ⊔ pCoreOf 2 X) ⊔ Y)),
         (g : MulAut (IntMod W hW)) ∈ autI hW Y → θ g ∈ C1Pack.sl2A3 := by
       let φY : ↥Y →* ↥(autI hW ((baum T ⊔ pCoreOf 2 X) ⊔ Y)) :=
         (convHom hW Y hYW).codRestrict (autI hW ((baum T ⊔ pCoreOf 2 X) ⊔ Y)) (fun y => by
-          rw [convHom_apply]; exact convI_mem_autI hW (h.Y_le_H y.2) (hYW y.2))
+          rw [convHom_apply]; exact convI_mem_autI hW (CFSG.Quasithin.burnsideC121_p4_Hyp.Y_le_H y.2) (hYW y.2))
       let ψ : ↥Y →* C1Pack.SL2F2 := θ.toMonoidHom.comp φY
       have hY : Y ≤ (C1Pack.sl2A3.comap ψ).map Y.subtype := by
         conv_lhs => rw [hYperf]
@@ -132,7 +132,7 @@ theorem burnsideC121_part4
       exact hy'
     obtain ⟨⟨n₀, hn₀Y⟩, hn₀1'⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hYne
     have hn₀1 : n₀ ≠ 1 := fun h1 => hn₀1' (Subtype.ext h1)
-    have hn₀H : n₀ ∈ autI hW ((baum T ⊔ pCoreOf 2 X) ⊔ Y) := autI_mono hW h.Y_le_H hn₀Y
+    have hn₀H : n₀ ∈ autI hW ((baum T ⊔ pCoreOf 2 X) ⊔ Y) := autI_mono hW CFSG.Quasithin.burnsideC121_p4_Hyp.Y_le_H hn₀Y
     have hθn₀3 : (θ ⟨n₀, hn₀H⟩) ^ 3 = 1 := C1Pack.mem_sl2A3.1 (hYsl ⟨n₀, hn₀H⟩ hn₀Y)
     have hθn₀1 : θ ⟨n₀, hn₀H⟩ ≠ 1 := by
       intro h1
@@ -142,7 +142,7 @@ theorem burnsideC121_part4
       exact congrArg Subtype.val this
     have hfix : fixV (autI hW ((baum T ⊔ pCoreOf 2 X) ⊔ Y)) = fixV (autI hW Y) := by
       apply le_antisymm
-      · exact fun w hw x hx => hw x (autI_mono hW h.Y_le_H hx)
+      · exact fun w hw x hx => hw x (autI_mono hW CFSG.Quasithin.burnsideC121_p4_Hyp.Y_le_H hx)
       · intro w hw
         rw [← hβk, MonoidHom.mem_ker]
         have h1 := hβe ⟨n₀, hn₀H⟩ w
@@ -171,7 +171,7 @@ theorem burnsideC121_part4
         · exact absurd (Subgroup.card_eq_one.1 h1) hMne
         · exact h1
       exact Subgroup.eq_of_le_of_card_ge hMle (by rw [hM3, C1Pack.card_sl2A3])
-    exact ⟨1, le_rfl, burnsideC121_p4_isNatL2Section hW h.Y_le_H hHW (n := 1) (by simp) θ β hβs
+    exact ⟨1, le_rfl, burnsideC121_p4_isNatL2Section hW CFSG.Quasithin.burnsideC121_p4_Hyp.Y_le_H hHW (n := 1) (by simp) θ β hβs
       (by rw [← hfix]; exact hβk) hβe (h.YCW hWm hG) hrange⟩
 
 end CFSG.ASVolI

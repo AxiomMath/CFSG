@@ -32,10 +32,10 @@ private theorem s16c1610_n3_false_of_isQuasisimple_of_comm {X : Type*} [Group X]
   have hbot : commutator X = ⊥ := (commutator_eq_bot_iff_center_eq_top X).mpr hcenter
   have hperf : commutator X = ⊤ := h.1
   have htopbot : (⊤ : Subgroup X) = ⊥ := hperf ▸ hbot
-  haveI : Subsingleton X := by
+  have : Subsingleton X := by
     rw [Subgroup.eq_bot_iff_forall] at htopbot
     exact ⟨fun a b => (htopbot a trivial).trans (htopbot b trivial).symm⟩
-  haveI : Nontrivial (X ⧸ Subgroup.center X) := h.2.toNontrivial
+  have : Nontrivial (X ⧸ Subgroup.center X) := h.2.toNontrivial
   obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial (X ⧸ Subgroup.center X)).exists_pair_ne
   exact hab (Subsingleton.elim a b)
 
@@ -51,7 +51,7 @@ private theorem s16c1610_n3_rk_commSub_eq_eight_of_conc4133 {W : Type} [CommGrou
   · exfalso; have := hcyc.2; omega
   · exfalso; have := hcyc.2; omega
   · exfalso
-    haveI := h1p2.1
+    have := h1p2.1
     have hc3 := CFSG.IsExtraspecial.center_order_p 3 ↥L
     rw [s16c1610_n3_center_eq_top hcommL, Subgroup.card_top] at hc3
     omega

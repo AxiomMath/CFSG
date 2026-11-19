@@ -18,7 +18,7 @@ omit [Finite X] in
 theorem dvd_card_of_cover {n : ℕ} (hX : IsDoubleCoverOfAlt X n) (hn : 4 ≤ n) :
     2 ^ 3 ∣ Nat.card X ∧ 3 ∣ Nat.card X := by
   obtain ⟨-, hZ, ⟨e⟩⟩ := hX
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
   have h1 : Nat.card (X ⧸ center X) = n.factorial / 2 := by
     rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup]
     simp

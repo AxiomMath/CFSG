@@ -88,7 +88,7 @@ private theorem exists_fixed_seven_of_isJ1 {D : Data G} {K : Subgroup G} {b : G}
       orderOf z = 7 ∧ inducedQuotInfAut K b hbN z = z := by
   classical
   have hq : CFSG.Open.IsQuasisimple (Bar2 K) := hK.2.2
-  haveI : IsSimpleGroup (Bar2 K) := (kJ1_holds (Bar2 K) hJ1).2.1
+  have : IsSimpleGroup (Bar2 K) := (kJ1_holds (Bar2 K) hJ1).2.1
   have hc : Subgroup.center (Bar2 K) = ⊥ := uc22p21k_center_eq_bot hq
   let e : (BarInf K ⧸ Subgroup.center (BarInf K)) ≃* Bar2 K := quotCenterEquivBar2 hq hc
   let θ := inducedQuotInfAut K b hbN
@@ -101,7 +101,7 @@ private theorem exists_fixed_seven_of_isJ1 {D : Data G} {K : Subgroup G} {b : G}
     exact hθdvd
   obtain ⟨z, hz7, hzfix⟩ : ∃ z : Bar2 K, orderOf z = 7 ∧ MulAut.conj x z = z := by
     by_cases hx1 : MulAut.conj x = 1
-    · haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    · have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
       obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Bar2 K) 7
         (by rw [(kJ1_holds (Bar2 K) hJ1).1]; norm_num)
       exact ⟨z, hz, by simp [hx1]⟩
@@ -140,7 +140,7 @@ private theorem false_of_isJ1_conjSet {D : Data G} {Ch : Choice2011 G}
     c.B0_le_normalizer_of_mem_calC h215 h1930 hK hb0
   obtain ⟨z, hz7, hzfix⟩ := exists_fixed_seven_of_isJ1 hK hJ1 hbN hborder
   have hq : CFSG.Open.IsQuasisimple (Bar2 K) := hK.2.2
-  haveI : IsSimpleGroup (Bar2 K) := (kJ1_holds (Bar2 K) hJ1).2.1
+  have : IsSimpleGroup (Bar2 K) := (kJ1_holds (Bar2 K) hJ1).2.1
   have hc : Subgroup.center (Bar2 K) = ⊥ := uc22p21k_center_eq_bot hq
   have hrZ : ¬ 7 ∣ Nat.card (Subgroup.center (Bar2 K)) := by simp [hc]
   obtain ⟨y, hyC, hyord, -⟩ :=
@@ -192,7 +192,7 @@ theorem Ctx23L.normal_and_barImage_of_isJ1_or_isL2Odd {D : Data G} {Ch : Choice2
   have h3 : 3 ∣ Nat.card (Bar2 K ⧸ Subgroup.center (Bar2 K)) := by
     have hq : CFSG.Open.IsQuasisimple (Bar2 K) := hK.2.2
     rcases hshape with hJ | ⟨p, hp, hp5, hL2Odd⟩
-    · haveI : IsSimpleGroup (Bar2 K) := (kJ1_holds (Bar2 K) hJ).2.1
+    · have : IsSimpleGroup (Bar2 K) := (kJ1_holds (Bar2 K) hJ).2.1
       have hc : Subgroup.center (Bar2 K) = ⊥ := uc22p21k_center_eq_bot hq
       rw [uc22p21k_card_quot_center hc, (kJ1_holds (Bar2 K) hJ).1]
       norm_num

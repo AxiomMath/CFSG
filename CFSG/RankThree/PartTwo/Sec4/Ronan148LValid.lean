@@ -13,7 +13,7 @@ open TauCeti (PrimePower LieTypeIndex ValidLieTypeIndex)
 theorem simple_nonab_of_mulEquiv {S T : Type} [Group S] [Group T] (e : T ≃* S)
     (hs : IsSimpleGroup S) (hna : ∃ a b : S, a * b ≠ b * a) :
     IsSimpleGroup T ∧ ∃ a b : T, a * b ≠ b * a := by
-  haveI := hs
+  have := hs
   refine ⟨e.isSimpleGroup, ?_⟩
   obtain ⟨a, b, hab⟩ := hna
   refine ⟨e.symm a, e.symm b, fun h => hab ?_⟩

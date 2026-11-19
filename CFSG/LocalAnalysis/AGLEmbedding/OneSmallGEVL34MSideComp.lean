@@ -71,7 +71,7 @@ theorem L34MSide.le_of_normal_of_three_dvd {T : Subgroup Y} (S : Sylow 3 Y)
     have hx1' : x = 1 := Subtype.ext this
     rw [hx1', orderOf_one] at hx
     omega
-  have hSnil : Group.IsNilpotent (S : Subgroup Y) := S.isPGroup'.isNilpotent
+  have hSnil : Group.IsNilpotent (S : Subgroup Y) := S.isPGroup.isNilpotent
   set H := N.subgroupOf (S : Subgroup Y) with hH
   have hHn : H.Normal := Subgroup.normal_subgroupOf
   have hHne : H ≠ ⊥ := by

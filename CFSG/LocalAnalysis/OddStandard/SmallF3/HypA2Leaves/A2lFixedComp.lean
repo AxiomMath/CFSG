@@ -43,7 +43,7 @@ theorem a2l_card_quot_le_fixed {S : Type} [Group S] [Finite S] {σ : MulAut S} {
 
 theorem a2l_card_quot_lt {S : Type} [Group S] [Finite S] {P : Subgroup S} (hP : P ≠ ⊤) :
     Nat.card (P ⧸ center P) < Nat.card S := by
-  haveI : Nonempty ↥P := ⟨⟨1, P.one_mem⟩⟩
+  have : Nonempty ↥P := ⟨⟨1, P.one_mem⟩⟩
   have hcardP : Nat.card ↥P < Nat.card S := by
     rw [← P.card_mul_index]
     exact lt_mul_of_one_lt_right Nat.card_pos (P.one_lt_index_of_ne_top hP)

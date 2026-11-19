@@ -108,9 +108,9 @@ theorem emb3_fold (n : Nat) (A : Array (Array Int)) : ∀ (l : List Nat) (e : Ar
       rw [hr, length_LL]
       by_cases hc2 : rank3K (LL e ++ [(List.range n).map fun j =>
           imod3K (((LLI A).getD j []).getD i 0)]) n > e.size
-      · rw [if_pos hc2, if_pos hc2]
+      · rw [ite_eq_left hc2, ite_eq_left hc2]
         exact ⟨e1, hs⟩
-      · rw [if_neg hc2, if_neg hc2]
+      · rw [ite_eq_right hc2, ite_eq_right hc2]
         exact ⟨rfl, h⟩
     rw [← hstep.1]
     exact emb3_fold n A l _ hstep.2

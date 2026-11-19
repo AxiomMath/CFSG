@@ -54,7 +54,7 @@ theorem exists_inv_mul_apply_eq_of_subgroup {M : Type*} [Group M] (T : Subgroup 
     (hf : ∀ g ∈ T, f^[m] g = g ^ Q) :
     ∀ s ∈ T, ∃ t ∈ T, t⁻¹ * f t = s := by
   intro s hs
-  letI : CommGroup T :=
+  let : CommGroup T :=
     { (inferInstance : Group T) with mul_comm := fun x y => Subtype.ext (hcomm _ x.2 _ y.2) }
   let f' : T →* T :=
     { toFun := fun x => ⟨f x, hfT x x.2⟩
@@ -199,8 +199,8 @@ theorem d5TorusLang : D5TorusLang := by
   intro L _ _ p₀ S Fr hFr hΦ h3 h3q hq2 a hT hap hk s hs
   obtain ⟨v, J, -, hker⟩ := d5_position h3 hap hk
   obtain ⟨r, e, hr, hchar, he, hq⟩ := S.exists_char_pow
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have := hchar
   obtain ⟨w, hn⟩ := S.D.n_weyl
   have hst : S.D.step = twFrob TwistTag.E6
       (canonicalRep (coxeterSystem TwistTag.E6.tag) L w) Fr := by

@@ -19,7 +19,7 @@ theorem s16c167_exists_hyperplane_of_fixed_card_two {W : Type*} [CommGroup W] [F
     (hbig : 2 < Nat.card ↥I) :
     ∃ C : Subgroup (MulAut W), C ≤ X ∧ E3.mQuot X C = 1 ∧ fixV C ≠ fixV X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Z : Subgroup W := I ⊓ fixV X with hZ
   have hZI : Z ≤ I := by rw [hZ]; exact inf_le_left
   have hZX : Z ≤ fixV X := by rw [hZ]; exact inf_le_right
@@ -53,7 +53,7 @@ theorem s16c167_exists_hyperplane_of_fixed_card_two {W : Type*} [CommGroup W] [F
       _ = (x : MulAut W) (y z) := MulAut.mul_apply W (x : MulAut W) y z
       _ = (x : MulAut W) z := by rw [hz.2 y hy]
   have hfxN (x : ↥X) : N ≤ N.comap (fx x) := fun z hz => hfxZ x z hz
-  letI : MulAction ↥X Q :=
+  let : MulAction ↥X Q :=
     { smul := fun x => QuotientGroup.map N N (fx x) (hfxN x)
       one_smul := by
         intro q
@@ -215,6 +215,7 @@ theorem s16c167_two_lt_card_of_mem_irrSet {W : Type*} [CommGroup W] [Finite W]
   rw [inf_eq_left.2 hle] at hlt
   exact (lt_irrefl I) hlt
 
+omit [Finite G] in
 private theorem mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil ⊥ V hV) := by
   rw [← MonoidHom.ker_eq_bot_iff]
@@ -228,6 +229,7 @@ private theorem mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
   · rintro rfl
     exact map_one _
 
+omit [Finite G] in
 theorem s16c167_card_imgTil_bot {V U : Subgroup G} (hV : IsElemAbelian 2 V) (hU : U ≤ V) :
     Nat.card ↥(imgTil ⊥ V hV U) = Nat.card ↥U := by
   have hinj := mkTil_bot_injective hV
@@ -236,6 +238,7 @@ theorem s16c167_card_imgTil_bot {V U : Subgroup G} (hV : IsElemAbelian 2 V) (hU 
   change Nat.card ↥(U.subgroupOf V) = Nat.card ↥U
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hU).toEquiv
 
+omit [Finite G] in
 theorem s16c167_imgTil_inf_bot {V U U' : Subgroup G} (hV : IsElemAbelian 2 V) :
     imgTil ⊥ V hV (U ⊓ U') = imgTil ⊥ V hV U ⊓ imgTil ⊥ V hV U' := by
   have hinj := mkTil_bot_injective hV

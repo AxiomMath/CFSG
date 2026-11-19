@@ -25,7 +25,7 @@ public theorem firstCase_klein_U_eq_FU_sup_B
     (hmin : IsMinimalCounterexample G)
     (c : CentralizerSetup G)
     (hfirst : FirstCase c)
-    (hklein : IsKleinFour (pCore 2 c.Hhat)) :
+    (_hklein : IsKleinFour (pCore 2 c.Hhat)) :
     ∃ bg : BenderGlauberman.Hyp11 G,
       (bg.S : Subgroup G) = (c.S : Subgroup G) ∧ bg.S0 = c.S0 ∧ bg.U = c.U ∧
         bg.U = fittingSubgroupOf bg.U ⊔ bg.B := by

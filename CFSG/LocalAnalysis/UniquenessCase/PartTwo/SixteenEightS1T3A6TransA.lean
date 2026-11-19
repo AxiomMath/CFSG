@@ -16,8 +16,8 @@ private theorem s16t3_card_specialLinear_ne (K : Type) [Field K] [Finite K] (n :
   by_cases hn : n ≤ 2
   · have hn' : n = 0 ∨ n = 1 ∨ n = 2 := by omega
     rcases hn' with rfl | rfl | rfl
-    · haveI : IsEmpty (Fin 0) := ⟨Fin.elim0⟩
-      haveI : Subsingleton (SpecialLinearGroup (Fin 0) K) := inferInstance
+    · have : IsEmpty (Fin 0) := ⟨Fin.elim0⟩
+      have : Subsingleton (SpecialLinearGroup (Fin 0) K) := inferInstance
       have h1 : Nat.card (SpecialLinearGroup (Fin 0) K) = 1 :=
         Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨1⟩⟩
       omega
@@ -72,7 +72,7 @@ theorem s16t3_card_ne_of_isSpn {n : ℕ} (h : IsSpn X n 1) : Nat.card X ≠ 360 
 theorem s16t3_card_of_isAlt_six (h : UC22.IsAlt X 6) : Nat.card X = 360 := by
   obtain ⟨e⟩ := h
   rw [Nat.card_congr e.toEquiv]
-  haveI : Nontrivial (Fin 6) := Fin.nontrivial_iff_two_le.mpr (by norm_num)
+  have : Nontrivial (Fin 6) := Fin.nontrivial_iff_two_le.mpr (by norm_num)
   rw [nat_card_alternatingGroup, Nat.card_fin]
   norm_num
 
@@ -81,14 +81,14 @@ theorem s16t3_eq_six_of_isAlt_card {n : ℕ} (h : UC22.IsAlt X n) (hc : Nat.card
   obtain ⟨e⟩ := h
   rw [Nat.card_congr e.toEquiv] at hc
   by_cases hn : n ≤ 1
-  · haveI : Subsingleton (Fin n) := ⟨fun a b => Fin.ext (by omega)⟩
-    haveI : Subsingleton (alternatingGroup (Fin n)) :=
+  · have : Subsingleton (Fin n) := ⟨fun a b => Fin.ext (by omega)⟩
+    have : Subsingleton (alternatingGroup (Fin n)) :=
       ⟨fun a b => Subtype.ext (Equiv.ext fun x => Subsingleton.elim _ _)⟩
     have h1 : Nat.card (alternatingGroup (Fin n)) = 1 :=
       Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨1⟩⟩
     omega
   · have hn2 : 2 ≤ n := by omega
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn2
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn2
     have hcard : Nat.card (alternatingGroup (Fin n)) = n.factorial / 2 := by
       rw [nat_card_alternatingGroup, Nat.card_fin]
     rw [hcard] at hc

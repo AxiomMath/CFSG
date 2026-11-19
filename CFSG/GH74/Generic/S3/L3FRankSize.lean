@@ -221,7 +221,7 @@ theorem size_U4 {q q' : ℕ} (hq : 5 ≤ q) (hq' : 2 ≤ q') (h : q' ^ 6 ≤ q ^
       omega
     interval_cases q <;> interval_cases q' <;> revert h <;> decide
 
-theorem size_L5 {q q' : ℕ} (hq : 5 ≤ q) (hq' : 2 ≤ q') (h : q' ^ 10 ≤ q ^ 3) :
+theorem size_L5 {q q' : ℕ} (hq : 5 ≤ q) (_hq' : 2 ≤ q') (h : q' ^ 10 ≤ q ^ 3) :
     3 * ordA 4 q' < q ^ 3 * ((q ^ 2 - 1) * (q ^ 3 - 1)) := by
   have hA := ordA_four_le q'
   have hR := lower_R (by omega : 2 ≤ q)

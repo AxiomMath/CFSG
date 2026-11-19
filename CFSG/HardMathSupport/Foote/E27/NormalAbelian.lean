@@ -108,10 +108,10 @@ theorem E27Config.false_of_normal_abelian (h : E27Config X K R T z) (hz : z ∈ 
   refine h.false_of_sylow_kill hz S₀ fun s hs hord => Or.inl ?_
   have hs3 : s ^ 3 = 1 := hord ▸ pow_orderOf_eq_one s
   have hQp : IsPGroup 3 ↥((S₀ : Subgroup ↥K) ⊓ Subgroup.centralizer ({s} : Set ↥K)) :=
-    S₀.isPGroup'.to_le inf_le_left
+    S₀.isPGroup.to_le inf_le_left
   obtain ⟨q, hq⟩ := hQp.exists_card_eq
   rw [hq]
-  have hAp : IsPGroup 3 A := S₀.isPGroup'.to_le hAS
+  have hAp : IsPGroup 3 A := S₀.isPGroup.to_le hAS
   obtain ⟨a, ha⟩ := hAp.exists_card_eq
   rw [ha] at hcard
   have ha7 : 7 ≤ a := (Nat.pow_le_pow_iff_right (by norm_num)).mp hcard
@@ -133,7 +133,7 @@ theorem E27Config.false_of_normal_abelian (h : E27Config X K R T z) (hz : z ∈ 
         exact ⟨hs, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
       exact hsA this.1
     have hlt := Subgroup.card_lt_of_lt hBQ
-    obtain ⟨b, hb⟩ := (S₀.isPGroup'.to_le hBS).exists_card_eq
+    obtain ⟨b, hb⟩ := (S₀.isPGroup.to_le hBS).exists_card_eq
     have hpow := card_le_card_inf_centralizer_pow A hcomm hexp hs3 (hnorm s hs)
     rw [ha, ← hB, hb, ← pow_mul] at hpow
     have hb3 : a ≤ b * 3 := (Nat.pow_le_pow_iff_right (by norm_num : 1 < 3)).mp hpow

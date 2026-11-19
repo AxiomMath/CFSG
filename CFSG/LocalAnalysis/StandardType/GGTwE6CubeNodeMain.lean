@@ -16,18 +16,18 @@ open CFSG.Assembly CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalle
 theorem ggTwE6CubeNodeInput_of_c0
     (hc0 : ∀ {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
       (hK : Nat.card K = (2 ^ n) ^ 2) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n)
-      (h3 : 3 ∣ 2 ^ n + 1) {Fr : AlgebraicClosure K →+* AlgebraicClosure K}
+      (_h3 : 3 ∣ 2 ^ n + 1) {Fr : AlgebraicClosure K →+* AlgebraicClosure K}
       (hFr : ∀ c, Fr c = c ^ 2 ^ n) {g : ModGL Tag.E6 (AlgebraicClosure K)}
-      (hg : g ∈ adjointGroup Tag.E6 (AlgebraicClosure K))
-      (hgn : g⁻¹ * twistE6 (AlgebraicClosure K) Fr g = TwistedDiag.n0 (AlgebraicClosure K))
-      {x : MulAut ↥(twistedE6RootGroup K σ)} (hx : x ∈ TwE6DD2.langCube hn hK σ hσ Fr hFr g)
-      (hx1 : x ≠ 1) (hcomp : IsComponentOf (LargeEvenLayer (ggFix x)) (ggFix x))
-      (hfix : ∀ y ∈ TwE6DD2.langCube hn hK σ hσ Fr hFr g,
+      (_hg : g ∈ adjointGroup Tag.E6 (AlgebraicClosure K))
+      (_hgn : g⁻¹ * twistE6 (AlgebraicClosure K) Fr g = TwistedDiag.n0 (AlgebraicClosure K))
+      {x : MulAut ↥(twistedE6RootGroup K σ)} (_hx : x ∈ TwE6DD2.langCube hn hK σ hσ Fr hFr g)
+      (_hx1 : x ≠ 1) (_hcomp : IsComponentOf (LargeEvenLayer (ggFix x)) (ggFix x))
+      (_hfix : ∀ y ∈ TwE6DD2.langCube hn hK σ hσ Fr hFr g,
         (∀ j ∈ LargeEvenLayer (ggFix x), y j = j) ↔ y ∈ Subgroup.zpowers x)
-      {E : Subgroup ↥(twistedE6RootGroup K σ)} (hE : IsElemAbelian 3 E) (hEx : E ≤ ggFix x),
+      {E : Subgroup ↥(twistedE6RootGroup K σ)} (_hE : IsElemAbelian 3 E) (_hEx : E ≤ ggFix x),
       Nat.card E ≤ 3 * Nat.card (E ⊓ LargeEvenLayer (ggFix x) : Subgroup _)) :
     CFSG.StandardType.SmallExc.GGTwE6CubeNodeInput := by
-  intro K _ _ n hn hK h3 Y hY hYI hYc x hxY hx1 hcomp hfix E hE hEx
+  intro K _ _ n hn hK _h3 Y hY hYI hYc x hxY _hx1 _hcomp _hfix E _hE _hEx
   have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
@@ -49,7 +49,7 @@ theorem ggTwE6CubeNodeInput_of_c0
     exact hYI hy
   have hY'c : Nat.card (Y.map Φ.symm.toMonoidHom) = 3 ^ 6 :=
     (Subgroup.card_map_of_injective (fun a b h => Φ.symm.injective h)).trans hYc
-  obtain ⟨g, hg, hgn, hYeq⟩ := TwE6DD2.exists_eq_langCube hn hK σ hσ h3 Fr hFr hY' hY'I hY'c
+  obtain ⟨g, _hg, _hgn, hYeq⟩ := TwE6DD2.exists_eq_langCube hn hK σ hσ _h3 Fr hFr hY' hY'I hY'c
   obtain ⟨x', rfl⟩ := Φ.surjective x
   have hF : ggFix (Φ x') = (ggFix x').map ε.toMonoidHom := by
     ext r
@@ -63,14 +63,14 @@ theorem ggTwE6CubeNodeInput_of_c0
       (LargeEvenLayer (ggFix x')).map ε.toMonoidHom := by
     rw [hF, largeEvenLayer_map_of_injective ε.toMonoidHom hεi]
   have hcomp' : IsComponentOf (LargeEvenLayer (ggFix x')) (ggFix x') := by
-    rw [hL, hF] at hcomp
-    have h := (isComponentOf_comap_of_injective ε.toMonoidHom hεi hcomp).1
+    rw [hL, hF] at _hcomp
+    have h := (isComponentOf_comap_of_injective ε.toMonoidHom hεi _hcomp).1
     rwa [Subgroup.comap_map_eq_self_of_injective hεi] at h
   have hfix' : ∀ y' ∈ TwE6DD2.langCube hn hK σ hσ Fr hFr g,
       (∀ j ∈ LargeEvenLayer (ggFix x'), y' j = j) ↔ y' ∈ Subgroup.zpowers x' := by
     intro y' hy'
     rw [← hYeq, Subgroup.mem_map_equiv, MulEquiv.symm_symm] at hy'
-    have h := hfix (Φ y') hy'
+    have h := _hfix (Φ y') hy'
     rw [hL] at h
     refine Iff.trans ?_ (h.trans ?_)
     · constructor
@@ -84,7 +84,7 @@ theorem ggTwE6CubeNodeInput_of_c0
         exact ε.injective h1
     · simp only [Subgroup.mem_zpowers_iff, ← map_zpow, Φ.injective.eq_iff]
   have hE'x : E.comap ε.toMonoidHom ≤ ggFix x' := fun c hc => mem_ggFix.2 (ε.injective (by
-    have h1 := mem_ggFix.1 (hEx (Subgroup.mem_comap.1 hc))
+    have h1 := mem_ggFix.1 (_hEx (Subgroup.mem_comap.1 hc))
     change ε (x' (ε.symm (ε c))) = ε c at h1
     rwa [ε.symm_apply_apply] at h1))
   have hcard : Nat.card (E.comap ε.toMonoidHom) = Nat.card E :=
@@ -96,8 +96,8 @@ theorem ggTwE6CubeNodeInput_of_c0
     exact and_congr Iff.rfl (Subgroup.mem_map_iff_mem hεi).symm
   have hx'Y : x' ∈ Y.map Φ.symm.toMonoidHom := ⟨Φ x', hxY, Φ.symm_apply_apply x'⟩
   rw [hYeq] at hx'Y
-  have h := hc0 hn hK σ hσ h3 hFr hg hgn hx'Y (fun h1 => hx1 (by rw [h1, map_one])) hcomp'
-    hfix' (hE.comap hεi) hE'x
+  have h := hc0 hn hK σ hσ _h3 hFr _hg _hgn hx'Y (fun h1 => _hx1 (by rw [h1, map_one])) hcomp'
+    hfix' (_hE.comap hεi) hE'x
   rwa [hcard, hcard'] at h
 
 end CFSG.StandardType.TwE6Cube

@@ -128,6 +128,7 @@ variable {K : Type} [Field K] [Finite K] {n : ℕ} {L : Type} [Field L] [Algebra
     obtain ⟨f, hf⟩ := F.mem_tor e e.property
     exact ⟨fun i => ofAdd (f i), Subtype.ext hf⟩
 
+omit [Finite K] in
 @[simp] theorem coe_torusEquiv (hζ : IsPrimitiveRoot ζ 3) (F : SpFrame K n ζ E)
     (f : Fin F.s → Multiplicative (ZMod 3)) :
     (F.torusEquiv hζ f : StatedSp n K) = F.tor (fun i => toAdd (f i)) := rfl
@@ -215,7 +216,7 @@ theorem card_automizer_inner_torus_dvd [CharP K 2] (hn : 3 ≤ n) (hK : Nat.card
   have heq : (MulAut.congr Θ).symm (ggConjAut A hα) =
       (MulAut.congr (F.torusEquiv hζ)).symm αE := by
     ext f
-    simp [Θ, αE, MulAut.congr_apply]
+    simp [Θ, αE]
   rw [heq]
   exact F.isSignedPerm_torusEquiv_of_mulAut hn hK hζ α αE hαE
 

@@ -45,8 +45,8 @@ theorem isSolvable_unitary_centralizer_of_hasNormalPComplement_field
       CFSG.hasNormalPComplement_of_le p hKleD hNPC'
     have hpK : p ∣ Nat.card K :=
       LayerPDiv.dvd_card_of_isComponentOf_su_family_field h hF hn hker hp hp2 hpq hE hdiag hK
-    haveI : Group.IsPerfect ↥K := LayerFacts.ggIsPerfect_of_commutator_eq hKperf
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Group.IsPerfect ↥K := LayerFacts.ggIsPerfect_of_commutator_eq hKperf
+    have : Fact p.Prime := ⟨hp⟩
     exact (hp.coprime_iff_not_dvd).mp
       (CFSG.LocalAnalysis.RankThreeTheoremC.RankOneCent.coprime_card_of_perfect hNPCK) hpK
   have hlayerbot : LargeEvenLayer H = ⊥ := by

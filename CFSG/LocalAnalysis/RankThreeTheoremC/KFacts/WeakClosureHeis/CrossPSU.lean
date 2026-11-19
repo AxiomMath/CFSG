@@ -27,9 +27,10 @@ variable {L : Type} [Field L] [Finite L] {ℓ f n p : ℕ}
 
 private theorem psuField (hL : Nat.card L = (ℓ ^ f) ^ 2) :
     ∃ f', ℓ ^ f = ringChar L ^ f' ∧ UnitaryFieldData (ringChar L) f' L := by
-  haveI := Fintype.ofFinite L
+  have := Fintype.ofFinite L
   exact exists_unitaryFieldData L (by rw [Fintype.card_eq_nat_card]; exact hL)
 
+omit [Finite L] in
 private theorem mem_statedSU_iff' (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (hn : 1 ≤ n)
     (A : GL (Fin n) L) :
     A ∈ StatedSU n (ℓ ^ f) L ↔ (A : Matrix (Fin n) (Fin n) L).det = 1 ∧
@@ -38,7 +39,7 @@ private theorem mem_statedSU_iff' (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f
 
 private theorem psu_exp_pos (hp : p.Prime) {q : ℕ} (hq2 : 2 ≤ q) (hpq : ¬ p ∣ q) :
     1 ≤ padicValInt p ((-(q : ℤ)) ^ orderOf (-(q : ZMod p)) - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hne0 : (-(q : ZMod p)) ≠ 0 :=
     neg_ne_zero.2 (fun h => hpq ((ZMod.natCast_eq_zero_iff q p).1 h))
   have hepos : 0 < orderOf (-(q : ZMod p)) := by
@@ -74,8 +75,8 @@ private theorem psu_two_le (hL : Nat.card L = (ℓ ^ f) ^ 2) : 2 ≤ ℓ ^ f := 
 
 private theorem psu_dich_GU (hp : p.Prime) (h5 : 5 ≤ p) (hL : Nat.card L = (ℓ ^ f) ^ 2)
     (hpq : ¬ p ∣ ℓ ^ f) (hn : 1 ≤ n) : SylowDichotomyAt ↥(StatedGU n (ℓ ^ f) L) p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := Fintype.ofFinite L
+  have : Fact p.Prime := ⟨hp⟩
+  have := Fintype.ofFinite L
   have hLc : Fintype.card L = (ℓ ^ f) ^ 2 := by rw [Fintype.card_eq_nat_card]; exact hL
   exact SylowDichotomyAt.of_sylow_sigmaModel hp h5 (psu_exp_pos hp (psu_two_le hL) hpq)
     (fun P => sylow_GU (hp.odd_of_ne_two (by omega)) L hLc hpq hn P)
@@ -83,6 +84,7 @@ private theorem psu_dich_GU (hp : p.Prime) (h5 : 5 ≤ p) (hL : Nat.card L = (�
 private noncomputable def psuDet (n q : ℕ) (L : Type) [Field L] : ↥(StatedGU n q L) →* Lˣ :=
   Matrix.GeneralLinearGroup.det.comp (StatedGU n q L).subtype
 
+omit [Finite L] in
 private theorem psuDet_val {q : ℕ} (g : ↥(StatedGU n q L)) :
     ((psuDet n q L g : Lˣ) : L) = ((g : GL (Fin n) L) : Matrix (Fin n) (Fin n) L).det := rfl
 
@@ -100,7 +102,7 @@ private theorem psu_subgroupOf_eq_ker (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ
 
 private theorem psu_not_dvd_index (hp : p.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2)
     (hpq1 : ¬ p ∣ ℓ ^ f + 1) : ¬ p ∣ (psuDet n (ℓ ^ f) L).ker.index := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨f', hq, h⟩ := psuField hL
   intro hdvd
   rw [Subgroup.index_ker] at hdvd
@@ -124,13 +126,16 @@ private noncomputable def psuProj (n q : ℕ) (L : Type) [Field L] :
     ↥(StatedSU n q L) →* StatedProj (StatedSU n q L) :=
   QuotientGroup.mk' ((StatedScalars (Fin n) L).subgroupOf (StatedSU n q L))
 
+omit [Finite L] in
 private theorem psuProj_surjective (n q : ℕ) :
     Function.Surjective (psuProj n q L) := QuotientGroup.mk'_surjective _
 
+omit [Finite L] in
 private theorem psuProj_ker (n q : ℕ) :
     (psuProj n q L).ker = (StatedScalars (Fin n) L).subgroupOf (StatedSU n q L) :=
   QuotientGroup.ker_mk' _
 
+omit [Finite L] in
 private theorem psu_not_dvd_ker (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (hn : 1 ≤ n)
     (hpq1 : ¬ p ∣ ℓ ^ f + 1) : ¬ p ∣ Nat.card (psuProj n (ℓ ^ f) L).ker := by
   rw [psuProj_ker, (CFSG.LinearGroups.unitary_scalar_kernel hℓ hL hn).2.2]
@@ -152,7 +157,7 @@ private theorem psu_dich_PSU_of_not_dvd (hp : p.Prime) (h5 : 5 ≤ p) (hℓ : �
 
 private theorem psu_exists_zeta (hp : p.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2)
     (hpq1 : p ∣ ℓ ^ f + 1) : ∃ ζ : Lˣ, orderOf ζ = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine exists_prime_orderOf_dvd_card' p ?_
   rw [Nat.card_units, hL]
   refine hpq1.trans ⟨ℓ ^ f - 1, ?_⟩
@@ -163,11 +168,13 @@ private theorem psu_exists_zeta (hp : p.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2)
   simp only [Nat.add_sub_cancel]
   ring
 
+omit [Finite L] in
 private theorem psu_zeta_pow (hpq1 : p ∣ ℓ ^ f + 1) {ζ : Lˣ} (hζ : orderOf ζ = p) :
     ∀ x ∈ Subgroup.zpowers ζ, x ^ (ℓ ^ f + 1) = 1 := fun x hx => by
   rw [← orderOf_dvd_iff_pow_eq_one]
   exact (orderOf_dvd_of_mem_zpowers hx).trans (by rw [hζ]; exact hpq1)
 
+omit [Finite L] in
 private theorem diagGL_mem_statedSU {q : ℕ} (hq : q ≠ 0) (u : Fin n → Lˣ)
     (hu : ∀ i, (u i) ^ (q + 1) = 1) (hprod : ∏ i, u i = 1) :
     diagGL n u ∈ StatedSU n q L := by
@@ -186,6 +193,7 @@ private theorem diagGL_mem_statedSU {q : ℕ} (hq : q ≠ 0) (u : Fin n → Lˣ)
   unfold StatedSU
   exact Subgroup.subset_closure ⟨hdet, hunit⟩
 
+omit [Finite L] in
 private theorem permGL_mem_statedSU {q : ℕ} (hq : q ≠ 0) (σ : Equiv.Perm (Fin n))
     (hσ : Equiv.Perm.sign σ = 1) : permGL n σ ∈ StatedSU n q L := by
   have hdet : ((permGL n σ : GL (Fin n) L) : Matrix (Fin n) (Fin n) L).det = 1 := by
@@ -207,7 +215,7 @@ private theorem permGL_mem_statedSU {q : ℕ} (hq : q ≠ 0) (σ : Equiv.Perm (F
 private theorem psu_dich_PSU_of_dvd (hp : p.Prime) (h5 : 5 ≤ p) (hL : Nat.card L = (ℓ ^ f) ^ 2)
     (hpq : ¬ p ∣ ℓ ^ f) (hn : 1 ≤ n) (hpq1 : p ∣ ℓ ^ f + 1) :
     SylowDichotomyAt (StatedProj (StatedSU n (ℓ ^ f) L)) p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq0 : ℓ ^ f ≠ 0 := by have := psu_two_le hL; omega
   by_cases hnp5 : n < 5
   ·
@@ -219,7 +227,7 @@ private theorem psu_dich_PSU_of_dvd (hp : p.Prime) (h5 : 5 ≤ p) (hL : Nat.card
         exact eq_neg_of_add_eq_zero_left h0
       have h2 : -((ℓ ^ f : ℕ) : ZMod p) = 1 := neg_eq_iff_eq_neg.2 h1
       rw [h2, orderOf_one]
-    haveI := Fintype.ofFinite L
+    have := Fintype.ofFinite L
     have hLc : Fintype.card L = (ℓ ^ f) ^ 2 := by rw [Fintype.card_eq_nat_card]; exact hL
     have hGU : ∀ P : Sylow p ↥(StatedGU n (ℓ ^ f) L),
         IsMulCommutative (P : Subgroup ↥(StatedGU n (ℓ ^ f) L)) :=

@@ -26,14 +26,16 @@ private def lk0xlqroots_cast (n : ℕ) : (Fin n → ℤ) →ₗ[ℤ] (Fin n → 
   map_add' v w := by ext i; simp
   map_smul' m v := by
     ext i
-    simp only [Pi.smul_apply, LinearMap.coe_mk, AddHom.coe_mk]
+    simp only [Pi.smul_apply]
     rw [zsmul_eq_mul, zsmul_eq_mul, Int.cast_mul]
     rfl
 
+omit [CharP Omega 2] in
 private theorem lk0xlqroots_p_pos (A : K0LangMark Omega lab p R I phi) : 0 < p := by
   obtain ⟨N⟩ := k0Normal_nonempty A
   exact N.zero_lt
 
+omit [CharP Omega 2] in
 private theorem lk0xlqroots_nodes_proper
     (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) :
@@ -52,6 +54,7 @@ private theorem lk0xlqroots_nodes_proper
   have hp := lk0xlqroots_p_pos A
   omega
 
+omit [CharP Omega 2] in
 theorem lq_compRank (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) :
     compRank (componentRoots (rootCharHom A.a) (P.repr j)) = (lqNodes A P j).length := by
@@ -102,9 +105,7 @@ theorem lq_compRank (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
       · rw [hrepr]
         refine ⟨A.node_isRoot ⟨x.1, hc x.1 x.2⟩, Submodule.subset_span ?_⟩
         exact ⟨⟨x.1, hc x.1 x.2⟩, x.2, rfl⟩
-      · change lk0xlqroots_cast A.tau.rank
-            (A.nodeMap (Pi.single (⟨x.1, hc x.1 x.2⟩ : Fin A.row.diagram.marks.length) 1)) = _
-        rw [lq_nodeMap_eq A ⟨x.1, hc x.1 x.2⟩]
+      · rw [lq_nodeMap_eq A ⟨x.1, hc x.1 x.2⟩]
         rfl
   have hcard : Fintype.card {x // x ∈ lqNodes A P j} = (lqNodes A P j).length := by
     rw [← List.toFinset_card_of_nodup hnd, ← Fintype.card_coe (lqNodes A P j).toFinset]
@@ -114,6 +115,7 @@ theorem lq_compRank (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
       = (lqNodes A P j).length
   rw [hspan, finrank_span_eq_card hind, hcard]
 
+omit [CharP Omega 2] in
 theorem lq_rankOne_iff (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) :
     (∀ α ∈ componentRoots (rootCharHom A.a) (P.repr j),
@@ -147,8 +149,7 @@ theorem lq_rankOne_iff (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
       rcases h α0 hα0 δ hδ with hEq | hEq
       · rw [hEq]; exact Submodule.subset_span rfl
       · rw [hEq]
-        simpa using Submodule.neg_mem (Submodule.span ℚ {lk0xlqroots_cast A.tau.rank α0})
-          (Submodule.subset_span rfl)
+        simp
     have hfin : Module.finrank ℚ (Submodule.span ℚ
         (lk0xlqroots_cast A.tau.rank '' componentRoots (rootCharHom A.a) (P.repr j))) = 1 := by
       apply le_antisymm

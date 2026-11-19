@@ -34,7 +34,7 @@ private theorem s16c6_nine_le_card_inf_centralizer {E V₀ : Subgroup G}
     9 ≤ Nat.card (E ⊓ Subgroup.centralizer ({w} : Set G) : Subgroup G) := by
   classical
   let C : Subgroup G := E ⊓ Subgroup.centralizer ({w} : Set G)
-  letI : MulAction ↥E G := s16c6ConjAction E
+  let : MulAction ↥E G := s16c6ConjAction E
   have hstab : MulAction.stabilizer ↥E w = C.subgroupOf E := by
     ext c
     rw [MulAction.mem_stabilizer_iff, Subgroup.mem_subgroupOf, Subgroup.mem_inf,
@@ -83,7 +83,7 @@ private theorem s16c6_nine_le_card_inf_centralizer {E V₀ : Subgroup G}
   omega
 
 theorem s16c6_v0_rank (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
-    (hS : Sect16 D V₀ V L hV) (hc : Case163_6 D V₀ V hV L) {w : G} (hwV : w ∈ V) (hw1 : w ≠ 1)
+    (hS : Sect16 D V₀ V L hV) (hc : Case163_6 D V₀ V hV L) {w : G} (_hwV : w ∈ V) (hw1 : w ≠ 1)
     (hw0 : w ∈ V₀) : 2 ≤ CFSG.Open.pRank 3 (D.M ⊓ centralizer ({w} : Set G)) := by
   classical
   have hP : PairFacts D.M V₀ V := hS.setting.hyp16.hyp125.pairFacts
@@ -103,7 +103,7 @@ theorem s16c6_v0_rank (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAbelian 2
     s16c6_nine_le_card_inf_centralizer hEN hV₀card hEcard27 hw0 hw1
   have hCel : IsElemAbelian 3 (E ⊓ Subgroup.centralizer ({w} : Set G)) :=
     hEel.mono inf_le_left
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hCel.isPGroup
   have hk2 : 2 ≤ k := by
     have h33 : 3 ^ 2 ≤ 3 ^ k := by

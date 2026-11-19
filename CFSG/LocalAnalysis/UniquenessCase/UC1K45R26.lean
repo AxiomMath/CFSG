@@ -12,9 +12,10 @@ open scoped commutatorElement
 
 variable {p : ℕ} {G : Type} [Group G] [Finite G] {D : Subgroup G}
 
+omit [Finite G] in
 private theorem xof_le_pPrimeCore : Xof G ≤ CFSG.pPrimeCore 3 G := by
   have hK : Kof G ≤ CFSG.pPrimeCore 3 G := by
-    haveI : (CFSG.pPrimeCore 3 G).Normal := CFSG.pPrimeCore_normal
+    have : (CFSG.pPrimeCore 3 G).Normal := CFSG.pPrimeCore_normal
     exact Subgroup.commutator_le_left (CFSG.pPrimeCore 3 G) ⊤
   intro x hx
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
@@ -146,9 +147,9 @@ theorem exists_involution_mem_zxof (c : Ctx45 p G D) :
     calc 1 < 8 := by norm_num
       _ = Nat.card ↥(Tof G D) := hcardT.symm
       _ ≤ Nat.card ↥(Xof G) := Subgroup.card_le_of_le hTle
-  haveI : Nontrivial ↥(Xof G) := hXnt
+  have : Nontrivial ↥(Xof G) := hXnt
   have hcenter : Nontrivial ↥(Subgroup.center ↥(Xof G)) := hXp.center_nontrivial
-  haveI : Nontrivial ↥(Subgroup.center ↥(Xof G)) := hcenter
+  have : Nontrivial ↥(Subgroup.center ↥(Xof G)) := hcenter
   have hcenter_p : IsPGroup 2 ↥(Subgroup.center ↥(Xof G)) :=
     hXp.to_subgroup (Subgroup.center ↥(Xof G))
   have h2dvd_center : 2 ∣ Nat.card ↥(Subgroup.center ↥(Xof G)) := by
@@ -172,8 +173,8 @@ theorem eq_one_or_eq_of_sq_eq_one (c : Ctx45 p G D) {z u : G}
     (hu : u ∈ Subgroup.center G) (hu2 : u * u = 1) : u = 1 ∨ u = z := by
   classical
   let Z := Subgroup.center G
-  haveI : Fintype ↥Z := Fintype.ofFinite ↥Z
-  haveI : IsCyclic ↥Z := c.center_cyclic
+  have : Fintype ↥Z := Fintype.ofFinite ↥Z
+  have : IsCyclic ↥Z := c.center_cyclic
   have hzu : z ∈ Z := c.ZX_le hz
   have hzsq : (⟨z, hzu⟩ : ↥Z) ^ 2 = 1 := by
     apply Subtype.ext

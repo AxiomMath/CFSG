@@ -81,7 +81,7 @@ private theorem semilinear_rank_three_kernel_transports
       _ = 1 := map_one τ
   have hncJ : ∃ x y : J, x * y ≠ y * x := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hcommJ : ∀ x y : J, x * y = y * x := fun x y => h x y
     have hcommMat : ∀ a ∈ Jmat, ∀ b ∈ Jmat, a * b = b * a := by
       rintro a ⟨x, rfl⟩ b ⟨y, rfl⟩
@@ -134,7 +134,7 @@ private theorem exists_invariant_isPOnePlusTwo_of_reduction
       CFSG.IsExtraspecialPGroup 3 H → Nat.card H = 3 ^ 3 → (∀ x ∈ H, x ^ 3 = 1) →
       CFSG.Quasithin.IsPOnePlusTwo 3 ↥H := by
     intro H hHex hHcard hHcube
-    letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine ⟨hHex.isExtraspecial, ?_, ?_⟩
     · simpa using hHcard
     · intro x

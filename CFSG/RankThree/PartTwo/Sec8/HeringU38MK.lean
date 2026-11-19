@@ -48,7 +48,7 @@ theorem toMat_smul (c : F) (A : Mat3) : (Mat3.smul c A).toMat ι = ι c • A.to
 theorem toMat_diag (a b c : F) :
     (Mat3.diag a b c).toMat ι = diagonal ![ι a, ι b, ι c] := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Mat3.toMat, Mat3.diag, diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp [Mat3.toMat, Mat3.diag]
 
 theorem Mat3.pow_succ' (A : Mat3) (n : ℕ) : A ^ (n + 1) = A ^ n * A := rfl
 

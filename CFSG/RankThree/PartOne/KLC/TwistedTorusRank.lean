@@ -149,7 +149,7 @@ theorem exists_hom_twistedTorus_of_eigen {Fr : L →+* L} {q : ℕ} (hFr : ∀ c
   have : Fact p.Prime := ⟨hp⟩
   have : NeZero p := ⟨hp.ne_zero⟩
   have : NeZero (p : L) := ⟨hpL⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   let ψ : (rootsOfUnity p L) × (rootsOfUnity p L) →* (Fin τ.rank → Lˣ) :=
     { toFun := fun z => eigTuple (z.1 : Lˣ) (z.2 : Lˣ) U
       map_one' := by
@@ -206,7 +206,7 @@ theorem card_rootsOfUnity_eq {p : ℕ} (hp : p.Prime) (hpL : (p : L) ≠ 0) :
     Nat.card (rootsOfUnity p L) = p := by
   have : NeZero p := ⟨hp.ne_zero⟩
   have : NeZero (p : L) := ⟨hpL⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   exact hζ.card_rootsOfUnity
 
 end Eigen

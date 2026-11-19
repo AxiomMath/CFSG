@@ -151,8 +151,7 @@ private theorem EOK_spec (h : EOK = true) :
     simp only [noZ4Rels, List.mem_cons, List.not_mem_nil, or_false] at hr
     rcases hr with rfl | rfl <;> simp
   have h' := h
-  simp only [EOK, Bool.and_eq_true, List.all_eq_true, List.mem_range,
-    decide_eq_true_eq, beq_iff_eq] at h'
+  simp only [EOK, Bool.and_eq_true, List.all_eq_true, decide_eq_true_eq, beq_iff_eq] at h'
   refine ⟨?_, ?_⟩
   · intro p hp
     have hp' := h'.1 p hp
@@ -292,8 +291,8 @@ private theorem sum_if_F_eq (X2 : Nat → Matrix (Fin 10) (Fin 10) (ZMod 2))
     intro i hi
     have hi' : i < w.length := Finset.mem_range.mp hi
     by_cases hk : w[i]! = k
-    · rw [if_pos hk, if_pos hk, termG_pair C X2 w i hi', hk]
-    · rw [if_neg hk, if_neg hk]
+    · rw [ite_eq_left hk, ite_eq_left hk, termG_pair C X2 w i hi', hk]
+    · rw [ite_eq_right hk, ite_eq_right hk]
   rw [h]
   exact sum_i_term_eq X2 C w k
 
@@ -385,7 +384,7 @@ theorem noZ4_Qj (V : Type) [CommGroup V] (ρ : Qj →* MulAut V) (ι : ↥Jc →
     (h1 : ∀ v : V, ∃ a, v ^ 2 = ι a) (h2 : ∀ v : V, v ^ 2 = 1 → ∃ a, v = ι a)
     (h3 : ∀ a, ∃ v : V, v ^ 2 = ι a) : False := by
   classical
-  letI : Module (ZMod 4) (Additive V) := VModule ι h1
+  let : Module (ZMod 4) (Additive V) := VModule ι h1
   let v : Fin 10 → Additive V := fun i =>
     Additive.ofMul (Classical.choose (h3 (jcA (2 ^ i.val))))
   have hv : ∀ i, (2 : ZMod 4) • v i =
@@ -410,8 +409,8 @@ theorem noZ4_Qj (V : Type) [CommGroup V] (ρ : Qj →* MulAut V) (ι : ↥Jc →
   have hdecomp : ∀ k, k < 3 →
       mat ρ v Φ (qAjN k) = GhN k + (2 : ZMod 4) • XN k := by
     intro k hk
-    simp only [qAjN, XN, GhN, dif_pos hk]
-    exact mat_qAj_decomp (ρ := ρ) (v := v) (Φ := Φ) hι hρ h1 h2 hv hΦ hTab ⟨k, hk⟩
+    simp only [qAjN, XN, GhN, dite_eq_left hk]
+    exact mat_qAj_decomp (ρ := ρ) (v := v) (Φ := Φ) hι hρ hv hΦ hTab ⟨k, hk⟩
   let linPartN : List Nat → Matrix (Fin 10) (Fin 10) (ZMod 4) :=
     linPartNat GhN XN
   have mat_prodN : ∀ w : List Nat, (∀ k ∈ w, k < 3) →
@@ -429,7 +428,7 @@ theorem noZ4_Qj (V : Type) [CommGroup V] (ρ : Qj →* MulAut V) (ι : ↥Jc →
       have hl : ∀ k ∈ l, k < 3 := fun k hk => hw k (by simp [hk])
       rw [List.map_cons, List.prod_cons, mat_mul ρ v Φ hΦ, ih hl, hdecomp a ha]
       rw [← prod_decompNat GhN XN l, ← prod_decompNat GhN XN (a :: l)]
-      simp [linPartN, linPartNat, List.map_cons, List.prod_cons]
+      simp [List.map_cons, List.prod_cons]
   have hRelAll : noZ4Rels.all noZ4RelOK = true := by
     have h := hOK
     simp only [noZ4OK, Bool.and_eq_true, and_assoc] at h
@@ -476,7 +475,7 @@ theorem noZ4_Qj (V : Type) [CommGroup V] (ρ : Qj →* MulAut V) (ι : ↥Jc →
     fin_cases x <;> rfl
   have red_G4 (k : Nat) : (GhN k).map red = G2 k := by
     ext j i
-    simp [GhN, G4, G2, red_natCast]
+    simp [GhN, G4, G2]
   have prod_map_red : ∀ l : List Nat,
       ((l.map GhN).prod).map red = (l.map G2).prod := by
     intro l
@@ -504,7 +503,7 @@ theorem noZ4_Qj (V : Type) [CommGroup V] (ρ : Qj →* MulAut V) (ι : ↥Jc →
   have map_add_matrix (A B : Matrix (Fin 10) (Fin 10) (ZMod 4)) :
       (A + B).map red = A.map red + B.map red := by
     ext i j
-    simp [Matrix.map, Matrix.add]
+    simp [Matrix.map]
   have map_mul_matrix (A B : Matrix (Fin 10) (Fin 10) (ZMod 4)) :
       (A * B).map red = A.map red * B.map red := Matrix.map_mul ..
   have redLin_cons (a : Nat) (l : List Nat) :
@@ -557,10 +556,10 @@ theorem noZ4_Qj (V : Type) [CommGroup V] (ρ : Qj →* MulAut V) (ι : ↥Jc →
     · simp [hC]
     · have hmem : (r, a.val, b.val) ∈ noZ4Sel := by
         by_contra hp
-        rw [hCval, if_neg hp] at hC
+        rw [hCval, ite_eq_right hp] at hC
         exact hC rfl
       have hC1 : (Csel r).toMat a b = 1 := by
-        rw [hCval, if_pos hmem]
+        rw [hCval, ite_eq_left hmem]
       obtain ⟨-, -, -, hPeq⟩ := hsel (r, a.val, b.val) hmem
       have hrOK : noZ4RelOK r = true := by
         have h := hRelAll

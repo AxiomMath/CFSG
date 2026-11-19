@@ -43,11 +43,11 @@ theorem model_of_component {G : Type} [Group G] [Finite G] {J I : Subgroup G} {x
     (hx3 : x ^ 3 = 1) (hxJ : x ∈ Subgroup.normalizer (J : Set G))
     (hI : GLAPComponent 3 (J ⊓ Subgroup.centralizer ({x} : Set G)) I)
     (hIT : IsTypeWithCenter 3 I isA6 1) (hnot : ¬ J ≤ I ⊔ GLAPPrimeCoreOf 3 J) :
-    ∃ (Q : Type) (_ : Group Q) (_ : Finite Q) (K I' : Subgroup Q) (y : Q) (e : ↥K ≃* PQuot 3 J),
+    ∃ (Q : Type) (_ : Group Q) (_ : Finite Q) (K I' : Subgroup Q) (y : Q) (_e : ↥K ≃* PQuot 3 J),
       I1430Model K I' y ∧
         (InducesInnerMod 3 J x → ∃ g ∈ K, ∀ k ∈ K, y⁻¹ * k * y = g * k * g⁻¹) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   set H : Subgroup G := J ⊔ Subgroup.zpowers x with hH
   have hJH : J ≤ H := le_sup_left
@@ -58,9 +58,9 @@ theorem model_of_component {G : Type} [Group G] [Finite G] {J I : Subgroup G} {x
   set K₀ : Subgroup ↥H := J.subgroupOf H with hK₀
   have hHN : H ≤ Subgroup.normalizer (J : Set G) :=
     sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.2 hxJ)
-  haveI hK₀n : K₀.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJH).2 hHN
+  have hK₀n : K₀.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJH).2 hHN
   set N₀ : Subgroup ↥H := GLAPPrimeCoreOf 3 K₀ with hN₀
-  haveI hN₀n : N₀.Normal := by
+  have hN₀n : N₀.Normal := by
     have h := normalizer_le_normalizer_glaPPrimeCoreOf 3 K₀
     rw [Subgroup.normalizer_eq_top_iff.2 hK₀n, top_le_iff] at h
     exact Subgroup.normalizer_eq_top_iff.1 h
@@ -81,22 +81,22 @@ theorem model_of_component {G : Type} [Group G] [Finite G] {J I : Subgroup G} {x
   set K' : Subgroup (↥H ⧸ N₀) := K₀.map ψ with hK'
   set I'' : Subgroup (↥H ⧸ N₀) := (I.subgroupOf H).map ψ with hI''
   have hK'n : K'.Normal := hK₀n.map _ (QuotientGroup.mk'_surjective N₀)
-  have e : ↥K' ≃* PQuot 3 J :=
+  have _e : ↥K' ≃* PQuot 3 J :=
     (Classical.choice (nonempty_pQuot_equiv_map_self (p := 3) (ψ := ψ) (K := K₀)
       (by rw [hker, inf_eq_left.2 hN₀K]))).symm.trans
       (Classical.choice (nonempty_pQuot_equiv_subgroupOf 3 hJH))
-  have hK'q : CFSG.Open.IsQuasisimple ↥K' := quasisimple_of_equiv' e.symm hJQ
+  have hK'q : CFSG.Open.IsQuasisimple ↥K' := quasisimple_of_equiv' _e.symm hJQ
   have hcat' : IsCatalogGroup (↥K' ⧸ Subgroup.center ↥K') :=
-    isCatalogGroup_center_quot_of_equiv e.symm hcat
+    isCatalogGroup_center_quot_of_equiv _e.symm hcat
   have hK'c : ∀ z ∈ Subgroup.center ↥K', ∃ n : ℕ, z ^ 3 ^ n = 1 := by
     intro z hz
-    have h2 : (Subgroup.center ↥K').map e.toMonoidHom = Subgroup.center (PQuot 3 J) :=
-      Subgroup.map_center_eq e
-    have hz' : e z ∈ Subgroup.center (PQuot 3 J) := by
+    have h2 : (Subgroup.center ↥K').map _e.toMonoidHom = Subgroup.center (PQuot 3 J) :=
+      Subgroup.map_center_eq _e
+    have hz' : _e z ∈ Subgroup.center (PQuot 3 J) := by
       rw [← h2]
       exact Subgroup.mem_map_of_mem _ hz
-    obtain ⟨n, hn⟩ := CFSG.LocalAnalysis.GLTheoremA.I106TGroup.center_pQuot_three_pow J (e z) hz'
-    exact ⟨n, e.injective (by rw [map_pow, hn, map_one])⟩
+    obtain ⟨n, hn⟩ := CFSG.LocalAnalysis.GLTheoremA.I106TGroup.center_pQuot_three_pow J (_e z) hz'
+    exact ⟨n, _e.injective (by rw [map_pow, hn, map_one])⟩
   have hy'n : ψ x₀ ∈ Subgroup.normalizer (K' : Set (↥H ⧸ N₀)) := by
     rw [Subgroup.normalizer_eq_top_iff.2 hK'n]
     exact Subgroup.mem_top _
@@ -119,12 +119,12 @@ theorem model_of_component {G : Type} [Group G] [Finite G] {J I : Subgroup G} {x
     intro hC
     rw [inf_eq_left.2 hC] at hcomp
     have hO : GLAPPrimeCore 3 ↥K' = ⊥ := by
-      have h1 := glaPPrimeCore_map_iso 3 e
+      have h1 := glaPPrimeCore_map_iso 3 _e
       have h2 : GLAPPrimeCore 3 (PQuot 3 J) = ⊥ :=
         CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot 3
       rw [h2] at h1
-      have h3 : GLAPPrimeCore 3 ↥K' ≤ e.toMonoidHom.ker := (Subgroup.map_eq_bot_iff _).1 h1
-      rw [(MonoidHom.ker_eq_bot_iff _).2 e.injective] at h3
+      have h3 : GLAPPrimeCore 3 ↥K' ≤ _e.toMonoidHom.ker := (Subgroup.map_eq_bot_iff _).1 h1
+      rw [(MonoidHom.ker_eq_bot_iff _).2 _e.injective] at h3
       exact le_bot_iff.1 h3
     have hY : CFSG.Open.IsQuasisimple (↥K' ⧸ GLAPPrimeCore 3 ↥K') :=
       quasisimple_of_equiv' (((QuotientGroup.quotientMulEquivOfEq hO).trans
@@ -154,7 +154,7 @@ theorem model_of_component {G : Type} [Group G] [Finite G] {J I : Subgroup G} {x
       (Subgroup.mem_sup_right ?_)
     rw [← hmapsub]
     exact Subgroup.mem_map_of_mem H.subtype hn
-  refine ⟨↥H ⧸ N₀, inferInstance, inferInstance, K', I'', ψ x₀, e,
+  refine ⟨↥H ⧸ N₀, inferInstance, inferInstance, K', I'', ψ x₀, _e,
     ⟨hK'n, hK'q, hK'c, hy'n, hy'3, hnotC, hcomp, hIT'', hcat'⟩, ?_⟩
   intro hInner
   obtain ⟨l, hl, hall⟩ := hInner

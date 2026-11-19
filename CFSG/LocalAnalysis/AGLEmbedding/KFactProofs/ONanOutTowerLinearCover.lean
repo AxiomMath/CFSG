@@ -127,7 +127,7 @@ theorem exists_conj_agree_of_isPGroup {p : ℕ} [Fact p.Prime] (hpF : (p : F) �
     exact ⟨s, hs, congrArg Subtype.val hsx⟩
   let P' : Subgroup (GL (Fin n) F) :=
     (S : Subgroup Q).map ((SpecialLinearGroup.toGL).comp Q.subtype)
-  have hP' : IsPGroup p P' := S.isPGroup'.map _
+  have hP' : IsPGroup p P' := S.isPGroup.map _
   obtain ⟨c, hc, hdet⟩ := exists_commute_det_eq hpF P' hP'
     (by rwa [← Nat.card_eq_fintype_card]) (GeneralLinearGroup.det A)
   let b : SpecialLinearGroup (Fin n) F := ⟨((A * c⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F),

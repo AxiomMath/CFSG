@@ -17,9 +17,9 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 private theorem ggQ2xE8_finiteGL (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 8 ≃ D.ι) :
     Finite (D.V ≃ₗ[ZMod 3] D.V) := by
-  haveI : Nonempty D.ι := ⟨e 0⟩
+  have : Nonempty D.ι := ⟨e 0⟩
   let b0 : Basis D.ι (ZMod 3) D.V := basisOfLinearIndependentOfCardEqFinrank hbas.1 hbas.2
-  haveI : Fintype D.V := Fintype.ofEquiv (D.ι → ZMod 3) b0.equivFun.symm
+  have : Fintype D.V := Fintype.ofEquiv (D.ι → ZMod 3) b0.equivFun.symm
   exact Finite.of_injective (fun f : D.V ≃ₗ[ZMod 3] D.V => (f : D.V → D.V))
     (fun f g h => LinearEquiv.ext (congrFun h))
 
@@ -27,7 +27,7 @@ private theorem ggQ2xE8_innerE (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 8 ≃ D
     (hE : D.coxeter = CoxeterMatrix.E₈.reindex e) :
     GGQ2QuandleInner (ggQ2xQ_isConjRefl D) (D.weyl : Set (D.V ≃ₗ[ZMod 3] D.V)) := by
   intro π hπT hinj hπ
-  haveI : Finite (D.V ≃ₗ[ZMod 3] D.V) := ggQ2xE8_finiteGL D hbas e
+  have : Finite (D.V ≃ₗ[ZMod 3] D.V) := ggQ2xE8_finiteGL D hbas e
   have hfin : (ggQ2xQ_isConjRefl D).Finite :=
     Set.finite_univ.subset (Set.subset_univ _)
   have hsurj : Set.SurjOn π (ggQ2xQ_isConjRefl D) (ggQ2xQ_isConjRefl D) :=
@@ -56,7 +56,7 @@ private lemma ggQ2xE8_tau_coroot (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 8 ≃
   rw [Basis.equivFun_self]
   by_cases h : i = j
   · subst h; simp [Pi.single_eq_same]
-  · rw [if_neg h, Pi.single_eq_of_ne (Ne.symm h)]
+  · rw [ite_eq_right h, Pi.single_eq_of_ne (Ne.symm h)]
 
 private lemma ggQ2xE8_cartan_eq (D : GGQ2Lin 3) (e : Fin 8 ≃ D.ι)
     (hE : D.coxeter = CoxeterMatrix.E₈.reindex e) (i j : Fin 8) :
@@ -538,8 +538,7 @@ private lemma ggQ2xE8_refl_centre (D : GGQ2Lin 3) (hbas : D.Basis) (e : Fin 8 �
     rw [ht_eq]
     apply LinearEquiv.ext; intro v
     rw [ggLinConj_apply, Module.reflection_apply, Module.reflection_apply]
-    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.symm_apply_apply,
-      LinearEquiv.apply_symm_apply, map_sub, map_smul]
+    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearEquiv.apply_symm_apply, map_sub, map_smul]
   have ht' : Module.reflection hφ'
       ∈ A.map (ggLinConj (ggQ2xE8_tauC D hbas e)).toMonoidHom := by
     rw [heq]

@@ -54,7 +54,7 @@ theorem pRank_le_three_of_mem_H2Fam (h : NineSettingGen G M 3 Q H E k)
 theorem pRank_quotient_le_three_of_mem_H2Fam (h : NineSettingGen G M 3 Q H E k)
     (hH2 : H ∈ H2Fam M Q) (h3 : 3 ∉ CFSG.LocalAnalysis.RankThreeUC.S15.sigmaM G M) :
     CFSG.pRank 3 ↥(⊤ : Subgroup (↥H ⧸ CFSG.pPrimeCore 3 ↥H)) ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore 3 ↥H) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp CFSG.pPrimeCore_coprime_card
   calc CFSG.pRank 3 ↥(⊤ : Subgroup (↥H ⧸ CFSG.pPrimeCore 3 ↥H))

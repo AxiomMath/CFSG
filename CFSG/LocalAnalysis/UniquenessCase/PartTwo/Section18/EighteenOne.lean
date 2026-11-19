@@ -99,14 +99,14 @@ theorem card_mulAut_L0 {n : ℕ} {M V₀ V : Subgroup G} {g : G} (h : Hyp65 n M 
       mSub (L0Of M V₀ g) = 2 := by omega
   rw [CFSG.SectionRank.Ccomm.card_mulAut_eq_card_GL (p := 2) e,
     CFSG.SectionRank.Ccomm.card_GL_zmod (p := 2) (n := mSub (L0Of M V₀ g))]
-  rcases h0 with h0 | h0 | h0 <;> rw [h0] <;> simp [Fin.prod_univ_two] <;> norm_num
+  rcases h0 with h0 | h0 | h0 <;> rw [h0] <;> simp [Fin.prod_univ_two]
 
 theorem mQuot_le_one_of_hyp65
     {n : ℕ} {M V₀ V : Subgroup G} {g : G} (h : Hyp65 n M V₀ V g)
     (hsmall : mSub V₀ ≤ 1) : CFSG.Quasithin.E3.mQuot V (conjSubgroup M g) ≤ 1 := by
   have hcard : Nat.card (L0Of M V₀ g) ≤ 4 := card_L0_le_four h hsmall
   have haut := card_mulAut_L0 h hsmall
-  haveI := h.K_normal
+  have := h.K_normal
   let ψ : ↥(LOf V g) →* MulAut ↥(L0Of M V₀ g) :=
     (L0Of M V₀ g).normalizerMonoidHom.comp
       (Subgroup.inclusion (Hyp65.L_le_normalizer_L0 h))

@@ -96,8 +96,8 @@ private theorem czRDRefl_conj_czSRefl {p : ℕ} [Fact p.Prime] {V : Type} [AddCo
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, czRDRefl_inv]
   have hd' : ∀ a b, φ a (e b) = if a = b then 1 else 0 := hd
   have hji : j ≠ i := fun h => hij h.symm
-  simp only [czRDRefl_apply, czSRefl_apply, map_sub, map_smul, hd', hij, hji, if_true,
-    if_false]
+  simp only [czRDRefl_apply, czSRefl_apply, map_sub, map_smul, hd', hij, hji, ite_true,
+    ite_false]
   module
 
 private def czHForm {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
@@ -117,7 +117,7 @@ private theorem czSRefl_conj_czHForm {p : ℕ} [Fact p.Prime] {V : Type} [AddCom
   rw [hr]
   fin_cases k <;>
     simp only [czHForm, czSRefl_apply, Fin.sum_univ_four, Function.update_apply,
-      Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, if_true, neg_mul, neg_smul, Fin.isValue] <;>
+      Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, ite_true, neg_mul, neg_smul, Fin.isValue] <;>
     simp [hd', map_sub, map_smul, map_add, smul_eq_mul] <;>
     module
 
@@ -265,6 +265,7 @@ private theorem ggCZ_exists_sChange (h : GGCaseZeroData p B Bs x L D J 𝒦)
     · exact absurd hH (ggCZWB_not_mem_H hp2 (by norm_num) hd hrWB)
   exact hne (le_antisymm hjoin le_sup_left)
 
+omit [Finite G] in
 private theorem ggCZ_exists_join_image (ιV : Additive ↥Bs ≃+ V)
     {e : Fin 4 → V} {φ : Fin 4 → Module.Dual (ZMod p) V} (hd : GGCZDual e φ)
     (hRDpre : ∀ r ∈ ggCZRD e φ, ∃ a ∈ ggAutomizer L Bs, ggLin (p := p) ιV a = r)

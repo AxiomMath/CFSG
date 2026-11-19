@@ -361,7 +361,7 @@ theorem mem_qTwoShape_of_ncard_le_three {n : ℕ} (hn : 4 ≤ n) {M : CoxeterMat
 theorem ggCoxeterMatrixD_two_or_three {m : ℕ} (i j : Fin m) (h : i ≠ j) :
     CFSG.StandardType.ggCoxeterMatrixD m i j = 2 ∨
       CFSG.StandardType.ggCoxeterMatrixD m i j = 3 := by
-  rw [CFSG.StandardType.ggCoxeterMatrixD_apply, if_neg h]
+  rw [CFSG.StandardType.ggCoxeterMatrixD_apply, ite_eq_right h]
   split_ifs <;> simp
 
 theorem ggCoxeterMatrixD_not_triangle {m : ℕ} (hm : 4 ≤ m) (i j k : Fin m) :

@@ -52,7 +52,7 @@ theorem zpowers_not_mem_omegaA_of_mem_inf
     have hk : g * ĉ ^ k = ĉ ^ k * g := (Commute.zpow_right (hcomm g) k).eq
     rw [hk, mul_assoc, mul_inv_cancel, mul_one]
     exact Subgroup.mem_zpowers_iff.mpr ⟨k, rfl⟩
-  haveI hNmap : ((Subgroup.zpowers ĉ).map
+  have hNmap : ((Subgroup.zpowers ĉ).map
       (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥L))).Normal :=
     hN.map _ (QuotientGroup.mk'_surjective _)
   have hsimple := (lBar_simple_and_pRank h.toSec14Std).1
@@ -100,8 +100,8 @@ theorem not_isSolvable_delta_centralizer (h : Sec17Std G A c L Y₀) {X : Subgro
       (CFSG.Open.pCoreOf 2 Y₀)) (hAK : A ≤ Subgroup.normalizer (K : Set G))
     (hKq : K ∈ thetaComponentsIn X) {b : G} (hb : b ∈ A ⊓ L) (hb1 : b ≠ 1) :
     ¬ Group.IsSolvable ↥(delta A (lB A) (Subgroup.centralizer ({b} : Set G))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKX : K ≤ X := le_of_mem_thetaComponentsIn hKq
   intro hD
   have hX3 : Nat.Coprime 3 (Nat.card X) := coprime_three_card_of_mem_scriptQ hXQ
@@ -312,7 +312,7 @@ theorem delta_le_of_suzuki_member (h : Sec17Std G A c L Y₀)
   have hT'syl : CFSG.ABGLocalTools.IsSylowOf 2 T' E := ⟨T, rfl⟩
   have hT'E : T' ≤ E := Subgroup.map_subtype_le _
   have hT'Q : T' ∈ scriptQ A (lB A) := mem_scriptQ_of_le hEQ hT'E hTA
-  have hT'2 : IsPGroup 2 T' := T.isPGroup'.map _
+  have hT'2 : IsPGroup 2 T' := T.isPGroup.map _
   have hEtop : E ≠ ⊤ := fun htop => hDtop (eq_top_iff.mpr (htop ▸ hED))
   have hNT : delta A (lB A) (Subgroup.normalizer (T' : Set G)) ≤
       Subgroup.normalizer (Y₀ : Set G) :=

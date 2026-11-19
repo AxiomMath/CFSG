@@ -105,7 +105,6 @@ theorem closPt_of_base {n w : Nat} (hn : n < 2 ^ 32) {kS kO nb BP NS CH : ℕ}
   unfold CFSG.KC.ConjOrb.closPt
   rw [CFSG.KC.ConjOrb.strictB_eq, CFSG.KC.ConjOrb.strictB_eq, bAnd_iff]
   refine ⟨hci, allN_iff.2 fun k hk => ?_⟩
-  beta_reduce
   rw [CFSG.KC.ConjOrb.strictB_eq, bAnd_iff]
   obtain ⟨hj, he⟩ := hedge k hk
   exact ⟨Nat.blt_eq.mpr hj, by rw [he]; exact Nat.beq_refl _⟩

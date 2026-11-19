@@ -33,7 +33,7 @@ theorem isPerfect_of_isoLThreePi {X : Type} [Group X] [Finite X] [IsSimpleGroup 
       subst hn1
       have := Sec13.isSolvable_projSU_two
       have hsolv : Group.IsSolvable X :=
-        solvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
+        Group.isSolvable_of_surjective (f := φ.symm.toMonoidHom) φ.symm.surjective
       have hcomm : ∀ a b : X, a * b = b * a := IsSimpleGroup.comm_iff_isSolvable.mpr hsolv
       let : CommGroup X := { ‹Group X› with mul_comm := hcomm }
       have hprime : (Nat.card X).Prime := IsSimpleGroup.prime_card

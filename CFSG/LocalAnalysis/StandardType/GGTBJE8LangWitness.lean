@@ -22,7 +22,7 @@ theorem ggE8LangWitness_of_inner
     (hJ : CFSG.Assembly.IsComponentOf J (X ⊓ Subgroup.centralizer ({g} : Set G))) :
     GGE8LangWitness n p J := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hf : 1 ≤ n := hΛ.1
   have ht : GGExcFive .E8 := Or.inr (Or.inr (Or.inr (Or.inl rfl)))
   obtain ⟨M⟩ := GGFinModel.ggDatumModel_nonempty ht hf hp hp2 hreg

@@ -11,6 +11,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private theorem q13e_B_le_L : q13B t tau x₁ x₂ rho om ≤ q13L t tau x₁ x₂ rho om :=
   inf_le_left
 

@@ -23,9 +23,9 @@ theorem ggWPlusTableBRk_PSU
     GGWPlusTableBRk p (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)))
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) K (2 ^ n))) (LargeEvenGUSet (Fin d) K (2 ^ n))) (d - 1) := by
   intro M _ _ L' E θ hE hP hr6 hZ A M₁ E₁ h hXA hAN hAp hME hEA hCM hAM hAE hpow hh hhp hAh
-  haveI : Finite (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))) :=
+  have : Finite (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))) :=
     finite_largeEvenProj_PSU _
-  haveI : Finite (MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)))) :=
+  have : Finite (MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)))) :=
     Finite.of_injective
       (fun f : MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))) =>
         (f : LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)) →
@@ -44,7 +44,7 @@ theorem ggWPlusTableBRk_PSU
       LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) K (2 ^ n)))
         (LargeEvenGUSet (Fin d) K (2 ^ n)) := by
     intro a ha
-    simp only [ggLAutImage, Subgroup.mem_map] at ha
+    simp only [ggLAutImage] at ha
     obtain ⟨x, hx, rfl⟩ := ha
     have hxe : (⟨(x : M), hE hx⟩ : Subgroup.normalizer (L' : Set M)) = x :=
       Subtype.ext rfl
@@ -59,7 +59,7 @@ theorem ggWPlusTableBRk_PSU
     rwa [commutator_def, Subgroup.map_commutator, ← MonoidHom.range_eq_map,
       MonoidHom.range_eq_top.mpr (ggQuotHom_surjective θ), ← commutator_def] at h1
   have hX := ggSolvQuotLeTwo_PSU hK hn hd hp hpq hpd hperf hA hI hr hsc
-  haveI : ((MulAut.conj :
+  have : ((MulAut.conj :
       LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)) →*
       MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)))).range).Normal :=
     ggInnNormal _

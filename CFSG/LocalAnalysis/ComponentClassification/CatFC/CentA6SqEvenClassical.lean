@@ -86,7 +86,7 @@ theorem a6sq_even_PSL (hO : LieOrderFormulasInput) {S : Type} [Group S] [Finite 
     subst he
     rcases a6sq_psl_card hO hadm hm hn45 with h | h <;> omega
 
-theorem a6sq_even_PSU_core (hO : LieOrderFormulasInput) {S : Type} [Group S] [Finite S] {n e : ℕ}
+theorem a6sq_even_PSU_core (_hO : LieOrderFormulasInput) {S : Type} [Group S] [Finite S] {n e : ℕ}
     (hadm : StatedLieAdmissible .PSU n 2 e) (hm : LieModel S .PSU n 2 e) {σ : MulAut S}
     (hσ : orderOf σ = 2) (hout : σ ∉ (MulAut.conj : S →* MulAut S).range)
     (hC : Nat.card (autCentralizer σ) ≤ 5760)
@@ -150,8 +150,8 @@ theorem a6sq_even_PSp_core (hO : LieOrderFormulasInput) {S : Type}
       have he : e = 2 ∨ e = 3 := by omega
       exact hfin rfl he k (by rw [hk, hg1]; norm_num) ⟨Φ⟩
     · exact hnone D hDp
-  · haveI := hsimple
-    haveI := hDn
+  · have := hsimple
+    have := hDn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal D with h | h
     · rw [h] at hD360
       simp at hD360
@@ -192,7 +192,7 @@ theorem a6sq_even_Omega (hO : LieOrderFormulasInput) {t : StatedLieTag}
     (hσ : orderOf σ = 2) (hout : σ ∉ (MulAut.conj : S →* MulAut S).range)
     (hC : Nat.card (autCentralizer σ) ≤ 5760)
     (hC' : Nonempty (↥(commutator ↥(autCentralizer σ)) ≃* alternatingGroup (Fin 6)))
-    (hS : 129600 ∣ Nat.card S) : False :=
+    (_hS : 129600 ∣ Nat.card S) : False :=
   a6sq_even_Omega_core hO ht hadm hm hσ hout hC hC'
 
 end CFSG.ComponentClassification.CatFC

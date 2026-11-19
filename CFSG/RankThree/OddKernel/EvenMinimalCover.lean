@@ -91,7 +91,7 @@ theorem even_cover_rank_le (hp : p.Prime) (hp3 : 3 < p) {G : Type u} [Group G] [
       ((QuotientGroup.mk' N).comp X.subtype))).map (Subgroup.subtype _) := ⟨_, rfl⟩
   rw [← hKdef] at hQn
   obtain ⟨Q', hQ'def⟩ : ∃ Q' : Subgroup G, Q' = (K.map X.subtype).map H.subtype := ⟨_, rfl⟩
-  have hQ'2 : IsPGroup 2 Q' := hQ'def ▸ hKdef ▸ ((Q.isPGroup'.map _).map _).map _
+  have hQ'2 : IsPGroup 2 Q' := hQ'def ▸ hKdef ▸ ((Q.isPGroup.map _).map _).map _
   have hQ'0 : Q' ≠ ⊥ := by
     intro h
     have hQ1 : (Q : Subgroup ((center (H ⧸ N)).comap ((QuotientGroup.mk' N).comp X.subtype)))

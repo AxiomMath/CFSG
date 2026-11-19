@@ -363,7 +363,7 @@ theorem exists_good_block_of_component (hq : 2 ≤ ℓ ^ f)
       T = ((specialBlock (idForm h n) x (a.1 : K[X])).comap (toLinSU h n)).map
         (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n)) := by
   classical
-  haveI := h.finite
+  have := h.finite
   let α : MulAut ↥(gramSU h (idGram K n)) := primeFormConjSU h (idGram K n) A
   let φ : ↥(fixSubgroup α) →* gl_centralizer x :=
     ((toLinSU h n).comp (fixSubgroup α).subtype).codRestrict (gl_centralizer x) fun g =>
@@ -373,11 +373,11 @@ theorem exists_good_block_of_component (hq : 2 ≤ ℓ ^ f)
   let ρ : (b : {b : primaryFactors (x : Module.End K (Fin n → K)) // ¬ IsGoodBlock h x b}) →
       ↥(fixSubgroup α) →* blockGL (x : Module.End K (Fin n → K)) (b.1 : K[X]) :=
     fun b => (blockRestrict x (b.1 : K[X])).comp φ
-  haveI : ∀ b, Group.IsSolvable ↥(ρ b).range := fun b =>
+  have : ∀ b, Group.IsSolvable ↥(ρ b).range := fun b =>
     isSolvable_range_blockRestrict_of_not_good hq H b.1 b.2 φ hφU
-  haveI : Group.IsSolvable ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //
+  have : Group.IsSolvable ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //
       ¬ IsGoodBlock h x b}) → ↥(ρ b).range) := isSolvable_pi_of_finite_index
-  haveI : Group.IsSolvable ((b : primaryFactors (x : Module.End K (Fin n → K))) →
+  have : Group.IsSolvable ((b : primaryFactors (x : Module.End K (Fin n → K))) →
       (AdjoinRoot (b : K[X]))ˣ) := inferInstance
   let ψ : ↥(fixSubgroup α) →* ((b : primaryFactors (x : Module.End K (Fin n → K))) →
       (AdjoinRoot (b : K[X]))ˣ) × ((b : {b : primaryFactors (x : Module.End K (Fin n → K)) //
@@ -392,8 +392,8 @@ theorem exists_good_block_of_component (hq : 2 ≤ ℓ ^ f)
     fun a => (specialBlock (idForm h n) x (a.1 : K[X])).comap (toLinSU h n)
   have hFmap : ∀ a, (F a).map (toLinSU h n) = specialBlock (idForm h n) x (a.1 : K[X]) :=
     fun a => Subgroup.map_comap_eq_self (hSBle a)
-  haveI : Finite ↥(gramSU h (idGram K n)) := inferInstance
-  haveI : Finite (primeFormP h (idGram K n)) := inferInstance
+  have : Finite ↥(gramSU h (idGram K n)) := inferInstance
+  have : Finite (primeFormP h (idGram K n)) := inferInstance
   refine components_of_centralQuotient
     (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n))
     (QuotientGroup.mk'_surjective _) ?_ α (primeFormConjHom h (idGram K n) A) ?_ F ?_ ?_ ?_ ψ ?_
@@ -446,6 +446,7 @@ variable {ℓ f : ℕ} {K : Type} [Field K] {hK : UnitaryFieldData ℓ f K}
   {V : Type} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {B : V →ₛₗ[hK.bar] V →ₗ[K] K} {x : LinearMap.GeneralLinearGroup K V}
 
+omit [FiniteDimensional K V] in
 private theorem specialBlock_eq_kerImage' {a : K[X]} {Ω : Type*} [Group Ω]
     (φ : orbitFactor B x a ≃* Ω) (ι : Ω →* blockGL (x : Module.End K V) a)
     (D : Ω →* (AdjoinRoot a)ˣ) (hD : ∀ w, D w = blockGLDet (x : Module.End K V) a (ι w))

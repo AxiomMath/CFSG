@@ -61,7 +61,7 @@ theorem card_sylow_eq_27 (h415 : Sec4.Item4_15)
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' (aschbacherSolvableCore 3 ↥L) with hπ
   have hinj : Set.InjOn π ((S : Subgroup ↥L) : Set ↥L) :=
-    injOn_mk_of_isPGroup Nat.prime_three S.isPGroup'
+    injOn_mk_of_isPGroup Nat.prime_three S.isPGroup
   set Sb : Sylow 3 (↥L ⧸ aschbacherSolvableCore 3 ↥L) :=
     S.mapSurjective (QuotientGroup.mk'_surjective _) with hSbdef
   have hSb : (Sb : Subgroup _) = (S : Subgroup ↥L).map π := Sylow.coe_mapSurjective _ _
@@ -119,7 +119,7 @@ theorem exists_mem_conj_eq_inv (h415 : Sec4.Item4_15)
     rw [← map_mul, ← map_mul, Subgroup.mem_centralizer_singleton_iff.mp (hS₀d hx)]
   obtain ⟨gb, hgb⟩ := Item134SylowBarProof.j2_exists_conj_eq_inv h415 hJ Sb hdb1 hdbZ
   have hD3 : IsPGroup 3 (Subgroup.zpowers d') :=
-    S₀.isPGroup'.to_le (Subgroup.zpowers_le.mpr hdS₀)
+    S₀.isPGroup.to_le (Subgroup.zpowers_le.mpr hdS₀)
   have hgbN : gb ∈ Subgroup.normalizer (((Subgroup.zpowers d').map π :
       Subgroup (↥L ⧸ aschbacherSolvableCore 3 ↥L)) : Set (↥L ⧸ aschbacherSolvableCore 3 ↥L)) := by
     refine Subgroup.mem_normalizer_fintype fun y hy => ?_

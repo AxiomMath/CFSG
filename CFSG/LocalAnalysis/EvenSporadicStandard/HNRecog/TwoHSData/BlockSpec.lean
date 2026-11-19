@@ -25,18 +25,18 @@ theorem blkMapOK_spec {k : ℕ} {b : Array ℕ} {T L : Table} {g : Equiv.Perm (F
   have hp := allIn_eq_true.1 h p.val (Nat.zero_le _) p.2
   rw [ap_eq_val hT p] at hp
   by_cases hbp : b[p.val]! < k
-  · rw [if_pos hbp, beq_iff_eq] at hp
+  · rw [ite_eq_left hbp, beq_iff_eq] at hp
     have hLp : ap L b[p.val]! = (π ⟨b[p.val]!, hbp⟩).val := by
       rw [hL _ hbp, idx_of_lt π hbp, Equiv.Perm.smul_def]
     rw [hLp] at hp
     have hlt : b[(g p).val]! < k := by rw [hp]; exact (π ⟨b[p.val]!, hbp⟩).isLt
-    simp only [blkF, dif_pos hbp, dif_pos hlt, Option.map_some]
+    simp only [blkF, dite_eq_left hbp, dite_eq_left hlt, Option.map_some]
     exact congrArg some (Fin.ext hp)
-  · rw [if_neg hbp] at hp
+  · rw [ite_eq_right hbp] at hp
     have hnl : ¬ b[(g p).val]! < k := by
       have := of_decide_eq_true hp
       omega
-    simp only [blkF, dif_neg hbp, dif_neg hnl, Option.map_none]
+    simp only [blkF, dite_eq_right hbp, dite_eq_right hnl, Option.map_none]
 
 theorem blkTrivOK_spec {k : ℕ} {b : Array ℕ} {T : Table} {g : Equiv.Perm (Fin 1408)}
     (hT : Rep 1408 T g) (h : blkTrivOK b T = true) (p : Fin 1408) :
@@ -50,10 +50,10 @@ private theorem b_eq_of_blkF_eq {k : ℕ} {b : Array ℕ} (hbk : ∀ p : Fin 140
   have hp := hbk p
   have hq := hbk q
   by_cases hA : b[p.val]! < k <;> by_cases hB : b[q.val]! < k
-  · simp only [blkF, dif_pos hA, dif_pos hB, Option.some.injEq, Fin.mk.injEq] at h
+  · simp only [blkF, dite_eq_left hA, dite_eq_left hB, Option.some.injEq, Fin.mk.injEq] at h
     exact h
-  · simp only [blkF, dif_pos hA, dif_neg hB, reduceCtorEq] at h
-  · simp only [blkF, dif_neg hA, dif_pos hB, reduceCtorEq] at h
+  · simp only [blkF, dite_eq_left hA, dite_eq_right hB, reduceCtorEq] at h
+  · simp only [blkF, dite_eq_right hA, dite_eq_left hB, reduceCtorEq] at h
   · omega
 
 theorem blkTrivOK_of_fix {k : ℕ} {b : Array ℕ} (hbk : ∀ p : Fin 1408, b[p.val]! ≤ k) {T : Table}
@@ -81,20 +81,20 @@ theorem blkSurjOK_spec {k : ℕ} {b : Array ℕ} (hb : b.size = 1408) (h : blkSu
   refine ⟨⟨i, by omega⟩, ?_⟩
   have hbi : b[i]! = j.val := by rw [getElem!_pos b i hi, hix, hxj']
   simp only [blkF]
-  rw [dif_pos (by rw [hbi]; exact j.2)]
+  rw [dite_eq_left (by rw [hbi]; exact j.2)]
   exact congrArg some (Fin.ext hbi)
 
 theorem mem_map_elemW_set (ws : List (List ℕ)) :
     {x | x ∈ ws.map elemW} = elemW '' {w | w ∈ ws} := by
   ext x
-  simp only [Set.mem_setOf_eq, List.mem_map, Set.mem_image]
+  simp only [Set.mem_ofPred_eq, List.mem_map, Set.mem_image]
 
 theorem genOf_eq_closure_map (n : ℕ) (gs : List Table) :
     genOf n gs = closure {x | x ∈ gs.map (tp n)} := by
   unfold genOf
   congr 1
   ext x
-  simp only [Set.mem_image, Set.mem_setOf_eq, Array.mem_toArray, List.mem_map]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_toArray, List.mem_map]
 
 theorem blkData_spec {d : BlkData} (h : blkDataOK d = true) :
     ∃ φ : ↥(closure (elemW '' {w | w ∈ d.gens})) →* Equiv.Perm (Fin d.k),

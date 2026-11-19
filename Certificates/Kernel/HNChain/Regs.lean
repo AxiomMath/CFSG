@@ -48,9 +48,9 @@ theorem lm_eq (c : ℕ) : lm c = if c % 2 = 1 then Mr (c / 2) else Mi (c / 2) :=
   unfold lm Mr Mi
   rw [CertificateChecks.KernelWP.letC_div]
   by_cases h : c % 2 = 1
-  · simp only [h, decide_true, if_true]
+  · simp only [h, decide_true, ite_true]
     rfl
-  · simp only [h, decide_false, if_false]
+  · simp only [h, decide_false, ite_false]
     change OMs (RB (Nat.add (Nat.succ 18) (c / 2))) = _
     rfl
 
@@ -105,7 +105,7 @@ theorem word_root {k g : ℕ} (hk : k < 16) (hg : g < 18) {u : List ℕ} (hu : W
     (u.map lm).prod = Mr g := by
   have h := word_one hk
   rw [hu, List.map_append, List.prod_append, List.map_singleton, List.prod_singleton,
-    lm_eq, if_neg (by omega : ¬ 2 * g % 2 = 1), Nat.mul_div_cancel_left g (by norm_num)] at h
+    lm_eq, ite_eq_right (by omega : ¬ 2 * g % 2 = 1), Nat.mul_div_cancel_left g (by norm_num)] at h
   have h2 : Mi g * Mr g = 1 := mul_comm_of_one (pair g hg)
   calc (u.map lm).prod = (u.map lm).prod * (Mi g * Mr g) := by rw [h2, mul_one]
     _ = Mr g := by rw [← mul_assoc, h, one_mul]
@@ -163,20 +163,20 @@ theorem mat_cEl : ∀ g < 18, mat Ds (cEl g) = Mr g := by
     intro hg
     rcases Nat.lt_or_ge g 2 with h2 | h2
     · interval_cases g
-      · rw [cEl_eq, if_pos rfl, mat_a]
-      · rw [cEl_eq, if_neg (by norm_num), if_pos rfl, mat_b]
+      · rw [cEl_eq, ite_eq_left rfl, mat_a]
+      · rw [cEl_eq, ite_eq_right (by norm_num), ite_eq_left rfl, mat_b]
     · obtain ⟨hw, hb⟩ := tie_w g hg h2
       have hroot := word_root (k := g - 2) (by omega) hg hw
-      rw [cEl_eq, if_neg (by omega), if_neg (by omega), ← hroot, mat_prod, List.map_map]
+      rw [cEl_eq, ite_eq_right (by omega), ite_eq_right (by omega), ← hroot, mat_prod, List.map_map]
       congr 1
       refine List.map_congr_left fun c hc => ?_
       have hcg := hb c hc
-      simp only [Function.comp_apply, if_pos hcg]
+      simp only [Function.comp_apply, ite_eq_left hcg]
       rw [lm_eq]
       by_cases hp : c % 2 = 1
-      · rw [if_pos hp, if_pos hp]
+      · rw [ite_eq_left hp, ite_eq_left hp]
         exact ih _ hcg (by omega)
-      · rw [if_neg hp, if_neg hp]
+      · rw [ite_eq_right hp, ite_eq_right hp]
         exact mat_inv_of (by omega) (ih _ hcg (by omega))
 
 end CertificateChecks.KernelHNChain

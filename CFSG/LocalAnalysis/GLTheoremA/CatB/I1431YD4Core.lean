@@ -160,11 +160,11 @@ theorem mat_mul_inv (x : ↥Om8) : mat x * mat x⁻¹ = 1 := by
 @[expose] def fixSub (r : VV) : Subgroup ↥Om8 where
   carrier := {x | mat x *ᵥ r = r}
   mul_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [mat_mul, ← Matrix.mulVec_mulVec, hb, ha]
   one_mem' := by simp [mat_one]
   inv_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     calc mat a⁻¹ *ᵥ r = mat a⁻¹ *ᵥ (mat a *ᵥ r) := by rw [ha]
       _ = r := by rw [Matrix.mulVec_mulVec, mat_inv_mul, Matrix.one_mulVec]
 
@@ -213,7 +213,7 @@ theorem m1_core (hcard : Nat.card ↥Om8 = 3 ^ 5 * 716800)
     have hcardR : Nat.card ↥R₀ = 8 := by
       rw [Module.natCard_eq_pow_finrank (K := ZMod 2), hd3', Nat.card_zmod]
       norm_num
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨P⟩ : Nonempty (Sylow 3 ↥(L ⊔ Subgroup.zpowers g)) := inferInstance
     have hP27 : 27 ∣ Nat.card (P : Subgroup ↥(L ⊔ Subgroup.zpowers g)) := by
       rw [Sylow.card_eq_multiplicity P]
@@ -222,10 +222,10 @@ theorem m1_core (hcard : Nat.card ↥Om8 = 3 ^ 5 * 716800)
       have := (Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_three hne).1 h3
       have h4 := pow_dvd_pow 3 this
       simpa using h4
-    letI : MulAction ↥(P : Subgroup ↥(L ⊔ Subgroup.zpowers g)) ↥R₀ :=
+    let : MulAction ↥(P : Subgroup ↥(L ⊔ Subgroup.zpowers g)) ↥R₀ :=
       MulAction.compHom ↥R₀ ((actOn (L ⊔ Subgroup.zpowers g) R₀ hinv).comp
         (P : Subgroup ↥(L ⊔ Subgroup.zpowers g)).subtype)
-    have hmod := (P.isPGroup').card_modEq_card_fixedPoints ↥R₀
+    have hmod := (P.isPGroup).card_modEq_card_fixedPoints ↥R₀
     have hfix : ∃ v : ↥R₀, v ∈ MulAction.fixedPoints ↥(P : Subgroup ↥(L ⊔ Subgroup.zpowers g)) ↥R₀ ∧
         v ≠ 0 := by
       by_contra hno

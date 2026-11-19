@@ -22,7 +22,7 @@ variable (K : Type) [Field K] (t : ℕ) (δ : Fin 2)
 
 theorem coe_planeQForm : ⇑(planeQForm K t δ) = planeQ (K := K) t δ := by
   funext w
-  simp only [planeQForm, planeQ, QuadraticMap.sum_apply, QuadraticMap.add_apply,
+  simp only [planeQForm, planeQ, _root_.sum_apply, _root_.add_apply,
     QuadraticMap.proj_apply, sq]
   refine Finset.sum_congr rfl fun i _ => ?_
   split_ifs <;> simp
@@ -193,26 +193,26 @@ private theorem opf_case_four [CharP K 2] (h4 : 4 ≤ t) :
     change planeQForm K t δ (Pi.single (Sum.inl i0) (1 : K) +
       Pi.single (Sum.inl i1) (1 : K)) = 0
     rw [opf_Q_single_inl_add i0 i1 h01]
-    rw [if_pos h0t, if_pos h1t, CharTwo.add_self_eq_zero]
+    rw [ite_eq_left h0t, ite_eq_left h1t, CharTwo.add_self_eq_zero]
   have hb : planeQForm K t δ b = 0 := by
     change planeQForm K t δ (Pi.single (Sum.inr i0) (1 : K) +
       Pi.single (Sum.inr i1) (1 : K)) = 0
     rw [opf_Q_single_inr_add i0 i1 h01]
-    rw [if_pos h0t, if_pos h1t, CharTwo.add_self_eq_zero]
+    rw [ite_eq_left h0t, ite_eq_left h1t, CharTwo.add_self_eq_zero]
   have hc : planeQForm K t δ c = 0 := by
     change planeQForm K t δ (Pi.single (Sum.inl i2) (1 : K) +
       Pi.single (Sum.inl i3) (1 : K)) = 0
     rw [opf_Q_single_inl_add i2 i3 h23]
-    rw [if_pos h2t, if_pos h3t, CharTwo.add_self_eq_zero]
+    rw [ite_eq_left h2t, ite_eq_left h3t, CharTwo.add_self_eq_zero]
   have hab : QuadraticMap.polar (planeQForm K t δ) a b = 0 := by
     change QuadraticMap.polar (planeQForm K t δ)
       (Pi.single (Sum.inl i0) (1 : K) + Pi.single (Sum.inl i1) (1 : K))
       (Pi.single (Sum.inr i0) (1 : K) + Pi.single (Sum.inr i1) (1 : K)) = 0
     simp only [QuadraticMap.polar_add_left, QuadraticMap.polar_add_right]
-    rw [opf_B_inl_inr (i := i0) (j := i0), if_pos rfl,
-      opf_B_inl_inr (i := i0) (j := i1), if_neg h01,
-      opf_B_inl_inr (i := i1) (j := i0), if_neg (Ne.symm h01),
-      opf_B_inl_inr (i := i1) (j := i1), if_pos rfl]
+    rw [opf_B_inl_inr (i := i0) (j := i0), ite_eq_left rfl,
+      opf_B_inl_inr (i := i0) (j := i1), ite_eq_right h01,
+      opf_B_inl_inr (i := i1) (j := i0), ite_eq_right (Ne.symm h01),
+      opf_B_inl_inr (i := i1) (j := i1), ite_eq_left rfl]
     rw [add_zero, zero_add, CharTwo.add_self_eq_zero]
   have hac : QuadraticMap.polar (planeQForm K t δ) a c = 0 := by
     change QuadraticMap.polar (planeQForm K t δ)
@@ -227,10 +227,10 @@ private theorem opf_case_four [CharP K 2] (h4 : 4 ≤ t) :
       (Pi.single (Sum.inr i0) (1 : K) + Pi.single (Sum.inr i1) (1 : K))
       (Pi.single (Sum.inl i2) (1 : K) + Pi.single (Sum.inl i3) (1 : K)) = 0
     simp only [QuadraticMap.polar_add_left, QuadraticMap.polar_add_right]
-    rw [opf_B_inr_inl (i := i0) (j := i2), if_neg h02,
-      opf_B_inr_inl (i := i0) (j := i3), if_neg h03,
-      opf_B_inr_inl (i := i1) (j := i2), if_neg h12,
-      opf_B_inr_inl (i := i1) (j := i3), if_neg h13]
+    rw [opf_B_inr_inl (i := i0) (j := i2), ite_eq_right h02,
+      opf_B_inr_inl (i := i0) (j := i3), ite_eq_right h03,
+      opf_B_inr_inl (i := i1) (j := i2), ite_eq_right h12,
+      opf_B_inr_inl (i := i1) (j := i3), ite_eq_right h13]
     rw [zero_add, add_zero]
   have hli : LinearIndependent K ![a, b, c] := by
     rw [Fintype.linearIndependent_iff]
@@ -297,25 +297,25 @@ private theorem opf_case_three [CharP K 2] (h3 : t = 3) (hδ : δ.val = 1) :
     change planeQForm K t δ (Pi.single (Sum.inl i0) (1 : K) +
       Pi.single (Sum.inl i1) (1 : K)) = 0
     rw [opf_Q_single_inl_add i0 i1 h01]
-    rw [if_pos h0t, if_pos h1t, CharTwo.add_self_eq_zero]
+    rw [ite_eq_left h0t, ite_eq_left h1t, CharTwo.add_self_eq_zero]
   have hb : planeQForm K t δ b = 0 := by
     change planeQForm K t δ (Pi.single (Sum.inr i0) (1 : K) +
       Pi.single (Sum.inr i1) (1 : K)) = 0
     rw [opf_Q_single_inr_add i0 i1 h01]
-    rw [if_pos h0t, if_pos h1t, CharTwo.add_self_eq_zero]
+    rw [ite_eq_left h0t, ite_eq_left h1t, CharTwo.add_self_eq_zero]
   have hc : planeQForm K t δ c = 0 := by
     change planeQForm K t δ (Pi.single (Sum.inl i3) (1 : K)) = 0
     rw [opf_Q_single_inl i3]
-    rw [if_neg (by simp [i3, h3])]
+    rw [ite_eq_right (by simp [i3, h3])]
   have hab : QuadraticMap.polar (planeQForm K t δ) a b = 0 := by
     change QuadraticMap.polar (planeQForm K t δ)
       (Pi.single (Sum.inl i0) (1 : K) + Pi.single (Sum.inl i1) (1 : K))
       (Pi.single (Sum.inr i0) (1 : K) + Pi.single (Sum.inr i1) (1 : K)) = 0
     simp only [QuadraticMap.polar_add_left, QuadraticMap.polar_add_right]
-    rw [opf_B_inl_inr (i := i0) (j := i0), if_pos rfl,
-      opf_B_inl_inr (i := i0) (j := i1), if_neg h01,
-      opf_B_inl_inr (i := i1) (j := i0), if_neg (Ne.symm h01),
-      opf_B_inl_inr (i := i1) (j := i1), if_pos rfl]
+    rw [opf_B_inl_inr (i := i0) (j := i0), ite_eq_left rfl,
+      opf_B_inl_inr (i := i0) (j := i1), ite_eq_right h01,
+      opf_B_inl_inr (i := i1) (j := i0), ite_eq_right (Ne.symm h01),
+      opf_B_inl_inr (i := i1) (j := i1), ite_eq_left rfl]
     rw [add_zero, zero_add, CharTwo.add_self_eq_zero]
   have hac : QuadraticMap.polar (planeQForm K t δ) a c = 0 := by
     change QuadraticMap.polar (planeQForm K t δ)
@@ -329,8 +329,8 @@ private theorem opf_case_three [CharP K 2] (h3 : t = 3) (hδ : δ.val = 1) :
       (Pi.single (Sum.inr i0) (1 : K) + Pi.single (Sum.inr i1) (1 : K))
       (Pi.single (Sum.inl i3) (1 : K)) = 0
     simp only [QuadraticMap.polar_add_left]
-    rw [opf_B_inr_inl (i := i0) (j := i3), if_neg h03,
-      opf_B_inr_inl (i := i1) (j := i3), if_neg h13]
+    rw [opf_B_inr_inl (i := i0) (j := i3), ite_eq_right h03,
+      opf_B_inr_inl (i := i1) (j := i3), ite_eq_right h13]
     rw [add_zero]
   have hli : LinearIndependent K ![a, b, c] := by
     rw [Fintype.linearIndependent_iff]
@@ -485,25 +485,25 @@ private theorem opf_charSum_main [CharP K 2] [Finite K] [Fintype K] (hK : Nat.ca
       if (i : ℕ) < t then (-2 : ℤ) else 2 := by
     intro i
     by_cases hi : (i : ℕ) < t
-    · rw [if_pos hi]
-      simp only [P, hi, if_true]
+    · rw [ite_eq_left hi]
+      simp only [P, hi, ite_true]
       exact opf_sum_aniso hK
-    · rw [if_neg hi]
-      simp only [P, hi, if_false, add_zero]
+    · rw [ite_eq_right hi]
+      simp only [P, hi, ite_false, add_zero]
       exact opf_sum_hyp hK
   rw [Finset.prod_congr rfl fun i _ => hfactor i]
   have hprod : (∏ i : Fin (t + δ.val), (if (i : ℕ) < t then (-2 : ℤ) else 2)) =
       (-2) ^ t * 2 ^ δ.val := by
     fin_cases δ
     · simp only [Nat.add_zero]
-      rw [Finset.prod_congr rfl fun i _ => if_pos i.isLt, Finset.prod_const,
+      rw [Finset.prod_congr rfl fun i _ => ite_eq_left i.isLt, Finset.prod_const,
         Finset.card_univ, Fintype.card_fin]
       simp
     · simp only [Nat.add_one]
       rw [Fin.prod_univ_castSucc]
       have h1 : (∏ i : Fin t, (if ((Fin.castSucc i : Fin (t + 1)) : ℕ) < t then (-2 : ℤ) else 2)) =
           (-2) ^ t := by
-        rw [Finset.prod_congr rfl fun i _ => if_pos i.isLt, Finset.prod_const,
+        rw [Finset.prod_congr rfl fun i _ => ite_eq_left i.isLt, Finset.prod_const,
           Finset.card_univ, Fintype.card_fin]
       rw [h1]
       simp

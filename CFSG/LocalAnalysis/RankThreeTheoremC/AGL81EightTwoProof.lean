@@ -19,10 +19,10 @@ theorem normalizer_le_of_isAlperinSubgroup {p : ℕ} [hp : Fact p.Prime] (hodd :
     (hΓ : rankThreeGamma 2 p (P : Subgroup G) ≤ M) {Q : Subgroup G}
     (hQ : CFSG.RankTwoShapes.IsAlperinSubgroup p (P : Subgroup G) Q) :
     normalizer (Q : Set G) ≤ M := by
-  have hQp : IsPGroup p Q := P.isPGroup'.to_le hQ.1
+  have hQp : IsPGroup p Q := P.isPGroup.to_le hQ.1
   have h2 : 2 ≤ CFSG.Open.pRank p Q :=
     two_le_pRank_of_not_isCyclic hp.out hodd hQp
-      (not_isCyclic_of_isAlperinSubgroup P.isPGroup' hP hQ)
+      (not_isCyclic_of_isAlperinSubgroup P.isPGroup hP hQ)
   exact (gamma_normalizer_le 2 p (P : Subgroup G) Q hQ.1 h2).trans hΓ
 
 theorem mem_of_alperinDecomposition {p : ℕ} [hp : Fact p.Prime] (hodd : p ≠ 2)
@@ -51,8 +51,8 @@ theorem not_hasNormalIndex {p : ℕ} [hp : Fact p.Prime] {P : Sylow p G} {M : Su
       ∃ m ∈ M, m * a * m⁻¹ = g * a * g⁻¹) :
     ¬ HasNormalIndex M p := by
   rintro ⟨N, hNM, hNn, hNidx⟩
-  haveI : (N.subgroupOf M).Normal := hNn
-  haveI : IsCyclic (M ⧸ N.subgroupOf M) := isCyclic_of_prime_card (p := p) hNidx
+  have : (N.subgroupOf M).Normal := hNn
+  have : IsCyclic (M ⧸ N.subgroupOf M) := isCyclic_of_prime_card (p := p) hNidx
   have hker := Abelianization.commutator_subset_ker (QuotientGroup.mk' (N.subgroupOf M))
   rw [QuotientGroup.ker_mk'] at hker
   have hcomm : ∀ x ∈ M, ∀ m ∈ M, x⁻¹ * m * x * m⁻¹ ∈ N := by
@@ -92,14 +92,14 @@ end EightTwo
 
 theorem agl81EightTwo_holds : AGL81EightTwo G := by
   intro hS p P M H₁ R₁ hesc hΓ
-  haveI : Fact p.Prime := ⟨hesc.prime⟩
+  have : Fact p.Prime := ⟨hesc.prime⟩
   have hP3 : 3 ≤ CFSG.Open.pRank p (P : Subgroup G) :=
     hesc.three_le_pRank.trans (pRank_mono p hesc.prime.one_lt hesc.le_P)
   have hP : ¬ IsCyclic (P : Subgroup G) := not_isCyclic_of_two_le_pRank hesc.prime (by omega)
   have hfus : ∀ a g : G, a ∈ (P : Subgroup G) → g * a * g⁻¹ ∈ (P : Subgroup G) →
       ∃ m ∈ M, m * a * m⁻¹ = g * a * g⁻¹ :=
     fun a g ha hg => EightTwo.exists_mem_conj_eq hesc.ne_two hP hΓ ha hg
-  haveI := hS.simple
+  have := hS.simple
   exact ⟨hfus, EightTwo.not_hasNormalIndex hesc.sylow_le
     (EightTwo.commutator_eq_top_of_simple hS.nonab) hfus⟩
 

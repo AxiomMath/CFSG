@@ -197,10 +197,12 @@ theorem sixH_A_le_Tplus (hS : SCSetting L K n φ t i) : A φ i.swap ≤ Tplus φ
   have h3 : a ∈ T₀ φ t i.swap := Subgroup.mem_sup_right h2
   exact Subgroup.mem_sup_right h3
 
+omit [Finite G] [Finite K] in
 theorem sixH_R_le_Tplus : R φ t i ≤ Tplus φ t i := by
   intro x hx
   exact Subgroup.mem_sup_left (Subgroup.mem_sup_left (Subgroup.mem_sup_left hx))
 
+omit [Finite G] [Finite K] in
 theorem sixH_t_mem_R : t ∈ R φ t i :=
   Subgroup.mem_sup_left (Subgroup.mem_sup_right (Subgroup.mem_zpowers t))
 
@@ -217,7 +219,7 @@ theorem sixH_h1_center_Tplus (hS : SCSetting L K n φ t i)
     have hK : 0 < Nat.card K := Nat.card_pos
     have hpow : 0 < Nat.card K ^ 10 := pow_pos hK 10
     omega
-  haveI : Nontrivial ↥(Tplus φ t i) := Finite.one_lt_card_iff_nontrivial.mp hcardT
+  have : Nontrivial ↥(Tplus φ t i) := Finite.one_lt_card_iff_nontrivial.mp hcardT
   have hJT : J₀ φ ≤ normalizer ((Tplus φ t i : Subgroup G) : Set G) := by
     intro j hj
     exact Subgroup.inf_normalizer_le_normalizer_sup _ _ (Subgroup.mem_inf.mpr
@@ -287,7 +289,7 @@ theorem sixH_h1_center_Tplus (hS : SCSetting L K n φ t i)
     exact Subgroup.mem_map.mpr ⟨⟨j * (z : G) * j⁻¹, hwT⟩, hwc, rfl⟩
   have hXbot : (center ↥(Tplus φ t i)).map (Tplus φ t i).subtype ≠ ⊥ := by
     intro hbot
-    haveI := IsPGroup.center_nontrivial hpT
+    have := IsPGroup.center_nontrivial hpT
     obtain ⟨z, hz⟩ := exists_ne (1 : ↥(center ↥(Tplus φ t i)))
     have hzX : ((z.1 : ↥(Tplus φ t i)) : G) ∈
         (center ↥(Tplus φ t i)).map (Tplus φ t i).subtype :=
@@ -315,6 +317,7 @@ theorem sixH_Mc_le_Tplus (hS : SCSetting L K n φ t i) : Mc φ t i ≤ Tplus φ 
     exact hpT
   exact mul_mem (inv_mem hpT) hjp
 
+omit [Finite G] [Finite K] in
 theorem sixH_U_central_Tplus (h1 : H1Concl φ t i) :
     ∀ u ∈ U φ i, ∀ g ∈ Tplus φ t i, u * g = g * u := by
   intro u hu g hg
@@ -352,7 +355,7 @@ theorem sixH_h2a (hS : SCSetting L K n φ t i) (hM2 : ∀ x ∈ Mc φ t i, x * x
   exact mul_mem (mul_mem (inv_mem (hM2 x hx)) (inv_mem (hM2 y hy)))
     (hM2 (x * y) (mul_mem hx hy))
 
-theorem sixH_h2b (hS : SCSetting L K n φ t i) (hM2 : ∀ x ∈ Mc φ t i, x * x ∈ U φ i) :
+theorem sixH_h2b (hS : SCSetting L K n φ t i) (_hM2 : ∀ x ∈ Mc φ t i, x * x ∈ U φ i) :
     H2bConcl φ t i := by
   have hVi : Vtor φ t i i = Mc φ t i ⊓ Mw φ t i i :=
     (SixF.M_inf_Mw hS.fc i hS.ne_bot hS.eq_bot).symm
@@ -394,7 +397,7 @@ theorem sixH_kappa_mem_V (hS : SCSetting L K n φ t i) {x : G} (hx : x ∈ Vtor 
 theorem sixH_mem_W_of_sq_one (hS : SCSetting L K n φ t i) {y : G} (hy : y ∈ Vtor φ t i i)
     (hsq : (t⁻¹ * (y⁻¹ * t * y)) * (t⁻¹ * (y⁻¹ * t * y)) = 1) : y ∈ Wk φ t i := by
   obtain ⟨hN, e, he⟩ := RootStandard.quotient_V hS.fc i hS.ne_bot hS.eq_bot
-  haveI := hN
+  have := hN
   have hval : (e (QuotientGroup.mk ⟨y, hy⟩) : G) =
       (t⁻¹ * (y⁻¹ * t * y)) * (t⁻¹ * (y⁻¹ * t * y)) := he ⟨y, hy⟩
   have h1 : e (QuotientGroup.mk ⟨y, hy⟩) = 1 := by
@@ -406,7 +409,7 @@ theorem sixH_mem_W_of_sq_one (hS : SCSetting L K n φ t i) {y : G} (hy : y ∈ V
 theorem sixH_sq_kappa_mem_U (hS : SCSetting L K n φ t i) {x : G} (hx : x ∈ Vtor φ t i i) :
     (t⁻¹ * (x⁻¹ * t * x)) * (t⁻¹ * (x⁻¹ * t * x)) ∈ U φ i := by
   obtain ⟨hN, e, he⟩ := RootStandard.quotient_V hS.fc i hS.ne_bot hS.eq_bot
-  haveI := hN
+  have := hN
   have hval : (e (QuotientGroup.mk ⟨x, hx⟩) : G) =
       (t⁻¹ * (x⁻¹ * t * x)) * (t⁻¹ * (x⁻¹ * t * x)) := he ⟨x, hx⟩
   rw [← hval]
@@ -433,7 +436,7 @@ theorem sixH_kappa_eq_mem_U (hS : SCSetting L K n φ t i) {c z : G}
     (hc : c ∈ Wk φ t i) (hz : z ∈ Wk φ t i)
     (h : t⁻¹ * (c⁻¹ * t * c) = t⁻¹ * (z⁻¹ * t * z)) : c⁻¹ * z ∈ U φ i := by
   obtain ⟨hN, θ, hθ, -⟩ := FullCenterTorus.quotient_W hS.fc i
-  haveI := hN
+  have := hN
   have hθc : (θ (QuotientGroup.mk ⟨c, hc⟩) : G) = t⁻¹ * (c⁻¹ * t * c) := hθ ⟨c, hc⟩
   have hθz : (θ (QuotientGroup.mk ⟨z, hz⟩) : G) = t⁻¹ * (z⁻¹ * t * z) := hθ ⟨z, hz⟩
   have heq : θ (QuotientGroup.mk ⟨c, hc⟩) = θ (QuotientGroup.mk ⟨z, hz⟩) :=
@@ -445,6 +448,7 @@ theorem sixH_mem_U_of_kappa_eq_one (hS : SCSetting L K n φ t i) {w : G} (hw : w
   have h := sixH_kappa_eq_mem_U hS (Wk φ t i).one_mem hw (by rw [hk]; group)
   simpa using h
 
+omit [Finite G] in
 theorem sixH_comm_of_central {V U' : Subgroup G} {c z : G}
     (hVU : ∀ u ∈ U', ∀ g ∈ V, u * g = g * u) (hz : ∀ g ∈ V, g * z = z * g)
     (hu : c⁻¹ * z ∈ U') : ∀ g ∈ V, g * c = c * g := by
@@ -477,7 +481,7 @@ theorem sixH_mem_U_of_central (hS : SCSetting L K n φ t i) (h1 : H1Concl φ t i
     FullCenterTorus.kappa_mem_U hS.fc i
       (Subgroup.mem_inf.mp (FullCenterTorus.W_le_Fi hS.fc i hzW)).2
   obtain ⟨hN, e, he⟩ := RootStandard.quotient_V hS.fc i hS.ne_bot hS.eq_bot
-  haveI := hN
+  have := hN
   obtain ⟨p, hp⟩ := e.surjective ⟨_, hκU⟩
   obtain ⟨⟨x, hx⟩, rfl⟩ := QuotientGroup.mk_surjective p
   have hval : (e (QuotientGroup.mk ⟨x, hx⟩) : G) =
@@ -495,7 +499,7 @@ theorem sixH_mem_U_of_central (hS : SCSetting L K n φ t i) (h1 : H1Concl φ t i
     sixH_sq_kappa_of_comm hcomm (h2c x hx)
   exact sixH_mem_U_of_kappa_eq_one hS hzW (hxz.symm.trans hsq)
 
-theorem sixH_h2d (hS : SCSetting L K n φ t i) (hM2 : ∀ x ∈ Mc φ t i, x * x ∈ U φ i)
+theorem sixH_h2d (hS : SCSetting L K n φ t i) (_hM2 : ∀ x ∈ Mc φ t i, x * x ∈ U φ i)
     (h1 : H1Concl φ t i) (h2a : H2aConcl φ t i) (h2c : H2cConcl φ t i) : H2dConcl φ t i := by
   unfold H2dConcl
   have hVM : ∀ x ∈ Vtor φ t i i, x ∈ Mc φ t i := fun x hx => (Subgroup.mem_inf.mp hx).1

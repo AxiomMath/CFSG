@@ -16,8 +16,8 @@ variable {G : Type} [Group G]
 theorem card_sup_eq_relIndex_mul {P T : Subgroup G}
     (hT : T ≤ Subgroup.normalizer (P : Set G)) :
     Nat.card ↥(P ⊔ T) = P.relIndex T * Nat.card P := by
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hT
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hT
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hT
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hT
   have e := QuotientGroup.quotientInfEquivProdNormalizerQuotient T P hT
   have h1 : Nat.card (↥T ⧸ P.subgroupOf T) =
       Nat.card (↥(T ⊔ P) ⧸ P.subgroupOf (T ⊔ P)) := Nat.card_congr e.toEquiv
@@ -45,7 +45,7 @@ theorem card_le_two_mul_pCoreOf {T H : Subgroup G} (hTH : T ≤ H) (hT2 : IsPGro
     exact Nat.eq_of_mul_eq_mul_left hTpos this
   have hKp : IsPGroup 2 K := hT2.of_equiv (Subgroup.subgroupOfEquivOfLe hTH).symm
   set C : Subgroup ↥H := K.normalCore with hC
-  haveI : C.Normal := Subgroup.normalCore_normal K
+  have : C.Normal := Subgroup.normalCore_normal K
   have hCp : IsPGroup 2 C := hKp.to_le (Subgroup.normalCore_le K)
   have hCle : C.map H.subtype ≤ pCoreOf 2 H :=
     Subgroup.map_mono (CFSG.LieType.BorelTits.le_pCore 2 inferInstance hCp)

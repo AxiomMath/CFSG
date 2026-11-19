@@ -55,7 +55,7 @@ theorem sporadic_nonHe_false
     exact CFSG.EvenSporadicStandard.M23Std.le_fusionOddCore_of_odd (N := Φ.ker) hΦo
   have hA : a6Factor ≤ Φ.range := a6Factor_le_range_fixedPhi hC hsolv hψs hψo
   obtain ⟨D, hDn, ⟨eD⟩, -, hdvd, -, -, -⟩ := z2s6_data_of_injective Φ hΦinj hA
-  haveI := hDn
+  have := hDn
   have hD : CFSG.IsComponent D := CFSG.ComponentClassification.CatFC.isComponent_of_alt6 D eD
   have hcard : Nat.card (↥D ⧸ center ↥D) = 360 :=
     CFSG.ComponentClassification.CatFC.card_quotient_center_alt6 eD
@@ -84,8 +84,8 @@ theorem sporadicZ2S6Leaf_holds :
     SporadicZ2S6Leaf := by
   intro K _ _ S hSn hSs hC hrep z hz hζ
   obtain ⟨ζ⟩ := hζ
-  haveI := hSn
-  haveI := hSs
+  have := hSn
+  have := hSs
   have hna : ∃ a b : ↥S, a * b ≠ b * a :=
     KForm.Mod.nonabelian_of_centralizer_eq_bot_of_simple S hC
   let ψ : ↥(centralizer ({z} : Set K)) →* KForm.Z2S6 :=
@@ -101,7 +101,7 @@ theorem sporadicZ2S6Leaf_holds :
   · subst hs
     have hσ : orderOf (MulAut.conjNormal (H := S) z) = 2 :=
       KForm.orderOf_conjNormal_eq_two S hC hz
-    haveI : (KForm.Mod.fixedPhi S z ψ).ker.Normal := MonoidHom.normal_ker _
+    have : (KForm.Mod.fixedPhi S z ψ).ker.Normal := MonoidHom.normal_ker _
     exact KForm.Mod.he_false_of_odd_normal hSs hna es hσ
       (N := (KForm.Mod.fixedPhi S z ψ).ker) (KForm.Mod.odd_ker_fixedPhi hψo)
       (KForm.Mod.natCard_quotient_ker_dvd _)

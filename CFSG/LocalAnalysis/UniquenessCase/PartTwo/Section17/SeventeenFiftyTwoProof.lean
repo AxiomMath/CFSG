@@ -88,9 +88,9 @@ private theorem seventeen_fiftytwo_exists_rank_two
   have hrp : r ≠ p := by
     intro h
     exact hndvd (h ▸ hrdvd)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨R, hR⟩ := CFSG.ABGLocalTools.exists_isSylowOf r C
-  haveI : ((pCoreOf 2 L).subgroupOf C).Normal :=
+  have : ((pCoreOf 2 L).subgroupOf C).Normal :=
     seventeen_fiftyone_cartan_pCore_normal h49 ctx
   have hcomm := (seventeen_fiftyone_cartan_comm_card hKT h49 ctx hZ hshape hq hr hrdvd).1
   have hcardOmega :=

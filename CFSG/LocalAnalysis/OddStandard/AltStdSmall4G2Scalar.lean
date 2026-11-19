@@ -69,7 +69,7 @@ theorem mat_of_betaHat_eq_one {g : normalizer (A : Set G)} (hg : (g : G) ∈ RA 
     mat ι g = 1 ∨ mat ι g = mat ι ⟨z, h.z_mem_normalizer (z_mul_self c)⟩ := by
   set zN : normalizer (A : Set G) := ⟨z, h.z_mem_normalizer (z_mul_self c)⟩ with hzN
   have hk : 1 ≤ k := hι.one_le
-  have hzE : red k (mat ι zN) = 1 := red_mat_eq_one ι hι (z_mem_centralizer_E c h)
+  have hzE : red k (mat ι zN) = 1 := red_mat_eq_one ι hι (z_mem_centralizer_E c)
   have hZ2 : mat ι zN * mat ι zN = 1 := by
     rw [← map_mul, show zN * zN = 1 from Subtype.ext (z_mul_self c), map_one]
   obtain ⟨u, -, hu⟩ := mat_z ι h.zAct (z_mul_self c)
@@ -144,7 +144,7 @@ theorem exists_r1 (hT : ¬ Terminal θ c.hn8 A) :
       rw [hnG]
       exact mul_mem hκr (inv_mem hr)
     have hβn : betaHat k z (nN : G) = 1 := by
-      rw [hnG, betaHat_mul c h hκr (inv_mem hr), betaHat_conj c h hκ, betaHat_inv c h hr, hr1,
+      rw [hnG, betaHat_mul c h hκr (inv_mem hr), betaHat_conj hκ, betaHat_inv c h hr, hr1,
         hκv, hM, mul_inv_cancel]
     have hconj : mat ι κN * mat ι r₁ * mat ι κN⁻¹ = mat ι nN * mat ι r₁ := by
       rw [← map_mul, ← map_mul, ← map_mul, hnN, inv_mul_cancel_right]
@@ -171,8 +171,8 @@ theorem exists_r1 (hT : ¬ Terminal θ c.hn8 A) :
     rw [hxG]
     exact mul_mem (mul_mem hr hra) hrb
   have hβx : betaHat k z (xN : G) = 1 := by
-    rw [hxG, betaHat_mul c h (mul_mem hr hra) hrb, betaHat_mul c h hr hra, betaHat_conj c h hκa,
-      betaHat_conj c h hκb, hr1, hκav, hκbv, g2G_mulVec_e1V, g3G_mulVec_e1V, ← epsV_add,
+    rw [hxG, betaHat_mul c h (mul_mem hr hra) hrb, betaHat_mul c h hr hra, betaHat_conj hκa,
+      betaHat_conj hκb, hr1, hκav, hκbv, g2G_mulVec_e1V, g3G_mulVec_e1V, ← epsV_add,
       ← epsV_add, show e1V + e2V + (e1V + e2V) = 0 by decide, epsV_zero]
   have hscal : ∀ κ : normalizer (A : Set G), mat ι κ * mat ι r₁ * mat ι κ⁻¹ = l • 1 := by
     intro κ
@@ -218,7 +218,7 @@ theorem mat_RA (hT : ¬ Terminal θ c.hn8 A) {g : normalizer (A : Set G)}
       rw [hyG]
       exact KA_conj_mem_RA c h hκ hr₁
     have hβy : betaHat k z (yN : G) = epsV θ c.hn8 v := by
-      rw [hyG, betaHat_conj c h hκ, hr₁1, hκv, hM]
+      rw [hyG, betaHat_conj hκ, hr₁1, hκv, hM]
     set nN := yN⁻¹ * g with hnN
     have hnG : (nN : G) = (yN : G)⁻¹ * g := rfl
     have hnR : (nN : G) ∈ RA θ c.hn8 z A := by
@@ -290,7 +290,7 @@ theorem exists_stepData (hT : ¬ Terminal θ c.hn8 A) :
     intro a ha
     have ha' : z⁻¹ * a * z ∈ A := by
       have := h.conj_z_mem ha
-      rwa [hzi] at this ⊢
+      (rw [hzi] at this ⊢; assumption)
     have := mem_centralizer_iff.1 hxC _ ha'
     calc a * (z * x * z⁻¹) = z * ((z⁻¹ * a * z) * x) * z⁻¹ := by group
       _ = z * (x * (z⁻¹ * a * z)) * z⁻¹ := by rw [this]

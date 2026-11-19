@@ -61,7 +61,7 @@ theorem okRows_mulR {g h : Array ℕ} (hg : okRows g = true) (hh : okRows h = tr
 
 @[expose] noncomputable def eqvOf (g gi : Array ℕ) (h1 : mulR g gi = idR) (h2 : mulR gi g = idR) :
     V12 ≃ₗ[ZMod 2] V12 :=
-  LinearEquiv.ofLinear (linOfRows g) (linOfRows gi)
+  LinearEquiv.ofLinearMap (linOfRows g) (linOfRows gi)
     (LinearMap.ext fun x => by
       change linOfRows g (linOfRows gi x) = x
       rw [← linOfRows_mulR, h1, linOfRows_idR])

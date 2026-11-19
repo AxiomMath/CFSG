@@ -179,7 +179,7 @@ theorem z_normal_form (t z : MulAut (adjointGroup Tag.D4 K)) (g : adjointGroup T
   rw [hperm] at h0' h1'
   simp only [Equiv.Perm.one_apply] at h0' h1'
   have hA : ((a_z 0 : Kˣ) : K) * σ_z ((a_z 0 : Kˣ) : K) ≠ 0 :=
-    mul_ne_zero (Units.ne_zero _) (by simpa using Units.ne_zero (a_z 0))
+    mul_ne_zero (Units.ne_zero _) (by simp)
   rw [← h0'] at h1'
   have e : σ_z (σ_z u) = u := mul_left_cancel₀ hA h1'
   rw [pow_two, RingAut.mul_apply]

@@ -11,6 +11,7 @@ open Equiv Equiv.Perm Subgroup CFSG.Open
 
 variable {α : Type} [Fintype α] [DecidableEq α]
 
+omit [Fintype α] [DecidableEq α] in
 private theorem ao10_apply_eq_iff {σ : Perm α} {ω : α} (hσ : σ ω = ω) (x : α) :
     σ x = ω ↔ x = ω := by
   constructor
@@ -61,6 +62,7 @@ private theorem ao10_ofSubtype_mem {ω : α} (τ : ↥(alternatingGroup {x // x 
   rw [Equiv.Perm.mem_alternatingGroup, Equiv.Perm.sign_ofSubtype]
   exact Equiv.Perm.mem_alternatingGroup.mp τ.2
 
+omit [Fintype α] in
 private theorem ao10_ofSubtype_fix {ω : α} (τ : Perm {x // x ≠ ω}) :
     Equiv.Perm.ofSubtype τ ω = ω :=
   Equiv.Perm.ofSubtype_apply_of_not_mem τ (fun h => h rfl)
@@ -137,8 +139,8 @@ private theorem ao11_eight {Γ : Type} [Group Γ] [Finite Γ]
     Nonempty (↥K ≃* alternatingGroup (Fin 8)) := by
   have hKL : K ≤ L := hKX.trans hXL
   have h5 : 5 ≤ Nat.card (Fin 8) := by simp
-  haveI : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup h5
-  haveI hLs : IsSimpleGroup ↥L := eL.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup h5
+  have hLs : IsSimpleGroup ↥L := eL.isSimpleGroup
   by_cases hXL' : X = L
   ·
     have hsubL : CFSG.Open.IsSubnormal K L := by

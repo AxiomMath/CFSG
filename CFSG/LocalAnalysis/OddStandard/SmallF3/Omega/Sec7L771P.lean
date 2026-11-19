@@ -21,7 +21,7 @@ theorem sec7l771_inf_C_bot [Finite G] {K P : Subgroup G} {z : G}
     (hP2 : IsPGroup 2 P) (hzK : z ∈ K) (hz1 : z ≠ 1)
     (hZP : ∀ y ∈ P, (∀ x ∈ P, x * y = y * x) → y = 1 ∨ y = z) :
     P ⊓ centralizer (K : Set G) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup G := centralizer (K : Set G)
   let H : Subgroup ↥P := (P ⊓ C).subgroupOf P
   have hPnormC : P ≤ normalizer (C : Set G) := by
@@ -51,11 +51,11 @@ theorem sec7l771_inf_C_bot [Finite G] {K P : Subgroup G} {z : G}
       calc k * c = x⁻¹ * (x * k * c * x⁻¹) * x := by group
         _ = x⁻¹ * (x * c * k * x⁻¹) * x := by rw [hkc]
         _ = c * k := by group
-  haveI hHnorm : H.Normal := by
+  have hHnorm : H.Normal := by
     have hle : P ≤ normalizer (P ⊓ C : Subgroup G) :=
       (le_inf Subgroup.le_normalizer hPnormC).trans Subgroup.inf_normalizer_le_normalizer_inf
     exact Subgroup.normal_subgroupOf_of_le_normalizer hle
-  haveI : Group.IsNilpotent ↥P := hP2.isNilpotent
+  have : Group.IsNilpotent ↥P := hP2.isNilpotent
   by_contra hne
   have hHne : H ≠ ⊥ := by
     intro hbot

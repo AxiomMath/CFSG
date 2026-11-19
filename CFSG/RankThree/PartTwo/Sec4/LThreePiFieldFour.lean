@@ -486,7 +486,7 @@ theorem linearIndependent_subtype_of {S : Subfield K} {b : Fin 3 → (Fin 3 → 
     have hcol : P.col = b := by
       funext i r
       rfl
-    exact (Matrix.linearIndependent_cols_iff_isUnit (A := P)).mp (hcol ▸ hb)
+    exact (Matrix.linearIndependent_col_iff_isUnit (A := P)).mp (hcol ▸ hb)
   have hPK : IsUnit (P.map S.subtype) := by
     rw [Matrix.isUnit_iff_isUnit_det] at hPu ⊢
     have hdet : (P.map S.subtype).det = S.subtype P.det := by
@@ -498,7 +498,7 @@ theorem linearIndependent_subtype_of {S : Subfield K} {b : Fin 3 → (Fin 3 → 
     funext i r
     rfl
   rw [← hcol]
-  exact (Matrix.linearIndependent_cols_iff_isUnit).mpr hPK
+  exact (Matrix.linearIndependent_col_iff_isUnit).mpr hPK
 
 omit [Finite G] hLn in
 theorem card_le_nine_of_frame_sub (hK : PiField π p f K) (e : L ≃* slPi π 3 (p ^ f) K)

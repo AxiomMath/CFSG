@@ -37,7 +37,7 @@ theorem glaPPrimeCoreOf_centralizer_adjointG2
     CFSG.Open.GLAPPrimeCoreOf p (Subgroup.centralizer {z}) = ⊥ := by
   have hprime : p.Prime := Fact.out
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K p]; exact hp2
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K p
   let q : TauCeti.PrimePower := ⟨p, (n : ℕ), hprime, n.pos⟩
   have hKq : Nat.card K = q.card :=
@@ -51,10 +51,10 @@ theorem glaPPrimeCoreOf_centralizer_adjointG2
   have hv : (TauCeti.LieTypeIndex.G2 q).Valid :=
     (TauCeti.LieTypeIndex.valid_iff _).2
       ⟨(TauCeti.LieTypeIndex.inStandardRange_iff _).2 h3,
-        fun h => by simpa [TauCeti.LieTypeIndex.isDuplicateRepresentative_iff] using h⟩
+        fun h => by simp [TauCeti.LieTypeIndex.isDuplicateRepresentative_iff] at h⟩
   have hcen : Subgroup.center ↥(adjointGroup Tag.G2 K) = ⊥ :=
     CFSG.LieType.Chevalley.center_adjointGroup_eq_bot
-  haveI hfin : Finite ↥(adjointGroup Tag.G2 K) :=
+  have hfin : Finite ↥(adjointGroup Tag.G2 K) :=
     CFSG.LieType.Chevalley.generated_group_finite Tag.G2 K
   obtain ⟨hsimp, hnc, -⟩ :=
     CFSG.LieType.Chevalley.odd_pinned_Chevalley_p_components Tag.G2 K hK2

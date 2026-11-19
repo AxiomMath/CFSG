@@ -23,7 +23,7 @@ variable {G : Type} [Group G] [Finite G]
     obtain ⟨g, a⟩ := q
     apply Prod.ext
     · funext i; simp [Fin.cons, Fin.tail]
-    · simp [Fin.cons, Fin.tail]
+    · simp [Fin.cons]
   map_mul' f g := by
     apply Prod.ext
     · funext i

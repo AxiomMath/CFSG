@@ -538,7 +538,6 @@ theorem tcrKindOf_sound
   rw [← hc]
   unfold tcrKindOf at hk
   simp only [hr, ← hN, Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq] at hk
-  try dsimp only at hk
   clear hc he h24e h24 hr hN hdelta hroot hΨ hnd hlt hpows hρ hG
   generalize hRdef : compRank (tcrSet S τ psi) = R at hk ⊢
   generalize hNdef : (tcrSet S τ psi).ncard = Nc at hk ⊢
@@ -550,13 +549,13 @@ theorem tcrKindOf_sound
   generalize twistInner (tcrSet S τ psi) (⇑ρ)^[e] = X at fa' fb' ⊢
   generalize twistInner (tcrSet S τ psi) (⇑ρ)^[2 * e] = Y at fa2' fb2' ⊢
   by_cases hX : X
-  · rw [if_pos hX]
+  · rw [ite_eq_left hX]
     have hB0 : B = false := Bool.eq_false_iff.2 (fun hb => fb' hb hX)
     subst hB0
     clear fa' fb' fa2' fb2'
     simp only [Bool.false_eq_true, ↓reduceIte] at hk
     split_ifs at hk <;> simp_all [tcrKindOfK]
-  · rw [if_neg hX]
+  · rw [ite_eq_right hX]
     have hA0 : A = false := Bool.eq_false_iff.2 (fun ha => hX (fa' ha))
     subst hA0
     simp only [Bool.false_eq_true, ↓reduceIte] at hk

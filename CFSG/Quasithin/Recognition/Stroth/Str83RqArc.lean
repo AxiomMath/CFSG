@@ -19,6 +19,7 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem mem_map_conj_iff_of_map_eq {A B : Subgroup G} {g z : G}
     (h : A.map (MulAut.conj g).toMonoidHom = B) :
     z ∈ A ↔ MulAut.conj g z ∈ B := by
@@ -27,12 +28,14 @@ private theorem mem_map_conj_iff_of_map_eq {A B : Subgroup G} {g z : G}
   · intro hz; convert hz using 1; group
   · intro hz; convert hz using 1; group
 
+omit [Finite G] in
 private theorem mem_of_mem_of_map_conj {A B : Subgroup G} {g z : G}
     (h : A.map (MulAut.conj g).toMonoidHom = B) (hz : z ∈ B) :
     MulAut.conj g⁻¹ z ∈ A :=
   (mem_map_conj_iff_of_map_eq h).mpr (by
     simpa [MulAut.conj_apply, mul_assoc] using hz)
 
+omit [Finite G] in
 private theorem Gv_map_tau (i k : ℤ) :
     (t.Gv i).map (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom = t.Gv (i + 2 * k) := by
   change (qv (P1 L1 L2 S) (P2 L1 L2 S) t.x₁ t.x₂ i).map
@@ -40,6 +43,7 @@ private theorem Gv_map_tau (i k : ℤ) :
     qv (P1 L1 L2 S) (P2 L1 L2 S) t.x₁ t.x₂ (i + 2 * k)
   exact map_qv_tau_pow i k
 
+omit [Finite G] in
 private theorem Zv_map_tau (i k : ℤ) :
     (t.Zv i).map (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom = t.Zv (i + 2 * k) := by
   change (qv (Z1 L1 L2 S) (Z2 L1 L2 S) t.x₁ t.x₂ i).map
@@ -47,6 +51,7 @@ private theorem Zv_map_tau (i k : ℤ) :
     qv (Z1 L1 L2 S) (Z2 L1 L2 S) t.x₁ t.x₂ (i + 2 * k)
   exact map_qv_tau_pow i k
 
+omit [Finite G] in
 private theorem Gw_map_tau (a b k : ℤ) :
     (t.Gw a b).map (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom =
       t.Gw (a + 2 * k) (b + 2 * k) := by
@@ -63,6 +68,7 @@ structure IsFixRadius (v : ℤ) (b : ℕ) : Prop where
   le_Gw : t.Zv v ≤ t.Gw (v - b) (v + b)
   not_le_Gv : ¬ t.Zv v ≤ t.Gv (v + b + 1)
 
+omit [Finite G] in
 theorem exists_reflection (v : ℤ) :
     ∃ y ∈ t.Gv v, y ∈ normalizer (t.K : Set G) ∧
       (∀ u w : ℤ, (t.Gw u w).map (MulAut.conj y).toMonoidHom = t.Gw (2 * v - w) (2 * v - u)) ∧
@@ -135,7 +141,7 @@ theorem exists_reflection (v : ℤ) :
         simp [trackElt, τ, show (2 * k + 1 : ℤ) / 2 = k by omega]
       rw [he, show (τ ^ k)⁻¹ * y * τ ^ k = t.x₂ by simp only [y]; group,
         show trackPar (P1 L1 L2 S) (P2 L1 L2 S) (2 * k + 1) = P2 L1 L2 S by
-          simp [trackPar, Int.even_add_one]]
+          simp [trackPar]]
       exact t.track.x₂_mem
     have hyK : y ∈ normalizer (t.K : Set G) := by
       have hτ : τ ∈ normalizer (t.K : Set G) := t.track.tau_mem_normalizer
@@ -187,6 +193,7 @@ theorem exists_reflection (v : ℤ) :
       ring
     exact ⟨y, hyv, hyK, hmap, hQ, hZ⟩
 
+omit [Finite G] in
 private theorem mem_Gv_of_mem_Gw_zero_one {z : G} (hz : z ∈ t.Gw 0 1)
     (hzK : z ∈ normalizer (t.K : Set G)) : z ∈ t.Gv (-1) ∧ z ∈ t.Gv 2 := by
   have hz0 : z ∈ P1 L1 L2 S := by
@@ -219,6 +226,7 @@ private theorem mem_Gv_of_mem_Gw_zero_one {z : G} (hz : z ∈ t.Gw 0 1)
     · simpa [mul_assoc] using h
   exact ⟨hneg, htwo⟩
 
+omit [Finite G] in
 private theorem mem_Gv_of_mem_Gw_one_two {z : G} (hz : z ∈ t.Gw 1 2)
     (hzK : z ∈ normalizer (t.K : Set G)) : z ∈ t.Gv 0 ∧ z ∈ t.Gv 3 := by
   let g : G := t.x₂
@@ -253,6 +261,7 @@ private theorem mem_Gv_of_mem_Gw_one_two {z : G} (hz : z ∈ t.Gw 1 2)
     simp only [z', g, MulAut.conj_apply, inv_inv]
     group
 
+omit [Finite G] in
 private theorem mem_Gw_expand {u : ℤ} {z : G} (hz : z ∈ t.Gw u (u + 1))
     (hzK : z ∈ normalizer (t.K : Set G)) : z ∈ t.Gw (u - 1) (u + 2) := by
   obtain ⟨k, rfl | rfl⟩ := Int.even_or_odd' u
@@ -337,6 +346,7 @@ private theorem mem_Gw_expand {u : ℤ} {z : G} (hz : z ∈ t.Gw u (u + 1))
     · exact mem_win_iff.mp hz (2 * k + 2) (by omega) (by omega)
     · exact hthree'
 
+omit [Finite G] in
 private theorem mem_Gw_expand_arc {a b : ℤ} {z : G} (hab : a < b)
     (hz : z ∈ t.Gw a b) (hzK : z ∈ normalizer (t.K : Set G)) :
     z ∈ t.Gw (a - 1) (b + 1) := by
@@ -355,6 +365,7 @@ private theorem mem_Gw_expand_arc {a b : ℤ} {z : G} (hab : a < b)
     win_add_one_right (a := a) (b := b) (by omega)]
   exact ⟨hla, hz, hrb⟩
 
+omit [Finite G] in
 theorem mem_GT_of_mem_normalizer {v : ℤ} {z : G} (hz : z ∈ t.Gw v (v + 1))
     (hzK : z ∈ normalizer (t.K : Set G)) : z ∈ t.GT := by
   have key : ∀ n : ℕ, z ∈ t.Gw (v - n) (v + 1 + n) := by
@@ -387,14 +398,13 @@ theorem mem_GT_of_mem_normalizer {v : ℤ} {z : G} (hz : z ∈ t.Gw v (v + 1))
 theorem exists_isMaxArc {a f : ℕ} (hfr : Frame L1 L2 S a f)
     (hO4 : t.GT = t.K) : ∃ ε : ℤ, ∃ n : ℕ, t.IsMaxArc ε n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let f : ℕ → ℕ := fun M => Nat.card (t.Gw (-(M : ℤ)) (M : ℤ))
   have hex : ∃ k, ∃ M, f M = k := ⟨f 0, 0, rfl⟩
   obtain ⟨M₀, hM₀⟩ := Nat.find_spec hex
   have hM₀min : ∀ M, f M₀ ≤ f M := by
     intro M
     rw [hM₀]
-    change Nat.find hex ≤ f M
     exact Nat.find_min' (p := fun k => ∃ M, f M = k) (H := hex) ⟨M, rfl⟩
   have hGK : t.Gw (-(M₀ : ℤ)) (M₀ : ℤ) = t.K := by
     refine le_antisymm ?_ (t.K_le_Gw _ _)
@@ -494,7 +504,7 @@ theorem exists_isMaxArc {a f : ℕ} (hfr : Frame L1 L2 S a f)
 theorem IsMaxArc.two_le {a f : ℕ} (hfr : Frame L1 L2 S a f)
     {ε : ℤ} {n : ℕ} (h : t.IsMaxArc ε n) : 2 ≤ n := by
   by_contra hlt
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hbot : pCoreOf 2 (t.Gw (-1) 1) = ⊥ := h.pCoreOf_eq_bot (-1) 1 (by omega)
   have hQ1S : Q1 L1 L2 S ≤ S := F7.isSylowTwoOf_pCoreOf_le (f112_isSylowTwoOf_P1 hfr.hF)
   have hQ1B : Q1 L1 L2 S ≤ bigB L1 L2 S :=
@@ -533,6 +543,7 @@ theorem IsMaxArc.two_le {a f : ℕ} (hfr : Frame L1 L2 S a f)
     exact hQ1ne hQ1bot
   exact hne hbot
 
+omit [Finite G] in
 theorem IsMaxArc.reflect {ε : ℤ} {n : ℕ} (h : t.IsMaxArc ε n) (v : ℤ) :
     t.IsMaxArc (2 * v - ε - n) n := by
   obtain ⟨y, -, -, hwin, -, -⟩ := t.exists_reflection v
@@ -541,7 +552,7 @@ theorem IsMaxArc.reflect {ε : ℤ} {n : ℕ} (h : t.IsMaxArc ε n) (v : ℤ) :
     apply h.pCoreOf_ne_bot
     have h1 : (pCoreOf 2 (t.Gw ε (ε + n))).map (MulAut.conj y).toMonoidHom = ⊥ := by
       rw [← pCoreOf_map_mulEquiv 2 (MulAut.conj y) (t.Gw ε (ε + n)), hwin ε (ε + n)]
-      convert hbot using 2 <;> ring
+      convert hbot using 2; ring
     exact (Subgroup.map_eq_bot_iff_of_injective _ (MulAut.conj y).injective).mp h1
   · intro a b hab
     have h0 : pCoreOf 2 (t.Gw (2 * v - b) (2 * v - a)) = ⊥ :=
@@ -554,6 +565,7 @@ theorem IsMaxArc.reflect {ε : ℤ} {n : ℕ} (h : t.IsMaxArc ε n) (v : ℤ) :
       pCoreOf_map_mulEquiv 2 (MulAut.conj y) (t.Gw (2 * v - b) (2 * v - a)), h0,
       Subgroup.map_bot]
 
+omit [Finite G] in
 theorem IsMaxArc.shift {ε : ℤ} {n : ℕ} (h : t.IsMaxArc ε n) (k : ℤ) :
     t.IsMaxArc (ε + 2 * k) n := by
   constructor
@@ -563,7 +575,7 @@ theorem IsMaxArc.shift {ε : ℤ} {n : ℕ} (h : t.IsMaxArc ε n) (k : ℤ) :
         (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom = ⊥ := by
       rw [← pCoreOf_map_mulEquiv 2 (MulAut.conj ((t.x₂ * t.x₁) ^ k)) (t.Gw ε (ε + n)),
         t.Gw_map_tau]
-      convert hbot using 2 <;> ring
+      convert hbot using 2; ring
     exact (Subgroup.map_eq_bot_iff_of_injective _ (MulAut.conj _).injective).mp h1
   · intro a b hab
     have h0 : pCoreOf 2 (t.Gw (a - 2 * k) (b - 2 * k)) = ⊥ :=
@@ -580,7 +592,7 @@ theorem IsMaxArc.inf_Gv_eq_bot {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {ε : ℤ} {n : ℕ} (h : t.IsMaxArc ε n) :
     pCoreOf 2 (t.Gw ε (ε + n)) ⊓ t.Gv (ε - 1) = ⊥ ∧
       pCoreOf 2 (t.Gw ε (ε + n)) ⊓ t.Gv (ε + n + 1) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   constructor
   · have hX : IsPGroup 2 ↥(pCoreOf 2 (t.Gw ε (ε + n)) ⊓ t.Gv (ε - 1)) :=
       (pCoreOf_isPGroup 2 _).to_le inf_le_left
@@ -604,7 +616,7 @@ theorem IsMaxArc.inf_Gv_eq_bot {a f : ℕ}
 
 theorem exists_isFixRadius {a f : ℕ} (hfr : Frame L1 L2 S a f)
     (hO4 : t.GT = t.K) (v : ℤ) : ∃ b : ℕ, t.IsFixRadius v b := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨ε, n, hγ⟩ := t.exists_isMaxArc hfr hO4
   classical
   let P : ℕ → Prop := fun b => t.Zv v ≤ t.Gw (v - b) (v + b)
@@ -653,11 +665,12 @@ theorem exists_isFixRadius {a f : ℕ} (hfr : Frame L1 L2 S a f)
         simpa [P, hb_eq, Nat.cast_add, Nat.cast_one] using hPsucc)
     exact t.Zv_ne_bot hfr.hF v (le_bot_iff.mp (hZle.trans_eq hpc))
 
+omit [Finite G] in
 theorem IsFixRadius.shift {v : ℤ} {b : ℕ} (h : t.IsFixRadius v b) (k : ℤ) :
     t.IsFixRadius (v + 2 * k) b := by
   constructor
-  · rw [show v + 2 * k - b = (v - b) + 2 * k by push_cast; ring,
-      show v + 2 * k + b = (v + b) + 2 * k by push_cast; ring,
+  · rw [show v + 2 * k - b = (v - b) + 2 * k by ring,
+      show v + 2 * k + b = (v + b) + 2 * k by ring,
       ← t.Gw_map_tau (v - b) (v + b) k, ← t.Zv_map_tau v k]
     exact Subgroup.map_mono h.le_Gw
   · intro hle
@@ -666,9 +679,10 @@ theorem IsFixRadius.shift {v : ℤ} {b : ℕ} (h : t.IsFixRadius v b) (k : ℤ) 
         (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom ≤
         (t.Gv (v + b + 1)).map (MulAut.conj ((t.x₂ * t.x₁) ^ k)).toMonoidHom := by
       rw [t.Zv_map_tau, t.Gv_map_tau]
-      convert hle using 2 <;> ring
+      convert hle using 2; ring
     exact (Subgroup.map_le_map_iff_of_injective (MulAut.conj _).injective).mp hle'
 
+omit [Finite G] in
 theorem IsFixRadius.not_le_Gv_sub {v : ℤ} {b : ℕ} (h : t.IsFixRadius v b) :
     ¬ t.Zv v ≤ t.Gv (v - b - 1) := by
   intro hle
@@ -679,7 +693,7 @@ theorem IsFixRadius.not_le_Gv_sub {v : ℤ} {b : ℕ} (h : t.IsFixRadius v b) :
   have hGy : (t.Gv (v - b - 1)).map (MulAut.conj y).toMonoidHom = t.Gv (v + b + 1) := by
     have hi := hwin (v - b - 1) (v - b - 1)
     rw [show t.Gw (v - b - 1) (v - b - 1) = t.Gv (v - b - 1) from win_self _,
-      show 2 * v - (v - b - 1) = v + b + 1 by push_cast; ring,
+      show 2 * v - (v - b - 1) = v + b + 1 by ring,
       show t.Gw (v + b + 1) (v + b + 1) = t.Gv (v + b + 1) from win_self _] at hi
     exact hi
   have hmap := Subgroup.map_mono (f := (MulAut.conj y).toMonoidHom) hle
@@ -716,7 +730,7 @@ theorem IsFixRadius.two_mul_le {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {ε v : ℤ} {n b : ℕ} (hγ : t.IsMaxArc ε n)
     (h : t.IsFixRadius v b) : 2 * b ≤ n := by
   by_contra hlt
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hb : 0 < b := by
     rcases Nat.eq_zero_or_pos b with h0 | h0
     · omega
@@ -727,6 +741,7 @@ theorem IsFixRadius.two_mul_le {a f : ℕ}
     t.le_pCoreOf_Gw hfr (by omega) (t.isPGroup_Zv v) h.le_Gw
   exact t.Zv_ne_bot hfr.hF v (le_bot_iff.mp (hle.trans_eq hpc))
 
+omit [Finite G] in
 theorem IsFixRadius.commutator_le_inf_or {ε : ℤ} {b₀ b₁ : ℕ} (h₀ : t.IsFixRadius ε b₀)
     (h₁ : t.IsFixRadius (ε + 1) b₁) :
     ⁅t.Zv (ε + 1), t.Zv (ε + 1 + b₁)⁆ ≤ t.Zv (ε + 1) ⊓ t.Zv (ε + 1 + b₁) ∨

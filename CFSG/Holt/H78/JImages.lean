@@ -155,7 +155,7 @@ omit [Finite G] in
 private theorem fusionIsSylowIn_of_isSylowOf' {p : ℕ} {P K : Subgroup G}
     (h : CFSG.ABGLocalTools.IsSylowOf p P K) : fusionIsSylowIn p P K := by
   obtain ⟨Q, rfl⟩ := h
-  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, fun R hRK hR hQR => ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, fun R hRK hR hQR => ?_⟩
   have hQR' : (Q : Subgroup K) ≤ R.subgroupOf K := fun x hx => hQR ⟨x, hx, rfl⟩
   have hQR'' : R.subgroupOf K ≤ (Q : Subgroup K) :=
     Q.maximal_isPGroup.2 (hR.comap_of_injective K.subtype K.subtype_injective) hQR'

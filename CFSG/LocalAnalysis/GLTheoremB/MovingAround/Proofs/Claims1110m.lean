@@ -31,9 +31,9 @@ theorem statedScalars_eq_bot_of_card_two_d4cls {F : Type} [Field F] (hF : Nat.ca
     StatedScalars ι F = ⊥ := by
   classical
   have : Finite F := Nat.finite_of_card_ne_zero (by omega)
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hc : Fintype.card Fˣ = 1 := by rw [Fintype.card_units, ← Nat.card_eq_fintype_card, hF]
-  haveI : Subsingleton Fˣ := Fintype.card_le_one_iff_subsingleton.mp hc.le
+  have : Subsingleton Fˣ := Fintype.card_le_one_iff_subsingleton.mp hc.le
   unfold StatedScalars
   rw [eq_bot_iff]
   rintro _ ⟨u, rfl⟩
@@ -78,7 +78,7 @@ theorem nonempty_statedOmega_minus_equiv_d4cls {F F' : Type} [Field F] [Field F'
 theorem nonempty_ringEquiv_zmod_two_d4cls {F : Type} [Field F] (hF : Nat.card F = 2) :
     Nonempty (F ≃+* ZMod 2) := by
   have : Finite F := Nat.finite_of_card_ne_zero (by omega)
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   exact ⟨FiniteField.ringEquivOfCardEq (K := F) (K' := ZMod 2) (by
     rw [ZMod.card, ← Nat.card_eq_fintype_card, hF])⟩
 
@@ -209,7 +209,7 @@ theorem dvd_card_quot_of_pumpup_d4cls {D : Type} [Group D]
     2 ^ 12 * 3 ^ 5 * 7 ∣ Nat.card (K ⧸ Subgroup.center K) := by
   have h1 := dvd_card_of_pumpup_d4cls hD hx
   have hZ := SchurFacts.isPGroup_center_of_glaPPrimeCore_eq_bot Nat.prime_five hO
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨k, hk⟩ := hZ.exists_card_eq
   have h2 : Nat.card K = Nat.card (K ⧸ Subgroup.center K) * 5 ^ k := by
     rw [← hk]
@@ -238,7 +238,7 @@ theorem false_of_crow_d4cls (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOr
   obtain ⟨J1, hJ1, ⟨e1⟩⟩ := exists_comp_of_pumpup_d4cls hD hx
   obtain ⟨t, ht, I, hI, ⟨eI⟩⟩ :=
     Inputs1419b.exists_spor_comp hOut Nat.prime_five (by norm_num) hK f hx.1 hJ1
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hK
   have hcen : Subgroup.center (K ⧸ Subgroup.center K) = ⊥ :=
     CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup hnab

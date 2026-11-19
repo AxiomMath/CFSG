@@ -24,8 +24,8 @@ end I294Large
 
 theorem i294LargeModelPOmegaOdd_holds : I294LargeModelPOmegaOdd := by
   intro r hr h5 K _ _ hrK hodd n hn hS
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fintype K := Fintype.ofFinite K
   have hp2 : r ≠ 2 := by omega
   have hpq : ¬ r ∣ Fintype.card K := by rwa [← Nat.card_eq_fintype_card]
   have hodd' : Odd (Fintype.card K) := by rwa [← Nat.card_eq_fintype_card]
@@ -46,8 +46,8 @@ theorem i294LargeModelPOmegaOdd_holds : I294LargeModelPOmegaOdd := by
 
 theorem i294LargeModelPOmegaPlus_holds : I294LargeModelPOmegaPlus := by
   intro r hr h5 K _ _ hrK n hn hS
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fintype K := Fintype.ofFinite K
   have hp2 : r ≠ 2 := by omega
   have hpq : ¬ r ∣ Fintype.card K := by rwa [← Nat.card_eq_fintype_card]
   obtain ⟨hQnd, hT⟩ := CFSG.ClassicalGroups.Orthogonal.regular_quadPlus (K := K) (n := n)
@@ -61,8 +61,8 @@ theorem i294LargeModelPOmegaPlus_holds : I294LargeModelPOmegaPlus := by
 
 theorem i294LargeModelPOmegaMinus_holds : I294LargeModelPOmegaMinus := by
   intro r hr h5 K _ _ hrK n hn b c hirr hS
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fintype K := Fintype.ofFinite K
   have hp2 : r ≠ 2 := by omega
   have hpq : ¬ r ∣ Fintype.card K := by rwa [← Nat.card_eq_fintype_card]
   obtain ⟨hQnd, hT⟩ := CFSG.ClassicalGroups.Orthogonal.regular_quadMinus (K := K) (n := n) hn

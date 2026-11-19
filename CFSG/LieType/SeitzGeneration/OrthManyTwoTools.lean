@@ -35,7 +35,7 @@ theorem commute_eichler_of_det_one {x : V ≃ₗ[K] V}
     (hdet : LinearMap.det ((x : V →ₗ[K] V).restrict hTx) = 1) {e w : V} (he : e ∈ T)
     (hw : w ∈ T) : Commute (eichler Q e w) x := by
   classical
-  haveI : Module.Finite K T := Module.finite_of_finrank_pos (by rw [hT2]; norm_num)
+  have : Module.Finite K T := Module.finite_of_finrank_pos (by rw [hT2]; norm_num)
   obtain ⟨f, hf⟩ : ∃ f : T →ₗ[K] T, ∀ u : T, (f u : V) = x u :=
     ⟨(x : V →ₗ[K] V).restrict hTx, fun u => rfl⟩
   have hfeq : f = (x : V →ₗ[K] V).restrict hTx := LinearMap.ext fun u => Subtype.ext (hf u)
@@ -86,6 +86,7 @@ section Three
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [Finite K] in
 theorem exists_nonsingular_perp_of_hyp {A : Submodule K V} (hA : PolarNondegOn Q A)
     (h3 : 3 ≤ finrank K A) {e f : V} (heA : e ∈ A) (hfA : f ∈ A) (hee : Q e = 0)
     (hff : Q f = 0) (hef : polar Q e f = 1) :
@@ -156,6 +157,7 @@ theorem exists_singular_mem_three (h2 : (2 : K) ≠ 0) {A : Submodule K V}
     rw [e2, one_smul] at h1
     exact ⟨e, h1, heA, he0, heQ⟩
 
+omit [Finite K] in
 theorem mem_of_invariant_of_singular_three (h2 : (2 : K) ≠ 0) {A : Submodule K V}
     (hA : PolarNondegOn Q A) (h3 : finrank K A = 3) (M : AddSubgroup V)
     (hinv : ∀ x ∈ A, ∀ z ∈ A, Q x = 0 → polar Q x z = 0 → ∀ m ∈ M, m ∈ A →
@@ -270,6 +272,7 @@ theorem mem_of_invariant_three (h2 : (2 : K) ≠ 0) {A : Submodule K V} (hA : Po
   obtain ⟨e, heM, heA, he0, heQ⟩ := exists_singular_mem_three h2 hA h3 M hinv hyM hyA hy0
   exact mem_of_invariant_of_singular_three h2 hA h3 M hinv heM heA he0 heQ
 
+omit [Finite K] in
 theorem exists_eichler_of_polar_ne_zero {Y : Submodule K V} (hY : PolarNondegOn Q Y)
     (hY3 : 3 ≤ Module.finrank K Y) {y e : V} (heY : e ∈ Y) (heQ : Q e = 0) (he0 : e ≠ 0)
     (hye : polar Q y e ≠ 0) : ∃ f ∈ Y, ∃ g ∈ Y, eichler Q f g y ≠ y := by

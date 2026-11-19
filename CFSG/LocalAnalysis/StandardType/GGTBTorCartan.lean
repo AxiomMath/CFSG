@@ -6,7 +6,7 @@ public import CFSG.LocalAnalysis.StandardType.GGCorFourTwoTableBTypeAMono
 namespace CFSG.StandardType
 
 theorem ggCartanE₈_ker_zero : ∀ c : Fin 8 → ZMod 3,
-    (∀ j, ∑ k, (CartanMatrix.E₈ j k : ZMod 3) * c k = 0) → c = 0 := by
+    (∀ j, ∑ k, ((CartanMatrix.E 8) j k : ZMod 3) * c k = 0) → c = 0 := by
   intro c h
   have h0 := h 0
   have h1 := h 1
@@ -16,7 +16,7 @@ theorem ggCartanE₈_ker_zero : ∀ c : Fin 8 → ZMod 3,
   have h5 := h 5
   have h6 := h 6
   have h7 := h 7
-  simp [CartanMatrix.E₈, CartanMatrix.E_eight_eq, Fin.sum_univ_succ] at h0 h1 h2 h3 h4 h5 h6 h7
+  simp [CartanMatrix.E_eight_eq, Fin.sum_univ_succ] at h0 h1 h2 h3 h4 h5 h6 h7
   funext k
   simp only [Pi.zero_apply]
   fin_cases k <;> simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk]
@@ -30,7 +30,7 @@ theorem ggCartanE₈_ker_zero : ∀ c : Fin 8 → ZMod 3,
   · linear_combination 2 * h0 + 3 * h1 + 4 * h2 + 6 * h3 + 5 * h4 + 4 * h5 + 3 * h6 + 2 * h7
 
 theorem ggCartanE₆_ker_coord (c : Fin 6 → ZMod 3)
-    (h : ∀ j, ∑ k, (CartanMatrix.E₆ j k : ZMod 3) * c k = 0) :
+    (h : ∀ j, ∑ k, ((CartanMatrix.E 6) j k : ZMod 3) * c k = 0) :
     ∀ k, c k = (![1, 0, 2, 0, 1, 2] : Fin 6 → ZMod 3) k * c 0 := by
   have h0 := h 0
   have h1 := h 1
@@ -38,7 +38,7 @@ theorem ggCartanE₆_ker_coord (c : Fin 6 → ZMod 3)
   have h3 := h 3
   have h4 := h 4
   have h5 := h 5
-  simp [CartanMatrix.E₆, CartanMatrix.E_six_eq, Fin.sum_univ_succ] at h0 h1 h2 h3 h4 h5
+  simp [CartanMatrix.E_six_eq, Fin.sum_univ_succ] at h0 h1 h2 h3 h4 h5
   have e1 : c 1 = 0 * c 0 := by
     linear_combination (norm := (ring_nf; reduce_mod_char)) 2 * h1 + 1 * h4 + 2 * h5
   have e2 : c 2 = 2 * c 0 := by
@@ -60,8 +60,8 @@ theorem ggCartanE₆_ker_coord (c : Fin 6 → ZMod 3)
   · simpa using e5
 
 theorem ggCartanE₆_ker_le_one : ∀ c d : Fin 6 → ZMod 3,
-    (∀ j, ∑ k, (CartanMatrix.E₆ j k : ZMod 3) * c k = 0) →
-    (∀ j, ∑ k, (CartanMatrix.E₆ j k : ZMod 3) * d k = 0) → c ≠ 0 → ∃ l : ZMod 3, d = l • c := by
+    (∀ j, ∑ k, ((CartanMatrix.E 6) j k : ZMod 3) * c k = 0) →
+    (∀ j, ∑ k, ((CartanMatrix.E 6) j k : ZMod 3) * d k = 0) → c ≠ 0 → ∃ l : ZMod 3, d = l • c := by
   intro c d hc hd hc0
   have ec := ggCartanE₆_ker_coord c hc
   have ed := ggCartanE₆_ker_coord d hd
@@ -88,14 +88,14 @@ theorem cartanA_row {p N : ℕ} (c : Fin N → ZMod p) (j : Fin N) :
     · rw [Finset.sum_eq_single ⟨m, hm⟩]
       · simp [hc', hm]
       · intro b _ hb
-        rw [if_neg]
+        rw [ite_eq_right]
         intro hbm
         exact hb (Fin.ext hbm)
       · simp
     · rw [Finset.sum_eq_zero]
       · simp [hc', hm]
       · intro b _
-        rw [if_neg]
+        rw [ite_eq_right]
         omega
   have hterm : ∀ k : Fin N, (CartanMatrix.A N j k : ZMod p) * c k =
       2 * (if k.val = j.val then c k else 0) - (if k.val = j.val + 1 then c k else 0)
@@ -109,24 +109,24 @@ theorem cartanA_row {p N : ℕ} (c : Fin N → ZMod p) (j : Fin N) :
       · have hne : ¬ ((j : ℕ) = (j : ℕ) - 1) := by omega
         simp [hj0, hne]
     · have hv : k.val ≠ j.val := fun e => hjk (Fin.ext e.symm)
-      rw [if_neg hjk, if_neg hv]
+      rw [ite_eq_right hjk, ite_eq_right hv]
       by_cases h1 : j.val + 1 = k.val ∨ k.val + 1 = j.val
-      · rw [if_pos h1]
+      · rw [ite_eq_left h1]
         rcases h1 with h1 | h1
-        · rw [if_pos h1.symm]
+        · rw [ite_eq_left h1.symm]
           by_cases hj0 : j.val = 0
-          · rw [if_pos hj0]; push_cast; ring
-          · rw [if_neg hj0, if_neg (by omega)]; push_cast; ring
-        · rw [if_neg (by omega), if_neg (by omega), if_pos (by omega)]; push_cast; ring
-      · rw [if_neg h1]
+          · rw [ite_eq_left hj0]; push_cast; ring
+          · rw [ite_eq_right hj0, ite_eq_right (by omega)]; push_cast; ring
+        · rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left (by omega)]; push_cast; ring
+      · rw [ite_eq_right h1]
         by_cases hj0 : j.val = 0
-        · rw [if_pos hj0, if_neg (by omega)]; simp
-        · rw [if_neg hj0, if_neg (by omega), if_neg (by omega)]; simp
+        · rw [ite_eq_left hj0, ite_eq_right (by omega)]; simp
+        · rw [ite_eq_right hj0, ite_eq_right (by omega), ite_eq_right (by omega)]; simp
   rw [Finset.sum_congr rfl (fun k _ => hterm k), Finset.sum_sub_distrib, Finset.sum_sub_distrib,
     ← Finset.mul_sum, hpick, hpick]
   by_cases hj0 : j.val = 0
   · simp [hj0]
-  · simp only [if_neg hj0]
+  · simp only [ite_eq_right hj0]
     rw [hpick]
 
 theorem cartanA_ker_coord {p N : ℕ} (c : Fin N → ZMod p)
@@ -146,20 +146,20 @@ theorem cartanA_ker_coord {p N : ℕ} (c : Fin N → ZMod p)
     | zero =>
       refine ⟨fun _ => by simp, fun h1 => ?_⟩
       have := hrow 0 (by omega)
-      rw [if_pos rfl] at this
+      rw [ite_eq_left rfl] at this
       push_cast
       linear_combination -this
     | succ i ih =>
       refine ⟨fun hi => ?_, fun hi => ?_⟩
       · rw [ih.2 hi]; push_cast; ring
       · have := hrow (i + 1) (by omega)
-        simp only [Nat.add_sub_cancel, if_neg (Nat.succ_ne_zero i)] at this
+        simp only [Nat.add_sub_cancel, ite_eq_right (Nat.succ_ne_zero i)] at this
         rw [ih.1 (by omega), ih.2 (by omega)] at this
         push_cast
         linear_combination -this
   intro i hi
   have := (key i).1 hi
-  simp only [hc', dif_pos hi] at this
+  simp only [hc', dite_eq_left hi] at this
   exact this
 
 theorem ggCartanA_ker_le_one {p N : ℕ} [Fact p.Prime] : ∀ c d : Fin N → ZMod p,

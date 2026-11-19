@@ -40,7 +40,7 @@ theorem mem_Γ_of_mem_model_of_mul_self {ℓ f : ℕ} {K : Type} [Field K] {σ :
     (hxx : x * x = 1) : x ∈ D.Γ := by
   obtain ⟨-, -, hder, ⟨k, hk⟩, -⟩ :=
     twisted_E6_full_rational_fixed_group_order hℓ hf K hK σ.toRingHom hσ L Fr hFr
-  haveI : (((twistedE6RootGroup K σ).map (baseChangeGL (algebraMap K L))).subgroupOf
+  have : (((twistedE6RootGroup K σ).map (baseChangeGL (algebraMap K L))).subgroupOf
       (CFSG.Blueprint.twistedFixedGroup TwistTag.E6 L Fr)).Normal :=
     Subgroup.Normal.of_commutator_le _ fun z hz => by
       rw [Subgroup.mem_subgroupOf, ← hder, ← Subgroup.map_subtype_commutator]
@@ -67,8 +67,8 @@ theorem exists_ennolaSetup (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : p ∣ 2 ^ n + 1) :
     ∃ S : LangSetup TwistTag.E6.tag (AlgebraicClosure K) p,
       S.D = LangDatum.ofTwist TwistTag.E6 D.Fr (2 ^ n) D.hFr D.v D.hg0C D.hg0 := by
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨ρ, hρ⟩ := frobeniusOnRoots_proved _ _
     (LangDatum.ofTwist TwistTag.E6 D.Fr (2 ^ n) D.hFr D.v D.hg0C D.hg0)
@@ -97,8 +97,8 @@ theorem ennola_step_pinnedX (hK : Nat.card K = (2 ^ n) ^ 2) {γ : Fin TwistTag.E
     (LangDatum.ofTwist TwistTag.E6 D.Fr (2 ^ n) D.hFr D.v D.hg0C D.hg0).step
         (pinnedX TwistTag.E6.tag (AlgebraicClosure K) γ c) =
       pinnedX TwistTag.E6.tag (AlgebraicClosure K) (-γ) (D.Fr c) := by
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨e, he, hconj⟩ := exists_canonicalRep_mul_pinnedX_mul_inv (AlgebraicClosure K) D.v
     (hγ.permLattice TwistTag.E6.cartan_perm)
@@ -114,8 +114,8 @@ include hv hSD in
 theorem ennola_rootSL2_WSL_mem_Γ (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     (hσ : ∀ c, σ c = c ^ 2 ^ n) {γ : Fin TwistTag.E6.tag.rank → ℤ}
     (hγ : IsRoot TwistTag.E6.tag γ) : rootSL2 TwistTag.E6.tag (AlgebraicClosure K) γ WSL ∈ S.Γ := by
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have h₁ := ennola_step_pinnedX D hv hK hγ 1
   have h₂ := ennola_step_pinnedX D hv hK (IsRoot.neg hγ) 1

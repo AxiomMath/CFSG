@@ -20,7 +20,7 @@ theorem fixComp_S6 (A : Subgroup (MulAut S6)) (hA : IsElemAbelian 3 A) (hcard : 
     (α : MulAut S6) (hα : α ∈ A) (hα1 : α ≠ 1) {N : Subgroup S6}
     (hN : GLAPComponent 3 (fixSubgroup α) N) :
     catalogIs (PSimple 3 N) (fun i => S9.isU4two i ∨ S9.isU5two i) := by
-  haveI := isSimple_S6
+  have := isSimple_S6
   obtain ⟨B, hB, ⟨c, hBc⟩, hβB⟩ := exists_unitary_of_pow_three α (hA.2 α hα)
   by_cases hsc : ∃ c : F4ˣ, B = Matrix.GeneralLinearGroup.scalar (Fin 6) c
   · exfalso

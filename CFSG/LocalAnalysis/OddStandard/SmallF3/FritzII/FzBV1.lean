@@ -12,6 +12,7 @@ open Subgroup CFSG.OddStandard.SmallF3.HarrisU33
 variable {G : Type} [Group G] [Finite G] {c : Bool} {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau : G} {T₂ P : Subgroup G} {q s : G} {β : ℕ → G}
 
+omit [Finite G] in
 theorem fzb_chart_q (hβ : FzbChart c T₂ P x₁ x₂ t q s lam β) (hF : FzbFactsGen c) :
     q ^ 2 = t ∧ q ^ 4 = 1 ∧ t ≠ 1 ∧ β 320 = q * s ∧ β 832 = q * s * lam := by
   have h64 : (64 : ℕ) < 1024 := by norm_num

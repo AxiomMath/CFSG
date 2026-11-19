@@ -54,13 +54,13 @@ theorem ggTBJSpC_spSwapSp_mul_comm [CharP K 2] {u w : Fin m} (huw : u ≠ w) :
 theorem ggTBJSpC_reflElt_eq_same [CharP K 2] {t : Fin m → Kˣ} {u w : Fin m} (h : t u = t w) :
     ggTBJSpC_reflElt t u w = permSp K (Equiv.swap u w) := by
   rw [ggTBJSpC_reflElt]
-  simp only [if_pos h]
+  simp only [ite_eq_left h]
 
 theorem ggTBJSpC_reflElt_eq_mixed [CharP K 2] {t : Fin m → Kˣ} {u w : Fin m} (h : t u ≠ t w) :
     ggTBJSpC_reflElt t u w =
       TableBSymp.spSwapSp u * TableBSymp.spSwapSp w * permSp K (Equiv.swap u w) := by
   rw [ggTBJSpC_reflElt]
-  simp only [if_neg h]
+  simp only [ite_eq_right h]
 
 theorem ggTBJSpC_reflElt_mem_of_paired [CharP K 2] {t : Fin m → Kˣ}
     {J : Subgroup (StatedSp m K)} {lam : Kˣ} (hlam : lam ≠ 1)

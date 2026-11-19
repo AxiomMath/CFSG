@@ -20,11 +20,11 @@ private theorem simple_factor_data {G : Type*} [Group G] [Finite G] {V : Subgrou
     (hVmin : ∀ K : Subgroup G, K.Normal → K ≤ V → K = ⊥ ∨ K = V)
     (h3V : 3 ∣ Nat.card V) (hnot : ¬ IsSimpleGroup V) :
     ∃ (r : ℕ) (S : Fin r → Subgroup G) (e : ((i : Fin r) → S i) ≃* V)
-      (he : ∀ (i : Fin r) (x : (j : Fin r) → S j),
+      (_he : ∀ (i : Fin r) (x : (j : Fin r) → S j),
         (∀ j : Fin r, j ≠ i → x j = 1) → (e x : G) = x i)
       (i0 i1 : Fin r), i0 ≠ i1 ∧ (∀ i : Fin r, 3 ∣ Nat.card (S i)) := by
   classical
-  obtain ⟨r, S, hr1, hSle, hSsimple, hSconj, hSnorm, e, he⟩ :=
+  obtain ⟨r, S, hr1, hSle, hSsimple, hSconj, hSnorm, e, _he⟩ :=
     CFSG.LocalCores.minimal_normal_simple_factors hVn hVne hVmin
   let j0 : Fin r := ⟨0, by omega⟩
   have hr2 : 2 ≤ r := by
@@ -61,7 +61,7 @@ private theorem simple_factor_data {G : Type*} [Group G] [Finite G] {V : Subgrou
   have h3Si (i : Fin r) : 3 ∣ Nat.card (S i) := by
     rw [hcard_eq i]
     exact h3S0
-  exact ⟨r, S, e, he, i0, i1, hi, h3Si⟩
+  exact ⟨r, S, e, _he, i0, i1, hi, h3Si⟩
 
 private theorem factor_order_three_data {G : Type*} [Group G] [Finite G]
     {r : ℕ} {S : Fin r → Subgroup G} {V : Subgroup G}
@@ -183,15 +183,15 @@ private theorem le_center_of_abelian_simple {G : Type*} [Group G] [Finite G]
     (hVsimple : IsSimpleGroup V) (h3V : 3 ∣ Nat.card V) :
     V ≤ Subgroup.center G := by
   classical
-  haveI : IsSimpleGroup V := hVsimple
-  haveI : V.Normal := hVn
-  letI : CommGroup V := IsMulCommutative.instCommGroup
+  have : IsSimpleGroup V := hVsimple
+  have : V.Normal := hVn
+  let : CommGroup V := IsMulCommutative.instCommGroup
   have hcardV : Nat.card V = 3 := by
     have hp : Nat.Prime (Nat.card V) := IsSimpleGroup.prime_card
     rcases (Nat.dvd_prime hp).mp h3V with h | h
     · omega
     · exact h.symm
-  letI : IsCyclic V := isCyclic_of_prime_card hcardV
+  let : IsCyclic V := isCyclic_of_prime_card hcardV
   have hP : ⁅(⊤ : Subgroup G), (⊤ : Subgroup G)⁆ = ⊤ := by
     rw [← commutator_def, Group.IsPerfect.commutator_eq_top]
   let φ : G →* MulAut V := MulAut.conjNormal
@@ -305,8 +305,8 @@ private theorem perfect_core_image_eq {X : Type} [Group X] [Finite X] {p : ℕ}
     (J.map L.subtype).map (QuotientGroup.mk' (CFSG.pPrimeCore p X)) =
       L.map (QuotientGroup.mk' (CFSG.pPrimeCore p X)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect ↥L := hLperf
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect ↥L := hLperf
   let O : Subgroup ↥L := CFSG.pPrimeCore p ↥L
   let JX : Subgroup X := J.map L.subtype
   let OX : Subgroup X := O.map L.subtype
@@ -347,7 +347,7 @@ private theorem perfect_core_image_eq {X : Type} [Group X] [Finite X] {p : ℕ}
   have hres := CFSG.perfect_residual_transport f
   have hfresTop : CFSG.perfectResidual ↥f.range = ⊤ := by
     apply top_le_iff.mp
-    haveI : Group.IsPerfect ↥(⊤ : Subgroup ↥f.range) :=
+    have : Group.IsPerfect ↥(⊤ : Subgroup ↥f.range) :=
       Group.IsPerfect.ofSurjective (f := (Subgroup.topEquiv (G := ↥f.range)).symm.toMonoidHom)
         (Subgroup.topEquiv (G := ↥f.range)).symm.surjective
     exact (CFSG.perfect_residual_transport (MonoidHom.id ↥f.range)).2.2 ⊤ ‹_›
@@ -370,8 +370,8 @@ private theorem perfect_core_contradiction {X : Type} [Group X] [Finite X] {p : 
     (hLmin : ∀ J : Subgroup X, J < L → J.IsSubnormal →
       J.map (QuotientGroup.mk' (CFSG.pPrimeCore p X)) ≠ K) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect ↥L := hLperf
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect ↥L := hLperf
   let O : Subgroup ↥L := CFSG.pPrimeCore p ↥L
   let J : Subgroup ↥L := (CFSG.perfectResidual ↥C).map C.subtype
   have hJn : J.Normal := ConjAct.normal_of_characteristic_of_normal
@@ -448,14 +448,14 @@ private theorem nonabelian_case_false {X : Type} [Group X] [Finite X] {p : ℕ}
     push Not at h
     exact hVnab (IsMulCommutative.of_comm fun a b => h a b)
 
-  haveI : IsSimpleGroup V := hVsimple
+  have : IsSimpleGroup V := hVsimple
   have hSchV : CFSG.ComponentClassification.LBalance.SchreierSections V :=
     ((hSch.subgroup L).quotient N).subgroup V
   have hOut : Group.IsSolvable (ComponentClassification.OuterAutomorphisms.Outer V) :=
     hSchV.outer_solvable (⊤ : Subgroup V) hVnonab
       (Subgroup.topEquiv (G := V)).toMonoidHom (Subgroup.topEquiv (G := V)).surjective
   have hLV : (⊤ : Subgroup Lbar) ≤ V ⊔ Subgroup.centralizer (V : Set Lbar) := by
-    haveI : Group.IsPerfect ↥(⊤ : Subgroup Lbar) :=
+    have : Group.IsPerfect ↥(⊤ : Subgroup Lbar) :=
       Group.IsPerfect.ofSurjective (f := (Subgroup.topEquiv (G := Lbar)).symm.toMonoidHom)
         (Subgroup.topEquiv (G := Lbar)).symm.surjective
     have hleNorm : (⊤ : Subgroup Lbar) ≤ Subgroup.normalizer (V : Set Lbar) := by
@@ -501,7 +501,7 @@ theorem not_three_dvd_card_pPrimeCore_of_isPComponent {X : Type} [Group X] [Fini
     {L : Subgroup X} (hL : CFSG.IsPComponent p L) (h3 : CFSG.Open.pRank 3 L = 1) :
     ¬ 3 ∣ Nat.card (CFSG.pPrimeCore p ↥L) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra h3O
   by_cases hp3 : p = 3
   · subst hp3
@@ -513,16 +513,16 @@ theorem not_three_dvd_card_pPrimeCore_of_isPComponent {X : Type} [Group X] [Fini
       ⟨K, hKcomp, hLsub, hLmap, hLmin⟩
   let O : Subgroup ↥L := CFSG.pPrimeCore p ↥L
   obtain ⟨N, hNn, hNle, h3N, hNmax⟩ := exists_maximal_normal_of_three_dvd h3O
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   obtain ⟨V, hVn, hVle, hVne, hVmin, h3V⟩ :=
     exists_minimal_normal_section (L := L) (N := N) hNle hNmax h3N
   let Lbar := ↥L ⧸ N
   let Obar : Subgroup Lbar := O.map (QuotientGroup.mk' N)
   let π : ↥L →* Lbar := QuotientGroup.mk' N
-  haveI : Group.IsPerfect ↥L := hLperf
+  have : Group.IsPerfect ↥L := hLperf
   have hLbarPerf : Group.IsPerfect Lbar :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective N)
-  haveI : Group.IsPerfect Lbar := hLbarPerf
+  have : Group.IsPerfect Lbar := hLbarPerf
   have hrankL : CFSG.Open.pRank 3 (⊤ : Subgroup ↥L) = 1 := by
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup]
     exact h3

@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mQuot_barSub_preBarSub_gen {V₀ V B : Subgroup G} (hV : IsElemAbelian 2 V)
     (hB : B ≤ stabTil V₀ V) {C : Subgroup (MulAut (Vtil V₀ V hV))}
     (hC : C ≤ barSub V₀ V hV B) :
@@ -72,6 +73,7 @@ theorem mQuot_barSub_preBarSub_gen {V₀ V B : Subgroup G} (hV : IsElemAbelian 2
   rw [hr]
   rfl
 
+omit [Finite G] in
 theorem barSub_eq_bot_iff {M V₀ V B : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ Subgroup.normalizer (V : Set G))
     (hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G)) (hBM : B ≤ M) :
@@ -96,6 +98,7 @@ theorem barSub_eq_bot_iff {M V₀ V B : Subgroup G} (hV : IsElemAbelian 2 V)
     rw [heq]
     exact h1
 
+omit [Finite G] in
 theorem mQuot_preCTilde (V₀ V D : Subgroup G) (hV : IsElemAbelian 2 V) :
     E3.mQuot V (preCTilde V₀ V D hV) = rkIdx (fixV (barSub V₀ V hV D)) :=
   mQuot_preTil V₀ V hV (fixV (barSub V₀ V hV D))
@@ -216,6 +219,7 @@ theorem barSub_BOf_ne_bot {n : ℕ} {M V₀ V : Subgroup G} {g : G}
     _ = UOf M V g := hUeq.symm
     _ = V ⊓ conjSubgroup M g := rfl
 
+omit [Finite G] in
 theorem rk_barSub_eq_mQuot_inf_cTilde {M V₀ V B : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ Subgroup.normalizer (V : Set G)) (hM₀ : M ≤ Subgroup.normalizer (V₀ : Set G))
     (hBM : B ≤ M) :

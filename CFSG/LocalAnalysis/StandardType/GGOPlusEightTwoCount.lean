@@ -18,8 +18,10 @@ section Chi
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem chi_zero : chi (0 : K) = 1 := by simp [chi]
 
+omit [CharP K 2] in
 theorem chi_one : chi (1 : K) = -1 := by simp [chi]
 
 theorem chi_add (hK : ∀ c : K, c = 0 ∨ c = 1) (a b : K) : chi (a + b) = chi a * chi b := by
@@ -77,7 +79,7 @@ theorem qsum_sq (hK : ∀ c : K, c = 0 ∨ c = 1) (Q : QuadraticForm K V) (S : S
     by_cases hu : u = 0
     · subst hu
       simp [chi_zero]
-    · rw [if_neg hu]
+    · rw [ite_eq_right hu]
       refine sum_chi_eq_zero hK _ (fun a b => by
         simp only [Submodule.coe_add, QuadraticMap.polar_add_left]) ?_
       by_contra hcon
@@ -108,9 +110,10 @@ theorem qsum_sq (hK : ∀ c : K, c = 0 ∨ c = 1) (Q : QuadraticForm K V) (S : S
         · intro h
           exact absurd (Finset.mem_univ _) h
 
+omit [CharP K 2] in
 theorem eq_zero_or_one_of_card_two [Finite K] (hcard : Nat.card K = 2) :
     ∀ c : K, c = 0 ∨ c = 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   intro a
   have h := FiniteField.pow_card a
   rw [← Nat.card_eq_fintype_card, hcard, pow_two] at h
@@ -123,7 +126,7 @@ theorem qsum_eq [Finite K] [Module.Finite K V] (hcard : Nat.card K = 2) (Q : Qua
     (S : Submodule K V)
     (hreg : ∀ x ∈ S, (∀ y ∈ S, QuadraticMap.polar Q x y = 0) → x = 0) :
     ∃ j : ℕ, Module.finrank K S = 2 * j ∧ (qsum Q S = 2 ^ j ∨ qsum Q S = -2 ^ j) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hsq := qsum_sq (eq_zero_or_one_of_card_two hcard) Q S hreg
   have hc : Fintype.card S = 2 ^ Module.finrank K S := by
     rw [Module.card_eq_pow_finrank (K := K) (V := S), ← Nat.card_eq_fintype_card, hcard]
@@ -150,6 +153,7 @@ theorem qsum_eq [Finite K] [Module.Finite K V] (hcard : Nat.card K = 2) (Q : Qua
     push_cast
     rfl
 
+omit [CharP K 2] in
 theorem card_pred_modEq {p : ℕ} [Fact p.Prime] (x : V ≃ₗ[K] V) (hxp : x ^ p = 1)
     (S : Submodule K V) (hS : ∀ v ∈ S, x v ∈ S) (P : V → Prop) (hP : ∀ v, P v → P (x v)) :
     Fintype.card {v : S // P (v : V)} ≡
@@ -188,6 +192,7 @@ theorem card_pred_modEq {p : ℕ} [Fact p.Prime] (x : V ≃ₗ[K] V) (hxp : x ^ 
   rw [h2] at h1
   exact h1
 
+omit [CharP K 2] in
 theorem qsum_eq_card (hK : ∀ c : K, c = 0 ∨ c = 1) (Q : QuadraticForm K V) (S : Submodule K V) :
     qsum Q S = (Fintype.card {v : S // Q (v : V) = 0} : ℤ) -
       Fintype.card {v : S // Q (v : V) = 1} := by
@@ -203,6 +208,7 @@ theorem qsum_eq_card (hK : ∀ c : K, c = 0 ∨ c = 1) (Q : QuadraticForm K V) (
   rw [Finset.sum_sub_distrib]
   simp [Finset.sum_boole]
 
+omit [CharP K 2] in
 theorem card_modEq {p : ℕ} [Fact p.Prime] (x : V ≃ₗ[K] V) (hxp : x ^ p = 1) (S : Submodule K V)
     (hS : ∀ v ∈ S, x v ∈ S) :
     Fintype.card S ≡
@@ -212,6 +218,7 @@ theorem card_modEq {p : ℕ} [Fact p.Prime] (x : V ≃ₗ[K] V) (hxp : x ^ p = 1
   rwa [Nat.card_congr (Equiv.subtypeUnivEquiv (fun _ => trivial)),
     Nat.card_congr (Equiv.subtypeUnivEquiv (fun _ => trivial))] at h
 
+omit [CharP K 2] in
 theorem qsum_modEq (hK : ∀ c : K, c = 0 ∨ c = 1) {p : ℕ} [Fact p.Prime] (Q : QuadraticForm K V)
     (x : V ≃ₗ[K] V) (hxQ : ∀ v, Q (x v) = Q v) (hxp : x ^ p = 1) (S : Submodule K V)
     (hS : ∀ v ∈ S, x v ∈ S) :
@@ -237,7 +244,7 @@ theorem prime_cases (q f : ℕ) (hq : q.Prime) (hq3 : 3 < q)
     rw [e] at hmem
     simp only [Finset.mem_insert, Finset.mem_singleton] at hmem
     rcases hmem with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
-      first | omega | (exfalso; norm_num at hq) | (left; omega)
+      first | omega | (exfalso; norm_num at hq)
   · have h : q ∣ 252 := key 252 (by simpa using hd)
     have hmem : q ∈ Nat.divisors 252 := Nat.mem_divisors.mpr ⟨h, by norm_num⟩
     have e : Nat.divisors 252 =
@@ -246,7 +253,7 @@ theorem prime_cases (q f : ℕ) (hq : q.Prime) (hq3 : 3 < q)
     simp only [Finset.mem_insert, Finset.mem_singleton] at hmem
     rcases hmem with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl |
       rfl | rfl | rfl | rfl | rfl <;>
-      first | omega | (exfalso; norm_num at hq) | (right; left; omega)
+      first | omega | (exfalso; norm_num at hq)
   · have h : q ∣ 240 := key 240 (by simpa using hd)
     have hmem : q ∈ Nat.divisors 240 := Nat.mem_divisors.mpr ⟨h, by norm_num⟩
     have e : Nat.divisors 240 = {1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 16, 20, 24, 30, 40, 48, 60, 80,
@@ -255,7 +262,7 @@ theorem prime_cases (q f : ℕ) (hq : q.Prime) (hq3 : 3 < q)
     simp only [Finset.mem_insert, Finset.mem_singleton] at hmem
     rcases hmem with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl |
       rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
-      first | omega | (exfalso; norm_num at hq) | (right; right; omega)
+      first | omega | (exfalso; norm_num at hq)
   · have h : q ∣ 192 := key 192 (by simpa using hd)
     have hmem : q ∈ Nat.divisors 192 := Nat.mem_divisors.mpr ⟨h, by norm_num⟩
     have e : Nat.divisors 192 = {1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 192} := by decide
@@ -276,7 +283,7 @@ theorem arith_contra (q : ℕ) (hq : q.Prime) (hq3 : 3 < q) (d f z : ℕ) (hd : 
   rcases prime_cases q f hq hq3 hf h3 with ⟨rfl, rfl | rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;>
   rcases hd with rfl | rfl <;> rcases hz with rfl | rfl | rfl <;>
   rcases hU with rfl | rfl <;> rcases hF with rfl | rfl <;> rcases hZ with rfl | rfl <;>
-  (simp only [Int.ModEq] at *; norm_num at *; try omega)
+  (simp only [Int.ModEq] at *; norm_num at *)
 
 end Arith
 

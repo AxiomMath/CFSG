@@ -39,13 +39,13 @@ theorem exists_pElement_of_not_isSylowOf {X : Type*} [Group X] [Finite X] {p : �
   have hDP : D ≤ P := fun d hd =>
     ⟨⟨d, hDC hd⟩, hDQ (show (⟨d, hDC hd⟩ : C) ∈ D.comap C.subtype from hd), rfl⟩
   have hDne : D ≠ P := fun h => hns (by rw [h]; exact hPS)
-  haveI : Group.IsNilpotent P := hPp.isNilpotent
+  have : Group.IsNilpotent P := hPp.isNilpotent
   have hlt : D.subgroupOf P < ⊤ := by
     rw [lt_top_iff_ne_top]
     intro h
     rw [subgroupOf_eq_top] at h
     exact hDne (le_antisymm hDP h)
-  obtain ⟨g, hg, hgD⟩ := SetLike.exists_of_lt
+  obtain ⟨g, hg, hgD⟩ := _root_.IsConcreteLE.exists_of_lt
     (Group.normalizerCondition_of_isNilpotent (D.subgroupOf P) hlt)
   rw [← subgroupOf_normalizer_eq hDP] at hg
   have hgD' : (g : X) ∉ D := hgD
@@ -65,7 +65,7 @@ theorem linesTrans_of_forall_not_isSylowOf {X : Type} [Group X] [Finite X] {p : 
     (hall : ∀ x ∈ D, x ≠ 1 →
       ¬ CFSG.ABGLocalTools.IsSylowOf p D (centralizer ({x} : Set X)))
     {z : X} (hz : z ∈ D) (hz1 : z ≠ 1) : LinesTrans D z := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro y hy hy1
   by_cases hyz : y ∈ zpowers z
   · refine ⟨1, one_mem _, ?_⟩

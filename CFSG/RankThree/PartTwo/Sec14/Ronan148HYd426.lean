@@ -28,7 +28,7 @@ theorem mem_zpowers_of_mem_center {K : Subgroup G} {d : G} (hdK : d ∈ K)
   set θ := aschbacherSolvableCore 3 ↥K with hθ
   obtain ⟨-, hθc, hθ3, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := ↥K) Nat.prime_three
-  haveI : θ.Normal := by haveI := hθc; infer_instance
+  have : θ.Normal := by have := hθc; infer_instance
   set π := QuotientGroup.mk' θ with hπ
   set d' : ↥K := ⟨d, hdK⟩ with hd'
   set x' : ↥K := ⟨x, hxK⟩ with hx'
@@ -118,6 +118,7 @@ theorem mem_sectionCentralizer_of_le_sup {A Y K : Subgroup G} {b : G} (hbA : b �
   exact (Subgroup.mem_normalizer_iff.mp (hKn hl) _).mp (T.mul_mem hbt (T.inv_mem ht))
 
 
+omit [Finite G] in
 theorem inf_centralizer_le_of_eq_closure {B : Subgroup G} {b d : G}
     (hB : B = Subgroup.closure {b, d}) :
     Subgroup.centralizer ({b} : Set G) ⊓ Subgroup.centralizer ({d} : Set G) ≤

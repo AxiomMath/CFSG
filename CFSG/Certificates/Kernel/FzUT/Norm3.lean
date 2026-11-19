@@ -373,7 +373,7 @@ theorem mem_of_invOK {IV : Nat} (hIV : invOK IV = true) {v : Nat} (hv : v < 64)
   obtain ⟨a, ha, hav⟩ := (anyN_iff _ _).mp h
   exact ⟨a, ha, (beq_iff _ _).mp hav⟩
 
-theorem fix_codes (h : FzValidTriple t s l) {F : Nat} (hF : fixOK (gc t) F = true) {u : FzUT}
+theorem fix_codes (_h : FzValidTriple t s l) {F : Nat} (hF : fixOK (gc t) F = true) {u : FzUT}
     (hu : t u = u) : ∃ a < 16, fldN F 6 63 a = enc u := by
   rw [fixOK, allN_iff] at hF
   have h' := (bimp_iff _ _).mp (hF (enc u) (enc_lt u)) ((beq_iff _ _).mpr (by rw [evD_gc, hu]))
@@ -429,7 +429,7 @@ theorem lCheap_of_valid (h : FzValidTriple t s l) : lCheap (gc t) (gc l) = true 
     · exact absurd (enc_injective ((beq_iff _ _).mp hb)) hx
 
 theorem pow_cases (z : FzUT) (hz : z * z = 1) (i : Fin 4) : z ^ (i : ℕ) = 1 ∨ z ^ (i : ℕ) = z := by
-  fin_cases i <;> simp [pow_succ, hz, mul_assoc]
+  fin_cases i <;> simp [pow_succ, hz]
 
 theorem noX_of_elemab (h : FzValidTriple t s l) (he : ∀ x, t x = x → x * x = 1) :
     ∀ x₁, ¬ FzValidX t l x₁ := by

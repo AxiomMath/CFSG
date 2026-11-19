@@ -112,7 +112,7 @@ lemma frameT_injective {n : ℕ} {M : Type} [Field M] [Finite M]
   rw [frameT_val, frameT_val, Matrix.diagonal_apply_eq, Matrix.diagonal_apply_eq] at h'
   by_cases hij : i = j
   · exact hij
-  · rw [if_neg hij, if_pos rfl] at h'
+  · rw [ite_eq_right hij, ite_eq_left rfl] at h'
     exact absurd h' hc1
 
 private lemma frame_rank_conj {n : ℕ} {M : Type} [Field M]
@@ -136,7 +136,7 @@ private lemma frame_card_shift {n : ℕ} {M : Type} [Field M] [DecidableEq M]
     by_cases hji : j = i
     · subst hji
       simp
-    · rw [if_neg hji, sub_ne_zero]
+    · rw [ite_eq_right hji, sub_ne_zero]
       exact ⟨fun _ => hji, fun _ => Ne.symm hc1⟩
   calc
     Fintype.card {j : Fin n // (if j = i then c else 1) - c ≠ 0} =
@@ -155,7 +155,7 @@ private lemma frame_card_one {n : ℕ} {M : Type} [Field M] [DecidableEq M]
     by_cases hji : j = i
     · subst hji
       simp [hc1, sub_ne_zero]
-    · rw [if_neg hji, sub_self]
+    · rw [ite_eq_right hji, sub_self]
       simp [hji]
   rw [Fintype.card_congr (Equiv.subtypeEquivRight hpred), Fintype.card_subtype_eq]
 
@@ -276,9 +276,9 @@ lemma frame_conj_frameT {n : ℕ} {M : Type} [Field M] [Finite M]
   intro k
   by_cases hk : k = jC.1
   · subst hk
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact jC.2
-  · rw [if_neg hk]
+  · rw [ite_eq_right hk]
     by_contra hk1
     have hy : (⟨k, hk1⟩ : {j : Fin n // d j ≠ 1}) = j1 := huniq1 _
     have hkj : k = jC.1 := by

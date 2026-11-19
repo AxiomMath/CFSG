@@ -22,7 +22,7 @@ namespace CFSG.Sporadic.Th.Max3.AllConj
 
 open CFSG.Sporadic.Th.Native
 
-@[expose] def rowsFusionQ0 : Array V4 :=
+def rowsFusionQ0 : Array V4 :=
   fusionRows (abRows fusionWordQ0) (abRows (invWord fusionWordQ0)) (rowsQ 0)
 
 end CFSG.Sporadic.Th.Max3.AllConj

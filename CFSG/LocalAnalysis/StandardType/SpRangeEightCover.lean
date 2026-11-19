@@ -64,6 +64,7 @@ end Pullback
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ} {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem false_of_isSubnormal_range_inf_centralizer_eightCover
     (hn : n ≤ 4 ∨ (n = 5 ∧ 3 ∣ Nat.card F + 1)) (ψ : StatedSp n F →* G)
     (hψ : Function.Injective ψ) {D J : Subgroup G} (hD : D ≤ ψ.range) (hDc : Nat.card D = 9)

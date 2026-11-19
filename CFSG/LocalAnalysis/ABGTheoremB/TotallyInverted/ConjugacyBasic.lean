@@ -395,7 +395,6 @@ theorem xs_injective (hσ : σ.IsValid) : Function.Injective σ.xs := by
     | exact absurd h h12
     | exact absurd h.symm h12
     | exact absurd (by simpa using h) h2
-    | exact absurd (by simpa using h.symm) h2
     | exact absurd (by simpa using congrArg (· * σ.x₂⁻¹) h) h1
     | exact absurd (by simpa using (congrArg (· * σ.x₂⁻¹) h).symm) h1
 

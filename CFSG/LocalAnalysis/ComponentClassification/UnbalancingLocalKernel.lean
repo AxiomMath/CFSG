@@ -122,7 +122,7 @@ theorem corefree_quasisimple_small_quotient_action_kernel (hcore : pPrimeCore 2 
         rw [card_mul_index]
         exact orderOf_dvd_natCard _
       have hcop : Nat.Coprime (orderOf (QuotientGroup.mk' Q (d : K))) (Nat.card T) := by
-        obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp T.isPGroup'
+        obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp T.isPGroup
         rw [hn]
         exact Nat.Coprime.pow_right n (Nat.coprime_two_right.mpr (hm.of_dvd_nat h1))
       exact hcop.dvd_of_dvd_mul_left h2

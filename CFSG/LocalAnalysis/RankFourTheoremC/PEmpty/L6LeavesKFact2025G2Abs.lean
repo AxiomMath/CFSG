@@ -99,9 +99,9 @@ theorem isElemAbelian_omegaCenter (S : Subgroup G) : IsElemAbelian 2 (omegaCente
 
 theorem exists_orderOf_two_mem_omegaCenter [Finite G] {S : Subgroup G} (hS2 : IsPGroup 2 S)
     (hS1 : S ≠ ⊥) : ∃ x ∈ omegaCenter S, orderOf x = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).mpr hS1
-  haveI : Nontrivial (Subgroup.center S) := hS2.center_nontrivial
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial S := (Subgroup.nontrivial_iff_ne_bot S).mpr hS1
+  have : Nontrivial (Subgroup.center S) := hS2.center_nontrivial
   obtain ⟨c, hc⟩ := exists_ne (1 : Subgroup.center S)
   have hc' : (c : S) ≠ 1 := fun h => hc (Subtype.ext h)
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hS2) (c : S)
@@ -185,7 +185,7 @@ theorem card_omegaCenter_modEq {S : Subgroup G} {z : G} {p : ℕ} [Fact p.Prime]
     (hz : z ∈ normalizer (S : Set G)) (ha : NoCentralInvolution z) :
     Nat.card (omegaCenter S) ≡ 1 [MOD p] := by
   classical
-  haveI : Fintype (omegaCenter S) := Fintype.ofFinite _
+  have : Fintype (omegaCenter S) := Fintype.ofFinite _
   have hσ : (conjPerm hz) ^ p ^ 1 = 1 := by
     rw [pow_one]
     exact conjPerm_pow_eq_one hz hzp
@@ -213,7 +213,7 @@ theorem card_omegaCenter_eq_eight {S : Subgroup G} {z : G} {p : ℕ} (hp : p.Pri
     (hzp : z ^ p = 1) (hS2 : IsPGroup 2 S) (hS1 : S ≠ ⊥) (hz : z ∈ normalizer (S : Set G))
     (ha : NoCentralInvolution z) (hb : TwoRankLeThree G) :
     Nat.card (omegaCenter S) = 8 ∧ p = 7 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmod := card_omegaCenter_modEq hzp hz ha
   obtain ⟨n, hn⟩ := (isPGroup_two_of_isElemAbelian (isElemAbelian_omegaCenter S)).exists_card_eq
   have h8 : 2 ^ n ≤ 8 := hn ▸ hb _ (isElemAbelian_omegaCenter S)
@@ -223,7 +223,7 @@ theorem card_omegaCenter_eq_eight {S : Subgroup G} {z : G} {p : ℕ} (hp : p.Pri
     rw [this, orderOf_one] at hx2
     omega
   have hcard2 : 2 ≤ Nat.card (omegaCenter S) := by
-    haveI : Nontrivial (omegaCenter S) := ⟨⟨⟨x, hxT⟩, 1, hx1⟩⟩
+    have : Nontrivial (omegaCenter S) := ⟨⟨⟨x, hxT⟩, 1, hx1⟩⟩
     have : 1 < Nat.card (omegaCenter S) := Finite.one_lt_card
     omega
   rw [hn] at hcard2 hmod
@@ -248,6 +248,7 @@ theorem card_omegaCenter_eq_eight {S : Subgroup G} {z : G} {p : ℕ} (hp : p.Pri
     have h7 : p ∣ 7 := by simpa using this
     exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_seven).mp h7
 
+omit [Finite G] in
 theorem omegaCenter_eq {S : Subgroup G} (hc : SelfCentralizingEight G)
     (h8 : Nat.card (omegaCenter S) = 8) : omegaCenter S = S := by
   refine le_antisymm (omegaCenter_le S) fun s hs => ?_
@@ -259,6 +260,7 @@ section Index
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizer_eq {S : Subgroup G} (hc : SelfCentralizingEight G)
     (hSelem : IsElemAbelian 2 S) (hS8 : Nat.card S = 8) : centralizer (S : Set G) = S := by
   refine le_antisymm (fun g hg => ?_) (fun g hg => ?_)
@@ -267,10 +269,11 @@ theorem centralizer_eq {S : Subgroup G} (hc : SelfCentralizingEight G)
     intro h hh
     exact congrArg Subtype.val (hSelem.1.is_comm.comm (⟨h, hh⟩ : S) ⟨g, hg⟩)
 
+omit [Finite G] in
 theorem prime_dvd_card_range {S : Subgroup G} {z : G} {p : ℕ} (hp : p.Prime) (hzp : orderOf z = p)
     (hz : z ∈ normalizer (S : Set G)) (hzC : z ∉ centralizer (S : Set G)) :
     p ∣ Nat.card S.normalizerMonoidHom.range := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set M : ↥(normalizer (S : Set G)) := ⟨z, hz⟩ with hM
   have hne : S.normalizerMonoidHom M ≠ 1 := by
     intro h
@@ -291,7 +294,7 @@ theorem prime_dvd_card_range {S : Subgroup G} {z : G} {p : ℕ} (hp : p.Prime) (
 theorem two_dvd_card_range {S : Subgroup G} (hS8 : Nat.card S = 8) (hS2 : IsPGroup 2 S)
     (hCS : centralizer (S : Set G) = S) (hd : 16 ∣ Nat.card G) :
     2 ∣ Nat.card S.normalizerMonoidHom.range := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hSP⟩ := hS2.exists_le_sylow
   have hP16 : 2 ^ 4 ∣ Nat.card P := P.pow_dvd_card_of_pow_dvd_card (by simpa using hd)
   have hPgt : 8 < Nat.card (P : Subgroup G) := by
@@ -304,8 +307,8 @@ theorem two_dvd_card_range {S : Subgroup G} (hS8 : Nat.card S = 8) (hS2 : IsPGro
       exact this
     have := Subgroup.card_le_of_le hPS
     omega
-  haveI : Group.IsNilpotent (P : Subgroup G) := P.isPGroup'.isNilpotent
-  obtain ⟨n, hnN, hnS⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
+  have : Group.IsNilpotent (P : Subgroup G) := P.isPGroup.isNilpotent
+  obtain ⟨n, hnN, hnS⟩ := _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   have hnS' : (n : G) ∉ S := hnS
   have hnorm : ∀ s : G, s ∈ S ↔ (n : G) * s * (n : G)⁻¹ ∈ S := by
     intro s
@@ -328,7 +331,7 @@ theorem two_dvd_card_range {S : Subgroup G} (hS8 : Nat.card S = 8) (hS2 : IsPGro
     have hk : M ∈ S.normalizerMonoidHom.ker := h
     rw [Subgroup.normalizerMonoidHom_ker, Subgroup.mem_subgroupOf, hCS] at hk
     exact hnS' hk
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') n
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) n
   have hMo : orderOf M = 2 ^ k := by
     rw [← Subgroup.orderOf_coe M]
     show orderOf (n : G) = 2 ^ k
@@ -352,10 +355,10 @@ section Assemble
 
 theorem exists_not_comm_gl32 :
     ∃ a b : Matrix.GeneralLinearGroup (Fin 3) (ZMod 2), a * b ≠ b * a := by
-  haveI := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
+  have := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
   by_contra hcomm
   push Not at hcomm
-  letI : CommGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
+  let : CommGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
     { (inferInstance : Group (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2))) with
       mul_comm := hcomm }
   have hprime := CommGroup.is_simple_iff_prime_card.mp
@@ -370,7 +373,7 @@ theorem kxSection_of_facts {S : Subgroup G} {z : G} {p : ℕ} (hp : p.Prime) (hp
     (hzS : z ∈ normalizer (S : Set G)) (ha : NoCentralInvolution z) (hb : TwoRankLeThree G)
     (hc : SelfCentralizingEight G) (hd : 16 ∣ Nat.card G) :
     KxSection z (normalizer (S : Set G)) 3 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hz1 : z ^ p = 1 := hzp ▸ pow_orderOf_eq_one z
   obtain ⟨h8, hp7⟩ := card_omegaCenter_eq_eight hp hp5 hz1 hS2 hS1 hzS ha hb
   have hST : omegaCenter S = S := omegaCenter_eq hc h8
@@ -391,7 +394,7 @@ theorem kxSection_of_facts {S : Subgroup G} {z : G} {p : ℕ} (hp : p.Prime) (hp
     exact Nat.Coprime.mul_dvd_of_dvd_of_dvd (by norm_num : Nat.Coprime 2 7) h2 h7
   obtain ⟨θ, hθs, hθk⟩ :=
     CFSG.GF2Type.Aschbacher1976Full.HS.exists_GL32_of_dvd_14_index hSelem hS8 h14
-  haveI := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
+  have := CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
   have hsec := S622IsSimpleSection.of_surjective (A := G) (Y := normalizer (S : Set G)) θ hθs
     exists_not_comm_gl32
   have hker : θ.ker.map (normalizer (S : Set G)).subtype = S := by

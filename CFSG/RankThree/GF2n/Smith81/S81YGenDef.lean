@@ -94,6 +94,7 @@ variable [Finite G] {M Q Z B : Subgroup G} {K : Type} [Field K]
   {Γ : Subgroup (V ≃ₗ[K] V)} {p₀ : V} {U₀ : Subgroup (V ≃ₗ[K] V)}
   {IsRt : (V ≃ₗ[K] V) → Prop} {z : G}
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem phi_eq_of_mul_mem_Q_gen (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {x : G}
     {s : Lgen M (LB M Q B)} (hsx : (s : G) * x⁻¹ ∈ Q) :
     ∃ hxL : x ∈ Lgen M (LB M Q B), φ ⟨x, hxL⟩ = φ s := by
@@ -109,6 +110,7 @@ theorem phi_eq_of_mul_mem_Q_gen (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {
   rw [map_mul, map_inv, mul_inv_eq_one] at h
   exact h
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem GDat.acts_root (Dt : GDat M Q Z B K γ M₀ ψ φ Γ p₀ U₀ IsRt z) {y : G} (hyc : IsConj z y)
     (hyM : y ∈ M) (hyQ : y ∉ Q) : ∃ r, Acts φ y r ∧ IsRt r := by
   obtain ⟨s, hsq, hs⟩ := Dt.fe2 y hyc hyM hyQ

@@ -21,13 +21,13 @@ theorem isShapeCentralizerThree_of_data {G : Type} [Group G] [Finite G]
   let N' : Subgroup ↥Y := N.subgroupOf Y
   have hN'card : Nat.card ↥N' = Nat.card ↥N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNY).toEquiv
-  haveI : Nonempty ↥N := (OneMemClass.coe_nonempty N).to_subtype
+  have : Nonempty ↥N := (OneMemClass.coe_nonempty N).to_subtype
   have hposN : 0 < Nat.card ↥N := Nat.card_pos
   have hidx : N'.index = 2 := by
     have h := Subgroup.index_mul_card (H := N')
     rw [hN'card, hY] at h
     exact Nat.mul_right_cancel hposN h
-  haveI : N'.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : N'.Normal := Subgroup.normal_of_index_eq_two hidx
   obtain ⟨eN⟩ :=
     nonempty_mulEquiv_prod_of_central (X := N) (V := V) (S := A) hVN hAN hVcen hVA hN
   have hN'iso : Nonempty (↥N' ≃* Elem2 2 × alternatingGroup (Fin 5)) :=

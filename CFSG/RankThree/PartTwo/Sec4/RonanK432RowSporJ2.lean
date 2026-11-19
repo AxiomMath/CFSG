@@ -14,7 +14,7 @@ open CFSG CFSG.Blueprint
 theorem noCover3_j2 :
     NoCover3 NativeSporadic.J2 := by
   intro L _ _ hq hZ ⟨φ⟩
-  haveI : Group.IsPerfect L := hq.1
+  have : Group.IsPerfect L := hq.1
   set π : L →* NativeSporadic.J2 := φ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center L))
     with hπ
   have hsurj : Function.Surjective π := by
@@ -44,7 +44,7 @@ theorem listRow_j2 :
 theorem outerRow_j2 :
     OuterRow NativeSporadic.J2 := by
   apply outerRow_of_not_three_dvd_outer
-  haveI : Finite (NativeSporadic.Carrier .J2) := inferInstanceAs (Finite NativeSporadic.J2)
+  have : Finite (NativeSporadic.Carrier .J2) := inferInstanceAs (Finite NativeSporadic.J2)
   exact CFSG.Quasithin.A318P.not_dvd_outer_J2 (S := NativeSporadic.J2) (MulEquiv.refl _)
     Nat.prime_three (by norm_num)
 

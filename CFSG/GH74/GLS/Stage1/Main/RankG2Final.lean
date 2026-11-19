@@ -9,6 +9,6 @@ namespace CFSG.GH74.GLS.Stage1.Main
 
 theorem rankG2_thm
     : RankG2 :=
-  rankG2_of_elemTwo (fun K _ _ hK R hR _ _ => (CFSG.RankThree.PartOne.g2_elementary_two hK hR).1)
+  rankG2_of_elemTwo (fun _K _ _ hK _R hR _ _ => (CFSG.RankThree.PartOne.g2_elementary_two hK hR).1)
 
 end CFSG.GH74.GLS.Stage1.Main

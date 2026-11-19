@@ -7,7 +7,7 @@ public section
 namespace CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple
 
 theorem mem_of_pPow_eq_one_of_not_dvd_relIndex {G : Type*} [Group G] {I D : Subgroup G}
-    [I.Normal] {p : ℕ} (hp : p.Prime) (hID : I ≤ D) (h : ¬ p ∣ I.relIndex D) {w : G}
+    [I.Normal] {p : ℕ} (hp : p.Prime) (_hID : I ≤ D) (h : ¬ p ∣ I.relIndex D) {w : G}
     (hw : w ∈ D) {k : ℕ} (hk : w ^ (p ^ k) = 1) : w ∈ I := by
   have hN : (I.subgroupOf D).Normal := Subgroup.Normal.subgroupOf inferInstance D
   have hcard : Nat.card (D ⧸ I.subgroupOf D) = I.relIndex D := by
@@ -61,7 +61,7 @@ theorem exists_conj_pow_of_pElement {G : Type*} [Group G] [Finite G] {p : ℕ} [
     exact Subgroup.mul_mem _ huP (Subgroup.inv_mem _ hfi)
   have hd₁I : d₁ ∈ I := by
     refine hDI d₁ hd₁ ?_
-    obtain ⟨m, hm⟩ := Pf.isPGroup' ⟨d₁, hd₁P⟩
+    obtain ⟨m, hm⟩ := Pf.isPGroup ⟨d₁, hd₁P⟩
     exact ⟨m, by simpa using congrArg Subtype.val hm⟩
   obtain ⟨d₂, hd₂, j, hgj⟩ := hG g
   refine ⟨d₂, hd₂, i, ?_, g * d₁ * g⁻¹, ?_, ?_⟩

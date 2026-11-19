@@ -190,14 +190,14 @@ theorem typN_eq {v : ℕ} (hv : v < 2 ^ 24) : typN (xsSet ()) v = typV (toVecD 2
   · have h1 : toVecD 24 v ≠ 0 := fun h =>
       h0 (toVecD_injective hv (by norm_num) (by rw [h, toVecD_zero]))
     have h2 : (v == 0) = false := by simpa using h0
-    rw [h2, if_neg h1]
+    rw [h2, ite_eq_right h1]
     simp only [Bool.false_eq_true, ↓reduceIte]
     by_cases hm : v ∈ certVecs.toList
     · have h3 : (Std.HashSet.ofList certVecs.toList).contains v = true := contains_xs.2 hm
-      rw [if_pos h3, if_pos ((mem_certX_iff hv).2 hm)]
+      rw [ite_eq_left h3, ite_eq_left ((mem_certX_iff hv).2 hm)]
     · have h3 : ¬ (Std.HashSet.ofList certVecs.toList).contains v = true :=
         fun h => hm (contains_xs.1 h)
-      rw [if_neg h3, if_neg (fun h => hm ((mem_certX_iff hv).1 h))]
+      rw [ite_eq_right h3, ite_eq_right (fun h => hm ((mem_certX_iff hv).1 h))]
 
 theorem inv_mulVec_mulVec (g : GL24) (w : Vec24) :
     ((g⁻¹ : GL24) : Matrix (Fin 24) (Fin 24) (ZMod 2)) *ᵥ
@@ -221,11 +221,11 @@ theorem typV_mulVec {g : GL24} (hg : g ∈ GA) (w : Vec24) :
     · exact mulVec_mem_certX hg
   unfold typV
   by_cases hw : w = 0
-  · rw [if_pos hw, if_pos (h0.2 hw)]
-  · rw [if_neg hw, if_neg (fun h => hw (h0.1 h))]
+  · rw [ite_eq_left hw, ite_eq_left (h0.2 hw)]
+  · rw [ite_eq_right hw, ite_eq_right (fun h => hw (h0.1 h))]
     by_cases hx : w ∈ CFSG.Sporadic.Co1Block.certX
-    · rw [if_pos hx, if_pos (h1.2 hx)]
-    · rw [if_neg hx, if_neg (fun h => hx (h1.1 h))]
+    · rw [ite_eq_left hx, ite_eq_left (h1.2 hx)]
+    · rw [ite_eq_right hx, ite_eq_right (fun h => hx (h1.1 h))]
 
 end Types
 
@@ -257,10 +257,10 @@ theorem mem_candList (xs : Std.HashSet ℕ) (cs : Array (Array ℕ)) (base : Lis
 theorem getD_take_zero (base : List ℕ) (i j : ℕ) :
     (base.take i).getD j 0 = if j < i then base.getD j 0 else 0 := by
   by_cases h : j < i
-  · rw [if_pos h]
-    simp [List.getD_eq_getElem?_getD, List.getElem?_take, h]
-  · rw [if_neg h]
-    simp [List.getD_eq_getElem?_getD, List.getElem?_take, h]
+  · rw [ite_eq_left h]
+    simp [List.getD_eq_getElem?_getD, h]
+  · rw [ite_eq_right h]
+    simp [List.getD_eq_getElem?_getD, h]
 
 theorem mem_candList_of_mem_vCh (hHA : H ≤ GA)
     (hB : ∀ a v, B a *ᵥ toVecD 24 v = toVecD 24 (vecMulN 24 (cs.getD a #[]) v))
@@ -279,9 +279,9 @@ theorem mem_candList_of_mem_vCh (hHA : H ≤ GA)
     refine fN_fixed hB hM _ _ (fun s _ => ?_)
     rw [getD_take_zero]
     by_cases h : s.1 < i
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact fix_of_mem_vCh hg h
-    · rw [if_neg h, toVecD_zero, Matrix.mulVec_zero]
+    · rw [ite_eq_right h, toVecD_zero, Matrix.mulVec_zero]
   have hF' := fN_lt hlt (base.take i) c.2
   have h1 := combN_equiv hB hM c.1 hF hyu
   rw [typN_eq (combN_lt hlt c.1 hF' y), typN_eq (combN_lt hlt c.1 hF' u), h1]
@@ -453,17 +453,17 @@ theorem card_le_of_boundOK (hHA : H ≤ GA) {nb : ℕ} {β : ℕ → GL24}
   have hB : ∀ a v, B a *ᵥ toVecD 24 v = toVecD 24 (vecMulN 24 (cs.getD a #[]) v) := by
     intro a v
     by_cases ha : a < nb
-    · simp only [B, if_pos ha]
+    · simp only [B, ite_eq_left ha]
       exact hcs a ha v
-    · simp only [B, if_neg ha]
+    · simp only [B, ite_eq_right ha]
       rw [cs_getD_of_le hsz (by omega), toVecD_vecMulN_empty, Matrix.zero_mulVec]
   have hcB : ∀ g ∈ H, ∀ a, ((g : GL24) : Matrix (Fin 24) (Fin 24) (ZMod 2)) * B a =
       B a * ((g : GL24) : Matrix (Fin 24) (Fin 24) (ZMod 2)) := by
     intro g hg a
     by_cases ha : a < nb
-    · simp only [B, if_pos ha]
+    · simp only [B, ite_eq_left ha]
       rw [← Units.val_mul, ← Units.val_mul, hcomm g hg a ha]
-    · simp only [B, if_neg ha, Matrix.mul_zero, Matrix.zero_mul]
+    · simp only [B, ite_eq_right ha, Matrix.mul_zero, Matrix.zero_mul]
   have key := card_le_prod_of_orbit_bound (H := H) (base := base) (fun i => cnts.getD i 0)
     (fun i hi => le_trans (card_orbit_le_candList hHA hB hcl hcB i (hlev i hi).1 (conds.getD i []))
       (hlev i hi).2)
@@ -473,7 +473,7 @@ theorem card_le_of_boundOK (hHA : H ≤ GA) {nb : ℕ} {β : ℕ → GL24}
 
 theorem colsOf_getD {rs : List Native.Rows} {a : ℕ} (ha : a < rs.length) :
     (colsOf rs).getD a #[] = transposeRows 24 (rs.getD a (Native.one ())) := by
-  simp [colsOf, Array.getD, ha, List.getD_eq_getElem]
+  simp [colsOf, Array.getD, ha]
 
 theorem colsOf_getD_of_le {rs : List Native.Rows} {a : ℕ} (ha : rs.length ≤ a) :
     (colsOf rs).getD a #[] = #[] := by

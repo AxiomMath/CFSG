@@ -27,7 +27,7 @@ private theorem eq_top_of_isPGroup_quotient {H : Type*} [Group H] [Finite H] {S 
 theorem commutator_le_of_isCentralStep_of_isSylow
     {H S U N K : Subgroup G} {x : G}
     (hS : IsSylowTwoOf S H) (hUH : U ≤ H) (hU : IsElemAbelian 2 U)
-    (hN : IsNormalIn H U N) (hK : IsNormalIn H U K) (hNK : N ≤ K) (hKU : K ≤ U)
+    (hN : IsNormalIn H U N) (_hK : IsNormalIn H U K) (_hNK : N ≤ K) (hKU : K ≤ U)
     (hcent : IsCentralStep H N K)
     (hxK : ∀ h ∈ H, h * x * h⁻¹ * x⁻¹ ∈ K)
     (hxS : ∀ s ∈ S, s * x * s⁻¹ * x⁻¹ ∈ N) :
@@ -35,14 +35,14 @@ theorem commutator_le_of_isCentralStep_of_isSylow
   classical
   have hKN : K ≤ Subgroup.normalizer (N : Set G) :=
     (hKU.trans hUH).trans (D14.le_normalizer_of_isNormalIn (H := H) (U := U) hN)
-  letI : (N.subgroupOf K).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hKN
+  let : (N.subgroupOf K).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hKN
   have hxK' : ∀ h : H, (h : G) * x * (h : G)⁻¹ * x⁻¹ ∈ K := fun h => hxK h h.2
   let δ : H →* K ⧸ N.subgroupOf K :=
     MonoidHom.mk' (fun h : H => QuotientGroup.mk ⟨(h : G) * x * (h : G)⁻¹ * x⁻¹, hxK' h⟩) (by
       intro g h
       apply QuotientGroup.eq.mpr
       rw [Subgroup.mem_subgroupOf]
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       set a : G := ((g : G) * (h : G)) * x * ((g : G) * (h : G))⁻¹ * x⁻¹ with ha_def
       set b : G := (h : G) * x * (h : G)⁻¹ * x⁻¹ with hb_def
       set c : G := (g : G) * x * (g : G)⁻¹ * x⁻¹ with hc_def
@@ -86,6 +86,7 @@ theorem commutator_le_of_isCentralStep_of_isSylow
   rw [Subgroup.mem_subgroupOf] at this
   simpa using this
 
+omit [Finite G] in
 theorem _root_.CFSG.Quasithin.F112W.IsChiefSeriesBetween.trans
     {H U : Subgroup G} {M N P : Subgroup G} {a b : ℕ}
     (h₁ : F112W.IsChiefSeriesBetween H U M N a)
@@ -101,7 +102,7 @@ theorem _root_.CFSG.Quasithin.F112W.IsChiefSeriesBetween.trans
 theorem commutator_le_of_isChiefSeriesBetween_zero
     {H U S N Hi : Subgroup G} {x : G} {n : ℕ}
     (hS : IsSylowTwoOf S H) (hUH : U ≤ H) (hU : IsElemAbelian 2 U)
-    (hN : IsNormalIn H U N) (hHi : IsNormalIn H U Hi) (hNH : N ≤ Hi)
+    (_hN : IsNormalIn H U N) (hHi : IsNormalIn H U Hi) (hNH : N ≤ Hi)
     (hser : F112W.IsChiefSeriesBetween H U N Hi n) (hn : n = 0)
     (hxHi : ∀ h ∈ H, h * x * h⁻¹ * x⁻¹ ∈ Hi)
     (hxS : ∀ s ∈ S, s * x * s⁻¹ * x⁻¹ ∈ N) :
@@ -138,6 +139,7 @@ theorem isChiefSeriesBetween_zero_of_isCentralStep {H U N K : Subgroup G}
       exact hs.le (hc g hg x hx)
   rwa [hn] at hser
 
+omit [Finite G] in
 private theorem map_subgroupOf_conj_normalizer {Hi M : Subgroup G} {h : G}
     (hHi : h ∈ Subgroup.normalizer (Hi : Set G))
     (hM : h ∈ Subgroup.normalizer (M : Set G)) :
@@ -177,11 +179,11 @@ theorem exists_fixed_norm
     {Q : Type*} [CommGroup Q] {H : Type*} [Group H] [Finite H]
     (act : H →* MulAut Q) {S : Subgroup H} (hodd : ¬ 2 ∣ S.index)
     {v : Q} (hv2 : v * v = 1) (hvS : ∀ s ∈ S, act s v = v)
-    {N : Subgroup Q} [N.Normal] (hNinv : ∀ h : H, ∀ x ∈ N, act h x ∈ N)
+    {N : Subgroup Q} [N.Normal] (_hNinv : ∀ h : H, ∀ x ∈ N, act h x ∈ N)
     (hvN : ∀ h : H, act h v * v⁻¹ ∈ N) :
     ∃ y : Q, (∀ h : H, act h y = y) ∧ y * v⁻¹ ∈ N := by
   classical
-  haveI : Fintype (H ⧸ S) := Fintype.ofFinite _
+  have : Fintype (H ⧸ S) := Fintype.ofFinite _
   let F : (H ⧸ S) → Q := fun q =>
     Quotient.liftOn' q (fun h : H => act h v)
       (by
@@ -227,6 +229,7 @@ theorem exists_fixed_norm
   rw [hprod]
   exact Subgroup.prod_mem N (fun q _ => hterm q)
 
+omit [Finite G] in
 theorem conj_action_hom {Hi M H : Subgroup G}
     (hHiNorm : H ≤ Subgroup.normalizer (Hi : Set G))
     (hMNorm : H ≤ Subgroup.normalizer (M : Set G))
@@ -296,7 +299,7 @@ theorem mem_of_comm_mem_of_fixedPointFree {Y Lo L : Subgroup G} {d y : G}
     (hcomm : d * y * d⁻¹ * y⁻¹ ∈ L) :
     y ∈ L := by
   classical
-  letI : CommGroup ↥Y :=
+  let : CommGroup ↥Y :=
     { (inferInstance : Group ↥Y) with
       mul_comm := fun a b => Subtype.ext (hYab _ a.2 _ b.2) }
   set o := orderOf d with ho
@@ -367,7 +370,7 @@ theorem mem_of_comm_mem_of_fixedPointFree {Y Lo L : Subgroup G} {d y : G}
       exact hmemY
     simpa [w, wY] using hmem
   have hwLo : w ∈ Lo := by
-    apply hfpf w (by simpa [w] using wY.2)
+    apply hfpf w (by simp [w])
     have : d * w * d⁻¹ * w⁻¹ = 1 := by rw [hconj]; group
     rw [this]
     exact Lo.one_mem
@@ -380,7 +383,7 @@ theorem mem_of_comm_mem_of_fixedPointFree {Y Lo L : Subgroup G} {d y : G}
 theorem exists_fixed_mod_of_isSylow
     {H S U M N Hi : Subgroup G} {x : G}
     (hU : IsElemAbelian 2 U) (hUH : U ≤ H)
-    (hHiU : Hi ≤ U) (hMHi : M ≤ Hi) (hNHi : N ≤ Hi) (hMN : M ≤ N)
+    (hHiU : Hi ≤ U) (_hMHi : M ≤ Hi) (_hNHi : N ≤ Hi) (hMN : M ≤ N)
     (hHHi : H ≤ Subgroup.normalizer (Hi : Set G))
     (hHM : H ≤ Subgroup.normalizer (M : Set G))
     (hHN : H ≤ Subgroup.normalizer (N : Set G))
@@ -391,7 +394,7 @@ theorem exists_fixed_mod_of_isSylow
     ∃ y ∈ Hi, (∀ h ∈ H, h * y * h⁻¹ * y⁻¹ ∈ M) ∧ y * x⁻¹ ∈ N := by
   classical
   have hHiH : Hi ≤ H := hHiU.trans hUH
-  letI : CommGroup ↥Hi :=
+  let : CommGroup ↥Hi :=
     { (inferInstance : Group ↥Hi) with
       mul_comm := fun a b => Subtype.ext (by
         simpa using congrArg (Subtype.val)
@@ -462,7 +465,7 @@ theorem exists_fixed_mod_of_isSylow
       congr 1
     rw [hEq]
     exact Subgroup.mem_map.mpr ⟨⟨_, hmemHi⟩, Subgroup.mem_subgroupOf.mpr hmemN, rfl⟩
-  haveI : NQ.Normal := hNQnorm
+  have : NQ.Normal := hNQnorm
   obtain ⟨z, hzfix, hzN⟩ : ∃ z : Q, (∀ h : H, act h z = z) ∧ z * v⁻¹ ∈ NQ :=
     exists_fixed_norm act (S := S.subgroupOf H) hS.2.2 hv2 hvS hNQinv hvN
   obtain ⟨yHi, hyz⟩ := QuotientGroup.mk_surjective z
@@ -525,7 +528,7 @@ theorem exists_fixed_mod_of_isSylow
 theorem isChiefSeriesBetween_zero_of_gen_fixed
     {H S U Lo Hi X : Subgroup G}
     (hS : IsSylowTwoOf S H) (hU : IsElemAbelian 2 U) (hUH : U ≤ H)
-    (hHU : H ≤ Subgroup.normalizer (U : Set G))
+    (_hHU : H ≤ Subgroup.normalizer (U : Set G))
     (hLo : IsNormalIn H U Lo) (hHi : IsNormalIn H U Hi) (hLoHi : Lo ≤ Hi)
     (hfix : ∀ Lo' Hi' : Subgroup G, Lo ≤ Lo' → Hi' ≤ Hi → IsChiefStep H U Lo' Hi' →
       ¬ IsCentralStep H Lo' Hi' → ∀ x ∈ Hi',

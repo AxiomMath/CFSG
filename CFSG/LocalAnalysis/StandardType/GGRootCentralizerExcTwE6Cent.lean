@@ -37,7 +37,7 @@ theorem centTwoGen_stdRepC_zero [CharP K 2] (hf : 1 ≤ f) (hk : Nat.card k = 2 
   have hQ2 : IsPGroup 2 Qt := by
     obtain ⟨-, hT⟩ := even_E6_graph_highest_root_normalizer f hf k K hk hK σ hσ
     obtain ⟨S, hS⟩ := hT.2.2.2.2.2.2.2.2.2.1
-    refine S.isPGroup'.to_le ?_
+    refine S.isPGroup.to_le ?_
     rw [hS]
     intro x hx
     rw [mem_subgroupOf] at hx ⊢

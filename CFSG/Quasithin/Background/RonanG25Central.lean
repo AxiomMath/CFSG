@@ -2,7 +2,7 @@ module
 
 public import CFSG.Quasithin.Background.RonanG25Defs
 public import Mathlib.Algebra.Order.Ring.Star
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 
 public section
 
@@ -32,8 +32,8 @@ theorem exists_central_involution [Finite G] {A B : Subgroup G} (hAB : A ≤ B) 
     (h2 : ∀ y ∈ B, ∃ k : ℕ, y ^ 2 ^ k ∈ A) :
     ∃ z ∈ B, z ∉ A ∧ z ^ 2 ∈ A ∧ ∀ y ∈ B, y * z * y⁻¹ * z⁻¹ ∈ A := by
   classical
-  haveI := subgroupOf_normal hnorm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := subgroupOf_normal hnorm
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : IsPGroup 2 (↥B ⧸ A.subgroupOf B) := isPGroup_quotient_subgroupOf h2
   have hnt : Nontrivial (↥B ⧸ A.subgroupOf B) := by
     obtain ⟨b, hb, hbA⟩ : ∃ b ∈ B, b ∉ A := by
@@ -41,8 +41,8 @@ theorem exists_central_involution [Finite G] {A B : Subgroup G} (hAB : A ≤ B) 
       exact hne (le_antisymm hAB fun b hb => Classical.byContradiction fun hbA => h ⟨b, hb, hbA⟩)
     refine nontrivial_of_ne 1 (QuotientGroup.mk (⟨b, hb⟩ : ↥B)) fun h => hbA ?_
     exact Subgroup.mem_subgroupOf.mp ((QuotientGroup.eq_one_iff (⟨b, hb⟩ : ↥B)).mp h.symm)
-  haveI := hnt
-  haveI := hP.center_nontrivial
+  have := hnt
+  have := hP.center_nontrivial
   obtain ⟨x, hx⟩ := exists_ne (1 : Subgroup.center (↥B ⧸ A.subgroupOf B))
   have hx1 : (x : ↥B ⧸ A.subgroupOf B) ≠ 1 := fun h => hx (Subtype.ext h)
   obtain ⟨k, hk⟩ := hP.exists_orderOf_eq_pow (x : ↥B ⧸ A.subgroupOf B)
@@ -236,8 +236,8 @@ theorem chain_central_aux [Finite G] {B : Subgroup G} (hB : Inv X B) (n : ℕ) :
 theorem exists_chain_central [Finite G] {A B : Subgroup G} (hAB : A ≤ B) (hA : Inv X A)
     (hB : Inv X B) (hnorm : ∀ y ∈ B, ∀ z ∈ A, y * z * y⁻¹ ∈ A) (hcen : FactorCentral X A B)
     (h2 : ∀ y ∈ B, ∃ k : ℕ, y ^ 2 ^ k ∈ A) : ChainCounts F X ord A B 0 0 := by
-  haveI := subgroupOf_normal hnorm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := subgroupOf_normal hnorm
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card).mp (isPGroup_quotient_subgroupOf h2)
   have hsub : Nat.card (A.subgroupOf B) = Nat.card A :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAB).toEquiv

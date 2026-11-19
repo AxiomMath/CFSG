@@ -17,6 +17,7 @@ theorem uc22p22u_exists_isMaxTwoLocal {H : Subgroup G} (hH : IsTwoLocal H) :
   obtain ⟨N, hHN, hN⟩ := Finite.exists_le_maximal (p := IsTwoLocal) hH
   exact ⟨N, ⟨hN.1, fun K hK hNK => le_antisymm (hN.2 hK hNK) hNK⟩, hHN⟩
 
+omit [Finite G] in
 theorem uc22p22u_isTwoLocal_centralizer {v : G} (hv1 : v ≠ 1) (hv : v ^ 2 = 1) :
     IsTwoLocal (centralizer ({v} : Set G)) := by
   have hord : orderOf v = 2 := orderOf_eq_prime hv hv1
@@ -71,7 +72,7 @@ theorem uc22p22u_uniqueMax_of_calN (D : Data G) {L : Subgroup G} (hL : L ≤ D.M
   simp only [Set.mem_singleton_iff]
   constructor
   · rintro ⟨hN, hLN⟩
-    haveI := D.standing.simple
+    have := D.standing.simple
     have hNtop : N ≠ ⊤ :=
       CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab hN.1
     obtain ⟨N', hN', hNN'⟩ := (eq_top_or_exists_le_coatom N).resolve_left hNtop
@@ -159,6 +160,7 @@ theorem uc22p22u_hyp11_W (D : Data G) {V : Subgroup G} (hV : F11.Hyp11 D ⊥ V) 
   · exact absurd rfl h.1.1
   · exact ⟨h, hTI⟩
 
+omit [Finite G] in
 theorem uc22p22u_cTilde_bot (M V : Subgroup G) : F11.CTilde M ⊥ V = M ⊓ centralizer (V : Set G) := by
   ext m
   simp only [F11.CTilde, Subgroup.mem_iInf, Subgroup.mem_inf, mem_centralizer_iff]

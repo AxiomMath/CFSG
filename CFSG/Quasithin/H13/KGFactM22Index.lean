@@ -164,7 +164,7 @@ theorem exists_normalized_of_selfNormalizing {p : ℕ} [hp : Fact p.Prime] {H : 
   obtain ⟨hQcard, hndvd, hnmod⟩ := sylow_facts (G := ↥K) (q := q) (a := a) (m := m')
     (by rw [hKcard, hm]) hqm
   have hm'0 : m' ≠ 0 := fun h => hqm (h ▸ dvd_zero q)
-  obtain ⟨Q, hQ⟩ := exists_sylow_normalized (K := K) (P := (P : Subgroup ↥H)) P.isPGroup'
+  obtain ⟨Q, hQ⟩ := exists_sylow_normalized (K := K) (P := (P : Subgroup ↥H)) P.isPGroup
     (q := q) (hcount _ (Nat.mem_divisors.mpr ⟨hndvd, hm'0⟩) hnmod)
   refine ⟨((Q : Subgroup ↥K).map K.subtype).map H.subtype, ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective H.subtype_injective,

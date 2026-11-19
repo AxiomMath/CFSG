@@ -14,6 +14,7 @@ open CFSG.LocalAnalysis CFSG.LocalAnalysis.RankThreeUC CFSG.Quasithin
 
 variable {S : Type} [CommGroup S] [Finite S] {n : ℕ} {L A : Subgroup (MulAut S)}
 
+omit [Finite S] in
 theorem sup_invariant {U V : Subgroup S} {f : MulAut S} (hU : ∀ u ∈ U, f u ∈ U ⊔ V)
     (hV : ∀ v ∈ V, f v ∈ U ⊔ V) : ∀ s ∈ U ⊔ V, f s ∈ U ⊔ V := by
   intro s hs
@@ -30,7 +31,7 @@ theorem isIrrOn_of_offender (hS : ∀ s : S, s * s = 1) (hL : IsU4Group n L)
   obtain ⟨S₁, hS₁, hS₁0, hS₁top⟩ : ∃ W : Subgroup S, (∀ l ∈ L, ∀ w ∈ W, l w ∈ W) ∧ W ≠ ⊥ ∧
       W ≠ ⊤ := by
     unfold IsIrrOn at hne
-    push_neg at hne
+    push Not at hne
     exact hne
   have hn := one_le_of_isU4Group hL
   have hsimple := isSimpleGroup_of_isU4Group hL
@@ -65,7 +66,7 @@ theorem isIrrOn_of_offender (hS : ∀ s : S, s * s = 1) (hL : IsU4Group n L)
     · rintro ⟨w, hw, rfl⟩
       exact hS₁ l hl w hw
     · intro hs
-      exact ⟨(l⁻¹) s, hS₁ _ (L.inv_mem hl) s hs, by simp [MulAut.mul_apply]⟩
+      exact ⟨(l⁻¹) s, hS₁ _ (L.inv_mem hl) s hs, by simp⟩
   have img_one : img 1 = S₁ := img_of_mem 1 L.one_mem
   have hdecomp : ∀ x ∈ L ⊔ A, ∃ l ∈ L, ∃ a ∈ A, x = l * a :=
     fun x hx => exists_mul_of_mem_sup_of_normalizer hAN hx
@@ -78,7 +79,7 @@ theorem isIrrOn_of_offender (hS : ∀ s : S, s * s = 1) (hL : IsU4Group n L)
     rcases this with h | h
     · exact hS₁0 h
     · exact hS₁top h
-  · push_neg at hAL
+  · push Not at hAL
     obtain ⟨a₀, ha₀A, ha₀L⟩ := hAL
     have ha₀N : a₀ ∈ Subgroup.normalizer (L : Set (MulAut S)) := hAN ha₀A
     have hdich : ∀ a ∈ A, img a = S₁ ∨ img a = img a₀ := by
@@ -144,7 +145,7 @@ theorem isIrrOn_of_offender (hS : ∀ s : S, s * s = 1) (hL : IsU4Group n L)
           exact this.1))
     have hnt : ∃ l ∈ L, ∃ s ∈ S₁, l s ≠ s := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hL1 : ∀ l ∈ L, l = 1 := by
         intro l hl
         refine MulEquiv.ext fun s => ?_
@@ -156,7 +157,7 @@ theorem isIrrOn_of_offender (hS : ∀ s : S, s * s = 1) (hL : IsU4Group n L)
           simp [MulAut.mul_apply]
         rw [h1, hcon _ (conj_mem a₀ ha₀N l hl) w hw]
         rfl
-      haveI := hsimple.toNontrivial
+      have := hsimple.toNontrivial
       obtain ⟨l, hl⟩ := exists_ne (1 : ↥L)
       exact hl (Subtype.ext (hL1 l l.2))
     have hS₁card : 2 ^ (4 * n + 1) ≤ Nat.card S₁ :=
@@ -198,7 +199,7 @@ theorem isIrrOn_of_offender (hS : ∀ s : S, s * s = 1) (hL : IsU4Group n L)
       have hb1' : (b : MulAut S) ≠ 1 := fun h => hb1 (Subtype.ext h)
       have hnotfix : ∃ s ∈ S₁, (b : MulAut S) s ≠ s := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         apply hb1'
         have hinj := actOn_injective hL S₁ hS₁ hnt
         have : actOn S₁ hS₁ ⟨b, hbL⟩ = actOn S₁ hS₁ 1 := by

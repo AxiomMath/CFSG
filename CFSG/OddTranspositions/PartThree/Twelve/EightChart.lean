@@ -161,7 +161,7 @@ theorem exists_uChart (hC : HypothesisC D)
       e' (QuotientGroup.mk' R ⟨z, mem_Halpha_of_mem_commSet hC hα hz⟩) =
         kFactsSuProjTv hF 4 (vec z) 1 := by
     intro z hz
-    simp only [vec, dif_pos hz]
+    simp only [vec, dite_eq_left hz]
     exact Classical.choose_spec (hpre z hz)
   refine ⟨F, hField, hFinite, hChar, hF, ⟨{
     e := e

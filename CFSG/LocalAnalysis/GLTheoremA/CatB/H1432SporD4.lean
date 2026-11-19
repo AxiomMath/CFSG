@@ -41,7 +41,7 @@ theorem comp_data_of_typeC {P : TauCeti.CFSGIndex → Prop} {n : ℕ} (hP : Type
   have hZ : IsPGroup 3 ↥(Subgroup.center ↥J) :=
     CFSG.LocalAnalysis.GLTheoremB.MovingAround.SchurFacts.isPGroup_center_of_glaPPrimeCore_eq_bot
       Nat.prime_three hcore
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card.1 hZ)
   refine ⟨CFSG.HardMathSupport.Solomon.Coordinator.YS08.isComponentOf_of_glaPComponent' hO hJ,
     hcat, hidx, ⟨a, ha⟩, ?_⟩
@@ -106,7 +106,7 @@ theorem exists_z_no_large_comp
         9 ∣ (Subgroup.center ↥K).index → Subgroup.center ↥K = ⊥ →
         6 ≤ (Nat.card K).factorization 3 → False := by
   obtain ⟨x, y, z, g, hH, hy3, hgx, hgy, hgz, hrk⟩ := bNF_holds
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have hn : 0 < 4 := by norm_num
   have hz3 : z ^ 3 = 1 := hH.zp
   refine ⟨z, orderOf_z hH, hrk, ?_⟩
@@ -239,7 +239,7 @@ theorem no_large_comp_of_certificates
       9 ∣ (Subgroup.center J).index → Subgroup.center J = ⊥ →
       9 ≤ (Nat.card J).factorization 3 → False := by
   have hirr := Certificates.certificate136207
-  haveI : Finite Gmat := ThreeBNF.finite_Gmat
+  have : Finite Gmat := ThreeBNF.finite_Gmat
   have hcardG : Nat.card Gmat = CFSG.Open.monsterOrder := CFSG.YGroups.Y443.natCard_Gmat_eq_monsterOrder
   have hLQ : tbL ≤ Subgroup.normalizer (QQ : Set Gmat) := fun b hb =>
     mem_normalizer_of_conj (tbL_conj b hb)
@@ -331,7 +331,7 @@ theorem false_of_d4_B
     {s : NativeSporadic.B} (hs : orderOf s = 3) {J : Subgroup NativeSporadic.B}
     (hJ : GLAPComponent 3 (Subgroup.centralizer ({s} : Set NativeSporadic.B)) J)
     (hT : catalogIs (PSimple 3 J) (S8.isD4of 3)) : False := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have hG : Nat.card NativeSporadic.B = 4154781481226426191177580544000000 := by
     rw [card_nativeB, monsterBabyOrder_eq_numeral]
   have hO3 : OPrimeCoreTrivialAt 3 NativeSporadic.B := BThreeFi23.oPrimeCoreTrivialAt_B_three
@@ -397,10 +397,10 @@ theorem false_of_d4_gmat
     {J : Subgroup CFSG.Monster.Generated.Gmat}
     (hJ : GLAPComponent 3 (Subgroup.centralizer ({s} : Set CFSG.Monster.Generated.Gmat)) J)
     (hT : catalogIs (PSimple 3 J) (S8.isD4of 3)) : False := by
-  haveI : Finite Gmat := ThreeBNF.finite_Gmat
+  have : Finite Gmat := ThreeBNF.finite_Gmat
   by_cases hinv : InvertedByTwoA s
   · have hE := CFSG.Milestones.cl_lit_monster_existence_griess_conway
-    haveI : Finite MGriess := hE.1.1
+    have : Finite MGriess := hE.1.1
     let φ : Gmat ≃* MGriess :=
       (CFSG.YGroups.Y443.griessEquivGmat CFSG.YGroups.Y443.Gmat_eq_AutO_of_stroth).symm
     have hs' : orderOf (φ s) = 3 := by rwa [MulEquiv.orderOf_eq]
@@ -468,9 +468,9 @@ theorem cardRow_fi23_d4
     CardRow 4952179814400 .Fi23 := by
   have hc : Nat.card (NativeSporadic.Carrier .Fi23) = 4089470473293004800 :=
     CFSG.Sporadic.Fi23.card_Fi23
-  haveI : Finite (NativeSporadic.Carrier .Fi23) :=
+  have : Finite (NativeSporadic.Carrier .Fi23) :=
     Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  haveI : IsSimpleGroup (NativeSporadic.Carrier .Fi23) := CFSG.Sporadic.Fi23.isSimpleGroup_Fi23
+  have : IsSimpleGroup (NativeSporadic.Carrier .Fi23) := CFSG.Sporadic.Fi23.isSimpleGroup_Fi23
   refine cardRow_of_centShapeRk (s := .Fi23) hOut (hbr .Fi23).some
     (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))
     CFSG.LocalAnalysis.GLTheoremB.MovingAround.Inputs2711c.fi23CentShapeRk_native ?_

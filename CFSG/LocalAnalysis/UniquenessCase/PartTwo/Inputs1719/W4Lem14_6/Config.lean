@@ -73,7 +73,7 @@ theorem exists_involution_of_autSub {W : Type} [CommGroup W] [Finite W]
     simpa using h.symm
 
 theorem aParam_le_one_of_summand {W : Type} [CommGroup W] [Finite W]
-    (hW : ∀ w : W, w ^ 2 = 1) {Y L : Subgroup (MulAut W)} (hL : IsComponentOf L Y)
+    (hW : ∀ w : W, w ^ 2 = 1) {Y L : Subgroup (MulAut W)} (_hL : IsComponentOf L Y)
     (hsum : IsDirSumOver (CFSG.LocalAnalysis.UniquenessCase.PartTwo.conjSet L Y) commV)
     {I : Subgroup W} (hLI : commV L = I) (ha : E3.aParam (autSub Y I) ≤ 1) :
     E3.aParam Y ≤ 1 := by

@@ -174,7 +174,7 @@ theorem exists_sylow_ge_normal_pgroup {M : Type} [Group M] (N V : Subgroup M) [F
   have hV'n : V'.Normal := ⟨fun v hv x => by
     have := hVn x x.2 v hv
     exact this⟩
-  haveI : V'.Normal := hV'n
+  have : V'.Normal := hV'n
   have hV'S : V' ≤ (S : Subgroup N) := hV'p.le_sylow_of_normal S
   refine ⟨(S : Subgroup N).map N.subtype, Subgroup.map_subtype_le _, fun v hv => ?_,
     S.isPGroup.map _, ?_⟩

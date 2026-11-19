@@ -173,8 +173,8 @@ theorem phi3SelZ_supportA2_subset [IsAlgClosed Ω] {p q : ℕ} [Fact p.Prime] (h
 theorem phi3SelZ_notMem_zpowers [IsAlgClosed Ω] {p q : ℕ} [Fact p.Prime] {ζ : Ωˣ}
     (hζ : IsPrimitiveRoot ζ p) :
     phi3SelZ (Ω := Ω) p q ζ ∉ Subgroup.zpowers (phi3SelX (Ω := Ω) p q ζ) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
-  haveI : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : Fact (1 < p) := ⟨(Fact.out : p.Prime).one_lt⟩
   intro hmem
   obtain ⟨m, hm⟩ := Subgroup.mem_zpowers_iff.mp hmem
   have h1 : (fun i => ζ ^ (ExcTwE6.tw6SixZy p q i).val) =
@@ -205,7 +205,7 @@ theorem phi3SelZ_notMem_zpowers [IsAlgClosed Ω] {p q : ℕ} [Fact p.Prime] {ζ 
 
 theorem exists_second_point_of_A2A2 [IsAlgClosed Ω] {q₀ p q : ℕ} [Fact p.Prime]
     (hp5 : 5 < p) (hFr : ∀ c, Fr c = c ^ q₀)
-    (hq₀ : (q₀ : ZMod p) ^ 2 + (q₀ : ZMod p) + 1 = 0)
+    (_hq₀ : (q₀ : ZMod p) ^ 2 + (q₀ : ZMod p) + 1 = 0)
     (hq : (q : ZMod p) ^ 2 - (q : ZMod p) + 1 = 0)
     (hq' : (q₀ : ZMod p) = -(q : ZMod p))
     (hcount : Nat.card {z : Fin Tag.E6.rank → ZMod p //
@@ -219,11 +219,11 @@ theorem exists_second_point_of_A2A2 [IsAlgClosed Ω] {q₀ p q : ℕ} [Fact p.Pr
         torusRootKernel x ∧
       parabolicRoots Tag.E6 ExcTwE6.tw6SixSupportA2 ⊆
         torusRootKernel z := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hT0card : Nat.card (phi3Torsion (Ω := Ω) Fr p) = p ^ 3 :=
     card_phi3Torsion_of_charSpace hζ hFr hcount
   have hAle : A ≤ phi3Torsion (Ω := Ω) Fr p := fun x hx => ⟨hAT hx, hA.2 x hx⟩
-  haveI : Finite (phi3Torsion (Ω := Ω) Fr p) :=
+  have : Finite (phi3Torsion (Ω := Ω) Fr p) :=
     Nat.finite_of_card_ne_zero (by rw [hT0card]; positivity)
   have hAeq : A = phi3Torsion (Ω := Ω) Fr p :=
     Subgroup.eq_of_le_of_card_ge hAle (by rw [hT0card, hAcard])

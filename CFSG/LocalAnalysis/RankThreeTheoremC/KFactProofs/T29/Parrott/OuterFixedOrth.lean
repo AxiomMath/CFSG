@@ -62,6 +62,7 @@ section Fixed
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem two_ne_zero_subfield_of_ringChar (k : Subfield K) (h2 : ringChar K ≠ 2) : (2 : k) ≠ 0 := by
   intro h
   apply Ring.two_ne_zero h2
@@ -122,7 +123,7 @@ theorem exists_E9_fixed_fieldAutT_minus {n : ℕ} (hn1 : 1 ≤ n) (hn : 4 ≤ n)
 end Fixed
 
 theorem outerFixesE9_coordOdd {G : Type} [Group G] {n ℓ f : ℕ}
-    (h : StatedClassicalModel G .POmegaOdd n ℓ f) (hℓ3 : ℓ ≠ 3) (K : Type) [Field K] [Finite K]
+    (h : StatedClassicalModel G .POmegaOdd n ℓ f) (_hℓ3 : ℓ ≠ 3) (K : Type) [Field K] [Finite K]
     (hK : Nat.card K = ℓ ^ f) (e : G ≃* StatedProj (StatedOmega (StatedQuadOdd n K)))
     [Finite (matrixProjectiveDerived (coordinateQuadOdd n K))] :
     OuterFixesE9 (matrixProjectiveDerived (coordinateQuadOdd n K)) := by
@@ -153,7 +154,7 @@ theorem outerFixesE9_coordOdd {G : Type} [Group G] {n ℓ f : ℕ}
   exact exists_fixed_E9_of_congr Θ hcongr (exists_E9_fixed_fieldAutT_odd hn3 h2K g' hg'l hg'r)
 
 theorem outerFixesE9_coordMinus {G : Type} [Group G] {n ℓ f : ℕ}
-    (h : StatedClassicalModel G .POmegaMinus n ℓ f) (hℓ3 : ℓ ≠ 3) (K : Type) [Field K]
+    (h : StatedClassicalModel G .POmegaMinus n ℓ f) (_hℓ3 : ℓ ≠ 3) (K : Type) [Field K]
     [Finite K] (hK : Nat.card K = ℓ ^ f) (b c : K) (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     (e : G ≃* StatedProj (StatedOmega (StatedQuadMinus n K b c))) (hn : 1 ≤ n)
     [Finite (matrixProjectiveDerived (coordinateQuadMinus n K hn b c))] :

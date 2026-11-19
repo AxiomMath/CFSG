@@ -35,7 +35,7 @@ theorem noL34Layer_cocycle_q1 (hA2 : TriD4A2NoL34) {p f : ℕ} (hp : p.Prime) (h
     NoL34Layer (MulAut.conj g * fieldActor (t := TwistTag.D4) σ σ) := by
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
-  haveI := TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have := TriD4Aux.finite_graphFixedRootGroup_D4 σ
   obtain ⟨y, n, hn, hyn⟩ := d4MonoNF p f hp hp2 hp3 hf hq K hK σ hσ g hg
   refine noL34Layer_of_conj_eq y hyn ?_
   have hZ : Subgroup.center (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) = ⊥ :=
@@ -72,7 +72,7 @@ theorem noL34Layer_outer_q2 (hA2 : TriD4A2NoL34) {p f : ℕ} (hp : p.Prime) (hp5
     NoL34Layer φ := by
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
-  haveI := TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have := TriD4Aux.finite_graphFixedRootGroup_D4 σ
   have hZ : Subgroup.center (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) = ⊥ :=
     center_graphFixedRootGroup_eq_bot σ.surjective
   have hψ3 := d4_fieldActor_pow_three K hK σ hσ

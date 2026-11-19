@@ -21,6 +21,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMo
       (_ : ∀ v ∈ V0, f v = 0) (hfP : ∀ k, k ≠ j → ∀ v ∈ P k, f v = 0),
       t = S172A.GL.tv a f (hfP i hij a ha)}
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem comap_subtype_iSup {ι : Type*} {A : ι → Submodule (ZMod 2) V}
     (W : Submodule (ZMod 2) V) (hA : ∀ i, A i ≤ W) :
     (⨆ i, (A i).comap W.subtype) = (⨆ i, A i).comap W.subtype := by
@@ -29,6 +30,7 @@ private theorem comap_subtype_iSup {ι : Type*} {A : ι → Submodule (ZMod 2) V
   simp only [Submodule.map_comap_subtype]
   rw [iSup_congr (fun i => inf_of_le_right (hA i)), inf_of_le_right (iSup_le hA)]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem iSupIndep_comap_subtype {r : ℕ} {P : Fin r → Submodule (ZMod 2) V}
     (hindep : iSupIndep P) (W : Submodule (ZMod 2) V) (hW : W = ⨆ i, P i) :
     iSupIndep (fun i => (P i).comap W.subtype) := by
@@ -46,6 +48,7 @@ private theorem iSupIndep_comap_subtype {r : ℕ} {P : Fin r → Submodule (ZMod
   rw [iSup_subtype'] at hdisj
   exact Subtype.ext (by simpa using hdisj.le_bot ⟨hxi, hxj⟩)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem isInternal_comap_subtype {r : ℕ} {P : Fin r → Submodule (ZMod 2) V}
     (hindep : iSupIndep P) (W : Submodule (ZMod 2) V) (hW : W = ⨆ i, P i) :
     DirectSum.IsInternal (fun i => (P i).comap W.subtype) := by
@@ -64,6 +67,7 @@ private theorem commutator_mem {G : Type*} [Group G] (N : Subgroup G) {x y : G}
 private theorem zmod_two_eq_zero_or_one' (a : ZMod 2) : a = 0 ∨ a = 1 := by
   revert a; decide
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem glueHom_transvection {U Uc : Submodule (ZMod 2) V} (hc : IsCompl U Uc)
     (f : Module.Dual (ZMod 2) U) (d : U) (h : f d = 0) :
     glueHom hc (LinearEquiv.transvection h) =
@@ -84,25 +88,26 @@ private theorem glueHom_transvection {U Uc : Submodule (ZMod 2) V} (hc : IsCompl
     Submodule.coe_smul, zero_smul]
   abel
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem toLin'_transvection {r : ℕ} {U : Submodule (ZMod 2) V}
-    (bW : Basis (Σ i : Fin r, Fin 2) (ZMod 2) U) (a b : Σ i : Fin r, Fin 2)
+    (bW : Basis (Σ _i : Fin r, Fin 2) (ZMod 2) U) (a b : Σ _i : Fin r, Fin 2)
     (hab : a ≠ b) :
     LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) U
         (Matrix.GeneralLinearGroup.toLin' bW
           (Matrix.SpecialLinearGroup.toGL (Matrix.SpecialLinearGroup.transvection hab 1)))
       = LinearEquiv.transvection (f := bW.dualBasis b) (v := bW a)
-          (by rw [Basis.dualBasis_apply_self, if_neg hab]) := by
+          (by rw [Basis.dualBasis_apply_self, ite_eq_right hab]) := by
   change (Matrix.GeneralLinearGroup.toLin' bW
       (Matrix.SpecialLinearGroup.toGL
         (Matrix.SpecialLinearGroup.transvection hab 1))).toLinearEquiv
     = LinearEquiv.transvection (f := bW.dualBasis b) (v := bW a)
-        (by rw [Basis.dualBasis_apply_self, if_neg hab])
+        (by rw [Basis.dualBasis_apply_self, ite_eq_right hab])
   refine Basis.ext' (b := bW) (fun k => ?_)
   rw [Matrix.GeneralLinearGroup.toLin'_apply, Basis.repr_self,
     LinearEquiv.transvection.apply, Basis.dualBasis_apply_self]
   have hM : ((Matrix.SpecialLinearGroup.toGL (R := ZMod 2)
         (Matrix.SpecialLinearGroup.transvection hab (1 : ZMod 2))) :
-        Matrix (Σ i : Fin r, Fin 2) (Σ i : Fin r, Fin 2) (ZMod 2))
+        Matrix (Σ _i : Fin r, Fin 2) (Σ _i : Fin r, Fin 2) (ZMod 2))
       = 1 + Matrix.single a b 1 := by
     rw [Matrix.SpecialLinearGroup.coe_GL_coe_matrix,
       Matrix.SpecialLinearGroup.transvection_coe]
@@ -146,7 +151,7 @@ theorem lin_two_cross_transv_generate {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : �
   let H' : Subgroup (comSp g ≃ₗ[ZMod 2] comSp g) := H.comap (glueHom hc₀)
   let Elem (a b : Σ i : Fin r, Fin 2) (hab : a ≠ b) : comSp g ≃ₗ[ZMod 2] comSp g :=
     LinearEquiv.transvection (f := bW.dualBasis b) (v := bW a)
-      (by rw [Basis.dualBasis_apply_self, if_neg hab])
+      (by rw [Basis.dualBasis_apply_self, ite_eq_right hab])
   have hElem_mem : ∀ (a b : Σ i : Fin r, Fin 2) (hab : a ≠ b), a.1 ≠ b.1 →
       Elem a b hab ∈ H' := by
     intro a b hab habplane
@@ -181,7 +186,7 @@ theorem lin_two_cross_transv_generate {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : �
     intro a b hab habplane
     rw [Subgroup.mem_comap, htoLin a b hab]
     exact hElem_mem a b hab habplane
-  haveI : Nontrivial (Fin r) := Fin.nontrivial_iff_two_le.mpr hr
+  have : Nontrivial (Fin r) := Fin.nontrivial_iff_two_le.mpr hr
   have hNsame : ∀ (a b : Σ i : Fin r, Fin 2) (hab : a ≠ b), a.1 = b.1 →
       Matrix.SpecialLinearGroup.transvection hab 1 ∈ N := by
     intro a b hab hplane
@@ -209,7 +214,7 @@ theorem lin_two_cross_transv_generate {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : �
     · by_cases hp : i.1 = j.1
       · exact hNsame i j hij hp
       · exact hNcross i j hij hp
-  haveI : Nontrivial (Σ i : Fin r, Fin 2) :=
+  have : Nontrivial (Σ i : Fin r, Fin 2) :=
     ⟨⟨⟨0, by omega⟩, 0⟩, ⟨⟨1, by omega⟩, 0⟩, by
       intro h
       have h1 : (⟨0, by omega⟩ : Fin r) = ⟨1, by omega⟩ := congrArg Sigma.fst h
@@ -218,7 +223,7 @@ theorem lin_two_cross_transv_generate {E : Subgroup (V ≃ₗ[ZMod 2] V)} {r : �
     CFSG.ClassicalGroups.SpecialLinear.eq_top_of_forall_transvection_mem N hN
   have htoGL : (Matrix.SpecialLinearGroup.toGL (n := Σ i : Fin r, Fin 2)
       (R := ZMod 2)).range = ⊤ := by
-    haveI : Subsingleton (ZMod 2)ˣ :=
+    have : Subsingleton (ZMod 2)ˣ :=
       Fintype.card_le_one_iff_subsingleton.mp (by rw [ZMod.card_units 2])
     rw [Matrix.SpecialLinearGroup.range_toGL_eq_ker_det, eq_top_iff]
     intro A _

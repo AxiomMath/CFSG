@@ -103,7 +103,7 @@ theorem SG.exists_sl2_data (hσ : IsUnitaryInvolution σ) {ω : F} (hω : IsPrim
     (θ k / θ l).ker, ?_, ?_, fun g hg => ?_⟩
   · rw [(hp g₀).uw]
     exact if_congr (hinj i j) rfl rfl
-  · rw [herm_conj σ hσ.invol (u m) (w (![k, l] i)), (hp g₀).uw, if_neg (hne i), map_zero]
+  · rw [herm_conj σ hσ.invol (u m) (w (![k, l] i)), (hp g₀).uw, ite_eq_right (hne i), map_zero]
   · rw [Subgroup.index_ker]
     refine (Subgroup.card_le_of_le (K := rootsOfUnity 3 F) ?_).trans (card_rootsOfUnity F 3)
     rintro _ ⟨g, rfl⟩

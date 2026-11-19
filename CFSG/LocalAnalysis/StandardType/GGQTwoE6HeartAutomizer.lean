@@ -121,7 +121,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.AlgebraicGroup
 
 theorem four_dvd_aut_innerFullThreeTorus_of_weyl_mem
     {L : Type} [Field L] [IsAlgClosed L] {p : ℕ} (S : LangSetup Tag.E6 L p)
-    (hq : S.D.q = 2) (hAlg : S.IsAlgebraic)
+    (hq : S.D.q = 2) (_hAlg : S.IsAlgebraic)
     (hρ : ∀ γ, IsRoot Tag.E6 γ → S.ρ γ = -γ)
     {a : Fin Tag.E6.rank → Lˣ} (i : KernelComponent (rootCharHom a))
     {α β : Fin Tag.E6.rank → ℤ} (hα : IsRoot Tag.E6 α) (hβ : IsRoot Tag.E6 β)
@@ -135,7 +135,7 @@ theorem four_dvd_aut_innerFullThreeTorus_of_weyl_mem
       (rationalComponent S.ρ S.Γ (rootCharHom a) i)
       (fullThreeTorus S ⊓ S.Γ)) := by
   classical
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by rw [hq]; norm_num)
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by rw [hq]; norm_num)
   let nα := rootSL2 Tag.E6 L α WSL
   let nβ := rootSL2 Tag.E6 L β WSL
   let d := rootDiagUnit Tag.E6 (fun j => ζ ^ corootPair α (Pi.single j 1))
@@ -170,7 +170,7 @@ theorem corootTuple_mem_Γ_of_rho_neg
     (hq : S.D.q = 2) (hρ : ∀ γ, IsRoot Tag.E6 γ → S.ρ γ = -γ)
     {α : Fin Tag.E6.rank → ℤ} (hα : IsRoot Tag.E6 α) {ζ : Lˣ} (hζ3 : ζ ^ 3 = 1) :
     rootDiagUnit Tag.E6 (fun j => ζ ^ corootPair α (Pi.single j 1)) ∈ S.Γ := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by rw [hq]; norm_num)
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by rw [hq]; norm_num)
   let d := rootDiagUnit Tag.E6 (fun j => ζ ^ corootPair α (Pi.single j 1))
   let n := rootSL2 Tag.E6 L α WSL
   have hd : d ∈ fullThreeTorus S := corootTuple_mem_fullThreeTorus S
@@ -210,7 +210,7 @@ theorem four_dvd_aut_innerFullThreeTorus_of_quasisimple_component
     (hQ : CFSG.IsQuasisimple ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) :
     4 ∣ Nat.card (ggAutomizer (rationalComponent S.ρ S.Γ (rootCharHom a) i)
       (fullThreeTorus S ⊓ S.Γ)) := by
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by rw [hq]; norm_num)
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by rw [hq]; norm_num)
   have h3 := three_le_rank_of_quasisimple_component S (Or.inl rfl) hq hAlg hρ hT ha3 ha1 i hQ
   have hd3 : rootDiagUnit Tag.E6 a ^ 3 = 1 := by
     rw [rootDiagUnit_pow, show a ^ 3 = 1 from funext ha3, rootDiagUnit_one]

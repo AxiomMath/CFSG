@@ -45,7 +45,7 @@ theorem SemiFrame.exists_algHom_chi {P : Type} [CommGroup P] {ρ : P →* (V ≃
   have hint : IsIntegral F a := IsIntegral.of_finite F a
   let μ : Polynomial F := minpoly F a
   have hμirr : Irreducible μ := minpoly.irreducible hint
-  haveI : Fact (Irreducible μ) := ⟨hμirr⟩
+  have : Fact (Irreducible μ) := ⟨hμirr⟩
   have hb' : Polynomial.aeval b μ = 0 := hb
   let e₀ : AdjoinRoot μ →ₐ[F] fr.E j :=
     AdjoinRoot.liftAlgHom μ (Algebra.ofId F (fr.E j)) a

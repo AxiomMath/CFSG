@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 theorem y7n_inf_ne_bot {A M B : Subgroup G} (hA : SimpleSec A M) (hB : B ≤ A)
     (hcard : 168 < Nat.card ↥B) : B ⊓ M ≠ ⊥ := by
   intro hbot
-  haveI hN : (M.subgroupOf A).Normal :=
+  have hN : (M.subgroupOf A).Normal :=
     (Subgroup.normal_subgroupOf_iff hA.le).mpr fun h k hh hk => hA.normal k hk h hh
   let f : ↥B →* (↥A ⧸ M.subgroupOf A) :=
     (QuotientGroup.mk' (M.subgroupOf A)).comp (Subgroup.inclusion hB)

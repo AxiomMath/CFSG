@@ -57,7 +57,7 @@ theorem ntpA2_std
       ntpA2S_splitProjEquiv eP
     have hKcard : Nat.card (ntpA2S_fixedField Fr) = 2 ^ f :=
       ntpA2S_card_fixedField hf Fr hFr
-    haveI : Finite (ntpA2S_fixedField Fr) :=
+    have : Finite (ntpA2S_fixedField Fr) :=
       Nat.finite_of_card_ne_zero (by rw [hKcard]; positivity)
     let eQ : ↥Q ⧸ Subgroup.center ↥Q ≃*
         CFSG.Open.StatedProj (CFSG.Open.StatedSL 3 (ntpA2S_fixedField Fr)) :=
@@ -93,9 +93,9 @@ theorem ntpA2_std
       obtain ⟨hQqs, ⟨eQP⟩⟩ := ntpA2S_quasisimple_map ι hι P hPqs
       let eP : CFSG.Open.StatedSU 3 (2 ^ f) (ntpA2S_fixedField (Fr.comp Fr)) ≃* ↥P :=
         ntpA2S_unitaryFixedEquiv 3 f (by norm_num) hf Fr hFr
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hcardU := ntpA2S_card_fixedField_comp hf Fr hFr
-      haveI : Finite (ntpA2S_fixedField (Fr.comp Fr)) :=
+      have : Finite (ntpA2S_fixedField (Fr.comp Fr)) :=
         Nat.finite_of_card_ne_zero (by rw [hcardU]; positivity)
       have hqne : (3, 2 ^ f) ≠ (3, 2) := by
         intro h
@@ -139,18 +139,18 @@ theorem ntpA2_std
       have hcardU := ntpA2S_card_fixedField_comp hf Fr hFr
       have hcard4 : Nat.card (ntpA2S_fixedField (Fr.comp Fr)) = 4 := by
         simpa using hcardU
-      haveI : Finite (ntpA2S_fixedField (Fr.comp Fr)) :=
+      have : Finite (ntpA2S_fixedField (Fr.comp Fr)) :=
         Nat.finite_of_card_ne_zero (by rw [hcard4]; norm_num)
       have hSolvSU : Group.IsSolvable
           (CFSG.Open.StatedSU 3 (2 ^ 1) (ntpA2S_fixedField (Fr.comp Fr))) :=
         CFSG.Quasithin.isSolvable_statedSU_one hcardU
-      haveI : Group.IsSolvable
+      have : Group.IsSolvable
           (CFSG.Open.StatedSU 3 (2 ^ 1) (ntpA2S_fixedField (Fr.comp Fr))) := hSolvSU
       have eP : CFSG.Open.StatedSU 3 (2 ^ 1) (ntpA2S_fixedField (Fr.comp Fr)) ≃* ↥P :=
         ntpA2S_unitaryFixedEquiv 3 1 (by norm_num) (by norm_num) Fr (by simpa using hFr)
       have hSolvP : Group.IsSolvable ↥P :=
         Group.isSolvable_of_surjective (f := eP.toMonoidHom) eP.surjective
-      haveI : Group.IsSolvable ↥P := hSolvP
+      have : Group.IsSolvable ↥P := hSolvP
       let g : ↥P →* ↥Q :=
         { toFun := fun x => ⟨ι (x : SL(3, L)), Subgroup.mem_map_of_mem ι x.2⟩
           map_one' := by ext; simp
@@ -159,7 +159,7 @@ theorem ntpA2_std
         rintro ⟨q, hq⟩
         obtain ⟨p, hp, rfl⟩ := hq
         exact ⟨⟨p, hp⟩, rfl⟩
-      haveI : Group.IsSolvable ↥Q := Group.isSolvable_of_surjective hgsurj
+      have : Group.IsSolvable ↥Q := Group.isSolvable_of_surjective hgsurj
       let inc : ↥K →* ↥Q :=
         { toFun := fun k => ⟨(k : G), hKQ k.2⟩
           map_one' := by ext; simp
@@ -172,8 +172,8 @@ theorem ntpA2_std
         Group.isSolvable_of_isSolvable_injective (f := inc) hinc
       have hKqC : CFSG.IsQuasisimple ↥K :=
         (CFSG.Foundations.SteinbergCA.quasisimple_iff ↥K).2.2.1.mpr hKq
-      haveI : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hKqC
-      haveI : Group.IsPerfect ↥K := ⟨hKq.1⟩
+      have : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hKqC
+      have : Group.IsPerfect ↥K := ⟨hKq.1⟩
       exfalso
       exact Group.IsPerfect.not_isSolvable ↥K hSolvK
 

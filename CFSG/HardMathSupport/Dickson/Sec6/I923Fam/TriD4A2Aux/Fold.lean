@@ -13,7 +13,7 @@ namespace CFSG.HardMathSupport.Dickson.Sec6.I923.TriD4A2
 theorem isSimpleGroup_of_dichotomy {G : Type*} [Group G] (S : Subgroup G) (hS : S ≠ ⊥)
     (h : ∀ A : Subgroup G, A ≤ S → (∀ s ∈ S, ∀ a ∈ A, s * a * s⁻¹ ∈ A) → A = ⊥ ∨ A = S) :
     IsSimpleGroup ↥S := by
-  haveI : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).2 hS
+  have : Nontrivial ↥S := (Subgroup.nontrivial_iff_ne_bot S).2 hS
   refine ⟨fun N hN => ?_⟩
   have hle : N.map S.subtype ≤ S := Subgroup.map_subtype_le N
   have hcl : ∀ s ∈ S, ∀ a ∈ N.map S.subtype, s * a * s⁻¹ ∈ N.map S.subtype := by
@@ -56,7 +56,7 @@ theorem fold_residual_simple (hf : FoldData R φ) (hgen : (H ⊔ U) ⊔ R.N = �
   have hgen' := R'.restrict_gen (foldFix φ) inf_le_right hr₁ hr₂ inf_le_right hroot
     (fun x hx => hf.generation hgen hZ hz h1 h1H h2 h2H hx)
   have RG := R'.restrict (foldFix φ) inf_le_right hr₁ hr₂ inf_le_right hroot
-  haveI := RG.cartan_normal
+  have := RG.cartan_normal
   have hCG : ∀ t ∈ (H ⊓ foldFix φ).subgroupOf (foldFix φ),
       (∀ u ∈ (U ⊓ foldFix φ).subgroupOf (foldFix φ), t * u = u * t) → t = 1 := by
     intro t ht htc

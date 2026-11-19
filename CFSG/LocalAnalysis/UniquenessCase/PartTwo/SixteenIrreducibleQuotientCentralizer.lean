@@ -27,9 +27,9 @@ theorem centralizer_cube_eq_one_of_irreducible_quotient_rank_eight
   classical
   obtain ⟨Q, hQc, hQf, q, rho, hqsurj, hqker, hρinj, heq, hexp, hcardQ, hirrQ⟩ :=
     s16k_qm_quotMap (W := W) (H := H) hq hcomm hW
-  letI := hQc
-  letI := hQf
-  letI : Module (ZMod 2) (Additive Q) := CFSG.RankThree.FFModules.moduleOfSq hexp
+  let := hQc
+  let := hQf
+  let : Module (ZMod 2) (Additive Q) := CFSG.RankThree.FFModules.moduleOfSq hexp
   let e : MulAut Q ≃* LinearMap.GeneralLinearGroup (ZMod 2) (Additive Q) :=
     (CFSG.Quasithin.mulAutLin Q).trans
       (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) (Additive Q)).symm

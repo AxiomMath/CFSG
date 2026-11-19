@@ -224,7 +224,7 @@ theorem isPGroup_of_sq (hz2 : z * z = 1) {Q : Subgroup Y}
 theorem le_sylow_of_le_normalizer {Q : Subgroup Y} (hQ : IsPGroup 2 Q) (T : Sylow 2 Y)
     (hTQ : (T : Subgroup Y) ≤ Subgroup.normalizer (Q : Set Y)) : Q ≤ T := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hsup := IsPGroup.to_sup_of_normal_right' T.isPGroup' hQ hTQ
+  have hsup := IsPGroup.to_sup_of_normal_right' T.isPGroup hQ hTQ
   calc Q ≤ (T : Subgroup Y) ⊔ Q := le_sup_right
     _ = T := le_antisymm (T.maximal_isPGroup.le_of_ge hsup le_sup_left) le_sup_left
 

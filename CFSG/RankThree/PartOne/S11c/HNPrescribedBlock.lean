@@ -51,7 +51,7 @@ theorem sl2_data {T : Type*} [Group T] (Y : Subgroup T)
     show (g : Matrix (Fin 2) (Fin 2) (ZMod 5)) * !![-1, 0; 0, -1] =
       !![-1, 0; 0, -1] * (g : Matrix (Fin 2) (Fin 2) (ZMod 5))
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
   have hcenter : ∀ g : Matrix.SpecialLinearGroup (Fin 2) (ZMod 5),
       (∀ g', g * g' = g' * g) → g ^ 2 = 1 := by
     intro g hg

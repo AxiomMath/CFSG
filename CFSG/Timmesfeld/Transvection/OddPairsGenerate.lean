@@ -46,7 +46,7 @@ theorem closure_range_oddFrameMap_eq_top (htop : Ψ₀.range ⊔ θ.range = ⊤)
   have hΨ : Ψ₀.range ≤ S := by
     obtain ⟨w, T, hct⟩ := Unitary.exists_isCTGroupDatum hFn (2 * r) (by omega)
     have hall := CFSG.ClassicalInvolution.WeakCT.iSup_rankOne_eq_top_of_ct
-      (D := Unitary.rootDatum hFn (2 * r)) hct (if_pos (even_two_mul r))
+      (D := Unitary.rootDatum hFn (2 * r)) hct (ite_eq_left (even_two_mul r))
     rw [MonoidHom.range_eq_map, ← hall, Subgroup.map_iSup]
     refine iSup_le fun k => ?_
     by_cases hk : k = cLastIdx r hr

@@ -42,11 +42,11 @@ theorem foldMv_mem_foldMoves (M : Matrix (Fin n) (Fin n) ℤ) (a b : Fin n) {c :
     foldMv (rowsOf M) a b c x ∈ foldMoves M a b x := by
   by_cases hc0 : c = 0
   · have hb' : (reflL (rowsOf M) b x).length = n := by rw [length_reflL, hx]
-    simp only [foldMv, hc0, if_true]
+    simp only [foldMv, hc0, ite_true]
     rw [reflL_eq M a hb', reflL_eq M b hx]
     exact List.mem_cons_self
   · obtain ⟨hn, ha, hb⟩ := hc.resolve_left hc0
-    simp only [foldMv, hc0, if_false]
+    simp only [foldMv, hc0, ite_false]
     rw [reflL_eq M ⟨c - 1, hn⟩ hx]
     refine List.mem_cons_of_mem _ (List.mem_map.2 ⟨⟨c - 1, hn⟩, ?_, rfl⟩)
     simp only [List.mem_filter, List.mem_finRange, true_and, Bool.and_eq_true,
@@ -66,14 +66,14 @@ theorem mem_foldIter_of_foldCertB {M : Matrix (Fin n) (Fin n) ℤ} {rows : List 
     | zero =>
       intro k hk hd
       have := h k hk
-      simp only [foldAt, hd, Bool.and_eq_true, decide_eq_true_eq, if_true, beq_iff_eq] at this
+      simp only [foldAt, hd, Bool.and_eq_true, decide_eq_true_eq, ite_true, beq_iff_eq] at this
       obtain ⟨-, hi, he⟩ := this
       rw [he, unitL_eq ⟨_, hi⟩]
       exact unit_mem_foldIter M a b _
     | succ d ih =>
       intro k hk hd
       have := h k hk
-      simp only [foldAt, hd, Bool.and_eq_true, decide_eq_true_eq, Nat.add_one_ne_zero, if_false,
+      simp only [foldAt, hd, Bool.and_eq_true, decide_eq_true_eq, Nat.add_one_ne_zero, ite_false,
         beq_iff_eq, Nat.add_right_cancel_iff, Bool.or_eq_true, bne_iff_ne, ne_eq] at this
       obtain ⟨-, ⟨⟨hpd, hp⟩, hm⟩, he⟩ := this
       have hpl : (R.getD (F.getD k (0, 0, 0)).2.1 []).length = n := by

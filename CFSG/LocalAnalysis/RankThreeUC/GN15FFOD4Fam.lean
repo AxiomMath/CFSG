@@ -522,7 +522,7 @@ private lemma isInv_inf {U V : Submodule (ZMod 2) W} (hU : IsInv ρ L U) (hV : I
 private lemma famSum_eq_sSup (Ψ : Set (Subgroup (L ⧸ Subgroup.center L))) :
     famSum ρ L Ψ = sSup {S : Submodule (ZMod 2) W | IsSimpleL ρ L S ∧ famBar ρ L S = Ψ} := by
   rw [famSum, sSup_eq_iSup]
-  simp only [Set.mem_setOf_eq, iSup_and]
+  simp only [Set.mem_ofPred_eq, iSup_and]
 
 private lemma isInv_famSum (Ψ : Set (Subgroup (L ⧸ Subgroup.center L))) :
     IsInv ρ L (famSum ρ L Ψ) := by

@@ -32,7 +32,7 @@ universe u
 /-- Fact 1.2: if `H` is solvable, then `C_H(F(H)) ≤ F(H)`, written with the
 ambient centralizer. -/
 public theorem fact_1_2_centralizer_fitting_le_fitting
-    {G : Type u} [Group G] [Finite G] (H : Subgroup G) (hsolv : IsSolvable (↥H)) :
+    {G : Type u} [Group G] [Finite G] (H : Subgroup G) (hsolv : Group.IsSolvable (↥H)) :
     H ⊓ Subgroup.centralizer (fittingSubgroupOf (G := G) H : Set G) ≤
       fittingSubgroupOf (G := G) H := by
   intro c hc

@@ -36,11 +36,12 @@ theorem s16c1_G47_a_mem_eTwo (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAb
   rw [← hba]
   exact s16c1_G47_le_hConjClosure x.val _ hbC
 
+omit [Finite G] in
 theorem s16c1_G47_exists_action {H E : Subgroup G} (hHE : H ≤ normalizer (E : Set G))
     (hQ : E ≤ centralizer (pCoreOf 2 H : Set G)) :
     ∃ ρ : Bar2 H →* MulAut ↥E, ∀ (h : ↥H) (e : ↥E),
       ((ρ (QuotientGroup.mk' (CFSG.pCore 2 ↥H) h) e : ↥E) : G) = (h : G) * (e : G) * (h : G)⁻¹ := by
-  haveI : Subgroup.Normalizes H E := ⟨hHE⟩
+  have : Subgroup.Normalizes H E := ⟨hHE⟩
   let ρH : ↥H →* MulAut ↥E := MulDistribMulAction.toMulAut ↥H ↥E
   have hker : CFSG.pCore 2 ↥H ≤ ρH.ker := by
     intro q hq
@@ -139,7 +140,7 @@ theorem s16c1_G47_false_odd (D : Data G) (hkit : OmegaKit) (hkitB : OmegaKitB)
       Subgroup.mem_map.2 ⟨w, Subgroup.mem_subgroupOf.2 (Subgroup.mem_inf.2 ⟨w.2, hwM⟩), rfl⟩
     exact hSt.conj_B _ hB v hv
   have hα : ∃ v ∈ starImg (centralizer ({x.val} : Set G)) V, ρ v ≠ 1 := by
-    obtain ⟨w, hwV, e, heE, hne⟩ := s16c1_G47_alpha (L := L) D haE hCa hch
+    obtain ⟨w, hwV, e, heE, hne⟩ := s16c1_G47_alpha (_L := L) D haE hCa hch
     refine ⟨QuotientGroup.mk' (CFSG.pCore 2 ↥(centralizer ({x.val} : Set G))) ⟨w, hVH hwV⟩,
       Subgroup.mem_map.2 ⟨⟨w, hVH hwV⟩, Subgroup.mem_subgroupOf.2 hwV, rfl⟩, fun h1 => hne ?_⟩
     have h2 := congrArg

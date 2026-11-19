@@ -50,7 +50,7 @@ theorem sec32b_mem_smul_sylow {P : Sylow 2 G} {k z : G} :
 theorem sec32b_exists_fixed [Finite G] {K H : Subgroup G} (hK : IsPGroup 2 K)
     (hH : IsPGroup 2 H) (hKH : K ≤ normalizer (H : Set G)) (hne : H ≠ ⊥) :
     ∃ t ∈ H, t ≠ 1 ∧ ∀ k ∈ K, k * t = t * k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set L := K ⊔ H with hL
   have hLp : IsPGroup 2 L := hK.to_sup_of_normal_right' hH hKH
   have hHL : H ≤ L := le_sup_right
@@ -240,7 +240,7 @@ theorem sec32b_core [Finite G] {A Ab L Lb M Y N N₀ : Subgroup G}
     (hYN : ∀ y ∈ Y, y ∈ normalizer (N : Set G)) (hNel : IsElemAbelian 2 N)
     (hN₀Y : N₀ ≤ Y) (hN₀p : IsPGroup 2 N₀) (hYN₀ : Y ≤ normalizer (N₀ : Set G))
     (hLN₀ : L ≤ N₀) : N₀ ≤ normalizer (A : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN₀n : ∀ y ∈ Y, ∀ n ∈ N₀, y * n * y⁻¹ ∈ N₀ := fun y hy n hn =>
     (Subgroup.mem_normalizer_iff.mp (hYN₀ hy) n).mp hn
   intro n hn
@@ -296,13 +296,13 @@ theorem sec32b_core [Finite G] {A Ab L Lb M Y N N₀ : Subgroup G}
   have hA'el : IsElemAbelian 2 (conjSubgroup c A) := isElemAbelian_conj S.elem c
   have hA'P : conjSubgroup c A ≤ (P : Subgroup G) := by
     have hsup : IsPGroup 2 ↥((P : Subgroup G) ⊔ conjSubgroup c A) :=
-      P.isPGroup'.to_sup_of_normal_right' (sec32b_isPGroup hA'el) hPN
+      P.isPGroup.to_sup_of_normal_right' (sec32b_isPGroup hA'el) hPN
     exact le_sup_right.trans (P.maximal_isPGroup.le_of_ge hsup le_sup_left)
   obtain ⟨g₀, hg₀⟩ := S.conj
   have hAbA' : ∀ b ∈ Ab, ∀ z ∈ conjSubgroup c A, b * z = z * b := by
     have hP2 : IsPGroup 2 ↥(conjSubgroup g₀ A ⊔ conjSubgroup c A) := by
       rw [← hg₀]
-      exact P.isPGroup'.to_le (sup_le hAbP hA'P)
+      exact P.isPGroup.to_le (sup_le hAbP hA'P)
     have hnb' : normalizerIn (conjSubgroup g₀ A) (conjSubgroup c A) ≠ ⊥ := by
       rw [← hg₀]
       intro hbot
@@ -375,7 +375,7 @@ theorem sec32b_le_normalizer [Finite G] {A Ab L Lb M Y N : Subgroup G}
     (hYN : ∀ y ∈ Y, y ∈ normalizer (N : Set G)) (hNel : IsElemAbelian 2 N) :
     (pCore 2 ↥Y).map Y.subtype ≤ normalizer (A : Set G) := by
   have hNN₀ : N ≤ (pCore 2 ↥Y).map Y.subtype := by
-    haveI : (N.subgroupOf Y).Normal :=
+    have : (N.subgroupOf Y).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hNY).mpr fun y hy => hYN y hy
     have hp : IsPGroup 2 (N.subgroupOf Y) :=
       (sec32b_isPGroup hNel).comap_of_injective Y.subtype Subtype.val_injective

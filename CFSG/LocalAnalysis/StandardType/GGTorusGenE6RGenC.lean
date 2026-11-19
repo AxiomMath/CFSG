@@ -24,8 +24,8 @@ theorem tspec_conj_coroot
     {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K] (hK : Nat.card K = (2 ^ n) ^ 2)
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n) {Ω : Type} [Field Ω] [Algebra K Ω]
     [IsAlgClosure K Ω] (Fr : Ω →+* Ω) (hFr : ∀ c, Fr c = c ^ 2 ^ n)
-    (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang Fr g) {ζ : Ωˣ}
-    (hζ : ζ ^ 3 = 1) (hζo : orderOf ζ = 3)
+    (_h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (_hL : IsLang Fr g) {ζ : Ωˣ}
+    (hζ : ζ ^ 3 = 1) (_hζo : orderOf ζ = 3)
     {D : FrameData ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)}
     (hD : TSpec hn hK σ hσ Fr hFr g hζ D)
     (i : Fin 6) (δ : Fin Tag.E6.rank → ℤ) (s : Ωˣ)

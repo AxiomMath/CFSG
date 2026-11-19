@@ -301,7 +301,7 @@ theorem symplectic_plane_kernel_line_decomposition {ℓ p : ℕ} [Finite K] (h�
       rw [← Nat.card_eq_fintype_card, hΓ, Nat.cast_pow]
       exact pow_ne_zero 2 hpL
     have : NeZero (p : K) := ⟨hpK⟩
-    obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) p
+    obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) p
     obtain ⟨hfrob, hneg, hcl, hsum, hlines⟩ :=
       sp_bcRep_charSpace_facts hℓ hp hpℓ hexp hΓ (AlgebraicClosure K) hζ₀
     have hS : AddSubgroup.closure {χ : Additive Ahat →+ ZMod p | χ ≠ 0 ∧

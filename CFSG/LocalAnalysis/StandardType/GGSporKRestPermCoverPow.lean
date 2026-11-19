@@ -15,7 +15,7 @@ theorem sporKRest_cover_of_permModelPow {K : Type} [Group K] [Finite K] {n : ℕ
     (hab : Subgroup.closure ({a, b} : Set K) = ⊤) {p : ℕ} (hp : p.Prime) (sylowOrder : ℕ)
     (hord : sylowOrder = p ^ (Nat.card K).factorization p) (d : PermCover.Data)
     (hcheck : PermCover.checkPow p (φ a) (φ b) sylowOrder d = true) : SporKRestCover p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hspec := PermCover.checkPow_sound hcheck
   unfold PermCover.specPow at hspec
   obtain ⟨h1, h2, h3, h4, h5, h6⟩ := hspec
@@ -152,7 +152,7 @@ theorem sporKRest_cover_of_permCheckPow {n : ℕ} (a b : Perm (Fin n))
   · apply Subgroup.map_injective (Subgroup.subtype_injective Kn)
     rw [MonoidHom.map_closure, Subgroup.map_top, Subgroup.subtype_range]
     have hset : Kn.subtype '' ({⟨a, ha⟩, ⟨b, hb⟩} : Set ↥Kn) = {a, b} := by
-      simpa using Set.image_pair Kn.subtype (⟨a, ha⟩ : ↥Kn) (⟨b, hb⟩ : ↥Kn)
+      simp
     rw [hset, hKn]
   · exact hcheck
 

@@ -84,8 +84,8 @@ theorem K7bOmega8Clause.map_mk {Y : Type*} [Group Y] {N : Subgroup Y} [N.Normal]
     rw [← map_mul, ← map_mul, hyA a haA]
   · exact orderOf_mk_eq_prime_of_sq_eq_one hN2 hp hp2 hyord
   · intro X' hX'A hX'card
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : Finite X' := (Nat.card_ne_zero.mp (by rw [hX'card]; norm_num)).2
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Finite X' := (Nat.card_ne_zero.mp (by rw [hX'card]; norm_num)).2
     obtain ⟨x', hx'ord⟩ := exists_prime_orderOf_dvd_card' (G := X') 3 (by rw [hX'card])
     have hx'ordq : orderOf (x' : Y ⧸ N) = 3 := by
       simpa using (Subgroup.orderOf_coe x').trans hx'ord
@@ -152,19 +152,19 @@ theorem k7b_pomega8m_of_model
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hY.2.2.2.2
   simp only [StatedClassicalModel] at hSCM
   obtain ⟨-, K, hK, hKfin, hKcard, b, c, hirr, ⟨e⟩⟩ := hSCM
-  letI : Field K := hK
-  letI : Finite K := hKfin
+  let : Field K := hK
+  let : Finite K := hKfin
   let ι := Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2
   let H : Subgroup (GL ι K) := StatedOmega (StatedQuadMinus 4 K b c)
   let N : Subgroup H := (StatedScalars ι K).subgroupOf H
-  haveI : N.Normal := inferInstance
+  have : N.Normal := inferInstance
   obtain ⟨A₀, hA₀ea, hA₀card, hA₀clause⟩ := hM K b c hKcard hirr
   let Q : (ι → K) → K := StatedQuadMinus 4 K b c
   have hQ : ∀ (d : K) (v : ι → K), Q (d • v) = d ^ 2 * Q v :=
     fun d v => (quadMinusForm 4 K b c hirr).Q_smul d v
   let v₀ : ι → K := Pi.single (Sum.inr (Sum.inr 0)) 1
   have hv₀ : Q v₀ ≠ 0 := by
-    simp [Q, v₀, ι, StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, Pi.single_apply]
+    simp [Q, v₀, ι, StatedQuadMinus]
   have hN2 : ∀ n ∈ N, n ^ 2 = 1 := by
     intro n hn
     have hs : ((n : H) : GL ι K) ∈ StatedScalars ι K := Subgroup.mem_subgroupOf.mp hn
@@ -175,7 +175,7 @@ theorem k7b_pomega8m_of_model
     CFSG.HardMathSupport.Malle.E27Lie.not_three_dvd_card_scalars_statedOmega hQ hv₀
   have hA₀proj : K7bOmega8Clause (A₀.map (QuotientGroup.mk' N)) p :=
     K7bOmega8Clause.map_mk hN2 hp hp2 (fun a ha => hA₀ea.2 a ha) hA₀clause
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let ψ : StatedProj H →* Y := e0.symm.toMonoidHom.comp e.symm.toMonoidHom
   have hψ : Function.Injective ψ := e0.symm.injective.comp e.symm.injective
   let B : Subgroup Y := (A₀.map (QuotientGroup.mk' N)).map ψ

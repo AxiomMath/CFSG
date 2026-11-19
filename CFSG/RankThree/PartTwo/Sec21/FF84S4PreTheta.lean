@@ -75,7 +75,7 @@ theorem pair_conj {x y : A8} (hx3 : x ^ 3 = 1) (hy3 : y ^ 3 = 1) (hc : x * y = y
     · intro s hs u hu
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hs hu
       rcases hs with h | h <;> rcases hu with h' | h' <;> rw [h, h'] <;>
-        first | rfl | exact hc | exact hc.symm
+        first | exact hc | exact hc.symm
   obtain ⟨g, hg⟩ := exists_conj_into_P0 hP
   have hxP : g * x * g⁻¹ ∈ a8P0 := hg x (Subgroup.subset_closure (by simp))
   have hyP : g * y * g⁻¹ ∈ a8P0 := hg y (Subgroup.subset_closure (by simp))

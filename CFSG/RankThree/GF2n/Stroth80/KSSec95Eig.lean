@@ -25,7 +25,7 @@ theorem iSup_eigenspace_eq_top_of_pow_card {K V : Type*} [Field K] [Fintype K] [
         Finset.iSup_insert]
       · congr 1
         ext v
-        simp [Module.End.mem_eigenspace_iff, sub_eq_zero]
+        simp [sub_eq_zero]
       · refine IsCoprime.prod_right fun c hc => ?_
         have hac : a ≠ c := fun h => ha (h ▸ hc)
         exact isCoprime_X_sub_C_of_isUnit_sub (sub_ne_zero.2 hac).isUnit
@@ -52,7 +52,7 @@ theorem iSupIndep_and_iSup_eq_of_ringHom {K V : Type*} [Field K] [Finite K] [Add
   set Y : (K ≃+* K) → Submodule K V := fun σ => W ⊓ ⨅ a, (κ a).eigenspace (σ a) with hYdef
   have hmemY : ∀ σ y, y ∈ Y σ ↔ y ∈ W ∧ ∀ a, κ a y = σ a • y := by
     intro σ y
-    simp [Y, Submodule.mem_iInf, Module.End.mem_eigenspace_iff]
+    simp [Y, Submodule.mem_iInf]
   obtain ⟨g, hg⟩ := IsCyclic.exists_monoid_generator (α := Kˣ)
   set α : K := (g : K) with hαdef
   have hpowα : ∀ a : K, a ≠ 0 → ∃ n : ℕ, α ^ n = a := by
@@ -78,7 +78,7 @@ theorem iSupIndep_and_iSup_eq_of_ringHom {K V : Type*} [Field K] [Finite K] [Add
     | zero => intro v; rfl
     | succ n ih =>
       intro v
-      rw [pow_succ', Module.End.mul_apply, LinearMap.restrict_coe_apply, ih, pow_succ',
+      rw [pow_succ', Module.End.mul_apply, _root_.LinearMap.coe_restrict_apply, ih, pow_succ',
         Module.End.mul_apply]
   have hA'pow : A' ^ Fintype.card K = A' := by
     ext v
@@ -102,7 +102,7 @@ theorem iSupIndep_and_iSup_eq_of_ringHom {K V : Type*} [Field K] [Finite K] [Add
       · subst ha
         simp [s, hzero _ v.2]
       · have hn := Classical.choose_spec (hpowα a ha)
-        simp only [s, dif_neg ha]
+        simp only [s, dite_eq_right ha]
         conv_lhs => rw [← hn]
         rw [hApow _ _ v.2]
         exact hpowv _ (heig v hv) _

@@ -12,7 +12,7 @@ namespace CFSG.StandardType
 
 open CFSG CFSG.Assembly
 
-@[expose] def KGRawFieldCyclic : LargeEvenRawCont := fun R _ _ F => IsCyclic (Subgroup.closure F)
+@[expose] def KGRawFieldCyclic : LargeEvenRawCont := fun _R _ _ F => IsCyclic (Subgroup.closure F)
 
 @[expose] def KGRawFieldCyclicOn (S : ℕ → LargeEvenLabel → Prop) : Prop :=
   ∀ (p : ℕ) (lab : LargeEvenLabel), p.Prime → p ≠ 2 → LargeEvenInLambda2 lab → S p lab →

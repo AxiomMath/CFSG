@@ -17,7 +17,7 @@ omit [Finite G] in
 private theorem l34Sign_eq_one_of_coprime {P : Sylow 3 G} {g : G} (hg : g ∈ (P : Subgroup G))
     {n : ℕ} (hn : Nat.Coprime 3 n) (hdvd : orderOf g ∣ n) : g = 1 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨g, hg⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨g, hg⟩
   rw [orderOf_mk] at hk
   rw [← orderOf_eq_one_iff]
   exact Nat.Coprime.eq_one_of_dvd (by rw [hk]; exact Nat.Coprime.pow_left k hn) hdvd

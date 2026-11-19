@@ -15,7 +15,7 @@ variable {Γ : Type} [Group Γ]
 
 theorem sylow_of_card_two [Finite Γ] {K : Subgroup Γ} {k : ℕ} (hK : Nat.card K = 2 ^ k)
     (hnd : ¬ 2 ^ (k + 1) ∣ Nat.card Γ) : ∃ S : Sylow 2 Γ, S.toSubgroup = K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨⟨K, IsPGroup.of_card (n := k) hK, ?_⟩, rfl⟩
   intro R hR hle
   obtain ⟨m, hm⟩ := hR.exists_card_eq
@@ -36,7 +36,7 @@ theorem exists_conj_of_card_two [Finite Γ] {K K' : Subgroup Γ} {k : ℕ} (hK :
     ∃ g : Γ, K.map (MulAut.conj g).toMonoidHom = K' := by
   obtain ⟨S, hS⟩ := sylow_of_card_two hK hnd
   obtain ⟨S', hS'⟩ := sylow_of_card_two hK' hnd
-  haveI : Finite (Sylow 2 Γ) :=
+  have : Finite (Sylow 2 Γ) :=
     Finite.of_injective (fun S : Sylow 2 Γ => (S : Subgroup Γ)) (fun S T h => Sylow.ext h)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Γ S S'
   refine ⟨g, ?_⟩
@@ -58,7 +58,7 @@ theorem no_overgroup_of_sylow [Finite Γ] {R : Subgroup Γ} (hR : Nat.card R = 2
     refine Subgroup.mem_map.mpr ⟨g * y * g⁻¹, hSX ?_, ?_⟩
     · rw [← hg]
       exact Subgroup.mem_map.mpr ⟨y, hy, rfl⟩
-    · simp [c, MulAut.conj_apply, mul_assoc]
+    · simp [c, mul_assoc]
   have hcardX : Nat.card (X.map c.toMonoidHom) = Nat.card X :=
     Nat.card_congr (X.equivMapOfInjective c.toMonoidHom c.injective).toEquiv.symm
   have hne : X.map c.toMonoidHom ≠ ⊤ := by

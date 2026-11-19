@@ -30,7 +30,7 @@ theorem skipMid_injective : Function.Injective (skipMid r) :=
 theorem skipMid_rev (i : Fin (2 * r)) : skipMid r (Fin.rev i) = Fin.rev (skipMid r i) := by
   have hp : (⟨r, by omega⟩ : Fin (2 * r + 1)).rev = ⟨r, by omega⟩ := by
     apply Fin.ext
-    simp only [Fin.val_rev, Fin.val_mk]
+    simp only [Fin.val_rev]
     omega
   have h := Fin.succAbove_rev_left (⟨r, by omega⟩ : Fin (2 * r + 1)) (Fin.rev i)
   rwa [hp, Fin.rev_rev] at h
@@ -52,7 +52,7 @@ theorem exists_skipMid_eq {j : Fin (2 * r + 1)} (hj : j ≠ Fin.rev j) : ∃ i, 
     apply hj
     rw [h]
     apply Fin.ext
-    simp only [Fin.val_rev, Fin.val_mk]
+    simp only [Fin.val_rev]
     omega
   obtain ⟨i, hi⟩ := Fin.exists_succAbove_eq hne
   exact ⟨i, by rwa [skipMid]⟩
@@ -72,7 +72,7 @@ private theorem skipMid_lowIdx (a : Fin (2 * r / 2)) :
     skipMid r (lowIdx a) = lowIdx (finCastOdd r a) := by
   rw [skipMid, Fin.succAbove_of_castSucc_lt]
   · apply Fin.ext
-    simp only [Fin.val_castSucc, val_lowIdx, lowIdx, finCastOdd_val]
+    simp only [Fin.val_castSucc, lowIdx, finCastOdd_val]
   · simp only [Fin.lt_def, Fin.val_castSucc, val_lowIdx]
     have hd := two_mul_div_two r
     have := a.isLt
@@ -104,7 +104,7 @@ theorem weight_skipMid (i : Fin (2 * r)) :
   funext a
   rw [Function.comp_apply, weight_apply', weight_apply', skipMid, Fin.val_succAbove,
     finCastOdd_symm_val]
-  simp only [Fin.val_mk]
+  simp only
   have hd := two_mul_add_one_div_two r
   split_ifs <;> omega
 
@@ -116,18 +116,18 @@ private theorem symplectic_toStd_two_mul (v : Fin (2 * r / 2) → ℤ)
     CFSG.LieType.Universal.Symplectic.toStd (2 * r / 2) v a =
       (if a.val + 1 = r then 2 else 1) * v a -
         (if h : 0 < a.val then
-          v ⟨a.val - 1, by have hd := two_mul_div_two r; have := a.isLt; omega⟩ else 0) := by
+          v ⟨a.val - 1, by have _hd := two_mul_div_two r; have := a.isLt; omega⟩ else 0) := by
   unfold CFSG.LieType.Universal.Symplectic.toStd
   by_cases h : a.val + 1 = 2 * r / 2
   · have h' : a.val + 1 = r := by
-      have hd := two_mul_div_two r
+      have _hd := two_mul_div_two r
       omega
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
   · have h' : ¬ a.val + 1 = r := by
       intro hh
       apply h
       omega
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
 
 theorem toStd_rootCast (γ : Fin (2 * r / 2) → ℤ) :
     toStd (2 * r + 1) (rootCast r γ) = toStd (2 * r) γ ∘ (finCastOdd r).symm := by
@@ -144,13 +144,13 @@ theorem toStd_rootCast (γ : Fin (2 * r / 2) → ℤ) :
     have := a.isLt
     omega
   unfold CFSG.LieType.Universal.Unitary.toStd rootCast
-  rw [if_neg hodd, if_pos heven]
+  rw [ite_eq_right hodd, ite_eq_left heven]
   simp only [Function.comp_apply, symplectic_toStd_two_mul, hbval]
   by_cases h0 : 0 < a.val
-  · rw [dif_pos h0, dif_pos h0]
-    rw [if_neg (by omega : ¬ (a.val - 1) + 1 = r), one_mul]
+  · rw [dite_eq_left h0, dite_eq_left h0]
+    rw [ite_eq_right (by omega : ¬ (a.val - 1) + 1 = r), one_mul]
     congr 1
-  · simp only [dif_neg h0]
+  · simp only [dite_eq_right h0]
 
 private def rootCastInv (γ : Fin ((2 * r + 1) / 2) → ℤ) : Fin (2 * r / 2) → ℤ :=
   fun b => if b.val + 1 = r then γ (finCastOdd r b) / 2 else γ (finCastOdd r b)
@@ -161,7 +161,7 @@ private theorem rootCast_rootCastInv (hr : 1 ≤ r) {γ : Fin ((2 * r + 1) / 2) 
   have hbval : ((finCastOdd r).symm a).val = a.val := finCastOdd_symm_val r a
   simp only [rootCast, rootCastInv]
   by_cases ha : a.val + 1 = r
-  · rw [if_pos ha, if_pos (by rw [hbval]; exact ha)]
+  · rw [ite_eq_left ha, ite_eq_left (by rw [hbval]; exact ha)]
     have ha' : a = ⟨r - 1, by
         have hd := two_mul_add_one_div_two r
         omega⟩ := by
@@ -172,7 +172,7 @@ private theorem rootCast_rootCastInv (hr : 1 ≤ r) {γ : Fin ((2 * r + 1) / 2) 
       rw [ha']
       exact h
     rw [Equiv.apply_symm_apply, Int.two_mul_ediv_two_of_even hEven]
-  · rw [if_neg ha, if_neg (by rw [hbval]; exact ha), one_mul, Equiv.apply_symm_apply]
+  · rw [ite_eq_right ha, ite_eq_right (by rw [hbval]; exact ha), one_mul, Equiv.apply_symm_apply]
 
 theorem exists_rootCast_eq (hr : 1 ≤ r) {γ : Fin ((2 * r + 1) / 2) → ℤ}
     (h : Even (γ ⟨r - 1, Nat.lt_of_lt_of_le (Nat.sub_one_lt_of_lt hr)
@@ -200,7 +200,7 @@ theorem rootCast_unitaryLongRoot (hr : 2 ≤ r) :
     apply Fin.ext
     show (2 * r + 1) / 2 - 1 = r - 1
     rw [two_mul_add_one_div_two]
-  rw [unitaryLongRoot, unitaryLongRoot, if_pos h2, if_neg h3, e1, e2, one_smul]
+  rw [unitaryLongRoot, unitaryLongRoot, ite_eq_left h2, ite_eq_right h3, e1, e2, one_smul]
   have hbval : ((finCastOdd r).symm a).val = a.val := finCastOdd_symm_val r a
   have hlast : finCastOdd r (⟨r - 1, hb1⟩ : Fin (2 * r / 2)) = ⟨r - 1, hb2⟩ := by
     apply Fin.ext
@@ -212,7 +212,7 @@ theorem rootCast_unitaryLongRoot (hr : 2 ≤ r) :
     constructor
     · intro h
       rw [h]
-      simp only [Fin.val_mk]
+      simp only
       omega
     · intro h
       apply Fin.ext
@@ -336,13 +336,13 @@ theorem oddEmb_levelWeyl (ζ : traceZero σ) (k : Fin (2 * r / 2)) :
       have hd1 := two_mul_div_two r
       have hd2 := two_mul_add_one_div_two r
       omega
-    rw [dif_pos hk, dif_pos hk']
+    rw [dite_eq_left hk, dite_eq_left hk']
     exact oddEmb_shortWeyl (r := r) (hσ := hσ) (k := k) hk hk'
   · have hk' : ¬ (finCastOdd r k).val + 1 < (2 * r + 1) / 2 := by
       have hd1 := two_mul_div_two r
       have hd2 := two_mul_add_one_div_two r
       omega
-    rw [dif_neg hk, dif_neg hk']
+    rw [dite_eq_right hk, dite_eq_right hk']
     exact oddEmb_longWeyl (r := r) (k := k) ζ
 
 end OddEmb
@@ -440,17 +440,17 @@ private theorem sum_toStd_odd (m : ℕ) (v : Fin ((2 * m + 1) / 2) → ℤ) :
     rw [Finset.mem_range] at hi
     by_cases hi0 : i = 0
     · subst hi0
-      simp only [f, u, g, hi, if_true, Nat.succ_ne_zero, ↓reduceIte, Fin.val_mk]
-      rw [toStd, if_neg (Nat.not_even_two_mul_add_one m)]
+      simp only [f, u, g, hi, Nat.succ_ne_zero, ↓reduceIte]
+      rw [toStd, ite_eq_right (Nat.not_even_two_mul_add_one m)]
       simp
     · have hpos : 0 < i := Nat.pos_of_ne_zero hi0
       have hlt : i - 1 < N := by omega
-      simp only [f, u, g, hi, hi0, hlt, if_true, if_false, Nat.succ_ne_zero, ↓reduceIte,
-        Fin.val_mk, Nat.add_sub_cancel]
-      rw [toStd, if_neg (Nat.not_even_two_mul_add_one m)]
-      rw [dif_pos (by simpa using hpos)]
+      simp only [f, u, g, hi, hi0, hlt, Nat.succ_ne_zero, ↓reduceIte,
+        Nat.add_sub_cancel]
+      rw [toStd, ite_eq_right (Nat.not_even_two_mul_add_one m)]
+      rw [dite_eq_left (by simp)]
       simp
-      rw [dif_pos hpos]
+      rw [dite_eq_left hpos]
   have hsum : ∑ a : Fin N, toStd (2 * m + 1) v a =
       ∑ i ∈ Finset.range N, (g (i + 1) - g i) := by
     rw [show (∑ a : Fin N, toStd (2 * m + 1) v a) = ∑ a : Fin N, f ↑a from
@@ -459,11 +459,11 @@ private theorem sum_toStd_odd (m : ℕ) (v : Fin ((2 * m + 1) / 2) → ℤ) :
     exact Finset.sum_congr rfl hterm
   rw [hsum, Finset.sum_range_sub]
   by_cases hN0 : N = 0
-  · rw [dif_neg (by omega), hN0]
+  · rw [dite_eq_right (by omega), hN0]
     simp
-  · rw [dif_pos (by omega)]
+  · rw [dite_eq_left (by omega)]
     have hlt : N - 1 < N := by omega
-    simp [f, g, u, hN0, hlt, N]
+    simp [g, u, hN0, hlt, N]
 
 private theorem coordSum_toStd_even (r : ℕ) (v : Fin (2 * r / 2) → ℤ) :
     ∑ a, toStd (2 * r) v a = if h : 0 < r then 2 * v ⟨r - 1, by omega⟩ else 0 := by
@@ -475,20 +475,20 @@ private theorem coordSum_toStd_even (r : ℕ) (v : Fin (2 * r / 2) → ℤ) :
     rw [toStd_rootCast, Function.comp_apply, Equiv.symm_apply_apply]
   rw [h, sum_toStd_odd r]
   by_cases hr : 0 < r
-  · rw [dif_pos (by omega), dif_pos hr]
+  · rw [dite_eq_left (by omega), dite_eq_left hr]
     have hlast : (⟨(2 * r + 1) / 2 - 1, by omega⟩ : Fin ((2 * r + 1) / 2)).val + 1 = r := by
       have hd := two_mul_add_one_div_two r
-      simp only [Fin.val_mk]
+      simp only
       omega
-    rw [rootCast, if_pos hlast]
+    rw [rootCast, ite_eq_left hlast]
     apply congrArg (fun z => 2 * z)
     apply congrArg v
     apply Fin.ext
     rw [finCastOdd_symm_val]
     have hd := two_mul_add_one_div_two r
-    simp only [Fin.val_mk]
+    simp only
     omega
-  · rw [dif_neg (by omega), dif_neg hr]
+  · rw [dite_eq_right (by omega), dite_eq_right hr]
 
 private theorem map_rootGroup_oddEmb_le (γ : Fin (2 * r / 2) → ℤ) :
     (CFSG.LieType.Universal.Unitary.rootGroup σ hσ (2 * r) γ).map (oddEmb σ r) ≤
@@ -552,7 +552,7 @@ private theorem even_coordSum_toStd (r : ℕ) (v : Fin (2 * r / 2) → ℤ) :
   rcases r with _ | m
   · simp
   · rw [coordSum_toStd_even (m + 1) v]
-    rw [dif_pos (by omega : 0 < m + 1)]
+    rw [dite_eq_left (by omega : 0 < m + 1)]
     exact even_two_mul _
 
 private theorem heisenberg_component_empty {γ : Fin (2 * r / 2) → ℤ} {i : Fin (2 * r + 1)}
@@ -698,7 +698,7 @@ theorem su3Emb_levelWeyl {n : ℕ} (hn : ¬ Even n) {k : Fin (n / 2)}
     su3Emb σ hn k (levelWeyl hσ ζ (0 : Fin (3 / 2))) = levelWeyl hσ ζ k := by
   have h0 : ¬ (0 : Fin (3 / 2)).val + 1 < 3 / 2 := by decide
   unfold levelWeyl
-  rw [dif_neg h0, dif_neg hk]
+  rw [dite_eq_right h0, dite_eq_right hk]
   simp only [longWeyl_def, map_mul]
   simp only [show su3Emb σ hn k = suEmbed σ (lastIdxOdd_injective' hn k) (lastIdxOdd_rev hn)
     from rfl, suEmbed_longRootHom]

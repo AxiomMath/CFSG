@@ -101,7 +101,7 @@ theorem IsListSubgroupIn.mem_of_length_eq {S : Subgroup M} {T : List M}
     (hT : IsListSubgroupIn S T) (hlen : T.length = Nat.card S) {x : M} (hx : x ∈ S) : x ∈ T := by
   classical
   by_contra hxT
-  haveI : Finite S :=
+  have : Finite S :=
     Nat.finite_of_card_ne_zero (by rw [← hlen]; exact (List.length_pos_of_mem hT.one_mem).ne')
   have hsub : (↑(insert x T.toFinset) : Set M) ⊆ S := by
     intro y hy

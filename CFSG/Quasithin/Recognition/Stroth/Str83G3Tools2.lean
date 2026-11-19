@@ -37,12 +37,12 @@ theorem l2_chiefStep_natural {H V L N A : Subgroup G} {m : ℕ} (hm2 : 2 ≤ m)
             (A.subgroupOf H).map (QuotientGroup.mk' (CFSG.Open.pCore 2 ↥H)) := by
   classical
   let F := GaloisField 2 m
-  haveI : Fintype F := Fintype.ofFinite _
+  have : Fintype F := Fintype.ofFinite _
   have hm1 : 1 ≤ m := by omega
   have hVp : IsPGroup 2 ↥V := hV.isPGroup
   let hE := CFSG.Quasithin.isElemAbelian_chiefMod hstep hVH hVp
-  letI _cg : CommGroup ↥(Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI _mod : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let _cg : CommGroup ↥(Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let _mod : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   obtain ⟨e₀, ρ, hρirr, hρnt, hρcompat⟩ :=
     exists_l2ChiefSectionRep (H := H) (U := V) (L := L) (N := N) hm2 hL2 hVp hVH hstep hnc
   let e : oTwoQuot ↥H ≃* SL(2, F) := e₀
@@ -190,7 +190,7 @@ theorem l2_chiefStep_natural {H V L N A : Subgroup G} {m : ℕ} (hm2 : 2 ≤ m)
         _ = Nat.card B * Nat.card {w : Additive (Ch3z.chiefMod L N) // ∀ b ∈ B, ρ b w = w} := by
             rw [hfixindex, hBcard, ← hfixcard, mul_comm]
     exact le_of_eq hEq
-  haveI : CFSG.IsElementaryAbelian 2 B := hBe.isElementaryAbelian
+  have : CFSG.IsElementaryAbelian 2 B := hBe.isElementaryAbelian
   obtain ⟨φnat, hφnat, -, -, -, ⟨-, -, -, -, -, hP, -⟩⟩ :=
     CFSG.QuasithinUnique.Setup.SL2Modules.binary_SL2_internal_offender_natural_module
       hm1 hFcard ρ hρirr.1 hρnt B hBne hoff

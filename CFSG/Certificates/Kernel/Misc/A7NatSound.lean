@@ -18,7 +18,7 @@ theorem iffB_iff {a b : Bool} : iffB a b = true ↔ (a = true ↔ b = true) := b
 
 theorem memL_iff (x : ℕ) (L : List ℕ) : memL x L = true ↔ x ∈ L := by
   rw [memL, anyL_iff]
-  simp [beq_iff]
+  simp
 
 theorem nodupL_iff : ∀ L : List ℕ, nodupL L = true → L.Nodup
   | [] => fun _ => List.nodup_nil
@@ -82,11 +82,11 @@ theorem allVd_iff (f : ℕ → Bool) : ∀ (k acc : ℕ),
       refine ⟨fun b hb => ?_, fun b hb => ?_⟩
       · have := h (fun i => if i < k then b i else 0)
           (fun i hi => by by_cases hik : i < k <;> simp [hik, hb])
-        rwa [E_succ, if_neg (lt_irrefl k), zero_mul, add_zero,
+        rwa [E_succ, ite_eq_right (lt_irrefl k), zero_mul, add_zero,
           E_congr (g := b) (fun i hi => by simp [hi])] at this
       · have := h (fun i => if i < k then b i else 1)
           (fun i hi => by by_cases hik : i < k <;> simp [hik, hb])
-        rw [E_succ, if_neg (lt_irrefl k), E_congr (g := b) (fun i hi => by simp [hi])] at this
+        rw [E_succ, ite_eq_right (lt_irrefl k), E_congr (g := b) (fun i hi => by simp [hi])] at this
         rwa [show Nat.add acc (1 * 32 ^ k) + E b k = acc + (E b k + 1 * 32 ^ k) by
           change acc + 1 * 32 ^ k + E b k = _
           ring]
@@ -110,7 +110,7 @@ theorem natCast_two_eq_zero (k : ℕ) : ((k : ℕ) : ZMod 2) = 0 ↔ k % 2 = 0 :
   rw [← Nat.cast_zero, ZMod.natCast_eq_natCast_iff']
 
 theorem sum_val (u : Fin 7 → ZMod 2) : ∑ i, u i = ((∑ i, (u i).val : ℕ) : ZMod 2) := by
-  simp [Nat.cast_sum, ZMod.natCast_zmod_val]
+  simp [Nat.cast_sum]
 
 theorem evenV_iff (u : Fin 7 → ZMod 2) : evenV (vcode u) = true ↔ ∑ i, u i = 0 := by
   have e : ones (vcode u) 7 = ∑ i, (u i).val := by
@@ -149,7 +149,7 @@ theorem dotV_iff (w u : Fin 7 → ZMod 2) :
       ← Fin.sum_univ_eq_sum_range (fun i => Nat.mul (img (vcode w) i) (img (vcode u) i))]
     exact sum_congr rfl fun i _ => by rw [img_vcode, img_vcode]; rfl
   have e2 : ∑ i, w i * u i = ((∑ i, (w i).val * (u i).val : ℕ) : ZMod 2) := by
-    simp [Nat.cast_sum, ZMod.natCast_zmod_val]
+    simp [Nat.cast_sum]
   rw [beq_iff, e, e2, natCast_two_eq_zero]
   rfl
 

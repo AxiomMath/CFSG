@@ -67,6 +67,7 @@ theorem f4_isConnectedAlgebraicSubgroup_shortPairStabilizer
   exact ConnectedJoint.isConnectedAlgebraicSubgroup_torus_sup_rootSpan_no117
     (τ := Tag.F4) (k := Ω) (Sstar)
 
+omit [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem f4_map_entrywiseFrobGL_torus_sup_rootSpan_le
     [IsAlgClosed Ω]
     (p : ℕ) [Fact p.Prime] [CharP Ω p] (e : ℕ) (S : Set (Fin Tag.F4.rank → ℤ)) :

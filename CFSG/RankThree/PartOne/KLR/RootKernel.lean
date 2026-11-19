@@ -283,7 +283,7 @@ theorem exists_balanced_conj {a : ℕ} [CharP L 2] [IsAlgClosed L] {p : ℕ} (hp
     exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 this).symm
   have : NeZero p := ⟨hp.ne_zero⟩
   have : NeZero (p : L) := ⟨hp0⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   lift ζ₀ to Lˣ using hζ₀.isUnit hp.ne_zero
   rw [IsPrimitiveRoot.coe_units_iff] at hζ₀
   have hk : ∀ i, ∃ k < p, ζ₀ ^ k = b i := fun i =>

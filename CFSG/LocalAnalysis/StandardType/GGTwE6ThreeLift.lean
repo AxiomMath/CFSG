@@ -150,12 +150,12 @@ theorem card_twLift {f : ℕ} (hf : 1 ≤ f)
 
 theorem isElemAbelian_twLift {f : ℕ} (hf : 1 ≤ f)
     {S : Subgroup (MulAut ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
-      (frobQ 2 f)))} (hS : S ≤ LayerSixE.twInndiagAut f) (h : IsElemAbelian 3 S) :
+      (frobQ 2 f)))} (_hS : S ≤ LayerSixE.twInndiagAut f) (h : IsElemAbelian 3 S) :
     IsElemAbelian 3 (twLift hf S) := by
   have hinjφ := twistedE6InndiagConj_injective_galoisField hf
   have hcomap : IsElemAbelian 3
       (S.comap (twistedE6InndiagConj (GaloisField 2 (2 * f)) (frobQEquiv hf))) := by
-    haveI : IsMulCommutative ↥S := h.1
+    have : IsMulCommutative ↥S := h.1
     refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => ?_⟩
     · apply Subtype.ext
       refine hinjφ ?_
@@ -220,7 +220,7 @@ theorem twInndiagAut_le_sup_zpowers {f : ℕ} (hf : 1 ≤ f)
     LayerSixE.twInndiagAut f ≤ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6
       (GaloisField 2 (2 * f)) (frobQ 2 f)) →* MulAut ↥(graphFixedRootGroup TwistTag.E6
         (GaloisField 2 (2 * f)) (frobQ 2 f))).range ⊔ Subgroup.zpowers s := by
-  haveI : (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
+  have : (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
       (frobQ 2 f)) →* MulAut ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f))
         (frobQ 2 f))).range.Normal := RootCentExc.normal_range_mulAutConj
   rw [LayerSixE.twInndiagAut] at hs ⊢

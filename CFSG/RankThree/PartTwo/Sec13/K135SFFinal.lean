@@ -17,10 +17,10 @@ theorem le_pPrimeCore_of_normal {M : Type*} [Group M] (p : ℕ) (K : Subgroup M)
 theorem odd_card_center_component_pPrimeCore {M : Type*} [Group M] [Finite M] {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (J : Subgroup (M ⧸ CFSG.pPrimeCore p M))
     (hJ : CFSG.IsComponent J) : Odd (Nat.card (Subgroup.center J)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h := not_two_dvd_card_center_component hp hp2 (CFSG.pPrimeCore p M)
     CFSG.pPrimeCore_coprime_card (fun K hK hKp => by
-      haveI := hK
+      have := hK
       exact le_pPrimeCore_of_normal p K hKp) J hJ
   exact Nat.odd_iff.mpr (by omega)
 
@@ -31,7 +31,7 @@ theorem list42_or_gl12_of_pPrimeCore (hLP : Item4_1LargePrime)
     (hJ : CFSG.IsComponent J) :
     Sec4.Census.List42 (J ⧸ Subgroup.center J) ∨
       (CFSG.IsKGroup (J ⧸ Subgroup.center J) ∧ GL12Data (J ⧸ Subgroup.center J)) := by
-  haveI : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.1.2.1
+  have : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.1.2.1
   have hSn : ∃ a b : J ⧸ Subgroup.center J, a * b ≠ b * a := hJ.1.2.2
   refine (sectionFourHyp_or_gl12 hLP hTC sf2_holds hM (CFSG.pPrimeCore p M) hRodd J hJ
     (odd_card_center_component_pPrimeCore hp hp2 J hJ)).imp (fun h => ?_) id
@@ -62,11 +62,11 @@ theorem list42_or_gl12_of_relPPrimeCore (hLP : Item4_1LargePrime)
     (hRp : Nat.Coprime p (Nat.card R)) (J : Subgroup (H ⧸ R)) (hJ : CFSG.IsComponent J) :
     Sec4.Census.List42 (J ⧸ Subgroup.center J) ∨
       (CFSG.IsKGroup (J ⧸ Subgroup.center J) ∧ GL12Data (J ⧸ Subgroup.center J)) := by
-  haveI : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.1.2.1
+  have : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.1.2.1
   have hSn : ∃ a b : J ⧸ Subgroup.center J, a * b ≠ b * a := hJ.1.2.2
   have h := not_two_dvd_card_center_component hp hp2 R hRp
     (fun K hK hKp => by
-      haveI := hK
+      have := hK
       exact le_of_relPPrimeCore H p R hRe K hKp) J hJ
   refine (sectionFourHyp_or_gl12 hLP hTC sf2_holds hM R hRodd J hJ
     (Nat.odd_iff.mpr (by omega))).imp (fun h' => ?_) id

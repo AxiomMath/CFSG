@@ -124,7 +124,7 @@ theorem nml (a b : ℕ) : Nat.mul a b = a * b := rfl
 
 theorem na (a b : ℕ) : Nat.add a b = a + b := rfl
 
-theorem digits {a b c d : ℕ} (ha : a < 3) (hb : b < 3) (hc : c < 3) (hd : d < 3) :
+theorem digits {a b c d : ℕ} (_ha : a < 3) (hb : b < 3) (hc : c < 3) (hd : d < 3) :
     (27 * a + 9 * b + 3 * c + d) / 27 = a ∧ (27 * a + 9 * b + 3 * c + d) / 9 % 3 = b ∧
       (27 * a + 9 * b + 3 * c + d) / 3 % 3 = c ∧ (27 * a + 9 * b + 3 * c + d) % 3 = d := by
   omega
@@ -168,7 +168,7 @@ theorem gA'_P0 {k : ℕ} (hk : k < 2) : KernelA45.gA' k ∈ pkP := by
   change KernelA45.gA' k ∈ QP45.originalSubgroup
   rw [Certificates.Kernel.QP45W.orig_eq]
   refine Subgroup.subset_closure ?_
-  simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false, tab_eq]
+  simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false, tab_eq]
   interval_cases k
   · exact Or.inl rfl
   · exact Or.inr rfl
@@ -177,7 +177,7 @@ theorem P0_le_A : pkP ≤ KernelA45.A := by
   change QP45.originalSubgroup ≤ _
   rw [Certificates.Kernel.QP45W.orig_eq, Subgroup.closure_le]
   intro g hg
-  simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false, tab_eq] at hg
+  simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false, tab_eq] at hg
   rcases hg with rfl | rfl
   · exact KernelA45.gA'_mem (k := 0) (by norm_num)
   · exact KernelA45.gA'_mem (k := 1) (by norm_num)

@@ -171,7 +171,7 @@ theorem pow_five_eq_one_of_commute_kernel (D : StarData) (hD : D.Valid) {L : Typ
       by_cases h : i = k
       · subst h
         simp
-      · simp [Pi.single_apply, h, Ne.symm h]
+      · simp [h, Ne.symm h]
     calc c i ^ 5 = rootChar c ((5 : ℕ) • (Pi.single i 1 : Fin Tag.E8.rank → ℤ)) :=
           (rootChar_nsmul_single c i 5).symm
       _ = rootChar c (∑ j, D.m i j • D.g j) := by rw [e1]

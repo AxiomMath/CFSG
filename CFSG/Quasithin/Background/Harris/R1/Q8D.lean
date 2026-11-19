@@ -16,6 +16,7 @@ namespace QD
 
 variable {G : Type*} [Group G] [Finite G] {P S Q W Z M D : Subgroup G} {g y z : G}
 
+omit [Finite G] in
 theorem conjSub_inv_eq (h : QD P S Q W Z M D g y z) (hSM : S ≤ Subgroup.normalizer (M : Set G)) :
     conjSub g⁻¹ M = conjSub g M := by
   have e : g⁻¹ = g * (g * g)⁻¹ := by group
@@ -26,6 +27,7 @@ theorem D_inf_conjSub_inv_le_Z (h : QD P S Q W Z M D g y z)
   rw [h.conjSub_inv_eq hSM]
   exact h.D_inf_conjSub_M_le_Z
 
+omit [Finite G] in
 theorem Q_le_normalizer_conjSub (h : QD P S Q W Z M D g y z) :
     Q ≤ Subgroup.normalizer ((conjSub g D : Subgroup G) : Set G) :=
   calc Q = conjSub g Q := (conjSub_eq_of_mem_normalizer (h.vh.qn h.hg)).symm
@@ -33,6 +35,7 @@ theorem Q_le_normalizer_conjSub (h : QD P S Q W Z M D g y z) :
     _ ≤ Subgroup.normalizer ((conjSub g D : Subgroup G) : Set G) :=
       conjSub_le_normalizer h.hDS
 
+omit [Finite G] in
 theorem conjSub_D_le_Q (h : QD P S Q W Z M D g y z) : conjSub g D ≤ Q :=
   calc conjSub g D ≤ conjSub g Q := conjSub_mono g h.D_le_Q
     _ = Q := conjSub_eq_of_mem_normalizer (h.vh.qn h.hg)

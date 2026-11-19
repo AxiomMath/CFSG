@@ -13,7 +13,7 @@ open CFSG.GorensteinWalter
 theorem two_ne_zero_of_isOddPrimePower {K : Type*} [Field K] [Finite K]
     (hK : IsOddPrimePower (Nat.card K)) : (2 : K) ≠ 0 := by
   obtain ⟨p, n, hp, hpo, hn, hcard⟩ := hK
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hodd : Odd (Fintype.card K) := by
     rw [← Nat.card_eq_fintype_card, hcard]
     exact hpo.pow
@@ -155,7 +155,7 @@ theorem index_zpowers_r_one (n : ℕ) [NeZero n] :
 theorem exists_zpowers_comap_index_le_two {K : Type*} [Field K] [Finite K]
     (hK : IsOddPrimePower (Nat.card K)) {T : Type*} [Group T] (f : T →* PGL2 K)
     (hf : IsPGroup 2 f.range) : ∃ c : PGL2 K, ((Subgroup.zpowers c).comap f).index ≤ 2 := by
-  haveI : Finite (PGL2 K) :=
+  have : Finite (PGL2 K) :=
     Finite.of_surjective Matrix.ProjGenLinGroup.mk Matrix.ProjGenLinGroup.mk_surjective
   obtain ⟨P, hP⟩ := hf.exists_le_sylow
   obtain ⟨m, -, ⟨e⟩⟩ := pgl2_odd_hasDihedralSylowTwo_model K hK P

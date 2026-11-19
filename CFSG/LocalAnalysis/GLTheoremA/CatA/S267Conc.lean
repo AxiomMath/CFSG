@@ -31,7 +31,7 @@ theorem conc268cov_of_quot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (N : Subgrou
     (hN : ¬ p ∣ Nat.card N) (K₀ : Subgroup A) (hNK : N ≤ K₀) (hKn : K₀.Normal)
     (h : S267Conc268 p (K₀.map (QuotientGroup.mk' N))) : S267Conc268Cov p K₀ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set π : A →* A ⧸ N := QuotientGroup.mk' N with hπ
   have hker : ¬ p ∣ Nat.card π.ker := by rw [hπ, QuotientGroup.ker_mk']; exact hN
   obtain ⟨B', E', D', hBel, hBc, hEB, hEc, hDE, hDc, ⟨T', hT0, hT2, hTn⟩, ⟨U', hU0, hU2, hDU, hJU⟩,

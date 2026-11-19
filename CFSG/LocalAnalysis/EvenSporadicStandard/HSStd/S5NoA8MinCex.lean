@@ -320,7 +320,7 @@ theorem card_sylow_eq_two_of_ne_top {A : Subgroup H}
     have hAeq := Prop13.eq_of_below hcex hsimple hMc hAM hu2 huC hX
     exact Prop13.not_normal_of_hsMinCex hcex (hAeq ▸ (inferInstance : (commutator H).Normal))
   have hle := Lemma21.card_le_two_of_no_involution (C := centralizer (A : Set H))
-    (M := commutator H) hidx ((S.isPGroup').map (centralizer (A : Set H)).subtype)
+    (M := commutator H) hidx ((S.isPGroup).map (centralizer (A : Set H)).subtype)
     (Subgroup.map_subtype_le _) hno
   rw [Subgroup.card_map_of_injective (Subgroup.subtype_injective _)] at hle
   exact le_antisymm hle (two_le_card_sylow hcex S)
@@ -349,7 +349,7 @@ theorem card_sylow_eq_two_of_simple
   have hnab : ∃ x y : H, x * y ≠ y * x :=
     ⟨a, b, fun h => hab (Subtype.ext h)⟩
   have hcyc : IsCyclic ↥(S : Subgroup ↥(centralizer (A : Set H))) := by
-    rcases Hyp.isCyclic_or_genQuaternion_of_pRank_le_one S.isPGroup' (pRank_sylow_le_one hcex S)
+    rcases Hyp.isCyclic_or_genQuaternion_of_pRank_le_one S.isPGroup (pRank_sylow_le_one hcex S)
       with hc | hq
     · exact hc
     · exact (false_of_genQuaternion thm24_1 hlie hcex S hq).elim

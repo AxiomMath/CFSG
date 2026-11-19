@@ -73,6 +73,7 @@ theorem c8_mem_pullSub_range_of_commutator_mem {H' : Type} [Group H'] {H : Subgr
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem c8_card_barSub_dvd (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (X : Subgroup G) :
     Nat.card (barSub V₀ V hV X) ∣ Nat.card X := by
   have h1 : Nat.card (barSub V₀ V hV X) ∣ Nat.card (X.subgroupOf (stabTil V₀ V)) :=
@@ -83,6 +84,7 @@ theorem c8_card_barSub_dvd (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) (X : S
   rw [h2] at h1
   exact h1.trans (Subgroup.card_dvd_of_le inf_le_left)
 
+omit [Finite G] in
 theorem c8_conj_mem_barSub (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V) {X Y : Subgroup G}
     (hYX : ∀ y ∈ Y, ∀ x ∈ X, y * x * y⁻¹ ∈ X) :
     ∀ g ∈ barSub V₀ V hV Y, ∀ x ∈ barSub V₀ V hV X, g * x * g⁻¹ ∈ barSub V₀ V hV X := by

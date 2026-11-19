@@ -28,7 +28,7 @@ theorem uc22s21rm_isCyclic_of_quotient {X : Type*} [Group X] [Finite X]
 theorem uc22s21rm_card_le {q : ℕ} (hq : q.Prime) {V : Type*} [Group V] [Finite V]
     (hcomm : ∀ a b : V, a * b = b * a) (hV : ∀ v : V, v ^ q = 1) {V₁ V₂ : Subgroup V}
     (h₁ : IsCyclic V₁) (h₂ : IsCyclic V₂) (hsup : V₁ ⊔ V₂ = ⊤) : Nat.card V ≤ q ^ 2 := by
-  letI : CommGroup V := { ‹Group V› with mul_comm := hcomm }
+  let : CommGroup V := { ‹Group V› with mul_comm := hcomm }
   have hd : ∀ U : Subgroup V, IsCyclic U → Nat.card U ≤ q := by
     intro U hU
     have h1 : Monoid.exponent U ∣ q :=
@@ -52,7 +52,7 @@ theorem uc22s21rm_perfect_le_ker {q : ℕ} [Fact q.Prime] (hq2 : q ≠ 2) {V : T
     (hsup : V₁ ⊔ V₂ = ⊤) (hS₁ : ∀ s ∈ S, ∀ v ∈ V₁, ρ s v ∈ V₁)
     (hS₂ : ∀ s ∈ S, ∀ v ∈ V₂, ρ s v ∈ V₂) {K : Subgroup W} (hK : ⁅K, K⁆ = K) :
     K ≤ ρ.ker := by
-  letI : CommGroup V := { ‹Group V› with mul_comm := hcomm }
+  let : CommGroup V := { ‹Group V› with mul_comm := hcomm }
   exact uc22s21rk_perfect_le_ker_of_lines hq2 hV hcard ρ S h₁ h₂ hsup hS₁ hS₂ hK
 
 end Abstract
@@ -68,8 +68,8 @@ theorem uc22s21rm_commutator_mem_frattini {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 
     (hS₁ : S ≤ normalizer (X₁ : Set W)) (hS₂ : S ≤ normalizer (X₂ : Set W)) {K : Subgroup W}
     (hK : ⁅K, K⁆ = K) : ∀ k ∈ K, ∀ x ∈ X, k * x * k⁻¹ * x⁻¹ ∈ (frattini ↥X).map X.subtype := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXp : IsPGroup q ↥X := fun x => ⟨1, Subtype.ext (by simpa using hXexp x x.2)⟩
   set f : ↥X →* ↥X ⧸ frattini ↥X := QuotientGroup.mk' (frattini ↥X) with hf
   have hcomm : ∀ a b : ↥X ⧸ frattini ↥X, a * b = b * a :=
@@ -77,19 +77,19 @@ theorem uc22s21rm_commutator_mem_frattini {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 
       (CFSG.OrderReductions.FrattiniElementary.frattini_quotient_isMulCommutative q hXp)
   have hVexp : ∀ v : ↥X ⧸ frattini ↥X, v ^ q = 1 :=
     CFSG.OrderReductions.FrattiniElementary.frattini_quotient_exponent q hXp
-  letI : MulDistribMulAction W ↥X := MulDistribMulAction.compHom ↥X (MulAut.conjNormal (H := X))
-  letI : MulDistribMulAction W (↥X ⧸ frattini ↥X) :=
+  let : MulDistribMulAction W ↥X := MulDistribMulAction.compHom ↥X (MulAut.conjNormal (H := X))
+  let : MulDistribMulAction W (↥X ⧸ frattini ↥X) :=
     CFSG.PreuniquenessRankFour.Helpers.characteristic_quotient_mulDistribMulAction (frattini ↥X)
   let ρ : W →* MulAut (↥X ⧸ frattini ↥X) :=
     MulDistribMulAction.toMulAut W (↥X ⧸ frattini ↥X)
   have hρ : ∀ (w : W) (y : ↥X), ρ w (f y) = f (MulAut.conjNormal (H := X) w y) := by
     intro w y
-    letI : MulAction.QuotientAction W (frattini ↥X) :=
+    let : MulAction.QuotientAction W (frattini ↥X) :=
       CFSG.PreuniquenessRankFour.Helpers.characteristic_subgroup_quotientAction (frattini ↥X)
     exact MulAction.Quotient.smul_mk (frattini ↥X) w y
   have hline : ∀ Y : Subgroup W, Y ≤ X → IsCyclic ↥Y → IsCyclic ↥((Y.subgroupOf X).map f) := by
     intro Y hYX hY
-    haveI : IsCyclic ↥(Y.subgroupOf X) :=
+    have : IsCyclic ↥(Y.subgroupOf X) :=
       (Subgroup.subgroupOfEquivOfLe hYX).isCyclic.mpr hY
     exact isCyclic_of_surjective (f.subgroupMap (Y.subgroupOf X))
       (f.subgroupMap_surjective (Y.subgroupOf X))
@@ -119,7 +119,7 @@ theorem uc22s21rm_commutator_mem_frattini {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 
       exact (Nat.pow_le_pow_iff_right hq.one_lt).1 hle
     have hnc : ¬ IsCyclic (↥X ⧸ frattini ↥X) := fun hc => hXnc (uc22s21rm_isCyclic_of_quotient hc)
     interval_cases n
-    · haveI : Subsingleton (↥X ⧸ frattini ↥X) :=
+    · have : Subsingleton (↥X ⧸ frattini ↥X) :=
         (Nat.card_eq_one_iff_unique.1 (by simpa using hn)).1
       exact (hnc inferInstance).elim
     · exact absurd (isCyclic_of_prime_card (by simpa using hn)) hnc

@@ -83,8 +83,8 @@ theorem sec5c_oddCoreIn_bot [Finite G] (hL : IsOm6Z2 L) {t : G} (ht2 : orderOf t
     exact absurd hodd (by decide)
 
 theorem sec5c_finite_ogroup : Finite (OGroup Q) := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 3)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod 3)
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun e₁ e₂ he => LinearEquiv.ext (congrFun he))
   exact Finite.of_injective (fun g : OGroup Q => (g : V ≃ₗ[ZMod 3] V)) Subtype.val_injective
@@ -118,7 +118,7 @@ theorem sec5c_exists_pair [Finite G] (hS : Asc82SchurU43) (hL : IsOm6Z2 L)
     ∃ K₁ K₂ : Subgroup G, Sec5Pair K₁ K₂ z ∧
       K₁ ⊔ K₂ = twoRes (L ⊓ centralizer ({z} : Set G)) := by
   obtain ⟨V, _, _, _, Q, hQ, φ, hφ, hinj, hsurj⟩ := sec5c_cover_iso hS hL hodd
-  haveI : Finite (OGroup Q) := sec5c_finite_ogroup
+  have : Finite (OGroup Q) := sec5c_finite_ogroup
   have hzL : z ∈ L := sec5c_mem_of_isI4PlusIn hz
   obtain ⟨hztt, hzt4⟩ := sec5c_z_model hL hφ hz hzL
   let D : Om6Par Q (sec5cdPhi φ ⟨z, hzL⟩) :=

@@ -65,7 +65,7 @@ theorem IsHoltFactor.isPerfect (hM : IsHoltFactor M) : Group.IsPerfect M := by
       exact Nat.one_lt_pow (by omega) (by omega)
     obtain ⟨x, hx1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp
       ((Subgroup.one_lt_card_iff_ne_bot _).mp hS)
-    obtain ⟨δ, hδ⟩ := fixSet_nonempty_of_odd h.odd_card S.isPGroup'
+    obtain ⟨δ, hδ⟩ := fixSet_nonempty_of_odd h.odd_card S.isPGroup
     exact isPerfect_of_isPretransitive (x := (x : M)) (fun h1 => hx1 (Subtype.ext h1))
       (hδ x x.2)
 

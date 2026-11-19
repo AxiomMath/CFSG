@@ -32,7 +32,7 @@ theorem isCharacteristicP_of_normalizer_sylow_le [Finite K] (p : ℕ) [Fact p.Pr
     (D : RootWeightDatum K) {S X : Subgroup D.group} (hS : IsPGroup p S) (hSi : ¬ p ∣ S.index)
     (hNX : Subgroup.normalizer (S : Set D.group) ≤ X) (hX : X ≠ ⊤) :
     CFSG.IsCharacteristicP p ↥X := by
-  haveI : Finite (ModGL D.tag K) := finite_modGL (τ := D.tag) (K := K)
+  have : Finite (ModGL D.tag K) := finite_modGL (τ := D.tag) (K := K)
   let S₀ : Sylow p D.group := hS.toSylow hSi
   obtain ⟨P₀, hP₀⟩ := D.exists_sylow_eq_unipotent p
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq D.group S₀ P₀

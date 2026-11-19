@@ -80,8 +80,8 @@ theorem l154d4tp_commutator_le_self {G : Type*} [Group G] (X : Subgroup G) : ⁅
 theorem l154d4tp_twoPart_card_sandwich {G : Type*} [Group G] {A B C : Subgroup G} [Finite C]
     (hAB : A ≤ B) (hBC : B ≤ C) (h : twoPart (Nat.card A) = twoPart (Nat.card C)) :
     twoPart (Nat.card B) = twoPart (Nat.card A) := by
-  haveI : Finite B := Finite.of_injective _ (Subgroup.inclusion_injective hBC)
-  haveI : Finite A := Finite.of_injective _ (Subgroup.inclusion_injective hAB)
+  have : Finite B := Finite.of_injective _ (Subgroup.inclusion_injective hBC)
+  have : Finite A := Finite.of_injective _ (Subgroup.inclusion_injective hAB)
   exact l154d4tp_twoPart_sandwich Nat.card_pos.ne' Nat.card_pos.ne' Nat.card_pos.ne'
     (Subgroup.card_dvd_of_le hAB) (Subgroup.card_dvd_of_le hBC) h
 
@@ -152,8 +152,8 @@ theorem l154d4tp_twoPart_fixed (S : LangSetup τ L p) (S₀ : LangSetup τ L p')
     (hH : twoPart (Nat.card ↥(rootSpan τ L (componentRoots (rootCharHom a) i) ⊓ S₀.D.model)) =
       2 ^ m) :
     twoPart (Nat.card ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i ⊓ S₀.D.model)) = 2 ^ m := by
-  haveI := S₀.finite
-  haveI : Finite ↥(rootSpan τ L (componentRoots (rootCharHom a) i) ⊓ S₀.D.model) :=
+  have := S₀.finite
+  have : Finite ↥(rootSpan τ L (componentRoots (rootCharHom a) i) ⊓ S₀.D.model) :=
     Finite.of_injective (Subgroup.inclusion (inf_le_right :
       rootSpan τ L (componentRoots (rootCharHom a) i) ⊓ S₀.D.model ≤ S₀.D.model))
       (Subgroup.inclusion_injective _)
@@ -252,6 +252,7 @@ theorem l154d4tp_outer_counts
   · obtain ⟨f, -, hqf, hqs, hlay⟩ := l154d4tp_outer_tw S ⟨t, ht, Fr, hFr, hΦ⟩ i v hΨ hρ h1 h2
     exact key f hqf hqs hlay
 
+omit [CharP L 2] in
 theorem l154d4tp_levelS_E6 (S : LangSetup Tag.E6 L p)
     {a : Fin Tag.E6.rank → Lˣ} (hT : rootDiagUnit Tag.E6 a ∈ S.D.torus)
     (i : KernelComponent (rootCharHom a)) {s : ℕ} (hs : 1 ≤ s) (hq : S.D.q = 2 ^ s)
@@ -354,8 +355,8 @@ theorem l154d4tp_E6 (S : LangSetup Tag.E6 L p₀) (R : FrobRoot S.D 3) {e : ℕ}
   have hK := l154d4tp_twoPart_fixed S S₀ hM i hρ hρ₀ hR₀ hH
   obtain ⟨hZ, hQ, -⟩ := l154d4tp_levelS_E6 S hT i (by omega) hqS hc24 hρ hinner
   have hRle := l154d4tp_rationalComponent_le S i hρ
-  haveI : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
-    haveI := S.finite
+  have : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
+    have := S.finite
     exact Finite.of_injective (Subgroup.inclusion (hRle.trans inf_le_right))
       (Subgroup.inclusion_injective _)
   have hKeq : rationalComponent S.ρ S.Γ (rootCharHom a) i ⊓ D₀.step.eqLocus (MonoidHom.id _) =

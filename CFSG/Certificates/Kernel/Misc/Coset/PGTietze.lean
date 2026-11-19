@@ -61,10 +61,10 @@ theorem tz_lift_letter {g : Fin m → List (Fin n × Bool)} {e : Fin n → Fin m
   obtain ⟨j, b⟩ := l
   cases b with
   | true =>
-    rw [tzLetter, if_pos rfl, tz_lift_mk, hg j]
+    rw [tzLetter, ite_eq_left rfl, tz_lift_mk, hg j]
     rfl
   | false =>
-    rw [tzLetter, if_neg Bool.false_ne_true, ← FreeGroup.inv_mk, map_inv, tz_lift_mk, hg j]
+    rw [tzLetter, ite_eq_right Bool.false_ne_true, ← FreeGroup.inv_mk, map_inv, tz_lift_mk, hg j]
     have h1 : ([(j, false)] : List (Fin m × Bool)) = FreeGroup.invRev [(j, true)] := rfl
     rw [h1, ← FreeGroup.inv_mk, map_inv]
     rfl

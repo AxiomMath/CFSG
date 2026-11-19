@@ -20,7 +20,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.LocalRank CFSG.RankThree.PartTwo
 
 theorem isTwelveType_of_mulEquiv_A5 {F : Type} [Group F] [Finite F]
     (e : F ≃* alternatingGroup (Fin 5)) : IsTwelveType F := by
-  have hA5s : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have hA5s : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hFs : IsSimpleGroup F := MulEquiv.isSimpleGroup e
   set σ : alternatingGroup (Fin 5) := ⟨Equiv.swap 0 1 * Equiv.swap 0 2,
     Equiv.Perm.mem_alternatingGroup.mpr (by decide)⟩ with hσ
@@ -169,7 +169,7 @@ theorem false_of_ncard_twelve_img148
       F₁ ≤ Subgroup.centralizer (F₂ : Set (↥(Y ⊔ A) ⧸ ker148 A Y)) →
       IsTwelveType ↥F₁ → IsTwelveType ↥F₂ → False := by
   intro F₁ F₂ hF₁ hF₂ hF₁₂ hT₁ hT₂
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   obtain ⟨K, hK, hKON⟩ := exists_tripleCover_ON_of_ncard_twelve h134 h48 h hB hc h12
   obtain ⟨P₁, φ₁, hP₁, hφ₁, hφ₁3, hφ₁e⟩ := exists_preimage_img148 hF₁
   obtain ⟨P₂, φ₂, hP₂, hφ₂, hφ₂3, hφ₂e⟩ := exists_preimage_img148 hF₂
@@ -214,7 +214,7 @@ theorem le_img148_inf_centralizer {A Y : Subgroup G} [(ker148 A Y).Normal]
     (hAY : A ≤ Subgroup.normalizer (Y : Set G)) {d : G} (hdA : d ∈ A) (hd3 : d ^ 3 = 1)
     {U : Subgroup G} (hUY : U ≤ Y) {F : Subgroup (↥(Y ⊔ A) ⧸ ker148 A Y)}
     (hFU : F ≤ img148 A Y U) (hFd : F ≤ Subgroup.centralizer {alpha148 A Y d hdA}) :
-    F ≤ img148 A Y (Y ⊓ Subgroup.centralizer ({d} : Set G)) := fun x hx =>
+    F ≤ img148 A Y (Y ⊓ Subgroup.centralizer ({d} : Set G)) := fun _x hx =>
   Item148Rank.mem_img148_centralizer_of_commute148 hAY hdA hd3 hUY (hFU hx)
     (Subgroup.mem_centralizer_singleton_iff.mp (hFd hx)).symm
 
@@ -230,7 +230,7 @@ theorem false_of_ncard_twelve_img148'
       F₁ ≤ Subgroup.centralizer (F₂ : Set (↥(Y ⊔ A) ⧸ ker148 A Y)) →
       IsTwelveType ↥F₁ → IsTwelveType ↥F₂ → False := by
   intro F₁ F₂ hF₁ hF₂ hF₁d hF₂d hF₁₂ hT₁ hT₂
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   have hd3 : d ^ 3 = 1 := h.isE27.1.2 d hdA
   exact false_of_ncard_twelve_img148 h134 h48 h hY hB hc h12 F₁ F₂
     (le_img148_inf_centralizer hY.2 hdA hd3 le_rfl hF₁ hF₁d)

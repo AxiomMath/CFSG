@@ -109,6 +109,7 @@ theorem Ctx.Qf_sub_eq_zero (hc : Ctx M Q Z B)
   obtain ⟨e', rfl⟩ := S.surjective f
   rw [map_sub, LinearMap.sub_apply, hSB, hw, hw, hgS, sub_self]
 
+omit [Finite G] in
 theorem Ctx.exists_not_mem_span_of_SLNat (hc : Ctx M Q Z B) {t : G} (hSL : SLNat hc t)
     {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     (hK : Nat.card K = Nat.card Z) (w : M₀.E) :
@@ -136,7 +137,7 @@ theorem Ctx.exists_not_mem_span_of_SLNat (hc : Ctx M Q Z B) {t : G} (hSL : SLNat
     rintro ⟨_, hv⟩
     obtain ⟨c, rfl⟩ := Submodule.mem_span_singleton.mp hv
     exact ⟨c, rfl⟩
-  haveI : Finite (Submodule.span K {w}) := Finite.of_surjective _ hsurj
+  have : Finite (Submodule.span K {w}) := Finite.of_surjective _ hsurj
   have hcard1 := Nat.card_le_card_of_injective F hF
   have hcard2 := Nat.card_le_card_of_surjective _ hsurj
   rw [Nat.card_fun, Nat.card_fin, hK'] at hcard1

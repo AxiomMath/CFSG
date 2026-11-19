@@ -56,6 +56,7 @@ theorem conj_injective {p : ℕ} {P : Subgroup (MulAut S)} {x u : MulAut S}
     calc a * b = b * a * b⁻¹ * b := by rw [this]
       _ = b * a := by group
 
+omit [Finite S] in
 theorem card_comap_conj {E : Subgroup (MulAut S)}
     (hinj : Function.Injective (MulAut.conj : S →* MulAut S))
     (hE : E ≤ (MulAut.conj : S →* MulAut S).range) :
@@ -65,6 +66,7 @@ theorem card_comap_conj {E : Subgroup (MulAut S)}
   conv_rhs => rw [← hmap]
   exact (Subgroup.card_map_of_injective hinj).symm
 
+omit [Finite S] in
 theorem isElemAbelian_comap_conj {p : ℕ} {E : Subgroup (MulAut S)}
     (hinj : Function.Injective (MulAut.conj : S →* MulAut S)) (hE : CFSG.Open.IsElemAbelian p E) :
     CFSG.Open.IsElemAbelian p (E.comap (MulAut.conj : S →* MulAut S)) := by
@@ -199,7 +201,7 @@ theorem sq_sub_one_eq_mul {Q : ℕ} (hQ : 1 ≤ Q) : Q ^ 2 - 1 = (Q - 1) * (Q + 
 theorem isMulCommutative_of_sylowShape {X : Type} [Group X] [Finite X] {p r e : ℕ} [Fact p.Prime]
     (h : CFSG.RankThree.PartOne.K1214.SylowShape p r e X) (Q : Sylow p X) :
     IsMulCommutative (Q : Subgroup X) := by
-  obtain ⟨φ⟩ := h Q Q.isPGroup' Q.not_dvd_index
+  obtain ⟨φ⟩ := h Q Q.isPGroup Q.not_dvd_index
   refine ⟨⟨fun a b => φ.injective ?_⟩⟩
   rw [map_mul, map_mul, mul_comm]
 

@@ -74,6 +74,7 @@ open scoped Classical
 variable {k : ℕ} {U : Fin k → Submodule K V} {e : Fin k → ↥(orthDerived Q)}
   {E : Subgroup ↥(orthDerived Q)}
 
+omit [CharP K 2] in
 private theorem mapsTo_of_mem_frame (hF : IsPlaneFrame Q p U e E)
     {y : ↥(orthDerived Q)} (hy : y ∈ E) (j : Fin k) :
     ∀ v ∈ U j, (y : V ≃ₗ[K] V) v ∈ U j := by
@@ -90,6 +91,7 @@ private theorem mapsTo_of_mem_frame (hF : IsPlaneFrame Q p U e E)
   rw [hm v hv]
   exact hpow m v hv
 
+omit [CharP K 2] in
 private theorem frameProj_eq_zero_of_not_triv (hF : IsPlaneFrame Q p U e E) (hp : p.Prime)
     {y : ↥(orthDerived Q)} (hy : y ∈ E) {s : V} (hs : s ∈ ⨆ j, U j)
     (hys : (y : V ≃ₗ[K] V) s = s) {j : Fin k}
@@ -126,6 +128,7 @@ private theorem frameProj_eq_zero_of_not_triv (hF : IsPlaneFrame Q p U e E) (hp 
   · intro h
     exact absurd (Finset.mem_univ j) h
 
+omit [CharP K 2] in
 theorem fixedSpace_le_trivPlanes (hF : IsPlaneFrame Q p U e E) (hp : p.Prime)
     {y : ↥(orthDerived Q)} (hy : y ∈ E) :
     fixedSpace (y : V ≃ₗ[K] V) ≤
@@ -159,6 +162,7 @@ theorem fixedSpace_le_trivPlanes (hF : IsPlaneFrame Q p U e E) (hp : p.Prime)
       exact Submodule.zero_mem _
   exact Submodule.mem_sup.mpr ⟨s, hsT, w, hw, rfl⟩
 
+omit [CharP K 2] in
 theorem exists_two_trivPlanes (hF : IsPlaneFrame Q p U e E) (hp : p.Prime)
     {y : ↥(orthDerived Q)} (hy : y ∈ E)
     (hW : Module.finrank K (polarPerp Q (⨆ j, U j)) = 2)

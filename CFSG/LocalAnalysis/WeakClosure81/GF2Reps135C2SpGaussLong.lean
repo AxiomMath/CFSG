@@ -49,7 +49,7 @@ private theorem spGL_spSgn_mul_ne_one {n : ℕ} {i j : Fin n} (hij : i ≠ j) :
     (fun c => spSgn i c * spSgn j c) ≠ 1 := by
   intro h
   have h0 := congrFun h i
-  simp only [spSgn, Pi.one_apply, if_neg hij] at h0
+  simp only [spSgn, Pi.one_apply, ite_eq_right hij] at h0
   exact absurd h0 (by norm_num)
 
 open CFSG.StandardType CFSG.LieType.RootSystem CFSG.LieType.Steinberg in

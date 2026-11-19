@@ -42,15 +42,15 @@ theorem exists_monScalar_of_emb_eq_scalar {C : Type} [CommGroup C] {n : ℕ} (hn
   have hσ : ∀ i, y.right⁻¹ i = i := by
     intro i
     have h1 := hent i (y.right⁻¹ i)
-    rw [if_pos rfl] at h1
+    rw [ite_eq_left rfl] at h1
     by_contra hne
-    rw [if_neg (Ne.symm hne)] at h1
+    rw [ite_eq_right (Ne.symm hne)] at h1
     exact (e (y.left i)).ne_zero h1
   have hr : y.right = 1 := inv_eq_one.mp (Equiv.ext hσ)
   have hl : ∀ i, e (y.left i) = c := by
     intro i
     have h1 := hent i i
-    rw [if_pos (hσ i), if_pos rfl] at h1
+    rw [ite_eq_left (hσ i), ite_eq_left rfl] at h1
     exact Units.ext h1
   refine ⟨y.left ⟨0, hn⟩, ?_⟩
   rw [eq_monT_of_right_eq_one hr, monScalar_apply]
@@ -75,7 +75,7 @@ theorem exists_pGroup_ker_det [Finite F] {f n a m : ℕ} [Fact f.Prime]
     rw [← hCa]
     apply Subgroup.card_le_of_le
     rintro _ ⟨x, rfl⟩
-    obtain ⟨k, hk⟩ := Q.isPGroup' x
+    obtain ⟨k, hk⟩ := Q.isPGroup x
     refine ⟨k, ?_⟩
     rw [← map_pow, hk, map_one]
   have hker : f ^ (m - a) ≤ Nat.card δ.ker := by
@@ -92,7 +92,7 @@ theorem exists_pGroup_ker_det [Finite F] {f n a m : ℕ} [Fact f.Prime]
     exact x.1.2
   · rintro _ ⟨x, hx, rfl⟩
     exact hx
-  · exact (Q.isPGroup'.to_subgroup δ.ker).map ι
+  · exact (Q.isPGroup.to_subgroup δ.ker).map ι
   · rw [Subgroup.card_map_of_injective hι]
     exact hker
 
@@ -112,10 +112,10 @@ theorem exists_lift_of_monomial [Finite F] {f n a : ℕ} [Fact f.Prime] (hf2 : f
     ∃ A ∈ G, A ^ f = 1 ∧ ∃ c : Fˣ, A = Matrix.GeneralLinearGroup.scalar (Fin n) c * A₀ := by
   classical
   have hCp : IsPGroup f (unitsPPart F f) := unitsPPart_isPGroup F f
-  haveI : Nontrivial (unitsPPart F f) := by
+  have : Nontrivial (unitsPPart F f) := by
     rw [← Finite.one_lt_card_iff_nontrivial, hCa]
     exact Nat.one_lt_pow (by omega) (Fact.out : f.Prime).one_lt
-  haveI : IsCyclic (unitsPPart F f) := unitsPPart_isCyclic F f
+  have : IsCyclic (unitsPPart F f) := unitsPPart_isCyclic F f
   let e : unitsPPart F f →* Fˣ := (unitsPPart F f).subtype
   have he : Function.Injective e := Subtype.val_injective
   let E := monEmb e n
@@ -262,7 +262,7 @@ theorem exists_lift_of_cover {K' Ĝ : Type} [Group K'] [Group Ĝ] [Finite Ĝ] [F
     rw [← hPmap] at this
     exact Subgroup.mem_map.1 this
   have hz1 : z ^ f = 1 := hz ▸ pow_orderOf_eq_one z
-  have hP₁p : IsPGroup f ((P : Subgroup Ĝ).map ι) := P.isPGroup'.map ι
+  have hP₁p : IsPGroup f ((P : Subgroup Ĝ).map ι) := P.isPGroup.map ι
   have hP₁c : Nat.card ((P : Subgroup Ĝ).map ι) = Nat.card (P : Subgroup Ĝ) :=
     Subgroup.card_map_of_injective hι
   obtain ⟨Â, hÂG, hÂf, c, hÂc⟩ := exists_lift_of_monomial hf2 hfn hn hCa ha ι.range hGdet hdiag

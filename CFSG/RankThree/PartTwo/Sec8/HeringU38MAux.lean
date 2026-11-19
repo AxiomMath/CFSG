@@ -106,7 +106,7 @@ theorem exists_eigenvector_root {B : Matrix (Fin 3) (Fin 3) K} {c : K} {u₀ : F
     exact one_ne_zero h1.2.2
   obtain ⟨w, hw⟩ : ∃ w : Fin 3 → K, Q *ᵥ w ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hQ0 (Matrix.ext_of_mulVec_single fun i => by rw [hcon, Matrix.zero_mulVec])
   refine ⟨Q *ᵥ w, hw, ?_⟩
   have hBBB : B * (B * B) = l ^ 3 • (1 : Matrix (Fin 3) (Fin 3) K) := by
@@ -121,7 +121,7 @@ theorem eigen_eta {B y : Matrix (Fin 3) (Fin 3) K} {c : K} (hB : adjM h B * B = 
     (hl3 : l ^ 3 = c) {v : Fin 3 → K} (hv : v ≠ 0) (hBv : B *ᵥ v = l • v) {a b d : K}
     (hyp : y = a • (1 : Matrix (Fin 3) (Fin 3) K) + b • B + d • (B * B))
     (hy : adjM h y * y = 1) (hy7 : y ^ 7 = 1) : a + b * l + d * l ^ 2 = 1 := by
-  haveI := h.charP
+  have := h.charP
   have hl0 : l ≠ 0 := by
     rintro rfl
     simp at hl9
@@ -202,8 +202,8 @@ theorem eq_one_of_regular {B y : Matrix (Fin 3) (Fin 3) K} {c : K} {u : Fin 3 �
     (hB : adjM h B * B = 1) (hB3 : B * B * B = c • (1 : Matrix (Fin 3) (Fin 3) K)) (hc3 : c ^ 3 = 1)
     (hu : (cycMat B u).det ≠ 0) (hy : adjM h y * y = 1) (hy7 : y ^ 7 = 1) (hyB : y * B = B * y) :
     y = 1 := by
-  haveI := h.charP
-  haveI := h.finite
+  have := h.charP
+  have := h.finite
   obtain ⟨a, b, d, hyp⟩ := exists_poly hu hyB
   have hK : Nat.card K = 64 := by rw [h.card]; norm_num
   have hc0 : c ≠ 0 := fun h0 => by rw [h0] at hc3; norm_num at hc3

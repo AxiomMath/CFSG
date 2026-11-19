@@ -23,7 +23,7 @@ theorem sylow_R (hl : d.LinCtx) (k : d.Know12) (c : d.CaseBData) :
   have hES : d.E ≤ c.S := hSeq ▸ le_sup_left
   have hDS : d.D ≤ c.S := hSeq ▸ le_sup_right
   have hSD : c.S ≤ normalizer (d.D : Set G) :=
-    (Subgroup.normal_subgroupOf_iff_le_normalizer hDS).1 (by haveI := hDchar; infer_instance)
+    (Subgroup.normal_subgroupOf_iff_le_normalizer hDS).1 (by have := hDchar; infer_instance)
   have htE := hd.t_mem_normalizer_E_caseB hl.gms
   have htD := hd.t_mem_normalizer_D
   have htS : d.t ∈ normalizer (c.S : Set G) := by

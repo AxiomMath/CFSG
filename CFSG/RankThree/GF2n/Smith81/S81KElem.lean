@@ -19,6 +19,8 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {E : Type} [AddCommGroup E] [Module K E] {Γ U₀ : Subgroup (E ≃ₗ[K] E)} {p₀ : E}
   {ψ : M₀.E ≃ₗ[K] E} {φ : Lgen M (LB M Q B) →* (E ≃ₗ[K] E)}
 
+omit [Finite K] in
+omit [Finite G] in
 theorem elemBound_transport (hc : Ctx M Q Z B)
     (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) [(Q.subgroupOf M).Normal] (m : ℕ)
     (hcore : ∀ A' : Subgroup (E ≃ₗ[K] E), A' ≤ Γ → IsElemAbelian 2 A' → Nat.card A' ≤ m)

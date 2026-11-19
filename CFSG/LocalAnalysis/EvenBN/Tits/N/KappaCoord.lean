@@ -27,7 +27,7 @@ theorem mono_eq (a : Fin 6 → ZMod 2) :
 theorem mono_zero : mono d 0 = 1 := by simp [mono]
 
 theorem mono_single (j : Fin 6) : mono d (Pi.single j 1) = pb d j := by
-  fin_cases j <;> simp [mono_eq, pb, Pi.single_apply]
+  fin_cases j <;> simp [mono_eq, pb]
 
 theorem mono_mem {S : Subgroup G} {a : Fin 6 → ZMod 2} (h : ∀ j, a j ≠ 0 → pb d j ∈ S) :
     mono d a ∈ S := by
@@ -117,7 +117,7 @@ theorem B_coord_unique (hd : d.Hyp) {a a' : Fin 6 → ZMod 2} (h : mono d a = mo
     exact ⟨a, rfl⟩
   have hcard : Nat.card (Fin 6 → ZMod 2) ≤ Nat.card d.B := by
     rw [hd.B_facts.2.2.2.1]
-    simp [Nat.card_fun]
+    simp
   exact (hsurj.bijective_of_nat_card_le hcard).1 (Subtype.ext h)
 
 theorem exists_coord (hd : d.Hyp) {S : Subgroup G} {k : ℕ} (hk : k ≤ 6) (hS : Nat.card S = 2 ^ k)

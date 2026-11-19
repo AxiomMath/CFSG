@@ -32,7 +32,7 @@ theorem sec9d_not_conj_z_t (h37 : Asc82Lemma37) (hT6 : Asc82Tab6M)
       (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl h3)))))) (sec9d_t_mem_cent h)
 
 theorem sec9d_coset_disjoint_conj (h37 : Asc82Lemma37) (h66 : Asc82Lemma66)
-    (hT6 : Asc82Tab6M) (hB8 : Asc82Sec8B) (h : Sec8Base G t L S z g B) :
+    (hT6 : Asc82Tab6M) (_hB8 : Asc82Sec8B) (h : Sec8Base G t L S z g B) :
     ∀ b ∈ B, t * b ∉ CFSG.conjugate L g := by
   intro b hb hw
   have hLM : IsOm6M L := sec9d_isOm6M h
@@ -51,7 +51,7 @@ theorem sec9d_coset_disjoint_conj (h37 : Asc82Lemma37) (h66 : Asc82Lemma66)
       _ = (t * t) * (b * b) := by group
       _ = 1 := by rw [sec9d_t_sq h, sec9d_B_sq h hb, one_mul]
   have hw2 : orderOf (t * b) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime (p := 2) (by rwa [pow_two]) hwne
   have hvL : g * (t * b) * g⁻¹ ∈ L := (mem_conjugate_iff L g (t * b)).mp hw
   have hv2 : orderOf (g * (t * b) * g⁻¹) = 2 := by
@@ -67,7 +67,7 @@ theorem sec9d_coset_disjoint_conj (h37 : Asc82Lemma37) (h66 : Asc82Lemma66)
     by_cases hb1 : b = 1
     · rw [hb1, mul_one]
     · have hb2 : orderOf b = 2 := by
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         exact orderOf_eq_prime (p := 2) (by rw [pow_two]; exact sec9d_B_sq h hb) hb1
       exact h66 G t L h.toSec3SettingLB h.omega6m b hb2 hbL
   exact (sec9d_not_conj_z_t h37 hT6 h) (IsConj.trans hzv (hvw.trans (IsConj.symm htw)))

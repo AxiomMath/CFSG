@@ -26,6 +26,7 @@ private def reflOverR {Bs : Subgroup G} (p n : ℕ)
   {r | p ∣ n + 3 ∧ ∀ b : ↥Bs,
     κ (Additive.ofMul (r b)) = kThreeRefl p n (κ (Additive.ofMul b))}
 
+omit [Finite G] in
 private theorem reflOverR_subsingleton {Bs : Subgroup G} {p n : ℕ}
     (κ : Additive ↥Bs ≃+ (Fin (n + 1) → ZMod p)) : (reflOverR p n κ).Subsingleton := by
   intro r hr s hs
@@ -68,7 +69,7 @@ private theorem ggTypeAReflOver_aux (hLB : GGLBalanceInput) {p : ℕ} {B Bs : Su
   classical
   have hp2 : p ≠ 2 := hX.odd
   have hn : 3 ≤ n := hX.three_le
-  haveI : Fact p.Prime := ⟨hX.prime⟩
+  have : Fact p.Prime := ⟨hX.prime⟩
   have hBs : IsElemAbelian p Bs := by
     obtain ⟨⟨-, hBs, -⟩, -, -, -, -⟩ := h
     exact hBs.2.1
@@ -160,7 +161,7 @@ theorem ggTypeAReflOver_of_known (hCD : GGTypeACompatDiagBInput) (hLB : GGLBalan
   classical
   obtain ⟨φ₁, φ₂, hL, hk₁, hK, hk₂, hJ, hc, hdiag⟩ := hCD G p B Bs x L D J n f y K h
   have hX : GGFarCtx p Bs φ₁ φ₂ x y := ggFarCtx_of_cfg h hL hk₁ hK hk₂ hc hdiag
-  haveI : Fact p.Prime := ⟨hX.prime⟩
+  have : Fact p.Prime := ⟨hX.prime⟩
   have hp2 : p ≠ 2 := hX.odd
   have hn : 3 ≤ n := hX.three_le
   have hBs : IsElemAbelian p Bs := by
@@ -334,7 +335,7 @@ theorem ggTypeAReflOver_of_known (hCD : GGTypeACompatDiagBInput) (hLB : GGLBalan
           by_cases hi : i = 0
           · rw [hi]
           · have h10 : (1 : Fin (n + 1)) ≠ 0 := by
-              haveI : NeZero n := ⟨by omega⟩
+              have : NeZero n := ⟨by omega⟩
               rw [← Fin.succ_zero_eq_one' (n := n)]
               exact Fin.succ_ne_zero _
             have h1 : v₂ i = v₂ 1 := hW₂ i 1 hi h10

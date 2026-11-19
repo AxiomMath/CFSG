@@ -47,7 +47,7 @@ theorem pair_sylow_fixed_pair_of_no_regular {group : Type*} [Group group] [Finit
     first_fixed second_fixed
   by_contra not_small
   have image_three : CFSG.OrderReductions.MaximalThreePoint.ThreePointPrime
-      (points := Component group) prime image := ⟨sylow.isPGroup'.map _, by omega⟩
+      (points := Component group) prime image := ⟨sylow.isPGroup.map _, by omega⟩
   obtain ⟨maximal_group, contains, maximal⟩ := Finite.exists_le_maximal image_three
   obtain ⟨base, base_fixed, base_even⟩ := even_point_rule maximal_group maximal
   have large_fixed : 2 < (MulAction.fixedPoints maximal_group (Component group)).ncard := by
@@ -69,7 +69,7 @@ theorem no_regular_double_transitive {group : Type*} [Group group] [Finite group
   intro first second distinct
   obtain ⟨sylow⟩ := Sylow.nonempty (p := prime) (G := pairSubgroup first second)
   exact ⟨(sylow : Subgroup (pairSubgroup first second)).map (pairSubgroup first second).subtype,
-    sylow.isPGroup'.map _, pair_sylow_fixed_pair_of_no_regular prime even_point_rule no_regular
+    sylow.isPGroup.map _, pair_sylow_fixed_pair_of_no_regular prime even_point_rule no_regular
       first second distinct sylow⟩
 
 theorem no_regular_exists_fixed_pair {group : Type*} [Group group] [Finite group]
@@ -86,7 +86,7 @@ theorem no_regular_exists_fixed_pair {group : Type*} [Group group] [Finite group
     (Set.two_lt_ncard (Set.toFinite _)).mp degree_large
   obtain ⟨sylow⟩ := Sylow.nonempty (p := prime) (G := pairSubgroup first second)
   refine ⟨(sylow : Subgroup (pairSubgroup first second)).map (pairSubgroup first second).subtype,
-    sylow.isPGroup'.map _, ?_⟩
+    sylow.isPGroup.map _, ?_⟩
   rw [pair_sylow_fixed_pair_of_no_regular prime even_point_rule no_regular first second distinct sylow,
     Nat.card_coe_set_eq, Set.ncard_pair distinct]
 
@@ -139,7 +139,7 @@ theorem no_regular_of_fixed_pair {group : Type*} [Group group] [Finite group]
   let image := (initial : Subgroup (pairSubgroup first second)).map (pairSubgroup first second).subtype
   have image_three : CFSG.OrderReductions.MaximalThreePoint.ThreePointPrime
       (points := Component group) prime image :=
-    ⟨initial.isPGroup'.map _, pRegular_pair_sylow_three_fixed prime first second distinct regular initial⟩
+    ⟨initial.isPGroup.map _, pRegular_pair_sylow_three_fixed prime first second distinct regular initial⟩
   obtain ⟨maximal_group, initial_contains, maximal⟩ := Finite.exists_le_maximal image_three
   obtain ⟨base, base_fixed, base_even⟩ := even_point_rule maximal_group maximal
   obtain ⟨ambient, ambient_contains⟩ := maximal.prop.1.exists_le_sylow
@@ -163,7 +163,7 @@ theorem no_regular_of_fixed_pair {group : Type*} [Group group] [Finite group]
       MulAction.mem_fixedPoints.mp second_fixed_ambient ⟨element, element_mem⟩⟩
   have internal_prime : IsPGroup prime
       ((ambient : Subgroup group).subgroupOf (pairSubgroup fixed_first fixed_second)) :=
-    ambient.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe ambient_le_pair).symm
+    ambient.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe ambient_le_pair).symm
   have pair_le_internal : (pair_sylow : Subgroup (pairSubgroup fixed_first fixed_second)) ≤
       (ambient : Subgroup group).subgroupOf (pairSubgroup fixed_first fixed_second) := by
     intro element element_mem

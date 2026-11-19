@@ -104,7 +104,7 @@ theorem omegaFrameData_of_embedding {K : Type} [Field K] [Fintype K] {V : Type} 
       fin_cases i <;> fin_cases j <;> simp_all [Equiv.swap_comm]
     rw [hsw]
     by_cases h2 : (2 : K) = 0
-    · haveI : CharP K 2 := charP_two_of_two_eq_zero h2
+    · have : CharP K 2 := charP_two_of_two_eq_zero h2
       have hS : (ψ (piPermIsom S₀ 2 (Equiv.swap 0 1)) : V ≃ₗ[K] V) ∈
           ⁅TauCeti.QuadraticMap.orthogonalGroup Q, TauCeti.QuadraticMap.orthogonalGroup Q⁆ :=
         hψD inferInstance _ (by rw [finrank_commSpace_swap]; exact ⟨d, by omega⟩)

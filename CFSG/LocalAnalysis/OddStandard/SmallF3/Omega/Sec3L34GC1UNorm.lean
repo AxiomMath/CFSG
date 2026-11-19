@@ -11,6 +11,7 @@ open Subgroup
 
 variable {A : Type} [Group A] [Finite A] {H : Subgroup A} {𝒮 : Set (Subgroup A)} {x : A}
 
+omit [Finite A] in
 private theorem l34g_conj_self {S : Subgroup A} (hx2 : x * x = 1) :
     CFSG.conjugate (CFSG.conjugate S x) x = S := by
   rw [l34g_conjugate_conjugate, hx2]
@@ -18,11 +19,13 @@ private theorem l34g_conj_self {S : Subgroup A} (hx2 : x * x = 1) :
   rw [sec63P_mem_conjugate_iff]
   simp
 
+omit [Finite A] in
 private theorem l34g_conj_pow_of_conj {S : Subgroup A} {g : A}
     (h : CFSG.conjugate S g = S) (k : ℕ) : CFSG.conjugate S (g ^ k) = S := by
   rw [sec63P_conjugate_eq_iff] at h ⊢
   exact (normalizer (S : Set A)).pow_mem h k
 
+omit [Finite A] in
 private theorem l34g_conj_sq_of_eq {S : Subgroup A} {p : A}
     (hx2 : x * x = 1) (hpx : p * x = x * p)
     (h : CFSG.conjugate S p = CFSG.conjugate S x) :
@@ -30,6 +33,7 @@ private theorem l34g_conj_sq_of_eq {S : Subgroup A} {p : A}
   rw [← l34g_conjugate_conjugate S p p, h, l34g_conjugate_conjugate S x p, hpx.symm,
     ← l34g_conjugate_conjugate S p x, h, l34g_conj_self hx2]
 
+omit [Finite A] in
 private theorem l34g_pow_two_eq_of_pow_eq_one {p : A} {m : ℕ} (hp : p ^ (3 ^ m) = 1) :
     ∃ k : ℕ, p = (p * p) ^ k := by
   have hodd : Odd (3 ^ m) := Odd.pow (by norm_num : Odd 3)
@@ -38,6 +42,7 @@ private theorem l34g_pow_two_eq_of_pow_eq_one {p : A} {m : ℕ} (hp : p ^ (3 ^ m
   have h2 : (p * p) ^ k = p ^ (2 * k) := by rw [← pow_two p, ← pow_mul]
   rw [h2, ← hk, pow_one]
 
+omit [Finite A] in
 private theorem l34g_conj_eq_of_conj_sq_eq {S : Subgroup A} {p : A} {m : ℕ}
     (hp : p ^ (3 ^ m) = 1) (h : CFSG.conjugate S (p * p) = S) :
     CFSG.conjugate S p = S := by
@@ -45,10 +50,12 @@ private theorem l34g_conj_eq_of_conj_sq_eq {S : Subgroup A} {p : A} {m : ℕ}
   rw [hk]
   exact l34g_conj_pow_of_conj h k
 
+omit [Finite A] in
 private theorem l34g_eq_conj_of_conj_eq {K T : Subgroup A} (hx2 : x * x = 1)
     (h : CFSG.conjugate K x = T) : K = CFSG.conjugate T x := by
   rw [← h, l34g_conj_self hx2]
 
+omit [Finite A] in
 private theorem l34g_conj_mem_conj {S : Subgroup A} {d : A} (hx2 : x * x = 1) (hd : d ∈ S) :
     x * d * x⁻¹ ∈ CFSG.conjugate S x := by
   rw [sec63P_mem_conjugate_iff]
@@ -60,6 +67,7 @@ private theorem l34g_conj_mem_conj {S : Subgroup A} {d : A} (hx2 : x * x = 1) (h
   rw [hxx]
   exact hd
 
+omit [Finite A] in
 private theorem l34g_mul_comm_of_comm {R S T : Subgroup A}
     (hSR : ∀ a ∈ S, ∀ b ∈ R, a * b = b * a)
     (hTR : ∀ a ∈ T, ∀ b ∈ R, a * b = b * a)
@@ -81,6 +89,7 @@ private theorem l34g_norm_fixed (hF : L34GFac H 𝒮 x) {S : Subgroup A} {p c : 
     exact Subgroup.mem_inf.mpr ⟨hcS, hcSp⟩
   exact hcne (Subgroup.mem_bot.mp hcbot)
 
+omit [Finite A] in
 private theorem l34g_norm_diag_eq {p d : A} (hpx : p * x = x * p)
     (hpz : p * (d * (x * d * x⁻¹)) = (d * (x * d * x⁻¹)) * p) :
     d * (x * d * x⁻¹) = (p⁻¹ * d * p) * (x * (p⁻¹ * d * p) * x⁻¹) := by
@@ -102,6 +111,7 @@ private theorem l34g_norm_diag_eq {p d : A} (hpx : p * x = x * p)
     _ = (p⁻¹ * d * p) * (p⁻¹ * (x * d * x⁻¹) * p) := by group
     _ = (p⁻¹ * d * p) * (x * (p⁻¹ * d * p) * x⁻¹) := by rw [hdiag]
 
+omit [Finite A] in
 private theorem l34g_norm_diag_central (hF : L34GFac H 𝒮 x) {S S' : Subgroup A} (hS : S ∈ 𝒮)
     (hS' : S' ∈ 𝒮) (hne : S' ≠ S) (hne' : S' ≠ CFSG.conjugate S x) {d d' : A}
     (hd : d ∈ S) (hd' : d' ∈ S')

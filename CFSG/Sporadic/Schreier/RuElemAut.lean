@@ -33,7 +33,7 @@ variable {W : Type*} [Group W]
 theorem ru_nonempty_mulEquiv_of_elementary [Finite W] (hcomm : ∀ a b : W, a * b = b * a)
     (hpow : ∀ a : W, a ^ p = 1) {n : ℕ} (hcard : Nat.card W = p ^ n) :
     Nonempty (W ≃* Multiplicative (Fin n → ZMod p)) := by
-  letI : CommGroup W := { (inferInstance : Group W) with mul_comm := hcomm }
+  let : CommGroup W := { (inferInstance : Group W) with mul_comm := hcomm }
   let m : Module (ZMod p) (Additive W) := AddCommGroup.zmodModule (n := p) fun x => by
     rw [← ofMul_toMul x, ← ofMul_pow, hpow, ofMul_one]
   let _ : Module (ZMod p) (Additive W) := m
@@ -44,7 +44,7 @@ theorem ru_nonempty_mulEquiv_of_elementary [Finite W] (hcomm : ∀ a b : W, a * 
     let b := @Module.Free.chooseBasis (ZMod p) (Additive W) _ _ m hFr
     have hb : @Finite (@Module.Free.ChooseBasisIndex (ZMod p) (Additive W) _ _ m hFr) :=
       @Module.Finite.finite_basis (ZMod p) (Additive W) _ _ m _ _ hF b
-    haveI : Fintype (@Module.Free.ChooseBasisIndex (ZMod p) (Additive W) _ _ m hFr) :=
+    have : Fintype (@Module.Free.ChooseBasisIndex (ZMod p) (Additive W) _ _ m hFr) :=
       @Fintype.ofFinite _ hb
     calc Nat.card (Additive W)
         = Nat.card (@Module.Free.ChooseBasisIndex (ZMod p) (Additive W) _ _ m hFr →₀ ZMod p) :=

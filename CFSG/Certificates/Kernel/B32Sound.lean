@@ -25,14 +25,14 @@ theorem foldl_loop {β : Type} (f : β → UInt8 → β) (b : ByteArray) :
   | i + 1, j, acc, h => by
     have hj : j < b.size := by omega
     have hj' : j < b.data.toList.length := by rw [Array.length_toList]; exact hj
-    rw [ByteArray.foldlM.loop, dif_pos hj, List.drop_eq_getElem_cons hj', List.foldl_cons,
+    rw [ByteArray.foldlM.loop, dite_eq_left hj, List.drop_eq_getElem_cons hj', List.foldl_cons,
       ← foldl_loop f b i (j + 1) _ (by omega)]
     rfl
 
 theorem byteArray_foldl_eq {β : Type} (f : β → UInt8 → β) (init : β) (b : ByteArray) :
     b.foldl f init = b.data.toList.foldl f init := by
   unfold ByteArray.foldl ByteArray.foldlM
-  rw [dif_pos (Nat.le_refl _)]
+  rw [dite_eq_left (Nat.le_refl _)]
   exact (foldl_loop f b b.size 0 init (by omega)).trans (by rw [List.drop_zero])
 
 theorem toUTF8_toList {cs : List Char} (h : ∀ c ∈ cs, c.toNat < 128) :

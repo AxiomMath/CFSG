@@ -44,8 +44,8 @@ theorem fixed_center_of_cube {S : Type} [Group S] (hZ : Nat.card (Subgroup.cente
   intro z hz
   by_cases hz1 : z = 1
   · rw [hz1, map_one]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Subgroup.center S) := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Subgroup.center S) := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
   have hz3 : z ^ 3 = 1 := by
     have h : (⟨z, hz⟩ : Subgroup.center S) ^ Nat.card (Subgroup.center S) = 1 :=
       pow_card_eq_one'

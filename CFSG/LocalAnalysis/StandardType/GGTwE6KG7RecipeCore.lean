@@ -83,8 +83,8 @@ theorem recipe_core
       ∃ ψ ∈ I, LargeEvenInduces θ
         (fun l l' : ↥Kc => (l' : TwE6Delta.RecipeR K n) = φ l) ψ := by
   obtain ⟨σ, hσ, ε, hε⟩ := TwE6Transport.exists_recipeConj (K := K) hn hK
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   let Fr : AlgebraicClosure K →+* AlgebraicClosure K := iterateFrobenius (AlgebraicClosure K) 2 n
   have hFr : ∀ c, Fr c = c ^ 2 ^ n :=

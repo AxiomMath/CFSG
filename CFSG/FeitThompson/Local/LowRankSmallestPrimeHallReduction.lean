@@ -239,12 +239,12 @@ theorem elementaryAbelianPRank_fittingRaw_charHallPCompl_le (hq : q.Prime) (p : 
     (Subgroup.normal_of_characteristic _)) (hrank q hq)
 
 theorem charHallPCompl_isCharacteristicHall [Group.IsSolvable G] (hp : p.Prime)
-    (hmin : ∀ q : ℕ, q.Prime → q ∣ Nat.card G → p ≤ q) (hodd : Odd (Nat.card G))
-    (hrank : ∀ q : ℕ, q.Prime → elementaryAbelianPRank q ↥(fittingRaw G) ≤ 2) :
+    (hmin : ∀ _q : ℕ, _q.Prime → _q ∣ Nat.card G → p ≤ _q) (hodd : Odd (Nat.card G))
+    (hrank : ∀ _q : ℕ, _q.Prime → elementaryAbelianPRank _q ↥(fittingRaw G) ≤ 2) :
     (charHallPCompl p G).Characteristic ∧ IsHallSubgroup ({p}ᶜ : Set ℕ) (charHallPCompl p G) ∧
-      ∀ q : ℕ, q.Prime → elementaryAbelianPRank q ↥(fittingRaw ↥(charHallPCompl p G)) ≤ 2 :=
+      ∀ _q : ℕ, _q.Prime → elementaryAbelianPRank _q ↥(fittingRaw ↥(charHallPCompl p G)) ≤ 2 :=
   ⟨charHallPCompl_characteristic p G, isHallSubgroup_charHallPCompl hp hmin hodd hrank,
-    fun q hq => elementaryAbelianPRank_fittingRaw_charHallPCompl_le hq p G hrank⟩
+    fun _q hq => elementaryAbelianPRank_fittingRaw_charHallPCompl_le hq p G hrank⟩
 
 private theorem minFac_prime_natCard_and_min (X : Type*) [Finite X] [Nontrivial X] :
     (Nat.card X).minFac.Prime ∧

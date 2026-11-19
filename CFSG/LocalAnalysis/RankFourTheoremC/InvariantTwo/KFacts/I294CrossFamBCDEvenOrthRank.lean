@@ -16,13 +16,13 @@ variable {p : ℕ} [hp : Fact p.Prime] {K : Type} [Field K] [Finite K]
 theorem odd_card_of_odd_finrank {V : Type} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
     {Q : QuadraticForm K V} (hQ : (polarBilin Q).Nondegenerate) (hodd : Odd (finrank K V)) :
     Odd (Nat.card K) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   by_contra hne
   have hmod : Fintype.card K % 2 = 0 := by
     rw [← Nat.card_eq_fintype_card]
     exact Nat.even_iff.1 (Nat.not_odd_iff_even.1 hne)
   have hchar : ringChar K = 2 := FiniteField.even_card_iff_char_two.2 hmod
-  haveI : CharP K 2 := ringChar.of_eq hchar
+  have : CharP K 2 := ringChar.of_eq hchar
   have halt : (polarBilin Q).IsAlt := fun x => by
     rw [polarBilin_apply_apply, QuadraticMap.polar_self, two_nsmul]
     exact CharTwo.add_self_eq_zero _
@@ -136,7 +136,7 @@ theorem three_le_pRank_centralizer_orthogonal (hp5 : 5 ≤ p) (hpK : ¬ p ∣ Na
   have hab : ∀ P : Sylow p (TauCeti.QuadraticMap.orthogonalGroup (resQ Q W)),
       IsMulCommutative (P : Subgroup _) := fun P =>
     isMulCommutative_of_isPGroup_equiv hp2' hpK he hpe
-      (TauCeti.QuadraticMap.orthogonalGroup (resQ Q W)) hne P.isPGroup'
+      (TauCeti.QuadraticMap.orthogonalGroup (resQ Q W)) hne P.isPGroup
   have hcomb := pRank_centralizer_add_le (p := p) (blockHomO hWC hperp)
     (blockHomO_injective hWC hperp) yW yC
   rw [hblock] at hcomb

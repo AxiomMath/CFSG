@@ -70,7 +70,7 @@ theorem e8A2Roots_explicit :
   ext α
   constructor
   · intro hα
-    simp only [e8A2Roots, Set.mem_setOf_eq] at hα
+    simp only [e8A2Roots, Set.mem_ofPred_eq] at hα
     rcases hα with h | h | h | h | h | h
     · exact Or.inl h
     · exact Or.inr (Or.inl h)
@@ -109,12 +109,12 @@ theorem e8A2Roots_cases {α : Fin Tag.E8.rank → ℤ} (hα : α ∈ e8A2Roots) 
 theorem e8A2RootsB_iff {α : Fin Tag.E8.rank → ℤ} :
     e8A2RootsB α = true ↔ α ∈ e8A2Roots := by
   rw [e8A2Roots_explicit]
-  simp only [e8A2RootsB, Bool.or_eq_true, decide_eq_true_eq, Set.mem_setOf_eq]
+  simp only [e8A2RootsB, Bool.or_eq_true, decide_eq_true_eq, Set.mem_ofPred_eq]
   tauto
 
 theorem isRoot_of_mem_e8A2Roots {α : Fin Tag.E8.rank → ℤ} (hα : α ∈ e8A2Roots) :
     IsRoot Tag.E8 α := by
-  simp only [e8A2Roots, Set.mem_setOf_eq] at hα
+  simp only [e8A2Roots, Set.mem_ofPred_eq] at hα
   rcases hα with rfl | rfl | rfl | rfl | rfl | rfl
   · exact IsRoot.basis 0
   · exact IsRoot.neg (IsRoot.basis 0)
@@ -138,18 +138,18 @@ theorem e8A2Roots_subset_e8T3XKernel : e8A2Roots ⊆ e8T3XKernel := by
   intro α hα
   have hroot := isRoot_of_mem_e8A2Roots hα
   refine ⟨hroot, ?_, ?_⟩
-  · simp only [e8A2Roots, Set.mem_setOf_eq] at hα
+  · simp only [e8A2Roots, Set.mem_ofPred_eq] at hα
     rcases hα with rfl | rfl | rfl | rfl | rfl | rfl <;> decide
-  · simp only [e8A2Roots, Set.mem_setOf_eq] at hα
+  · simp only [e8A2Roots, Set.mem_ofPred_eq] at hα
     rcases hα with rfl | rfl | rfl | rfl | rfl | rfl <;> decide
 
 theorem e8A2Roots_subset_e8T3ZKernel : e8A2Roots ⊆ e8T3ZKernel := by
   intro α hα
   have hroot := isRoot_of_mem_e8A2Roots hα
   refine ⟨hroot, ?_, ?_⟩
-  · simp only [e8A2Roots, Set.mem_setOf_eq] at hα
+  · simp only [e8A2Roots, Set.mem_ofPred_eq] at hα
     rcases hα with rfl | rfl | rfl | rfl | rfl | rfl <;> decide
-  · simp only [e8A2Roots, Set.mem_setOf_eq] at hα
+  · simp only [e8A2Roots, Set.mem_ofPred_eq] at hα
     rcases hα with rfl | rfl | rfl | rfl | rfl | rfl <;> decide
 
 theorem neg_mem_e8A2Roots {α : Fin Tag.E8.rank → ℤ} (hα : α ∈ e8A2Roots) :

@@ -41,7 +41,7 @@ theorem sec123_comp' [Finite G] {t s : G} {L : Subgroup G} (h36 : Asc82Lemma36)
       · rintro ⟨k, hk, rfl⟩
         simpa [MulAut.conj_apply, mul_assoc] using hk
       · intro hx
-        exact ⟨t * x * t⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+        exact ⟨t * x * t⁻¹, hx, by simp [mul_assoc]⟩
     rw [hmem]
     exact ((Subgroup.mem_normalizer_iff.mp htN) x).symm
   refine ⟨K, hK, hKF, hN, ?_⟩

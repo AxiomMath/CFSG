@@ -46,6 +46,7 @@ theorem torusGL_mem_omega (x : Fin m → Kˣ) :
       _ = TauCeti.diagGL (pairedUnits x) := hsquare
   rwa [hcomm] at hmem
 
+omit [Finite K] [CharP K 2] in
 theorem torusGL_injective : Function.Injective (torusGL K m) := by
   intro x y hxy
   have h1 : TauCeti.diagGL (pairedUnits x) = TauCeti.diagGL (pairedUnits y) := by
@@ -71,7 +72,7 @@ theorem coe_torus (x : Fin m → Kˣ) :
 
 theorem torus_injective :
     Function.Injective (torus (K := K) (m := m) (b := b) (c := c)) :=
-  fun x y h => torusGL_injective (Subtype.ext_iff.mp h)
+  fun _x _y h => torusGL_injective (Subtype.ext_iff.mp h)
 
 @[expose] noncomputable def swapGL (k : Fin m) (hk : k.val + 1 < m) :
     GL (LargeEvenMinusIdx m) K :=
@@ -141,36 +142,28 @@ theorem permutationGL_pairPerm_mem_omegaPlus (k : Fin m) (hk : k.val + 1 < m) (h
         rcases y with a | a
         · by_cases hak : a = k
           · subst hak
-            simp [u1, u2, hg_apply, hπ0_inl, hπ0_inr, hσk, hσl, hσkmk, hσmk, hkmk, hl, hkl, Pi.single_apply,
-              sub_eq_add_neg,
-              CharTwo.neg_eq, add_comm, eq_comm]
+            simp [u1, u2, hg_apply, hπ0_inl, hσk, hkmk, hl, sub_eq_add_neg,
+              CharTwo.neg_eq, add_comm]
           · by_cases hal : a = l
             · subst hal
               have hkmk : k ≠ ⟨k.val + 1, hk⟩ := by simpa [hl] using hkl
-              simp [u1, u2, hg_apply, hπ0_inl, hπ0_inr, hσk, hσl, hσkmk, hσmk, hkmk, hl, hkl,
-                Pi.single_apply, sub_eq_add_neg, CharTwo.neg_eq, add_comm, eq_comm, hσl, hak,
-                hkmk]
+              simp [u1, u2, hg_apply, hπ0_inl, hσmk, hl, sub_eq_add_neg, CharTwo.neg_eq, add_comm, eq_comm, hkmk]
             · have hak' : k ≠ a := Ne.symm hak
               have hal' : a ≠ ⟨k.val + 1, hk⟩ := by simpa [hl] using hal
-              simp [u1, u2, hg_apply, hπ0_inl, hπ0_inr, hσk, hσl, hσkmk, hσmk, hkmk, hl, hkl,
-                Pi.single_apply, sub_eq_add_neg, CharTwo.neg_eq, add_comm, eq_comm,
-                hσne hak hal, hak, hak', hal, hal']
+              simp [u1, u2, hg_apply, hπ0_inl, hl, add_comm, eq_comm,
+                hσne hak hal, hak', hal']
         · by_cases hak : a = k
           · subst hak
-            simp [u1, u2, hg_apply, hπ0_inl, hπ0_inr, hσk, hσl, hσkmk, hσmk, hkmk, hl, hkl, Pi.single_apply,
-              sub_eq_add_neg,
+            simp [u1, u2, hg_apply, hπ0_inr, hσk, hkmk, hl, sub_eq_add_neg,
               CharTwo.neg_eq, add_comm, eq_comm]
           · by_cases hal : a = l
             · subst hal
               have hkmk : k ≠ ⟨k.val + 1, hk⟩ := by simpa [hl] using hkl
-              simp [u1, u2, hg_apply, hπ0_inl, hπ0_inr, hσk, hσl, hσkmk, hσmk, hkmk, hl, hkl,
-                Pi.single_apply, sub_eq_add_neg, CharTwo.neg_eq, add_comm, eq_comm, hσl, hak,
-                hkmk]
+              simp [u1, u2, hg_apply, hπ0_inr, hσmk, hl, sub_eq_add_neg, CharTwo.neg_eq, add_comm, eq_comm, hkmk]
             · have hak' : k ≠ a := Ne.symm hak
               have hal' : a ≠ ⟨k.val + 1, hk⟩ := by simpa [hl] using hal
-              simp [u1, u2, hg_apply, hπ0_inl, hπ0_inr, hσk, hσl, hσkmk, hσmk, hkmk, hl, hkl,
-                Pi.single_apply, sub_eq_add_neg, CharTwo.neg_eq, add_comm, eq_comm,
-                hσne hak hal, hak, hak', hal, hal']
+              simp [u1, u2, hg_apply, hπ0_inr, hl, add_comm, eq_comm,
+                hσne hak hal, hak', hal']
       rw [hv]
       exact Submodule.add_mem _
         (Submodule.smul_mem _ _ (Submodule.subset_span (by simp)))
@@ -185,24 +178,20 @@ theorem permutationGL_pairPerm_mem_omegaPlus (k : Fin m) (hk : k.val + 1 < m) (h
         rcases y with c | c
         · by_cases hck : c = k
           · subst hck
-            simp [u1, u2, hg_apply, hπ0_inl, hπ0_inr, hσk, hσl, hσkmk, hσmk, hkmk, hl, hkl, Pi.single_apply,
-              sub_eq_add_neg,
+            simp [u1, hg_apply, hπ0_inl, hσk, hkmk, hl, sub_eq_add_neg,
               CharTwo.neg_eq, add_comm, eq_comm]
           · by_cases hcl : c = l
             · subst hcl
-              simp [u1, u2, hg_apply, hπ0_inl, hπ0_inr, hσk, hσl, hσkmk, hσmk, hkmk, hl, hkl, Pi.single_apply,
-              sub_eq_add_neg,
-                CharTwo.neg_eq, add_comm, eq_comm, hσl, hck]
+              simp [u1, hg_apply, hπ0_inl, hσmk, hkmk, hl, sub_eq_add_neg,
+                CharTwo.neg_eq, add_comm, eq_comm]
             · have hck' : k ≠ c := Ne.symm hck
               have hcl' : c ≠ ⟨k.val + 1, hk⟩ := by simpa [hl] using hcl
-              simp [u1, u2, hg_apply, hπ0_inl, hπ0_inr, hσk, hσl, hσkmk, hσmk, hkmk, hl, hkl,
-                Pi.single_apply, sub_eq_add_neg, CharTwo.neg_eq, add_comm, eq_comm,
-                hσne hck hcl, hck, hck', hcl, hcl']
+              simp [u1, hg_apply, hπ0_inl, hl, eq_comm,
+                hσne hck hcl, hck', hcl']
         · have hni : π0 (Sum.inr c) ≠ Sum.inl k := by
             rw [hπ0_inr]
             exact fun h => Sum.inl_ne_inr h.symm
-          simp [u1, u2, hg_apply, hπ0_inl, hπ0_inr, hσk, hσl, hσkmk, hσmk, hkmk, hl, hkl,
-            Pi.single_apply, hni, Sum.inl_ne_inr]
+          simp [u1, hg_apply, hπ0_inr, hl]
       have h2 : u2 ∈ CFSG.RankThree.OrthogonalInvolutions.commSpace g := by
         rw [CFSG.RankThree.OrthogonalInvolutions.mem_commSpace]
         refine ⟨Pi.single (Sum.inr k) 1, ?_⟩
@@ -211,34 +200,30 @@ theorem permutationGL_pairPerm_mem_omegaPlus (k : Fin m) (hk : k.val + 1 < m) (h
         · have hni : π0 (Sum.inr c) ≠ Sum.inl k := by
             rw [hπ0_inr]
             exact fun h => Sum.inl_ne_inr h.symm
-          simp [u1, u2, hg_apply, hπ0_inl, hπ0_inr, hσk, hσl, hσkmk, hσmk, hkmk, hl, hkl,
-            Pi.single_apply, hni, Sum.inl_ne_inr]
+          simp [u2, hg_apply, hπ0_inl, hl, Sum.inl_ne_inr]
         · by_cases hck : c = k
           · subst hck
-            simp [u1, u2, hg_apply, hπ0_inl, hπ0_inr, hσk, hσl, hσkmk, hσmk, hkmk, hl, hkl, Pi.single_apply,
-              sub_eq_add_neg,
+            simp [u2, hg_apply, hπ0_inr, hσk, hkmk, hl, sub_eq_add_neg,
               CharTwo.neg_eq, add_comm, eq_comm]
           · by_cases hcl : c = l
             · subst hcl
-              simp [u1, u2, hg_apply, hπ0_inl, hπ0_inr, hσk, hσl, hσkmk, hσmk, hkmk, hl, hkl, Pi.single_apply,
-              sub_eq_add_neg,
-                CharTwo.neg_eq, add_comm, eq_comm, hσl, hck]
+              simp [u2, hg_apply, hπ0_inr, hσmk, hkmk, hl, sub_eq_add_neg,
+                CharTwo.neg_eq, add_comm, eq_comm]
             · have hck' : k ≠ c := Ne.symm hck
               have hcl' : c ≠ ⟨k.val + 1, hk⟩ := by simpa [hl] using hcl
-              simp [u1, u2, hg_apply, hπ0_inl, hπ0_inr, hσk, hσl, hσkmk, hσmk, hkmk, hl, hkl,
-                Pi.single_apply, sub_eq_add_neg, CharTwo.neg_eq, add_comm, eq_comm,
-                hσne hck hcl, hck, hck', hcl, hcl']
+              simp [u2, hg_apply, hπ0_inr, hl, eq_comm,
+                hσne hck hcl, hck', hcl']
       exact Submodule.add_mem _ (Submodule.smul_mem _ _ h1) (Submodule.smul_mem _ _ h2)
   have hli : LinearIndependent K ![u1, u2] := by
     rw [linearIndependent_fin2]
     refine ⟨?_, ?_⟩
     · intro hzero
       have h := congrFun hzero (Sum.inr k)
-      simp [u2, hkl, Pi.single_apply] at h
+      simp [u2, hkl] at h
     · intro c hc
       have h1 := congrFun hc (Sum.inr k)
       have h2 := congrFun hc (Sum.inl k)
-      simp [u1, u2, hkl, Pi.single_apply] at h1 h2
+      simp [u1, u2, hkl] at h1 h2
   have hfin : Module.finrank K (CFSG.RankThree.OrthogonalInvolutions.commSpace g) = 2 := by
     rw [hcomm]
     have hspan : Submodule.span K ({u1, u2} : Set (Fin m ⊕ Fin m → K)) =
@@ -246,7 +231,7 @@ theorem permutationGL_pairPerm_mem_omegaPlus (k : Fin m) (hk : k.val + 1 < m) (h
       congr 1
       ext z
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_range,
-        Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Fin.exists_fin_two]
+        Matrix.cons_val_zero, Matrix.cons_val_one, Fin.exists_fin_two]
       tauto
     rw [hspan, finrank_span_eq_card hli, Fintype.card_fin]
   have hPorth : TauCeti.permutationGL (k := K) π0 ∈ LargeEvenOrthGroup (LargeEvenQPlus K m) :=
@@ -301,6 +286,7 @@ theorem swapGL_mem_omega (k : Fin m) (hk : k.val + 1 < m) (hm : 3 ≤ m) :
       (Equiv.swap k ⟨k.val + 1, hk⟩))) ∈ LargeEvenOmega (LargeEvenQMinus m b c)
   exact blockInl_mem_omegaMinus b c (permutationGL_pairPerm_mem_omegaPlus (K := K) k hk hm)
 
+omit [Finite K] [CharP K 2] in
 theorem swapGL_conj_torusGL (k : Fin m) (hk : k.val + 1 < m) (x : Fin m → Kˣ) :
     swapGL (K := K) (m := m) k hk * torusGL K m x * (swapGL (K := K) (m := m) k hk)⁻¹ =
       torusGL K m (x ∘ Equiv.swap k ⟨k.val + 1, hk⟩) := by
@@ -344,43 +330,48 @@ theorem swapGL_conj_torusGL (k : Fin m) (hk : k.val + 1 < m) (x : Fin m → Kˣ)
     (!![1, b; 0, 1] : Matrix (Fin 2) (Fin 2) K)
   val_inv := by
     rw [Matrix.fromBlocks_multiply]
-    simp only [Matrix.one_mul, Matrix.mul_one, Matrix.zero_mul, Matrix.mul_zero, add_zero]
+    simp only [Matrix.mul_one, Matrix.zero_mul, Matrix.mul_zero, add_zero]
     rw [show (!![1, b; 0, 1] : Matrix (Fin 2) (Fin 2) K) * !![1, b; 0, 1] = 1 by
       ext i j
       fin_cases i <;> fin_cases j <;>
         simp [Matrix.mul_apply, Fin.sum_univ_two, CharTwo.add_self_eq_zero]]
-    simp [Matrix.fromBlocks_one, zero_add, add_zero]
+    simp [Matrix.fromBlocks_one, zero_add]
   inv_val := by
     rw [Matrix.fromBlocks_multiply]
-    simp only [Matrix.one_mul, Matrix.mul_one, Matrix.zero_mul, Matrix.mul_zero, add_zero]
+    simp only [Matrix.mul_one, Matrix.zero_mul, Matrix.mul_zero, add_zero]
     rw [show (!![1, b; 0, 1] : Matrix (Fin 2) (Fin 2) K) * !![1, b; 0, 1] = 1 by
       ext i j
       fin_cases i <;> fin_cases j <;>
         simp [Matrix.mul_apply, Fin.sum_univ_two, CharTwo.add_self_eq_zero]]
-    simp [Matrix.fromBlocks_one, zero_add, add_zero]
+    simp [Matrix.fromBlocks_one, zero_add]
 
+omit [Finite K] in
 theorem coe_planeReflGL (b : K) :
     ((planeReflGL (K := K) (m := m) b : GL (LargeEvenMinusIdx m) K) :
       Matrix (LargeEvenMinusIdx m) (LargeEvenMinusIdx m) K) =
       Matrix.fromBlocks 1 0 0 !![1, b; 0, 1] :=
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem qMinusForm_pairVec (k : Fin m) :
     TableBOrth.qMinusForm K m b c (pairVec (K := K) (m := m) k) = 1 := by
   rw [TableBOrth.coe_qMinusForm]
   simpa [pairVec] using TableBOrth.largeEvenQMinus_single_add_single (K := K) b c k
 
+omit [Finite K] [CharP K 2] in
 theorem qMinusForm_planeVec :
     TableBOrth.qMinusForm K m b c (planeVec (K := K) (m := m)) = 1 := by
   rw [TableBOrth.coe_qMinusForm]
   simp [planeVec, LargeEvenQMinus]
 
+omit [Finite K] [CharP K 2] in
 theorem polar_qMinusForm_pairVec (k : Fin m) (x : LargeEvenMinusIdx m → K) :
     QuadraticMap.polar (TableBOrth.qMinusForm K m b c) (pairVec (K := K) (m := m) k) x =
       x (Sum.inl (Sum.inr k)) + x (Sum.inl (Sum.inl k)) := by
   have h := TableBOrth.isHypCoord_qMinusForm (K := K) b c k
   rw [pairVec, QuadraticMap.polar_add_left, h.polar_left, h.polar_right]
 
+omit [Finite K] in
 theorem polar_qMinusForm_planeVec (x : LargeEvenMinusIdx m → K) :
     QuadraticMap.polar (TableBOrth.qMinusForm K m b c) (planeVec (K := K) (m := m)) x =
       b * x (Sum.inr 1) := by
@@ -406,6 +397,7 @@ theorem polar_qMinusForm_planeVec (x : LargeEvenMinusIdx m → K) :
     show (2 : K) = 0 from
     CharTwo.two_eq_zero, zero_mul, zero_add]
 
+omit [Finite K] in
 theorem toLinEquiv_planeReflGL (b : K) :
     CFSG.ClassicalGroups.Orthogonal.toLinEquiv (LargeEvenMinusIdx m) K
         (planeReflGL (K := K) (m := m) b) =
@@ -429,23 +421,22 @@ theorem toLinEquiv_planeReflGL (b : K) :
       x + (b * x (Sum.inr 1)) • planeVec (K := K) (m := m) := by
     rw [show x = Sum.elim (x ∘ Sum.inl) (x ∘ Sum.inr) from (Sum.elim_comp_inl_inr x).symm]
     rw [Matrix.fromBlocks_mulVec]
-    simp only [Matrix.one_mulVec, Matrix.zero_mulVec, add_zero, zero_add, Sum.elim_comp_inl,
-      Sum.elim_comp_inr, Sum.elim_comp_inl_inr]
+    simp only [Matrix.one_mulVec, Matrix.zero_mulVec, add_zero, zero_add, Sum.elim_comp_inl_inr]
     rw [show (!![1, b; 0, 1] : Matrix (Fin 2) (Fin 2) K) *ᵥ (x ∘ Sum.inr) =
         ![x (Sum.inr 0) + b * x (Sum.inr 1), x (Sum.inr 1)] from by
       ext i
       fin_cases i <;> simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two]]
     funext j
     rcases j with (j | j) | j
-    · simp [planeVec, Pi.single_apply, Pi.add_apply, Pi.smul_apply, Function.comp_apply,
-        smul_eq_mul, Matrix.cons_val_zero, Matrix.cons_val_one]
-    · simp [planeVec, Pi.single_apply, Pi.add_apply, Pi.smul_apply, Function.comp_apply,
-        smul_eq_mul, Matrix.cons_val_zero, Matrix.cons_val_one]
+    · simp [planeVec, Pi.add_apply, Pi.smul_apply, Function.comp_apply,
+        smul_eq_mul]
+    · simp [planeVec, Pi.add_apply, Pi.smul_apply, Function.comp_apply,
+        smul_eq_mul]
     · fin_cases j <;>
-        simp [planeVec, Pi.single_apply, Pi.add_apply, Pi.smul_apply, Function.comp_apply,
-          smul_eq_mul, Matrix.cons_val_zero, Matrix.cons_val_one]
+        simp [planeVec, Pi.add_apply, Pi.smul_apply, smul_eq_mul, Matrix.cons_val_zero, Matrix.cons_val_one]
   rw [hmat]
 
+omit [Finite K] in
 theorem toLinEquiv_blockInl_pairSwap (k : Fin m) :
     CFSG.ClassicalGroups.Orthogonal.toLinEquiv (LargeEvenMinusIdx m) K
         (blockInl (TauCeti.permutationGL (k := K) (pairSwap k))) =
@@ -479,29 +470,27 @@ theorem toLinEquiv_blockInl_pairSwap (k : Fin m) :
     rw [show x = Sum.elim (x ∘ Sum.inl) (x ∘ Sum.inr) from
       (Sum.elim_comp_inl_inr x).symm]
     rw [Matrix.fromBlocks_mulVec]
-    simp only [Matrix.one_mulVec, Matrix.zero_mulVec, add_zero, zero_add, Sum.elim_comp_inl,
-      Sum.elim_comp_inr, Sum.elim_comp_inl_inr]
+    simp only [Matrix.one_mulVec, Matrix.zero_mulVec, add_zero, zero_add, Sum.elim_comp_inl_inr]
     rw [permutationGL_mulVec, pairSwap_inv]
     funext j
     rcases j with (j | j) | j
     · by_cases hj : j = k
       · subst hj
-        simp [pairVec, Pi.single_apply, Function.comp_apply, Pi.add_apply, Pi.smul_apply,
-          smul_eq_mul, CharTwo.add_self_eq_zero, hchar1, hchar2, pairSwap, Equiv.swap_apply_left,
-          Equiv.swap_apply_right]
-      · simp [pairVec, Pi.single_apply, Function.comp_apply, pairSwap, Equiv.swap_apply_def,
+        simp [pairVec, Function.comp_apply, Pi.add_apply, Pi.smul_apply,
+          smul_eq_mul, hchar2, pairSwap, Equiv.swap_apply_left]
+      · simp [pairVec, Function.comp_apply, pairSwap, Equiv.swap_apply_def,
           hj, Pi.add_apply, Pi.smul_apply, smul_eq_mul]
     · by_cases hj : j = k
       · subst hj
-        simp [pairVec, Pi.single_apply, Function.comp_apply, Pi.add_apply, Pi.smul_apply,
-          smul_eq_mul, CharTwo.add_self_eq_zero, hchar1, hchar2, pairSwap, Equiv.swap_apply_left,
-          Equiv.swap_apply_right]
-      · simp [pairVec, Pi.single_apply, Function.comp_apply, pairSwap, Equiv.swap_apply_def,
+        simp [pairVec, Function.comp_apply, Pi.add_apply, Pi.smul_apply,
+          smul_eq_mul, hchar1, pairSwap, Equiv.swap_apply_right]
+      · simp [pairVec, Function.comp_apply, pairSwap, Equiv.swap_apply_def,
           hj, Pi.add_apply, Pi.smul_apply, smul_eq_mul]
-    · simp [pairVec, Pi.single_apply, Function.comp_apply, Pi.add_apply, Pi.smul_apply,
+    · simp [pairVec, Function.comp_apply, Pi.add_apply, Pi.smul_apply,
         smul_eq_mul]
   rw [hmat]
 
+omit [Finite K] in
 theorem planeReflGL_mul_blockInl (g : GL (Fin m ⊕ Fin m) K) :
     planeReflGL (K := K) (m := m) b * blockInl g =
       blockInl g * planeReflGL (K := K) (m := m) b := by
@@ -535,11 +524,11 @@ theorem signGL_mem_omega (k : Fin m) (hm : 3 ≤ m)
       (by
         intro hzero
         have h := congrFun hzero (Sum.inl (Sum.inl k))
-        simp [pairVec, Pi.single_apply] at h)
+        simp [pairVec] at h)
       (by
         intro hzero
         have h := congrFun hzero (Sum.inr 0)
-        simp [planeVec, Pi.single_apply] at h)
+        simp [planeVec] at h)
       (by rw [qMinusForm_pairVec, qMinusForm_planeVec])
   let G : GL (LargeEvenMinusIdx m) K :=
     (CFSG.ClassicalGroups.Orthogonal.toLinEquiv (LargeEvenMinusIdx m) K).symm g
@@ -588,6 +577,7 @@ theorem signGL_mem_omega (k : Fin m) (hm : 3 ≤ m)
   rw [← hsign]
   exact Subgroup.commutator_mem_commutator hGO hrO
 
+omit [Finite K] in
 theorem signGL_conj_torusGL (k : Fin m) (x : Fin m → Kˣ) :
     signGL (K := K) (m := m) (b := b) k * torusGL K m x *
         (signGL (K := K) (m := m) (b := b) k)⁻¹ =

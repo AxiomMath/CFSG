@@ -55,7 +55,7 @@ theorem t6_exists_invariant_sylow {G : Type} [Group G] [Finite G] {K U : Subgrou
     omega
   obtain ⟨⟨Q₀, hQ₀⟩⟩ : Nonempty (MulAction.fixedPoints ↥U (Sylow p ↥K)) :=
     Finite.card_pos_iff.1 (by obtain ⟨k, hk⟩ := hfix; omega)
-  refine ⟨(Q₀ : Subgroup ↥K).map K.subtype, Subgroup.map_subtype_le _, Q₀.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(Q₀ : Subgroup ↥K).map K.subtype, Subgroup.map_subtype_le _, Q₀.isPGroup.map _, ?_, ?_⟩
   · rw [Subgroup.card_map_of_injective K.subtype_injective]
     exact Sylow.card_eq_multiplicity Q₀
   · rintro g hg _ ⟨k, hk, rfl⟩

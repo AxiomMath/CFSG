@@ -61,7 +61,7 @@ theorem orbit_of_set {letters : Array Table} {lG : ℕ → G} {lv : Array ℕ}
     | inv x _ hx => exact inv x hx
   have hset : MulAction.orbit (lettersGroup lv lG) (⟨y, hy⟩ : Fin n) = {p | p.val ∈ P} := by
     ext p
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨⟨g, hg⟩, rfl⟩
       exact (memQ _).1 (keep g hg _ ((memQ _).2 hyP))
@@ -84,7 +84,7 @@ theorem orbit_of_set {letters : Array Table} {lG : ℕ → G} {lv : Array ℕ}
   have hto : Set.toFinset {p : Fin n | p.val ∈ P} =
       Finset.univ.filter fun p : Fin n => p.val ∈ P := by
     ext p
-    simp only [Set.mem_toFinset, Set.mem_setOf_eq, Finset.mem_filter, Finset.mem_univ, true_and]
+    simp only [Set.mem_toFinset, Set.mem_ofPred_eq, Finset.mem_filter, Finset.mem_univ, true_and]
   rw [hto]
   conv_rhs => rw [← hmap]
   rw [Finset.card_map]
@@ -123,7 +123,7 @@ theorem chain_of_orbits [Finite G] {letters : Array Table} {lG : ℕ → G} {bas
     if hi : i < m then H i ⊓ MulAction.stabilizer G (⟨base[i]!, hb i hi⟩ : Fin n) else H i
     with hS
   have hSi : ∀ i (hi : i < m), S i = H i ⊓ MulAction.stabilizer G (⟨base[i]!, hb i hi⟩ : Fin n) :=
-    fun i hi => by simp only [hS, dif_pos hi]
+    fun i hi => by simp only [hS, dite_eq_left hi]
   have orbS : ∀ i (hi : i < m), Nat.card (H i) = s i * Nat.card (S i) := by
     intro i hi
     rw [← horb i hi, hSi i hi]

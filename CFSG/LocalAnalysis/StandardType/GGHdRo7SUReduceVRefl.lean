@@ -44,7 +44,7 @@ theorem hdRo7SUReduceVAux_swap_reflData {V : Type} [AddCommGroup V] [Module (ZMo
   · rw [LinearMap.sub_apply, map_sub, map_sub, hdRo7SUReduceVAux_coord_basis b i i,
       hdRo7SUReduceVAux_coord_basis b i j, hdRo7SUReduceVAux_coord_basis b j i,
       hdRo7SUReduceVAux_coord_basis b j j,
-      if_pos rfl, if_neg hij, if_neg hij.symm, if_pos rfl]
+      ite_eq_left rfl, ite_eq_right hij, ite_eq_right hij.symm, ite_eq_left rfl]
     norm_num
   · intro v
     have hlin : ((b.equiv b (Equiv.swap i j) : V ≃ₗ[ZMod 3] V) : V →ₗ[ZMod 3] V) =
@@ -57,16 +57,16 @@ theorem hdRo7SUReduceVAux_swap_reflData {V : Type} [AddCommGroup V] [Module (ZMo
       by_cases hpi : p = i
       · rw [hpi, Equiv.swap_apply_left]
         rw [hdRo7SUReduceVAux_coord_basis b i i, hdRo7SUReduceVAux_coord_basis b j i,
-          if_pos rfl, if_neg hij.symm, sub_zero, one_smul]
+          ite_eq_left rfl, ite_eq_right hij.symm, sub_zero, one_smul]
         module
       · by_cases hpj : p = j
         · rw [hpj, Equiv.swap_apply_right]
           rw [hdRo7SUReduceVAux_coord_basis b i j, hdRo7SUReduceVAux_coord_basis b j j,
-            if_pos rfl, if_neg hij, zero_sub, neg_smul, one_smul]
+            ite_eq_left rfl, ite_eq_right hij, zero_sub, neg_smul, one_smul]
           module
         · rw [Equiv.swap_apply_of_ne_of_ne hpi hpj]
           rw [hdRo7SUReduceVAux_coord_basis b i p, hdRo7SUReduceVAux_coord_basis b j p,
-            if_neg (fun h => hpi h.symm), if_neg (fun h => hpj h.symm), sub_self, zero_smul,
+            ite_eq_right (fun h => hpi h.symm), ite_eq_right (fun h => hpj h.symm), sub_self, zero_smul,
             sub_zero]
     have h := congrArg (fun L : V →ₗ[ZMod 3] V => L v) hlin
     simpa [LinearMap.sub_apply, LinearMap.id_apply, LinearMap.smulRight_apply] using h
@@ -89,7 +89,7 @@ theorem hdRo7SUReduceVAux_range_smul_eq {V : Type} [AddCommGroup V] [Module (ZMo
     exact ⟨c⁻¹ • v, by
       rw [LinearMap.smul_apply, map_smul, smul_smul, mul_inv_cancel₀ hc, one_smul]⟩
 
-theorem hdRo7SUReduceVAux_range_smulRight {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Fact (Nat.Prime 3)] {k : V} (hk : k ≠ 0) {φ : V →ₗ[ZMod 3] ZMod 3}
+theorem hdRo7SUReduceVAux_range_smulRight {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Fact (Nat.Prime 3)] {k : V} (_hk : k ≠ 0) {φ : V →ₗ[ZMod 3] ZMod 3}
     (hφ : φ ≠ 0) : LinearMap.range (φ.smulRight k) = Submodule.span (ZMod 3) {k} := by
   apply le_antisymm
   · rintro w ⟨v, rfl⟩
@@ -185,7 +185,7 @@ theorem hdRo7SUReduceVAux_exists_notMem {m : ℕ} {s : Finset (Fin m)} (h : s.ca
 
 theorem hdRo7SUReduceVAux_indep_of_two_coords {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Fact (Nat.Prime 3)] {m : ℕ} [NeZero m]
     (b : Module.Basis (Fin m) (ZMod 3) V)
-    {w0 wl : V} {k : Fin m} (hk : k ≠ 0) {A0 B0 c : ZMod 3}
+    {w0 wl : V} {k : Fin m} (_hk : k ≠ 0) {A0 B0 c : ZMod 3}
     (hA0 : b.coord 0 w0 = A0) (hB0 : b.coord 0 wl = B0)
     (hAk : b.coord k w0 = c) (hBk : b.coord k wl = c)
     (hAB : A0 - B0 ≠ 0) (hc : c ≠ 0) :
@@ -233,8 +233,8 @@ theorem hdRo7SUReduceVAux_second_form_not_refl {V : Type} [AddCommGroup V] [Modu
     (hm : 5 ≤ m) (hm3 : ¬ 3 ∣ m) {σ : Equiv.Perm (Fin m)} {r : V ≃ₗ[ZMod 3] V}
     (hform : ∀ i, r (b i) = -b (σ i) + (2 / (m : ZMod 3)) • SUOnes 3 b)
     (hr : GGLinRefl (p := 3) r) : False := by
-  haveI : NeZero m := ⟨by omega⟩
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
+  have : NeZero m := ⟨by omega⟩
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
   have hm_ne : (m : ZMod 3) ≠ 0 := by
     intro h
     exact hm3 ((CharP.cast_eq_zero_iff (ZMod 3) 3 m).mp h)
@@ -316,9 +316,9 @@ theorem hdRo7SUReduceVAux_second_form_not_refl {V : Type} [AddCommGroup V] [Modu
       (A0 := (2 / (m : ZMod 3)) - 2) (B0 := 2 / (m : ZMod 3))
       (c := 2 / (m : ZMod 3))
       (by rw [hw z z, hσ0]; simp; ring)
-      (by rw [hw o z, if_neg hzσo, if_neg hz_ne_o]; ring)
-      (by rw [hw z k, if_neg (fun h : k = σ z => hkz (h.trans hσ0)), if_neg hkz]; ring)
-      (by rw [hw o k, if_neg hkσo, if_neg hko]; ring)
+      (by rw [hw o z, ite_eq_right hzσo, ite_eq_right hz_ne_o]; ring)
+      (by rw [hw z k, ite_eq_right (fun h : k = σ z => hkz (h.trans hσ0)), ite_eq_right hkz]; ring)
+      (by rw [hw o k, ite_eq_right hkσo, ite_eq_right hko]; ring)
       (by have : (2 / (m : ZMod 3)) - 2 - 2 / (m : ZMod 3) = -2 := by ring
           rw [this]; exact hdRo7SUReduceVAux_neg_two_ne_zero) hc
     exact contra (w z) (w o) hind (hmem z) (hmem o)
@@ -349,10 +349,10 @@ theorem hdRo7SUReduceVAux_second_form_not_refl {V : Type} [AddCommGroup V] [Modu
     have hind := hdRo7SUReduceVAux_indep_of_two_coords b hkz
       (A0 := (2 / (m : ZMod 3)) - 1) (B0 := 2 / (m : ZMod 3))
       (c := 2 / (m : ZMod 3))
-      (by rw [hw z z, if_neg (fun h : z = σ z => hσ0 h.symm), if_pos rfl]; ring)
-      (by rw [hw l z, if_neg hzσl, if_neg (fun h : z = l => hlz h.symm)]; ring)
-      (by rw [hw z k, if_neg hkj, if_neg hkz]; ring)
-      (by rw [hw l k, if_neg hkσl, if_neg hkl]; ring)
+      (by rw [hw z z, ite_eq_right (fun h : z = σ z => hσ0 h.symm), ite_eq_left rfl]; ring)
+      (by rw [hw l z, ite_eq_right hzσl, ite_eq_right (fun h : z = l => hlz h.symm)]; ring)
+      (by rw [hw z k, ite_eq_right hkj, ite_eq_right hkz]; ring)
+      (by rw [hw l k, ite_eq_right hkσl, ite_eq_right hkl]; ring)
       (by have : (2 / (m : ZMod 3)) - 1 - 2 / (m : ZMod 3) = -1 := by ring
           rw [this]; exact hdRo7SUReduceVAux_neg_one_ne_zero) hc
     exact contra (w z) (w l) hind (hmem z) (hmem l)

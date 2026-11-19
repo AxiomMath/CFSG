@@ -19,14 +19,16 @@ section Aux
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem T_le_p128 (T L V : Subgroup G) : T ≤ p128 T L V := by
   refine le_inf le_sup_right ?_
   refine le_iInf fun Y => le_iInf fun hY => ?_
   obtain ⟨i, -, hi⟩ := hY
   exact hi.2.2
 
+omit [Finite G] in
 theorem T_le_normalizer_i128 (T L V V₁ : Subgroup G) :
-    T ≤ Subgroup.normalizer (i128 T L V V₁ : Set G) := fun t ht =>
+    T ≤ Subgroup.normalizer (i128 T L V V₁ : Set G) := fun _t ht =>
   le_normalizer_conjClosure (u128 V V₁) (p128 T L V) (T_le_p128 T L V ht)
 
 theorem T_normalizes_DI {T L V V₁ V₂ : Subgroup G} (hs : Setting1282One G T L V 4 V₁ V₂)
@@ -37,7 +39,7 @@ theorem T_normalizes_DI {T L V V₁ V₂ : Subgroup G} (hs : Setting1282One G T 
       ∀ x ∈ I ⊓ wcSub T L V V₁, y * x * y⁻¹ ∈ I ⊓ wcSub T L V V₁ := by
     intro y h1 h2 h3 x hx
     exact Subgroup.mem_inf.2 ⟨(Subgroup.mem_normalizer_iff.1 h1 x).1 (Subgroup.mem_inf.1 hx).1,
-      wc_normalized (V₂ := V₂) h2 h3 x (Subgroup.mem_inf.1 hx).2⟩
+      wc_normalized (_V₂ := V₂) h2 h3 x (Subgroup.mem_inf.1 hx).2⟩
   intro t ht
   rw [Subgroup.mem_normalizer_iff]
   intro x
@@ -80,8 +82,8 @@ theorem case1294FiveDI_ofW_five (F0 : FactF0) (F1 : FactF1) (F2 : FactF2) (F3 : 
     step3_main h1222 h12213 F5 hcx hs D hq hΓO hΩF4
   obtain ⟨I, hIZ, hKI, hTI, hel, hI16, hkerI⟩ :=
     hID G T L V hcx V₁ V₂ K₁ hs hLK hK hK4 D h5 himg
-  haveI hcomm : IsMulCommutative ↥I := hel.1
-  letI hmod : Module (ZMod 2) (Additive ↥I) := zmodModuleOf hel.2
+  have hcomm : IsMulCommutative ↥I := hel.1
+  let hmod : Module (ZMod 2) (Additive ↥I) := zmodModuleOf hel.2
   have hcardI2 : Nat.card (Additive ↥I) = 2 ^ 4 := by
     show Nat.card ↥I = 2 ^ 4
     norm_num [hI16]

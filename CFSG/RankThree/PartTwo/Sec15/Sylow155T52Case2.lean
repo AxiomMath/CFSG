@@ -136,7 +136,7 @@ theorem isPConstrained_of_monomial (h1 : Sec4.Item4_1LargePrime)
     (hfree : ∀ b ∈ B, b ≠ 1 → Subgroup.zpowers b ∉ omegaA A) :
     CFSG.ABGLocalTools.IsPConstrained 3 ↥(Subgroup.centralizer (B : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   have hFE := (hT.partTwoF_eq_partTwoE hS).1
   have hAE : A ∈ partTwoE G := hFE ▸ hA

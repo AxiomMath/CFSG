@@ -17,7 +17,8 @@ section Shell
 
 variable {Xs Gs T : Type} [Group Xs] [Finite Xs] [Group Gs] [Group T] [Finite T]
 
-theorem s1431_false_of_lift_blocks_gl (π : Xs →* T) (hπ : Function.Surjective π)
+omit [Finite Xs] in
+theorem s1431_false_of_lift_blocks_gl (π : Xs →* T) (_hπ : Function.Surjective π)
     (hker : π.ker ≤ Subgroup.center Xs) (act : Gs →* MulAut Xs) (actT : Gs →* MulAut T)
     (hact : ∀ (g : Gs) (x : Xs), π (act g x) = actT g (π x))
     {A : Subgroup (MulAut T)} {ψ : MulAut T} {J : Subgroup T} {q : ℕ} (c : S1431Cfg T A ψ J q)
@@ -45,9 +46,9 @@ theorem s1431_false_of_lift_blocks_gl (π : Xs →* T) (hπ : Function.Surjectiv
   · exfalso
     rw [hg] at hsolv
     have hJX : J ≤ fixSub ψ := c.comp.1
-    haveI : Group.IsSolvable ↥J :=
+    have : Group.IsSolvable ↥J :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJX)
-    haveI : Group.IsSolvable (barOf 3 J) :=
+    have : Group.IsSolvable (barOf 3 J) :=
       Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective (GLAPPrimeCore 3 ↥J))
     exact CFSG.ClassicalInvolution.not_isSolvable_of_open_isQuasisimple
       (isQuasisimple_quotient_of_glaPComponent c.comp) this

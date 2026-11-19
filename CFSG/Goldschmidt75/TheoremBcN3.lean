@@ -87,7 +87,7 @@ theorem focal_generator_mem (P : Sylow p G) {S S₀ : Subgroup G} (hSP : S ≤ P
   have hKK₁ : K ≤ K₁ := le_sup_right
   have hSK₁ : S ≤ K₁ := le_sup_left
   obtain ⟨T₁, hT₁⟩ :=
-    ((P.isPGroup'.to_inf_left (K := K₁)).comap_subtype (K := K₁)).exists_le_sylow
+    ((P.isPGroup.to_inf_left (K := K₁)).comap_subtype (K := K₁)).exists_le_sylow
   have hST : S.subgroupOf K₁ ≤ T₁ := fun y hy =>
     hT₁ (show (y : G) ∈ (P : Subgroup G) ⊓ K₁ from ⟨hSP hy, y.2⟩)
   have hSc := stronglyClosed_subgroupOf P hS hSK₁ T₁ hST

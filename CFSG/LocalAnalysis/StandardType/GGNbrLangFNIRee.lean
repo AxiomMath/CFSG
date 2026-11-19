@@ -17,7 +17,7 @@ private theorem fniRee_no_mem_ge5 {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] 
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     {s : CFSG.LieType.Ree.ReeTag.F4.reeGamma K a} (hs : orderOf s = p)
     {φ : MulAut (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a)} (hφp : φ ^ p = 1)
-    (hφout : ∀ g, φ ≠ MulAut.conj g) (hφs : φ s = s)
+    (hφout : ∀ g, φ ≠ MulAut.conj g) (_hφs : φ s = s)
     {J : Subgroup (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a)}
     (hJ : CFSG.Open.IsComponentOf J
       (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup (MulAut.conj s)))
@@ -54,7 +54,7 @@ private theorem fniRee_no_mem_ge5 {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field K] 
     obtain ⟨q, rfl⟩ := θ.surjective x
     obtain ⟨k, rfl⟩ := QuotientGroup.mk_surjective q
     have h1 : kgInducedAut θ f' (θ (QuotientGroup.mk k)) = θ (QuotientGroup.mk (f' k)) := by
-      simpa [kgInducedAut, ggInducedAut] using ggInducedAut_apply θ f' k
+      simp [kgInducedAut]
     rw [h1, MulEquiv.symm_apply_apply, MulEquiv.symm_apply_apply]
     exact (CFSG.ComponentClassification.PerfectAutomorphisms.onCenterQuotient_apply_mk f' k).symm
   obtain ⟨j, hj⟩ := CFSG.LocalAnalysis.GLTheoremA.K155X.l154_inner_of_induced θ.symm hZJ f'
@@ -85,7 +85,7 @@ private theorem fniRee_no_mem_three_C {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field
   let S : LargeEvenLabel → Prop := fun lab =>
     markTag lab = .PSU ∧ markRank lab = 3 ∧ markChar lab = 2 ∧ markDeg lab = 2 * a + 1
   have hperfC : commutator ↥C = ⊤ := by
-    haveI : Group.IsPerfect ↥C := hCq.1
+    have : Group.IsPerfect ↥C := hCq.1
     exact Group.IsPerfect.commutator_eq_top
   have hmark : LargeEvenMarking ↥C (fun lab _ _ _ _ _ => S lab) := by
     simpa only [S] using largeEvenMarking_of_lieModel_centerQuot hperfC
@@ -108,8 +108,8 @@ private theorem fniRee_no_mem_three_C {a : ℕ} (ha : 1 ≤ a) {K : Type} [Field
   rw [htwA] at hraw
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeUnitary] at hraw
   obtain ⟨K', hF', hfin', hK', hQ0⟩ := hraw
-  letI := hF'
-  haveI := hfin'
+  let := hF'
+  have := hfin'
   obtain ⟨hsimple, hna, θ, hP⟩ := hQ0
   refine ⟨hX, lab, hlab, ?_⟩
   rw [htwA]
@@ -220,13 +220,13 @@ theorem kgFieldRestrictionOn_ree : KGFieldRestrictionOn (kgfniRow .ree) := by
     largeEvenLabelAll_and hrawSimple hrawField _ hQ
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeTwF4] at hQstrong ⊢
   obtain ⟨K, hF, hfin, hK, hQ', ⟨hsimple, hna⟩, hfield⟩ := hQstrong
-  letI := hF
-  haveI := hfin
+  let := hF
+  have := hfin
   refine ⟨K, inferInstance, inferInstance, ?_, hQ', ?_⟩
   · exact hK
   · dsimp only [KGFieldRestrictionCont]
     intro f hf hford h hI hhp hcomm J₀ hJ f' hf'
-    haveI hchar : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := by
+    have hchar : CharP K CFSG.LieType.Ree.ReeTag.F4.prime := by
       have h2 : CharP K 2 := CFSG.CGT.Timmesfeld75.charP_two_of_card hK
       simpa [CFSG.LieType.Ree.ReeTag.prime] using h2
     have hIinn : LargeEvenChevIDImage LargeEvenCartanF4 K (LargeEvenTwF4H ((n - 1) / 2) K) ⊆

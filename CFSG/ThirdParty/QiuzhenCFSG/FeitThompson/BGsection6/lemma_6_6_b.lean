@@ -22,7 +22,7 @@ public theorem CFSG.lemma_6_6_b
   have hSU : (S : Subgroup G) ≤ U := by
     exact Subgroup.le_normalizer
   have hcopSM : Nat.Coprime (Nat.card S) (Nat.card M) := by
-    rcases (IsPGroup.iff_card.mp S.isPGroup') with ⟨n, hn⟩
+    rcases (IsPGroup.iff_card.mp S.isPGroup) with ⟨n, hn⟩
     rw [hn]
     exact Nat.Coprime.pow_left n (pPrimeCore_coprime_card (p := p) (G := G))
   have hcomm :

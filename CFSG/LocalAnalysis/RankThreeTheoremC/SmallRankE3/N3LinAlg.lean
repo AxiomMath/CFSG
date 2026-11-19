@@ -142,7 +142,7 @@ theorem indep_I_or_J (h2 : (2 : F) ≠ 0) {v : V} (hv : Z v = -v) (hv0 : v ≠ 0
   · exact hv0 h5
 
 theorem indep_four (h2 : (2 : F) ≠ 0) {u : V} (hu : Z u = -u) (hTu : T u = u) {A : Module.End F V}
-    (hAT : A * T = T * A) (hAR : A * R = R * A) (hAZ : Z * A = A * Z)
+    (hAT : A * T = T * A) (_hAR : A * R = R * A) (hAZ : Z * A = A * Z)
     (hA : LinearIndependent F ![u, A u]) :
     LinearIndependent F ![u, A u, R u, R (A u)] := by
   have hAu : Z (A u) = -(A u) := by

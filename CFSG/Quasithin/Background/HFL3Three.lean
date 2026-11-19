@@ -54,7 +54,7 @@ theorem card_mul_le_of_smulH (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
 @[expose] noncomputable def e02s (n : ℕ) : HMod n K :=
   mkH (Matrix.single 0 2 1 + Matrix.single 2 0 1) (by
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [conjM, Matrix.single_apply])
+    fin_cases i <;> fin_cases j <;> simp [conjM])
 
 theorem mat_e02s : mat (e02s (K := K) n) = Matrix.single 0 2 1 + Matrix.single 2 0 1 := rfl
 
@@ -68,7 +68,7 @@ theorem fix_trGL02 (hK : Nat.card K = (2 ^ n) ^ 2) :
       ((trGL 0 2 (by decide) 1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) *ᵥ v = v := by
     intro v hv2
     ext i
-    fin_cases i <;> simp [coe_trGL, Matrix.transvection, Matrix.add_mulVec, Matrix.mulVec,
+    fin_cases i <;> simp [coe_trGL, Matrix.transvection, Matrix.mulVec,
       dotProduct, Fin.sum_univ_three, Matrix.single_apply, hv2]
   refine ⟨?_, ?_, ?_, ?_⟩
   · rw [rhoT_pt, hv _ (by simp)]
@@ -137,7 +137,7 @@ theorem eq_root_of_fix (hK : Nat.card K = (2 ^ n) ^ 2) {y : GL (Fin 3) K}
   have hYeq : Y = μ • Matrix.transvection 0 2 c := by
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.transvection, Matrix.single_apply, Matrix.one_apply, y00, y10, y20, y01, y21,
+      simp [Matrix.transvection, y00, y10, y20, y01, y21,
         y11, y12, y22, hcdef]
     linear_combination (-(Y 0 2)) * hN
   refine ⟨c, hc, ?_⟩

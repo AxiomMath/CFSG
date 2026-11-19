@@ -88,8 +88,7 @@ noncomputable def torusMap (Q : QuadraticForm K V) (e f w₀ w₁ : V) (b : K) :
 theorem TwoPairs.torusMap_e [CharP K 2] (h : TwoPairs Q e f w₀ w₁) {b : K} (hb : b ≠ 0) :
     torusMap Q e f w₀ w₁ b e = b • e := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
-  simp only [torusMap, LinearEquiv.mul_apply, map_add, map_smul, map_sub, h.X_e, h.X_f, h.X_w₀,
-    h.X_w₁, h.Y_e, h.Y_f, h.Y_w₀, h.Y_w₁]
+  simp only [torusMap, LinearEquiv.mul_apply, map_add, map_smul, h.X_e, h.X_w₁, h.Y_e, h.Y_w₁]
   match_scalars
   · rw [inv_mul_cancel₀ hb]
     linear_combination (2 + b) * h2
@@ -99,8 +98,8 @@ theorem TwoPairs.torusMap_e [CharP K 2] (h : TwoPairs Q e f w₀ w₁) {b : K} (
 theorem TwoPairs.torusMap_w₀ [CharP K 2] (h : TwoPairs Q e f w₀ w₁) {b : K} (hb : b ≠ 0) :
     torusMap Q e f w₀ w₁ b w₀ = b • w₀ := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
-  simp only [torusMap, LinearEquiv.mul_apply, map_add, map_smul, map_sub, h.X_e, h.X_f, h.X_w₀,
-    h.X_w₁, h.Y_e, h.Y_f, h.Y_w₀, h.Y_w₁]
+  simp only [torusMap, LinearEquiv.mul_apply, map_smul, map_sub, h.X_f, h.X_w₀,
+    h.Y_f, h.Y_w₀]
   match_scalars
   · linear_combination (b + 2) * (inv_mul_cancel₀ hb) + (2 + b) * h2
   · linear_combination (-1 : K) * (mul_inv_cancel₀ hb) + (-(b⁻¹ + 1)) * h2
@@ -156,11 +155,13 @@ theorem lomMat_conj {g : GL ι K} (hg : g ∈ X') (u w : ι → K) :
 
 variable (P : HypPair Q')
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem proj_of_mem_perp {x : ι → K} (hx : x ∈ P.perp) : P.proj x = x := by
   have h := HypPair.mem_perp.mp hx
   rw [HypPair.proj, polar_comm Q' x P.f, h.2, polar_comm Q' x P.e, h.1]
   simp
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem proj_smul (a : K) (x : ι → K) : P.proj (a • x) = a • P.proj x := by
   unfold HypPair.proj
   rw [polar_smul_left_eq, polar_smul_left_eq]
@@ -196,7 +197,7 @@ theorem lomHom_injective (hQ : (polarBilin Q').Nondegenerate) :
   apply Subtype.ext
   rw [hc, hc0, zero_smul, add_zero]
 
-theorem lomHom_range (hQ : (polarBilin Q').Nondegenerate) :
+theorem lomHom_range (_hQ : (polarBilin Q').Nondegenerate) :
     (lomHom E P).range = E.LomGL P.e := by
   ext A
   constructor
@@ -275,7 +276,7 @@ theorem exists_g_trans (hmin : IsMinus (Q'.restrict P.perp) 2) {w w' : ↥P.perp
     rw [h1, proj_of_mem_perp P w.2, hcw, Submodule.coe_smul, smul_smul, inv_mul_cancel₀ hc,
       one_smul]
   ·
-    haveI : Finite ↥P.perp := Module.finite_of_finite K
+    have : Finite ↥P.perp := Module.finite_of_finite K
     have hcard := ncard_singLines (K := K) hmin
     have hlt : ({lineGrp K w, lineGrp K w'} : Set (Subgroup (Multiplicative ↥P.perp))).ncard <
         (singLines K (Q'.restrict P.perp)).ncard := by

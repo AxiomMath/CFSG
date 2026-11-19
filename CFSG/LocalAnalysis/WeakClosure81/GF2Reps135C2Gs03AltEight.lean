@@ -197,9 +197,9 @@ private lemma gs03Alt8ExistsWitnessOfConj {g r : Perm (Fin 8)} (hgsign : Perm.si
   have hd_mem : d ∈ alternatingGroup (Fin 8) := by
     rw [hd]
     by_cases hcA : c ∈ alternatingGroup (Fin 8)
-    · rw [if_pos hcA]
+    · rw [ite_eq_left hcA]
       exact hcA
-    · rw [if_neg hcA]
+    · rw [ite_eq_right hcA]
       rw [Equiv.Perm.mem_alternatingGroup] at hcA ⊢
       rw [map_mul, hgsign]
       rcases Int.units_eq_one_or (Perm.sign c) with h | h
@@ -212,9 +212,9 @@ private lemma gs03Alt8ExistsWitnessOfConj {g r : Perm (Fin 8)} (hgsign : Perm.si
         _ = c⁻¹ * r * c := by rw [hc]
     rw [hd]
     by_cases hcA : c ∈ alternatingGroup (Fin 8)
-    · rw [if_pos hcA]
+    · rw [ite_eq_left hcA]
       exact hg_eq
-    · rw [if_neg hcA]
+    · rw [ite_eq_right hcA]
       have h : (c * g)⁻¹ * r * (c * g) = g := by
         calc (c * g)⁻¹ * r * (c * g) = g⁻¹ * (c⁻¹ * r * c) * g := by group
           _ = g⁻¹ * g * g := by rw [hg_eq]

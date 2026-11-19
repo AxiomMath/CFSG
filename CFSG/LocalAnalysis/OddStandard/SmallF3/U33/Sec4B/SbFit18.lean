@@ -32,7 +32,7 @@ theorem comm_zpowers_inf_cent_le {C Q : Subgroup G} {ρ : G} (hρ3 : ρ ^ 3 = 1)
     · exact Subgroup.zpowers_le.mpr
         (Subgroup.mem_normalizer_fintype (S := (Q : Set G)) hρQ)
   have hQ'normal : Q'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hQN).mpr hNnorm
-  letI : Q'.Normal := hQ'normal
+  let : Q'.Normal := hQ'normal
   let π : N →* N ⧸ Q' := QuotientGroup.mk' Q'
   let R : Subgroup (N ⧸ Q') := CN.map π
   let A : Subgroup (N ⧸ Q') := PN.map π
@@ -86,7 +86,7 @@ theorem comm_zpowers_inf_cent_le {C Q : Subgroup G} {ρ : G} (hρ3 : ρ ^ 3 = 1)
     rw [hk] at hdvd
     exact (show Nat.Coprime 3 (2 ^ k) from
       (by decide : Nat.Coprime 3 2).pow_right k).coprime_dvd_right hdvd
-  haveI : IsMulCommutative R := hRcomm
+  have : IsMulCommutative R := hRcomm
   have hfit : ⁅R, A⁆ ⊓ Subgroup.centralizer (A : Set (N ⧸ Q')) = ⊥ :=
     CFSG.SignalizerFunctorTheorem.McBride.Near.Thm35.commutator_inf_centralizer_eq_bot
       (p := 3) (by decide) (A := A) (R := R) hA3 hAR hcop

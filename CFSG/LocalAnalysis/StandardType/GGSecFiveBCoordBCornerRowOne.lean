@@ -28,7 +28,7 @@ private theorem normalizerOf_symplectic_zero_erase {t : ℕ} (ht : 4 ≤ t) (i :
   have hcard : (Finset.univ.erase i : Finset (Fin t)).card = t - 1 := by
     rw [Finset.card_erase_of_mem (Finset.mem_univ i), Finset.card_univ, Fintype.card_fin]
   simp only [PlaneRaw.normalizerOf]
-  rw [if_neg]
+  rw [ite_eq_right]
   omega
 
 private theorem corner_normalizer_eq {G : Type} [Group G] {Bs L : Subgroup G} {n : ℕ}

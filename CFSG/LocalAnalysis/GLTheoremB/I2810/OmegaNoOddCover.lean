@@ -39,7 +39,7 @@ noncomputable def statedProjMulEquiv {ι : Type} [Fintype ι] [DecidableEq ι]
 theorem card_dvd_card_hopfMultiplier {G X : Type} [Group G] [Group X] (hG : Group.IsPerfect G)
     (Z : Subgroup G) [Z.Normal] (hZ : Z ≤ Subgroup.center G) (e : G ⧸ Z ≃* X) :
     Nat.card Z ∣ Nat.card (hopfMultiplier X) := by
-  haveI := hG
+  have := hG
   have hsurj : Function.Surjective (e.toMonoidHom.comp (QuotientGroup.mk' Z)) :=
     e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : (e.toMonoidHom.comp (QuotientGroup.mk' Z)).ker = Z := by
@@ -99,7 +99,7 @@ theorem omegaNoOddCover_holds
     : OmegaNoOddCover := by
   intro n hn G _ _ hG Z _ hZc hodd he
   have hperf : Group.IsPerfect G := Group.isPerfect_def.2 hG
-  haveI : Finite (G ⧸ Z) := Finite.of_surjective (QuotientGroup.mk' Z) (QuotientGroup.mk'_surjective Z)
+  have : Finite (G ⧸ Z) := Finite.of_surjective (QuotientGroup.mk' Z) (QuotientGroup.mk'_surjective Z)
   have hdvd := card_dvd_card_hopfMultiplier hperf Z hZc (MulEquiv.refl (G ⧸ Z))
   have h4 : Nat.card Z ∣ 4 := by
     rcases he with he | he

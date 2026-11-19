@@ -85,7 +85,7 @@ theorem mem_residual_of_pow_three (h415 : Sec4.Item4_15)
   have hJQ := map_residual_centralizer_eq h415 hJ2 hd'1 hc
   obtain ⟨S, hdS, -⟩ := hc
   have hz3 : IsPGroup 3 (Subgroup.zpowers (⟨d, hdL⟩ : ↥L)) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hdS)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr hdS)
   have hCmap := map_centralizer_singleton_mk hz3
   let f : ↥CL →* ↥L ⧸ aschbacherSolvableCore 3 ↥L := π.comp CL.subtype
   have hN : (perfectResidual ↥CL).map f = f.range := by

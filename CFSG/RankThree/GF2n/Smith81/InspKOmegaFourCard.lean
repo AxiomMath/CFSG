@@ -27,10 +27,10 @@ theorem centralizer_decomp_frame_core {K V : Type} [Field K] [Finite K] [CharP K
       Disjoint ((rootRadical Q P₁ P₂).comap σ)
         ((leviFix (elementaryGroup Q) P₁ P₂).comap σ ⊔ (omFix Q P₁ P₂).comap σ) := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Finite U := Finite.of_injective σ hσ
+  have : Finite U := Finite.of_injective σ hσ
   have hRE : rootRadical Q P₁ P₂ ≤ σ.range := hσE ▸ rootRadical_le_elementaryGroup h₁₂
   have hL₁E : leviFix (elementaryGroup Q) P₁ P₂ ≤ σ.range :=
     hσE ▸ fun g hg => (mem_leviFix.mp hg).1
@@ -77,10 +77,10 @@ theorem card_centralizer_dvd_of_frame_core {K V : Type} [Field K] [Finite K] [Ch
       2 ^ (N - f - N₂) * Nat.card SL(2, K) *
         Nat.card (orthDerived (Q.restrict (wSub P₁ P₂))) := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Finite U := Finite.of_injective σ hσ
+  have : Finite U := Finite.of_injective σ hσ
   have hEich : ∀ a b : V, eichler Q a b ∈ elementaryGroup Q := eichler_mem_elementaryGroup Q
   obtain ⟨hC, hn, hd⟩ := centralizer_decomp_frame_core h₁₂ hσ hσE hx
   have hL₁E : leviFix (elementaryGroup Q) P₁ P₂ ≤ σ.range :=

@@ -15,9 +15,9 @@ private theorem sec11A6_fin6_exists_ne (i m : Fin 6) (h : i ≠ m) :
 
 theorem sec11_normal_two_alt6 {N : Subgroup ↥(alternatingGroup (Fin 6))} (hN : N.Normal)
     (h2 : IsPGroup 2 N) : N = ⊥ := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by norm_num [Nat.card_fin])
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
   · exact h
   · exfalso
@@ -41,7 +41,7 @@ theorem sec11_normal_two_alt6 {N : Subgroup ↥(alternatingGroup (Fin 6))} (hN :
 
 theorem sec11_normal_two_perm6 {N : Subgroup (Equiv.Perm (Fin 6))} (hN : N.Normal)
     (h2 : IsPGroup 2 N) : N = ⊥ := by
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   have h2' : IsPGroup 2 (N.subgroupOf (alternatingGroup (Fin 6))) := by
     have hinf : IsPGroup 2 ↥(N ⊓ alternatingGroup (Fin 6)) := h2.to_inf_left
     rw [← Subgroup.inf_subgroupOf_right N (alternatingGroup (Fin 6))]
@@ -59,7 +59,7 @@ theorem sec11_normal_two_perm6 {N : Subgroup (Equiv.Perm (Fin 6))} (hN : N.Norma
       N.mul_mem (hN.conj_mem n hn g) (N.inv_mem hn)
     have hcA : g * n * g⁻¹ * n⁻¹ ∈ alternatingGroup (Fin 6) := by
       rw [Equiv.Perm.mem_alternatingGroup]
-      simp only [map_mul, map_inv, map_one]
+      simp only [map_mul, map_inv]
       rw [mul_inv_cancel_comm, mul_inv_cancel]
     have hmemb : (⟨g * n * g⁻¹ * n⁻¹, hcA⟩ : ↥(alternatingGroup (Fin 6))) ∈
         N.subgroupOf (alternatingGroup (Fin 6)) := hcN

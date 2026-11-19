@@ -60,7 +60,7 @@ theorem lemma_14_1_2_two (hEven : quasithinEvenCharacteristic G) (T : Sylow 2 G)
     ⟨⟨hmax.1.1, inf_le_left⟩, fun M' hM' => hU.2 M' ⟨hM'.1, hle.trans hM'.2⟩⟩
   refine ⟨hUS, ?_⟩
   refine iSup_le fun C => iSup_le fun hCS => iSup_le fun hC1 => iSup_le fun hchar => ?_
-  have hCp : IsPGroup 2 C := T.isPGroup'.to_le (hCS.trans inf_le_left)
+  have hCp : IsPGroup 2 C := T.isPGroup.to_le (hCS.trans inf_le_left)
   obtain ⟨M'', hM'', hNM''⟩ :=
     exists_maxTwoLocal_ge (L := Subgroup.normalizer (C : Set G)) ⟨C, hC1, hCp, rfl⟩
   have hNS : M ⊓ Subgroup.normalizer (baum (T : Subgroup G) : Set G) ≤ M'' :=

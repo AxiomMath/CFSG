@@ -10,8 +10,10 @@ open Equiv Equiv.Perm MulAction Subgroup
 
 variable {X : Type*} [Fintype X] [DecidableEq X]
 
+omit [Fintype X] [DecidableEq X] in
 private theorem inv_apply' (f : Perm X) (x : X) : f⁻¹ (f x) = x := f.symm_apply_apply x
 
+omit [Fintype X] [DecidableEq X] in
 private theorem apply_inv' (f : Perm X) (x : X) : f (f⁻¹ x) = x := f.apply_symm_apply x
 
 def setStab (S : Set X) : Subgroup (Perm X) where
@@ -24,6 +26,7 @@ def setStab (S : Set X) : Subgroup (Perm X) where
     show e⁻¹ x ∈ S ↔ x ∈ S
     rw [← he (e⁻¹ x), apply_inv']
 
+omit [Fintype X] [DecidableEq X] in
 theorem mem_setStab {S : Set X} {e : Perm X} : e ∈ setStab S ↔ ∀ x, e x ∈ S ↔ x ∈ S := Iff.rfl
 
 structure Config (E : Subgroup (Perm X)) where
@@ -72,10 +75,11 @@ theorem support_eq (i : Fin 3) {z : X} (hz : z ∈ (c.a i).support) :
 
 end Config
 
+omit [DecidableEq X] in
 theorem card_modEq_fix {F : Subgroup (Perm X)} {p : ℕ} [Fact p.Prime] (hF : IsPGroup p F)
     (S : Set X) (hS : ∀ f ∈ F, ∀ x ∈ S, f x ∈ S) :
     Nat.card S ≡ Nat.card {x : X // x ∈ S ∧ ∀ f ∈ F, f x = x} [MOD p] := by
-  letI : MulAction F S :=
+  let : MulAction F S :=
     { smul := fun f s => ⟨(f : Perm X) s.1, hS f f.2 s.1 s.2⟩
       one_smul := fun s => Subtype.ext rfl
       mul_smul := fun f g s => Subtype.ext rfl }
@@ -90,6 +94,7 @@ theorem card_modEq_fix {F : Subgroup (Perm X)} {p : ℕ} [Fact p.Prime] (hF : Is
         right_inv := fun _ => rfl }
   rwa [e] at h
 
+omit [Fintype X] [DecidableEq X] in
 theorem mem_setStab_orbit {E W : Subgroup (Perm X)} (hEW : E ≤ normalizer W) {x y : X}
     (hy : y ∈ orbit W x) {e : Perm X} (he : e ∈ E) (hey : e y = y) :
     e ∈ setStab (orbit W x : Set X) := by

@@ -28,7 +28,7 @@ theorem controlsTransfer {p : ℕ} [hp : Fact p.Prime] (hp5 : 5 ≤ p) :
   by_cases hO : ∃ Q : Subgroup G, IsPGroup p Q ∧ Q ≠ ⊥ ∧ Q.Normal
   ·
     obtain ⟨Q, hQp, hQ1, hQn⟩ := hO
-    haveI hPn : (CFSG.pCore p G).Normal := CFSG.pCore_normal
+    have hPn : (CFSG.pCore p G).Normal := CFSG.pCore_normal
     have hPp : IsPGroup p (CFSG.pCore p G) := CFSG.pCore_isPGroup
     have hPmax : ∀ N : Subgroup G, N.Normal → IsPGroup p N → N ≤ CFSG.pCore p G :=
       fun N hN hNp => le_sSup ⟨hN, hNp⟩
@@ -48,7 +48,7 @@ theorem controlsTransfer {p : ℕ} [hp : Fact p.Prime] (hp5 : 5 ≤ p) :
 
 theorem glaubermanTransferControl_holds : Claims1316.GlaubermanTransferControl := by
   intro G _ _ p hp hp5 S hS
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let S' : Sylow p G :=
     { toSubgroup := S
       maximal_isPGroup := ⟨hS.2.1, fun hQ hQp hle => (hS.2.2 hQ le_top hQp hle).le⟩ }

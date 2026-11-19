@@ -81,7 +81,7 @@ private theorem fixed_mul_inverted_decomp {A : Type*} [Group A]
     rw [map_pow, map_mul, map_inv, ht_apply]
     rw [show t a * a⁻¹ = (a * (t a)⁻¹)⁻¹ from by rw [mul_inv_rev, inv_inv]]
     rw [inv_pow]
-  · letI : CommGroup A := { ‹Group A› with mul_comm := hcomm }
+  · let : CommGroup A := { ‹Group A› with mul_comm := hcomm }
     have h1 : (a * t a) ^ 2 * (a * (t a)⁻¹) ^ 2 = a ^ 4 := by
       rw [mul_pow, mul_pow, inv_pow]
       rw [show a ^ 2 * (t a) ^ 2 * (a ^ 2 * ((t a) ^ 2)⁻¹) =
@@ -187,13 +187,13 @@ private theorem map_mem_invertedSub {A : Type*} [Group A]
     _ = (S a)⁻¹ := by rw [map_inv]
 
 private theorem card_invertedSub_le {A : Type*} [Group A] [Finite A]
-    (hcomm : ∀ a b : A, a * b = b * a) {S T T' : MulAut A}
+    (hcomm : ∀ _a _b : A, _a * _b = _b * _a) {S T T' : MulAut A}
     (hconj : S * T * S⁻¹ = T') :
     Nat.card (invertedSub hcomm T) ≤ Nat.card (invertedSub hcomm T') :=
   Nat.card_le_card_of_injective
-    (fun a : invertedSub hcomm T =>
-      (⟨S a.1, map_mem_invertedSub hcomm hconj a.2⟩ : invertedSub hcomm T'))
-    (fun a b h => Subtype.ext (S.injective (congrArg Subtype.val h)))
+    (fun _a : invertedSub hcomm T =>
+      (⟨S _a.1, map_mem_invertedSub hcomm hconj _a.2⟩ : invertedSub hcomm T'))
+    (fun _a _b h => Subtype.ext (S.injective (congrArg Subtype.val h)))
 
 private theorem card_inf_invertedSub_le {A : Type*} [Group A] [Finite A]
     (hcomm : ∀ a b : A, a * b = b * a) {S T T' U U' : MulAut A}
@@ -489,8 +489,8 @@ theorem not_wStarS4_of_le_normalizer {G : Type} [Group G] {A : Subgroup G} {c : 
     (hA : Late.IsE27 A) (hcA : c ∈ A) (hc1 : c ≠ 1)
     (hW : Subgroup.normalizer (A : Set G) ≤ Subgroup.normalizer (Subgroup.zpowers c : Set G)) :
     ¬ WStarS4 A := by
-  haveI : IsMulCommutative ↥A := hA.1.1
-  haveI : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hA.2]; norm_num)
+  have : IsMulCommutative ↥A := hA.1.1
+  have : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hA.2]; norm_num)
   have hpow : ∀ a : ↥A, a ^ 3 = 1 := by
     intro a
     apply Subtype.ext

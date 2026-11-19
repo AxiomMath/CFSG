@@ -200,7 +200,7 @@ theorem inner_of_sup_decomp {G : Type} [Group G] (x : G) (A Sg N : Subgroup G)
 
 theorem inner_of_odd_order {G : Type} [Group G] [Finite G] {x : G} {N : Subgroup G}
     (hodd : Odd (Nat.card (Subgroup.centralizer ({x} : Set G))))
-    (hNle : N ≤ Subgroup.centralizer ({x} : Set G))
+    (_hNle : N ≤ Subgroup.centralizer ({x} : Set G))
     (hNcomp : N ≠ ⊥ → CFSG.RankThree.PartOne.IsComponentOf
       (Subgroup.centralizer ({x} : Set G)) N) :
     ∀ c ∈ Subgroup.centralizer ({x} : Set G),
@@ -209,9 +209,9 @@ theorem inner_of_odd_order {G : Type} [Group G] [Finite G] {x : G} {N : Subgroup
     by_contra h
     obtain ⟨hNC, hqs, -⟩ := hNcomp h
     have hoddN : Odd (Nat.card N) := hodd.of_dvd_nat (Subgroup.card_dvd_of_le hNC)
-    haveI : Finite ↥N := Subtype.finite
-    haveI : Nontrivial ↥N := CFSG.LocalCores.isQuasisimple_nontrivial hqs
-    haveI : Group.IsPerfect ↥N := hqs.1
+    have : Finite ↥N := Subtype.finite
+    have : Nontrivial ↥N := CFSG.LocalCores.isQuasisimple_nontrivial hqs
+    have : Group.IsPerfect ↥N := hqs.1
     exact Group.IsPerfect.not_isSolvable ↥N (CFSG.FeitThompson.isSolvable_of_odd_natCard _ hoddN)
   intro c hc
   refine ⟨1, Subgroup.one_mem N, fun y hy => ?_⟩
@@ -236,7 +236,7 @@ theorem inner_of_sector (D : ReeFrameData K (AlgebraicClosure K) a) (ha : 1 ≤ 
     ∀ c ∈ Subgroup.centralizer ({x} : Set (ReeTag.F4.reeGamma K a)),
       ∃ n ∈ N, ∀ y ∈ N, c * y * c⁻¹ = n * y * n⁻¹ := by
   classical
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨g₀, hg₀, hFg₀, hconj⟩ := sector_hconj D w E hEH hEF m hE hp hpm
   obtain ⟨c, hcH⟩ := hconj x hx
@@ -348,8 +348,8 @@ theorem inner_of_reeGamma
     ∀ c ∈ Subgroup.centralizer ({x} : Set (ReeTag.F4.reeGamma K a)),
       ∃ n ∈ N, ∀ y ∈ N, c * y * c⁻¹ = n * y * n⁻¹ := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   obtain ⟨D⟩ := reeFrameData_nonempty (K := K) (L := AlgebraicClosure K) hK
   have hdvd : p ∣ Nat.card (ReeTag.F4.reeGamma K a) := hx ▸ orderOf_dvd_natCard x
   have hfac :=

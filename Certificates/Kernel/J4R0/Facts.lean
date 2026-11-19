@@ -50,7 +50,7 @@ theorem letterOf_pos {G : Type*} [Group G] (gens : ℕ → G) (n : ℕ) :
 
 theorem letterOf_neg {G : Type*} [Group G] (gens : ℕ → G) (n : ℕ) :
     letterOf gens (Int.negSucc n) = (gens n)⁻¹ := by
-  simp [letterOf, Int.negSucc_lt_zero, Int.neg_negSucc]
+  simp [letterOf, Int.neg_negSucc]
 
 theorem GLZ_eq : GLZ = GL32 := rfl
 
@@ -150,20 +150,20 @@ theorem PR_xE {k : ℕ} (hk : k < 15) : PR (xE k) (getN one XS k) := by
       rcases h1 with h | h
       · simp [Nat.blt_eq, h]
       · subst h; rfl
-    rw [if_pos h1, hb, cond_true]
+    rw [ite_eq_left h1, hb, _root_.Bool.cond_true]
     exact PR_rEl hk
   · have hb : (Nat.blt k 12 || Nat.beq k 14) = false := by
       have : k = 12 ∨ k = 13 := by omega
       rcases this with rfl | rfl <;> rfl
-    rw [if_neg h1, hb, cond_false]
+    rw [ite_eq_right h1, hb, Bool.cond_false]
     have h11 := PR_xE_11
     by_cases h2 : k = 12
     · subst h2
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact PR_mul h11 (PR_rEl (by norm_num))
     · have h3 : k = 13 := by omega
       subst h3
-      rw [if_neg (by norm_num)]
+      rw [ite_eq_right (by norm_num)]
       exact PR_mul h11 (PR_rEl (by norm_num))
 where
   PR_xE_11 : PR (rEl 11) (getN one XS 11) := by
@@ -261,13 +261,13 @@ theorem R0_eq : R0 = Subgroup.closure (xE '' Set.Ico 0 15) := by
     have hj' := List.mem_range.1 hj
     by_cases h1 : j < 12 ∨ j = 14
     · have := hx j hj'
-      rwa [xE, if_pos h1] at this
+      rwa [xE, ite_eq_left h1] at this
     · have h12 := hx 12 (by norm_num)
       have h13 := hx 13 (by norm_num)
       have h11 := hx 11 (by norm_num)
-      rw [xE, if_neg (by norm_num), if_pos rfl] at h12
-      rw [xE, if_neg (by norm_num), if_neg (by norm_num)] at h13
-      rw [xE, if_pos (Or.inl (by norm_num))] at h11
+      rw [xE, ite_eq_right (by norm_num), ite_eq_left rfl] at h12
+      rw [xE, ite_eq_right (by norm_num), ite_eq_right (by norm_num)] at h13
+      rw [xE, ite_eq_left (Or.inl (by norm_num))] at h11
       have : j = 12 ∨ j = 13 := by omega
       rcases this with rfl | rfl
       · have := Subgroup.mul_mem _ (Subgroup.inv_mem _ h11) h12
@@ -338,15 +338,15 @@ theorem comm_sym {j : ℕ} (hj : j < 12) {i : ℕ} (hi : i < 15) :
   refine ⟨csym_lt i j, ?_⟩
   unfold csym
   by_cases h12 : i < 12
-  · rw [if_pos ⟨h12, hj⟩]
+  · rw [ite_eq_left ⟨h12, hj⟩]
     rcases lt_trichotomy i j with h | rfl | h
-    · rw [if_pos h, (comm_lt h hj).2, mul_assoc, zE_comm _ (by omega), ← mul_assoc]
-    · rw [if_neg (lt_irrefl _), if_neg (lt_irrefl _), zE_zero, mul_one]
-    · rw [if_neg (by omega), if_pos h]
+    · rw [ite_eq_left h, (comm_lt h hj).2, mul_assoc, zE_comm _ (by omega), ← mul_assoc]
+    · rw [ite_eq_right (lt_irrefl _), ite_eq_right (lt_irrefl _), zE_zero, mul_one]
+    · rw [ite_eq_right (by omega), ite_eq_left h]
       have e := (comm_lt h h12).2
       rw [e, mul_assoc (xE i) (zE _) (xE j), zE_comm _ (show j < 15 by omega)]
       simp only [mul_assoc, zE_sq, mul_one]
-  · rw [if_neg (fun h => h12 h.1), zE_zero, mul_one]
+  · rw [ite_eq_right (fun h => h12 h.1), zE_zero, mul_one]
     exact z_comm (by omega) hi (by omega)
 
 theorem mem_z_of_central {x : J} (hx : x ∈ R0) (hc : ∀ j < 12, x * xE j = xE j * x) :
@@ -419,7 +419,7 @@ theorem PR_posFold {a b : J} {A B : ℕ} (ha : PR a A) (hb : PR b B) :
     | zero => exact ha
     | succ n =>
       change PR (if n + 1 = 0 then a else b) B
-      rw [if_neg (Nat.succ_ne_zero n)]
+      rw [ite_eq_right (Nat.succ_ne_zero n)]
       exact hb
 
 theorem posFold_mem {a b : J} {H : Subgroup J} (ha : a ∈ H) (hb : b ∈ H) :
@@ -516,7 +516,7 @@ theorem Bp_cover : ∀ y ∈ Bp, ∃ i < 60, ∃ r ∈ R0, y = tEl i * r := by
 
 theorem r0Facts : R0Facts where
   card_R0 := card_R0
-  normal b hb r hr :=
+  normal _b hb r hr :=
     (Subgroup.mem_normalizer_iff.1 (Bp_le_normalizer (B0_le_Bp hb)) r).1 hr
   cover x hx := Bp_cover x (B0_le_Bp hx)
   center := center

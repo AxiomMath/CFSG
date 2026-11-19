@@ -218,7 +218,7 @@ private theorem normalizer_quotKerImg_le {p : ℕ} [Fact p.Prime] {B R : Subgrou
 omit [Finite G] in
 private theorem kSub_le_oPPrimeHull_of_pLayerIn_le {p : ℕ} [Fact p.Prime]
     (hle : pLayerIn p H ≤ M) : kSub p M H ≤ oPPrimeHull p H := by
-  rw [kSub, if_pos hle]
+  rw [kSub, ite_eq_left hle]
   refine sSup_le ?_
   rintro Y ⟨hYH, hYcard⟩ x hxY
   rw [oPPrimeHull]

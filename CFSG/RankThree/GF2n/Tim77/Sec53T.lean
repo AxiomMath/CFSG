@@ -86,7 +86,7 @@ theorem sec53_of_transvection
               (y * x * y⁻¹ * x⁻¹) * (x * (y * z * y⁻¹ * z⁻¹) * x⁻¹) := by group
           rw [e]
           exact (Section3.M A Abar).mul_mem hxM ((hnormM x hx _).mp hzM)
-        one_mem' := ⟨(A ⊔ Abar).one_mem, by simpa using (Section3.M A Abar).one_mem⟩
+        one_mem' := ⟨(A ⊔ Abar).one_mem, by simp⟩
         inv_mem' := by
           rintro x ⟨hx, hxM⟩
           refine ⟨(A ⊔ Abar).inv_mem hx, ?_⟩
@@ -98,10 +98,10 @@ theorem sec53_of_transvection
     have hAbP : Abar ≤ P := fun x hx =>
       ⟨Subgroup.mem_sup_right hx, S.hM ▸ Subgroup.mem_sup_right (hyAb0 x hx)⟩
     exact fun x hx => (sup_le hAP hAbP hx).2
-  obtain ⟨a, ha, haL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
-  obtain ⟨b, hb, hbL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
+  obtain ⟨a, ha, haL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
+  obtain ⟨b, hb, hbL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
   have h3 : (a * b) ^ 3 = 1 := sec53_cube_of_inner S hyX hyM hyL hL2 ha haL hb hbL
-  haveI : ((Section3.M A Abar).subgroupOf (A ⊔ Abar)).Normal :=
+  have : ((Section3.M A Abar).subgroupOf (A ⊔ Abar)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer S.M_le_X).mpr S.sup_le_normalizer_M
   exact sec53_dihedral_three S hq1 ha haL hb hbL h3
 
@@ -133,7 +133,7 @@ theorem sec53t_relIndex_inf {A K K' : Subgroup G}
     rw [hK, hK'] at e1
     have h1 : K.relIndex K' = 1 := by omega
     exact hne (le_antisymm h ((Subgroup.relIndex_eq_one (H := K) (K := K')).mp h1))
-  obtain ⟨c, hcK, hcK'⟩ : ∃ c ∈ K, c ∉ K' := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨c, hcK, hcK'⟩ : ∃ c ∈ K, c ∉ K' := IsConcreteLE.not_le_iff_exists.mp hnot
   have hcA : c ∈ A := hKA hcK
   show ((K ⊓ K').subgroupOf K).index = 2
   refine Subgroup.index_eq_two_iff_exists_notMem_and.mpr ⟨⟨c, hcK⟩, ?_, ?_⟩
@@ -166,7 +166,7 @@ theorem sec53t_cube_of_card_two [Finite G] {A Ab L Lb M : Subgroup G}
 
 theorem sec53t_transv_hyp {A₀ Z : Subgroup G}
     (hc : ∀ x ∈ A₀, ∀ z ∈ A₀, x * z = z * x) (hsq : ∀ x ∈ A₀, x * x = 1)
-    (hZ : Z ≤ A₀) (hZi : Z.relIndex A₀ = 2) {a y : G} (ha2 : a * a = 1)
+    (_hZ : Z ≤ A₀) (hZi : Z.relIndex A₀ = 2) {a y : G} (ha2 : a * a = 1)
     (haA₀ : ∀ x ∈ A₀, a * x * a ∈ A₀)
     (hCa : ∀ x ∈ A₀, (a * x * a = x ↔ x ∈ Z))
     (hy : ∀ x ∈ A₀, y * x * y⁻¹ = a * x * a) :
@@ -177,7 +177,7 @@ theorem sec53t_transv_hyp {A₀ Z : Subgroup G}
     intro h
     have h1 : Z.relIndex A₀ = 1 := Subgroup.relIndex_eq_one.mpr h
     omega
-  obtain ⟨l₀, hl₀, hl₀Z⟩ : ∃ l ∈ A₀, l ∉ Z := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨l₀, hl₀, hl₀Z⟩ : ∃ l ∈ A₀, l ∉ Z := IsConcreteLE.not_le_iff_exists.mp hnot
   refine ⟨⟨l₀, hl₀, ?_⟩, ?_⟩
   · rw [hy l₀ hl₀]
     intro h
@@ -260,9 +260,9 @@ theorem sec53t_exists_a0 [Finite G] {A Ab L Lb M : Subgroup G}
     S.comm_A (S.L_le hx) (S.L_le hy)
   have hsqL : ∀ x ∈ L, x * x = 1 := fun x hx => S.sq_A (S.L_le hx)
   obtain ⟨α₀, hα₀A, hα₀L⟩ : ∃ x ∈ A, x ∉ L :=
-    SetLike.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
+    _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
   obtain ⟨β₀, hβ₀Ab, hβ₀Lb⟩ : ∃ x ∈ Ab, x ∉ Lb :=
-    SetLike.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
+    _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
   have hεLb : ∀ x ∈ L, β₀ * x * β₀ * x ∈ Lb := by
     intro x hx
     have h := S.commutator_mem_Lb hβ₀Ab hx
@@ -613,10 +613,10 @@ theorem sec53_of_four
     exact hq
   have hA0p : IsPGroup 2 (Section3.A0 A Abar) :=
     notation_isPGroup_two_of_le h.hyp.elemAbelian S.L_le
-  haveI hN : ((Section3.M A Abar).subgroupOf (A ⊔ Abar)).Normal :=
+  have hN : ((Section3.M A Abar).subgroupOf (A ⊔ Abar)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer S.M_le_X).mpr S.sup_le_normalizer_M
-  obtain ⟨a, ha, haL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
-  obtain ⟨b, hb, hbL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
+  obtain ⟨a, ha, haL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
+  obtain ⟨b, hb, hbL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
   rcases sec53t_card_cases hA0p h.a0_ne_bot with h2 | h4' | h8
   · exact sec53_dihedral_three S hq1 ha haL hb hbL (sec53t_cube_of_card_two S h2 ha haL hb hbL)
   · exact h4 G A Abar S₀ B h hq hnc h4'

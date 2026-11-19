@@ -34,7 +34,7 @@ private theorem card_linearEquiv_of_card_two {F M : Type*} [Field F] [Finite F] 
     [Module F M] [FiniteDimensional F M] (hF : Nat.card F = 2) :
     Nat.card (M ≃ₗ[F] M) = ∏ i : Fin (finrank F M), (2 ^ finrank F M - 2 ^ (i : ℕ)) := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   let b : Module.Basis (Fin (finrank F M)) F M := Module.finBasisOfFinrankEq F M rfl
   let e : GL (Fin (finrank F M)) F ≃* (M ≃ₗ[F] M) :=
     (Matrix.GeneralLinearGroup.toLin' b).trans
@@ -255,11 +255,11 @@ private theorem even_finrank
     rw [Subgroup.coe_pow, ← hk, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast,
       hzS, one_zpow, Subgroup.coe_one]
   let ρ : Representation F A S := toRep A.subtype
-  haveI : Finite S := Module.finite_of_finite F
+  have : Finite S := Module.finite_of_finite F
   let _ : MulAction A S := MulAction.compHom S ρ
   have hp : IsPGroup 3 A := fun a => ⟨1, by simp [hA]⟩
   have hmod := hp.card_modEq_card_fixedPoints S
-  haveI : Unique (MulAction.fixedPoints A S) := by
+  have : Unique (MulAction.fixedPoints A S) := by
     refine ⟨⟨⟨0, fun a => map_zero (ρ a)⟩⟩, fun x => Subtype.ext ?_⟩
     have hx : zS x.1 = x.1 := x.2 ⟨zS, Subgroup.mem_zpowers zS⟩
     exact Subtype.ext (hfix _ x.1.2 (congrArg Subtype.val hx))
@@ -277,11 +277,11 @@ private theorem sub_mem_of_section
     (hfix : ∀ v ∈ U', z (z v) + z v + v ∈ U)
     (hdim : finrank F U' ≤ finrank F U + 6) (y : Y) {v : V} (hv : v ∈ U') : α y v - v ∈ U := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h2F : (2 : F) = 0 := by
-    letI : Fintype F := Fintype.ofFinite F
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP F 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hF])
+    let : Fintype F := Fintype.ofFinite F
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP F 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card, hF])
     exact_mod_cast CharP.cast_eq_zero F 2
   have hmap : ∀ {g : V ≃ₗ[F] V} {S : Submodule F V}, (∀ v ∈ S, g v ∈ S) →
       S.map (g : V →ₗ[F] V) = S := fun {g S} h => by
@@ -429,9 +429,9 @@ private theorem exists_fixSp_four
     ∃ b : ℕ, finrank F (fixSp (w * z ^ b)) = 4 ∧
       ∀ x ∈ Wk, ∀ v ∈ fixSp (w * z ^ b), x v = v := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hF)
-  haveI : Finite Wk := Nat.finite_of_card_ne_zero (by rw [hWk]; norm_num)
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hF)
+  have : Finite Wk := Nat.finite_of_card_ne_zero (by rw [hWk]; norm_num)
   have hY3 : 3 ^ 4 ∣ Nat.card Wk := by rw [hWk]; norm_num
   have hzα : ∀ y : Wk, z * Wk.subtype y = Wk.subtype y * z := fun y => (hWkz y y.2).symm
   have hCU : IsCompl (fixSp z) (triSp z) := isCompl_fixSp_triSp hz3
@@ -605,10 +605,10 @@ private theorem fix_of_four
     (hd : finrank F (fixSp h) = 4) (hWkY : ∀ x ∈ Wk, ∀ v ∈ fixSp h, x v = v) :
     (∀ p ∈ P, ∀ u ∈ triSp h, p u = u) ∧ ∀ p ∈ P, ∀ y ∈ fixSp h, p y ∈ fixSp h := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hF)
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite Wk := Nat.finite_of_card_ne_zero (by rw [hWk]; norm_num)
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hF)
+  have : Finite V := Module.finite_of_finite F
+  have : Finite Wk := Nat.finite_of_card_ne_zero (by rw [hWk]; norm_num)
   have h2F : (2 : F) = 0 := CharTwo.two_eq_zero
   have hY3 : 3 ^ 4 ∣ Nat.card Wk := by rw [hWk]; norm_num
   have hzα : ∀ y : Wk, z * Wk.subtype y = Wk.subtype y * z := fun y => (hWkz y y.2).symm
@@ -646,7 +646,7 @@ private theorem fix_of_four
         (fun y v hv => hWkU' y y.2 v hv) hzC' hzU' inf_le_left
         (fun v hv => by rw [mem_triSp.mp (hU'U hv)]; exact Submodule.zero_mem _)
         (by omega) ⟨x, hx⟩ hv
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨y₃, hy₃⟩ := exists_prime_orderOf_dvd_card' (G := Wk) 3 (by rw [hWk]; norm_num)
     have hg3 : (y₃ : V ≃ₗ[F] V) ^ 3 = 1 := by
       rw [← Subgroup.coe_pow, ← hy₃, pow_orderOf_eq_one, Subgroup.coe_one]
@@ -804,8 +804,8 @@ private theorem twMinus_struct {F V : Type} [Field F] [Finite F] [AddCommGroup V
       (∀ p ∈ P, ∀ u ∈ U', p u = u) ∧ (∀ y ∈ Y, (w * z ^ j) y = y) ∧
       (∀ u ∈ U', (w * z ^ j) u ∈ U') := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hF)
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hF)
   have hOD : ∀ x, x ∈ orthDerived Q → x ∈ TauCeti.QuadraticMap.orthogonalGroup Q := fun x hx =>
     (Subgroup.commutator_le.mpr fun a ha b hb => by
       rw [commutatorElement_def]

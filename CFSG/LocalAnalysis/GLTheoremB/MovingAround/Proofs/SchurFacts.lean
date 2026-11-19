@@ -29,7 +29,7 @@ open CFSG.Blueprint.Multiplier (genericOrders exceptionalOrders)
 
 theorem prime_dvd_card_of_isPGroup {p : ℕ} (hp : p.Prime) {Y : Type*} [Group Y] [Finite Y]
     {H : Subgroup Y} (hH : IsPGroup p H) (hne : H ≠ ⊥) : p ∣ Nat.card H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hH.exists_card_eq
   have hk0 : k ≠ 0 := by
     rintro rfl
@@ -40,7 +40,7 @@ theorem prime_dvd_card_of_isPGroup {p : ℕ} (hp : p.Prime) {Y : Type*} [Group Y
 theorem center_eq_bot_of_not_sq_dvd {p : ℕ} (hp : p.Prime) {Y : Type*} [Group Y] [Finite Y]
     (hperf : commutator Y = ⊤) (hO : GLAPPrimeCore p Y = ⊥)
     (hsq : ¬ p ^ 2 ∣ Nat.card (Y ⧸ Subgroup.center Y)) : Subgroup.center Y = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hne
   have hpg := isPGroup_center_of_glaPPrimeCore_eq_bot hp hO
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' p (prime_dvd_card_of_isPGroup hp hpg hne)
@@ -57,7 +57,7 @@ theorem center_eq_bot_of_not_sq_dvd {p : ℕ} (hp : p.Prime) {Y : Type*} [Group 
     z.2 hz1 hzp ?_
   set R : Subgroup (Y ⧸ Subgroup.center Y) :=
     (S : Subgroup Y).map (QuotientGroup.mk' (Subgroup.center Y)) with hR
-  have hRp : IsPGroup p R := S.isPGroup'.map _
+  have hRp : IsPGroup p R := S.isPGroup.map _
   obtain ⟨j, hj⟩ := hRp.exists_card_eq
   have hj1 : j ≤ 1 := by
     by_contra h
@@ -78,12 +78,12 @@ theorem five_le_of_isAltType {n : ℕ} {Y : Type*} [Group Y] (hq : CFSG.Open.IsQ
   obtain ⟨hcomm, hsimp⟩ := hq
   obtain ⟨e⟩ := hA
   by_contra hlt
-  haveI : Group.IsPerfect Y := Group.isPerfect_def.mpr hcomm
-  haveI : Nontrivial (Y ⧸ Subgroup.center Y) := hsimp.toNontrivial
-  haveI : Group.IsSolvable (alternatingGroup (Fin n)) :=
+  have : Group.IsPerfect Y := Group.isPerfect_def.mpr hcomm
+  have : Nontrivial (Y ⧸ Subgroup.center Y) := hsimp.toNontrivial
+  have : Group.IsSolvable (alternatingGroup (Fin n)) :=
     alternatingGroup.isSolvable (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
-  haveI : Group.IsSolvable (Y ⧸ Subgroup.center Y) :=
-    solvable_of_solvable_injective (f := e.toMonoidHom) e.injective
+  have : Group.IsSolvable (Y ⧸ Subgroup.center Y) :=
+    Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
   exact Group.IsPerfect.not_isSolvable _ this
 
 theorem card_center_dvd_of_isAltType {n : ℕ} {Y : Type} [Group Y]
@@ -92,15 +92,15 @@ theorem card_center_dvd_of_isAltType {n : ℕ} {Y : Type} [Group Y]
   have hn5 := five_le_of_isAltType hq hA
   obtain ⟨hcomm, -⟩ := hq
   obtain ⟨e⟩ := hA
-  haveI : Group.IsPerfect Y := Group.isPerfect_def.mpr hcomm
-  haveI : Group.IsPerfect (alternatingGroup (Fin n)) :=
+  have : Group.IsPerfect Y := Group.isPerfect_def.mpr hcomm
+  have : Group.IsPerfect (alternatingGroup (Fin n)) :=
     ⟨commutator_alternatingGroup_eq_top (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)⟩
   let π : Y →* alternatingGroup (Fin n) :=
     e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center Y))
   have hπ : Function.Surjective π := e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : π.ker = Subgroup.center Y := by
     ext x
-    simp [π, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp [π]
   obtain ⟨-, h, -, -, -, -, eK, -⟩ :=
     CFSG.RankThree.PerfectCover.perfect_central_kernel_quotient_of_hopf_multiplier π hπ hker.le
   have hcardK : Nat.card (Subgroup.center Y) ∣
@@ -212,7 +212,7 @@ theorem center_eq_bot_of_lieModel_omega (hGA : GriessAllModelsStatement) {p : �
     (hO : GLAPPrimeCore p X = ⊥) {t : StatedLieTag} (ht : t = .POmegaPlus ∨ t = .POmegaMinus)
     {m : ℕ} (hm : CFSG.Models.LieModel (X ⧸ Subgroup.center X) t m 2 1) :
     Subgroup.center X = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hle := center_torsion_le hGA hq (MulEquiv.refl _) hm hp
   rw [torsBound_omega_two hp hp2 ht m] at hle
   by_contra hne
@@ -284,9 +284,9 @@ theorem inputPiCenter_of_griess (hGA : GriessAllModelsStatement) :
           (lieModel_omegaMinus (by omega) g)
   ·
     subst hp3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hdvd := card_center_dvd_of_isAltType hq ⟨e⟩
-    rw [if_pos (Or.inr rfl)] at hdvd
+    rw [ite_eq_left (Or.inr rfl)] at hdvd
     obtain ⟨k, hk⟩ := (isPGroup_center_of_glaPPrimeCore_eq_bot hp hO).exists_card_eq
     have hk1 : k ≤ 1 := by
       by_contra h
@@ -311,8 +311,8 @@ theorem input7_L34_holds : Input7_L34 := by
 
 theorem inputAutL34Order9_holds : Lemma1112b.InputAutL34Order9 := by
   intro X _ hL E hE
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite X := by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite X := by
     obtain ⟨K, _, _, -, ⟨f⟩⟩ := hL
     exact Finite.of_equiv _ f.symm.toEquiv
   obtain ⟨k, hk⟩ := (Lemma1112b.isPGroup_of_isElemAbelian hE).exists_card_eq
@@ -327,7 +327,7 @@ theorem inputSchurFi22_holds :
     Lemma123.InputSchurFi22 := by
   intro Y _ _ hq hO hs
   obtain ⟨e⟩ := CatalogInputs.fi22_nonempty_mulEquiv_native hs
-  haveI : Group.IsPerfect Y := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect Y := Group.isPerfect_def.mpr hq.1
   have hker : (QuotientGroup.mk' (Subgroup.center Y)).ker = Subgroup.center Y :=
     QuotientGroup.ker_mk' _
   have h := CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.ComponentPrimary.sporadicKernelTrivial_fi22_five

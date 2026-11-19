@@ -122,10 +122,10 @@ def fixedSub (T : Vec → V →+ V) (c : Vec) : AddSubgroup V where
   carrier := {v | T c v = v}
   zero_mem' := map_zero _
   add_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_add, ha, hb]
   neg_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_neg, ha]
 
 def nrmHom (T : Vec → V →+ V) (c : Vec) : V →+ V := ∑ i : ZMod 3, T (mv i c)
@@ -183,8 +183,8 @@ theorem hyp_identity (v : V) :
   have herase : ∀ u ∈ Finset.univ.erase (0 : Vec),
       (if u = 0 then 13 else 4) • T u v = 0 := by
     intro u hu
-    rw [if_neg (Finset.ne_of_mem_erase hu), h4]
-  rw [Finset.sum_eq_zero herase, add_zero, if_pos rfl, h.apply_zero, h13]
+    rw [ite_eq_right (Finset.ne_of_mem_erase hu), h4]
+  rw [Finset.sum_eq_zero herase, add_zero, ite_eq_left rfl, h.apply_zero, h13]
 
 end ModData
 
@@ -260,7 +260,6 @@ theorem card_fixed_ge (hcoord : ∀ l v, T (cv l) v = v → v = 0) [Finite V] (i
       | exact absurd hab'.symm huv
       | exact absurd hab' hvu
       | exact absurd hab'.symm hvu
-      | skip
   have := Nat.card_le_card_of_injective f hf
   simpa using this
 
@@ -312,7 +311,7 @@ theorem card_ge [Finite V] (hcoord : ∀ l v, T (cv l) v = v → v = 0)
   rw [Nat.card_pi] at hle
   calc 256 = ∏ i : Fin 4, 4 := by simp
     _ ≤ ∏ i, Nat.card (fixedSub T (dv i)) :=
-      Finset.prod_le_prod' fun i _ => h4 i
+      Finset.prod_le_prod fun i _ => h4 i
     _ ≤ Nat.card V := hle
 
 end ModData

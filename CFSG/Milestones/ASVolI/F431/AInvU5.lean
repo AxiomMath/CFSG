@@ -176,7 +176,7 @@ theorem burnsideF4m_invCent_U5 {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldD
     {D : Type} [Group D] [Finite D] (e₀ : D ≃* hypPSU h 2 1) (A : LieAmalgamExt D)
     (hgen : (MulAut.conj : D →* MulAut D).range ≤ A.K) (hcen : Subgroup.center D = ⊥)
     (hodd : ¬ 2 ∣ (Lift.iK A hgen).range.index) : burnsideF4m_InvCent A := by
-  haveI := finite_hypPSU_five h
+  have := finite_hypPSU_five h
   obtain ⟨c, hT, hP⟩ := (u5_yamStd (h := h)).pair e₀ A.yam
   let ε : D ≃* hypPSU h 2 1 := e₀.trans (MulAut.conj c⁻¹)
   have hε : ∀ S : Subgroup D, S.map ε.toMonoidHom = (S.map e₀.toMonoidHom).map
@@ -201,9 +201,9 @@ variable {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 theorem burnsideF4m_hyp_U5 (hyp : HypF_4_4 .U5 2 f Gp M₁ M₂) :
     ∃ (K : Type) (_ : Field K) (h : UnitaryFieldData 2 f K), Nonempty (↥Gp ≃* hypPSU h 2 1) := by
   obtain ⟨-, hf1, K, fK, finK, hcard, ⟨e⟩⟩ := hyp.model
-  letI := fK
+  let := fK
   have h : UnitaryFieldData 2 f K := ⟨Nat.prime_two, hf1, by rw [hcard, ← pow_mul, mul_comm]⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨R, hR⟩ := exists_isHypTransport (r := 2) (ε := 1) h
   exact ⟨K, fK, h, ⟨e.trans (hypPSUEquivStatedProj h hR (by norm_num)).symm⟩⟩
 
@@ -211,7 +211,7 @@ theorem burnsideF4m_centInput_U5 (hyp : HypF_4_4 .U5 2 f Gp M₁ M₂) (hodd : O
     {x : E} (hx1 : x ≠ 1) (hx2 : x * x = 1) :
     ∃ w : E, IsConj x w ∧
       (Subgroup.centralizer ({w} : Set E) ≤ M₁ ∨ Subgroup.centralizer ({w} : Set E) ≤ M₂) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨marking, h1, h2⟩ := burnsideF4g_marking (c := .U5) hyp.toHypF_4_4g
   obtain ⟨TD, hTD⟩ := burnsideF4g_yamU5 marking
   rw [← h1, ← h2] at hTD

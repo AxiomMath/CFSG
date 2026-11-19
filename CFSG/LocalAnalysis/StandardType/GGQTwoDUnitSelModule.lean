@@ -27,10 +27,10 @@ theorem ggQTwoD_selectedModule (hTBF : GGTBFixInput) (hWI : GGNbrInnerWeylInput)
         s)) = dTau m (decide (t.val + 1 = m)) (OrthTorus.simpleLo t) (OrthTorus.simpleHi t)
           (β (Additive.ofMul s)) := by
   subst hM
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hrc : GGSecFiveRouteCfg 3 B Bs x L D J 𝒦 := hcfg.1
   obtain ⟨V, iA, iM, ⟨ι'⟩⟩ := exists_ggLinData (ggRouteCfg_isElemAbelian hrc)
-  haveI : Finite V := Finite.of_equiv _ ι'.toEquiv
+  have : Finite V := Finite.of_equiv _ ι'.toEquiv
   obtain ⟨Θ, ϑ, hϑ, hact⟩ :=
     ggQTwoDFrame_module hrc hm e' hcfg.2.2.2.1 ι' (ggQTwoD_fix hTBF hWI hrc)
   refine ⟨ι'.trans Θ.symm.toAddEquiv, fun t s => ?_⟩

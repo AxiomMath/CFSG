@@ -70,7 +70,7 @@ theorem false_of_diag (hT1 : Harris82Theorem1KProper) (hT2 : Theorem2ClassB) {G 
   have hY₀₁ : Y₀ ≠ Y₁ := by
     intro h
     rw [← h, inf_idem] at hI
-    haveI := LocalCores.isQuasisimple_nontrivial hY₀c.1
+    have := LocalCores.isQuasisimple_nontrivial hY₀c.1
     exact (Subgroup.nontrivial_iff_ne_bot _).mp this hI
   have hz : z ∈ K₀ ⊔ K₁ := by
     have hzJ : z ∈ J.subgroupOf (centralizer ({w} : Set G)) := hwJ

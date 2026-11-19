@@ -74,7 +74,7 @@ theorem kFactL28_L3_even {Q : Type} [Group Q] [Finite Q] {f : ℕ} (hpf : 2 ^ f 
   have hdvd : Nat.card (Bar2 X) ∣ Nat.card ↥X :=
     Subgroup.card_quotient_dvd_card (CFSG.pCore 2 ↥X)
   have h7X : 7 ∣ Nat.card ↥X := dvd_trans (by rw [hcard504]; norm_num) hdvd
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥X) 7 h7X
   let A : Subgroup Q := (Subgroup.zpowers x).map X.subtype
   have hAX : A ≤ X := by
@@ -119,7 +119,7 @@ theorem kFactL28_L3_even {Q : Type} [Group Q] [Finite Q] {f : ℕ} (hpf : 2 ^ f 
     · intro Z hZ
       exact sl3_irreducible_of_not_seven_dvd hK h7 hB7' Z
         (fun s hs v hv => hZ s (hB'W' hs) v hv)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTindex : ¬ 2 ∣ T.index := by
     have h := (CFSG.ABGLocalTools.isSylowOf_iff.mp c.T_sylow).2.2
     rwa [Subgroup.relIndex_top_right] at h
@@ -127,8 +127,8 @@ theorem kFactL28_L3_even {Q : Type} [Group Q] [Finite Q] {f : ℕ} (hpf : 2 ^ f 
     dsimp [W']
     rw [Subgroup.index_map_equiv W e]
     exact fun h => hTindex (dvd_trans h (Subgroup.index_dvd_of_le c.T_le))
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hchar : CharP K 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have hchar : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := f) (by rw [Fintype.card_eq_nat_card]; exact hK)
   obtain ⟨g, hg⟩ := CFSG.CGT.T75N.exists_conj_unitriangular_le_gen W' hWodd
   let S : Subgroup (Matrix.SpecialLinearGroup (Fin 3) K) := W'.map (MulAut.conj g).toMonoidHom

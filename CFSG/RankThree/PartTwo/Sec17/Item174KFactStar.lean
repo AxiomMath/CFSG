@@ -51,7 +51,7 @@ theorem starFor_of_L3Even (H : Type) [Group H] [Finite H] (d : TauCeti.ValidLieT
   obtain ⟨p, f, hp, hf⟩ := q
   simp only at h2
   subst h2
-  haveI : Fact (TauCeti.PrimePower.p ⟨2, f, hp, hf⟩).Prime := ⟨hp⟩
+  have : Fact (TauCeti.PrimePower.p ⟨2, f, hp, hf⟩).Prime := ⟨hp⟩
   have e' := e.trans (CFSG.RankThree.PartTwo.Census.typeAGroupEquivProjSL 2 ⟨2, f, hp, hf⟩ hv)
   refine ⟨f, ?_, ⟨e'⟩⟩
   rw [TauCeti.PrimePower.card_def] at hq
@@ -67,7 +67,7 @@ theorem kfactStar_of_families
     (hL3 : StarL3Odd) (hU3 : StarU3) (hJ1 : StarJ1) (hA5 : StarA5) : KFactStar := by
   intro H _ _ hK hsimp hr t ht3 I hNI hO2
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hsimp
+  have := hsimp
   have hnab : ∃ a b : H, a * b ≠ b * a := by
     by_contra hab
     push Not at hab

@@ -16,7 +16,7 @@ theorem two_eq_zero : (2 : F8) = 0 := CharTwo.two_eq_zero
 
 theorem pow_eight (x : F8) : x ^ 8 = x := by
   classical
-  haveI : Fintype F8 := Fintype.ofFinite F8
+  have : Fintype F8 := Fintype.ofFinite F8
   have h := FiniteField.pow_card x
   rwa [Fintype.card_eq_nat_card, CFSG.LocalAnalysis.GLTheoremA.LevelLieSp4F.card_F8] at h
 
@@ -108,6 +108,7 @@ theorem step {n : ℕ} {u v u' : F8} (h : amat τ ^ n = lin τ u v) (hu : u * τ
 theorem lin_zero_one : lin τ 0 1 = 1 := by simp [lin]
 
 include hτ in
+omit hτ in
 theorem amat_pow_three : amat τ ^ 3 = lin τ (τ ^ 2 + 1) τ := by
   have p1 : amat τ ^ 1 = lin τ 1 0 := by rw [pow_one, amat_eq_lin]
   have p2 := step p1 (u' := τ) (by ring)
@@ -116,7 +117,7 @@ theorem amat_pow_three : amat τ ^ 3 = lin τ (τ ^ 2 + 1) τ := by
 include hτ in
 theorem amat_pow_nine : amat τ ^ 9 = 1 := by
   have h2 := two_eq_zero
-  have p4 := step (amat_pow_three hτ) (u' := τ + 1) (by linear_combination hτ - h2)
+  have p4 := step (amat_pow_three) (u' := τ + 1) (by linear_combination hτ - h2)
   have p5 := step p4 (u' := τ + 1) (by linear_combination τ ^ 2 * h2)
   have p6 := step p5 (u' := τ ^ 2 + 1) (by linear_combination τ * h2)
   have p7 := step p6 (u' := τ) (by linear_combination hτ)
@@ -127,9 +128,9 @@ theorem amat_pow_nine : amat τ ^ 9 = 1 := by
 include hτ in
 theorem amat_pow_three_ne_one : amat τ ^ 3 ≠ 1 := by
   intro h
-  rw [amat_pow_three hτ] at h
+  rw [amat_pow_three] at h
   have h01 := congrFun (congrFun h 0) 1
-  simp [lin, amat, Matrix.one_apply] at h01
+  simp [lin, amat] at h01
   have : (τ + 1) ^ 2 = 0 := by linear_combination h01 + τ * two_eq_zero
   have h1 : τ + 1 = 0 := pow_eq_zero_iff (n := 2) (by norm_num) |>.1 this
   exact tau_ne_one hτ (by linear_combination h1 - two_eq_zero)

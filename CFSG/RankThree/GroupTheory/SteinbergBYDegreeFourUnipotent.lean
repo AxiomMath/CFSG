@@ -218,7 +218,6 @@ theorem hstar_wittMat_mul (σ : K →+* K) {u c : K} (hu : σ u * u = -1) (hc : 
   fin_cases i <;> fin_cases j <;>
     simp [hstar, wittMat, hypJ, Matrix.mul_apply, Fin.sum_univ_four] <;>
     first
-    | ring1
     | linear_combination hu
     | linear_combination c * hu
     | linear_combination σ c * hu
@@ -235,7 +234,6 @@ theorem hstar_blockUnipotent_shMat (σ : K →+* K) (hσ : ∀ x, σ (σ x) = x)
   fin_cases i <;> fin_cases j <;>
     simp [hstar, blockUnipotent, shMat, hypJ, Matrix.mul_apply, Fin.sum_univ_four, hσ] <;>
     first
-    | ring1
     | linear_combination he₁
     | linear_combination he₂
 

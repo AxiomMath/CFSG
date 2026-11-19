@@ -62,7 +62,7 @@ lemma s16k_exists_pcycle_fix {n p : ℕ} {m : G6.PermMod n} (hp : p.Prime) (hpod
   exact ⟨c, hcyc, hcsupp, hord, hmemA, hfix⟩
 
 theorem s16k_alt_fix_noncyclic (n : ℕ) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 3 * p ≤ n)
-    (m : G6.PermMod n) (hm : m ∈ G6.coreMod n) (h1 : m ≠ 1) (h2 : m ≠ G6.allOnes n) :
+    (m : G6.PermMod n) (_hm : m ∈ G6.coreMod n) (_h1 : m ≠ 1) (_h2 : m ≠ G6.allOnes n) :
     ∃ B : Subgroup ↥(alternatingGroup (Fin n)), IsPGroup p ↥B ∧ ¬ IsCyclic ↥B ∧
       ∀ b ∈ B, G6.permAct n (b : Equiv.Perm (Fin n)) m = m := by
   classical
@@ -81,10 +81,10 @@ theorem s16k_alt_fix_noncyclic (n : ℕ) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
       (s1 ⊆ Δ ∨ s1 ⊆ Γ) ∧ (s2 ⊆ Δ ∨ s2 ⊆ Γ) ∧ _root_.Disjoint s1 s2 := by
     rcases hcases with hA | ⟨hpa, hpb⟩ | hD
     · obtain ⟨s1, hs1sub, hs1card⟩ := Finset.exists_subset_card_eq (s := Δ) (n := p) (by omega)
-      have h2 : p ≤ (Δ \ s1).card := by
+      have _h2 : p ≤ (Δ \ s1).card := by
         rw [Finset.card_sdiff_of_subset hs1sub, hs1card]
         omega
-      obtain ⟨s2, hs2sub, hs2card⟩ := Finset.exists_subset_card_eq (s := Δ \ s1) (n := p) h2
+      obtain ⟨s2, hs2sub, hs2card⟩ := Finset.exists_subset_card_eq (s := Δ \ s1) (n := p) _h2
       refine ⟨s1, s2, hs1card, hs2card, Or.inl hs1sub,
         Or.inl (hs2sub.trans (Finset.sdiff_subset (s := Δ) (t := s1))), ?_⟩
       rw [Finset.disjoint_left]
@@ -97,10 +97,10 @@ theorem s16k_alt_fix_noncyclic (n : ℕ) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
       intro x hx1 hx2
       exact (Finset.mem_sdiff.mp (hs2sub hx2)).2 (hs1sub hx1)
     · obtain ⟨s1, hs1sub, hs1card⟩ := Finset.exists_subset_card_eq (s := Γ) (n := p) (by omega)
-      have h2 : p ≤ (Γ \ s1).card := by
+      have _h2 : p ≤ (Γ \ s1).card := by
         rw [Finset.card_sdiff_of_subset hs1sub, hs1card]
         omega
-      obtain ⟨s2, hs2sub, hs2card⟩ := Finset.exists_subset_card_eq (s := Γ \ s1) (n := p) h2
+      obtain ⟨s2, hs2sub, hs2card⟩ := Finset.exists_subset_card_eq (s := Γ \ s1) (n := p) _h2
       refine ⟨s1, s2, hs1card, hs2card, Or.inr hs1sub,
         Or.inr (hs2sub.trans (Finset.sdiff_subset (s := Γ) (t := s1))), ?_⟩
       rw [Finset.disjoint_left]
@@ -146,30 +146,30 @@ theorem s16k_alt_fix_noncyclic (n : ℕ) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     · exact hcommA.symm
     · exact absurd rfl hab
   have hcommB : IsMulCommutative B := Subgroup.isMulCommutative_closure hpair
-  letI : CommGroup B := IsMulCommutative.instCommGroup
+  let : CommGroup B := IsMulCommutative.instCommGroup
   have hxB : xA ∈ B := Subgroup.subset_closure (by simp)
   have hyB : yA ∈ B := Subgroup.subset_closure (by simp)
   let xB : B := ⟨xA, hxB⟩
   let yB : B := ⟨yA, hyB⟩
   have hxordA : orderOf xA = p := by
     have h4 : orderOf c1 = orderOf xA := by
-      simpa [xA] using Subgroup.orderOf_coe xA
+      simp [xA]
     rw [← h4]
     exact hc1ord
   have hyordA : orderOf yA = p := by
     have h4 : orderOf c2 = orderOf yA := by
-      simpa [yA] using Subgroup.orderOf_coe yA
+      simp [yA]
     rw [← h4]
     exact hc2ord
   have hxord : orderOf xB = p := by
-    have h1 : orderOf ((xB : B) : A) = orderOf xB := Subgroup.orderOf_coe xB
-    have h2 : ((xB : B) : A) = xA := rfl
-    rw [h1.symm, h2]
+    have _h1 : orderOf ((xB : B) : A) = orderOf xB := Subgroup.orderOf_coe xB
+    have _h2 : ((xB : B) : A) = xA := rfl
+    rw [_h1.symm, _h2]
     exact hxordA
   have hyord : orderOf yB = p := by
-    have h1 : orderOf ((yB : B) : A) = orderOf yB := Subgroup.orderOf_coe yB
-    have h2 : ((yB : B) : A) = yA := rfl
-    rw [h1.symm, h2]
+    have _h1 : orderOf ((yB : B) : A) = orderOf yB := Subgroup.orderOf_coe yB
+    have _h2 : ((yB : B) : A) = yA := rfl
+    rw [_h1.symm, _h2]
     exact hyordA
   have hxBpow : xB ^ p = 1 := by
     rw [← hxord]
@@ -206,7 +206,7 @@ theorem s16k_alt_fix_noncyclic (n : ℕ) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     exact ⟨1, by rw [pow_one, orderOf_dvd_iff_pow_eq_one]; exact hBpow b⟩
   have hnotcyc : ¬ IsCyclic B := by
     intro hcyc
-    haveI := hcyc
+    have := hcyc
     have hcardx : Nat.card (Subgroup.zpowers xB) = p := by
       rw [Nat.card_zpowers, hxord]
     have hcardy : Nat.card (Subgroup.zpowers yB) = p := by

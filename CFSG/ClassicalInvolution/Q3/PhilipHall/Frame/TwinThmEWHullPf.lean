@@ -40,18 +40,18 @@ private theorem hullpf_inf_le_coreAt {J : Subgroup G}
         ((S' : Subgroup G).mul_mem hwS ha.2) ((S' : Subgroup G).inv_mem hwS))
         ((S' : Subgroup G).inv_mem ha.2)
     have h3 : IsPGroup 2 (Subgroup.zpowers ⁅w, a⁆) :=
-      S'.isPGroup'.to_le (Subgroup.zpowers_le.mpr h2)
+      S'.isPGroup.to_le (Subgroup.zpowers_le.mpr h2)
     have h4 := eq_one_of_isPGroup_of_mem_odd (Balance.odd_card_oddCoreIn J) h1 h3
     exact (commutatorElement_eq_one_iff_mul_comm.mp h4).symm
   exact le_tightCore_of_isPGroup (fun a ha => ⟨ha.1, hcomm a ha⟩)
-    (S'.isPGroup'.to_le inf_le_right)
+    (S'.isPGroup.to_le inf_le_right)
 
 private theorem hullpf_mem_sylow_of_mem {S' : Sylow 2 G} {S₁ : Sylow 2 ↥(coreHull Ω w)}
     (hS₁ : (S₁ : Subgroup ↥(coreHull Ω w)).map (secEmb Ω w) ≤ (S' : Subgroup G))
     {x : ↥(coreHull Ω w)} (hx : secEmb Ω w x ∈ (S' : Subgroup G)) :
     x ∈ (S₁ : Subgroup ↥(coreHull Ω w)) := by
   have h2 : IsPGroup 2 ↥((S' : Subgroup G).comap (secEmb Ω w)) :=
-    S'.isPGroup'.comap_of_injective _ secEmb_injective
+    S'.isPGroup.comap_of_injective _ secEmb_injective
   have hle : (S₁ : Subgroup ↥(coreHull Ω w)) ≤ (S' : Subgroup G).comap (secEmb Ω w) :=
     fun y hy => hS₁ ⟨y, hy, rfl⟩
   have heq : (S₁ : Subgroup ↥(coreHull Ω w)) = (S' : Subgroup G).comap (secEmb Ω w) :=
@@ -167,7 +167,7 @@ theorem printedHull_proved : PrintedHull where
     have hΛ : HypOmegaGen (hullFam Ω w) :=
       hypOmegaGen_restrict (TwinADescent.hypOmegaGen_coreFamily hΩ hc2) (coreHull Ω w)
     have hT₁2 : IsPGroup 2 ((S₁ : Subgroup ↥(coreHull Ω w)).map (secEmb Ω w)) :=
-      S₁.isPGroup'.map (secEmb Ω w)
+      S₁.isPGroup.map (secEmb Ω w)
     have hcomm : Commutes (Subgroup.zpowers w) ((S₁ : Subgroup ↥(coreHull Ω w)).map (secEmb Ω w)) := by
       rintro x hx _ ⟨y, -, rfl⟩
       obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx

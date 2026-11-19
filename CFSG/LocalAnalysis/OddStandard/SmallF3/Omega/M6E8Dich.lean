@@ -18,6 +18,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem m6e8_le_centralizer_pair {K : Subgroup G} {x y : G}
     (hx : K ≤ centralizer ({x} : Set G)) (hy : K ≤ centralizer ({y} : Set G)) :
     K ≤ centralizer ({x, y} : Set G) := by
@@ -29,6 +30,7 @@ private theorem m6e8_le_centralizer_pair {K : Subgroup G} {x y : G}
   · rw [Set.mem_singleton_iff.mp hw]
     exact Subgroup.mem_centralizer_iff.mp (hy hz) _ (Set.mem_singleton _)
 
+omit [Finite G] in
 private theorem m6e8_centralizer_pair_le_right (x y : G) :
     centralizer ({x, y} : Set G) ≤ centralizer ({y} : Set G) :=
   Subgroup.centralizer_le

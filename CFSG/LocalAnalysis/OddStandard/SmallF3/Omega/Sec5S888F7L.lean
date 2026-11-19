@@ -38,7 +38,7 @@ theorem f7_ffImg_isElemAb2 {H : Type} [Group H] {φ : ↥L →* H} {B : Subgroup
   unfold IsElemAb2 CFSG.Open.IsElemAbelian
   obtain ⟨⟨hcomm, hpow⟩, hcardB⟩ := hB
   refine ⟨⟨?_, ?_⟩, ?_⟩
-  · haveI : IsMulCommutative ↥B := hcomm
+  · have : IsMulCommutative ↥B := hcomm
     exact Subgroup.map_isMulCommutative (H := B.subgroupOf L) φ
   · intro y hy
     obtain ⟨l, hl, rfl⟩ := mem_ffImg_iff.mp hy

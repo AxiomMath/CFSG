@@ -144,7 +144,7 @@ theorem false_of_pGroup (hT : FormData T N z) {P : Subgroup G} [Finite P] (hP : 
     (hZ : ∀ y ∈ P, (∀ w ∈ P, y * w = w * y) → y ^ 3 = 1 → y ≠ 1 →
       ActData T N y ∧ ∃ s ∈ T, nu y s ∈ N ∧ s ∉ N) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPN' : ∀ y ∈ P, ∀ n ∈ N, y⁻¹ * n * y ∈ N := fun y hy n hn => by
     have := hPN _ (inv_mem hy) n hn
     rwa [inv_inv] at this
@@ -154,10 +154,10 @@ theorem false_of_pGroup (hT : FormData T N z) {P : Subgroup G} [Finite P] (hP : 
   have hcent : ∀ K : Subgroup ↥P, K.Normal → K ≠ ⊥ →
       ∃ c : ↥P, c ∈ K ∧ c ∈ Subgroup.center ↥P ∧ c ^ 3 = 1 ∧ c ≠ 1 := by
     intro K hK hne
-    haveI := hP.isNilpotent
+    have := hP.isNilpotent
     have h1 := Group.IsNilpotent.inf_center_ne_bot_of_normal hne
     have h2 : IsPGroup 3 ↥(K ⊓ Subgroup.center ↥P) := hP.to_subgroup _
-    haveI : Nontrivial ↥(K ⊓ Subgroup.center ↥P) := (Subgroup.nontrivial_iff_ne_bot _).2 h1
+    have : Nontrivial ↥(K ⊓ Subgroup.center ↥P) := (Subgroup.nontrivial_iff_ne_bot _).2 h1
     have h3 : 3 ∣ Nat.card ↥(K ⊓ Subgroup.center ↥P) := by
       rcases h2.card_eq_or_dvd with h | h
       · exact absurd h Finite.one_lt_card.ne'
@@ -185,7 +185,7 @@ theorem false_of_pGroup (hT : FormData T N z) {P : Subgroup G} [Finite P] (hP : 
   have hx1 : x ≠ 1 := fun h => hx01 (Subtype.ext h)
   obtain ⟨hxA, s, hs, hsnu, hsN⟩ := hZ x hxP hxc hx3 hx1
   have hxord : orderOf x = 3 := orderOf_eq_prime hx3 hx1
-  haveI hxfin : Finite (Subgroup.zpowers x) :=
+  have hxfin : Finite (Subgroup.zpowers x) :=
     Finite.of_injective (Subgroup.inclusion (Subgroup.zpowers_le.2 hxP))
       (Subgroup.inclusion_injective _)
   let K : Subgroup ↥P :=
@@ -379,7 +379,7 @@ theorem false_of_pGroup (hT : FormData T N z) {P : Subgroup G} [Finite P] (hP : 
         rw [mul_eq_one_iff_eq_inv] at h
         rw [h]
         exact inv_mem hh1y
-      haveI : Finite (Subgroup.zpowers y) :=
+      have : Finite (Subgroup.zpowers y) :=
         Finite.of_injective (Subgroup.inclusion (Subgroup.zpowers_le.2 hyP))
           (Subgroup.inclusion_injective _)
       have heq : Subgroup.zpowers x = Subgroup.zpowers y := by

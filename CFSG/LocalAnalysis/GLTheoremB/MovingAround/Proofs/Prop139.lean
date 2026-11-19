@@ -39,7 +39,7 @@ variable {G : Type} [Group G] [Finite G]
 
 @[expose] def FrattiniBoundStatement : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A D T : Subgroup G}
-    (h : Sec13 G m p B M E A D T), CFSG.Open.pRank p (B ⊓ KBig p M D T) ≤ 1
+    (_h : Sec13 G m p B M E A D T), CFSG.Open.pRank p (B ⊓ KBig p M D T) ≤ 1
 
 theorem center_bot_of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃* Y)
     (hY : Subgroup.center Y = ⊥) : Subgroup.center X = ⊥ := by
@@ -58,7 +58,7 @@ theorem center_bot_of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃* Y)
 theorem centre_barOf_bot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup G}
     (hpi : IsPiGroup p (↥L ⧸ CFSG.pCore 2 ↥L)) (hnh : ¬ IsHatSeven (↥L ⧸ CFSG.pCore 2 ↥L))
     (hPi : InputPiCenter) : Subgroup.center (barOf p L) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have e1 : barOf p L ≃* (↥L ⧸ CFSG.pCore 2 ↥L) :=
     QuotientGroup.quotientMulEquivOfEq (glaPPrimeCore_eq_pCore_two hp hp2 hpi)
   exact center_bot_of_mulEquiv e1 (hPi _ p hp hp2 hpi hnh)
@@ -70,7 +70,7 @@ theorem piType_of_comp {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup G}
       (∃ (n : ℕ) (ε : Bool), 1 ≤ n ∧ IsOmegaTwo ε (n + 1) (barOf p L) ∧
         HasFixedPointFreeOrder ε n p) ∨
       (p = 3 ∧ Nonempty ((↥L ⧸ CFSG.pCore 2 ↥L) ≃* alternatingGroup (Fin 7))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have e1 : barOf p L ≃* (↥L ⧸ CFSG.pCore 2 ↥L) :=
     QuotientGroup.quotientMulEquivOfEq (glaPPrimeCore_eq_pCore_two hp hp2 hpi)
   have hZ : Subgroup.center (↥L ⧸ CFSG.pCore 2 ↥L) = ⊥ := hPi _ p hp hp2 hpi hnh
@@ -110,7 +110,7 @@ theorem pRank_top_barOf (p : ℕ) [Fact p.Prime] (L : Subgroup G) :
 
 theorem one_le_pRank_of_elem {p : ℕ} (hp : p.Prime) {X : Type} [Group X] [Finite X] {x : X}
     (hx : x ^ p = 1) (hx1 : x ≠ 1) : 1 ≤ CFSG.Open.pRank p (⊤ : Subgroup X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf x = p := orderOf_eq_prime hx hx1
   have hE : IsElemAbelian p (Subgroup.zpowers x) := by
     refine ⟨inferInstance, fun y hy => ?_⟩
@@ -148,7 +148,7 @@ theorem bInf_le_derivedInf {m p : ℕ} {B M E A D T : Subgroup G} (h : Sec13 G m
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h133 := (hL133 h).2 L hL
   have hBN : B ≤ Nof T := hL137i h
   have hBel : IsElemAbelian p B := h.bOne.1.1
@@ -175,10 +175,11 @@ theorem bInf_le_derivedInf {m p : ℕ} {B M E A D T : Subgroup G} (h : Sec13 G m
   obtain ⟨hxB, hxL⟩ := Subgroup.mem_inf.1 hx
   exact mem_derivedInf_of_pow_eq_one hp hp2 h137.1 hidx (hBN hxB) hxL (hBel.2 x hxB)
 
+omit [Finite G] in
 theorem isElemAbelian_of_le_B {p : ℕ} {B E : Subgroup G} (hB : IsElemAbelian p B) (hE : E ≤ B) :
     IsElemAbelian p E :=
-  isElemAbelian_of_comm_pow (fun x hx y hy => elemAbelian_comm hB (hE hx) (hE hy))
-    (fun x hx => hB.2 x (hE hx))
+  isElemAbelian_of_comm_pow (fun _x hx _y hy => elemAbelian_comm hB (hE hx) (hE hy))
+    (fun _x hx => hB.2 _x (hE hx))
 
 theorem exists_nontriv_pRank {p : ℕ} (hp : p.Prime) {H : Subgroup G}
     (hH : 1 ≤ CFSG.Open.pRank p H) :
@@ -186,7 +187,7 @@ theorem exists_nontriv_pRank {p : ℕ} (hp : p.Prime) {H : Subgroup G}
   obtain ⟨E, hEH, hEel, hcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt H
   refine ⟨E, hEH, hEel, ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hbot : E = ⊥ := (Subgroup.eq_bot_iff_forall E).2 hcon
   rw [hbot, Subgroup.card_bot] at hcard
   have h1 : 1 < p ^ CFSG.Open.pRank p H := Nat.one_lt_pow (by omega) hp.one_lt
@@ -199,7 +200,7 @@ theorem inf_comps_bot {m p : ℕ} {B M E A D T : Subgroup G} (h : Sec13 G m p B 
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBel : IsElemAbelian p B := h.bOne.1.1
   have hL1 := (hL133 h).2 L1 h1
   have hc1 : Subgroup.center (barOf p L1) = ⊥ :=
@@ -262,7 +263,7 @@ theorem two_comps_false {m p : ℕ} {B M E A D T : Subgroup G} (h : Sec13 G m p 
     (hr2 : 1 ≤ CFSG.Open.pRank p L2) : False := by
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBel : IsElemAbelian p B := h.bOne.1.1
   have hBc : Nat.card B = p ^ GLATwoLocalRank p G := h.bOne.1.2.1
   have hsub : ∀ L : Subgroup G, BigComp p M D L → B ⊓ L ≤ KBig p M D T := fun L hL =>
@@ -320,7 +321,7 @@ end Prop139
 open Prop139
 
 theorem prop139_of_inputs (hL137i : Lemma137_iStatement) (hL137ii : Lemma137_ii_iiiStatement)
-    (hL137iv : Lemma137_iv_vStatement) (hL138 : Lemma138Statement) (hL133 : Lemma133Statement)
+    (_hL137iv : Lemma137_iv_vStatement) (_hL138 : Lemma138Statement) (hL133 : Lemma133Statement)
     (hNo7 : Lemma137_noA7Statement) (hPi : InputPiCenter) (hAb : InputAbIdx2)
     (hAlt : Lemma118R.Input10_6AltRank) (hRank1 : InputRankOneOmega3)
     (hOmD : InputOmegaPDvd) (hFB : FrattiniBoundStatement) : Prop139Statement := by
@@ -328,7 +329,7 @@ theorem prop139_of_inputs (hL137i : Lemma137_iStatement) (hL137ii : Lemma137_ii_
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrk_le : ∀ L : Subgroup G, GLAPComponent p (Istar p M D) L → CFSG.Open.pRank p L ≤ 1 := by
     intro L hL
     by_contra hc

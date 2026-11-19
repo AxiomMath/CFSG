@@ -71,7 +71,7 @@ private theorem card_psl2MatrixGroup_two_pow {K : Type} [Field K] [Finite K] {m 
 private theorem isSolvable_psl2_galoisField_two_one :
     Group.IsSolvable (PSL2MatrixGroup (GaloisField 2 1)) := by
   classical
-  haveI : Fintype (PSL2MatrixGroup (GaloisField 2 1)) := Fintype.ofFinite _
+  have : Fintype (PSL2MatrixGroup (GaloisField 2 1)) := Fintype.ofFinite _
   have hK : Nat.card (GaloisField 2 1) = 2 ^ 1 := GaloisField.card 2 1 one_ne_zero
   have h6 := card_psl2MatrixGroup_two_pow le_rfl hK
   rw [Nat.card_eq_fintype_card] at h6
@@ -89,11 +89,11 @@ theorem exists_mulEquiv_psl2_of_not_isSolvable {F : Type} [Field F] [Finite F] {
   have hsolv : ∀ {A : Type} [Group A], (H ≃* A) → Group.IsSolvable A → False := by
     intro A _ e hA
     apply hG
-    haveI := hA
+    have := hA
     exact Group.isSolvable_of_isSolvable_injective (f := (eG.trans e).toMonoidHom)
       (eG.trans e).injective
   have hcomm : (∀ a b : H, a * b = b * a) → False := fun h =>
-    hsolv (MulEquiv.refl H) (isSolvable_of_comm h)
+    hsolv (MulEquiv.refl H) (_root_.Group.isSolvable_of_comm h)
   have hpsl : ∀ m : ℕ, m ≠ 0 → Nonempty (H ≃* PSL2MatrixGroup (GaloisField 2 m)) →
       ∃ m : ℕ, 2 ≤ m ∧ Nonempty (G ≃* PSL2MatrixGroup (GaloisField 2 m)) := by
     rintro m hm ⟨e⟩
@@ -105,11 +105,11 @@ theorem exists_mulEquiv_psl2_of_not_isSolvable {F : Type} [Field F] [Finite F] {
       H with
     hEl | ⟨z, -, -, hcyc⟩ | ⟨z, -, hzc, ⟨eD⟩⟩ | ⟨-, ⟨eA4⟩⟩ | ⟨-, ⟨eS4⟩⟩ | ⟨-, ⟨eA5⟩⟩ |
       ⟨m, t, -, -, N, C, hN, hNel, -, hC, -, -, hNC⟩ | ⟨m, hm, -, he⟩ | ⟨m, hm, -, ⟨e⟩⟩
-  · haveI := hEl
+  · have := hEl
     exact (hcomm fun a b => mul_comm' a b).elim
-  · haveI := hcyc
+  · have := hcyc
     exact (hcomm fun a b => mul_comm' a b).elim
-  · haveI : NeZero z := ⟨by
+  · have : NeZero z := ⟨by
       rintro rfl
       have : Nat.card H = 0 := by rw [hzc, mul_zero]
       exact (Nat.card_pos (α := H)).ne' this⟩
@@ -118,17 +118,17 @@ theorem exists_mulEquiv_psl2_of_not_isSolvable {F : Type} [Field F] [Finite F] {
   · exact (hsolv eS4 CFSG.OrderReductions.PermutationReduction.permutation_four_solvable).elim
   ·
     have hK4 : Nat.card (GaloisField 2 2) = 2 ^ 2 := GaloisField.card 2 2 two_ne_zero
-    haveI : IsSimpleGroup (PSL2MatrixGroup (GaloisField 2 2)) :=
+    have : IsSimpleGroup (PSL2MatrixGroup (GaloisField 2 2)) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [hK4]; norm_num)
     obtain ⟨e60⟩ := CFSG.QuasithinUnique.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty
       (G := PSL2MatrixGroup (GaloisField 2 2))
       (by rw [card_psl2MatrixGroup_two_pow (by norm_num) hK4]; norm_num)
     exact ⟨2, le_rfl, ⟨eG.trans (eA5.trans e60.symm)⟩⟩
   ·
-    haveI := hN
-    haveI := hNel
-    haveI := hC
-    haveI : IsMulCommutative ↥C := IsCyclic.isMulCommutative
+    have := hN
+    have := hNel
+    have := hC
+    have : IsMulCommutative ↥C := IsCyclic.isMulCommutative
     have hle : commutator H ≤ N :=
       Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hNC
     have hNN : ⁅N, N⁆ = ⊥ := by
@@ -137,7 +137,7 @@ theorem exists_mulEquiv_psl2_of_not_isSolvable {F : Type} [Field F] [Finite F] {
       rw [Subgroup.mem_centralizer_iff]
       intro y hy
       exact congrArg Subtype.val (mul_comm' (⟨y, hy⟩ : N) ⟨x, hx⟩)
-    refine (hsolv (MulEquiv.refl H) ((isSolvable_def _).2 ⟨2, ?_⟩)).elim
+    refine (hsolv (MulEquiv.refl H) ((Group.isSolvable_def _).2 ⟨2, ?_⟩)).elim
     rw [derivedSeries_succ, derivedSeries_one, eq_bot_iff, ← hNN]
     exact Subgroup.commutator_mono hle hle
   · exact hpsl m hm he
@@ -206,16 +206,16 @@ theorem exists_statedProj_of_hom {X Y : Type} [Group X] [Finite X] [Group Y] {U 
   have hSns : ¬ Group.IsSolvable S := by
     intro hsol
     obtain ⟨-, hsimp, a, b, hab'⟩ := hSq
-    haveI := hsimp
-    haveI : Group.IsSolvable (↥S ⧸ Subgroup.center ↥S) :=
+    have := hsimp
+    have : Group.IsSolvable (↥S ⧸ Subgroup.center ↥S) :=
       Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective (Subgroup.center ↥S))
     exact hab' ((IsSimpleGroup.comm_iff_isSolvable).2 inferInstance a b)
   have hHns : ¬ Group.IsSolvable H := fun hsol => hSns (by
-    haveI := hsol
+    have := hsol
     exact Group.isSolvable_of_surjective hθH)
   rcases hL₀ with hL₀ | ⟨F, _, _, s, hFs, ι₀, hι₀⟩
   ·
-    refine (hHns (isSolvable_of_comm fun a b => ?_)).elim
+    refine (hHns (_root_.Group.isSolvable_of_comm fun a b => ?_)).elim
     have ha := hHL a
     have hb := hHL b
     rw [hL₀, Subgroup.mem_bot] at ha hb
@@ -223,9 +223,9 @@ theorem exists_statedProj_of_hom {X Y : Type} [Group X] [Finite X] [Group Y] {U 
     have hb' : b = 1 := Subtype.ext (Subtype.ext hb)
     rw [ha', hb']
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype F := Fintype.ofFinite F
-    haveI : CharP F 2 :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype F := Fintype.ofFinite F
+    have : CharP F 2 :=
       charP_of_card_eq_prime_pow (f := s) (by rw [← Nat.card_eq_fintype_card, hFs])
     let j : ↥H →* ↥L₀ := (f.range.subtype.comp H.subtype).codRestrict L₀ hHL
     have hj : Function.Injective j := by
@@ -238,18 +238,18 @@ theorem exists_statedProj_of_hom {X Y : Type} [Group X] [Finite X] [Group Y] {U 
     have hι : Function.Injective ι := eP.symm.injective.comp (hι₀.comp hj)
     obtain ⟨m, hm, ⟨eH⟩⟩ := exists_mulEquiv_psl2_of_not_isSolvable hFs ι hι hHns
     have hKm : Nat.card (GaloisField 2 m) = 2 ^ m := GaloisField.card 2 m (by omega)
-    haveI : IsSimpleGroup (PSL2MatrixGroup (GaloisField 2 m)) :=
+    have : IsSimpleGroup (PSL2MatrixGroup (GaloisField 2 m)) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by
         rw [hKm]
         calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm)
-    haveI : IsSimpleGroup ↥H := (MulEquiv.isSimpleGroup_congr eH).2 inferInstance
+    have : IsSimpleGroup ↥H := (MulEquiv.isSimpleGroup_congr eH).2 inferInstance
     have hθHi : Function.Injective θH := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal θH.ker with hk | hk
       · exact (MonoidHom.ker_eq_bot_iff θH).1 hk
       · exfalso
         obtain ⟨-, hsimp, -⟩ := hSq
-        haveI : Nontrivial ↥S := by
+        have : Nontrivial ↥S := by
           by_contra hnt
           rw [not_nontrivial_iff_subsingleton] at hnt
           have : Subsingleton (↥S ⧸ Subgroup.center ↥S) :=
@@ -266,7 +266,7 @@ theorem exists_statedProj_of_hom {X Y : Type} [Group X] [Finite X] [Group Y] {U 
 
 theorem exists_statedProj_of_radical {X : Type} [Group X] [Finite X] {U P R : Subgroup X}
     (hrad : inSubgroup (pCore 2) (Subgroup.normalizer (U : Set X)) = U)
-    (hNP : Subgroup.normalizer (U : Set X) ≤ P) (hRP : R ≤ P) (hRn : (R.subgroupOf P).Normal)
+    (hNP : Subgroup.normalizer (U : Set X) ≤ P) (_hRP : R ≤ P) (hRn : (R.subgroupOf P).Normal)
     (hR2 : IsPGroup 2 R) (L₀ : Subgroup (↥P ⧸ R.subgroupOf P))
     (hab : commutator (↥P ⧸ R.subgroupOf P) ≤ L₀)
     (hL₀ : L₀ = ⊥ ∨ ∃ (F : Type) (_ : Field F) (_ : Finite F) (s : ℕ), Nat.card F = 2 ^ s ∧
@@ -277,7 +277,7 @@ theorem exists_statedProj_of_radical {X : Type} [Group X] [Finite X] {U P R : Su
     ∃ (s : ℕ) (K : Type) (_ : Field K) (_ : Finite K), 2 ≤ s ∧ Nat.card K = 2 ^ s ∧
       ∃ Z' : Subgroup S, Z' ≤ Subgroup.center S ∧ ∃ _ : Z'.Normal,
         Nonempty ((S ⧸ Z') ≃* StatedProj (StatedSL 2 K)) := by
-  haveI := hRn
+  have := hRn
   let f : ↥(Subgroup.normalizer (U : Set X)) →* ↥P ⧸ R.subgroupOf P :=
     (QuotientGroup.mk' _).comp (Subgroup.inclusion hNP)
   have hmem : ∀ n : ↥f.ker, ((n : ↥(Subgroup.normalizer (U : Set X))) : X) ∈ R := fun n => by

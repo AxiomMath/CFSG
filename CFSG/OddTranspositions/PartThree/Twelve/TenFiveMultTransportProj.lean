@@ -123,7 +123,7 @@ theorem qProj_ker {k : ℕ} (hk : 4 ≤ k) (ε π : Bool) :
     rw [Subgroup.coe_one, coe_qProj]
     exact (QuotientGroup.eq_one_iff (omegaIncl hk ε π ω)).mpr hZ
 
-theorem qProj_ker_map_theta {k : ℕ} (hk : 4 ≤ k) (ε π : Bool) {ι : Type} [Fintype ι] [DecidableEq ι]
+theorem qProj_ker_map_theta {k : ℕ} (_hk : 4 ≤ k) (ε _π : Bool) {ι : Type} [Fintype ι] [DecidableEq ι]
     {Q₀ : (ι → ZMod 5) → ZMod 5} (Θ : ↥(fiveOmega k ε) ≃* ↥(StatedOmega Q₀))
     (hΘ_scalar : ∀ g : ↥(fiveOmega k ε),
       (g : GL (Fin (k + 1)) (ZMod 5)) ∈ Subgroup.center (GL (Fin (k + 1)) (ZMod 5)) ↔

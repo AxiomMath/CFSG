@@ -178,7 +178,7 @@ theorem lam_isSolvable {L K : Subgroup G}
     exact isCyclic_of_isPGroup_of_injective hcyc
       (f := (kerToCentralizer L K).comp (P : Subgroup (lamAct L K).ker).subtype)
       ((kerToCentralizer_injective L K).comp (P : Subgroup (lamAct L K).ker).subtype_injective)
-      P.isPGroup'
+      P.isPGroup
   exact Group.isSolvable_of_ker_le_range (lamAct L K).ker.subtype (lamAct L K)
     (by rw [Subgroup.range_subtype])
 

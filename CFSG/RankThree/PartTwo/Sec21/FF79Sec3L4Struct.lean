@@ -17,27 +17,30 @@ section Setting
 
 variable {H : Type} [Group H] [Finite H] {β : MulAut H} {Z K : Subgroup H} {z₀ : H}
 
+omit [Finite H] in
 theorem layer_normal_of_ap : (layer H).Normal := by
   have := CFSG.LocalCores.layer_characteristic (G := H)
   infer_instance
 
+omit [Finite H] in
 theorem K_simple (hd : FF79APData β Z K z₀) :
     IsSimpleGroup ↥K ∧ ∃ x y : ↥K, x * y ≠ y * x := by
   obtain ⟨e⟩ := hd.K_a5
   obtain ⟨x, y, hxy⟩ := alt5_nonab
   exact ⟨e.isSimpleGroup, e.symm x, e.symm y, fun h => hxy (e.symm.injective (by simpa using h))⟩
 
+omit [Finite H] in
 theorem K_central (hd : FF79APData β Z K z₀) {k : H} (hk : k ∈ K)
     (h : ∀ w ∈ K, w * k = k * w) : k = 1 := by
   obtain ⟨hs, hn⟩ := K_simple hd
-  haveI := hs
+  have := hs
   have := eq_one_of_central_of_simple (X := ↥K) hn (x := ⟨k, hk⟩) fun w =>
     Subtype.ext (h w w.2)
   exact congrArg Subtype.val this
 
 theorem K_order3 (hd : FF79APData β Z K z₀) : ∃ a ∈ K, orderOf a = 3 := by
   obtain ⟨e⟩ := hd.K_a5
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : Nat.card K = 60 := by rw [Nat.card_congr e.toEquiv]; exact A5Klein.card_A5
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 3 (by rw [hc]; norm_num)
   exact ⟨x, x.2, by rw [Subgroup.orderOf_coe]; exact hx⟩
@@ -55,7 +58,7 @@ theorem L_nonab : ∃ x y : ↥(layer H), x * y ≠ y * x := by
   exact Subtype.ext (congrArg (fun x : ↥(layer H) => (x : H)) h)
 
 theorem L_central {x : H} (hx : x ∈ layer H) (h : ∀ w ∈ layer H, w * x = x * w) : x = 1 := by
-  haveI := L_facts_simple hd
+  have := L_facts_simple hd
   have := eq_one_of_central_of_simple (X := ↥(layer H)) (L_nonab hd) (x := ⟨x, hx⟩) fun w =>
     Subtype.ext (h w w.2)
   exact congrArg Subtype.val this
@@ -70,6 +73,7 @@ theorem z₀_not_mem_L : z₀ ∉ layer H := fun h => by
   rw [this, orderOf_one] at h3
   omega
 
+omit [Finite H] in
 theorem z₀_comm (g : H) : g * z₀ = z₀ * g :=
   Subgroup.mem_center_iff.1 (hd.Z_central hd.z₀_mem) g
 

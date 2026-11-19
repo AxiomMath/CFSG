@@ -22,7 +22,7 @@ theorem starUnp_holds :
     StarUnp := by
   intro G _ _ t L hS J hJ huniv g hcomm
   exfalso
-  haveI : IsSimpleGroup G := hS.simple
+  have : IsSimpleGroup G := hS.simple
   obtain ⟨hJC, hJF, hF, hL⟩ := hJ
   obtain ⟨x₀, hx₀, hJx₀⟩ := hJC.1
   have hJq : CFSG.Assembly.IsComponentOf J (centralizer ({x₀} : Set G)) :=

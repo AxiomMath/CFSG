@@ -32,7 +32,7 @@ theorem fg_iotaP_injective (S : FGSplit Q) (hW : 0 < Module.finrank (ZMod 3) S.W
     rw [h] at h2
     exact Subtype.ext (by simpa using h2.symm)
   · exfalso
-    haveI : Nontrivial S.W := Module.finrank_pos_iff.mp hW
+    have : Nontrivial S.W := Module.finrank_pos_iff.mp hW
     obtain ⟨w, hw0⟩ := exists_ne (0 : S.W)
     have h2 := S.extP_W b w
     rw [h, coe_piOrth_apply] at h2

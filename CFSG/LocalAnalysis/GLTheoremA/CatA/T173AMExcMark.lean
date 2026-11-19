@@ -34,8 +34,8 @@ theorem uexc_splitInnerDiagMarking16_map {p : ℕ} {Ω Ω' : Type} [Group Ω] [G
     SplitInnerDiagMarking16 p (B.map π) (S.map π) := by
   obtain ⟨hperf, lab, hlab, hraw⟩ := h
   refine ⟨?_, lab, hlab, CFSG.StandardType.Canonical.largeEvenRawDatum_mono ?_ hraw⟩
-  · haveI : Group.IsPerfect ↥S := ⟨hperf⟩
-    haveI : Group.IsPerfect ↥(S.map π) :=
+  · have : Group.IsPerfect ↥S := ⟨hperf⟩
+    have : Group.IsPerfect ↥(S.map π) :=
       Group.IsPerfect.ofSurjective (f := π.subgroupMap S) (π.subgroupMap_surjective S)
     exact Group.IsPerfect.commutator_eq_top
   · rintro R _ I F ⟨hs, hna, θ, hsplit, hBN, hb⟩

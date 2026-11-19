@@ -173,14 +173,14 @@ theorem finite_card_m11PG : Finite (PG 4 m11Rels) ∧ Nat.card (PG 4 m11Rels) �
   Certificates.certificate17700
 
 theorem card_m11PG : Nat.card (PG 4 m11Rels) = 64 := by
-  haveI := finite_card_m11PG.1
+  have := finite_card_m11PG.1
   have h := Nat.card_le_card_of_injective m11PG m11PG_injective
   simp only [Nat.card_eq_fintype_card, Fintype.card_prod, Fintype.card_fin] at h
   have := finite_card_m11PG.2
   omega
 
 theorem m11PG_bijective : Function.Bijective m11PG := by
-  haveI := finite_card_m11PG.1
+  have := finite_card_m11PG.1
   refine (Nat.bijective_iff_injective_and_card m11PG).2 ⟨m11PG_injective, ?_⟩
   rw [card_m11PG]
   simp
@@ -241,7 +241,7 @@ theorem m11Rels_of {H : Type*} [Group H] {g : Fin 4 → H} {w : H} (ha : g 0 * g
   intro r hr
   simp only [m11Rels, List.mem_cons, List.not_mem_nil, or_false] at hr
   rcases hr with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;>
-    simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, cond_true, cond_false,
+    simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, _root_.Bool.cond_true, Bool.cond_false,
       mul_one]
   · rw [← mul_assoc, ha, hw]
   · rw [hb]
@@ -254,7 +254,7 @@ theorem m11Rels_of {H : Type*} [Group H] {g : Fin 4 → H} {w : H} (ha : g 0 * g
     group
   · rw [haua, hu]
   · rw [hb]
-    simp only [mul_assoc, hus, hss, hauaX, huu, hs, hu, hsu]
+    simp only [mul_assoc, hus, hss, hauaX, hu, hsu]
   · rw [hs', hu', hus, hss, hu]
 
 @[expose] def m11pU : Model.Pauli := Model.Pauli.mul (false, 1557, 3617) (false, 0, 3079)
@@ -339,9 +339,9 @@ theorem m11GmatHom_m11Z : m11GmatHom m11Z = xGmat := by
 
 
 theorem m11GmatHom_injective : Function.Injective m11GmatHom := by
-  haveI := finite_card_m11PG.1
+  have := finite_card_m11PG.1
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := isPGroup_m11PG.isNilpotent
+  have := isPGroup_m11PG.isNilpotent
   rw [← MonoidHom.ker_eq_bot_iff]
   by_contra hne
   obtain ⟨⟨g, hg⟩, hg1⟩ :=

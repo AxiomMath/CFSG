@@ -16,7 +16,7 @@ theorem pRank_centralizer_le_two_of_isSylowOf {Y : Type} [Group Y] [Finite Y] {p
     (hp : p.Prime) {D : Subgroup Y} {x : Y} (hD : Nat.card D = p ^ 2)
     (hS : CFSG.ABGLocalTools.IsSylowOf p D (centralizer ({x} : Set Y))) :
     CFSG.Open.pRank p (centralizer ({x} : Set Y)) ≤ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEC, -, hcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt (centralizer ({x} : Set Y))
   have h1 : p ^ CFSG.Open.pRank p (centralizer ({x} : Set Y)) ∣
       Nat.card (centralizer ({x} : Set Y)) := hcard ▸ Subgroup.card_dvd_of_le hEC

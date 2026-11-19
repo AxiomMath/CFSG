@@ -18,21 +18,21 @@ private lemma y7c_centIn_normalizer (h : Gl3Pair M L1 L2) :
 
 private lemma y7c_cent_comm (h : Gl3Pair M L1 L2) :
     ∀ a ∈ centIn M L1, ∀ b ∈ centIn M L2, a * b = b * a := by
-  haveI : IsMulCommutative ↥M := h.elem.1
+  have : IsMulCommutative ↥M := h.elem.1
   intro a ha b hb
   exact congrArg Subtype.val (mul_comm' (⟨a, (Subgroup.mem_inf.mp ha).1⟩ : M)
     (⟨b, (Subgroup.mem_inf.mp hb).1⟩ : M))
 
 private lemma y7c_centIn_le_centralizer (h : Gl3Pair M L1 L2) :
     M ≤ centralizer (centIn M L2 : Set G) := by
-  haveI : IsMulCommutative ↥M := h.elem.1
+  have : IsMulCommutative ↥M := h.elem.1
   intro m hm
   rw [Subgroup.mem_centralizer_iff]
   intro w hw
   exact (congrArg Subtype.val (mul_comm' (⟨m, hm⟩ : M)
     (⟨w, (Subgroup.mem_inf.mp hw).1⟩ : M))).symm
 
-private lemma y7c_centIn_centIn_bot (h : Gl3Pair M L1 L2)
+private lemma y7c_centIn_centIn_bot (_h : Gl3Pair M L1 L2)
     (hinf : centIn M L1 ⊓ centIn M L2 = ⊥) :
     centIn (centIn M L2) L1 = ⊥ := by
   refine le_bot_iff.mp (le_trans ?_ (le_of_eq hinf))
@@ -45,7 +45,7 @@ private lemma y7c_cent_ge_eight {M A B : Subgroup G} (h : Gl3Pair M A B)
   have hnorm : A ≤ normalizer (centIn M B : Set G) :=
     Gl3Pair.L2_le_normalizer_centIn h.symm le_rfl
   have hcent : M ≤ centralizer (centIn M B : Set G) := by
-    haveI : IsMulCommutative ↥M := h.elem.1
+    have : IsMulCommutative ↥M := h.elem.1
     intro m hm
     rw [Subgroup.mem_centralizer_iff]
     intro w hw
@@ -57,6 +57,7 @@ private lemma y7c_cent_ge_eight {M A B : Subgroup G} (h : Gl3Pair M A B)
     exact le_inf (le_trans inf_le_left inf_le_left) inf_le_right
   exact y7c_gl3_card_ge_eight h.ext1 hnorm hcent (h.isElemAbelian_centIn B) hB hbot
 
+omit [Finite G] in
 theorem y7c_cent_inf (hJ : J ≤ L1 ⊔ L2) (hJM : centIn M J = ⊥) :
     centIn M L1 ⊓ centIn M L2 = ⊥ := by
   rw [← y7c_centIn_sup M L1 L2]

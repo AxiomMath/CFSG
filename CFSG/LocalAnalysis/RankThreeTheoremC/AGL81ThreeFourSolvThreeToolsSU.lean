@@ -39,6 +39,7 @@ theorem exists_conj_of_pow_three_pow {K : Type*} [Group K] (hK : ¬ 3 ∣ Nat.ca
   obtain ⟨g, hg⟩ := hd
   exact ⟨g, hg.symm⟩
 
+omit [Finite Y] in
 theorem exists_mul_of_pow_three_pow {K : Subgroup Y} [K.Normal]
     (hX : ∀ α : MulAut K, ∀ k : ℕ, α ^ 3 ^ k = 1 → ∃ g : K, α = MulAut.conj g)
     (hKC : K ⊓ centralizer (K : Set Y) = ⊥) {y : Y} {n : ℕ} (hy : y ^ 3 ^ n = 1) :
@@ -93,7 +94,7 @@ theorem three_le_pRank_of_sup_zpowers {H F : Subgroup Y} {c : Y} (hFH : F ≤ H)
 theorem eq_one_of_inf_eq_bot_of_pow {N : Subgroup Y} [N.Normal] {R : Sylow 3 Y}
     (hRN : (R : Subgroup Y) ⊓ N = ⊥) {c : Y} (hc : c ∈ N) {n : ℕ} (hcn : c ^ 3 ^ n = 1) :
     c = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := CFSG.QuasithinUnique.exists_sylow_map_eq_inf_of_normal R N
   have hPbot : (P : Subgroup N) = ⊥ := by
     rw [hRN] at hP
@@ -127,17 +128,17 @@ theorem le_normalizer_of_borel {K Y₀ E : Subgroup Y} [K.Normal] {R : Sylow 3 Y
     (hcore : (if 3 ≤ CFSG.pRank 3 (R : Subgroup Y) then GLBWeakCore 3 (R : Subgroup Y)
       else GLBCore 3 1 E) ≤ Y₀) :
     (R : Subgroup Y) ⊓ K ≤ Y₀ ∧ Y₀ ≤ normalizer (((R : Subgroup Y) ⊓ K : Subgroup Y) : Set Y) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := centralizer (K : Set Y) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   set U : Subgroup Y := (R : Subgroup Y) ⊓ K with hU
   obtain ⟨F, hFU, hFel, hFc⟩ := hF
   have hrk3 : (R : Subgroup Y) ⊓ C ≠ ⊥ →
       3 ≤ CFSG.Open.pRank 3 (U ⊔ ((R : Subgroup Y) ⊓ centralizer (U : Set Y))) := by
     intro hne
-    have hRp : IsPGroup 3 ↥((R : Subgroup Y) ⊓ C) := R.isPGroup'.to_le inf_le_left
+    have hRp : IsPGroup 3 ↥((R : Subgroup Y) ⊓ C) := R.isPGroup.to_le inf_le_left
     have hcard : 3 ∣ Nat.card ↥((R : Subgroup Y) ⊓ C) := by
-      haveI : Nontrivial ↥((R : Subgroup Y) ⊓ C) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+      have : Nontrivial ↥((R : Subgroup Y) ⊓ C) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
       obtain ⟨k, hk⟩ := hRp.exists_card_eq
       have hk0 : k ≠ 0 := by
         rintro rfl
@@ -166,7 +167,7 @@ theorem le_normalizer_of_borel {K Y₀ E : Subgroup Y} [K.Normal] {R : Sylow 3 Y
     exact Subgroup.mem_centralizer_iff.mp hzC u hu.2
   have hRK : (R : Subgroup Y) ⊓ C = ⊥ → (R : Subgroup Y) ≤ K := by
     intro hRC r hr
-    obtain ⟨n, hn⟩ := R.isPGroup' ⟨r, hr⟩
+    obtain ⟨n, hn⟩ := R.isPGroup ⟨r, hr⟩
     have hrn : r ^ 3 ^ n = 1 := by simpa using congrArg Subtype.val hn
     obtain ⟨k, hk, c, hc, rfl, -, hcn⟩ := exists_mul_of_pow_three_pow hX hKC hrn
     rw [eq_one_of_inf_eq_bot_of_pow hRC hc hcn, mul_one]
@@ -174,7 +175,7 @@ theorem le_normalizer_of_borel {K Y₀ E : Subgroup Y} [K.Normal] {R : Sylow 3 Y
   have hNU : normalizer (U : Set Y) ≤ Y₀ := by
     have hU2 : 2 ≤ CFSG.Open.pRank 3 U := CFSG.SectionRank.le_pRank (by norm_num) hFU hFel hFc
     by_cases h3 : 3 ≤ CFSG.pRank 3 (R : Subgroup Y)
-    · rw [if_pos h3] at hcore
+    · rw [ite_eq_left h3] at hcore
       have hne : (R : Subgroup Y) ⊓ C ≠ ⊥ := by
         intro hRC
         have hRU : (R : Subgroup Y) ≤ K := hRK hRC
@@ -235,7 +236,7 @@ theorem le_normalizer_of_borel {K Y₀ E : Subgroup Y} [K.Normal] {R : Sylow 3 Y
     have hvN : (⟨g * u * g⁻¹, hvK⟩ : K) ∈ normalizer ((T : Subgroup K) : Set K) := by
       rw [← hEq]
       exact Subgroup.mem_subgroupOf.mpr hvY
-    obtain ⟨n, hn⟩ := R.isPGroup' ⟨u, hu.1⟩
+    obtain ⟨n, hn⟩ := R.isPGroup ⟨u, hu.1⟩
     have hun : u ^ 3 ^ n = 1 := by simpa using congrArg Subtype.val hn
     have hzp : IsPGroup 3 (zpowers (⟨g * u * g⁻¹, hvK⟩ : K)) := by
       rintro ⟨w, hw⟩
@@ -246,7 +247,7 @@ theorem le_normalizer_of_borel {K Y₀ E : Subgroup Y} [K.Normal] {R : Sylow 3 Y
         rw [conj_pow, hun, mul_one, mul_inv_cancel])
       simp only [SubgroupClass.coe_pow, OneMemClass.coe_one]
       rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, h1, one_zpow]
-    have hsup := T.isPGroup'.to_sup_of_normal_left' hzp (zpowers_le.mpr hvN)
+    have hsup := T.isPGroup.to_sup_of_normal_left' hzp (zpowers_le.mpr hvN)
     have hmaxT := T.maximal_isPGroup.eq_of_ge hsup le_sup_left
     have hmem : (⟨g * u * g⁻¹, hvK⟩ : K) ∈ (T : Subgroup K) := by
       rw [← hmaxT]
@@ -266,7 +267,7 @@ theorem exists_card_nine_le_centralizer {U : Subgroup Y} {t : Y} (hU27 : Nat.car
     (htU : t ∈ normalizer (U : Set Y)) {m : ℕ} (htm : t ^ 2 ^ m = 1)
     (hcomm : Nat.card ↥⁅U, zpowers t⁆ ≤ 3) :
     ∃ F : Subgroup Y, F ≤ U ∧ F ≤ centralizer ({t} : Set Y) ∧ Nat.card F = 3 ^ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAU : zpowers t ≤ normalizer (U : Set Y) := zpowers_le.mpr htU
   have hUp : IsPGroup 3 U := IsPGroup.of_card (n := 3) (by rw [hU27]; norm_num)
   have hcop : Nat.Coprime (Nat.card (zpowers t)) (Nat.card U) := by
@@ -275,7 +276,7 @@ theorem exists_card_nine_le_centralizer {U : Subgroup Y} {t : Y} (hU27 : Nat.car
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hdvd
     rw [hj]
     exact Nat.Coprime.pow_left j (by norm_num : Nat.Coprime 2 27)
-  haveI : Group.IsNilpotent U := hUp.isNilpotent
+  have : Group.IsNilpotent U := hUp.isNilpotent
   have hfact := CFSG.GroupTheory.le_commutator_sup_inf_centralizer_of_coprime_of_finite
     hAU hcop inferInstance
   set H : Subgroup Y := U ⊓ centralizer ((zpowers t : Subgroup Y) : Set Y) with hH
@@ -338,8 +339,8 @@ theorem card_map_of_forall_eq_one {G H : Type*} [Group G] [Group H] (f : G →* 
 
 theorem eq_of_le_of_not_comm {G : Type*} [Group G] {H L : Subgroup G} (hHL : H ≤ L)
     (hL : Nat.card L = 27) (hH : ¬ ∀ x ∈ H, ∀ y ∈ H, x * y = y * x) : H = L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite L := Nat.finite_of_card_ne_zero (by rw [hL]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite L := Nat.finite_of_card_ne_zero (by rw [hL]; norm_num)
   have hdvd : Nat.card H ∣ 3 ^ 3 := by
     have := Subgroup.card_dvd_of_le hHL
     rwa [hL] at this
@@ -358,10 +359,10 @@ theorem eq_of_le_of_not_comm {G : Type*} [Group G] {H L : Subgroup G} (hHL : H �
   · have hbot : H = ⊥ := Subgroup.eq_bot_of_card_eq H (by simpa using hn)
     rw [hbot, Subgroup.mem_bot] at hx hy
     rw [hx, hy]
-  · haveI : IsCyclic H := isCyclic_of_prime_card (p := 3) (by simpa using hn)
+  · have : IsCyclic H := isCyclic_of_prime_card (p := 3) (by simpa using hn)
     exact congrArg Subtype.val
       ((IsCyclic.isMulCommutative (α := H)).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
-  · exact congrArg Subtype.val (IsPGroup.commutative_of_card_eq_prime_sq hn ⟨x, hx⟩ ⟨y, hy⟩)
+  · exact congrArg Subtype.val ((IsPGroup.isMulCommutative_of_card_eq_prime_sq hn).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
 
 omit [Finite Y] in
 theorem commutator_le_of_isSubnormal {S Y₀ U A : Subgroup Y} (hS : IsSubnormal S Y₀)
@@ -393,7 +394,7 @@ theorem commute_of_commutator_mem {K P : Subgroup Y} [K.Normal]
     (hPC : ∀ x ∈ P, ∀ y ∈ P, x * y * x⁻¹ * y⁻¹ ∈ centralizer (K : Set Y)) :
     ∀ x ∈ P, ∀ y ∈ P, x * y = y * x := by
   set C := centralizer (K : Set Y) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   have hcube : ∀ k ∈ K, ∀ c ∈ C, (k * c) ^ 3 = 1 → c ^ 3 = 1 := by
     intro k hk c hc h
     have hkc : k * c = c * k := Subgroup.mem_centralizer_iff.mp hc k hk
@@ -464,6 +465,7 @@ theorem mulAut_eq_one_of_two_pow_of_forall {K : Type*} [Group K] (R : Subgroup (
     have h2 : (α ^ 2 ^ m) ^ 2 = 1 := by rw [← pow_mul, ← pow_succ]; exact hα
     exact hcent _ h2 fun r hr => (Commute.pow_left (hc r hr) _).eq
 
+omit [Finite Y] in
 theorem mem_centralizer_of_two_pow_of_forall {K : Subgroup Y} [K.Normal]
     (hcent : ∀ R : Subgroup (MulAut K), CFSG.GH74.KGroups.ElemAb 3 R → Nat.card R = 9 →
       ∀ ψ : MulAut K, ψ ^ 2 = 1 → (∀ r ∈ R, ψ * r = r * ψ) → ψ = 1)
@@ -500,8 +502,8 @@ variable {Y I₀ : Type} [Group Y] [Finite Y] [Group I₀] [Finite I₀]
 
 theorem card_dvd_card_quotient_of_isPGroup (σ : I₀ →* Y) {Q : Subgroup Y} (hQ : IsPGroup 3 Q)
     (hQS : Q ≤ σ.range) : Nat.card Q ∣ Nat.card (I₀ ⧸ CFSG.pCore 2 I₀) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e, he⟩ := (CFSG.pCore_isPGroup (p := 2) (G := I₀)).exists_card_eq
   have hcardI : Nat.card I₀ = Nat.card (I₀ ⧸ CFSG.pCore 2 I₀) * 2 ^ e := by
     rw [← he]
@@ -527,12 +529,13 @@ theorem card_quotient_pCore_of_not_symThree
         (by rw [hF]; norm_num)]
     norm_num
 
+omit [Finite Y] in
 theorem not_comm_map_sylow (σ : I₀ →* Y) (hb : IsSymThreeOrSUThreeTwo (I₀ ⧸ CFSG.pCore 2 I₀))
     (hs3 : ¬ Nonempty (I₀ ⧸ CFSG.pCore 2 I₀ ≃* Equiv.Perm (Fin 3)))
     (hker : Nat.Coprime 3 (Nat.card σ.ker)) (P₀ : Sylow 3 I₀) :
     ¬ ∀ x ∈ (P₀ : Subgroup I₀).map σ, ∀ y ∈ (P₀ : Subgroup I₀).map σ, x * y = y * x := by
   intro hcomm'
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, b, ha, hb3, hab⟩ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.TwelveNoSU.exists_cube_not_comm hb
       (not_nonempty_iff.mp hs3)
@@ -548,9 +551,9 @@ theorem not_comm_map_sylow (σ : I₀ →* Y) (hb : IsSymThreeOrSUThreeTwo (I₀
   set Pbar := P₀.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 I₀)) with hPbar
   have hHP : CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup (I₀ ⧸ CFSG.pCore 2 I₀)) ≤
       (Pbar : Subgroup (I₀ ⧸ CFSG.pCore 2 I₀)) := by
-    haveI := (normal_oUpperTwo_top :
+    have := (normal_oUpperTwo_top :
       (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup (I₀ ⧸ CFSG.pCore 2 I₀))).Normal)
-    have hsup := hH.to_sup_of_normal_left Pbar.isPGroup'
+    have hsup := hH.to_sup_of_normal_left Pbar.isPGroup
     have := Pbar.maximal_isPGroup.eq_of_ge hsup le_sup_right
     rw [← this]
     exact le_sup_left
@@ -572,7 +575,7 @@ theorem not_comm_map_sylow (σ : I₀ →* Y) (hb : IsSymThreeOrSUThreeTwo (I₀
     rw [MonoidHom.mem_ker, hz, map_mul, map_mul, map_mul, map_inv, map_inv, hcomm]
     group
   have hz1 : z = 1 := by
-    obtain ⟨m, hm⟩ := P₀.isPGroup' ⟨z, hzP⟩
+    obtain ⟨m, hm⟩ := P₀.isPGroup ⟨z, hzP⟩
     have hm' : z ^ 3 ^ m = 1 := by simpa using congrArg Subtype.val hm
     have h1 : orderOf z ∣ 3 ^ m := orderOf_dvd_of_pow_eq_one hm'
     have h2 : orderOf z ∣ Nat.card σ.ker := by
@@ -593,7 +596,7 @@ namespace SolvNone
 
 theorem le_pCore_two_of_not_three_dvd (hb : IsSymThreeOrSUThreeTwo (I₀ ⧸ CFSG.pCore 2 I₀))
     {M : Subgroup I₀} [M.Normal] (h : ¬ 3 ∣ Nat.card M) : M ≤ CFSG.pCore 2 I₀ := by
-  haveI : (M.map (QuotientGroup.mk' (CFSG.pCore 2 I₀))).Normal :=
+  have : (M.map (QuotientGroup.mk' (CFSG.pCore 2 I₀))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   have hMbar : M.map (QuotientGroup.mk' (CFSG.pCore 2 I₀)) = ⊥ :=
     SevenFourL34.normal_eq_bot_of_not_three_dvd
@@ -605,11 +608,12 @@ theorem le_pCore_two_of_not_three_dvd (hb : IsSymThreeOrSUThreeTwo (I₀ ⧸ CFS
   rw [hMbar, Subgroup.mem_bot] at h1
   exact (QuotientGroup.eq_one_iff g).mp h1
 
+omit [Finite Y] in
 theorem comap_le_pCore_two_of_coprime {C : Subgroup Y} [C.Normal] (σ : I₀ →* Y)
     (hb : IsSymThreeOrSUThreeTwo (I₀ ⧸ CFSG.pCore 2 I₀)) (hC : Nat.Coprime 3 (Nat.card C))
     (hker : Nat.Coprime 3 (Nat.card σ.ker)) : C.comap σ ≤ CFSG.pCore 2 I₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (C.comap σ).Normal := Subgroup.Normal.comap inferInstance σ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (C.comap σ).Normal := Subgroup.Normal.comap inferInstance σ
   refine le_pCore_two_of_not_three_dvd hb fun h3 => ?_
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := C.comap σ) 3 h3
   have hgo : orderOf (g : I₀) = 3 := by rw [Subgroup.orderOf_coe, hg]
@@ -627,6 +631,7 @@ theorem comap_le_pCore_two_of_coprime {C : Subgroup Y} [C.Normal] (σ : I₀ →
 
 end SolvNone
 
+omit [Finite Y] in
 theorem exists_two_pow_inv_of_symThree (σ : I₀ →* Y)
     (f : I₀ ⧸ CFSG.pCore 2 I₀ ≃* Equiv.Perm (Fin 3)) {C : Subgroup Y}
     (hσC : (CFSG.pCore 2 I₀).map σ ≤ C) {y : Y} (hy : y ∈ σ.range) (hodd : Odd (orderOf y)) :
@@ -664,7 +669,7 @@ theorem mem_centralizer_of_symThree_of_forall (σ : I₀ →* Y)
     (hUK : U ≤ K) (hU27 : Nat.card U = 27) (hU3 : ∀ u ∈ U, u ^ 3 = 1) (hUY : U ≤ Y₀)
     {t : Y} (htS : t ∈ σ.range) (htU : t ∈ normalizer (U : Set Y)) {m : ℕ}
     (htm : t ^ 2 ^ m = 1) : t ∈ centralizer (K : Set Y) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h6 : Nat.card (I₀ ⧸ CFSG.pCore 2 I₀) = 6 := by
     rw [Nat.card_congr f.toEquiv, Nat.card_perm, Nat.card_fin]
     rfl
@@ -675,7 +680,7 @@ theorem mem_centralizer_of_symThree_of_forall (σ : I₀ →* Y)
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one htm)
     rw [hj]
     exact Nat.Coprime.pow_left j (by norm_num : Nat.Coprime 2 27)
-  haveI : Group.IsNilpotent U := hUp.isNilpotent
+  have : Group.IsNilpotent U := hUp.isNilpotent
   have hcc := CFSG.Quasithin.F53.Stellmacher.S35.K6b.comm_comm_eq_of_coprime (zpowers t) U hAU
     hcop inferInstance
   have hcS : ⁅U, zpowers t⁆ ≤ σ.range :=
@@ -695,7 +700,7 @@ theorem mem_centralizer_of_symThree_of_forall (σ : I₀ →* Y)
       _ = 3 := by norm_num
   obtain ⟨F, hFU, hFt, hFc⟩ := exists_card_nine_le_centralizer hU27 htU htm hc3
   have hFel : IsElemAbelian 3 F :=
-    ⟨⟨⟨fun a b => IsPGroup.commutative_of_card_eq_prime_sq hFc a b⟩⟩,
+    ⟨⟨⟨fun a b => (IsPGroup.isMulCommutative_of_card_eq_prime_sq hFc).is_comm.comm a b⟩⟩,
       fun a ha => hU3 a (hFU ha)⟩
   exact mem_centralizer_of_two_pow_of_forall hcent hKC htm (hFU.trans hUK) hFt hFel hFc
 
@@ -708,9 +713,9 @@ theorem false_of_not_symThree_of_card_le (σ : I₀ →* Y)
     (hinner : ∀ y ∈ σ.range, y ^ 3 = 1 → ∃ k ∈ K, ∃ c ∈ centralizer (K : Set Y), y = k * c)
     (hA : ∀ Q : Subgroup (MulAut K), IsPGroup 3 Q → Nat.card Q ≤ 27)
     (hcond : SolvThreeAutCond Y₀ σ) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := centralizer (K : Set Y) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   obtain ⟨θ, hθ⟩ : ∃ θ : Y →* MulAut K, θ = MulAut.conjNormal := ⟨_, rfl⟩
   have hθ1 : ∀ a : Y, θ a = 1 ↔ a ∈ C := fun a => by
     rw [hθ]; exact conjNormal_eq_one_iff
@@ -721,7 +726,7 @@ theorem false_of_not_symThree_of_card_le (σ : I₀ →* Y)
     intro P₀
     set P : Subgroup Y := (P₀ : Subgroup I₀).map σ with hP
     have hPS : P ≤ σ.range := Subgroup.map_le_range σ _
-    have hPp : IsPGroup 3 P := P₀.isPGroup'.map σ
+    have hPp : IsPGroup 3 P := P₀.isPGroup.map σ
     have hP3 : ∀ x ∈ P, x ^ 3 = 1 := by
       intro x hx
       obtain ⟨n, hn⟩ := hPp ⟨x, hx⟩
@@ -765,7 +770,7 @@ theorem false_of_not_symThree_of_card_le (σ : I₀ →* Y)
     have h1 : θ.subgroupMap P ⟨z, hz⟩ = 1 := Subtype.ext hz1
     exact congrArg Subtype.val ((injective_iff_map_eq_one _).mp hbij.1 _ h1)
   set M : Subgroup I₀ := C.comap σ with hM
-  haveI : M.Normal := Subgroup.Normal.comap inferInstance σ
+  have : M.Normal := Subgroup.Normal.comap inferInstance σ
   have hM3 : ¬ 3 ∣ Nat.card M := by
     intro h3
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := M) 3 h3
@@ -794,7 +799,7 @@ theorem false_of_not_symThree_of_card_le (σ : I₀ →* Y)
   have hPS : P ≤ σ.range := Subgroup.map_le_range σ _
   have hPG : P ≤ G' := hPS.trans le_sup_left
   obtain ⟨Q₁, hQ₁⟩ :=
-    ((P₀.isPGroup'.map σ).comap_of_injective G'.subtype G'.subtype_injective).exists_le_sylow
+    ((P₀.isPGroup.map σ).comap_of_injective G'.subtype G'.subtype_injective).exists_le_sylow
   have hy₀G : y₀ ∈ G' := mem_sup_right (mem_zpowers y₀)
   obtain ⟨Q₂, hQ₂⟩ := ((isPGroup_zpowers_of_pow_eq_one hy₀3).comap_of_injective G'.subtype
     G'.subtype_injective).exists_le_sylow
@@ -809,10 +814,10 @@ theorem false_of_not_symThree_of_card_le (σ : I₀ →* Y)
     rintro _ ⟨p, hp, rfl⟩
     exact ⟨⟨p, hPG hp⟩, hQ₁ (Subgroup.mem_comap.mpr hp), rfl⟩
   have hPθc : Nat.card (P.map θ) = 27 := by rw [card_map_of_forall_eq_one θ hPθ, hP27]
-  haveI : Finite ↥((Q₁ : Subgroup ↥G').map θ') :=
+  have : Finite ↥((Q₁ : Subgroup ↥G').map θ') :=
     Finite.of_surjective _ (θ'.subgroupMap_surjective (Q₁ : Subgroup ↥G'))
   have hPQe : P.map θ = (Q₁ : Subgroup ↥G').map θ' :=
-    Subgroup.eq_of_le_of_card_ge hPQ (by rw [hPθc]; exact hA _ (Q₁.isPGroup'.map θ'))
+    Subgroup.eq_of_le_of_card_ge hPQ (by rw [hPθc]; exact hA _ (Q₁.isPGroup.map θ'))
   have hwθ : θ' (x⁻¹ * ⟨y₀, hy₀G⟩ * x) ∈ P.map θ := by
     rw [hPQe]
     exact Subgroup.mem_map_of_mem θ' hw
@@ -835,7 +840,7 @@ theorem false_of_not_symThree_of_card_le (σ : I₀ →* Y)
     rw [hx₀q, hc']
     group
   clear_value c'
-  haveI := (normal_oUpperTwo_top :
+  have := (normal_oUpperTwo_top :
     (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).Normal)
   have hM' : x₀⁻¹ * α g₁ * x₀ * g₁⁻¹ ∈ M := by
     show σ (x₀⁻¹ * α g₁ * x₀ * g₁⁻¹) ∈ C

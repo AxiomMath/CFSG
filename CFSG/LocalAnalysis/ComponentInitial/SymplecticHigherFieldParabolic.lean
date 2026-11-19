@@ -13,6 +13,7 @@ open CFSG.Assembly.LowTwoRank
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem fieldSp_dotW {r : ℕ} (σ : K ≃+* K)
     (w : SymplecticTorusWeyl.signedPermGroup r) : fieldSp r K σ (dotW K w) = dotW K w := by
   apply Subtype.ext
@@ -30,9 +31,10 @@ theorem fieldSp_dotW {r : ℕ} (σ : K ≃+* K)
   ext i j
   rw [Matrix.map_apply, signedPerm_apply]
   by_cases h : i = (w : Equiv.Perm (Fin r ⊕ Fin r)) j
-  · rw [if_pos h, hsign j]
-  · rw [if_neg h, map_zero]
+  · rw [ite_eq_left h, hsign j]
+  · rw [ite_eq_right h, map_zero]
 
+omit [CharP K 2] in
 theorem map_fieldSp_eq_of_borel_le {r : ℕ} (σ : K ≃+* K) {P : Subgroup (StatedSp r K)}
     (hP : borelSubgroup r K ≤ P) : P.map (fieldSp r K σ).toMonoidHom = P := by
   refine Subgroup.eq_of_le_of_card_ge ?_ ?_
@@ -119,7 +121,7 @@ theorem map_eq_of_normalizer_le (B : StatedSp 2 K) (σ : K ≃+* K)
       rw [hconj, ← hveq]
       change (MulAut.conj g⁻¹) ((MulAut.conj g) v) ∈ unipotent 2 K
       have hcancel' : (MulAut.conj g⁻¹) ((MulAut.conj g) v) = v := by
-        simp only [MulAut.mul_apply, MulAut.conj_apply]
+        simp only [MulAut.conj_apply]
         group
       rw [hcancel']
       exact hv
@@ -132,7 +134,7 @@ theorem map_eq_of_normalizer_le (B : StatedSp 2 K) (σ : K ≃+* K)
     rintro y ⟨x, hxP, rfl⟩
     change (MulAut.conj B * fieldSp 2 K σ) x ∈ P
     have hxQ : g⁻¹ * x * g ∈ P.map (MulAut.conj g⁻¹).toMonoidHom :=
-      Subgroup.mem_map.mpr ⟨x, hxP, by simp [MulAut.conj_apply]⟩
+      Subgroup.mem_map.mpr ⟨x, hxP, by simp⟩
     have hφfix : (P.map (MulAut.conj g⁻¹).toMonoidHom).map
         (fieldSp 2 K σ).toMonoidHom = P.map (MulAut.conj g⁻¹).toMonoidHom :=
       map_fieldSp_eq_of_borel_le σ hB_le
@@ -157,7 +159,7 @@ theorem map_eq_of_normalizer_le (B : StatedSp 2 K) (σ : K ≃+* K)
           (MulAut.conj g⁻¹) x' * (g⁻¹ * B * fieldSp 2 K σ g)⁻¹ * g⁻¹ =
         (g * (g⁻¹ * B * fieldSp 2 K σ g) * g⁻¹) * x' *
           (g * (g⁻¹ * B * fieldSp 2 K σ g) * g⁻¹)⁻¹ := by
-      simp only [MulAut.mul_apply, MulAut.conj_apply]
+      simp only [MulAut.conj_apply]
       group
     change g * (g⁻¹ * B * fieldSp 2 K σ g) * (MulAut.conj g⁻¹) x' *
         (g⁻¹ * B * fieldSp 2 K σ g)⁻¹ * g⁻¹ ∈ P

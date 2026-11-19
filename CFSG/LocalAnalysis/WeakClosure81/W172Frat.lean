@@ -19,7 +19,7 @@ variable {D : Data G} {V₀ V H : Subgroup G} {i : ℕ}
 theorem w172_exists_gamma_not_le_kerMV (h : Hyp183 D V₀ V H i) :
     ∃ A₀ ∈ E3.gammaSet V i D.T, ¬ A₀ ≤ kerMV V H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hcon
   have h' : ∀ A₀, A₀ ∈ E3.gammaSet V i D.T → A₀ ≤ kerMV V H := by
     intro A₀ hA₀
@@ -114,6 +114,7 @@ namespace MinCex172
 
 variable {D : Data G} {V₀ V H : Subgroup G}
 
+omit [Finite G] in
 private theorem le_normalizer_kerMV (V H : Subgroup G) : H ≤ normalizer (kerMV V H : Set G) :=
   Subgroup.le_normalizer_iff.mpr fun _ hx _ hy => conj_mem_kerMV hx hy
 
@@ -125,7 +126,7 @@ theorem isSylowIn_inf_kerMV (c : MinCex172 D V₀ V H) :
 
 theorem inf_kerMV_le_pCoreOf (c : MinCex172 D V₀ V H) : D.T ⊓ kerMV V H ≤ pCoreOf 2 H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K := kerMV V H with hKdef
   set S := D.T ⊓ K with hSdef
   have hTH : D.T ≤ H := c.hyp.hyp171.2.1
@@ -163,7 +164,7 @@ theorem inf_centralizer_eOmegaZ_eq (c : MinCex172 D V₀ V H) :
 
 theorem le_pCoreOf_of_isPGroup (c : MinCex172 D V₀ V H) {X : Subgroup G} (hX : IsPGroup 2 X)
     (hXH : X ≤ H ⊓ Subgroup.centralizer (eOmegaZ H D.T : Set G)) : X ≤ pCoreOf 2 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXK : X ≤ kerMV V H := hXH.trans c.hyp.inf_centralizer_eOmegaZ_le_kerMV
   have hSyl : IsSylowIn 2 (pCoreOf 2 H) (kerMV V H) := by
     rw [← c.inf_kerMV_eq]

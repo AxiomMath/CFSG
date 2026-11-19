@@ -14,8 +14,9 @@ namespace Setup
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {f : ℕ} {t : G}
 
+omit [Finite G] in
 theorem yamadaF₄_le_yamadaS₄ {q : ℕ} (d : TrialityD4Data L q) :
-    yamadaF₄ d t ≤ yamadaS₄ d t := fun x hx =>
+    yamadaF₄ d t ≤ yamadaS₄ d t := fun _x hx =>
   Subgroup.mem_inf.2 ⟨(inf_le_left : yamadaM₄ d t ≤ yamadaR₄ d t) (yamadaF₄_le_yamadaM₄ d t hx),
     (inf_le_right : yamadaD₅ d t ≤ centralizer (yamadaV₁ d t : Set G))
       ((inf_le_right : yamadaD₄ d t ≤ yamadaD₅ d t) (yamadaF₄_le_yamadaD₄ d t hx))⟩

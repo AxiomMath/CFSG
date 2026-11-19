@@ -48,7 +48,7 @@ theorem datum_PTR {K : Type} [Field K] [Finite K] {E₀ : Subgroup (adjointGroup
     group
   · intro α hα
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hreg α hα
     intro x hx
     obtain ⟨a, ha, hca⟩ := hcon x hx
@@ -107,7 +107,7 @@ theorem transport_PTR {K L Ω : Type} [Field K] [Finite K] [Field L] [Field Ω] 
 
 theorem card_eq_ringChar_pow (K : Type) [Field K] [Finite K] :
     ∃ f : ℕ, 1 ≤ f ∧ Nat.card K = ringChar K ^ f ∧ (ringChar K).Prime := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
   refine ⟨n, n.pos, ?_, hp⟩
   rw [Nat.card_eq_fintype_card, hcard]
@@ -122,7 +122,7 @@ theorem ringChar_ne_three (K : Type) [Field K] [Finite K] {f : ℕ} (hf : 1 ≤ 
 theorem f4PureSplit_holds : F4PureSplit := by
   intro K _ _ hK ω hω E₀ hexp hcard D hreg e he he1
   obtain ⟨f, hf1, hq, hp⟩ := card_eq_ringChar_pow K
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
+  have : Fact (ringChar K).Prime := ⟨hp⟩
   have hp3 : ringChar K ≠ 3 := ringChar_ne_three K hf1 hq (by omega)
   obtain ⟨P, hP, hT, hR⟩ := datum_PTR D hreg
   have hω' : orderOf (Units.map (algebraMap K (AlgebraicClosure K)).toMonoidHom ω) = 3 := by
@@ -149,10 +149,10 @@ theorem f4PureTwisted_holds : F4PureTwisted := by
   intro K _ _ hK3q hK3 D₁ ω hω z hz E₀ hexp hcard D hreg e he he1
   have hnd : ¬ 3 ∣ Nat.card K := by omega
   obtain ⟨f, hf1, hq, hp⟩ := card_eq_ringChar_pow K
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
+  have : Fact (ringChar K).Prime := ⟨hp⟩
   have hp3 : ringChar K ≠ 3 := ringChar_ne_three K hf1 hq hnd
-  haveI : IsAlgClosed D₁.L := IsAlgClosure.isAlgClosed K
-  haveI : CharP D₁.L (ringChar K) :=
+  have : IsAlgClosed D₁.L := IsAlgClosure.isAlgClosed K
+  have : CharP D₁.L (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K D₁.L).injective (ringChar K)
   obtain ⟨P, hP, hT, hR⟩ := datum_PTR D hreg
   let ι : AlgebraicClosure K →ₐ[K] D₁.L := IsAlgClosed.lift (M := D₁.L)

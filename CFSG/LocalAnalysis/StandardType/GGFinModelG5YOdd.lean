@@ -20,17 +20,17 @@ theorem ggG5_index_dvd_three_E6
     {f : ℕ} (hf : 1 ≤ f) (D : LangDatum (langTag .E6) GGL)
     (hΦ : D.Φ = ggPhi .E6 f) {C : Type} [Group C] (ι : C →* ModGL (langTag .E6) GGL)
     (hpkg : GGLangPkg D ι) : ι.range.relIndex D.fix ∣ 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   have hΦ' : D.Φ = Units.map (entrywiseHom (ggFrobT f)) := hΦ
   have hKcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hFr : ∀ c : GGL, ggFrobT f c = c ^ Nat.card (GaloisField 2 f) := fun c => by
     rw [hKcard]
     exact ggFrobT_apply f c
-  letI : Algebra (GaloisField 2 f) GGL := (ggRatEmb f).toAlgebra
+  let : Algebra (GaloisField 2 f) GGL := (ggRatEmb f).toAlgebra
   have hcomm : ∀ r : ZMod 2,
       ggRatEmb f (algebraMap (ZMod 2) (GaloisField 2 f) r) = algebraMap (ZMod 2) GGL r :=
     fun r => (IsAlgClosed.lift (R := ZMod 2) (S := GaloisField 2 f) (M := GGL)).commutes r
-  haveI : Module.IsTorsionFree (GaloisField 2 f) GGL := {
+  have : Module.IsTorsionFree (GaloisField 2 f) GGL := {
     isSMulRegular := by
       intro r hr
       have hr0 : r ≠ 0 := hr.ne_zero
@@ -44,7 +44,7 @@ theorem ggG5_index_dvd_three_E6
       RingHom.comp (RingHom.id GGL) (algebraMap (ZMod 2) GGL) := by
     ext r
     exact hcomm r
-  haveI : IsAlgClosure (GaloisField 2 f) GGL :=
+  have : IsAlgClosure (GaloisField 2 f) GGL :=
     { isAlgClosed := inferInstance
       isAlgebraic := Algebra.IsAlgebraic.ringHom_of_comp_eq
         (f := algebraMap (ZMod 2) (GaloisField 2 f)) (g := RingHom.id GGL)
@@ -57,7 +57,7 @@ theorem ggG5_index_dvd_three_E6
   have hidx : ((adjointGroup .E6 (GaloisField 2 f)).map
         (baseChangeGL (ggRatEmb f))).relIndex D.fix ∣ 3 := by
     let X : Subgroup (ModGL Tag.E6 GGL) := D.fix
-    haveI : Finite X := hpkg.desc.finite_fix
+    have : Finite X := hpkg.desc.finite_fix
     exact (CFSG.RankThree.PartOne.KE.finite_fixed_subgroup_rational
       (τ := .E6) (K := GaloisField 2 f) (L := GGL)
       3 (Or.inl ⟨rfl, rfl⟩) (ggFrobT f) hFr X hXC hXF).1
@@ -95,7 +95,7 @@ theorem ggG5_involution_mem_range_E6
       (g : ModGL (langTag .E6) GGL)⁻¹ ∈ N
     rw [hmul]
     exact N.mul_mem hcomm hn
-  letI : (N.subgroupOf D.fix).Normal := hNnorm
+  let : (N.subgroupOf D.fix).Normal := hNnorm
   let q : D.fix ⧸ N.subgroupOf D.fix := QuotientGroup.mk ⟨y, hy⟩
   have hsq : (⟨y, hy⟩ : D.fix) * ⟨y, hy⟩ = 1 := by
     apply Subtype.ext

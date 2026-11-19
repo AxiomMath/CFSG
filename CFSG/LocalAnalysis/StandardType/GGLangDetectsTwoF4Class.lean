@@ -45,7 +45,7 @@ theorem langRatDetectsTwoF4_class_cases
           {γ : V4 | IsRoot Tag.F4 γ ∧ kdot k γ % 3 = 0 ∧ ipF4 γ γ = c} := by
         intro c
         ext γ
-        rw [Set.mem_setOf_eq, Set.mem_setOf_eq, kernelRoots_eq hω3 hω1 hak, Set.mem_setOf_eq]
+        rw [Set.mem_ofPred_eq, Set.mem_ofPred_eq, kernelRoots_eq hω3 hω1 hak, Set.mem_ofPred_eq]
         tauto
       rw [hset (ipF4 γ₀.1 γ₀.1)]
       refine ⟨?_, fun γ hγ γ' hγ' => ⟨?_, ?_⟩⟩
@@ -322,7 +322,7 @@ theorem langRatDetectsTwoF4_langSmallSolv_of_ncard_six
   · rw [hs, hq, pow_one]
   · have hc := compRank_eq_two_of_ncard_eq_six hΨ h6
     unfold twistKind
-    rw [if_neg hni]
+    rw [ite_eq_right hni]
     simp [hc, h6]
 
 end CFSG.StandardType.LangRat

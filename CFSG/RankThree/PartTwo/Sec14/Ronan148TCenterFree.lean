@@ -44,11 +44,11 @@ theorem center_eq_bot_of_isoLThreePi {X : Type} [Group X] [Finite X] {p e : ℕ}
       | H b =>
         exact ⟨a, b, fun h => hab (by rw [← QuotientGroup.mk_mul, h, QuotientGroup.mk_mul])⟩
   set K₁ : Subgroup (H ⧸ N) := K.map φ.toMonoidHom with hK₁
-  haveI : Group.IsPerfect K := hKq.1
-  haveI : Group.IsPerfect K₁ := Group.IsPerfect.map φ.toMonoidHom
+  have : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K₁ := Group.IsPerfect.map φ.toMonoidHom
   set M : Subgroup H := K₁.comap (QuotientGroup.mk' N) with hM
   set D : Subgroup H := ⁅M, M⁆ with hD
-  haveI hDp : Group.IsPerfect D := SubgroupLists.isPerfect_commutator_comap le_rfl K₁
+  have hDp : Group.IsPerfect D := SubgroupLists.isPerfect_commutator_comap le_rfl K₁
   have hDK : D.map (QuotientGroup.mk' N) = K₁ := SubgroupLists.map_commutator_comap K₁
   have hmemK : ∀ d ∈ D, QuotientGroup.mk' N d ∈ K₁ := fun d hd => hDK ▸ ⟨d, hd, rfl⟩
   have hDnc : ¬ ∀ d₁ ∈ D, ∀ d₂ ∈ D, d₁ * d₂ = d₂ * d₁ := by

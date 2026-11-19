@@ -59,13 +59,13 @@ theorem andB_eq (a b : Bool) : andB a b = (a && b) := by cases a <;> rfl
 theorem cF4_ite (a b : Fin 3) : cF4 (nIf(Nat.beq (a : ℕ) b, 1, 0)) = if a = b then 1 else 0 := by
   by_cases h : a = b
   · subst h
-    rw [Nat.beq_refl, if_pos rfl]
+    rw [Nat.beq_refl, ite_eq_left rfl]
     rfl
   · have : Nat.beq (a : ℕ) b = false := by
       rw [Bool.eq_false_iff]
       intro e
       exact h (Fin.ext (Nat.eq_of_beq_eq_true e))
-    rw [this, if_neg h]
+    rw [this, ite_eq_right h]
     rfl
 
 theorem testBit_aboveM {n o i l : ℕ} (hl : l < n) :

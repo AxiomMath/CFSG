@@ -189,7 +189,7 @@ theorem bmFact_le_of_dvd {a B : ℕ} (hB : B ≠ 0) (h : a ∣ B) (ℓ : ℕ) :
 
 theorem ordBMBound_PSL_two {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f) :
     OrdBMBound .PSL 2 p f (p ^ f * ((p ^ f) ^ 2 - 1) * f) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro R _ _ _ hmodel ℓ _ _
   have hT : StatedClassicalModel R .PSL 2 p f :=
     LieModel.statedClassicalModel_of_ne_zero (by norm_num : 2 ≠ 0) hmodel
@@ -220,7 +220,7 @@ theorem ordBMBound_PSL {n f : ℕ} (hn : 3 ≤ n) (hf : 1 ≤ f) :
   exact bmFact_le_of_dvd hB hdvd ℓ
 
 theorem ordBMBound_PSU {n p f : ℕ} (hn : 3 ≤ n) (hp : p.Prime) (hf : 1 ≤ f)
-    (hq : (n, p ^ f) ≠ (3, 2)) :
+    (_hq : (n, p ^ f) ≠ (3, 2)) :
     OrdBMBound .PSU n p f (lieOrd .PSU n (p ^ f) * (2 * f * Nat.gcd n (p ^ f + 1))) := by
   intro R _ _ _ hmodel ℓ hℓ hℓ2
   have hT : StatedClassicalModel R .PSU n p f :=
@@ -252,8 +252,8 @@ theorem ordBMBound_PSp {r f : ℕ} (hr : 3 ≤ r) (hf : 1 ≤ f) :
   have hT : StatedClassicalModel R .PSp r 2 f :=
     CFSG.Blueprint.LieModel.statedClassicalModel hmodel (by simp [classicalTags])
   obtain ⟨K, hfield, hfinite, hcard, ⟨e⟩⟩ := hT.2
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hout := (CFSG.RankThree.Classical.higher_symplectic_outer_order_divides_field_multiplier_bound
     Nat.prime_two hf hr hcard).1
   have hodd : Odd (2 ^ f - 1) := by

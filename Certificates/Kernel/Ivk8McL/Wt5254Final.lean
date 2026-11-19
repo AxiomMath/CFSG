@@ -48,9 +48,9 @@ theorem letter_eq {z : Int} (hz : z ≠ 0 ∧ z.natAbs ≤ 6) :
   unfold wtLetterT
   by_cases h : 0 < z
   · have e : z.toNat - 1 = z.natAbs - 1 := by omega
-    rw [if_pos h, if_pos h, wtElem_eq hi, e, gs_getD hi]
+    rw [ite_eq_left h, ite_eq_left h, wtElem_eq hi, e, gs_getD hi]
   · have e : (-z).toNat - 1 = z.natAbs - 1 := by omega
-    rw [if_neg h, if_neg h, wtElem_eq hi, invT_tabN' dims, e, gis_getD hi]
+    rw [ite_eq_right h, ite_eq_right h, wtElem_eq hi, invT_tabN' dims, e, gis_getD hi]
 
 theorem wordT_eq : ∀ wd : List Int, (∀ l ∈ wd, l ≠ 0 ∧ l.natAbs ≤ 6) →
     wordT 275 wtLetterT wd = tabN 275 9 (evalN 275 9 wtGs wtGis wd)

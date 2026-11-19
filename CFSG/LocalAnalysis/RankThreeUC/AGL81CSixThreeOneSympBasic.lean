@@ -75,7 +75,7 @@ def planeTransvection {K : Type*} [Field K] {W : Type*} [AddCommGroup W] [Module
 
 theorem planeTransvection_apply {K : Type*} [Field K] {W : Type*} [AddCommGroup W]
     [Module K W] {B : LinearMap.BilinForm K W} {hB : B.IsAlt} {e₁ e₂ : W}
-    (h11 : B e₁ e₁ = 0) (h12 : B e₁ e₂ = 0) (h21 : B e₂ e₁ = 0) (h22 : B e₂ e₂ = 0)
+    (_h11 : B e₁ e₁ = 0) (_h12 : B e₁ e₂ = 0) (h21 : B e₂ e₁ = 0) (_h22 : B e₂ e₂ = 0)
     (a b : K) (x : W) :
     ((planeTransvection B hB e₁ e₂ a b : Module.End K W) x) =
       x + (a * B e₁ x) • e₁ + (b * B e₂ x) • e₂ := by
@@ -95,12 +95,12 @@ theorem planeTransvection_mul {K : Type*} [Field K] {W : Type*} [AddCommGroup W]
   refine Units.ext (LinearMap.ext fun x => ?_)
   rw [Units.val_mul, Module.End.mul_apply, planeTransvection_apply h11 h12 h21 h22,
     planeTransvection_apply h11 h12 h21 h22, planeTransvection_apply h11 h12 h21 h22]
-  simp only [map_add, map_smul, h11, h12, h21, h22, mul_zero, add_zero]
+  simp only [map_add, map_smul, h11, h12, h21, h22]
   module
 
 theorem planeTransvection_zero {K : Type*} [Field K] {W : Type*} [AddCommGroup W]
     [Module K W] {B : LinearMap.BilinForm K W} {hB : B.IsAlt} {e₁ e₂ : W}
-    (h11 : B e₁ e₁ = 0) (h12 : B e₁ e₂ = 0) (h21 : B e₂ e₁ = 0) (h22 : B e₂ e₂ = 0) :
+    (_h11 : B e₁ e₁ = 0) (_h12 : B e₁ e₂ = 0) (_h21 : B e₂ e₁ = 0) (_h22 : B e₂ e₂ = 0) :
     planeTransvection B hB e₁ e₂ 0 0 = 1 := by
   simp [planeTransvection, symplecticTransvection_zero]
 
@@ -316,7 +316,7 @@ theorem hasIsotropicPlaneGroup_of_forall_isometry_mem {p : ℕ} [Fact p.Prime] {
     (hH : ∀ g : (Module.End (ZMod p) W)ˣ, (∀ u v : W,
       B ((g : Module.End (ZMod p) W) u) ((g : Module.End (ZMod p) W) v) = B u v) → g ∈ H) :
     HasIsotropicPlaneGroup p B H := by
-  haveI : FiniteDimensional (ZMod p) W := ‹Module.Finite (ZMod p) W›
+  have : FiniteDimensional (ZMod p) W := ‹Module.Finite (ZMod p) W›
   have hAlt : B.IsAlt := hBalt
   have hBnd' : B.Nondegenerate :=
     LinearMap.BilinForm.Nondegenerate.ofSeparatingLeft (show B.SeparatingLeft from hBnd)

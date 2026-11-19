@@ -17,6 +17,7 @@ open Matrix SpBlocks UnitaryWeight
 variable {Γ : Type*} [Group Γ] [Finite Γ] {ι : Type} [Fintype ι] [DecidableEq ι] {Ω : Type}
   [Field Ω] [IsAlgClosed Ω] [CharP Ω 2]
 
+omit [Finite Γ] in
 theorem eq_one_of_commute_odd (h5 : HasOrderFiveData Γ) (h7 : HasOrderSevenData Γ) (σ : Ω ≃+* Ω)
     (hσ3 : ∀ η : Ω, η ^ 3 = 1 → σ η = η⁻¹) (hι : Fintype.card ι ≤ 6) {G : Matrix ι ι Ω}
     (hG : IsUnit G) (ρ : Γ →* Matrix ι ι Ω) (hρ : ∀ g, (ρ g)ᵀ * G * (ρ g).map σ = G)
@@ -24,7 +25,7 @@ theorem eq_one_of_commute_odd (h5 : HasOrderFiveData Γ) (h7 : HasOrderSevenData
     (hcomm : ∀ g, ρ g * A = A * ρ g) (hnc : ∀ c : Ω, A ≠ c • 1) (g : Γ) : ρ g = 1 := by
   classical
   by_cases hne : Nonempty ι
-  · haveI : Nonempty ι := hne
+  · have : Nonempty ι := hne
     obtain ⟨P, w, hw3, hAPw⟩ :=
       exists_diagonalizing_basis (κ := Unit) (X := fun _ : Unit => A)
         (fun _ _ => rfl) (fun _ => hA3)
@@ -218,7 +219,7 @@ theorem eq_one_of_commute_odd (h5 : HasOrderFiveData Γ) (h7 : HasOrderSevenData
       have hRg : R g = 1 :=
         eq_one_of_fibres h5 h7 σ a hHu R hQs hform (fun k => Or.inl (hsmall3 k)) g
       exact eq_one_of_conjHom hPQ hQP ρ g hRg
-  · haveI : IsEmpty ι := not_nonempty_iff.mp hne
+  · have : IsEmpty ι := not_nonempty_iff.mp hne
     ext i j
     exact (IsEmpty.false j).elim
 

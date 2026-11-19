@@ -61,7 +61,7 @@ theorem fieldAutU_three_of_uFactor_ne_one {K : Type} [Field K] (h : UnitaryField
     (hφ3 : φ ^ 3 = 1)
     (hfac : uFactor h (by norm_num) (by norm_num) (MulAut.congr e φ) ≠ 1) :
     FieldAutU 3 S φ := by
-  haveI := h.finite
+  have := h.finite
   set a : MulAut (StatedProj (StatedSU 3 (2 ^ 3) K)) := MulAut.congr e φ with ha
   have ha3 : a ^ 3 = 1 := by rw [ha, ← map_pow, hφ3, map_one]
   have ha1 : a ≠ 1 := by

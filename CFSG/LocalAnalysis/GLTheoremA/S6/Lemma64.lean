@@ -18,6 +18,7 @@ namespace L64
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem isElemAbelian_zpowers {x : G} (hx : x ^ p = 1) : IsElemAbelian p (Subgroup.zpowers x) := by
   refine ⟨inferInstance, fun y hy => ?_⟩
   obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.1 hy
@@ -50,7 +51,7 @@ theorem mem_of_isBmax_of_commute (hp : p.Prime) {B' T : Subgroup G} {x : G} (hB'
 theorem centModEqZpowers_of_card (hp : p.Prime) {B' L : Subgroup G} {x : G} (hxB : x ∈ B')
     (hx1 : x ≠ 1) (hxp : x ^ p = 1) (hxL : x ∈ Subgroup.centralizer (L : Set G))
     (hcard : Nat.card ↥(B' ⊓ centModSubgroup p L) = p) : CentModEqZpowers p B' L x := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hxc : x ∈ centModSubgroup p L := centMod_iff.1 (centMod_of_mem_centralizer hxL)
   have hle : Subgroup.zpowers x ≤ B' ⊓ centModSubgroup p L :=
     Subgroup.zpowers_le.2 ⟨hxB, hxc⟩

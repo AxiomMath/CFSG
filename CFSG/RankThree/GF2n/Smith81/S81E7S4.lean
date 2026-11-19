@@ -14,6 +14,7 @@ open CFSG.LieType.Steinberg.Minuscule CFSG.Blueprint.Chevalley CFSG.SeitzReducti
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 theorem IsRootElt.mul_self_eq_one {t : (Module.End K (V K))ˣ} (ht : IsRootElt t) : t * t = 1 := by
   have h := ht.sub_one_sq
   have h2 : (2 : K) = 0 := CharP.ofNat_eq_zero K 2
@@ -67,25 +68,29 @@ theorem exists_idx0_pr_neg_one {β : Fin (Tag.rank .E7) → ℤ} (hβ : β ∈ P
   refine (forall_isRoot_iff fun γ => γ node1 = 0 → ∃ μ ∈ idx0, pr μ γ = -1).2 ?_ β hr
   decide +kernel
 
+omit [Finite K] [CharP K 2] in
 private theorem unit_inv_apply_apply {u : (Module.End K (V K))ˣ} (x : V K) :
     ((u⁻¹ : (Module.End K (V K))ˣ) : Module.End K (V K)) ((u : Module.End K (V K)) x) = x := by
   rw [← Module.End.mul_apply, Units.inv_mul, Module.End.one_apply]
 
+omit [Finite K] [CharP K 2] in
 private theorem unit_apply_eq_zero {u : (Module.End K (V K))ˣ} {x : V K}
     (h : (u : Module.End K (V K)) x = 0) : x = 0 := by
   have h1 := unit_inv_apply_apply (u := u) x
   rw [h, map_zero] at h1
   exact h1.symm
 
+omit [Finite K] in
 private theorem xu_sub_one_apply_single {β : Fin (Tag.rank .E7) → ℤ} (hβ : β ∈ Perp)
     {μ : Fin e7Data.d} (hpr : pr μ β = -1) (c : K) :
     ((e7Data_valid.xu K β c : (Module.End K (V K))ˣ) : Module.End K (V K))
         (Finsupp.single μ (1 : K)) - Finsupp.single μ (1 : K) =
       c • Finsupp.single (shift β μ) (1 : K) := by
   have hβ' : IsRoot .E7 β ∧ MinData.toWeight β ⬝ᵥ theta = 0 := hβ
-  rw [e7Data_valid.xu_apply, rootOp_single (K := K) hβ'.1 μ, if_pos hpr]
+  rw [e7Data_valid.xu_apply, rootOp_single (K := K) hβ'.1 μ, ite_eq_left hpr]
   abel
 
+omit [Finite K] in
 theorem exists_hwVec_range {u' : (Module.End K (V K))ˣ} (hu' : u' ∈ UL K)
     {β : Fin (Tag.rank .E7) → ℤ} (hβ : β ∈ Perp) {c : K} (hc : c ≠ 0) :
     ∃ w : V K, w ≠ 0 ∧ w ∈ V0 K ∧

@@ -414,12 +414,12 @@ theorem klein_unique_alt7 {D R R' : Subgroup (alternatingGroup (Fin 7))} (hD : I
   exact Subgroup.map_injective e.injective heq
 
 theorem alt7Hyp : Alt7Hyp (alternatingGroup (Fin 7)) where
-  card_le R _ h2 := alt7_elemAbelian_card_le h2
-  conj a b ha1 ha2 hb1 hb2 := alt7_involutions_conj ha1 ha2 hb1 hb2
+  card_le _R _ h2 := alt7_elemAbelian_card_le h2
+  conj _a _b ha1 ha2 hb1 hb2 := alt7_involutions_conj ha1 ha2 hb1 hb2
   order5 := alt7_exists_order_five_product
   card_inv := alt7_card_involutions
   card_G := card_alt7
-  klein R hR _ hs h72 := alt7_klein_normalizer hR hs h72
+  klein _R hR _ hs h72 := alt7_klein_normalizer hR hs h72
   klein_unique hD hRD hR'D h4 h4' h2 h2' hN hN' :=
     klein_unique_alt7 hD hRD hR'D h4 h4' h2 h2' hN hN'
 

@@ -64,7 +64,7 @@ theorem shapeTwoTenNoSwapPartnerNoCentralStdHS_of_inputs
   obtain ⟨ι', hC', h1, h2⟩ := hC0.exists_twist
   have hx₂ι' : z * x₁ = ι' τ₀ := by rw [h2 τ₀ sign_τ₀]; rfl
   obtain ⟨π₂, hOS₂⟩ := oneSided_of_symOutcome (ι := ι') hx₂ι' hz₂ hS₂
-  haveI := h.std.simple
+  have := h.std.simple
   exact false_of_symSym h.std.nonab hC0 hN0 hOS₁ h1 h2 hOS₂
 
 end Main

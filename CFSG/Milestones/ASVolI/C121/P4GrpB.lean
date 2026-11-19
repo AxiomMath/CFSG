@@ -54,10 +54,12 @@ theorem burnsideC121_p4_relIndex_sup {P Y : Subgroup Ω}
     _ = (P ⊓ Y).relIndex Y * (Y.relIndex P * Nat.card ↥(P ⊓ Y)) := by
         rw [h0, ← h4]; ring
 
+omit [Finite Ω] in
 theorem burnsideC121_p4_sylow_of_le {P P' Y : Subgroup Ω} (hP : IsSylowTwoOf P Y) (hPP : P ≤ P')
     (hP'Y : P' ≤ Y) (hP'2 : IsPGroup 2 P') : IsSylowTwoOf P' Y :=
   ⟨hP'Y, hP'2, fun hd => hP.2.2 (hd.trans (Subgroup.relIndex_dvd_of_le_left Y hPP))⟩
 
+omit [Finite Ω] in
 theorem burnsideC121_p4_autI_le_normalizer {V : Subgroup Ω} (hV : IsElemAbelian 2 V)
     {K Y : Subgroup Ω} (hKY : K ≤ Subgroup.normalizer (Y : Set Ω)) :
     autI hV K ≤ Subgroup.normalizer (autI hV Y : Set (MulAut (IntMod V hV))) := by
@@ -119,7 +121,7 @@ theorem odd_YK : ¬ 2 ∣ (Y ⊓ (thompsonJ R ⊔ (X ⊓ Subgroup.centralizer (V
 theorem sylow_JQ_K : IsSylowTwoOf (thompsonJ R ⊔ pCoreOf 2 X)
     (thompsonJ R ⊔ (X ⊓ Subgroup.centralizer (V : Set Ω))) := by
   set K := thompsonJ R ⊔ (X ⊓ Subgroup.centralizer (V : Set Ω)) with hK
-  have hJQK : thompsonJ R ⊔ pCoreOf 2 X ≤ K := sup_le_sup_left (le_inf h.Q_le_X h.Q_le_CV) _
+  have hJQK : thompsonJ R ⊔ pCoreOf 2 X ≤ K := sup_le_sup_left (le_inf CFSG.Quasithin.burnsideC121_p4_Hyp.Q_le_X h.Q_le_CV) _
   have hJQR : thompsonJ R ⊔ pCoreOf 2 X ≤ R := sup_le (h.J_le_S.trans h.S_le_R) h.hQR
   have hJQ2 : IsPGroup 2 ↥(thompsonJ R ⊔ pCoreOf 2 X) := h.hR2.to_le hJQR
   refine ⟨hJQK, hJQ2, ?_⟩
@@ -127,11 +129,11 @@ theorem sylow_JQ_K : IsSylowTwoOf (thompsonJ R ⊔ pCoreOf 2 X)
   show ¬ 2 ∣ (thompsonJ R ⊔ pCoreOf 2 X).relIndex K
   rw [burnsideC121_p4_relIndex_autI h.hV hJQK hKN]
   have hJQ : autI h.hV (thompsonJ R ⊔ pCoreOf 2 X) = autI h.hV K := by
-    rw [h.autI_K, autI_sup h.hV (h.J_le_X.trans h.X_le_NV) (h.Q_le_X.trans h.X_le_NV),
+    rw [h.autI_K, autI_sup h.hV (h.J_le_X.trans h.X_le_NV) (CFSG.Quasithin.burnsideC121_p4_Hyp.Q_le_X.trans h.X_le_NV),
       autI_eq_bot_of_le_centralizer h.hV h.Q_le_CV, sup_bot_eq]
   rw [hJQ, Subgroup.relIndex_self, one_mul]
   have hC1 : (thompsonJ R ⊔ pCoreOf 2 X) ⊓ Subgroup.centralizer (V : Set Ω) = pCoreOf 2 X :=
-    le_antisymm (h.le_Q (le_inf (inf_le_left.trans (sup_le h.J_le_X h.Q_le_X)) inf_le_right)
+    le_antisymm (h.le_Q (le_inf (inf_le_left.trans (sup_le h.J_le_X CFSG.Quasithin.burnsideC121_p4_Hyp.Q_le_X)) inf_le_right)
       (hJQ2.to_le inf_le_left)) (le_inf le_sup_right h.Q_le_CV)
   have hC2 : K ⊓ Subgroup.centralizer (V : Set Ω) = X ⊓ Subgroup.centralizer (V : Set Ω) :=
     le_antisymm (inf_le_inf_right _ (sup_le h.J_le_X inf_le_left)) (le_inf le_sup_right inf_le_right)
@@ -143,7 +145,7 @@ theorem sylow_JQY : IsSylowTwoOf ((thompsonJ R ⊔ pCoreOf 2 X) ⊓ Y) Y := by
   have hKN : K ≤ Subgroup.normalizer ((Y ⊓ K : Subgroup Ω) : Set Ω) :=
     B2F.le_normalizer_inf h.hYN Subgroup.le_normalizer
   have h1 := A4.isSylowTwoOf_inf_normal h.sylow_JQ_K (N := Y ⊓ K) inf_le_right hKN
-  have hJQK : thompsonJ R ⊔ pCoreOf 2 X ≤ K := sup_le_sup_left (le_inf h.Q_le_X h.Q_le_CV) _
+  have hJQK : thompsonJ R ⊔ pCoreOf 2 X ≤ K := sup_le_sup_left (le_inf CFSG.Quasithin.burnsideC121_p4_Hyp.Q_le_X h.Q_le_CV) _
   have he : (thompsonJ R ⊔ pCoreOf 2 X) ⊓ (Y ⊓ K) = (thompsonJ R ⊔ pCoreOf 2 X) ⊓ Y := by
     rw [inf_comm Y K, ← inf_assoc, inf_eq_left.2 hJQK]
   rw [he] at h1
@@ -166,22 +168,27 @@ theorem sylow_R0Y : IsSylowTwoOf ((baum T ⊔ pCoreOf 2 X) ⊓ Y) Y :=
   burnsideC121_p4_sylow_of_le h.sylow_JQY (inf_le_inf_right _ (sup_le_sup_right h.J_le_S _))
     inf_le_right (h.hR2.to_le (inf_le_left.trans (sup_le h.S_le_R h.hQR)))
 
+omit [Finite Ω] in
 theorem R0_two : IsPGroup 2 ↥(baum T ⊔ pCoreOf 2 X) :=
   h.hR2.to_le (sup_le h.S_le_R h.hQR)
 
-theorem H_le_X : (baum T ⊔ pCoreOf 2 X) ⊔ Y ≤ X := sup_le (sup_le h.S_le_X h.Q_le_X) h.hYX
+omit [Finite Ω] in
+theorem H_le_X : (baum T ⊔ pCoreOf 2 X) ⊔ Y ≤ X := sup_le (sup_le h.S_le_X CFSG.Quasithin.burnsideC121_p4_Hyp.Q_le_X) h.hYX
 
+omit [Finite Ω] in
 theorem H_le_NV : (baum T ⊔ pCoreOf 2 X) ⊔ Y ≤ Subgroup.normalizer (V : Set Ω) :=
   h.H_le_X.trans h.X_le_NV
 
 theorem H_le_NY : (baum T ⊔ pCoreOf 2 X) ⊔ Y ≤ Subgroup.normalizer (Y : Set Ω) :=
   sup_le h.SQ_le_NY Subgroup.le_normalizer
 
+omit [Finite Ω] h in
 theorem Q_le_H : pCoreOf 2 X ≤ (baum T ⊔ pCoreOf 2 X) ⊔ Y := le_sup_right.trans le_sup_left
 
 theorem J_le_H : thompsonJ R ≤ (baum T ⊔ pCoreOf 2 X) ⊔ Y :=
   h.J_le_S.trans (le_sup_left.trans le_sup_left)
 
+omit [Finite Ω] h in
 theorem Y_le_H : Y ≤ (baum T ⊔ pCoreOf 2 X) ⊔ Y := le_sup_right
 
 theorem sylow_R0H : IsSylowTwoOf (baum T ⊔ pCoreOf 2 X) ((baum T ⊔ pCoreOf 2 X) ⊔ Y) := by
@@ -204,7 +211,7 @@ theorem pow_mem_Y {x : Ω} (hx : x ∈ (baum T ⊔ pCoreOf 2 X) ⊔ Y) :
 
 theorem H_CV : ((baum T ⊔ pCoreOf 2 X) ⊔ Y) ⊓ Subgroup.centralizer (V : Set Ω) = pCoreOf 2 X := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  apply le_antisymm _ (le_inf h.Q_le_H h.Q_le_CV)
+  apply le_antisymm _ (le_inf burnsideC121_p4_Hyp.Q_le_H h.Q_le_CV)
   refine h.le_Q (inf_le_inf_right _ h.H_le_X) ?_
   intro g
   obtain ⟨k, hk⟩ := h.pow_mem_Y g.2.1
@@ -219,7 +226,7 @@ theorem H_CV : ((baum T ⊔ pCoreOf 2 X) ⊔ Y) ⊓ Subgroup.centralizer (V : Se
 
 theorem autI_H : autI h.hV ((baum T ⊔ pCoreOf 2 X) ⊔ Y) = autI h.hV (Y ⊔ thompsonJ R) := by
   have hSN := h.S_le_X.trans h.X_le_NV
-  have hQN := h.Q_le_X.trans h.X_le_NV
+  have hQN := CFSG.Quasithin.burnsideC121_p4_Hyp.Q_le_X.trans h.X_le_NV
   have hYN := h.hYX.trans h.X_le_NV
   have hJN := h.J_le_X.trans h.X_le_NV
   rw [autI_sup h.hV (sup_le hSN hQN) hYN, autI_sup h.hV hSN hQN,
@@ -227,7 +234,7 @@ theorem autI_H : autI h.hV ((baum T ⊔ pCoreOf 2 X) ⊔ Y) = autI h.hV (Y ⊔ t
     ← autI_eq_autOn h.hV, autI_sup h.hV hYN hJN, sup_comm]
 
 theorem Q_le_O2H : pCoreOf 2 X ≤ pCoreOf 2 ((baum T ⊔ pCoreOf 2 X) ⊔ Y) :=
-  le_pCoreOf_of_le_normalizer 2 h.Q_le_H (h.H_le_X.trans (le_normalizer_pCoreOf 2 X)) h.Q_two
+  le_pCoreOf_of_le_normalizer 2 burnsideC121_p4_Hyp.Q_le_H (h.H_le_X.trans (le_normalizer_pCoreOf 2 X)) CFSG.Quasithin.burnsideC121_p4_Hyp.Q_two
 
 theorem O2H_le_R0 : pCoreOf 2 ((baum T ⊔ pCoreOf 2 X) ⊔ Y) ≤ baum T ⊔ pCoreOf 2 X :=
   pCoreOf_le_of_isSylowTwoOf h.sylow_R0H

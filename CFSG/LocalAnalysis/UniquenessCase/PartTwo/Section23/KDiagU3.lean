@@ -35,7 +35,7 @@ theorem exists_catGroup_of_isU3 {n : ℕ} {X : Type} [Group X] [Finite X]
     rw [hcard', ← pow_mul]
     exact Nat.mod_eq_zero_of_dvd (dvd_pow_self 2 (by omega : n * 2 ≠ 0))
   have hchar : ringChar K = 2 := FiniteField.even_card_iff_char_two.mpr hEven
-  haveI : CharP K 2 := ringChar.of_eq hchar
+  have : CharP K 2 := ringChar.of_eq hchar
   have hZ := (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
     (p := 2) (f := n) (n := 3) hcard (by norm_num) hnq).2
   have eProj : CFSG.Open.StatedProj (CFSG.Open.StatedSU 3 (2 ^ n) K) ≃*
@@ -52,7 +52,7 @@ theorem exists_catGroup_of_isU3 {n : ℕ} {X : Type} [Group X] [Finite X]
 theorem coatom_normalizer_sylow_of_isU3 {n : ℕ} {X : Type} [Group X] [Finite X]
     (hX : IsU3 X n) : ∀ S : Sylow 2 X, IsCoatom (Subgroup.normalizer (S : Set X)) := by
   obtain ⟨d, hd, ⟨e⟩⟩ := exists_catGroup_of_isU3 hX
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro S
   exact CFSG.AGLEmbedding.kFactUnitaryBorelMaximal X 2 d hd ⟨e⟩ S
 

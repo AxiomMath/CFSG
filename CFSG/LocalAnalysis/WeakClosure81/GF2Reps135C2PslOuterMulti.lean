@@ -64,7 +64,7 @@ private lemma c2sloutmul_orbit_three {S : Finset (Fin 3)} (hcard : S.card ≤ 1)
     have hjeq : j = (⟨0, by omega⟩ : Fin 3) := Fin.ext h
     exact h0 (Finset.mem_singleton.mpr hjeq.symm)
   rw [orbitSize_singleton]
-  fin_cases j <;> simp_all <;> decide
+  fin_cases j <;> simp_all
 
 private lemma c2sloutmul_fixedFour_le {S : Finset (Fin 4)} (hcard : S.card ≤ 1) (hne : S ≠ ∅)
     (h0 : (⟨0, by omega⟩ : Fin 4) ∉ S) : fixedOrbit (by omega : 2 ≤ 4) S ≤ 2 := by
@@ -78,7 +78,7 @@ private lemma c2sloutmul_fixedFour_le {S : Finset (Fin 4)} (hcard : S.card ≤ 1
     exact h0 (Finset.mem_singleton.mpr hjeq.symm)
   rw [fixedOrbit_eq, orbitSize_singleton,
     movedOrbit_singleton (by omega : 2 ≤ 4) (j := j) (by omega : 1 ≤ (j : ℕ))]
-  fin_cases j <;> simp_all <;> decide
+  fin_cases j <;> simp_all; decide
 
 private lemma c2sloutmul_gs03_psl_two (f : ℕ) :
     gs03Bound .PSL 2 f = if Even f then 4 else 3 := rfl
@@ -90,7 +90,7 @@ private lemma c2sloutmul_gs03_psl_two_three : gs03Bound .PSL 2 3 = 3 := by
   decide +kernel
 
 private lemma c2sloutmul_gs03_psl_two_even {f : ℕ} (hf : Even f) : gs03Bound .PSL 2 f = 4 := by
-  rw [c2sloutmul_gs03_psl_two, if_pos hf]
+  rw [c2sloutmul_gs03_psl_two, ite_eq_left hf]
 
 private lemma c2sloutmul_gs03_psl_three_two : gs03Bound .PSL 3 2 = 4 := by
   decide +kernel
@@ -224,7 +224,7 @@ private theorem c2sloutmul_two_active {n f s u : ℕ} (hn : 2 ≤ n) (hs : 1 ≤
       c2sloutmul_eq_singleton_one_of_eq_two rfl (h0 i₂) h₂
     have hP4 : ∏ r, ∏ i ∈ ε r, (2 : ℕ).choose (i : ℕ) = 4 := by
       rw [hPtwo, hsingle1, hsingle2]
-      simp [orbitSize_singleton, Nat.choose_one_right]
+      simp [orbitSize_singleton]
     rcases (by omega : s = 1 ∨ s = 2 ∨ s = 3) with rfl | rfl | rfl
     · have hf2 : f = 2 := by
         have hle : f ≤ 2 := by simpa using hper

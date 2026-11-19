@@ -20,10 +20,11 @@ variable {V Γ : Type*} [Group V] [Finite V] [Group Γ] [Finite Γ]
   toFun v := ρ u v * v⁻¹
   map_one' := by simp
   map_mul' a b := by
-    letI : CommGroup V := { ‹Group V› with mul_comm := hc }
+    let : CommGroup V := { ‹Group V› with mul_comm := hc }
     rw [map_mul, mul_inv]
     exact mul_mul_mul_comm _ _ _ _
 
+omit [Finite V] [Finite Γ] in
 theorem comm1_apply (hc : ∀ a b : V, a * b = b * a) (ρ : Γ →* MulAut V) (u : Γ) (v : V) :
     comm1 hc ρ u v = ρ u v * v⁻¹ := rfl
 
@@ -50,7 +51,7 @@ theorem exists_of_card_le_two (R : Subgroup V) (h : Nat.card R ≤ 2) :
     have hx1 : x ≠ 1 := fun h => hx1' (Subtype.ext h)
     refine ⟨x, fun r hr => ?_⟩
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨hr1, hrx⟩ := hcon
     let f : Fin 3 → R := ![⟨1, R.one_mem⟩, ⟨x, hxR⟩, ⟨r, hr⟩]
     have hf : Function.Injective f := by
@@ -67,6 +68,7 @@ theorem exists_of_card_le_two (R : Subgroup V) (h : Nat.card R ≤ 2) :
     simp at this
     omega
 
+omit [Finite Γ] in
 theorem card_range_comm1 (hc : ∀ a b : V, a * b = b * a) (hV : ∀ v : V, v * v = 1) (hVcard : Nat.card V = 2 ^ 4)
     (ρ : Γ →* MulAut V) (e : Γ ≃* SL(2, F4))
     (hfix : ∀ v : V, (∀ g : Γ, ρ g v = v) → v = 1)
@@ -74,7 +76,7 @@ theorem card_range_comm1 (hc : ∀ a b : V, a * b = b * a) (hV : ∀ v : V, v * 
     (h01 : (e u : Matrix (Fin 2) (Fin 2) F4) 0 1 = 0)
     (h11 : (e u : Matrix (Fin 2) (Fin 2) F4) 1 1 = 1) :
     Nat.card (comm1 hc ρ u).range = 4 := by
-  letI : CommGroup V := { ‹Group V› with mul_comm := hc }
+  let : CommGroup V := { ‹Group V› with mul_comm := hc }
   have heu : e u = lowerSL ((e u : Matrix (Fin 2) (Fin 2) F4) 1 0) :=
     eq_lowerSL_of_entries h00 h01 h11
   obtain ⟨a, ha⟩ : ∃ a : F4, a = (e u : Matrix (Fin 2) (Fin 2) F4) 1 0 := ⟨_, rfl⟩
@@ -148,10 +150,10 @@ theorem card_range_comm1 (hc : ∀ a b : V, a * b = b * a) (hV : ∀ v : V, v * 
     have := pow_gcd_eq_one.2 ⟨h5', h48'⟩
     have hg : Nat.gcd 5 48 = 1 := by norm_num
     rwa [hg, pow_one] at this
-  haveI : IsSimpleGroup (SL(2, F4)) := by
+  have : IsSimpleGroup (SL(2, F4)) := by
     refine CFSG.LocalAnalysis.EvenBN.Common.sl2_isSimpleGroup_of_charTwo ?_
     rw [Nat.card_eq_fintype_card, F4.card]
-  haveI : IsSimpleGroup Γ := e.isSimpleGroup
+  have : IsSimpleGroup Γ := e.isSimpleGroup
   have hker : ρ.ker = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ρ.ker with h1 | h1
     · exfalso
@@ -169,6 +171,7 @@ theorem card_range_comm1 (hc : ∀ a b : V, a * b = b * a) (hV : ∀ v : V, v * 
   rw [hVcard] at this
   norm_num at this
 
+omit [Finite Γ] in
 theorem range_comm1_eq_fixSub (hc : ∀ a b : V, a * b = b * a) (hV : ∀ v : V, v * v = 1) (hVcard : Nat.card V = 2 ^ 4)
     (ρ : Γ →* MulAut V) (e : Γ ≃* SL(2, F4))
     (hfix : ∀ v : V, (∀ g : Γ, ρ g v = v) → v = 1) {U : Subgroup Γ}
@@ -176,7 +179,7 @@ theorem range_comm1_eq_fixSub (hc : ∀ a b : V, a * b = b * a) (hV : ∀ v : V,
       (e g : Matrix (Fin 2) (Fin 2) F4) 0 1 = 0 ∧ (e g : Matrix (Fin 2) (Fin 2) F4) 1 1 = 1)
     (hCU : Nat.card (ModSplit.fixSub ρ U) = 4) {u : Γ} (huU : u ∈ U) (hu1 : e u ≠ 1) :
     (comm1 hc ρ u).range = ModSplit.fixSub ρ U := by
-  letI : CommGroup V := { ‹Group V› with mul_comm := hc }
+  let : CommGroup V := { ‹Group V› with mul_comm := hc }
   obtain ⟨h00, h01, h11⟩ := hU u huU
   have hr4 := card_range_comm1 hc hV hVcard ρ e hfix hu1 h00 h01 h11
   have hcard := Subgroup.card_ker_mul_card_range (comm1 hc ρ u)
@@ -203,6 +206,7 @@ theorem range_comm1_eq_fixSub (hc : ∀ a b : V, a * b = b * a) (hV : ∀ v : V,
   rw [heq]
   exact Subgroup.eq_of_le_of_card_ge hrk (by rw [hr4, hk4])
 
+omit [Finite Γ] in
 theorem comm1_mem_fixSub (hc : ∀ a b : V, a * b = b * a) (hV : ∀ v : V, v * v = 1) (hVcard : Nat.card V = 2 ^ 4)
     (ρ : Γ →* MulAut V) (e : Γ ≃* SL(2, F4))
     (hfix : ∀ v : V, (∀ g : Γ, ρ g v = v) → v = 1) {U : Subgroup Γ}
@@ -210,7 +214,7 @@ theorem comm1_mem_fixSub (hc : ∀ a b : V, a * b = b * a) (hV : ∀ v : V, v * 
       (e g : Matrix (Fin 2) (Fin 2) F4) 0 1 = 0 ∧ (e g : Matrix (Fin 2) (Fin 2) F4) 1 1 = 1)
     (hCU : Nat.card (ModSplit.fixSub ρ U) = 4) {u : Γ} (huU : u ∈ U) (v : V) :
     comm1 hc ρ u v ∈ ModSplit.fixSub ρ U := by
-  letI : CommGroup V := { ‹Group V› with mul_comm := hc }
+  let : CommGroup V := { ‹Group V› with mul_comm := hc }
   by_cases hu1 : e u = 1
   · have : u = 1 := e.injective (by rw [hu1, map_one])
     rw [this]
@@ -219,13 +223,14 @@ theorem comm1_mem_fixSub (hc : ∀ a b : V, a * b = b * a) (hV : ∀ v : V, v * 
     exact ⟨v, rfl⟩
 
 
+omit [Finite Γ] in
 theorem card_fixSub_le_four (hc : ∀ a b : V, a * b = b * a) (hV : ∀ v : V, v * v = 1) (hVcard : Nat.card V = 2 ^ 4)
     (ρ : Γ →* MulAut V) (e : Γ ≃* SL(2, F4))
     (hfix : ∀ v : V, (∀ g : Γ, ρ g v = v) → v = 1) {U : Subgroup Γ}
     (hU : ∀ g ∈ U, (e g : Matrix (Fin 2) (Fin 2) F4) 0 0 = 1 ∧
       (e g : Matrix (Fin 2) (Fin 2) F4) 0 1 = 0 ∧ (e g : Matrix (Fin 2) (Fin 2) F4) 1 1 = 1)
     {u : Γ} (huU : u ∈ U) (hu1 : e u ≠ 1) : Nat.card (ModSplit.fixSub ρ U) ≤ 4 := by
-  letI : CommGroup V := { ‹Group V› with mul_comm := hc }
+  let : CommGroup V := { ‹Group V› with mul_comm := hc }
   obtain ⟨h00, h01, h11⟩ := hU u huU
   have hr4 := card_range_comm1 hc hV hVcard ρ e hfix hu1 h00 h01 h11
   have hcard := Subgroup.card_ker_mul_card_range (comm1 hc ρ u)

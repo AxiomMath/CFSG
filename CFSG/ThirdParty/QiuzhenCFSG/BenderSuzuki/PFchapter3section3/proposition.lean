@@ -342,14 +342,14 @@ private theorem actualK_action_on_S
       exact MulAction.mem_stabilizer_iff.mp (hxAll omega)
     have hxOne : x = 1 := (faithfulSMul_iff.mp hA.A2) x hfix
     simp [hxOne]
-  letI : (Q.subgroupOf H).Normal := hA.A1.Q_normal_in_H
+  let : (Q.subgroupOf H).Normal := hA.A1.Q_normal_in_H
   have hHnormQ : H ≤ Subgroup.normalizer (Q : Set G) :=
     Subgroup.le_normalizer_of_normal_subgroupOf hA.A1.Q_le_H
   have hDnormS : D ≤ Subgroup.normalizer (S : Set G) := by
     rw [hSQ]
     exact hA.A1.D_le_H.trans hHnormQ
   have hKnormS : K ≤ Subgroup.normalizer (S : Set G) := hKleD.trans hDnormS
-  letI : Subgroup.Normalizes K S := ⟨hKnormS⟩
+  let : Subgroup.Normalizes K S := ⟨hKnormS⟩
   have hKfaithful : FaithfulSMul K S := by
     rw [faithfulSMul_iff]
     intro k hkfix
@@ -578,11 +578,11 @@ private theorem cyclic_irreducible_plane_field_model
     apply ((Matrix.charpoly_monic M).irreducible_iff_roots_eq_zero_of_degree_le_three
       (by rw [hchiDeg]) (by rw [hchiDeg]; norm_num)).mpr
     exact hchiRoots
-  haveI : Fact (Irreducible chi) := ⟨hchiIrreducible⟩
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : NeZero 2 := ⟨by norm_num⟩
-  letI : Algebra F (AdjoinRoot chi) := AdjoinRoot.instAlgebra chi
-  letI : Module F (AdjoinRoot chi) := Algebra.toModule
+  have : Fact (Irreducible chi) := ⟨hchiIrreducible⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : NeZero 2 := ⟨by norm_num⟩
+  let : Algebra F (AdjoinRoot chi) := AdjoinRoot.instAlgebra chi
+  let : Module F (AdjoinRoot chi) := Algebra.toModule
   have hfinrankRoot : Module.finrank F (AdjoinRoot chi) = 2 := by
     calc
       Module.finrank F (AdjoinRoot chi) =
@@ -840,8 +840,8 @@ private theorem typeB_group_model :
     · exact Or.inl ⟨htheta, by simp⟩
     · exact Or.inr ⟨htheta, F.zero_mem⟩
   let oneCarrier : Carrier := ⟨(0, 0), hone_mem⟩
-  letI : Mul Carrier := ⟨mulCarrier⟩
-  letI : One Carrier := ⟨oneCarrier⟩
+  let : Mul Carrier := ⟨mulCarrier⟩
+  let : One Carrier := ⟨oneCarrier⟩
   have hmul_assoc (a b c : Carrier) : a * b * c = a * (b * c) := by
     apply Subtype.ext
     apply Prod.ext
@@ -883,13 +883,13 @@ private theorem typeB_group_model :
         a.1.2 + c.1.2 + phi a.1.1 c.1.1 at hsecond
       rw [hfirst] at hsecond
       linear_combination hsecond
-  letI : LeftCancelMonoid Carrier :=
+  let : LeftCancelMonoid Carrier :=
     { mul_assoc := hmul_assoc
       one_mul := hone_mul
       mul_one := hmul_one
       mul_left_cancel := hmul_left_cancel }
   let groupCarrier : Group Carrier := LeftCancelMonoid.groupOfFinite
-  letI : Group Carrier := groupCarrier
+  let : Group Carrier := groupCarrier
   let coord : Carrier ≃ Carrier := Equiv.refl Carrier
   let Actor := (K1 ⊔ W1 : Subgroup Eˣ)
   have hscale_mem (a : Actor) (p : Carrier) :
@@ -1040,7 +1040,7 @@ private theorem align_odd_actions_on_binary_central_extension
     lemma1d_extension_kernel_automorphisms
       iota pi hiota hpi hexact hcentral
   let KernelParam := V →ₗ[ZMod 2] W
-  letI : Finite KernelParam :=
+  let : Finite KernelParam :=
     Finite.of_injective (fun f : KernelParam => (f : V → W)) (by
       intro f g h
       ext x
@@ -1093,10 +1093,10 @@ private theorem align_odd_actions_on_binary_central_extension
       have hback := hconjModel_mem a⁻¹
         ⟨rhoM a * u * (rhoM a)⁻¹, hu⟩
       convert hback using 1; simp only [map_inv]; group
-  letI : MulDistribMulAction rhoM.range U :=
+  let : MulDistribMulAction rhoM.range U :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer
       rhoM.range U hrhoM_normalizes
-  letI : MulDistribMulAction A U :=
+  let : MulDistribMulAction A U :=
     MulDistribMulAction.compHom U rhoM.rangeRestrict
   let cocycle : A → U := fun a => ⟨delta a, hdelta_mem a⟩
   have hcocycle (a b : A) :
@@ -1116,8 +1116,8 @@ private theorem align_odd_actions_on_binary_central_extension
     rw [← map_mul, ← map_mul]
     congr 1
     exact mul_comm f g
-  letI : IsMulCommutative U := hUcommutative
-  haveI : CommGroup U :=
+  let : IsMulCommutative U := hUcommutative
+  have : CommGroup U :=
     { mul_comm := by
         intro a b
         have h := (isMulCommutative_iff.mp hUcommutative) a b
@@ -1135,7 +1135,7 @@ private theorem align_odd_actions_on_binary_central_extension
     intro x
     refine ⟨kernelIso.symm x, ?_⟩
     simp
-  haveI : Finite U :=
+  have : Finite U :=
     Finite.of_injective (fun u : U => kernelIso.symm u) (kernelIso.symm.injective)
   have hcardU : Nat.card U =
       2 ^ Module.finrank (ZMod 2) KernelParam := by
@@ -2186,7 +2186,7 @@ public theorem proposition_of_KW_fixed_point_free
     rw [hsection3.1.V_eq] at hxV
     exact hxV.1
   have hWleD : W ≤ D := hsection3.1.W_le_V.trans hVleD
-  letI : (Q.subgroupOf H).Normal := hsection3.1.hA.A1.Q_normal_in_H
+  let : (Q.subgroupOf H).Normal := hsection3.1.hA.A1.Q_normal_in_H
   have hHnormQ : H ≤ Subgroup.normalizer (Q : Set G) :=
     Subgroup.le_normalizer_of_normal_subgroupOf hsection3.1.hA.A1.Q_le_H
   have hDnormS : D ≤ Subgroup.normalizer (S : Set G) := by
@@ -2194,7 +2194,7 @@ public theorem proposition_of_KW_fixed_point_free
     exact hsection3.1.hA.A1.D_le_H.trans hHnormQ
   have hKWnormS : K ⊔ W ≤ Subgroup.normalizer (S : Set G) :=
     sup_le (hsection3.1.K_le_D.trans hDnormS) (hWleD.trans hDnormS)
-  letI : Subgroup.Normalizes (K ⊔ W) S := ⟨hKWnormS⟩
+  let : Subgroup.Normalizes (K ⊔ W) S := ⟨hKWnormS⟩
   let rhoActual : (K ⊔ W : Subgroup G) →* MulAut S :=
     MulDistribMulAction.toMulAut (K ⊔ W : Subgroup G) S
   have hrhoActual : ∀ a : (K ⊔ W : Subgroup G), ∀ x : S,
@@ -2212,7 +2212,7 @@ public theorem proposition_of_KW_fixed_point_free
     actualK_action_on_S H D Q K S t s hsection3.1.hA
       hsection3.1.K_le_D hsection3.1.K_def hsection3.2.1
       hsection3.2.2.1 hsection3.2.2.2 hSQ
-  letI : Subgroup.Normalizes K S := ⟨hKnormS⟩
+  let : Subgroup.Normalizes K S := ⟨hKnormS⟩
   rcases hIsoPackage with ⟨_hIsoKnormS, hIso⟩
   have hsQ0 : s ∈ Q0 :=
     (hsection3.1.Q0_def s).mpr
@@ -2526,7 +2526,7 @@ public theorem proposition_of_KW_fixed_point_free
     have hkw : (k : G) * (w : G) = (w : G) * (k : G) := by
       exact (Subgroup.mem_centralizer_iff.mp (hWcentralizesK hw)
         (k : G) k.property)
-    letI : CommGroup W := hWcyclic.commGroup
+    let : CommGroup W := hWcyclic.commGroup
     have hzw : (z : G) * (w : G) = (w : G) * (z : G) := by
       exact congrArg (fun x : W => (x : G))
         (mul_comm z ⟨w, hw⟩)
@@ -2658,14 +2658,14 @@ public theorem proposition_of_KW_fixed_point_free
       Subgroup.map_subgroupOf_eq_of_le le_sup_right]
   let Fint : IntermediateField (BinaryGaloisField nH) Eact := ⊥
   let F : Subfield Eact := Fint.toSubfield
-  letI : Fintype Eact := Fintype.ofFinite Eact
-  letI : Module.Finite (BinaryGaloisField nH) Eact :=
+  let : Fintype Eact := Fintype.ofFinite Eact
+  let : Module.Finite (BinaryGaloisField nH) Eact :=
     Module.Finite.equiv quotientFieldEquiv.symm
-  letI : CharP Eact 2 :=
+  let : CharP Eact 2 :=
     charP_of_injective_algebraMap
       (algebraMap (BinaryGaloisField nH) Eact).injective 2
-  letI : Algebra (ZMod 2) Eact := ZMod.algebra Eact 2
-  letI : Fintype F := Fintype.ofFinite F
+  let : Algebra (ZMod 2) Eact := ZMod.algebra Eact 2
+  let : Fintype F := Fintype.ofFinite F
   have hfinrankFEact : Module.finrank F Eact = 2 := by
     simpa [F, Fint] using hEactFinrank
   let baseEquiv : F ≃+* BinaryGaloisField nH :=
@@ -2840,7 +2840,7 @@ public theorem proposition_of_KW_fixed_point_free
     (higmanTheorem_involutions_center hS_suzuki).2
   have hquotientData :=
     higmanTheorem_center_quotient_orders_and_exponent hS_suzuki
-  letI : IsMulCommutative (S ⧸ Subgroup.center S) := hquotientData.1
+  let : IsMulCommutative (S ⧸ Subgroup.center S) := hquotientData.1
   obtain ⟨qCenter, hqCenterOne, hqCenterSquare, hqCenterPolarLeft,
       _hqCenterPolarRight⟩ :=
     lemma1a_square_induces_quadratic
@@ -3123,18 +3123,18 @@ public theorem proposition_of_KW_fixed_point_free
     rw [hqNorm_eval]
     exact mul_ne_zero (inv_ne_zero hqScaleE)
       (hqActual_anisotropic x hx)
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
-  letI : IsScalarTower (ZMod 2) F Eact :=
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : IsScalarTower (ZMod 2) F Eact :=
     IsScalarTower.of_algebraMap_eq (fun z =>
       DFunLike.congr_fun
         (RingHom.ext_zmod (algebraMap (ZMod 2) Eact)
           ((algebraMap F Eact).comp (algebraMap (ZMod 2) F))) z)
-  letI : Fintype (Eact ≃+* Eact) :=
+  let : Fintype (Eact ≃+* Eact) :=
     Fintype.ofInjective (fun tau : Eact ≃+* Eact => (tau : Eact → Eact)) (by
       intro tau upsilon h
       ext x
       exact congrFun h x)
-  letI : Fintype (F ≃+* F) :=
+  let : Fintype (F ≃+* F) :=
     Fintype.ofInjective (fun tau : F ≃+* F => (tau : F → F)) (by
       intro tau upsilon h
       ext x
@@ -3181,7 +3181,7 @@ public theorem proposition_of_KW_fixed_point_free
   have hqWeight_mul (u : QIndex) (a x : Eact) :
       qWeight u (a * x) = qWeight u a * qWeight u x := by
     by_cases hu : u.1.card = 1
-    · simp only [qWeight, hu, if_pos, map_mul,
+    · simp only [qWeight, hu, ite_eq_left, map_mul,
         Finset.prod_mul_distrib]
       ring
     · simp [qWeight, hu, map_mul, Finset.prod_mul_distrib]
@@ -3277,7 +3277,7 @@ public theorem proposition_of_KW_fixed_point_free
     · simp [thetaIndex, htheta, pow_two]
     · have hcard : ({1, theta} : Finset (F ≃+* F)).card = 2 := by
         simpa using Finset.card_pair (Ne.symm htheta)
-      rw [if_neg (by rw [hcard]; norm_num)]
+      rw [ite_eq_right (by rw [hcard]; norm_num)]
       rw [Finset.prod_pair (Ne.symm htheta)]
       simp
   have hbaseQuadBasis_restrict (u : QIndex) (a : F) :
@@ -3799,7 +3799,7 @@ public theorem proposition_of_KW_fixed_point_free
         else ∏ tau ∈ ({1, bar} : Finset (Eact ≃+* Eact)), tau x by rfl]
     have hcard : ({1, bar} : Finset (Eact ≃+* Eact)).card = 2 :=
       Finset.card_pair (Ne.symm hbar_ne_one)
-    rw [if_neg (by rw [hcard]; norm_num),
+    rw [ite_eq_right (by rw [hcard]; norm_num),
       Finset.prod_pair (Ne.symm hbar_ne_one)]
     simp
   have hsquare_one_charTwo (z : Eact) (hz : z * z = 1) : z = 1 := by
@@ -3831,7 +3831,7 @@ public theorem proposition_of_KW_fixed_point_free
       change (if u.1.card = 1 then
           (∏ rho ∈ u.1, rho ((w0 : Eactˣ) : Eact)) ^ 2
         else ∏ rho ∈ u.1, rho ((w0 : Eactˣ) : Eact)) = 1 at hw
-      rw [if_pos huCard, htau] at hw
+      rw [ite_eq_left huCard, htau] at hw
       simp only [Finset.prod_singleton, pow_two] at hw
       have htauOne : tau ((w0 : Eactˣ) : Eact) = 1 :=
         hsquare_one_charTwo _ hw
@@ -3921,7 +3921,7 @@ public theorem proposition_of_KW_fixed_point_free
     typeB_group_model Eact F theta sigma phi K1 W1
       hsigma_involutive hphi_one hphi_add_left hphi_add_right
       hphi_memF hactorNorm hphiScale
-  letI : Group S1 := groupS1
+  let : Group S1 := groupS1
   have htrace_formula (x : Eact) :
       (Algebra.trace F Eact x : Eact) = x + bar x := by
     change algebraMap F Eact (Algebra.trace F Eact x) = _
@@ -3937,7 +3937,7 @@ public theorem proposition_of_KW_fixed_point_free
         simpa only [bar] using hx
       have hfun :
           (barAlg.toRingEquiv : Eact → Eact) = (barAlg : Eact → Eact) :=
-        AlgEquiv.coe_ringEquiv barAlg
+        AlgEquiv.coe_toRingEquiv barAlg
       change barAlg x = x
       rw [← hfun]
       exact hx'

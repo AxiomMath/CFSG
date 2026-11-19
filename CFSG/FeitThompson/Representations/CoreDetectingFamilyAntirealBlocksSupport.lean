@@ -127,7 +127,7 @@ theorem primeTISign_starIrr_eq (h : IsPrimeCyclicTIHyp K W₁ W₂)
   rw [Pi.star_apply, Pi.smul_apply, hdeg, hedeg, smul_eq_mul, star_natCast] at h2
   rcases h.primeTISign_eq_one_or_eq_neg_one (σ := σ) j with hj | hj <;>
     rcases h.primeTISign_eq_one_or_eq_neg_one (σ := σ) (starIrr j) with hk | hk <;>
-      rw [hj, hk] at h2 ⊢ <;> try rfl
+      rw [hj, hk] at h2 ⊢
   · exfalso
     have hc : (d : ℂ) = -(e : ℂ) := by linear_combination h2
     have hde : (d : ℝ) = -(e : ℝ) := by exact_mod_cast hc

@@ -45,6 +45,7 @@ theorem swap_conj_mem_LB (hc : Ctx M Q Z B) {F : Subgroup G} {g : G}
     exact ⟨h1, h2⟩
   exact Subgroup.mem_sup_right h3
 
+omit [Finite G] in
 theorem swap_conj_mem_Q_iff {F : Subgroup G} {g : G} (hgQ : conjSubgroup g Q = QB F) (d : G) :
     g⁻¹ * d * g ∈ Q ↔ d ∈ QB F := by
   rw [← hgQ, mem_conjSubgroup]

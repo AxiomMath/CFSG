@@ -183,7 +183,7 @@ theorem not_dvd_of_mem_indices {p d : ℕ} (hp : p.Prime) (hp7 : 7 < p)
   have hd0 : 0 < d := by omega
   have hle := Nat.le_of_dvd hd0 h'
   have hp9 : p ≤ 9 := by omega
-  interval_cases p <;> first | omega | (revert hp; decide)
+  interval_cases p <;> (revert hp; decide)
 
 theorem not_dvd_of_orderOf {p q m : ℕ} (hp : p.Prime) (hm : 0 < m)
     (hord : orderOf (q : ZMod p) = m) : ¬ p ∣ q := by

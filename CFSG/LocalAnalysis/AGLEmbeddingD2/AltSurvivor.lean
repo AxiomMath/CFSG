@@ -576,7 +576,7 @@ theorem D2AlmostSimple.sylow_eq_of_alternating (h : D2AlmostSimple p X R A X₀ 
   have hp := h.prime
   have : Fact p.Prime := ⟨hp⟩
   have hRK : (R : Subgroup X) ≤ K := h.sylow_le_of_alternating (by omega) e
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp R.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp R.isPGroup
   have hk3 : k ≤ 2 := by
     by_contra hk2
     push Not at hk2

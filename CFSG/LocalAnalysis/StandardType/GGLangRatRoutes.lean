@@ -89,7 +89,7 @@ theorem langRatLocalNorm_holds
       rcases hτ with rfl | rfl <;> cases t <;> decide
     obtain ⟨Fr, hFr, hΦ⟩ := S.D.exists_frob_of_untwisted hτ'
     obtain ⟨hm0, hs, hmin⟩ := outer_componentOrbitLength_spec S hb i
-    haveI : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom b) i)) := ⟨hm0.ne'⟩
+    have : NeZero (componentOrbitLength S.ρ (componentRoots (rootCharHom b) i)) := ⟨hm0.ne'⟩
     exact langRatFC_norm_factor_mem S hFr hΦ hn hb i hs hmin u r
       (langRatB_localCoreA k hk τ L p₀ S hτ hAlg w hn b hb i hki h2 hnc hqs γ hγ u r hr hwr hur)
   rcases hcls with hrig | ⟨hcnt, hrk, hN⟩

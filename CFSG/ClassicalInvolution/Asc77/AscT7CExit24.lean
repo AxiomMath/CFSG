@@ -51,7 +51,7 @@ theorem exists_orderOf_four_mem_dGrp24 {K K' W : Subgroup G} {S : Sylow 2 G} {R 
   obtain ⟨v, hvKW, o⟩ := exists_orderOf_four_mem_inf hp hq hΩ hyp.hW hyp.hWS hK hRsyl hyp.hR.2.2 hz
   have hvR : v ∈ R := by
     have : K ⊓ (S : Subgroup G) = R :=
-      hRsyl.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hyp.hR.2.1 hyp.hR.2.2)
+      hRsyl.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hyp.hR.2.1 hyp.hR.2.2)
     rw [← this]
     exact ⟨hvKW.1, hyp.hWS hvKW.2⟩
   have hu : IsUniqueInvolution (conjSub g⁻¹ K) u := by
@@ -75,7 +75,7 @@ theorem exists_orderOf_four_mem_dGrp24 {K K' W : Subgroup G} {S : Sylow 2 G} {R 
       intro r hr
       exact (e189_commute_of_mem hz' (hyp.hR'.2.1 hr)).symm
   have hD2 : IsPGroup 2 ↥(dGrp24 K S R R' g) :=
-    S.isPGroup'.to_le (by unfold dGrp24; exact inf_le_left.trans inf_le_right)
+    S.isPGroup.to_le (by unfold dGrp24; exact inf_le_left.trans inf_le_right)
   have hzord : orderOf z = 2 := orderOf_eq_prime (by rw [pow_two]; exact hz.sq) hz.ne_one
   have h4 : 4 ≤ Nat.card ↥(dGrp24 K S R R' g) := by
     obtain ⟨n, hn⟩ := hD2.exists_card_eq
@@ -137,7 +137,7 @@ theorem c24_10_of (h2 : C24_2 p f) (h4 : C24_4 p f) (h7 : C24_7 p f) (h8 : C24_8
     hyp.hR'.2.2 hz'
   have hxR' : x ∈ R' := by
     have : K' ⊓ (S : Subgroup G) = R' :=
-      hR'syl.eq_of_le S.isPGroup'.to_inf_right inf_le_left (le_inf hyp.hR'.2.1 hyp.hR'.2.2)
+      hR'syl.eq_of_le S.isPGroup.to_inf_right inf_le_left (le_inf hyp.hR'.2.1 hyp.hR'.2.2)
     rw [← this]
     exact ⟨hxW.1, hyp.hWS hxW.2⟩
   obtain ⟨hsec, hgen⟩ := h8 G Ω K K' W S R R' z u hyp g hg d x hd hd4 ⟨hxR', hxW.2⟩ hx4

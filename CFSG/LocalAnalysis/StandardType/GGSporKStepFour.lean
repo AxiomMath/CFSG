@@ -62,7 +62,7 @@ private theorem gk4_IsElemAbelian_closure {W : Type} [Group W] {p : ℕ} {S : Se
     (hcomm : ∀ a ∈ S, ∀ b ∈ S, a * b = b * a) (hpow : ∀ a ∈ S, a ^ p = 1) :
     IsElemAbelian p (Subgroup.closure S) := by
   have hpair : S.Pairwise Commute := fun a ha b hb _ => hcomm a ha b hb
-  haveI := Subgroup.isMulCommutative_closure hpair
+  have := Subgroup.isMulCommutative_closure hpair
   have hcomm' : ∀ a ∈ Subgroup.closure S, ∀ b ∈ Subgroup.closure S, a * b = b * a :=
     fun a ha b hb => congrArg Subtype.val (mul_comm' ⟨a, ha⟩ ⟨b, hb⟩)
   refine ⟨Subgroup.isMulCommutative_closure hpair, ?_⟩
@@ -100,7 +100,7 @@ private noncomputable def gk4_AJ (p : ℕ) {W : Type} [Group W] (e : W) (K : Sub
 
 private theorem gk4_AJ_le_DJ (p : ℕ) {W : Type} [Group W] (e : W) (K : Subgroup W) :
     gk4_AJ p e K ≤ gk4_DJ e K :=
-  (Subgroup.closure_le _).mpr fun z hz =>
+  (Subgroup.closure_le _).mpr fun _z hz =>
     (Subgroup.map_subtype_le (CFSG.pCore p ↥(gk4_DJ e K)))
       (Subgroup.map_subtype_le (Subgroup.center ↥(gk4_OJ p e K)) hz.1)
 
@@ -169,7 +169,7 @@ private theorem gk4_PCore_ne_bot_of_isSubnormal {G : Type} [Group G] [Finite G] 
     rw [CFSG.generalizedFitting, hlayerY, sup_bot_eq, hfit]
   have hcen := CFSG.centralizer_generalizedFitting_le ↥Y
   rw [hgen, hbot] at hcen
-  haveI : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hYne
+  have : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hYne
   obtain ⟨y, hy1⟩ := exists_ne (1 : ↥Y)
   have hycen : y ∈ Subgroup.centralizer ((⊥ : Subgroup ↥Y) : Set ↥Y) := by
     rw [Subgroup.mem_centralizer_iff]
@@ -313,7 +313,7 @@ theorem ggSporK_p_dvd_card_component {W : Type} [Group W] [Finite W] {p : ℕ}
     (hP : CFSG.pCore p ↥H = ⊥) {J : Subgroup W} (hJ : IsComponentOf J H) :
     p ∣ Nat.card ↥J := by
   by_contra hpJ
-  haveI : Fact p.Prime := ⟨hyp.1.1⟩
+  have : Fact p.Prime := ⟨hyp.1.1⟩
   have h2 : CFSG.pCore 2 ↥H = ⊥ := ggSporK_pCore_two_eq_bot hyp.1.1 hyp.1.2.1 hP'
   have hEJ : ∀ e ∈ E, ∀ x ∈ J, e * x * e⁻¹ ∈ J := (ggSporK_component_data hyp h2 hJ).1
   have hEnorm : E ≤ Subgroup.normalizer (J : Set W) := by
@@ -327,12 +327,12 @@ theorem ggSporK_p_dvd_card_component {W : Type} [Group W] [Finite W] {p : ℕ}
       have h := hEJ e he (e⁻¹ * x * e) hx
       have heq : e * (e⁻¹ * x * e) * e⁻¹ = x := by group
       rwa [heq] at h
-  letI : MulDistribMulAction E J :=
+  let : MulDistribMulAction E J :=
     MulDistribMulAction.compHom J (J.normalizerMonoidHom.comp (Subgroup.inclusion hEnorm))
   have hact : ∀ (a : E) (x : J), ((a • x : J) : W) = (a : W) * (x : W) * (a : W)⁻¹ :=
     fun _ _ => rfl
   have hE2 : p ^ 2 ≤ Nat.card E := by rw [hyp.1.2.2.2.1]
-  haveI : IsElementaryAbelian p E :=
+  have : IsElementaryAbelian p E :=
     { toIsMulCommutative := hyp.1.2.2.1.1
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr fun x => by
         apply Subtype.ext
@@ -401,7 +401,7 @@ private theorem gk4_AJ_ne_bot {W : Type} [Group W] [Finite W] {p : ℕ}
     (hyp : GGHypThreeSixteenFlat p H E) (hP' : LargeEvenPPrimeCore p ↥H = ⊥)
     (hP : CFSG.pCore p ↥H = ⊥) {e : W} (he : e ∈ E) (he1 : e ≠ 1)
     {K : Subgroup W} (hK : IsComponentOf K H) : gk4_AJ p e K ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨hyp.1.1⟩
+  have : Fact p.Prime := ⟨hyp.1.1⟩
   have h2 : CFSG.pCore 2 ↥H = ⊥ := ggSporK_pCore_two_eq_bot hyp.1.1 hyp.1.2.1 hP'
   have heord : orderOf e = p := orderOf_eq_prime (hyp.1.2.2.1.2 e he) he1
   obtain ⟨hCH, -, hP'C, hnoComp⟩ := ggSporK_step_one hCen hG1 hyp he he1
@@ -473,23 +473,23 @@ private theorem gk4_AJ_ne_bot {W : Type} [Group W] [Finite W] {p : ℕ}
     intro h
     apply hpc'
     exact (Subgroup.map_eq_bot_iff_of_injective _ (gk4_DJ e K).subtype_injective).mp h
-  haveI hOp : IsPGroup p ↥(gk4_OJ p e K) :=
+  have hOp : IsPGroup p ↥(gk4_OJ p e K) :=
     (CFSG.pCore_isPGroup (p := p) (G := ↥(gk4_DJ e K))).map (gk4_DJ e K).subtype
-  haveI : Nontrivial ↥(gk4_OJ p e K) := (Subgroup.nontrivial_iff_ne_bot _).mpr hOne
-  haveI : Group.IsNilpotent ↥(gk4_OJ p e K) := hOp.isNilpotent
+  have : Nontrivial ↥(gk4_OJ p e K) := (Subgroup.nontrivial_iff_ne_bot _).mpr hOne
+  have : Group.IsNilpotent ↥(gk4_OJ p e K) := hOp.isNilpotent
   have hcenter : Subgroup.center ↥(gk4_OJ p e K) ≠ ⊥ := Group.IsNilpotent.center_ne_bot _
   have hZne : gk4_ZJ p e K ≠ ⊥ := by
     intro h
     apply hcenter
     exact (Subgroup.map_eq_bot_iff_of_injective _ (gk4_OJ p e K).subtype_injective).mp h
-  haveI hZp : IsPGroup p ↥(gk4_ZJ p e K) :=
+  have hZp : IsPGroup p ↥(gk4_ZJ p e K) :=
     hOp.to_le (Subgroup.map_subtype_le (Subgroup.center ↥(gk4_OJ p e K)))
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hZp
   have hnpos : 0 < n := by
     by_contra h
     have hn0 : n = 0 := Nat.eq_zero_of_not_pos h
     rw [hn0, pow_zero] at hn
-    haveI : Nontrivial ↥(gk4_ZJ p e K) := (Subgroup.nontrivial_iff_ne_bot _).mpr hZne
+    have : Nontrivial ↥(gk4_ZJ p e K) := (Subgroup.nontrivial_iff_ne_bot _).mpr hZne
     have hlt : 1 < Nat.card ↥(gk4_ZJ p e K) := Finite.one_lt_card
     rw [hn] at hlt
     exact lt_irrefl 1 hlt
@@ -516,7 +516,7 @@ theorem ggSporK_component_unique {W : Type} [Group W] [Finite W] {p : ℕ}
     (hP : CFSG.pCore p ↥H = ⊥) {J J' : Subgroup W} (hJ : IsComponentOf J H)
     (hJ' : IsComponentOf J' H) : J = J' := by
   by_contra hne
-  haveI : Fact p.Prime := ⟨hyp.1.1⟩
+  have : Fact p.Prime := ⟨hyp.1.1⟩
   have hEnontriv : Nontrivial E := by
     rw [← Finite.one_lt_card_iff_nontrivial, hyp.1.2.2.2.1]
     exact Nat.one_lt_pow (by norm_num) hyp.1.1.one_lt
@@ -526,7 +526,7 @@ theorem ggSporK_component_unique {W : Type} [Group W] [Finite W] {p : ℕ}
   have heord : orderOf (e : W) = p := orderOf_eq_prime (hyp.1.2.2.1.2 (e : W) heE) heW1
   obtain ⟨hCH, hnoP, hP'C, hnoComp⟩ := ggSporK_step_one hCen hG1 hyp heE heW1
   have hJsimple : IsSimpleGroup ↥J := (ggSporK_components_simple hP' hP hJ).1
-  haveI : IsSimpleGroup ↥J := hJsimple
+  have : IsSimpleGroup ↥J := hJsimple
   have hZJ : Subgroup.center ↥J = ⊥ :=
     gk4_Center_eq_bot_of_isSimpleGroup (ggSporK_components_simple hP' hP hJ).2
   have hKJ : CFSG.IsComponent (J.subgroupOf H) :=
@@ -621,8 +621,8 @@ theorem ggSporK_component_unique {W : Type} [Group W] [Finite W] {p : ℕ}
     gk4_AJ_ne_bot hCen hG1 hyp hP' hP heE heW1 hJ
   have hJ'_ne_bot : gk4_AJ p (e : W) J' ≠ ⊥ :=
     gk4_AJ_ne_bot hCen hG1 hyp hP' hP heE heW1 hJ'
-  haveI : Nontrivial ↥(gk4_AJ p (e : W) J) := (Subgroup.nontrivial_iff_ne_bot _).mpr hJ_ne_bot
-  haveI : Nontrivial ↥(gk4_AJ p (e : W) J') := (Subgroup.nontrivial_iff_ne_bot _).mpr hJ'_ne_bot
+  have : Nontrivial ↥(gk4_AJ p (e : W) J) := (Subgroup.nontrivial_iff_ne_bot _).mpr hJ_ne_bot
+  have : Nontrivial ↥(gk4_AJ p (e : W) J') := (Subgroup.nontrivial_iff_ne_bot _).mpr hJ'_ne_bot
   obtain ⟨u, hu1⟩ := exists_ne (1 : ↥(gk4_AJ p (e : W) J))
   obtain ⟨v, hv1⟩ := exists_ne (1 : ↥(gk4_AJ p (e : W) J'))
   have huA : (u : W) ∈ A := Subgroup.subset_closure ⟨J, hJ, u.2⟩

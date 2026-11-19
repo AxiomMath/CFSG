@@ -17,7 +17,7 @@ theorem a10_K_data (hS : Setting G) (hX : A10Facts) (hc : PointConfig IsA10Type 
     (hP : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G)) :
     ∃ N D : Subgroup G, A10KData (M ⊓ Subgroup.centralizer ({x} : Set G)) N D ∧
       M ⊓ Subgroup.centralizer ({x} : Set G) ⊓ u3K0 5 x J ≤ N ⊔ D := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hpd := a10_pdata hX hc hP
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
   have hPW : (P : Subgroup G) ≤ M ⊓ Subgroup.centralizer ({x} : Set G) := le_inf hPM hP

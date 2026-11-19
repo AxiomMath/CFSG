@@ -14,6 +14,7 @@ variable {k E VJ V₀ : Type} [Field k] [Field E] [Algebra k E]
   [AddCommGroup V₀] [Module k V₀] [Finite k] [Finite E]
   [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀]
 
+omit [Finite k] [Module.Finite k VJ] in
 private lemma finrank_k_ge_three (hm : 3 ≤ Module.finrank E VJ) :
     3 ≤ Module.finrank k VJ := by
   have htower : Module.finrank k E * Module.finrank E VJ = Module.finrank k VJ :=
@@ -30,19 +31,23 @@ private noncomputable def modelK1Equiv :
   (MonoidHom.ofInjective (blockSLk_injective (k := k) (VJ := VJ) (V₀ := V₀))).trans
     (MulEquiv.subgroupCongr (modelK1_eq_range (k := k) (VJ := VJ) (V₀ := V₀))).symm
 
+omit [Finite k] in
 private lemma modelK1Equiv_coe (B : SpecialLinearGroup k VJ) :
     ((modelK1Equiv (k := k) (VJ := VJ) (V₀ := V₀) B : ↥(modelK1 k VJ V₀)) :
         SpecialLinearGroup k (VJ × V₀)) = blockSLk k V₀ B := by
   rw [modelK1Equiv, MulEquiv.trans_apply, MulEquiv.subgroupCongr_symm_apply]
   exact MonoidHom.ofInjective_apply _
 
+omit [Finite k] [Finite E] [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀] in
 private lemma diagE_apply (s : Eˣ) (v : VJ) (w : V₀) :
     diagE (k := k) (VJ := VJ) (V₀ := V₀) s (v, w) = ((s : E) • v, w) := rfl
 
+omit [Finite k] [Finite E] [Module.Finite k E] [Module.Finite E VJ] [Module.Finite k VJ] [Module.Finite k V₀] in
 private lemma diagE_inv_apply (s : Eˣ) (v : VJ) (w : V₀) :
     (diagE (k := k) (VJ := VJ) (V₀ := V₀) s)⁻¹ (v, w) =
       (((s⁻¹ : Eˣ) : E) • v, w) := rfl
 
+omit [Finite k] [Finite E] [Module.Finite k E] [Module.Finite E VJ] in
 private lemma diagE_conj_blockSLk_apply (s : Eˣ) (B : SpecialLinearGroup k VJ)
     (v : VJ) (w : V₀) :
     (diagE (k := k) (VJ := VJ) (V₀ := V₀) s * SpecialLinearGroup.toLinearEquiv (blockSLk k V₀ B) *
@@ -51,9 +56,11 @@ private lemma diagE_conj_blockSLk_apply (s : Eˣ) (B : SpecialLinearGroup k VJ)
   rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, diagE_inv_apply, diagE_apply,
     SpecialLinearGroup.toLinearEquiv_apply, blockSLk_apply]
 
+omit [Finite E] in
 private lemma units_mk0_val (s : E) (hs : s ≠ 0) :
     ((Units.mk0 s hs : Eˣ) : E) = s := rfl
 
+omit [Finite E] in
 private lemma units_mk0_inv_val (s : E) (hs : s ≠ 0) :
     (((Units.mk0 s hs)⁻¹ : Eˣ) : E) = s⁻¹ := rfl
 

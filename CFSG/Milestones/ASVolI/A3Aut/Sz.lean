@@ -45,12 +45,12 @@ theorem burnsideAut_isSz_suzukiGroup (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * 
 theorem burnsideAut_sz_solvBorel (ha : 1 ≤ a)
     (hK : Nat.card K = 2 ^ (2 * a + 1)) :
     burnsideAut_SolvBorel ↥(suzukiGroup a K) (suzukiU a K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(suzukiGroup a K) := CFSG.LieType.Simplicity.finite_suzukiGroup a K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(suzukiGroup a K) := CFSG.LieType.Simplicity.finite_suzukiGroup a K
   have hB := CFSG.QuasithinUnique.A5.C25.fusionIsBenderGroup_of_isSz (burnsideAut_isSz_suzukiGroup ha hK)
-  haveI hs : IsSimpleGroup ↥(suzukiGroup a K) :=
+  have hs : IsSimpleGroup ↥(suzukiGroup a K) :=
     CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hB
-  haveI : Group.IsPerfect ↥(suzukiGroup a K) := (suzuki_perfect ha hK).2
+  have : Group.IsPerfect ↥(suzukiGroup a K) := (suzuki_perfect ha hK).2
   let Q : Sylow 2 ↥(suzukiGroup a K) :=
     (isPGroup_suzukiU hK).toSylow (not_two_dvd_index_suzukiU hK)
   intro Y hUY hY
@@ -59,6 +59,7 @@ theorem burnsideAut_sz_solvBorel (ha : 1 ≤ a)
     (burnsideAut_ne_top_of_isSolvable hY)
   rwa [hQ] at h1
 
+omit [Finite K] in
 theorem burnsideAut_sz_aut_mem (ha : 1 ≤ a)
     (hK : Nat.card K = 2 ^ (2 * a + 1)) (α : MulAut ↥(suzukiGroup a K)) :
     α ∈ (MulAut.conj : ↥(suzukiGroup a K) →* MulAut ↥(suzukiGroup a K)).range ⊔
@@ -69,20 +70,20 @@ theorem burnsideAut_sz_aut_mem (ha : 1 ≤ a)
 theorem burnsideAut_a315_Sz {G : Type} [Group G]
     {L T B : Subgroup G} (h : CFSG.Quasithin.A315Hyp L T B) {n : ℕ} (hL : CFSG.Quasithin.IsSz n ↥L) :
     ChA.A315Case5Concrete L T B := by
-  haveI := h.sqtk.finite
-  haveI hLn : L.Normal := burnsideA315x_normal h
+  have := h.sqtk.finite
+  have hLn : L.Normal := burnsideA315x_normal h
   have hLie : CFSG.Quasithin.A315.IsLieChar2 n ↥L := Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
     (Or.inr (Or.inl hL))))))
   obtain ⟨-, a, ha, K, _, _, hn, hK, ⟨e₀⟩⟩ := id hL
   subst hn
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(suzukiGroup a K) := CFSG.LieType.Simplicity.finite_suzukiGroup a K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(suzukiGroup a K) := CFSG.LieType.Simplicity.finite_suzukiGroup a K
   have hUsyl := burnsideAut_suzukiU_isSylowTwoOf (a := a) (K := K) hK
   obtain ⟨e, he⟩ := burnsideAut_exists_equiv_sylow e₀ (burnsideAut_isSylowTwoOf_subgroupOf h.sylow)
     hUsyl
-  haveI : Group.IsPerfect ↥(suzukiGroup a K) := (suzuki_perfect ha hK).2
+  have : Group.IsPerfect ↥(suzukiGroup a K) := (suzuki_perfect ha hK).2
   have hB := CFSG.QuasithinUnique.A5.C25.fusionIsBenderGroup_of_isSz (burnsideAut_isSz_suzukiGroup ha hK)
-  haveI hs : IsSimpleGroup ↥(suzukiGroup a K) :=
+  have hs : IsSimpleGroup ↥(suzukiGroup a K) :=
     CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hB
   have hMZ : Subgroup.center ↥(suzukiGroup a K) = ⊥ :=
     burnsideAut_center_eq_bot burnsideAut_nonabelian_of_perfect
@@ -94,7 +95,7 @@ theorem burnsideAut_a315_Sz {G : Type} [Group G]
   · exact burnsideAut_map_inn_le_innDiag e
   · rintro _ ⟨σ, rfl⟩ _ ⟨τ, rfl⟩
     rw [← map_mul, ← map_mul, CFSG.LocalAnalysis.ComponentInitial.ringAut_mul_comm K σ τ]
-  · haveI := burnsideAut_inn_normal' ↥(suzukiGroup a K)
+  · have := burnsideAut_inn_normal' ↥(suzukiGroup a K)
     rw [Subgroup.normalizer_eq_top]
     exact le_top
   · rw [eq_bot_iff]

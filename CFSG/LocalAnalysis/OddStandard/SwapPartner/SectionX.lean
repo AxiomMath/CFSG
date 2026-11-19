@@ -31,7 +31,7 @@ theorem GElt.mem_centralizer_x₂ (hC : CentData z ι) (hg : GElt z ι g) :
     g ∈ centralizer ({z * ι τ₀} : Set G) :=
   mem_centralizer_singleton_iff.2 (GElt.comm_x₂ hC hg)
 
-private lemma CEgrp_le_centralizer_x₂ (hC : CentData z ι) :
+private lemma CEgrp_le_centralizer_x₂ (_hC : CentData z ι) :
     CEgrp z ι ≤ centralizer ({z * ι τ₀} : Set G) := by
   intro c hc
   rw [mem_centralizer_singleton_iff]
@@ -88,8 +88,8 @@ private lemma mk_g_mul_mk_siggrp_eq (hC : CentData z ι) (hg : GElt z ι g) {s :
     rcases he with he | he
     · left; rw [he]; by_cases h : sign ρ = 1 <;> simp [h]
     · by_cases h : sign ρ = 1
-      · left; rw [if_pos h]
-      · right; rw [if_neg h, he]
+      · left; rw [ite_eq_left h]
+      · right; rw [ite_eq_right h, he]
   have he'C : e' ∈ centralizer ({z * ι τ₀} : Set G) := by
     rcases he'_cases with h | h
     · rw [h]; exact one_mem _
@@ -110,7 +110,7 @@ private lemma mk_g_mul_mk_siggrp_eq (hC : CentData z ι) (hg : GElt z ι g) {s :
   have hdiv : (⟨g, hgc⟩ * ⟨ι (liftS8 ρ), hsc⟩) / (⟨ι (liftS8 ρ), hsc⟩ * ⟨g, hgc⟩) =
       (⟨e', he'C⟩ : ↥(centralizer ({z * ι τ₀} : Set G))) := by
     apply Subtype.ext
-    simp only [Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.coe_div, Subgroup.coe_mul]
     calc (g * ι (liftS8 ρ)) / (ι (liftS8 ρ) * g)
         = (ι (liftS8 ρ) * e' * g) / (ι (liftS8 ρ) * g) := by rw [hgs]
       _ = ι (liftS8 ρ) * e' * (ι (liftS8 ρ))⁻¹ := by
@@ -192,7 +192,7 @@ theorem mk_mem_centralizer_iff (hC : CentData z ι) (hz : z ∈ centralizer ({z 
   rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, QuotientGroup.eq_iff_div_mem]
   have hcoe : (((⟨c, hc⟩ * ⟨z, hz⟩) / (⟨z, hz⟩ * ⟨c, hc⟩) :
       ↥(centralizer ({z * ι τ₀} : Set G))) : G) = c * z * c⁻¹ * z⁻¹ := by
-    simp only [Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.coe_div, Subgroup.coe_mul]
     rw [div_eq_mul_inv, mul_inv_rev]
     group
   rw [mem_zpowers_selfC_iff (x₂_mul_self hC), hcoe]
@@ -448,7 +448,7 @@ theorem swapShape_twoSec (hC : CentData z ι) (hg : GElt z ι g)
   have hK : IsKleinFour V := by
     rw [hVgen]
     exact CFSG.Wreathed.isKleinFour_closure_pair ht_order hgb_order hcomm_gb_t.symm hdisj
-  haveI : IsKleinFour V := hK
+  have : IsKleinFour V := hK
   have hiso_v : Nonempty (V ≃* (Multiplicative (ZMod 2) × Multiplicative (ZMod 2))) := by
     obtain ⟨e⟩ := IsKleinFour.nonempty_mulEquiv (G₁ := V)
       (G₂ := Multiplicative (ZMod 2 × ZMod 2))

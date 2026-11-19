@@ -32,9 +32,9 @@ theorem ggR4RowFact_F4
         ∀ g ∈ Subgroup.center L', Nat.Coprime 3 (orderOf g) := by
     intro Q hQ
     obtain ⟨K, hField, hFinite, hK, hq⟩ := hQ
-    letI : Field K := hField
-    letI : Finite K := hFinite
-    haveI : CharP K 2 := charP_two_of_card hK
+    let : Field K := hField
+    let : Finite K := hFinite
+    have : CharP K 2 := charP_two_of_card hK
     refine ⟨K, hField, hFinite, hK, hq, ?_⟩
     intro L' _ _ ψ hψ hker hperf g hg
     have hcp := ExcSplitL.ggCenterPrime_recipe_F4 (K := K) Nat.prime_three (by decide)
@@ -70,8 +70,8 @@ theorem ggR4RowFact_E6
   have hodd : Odd f := rwf_odd_of_three_dvd_two_pow_add_one h3
   intro Q hQ
   obtain ⟨K, hField, hFinite, hK, hq⟩ := hQ
-  letI : Field K := hField
-  letI : Finite K := hFinite
+  let : Field K := hField
+  let : Finite K := hFinite
   refine ⟨K, hField, hFinite, hK, hq, ?_⟩
   refine ⟨?_, ?_⟩
   · intro φ hφ

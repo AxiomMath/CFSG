@@ -37,7 +37,7 @@ theorem exists_surjective_imageModTheta_quot {G : Type} [Group G] [Finite G] {W 
 theorem exists_zpow_mul_zpow_of_mem_closure {G : Type} [Group G] {A : Subgroup G}
     (hA : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x) {c b d : G} (hc : c ∈ A) (hb : b ∈ A)
     (hd : d ∈ Subgroup.closure ({c, b} : Set G)) : ∃ i j : ℤ, c ^ i * b ^ j = d := by
-  letI : CommGroup A := { (inferInstance : Group A) with
+  let : CommGroup A := { (inferInstance : Group A) with
     mul_comm := fun x y => Subtype.ext (hA x x.2 y y.2) }
   have hmap : (Subgroup.closure ({⟨c, hc⟩, ⟨b, hb⟩} : Set A)).map A.subtype =
       Subgroup.closure ({c, b} : Set G) := by
@@ -119,12 +119,12 @@ theorem sp4two_residual {Q : Type} [Group Q] [Finite Q] {C : Subgroup Q}
   have e' : commutator C ≃* commutator CFSG.ComponentClassification.PresentationLocal.sympFour :=
     ((commutator C).equivMapOfInjective φ.toMonoidHom φ.injective).trans
       (MulEquiv.subgroupCongr (map_commutator_mulEquiv φ))
-  haveI := CFSG.ComponentClassification.PresentationLocal.isSimpleGroup_commutator_sympFour
-  haveI hs : IsSimpleGroup (commutator C) := e'.isSimpleGroup
+  have := CFSG.ComponentClassification.PresentationLocal.isSimpleGroup_commutator_sympFour
+  have hs : IsSimpleGroup (commutator C) := e'.isSimpleGroup
   have hC : Nat.card C = 720 := by
     rw [Nat.card_congr e.toEquiv]
     exact Item812Res2.card_projSp_two_one
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := C) 5 (by rw [hC]; norm_num)
   have hwC : w ∈ commutator C :=
     hodd (p := 5) (by norm_num) (by norm_num) w (by rw [← hw]; exact pow_orderOf_eq_one w)
@@ -216,7 +216,7 @@ theorem exists_pow_eight_of_isoGTwoEven {Q : Type} [Group Q] [Finite Q] {R : Sub
     exact exists_pow_eight_of_isoGTwoEven_one h
   · rw [Hering88F.inSubgroup_perfectResidual_eq_of_isoGTwoEven h2 h]
     obtain ⟨K, _, _, hK, ⟨e⟩⟩ := h
-    haveI : CharP K 2 :=
+    have : CharP K 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         Nat.prime_two (k := n) (by omega) hK
     obtain ⟨t, ht8, ht4⟩ := exists_pow_eight_adjointGroup_G2 (K := K)
@@ -239,7 +239,7 @@ theorem exists_order_eight_quot_of_isoGTwoEven {G : Type} [Group G] [Finite G] {
       exact isSimpleGroup_inSubgroup_perfectResidual_of_isoGTwoEven_one hC
     · exact Hering88E.isSimpleGroup_perfectResidual_of_isoGTwoEven h2 hC
   have hθ : NoThetaNormal ↥(imageModTheta M W) := by
-    haveI := hS
+    have := hS
     exact Item87Proof.NoThetaNormal.of_mulEquiv (MulEquiv.subgroupCongr hW)
       (Item812Res10.noThetaNormal_of_isSimpleGroup_of_isPerfect (Item87Proof.isPerfect_residual _))
   obtain ⟨χ⟩ := Item87Proof.nonempty_quot_mulEquiv_imageModTheta hWM hθ
@@ -335,7 +335,7 @@ theorem swap_data_of_order_eight
       exact Or.inr (KFacts.InducesStdKind.triality m hm1 K hK σ hσ
         (KFacts.inducesKindTriality_graphField hm1 hK hσ Y hb3 hbout e))
     · obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hG
-      haveI : CharP K 2 :=
+      have : CharP K 2 :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
           Nat.prime_two (k := 3 * m) (by have := hodd.pos; omega) hK
       have hK3 : ringChar K ≠ 3 := by rw [ringChar.eq K 2]; norm_num

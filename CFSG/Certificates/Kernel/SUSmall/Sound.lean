@@ -145,8 +145,8 @@ theorem perm_single {m : ℕ} (π : Equiv.Perm (Fin m)) (i j k : Fin m) :
       (if π k = y then (1 : ZMod 3) else 0) = (if k = π.symm y then 1 else 0) := by
     intro y
     by_cases h : π k = y
-    · rw [if_pos h, if_pos ((Equiv.apply_eq_iff_eq_symm_apply π).mp h)]
-    · rw [if_neg h, if_neg (fun hh => h ((Equiv.apply_eq_iff_eq_symm_apply π).mpr hh))]
+    · rw [ite_eq_left h, ite_eq_left (((Iff.symm (_root_.Equiv.eq_symm_apply π))).mp h)]
+    · rw [ite_eq_right h, ite_eq_right (fun hh => h (((Iff.symm (_root_.Equiv.eq_symm_apply π))).mpr hh))]
   rw [h1 i, h1 j]
 
 theorem smtClass_of_smClass {m : ℕ} {p q : Pair m} (h : SMClass p q) (hq : SMTClass q) :

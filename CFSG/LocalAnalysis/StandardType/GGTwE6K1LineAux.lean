@@ -91,7 +91,7 @@ theorem twE6MatFixDim_mem_of_pow_three [Finite K] (hK3 : ringChar K ≠ 3)
     {h : twistedE6InndiagGL K σ} (hh3 : h ^ 3 = 1) (hh1 : h ≠ 1) :
     twE6MatFixDim K σ h ∈ ({24, 28, 30, 36, 46} : Set ℕ) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hxL : baseChangeGL (algebraMap K (AlgebraicClosure K)) (h : ModGL TwistTag.E6.tag K) ∈
       adjointGroup Tag.E6 (AlgebraicClosure K) :=
     map_twistedE6InndiagGL_le σ (algebraMap K (AlgebraicClosure K))
@@ -101,8 +101,8 @@ theorem twE6MatFixDim_mem_of_pow_three [Finite K] (hK3 : ringChar K ≠ 3)
     rfl
   obtain ⟨a, ha3, ha1, hdim⟩ :=
     KSNotAll24.exists_torus_conj_of_cube_one (x := (h : ModGL TwistTag.E6.tag K)) hK3 hxL hx3
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective (ringChar K)
   have h3L : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 := by
     intro h0

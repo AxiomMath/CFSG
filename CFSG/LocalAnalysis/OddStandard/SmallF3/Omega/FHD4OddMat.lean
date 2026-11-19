@@ -30,7 +30,7 @@ theorem fhLevT_pow_three (h3 : (3 : F) = 0) : (fhLevT : SL(4, F)) ^ 3 = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [fhLevT, pow_succ, Matrix.mul_apply, Fin.sum_univ_four] <;>
-    first | linear_combination h3 | linear_combination (-1 : F) * h3
+    first | linear_combination h3
 
 theorem fhLevL_pow_three (h3 : (3 : F) = 0) : (fhLevL : SL(4, F)) ^ 3 = 1 := by
   apply Subtype.ext
@@ -80,15 +80,15 @@ theorem fhLevU2_pow_three (h3 : (3 : F) = 0) : (fhLevU2 : SL(2, F)) ^ 3 = 1 := b
   rw [Matrix.SpecialLinearGroup.coe_pow, Matrix.SpecialLinearGroup.coe_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [fhLevU2, pow_succ, Matrix.mul_apply, Fin.sum_univ_two] <;>
-    first | linear_combination h3 | linear_combination (-1 : F) * h3
+    simp [fhLevU2, pow_succ, Matrix.mul_apply, Fin.sum_univ_two];
+    first | linear_combination h3
 
 theorem fhLevL2_pow_three (h3 : (3 : F) = 0) : (fhLevL2 : SL(2, F)) ^ 3 = 1 := by
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_pow, Matrix.SpecialLinearGroup.coe_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [fhLevL2, pow_succ, Matrix.mul_apply, Fin.sum_univ_two] <;>
+    simp [fhLevL2, pow_succ, Matrix.mul_apply, Fin.sum_univ_two];
     first | linear_combination h3 | linear_combination (-1 : F) * h3
 
 theorem fhLevJ2_val : ((fhLevU2 * fhLevL2 * fhLevU2 : SL(2, F)) : Matrix (Fin 2) (Fin 2) F) =

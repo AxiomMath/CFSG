@@ -124,7 +124,7 @@ theorem sctx_of_chk (hC : MCtx M LT LC LI TL VL NL x φ)
       nT + 1)
     (hu : usqOK RR LT LI TL VL NL NR USQ W Wi h = true) :
     SCtx M φ x HB GB TB LT LC LI TL VL NL NO nT W Wi := by
-  have hg := gom_mem hC hrels hnorm himp hhdr hgom
+  have hg := gom_mem hC himp hhdr hgom
   have hs := psi_sem hC hrels hnorm himp hhdr hT
   have hq := usq_sem hC hrels hnorm hxi hu
   exact ⟨hC, fun j hj => ⟨(hg j hj).1, (hg j hj).2.1, (hg j hj).2.2.1⟩, hs,

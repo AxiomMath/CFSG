@@ -19,7 +19,7 @@ variable {L L0 : Type} [Group L] [Group L0] {c : L →* L0}
 
 private lemma qTwoLMDivCoordInner_lift_orderOf_two_pow (hc2 : IsPGroup 2 c.ker) {z : L}
     (hz : z ∈ c.ker) : ∃ k, orderOf z = 2 ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hc2.exists_orderOf_eq_pow ⟨z, hz⟩
   exact ⟨k, by rwa [Subgroup.orderOf_mk] at hk⟩
 
@@ -130,7 +130,7 @@ private lemma qTwoLMDivCoordInner_lift_center_cube (hF0 : Nat.card F0 = 4) (hm :
     {ζ : Su F0 2 1 m} (hζ : ζ ∈ Subgroup.center (Su F0 2 1 m)) : ζ ^ 3 = 1 := by
   classical
   obtain ⟨c, hc⟩ := qTwoLMDivCoordInner_lift_center_scalar_units hF0 hm hζ
-  haveI : Fintype F0 := Fintype.ofFinite F0
+  have : Fintype F0 := Fintype.ofFinite F0
   have hcard : Fintype.card F0ˣ = 3 := by
     rw [Fintype.card_units, ← Nat.card_eq_fintype_card, hF0]
   have hc3 : (c : F0) ^ 3 = 1 := by
@@ -149,7 +149,7 @@ private lemma qTwoLMDivCoordInner_lift_center_cube (hF0 : Nat.card F0 = 4) (hm :
 private lemma qTwoLMDivCoordInner_lift_center_card_le (hF0 : Nat.card F0 = 4) (hm : 4 ≤ m) :
     Nat.card (Subgroup.center (Su F0 2 1 m)) ≤ 3 := by
   classical
-  haveI : Fintype F0 := Fintype.ofFinite F0
+  have : Fintype F0 := Fintype.ofFinite F0
   have hcard : Nat.card F0ˣ = 3 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hF0]
   let f : Subgroup.center (Su F0 2 1 m) → F0ˣ := fun ζ =>
@@ -223,7 +223,7 @@ theorem qTwoLMDivCoordInner_kerpi {Bs L : Subgroup G} (hperf : commutator ↥L =
     by_contra hk1
     have hkZ : k ∈ Subgroup.center (Su F0 2 1 m) := hU.π_ker hk
     have hk3 : k ^ 3 = 1 := qTwoLMDivCoordInner_lift_center_cube hU.card hm hkZ
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have hordk : orderOf k = 3 := orderOf_eq_prime hk3 hk1
     have hker_eq : π.ker = Subgroup.center (Su F0 2 1 m) := by
       refine Subgroup.eq_of_le_of_card_ge hU.π_ker ?_
@@ -280,7 +280,7 @@ theorem qTwoLMDivCoordInner_kerpi {Bs L : Subgroup G} (hperf : commutator ↥L =
     rw [MonoidHom.mem_ker]
     by_contra hzne
     have hz3 : z ^ 3 = 1 := qTwoLMDivCoordInner_lift_center_cube hU.card hm hz
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     have hordz : orderOf (π z) = 3 := by
       apply orderOf_eq_prime
       · rw [← map_pow, hz3, map_one]

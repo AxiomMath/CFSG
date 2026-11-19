@@ -30,10 +30,10 @@ theorem s16c1_G47_L3five_inv {Hs : Type} [Group Hs] [Finite Hs] {Ys Xs : Subgrou
         (∀ y ∈ Ys, v * y = y * v) ∨ ∀ y ∈ Ys, v * y * v⁻¹ = t * y * t⁻¹) ∧
       ∃ a ∈ Ys, ∃ b ∈ Ys, orderOf (a * t * a⁻¹ * (b * t * b⁻¹)) = 4 := by
   classical
-  haveI : Ys.Normal := hY
+  have : Ys.Normal := hY
   obtain ⟨F, hFfield, hFfin, hFcard, ⟨ι⟩⟩ := s16c1_G47_L3_iso hL3
-  letI : Field F := hFfield
-  letI : Finite F := hFfin
+  let : Field F := hFfield
+  let : Finite F := hFfin
   let Xs' : Subgroup SL(3, F) := (Xs.subgroupOf Ys).map ι.toMonoidHom
   have hXs' : IsSL2Prime ↥Xs' 5 :=
     s16c1_isSL2Prime_of_equiv hX
@@ -115,7 +115,7 @@ theorem s16c1_G47_L3five_inv {Hs : Type} [Group Hs] [Finite Hs] {Ys Xs : Subgrou
     have hmap : f (a' * t' * a'⁻¹ * (b' * t' * b'⁻¹)) =
         a * t * a⁻¹ * (b * t * b⁻¹) := by
       simp only [f, a, b, t, MonoidHom.comp_apply, Subgroup.coe_subtype,
-        MulEquiv.coe_toMonoidHom, map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv]
+        MulEquiv.coe_toMonoidHom, map_mul, map_inv]
     rw [← hmap, orderOf_injective f hf, hord]
 
 theorem s16c1_G47_L3five_card_le {Hs : Type} [Group Hs] [Finite Hs] {Ys Xs Vs : Subgroup Hs}

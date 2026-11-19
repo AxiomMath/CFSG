@@ -29,9 +29,10 @@ theorem smul_conj_smul (a : MulAut K) (x : K) (P : Sylow q K) :
 
 variable [Finite K] [hq : Fact q.Prime]
 
+omit [Finite K] hq in
 theorem inf_normalizer_eq {P T : Sylow q K} :
     (P : Subgroup K) ⊓ normalizer ((T : Subgroup K) : Set K) = (P : Subgroup K) ⊓ T :=
-  P.isPGroup'.inf_normalizer_sylow T
+  P.isPGroup.inf_normalizer_sylow T
 
 theorem exists_smul_eq_of_ne {T T' P : Sylow q K} (hTT' : T ≠ T')
     (hinf : (T' : Subgroup K) ⊓ T = ⊥) (hcount : Nat.card (Sylow q K) = Nat.card T + 1)
@@ -88,10 +89,10 @@ theorem exists_fixed_not_mem_normalizer (hq2 : q ≠ 2) (T : Sylow q K)
         ⟨mem_smul_of_fixed huT (huV v hv), huT⟩
       rw [h, mem_bot] at hmem
       exact hu1 hmem
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmod := hV.card_modEq_card_fixedPoints (Sylow q K)
   have hTodd : Odd (Nat.card T) := by
-    obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
     rw [hk]
     exact (hq.out.odd_of_ne_two hq2).pow
   have hFix : T ∈ fixedPoints V (Sylow q K) := fun v => hVT v v.2

@@ -96,7 +96,7 @@ theorem hasFourGroup_of_not_hasCyclicSylowTwo {R M Y : Subgroup X} (hR : IsSylow
   let e : (P : Subgroup Y) ≃* (P : Subgroup Y).map Y.subtype :=
     (P : Subgroup Y).equivMapOfInjective Y.subtype Y.subtype_injective
   rcases isCyclic_or_dihedral_of_isSylowOf hR hRd ((map_subtype_le _).trans hYM)
-      (P.isPGroup'.map Y.subtype) with h | ⟨k, hk, ⟨f⟩⟩
+      (P.isPGroup.map Y.subtype) with h | ⟨k, hk, ⟨f⟩⟩
   · exact absurd ((MulEquiv.isCyclic e).mpr h) hnc
   · have hev : Even (2 ^ k) := (Nat.even_pow' (by omega)).mpr even_two
     obtain ⟨a, b, ha, hb, ha1, hb1, hab, hc, -, -⟩ :=

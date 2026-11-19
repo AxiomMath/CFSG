@@ -32,7 +32,7 @@ theorem manyTwo_exists_primitiveRoot {p : ℕ} (hp : p.Prime) {h : K[X]} (hm : h
     (hi : Irreducible h) (hd : h ∣ X ^ p - 1) (hne : h ≠ X - 1) :
     ∃ ρ : AlgebraicClosure K, aeval ρ h = 0 ∧ IsPrimitiveRoot ρ p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ρ, hρ⟩ := IsAlgClosed.exists_aeval_eq_zero (AlgebraicClosure K) h
     (degree_pos_of_irreducible hi).ne'
   have hρp : ρ ^ p = 1 := by
@@ -56,10 +56,10 @@ theorem manyTwo_exists_dvd_comp_X_pow {p : ℕ} (hp : p.Prime) {h₁ h₂ : K[X]
     (hd₂ : h₂ ∣ X ^ p - 1) (hn₁ : h₁ ≠ X - 1) (hn₂ : h₂ ≠ X - 1) :
     ∃ c : ℕ, ¬ p ∣ c ∧ h₂ ∣ h₁.comp (X ^ c) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ρ₁, hρ₁, hp₁⟩ := manyTwo_exists_primitiveRoot hp hm₁ hi₁ hd₁ hn₁
   obtain ⟨ρ₂, hρ₂, hp₂⟩ := manyTwo_exists_primitiveRoot hp hm₂ hi₂ hd₂ hn₂
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨c, -, hc⟩ := hp₂.eq_pow_of_pow_eq_one hp₁.pow_eq_one
   refine ⟨c, ?_, ?_⟩
   · intro hdvd
@@ -79,7 +79,7 @@ theorem manyTwo_tau_ne_zero {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {τ : K}
     τ ≠ 0 := by
   rintro rfl
   obtain ⟨ρ, hρ, hprim⟩ := manyTwo_exists_primitiveRoot hp hm hi hd hne
-  simp only [map_sub, map_add, map_pow, map_mul, aeval_X, aeval_C, map_one, map_zero, zero_mul,
+  simp only [map_add, map_pow, aeval_X, map_one, map_zero, zero_mul,
     sub_zero] at hρ
   have h4 : ρ ^ 4 = 1 := by
     have : ρ ^ 2 = -1 := eq_neg_of_add_eq_zero_left hρ
@@ -113,13 +113,13 @@ theorem manyTwo_exists_eq_X_sq_sub {h : K[X]} (hm : h.Monic) (hi : Irreducible h
   have hhform : h = X ^ 2 + C (h.coeff 1) * X + C (h.coeff 0) := by
     ext n
     rcases n with _ | _ | _ | n
-    · simp [coeff_X_pow, coeff_C_mul, coeff_X, coeff_C]
-    · simp [coeff_X_pow, coeff_C_mul, coeff_X, coeff_C]
+    · simp [coeff_X_pow, coeff_X, coeff_C]
+    · simp [coeff_X_pow, coeff_C]
     · have := hm.coeff_natDegree
       rw [hd] at this
-      simp [coeff_X_pow, coeff_C_mul, coeff_X, coeff_C, this]
+      simp [coeff_X_pow, this]
     · rw [coeff_eq_zero_of_natDegree_lt (by omega)]
-      simp [coeff_X_pow, coeff_C_mul, coeff_X, coeff_C]
+      simp [coeff_X_pow]
   have hc1 : h.coeff 0 = 1 := by
     by_contra hne
     have hm1 : h.coeff 0 = -1 := by
@@ -193,7 +193,7 @@ variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [Finite
 
 theorem manyTwo_ne_two_and_ne_ringChar (hp : p.Prime)
     (h2 : orderOf ((Nat.card K : ℕ) : ZMod p) = 2) : p ≠ 2 ∧ p ≠ ringChar K := by
-  haveI : Fact (1 < p) := ⟨hp.one_lt⟩
+  have : Fact (1 < p) := ⟨hp.one_lt⟩
   have hsq : ((Nat.card K : ℕ) : ZMod p) ^ 2 = 1 := by
     rw [← h2]; exact pow_orderOf_eq_one _
   have hne1 : ((Nat.card K : ℕ) : ZMod p) ≠ 1 := by
@@ -206,8 +206,8 @@ theorem manyTwo_ne_two_and_ne_ringChar (hp : p.Prime)
   · intro hpl
     have : ((Nat.card K : ℕ) : ZMod p) = 0 := by
       classical
-      haveI : Fintype K := Fintype.ofFinite K
-      haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
+      have : Fintype K := Fintype.ofFinite K
+      have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
       obtain ⟨n, -, hcard⟩ := FiniteField.card K (ringChar K)
       rw [ZMod.natCast_eq_zero_iff, Nat.card_eq_fintype_card, hcard, ← hpl]
       exact dvd_pow_self p (PNat.pos n).ne'
@@ -253,11 +253,11 @@ theorem exists_two_mixing_elements_aux (hK : KernelLineData Q p E) (hp : p.Prime
         τ • ((y : orthDerived Q) : V ≃ₗ[K] V) u - u) := by
   classical
   obtain ⟨hp2, hpl⟩ := manyTwo_ne_two_and_ne_ringChar hp h2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hfinE : Finite E :=
     Nat.finite_of_card_ne_zero (by rw [hK.card]; exact pow_ne_zero 2 hp.ne_zero)
-  haveI : Nontrivial M₁ := Finite.one_lt_card_iff_nontrivial.mp (by rw [hM₁]; exact hp.one_lt)
-  haveI : Nontrivial M₂ := Finite.one_lt_card_iff_nontrivial.mp (by rw [hM₂]; exact hp.one_lt)
+  have : Nontrivial M₁ := Finite.one_lt_card_iff_nontrivial.mp (by rw [hM₁]; exact hp.one_lt)
+  have : Nontrivial M₂ := Finite.one_lt_card_iff_nontrivial.mp (by rw [hM₂]; exact hp.one_lt)
   obtain ⟨m₁, hm₁⟩ := exists_ne (1 : M₁)
   obtain ⟨m₂, hm₂⟩ := exists_ne (1 : M₂)
   have hbot := inf_eq_bot_of_card_prime' hp hM₁ hM₂ hM
@@ -416,6 +416,7 @@ open Polynomial
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V} {p : ℕ} {E : Subgroup (orthDerived Q)}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem manyTwo_plane_facts {g : V ≃ₗ[K] V} (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     {e : V} (heQ : Q e = 0) {τ : K} (hτ : τ ≠ 0) (hrel : g (g e) = τ • g e - e) :
     (∀ t ∈ Submodule.span K (Set.range ![e, g e]), Q t = 0) ∧
@@ -439,6 +440,7 @@ theorem manyTwo_plane_facts {g : V ≃ₗ[K] V} (hg : g ∈ TauCeti.QuadraticMap
       hee, hgg]
     ring
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem manyTwo_eichler_mem_of_plane (hEΩ : elementaryGroup Q ≤ orthDerived Q) {z : E} (hz1 : z ≠ 1)
     {e : V} (heQ : Q e = 0) {τ : K} (hτ : τ ≠ 0)
     (hrel : ((z : orthDerived Q) : V ≃ₗ[K] V) (((z : orthDerived Q) : V ≃ₗ[K] V) e) =
@@ -497,7 +499,7 @@ open Polynomial
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V} {p : ℕ} {E : Subgroup (orthDerived Q)}
 
-theorem eichler_mem_of_pair_pieces (hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime)
+theorem eichler_mem_of_pair_pieces (_hQ : (polarBilin Q).Nondegenerate) (hp : p.Prime)
     (hK : KernelLineData Q p E) (hEΩ : elementaryGroup Q ≤ orthDerived Q)
     (hNS : OrthNoInvariantSingular Q E) {M₁ M₂ : Subgroup E} (hM₁ : Nat.card M₁ = p)
     (hM₂ : Nat.card M₂ = p) (hM : M₁ ≠ M₂) {P₁ P₂ : Submodule K V} (hP₁ : IsPiece Q E P₁)
@@ -636,6 +638,7 @@ section Mixed
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V}
 
+omit [Finite K] in
 theorem manyTwo_exists_ne_zero_polar_eq_zero {P : Submodule K V} (hP : 2 ≤ finrank K P) (v : V) :
     ∃ f ∈ P, f ≠ 0 ∧ polar Q v f = 0 := by
   let φ : P →ₗ[K] K := (polarBilin Q v).comp P.subtype
@@ -653,9 +656,9 @@ theorem manyTwo_exists_ne_zero_polar_eq_zero {P : Submodule K V} (hP : 2 ≤ fin
 
 theorem exists_mixed_vector {H : Subgroup (V ≃ₗ[K] V)}
     (hH : H ≤ TauCeti.QuadraticMap.orthogonalGroup Q) {P₁ P₂ P₃ Y : Submodule K V}
-    (hP₁ : PolarNondegOn Q P₁) (hP₂ : PolarNondegOn Q P₂) (hP₃ : PolarNondegOn Q P₃)
+    (hP₁ : PolarNondegOn Q P₁) (hP₂ : PolarNondegOn Q P₂) (_hP₃ : PolarNondegOn Q P₃)
     (h12 : OrthSep Q P₁ P₂) (h13 : OrthSep Q P₁ P₃) (h23 : OrthSep Q P₂ P₃)
-    (hd₁ : Module.finrank K P₁ = 2) (hd₂ : Module.finrank K P₂ = 2)
+    (_hd₁ : Module.finrank K P₁ = 2) (hd₂ : Module.finrank K P₂ = 2)
     (hd₃ : Module.finrank K P₃ = 2)
     (ha₁ : ∀ t ∈ P₁, Q t = 0 → t = 0) (ha₂ : ∀ t ∈ P₂, Q t = 0 → t = 0)
     (ha₃ : ∀ t ∈ P₃, Q t = 0 → t = 0) (hK3 : 3 ≤ Nat.card K)
@@ -694,8 +697,8 @@ theorem exists_mixed_vector {H : Subgroup (V ≃ₗ[K] V)}
     intro h0
     rw [h0, add_zero] at hf0 hfQ
     exact hf0 (ha₂ _ hf₂P hfQ)
-  obtain ⟨d₁, d₂, hd₁, hd₂', hd₁₂⟩ : ∃ d₁ d₂ : K, d₁ ≠ 0 ∧ d₂ ≠ 0 ∧ d₁ ≠ d₂ := by
-    haveI := Fintype.ofFinite K
+  obtain ⟨d₁, d₂, _hd₁, hd₂', hd₁₂⟩ : ∃ d₁ d₂ : K, d₁ ≠ 0 ∧ d₂ ≠ 0 ∧ d₁ ≠ d₂ := by
+    have := Fintype.ofFinite K
     have h3 : 2 < Fintype.card K := by rw [← Nat.card_eq_fintype_card]; omega
     obtain ⟨x, y, z, hxy, hxz, hyz⟩ := Fintype.two_lt_card_iff.mp h3
     exact ⟨x - y, x - z, sub_ne_zero.mpr hxy, sub_ne_zero.mpr hxz,
@@ -712,7 +715,7 @@ theorem exists_mixed_vector {H : Subgroup (V ≃ₗ[K] V)}
     rcases smul_eq_zero.mp h0 with h | h
     · have hQv : Q v = 0 := by
         have h' : d₁ * d₂ * (d₂ - d₁) ≠ 0 :=
-          mul_ne_zero (mul_ne_zero hd₁ hd₂') (sub_ne_zero.mpr hd₁₂.symm)
+          mul_ne_zero (mul_ne_zero _hd₁ hd₂') (sub_ne_zero.mpr hd₁₂.symm)
         exact (mul_eq_zero.mp h).resolve_left h'
       exact hv0 (ha₃ v hvP hQv)
     · exact hf₃0 h

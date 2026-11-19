@@ -83,7 +83,7 @@ theorem rkLin_le_div {m Q p z : ℕ} {eps : Bool}
     (h : 3 ≤ (if eps then eP Q p else eM Q p)) : rkLin m eps Q p z ≤ m / 3 := by
   unfold rkLin
   have h1 : (if eps then eP Q p else eM Q p) ≠ 1 := by omega
-  rw [if_neg h1]
+  rw [ite_eq_right h1]
   exact Nat.div_le_div_left h (by norm_num)
 
 theorem rkSp_le_div {l Q p : ℕ} (h : 2 ≤ eS Q p) : rkSp l Q p ≤ l / 2 := by
@@ -114,7 +114,7 @@ theorem mRankChev_A_le {l : ℕ} {Q : TauCeti.PrimePower} {z p : ℕ} (hQ : Q.p 
   change rkLin (l + 1) true Q.card p z + 1 ≤ max 2 (rkLin (l + 1) true Q.card 3 z)
   have hb : rkLin (l + 1) true Q.card p z ≤ (l + 1) / 3 := rkLin_le_div heP3
   by_cases hEven : Even Q.exponent
-  · have he1 : eP Q.card 3 = 1 := by rw [heP, if_pos hEven]
+  · have he1 : eP Q.card 3 = 1 := by rw [heP, ite_eq_left hEven]
     obtain ⟨δ, hδ, -, hB⟩ := rk3Cases_A_aux_rkLin_one (l + 1) true Q.card z he1
     set A := rkLin (l + 1) true Q.card p z
     set B := rkLin (l + 1) true Q.card 3 z
@@ -123,7 +123,7 @@ theorem mRankChev_A_le {l : ℕ} {Q : TauCeti.PrimePower} {z p : ℕ} (hQ : Q.p 
     have hBeq : B = l + 1 - 1 - δ := hB
     have hm : l ≤ 4 := by omega
     interval_cases l <;> norm_num at hA h3B hBeq ⊢ <;> omega
-  · have he2 : eP Q.card 3 = 2 := by rw [heP, if_neg hEven]
+  · have he2 : eP Q.card 3 = 2 := by rw [heP, ite_eq_right hEven]
     have hB := rk3Cases_A_aux_rkLin_two (l + 1) true Q.card z he2
     set A := rkLin (l + 1) true Q.card p z
     set B := rkLin (l + 1) true Q.card 3 z
@@ -153,7 +153,7 @@ theorem mRankChev_tA_le {l : ℕ} {Q : TauCeti.PrimePower} {z p : ℕ} (hQ : Q.p
   change rkLin (l + 1) false Q.card p z + 1 ≤ max 2 (rkLin (l + 1) false Q.card 3 z)
   have hb : rkLin (l + 1) false Q.card p z ≤ (l + 1) / 3 := rkLin_le_div heM3
   by_cases hEven : Even Q.exponent
-  · have he2 : eM Q.card 3 = 2 := by rw [heM, if_pos hEven]
+  · have he2 : eM Q.card 3 = 2 := by rw [heM, ite_eq_left hEven]
     have hB := rk3Cases_A_aux_rkLin_two (l + 1) false Q.card z he2
     set A := rkLin (l + 1) false Q.card p z
     set B := rkLin (l + 1) false Q.card 3 z
@@ -167,7 +167,7 @@ theorem mRankChev_tA_le {l : ℕ} {Q : TauCeti.PrimePower} {z p : ℕ} (hQ : Q.p
         rw [Nat.le_div_iff_mul_le (by norm_num)]; omega
       omega
     interval_cases l <;> norm_num at hA h3B hBeq ⊢ <;> omega
-  · have he1 : eM Q.card 3 = 1 := by rw [heM, if_neg hEven]
+  · have he1 : eM Q.card 3 = 1 := by rw [heM, ite_eq_right hEven]
     obtain ⟨δ, hδ, -, hB⟩ := rk3Cases_A_aux_rkLin_one (l + 1) false Q.card z he1
     set A := rkLin (l + 1) false Q.card p z
     set B := rkLin (l + 1) false Q.card 3 z

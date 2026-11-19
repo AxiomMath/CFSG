@@ -25,10 +25,10 @@ theorem exists_quotient_centralizer :
   let ρ : C →* R := QuotientGroup.mk' Q
   have htype : IsTypeJ4Centralizer J z0 := tlc_isTypeJ4Centralizer_z0
   have hcardC : Nat.card C = 21799895040 := htype.1
-  haveI : Finite C := Nat.finite_of_card_ne_zero (by rw [hcardC]; norm_num)
+  have : Finite C := Nat.finite_of_card_ne_zero (by rw [hcardC]; norm_num)
   obtain ⟨-, -, -, hX, -⟩ := htype
   obtain ⟨Z, hZn, hZ3, hidx, hperf, hcen, -, ψ, -, hψs, hψk, -, -, -, -⟩ := hX
-  haveI : Z.Normal := hZn
+  have : Z.Normal := hZn
   let D : Subgroup R := Subgroup.centralizer (Z : Set R)
   let W : Subgroup D := Z.subgroupOf D
   have hZD : Z ≤ D := by
@@ -41,11 +41,11 @@ theorem exists_quotient_centralizer :
     (QuotientGroup.quotientMulEquivOfEq hψk.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective ψ hψs)
   have hS : IsSimpleGroup M22 := (CFSG.Sporadic.Mathieu.fam_m22_simplicity).2.2
-  haveI : IsSimpleGroup M22 := hS
+  have : IsSimpleGroup M22 := hS
   have hnab : ∃ a b : M22, a * b ≠ b * a := by
     by_contra h
     push Not at h
-    letI : CommGroup M22 := { (inferInstance : Group M22) with mul_comm := h }
+    let : CommGroup M22 := { (inferInstance : Group M22) with mul_comm := h }
     have hp : (Nat.card M22).Prime := IsSimpleGroup.prime_card
     rw [CFSG.Sporadic.Mathieu.card_M22] at hp
     norm_num at hp

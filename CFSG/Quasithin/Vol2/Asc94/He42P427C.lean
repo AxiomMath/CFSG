@@ -44,6 +44,7 @@ theorem p427_inv_of_fpf (O : Subgroup G) {b : G} (hb2 : b * b = 1)
     _ = b * (p : G)⁻¹ * b⁻¹ * (p : G) := by rw [hbinv]
     _ = ((p : G)⁻¹ * (b * (p : G) * b⁻¹))⁻¹ := by group
 
+omit [Finite G] in
 theorem p427_card_conj_eq (R R' : Subgroup G) (c : G) (h1 : ∀ x ∈ R, c * x * c⁻¹ ∈ R')
     (h2 : ∀ y ∈ R', c⁻¹ * y * c ∈ R) : Nat.card ↥R = Nat.card ↥R' := by
   let f : ↥R → ↥R' := fun x => ⟨c * (x : G) * c⁻¹, h1 x x.2⟩

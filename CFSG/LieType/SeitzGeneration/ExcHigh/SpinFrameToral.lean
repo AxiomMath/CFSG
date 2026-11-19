@@ -85,7 +85,7 @@ theorem odd_mem_mulSub (h2 : (2 : K) ≠ 0)
     (hT : T ∈ TauCeti.QuadraticMap.orthogonalGroup (detQ (K := K))) {N : ℕ} (hN : Odd N)
     (hTN : T ^ N = 1) :
     T ∈ mulSub (leftGrp (K := K)) rightGrp commute_leftGrp_rightGrp := by
-  haveI : Invertible (2 : K) := invertibleOfNonzero h2
+  have : Invertible (2 : K) := invertibleOfNonzero h2
   have hdet : LinearEquiv.det T = 1 := by
     have h1 : (LinearEquiv.det T) ^ N = 1 := by
       rw [← map_pow, hTN, map_one]
@@ -123,7 +123,7 @@ theorem odd_mem_mulSub (h2 : (2 : K) ≠ 0)
       rfl
     rw [LinearEquiv.mul_apply, hab, hab, LinearEquiv.mul_apply]
     change _ = (A : Matrix (Fin 2) (Fin 2) K) * (X * (B : Matrix (Fin 2) (Fin 2) K))
-    simp only [A, B, Matrix.SpecialLinearGroup.coe_mk, Matrix.smul_mul, Matrix.mul_smul,
+    simp only [A, B, Matrix.smul_mul, Matrix.mul_smul,
       smul_smul, Matrix.mul_assoc]
     rw [mul_inv_cancel₀ hd0, one_smul]
   have hTTmem : T * T ∈ mulSub (leftGrp (K := K)) rightGrp commute_leftGrp_rightGrp :=
@@ -283,7 +283,7 @@ theorem mem_iSup_La_swapLa_of_odd [FiniteDimensional K V] (h2 : (2 : K) ≠ 0) {
         rw [hspow N _ hs, hppow N _ hp]
       _ = x := by
         rw [hfN]
-        simpa using hx'.symm
+        simp
   have hH : ∀ i, T i ∈ (Fr i).La.range ⊔ (Fr i).swap.La.range := by
     intro i
     obtain ⟨n, hn, m', hm, hnm⟩ :=
@@ -308,12 +308,12 @@ theorem mem_iSup_La_swapLa_of_odd [FiniteDimensional K V] (h2 : (2 : K) ≠ 0) {
       rw [List.map_cons, List.prod_cons, LinearEquiv.mul_apply, ih hl.2 k x hx]
       by_cases hkl : k ∈ l
       · have hjk : j ≠ k := fun h => hl.1 (h ▸ hkl)
-        simp only [hkl, if_true, List.mem_cons, or_true]
+        simp only [hkl, ite_true, List.mem_cons, or_true]
         exact hTfix j k hjk (f x) (hfs k x hx)
       · by_cases hjk : j = k
         · subst hjk
           simp [hkl, hTspan j x hx]
-        · simp [hkl, hjk, hTfix j k hjk x hx, Ne.symm hjk]
+        · simp [hkl, hTfix j k hjk x hx, Ne.symm hjk]
   have hprod : ((List.finRange m).map T).prod = f := by
     refine LinearEquiv.ext fun x => ?_
     have hx : x ∈ ⨆ i, (Fr i).span := by
@@ -591,7 +591,7 @@ theorem exists_goodPlanes (hQ : (polarBilin Q).Nondegenerate) {p : ℕ} (hp : p.
       GoodPlanes Q {g | ∃ e ∈ E, g = ((e : orthDerived Q) : V ≃ₗ[K] V)} Pl := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : Nontrivial V := nontrivial_of_card_sq hp.one_lt hcard
+  have : Nontrivial V := nontrivial_of_card_sq hp.one_lt hcard
   obtain ⟨hK, -⟩ := exists_kernelLineData_of_le hQ hp hp2 hpl E hcomm hexp hcard
   obtain ⟨n, P, hP, hPP, hPV, hPsp⟩ :=
     exists_piece_decomposition hQ hp hp2 hpl E hcomm hexp hcard hNS
@@ -761,7 +761,7 @@ theorem polar_pairVec_not (F : Frame Q) (b s : Bool) :
 
 theorem polar_pairVec_of_ne (F : Frame Q) {b b' : Bool} (h : b ≠ b') (s t : Bool) :
     polar Q (pairVec F b s) (pairVec F b' t) = 0 := by
-  cases b <;> cases b' <;> first | exact absurd rfl h | skip
+  cases b <;> cases b' <;> try exact absurd rfl h
   all_goals cases s <;> cases t <;>
     simp [pairVec, F.polar_e₁_e₂, F.polar_e₁_f₂, F.polar_f₁_e₂, F.polar_f₁_f₂,
       F.polar_e₂_e₁, F.polar_f₂_e₁, F.polar_e₂_f₁, F.polar_f₂_f₁]
@@ -897,9 +897,9 @@ theorem exists_spin_conj_of_goodPlanes (hodd : Odd (Nat.card K)) {n : ℕ} (hn :
     ∃ x : spinGroup (quadPlus n K), ∀ e ∈ Ep, x * e * x⁻¹ ∈ spinFrameGroup n K hn ι := by
   classical
   have h2 : (2 : K) ≠ 0 := CFSG.Semidihedral.OddFieldSL2.two_ne_zero_of_odd_card K hodd
-  haveI : Invertible (2 : K) := invertibleOfNonzero h2
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Invertible (2 : K) := invertibleOfNonzero h2
+  have : NeZero n := ⟨by omega⟩
+  have : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have hQnd' : (quadPlus n K).Nondegenerate := nondegenerate_quadPlus n K
   have hker2 : ∀ c ∈ (spinAction (quadPlus n K)).ker, c * c = 1 := by
     intro c hc
@@ -956,7 +956,7 @@ theorem exists_spin_conj_of_goodPlanes (hodd : Odd (Nat.card K)) {n : ℕ} (hn :
         intro y hy
         obtain ⟨a, b, rfl⟩ := Submodule.mem_span_pair.mp hy
         rw [polar_add_left, polar_smul_left, polar_smul_left, hv.polar_eq, hv.polar_eq,
-          if_neg (fun hh => hj hh.1.symm), if_neg (fun hh => hj hh.1.symm)]
+          ite_eq_right (fun hh => hj hh.1.symm), ite_eq_right (fun hh => hj hh.1.symm)]
         simp
       have hgv : ∀ s, g (v j s) = (plusFrame n K hn).vec j s := fun s => by
         rw [hg, hxv j s, hfix s]
@@ -1023,12 +1023,12 @@ theorem exists_spin_conj_frameGroup (hodd : Odd (Nat.card K)) {n : ℕ} (hn : 3 
     ∃ x : spinGroup (quadPlus n K), ∀ e ∈ Ep, x * e * x⁻¹ ∈ spinFrameGroup n K hn ι := by
   classical
   have h2 : (2 : K) ≠ 0 := CFSG.Semidihedral.OddFieldSL2.two_ne_zero_of_odd_card K hodd
-  haveI : Invertible (2 : K) := invertibleOfNonzero h2
-  haveI : NeZero n := ⟨by omega⟩
-  haveI : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Invertible (2 : K) := invertibleOfNonzero h2
+  have : NeZero n := ⟨by omega⟩
+  have : Nonempty (Fin n ⊕ Fin n) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have hQnd : (polarBilin (quadPlus n K)).Nondegenerate := nondegenerate_polarBilin_quadPlus n K
   have hQnd' : (quadPlus n K).Nondegenerate := nondegenerate_quadPlus n K
-  haveI : Finite (spinGroup (quadPlus n K)) :=
+  have : Finite (spinGroup (quadPlus n K)) :=
     finite_spinGroup_of_ker _ coe_ker_spinMatrix_quadPlus
   have hrange : (spinAction (quadPlus n K)).range = orthDerived (quadPlus n K) :=
     range_spinAction_quadPlus_eq_commutator hn
@@ -1055,8 +1055,8 @@ theorem exists_spin_conj_frameGroup (hodd : Odd (Nat.card K)) {n : ℕ} (hn : 3 
   set E : Subgroup (orthDerived (quadPlus n K)) := Ep.map sa with hE
   have hcardE : Nat.card E = p ^ 2 := by
     rw [hE, card_map_of_disjoint_ker sa hdisj, hcard]
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hcomm' := IsPGroup.isMulCommutative_of_card_eq_prime_sq (G := Ep) hcard
+  have : Fact p.Prime := ⟨hp⟩
+  have hcomm' := IsPGroup.isMulCommutative_of_card_eq_prime_sq (G := Ep) hcard
   have hcommEp : ∀ a ∈ Ep, ∀ b ∈ Ep, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hcomm'.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hcommE : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x := by

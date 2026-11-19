@@ -16,7 +16,7 @@ open Matrix
 variable {ι : Type*} [Fintype ι] [DecidableEq ι] {K : Type*} [Field K]
 
 theorem eq_of_transvection_rel (σ : K →+* K) {B B' : Matrix ι ι K} (hBB' : B' * B = 1)
-    {a b : ι} (hab : a ≠ b)
+    {a b : ι} (_hab : a ≠ b)
     (h : ∀ t : K, B * (1 + Matrix.single a b (σ t)) = (1 + Matrix.single a b t) * B) :
     ∀ t : K, σ t = t := by
   have hc : ∀ t : K, B * Matrix.single a b (σ t) = Matrix.single a b t * B := fun t => by

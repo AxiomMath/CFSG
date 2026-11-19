@@ -36,9 +36,9 @@ theorem apC_eq (NW : Nat → Nat → Nat) (NT : Nat → Nat) (c x : Nat) :
     apC NW NT c x = CF NW NT c x := by
   unfold apC CF
   by_cases h : c = 26
-  · rw [beq26 h, if_pos h]
+  · rw [beq26 h, ite_eq_left h]
     exact ptF_eq _ x
-  · rw [beq26' h, if_neg h]
+  · rw [beq26' h, ite_eq_right h]
     exact letN_eq _ _ _
 
 theorem ptC_eq (NW : Nat → Nat → Nat) (NT : Nat → Nat) : ∀ (cs : List Nat) (x : Nat),
@@ -71,15 +71,15 @@ theorem testBit_plC (hV : VN NW NT) (c v q : Nat) :
     (plC NW NT c v).testBit q = v.testBit (CF NW NT c q) := by
   unfold plC CF
   by_cases h : c = 26
-  · rw [beq26 h, if_pos h]
+  · rw [beq26 h, ite_eq_left h]
     exact testBit_netF hV.1 v q
-  · rw [beq26' h, if_neg h]
+  · rw [beq26' h, ite_eq_right h]
     exact testBit_planeL (hV.2 _) v q
 
-theorem testBit_wkC (hV : VN NW NT) (cs : List Nat) (v : Nat) {q : Nat} (hq : q < 524288) :
-    (wkC NW NT cs v).testBit q = v.testBit (cP NW NT cs q) :=
+theorem testBit_wkC (hV : VN NW NT) (cs : List Nat) (v : Nat) {_q : Nat} (hq : _q < 524288) :
+    (wkC NW NT cs v).testBit _q = v.testBit (cP NW NT cs _q) :=
   CFSG.KS.Fi24FixP.testBit_walkP (A := plC NW NT) (σ := CF NW NT) cs
-    (fun c _ q hq => CF_lt hV c hq) (fun c _ v q _ => testBit_plC hV c v q) v q hq
+    (fun c _ _q hq => CF_lt hV c hq) (fun c _ v _q _ => testBit_plC hV c v _q) v _q hq
 
 theorem testBit_fixC (hV : VN NW NT) (cs : List Nat) (x : Nat) :
     (fixC NW NT cs).testBit x = true ↔ x < 306936 ∧ cP NW NT cs x = x :=
@@ -313,7 +313,7 @@ private theorem swp_fix_hi {S d m : Nat} (h : ValidIn S d m) {q : Nat} (hq : S �
     have := (h (q - d) e).1
     omega
   unfold swp
-  rw [if_neg h1, if_neg h2]
+  rw [ite_eq_right h1, ite_eq_right h2]
 
 private theorem pF_fix_hi {M : Nat → Nat} (h : NV M) {q : Nat} (hq : 524288 ≤ q) : pF M q = q :=
   compF_fix (τ := fun l => swp (ldist l) (M l)) (c := 37) (fun i hi => swp_fix_hi (h i hi) hq)
@@ -367,7 +367,7 @@ private theorem testBit_stack {P0 : Nat} {Q : Nat → Nat} {x : Nat} (hx : x < 5
     change P0.testBit (j * 524288 + x) = _
     rcases Nat.eq_zero_or_pos j with rfl | hj
     · rw [Nat.zero_mul, Nat.zero_add, decide_eq_true (Nat.le_refl 0), Bool.true_and,
-        if_pos (rfl : (0 : Nat) = 0)]
+        ite_eq_left (rfl : (0 : Nat) = 0)]
     · rw [hP0 _ (by omega : 524288 ≤ j * 524288 + x), decide_eq_false (by omega : ¬ j ≤ 0),
         Bool.false_and]
   | n + 1, hP0, hQ => by
@@ -385,7 +385,7 @@ private theorem testBit_stack {P0 : Nat} {Q : Nat → Nat} {x : Nat} (hx : x < 5
         Bool.or_false]
     · rw [decide_eq_false (by omega : ¬ n + 1 ≤ n), decide_eq_true (Nat.le_refl (n + 1)),
         decide_eq_true (by omega : (n + 1) * 524288 + x ≥ (n + 1) * 524288),
-        if_neg (by omega : n + 1 ≠ 0), Nat.add_sub_cancel, Nat.add_sub_cancel_left,
+        ite_eq_right (by omega : n + 1 ≠ 0), Nat.add_sub_cancel, Nat.add_sub_cancel_left,
         Bool.false_and, Bool.false_or]
     · rw [hQ n (by omega) _ (by omega : 524288 ≤ j * 524288 + x - (n + 1) * 524288),
         decide_eq_false (by omega : ¬ j ≤ n), decide_eq_false (by omega : ¬ j ≤ n + 1),
@@ -406,11 +406,11 @@ private theorem testBit_pk19 (hV : VN NW NT) (cs : List Nat) {x : Nat} (hx : x <
     hx j 18 hP0 hQ).trans ?_
   rw [decide_eq_true (by omega : j ≤ 18), Bool.true_and]
   rcases Nat.eq_zero_or_pos j with rfl | hj0
-  · rw [if_pos (rfl : (0 : Nat) = 0), testBit_wkC hV cs _ hx,
+  · rw [ite_eq_left (rfl : (0 : Nat) = 0), testBit_wkC hV cs _ hx,
       CFSG.KS.Fi24FixP.testBit_idPl19 (k := 0) (by decide), decide_eq_true (cP_lt hV cs hx),
       Bool.true_and]
   · have hj' : Nat.succ (j - 1) = j := by omega
-    rw [if_neg (by omega : j ≠ 0)]
+    rw [ite_eq_right (by omega : j ≠ 0)]
     show (Nat.xor (wkC NW NT cs (Nat.xor (CFSG.KC.Fi24FixP.idPl19 (Nat.succ (j - 1)))
       (CFSG.KC.Fi24FixP.idPl19 0))) (wkC NW NT cs (CFSG.KC.Fi24FixP.idPl19 0))).testBit x = _
     rw [nxor, Nat.testBit_xor, testBit_wkC hV cs _ hx, testBit_wkC hV cs _ hx, nxor,

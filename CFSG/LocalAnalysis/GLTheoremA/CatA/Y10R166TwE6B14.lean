@@ -46,15 +46,15 @@ theorem twE6_caseB_data (hn : 3 ≤ n) (hod : Odd n) (hF : Nat.card F = (2 ^ n) 
   obtain ⟨i⟩ := TwE6B.exists_kernelComponent_omega1 (Ω := Ω) hω3 hω1
   obtain ⟨S, hSR, hS2, hBS, hBSinf⟩ :=
     exists_twE6_eight_twoGroup (Ω := Ω) (q := 3) Fr (n := n) (by omega) hFr h3 ω hω3
-  have hJle : twE6JStar (Fr := Fr) (q := 3) (ζ := ω) i ≤ twE6C Fr :=
+  have hJle : twE6JStar (Fr := Fr) (_q := 3) (ζ := ω) i ≤ twE6C Fr :=
     twE6JStar_le_twE6C (Fr := Fr) (q := 3) (ζ := ω) i
-  have hJq : CFSG.IsQuasisimple ↥(twE6JStar (Fr := Fr) (q := 3) (ζ := ω) i) :=
+  have hJq : CFSG.IsQuasisimple ↥(twE6JStar (Fr := Fr) (_q := 3) (ζ := ω) i) :=
     twE6_isQuasisimple_omega1 (K := F) (Ω := Ω) (Fr := Fr) hf hF hσ hFr
       Nat.prime_three (by norm_num) h3 hω3 hω1 i
-  have hJmult : TrivialMultiplierT ↥(twE6JStar (Fr := Fr) (q := 3) (ζ := ω) i) :=
+  have hJmult : TrivialMultiplierT ↥(twE6JStar (Fr := Fr) (_q := 3) (ζ := ω) i) :=
     (twE6_center_eq_bot_and_trivialMultiplierT (K := F) (Ω := Ω) (Fr := Fr) hf hF
       hσ hFr Nat.prime_three (by norm_num) h3 hω3 hω1 i).2
-  have hB0J : twE6BZero ω hω3 ≤ twE6JStar (Fr := Fr) (q := 3) (ζ := ω) i :=
+  have hB0J : twE6BZero ω hω3 ≤ twE6JStar (Fr := Fr) (_q := 3) (ζ := ω) i :=
     twE6BZero_le_twE6JStar hf hF hσ hFr hod hω3 hω1 i
   have hSC : S ≤ twE6C Fr :=
     TwE6B.le_twE6C_of_isPGroup_two (K := F) (σ := σ.toRingHom) (Ω := Ω) (Fr := Fr) (n := n)

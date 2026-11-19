@@ -33,12 +33,12 @@ private theorem n924x_three_dvd_two_pow_add_one {n : ℕ} (hn : Odd n) : 3 ∣ 2
       (by decide : (2 + 1) ≡ 0 [MOD 3])
   exact Nat.modEq_zero_iff_dvd.mp h3
 
-theorem two_le_pRank_three_of_isU4 {U : Type} [Group U] [Finite U] {n : ℕ} (hn : 2 ≤ n)
+theorem two_le_pRank_three_of_isU4 {U : Type} [Group U] [Finite U] {n : ℕ} (_hn : 2 ≤ n)
     (hU : IsU4 U n) : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup U) := by
   obtain ⟨K, hK, h, ⟨e⟩⟩ := CFSG.Quasithin.H13.U4Par.exists_hypSU_equiv_of_lieModel hU
-  letI : Field K := hK
-  haveI : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Field K := hK
+  have : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have heq : CFSG.Open.pRank 3 (⊤ : Subgroup (hypSU h 2 0)) =
       CFSG.Open.pRank 3 (⊤ : Subgroup U) :=
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 3) e

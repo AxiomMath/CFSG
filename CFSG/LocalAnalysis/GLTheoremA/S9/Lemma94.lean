@@ -30,6 +30,7 @@ theorem catalogIs_mono {S : Type} [Group S] {Q Q' : TauCeti.CFSGIndex → Prop}
   obtain ⟨i, hi, f⟩ := h
   exact ⟨i, hQ i hi, f⟩
 
+omit [Finite G] in
 private theorem l94_mem_sup_of_normalizes {Y E : Subgroup G} (hYE : E ≤ Subgroup.normalizer (Y : Set G)) :
     ∀ g ∈ Y ⊔ E, ∃ y ∈ Y, ∃ e ∈ E, g = y * e := by
   let S : Subgroup G :=
@@ -49,6 +50,7 @@ private theorem l94_mem_sup_of_normalizes {Y E : Subgroup G} (hYE : E ≤ Subgro
   intro g hg
   exact hle hg
 
+omit [Finite G] in
 private theorem l94_conj_mem_centralizer {D : Subgroup G} {e : G} (he : ∀ d ∈ D, e * d = d * e)
     {y : G} (hy : y ∈ Subgroup.centralizer (D : Set G)) :
     e * y * e⁻¹ ∈ Subgroup.centralizer (D : Set G) := by
@@ -66,6 +68,7 @@ private theorem l94_conj_mem_centralizer {D : Subgroup G} {e : G} (he : ∀ d �
     _ = e * y * (e⁻¹ * d) := by rw [hd']
     _ = (e * y * e⁻¹) * d := by group
 
+omit [Finite G] in
 private theorem l94_fwd {L E : Subgroup G} {g : G} (hgL : g ∈ Subgroup.normalizer (L : Set G))
     (hgC : g ∈ Subgroup.centralizer (E : Set G)) {y : G}
     (hy : y ∈ L ⊓ Subgroup.centralizer (E : Set G)) :
@@ -86,6 +89,7 @@ private theorem l94_fwd {L E : Subgroup G} {g : G} (hgL : g ∈ Subgroup.normali
     _ = g * y * (g⁻¹ * e) := by rw [hg']
     _ = (g * y * g⁻¹) * e := by group
 
+omit [Finite G] in
 private theorem l94_normalizes_inf {L E : Subgroup G} {g : G} (hgL : g ∈ Subgroup.normalizer (L : Set G))
     (hgC : g ∈ Subgroup.centralizer (E : Set G)) :
     g ∈ Subgroup.normalizer ((L ⊓ Subgroup.centralizer (E : Set G) : Subgroup G) : Set G) := by
@@ -104,7 +108,7 @@ theorem notIsGB_of_I269 (hc : S9Ctx G 3) (hLB : LBalanceAt G 3) (h269 : I269At G
     ¬ IsGB 3 B L := by
   rintro ⟨E, hEB, hEel, hEcard, hEN, hLay⟩
   have hp3 : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hBel : IsElemAbelian 3 B := h.bmax.1
   have hBC : B ≤ cx x := isElemAbelian_le_centralizer hBel h.mem
   have hEC : E ≤ cx x := hEB.trans hBC
@@ -145,7 +149,7 @@ theorem notIsGB_of_I269 (hc : S9Ctx G 3) (hLB : LBalanceAt G 3) (h269 : I269At G
     rw [Subgroup.mem_normalizer_iff]
     intro y
     have hN := Subgroup.mem_normalizer_iff.1 (hEN he) y
-    simp only [SetLike.mem_coe, hYdef, Subgroup.mem_inf]
+    simp only [hYdef, Subgroup.mem_inf]
     constructor
     · rintro ⟨hyL, hyC⟩
       exact ⟨hN.1 hyL, l94_conj_mem_centralizer hc1 hyC⟩
@@ -188,8 +192,8 @@ theorem notIsGB_of_I269 (hc : S9Ctx G 3) (hLB : LBalanceAt G 3) (h269 : I269At G
         rw [hgeq, map_mul, hy1, one_mul]
       show φ g ^ 3 ^ k = 1
       rw [hφg, ← map_pow, hpow, map_one]
-    haveI := hQ3.isNilpotent
-    haveI : Group.IsSolvable (↥X ⧸ (Y.subgroupOf X)) := inferInstance
+    have := hQ3.isNilpotent
+    have : Group.IsSolvable (↥X ⧸ (Y.subgroupOf X)) := inferInstance
     have hKX : K ≤ X := hK.1
     have hKxperf : ⁅K.subgroupOf X, K.subgroupOf X⁆ = K.subgroupOf X := by
       have h1 : ⁅K, K⁆ = K := glaPComponent_perfect hK
@@ -200,8 +204,8 @@ theorem notIsGB_of_I269 (hc : S9Ctx G 3) (hLB : LBalanceAt G 3) (h269 : I269At G
       rw [← Subgroup.map_commutator, hKxperf]
     have hKq1 : (K.subgroupOf X).map φ = ⊥ := by
       by_contra hne
-      haveI : Nontrivial ↥((K.subgroupOf X).map φ) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
-      haveI : Group.IsPerfect ↥((K.subgroupOf X).map φ) := Subgroup.isPerfect_iff.2 hKqperf
+      have : Nontrivial ↥((K.subgroupOf X).map φ) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+      have : Group.IsPerfect ↥((K.subgroupOf X).map φ) := Subgroup.isPerfect_iff.2 hKqperf
       exact Group.IsPerfect.not_isSolvable (G := ↥((K.subgroupOf X).map φ)) inferInstance
     intro k hk
     have hmem : φ ⟨k, hKX hk⟩ ∈ (K.subgroupOf X).map φ :=
@@ -233,15 +237,15 @@ private theorem l94_card_le_of_normalizes_coprime_even {Q Y : Subgroup G} (hQ : 
     CFSG.ABGLocalTools.exists_invariant_isSylowOf_ge_of_coprime (q := 3) (r := 2)
       Nat.prime_three Nat.prime_two (isPGroup_of_isElemAbelian hQ) hQY hY3 bot_le
       IsPGroup.of_bot (fun g _ => Subgroup.mem_normalizer_iff.2 fun h => by
-        simp only [SetLike.mem_coe, Subgroup.mem_bot]
+        simp only [Subgroup.mem_bot]
         constructor <;> intro hh <;> simp_all)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : (S : Subgroup Y) ≠ ⊥ := S.ne_bot_of_dvd_card hY2
-  refine card_le_pow_glaTwoLocalRank Nat.prime_three hQ ?_ (S.isPGroup'.map _) hQR
+  refine card_le_pow_glaTwoLocalRank Nat.prime_three hQ ?_ (S.isPGroup.map _) hQR
   intro h
   exact hS ((Subgroup.map_eq_bot_iff_of_injective _ Y.subtype_injective).1 h)
 
-theorem decomp_of_inner (hc : S9Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} (h : H92 3 B x L)
+theorem decomp_of_inner (_hc : S9Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} (h : H92 3 B x L)
     (hess : IsEssential 3 B x) (hodd : Odd (Nat.card (GLAPPrimeCoreOf 3 (cx x))))
     (hZ : Subgroup.center (PQuot 3 L) = ⊥) (hin : ∀ b ∈ B, InducesInnerMod 3 L b)
     (hy : ∃ y : PQuot 3 L, orderOf y = 3 ∧ ∃ W : Subgroup (PQuot 3 L), IsPGroup 2 W ∧
@@ -249,8 +253,8 @@ theorem decomp_of_inner (hc : S9Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup 
     IsDirectZpowersInf B x L := by
   classical
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold IsDirectZpowersInf
   have hBel : IsElemAbelian 3 B := h.bmax.1
   have hB3 : IsPGroup 3 B := isPGroup_of_isElemAbelian hBel
@@ -310,8 +314,8 @@ theorem decomp_of_inner (hc : S9Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup 
       have hzN : (Subgroup.zpowers (QuotientGroup.mk' (GLAPPrimeCore 3 ↥(cx x))
           (⟨x, hxX⟩ : ↥(cx x)))).Normal := by
         refine ⟨fun n hn g => ?_⟩
-        have hc : g * n = n * g := Subgroup.mem_center_iff.1 (Subgroup.zpowers_le.2 hxZ hn) g
-        rw [hc, mul_inv_cancel_right]
+        have _hc : g * n = n * g := Subgroup.mem_center_iff.1 (Subgroup.zpowers_le.2 hxZ hn) g
+        rw [_hc, mul_inv_cancel_right]
         exact hn
       apply le_antisymm
       · intro b hb
@@ -372,6 +376,7 @@ theorem decomp_of_inner (hc : S9Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup 
     rw [hBb_card, h.bmax.2.1] at hlt
     exact lt_irrefl _ (lt_of_lt_of_le hlt hle)
 
+omit [Finite G] in
 private theorem l94_le_of_subnormal_comm {X A : Subgroup G} (hA : IsSubnormal A X) :
     ∀ {I S : Subgroup G}, I ≤ A → S ≤ X → ⁅S, I⁆ = S → S ≤ A := by
   induction hA with
@@ -389,6 +394,7 @@ private theorem l94_le_of_subnormal_comm {X A : Subgroup G} (hA : IsSubnormal A 
     rw [commutatorElement_def]
     exact _root_.Subgroup.mul_mem _ h1 (_root_.Subgroup.inv_mem _ (hI hi))
 
+omit [Finite G] in
 private theorem l94_mem_zpowers_mul {B L : Subgroup G} {x : G}
     (hxL : ∀ c ∈ L, Commute x c) (hsup : B = Subgroup.zpowers x ⊔ (B ⊓ L)) :
     ∀ b ∈ B, ∃ i : ℤ, ∃ c ∈ B ⊓ L, b = x ^ i * c := by
@@ -416,19 +422,19 @@ private theorem l94_mem_zpowers_mul {B L : Subgroup G} {x : G}
   rw [hsup] at hb
   exact hle hb
 
-theorem exists_T_in_L (hc : S9Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} (h : H92 3 B x L)
+theorem exists_T_in_L (_hc : S9Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G} (h : H92 3 B x L)
     (hess : IsEssential 3 B x) (hodd : Odd (Nat.card (GLAPPrimeCoreOf 3 (cx x))))
     (hdir : IsDirectZpowersInf B x L) :
     ∃ T : Subgroup G, T ≤ L ∧ IsPGroup 2 T ∧ B ⊓ L ≤ Subgroup.normalizer (T : Set G) ∧
       ¬ T ≤ GLAPPrimeCoreOf 3 L := by
   have hp3 : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   obtain ⟨-, -, T₀, hT₀C, hT₀2, hBT₀, hne, -⟩ := hess
   have hBel : IsElemAbelian 3 B := h.bmax.1
   have hB3 : IsPGroup 3 B := isPGroup_of_isElemAbelian hBel
-  have hxL : ∀ c ∈ L, Commute x c := fun c hc =>
-    (Subgroup.mem_centralizer_singleton_iff.1 (h.comp.1 hc)).symm
+  have hxL : ∀ c ∈ L, Commute x c := fun c _hc =>
+    (Subgroup.mem_centralizer_singleton_iff.1 (h.comp.1 _hc)).symm
   have hLx : L ≤ cx x := h.comp.1
   have hTT₀ : ⁅T₀, B⁆ ≤ T₀ := by
     refine Subgroup.commutator_le.2 fun t ht b hb => ?_
@@ -442,16 +448,16 @@ theorem exists_T_in_L (hc : S9Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G}
   have hBnT : B ≤ Subgroup.normalizer ((⁅T₀, B⁆ : Subgroup G) : Set G) := by
     have key : ∀ b' ∈ B, ⁅T₀, B⁆ ≤ (⁅T₀, B⁆ : Subgroup G).comap (MulAut.conj b').toMonoidHom := by
       intro b' hb'
-      refine Subgroup.commutator_le.2 fun t ht c hc => ?_
+      refine Subgroup.commutator_le.2 fun t ht c _hc => ?_
       rw [Subgroup.mem_comap]
-      have hbc : b' * c = c * b' := isElemAbelian_commute hBel hb' hc
+      have hbc : b' * c = c * b' := isElemAbelian_commute hBel hb' _hc
       have hct : (MulAut.conj b') c = c := by
         rw [MulAut.conj_apply, hbc]
         group
       show (MulAut.conj b') ⁅t, c⁆ ∈ ⁅T₀, B⁆
       rw [map_commutatorElement, hct]
       exact Subgroup.commutator_mem_commutator
-        ((Subgroup.mem_normalizer_iff.1 (hBT₀ hb') t).1 ht) hc
+        ((Subgroup.mem_normalizer_iff.1 (hBT₀ hb') t).1 ht) _hc
     intro b' hb'
     rw [Subgroup.mem_normalizer_iff]
     intro y
@@ -463,22 +469,22 @@ theorem exists_T_in_L (hc : S9Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G}
       have e : b'⁻¹ * (b' * y * b'⁻¹) * b'⁻¹⁻¹ = y := by group
       rwa [e] at h1
   have hsolv : Group.IsSolvable ↥T₀ := by
-    haveI := hT₀2.isNilpotent
+    have := hT₀2.isNilpotent
     infer_instance
   have hcop : Nat.Coprime (Nat.card B) (Nat.card ↥T₀) :=
     IsPGroup.coprime_card_of_ne 3 2 (by norm_num) B T₀ hB3 hT₀2
   have hdbl : ⁅⁅T₀, B⁆, B⁆ = ⁅T₀, B⁆ := GL83.commutator_double_eq_self B T₀ hBT₀ hcop hsolv
-  have hdec := l94_mem_zpowers_mul (B := B) (L := L) (x := x) (fun c hc => hxL c hc) hdir.1
+  have hdec := l94_mem_zpowers_mul (B := B) (L := L) (x := x) (fun c _hc => hxL c _hc) hdir.1
   have hTBL : ⁅⁅T₀, B⁆, B ⊓ L⁆ = ⁅T₀, B⁆ := by
     refine le_antisymm ((Subgroup.commutator_mono le_rfl inf_le_left).trans hdbl.le)
       (hdbl.symm.le.trans (Subgroup.commutator_le.2 fun t ht b hb => ?_))
-    obtain ⟨i, c, hc, rfl⟩ := hdec b hb
+    obtain ⟨i, c, _hc, rfl⟩ := hdec b hb
     have hxt : Commute t x := Subgroup.mem_centralizer_singleton_iff.1 (hTC ht)
     have htv : t * x ^ i = x ^ i * t := (hxt.zpow_right i).eq
     have htc : ⁅t, c⁆ ∈ cx x := by
       rw [commutatorElement_def]
-      exact (cx x).mul_mem ((cx x).mul_mem ((cx x).mul_mem (hTC ht) (hLx hc.2))
-        ((cx x).inv_mem (hTC ht))) ((cx x).inv_mem (hLx hc.2))
+      exact (cx x).mul_mem ((cx x).mul_mem ((cx x).mul_mem (hTC ht) (hLx _hc.2))
+        ((cx x).inv_mem (hTC ht))) ((cx x).inv_mem (hLx _hc.2))
     have hgx : Commute ⁅t, c⁆ x := Subgroup.mem_centralizer_singleton_iff.1 htc
     have hcomm_eq : ⁅t, x ^ i * c⁆ = ⁅t, c⁆ := by
       rw [commutatorElement_mul_right]
@@ -490,7 +496,7 @@ theorem exists_T_in_L (hc : S9Ctx G 3) {B : Subgroup G} {x : G} {L : Subgroup G}
         group
       rw [h1, one_mul, h2]
     rw [hcomm_eq]
-    exact Subgroup.commutator_mem_commutator ht hc
+    exact Subgroup.commutator_mem_commutator ht _hc
   have hTL : ⁅T₀, B⁆ ≤ L := l94_le_of_subnormal_comm h.comp.2.1 inf_le_right hTC hTBL
   have hTO : ¬ ⁅T₀, B⁆ ≤ GLAPPrimeCoreOf 3 L := by
     intro hle
@@ -523,7 +529,7 @@ theorem lemma94_aux (hc : S9Ctx G 3) (hin : Lemma94Inputs G) {B : Subgroup G} {x
   have hodd : Odd (Nat.card (GLAPPrimeCoreOf 3 (cx x))) := odd_core_of_not_isGB hc hin.l93 h hnoGB
   have hinner : ∀ b ∈ B, InducesInnerMod 3 L b := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨b, hbB, hb⟩ := hcon
     exact hb (hin.i117 B x L h.bmax hess hX h.comp h.norm (hOut b (h.norm hbB) (h.bmax.1.2 b hbB) hb) b hbB)
   have hdir := decomp_of_inner hc h hess hodd hZ hinner (hin.hy L hL4 hZ)

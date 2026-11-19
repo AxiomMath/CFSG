@@ -24,7 +24,7 @@ theorem stronglyEmbedded_of_class {X : Type*} [Group X] [Finite X] (H : Subgroup
     by_contra hodd
     have heven : Even (Nat.card ↥(H ⊓ H.map (MulAut.conj g⁻¹).toMonoidHom)) :=
       Nat.not_odd_iff_even.mp hodd
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(H ⊓ H.map (MulAut.conj g⁻¹).toMonoidHom))
       2 (even_iff_two_dvd.mp heven)
     have hx1 : x ≠ 1 := fun h => by rw [h, orderOf_one] at hx; omega

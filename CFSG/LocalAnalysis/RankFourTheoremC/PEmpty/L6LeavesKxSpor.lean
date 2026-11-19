@@ -26,9 +26,10 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_pCoreOf_of_normal {K V : Subgroup G} (hVK : V ≤ K) (hn : K ≤ normalizer (V : Set G))
     (hV : IsPGroup 2 V) : V ≤ pCoreOf 2 K := by
-  haveI : (V.subgroupOf K).Normal := (normal_subgroupOf_iff_le_normalizer hVK).mpr hn
+  have : (V.subgroupOf K).Normal := (normal_subgroupOf_iff_le_normalizer hVK).mpr hn
   have hp : IsPGroup 2 (V.subgroupOf K) :=
     IsPGroup.of_equiv hV (Subgroup.subgroupOfEquivOfLe hVK).symm
   have h : V.subgroupOf K ≤ CFSG.pCore 2 ↥K := le_sSup ⟨inferInstance, hp⟩
@@ -98,7 +99,7 @@ theorem localRank_three_le (h313 : GL83NormalElementaryRankFour) (h2401 : KFact2
   by_cases hs : s = .M11
   · subst hs
     exact absurd (hM11 G L e U hUL hU1 hU2) (by omega)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hS := c.conf.config.situation
   have hrk : 4 ≤ CFSG.Open.pRank 3 (normalizer (U : Set G)) :=
     hU4.trans (CFSG.SectionRank.pRank_mono (by norm_num) inf_le_left)

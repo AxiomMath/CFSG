@@ -28,8 +28,8 @@ private theorem compNormal_twE6_cat {S : Type} [Group S] [Finite S] {p : ℕ}
     cases di with
     | twistedE6 q =>
       obtain ⟨K, hKf, σ, hKcard, hσ, ⟨eK⟩⟩ := exists_catEquiv_twistedE6 q hv
-      letI : Field K := hKf
-      haveI : Finite K := Nat.finite_of_card_ne_zero (by
+      let : Field K := hKf
+      have : Finite K := Nat.finite_of_card_ne_zero (by
         rw [hKcard]
         exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
       let e' : S ≃* ↥(twistedE6RootGroup K σ) := e.trans eK
@@ -101,7 +101,7 @@ private theorem compNormal_twE6_cat {S : Type} [Group S] [Finite S] {p : ℕ}
   | alternating n hn => exact absurd hi (by simp [onLie])
   | sporadic name => exact absurd hi (by simp [onLie])
 
-theorem twE6Norm_of (hL : CatLayer) (hI : ShapeModelNormIso) :
+theorem twE6Norm_of (hL : CatLayer) (_hI : ShapeModelNormIso) :
     SimpleNormModel (CharTwoOf isTwE6Idx) := by
   intro S _ _ p hp hp2 hcat hnotshape
   have hcat2 : catalogIs S (onLie fun d : TauCeti.LieTypeIndex => d.characteristic = 2) := by

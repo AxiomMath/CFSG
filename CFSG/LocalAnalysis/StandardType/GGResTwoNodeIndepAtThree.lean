@@ -29,7 +29,7 @@ theorem ggTwoNodeIndepAtL_three (hKG : GGReflClassLargeInput') (hOrb : GGResCent
     GGWeylReflectionGroup p (ggAutomizer L Bs ⊔ ggAutomizer K Bs) := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have F := ggXDatumA_indep_frame hFix hp2 hH hx (by omega) hpN e hML hCL hφ hpair hAL hind
   have hA : ggAutomizer L Bs ⊔ ggAutomizer K Bs ≤ ggAutomizer ⊤ Bs :=
     sup_le (ggAutomizer_mono Bs le_top) (ggAutomizer_mono Bs le_top)
@@ -74,7 +74,7 @@ theorem ggTwoNodeIndepAtK_three (hKG : GGReflClassLargeInput') (hOrbK : GGResCen
     GGWeylReflectionGroup p (ggAutomizer K Bs ⊔ ggAutomizer L Bs) := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have F := ggXDatumA_indep_frame_K hp2 hH hy hstrong (by omega) hpN e hMK hCK hφ hpair hAK hind
   have hA : ggAutomizer K Bs ⊔ ggAutomizer L Bs ≤ ggAutomizer ⊤ Bs :=
     sup_le (ggAutomizer_mono Bs le_top) (ggAutomizer_mono Bs le_top)
@@ -121,8 +121,8 @@ theorem ggTwoNodeIndepAtK_three_false_of_finrank
     False := by
   classical
   have hp2 : p ≠ 2 := by omega
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have F := ggXDatumA_indep_frame_K hp2 hH hy hstrong hN hpN e hMK hCK hφ hpair hAK hind
   have hspan : Submodule.span (ZMod p) (Set.range fun i => h (e i)) = ⊤ :=
     F.indep.span_eq_top_of_card_eq_finrank' (by simpa using hdim.symm)
@@ -166,8 +166,8 @@ theorem ggTwoNodeIndepAtK_three_false_of_card
     (hAK : ggAutomizer K Bs = Subgroup.closure (Set.range φ))
     (hind : LinearIndependent (ZMod p) h) (hcardBs : Nat.card ↥Bs = p ^ (N - 1)) :
     False := by
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hVcard : Nat.card V = p ^ Module.finrank (ZMod p) V := by
     simpa only [Nat.card_zmod] using Module.natCard_eq_pow_finrank (K := ZMod p) (V := V)
   have hcardV : Nat.card V = Nat.card ↥Bs := by

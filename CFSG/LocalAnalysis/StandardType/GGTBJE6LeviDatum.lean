@@ -129,7 +129,7 @@ theorem e6Cover_datum
     {m : ℕ} (wt : GGTorusTorWit m 6 ↥X (ggGamma X hN).range)
     (hact : ∀ k s, ψ (wt.n k) * ι₀ (Multiplicative.ofAdd s) * (ψ (wt.n k))⁻¹ =
       ι₀ (Multiplicative.ofAdd (TableBExc.torusAct .E6 p (simple .E6 k) s)))
-    (hw : wt.Holds CartanMatrix.E₆ CoxeterMatrix.E₆) :
+    (hw : wt.Holds (CartanMatrix.E 6) CoxeterMatrix.E₆) :
     ∃ (V : Type) (_ : AddCommGroup V) (_ : Module (ZMod p) V) (ι : Additive ↥Bs ≃+ V)
       (φ : Fin 6 → MulAut ↥Bs) (h : Fin 6 → V) (α : Fin 6 → Module.Dual (ZMod p) V)
       (f : CoxeterMatrix.E₆.Group ≃* ↥(ggAutomizer X Bs))
@@ -153,7 +153,7 @@ theorem e6Cover_datum
         ε ((f (κ u) : MulAut ↥Bs) b) =
           ι₀ (Multiplicative.ofAdd (TableBExc.torusAct .E6 p u s)) := by
   classical
-  haveI hEA : CFSG.IsElementaryAbelian p ↥Bs := hBs.isElementaryAbelian
+  have hEA : CFSG.IsElementaryAbelian p ↥Bs := hBs.isElementaryAbelian
   have hBspow : ∀ b : ↥Bs, b ^ p = 1 := fun b => by
     apply Subtype.ext
     simpa using hBs.2 (b : G) b.2

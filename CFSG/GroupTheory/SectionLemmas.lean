@@ -10,13 +10,13 @@ open Subgroup
 open scoped commutatorElement IsMulCommutative
 
 lemma exists_maximal_invariant_lt {G : Type*} [Group G] [Finite G]
-    {H N₀ P : Subgroup G} (hN₀P : N₀ ≤ P) (hlt : N₀ < P)
+    {H N₀ P : Subgroup G} (_hN₀P : N₀ ≤ P) (hlt : N₀ < P)
     (hHN₀ : H ≤ Subgroup.normalizer (N₀ : Set G)) :
     ∃ N : Subgroup G, N₀ ≤ N ∧ N < P ∧ H ≤ Subgroup.normalizer (N : Set G) ∧
       ∀ K : Subgroup G, N ≤ K → K ≤ P → H ≤ Subgroup.normalizer (K : Set G) →
         K = N ∨ K = P := by
   classical
-  haveI hfinSub : Finite (Subgroup G) :=
+  have hfinSub : Finite (Subgroup G) :=
     Finite.of_injective (fun K : Subgroup G => (K : Set G)) SetLike.coe_injective
   let s : Set (Subgroup G) := {K | N₀ ≤ K ∧ K < P ∧ H ≤ Subgroup.normalizer (K : Set G)}
   have hs : s.Finite := Set.toFinite s
@@ -49,7 +49,7 @@ theorem isElementaryAbelian_quotient_of_commutator_pow {G : Type*} [Group G]
 theorem frattini_le_of_comm_pow {p : ℕ} [Fact p.Prime] {P : Type*} [Group P] [Finite P]
     (hP : IsPGroup p P) (N : Subgroup P) (hc : ∀ x y : P, ⁅x, y⁆ ∈ N)
     (hpow : ∀ x : P, x ^ p ∈ N) : frattini P ≤ N := by
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
+  have : Fact (IsPGroup p P) := ⟨hP⟩
   rw [CFSG.frattini_eq_closure_commutator_union_powers (p := p)]
   refine (closure_le _).2 ?_
   rintro x (hx | ⟨y, rfl⟩)

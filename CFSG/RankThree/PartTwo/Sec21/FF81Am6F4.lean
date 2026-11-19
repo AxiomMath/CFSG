@@ -161,6 +161,7 @@ theorem f4Par_one_eq_rootElt (i : Fin 24) :
   rw [coe_f4Rep_singleton]
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem congr_f4Par_one (ζ : K ≃+* ZMod 2) (i : Fin 24) :
     CFSG.TauCetiBridge.adjointGroupCongr ζ (Adjoint.f4Par K (orbitCertRoot .F4 (24 + i)) 1) =
       rootElt i := by
@@ -170,6 +171,7 @@ theorem congr_f4Par_one (ζ : K ≃+* ZMod 2) (i : Fin 24) :
   rw [map_one] at h
   exact h
 
+omit [Finite K] [CharP K 2] in
 theorem card_cen_f4Par_one (ζ : K ≃+* ZMod 2) (i : Fin 24) :
     Nat.card ↥(Subgroup.centralizer
       ({Adjoint.f4Par K (orbitCertRoot .F4 (24 + i)) 1} : Set ↥(adjointGroup .F4 K))) =
@@ -222,6 +224,7 @@ theorem simple_root_pos : ∀ j : Fin (Tag.rank .F4), ∃ i : Fin 24,
     orbitCertRoot .F4 (24 + i) = Pi.single j 1 := by
   decide +kernel
 
+omit [Finite K] [CharP K 2] in
 theorem Lv_eq_rootSL2 (j : Fin (Tag.rank .F4)) : Lv K {j} = rootSL2 K (Pi.single j 1) := by
   unfold Lv
   rw [CFSG.LieType.CurtisTits.levi_singleton]

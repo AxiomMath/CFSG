@@ -36,7 +36,7 @@ theorem uc22s13xf_exists_cartan_of_le_borel {K : Type} [Group K]
     (hAM : A ≤ borel (Q : Subgroup K)) (hA : Odd (Nat.card A)) :
     ∃ t : K, t * t = 1 ∧ t ∉ borel (Q : Subgroup K) ∧ A ≤ cartan (Q : Subgroup K) t := by
   obtain ⟨t₀, h₀⟩ := hK.exists_benderCore Q
-  obtain ⟨q, hq, hqA⟩ := h₀.exists_conj_cartan_of_odd Q.isPGroup' hAM hA
+  obtain ⟨q, hq, hqA⟩ := h₀.exists_conj_cartan_of_odd Q.isPGroup hAM hA
   have hqM : q ∈ borel (Q : Subgroup K) := le_borel _ hq
   refine ⟨q⁻¹ * t₀ * q, ?_, ?_, fun a ha => uc22s13xf_mem_cartan_of_conj hqM (hqA a ha)⟩
   · calc q⁻¹ * t₀ * q * (q⁻¹ * t₀ * q) = q⁻¹ * (t₀ * t₀) * q := by group
@@ -51,7 +51,7 @@ theorem uc22s13xf_le_borel_of_odd {K : Type} [Group K] [Finite K]
     {n i e : ℕ} (hK : BenderType K n i e) (Q : Sylow 2 K) {A : Subgroup K}
     (hA : Odd (Nat.card A)) (hAQ : (A : Set K) * Q = Q * A) : A ≤ borel (Q : Subgroup K) := by
   classical
-  haveI := hK.isSimple
+  have := hK.isSimple
   obtain ⟨t₀, h₀⟩ := hK.exists_benderCore Q
   by_cases hX : A ⊔ (Q : Subgroup K) = ⊤
   swap
@@ -135,8 +135,8 @@ theorem uc22s13xf_le_borel_of_odd {K : Type} [Group K] [Finite K]
     · exact hex
   have hu1 : u = 1 := by
     rcases hK.cases' with ⟨-, rfl, -⟩ | ⟨-, rfl, -⟩ | ⟨rfl, -, -⟩
-    · exact h.eq_one_of_commute_cartan Q.isPGroup' hd hd1 hu (hcomm d hd)
-    · exact h.eq_one_of_commute_cartan Q.isPGroup' hd hd1 hu (hcomm d hd)
+    · exact h.eq_one_of_commute_cartan Q.isPGroup hd hd1 hu (hcomm d hd)
+    · exact h.eq_one_of_commute_cartan Q.isPGroup hd hd1 hu (hcomm d hd)
     · by_contra hu1
       have hdu : d * u * d⁻¹ * u⁻¹ ∈ rootCenter P := by
         rw [← hcomm d hd, mul_inv_cancel_right, mul_inv_cancel]
@@ -223,6 +223,7 @@ theorem uc22s13xf_le_cartan_of_odd {K : Type} [Group K] [Finite K]
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22s13xf_map_permutes {H : Type*} [Group H] {N B T : Subgroup G} (hBN : B ≤ N)
     (hTN : T ≤ N) (hBT : Permutes B T) (f : ↥N →* H) :
     ((B.subgroupOf N).map f : Set H) * (T.subgroupOf N).map f =

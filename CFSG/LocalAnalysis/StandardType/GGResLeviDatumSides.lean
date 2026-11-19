@@ -76,8 +76,8 @@ private theorem l05nSd_transport {G : Type} [Group G] [Finite G] {p : ℕ} [Fact
     (ι' : Additive ↥Bs ≃+ V') : GGResSideDatum p Bs X J := by
   obtain ⟨Λ, i1, i2, b, M, C, MJ, V, i3, i4, ι, φ, h, α,
     hWM, hC, hWMJ, hMJ, hlin, hrefl, hpair, hf, hclos, hfJ, hclosJ, hconj⟩ := hD
-  letI := i3
-  letI := i4
+  let := i3
+  let := i4
   have hbij : Function.Bijective ((ι.symm.trans ι').toAddMonoidHom.toZModLinearMap p) :=
     (ι.symm.trans ι').bijective
   let e : V ≃ₗ[ZMod p] V' := LinearEquiv.ofBijective _ hbij
@@ -149,8 +149,8 @@ private theorem l05nSd_conj {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pr
     GGResSideDatum p Bs X J := by
   obtain ⟨Λ, i1, i2, b, M, C, MJ, V, i3, i4, ι, φ, h, α,
     hWM, hC, hWMJ, hMJ, hlin, hrefl, hpair, hf, hclos, hfJ, hclosJ, hconj⟩ := hD
-  letI := i3
-  letI := i4
+  let := i3
+  let := i4
   have hrange : Set.range (fun i => u * φ i * u⁻¹) =
       (MulAut.conj u).toMonoidHom '' Set.range φ := by
     ext γ
@@ -202,7 +202,7 @@ private theorem l05nSd_conj {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Pr
 
 private theorem l05nSd_rankOne {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Type}
     [AddCommGroup V] [Module (ZMod p) V] {f f' : Module.Dual (ZMod p) V} {x x' : V}
-    (hf : f x = 2) (hf' : f' x' = 2) (h : ∀ v, f v • x = f' v • x') :
+    (hf : f x = 2) (_hf' : f' x' = 2) (h : ∀ v, f v • x = f' v • x') :
     ∃ c : (ZMod p)ˣ, x' = (c : ZMod p) • x ∧ f' = (↑(c⁻¹) : ZMod p) • f := by
   have h2 : (2 : ZMod p) ≠ 0 := zmod_two_ne_zero hp2
   have hx0 : x ≠ 0 := by
@@ -333,7 +333,7 @@ private theorem l05nSd_leaf {Λ : Type} [Fintype Λ] [DecidableEq Λ] {M : Coxet
       (p := fun u v => ((TauCeti.diagramGraph C).induce ({a}ᶜ : Set Λ)).Adj u v)
       (fun x y hxy => SimpleGraph.induce_adj.mpr ((hadj x.1 y.1).2
         ⟨fun h => hxy.1 (Subtype.ext h), hxy.2⟩)) (hdel u v)
-  haveI : Subsingleton ((TauCeti.diagramGraph C).induce ({a}ᶜ : Set Λ)).ConnectedComponent :=
+  have : Subsingleton ((TauCeti.diagramGraph C).induce ({a}ᶜ : Set Λ)).ConnectedComponent :=
     SimpleGraph.Preconnected.subsingleton_connectedComponent hpreC
   have hsub : Subsingleton ((TauCeti.diagramGraph C).neighborSet a) :=
     ⟨fun x y => (TauCeti.IsTree.neighborSetEquivConnectedComponentCompl hGtree a).injective
@@ -390,7 +390,7 @@ private theorem l05nSd_reindex_trans {ι κ ν : Type} (M : CoxeterMatrix ι) (e
     (f : κ ≃ ν) : (M.reindex e).reindex f = M.reindex (e.trans f) := by
   apply CoxeterMatrix.ext
   funext x y
-  simp only [CoxeterMatrix.reindex_apply, Equiv.trans_apply, Equiv.symm_trans_apply]
+  simp only [CoxeterMatrix.reindex_apply, Equiv.symm_trans_apply]
 
 private theorem l05nSd_weyl_reindex {ι κ : Type} {M : CoxeterMatrix ι} (h : GGIsWeylMatrix M)
     (f : ι ≃ κ) : GGIsWeylMatrix (M.reindex f) := by
@@ -413,12 +413,12 @@ theorem ggResLeviDatum_of_sides (hConj : GGWeylSimpleSystemsConjInput) {G : Type
     (hK : GGResSideDatum p Bs K J) : GGResLeviDatum p Bs L J K ggSelAny ggTypAny := by
   obtain ⟨ΛL, i1L, i2L, bL, ML, CL, MJL, VL, i3L, i4L, ιL, φL, hL1, αL,
     hWML, hCLL, hWMJL, hMJL, hlinL, hreflL, hpairL, hfL, hclosL, hfJL, hclosJL, hconjL⟩ := hL
-  letI := i1L; letI := i2L; letI := i3L; letI := i4L
+  let := i1L; let := i2L; let := i3L; let := i4L
   obtain ⟨fL, hfL⟩ := hfL
   obtain ⟨fJL, hfJL⟩ := hfJL
   obtain ⟨ΛK, i1K, i2K, aK, MK0, CK0, MJK, VK, i3K, i4K, ιK, φK, hK1, αK,
     hWMK, hCKK, hWMJK, hMJK, hlinK, hreflK, hpairK, hfK, hclosK, hfJK, hclosJK, hconjK⟩ := hK
-  letI := i1K; letI := i2K; letI := i3K; letI := i4K
+  let := i1K; let := i2K; let := i3K; let := i4K
   obtain ⟨fK, hfK⟩ := hfK
   obtain ⟨fJK, hfJK⟩ := hfJK
   have hT : ∀ k : {k : ΛK // k ≠ aK}, ∃ (u : ↥(ggAutomizer J Bs)) (i : {i : ΛL // i ≠ bL}),
@@ -567,14 +567,14 @@ theorem ggResLeviDatum_of_sides (hConj : GGWeylSimpleSystemsConjInput) {G : Type
           have h : ¬ ((σ i : ΛK) = aK) := fun hh => (σ i).2 hh
           show (if h' : (σ i : ΛK) = aK then none
               else some (σ.symm ⟨(σ i : ΛK), h'⟩)) = some i
-          rw [dif_neg h]
+          rw [dite_eq_right h]
           have heta : (⟨(σ i : ΛK), h⟩ : {k // k ≠ aK}) = σ i := Subtype.ext rfl
           rw [heta, Equiv.symm_apply_apply]
       right_inv := by
         intro k
         by_cases h : k = aK
         · simp [h]
-        · simp only [h, dif_neg, not_false_eq_true, Option.elim_some]
+        · simp only [h, dite_eq_right, not_false_eq_true, Option.elim_some]
           exact congrArg Subtype.val (Equiv.apply_symm_apply σ ⟨k, h⟩) }
   let MK : CoxeterMatrix (Option {i : ΛL // i ≠ bL}) := MK0.reindex τ.symm
   let CK : Matrix (Option {i : ΛL // i ≠ bL}) (Option {i : ΛL // i ≠ bL}) ℤ :=
@@ -658,7 +658,7 @@ theorem ggResLeviDatum_of_sides (hConj : GGWeylSimpleSystemsConjInput) {G : Type
   have hpairCK_fin : ∀ o o' : Option {i : ΛL // i ≠ bL},
       αfin (o.map Subtype.val) (hfin (o'.map Subtype.val)) = (CK o o' : ZMod p) := by
     intro o o'
-    simp only [αfin, hfin, CK, Option.map_none, Option.map_some]
+    simp only [αfin, hfin, CK]
     cases o with
     | none =>
       cases o' with

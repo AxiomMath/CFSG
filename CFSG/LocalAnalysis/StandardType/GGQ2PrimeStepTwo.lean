@@ -198,9 +198,9 @@ theorem step_two {G : Type*} [Group G] [Finite G]
   set W : Subgroup G := X ⊔ O with hWdef
   have hXN : X ≤ normalizer (N : Set G) := normalizer_commutator_ge_left X O
   have hON : O ≤ normalizer (N : Set G) := normalizer_commutator_ge_right X O
-  haveI := hXs
+  have := hXs
   have hint : X ⊓ N = ⊥ := by
-    haveI := normal_subgroupOf_of_le_normalizer hXN
+    have := normal_subgroupOf_of_le_normalizer hXN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf X) with h | h
     · rw [subgroupOf_eq_bot] at h
       exact disjoint_iff.1 h.symm
@@ -239,7 +239,7 @@ theorem step_two {G : Type*} [Group G] [Finite G]
       (inv_mem (mem_sup_right ho))
   have hXt : ∀ y ∈ X, t * y * t⁻¹ ∈ V := by
     have hWV : W ≤ normalizer (V : Set G) := sup_le (le_trans le_sup_left le_normalizer) hOV
-    haveI : (V.subgroupOf W).Normal := normal_subgroupOf_of_le_normalizer hWV
+    have : (V.subgroupOf W).Normal := normal_subgroupOf_of_le_normalizer hWV
     let φ : X →* W ⧸ V.subgroupOf W :=
       (QuotientGroup.mk' (V.subgroupOf W)).comp
         { toFun := fun y => ⟨t * y * t⁻¹, (mem_normalizer_iff.1 htW y).1 (mem_sup_left y.2)⟩

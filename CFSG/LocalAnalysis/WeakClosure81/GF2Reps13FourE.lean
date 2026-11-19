@@ -24,7 +24,7 @@ private theorem w16g_three_dvd_component (hW : ∀ w : W, w * w = 1)
     (hD : D ∈ CFSG.LocalAnalysis.RankThreeUC.BinaryRepresentations.hyperplanes 7 E) :
     3 ∣ rk ↥(M ⊓ fixV D) := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hW2 : ∀ w : W, w ^ 2 = 1 := fun w => by rw [pow_two]; exact hW w
   have hEcomm : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hEelem.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
@@ -90,7 +90,7 @@ private theorem w16g_component_le_commSub (hW : ∀ w : W, w * w = 1)
     (hDz : D ≠ Subgroup.zpowers z) :
     M ⊓ fixV D ≤ commSub ⊤ (Subgroup.zpowers z) := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hW2 : ∀ w : W, w ^ 2 = 1 := fun w => by rw [pow_two]; exact hW w
   have hZodd : Odd (Nat.card ↥(Subgroup.zpowers z)) := by
     rw [Nat.card_zpowers, hz]
@@ -116,10 +116,11 @@ private theorem w16g_component_le_commSub (hW : ∀ w : W, w * w = 1)
   calc M ⊓ fixV D = commSub (M ⊓ fixV D) (Subgroup.zpowers z) := hEq
     _ ≤ commSub ⊤ (Subgroup.zpowers z) := commSub_mono le_top le_rfl
 
+omit [Finite W] in
 private theorem w16g_mem_hyperplanes_of_card {E D : Subgroup (MulAut W)}
     (hEcard : Nat.card ↥E = 49) (hDE : D ≤ E) (hDcard : Nat.card ↥D = 7) :
     D ∈ CFSG.LocalAnalysis.RankThreeUC.BinaryRepresentations.hyperplanes 7 E := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   refine ⟨hDE, ?_⟩
   have h := Subgroup.relIndex_mul_card (H := D) (K := E)
   rw [inf_of_le_left hDE, hDcard, hEcard] at h

@@ -28,32 +28,36 @@ theorem partner_ne_partner {a b : Fin 6} (h : a ≠ b) : partner b ≠ partner a
   rw [partner_partner, partner_partner] at h2
   exact h2.symm
 
+omit [CharP F 2] in
 theorem hypGram_apply (i j : Fin 6) : hypGram F i j = if j = partner i then 1 else 0 := by
   have key : (i.val / 2 = j.val / 2 ∧ i.val % 2 ≠ j.val % 2) ↔ j = partner i := by
     fin_cases i <;> fin_cases j <;> decide
   simp only [hypGram, Matrix.of_apply]
   by_cases h : j = partner i
-  · rw [if_pos h, if_pos (key.mpr h)]
-  · rw [if_neg h, if_neg (fun hk => h (key.mp hk))]
+  · rw [ite_eq_left h, ite_eq_left (key.mpr h)]
+  · rw [ite_eq_right h, ite_eq_right (fun hk => h (key.mp hk))]
 
 private theorem h49_eq_partner_iff (x i : Fin 6) : x = partner i ↔ partner x = i :=
   ⟨fun h => by rw [h, partner_partner], fun h => by rw [← h, partner_partner]⟩
 
+omit [CharP F 2] in
 private theorem h49_hypGram_apply (i x : Fin 6) :
     hypGram F i x = if partner x = i then 1 else 0 := by
   rw [hypGram_apply]
   by_cases h : x = partner i
-  · rw [if_pos h, if_pos ((h49_eq_partner_iff x i).mp h)]
-  · rw [if_neg h, if_neg (fun h' => h ((h49_eq_partner_iff x i).mpr h'))]
+  · rw [ite_eq_left h, ite_eq_left ((h49_eq_partner_iff x i).mp h)]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h ((h49_eq_partner_iff x i).mpr h'))]
 
+omit [CharP F 2] in
 private theorem h49_hypGram_mul_single (x y : Fin 6) (d : F) :
     hypGram F * Matrix.single x y d = Matrix.single (partner x) y d := by
   ext i k
   by_cases hk : k = y
   · rw [hk, Matrix.mul_single_apply_same, h49_hypGram_apply, Matrix.single_apply]
     by_cases hi : partner x = i <;> simp [hi]
-  · simp [hk, Ne.symm hk, Matrix.single_apply]
+  · simp [hk, Ne.symm hk]
 
+omit [CharP F 2] in
 private theorem h49_single_mul_hypGram (x y : Fin 6) (d : F) :
     Matrix.single x y d * hypGram F = Matrix.single x (partner y) d := by
   ext i k
@@ -62,23 +66,25 @@ private theorem h49_single_mul_hypGram (x y : Fin 6) (d : F) :
     by_cases hk : k = partner y
     · simp [hk]
     · simp [hk, Ne.symm hk]
-  · simp [hi, Ne.symm hi, Matrix.single_apply]
+  · simp [hi, Ne.symm hi]
 
 private theorem h49_single_add_self (i j : Fin 6) (d : F) :
     Matrix.single i j d + Matrix.single i j d = 0 := by
   rw [← Matrix.single_add, CharTwo.add_self_eq_zero, Matrix.single_zero]
 
+omit [CharP F 2] in
 private theorem h49_char_two_cancel (x y : Matrix (Fin 6) (Fin 6) F)
     (hx : x + x = 0) (hy : y + y = 0) : x + y + (y + x) = 0 := by
   calc x + y + (y + x) = (x + x) + (y + y) := by abel
     _ = 0 := by rw [hx, hy, add_zero]
 
+omit [CharP F 2] in
 private theorem h49_short_core (P X G : Matrix (Fin 6) (Fin 6) F)
     (h : P * G + G * X + P * G * X = 0) : (1 + P) * G * (1 + X) = G := by
   have e : (1 + P) * G * (1 + X) = G + (P * G + G * X + P * G * X) := by noncomm_ring
   rw [e, h, add_zero]
 
-theorem transvection_long_unitary (hσ : ∀ c, σ (σ c) = c) (a : Fin 6) {c : F} (hc : σ c = c) :
+theorem transvection_long_unitary (_hσ : ∀ c, σ (σ c) = c) (a : Fin 6) {c : F} (hc : σ c = c) :
     conjTr σ (Matrix.transvection a (partner a) c) * hypGram F *
       Matrix.transvection a (partner a) c = hypGram F := by
   have hT : conjTr σ (Matrix.transvection a (partner a) c) = 1 + Matrix.single (partner a) a c := by
@@ -94,7 +100,7 @@ theorem transvection_long_unitary (hσ : ∀ c, σ (σ c) = c) (a : Fin 6) {c : 
   rw [h1, h2, h3, add_zero, h49_single_add_self]
 
 theorem transvection_short_unitary (hσ : ∀ c, σ (σ c) = c) {a b : Fin 6} (hab : a ≠ b)
-    (hb : b ≠ partner a) (c : F) :
+    (_hb : b ≠ partner a) (c : F) :
     conjTr σ (Matrix.transvection a b c * Matrix.transvection (partner b) (partner a) (σ c)) *
         hypGram F * (Matrix.transvection a b c * Matrix.transvection (partner b) (partner a) (σ c)) =
       hypGram F := by
@@ -166,11 +172,13 @@ theorem frameConj_short_mem (hσ : IsUnitaryInvolution σ) {ω : F} (hω : ω + 
     exact transvection_short_unitary hσ.invol hab hb c
   exact frame_conj_mem_SUid hσ.invol hω hdet hu
 
+omit [CharP F 2] in
 private theorem h50_transvection_mulVec (i j : Fin 6) (c : F) (v : Fin 6 → F) (hv : v j = 0) :
     (Matrix.transvection i j c).mulVec v = v := by
   rw [Matrix.transvection, Matrix.add_mulVec, Matrix.one_mulVec, Matrix.single_mulVec_eq, hv,
     mul_zero, zero_smul, add_zero]
 
+omit [CharP F 2] in
 private theorem h50_short_fix_even (c : F) {a b : Fin 6} (ha : a.val % 2 = 0)
     (hb : b.val % 2 = 1) (hab : a ≠ b) (hpab : partner b ≠ partner a) (k : Fin 6)
     (hk : k.val % 2 = 0) :
@@ -185,9 +193,9 @@ private theorem h50_short_fix_even (c : F) {a b : Fin 6} (ha : a.val % 2 = 0)
     intro h
     have h' := congrArg Fin.val h
     omega
-  have hv1 : (Pi.single k (1 : F) : Fin 6 → F) b = 0 := by rw [Pi.single_apply, if_neg hbk]
+  have hv1 : (Pi.single k (1 : F) : Fin 6 → F) b = 0 := by rw [Pi.single_apply, ite_eq_right hbk]
   have hv2 : (Pi.single k (1 : F) : Fin 6 → F) (partner a) = 0 := by
-    rw [Pi.single_apply, if_neg hpk]
+    rw [Pi.single_apply, ite_eq_right hpk]
   simp only [Units.val_mul, transvGL_val]
   rw [← Matrix.mulVec_mulVec, h50_transvection_mulVec _ _ _ _ hv2,
     h50_transvection_mulVec _ _ _ _ hv1]
@@ -240,9 +248,9 @@ theorem rho_transvGL_eq_add_Nop {a b : Fin 6} (hab : a ≠ b) (c : F) (ξ : Cube
   rw [hN, coord_add, coord_smul, coord_sub, coord_rho_transvGL_gen a b hab c ξ I,
     coord_rho_transvGL_gen a b hab (1 : F) ξ I]
   by_cases h : a ∈ I.val ∧ b ∉ I.val
-  · rw [dif_pos h, dif_pos h]
+  · rw [dite_eq_left h, dite_eq_left h]
     ring
-  · rw [dif_neg h, dif_neg h]
+  · rw [dite_eq_right h, dite_eq_right h]
     ring
 
 theorem coord_Nop {a b : Fin 6} (hab : a ≠ b) (ξ : Cube F) (J : Set.powersetCard (Fin 6) 3) :
@@ -251,9 +259,9 @@ theorem coord_Nop {a b : Fin 6} (hab : a ≠ b) (ξ : Cube F) (J : Set.powersetC
   rw [Nop, LinearMap.sub_apply, Module.End.one_apply, coord_sub,
     coord_rho_transvGL_gen a b hab (1 : F) ξ J]
   by_cases h : a ∈ J.val ∧ b ∉ J.val
-  · rw [dif_pos h, dif_pos h]
+  · rw [dite_eq_left h, dite_eq_left h]
     ring
-  · rw [dif_neg h, dif_neg h]
+  · rw [dite_eq_right h, dite_eq_right h]
     ring
 
 theorem Nop_cubeBasis {a b : Fin 6} (hab : a ≠ b) (I : Set.powersetCard (Fin 6) 3) :
@@ -262,16 +270,16 @@ theorem Nop_cubeBasis {a b : Fin 6} (hab : a ≠ b) (I : Set.powersetCard (Fin 6
   rw [Nop, LinearMap.sub_apply, Module.End.one_apply,
     rho_transvGL_cubeBasis_gen a b hab (1 : F) I]
   by_cases h : b ∈ I.val ∧ a ∉ I.val
-  · rw [dif_pos h, dif_pos h, one_smul]
+  · rw [dite_eq_left h, dite_eq_left h, one_smul]
     abel
-  · rw [dif_neg h, dif_neg h, sub_self]
+  · rw [dite_eq_right h, dite_eq_right h, sub_self]
 
 theorem coord_eq_zero_of_Nop_eq_zero {a b : Fin 6} (hab : a ≠ b) {ξ : Cube F}
     (h : Nop F a b hab ξ = 0) {I : Set.powersetCard (Fin 6) 3} (hb : b ∈ I.val) (ha : a ∉ I.val) :
     coord F ξ I = 0 := by
   have hJ := replSet_eq_imp hab hb ha rfl
   have key := coord_Nop hab ξ (replSet I a b hb ha)
-  rw [h, coord_zero, dif_pos hJ] at key
+  rw [h, coord_zero, dite_eq_left hJ] at key
   have hI : I = replSet (replSet I a b hb ha) b a hJ.1 hJ.2 :=
     (replSet_eq_iff hb ha hJ.1 hJ.2).mp rfl
   rw [← hI] at key

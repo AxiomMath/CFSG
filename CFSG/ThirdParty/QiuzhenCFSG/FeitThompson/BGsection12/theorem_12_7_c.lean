@@ -445,7 +445,7 @@ public theorem CFSG.section12_global_sylow_not_le_M_of_nonabelian_pre
     section12_rankTwo_of_EData hE hA
   let Ssub : Subgroup M := (S : Subgroup G).subgroupOf M
   have hSsub_p : IsPGroup p.val Ssub :=
-    S.isPGroup'.of_equiv
+    S.isPGroup.of_equiv
       (Subgroup.subgroupOfEquivOfLe (H := (S : Subgroup G)) (K := M) hSleM).symm
   have hp_not_dvd_Ssub_index : ¬ p.val ∣ Ssub.index := by
     have hmap_eq : Ssub.map M.subtype = (S : Subgroup G) := by
@@ -486,7 +486,7 @@ public theorem CFSG.section12_sylow_inf_M_isMulCommutative_pre
   let I : Subgroup G := (S : Subgroup G) ⊓ M
   have hI_le_M : I ≤ M := inf_le_right
   have hI_p : IsPGroup p.val I :=
-    IsPGroup.to_le S.isPGroup' inf_le_left
+    IsPGroup.to_le S.isPGroup inf_le_left
   let Isub : Subgroup M := I.subgroupOf M
   have hIsub_p : IsPGroup p.val Isub :=
     hI_p.of_equiv (Subgroup.subgroupOfEquivOfLe (H := I) (K := M) hI_le_M).symm
@@ -599,7 +599,7 @@ public theorem CFSG.section12_not_centralizer_le_M_of_ne_fixed_primeOrder_tau2_p
           {Y | Y ∈ section10PrimeOrderSubgroupsIn p A ∧ Y ≠ Z} := by
       simpa [Z] using
         lemma_10_13_c (G := G) (p := p) (A := A) (P := (S : Subgroup G))
-          (A₀ := A₀) hpG hA10 S.isPGroup' hSnonab hAS hA₀
+          (A₀ := A₀) hpG hA10 S.isPGroup hSnonab hAS hA₀
           (by simpa [Z] using hA₀neZ)
     obtain ⟨k, hkX⟩ := htrans A₀ ⟨hA₀, by simpa [Z] using hA₀neZ⟩
       X ⟨hX_A, by simpa [Z] using hXZ⟩

@@ -73,8 +73,8 @@ theorem mem_normalizer_Wsub {R : Subgroup G} {h : G} (hh : h ∈ normalizer (R :
 
 theorem Wsub_ne_bot [Finite G] {R : Subgroup G} (hR : IsPGroup 2 R) (hne : R ≠ ⊥) :
     Wsub R ≠ ⊥ := by
-  haveI : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).mpr hne
-  haveI := hR.center_nontrivial
+  have : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).mpr hne
+  have := hR.center_nontrivial
   obtain ⟨⟨z, hz⟩, hz1⟩ := exists_ne (1 : Subgroup.center R)
   have hz1' : z ≠ 1 := fun h => hz1 (Subtype.ext h)
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hR) z

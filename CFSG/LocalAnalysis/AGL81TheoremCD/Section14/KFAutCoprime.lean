@@ -56,7 +56,7 @@ theorem autMAt_of_card_le_nine {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact 
   obtain ⟨r, hrR, hr1, x, hxT, hx1, hxr⟩ :=
     exists_commute_of_card_eq_nine hp3 hexp hR9 hT hT1 (hRN.trans hNT)
   have hro : orderOf r = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime (hexp r hrR) hr1
   obtain ⟨c, hcF, hcr, hcp, hcN⟩ :=
     hG x r (hTN hxT) (hRN hrR) hx1 (hT.to_le (Subgroup.zpowers_le.mpr hxT))

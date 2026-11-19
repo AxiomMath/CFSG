@@ -51,11 +51,11 @@ private lemma isSimpleGroup_altOff_of_card_eq_three (s : Finset (Fin 10)) (hs : 
 
 private lemma isPerfect_altOff_of_card_eq_three (s : Finset (Fin 10)) (hs : s.card = 3) :
     Group.IsPerfect ↥(A10Perm.altOff s) := by
-  haveI hsimple : IsSimpleGroup ↥(A10Perm.altOff s) :=
+  have hsimple : IsSimpleGroup ↥(A10Perm.altOff s) :=
     isSimpleGroup_altOff_of_card_eq_three s hs
   refine TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative ?_
   intro hcomm
-  haveI := hcomm
+  have := hcomm
   have hp := (Group.is_simple_iff_prime_card (α := ↥(A10Perm.altOff s))).mp hsimple
   rw [card_altOff_of_card_eq_three s hs] at hp
   norm_num at hp
@@ -127,7 +127,7 @@ private lemma exists_altOff_le_map_inf (F : A10Frame c) {B : Subgroup G}
   rw [hmap]
   exact le_inf hleL hleCent
 
-private lemma normalizer_ne_top_of_card_eq_three (F : A10Frame c) {B : Subgroup G}
+private lemma normalizer_ne_top_of_card_eq_three (_F : A10Frame c) {B : Subgroup G}
     (hB3 : Nat.card B = 3) :
     Subgroup.normalizer (B : Set G) ≠ ⊤ := by
   intro htop
@@ -135,14 +135,14 @@ private lemma normalizer_ne_top_of_card_eq_three (F : A10Frame c) {B : Subgroup 
     intro hbot
     rw [hbot, Subgroup.card_bot] at hB3
     norm_num at hB3
-  haveI hBnormal : B.Normal := (Subgroup.normalizer_eq_top_iff).mp htop
-  haveI hGsimple : IsSimpleGroup G := D.standing.simple
+  have hBnormal : B.Normal := (Subgroup.normalizer_eq_top_iff).mp htop
+  have hGsimple : IsSimpleGroup G := D.standing.simple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal B with hbot | htopB
   · exact hBne hbot
   · rw [htopB] at hB3
     have hGcard : Nat.card G = 3 := by simpa using hB3
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-    haveI : IsCyclic G := isCyclic_of_prime_card hGcard
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : IsCyclic G := isCyclic_of_prime_card hGcard
     have hcomm : IsMulCommutative G := IsCyclic.isMulCommutative
     obtain ⟨a, b, hab⟩ := D.standing.nonab
     exact hab (hcomm.is_comm.comm a b)
@@ -156,18 +156,18 @@ private lemma bar_kernel_le {A : Type} [Group A] [Finite A] {H : Subgroup G}
     (hScard : Nat.card ↥S = 2520) (f0 : A →* ↥S) (hf0 : Function.Surjective f0) :
     gY.ker ≤ f0.ker := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hker_dvd : Nat.card gY.ker ∣ Nat.card K5 := by
     rw [hgY, ← MonoidHom.comap_ker, QuotientGroup.ker_mk']
     exact Subgroup.card_comap_dvd_of_injective K5 eY heY
   have hker_cop : Nat.Coprime (Nat.card gY.ker) 5 :=
     Nat.Coprime.of_dvd_left (hK5 ▸ hker_dvd)
       (CFSG.pPrimeCore_coprime_card (p := 5) (G := ↥H)).symm
-  haveI hker_normal : gY.ker.Normal := MonoidHom.normal_ker gY
-  haveI himage_normal : (gY.ker.map f0).Normal := hker_normal.map f0 hf0
+  have hker_normal : gY.ker.Normal := MonoidHom.normal_ker gY
+  have himage_normal : (gY.ker.map f0).Normal := hker_normal.map f0 hf0
   have himage_cop : Nat.Coprime (Nat.card (gY.ker.map f0)) 5 :=
     Nat.Coprime.of_dvd_left (Subgroup.card_map_dvd gY.ker f0) hker_cop
-  haveI : IsSimpleGroup ↥S := hSsimple
+  have : IsSimpleGroup ↥S := hSsimple
   have himage_bot : gY.ker.map f0 = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (gY.ker.map f0) with h | h
     · exact h
@@ -194,7 +194,7 @@ private lemma bar_surjection_of_perfect {H X : Subgroup G} {S : Subgroup (Equiv.
         (QuotientGroup.mk' (CFSG.pPrimeCore 5 ↥H)) ∧
       ⁅Ybar, Ybar⁆ = Ybar := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   let K5 : Subgroup ↥H := CFSG.pPrimeCore 5 ↥H
   let eY : ↥Y0 →* ↥H := (Subgroup.inclusion hXH).comp Y0.subtype
   let gY : ↥Y0 →* UC22.F07.QuotK7 5 H := (QuotientGroup.mk' K5).comp eY
@@ -304,7 +304,7 @@ private lemma exists_bar_surjection_of_deg_three (F : A10Frame c) {B : Subgroup 
       ⁅Ybar, Ybar⁆ = Ybar := by
   obtain ⟨S, X, hSsimple, hSperf, hScard, hXH, hXM, f, hf⟩ :=
     exists_perfect_surjection_of_deg_three F hBA hB3 hdeg
-  haveI : Group.IsPerfect ↥S := hSperf
+  have : Group.IsPerfect ↥S := hSperf
   obtain ⟨Y0, hY0, hY0map⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.PartOne.Section9.exists_perfect_map_eq_top f hf
   obtain ⟨Ybar, fbar, hfbar, hYbar_le, hYbar_perf⟩ :=
@@ -320,8 +320,8 @@ theorem normalizer_le_of_deg_three (F : A10Frame c) (hKF7 : UC22.KF7Use D) {B : 
   by_contra hHM
   obtain ⟨S, Ybar, fbar, hSsimple, hSperf, hScard, hfbar, hYbar_le, hYbar_perf⟩ :=
     exists_bar_surjection_of_deg_three F hBA hB3 hdeg
-  haveI : IsSimpleGroup ↥S := hSsimple
-  haveI : Group.IsPerfect ↥S := hSperf
+  have : IsSimpleGroup ↥S := hSsimple
+  have : Group.IsPerfect ↥S := hSperf
   have hrank : 1 < CFSG.Open.pRank 5 (H ⊓ D.M) := by
     refine lt_of_lt_of_le (one_lt_pRank_five_centralizer_inf F hBA hB3 hdeg) ?_
     exact CFSG.SectionRank.pRank_mono (p := 5) (by norm_num)
@@ -331,12 +331,12 @@ theorem normalizer_le_of_deg_three (F : A10Frame c) (hKF7 : UC22.KF7Use D) {B : 
       c.isStronglyPEmbedded_of_mem_sigma (by rw [F.sig]; simp),
       normalizer_ne_top_of_card_eq_three F hB3, hHM, hrank⟩
   rcases hKF7 5 (by rw [F.sig]; simp) H hsec with hsol | ⟨-, hquot⟩
-  · haveI : Group.IsSolvable ↥(((H ⊓ D.M).subgroupOf H).map
+  · have : Group.IsSolvable ↥(((H ⊓ D.M).subgroupOf H).map
         (QuotientGroup.mk' (CFSG.pPrimeCore 5 ↥H))) := hsol
-    haveI : Group.IsSolvable ↥Ybar :=
+    have : Group.IsSolvable ↥Ybar :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hYbar_le)
         (Subgroup.inclusion_injective hYbar_le)
-    haveI : Group.IsSolvable ↥S := solvable_of_surjective hfbar
+    have : Group.IsSolvable ↥S := Group.isSolvable_of_surjective hfbar
     exact hSperf.not_isSolvable ↥S inferInstance
   · obtain ⟨e⟩ := hquot Ybar hYbar_le hYbar_perf ↥S hSsimple fbar hfbar
     have hcard : Nat.card ↥S = 60 := by

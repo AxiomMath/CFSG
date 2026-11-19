@@ -29,7 +29,7 @@ theorem normalizesRGroup_of_fixed_unipotent {τ : Tag} (hτ : τ = Tag.E7 ∨ τ
       (g⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (p : ModGL τ K) * g)) :
     NormalizesRGroup (ringChar K) E₀ := by
   classical
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K (ringChar K)⟩
   obtain ⟨e, he, hcard⟩ := card_eq_pow_ringChar K
   have hℓ : ringChar K ≠ 3 := by
     intro h

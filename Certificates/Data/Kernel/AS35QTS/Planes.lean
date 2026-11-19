@@ -142,7 +142,7 @@ variable {α β : Type}
 
 @[expose] noncomputable def incB (n : Nat) (L : List Nat) : Bool :=
   List.rec (motive := fun _ => Nat → Bool) (fun _ => true)
-    (fun c _ ih lo => Bool.and' (Nat.ble lo c) (Bool.and' (Nat.blt c n) (ih (Nat.succ c)))) L 0
+    (fun c _ ih lo => _root_.Bool.and (Nat.ble lo c) (_root_.Bool.and (Nat.blt c n) (ih (Nat.succ c)))) L 0
 
 @[expose] noncomputable def popP (p : Nat) : Nat := CFSG.KC.popcount p 82944
 
@@ -163,7 +163,7 @@ variable {α β : Type}
       ⟨p4, p5, p2, p3, p0, p1⟩⟩
 
 @[expose] noncomputable def gOK (G : List Nat) : Bool :=
-  Bool.and' (incB 262144 G) (frc (Nat.sub (Nat.pow 2 262144) 1) fun t =>
+  _root_.Bool.and (incB 262144 G) (frc (Nat.sub (Nat.pow 2 262144) 1) fun t =>
     matK fun X => Nat.beq (unitT (natOps t) X) (ind G))
 
 @[expose] noncomputable def anyEq (t : Nat) (X Q : PL Nat) (S : List Nat) : Nat :=
@@ -172,17 +172,17 @@ variable {α β : Type}
 
 @[expose] noncomputable def allHit (t : Nat) (X Q : PL Nat) (S : List Nat) : Bool :=
   List.rec (motive := fun _ => Bool) true
-    (fun s _ ih => Bool.and' (Nat.blt 0 (eqP (natOps t) Q (atLane t X s))) ih) S
+    (fun s _ ih => _root_.Bool.and (Nat.blt 0 (eqP (natOps t) Q (atLane t X s))) ih) S
 
 @[expose] def invM (t : Nat) (X XX : PL Nat) : Nat :=
   Nat.land (eqP (natOps t) XX (cst t ixE)) (bnot (natOps t) (eqP (natOps t) X (cst t ixE)))
 
 @[expose] noncomputable def slOK (G S : List Nat) : Bool :=
-  Bool.and' (incB 82944 S) (frc allT fun t => lanesK G fun X =>
+  _root_.Bool.and (incB 82944 S) (frc allT fun t => lanesK G fun X =>
     mulK (natOps t) frc X X fun Q => mulK (natOps t) frc Q Q fun QQ =>
-      Bool.and' (Nat.beq (Nat.land (ind S) (bnot (natOps t)
+      _root_.Bool.and (Nat.beq (Nat.land (ind S) (bnot (natOps t)
           (Nat.land (invM t X Q) (bnot (natOps t) (isI3 (natOps t) X))))) 0)
-        (Bool.and' (allHit t X Q S)
+        (_root_.Bool.and (allHit t X Q S)
           (Nat.beq (Nat.land (Nat.land (invM t Q QQ) (bnot (natOps t) (isI3 (natOps t) Q)))
             (bnot (natOps t) (anyEq t X Q S))) 0)))
 

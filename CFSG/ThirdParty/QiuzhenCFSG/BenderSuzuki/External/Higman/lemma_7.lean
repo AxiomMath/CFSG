@@ -379,7 +379,7 @@ public theorem lemma7_cover_commutator_case_abelian
         have hbot_lt : (⊥ : Submodule (ZMod 2)
             (Additive (LowerCentralFactor C 0))) < W :=
           bot_lt_iff_ne_bot.mpr hWbot
-        obtain ⟨v, hvW, hv0⟩ := SetLike.exists_of_lt hbot_lt
+        obtain ⟨v, hvW, hv0⟩ := _root_.IsConcreteLE.exists_of_lt hbot_lt
         have hv_ne : v ≠ 0 := by simpa using hv0
         obtain ⟨c, hcval⟩ := hqC_surj v.toMul
         have hcBc : c ∈ Bc := by
@@ -951,7 +951,7 @@ public theorem lemma7_cover_commutator_case_abelian
       exact (not_le_of_gt hnext_lt) hreverse
     have hkernel_lt : lowerCentralFactorKernel C 1 < ⊤ :=
       lt_top_iff_ne_top.mpr hkernel_ne_top
-    obtain ⟨z, _hzTop, hzker⟩ := SetLike.exists_of_lt hkernel_lt
+    obtain ⟨z, _hzTop, hzker⟩ := _root_.IsConcreteLE.exists_of_lt hkernel_lt
     rw [← not_subsingleton_iff_nontrivial]
     intro hsub
     apply hzker

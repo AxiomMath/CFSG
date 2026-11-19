@@ -17,6 +17,7 @@ open scoped MatrixGroups
 variable {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {K : Type} [Field K] [Finite K]
   [CharP K 2] {f : ℕ} {ψ : Su K 2 f 6 →* G}
 
+omit [Finite K] [CharP K 2] in
 private theorem ggNSPosPF3C_cube_root_cases {z : K} (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1)
     (hz0 : z ≠ 0) {s : Kˣ} (hs3 : s ^ 3 = 1) :
     s = 1 ∨ s = Units.mk0 z hz0 ∨ s = (Units.mk0 z hz0) ^ 2 := by
@@ -46,6 +47,7 @@ private theorem ggNSPosPF3C_cube_root_cases {z : K} (hz3 : z ^ 3 = 1) (hz1 : z �
     rw [Units.val_pow_eq_pow_val]
     simpa using sub_eq_zero.mp h
 
+omit [Finite G] in
 private theorem ggNSPosPF3C_commutator_eq_pow {c g : Su K 2 f 6}
     (hμ : ∀ s : Kˣ, s ^ 3 = 1 → ∀ u : Su K 2 f 6,
       (u : GL (Fin 6) K) = Matrix.GeneralLinearGroup.scalar (Fin 6) s → ψ u = 1)
@@ -77,6 +79,7 @@ private theorem ggNSPosPF3C_commutator_eq_pow {c g : Su K 2 f 6}
     _ = 1 * (ψ c) ^ j := by rw [hψu, map_pow]
     _ = (ψ c) ^ j := one_mul _
 
+omit [Finite G] in
 theorem ggNSPosPF3C_psi_scalar_eq_one {z : K} (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) (hz0 : z ≠ 0)
     {x : Su K 2 f 6}
     (hx : (x : GL (Fin 6) K) = Matrix.GeneralLinearGroup.scalar (Fin 6) (Units.mk0 z hz0))
@@ -87,11 +90,11 @@ theorem ggNSPosPF3C_psi_scalar_eq_one {z : K} (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) 
   rcases ggNSPosPF3C_cube_root_cases hz3 hz1 hz0 hs3 with hs | hs | hs
   · have hu1 : u = 1 := by
       apply Subtype.ext
-      simpa [hu, hs]
+      simp [hu, hs]
     rw [hu1, map_one]
   · have hux : u = x := by
       apply Subtype.ext
-      simpa [hu, hs, hx]
+      simp [hu, hs, hx]
     rw [hux, hxeq]
   · have hu2 : u = x ^ 2 := by
       apply Subtype.ext

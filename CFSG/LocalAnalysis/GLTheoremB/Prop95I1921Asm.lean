@@ -21,7 +21,7 @@ theorem center_no_two_elements {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Typ
   intro z hz n hn
   let N : Subgroup K := Subgroup.zpowers z
   have hle : N ≤ Subgroup.center K := Subgroup.zpowers_le.2 hz
-  haveI : N.Normal := ⟨fun m hm g => by
+  have : N.Normal := ⟨fun m hm g => by
     have := Subgroup.mem_center_iff.1 (hle hm) g
     rw [this]; simpa using hm⟩
   have hcop2 : Nat.Coprime p (2 ^ n) :=
@@ -38,7 +38,7 @@ theorem odd_card_center_of_no_two {K : Type} [Group K] [Finite K]
     (hodd : ∀ z ∈ Subgroup.center K, ∀ n : ℕ, z ^ (2 ^ n) = 1 → z = 1) :
     ¬ 2 ∣ Nat.card (Subgroup.center K) := by
   intro hdvd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' 2 hdvd
   have hz1 : (z : K) ^ (2 ^ 1) = 1 := by
     have := pow_orderOf_eq_one z
@@ -72,7 +72,7 @@ theorem card_center_dvd_two_of_alt {K : Type} [Group K]
     (hperf : commutator K = ⊤) {n : ℕ} (hn5 : 5 ≤ n) (hn6 : n ≠ 6) (hn7 : n ≠ 7)
     (e : (K ⧸ Subgroup.center K) ≃* ↥(alternatingGroup (Fin n))) :
     Nat.card (Subgroup.center K) ∣ 2 := by
-  haveI : Group.IsPerfect K := Group.isPerfect_def.2 hperf
+  have : Group.IsPerfect K := Group.isPerfect_def.2 hperf
   have h := CFSG.HardMathSupport.Cooperstein.Coordinator.card_ker_dvd_card_hopfMultiplier
     (e.toMonoidHom.comp (QuotientGroup.mk' _)) (e.surjective.comp (QuotientGroup.mk'_surjective _))
     (CFSG.HardMathSupport.Cooperstein.Coordinator.ker_comp_mk'_center e).le
@@ -125,7 +125,7 @@ theorem glaPPrimeCore_three_of_alt7 {K : Type} [Group K] [Finite K]
     rw [this, Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
       Fintype.card_fin]
     exact Dvd.dvd.mul_right (by decide) _
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2.1
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.2.1
   have hperf : commutator K = ⊤ := Group.isPerfect_def.1 hK.1
   show CFSG.pPrimeCore 3 K = ⊥
   unfold CFSG.pPrimeCore
@@ -148,7 +148,7 @@ theorem glaPPrimeCore_three_of_alt7 {K : Type} [Group K] [Finite K]
       exact Subgroup.card_eq_one.1 this
     · exfalso
       let Nb : Subgroup (K ⧸ Subgroup.center K) := N.map (QuotientGroup.mk' (Subgroup.center K))
-      haveI : Nb.Normal := hNn.map _ (QuotientGroup.mk'_surjective _)
+      have : Nb.Normal := hNn.map _ (QuotientGroup.mk'_surjective _)
       have hNb1 : Nb ≠ ⊥ := by
         intro h
         apply hNZ
@@ -201,6 +201,7 @@ theorem V4_sign {F : Finset Ω} (hF : F.card = 4) {s : Perm Ω} (hs : s ∈ V4 F
   · rw [h]; simp
   · exact sign_isDT hF h
 
+omit [Fintype Ω] in
 theorem card_V4 {F : Finset Ω} (hF : F.card = 4) : Nat.card (V4 F hF) = 4 := by
   have hcard : Fintype.card ↥F = 4 := by rw [Fintype.card_coe]; exact hF
   let e : ↥F ≃ Fin 4 := Fintype.equivFinOfCardEq hcard
@@ -234,7 +235,7 @@ theorem card_V4 {F : Finset Ω} (hF : F.card = 4) : Nat.card (V4 F hF) = 4 := by
 theorem moved_V4 {F : Finset Ω} (hF : F.card = 4) :
     {i : Ω | ¬ ∀ v ∈ V4 F hF, v i = i} = (F : Set Ω) := by
   ext i
-  simp only [Set.mem_setOf_eq, Finset.mem_coe]
+  simp only [Set.mem_ofPred_eq, Finset.mem_coe]
   constructor
   · intro h
     by_contra hiF
@@ -279,7 +280,7 @@ theorem isRootFour_of_V4 {n : ℕ} {F : Finset (Fin n)} (hF : F.card = 4)
   · have hset : {i : Fin n | ¬ ∀ v ∈ V, (v : Perm (Fin n)) i = i} = (F : Set (Fin n)) := by
       rw [← moved_V4 hF]
       ext i
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       constructor
       · intro h hall
         apply h
@@ -303,7 +304,7 @@ theorem isQuasisimple_of_comp {X : Type} [Group X] {K : Subgroup X} (hK : IsComp
   refine ⟨Group.isPerfect_def.2 h.1, h.2, ?_⟩
   by_contra hcon
   push Not at hcon
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := h.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := h.2
   have h1 : ∀ k : ↥K, (QuotientGroup.mk k : ↥K ⧸ Subgroup.center ↥K) = 1 := by
     intro k
     have hk : k ∈ commutator ↥K := by rw [h.1]; exact Subgroup.mem_top k
@@ -388,7 +389,7 @@ theorem conj_comm_aux (hZ : Subgroup.center ↥K = ⊥) {w : X}
       have := (Subgroup.mem_normalizer_iff.1 hw' u).1 u.2
       simpa using this
     have H := hpt ⟨w⁻¹ * (u : X) * w, huK⟩
-    simp only [Subgroup.coe_mk] at H
+    simp only at H
     have e1 : w * (w⁻¹ * (u : X) * w) * w⁻¹ = u := by group
     rw [e1] at H
     have e2 : w * ((k : X) * (w⁻¹ * (u : X) * w) * (k : X)⁻¹) * w⁻¹ =
@@ -452,6 +453,7 @@ section PermData
 
 variable {X : Type} [Group X] [Finite X] {K : Subgroup X}
 
+omit [Finite X] in
 theorem mem_sig_iff {n : ℕ} (θ : MulAut ↥K →* Perm (Fin n)) (T : Subgroup X) {s : Perm (Fin n)} :
     s ∈ (inducedAutGroup T K).map θ ↔ ∃ (t : X) (ht : t ∈ Subgroup.normalizer (K : Set X)),
       t ∈ T ∧ θ (K.normalizerMonoidHom ⟨t, ht⟩) = s := by
@@ -463,6 +465,7 @@ theorem mem_sig_iff {n : ℕ} (θ : MulAut ↥K →* Perm (Fin n)) (T : Subgroup
   · rintro ⟨t, ht, htT, rfl⟩
     exact ⟨_, mem_inducedAutGroup.2 ⟨t, ht, htT, rfl⟩, rfl⟩
 
+omit [Finite X] in
 theorem sd_fixes_center {x : X} (hxz : ∀ z ∈ Subgroup.center ↥K, x * (z : X) * x⁻¹ = z)
     (hodd : ∀ z ∈ Subgroup.center ↥K, ∀ m : ℕ, z ^ (2 ^ m) = 1 → z = 1) {Sd : Subgroup X}
     (hSd2 : ∀ t ∈ Sd, ∃ m : ℕ, t ^ (2 ^ m) = 1)
@@ -497,6 +500,7 @@ theorem sd_fixes_center {x : X} (hxz : ∀ z ∈ Subgroup.center ↥K, x * (z : 
   have h3 := congrArg (fun w => w⁻¹) h2
   simpa using h3
 
+omit [Finite X] in
 theorem perm_data_triv {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ}
     {e : (↥K ⧸ Subgroup.center ↥K) ≃* ↥(alternatingGroup (Fin n))} (D : APD K e)
     (hZ : Subgroup.center ↥K = ⊥) {x : X} (hxp : x ^ p = 1)
@@ -560,6 +564,7 @@ theorem perm_data_triv {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ}
     exact (mem_sig_iff D.θ Sd).2 ⟨_, hktN, hkt, rfl⟩
   exact (locA hp hp2 hσp (Sg := Sig) hexp hC hN).1
 
+omit [Finite X] in
 theorem perm_data_hat (hH : HatSevenOddInverts)
     (hK : IsComponentOf K ⊤)
     (hodd : ∀ z ∈ Subgroup.center ↥K, ∀ m : ℕ, z ^ (2 ^ m) = 1 → z = 1)
@@ -568,7 +573,7 @@ theorem perm_data_hat (hH : HatSevenOddInverts)
     (hxN : x ∈ Subgroup.normalizer (K : Set X))
     (hσ1 : D.θ (K.normalizerMonoidHom ⟨x, hxN⟩) ≠ 1) {Sd : Subgroup X}
     (hSdC : Sd ≤ Subgroup.centralizer ({x} : Set X)) (hSd2 : ∀ t ∈ Sd, ∃ m : ℕ, t ^ (2 ^ m) = 1)
-    (hSdN : Sd ≤ Subgroup.normalizer (K : Set X))
+    (_hSdN : Sd ≤ Subgroup.normalizer (K : Set X))
     (hSdinv : ∀ c ∈ Subgroup.centralizer ({x} : Set X), c ∈ Subgroup.normalizer (Sd : Set X)) :
     ∀ s ∈ (inducedAutGroup Sd K).map D.θ,
       (∀ y, D.θ (K.normalizerMonoidHom ⟨x, hxN⟩) y ≠ y → s y = y) ∧
@@ -620,6 +625,7 @@ theorem perm_data_hat (hH : HatSevenOddInverts)
   intro s hs
   exact locB7 hσ3 hσ1 (hC s hs).eq (hev s hs) (pow_four_of_two_power_seven s (hexp s hs))
 
+omit [Finite X] in
 theorem perm_data (hH : HatSevenOddInverts) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hK : IsComponentOf K ⊤)
     (hodd : ∀ z ∈ Subgroup.center ↥K, ∀ m : ℕ, z ^ (2 ^ m) = 1 → z = 1) {n : ℕ}

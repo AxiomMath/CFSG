@@ -44,7 +44,7 @@ theorem y4a_orbits (hI : TwoHSInterface) {G : Type} [Group G] [Finite G] {a z : 
   have hMsq : ∀ m ∈ M, m ^ 2 = 1 := fun m hm => hM4.1.2 m hm
   have hMab : ∀ m₁ ∈ M, ∀ m₂ ∈ M, m₁ * m₂ = m₂ * m₁ := by
     intro m₁ h₁ m₂ h₂
-    haveI : IsMulCommutative ↥M := hM4.1.1
+    have : IsMulCommutative ↥M := hM4.1.1
     exact congrArg Subtype.val (mul_comm' (M := ↥M) ⟨m₁, h₁⟩ ⟨m₂, h₂⟩)
   have h16 : Nat.card ↥M = 16 := by
     rw [hM4.2]

@@ -26,9 +26,9 @@ theorem exists_conj_mem_of_isPGroup [Finite G] {p : ℕ} [Fact p.Prime] (S : Syl
 theorem exists_ne_one_comm_of_le_normalizer {p : ℕ} [Fact p.Prime] {T N : Subgroup G}
     [Finite T] (hT : IsPGroup p T) (hNT : N ≤ T) (hnorm : T ≤ normalizer (N : Set G))
     (hN : N ≠ ⊥) : ∃ y ∈ N, y ≠ 1 ∧ ∀ x ∈ T, x * y = y * x := by
-  haveI : Group.IsNilpotent T := hT.isNilpotent
+  have : Group.IsNilpotent T := hT.isNilpotent
   set N' : Subgroup T := N.subgroupOf T
-  haveI : N'.Normal := ⟨fun x hx g => by
+  have : N'.Normal := ⟨fun x hx g => by
     rw [mem_subgroupOf] at hx ⊢
     simp only [coe_mul, coe_inv]
     exact (mem_normalizer_iff.1 (hnorm g.2) x).1 hx⟩
@@ -77,7 +77,7 @@ theorem goldschmidt_hyp [Finite G] (hT : ∀ Q : Subgroup G, IsPGroup 2 Q → T 
     ∀ x ∈ normalizer (D.A : Set G), x ∉ D.A → orderOf x = 2 →
       ∀ d ∈ D.A, orderOf d = 2 → ∀ g : G, g⁻¹ * x * g ≠ d := by
   intro x hxN hxA hx2 d hdA hd2 g hg
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := normalizer (D.A : Set G)
   have hTN : T ≤ N := D.T_le_normalizer_A
   let TS : Sylow 2 G :=
@@ -107,8 +107,8 @@ theorem goldschmidt_hyp [Finite G] (hT : ∀ Q : Subgroup G, IsPGroup 2 Q → T 
 theorem inf_B_eq_bot_of_card_le_four {P : Subgroup G} (hPT : P ≤ T)
     (hAP : D.A ≤ P) (hnorm : T ≤ normalizer (P : Set G))
     (hrank : ∀ E ≤ P, (∀ x ∈ E, x * x = 1) → Nat.card E ≤ 4) : P ⊓ D.B = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := D.finite_T
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := D.finite_T
   by_contra hne
   have hnorm' : T ≤ normalizer ((P ⊓ D.B : Subgroup G) : Set G) := by
     intro g hg
@@ -142,7 +142,7 @@ theorem inf_B_eq_bot_of_card_le_four {P : Subgroup G} (hPT : P ≤ T)
       have h2 : (2 : ℕ) ≤ 2 ^ (m - 1) := by
         calc 2 = 2 ^ 1 := rfl
           _ ≤ 2 ^ (m - 1) := Nat.pow_le_pow_right (by norm_num) (by have := D.two_le_m; omega)
-      haveI : Fact (1 < 2 ^ (m - 1)) := ⟨by omega⟩
+      have : Fact (1 < 2 ^ (m - 1)) := ⟨by omega⟩
       exact zero_ne_one h01
     · exact ⟨e.symm (DihedralGroup.sr 0), (e.symm _).2, hinv 0, hne1 0, h0⟩
   have hcax : ∀ u ∈ zpowers D.a, ∀ v ∈ zpowers x, u * v = v * u := by
@@ -284,7 +284,7 @@ theorem eq_A_of_card_le_four {P : Subgroup G} (hPT : P ≤ T)
     calc w * (y * (v * D.t) * y⁻¹) = y * ((y⁻¹ * w * y) * (v * D.t)) * y⁻¹ := by group
       _ = y * ((v * D.t) * (y⁻¹ * w * y)) * y⁻¹ := by rw [this]
       _ = y * (v * D.t) * y⁻¹ * w := by group
-  haveI : Finite ↥(D.B ⊓ centralizer ({D.t} : Set G)) :=
+  have : Finite ↥(D.B ⊓ centralizer ({D.t} : Set G)) :=
     Nat.finite_of_card_ne_zero (by rw [D.card_CBt]; positivity)
   have hcard := Subgroup.card_le_of_le htB
   rw [D.card_B, D.card_CBt] at hcard

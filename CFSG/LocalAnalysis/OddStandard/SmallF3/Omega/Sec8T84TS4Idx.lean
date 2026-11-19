@@ -29,7 +29,7 @@ noncomputable def sec8t84ts4_el (i : ℕ) : Y :=
 
 theorem sec8t84ts4_rr_el {i : ℕ} (hi : i < 192) : rr (sec8t84ts4_el S C i) = elt i := by
   unfold sec8t84ts4_el
-  rw [dif_pos hi]
+  rw [dite_eq_left hi]
   exact Classical.choose_spec (C.surj (elt i) (S.mem i hi))
 
 theorem sec8t84ts4_el_mul {i j : ℕ} (hi : i < 192) (hj : j < 192) :

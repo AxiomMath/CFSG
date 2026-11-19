@@ -229,7 +229,7 @@ theorem mul_ne_mul_of_three (hc : CritAmalgam G₀ G₁ G₂ T Z) (hb : critB G�
 
 theorem comm_eq_one_or_pairProd (hc : CritAmalgam G₀ G₁ G₂ T Z) {δ : CosetGeom G₀ G₁ G₂}
     (hδ : δ ∈ nbrs (γ₀ G₀ G₁ G₂)) {X : Subgroup G} (hX : IsLocalReg δ 3 X) {x : G} (hx : x ∈ X)
-    (hxN : x ∉ ballStab 1 δ) {z : G}
+    (_hxN : x ∉ ballStab 1 δ) {z : G}
     (hV : Vv Z δ = Subgroup.zpowers z ⊔ Subgroup.zpowers (x * z * x⁻¹) ⊔
       Subgroup.zpowers (x ^ 2 * z * (x ^ 2)⁻¹))
     {t : G} (ht : t ∈ stab δ ⊓ stab (γ₀ G₀ G₁ G₂)) (htt : t * t ∈ ballStab 1 δ)
@@ -239,7 +239,7 @@ theorem comm_eq_one_or_pairProd (hc : CritAmalgam G₀ G₁ G₂ T Z) {δ : Cose
   have hG := hc.amalgam.gen
   have hδv : vtype δ = true := vtype_eq_true_of_mem_nbrs CosetGeom.vtype_γ₀ hδ
   have h2' := lemma63_2' hc hδv
-  haveI : IsMulCommutative ↥(Vv Z δ) := h2'.1.1
+  have : IsMulCommutative ↥(Vv Z δ) := h2'.1.1
   have hnorm : stab δ ≤ Subgroup.normalizer (Vv Z δ : Set G) := h2'.2.2.2.2
   have hγ₀ : γ₀ G₀ G₁ G₂ ∈ nbrs δ := CosetGeom.mem_nbrs_symm hδ
   have hzV : z ∈ Vv Z δ := by
@@ -294,9 +294,9 @@ theorem pairProd_eq_of_three (hc : CritAmalgam G₀ G₁ G₂ T Z) (hb : critB G
   have hμ : vtype (γ₀ G₀ G₁ G₂) = false := CosetGeom.vtype_γ₀
   have hδ'v : vtype δ' = true := vtype_eq_true_of_mem_nbrs hμ hδ'
   obtain ⟨v, hv, hvN⟩ :=
-    SetLike.not_le_iff_exists.mp (not_Vv_le_ballStab_of_three hc hb hL hμ hδ hδ' hne)
+    IsConcreteLE.not_le_iff_exists.mp (not_Vv_le_ballStab_of_three hc hb hL hμ hδ hδ' hne)
   obtain ⟨w, hw, hwN⟩ :=
-    SetLike.not_le_iff_exists.mp (not_Vv_le_ballStab_of_three hc hb hL hμ hδ' hδ hne.symm)
+    IsConcreteLE.not_le_iff_exists.mp (not_Vv_le_ballStab_of_three hc hb hL hμ hδ' hδ hne.symm)
   have hne1 := mul_ne_mul_of_three hc hb hbase hμ hδ hδ' hv hvN hw hwN
   have hvst := Vv_le_stab_inf_of_three hc hb hμ hδ hδ' hv
   have hwst := Vv_le_stab_inf_of_three hc hb hμ hδ' hδ hw
@@ -363,7 +363,7 @@ theorem card_Vv_ne_eight_of_three (hc : CritAmalgam G₀ G₁ G₂ T Z) (hb : cr
   have hv₁ : vtype (γ₁ G₀ G₁ G₂) = true := CosetGeom.vtype_γ₁
   have hV₀ := hVsup _ hv₁ X₀ hbase _ hγ₀ x hx hxN z hzZ
   have h2' := lemma63_2' hc hv₁
-  haveI : IsMulCommutative ↥(Vv Z (γ₁ G₀ G₁ G₂)) := h2'.1.1
+  have : IsMulCommutative ↥(Vv Z (γ₁ G₀ G₁ G₂)) := h2'.1.1
   have hnorm := h2'.2.2.2.2
   have hcent := ballStab_le_centralizer_Vv hc hv₁
   have hxV : x ∈ Subgroup.normalizer (Vv Z (γ₁ G₀ G₁ G₂) : Set G) := hnorm (hbase.le_stab hx)
@@ -404,7 +404,7 @@ theorem card_Vv_ne_eight_of_three (hc : CritAmalgam G₀ G₁ G₂ T Z) (hb : cr
     have h4 := Nat.mul_le_mul hz2 ha2
     omega
   have hG₂ : stab (γ₁ G₀ G₁ G₂) ≤ Subgroup.centralizer ({z * (a * b)} : Set G) := by
-    refine (hbase.le_sup_zpowers hG hγ₀ hx hxN).trans (sup_le ?_ ((Subgroup.zpowers_le).mpr ?_))
+    refine (hbase.le_sup_zpowers hγ₀ hx hxN).trans (sup_le ?_ ((Subgroup.zpowers_le).mpr ?_))
     · intro t ht
       rw [Subgroup.mem_centralizer_singleton_iff]
       by_cases htN : t ∈ ballStab 1 (γ₁ G₀ G₁ G₂)

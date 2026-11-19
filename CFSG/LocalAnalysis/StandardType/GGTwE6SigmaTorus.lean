@@ -64,9 +64,9 @@ theorem exists_sigmaTorus_of_toral {f : ℕ} (hf : 1 ≤ f) (Ω : Type) [Field �
         ∀ x ∈ X, g₀⁻¹ * x * g₀ ∈ torusGroup Tag.E6 Ω ∧
           canonicalRep (coxeterSystem Tag.E6) Ω v * twistE6 Ω Fr (g₀⁻¹ * x * g₀) *
             (canonicalRep (coxeterSystem Tag.E6) Ω v)⁻¹ = g₀⁻¹ * x * g₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed (GaloisField 2 (2 * f))
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed (GaloisField 2 (2 * f))
+  have : CharP Ω 2 := charP_of_injective_algebraMap
     (algebraMap (GaloisField 2 (2 * f)) Ω).injective 2
   have hFr' : Fr = iterateFrobenius Ω 2 f := RingHom.ext fun c => by
     rw [hFr, iterateFrobenius_def]

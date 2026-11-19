@@ -45,6 +45,7 @@ private lemma mem_levi_of_commute {m : ℕ} (hm : 3 ≤ m)
 
 variable {n : ℕ} [NeZero n] [CharP K 2]
 
+omit [CharP K 2] in
 private lemma col_zero_of_commute_single (M : Matrix (Fin n) (Fin n) K) {l : Fin n}
     (h : M * (1 + Matrix.single (0 : Fin n) l 1) =
       (1 + Matrix.single (0 : Fin n) l 1) * M) :
@@ -65,6 +66,7 @@ private lemma col_zero_of_commute_single (M : Matrix (Fin n) (Fin n) K) {l : Fin
   · rw [Matrix.single_mul_apply_of_ne _ _ _ _ _ hi] at h1
     simp [hi, h1]
 
+omit [NeZero n] [CharP K 2] in
 private lemma entry_conj_single_one (D : Matrix (Fin n) (Fin n) K) {r s i j : Fin n} :
     (D * Matrix.single r s (1 : K) * D⁻¹) i j = D i r * D⁻¹ s j := by
   rw [Matrix.mul_apply, Finset.sum_eq_single s]
@@ -74,6 +76,7 @@ private lemma entry_conj_single_one (D : Matrix (Fin n) (Fin n) K) {r s i j : Fi
   · intro hs
     simp at hs
 
+omit [NeZero n] [CharP K 2] in
 private lemma entry_conj_single (D : Matrix (Fin n) (Fin n) K) {r s i j : Fin n} (a : K)
     (hD : D * D⁻¹ = 1) (hij : i ≠ j) :
     (D * (1 + Matrix.single r s a) * D⁻¹) i j =
@@ -81,12 +84,13 @@ private lemma entry_conj_single (D : Matrix (Fin n) (Fin n) K) {r s i j : Fin n}
   have h1 : D * (1 + Matrix.single r s a) * D⁻¹ =
       D * D⁻¹ + D * Matrix.single r s a * D⁻¹ := by
     rw [Matrix.mul_add, Matrix.mul_one, Matrix.add_mul]
-  rw [h1, Matrix.add_apply, hD, Matrix.one_apply, if_neg hij, zero_add]
+  rw [h1, Matrix.add_apply, hD, Matrix.one_apply, ite_eq_right hij, zero_add]
   rw [show Matrix.single r s a = a • Matrix.single r s (1 : K) by
     ext x y; simp [Matrix.single_apply, Matrix.smul_apply]]
   rw [Matrix.mul_smul, Matrix.smul_mul, Matrix.smul_apply, smul_eq_mul]
 
 
+omit [NeZero n] [CharP K 2] in
 private lemma field_eq_one_of_conj_single (D : GL (Fin n) K) {σ : K ≃+* K}
     {r s i j : Fin n} (hij : i ≠ j)
     (h : ∀ t : K, (D : Matrix (Fin n) (Fin n) K) * (1 + Matrix.single r s (σ t)) *
@@ -97,7 +101,7 @@ private lemma field_eq_one_of_conj_single (D : GL (Fin n) K) {σ : K ≃+* K}
   have hD : (D : Matrix (Fin n) (Fin n) K) * ((D : Matrix (Fin n) (Fin n) K))⁻¹ = 1 := by
     have h := congrArg (fun x : GL (Fin n) K => (x : Matrix (Fin n) (Fin n) K))
       (mul_inv_cancel D)
-    simpa [Units.val_mul, Matrix.GeneralLinearGroup.coe_inv] using h
+    simp
   rw [hDval] at h
   have hc : ((D : Matrix (Fin n) (Fin n) K) * Matrix.single r s (1 : K) *
       ((D : Matrix (Fin n) (Fin n) K))⁻¹) i j = 1 := by
@@ -173,6 +177,7 @@ private lemma commute_of_mem_centralizer {g t : SpecialLinearGroup (Fin n) K} (h
   calc g * t = g * t * g⁻¹ * g := by simp
     _ = t * g := by rw [hgt]
 
+omit [CharP K 2] in
 private lemma col_zero_of_commute_sl (b : SpecialLinearGroup (Fin n) K) {l : Fin n}
     (h0l : (0 : Fin n) ≠ l)
     (h : b * SpecialLinearGroup.transvection h0l 1 =
@@ -184,6 +189,7 @@ private lemma col_zero_of_commute_sl (b : SpecialLinearGroup (Fin n) K) {l : Fin
     (x : Matrix (Fin n) (Fin n) K)) h
   simpa [Matrix.SpecialLinearGroup.coe_mul, SpecialLinearGroup.transvection_coe] using h'
 
+omit [CharP K 2] in
 private lemma col_zero_of_commute_gl (A : GL (Fin n) K) {l : Fin n} (h0l : (0 : Fin n) ≠ l)
     (h : A * SpecialLinearGroup.toGL (SpecialLinearGroup.transvection h0l 1) =
       SpecialLinearGroup.toGL (SpecialLinearGroup.transvection h0l 1) * A) :
@@ -194,6 +200,7 @@ private lemma col_zero_of_commute_gl (A : GL (Fin n) K) {l : Fin n} (h0l : (0 : 
   simpa [Units.val_mul, SpecialLinearGroup.coe_GL_coe_matrix,
     SpecialLinearGroup.transvection_coe] using h'
 
+omit [CharP K 2] in
 private lemma transvection_mulVec_e0 {i j : Fin n} (hij : i ≠ j) (hj0 : j ≠ 0) (t : K) :
     ((SpecialLinearGroup.transvection hij t : SpecialLinearGroup (Fin n) K) :
       Matrix (Fin n) (Fin n) K) *ᵥ Pi.single (0 : Fin n) 1 = Pi.single (0 : Fin n) 1 := by
@@ -201,6 +208,7 @@ private lemma transvection_mulVec_e0 {i j : Fin n} (hij : i ≠ j) (hj0 : j ≠ 
     add_zero]
 
 
+omit [NeZero n] [CharP K 2] in
 private lemma slConj_commute_of_commute (A : GL (Fin n) K)
     {g t : SpecialLinearGroup (Fin n) K}
     (hA : A * SpecialLinearGroup.toGL t = SpecialLinearGroup.toGL t * A)
@@ -227,12 +235,14 @@ private lemma slConj_commute_of_commute (A : GL (Fin n) K)
     _ = (SpecialLinearGroup.toGL t * A) * SpecialLinearGroup.toGL g * A⁻¹ := by rw [hA]
     _ = SpecialLinearGroup.toGL t * (A * SpecialLinearGroup.toGL g * A⁻¹) := by group
 
+omit [CharP K 2] in
 private lemma scalar_mulVec_single (a : K) :
     Matrix.scalar (Fin n) a *ᵥ Pi.single (0 : Fin n) 1 = a • Pi.single (0 : Fin n) 1 := by
   ext i
   rw [Matrix.scalar_apply, Matrix.mulVec_diagonal, Pi.smul_apply, Pi.single_apply,
     smul_eq_mul]
 
+omit [CharP K 2] in
 private lemma matrix_eq_of_proj_eq_of_col {X g : SpecialLinearGroup (Fin n) K}
     (h : proj n K X = proj n K g)
     (hX : (X : Matrix (Fin n) (Fin n) K) *ᵥ Pi.single (0 : Fin n) 1 = Pi.single (0 : Fin n) 1)
@@ -250,6 +260,7 @@ private lemma matrix_eq_of_proj_eq_of_col {X g : SpecialLinearGroup (Fin n) K}
   rw [hc1, Matrix.scalar_apply, Matrix.diagonal_one, Matrix.mul_one] at hmat
   exact hmat
 
+omit [CharP K 2] in
 private lemma scalar_of_proj_eq_of_col {X g : SpecialLinearGroup (Fin n) K}
     (h : proj n K X = proj n K g) {a b : K}
     (hX : (X : Matrix (Fin n) (Fin n) K) *ᵥ Pi.single (0 : Fin n) 1 =
@@ -273,13 +284,16 @@ private noncomputable def diagElt (f : Fin n → K) (hf : ∏ i, f i = 1) :
     SpecialLinearGroup (Fin n) K :=
   ⟨Matrix.diagonal f, by rw [Matrix.det_diagonal]; exact hf⟩
 
+omit [NeZero n] [CharP K 2] in
 private lemma coe_diagElt (f : Fin n → K) (hf : ∏ i, f i = 1) :
     (diagElt f hf : Matrix (Fin n) (Fin n) K) = Matrix.diagonal f := rfl
 
+omit [NeZero n] [CharP K 2] in
 private lemma prod_inv_eq_one {f : Fin n → K} (hf : ∏ i, f i = 1) :
     ∏ i, (f i)⁻¹ = 1 := by
   rw [Finset.prod_inv_distrib, hf, inv_one]
 
+omit [NeZero n] [CharP K 2] in
 private lemma diagElt_inv (f : Fin n → K) (hf : ∏ i, f i = 1) :
     (diagElt f hf)⁻¹ = diagElt (fun i => (f i)⁻¹) (prod_inv_eq_one hf) := by
   have hfnz : ∀ i, f i ≠ 0 := by
@@ -295,10 +309,11 @@ private lemma diagElt_inv (f : Fin n → K) (hf : ∏ i, f i = 1) :
   rw [Matrix.diagonal_apply, Matrix.one_apply]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl, if_pos rfl]
+    rw [ite_eq_left rfl, ite_eq_left rfl]
     exact mul_inv_cancel₀ (hfnz i)
-  · rw [if_neg hij, if_neg hij]
+  · rw [ite_eq_right hij, ite_eq_right hij]
 
+omit [NeZero n] in
 private lemma gammaSL_diagElt (f : Fin n → K) (hf : ∏ i, f i = 1) :
     (AutPSL.gammaSL (diagElt f hf) : Matrix (Fin n) (Fin n) K) =
       Matrix.diagonal (fun i => (f (Fin.rev i))⁻¹) := by
@@ -308,6 +323,7 @@ private lemma gammaSL_diagElt (f : Fin n → K) (hf : ∏ i, f i = 1) :
   rw [Matrix.submatrix_diagonal _ _ Fin.rev_injective]
   rfl
 
+omit [NeZero n] [CharP K 2] in
 private lemma prod_rev_inv_eq_one {f : Fin n → K} (hf : ∏ i, f i = 1) :
     ∏ i, (f (Fin.rev i))⁻¹ = 1 := by
   have hfrev : ∏ i, f (Fin.rev i) = 1 := by
@@ -316,6 +332,7 @@ private lemma prod_rev_inv_eq_one {f : Fin n → K} (hf : ∏ i, f i = 1) :
     exact hf
   exact prod_inv_eq_one hfrev
 
+omit [NeZero n] in
 private lemma graphAut_diagElt (f : Fin n → K) (hf : ∏ i, f i = 1) :
     AutPSL.graphAut (proj n K (diagElt f hf)) =
       proj n K (diagElt (fun i => (f (Fin.rev i))⁻¹) (prod_rev_inv_eq_one hf)) := by
@@ -325,6 +342,7 @@ private lemma graphAut_diagElt (f : Fin n → K) (hf : ∏ i, f i = 1) :
   rw [coe_diagElt]
   exact gammaSL_diagElt f hf
 
+omit [CharP K 2] in
 private lemma diagElt_mulVec_e0 (f : Fin n → K) (hf : ∏ i, f i = 1) :
     (diagElt f hf : Matrix (Fin n) (Fin n) K) *ᵥ Pi.single (0 : Fin n) 1 =
       (f 0) • Pi.single (0 : Fin n) 1 := by
@@ -333,6 +351,7 @@ private lemma diagElt_mulVec_e0 (f : Fin n → K) (hf : ∏ i, f i = 1) :
   rw [Matrix.mulVec_diagonal, Pi.smul_apply, Pi.single_apply, smul_eq_mul]
   by_cases hi : i = 0 <;> simp [hi]
 
+omit [NeZero n] [CharP K 2] in
 private lemma diagElt_commute_transvection (f : Fin n → K) (hf : ∏ i, f i = 1)
     {i j : Fin n} (hij : i ≠ j) (hfij : f i = f j) :
     diagElt f hf * SpecialLinearGroup.transvection hij 1 =
@@ -356,9 +375,10 @@ private lemma diagElt_commute_transvection (f : Fin n → K) (hf : ∏ i, f i = 
       simp [hs]
     · simp [hs, hab]
 
-private noncomputable def cornerFun {m : ℕ} (hm : 3 ≤ m) (lam : K) : Fin (m + 1) → K :=
+private noncomputable def cornerFun {m : ℕ} (_hm : 3 ≤ m) (lam : K) : Fin (m + 1) → K :=
   fun i => if i = 0 then lam else if i = Fin.last m then lam else if i = 1 then lam⁻¹ * lam⁻¹ else 1
 
+omit [CharP K 2] in
 private lemma prod_cornerFun {m : ℕ} (hm : 3 ≤ m) {lam : K} (hlam : lam ≠ 0) :
     ∏ i : Fin (m + 1), cornerFun (K := K) hm lam i = 1 := by
   have h0l : (0 : Fin (m + 1)) ≠ Fin.last m := (AutPSL.last_ne_zero (m := m) (by omega)).symm
@@ -380,29 +400,34 @@ private lemma prod_cornerFun {m : ℕ} (hm : 3 ≤ m) {lam : K} (hlam : lam ≠ 
   rw [← Finset.prod_subset hsub]
   · rw [Finset.prod_insert (by simp [h0l, h01]), Finset.prod_insert (by simp [hl1]),
       Finset.prod_singleton]
-    simp [cornerFun, h0l, h01, hl1, h1l, hlam, hm0]
+    simp [cornerFun, h1l, hlam, hm0]
   · intro x _ hx
     simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hx
     obtain ⟨hx0, hxl, hx1⟩ := hx
     simp [cornerFun, hx0, hxl, hx1]
 
+omit [CharP K 2] in
 private lemma cornerFun_zero {m : ℕ} (hm : 3 ≤ m) (lam : K) :
     cornerFun (K := K) hm lam 0 = lam := by
   simp [cornerFun]
 
+omit [CharP K 2] in
 private lemma cornerFun_last {m : ℕ} (hm : 3 ≤ m) (lam : K) :
     cornerFun (K := K) hm lam (Fin.last m) = lam := by
   have h0l : (Fin.last m : Fin (m + 1)) ≠ 0 := AutPSL.last_ne_zero (m := m) (by omega)
   simp [cornerFun, h0l]
 
+omit [CharP K 2] in
 private lemma cornerFun_rev_zero {m : ℕ} (hm : 3 ≤ m) (lam : K) :
     cornerFun (K := K) hm lam (Fin.rev 0) = lam := by
   simpa using cornerFun_last (K := K) hm lam
 
+omit [CharP K 2] in
 private lemma cornerFun_rev_last {m : ℕ} (hm : 3 ≤ m) (lam : K) :
     cornerFun (K := K) hm lam (Fin.rev (Fin.last m)) = lam := by
   simpa using cornerFun_zero (K := K) hm lam
 
+omit [NeZero n] [CharP K 2] in
 private lemma entry_D_eq (D : GL (Fin n) K) {i j r s : Fin n} (hij : i ≠ j)
     (hD : (D : Matrix (Fin n) (Fin n) K) *
       ((D⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) = 1) :
@@ -688,6 +713,7 @@ private lemma matrix_eq_of_key [Finite K] {m : ℕ} (hm : 3 ≤ m)
   rw [← hXmat, hmatXg, SpecialLinearGroup.transvection_coe]
 
 
+omit [CharP K 2] in
 private lemma key_to_gl {m : ℕ} (b : SpecialLinearGroup (Fin (m + 1)) K)
     (A : GL (Fin (m + 1)) K) {r s i j : Fin (m + 1)} (hrs : r ≠ s) {σ : K ≃+* K}
     (hmat : ∀ t : K, (b : Matrix (Fin (m + 1)) (Fin (m + 1)) K) *
@@ -886,7 +912,7 @@ theorem eq_one_of_conj_levi [Finite K] {m : ℕ} (hm : 3 ≤ m)
         rw [entry_D_eq (SpecialLinearGroup.toGL b * A) (i := i) (j := j)
           (r := Fin.rev j) (s := Fin.rev i₂) (by simpa using hij) hD] at h
         have hR : (1 + Matrix.single i₂ j (1 : K)) i j = 0 := by
-          simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, hij, hii₂, hii₂.symm]
+          simp [Matrix.add_apply, hij, hii₂.symm]
         rw [hR] at h
         simpa using h
       have hne : ((((SpecialLinearGroup.toGL b * A : GL (Fin (m + 1)) K))⁻¹ :
@@ -907,8 +933,8 @@ theorem eq_one_of_conj_levi [Finite K] {m : ℕ} (hm : 3 ≤ m)
         rcases hq with h | h
         · omega
         · exact h
-      haveI : Fintype K := Fintype.ofFinite K
-      haveI : Fintype Kˣ := Fintype.ofFinite Kˣ
+      have : Fintype K := Fintype.ofFinite K
+      have : Fintype Kˣ := Fintype.ofFinite Kˣ
       have hcardu : 1 < Nat.card Kˣ := by
         rw [Nat.card_units]
         omega
@@ -972,7 +998,7 @@ theorem eq_one_of_conj_levi [Finite K] {m : ℕ} (hm : 3 ≤ m)
             Pi.single (0 : Fin (m + 1)) 1 = f' 0 • Pi.single (0 : Fin (m + 1)) 1 from
           diagElt_mulVec_e0 f' hf']
         congr 1
-        simp [f', f, cornerFun_zero, cornerFun_last, Fin.rev_zero, Fin.rev_last]
+        simp [f', f, cornerFun_last, Fin.rev_zero]
       have hkcol : (k : Matrix (Fin (m + 1)) (Fin (m + 1)) K) *ᵥ
           Pi.single (0 : Fin (m + 1)) 1 = (lam : K) • Pi.single (0 : Fin (m + 1)) 1 := by
         rw [show (k : Matrix (Fin (m + 1)) (Fin (m + 1)) K) *ᵥ

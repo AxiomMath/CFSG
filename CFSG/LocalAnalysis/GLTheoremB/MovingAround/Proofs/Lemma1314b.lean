@@ -19,6 +19,7 @@ section Helpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_centerOf_iff_aux (H : Subgroup G) (z : G) :
     z ∈ centerOf H ↔ z ∈ H ∧ ∀ h ∈ H, h * z = z * h := by
   unfold centerOf
@@ -34,6 +35,7 @@ theorem mem_centerOf_iff_aux (H : Subgroup G) (z : G) :
     intro g
     exact Subtype.ext (hcomm g.1 g.2)
 
+omit [Finite G] in
 theorem centerOf_le_aux (H : Subgroup G) : centerOf H ≤ H := Subgroup.map_subtype_le _
 
 theorem exists_isSylowIn_above {p : ℕ} {X P : Subgroup G} (hPX : P ≤ X) (hP : IsPGroup p ↥P) :
@@ -43,10 +45,12 @@ theorem exists_isSylowIn_above {p : ℕ} {X P : Subgroup G} (hPX : P ≤ X) (hP 
   exact ⟨Q, ⟨hQmax.1.1, hQmax.1.2, fun R' hR'X hR'p hQR' =>
     le_antisymm (hQmax.2 ⟨hR'X, hR'p⟩ hQR') hQR'⟩, hPQ⟩
 
+omit [Finite G] in
 theorem isPGroup_gLBConj {p : ℕ} {H : Subgroup G} (hH : IsPGroup p ↥H) (g : G) :
     IsPGroup p ↥(GLBConj g H) :=
   hH.map (MulAut.conj g⁻¹).toMonoidHom
 
+omit [Finite G] in
 theorem isSylowIn_gLBConj {p : ℕ} {X R : Subgroup G} (hR : IsSylowIn p X R) {x : G} (hx : x ∈ X) :
     IsSylowIn p X (GLBConj x R) := by
   have hXX : ∀ y ∈ X, GLBConj y X = X := fun y hy =>
@@ -70,6 +74,7 @@ theorem exists_gLBConj_eq {p : ℕ} [Fact p.Prime] {X R P : Subgroup G} (hR : Is
   have hSP : S = P := hP.2.2 S hSX hSp hPS
   exact ⟨x, hx, ((isSylowIn_gLBConj hR hx).2.2 P hP.1 hP.2.1 (hRS.trans hSP.le)).symm⟩
 
+omit [Finite G] in
 theorem gLBConj_centerOf_le (x : G) (R : Subgroup G) :
     GLBConj x (centerOf R) ≤ centerOf (GLBConj x R) := by
   intro u hu
@@ -83,6 +88,7 @@ theorem gLBConj_centerOf_le (x : G) (R : Subgroup G) :
     _ = x⁻¹ * ((x * u * x⁻¹) * (x * s * x⁻¹)) * x := by rw [h]
     _ = u * s := by group
 
+omit [Finite G] in
 theorem mem_centralizer_zpowers_aux {x y : G} (h : x * y = y * x) :
     y ∈ Subgroup.centralizer (Subgroup.zpowers x : Set G) := by
   refine Subgroup.mem_centralizer_iff.2 (fun k hk => ?_)
@@ -102,7 +108,7 @@ theorem ii_core {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : G}
     ¬ ∃ A1 : Subgroup G, inD p M A1 ∧ d ∈ A1 := by
   rintro ⟨A1, hA1, hdA1⟩
   have hp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAp : inDp p M A := h.pair.1.2.1
   have hAsc : IsSCp p M A := hAp.1.1
   have hAM : A ≤ M := hAsc.1

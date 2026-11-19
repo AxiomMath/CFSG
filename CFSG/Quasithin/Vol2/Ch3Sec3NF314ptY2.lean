@@ -220,7 +220,7 @@ theorem isPSL_modO2_L2 (hPSL : IsPSL 3 2 1 ↥(autOn L (vPlus L T))) :
       set N' := (CFSG.pCore 2 ↥L2).map π.rangeRestrict with hN'
       have hN'n : N'.Normal := (CFSG.pCore_normal (p := 2) (G := ↥L2)).map _ π.rangeRestrict_surjective
       have hN'p : IsPGroup 2 ↥N' := (CFSG.pCore_isPGroup (p := 2) (G := ↥L2)).map _
-      haveI := hN'n
+      have := hN'n
       rcases hsimple.eq_bot_or_eq_top_of_normal N' with h | h
       · have : π.rangeRestrict x ∈ N' := Subgroup.mem_map_of_mem _ hx
         rw [h, Subgroup.mem_bot] at this

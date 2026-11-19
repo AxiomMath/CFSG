@@ -35,7 +35,7 @@ theorem s16h_sl4_kernel_moves_of_bad
     {x : G} (hxM : x ∈ D.M) (hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L)
     {φ : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)}
     (hφM : φ ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian) (hφ3 : orderOf φ = 3)
-    (hcent : ∀ a ∈ lBar ⊥ V h.hyp151.isElemAbelian L, φ * a = a * φ)
+    (_hcent : ∀ a ∈ lBar ⊥ V h.hyp151.isElemAbelian L, φ * a = a * φ)
     (hcentx : ∀ a ∈ lBar ⊥ V h.hyp151.isElemAbelian (conjSubgroup L x), φ * a = a * φ) :
     ∃ z ∈ wTil ⊥ V h.hyp151.isElemAbelian L, φ z ≠ z := by
   by_contra hcon

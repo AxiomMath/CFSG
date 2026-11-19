@@ -163,6 +163,7 @@ theorem exists_subgroup_of_tab {m r : ℕ} {T : ℕ → G} {g par gen dep : ℕ 
   rw [← e]
   exact hpow x hx _
 
+omit [Finite G] in
 theorem card_of_tab {m : ℕ} {T : ℕ → G} {S : Subgroup G} (hS : ∀ x, x ∈ S ↔ ∃ i < m, T i = x)
     (hinj : ∀ i < m, ∀ j < m, T i = T j → i = j) : Nat.card S = m := by
   have hb : Function.Bijective (fun i : Fin m => (⟨T i, (hS _).2 ⟨i, i.2, rfl⟩⟩ : S)) := by

@@ -48,7 +48,7 @@ theorem certificate271030 : (tCheck = true) ∧ (bCheck = true) ∧
     have e := hcent y hy
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at e
     exact e
-  simp only [S4, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
   exact h
 
 end Certificates

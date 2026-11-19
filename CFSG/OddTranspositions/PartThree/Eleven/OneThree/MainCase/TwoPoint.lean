@@ -22,7 +22,7 @@ namespace MainHyp
 
 variable {hC : HypothesisC D}
 
-private theorem mem_blockLine_of_mem_Dalpha_of_mem_Dalpha (h : MainHyp hC) {β : Set G}
+private theorem mem_blockLine_of_mem_Dalpha_of_mem_Dalpha (_h : MainHyp hC) {β : Set G}
     (hβ : β ∈ Dalpha D hC.alpha)
     (hcon : ∀ γ, γ ∈ Dalpha D hC.alpha → γ ∈ Dalpha D β →
       γ ∈ blockLine D hC.alpha β)
@@ -43,25 +43,26 @@ private theorem mem_blockLine_of_mem_Dalpha_of_mem_Dalpha (h : MainHyp hC) {β :
   have hβeq' : (fun x => g⁻¹ * x * (g⁻¹)⁻¹) '' β₁ = β := by
     simpa only [cimg] using hβeq
   have hγ'α : cimg g⁻¹ γ ∈ Dalpha D hC.alpha := by
-    have h := Dalpha.conj hC.setup.normal hγ g⁻¹
-    rw [hg'] at h
-    exact h
+    have _h := Dalpha.conj hC.setup.normal hγ g⁻¹
+    rw [hg'] at _h
+    exact _h
   have hγ'β : cimg g⁻¹ γ ∈ Dalpha D β := by
-    have h := Dalpha.conj hC.setup.normal hγβ₁ g⁻¹
-    rw [hβeq'] at h
-    exact h
+    have _h := Dalpha.conj hC.setup.normal hγβ₁ g⁻¹
+    rw [hβeq'] at _h
+    exact _h
   have hmem := hcon (cimg g⁻¹ γ) hγ'α hγ'β
-  have h := (cimg_mem_blockLine_iff hC.setup.normal g hC.alpha β (cimg g⁻¹ γ)).mpr hmem
-  change cimg g (cimg g⁻¹ γ) ∈ blockLine D (cimg g hC.alpha) (cimg g β) at h
-  rw [cimg_cimg_inv g γ, hgα] at h
-  change γ ∈ blockLine D hC.alpha ((fun x => g * x * g⁻¹) '' β) at h
-  rw [hgβ] at h
-  exact h
+  have _h := (cimg_mem_blockLine_iff hC.setup.normal g hC.alpha β (cimg g⁻¹ γ)).mpr hmem
+  change cimg g (cimg g⁻¹ γ) ∈ blockLine D (cimg g hC.alpha) (cimg g β) at _h
+  rw [cimg_cimg_inv g γ, hgα] at _h
+  change γ ∈ blockLine D hC.alpha ((fun x => g * x * g⁻¹) '' β) at _h
+  rw [hgβ] at _h
+  exact _h
 
+omit [Finite G] in
 private theorem orderOf_dvd_two_pow_of_sq_mem_pCore {z : Halpha D hC.alpha}
     (hz : z * z ∈ CFSG.pCore 2 (Halpha D hC.alpha)) :
     ∃ k : ℕ, orderOf z ∣ 2 ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := Halpha D hC.alpha)).exists_orderOf_eq_pow
     (⟨z * z, hz⟩ : CFSG.pCore 2 (Halpha D hC.alpha))
   refine ⟨k + 1, ?_⟩
@@ -198,9 +199,9 @@ theorem exists_mem_Dalpha_not_mem_blockLine (h : MainHyp hC) {β : Set G}
 
 private theorem mul_not_mem_pCore_of_not_mem_blockLine (h : MainHyp hC) {δ₀ θ : Set G}
     (hδ₀ : δ₀ ∈ Dalpha D hC.alpha) (hθ : θ ∈ Dalpha D hC.alpha)
-    (hθδ₀ : θ ∈ Dalpha D δ₀) (hθline : θ ∉ blockLine D hC.alpha δ₀)
+    (_hθδ₀ : θ ∈ Dalpha D δ₀) (hθline : θ ∉ blockLine D hC.alpha δ₀)
     {c v : Halpha D hC.alpha} (hcθ : (c : G) ∈ θ) (hvδ₀ : (v : G) ∈ δ₀)
-    (hcv : Commute (c : G) (v : G)) : c * v ∉ CFSG.pCore 2 (Halpha D hC.alpha) := by
+    (_hcv : Commute (c : G) (v : G)) : c * v ∉ CFSG.pCore 2 (Halpha D hC.alpha) := by
   intro hq
   have hvv : (v : G) * (v : G) = 1 := hC.setup.oddT.mul_self_eq_one (hδ₀.2.1 hvδ₀)
   have hwq : (c : G) = ((c * v : Halpha D hC.alpha) : G) * (v : G) := by
@@ -256,7 +257,7 @@ theorem cimg_twoOddCore_mem_Dalpha (h : MainHyp hC) {δ₀ θ : Set G}
   · exact h
   · exact absurd h hne
 
-private theorem blockLine_pair_transport_data (h : MainHyp hC) {β α₁ γ : Set G}
+private theorem blockLine_pair_transport_data (_h : MainHyp hC) {β α₁ γ : Set G}
     (hβ : β ∈ Dalpha D hC.alpha) (hα₁ : α₁ ∈ blockLine D hC.alpha β)
     (hα₁α : α₁ ≠ hC.alpha) (hγ : γ ∈ Dalpha D hC.alpha) (hγβ : γ ∈ Dalpha D β)
     (hγline : γ ∉ blockLine D hC.alpha β) :
@@ -268,24 +269,24 @@ private theorem blockLine_pair_transport_data (h : MainHyp hC) {β α₁ γ : Se
     hα₁.2 γ ⟨mem_perp_iff.mpr (Or.inl hγ), mem_perp_iff.mpr (Or.inl hγβ)⟩
   have hγα₁ : γ ≠ α₁ := fun heq => hγline (heq ▸ hα₁)
   have hα₁Dγ : α₁ ∈ Dalpha D γ := by
-    rcases mem_perp_iff.mp hα₁perpγ with h | h
-    · exact h
-    · exact absurd h.symm hγα₁
+    rcases mem_perp_iff.mp hα₁perpγ with _h | _h
+    · exact _h
+    · exact absurd _h.symm hγα₁
   have hβperpγ : β ∈ perp D γ :=
     mem_perp_symm (mem_perp_iff.mpr (Or.inl hγβ)) hβ.2.1
   have hβγ : β ≠ γ := fun heq => hγline (heq ▸ right_mem_blockLine hβ.1 hβ.2.1)
   have hβDγ : β ∈ Dalpha D γ := by
-    rcases mem_perp_iff.mp hβperpγ with h | h
-    · exact h
-    · exact absurd h hβγ
+    rcases mem_perp_iff.mp hβperpγ with _h | _h
+    · exact _h
+    · exact absurd _h hβγ
   have hαperpγ : hC.alpha ∈ perp D γ :=
     mem_perp_symm (mem_perp_iff.mpr (Or.inl hγ)) hC.isBlock_alpha.subset
   have hαγ : hC.alpha ≠ γ :=
     fun heq => hγline (heq ▸ left_mem_blockLine hC.isBlock_alpha.subset)
   have hαDγ : hC.alpha ∈ Dalpha D γ := by
-    rcases mem_perp_iff.mp hαperpγ with h | h
-    · exact h
-    · exact absurd h hαγ
+    rcases mem_perp_iff.mp hαperpγ with _h | _h
+    · exact _h
+    · exact absurd _h hαγ
   have hβnot : β ∉ blockLine D hC.alpha γ := by
     intro hmem
     have heq : blockLine D hC.alpha β = blockLine D hC.alpha γ :=
@@ -300,6 +301,7 @@ private theorem blockLine_pair_transport_data (h : MainHyp hC) {β α₁ γ : Se
     exact hγline ((h1.symm.trans h2) ▸ right_mem_blockLine hγ.1 hγ.2.1)
   exact ⟨⟨hα₁Dγ, hβDγ, hαDγ⟩, hβnot, hα₁not⟩
 
+omit [Finite G] in
 private theorem cimg_not_mem_blockLine {β α₁ γ δ₀ θ₁ θ₂ : Set G} {g : G}
     (hγ : γ ∈ Dalpha D hC.alpha) (hgc : cimg g γ = hC.alpha)
     (hδ₀def : δ₀ = cimg g hC.alpha) (hθ₁def : θ₁ = cimg g β)
@@ -356,7 +358,7 @@ private theorem exists_perp_perp_not_perp_of_conj (h : MainHyp hC) {β α₁ δ�
 
 private theorem exists_perp_perp_not_perp (h : MainHyp hC) {β α₁ γ : Set G}
     (hβ : β ∈ Dalpha D hC.alpha) (hα₁ : α₁ ∈ blockLine D hC.alpha β)
-    (hα₁α : α₁ ≠ hC.alpha) (hα₁β : α₁ ≠ β) (hγ : γ ∈ Dalpha D hC.alpha)
+    (hα₁α : α₁ ≠ hC.alpha) (_hα₁β : α₁ ≠ β) (hγ : γ ∈ Dalpha D hC.alpha)
     (hγβ : γ ∈ Dalpha D β) (hγline : γ ∉ blockLine D hC.alpha β) :
     ∃ δ : Set G, δ ∈ perp D β ∩ perp D α₁ ∧ δ ∉ perp D hC.alpha := by
   obtain ⟨⟨hα₁Dγ, hβDγ, hαDγ⟩, hβnot, hα₁not⟩ :=

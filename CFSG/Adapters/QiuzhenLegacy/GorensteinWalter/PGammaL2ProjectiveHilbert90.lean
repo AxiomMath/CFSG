@@ -275,7 +275,7 @@ theorem pGammaL2_involution_conj_inr_of_finite {K : Type u} [Field K] [Finite K]
 
 theorem pGammaL2_involution_conj_inr
     {K : Type u} [Field K] [Finite K]
-    (hK : IsOddPrimePower (Nat.card K))
+    (_hK : IsOddPrimePower (Nat.card K))
     (x : PGammaL2 K) (hx : orderOf x = 2) (hfield : x.right ≠ 1) :
     ∃ C : PGL2 K,
       (SemidirectProduct.inl C)⁻¹ * x * SemidirectProduct.inl C =

@@ -17,6 +17,7 @@ section Order
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem autU_pow_eq {ψ : F ≃+* F} {s : ℕ} (hs : ∀ x : F, ψ x = x ^ s) (x : Fˣ) (j : ℕ) :
     autU (ψ ^ j) x = x ^ s ^ j := by
   induction j with
@@ -24,6 +25,7 @@ theorem autU_pow_eq {ψ : F ≃+* F} {s : ℕ} (hs : ∀ x : F, ψ x = x ^ s) (x
   | succ j ih =>
       rw [pow_succ', autU_comp, ih, autU_eq_pow hs, ← pow_mul, mul_comm, pow_succ']
 
+omit [Finite F] in
 theorem nrm_pow_eq {ψ : F ≃+* F} {s : ℕ} (hs : ∀ x : F, ψ x = x ^ s) (ξ : Fˣ) (k n : ℕ) :
     nrm (ψ ^ k) ξ n = ξ ^ ∑ i ∈ Finset.range n, (s ^ k) ^ i := by
   unfold nrm
@@ -32,6 +34,7 @@ theorem nrm_pow_eq {ψ : F ≃+* F} {s : ℕ} (hs : ∀ x : F, ψ x = x ^ s) (ξ
   intro i _
   rw [← pow_mul, autU_pow_eq hs, pow_mul]
 
+omit [Finite F] in
 theorem isSquare_autU_iff (σ : F ≃+* F) (v : Fˣ) : IsSquare (autU σ v) ↔ IsSquare v := by
   constructor
   · rintro ⟨z, hz⟩
@@ -40,6 +43,7 @@ theorem isSquare_autU_iff (σ : F ≃+* F) (v : Fˣ) : IsSquare (autU σ v) ↔ 
   · rintro ⟨z, rfl⟩
     exact ⟨autU σ z, autU_mul σ z z⟩
 
+omit [Finite F] in
 theorem gD_pow_ne_one {ξ : Fˣ} {r : ℕ} (hξ : orderOf ξ = 2 ^ r) {ψ : F ≃+* F} {e s : ℕ}
     (he : 1 ≤ e) (hψ : ψ ^ 2 ^ e = 1) (hs : ∀ x : F, ψ x = x ^ s) (hodd : Odd s)
     (harith : s ^ 2 ^ e % 2 ^ (r + 1) = 2 ^ r + 1) (k : ℕ) :
@@ -121,6 +125,7 @@ theorem exists_nat_pow_eq_of_mem_zpowers (ξ w : Fˣ) (hw : w ∈ Subgroup.zpowe
     ((IsOfFinOrder.mem_powers_iff_mem_zpowers (isOfFinOrder_of_finite ξ)).mpr hw)
   exact ⟨n, hn.symm⟩
 
+omit [Finite F] in
 theorem exists_nat_pow_eq_of_mem_zpowers_of_orderOf (ψ σ : F ≃+* F) {e : ℕ}
     (hψo : orderOf ψ = 2 ^ e) (hσ : σ ∈ Subgroup.zpowers ψ) : ∃ b : ℕ, σ = ψ ^ b := by
   have hfin : IsOfFinOrder ψ := by
@@ -130,14 +135,17 @@ theorem exists_nat_pow_eq_of_mem_zpowers_of_orderOf (ψ σ : F ≃+* F) {e : ℕ
     ((IsOfFinOrder.mem_powers_iff_mem_zpowers hfin).mpr hσ)
   exact ⟨n, hn.symm⟩
 
+omit [Finite F] in
 theorem gD_inv_mul_gD (w x : Fˣ) (σ τ : F ≃+* F) :
     (gD w σ)⁻¹ * gD x τ = gD (autU σ⁻¹ (w⁻¹ * x)) (σ⁻¹ * τ) := by
   rw [gD_inv, gD_mul_gD, autU_mul, autU_inv]
 
+omit [Finite F] in
 theorem gA_inv_mul_gD (w x : Fˣ) (σ τ : F ≃+* F) :
     (gA w σ)⁻¹ * gD x τ = gA (autU σ⁻¹ (w * x⁻¹)) (σ⁻¹ * τ) := by
   rw [gA_inv, gA_mul_gD, autU_mul, autU_inv]
 
+omit [Finite F] in
 theorem gA_inv_mem_of_gD_mem (v : Fˣ) (τ : F ≃+* F) (N : Subgroup (PGammaL2 F))
     (hN3 : gA (1 : Fˣ) 1 ∈ N) (h : gD v τ ∈ N) : gA v⁻¹ τ ∈ N := by
   have hmem : gA (1 : Fˣ) 1 * gA v⁻¹ τ ∈ N := by
@@ -146,7 +154,7 @@ theorem gA_inv_mem_of_gD_mem (v : Fˣ) (τ : F ≃+* F) (N : Subgroup (PGammaL2 
   rw [show gA v⁻¹ τ = (gA (1 : Fˣ) 1)⁻¹ * (gA (1 : Fˣ) 1 * gA v⁻¹ τ) by group]
   exact N.mul_mem (N.inv_mem hN3) hmem
 
-theorem exists_good_k {ξ : Fˣ} {ψ σ₀ : F ≃+* F} {e : ℕ} (he : 1 ≤ e) (hψo : orderOf ψ = 2 ^ e)
+theorem exists_good_k {ξ : Fˣ} {ψ σ₀ : F ≃+* F} {e : ℕ} (_he : 1 ≤ e) (hψo : orderOf ψ = 2 ^ e)
     (hσ₀ : ψ ^ 2 ^ (e - 1) = σ₀) (hξ : ¬ IsSquare ξ) (N : Subgroup (PGammaL2 F))
     (hN1 : ∀ v : Fˣ, IsSquare v → gD v 1 ∈ N) (hN2 : ∀ v : Fˣ, ¬ IsSquare v → gD v σ₀ ∈ N)
     (hN3 : gA (1 : Fˣ) 1 ∈ N) {y : PGammaL2 F} (hy : y ∈ stdSylow ξ ψ) :

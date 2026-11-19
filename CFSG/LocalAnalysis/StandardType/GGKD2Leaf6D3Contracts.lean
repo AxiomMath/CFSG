@@ -42,7 +42,7 @@ theorem noncube_units_iff_field {K : Type} [Field K] (κ : Kˣ) :
 
 @[expose] def CubicFieldBlockContract : Prop :=
   ∀ (K : Type) [Field K] [Finite K] [CharP K 2]
-    (d : ℕ) (hd : 2 ≤ d) (S : GL (Fin d) K) (κ : Kˣ),
+    (d : ℕ) (_hd : 2 ≤ d) (S : GL (Fin d) K) (κ : Kˣ),
     (∀ c : Kˣ, c ^ 3 ≠ κ) →
     S ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin d) κ →
     ∃ (m : ℕ) (E : Type) (_ : Field E) (_ : Algebra K E) (_ : Finite E),
@@ -58,7 +58,7 @@ theorem noncube_units_iff_field {K : Type} [Field K] (κ : Kˣ) :
 
 @[expose] def LinearFullCentralizerContract : Prop :=
   ∀ (K : Type) [Field K] [Finite K] [CharP K 2]
-    (d : ℕ) (hd : 2 ≤ d) (S : GL (Fin d) K) (κ : Kˣ),
+    (d : ℕ) (_hd : 2 ≤ d) (S : GL (Fin d) K) (κ : Kˣ),
     (∀ c : Kˣ, c ^ 3 ≠ κ) →
     S ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin d) κ →
     ∀ (m : ℕ) (E : Type) (_ : Field E) (_ : Algebra K E) (_ : Finite E),
@@ -74,7 +74,7 @@ theorem noncube_units_iff_field {K : Type} [Field K] (κ : Kˣ) :
 
 @[expose] def LinearComponentContract : Prop :=
   ∀ (K : Type) [Field K] [Finite K] [CharP K 2]
-    (d : ℕ) (hd : 2 ≤ d) (S : GL (Fin d) K) (κ : Kˣ),
+    (d : ℕ) (_hd : 2 ≤ d) (S : GL (Fin d) K) (κ : Kˣ),
     (∀ c : Kˣ, c ^ 3 ≠ κ) →
     S ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin d) κ →
     (hSnorm : S ∈ Subgroup.normalizer
@@ -90,7 +90,7 @@ theorem noncube_units_iff_field {K : Type} [Field K] (κ : Kˣ) :
 
 @[expose] def UnitaryPrimaryBlockContract : Prop :=
   ∀ (K : Type) [Field K] [Finite K] [CharP K 2] (n : ℕ) (h : UnitaryFieldData 2 n K)
-    (d : ℕ) (hd : 2 ≤ d) (M : primeFormUnitary h (idGram K d)) (κ : Kˣ),
+    (d : ℕ) (_hd : 2 ≤ d) (M : primeFormUnitary h (idGram K d)) (κ : Kˣ),
     (∀ c : Kˣ, c ^ 3 ≠ κ) →
     (M : GL (Fin d) K) ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin d) κ →
     ∃ a : primaryFactors ((toLinU h d M : LinearMap.GeneralLinearGroup K (Fin d → K)) :
@@ -121,7 +121,7 @@ theorem noncube_units_iff_field {K : Type} [Field K] (κ : Kˣ) :
 
 @[expose] def UnitaryComponentContract : Prop :=
   ∀ (K : Type) [Field K] [Finite K] [CharP K 2] (n : ℕ) (h : UnitaryFieldData 2 n K)
-    (d : ℕ) (hd : 2 ≤ d) (S : GL (Fin d) K) (κ : Kˣ),
+    (d : ℕ) (_hd : 2 ≤ d) (S : GL (Fin d) K) (κ : Kˣ),
     (∀ c : Kˣ, c ^ 3 ≠ κ) →
     S ∈ primeFormUnitary h (idGram K d) →
     S ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin d) κ →
@@ -132,7 +132,7 @@ theorem noncube_units_iff_field {K : Type} [Field K] (κ : Kˣ) :
 
 @[expose] def UnitaryComponentContractSimilitude : Prop :=
   ∀ (K : Type) [Field K] [Finite K] [CharP K 2] (n : ℕ) (h : UnitaryFieldData 2 n K)
-    (d : ℕ) (hd : 2 ≤ d) (S : GL (Fin d) K) (κ : Kˣ),
+    (d : ℕ) (_hd : 2 ≤ d) (S : GL (Fin d) K) (κ : Kˣ),
     (∀ c : Kˣ, c ^ 3 ≠ κ) →
     S ∈ LargeEvenGUSet (Fin d) K (2 ^ n) →
     S ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin d) κ →
@@ -143,7 +143,7 @@ theorem noncube_units_iff_field {K : Type} [Field K] (κ : Kˣ) :
 
 @[expose] def UnitarySimilitudeNormalisation : Prop :=
   ∀ (K : Type) [Field K] [Finite K] [CharP K 2] (n : ℕ) (h : UnitaryFieldData 2 n K)
-    (d : ℕ) (hd : 2 ≤ d) (S : GL (Fin d) K) (κ : Kˣ),
+    (d : ℕ) (_hd : 2 ≤ d) (S : GL (Fin d) K) (κ : Kˣ),
     (∀ c : Kˣ, c ^ 3 ≠ κ) →
     S ∈ LargeEvenGUSet (Fin d) K (2 ^ n) →
     S ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin d) κ →
@@ -161,7 +161,7 @@ theorem noncube_units_iff_field {K : Type} [Field K] (κ : Kˣ) :
           ⟨Matrix.GeneralLinearGroup.scalar (Fin d) c * S, hS'⟩
 
 @[expose] def LinearA1EightImpossible : Prop :=
-  ∀ (K : Type) [Field K] [Finite K] [CharP K 2] (d : ℕ) (hd : 2 ≤ d)
+  ∀ (K : Type) [Field K] [Finite K] [CharP K 2] (d : ℕ) (_hd : 2 ≤ d)
     (S : GL (Fin d) K) (κ : Kˣ),
     (∀ c : Kˣ, c ^ 3 ≠ κ) →
     S ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin d) κ →
@@ -173,8 +173,8 @@ theorem noncube_units_iff_field {K : Type} [Field K] (κ : Kˣ) :
       GGHasLabel (⟨.A, 1, 3⟩ : LargeEvenLabel) (↥J ⧸ Subgroup.center ↥J) → False
 
 @[expose] def UnitaryA1EightForcesSixOne : Prop :=
-  ∀ (K : Type) [Field K] [Finite K] [CharP K 2] (n : ℕ) (h : UnitaryFieldData 2 n K)
-    (d : ℕ) (hd : 2 ≤ d) (S : GL (Fin d) K) (κ : Kˣ),
+  ∀ (K : Type) [Field K] [Finite K] [CharP K 2] (n : ℕ) (_h : UnitaryFieldData 2 n K)
+    (d : ℕ) (_hd : 2 ≤ d) (S : GL (Fin d) K) (κ : Kˣ),
     (∀ c : Kˣ, c ^ 3 ≠ κ) →
     S ∈ LargeEvenGUSet (Fin d) K (2 ^ n) →
     S ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin d) κ →
@@ -192,7 +192,7 @@ theorem leaf6LabelFromD3_holds :
       lab = (⟨.twA, 5, 1⟩ : LargeEvenLabel) := by
   rintro lab d n htag hrank hn hd hn1
   rcases lab with ⟨t, r, e⟩
-  simp only [LargeEvenLabel.mk.injEq] at htag hrank hn
+  simp only at htag hrank hn
   simp only [LargeEvenLabel.mk.injEq]
   exact ⟨htag, by omega, by omega⟩
 

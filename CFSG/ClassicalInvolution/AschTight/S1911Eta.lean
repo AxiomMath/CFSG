@@ -18,7 +18,7 @@ theorem isSylow2In_inf (hd : Sec19Data p f K z S W) :
   obtain ⟨Q₀, hQ₀S⟩ := hd.sylow
   have hQ := isSylow2In_map_sylow K Q₀
   have heq : (S : Subgroup G) ⊓ K = (Q₀ : Subgroup ↥K).map K.subtype :=
-    hQ.eq_of_le (S.isPGroup'.to_le inf_le_left) inf_le_right (le_inf hQ₀S hQ.1)
+    hQ.eq_of_le (S.isPGroup.to_le inf_le_left) inf_le_right (le_inf hQ₀S hQ.1)
   rw [heq]
   exact hQ
 

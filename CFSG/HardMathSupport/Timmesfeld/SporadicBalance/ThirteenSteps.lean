@@ -58,7 +58,7 @@ theorem odd_card_gLAPPrimeCoreOf_thirteen [Finite G] {t s : G} (hs : orderOf s =
   have hNs : ∀ a ∈ A, a * s = s * a := fun a ha =>
     Subgroup.mem_centralizer_singleton_iff.1 (GLAPPrimeCoreOf_le _ (hAN ha))
   have hxo : orderOf x = 13 := by
-    rw [hxdef, show c⁻¹ * s * c = (MulAut.conj c⁻¹) s by simp [MulAut.conj_apply],
+    rw [hxdef, show c⁻¹ * s * c = (MulAut.conj c⁻¹) s by simp,
       MulEquiv.orderOf_eq]
     exact hs
   have hxt : x * t = t * x := by
@@ -111,14 +111,14 @@ theorem exists_thirteen_subgroup_of_factorization [Finite G]
   have hQc : Nat.card (Q : Subgroup G) = 13 ^ 3 := by rw [Q.card_eq_multiplicity, hG]
   have hsQ : s ∈ (Q : Subgroup G) := hQ (Subgroup.mem_zpowers s)
   set P := Subgroup.centralizer ({s} : Set G) ⊓ (Q : Subgroup G) with hPdef
-  have hPp : IsPGroup 13 P := Q.isPGroup'.to_le inf_le_right
+  have hPp : IsPGroup 13 P := Q.isPGroup.to_le inf_le_right
   have h169 : 13 ^ 2 ∣ Nat.card P := by
     obtain ⟨a, ha⟩ := hPp.exists_card_eq
     rw [ha]
     by_contra hc
     have ha1 : a ≤ 1 := by
       by_contra h2
-      push_neg at h2
+      push Not at h2
       exact hc (Nat.pow_dvd_pow 13 h2)
     have hsP : s ∈ P := Subgroup.mem_inf.2 ⟨Subgroup.mem_centralizer_singleton_iff.2 rfl, hsQ⟩
     have hzp : Subgroup.zpowers s ≤ P := (Subgroup.zpowers_le).2 hsP
@@ -127,7 +127,7 @@ theorem exists_thirteen_subgroup_of_factorization [Finite G]
       rw [Nat.card_zpowers, hs, ha]
       calc 13 ^ a ≤ 13 ^ 1 := Nat.pow_le_pow_right (by norm_num) ha1
         _ = 13 := pow_one 13
-    have hQp : IsPGroup 13 (Q : Subgroup G) := Q.isPGroup'
+    have hQp : IsPGroup 13 (Q : Subgroup G) := Q.isPGroup
     have : Nontrivial (Q : Subgroup G) := by
       rw [Subgroup.nontrivial_iff_ne_bot]
       intro hb
@@ -172,7 +172,7 @@ theorem exists_thirteen_subgroup_of_factorization [Finite G]
     norm_num at this
   refine ⟨P, hPp, inf_le_left, fun u hu => ?_⟩
   by_contra hall
-  push_neg at hall
+  push Not at hall
   have hle : P ≤ Subgroup.centralizer ({u} : Set G) := fun g hg =>
     Subgroup.mem_centralizer_singleton_iff.2 (hall g hg)
   have hdvd : 13 ^ 2 ∣ Nat.card (Subgroup.centralizer ({u} : Set G)) :=

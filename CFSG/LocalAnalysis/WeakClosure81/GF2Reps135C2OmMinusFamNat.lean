@@ -74,7 +74,7 @@ private theorem w135c2_omfMNat_naturalRep_Weyl_highest {n : ℕ} (hn : 4 ≤ n)
       else eVec n (⟨0, by omega⟩ : Fin (n - 1)) := by
     by_cases h0 : i.val = 0
     · have hi : i = (⟨0, by omega⟩ : Fin (n - 1)) := Fin.ext h0
-      rw [if_pos h0, hi, minusWeyl_of_lt n hirrQ
+      rw [ite_eq_left h0, hi, minusWeyl_of_lt n hirrQ
         (k := (⟨0, by omega⟩ : Fin (n - 1))) (w135c2_omfMNat_zero_succ_lt hn)]
       have h := (minusFrame n b c).toHypFrame.spinAction_longWeyl_vec_left
         (succ_ne_of_lt n (k := (⟨0, by omega⟩ : Fin (n - 1)))
@@ -83,7 +83,7 @@ private theorem w135c2_omfMNat_naturalRep_Weyl_highest {n : ℕ} (hn : 4 ≤ n)
     · have hzi : (⟨0, by omega⟩ : Fin (n - 1)) ≠ i := by
         intro h
         exact h0 (by simpa using congrArg Fin.val h.symm)
-      rw [if_neg h0]
+      rw [ite_eq_right h0]
       by_cases hlt : i.val + 1 < n - 1
       · have hzj : (⟨0, by omega⟩ : Fin (n - 1)) ≠ (⟨i.val + 1, hlt⟩ : Fin (n - 1)) := by
           intro h
@@ -292,7 +292,7 @@ private theorem w135c2_omfMNat_heckeT_zero {n : ℕ} (hn : 4 ≤ n)
       ∑ x : D.X i, SmallO8mCurtis.naturalRep n b c φ (x : spinGroup _)
         (Pi.single (Sum.inl (⟨1, by omega⟩ : Fin (n - 1))) (1 : k)) :=
     Finset.sum_congr rfl fun x _ => by
-      rw [hmul, hnn, w135c2_omfMNat_naturalRep_Weyl_highest hn hirrQ φ i, if_pos hi]
+      rw [hmul, hnn, w135c2_omfMNat_naturalRep_Weyl_highest hn hirrQ φ i, ite_eq_left hi]
   rw [hsum, w135c2_omfMNat_sum_X_zero hn hirrQ hi φ]
   rw [Finset.sum_add_distrib, Finset.sum_const, Finset.card_univ, ← Nat.cast_smul_eq_nsmul k,
     ← Finset.sum_smul, ← map_sum]
@@ -328,7 +328,7 @@ private theorem w135c2_omfMNat_heckeT_ne {n : ℕ} (hn : 4 ≤ n)
       ∑ x : D.X i, SmallO8mCurtis.naturalRep n b c φ (x : spinGroup _)
         (Pi.single (Sum.inl (⟨0, by omega⟩ : Fin (n - 1))) (1 : k)) :=
     Finset.sum_congr rfl fun x _ => by
-      rw [hmul, hnn, w135c2_omfMNat_naturalRep_Weyl_highest hn hirrQ φ i, if_neg hi]
+      rw [hmul, hnn, w135c2_omfMNat_naturalRep_Weyl_highest hn hirrQ φ i, ite_eq_right hi]
   rw [hsum]
   have hfix : ∀ x : D.X i,
       SmallO8mCurtis.naturalRep n b c φ (x : spinGroup _)
@@ -370,9 +370,9 @@ theorem isCurtisType_omMinus_two_natural_family (hK : Nat.card K = 2) {n : ℕ} 
   · intro s
     simp only []
     by_cases hs : s.val = 0
-    · rw [if_pos hs]
+    · rw [ite_eq_left hs]
       exact w135c2_omfMNat_heckeT_zero hn hirrQ hK φ hs
-    · rw [if_neg hs]
+    · rw [ite_eq_right hs]
       exact w135c2_omfMNat_heckeT_ne hn hirrQ φ hs
 
 theorem omMinus_two_exists_addEquiv_of_isCurtisType (hK : Nat.card K = 2) {n : ℕ} (hn : 4 ≤ n)

@@ -130,7 +130,7 @@ private noncomputable def qtwoDB36_ofPair (m : ℕ) (c : Fin m) :
     rw [qtwoDB36_diag_perm_apply, p.1.2 c (by simp)]
     have hc : qtwoDB36_sign p.2.1 c = 1 := by
       simp only [qtwoDB36_sign]
-      rw [if_neg]
+      rw [ite_eq_right]
       exact p.2.2.1
     rw [hc, one_smul]
 
@@ -179,8 +179,8 @@ private theorem qtwoDB36_ofPair_surjective (m : ℕ) (c : Fin m) :
     refine (dBasis m).ext' fun k => ?_
     rw [qtwoDB36_diag_perm_apply, hact k]
     by_cases h : σ k ∈ T
-    · simp only [qtwoDB36_sign, h, if_true]
-    · simp only [qtwoDB36_sign, h, if_false]
+    · simp only [qtwoDB36_sign, h, ite_true]
+    · simp only [qtwoDB36_sign, h, ite_false]
 
 private lemma qtwoDB36_card_compl (m : ℕ) (c : Fin m) :
     Nat.card {x : Fin m // x ≠ c} = m - 1 := by
@@ -232,7 +232,7 @@ private theorem qtwoDB36_card_subsets (m : ℕ) (c : Fin m) (hm : 2 ≤ m) :
     Nat.card (qtwoDB36_Subsets m c) = 2 ^ (m - 2) := by
   classical
   have hcard := qtwoDB36_card_compl m c
-  haveI : Nonempty {x : Fin m // x ≠ c} := by
+  have : Nonempty {x : Fin m // x ≠ c} := by
     rw [← Fintype.card_pos_iff, ← Nat.card_eq_fintype_card, hcard]
     omega
   rw [show Nat.card (qtwoDB36_Subsets m c)

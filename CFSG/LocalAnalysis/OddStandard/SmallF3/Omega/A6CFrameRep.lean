@@ -19,24 +19,25 @@ noncomputable def a6cFrameRep (fr : NFrame Q (Fin n) c) :
     ((LinearEquiv.automorphismGroup.toLinearMapMonoidHom (R := ZMod 3) (M := V)).comp
       (simGroup Q).subtype)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem a6cFrameRep_apply (fr : NFrame Q (Fin n) c) (γ : simGroup Q) (i j : Fin n) :
     a6cFrameRep fr γ i j = fr.b.repr ((γ : V ≃ₗ[ZMod 3] V) (fr.b j)) i := by
   have h := LinearMap.toMatrixAlgEquiv_apply fr.b
     (LinearEquiv.automorphismGroup.toLinearMapMonoidHom ((simGroup Q).subtype γ)) i j
-  simpa [a6cFrameRep, MonoidHom.comp_apply, LinearMap.toMatrixAlgEquiv_apply] using h
+  simp [a6cFrameRep, MonoidHom.comp_apply, LinearMap.toMatrixAlgEquiv_apply]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma a6cFrameRep_piOrth (fr : NFrame Q (Fin n) c) :
     a6cFrameRep fr (orthToSim Q (piOrth Q)) = -1 := by
   ext i j
   rw [a6cFrameRep_apply, coe_orthToSim, coe_piOrth_apply]
   by_cases hij : i = j
   · rw [hij]
-    simp [map_neg, Finsupp.neg_apply, Pi.neg_apply, Module.Basis.repr_self_apply,
-      Matrix.one_apply]
+    simp [map_neg, Finsupp.neg_apply]
   · have hji : j ≠ i := fun h => hij h.symm
-    simp [map_neg, Finsupp.neg_apply, Pi.neg_apply, Module.Basis.repr_self_apply,
-      Matrix.one_apply, hij, hji]
+    simp [map_neg, Finsupp.neg_apply, hij]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem a6cFrameRep_injective (fr : NFrame Q (Fin n) c) : Function.Injective (a6cFrameRep fr) := by
   intro γ₁ γ₂ h
   apply Subtype.ext
@@ -44,6 +45,7 @@ theorem a6cFrameRep_injective (fr : NFrame Q (Fin n) c) : Function.Injective (a6
   apply (LinearMap.toMatrixAlgEquiv fr.b).injective
   simpa [a6cFrameRep, MonoidHom.comp_apply] using h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem a6cFrameRep_mem_piSim (fr : NFrame Q (Fin n) c) (γ : simGroup Q) :
     γ ∈ piSim Q ↔ a6cFrameRep fr γ = 1 ∨ a6cFrameRep fr γ = -1 := by
   constructor
@@ -56,6 +58,7 @@ theorem a6cFrameRep_mem_piSim (fr : NFrame Q (Fin n) c) (γ : simGroup Q) :
     · exact mem_piSim_iff.mpr
         (Or.inr (a6cFrameRep_injective fr (h.trans (a6cFrameRep_piOrth fr).symm)))
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem a6cFrameRep_signChange (fr : NFrame Q (Fin n) c) (J : Finset (Fin n)) :
     a6cFrameRep fr (orthToSim Q (fr.signChange J)) =
       Matrix.diagonal fun i => if i ∈ J then (-1 : ZMod 3) else 1 := by

@@ -21,6 +21,7 @@ variable {F : Type} [Field F] [Finite F] {p : ℕ} [hp : Fact p.Prime]
 noncomputable abbrev glToEnd' : GL (Fin 2) F ≃* (Module.End F (Fin 2 → F))ˣ :=
   Matrix.GeneralLinearGroup.toLin
 
+omit [Finite F] in
 theorem coe_glToEnd'_scalar (u : Fˣ) :
     ((glToEnd' (Matrix.GeneralLinearGroup.scalar (Fin 2) u) : (Module.End F (Fin 2 → F))ˣ) :
       Module.End F (Fin 2 → F)) = (u : F) • (1 : Module.End F (Fin 2 → F)) := by
@@ -28,11 +29,13 @@ theorem coe_glToEnd'_scalar (u : Fˣ) :
   simp [glToEnd', Matrix.GeneralLinearGroup.coe_toLin, Matrix.GeneralLinearGroup.coe_scalar,
     Matrix.scalar_apply, Matrix.mulVec_diagonal]
 
+omit hp in
 theorem pow_prime_eq_self (hF : Nat.card F = p) (x : F) : x ^ p = x := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   rw [← hF, Nat.card_eq_fintype_card]
   exact FiniteField.pow_card x
 
+omit [Finite F] in
 theorem exists_scalar_of_mk_eq_one {g : GL (Fin 2) F} (h : Matrix.ProjGenLinGroup.mk g = 1) :
     ∃ s : Fˣ, g = Matrix.GeneralLinearGroup.scalar (Fin 2) s := by
   have hg : g ∈ Matrix.ProjGenLinGroup.mk.ker := h
@@ -40,6 +43,7 @@ theorem exists_scalar_of_mk_eq_one {g : GL (Fin 2) F} (h : Matrix.ProjGenLinGrou
   obtain ⟨s, hs⟩ := hg
   exact ⟨s, hs.symm⟩
 
+omit [Finite F] in
 theorem mk_scalar (s : Fˣ) :
     Matrix.ProjGenLinGroup.mk (Matrix.GeneralLinearGroup.scalar (Fin 2) s) = 1 := by
   have : Matrix.GeneralLinearGroup.scalar (Fin 2) s ∈ Matrix.ProjGenLinGroup.mk.ker := by
@@ -149,8 +153,8 @@ theorem hh_psl2 (hF : Nat.card F = p) (hp5 : 5 ≤ p) (u₀ : PSL2 F) (hu : orde
     (T : Subgroup (MulAut (PSL2 F))) (hcop : Nat.Coprime p (Nat.card T))
     (hnorm : MulAut.conj u₀ ∈ Subgroup.normalizer (T : Set (MulAut (PSL2 F)))) : T = ⊥ := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F p := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hF)
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F p := charP_of_card_eq_prime (by rw [← Nat.card_eq_fintype_card]; exact hF)
   have hodd : IsOddPrimePower (Nat.card F) :=
     ⟨p, 1, hp.out, hp.out.odd_of_ne_two (by omega), le_rfl, by rw [hF, pow_one]⟩
   have hcard : 3 < Nat.card F := by omega
@@ -187,7 +191,7 @@ theorem kdHallHigmanL2_holds :
         ∀ T : Subgroup (MulAut S), Nat.Coprime p (Nat.card T) →
           MulAut.conj u ∈ Subgroup.normalizer (T : Set (MulAut S)) → T = ⊥ := by
   intro p hp hp5 S _ _ F _ _ hF ⟨e⟩ u hu T hcop hnorm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let ε : PSL2 F ≃* S :=
     (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 F).trans e.symm
   set T₀ : Subgroup (MulAut (PSL2 F)) := T.map (MulAut.congr ε.symm).toMonoidHom with hT₀

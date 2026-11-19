@@ -123,7 +123,7 @@ theorem yAlpha_eq_top_of_J1
   set R := CFSG.Open.pCoreOf 2 (kTwenty M c ⊔ T) with hRdef
   set Y := yTwenty X c with hYdef
   set YR := Y ⊔ R with hYRdef
-  haveI := CFSG.pPrimeCore_normal (p := 3) (G := ↥YR)
+  have := CFSG.pPrimeCore_normal (p := 3) (G := ↥YR)
   set π := QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥YR) with hπ
   set Yb := yAlpha M X T c with hYbdef
   set Rb := (R.subgroupOf YR).map π with hRbdef
@@ -131,7 +131,7 @@ theorem yAlpha_eq_top_of_J1
   have hYRY : YR ≤ Subgroup.normalizer (Y : Set G) := sup_le Subgroup.le_normalizer hRY
   have hYn : (Y.subgroupOf YR).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr hYRY
-  haveI hYbn : Yb.Normal := hYn.map π (QuotientGroup.mk'_surjective _)
+  have hYbn : Yb.Normal := hYn.map π (QuotientGroup.mk'_surjective _)
   have hsup : Yb ⊔ Rb = ⊤ := by
     rw [hYbdef, hRbdef, ← Subgroup.map_sup, ← Subgroup.subgroupOf_sup le_sup_left le_sup_right,
       Subgroup.subgroupOf_self, Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)]
@@ -473,7 +473,7 @@ theorem hyp1411_of_J1 {A M L N : Subgroup G} {c : G} {T : Subgroup G} {i j : Fin
   have hLchar := (CFSG.perfect_residual_characterization (G := ↥G₀)).2.1
   have hLperf := (CFSG.perfect_residual_characterization (G := ↥G₀)).2.2.1
   have hLmap : (perfectResidual ↥G₀).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥G₀)) = ⊤ := by
-    haveI hn : ((perfectResidual ↥G₀).map
+    have hn : ((perfectResidual ↥G₀).map
         (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥G₀))).Normal :=
       Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal

@@ -73,7 +73,7 @@ theorem regFlag_of (A : M3 ℕ) (h : regFlagN A = true) : regFlagD A = true := b
 
 theorem eMul_lt8 (x y : ℕ) : fk8.eMul x y < fk8.p * fk8.p := by
   unfold FK.eMul
-  exact FK.pack_lt fk8_sound (fk8_sound.add_lt _ _) (fk8_sound.add_lt _ _)
+  exact FK.pack_lt (fk8_sound.add_lt _ _) (fk8_sound.add_lt _ _)
 
 theorem mEq_refl (A : M3 ℕ) : mEq A A = true := by
   simp only [mEq, Nat.beq_refl, Bool.and_self]

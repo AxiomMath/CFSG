@@ -70,7 +70,7 @@ theorem sdAlt_holds : SDAlt := by
     omega
   ·
     push Not at h4
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨φ, hφ⟩ := exists_injective_pi_alt (k := 4) (m := p) (n := n) h4
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' p (prime_dvd_card_alt hp hp2)
     set C : Subgroup (alternatingGroup (Fin p)) := Subgroup.zpowers c

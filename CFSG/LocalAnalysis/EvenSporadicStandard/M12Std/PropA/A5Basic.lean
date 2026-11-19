@@ -60,7 +60,7 @@ theorem nonempty_alt5_of_quasisimple {H : Type*} [Group H] [Finite H]
     exact hc x fun y => (Subgroup.mem_center_iff.mp hx y).symm
   have ebot : H ⧸ Subgroup.center H ≃* H :=
     (QuotientGroup.quotientMulEquivOfEq hcenter).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup H :=
+  have : IsSimpleGroup H :=
     @MulEquiv.isSimpleGroup H _ (H ⧸ Subgroup.center H) _ hsimple ebot.symm
   exact CFSG.QuasithinUnique.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty h60
 

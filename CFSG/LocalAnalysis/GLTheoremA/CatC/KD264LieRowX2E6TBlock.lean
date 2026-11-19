@@ -161,6 +161,7 @@ theorem componentOrbitLength_eq_one_frame (hρ : ∀ γ, IsRoot τ γ → S.ρ �
     exact ⟨Nat.one_pos, h1⟩
   · exact (Nat.sInf_mem (s := {s : ℕ | 0 < s ∧ (S.ρ : (Fin τ.rank → ℤ) → _)^[s] '' componentRoots (rootCharHom a) i = componentRoots (rootCharHom a) i}) ⟨1, Nat.one_pos, h1⟩).1
 
+omit [IsAlgClosed L] in
 theorem conj_block_mem_of_centralizes (h : IsSLFrame ψ σ) (hν : 3 ≤ ν) (b : Fin τ.rank → Lˣ)
     (k₀ : Fin ν) (X : Finset (Fin ν)) (hX : ∀ k, k ∈ X ↔ rootChar b (σ k k₀) = 1)
     (h2 : ν < 2 * X.card) {m : ℕ} (e : Fin m → Fin ν) (he : Function.Injective e)
@@ -203,9 +204,9 @@ theorem block_component (hq2 : S.D.q = 2) (hAlg : S.IsAlgebraic)
   classical
   obtain ⟨hch, halg⟩ := S.exists_charP_isAlgebraic_zmod hAlg (l := 2) (f := 1) Nat.prime_two
     one_pos (by rw [hq2]; norm_num)
-  haveI := hch
-  letI := ZMod.algebra L 2
-  haveI : IsAlgClosure (ZMod 2) L := ⟨inferInstance, halg⟩
+  have := hch
+  let := ZMod.algebra L 2
+  have : IsAlgClosure (ZMod 2) L := ⟨inferInstance, halg⟩
   have hk : Nat.card (ZMod 2) = 2 ^ 1 := by simp
   have hstepinj := splitLine_step_injective S
   set K := rationalComponent S.ρ S.Γ (rootCharHom a) i with hK

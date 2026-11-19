@@ -188,13 +188,14 @@ theorem sE4_mul (x0 x1 x2 x3 y0 y1 y2 y3 : ℕ) :
 
 include h3
 
+omit hc in
 theorem sE4_mod (x0 x1 x2 x3 : ℕ) :
     sE4 s (x0 % 3) (x1 % 3) (x2 % 3) (x3 % 3) = sE4 s x0 x1 x2 x3 := by
   simp only [sE4, pow_mod3 (h3 _)]
 
 theorem fS_vadd (a c : ℕ) : fS s (vadd a c) = fS s a * fS s c := by
   obtain ⟨e0, e1, e2, e3⟩ := dg_vadd a c
-  rw [fS, e0, e1, e2, e3, sE4_mod hc h3, fS, fS, sE4_mul hc]
+  rw [fS, e0, e1, e2, e3, sE4_mod h3, fS, fS, sE4_mul hc]
 
 omit hc h3 in
 theorem fS_zero : fS s 0 = 1 := by simp [fS, sE4, dg_zero]
@@ -289,6 +290,7 @@ theorem phi_pmul (m n : ℕ) : phi s g4 g5 (pmul m n) = phi s g4 g5 m * phi s g4
     simp only [phi, mul_assoc, inv_mul_cancel_left]
   rw [e, conjQ hp, gQ_mul hp, ← fS_vadd hp.comm hp.cube, phi, pmul_mod, pmul_div]
 
+omit hp in
 theorem phi_zero : phi s g4 g5 0 = 1 := by simp [phi, gQ, fS_zero]
 
 theorem fS_eq_one (hm : ModelOK) {a : ℕ} (ha : a < 81) (h1 : fS s a = 1) : a = 0 := by
@@ -348,7 +350,7 @@ theorem gQ_inv (q : ℕ) : (gQ g4 g5 q)⁻¹ = gQ g4 g5 (qadd q q) := by
 
 theorem phi_injOn (hm : ModelOK) : Set.InjOn (phi s g4 g5) {m | m < 729} := by
   intro m hm' n hn h
-  simp only [Set.mem_setOf_eq] at hm' hn
+  simp only [Set.mem_ofPred_eq] at hm' hn
   simp only [phi] at h
   have hg : gQ g4 g5 (qadd (m / 81) (qadd (n / 81) (n / 81))) =
       fS s (vadd (vneg (m % 81)) (n % 81)) := by
@@ -364,9 +366,11 @@ theorem phi_injOn (hm : ModelOK) : Set.InjOn (phi s g4 g5) {m | m < 729} := by
   have ha := fS_injOn hp hm (Nat.mod_lt _ (by decide)) (Nat.mod_lt _ (by decide)) h
   omega
 
+omit hp in
 theorem fS_pow3 (i : Fin 4) : fS s (3 ^ (i : ℕ)) = s i := by
   fin_cases i <;> simp [fS, sE4, dg]
 
+omit hp in
 theorem fS_pow3_sq (i : Fin 4) : fS s (2 * 3 ^ (i : ℕ)) = s i ^ 2 := by
   fin_cases i <;> simp [fS, sE4, dg]
 
@@ -377,15 +381,15 @@ theorem coe_T : (Subgroup.closure (Set.range s) : Set G) = fS s '' {a | a < 81} 
     induction hx using Submonoid.closure_induction with
     | mem x hx =>
       rcases hx with ⟨i, rfl⟩ | hx
-      · exact ⟨_, by have := i.2; simp only [Set.mem_setOf_eq]; interval_cases (i : ℕ) <;> decide,
-          fS_pow3 hp i⟩
+      · exact ⟨_, by have := i.2; simp only [Set.mem_ofPred_eq]; interval_cases (i : ℕ) <;> decide,
+          fS_pow3 i⟩
       · rw [Set.mem_inv] at hx
         obtain ⟨i, hi⟩ := hx
         refine ⟨2 * 3 ^ (i : ℕ), ?_, ?_⟩
         · have := i.2
-          simp only [Set.mem_setOf_eq]
+          simp only [Set.mem_ofPred_eq]
           interval_cases (i : ℕ) <;> decide
-        · rw [fS_pow3_sq hp, ← inv_eq_sq (hp.cube i), hi, inv_inv]
+        · rw [fS_pow3_sq, ← inv_eq_sq (hp.cube i), hi, inv_inv]
     | one => exact ⟨0, by simp, fS_zero⟩
     | mul x y _ _ hx hy =>
       obtain ⟨a, -, rfl⟩ := hx
@@ -438,24 +442,24 @@ theorem coe_P : (Subgroup.closure (gensP s g4 g5) : Set G) = phi s g4 g5 '' {m |
       rcases hx with (⟨i, rfl⟩ | rfl | rfl) | hx
       · refine ⟨3 ^ (i : ℕ), ?_, ?_⟩
         · have := i.2
-          simp only [Set.mem_setOf_eq]
+          simp only [Set.mem_ofPred_eq]
           interval_cases (i : ℕ) <;> decide
-        · rw [hphiS _ (by have := i.2; interval_cases (i : ℕ) <;> decide), fS_pow3 hp]
+        · rw [hphiS _ (by have := i.2; interval_cases (i : ℕ) <;> decide), fS_pow3]
       · exact ⟨81, by simp, h4⟩
       · exact ⟨243, by simp, h5⟩
       · rw [Set.mem_inv] at hx
         rcases hx with ⟨i, hi⟩ | hx | hx
         · refine ⟨2 * 3 ^ (i : ℕ), ?_, ?_⟩
           · have := i.2
-            simp only [Set.mem_setOf_eq]
+            simp only [Set.mem_ofPred_eq]
             interval_cases (i : ℕ) <;> decide
-          · rw [hphiS _ (by have := i.2; interval_cases (i : ℕ) <;> decide), fS_pow3_sq hp,
+          · rw [hphiS _ (by have := i.2; interval_cases (i : ℕ) <;> decide), fS_pow3_sq,
               ← inv_eq_sq (hp.cube i), hi, inv_inv]
         · refine ⟨162, by simp, ?_⟩
           rw [h4', ← inv_eq_sq hp.cube4, ← hx, inv_inv]
         · refine ⟨486, by simp, ?_⟩
           rw [h5', ← inv_eq_sq hp.cube5, ← hx, inv_inv]
-    | one => exact ⟨0, by simp, phi_zero hp⟩
+    | one => exact ⟨0, by simp, phi_zero⟩
     | mul x y _ _ hx hy =>
       obtain ⟨m, -, rfl⟩ := hx
       obtain ⟨n, -, rfl⟩ := hy

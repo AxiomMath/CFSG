@@ -37,7 +37,7 @@ theorem t201_comm_R1 (h : F.IsD D dD) (hS : Local.Setting (F.S : Subgroup G) D) 
   · exact thetaT_comm_rho hS he.1 (h.t201_proj_mul_inv_mem hS hm he) x
 
 theorem t201_D_le_R1 (hS : Local.Setting (F.S : Subgroup G) D) : D ≤ hS.R1 dD.uv dD.t :=
-  fun d hd =>
+  fun _d hd =>
     ⟨hS.D_le_R hd, (dD.crdT_cocycle_of_mem_uv hd).1, (dD.crdT_cocycle_of_mem_t hd).1⟩
 
 theorem t201_conj_u_mem_R1 (h : F.IsD D dD) (hS : Local.Setting (F.S : Subgroup G) D) {e : G}
@@ -59,6 +59,7 @@ theorem t201_scalar_R1 (h : F.IsD D dD) (hS : Local.Setting (F.S : Subgroup G) D
   obtain ⟨huv, ht, hρ⟩ := h.t201_comm_R1 hS hm he
   exact t201_scalar hm _ huv ht (fun x => thetaT_comm_u hS he.1 hue x) hρ
 
+omit [Finite G] in
 theorem t201_thetaT_u_inv (x : Torus (StrothTypeIndex.t201 m).k) :
     dD.thetaT (inv_mem dD.u_mem) x = (StrothTypeIndex.t201 m).action.φu x := by
   rw [dD.thetaT_congr (inv_mem dD.u_mem) dD.u_mem (inv_eq_of_mul_eq_one_right dD.u_sq),
@@ -120,7 +121,7 @@ theorem exists_normal201 (h : F.IsD D dD) (hS : Local.Setting (F.S : Subgroup G)
   have hmem : g * d ∈ hS.R1 dD.uv dD.t := mul_mem hg (t201_D_le_R1 hS hd)
   obtain ⟨y, hy⟩ := h.t201_scalar_R1 hS hm hmem (by
     rw [show dD.u⁻¹ * (g * d) * dD.u = dD.u⁻¹ * (dD.u * (g * d)) by rw [hu]; group]
-    simpa using one_mem D)
+    simp)
   obtain ⟨n1, n2, n3, -⟩ := h.cocycle_normalized hS hmem hp hu
   obtain ⟨p, hp1, hp2⟩ := t201_normal_form _ _ n3 n1 n2
   exact ⟨d, hd, y, p, hmem, hp, hu, hy, hp1, hp2⟩
@@ -132,39 +133,48 @@ namespace StrothWeakTypeData
 variable {G : Type} [Group G] [Finite G] {D : Subgroup G} {m : ℕ}
   (dD : StrothWeakTypeData D (StrothTypeIndex.t201 m))
 
+omit [Finite G] in
 theorem t201_c_eq : (dD.c : G) = dD.ofT (Torus.ofInt _ ![1, 0, 0]) := by
   rw [← c_eq_ofInt]; rfl
 
+omit [Finite G] in
 theorem t201_a_eq : (dD.a : G) = dD.ofT (Torus.ofInt _ ![0, 1, 0]) := by
   rw [← a_eq_ofInt]; rfl
 
+omit [Finite G] in
 theorem t201_b_eq : (dD.b : G) = dD.ofT (Torus.ofInt _ ![0, 0, 1]) := by
   rw [← b_eq_ofInt]; rfl
 
+omit [Finite G] in
 theorem t201_c_inv_eq :
     (dD.c : G)⁻¹ = dD.ofT ((-1 : ℤ) • Torus.ofInt (StrothTypeIndex.t201 m).k ![1, 0, 0]) := by
   rw [dD.ofT_zsmul, zpow_neg_one, ← t201_c_eq]
 
+omit [Finite G] in
 theorem t201_a_mul_pow_eq (j : ℕ) :
     (dD.a : G) * (dD.a : G) ^ j =
       dD.ofT ((1 + (j : ℤ)) • Torus.ofInt (StrothTypeIndex.t201 m).k ![0, 1, 0]) := by
   rw [add_zsmul, dD.ofT_add, one_zsmul, dD.ofT_zsmul, ← t201_a_eq, zpow_natCast]
 
+omit [Finite G] in
 theorem t201_a_inv_mul_pow_eq (j : ℕ) :
     (dD.a : G)⁻¹ * (dD.a : G) ^ j =
       dD.ofT ((-1 + (j : ℤ)) • Torus.ofInt (StrothTypeIndex.t201 m).k ![0, 1, 0]) := by
   rw [add_zsmul, dD.ofT_add, dD.ofT_zsmul, dD.ofT_zsmul, ← t201_a_eq, zpow_natCast, zpow_neg_one]
 
+omit [Finite G] in
 theorem t201_b_mul_pow_eq (j : ℕ) :
     (dD.b : G) * (dD.b : G) ^ j =
       dD.ofT ((1 + (j : ℤ)) • Torus.ofInt (StrothTypeIndex.t201 m).k ![0, 0, 1]) := by
   rw [add_zsmul, dD.ofT_add, one_zsmul, dD.ofT_zsmul, ← t201_b_eq, zpow_natCast]
 
+omit [Finite G] in
 theorem t201_b_inv_mul_pow_eq (j : ℕ) :
     (dD.b : G)⁻¹ * (dD.b : G) ^ j =
       dD.ofT ((-1 + (j : ℤ)) • Torus.ofInt (StrothTypeIndex.t201 m).k ![0, 0, 1]) := by
   rw [add_zsmul, dD.ofT_add, dD.ofT_zsmul, dD.ofT_zsmul, ← t201_b_eq, zpow_natCast, zpow_neg_one]
 
+omit [Finite G] in
 theorem t201_cab_pow_eq (p : ℕ) :
     ((dD.c : G) * dD.a * dD.b) ^ p =
       dD.ofT ((p : ℤ) • Torus.ofInt (StrothTypeIndex.t201 m).k ![1, 1, 1]) := by
@@ -174,6 +184,7 @@ theorem t201_cab_pow_eq (p : ℕ) :
   rw [dD.ofT_zsmul, zpow_natCast, h, dD.ofT_add, dD.ofT_add, ← t201_c_eq, ← t201_a_eq,
     ← t201_b_eq]
 
+omit [Finite G] in
 theorem t201_a_pow_inv_eq (p : ℕ) :
     ((dD.a : G) ^ p)⁻¹ =
       dD.ofT ((p : ℤ) • Torus.ofInt (StrothTypeIndex.t201 m).k ![0, -1, 0]) := by

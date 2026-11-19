@@ -144,8 +144,8 @@ theorem exists_conj_mem_sylow_thirdKind (hS : Setup G D)
   obtain ⟨-, -, -, -, -, huatD⟩ := htri.third_kind hS.oddT hS.normal hm hord
   rw [htdef] at huatD
   have hL : ∀ s ∈ D ∩ (S₀ : Set G), Commute s u ∧ Commute s a := fun s hs =>
-    ⟨hS.oddT.commute_of_isPGroup S₀.isPGroup' hs.1 huD hs.2 huS,
-      hS.oddT.commute_of_isPGroup S₀.isPGroup' hs.1 haD hs.2 haS⟩
+    ⟨hS.oddT.commute_of_isPGroup S₀.isPGroup hs.1 huD hs.2 huS,
+      hS.oddT.commute_of_isPGroup S₀.isPGroup hs.1 haD hs.2 haS⟩
   obtain ⟨g, hgu, hga, hgP⟩ := exists_conj_mem_of_isPGroup hS.normal S₀ hL hP hPC
   refine ⟨g, by rw [hgu.eq, mul_inv_cancel_right], by rw [hga.eq, mul_inv_cancel_right], ?_⟩
   exact hgP (u * a * t) huatP huatD
@@ -358,9 +358,9 @@ theorem commute_of_mem_inter_sylow_of_thirdKind (hS : Setup G D)
       _ = u * v * (u * v * z) := by group
   intro s hs
   rw [hzabd]
-  exact ((hS.oddT.commute_of_isPGroup S₀.isPGroup' hs.1 htri.1 hs.2 huS).mul_right
-    (hS.oddT.commute_of_isPGroup S₀.isPGroup' hs.1 htri.2.1 hs.2 hvS)).mul_right
-    (hS.oddT.commute_of_isPGroup S₀.isPGroup' hs.1 hbD hs.2 hbS)
+  exact ((hS.oddT.commute_of_isPGroup S₀.isPGroup hs.1 htri.1 hs.2 huS).mul_right
+    (hS.oddT.commute_of_isPGroup S₀.isPGroup hs.1 htri.2.1 hs.2 hvS)).mul_right
+    (hS.oddT.commute_of_isPGroup S₀.isPGroup hs.1 hbD hs.2 hbS)
 
 structure ClassInCore (D : Set G) (u w v z : G) (S₀ : Sylow 2 G) where
   X : Subgroup G
@@ -517,7 +517,7 @@ noncomputable def ClassInSetup.ofBase
     (base : ClassInBase D u w v z S₀) : ClassInSetup D u w v z n S₀ := by
   classical
   have hP' : IsPGroup 2 ((S₀ : Subgroup G).subgroupOf base.core.X) :=
-    S₀.isPGroup'.comap_subtype
+    S₀.isPGroup.comap_subtype
   choose T hT using hP'.exists_le_sylow
   have hLT : ∀ s (hs : s ∈ D ∩ (S₀ : Set G)),
       (⟨s, base.core.hLX s hs⟩ : base.core.X) ∈ T := fun s hs =>

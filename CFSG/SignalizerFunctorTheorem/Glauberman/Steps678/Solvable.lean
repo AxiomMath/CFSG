@@ -264,7 +264,7 @@ theorem le_primeCoreIn_of_commutators {p q : ℕ} (hp : p.Prime) (hq : q.Prime) 
   have hAR : A ≤ Subgroup.normalizer ((Rsub.map H.subtype : Subgroup G) : Set G) :=
     characteristic_subgroup_map_normalized A H hAH Rsub
   let P₁ : Subgroup G := (sylow : Subgroup H).map H.subtype ⊓ Rsub.map H.subtype
-  have hP₀q : IsPGroup q ((sylow : Subgroup H).map H.subtype) := sylow.isPGroup'.map _
+  have hP₀q : IsPGroup q ((sylow : Subgroup H).map H.subtype) := sylow.isPGroup.map _
   have hP₀H : (sylow : Subgroup H).map H.subtype ≤ H := Subgroup.map_subtype_le _
   have hP₁q : IsPGroup q P₁ := hP₀q.to_le inf_le_left
   have hAP₁ : A ≤ Subgroup.normalizer (P₁ : Set G) := normalizer_inf_of_le A _ _ hAsyl hAR

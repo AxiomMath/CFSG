@@ -50,12 +50,12 @@ theorem card_ggAutomizer_le_of_innerDiagOn_D4
   unfold LargeEvenRawDatum at hraw1
   simp only [htag, hrank] at hraw1
   obtain ⟨K, hfield, hfinite, hKcard, hQraw⟩ := hraw1
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  haveI : CharP K 2 := charP_two_of_card hKcard
+  let : Field K := hfield
+  let : Finite K := hfinite
+  have : CharP K 2 := charP_two_of_card hKcard
   let R := LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K 4))
-  letI : Group R := inferInstance
-  letI : Finite R := inferInstance
+  let : Group R := inferInstance
+  let : Finite R := inferInstance
   rcases hQraw with ⟨hsimple, hnonab, θ, hBN, h3⟩
   have hZ : Subgroup.center R = ⊥ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center R) with h | h

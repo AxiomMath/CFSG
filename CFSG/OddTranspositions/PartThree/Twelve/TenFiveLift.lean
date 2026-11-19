@@ -216,10 +216,10 @@ private theorem fiveLift_false_of_card {k : ℕ} (hk : 4 ≤ k) (ε π : Bool)
   have hpos : 0 < Nat.card ↥(commutator ↥(fiveReflectionGroup k ε π)) := Nat.card_pos
   omega
 
-private theorem fiveLift_false_of_parity {k : ℕ} (hk : 4 ≤ k) (ε π : Bool)
+private theorem fiveLift_false_of_parity {k : ℕ} (_hk : 4 ≤ k) (ε π : Bool)
     {G : Type} [Group G] [Finite G] {D : Set G} (hS : Setup G D)
-    (ζ : G →* fiveProjective k ε π) (hζ : Function.Surjective ζ)
-    (hker : ζ.ker ≤ Subgroup.center G) (hcard : Nat.card ζ.ker = 2)
+    (ζ : G →* fiveProjective k ε π) (_hζ : Function.Surjective ζ)
+    (_hker : ζ.ker ≤ Subgroup.center G) (_hcard : Nat.card ζ.ker = 2)
     (hD : ∀ x : fiveProjective k ε π, x ∈ ζ '' D ↔ ∃ r : fiveReflectionGroup k ε π,
       (r : GL (Fin (k + 1)) (ZMod 5)) ∈ fiveReflections k ε π ∧
         (QuotientGroup.mk r : fiveProjective k ε π) = x)
@@ -365,20 +365,20 @@ private theorem fiveLift_good_of_ker_le {k : ℕ} (hk : 4 ≤ k) (ε π : Bool)
     omega
   have hconj : ∀ x : ↥(commutator G),
       (ψ ⟨d * (x : G) * d⁻¹, by
-        haveI : (commutator G).Normal := inferInstance
+        have : (commutator G).Normal := inferInstance
         exact (inferInstance : (commutator G).Normal).conj_mem (x : G) x.2 d⟩ :
           fiveReflectionGroup k ε π) =
       rd * (ψ x : fiveReflectionGroup k ε π) * rd⁻¹ := by
     let hcd : ↥(commutator G) →* ↥(commutator G) :=
       { toFun := fun x => ⟨d * (x : G) * d⁻¹, by
-          haveI : (commutator G).Normal := inferInstance
+          have : (commutator G).Normal := inferInstance
           exact (inferInstance : (commutator G).Normal).conj_mem (x : G) x.2 d⟩
         map_one' := by apply Subtype.ext; simp
         map_mul' := fun x y => Subtype.ext (by simp only [Subgroup.coe_mul]; group) }
     let hcr : ↥(commutator ↥(fiveReflectionGroup k ε π)) →*
         ↥(commutator ↥(fiveReflectionGroup k ε π)) :=
       { toFun := fun x => ⟨rd * (x : fiveReflectionGroup k ε π) * rd⁻¹, by
-          haveI : (commutator ↥(fiveReflectionGroup k ε π)).Normal := inferInstance
+          have : (commutator ↥(fiveReflectionGroup k ε π)).Normal := inferInstance
           exact (inferInstance : (commutator ↥(fiveReflectionGroup k ε π)).Normal).conj_mem
             (x : fiveReflectionGroup k ε π) x.2 rd⟩
         map_one' := by apply Subtype.ext; simp
@@ -634,14 +634,14 @@ private theorem fiveLift_good_of_not_ker_le {k : ℕ} (hk : 4 ≤ k) (ε π : Bo
     simpa [pow_two, Subgroup.coe_mul] using congrArg Subtype.val h
   have hconj : ∀ x : ↥(commutator G),
       (ψ ⟨z * (x : G) * z⁻¹, by
-        haveI : (commutator G).Normal := inferInstance
+        have : (commutator G).Normal := inferInstance
         exact (inferInstance : (commutator G).Normal).conj_mem (x : G) x.2 z⟩ :
           fiveReflectionGroup k ε π) =
       (⟨-1, hneg_mem⟩ : fiveReflectionGroup k ε π) * (ψ x : fiveReflectionGroup k ε π) *
         ⟨-1, hneg_mem⟩⁻¹ := by
     intro x
     have hx : (⟨z * (x : G) * z⁻¹, by
-        haveI : (commutator G).Normal := inferInstance
+        have : (commutator G).Normal := inferInstance
         exact (inferInstance : (commutator G).Normal).conj_mem (x : G) x.2 z⟩ :
           ↥(commutator G)) = x := by
       apply Subtype.ext

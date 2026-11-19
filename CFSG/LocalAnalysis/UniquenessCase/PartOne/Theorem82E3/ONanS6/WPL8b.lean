@@ -25,7 +25,7 @@ theorem inCatalog_component_centerQuot (c : Ctx82E3 D) {e : G} (he1 : e ≠ 1)
       ↥(Subgroup.centralizer ({e} : Set G)))
   have hX : CFSG.Open.IsKGroup (componentsQuot e) := hK.of_surjective π
     (QuotientGroup.mk'_surjective _)
-  haveI : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.1.2.1
+  have : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.1.2.1
   exact hX.isCatalogGroup_of_surjective J hJ.1.2.2
     (QuotientGroup.mk' (Subgroup.center J)) (QuotientGroup.mk'_surjective _)
 
@@ -47,7 +47,7 @@ theorem exists_suzukiModel_component (hPSz : CFSG.RankThree.PartTwo.KFacts.KPSz)
     exact dvd_mul_of_dvd_left h3 _
   have hcat : CFSG.Assembly.InCatalog (J ⧸ Subgroup.center J) :=
     inCatalog_component_centerQuot c he1 hJ
-  haveI : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.1.2.1
+  have : IsSimpleGroup (J ⧸ Subgroup.center J) := hJ.1.2.1
   exact hPSz (J ⧸ Subgroup.center J) hJ.1.2.2 hcat h3q
 
 end

@@ -11,12 +11,12 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
 open CFSG.Quasithin CFSG.Open Subgroup
 
 private theorem s16c13beta_fam_dParam_three : dParam 3 = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold dParam
   exact orderOf_eq_prime (by decide) (by decide)
 
 private theorem s16c13beta_fam_dParam_seven : dParam 7 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   unfold dParam
   exact orderOf_eq_prime (by decide) (by decide)
 

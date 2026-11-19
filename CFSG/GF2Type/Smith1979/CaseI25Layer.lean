@@ -62,6 +62,7 @@ theorem center_layer_le_oddCore (S : Setting G) :
       timmesfeldOddCore S.Mbar :=
   (GeneralizedFitting.layer_center_le_fitting S.Mbar).trans (S5.fitting_le_oddCore S)
 
+omit [Finite G] in
 theorem M_ne_top_of_isSimpleGroup [IsSimpleGroup G] (S : Setting G) : S.M ≠ ⊤ := by
   intro htop
   have hz : S.z ∈ center G := mem_center_iff.mpr fun g => S.mem_M_iff.mp (htop ▸ mem_top g)
@@ -98,7 +99,7 @@ theorem inCatalog_layer_quotient (hK : KProper InCatalog G) (hM : S.M ≠ ⊤)
   have hMbar : KCore.KGroupNonab InCatalog S.Mbar :=
     hMnonab.of_surjective CFSG.Assembly.inCatalog_isoInvariant S.ρ.rangeRestrict
       S.ρ.rangeRestrict_surjective
-  haveI : IsSimpleGroup (timmesfeldLayer S.Mbar ⧸ center (timmesfeldLayer S.Mbar)) := hq.2
+  have : IsSimpleGroup (timmesfeldLayer S.Mbar ⧸ center (timmesfeldLayer S.Mbar)) := hq.2
   exact hMbar.catalogue_of_surjective CFSG.Assembly.inCatalog_isoInvariant
     (timmesfeldLayer S.Mbar) (Helpers.quasisimple_central_quotient_nonabelian _ hq)
     (QuotientGroup.mk' (center (timmesfeldLayer S.Mbar))) (QuotientGroup.mk'_surjective _)
@@ -123,10 +124,10 @@ theorem perfect_le_layer_of_inCatalog (hS : SchreierFor InCatalog)
     (hodd : Nat.card (timmesfeldOddCore S.Mbar) ∣ 3)
     (hX : InCatalog (timmesfeldLayer S.Mbar ⧸ center (timmesfeldLayer S.Mbar)))
     {P : Subgroup S.Mbar} (hperf : ⁅P, P⁆ = P) : P ≤ timmesfeldLayer S.Mbar := by
-  haveI : Group.IsPerfect P := Subgroup.isPerfect_iff.mpr hperf
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (timmesfeldOddCore S.Mbar).Normal := S5.timmesfeldOddCore_normal S.Mbar
-  haveI : IsCyclic (timmesfeldOddCore S.Mbar) := isCyclic_of_card_dvd_prime hodd
+  have : Group.IsPerfect P := Subgroup.isPerfect_iff.mpr hperf
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (timmesfeldOddCore S.Mbar).Normal := S5.timmesfeldOddCore_normal S.Mbar
+  have : IsCyclic (timmesfeldOddCore S.Mbar) := isCyclic_of_card_dvd_prime hodd
   have hFit : ⁅P, Fitting.subgroup S.Mbar⁆ = ⊥ :=
     eq_bot_iff.mpr ((commutator_mono le_rfl (S5.fitting_le_oddCore S)).trans
       (commutator_eq_bot_of_perfect_of_cyclic hperf).le)
@@ -136,7 +137,7 @@ theorem perfect_le_layer_of_inCatalog (hS : SchreierFor InCatalog)
   · rw [eq_layer_of_isComponentOf hq hA, normalizer_eq_top_iff.mpr hnormal]
     exact le_top
   · rw [eq_layer_of_isComponentOf hq hA]
-    haveI : IsSimpleGroup (timmesfeldLayer S.Mbar ⧸ center (timmesfeldLayer S.Mbar)) := hq.2
+    have : IsSimpleGroup (timmesfeldLayer S.Mbar ⧸ center (timmesfeldLayer S.Mbar)) := hq.2
     exact hS _ (Helpers.quasisimple_central_quotient_nonabelian _ hq) hX
 
 theorem perfect_le_layer (hS : SchreierFor InCatalog) (hK : KProper InCatalog G)

@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conjugate_le_I {H X L Q I : Subgroup G} (h : Setup49 H X L Q I)
     {x : G} (hx : x ∈ X) : CFSG.conjugate L x ≤ I := by
   rw [show I = I49 L X from h.I_eq.trans (I49_eq L X).symm, I49]

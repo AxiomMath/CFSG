@@ -91,7 +91,7 @@ theorem polar_eq (e f : M₀.E) : QuadraticMap.polar M₀.toQuadraticForm e f = 
   Tim79.QuadModel.polar_toQuadraticForm M₀ e f
 
 theorem eichler_smul_mem_omega {τ : M₀.E ≃ₗ[K] M₀.E}
-    (hτ : τ ∈ orthogonalGroup M₀.toQuadraticForm) {u₀ x : M₀.E} (hu₀ : M₀.Qf u₀ = 0)
+    (hτ : τ ∈ orthogonalGroup M₀.toQuadraticForm) {u₀ x : M₀.E} (_hu₀ : M₀.Qf u₀ = 0)
     (hτu₀ : τ u₀ = u₀) {c₀ : K} (hc₀ : c₀ ≠ 1) (hx : τ x = c₀ • x) (hperp : M₀.B u₀ x = 0)
     (l : K) : eichler M₀.toQuadraticForm u₀ (l • x) ∈ omegaOf M₀ := by
   have hc : c₀ - 1 ≠ 0 := sub_ne_zero.mpr hc₀

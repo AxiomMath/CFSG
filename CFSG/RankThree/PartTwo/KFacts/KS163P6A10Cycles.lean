@@ -11,7 +11,7 @@ variable {B : Subgroup (Equiv.Perm (Fin 10))}
 private theorem card_orbit_ne_one_of_smul_ne {p : Fin 10} {g : B} (hg : g • p ≠ p) :
     Nat.card (MulAction.orbit B p) ≠ 1 := by
   intro h1
-  haveI : Subsingleton (MulAction.orbit B p) :=
+  have : Subsingleton (MulAction.orbit B p) :=
     Finite.card_le_one_iff_subsingleton.mp (le_of_eq h1)
   have h : (⟨g • p, MulAction.mem_orbit p g⟩ : MulAction.orbit B p) =
       ⟨p, (MulAction.mem_orbit_self p : p ∈ MulAction.orbit B p)⟩ := Subsingleton.elim _ _
@@ -42,7 +42,7 @@ theorem card_orbit_eq_one_or_three_or_nine (hB27 : Nat.card B = 27) (a : Fin 10)
 theorem smul_eq_of_mem_stabilizer_of_mem_orbit (hB : CFSG.Open.IsElemAbelian 3 B)
     {a p : Fin 10} (hp : p ∈ MulAction.orbit B a) {b : B}
     (hb : b ∈ MulAction.stabilizer B a) : b • p = p := by
-  haveI : IsMulCommutative B := hB.1
+  have : IsMulCommutative B := hB.1
   obtain ⟨g, rfl⟩ := MulAction.mem_orbit_iff.mp hp
   calc b • (g • a) = (b * g) • a := (mul_smul b g a).symm
     _ = (g * b) • a := by rw [mul_comm']
@@ -74,11 +74,11 @@ theorem card_orbit_ne_nine (hB : CFSG.Open.IsElemAbelian 3 B) (hB27 : Nat.card B
       calc (MulAction.orbit B p).ncard ≤ ((MulAction.orbit B a)ᶜ).ncard :=
             Set.ncard_le_ncard hsub
         _ = 1 := hcompl
-    haveI : Nonempty (MulAction.orbit B p) :=
+    have : Nonempty (MulAction.orbit B p) :=
       ⟨⟨p, (MulAction.mem_orbit_self p : p ∈ MulAction.orbit B p)⟩⟩
     have hpos : 1 ≤ Nat.card (MulAction.orbit B p) := Nat.card_pos
     have h1 : Nat.card (MulAction.orbit B p) = 1 := le_antisymm hle hpos
-    haveI : Subsingleton (MulAction.orbit B p) :=
+    have : Subsingleton (MulAction.orbit B p) :=
       Finite.card_le_one_iff_subsingleton.mp (le_of_eq h1)
     exact congrArg Subtype.val (Subsingleton.elim
       (⟨g • p, MulAction.mem_orbit p g⟩ : MulAction.orbit B p)
@@ -109,7 +109,7 @@ private theorem exists_orbit_card_three (hB : CFSG.Open.IsElemAbelian 3 B)
     intro hbot
     rw [hbot, Subgroup.card_bot] at hB27
     omega
-  haveI : Nontrivial B :=
+  have : Nontrivial B :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hB27]; norm_num)
   obtain ⟨g, hg1⟩ := exists_ne (1 : B)
   have hgm : ∃ a : Fin 10, g • a ≠ a := by
@@ -134,7 +134,7 @@ private theorem exists_second_orbit (hB : CFSG.Open.IsElemAbelian 3 B)
     have h := Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup B a)
     rw [Nat.card_prod, hB27, ha3] at h
     omega
-  haveI : Nontrivial (MulAction.stabilizer B a) :=
+  have : Nontrivial (MulAction.stabilizer B a) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hK1]; norm_num)
   obtain ⟨k, hk1⟩ := exists_ne (1 : MulAction.stabilizer B a)
   have hkm : ∃ b : Fin 10, (k : B) • b ≠ b := by
@@ -185,7 +185,7 @@ private theorem exists_third_orbit (hB : CFSG.Open.IsElemAbelian 3 B)
     intro hbot
     rw [Subgroup.eq_bot_iff_card] at hbot
     omega
-  haveI : Nontrivial ↥(MulAction.stabilizer B a ⊓ MulAction.stabilizer B b) :=
+  have : Nontrivial ↥(MulAction.stabilizer B a ⊓ MulAction.stabilizer B b) :=
     Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨k, hk1⟩ := exists_ne (1 : ↥(MulAction.stabilizer B a ⊓ MulAction.stabilizer B b))
   have hkm : ∃ c : Fin 10, (k : B) • c ≠ c := by
@@ -252,11 +252,11 @@ private theorem smul_eq_of_notMem_three_orbits {a b c p : Fin 10}
           (MulAction.orbit B a ∪ MulAction.orbit B b ∪ MulAction.orbit B c)ᶜ.ncard :=
           Set.ncard_le_ncard hsub
       _ = 1 := hcompl
-  haveI : Nonempty (MulAction.orbit B p) :=
+  have : Nonempty (MulAction.orbit B p) :=
     ⟨⟨p, (MulAction.mem_orbit_self p : p ∈ MulAction.orbit B p)⟩⟩
   have hpos : 1 ≤ Nat.card (MulAction.orbit B p) := Nat.card_pos
   have h1p : Nat.card (MulAction.orbit B p) = 1 := le_antisymm hle hpos
-  haveI : Subsingleton (MulAction.orbit B p) :=
+  have : Subsingleton (MulAction.orbit B p) :=
     Finite.card_le_one_iff_subsingleton.mp (le_of_eq h1p)
   exact congrArg Subtype.val (Subsingleton.elim
     (⟨g • p, MulAction.mem_orbit p g⟩ : MulAction.orbit B p)
@@ -337,7 +337,7 @@ private theorem exists_threeCycle_support_subset (hB : CFSG.Open.IsElemAbelian 3
     intro hbot
     rw [Subgroup.eq_bot_iff_card] at hbot
     omega
-  haveI : Nontrivial ↥(MulAction.stabilizer B b ⊓ MulAction.stabilizer B c) :=
+  have : Nontrivial ↥(MulAction.stabilizer B b ⊓ MulAction.stabilizer B c) :=
     Finite.one_lt_card_iff_nontrivial.mp (by omega)
   obtain ⟨k, hk1⟩ := exists_ne (1 : ↥(MulAction.stabilizer B b ⊓ MulAction.stabilizer B c))
   let x : Equiv.Perm (Fin 10) := (k : B)

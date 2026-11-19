@@ -65,7 +65,7 @@ theorem f1_eq_of_xor_zero {x y : ℕ} (h : x ^^^ y = 0) : x = y := by
 theorem f1_uSums {a : ℕ} (ha : a < 512) :
     uSums[a]! = true ↔ ∃ k < 49, ∃ l < 49, k ≠ l ∧ uco[k]! ^^^ uco[l]! = a := by
   have hs : a < uSums.size := by simp [uSums, ha]
-  rw [Array.getElem!_eq_getD, Array.getD, dif_pos hs]
+  rw [Array.getElem!_eq_getD, Array.getD, dite_eq_left hs]
   simp only [uSums, Array.getInternal_eq_getElem, Array.getElem_ofFn, List.any_eq_true,
     List.mem_range, Bool.and_eq_true, bne_iff_ne, ne_eq, beq_iff_eq]
 
@@ -151,7 +151,7 @@ theorem f1_mem_class_one {u : Equiv.Perm (Fin 1953)} :
 
 theorem f1_mem_class_two {u : Equiv.Perm (Fin 1953)} :
     u ∈ uaRank 0 2 ↔ ∃ a < 512, uCls uSums a = 2 ∧ psi0 a = u := by
-  rw [uaRank_two, Set.mem_setOf_eq]
+  rw [uaRank_two, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hnot, p, hp, q, hq, hpq, rfl⟩
     obtain ⟨k, hk, rfl⟩ := exists_pt0 hp
@@ -178,11 +178,11 @@ theorem f1_mem_class_two {u : Equiv.Perm (Fin 1953)} :
 
 theorem f1_mem_class_three {u : Equiv.Perm (Fin 1953)} :
     u ∈ uaRank 0 3 ↔ ∃ a < 512, uCls uSums a = 3 ∧ psi0 a = u := by
-  rw [uaRank_three, Set.mem_diff]
+  rw [uaRank_three, Set.mem_sdiff]
   constructor
   · rintro ⟨hUA, hnot⟩
     obtain ⟨a, ha, rfl⟩ := mem_UA_zero.1 hUA
-    simp only [Set.mem_union, Set.mem_singleton_iff, Set.mem_setOf_eq, not_or] at hnot
+    simp only [Set.mem_union, Set.mem_singleton_iff, Set.mem_ofPred_eq, not_or] at hnot
     obtain ⟨⟨h1, hT⟩, hS⟩ := hnot
     have ha0 : a ≠ 0 := fun h => h1 (by rw [h, psi0_zero])
     have hP1 : ¬ ∃ k < 49, uco[k]! = a := fun h => hT ((f1_mem_tvP_zero ha).2 h)
@@ -192,7 +192,7 @@ theorem f1_mem_class_three {u : Equiv.Perm (Fin 1953)} :
   · rintro ⟨a, ha, hcls, rfl⟩
     obtain ⟨ha0, hP1, hP2⟩ := (f1_uCls_three ha).1 hcls
     refine ⟨mem_UA_zero.2 ⟨a, ha, rfl⟩, ?_⟩
-    simp only [Set.mem_union, Set.mem_singleton_iff, Set.mem_setOf_eq, not_or]
+    simp only [Set.mem_union, Set.mem_singleton_iff, Set.mem_ofPred_eq, not_or]
     refine ⟨⟨fun h => ha0 (psi0_inj ha (by norm_num) (h.trans psi0_zero.symm)), ?_⟩, ?_⟩
     · intro h
       obtain ⟨k, hk, he⟩ := (f1_mem_tvP_zero ha).1 h
@@ -236,7 +236,7 @@ theorem f1_ncard_aux {c : ℕ} (hc : c = 1 ∨ c = 2 ∨ c = 3) :
   have himg : uaRank 0 c = psi0 '' {a : ℕ | a < 512 ∧ uCls uSums a = c} := by
     ext u
     rw [mem_uaRank_zero_iff hc, Set.mem_image]
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨a, ha, h1, h2⟩
       exact ⟨a, ⟨ha, h1⟩, h2⟩
@@ -385,7 +385,7 @@ end Zero
 
 section General
 
-theorem mem_uaRank_cases {i : ℕ} (hi : i < 1395) {u : Equiv.Perm (Fin 1953)} (hu : u ∈ UA i)
+theorem mem_uaRank_cases {i : ℕ} (_hi : i < 1395) {u : Equiv.Perm (Fin 1953)} (hu : u ∈ UA i)
     (hu1 : u ≠ 1) : u ∈ uaRank i 1 ∨ u ∈ uaRank i 2 ∨ u ∈ uaRank i 3 := by
   by_cases h1 : u ∈ tvP '' wPlane i
   · left
@@ -468,7 +468,7 @@ theorem conj_three {i j : ℕ} {g : Equiv.Perm (Fin 1953)} (hg : IsTvAut g)
     rw [e, uaRank_two] at hb
     exact hnot (Or.inr hb)
 
-theorem conj_mem_uaRank {i j : ℕ} (hi : i < 1395) (hj : j < 1395) {g : Equiv.Perm (Fin 1953)}
+theorem conj_mem_uaRank {i j : ℕ} (_hi : i < 1395) (_hj : j < 1395) {g : Equiv.Perm (Fin 1953)}
     (hg : IsTvAut g) (h : ⇑g '' wPlane i = wPlane j) {c : ℕ} (hc : c = 1 ∨ c = 2 ∨ c = 3)
     {u : Equiv.Perm (Fin 1953)} (hu : u ∈ uaRank i c) : g * u * g⁻¹ ∈ uaRank j c := by
   rcases hc with rfl | rfl | rfl

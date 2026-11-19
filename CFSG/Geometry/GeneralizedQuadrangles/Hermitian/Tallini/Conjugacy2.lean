@@ -16,11 +16,13 @@ section ConjugacyD2
 
 variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem color_zero_of_mem_isStarLine {c : Γ.Coloring (Fin 2)} {L : Set V}
     (hL : IsStarLine Γ c L) {z : V} (hz : z ∈ L) : c z = 0 := by
   obtain ⟨x, y, hx, hy, hxy, rfl⟩ := hL
   exact color_eq_zero_of_mem_starLine hz
 
+omit [Fintype V] [DecidableRel Γ.Adj] in
 theorem exists_mem_ne_of_isStarLine {c : Γ.Coloring (Fin 2)} {L : Set V}
     (hL : IsStarLine Γ c L) (p : V) : ∃ q ∈ L, q ≠ p := by
   obtain ⟨x, y, hx, hy, hxy, rfl⟩ := hL
@@ -174,7 +176,7 @@ theorem isHypLine_inter_of_isConjPlane (hP : IsGeneralizedPolygon Γ 4) (hT : Is
       rw [hScard] at hpart
       exact ⟨(S.image (fun p => conjLine Γ c X p)).card, by rw [hpart, Nat.mul_comm]⟩
     have ht : Nat.Coprime (t + 1) t := by
-      simpa using (Nat.coprime_self_add_left (m := t) (n := 1)).mpr (by simp)
+      simp
     have hcop : Nat.Coprime (t + 1) (t ^ 3) :=
       (Nat.coprime_pow_right_iff (by norm_num) (t + 1) t).mpr ht
     have hone : t + 1 = 1 := Nat.eq_one_of_dvd_coprimes hcop (dvd_refl (t + 1)) hdvd

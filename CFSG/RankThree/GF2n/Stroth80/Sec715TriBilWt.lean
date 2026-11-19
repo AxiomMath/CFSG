@@ -13,7 +13,7 @@ open scoped symmDiff
 variable {N : ℕ}
 
 theorem bil_nontrivial (h3 : 3 ≤ N) : Nontrivial (ZMod N) := by
-  haveI : Fact (1 < N) := ⟨by omega⟩
+  have : Fact (1 < N) := ⟨by omega⟩
   infer_instance
 
 theorem bil_isUnit_two (hN : Odd N) : IsUnit (2 : ZMod N) := by
@@ -23,12 +23,12 @@ theorem bil_isUnit_two (hN : Odd N) : IsUnit (2 : ZMod N) := by
 
 theorem bil_two_mul_ne_zero (h3 : 3 ≤ N) {b₀ : ZMod N} (hb : IsUnit (2 * b₀)) :
     2 * b₀ ≠ 0 := by
-  haveI := bil_nontrivial h3
+  have := bil_nontrivial h3
   exact hb.ne_zero
 
 theorem bil_four_mul_ne_zero (hN : Odd N) (h3 : 3 ≤ N) {b₀ : ZMod N} (hb : IsUnit (2 * b₀)) :
     4 * b₀ ≠ 0 := by
-  haveI := bil_nontrivial h3
+  have := bil_nontrivial h3
   have h4 : 4 * b₀ = 2 * (2 * b₀) := by ring
   rw [h4]
   exact ((bil_isUnit_two hN).mul hb).ne_zero
@@ -189,13 +189,13 @@ theorem bil_spin_add_spin {b₀ c : ZMod N} (hb : 2 * b₀ ≠ 0) (hc : c ≠ 0)
     intro j hji
     rw [← bil_spin_sum_eq_zero_iff hb s s' j]
     have := congrFun hv j
-    rw [Pi.single_apply, if_neg hji] at this
+    rw [Pi.single_apply, ite_eq_right hji] at this
     exact this
   have hi' : (i ∈ s ↔ i ∈ s') := by
     by_contra hne
     apply hv0
     have := congrFun hv i
-    rw [Pi.single_apply, if_pos rfl] at this
+    rw [Pi.single_apply, ite_eq_left rfl] at this
     rw [← this]
     exact (bil_spin_sum_eq_zero_iff hb s s' i).mpr hne
   ext j
@@ -205,8 +205,7 @@ theorem bil_spin_add_spin {b₀ c : ZMod N} (hb : 2 * b₀ ≠ 0) (hc : c ≠ 0)
     simp only [Finset.mem_singleton, not_true_eq_false, and_false, true_and, false_or]
     tauto
   · have := hcoord j hji
-    simp only [Finset.mem_singleton, hji, false_and, and_true, not_false_eq_true, true_and,
-      or_false]
+    simp only [Finset.mem_singleton, hji, false_and, and_true, not_false_eq_true, or_false]
     tauto
 
 private theorem bil_exists_ne_ne : ∀ i k : Fin 4, ∃ j : Fin 4, j ≠ i ∧ j ≠ k := by decide
@@ -240,22 +239,22 @@ theorem bil_nat_add_nat {σ c : ZMod N} (hσ : σ ≠ 0) (hc : c ≠ 0) {a b : F
     by_contra hkl
     have h1 := congrFun hsum k
     have h2 := congrFun hsum l
-    simp only [Pi.add_apply, Pi.single_apply, if_pos rfl, if_neg hkl, if_neg (Ne.symm hkl),
+    simp only [Pi.add_apply, Pi.single_apply, ite_eq_right hkl, ite_eq_right (Ne.symm hkl),
       add_zero, zero_add] at h1 h2
     have hki : k = i := by
       by_contra hki
-      rw [if_neg hki] at h1
+      rw [ite_eq_right hki] at h1
       exact hu0 h1
     have hli : l = i := by
       by_contra hli
-      rw [if_neg hli] at h2
+      rw [ite_eq_right hli] at h2
       exact hu0' h2
     exact hkl (hki.trans hli.symm)
   subst hkl
   have hik : k = i := by
     by_contra hik
     have h1 := congrFun hsum i
-    simp only [Pi.add_apply, Pi.single_apply, if_pos rfl, if_neg (Ne.symm hik), add_zero] at h1
+    simp only [Pi.add_apply, Pi.single_apply, ite_eq_right (Ne.symm hik), add_zero] at h1
     exact hv0 h1.symm
   subst hik
   have h1 := congrFun hsum k
@@ -274,7 +273,7 @@ theorem bil_not_natWt_add_spin {σ c b₀ : ZMod N} {e : ℕ} (hb₀ : b₀ ≠ 
   obtain ⟨i, v, hv, hsum⟩ := bil_natWt_eq h
   obtain ⟨j, hji, hjk⟩ := bil_exists_ne_ne i k
   have h1 := congrFun hsum j
-  simp only [Pi.add_apply, Pi.single_apply, if_neg hji, if_neg hjk, zero_add] at h1
+  simp only [Pi.add_apply, Pi.single_apply, ite_eq_right hji, ite_eq_right hjk, zero_add] at h1
   rcases hb.1 j with h2 | h2
   · exact hb₀ (h2 ▸ h1)
   · exact hb₀ (neg_eq_zero.mp (h2 ▸ h1))
@@ -284,11 +283,11 @@ theorem bil_not_natWt_spin_add {σ c b₀ : ZMod N} {e : ℕ} (hb₀ : b₀ ≠ 
   rw [add_comm]
   exact bil_not_natWt_add_spin hb₀ hb ha
 
-theorem bil_spinSg_symmDiff_pair_left (s : Finset (Fin 4)) {p k : Fin 4} (h : p ≠ k) :
+theorem bil_spinSg_symmDiff_pair_left (s : Finset (Fin 4)) {p k : Fin 4} (_h : p ≠ k) :
     bilSpinSg (s ∆ {p, k}) p = -bilSpinSg s p := by
   by_cases hp : p ∈ s <;> simp [bilSpinSg, hp, Finset.mem_symmDiff]
 
-theorem bil_spinSg_symmDiff_pair_right (s : Finset (Fin 4)) {p k : Fin 4} (h : p ≠ k) :
+theorem bil_spinSg_symmDiff_pair_right (s : Finset (Fin 4)) {p k : Fin 4} (_h : p ≠ k) :
     bilSpinSg (s ∆ {p, k}) k = -bilSpinSg s k := by
   by_cases hk : k ∈ s <;> simp [bilSpinSg, hk, Finset.mem_symmDiff]
 
@@ -298,11 +297,11 @@ theorem bil_spinSg_symmDiff_pair_other (s : Finset (Fin 4)) {p k i : Fin 4} (hp 
 
 theorem bil_spinSg_compl_symmDiff_self (s : Finset (Fin 4)) (p : Fin 4) :
     bilSpinSg ((s ∆ {p})ᶜ) p = bilSpinSg s p := by
-  by_cases hp : p ∈ s <;> simp [bilSpinSg, hp, Finset.mem_symmDiff]
+  by_cases hp : p ∈ s <;> simp [bilSpinSg, hp]
 
 theorem bil_spinSg_compl_symmDiff_other (s : Finset (Fin 4)) {p i : Fin 4} (h : i ≠ p) :
     bilSpinSg ((s ∆ {p})ᶜ) i = -bilSpinSg s i := by
-  by_cases hi : i ∈ s <;> simp [bilSpinSg, hi, Finset.mem_symmDiff, h]
+  by_cases hi : i ∈ s <;> simp [bilSpinSg, hi, h]
 
 @[expose] def bilSpinRoot (s : Finset (Fin 4)) (p k : Fin 4) : Fin 4 → ℤ :=
   Pi.single p (-bilSpinSg s p) + Pi.single k (-bilSpinSg s k)
@@ -327,15 +326,15 @@ theorem bil_spinW_add_spinRoot (b₀ : ZMod N) (s : Finset (Fin 4)) {p k : Fin 4
     bil_spinW_apply_eq]
   by_cases hip : i = p
   · subst hip
-    rw [if_pos rfl, if_neg h, bil_spinSg_symmDiff_pair_left s h]
+    rw [ite_eq_left rfl, ite_eq_right h, bil_spinSg_symmDiff_pair_left s h]
     push_cast
     ring
   · by_cases hik : i = k
     · subst hik
-      rw [if_neg hip, if_pos rfl, bil_spinSg_symmDiff_pair_right s h]
+      rw [ite_eq_right hip, ite_eq_left rfl, bil_spinSg_symmDiff_pair_right s h]
       push_cast
       ring
-    · rw [if_neg hip, if_neg hik, bil_spinSg_symmDiff_pair_other s hip hik]
+    · rw [ite_eq_right hip, ite_eq_right hik, bil_spinSg_symmDiff_pair_other s hip hik]
       ring
 
 theorem bil_spinW_add_spinW_compl (b₀ : ZMod N) (s : Finset (Fin 4)) (p : Fin 4) :
@@ -345,9 +344,9 @@ theorem bil_spinW_add_spinW_compl (b₀ : ZMod N) (s : Finset (Fin 4)) (p : Fin 
   simp only [Pi.add_apply, bil_spinW_apply_eq, Pi.single_apply]
   by_cases hip : i = p
   · subst hip
-    rw [if_pos rfl, bil_spinSg_compl_symmDiff_self]
+    rw [ite_eq_left rfl, bil_spinSg_compl_symmDiff_self]
     ring
-  · rw [if_neg hip, bil_spinSg_compl_symmDiff_other s hip]
+  · rw [ite_eq_right hip, bil_spinSg_compl_symmDiff_other s hip]
     push_cast
     ring
 
@@ -360,14 +359,14 @@ theorem bil_spinW_add_spinW_compl_add_spinRoot (b₀ : ZMod N) (s : Finset (Fin 
     bil_spinW_apply_eq, Pi.single_apply]
   by_cases hip : i = p
   · subst hip
-    rw [if_pos rfl, if_neg h, if_neg h, bil_spinSg_compl_symmDiff_self]
+    rw [ite_eq_left rfl, ite_eq_right h, ite_eq_right h, bil_spinSg_compl_symmDiff_self]
     ring
   · by_cases hik : i = k
     · subst hik
-      rw [if_neg hip, if_pos rfl, if_pos rfl, bil_spinSg_compl_symmDiff_other s h.symm]
+      rw [ite_eq_right hip, ite_eq_left rfl, ite_eq_left rfl, bil_spinSg_compl_symmDiff_other s h.symm]
       push_cast
       ring
-    · rw [if_neg hip, if_neg hik, if_neg hik, bil_spinSg_compl_symmDiff_other s hip]
+    · rw [ite_eq_right hip, ite_eq_right hik, ite_eq_right hik, bil_spinSg_compl_symmDiff_other s hip]
       push_cast
       ring
 
@@ -376,7 +375,7 @@ theorem bil_spinW_compl_sub_spinRoot_apply (b₀ : ZMod N) (s : Finset (Fin 4)) 
     (bilSpinW b₀ ((s ∆ {p})ᶜ) - (2 * b₀) • castW N (bilSpinRoot s p k)) p =
       (bilSpinSg s p : ZMod N) * (3 * b₀) := by
   simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, bil_castW_spinRoot_apply,
-    bil_spinW_apply_eq, if_true, if_neg h, add_zero, bil_spinSg_compl_symmDiff_self]
+    bil_spinW_apply_eq, ite_true, ite_eq_right h, add_zero, bil_spinSg_compl_symmDiff_self]
   ring
 
 theorem bil_spinW_compl_add_spinRoot_apply (b₀ : ZMod N) (s : Finset (Fin 4)) {p k : Fin 4}
@@ -384,7 +383,7 @@ theorem bil_spinW_compl_add_spinRoot_apply (b₀ : ZMod N) (s : Finset (Fin 4)) 
     (bilSpinW b₀ ((s ∆ {p})ᶜ) + (2 * b₀) • castW N (bilSpinRoot s p k)) k =
       -((bilSpinSg s k : ZMod N) * (3 * b₀)) := by
   simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, bil_castW_spinRoot_apply,
-    bil_spinW_apply_eq, if_true, if_neg h.symm, zero_add, bil_spinSg_compl_symmDiff_other s h.symm]
+    bil_spinW_apply_eq, ite_true, ite_eq_right h.symm, zero_add, bil_spinSg_compl_symmDiff_other s h.symm]
   push_cast
   ring
 
@@ -404,10 +403,10 @@ theorem bil_not_isNatWt_of_two {σ : ZMod N} {w : Fin 4 → ZMod N} {k m : Fin 4
   rw [Pi.single_apply] at hk hm
   have h1 : k = i := by
     by_contra h'
-    exact hk (if_neg h')
+    exact hk (ite_eq_right h')
   have h2 : m = i := by
     by_contra h'
-    exact hm (if_neg h')
+    exact hm (ite_eq_right h')
   exact hkm (h1.trans h2.symm)
 
 theorem bil_natWt_step {σ : ZMod N} {w : Fin 4 → ZMod N} (h : IsNatWt σ w) :
@@ -464,11 +463,11 @@ theorem bil_natWt_add_step {w : Fin 4 → ZMod N} (h : IsNatWt (1 : ZMod N) w) :
   rw [castW_neg, one_smul, add_neg_cancel_right]
   exact hw'
 
-theorem bil_nat_step_out (hN : Odd N) (h3 : 3 ≤ N) {σ : ZMod N} (hσ : σ ≠ 0) {k : Fin 4}
+theorem bil_nat_step_out (hN : Odd N) (_h3 : 3 ≤ N) {σ : ZMod N} (hσ : σ ≠ 0) {k : Fin 4}
     {u : ZMod N} (hu : u = σ ∨ u = -σ) :
     ∃ γ : Fin 4 → ℤ, IsD4Root γ ∧ IsNatWt σ (Pi.single k u - σ • castW N γ) ∧
       ¬ IsNatWt σ (Pi.single k u + σ • castW N γ) := by
-  haveI := bil_nontrivial h3
+  have := bil_nontrivial _h3
   obtain ⟨m, hmk⟩ := exists_ne k
   have h2σ : 2 * σ ≠ 0 := ((bil_isUnit_two hN).mul_right_eq_zero).not.mpr hσ
   rcases hu with rfl | rfl
@@ -557,15 +556,14 @@ theorem bil_not_isSpinWt_of_three (hN : Odd N) (h3 : 3 ≤ N) {b₀ : ZMod N}
   intro h
   obtain ⟨h1, h2⟩ := bil_three_mul_ne hN h3 hb
   rcases h.1 i with h' | h' <;> rw [hw] at h' <;> rcases ht with rfl | rfl <;> simp at h' <;>
-    first | exact h1 h' | exact h2 h' | (apply h2; linear_combination -h') |
-      (apply h1; linear_combination -h')
+    first | exact h1 h' | exact h2 h' | (apply h2; linear_combination -h')
 
 theorem bil_pair_step_out {j : ℕ} (hN : Odd N) (h3 : 3 ≤ N) {CX CY : Finset (Fin 4 → ZMod N)}
     (hX : NFType j CX) (hY : NFType j CY) {a b : Fin 4 → ZMod N} (ha : a ∈ CX) (hb : b ∈ CY)
     (hab : IsNatWt 1 (a + b)) :
     ∃ γ : Fin 4 → ℤ, IsD4Root γ ∧ a - (2 : ZMod N) ^ j • castW N γ ∈ CX ∧
       b + (2 : ZMod N) ^ j • castW N γ ∉ CY := by
-  haveI := bil_nontrivial h3
+  have := bil_nontrivial h3
   have hσu : IsUnit ((2 : ZMod N) ^ j) := bil_isUnit_two_pow hN j
   have hσ0 : (2 : ZMod N) ^ j ≠ 0 := hσu.ne_zero
   rcases hX with hX | ⟨b₀, e, hb₀, he, hX⟩ <;> rcases hY with hY | ⟨b₀', e', hb₀', he', hY⟩
@@ -595,7 +593,7 @@ theorem bil_spin_spin_parity (hN : Odd N) (h3 : 3 ≤ N) {b₀ b₀' : ZMod N} {
     (hb₀ : 2 * b₀ = 1) (hb₀' : 2 * b₀' = 1) (he : e < 2) (he' : e' < 2)
     {a b : Fin 4 → ZMod N} (ha : IsSpinWt b₀ e a) (hb : IsSpinWt b₀' e' b)
     (hab : IsNatWt 1 (a + b)) : b₀' = b₀ ∧ e' = 1 - e := by
-  haveI := bil_nontrivial h3
+  have := bil_nontrivial h3
   have hu : IsUnit (2 * b₀) := by rw [hb₀]; exact isUnit_one
   have hbb : b₀' = b₀ := (bil_isUnit_two hN).mul_left_cancel (hb₀'.trans hb₀.symm)
   subst hbb
@@ -617,7 +615,7 @@ theorem bil_conn {R : Type*} [AddCommGroup R] (hN : Odd N) (h3 : 3 ≤ N) {b₀ 
         (if b + castW N γ ∈ CY then l a (b + castW N γ) else 0) = l a b)
     {a b a' b' : Fin 4 → ZMod N} (ha : a ∈ CX) (hb : b ∈ CY) (hab : a + b ∈ CV)
     (ha' : a' ∈ CX) (hb' : b' ∈ CY) (hab' : a' + b' ∈ CV) : l a b = l a' b' := by
-  haveI := bil_nontrivial h3
+  have := bil_nontrivial h3
   have hu : IsUnit (2 * b₀) := by rw [hb₀]; exact isUnit_one
   have hne := bil_ne_neg h3 hu
   have h2ne := bil_two_mul_ne_zero h3 hu
@@ -662,7 +660,7 @@ theorem bil_conn {R : Type*} [AddCommGroup R] (hN : Odd N) (h3 : 3 ≤ N) {b₀ 
       rw [← hshift (castW N (bilSpinRoot s p k)), bil_spinW_compl_add_spinRoot_apply b₀ s hpk]
       push_cast
       ring
-    rw [hA, if_pos hAmem, if_neg hBnot, add_zero] at key
+    rw [hA, ite_eq_left hAmem, ite_eq_right hBnot, add_zero] at key
     show l (bilSpinW b₀ s) (bilSpinW b₀ ((s ∆ {p})ᶜ)) =
       l (bilSpinW b₀ (s ∆ {p, k})) (bilSpinW b₀ ((s ∆ {p, k} ∆ {k})ᶜ))
     rw [bil_symmDiff_pair_single s hpk]
@@ -694,7 +692,7 @@ theorem bil_conn {R : Type*} [AddCommGroup R] (hN : Odd N) (h3 : 3 ≤ N) {b₀ 
       rw [← hshift (castW N (bilSpinRoot t p k)), bil_spinW_compl_add_spinRoot_apply b₀ t hpk]
       push_cast
       ring
-    rw [hB, if_neg hAnot, if_pos hBmem, zero_add] at key
+    rw [hB, ite_eq_right hAnot, ite_eq_left hBmem, zero_add] at key
     exact key.symm
   have hM2 : ∀ s p k, s.card % 2 = e % 2 → p ≠ k → F s p = F s k := by
     intro s p k hs hpk

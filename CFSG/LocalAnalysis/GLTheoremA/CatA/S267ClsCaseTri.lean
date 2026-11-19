@@ -47,7 +47,7 @@ theorem exists_clsInner_d4_three (Q : TauCeti.PrimePower)
   obtain ⟨e⟩ := e
   subst hQq
   set K := ↥(TauCeti.ValidLieTypeIndex.fixedField ⟨.D 4 Q, hv⟩) with hKdef
-  haveI : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
+  have : Finite K := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hKc : Nat.card K = Q.p ^ Q.exponent := CFSG.Models.card_fixedField_of
     (TauCeti.LieTypeIndex.characteristic_D 4 Q) (TauCeti.LieTypeIndex.fieldExponent_D 4 Q)
   let e' : PSimple 3 S ≃* StatedProj (StatedOmega (StatedQuadPlus 4 K)) :=
@@ -71,12 +71,12 @@ theorem exists_clsInner_d4_three (Q : TauCeti.PrimePower)
       rw [Nat.not_even_iff_odd]
       exact (Q.prime_p.odd_of_ne_two hq2).pow
     simp only [CFSG.Blueprint.Multiplier.generic, CFSG.Blueprint.Multiplier.genericOrders,
-      Nat.card_prod, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod, if_neg hodd,
-      show Even 4 by decide, if_true]
+      Nat.card_prod, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod, ite_eq_right hodd,
+      show Even 4 by decide, ite_true]
     norm_num
   have hcard : 3 ^ 5 ≤ Nat.card B := by
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 3)).1 hB.isPGroup
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rw [hk] at h4 hB81 ⊢
     have h4' := (Nat.pow_le_pow_iff_right (by norm_num : 1 < 3)).1 h4
     have hk4 : k ≠ 4 := fun h => hB81 (by rw [h])
@@ -139,7 +139,7 @@ theorem concl_d4_three_of_orth
   classical
   obtain ⟨hZ, K, _, _, hKc, hnd, hab, ⟨Dat⟩⟩ :=
     exists_clsInner_d4_three Q hv hq2 hq3 hperf hcore hQq e hB h4 hBC hB81 hHq
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   subst hQq
   exact hOrth Nat.prime_three (by norm_num) hq2 hq3 hcore hZ e hB hrank h4 hBC hHq
     (coordinateQuadPlus 4 K) hnd rfl (by rw [hKc, TauCeti.PrimePower.card_def]) hab

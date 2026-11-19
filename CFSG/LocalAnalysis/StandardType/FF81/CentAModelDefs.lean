@@ -94,7 +94,7 @@ theorem qStd_mem_cent (m : ℕ) : qStd m ∈ Cent 1 m := leviB_le_cent m (qStd_m
   inv_mem' := by
     rintro _ ⟨a, c, rfl⟩
     exact ⟨-a, -c, by
-      rw [uGL_inv]; congr 1 <;> ext i j <;> simp <;> exact (ZMod.neg_eq_self_mod_two _).symm⟩
+      rw [uGL_inv]; congr 1 <;> ext i j <;> simp⟩
 
 @[expose] def uTwo (m : ℕ) : Subgroup (GL (BlkIdx 1 m) (ZMod 2)) where
   carrier := {g | ∃ (b : Matrix (Fin m) (Fin 1) (ZMod 2)) (c : Matrix (Fin 1) (Fin 1) (ZMod 2)),
@@ -106,7 +106,7 @@ theorem qStd_mem_cent (m : ℕ) : qStd m ∈ Cent 1 m := leviB_le_cent m (qStd_m
   inv_mem' := by
     rintro _ ⟨b, c, rfl⟩
     exact ⟨-b, -c, by
-      rw [uGL_inv]; congr 1 <;> ext i j <;> simp <;> exact (ZMod.neg_eq_self_mod_two _).symm⟩
+      rw [uGL_inv]; congr 1 <;> ext i j <;> simp⟩
 
 theorem uOne_le_uSub (m : ℕ) : uOne m ≤ uSub 1 m := by
   rintro _ ⟨a, c, rfl⟩
@@ -187,7 +187,7 @@ theorem orderOf_qStd {m : ℕ} (hm : 2 ≤ m) : orderOf (qStd m) = 3 := by
 
 theorem antiDiagPerm_inv (m : ℕ) : (antiDiagPerm m)⁻¹ = antiDiagPerm m := by
   ext x
-  rcases x with i | j | i <;> simp [antiDiagPerm, Fin.rev_rev]
+  rcases x with i | j | i <;> simp [antiDiagPerm]
 
 theorem antiDiag_inv (m : ℕ) : (antiDiag m)⁻¹ = antiDiag m := by
   rw [antiDiag, ← map_inv, antiDiagPerm_inv]
@@ -266,13 +266,13 @@ private theorem caDefs_sigmaStd_uGL_uOne (m : ℕ) (a : Matrix (Fin 1) (Fin m) (
     rw [uGL_inv]
     congr 1
     · ext x y; simp [ZMod.neg_eq_self_mod_two]
-    · ext x y; simp [ZMod.neg_eq_self_mod_two]
+    · ext x y; simp
     · ext x y; simp [Matrix.mul_zero, ZMod.neg_eq_self_mod_two]
   rw [hinv]
   rcases i with i | i | i <;> rcases j with j | j | j
   all_goals try fin_cases i
   all_goals try fin_cases j
-  all_goals simp [uGL, coe_uGL, uMat, blk, antiDiagPerm, Matrix.of_apply, Matrix.one_apply,
+  all_goals simp [uGL, uMat, blk, antiDiagPerm, Matrix.of_apply, Matrix.one_apply,
     Fin.rev_inj, eq_comm]
 
 theorem sigmaStd_map_uOne (m : ℕ) : (uOne m).map (sigmaStd m).toMonoidHom = uTwo m := by
@@ -301,14 +301,14 @@ private theorem caDefs_sigmaStd_uGL_uTwo (m : ℕ) (b : Matrix (Fin m) (Fin 1) (
   have hinv : (uGL 0 b c : GL (BlkIdx 1 m) (ZMod 2))⁻¹ = uGL 0 b c := by
     rw [uGL_inv]
     congr 1
+    · ext x y; simp
     · ext x y; simp [ZMod.neg_eq_self_mod_two]
     · ext x y; simp [ZMod.neg_eq_self_mod_two]
-    · ext x y; simp [Matrix.mul_zero, ZMod.neg_eq_self_mod_two]
   rw [hinv]
   rcases i with i | i | i <;> rcases j with j | j | j
   all_goals try fin_cases i
   all_goals try fin_cases j
-  all_goals simp [uGL, coe_uGL, uMat, blk, antiDiagPerm, Matrix.of_apply, Matrix.one_apply,
+  all_goals simp [uGL, uMat, blk, antiDiagPerm, Matrix.of_apply, Matrix.one_apply,
     Fin.rev_inj, eq_comm]
 
 theorem sigmaStd_map_uTwo (m : ℕ) : (uTwo m).map (sigmaStd m).toMonoidHom = uOne m := by
@@ -340,7 +340,7 @@ private theorem caDefs_endsTwo_sigma (k : ℕ) (i j : Fin (k + 2)) :
   · subst hi0
     by_cases hj0 : j = 0
     · subst hj0
-      simp [CFSG.LieType.Steinberg.Sp.blockMat, Fin.rev_zero, Fin.rev_last, hlast0, rhoTwo]
+      simp [CFSG.LieType.Steinberg.Sp.blockMat, Fin.rev_zero, hlast0, rhoTwo]
     · by_cases hjl : j = Fin.last (k + 1)
       · subst hjl
         simp [CFSG.LieType.Steinberg.Sp.blockMat, Fin.rev_zero, Fin.rev_last, hlast0, rhoTwo]
@@ -348,7 +348,7 @@ private theorem caDefs_endsTwo_sigma (k : ℕ) (i j : Fin (k + 2)) :
           simpa [Fin.rev_eq_iff, Fin.rev_zero] using hjl
         have hrjl : Fin.rev j ≠ Fin.last (k + 1) := by
           simpa [Fin.rev_eq_iff, Fin.rev_last] using hj0
-        simp [CFSG.LieType.Steinberg.Sp.blockMat, Fin.rev_zero, hlast0, hrj0, hrjl, hj0, hjl,
+        simp [CFSG.LieType.Steinberg.Sp.blockMat, Fin.rev_zero, hrj0, hrjl, hj0, hjl,
           Matrix.one_apply]
   · by_cases hil : i = Fin.last (k + 1)
     · subst hil
@@ -357,7 +357,7 @@ private theorem caDefs_endsTwo_sigma (k : ℕ) (i j : Fin (k + 2)) :
         simp [CFSG.LieType.Steinberg.Sp.blockMat, Fin.rev_zero, Fin.rev_last, hlast0, rhoTwo]
       · by_cases hjl : j = Fin.last (k + 1)
         · subst hjl
-          simp [CFSG.LieType.Steinberg.Sp.blockMat, Fin.rev_zero, Fin.rev_last, hlast0, rhoTwo]
+          simp [CFSG.LieType.Steinberg.Sp.blockMat, Fin.rev_last, hlast0, rhoTwo]
         · have hrj0 : Fin.rev j ≠ (0 : Fin (k + 2)) := by
             simpa [Fin.rev_eq_iff, Fin.rev_zero] using hjl
           have hrjl : Fin.rev j ≠ Fin.last (k + 1) := by
@@ -374,14 +374,14 @@ private theorem caDefs_endsTwo_sigma (k : ℕ) (i j : Fin (k + 2)) :
           Matrix.one_apply]
       · by_cases hjl : j = Fin.last (k + 1)
         · subst hjl
-          simp [CFSG.LieType.Steinberg.Sp.blockMat, Fin.rev_last, hlast0, hri0, hril, hi0, hil,
+          simp [CFSG.LieType.Steinberg.Sp.blockMat, Fin.rev_last, hri0, hril, hi0, hil,
             Matrix.one_apply]
         · have hrj0 : Fin.rev j ≠ (0 : Fin (k + 2)) := by
             simpa [Fin.rev_eq_iff, Fin.rev_zero] using hjl
           have hrjl : Fin.rev j ≠ Fin.last (k + 1) := by
             simpa [Fin.rev_eq_iff, Fin.rev_last] using hj0
-          simp [CFSG.LieType.Steinberg.Sp.blockMat, hlast0, hri0, hril, hrj0, hrjl, hi0, hil,
-            hj0, hjl, Matrix.one_apply]
+          simp [CFSG.LieType.Steinberg.Sp.blockMat, hrj0, hrjl, hi0, hil,
+            Matrix.one_apply]
           simp [eq_comm]
 
 theorem sigmaStd_qStd (m : ℕ) : sigmaStd m (qStd m) = qStd m := by

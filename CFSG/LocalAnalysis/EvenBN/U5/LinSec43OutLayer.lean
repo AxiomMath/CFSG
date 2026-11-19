@@ -159,7 +159,7 @@ theorem lin43oN_normal : (d.lin43oN.subgroupOf d.L₂).Normal :=
 theorem lin43o_lieModel (hl : d.LinCtx) (k : d.Know12) [(d.lin43oN.subgroupOf d.L₂).Normal] :
     LieModel (↥d.L₂ ⧸ d.lin43oN.subgroupOf d.L₂) .PSL 3 2 (2 * f) := by
   obtain ⟨hΛs, hΛL, -⟩ := lin_layer_facts hl
-  haveI := hΛs
+  have := hΛs
   have hL₂eq : d.L₂ = d.E ⊔ d.M₂ := k.s8.1
   have hM₂L : d.M₂ ≤ d.L₂ := hL₂eq ▸ le_sup_right
   have hLE : d.L₂ ≤ normalizer (d.E : Set G) := d.L₂_le_normalizer_E

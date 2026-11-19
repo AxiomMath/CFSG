@@ -144,7 +144,7 @@ theorem exists_mem_planeGroup_map_le {σ σ' ℓ : Submodule K N} (hσ : IsPlane
     omega
   have hli : LinearIndependent K ![u, x₀, x₁] := by
     have : LinearIndependent K (Fin.cons u ![x₀, x₁] : Fin 3 → N) := by
-      rw [linearIndependent_fin_cons]
+      rw [linearIndependent_finCons]
       refine ⟨hx01, ?_⟩
       rwa [Matrix.range_cons_cons_empty]
     exact this

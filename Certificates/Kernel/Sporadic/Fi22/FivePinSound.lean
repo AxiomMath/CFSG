@@ -33,7 +33,7 @@ theorem e8_six {k : Nat} (hk : k < 6) : e8 X Y H N1 N2 Z A B k = six X Y H N1 N2
     rw [Nat.blt_eq]
     exact hk
   unfold e8
-  rw [e, cond_true]
+  rw [e, _root_.Bool.cond_true]
 
 end E8
 

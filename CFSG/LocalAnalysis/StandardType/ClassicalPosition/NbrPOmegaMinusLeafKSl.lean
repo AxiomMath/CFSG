@@ -52,15 +52,15 @@ include hR hR0 hKne
 theorem nbrpmmx_K_sl
     (hcase : e_J ≠ ε ∧ Fadj n f e_J ≠ e_J ∧ ε = e_J + Fadj n f e_J ∧
       blockDegree (AdS f S) e_J < 2)
-    (kJ : ℕ) (βJ : Fin (ggU .PSL (kJ + 1) f).D.rank → ℤ) (hrankJ : rk f e_J = kJ + 1) :
+    (kJ : ℕ) (_βJ : Fin (ggU .PSL (kJ + 1) f).D.rank → ℤ) (hrankJ : rk f e_J = kJ + 1) :
     (∃ (kK : ℕ) (βK : Fin (ggU .PSL (kK + 1) f).D.rank → ℤ), kJ < kK ∧
       βK ∈ (ggU .PSL (kK + 1) f).D.roots ∧ GGRootVia (ggU .PSL (kK + 1) f) K R βK) ∨
       OrthOut f K R (kJ + 1) := by
   have hψ : ψ.ker ≤ Subgroup.center (UK n f) := hH.2.1
   have hf : 1 ≤ f := (hH.2.2.1).admissible.2.1
   obtain ⟨S', K', R', ε', e', hSe, hKd, hEd, he', he'ε', hsplit', hJK', htie, hR'map, hR'J',
-    hgeo, hdeg⟩ := nbrpmmx_K_setup n f hn ψ p G₀ B₁ D J L x hH S J' ε e_J hB hF hE heJ e heD K
-      hKG₀ hKcomp hJK R Rm hR hR0 hKne
+    hgeo, hdeg⟩ := nbrpmmx_K_setup n f hn ψ p G₀ B₁ D J L x hH S J' ε hB hF hE e heD K
+      hKG₀ hKcomp hJK R Rm hR hR0
   obtain ⟨hSU', hS', hodd', hK'comp, hK'map⟩ := hKd
   obtain ⟨hε', hK'ε'⟩ := hEd
   obtain ⟨hSU, hS, hodd, hJ'comp, hJ'map⟩ := hB

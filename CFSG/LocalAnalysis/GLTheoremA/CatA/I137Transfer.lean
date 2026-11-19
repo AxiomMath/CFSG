@@ -28,7 +28,7 @@ theorem le_glaPPrimeCore_of_normal {p : ℕ} {H : Type} [Group H] (M : Subgroup 
 
 theorem coprime_card_glaPPrimeCore {p : ℕ} (hp : p.Prime) (J : Subgroup G) [Finite G] :
     Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥J)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact CFSG.pPrimeCore_coprime_card
 
 theorem comap_glaPPrimeCore_le {p : ℕ} (hp : p.Prime) [Finite G] {I J : Subgroup G} (hIJ : I ≤ J) :
@@ -175,7 +175,7 @@ theorem piJ_conj_mem_barX {p : ℕ} {J S : Subgroup G} (hSJ : S ≤ J) {a s : �
   rw [hay]
   exact Subgroup.mem_comap.1 hy
 
-theorem isPGroup_barX {p : ℕ} {J S : Subgroup G} (hS2 : IsPGroup 2 S) (hSJ : S ≤ J) :
+theorem isPGroup_barX {p : ℕ} {J S : Subgroup G} (hS2 : IsPGroup 2 S) (_hSJ : S ≤ J) :
     IsPGroup 2 (barX p J S) := by
   unfold barX
   exact (hS2.comap_subtype (K := J)).map _
@@ -190,7 +190,7 @@ theorem barX_map_ne_bot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) [Finite G] {J S
         (⊥ : Subgroup (PQuot p J ⧸ Subgroup.center (PQuot p J))) :=
       hbot ▸ Subgroup.mem_map_of_mem _ hu
     exact (QuotientGroup.eq_one_iff u).1 (Subgroup.mem_bot.1 hu')
-  haveI : (barX p J S).Normal :=
+  have : (barX p J S).Normal :=
     { conj_mem := fun n hn g => by
         have hc := Subgroup.mem_center_iff.1 (hcen hn) g
         have hgn : g * n * g⁻¹ = n := by rw [hc, mul_assoc, mul_inv_cancel, mul_one]
@@ -201,7 +201,7 @@ theorem barX_map_ne_bot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) [Finite G] {J S
     rw [hk]
     exact Nat.Coprime.pow_right _ ((Nat.coprime_primes hp Nat.prime_two).2 hp2)
   have hle : barX p J S ≤ GLAPPrimeCore p (PQuot p J) := le_glaPPrimeCore_of_normal _ hcop
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hbot2 : GLAPPrimeCore p (PQuot p J) = ⊥ :=
     CFSG.pPrimeCore_quotient_pPrimeCore_eq_bot (G := ↥J) p
   rw [hbot2] at hle

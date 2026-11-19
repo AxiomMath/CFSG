@@ -187,6 +187,7 @@ theorem finite_hallIndFam (N : Subgroup G) : (hallIndFam N).Finite := by
     ((finite_Irr (G := ↥((hallCoreOf N).subgroupOf N))).subset
       (fun χ hχ => (mem_nonprincipalIrr.1 hχ).1))
 
+omit [Finite G] in
 theorem sdiff_eq_image_subgroupOf (N : Subgroup G) :
     ((hallCoreOf N : Set G) \ {1})
       = (fun x : ↥N => (x : G)) '' (((hallCoreOf N).subgroupOf N : Set ↥N) \ {1}) := by
@@ -316,6 +317,7 @@ theorem exists_mem_hallIndFam_isCoherentAt
     exact dadeMapFun_eq_dadeSupportExtension hc.isDadeData
       (hc.mem_dadeDomain_of_mem_charSpanZero hc.family_subset_indFam_Irr hf0)
 
+omit [Finite G] in
 theorem centralizer_le_normalizer_zpowers (x : G) :
     centralizer ({x} : Set G) ≤ normalizer ((zpowers x : Subgroup G) : Set G) := by
   intro g hg

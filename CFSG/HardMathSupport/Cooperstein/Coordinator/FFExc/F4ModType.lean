@@ -182,7 +182,7 @@ theorem endo_dC_e0 (j : Fin Tag.F4.rank) (t : Kˣ) :
   · have h : TwistTag.E6.orbitWord (f4FoldedIndex ⟨3, by decide⟩) = orbA := rfl
     change e6Data_valid.endo K _ (e6Data_valid.endo K _ _) = ((t : K) ^ 1) • _
     rw [h, endo_n_A_e0, map_smul, endo_n_A_e1]
-    simp [unit_neg_one_inv]
+    simp
 
 abbrev j3 : Fin Tag.F4.rank := ⟨3, by decide⟩
 
@@ -339,6 +339,6 @@ theorem m26_isChevType (χ : adjointGroup Tag.F4 K → K)
   · have hv : i.val ≠ 3 := fun h => hi (Fin.ext h)
     rw [Finset.mem_erase]
     refine ⟨fun _ => ⟨fun t => ?_, heckeT_m26_nonA K i hv⟩, fun _ => ⟨hi, Finset.mem_univ _⟩⟩
-    rw [hchi, if_neg hv, pow_zero]
+    rw [hchi, ite_eq_right hv, pow_zero]
 
 end CFSG.HardMathSupport.Cooperstein.Coordinator.FFExc

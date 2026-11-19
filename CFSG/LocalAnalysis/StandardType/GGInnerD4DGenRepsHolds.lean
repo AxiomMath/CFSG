@@ -25,7 +25,7 @@ theorem orthogonalInnerRepresentatives_holds :
     S2MathAs51600Contracts.OrthogonalInnerRepresentatives := by
   intro K _ _ _ V _ _ _ Q hQ hT X _ hX θ A hA hAI
   classical
-  haveI : Nontrivial V := ltrdg2_nontrivial hT
+  have : Nontrivial V := ltrdg2_nontrivial hT
   let Ω := CFSG.RankThree.Classical2.orthDerived Q
   let R := CFSG.RankThree.Classical2.ProjOrthDerived Q
   set ρ : Ω →* R := QuotientGroup.mk' _ with hρ

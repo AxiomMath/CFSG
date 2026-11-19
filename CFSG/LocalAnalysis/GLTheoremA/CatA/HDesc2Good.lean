@@ -36,8 +36,8 @@ theorem dvd_card_lie_of_khyp {p : ℕ} (hp : p.Prime) {K B : Subgroup Y} (h : KH
     p ∣ Nat.card (CFSGIndex.lie d).Group := by
   have hpdvdK : p ∣ Nat.card ↥K := by
     by_contra hpdvd
-    haveI hntQ : Nontrivial (↥K ⧸ Subgroup.center ↥K) := h.qs.2.toNontrivial
-    haveI hntK : Nontrivial ↥K :=
+    have hntQ : Nontrivial (↥K ⧸ Subgroup.center ↥K) := h.qs.2.toNontrivial
+    have hntK : Nontrivial ↥K :=
       (QuotientGroup.mk'_surjective (Subgroup.center ↥K)).nontrivial
     have hcop : Nat.Coprime p (Nat.card ↥(⊤ : Subgroup ↥K)) := by
       rw [Subgroup.card_top, hp.coprime_iff_not_dvd]
@@ -63,7 +63,7 @@ theorem kConcl_of_good_subgroup {p : ℕ} (hp : p.Prime) {K B : Subgroup Y} (h :
     (hFA : F ≤ (kd264Rho hBN e).range)
     (hcard : Nat.card F * Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) = p ^ 3)
     (hgood : IsGood p F) : KConcl p K B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hperf : Group.IsPerfect ↥K := Group.isPerfect_def.mpr h.qs.1
   set Ft : Subgroup Y := (F.comap (kd264Rho hBN e)).map B.subtype with hFt
   have hker : Nat.card (kd264Rho hBN e).ker =
@@ -93,7 +93,7 @@ theorem kConcl_of_goodSub {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K B : Subgro
     (e : ↥K ⧸ Subgroup.center ↥K ≃* (CFSGIndex.lie d).Group) {k : ℕ} (hk : k ≤ 2)
     (hS : GoodSubAt p d k)
     (hc : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) = p ^ (3 - k)) : KConcl p K B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBN := le_normalizer_of_normal (B := B) h.normal
   have hperf : Group.IsPerfect ↥K := Group.isPerfect_def.mpr h.qs.1
   have hmul := card_range_kd264Rho_mul hperf hBN e
@@ -119,7 +119,7 @@ theorem solvesAt_of_goodSub {p : ℕ} (d : ValidLieTypeIndex) (h1 : GoodSubAt p 
     (h2 : GoodSubAt p d 2) : SolvesAt p d := by
   intro hp hp2 Y _ _ K B h he hc
   obtain ⟨e⟩ := he
-  haveI : Finite (CFSGIndex.lie d).Group := Finite.of_equiv _ e.toEquiv
+  have : Finite (CFSGIndex.lie d).Group := Finite.of_equiv _ e.toEquiv
   have hBN := le_normalizer_of_normal (B := B) h.normal
   obtain ⟨-, c, hc2, hcc⟩ := card_range_ge hp h hBN e hc
   have hc0 : c ≠ 0 := by
@@ -137,7 +137,7 @@ theorem kConcl_of_goodSubLow {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hLow : KD
     (e : ↥K ⧸ Subgroup.center ↥K ≃* (CFSGIndex.lie d).Group) {k : ℕ} (hk : k ≤ 2)
     (hS : GoodSubAtLow p d k)
     (hc : Nat.card ↥(B ⊓ Subgroup.centralizer (K : Set Y)) = p ^ (3 - k)) : KConcl p K B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBN := le_normalizer_of_normal (B := B) h.normal
   have hperf : Group.IsPerfect ↥K := Group.isPerfect_def.mpr h.qs.1
   have hmul := card_range_kd264Rho_mul hperf hBN e
@@ -169,7 +169,7 @@ theorem solvesAt_of_goodSubLow {p : ℕ} (hLow : KD264LiftLow p) (d : ValidLieTy
     (h1 : GoodSubAtLow p d 1) (h2 : GoodSubAtLow p d 2) : SolvesAt p d := by
   intro hp hp2 Y _ _ K B h he hc
   obtain ⟨e⟩ := he
-  haveI : Finite (CFSGIndex.lie d).Group := Finite.of_equiv _ e.toEquiv
+  have : Finite (CFSGIndex.lie d).Group := Finite.of_equiv _ e.toEquiv
   have hBN := le_normalizer_of_normal (B := B) h.normal
   obtain ⟨-, c, hc2, hcc⟩ := card_range_ge hp h hBN e hc
   have hc0 : c ≠ 0 := by

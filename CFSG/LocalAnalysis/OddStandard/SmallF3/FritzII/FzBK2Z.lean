@@ -21,7 +21,7 @@ private theorem fzb_f4mul_lt (a b : ℕ) : f4mul a b < 4 := by
     Nat.mod_lt _ (by norm_num)
   omega
 
-theorem fzb_uMul_sq_lt {x : ℕ} (hx : x < 64) : uMul x x < 4 := by
+theorem fzb_uMul_sq_lt {x : ℕ} (_hx : x < 64) : uMul x x < 4 := by
   have h := fzb_f4mul_lt (x / 16) (x / 4 % 4)
   unfold uMul
   simpa using h
@@ -35,7 +35,7 @@ theorem fzb_uMul_Z_lt {x y : ℕ} (hx : x < 4) (hy : y < 4) : uMul x y < 4 := by
   have hyr : y % 4 = y := Nat.mod_eq_of_lt hy
   have hf : f4mul 0 0 = 0 := by decide +kernel
   unfold uMul
-  simp only [hx16, hy16, hx4, hy4, hxr, hyr, hf, Nat.xor_self, Nat.zero_xor, Nat.xor_zero,
+  simp only [hx16, hy16, hx4, hy4, hxr, hyr, hf, Nat.xor_self, Nat.xor_zero,
     Nat.mul_zero, Nat.add_zero, Nat.zero_add]
   exact fzb_xor_lt_four hx hy
 
@@ -45,8 +45,8 @@ theorem fzb_uMul_Z_sq {x : ℕ} (hx : x < 4) : uMul x x = 0 := by
   have hxr : x % 4 = x := Nat.mod_eq_of_lt hx
   have hf : f4mul 0 0 = 0 := by decide +kernel
   unfold uMul
-  simp only [hx16, hx4, hxr, hf, Nat.xor_self, Nat.zero_xor, Nat.xor_zero, Nat.mul_zero,
-    Nat.add_zero, Nat.zero_add]
+  simp only [hx16, hx4, hxr, hf, Nat.xor_self, Nat.mul_zero,
+    Nat.add_zero]
 
 theorem fzb_Z_code {G : Type} [Group G] {P : Subgroup G} (C : FzbCoding P) {x₁ x₂ : G}
     (hx₁ : x₁ ∈ P) (hx₂ : x₂ ∈ P) (hcard : Nat.card ↥(fourGrp x₁ x₂) = 4) :
@@ -98,7 +98,7 @@ theorem fzb_Z_code {G : Type} [Group G] {P : Subgroup G} (C : FzbCoding P) {x₁
         simp only
         exact C.enc_dec n (by omega) }
   have hZc : Nat.card ↥Zc = 4 := Nat.card_eq_of_equiv_fin e
-  haveI : Finite ↥Zc := Finite.of_equiv (Fin 4) e.symm
+  have : Finite ↥Zc := Finite.of_equiv (Fin 4) e.symm
   have hcardZ : Nat.card ↥Zc ≤ Nat.card ↥(fourGrp x₁ x₂) := by omega
   have hEq : fourGrp x₁ x₂ = Zc := Subgroup.eq_of_le_of_card_ge hle hcardZ
   intro p hp

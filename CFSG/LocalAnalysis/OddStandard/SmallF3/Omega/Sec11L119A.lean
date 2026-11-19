@@ -19,9 +19,9 @@ theorem sec11_exists_normalizing_of_lt [Finite G] {R R' : Subgroup G} (hR' : IsP
     rw [lt_top_iff_ne_top]
     intro htop
     exact hne (le_antisymm hle (Subgroup.subgroupOf_eq_top.mp htop))
-  haveI : Group.IsNilpotent ↥R' := hR'.isNilpotent
+  have : Group.IsNilpotent ↥R' := hR'.isNilpotent
   obtain ⟨y', hy'norm, hy'H⟩ :=
-    SetLike.exists_of_lt ((Group.normalizerCondition_of_isNilpotent (G := ↥R')) H hHlt)
+    _root_.IsConcreteLE.exists_of_lt ((Group.normalizerCondition_of_isNilpotent (G := ↥R')) H hHlt)
   refine ⟨(y' : G), y'.2, ?_, ?_⟩
   · intro hyR
     exact hy'H (by rwa [Subgroup.mem_subgroupOf])
@@ -117,7 +117,7 @@ theorem sec11_JMod_conj {z y : G} {R : Subgroup G} (hyz : y * z * y⁻¹ = z)
     obtain ⟨U, hU, haU⟩ := ha
     exact Subgroup.subset_closure ⟨U.map (MulAut.conj y).toMonoidHom, key U hU,
       Subgroup.mem_map_of_mem (MulAut.conj y).toMonoidHom haU⟩
-  · simpa using (JMod z R).one_mem
+  · simp
   · intro a b _ _ iha ihb
     have heq : y * (a * b) * y⁻¹ = (y * a * y⁻¹) * (y * b * y⁻¹) := by group
     rw [heq]; exact (JMod z R).mul_mem iha ihb
@@ -133,7 +133,7 @@ theorem sec11_conj_mem_oTwoRes {X Y : Subgroup G} {g : G} (hXY : ∀ x ∈ X, g�
     refine Subgroup.subset_closure ⟨hXY x hxX, ?_⟩
     rw [← SemiconjBy.orderOf_eq (g⁻¹) (by show g⁻¹ * x = (g⁻¹ * x * g) * g⁻¹; group)]
     exact hxodd
-  · simpa using (oTwoRes Y).one_mem
+  · simp
   · intro a b _ _ iha ihb
     have heq : g⁻¹ * (a * b) * g = (g⁻¹ * a * g) * (g⁻¹ * b * g) := by group
     rw [heq]; exact (oTwoRes Y).mul_mem iha ihb
@@ -156,7 +156,7 @@ theorem sec11_le_of_sup_odd [Finite G] {A N K Q : Subgroup G} (hNK : N ≤ K) (h
       have h := hNn k⁻¹ (K.inv_mem hk) (k * n * k⁻¹) hn
       simpa [mul_assoc] using h
   have hrelNK : N.relIndex K = N.relIndex A := by
-    haveI : (N.subgroupOf K).Normal := hNnormal
+    have : (N.subgroupOf K).Normal := hNnormal
     have h := Subgroup.relIndex_sup_right (H := A.subgroupOf K) (K := N.subgroupOf K)
     rw [← Subgroup.subgroupOf_sup hAK hNK, ← hsup, Subgroup.subgroupOf_self,
       Subgroup.relIndex_top_right, Subgroup.relIndex_subgroupOf hAK] at h

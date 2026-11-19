@@ -413,7 +413,7 @@ theorem false_of_killAt_rep (hGt : ∀ K : Subgroup G, K.index = 2 → t ∈ K) 
   unfold killAt at hkill
   simp only [Bool.and_eq_true, beq_iff_eq, List.all_eq_true, List.any_eq_true, ite_true] at hkill
   obtain ⟨⟨⟨⟨⟨⟨htC, htl⟩, htO⟩, hti1⟩, hti2⟩, htχ⟩, hX⟩ := hkill
-  obtain ⟨hMT, hM2, hMn, htM, -⟩ := chiSub_spec ht Φ h0 hinv hgens hG hchi htχ
+  obtain ⟨hMT, hM2, hMn, htM, -⟩ := chiSub_spec ht Φ h0 hgens hG hchi htχ
   refine false_of_N5 hGt ht2 hTp hTHT hTH hTHmax ht ?_ hMT hM2 hMn htM
   intro u hu
   have huT : u ∈ T := hu.1
@@ -432,6 +432,7 @@ theorem false_of_killAt_rep (hGt : ∀ K : Subgroup G, K.index = 2 → t ∈ K) 
   group
 
 include hTp hTHT hTH hTHmax ht2 h0 hinv hgens hG in
+omit hinv in
 theorem not_max_of_killAt_rep (hGt : ∀ K : Subgroup G, K.index = 2 → t ∈ K) {ti : ℕ × ℕ}
     {b : List Bool} {χ : Array Bool} (hchi : chiOK mul gens N b χ = true) {R : List ℕ}
     (hRlt : ∀ r ∈ R, r < N) (hrep : RepProp ht (inv := inv) (gens := gens) Φ (m := m) R ti)
@@ -445,14 +446,14 @@ theorem not_max_of_killAt_rep (hGt : ∀ K : Subgroup G, K.index = 2 → t ∈ K
   simp only [Bool.and_eq_true, beq_iff_eq, List.all_eq_true, Bool.false_eq_true, ite_false]
     at hkill
   obtain ⟨⟨⟨⟨⟨⟨htC, htl⟩, htO⟩, hti1⟩, hti2⟩, htχ⟩, hX⟩ := hkill
-  obtain ⟨hMT, hM2, hMn, -, hmem⟩ := chiSub_spec ht Φ h0 hinv hgens hG hchi htχ
+  obtain ⟨hMT, hM2, hMn, -, hmem⟩ := chiSub_spec ht Φ h0 hgens hG hchi htχ
   obtain ⟨u, huM, hu⟩ := exists_like_of_transfer hGt ht2 hTp hTmax hTHT hTH hTHmax hMT hM2
   have huT : u ∈ T := hu.1
   have hl := (like_iff ht huT).1 hu
   obtain ⟨r, hr, g, hg⟩ := hrep htO htC htl hti1 hti2 _ hl
   have hrχ := hX r hr
   have hrlt : r < N := hRlt r (List.mem_of_mem_filter hr)
-  have hu' : ((g * Φ.g r * g⁻¹ : T) : G) ∈ chiSub Φ h0 hinv hgens hG hchi := by
+  have hu' : ((g * Φ.g r * g⁻¹ : T) : G) ∈ chiSub Φ h0 hgens hG hchi := by
     rw [hg]; exact huM
   have hconj := hMn _ (g⁻¹).2 _ hu'
   have e : ((g⁻¹ : T) : G) * ((g * Φ.g r * g⁻¹ : T) : G) * ((g⁻¹ : T) : G)⁻¹ =

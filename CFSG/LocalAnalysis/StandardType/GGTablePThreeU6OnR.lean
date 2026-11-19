@@ -282,7 +282,7 @@ theorem uni6_kg7_on_R_holds : Uni6KG7OnR := by
   unfold Uni6KG7OnR
   intro K _ _ _ q hK hq3 Ā δ' J' hR hAcard hĀI hA1
   rintro ⟨U, hUne, hU2, hUnorm⟩
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨Ahat, hL, hAcardAhat⟩ := uni_lift hK (by norm_num : 4 ≤ 6) hĀI
   let SU : Subgroup (GL (Fin 6) K) := LargeEvenSUGroup (Fin 6) K q
   have hiso : ∀ a ∈ Ahat, IsHermIsometry q (a : Matrix (Fin 6) (Fin 6) K) := hL.iso
@@ -359,7 +359,7 @@ theorem uni6_kg7_on_R_holds : Uni6KG7OnR := by
       have hx0 : μ ^ (q + 1) ≠ 0 := by
         intro h0
         rw [h0] at hx3
-        have h01 : (0 : K) = 1 := by simpa using hx3
+        have h01 : (0 : K) = 1 := by simp at hx3
         exact zero_ne_one h01
       have hcancel : μ ^ (q + 1) * 1 = μ ^ (q + 1) * μ ^ (q + 1) := by
         rw [mul_one]
@@ -416,8 +416,8 @@ theorem uni6_kg7_on_R_holds : Uni6KG7OnR := by
         hd'eq ▸ isConjBy_scalar_one w
       exact hR.ne_one (isConjBy_eq (hnorm_of hd'iso) hd'conj h1)
     obtain ⟨F, hFfield, hFfinite, hFcard, hA1iso⟩ := hA1
-    letI : Field F := hFfield
-    letI : Finite F := hFfinite
+    let : Field F := hFfield
+    let : Finite F := hFfinite
     exact uni6_cube_impossible hK hq3 hd'iso hd'3 hd'n hd'conj hR.comp hR.uniq hFcard hA1iso
   have hcomm : ∀ a ∈ Ahat, ∀ b ∈ Ahat, ∃ c : Kˣ, c ^ (q + 1) = 1 ∧
       a * b * a⁻¹ * b⁻¹ = Matrix.GeneralLinearGroup.scalar (Fin 6) c := by
@@ -464,14 +464,14 @@ theorem uni6_kg7_on_R_holds : Uni6KG7OnR := by
         map_mul' := by
           intro x y
           apply Subtype.ext
-          simp only [Subgroup.coe_mul, Subtype.coe_mk]
+          simp only [Subgroup.coe_mul]
           group }
     let Cd : Subgroup ↥SU :=
       { carrier := {h | d * (h : GL (Fin 6) K) * d⁻¹ = (h : GL (Fin 6) K)}
         one_mem' := by simp
         mul_mem' := by
           intro x y hx hy
-          simp only [Set.mem_setOf_eq] at hx hy ⊢
+          simp only [Set.mem_ofPred_eq] at hx hy ⊢
           rw [Subgroup.coe_mul]
           calc d * ((x : GL (Fin 6) K) * (y : GL (Fin 6) K)) * d⁻¹
               = (d * (x : GL (Fin 6) K) * d⁻¹) * (d * (y : GL (Fin 6) K) * d⁻¹) := by
@@ -479,7 +479,7 @@ theorem uni6_kg7_on_R_holds : Uni6KG7OnR := by
             _ = (x : GL (Fin 6) K) * (y : GL (Fin 6) K) := by rw [hx, hy]
         inv_mem' := by
           intro x hx
-          simp only [Set.mem_setOf_eq] at hx ⊢
+          simp only [Set.mem_ofPred_eq] at hx ⊢
           rw [Subgroup.coe_inv]
           calc d * (x : GL (Fin 6) K)⁻¹ * d⁻¹ = (d * (x : GL (Fin 6) K) * d⁻¹)⁻¹ := by
                 group

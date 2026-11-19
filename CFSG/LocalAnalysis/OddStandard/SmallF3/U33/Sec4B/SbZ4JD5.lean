@@ -37,6 +37,7 @@ namespace ZJData
 
 variable (h : ZJData Q Y V V' B ρ t τ l y z v₁ v₂) include h
 
+omit [Finite H] in
 theorem card_Y : Nat.card Y = 16 := by
   classical
   let f : Fin 16 → Y := fun n => ⟨zjVec y z v₁ v₂ n, h.vec_mem n⟩
@@ -51,12 +52,14 @@ theorem card_Y : Nat.card Y = 16 := by
   calc Nat.card Y = Nat.card (Fin 16) := (Nat.card_eq_of_bijective f hf).symm
     _ = 16 := Nat.card_fin 16
 
+omit [Finite H] in
 private theorem tau_ne_one : τ ≠ 1 := by
   intro hτ
   apply h.tau_not_mem_Q
   rw [hτ]
   exact Subgroup.one_mem Q
 
+omit [Finite H] in
 private theorem zpowers_tau_le_normalizer_B : zpowers τ ≤ Subgroup.normalizer (B : Set H) := by
   rw [Subgroup.zpowers_le, Subgroup.mem_normalizer_iff]
   intro x
@@ -73,12 +76,14 @@ private theorem zpowers_tau_le_normalizer_B : zpowers τ ≤ Subgroup.normalizer
     rw [← h2, hy]
     exact Subgroup.inv_mem _ hx
 
+omit [Finite H] in
 private theorem mem_sup_B_zpowers_tau_iff {x : H} :
     x ∈ B ⊔ zpowers τ ↔ ∃ b ∈ B, ∃ s ∈ zpowers τ, b * s = x := by
   rw [← SetLike.mem_coe, Subgroup.coe_mul_of_right_le_normalizer_left B (zpowers τ)
     (zpowers_tau_le_normalizer_B h), Set.mem_mul]
   simp only [SetLike.mem_coe]
 
+omit [Finite H] in
 private theorem card_sup_B_zpowers_tau : Nat.card ↥(B ⊔ zpowers τ) = 32 := by
   have hdisj : B ⊓ zpowers τ = ⊥ := by
     apply le_antisymm _ bot_le
@@ -120,18 +125,21 @@ private theorem card_sup_B_zpowers_tau : Nat.card ↥(B ⊔ zpowers τ) = 32 := 
 
 variable {Mh : Subgroup H} (hMh : IsZJMh y z v₁ v₂ Mh) include hMh
 
+omit [Finite H] in
 private theorem l_ne_one : l ≠ 1 := by
   intro hl
   apply l_not_mem_Mh h hMh
   rw [hl]
   exact Subgroup.one_mem Mh
 
+omit [Finite H] in
 private theorem l_ne_t : l ≠ t := by
   intro hlt
   apply tl_not_mem_Mh h hMh
   rw [← hlt, h.l_sq]
   exact Subgroup.one_mem Mh
 
+omit [Finite H] hMh in
 private theorem zpowers_l_le_normalizer_zpowers_t :
     zpowers l ≤ Subgroup.normalizer (zpowers t : Set H) := by
   rw [Subgroup.zpowers_le]
@@ -141,15 +149,17 @@ private theorem zpowers_l_le_normalizer_zpowers_t :
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
   exact ((show Commute t l from h.t_l).zpow_left k).eq
 
+omit [Finite H] hMh in
 private theorem mem_sup_zpowers_iff {x : H} :
     x ∈ zpowers l ⊔ zpowers t ↔ ∃ a ∈ zpowers l, ∃ b ∈ zpowers t, a * b = x := by
   rw [← SetLike.mem_coe, Subgroup.coe_mul_of_left_le_normalizer_right (zpowers l) (zpowers t)
-    (zpowers_l_le_normalizer_zpowers_t h hMh), Set.mem_mul]
+    (zpowers_l_le_normalizer_zpowers_t h), Set.mem_mul]
   simp only [SetLike.mem_coe]
 
+omit [Finite H] in
 private theorem eq_one_of_mem_sup_zpowers_of_mem_Mh {x : H}
     (hx : x ∈ zpowers l ⊔ zpowers t) (hxM : x ∈ Mh) : x = 1 := by
-  obtain ⟨a, ha, b, hb, rfl⟩ := (mem_sup_zpowers_iff h hMh).mp hx
+  obtain ⟨a, ha, b, hb, rfl⟩ := (mem_sup_zpowers_iff h).mp hx
   rcases mem_zpowers_of_sq_eq_one h.l_sq ha with rfl | rfl <;>
     rcases mem_zpowers_of_sq_eq_one h.t_sq hb with rfl | rfl
   · simp
@@ -157,6 +167,7 @@ private theorem eq_one_of_mem_sup_zpowers_of_mem_Mh {x : H}
   · exact absurd (by simpa using hxM) (l_not_mem_Mh h hMh)
   · exact absurd (by simpa [h.t_l] using hxM) (tl_not_mem_Mh h hMh)
 
+omit [Finite H] in
 private theorem inf_zpowers_l_t_eq_bot : zpowers l ⊓ zpowers t = ⊥ := by
   apply le_antisymm _ bot_le
   intro x hx
@@ -168,6 +179,7 @@ private theorem inf_zpowers_l_t_eq_bot : zpowers l ⊓ zpowers t = ⊥ := by
     · exact ht
     · exact absurd ht (l_ne_t h hMh)
 
+omit [Finite H] in
 private theorem inf_sup_zpowers_K_eq_bot :
     (zpowers l ⊔ zpowers t) ⊓ (Mh ⊓ centralizer ({t} : Set H)) = ⊥ := by
   apply le_antisymm _ bot_le
@@ -214,7 +226,7 @@ private theorem sup_zpowers_le_normalizer_K :
 
 theorem card_cent_Mh_t_le (hb : ZJBound t) :
     Nat.card ↥(Mh ⊓ centralizer ({t} : Set H)) ≤ 32 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup H := Mh ⊓ centralizer ({t} : Set H)
   let W : Subgroup H := zpowers l ⊔ zpowers t
   let P : Subgroup H := W ⊔ K
@@ -273,7 +285,7 @@ theorem card_cent_Mh_t_le (hb : ZJBound t) :
     have hp' : p ∈ (↑(W ⊔ K) : Set H) := hp
     rw [hPcoe, Set.mem_mul] at hp'
     obtain ⟨w, hw, k, hk, hwk⟩ := hp'
-    obtain ⟨a, ha, b, hb, hab⟩ := (mem_sup_zpowers_iff h hMh).mp hw
+    obtain ⟨a, ha, b, hb, hab⟩ := (mem_sup_zpowers_iff h).mp hw
     refine ⟨((⟨a, ha⟩, ⟨b, hb⟩), ⟨k, hk⟩), ?_⟩
     apply Subtype.ext
     show (a : H) * (b : H) * (k : H) = p
@@ -330,7 +342,7 @@ theorem cent_Mh_t_eq (hb : ZJBound t) :
 variable {Mc : Subgroup H} (hMc : IsZJMc ρ Q Mh Mc) include hMc
 
 theorem Mc_cent_t (hb : ZJBound t) {m : H} (hm : m ∈ Mc) (hc : t * m = m * t) : m ∈ B := by
-  have hmMh : m ∈ Mh := Mc_le_Mh h hMh hMc hm
+  have hmMh : m ∈ Mh := Mc_le_Mh hMc hm
   have hmD : m ∈ B ⊔ zpowers τ := by
     rw [← cent_Mh_t_eq h hMh hb]
     exact Subgroup.mem_inf.mpr ⟨hmMh, Subgroup.mem_centralizer_singleton_iff.mpr hc.symm⟩
@@ -344,7 +356,7 @@ theorem Mc_cent_t (hb : ZJBound t) {m : H} (hm : m ∈ Mc) (hc : t * m = m * t) 
     have hτE : τ ∈ E := by
       rw [hE]
       exact Subgroup.mem_sup_right (Subgroup.mem_zpowers τ)
-    exact tau_not_mem_Mc h hMh hMc (Subgroup.mem_inf.mp hτE).1
+    exact tau_not_mem_Mc h hMc (Subgroup.mem_inf.mp hτE).1
   have h16dvdE : 16 ∣ Nat.card E := by
     have hdvd := Subgroup.card_dvd_of_le hBleE
     rwa [h.card_B] at hdvd

@@ -29,6 +29,7 @@ variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {z : G} (hz : orderOf
 
 include hz hext hcard
 
+omit [IsSimpleGroup G] in
 theorem gf2TypeList_of_width_three_four_at (h79 : Smith1979Conclusion G) (hw : w = 3 ∨ w = 4) :
     GF2TypeList G := by
   rcases hw with rfl | rfl
@@ -50,6 +51,7 @@ theorem gf2TypeList_of_width_three_four_at (h79 : Smith1979Conclusion G) (hw : w
     · exact gf2TypeList_of_sporadic (s := .Th) (by simp) h
     · exact gf2TypeList_of_sporadic (s := .HN) (by simp) h
 
+omit [IsSimpleGroup G] in
 theorem gf2TypeList_of_width_six_at (h79 : Smith1979Conclusion G) (hw : w = 6) :
     GF2TypeList G := by
   subst hw

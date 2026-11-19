@@ -27,6 +27,7 @@ theorem mem_NN_of_conj_mem_UU (hz2 : z * z = 1) (hu2 : u * u = 1) (hzu : z * u =
     rw [e]
     exact (UU z u).mul_mem h1 h2
 
+omit [Finite G] in
 theorem N_trans_of (hz2 : z * z = 1) (hu2 : u * u = 1) (hzu : z * u = u * z) {x : G}
     (hxN : x ∈ NN z u) (hxz : x * z * x⁻¹ = u) (hxu : x * u * x⁻¹ = z * u) :
     ∀ a ∈ UU z u, a ≠ 1 → ∀ b ∈ UU z u, b ≠ 1 → ∃ n ∈ NN z u, n * a * n⁻¹ = b := by

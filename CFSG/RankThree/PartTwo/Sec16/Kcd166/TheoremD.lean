@@ -45,12 +45,12 @@ private theorem alt012_mul_alt345 : alt012 * alt345 = alt345 * alt012 :=
   Subtype.ext cyc012_mul_cyc345
 
 private theorem orderOf_alt012 : orderOf alt012 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [← Subgroup.orderOf_coe]
   exact orderOf_eq_prime cyc012_pow_three cyc012_ne_one
 
 private theorem orderOf_alt345 : orderOf alt345 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [← Subgroup.orderOf_coe]
   exact orderOf_eq_prime cyc345_pow_three cyc345_ne_one
 
@@ -103,7 +103,7 @@ private theorem isPGroup_p3 : IsPGroup 3 p3 :=
 
 private theorem not_isCyclic_p3 : ¬ IsCyclic p3 := by
   intro hcyc
-  haveI := hcyc
+  have := hcyc
   have hmem12 : alt012 ∈ Subgroup.zpowers alt012 ⊔ Subgroup.zpowers alt345 :=
     Subgroup.mem_sup_left (Subgroup.mem_zpowers alt012)
   have hmem45 : alt345 ∈ Subgroup.zpowers alt012 ⊔ Subgroup.zpowers alt345 :=
@@ -129,18 +129,18 @@ private theorem not_isCyclic_p3 : ¬ IsCyclic p3 := by
 private theorem exists_noncyclic_three_of_surjective {G : Type*} [Group G] [Finite G]
     {f : G →* alternatingGroup (Fin 6)} (hf : Function.Surjective f) :
     ∃ P : Subgroup G, IsPGroup 3 P ∧ ¬ IsCyclic P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T₀, hT₀⟩ := isPGroup_p3.exists_le_sylow
   obtain ⟨S, hS⟩ := Sylow.mapSurjective_surjective hf 3 T₀
-  refine ⟨S, S.isPGroup', fun hcyc => not_isCyclic_p3 ?_⟩
+  refine ⟨S, S.isPGroup, fun hcyc => not_isCyclic_p3 ?_⟩
   have hSmap : ((S : Subgroup G)).map f = (T₀ : Subgroup (alternatingGroup (Fin 6))) := by
     rw [← Sylow.coe_mapSurjective (f := f) hf S, hS]
-  haveI := hcyc
+  have := hcyc
   have hcyc' : IsCyclic ↥(((S : Subgroup G)).map f) :=
     isCyclic_of_surjective (f.subgroupMap (S : Subgroup G))
       (f.subgroupMap_surjective (S : Subgroup G))
   rw [hSmap] at hcyc'
-  haveI : IsCyclic ↥(T₀ : Subgroup (alternatingGroup (Fin 6))) := hcyc'
+  have : IsCyclic ↥(T₀ : Subgroup (alternatingGroup (Fin 6))) := hcyc'
   exact isCyclic_of_injective (Subgroup.inclusion hT₀) (Subgroup.inclusion_injective hT₀)
 
 private theorem exists_noncyclic_three_kerRepresentation {𝕜 : Type*} [Field 𝕜]
@@ -167,13 +167,13 @@ private theorem lift_ker_data {𝕜 : Type*} [Field 𝕜] {K : Type} [Group K] [
       Nat.Coprime (Nat.card (QuotientGroup.lift ρ.ker π hρπ).ker) 3 ∧
       Group.IsSolvable ↥(QuotientGroup.lift ρ.ker π hρπ).ker ∧
       (QuotientGroup.lift ρ.ker π hρπ).comp (QuotientGroup.mk' ρ.ker) = π := by
-  haveI : ρ.ker.Normal := MonoidHom.normal_ker ρ
+  have : ρ.ker.Normal := MonoidHom.normal_ker ρ
   refine ⟨QuotientGroup.lift_surjective_of_surjective (N := ρ.ker) π hπ hρπ, ?_, ?_, ?_⟩
   · rw [QuotientGroup.ker_lift (N := ρ.ker) π hρπ]
     exact hker3.coprime_dvd_left
       (Subgroup.card_map_dvd (H := π.ker) (QuotientGroup.mk' ρ.ker))
   · rw [QuotientGroup.ker_lift (N := ρ.ker) π hρπ]
-    haveI : Group.IsSolvable ↥π.ker := hkerS
+    have : Group.IsSolvable ↥π.ker := hkerS
     exact Group.isSolvable_of_surjective
       (f := (QuotientGroup.mk' ρ.ker).subgroupMap π.ker)
       ((QuotientGroup.mk' ρ.ker).subgroupMap_surjective π.ker)
@@ -208,7 +208,7 @@ theorem eq_zero_of_finrank_le_three {𝕜 : Type*} [Field 𝕜] [IsAlgClosed �
     have hsplit : (6 : 𝕜) = 2 * 3 := by norm_num
     rw [hsplit]
     exact mul_ne_zero h2 h3
-  haveI : Group.IsPerfect K := hperf
+  have : Group.IsPerfect K := hperf
   let ρb : Representation 𝕜 (K ⧸ ρ.ker) W := CFSG.Theory.Representation.kerRepresentation ρ
   let πb : K ⧸ ρ.ker →* T := QuotientGroup.lift ρ.ker π hρπ
   obtain ⟨hπb, hker3b, hkerSb, hπb_comp⟩ := lift_ker_data ρ π hπ hker3 hkerS hρπ
@@ -249,12 +249,12 @@ private theorem exists_noKlein_data {Γ T : Type*} [Group Γ] [Finite Γ] [Group
       O.Normal ∧ O ≤ π.ker ∧ K₀ ⊔ O = ⊤ ∧ Group.IsPerfect ↥K₀ ∧
       K₀ ≤ Subgroup.centralizer ({z} : Set Γ) ∧ d ∈ K₀ ∧ I ≤ K₀ := by
   classical
-  haveI : Group.IsPerfect Γ := hperf
-  haveI hπn : π.ker.Normal := MonoidHom.normal_ker π
+  have : Group.IsPerfect Γ := hperf
+  have hπn : π.ker.Normal := MonoidHom.normal_ker π
   obtain ⟨z, hzK, hz2, hz1, hIz⟩ := exists_involution_mem_inf_ker π hno hIA5 hI2
   obtain ⟨O, hOn, hOle, _, _, hCsup⟩ :=
     exists_odd_normal_centralizer_sup_eq_top hno (MonoidHom.normal_ker π) hkerS hzK.2 hz2 hz1
-  haveI : O.Normal := hOn
+  have : O.Normal := hOn
   have hO3 : Nat.Coprime (Nat.card O) 3 :=
     hker3.coprime_dvd_left (Subgroup.card_dvd_of_le hOle)
   have hdC : d ∈ Subgroup.centralizer ({z} : Set Γ) := by
@@ -287,14 +287,14 @@ private theorem ker_comp_subtype_data {Γ T : Type*} [Group Γ] [Finite Γ] [Gro
       congrArg (fun y : ↥π.ker => (y : Γ)) h
     exact Subtype.ext (Subtype.ext h')
   refine ⟨hker3.coprime_dvd_left (Subgroup.card_dvd_of_injective inc hinc), ?_⟩
-  haveI : Group.IsSolvable ↥π.ker := hkerS
+  have : Group.IsSolvable ↥π.ker := hkerS
   exact Group.isSolvable_of_isSolvable_injective hinc
 
 private theorem surjective_comp_subtype {Γ T : Type*} [Group Γ] [Group T]
     {π : Γ →* T} (hπ : Function.Surjective π) {K₀ O : Subgroup Γ} (hO : O.Normal)
     (hOle : O ≤ π.ker) (hsup : K₀ ⊔ O = ⊤) :
     Function.Surjective (π.comp K₀.subtype) := by
-  haveI : O.Normal := hO
+  have : O.Normal := hO
   intro t
   obtain ⟨g, rfl⟩ := hπ t
   have hg : g ∈ K₀ ⊔ O := by rw [hsup]; exact Subgroup.mem_top g
@@ -383,7 +383,7 @@ theorem apply_eq_self_of_noKlein {𝕜 : Type*} [Field 𝕜] [IsAlgClosed 𝕜] 
   classical
   obtain ⟨z, O, K₀, hzI, hz2, hz1, hOn, hOle, hKsup, hK0perf, hKle, hdK, hIK⟩ :=
     exists_noKlein_data hperf hno π hker3 hkerS hd3 hIperf hIA5 hI2 hId
-  haveI : Group.IsPerfect ↥K₀ := hK0perf
+  have : Group.IsPerfect ↥K₀ := hK0perf
   have hπ₀ : Function.Surjective (π.comp K₀.subtype) :=
     surjective_comp_subtype hπ hOn hOle hKsup
   obtain ⟨hker3', hkerS'⟩ := ker_comp_subtype_data (K₀ := K₀) π hker3 hkerS

@@ -140,10 +140,11 @@ variable {Q : Type} [Group Q]
 
 variable {T M N : Subgroup Q} [hN : (N.subgroupOf M).Normal]
 
+omit hN in
 theorem le_secB_inf : T ⊓ Subgroup.normalizer (M : Set Q) ⊓ Subgroup.normalizer (N : Set Q) ≤
     secB M N := fun _ hx => ⟨hx.1.2, hx.2⟩
 
-theorem secP_le_innAutInduced (hNM : N ≤ M) : secP T M N ≤ innAutInduced T M N := by
+theorem secP_le_innAutInduced (_hNM : N ≤ M) : secP T M N ≤ innAutInduced T M N := by
   rintro α ⟨x, hx, rfl⟩
   have hx' : (x : Q) ∈ T ⊓ Subgroup.normalizer (M : Set Q) ⊓ Subgroup.normalizer (N : Set Q) :=
     Subgroup.mem_subgroupOf.1 hx
@@ -264,7 +265,7 @@ theorem ambient_bound {S : Type} [Group S] {ν : ℕ∞} (hE : EBound S ν) (I P
   let eI : ↥(I.subgroupOf (I ⊔ P)) ≃* ↥I := Subgroup.subgroupOfEquivOfLe hIX
   refine almostSimple_bound (I := I.subgroupOf (I ⊔ P)) (P := P.subgroupOf (I ⊔ P)) hE ?_ ?_ ?_ ?_ ?_
     (eI.trans e) ?_ ?_
-  · haveI := hI
+  · have := hI
     exact eI.isSimpleGroup
   · obtain ⟨x, y, hxy⟩ := hnab
     exact ⟨eI.symm x, eI.symm y, fun h => hxy (eI.symm.injective (by rw [map_mul, map_mul, h]))⟩
@@ -309,8 +310,8 @@ theorem sectionBound {S : Type} [Group S] [Finite S] {ν : ℕ∞} (hE : EBound 
     have hP₁ : IsPGroup 2 ↥(T ⊓ Subgroup.normalizer (M : Set Q) ⊓ Subgroup.normalizer (N : Set Q)) :=
       hT.to_le (fun x hx => hx.1.1)
     exact hP₁.of_equiv (Subgroup.subgroupOfEquivOfLe le_secB_inf).symm
-  haveI : IsSimpleGroup ↥(innGroup (↥M ⧸ N.subgroupOf M)) := by
-    haveI := hsimple
+  have : IsSimpleGroup ↥(innGroup (↥M ⧸ N.subgroupOf M)) := by
+    have := hsimple
     exact eInn.symm.isSimpleGroup
   refine ambient_bound hE (innGroup (↥M ⧸ N.subgroupOf M)) (secP T M N) inferInstance ?_
     (centralizer_innGroup hZ) hP (eInn.symm.trans e) (CFSG.SectionRank.IsKGroupCat.of_mulEquiv hW

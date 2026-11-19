@@ -13,8 +13,8 @@ open scoped Matrix
 theorem nk_exists_fixed_vector {E : Type} [Field E] [Finite E] [CharP E 2] {n : ℕ} (hn : 0 < n)
     (R : Subgroup (GL (Fin n) E)) (hR : IsPGroup 2 R) :
     ∃ w : Fin n → E, w ≠ 0 ∧ ∀ r ∈ R, (r : Matrix (Fin n) (Fin n) E) *ᵥ w = w := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : MulAction ↥R (Fin n → E) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : MulAction ↥R (Fin n → E) :=
     { smul := fun r w => ((r : GL (Fin n) E) : Matrix (Fin n) (Fin n) E) *ᵥ w
       one_smul := fun w => by
         show ((1 : GL (Fin n) E) : Matrix (Fin n) (Fin n) E) *ᵥ w = w
@@ -26,7 +26,7 @@ theorem nk_exists_fixed_vector {E : Type} [Field E] [Finite E] [CharP E 2] {n : 
             (((s : GL (Fin n) E) : Matrix (Fin n) (Fin n) E) *ᵥ w)
         rw [Units.val_mul, Matrix.mulVec_mulVec] }
   have h2 : 2 ∣ Nat.card (Fin n → E) := by
-    haveI := Fintype.ofFinite E
+    have := Fintype.ofFinite E
     obtain ⟨m, -, hm⟩ := FiniteField.card E 2
     rw [Nat.card_eq_fintype_card, Fintype.card_fun, Fintype.card_fin, hm]
     exact dvd_pow (dvd_pow_self 2 (PNat.ne_zero m)) (by omega)
@@ -42,7 +42,7 @@ theorem nk_two_group_trivial {E : Type} [Field E] [Finite E] [CharP E 2] {n : �
     (N R : Subgroup (GL (Fin n) E)) (hirr : IsIrreducibleOn N) (hR : IsPGroup 2 R)
     (hnorm : ∀ g ∈ N, ∀ r ∈ R, g⁻¹ * r * g ∈ R) : R = ⊥ := by
   rcases Nat.eq_zero_or_pos n with rfl | hn
-  · haveI : Subsingleton (GL (Fin 0) E) := inferInstance
+  · have : Subsingleton (GL (Fin 0) E) := inferInstance
     exact Subsingleton.elim _ _
   obtain ⟨w₀, hw₀, hfix⟩ := nk_exists_fixed_vector hn R hR
   let U : Submodule E (Fin n → E) :=
@@ -86,7 +86,7 @@ theorem nk_two_group_trivial {E : Type} [Field E] [Finite E] [CharP E 2] {n : �
 theorem nk_centralizer_odd_order {E : Type} [Field E] [Finite E] [CharP E 2] {n : ℕ}
     (N : Subgroup (GL (Fin n) E)) (hirr : IsIrreducibleOn N) (c : GL (Fin n) E)
     (hc : ∀ g ∈ N, c * g = g * c) : Odd (orderOf c) := by
-  haveI : Finite (GL (Fin n) E) := inferInstance
+  have : Finite (GL (Fin n) E) := inferInstance
   have hpos : 0 < orderOf c := orderOf_pos c
   obtain ⟨a, r, hr, hor⟩ := Nat.exists_eq_two_pow_mul_odd hpos.ne'
   have hrdvd : r ∣ orderOf c := ⟨2 ^ a, by rw [hor]; ring⟩

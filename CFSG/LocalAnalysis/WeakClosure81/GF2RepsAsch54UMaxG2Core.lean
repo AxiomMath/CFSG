@@ -253,7 +253,7 @@ theorem eq_top_of_gen
     exact hle hy'
   set T₀ := (S : Subgroup Y) ⊓ E with hT₀
   have hST₀ : (S : Subgroup Y) ≤ normalizer (T₀ : Set Y) := le_normalizer_inf_of_normal
-  have hT₀2 : IsPGroup 2 T₀ := S.isPGroup'.to_inf_left
+  have hT₀2 : IsPGroup 2 T₀ := S.isPGroup.to_inf_left
   have hNT₀M : normalizer (T₀ : Set Y) ≤ M :=
     hNTM (lt_top_iff_ne_top.mpr (normalizer_ne_top_of_le hEs hE2 inf_le_right hT₀2 hT₀1))
   obtain ⟨P, hP⟩ := CFSG.HardMathSupport.Foote.E27.exists_sylow_subgroupOf_eq E S

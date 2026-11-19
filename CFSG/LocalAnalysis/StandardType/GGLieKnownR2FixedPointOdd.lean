@@ -14,8 +14,7 @@ theorem noCentral_of_fixedPoint_odd {X : Type} [Group X] [Finite X] {K R : Subgr
     (hodd : Odd (orderOf h)) (hhN : h ∈ K ⊓ Subgroup.normalizer (R : Set X))
     (hfix : ∀ y ∈ pCoreOf 2 (K ⊓ Subgroup.normalizer (R : Set X)), h * y = y * h → y ∈ R) :
     GGRootNoCentralAt K R := by
-  intro A B' hRA hAB hBp hNA hNB hcomm
-  intro b hb
+  intro A B' hRA hAB hBp hNA hNB hcomm b hb
   have hA2 : IsPGroup 2 A :=
     ((GGRootNorm.isPGroup_pCoreOf (K ⊓ Subgroup.normalizer (R : Set X))).to_le
       (hAB.trans hBp))

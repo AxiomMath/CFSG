@@ -53,9 +53,9 @@ namespace CFSG.LocalAnalysis.EvenBN.Tits.N.P6b
 private theorem p6b_exists_gen {G : Type*} [Group G] (hG2 : ∀ a : G, a * a = 1)
     (hGc : ∀ a b : G, a * b = b * a) (hcard : Nat.card G = 2 ^ 4) :
     ∃ g : Fin 4 → G, Subgroup.closure (Set.range g) = ⊤ := by
-  haveI : Finite G := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  letI : CommGroup G := { ‹Group G› with mul_comm := hGc }
-  letI : Module (ZMod 2) (Additive G) := AddCommGroup.zmodModule fun x =>
+  have : Finite G := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  let : CommGroup G := { ‹Group G› with mul_comm := hGc }
+  let : Module (ZMod 2) (Additive G) := AddCommGroup.zmodModule fun x =>
     (two_nsmul x).trans (congrArg Additive.ofMul (hG2 (Additive.toMul x)))
   have hfin : Module.finrank (ZMod 2) (Additive G) = 4 := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive G)
@@ -76,7 +76,7 @@ private theorem p6b_exists_gen {G : Type*} [Group G] (hG2 : ∀ a : G, a * a = 1
 private theorem p6b_index_fixedSub_le {V : Type*} [Group V] [Finite V]
     (hV : ∀ a b : V, a * b = b * a) (L : Subgroup V) (hL : Nat.card L ≤ 2) (u : MulAut V)
     (hu : ∀ v : V, v⁻¹ * u v ∈ L) : (fixedSub ({u} : Set (MulAut V))).index ≤ 2 := by
-  letI : CommGroup V := { ‹Group V› with mul_comm := hV }
+  let : CommGroup V := { ‹Group V› with mul_comm := hV }
   let φ : V →* L :=
     { toFun := fun v => ⟨v⁻¹ * u v, hu v⟩
       map_one' := by ext; simp
@@ -97,7 +97,7 @@ private theorem p6b_index_fixedSub_le {V : Type*} [Group V] [Finite V]
   exact (Subgroup.card_le_card_group _).trans hL
 
 theorem card_le_mul_card_fixedSub {V : Type*} [Group V] [Finite V]
-    (hV : ∀ a b : V, a * b = b * a) (hV2 : ∀ a : V, a * a = 1)
+    (hV : ∀ a b : V, a * b = b * a) (_hV2 : ∀ a : V, a * a = 1)
     (U : Subgroup (MulAut V)) (hU2 : ∀ u ∈ U, u * u = 1)
     (hUc : ∀ u₁ ∈ U, ∀ u₂ ∈ U, u₁ * u₂ = u₂ * u₁) (hUcard : Nat.card U = 2 ^ 4)
     (L : Subgroup V) (hL : Nat.card L ≤ 2) (hUL : ∀ u ∈ U, ∀ v : V, v⁻¹ * u v ∈ L) :

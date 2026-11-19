@@ -369,6 +369,7 @@ private theorem exists_mem_Pc_conj_eq (hS : Sec7Hyp M V n f) {U : Subgroup G}
   exact hS.res.s55 M V hS.sec5 U hU (conjSubgroup m U) hUm
     (by rw [inf_eq_left.mpr hle]; exact hne)
 
+omit [Finite G] in
 private theorem conj_mk_swap (g : ↥M)
     (hg₁ : imgQ M (conjSubgroup (g : G) (A ⊔ B)) = imgQ M (r0Of M V (A ⊔ B)))
     (hg₂ : imgQ M (conjSubgroup (g : G) (r0Of M V (A ⊔ B))) = imgQ M (A ⊔ B)) :
@@ -379,6 +380,7 @@ private theorem conj_mk_swap (g : ↥M)
     ← imgQ_conjSubgroup g (r0Of M V (A ⊔ B)), hg₁, hg₂, sup_comm]
 
 
+omit [Finite G] in
 private theorem conjSubgroup_le_sup_Pc {U : Subgroup G}
     {m : G} (hm : ∀ x ∈ U, ⁅m, x⁆ ∈ Pc M V) :
     conjSubgroup m U ≤ U ⊔ Pc M V := by
@@ -620,7 +622,7 @@ private theorem twist_lift_data (hS : Sec7Hyp M V n f) (h72 : Sec7.Stmt72 M V n 
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) h2f
     omega
-  haveI : Nontrivial ↥C := Finite.one_lt_card_iff_nontrivial.mp hlt
+  have : Nontrivial ↥C := Finite.one_lt_card_iff_nontrivial.mp hlt
   obtain ⟨z, hz1⟩ := exists_ne (1 : ↥C)
   have hzX0 : (z : MBar M) ∈ imgQ M (m0Of M V) := (Subgroup.mem_inf.mp z.2).1
   have hzK : (z : MBar M) ∈ Subgroup.centralizer

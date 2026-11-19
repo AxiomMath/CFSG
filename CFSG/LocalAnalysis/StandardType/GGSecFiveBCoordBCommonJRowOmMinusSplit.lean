@@ -18,12 +18,12 @@ theorem ggSecFiveBNativeRow_omMinusSplit {K : Type} [Field K] [Finite K] {f p m 
     GGSecFiveBNativeRow (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c))) p m
       (fun lab => lab = ⟨.A, m - 1, f⟩) (fun lab => lab = ⟨.twD, m, f⟩) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hchar : CharP K 2 := by
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := f)
       (by rw [← Nat.card_eq_fintype_card]; exact hK)
-  haveI : CharP K 2 := hchar
+  have : CharP K 2 := hchar
   obtain ⟨ζ, hζo⟩ : ∃ ζ : Kˣ, orderOf ζ = p :=
     exists_prime_orderOf_dvd_card' p (by rw [Nat.card_units, hK]; exact hpq)
   have hζ : ζ ^ p = 1 := by rw [← hζo]; exact pow_orderOf_eq_one ζ
@@ -34,7 +34,7 @@ theorem ggSecFiveBNativeRow_omMinusSplit {K : Type} [Field K] [Finite K] {f p m 
     rw [hK, hf0, pow_zero] at h2
     omega
   let H₀ : Type := StatedOmega (StatedQuadMinus (m + 1) K b c)
-  letI : Group H₀ := inferInstance
+  let : Group H₀ := inferInstance
   let τ : (Fin m → Multiplicative (ZMod p)) →* H₀ := omMinusTorus (p := p) b c hζ
   have hτ : Function.Injective τ := by
     simpa only [τ] using
@@ -64,7 +64,7 @@ theorem ggSecFiveBNativeRow_omMinusSplit {K : Type} [Field K] [Finite K] {f p m 
       have hc1 : Nat.card ↥((omMinusTorus (p := p) b c hζ).range ⊓
           Subgroup.centralizer (J : Set (StatedOmega (StatedQuadMinus (m + 1) K b c)))) = 1 := by
         simpa only [Finset.card_univ, Fintype.card_fin, Nat.sub_self, Nat.add_zero,
-          if_pos trivial, pow_zero] using hcard
+          ite_eq_left trivial, pow_zero] using hcard
       have hcount' : Nat.card ↥((omMinusTorus (p := p) b c hζ).range ⊓
           Subgroup.centralizer (J : Set (StatedOmega (StatedQuadMinus (m + 1) K b c)))) = p := by
         simpa only [τ] using hcount
@@ -73,7 +73,7 @@ theorem ggSecFiveBNativeRow_omMinusSplit {K : Type} [Field K] [Finite K] {f p m 
     by_cases ha : a = 0
     · have hcard0 : Nat.card ↥(τ.range ⊓ Subgroup.centralizer (J : Set H₀)) =
           p ^ (m - P.card) := by
-        simpa only [τ, if_pos ha, Nat.add_zero] using hcard
+        simpa only [τ, ite_eq_left ha, Nat.add_zero] using hcard
       have hexp : m - P.card = 1 := by
         refine Nat.pow_right_injective hp.two_le ?_
         simpa using hcard0.symm.trans hcount
@@ -106,7 +106,7 @@ theorem ggSecFiveBNativeRow_omMinusSplit {K : Type} [Field K] [Finite K] {f p m 
       exact Or.inr ⟨hsparse, ⟨.twD, m, f⟩, rfl, hlam, hlab⟩
     · have hcard1 : Nat.card ↥(τ.range ⊓ Subgroup.centralizer (J : Set H₀)) =
           p ^ (m - P.card + 1) := by
-        simpa only [τ, if_neg ha] using hcard
+        simpa only [τ, ite_eq_right ha] using hcard
       have hexp : m - P.card + 1 = 1 := by
         refine Nat.pow_right_injective hp.two_le ?_
         simpa using hcard1.symm.trans hcount

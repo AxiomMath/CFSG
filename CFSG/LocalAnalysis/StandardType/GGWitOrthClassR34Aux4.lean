@@ -33,25 +33,25 @@ theorem owR34_classRefl_smul_gen {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     (Q : QuadraticForm (ZMod 3) V) (c u : ZMod 3) (hu : u ≠ 0) :
     ClassRefl 3 Q c = ClassRefl 3 (u • Q) (u * c) := by
   ext t
-  simp only [ClassRefl, Set.mem_setOf_eq]
+  simp only [ClassRefl, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hr, hiso, a, ha, hta⟩
     refine ⟨hr, ?_, a, ?_, hta⟩
     · intro v
       show (u • Q) (t v) = (u • Q) v
-      simp only [QuadraticMap.smul_apply, smul_eq_mul]
+      simp only [_root_.smul_apply, smul_eq_mul]
       rw [hiso v]
     · show (u • Q) a = u * c
-      rw [QuadraticMap.smul_apply, ha]
+      rw [_root_.smul_apply, ha]
       rfl
   · rintro ⟨hr, hiso, a, ha, hta⟩
     refine ⟨hr, ?_, a, ?_, hta⟩
     · intro v
       have h := hiso v
-      simp only [QuadraticMap.smul_apply, smul_eq_mul] at h
+      simp only [_root_.smul_apply, smul_eq_mul] at h
       exact mul_left_cancel₀ hu h
     · have h := ha
-      simp only [QuadraticMap.smul_apply, smul_eq_mul] at h
+      simp only [_root_.smul_apply, smul_eq_mul] at h
       exact mul_left_cancel₀ hu h
 
 theorem owR34_classRefl_smul (w : Fin 4 → ZMod 3) (c : ZMod 3) (hc : c ≠ 0) :

@@ -64,11 +64,11 @@ theorem eq_bot_of_normalizes_reeF4 {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .
     V = ⊥ := by
   have he : orderOf (((2 ^ (2 * 2 + 1) : ℕ)) : ZMod 5) = 4 :=
     (orderOf_eq_iff (by norm_num)).2 ⟨by decide, by decide⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨F, _, _, _, hF, ⟨eΓ⟩⟩ := exists_reeGamma_model hd hK
   obtain ⟨e⟩ := hK
-  haveI : IsSimpleGroup (CatGroup d) := isSimpleGroup_of_catGroup_reeF4 hd
-  haveI : IsSimpleGroup K := e.isSimpleGroup
+  have : IsSimpleGroup (CatGroup d) := isSimpleGroup_of_catGroup_reeF4 hd
+  have : IsSimpleGroup K := e.isSimpleGroup
   have h25 : 5 ^ 2 ∣ Nat.card K := by
     rw [Nat.card_congr e.toEquiv, card_catGroup_reeF4 hd]
     norm_num [CFSG.Open.ordTwistedF4]
@@ -86,7 +86,7 @@ theorem eq_bot_of_normalizes_reeF4 {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .
 theorem kFactNineThreeNoTwoAt_reeF4 {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .reeF4 2) :
     KFactNineThreeNoTwoAt 5 (.lie d) := by
   intro X _ _ K hK hiso _ T S hS hTS
-  haveI := hK
+  have := hK
   exact le_centralizer_of_aut (T := (T : Subgroup K).map K.subtype) (Subgroup.map_subtype_le _)
     (fun V hV hN => eq_bot_of_normalizes_reeF4 hd hiso T hV fun t ht => hN t ⟨t, ht, rfl⟩) hS
     hTS

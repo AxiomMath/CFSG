@@ -27,13 +27,13 @@ noncomputable def d4ModelData {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f
 
 theorem d4ModelData_S {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 3)
     (hσ : ∀ c, σ c = c ^ (2 ^ f)) : (d4ModelData σ hf hK hσ).S = Struct.Ust σ := by
-  haveI : CharP K 2 := CFSG.Quasithin.H13.F431.D4q.NFq.charP_two_of_std hf hK
+  have : CharP K 2 := CFSG.Quasithin.H13.F431.D4q.NFq.charP_two_of_std hf hK
   exact Model.sixClosure_eq σ (RingHom.ext fun c => ringEquiv_cube_apply_eq hK hσ c)
 
 theorem d4ModelData_V_eq_ZC {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 3)
     (hσ : ∀ c, σ c = c ^ (2 ^ f)) : (d4ModelData σ hf hK hσ).V = Loc.ZC σ := by
-  haveI : CharP K 2 := CFSG.Quasithin.H13.F431.D4q.NFq.charP_two_of_std hf hK
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : CharP K 2 := CFSG.Quasithin.H13.F431.D4q.NFq.charP_two_of_std hf hK
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   let d := d4ModelData σ hf hK hσ
   have hZC : Nat.card (Loc.ZC σ) = 2 ^ f := by
     have hle : d4Zz K σ ≤ graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=
@@ -54,7 +54,7 @@ theorem Pst0_le_normalizer_d4ModelData_V {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card
     Struct.Pst0 σ ≤
       Subgroup.normalizer (((d4ModelData σ hf hK hσ).V : Subgroup (Struct.Cm σ)) :
         Set (Struct.Cm σ)) := by
-  haveI : CharP K 2 := CFSG.Quasithin.H13.F431.D4q.NFq.charP_two_of_std hf hK
+  have : CharP K 2 := CFSG.Quasithin.H13.F431.D4q.NFq.charP_two_of_std hf hK
   let d := d4ModelData σ hf hK hσ
   have hV : d.V = Loc.ZC σ := d4ModelData_V_eq_ZC σ hf hK hσ
   intro p hp
@@ -102,8 +102,8 @@ theorem normalizer_d4ModelData_V {f : ℕ} (hf : 1 ≤ f)
 theorem d4ModelData_M {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 3)
     (hσ : ∀ c, σ c = c ^ (2 ^ f)) :
     (d4ModelData σ hf hK hσ).M = pCoreOf 2 (Struct.Pst1 σ) := by
-  haveI : CharP K 2 := CFSG.Quasithin.H13.F431.D4q.NFq.charP_two_of_std hf hK
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : CharP K 2 := CFSG.Quasithin.H13.F431.D4q.NFq.charP_two_of_std hf hK
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   have hσ3 : σ.toRingHom ^ 3 = 1 :=
     RingHom.ext fun c => ringEquiv_cube_apply_eq hK hσ c
   let d := d4ModelData σ hf hK hσ

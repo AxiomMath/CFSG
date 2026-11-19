@@ -47,7 +47,7 @@ theorem exists_mem_pComplCoreIn_centralizer_conj_inv_smul_eq_of_rank_three_sylow
   have hAtop : A < ⊤ := lt_top_of_normal_selfCentralizing_sylow hGnc hp P hAP hA2
   have hcon : IsConstrained A :=
     isConstrained_of_normal_selfCentralizing_sylow hGnc hGodd hsolv hp P hAnormal hAself hA2
-  have hApg : IsPGroup p ↥A := P.isPGroup'.to_le hAP
+  have hApg : IsPGroup p ↥A := P.isPGroup.to_le hAP
   have hpi : subgroupPrimeSupportCompl A = {r : ℕ | r.Prime ∧ r ≠ p} :=
     subgroupPrimeSupportCompl_eq_of_isPGroup hp hApg hAne
   have hqπ : q ∉ subgroupPrimeSupport A :=

@@ -29,26 +29,33 @@ section Coord
 variable {ε : (Fin 3 → ZMod 3) → G} {A : Subgroup G} (h : Coord ε A)
 include h
 
+omit [Finite G] in
 theorem Coord.zero : ε 0 = 1 :=
   mul_left_cancel (a := ε 0) (by rw [← h.add, add_zero, mul_one])
 
+omit [Finite G] in
 theorem Coord.neg (x : Fin 3 → ZMod 3) : ε (-x) = (ε x)⁻¹ :=
   eq_inv_of_mul_eq_one_left (by rw [← h.add, neg_add_cancel, h.zero])
 
+omit [Finite G] in
 theorem Coord.nsmul (n : ℕ) (x : Fin 3 → ZMod 3) : ε (n • x) = ε x ^ n := by
   induction n with
   | zero => rw [zero_smul, pow_zero, h.zero]
   | succ n ih => rw [succ_nsmul, h.add, ih, pow_succ]
 
+omit [Finite G] in
 theorem Coord.smul (c : ZMod 3) (x : Fin 3 → ZMod 3) : ε (c • x) = ε x ^ c.val := by
   rw [← h.nsmul, ← Nat.cast_smul_eq_nsmul (ZMod 3), ZMod.natCast_zmod_val]
 
+omit [Finite G] in
 theorem Coord.eq_one_iff {x : Fin 3 → ZMod 3} : ε x = 1 ↔ x = 0 :=
   ⟨fun hx => h.inj (hx.trans h.zero.symm), fun hx => by rw [hx, h.zero]⟩
 
+omit [Finite G] in
 theorem Coord.cube (x : Fin 3 → ZMod 3) : ε x ^ 3 = 1 := by
   rw [← h.nsmul, three_nsmul_eq_zero, h.zero]
 
+omit [Finite G] in
 theorem Coord.orderOf {x : Fin 3 → ZMod 3} (hx : x ≠ 0) : orderOf (ε x) = 3 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (h.cube x) (fun h1 => hx (h.eq_one_iff.mp h1))
@@ -66,6 +73,7 @@ theorem Coord.mem_zpowers {x z : Fin 3 → ZMod 3} :
     rw [h.smul]
     exact Subgroup.npow_mem_zpowers _ _
 
+omit [Finite G] in
 theorem Coord.card : Nat.card A = 27 := by
   classical
   have e : (Fin 3 → ZMod 3) ≃ A :=
@@ -99,10 +107,12 @@ section Hyp
 variable {ε : (Fin 3 → ZMod 3) → G} {A : Subgroup G} (h : Coord ε A)
 include h
 
+omit [Finite G] in
 theorem hyp_le (i : Fin 13) : hyp ε i ≤ A := by
   refine (Subgroup.closure_le _).mpr ?_
   rintro y (rfl | rfl) <;> exact h.mem _
 
+omit [Finite G] in
 theorem Coord.mem_hyp (i : Fin 13) (z : Fin 3 → ZMod 3) :
     ε z ∈ hyp ε i ↔ dot (hypF i) z = 0 := by
   constructor
@@ -131,11 +141,13 @@ theorem Coord.mem_hyp (i : Fin 13) (z : Fin 3 → ZMod 3) :
     exact Subgroup.mul_mem _ (Subgroup.pow_mem _ (Subgroup.subset_closure (by simp)) _)
       (Subgroup.pow_mem _ (Subgroup.subset_closure (by simp)) _)
 
+omit [Finite G] in
 theorem Coord.exists_of_mem_hyp {i : Fin 13} {y : G} (hy : y ∈ hyp ε i) :
     ∃ z, ε z = y ∧ dot (hypF i) z = 0 := by
   obtain ⟨z, rfl⟩ := h.surj y (hyp_le h i hy)
   exact ⟨z, rfl, (h.mem_hyp i z).1 hy⟩
 
+omit [Finite G] in
 theorem Coord.card_hyp (i : Fin 13) : Nat.card (hyp ε i) = 9 := by
   classical
   have e : {z : Fin 3 → ZMod 3 // dot (hypF i) z = 0} ≃ hyp ε i :=
@@ -146,6 +158,7 @@ theorem Coord.card_hyp (i : Fin 13) : Nat.card (hyp ε i) = 9 := by
   rw [← Nat.card_congr e, Nat.card_eq_fintype_card]
   exact S36.card_ker' i
 
+omit [Finite G] in
 theorem Coord.cenS_hyp {i : Fin 13} {p q : Fin 3 → ZMod 3} (hp : dot (hypF i) p = 0)
     (hq : dot (hypF i) q = 0)
     (hspan : ∀ z, dot (hypF i) z = 0 → ∃ c d : ZMod 3, z = c • p + d • q) {y : G} :
@@ -189,13 +202,13 @@ theorem card_mul_pow_twelve {S : Subgroup G} (hS : A ≤ Nor S) (hcop : Nat.Copr
     intro g hg
     obtain ⟨x, rfl⟩ := h.surj g hg
     simp only [Fintype.sum_sum_type, H, m, n, Sum.elim_inl, Sum.elim_inr, Fin.sum_univ_two,
-      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Subgroup.mem_bot,
-      h.mem_hyp, h.eq_one_iff, hg, if_true, ite_self, Finset.sum_const_zero, add_zero, zero_add]
+      Matrix.cons_val_zero, Matrix.cons_val_one, Subgroup.mem_bot,
+      h.mem_hyp, h.eq_one_iff, hg, ite_true, ite_self, Finset.sum_const_zero, add_zero, zero_add]
     rw [S36.vec3_eta x]
     exact S36.count1 _ _ _
   have h' := S36.wielandt_conj hS hcop' hsolv H hH m n hcoeff
   simp only [Fintype.prod_sum_type, H, m, n, Sum.elim_inl, Sum.elim_inr, Fin.prod_univ_two,
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Subgroup.card_bot, S36.cenS_bot,
+    Matrix.cons_val_zero, Matrix.cons_val_one, Subgroup.card_bot, S36.cenS_bot,
     inf_top_eq, h.card_hyp, hc27, zero_mul, pow_zero, one_mul, mul_one,
     Finset.prod_const_one] at h'
   apply Nat.pow_left_injective (show 9 ≠ 0 by norm_num)
@@ -227,14 +240,14 @@ theorem card_cen_mul_pow_three {S : Subgroup G} (hS : A ≤ Nor S)
     intro g hg
     obtain ⟨z, rfl⟩ := h.surj g hg
     simp only [Fintype.sum_sum_type, H, m, n, Sum.elim_inl, Sum.elim_inr, Fin.sum_univ_two,
-      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, h.mem_zpowers,
-      h.mem_hyp, hg, if_true, ite_self, Finset.sum_const_zero, add_zero, zero_add]
+      Matrix.cons_val_zero, Matrix.cons_val_one, h.mem_zpowers,
+      h.mem_hyp, hg, ite_true, ite_self, Finset.sum_const_zero, add_zero, zero_add]
     rw [S36.vec3_eta x, S36.vec3_eta z]
     rw [S36.vec3_eta x] at hx
     exact S36.count2 _ _ _ _ _ _ hx
   have h' := S36.wielandt_conj hS hcop' hsolv H hH m n hcoeff
   simp only [Fintype.prod_sum_type, H, m, n, Sum.elim_inl, Sum.elim_inr, Fin.prod_univ_two,
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, S36.cenS_zpowers,
+    Matrix.cons_val_zero, Matrix.cons_val_one, S36.cenS_zpowers,
     h.card_hyp, hc27, Nat.card_zpowers, h.orderOf hx, zero_mul, pow_zero, one_mul,
     mul_one, Finset.prod_const_one] at h'
   apply Nat.pow_left_injective (show 9 ≠ 0 by norm_num)
@@ -270,15 +283,15 @@ theorem card_mul_pow_three (i : Fin 13) {S : Subgroup G} (hS : hyp ε i ≤ Nor 
     intro g hg
     obtain ⟨z, rfl, hz⟩ := h.exists_of_mem_hyp hg
     simp only [Fintype.sum_sum_type, H, m, n, Sum.elim_inl, Sum.elim_inr, Fin.sum_univ_two,
-      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Subgroup.mem_bot,
-      h.mem_zpowers, h.eq_one_iff, hg, if_true, ite_self, Finset.sum_const_zero, add_zero,
+      Matrix.cons_val_zero, Matrix.cons_val_one, Subgroup.mem_bot,
+      h.mem_zpowers, h.eq_one_iff, hg, ite_true, ite_self, Finset.sum_const_zero, add_zero,
       zero_add]
     rw [S36.vec3_eta z]
     rw [S36.vec3_eta z] at hz
     exact count_lines i _ _ _ hz
   have h' := S36.wielandt_conj hS hcop' hsolv H hH m n hcoeff
   simp only [Fintype.prod_sum_type, H, m, n, Sum.elim_inl, Sum.elim_inr, Fin.prod_univ_two,
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Subgroup.card_bot, S36.cenS_bot,
+    Matrix.cons_val_zero, Matrix.cons_val_one, Subgroup.card_bot, S36.cenS_bot,
     S36.cenS_zpowers, inf_top_eq, hc9, Nat.card_zpowers, h.orderOf (lv_ne_zero i _), zero_mul,
     pow_zero, one_mul, mul_one, Finset.prod_const_one] at h'
   apply Nat.pow_left_injective (show 3 ≠ 0 by norm_num)
@@ -292,7 +305,7 @@ theorem eq_of_lines (i : Fin 13) {S N : Subgroup G} (hNS : N ≤ S) (hS : hyp ε
   have hcopN : Nat.Coprime (Nat.card N) 3 :=
     Nat.Coprime.coprime_dvd_left (Subgroup.card_dvd_of_le hNS) hcop
   have hsolvN : Group.IsSolvable N :=
-    solvable_of_solvable_injective (f := Subgroup.inclusion hNS) (Subgroup.inclusion_injective hNS)
+    Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hNS) (Subgroup.inclusion_injective hNS)
   have hline : ∀ j, N ⊓ Cen (ε (lv i j)) = S ⊓ Cen (ε (lv i j)) := fun j =>
     le_antisymm (inf_le_inf_right _ hNS) (le_inf (hl j) inf_le_right)
   have hE : N ⊓ CenS (hyp ε i) = S ⊓ CenS (hyp ε i) := by

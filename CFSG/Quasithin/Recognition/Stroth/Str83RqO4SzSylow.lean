@@ -28,7 +28,7 @@ private theorem sz_data {L T : Subgroup G} {a : ℕ}
         imageOTwoQuot L T ⊓ Subgroup.centralizer
           (imageOTwoQuot L T : Set (oTwoQuot ↥L))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := exists_sylow_imageOTwoQuot hT
   let K := GaloisField 2 (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 (2 * a + 1) (by omega)
@@ -40,11 +40,13 @@ private theorem sz_data {L T : Subgroup G} {a : ℕ}
   rw [← hS]
   exact ⟨h1, h2, h5, h3, h4⟩
 
+omit [Finite G] in
 private theorem mk_mem_imageOTwoQuot_of_mem {L T : Subgroup G} (hTL : T ≤ L) {x : G}
     (hx : x ∈ T) :
     (QuotientGroup.mk ⟨x, hTL hx⟩ : oTwoQuot ↥L) ∈ imageOTwoQuot L T :=
   mem_imageOTwoQuot_iff.mpr ⟨x, hTL hx, hx, rfl⟩
 
+omit [Finite G] in
 private theorem mk_mul_self_eq_one_of_sq_mem {L T : Subgroup G} (hTL : T ≤ L) {x : G}
     (hx : x ∈ T) (hxx : x * x ∈ pCoreOf 2 L) :
     (QuotientGroup.mk ⟨x, hTL hx⟩ : oTwoQuot ↥L) *
@@ -110,7 +112,7 @@ private theorem commutator_eq_center_of_sz {L T : Subgroup G}
     ⁅imageOTwoQuot L T, imageOTwoQuot L T⁆ =
       imageOTwoQuot L T ⊓ Subgroup.centralizer (imageOTwoQuot L T : Set (oTwoQuot ↥L)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hTcard, hZcard, -, -, hcommZ⟩ := sz_data ha hSz hT
   obtain ⟨S, hS, hWS, hWN⟩ := commutator_le_sylow_and_normalizer hT
   let K := GaloisField 2 (2 * a + 1)
@@ -292,6 +294,7 @@ private theorem sz_conj_mem_center {L T : Subgroup G} {a : ℕ}
   · intro hcon
     exact hnotpc ((mk_eq_one_iff_mem_pCoreOf _).mp hcon)
 
+omit [Finite G] in
 private theorem sz_conj_mk_injective {L T : Subgroup G}
     (hT : IsSylowTwoOf T L) {H : Subgroup G}
     (hHL : H ≤ normalizer (L : Set G)) {z : G} (hzT : z ∈ T)
@@ -316,7 +319,7 @@ private theorem sz_conj_mk_injective {L T : Subgroup G}
   have heq : (k2 : G)⁻¹ * ((a / b : ↥L) : G) * (k2 : G) =
       ⁅(k2 : G)⁻¹ * (k1 : G), z⁆ := by
     rw [div_eq_mul_inv]
-    simp only [a, b, Subgroup.coe_mk, Subgroup.coe_mul, Subgroup.coe_inv,
+    simp only [a, b, Subgroup.coe_mul, Subgroup.coe_inv,
       commutatorElement_def]
     group
   have hcomm : ⁅(k2 : G)⁻¹ * (k1 : G), z⁆ ∈ pCoreOf 2 L := by

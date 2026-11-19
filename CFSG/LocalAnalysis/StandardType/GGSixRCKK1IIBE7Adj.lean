@@ -185,11 +185,11 @@ theorem rckIIPairAdj_E7 :
     have hprod : ([rckp7_γ, rckp7_θ].map f).prod = ([rckp7_γ, rckp7_θ].map g).prod := by
       simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
       show f rckp7_γ * f rckp7_θ = 1
-      simp only [f, if_pos rfl, if_neg (Ne.symm hγθ_ne), g]
+      simp only [f, ite_eq_left rfl, ite_eq_right (Ne.symm hγθ_ne)]
       rw [← hxy_eq]
       exact hx2
     have h1 := hpi f g hf hg hprod rckp7_γ (by simp)
-    simp only [f, if_pos rfl, g] at h1
+    simp only [f, ite_eq_left rfl, g] at h1
     exact hy1 h1
   have hxy_ne1 : x * y ≠ 1 := by
     intro h
@@ -257,8 +257,7 @@ theorem rckIIPairAdj_E7 :
     rw [rootForm, hform rckp7_γ rckp7_θ, show iform rckp7_γ rckp7_θ = 1 by decide +kernel]
     exact mul_pos hc (by norm_num)
   refine ⟨rckp7_θ, x, Subgroup.closure {x, y}, hθmem, hlong, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
-  · change rckp7_D.rootGroup rckp7_θ = Subgroup.zpowers x
-    exact rckp7_rootGroup_eq_zpowers
+  · exact rckp7_rootGroup_eq_zpowers
   · exact hx2
   · exact hx1
   · exact Subgroup.subset_closure (Set.mem_insert_iff.mpr (Or.inl rfl))
@@ -289,9 +288,7 @@ theorem rckIIPairAdj_E7 :
         rwa [pow_two] at h2
   · rw [hVT]
     exact rckp7_T_card hx2 hy2 hxy hx1 hy1 hxney hxy_ne1 hxy_nex hxy_ney
-  · change Subgroup.closure ({x, y} : Set rckp7_G) ≤
-      pCoreOf 2 (Subgroup.normalizer ((rckp7_D.rootGroup rckp7_θ : Subgroup rckp7_G) : Set rckp7_G))
-    rw [show pCoreOf 2 (Subgroup.normalizer ((rckp7_D.rootGroup rckp7_θ :
+  · rw [show pCoreOf 2 (Subgroup.normalizer ((rckp7_D.rootGroup rckp7_θ :
         Subgroup rckp7_G) : Set rckp7_G)) =
         highestRootRadical rckp7_D rckp7_θ from
       CFSG.StandardType.LieKnownR2.Exc.pCoreOf_normalizer_rootGroup_highRoot_adj .E7

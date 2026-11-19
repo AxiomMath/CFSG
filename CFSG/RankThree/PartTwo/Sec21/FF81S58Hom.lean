@@ -71,7 +71,7 @@ theorem inf_cenS_self_of_model {G : Type} [Group G] [Finite G] {K : Subgroup G}
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center K) with h0 | h0
     · exact h0
     · exfalso
-      haveI : IsMulCommutative ↥K := Subgroup.center_eq_top_iff.mp h0
+      have : IsMulCommutative ↥K := Subgroup.center_eq_top_iff.mp h0
       have hprime : (Nat.card K).Prime := Group.is_simple_iff_prime_card.mp hsimple
       rw [hcard] at hprime
       norm_num at hprime

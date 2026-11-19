@@ -218,8 +218,8 @@ theorem fix_mask (L : List XJ) {LC : List ℕ} (hL : (L.map cJ).Perm LC) :
         exact Nat.beq_eq_true_eq _ _ ▸ congrArg Fin.val (hA a ha)
     simp only [indS, hk, dite_true]
     by_cases hm : (⟨k, hk⟩ : Fin 315) ∈ fixSetL L
-    · rw [if_pos hm, if_pos (key.2 hm)]
-    · rw [if_neg hm, if_neg (fun h => hm (key.1 h))]
+    · rw [ite_eq_left hm, ite_eq_left (key.2 hm)]
+    · rw [ite_eq_right hm, ite_eq_right (fun h => hm (key.1 h))]
   · rw [imgW_orW_none (fun i _ => boolRec_lt _) (fun i hi h => hk (by omega))]
     simp [indS, hk]
 
@@ -278,7 +278,7 @@ private theorem imgMaskW_cJ_maskF (g : XJ) (T : Finset (Fin 315)) :
   rw [imgW_maskF, imgMaskW_eq]
   by_cases hk : k < 315
   · have hpk : imgW 9 (cJ g) (((g : Perm (Fin 315))⁻¹ ⟨k, hk⟩ : Fin 315) : ℕ) = k := by
-      rw [imgW_cJ_fin, pAI] <;> rfl
+      rw [imgW_cJ_fin, pAI]
     rw [imgW_orW_of (fun i _ => boolRec_lt ((maskF T).testBit i)) hp
       ((g : Perm (Fin 315))⁻¹ ⟨k, hk⟩).isLt hpk]
     simp only [boolRec_eq, testBit_maskF, indS, hk, dite_true, decide_eq_true_eq,

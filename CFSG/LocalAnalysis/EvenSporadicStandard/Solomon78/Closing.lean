@@ -106,7 +106,7 @@ theorem solomon_closing_3_12_2 (hStd : StdHyp G L)
     rw [inf_relIndex_left]
     exact hLP
   obtain ⟨g, hg⟩ := exists_conj_mem_complement h.nonabelian (S := (P : Subgroup G))
-    (U := (P : Subgroup G) ⊓ L) P.isPGroup' (Sylow.not_dvd_index P) inf_le_left hU htP
+    (U := (P : Subgroup G) ⊓ L) P.isPGroup (Sylow.not_dvd_index P) inf_le_left hU htP
     (fun htU => htL htU.2) ht2
   have haL : g⁻¹ * t * g ∈ L := hg.2
   have ha2 : orderOf (g⁻¹ * t * g) = 2 := by

@@ -24,8 +24,8 @@ theorem c23_exists_X_cover (D : Data G) {V : Subgroup G} (hV : IsElemAbelian 2 V
       CFSG.ABGLocalTools.IsSylowOf 3 X (K₁ ⊔ K₂) ∧
       (∀ n ∈ (K₁ ⊔ K₂) ⊓ normalizer (X : Set G), n * z.val = z.val * n) ∧
       ∀ j ∈ K₁ ⊔ K₂, j * z.val = z.val * j → ∃ x ∈ X, ∃ t ∈ D.T, j = x * t := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h𝓛M : K₁ ⊔ K₂ ≤ D.M := sup_le hK₁M hK₂M
   have h𝓛s : K₁ ⊔ K₂ ≤ stabTil ⊥ V := h𝓛M.trans hMs
   have hTs : D.T ≤ stabTil ⊥ V := D.sylowM.le.trans hMs

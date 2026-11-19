@@ -108,7 +108,7 @@ theorem matModel_row_cases {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V, 
                 ⟨(x : MulAut V) (u : V), hJle hmem⟩ rfl
               rw [← hact]
               exact Submodule.subset_span ⟨⟨(x : MulAut V) (u : V), hmem⟩, rfl⟩
-            · simpa using Submodule.zero_mem W
+            · simp
             · intro y z _ _ ihy ihz
               rw [Matrix.mulVec_add]
               exact Submodule.add_mem W ihy ihz
@@ -171,7 +171,7 @@ theorem matModel_row_cases {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V, 
     exact Nat.pow_right_injective (le_refl 2) h16
   ·
     intro hF4
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     have h2 : (2 : F) = 0 := by
       let E : Matrix (Fin d) (Fin r) F :=
         Matrix.of fun i j => if i = ⟨0, hd⟩ ∧ j = ⟨0, hr⟩ then 1 else 0
@@ -188,7 +188,7 @@ theorem matModel_row_cases {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V, 
     have hω0 : ω ≠ 0 := by
       intro h0
       rw [h0] at hωsq
-      simpa using hωsq
+      simp at hωsq
     have hω1 : ω ≠ 1 := by
       intro h1
       rw [h1] at hωsq
@@ -308,7 +308,7 @@ theorem matModel_row_cases {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V, 
           ⟨(x : MulAut V) (u : V), hUle hmem⟩ rfl
         rw [← hact]
         exact Submodule.subset_span ⟨⟨(x : MulAut V) (u : V), hmem⟩, rfl⟩
-      · simpa using Submodule.zero_mem W
+      · simp
       · intro y z _ _ ihy ihz
         rw [Matrix.mulVec_add]
         exact Submodule.add_mem W ihy ihz
@@ -316,7 +316,7 @@ theorem matModel_row_cases {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V, 
         rw [Matrix.mulVec_smul]
         exact Submodule.smul_mem W c ihy
     have hWne : W ≠ ⊥ := by
-      haveI : Nontrivial ↥U := (Subgroup.nontrivial_iff_ne_bot U).mpr hUne
+      have : Nontrivial ↥U := (Subgroup.nontrivial_iff_ne_bot U).mpr hUne
       obtain ⟨u, hu1⟩ := exists_ne (1 : ↥U)
       intro hbot
       have hrowne : Multiplicative.toAdd (matRowEquiv β a ⟨(u : V), hUle u.2⟩) ≠ 0 := by

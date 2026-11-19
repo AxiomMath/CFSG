@@ -25,7 +25,7 @@ private theorem ggGlue_dvd_card_J {G : Type} [Group G] [Finite G] {p : ℕ}
     (hJ : (φ₁.comp (slLowerBlockHom n (GaloisField 2 f))).range = J) :
     p ∣ Nat.card J := by
   have hp : p.Prime := hC.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn : 3 ≤ n := hC.three_le
   obtain ⟨N, rfl⟩ : ∃ N, n = N + 1 := ⟨n - 1, by omega⟩
   have hN3 : 3 ≤ N + 1 := hC.three_le
@@ -84,7 +84,7 @@ theorem GGFarCtx.eq_kThreeRefl_of_cross {G : Type} [Group G] [Finite G] (hLB : G
         kThreeRefl p n (κ (Additive.ofMul b)) := by
   classical
   have hp : p.Prime := hX.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn : 3 ≤ n := hX.three_le
   have hjval : j.val = n - 1 := by omega
   have hNC' := hNC

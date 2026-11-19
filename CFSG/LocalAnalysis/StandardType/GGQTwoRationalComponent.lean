@@ -36,7 +36,7 @@ theorem three_le_rank_of_quasisimple_component
     rw [rootDiagUnit_pow]
     have ha : a ^ 3 = 1 := funext fun j => by simpa using ha3 j
     rw [ha, rootDiagUnit_one]
-  haveI : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by rw [hq]; norm_num)
+  have : CharP L 2 := charP_two_of_langSetup_q_eq_two_pow S (f := 1) (by rw [hq]; norm_num)
   have h3L : (3 : L) ≠ 0 := by
     have h2L : (2 : L) = 0 := CharP.cast_eq_zero L 2
     have h3L' : (3 : L) = 1 := by
@@ -113,7 +113,7 @@ theorem three_le_rank_of_quasisimple_component
         isSolvable_rationalComponent_of_latSolv S hq1 Nat.prime_three h3L (Equiv.refl _) (-1)
           (Or.inr rfl) (by rw [hq]; norm_num) hρ' hT ha3 i
           ⟨rfl, Or.inl ⟨α, by rw [rationalRoots_eq_of_rho_neg S hρ i]; exact hpair⟩⟩
-      haveI : Group.IsPerfect ↥J := hQ.1
+      have : Group.IsPerfect ↥J := hQ.1
       exfalso
       exact (Group.IsPerfect.not_isSolvable (G := ↥J)) hsolv
     · have hncard : Ψ.ncard = 6 := j4d_rank_two_ncard hsl hΨ hr2
@@ -123,7 +123,7 @@ theorem three_le_rank_of_quasisimple_component
           ⟨rfl, Or.inr ⟨by rw [rationalRoots_eq_of_rho_neg S hρ i]; exact hncard, by
             intro α _
             rfl⟩⟩
-      haveI : Group.IsPerfect ↥J := hQ.1
+      have : Group.IsPerfect ↥J := hQ.1
       exfalso
       exact (Group.IsPerfect.not_isSolvable (G := ↥J)) hsolv
 

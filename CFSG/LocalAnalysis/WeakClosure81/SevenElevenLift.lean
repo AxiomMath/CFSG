@@ -19,6 +19,7 @@ structure SevenEightBarConfig {X : Type} [Group X] (S L : Subgroup X) : Prop whe
 
 variable {G : Type} [Group G] [Finite G] {V H E : Subgroup G}
 
+omit [Finite G] in
 theorem isGeneratedByOmega_omegaUnder {X : Type} [Group X] (φ : ↥(kSub V H E) →* X)
     (Lb : Subgroup X) : IsGeneratedByOmega V H E (omegaUnder V H E φ Lb) := by
   unfold IsGeneratedByOmega omegaWithin omegaUnder
@@ -26,6 +27,7 @@ theorem isGeneratedByOmega_omegaUnder {X : Type} [Group X] (φ : ↥(kSub V H E)
   · refine iSup₂_le fun U hU => hU.2
   · refine iSup₂_le fun U hU => le_iSup₂_of_le U ⟨hU.1, le_omegaUnder hU.1 hU.2⟩ le_rfl
 
+omit [Finite G] in
 theorem omegaUnder_le_barPre {X : Type} [Group X] (φ : ↥(kSub V H E) →* X) (Lb : Subgroup X) :
     omegaUnder V H E φ Lb ≤ barPre (kSub V H E) φ Lb := by
   unfold omegaUnder
@@ -33,6 +35,7 @@ theorem omegaUnder_le_barPre {X : Type} [Group X] (φ : ↥(kSub V H E) →* X) 
   intro u hu
   refine mem_barPre.mpr ⟨le_kSub hU.1 hu, hU.2 (mem_barSub.mpr ⟨⟨u, le_kSub hU.1 hu⟩, hu, rfl⟩)⟩
 
+omit [Finite G] in
 theorem barSub_omegaUnder_eq (h : Hyp711 V H E) {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     {Lb : Subgroup X} (hc : SevenEightBarConfig (barSub (kSub V H E) φ V) Lb) :
@@ -61,7 +64,7 @@ theorem barSub_omegaUnder_eq (h : Hyp711 V H E) {X : Type} [Group X]
 theorem pCoreOf_eq_inf_barPre {K : Subgroup G} {X : Type} [Group X] {φ : ↥K →* X}
     (hφ : IsBarMap K (pCoreOf 2 K) φ) {L : Subgroup G} (hLK : L ≤ K) :
     pCoreOf 2 L = L ⊓ barPre K φ (pCoreOf 2 (barSub K φ L)) := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   refine le_antisymm ?_ ?_
   · refine le_inf (CFSG.LieType.BorelTits.pCoreOf_le 2 L) ?_
     have hPb_p : IsPGroup 2 (barSub K φ (pCoreOf 2 L)) :=
@@ -88,7 +91,7 @@ theorem hasQuotShape_omegaUnder (h : Hyp711 V H E) {X : Type} [Group X]
     HasQuotShape (omegaUnder V H E φ Lb) (pCoreOf 2 (omegaUnder V H E φ Lb) : Set G)
       (fun Y _ => IsSymGp Y 3) := by
   obtain ⟨Y, hYgrp, ψ, hψ_surj, hψ_ker, hY⟩ := hc.quot
-  letI : Group Y := hYgrp
+  let : Group Y := hYgrp
   have hLb : barSub (kSub V H E) φ (omegaUnder V H E φ Lb) = Lb := barSub_omegaUnder_eq h hφ hc
   have hcore : pCoreOf 2 (omegaUnder V H E φ Lb) =
       omegaUnder V H E φ Lb ⊓ barPre (kSub V H E) φ (pCoreOf 2 Lb) := by
@@ -123,7 +126,7 @@ theorem four_le_ncard_omegaUnder (h : Hyp711 V H E) {X : Type} [Group X]
     {Lb : Subgroup X} (hc : SevenEightBarConfig (barSub (kSub V H E) φ V) Lb) :
     4 ≤ Set.ncard {W : Subgroup G | ∃ g ∈ pCoreOf 2 (omegaUnder V H E φ Lb),
       W = conjSubgroup V g ⊔ pCoreOf 2 (kSub V H E)} := by
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   have hKH : kSub V H E ≤ H := kSub_le_of_forall_le h.omega_le
   have hJK : pCoreOf 2 (kSub V H E) ≤ kSub V H E := CFSG.LieType.BorelTits.pCoreOf_le 2 _
   have hLb : barSub (kSub V H E) φ (omegaUnder V H E φ Lb) = Lb := barSub_omegaUnder_eq h hφ hc
@@ -179,7 +182,7 @@ theorem fusionOddCore_le_center_of_sevenEightBarConfig (h : Hyp711 V H E) {X : T
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) (pCoreOf 2 (kSub V H E)) φ)
     {Lb : Subgroup X} (hc : SevenEightBarConfig (barSub (kSub V H E) φ V) Lb) :
     fusionOddCore X ≤ Subgroup.center X := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   have h8 := commutator_fusionOddCore_eq_bot_of_sevenEightBarConfig h hφ hc
   have hLC : Lb ≤ Subgroup.centralizer (fusionOddCore X : Set X) :=
     (Subgroup.commutator_eq_bot_iff_le_centralizer).mp h8

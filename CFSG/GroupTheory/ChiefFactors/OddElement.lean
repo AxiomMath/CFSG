@@ -52,7 +52,7 @@ private lemma le_chiefCentralizer {N K R₁ R₂ : Subgroup G} (hR : R₂ < R₁
 private lemma chiefCentralizer_normal {N K R₁ R₂ : Subgroup G}
     (hN₁ : N ≤ Subgroup.normalizer (R₁ : Set G))
     (hN₂ : N ≤ Subgroup.normalizer (R₂ : Set G))
-    (hNK : N ≤ Subgroup.normalizer (K : Set G)) (hKN : K ≤ N)
+    (hNK : N ≤ Subgroup.normalizer (K : Set G)) (_hKN : K ≤ N)
     (hR₁₂ : R₁ ≤ Subgroup.normalizer (R₂ : Set G)) :
     N ≤ Subgroup.normalizer (chiefCentralizer K R₁ R₂ hR₁₂ : Set G) := by
   intro n hn r
@@ -121,12 +121,12 @@ private lemma chiefCentralizer_ne_lower {N P R₁ R₂ : Subgroup G}
     (hR₁ : IsPGroup 2 R₁) :
     chiefCentralizer P R₁ R₂ hR₁₂ ≠ R₂ := by
   intro hEq
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H := R₂.subgroupOf R₁
-  haveI hHn : H.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hR₁₂
-  letI : MulDistribMulAction P R₁ :=
+  have hHn : H.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hR₁₂
+  let : MulDistribMulAction P R₁ :=
     MulDistribMulAction.compHom R₁ (Subgroup.inclusion (hPN.trans hN₁))
-  haveI hQA : MulAction.QuotientAction P H := by
+  have hQA : MulAction.QuotientAction P H := by
     refine ⟨fun p a a' h => ?_⟩
     have hpN : (p : G) ∈ N := hPN p.2
     have hp₂ : (p : G) ∈ Subgroup.normalizer (R₂ : Set G) := hN₂ hpN
@@ -142,7 +142,7 @@ private lemma chiefCentralizer_ne_lower {N P R₁ R₂ : Subgroup G}
     rw [hcalc]
     exact (Subgroup.mem_normalizer_iff.mp hp₂ ((a : G)⁻¹ * (a' : G))).mp h
   let Q := R₁ ⧸ H
-  haveI : Finite Q :=
+  have : Finite Q :=
     Finite.of_surjective (QuotientGroup.mk' H) (QuotientGroup.mk'_surjective H)
   have hQ : IsPGroup 2 Q := hR₁.to_quotient H
   have hHne : H ≠ ⊤ := by
@@ -153,7 +153,7 @@ private lemma chiefCentralizer_ne_lower {N P R₁ R₂ : Subgroup G}
       rw [htop]
       exact Subgroup.mem_top _
     exact hxH
-  haveI hQnt : Nontrivial Q := QuotientGroup.nontrivial_iff.mpr hHne
+  have hQnt : Nontrivial Q := QuotientGroup.nontrivial_iff.mpr hHne
   obtain ⟨e, he⟩ := hQ.exists_card_eq
   have hcard_gt : 1 < Nat.card Q := Finite.one_lt_card_iff_nontrivial.mpr hQnt
   have hepos : 0 < e := by
@@ -225,7 +225,7 @@ private lemma exists_maximal_invariant_lt {N X : Subgroup G} (hX : X ≠ ⊥) :
     ∃ X₂ : Subgroup G, X₂ < X ∧ N ≤ Subgroup.normalizer (X₂ : Set G) ∧
       ∀ Y : Subgroup G, X₂ ≤ Y → Y < X → N ≤ Subgroup.normalizer (Y : Set G) →
         Y = X₂ := by
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   have hbot_lt : ⊥ < X := bot_lt_iff_ne_bot.mpr hX
   have hbotN : N ≤ Subgroup.normalizer (⊥ : Subgroup G) := by
@@ -237,6 +237,7 @@ private lemma exists_maximal_invariant_lt {N X : Subgroup G} (hX : X ≠ ⊥) :
   refine ⟨X₂, hmax.prop.1, hmax.prop.2, fun Y hX₂Y hYX hNY => ?_⟩
   exact (hmax.eq_of_le ⟨hYX, hNY⟩ hX₂Y).symm
 
+omit [Finite G] in
 private lemma centralizes_step {R X X₂ : Subgroup G} {j : G} (hj : Odd (orderOf j))
     (hR : IsPGroup 2 R) (hX₂X : X₂ < X) (hXR : X ≤ R)
     (hX₂Xnorm : X ≤ Subgroup.normalizer (X₂ : Set G))
@@ -339,7 +340,7 @@ private lemma centralizes_of_forall_chief_trivial {N R : Subgroup G} {j : G}
   exact fun X hXR hNX x hx => hP (Nat.card X) X rfl hXR hNX x hx
 
 theorem exists_chief_factor_of_odd {N R : Subgroup G} (hR : IsPGroup 2 R) (hRN : R ≤ N)
-    (hNR : N ≤ Subgroup.normalizer (R : Set G)) {j : G} (hjN : j ∈ N) (hj : Odd (orderOf j))
+    (hNR : N ≤ Subgroup.normalizer (R : Set G)) {j : G} (_hjN : j ∈ N) (hj : Odd (orderOf j))
     (hjR : ∃ r ∈ R, j * r * j⁻¹ * r⁻¹ ≠ 1) :
     ∃ R₁ R₂ : Subgroup G, R₂ < R₁ ∧ R₁ ≤ R ∧ N ≤ Subgroup.normalizer (R₁ : Set G) ∧
       N ≤ Subgroup.normalizer (R₂ : Set G) ∧ R₁ ≤ Subgroup.normalizer (R₂ : Set G) ∧
@@ -359,6 +360,6 @@ theorem exists_chief_factor_of_odd {N R : Subgroup G} (hR : IsPGroup 2 R) (hRN :
   have hcentral := centralizes_of_forall_chief_trivial hR hRN hj hno
   obtain ⟨r, hrR, hrne⟩ := hjR
   have hcent := hcentral R le_rfl hNR r hrR
-  exact hrne (by simpa [hcent])
+  exact hrne (by simp [hcent])
 
 end CFSG.GroupTheory

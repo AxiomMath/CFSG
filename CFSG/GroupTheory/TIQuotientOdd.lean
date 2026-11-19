@@ -10,6 +10,7 @@ open Subgroup CFSG.CGT.Timmesfeld75
 
 variable {Y : Type*} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem isTI_map_mk'_of_odd {T Z : Subgroup Y} [Z.Normal]
     (hT : IsPGroup 2 T) (hTI : IsTI T) (hZodd : Odd (Nat.card Z))
     (hTZ : T ≤ centralizer (Z : Set Y)) :

@@ -16,10 +16,12 @@ variable {Γ : Type} [Group Γ] [Finite Γ] {K T : Subgroup Γ}
 @[expose] noncomputable def kerAct614 (hTK : T ≤ Subgroup.normalizer (K : Set Γ)) : Subgroup Γ :=
   (piKT614 hTK).ker.map (K ⊔ T).subtype
 
+omit [Finite Γ] in
 theorem kerAct614_le_sup (hTK : T ≤ Subgroup.normalizer (K : Set Γ)) :
     kerAct614 hTK ≤ K ⊔ T :=
   Subgroup.map_subtype_le _
 
+omit [Finite Γ] in
 theorem mem_kerAct614 (hTK : T ≤ Subgroup.normalizer (K : Set Γ)) {g : Γ} (hg : g ∈ K ⊔ T) :
     g ∈ kerAct614 hTK ↔ piKT614 hTK ⟨g, hg⟩ = 1 := by
   unfold kerAct614
@@ -32,6 +34,7 @@ theorem mem_kerAct614 (hTK : T ≤ Subgroup.normalizer (K : Set Γ)) {g : Γ} (h
   · intro h
     exact ⟨⟨g, hg⟩, MonoidHom.mem_ker.mpr h, rfl⟩
 
+omit [Finite Γ] in
 private theorem conj_mem_kerAct614 (hTK : T ≤ Subgroup.normalizer (K : Set Γ)) {g x : Γ}
     (hg : g ∈ K ⊔ T) (hx : x ∈ kerAct614 hTK) : g * x * g⁻¹ ∈ kerAct614 hTK := by
   have hxKT : x ∈ K ⊔ T := kerAct614_le_sup hTK hx
@@ -44,6 +47,7 @@ private theorem conj_mem_kerAct614 (hTK : T ≤ Subgroup.normalizer (K : Set Γ)
     rfl
   rw [e, map_mul, map_mul, map_inv, hx1, mul_one, mul_inv_cancel]
 
+omit [Finite Γ] in
 theorem kerAct614_normal (hTK : T ≤ Subgroup.normalizer (K : Set Γ)) :
     K ⊔ T ≤ Subgroup.normalizer (kerAct614 hTK : Set Γ) := by
   intro g hg
@@ -56,6 +60,7 @@ theorem kerAct614_normal (hTK : T ≤ Subgroup.normalizer (K : Set Γ)) :
     have e : g⁻¹ * (g * x * g⁻¹) * g⁻¹⁻¹ = x := by group
     rwa [e] at h
 
+omit [Finite Γ] in
 theorem commutator_kerAct614 (hTK : T ≤ Subgroup.normalizer (K : Set Γ)) {c k : Γ}
     (hc : c ∈ kerAct614 hTK) (hk : k ∈ K) : c * k * c⁻¹ * k⁻¹ ∈ pCoreOf 2 K := by
   have hXK : kerAct614 hTK ≤ Subgroup.normalizer (K : Set Γ) :=
@@ -78,7 +83,7 @@ theorem pCoreOf_le_kerAct614 (hTK : T ≤ Subgroup.normalizer (K : Set Γ)) :
 
 theorem pCoreOf_le_of_sylow614 (hTK : T ≤ Subgroup.normalizer (K : Set Γ))
     (hTs : IsSylowTwoOf T (K ⊔ T)) : pCoreOf 2 K ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : K ≤ Subgroup.normalizer (pCoreOf 2 K : Set Γ) :=
     CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 K
   have hT : T ≤ Subgroup.normalizer (pCoreOf 2 K : Set Γ) :=
@@ -89,10 +94,11 @@ theorem pCoreOf_le_of_sylow614 (hTK : T ≤ Subgroup.normalizer (K : Set Γ))
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K)
   exact h1.trans (EscapingLocal.pCoreOf_le_of_isSylowTwoOf hTs)
 
+omit [Finite Γ] in
 private theorem relIndex_eq_relIndex_sup614 {Q H : Subgroup Γ}
     (hHQ : H ≤ Subgroup.normalizer (Q : Set Γ)) : Q.relIndex H = Q.relIndex (H ⊔ Q) := by
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hHQ
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hHQ
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hHQ
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hHQ
   exact Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient H Q hHQ).toEquiv
 
 private theorem relIndex_dvd_relIndex614 {N Y S : Subgroup Γ} (hNY : N ≤ Y) (hSY : S ≤ Y)
@@ -123,6 +129,7 @@ private theorem odd_relIndex614 {N Y S : Subgroup Γ} (hS : IsSylowTwoOf S Y) (h
     (hSN : S ≤ Subgroup.normalizer (N : Set Γ)) : ¬ 2 ∣ S.relIndex N :=
   fun h => hS.2.2 (h.trans (relIndex_dvd_relIndex614 hNY hS.1 hSN))
 
+omit [Finite Γ] in
 private theorem sup_le_normalizer_inf614 (hTK : T ≤ Subgroup.normalizer (K : Set Γ)) :
     K ⊔ T ≤ Subgroup.normalizer ((kerAct614 hTK ⊓ K : Subgroup Γ) : Set Γ) := by
   have hn : ∀ y ∈ K ⊔ T, ∀ h ∈ kerAct614 hTK ⊓ K, y * h * y⁻¹ ∈ kerAct614 hTK ⊓ K := by
@@ -145,7 +152,7 @@ private theorem sup_le_normalizer_inf614 (hTK : T ≤ Subgroup.normalizer (K : S
 
 private theorem relIndex_sup_dvd_two_pow614 (hTK : T ≤ Subgroup.normalizer (K : Set Γ))
     (hTs : IsSylowTwoOf T (K ⊔ T)) : ∃ n : ℕ, K.relIndex (K ⊔ T) ∣ 2 ^ n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp hTs.2.1
   refine ⟨n, ?_⟩
   have h1 : K.relIndex (K ⊔ T) = K.relIndex T := by
@@ -267,7 +274,7 @@ private theorem normal_inf_T_subgroupOf614 (hTK : T ≤ Subgroup.normalizer (K :
 private theorem mem_inf_T_of_pow_eq_one614 (hTK : T ≤ Subgroup.normalizer (K : Set Γ))
     (hTs : IsSylowTwoOf T (K ⊔ T)) {c : Γ} (hc : c ∈ kerAct614 hTK) {m : ℕ}
     (hm : c ^ 2 ^ m = 1) : c ∈ kerAct614 hTK ⊓ T := by
-  haveI := normal_inf_T_subgroupOf614 hTK hTs
+  have := normal_inf_T_subgroupOf614 hTK hTs
   have hTC : T ≤ Subgroup.normalizer (kerAct614 hTK : Set Γ) :=
     le_sup_right.trans (kerAct614_normal hTK)
   have hodd : ¬ 2 ∣ (kerAct614 hTK ⊓ T).relIndex (kerAct614 hTK) := by
@@ -307,7 +314,7 @@ private theorem sup_le_normalizer_inf_T614 (hTK : T ≤ Subgroup.normalizer (K :
 theorem mem_pCoreOf_of_kerAct614 (hTK : T ≤ Subgroup.normalizer (K : Set Γ))
     (hTs : IsSylowTwoOf T (K ⊔ T)) {c : Γ} (hc : c ∈ kerAct614 hTK) {m : ℕ}
     (hm : c ^ 2 ^ m = 1) : c ∈ pCoreOf 2 (K ⊔ T) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : kerAct614 hTK ⊓ T ≤ pCoreOf 2 (K ⊔ T) :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 (inf_le_right.trans le_sup_right)
       (sup_le_normalizer_inf_T614 hTK hTs) (hTs.2.1.to_le inf_le_right)
@@ -342,7 +349,7 @@ theorem mem_inf_of_two_elem_kerAct614 (hTK : T ≤ Subgroup.normalizer (K : Set 
   have hRN : (T ⊓ K) ⊔ (kerAct614 hTK ⊓ K) ≤
       Subgroup.normalizer ((T ⊓ K : Subgroup Γ) : Set Γ) :=
     sup_le Subgroup.le_normalizer hBQ
-  haveI : ((T ⊓ K).subgroupOf ((T ⊓ K) ⊔ (kerAct614 hTK ⊓ K))).Normal :=
+  have : ((T ⊓ K).subgroupOf ((T ⊓ K) ⊔ (kerAct614 hTK ⊓ K))).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hRN
   have hodd : ¬ 2 ∣ (T ⊓ K).relIndex ((T ⊓ K) ⊔ (kerAct614 hTK ⊓ K)) := by
     have h1 : (T ⊓ K).relIndex ((T ⊓ K) ⊔ (kerAct614 hTK ⊓ K)) =

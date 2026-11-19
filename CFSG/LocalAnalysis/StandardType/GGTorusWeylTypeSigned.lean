@@ -33,7 +33,7 @@ private lemma ggWTSgn_fin_ne_succ {k : ℕ} {i : Fin k} (hi : i.val + 1 < k) :
   intro hh
   have h2 : i.val = i.val + 1 := by
     have := congrArg Fin.val hh
-    simpa using this
+    simp at this
   omega
 
 private lemma ggWTSgn_isRefl_sgnAut {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {k : ℕ}
@@ -58,7 +58,7 @@ theorem ggTorusWeylTypeW_of_signedEltSC {p r : ℕ} {R : Type} [Group R] {I : Se
     (hIp : ∀ φ ∈ I, φ ^ p = 1 → φ ∈ Set.range (MulAut.conj : R →* MulAut R))
     (hcp : GGCenterPrime p R) (h : GGTorusSignedEltSC p R) : GGTorusWeylTypeW p r R I := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro L' _ _ ψ A hA
   obtain ⟨hψ, hker, hperf, hAe, hAI, hr, h3, hsc⟩ :=
     NbrTableBExc.ggTorusTBGroup_pow (I := I) hA
@@ -143,8 +143,8 @@ theorem ggTorusWeylTypeW_of_signedEltSC {p r : ℕ} {R : Type} [Group R] {I : Se
     intro i
     by_cases hi : i.val + 1 < k
     · rw [show g i = permAut (Equiv.swap i ⟨i.val + 1, hi⟩) from by
-        simp only [g, dif_pos hi], ggWTSgn_toPerm_permAut, spReflPerm_of_lt k p i hi]
-    · rw [show g i = sgnAut i from by simp only [g, dif_neg hi],
+        simp only [g, dite_eq_left hi], ggWTSgn_toPerm_permAut, spReflPerm_of_lt k p i hi]
+    · rw [show g i = sgnAut i from by simp only [g, dite_eq_right hi],
         ggWTSgn_toPerm_sgnAut, spReflPerm_of_not_lt k p i hi]
   have hg_mem : ∀ i, g i ∈ H := by
     intro i
@@ -154,10 +154,10 @@ theorem ggTorusWeylTypeW_of_signedEltSC {p r : ℕ} {R : Type} [Group R] {I : Se
     · refine Or.inr ⟨⟨(i, ⟨i.val + 1, hi⟩), ?_⟩, ?_⟩
       · exact ggWTSgn_fin_ne_succ hi
       · show permAut (Equiv.swap i ⟨i.val + 1, hi⟩) = g i
-        simp only [g, dif_pos hi]
+        simp only [g, dite_eq_left hi]
     · refine Or.inl ⟨i, ?_⟩
       show sgnAut i = g i
-      simp only [g, dif_neg hi]
+      simp only [g, dite_eq_right hi]
   have hf_simple : ∀ i, (f ((CoxeterMatrix.B k).simple i) : MulAut ↥A) = Φ (g i) := by
     intro i
     have hei : e ((CoxeterMatrix.B k).simple i) =
@@ -192,12 +192,12 @@ theorem ggTorusWeylTypeW_of_signedEltSC {p r : ℕ} {R : Type} [Group R] {I : Se
     rw [hf_simple i]
     by_cases hi : i.val + 1 < k
     · rw [show g i = permAut (Equiv.swap i ⟨i.val + 1, hi⟩) from by
-        simp only [g, dif_pos hi]]
+        simp only [g, dite_eq_left hi]]
       obtain ⟨n, hn, hnα⟩ := hP (Equiv.swap i ⟨i.val + 1, hi⟩)
       refine ⟨n, hn, hW n hn, hnα.symm, ?_⟩
       exact ggWTSgn_isRefl_permAut_swap hp hp2 Θ
         (ggWTSgn_fin_ne_succ hi)
-    · rw [show g i = sgnAut i from by simp only [g, dif_neg hi]]
+    · rw [show g i = sgnAut i from by simp only [g, dite_eq_right hi]]
       obtain ⟨n, hn, hnα⟩ := hS i
       refine ⟨n, hn, hW n hn, hnα.symm, ?_⟩
       exact ggWTSgn_isRefl_sgnAut hp hp2 Θ i

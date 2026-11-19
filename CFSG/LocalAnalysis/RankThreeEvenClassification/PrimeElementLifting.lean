@@ -24,7 +24,7 @@ theorem prime_power_element_lifts_surjective {G : Type u} {H : Type v}
   have hmem : member ∈ (targetSylow : Subgroup H) := htargetLe (Subgroup.mem_zpowers member)
   rw [← hsource, Sylow.coe_mapSurjective] at hmem
   obtain ⟨preimage, hpreimage, heq⟩ := hmem
-  obtain ⟨dimension, hcard⟩ := sourceSylow.isPGroup'.exists_card_eq
+  obtain ⟨dimension, hcard⟩ := sourceSylow.isPGroup.exists_card_eq
   have hinternalPower : (⟨preimage, hpreimage⟩ : (sourceSylow : Subgroup G)) ^ (prime ^ dimension) = 1 := by
     rw [← hcard]
     exact pow_card_eq_one'

@@ -50,7 +50,7 @@ private theorem mPow_one_psi_ne (h3 : 3 ≤ n) (hm : IsUnit m₀) :
 private theorem mPow_one_chi_ne (h3 : 3 ≤ n) (hk : IsUnit k₀) (hm : IsUnit m₀) :
     mPow k₀ m₀ 1 (chi k₀) ≠ -chi k₀ := by
   intro h
-  haveI := nontrivial_of_three_le h3
+  have := nontrivial_of_three_le h3
   have h1 := mPow_one_chi_add k₀ m₀
   rw [h, neg_add_cancel] at h1
   have h2 : mPow k₀ m₀ 1 (psi m₀) = 0 :=
@@ -136,7 +136,7 @@ private theorem sq_eq_two_of_chi_four (hT : 4 * k₀ * m₀ - 2 = T)
   exact sub_eq_zero.mp ((smul_chi_eq_zero_iff k₀ _).mp (smul_eq_zero_of_smul_mPow 2 h1.symm))
 
 private theorem one_ne_sq_two (h3 : 3 ≤ n) (h1 : T = 1) (h2 : T ^ 2 = 2) : False := by
-  haveI := nontrivial_of_three_le h3
+  have := nontrivial_of_three_le h3
   rw [h1] at h2
   exact one_ne_zero (by linear_combination -h2 : (1 : ZMod (2 ^ n - 1)) = 0)
 
@@ -179,7 +179,7 @@ private theorem mPow_three_of_T_one (hT : 4 * k₀ * m₀ - 2 = T) (h1 : T = 1) 
 
 private theorem T1_ne (hn : Odd n) (h3 : 3 ≤ n) (hT : 4 * k₀ * m₀ - 2 = T) (h1 : T = 1) :
     mPow k₀ m₀ 5 (chi k₀) ≠ -chi k₀ ∧ mPow k₀ m₀ 6 (chi k₀) ≠ -chi k₀ := by
-  haveI := nontrivial_of_three_le h3
+  have := nontrivial_of_three_le h3
   have h3' := mPow_three_of_T_one hT h1
   constructor
   · intro h
@@ -225,7 +225,7 @@ theorem pairs30_cases (hn : Odd n) (h3 : 3 ≤ n) {k₀ m₀ : ZMod (2 ^ n - 1)}
     ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ |
     ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ |
     ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
-  all_goals first | exact absurd hψ hψ1 | exact absurd hχ hχ1 | skip
+  all_goals try first | exact absurd hψ hψ1 | exact absurd hχ hχ1
   · exact Or.inl ⟨Or.inl rfl, T_eq_zero_of_psi_two hT hm hψ⟩
   · exact absurd hχ (hχ0 (T_eq_zero_of_psi_two hT hm hψ)).1
   · exact absurd hχ (hχ0 (T_eq_zero_of_psi_two hT hm hψ)).2.1

@@ -46,7 +46,7 @@ private theorem map_conj_eq_self_of_mem {G : Type} [Group G] {H : Subgroup G} {u
 private theorem isElemAbelian_map_conj {G : Type} [Group G] {E : Subgroup G} (u : G)
     (hE : CFSG.Open.IsElemAbelian 2 E) :
     CFSG.Open.IsElemAbelian 2 (E.map (MulAut.conj u).toMonoidHom) := by
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   refine ⟨inferInstance, ?_⟩
   rintro x hx
   obtain ⟨e, he, rfl⟩ := hx

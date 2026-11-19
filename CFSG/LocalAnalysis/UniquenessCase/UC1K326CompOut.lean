@@ -15,6 +15,7 @@ noncomputable def compOutHom (L : Subgroup G) [L.Normal] : G →* Outer ↥L :=
   (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner ↥L)).comp
     (MulAut.conjNormal (H := L))
 
+omit [Finite G] in
 theorem compOutHom_ker_le_sup (L : Subgroup G) [hLn : L.Normal] :
     (compOutHom L).ker ≤ L ⊔ Subgroup.centralizer (L : Set G) := by
   intro g hg
@@ -49,23 +50,25 @@ theorem compOutHom_ker_le_sup (L : Subgroup G) [hLn : L.Normal] :
   · exact hLn.conj_mem (l : G) l.2 (g * (l : G)⁻¹)
   · group
 
+omit [Finite G] in
 theorem compOutHom_ker_le {L : Subgroup G} [L.Normal] {M : Subgroup G} (hLM : L ≤ M)
     (hCM : Subgroup.centralizer (L : Set G) ≤ M) : (compOutHom L).ker ≤ M :=
   (compOutHom_ker_le_sup L).trans (sup_le hLM hCM)
 
+omit [Finite G] in
 theorem compOutHom_map_le_sylow {L : Subgroup G} [L.Normal] {S : Subgroup (Outer ↥L)}
     (hSN : S.Normal) (hSp : IsPGroup 3 S) (hSidx : ¬ 3 ∣ S.index)
     (hψP : IsPGroup 3 (P.map (compOutHom L))) : P.map (compOutHom L) ≤ S := by
-  haveI : Subgroup.Normal (hSp.toSylow hSidx : Subgroup (Outer ↥L)) := hSN
+  have : Subgroup.Normal (hSp.toSylow hSidx : Subgroup (Outer ↥L)) := hSN
   refine (hψP.sylow_mem_fixedPoints_iff (Q := hSp.toSylow hSidx)).mp ?_
   rw [MulAction.mem_fixedPoints]
   intro m
   exact Sylow.smul_eq_of_normal
 
 theorem comap_le_sup_ker_of_normal_sylow {H : Type} [Group H] (f : G →* H) {S : Subgroup H}
-    (hSN : S.Normal) (hSp : IsPGroup 3 S) (hSidx : ¬ 3 ∣ S.index) {P : Subgroup G}
+    (hSN : S.Normal) (hSp : IsPGroup 3 S) (_hSidx : ¬ 3 ∣ S.index) {P : Subgroup G}
     (hP : IsSylowOf 3 P ⊤) : S.comap f ≤ P ⊔ f.ker := by
-  haveI : S.Normal := hSN
+  have : S.Normal := hSN
   intro g hg
   have hPcard : Nat.card P = 3 ^ (Nat.card G).factorization 3 := by
     simpa [Subgroup.card_top] using hP.card_eq
@@ -91,9 +94,9 @@ theorem comp_top_of_le (hO : SL3Out) (h : Hyp326 G n P) {L : Subgroup G} (hLn : 
     (hS : IsSL3pi ↥L) {M : Subgroup G} (hPM : P ≤ M) (hLM : L ≤ M)
     (hCM : Subgroup.centralizer (L : Set G) ≤ M)
     (hNM : Subgroup.normalizer (P : Set G) ≤ M) : M = ⊤ := by
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   obtain ⟨S, hSN, hSp, hSidx⟩ := hO ↥L hS
-  haveI : S.Normal := hSN
+  have : S.Normal := hSN
   have hPS : P.map (compOutHom L) ≤ S :=
     compOutHom_map_le_sylow hSN hSp hSidx (h.sylow.isPGroup.map (compOutHom L))
   have hPN : P ≤ S.comap (compOutHom L) := Subgroup.map_le_iff_le_comap.mp hPS
@@ -104,7 +107,7 @@ theorem comp_top_of_le (hO : SL3Out) (h : Hyp326 G n P) {L : Subgroup G} (hLn : 
     simpa [Subgroup.card_top] using h.sylow.card_eq
   let QP : Sylow 3 G := Sylow.ofCard P hPcard
   have hPN' : (QP : Subgroup G) ≤ S.comap (compOutHom L) := hPN
-  haveI : Finite (Sylow 3 (S.comap (compOutHom L))) :=
+  have : Finite (Sylow 3 (S.comap (compOutHom L))) :=
     Sylow.finite_of_finiteIndex (default : Sylow 3 (S.comap (compOutHom L)))
   have hfrattini : Subgroup.normalizer (QP : Subgroup G) ⊔ S.comap (compOutHom L) = ⊤ :=
     Sylow.normalizer_sup_eq_top' QP hPN'

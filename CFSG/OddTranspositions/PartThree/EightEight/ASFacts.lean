@@ -18,18 +18,23 @@ open CFSG.Timmesfeld.Bridge.Asc72 CFSG.OddTranspositions.QZ
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem StandingAS.rad {hC : HypothesisC D} (h : StandingAS hC) :
     ∀ N : Subgroup G, N.Normal → Group.IsSolvable N → N = ⊥ := h.1
 
+omit [Finite G] in
 theorem StandingAS.not_isSolvable {hC : HypothesisC D} (h : StandingAS hC) :
     ¬ Group.IsSolvable (Halpha D hC.alpha) := h.2.2.1
 
+omit [Finite G] in
 theorem StandingAS.faithful {hC : HypothesisC D} (h : StandingAS hC) :
     FaithfulOnBlocks hC.alpha := h.2.2.2.1
 
+omit [Finite G] in
 theorem StandingAS.not_o4 {hC : HypothesisC D} (h : StandingAS hC) : ¬ O4PairData G D :=
   h.2.2.2.2.1
 
+omit [Finite G] in
 theorem StandingAS.derivedSeries_ne {hC : HypothesisC D} (h : StandingAS hC) :
     derivedSeries (Halpha D hC.alpha) 1 ≠ derivedSeries (Halpha D hC.alpha) 2 := by
   intro heq
@@ -42,37 +47,45 @@ theorem StandingAS.derivedSeries_ne {hC : HypothesisC D} (h : StandingAS hC) :
   classical
   exact if hp : p ∈ Halpha D ρ then QuotientGroup.mk' _ ⟨p, hp⟩ else 1
 
+omit [Finite G] in
 theorem starBar_of_mem {ρ : Set G} {p : G} (hp : p ∈ Halpha D ρ) :
     starBar D ρ p = QuotientGroup.mk' _ ⟨p, hp⟩ := by
   simp [starBar, hp]
 
+omit [Finite G] in
 theorem starBar_of_notMem {ρ : Set G} {p : G} (hp : p ∉ Halpha D ρ) : starBar D ρ p = 1 := by
   simp [starBar, hp]
 
+omit [Finite G] in
 @[simp] theorem starBar_coe {ρ : Set G} (p : Halpha D ρ) :
     starBar D ρ (p : G) = QuotientGroup.mk' _ p :=
   starBar_of_mem p.2
 
+omit [Finite G] in
 theorem starBar_mul {ρ : Set G} {p q : G} (hp : p ∈ Halpha D ρ) (hq : q ∈ Halpha D ρ) :
     starBar D ρ (p * q) = starBar D ρ p * starBar D ρ q := by
   rw [starBar_of_mem (Subgroup.mul_mem _ hp hq), starBar_of_mem hp, starBar_of_mem hq, ← map_mul]
   rfl
 
+omit [Finite G] in
 theorem starBar_inv {ρ : Set G} {p : G} (hp : p ∈ Halpha D ρ) :
     starBar D ρ p⁻¹ = (starBar D ρ p)⁻¹ := by
   rw [starBar_of_mem (Subgroup.inv_mem _ hp), starBar_of_mem hp, ← map_inv]
   rfl
 
+omit [Finite G] in
 theorem starBar_pow {ρ : Set G} {p : G} (hp : p ∈ Halpha D ρ) (k : ℕ) :
     starBar D ρ (p ^ k) = starBar D ρ p ^ k := by
   rw [starBar_of_mem (Subgroup.pow_mem _ hp k), starBar_of_mem hp, ← map_pow]
   rfl
 
+omit [Finite G] in
 theorem starBar_conj {ρ : Set G} {h p : G} (hh : h ∈ Halpha D ρ) (hp : p ∈ Halpha D ρ) :
     starBar D ρ (h * p * h⁻¹) = starBar D ρ h * starBar D ρ p * (starBar D ρ h)⁻¹ := by
   rw [starBar_mul (Subgroup.mul_mem _ hh hp) (Subgroup.inv_mem _ hh), starBar_mul hh hp,
     starBar_inv hh]
 
+omit [Finite G] in
 theorem starBar_commute {ρ : Set G} {p q : G} (hp : p ∈ Halpha D ρ) (hq : q ∈ Halpha D ρ)
     (h : Commute p q) : Commute (starBar D ρ p) (starBar D ρ q) := by
   rw [starBar_of_mem hp, starBar_of_mem hq]
@@ -83,11 +96,13 @@ theorem mem_Halpha_of_mem_DalphaStar {ρ : Set G} {p : G} (hp : p ∈ DalphaStar
     p ∈ Halpha D ρ :=
   Subgroup.subset_closure hp
 
+omit [Finite G] in
 theorem starBar_mem_imageClass (hC : HypothesisC D) {p : G} (hp : p ∈ DalphaStar D hC.alpha) :
     starBar D hC.alpha p ∈ imageClass hC := by
   rw [starBar_of_mem (mem_Halpha_of_mem_DalphaStar hp)]
   exact ⟨_, hp, rfl⟩
 
+omit [Finite G] in
 theorem exists_starBar_eq_of_mem_imageClass (hC : HypothesisC D)
     {a : Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)} (ha : a ∈ imageClass hC) :
     ∃ p ∈ DalphaStar D hC.alpha, starBar D hC.alpha p = a := by

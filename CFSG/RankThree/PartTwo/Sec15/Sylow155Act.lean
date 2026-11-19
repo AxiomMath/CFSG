@@ -227,6 +227,7 @@ theorem exists_mem_inf_rho_eq (hautE : ∀ σ, autE σ = MulAut.conjNormal σ)
 
 end PermLift
 
+omit [Finite G] in
 theorem nonempty_quot_equiv_img148 {A M W : Subgroup G} [(ker148 A M).Normal]
     (hWM : W ≤ M) [((pPrimeCoreOf 3 M).subgroupOf W).Normal] :
     Nonempty (↥W ⧸ (pPrimeCoreOf 3 M).subgroupOf W ≃* ↥(img148 A M W)) := by

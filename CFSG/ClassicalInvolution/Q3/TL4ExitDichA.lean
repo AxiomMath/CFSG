@@ -21,7 +21,7 @@ omit [Finite X] in
 theorem sylow_le_tightCore {R : Subgroup X} (S : Sylow 2 R) :
     (S : Subgroup R).map R.subtype ≤ tightCore R := by
   intro x hx
-  have hV : IsPGroup 2 ((S : Subgroup R).map R.subtype) := S.isPGroup'.map _
+  have hV : IsPGroup 2 ((S : Subgroup R).map R.subtype) := S.isPGroup.map _
   exact Subgroup.subset_closure ⟨Subgroup.map_subtype_le _ hx,
     hV.to_le (Subgroup.zpowers_le.mpr hx)⟩
 

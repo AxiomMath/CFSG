@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {Y : Type*} [Group Y] [Finite Y] {w : Y} {π : Y →* Perm (Fin 5)}
 
+omit [Finite Y] in
 theorem tableVII_cover_klein (hC : TableVIICover Y w π) {x : Y} (hx : x ∈ commutator Y)
     (hx2 : x ^ 2 = 1) (hx1 : x ≠ 1) (hxw : x ≠ w) :
     ∃ x₂ : Y, x₂ ∈ commutator Y ∧ x₂ ^ 2 = 1 ∧ x * x₂ = x₂ * x ∧ π x₂ ≠ 1 ∧ π x₂ ≠ π x := by

@@ -20,7 +20,7 @@ theorem tpta_isElemAbelian_map_ggInducedAut {L : Type} [Group L] {R : Type} [Gro
 theorem tpta_eq_zpowers_of_card_le {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {E : Subgroup G} {y : G} (hy : y ∈ E) (hy1 : y ≠ 1) (hE : IsElemAbelian p E)
     (hcard : Nat.card E ≤ p) : E = Subgroup.zpowers y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hyp : y ^ p = 1 := hE.2 y hy
   have hord : orderOf y = p := orderOf_eq_prime hyp hy1
   have hzy : Subgroup.zpowers y ≤ E := Subgroup.zpowers_le.mpr hy
@@ -77,13 +77,13 @@ theorem tpta_commutant_coordBlockSL_diag {K : Type} [Field K] {d : ℕ} {i₀ : 
       have hr : r ≠ i₀ := fun h => hrs (h.trans hs.symm)
       obtain ⟨i, hi, hir⟩ := hex r hr
       have h2 := hentry i r hi hr hir i i₀
-      rw [if_neg hr, if_pos rfl, mul_zero, one_mul] at h2
+      rw [ite_eq_right hr, ite_eq_left rfl, mul_zero, one_mul] at h2
       rw [hs]
       exact h2.symm
     ·
       obtain ⟨j, hj, hjs⟩ := hex s hs
       have h2 := hentry s j hs hj (Ne.symm hjs) r j
-      rw [if_pos rfl, if_neg hrs, mul_one, zero_mul] at h2
+      rw [ite_eq_left rfl, ite_eq_right hrs, mul_one, zero_mul] at h2
       exact h2
   have hdiag : ∀ i j, i ≠ i₀ → j ≠ i₀ → (h : Matrix (Fin d) (Fin d) K) i i =
       (h : Matrix (Fin d) (Fin d) K) j j := by
@@ -91,7 +91,7 @@ theorem tpta_commutant_coordBlockSL_diag {K : Type} [Field K] {d : ℕ} {i₀ : 
     by_cases hij : i = j
     · rw [hij]
     · have h2 := hentry i j hi hj hij i j
-      rw [if_pos rfl, if_pos rfl, mul_one, one_mul] at h2
+      rw [ite_eq_left rfl, ite_eq_left rfl, mul_one, one_mul] at h2
       exact h2
   refine ⟨?_, hdiag⟩
   ext r s
@@ -106,10 +106,10 @@ theorem tpta_fixing_coordBlockSL_le_zpowers
     {L' : Type} [Group L']
     {φ : SpecialLinearGroup (Fin d) K →* L'} (hφs : Function.Surjective φ)
     (hφker : ∀ g, φ g = 1 → g ∈ scalars d K)
-    {A : Subgroup (MulAut L')} (hA : IsElemAbelian p A)
-    {a : MulAut L'} (ha : a ∈ A)
+    {A : Subgroup (MulAut L')} (_hA : IsElemAbelian p A)
+    {a : MulAut L'} (_ha : a ∈ A)
     {i₀ : Fin d} {t : Fin d → K}
-    (ht0 : ∀ j, j ≠ i₀ → t j ≠ t i₀) (ht1 : ∀ i j, i ≠ i₀ → j ≠ i₀ → t i = t j)
+    (_ht0 : ∀ j, j ≠ i₀ → t j ≠ t i₀) (ht1 : ∀ i j, i ≠ i₀ → j ≠ i₀ → t i = t j)
     {D : SpecialLinearGroup (Fin d) K}
     (hD : (D : Matrix (Fin d) (Fin d) K) = diagonal t) (hDp : D ^ p = 1)
     (hact : ∀ s, a (φ s) = φ (D * s * D⁻¹))
@@ -153,7 +153,7 @@ theorem tpta_fixing_coordBlockSL_le_zpowers
     exact zero_ne_one h1
   have hkt' : (t' i₀ / t' j₁) ^ p = 1 := by
     rw [div_pow, ht'p, ht'p, div_one]
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨k, -, hk⟩ := hprim.eq_pow_of_pow_eq_one hkt'
   have hc : ∀ i, t' i = (t' j₁ / (t j₁) ^ k) * t i ^ k := by
     intro i
@@ -165,7 +165,6 @@ theorem tpta_fixing_coordBlockSL_le_zpowers
       rw [div_pow]
       field_simp
     · rw [hconst i j₁ hi hj₁, ht1 i j₁ hi hj₁]
-      change t' j₁ = (t' j₁ / t j₁ ^ k) * t j₁ ^ k
       field_simp
   have hDk : ((D ^ k : SpecialLinearGroup (Fin d) K) : Matrix (Fin d) (Fin d) K) =
       diagonal (fun i => t i ^ k) := by

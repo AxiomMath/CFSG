@@ -28,14 +28,14 @@ theorem center_eq_bot_of_quot_psp_even
     (e : Y ⧸ Subgroup.center Y ≃* LargeEvenProj (LargeEvenSpGroup K m)) :
     Subgroup.center Y = ⊥ := by
   classical
-  haveI : Group.IsPerfect Y := ⟨hY⟩
+  have : Group.IsPerfect Y := ⟨hY⟩
   let q := CFSG.RankThree.PerfectCover.centralQuotientMap e
   have hq : Function.Surjective q := CFSG.RankThree.PerfectCover.centralQuotientMap_surjective e
   have hk : q.ker = Subgroup.center Y := CFSG.RankThree.PerfectCover.centralQuotientMap_ker e
-  haveI : Finite (LargeEvenProj (LargeEvenSpGroup K m)) := Finite.of_surjective q hq
-  haveI : Group.IsPerfect (LargeEvenProj (LargeEvenSpGroup K m)) :=
+  have : Finite (LargeEvenProj (LargeEvenSpGroup K m)) := Finite.of_surjective q hq
+  have : Group.IsPerfect (LargeEvenProj (LargeEvenSpGroup K m)) :=
     Group.IsPerfect.ofSurjective (f := q) hq
-  haveI : Finite (CFSG.RankThree.PerfectCover.hopfMultiplier
+  have : Finite (CFSG.RankThree.PerfectCover.hopfMultiplier
       (LargeEvenProj (LargeEvenSpGroup K m))) :=
     CFSG.RankThree.PerfectCover.finite_hopfMultiplier inferInstance
   let ψ : CFSG.Open.griessHopfMultiplier (LargeEvenProj (LargeEvenSpGroup K m)) →* q.ker :=
@@ -151,7 +151,7 @@ theorem prime_le_card_inf_centralizer {G : Type} [Group G] [Finite G] {p : ℕ} 
     {Bs X : Subgroup G} (hBs : IsElemAbelian p Bs) {z : G} (hz : z ∈ Bs) (hz1 : z ≠ 1)
     (hzX : z ∈ Subgroup.centralizer (X : Set G)) :
     p ≤ Nat.card ↥(Bs ⊓ Subgroup.centralizer (X : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hzo : orderOf z = p := orderOf_eq_prime (hBs.2 z hz) hz1
   have hle : Subgroup.zpowers z ≤ Bs ⊓ Subgroup.centralizer (X : Set G) :=
     (Subgroup.zpowers_le).mpr ⟨hz, hzX⟩
@@ -194,7 +194,7 @@ theorem exists_spPlus_model_of_marking
     by_contra h0
     have h0' : nf = 0 := by omega
     have h2 : 2 ≤ Nat.card Kf := by
-      haveI : Fintype Kf := Fintype.ofFinite Kf
+      have : Fintype Kf := Fintype.ofFinite Kf
       rw [Nat.card_eq_fintype_card]
       exact Fintype.one_lt_card
     rw [hKf, h0', pow_zero] at h2
@@ -217,7 +217,7 @@ theorem GGResHyp.bstar_eq_of_spPlus_L
   obtain ⟨m, Kf, _, _, _, hN, ψ₀, hm4, hpq, _hZ, hTB⟩ :=
     exists_spPlus_model_of_marking hp hp2 hmark
       (fun _ _ θ _ hN hBsI _ hlift hXc => ggTorusTBGroup_of_L hcfg hXc θ hN hBsI hlift)
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   exact (ggTBJ_sp_bstar_eq hp hp2 hcfg L hN hpq ψ₀ hTB).symm
 
 theorem ggTBJLeft_spPlus_sideDatum_of_marking
@@ -294,7 +294,7 @@ theorem ggTBJLeft_spPlus_sideDatum_of_marking
       Nat.card ↥(ggGamma L hN).range := by
     rw [iInf_stabilizer_subgroupOf_eq_ggFixingJ]
     exact ggTBJ_card_fixingJ_mul_le hcfg hN
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hEq : Bs = B := ggTBJ_sp_bstar_eq hp hp2 hcfg L hN hpq ψ₀ hTB
   have hCJ : Nat.card ↥(Bs ⊓ Subgroup.centralizer (J : Set G)) ≤ p ^ 2 := by
     rw [hH.iOne_of_eq_bstar hEq.symm, hDcard]

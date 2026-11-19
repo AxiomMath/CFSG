@@ -33,6 +33,7 @@ section Prod
 variable {K : Type} [Field K] [Finite K] {W₁ W₂ : Type} [AddCommGroup W₁] [Module K W₁]
   [FiniteDimensional K W₁] [AddCommGroup W₂] [Module K W₂] [FiniteDimensional K W₂]
 
+omit [FiniteDimensional K W₂] in
 theorem lifted_left {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 5 ^ f)
     (Q₁ : QuadraticForm K W₁) (hQ₁ : Q₁.polarBilin.Nondegenerate) (Q₂ : QuadraticForm K W₂)
     {G : Type} [Group G] (e : G ≃* (↥(TauCeti.QuadraticMap.orthogonalGroup Q₁) ×
@@ -115,7 +116,7 @@ theorem liftedLitUnique_orthogonalOperatorCentralizer {f : ℕ} (hf : 1 ≤ f) {
     rw [hK]
     exact (Nat.prime_five.odd_of_ne_two (by norm_num)).pow
   have h2 : (2 : K) ≠ 0 := CatalogueBOddQuadratic.two_ne_zero_of_odd_card hodd
-  letI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  let : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   obtain ⟨hsign, -, hsq, hnsq⟩ :=
     CatalogueBOrthogonalScalarSquareStructure.scalar_square_centralizer_structure 5 f
       Nat.prime_five (by norm_num) hf hK (by omega) Q hQ A d μ hsquare hsim hnonscalar
@@ -124,7 +125,7 @@ theorem liftedLitUnique_orthogonalOperatorCentralizer {f : ℕ} (hf : 1 ≤ f) {
     obtain ⟨r, hr⟩ := hsqd
     have hr0 : r ≠ 0 := by
       rintro rfl
-      exact d.ne_zero (by simpa using hr)
+      exact d.ne_zero (by simp at hr)
     obtain ⟨b, hb⟩ : ∃ b : Kˣ, (d : K) = (b : K) ^ 2 :=
       ⟨Units.mk0 r hr0, by rw [hr, sq]; rfl⟩
     obtain ⟨hcompl, hpne, hnne, hpos, hneg⟩ := hsq b hb
@@ -182,10 +183,10 @@ theorem liftedLitUnique_orthogonalOperatorCentralizer {f : ℕ} (hf : 1 ≤ f) {
       omega
   ·
     have hs := CatalogueBOrthogonalScalarSquareStructure.original_endomorphism_square A d hsquare
-    letI := scalarField A.toLinearMap d hsqd hs
-    letI := evaluationModule A.toLinearMap
-    haveI := scalarAlgebra_finite_type A.toLinearMap d hsqd hs
-    haveI := evaluationModule_finite A.toLinearMap
+    let := scalarField A.toLinearMap d hsqd hs
+    let := evaluationModule A.toLinearMap
+    have := scalarAlgebra_finite_type A.toLinearMap d hsqd hs
+    have := evaluationModule_finite A.toLinearMap
     have hE : Nat.card (scalarAlgebra A.toLinearMap) = (5 ^ f) ^ 2 := by
       rw [scalarAlgebra_card A.toLinearMap d hsqd hs, hK]
     have hdimE := evaluationModule_finrank A.toLinearMap d hsqd hs

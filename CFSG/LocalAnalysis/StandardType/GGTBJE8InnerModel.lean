@@ -53,8 +53,8 @@ theorem ggE8_inner_model
     exact hxpow_center
   have hn1 : 1 ≤ n := hΛ.1
   have hn0 : n ≠ 0 := Nat.one_le_iff_ne_zero.mp hn1
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 n) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 n) := Fintype.ofFinite _
   let σ : K ≃+* GaloisField 2 n :=
     FiniteField.ringEquivOfCardEq (by
       have h1 : Nat.card K = Nat.card (GaloisField 2 n) := by

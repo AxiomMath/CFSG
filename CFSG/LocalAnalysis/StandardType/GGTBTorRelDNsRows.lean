@@ -97,13 +97,13 @@ theorem torData_of_relFrame {F V : Type} [Field F] [Finite F] [CharP F 2] [AddCo
     GGTorusTorData (Nat.card F + 1) (ℓ - 1) (CartanMatrix.B (ℓ - 1)) (CoxeterMatrix.B (ℓ - 1))
       ↥(orthDerived Q) (E.map (MulAut.conj : ↥(orthDerived Q) →* MulAut ↥(orthDerived Q))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, e, u, c, t, f, f', hF, hf, hf', hQf, hQf', hff'⟩ :=
     exists_relFrame hQ hp hp2 hpq hdim hℓ hS hE hsc
   have hk : 0 < ℓ - 1 := by omega
-  haveI : Fact (Irreducible (OmNsRootGen.framePoly t)) := ⟨framePoly_irreducible hF ⟨0, hk⟩⟩
+  have : Fact (Irreducible (OmNsRootGen.framePoly t)) := ⟨framePoly_irreducible hF ⟨0, hk⟩⟩
   have hM : Odd (Nat.card F + 1) := by
-    letI := Fintype.ofFinite F
+    let := Fintype.ofFinite F
     have h2 : 2 ∣ Nat.card F := by
       rw [Nat.card_eq_fintype_card]
       exact (CharP.cast_eq_zero_iff F 2 _).mp (FiniteField.cast_card_eq_zero (K := F))
@@ -127,13 +127,13 @@ theorem torData_of_relFrame {F V : Type} [Field F] [Finite F] [CharP F 2] [AddCo
     (orderOf_rootNormOne hF ⟨0, hk⟩) w ?_ ?_ ?_ ?_ ?_
   ·
     intro k hk x
-    simp only [w, dif_pos hk]
+    simp only [w, dite_eq_left hk]
     exact frameSwap_conj_frameTorusFull hF hQ hT hdim (by omega)
       (fun h => by simpa using congrArg Fin.val h) x
   ·
     intro k hk x
     have hk' : ¬ k.val + 1 < ℓ - 1 := by omega
-    simp only [w, dif_neg hk']
+    simp only [w, dite_eq_right hk']
     exact signChange_conj_frameTorusFull hF hQ hT hv hQv k x
   ·
     intro g hc x
@@ -236,9 +236,9 @@ theorem largeEvenLabelAll_relD_D_ns {p n ℓ : ℕ} (hp : p.Prime) (hp2 : p ≠ 
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   simp only [h3, ↓reduceIte] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQ'⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card (m := n) hK
+  have : CharP K 2 := charP_two_of_card (m := n) hK
   have hM : ggTorMpm p ⟨.D, ℓ, n⟩ = Nat.card K + 1 := by
-    rw [ggTorMpm, if_neg (not_dvd_two_pow_sub_one_of_dvd_add_one hp hp2 hpn), hK]
+    rw [ggTorMpm, ite_eq_right (not_dvd_two_pow_sub_one_of_dvd_add_one hp hp2 hpn), hK]
   refine ⟨K, i1, i2, hK, hQ', ?_⟩
   rw [hM]
   exact RelDNs.ggTorusTorW_relDNs_plus hK hn1 hp hp2 (by rw [hK]; exact hpn) hℓ hodd
@@ -254,9 +254,9 @@ theorem largeEvenLabelAll_relD_twD_ns {p n ℓ : ℕ} (hp : p.Prime) (hp2 : p �
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   simp only [h2, h3, ↓reduceIte] at hQ ⊢
   obtain ⟨K, i1, i2, hK, b, c, hirr, hQ'⟩ := hQ
-  haveI : CharP K 2 := charP_two_of_card (m := n) hK
+  have : CharP K 2 := charP_two_of_card (m := n) hK
   have hM : ggTorMpm p ⟨.twD, ℓ, n⟩ = Nat.card K + 1 := by
-    rw [ggTorMpm, if_neg (not_dvd_two_pow_sub_one_of_dvd_add_one hp hp2 hpn), hK]
+    rw [ggTorMpm, ite_eq_right (not_dvd_two_pow_sub_one_of_dvd_add_one hp hp2 hpn), hK]
   refine ⟨K, i1, i2, hK, b, c, hirr, hQ', ?_⟩
   rw [hM]
   exact RelDNs.ggTorusTorW_relDNs_minus hK hn1 hp hp2 (by rw [hK]; exact hpn) (by omega)

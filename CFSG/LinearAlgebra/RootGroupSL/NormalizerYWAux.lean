@@ -34,24 +34,31 @@ variable {k E X : Type} [Field k] [Field E] [Algebra k E] [AddCommGroup X] [Modu
         c • (((e, (0 : X), (0 : E)) : DSpace E X)) := by ext <;> simp
     rw [h, map_smul]; rfl
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 theorem mem_flagK_iff {v : DSpace E X} : v ∈ flagK k E X ↔ v.2.2 = 0 :=
   Iff.rfl
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 theorem mem_flagW_iff {v : DSpace E X} : v ∈ flagW k E X ↔ v.2 = 0 :=
   Iff.rfl
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 @[simp] theorem yMap_apply (g : DSpace E X ≃ₗ[k] DSpace E X) (b : E) :
     yMap g b = (g (0, 0, b)).2.2 := rfl
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 @[simp] theorem wMap_apply (g : DSpace E X ≃ₗ[k] DSpace E X) (e : E) :
     wMap g e = (g (e, 0, 0)).1 := rfl
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 theorem yMap_one : yMap (1 : DSpace E X ≃ₗ[k] DSpace E X) = LinearMap.id := by
   ext b; simp
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 theorem wMap_one : wMap (1 : DSpace E X ≃ₗ[k] DSpace E X) = LinearMap.id := by
   ext e; simp
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 theorem yMap_mul {u v : DSpace E X ≃ₗ[k] DSpace E X}
     (hu : ∀ w : DSpace E X, w.2.2 = 0 → (u w).2.2 = 0) :
     yMap (u * v) = (yMap u).comp (yMap v) := by
@@ -70,6 +77,7 @@ theorem yMap_mul {u v : DSpace E X ≃ₗ[k] DSpace E X}
     _ = (u (0, 0, (v (0, 0, b)).2.2)).2.2 + 0 := by rw [h]
     _ = ((yMap u).comp (yMap v)) b := by simp [LinearMap.comp_apply]
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 theorem wMap_mul {u v : DSpace E X ≃ₗ[k] DSpace E X}
     (hv : ∀ w : DSpace E X, w ∈ flagW k E X → v w ∈ flagW k E X) :
     wMap (u * v) = (wMap u).comp (wMap v) := by
@@ -87,24 +95,29 @@ theorem wMap_mul {u v : DSpace E X ≃ₗ[k] DSpace E X}
 @[expose] def PreservesK (u : DSpace E X ≃ₗ[k] DSpace E X) : Prop :=
   ∀ w : DSpace E X, w ∈ flagK k E X → u w ∈ flagK k E X
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 theorem preservesK_coord {u : DSpace E X ≃ₗ[k] DSpace E X} (hu : PreservesK u) :
     ∀ w : DSpace E X, w.2.2 = 0 → (u w).2.2 = 0 := fun w hw =>
   mem_flagK_iff.mp (hu w (mem_flagK_iff.mpr hw))
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 theorem preservesK_of_mem_normalizer {g : SpecialLinearGroup k (DSpace E X)}
     (hg : g ∈ Subgroup.normalizer (rootSL k E X : Set (SpecialLinearGroup k (DSpace E X)))) :
     PreservesK g.toLinearEquiv := fun v hv =>
   (mem_flagK_iff_of_mem_normalizer hg v).mpr hv
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 theorem preservesW_of_mem_normalizer {g : SpecialLinearGroup k (DSpace E X)}
     (hg : g ∈ Subgroup.normalizer (rootSL k E X : Set (SpecialLinearGroup k (DSpace E X)))) : ∀ w : DSpace E X, w ∈ flagW k E X → g.toLinearEquiv w ∈ flagW k E X :=
   fun v hv =>
   (mem_flagW_iff_of_mem_normalizer hg v).mpr hv
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 theorem rootEquiv_sub (t : E) (w : DSpace E X) :
     rootEquiv k X t w - w = (t * w.2.2, 0, 0) := by
   ext <;> simp [rootEquiv, shearE, LinearMap.mulLeft_apply]
 
+omit [Finite k] [CharP k 2] in
 theorem exists_linearEquiv_det_eq [Finite k] (hX : 0 < Module.finrank k X) (u : kˣ) :
     ∃ g : X ≃ₗ[k] X, LinearEquiv.det g = u := by
   classical
@@ -112,7 +125,7 @@ theorem exists_linearEquiv_det_eq [Finite k] (hX : 0 < Module.finrank k X) (u : 
   let ι := Module.Basis.ofVectorSpaceIndex k X
   have hcard : 0 < Fintype.card ι := by
     rw [← Module.finrank_eq_card_basis b]; exact hX
-  haveI : Nonempty ι := Fintype.card_pos_iff.mp hcard
+  have : Nonempty ι := Fintype.card_pos_iff.mp hcard
   let i₀ : ι := Classical.arbitrary ι
   let w : ι → kˣ := fun i => if i = i₀ then u else 1
   refine ⟨b.equiv (b.unitsSMul w) (Equiv.refl ι), ?_⟩
@@ -134,19 +147,21 @@ theorem exists_linearEquiv_det_eq [Finite k] (hX : 0 < Module.finrank k X) (u : 
     have h := Finset.prod_eq_single (s := Finset.univ) i₀
       (fun b _ hb => by
         change (((if b = i₀ then u else 1 : kˣ)) : k) = 1
-        rw [if_neg hb]
+        rw [ite_eq_right hb]
         rfl)
       (fun h => absurd (Finset.mem_univ i₀) h)
     simpa [w] using h
   exact hprod
 
-@[expose] abbrev NN : Subgroup (SpecialLinearGroup k (DSpace E X)) :=
+abbrev NN : Subgroup (SpecialLinearGroup k (DSpace E X)) :=
   Subgroup.normalizer (rootSL k E X : Set (SpecialLinearGroup k (DSpace E X)))
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 theorem pCoreOf_le_ambient (p : ℕ) (H : Subgroup (SpecialLinearGroup k (DSpace E X))) :
     pCoreOf p H ≤ H :=
   Subgroup.map_subtype_le _
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 theorem le_normalizer_pCoreOf (p : ℕ)
     (H : Subgroup (SpecialLinearGroup k (DSpace E X))) :
     H ≤ Subgroup.normalizer (pCoreOf p H : Set (SpecialLinearGroup k (DSpace E X))) := by
@@ -162,6 +177,7 @@ theorem le_normalizer_pCoreOf (p : ℕ)
     have h := hforward g⁻¹ (H.inv_mem hg) (g * x * g⁻¹) hx
     rwa [show g⁻¹ * (g * x * g⁻¹) * (g⁻¹)⁻¹ = x from by group] at h⟩
 
+omit [Finite E] in
 theorem eq_one_of_pow_two_pow_eq_one [CharP E 2] {x : E} {n : ℕ}
     (h : x ^ 2 ^ n = 1) : x = 1 := by
   have h2 : (x + 1) ^ 2 ^ n = 0 := by
@@ -171,18 +187,21 @@ theorem eq_one_of_pow_two_pow_eq_one [CharP E 2] {x : E} {n : ℕ}
   rw [← CharTwo.add_self_eq_zero (1 : E)] at h3
   exact add_right_cancel h3
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 theorem yMap_mul_mem {u v : SpecialLinearGroup k (DSpace E X)}
-    (hu : u ∈ NN) (hv : v ∈ NN) :
+    (hu : u ∈ NN) (_hv : v ∈ NN) :
     yMap (u.toLinearEquiv * v.toLinearEquiv) =
       (yMap u.toLinearEquiv).comp (yMap v.toLinearEquiv) :=
   yMap_mul (hu := preservesK_coord (preservesK_of_mem_normalizer hu))
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 theorem wMap_mul_mem {u v : SpecialLinearGroup k (DSpace E X)}
-    (hu : u ∈ NN) (hv : v ∈ NN) :
+    (_hu : u ∈ NN) (hv : v ∈ NN) :
     wMap (u.toLinearEquiv * v.toLinearEquiv) =
       (wMap u.toLinearEquiv).comp (wMap v.toLinearEquiv) :=
   wMap_mul (hv := preservesW_of_mem_normalizer hv)
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 theorem yMap_pow_mem {u : SpecialLinearGroup k (DSpace E X)} (hu : u ∈ NN) (n : ℕ) :
     yMap ((u ^ n).toLinearEquiv) = (yMap u.toLinearEquiv) ^ n := by
   induction n with
@@ -191,6 +210,7 @@ theorem yMap_pow_mem {u : SpecialLinearGroup k (DSpace E X)} (hu : u ∈ NN) (n 
       rw [pow_succ', map_mul, yMap_mul_mem hu (Subgroup.pow_mem _ hu n), ih, pow_succ']
       rfl
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 theorem wMap_pow_mem {u : SpecialLinearGroup k (DSpace E X)} (hu : u ∈ NN) (n : ℕ) :
     wMap ((u ^ n).toLinearEquiv) = (wMap u.toLinearEquiv) ^ n := by
   induction n with
@@ -199,9 +219,11 @@ theorem wMap_pow_mem {u : SpecialLinearGroup k (DSpace E X)} (hu : u ∈ NN) (n 
       rw [pow_succ', map_mul, wMap_mul_mem hu (Subgroup.pow_mem _ hu n), ih, pow_succ']
       rfl
 
+omit [Finite k] [Finite E] [CharP k 2] in
 theorem mulLeft_one' : LinearMap.mulLeft k (1 : E) = LinearMap.id := by
-  ext x; simp [LinearMap.mulLeft_apply]
+  ext x; simp
 
+omit [Finite k] [Finite E] [CharP k 2] in
 theorem mulLeft_pow (s : E) (n : ℕ) :
     (LinearMap.mulLeft k s) ^ n = LinearMap.mulLeft k (s ^ n) := by
   induction n with
@@ -210,6 +232,7 @@ theorem mulLeft_pow (s : E) (n : ℕ) :
       rw [pow_succ', pow_succ', ih, LinearMap.mulLeft_mul]
       rfl
 
+omit [Finite k] [CharP k 2] in
 theorem wMap_conj_yMap {g : SpecialLinearGroup k (DSpace E X)} (hg : g ∈ NN) (t : E) :
     ∃ s : E, wMap g.toLinearEquiv ∘ₗ LinearMap.mulLeft k t ∘ₗ
       yMap ((g⁻¹ : SpecialLinearGroup k (DSpace E X)).toLinearEquiv) = LinearMap.mulLeft k s := by
@@ -229,17 +252,17 @@ theorem wMap_conj_yMap {g : SpecialLinearGroup k (DSpace E X)} (hg : g ∈ NN) (
       (g : DSpace E X ≃ₗ[k] DSpace E X)
         (rootEquiv k X t ((g⁻¹ : DSpace E X ≃ₗ[k] DSpace E X) ((0, 0, b) : DSpace E X))) := by
     change (g * rootElt k X t * g⁻¹ : DSpace E X ≃ₗ[k] DSpace E X) ((0, 0, b) : DSpace E X) = _
-    simp [map_mul, rootElt]
+    simp [rootElt]
   rw [h2] at h1
   have happ : (g : DSpace E X ≃ₗ[k] DSpace E X)
       ((g⁻¹ : DSpace E X ≃ₗ[k] DSpace E X) ((0, 0, b) : DSpace E X)) =
       ((0, 0, b) : DSpace E X) := by
     have h : (g : DSpace E X ≃ₗ[k] DSpace E X) *
         (g⁻¹ : DSpace E X ≃ₗ[k] DSpace E X) = 1 := by
-      simpa using mul_inv_cancel (g : DSpace E X ≃ₗ[k] DSpace E X)
+      simp
     have := congrArg (fun f : DSpace E X ≃ₗ[k] DSpace E X =>
       f ((0, 0, b) : DSpace E X)) h
-    simpa using this
+    simp
   have h3 : (g : DSpace E X ≃ₗ[k] DSpace E X)
       ((rootEquiv k X t ((g⁻¹ : DSpace E X ≃ₗ[k] DSpace E X) ((0, 0, b) : DSpace E X))) -
         (g⁻¹ : DSpace E X ≃ₗ[k] DSpace E X) ((0, 0, b) : DSpace E X)) =
@@ -250,6 +273,7 @@ theorem wMap_conj_yMap {g : SpecialLinearGroup k (DSpace E X)} (hg : g ∈ NN) (
   have h4 := congrArg Prod.fst h3
   simpa [wMap, yMap, LinearMap.mulLeft_apply] using h4
 
+omit [Finite k] [CharP k 2] in
 theorem yMap_conj {g : SpecialLinearGroup k (DSpace E X)} (hg : g ∈ NN) (t : E) :
     ∃ s : E, yMap g.toLinearEquiv ∘ₗ LinearMap.mulLeft k t ∘ₗ
       yMap ((g⁻¹ : SpecialLinearGroup k (DSpace E X)).toLinearEquiv) = LinearMap.mulLeft k s := by

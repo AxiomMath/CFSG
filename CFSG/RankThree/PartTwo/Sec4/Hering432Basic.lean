@@ -20,7 +20,7 @@ theorem exists_sylow_ge_le_normalizer_aux {Z : Subgroup L} (hZ3 : Nat.card Z = 3
   have hZsub : IsPGroup 3 (Z.subgroupOf (Subgroup.normalizer (Z : Set L))) := by
     apply IsPGroup.of_card (n := 1)
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZN).toEquiv, hZ3, pow_one]
-  haveI hZnorm : (Z.subgroupOf (Subgroup.normalizer (Z : Set L))).Normal :=
+  have hZnorm : (Z.subgroupOf (Subgroup.normalizer (Z : Set L))).Normal :=
     ⟨fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact ((hmemN (g : L)).mp g.2 (n : L)).mp hn⟩
@@ -50,7 +50,7 @@ theorem exists_sylow_ge_le_normalizer_aux {Z : Subgroup L} (hZ3 : Nat.card Z = 3
     intro g hg
     rw [← h] at hg
     exact ((hRmem g).mp hg).2
-  haveI : Group.IsNilpotent ↥(P : Subgroup L) := IsPGroup.isNilpotent P.isPGroup'
+  have : Group.IsNilpotent ↥(P : Subgroup L) := IsPGroup.isNilpotent P.isPGroup
   have hnc : NormalizerCondition ↥(P : Subgroup L) :=
     Group.normalizerCondition_of_isNilpotent
   have hnc' : ∀ H : Subgroup ↥(P : Subgroup L), H < ⊤ →
@@ -58,7 +58,7 @@ theorem exists_sylow_ge_le_normalizer_aux {Z : Subgroup L} (hZ3 : Nat.card Z = 3
   have hH'top : R.subgroupOf (P : Subgroup L) < ⊤ := by
     refine lt_of_le_of_ne le_top (fun h => ?_)
     exact lt_irrefl R (lt_of_lt_of_le hRP (Subgroup.subgroupOf_eq_top.mp h))
-  obtain ⟨g', hg'N, hg'H⟩ := SetLike.exists_of_lt (hnc' _ hH'top)
+  obtain ⟨g', hg'N, hg'H⟩ := _root_.IsConcreteLE.exists_of_lt (hnc' _ hH'top)
   have hgR : ∀ z ∈ Z, (g' : L) * z * (g' : L)⁻¹ ∈ R := by
     intro z hz
     have hzP : z ∈ (P : Subgroup L) := hZP hz
@@ -158,7 +158,7 @@ theorem exists_sylow_le_center_of_weaklyClosed {Z : Subgroup L} (hZ3 : Nat.card 
             _ = p ^ 2 * x⁻¹ * (p ^ 2)⁻¹ := by rw [ih]
             _ = (p ^ 2 * x * (p ^ 2)⁻¹)⁻¹ := by group
             _ = x⁻¹ := by rw [hsq]
-      obtain ⟨m, hm⟩ := isPGroup_iff_pow_pow_eq_one.mp P.isPGroup' ⟨p, hp⟩
+      obtain ⟨m, hm⟩ := isPGroup_iff_pow_pow_eq_one.mp P.isPGroup ⟨p, hp⟩
       have hpm : p ^ 3 ^ m = 1 := by
         have := congrArg Subtype.val hm
         simpa using this

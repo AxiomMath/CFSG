@@ -108,7 +108,7 @@ theorem xMatAdj_mul_xMat (x z : F) :
 theorem exists_sq_sub_mul_add_sq_eq_neg_one {K : Type*} [Field K] [Finite K]
     (h2 : (2 : K) ≠ 0) (h3 : (3 : K) ≠ 0) : ∃ x z : K, x ^ 2 - x * z + z ^ 2 = -1 := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hchar : ringChar K ≠ 2 := by
     intro h
     apply h2

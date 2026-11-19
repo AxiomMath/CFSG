@@ -18,7 +18,7 @@ variable {K : Type} [Field K] {X : Type} [Group X]
   ∀ a : Kˣ, β (xd a) * (xd (a ^ 2 ^ i))⁻¹ ∈ U
 
 theorem uc22pwI3PF_one (xd : Kˣ →* X) (U : Subgroup X) : uc22pwI3PF xd U 1 0 := fun a => by
-  simp [uc22pwI3PF]
+  simp
 
 theorem uc22pwI3PF_mul {xd : Kˣ →* X} {U : Subgroup X} {β₁ β₂ : MulAut X} (hβ₁ : ∀ u ∈ U, β₁ u ∈ U)
     {i₁ i₂ : ℕ} (h₁ : uc22pwI3PF xd U β₁ i₁) (h₂ : uc22pwI3PF xd U β₂ i₂) :
@@ -72,11 +72,11 @@ variable {K : Type} [Field K]
 theorem uc22pwI3_Ep_units [Finite K] {d : ℕ} (hd : Squarefree d) (R : Subgroup Kˣ)
     (hR : ∀ x ∈ R, x ^ d = 1) (hodd : Odd (Nat.card R)) : uc22pwI2Ep Kˣ R := by
   refine ⟨inferInstance, hodd, fun p hp => ?_⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Q : Sylow p R := default
   have hexp : ∀ x ∈ (Q : Subgroup R), x ^ p = 1 := by
     intro x hx
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup') ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup) ⟨x, hx⟩
     have hk' : orderOf x = p ^ k := by rwa [Subgroup.orderOf_mk] at hk
     have hxd : x ^ d = 1 := Subtype.ext (hR x x.2)
     have hdvd : p ^ k ∣ d := hk' ▸ orderOf_dvd_of_pow_eq_one hxd
@@ -144,7 +144,7 @@ theorem uc22pwI3_concl_of_isSL3G {X : Type} [Group X] [Finite X] (hq : CFSG.Open
     show {p | p.Prime ∧ p ∣ Nat.card ↥(R.map xd)} = {p | p.Prime ∧ p ∣ 2 ^ n - 1}
     rw [Subgroup.card_map_of_injective hinj]
     ext p
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hp, hd⟩
       exact ⟨hp, hcardK ▸ (hRprimes p hp).1 hd⟩

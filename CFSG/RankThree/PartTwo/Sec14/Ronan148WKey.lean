@@ -102,6 +102,7 @@ section Quot
 
 variable {L : Subgroup G}
 
+omit [Finite G] in
 theorem mk_eq_mk_of_mem_theta [((inSubgroup (aschbacherSolvableCore 3) L).subgroupOf
       (Subgroup.normalizer (L : Set G))).Normal]
     {g h : ↥(Subgroup.normalizer (L : Set G))}
@@ -111,6 +112,7 @@ theorem mk_eq_mk_of_mem_theta [((inSubgroup (aschbacherSolvableCore 3) L).subgro
   rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq]
   exact Subgroup.mem_subgroupOf.mpr (by simpa using hgh)
 
+omit [Finite G] in
 theorem mk_comm_of_mem_theta [((inSubgroup (aschbacherSolvableCore 3) L).subgroupOf
       (Subgroup.normalizer (L : Set G))).Normal]
     {g h : ↥(Subgroup.normalizer (L : Set G))}
@@ -145,7 +147,7 @@ theorem mem_sup_of_inner_mod_theta {A L : Subgroup G} (hAF : A ∈ partTwoF G)
     rintro _ ⟨t, -, rfl⟩
     exact t.2
   have hLN : L ≤ N := Subgroup.le_normalizer
-  haveI hTn : (θL.subgroupOf N).Normal := theta_subgroupOf_normal L
+  have hTn : (θL.subgroupOf N).Normal := theta_subgroupOf_normal L
   set T := θL.subgroupOf N with hTdef
   set ρ : ↥N →* ↥N ⧸ T := QuotientGroup.mk' T with hρ
   have huN : u ∈ N := hLN huL

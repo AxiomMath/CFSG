@@ -21,13 +21,13 @@ theorem three_mul_le_dispRank_of_not_inner {U : Type} [CommGroup U] [Finite U]
     letI : Module (ZMod 2) (Additive U) := CFSG.Quasithin.SmithD37.zmodModule hU
     3 * n ≤ dispRank (CFSG.Quasithin.SmithD37.autLin hU t) := by
   classical
-  letI : Module (ZMod 2) (Additive U) := CFSG.Quasithin.SmithD37.zmodModule hU
-  haveI : Finite (Additive U) := inferInstanceAs (Finite U)
-  haveI : Module.Finite (ZMod 2) (Additive U) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive U) := CFSG.Quasithin.SmithD37.zmodModule hU
+  have : Finite (Additive U) := inferInstanceAs (Finite U)
+  have : Module.Finite (ZMod 2) (Additive U) := Module.Finite.of_finite
   obtain ⟨hn2, K, hfield, hfin, hchar, hKcard, ⟨e⟩⟩ := K148.exists_antiSp_of_isSp4 hSp
-  letI := hfield
-  letI := hfin
-  letI := hchar
+  let := hfield
+  let := hfin
+  let := hchar
   have hKf : Fintype.card K = 2 ^ n := by rw [← Nat.card_eq_fintype_card, hKcard]
   let L := CFSG.Quasithin.SmithD37.autLin hU
   let ρS : ↥S →* (Additive U ≃ₗ[ZMod 2] Additive U) := L.toMonoidHom.comp S.subtype

@@ -15,7 +15,7 @@ public section
 set_option autoImplicit true
 set_option maxSynthPendingDepth 3
 
-open Representation SemidirectProduct
+open _root_.CFSG.FeitThompson.Representation SemidirectProduct
 
 universe u v w
 

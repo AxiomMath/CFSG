@@ -16,6 +16,7 @@ section ClassI
 
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem u42_polarBilin_comp_nondeg {Q : QuadraticForm K V} {W : Submodule K V}
     (h : (LinearMap.BilinForm.restrict Q.polarBilin W).Nondegenerate) :
     (Q.comp W.subtype).polarBilin.Nondegenerate := by
@@ -244,7 +245,7 @@ theorem u42_omega_linear_false {f : ℕ} (hf : 1 ≤ f) (hK : Nat.card K = 3 ^ f
   · obtain ⟨r, hr⟩ := hsqc
     have hr0 : r ≠ 0 := by
       rintro rfl
-      exact c.ne_zero (by simpa using hr)
+      exact c.ne_zero (by simp at hr)
     let b : Kˣ := Units.mk0 r hr0
     have hb : (c : K) = (b : K) ^ 2 := by rw [hr, sq]; rfl
     rcases hsign with hpos | hneg

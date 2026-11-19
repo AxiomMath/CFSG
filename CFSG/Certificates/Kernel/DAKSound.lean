@@ -69,11 +69,10 @@ theorem mem_dakCells {b c0 mi ni s t u : ℕ} (hs : s < p) (ht : t < p) (hu : u 
   unfold dakCells
   refine List.mem_flatMap.mpr ⟨u, List.mem_range.mpr hu, ?_⟩
   try dsimp only
-  rw [if_pos (beq_iff_eq.mpr h0)]
+  rw [ite_eq_left (beq_iff_eq.mpr h0)]
   refine List.mem_flatMap.mpr ⟨s, List.mem_range.mpr hs, ?_⟩
   refine List.mem_filterMap.mpr ⟨t, List.mem_range.mpr ht, ?_⟩
-  try dsimp only
-  rw [if_pos (beq_iff_eq.mpr hd)]
+  rw [ite_eq_left (beq_iff_eq.mpr hd)]
 
 theorem dak_cells [Fact p.Prime] (hp : 5 ≤ p) (hpN : p ∣ N) (hN : 5 ≤ N)
     (F : List GGDepANPair) (S : List KSingleE) (hF : kFrameOK p N F = true)
@@ -138,7 +137,6 @@ theorem dak_cells [Fact p.Prime] (hp : 5 ≤ p) (hpN : p ∣ N) (hN : 5 ≤ N)
   have hmem : (lh, la) ∈ dakCells p N b.val c0.val mi ni :=
     mem_dakCells (twMod_lt s) (twMod_lt t) (twMod_lt u) h0 hd2
   obtain ⟨i, hi⟩ := kAll2_mem _ _ idx hchk _ hmem
-  try dsimp only at hi
   have hval : GGTWDValid p N (lh, la) :=
     ⟨l05nND_HaParam_length .., l05nND_AaParam_length .., hd2⟩
   have htv := kTest_sound (by omega) hN hF (news := [(lh, la)])

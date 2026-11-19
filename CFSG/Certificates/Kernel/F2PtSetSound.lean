@@ -124,7 +124,7 @@ theorem ptSumBelow (m n : Nat) (f : Nat → Nat) (hm : m ≤ n) :
   rw [hgen (hiOf n), show 64 * hiOf n = m + (64 * hiOf n - m) by omega, Finset.sum_range_add]
   rw [Finset.sum_eq_zero (s := Finset.range (64 * hiOf n - m)) (fun i _ => ite_eq_right (by omega)),
     Nat.add_zero]
-  exact Finset.sum_congr rfl fun i hi' => if_pos (Finset.mem_range.1 hi')
+  exact Finset.sum_congr rfl fun i hi' => ite_eq_left (Finset.mem_range.1 hi')
 
 theorem sortK_spec {d n P : Nat} (h : sortK d n P = true) :
     ∀ i j, i < j → j < n → fget P i d < fget P j d := by
@@ -198,8 +198,8 @@ theorem memK_spec {x : Nat} : ∀ {L : List Nat}, memK x L = true → x ∈ L
 
 theorem getL_mem : ∀ {L : List Nat} {g : Nat}, g < lenL L → getL 0 L g ∈ L
   | [], _, h => absurd h (Nat.not_lt_zero _)
-  | a :: L, 0, _ => List.mem_cons_self
-  | a :: L, g + 1, h => List.mem_cons_of_mem _ (getL_mem (L := L) (Nat.lt_of_succ_lt_succ h))
+  | _a :: _L, 0, _ => List.mem_cons_self
+  | _a :: L, _g + 1, h => List.mem_cons_of_mem _ (getL_mem (L := L) (Nat.lt_of_succ_lt_succ h))
 
 theorem forK_spec {d n P E : Nat} {Gs roots : List Nat} (h : forK d n P E Gs roots = true)
     (X : Set Nat) (hr : ∀ r ∈ roots, r ∈ X) (hG : ∀ g ∈ Gs, ∀ x ∈ X, vmF d g x ∈ X) :
@@ -218,7 +218,7 @@ theorem forK_spec {d n P E : Nat} {Gs roots : List Nat} (h : forK d n P E Gs roo
       revert hi'
       cases hz : Nat.beq (depF (fget E i (nat_lit 32))) (nat_lit 0)
       · intro hi'
-        simp only [ptStrictB_eq, andB_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hi'
+        simp only [andB_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hi'
         obtain ⟨hp, hg, hdp, hx⟩ := hi'
         rw [hx]
         exact hG _ (getL_mem hg) _ (ih _ hp (lt_of_lt_of_le hdp (Nat.lt_succ_iff.1 hd)))

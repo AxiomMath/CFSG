@@ -68,7 +68,7 @@ theorem Z_le_UU (h : Hyp6Sec2 G T M L V) (hZ : Nat.card (quasithinOmegaOneCenter
 
 theorem UU_le_HH (h : Hyp6Sec2 G T M L V) (hZ : Nat.card (quasithinOmegaOneCenter T) = 2) :
     UU T L V ≤ HH T :=
-  conjClosure_le fun x hx z hz => (HH T).mul_mem ((HH T).mul_mem hx (ZS_le_HH h hZ hz))
+  conjClosure_le fun _x hx _z hz => (HH T).mul_mem ((HH T).mul_mem hx (ZS_le_HH h hZ hz))
     ((HH T).inv_mem hx)
 
 omit [Finite G] in

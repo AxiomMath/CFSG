@@ -33,14 +33,14 @@ theorem diagF3_apply_single {m : ℕ} (δ : ZMod 3) (x : Fin m → ZMod 3) (i : 
 
 theorem diagF3Entry_two_of_ne_last {n : ℕ} {i : Fin (n + 1)}
     (hi : i ≠ Fin.last n) : diagF3Entry (n + 1) 2 i = 1 := by
-  rw [diagF3Entry, if_neg]
+  rw [diagF3Entry, ite_eq_right]
   intro h
   have hlast : (Fin.last n : ℕ) = n := rfl
   exact hi (Fin.ext (by omega))
 
 private theorem zgn_diagF3Entry_castSucc (n : ℕ) (i : Fin n) :
     diagF3Entry (n + 1) 2 i.castSucc = 1 := by
-  rw [diagF3Entry, if_neg]
+  rw [diagF3Entry, ite_eq_right]
   have hval : (i.castSucc : ℕ) = i := rfl
   omega
 
@@ -133,7 +133,7 @@ private theorem zgn_exists_decomposition {n : ℕ} {x : Fin (n + 1) → ZMod 3}
   have hsa : diagF3 (n + 1) 2 s (Pi.single k 1) = s k := by
     rw [diagF3_apply_single, diagF3Entry_two_of_ne_last hklast, one_mul]
   have haa : diagF3 (n + 1) 2 a a = 1 := by
-    rw [ha, F3.norm_smul, LocalU.diagF3_single, if_pos rfl,
+    rw [ha, F3.norm_smul, LocalU.diagF3_single, ite_eq_left rfl,
       diagF3Entry_two_of_ne_last hklast, F3.mul_self_of_ne_zero hk', mul_one]
   have has : diagF3 (n + 1) 2 a s = 1 := by
     rw [ha, LinearMap.BilinForm.smul_left, hf.symm (Pi.single k 1) s, hsa,
@@ -189,9 +189,9 @@ private theorem zgn_std_pair {n : ℕ} (hn : 5 ≤ n) :
   refine ⟨?_, ?_, ?_, ?_, ?_⟩
   · rw [F3.mem_perpOne, zgn_diagF3_apply_last, Pi.single_eq_of_ne h0last.symm, mul_zero]
   · rw [F3.mem_perpOne, zgn_diagF3_apply_last, Pi.single_eq_of_ne h1last.symm, mul_zero]
-  · rw [LocalU.diagF3_single, if_pos rfl, diagF3Entry_two_of_ne_last h0last]
-  · rw [LocalU.diagF3_single, if_pos rfl, diagF3Entry_two_of_ne_last h1last]
-  · rw [LocalU.diagF3_single, if_neg h01]
+  · rw [LocalU.diagF3_single, ite_eq_left rfl, diagF3Entry_two_of_ne_last h0last]
+  · rw [LocalU.diagF3_single, ite_eq_left rfl, diagF3Entry_two_of_ne_last h1last]
+  · rw [LocalU.diagF3_single, ite_eq_right h01]
 
 private theorem zgn_lastEquiv_form (n : ℕ)
     (u v : F3.perpOne (diagF3 (n + 1) 2) (Pi.single (Fin.last n) 1)) :

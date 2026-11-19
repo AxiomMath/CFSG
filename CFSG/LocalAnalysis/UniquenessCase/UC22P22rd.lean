@@ -27,10 +27,10 @@ theorem uc22p22r_pgrp2210_holds (D : Data G) (Ch : Choice2011 G) :
         ¬ IsCyclic ↥P ∧ (barImage D.M P).Normal ∧ P ⊓ centralizer (c.V : Set G) ≠ ⊥ := by
   classical
   intro _h1930 c q hq hq2 Q hQ hrank hQV
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set π : ↥D.M →* Bar2 D.M := QuotientGroup.mk' (CFSG.pCore 2 ↥D.M) with hπ
   set R : Subgroup (Bar2 D.M) := CFSG.pCore q (Bar2 D.M) with hRdef
-  haveI hRn : R.Normal := CFSG.pCore_normal
+  have hRn : R.Normal := CFSG.pCore_normal
   have hRq : IsPGroup q ↥R := CFSG.pCore_isPGroup
   have hQM : Q ≤ D.M := hQ.le.trans (uc22p21c_barPreimage_le _ _)
   have hQq : IsPGroup q ↥Q := hQ.isPGroup
@@ -200,7 +200,7 @@ theorem uc22p22r_pgrp2210_holds (D : Data G) (Ch : Choice2011 G) :
       rw [h, Subgroup.mem_bot] at h2
       have h3 : π w = 1 := congrArg Subtype.val h2
       exact Subgroup.mem_bot.2 (hinj' _ (hWQ' hw) _ Q'.one_mem (by rw [h3, map_one]))
-    haveI : Group.IsNilpotent ↥R := hRq.isNilpotent
+    have : Group.IsNilpotent ↥R := hRq.isNilpotent
     have hcent := Group.IsNilpotent.inf_center_ne_bot_of_normal hWbne
     have hqdvd : q ∣ Nat.card ↥(Wb ⊓ Subgroup.center ↥R) := by
       have hpg : IsPGroup q ↥(Wb ⊓ Subgroup.center ↥R) := hRq.to_subgroup _

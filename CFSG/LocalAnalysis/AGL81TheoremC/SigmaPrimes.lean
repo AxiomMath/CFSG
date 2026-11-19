@@ -16,7 +16,7 @@ theorem exists_isCoreWitness_of_two_le_pRank (hS : Standing G) (hUC : rankThreeU
     (hq : q ∈ rankThreeSigmaA G) {M : Subgroup G} (hM : rankThreeIsMaxTwoLocal M)
     (h2 : 2 ≤ CFSG.Open.pRank q M) : ∃ Q : Sylow q G, IsCoreWitness q (Q : Subgroup G) M := by
   have hqp : q.Prime := sigmaA_prime q hq
-  haveI : Fact q.Prime := ⟨hqp⟩
+  have : Fact q.Prime := ⟨hqp⟩
   obtain ⟨E, hEM, hE, hEc⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := q) (k := 2) h2
   have hEp : IsPGroup q E := elementary_isPGroup q E hE

@@ -23,6 +23,7 @@ variable {G : Type} [Group G] [Finite G] {M : Subgroup G}
 @[expose] noncomputable def imM (M K : Subgroup G) : Subgroup (↥M ⧸ aschbacherSolvableCore 3 ↥M) :=
   (K.subgroupOf M).map (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥M))
 
+omit [Finite G] in
 theorem mem_imM_iff {K : Subgroup G} {x : ↥M ⧸ aschbacherSolvableCore 3 ↥M} :
     x ∈ imM M K ↔ ∃ (k : G) (hkM : k ∈ M), k ∈ K ∧
       (QuotientGroup.mk (⟨k, hkM⟩ : ↥M) : ↥M ⧸ aschbacherSolvableCore 3 ↥M) = x := by
@@ -33,15 +34,18 @@ theorem mem_imM_iff {K : Subgroup G} {x : ↥M ⧸ aschbacherSolvableCore 3 ↥M
   · rintro ⟨k, hkM, hk, rfl⟩
     exact Subgroup.mem_map.mpr ⟨⟨k, hkM⟩, hk, rfl⟩
 
+omit [Finite G] in
 theorem mk_mem_imM {K : Subgroup G} {k : G} (hkM : k ∈ M) (hk : k ∈ K) :
     (QuotientGroup.mk (⟨k, hkM⟩ : ↥M) : ↥M ⧸ aschbacherSolvableCore 3 ↥M) ∈ imM M K :=
   mem_imM_iff.mpr ⟨k, hkM, hk, rfl⟩
 
+omit [Finite G] in
 private theorem quot_mem_theta_iff (L : Subgroup G) (x : ↥L) :
     x ∈ aschbacherSolvableCore 3 ↥L ↔ (x : G) ∈ inSubgroup (aschbacherSolvableCore 3) L := by
   rw [inSubgroup]
   exact (Subgroup.mem_map_iff_mem L.subtype_injective).symm
 
+omit [Finite G] in
 private theorem quot_mk_commute_iff (d k : ↥M) :
     (QuotientGroup.mk d : ↥M ⧸ aschbacherSolvableCore 3 ↥M) * QuotientGroup.mk k =
       QuotientGroup.mk k * QuotientGroup.mk d ↔ ⁅d, k⁆ ∈ aschbacherSolvableCore 3 ↥M := by
@@ -51,6 +55,7 @@ private theorem quot_mk_commute_iff (d k : ↥M) :
   change Commute (QuotientGroup.mk d : ↥M ⧸ aschbacherSolvableCore 3 ↥M) (QuotientGroup.mk k) ↔ _
   rw [← commutatorElement_eq_one_iff_commute, key, QuotientGroup.eq_one_iff]
 
+omit [Finite G] in
 private theorem quot_comm_mem_iff (d k : ↥M) :
     ⁅d, k⁆ ∈ aschbacherSolvableCore 3 ↥M ↔
       k⁻¹ * (d * k * d⁻¹) ∈ aschbacherSolvableCore 3 ↥M := by
@@ -67,6 +72,7 @@ private theorem quot_comm_mem_iff (d k : ↥M) :
     rw [e]
     exact hn.conj_mem _ h k
 
+omit [Finite G] in
 private theorem quot_commute_imM_iff (d k : ↥M) :
     (QuotientGroup.mk d : ↥M ⧸ aschbacherSolvableCore 3 ↥M) * QuotientGroup.mk k =
       QuotientGroup.mk k * QuotientGroup.mk d ↔
@@ -84,7 +90,7 @@ private theorem quot_conj_mem_theta_iff {K : Subgroup G} (hK : K ∈ thetaCompon
   exact ⟨fun h => h.2, fun h => ⟨hmem, h⟩⟩
 
 private theorem quot_commute_imM_of_le {D K : Subgroup G} (hK : K ∈ thetaComponentsIn M)
-    (hDM : D ≤ M) (hD : D ≤ Sec4.thetaQuotCentralizer K) :
+    (_hDM : D ≤ M) (hD : D ≤ Sec4.thetaQuotCentralizer K) :
     ∀ x ∈ imM M D, ∀ y ∈ imM M K, x * y = y * x := by
   rintro _ hx _ hy
   obtain ⟨d, hdM, hdD, rfl⟩ := mem_imM_iff.mp hx
@@ -106,6 +112,7 @@ private theorem quot_le_thetaQuotCentralizer_of_commute {D K : Subgroup G}
     ((quot_commute_imM_iff ⟨d, hdM⟩ ⟨k, hkM⟩).mp
       (hc _ (mk_mem_imM hdM hd) _ (mk_mem_imM hkM hk)))
 
+omit [Finite G] in
 private theorem quot_conj_mem_imM {K : Subgroup G} {e : G} (heM : e ∈ M)
     (heN : e ∈ Subgroup.normalizer (K : Set G)) {m : ↥M ⧸ aschbacherSolvableCore 3 ↥M}
     (hm : m ∈ imM M K) :
@@ -121,6 +128,7 @@ private theorem quot_conj_mem_imM {K : Subgroup G} {e : G} (heM : e ∈ M)
   rw [← key]
   exact mk_mem_imM hM' hk'
 
+omit [Finite G] in
 private theorem quot_range_comp_inclusion {D : Subgroup G} (hDM : D ≤ M) :
     ((QuotientGroup.mk' (aschbacherSolvableCore 3 ↥M)).comp (Subgroup.inclusion hDM)).range =
       imM M D := by
@@ -138,6 +146,7 @@ private theorem quot_card_range_mul_card_ker {X Y : Type} [Group X] [Group Y] (�
   rw [Nat.card_congr (QuotientGroup.quotientKerEquivRange φ).toEquiv] at h
   exact h.symm
 
+omit [Finite G] in
 private theorem quot_card_imM_mul_card_ker {D : Subgroup G} (hDM : D ≤ M) :
     Nat.card (imM M D) *
       Nat.card ((QuotientGroup.mk' (aschbacherSolvableCore 3 ↥M)).comp
@@ -158,6 +167,7 @@ private theorem quot_ker_comp_inclusion {K : Subgroup G} (hK : K ∈ thetaCompon
     Sec6.theta_eq_inf_of_mem_thetaComponentsIn hK, Subgroup.mem_inf]
   exact ⟨fun h => ⟨x.2, h⟩, fun h => h.2⟩
 
+omit [Finite G] in
 theorem imM_mono {K K' : Subgroup G} (h : K ≤ K') : imM M K ≤ imM M K' := by
   intro x hx
   obtain ⟨k, hkM, hk, rfl⟩ := mem_imM_iff.mp hx
@@ -183,7 +193,8 @@ theorem imM_card_eq_of_isPGroup {D : Subgroup G} (hDM : D ≤ M) (hD : IsPGroup 
   rw [hbot, Subgroup.card_bot, mul_one] at h
   exact h
 
-theorem imM_isElemAbelian {D : Subgroup G} (hDM : D ≤ M) (hD : CFSG.Open.IsElemAbelian 3 D) :
+omit [Finite G] in
+theorem imM_isElemAbelian {D : Subgroup G} (_hDM : D ≤ M) (hD : CFSG.Open.IsElemAbelian 3 D) :
     CFSG.Open.IsElemAbelian 3 (imM M D) :=
   CFSG.SectionRank.isElemAbelian_map (CFSG.Open.IsElemAbelian.subgroupOf hD M)
     (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥M))
@@ -233,11 +244,13 @@ theorem imM_commute_of_le_thetaQuotCentralizer {D K : Subgroup G} (hK : K ∈ th
     ∀ x ∈ imM M D, ∀ y ∈ imM M K, x * y = y * x :=
   quot_commute_imM_of_le hK hDM hD
 
+omit [Finite G] in
 theorem imM_sup {P R : Subgroup G} (hP : P ≤ M) (hR : R ≤ M) :
     imM M (P ⊔ R) = imM M P ⊔ imM M R := by
   unfold imM
   rw [Subgroup.subgroupOf_sup hP hR, Subgroup.map_sup]
 
+omit [Finite G] in
 theorem imM_le_imM_iff {K K' : Subgroup G} (hK : K ≤ M) (hK' : K' ≤ M) :
     imM M K' ≤ imM M K ↔ K' ≤ K ⊔ inSubgroup (aschbacherSolvableCore 3) M := by
   constructor
@@ -265,14 +278,15 @@ theorem imM_le_imM_iff {K K' : Subgroup G} (hK : K ≤ M) (hK' : K' ≤ M) :
       rw [QuotientGroup.eq]
       have e : (⟨k * t, hk'M⟩ : ↥M)⁻¹ * ⟨k, hkM⟩ = (⟨t, htM⟩ : ↥M)⁻¹ := by
         ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
         group
       rw [e]
       exact (aschbacherSolvableCore 3 ↥M).inv_mem ht'
     rw [key]
     exact mk_mem_imM hkM hkK
 
-theorem imM_inf_eq_bot {K K' : Subgroup G} (hK : K ≤ M) (hK' : K' ≤ M)
+omit [Finite G] in
+theorem imM_inf_eq_bot {K K' : Subgroup G} (_hK : K ≤ M) (_hK' : K' ≤ M)
     (h : K' ⊓ (K ⊔ inSubgroup (aschbacherSolvableCore 3) M) = ⊥) :
     imM M K' ⊓ imM M K = ⊥ := by
   rw [eq_bot_iff]
@@ -291,18 +305,20 @@ theorem imM_inf_eq_bot {K K' : Subgroup G} (hK : K ≤ M) (hK' : K' ≤ M)
   have h1' : (⟨k', hk'M⟩ : ↥M) = 1 := Subtype.ext hmem
   rw [h1', QuotientGroup.mk_one]
 
-theorem imM_le_normalizer {D K : Subgroup G} (hDM : D ≤ M) (hKM : K ≤ M)
+theorem imM_le_normalizer {D K : Subgroup G} (_hDM : D ≤ M) (_hKM : K ≤ M)
     (hDn : D ≤ Subgroup.normalizer (K : Set G)) :
     imM M D ≤ Subgroup.normalizer (imM M K : Set (↥M ⧸ aschbacherSolvableCore 3 ↥M)) := by
   intro x hx
   obtain ⟨d, hdM, hdD, rfl⟩ := mem_imM_iff.mp hx
   exact Subgroup.mem_normalizer_fintype (fun n hn => quot_conj_mem_imM hdM (hDn hdD) hn)
 
+omit [Finite G] in
 theorem normal_imM {R : Subgroup G} (hRM : R ≤ M) (hRn : M ≤ Subgroup.normalizer (R : Set G)) :
     (imM M R).Normal :=
   ((Subgroup.normal_subgroupOf_iff_le_normalizer hRM).mpr hRn).map _
     (QuotientGroup.mk'_surjective _)
 
+omit [Finite G] in
 theorem isSolvable_imM {R : Subgroup G} (hR : Group.IsSolvable R) :
     Group.IsSolvable (imM M R) := by
   have hS : Group.IsSolvable ↥(R.subgroupOf M) := by
@@ -329,11 +345,11 @@ theorem isSolvable_oTwoP (M : Subgroup G) :
     exact one_mem _
   have h2 : IsPGroup 2 N := CFSG.pCore_isPGroup (p := 2) (G := ↥M)
   have h3 : IsPGroup 3 (CFSG.pCore 3 (↥M ⧸ N)) := CFSG.pCore_isPGroup (p := 3) (G := ↥M ⧸ N)
-  haveI : Group.IsSolvable ↥N := by
-    haveI := h2.isNilpotent
+  have : Group.IsSolvable ↥N := by
+    have := h2.isNilpotent
     infer_instance
-  haveI : Group.IsSolvable ↥(CFSG.pCore 3 (↥M ⧸ N)) := by
-    haveI := h3.isNilpotent
+  have : Group.IsSolvable ↥(CFSG.pCore 3 (↥M ⧸ N)) := by
+    have := h3.isNilpotent
     infer_instance
   let g : ↥(Sec4.oTwoP 3 ↥M) →* ↥(CFSG.pCore 3 (↥M ⧸ N)) :=
     ((QuotientGroup.mk' N).comp (Sec4.oTwoP 3 ↥M).subtype).codRestrict _ (fun x => x.2)
@@ -348,11 +364,12 @@ theorem isSolvable_oTwoP (M : Subgroup G) :
     (f := ((Sec4.oTwoP 3 ↥M).equivMapOfInjective M.subtype M.subtype_injective).symm.toMonoidHom)
     (MulEquiv.injective _)
 
+omit [Finite G] in
 theorem le_normalizer_oTwoP_map (M : Subgroup G) :
     M ≤ Subgroup.normalizer (((Sec4.oTwoP 3 M).map M.subtype : Subgroup G) : Set G) := by
   have hT : (Sec4.oTwoP 3 ↥M).Normal := by
     unfold Sec4.oTwoP
-    haveI := CFSG.pCore_normal (p := 3) (G := ↥M ⧸ CFSG.pCore 2 ↥M)
+    have := CFSG.pCore_normal (p := 3) (G := ↥M ⧸ CFSG.pCore 2 ↥M)
     infer_instance
   intro m hm
   rw [Subgroup.mem_normalizer_iff]
@@ -364,7 +381,7 @@ theorem le_normalizer_oTwoP_map (M : Subgroup G) :
     refine ⟨(⟨m, hm⟩ : ↥M)⁻¹ * t * ⟨m, hm⟩, ?_, ?_⟩
     · have := hT.conj_mem t ht (⟨m, hm⟩ : ↥M)⁻¹
       simpa using this
-    · simp only [Subgroup.coe_subtype, Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk] at hth ⊢
+    · simp only [Subgroup.coe_subtype, Subgroup.coe_mul, Subgroup.coe_inv] at hth ⊢
       rw [hth]
       group
 

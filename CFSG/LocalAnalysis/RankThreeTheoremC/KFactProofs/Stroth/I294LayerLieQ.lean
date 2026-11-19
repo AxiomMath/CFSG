@@ -67,6 +67,7 @@ section Constrained
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 private theorem pow_eq_one_of_mem_pCoreOf {p : ℕ} {N : Subgroup Y} {x : Y}
     (hx : x ∈ CFSG.Open.pCoreOf p N) : ∃ k : ℕ, x ^ p ^ k = 1 := by
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.1 hx
@@ -75,6 +76,7 @@ private theorem pow_eq_one_of_mem_pCoreOf {p : ℕ} {N : Subgroup Y} {x : Y}
   have h2 : y ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
   simpa using congrArg N.subtype h2
 
+omit [Finite Y] in
 private theorem conj_mem_pCoreOf {p : ℕ} {N : Subgroup Y} {n x : Y} (hn : n ∈ N)
     (hx : x ∈ CFSG.Open.pCoreOf p N) : n * x * n⁻¹ ∈ CFSG.Open.pCoreOf p N := by
   obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.1 hx
@@ -161,10 +163,10 @@ theorem glaPLayer_eq_bot_of_constrained {p : ℕ} (hp : p.Prime) {N H : Subgroup
     intro g
     obtain ⟨k, hk⟩ := pow_eq_one_of_mem_pCoreOf (hJP g.2)
     exact ⟨k, Subtype.ext (by simpa using hk)⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsNilpotent ↥J := hJp.isNilpotent
-  haveI : Group.IsPerfect ↥J := ⟨hJq.1⟩
-  haveI : Nontrivial ↥J := CFSG.ComponentClassification.Quasisimple.nontrivial hJq
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsNilpotent ↥J := hJp.isNilpotent
+  have : Group.IsPerfect ↥J := ⟨hJq.1⟩
+  have : Nontrivial ↥J := CFSG.ComponentClassification.Quasisimple.nontrivial hJq
   exact Group.IsPerfect.not_isSolvable (↥J) inferInstance
 
 end Constrained

@@ -24,7 +24,7 @@ theorem not_normalizer_le_centralizer_of_simple {K : Type*} [Group K] [Finite K]
     have hcen : Subgroup.center K = ⊤ :=
       (IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center K)).resolve_left
         (by
-          haveI : Nontrivial K := by
+          have : Nontrivial K := by
             obtain ⟨a, b, hab⟩ := hnab
             exact ⟨⟨a, b, fun h => hab (by rw [h])⟩⟩
           exact (hKp.bot_lt_center).ne')
@@ -45,7 +45,7 @@ theorem exists_normalizer_not_centralize_torsion {K : Type*} [Group K] [Finite K
     (hγP : γ ∈ (P : Subgroup K)) (hgen : ∀ x ∈ (P : Subgroup K), x ∈ Subgroup.zpowers γ) :
     ∃ y ∈ Subgroup.normalizer ((P : Subgroup K) : Set K), ∃ x ∈ (P : Subgroup K),
       x ^ p = 1 ∧ y * x * y⁻¹ ≠ x := by
-  obtain ⟨y, hyN, hyC⟩ := SetLike.not_le_iff_exists.1
+  obtain ⟨y, hyN, hyC⟩ := IsConcreteLE.not_le_iff_exists.1
     (not_normalizer_le_centralizer_of_simple hnab P hPne)
   have hyγ : y * γ ≠ γ * y := by
     intro h
@@ -68,7 +68,7 @@ theorem exists_normalizer_not_centralize_torsion {K : Type*} [Group K] [Finite K
     exact pow_orderOf_eq_one γ
   · intro htor
     set N : Subgroup K := Subgroup.normalizer ((P : Subgroup K) : Set K) with hN
-    haveI : ((P : Subgroup K).subgroupOf N).Normal :=
+    have : ((P : Subgroup K).subgroupOf N).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer Subgroup.le_normalizer).2 le_rfl
     have hpow : y ^ ((P : Subgroup K).relIndex N) ∈ (P : Subgroup K) := by
       have := Subgroup.pow_index_mem ((P : Subgroup K).subgroupOf N) (⟨y, hyN⟩ : N)

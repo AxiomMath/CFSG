@@ -23,9 +23,9 @@ variable (hS : IsTensorSetup hc n M₀ ρ b) (t : G)
 
 @[expose] noncomputable def wvForm : wvQ hS t →ₗ[K] wvQ hS t →ₗ[K] K :=
   LinearMap.liftQ₂ (vInW hS t) (vInW hS t) (M₀.B.compl₁₂ (wsub hS t).subtype (wsub hS t).subtype)
-    (fun a ha => LinearMap.mem_ker.mpr (LinearMap.ext fun a' =>
+    (fun _a ha => LinearMap.mem_ker.mpr (LinearMap.ext fun a' =>
       bilin_vsub_wsub hS t ((mem_vInW hS t).mp ha) a'.2))
-    (fun a ha => LinearMap.mem_ker.mpr (LinearMap.ext fun a' =>
+    (fun _a ha => LinearMap.mem_ker.mpr (LinearMap.ext fun a' =>
       bilin_wsub_vsub hS t a'.2 ((mem_vInW hS t).mp ha)))
 
 theorem wvForm_mk (a a' : ↥(wsub hS t)) :
@@ -41,7 +41,7 @@ theorem wvForm_comm (m m' : wvQ hS t) : wvForm hS t m m' = -wvForm hS t m' m := 
       exact Tim79.QuadModel.B_comm _ _
 
 theorem wvForm_nondeg (m : wvQ hS t) (hm : ∀ m', wvForm hS t m m' = 0) : m = 0 := by
-  haveI : Module.Finite K M₀.E := M₀.fin
+  have : Module.Finite K M₀.E := M₀.fin
   obtain ⟨hnd, hrefl⟩ := bilin_nondegenerate_isRefl (M₀ := M₀)
   induction m using Submodule.Quotient.induction_on with
   | H a =>
@@ -173,10 +173,10 @@ theorem isLayerConfigA_of_pair [CharP K 2]
     IsLayerConfigA hS hs.toSec5.mem := by
   obtain ⟨L₃, L₄, i₁, i₂, i₃, i₄, ρ₃, ρ₄, eM, eN, μ, q₃, q₄, hd₃, hd₄, hirr₃, hirr₄, heM, heN,
     hβ, hμ, hμ0, hq₃, hq₃nd, hq₄, hq₄nd, hPM, hPN⟩ := hA
-  haveI : FiniteDimensional K L₃ := Module.finite_of_finrank_pos (by omega)
-  haveI : FiniteDimensional K L₄ := Module.finite_of_finrank_pos (by omega)
-  haveI : Nontrivial L₃ := Module.nontrivial_of_finrank_pos (R := K) (by omega)
-  haveI : Nontrivial L₄ := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : FiniteDimensional K L₃ := Module.finite_of_finrank_pos (by omega)
+  have : FiniteDimensional K L₄ := Module.finite_of_finrank_pos (by omega)
+  have : Nontrivial L₃ := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial L₄ := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   let μV : L₃ →ₗ[K] L₄ →ₗ[K] ↥(hc.VtSub hS.model t) :=
     μ.compr₂ (e.symm : (Fin 4 ⊕ Fin 4 → K) →ₗ[K] ↥(hc.VtSub hS.model t))
   have hμV : ∀ a c, μV a c = e.symm (μ a c) := fun _ _ => rfl
@@ -274,7 +274,7 @@ theorem sec715LayerConfig_of (hSplit : Sec715LayerSplitStatement)
   intro G _ _ M Q Z B _ hc n t hs hp hn Z0 hZ0 hZN K _ _ γ M₀ ρ b hS φ₈ hφ hφker e he
   obtain ⟨r, hr⟩ := hA G M Q Z B hc n t hs
   obtain ⟨k, -, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hS.card.trans hZ2)
   have hq : 4 ≤ Nat.card K := by
     rw [hS.card]
     exact hc.hyp.q4

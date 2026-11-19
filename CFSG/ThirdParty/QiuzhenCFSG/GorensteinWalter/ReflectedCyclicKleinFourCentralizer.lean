@@ -59,7 +59,7 @@ public theorem no_kleinFour_centralizes_odd_subgroup_of_reflected_cyclic_join
         · exfalso
           exact hordodd.not_two_dvd_nat (by rw [h])
       have haone : a = 1 := orderOf_eq_one_iff.mp hord1
-      simpa [haone] using U.one_mem
+      simp [haone]
   have hVleU : V ≤ U := by
     intro v hv
     rcases (mem_sup_zpowers_of_involution_inverts hwU hwsq hwinv).mp (hVle hv) with

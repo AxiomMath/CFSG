@@ -23,7 +23,7 @@ theorem exists_cube_root_of_even {F : Type} [Field F] [Fintype F] {n : ℕ} (hn 
     rw [Nat.card_units, Nat.card_eq_fintype_card, hF]
     have := Nat.pow_sub_one_dvd_pow_sub_one 2 (even_iff_two_dvd.mp hn)
     simpa using this
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ := exists_prime_orderOf_dvd_card' 3 h3
   exact ⟨ω, fun h => by rw [h, orderOf_one] at hω; omega, hω ▸ pow_orderOf_eq_one ω⟩
 

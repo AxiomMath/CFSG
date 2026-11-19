@@ -126,7 +126,7 @@ variable {Q}
 theorem rotSet_cons (p : V × V) (l : List (V × V)) :
     rotSet Q (p :: l) = insert (rot Q p.1 p.2) (rotSet Q l) := by
   ext g
-  simp only [rotSet, List.mem_cons, Set.mem_setOf_eq, Set.mem_insert_iff]
+  simp only [rotSet, List.mem_cons, Set.mem_ofPred_eq, Set.mem_insert_iff]
   constructor
   · rintro ⟨q, hq | hq, rfl⟩
     · exact Or.inl (by rw [hq])
@@ -175,7 +175,7 @@ theorem torus_isMulCommutative {l : List (V × V)} (hl : IsFrame Q l) :
 
 theorem torus_commute {l : List (V × V)} (hl : IsFrame Q l) {x y : V ≃ₗ[ZMod 2] V}
     (hx : x ∈ torus Q l) (hy : y ∈ torus Q l) : Commute x y := by
-  haveI := torus_isMulCommutative hl
+  have := torus_isMulCommutative hl
   exact congrArg Subtype.val ((torus_isMulCommutative hl).is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
 
 theorem torus_pow_three {l : List (V × V)} (hl : IsFrame Q l) :
@@ -228,7 +228,7 @@ theorem card_torus [Finite V] {l : List (V × V)} (hl : IsFrame Q l) :
   | nil => simp [torus_nil]
   | cons p l ih =>
     obtain ⟨hp, hperp, hl'⟩ := isFrame_cons.1 hl
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     set A := torus Q l with hA
     set ρ := rot Q p.1 p.2 with hρ
     have hcomm : ∀ t ∈ A, Commute t ρ := fun t ht =>

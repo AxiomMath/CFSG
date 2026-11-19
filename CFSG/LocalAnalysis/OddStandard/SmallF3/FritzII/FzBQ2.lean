@@ -60,8 +60,8 @@ theorem fzb_qs_conj_qsy (h : Ctx t L S x₁ x₂ lam rho tau) (hK : Nat.card (tw
         _ = q⁻¹ * q⁻¹ * q := by rw [h1]
         _ = q⁻¹ := by group
   have hcommK : ∀ a ∈ twoCore t, ∀ b ∈ twoCore t, a * b = b * a := by
-    haveI : IsCyclic (twoCore t) := h.hyp.isCyclic
-    haveI : IsMulCommutative (twoCore t) := IsCyclic.isMulCommutative
+    have : IsCyclic (twoCore t) := h.hyp.isCyclic
+    have : IsMulCommutative (twoCore t) := IsCyclic.isMulCommutative
     intro a ha b hb
     exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : twoCore t) ⟨b, hb⟩)
   have hqN : q ∈ twoCore t ⊔ L := Subgroup.mem_sup_left hqK

@@ -10,12 +10,14 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16h_preTil_mono (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     {S T : Subgroup (Vtil V₀ V hV)} (h : S ≤ T) : preTil V₀ V hV S ≤ preTil V₀ V hV T := by
   intro g hg
   obtain ⟨x, hx, hxS⟩ := (mem_preTil V₀ V hV S).1 hg
   exact (mem_preTil V₀ V hV T).2 ⟨x, hx, h hxS⟩
 
+omit [Finite G] in
 theorem s16h_isPGroup_two_of_le {V U : Subgroup G} (hV : IsElemAbelian 2 V) (hUV : U ≤ V) :
     IsPGroup 2 U := by
   intro g
@@ -105,7 +107,7 @@ theorem s16h_uniqueMax_or_dvd_of_blockBound_one (D : Data G) (h61 : UC6.R6_1 D)
     set P := (E ⊓ nBar D.M V₀ V hV L) ⊓ preBarSub D.M V₀ V hV (centSub (wTil V₀ V hV
       (conjSubgroup L x) ⊔ wTil V₀ V hV (conjSubgroup L y))) with hP
     have hPab : IsElemAbelian q P := hE.mono (inf_le_left.trans inf_le_left)
-    haveI : Fact q.Prime := ⟨hpp.1⟩
+    have : Fact q.Prime := ⟨hpp.1⟩
     have hq3 : 3 ≤ q := by
       have := hpp.1.two_le
       have := hpp.2
@@ -133,7 +135,7 @@ theorem s16h_unique₂_of_unique₁_three (D : Data G) {V₀ V L : Subgroup G} (
           X ≠ conjSubgroup (wSub V₀ V h.isElemAbelian L) y}, X,
       w ≠ 1 → UniqueMax D.M (D.M ⊓ centralizer ({w} : Set G)) := by
   have hV := h.isElemAbelian
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
   intro x hx y hy hxy w hw hw1
   have hcard : ({conjSubgroup (wSub V₀ V hV L) x, conjSubgroup (wSub V₀ V hV L) y} :
       Set (Subgroup G)).ncard < (wConj D.M V₀ V hV L).ncard := by

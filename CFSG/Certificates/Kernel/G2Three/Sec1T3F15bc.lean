@@ -19,11 +19,13 @@ variable {Γ : Type} [Group Γ] [Finite Γ] {elt : ℕ → Γ} {P C V Q : ℕ}
 theorem f15bc_hasB_one (i : ℕ) : hasB 1 i = true ↔ i = 0 := by
   rw [hasB_eq, Nat.testBit_one_eq_true_iff_self_eq_zero]
 
+omit [Finite Γ] in
 theorem f15bc_card (hR : RealT elt P C V Q) {m : ℕ} {K : Subgroup Γ}
     (hK : RepM elt m (K : Set Γ)) : Nat.card K = pop m := by
   rw [← pop_sound hR.inj hK]
   exact Nat.card_coe_set_eq (K : Set Γ)
 
+omit [Finite Γ] in
 theorem f15bc_comm_of_sq {x y : Γ} (hx : x * x = 1) (hy : y * y = 1) (hxy : x * y * (x * y) = 1) :
     x * y = y * x := by
   calc x * y = (x * y)⁻¹ := (inv_eq_of_mul_eq_one_left hxy).symm
@@ -97,6 +99,7 @@ section Tables
 variable (hR : RealT elt P C V Q)
 include hR
 
+omit [Finite Γ] in
 theorem f15bc_elt_eq_one {i : ℕ} (hi : i < 128) : elt i = 1 ↔ i = 0 := by
   constructor
   · intro h
@@ -105,6 +108,7 @@ theorem f15bc_elt_eq_one {i : ℕ} (hi : i < 128) : elt i = 1 ↔ i = 0 := by
   · rintro rfl
     exact hR.one
 
+omit [Finite Γ] in
 theorem f15bc_imgR_one {m : ℕ} {E : Subgroup Γ} (hE : RepM elt m (E : Set Γ)) :
     imgR Q m = 1 ↔ ∀ x ∈ E, x * x = 1 := by
   constructor
@@ -130,6 +134,7 @@ theorem f15bc_imgR_one {m : ℕ} {E : Subgroup Γ} (hE : RepM elt m (E : Set Γ)
       rw [hR.one, one_mul] at hs
       exact (f15bc_elt_eq_one hR (atR_lt _ _)).1 hs
 
+omit [Finite Γ] in
 theorem f15bc_commE_one {x y : ℕ} (hx : x < 128) (hy : y < 128) :
     hasB 1 (commE P C V x y) = true ↔ elt x * elt y = elt y * elt x := by
   rw [f15bc_hasB_one, ← f15bc_elt_eq_one hR (i := commE P C V x y) (atR_lt _ _), commE_elt hR hx hy,
@@ -147,6 +152,7 @@ abbrev f15bc_Lat (elt : ℕ → Γ) (X : Subgroup Γ) (L N : ℕ) : Prop :=
   (∀ k < N, ∃ K : Subgroup Γ, K ≤ X ∧ RepM elt (latM L k) (K : Set Γ)) ∧
     ∀ K ≤ X, ∃ k < N, RepM elt (latM L k) (K : Set Γ)
 
+omit [Finite Γ] in
 theorem f15bc_gen (hR : RealT elt P C V Q) {X : Subgroup Γ} {L RG OR N : ℕ}
     (hlat : f15bc_Lat elt X L N) (hN : N ≤ 448) (ho : ordK L OR 0 N = true) (hp : IsPGroup 2 X)
     (hrg : rgK L RG N = true)
@@ -167,6 +173,7 @@ section Five
 
 variable {fr : Frame Γ}
 
+omit [Finite Γ] in
 theorem f15bc_Fs_le : closure {fr.a₁ * fr.a₂, fr.b₁ * fr.b₂, fr.z, fr.σ} ≤ fr.Sσ := by
   have hm : ∀ x ∈ ({fr.a₁, fr.b₁, fr.a₂, fr.b₂, fr.h₀, fr.σ} : Set Γ), x ∈ fr.Sσ :=
     fun x hx => subset_closure hx
@@ -179,6 +186,7 @@ theorem f15bc_Fs_le : closure {fr.a₁ * fr.a₂, fr.b₁ * fr.b₂, fr.z, fr.σ
   · exact pow_mem (hm _ (by simp)) 2
   · exact hm _ (by simp)
 
+omit [Finite Γ] in
 theorem f15bc_Fs_mset (hR : RealT elt P C V Q) (hg : ∀ s < 6, elt (s + 1) = sGen fr s) {R : ℕ}
     (hc : closOK C [mulE P 1 3, mulE P 2 4, atR Q 2, 6] R = true) :
     mset elt (closK C [mulE P 1 3, mulE P 2 4, atR Q 2, 6] R) =
@@ -342,19 +350,23 @@ theorem f15bc_testBit_sub_pow {G g : ℕ} (h : G.testBit g = true) (j : ℕ) :
       congr 1
       omega
 
+omit [Finite Γ] in
 theorem f15bc_repBot (hR : RealT elt P C V Q) : RepM elt 1 ((⊥ : Subgroup Γ) : Set Γ) := by
   have h := repM_mset hR.inj (elt := elt) 1
   rwa [mset_one hR.one, ← Subgroup.coe_bot] at h
 
+omit [Finite Γ] in
 theorem f15bc_rep (hR : RealT elt P C V Q) {m : ℕ} {X : Set Γ} (h : mset elt m = X) :
     RepM elt m X := by
   rw [← h]
   exact repM_mset hR.inj m
 
+omit [Finite Γ] in
 theorem f15bc_isMaxSq_iff {X Y : Subgroup Γ} : IsMaxSq ⊥ X Y ↔ Y ∈ maxElemAbelian X := by
   unfold IsMaxSq maxElemAbelian
-  simp only [Set.mem_setOf_eq, mem_bot, bot_le, true_and, isElemAbelian_iff_sq]
+  simp only [Set.mem_ofPred_eq, mem_bot, bot_le, true_and, isElemAbelian_iff_sq]
 
+omit [Finite Γ] in
 theorem f15bc_maxEA (hR : RealT elt P C V Q) {G₀ X : Subgroup Γ} {L N Xm : ℕ}
     (hL : LatOK elt L N G₀) (hN : N ≤ 448) (hXG : X ≤ G₀) (hX : RepM elt Xm (X : Set Γ)) {k : ℕ}
     (hk : k < N) {Y : Subgroup Γ} (hY : RepM elt (entL L k) (Y : Set Γ)) :
@@ -368,6 +380,7 @@ theorem f15bc_maxEA (hR : RealT elt P C V Q) {G₀ X : Subgroup Γ} {L N Xm : �
   · intro h
     exact ⟨hk, Y, hY, f15bc_isMaxSq_iff.2 h⟩
 
+omit [Finite Γ] in
 theorem f15bc_comm_iff (A : Subgroup Γ) :
     IsMulCommutative A ↔ ∀ a ∈ A, ∀ b ∈ A, ⁅a, b⁆ ∈ (⊥ : Subgroup Γ) := by
   simp only [mem_bot, commutatorElement_eq_one_iff_mul_comm]
@@ -428,6 +441,7 @@ section Four
 
 variable {fr : Frame Γ}
 
+omit [Finite Γ] in
 theorem f15bc_F_mset (hR : RealT elt P C V Q) (hg : ∀ s < 6, elt (s + 1) = sGen fr s) {R : ℕ}
     (hc : closOK C [mulE P 1 3, mulE P 2 4, atR Q 2] R = true) :
     mset elt (closK C [mulE P 1 3, mulE P 2 4, atR Q 2] R) = (fr.F : Set Γ) := by
@@ -442,6 +456,7 @@ theorem f15bc_F_mset (hR : RealT elt P C V Q) (hg : ∀ s < 6, elt (s + 1) = sGe
   rw [f13_setOf_three]
   rfl
 
+omit [Finite Γ] in
 theorem f15bc_Fs_eq : fr.F ⊔ closure {fr.σ} = closure {fr.a₁ * fr.a₂, fr.b₁ * fr.b₂, fr.z, fr.σ} := by
   unfold SFrame.F
   rw [← Subgroup.closure_union]
@@ -530,7 +545,7 @@ theorem f15bc_four (hR : RealT elt P C V Q) (hg : ∀ s < 6, elt (s + 1) = sGen 
   · rw [f11_card hR hFsm, h16]
     norm_num
   · ext Y
-    simp only [Set.mem_diff, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_sdiff, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · intro hY
       have hYne : Y ≠ fr.F := fun h => hFnot (h ▸ hY)
@@ -567,6 +582,7 @@ theorem f15bc_closK_lt (C : ℕ) (gs : List ℕ) : ∀ R, closK C gs R < 2 ^ 128
     · rw [testBit_lt128 (imgR_lt _ _) (by omega)] at h
       exact Bool.noConfusion h
 
+omit [Finite Γ] in
 theorem f15bc_conjM_mset (hR : RealT elt P C V Q) {s : ℕ} (hs : s < 128) (X : ℕ) :
     mset elt (conjM P C V s X) = (fun x => elt s * x * (elt s)⁻¹) '' mset elt X := by
   have e : conjM P C V s X = Nat.rec (motive := fun _ => Nat) 0 (fun i acc =>
@@ -582,6 +598,7 @@ theorem f15bc_conjM_mset (hR : RealT elt P C V Q) {s : ℕ} (hs : s < 128) (X : 
   · rintro ⟨_, ⟨i, hi, hb, rfl⟩, rfl⟩
     exact ⟨i, hi, hb, conjR_elt hR hs hi⟩
 
+omit [Finite Γ] in
 theorem f15bc_normM (hR : RealT elt P C V Q) {Xm Nm : ℕ} (h : normM P C V Xm Nm = true) :
     ∀ x ∈ mset elt Xm, ∀ n ∈ mset elt Nm, x * n * x⁻¹ ∈ mset elt Nm := by
   rintro _ ⟨i, hi, hb, rfl⟩ n hn
@@ -597,6 +614,7 @@ section Quo
 
 variable {X N : Subgroup Γ} [(N.subgroupOf X).Normal]
 
+omit [Finite Γ] in
 theorem f15bc_quo_comm {K : Subgroup Γ} (hNK : N ≤ K) (hKX : K ≤ X) :
     IsMulCommutative (quo X N K) ↔ ∀ a ∈ K, ∀ b ∈ K, ⁅a, b⁆ ∈ N := by
   rw [f15bc_comm_iff]
@@ -683,7 +701,7 @@ theorem f15bc_jr_quo (hR : RealT elt P C V Q) {X N A : Subgroup Γ} [(N.subgroup
       K = closure (rgSet elt RG k))
     (hX : RepM elt Xm (X : Set Γ)) (hN : RepM elt Nm (N : Set Γ)) (hNb : Nm < 2 ^ 128)
     (hNX : N ≤ X) (hn : ∀ x ∈ X, ∀ n ∈ N, x * n * x⁻¹ ∈ N) (hT : mset elt T = (A : Set Γ))
-    (hNA : N ≤ A) (hAX : A ≤ X) (h : joinK C (jrU P C V Q L RG M Xm Nm) R T = true) :
+    (hNA : N ≤ A) (_hAX : A ≤ X) (h : joinK C (jrU P C V Q L RG M Xm Nm) R T = true) :
     thompsonRank (⊤ : Subgroup (X ⧸ N.subgroupOf X)) = quo X N A := by
   have hA : A = closure (⋃ K ∈ {K : Subgroup Γ | (N ≤ K ∧ K ≤ X ∧ ∀ a ∈ K, ∀ b ∈ K, ⁅a, b⁆ ∈ N) ∧
       ∀ B ∈ {B : Subgroup Γ | N ≤ B ∧ B ≤ X ∧ ∀ a ∈ B, ∀ b ∈ B, ⁅a, b⁆ ∈ N},

@@ -45,17 +45,17 @@ theorem burnsideAut_d5d4_coprime {G : Type} [Group G] [Finite G]
       MulAut ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)).range)
     (e : ↥L ≃* ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)) (x : G) :
     Nat.Coprime (orderOf (Θ (MulAut.congr e (MulAut.conjNormal x)))) 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨σ', hσ', hσ'ord, -⟩ :=
     finite_graph_field_parameter_fields TwistTag.D4 Nat.prime_two hf K hK
   have hσσ' : σ' = σ := RingEquiv.ext fun c => by rw [hσ', hσ]
   rw [hσσ'] at hσ'ord
-  haveI : CharP K 2 := burnsideA26_charP_two (n := 3 * f) (by rw [hK, ← pow_mul, mul_comm])
+  have : CharP K 2 := burnsideA26_charP_two (n := 3 * f) (by rw [hK, ← pow_mul, mul_comm])
   have hK2 : ringChar K = 2 := ringChar.eq K 2
   obtain ⟨-, hNF, -, hcyc, hcardAut, -, hZC, -⟩ :=
     even_triality_exact_automorphism_normal_form hf K hK σ hσ
-  haveI : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; omega)
-  haveI : IsCyclic (K ≃+* K) := hcyc
+  have : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; omega)
+  have : IsCyclic (K ≃+* K) := hcyc
   have hσ3 : σ ^ 3 = 1 := by
     have h1 := pow_orderOf_eq_one σ
     rwa [hσ'ord] at h1
@@ -72,9 +72,9 @@ theorem burnsideAut_d5d4_coprime {G : Type} [Group G] [Finite G]
     refine ⟨g, ?_⟩
     rw [hΘ m g δ hgδ]
     exact hgδ
-  haveI : CharP (fixSubfield σ) 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2
+  have : CharP (fixSubfield σ) 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2
     (by exact_mod_cast two_eq_zero_fixSubfield σ hK2)
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   obtain ⟨y₁, y₂, hy₁3, hy₂3, hy₁₂, hy₁1, hy₂⟩ := burnsideA26_g2_E9 (k := fixSubfield σ)
   set ι := trialityG2Incl σ hK2 with hιdef
   have hι : Function.Injective ι := trialityG2Incl_injective σ hK2
@@ -149,23 +149,23 @@ theorem burnsideAut_d5d4_coprime {G : Type} [Group G] [Finite G]
 theorem burnsideAut_a315_3D4 {G : Type} [Group G] {L T B : Subgroup G}
     (h : CFSG.Quasithin.A315Hyp L T B) {n : ℕ} (hn : 2 ≤ n)
     (hL : CFSG.Quasithin.Is3D4 2 n ↥L) : ChA.A315Case5Concrete L T B := by
-  haveI := h.sqtk.finite
-  haveI hLn : L.Normal := burnsideA315x_normal h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := h.sqtk.finite
+  have hLn : L.Normal := burnsideA315x_normal h
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLie : CFSG.Quasithin.A315.IsLieChar2 n ↥L :=
     Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl hL)))))
   have hSQT3 : CFSG.Open.pRank 3 (⊤ : Subgroup G) ≤ 2 :=
     h.sqtk.sqt 3 Nat.prime_three (by norm_num)
   obtain ⟨hf, K, _, _, σ, hK, hσ, ⟨e₀⟩⟩ :=
     CFSG.QuasithinUnique.Setup.X6.exists_mulEquiv_triality_model hL
-  haveI : CharP K 2 := burnsideA26_charP_two (n := 3 * n) (by rw [hK, ← pow_mul, mul_comm])
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : CharP K 2 := burnsideA26_charP_two (n := 3 * n) (by rw [hK, ← pow_mul, mul_comm])
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   obtain ⟨hactEq, hNF, ⟨Θ, hΘ, -, hΘker, -⟩, hcyc, hcardAut, hHC, hZC, -⟩ :=
     even_triality_exact_automorphism_normal_form hf K hK σ hσ
-  haveI : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; omega)
+  have : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; omega)
   have hΘF : ∀ δ, Θ (fieldActorHom (t := TwistTag.D4) σ δ) = δ := fun δ =>
-    hΘ (fieldActorHom (t := TwistTag.D4) σ δ) 1 δ (by rw [map_one, one_mul] <;> rfl)
+    hΘ (fieldActorHom (t := TwistTag.D4) σ δ) 1 δ (by rw [map_one, one_mul]; rfl)
   have hφinj : Function.Injective (fieldActorHom (t := TwistTag.D4) σ) :=
     fun δ₁ δ₂ h12 => by rw [← hΘF δ₁, h12, hΘF]
   have hUsyl : CFSG.QuasithinUnique.IsSylowTwoOf
@@ -204,7 +204,7 @@ theorem burnsideAut_a315_3D4 {G : Type} [Group G] {L T B : Subgroup G}
   · exact burnsideAut_map_inn_le_innDiag e
   · rintro _ ⟨δ₁, rfl⟩ _ ⟨δ₂, rfl⟩
     rw [← map_mul, ← map_mul, CFSG.LocalAnalysis.ComponentInitial.ringAut_mul_comm K δ₁ δ₂]
-  · haveI := burnsideAut_inn_normal' ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)
+  · have := burnsideAut_inn_normal' ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)
     rw [Subgroup.normalizer_eq_top]
     exact le_top
   · rw [eq_bot_iff]

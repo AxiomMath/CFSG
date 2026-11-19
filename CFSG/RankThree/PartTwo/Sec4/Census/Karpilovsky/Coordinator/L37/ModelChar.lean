@@ -21,7 +21,7 @@ theorem smul_sub7 (g : GM) (U : Sub7) : g • U = ptAct (g : Mat45ˣ) U := rfl
   if h : k < 8 then ⟨gM ⟨k, h⟩, gM_mem _⟩ else 1
 
 theorem coe_gMG {k : ℕ} (hk : k < 8) : ((gMG k : GM) : Mat45ˣ) = gM ⟨k, hk⟩ := by
-  rw [gMG, dif_pos hk]
+  rw [gMG, dite_eq_left hk]
 
 noncomputable abbrev W : Sub7 := ptS 0
 

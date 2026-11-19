@@ -25,7 +25,7 @@ private theorem isMulCommutative_of_card_le_two {G : Type*} [Group G] [Finite G]
     rcases (by omega : Nat.card G = 1 ∨ Nat.card G = 2) with h1 | h2
     · rw [h1]; norm_num
     · rw [h2]
-  haveI := isCyclic_of_card_dvd_prime (p := 2) h2
+  have := isCyclic_of_card_dvd_prime (p := 2) h2
   infer_instance
 
 private theorem relIndex_inf_le_two {G : Type*} [Group G] {H K L : Subgroup G}
@@ -117,7 +117,7 @@ private theorem card_modEq_card_inf_centralizer {G : Type*} [Group G] {Q : Subgr
     Nat.card ↥Q ≡ Nat.card ↥(Q ⊓ Subgroup.centralizer ({d} : Set G)) [MOD 3] := by
   have hdQ : Subgroup.zpowers d ≤ Subgroup.normalizer (Q : Set G) :=
     Subgroup.zpowers_le.mpr hdN
-  letI : MulAction ↥(Subgroup.zpowers d) ↥Q :=
+  let : MulAction ↥(Subgroup.zpowers d) ↥Q :=
     { smul := fun g x =>
         ⟨(g : G) * (x : G) * (g : G)⁻¹,
           (Subgroup.mem_normalizer_iff.mp (hdQ g.2) x.1).mp x.2⟩
@@ -320,7 +320,7 @@ private theorem exists_hom_ker_range {G : Type*} [Group G] {Q : Subgroup G} {d :
       f.ker.map Q.subtype = Q ⊓ Subgroup.centralizer ({d} : Set G) ∧
         f.range.map Q.subtype = ⁅Q, Subgroup.zpowers d⁆ ∧
         ∀ x : ↥Q, ((f x : ↥Q) : G) = (x : G) * d * (x : G)⁻¹ * d⁻¹ := by
-  letI : CommGroup ↥Q :=
+  let : CommGroup ↥Q :=
     { (inferInstance : Group ↥Q) with mul_comm := fun a b => habel.is_comm.comm a b }
   have hmem : ∀ x : ↥Q, d * (x : G) * d⁻¹ ∈ Q := fun x =>
     (Subgroup.mem_normalizer_iff.mp hdN (x : G)).mp x.2
@@ -351,7 +351,7 @@ private theorem commutator_card {G : Type*} [Group G] {Q : Subgroup G} {d : G}
     (h4 : Nat.card ↥Q = 4 * Nat.card ↥(Q ⊓ Subgroup.centralizer ({d} : Set G))) :
     Nat.card ↥⁅Q, Subgroup.zpowers d⁆ = 4 := by
   obtain ⟨f, hker, hrange, -⟩ := exists_hom_ker_range hdN hd3 habel
-  haveI hCfin : Finite ↥(Q ⊓ Subgroup.centralizer ({d} : Set G)) :=
+  have hCfin : Finite ↥(Q ⊓ Subgroup.centralizer ({d} : Set G)) :=
     Finite.of_injective _ (Subgroup.inclusion_injective inf_le_left)
   have h1 : Nat.card ↥f.ker = Nat.card ↥(Q ⊓ Subgroup.centralizer ({d} : Set G)) := by
     rw [← hker]
@@ -408,13 +408,13 @@ private theorem inf_centralizer_commutator {G : Type*} [Group G] {Q : Subgroup G
     rw [hk] at hdvd
     rw [show Nat.gcd 3 (2 ^ k) = 1 from hcop] at hdvd
     exact Nat.dvd_one.mp hdvd
-  simpa [Subgroup.mem_bot, orderOf_eq_one_iff.mp hone]
+  simp [orderOf_eq_one_iff.mp hone]
 
 private theorem center_le_inf_of_nonabelian {G : Type*} [Group G] {Qs Qs' : Subgroup G}
     (hQs8 : Nat.card ↥Qs = 8) (hnon : ¬ IsMulCommutative Qs)
     (hA4 : Nat.card ↥(Qs ⊓ Qs') = 4) : centerOf Qs ≤ Qs ⊓ Qs' := by
-  haveI hQfin : Finite ↥Qs := Nat.finite_of_card_ne_zero (by rw [hQs8]; norm_num)
-  haveI hAfin : Finite ↥(Qs ⊓ Qs') := Nat.finite_of_card_ne_zero (by rw [hA4]; norm_num)
+  have hQfin : Finite ↥Qs := Nat.finite_of_card_ne_zero (by rw [hQs8]; norm_num)
+  have hAfin : Finite ↥(Qs ⊓ Qs') := Nat.finite_of_card_ne_zero (by rw [hA4]; norm_num)
   have hAab : IsMulCommutative ↥(Qs ⊓ Qs') :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by rw [hA4]; norm_num)
   intro z hzZ
@@ -423,7 +423,7 @@ private theorem center_le_inf_of_nonabelian {G : Type*} [Group G] {Qs Qs' : Subg
     intro h
     exact hzA (h ▸ (Qs ⊓ Qs').one_mem)
   have hle' : Qs ⊓ Qs' ⊔ centerOf Qs ≤ Qs := sup_le inf_le_left inf_le_left
-  haveI hjoinfin : Finite ↥(Qs ⊓ Qs' ⊔ centerOf Qs) :=
+  have hjoinfin : Finite ↥(Qs ⊓ Qs' ⊔ centerOf Qs) :=
     Finite.of_injective _ (Subgroup.inclusion_injective hle')
   have hsup : Qs ⊓ Qs' ⊔ centerOf Qs = Qs := by
     have hlt : Qs ⊓ Qs' < Qs ⊓ Qs' ⊔ centerOf Qs :=
@@ -475,13 +475,13 @@ private theorem centerOf_eq_centerOf_of_card_eq_two {G : Type*} [Group G]
     (hZA' : centerOf Qs' ≤ Qs ⊓ Qs') (hZe : centerOf Qs ≤ centerOf St)
     (hZe' : centerOf Qs' ≤ centerOf St) : centerOf Qs = centerOf Qs' := by
   by_contra heq
-  haveI hZfin : Finite ↥(centerOf Qs) :=
+  have hZfin : Finite ↥(centerOf Qs) :=
     Nat.finite_of_card_ne_zero (by rw [hZcard]; norm_num)
-  haveI hZ'fin : Finite ↥(centerOf Qs') :=
+  have hZ'fin : Finite ↥(centerOf Qs') :=
     Nat.finite_of_card_ne_zero (by rw [hZcard']; norm_num)
-  haveI hAfin : Finite ↥(Qs ⊓ Qs') := Nat.finite_of_card_ne_zero (by rw [hA4]; norm_num)
+  have hAfin : Finite ↥(Qs ⊓ Qs') := Nat.finite_of_card_ne_zero (by rw [hA4]; norm_num)
   have hjoinA : centerOf Qs ⊔ centerOf Qs' ≤ Qs ⊓ Qs' := sup_le hZA hZA'
-  haveI hjoinfin : Finite ↥(centerOf Qs ⊔ centerOf Qs') :=
+  have hjoinfin : Finite ↥(centerOf Qs ⊔ centerOf Qs') :=
     Finite.of_injective _ (Subgroup.inclusion_injective hjoinA)
   have hjoinZ : centerOf Qs ⊔ centerOf Qs' ≤ centerOf St := sup_le hZe hZe'
   have hjoin_gt : 2 < Nat.card ↥(centerOf Qs ⊔ centerOf Qs') := by
@@ -537,7 +537,7 @@ private theorem isMulCommutative_of_card_le_eight {G : Type*} [Group G]
   have hSt_le_J' : St ≤ J' := hStJ.trans inf_le_right
   have hStNQs : St ≤ Subgroup.normalizer (Qs : Set G) := hSt_le_J.trans hQ
   have hStNQs' : St ≤ Subgroup.normalizer (Qs' : Set G) := hSt_le_J'.trans hQ'
-  haveI hQsfin : Finite ↥Qs := Finite.of_injective _ (Subgroup.inclusion_injective hQsSt)
+  have hQsfin : Finite ↥Qs := Finite.of_injective _ (Subgroup.inclusion_injective hQsSt)
   have hQs2 : IsPGroup 2 ↥Qs := hp.to_le hQsSt
   rcases card_eq_one_or_two_or_four_or_eight hQs2 h8 with h1 | h2 | h4 | h8q
   · exact isMulCommutative_of_card_le_two (by omega)
@@ -558,9 +558,9 @@ private theorem isMulCommutative_of_card_le_eight {G : Type*} [Group G]
         rw [← hgQ]
         exact Subgroup.equivMapOfInjective Qs (MulAut.conj g).toMonoidHom
           (MulAut.conj g).injective
-      haveI : IsMulCommutative ↥Qs' := hc'
+      have : IsMulCommutative ↥Qs' := hc'
       exact e.symm.surjective.isMulCommutative (f := e.symm)
-    haveI hQs'fin : Finite ↥Qs' :=
+    have hQs'fin : Finite ↥Qs' :=
       Finite.of_injective _ (Subgroup.inclusion_injective hQs'St)
     have hQne : Qs ≠ Qs' := by
       intro heq
@@ -621,9 +621,9 @@ private theorem not_le_normalizer_of_centerOf_ne_bot {G : Type*} [Group G]
       show J' = J.map (MulAut.conj g).toMonoidHom from hgJ.symm]
     rw [Subgroup.relIndex_map_map_of_injective (f := (MulAut.conj g).toMonoidHom) St J
       (MulAut.conj g).injective, h3]
-  haveI hJ'fin : Finite ↥J' :=
+  have hJ'fin : Finite ↥J' :=
     Nat.finite_of_card_ne_zero (by rw [hcardJ']; exact (Nat.card_pos (α := ↥J)).ne')
-  haveI hTfin : Finite ↥(conjSub g St) :=
+  have hTfin : Finite ↥(conjSub g St) :=
     Finite.of_injective _ (Subgroup.inclusion_injective hTle)
   have hStT : St = conjSub g St := by
     have hle : St ≤ conjSub g St :=
@@ -638,7 +638,7 @@ private theorem isElemAbelian_of_card_eq_four_of_inf_centralizer_eq_bot {G : Typ
     [Group G] {E : Subgroup G} {d : G} (hE4 : Nat.card ↥E = 4)
     (hdN : d ∈ Subgroup.normalizer (E : Set G))
     (hfix : E ⊓ Subgroup.centralizer ({d} : Set G) = ⊥) : IsElemAbelian 2 E := by
-  haveI : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hE4]; norm_num)
+  have : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hE4]; norm_num)
   have hEab : IsMulCommutative ↥E :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 2) (by rw [hE4]; norm_num)
   refine ⟨hEab, fun y hy => ?_⟩
@@ -651,7 +651,7 @@ private theorem isElemAbelian_of_card_eq_four_of_inf_centralizer_eq_bot {G : Typ
     have hne1 : orderOf y ≠ 1 := by
       intro h
       apply h2
-      simp [pow_two, orderOf_eq_one_iff.mp h]
+      simp [orderOf_eq_one_iff.mp h]
     have hne2 : orderOf y ≠ 2 := by
       intro h
       apply h2
@@ -739,7 +739,7 @@ private theorem isMulCommutative_of_center_relIndex_le_two {G : Type*} [Group G]
     have hpos : 0 < (Subgroup.center ↥S).index := Nat.card_pos
     rcases (by omega : (Subgroup.center ↥S).index = 1 ∨
       (Subgroup.center ↥S).index = 2) with h | h <;> simp [h]
-  haveI : IsCyclic (↥S ⧸ Subgroup.center ↥S) := isCyclic_of_card_dvd_prime hdvd
+  have : IsCyclic (↥S ⧸ Subgroup.center ↥S) := isCyclic_of_card_dvd_prime hdvd
   exact isMulCommutative_of_isCyclic_quotient_center_self ↥S
 
 private theorem exists_mul_zpow_of_mem_sup {G : Type*} [Group G] {Q A : Subgroup G} {d : G}
@@ -749,7 +749,7 @@ private theorem exists_mul_zpow_of_mem_sup {G : Type*} [Group G] {Q A : Subgroup
     ∀ a ∈ A, ∃ q ∈ Q, ∃ i : ℤ, (i = 0 ∨ i = 1 ∨ i = 2) ∧ a = q * d ^ i := by
   intro a ha
   have hQN' : Q ⊔ Subgroup.zpowers d ≤ Subgroup.normalizer (Q : Set G) := hA ▸ hQN
-  haveI hQnA : (Q.subgroupOf A).Normal := by
+  have hQnA : (Q.subgroupOf A).Normal := by
     rw [hA]
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr hQN'
   have hsup : Q.subgroupOf A ⊔ (Subgroup.zpowers d).subgroupOf A = ⊤ := by
@@ -932,7 +932,7 @@ private theorem card_inf_centralizer_le_two {G : Type*} [Group G]
     · exact Or.inl h4
     · exact Or.inr h8'
 
-  haveI hCfin : Finite ↥(Qs ⊓ Subgroup.centralizer ({d} : Set G)) :=
+  have hCfin : Finite ↥(Qs ⊓ Subgroup.centralizer ({d} : Set G)) :=
     Finite.of_injective
       (fun a : ↥(Qs ⊓ Subgroup.centralizer ({d} : Set G)) => (⟨a.1, a.2.1⟩ : ↥Qs))
       (fun a b h => Subtype.ext (congrArg (fun y : ↥Qs => (y : G)) h))
@@ -975,7 +975,7 @@ private theorem isElemAbelian_and_commutator {G : Type*} [Group G]
   have hE_le : ⁅Qs, Subgroup.zpowers d⁆ ≤ Qs :=
     (Subgroup.le_normalizer_iff_commutator_le_left (H := Subgroup.zpowers d) (K := Qs)).mp
       (Subgroup.zpowers_le.mpr hdN)
-  haveI hCfin : Finite ↥(Qs ⊓ Subgroup.centralizer ({d} : Set G)) :=
+  have hCfin : Finite ↥(Qs ⊓ Subgroup.centralizer ({d} : Set G)) :=
     Finite.of_injective _ (Subgroup.inclusion_injective inf_le_left)
   have h4or8 : Nat.card ↥Qs = 4 ∨ Nat.card ↥Qs = 8 := by
     rcases card_eq_one_or_two_or_four_or_eight hQs2 h8 with h1 | h2 | h4' | h8'
@@ -1070,7 +1070,7 @@ private theorem inf_centralizer_singleton_eq_inf_centralizer {G : Type*} [Group 
     (hAJN : J ≤ Subgroup.normalizer ((Qs ⊔ Subgroup.zpowers d : Subgroup G) : Set G))
     (hCcard : Nat.card ↥(Qs ⊓ Subgroup.centralizer ({d} : Set G)) ≤ 2) :
     Qs ⊓ Subgroup.centralizer ({d} : Set G) = Qs ⊓ Subgroup.centralizer (J : Set G) := by
-  haveI hCfin : Finite ↥(Qs ⊓ Subgroup.centralizer ({d} : Set G)) :=
+  have hCfin : Finite ↥(Qs ⊓ Subgroup.centralizer ({d} : Set G)) :=
     Finite.of_injective _ (Subgroup.inclusion_injective inf_le_left)
   refine le_antisymm ?_ ?_
   · intro x hx
@@ -1249,7 +1249,7 @@ private theorem inf_centralizer_ne_of_conj_eq_mul_inv {G : Type*} [Group G]
       (Subgroup.zpowers_le.mpr hdN)
   have hdE : d ∈ Subgroup.normalizer (E : Set G) :=
     Subgroup.normalizer_commutator_ge_right Qs (Subgroup.zpowers d) (Subgroup.mem_zpowers d)
-  haveI hEfin : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hE4]; norm_num)
+  have hEfin : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hE4]; norm_num)
   have hE4' : Nat.card ↥E = 4 := hE4
   intro hEq
   have hEcent : E ≤ Subgroup.centralizer ({t} : Set G) := by
@@ -1320,8 +1320,8 @@ private theorem card_inf_centralizer_singleton_eq_two {G : Type*} [Group G]
     Nat.card ↥(E ⊓ Subgroup.centralizer ({t} : Set G)) = 2 := by
   let F : Subgroup G := E ⊓ Subgroup.centralizer ({t} : Set G)
   change Nat.card ↥F = 2
-  haveI hEfin : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hE4]; norm_num)
-  haveI hFfin : Finite ↥F :=
+  have hEfin : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hE4]; norm_num)
+  have hFfin : Finite ↥F :=
     Finite.of_injective _ (Subgroup.inclusion_injective inf_le_left)
   have hE4' : Nat.card ↥E = 4 := hE4
   have hEelem' : IsElemAbelian 2 E := hEelem
@@ -1516,18 +1516,18 @@ private theorem isElemAbelian_and_commutator_of_four_le_card {G : Type*} [Group 
     (hSt_not_normal : ¬ (J ≤ Subgroup.normalizer (St : Set G)))
     (h8 : Nat.card ↥Qs ≤ 8) (h4 : 4 ≤ Nat.card ↥Qs)
     (hne : Qs ⊓ Subgroup.centralizer ({d} : Set G) ≠ Qs)
-    (hcardJ6 : Nat.card ↥J = 6 * Nat.card ↥Qs) :
+    (_hcardJ6 : Nat.card ↥J = 6 * Nat.card ↥Qs) :
     IsElemAbelian 2 Qs ∧ Nat.card ↥⁅Qs, Subgroup.zpowers d⁆ = 4 ∧
       Qs ⊓ Subgroup.centralizer ({d} : Set G) = Qs ⊓ Subgroup.centralizer (J : Set G) ∧
       J ≤ Subgroup.normalizer ((⁅Qs, Subgroup.zpowers d⁆ : Subgroup G) : Set G) ∧
       ∀ t ∈ St, t ∉ Qs →
         Nat.card ↥(⁅Qs, Subgroup.zpowers d⁆ ⊓ Subgroup.centralizer ({t} : Set G)) = 2 := by
-  haveI hQsfin : Finite ↥Qs := Nat.finite_of_card_ne_zero (by omega)
-  haveI hStfin : Finite ↥St := by
+  have hQsfin : Finite ↥Qs := Nat.finite_of_card_ne_zero (by omega)
+  have hStfin : Finite ↥St := by
     have hQssub : Finite ↥(Qs.subgroupOf St) :=
       Finite.of_injective (Subgroup.subgroupOfEquivOfLe hQsSt)
         (Subgroup.subgroupOfEquivOfLe hQsSt).injective
-    haveI : (Qs.subgroupOf St).FiniteIndex :=
+    have : (Qs.subgroupOf St).FiniteIndex :=
       ⟨by
         have hidx : (Qs.subgroupOf St).index = 2 := hQsrelSt
         rw [hidx]; norm_num⟩
@@ -1591,9 +1591,9 @@ theorem goldschmidt_small {G₀ : Type*} [Group G₀] {J J' Qs Qs' St : Subgroup
     exact Subgroup.mem_sup_left (Subgroup.mem_sup_right (Subgroup.mem_zpowers d))
   have hStNQs : St ≤ Subgroup.normalizer (Qs : Set G₀) := hSt_le_J.trans hQ
   have hStNQs' : St ≤ Subgroup.normalizer (Qs' : Set G₀) := hSt_le_J'.trans hQ'
-  haveI hStfin : Finite ↥St :=
+  have hStfin : Finite ↥St :=
     Finite.of_injective _ (Subgroup.inclusion_injective hSt_le_J)
-  haveI hQsfin : Finite ↥Qs :=
+  have hQsfin : Finite ↥Qs :=
     Finite.of_injective _ (Subgroup.inclusion_injective hQsSt)
   have hcardSt : Nat.card ↥St = 2 * Nat.card ↥Qs := by
     have h := Subgroup.relIndex_mul_card (H := Qs) (K := St)
@@ -1616,7 +1616,7 @@ theorem goldschmidt_small {G₀ : Type*} [Group G₀] {J J' Qs Qs' St : Subgroup
     have h1 : Nat.card ↥St = 1 := by rw [hbot]; simp
     rw [hcardSt] at h1
     omega
-  haveI hStnt : Nontrivial ↥St := by
+  have hStnt : Nontrivial ↥St := by
     rw [Subgroup.nontrivial_iff_ne_bot]
     exact hSt_ne_bot
   have hQs2 : IsPGroup 2 ↥Qs := hp.to_le hQsSt

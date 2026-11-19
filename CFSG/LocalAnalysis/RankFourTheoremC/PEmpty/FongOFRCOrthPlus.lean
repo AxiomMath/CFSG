@@ -17,7 +17,7 @@ theorem exists_witt_three_quadPlus {F : Type} [Field F] {n : ℕ} (hn : 3 ≤ n)
 
 theorem dvd_natCast_pow_prime_add_one_iff {p : ℕ} (hp : p.Prime) (q n : ℕ) :
     (p : ℤ) ∣ ((q ^ p : ℕ) : ℤ) ^ n + 1 ↔ (p : ℤ) ∣ (q : ℤ) ^ n + 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [← ZMod.intCast_zmod_eq_zero_iff_dvd, ← ZMod.intCast_zmod_eq_zero_iff_dvd]
   push_cast
   rw [ZMod.pow_card]
@@ -30,8 +30,8 @@ theorem pRank_statedProj_OmegaPlus_formula {F : Type} [Field F] [Finite F] {p n 
           orderOf (Nat.card F : ZMod p)
       else (if Even (orderOf (Nat.card F : ZMod p)) then 2 * n else n) /
         orderOf (Nat.card F : ZMod p) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   have hc : Fintype.card F = Nat.card F := (Nat.card_eq_fintype_card).symm
   have hpK : ¬ p ∣ Fintype.card F := by
     rw [hc]
@@ -56,7 +56,7 @@ theorem pRank_statedProj_OmegaPlus_eq_of_pow {F F₀ : Type} [Field F] [Field F�
     (hcard : Nat.card F = Nat.card F₀ ^ p) (hpF : ¬ p ∣ Nat.card F) :
     CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedOmega (StatedQuadPlus n F)))) =
       CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedOmega (StatedQuadPlus n F₀)))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hF₀ : ¬ p ∣ Nat.card F₀ := fun h => hpF (hcard ▸ h.trans (dvd_pow_self _ hp.ne_zero))
   have hcond : (p : ℤ) ∣ (Nat.card F : ℤ) ^ n + 1 ↔ (p : ℤ) ∣ (Nat.card F₀ : ℤ) ^ n + 1 := by
     rw [hcard]

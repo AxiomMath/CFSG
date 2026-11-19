@@ -24,7 +24,7 @@ variable {G : Type} [Group G] [Finite G] {p m : ℕ}
 theorem SylowTorusIrr.irreducibleOnOmega1 [Fact p.Prime] (h : SylowTorusIrr G p m)
     (P : Sylow p G) : IrreducibleOnOmega1 p (P : Subgroup G) := by
   obtain ⟨T, E, hTab, hconj, hET, hE, hEel, hcard, hirr⟩ := h.exists_torus
-  obtain ⟨g, hg⟩ := hconj (P : Subgroup G) P.isPGroup'
+  obtain ⟨g, hg⟩ := hconj (P : Subgroup G) P.isPGroup
   have hPT : ∀ x ∈ (P : Subgroup G), g⁻¹ * x * g ∈ T := by
     intro x hx
     obtain ⟨t, ht, hte⟩ := hg hx
@@ -55,7 +55,7 @@ theorem SylowTorusIrr.irreducibleOnOmega1 [Fact p.Prime] (h : SylowTorusIrr G p 
       obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.1 hz'
       exact ((Commute.zpow_right (show Commute x y from hycomm x hx) i).eq).symm
     have hQ : IsPGroup p ((P : Subgroup G) ⊔ Subgroup.zpowers y : Subgroup G) :=
-      P.isPGroup'.to_sup_of_normal_right' hz hnorm
+      P.isPGroup.to_sup_of_normal_right' hz hnorm
     obtain ⟨S, hS⟩ := hQ.exists_le_sylow
     have hPS : (P : Subgroup G) ≤ S := le_trans le_sup_left hS
     have hcardS : Nat.card (S : Subgroup G) ≤ Nat.card (P : Subgroup G) := by
@@ -72,7 +72,7 @@ theorem SylowTorusIrr.irreducibleOnOmega1 [Fact p.Prime] (h : SylowTorusIrr G p 
         group
       rw [e]
       exact h1
-    · obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hx⟩
+    · obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hx⟩
       refine ⟨k, ?_⟩
       have hxk : x ^ p ^ k = 1 := congrArg Subtype.val hk
       rw [conj_pow, hxk]
@@ -267,7 +267,7 @@ theorem pRank_le_one_of_isCyclic (hp : p.Prime) {H : Subgroup G} (hH : IsCyclic 
       by simp⟩
     rw [Subgroup.mem_bot.1 hx, one_pow]
   · rintro i ⟨E, hEH, hE, hcard⟩
-    haveI : IsCyclic E := Subgroup.isCyclic_of_le hEH
+    have : IsCyclic E := Subgroup.isCyclic_of_le hEH
     have hexp : Monoid.exponent E ∣ p := Monoid.exponent_dvd_of_forall_pow_eq_one fun x =>
       Subtype.ext (by simpa using hE.2 x x.2)
     rw [IsCyclic.exponent_eq_card, hcard] at hexp
@@ -288,6 +288,7 @@ section Embedding
 
 variable {K₁ K : Type} [Group K₁] [Finite K₁] [Group K] [Finite K] {p : ℕ}
 
+omit [Finite K₁] [Finite K] in
 theorem NormalizerMovesLines.map (ι : K₁ →* K) (hι : Function.Injective ι) {P₁ : Subgroup K₁}
     (h : NormalizerMovesLines p P₁) : NormalizerMovesLines p (P₁.map ι) := by
   intro A hA hcard

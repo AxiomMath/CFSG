@@ -50,7 +50,7 @@ private theorem comm_eq {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     Subgroup.map_subgroupOf_eq_of_le (by rw [hN]; exact le_top)]
   exact hS
 
-private theorem pgroup {p : ℕ} {P T B : Subgroup G} :
+private theorem pgroup {_p : ℕ} {P T B : Subgroup G} :
     IsPGroup 2 (Sstar P T B) := by
   have hK : IsPGroup 2 (CFSG.Open.pCoreOf 2 (B ⊔ T)) :=
     (CFSG.LieType.BorelTits.pCore_isPGroup 2).map (B ⊔ T).subtype
@@ -104,6 +104,6 @@ theorem «structure» {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     (h51 : OddPrimeClassTwoAction G p P T B e) (h53 : FaithfulBinaryIrreducibleAction G p P T B ρ) :
     IsPGroup 2 (Sstar P T B) ∧ Sstar P T B ≠ ⊥ ∧ Odd (Nat.card (Bstar P B)) ∧
       ⁅Sstar P T B, Bstar P B⁆ = Sstar P T B :=
-  ⟨pgroup (p := p), ne_bot h51 h53, odd_card h51 h53, comm_eq h51 h53⟩
+  ⟨pgroup (_p := p), ne_bot h51 h53, odd_card h51 h53, comm_eq h51 h53⟩
 
 end CFSG.LocalAnalysis.RankThreeUC.Section5.CoprimeStarSubgroupStructure

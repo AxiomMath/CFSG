@@ -19,7 +19,7 @@ theorem not_dvd_of_zmod_ne_zero {P n : ℕ} (h : ((n : ℕ) : ZMod P) ≠ 0) : �
 theorem notDvd_facts {P q : ℕ} (hP : P.Prime) (hP5 : 5 ≤ P) (hq : 1 ≤ q)
     (hd : P ∣ q ^ 2 + 1) :
     (∀ k : ℕ, ¬ P ∣ q ^ k) ∧ ¬ P ∣ q ^ 2 - 1 ∧ ¬ P ∣ q ^ 6 - 1 ∧ ¬ P ∣ q ^ 8 + q ^ 4 + 1 := by
-  haveI := Fact.mk hP
+  have := Fact.mk hP
   have hz2 : (2 : ZMod P) ≠ 0 := by
     intro h
     have : ((2 : ℕ) : ZMod P) = 0 := by exact_mod_cast h

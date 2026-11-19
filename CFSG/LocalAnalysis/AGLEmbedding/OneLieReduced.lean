@@ -38,7 +38,7 @@ theorem ReducedNongeneration.normal_of_rankOne (h : ReducedNongeneration p Y Rb 
   have hp := h.prime
   have : Fact p.Prime := ⟨hp⟩
   have hrK : 2 ≤ Open.pRank p ((Rb : Subgroup Y) ⊓ K) :=
-    two_le_pRank_of_isPGroup_not_isCyclic hp h.ne_two (Rb.isPGroup'.to_le inf_le_left) hnc
+    two_le_pRank_of_isPGroup_not_isCyclic hp h.ne_two (Rb.isPGroup.to_le inf_le_left) hnc
   refine ⟨fun n hn g => ?_⟩
   have hL : IsComponentOf (K.map (MulAut.conj g).toMonoidHom) ⊤ :=
     (ComponentClassification.LocalComponents.equiv_iff (MulAut.conj g) K).mpr hK
@@ -50,7 +50,7 @@ theorem ReducedNongeneration.normal_of_rankOne (h : ReducedNongeneration p Y Rb 
       (ComponentClassification.Components.mathlib_subnormal_of_chain hL.2.1
         Subgroup.IsSubnormal.top) hc)
   have hrL : 2 ≤ Open.pRank p ((Rb : Subgroup Y) ⊓ K.map (MulAut.conj g).toMonoidHom) :=
-    two_le_pRank_of_isPGroup_not_isCyclic hp h.ne_two (Rb.isPGroup'.to_le inf_le_left) hncL
+    two_le_pRank_of_isPGroup_not_isCyclic hp h.ne_two (Rb.isPGroup.to_le inf_le_left) hncL
   rw [← h.eq_of_two_le_pRank hL hK hrL hrK]
   exact ⟨n, hn, rfl⟩
 

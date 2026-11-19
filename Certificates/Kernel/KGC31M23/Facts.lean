@@ -296,7 +296,7 @@ theorem hexE : countProducts 23 (fun g => fixesAll g hexH)
     ((trPL 23 5 CW.LR CW.TR 5).map (List.map (tabP 23 5))) (tabP 23 5 (pidn 23 5)) =
       pcountProducts 23 5 (pfix hexH) (trPL 23 5 CW.LR CW.TR 5) (pidn 23 5) :=
   countProducts_tabP (f := fun g => fixesAll g hexH) (fk := pfix hexH)
-    (fun X hX => fixPts_tabP hX hexP) _ ppTRW _ (PP.id hsz)
+    (fun _X hX => fixPts_tabP hX hexP) _ ppTRW _ (PP.id hsz)
 
 theorem hex : countProducts 23 (fun g => fixesAll g hexH) (levelTables wChain) (idT 23) = 16 := by
   have e := hexE

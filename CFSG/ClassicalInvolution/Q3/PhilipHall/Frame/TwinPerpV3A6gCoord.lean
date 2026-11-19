@@ -190,8 +190,8 @@ theorem sh_dd_self (b f) : sh b f + dd b = sh b (f + dd b) := by
     (fun _ _ _ hb => hb)
 
 @[expose] def AT : Subgroup (AEQ 8) :=
-  mkSub (fun f _ => AffP f) AffP.zero (fun f g b c _ _ hf hg => hf.add (hg.sh b))
-    (fun f b _ hf => hf.sh b)
+  mkSub (fun _f _ => AffP _f) AffP.zero (fun _f _g b _c _ _ hf hg => hf.add (hg.sh b))
+    (fun _f b _ hf => hf.sh b)
 
 theorem PD_mul {f g : Fin 8 → ZMod 2} {b c : Fin 3 → ZMod 2} (hf : AffP (f + dd b))
     (hg : AffP (g + dd c)) : AffP ((f + sh b g) + dd (b + c)) := by
@@ -337,7 +337,7 @@ theorem card_E3p : Nat.card E3p = 8 := by
     (fun x hx => by
       obtain ⟨f, ⟨a, c, rfl⟩, rfl⟩ := mem_E3p.mp hx
       exact ⟨a, ((E8_eq_iff _ _ _ _).mpr ⟨rfl, aff_modPi_zero a c⟩).symm⟩)]
-  simp [Fintype.card_fun]
+  simp
 
 theorem card_AT : Nat.card AT = 64 := by
   rw [card_of_param (S := AT) (fun p : (Fin 3 → ZMod 2) × (Fin 3 → ZMod 2) => E8 (aff p.1 0) p.2)
@@ -348,7 +348,7 @@ theorem card_AT : Nat.card AT = 64 := by
     (fun x hx => by
       obtain ⟨f, b, ⟨a, c, rfl⟩, rfl⟩ := mem_AT.mp hx
       exact ⟨(a, b), ((E8_eq_iff _ _ _ _).mpr ⟨rfl, aff_modPi_zero a c⟩).symm⟩)]
-  simp [Fintype.card_fun, Fintype.card_prod]
+  simp [Fintype.card_prod]
 
 theorem card_AD : Nat.card AD = 64 := by
   rw [card_of_param (S := AD)
@@ -373,7 +373,7 @@ theorem card_AD : Nat.card AD = 64 := by
       show E8 (dd b + aff a 0) b = E8 f b
       rw [hf]
       exact ((E8_eq_iff _ _ _ _).mpr ⟨rfl, dd_aff_modPi_zero a b c⟩).symm)]
-  simp [Fintype.card_fun, Fintype.card_prod]
+  simp [Fintype.card_prod]
 
 @[expose] def repE (c : Fin 6 → ZMod 2) : Fin 8 → ZMod 2 :=
   ![0, c 0, c 1, c 2, c 3, c 4, c 5, c 0 + c 1 + c 2 + c 3 + c 4 + c 5]
@@ -392,6 +392,6 @@ theorem card_AE : Nat.card AE = 64 := by
       obtain ⟨f, hf, rfl⟩ := mem_AE.mp hx
       exact ⟨![f 1 + f 0, f 2 + f 0, f 3 + f 0, f 4 + f 0, f 5 + f 0, f 6 + f 0],
         ((E8_eq_iff _ _ _ _).mpr ⟨rfl, repE_surj f hf⟩).symm⟩)]
-  simp [Fintype.card_fun]
+  simp
 
 end CFSG.ClassicalInvolution.Q3.PhilipHall.Frame.TwinPerpV3.A6g

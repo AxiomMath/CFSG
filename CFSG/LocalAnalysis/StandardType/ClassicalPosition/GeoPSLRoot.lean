@@ -87,7 +87,7 @@ private theorem gSLr_e0_ne {m : ℕ} {F : Type} [Field F] (hm : 1 ≤ m) :
     omega
   intro h
   have := congrArg (fun x => x 0) h
-  simpa using this
+  simp at this
 
 private theorem gSLr_v_ne {m : ℕ} {F : Type} [Field F] {v φ' : gSLr_V m F}
     (h4 : φ' ⬝ᵥ v = 1) : v ≠ 0 := by
@@ -334,7 +334,7 @@ private theorem gSLr_matrix_props (m : ℕ) (F : Type) [Field F]
     rw [← dotProduct_mulVec, hmat_inv]
     have h1 : (Pi.single (Fin.last m) 1 : gSLr_V m F) ⬝ᵥ (u⁻¹ z) =
         (LinearMap.proj (Fin.last m) : gSLr_V m F →ₗ[F] F) (u⁻¹ z) := by
-      simp [dotProduct_comm, dotProduct_single, LinearMap.proj]
+      simp [LinearMap.proj]
     rw [h1, ← huφ (u⁻¹ z)]
     have h2 : u (u⁻¹ z) = z := LinearEquiv.apply_symm_apply _ _
     rw [h2, gSLr_dual_apply]
@@ -351,7 +351,7 @@ private theorem gSLr_matrix_props (m : ℕ) (F : Type) [Field F]
     rw [← dotProduct_mulVec, hmat_inv]
     have h1 : (Pi.single (0 : Fin (m + 1)) 1 : gSLr_V m F) ⬝ᵥ (u⁻¹ z) =
         (LinearMap.proj (0 : Fin (m + 1)) : gSLr_V m F →ₗ[F] F) (u⁻¹ z) := by
-      simp [dotProduct_comm, dotProduct_single, LinearMap.proj]
+      simp [LinearMap.proj]
     rw [h1, ← huφ' (u⁻¹ z)]
     have h2 : u (u⁻¹ z) = z := LinearEquiv.apply_symm_apply _ _
     rw [h2, gSLr_dual_apply]
@@ -550,7 +550,7 @@ private theorem gSLr_main_eq_one (F : Type) [Field F]
     simp [u₀, Matrix.col_apply]
   have hcol1 : u₀.col 1 = v' := by
     funext i
-    simp [u₀, Matrix.col_apply, h0last]
+    simp [u₀, Matrix.col_apply]
   have hcol_eq : u₀.col = ![v, v'] := by
     funext j
     fin_cases j
@@ -559,7 +559,7 @@ private theorem gSLr_main_eq_one (F : Type) [Field F]
   have hcols : LinearIndependent F u₀.col := by
     rw [hcol_eq]; exact hli
   have hun : IsUnit u₀.det := (Matrix.isUnit_iff_isUnit_det u₀).mp
-    (Matrix.linearIndependent_cols_iff_isUnit.mp hcols)
+    (Matrix.linearIndependent_col_iff_isUnit.mp hcols)
   have hdet : u₀.det ≠ 0 := hun.ne_zero
   let d : F := u₀.det
   let D : Matrix (Fin 2) (Fin 2) F :=
@@ -580,14 +580,14 @@ private theorem gSLr_main_eq_one (F : Type) [Field F]
     rw [show u_mat = u₀ * D from rfl, ← Matrix.mulVec_mulVec]
     have hDe0 : D *ᵥ (Pi.single (0 : Fin 2) 1) = d⁻¹ • Pi.single (0 : Fin 2) 1 := by
       ext i
-      simp [D, Matrix.mulVec, Matrix.diagonal, Pi.single_apply, h0last]
+      simp [D, Matrix.mulVec, Matrix.diagonal, Pi.single_apply]
       by_cases hi : i = 0 <;> simp [hi]
     rw [hDe0, Matrix.mulVec_smul, Matrix.mulVec_single_one, hcol0]
   have hum1 : u_mat *ᵥ (Pi.single (1 : Fin 2) 1) = v' := by
     rw [show u_mat = u₀ * D from rfl, ← Matrix.mulVec_mulVec]
     have hDe1 : D *ᵥ (Pi.single (1 : Fin 2) 1) = Pi.single (1 : Fin 2) 1 := by
       ext i
-      simp [D, Matrix.mulVec, Matrix.diagonal, Pi.single_apply, h0last]
+      simp [D, Matrix.mulVec, Matrix.diagonal, Pi.single_apply]
       by_cases hi : i = 1 <;> simp [hi]
     rw [hDe1, Matrix.mulVec_single_one, hcol1]
   have hrowl0 : φ ᵥ* u₀ = Pi.single (1 : Fin 2) 1 := by

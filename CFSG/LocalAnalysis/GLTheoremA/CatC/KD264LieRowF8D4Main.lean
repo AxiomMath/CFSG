@@ -91,7 +91,7 @@ theorem d4_inner_part {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ 3)
     exact hconjinj h1
 
 theorem d4_adjoint_part {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ 3)
-    (hconjinj : Function.Injective (MulAut.conj : matrixProjectiveDerived (coordinateQuadPlus 4 K) →*
+    (_hconjinj : Function.Injective (MulAut.conj : matrixProjectiveDerived (coordinateQuadPlus 4 K) →*
       MulAut (matrixProjectiveDerived (coordinateQuadPlus 4 K))))
     (AP : Subgroup (MulAut (matrixProjectiveDerived (coordinateQuadPlus 4 K))))
     (hAab : IsElemAbelian 3 AP) (h4 : CFSG.Open.pRank 3 AP ≤ 4)
@@ -105,7 +105,7 @@ theorem d4_adjoint_part {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ 3
     (hbPout : bP ∉ innAutDerived (matrixProjectiveDerived (coordinateQuadPlus 4 K))) : False := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hbP3 : bP ^ 3 = 1 := hAab.2 bP hbPA
   have hbPnin : bP ∉ (MulAut.conj : matrixProjectiveDerived (coordinateQuadPlus 4 K) →*
       MulAut (matrixProjectiveDerived (coordinateQuadPlus 4 K))).range := fun h =>
@@ -159,7 +159,7 @@ theorem d4_adjoint_part {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ 3
     have hj3 : 3 ≤ j := by
       rw [hj] at hECcard
       exact (Nat.pow_le_pow_iff_right (by norm_num)).1 hECcard
-    haveI : Finite ↥EC := inferInstance
+    have : Finite ↥EC := inferInstance
     obtain ⟨H, hH⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥EC) 3
       (n := 3) (by rw [hj]; exact pow_dvd_pow 3 hj3)
     let E27 : Subgroup (adjointGroup Tag.D4 K) := H.map EC.subtype
@@ -172,7 +172,7 @@ theorem d4_adjoint_part {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ 3
     have hE27ab : IsElemAbelian 3 E27 := om_isElemAbelian_of_le
       (show E27 ≤ EC from fun x hx => by obtain ⟨y, -, rfl⟩ := hx; exact y.2) hECab
     let Ef : Subgroup ↥(fixSubgroup bC) := E27.subgroupOf (fixSubgroup bC)
-    haveI : Finite ↥(fixSubgroup bC) := inferInstance
+    have : Finite ↥(fixSubgroup bC) := inferInstance
     refine CFSG.GF2Type.Smith1980Orth.not_lieModel_trialityD4_of_elementary Ef ?_ ?_ ?_ hmodel
     · intro x hx y hy
       have := hE27ab.1.is_comm.comm (⟨x.1, Subgroup.mem_subgroupOf.1 hx⟩ : E27)
@@ -203,14 +203,14 @@ theorem clsD4_model {S : Type} [Group S] [Finite S] (hM : StatedClassicalModel S
     (A : Subgroup (MulAut S)) (hA : KD264F8Hyp S A) : False := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAab : IsElemAbelian 3 A := hA.1
   have h4 : CFSG.Open.pRank 3 A ≤ 4 := hA.2.2.1
   have hm3 : CFSG.Open.pRank 3 (⊤ : Subgroup S) ≤ CFSG.Open.pRank 3 A := hA.2.2.2.1
   have hnot : ¬ A ≤ innAutDerived S := hA.2.2.2.2.2
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := id hM
   have hchar : ringChar K = 2 := ringChar_eq_of_card_eq_pow Nat.prime_two (by norm_num) hK
-  haveI : CharP K 2 := hchar ▸ ringChar.charP K
+  have : CharP K 2 := hchar ▸ ringChar.charP K
   obtain ⟨hAab', hout', -⟩ := F8Trans.hyp_transport (coordinatePlusWitnessEquiv K e) A hA
   have hpAP := pRank_map_mulEquiv (p := 3) (MulAut.congr (coordinatePlusWitnessEquiv K e)) A
   have hM' : StatedClassicalModel (StatedProj (StatedOmega (StatedQuadPlus 4 K))) .POmegaPlus 4 2 3 :=
@@ -246,7 +246,7 @@ theorem clsD4_model {S : Type} [Group S] [Finite S] (hM : StatedClassicalModel S
     (f := (MulAut.congr (coordinatePlusWitnessEquiv K e)).toMonoidHom)
     (MulAut.congr (coordinatePlusWitnessEquiv K e)).injective
   rw [hcardA] at hcardAP
-  obtain ⟨b, hbA, hbout⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨b, hbA, hbout⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   exact d4_glue hK hg hconjinj _ hAab' hcardAP (hpAP ▸ h4) hout' _
     (Subgroup.mem_map_of_mem _ hbA)
     (fun h => hbout ((mem_innAutDerived_congr (coordinatePlusWitnessEquiv K e)).1 h))

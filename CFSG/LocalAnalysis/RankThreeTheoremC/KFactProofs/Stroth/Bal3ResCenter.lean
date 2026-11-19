@@ -21,7 +21,7 @@ section Arith
 
 theorem card_eq_three_of_dvd {Z : Type} [Group Z] [Finite Z] (hZ : IsPGroup 3 Z)
     (h3 : 3 ∣ Nat.card Z) {T : ℕ} (hT : Nat.card Z ∣ T) (h9 : ¬ 9 ∣ T) : Nat.card Z = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hZ
   rcases k with _ | _ | k
   · rw [hk] at h3
@@ -155,7 +155,7 @@ theorem bal3ThreeCenter_of_tables (hGA : GriessAllModelsStatement)
     (hAlt : CFSG.ComponentClassification.SolAltLit.SchurAlternatingMultiplierInput)
     (hSpor : CFSG.RankThree.PartTwo.Sec4.Census.SporadicMultipliers) : Bal3ThreeCenter := by
   intro K _ _ hq hcat hZne hZp hrk
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq' : CFSG.IsQuasisimple K := isQuasisimple_of_open' hq
   have hperf : Group.IsPerfect K := ⟨hq.1⟩
   have h3 : 3 ∣ Nat.card (center K) := by

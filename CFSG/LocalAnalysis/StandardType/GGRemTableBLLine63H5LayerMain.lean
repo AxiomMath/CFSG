@@ -172,7 +172,7 @@ theorem exists_mono_of_card [Finite K] (hKd : UnitaryFieldData 2 n K) (hpq : 3 �
     obtain ⟨hii, hjj, hkk⟩ := mono_inj (scalar_mem_largeEvenScalars ζ) hu3 hu1 hxy hxz hyz hz3
       hzs (scalar_mem_largeEvenScalars c) j.2 j'.2 i.2 i'.2 k.2 k'.2 hc
     rw [Fin.ext hii, Fin.ext hjj, Fin.ext hkk]
-  haveI : Finite Ab := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite Ab := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hbij : Function.Bijective F := hinj.bijective_of_nat_card_le (by
     rw [hcard, Nat.card_eq_fintype_card]
     simp)
@@ -197,7 +197,7 @@ theorem not_isComponentOf_layer_ggFix_of_heis [Finite K] (hKd : UnitaryFieldData
     (hyz : y * z = z * y) (hzs : z ∉ LargeEvenScalars (Fin 6) K) :
     ∀ a ∈ Ab, a ≠ 1 → ¬ IsComponentOf (LargeEvenLayer (ggFix a)) (ggFix a) := by
   intro a ha ha1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hζ : IsPrimitiveRoot ζ 3 := by
     have := IsPrimitiveRoot.orderOf ζ
     rwa [orderOf_eq_prime hζ3 hζ1] at this

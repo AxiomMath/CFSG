@@ -99,10 +99,10 @@ theorem eps_of_mem (m : ℕ) (y : W11) (h : y * (toW 11 m)⁻¹ ∈ Subgroup.zpo
     ∃ ε : Bool, y = toW 11 (m ^^^ (if ε then 31 else 0)) := by
   rcases eq_one_or_of_mem_zpowers z0_mul_self h with h1 | h1
   · refine ⟨false, ?_⟩
-    rw [if_neg (by decide), Nat.xor_zero]
+    rw [ite_eq_right (by decide), Nat.xor_zero]
     exact mul_inv_eq_one.1 h1
   · refine ⟨true, ?_⟩
-    rw [if_pos rfl, toW_xor31]
+    rw [ite_eq_left rfl, toW_xor31]
     calc y = (y * (toW 11 m)⁻¹) * toW 11 m := (inv_mul_cancel_right y _).symm
       _ = toW 11 m * z0 := by rw [h1, mul_comm]
 
@@ -121,7 +121,7 @@ theorem transv_std_surj (τ : MulAut ↥W0)
     have h3 := hε 3
     have h31 : toW 11 (w0Basis.getD ((3 : Fin 7) : ℕ) 0) = z0 := by rw [w0Basis_three]
     have hx : w0Basis.getD ((3 : Fin 7) : ℕ) 0 ^^^ (if ε 3 then 31 else 0) = 0 := by
-      rw [hε3', if_pos rfl, w0Basis_three, Nat.xor_self]
+      rw [hε3', ite_eq_left rfl, w0Basis_three, Nat.xor_self]
     rw [hx, toW_zero] at h3
     have h4 : (τ ⟨toW 11 (w0Basis.getD ((3 : Fin 7) : ℕ) 0), hb 3⟩ : ↥W0) = 1 :=
       Subtype.ext h3

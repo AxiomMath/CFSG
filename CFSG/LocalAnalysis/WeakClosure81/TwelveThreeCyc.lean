@@ -26,9 +26,9 @@ theorem exists_centralizing_element_of_regular {ρ : G →* LGL 2 V} {T T₀ : S
   have hn2 : 2 ≤ 2 ^ n := by
     calc 2 = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Finite T₀ := Nat.finite_of_card_ne_zero (by omega)
-  haveI := hT
+  have : Finite T := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite T₀ := Nat.finite_of_card_ne_zero (by omega)
+  have := hT
   have hcomm : ∀ a ∈ T, ∀ b ∈ T, a * b = b * a := by
     intro a ha b hb
     have h := (IsCyclic.isMulCommutative (α := T)).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩
@@ -46,7 +46,7 @@ theorem exists_centralizing_element_of_regular {ρ : G →* LGL 2 V} {T T₀ : S
         rw [map_inv]
         exact (LinearEquiv.symm_apply_eq _).2 (hfa z hz).symm }
   have hXT : X ≤ T := fun x hx => hx.1
-  haveI : Nontrivial Z := Finite.one_lt_card_iff_nontrivial.1 (by omega)
+  have : Nontrivial Z := Finite.one_lt_card_iff_nontrivial.1 (by omega)
   obtain ⟨z₀', hz₀'⟩ := exists_ne (0 : Z)
   have hz₀ : (z₀' : V) ∈ Z := z₀'.2
   have hz₀ne : (z₀' : V) ≠ 0 := fun h => hz₀' (Subtype.ext h)
@@ -102,7 +102,7 @@ theorem exists_centralizing_element_of_regular {ρ : G →* LGL 2 V} {T T₀ : S
         obtain ⟨y, hy, w, hw, rfl⟩ := hdecomp x hx
         exact ⟨(⟨y, hy⟩, ⟨w, hw⟩), rfl⟩
     rw [← Nat.card_prod, Nat.card_congr (Equiv.ofBijective f hf)]
-  haveI hXcyc : IsCyclic X := Subgroup.isCyclic_of_le hXT
+  have hXcyc : IsCyclic X := Subgroup.isCyclic_of_le hXT
   obtain ⟨x₀', hx₀'⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := X)
   have hord : orderOf (x₀' : G) = Nat.card X := by rw [Subgroup.orderOf_coe, hx₀']
   have hmul : Nat.card X * (2 ^ m - 1) = 2 ^ n - 1 := by

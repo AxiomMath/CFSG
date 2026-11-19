@@ -104,12 +104,14 @@ section Main
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_sup {U W : Subgroup G} {g : G}
     (hU : g ∈ Subgroup.normalizer (U : Set G)) (hW : g ∈ Subgroup.normalizer (W : Set G)) :
     g ∈ Subgroup.normalizer ((U ⊔ W : Subgroup G) : Set G) := by
   apply mem_normalizer_of_map_conj_eq
   rw [Subgroup.map_sup, map_conj_eq_of_mem_normalizer hU, map_conj_eq_of_mem_normalizer hW]
 
+omit [Finite G] in
 theorem normalizer_le_of_lin {H L S V U W : Subgroup G}
     (hHL : H ≤ Subgroup.normalizer (L : Set G)) (hHU : ∀ g ∈ H, ∀ u ∈ U, g * u = u * g)
     (hsup : U ⊔ W = V)

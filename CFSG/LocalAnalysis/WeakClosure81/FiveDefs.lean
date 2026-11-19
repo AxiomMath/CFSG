@@ -21,6 +21,7 @@ structure Sec5Hyp (H M A : Subgroup G) : Prop where
 @[expose] def dFam (H M A : Subgroup G) : Set (Subgroup G) :=
   {D | D ≤ H ∧ A ≤ D ∧ ¬ D ≤ M ∧ Odd (M.relIndex D) ∧ (maxOver D A).ncard = 1}
 
+omit [Finite G] in
 theorem mem_dFam {H M A D : Subgroup G} :
     D ∈ dFam H M A ↔ D ≤ H ∧ A ≤ D ∧ ¬ D ≤ M ∧ Odd (M.relIndex D) ∧ (maxOver D A).ncard = 1 :=
   Iff.rfl

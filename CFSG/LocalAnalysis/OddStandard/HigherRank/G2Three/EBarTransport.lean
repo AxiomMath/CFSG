@@ -82,9 +82,9 @@ theorem Case3Core.exists_ebar_data {G : Type} [Group G] [Finite G] {z : G} {K E 
         have h2 : e (e.symm b * e.symm a) = e (e.symm a * e.symm b) :=
           congrArg e (Subtype.ext h1')
         simpa using h2.symm
-      haveI : IsMulCommutative ↥K := IsMulCommutative.of_comm hcommK
-      haveI : Group.IsPerfect ↥K := h.quasisimple.1
-      haveI : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial h.quasisimple
+      have : IsMulCommutative ↥K := IsMulCommutative.of_comm hcommK
+      have : Group.IsPerfect ↥K := h.quasisimple.1
+      have : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial h.quasisimple
       exact Group.IsPerfect.not_isMulCommutative ↥K inferInstance
   have htwo' : ∀ c ∈ K.subgroupOf E,
       (∀ k ∈ K.subgroupOf E, k * c = c * k) → IsPGroup 2 (Subgroup.zpowers c) →

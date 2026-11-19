@@ -24,7 +24,7 @@ private theorem w183b2_eight_le_card_of_three_le_mRank {A : Subgroup (LGL 2 V)}
 
 theorem br2_false_of_one_sided (hc : Br2Common Y Γ VA T 𝒢 Zs m i₀ δ)
     (hL : Br2TwoComp Y T L₁ L₂)
-    (hmem : ∀ D ∈ Γ, D ≤ Subgroup.normalizer (L₁ : Set (LGL 2 V)))
+    (_hmem : ∀ D ∈ Γ, D ≤ Subgroup.normalizer (L₁ : Set (LGL 2 V)))
     (hone : ∀ D ∈ Γ, D ≤ Subgroup.centralizer (L₁ : Set (LGL 2 V)) ∨
       D ≤ Subgroup.centralizer (L₂ : Set (LGL 2 V)))
     (hrk : ∀ D ∈ Γ, 3 ≤ mRank D) (hne : Γ.Nonempty)
@@ -64,7 +64,7 @@ theorem br2_false_of_one_sided (hc : Br2Common Y Γ VA T 𝒢 Zs m i₀ δ)
     have hX₀n : ∀ r : ↥(Y ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V))),
         ∀ x ∈ autNoDynkin ↥L₁, ψ r * x * (ψ r)⁻¹ ∈ autNoDynkin ↥L₁ :=
       fun r x hx => hnorm.conj_mem x hx (ψ r)
-    have hmem : ∀ D ∈ Γ, D ≤ (Y ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V))) →
+    have _hmem : ∀ D ∈ Γ, D ≤ (Y ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V))) →
         imgOf ψ D ≤ autNoDynkin ↥L₁ := by
       intro D hD hDX
       refine hall (imgOf ψ D)
@@ -72,7 +72,7 @@ theorem br2_false_of_one_sided (hc : Br2Common Y Γ VA T 𝒢 Zs m i₀ δ)
           (hc.h131.isElemAb D hD)) ?_
       rw [imgOf_card (psiOf_injective hL.core₁) hDX]
       exact w183b2_eight_le_card_of_three_le_mRank (hrk D hD)
-    exact w183b2_false_of_swap hc.toBr1Base hL hX₀ hX₀n hmem hnc hone hrk hne
+    exact w183b2_false_of_swap hc.toBr1Base hL hX₀ hX₀n _hmem hnc hone hrk hne
   ·
     obtain ⟨D₀, hD₀⟩ := hne
     exact w183b2_sp44_not_one_sided hc.h131 hc.sylow.le hL h hSp5 (h5 h) hD₀

@@ -97,8 +97,7 @@ theorem coe_basePointsRepresentation_subcomodule (N : Subcomodule R H M)
   rw [basePointsRepresentation_apply, basePointsRepresentation_apply, endOfPoint_tmul,
     endOfPoint_tmul, one_smul, one_smul, TensorProduct.lid_comm, TensorProduct.lid_comm,
     ← Subcomodule.subtype_rTensor_coact]
-  induction Comodule.coact (R := R) (C := H) (M := N) n using TensorProduct.induction_on with
-  | zero => simp
+  induction Comodule.coact (R := R) (C := H) (M := N) n using TensorProduct.inductionOn with
   | tmul x c => simp
   | add x y hx hy => simp only [map_add, AddMemClass.coe_add, hx, hy]
 
@@ -126,8 +125,7 @@ theorem counit_basePointsRepresentation_self (g : WithConv (B →ₐ[K] K)) (b :
           (TensorProduct.rid K B (LinearMap.lTensor B g.ofConv.toLinearMap x)) =
         g.ofConv (TensorProduct.lid K B (LinearMap.rTensor B (Coalgebra.counit (R := K)) x)) := by
     intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
+    induction x using TensorProduct.inductionOn with
     | tmul a c => simp [mul_comm]
     | add x y hx hy => simp only [map_add, hx, hy]
   rw [h, Coalgebra.rTensor_counit_comul, TensorProduct.lid_tmul, one_smul]
@@ -538,7 +536,7 @@ theorem characterKernel_le_ker_iff (B : FiniteTypeCommHopfAlgCat.{u, u} K)
         p.ofConv (MonoidAlgebra.liftGroupLikeBialgHom (R := K) (A := B) z) = Coalgebra.counit (R := K) z := by
       intro z
       induction z using MonoidAlgebra.induction_on with
-      | of x => simp [MonoidAlgebra.liftGroupLikeBialgHom_single, h x]
+      | of x => simp [h x]
       | add a b ha hb => simp only [map_add, ha, hb]
       | smul r a ha => simp only [map_smul, ha]
     rw [← hy0]

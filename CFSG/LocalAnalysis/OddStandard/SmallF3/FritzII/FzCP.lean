@@ -45,6 +45,7 @@ private theorem fzc_P_le_R (hs : FzCSteps t L S x₁ x₂ lam rho) :
   exact (Subgroup.le_normalizer_iff_commutator_le_left (H := zpowers rho)
     (K := fzR t x₁ x₂)).mp (Subgroup.zpowers_le.mpr (fzc_rho_mem_normalizer_R hs))
 
+omit [Finite G] in
 private theorem fzc_card_sup {H K : Subgroup G}
     (h : K ≤ Subgroup.normalizer (H : Set G)) (hdisj : H ⊓ K = ⊥) :
     Nat.card (H ⊔ K : Subgroup G) = Nat.card H * Nat.card K := by
@@ -95,7 +96,7 @@ private theorem fzc_card_sup {H K : Subgroup G}
 
 private theorem fzc_exists_orderOf_eq_two_of_isPGroup_ne_bot {X : Subgroup G}
     (hX : IsPGroup 2 X) (hne : X ≠ ⊥) : ∃ x ∈ X, orderOf x = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hxX, hx1⟩ : ∃ x ∈ X, x ≠ 1 := by
     by_contra h
     have hbot : X = ⊥ := by

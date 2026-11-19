@@ -155,7 +155,7 @@ theorem inf_centralizer_eq_bot_of_commutator_generation {p : ℕ} [Fact p.Prime]
     (hv : v * v = 1) (hvP : v ∈ Subgroup.normalizer (P : Set G))
     (hIgen : I ≤ ⁅I, I ⊔ P ⊔ Subgroup.zpowers v⁆) :
     I ⊓ Subgroup.centralizer (P : Set G) = ⊥ := by
-  haveI := hI.1
+  have := hI.1
   set R : Subgroup G := ⁅I, P⁆ with hRdef
   set C : Subgroup G := I ⊓ Subgroup.centralizer (P : Set G) with hCdef
   set D : Subgroup G := ⁅C, Subgroup.zpowers v⁆ with hDdef
@@ -330,7 +330,7 @@ theorem inf_centralizer_eq_bot_of_commutator_generation {p : ℕ} [Fact p.Prime]
   exact le_bot_iff.mp (hC_le_D.trans (le_of_eq hDbot))
 
 theorem le_centralizer_involution_of_le_centralizer {I P M : Subgroup G} {v y z : G}
-    (hMI : M ≤ I) (hvI : v ∈ Subgroup.normalizer (I : Set G))
+    (hMI : M ≤ I) (_hvI : v ∈ Subgroup.normalizer (I : Set G))
     (hvM : v ∈ Subgroup.normalizer (M : Set G)) (hvP : v ∈ Subgroup.normalizer (P : Set G))
     (hPIbot : P ⊓ I = ⊥) (hyP : y ∈ P) (hyI : y ∈ Subgroup.normalizer (I : Set G))
     (hcent : ∀ u ∈ P, v * u = u * v → u ∈ Subgroup.zpowers z) (hyz : y ∉ Subgroup.zpowers z)
@@ -453,7 +453,7 @@ theorem inf_centralizer_eq_bot {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) [Finite G
     (hT : ∀ y ∈ Subgroup.normalizer (I : Set G), ∀ w ∈ ⁅I, Subgroup.zpowers v⁆, w ≠ 1 →
       y ∈ Subgroup.centralizer ({w} : Set G) → ⁅v, y⁆ ∈ I) :
     I ⊓ Subgroup.centralizer ({z} : Set G) = ⊥ := by
-  haveI := hI.1
+  have := hI.1
   set N : Subgroup G := I ⊓ Subgroup.centralizer ({z} : Set G) with hNdef
   have hNleI : N ≤ I := by rw [hNdef]; exact inf_le_left
   have hNleCz : N ≤ Subgroup.centralizer ({z} : Set G) := by rw [hNdef]; exact inf_le_right

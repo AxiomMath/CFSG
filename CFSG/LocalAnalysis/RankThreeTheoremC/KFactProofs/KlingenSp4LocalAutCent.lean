@@ -18,7 +18,7 @@ variable {K : Type} [Field K]
 
 theorem ac_trace_siegel (S : Matrix (Fin 2) (Fin 2) K) :
     (fromBlocks 1 S 0 1 : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K).trace = 4 := by
-  simp [Matrix.trace, Fintype.sum_sum_type, Fin.sum_univ_two]
+  simp [Matrix.trace, Fintype.sum_sum_type]
   norm_num
 
 theorem ac_comm_of_scalar (M N : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) (hMN : M * N = 1)
@@ -43,7 +43,7 @@ theorem ac_scalar_of_comm (P : Matrix (Fin 2) (Fin 2) K)
   have e3 := congr_fun (congr_fun (h 0 1 0) 0) 1
   simp [S2, Matrix.mul_apply, Fin.sum_univ_two] at e1 e2 e3
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [← e1, e2, e3, Matrix.one_apply]
+  fin_cases i <;> fin_cases j <;> simp [← e1, e2, e3]
 
 theorem ac_block_form (M : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K)
     (hcomm : ∀ a b c : K,
@@ -73,11 +73,11 @@ theorem ac_sympl (l : K) (Q : Matrix (Fin 2) (Fin 2) K) (μ : K)
     μ = l ^ 2 ∧ l • Qᵀ = l • Q := by
   simp only [formJ, fromBlocks_transpose, transpose_smul, transpose_one, transpose_zero,
     fromBlocks_multiply, fromBlocks_smul, Matrix.mul_zero, Matrix.zero_mul, Matrix.mul_one,
-    Matrix.one_mul, Matrix.mul_neg, Matrix.neg_mul, zero_add, add_zero, smul_zero, smul_neg] at h
+    Matrix.mul_neg, Matrix.neg_mul, zero_add, add_zero, smul_zero, smul_neg] at h
   obtain ⟨-, h2, -, h4⟩ := fromBlocks_inj.mp h
   refine ⟨?_, ?_⟩
   · have := congr_fun (congr_fun h2 0) 0
-    simp [Matrix.smul_mul, Matrix.mul_smul, smul_smul] at this
+    simp [smul_smul] at this
     rw [← this]; ring
   · simp only [Matrix.smul_mul, Matrix.mul_smul, Matrix.one_mul, Matrix.mul_one] at h4
     exact (neg_add_eq_zero.mp h4).symm

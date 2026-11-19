@@ -34,7 +34,7 @@ theorem leviInnAtW_of_oneNodeP (p : ℕ) [OddPrime p] (hPL : P ≤ L)
     (hrk : Open.pRank p (wPre P) ≤ 1) : LeviInnAtPW p P := by
   classical
   set A : Subgroup K := coverSub π P
-  haveI := normal_posUnipotentExcept_subgroupOf h hBA hI
+  have := normal_posUnipotentExcept_subgroupOf h hBA hI
   set U : Subgroup ↥A := (posUnipotentExcept D i).subgroupOf A with hU
   set Λ : Subgroup ↥A := (rankOne D.rootGroup i).subgroupOf A with hΛ
   set S : Subgroup (↥A ⧸ U) := Λ.map (QuotientGroup.mk' U)
@@ -91,7 +91,7 @@ theorem leviInnAtW_of_oneNodeP (p : ℕ) [OddPrime p] (hPL : P ≤ L)
     rw [hrange, Subgroup.relIndex_top_right, hpi, Subgroup.index_comap_of_surjective _ hev, hidx]
     exact Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp hoddLU)
   have hρo : Odd (Nat.card π.ker) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     by_contra hev
     rw [Nat.not_odd_iff_even, even_iff_two_dvd] at hev
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥π.ker) 2 hev
@@ -136,11 +136,11 @@ end LeviOneNode
 theorem leviInnOnPW_g2 (p : ℕ) [OddPrime p]
     (hGA : GriessAllModelsStatement) : LeviInnOnPW p (IsLieOf IdxG2) := by
   intro Y _ _ L P hCP hG hLn _ _ hrk
-  haveI := hLn
+  have := hLn
   obtain ⟨f, hf, ⟨e⟩⟩ := exists_mulEquiv_g2 hGA hCP hG
   obtain ⟨T, hNT, hne, htop⟩ := exists_sylow_le_subgroupOf_of_compParab hCP
   obtain ⟨π', hQ, hBA, i, hI⟩ := exists_single_node_g2 e T hNT hne htop
-  haveI : Finite ↥(adjointGroup .G2 (GaloisField 2 f)) := generated_group_finite .G2 _
+  have : Finite ↥(adjointGroup .G2 (GaloisField 2 f)) := generated_group_finite .G2 _
   have hF : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have h4 : 4 ≤ Nat.card (GaloisField 2 f) := by
     rw [hF]

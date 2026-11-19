@@ -68,8 +68,8 @@ theorem frame_diag_mem_torusGroup [IsAlgClosed L]
     {σ : Fin ν → Fin ν → Fin Tag.E6.rank → ℤ} (hψ : IsSLFrame ψ σ) {δ : SL(ν, L)}
     (hδ : δ ∈ diagSL ν L) : ψ δ ∈ torusGroup Tag.E6 L := by
   classical
-  haveI : NeZero ((3 : ℕ) : L) := ⟨h3⟩
-  obtain ⟨ω₀, hω₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 3
+  have : NeZero ((3 : ℕ) : L) := ⟨h3⟩
+  obtain ⟨ω₀, hω₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 3
   have hu : IsUnit ω₀ := hω₀.isUnit (by norm_num)
   set ω : Lˣ := hu.unit with hωdef
   have hωprim : IsPrimitiveRoot ω 3 :=

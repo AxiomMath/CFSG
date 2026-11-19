@@ -109,9 +109,9 @@ private theorem r891_x_eq_layer (h : R891D4Setup n S B) {P : Subgroup X}
     rw [hZ, Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
   rw [R891X]
   by_cases hn : n = 1
-  · rw [if_pos hn, top_inf_eq, hcent]
+  · rw [ite_eq_left hn, top_inf_eq, hcent]
     exact hR.opp_eq hn
-  · rw [if_neg hn, top_inf_eq, hcent]
+  · rw [ite_eq_right hn, top_inf_eq, hcent]
     have hn1 : 1 ≤ n := h.one_le
     have hn2 : 2 ≤ n := by omega
     exact derInf8_eq_of_perfect hR.le_centralizer

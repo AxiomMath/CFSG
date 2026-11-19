@@ -523,7 +523,7 @@ private theorem card_T1G (hF3 : F3Prop) (hF4 : F4Prop) : Nat.card D.T1G = 128 :=
     intro x hx
     obtain ⟨hxT, hxz⟩ := mem_inf.mp hx
     rcases (mem_zpowers_of_sq_eq_one (D.t0_mul_self) (D.t0_ne_one)).mp hxz with h1 | ht
-    · rwa [Subgroup.mem_bot, h1]
+    · rw [Subgroup.mem_bot, h1]
     · exfalso
       have ht' : x = D.elt (permC 1782 w0T) D.w0_mem := ht
       exact t0_not_mem_T0G D hF3 hF4 (ht' ▸ hxT)
@@ -840,7 +840,7 @@ theorem centralizer_inf_T0G_L (hF1 : F1Prop) (hF5 : F5Prop) :
         tabSubgroup t0Tabs := by
     rwa [← hLM]
   have hcent := hcentL _ hu huZT
-  haveI : IsMulCommutative ↥(decSubgroup l1Decs) := (l1_elemAbelian hF1).1
+  have : IsMulCommutative ↥(decSubgroup l1Decs) := (l1_elemAbelian hF1).1
   have hL1le : decSubgroup l1Decs ≤
       Subgroup.centralizer ({((D.σ g : ↥(invE 1)) : Equiv.Perm (Fin 1782))} :
         Set (Equiv.Perm (Fin 1782))) ⊓ tabSubgroup t0Tabs := by
@@ -890,7 +890,7 @@ theorem centralizer_inf_T0G_M2G (hF1 : F1Prop) (hF5 : F5Prop) :
         tabSubgroup t0Tabs := by
     rwa [← hLM]
   have hcent := hcentM _ hu huZT
-  haveI : IsMulCommutative ↥(decSubgroup m21Decs) := hM21ea.1
+  have : IsMulCommutative ↥(decSubgroup m21Decs) := hM21ea.1
   have hMle : decSubgroup m21Decs ≤
       Subgroup.centralizer ({((D.σ g : ↥(invE 1)) : Equiv.Perm (Fin 1782))} :
         Set (Equiv.Perm (Fin 1782))) ⊓ tabSubgroup t0Tabs := by
@@ -1012,9 +1012,9 @@ theorem T0G_le_closure (hF1 : F1Prop) (hF4 : F4Prop) (hF5 : F5Prop) :
 theorem eq_or_eq_of_le_T0G (hF1 : F1Prop) (hF5 : F5Prop) {E : Subgroup G}
     (hE : E ≤ D.T0G) (hEa : CFSG.Open.IsElemAbelian 2 E) (hE16 : Nat.card E = 16) :
     E = D.pull (decSubgroup l1Decs) ∨ E = D.M2G := by
-  haveI : Finite ↥(D.pull (decSubgroup l1Decs)) :=
+  have : Finite ↥(D.pull (decSubgroup l1Decs)) :=
     Finite.of_equiv ↥(decSubgroup l1Decs) (D.pullEquiv (l1_le_invE D hF5)).symm.toEquiv
-  haveI : Finite ↥D.M2G :=
+  have : Finite ↥D.M2G :=
     Finite.of_equiv ↥(decSubgroup m21Decs) (D.pullEquiv (m21_le_invE D hF5)).symm.toEquiv
   have hLcard : Nat.card ↥(D.pull (decSubgroup l1Decs)) = 16 := by
     rw [D.card_pull (l1_le_invE D hF5), l1_card hF1]
@@ -1099,7 +1099,7 @@ private theorem map_conj_centralizer_singleton (a s : G) :
 
 theorem card_centralizer_inf_of_isConj [Finite G] (hF3 : F3Prop) {e : G}
     (he : e ∈ centralizer ({D.elt (permC 1782 w0T) D.w0_mem} : Set G))
-    (he2 : e * e = 1) (he1 : e ≠ 1) (hez : IsConj e z) :
+    (_he2 : e * e = 1) (_he1 : e ≠ 1) (hez : IsConj e z) :
     Nat.card ↥(centralizer ({e} : Set G) ⊓
       centralizer ({D.elt (permC 1782 w0T) D.w0_mem} : Set G)) = 512 := by
   obtain ⟨a, ha⟩ := _root_.isConj_iff.mp hez.symm
@@ -1189,7 +1189,7 @@ theorem oddOrderClosure_inf_TG [Finite G] (hF1 : F1Prop) (hF1M : F1MProp)
         _ = z := hc
   have hLea : CFSG.Open.IsElemAbelian 2 (D.pull (decSubgroup l1Decs)) :=
     (D.isElemAbelian_pull_iff (l1_le_invE D hF5)).mpr (l1_elemAbelian hF1)
-  haveI : IsMulCommutative ↥(D.pull (decSubgroup l1Decs)) := hLea.1
+  have : IsMulCommutative ↥(D.pull (decSubgroup l1Decs)) := hLea.1
   have hL : ∀ x ∈ D.pull (decSubgroup l1Decs),
       ∀ y ∈ D.pull (decSubgroup l1Decs), x * y = y * x := by
     intro x hx y hy

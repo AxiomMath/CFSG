@@ -32,11 +32,13 @@ theorem eq_one_of_smul_eq (hSz : SzSylow K) {g : K} (hg : Nat.Coprime (orderOf g
     rwa [card_normalizer hSz V] at this
   exact orderOf_eq_one_iff.1 (Nat.Coprime.eq_one_of_dvd hg hdvd)
 
+omit [Finite K] in
 theorem mem_smul_iff (g x : K) (V : Sylow 2 K) :
     x ∈ ((g • V : Sylow 2 K) : Subgroup K) ↔ g⁻¹ * x * g ∈ (V : Subgroup K) := by
   rw [Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-  simp [MulAut.conj_apply]
+  simp
 
+omit [Finite K] in
 theorem smul_eq_of_mem (hSz : SzSylow K) {g x : K} {V : Sylow 2 K} (hx1 : x ≠ 1)
     (hxV : x ∈ (V : Subgroup K)) (hxg : g⁻¹ * x * g ∈ (V : Subgroup K)) : g • V = V := by
   by_contra hne
@@ -45,6 +47,7 @@ theorem smul_eq_of_mem (hSz : SzSylow K) {g x : K} {V : Sylow 2 K} (hx1 : x ≠ 
   rw [hSz.ti V (g • V) (Ne.symm hne)] at hx
   exact hx1 (Subgroup.mem_bot.1 hx)
 
+omit [Finite K] in
 theorem eq_one_of_mem_of_smul_eq (hSz : SzSylow K) {V W : Sylow 2 K} (hWV : W ≠ V) {v : K}
     (hv : v ∈ (V : Subgroup K)) (h : v • W = W) : v = 1 := by
   have h1 : v ∈ normalizer (W : Set K) := Sylow.smul_eq_iff_mem_normalizer.1 h
@@ -80,6 +83,7 @@ theorem eq_one_of_forall_smul_eq (hSz : SzSylow K) (hsimple : IsSimpleGroup K) {
       rw [h, Subgroup.card_top, hSz.card] at this
       omega
 
+omit [Finite K] in
 theorem smul_fix {ψ z : K} (hz : z ∈ normalizer ((zpowers ψ : Subgroup K) : Set K))
     {W : Sylow 2 K} (hW : ψ • W = W) : ψ • (z • W) = z • W := by
   have h1 : z⁻¹ * ψ * z ∈ zpowers ψ := by
@@ -230,7 +234,7 @@ theorem exists_zpowers_eq_of_card_prime {R : Subgroup K} {q : ℕ} (hq : q.Prime
 
 theorem card_eq_of_isPGroup {q : ℕ} (hq : q.Prime) {R : Subgroup K} (hR : IsPGroup q R)
     (hne : R ≠ ⊥) (h2 : ¬ q ^ 2 ∣ Nat.card K) : Nat.card R = q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hR
   have hdvd : Nat.card R ∣ Nat.card K := Subgroup.card_subgroup_dvd_card R
   rcases n with _ | _ | n
@@ -243,10 +247,11 @@ theorem card_eq_of_isPGroup {q : ℕ} (hq : q.Prime) {R : Subgroup K} (hR : IsPG
     apply h2
     exact (pow_dvd_pow q (by omega : 2 ≤ n + 2)).trans (hn ▸ hdvd)
 
+omit [Group K] [Finite K] in
 theorem card_dvd_of_forall_orderOf_dvd {q : ℕ} (hq : q.Prime) {H : Type} [Group H] [Finite H]
     (hord : ∀ h : H, orderOf h ∣ q) (hdvd : Nat.card H ∣ Nat.card K)
     (h2 : ¬ q ^ 2 ∣ Nat.card K) : Nat.card H ∣ q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hp : IsPGroup q H := by
     rw [IsPGroup.iff_orderOf]
     intro g
@@ -280,6 +285,7 @@ theorem no_two_commute (hSz : SzSylow K) {y c : K} (hy : orderOf y = 41) (hc : o
   rw [this, orderOf_one] at hy
   omega
 
+omit [Finite K] in
 theorem no_five_commute
     (hC : ∀ T : Sylow 5 K, ∀ t ∈ (T : Subgroup K), t ≠ 1 → ∀ g : K, g * t = t * g →
       g ∈ (T : Subgroup K))
@@ -302,6 +308,7 @@ theorem no_five_commute
       exact dvd_pow_self 5 (Nat.succ_ne_zero k)
     omega
 
+omit [Finite K] in
 theorem mem_normalizer_zpowers_of_commute {y c : K} (hcy : y * c = c * y) :
     y ∈ normalizer ((zpowers c : Subgroup K) : Set K) := by
   apply Subgroup.centralizer_le_normalizer
@@ -440,7 +447,7 @@ theorem eq_bot_of_normalizes (hSz : SzSylow K) (hsimple : IsSimpleGroup K)
   have hRp : IsPGroup q R := S.isPGroup.map W.subtype
   have hzR : z ∈ normalizer (R : Set K) := hS (Subgroup.mem_zpowers z)
   have hRne : R ≠ ⊥ := by
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     intro h
     have h1 := S.dvd_card_of_dvd_card hqW
     have h2 : Nat.card R = Nat.card S := Subgroup.card_map_of_injective W.subtype_injective

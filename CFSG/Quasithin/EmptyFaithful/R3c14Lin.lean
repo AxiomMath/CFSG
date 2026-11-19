@@ -295,7 +295,7 @@ theorem isSylow_U (n : ℕ) (hn : 1 ≤ n) : IsSylowTwoOf (unitriangular n (ZMod
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := ZMod 2) 2 (n := n) hn
   refine K1.isSylowTwoOf_top_iff.mpr ⟨?_, ?_⟩
   · rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   · rw [← hP]
     exact P.not_dvd_index
 

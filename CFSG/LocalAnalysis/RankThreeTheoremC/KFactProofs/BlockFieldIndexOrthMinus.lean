@@ -115,7 +115,7 @@ theorem orthMinus_sq_mem_orthResDer (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) 
       CFSG.RankThree.PartOne.even_minus_four_six_actual_derived_extraction
         (quadTail m (minusTailForm K b c)) hnd (by omega) fun U hU =>
           exists_minusTail_ne_zero hirr U (by omega)
-    haveI : (⁅TauCeti.QuadraticMap.orthogonalGroup (quadTail m (minusTailForm K b c)),
+    have : (⁅TauCeti.QuadraticMap.orthogonalGroup (quadTail m (minusTailForm K b c)),
         TauCeti.QuadraticMap.orthogonalGroup (quadTail m (minusTailForm K b c))⁆.subgroupOf
           (TauCeti.QuadraticMap.orthogonalGroup (quadTail m (minusTailForm K b c)))).Normal :=
       Subgroup.normal_of_index_eq_two hidx
@@ -161,7 +161,7 @@ end Residual
 theorem leviInnOn_orthMinus
     (hGA : GriessAllModelsStatement) : LeviInnOn (IsLieOf IdxTwistedD) := by
   intro Y _ _ L P hCP hC hLn _ _ hrk
-  haveI := hLn
+  have := hLn
   have hZ : OddCenterRest := oddCenterRest_of_griess hGA
   obtain ⟨dI, hdI, ⟨e⟩⟩ := id hC
   obtain ⟨K, _, _, _, b, c, r, s, d, ρ, hr, hirr, hcuts, hρ, -⟩ :=

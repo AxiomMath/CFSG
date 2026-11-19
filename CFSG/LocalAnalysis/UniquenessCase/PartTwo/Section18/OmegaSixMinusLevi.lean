@@ -92,6 +92,7 @@ section Four
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
   {V : Type} [AddCommGroup V] [Module F V] {Q : QuadraticForm F V}
 
+omit [Finite F] [CharP F 2] in
 private theorem finrank_four_T2J4 :
     Module.finrank F (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2 → F) = 4 := by
   simp [Module.finrank_fintype_fun_eq_card, Fintype.card_sum]
@@ -127,7 +128,7 @@ theorem nontrivial_gom_restrict_perp (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0)
   have hne : Lom (quadMinus 2 F b c) x ≠ ⊥ := Lom_ne_bot hQ h3 hu hx0
   obtain ⟨a, ha⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hne
   have ha' : (a : Gom (quadMinus 2 F b c)) ≠ 1 := fun h1 => ha (Subtype.ext h1)
-  haveI : Nontrivial (Gom (quadMinus 2 F b c)) := Nontrivial.mk ⟨(a : Gom _), 1, ha'⟩
+  have : Nontrivial (Gom (quadMinus 2 F b c)) := Nontrivial.mk ⟨(a : Gom _), 1, ha'⟩
   exact Equiv.nontrivial (e.trans (statedOmegaMinusEquiv (m := 2) (by norm_num) hirr)).toEquiv
 
 end Four

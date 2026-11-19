@@ -113,7 +113,7 @@ theorem false_of_rank_one (hEnd : EndHyp T (ugen T)) {S₁ : Subgroup G}
   have hA2 : IsPGroup 2 A := by
     intro x
     obtain ⟨y, hy, hyx⟩ := (hAmem x.1).1 x.2
-    obtain ⟨n, hn⟩ := PH.isPGroup' ⟨y, hy⟩
+    obtain ⟨n, hn⟩ := PH.isPGroup ⟨y, hy⟩
     refine ⟨n, Subtype.ext ?_⟩
     have := congrArg (fun z : ↥(PH : Subgroup ↥H) => ((z : ↥H) : G)) hn
     simp only [Subgroup.coe_pow, Subgroup.coe_one] at this ⊢
@@ -223,7 +223,7 @@ theorem odd_relIndex (hEnd : EndHyp T (ugen T)) :
   have hS₁C : S₁ ≤ C := by
     rintro x ⟨y, -, rfl⟩
     exact y.2
-  have hS₁2 : IsPGroup 2 S₁ := P.isPGroup'.map C.subtype
+  have hS₁2 : IsPGroup 2 S₁ := P.isPGroup.map C.subtype
   have hsub : S₁.subgroupOf C = (P : Subgroup ↥C) :=
     Subgroup.comap_map_eq_self_of_injective C.subtype_injective _
   have hS₁odd : ¬ 2 ∣ (S₁.subgroupOf C).index := by

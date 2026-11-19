@@ -28,8 +28,8 @@ private theorem exists_conj_le_C3Levi_or_B3Levi_of_stdElt (hF : Nat.card F = 2)
     ∃ g : ↥(adjointGroup .F4 F),
       (A.map (MulAut.conj g).toMonoidHom ≤ C3Levi F ∧ stdLayer (MulAut.conj g d) ≤ C3Levi F) ∨
         (A.map (MulAut.conj g).toMonoidHom ≤ B3Levi F ∧ stdLayer (MulAut.conj g d) ≤ B3Levi F) := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 1) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hK : stdLayer d ≤ Subgroup.normalizer (T : Set ↥(adjointGroup .F4 F)) :=
     (CFSG.LocalAnalysis.GLTheoremA.S9.Cl.le_closureIn_self (stdLayer d)

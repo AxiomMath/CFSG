@@ -77,7 +77,7 @@ theorem comm_of_inv {N M : Subgroup G} {z : G}
   rw [h3]
   exact mul_mem (inv_mem h2) hvxy
 
-theorem inj_aux {N M : Subgroup G} {z : G} (hzz : z * z = 1)
+theorem inj_aux {N M : Subgroup G} {z : G} (_hzz : z * z = 1)
     (hNc : ∀ n ∈ N, ∀ m ∈ M, n * m = m * n)
     (hCA : ∀ m ∈ M, z * m * z⁻¹ * m⁻¹ ∈ N → m ∈ N)
     (hzM : ∀ m ∈ M, z * m * z⁻¹ ∈ M)
@@ -142,7 +142,7 @@ theorem zinv_of_ca [Finite G] {M H : Subgroup G} {z σ : G} (hzz : z * z = 1)
   have hCA : ∀ m ∈ M, z * m * z⁻¹ * m⁻¹ ∈ N → m ∈ N :=
     fun m hm hp => ca_of_fix hzz hzσ hσ3 hzH hMH hm hp
   set N' : Subgroup M := N.subgroupOf M with hN'def
-  haveI : N'.Normal := ⟨fun n hn g => by
+  have : N'.Normal := ⟨fun n hn g => by
     rw [hN'def, Subgroup.mem_subgroupOf] at hn ⊢
     have hc : (g : G) * n = n * g := (hNc n hn g g.2).symm
     show (g : G) * (n : G) * (g : G)⁻¹ ∈ N
@@ -176,7 +176,7 @@ theorem zinv_of_ca [Finite G] {M H : Subgroup G} {z σ : G} (hzz : z * z = 1)
     have h2 := inj_aux hzz hNc hCA hzM y.2 x.2 hq'
     rw [QuotientGroup.eq, hN'def, Subgroup.mem_subgroupOf]
     simpa using h2
-  haveI : Finite (M ⧸ N') := Finite.of_surjective (QuotientGroup.mk : M → M ⧸ N') QuotientGroup.mk_surjective
+  have : Finite (M ⧸ N') := Finite.of_surjective (QuotientGroup.mk : M → M ⧸ N') QuotientGroup.mk_surjective
   have hsurj : Function.Surjective ghat := Finite.injective_iff_surjective.mp hinj
   intro x hx
   obtain ⟨q, hq⟩ := hsurj (QuotientGroup.mk ⟨x, hx⟩)
@@ -226,7 +226,7 @@ theorem conjP_of_odd [Finite G] {H P B : Subgroup G} {z t c : G}
   have hS₀mem : ∀ x : G, x ∈ S₀ ↔ ∃ b ∈ B, c⁻¹ * b * c = x := by
     intro x
     rw [hS₀, Subgroup.mem_map]
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   have hS₀card : Nat.card S₀ = 9 := by
     rw [hS₀, Subgroup.card_map_of_injective (MulAut.conj c⁻¹).injective, hB9]
   have hS₀H : S₀ ≤ H := by
@@ -818,7 +818,7 @@ theorem rad_card_ge [Finite G] {M N A₁ A₂ : Subgroup G}
     (hA₁card : Nat.card ↥A₁ = 9) (hA₂card : Nat.card ↥A₂ = 9) (hNcard : Nat.card ↥N = 3)
     (hR : Nat.card ↥(A₂ ⊓ Subgroup.centralizer (A₁ : Set G)) = 3) :
     3 ≤ Nat.card ↥(A₁ ⊓ Subgroup.centralizer (A₂ : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set R₂ : Subgroup G := A₂ ⊓ Subgroup.centralizer (A₁ : Set G) with hR₂def
   have hR₂A₂ : R₂ ≤ A₂ := inf_le_left
   have hR₂c : ∀ r ∈ R₂, ∀ b ∈ A₁, b * r = r * b := fun r hr b hb =>
@@ -950,7 +950,7 @@ theorem decomp_inj [Finite G] (d : VxData H z t σ τ M M' P)
 theorem central_decomp [Finite G] {M A₁ A₂ N : Subgroup G}
     (hNc : ∀ n ∈ N, ∀ m ∈ M, n * m = m * n)
     (hA₁ : ∀ a ∈ A₁, ∀ a' ∈ A₁, a * a' = a' * a) (hA₂ : ∀ b ∈ A₂, ∀ b' ∈ A₂, b * b' = b' * b)
-    (hA₁M : A₁ ≤ M) (hA₂M : A₂ ≤ M) (hNM : N ≤ M)
+    (hA₁M : A₁ ≤ M) (hA₂M : A₂ ≤ M) (_hNM : N ≤ M)
     (hdec : ∀ x ∈ M, ∃ a ∈ A₁, ∃ b ∈ A₂, ∃ n ∈ N, a * b * n = x)
     {x : G} (hx : x ∈ M ⊓ Subgroup.centralizer (M : Set G)) :
     ∃ a ∈ A₁ ⊓ Subgroup.centralizer (A₂ : Set G), ∃ b ∈ A₂ ⊓ Subgroup.centralizer (A₁ : Set G),
@@ -1109,7 +1109,7 @@ theorem card_Z [Finite G] (d : VxData H z t σ τ M M' P)
 
 end VxData
 
-def mkSS (M : Subgroup G) (σ y : G) (hM : M ≤ Subgroup.centralizer {σ})
+def mkSS (M : Subgroup G) (σ y : G) (_hM : M ≤ Subgroup.centralizer {σ})
     (hnorm : ∀ g ∈ Subgroup.centralizer {σ}, ∀ m ∈ M, g * m * g⁻¹ ∈ M)
     (hy : y ∈ Subgroup.centralizer {σ}) : Subgroup G where
   carrier := {x | ∃ m ∈ M, ∃ k : ℤ, m * y ^ k = x}
@@ -1132,7 +1132,7 @@ theorem mem_mkSS {M : Subgroup G} {σ y : G} {hM hnorm hy} {x : G} :
 theorem card_mkSS [Finite G] {M : Subgroup G} {σ y : G} {hM hnorm hy}
     (hMy : M ⊓ Subgroup.zpowers y = ⊥) (hM243 : Nat.card ↥M = 243) (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1) :
     Nat.card ↥(mkSS M σ y hM hnorm hy) = 729 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hyc : Nat.card ↥(Subgroup.zpowers y) = 3 := by
     rw [Nat.card_zpowers]; exact orderOf_eq_prime hy3 hy1
   let F : ↥M × ↥(Subgroup.zpowers y) → ↥(mkSS M σ y hM hnorm hy) := fun x =>
@@ -1167,7 +1167,7 @@ theorem card_mkSS [Finite G] {M : Subgroup G} {σ y : G} {hM hnorm hy}
 
 theorem comm_of_pow_comm {y g u : G} (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1) (hg : g ∈ Subgroup.zpowers y)
     (hg1 : g ≠ 1) (hu : u * g = g * u) : u * y = y * u := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf y = 3 := orderOf_eq_prime hy3 hy1
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hg
   have hkr : y ^ k = y ^ (k % 3) := by
@@ -1200,7 +1200,7 @@ theorem center_mkSS [Finite G] {M : Subgroup G} {σ y : G}
     (hZM : ∀ x ∈ M, (∀ y' ∈ M, x * y' = y' * x) → x ∈ Subgroup.zpowers σ)
     (hNc : ∀ n ∈ Subgroup.zpowers σ, ∀ u ∈ M, n * u = u * n)
     (hcomm : ∀ x ∈ M, ∀ y' ∈ M, x * y' * x⁻¹ * y'⁻¹ ∈ Subgroup.zpowers σ)
-    (hNM : Subgroup.zpowers σ ≤ M) (hN3 : Nat.card ↥(Subgroup.zpowers σ) = 3)
+    (_hNM : Subgroup.zpowers σ ≤ M) (hN3 : Nat.card ↥(Subgroup.zpowers σ) = 3)
     (hM243 : Nat.card ↥M = 243) (hyM : Nat.card ↥(M ⊓ Subgroup.centralizer {y}) = 27)
     (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1) :
     ∀ x ∈ mkSS M σ y hM hnorm hy, (∀ s ∈ mkSS M σ y hM hnorm hy, x * s = s * x) →
@@ -1280,7 +1280,7 @@ theorem zpow_inter_bot [Finite G] {σ τ : G} {P : Subgroup G}
     (hPgen : ∀ p ∈ P, ∃ a b : ℤ, σ ^ a * τ ^ b = p) (hP9 : Nat.card ↥P = 9)
     (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1) (hτ3 : τ ^ 3 = 1) (hτ1 : τ ≠ 1) :
     Subgroup.zpowers σ ⊓ Subgroup.zpowers τ = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hσo : orderOf σ = 3 := orderOf_eq_prime hσ3 hσ1
   have hτo : orderOf τ = 3 := orderOf_eq_prime hτ3 hτ1
   have hσc : Nat.card ↥(Subgroup.zpowers σ) = 3 := by rw [Nat.card_zpowers, hσo]
@@ -1309,7 +1309,7 @@ theorem zpow_inter_bot [Finite G] {σ τ : G} {P : Subgroup G}
 theorem normalizer_cases {σ t x : G} (σ3 : σ ^ 3 = 1) (σ1 : σ ≠ 1) (tσ : t * σ * t⁻¹ = σ⁻¹)
     (hx : x ∈ Subgroup.normalizer (Subgroup.zpowers σ : Set G)) :
     x ∈ Subgroup.centralizer {σ} ∨ t * x ∈ Subgroup.centralizer {σ} := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxσ : x * σ * x⁻¹ ∈ Subgroup.zpowers σ := by
     have := (Subgroup.mem_normalizer_iff.mp hx) σ
     exact this.mp (Subgroup.mem_zpowers σ)
@@ -1354,7 +1354,7 @@ theorem card_normalizer_dvd [Finite G] {σ t : G} (σ3 : σ ^ 3 = 1) (σ1 : σ �
     (t2 : t * t = 1) :
     Nat.card ↥(Subgroup.normalizer (Subgroup.zpowers σ : Set G)) ∣
       2 * Nat.card ↥(Subgroup.centralizer {σ}) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set X : Subgroup G := Subgroup.normalizer (Subgroup.zpowers σ : Set G) with hXdef
   set C : Subgroup G := Subgroup.centralizer {σ} with hCdef
   have hCX : C ≤ X := by
@@ -1408,7 +1408,7 @@ theorem card_normalizer_dvd [Finite G] {σ t : G} (σ3 : σ ^ 3 = 1) (σ1 : σ �
   have hidx0 : (C.subgroupOf X).index ≠ 0 := Subgroup.index_ne_zero_of_finite
   have hdiv : (C.subgroupOf X).index ∣ 2 := by
     have : (C.subgroupOf X).index = 1 ∨ (C.subgroupOf X).index = 2 := by omega
-    rcases this with h1 | h1 <;> rw [h1] <;> norm_num
+    rcases this with h1 | h1 <;> rw [h1]; norm_num
   have hcm := Subgroup.card_mul_index (C.subgroupOf X)
   rw [hK] at hcm
   rw [← hcm]
@@ -1475,7 +1475,7 @@ theorem normS_le [Finite G] {M : Subgroup G} {σ y : G} {hM : M ≤ Subgroup.cen
 
 theorem zpow3_cases {σ : G} (σ3 : σ ^ 3 = 1) (σ1 : σ ≠ 1) (k : ℤ) :
     σ ^ k = 1 ∨ σ ^ k = σ ∨ σ ^ k = σ⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf σ = 3 := orderOf_eq_prime σ3 σ1
   have hjm : σ ^ (k % 3) = σ ^ k := by
     have := zpow_mod_orderOf σ k
@@ -1498,7 +1498,7 @@ variable {H M M' P : Subgroup G} {z t σ τ : G}
 open scoped Pointwise in
 theorem sylow_contra [Finite G] (d : VxData H z t σ τ M M' P)
     (hZM : ∀ x ∈ M, (∀ y ∈ M, x * y = y * x) → x ∈ Subgroup.zpowers σ) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hτC : τ ∈ Subgroup.centralizer {σ} :=
     Subgroup.mem_centralizer_iff.mpr (fun h hh => by
       rw [Set.mem_singleton_iff.mp hh]; exact d.στ)

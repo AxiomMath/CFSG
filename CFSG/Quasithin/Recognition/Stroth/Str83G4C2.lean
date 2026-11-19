@@ -57,8 +57,8 @@ theorem str83G4_q1_inf_conjugate_q1_le_q2
   rw [CFSG.mem_conjugate_iff] at hxw
   exact (CFSG.mem_conjugate_iff S d.w x).mpr (hQ1S hxw)
 
-theorem relIndex_centralizer_le_of_le_centralizer [Finite G] {X Y : Subgroup G} {d : G}
-    (hdX : d ∈ Subgroup.normalizer (X : Set G))
+theorem relIndex_centralizer_le_of_le_centralizer {X Y : Subgroup G} {d : G}
+    (_hdX : d ∈ Subgroup.normalizer (X : Set G))
     (hY : ∀ x ∈ X, x * d * x⁻¹ * d⁻¹ ∈ Y)
     (hYX : Y ≤ Subgroup.centralizer (X : Set G)) :
     (Subgroup.centralizer ({d} : Set G)).relIndex X ≤ Nat.card Y := by
@@ -95,7 +95,7 @@ theorem relIndex_centralizer_le_of_le_centralizer [Finite G] {X Y : Subgroup G} 
         have := congrArg (fun y : ↥Y => (y : G)) h
         simpa using this
       have h1' : ((f x⁻¹ : ↥Y) : G) = 1 := h1
-      simp only [f, Subgroup.coe_one] at h1'
+      simp only [f] at h1'
       rw [Subgroup.mem_centralizer_iff]
       intro z hz
       rw [Set.mem_singleton_iff] at hz
@@ -187,7 +187,7 @@ private theorem str83G4_relIndex_centralizer_q1_le
     {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a)
     (d : Str83G4Data L1 L2 S) (hX : IsElemAbelian 2 (str83X L1 L2 S))
     {t : G} (ht : t ∈ CFSG.conjugate (str83X L1 L2 S) d.w)
-    (htQ : t ∉ Q1 L1 L2 S) :
+    (_htQ : t ∉ Q1 L1 L2 S) :
     (Subgroup.centralizer ((Subgroup.zpowers t : Subgroup G) : Set G)).relIndex
       (Q1 L1 L2 S) ≤ (2 ^ (2 * a + 1)) ^ 4 := by
   classical
@@ -293,16 +293,18 @@ private theorem str83G4_sup_left_eq_sup_q1
   have h1 : L1 ⊔ S = L1 ⊔ ((S ⊓ L1) ⊔ Q1 L1 L2 S) := congrArg (fun X => L1 ⊔ X) hS1
   rw [h1, ← sup_assoc, show L1 ⊔ (S ⊓ L1) = L1 from sup_eq_left.mpr inf_le_right]
 
+omit [Finite G] in
 private theorem str83G4_isNormalIn_q1_q1
-    {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a) :
+    {L1 L2 S : Subgroup G} {a : ℕ} (_hfr : Str83G4Frame L1 L2 S a) :
     IsNormalIn (L1 ⊔ S) (Q1 L1 L2 S) (Q1 L1 L2 S) := by
   have hHleP1 : L1 ⊔ S ≤ P1 L1 L2 S := sup_left_le_p1 L1 L2 S
   refine ⟨le_rfl, fun g hg x hx => ?_⟩
   exact (Subgroup.mem_normalizer_iff.mp
     (le_normalizer_pCoreOf 2 (P1 L1 L2 S) (hHleP1 hg)) x).mp hx
 
+omit [Finite G] in
 theorem str83G4_isNormalIn_y
-    {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a) :
+    {L1 L2 S : Subgroup G} {a : ℕ} (_hfr : Str83G4Frame L1 L2 S a) :
     IsNormalIn (L1 ⊔ S) (Q1 L1 L2 S) (str83Y L1 L2 S) := by
   have hYQ1 : str83Y L1 L2 S ≤ Q1 L1 L2 S := inf_le_left
   have hHN : L1 ⊔ S ≤ Subgroup.normalizer (str83X L1 L2 S : Set G) :=
@@ -315,7 +317,7 @@ theorem str83G4_isNormalIn_y
 
 private theorem str83G4_commutator_x_oTwo_le_z1
     {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a)
-    (d : Str83G4Data L1 L2 S) (hX : IsElemAbelian 2 (str83X L1 L2 S))
+    (_d : Str83G4Data L1 L2 S) (hX : IsElemAbelian 2 (str83X L1 L2 S))
     (hY : twoResidual (L1 ⊔ S) ≤
       centralizerMod (str83Y L1 L2 S) (L1 ⊔ S) (Q1 L1 L2 S)) :
     ⁅str83X L1 L2 S, oTwoUpper (L1 ⊔ S)⁆ ≤ Z1 L1 L2 S := by
@@ -446,6 +448,7 @@ private theorem str83G4_commutator_x_oTwo_le_z1
   rw [hcomm]
   exact Z1s.inv_mem huMemZ
 
+omit [Finite G] in
 private theorem exists_noncentral_step_of_isChiefSeriesBetween {H U W N : Subgroup G} {a : ℕ}
     (h : F112W.IsChiefSeriesBetween H U W N a) (ha : a ≠ 0) :
     ∃ L N' : Subgroup G, IsChiefStep H U L N' ∧ W ≤ L ∧ ¬ IsCentralStep H L N' := by

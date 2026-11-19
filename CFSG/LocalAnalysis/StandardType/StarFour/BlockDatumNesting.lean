@@ -34,16 +34,19 @@ private noncomputable def nestB (fr : SemiFrame F ρ) (fr' : SemiFrame F ρ') (i
     (i' : Fin fr'.r) (y : Fin (fr'.m i') → fr'.E i') : Fin (fr.m i) → fr.E i :=
   fr.Φ (fr'.Φ.symm (Pi.single i' y)) i
 
+omit [Finite F] [Module.Finite F V] in
 private lemma nestA_add (fr : SemiFrame F ρ) (fr' : SemiFrame F ρ') (i : Fin fr.r)
     (i' : Fin fr'.r) (u v : Fin (fr.m i) → fr.E i) :
     nestA fr fr' i i' (u + v) = nestA fr fr' i i' u + nestA fr fr' i i' v := by
   simp only [nestA, Pi.single_add, map_add, Pi.add_apply]
 
+omit [Finite F] [Module.Finite F V] in
 private lemma nestB_add (fr : SemiFrame F ρ) (fr' : SemiFrame F ρ') (i : Fin fr.r)
     (i' : Fin fr'.r) (y z : Fin (fr'.m i') → fr'.E i') :
     nestB fr fr' i i' (y + z) = nestB fr fr' i i' y + nestB fr fr' i i' z := by
   simp only [nestB, Pi.single_add, map_add, Pi.add_apply]
 
+omit [Finite F] [Module.Finite F V] in
 private lemma nestA_smul (fr : SemiFrame F ρ) (fr' : SemiFrame F ρ') (i : Fin fr.r)
     (i' : Fin fr'.r) (ε : fr'.E i' →ₐ[F] fr.E i)
     (h4 : ∀ (c : fr'.E i') (u : Fin (fr.m i) → fr.E i),
@@ -53,6 +56,7 @@ private lemma nestA_smul (fr : SemiFrame F ρ) (fr' : SemiFrame F ρ') (i : Fin 
     nestA fr fr' i i' (ε c • u) = c • nestA fr fr' i i' u :=
   h4 c u
 
+omit [Finite F] [Module.Finite F V] in
 private lemma nestB_smul (fr : SemiFrame F ρ) (fr' : SemiFrame F ρ') (i : Fin fr.r)
     (i' : Fin fr'.r) (ε : fr'.E i' →ₐ[F] fr.E i)
     (h2 : ∀ (c : fr'.E i') (y : Fin (fr'.m i') → fr'.E i'),
@@ -62,6 +66,7 @@ private lemma nestB_smul (fr : SemiFrame F ρ) (fr' : SemiFrame F ρ') (i : Fin 
     nestB fr fr' i i' (c • y) = ε c • nestB fr fr' i i' y :=
   h2 c y
 
+omit [Finite F] [Module.Finite F V] in
 private lemma nestSingle (fr : SemiFrame F ρ) (fr' : SemiFrame F ρ') (i : Fin fr.r)
     (i' : Fin fr'.r)
     (h3 : ∀ (u : Fin (fr.m i) → fr.E i) (j : Fin fr'.r), j ≠ i' →
@@ -70,6 +75,7 @@ private lemma nestSingle (fr : SemiFrame F ρ) (fr' : SemiFrame F ρ') (i : Fin 
     fr'.Φ (fr.Φ.symm (Pi.single i u)) = Pi.single i' (nestA fr fr' i i' u) :=
   nest_eq_single_of_coords i' _ (fun j hj => h3 u j hj)
 
+omit [Finite F] [Module.Finite F V] in
 private lemma nestB_nestA (fr : SemiFrame F ρ) (fr' : SemiFrame F ρ') (i : Fin fr.r)
     (i' : Fin fr'.r)
     (h3 : ∀ (u : Fin (fr.m i) → fr.E i) (j : Fin fr'.r), j ≠ i' →
@@ -80,6 +86,7 @@ private lemma nestB_nestA (fr : SemiFrame F ρ) (fr' : SemiFrame F ρ') (i : Fin
   simp only [nestB]
   rw [← h, LinearEquiv.symm_apply_apply, LinearEquiv.apply_symm_apply, Pi.single_eq_same]
 
+omit [Finite F] [Module.Finite F V] in
 private lemma nestB_coord (fr : SemiFrame F ρ) (fr' : SemiFrame F ρ') (i : Fin fr.r)
     (i' : Fin fr'.r)
     (h1 : ∀ j : Fin fr'.r, j ≠ i' → ∀ y : Fin (fr'.m j) → fr'.E j,
@@ -113,9 +120,10 @@ private lemma nest_update_add_single {ι : Type*} [DecidableEq ι] {M : ι → T
 
 end Nesting
 
+omit [Finite F] in
 theorem exists_blockDatum {P P' : Type} [CommGroup P] [CommGroup P']
     (η : P →* SpecialLinearGroup F V) (η' : P' →* SpecialLinearGroup F V) {g : P} {g' : P'}
-    (hg' : ∀ x : P', x ∈ Subgroup.zpowers g') (hgg : η' g' = η g)
+    (_hg' : ∀ x : P', x ∈ Subgroup.zpowers g') (_hgg : η' g' = η g)
     (fr : SemiFrame F (groupRep η)) (fr' : SemiFrame F (groupRep η')) (i : Fin fr.r)
     (hm : 2 ≤ fr.m i) (i' : Fin fr'.r) (ε : fr'.E i' →ₐ[F] fr.E i)
     (h3 : ∀ (u : Fin (fr.m i) → fr.E i) (j : Fin fr'.r), j ≠ i' →
@@ -138,7 +146,7 @@ theorem exists_blockDatum {P P' : Type} [CommGroup P] [CommGroup P']
       (∀ t, fr'.blockSpecialLinear i' (datumElt ι₁ π₁ h4k t) =
         datumElt (fr.blockIota i (fr.idx1 i hm)) (fr.blockPi i (fr.idx0 i hm))
           (fun t => fr.blockPi_blockIota_ne i (fr.idx0_ne_idx1 i hm).symm t) t) := by
-  letI : Algebra (fr'.E i') (fr.E i) := ε.toRingHom.toAlgebra
+  let : Algebra (fr'.E i') (fr.E i) := ε.toRingHom.toAlgebra
   let A : (Fin (fr.m i) → fr.E i) →ₗ[fr'.E i'] (Fin (fr'.m i') → fr'.E i') :=
     { toFun := nestA fr fr' i i'
       map_add' := fun u v => nestA_add fr fr' i i' u v
@@ -234,6 +242,7 @@ theorem exists_blockDatum {P P' : Type} [CommGroup P] [CommGroup P']
     rfl
   exact ⟨ι, ι₁, π, π₁, h1k, h2k, h3k, h4k, eq1, eq2⟩
 
+omit [Finite F] [Module.Finite F V] in
 theorem blockDatum_numerics {P P' : Type} [CommGroup P] [CommGroup P']
     (η : P →* SpecialLinearGroup F V) (η' : P' →* SpecialLinearGroup F V)
     (fr : SemiFrame F (groupRep η)) (fr' : SemiFrame F (groupRep η')) (i : Fin fr.r)
@@ -245,7 +254,7 @@ theorem blockDatum_numerics {P P' : Type} [CommGroup P] [CommGroup P']
       fr'.Φ (fr.Φ.symm (Pi.single i (ε c • u))) i' = c • fr'.Φ (fr.Φ.symm (Pi.single i u)) i') :
     letI : Algebra (fr'.E i') (fr.E i) := ε.toRingHom.toAlgebra
     Module.finrank (fr'.E i') (fr.E i) * fr.m i ≤ fr'.m i' := by
-  letI : Algebra (fr'.E i') (fr.E i) := ε.toRingHom.toAlgebra
+  let : Algebra (fr'.E i') (fr.E i) := ε.toRingHom.toAlgebra
   let A : (Fin (fr.m i) → fr.E i) →ₗ[fr'.E i'] (Fin (fr'.m i') → fr'.E i') :=
     { toFun := nestA fr fr' i i'
       map_add' := fun u v => nestA_add fr fr' i i' u v

@@ -10,12 +10,12 @@ namespace CFSG
 theorem exists_fixed_subgroup_of_odd_ncard
     {Q X : Type*} [Group Q] [Group X] (hQ : IsPGroup 2 Q)
     (α : Q →* MulAut X) (Ω : Set (Subgroup X))
-    (hfin : Ω.Finite) (hodd : Odd Ω.ncard)
+    (_hfin : Ω.Finite) (hodd : Odd Ω.ncard)
     (hinv : ∀ q : Q, ∀ P ∈ Ω, P.map (α q).toMonoidHom ∈ Ω) :
     ∃ P ∈ Ω, ∀ q : Q, P.map (α q).toMonoidHom = P := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI act : MulAction Q ↥Ω :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let act : MulAction Q ↥Ω :=
     { smul := fun q P => ⟨P.1.map (α q).toMonoidHom, hinv q P.1 P.2⟩
       one_smul := fun P => Subtype.ext (by
         change P.1.map (α 1).toMonoidHom = P.1

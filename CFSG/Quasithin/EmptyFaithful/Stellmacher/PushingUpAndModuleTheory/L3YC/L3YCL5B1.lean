@@ -99,7 +99,7 @@ theorem transvection_cross_eq (k : Fin 3) (l : Fin 2) :
       (1 : ZMod 2) : Matrix (Fin 5) (Fin 5) (ZMod 2))) = m1 1 (Matrix.single k l 1) := by
   ext a b
   fin_cases k <;> fin_cases l <;> fin_cases a <;> fin_cases b <;>
-    simp [m1, Matrix.single_apply]
+    simp [m1]
 
 theorem generate_V1 {B : Type} [Group B] (θ : B →* SpecialLinearGroup (Fin 5) (ZMod 2))
     (T : Subgroup B)
@@ -171,14 +171,14 @@ theorem omega_conj (A : Matrix (Fin 3) (Fin 3) (ZMod 2)) (X : Matrix (Fin 3) (Fi
     omega0 * m1 A X * (omega0 * omega0) = m1 A (X * Dm2) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [omega0, m1, Dm, Dm2, Matrix.mul_apply, Fin.sum_univ_five, Fin.sum_univ_two,
+    simp [omega0, m1, Dm2, Matrix.mul_apply, Fin.sum_univ_five, Fin.sum_univ_two,
       zmod2_one_add_one]
 
 theorem omega_conj' (A : Matrix (Fin 3) (Fin 3) (ZMod 2)) (X : Matrix (Fin 3) (Fin 2) (ZMod 2)) :
     (omega0 * omega0) * m1 A X * omega0 = m1 A (X * Dm) := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [omega0, m1, Dm, Dm2, Matrix.mul_apply, Fin.sum_univ_five, Fin.sum_univ_two,
+    simp [omega0, m1, Dm, Matrix.mul_apply, Fin.sum_univ_five, Fin.sum_univ_two,
       zmod2_one_add_one]
 
 section Config
@@ -238,7 +238,7 @@ theorem m1_transvection_block (k j : Fin 3) (hkj : k ≠ j) :
       Matrix (Fin 5) (Fin 5) (ZMod 2)) = m1 (1 + Matrix.single k j 1) 0 := by
   ext a b
   fin_cases k <;> fin_cases j <;> fin_cases a <;> fin_cases b <;>
-    simp [m1, Matrix.single_apply] <;> exact absurd rfl hkj
+    simp [m1]
 
 theorem config_a0 (hθ : Function.Injective θ) (hαs : Function.Surjective α)
     (hαk : α.ker = CFSG.pCore 2 B)

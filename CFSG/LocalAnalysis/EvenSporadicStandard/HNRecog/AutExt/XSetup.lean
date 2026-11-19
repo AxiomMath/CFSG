@@ -29,7 +29,7 @@ theorem closure_xU (hX : ClassSpec classz elemZ) :
   rw [classz_centGens] at h
   have himg : elemW '' {w | w ∈ [xU1, xU2]} = ({elemW xU1, elemW xU2} : Set _) := by
     ext x
-    simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false,
+    simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false,
       Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨w, hw | hw, rfl⟩
@@ -71,7 +71,7 @@ theorem enum_N (h : enumW invCap 7680 [xC1, xC2] = true) :
   have h1 := (enumW_spec h).2
   have himg : elemW '' {w | w ∈ [xC1, xC2]} = ({elemW xC1, elemW xC2} : Set _) := by
     ext x
-    simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false,
+    simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false,
       Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨w, hw | hw, rfl⟩

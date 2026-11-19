@@ -31,7 +31,7 @@ section KD264
 theorem exists_comp_five :
     ∃ w : CFSG.Sporadic.Fi24.J, orderOf w = 5 ∧
       ∃ J₀ : Subgroup CFSG.Sporadic.Fi24.J, GLAPComponent 5 (Subgroup.centralizer ({w} : Set CFSG.Sporadic.Fi24.J)) J₀ := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨e, he, f, hf, h5e, he1, -, -, -, hcM⟩ := fi24FiveMoore_parts
   obtain ⟨w, hwe⟩ : ∃ w : J, (w : GL (Fin 781) (ZMod 3)) = e := ⟨⟨e, he⟩, rfl⟩

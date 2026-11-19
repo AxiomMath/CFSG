@@ -60,7 +60,7 @@ theorem fz_not_u34 {X : Type} [Group X] [Finite X] {S Q : Subgroup X} (hS : IsSy
       rw [htop, Subgroup.card_top]
     rw [hZc4, hP64] at hcard
     norm_num at hcard
-  haveI : Group.IsNilpotent ↥(bar M S) := hSb.isPGroup.isNilpotent
+  have : Group.IsNilpotent ↥(bar M S) := hSb.isPGroup.isNilpotent
   have hDne : _root_.commutator ↥(bar M S) ≠ ⊥ := fun h =>
     hPnab ((_root_.commutator_eq_bot_iff ↥(bar M S)).mp h)
   have hInt : _root_.commutator ↥(bar M S) ⊓ Subgroup.center ↥(bar M S) ≠ ⊥ :=

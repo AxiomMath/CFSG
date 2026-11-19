@@ -32,7 +32,7 @@ theorem even_central_quotient {G : Type*} [Group G] [Finite G] [Group.IsPerfect 
     fun hdivides => hnotEven (even_iff_two_dvd.mpr hdivides)
   let sylow : Sylow 2 G := Classical.choice inferInstance
   let quotient := QuotientGroup.mk' (Subgroup.center G)
-  have himage := sylow.isPGroup'.map quotient
+  have himage := sylow.isPGroup.map quotient
   have himageCard : Nat.card ↥((sylow : Subgroup G).map quotient) = 1 := by
     rcases himage.card_eq_or_dvd with hone | hdivides
     · exact hone

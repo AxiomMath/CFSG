@@ -14,16 +14,19 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma conjAct_smul_eq_map (g : G) (H : Subgroup G) :
     ConjAct.toConjAct g • H = H.map (MulAut.conj g).toMonoidHom := by
   rw [Subgroup.pointwise_smul_def]
   rfl
 
+omit [Finite G] in
 private lemma IsElemAb2.map_conj {A : Subgroup G} {k : ℕ} (h : IsElemAb2 A k) (b : G) :
     IsElemAb2 (A.map (MulAut.conj b).toMonoidHom) k :=
   ⟨CFSG.Open.IsElemAbelian.map h.1 _, by
     rw [Subgroup.card_map_of_injective (K := A) (MulAut.conj b).injective, h.2]⟩
 
+omit [Finite G] in
 private lemma normal_subgroupOf_map_conj {A T : Subgroup G} (hAT : A ≤ T)
     (hA : (A.subgroupOf T).Normal) {b : G} (hb : b ∈ normalizer (T : Set G)) :
     ((A.map (MulAut.conj b).toMonoidHom).subgroupOf T).Normal := by
@@ -140,7 +143,7 @@ theorem sec8t84_swap_contra {T E E0 : Subgroup G} (hTS : IsSylow2Of T ⊤) (hne 
       ⟨N.relIndex ⊤, (Subgroup.relIndex_mul_relIndex (H := T) (K := N) (L := ⊤)
         T.le_normalizer le_top).symm⟩
     exact ⟨T.le_normalizer, hTS.2.1, fun h2 => hTS.2.2 (dvd_trans h2 hrel)⟩
-  haveI : (T.subgroupOf N).Normal := Subgroup.normal_in_normalizer
+  have : (T.subgroupOf N).Normal := Subgroup.normal_in_normalizer
   let q : ↥N ⧸ T.subgroupOf N := QuotientGroup.mk' (T.subgroupOf N) ⟨a, haN⟩
   have hq_dvd : orderOf q ∣ T.relIndex N := by
     rw [Subgroup.relIndex, Subgroup.index_eq_card]
@@ -164,7 +167,6 @@ theorem sec8t84_swap_contra {T E E0 : Subgroup G} (hTS : IsSylow2Of T ⊤) (hne 
       induction k with
       | zero => simp
       | succ k ih =>
-          change (ConjAct.toConjAct a ^ (2 * (k + 1))) • E0 = E0
           have h2 : 2 * (k + 1) = 2 * k + 2 := by ring
           rw [h2, pow_add, mul_smul, hfixE02, ih]
     obtain ⟨k, hk⟩ := hq_odd

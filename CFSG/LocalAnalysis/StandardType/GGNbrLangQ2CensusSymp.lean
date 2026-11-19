@@ -73,9 +73,9 @@ theorem q2cSp_block_structure {p d m : ℕ} {lab : LargeEvenLabel} (hd : 3 ≤ d
     obtain ⟨K₀, iF, iFin, hK₀, hq⟩ := hQ
     refine ⟨K₀, iF, iFin, hK₀, hq, ?_⟩
     intro A hA hAI hbig h3 hlo hup u hu huo J hJ huniq hAJ K iK iFinK hK hne
-    haveI : CharP K₀ 2 := charP_two_of_card hK₀
+    have : CharP K₀ 2 := charP_two_of_card hK₀
     have hl2 : 2 ≤ l := hΛ.2.1
-    haveI : NeZero l := ⟨by omega⟩
+    have : NeZero l := ⟨by omega⟩
     let R : Type := LargeEvenProj (if false = true then
       ⁅LargeEvenSpGroup K₀ l, LargeEvenSpGroup K₀ l⁆ else LargeEvenSpGroup K₀ l)
     have hAinn : (A : Set (MulAut R)) ⊆ Set.range (MulAut.conj : R →* _) :=
@@ -201,8 +201,8 @@ theorem q2c_rLevel_symplectic :
     · exfalso
       rcases hsp with ⟨b, F, iF, iFin, hF, hb2, hble, hJiso⟩
       obtain ⟨hJiso'⟩ := hJiso
-      haveI : CharP F 2 := charP_two_of_card hF
-      haveI : NeZero b := ⟨by omega⟩
+      have : CharP F 2 := charP_two_of_card hF
+      have : NeZero b := ⟨by omega⟩
       have hhasB : GGHasLabel (⟨.B, b, lab.n⟩ : LargeEvenLabel)
           (↥J ⧸ Subgroup.center ↥J) := by
         unfold GGHasLabel

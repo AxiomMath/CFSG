@@ -86,9 +86,9 @@ theorem exists_conj_mem_parabolic_sup_torus (K : Type) [Field K] [Finite K] (σ 
         x ∈ Subgroup.normalizer (R : Set (ModGL (TwTag K σ hσ) K)) →
           g₀⁻¹ * x * g₀ ∈ graphFixedParabolic TwistTag.E6 K σ.toRingHom J ⊔
             twistedE6DiagGL K σ := by
-  haveI : Fact (ringChar K).Prime := ⟨hp⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI := finite_modGL (τ := TwTag K σ hσ) (K := K)
+  have : Fact (ringChar K).Prime := ⟨hp⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have := finite_modGL (τ := TwTag K σ hσ) (K := K)
   obtain ⟨M, -, ⟨g₁, hg₁, l₁, hl₁, hgl₁⟩, -, F, hF, -, ⟨g₀, hg₀, l₀, hl₀, hl₀1, hgl₀⟩,
       hdom, hsemi⟩ :=
     RootWeightDatum.root_p_subgroup_optimal_parabolic_containment
@@ -242,8 +242,8 @@ theorem exists_conj_le_levi_sup_torus (K : Type) [Field K] [Finite K] [CharP K 2
     ∃ y ∈ graphFixedParabolicRadical TwistTag.E6 K σ.toRingHom J, ∀ x ∈ A,
       y * x * y⁻¹ ∈ graphFixedParabolicLevi TwistTag.E6 K σ.toRingHom J ⊔
         twistedE6DiagGL K σ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := finite_modGL (τ := TwistTag.E6.tag) (K := K)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_modGL (τ := TwistTag.E6.tag) (K := K)
   set Q := graphFixedParabolicRadical TwistTag.E6 K σ.toRingHom J with hQ
   set L := graphFixedParabolicLevi TwistTag.E6 K σ.toRingHom J ⊔ twistedE6DiagGL K σ with hL
   obtain ⟨-, -, -, -, -, -, -, -, hQP, hQnorm, hLP, -, -, -, -, -, hfin, -⟩ :=
@@ -274,7 +274,7 @@ theorem exists_conj_le_levi_sup_torus (K : Type) [Field K] [Finite K] [CharP K 2
     exact (Nat.not_even_iff_odd.2 hodd)
       (even_iff_two_dvd.2 (h.trans (Subgroup.relIndex_dvd_card (H := Q) (K := A))))
   have hQA : Q ⊓ A = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨k, hk⟩ := hQ2.exists_card_eq
     rw [hk]
     exact Nat.Coprime.pow_left k (Nat.coprime_two_left.2 hodd)
@@ -364,7 +364,7 @@ theorem twistHom_leviCochar {L : Type} [Field L] (Fr : L →+* L) {q : ℕ}
     simp [hi, hi']
   · have hi' : TwistTag.E6.perm.symm i ∉ TwistTag.E6.orbitUnion J := fun h =>
       hi (by simpa using perm_mem_orbitUnion h)
-    simp only [hi, hi', if_false]
+    simp only [hi, hi', ite_false]
     exact Units.ext (by simp [hFr])
 
 theorem leviCochar_ne_one {L : Type} [Field L] {J : Set (Fin TwistTag.E6.foldedTag.rank)}
@@ -374,7 +374,7 @@ theorem leviCochar_ne_one {L : Type} [Field L] {J : Set (Fin TwistTag.E6.foldedT
   intro h1
   rw [leviCochar_apply, ← rootDiagUnit_one] at h1
   have h3 := congrFun (CFSG.LieType.Chevalley.rootDiagUnit_injective h1) i
-  simp only [hi, if_false, Pi.one_apply] at h3
+  simp only [hi, ite_false, Pi.one_apply] at h3
   exact hc h3
 
 theorem leviSplitStep_holds : LeviSplitStep := by
@@ -383,7 +383,7 @@ theorem leviSplitStep_holds : LeviSplitStep := by
   have hp : (ringChar K).Prime := by
     rw [h2]
     exact Nat.prime_two
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     rw [← h2]
     exact ringChar.charP K
   have hσ : σ ^ TwistTag.E6.order = 1 := by

@@ -14,16 +14,16 @@ open CFSG.Open CFSG.RankThreeCoreUniqueness.Helpers CFSG.LocalAnalysis.RankThree
 theorem isSolvable_centralizer_layer_three {G : Type} [Group G] [Finite G] (H : Subgroup G)
     (hR : CFSG.Open.pRank 3 (CFSG.pCore 3 (StarGroup 3 H)) ≤ 2) :
     Group.IsSolvable ↥(centralizer (CFSG.layer (StarGroup 3 H) : Set (StarGroup 3 H))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let R : Subgroup (StarGroup 3 H) := CFSG.pCore 3 (StarGroup 3 H)
   let L : Subgroup (StarGroup 3 H) := CFSG.layer (StarGroup 3 H)
   let Yc : Subgroup (StarGroup 3 H) := centralizer (L : Set (StarGroup 3 H))
   let Cc : Subgroup (StarGroup 3 H) := centralizer (R : Set (StarGroup 3 H))
-  haveI hRn : R.Normal := inferInstance
-  haveI hLc : L.Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hLn : L.Normal := inferInstance
-  haveI hYcN : Yc.Normal := inferInstance
-  haveI hCcN : Cc.Normal := inferInstance
+  have hRn : R.Normal := inferInstance
+  have hLc : L.Characteristic := CFSG.LocalCores.layer_characteristic
+  have hLn : L.Normal := inferInstance
+  have hYcN : Yc.Normal := inferInstance
+  have hCcN : Cc.Normal := inferInstance
   obtain ⟨ρ, hρ⟩ := exists_hom_GL23_of_pRank_le_two (Y := StarGroup 3 H) R
     (CFSG.pCore_isPGroup (p := 3) (G := StarGroup 3 H)) hR
   let g : ↥Yc →* Matrix.GeneralLinearGroup (Fin 2) (ZMod 3) := ρ.comp Yc.subtype
@@ -65,9 +65,9 @@ theorem isSolvable_centralizer_layer_three {G : Type} [Group G] [Finite G] (H : 
     refine ⟨a + c, ?_⟩
     exact Subtype.ext (Subtype.ext
       (by simpa only [Subgroup.coe_pow, Subgroup.coe_one] using hamb))
-  haveI : Group.IsNilpotent ↥g.ker := hker.isNilpotent
-  haveI : Group.IsSolvable ↥g.ker := inferInstance
-  haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) (ZMod 3)) :=
+  have : Group.IsNilpotent ↥g.ker := hker.isNilpotent
+  have : Group.IsSolvable ↥g.ker := inferInstance
+  have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) (ZMod 3)) :=
     CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable
       (ZMod 3) (Or.inr (by rw [Nat.card_zmod]))
   refine Group.isSolvable_of_ker_le_range g.ker.subtype g ?_
@@ -77,7 +77,7 @@ theorem isPSolvable_d1PlusCore {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p
     (H : Subgroup G) (K : Subgroup (StarGroup p H))
     (hs : Group.IsSolvable ↥(centralizer (K : Set (StarGroup p H)))) :
     CFSG.HallHigman.IsPSolvable p ↥(CFSG.AGLEmbedding.d1PlusCore p H K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let X : Subgroup G := CFSG.AGLEmbedding.d1PlusCore p H K
   let Cc : Subgroup (StarGroup p H) := centralizer (K : Set (StarGroup p H))
   let core : Subgroup ↥H := primeComplementCore (G := ↥H) p
@@ -105,7 +105,7 @@ theorem isPSolvable_d1PlusCore {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p
   have hcop : Nat.Coprime p (Nat.card φ.ker) :=
     (CFSG.pPrimeCore_coprime_card (p := p) (G := ↥H)).coprime_dvd_right hdvd
   have hsol : Group.IsSolvable (↥X ⧸ φ.ker) := by
-    haveI : Group.IsSolvable ↥Cc := hs
+    have : Group.IsSolvable ↥Cc := hs
     exact Group.isSolvable_of_isSolvable_injective
       (f := (QuotientGroup.quotientKerEquivRange φ).toMonoidHom)
       (QuotientGroup.quotientKerEquivRange φ).injective

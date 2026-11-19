@@ -74,13 +74,13 @@ variable (K : Type) [Field K] [Finite K]
 variable {K}
 
 theorem mem_wImg {E : Subgroup (adjointGroup Tag.E8 K)} {w : WeylGroup Tag.E8} :
-    w ∈ wImg K E ↔ ∃ (x : adjointGroup Tag.E8 K) (hx : x ∈ E) (hxN : x ∈ monomialN K),
+    w ∈ wImg K E ↔ ∃ (x : adjointGroup Tag.E8 K) (_hx : x ∈ E) (hxN : x ∈ monomialN K),
       rhoN K ⟨x, hxN⟩ = w := by
   constructor
   · rintro ⟨y, hy, rfl⟩
     exact ⟨y, hy, y.2, rfl⟩
-  · rintro ⟨x, hx, hxN, rfl⟩
-    exact ⟨⟨x, hxN⟩, hx, rfl⟩
+  · rintro ⟨x, _hx, hxN, rfl⟩
+    exact ⟨⟨x, hxN⟩, _hx, rfl⟩
 
 theorem rhoE_range {E : Subgroup (adjointGroup Tag.E8 K)} (hEN : E ≤ monomialN K) :
     (rhoE hEN).range = wImg K E := by
@@ -98,7 +98,7 @@ theorem cj_le_monomialN (n : monomialN K) {E : Subgroup (adjointGroup Tag.E8 K)}
   exact mul_mem (mul_mem n.2 (hEN he)) (inv_mem n.2)
 
 theorem wImg_cj (n : monomialN K) {E : Subgroup (adjointGroup Tag.E8 K)}
-    (hEN : E ≤ monomialN K) :
+    (_hEN : E ≤ monomialN K) :
     wImg K (cj (n : adjointGroup Tag.E8 K) E) = cj (rhoN K n) (wImg K E) := by
   ext w
   rw [mem_cj, mem_wImg, mem_wImg]
@@ -123,7 +123,7 @@ section CyclicCases
 
 theorem exists_exp_of_mem_sylowW {r : WeylGroup Tag.E8} (hr : r ∈ sylowW) :
     ∃ i j : Fin 5, e8FiveG1 ^ (i : ℕ) * e8FiveG2 ^ (j : ℕ) = r := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨⟨i, j⟩, h⟩ :=
     (mem_closure_pair_iff (p := 5) e8Five_comm e8FiveG1_pow e8FiveG2_pow r).1 hr
   exact ⟨i, j, h⟩
@@ -143,7 +143,7 @@ theorem cyclic_cases (hζ : IsPrimitiveRoot ζ 5) {E : Subgroup (adjointGroup Ta
       ∃ (a : Fin Tag.E8.rank → Kˣ) (g : adjointGroup Tag.E8 K),
         E = cj g (griessCubeT hζ a) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hdvd : Nat.card (wImg K E) ∣ 25 := by
     rw [← card_sylowW]
     exact Subgroup.card_dvd_of_le hS

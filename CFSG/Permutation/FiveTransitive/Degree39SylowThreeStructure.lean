@@ -42,7 +42,7 @@ theorem orbit_card_three
     (hdiv.trans (Subgroup.card_range_dvd rho))
   exact Degree39ThreeOrbitGeometry.orbit_card_three_of_fixed_bound
     (by rw [Nat.card_eq_fintype_card,hcard]) Q
-    (S.isPGroup'.map (fixingSubgroup P s).subtype) hfixed g hg
+    (S.isPGroup.map (fixingSubgroup P s).subtype) hfixed g hg
     (Degree39FiveFree.fixed_card_eq_four P hcard h5 hnotAlt g.val
       (by simpa only [Subgroup.orderOf_coe] using hg)) x hx
 
@@ -55,7 +55,7 @@ theorem abelian_and_card_bound
     IsMulCommutative (sylowImage X P s S) ∧ Nat.card S ≤ 81 := by
   classical
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have ho := orbit_card_three P hcard h5 hnotAlt s hs S hS
   have hsmall : ∀ x : X, Nat.card (orbit Q x) ≤ 3 := by
     intro x

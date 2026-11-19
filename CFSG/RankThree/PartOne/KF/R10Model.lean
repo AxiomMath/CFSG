@@ -57,7 +57,7 @@ theorem isSgn_swap01 (d : torusVec p 4 (Qext K)) :
        have := hne 2
        have := hne 3
        field_simp
-       try first | linear_combination h' | linear_combination -h')
+       try first | linear_combination h')
 
 omit [Finite K] in
 theorem isSgn_swap02 (d : torusVec p 4 (Qext K)) :
@@ -79,7 +79,7 @@ theorem isSgn_swap02 (d : torusVec p 4 (Qext K)) :
        have := hne 2
        have := hne 3
        field_simp
-       try first | linear_combination h' | linear_combination -h')
+       try first | linear_combination h')
 
 omit [Finite K] in
 theorem isSgn_swap03 (d : torusVec p 4 (Qext K)) :
@@ -101,7 +101,7 @@ theorem isSgn_swap03 (d : torusVec p 4 (Qext K)) :
        have := hne 2
        have := hne 3
        field_simp
-       try first | linear_combination h' | linear_combination -h')
+       try first | linear_combination h')
 
 end Dictionary
 

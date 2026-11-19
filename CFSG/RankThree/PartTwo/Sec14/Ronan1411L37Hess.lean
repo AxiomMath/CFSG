@@ -249,7 +249,7 @@ theorem conj_of_hess (hTori : KL3HessTori) (hset : HJCoreSetting Ybar Abar Xbar 
     ∃ n ∈ Ybar ⊓ Subgroup.normalizer (Abar : Set M), T = S.map (MulAut.conj n).toMonoidHom := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨h7, hiso, hs, -⟩ := exists_model hX
-  haveI hXn := Wales1411W.HJInner.normal_X hset
+  have hXn := Wales1411W.HJInner.normal_X hset
   have hna : ∃ a b : ↥Xbar, a * b ≠ b * a := by
     by_contra h
     push Not at h

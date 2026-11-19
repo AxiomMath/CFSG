@@ -30,8 +30,8 @@ section Conn
 variable {G : Type} [Group G] [Finite G] {Ω : Set (Subgroup G)} {c : G}
 
 theorem sectionConnected_of_layer
-    (hΩ : Q3T8.Asc77.HypOmegaMod Ω)
-    (hc2 : IsPGroup 2 (Subgroup.zpowers c))
+    (_hΩ : Q3T8.Asc77.HypOmegaMod Ω)
+    (_hc2 : IsPGroup 2 (Subgroup.zpowers c))
     (h : T3.DStarConnected (oddQuotientFamily (Q3T8.Asc77.ExactLayer.exactPair Ω c))) :
         Q3T8.Asc77.SectionConnected Ω c := h
 end Conn

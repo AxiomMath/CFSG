@@ -156,7 +156,7 @@ theorem false_of_typeTwo (hc : A0Config Q B z u N) (h16 : 16 ≤ Nat.card (a0Ker
     · rintro ⟨h1, h2, h3⟩; exact ⟨⟨h1, h2⟩, h3⟩
   set π := QuotientGroup.mk' (Subgroup.center J) with hπ
   set R := R₂.map π with hR
-  have hR2 : IsPGroup 2 R := (Q.isPGroup'.to_le (inf_le_left.trans inf_le_left)).map π
+  have hR2 : IsPGroup 2 R := (Q.isPGroup.to_le (inf_le_left.trans inf_le_left)).map π
   have hzR₂ : z ∈ R₂ := (hmemR₂ z).mpr ⟨hz.mem, hbz, hc.comm.symm⟩
   have hzR : π z ∈ R := Subgroup.mem_map_of_mem π hzR₂
   have hπz : π z ≠ 1 := hz.mk_ne_one

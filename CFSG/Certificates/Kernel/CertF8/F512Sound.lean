@@ -71,7 +71,7 @@ theorem enc_sum_bit {q : ℕ} (hq : q < 9) (f : ℕ → GF512) : ∀ n : ℕ,
   | 0 => by simp [enc512_zero, bxr]
   | n + 1 => by
     rw [Fin.sum_univ_castSucc, enc512_bit_add _ _ hq]
-    simp only [Fin.coe_castSucc, Fin.val_last]
+    simp only [Fin.val_castSucc, Fin.val_last]
     rw [enc_sum_bit hq f n]
     rfl
 
@@ -197,7 +197,7 @@ theorem codeA_mulArr (A B : Array GF512) : codeA (mulArr A B) = mulS512 (codeA A
         r0 _ (by omega) s hs, r1 _ (by omega) s hs, r2 _ (by omega) s hs, r3 _ (by omega) s hs,
         r4 _ (by omega) s hs, r5 _ (by omega) s hs, r6 _ (by omega) s hs, r7 _ (by omega) s hs,
         r8 _ (by omega) s hs]
-      simp only [Nat.add_zero, Bool.xor_false, Bool.false_xor, Bool.xor_assoc]
+      simp only [Bool.xor_false, Bool.false_xor, Bool.xor_assoc]
     rw [mulG_bit]
     have e : 72 * i + (9 * j + s) = 9 * (8 * i + j) + s := by omega
     rw [e, rep_codeA (mulArr A B) _ (by omega) s hs, ← e]

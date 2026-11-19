@@ -117,7 +117,7 @@ theorem perfect_fix_pairs_odd (p : OddInv α) {E : Subgroup (Perm α)} (hE : ⁅
   intro e he x hx
   exact mem_fixOn.mp (hsub he) x hx
 
-theorem fix_pairs_of_commute_odd (p : OddInv α) {W : Set α} (hW : ∀ x ∈ W, p.μ x ∈ W)
+theorem fix_pairs_of_commute_odd (p : OddInv α) {W : Set α} (_hW : ∀ x ∈ W, p.μ x ∈ W)
     (hWω : p.ω ∉ W) (h6 : 6 ≤ Nat.card W) {e : Perm α}
     (h : ∀ x ∈ W, ∀ y ∈ W, y ≠ x → y ≠ p.μ x →
       Commute e (swap x (p.μ x) * swap y (p.μ y))) :
@@ -405,7 +405,7 @@ theorem alt_le_odd (p : OddInv α) (h9 : 9 ≤ Fintype.card α) (hodd : Odd (Fin
   have hprim := preprimitive_odd p (by omega) hodd hB htr
   obtain ⟨z, hz⟩ : ∃ z : α, z ≠ p.ω := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : Fintype.card α ≤ 1 := Fintype.card_le_one_iff.2 fun a b => (h a).trans (h b).symm
     omega
   obtain ⟨n, hn⟩ := MulAction.exists_smul_eq (↥Y) p.ω z

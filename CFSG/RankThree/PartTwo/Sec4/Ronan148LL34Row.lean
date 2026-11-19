@@ -107,6 +107,7 @@ theorem descAut_apply_of_commute {L : Subgroup G} {n : G}
   show n * l * n⁻¹ = l
   rw [hc, mul_inv_cancel_right]
 
+omit [Finite G] in
 theorem isElemAbelian_aBar {L A : Subgroup G} (hAN : A ≤ Subgroup.normalizer (L : Set G))
     (hA : CFSG.Assembly.IsElemAbelian 3 A) : CFSG.Assembly.IsElemAbelian 3 (aBar hAN) := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => ?_⟩
@@ -217,8 +218,8 @@ theorem row427_L34
     {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S)
     (hna : ∃ a b : S, a * b ≠ b * a) (eS : S ≃* projSL 3 (GaloisField 2 2)) : Row427 S := by
   intro G _ _ hG A hA hEF hθ L hL ⟨e⟩ d hdA hd1 hN hLd K hK htype
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hk : Nat.card (GaloisField 2 2) = 4 := GaloisField.card 2 2 (by norm_num)
   obtain ⟨φ₀⟩ := KFacts.nonempty_projSL_mulEquiv 3 (GaloisField 2 2)
   set χ : (↥L ⧸ Subgroup.center ↥L) ≃* projectiveSL 3 (GaloisField 2 2) :=
@@ -239,7 +240,7 @@ theorem row427_L34
     (MulEquiv.subgroupCongr hK'.symm)
   have hK'q : IsQuasisimple K' := CFSG.LocalCores.isQuasisimple_of_mulEquiv eK hK.1
   have hZ3 := isPGroup_center_of_isComponent hθ hL
-  haveI : Group.IsPerfect ↥L := hL.1.1
+  have : Group.IsPerfect ↥L := hL.1.1
   obtain ⟨hZd3, hexp⟩ := l34_cover hk hZ3
     ((e.trans eS).trans (CFSG.PGLModel.projSLEquivStatedProj 3 (GaloisField 2 2)))
   rcases htype with ⟨⟨φ⟩⟩ | ⟨-, hext⟩

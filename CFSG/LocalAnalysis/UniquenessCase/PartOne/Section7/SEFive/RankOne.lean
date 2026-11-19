@@ -21,7 +21,7 @@ private lemma le_sylow_of_le_normalizer {K : Type*} [Group K] {p : ℕ}
 private lemma mem_sylow_of_mem_normalizer {K : Type*} [Group K] {p : ℕ}
     {R S : Sylow p K} {r : K} (hr : r ∈ (R : Subgroup K))
     (hrn : r ∈ Subgroup.normalizer (S : Set K)) : r ∈ (S : Subgroup K) :=
-  le_sylow_of_le_normalizer (R.isPGroup'.to_le (Subgroup.zpowers_le.mpr hr)) S
+  le_sylow_of_le_normalizer (R.isPGroup.to_le (Subgroup.zpowers_le.mpr hr)) S
     (Subgroup.zpowers_le.mpr hrn) (Subgroup.mem_zpowers r)
 
 private lemma mem_conj_smul_sylow_iff {K : Type*} [Group K] {p : ℕ} {x g : K}
@@ -34,10 +34,10 @@ private lemma mem_conj_smul_sylow_iff {K : Type*} [Group K] {p : ℕ} {x g : K}
 private lemma natCard_sylow_ne {K : Type*} [Group K] [Finite K] {p : ℕ} [Fact p.Prime]
     (T : Sylow p K) (hcount : Nat.card (Sylow p K) = Nat.card (T : Subgroup K) + 1) :
     Nat.card {U : Sylow p K // U ≠ T} = Nat.card (T : Subgroup K) := by
-  haveI : Fintype (Sylow p K) := Fintype.ofFinite _
-  haveI : Fintype {U : Sylow p K // U ≠ T} := Fintype.ofFinite _
-  haveI : Fintype {U : Sylow p K // U = T} := Fintype.ofFinite _
-  haveI : Fintype (T : Subgroup K) := Fintype.ofFinite _
+  have : Fintype (Sylow p K) := Fintype.ofFinite _
+  have : Fintype {U : Sylow p K // U ≠ T} := Fintype.ofFinite _
+  have : Fintype {U : Sylow p K // U = T} := Fintype.ofFinite _
+  have : Fintype (T : Subgroup K) := Fintype.ofFinite _
   have hc : Fintype.card (Sylow p K) = Fintype.card (T : Subgroup K) + 1 := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact hcount
@@ -83,7 +83,7 @@ private lemma exists_mem_sylow_smul_eq {K : Type*} [Group K] [Finite K] {p : ℕ
     (hinf : (R : Subgroup K) ⊓ (S₀ : Subgroup K) = ⊥)
     (hcount : Nat.card (Sylow p K) = Nat.card (R : Subgroup K) + 1)
     (h₀ : S₀ ≠ R) (hS : S ≠ R) : ∃ r ∈ (R : Subgroup K), r • S₀ = S := by
-  haveI : Finite (Sylow p K) := inferInstance
+  have : Finite (Sylow p K) := inferInstance
   let Ω := {U : Sylow p K // U ≠ R}
   let f : ↥(R : Subgroup K) → Ω := fun t =>
     ⟨(t : K) • S₀, by
@@ -122,7 +122,7 @@ private lemma normalizer_sylow_eq_subgroupOf {X : Type*} [Group X] [Finite X] {p
     (hKnot : ¬ K ≤ N)
     (hmax : IsCoatom (Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K))) :
     N.subgroupOf K = Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) := by
-  have hAXp : IsPGroup p ((T : Subgroup ↥K).map K.subtype) := T.isPGroup'.map K.subtype
+  have hAXp : IsPGroup p ((T : Subgroup ↥K).map K.subtype) := T.isPGroup.map K.subtype
   have hNK_le : Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ N.subgroupOf K := by
     intro g hg
     rw [Subgroup.mem_subgroupOf]
@@ -154,7 +154,7 @@ private lemma conjNormal_sylow_eq_self {X : Type*} [Group X] [Finite X] {p : ℕ
         ((T : Subgroup ↥K).subgroupOf (N.subgroupOf K)) from Sylow.coe_subtype T hA_le_NK]
     rw [hNK]
     exact Subgroup.normal_in_normalizer
-  haveI : Unique (Sylow p ↥(N.subgroupOf K)) := Sylow.unique_of_normal A_NK hA_NK_normal
+  have : Unique (Sylow p ↥(N.subgroupOf K)) := Sylow.unique_of_normal A_NK hA_NK_normal
   let T' : Sylow p ↥K := MulAut.conjNormal (H := K) g • T
   have hT'_le : (T' : Subgroup ↥K) ≤ N.subgroupOf K := by
     intro a ha
@@ -169,11 +169,11 @@ private lemma conjNormal_sylow_eq_self {X : Type*} [Group X] [Finite X] {p : ℕ
     rw [← hta, hφt, MulAut.conjNormal_apply (H := K)]
     have htN : (t : X) ∈ N := Subgroup.mem_subgroupOf.mp (hA_le_NK ht)
     exact N.mul_mem (N.mul_mem hg htN) (N.inv_mem hg)
-  haveI : (A_NK : Subgroup ↥(N.subgroupOf K)).Normal := hA_NK_normal
+  have : (A_NK : Subgroup ↥(N.subgroupOf K)).Normal := hA_NK_normal
   let T'_NK : Sylow p ↥(N.subgroupOf K) := T'.subtype hT'_le
   have hle : (A_NK : Subgroup ↥(N.subgroupOf K)) ≤ (T'_NK : Subgroup ↥(N.subgroupOf K)) :=
     IsPGroup.le_sylow_of_normal (N := (A_NK : Subgroup ↥(N.subgroupOf K)))
-      A_NK.isPGroup' T'_NK
+      A_NK.isPGroup T'_NK
   have hmap : (T : Subgroup ↥K) ≤ (T' : Subgroup ↥K) := by
     have h := Subgroup.map_mono (f := (N.subgroupOf K).subtype) hle
     rwa [Sylow.coe_subtype, Sylow.coe_subtype,
@@ -208,7 +208,7 @@ private lemma normal_subgroupOf_map_sylow {X : Type*} [Group X] {p : ℕ}
 
 private lemma exists_sylow_card_lt {X : Type*} [Group X] [Finite X] {p : ℕ}
     [Fact p.Prime] {N K : Subgroup X} [K.Normal] {T : Sylow p ↥K}
-    (hNK : N.subgroupOf K = Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K))
+    (_hNK : N.subgroupOf K = Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K))
     (hAXN : (T : Subgroup ↥K).map K.subtype ≤ N)
     (hTNnormal : (((T : Subgroup ↥K).map K.subtype).subgroupOf N).Normal)
     (hTNp : IsPGroup p (((T : Subgroup ↥K).map K.subtype).subgroupOf N))
@@ -267,7 +267,7 @@ private lemma exists_stabilizing_sylow {X : Type*} [Group X] [Finite X] {p : ℕ
     have hgn : g ∈ Subgroup.normalizer (T : Set ↥K) :=
       (Sylow.smul_eq_iff_mem_normalizer).mp (by rwa [hgT] at h)
     exact Subgroup.mem_subgroupOf.mp (by rw [hNK]; exact hgn)
-  letI : MulAction Q (Sylow p ↥K) :=
+  let : MulAction Q (Sylow p ↥K) :=
     MulAction.compHom (Sylow p ↥K)
       ((MulAut.conjNormal (H := K)).comp (N.subtype.comp Q.subtype))
   have hqT : ∀ q : Q, q • T = T := fun q => by
@@ -348,7 +348,7 @@ private lemma false_of_stabilizing_sylow {X : Type*} [Group X] [Finite X] {p : �
     have : Nat.card T'_X = 1 := by rw [hbot]; simp
     omega
   have hxNg : x' ∈ N.map (MulAut.conj (g : X)).toMonoidHom :=
-    (hN.conj (g : X)).normalizer_le hT'_ne_bot (T'.isPGroup'.map K.subtype)
+    (hN.conj (g : X)).normalizer_le hT'_ne_bot (T'.isPGroup.map K.subtype)
       hT'_le_Ng hxnorm
   have hxint : x' ∈ N ⊓ N.map (MulAut.conj (g : X)).toMonoidHom := ⟨hxN, hxNg⟩
   have hpdvd : p ∣ Nat.card (N ⊓ N.map (MulAut.conj (g : X)).toMonoidHom : Subgroup X) := by
@@ -388,7 +388,7 @@ private lemma pPrimeCore_centralizes_sylow {X : Type*} [Group X] [Finite X] {p :
   let Y : Subgroup ↥N := CFSG.pPrimeCore p ↥N
   change Y ≤ Subgroup.centralizer
     ((((T : Subgroup ↥K).map K.subtype).subgroupOf N : Subgroup ↥N) : Set ↥N)
-  haveI : Y.Normal := CFSG.pPrimeCore_normal
+  have : Y.Normal := CFSG.pPrimeCore_normal
   have hYcop : Nat.Coprime p (Nat.card Y) := CFSG.pPrimeCore_coprime_card
   obtain ⟨n, hn⟩ := hTNp.exists_card_eq
   have hcop : Nat.Coprime (Nat.card Y)
@@ -396,7 +396,7 @@ private lemma pPrimeCore_centralizes_sylow {X : Type*} [Group X] [Finite X] {p :
     rw [hn]
     exact Nat.Coprime.pow_right n hYcop.symm
   have hYinf : Y ⊓ (((T : Subgroup ↥K).map K.subtype).subgroupOf N) = ⊥ :=
-    Subgroup.inf_eq_bot_of_coprime hcop
+    (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   have hcomm : ⁅Y, ((T : Subgroup ↥K).map K.subtype).subgroupOf N⁆ = ⊥ := by
     rw [eq_bot_iff]
     calc ⁅Y, ((T : Subgroup ↥K).map K.subtype).subgroupOf N⁆ ≤
@@ -464,7 +464,7 @@ private lemma pPrimeCore_eq_bot_of_le_subgroupOf_map_sylow {X : Type*} [Group X]
     CFSG.pPrimeCore p ↥N = ⊥ := by
   let Y : Subgroup ↥N := CFSG.pPrimeCore p ↥N
   change Y = ⊥
-  haveI : Y.Normal := CFSG.pPrimeCore_normal
+  have : Y.Normal := CFSG.pPrimeCore_normal
   have hYcop : Nat.Coprime p (Nat.card Y) := CFSG.pPrimeCore_coprime_card
   refine (Subgroup.eq_bot_iff_forall Y).mpr ?_
   intro y hy
@@ -491,7 +491,7 @@ private lemma exists_fixed_sylow_ne {K Y : Type*} [Group K] [Group Y] [Finite K]
     (hr : r.Prime) (hYp : IsPGroup r Y) (hrp : r ≠ p)
     (hfixT : ∀ y : Y, y • T = T) :
     ∃ T' : Sylow p K, T' ≠ T ∧ ∀ y : Y, y • T' = T' := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let Ω : SubMulAction Y (Sylow p K) :=
     { carrier := {U | U ≠ T}
       smul_mem' := by
@@ -505,7 +505,7 @@ private lemma exists_fixed_sylow_ne {K Y : Type*} [Group K] [Group Y] [Finite K]
     change Nat.card {U : Sylow p K // U ≠ T} = Nat.card (T : Subgroup K)
     rw [natCard_sylow_ne T hcount]
   have hrnotdvd : ¬ r ∣ Nat.card (T : Subgroup K) := by
-    obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
     rw [hk]
     intro hd
     have hdvdp : r ∣ p := Nat.Prime.dvd_of_dvd_pow hr hd
@@ -588,7 +588,7 @@ private lemma c_mem_properties {X : Type*} [Group X] [Finite X] {p : ℕ} [Fact 
     {c : ↥K} (hcT' : c ∈ (T' : Subgroup ↥K)) (hc1 : c ≠ 1) :
     IsPGroup p (Subgroup.zpowers (c : X)) ∧ (c : X) ∉ N := by
   have hcpX : IsPGroup p (Subgroup.zpowers (c : X)) := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp T'.isPGroup') ⟨c, hcT'⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp T'.isPGroup) ⟨c, hcT'⟩
     have hck : orderOf c = p ^ k := by
       rw [← Subgroup.orderOf_mk c hcT']
       exact hk
@@ -612,7 +612,7 @@ private lemma inf_sylow_eq_bot_of_ne {X : Type*} [Group X] [Finite X] {p : ℕ}
     (hconj : ∀ g : X, g ∈ N → MulAut.conjNormal (H := K) g • T = T)
     (hAXN : (T : Subgroup ↥K).map K.subtype ≤ N)
     (hAXp : IsPGroup p ((T : Subgroup ↥K).map K.subtype))
-    (hNK : N.subgroupOf K = Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K))
+    (_hNK : N.subgroupOf K = Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K))
     {T' : Sylow p ↥K} (hT' : T' ≠ T) :
     (T : Subgroup ↥K) ⊓ (T' : Subgroup ↥K) = ⊥ := by
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (M := ↥K) T T'
@@ -716,7 +716,7 @@ private lemma centralizer_has_pElement_outside {X : Type*} [Group X] [Finite X] 
   have hyT : MulAut.conjNormal (H := K) y • T = T := hconj y hyN
   let Y : Subgroup X := Subgroup.zpowers y
   have hYleN : Y ≤ N := Subgroup.zpowers_le.mpr hyN
-  letI : MulAction Y (Sylow p ↥K) :=
+  let : MulAction Y (Sylow p ↥K) :=
     MulAction.compHom (Sylow p ↥K) ((MulAut.conjNormal (H := K)).comp Y.subtype)
   have hYp : IsPGroup (orderOf y) Y := by
     refine IsPGroup.of_card (n := 1) ?_
@@ -753,7 +753,7 @@ private lemma exists_sylow_of_rankOne {p : ℕ} [Fact p.Prime] {X : Type} [Group
   have hAXeq : (T : Subgroup ↥K).map K.subtype = (P : Subgroup X) ⊓ K := by
     rw [hT, Subgroup.subgroupOf_map_subtype, inf_of_le_left inf_le_right]
   have hAXN : (T : Subgroup ↥K).map K.subtype ≤ N := hAXeq.le.trans (inf_le_left.trans hPN)
-  have hAXp : IsPGroup p ((T : Subgroup ↥K).map K.subtype) := T.isPGroup'.map K.subtype
+  have hAXp : IsPGroup p ((T : Subgroup ↥K).map K.subtype) := T.isPGroup.map K.subtype
   have hAXne : (T : Subgroup ↥K).map K.subtype ≠ ⊥ := by rw [hAXeq]; exact hPK
   have hNK : N.subgroupOf K = Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) :=
     normalizer_sylow_eq_subgroupOf hN hAXN hAXne hnotle (hmax T)
@@ -782,8 +782,8 @@ theorem pElements_of_rankOne {p : ℕ} [Fact p.Prime] {X : Type} [Group X] [Fini
   obtain ⟨hKsimple, -, hKnormal, -⟩ :=
     CFSG.RankThree.PartOne.Sec1511.spe_fstar (H := X) Fact.out hO hN
   let K : Subgroup X := CFSG.generalizedFitting X
-  haveI : K.Normal := hKnormal
-  haveI : IsSimpleGroup ↥K := hKsimple
+  have : K.Normal := hKnormal
+  have : IsSimpleGroup ↥K := hKsimple
   obtain ⟨T, -, hconj, hinf_bot, hpElement_mem_AX⟩ :=
     exists_sylow_of_rankOne hO ((Subgroup.nontrivial_iff_ne_bot K).1 inferInstance) hN hmax hcount
   exact ⟨centralizer_has_pElement_outside (K := K) (T := T) rfl hconj hinf_bot hcount
@@ -807,12 +807,12 @@ theorem good_of_rankOne {p : ℕ} [Fact p.Prime] {X : Type} [Group X] [Finite X]
   obtain ⟨hKsimple, -, hKnormal, hKcent⟩ :=
     CFSG.RankThree.PartOne.Sec1511.spe_fstar (H := X) Fact.out hO hN
   let K : Subgroup X := CFSG.generalizedFitting X
-  haveI : K.Normal := hKnormal
-  haveI : IsSimpleGroup ↥K := hKsimple
+  have : K.Normal := hKnormal
+  have : IsSimpleGroup ↥K := hKsimple
   obtain ⟨T, hAXN, hconj, -, -⟩ :=
     exists_sylow_of_rankOne hO ((Subgroup.nontrivial_iff_ne_bot K).1 inferInstance) hN hmax hcount
   have hTNp : IsPGroup p (((T : Subgroup ↥K).map K.subtype).subgroupOf N) :=
-    (T.isPGroup'.map K.subtype).of_equiv (Subgroup.subgroupOfEquivOfLe hAXN).symm
+    (T.isPGroup.map K.subtype).of_equiv (Subgroup.subgroupOfEquivOfLe hAXN).symm
   refine ⟨pPrimeCore_eq_bot_of_le_subgroupOf_map_sylow hTNp
     (pPrimeCore_le_subgroupOf_map_sylow hAXN
       (pPrimeCore_centralizes_sylow (normal_subgroupOf_map_sylow hconj) hTNp) hinner hKcent), ?_⟩

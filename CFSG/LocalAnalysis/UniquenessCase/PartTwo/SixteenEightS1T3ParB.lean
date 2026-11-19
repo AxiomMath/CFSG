@@ -20,7 +20,7 @@ theorem s16t3_sp_model {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {m 
   obtain ⟨Y, P, hY, hYP, hPN, hcard, hexp⟩ := s16t3_sp_std hK hm
   exact T3ParabIn.of_sylow_le hY hYP hPN hcard hexp hX hXN
 
-theorem s16t3_exists_parab_sp (h : ThreeNat A L T) {n : ℕ} (hn : 6 ≤ n) (hsp : IsSpn ↥L n 1)
+theorem s16t3_exists_parab_sp (h : ThreeNat A L T) {n : ℕ} (hn : 6 ≤ n) (_hsp : IsSpn ↥L n 1)
     {I : Subgroup W} (hTI : StableUnder T I)
     (hnat : SumOfNat (fun H U Z => NatSpn H U Z n 1) L I (I ⊓ fixV L) 1) :
     ∃ P : Subgroup (MulAut W), P ≤ L ∧ (∀ t ∈ T, ∀ x ∈ P, t * x * t⁻¹ ∈ P) ∧ T ⊓ L ≤ P ∧

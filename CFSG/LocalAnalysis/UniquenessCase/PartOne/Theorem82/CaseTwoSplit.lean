@@ -11,7 +11,7 @@ variable {G : Type} [Group G] [Finite G]
 namespace SylowThreeData
 
 private noncomputable def permFun (d : SylowThreeData G)
-    (hinj : Function.Injective d.Lf)
+    (_hinj : Function.Injective d.Lf)
     (hperm : ∀ m ∈ d.M, ∀ i, ∃ j, (d.Lf i).map (MulAut.conj m).toMonoidHom = d.Lf j)
     (m : ↥d.M) : Fin 3 → Fin 3 :=
   fun i => Classical.choose (hperm (m : G) m.2 i)
@@ -55,7 +55,7 @@ private theorem permEquiv_one (d : SylowThreeData G)
   rw [h1]
   have h2 : (MulAut.conj (1 : G)).toMonoidHom = MonoidHom.id G := by
     ext z
-    simp [MulAut.conj_apply]
+    simp
   rw [h2, Subgroup.map_id]
 
 private theorem permEquiv_mul (d : SylowThreeData G)
@@ -108,7 +108,7 @@ theorem forall_mem_normalizer_or_forall_map_ne (hinj : Function.Injective d.Lf)
     (∀ i, g ∈ Subgroup.normalizer (d.Lf i : Set G)) ∨
       ∀ i, (d.Lf i).map (MulAut.conj g).toMonoidHom ≠ d.Lf i := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hg3.exists_card_eq
   have hord : orderOf g = 3 ^ k := by
     rw [← Nat.card_zpowers, hk]
@@ -172,7 +172,7 @@ theorem kernel_sup_zpowers_eq (hinj : Function.Injective d.Lf)
     (P ⊓ ⨅ i, Subgroup.normalizer (d.Lf i : Set G)).relIndex P = 3 ∧
       (P ⊓ ⨅ i, Subgroup.normalizer (d.Lf i : Set G)) ⊔ Subgroup.zpowers y = P := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup G := ⨅ i, Subgroup.normalizer (d.Lf i : Set G)
   let P₀ : Subgroup G := P ⊓ N
   let φ : ↥P →* Equiv.Perm (Fin 3) := (d.permHom hinj hperm).comp (Subgroup.inclusion hPM)

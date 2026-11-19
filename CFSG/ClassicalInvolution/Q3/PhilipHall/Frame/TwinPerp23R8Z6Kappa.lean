@@ -77,7 +77,7 @@ theorem i1_action {n : ℕ} {R : Subgroup Y} {S : Sylow 2 R} {t e : Y}
   have hgen : pSpan Φ = ⊤ := TwinDisc.AE5.hgen_of SD.q8
   have hperfP : Group.IsPerfect ↥(pSpan Φ) :=
     TL4.AECov.isPerfect_pSpan I (by norm_num) hH.card hH.conj_mem hH.label_inj
-  haveI := hperfP
+  have := hperfP
   have hperfA : Group.IsPerfect ↥(aeSub 6) :=
     Group.IsPerfect.ofSurjective (f := ψ.toMonoidHom) ψ.surjective
   let eqTop : ↥(pSpan Φ) ≃* SecQ R e := (MulEquiv.subgroupCongr hgen).trans Subgroup.topEquiv
@@ -142,7 +142,7 @@ theorem i1_action {n : ℕ} {R : Subgroup Y} {S : Sylow 2 R} {t e : Y}
     rw [h1, hw]
   obtain ⟨ρ, hρ, hρker⟩ := hI.S6
   set N : Subgroup ↥B := E.subgroupOf B with hNdef
-  haveI hNn : N.Normal := by
+  have hNn : N.Normal := by
     rw [hNdef, Subgroup.normal_subgroupOf_iff hEB]
     intro h g hh hg
     exact hEn' g hg h hh
@@ -163,7 +163,7 @@ theorem i1_action {n : ℕ} {R : Subgroup Y} {S : Sylow 2 R} {t e : Y}
     · exact h
     · exfalso
       rw [h] at hu
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have h2 : orderOf (-1 : ℤˣ) = 2 := orderOf_eq_prime (by decide) (by decide)
       rw [h2] at hu
       exact absurd hu (by decide)
@@ -217,7 +217,7 @@ theorem i1_action {n : ℕ} {R : Subgroup Y} {S : Sylow 2 R} {t e : Y}
   have hαX2 : ∀ y : SecQ R e, αX (αX y) = y := by
     intro y
     obtain ⟨h, rfl⟩ := QuotientGroup.mk'_surjective _ y
-    haveI hHn := TwinExitPf6.normal_coreHull SD.hΩ hc2
+    have hHn := TwinExitPf6.normal_coreHull SD.hΩ hc2
     let h1 : ↥(coreHull (Om R) e) :=
       ⟨g * ((h : ↥(coreHull (Om R) e)) : ↥(Subgroup.centralizer ({e} : Set Y))) * g⁻¹,
         hHn.conj_mem _ h.2 g⟩

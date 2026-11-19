@@ -133,7 +133,7 @@ theorem R847E3.exists_kernel {M Y : Subgroup G} (hY : IsSubnormal Y M) {p k : �
     (hR : Nat.card ((B.subgroupOf (normalizer (Y : Set G))).map (UC6S846.rhoL Y)) ≤ p ^ k) :
     ∃ B₀ : Subgroup G, B₀ ≤ B ∧ IsElemAbelian p B₀ ∧ Nat.card B₀ = p ^ 2 ∧
       ∀ b ∈ B₀, ∀ y ∈ Y, b * y * b⁻¹ * y⁻¹ ∈ pCoreOf 2 M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let BN : Subgroup ↥(normalizer (Y : Set G)) := B.subgroupOf (normalizer (Y : Set G))
   let φ : ↥BN →* MulAut (Bar2 Y) := (UC6S846.rhoL Y).comp BN.subtype
   have hφrange : φ.range = BN.map (UC6S846.rhoL Y) := by
@@ -180,7 +180,7 @@ theorem R847E3.isMulCommutative_outer_of_thin (hThin : PartTwo.ThinList13)
     uc22br4_isKGroup_catalog_of_open ((hK.of_le hY.1.le).quotient (CFSG.pCore 2 ↥Y))
   have hs : IsSimpleGroup (Bar2 Y) := (hThin (Bar2 Y) hKY hY.2.2 (PartTwo.s13_pCore_bar_eq_bot Y)
     fun r hr hr2 => PartTwo.s13_pRank_bar_le_one hthin hr hr2).1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsyl : ∀ P : Sylow 3 (Bar2 Y), IsCyclic ↥(P : Subgroup (Bar2 Y)) := fun P =>
     RankFourTheoremC.Nongeneration.isCyclic_sylow_of_pRank_le_one (by norm_num)
       ((uc22s206c_pRank_le Y Nat.prime_three (by norm_num)).trans
@@ -203,7 +203,7 @@ theorem R847E3.exists_B₁_of_thin (hThin : PartTwo.ThinList13)
     (hXY : X ≤ Y) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hXq : IsPGroup q X) :
     ∃ B₁ : Subgroup G, B₁ ≤ M ∧ IsElemAbelian p B₁ ∧ Nat.card B₁ = p ^ 2 ∧
       B₁ ≤ centralizer (X : Set G) ∧ ∀ b ∈ B₁, ∀ y ∈ Y, b * y * b⁻¹ * y⁻¹ ∈ pCoreOf 2 M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hs, hcomm⟩ := R847E3.isMulCommutative_outer_of_thin hThin hCyc hK hY hthin
   have hbound := PartTwo.pRank_le_add_pRank_centOverO2 hY.1.le hYN hp
     (CFSG.LocalAnalysis.GLTheoremB.MovingAround.InputsMisc7.hasNormalPComplement_of_isMulCommutative

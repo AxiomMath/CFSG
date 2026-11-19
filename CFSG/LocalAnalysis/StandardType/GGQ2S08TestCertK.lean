@@ -459,16 +459,16 @@ private lemma conj_refl_c1 (σ : Equiv.Perm (Fin 7)) :
     funext i
     rw [c1, Function.comp_apply, Pi.single_apply, Pi.single_apply]
     by_cases h : σ i = 6
-    · rw [if_pos h, if_pos ((Equiv.eq_symm_apply σ).mpr h)]
-    · rw [if_neg h, if_neg (fun h' => h ((Equiv.eq_symm_apply σ).mp h'))]
+    · rw [ite_eq_left h, ite_eq_left ((Equiv.eq_symm_apply σ).mpr h)]
+    · rw [ite_eq_right h, ite_eq_right (fun h' => h ((Equiv.eq_symm_apply σ).mp h'))]
   have ha : a1 ∘ (σ⁻¹).symm = oneN 7 + Pi.single (σ.symm 6) 1 := by
     rw [show (σ⁻¹).symm = σ from rfl]
     funext i
     rw [a1, Function.comp_apply]
     simp only [Pi.add_apply, Pi.single_apply, oneN]
     by_cases h : σ i = 6
-    · rw [if_pos h, if_pos ((Equiv.eq_symm_apply σ).mpr h)]
-    · rw [if_neg h, if_neg (fun h' => h ((Equiv.eq_symm_apply σ).mp h'))]
+    · rw [ite_eq_left h, ite_eq_left ((Equiv.eq_symm_apply σ).mpr h)]
+    · rw [ite_eq_right h, ite_eq_right (fun h' => h ((Equiv.eq_symm_apply σ).mp h'))]
   change refl (c1 ∘ (σ⁻¹).symm) (a1 ∘ (σ⁻¹).symm) _ =
     refl (Pi.single (σ.symm 6) 1) (oneN 7 + Pi.single (σ.symm 6) 1) (s17_dot _)
   exact refl_congr hc ha _ _
@@ -609,15 +609,15 @@ private lemma conj_refl_c5 (σ : Equiv.Perm (Fin 7)) :
     rw [c5, Function.comp_apply]
     simp only [Pi.add_apply, Pi.single_apply, oneN]
     by_cases h : σ i = 6
-    · rw [if_pos h, if_pos ((Equiv.eq_symm_apply σ).mpr h)]
-    · rw [if_neg h, if_neg (fun h' => h ((Equiv.eq_symm_apply σ).mp h'))]
+    · rw [ite_eq_left h, ite_eq_left ((Equiv.eq_symm_apply σ).mpr h)]
+    · rw [ite_eq_right h, ite_eq_right (fun h' => h ((Equiv.eq_symm_apply σ).mp h'))]
   have ha : a5 ∘ (σ⁻¹).symm = Pi.single (σ.symm 6) 1 := by
     rw [show (σ⁻¹).symm = σ from rfl]
     funext i
     rw [a5, Function.comp_apply, Pi.single_apply, Pi.single_apply]
     by_cases h : σ i = 6
-    · rw [if_pos h, if_pos ((Equiv.eq_symm_apply σ).mpr h)]
-    · rw [if_neg h, if_neg (fun h' => h ((Equiv.eq_symm_apply σ).mp h'))]
+    · rw [ite_eq_left h, ite_eq_left ((Equiv.eq_symm_apply σ).mpr h)]
+    · rw [ite_eq_right h, ite_eq_right (fun h' => h ((Equiv.eq_symm_apply σ).mp h'))]
   change refl (c5 ∘ (σ⁻¹).symm) (a5 ∘ (σ⁻¹).symm) _ =
     refl (oneN 7 + Pi.single (σ.symm 6) 1) (Pi.single (σ.symm 6) 1) (s3_dot _)
   exact refl_congr hc ha _ _

@@ -74,7 +74,7 @@ theorem e27Move_sl6 : E27Move SL(6, ZMod 2) := by
       _ = vecElt T v ^ 2 * n := by rw [hinv]
 
 theorem cubeInner_sl6 : CubeInner SL(6, ZMod 2) := by
-  haveI : Finite (projSL 6 (GaloisField 2 1)) :=
+  have : Finite (projSL 6 (GaloisField 2 1)) :=
     Finite.of_equiv _ (RonanK429F.projSLEquivSLZMod (n := 6) (by norm_num)).symm.toEquiv
   exact cubeInner_of_mulEquiv (RonanK429F.projSLEquivSLZMod (n := 6) (by norm_num)).symm
     (cubeInner_of_not_three_dvd_card_outer
@@ -150,7 +150,7 @@ theorem e27Move_sl7 : E27Move SL(7, ZMod 2) := by
       _ = vecElt T v ^ 2 * n := by rw [hinv]
 
 theorem cubeInner_sl7 : CubeInner SL(7, ZMod 2) := by
-  haveI : Finite (projSL 7 (GaloisField 2 1)) :=
+  have : Finite (projSL 7 (GaloisField 2 1)) :=
     Finite.of_equiv _ (RonanK429F.projSLEquivSLZMod (n := 7) (by norm_num)).symm.toEquiv
   exact cubeInner_of_mulEquiv (RonanK429F.projSLEquivSLZMod (n := 7) (by norm_num)).symm
     (cubeInner_of_not_three_dvd_card_outer

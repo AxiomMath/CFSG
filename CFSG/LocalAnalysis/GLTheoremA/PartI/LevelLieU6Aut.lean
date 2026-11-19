@@ -171,8 +171,8 @@ theorem nonempty_pSimple_equiv_map [Finite Y] (hp : p.Prime) (π : X →* Y)
     {U : Subgroup X} {V : Subgroup Y} {J : Subgroup X} (hJ : GLAPComponent p U J)
     (hJπ : GLAPComponent p V (J.map π)) :
     Nonempty (PSimple p J ≃* PSimple p (J.map π)) := by
-  haveI : IsSimpleGroup (PSimple p J) := (isQuasisimple_pQuot_of_glaPComponent hp hJ).2
-  haveI : IsSimpleGroup (PSimple p (J.map π)) := (isQuasisimple_pQuot_of_glaPComponent hp hJπ).2
+  have : IsSimpleGroup (PSimple p J) := (isQuasisimple_pQuot_of_glaPComponent hp hJ).2
+  have : IsSimpleGroup (PSimple p (J.map π)) := (isQuasisimple_pQuot_of_glaPComponent hp hJπ).2
   have hinj : Function.Injective (pSimpleMap hp π J) := by
     rw [← MonoidHom.ker_eq_bot_iff]
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (pSimpleMap hp π J).ker with h | h

@@ -80,7 +80,7 @@ theorem cSideFreeSwap_b0 (h : cSideModelProp) : cSideFreeSwap q0 sigma0 b0 := by
     rw [Fintype.card_congr e, Fintype.card_subtype]
     exact hK6a.2
   have hfindim : finrank (ZMod 2) (LinearMap.ker ((b0 : V0 →ₗ[ZMod 2] V0) + 1)) = 4 := by
-    haveI : FiniteDimensional (ZMod 2) V0 := Module.Finite.of_finite
+    have : FiniteDimensional (ZMod 2) V0 := Module.Finite.of_finite
     have hcard := Module.natCard_eq_pow_finrank (K := ZMod 2)
       (V := LinearMap.ker ((b0 : V0 →ₗ[ZMod 2] V0) + 1))
     rw [hker, Nat.card_zmod] at hcard
@@ -90,7 +90,7 @@ theorem cSideFreeSwap_b0 (h : cSideModelProp) : cSideFreeSwap q0 sigma0 b0 := by
       norm_num
     exact Nat.pow_right_injective (a := 2) (by norm_num) h24
   have hfree : 4 ≤ finrank (ZMod 2) (LinearMap.range ((b0 : V0 →ₗ[ZMod 2] V0) + 1)) := by
-    haveI : FiniteDimensional (ZMod 2) V0 := Module.Finite.of_finite
+    have : FiniteDimensional (ZMod 2) V0 := Module.Finite.of_finite
     have hrn := LinearMap.finrank_range_add_finrank_ker ((b0 : V0 →ₗ[ZMod 2] V0) + 1)
     rw [hfindim, finrank_V0] at hrn
     have : finrank (ZMod 2) (LinearMap.range ((b0 : V0 →ₗ[ZMod 2] V0) + 1)) = 4 := by

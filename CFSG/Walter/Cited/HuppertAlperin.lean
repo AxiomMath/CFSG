@@ -223,7 +223,7 @@ theorem eq_of_isAlperinSubgroup (hp2 : p ≠ 2) (P : Sylow p X)
   classical
   obtain ⟨hQP, hsyl, hcen, hrad⟩ := hQ
   by_contra hne
-  have hPp : IsPGroup p (P : Subgroup X) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup X) := P.isPGroup
   have hQp : IsPGroup p Q := hPp.to_le hQP
   obtain ⟨t, htP, htN, htQ⟩ := exists_mem_normalizer_not_mem hPp hQP hne
   set N := Subgroup.normalizer (Q : Set X) with hNdef

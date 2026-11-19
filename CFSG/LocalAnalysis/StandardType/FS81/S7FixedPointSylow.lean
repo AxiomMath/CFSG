@@ -40,7 +40,7 @@ theorem card_le_three_of_fixed_point {G : Type} [Group G] [Finite G] {A Z : Subg
     rfl
   let P₁ : Subgroup G := (P₀ : Subgroup ↥Z).map Z.subtype
   have hP₁Z : P₁ ≤ Z := Subgroup.map_subtype_le _
-  have hP₁p : IsPGroup 3 P₁ := P₀.isPGroup'.map Z.subtype
+  have hP₁p : IsPGroup 3 P₁ := P₀.isPGroup.map Z.subtype
   have hAP₁ : A ≤ Subgroup.normalizer (P₁ : Set G) := by
     intro a ha
     rw [Subgroup.mem_normalizer_iff]

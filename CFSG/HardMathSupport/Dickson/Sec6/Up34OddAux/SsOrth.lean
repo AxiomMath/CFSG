@@ -82,7 +82,7 @@ theorem noL34Layer_conj_projOrth (hO : LieOrderFormulasInput)
       CFSG.RankThree.Classical.orthogonal_high_Witt_derived_quotient_and_odd_lifts hQ hT
     have hfix : fixSubgroup (MulAut.conj (1 : ProjOrthDerived Q)) = ⊤ := by
       ext g
-      simp [mem_fixSubgroup, MulAut.conj_apply]
+      simp [mem_fixSubgroup]
     exact noL34Layer_of_fixed_equiv _ ((MulEquiv.subgroupCongr hfix).trans Subgroup.topEquiv)
       hsimple hnonab hnot
   · have hord : orderOf b = 3 := orderOf_eq_prime hb hb1
@@ -142,7 +142,7 @@ theorem noL34Layer_of_inner_omega (hO : LieOrderFormulasInput) {t : StatedLieTag
   obtain ⟨K, _, _, V, _, _, _, Q, hQ, hT, hK, ⟨ε⟩⟩ := SsOrth.exists_projOrth_model ht hG
   obtain ⟨-, -, -, hsimple, hnonab, -⟩ :=
     CFSG.RankThree.Classical.orthogonal_high_Witt_derived_quotient_and_odd_lifts hQ hT
-  haveI : IsSimpleGroup G := ε.isSimpleGroup
+  have : IsSimpleGroup G := ε.isSimpleGroup
   have hnabG : ∃ c d : G, c * d ≠ d * c := by
     obtain ⟨c, d, hcd⟩ := hnonab
     exact ⟨ε.symm c, ε.symm d, fun h' => hcd (ε.symm.injective (by rw [map_mul, map_mul]; exact h'))⟩

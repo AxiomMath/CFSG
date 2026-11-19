@@ -57,7 +57,7 @@ private lemma pk4_foldl_range (n : ℕ) (g : ℕ → ZMod 3) :
       rw [List.range_succ, List.map_append, List.foldl_append, ih]
       rw [Fin.sum_univ_castSucc]
       simp only [List.map_cons, List.map_nil, List.foldl_cons, List.foldl_nil,
-        Fin.val_castAdd, Fin.val_castSucc, Fin.val_last]
+        Fin.val_castSucc, Fin.val_last]
 
 lemma pk4_pi_single_expand (y : Fin 9 → ZMod 3) :
     y = ∑ j : Fin 9, y j • (Pi.single j 1 : Fin 9 → ZMod 3) := by
@@ -65,10 +65,10 @@ lemma pk4_pi_single_expand (y : Fin 9 → ZMod 3) :
   rw [Finset.sum_apply]
   simp only [Pi.smul_apply, smul_eq_mul]
   rw [Finset.sum_eq_single k]
-  · simp [Pi.single_apply]
+  · simp
   · intro j _ hj
     simp only [Pi.single_apply]
-    rw [if_neg (Ne.symm hj), mul_zero]
+    rw [ite_eq_right (Ne.symm hj), mul_zero]
   · intro hk; exact absurd (Finset.mem_univ k) hk
 
 private lemma pk4_getD_eq_getElem (l : List ℕ) {i : ℕ} (h : i < l.length) :
@@ -128,14 +128,14 @@ lemma pk4_dotv_cast (a b : Vec) (ha : a.length = 9) (hb : b.length = 9) :
   toFun y := fun j => if j = 8 then d⁻¹ * y 8 else y j - c j * d⁻¹ * y 8
   map_add' x y := by
     ext j; by_cases h : j = 8
-    · simp only [Pi.add_apply, h, if_pos, mul_add]
-    · simp only [Pi.add_apply, h, if_neg, not_false_eq_true]
+    · simp only [Pi.add_apply, h, ite_eq_left, mul_add]
+    · simp only [Pi.add_apply, h, ite_eq_right, not_false_eq_true]
       ring
   map_smul' a x := by
     ext j; by_cases h : j = 8
-    · simp only [Pi.smul_apply, h, if_pos, smul_eq_mul, RingHom.id_apply]
+    · simp only [Pi.smul_apply, h, ite_eq_left, smul_eq_mul, RingHom.id_apply]
       ring_nf
-    · simp only [Pi.smul_apply, h, if_neg, not_false_eq_true, smul_eq_mul, RingHom.id_apply]
+    · simp only [Pi.smul_apply, h, ite_eq_right, not_false_eq_true, smul_eq_mul, RingHom.id_apply]
       ring_nf
 
 @[expose] def pk4_Slm (c : Fin 9 → ZMod 3) (d : ZMod 3) :
@@ -143,14 +143,14 @@ lemma pk4_dotv_cast (a b : Vec) (ha : a.length = 9) (hb : b.length = 9) :
   toFun y := fun j => if j = 8 then d * y 8 else y j + c j * y 8
   map_add' x y := by
     ext j; by_cases h : j = 8
-    · simp only [Pi.add_apply, h, if_pos, mul_add]
-    · simp only [Pi.add_apply, h, if_neg, not_false_eq_true]
+    · simp only [Pi.add_apply, h, ite_eq_left, mul_add]
+    · simp only [Pi.add_apply, h, ite_eq_right, not_false_eq_true]
       ring
   map_smul' a x := by
     ext j; by_cases h : j = 8
-    · simp only [Pi.smul_apply, h, if_pos, smul_eq_mul, RingHom.id_apply]
+    · simp only [Pi.smul_apply, h, ite_eq_left, smul_eq_mul, RingHom.id_apply]
       ring_nf
-    · simp only [Pi.smul_apply, h, if_neg, not_false_eq_true, smul_eq_mul, RingHom.id_apply]
+    · simp only [Pi.smul_apply, h, ite_eq_right, not_false_eq_true, smul_eq_mul, RingHom.id_apply]
       ring_nf
 
 lemma pk4_Tlm_apply (c : Fin 9 → ZMod 3) (d : ZMod 3) (y : Fin 9 → ZMod 3)
@@ -166,8 +166,8 @@ lemma pk4_Tlm_fix (c : Fin 9 → ZMod 3) (d : ZMod 3) (y : Fin 9 → ZMod 3)
   ext j
   rw [pk4_Tlm_apply]
   by_cases h : j = 8
-  · subst h; rw [if_pos rfl, hy, mul_zero]
-  · rw [if_neg h, hy, mul_zero, sub_zero]
+  · subst h; rw [ite_eq_left rfl, hy, mul_zero]
+  · rw [ite_eq_right h, hy, mul_zero, sub_zero]
 
 lemma pk4_Tlm_Slm (c : Fin 9 → ZMod 3) (d : ZMod 3) (hd : d ≠ 0)
     (y : Fin 9 → ZMod 3) : pk4_Slm c d (pk4_Tlm c d y) = y := by
@@ -175,10 +175,10 @@ lemma pk4_Tlm_Slm (c : Fin 9 → ZMod 3) (d : ZMod 3) (hd : d ≠ 0)
   rw [pk4_Slm_apply]
   by_cases h : j = 8
   · subst h
-    rw [if_pos rfl, pk4_Tlm_apply c d y (8 : Fin 9), if_pos rfl]
+    rw [ite_eq_left rfl, pk4_Tlm_apply c d y (8 : Fin 9), ite_eq_left rfl]
     rw [← mul_assoc, mul_inv_cancel₀ hd, one_mul]
-  · rw [if_neg h, pk4_Tlm_apply c d y j, pk4_Tlm_apply c d y (8 : Fin 9),
-      if_neg h, if_pos (rfl : (8 : Fin 9) = 8)]
+  · rw [ite_eq_right h, pk4_Tlm_apply c d y j, pk4_Tlm_apply c d y (8 : Fin 9),
+      ite_eq_right h, ite_eq_left (rfl : (8 : Fin 9) = 8)]
     ring
 
 lemma pk4_Slm_Tlm (c : Fin 9 → ZMod 3) (d : ZMod 3) (hd : d ≠ 0)
@@ -187,13 +187,13 @@ lemma pk4_Slm_Tlm (c : Fin 9 → ZMod 3) (d : ZMod 3) (hd : d ≠ 0)
   rw [pk4_Tlm_apply]
   by_cases h : j = 8
   · subst h
-    rw [if_pos rfl, pk4_Slm_apply c d y (8 : Fin 9), if_pos rfl]
+    rw [ite_eq_left rfl, pk4_Slm_apply c d y (8 : Fin 9), ite_eq_left rfl]
     rw [← mul_assoc, inv_mul_cancel₀ hd, one_mul]
   · have hz : c j * d⁻¹ * (d * y 8) = c j * y 8 := by
       rw [mul_assoc (c j) d⁻¹ (d * y 8), ← mul_assoc d⁻¹ d (y 8),
         inv_mul_cancel₀ hd, one_mul]
-    rw [if_neg h, pk4_Slm_apply c d y j, pk4_Slm_apply c d y (8 : Fin 9),
-      if_neg h, if_pos (rfl : (8 : Fin 9) = 8), hz]
+    rw [ite_eq_right h, pk4_Slm_apply c d y j, pk4_Slm_apply c d y (8 : Fin 9),
+      ite_eq_right h, ite_eq_left (rfl : (8 : Fin 9) = 8), hz]
     ring
 
 lemma pk4_hvec8_length (k : ℕ) : (hvec8 k).length = 8 := by
@@ -257,7 +257,7 @@ private lemma pk4_alphaNat_val_hH {V : Type} [AddCommGroup V] [Module (ZMod 3) V
       α j ha = (((if (j : ℕ) - s = o.1 then o.2.1 else 0 : ℕ)) : ZMod 3))
     (k : ℕ) (hk : k < 8) (h1 : s ≤ k) (h2 : k < s + 6) :
     (pk4_alphaNat α ha k).val = (if k - s = o.1 then o.2.1 else 0) := by
-  rw [pk4_alphaNat, dif_pos hk]
+  rw [pk4_alphaNat, dite_eq_left hk]
   exact pk4_val_hH α ha s o ho1 hH ⟨k, hk⟩ h1 h2
 
 lemma pk4_u_eq {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
@@ -276,8 +276,7 @@ lemma pk4_u_eq {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
       simp only [List.length_map, List.length_range] at h1 h2
       interval_cases i <;>
         simp [pk4_uc, hJ, hNJ, List.getElem_map, List.getElem_range,
-          List.find?, List.find?_cons_of_pos, List.find?_cons_of_neg, List.find?_nil,
-          pk4_alphaNat, pk4_val_hH α ha 0 o ho1 hH]
+          List.find?, pk4_alphaNat, pk4_val_hH α ha 0 o ho1 hH]
   · have hJ : (embJ 1).zipIdx = [(1, 0), (2, 1), (3, 2), (4, 3), (5, 4), (6, 5)] := by decide
     have hNJ : pk4_nonJ 1 = [0, 7] := by decide
     apply List.ext_getElem
@@ -286,8 +285,7 @@ lemma pk4_u_eq {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
       simp only [List.length_map, List.length_range] at h1 h2
       interval_cases i <;>
         simp [pk4_uc, hJ, hNJ, List.getElem_map, List.getElem_range,
-          List.find?, List.find?_cons_of_pos, List.find?_cons_of_neg, List.find?_nil,
-          pk4_alphaNat, pk4_val_hH α ha 1 o ho1 hH]
+          List.find?, pk4_alphaNat, pk4_val_hH α ha 1 o ho1 hH]
   · have hJ : (embJ 2).zipIdx = [(2, 0), (3, 1), (4, 2), (5, 3), (6, 4), (7, 5)] := by decide
     have hNJ : pk4_nonJ 2 = [0, 1] := by decide
     apply List.ext_getElem
@@ -296,12 +294,11 @@ lemma pk4_u_eq {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
       simp only [List.length_map, List.length_range] at h1 h2
       interval_cases i <;>
         simp [pk4_uc, hJ, hNJ, List.getElem_map, List.getElem_range,
-          List.find?, List.find?_cons_of_pos, List.find?_cons_of_neg, List.find?_nil,
-          pk4_alphaNat, pk4_val_hH α ha 2 o ho1 hH]
+          List.find?, pk4_alphaNat, pk4_val_hH α ha 2 o ho1 hH]
 
 lemma pk4_hvec8_getD_lt (k : ℕ) (hk : k < 7) (t : ℕ) :
     (hvec8 k).getD t 0 = if t = k then 1 else 0 := by
-  rw [hvec8, if_pos hk]
+  rw [hvec8, ite_eq_left hk]
   by_cases ht : t < 8
   · rw [List.getD_eq_getElem?_getD, List.getElem?_map, List.getElem?_range ht]
     simp
@@ -309,7 +306,7 @@ lemma pk4_hvec8_getD_lt (k : ℕ) (hk : k < 7) (t : ℕ) :
       rw [List.getElem?_eq_none_iff, List.length_range]; omega
     rw [List.getD_eq_getElem?_getD, List.getElem?_map, hnone]
     simp only [Option.map_none, Option.getD_none]
-    rw [if_neg (by omega : ¬ t = k)]
+    rw [ite_eq_right (by omega : ¬ t = k)]
 
 lemma pk4_alpha8_getD_seven (k : ℕ) : (alpha8 k).getD 7 0 = 0 := by
   unfold alpha8

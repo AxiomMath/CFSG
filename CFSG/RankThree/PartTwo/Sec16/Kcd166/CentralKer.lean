@@ -15,7 +15,7 @@ private theorem ker_comp_sigma_le_center {Γ T : Type} [Group Γ] [Group T]
     (hT : Sec4.IsTripleCover T (alternatingGroup (Fin 6)))
     (hK : π.ker ≤ Subgroup.center Γ) :
     ((ThetaTripleA6.sigmaOfTripleCover hT).comp π).ker ≤ Subgroup.center Γ := by
-  haveI : Group.IsPerfect Γ := hperf
+  have : Group.IsPerfect Γ := hperf
   intro g hg
   have hπg : π g ∈ Subgroup.center T := by
     rw [← ThetaTripleA6.sigmaOfTripleCover_ker hT]
@@ -104,7 +104,7 @@ private lemma not_sq_dvd_360 {r : ℕ} (hr : 5 ≤ r) (hrp : r.Prime) : ¬ r ^ 2
       · exact absurd (hrp.dvd_of_dvd_pow h'') h3
     · exact h'
   have hr5 : r = 5 := (Nat.prime_dvd_prime_iff_eq hrp Nat.prime_five).mp h5
-  have h25 : 25 ∣ 360 := by simpa [hr5] using h
+  have h25 : 25 ∣ 360 := by simp [hr5] at h
   norm_num at h25
 
 private lemma pow_dvd_360 {r n : ℕ} (hr : 5 ≤ r) (hrp : r.Prime)
@@ -116,7 +116,7 @@ private lemma pow_dvd_360 {r n : ℕ} (hr : 5 ≤ r) (hrp : r.Prime)
 private lemma isCyclic_of_isPGroup_card_360 {X : Type} [Group X] [Finite X]
     (hX : Nat.card X = 360) {r : ℕ} (hr : 5 ≤ r) (hrp : r.Prime)
     (S : Subgroup X) (hS : IsPGroup r S) : IsCyclic S := by
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   obtain ⟨n, hn⟩ := IsPGroup.exists_card_eq (p := r) (G := S) hS
   have hdvd : r ^ n ∣ 360 := by
     rw [← hn, ← hX]
@@ -134,12 +134,12 @@ private theorem isMulCommutative_sylow_of_five_le {Γ T : Type} [Group Γ] [Fini
     {r : ℕ} (hrp : r.Prime) (hr : 5 ≤ r) (P : Sylow r Γ) :
     IsMulCommutative (P : Subgroup Γ) := by
   classical
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   let K' : Subgroup Γ := ((ThetaTripleA6.sigmaOfTripleCover hT).comp π).ker
   let φ : (P : Subgroup Γ) →* Γ ⧸ K' :=
     (QuotientGroup.mk' K').comp (P : Subgroup Γ).subtype
   have hK'norm : K'.Normal := MonoidHom.normal_ker _
-  haveI : K'.Normal := hK'norm
+  have : K'.Normal := hK'norm
   have hφker : φ.ker = K'.subgroupOf (P : Subgroup Γ) := by
     ext x
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
@@ -151,14 +151,14 @@ private theorem isMulCommutative_sylow_of_five_le {Γ T : Type} [Group Γ] [Fini
         (ThetaTripleA6.sigmaOfTripleCover_surjective hT).comp hπ
       rw [Nat.card_congr (QuotientGroup.quotientKerEquivOfSurjective _ hτ).toEquiv,
         CFSG.RankThree.PartTwo.KFacts.K412.card_alternating_six_seven.1]
-    have hP : IsPGroup r ↥(P : Subgroup Γ) := P.isPGroup'
+    have hP : IsPGroup r ↥(P : Subgroup Γ) := P.isPGroup
     exact isCyclic_of_isPGroup_card_360 hcard hr hrp φ.range
       (hP.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective)
   have hQcyc : IsCyclic ((P : Subgroup Γ) ⧸ K'.subgroupOf (P : Subgroup Γ)) := by
     have hA : IsCyclic ((P : Subgroup Γ) ⧸ φ.ker) :=
       (QuotientGroup.quotientKerEquivRange φ).isCyclic.mpr hScyclic
     exact (QuotientGroup.quotientMulEquivOfEq hφker).isCyclic.mp hA
-  haveI : IsCyclic ((P : Subgroup Γ) ⧸ K'.subgroupOf (P : Subgroup Γ)) := hQcyc
+  have : IsCyclic ((P : Subgroup Γ) ⧸ K'.subgroupOf (P : Subgroup Γ)) := hQcyc
   refine MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center
     (QuotientGroup.mk' (K'.subgroupOf (P : Subgroup Γ))) ?_
   intro x hx
@@ -174,8 +174,8 @@ private theorem isPGroup_two_ker {Γ T : Type} [Group Γ] [Finite Γ] [Group T]
     (hK : π.ker ≤ Subgroup.center Γ) (hK3 : Nat.Coprime (Nat.card π.ker) 3) :
     IsPGroup 2 π.ker := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect Γ := hperf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect Γ := hperf
   have hK' : ((ThetaTripleA6.sigmaOfTripleCover hT).comp π).ker ≤
       Subgroup.center Γ := ker_comp_sigma_le_center hperf π hT hK
   rw [IsPGroup.iff_card]
@@ -189,7 +189,7 @@ private theorem isPGroup_two_ker {Γ T : Type} [Group Γ] [Finite Γ] [Group T]
     rintro rfl
     exact hnot3 hrdvd
   have hr5 : 5 ≤ r := hrp.five_le_of_ne_two_of_ne_three hr2 hr3
-  haveI : Fact r.Prime := ⟨hrp⟩
+  have : Fact r.Prime := ⟨hrp⟩
   obtain ⟨z, hzord⟩ := exists_prime_orderOf_dvd_card' (G := π.ker) r hrdvd
   have hzΓord : orderOf (z : Γ) = r := by
     rw [Subgroup.orderOf_coe]
@@ -198,7 +198,7 @@ private theorem isPGroup_two_ker {Γ T : Type} [Group Γ] [Finite Γ] [Group T]
     refine IsPGroup.of_card (n := 1) ?_
     rw [pow_one, Nat.card_zpowers, hzΓord]
   obtain ⟨P, hPle⟩ := hzP.exists_le_sylow
-  haveI : IsMulCommutative (P : Subgroup Γ) :=
+  have : IsMulCommutative (P : Subgroup Γ) :=
     isMulCommutative_sylow_of_five_le π hπ hT hK' hrp hr5 P
   have hzPmem : (z : Γ) ∈ (P : Subgroup Γ) := hPle (Subgroup.mem_zpowers (z : Γ))
   have hzinf : (z : Γ) ∈ ((P : Subgroup Γ) ⊓ Subgroup.center Γ) :=
@@ -215,7 +215,7 @@ private theorem exists_order_three {Γ T : Type} [Group Γ] [Finite Γ] [Group T
   have h3dvd : 3 ∣ Nat.card ((ThetaTripleA6.sigmaOfTripleCover hT).comp π).ker := by
     rw [← hcard]
     exact ⟨Nat.card π.ker, by rw [mul_comm]⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨c, hc⟩ :=
     exists_prime_orderOf_dvd_card' (G := ((ThetaTripleA6.sigmaOfTripleCover hT).comp π).ker)
       3 h3dvd
@@ -233,7 +233,7 @@ private theorem card_map_ker_quotient_zpowers {Γ T : Type} [Group Γ] [Finite �
   let C : Subgroup Γ := Subgroup.zpowers c
   have hCcard : Nat.card C = 3 := by rw [Nat.card_zpowers, hcord]
   have hCK' : C ≤ K' := Subgroup.zpowers_le.mpr hcK'
-  haveI : C.Normal := hCnormZ
+  have : C.Normal := hCnormZ
   have hcardK' := card_ker_comp_sigma (π := π) hπ hT
   let φ : K' →* Γ ⧸ C := (QuotientGroup.mk' C).comp K'.subtype
   have hφker : φ.ker = C.subgroupOf K' := by
@@ -266,12 +266,12 @@ private theorem exists_eta_of_order_three {Γ T : Type} [Group Γ] [Finite Γ] [
       Nat.card η.ker = Nat.card π.ker ∧
       (∀ x : Γ, x ∈ π.ker → η (QuotientGroup.mk x) = 1) := by
   classical
-  haveI : Group.IsPerfect Γ := hperf
+  have : Group.IsPerfect Γ := hperf
   let K' : Subgroup Γ := ((ThetaTripleA6.sigmaOfTripleCover hT).comp π).ker
   have hK'le : K' ≤ Subgroup.center Γ := ker_comp_sigma_le_center hperf π hT hK
   let C : Subgroup Γ := Subgroup.zpowers c
   have hCK' : C ≤ K' := Subgroup.zpowers_le.mpr hcK'
-  haveI : C.Normal := hCnormZ
+  have : C.Normal := hCnormZ
   let φ : K' →* Γ ⧸ C := (QuotientGroup.mk' C).comp K'.subtype
   have hφrange : φ.range = K'.map (QuotientGroup.mk' C) := by
     rw [show φ = (QuotientGroup.mk' C).comp K'.subtype from rfl,
@@ -298,7 +298,7 @@ private theorem exists_eta_of_order_three {Γ T : Type} [Group Γ] [Finite Γ] [
       (QuotientGroup.mk (x : Γ)) * (QuotientGroup.mk g)
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul,
       Subgroup.mem_center_iff.mp (hK'le x.2) g]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq (p := 2) (G := π.ker) hN2
   have hcardη : Nat.card η.ker = Nat.card π.ker := by rw [hηker, hcardRange]
   have hη2 : IsPGroup 2 η.ker := by
@@ -316,7 +316,7 @@ private theorem card_ker_le_two_of_isPGroup_two {Γ T : Type} [Group Γ] [Finite
     (hT : Sec4.IsTripleCover T (alternatingGroup (Fin 6)))
     (hK : π.ker ≤ Subgroup.center Γ) (hN2 : IsPGroup 2 π.ker) :
     Nat.card π.ker ≤ 2 := by
-  haveI : Group.IsPerfect Γ := hperf
+  have : Group.IsPerfect Γ := hperf
   obtain ⟨c, hcK', hcord⟩ := exists_order_three (π := π) hπ hT
   have hCnorm : (Subgroup.zpowers c).Normal :=
     Subgroup.normal_of_le_center
@@ -376,7 +376,7 @@ private theorem involution_eq_one_or_mk_z {Γ T : Type} [Group Γ] [Finite Γ] [
     {z : Γ} (hz : z ∈ π.ker) (hzord : orderOf z = 2) (hznotC : z ∉ C) :
     ∀ v : Γ ⧸ C, v * v = 1 → v = 1 ∨ v = QuotientGroup.mk z := by
   classical
-  haveI : Group.IsPerfect Γ := hperf
+  have : Group.IsPerfect Γ := hperf
   let zbar : Γ ⧸ C := QuotientGroup.mk z
   have hzbar_ne : zbar ≠ 1 := by
     intro h
@@ -448,7 +448,7 @@ theorem eq_one_or_eq_of_sq_eq_one {Γ T : Type} [Group Γ] [Finite Γ] [Group T]
     {z : Γ} (hz : z ∈ π.ker) (hz1 : z ≠ 1) {w : Γ} (hw : w ^ 2 = 1) :
     w = 1 ∨ w = z := by
   classical
-  haveI : Group.IsPerfect Γ := hperf
+  have : Group.IsPerfect Γ := hperf
   obtain ⟨hcard2, hzord⟩ := card_ker_eq_two_of_mem hperf π hπ hT hK hK3 hz hz1
   obtain ⟨c, hcK', hcord⟩ := exists_order_three (π := π) hπ hT
   have hK'le : ((ThetaTripleA6.sigmaOfTripleCover hT).comp π).ker ≤
@@ -456,7 +456,7 @@ theorem eq_one_or_eq_of_sq_eq_one {Γ T : Type} [Group Γ] [Finite Γ] [Group T]
   let C : Subgroup Γ := Subgroup.zpowers c
   have hCnorm : C.Normal :=
     Subgroup.normal_of_le_center ((Subgroup.zpowers_le.mpr hcK').trans hK'le)
-  haveI : C.Normal := hCnorm
+  have : C.Normal := hCnorm
   have hznotC : z ∉ C := by
     intro hzC
     have hdvd : orderOf z ∣ 3 := by

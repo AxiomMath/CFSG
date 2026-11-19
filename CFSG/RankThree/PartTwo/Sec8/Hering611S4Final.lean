@@ -26,7 +26,7 @@ theorem j3TwoLocalInput_of_reg
   set f : J →* Gp := j3P.subtype.comp φ.toMonoidHom with hf
   have hfinj : Function.Injective f := j3P.subtype_injective.comp φ.injective
   set Pb' : Subgroup Gp := Pb.map f with hPb'
-  haveI : Group.IsPerfect Pb' := Group.IsPerfect.map _
+  have : Group.IsPerfect Pb' := Group.IsPerfect.map _
   have hPb'C : Pb' ≤ centralizer {(kb' : Gp)} ⊓ j3P := by
     rintro _ ⟨q, hq, rfl⟩
     refine mem_inf.2 ⟨?_, (φ q).2⟩

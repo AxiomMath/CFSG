@@ -153,7 +153,7 @@ theorem two_not_dvd_relIndex_Q_kernelOnNeighbors (i : ℤ) :
     rw [h, hCinfS]
   have hSeq : (X.edgeSylow i).relIndex C =
       (X.edgeSylow i).relIndex (C ⊔ X.edgeSylow i) := by
-    haveI : ((X.edgeSylow i).subgroupOf H).Normal := X.edgeSylow_subgroupOf_normal i
+    have : ((X.edgeSylow i).subgroupOf H).Normal := X.edgeSylow_subgroupOf_normal i
     rw [← Subgroup.relIndex_subgroupOf (H := X.edgeSylow i) (K := C) (L := H) hCH,
       ← Subgroup.relIndex_subgroupOf (H := X.edgeSylow i) (K := C ⊔ X.edgeSylow i) (L := H)
         (sup_le hCH hSH),
@@ -185,13 +185,13 @@ theorem kernel_le_Q_sup_K (i : ℤ) :
     (Subgroup.normal_subgroupOf_iff_le_normalizer (X.isSylowTwoOf_edgeSylow i).1).mp
       (X.edgeSylow_subgroupOf_normal i)
   have hCHnorm : C ≤ Subgroup.normalizer (X.edgeSylow i : Set G) := hCH.trans hSnorm
-  haveI : Finite ↥C := finite_of_le_stabilizer X.hyp (hCH.trans inf_le_left)
+  have : Finite ↥C := finite_of_le_stabilizer X.hyp (hCH.trans inf_le_left)
   have hQnormC : C ≤ Subgroup.normalizer (X.Q i : Set G) :=
     (hCH.trans inf_le_left).trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (X.Gi i))
   have hNnormal : ((X.Q i).subgroupOf C).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hQnormC
   have hcop : Nat.Coprime (Nat.card ↥((X.Q i).subgroupOf C)) ((X.Q i).subgroupOf C).index := by
-    haveI : Finite ↥(X.Q i) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi i)
+    have : Finite ↥(X.Q i) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi i)
     have hcard : Nat.card ↥((X.Q i).subgroupOf C) = Nat.card ↥(X.Q i) :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQC).toEquiv
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (pCoreOf_isPGroup' (X.Gi i))
@@ -216,7 +216,7 @@ theorem kernel_le_Q_sup_K (i : ℤ) :
     intro x hx
     have hx' : (⟨x, hx⟩ : ↥C) ∈ ((X.Q i).subgroupOf C) ⊔ L' := by
       rw [hL'.sup_eq_top]; exact Subgroup.mem_top _
-    haveI : ((X.Q i).subgroupOf C).Normal := hNnormal
+    have : ((X.Q i).subgroupOf C).Normal := hNnormal
     obtain ⟨n, hn, l, hl, hnl⟩ := Subgroup.mem_sup_of_normal_left.mp hx'
     rw [Subgroup.mem_subgroupOf] at hn
     have hnlG : (n : G) * (l : G) = x := by
@@ -245,7 +245,7 @@ theorem kernel_le_Q_sup_K (i : ℤ) :
   have hSF : X.edgeSylow i ≤ F := le_sup_left
   have hLF : L ≤ F := le_sup_right
   have hFH : F ≤ H := sup_le (X.isSylowTwoOf_edgeSylow i).1 (hLC.trans hCH)
-  haveI : Finite ↥F := finite_of_le_stabilizer X.hyp (hFH.trans inf_le_left)
+  have : Finite ↥F := finite_of_le_stabilizer X.hyp (hFH.trans inf_le_left)
   have hSylowF : IsSylowTwoOf (X.edgeSylow i) F :=
     F7.isSylowTwoOf_mono_right (X.isSylowTwoOf_edgeSylow i) hSF hFH
   have hSnormF : ((X.edgeSylow i).subgroupOf F).Normal :=
@@ -332,8 +332,8 @@ theorem edgeStab_eq_K_sup (i : ℤ) {w : V} (hw : Γ.Adj (X.vert i) w)
   have hKE : X.K ≤ E :=
     le_inf (X.K_le_Gi i) (fun k hk => MulAction.mem_stabilizer_iff.mpr (hKw k hk))
   have hSylowE : IsSylowTwoOf Sw E := isSylowTwoOf_pCoreOf_edgeStab X.hyp hw
-  haveI : Finite ↥E := finite_of_le_stabilizer X.hyp (H := E) inf_le_left
-  haveI : Finite ↥Sw := Finite.of_injective
+  have : Finite ↥E := finite_of_le_stabilizer X.hyp (H := E) inf_le_left
+  have : Finite ↥Sw := Finite.of_injective
     (Subgroup.inclusion (CFSG.LieType.BorelTits.pCoreOf_le 2 E)) (Subgroup.inclusion_injective _)
   have hKinf : X.K ⊓ Sw = ⊥ :=
     inf_eq_bot_of_odd_of_isPGroup (A := X.K) (B := Sw) X.odd_card_K hSylowE.2.1
@@ -382,7 +382,7 @@ theorem edgeStab_eq_K_sup (i : ℤ) {w : V} (hw : Γ.Adj (X.vert i) w)
   exact hEq
 
 theorem K_inf_pCoreOf_edgeStab (i : ℤ) {w : V} (hw : Γ.Adj (X.vert i) w)
-    (hKw : ∀ k ∈ X.K, k • w = w) :
+    (_hKw : ∀ k ∈ X.K, k • w = w) :
     X.K ⊓ pCoreOf 2 (X.Gi i ⊓ MulAction.stabilizer G w) = ⊥ := by
   exact inf_eq_bot_of_odd_of_isPGroup (A := X.K)
     (B := pCoreOf 2 (X.Gi i ⊓ MulAction.stabilizer G w)) X.odd_card_K
@@ -404,10 +404,10 @@ theorem exists_normalizer_K_move {H : Subgroup G} (i : ℤ) (hKH : X.K ≤ H)
   have hEsup : X.K ⊔ Sw = E := X.edgeStab_eq_K_sup i hw hKw
   have hEinf : X.K ⊓ Sw = ⊥ := X.K_inf_pCoreOf_edgeStab i hw hKw
   have hSwE : Sw ≤ E := CFSG.LieType.BorelTits.pCoreOf_le 2 E
-  haveI : Finite ↥E := finite_of_le_stabilizer X.hyp (H := E) inf_le_left
-  haveI : Finite ↥Sw := Finite.of_injective (Subgroup.inclusion hSwE)
+  have : Finite ↥E := finite_of_le_stabilizer X.hyp (H := E) inf_le_left
+  have : Finite ↥Sw := Finite.of_injective (Subgroup.inclusion hSwE)
     (Subgroup.inclusion_injective _)
-  haveI : Finite ↥F := finite_of_le_stabilizer X.hyp (H := F) (inf_le_left.trans hH)
+  have : Finite ↥F := finite_of_le_stabilizer X.hyp (H := F) (inf_le_left.trans hH)
   have hSF_le : F ⊓ Sw ≤ F := inf_le_left
   have hSF_normF : F ≤ Subgroup.normalizer ((F ⊓ Sw : Subgroup G) : Set G) :=
     F7.le_normalizer_inf Subgroup.le_normalizer
@@ -437,7 +437,7 @@ theorem exists_normalizer_K_move {H : Subgroup G} (i : ℤ) (hKH : X.K ≤ H)
       rw [inf_idem, Subgroup.relIndex_self, mul_one] at h
       simpa only [inf_comm] using h.symm
     have hEq2 : Sw.relIndex F = Sw.relIndex (F ⊔ Sw) := by
-      haveI : (Sw.subgroupOf E).Normal :=
+      have : (Sw.subgroupOf E).Normal :=
         Subgroup.normal_subgroupOf_of_le_normalizer
           (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 E)
       rw [← Subgroup.relIndex_subgroupOf (H := Sw) (K := F) (L := E) hFE,
@@ -449,7 +449,7 @@ theorem exists_normalizer_K_move {H : Subgroup G} (i : ℤ) (hKH : X.K ≤ H)
     exact fun h2 => (isSylowTwoOf_pCoreOf_edgeStab X.hyp hw).2.2 (h2.trans
       ⟨_, (Subgroup.relIndex_mul_relIndex (H := Sw) (K := F ⊔ Sw) (L := E)
         le_sup_right (sup_le hFE hSwE)).symm⟩)
-  haveI : Finite ↥(F ⊓ Sw) :=
+  have : Finite ↥(F ⊓ Sw) :=
     Finite.of_injective (Subgroup.inclusion hSF_le) (Subgroup.inclusion_injective _)
   have hSylowF : IsSylowTwoOf (F ⊓ Sw) F :=
     F7.isSylowTwoOf_of_relIndex hSF_le
@@ -471,7 +471,7 @@ theorem exists_normalizer_K_move {H : Subgroup G} (i : ℤ) (hKH : X.K ≤ H)
         _ = g • (k • w') := by rw [hgwinv]
         _ = g • w' := by rw [hKw' k hk]
         _ = w := hgw
-  haveI : Finite ↥(conjSub g X.K) :=
+  have : Finite ↥(conjSub g X.K) :=
     Finite.of_injective (Subgroup.inclusion hKgF) (Subgroup.inclusion_injective _)
   have hKg_inf : conjSub g X.K ⊓ (F ⊓ Sw) = ⊥ :=
     inf_eq_bot_of_odd_of_isPGroup (A := conjSub g X.K) (B := F ⊓ Sw)
@@ -557,7 +557,7 @@ theorem isMaxReg_of_isInclMaxReg {a b : ℤ} (h : X.IsInclMaxReg a b) : X.IsMaxR
           intro p hp
           exact X.arcStab_le_Gi_of_between (by omega) le_rfl (hUdecomp ▸ Subgroup.mem_sup_right hp)
         rw [hempty] at hb
-        simpa using hb
+        simp at hb
       · have hsub : Set.Icc a (b + 1) ⊆ X.fixSet P := by
           intro i hi
           rw [Set.mem_Icc] at hi
@@ -638,7 +638,7 @@ theorem isMaxReg_of_isInclMaxReg {a b : ℤ} (h : X.IsInclMaxReg a b) : X.IsMaxR
           exact X.arcStab_le_Gi_of_between le_rfl (by omega)
             (hUdecomp ▸ Subgroup.mem_sup_right hp)
         rw [hempty] at ha
-        simpa using ha
+        simp at ha
       · have hsub : Set.Icc (a - 1) b ⊆ X.fixSet P := by
           intro i hi
           rw [Set.mem_Icc] at hi
@@ -861,7 +861,7 @@ theorem even_of_even_dist (i : ℤ) (h : Even (Γ.dist (X.vert 0) (X.vert i))) :
     rw [Int.toNat_of_nonneg (by omega)] at h2
     exact even_neg.mp h2
 
-theorem arcStab_ne_GT_of_rightTransAt {m r : ℤ} (hmr : m < r) (h : X.RightTransAt m r) :
+theorem arcStab_ne_GT_of_rightTransAt {m r : ℤ} (_hmr : m < r) (h : X.RightTransAt m r) :
     X.arcStab m r ≠ X.GT := by
   intro hEq
   have hleft : Γ.Adj (X.vert r) (X.vert (r - 1)) := by
@@ -904,10 +904,10 @@ theorem exists_isMaxReg (hs : IsSingularity Γ G s) (hodd : Odd s)
   let f : ℕ → ℕ := fun m => Nat.card ↥(X.arcStab (-(m : ℤ)) (m : ℤ))
   have hfanti : ∀ m, f (m + 1) ≤ f m := by
     intro m
-    haveI : Finite ↥(X.arcStab (-(((m + 1 : ℕ)) : ℤ)) (((m + 1 : ℕ)) : ℤ)) :=
+    have : Finite ↥(X.arcStab (-(((m + 1 : ℕ)) : ℤ)) (((m + 1 : ℕ)) : ℤ)) :=
       finite_of_le_stabilizer X.hyp (H := X.arcStab (-(((m + 1 : ℕ)) : ℤ)) (((m + 1 : ℕ)) : ℤ))
         (X.arcStab_le_Gi_of_between (k := 0) (by omega) (by omega))
-    haveI : Finite ↥(X.arcStab (-(m : ℤ)) (m : ℤ)) :=
+    have : Finite ↥(X.arcStab (-(m : ℤ)) (m : ℤ)) :=
       finite_of_le_stabilizer X.hyp (H := X.arcStab (-(m : ℤ)) (m : ℤ))
         (X.arcStab_le_Gi_of_between (k := 0) (by omega) (by omega))
     exact Subgroup.card_le_of_le (X.arcStab_anti (by omega) (by omega))
@@ -937,10 +937,10 @@ theorem exists_isMaxReg (hs : IsSingularity Γ G s) (hodd : Odd s)
       simpa using this
     have hcard : Nat.card ↥(X.arcStab (-(k : ℤ)) (k : ℤ)) =
         Nat.card ↥(X.arcStab (-(m₀ : ℤ)) (m₀ : ℤ)) := by rw [hfk, hfm]
-    haveI : Finite ↥(X.arcStab (-(k : ℤ)) (k : ℤ)) :=
+    have : Finite ↥(X.arcStab (-(k : ℤ)) (k : ℤ)) :=
       finite_of_le_stabilizer X.hyp (H := X.arcStab (-(k : ℤ)) (k : ℤ))
         (X.arcStab_le_Gi_of_between (k := 0) (by omega) (by omega))
-    haveI : Finite ↥(X.arcStab (-(m₀ : ℤ)) (m₀ : ℤ)) :=
+    have : Finite ↥(X.arcStab (-(m₀ : ℤ)) (m₀ : ℤ)) :=
       finite_of_le_stabilizer X.hyp (H := X.arcStab (-(m₀ : ℤ)) (m₀ : ℤ))
         (X.arcStab_le_Gi_of_between (k := 0) (by omega) (by omega))
     have hle : X.arcStab (-(k : ℤ)) (k : ℤ) ≤ X.arcStab (-(m₀ : ℤ)) (m₀ : ℤ) :=

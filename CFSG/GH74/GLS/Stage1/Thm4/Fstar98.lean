@@ -16,6 +16,7 @@ section DOf
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem mem_normalizer_Oz {c : G} (hc : c ∈ Cz z) : c ∈ normalizer ((Oz z : Subgroup G) : Set G) :=
   Subgroup.mem_normalizer_iff.2 fun y => ⟨fun hy => Oz_conj hc hy, fun hy => by
     have := Oz_conj (inv_mem hc) hy
@@ -56,8 +57,8 @@ theorem DOf_normal : (DOf z K).Normal := ⟨fun x hx g => by
 
 theorem fstar_core {c : G} (hc : c ∈ Cz z) (hcomm : ∀ k ∈ K, ⁅k, c⁆ ∈ Oz z) :
     c ∈ zpowers z ⊔ Oz z := by
-  haveI := h.DOf_normal
-  let zc : ↥(Cz z) := ⟨z, h.z_cen⟩
+  have := h.DOf_normal
+  let zc : ↥(Cz z) := ⟨z, CFSG.GH74.GLS.Stage1.Thm4.Ctx98.z_cen⟩
   have hzc : ∀ g : ↥(Cz z), g * zc = zc * g := fun g =>
     Subtype.ext (Subgroup.mem_centralizer_singleton_iff.1 g.2)
   have hzD : zc ∈ DOf z K := (h.mem_DOf_iff).2 fun k hk => by

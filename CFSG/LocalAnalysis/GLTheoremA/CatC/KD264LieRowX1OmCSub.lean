@@ -159,7 +159,7 @@ theorem reflect_mem_fixW {W : Submodule (ZMod 2) V} {a : V} (ha : a ∈ perpOf Q
   rw [polar_comm]
   exact this
 
-theorem fixW_le_centralizer_torus {l : List (V × V)} (hl : IsFrame Q l) :
+theorem fixW_le_centralizer_torus {l : List (V × V)} (_hl : IsFrame Q l) :
     fixW Q (Wspan l) ≤ Subgroup.centralizer (torus Q l : Set (V ≃ₗ[ZMod 2] V)) := by
   intro g hg
   rw [Subgroup.mem_centralizer_iff]

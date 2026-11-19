@@ -285,7 +285,7 @@ theorem ncard_kernelRoots_filter (P : (Fin τ.rank → ℤ) → Prop) [Decidable
   have hX : {α | α ∈ kernelRoots χ ∧ P α} =
       rt τ '' ↑(((sigmaIdx τ inS).filter fun k => decide (P (rt τ k))).toFinset) := by
     ext α
-    rw [Set.mem_setOf_eq, mem_kernelRoots_iff hS]
+    rw [Set.mem_ofPred_eq, mem_kernelRoots_iff hS]
     simp only [Set.mem_image, Finset.mem_coe, List.mem_toFinset, List.mem_filter,
       decide_eq_true_eq]
     constructor
@@ -345,7 +345,7 @@ theorem kernelSizes_of_check : KernelSizes χ (S.sizes τ inS) := by
     have hset : {i : KernelComponent χ | (componentRoots χ i).ncard = n} =
         clsLab hS h ⁻¹' {ℓ | ℓ ∈ leaders τ S inS ∧ cnt ℓ = n} := by
       ext i
-      simp only [Set.mem_setOf_eq, Set.mem_preimage]
+      simp only [Set.mem_ofPred_eq, Set.mem_preimage]
       rw [ncard_componentRoots hS h i]
       exact ⟨fun hi => ⟨clsLab_mem_leaders hS h i, hi⟩, fun hi => hi.2⟩
     have hfin : {ℓ | ℓ ∈ leaders τ S inS ∧ cnt ℓ = n} =

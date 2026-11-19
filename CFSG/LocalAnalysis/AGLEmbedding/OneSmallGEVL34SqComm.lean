@@ -78,7 +78,7 @@ theorem D1OneSmallData.map_twoCore_inf_inf_eq_one (hUE : KFactUPrimeExc)
       have h2 := Subgroup.mul_mem _ hyU h1
       simpa [hk, mul_assoc] using h2
     obtain ⟨a, ha⟩ := hUp ⟨_, hc2⟩
-    obtain ⟨b, hb⟩ := (T₁.isPGroup') ⟨_, hc1⟩
+    obtain ⟨b, hb⟩ := (T₁.isPGroup) ⟨_, hc1⟩
     have ha' : (k * t * k⁻¹ * t⁻¹) ^ 2 ^ a = 1 := by
       have := congrArg Subtype.val ha
       exact Subtype.ext (by simpa using this)
@@ -97,7 +97,7 @@ theorem D1OneSmallData.map_twoCore_inf_inf_eq_one (hUE : KFactUPrimeExc)
     rw [hbot, Subgroup.card_bot] at this
     omega
   have hkT : k ∈ (T₁ : Subgroup K) := hD.centralizer_le t₀ ht₀ ht₀1 k (hcomm t₀ ht₀)
-  obtain ⟨b, hb⟩ := (T₁.isPGroup') ⟨k, hkT⟩
+  obtain ⟨b, hb⟩ := (T₁.isPGroup) ⟨k, hkT⟩
   obtain ⟨a, ha⟩ := hUp ⟨y, hyU⟩
   have hb' : y ^ 3 ^ b = 1 := by
     have := congrArg (fun x : ↥(T₁ : Subgroup K) => ((x : K) : H ⧸ primeComplementCore (G := H) 3))

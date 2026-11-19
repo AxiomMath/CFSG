@@ -99,9 +99,9 @@ theorem testBit_theta0N_hi {n : ℕ} (hn : n < 4096) {i : ℕ} (hi : i < 6) :
 theorem vecOf_theta0N {n : ℕ} (hn : n < 4096) : vecOf (theta0N n) = theta0 (vecOf n) := by
   refine ext_lo_hi (fun i => ?_) (fun i => ?_)
   · rw [theta0_lo]
-    simp only [vecOf, lo, hi, Fin.coe_castAdd, Fin.coe_natAdd, testBit_theta0N_lo n i.isLt]
+    simp only [vecOf, lo, hi, Fin.val_castAdd, Fin.val_natAdd, testBit_theta0N_lo n i.isLt]
   · rw [theta0_hi]
-    simp only [vecOf, lo, hi, Fin.coe_castAdd, Fin.coe_natAdd, testBit_theta0N_hi hn i.isLt,
+    simp only [vecOf, lo, hi, Fin.val_castAdd, Fin.val_natAdd, testBit_theta0N_hi hn i.isLt,
       ite_add_ite]
 
 @[expose] def linOfRows (rows : Array ℕ) : V12 →ₗ[ZMod 2] V12 where

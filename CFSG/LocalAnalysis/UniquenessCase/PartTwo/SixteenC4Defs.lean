@@ -47,11 +47,11 @@ theorem exists_uFrame (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAbelian 2
       (h : NatSUn (barSub X V hV L) (⊤ : Subgroup (Vtil X V hV)) ⊥ 4 1) => by
         rw [hX] at h; exact h) (v1Sub D.M V₀ V hV L) h1 h4.2.1
   obtain ⟨K, instK, hFin, hK, hReal⟩ := hStar
-  letI : Field K := instK
-  letI : Finite K := hFin
+  let : Field K := instK
+  let : Finite K := hFin
   have hK4 : Nat.card K = 4 := by rw [hK]; norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_sq (p := 2) (f := 1) hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_sq (p := 2) (f := 1) hK
   set σ : K ≃+* K := CFSG.LieType.BorelTits.unitaryInvolution K 2 1 with hσdef
   have hσ : IsUnitaryInvolution σ := isUnitaryInvolution_unitaryInvolution hK
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2

@@ -22,7 +22,7 @@ theorem spUFixConclusion [Finite L] [Finite F] [CharP F 2] (G : SpUFixGeom L R F
   by_contra hout
   have hSy2 : IsPGroup 2 Sy := by
     obtain ⟨P, hP⟩ := hSy
-    exact hP ▸ P.isPGroup'
+    exact hP ▸ P.isPGroup
   obtain ⟨σ, ψ, hσ, hψ, hψi, hψβ, hψX⟩ := G.aut α hα2 hαR hout
   have haS : G.a ∈ G.rootSpan Sy :=
     Submodule.subset_span ⟨G.a_ne, G.a_iso, by rw [← G.R_eq]; exact hRSy⟩

@@ -47,6 +47,7 @@ theorem inf_glaPPrimeCoreOf_le (hp : p.Prime) {A I : Subgroup G}
   intro x hx
   exact ⟨⟨x, hx.1⟩, hle ((Subgroup.mem_subgroupOf).2 hx.2), rfl⟩
 
+omit [Finite G] in
 theorem glaPPrimeCoreOf_le_centModSubgroup (p : ℕ) (K : Subgroup G) :
     GLAPPrimeCoreOf p K ≤ centModSubgroup p K := by
   intro o ho
@@ -57,6 +58,7 @@ theorem glaPPrimeCoreOf_le_centModSubgroup (p : ℕ) (K : Subgroup G) :
     (Subgroup.mem_normalizer_iff.1 (le_normalizer_glaPPrimeCoreOf p K hl) o).1 ho
   exact (GLAPPrimeCoreOf p K).mul_mem this ((GLAPPrimeCoreOf p K).inv_mem ho)
 
+omit [Finite G] in
 theorem eq_sup_zpowers_of_index_prime (hp : p.Prime) {A D : Subgroup G} (hAD : A ≤ D)
     (hidx : (A.subgroupOf D).index = p) {d : G} (hdD : d ∈ D) (hdA : d ∉ A) :
     A ⊔ Subgroup.zpowers d = D := by
@@ -209,6 +211,7 @@ theorem le_sup_core_of_centMod (hp : p.Prime) {X K D J : Subgroup G} (hK : GLAPC
   rw [hall J hJ]
   exact hsup.ge
 
+omit [Finite G] in
 theorem gLBConj_closureIn_le {J H : Subgroup G} {b : G} (hbJ : b ∈ Subgroup.normalizer (J : Set G))
     (hbH : b ∈ Subgroup.normalizer (H : Set G)) :
     GLBConj b (closureIn J H) ≤ closureIn J H := by
@@ -219,12 +222,14 @@ theorem gLBConj_closureIn_le {J H : Subgroup G} {b : G} (hbJ : b ∈ Subgroup.no
   rw [e, ← gLBConj_gLBConj, gLBConj_eq_of_mem_normalizer hbJ]
   exact le_biSup (fun g => GLBConj g J) ((Subgroup.mem_normalizer_iff''.1 hbH g).1 hg)
 
+omit [Finite G] in
 theorem le_normalizer_closureIn_of_le {B J H : Subgroup G} (hBJ : B ≤ Subgroup.normalizer (J : Set G))
     (hBH : B ≤ Subgroup.normalizer (H : Set G)) :
-    B ≤ Subgroup.normalizer (closureIn J H : Set G) := fun b hb =>
+    B ≤ Subgroup.normalizer (closureIn J H : Set G) := fun _b hb =>
   i183_mem_normalizer_of_gLBConj_le (gLBConj_closureIn_le (hBJ hb) (hBH hb))
     (gLBConj_closureIn_le (Subgroup.inv_mem _ (hBJ hb)) (Subgroup.inv_mem _ (hBH hb)))
 
+omit [Finite G] in
 theorem exists_ne_one_mem (hp : p.Prime) {D A : Subgroup G} (hD2 : p ^ 2 ≤ Nat.card D) (hAD : A ≤ D)
     (hidx : (A.subgroupOf D).index = p) : ∃ a ∈ A, a ≠ 1 := by
   have hAne : A ≠ ⊥ := by

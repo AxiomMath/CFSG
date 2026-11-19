@@ -116,7 +116,7 @@ private theorem tableVI_at (hI : TwoHSInterface) (hS : SuborbitFacts) {G : Type}
     obtain ⟨_, _, _, _, _, hpad⟩ :=
       (five_sylow hI hbF hF1b hF2b).sylow ρ hρ h5 hsh (default : Sylow 2 ↥(Gxy b ρ))
     have hne : Nat.card ↥(Gxy a c) ≠ 0 := by
-      haveI : Nonempty ↥(Gxy a c) := ⟨1⟩
+      have : Nonempty ↥(Gxy a c) := ⟨1⟩
       exact (Nat.card_pos (α := ↥(Gxy a c))).ne'
     have hle_sub : Gxy a c ≤ Gx ρ := by
       intro g hg
@@ -136,7 +136,7 @@ private theorem tableVI_at (hI : TwoHSInterface) (hS : SuborbitFacts) {G : Type}
         (padicValNat_dvd_iff_le (p := 2) (a := Nat.card ↥(Gxy a c)) (n := 3) hne).2 (by omega)
       have h3dvd' : 2 ^ 3 ∣ Nat.card ↥(Gx ρ) := h3dvd.trans (Subgroup.card_dvd_of_le hle_sub)
       have hneρ : Nat.card ↥(Gx ρ) ≠ 0 := by
-        haveI : Nonempty ↥(Gx ρ) := ⟨1⟩
+        have : Nonempty ↥(Gx ρ) := ⟨1⟩
         exact (Nat.card_pos (α := ↥(Gx ρ))).ne'
       have hge3 : 3 ≤ padicValNat 2 (Nat.card ↥(Gx ρ)) :=
         (padicValNat_dvd_iff_le (p := 2) (a := Nat.card ↥(Gx ρ)) (n := 3) hneρ).1 h3dvd'
@@ -157,14 +157,14 @@ private theorem tableVI_at (hI : TwoHSInterface) (hS : SuborbitFacts) {G : Type}
     exact le_antisymm hcard_le hcard_ge
 
 theorem tableVIInput_holds :
-    ∀ (hI : TwoHSInterface) (hS : SuborbitFacts) (hM : M11Facts) {G : Type} [Group G] [Finite G]
-      {a z : G} (h : IsF5Type a z) (hF1 : Vert Fusion1Facts a z) (hCube : Vert CubeFacts a z)
-      (hF2 : Vert Fusion2Facts a z) (hF3 : Vert Fusion3Facts a z) (hPic : Vert A8Pictures a z)
-      (hSGz : Vert StructGzFacts a z) (hT3 : Vert TableIIIFacts a z) (hT5 : Vert TableVFacts a z)
-      (h4B : Vert FourBFacts a z) (hS7 : Vert S7Facts a z) (h6A : Vert SixAFacts a z),
+    ∀ (_hI : TwoHSInterface) (_hS : SuborbitFacts) (_hM : M11Facts) {G : Type} [Group G] [Finite G]
+      {a z : G} (_h : IsF5Type a z) (_hF1 : Vert Fusion1Facts a z) (_hCube : Vert CubeFacts a z)
+      (_hF2 : Vert Fusion2Facts a z) (_hF3 : Vert Fusion3Facts a z) (_hPic : Vert A8Pictures a z)
+      (_hSGz : Vert StructGzFacts a z) (_hT3 : Vert TableIIIFacts a z) (_hT5 : Vert TableVFacts a z)
+      (_h4B : Vert FourBFacts a z) (_hS7 : Vert S7Facts a z) (_h6A : Vert SixAFacts a z),
       TableVIFacts a z := by
-  intro hI hS hM G _ _ a z h hF1 hCube hF2 hF3 hPic hSGz hT3 hT5 h4B hS7 h6A
-  have h3 : Fusion3Facts a z := hF3.self
+  intro _hI _hS _hM G _ _ a z _h _hF1 _hCube _hF2 _hF3 _hPic _hSGz _hT3 _hT5 _h4B _hS7 _h6A
+  have h3 : Fusion3Facts a z := _hF3.self
   have key : ∀ b ∈ orb2B a z a,
       Nat.card ↥(tBase a z b) = 5774 ∧
       IsOrbitPartition (Gxy a b) (tBase a z b) (tSet a z b) ∧
@@ -175,8 +175,8 @@ theorem tableVIInput_holds :
       (∀ c ∈ tSet a z b 6, IsShapeZ2TimesD10 ↥(Gxyz a b c)) ∧
       (∀ c ∈ tSet a z b 7, IsShapeZ2TimesD8 ↥(Gxyz a b c)) ∧
       (∀ c ∈ tSet a z b 6, padicValNat 2 (Nat.card ↥(Gxy a c)) = 2) :=
-    fun b hb => tableVI_at hI hS h hb (hF1 b z hb.1 (IsConj.refl z))
-      (hF2 b z hb.1 (IsConj.refl z)) (hPic b z hb.1 (IsConj.refl z)) h3
+    fun b hb => tableVI_at _hI _hS _h hb (_hF1 b z hb.1 (IsConj.refl z))
+      (_hF2 b z hb.1 (IsConj.refl z)) (_hPic b z hb.1 (IsConj.refl z)) h3
   exact ⟨fun b hb => (key b hb).1,
     fun b hb => (key b hb).2.1,
     fun b hb => (key b hb).2.2.1,

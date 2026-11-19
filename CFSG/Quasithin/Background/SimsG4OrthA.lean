@@ -244,14 +244,16 @@ theorem span_form : Submodule.span F (centreForm Q G₀ : Set V) = ⊤ :=
   span_centreForm (span_centreSet h.isometry (isIrredOnV_of_le (transvGen_le G₀) h.irred)
     h.centreSet_nonempty)
 
+omit [Finite F] [CharP F 2] in
 theorem val : ∀ x ∈ centreForm Q G₀, ∀ y ∈ centreForm Q G₀, B x y ∈ centreField Q G₀ :=
   fun x hx y hy => h.polar_eq x y ▸ polar_mem_centreField hx hy
 
+omit [Finite F] [CharP F 2] in
 theorem mapsTo : ∀ g ∈ G₀, ∀ x ∈ centreForm Q G₀, g x ∈ centreForm Q G₀ :=
   fun _ hg _ hx => apply_mem_centreForm h.isometry hg hx
 
 theorem finrank_form' : Module.finrank (centreField Q G₀) (centreForm Q G₀) = 4 := by
-  haveI := h.finite
+  have := h.finite
   rw [finrank_form h.alt h.nondeg h.val h.span_form, h.finrank_eq]
 
 theorem nondeg_formQ :
@@ -273,6 +275,7 @@ theorem resHom_mem_orthTransvSet (d : V ≃ₗ[F] V) (hd : d ∈ transvSet G₀)
   simp only [Submodule.coe_add, Submodule.coe_smul, Subfield.smul_def, coe_polar_formQ]
 
 omit h in
+omit [Finite F] [CharP F 2] in
 theorem exists_of_mem_orthTransvSet :
     ∀ φ ∈ orthTransvSet (formQ Q G₀) (formR Q G₀),
       ∃ d ∈ transvSet G₀, ∀ x : centreForm Q G₀, (φ x : V) = d x := by
@@ -283,13 +286,13 @@ theorem exists_of_mem_orthTransvSet :
 
 theorem isIrredOnV_formQ :
     IsIrredOnV (Subgroup.closure (orthTransvSet (formQ Q G₀) (formR Q G₀))) := by
-  haveI := h.finite
+  have := h.finite
   exact isIrredOnV_closure h.mapsTo h.alt h.nondeg h.val h.span_form
     h.resHom_mem_orthTransvSet h.irred
 
 theorem not_isImprimitiveOnV_formQ (hprim : ¬ IsImprimitiveOnV (transvGen G₀)) :
     ¬ IsImprimitiveOnV (Subgroup.closure (orthTransvSet (formQ Q G₀) (formR Q G₀))) := by
-  haveI := h.finite
+  have := h.finite
   exact not_isImprimitiveOnV_closure h.mapsTo h.alt h.nondeg h.val h.span_form
     h.resHom_mem_orthTransvSet hprim
 
@@ -303,7 +306,7 @@ theorem mem_closure_of_isometry (hORTH : OrthIdent) (hprim : ¬ IsImprimitiveOnV
 theorem mem_transvGen_of_isometry (hORTH : OrthIdent) (hprim : ¬ IsImprimitiveOnV (transvGen G₀))
     {g : V ≃ₗ[F] V} (hgI : ∀ x ∈ centreForm Q G₀, g x ∈ centreForm Q G₀)
     (hgQ : ∀ x, Q (g x) = Q x) : g ∈ transvGen G₀ := by
-  haveI := h.finite
+  have := h.finite
   have hsurj : Function.Surjective
       (fun x : centreForm Q G₀ => (⟨g x, hgI x x.2⟩ : centreForm Q G₀)) :=
     Finite.surjective_of_injective fun x y hxy =>

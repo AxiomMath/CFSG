@@ -51,9 +51,9 @@ theorem nonempty_mulEquiv_d4L :
     ext σ
     constructor
     · rintro ⟨i, rfl⟩
-      exact ⟨i.val, by rw [Set.mem_setOf_eq, hl2]; exact i.2, rfl⟩
+      exact ⟨i.val, by rw [Set.mem_ofPred_eq, hl2]; exact i.2, rfl⟩
     · rintro ⟨k, hk, rfl⟩
-      have hk2 : k < 2 := by rw [Set.mem_setOf_eq, hl2] at hk; exact hk
+      have hk2 : k < 2 := by rw [Set.mem_ofPred_eq, hl2] at hk; exact hk
       exact ⟨⟨k, hk2⟩, rfl⟩
   have hcard : Nat.card ↥(closure (Set.range
       (fun i : Fin 2 => permOfArr 2457 (lGens ())[i.val]!))) = 504 := by
@@ -97,7 +97,7 @@ theorem compShape_x0
   obtain ⟨eQ⟩ := nonempty_mulEquiv_d4L
   obtain ⟨e1⟩ := CFSG.GH74.KGroups.L28.equiv_psl_P
   let eN : ↥(d4L.subgroupOf d4P) ≃* ↥d4L := subgroupOfEquivOfLe hLP
-  haveI hs : IsSimpleGroup ↥(d4L.subgroupOf d4P) := isSimpleGroup_of_equiv_P9 (eN.trans eQ)
+  have hs : IsSimpleGroup ↥(d4L.subgroupOf d4P) := isSimpleGroup_of_equiv_P9 (eN.trans eQ)
   have hnab := nonabelian_of_equiv_P9 (eN.trans eQ)
   have hZ : center ↥(d4L.subgroupOf d4P) = ⊥ := b3Lie_center_eq_bot hnab
   have hq : CFSG.Open.IsQuasisimple ↥(d4L.subgroupOf d4P) :=
@@ -131,12 +131,12 @@ theorem compShape_x1
     have h' : ((ι a : ↥(closure (permsA 2457 d4CBGens))) : Equiv.Perm (Fin 2457)) = ι b := by
       rw [h]
     exact Subtype.ext (Subtype.ext h')
-  haveI : Group.IsSolvable ↥(closure (permsA 2457 d4CBGens)) := by
-    haveI : Fintype ↥(closure (permsA 2457 d4CBGens)) := Fintype.ofFinite _
+  have : Group.IsSolvable ↥(closure (permsA 2457 d4CBGens)) := by
+    have : Fintype ↥(closure (permsA 2457 d4CBGens)) := Fintype.ofFinite _
     exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow (a := 3) (b := 4)
       Nat.prime_two Nat.prime_three (by norm_num)
       (by rw [← Nat.card_eq_fintype_card, hcard]; norm_num)
-  exact compShape_of_isSolvable _ (solvable_of_solvable_injective hι)
+  exact compShape_of_isSolvable _ (Group.isSolvable_of_isSolvable_injective hι)
 
 theorem compShape_conj_d4P
     (y : ↥d4P) (hy : orderOf y = 3) : CompShape G28CompType (MulAut.conj y) := by

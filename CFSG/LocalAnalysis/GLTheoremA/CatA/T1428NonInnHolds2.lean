@@ -26,15 +26,15 @@ open scoped commutatorElement
 theorem NonInnCore.of_mulEquiv {H H' : Type} [Group H] [Group H'] (h : NonInnCore H')
     (e : H ≃* H') : NonInnCore H := by
   rcases h with hsol | ⟨N, hN, hs, hsol⟩
-  · haveI := hsol
+  · have := hsol
     exact Or.inl (Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective)
   · right
     have hmap : (N.comap e.toMonoidHom).map e.toMonoidHom = N :=
       Subgroup.map_comap_eq_self_of_surjective e.surjective N
-    haveI := hN
-    haveI : (N.comap e.toMonoidHom).Normal := hN.comap _
-    haveI := hs
-    haveI := hsol
+    have := hN
+    have : (N.comap e.toMonoidHom).Normal := hN.comap _
+    have := hs
+    have := hsol
     refine ⟨N.comap e.toMonoidHom, inferInstance, ?_, ?_⟩
     · exact (((N.comap e.toMonoidHom).equivMapOfInjective e.toMonoidHom e.injective).trans
         (MulEquiv.subgroupCongr hmap)).isSimpleGroup
@@ -50,7 +50,7 @@ theorem nonInnCore_of_normal_simple {H : Type} [Group H] (N : Subgroup H) [N.Nor
   Or.inr ⟨N, inferInstance, hs, hsol⟩
 
 theorem nonInnCore_of_simple {H : Type} [Group H] [IsSimpleGroup H] : NonInnCore H := by
-  haveI : Subsingleton (H ⧸ (⊤ : Subgroup H)) := QuotientGroup.subsingleton_quotient_top
+  have : Subsingleton (H ⧸ (⊤ : Subgroup H)) := QuotientGroup.subsingleton_quotient_top
   exact nonInnCore_of_normal_simple ⊤ (Subgroup.topEquiv.isSimpleGroup_congr.2 inferInstance)
     inferInstance
 
@@ -85,7 +85,7 @@ theorem not_glaPComponent_of_isSolvable {T : Type} [Group T] [Finite T] {C J : S
     apply Subgroup.map_injective C.subtype_injective
     rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hJC]
     exact CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ
-  haveI := hsol
+  have := hsol
   have hbot := eq_bot_of_perfect_of_isSolvable' hJ0
   apply CFSG.LocalAnalysis.GLTheoremA.glaPComponent_ne_bot' hJ
   rw [← Subgroup.map_subgroupOf_eq_of_le hJC, hbot, Subgroup.map_bot]
@@ -95,16 +95,16 @@ theorem NonInnCore.pComponent_eq {T : Type} [Group T] [Finite T] {C : Subgroup T
     (h₂ : GLAPComponent p C J₂) : J₁ = J₂ := by
   rcases h with hsol | ⟨N, hN, hs, hsol⟩
   · exact (not_glaPComponent_of_isSolvable hsol h₁).elim
-  · haveI := hN
-    haveI := hs
+  · have := hN
+    have := hs
     have hN'C : N.map C.subtype ≤ C := Subgroup.map_subtype_le N
     have hN'eq : (N.map C.subtype).subgroupOf C = N :=
       Subgroup.comap_map_eq_self_of_injective C.subtype_injective N
-    haveI : ((N.map C.subtype).subgroupOf C).Normal := by
+    have : ((N.map C.subtype).subgroupOf C).Normal := by
       rw [hN'eq]
       exact hN
     have hsol' : Group.IsSolvable (↥C ⧸ (N.map C.subtype).subgroupOf C) := by
-      haveI := hsol
+      have := hsol
       exact Group.isSolvable_of_isSolvable_injective
         (f := (QuotientGroup.quotientMulEquivOfEq hN'eq).toMonoidHom)
         (QuotientGroup.quotientMulEquivOfEq hN'eq).injective
@@ -122,7 +122,7 @@ theorem nonInnCore_G2 {f : ℕ} (hf : 1 ≤ f) {F₀ : Type} [Field F₀] [Finit
     (hF₀ : Nat.card F₀ = 2 ^ f) : NonInnCore ↥(adjointGroup Tag.G2 F₀) := by
   by_cases hf2 : 2 ≤ f
   · obtain ⟨hG, -⟩ := CFSG.LocalAnalysis.GLTheoremA.Y10GTri.tri_g2_simple hf2 hF₀
-    haveI := hG
+    have := hG
     exact nonInnCore_of_simple
   · have hk : Nat.card F₀ = 2 := by
       rw [hF₀, show f = 1 by omega, pow_one]
@@ -136,7 +136,7 @@ theorem nonInnCore_G2 {f : ℕ} (hf : 1 ≤ f) {F₀ : Type} [Field F₀] [Finit
         ↥⁅adjointGroup Tag.G2 F₀, adjointGroup Tag.G2 F₀⁆ :=
       ((commutator ↥(adjointGroup Tag.G2 F₀)).equivMapOfInjective _
         (adjointGroup Tag.G2 F₀).subtype_injective).trans (MulEquiv.subgroupCongr hDM)
-    haveI := hs
+    have := hs
     exact nonInnCore_of_commutator eD.isSimpleGroup
 
 theorem nonInnCore_PGL {π : Bool} {f : ℕ} {F : Type} [Field F] (hF : Sec4.PiField π 2 f F)
@@ -148,7 +148,7 @@ theorem nonInnCore_PGL {π : Bool} {f : ℕ} {F : Type} [Field F] (hF : Sec4.PiF
       exact hF.unitary
     have hSP : projImage (Sec4.slPi π 3 (2 ^ f) F) ≤ projImage (Sec4.glPi π 3 (2 ^ f) F) :=
       Subgroup.map_mono (Sec4.slPi_le_glPi hπ)
-    haveI : IsSimpleGroup (projImage (Sec4.slPi π 3 (2 ^ f) F)) :=
+    have : IsSimpleGroup (projImage (Sec4.slPi π 3 (2 ^ f) F)) :=
       Sec8.Item8KFacts2Proof.isSimpleGroup_projImage_slPi hF hq2
     have hcomm := Sec13.commutator_projImage_glPi hF hq2
     let eP : ↥(commutator ↥(projImage (Sec4.glPi π 3 (2 ^ f) F))) ≃*
@@ -159,7 +159,7 @@ theorem nonInnCore_PGL {π : Bool} {f : ℕ} {F : Type} [Field F] (hF : Sec4.PiF
       have := Nat.pow_le_pow_right (show 0 < 2 by norm_num) hF.one_le
       omega
     cases π
-    · haveI := Sec13.isSolvable_projImage_glPi_two hF h2
+    · have := Sec13.isSolvable_projImage_glPi_two hF h2
       exact nonInnCore_of_isSolvable
     · exact absurd (hπ2 rfl) hq2
 
@@ -176,13 +176,13 @@ theorem nonInnCore_triality_outer {f : ℕ} (hf : 1 ≤ f) {K₃ : Type} [Field 
     (hφ : φ ∉ (MulAut.conj : ↥(graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom) →*
       MulAut ↥(graphFixedRootGroup TwistTag.D4 K₃ Fr.toRingHom)).range) :
     NonInnCore ↥(fixSubgroup φ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq : 2 ≤ 2 ^ f := by
     calc 2 = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
   have hF : Nat.card (fixSubfield Fr) = 2 ^ f :=
     CFSG.GH74.GLS.Stage4.Hex.card_fixedField_of_cube Fr.toRingHom hq hK₃ hFr
-  haveI : Finite (fixSubfield Fr) := Subtype.finite
+  have : Finite (fixSubfield Fr) := Subtype.finite
   have hG2 : ↥(fixSubgroup (fieldActor (t := TwistTag.D4) Fr Fr)) ≃*
       ↥(adjointGroup Tag.G2 (fixSubfield Fr)) :=
     (CFSG.HardMathSupport.Solomon.Coordinator.LieComp.nonempty_fixSubgroup_fieldActor_equiv_G2
@@ -229,7 +229,7 @@ private theorem t1428NonInn_d4Graph_zero : d4Graph K 0 = 1 :=
 theorem nonInnCore_entrywise_D4 (σ : K ≃+* K) :
     NonInnCore ↥(fixSubgroup (entrywiseAdjointAut Tag.D4 σ)) := by
   classical
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   obtain ⟨ι, hι, hJC, hnorm, hsol⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ExcCopy.exists_fixed_structure .D4 σ
   have hperf := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ExcCopy.isPerfect_adjointGroup .D4
@@ -237,8 +237,8 @@ theorem nonInnCore_entrywise_D4 (σ : K ≃+* K) :
   obtain ⟨hs, -⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ExcCopy.isSimpleGroup_adjointGroup_of_perfect
       .D4 (fixSubfield σ) hperf
-  haveI := hs
-  haveI := hnorm
+  have := hs
+  have := hnorm
   let e : adjointGroup Tag.D4 (fixSubfield σ) ≃* ι.range := MonoidHom.ofInjective hι
   exact nonInnCore_of_normal_simple _ ((Subgroup.subgroupOfEquivOfLe hJC).trans e.symm).isSimpleGroup
     hsol
@@ -273,14 +273,14 @@ theorem nonInnCore_twisted_D4 {ℓ e : ℕ} [Fact ℓ.Prime] [CharP K ℓ] (he :
     obtain ⟨hs, -, ⟨eF⟩⟩ :=
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.exists_fixSubgroup_twistedOne_equiv he hK T 1
         (Or.inl rfl) (fun c => by rw [hT, pow_one])
-    haveI := hs
+    have := hs
     exact NonInnCore.of_mulEquiv nonInnCore_of_simple eF
   · rw [h]
     have hfix := fixedSubgroup_twistedEntrywiseAut_D4_two T
     obtain ⟨hs, -, ⟨eF⟩⟩ :=
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.exists_fixSubgroup_twistedOne_equiv he hK T⁻¹ 2
         (Or.inr rfl) hinv
-    haveI := hs
+    have := hs
     exact (NonInnCore.of_mulEquiv nonInnCore_of_simple eF).of_mulEquiv (MulEquiv.subgroupCongr hfix)
 
 theorem nonInnCore_of_lang_D4 {ℓ e : ℕ} [Fact ℓ.Prime] [CharP K ℓ] (he : 1 ≤ e)
@@ -320,7 +320,7 @@ theorem nonInnCore_d4_graph_type {f : ℕ} (hf : 1 ≤ f) [CharP K 2] (hKf : Nat
     (hα : (MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε)) ^ 3 = 1) :
     NonInnCore ↥(fixSubgroup (MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hσ1 : σ = 1
   · subst hσ1
     obtain ⟨K₃, _, _, Fr, hK₃, hFr, φ, hφ3, hφout, ⟨e⟩⟩ :=

@@ -102,32 +102,40 @@ namespace SigmaEnd
 
 variable {S : Setting G} {A V : ElemAb G} {x u : G}
 
+omit [Finite G] in
 theorem z_mem_A (h : SigmaEnd S A V x u) : S.z ∈ A.E := h.V_le h.z_mem
 
+omit [Finite G] in
 theorem A_le_M (h : SigmaEnd S A V x u) : A.E ≤ S.M := fun b hb =>
   S.mem_M_iff.mpr (A.comm b hb S.z h.z_mem_A)
 
+omit [Finite G] in
 theorem conj_mem_A {g : G} (hg : g ∈ normalizer (A.E : Set G)) {b : G} (hb : b ∈ A.E) :
     g * b * g⁻¹ ∈ A.E :=
   (mem_normalizer_iff.mp hg b).mp hb
 
+omit [Finite G] in
 theorem conj_z_mem_A (h : SigmaEnd S A V x u) {g : G} (hg : g ∈ normalizer (A.E : Set G)) :
     g * S.z * g⁻¹ ∈ A.E :=
   conj_mem_A hg h.z_mem_A
 
+omit [Finite G] in
 theorem conj_z_ne_one (g : G) : g * S.z * g⁻¹ ≠ 1 := (S.conjBy g).z_ne_one
 
+omit [Finite G] in
 theorem index_eq_two (h : SigmaEnd S A V x u) : (V.E.subgroupOf A.E).index = 2 := by
   have h1 := (V.E.subgroupOf A.E).card_mul_index
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe h.V_le).toEquiv, h.card_V, h.card_A] at h1
   omega
 
+omit [Finite G] in
 theorem mul_mem_V (h : SigmaEnd S A V x u) {a b : G} (ha : a ∈ A.E) (haV : a ∉ V.E)
     (hb : b ∈ A.E) (hbV : b ∉ V.E) : a * b ∈ V.E := by
   have key := Subgroup.mul_mem_iff_of_index_two h.index_eq_two (a := ⟨a, ha⟩) (b := ⟨b, hb⟩)
   simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul] at key
   exact key.mpr (iff_of_false haV hbV)
 
+omit [Finite G] in
 theorem exists_conj_eq (h : SigmaEnd S A V x u) {v : G} (hv : v ∈ V.E) (hv1 : v ≠ 1) :
     ∃ g ∈ normalizer (A.E : Set G), g * S.z * g⁻¹ = v := by
   by_cases hvz : v = S.z
@@ -136,6 +144,7 @@ theorem exists_conj_eq (h : SigmaEnd S A V x u) {v : G} (hv : v ∈ V.E) (hv1 : 
       h.trans _ h.u_conj_mem v hv (conj_z_ne_one u) h.u_conj_ne hv1 hvz
     exact ⟨g * u, mul_mem hgN h.u_mem, by rw [← hg]; group⟩
 
+omit [Finite G] in
 theorem exists_conj_eq_or (h : SigmaEnd S A V x u) {y w : G} (hy : y ∈ A.E) (hyV : y ∉ V.E)
     (hw : w ∈ A.E) (hwV : w ∉ V.E) :
     ∃ q ∈ S.QG, q * y * q⁻¹ = w ∨ q * y * q⁻¹ = w * S.z := by
@@ -169,6 +178,7 @@ theorem exists_conj_eq_or (h : SigmaEnd S A V x u) {y w : G} (hy : y ∈ A.E) (h
     · left
       rw [h₂, mul_assoc, hzz, mul_one]
 
+omit [Finite G] in
 theorem conj_conj_mem (h : SigmaEnd S A V x u) {q : G} (hq : q ∈ S.QG) {b : G}
     (hb : ∃ g ∈ normalizer (A.E : Set G), g * S.z * g⁻¹ = b) :
     ∃ g ∈ normalizer (A.E : Set G), g * S.z * g⁻¹ = q * b * q⁻¹ := by
@@ -176,13 +186,14 @@ theorem conj_conj_mem (h : SigmaEnd S A V x u) {q : G} (hq : q ∈ S.QG) {b : G}
   exact ⟨q * g, mul_mem (h.QG_le hq) hg, by group⟩
 
 theorem ncard_diff (h : SigmaEnd S A V x u) : ((A.E : Set G) \ V.E).ncard = 32 := by
-  rw [Set.ncard_diff (fun b hb => h.V_le hb)]
+  rw [Set.ncard_sdiff (fun b hb => h.V_le hb)]
   have hA : (A.E : Set G).ncard = 64 := by rw [← Nat.card_coe_set_eq]; exact h.card_A
   have hV : (V.E : Set G).ncard = 32 := by rw [← Nat.card_coe_set_eq]; exact h.card_V
   rw [hA, hV]
 
+omit [Finite G] in
 theorem ncard_diff_one (h : SigmaEnd S A V x u) : ((V.E : Set G) \ {1}).ncard = 31 := by
-  rw [Set.ncard_diff_singleton_of_mem (one_mem V.E)]
+  rw [Set.ncard_sdiff_singleton_of_mem (one_mem V.E)]
   have hV : (V.E : Set G).ncard = 32 := by rw [← Nat.card_coe_set_eq]; exact h.card_V
   rw [hV]
 
@@ -196,6 +207,7 @@ theorem finrank_V (h : SigmaEnd S A V x u) : finrank (ZMod 2) (Additive V.E) = 5
   rw [h.card_V] at h1
   exact (Nat.pow_right_injective le_rfl (h1.symm.trans (by norm_num : 32 = 2 ^ 5)))
 
+omit [Finite G] in
 theorem mem_orbit_iff (h : SigmaEnd S A V x u) (a : A.E) :
     ElemAb.vec a ∈ MulAction.orbit A.conjHom.range (ElemAb.vec (⟨S.z, h.z_mem_A⟩ : A.E)) ↔
       ∃ g ∈ normalizer (A.E : Set G), g * S.z * g⁻¹ = a := by
@@ -262,7 +274,7 @@ theorem false_of_forall_not_conj (h : SigmaEnd S A V x u)
   have hcard : Nat.card H5 < 9999360 := by
     have horb : MulAction.orbit H5 (ElemAb.vec zV) = Set.univ \ {0} := by
       ext v
-      simp only [MulAction.mem_orbit_iff, Set.mem_diff, Set.mem_univ, Set.mem_singleton_iff,
+      simp only [MulAction.mem_orbit_iff, Set.mem_sdiff, Set.mem_univ, Set.mem_singleton_iff,
         true_and]
       constructor
       · rintro ⟨k, rfl⟩
@@ -271,7 +283,7 @@ theorem false_of_forall_not_conj (h : SigmaEnd S A V x u)
         obtain ⟨k, hk, hkv⟩ := hT _ v hz0 hv
         exact ⟨⟨k, hk⟩, hkv⟩
     have h31 : (MulAction.orbit H5 (ElemAb.vec zV)).ncard = 31 := by
-      rw [horb, Set.ncard_diff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ,
+      rw [horb, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ _), Set.ncard_univ,
         (Nat.card_congr Additive.toMul).trans h.card_V]
     have hmem : ∀ k ∈ MulAction.stabilizer H5 (ElemAb.vec zV),
         (k : Additive V.E ≃ₗ[ZMod 2] Additive V.E) ∈ (S.M.subgroupOf N).map φ := by
@@ -338,7 +350,7 @@ theorem false_of_exists_conj_of_exists_not_conj (h : SigmaEnd S A V x u)
     · exact Or.inr (hq' ▸ h.conj_conj_mem hq hw₁)
   have himg : (fun b => b * S.z) '' (T ∩ {b | P b}) = T \ {b | P b} := by
     ext c
-    simp only [Set.mem_image, Set.mem_inter_iff, Set.mem_diff, Set.mem_setOf_eq]
+    simp only [Set.mem_image, Set.mem_inter_iff, Set.mem_sdiff, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨b, ⟨hbT, hPb⟩, rfl⟩
       exact ⟨hTz b hbT, hnot b hbT hPb⟩
@@ -349,12 +361,12 @@ theorem false_of_exists_conj_of_exists_not_conj (h : SigmaEnd S A V x u)
       · rw [mul_assoc, hzz, mul_one] at h1
         exact absurd h1 hPc
   have h16 : (T ∩ {b | P b}).ncard = 16 := by
-    have e1 := Set.ncard_inter_add_ncard_diff_eq_ncard T {b | P b} (Set.toFinite T)
+    have e1 := Set.ncard_inter_add_ncard_sdiff_eq_ncard T {b | P b} (Set.toFinite T)
     rw [← himg, Set.ncard_image_of_injective _ (mul_left_injective S.z), h.ncard_diff] at e1
     omega
   have hO : {b | P b} = ((V.E : Set G) \ {1}) ∪ (T ∩ {b | P b}) := by
     ext b
-    simp only [Set.mem_setOf_eq, Set.mem_union, Set.mem_diff, Set.mem_singleton_iff,
+    simp only [Set.mem_ofPred_eq, Set.mem_union, Set.mem_sdiff, Set.mem_singleton_iff,
       Set.mem_inter_iff, SetLike.mem_coe]
     constructor
     · intro hPb
@@ -381,7 +393,7 @@ theorem false_of_exists_conj_of_exists_not_conj (h : SigmaEnd S A V x u)
   have horb : (fun a : Additive A.E => ((Additive.toMul a : A.E) : G)) ''
       MulAction.orbit H (ElemAb.vec zA) = {b | P b} := by
     ext b
-    simp only [Set.mem_image, Set.mem_setOf_eq]
+    simp only [Set.mem_image, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨a, ha, rfl⟩
       obtain ⟨a', rfl⟩ := ElemAb.exists_vec a
@@ -401,6 +413,7 @@ theorem false_of_exists_conj_of_exists_not_conj (h : SigmaEnd S A V x u)
     exact ⟨_, by rw [← e, mul_comm]⟩
   exact not_dvd_card_of_finrank_eq_six h.finrank_A H hdvd
 
+omit [Finite G] in
 theorem exists_ind (h : SigmaEnd S A V x u) :
     ∃ l : Additive A.E →ₗ[ZMod 2] ZMod 2, ∀ a : A.E, l (ElemAb.vec a) = 0 ↔ (a : G) ∈ V.E := by
   classical
@@ -414,8 +427,8 @@ theorem exists_ind (h : SigmaEnd S A V x u) :
         simp only [toMul_add, Subgroup.coe_mul, key]
         by_cases ha : ((Additive.toMul a : A.E) : G) ∈ V.E <;>
           by_cases hb : ((Additive.toMul b : A.E) : G) ∈ V.E <;>
-          simp only [ha, hb, iff_self, iff_true, true_iff, iff_false, false_iff, not_true_eq_false,
-            not_false_eq_true, ite_true, ite_false] <;> decide }
+          simp only [ha, hb, iff_self, iff_true, iff_false, not_true_eq_false,
+            ite_true, ite_false] <;> decide }
   refine ⟨f.toZModLinearMap 2, fun a => ?_⟩
   show (if ((a : A.E) : G) ∈ V.E then (0 : ZMod 2) else 1) = 0 ↔ _
   split_ifs with ha
@@ -452,7 +465,7 @@ theorem false_of_forall_conj (h : SigmaEnd S A V x u)
         l (ElemAb.vec (A.conjMulEquiv ⟨(gs a)⁻¹, inv_mem (hgsN a)⟩ c')) := by
       rw [hf]
       dsimp only
-      rw [if_neg ha]
+      rw [ite_eq_right ha]
       rfl
     have hmem : (gs a)⁻¹ * (c' : G) * gs a ∈ A.E := by
       have := conj_mem_A (inv_mem (hgsN a)) c'.2
@@ -484,7 +497,7 @@ theorem false_of_forall_conj (h : SigmaEnd S A V x u)
   have hβalt : β.IsAlt := by
     intro a
     by_cases ha : a = 0
-    · simp only [ha, map_zero, LinearMap.zero_apply]
+    · simp only [ha, map_zero]
     · rw [hβ0 a a ha, ← hgs a ha]
       exact (S.conjBy (gs a)).z_mem_QG
   have hsep : ∀ a, (∀ c, β a c = 0) → a = 0 := by

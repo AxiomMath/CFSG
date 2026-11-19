@@ -46,7 +46,7 @@ theorem r847E4_of_resQ (D : Data G) (hSg : UC6S846.SigmaStd D) (h846 : F08.R846 
       ring
     rwa [hfac] at h
   rcases (Nat.Prime.dvd_mul hq).mp hdvd with hqn | hqn
-  · haveI : Fact q.Prime := ⟨hq⟩
+  · have : Fact q.Prime := ⟨hq⟩
     exact (h846 Y hY n hYn q hq (by omega) hqn).normalizer_le hX1 hXp (hXY.trans hYM)
   · exact hQ Y hY X hXY q hq hq5 hXc (Or.inr ⟨n, hYn, hqn⟩)
 

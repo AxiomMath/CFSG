@@ -207,7 +207,7 @@ theorem nineTwelveOne (hsec : NineSixAutSectionGen) (hK3 : KFactAutRankThreeSolv
   have hp2 : p ≠ 2 := h.ne_two
   have hLH : L ≤ H := hLK.1.trans (kSub_le p M H)
   have hLs : (L.subgroupOf H).IsSubnormal := hLK.isSubnormal_of_kSub hL
-  haveI : Group.IsPerfect ↥L := hLK.isPerfect hp'
+  have : Group.IsPerfect ↥L := hLK.isPerfect hp'
   by_cases hc : CFSG.pPrimeCore p (↥L ⧸ CFSG.pCore 2 ↥L) ≤
       center (↥L ⧸ CFSG.pCore 2 ↥L)
   · exact Or.inl (isTwoPrimeComponentIn_of_le_center hp' hp2 hL hLK hc)

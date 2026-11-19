@@ -18,14 +18,14 @@ private theorem exists_odd_prime_dvd_card_bar2 {H K : Subgroup G} (hK : K ∈ ca
   classical
   have hqs : CFSG.IsQuasisimple (Bar2 K) :=
     CFSG.Quasithin.A3.isQuasisimple_iff_open.mpr hK.2.2
-  haveI : Nontrivial (Bar2 K) := CFSG.LocalCores.isQuasisimple_nontrivial hqs
+  have : Nontrivial (Bar2 K) := CFSG.LocalCores.isQuasisimple_nontrivial hqs
   rcases Nat.eq_two_pow_or_exists_odd_prime_and_dvd (Nat.card (Bar2 K)) with
     ⟨k, hk⟩ | ⟨p, hp, hpdvd, hodd⟩
   · exfalso
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent (Bar2 K) :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent (Bar2 K) :=
       (IsPGroup.of_card (p := 2) hk).isNilpotent
-    haveI : Group.IsPerfect (Bar2 K) := ⟨hK.2.2.1⟩
+    have : Group.IsPerfect (Bar2 K) := ⟨hK.2.2.1⟩
     exact Group.IsPerfect.not_isNilpotent (Bar2 K) inferInstance
   · exact ⟨p, hp, hodd.ne_two_of_dvd_nat dvd_rfl, hpdvd⟩
 
@@ -78,10 +78,10 @@ private theorem exists_isElemAbelian_map_of_barImage {H : Subgroup G} {p k : ℕ
     (hE : IsElemAbelian p E) (hEcard : Nat.card E = p ^ k) :
     ∃ F : Subgroup G, F ≤ H ∧ IsElemAbelian p F ∧ Nat.card F = p ^ k := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : (CFSG.pCore 2 ↥H).Normal := CFSG.pCore_normal
+  have : Fact p.Prime := ⟨hp⟩
+  have : (CFSG.pCore 2 ↥H).Normal := CFSG.pCore_normal
   have hpN : ¬ p ∣ Nat.card (CFSG.pCore 2 ↥H) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥H)).exists_card_eq
     rw [hn]
     intro h
@@ -108,8 +108,8 @@ theorem orderOf_le_evenRank_of_not_mem_normalizer {H C K : Subgroup G} (hC : C �
     (hyK : y ∉ Subgroup.normalizer (K : Set G)) :
     orderOf y ≤ CFSG.Open.evenRank G := by
   classical
-  haveI : Fact (orderOf y).Prime := ⟨hy⟩
-  haveI : (CFSG.pCore 2 ↥H).Normal := CFSG.pCore_normal
+  have : Fact (orderOf y).Prime := ⟨hy⟩
+  have : (CFSG.pCore 2 ↥H).Normal := CFSG.pCore_normal
   let a : Bar2 H := QuotientGroup.mk' (CFSG.pCore 2 ↥H) ⟨y, hyH⟩
   let L : Subgroup (Bar2 H) := barImage H K
   have hcomm : ConjugatesCommute a L (orderOf y) := by

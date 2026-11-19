@@ -29,7 +29,7 @@ theorem fixed_card_and_alternating
   let N := sylowNormalizer X P s S
   let F := sylowFixedPoints X P s S
   let _ : Fintype F := Fintype.ofFinite _
-  have hQ : IsPGroup 7 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 7 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   obtain ⟨hlo,hhi,hN5⟩ := Degree80LargePrimeFixed.bounds_and_transitive
     7 (by decide) P hcard h5 hnotAlt s hs S hS
   have hmod := SylowFixedActionPrimeFree.fixed_degree_modEq X P s S

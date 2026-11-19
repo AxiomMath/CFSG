@@ -128,7 +128,7 @@ theorem pow_word_p {X Y : Matrix (Fin n) (Fin n) K} {α β c : K} (hp : p.Prime)
   rw [qcommMat_pow_prod (qcommMat_pow_pow hYX a b) p, hcp, one_smul, hXa, hYb, Matrix.smul_mul,
     Matrix.one_mul, smul_smul]
 
-theorem exists_pth_power_word [Finite K] (hp : p.Prime) (hpK : p ∣ Nat.card K - 1) {α β : K}
+theorem exists_pth_power_word [Finite K] (hp : p.Prime) (_hpK : p ∣ Nat.card K - 1) {α β : K}
     (hα : α ≠ 0) (hβ : β ≠ 0) :
     ∃ a b : ℕ, ¬ (p ∣ a ∧ p ∣ b) ∧ ∃ ν : K, ν ^ p = α ^ a * β ^ b := by
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Kˣ)

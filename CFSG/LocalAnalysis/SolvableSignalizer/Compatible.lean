@@ -168,7 +168,7 @@ theorem primeSupported_spectrum_of_compatible (d : Datum p α θ)
     push Not at h
     exact hQne (by rw [← hjoin]; exact iSup₂_eq_bot.mpr h)
   refine ⟨hq, a, ha, ?_⟩
-  have hfixed : IsPGroup q (fixedIn α Q a) := (P.isPGroup'.map H.subtype).to_le inf_le_left
+  have hfixed : IsPGroup q (fixedIn α Q a) := (P.isPGroup.map H.subtype).to_le inf_le_left
   rcases hfixed.card_eq_or_dvd with h1 | hdvd
   · exact absurd ((Subgroup.eq_bot_iff_card _).mpr h1) hne
   · exact hdvd.trans (Subgroup.card_dvd_of_le ((inf_le_inf_right _ hQle).trans (hH.2.2.2 a ha)))

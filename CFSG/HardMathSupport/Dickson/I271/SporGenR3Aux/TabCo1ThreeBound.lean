@@ -28,13 +28,13 @@ theorem boundOKF_spec {cs : Array (Array ℕ)} {nb nfix : ℕ} {base : List ℕ}
   refine ⟨h1, h2, h3, fun i hi => ?_, h5⟩
   have := h4 i hi
   unfold lvlOKF at this
-  simp only [Bool.and_eq_true, decide_eq_true_eq] at this
+  simp only [Bool.and_eq_true] at this
   refine ⟨contains_xs.1 this.1, fun hf => ?_, fun hf => ?_⟩
   · have h6 := this.2
-    rw [if_pos hf] at h6
+    rw [ite_eq_left hf] at h6
     exact of_decide_eq_true h6
   · have h6 := this.2
-    rw [if_neg hf] at h6
+    rw [ite_eq_right hf] at h6
     exact of_decide_eq_true h6
 
 end Spec
@@ -59,17 +59,17 @@ theorem card_le_of_boundOKF (hHA : H ≤ GA) {nb nfix : ℕ} {β : ℕ → GL24}
   have hB : ∀ a v, B a *ᵥ toVecD 24 v = toVecD 24 (vecMulN 24 (cs.getD a #[]) v) := by
     intro a v
     by_cases ha : a < nb
-    · simp only [B, if_pos ha]
+    · simp only [B, ite_eq_left ha]
       exact hcs a ha v
-    · simp only [B, if_neg ha]
+    · simp only [B, ite_eq_right ha]
       rw [cs_getD_of_le hsz (by omega), toVecD_vecMulN_empty, Matrix.zero_mulVec]
   have hcB : ∀ g ∈ H, ∀ a, ((g : GL24) : Matrix (Fin 24) (Fin 24) (ZMod 2)) * B a =
       B a * ((g : GL24) : Matrix (Fin 24) (Fin 24) (ZMod 2)) := by
     intro g hg a
     by_cases ha : a < nb
-    · simp only [B, if_pos ha]
+    · simp only [B, ite_eq_left ha]
       rw [← Units.val_mul, ← Units.val_mul, hcomm g hg a ha]
-    · simp only [B, if_neg ha, Matrix.mul_zero, Matrix.zero_mul]
+    · simp only [B, ite_eq_right ha, Matrix.mul_zero, Matrix.zero_mul]
   have horb : ∀ i < base.length,
       Nat.card (MulAction.orbit (vCh H base i) (toVecD 24 (base.getD i 0))) ≤ cnts.getD i 0 := by
     intro i hi

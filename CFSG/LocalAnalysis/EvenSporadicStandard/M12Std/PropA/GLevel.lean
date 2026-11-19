@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 @[expose] def tC (t : G) : ↥(centralizer ({t} : Set G)) :=
   ⟨t, Subgroup.mem_centralizer_singleton_iff.2 rfl⟩
 
+omit [Finite G] in
 theorem le_centralizer_singleton {t : G} (ht : t ∈ centralizer (L : Set G)) :
     L ≤ centralizer ({t} : Set G) := by
   intro l hl
@@ -26,11 +27,13 @@ theorem normal_subgroupOf_centralizer (h : StdHyp G L) {t : G}
   (Subgroup.normal_subgroupOf_iff_le_normalizer (le_centralizer_singleton (t := t) ht)).2
     (h.centralizer_le_normalizer ht ht2)
 
+omit [Finite G] in
 theorem card_of_isSporadic_m12 (hL : IsSporadic L .M12) :
     Nat.card ↥L = 95040 := by
   obtain ⟨e⟩ := hL
   exact (Nat.card_congr e.toEquiv).trans m12_card
 
+omit [Finite G] in
 theorem exists_equiv_D24
     (hL : IsSporadic L .M12) {t : G} (ht : t ∈ centralizer (L : Set G)) :
     Nonempty (↥(L.subgroupOf (centralizer ({t} : Set G))) ≃* ↥D24) := by
@@ -38,6 +41,7 @@ theorem exists_equiv_D24
   exact ⟨(Subgroup.subgroupOfEquivOfLe (le_centralizer_singleton (t := t) ht)).trans
     (e.trans m12EquivD)⟩
 
+omit [Finite G] in
 theorem not_mem_of_isSporadic_m12
     (hL : IsSporadic L .M12) {t : G} (ht : t ∈ centralizer (L : Set G)) (ht2 : orderOf t = 2) :
     t ∉ L := by

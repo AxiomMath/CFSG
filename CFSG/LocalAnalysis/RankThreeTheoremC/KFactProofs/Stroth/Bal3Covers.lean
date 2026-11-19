@@ -91,9 +91,9 @@ theorem bal3ThreeSingleRed_of_covers (hC : Bal3ThreeCovers) (hZ : Bal3ThreeCente
     (hS : Bal3SmallCards) (hO : Bal3OnanComm) (hL : Bal3ThreeSL3) : Bal3ThreeSingleRed := by
   classical
   intro X _ _ hcat P z D hred hz K hK huniq
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : (3 : ℕ).Prime := Nat.prime_three
-  haveI hKn : K.Normal :=
+  have hKn : K.Normal :=
     Subgroup.Normal.of_conjugate_fixed (fun g => huniq _ (isComponentOf_conj_smul hK g))
   have hPn : (P : Subgroup X) ≤ normalizer (K : Set X) := by
     rw [normalizer_eq_top]; exact le_top
@@ -137,7 +137,7 @@ theorem bal3ThreeSingleRed_of_covers (hC : Bal3ThreeCovers) (hZ : Bal3ThreeCente
     intro hdec hcomm
     refine false_of_plane_in_central_product (P := (P : Subgroup X))
       (T := (P : Subgroup X) ⊓ K) (R := (P : Subgroup X) ⊓ centralizer (K : Set X)) (D := D)
-      (z := z) P.isPGroup' inf_le_left inf_le_left
+      (z := z) P.isPGroup inf_le_left inf_le_left
       (fun u hu => by
         obtain ⟨t, ht, c, hc, rfl⟩ := hdec u hu
         exact ⟨t, ht, c, hc, rfl⟩)

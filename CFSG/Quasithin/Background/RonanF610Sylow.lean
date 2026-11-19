@@ -15,7 +15,7 @@ theorem not_isCyclic_sylow_two_of_isPerfect {G : Type*} [Group G] [Finite G]
     ¬ IsCyclic ↥(P : Subgroup G) := by
   intro hcyc
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨a, ha⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := P.isPGroup.exists_card_eq
   have ha0 : a ≠ 0 := by
     rintro rfl
     exact hP (by simpa using ha)
@@ -79,7 +79,7 @@ theorem four_le_relIndex_center {K : Type*} [Group K] [Finite K] (hK : CFSG.IsQu
     intro h1
     exact P'.ne_bot_of_dvd_card h2 (Subgroup.card_eq_one.mp h1)
   have hnc := not_isCyclic_sylow_two_of_isPerfect hQperf P' hne1
-  refine four_le_card_of_isPGroup P'.isPGroup' hne1 fun h2' => hnc ?_
+  refine four_le_card_of_isPGroup P'.isPGroup hne1 fun h2' => hnc ?_
   exact isCyclic_of_prime_card h2'
 
 theorem centerOf_subgroupOf {D : Type*} [Group D] (K : Subgroup D) :

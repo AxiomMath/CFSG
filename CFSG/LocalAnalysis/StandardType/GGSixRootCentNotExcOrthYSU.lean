@@ -46,7 +46,7 @@ theorem ggRootCentOrthYSUInput_holds :
     rw [this]
     exact s1.2.1.1 hdD
   have hd3 : orderOf d = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime (hctx.d_elem.2 d hdD) hd1
   refine ⟨ψ g * d * (ψ g)⁻¹, ?_, ?_, centralizer_conj_le hdC hgM,
     (ψ.comp ((MulAut.conj h).toMonoidHom.comp

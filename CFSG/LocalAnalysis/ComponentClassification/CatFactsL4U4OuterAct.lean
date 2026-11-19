@@ -287,7 +287,7 @@ theorem eq_one_of_rhoBar_eq_one {y : Wbar h.B} (hy : rhoBar hKa y = 1) (hy2 : y 
     exact mem_normalizer_iff.1 w'.2 b
   have hxR : x ∈ (R : Subgroup X) := by
     have hsup : IsPGroup 2 ↥((R : Subgroup X) ⊔ zpowers x) :=
-      IsPGroup.to_sup_of_normal_left' R.isPGroup' hx2 (zpowers_le.2 hRn)
+      IsPGroup.to_sup_of_normal_left' R.isPGroup hx2 (zpowers_le.2 hRn)
     exact R.maximal_isPGroup.right hsup le_sup_left (mem_sup_right (mem_zpowers x))
   rw [hR, mem_subgroupOf] at hxR
   have hB2 : IsPGroup 2 h.B := h.isPGroup_S.to_le (h.B_le.trans inf_le_left)

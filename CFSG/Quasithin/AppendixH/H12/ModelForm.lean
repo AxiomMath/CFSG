@@ -78,14 +78,14 @@ private theorem quadOf_polar {n : ℕ} (Q : Matrix (Fin n) (Fin n) (ZMod 2))
     (v w : Fin n → ZMod 2) :
     quadOf Q (v + w) + quadOf Q v + quadOf Q w = v ⬝ᵥ (Q *ᵥ w) + w ⬝ᵥ (Q *ᵥ v) := by
   rw [quadOf, quadOf, quadOf, mulVec_add, dotProduct_add, add_dotProduct, add_dotProduct]
-  linear_combination (norm := ring_nf) 0
+  linear_combination (norm := ring_nf)
   rw [mul_two, mul_two, CharTwo.add_self_eq_zero, CharTwo.add_self_eq_zero, add_zero]
 
 private theorem polV_add_left {n : ℕ} (Q : Matrix (Fin n) (Fin n) (ZMod 2))
     (u u' w : Fin n → ZMod 2) : polV Q (u + u') w = polV Q u w + polV Q u' w := by
   simp only [polV]
   rw [quadOf_polar, quadOf_polar, quadOf_polar, mulVec_add, dotProduct_add, add_dotProduct]
-  linear_combination (norm := ring_nf) 0
+  linear_combination (norm := ring_nf)
 
 private theorem polV_isQuadForm {n : ℕ} (Q : Matrix (Fin n) (Fin n) (ZMod 2))
     (x x' y : Fin n → ZMod 2) :
@@ -113,7 +113,7 @@ theorem polN_symm (a b : ℕ) : polN 12 Qcols a b = polN 12 Qcols b a := by
   rw [Bool.xor_assoc, Bool.xor_assoc,
     Bool.xor_comm (quadN 12 Qcols a) (quadN 12 Qcols b)]
 
-theorem polN_add_left {a a' b : ℕ} (ha : a < 4096) (ha' : a' < 4096) (hb : b < 4096) :
+theorem polN_add_left {a a' b : ℕ} (_ha : a < 4096) (_ha' : a' < 4096) (_hb : b < 4096) :
     polN 12 Qcols (a ^^^ a') b = (polN 12 Qcols a b ^^ polN 12 Qcols a' b) := by
   apply CFSG.Quasithin.H13.Mat8Cert.b2z_inj
   rw [CFSG.Quasithin.H13.Mat8Cert.b2z_xor]
@@ -135,7 +135,7 @@ theorem polN_self (a : ℕ) : polN 12 Qcols a a = false := by
 @[expose] def q0 (v : Vec12) : ZMod 2 :=
   CFSG.Quasithin.H13.L1442M.quadOf (decN 12 Qcols) (Multiplicative.toAdd v)
 
-theorem q0_dc {c : ℕ} (hc : c < 4096) : q0 (dc c) = b2z (quadN 12 Qcols c) := by
+theorem q0_dc {c : ℕ} (_hc : c < 4096) : q0 (dc c) = b2z (quadN 12 Qcols c) := by
   show quadOf (decN 12 Qcols) (vecN 12 c) = b2z (quadN 12 Qcols c)
   exact (quadN_spec Qcols_valid.1 c).symm
 
@@ -197,22 +197,21 @@ theorem smulV_add (c d : FieldFour) (v : Vec12) : smulV (c + d) v = smulV c v * 
   rcases c with ⟨cr, ci⟩
   rcases d with ⟨dr, di⟩
   cases cr <;> cases ci <;> cases dr <;> cases di <;>
-    simp only [smulV, f4_add_re, f4_add_im, if_true, if_false, one_mul, mul_one, mul_self_vec12]
-  all_goals simp [mul_self_vec12, sq_mul, mul_comm, mul_assoc, mul_left_comm]
+    simp only [smulV, f4_add_re, f4_add_im, ite_true, mul_self_vec12]
+  all_goals simp [mul_self_vec12, sq_mul, mul_comm, mul_left_comm]
 
 theorem smulV_mul (c d : FieldFour) (v : Vec12) : smulV (c * d) v = smulV c (smulV d v) := by
   rcases c with ⟨cr, ci⟩
   rcases d with ⟨dr, di⟩
   cases cr <;> cases ci <;> cases dr <;> cases di <;>
-    simp only [smulV, f4_mul_re, f4_mul_im, zU_sq_apply, map_mul, mul_self_vec12, if_true,
-      if_false, one_mul, mul_one]
-  all_goals simp [mul_self_vec12, sq_mul, mul_comm, mul_assoc, mul_left_comm]
+    simp only [smulV, f4_mul_re, f4_mul_im, zU_sq_apply, map_mul, ite_true]
+  all_goals simp [mul_self_vec12, sq_mul, mul_comm, mul_left_comm]
 
 theorem smulV_mul_vec (c : FieldFour) (u v : Vec12) : smulV c (u * v) = smulV c u * smulV c v := by
   rcases c with ⟨cr, ci⟩
   cases cr <;> cases ci <;>
-    simp only [smulV, map_mul, if_true, if_false, one_mul, mul_one]
-  all_goals simp [mul_self_vec12, sq_mul, mul_comm, mul_assoc, mul_left_comm]
+    simp only [smulV, map_mul, ite_true]
+  all_goals simp [mul_comm, mul_assoc, mul_left_comm]
 
 @[expose] def ι0 : FieldFour →+* AddMonoid.End (Additive Vec12) where
   toFun c :=
@@ -298,7 +297,7 @@ theorem f0_self_dc {c : ℕ} (hc : c < 4096) :
   rw [polN]
   have h2 : mvN z12 (mvN z12 c) ^^^ c = mvN z12 c := by
     rw [omega_sq hc]
-    simp [Nat.xor_assoc, Nat.xor_comm, Nat.xor_left_comm]
+    simp
   rw [h2, quadN_zU (z12_lt c), quadN_zU hc]
   simp
 
@@ -308,7 +307,7 @@ private theorem f4_sq (x y : Bool) : (⟨x, y⟩ : FieldFour) ^ 2 = ⟨x ^^ y, y
 private theorem quadN_Qcols_zero : quadN 12 Qcols 0 = false := by decide
 
 private theorem polN_zero_left (b : ℕ) : polN 12 Qcols 0 b = false := by
-  simp only [polN, Nat.zero_xor, quadN_Qcols_zero, Bool.false_xor]
+  simp only [polN, Nat.zero_xor, quadN_Qcols_zero]
   cases quadN 12 Qcols b <;> rfl
 
 private theorem polN_zero_right (a : ℕ) : polN 12 Qcols a 0 = false := by
@@ -356,12 +355,12 @@ private theorem smulV_10_dc (a : ℕ) : smulV (⟨true, false⟩ : FieldFour) (d
 private theorem smulV_01_dc (a : ℕ) :
     smulV (⟨false, true⟩ : FieldFour) (dc a) = dc (mvN z12 a) := by
   rw [smulV_dc]
-  simp [glHom_zU_dc]
+  simp
 
 private theorem smulV_11_dc {a : ℕ} (ha : a < 4096) :
     smulV (⟨true, true⟩ : FieldFour) (dc a) = dc (mvN z12 (mvN z12 a)) := by
   rw [smulV_dc]
-  simp only [if_true, one_mul, mul_one, glHom_zU_dc]
+  simp only [ite_true]
   rw [← dc_xor, omega_sq ha]
 
 private abbrev f0c (a b : ℕ) : FieldFour :=
@@ -577,12 +576,11 @@ theorem formClause_G0 : FormClause glHom G0 ι0 f0 := by
       rcases c with ⟨re, im⟩
       cases re <;> cases im
       · exact map_one (glHom g)
-      · simp only [smulV, Bool.false_eq_true, Bool.true_eq_false, if_true, if_false, one_mul]
+      · simp only [smulV, Bool.false_eq_true, ite_true, ite_false, one_mul]
         exact glHom_comm_zU hg v
-      · simp only [smulV, Bool.false_eq_true, Bool.true_eq_false, if_true, if_false,
+      · simp only [smulV, Bool.false_eq_true, ite_true, ite_false,
           mul_one]
-      · simp only [smulV, Bool.false_eq_true, Bool.true_eq_false, if_true, if_false,
-          one_mul, mul_one]
+      · simp only [smulV, ite_true]
         calc glHom g (v * glHom zU v)
             = glHom g v * glHom g (glHom zU v) := map_mul (glHom g) v (glHom zU v)
           _ = glHom g v * glHom zU (glHom g v) :=
@@ -616,8 +614,8 @@ theorem kLine_dc (c : ℕ) : kLine ι0 (dc c) = ptSub c := by
     rintro x ⟨c', rfl⟩
     rw [kSmul_ι0, smulV_dc, ptSub, spanSub]
     rcases c' with ⟨re, im⟩
-    cases re <;> cases im <;> simp only [smulV, glHom_zU_dc, Bool.false_eq_true,
-      Bool.true_eq_false, if_true, if_false, one_mul, mul_one]
+    cases re <;> cases im <;> simp only [Bool.false_eq_true,
+      ite_true, ite_false, one_mul, mul_one]
     · exact Subgroup.one_mem _
     · exact Subgroup.subset_closure ⟨mvN z12 c, by simp, rfl⟩
     · exact Subgroup.subset_closure ⟨c, by simp, rfl⟩

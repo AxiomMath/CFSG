@@ -93,7 +93,7 @@ theorem pairMat_mul_cMat (hD : D * D + D + 1 = 0) (s : Fin 2 → F) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [pairMat, cMat, Matrix.mul_apply, Fin.sum_univ_two, Matrix.mulVec, dotProduct] at e0 e1 ⊢
-  all_goals first | ring1 | linear_combination -e0 | linear_combination -e1
+  all_goals first | linear_combination -e0 | linear_combination -e1
 
 @[expose] noncomputable def pairGL (hroot : ∀ x : F, x ^ 2 + x + 1 ≠ 0) (hD : D * D + D + 1 = 0)
     {s : Fin 2 → F} (hs : s ≠ 0) : GL (Fin 2) F :=

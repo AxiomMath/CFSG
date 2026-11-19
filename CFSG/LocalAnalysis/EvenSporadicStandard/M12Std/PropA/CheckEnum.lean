@@ -23,7 +23,7 @@ theorem Enum.card {E : List Table} {S : Set (Perm (Fin n))} (h : Enum n E S) :
   have hS : S = (ps.toFinset : Set (Perm (Fin n))) := by
     ext g
     rw [← hmem g]
-    simp [List.mem_toFinset]
+    simp
   rw [hS, Nat.card_coe_set_eq, Set.ncard_coe_finset, List.toFinset_card_of_nodup hnd,
     h2.length_eq]
 
@@ -188,7 +188,7 @@ theorem enumP_spec (hn : n < 2 ^ 32) {cap N : ℕ} {gs : Array Table}
     Enum n (mulClosureH n gs cap).1.toList ↑(closure (tp n '' {x | x ∈ gs})) ∧
       (mulClosureH n gs cap).1.size = N := by
   rw [enumP] at h
-  simp only [Bool.and_eq_true, Bool.and_eq_true_iff, beq_iff_eq] at h
+  simp only [Bool.and_eq_true, beq_iff_eq] at h
   obtain ⟨⟨⟨⟨hgens, htree⟩, hclosed⟩, hdist⟩, hsize⟩ := h
   have hgspec := gensP_spec hgens
   have hg : ∀ x ∈ gs, permOK n x = true := fun x hx => (hgspec x hx).1

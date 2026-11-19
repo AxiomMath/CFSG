@@ -37,7 +37,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ} (hF : Nat.card F 
 theorem block_decomp_su {Y : Type} [Group Y]
     (π : SU (unitaryInvolution F 2 f) n →* Y)
     (hker : ∀ z ∈ π.ker, z ∈ Subgroup.center (SU (unitaryInvolution F 2 f) n))
-    {B : Finset (Fin (n / 2 + 1))} {p : Fin (n / 2 + 1)} (hB : B = blkSet I p)
+    {B : Finset (Fin (n / 2 + 1))} {p : Fin (n / 2 + 1)} (_hB : B = blkSet I p)
     (hne : (nodesOf B).Nonempty)
     (hT : (⨆ k, levelTorus (unitaryInvolution F 2 f) k) ≤
       Subgroup.normalizer (GbU hF B : Set (SU (unitaryInvolution F 2 f) n))) :
@@ -125,7 +125,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ} (hF : Nat.card F 
 
 theorem leviM_mono_of_subset {K : Type} [Group K] {D : UniversalRootDatum K} {J J' : Set (Fin D.rank)}
     (h : J ⊆ J') : leviM D J ≤ leviM D J' :=
-  iSup₂_le fun i hi => rankOne_le_leviM (h hi)
+  iSup₂_le fun _i hi => rankOne_le_leviM (h hi)
 
 theorem leviOb_su {Y : Type} [Group Y]
     (π : SU (unitaryInvolution F 2 f) n →* Y)
@@ -133,7 +133,7 @@ theorem leviOb_su {Y : Type} [Group Y]
     (I : Set (Fin (rootDatum hF n).rank)) (hI : I ≠ Set.univ) :
     LeviOb (rootDatum hF n) (levelTorus (unitaryInvolution F 2 f)) π I := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hσ := unitaryInvolution_involutive (K := F) (p := 2) (f := f) hF
   obtain ⟨j0, hj0⟩ : ∃ j : Fin (rootDatum hF n).rank, j ∉ I := by
     by_contra h

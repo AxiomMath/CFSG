@@ -116,7 +116,7 @@ theorem centralizer_le_normalizer_of_uniqueMax (h331 : Stmt3_3_1) [Finite G]
     (hTK : (T : Subgroup G) ≤ normalizer (K : Set G)) {e : G} (he : orderOf e = 2)
     (hKe : K ⊔ T ≤ centralizer ({e} : Set G)) :
     centralizer ({e} : Set G) ≤ normalizer (K : Set G) := by
-  have hTsyl : quasithinIsSylowTwo (T : Subgroup G) := ⟨T.isPGroup', T.not_dvd_index⟩
+  have hTsyl : quasithinIsSylowTwo (T : Subgroup G) := ⟨T.isPGroup, T.not_dvd_index⟩
   obtain ⟨-, h331B⟩ := h331 G T hs hnab hQTKE hTsyl
   obtain ⟨⟨-, -, huniq⟩, -⟩ := h331B K hKmax hKq
   have hcl : conjClosure K T = K :=

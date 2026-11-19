@@ -18,10 +18,10 @@ open CFSG.RankThree.Classical2 (orthDerived)
 private lemma pmor_pow_val_neg {M : Type*} [Group M] {p : ℕ} (hp : p.Prime) {ζ : M}
     (hζ : ζ ^ p = 1) (a : ZMod p) :
     ζ ^ ((-a).val) = (ζ ^ a.val)⁻¹ := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   rcases eq_or_ne a 0 with rfl | ha
   · simp
-  · rw [ZMod.neg_val, if_neg ha]
+  · rw [ZMod.neg_val, ite_eq_right ha]
     have hlt : a.val < p := ZMod.val_lt a
     have hsum : p - a.val + a.val = p := Nat.sub_add_cancel (Nat.le_of_lt hlt)
     have h1 : ζ ^ (p - a.val) * ζ ^ a.val = 1 := by
@@ -41,8 +41,8 @@ theorem OrthFrameCore.exists_realize {G : Type} [Group G] {p : ℕ} [Fact p.Prim
       ∀ f, μ * Φ.Δ.τ f * μ⁻¹ = Φ.Δ.τ (w f) := by
   classical
   obtain ⟨inst, E, χ, ζ, hζne, hζp, hχQ, hχτ⟩ := Φ.exists_normIso hF
-  letI := inst
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  let := inst
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   let σ : GaloisField 2 2 ≃+* GaloisField 2 2 := unitaryInvolution (GaloisField 2 2) 2 1
   let D : (Fin Φ.r → Multiplicative (ZMod p)) →
       ((Fin Φ.r → GaloisField 2 2) ≃ₗ[Φ.F] (Fin Φ.r → GaloisField 2 2)) :=
@@ -111,10 +111,10 @@ theorem OrthFrameCore.exists_realize {G : Type} [Group G] {p : ℕ} [Fact p.Prim
         funext j
         by_cases hj : j = i
         · simp only [LinearEquiv.mul_apply, diagHom_apply, tauAt_apply, hj,
-            Function.update_self, if_true, if_pos rfl, map_mul, E.isUnitary.invol,
+            Function.update_self, ite_true, map_mul, E.isUnitary.invol,
             pmor_sigma_eq_inv]
         · simp only [LinearEquiv.mul_apply, diagHom_apply, tauAt_apply,
-            Function.update_of_ne hj, if_false, if_neg hj]
+            Function.update_of_ne hj, ite_eq_right hj]
       refine ⟨tauAt E i, tauAt_mem_orthogonalGroup E i, fun f => ?_⟩
       dsimp only [D]
       rw [SpCoord.sgnAut_apply]

@@ -79,7 +79,7 @@ theorem exists_diag_mul_diag_eq (h : A2Pair σ τ κ κ') (hψ : IsA2Frame ψ σ
         rootChar_zsmul, mul_assoc]
     rw [rootChar_mul_tuple, h.diag_chars hψ hd v, h.symm.diag_chars hψ' hd' v, eA, eB, eA', eB',
       hb, rootChar_pow, hcube, h3v, hR]
-    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one]
     rw [zpow_add_mul_inv_mul_zpow, zpow_add_mul_inv_mul_zpow]
   funext i
   have := hchar (Pi.single i 1)

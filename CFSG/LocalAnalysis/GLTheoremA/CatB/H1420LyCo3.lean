@@ -22,14 +22,14 @@ theorem cardRow_mcl_co3 (hOut : SporadicOuterLeTwo) (hbr : SporadicBridges)
   have hc : Nat.card ↥co3P = 495766656000 := by
     rw [← Nat.card_congr e.toEquiv]
     exact CFSG.Sporadic.Co3.card_Co3
-  haveI : IsSimpleGroup ↥co3P :=
+  have : IsSimpleGroup ↥co3P :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Co3.isSimpleGroup_Co3 e.symm
   refine K14Spor.cardRow_of_centShapeRk (s := .Co3) (Q := ↥co3P) hOut
     (e.symm.trans (hbr .Co3).some)
     (S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num)) co3_centShapeRk ?_
   intro T _ hT hcard
   rcases hT with ⟨hC, -, -⟩ | ⟨n, hn, -, -, ⟨f⟩⟩
-  · haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  · have : Finite T := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
     exact not_isChevSimple_of_card_mcl hb hcard Nat.prime_three hC
   · refine hF n ?_
     rw [← CFSG.HardMathSupport.Solomon.Coordinator.YS08.L3Char.card_alt n (by omega),

@@ -40,7 +40,7 @@ theorem IsFixedBasis.iotaMat_mul (h : IsFixedBasis N B)
         _ = B * M * (1 : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) F) * M' * dualMat B := by
             rw [hBpB]
         _ = B * (M * M') * dualMat B := by
-            simp only [Matrix.one_mul, Matrix.mul_one, Matrix.mul_assoc],
+            simp only [Matrix.mul_one, Matrix.mul_assoc],
     show B * M * dualMat B * (1 - N) = 0 from by
       rw [Matrix.mul_assoc, hBpe, Matrix.mul_zero],
     show (1 - N) * (B * M' * dualMat B) = 0 from by
@@ -110,7 +110,7 @@ theorem IsFixedBasis.iotaMat_transpose_mul_gram_mul (h : IsFixedBasis N B)
     abel
   unfold iotaMat
   rw [hT, hexp, hmid, heJY, hXJe, heJee]
-  simp only [add_zero, zero_add]
+  simp only [add_zero]
   rw [← Matrix.mul_add, hNe, Matrix.mul_one]
 
 theorem IsFixedBasis.iotaMat_commute (h : IsFixedBasis N B)

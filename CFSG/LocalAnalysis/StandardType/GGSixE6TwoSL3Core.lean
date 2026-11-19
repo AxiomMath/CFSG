@@ -118,7 +118,7 @@ theorem sl3_four_core {G : Type} [Group G] [Finite G] (hq : CFSG.Assembly.IsQuas
         CFSG.Quasithin.SL3Small.coe_resRep ρ hU'inv]
     rwa [h2] at hmem2
   let K : Subgroup G := σ.ker
-  haveI hKnormal : K.Normal := MonoidHom.normal_ker σ
+  have hKnormal : K.Normal := MonoidHom.normal_ker σ
   have hKne : K ≠ ⊤ := by
     intro htop
     have hmem : g₀ ∈ K := by rw [htop]; exact Subgroup.mem_top g₀

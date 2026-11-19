@@ -237,7 +237,7 @@ theorem residual_common_plane_core_sylow_two [Finite G] (hZ : center G = ⊥) {p
       (hDA hd) hd1 hx
   refine ⟨h1, h2, fun B hBA hB S hS hAS => ?_⟩
   obtain ⟨Q, hQ⟩ := hS
-  have hS2 : IsPGroup 2 S := hQ ▸ Q.isPGroup'.map _
+  have hS2 : IsPGroup 2 S := hQ ▸ Q.isPGroup.map _
   have hSB : S ≤ thetaT p B := hQ ▸ map_subtype_le _
   have hSA : ⁅S, A⁆ = ⊥ := hcent B hBA hB S hSB hS2 hAS
   have hSAc := commutator_eq_bot_iff_le_centralizer.mp hSA
@@ -245,7 +245,7 @@ theorem residual_common_plane_core_sylow_two [Finite G] (hZ : center G = ⊥) {p
   obtain ⟨hAD, -, -, -, hDcop⟩ := h1 D hDA hD
   obtain ⟨V, ⟨P, hP⟩, hSV, hAV⟩ := exists_isSylowOf_two_invariant_le hp hAp hDcop hAD
     (htrans B hBA hB S hS2 hSAc hSB D hDA) hS2 hAS
-  have hV2 : IsPGroup 2 V := hP ▸ P.isPGroup'.map _
+  have hV2 : IsPGroup 2 V := hP ▸ P.isPGroup.map _
   have hVD : V ≤ thetaT p D := hP ▸ map_subtype_le _
   have hVA := commutator_eq_bot_iff_le_centralizer.mp (hcent D hDA hD V hVD hV2 hAV)
   have hVB : V ≤ thetaT p B := htrans D hDA hD V hV2 hVA hVD B hBA

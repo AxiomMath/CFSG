@@ -65,10 +65,10 @@ theorem isTranspositionPair_iff {m : ℕ} (p : Pair m) :
     have hval : ∀ x, p.1 x = if x = i then 1 else if x = j then -1 else 0 := by
       intro x
       by_cases hxi : x = i
-      · subst hxi; rw [hi1, if_pos rfl]
+      · subst hxi; rw [hi1, ite_eq_left rfl]
       · by_cases hxj : x = j
-        · subst hxj; rw [hj2, if_neg hxi, if_pos rfl]; decide
-        · rw [if_neg hxi, if_neg hxj]
+        · subst hxj; rw [hj2, ite_eq_right hxi, ite_eq_left rfl]; decide
+        · rw [ite_eq_right hxi, ite_eq_right hxj]
           rcases hdRo7SmKeysAux_zmod3_trichotomy (p.1 x) with h0 | h1 | h2
           · exact h0
           · exact absurd (hx1 x h1) hxi

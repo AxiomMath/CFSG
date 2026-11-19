@@ -13,7 +13,7 @@ variable {G : Type} [Group G] {a z : G}
 
 theorem orb2A_rep {b : G} (h : IsConj a b) (x : G) : orb2A b x = orb2A a x := by
   ext c
-  simp only [orb2A, Set.mem_setOf_eq]
+  simp only [orb2A, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h1, h2⟩
     exact ⟨h.trans h1, h.trans h2⟩
@@ -24,7 +24,7 @@ theorem orb3A_rep {b : G} (h : IsConj a b) (x : G) : orb3A b x = orb3A a x := by
   ext c
   have hx : orb2A b x = orb2A a x := orb2A_rep h x
   have hc : orb2A b c = orb2A a c := orb2A_rep h c
-  simp only [orb3A, Set.mem_setOf_eq, hx, hc]
+  simp only [orb3A, Set.mem_ofPred_eq, hx, hc]
   constructor
   · rintro ⟨h1, h2, h3⟩
     exact ⟨h.trans h1, h2, h3⟩
@@ -33,7 +33,7 @@ theorem orb3A_rep {b : G} (h : IsConj a b) (x : G) : orb3A b x = orb3A a x := by
 
 theorem oddSet_rep {b : G} (h : IsConj a b) (x : G) : oddSet b x = oddSet a x := by
   ext c
-  simp only [oddSet, Set.mem_setOf_eq]
+  simp only [oddSet, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h1, h2, h3, t, ht, htm⟩
     exact ⟨h.trans h1, h2, h3, t, h.trans ht, htm⟩
@@ -43,7 +43,7 @@ theorem oddSet_rep {b : G} (h : IsConj a b) (x : G) : oddSet b x = oddSet a x :=
 theorem orb5A_rep {b : G} (h : IsConj a b) (x : G) : orb5A b x = orb5A a x := by
   have hx : oddSet b x = oddSet a x := oddSet_rep h x
   ext c
-  simp only [orb5A, Set.mem_setOf_eq, hx]
+  simp only [orb5A, Set.mem_ofPred_eq, hx]
   constructor
   · rintro ⟨h1, h2, h3⟩
     exact ⟨h1, h2, fun t ht htm => h3 t (h.symm.trans ht) htm⟩
@@ -53,7 +53,7 @@ theorem orb5A_rep {b : G} (h : IsConj a b) (x : G) : orb5A b x = orb5A a x := by
 theorem orb5E_rep {b : G} (h : IsConj a b) (x : G) : orb5E b x = orb5E a x := by
   have hx : oddSet b x = oddSet a x := oddSet_rep h x
   ext c
-  simp only [orb5E, Set.mem_setOf_eq, hx]
+  simp only [orb5E, Set.mem_ofPred_eq, hx]
   constructor
   · rintro ⟨h1, h2, h3⟩
     exact ⟨h1, h2, fun t ht htm => h3 t (h.symm.trans ht) htm⟩
@@ -86,7 +86,7 @@ theorem mem_orb5A_of_exists_order_three (hL : F5Local G a z) {b y : G} (hb : IsC
   obtain ⟨i, hi⟩ := (tableVII_partition_at hL hb).cover y hy
   fin_cases i
   · exfalso
-    simp only [orb3A, Set.mem_setOf_eq] at hi
+    simp only [orb3A] at hi
     exact absurd hi.2.1 (by rw [h5]; norm_num)
   · exact hi
   · exfalso
@@ -102,10 +102,10 @@ theorem mem_orb5E_of_card_lt (hL : F5Local G a z) [Finite G] {b y : G} (hb : IsC
   obtain ⟨i, hi⟩ := (tableVII_partition_at hL hb).cover y hy
   fin_cases i
   · exfalso
-    simp only [orb3A, Set.mem_setOf_eq] at hi
+    simp only [orb3A] at hi
     exact absurd hi.2.1 (by rw [h5]; norm_num)
   · exfalso
-    simp only [orb5A, Set.mem_setOf_eq] at hi
+    simp only [orb5A] at hi
     have hshape : IsNonsplitDoubleCoverOfS5 ↥(Gxyz b t y) := hi.2.2 t ht htm
     have hcard : Nat.card ↥(Gxyz b t y) = 240 := card_of_isNonsplitDoubleCoverOfS5 hshape
     omega

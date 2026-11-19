@@ -15,12 +15,12 @@ open CFSG.Blueprint (LieModel)
 private theorem lieModel_quot_center_of_szL2 {P A : Type} [Group P] [Group A]
     (e : P ≃* A) (hP : CFSG.Open.IsQuasisimple P) {n : ℕ} (hA : IsSz A n ∨ IsL2 A n) :
     IsSz (P ⧸ Subgroup.center P) n ∨ IsL2 (P ⧸ Subgroup.center P) n := by
-  haveI : IsSimpleGroup A := by
+  have : IsSimpleGroup A := by
     rcases hA with hA | hA
     · exact uc22p22r_lieModel_isSimple_twistedB2 hA
     · exact uc22p22r_lieModel_isSimple_classical (t := .PSL) (Or.inl rfl) hA
-  haveI : IsSimpleGroup P := e.isSimpleGroup
-  haveI : Nontrivial P := e.toEquiv.nontrivial
+  have : IsSimpleGroup P := e.isSimpleGroup
+  have : Nontrivial P := e.toEquiv.nontrivial
   have hc : Subgroup.center P = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center P) with h0 | h0
     · exact h0
@@ -46,8 +46,8 @@ private theorem szL2_product_shape {X : Type} [Group X] {n : ℕ} (hn : 2 < n)
   obtain ⟨A, B, _, _, ⟨e⟩, hA, hB⟩ := h
   have hAs := uc22p20g_simple_nonab_SzL2 hn hA
   have hBs := uc22p20g_simple_nonab_SzL2 hn hB
-  haveI := hAs.1
-  haveI := hBs.1
+  have := hAs.1
+  have := hBs.1
   have hAq : CFSG.Open.IsQuasisimple A := uc22p22a_isQuasisimple_of_simple hAs.2
   have hBq : CFSG.Open.IsQuasisimple B := uc22p22a_isQuasisimple_of_simple hBs.2
   let f₁ : A →* X := e.symm.toMonoidHom.comp (MonoidHom.inl A B)

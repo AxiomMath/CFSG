@@ -150,7 +150,7 @@ theorem comm_mem (hP : PrinceData B V H φ φ₀) {x y : G} (hx : x ∈ V) (hy :
 
 theorem card_V [Finite G] (hP : PrinceData B V H φ φ₀) : Nat.card ↥V = 256 := by
   obtain ⟨hBleV, hBnorm, _, _, hφmemV, hφadd, hφB, hsurj, -, -⟩ := hP.mod
-  haveI : (B.subgroupOf V).Normal := hBnorm
+  have : (B.subgroupOf V).Normal := hBnorm
   obtain ⟨-, hφ₀inj, hφ₀mem, -, -⟩ := hP.via
   have h16 : Nat.card {v : Fin 5 → ZMod 2 // IsEvenVec v} = 16 := card_evenVec
   let φ₀' : {v : Fin 5 → ZMod 2 // IsEvenVec v} → ↥B :=

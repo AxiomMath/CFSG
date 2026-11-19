@@ -93,7 +93,7 @@ theorem isEtaleAt_ker_of_bijective_tangentMap [Algebra.FiniteType k A]
     rw [IsLocalRing.eq_maximalIdeal this]
   have : Module.Free L Ω[L⁄k] := Module.free_of_flat_of_isLocalRing
   have h3 := bijective_of_bijective_lTensor_of_isLocalRing hK
-    (KaehlerDifferential.mapBaseChange k B L) (by rwa [← LinearMap.baseChange_eq_ltensor])
+    (KaehlerDifferential.mapBaseChange k B L) (by rwa [← LinearMap.baseChange_eq_lTensor])
   have : Subsingleton (Algebra.H1Cotangent k L) :=
     ((Algebra.formallySmooth_iff k L).1 inferInstance).2
   exact formallyEtale_of_bijective_mapBaseChange k B L h3

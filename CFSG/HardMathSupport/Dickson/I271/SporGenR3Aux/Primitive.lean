@@ -17,12 +17,14 @@ section Normal
 
 variable {Q : Type} [Group Q] [Finite Q]
 
+omit [Finite Q] in
 theorem normal_subgroupOf_of_conj {C L : Subgroup Q}
     (hLn : ∀ g ∈ C, ∀ l ∈ L, g * l * g⁻¹ ∈ L) : (L.subgroupOf C).Normal :=
   ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact hLn g.1 g.2 x hx⟩
 
+omit [Finite Q] in
 theorem glaPComponent_of_normal_quasisimple {p : ℕ} {C L : Subgroup Q} (hLC : L ≤ C)
     (hLn : ∀ g ∈ C, ∀ l ∈ L, g * l * g⁻¹ ∈ L) (hLq : CFSG.Open.IsQuasisimple ↥L)
     (hcore : GLAPPrimeCore p ↥C = ⊥) : GLAPComponent p C L := by
@@ -48,7 +50,7 @@ theorem glaPPrimeCore_eq_bot_of_normal_quasisimple {p : ℕ} (hp : p.Prime) {C L
     (hLC : L ≤ C) (hLn : ∀ g ∈ C, ∀ l ∈ L, g * l * g⁻¹ ∈ L) (hLq : CFSG.Open.IsQuasisimple ↥L)
     (hpL : p ∣ Nat.card ↥L) (hcent : IsPGroup p ↥(C ⊓ Subgroup.centralizer (L : Set Q))) :
     GLAPPrimeCore p ↥C = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N : Subgroup ↥C := GLAPPrimeCore p ↥C with hN
   have hcop : Nat.Coprime p (Nat.card N) := CFSG.pPrimeCore_coprime_card (p := p) (G := ↥C)
   have hnorm : (L.subgroupOf C).Normal := normal_subgroupOf_of_conj hLn
@@ -90,7 +92,7 @@ theorem eq_of_glaPComponent_of_normal_quasisimple {p : ℕ} (hp : p.Prime) {C L 
     (hLC : L ≤ C) (hLn : ∀ g ∈ C, ∀ l ∈ L, g * l * g⁻¹ ∈ L) (hLq : CFSG.Open.IsQuasisimple ↥L)
     (hcore : GLAPPrimeCore p ↥C = ⊥) (hcent : IsPGroup p ↥(C ⊓ Subgroup.centralizer (L : Set Q)))
     (hJ : GLAPComponent p C J) : J = L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hL : GLAPComponent p C L := glaPComponent_of_normal_quasisimple hLC hLn hLq hcore
   by_contra hne
   have hb : barX p C J ≠ barX p C L := fun h => hne (glaPComponent_unique hJ hL h)
@@ -124,13 +126,13 @@ theorem eq_of_glaPComponent_of_normal_quasisimple {p : ℕ} (hp : p.Prime) {C L 
       hJp.of_equiv (Subgroup.subgroupOfEquivOfLe hJC).symm
     exact h1.of_equiv ((J.subgroupOf C).equivMapOfInjective _ hinj)
   have hq := hJ.2.2.1.2.2
-  haveI : Nontrivial ↥(barX p C J) := by
+  have : Nontrivial ↥(barX p C J) := by
     have := hq.2.exists_pair_ne
     obtain ⟨a, b, hab⟩ := this
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
     exact ⟨a, b, fun h => hab (by rw [h])⟩
-  haveI : Group.IsNilpotent ↥(barX p C J) := hbp.isNilpotent
+  have : Group.IsNilpotent ↥(barX p C J) := hbp.isNilpotent
   have hsolv : Group.IsSolvable ↥(barX p C J) := inferInstance
   have hperf : Group.IsPerfect ↥(barX p C J) := ⟨hq.1⟩
   exact Group.IsPerfect.not_isSolvable _ hsolv

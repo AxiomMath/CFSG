@@ -45,24 +45,24 @@ theorem tail1812Two_AS_of_CF
   rw [hOK] at key
   rcases key with h1 | h2 | ⟨h3, t, htT, hDy⟩ | h4 | h5 | h6
   · obtain ⟨X, hXg, φ, hφs, hφk, hX⟩ := h1
-    letI := hXg
+    let := hXg
     obtain ⟨-, hs, hnc⟩ := isSimple_nonab_of_shape hO (X := X) (by tauto)
     have hK1 := tail1812Two_kstar hB cx hM hL hnc (shape186OddTriv_of_shapes (Or.inl hX)) φ hφs hφk
     exact h56 h162 h172 h5_4 h5_11 h5_12 h5_13 c hc hK1
       ⟨L, hL, hLT, ⟨X, hXg, φ, hφs, hφk, hX⟩⟩ hgT hgK hgi hA
   · obtain ⟨X, hXg, φ, hφs, hφk, hX⟩ := h2
-    letI := hXg
+    let := hXg
     obtain ⟨hf, hs, hnc⟩ := isSimple_nonab_of_shape hO (X := X) (by tauto)
     obtain ⟨t, htT, hDy⟩ := c.exists_dynkin_182 hDyn hc (hOK ▸ hL) hLT
       ⟨X, hXg, φ, hφs, by rwa [hOK], Or.inl hX⟩
     exact tail1812Two_false_graph hB hGraph cx hL hnc φ hφs hφk (Or.inl hX) htT
       (by rwa [hOK] at hDy)
   · obtain ⟨X, hXg, φ, hφs, hφk, hX⟩ := h3
-    letI := hXg
+    let := hXg
     obtain ⟨hf, hs, hnc⟩ := isSimple_nonab_of_shape hO (X := X) (by tauto)
     exact tail1812Two_false_graph hB hGraph cx hL hnc φ hφs hφk (Or.inr hX) htT hDy
   · obtain ⟨X, hXg, φ, hφs, hφk, hX⟩ := h4
-    letI := hXg
+    let := hXg
     obtain ⟨hf, hs, hnc⟩ := isSimple_nonab_of_shape hO (X := X)
       (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl ⟨5, 2, Nat.prime_five,
         by norm_num, by norm_num, hX⟩)))))))
@@ -70,7 +70,7 @@ theorem tail1812Two_AS_of_CF
       (shape186OddTriv_of_shapes (Or.inr (Or.inr (Or.inl hX)))) φ hφs hφk
     exact tail1812Two_false_seven hB hO hList hIn cx hK1 hL hnc φ hφs hφk (Or.inl hX)
   · obtain ⟨X, hXg, φ, hφs, hφk, hX⟩ := h5
-    letI := hXg
+    let := hXg
     obtain ⟨hf, hs, hnc⟩ := isSimple_nonab_of_shape hO (X := X)
       (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr ⟨5, Nat.prime_five,
         by norm_num, Or.inr (Or.inr hX)⟩)))))))

@@ -17,6 +17,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem toAdd_phi_mem_hypE6 {Bs L : Subgroup G}
     (hBsN : Bs ≤ Subgroup.normalizer (L : Set G)) {Z : Subgroup ↥L}
     {Φ : ↥(ggGamma L hBsN).range →* Multiplicative (Fin 6 → ZMod 3)} {T : Subgroup ↥L}

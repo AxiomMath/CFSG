@@ -14,7 +14,7 @@ theorem glaPPrimeCore_quot_eq_bot {p : ℕ} (hp : p.Prime) {A : Type} [Group A] 
     [(GLAPPrimeCoreOf p K).Normal] :
     GLAPPrimeCore p (A ⧸ GLAPPrimeCoreOf p K) = ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N : Subgroup A := GLAPPrimeCoreOf p K with hNdef
   have hNp : ¬ p ∣ Nat.card N := not_dvd_card_glaPPrimeCoreOf hp K
   have hcopN : Nat.Coprime p (Nat.card N) := (Nat.Prime.coprime_iff_not_dvd hp).2 hNp
@@ -32,7 +32,7 @@ theorem glaPPrimeCore_quot_eq_bot {p : ℕ} (hp : p.Prime) {A : Type} [Group A] 
   rw [CFSG.pPrimeCore_eq_bot_iff]
   intro M hM hcopM
   set Mt : Subgroup A := M.comap (QuotientGroup.mk' N) with hMt
-  haveI : Mt.Normal := inferInstance
+  have : Mt.Normal := inferInstance
   have hcardMt : Nat.card Mt = Nat.card N * Nat.card M := QuotientGroup.card_preimage_mk N (M : Set (A ⧸ N))
   have hcopMt : Nat.Coprime p (Nat.card Mt) := by
     rw [hcardMt]

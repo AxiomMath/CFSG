@@ -30,14 +30,14 @@ theorem uc22p22q_fusion_control_of_central_inU {p : ℕ} [Fact p.Prime] {M X : S
     rw [mem_centralizer_iff]
     intro q hq
     exact (hXz e he q (hQS hq)).symm
-  exact uc22p22q_normalizer_le_of_inU (Fact.out : p.Prime) hM hXU hXQ (S.isPGroup'.to_le hQS)
+  exact uc22p22q_normalizer_le_of_inU (Fact.out : p.Prime) hM hXU hXQ (S.isPGroup.to_le hQS)
 
 theorem uc22p22q_opRes_eq_of_central_inU (hG : IsSimpleGroup G) (hnab : ∃ a b : G, a * b ≠ b * a)
     {p : ℕ} (hp : p.Prime) {M X : Subgroup G} (hM : normalizer (M : Set G) = M) (S : Sylow p G)
     (hSM : (S : Subgroup G) ≤ M) (hXS : X ≤ (S : Subgroup G))
     (hXz : ∀ x ∈ X, ∀ y ∈ (S : Subgroup G), x * y = y * x) (hXU : UC6.InU M X) :
     UC22.F10.OpRes p M = M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hSc : (S : Subgroup G) ≤ ⁅M, M⁆ :=
     UC6.sylow_le_commutator_of_fusion_uc6 hG hnab S hSM
       (uc22p22q_fusion_control_of_central_inU hM S hXS hXz hXU)
@@ -66,7 +66,7 @@ theorem uc22p22q_r6_38_23_of_central (D : Data G) (hX : CentralInU D) : UC6.R6_3
     · exact Or.inl (Or.inr h)
     · exact Or.inr h
   have hprime : p.Prime := (D.sig_prime p hpσ).1
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   obtain ⟨P, hP, hPtop, X, hXP, hXz, hXU⟩ := hX p hp
   obtain ⟨-, hPp, hPnd⟩ := isSylowOf_iff.1 hPtop
   let S : Sylow p G := hPp.toSylow (by simpa [Subgroup.relIndex_top_right] using hPnd)

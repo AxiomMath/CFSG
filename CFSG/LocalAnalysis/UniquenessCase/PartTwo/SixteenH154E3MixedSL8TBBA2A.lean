@@ -31,7 +31,7 @@ theorem s16h_quasisimple_center_quotient_mulEquiv_of_surjective_simple
     obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective (Subgroup.center X) y
     exact ⟨QuotientGroup.mk' π.ker x, by simp [q]⟩
   have hf : Function.Surjective f := hq.comp e.symm.surjective
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.2
   have hfker : f.ker = ⊥ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top f.ker with h | h
     · exact h

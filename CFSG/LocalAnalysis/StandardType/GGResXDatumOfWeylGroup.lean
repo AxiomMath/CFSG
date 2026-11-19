@@ -28,7 +28,7 @@ theorem ggResXDatum_of_weylReflectionGroup {G : Type} [Group G] [Finite G] {p : 
       (∀ i j, i ≠ j → C₀ i j = 0 ∨ C₀ i j = -1 ∨ C₀ i j = -2) →
       SecFiveRootRefl.CartanTree C₀ → GGResXDatum p Bs X := by
     intro n e M₀ C₀ hMe hC₀ hent hT
-    haveI : Fintype ι := Fintype.ofEquiv _ e
+    have : Fintype ι := Fintype.ofEquiv _ e
     have hC : GGIntCartan M (Matrix.reindex e e C₀) := hMe ▸ hC₀.reindex e
     obtain ⟨h, α, hα, hrefl, hpair⟩ := SecFiveRootRefl.exists_cartan_pairing_of_iso hp2 hNoTr hC
       (SecFiveRootRefl.entries_reindex e hent) (hT.reindex e) f hf hind ιV

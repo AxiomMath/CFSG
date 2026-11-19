@@ -60,9 +60,9 @@ theorem exists_smul_of_commute_specialLinearGroup [Finite k] [Module.Finite k X]
       _ = Matrix.toLin b b (Matrix.scalar (Fin (Module.finrank k X)) c) := by rw [hc]
       _ = c • (LinearMap.id : X →ₗ[k] X) := Matrix.toLin_scalar b c
   by_cases hX : Subsingleton X
-  · haveI : Subsingleton X := hX
+  · have : Subsingleton X := hX
     exact ⟨1, fun x => Subsingleton.elim _ _⟩
-  · haveI : Nontrivial X := not_subsingleton_iff_nontrivial.mp hX
+  · have : Nontrivial X := not_subsingleton_iff_nontrivial.mp hX
     obtain ⟨x, hx⟩ := exists_ne (0 : X)
     have hc0 : c ≠ 0 := by
       intro h0

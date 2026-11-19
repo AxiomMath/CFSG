@@ -12,18 +12,20 @@ open CFSG CFSG.GH74.GLS CFSG.RankThree.PartTwo.Sec14
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem normal_subgroupOf_of_le_normalizer {Y C : Subgroup G}
     (hYC : Y ≤ Subgroup.normalizer (C : Set G)) : (C.subgroupOf Y).Normal :=
   ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact (Subgroup.mem_normalizer_iff.mp (hYC g.2) (n : G)).mp hn⟩
 
+omit [Finite G] in
 theorem rho_eq_one_of_mem {Y C : Subgroup G} (hY3 : Y = oPrimeResidualOf 3 Y)
-    (hq : CFSG.IsQuasisimple (↥Y ⧸ CFSG.pCore 2 ↥Y)) (hCY : C ≤ Subgroup.normalizer (Y : Set G))
+    (hq : CFSG.IsQuasisimple (↥Y ⧸ CFSG.pCore 2 ↥Y)) (_hCY : C ≤ Subgroup.normalizer (Y : Set G))
     (hYC : Y ≤ Subgroup.normalizer (C : Set G)) (hnot : ¬ Y ≤ C)
     (c : ↥(Subgroup.normalizer (Y : Set G))) (hc : (c : G) ∈ C) : rho Y c = 1 := by
-  haveI : (C.subgroupOf Y).Normal := normal_subgroupOf_of_le_normalizer hYC
-  haveI : (Subgroup.map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)) (C.subgroupOf Y)).Normal :=
+  have : (C.subgroupOf Y).Normal := normal_subgroupOf_of_le_normalizer hYC
+  have : (Subgroup.map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)) (C.subgroupOf Y)).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   rcases quasi_normal_le_center_or_eq_top hq
       (Subgroup.map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)) (C.subgroupOf Y)) with hle | htop
@@ -85,6 +87,7 @@ theorem rho_eq_one_of_mem {Y C : Subgroup G} (hY3 : Y = oPrimeResidualOf 3 Y)
     have hmap : oPrimeResidualOf 3 Y ≤ C := Subgroup.map_le_iff_le_comap.mpr hsub
     exact hY3.trans_le hmap
 
+omit [Finite G] in
 private theorem glue_pow_mul_mem {C : Subgroup G} {y c : G}
     (hy : y ∈ Subgroup.normalizer (C : Set G)) (hc : c ∈ C) (j : ℕ) :
     ∃ d ∈ C, (y * c) ^ j = y ^ j * d := by
@@ -100,6 +103,7 @@ private theorem glue_pow_mul_mem {C : Subgroup G} {y c : G}
     · rw [pow_succ (y * c) k, hdk, pow_succ y k]
       simp only [mul_assoc, mul_inv_cancel_left]
 
+omit [Finite G] in
 private theorem glue_pow_mem_pCoreOf {Y : Subgroup G} {y : G} (hyY : y ∈ Y)
     (hcen : (QuotientGroup.mk (⟨y, hyY⟩ : ↥Y) : ↥Y ⧸ CFSG.pCore 2 ↥Y) ∈
       Subgroup.center (↥Y ⧸ CFSG.pCore 2 ↥Y)) :
@@ -114,6 +118,7 @@ private theorem glue_pow_mem_pCoreOf {Y : Subgroup G} {y : G} (hyY : y ∈ Y)
     (QuotientGroup.eq_one_iff _).mp (by rw [QuotientGroup.mk_pow]; exact hpow)
   exact Subgroup.mem_map_of_mem Y.subtype hq1
 
+omit [Finite G] in
 private theorem glue_mem_of_pow_mem {C : Subgroup G} {s : G} {m k : ℕ}
     (hcop : Nat.Coprime m (2 ^ k)) (hk : s ^ 2 ^ k = 1) (hsm : s ^ m ∈ C) : s ∈ C := by
   obtain ⟨u, v, huv⟩ := Nat.isCoprime_iff_coprime.mpr hcop
@@ -126,7 +131,7 @@ private theorem glue_mem_of_pow_mem {C : Subgroup G} {s : G} {m k : ℕ}
 theorem glue_G {Y S C : Subgroup G} (hSY : S ≤ Subgroup.normalizer (Y : Set G)) (hS2 : IsPGroup 2 S)
     (hY3 : Y = oPrimeResidualOf 3 Y) (hq : CFSG.IsQuasisimple (↥Y ⧸ CFSG.pCore 2 ↥Y))
     (hCY : C ≤ Subgroup.normalizer (Y : Set G)) (hYC : Y ≤ Subgroup.normalizer (C : Set G))
-    (hSC : S ≤ Subgroup.normalizer (C : Set G)) (hnot : ¬ Y ≤ C)
+    (_hSC : S ≤ Subgroup.normalizer (C : Set G)) (hnot : ¬ Y ≤ C)
     (hO2 : CFSG.Open.pCoreOf 2 Y ≤ C)
     (hInn : ∀ n : ↥(Subgroup.normalizer (Y : Set G)), (n : G) ∈ S → rho Y n ∈ innQ Y →
       rho Y n = 1) :

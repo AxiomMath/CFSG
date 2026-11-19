@@ -115,6 +115,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K} {r s : ℕ} {d : 
 
 local notation "𝕍" => (Fin r ⊕ Fin r → K) × (Fin 2 → K)
 
+omit [Finite K] in
 theorem commutator_pow_eq_one (hd : OrthCuts r d) {g₁ g₂ : 𝕍 ≃ₗ[K] 𝕍} {μ₁ μ₂ : K}
     (hμ₁ : μ₁ ≠ 0) (hμ₂ : μ₂ ≠ 0) (hs₁ : IsSim (b := b) (c := c) g₁ μ₁)
     (hs₂ : IsSim (b := b) (c := c) g₂ μ₂)

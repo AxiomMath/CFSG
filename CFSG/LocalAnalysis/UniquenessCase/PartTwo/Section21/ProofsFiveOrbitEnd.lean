@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def orbitImage (M : Subgroup G) (a : G) (K : Subgroup G) : Subgroup (Bar2 M) :=
   ⨆ i : Fin (orderOf a), barImage M (conjugatePower a K i)
 
+omit [Finite G] in
 private theorem conjugatePower_zero (a : G) (L : Subgroup G) : conjugatePower a L 0 = L := by
   ext x
   rw [conjugatePower, Subgroup.mem_map]
@@ -29,10 +30,12 @@ private theorem conjugatePower_zero (a : G) (L : Subgroup G) : conjugatePower a 
   · intro hx
     exact ⟨x, hx, by simp⟩
 
+omit [Finite G] in
 private theorem conjugatePower_self {L : Subgroup G} {a : G} {r : ℕ} (ha : a ^ r = 1) :
     conjugatePower a L r = L := by
   rw [conjugatePower_mod a L ha r, Nat.mod_self, conjugatePower_zero]
 
+omit [Finite G] in
 private theorem card_bar2_map_conj {M : Subgroup G} (g : G) :
     Nat.card (Bar2 (M.map (MulAut.conj g).toMonoidHom)) = Nat.card (Bar2 M) :=
   (Nat.card_congr (CFSG.LocalAnalysis.UniquenessCase.UC6S846.bar2Equiv
@@ -47,6 +50,7 @@ private theorem center_bar2_map_conj_eq_bot {M : Subgroup G} {g : G}
   rw [CFSG.LocalAnalysis.UniquenessCase.UC6S846.card_center_bar2_map (MulAut.conj g) M, hZ]
   simp
 
+omit [Finite G] in
 private theorem shape_bar2_map_conj {M : Subgroup G} {g : G}
     (hshape : (∃ k : ℕ, 1 ≤ k ∧ IsL2 (Bar2 M) (2 ^ k)) ∨
       (∃ q : ℕ, q.Prime ∧ 5 ≤ q ∧ IsL2Odd (Bar2 M) q) ∨ IsJ1 (Bar2 M)) :
@@ -78,8 +82,8 @@ private theorem exists_elemAbelian_order_nine_lift {M : Subgroup G} {a : G} (ha 
     ∃ E' : Subgroup G, E' ≤ Subgroup.normalizer (Subgroup.zpowers a : Set G) ⊓ M ∧
       IsElemAbelian 3 E' ∧ Nat.card E' = 9 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
   let q : ↥M →* Bar2 M := QuotientGroup.mk' (CFSG.pCore 2 ↥M)
   have himage : E ≤ (Subgroup.centralizer
       (Subgroup.zpowers (⟨a, ha⟩ : ↥M) : Set ↥M)).map q := by
@@ -113,6 +117,7 @@ private theorem center_barImage_eq_bot {M L : Subgroup G} (hL : L ∈ calC M)
   rw [← hcard, hZ]
   simp
 
+omit [Finite G] in
 private theorem exists_not_commute_of_orbitDiagonalHom {B : Subgroup G} {b : G} {r : ℕ}
     (hb : b ^ r = 1) (hcomm : ConjugatesCommute b B r) (hr : 0 < r)
     (hZ : Subgroup.center B = ⊥) {y : ↥B} (hyord : orderOf y = 3) :
@@ -128,6 +133,7 @@ private theorem exists_not_commute_of_orbitDiagonalHom {B : Subgroup G} {b : G} 
   have hone : orderOf y = 1 := by rw [hy1]; exact orderOf_one
   omega
 
+omit [Finite G] in
 private theorem orbitDiagonalHom_mem_orbitImage {M L : Subgroup G} {a : G} (hLM : L ≤ M)
     (haM : a ∈ M) {r : ℕ}
     (hb : (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨a, haM⟩) ^ r = 1)
@@ -153,7 +159,7 @@ theorem exists_three_diagonal {M L : Subgroup G} {a : G} (hL : L ∈ calC M) (ha
         (QuotientGroup.mk' (CFSG.pCore 2 ↥M)) ∧
       u ∈ orbitImage M a L ∧ ∃ v ∈ barImage M L, ¬ Commute u v := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLM : L ≤ M := CFSG.Quasithin.A3.subnormal_le hL.1
   let q : ↥M →* Bar2 M := QuotientGroup.mk' (CFSG.pCore 2 ↥M)
   let abar : ↥M := ⟨a, haM⟩
@@ -192,7 +198,7 @@ private theorem exists_three_of_centralizes_barImage {M L : Subgroup G} {a : G}
         (QuotientGroup.mk' (CFSG.pCore 2 ↥M)) ∧
       u ∈ barImage M L ∧ ∃ v ∈ barImage M L, ¬ Commute u v := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e, -⟩ := uc22p22l_barImage_equiv hL
   obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card' (G := Bar2 L) 3 h3
   let y' : ↥(barImage M L) := e y
@@ -218,6 +224,7 @@ private theorem exists_three_of_centralizes_barImage {M L : Subgroup G} {a : G}
     have hone : orderOf y' = 1 := by rw [hy'1]; exact orderOf_one
     omega
 
+omit [Finite G] in
 private theorem exists_mulAut_of_mem_normalizer {M L' : Subgroup G} {a : G}
     (hL'M : L' ≤ M) (haM : a ∈ M) (haN : a ∈ Subgroup.normalizer (L' : Set G)) :
     ∃ θ : MulAut ↥(barImage M L'), θ ^ orderOf a = 1 ∧
@@ -250,8 +257,9 @@ private theorem exists_mulAut_of_mem_normalizer {M L' : Subgroup G} {a : G}
   · intro b
     have h := Subgroup.normalizerMonoidHom_apply_apply_coe (barImage M L')
       ⟨q abar, hnorm⟩ b
-    simpa [θ, q, abar] using h
+    simp [θ, q, abar]
 
+omit [Finite G] in
 private theorem centralizes_of_aut_eq_one {M L' : Subgroup G} {a : G} (haM : a ∈ M)
     {θ : MulAut ↥(barImage M L')} (hθ1 : θ = 1)
     (hθcoe : ∀ b : ↥(barImage M L'),
@@ -309,6 +317,7 @@ private theorem pow_eq_one_of_conj_pow_eq_one {Q : Type*} [Group Q] {g : Q} {r :
     exact hw'.symm
   simpa [hZ] using hmem
 
+omit [Finite G] in
 private theorem aut_eq_one_of_conj {M L' : Subgroup G} {a : G}
     {e : Bar2 L' ≃* ↥(barImage M L')} {θ : MulAut ↥(barImage M L')} {g : Bar2 L'}
     (hg : MulAut.conj g = (MulAut.congr e).symm θ) (hθr : θ ^ orderOf a = 1)
@@ -458,7 +467,7 @@ private theorem exists_elemAbelian_nine_of_pair {M L L' : Subgroup G} {a : G} (h
       E₉ ≤ (Subgroup.centralizer ({(⟨a, haM⟩ : ↥M)} : Set ↥M)).map
         (QuotientGroup.mk' (CFSG.pCore 2 ↥M)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let J₁ : Subgroup (Bar2 M) := orbitImage M a L
   let J₂ : Subgroup (Bar2 M) := orbitImage M a L'
   let E : Subgroup (Bar2 M) := Subgroup.zpowers u₁
@@ -520,7 +529,7 @@ theorem Ctx215.conjSetOf_eq {D : Data G} {Ch : Choice2011 G} (e : Ctx215 D Ch)
       (Subgroup.normalizer (Subgroup.zpowers e.a : Set G) ⊓ D.M) ≤ 1) :
     conjSetOf D.M e.L = Set.range (fun i : Fin (orderOf e.a) => conjugatePower e.a e.L i) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ha : e.a ∈ D.M := e.hBM (e.hle e.haB)
   refine Set.Subset.antisymm ?_ ?_
   · rintro L' hL'

@@ -396,7 +396,7 @@ theorem fusFromK_sound {N ADT : Nat} {TT : List (List Nat)} {AT GC RP : List Nat
         · rw [brec_eq_true] at h5
           rcases h5 with ⟨h6, -⟩ | ⟨-, h6⟩
           · exact absurd (Nat.eq_of_beq_eq_true h6) hd1
-          · simp only [strictB_eq, brec_eq_true, Bool.false_eq_true, and_false, or_false,
+          · simp only [brec_eq_true, Bool.false_eq_true, and_false, or_false,
               lenL_eq, getL_eq] at h6
             obtain ⟨g1, g2, g3, g4, g5⟩ := h6
             rw [Nat.blt_eq] at g1 g3

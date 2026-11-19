@@ -74,8 +74,8 @@ theorem dualToForms_injective {K M Z : Type*} [Group K] [AddCommGroup M] [Module
 
 theorem natCard_dual_eq {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Finite V] :
     Nat.card (Module.Dual (ZMod 2) V) = Nat.card V := by
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
-  haveI : Finite (Module.Dual (ZMod 2) V) := Module.finite_of_finite (ZMod 2)
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Finite (Module.Dual (ZMod 2) V) := Module.finite_of_finite (ZMod 2)
   rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Module.Dual (ZMod 2) V),
     Subspace.dual_finrank_eq]
   exact (Module.natCard_eq_pow_finrank (K := ZMod 2) (V := V)).symm
@@ -84,9 +84,9 @@ theorem card_invBilin_le {K M : Type*} [Group K] [AddCommGroup M] [Module (ZMod 
     [Finite M] (ρ : Representation (ZMod 2) K M) [Fact ρ.IsIrreducible] :
     Nat.card (invBilin ρ) ≤ Nat.card (EndRing ρ) := by
   classical
-  haveI : Module.Finite (ZMod 2) M := Module.Finite.of_finite
-  haveI hfinForms : Finite (LinearMap.BilinForm (ZMod 2) M) := Module.finite_of_finite (ZMod 2)
-  haveI hfinEnd : Finite (EndRing ρ) := finite_endRing ρ
+  have : Module.Finite (ZMod 2) M := Module.Finite.of_finite
+  have hfinForms : Finite (LinearMap.BilinForm (ZMod 2) M) := Module.finite_of_finite (ZMod 2)
+  have hfinEnd : Finite (EndRing ρ) := finite_endRing ρ
   by_cases h : ∃ β₀ : LinearMap.BilinForm (ZMod 2) M,
       (∀ k x y, β₀ (ρ k x) (ρ k y) = β₀ x y) ∧ β₀ ≠ 0
   · obtain ⟨β₀, hβ₀, hβ₀ne⟩ := h
@@ -180,13 +180,13 @@ theorem exists_linearEquiv_comp_eq_of_invariant {K M Z Z' : Type*} [Group K]
     (hspan' : Submodule.span (ZMod 2) (Set.range fun p : M × M => c' p.1 p.2) = ⊤) :
     ∃ g : Z ≃ₗ[ZMod 2] Z', ∀ x y, g (c x y) = c' x y := by
   classical
-  haveI : Module.Finite (ZMod 2) M := Module.Finite.of_finite
-  haveI : Module.Finite (ZMod 2) Z := Module.Finite.of_finite
-  haveI : Module.Finite (ZMod 2) Z' := Module.Finite.of_finite
-  haveI hfinB : Finite (LinearMap.BilinForm (ZMod 2) M) := Module.finite_of_finite (ZMod 2)
-  haveI hfinForms : Finite (invBilin ρ) := Subtype.finite
-  haveI hfinDualZ : Finite (Module.Dual (ZMod 2) Z) := Module.finite_of_finite (ZMod 2)
-  haveI hfinDualZ' : Finite (Module.Dual (ZMod 2) Z') := Module.finite_of_finite (ZMod 2)
+  have : Module.Finite (ZMod 2) M := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) Z := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) Z' := Module.Finite.of_finite
+  have hfinB : Finite (LinearMap.BilinForm (ZMod 2) M) := Module.finite_of_finite (ZMod 2)
+  have hfinForms : Finite (invBilin ρ) := Subtype.finite
+  have hfinDualZ : Finite (Module.Dual (ZMod 2) Z) := Module.finite_of_finite (ZMod 2)
+  have hfinDualZ' : Finite (Module.Dual (ZMod 2) Z') := Module.finite_of_finite (ZMod 2)
   let Φ : Module.Dual (ZMod 2) Z →ₗ[ZMod 2] invBilin ρ := dualToForms ρ c hc
   let Φ' : Module.Dual (ZMod 2) Z' →ₗ[ZMod 2] invBilin ρ := dualToForms ρ c' hc'
   have hΦinj : Function.Injective Φ := dualToForms_injective ρ c hc hspan
@@ -204,14 +204,14 @@ theorem exists_linearEquiv_comp_eq_of_invariant {K M Z Z' : Type*} [Group K]
     exact le_trans (card_invBilin_le ρ) (hZZ' ▸ hE)
   have hcard' : Nat.card (invBilin ρ) = Nat.card (Module.Dual (ZMod 2) Z') := le_antisymm hge' hle'
   have hΦbij : Function.Bijective Φ := by
-    haveI : Fintype (Module.Dual (ZMod 2) Z) := Fintype.ofFinite _
-    haveI : Fintype (invBilin ρ) := Fintype.ofFinite _
+    have : Fintype (Module.Dual (ZMod 2) Z) := Fintype.ofFinite _
+    have : Fintype (invBilin ρ) := Fintype.ofFinite _
     refine (Fintype.bijective_iff_injective_and_card Φ).mpr ⟨hΦinj, ?_⟩
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact hcard.symm
   have hΦ'bij : Function.Bijective Φ' := by
-    haveI : Fintype (Module.Dual (ZMod 2) Z') := Fintype.ofFinite _
-    haveI : Fintype (invBilin ρ) := Fintype.ofFinite _
+    have : Fintype (Module.Dual (ZMod 2) Z') := Fintype.ofFinite _
+    have : Fintype (invBilin ρ) := Fintype.ofFinite _
     refine (Fintype.bijective_iff_injective_and_card Φ').mpr ⟨hΦ'inj, ?_⟩
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact hcard'.symm

@@ -40,12 +40,14 @@ theorem exists_normalized_embedding [IsSimpleGroup G] (hn : 3 ≤ n) {ι : L4Mod
       rw [thetaAut_uw1T, thetaAut_of_mem_A hn (w1T_mem_A hn)]
       exact hu
 
+omit [Finite G] in
 theorem conj_mem_commutator_self {C : Subgroup G} {c k : G} (hc : c ∈ C) (hk : k ∈ ⁅C, C⁆) :
     c * k * c⁻¹ ∈ ⁅C, C⁆ := by
   rw [← map_subtype_commutator] at hk ⊢
   obtain ⟨k', hk', rfl⟩ := hk
   exact ⟨⟨c, hc⟩ * k' * ⟨c, hc⟩⁻¹, (inferInstance : (commutator C).Normal).conj_mem _ hk' _, rfl⟩
 
+omit [Finite G] in
 theorem map_mem_commutator {ι : L4Model n →* G} {C : Subgroup G} (hC : ι.range ≤ C)
     {k : L4Model n} (hk : k ∈ commutator (L4Model n)) : ι k ∈ ⁅C, C⁆ := by
   have h : (commutator (L4Model n)).map ι ≤ ⁅C, C⁆ := by
@@ -53,6 +55,7 @@ theorem map_mem_commutator {ι : L4Model n →* G} {C : Subgroup G} (hC : ι.ran
     exact Subgroup.commutator_mono hC hC
   exact h ⟨k, hk, rfl⟩
 
+omit [Finite G] in
 theorem range_le_centralizer_zT (hn : 2 ≤ n) (ι : L4Model n →* G) :
     ι.range ≤ centralizer {ι (zT (n := n) (by omega))} := by
   rintro _ ⟨y, rfl⟩
@@ -61,7 +64,7 @@ theorem range_le_centralizer_zT (hn : 2 ≤ n) (ι : L4Model n →* G) :
 
 theorem xParity_w1T (hn : 3 ≤ n) : xParity (by omega) (w1T (n := n) hn) = 1 := by
   rw [w1T, xParity_el]
-  simp only [wv, hv, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, Nat.cast_one,
+  simp only [wv, hv, Matrix.cons_val_zero, Matrix.cons_val_one, Nat.cast_one,
     Nat.cast_zero, mul_one, mul_zero, add_zero]
   rw [show ss n + hh n + ss n = 2 * ss n + hh n by ring, map_add, map_mul, red2_two, zero_mul,
     zero_add, red2_hh (by omega), ofAdd_zero]

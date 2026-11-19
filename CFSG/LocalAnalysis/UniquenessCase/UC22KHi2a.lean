@@ -78,7 +78,7 @@ theorem pCoreOf_le_T1 (D : Data G) (Y : Subgroup (MBar D.M D.U)) : pCoreOf 2 D.M
   exact mem_normalizer_preN D hqM (by rw [h1]; exact Subgroup.one_mem _)
 
 theorem T_le_normalizer_proofS (D : Data G) : D.T ≤ normalizer (proofS D : Set G) :=
-  fun t ht => mem_normalizer_inf' (Subgroup.le_normalizer ht)
+  fun _t ht => mem_normalizer_inf' (Subgroup.le_normalizer ht)
     (mem_normalizer_centralizer (uc22p22se_T_le_normalizer_proofE D ht))
 
 theorem T1_le_normalizer_proofS (D : Data G) (Y : Subgroup (MBar D.M D.U)) :
@@ -87,7 +87,7 @@ theorem T1_le_normalizer_proofS (D : Data G) (Y : Subgroup (MBar D.M D.U)) :
 theorem proofS_le_T1 (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch) (h3 : S22_3_3 D Ch)
     (h51 : S22_5_1 D Ch) (hH : H1930 D) (c : Ctx22c D Ch) (m : ℕ) (Nb : Fin m → Subgroup (MBar D.M D.U))
     (hNb : NbarSplit D Nb) (i : Fin m) : proofS D ≤ T1 D (Nb i) :=
-  le_inf inf_le_left fun s hs => (uc22p22x_S_normalizes D Ch h2 h3 h51 hH c m Nb hNb i hs).2.1
+  le_inf inf_le_left fun _s hs => (uc22p22x_S_normalizes D Ch h2 h3 h51 hH c m Nb hNb i hs).2.1
 
 theorem thompsonJ_T1 (D : Data G) {Y : Subgroup (MBar D.M D.U)} (hS : proofS D ≤ T1 D Y) :
     CFSG.Quasithin.thompsonJ (T1 D Y) = CFSG.Quasithin.thompsonJ D.T := by

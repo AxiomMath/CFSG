@@ -32,8 +32,8 @@ theorem not_isRankTwoByCyclic_sylow_of_witness {P Y : Type} [Group P] [Finite P]
     (hKc : 9 < Nat.card {x : ↥(commutator ↥K) // x ^ 3 = 1}) (T : Sylow 3 P) :
     ¬ IsRankTwoByCyclic ↥(T : Subgroup P) := by
   intro hT
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   have hKP : Nat.card (K.map e.symm.toMonoidHom) = 3 ^ (Nat.card P).factorization 3 := by
     rw [Subgroup.card_map_of_injective (f := e.symm.toMonoidHom) e.symm.injective, hK, hP]
   have h1 : IsRankTwoByCyclic ↥(Sylow.ofCard (K.map e.symm.toMonoidHom) hKP : Subgroup P) :=

@@ -141,8 +141,8 @@ theorem ggWTB2_coxeterB_of_reflModel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     intro i
     by_cases hi : i.val + 1 < k
     · rw [show g i = permAut (Equiv.swap i ⟨i.val + 1, hi⟩) from by
-        simp only [g, dif_pos hi], ggWTB2_toPerm_permAut, spReflPerm_of_lt k p i hi]
-    · rw [show g i = sgnAut i from by simp only [g, dif_neg hi],
+        simp only [g, dite_eq_left hi], ggWTB2_toPerm_permAut, spReflPerm_of_lt k p i hi]
+    · rw [show g i = sgnAut i from by simp only [g, dite_eq_right hi],
         ggWTB2_toPerm_sgnAut, spReflPerm_of_not_lt k p i hi]
   have hg_mem : ∀ i, g i ∈ H := by
     intro i
@@ -152,10 +152,10 @@ theorem ggWTB2_coxeterB_of_reflModel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     · refine Or.inr ⟨⟨(i, ⟨i.val + 1, hi⟩), ?_⟩, ?_⟩
       · exact ggWTB2_fin_ne_succ hi
       · show permAut (Equiv.swap i ⟨i.val + 1, hi⟩) = g i
-        simp only [g, dif_pos hi]
+        simp only [g, dite_eq_left hi]
     · refine Or.inl ⟨i, ?_⟩
       show sgnAut i = g i
-      simp only [g, dif_neg hi]
+      simp only [g, dite_eq_right hi]
   have hf_simple : ∀ i, (f ((CoxeterMatrix.B k).simple i) : MulAut ↥A) = Φ (g i) := by
     intro i
     have hei : e ((CoxeterMatrix.B k).simple i) =
@@ -177,9 +177,9 @@ theorem ggWTB2_coxeterB_of_reflModel {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
   rw [hf_simple i]
   by_cases hi : i.val + 1 < k
   · rw [show g i = permAut (Equiv.swap i ⟨i.val + 1, hi⟩) from by
-      simp only [g, dif_pos hi]]
+      simp only [g, dite_eq_left hi]]
     exact hP i ⟨i.val + 1, hi⟩ (ggWTB2_fin_ne_succ hi)
-  · rw [show g i = sgnAut i from by simp only [g, dif_neg hi]]
+  · rw [show g i = sgnAut i from by simp only [g, dite_eq_right hi]]
     exact hS i
 
 theorem ggWTB2_weylTypeW_of_coxeterB {p k : ℕ} (hk : 3 ≤ k) {L' : Type} [Group L']

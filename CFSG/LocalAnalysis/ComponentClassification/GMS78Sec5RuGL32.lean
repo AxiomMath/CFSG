@@ -50,7 +50,7 @@ theorem eq_top_of_two_dvd_of_seven_dvd_GL32 {H : Subgroup (GL (Fin 3) (ZMod 2))}
   have hH : Nat.card H ∣ 168 := card_GL32_gh ▸ Subgroup.card_subgroup_dvd_card H
   obtain ⟨P⟩ : Nonempty (Sylow 7 H) := inferInstance
   have hP : Nat.card (P : Subgroup H) = 7 := by
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     have hdvd : Nat.card (P : Subgroup H) ∣ 168 :=
       (Subgroup.card_subgroup_dvd_card (P : Subgroup H)).trans hH
     have hnd := P.not_dvd_index

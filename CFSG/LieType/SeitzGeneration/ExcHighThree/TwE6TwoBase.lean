@@ -21,7 +21,7 @@ variable {K : Type} [Field K] [Finite K]
 
 theorem exists_omega [CharP K 2] (hK : Nat.card K = 4) : ∃ ω : K, ω ^ 2 + ω + 1 = 0 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card] at hK
   have hlt : ({0, 1} : Finset K).card < (Finset.univ : Finset K).card := by
     rw [Finset.card_univ, hK]
@@ -38,7 +38,7 @@ theorem exists_omega [CharP K 2] (hK : Nat.card K = 4) : ∃ ω : K, ω ^ 2 + ω
 
 theorem eq_zero_one_omega [CharP K 2] (hK : Nat.card K = 4) {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
     (c : K) : c = 0 ∨ c = 1 ∨ c = ω ∨ c = ω ^ 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card] at hK
   by_cases hc0 : c = 0
   · exact Or.inl hc0
@@ -97,18 +97,19 @@ variable {k K : Type} [Field k] [Finite k] [Field K] [Finite K] [Algebra k K] [C
 noncomputable def iota : adjointGroup .F4 k →* twistedE6RootGroup K σ :=
   (phiG σ hfix).comp (e6FixedF4EquivAll k).symm.toMonoidHom
 
+omit [Finite k] [Finite K] [CharP k 2] [CharP K 2] in
 theorem coe_iota (g : adjointGroup .F4 k) :
     ((iota σ hfix g : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
       baseChangeGL (algebraMap k K) ((embE6F4 k g : adjointGroup .E6 k) : ModGL Tag.E6 k) := by
   unfold iota embE6F4 isoE6F4
-  simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulEquiv.trans_apply,
-    Subgroup.coe_subtype]
+  simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, Subgroup.coe_subtype]
   rfl
 
 variable {σ} in
 abbrev tmat (x : twistedE6RootGroup K σ) : ModGL Tag.E6 K :=
   (x : ModGL TwistTag.E6.tag K)
 
+omit [Finite k] [Finite K] in
 theorem hasBits2_iota (ω : K) {g : adjointGroup .F4 k} {A : ℕ}
     (h : E6Bits.HasBits k (embE6F4 k g) A) :
     HasBits2 K ω (tmat (iota σ hfix g)) ⟨A, 0⟩ := by
@@ -123,13 +124,13 @@ section Orbits
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
   (σ : K ≃+* K)
 
-@[expose] noncomputable def oX (a : Fin TwistTag.E6.foldedTag.rank)
+noncomputable def oX (a : Fin TwistTag.E6.foldedTag.rank)
     (c : orbitField TwistTag.E6 K σ.toRingHom a) : twistedE6RootGroup K σ :=
   ⟨(orbitX TwistTag.E6 K σ.toRingHom a c : ModGL TwistTag.E6.tag K),
     graphFixedPosUnipotent_le_graphFixedRootGroup _ _ _
       (orbitX_mem_graphFixedPosUnipotent _ _ _ _)⟩
 
-@[expose] noncomputable def oY (a : Fin TwistTag.E6.foldedTag.rank)
+noncomputable def oY (a : Fin TwistTag.E6.foldedTag.rank)
     (c : orbitField TwistTag.E6 K σ.toRingHom a) : twistedE6RootGroup K σ :=
   ⟨(orbitY TwistTag.E6 K σ.toRingHom a c : ModGL TwistTag.E6.tag K),
     graphFixedNegUnipotent_le_graphFixedRootGroup _ _ _
@@ -146,6 +147,7 @@ theorem vSL_eq_conj {L : Type} [Field L] (c : L) : vSL c = WSL * uSL (-c) * WSL�
 
 variable {k : Type} [Field k] [Algebra k K]
 
+omit [Finite K] [CharP K 2] in
 theorem eq_top_of_orbit (S : Subgroup (twistedE6RootGroup K σ))
     (hX : ∀ (a : Fin TwistTag.E6.foldedTag.rank) (c : orbitField TwistTag.E6 K σ.toRingHom a),
       oX σ a c ∈ S)
@@ -185,11 +187,13 @@ variable {k K : Type} [Field k] [Finite k] [Field K] [Finite K] [Algebra k K] [C
 
 include hfix
 
+omit [Finite k] [Finite K] [CharP k 2] [CharP K 2] in
 theorem pow_fix (n : ℕ) (c : k) : (σ.toRingHom ^ n) (algebraMap k K c) = algebraMap k K c := by
   induction n with
   | zero => rfl
   | succ n ih => rw [pow_succ, RingHom.mul_def, RingHom.comp_apply]; exact (congrArg _ (hfix c)).trans ih
 
+omit [Finite k] [Finite K] [CharP k 2] [CharP K 2] in
 theorem coe_oX_range (a : Fin TwistTag.E6.foldedTag.rank) (c : orbitField TwistTag.E6 K σ.toRingHom a)
     (c' : k) (hc : (c : K) = algebraMap k K c') :
     ((oX σ a c : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
@@ -199,6 +203,7 @@ theorem coe_oX_range (a : Fin TwistTag.E6.foldedTag.rank) (c : orbitField TwistT
   refine congrArg List.prod (List.map_congr_left fun n _ => ?_)
   simp only [Function.comp, hc, pow_fix σ hfix]
 
+omit [Finite k] [Finite K] [CharP k 2] [CharP K 2] in
 theorem coe_oY_range (a : Fin TwistTag.E6.foldedTag.rank) (c : orbitField TwistTag.E6 K σ.toRingHom a)
     (c' : k) (hc : (c : K) = algebraMap k K c') :
     ((oY σ a c : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
@@ -208,6 +213,7 @@ theorem coe_oY_range (a : Fin TwistTag.E6.foldedTag.rank) (c : orbitField TwistT
   refine congrArg List.prod (List.map_congr_left fun n _ => ?_)
   simp only [Function.comp, hc, pow_fix σ hfix]
 
+omit [Finite k] [Finite K] [CharP k 2] [CharP K 2] in
 theorem coe_iota_xE (j : Fin Tag.F4.rank) (c' : k) :
     ((iota σ hfix (xE Tag.F4 k j c') : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
       ((TwistTag.E6.orbitWord (f4FoldedIndex j)).map fun i =>
@@ -222,6 +228,7 @@ theorem coe_iota_xE (j : Fin Tag.F4.rank) (c' : k) :
   refine congrArg List.prod (List.map_congr_left fun i _ => ?_)
   exact baseChangeGL_xUnit _ _ _
 
+omit [Finite k] [Finite K] [CharP k 2] [CharP K 2] in
 theorem coe_iota_yE (j : Fin Tag.F4.rank) (c' : k) :
     ((iota σ hfix (yE Tag.F4 k j c') : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
       ((TwistTag.E6.orbitWord (f4FoldedIndex j)).map fun i =>
@@ -236,6 +243,7 @@ theorem coe_iota_yE (j : Fin Tag.F4.rank) (c' : k) :
   refine congrArg List.prod (List.map_congr_left fun i _ => ?_)
   exact baseChangeGL_yUnit _ _ _
 
+omit [Finite k] [Finite K] [CharP k 2] [CharP K 2] in
 theorem oXY_mem_range (a : Fin TwistTag.E6.foldedTag.rank)
     (c : orbitField TwistTag.E6 K σ.toRingHom a) (hc : (c : K) ∈ Set.range (algebraMap k K)) :
     oX σ a c ∈ (iota σ hfix).range ∧ oY σ a c ∈ (iota σ hfix).range := by
@@ -262,8 +270,9 @@ section Omega
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
   (σ : K ≃+* K)
 
+omit [CharP K 2] in
 theorem pow4_eq (hK : Nat.card K = 4) (c : K) : c ^ 4 = c := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card] at hK
   have := FiniteField.pow_card c
   rwa [hK] at this
@@ -284,6 +293,7 @@ theorem perm_zero : TwistTag.E6.perm (0 : Fin TwistTag.E6.tag.rank) =
 theorem perm_two : TwistTag.E6.perm (⟨2, by decide⟩ : Fin TwistTag.E6.tag.rank) =
     (⟨4, by decide⟩ : Fin TwistTag.E6.tag.rank) := by decide +kernel
 
+omit [CharP K 2] in
 theorem mem_orbitField_pair (hK : Nat.card K = 4) (hσ : ∀ c : K, σ c = c ^ 2)
     (a : Fin TwistTag.E6.foldedTag.rank) (ha : (TwistTag.E6.orbit a).card = 2) (c : K) :
     c ∈ orbitField TwistTag.E6 K σ.toRingHom a := by
@@ -294,12 +304,14 @@ theorem mem_orbitField_pair (hK : Nat.card K = 4) (hσ : ∀ c : K, σ c = c ^ 2
   rw [hσ, hσ, ← pow_mul]
   exact pow4_eq hK c
 
+omit [Finite K] [CharP K 2] in
 theorem coe_orbitX_zero (c : orbitField TwistTag.E6 K σ.toRingHom ⟨0, by decide⟩) :
     (orbitX TwistTag.E6 K σ.toRingHom ⟨0, by decide⟩ c : ModGL TwistTag.E6.tag K) =
       xUnit TwistTag.E6.tag K ⟨0, by decide⟩ c * xUnit TwistTag.E6.tag K ⟨5, by decide⟩ (σ c) := by
   rw [coe_orbitX, card_orbit_zero, orbitMin_zero]
   simp [List.range_succ, pow_succ, perm_zero]
 
+omit [Finite K] [CharP K 2] in
 theorem coe_orbitX_one (c : orbitField TwistTag.E6 K σ.toRingHom ⟨1, by decide⟩) :
     (orbitX TwistTag.E6 K σ.toRingHom ⟨1, by decide⟩ c : ModGL TwistTag.E6.tag K) =
       xUnit TwistTag.E6.tag K ⟨2, by decide⟩ c * xUnit TwistTag.E6.tag K ⟨4, by decide⟩ (σ c) := by
@@ -367,22 +379,23 @@ noncomputable def eltT (c : ℕ) : twistedE6RootGroup K σ :=
   if c < 8 then iota σ S.hfix ((CFSG.RankThree.PartOne.SEITZX.letterOfCode c).elt k)
   else if c = 8 then Xw0 σ S.hK S.hσ S.ω else Xw1 σ S.hK S.hσ S.ω
 
+omit [Finite k] in
 theorem hasBits2_eltT (c : ℕ) : HasBits2 K S.ω (tmat (eltT σ S c)) (letterBits2 c) := by
   unfold eltT
   by_cases h1 : c < 8
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     have hb : E6Bits.HasBits k (embE6F4 k ((CFSG.RankThree.PartOne.SEITZX.letterOfCode c).elt k))
         (codeBits6 (f4ToE6Letter c)) := by
       rw [iota_letter h1]
       exact E6Bits.hasBits_evalG _
     have := hasBits2_iota σ S.hfix S.ω hb
     simpa [letterBits2, h1] using this
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     by_cases h2 : c = 8
     · subst h2
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact hasBits2_Xw0 σ S.hK S.hσ S.hω
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       have e : letterBits2 c = letterBits2 9 := by simp [letterBits2, h1, h2]
       rw [e]
       exact hasBits2_Xw1 σ S.hK S.hσ S.hω
@@ -394,12 +407,14 @@ section Generation
 variable {k K : Type} [Field k] [Finite k] [Field K] [Finite K] [Algebra k K] [CharP k 2] [CharP K 2]
   (σ : K ≃+* K) (S : Setup k K σ)
 
+omit [Finite K] [CharP K 2] in
 theorem oX_zero (a : Fin TwistTag.E6.foldedTag.rank) : oX σ a 0 = 1 := by
   apply Subtype.ext
   show (orbitX TwistTag.E6 K σ.toRingHom a 0 : ModGL TwistTag.E6.tag K) = 1
   rw [orbitX_zero]
   rfl
 
+omit [Finite K] [CharP K 2] in
 theorem oX_add (a : Fin TwistTag.E6.foldedTag.rank) (c c' : orbitField TwistTag.E6 K σ.toRingHom a) :
     oX σ a (c + c') = oX σ a c * oX σ a c' := by
   apply Subtype.ext
@@ -407,6 +422,7 @@ theorem oX_add (a : Fin TwistTag.E6.foldedTag.rank) (c c' : orbitField TwistTag.
   rw [orbitX_add]
   rfl
 
+omit [Finite k] [CharP k 2] in
 theorem oX_mem (Sg : Subgroup (twistedE6RootGroup K σ))
     (hrange : ∀ x ∈ (iota σ S.hfix).range, x ∈ Sg)
     (hX0 : Xw0 σ S.hK S.hσ S.ω ∈ Sg) (hX1 : Xw1 σ S.hK S.hσ S.ω ∈ Sg)
@@ -519,7 +535,7 @@ end Plane
 
 section Statement
 
-@[expose] def TwCloseAtTwo : Prop :=
+def TwCloseAtTwo : Prop :=
   ∀ (K : Type) [Field K] [Finite K] (σ : K ≃+* K) (k : Type) [Field k] [Finite k] [Algebra k K]
     (hfix : ∀ c : k, σ (algebraMap k K c) = algebraMap k K c),
     Nat.card K = 2 ^ 2 → (∀ c : K, σ c = c ^ 2) → Nat.card k = 2 →

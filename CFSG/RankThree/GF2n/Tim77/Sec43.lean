@@ -112,10 +112,10 @@ theorem sec43_of :
   obtain ⟨hNY, hYN, hNab⟩ := tim77Sec32a_holds G A Abar S₀ B s h hs
   obtain ⟨-, hcomm2⟩ := sec32b_of tim77Sec32a_holds G A Abar S₀ B s h hs
   obtain ⟨hcls, hRI, hne4, hcent⟩ := sec41_of tim77Sec32a_holds G A Abar S₀ B s h hs
-  haveI hNn : ((Section3.N A Abar s).subgroupOf (Section3.Y A Abar s)).Normal :=
+  have hNn : ((Section3.N A Abar s).subgroupOf (Section3.Y A Abar s)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNY).mpr fun y hy => hYN y hy
   have hdat := sa_sec42Data h hs hcomm2 hRI hne4 hcls hcent
-  haveI := hsolv
+  have := hsolv
   have hS := qp_setup hdat
   have hE := qp_hE hdat
   have hO2 := qp_hO2 hdat
@@ -128,10 +128,10 @@ theorem sec43_of :
     fun d hd z hz hz1 => qp_inj hdat hd hz hz1
   have hsolvR : Group.IsSolvable (↥(Section3.Y A Abar s) ⧸
       (Section3.N A Abar s).subgroupOf (Section3.Y A Abar s)) :=
-    solvable_of_surjective (QuotientGroup.mk'_surjective _)
+    Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective _)
   obtain ⟨φ, hφφ, hφ⟩ := sa_phi h hs
-  obtain ⟨a, haA, haN⟩ := SetLike.exists_of_lt (lt_of_le_of_ne h.setup.L_le h.setup.ne)
-  obtain ⟨β, hβA, hβN⟩ := SetLike.exists_of_lt (lt_of_le_of_ne h.setup.Lb_le h.setup.Lb_ne)
+  obtain ⟨a, haA, haN⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne h.setup.L_le h.setup.ne)
+  obtain ⟨β, hβA, hβN⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne h.setup.Lb_le h.setup.Lb_ne)
   have haY : a ∈ Section3.Y A Abar s := sa_A_le_Y haA
   have hβY : β ∈ Section3.Y A Abar s := sa_Abar_le_Y hβA
   have hγY : s * β * s⁻¹ ∈ Section3.Y A Abar s := sa_conj_mem_Y h hs hβY

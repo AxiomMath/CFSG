@@ -32,6 +32,7 @@ theorem natCard_symmetryGroup_eq_s (hP : IsGeneralizedPolygon Γ 4) (hT : IsThic
   obtain ⟨x, hLx, hxp, -⟩ := exists_adj_ne_two hT L p p
   exact card_symmetryGroup_eq_s hP hT hM c hdeg (hreg L hcL) hcL hLx hpL.symm hxp
 
+omit [FaithfulSMul H V] [Fintype V] [DecidableRel Γ.Adj] in
 theorem conj_mem_symmetryGroup_of_fix (hP : IsGeneralizedPolygon Γ 4) {M : V} {h : H}
     {θ : H} (hfix : h • M = M) (hθ : θ ∈ symmetryGroup H Γ M) :
     h * θ * h⁻¹ ∈ symmetryGroup H Γ M := by
@@ -41,6 +42,7 @@ theorem conj_mem_symmetryGroup_of_fix (hP : IsGeneralizedPolygon Γ 4) {M : V} {
     (s := perpSet Γ M) hset hθ
   simpa [MulAut.conj_apply] using hmem
 
+omit [FaithfulSMul H V] [Fintype V] [DecidableRel Γ.Adj] in
 theorem translationGroup_le_normalizer_translationGroupMinus
     (hP : IsGeneralizedPolygon Γ 4) (p L₀ : V) :
     translationGroup H Γ p ≤
@@ -54,6 +56,7 @@ theorem translationGroup_le_normalizer_translationGroupMinus
 
 
 
+omit [FaithfulSMul H V] in
 theorem exists_fixed_third_of_prime_order {M x y : V} {θ : H} {q s : ℕ}
     (hxM : Γ.Adj M x) (hyM : Γ.Adj M y) (hxy : x ≠ y) (hMfix : θ • M = M)
     (hθx : θ • x = x) (hθy : θ • y = y) (hq : orderOf θ = q) (hqprime : q.Prime)
@@ -106,16 +109,16 @@ theorem exists_fixed_third_of_prime_order {M x y : V} {θ : H} {q s : ℕ}
     if i = 0 then ⟨⟨x, hxM⟩, hxmem⟩ else ⟨⟨y, hyM⟩, hymem⟩
   have hfinj : Function.Injective f := by
     intro i j hij
-    fin_cases i <;> fin_cases j <;> simp_all [f, hxyne]
+    fin_cases i <;> fin_cases j <;> simp_all [f]
   have hfix2 : 2 ≤ Fintype.card (Function.fixedPoints σ) := by
     simpa using Fintype.card_le_of_injective f hfinj
-  haveI : Fact q.Prime := ⟨hqprime⟩
+  have : Fact q.Prime := ⟨hqprime⟩
   have hmod : Fintype.card (Function.fixedPoints σ) ≡ s + 1 [MOD q] := by
     have h := σ.card_compl_support_modEq (p := q) (n := 1) (by simpa using hσq)
     have hcompl : σ.supportᶜ.card = Fintype.card (Function.fixedPoints σ) := by
       have hset : σ.supportᶜ = (Function.fixedPoints σ).toFinset := by
         ext z
-        simp only [Finset.mem_compl, Finset.mem_univ, true_and, Function.mem_fixedPoints,
+        simp only [Finset.mem_compl, Function.mem_fixedPoints,
           Function.IsFixedPt, Equiv.Perm.mem_support, Set.mem_toFinset, not_not]
       rw [hset, ← Set.ncard_eq_toFinset_card']
       exact (Set.fintypeCard_eq_ncard _).symm
@@ -174,7 +177,7 @@ theorem translationGroup_eq_translationGroupMinus
     {p L₀ : V} (hp : c p = 0) (hpL₀ : Γ.Adj p L₀) (h3 : 3 ≤ t) :
     translationGroup H Γ p = translationGroupMinus H Γ p L₀ := by
   classical
-  haveI : Fintype H :=
+  have : Fintype H :=
     Fintype.ofInjective (MulAction.toPerm (α := H) (β := V))
       (MulAction.toPerm_injective (α := H) (β := V))
   let G : Subgroup H := translationGroup H Γ p
@@ -194,7 +197,7 @@ theorem translationGroup_eq_translationGroupMinus
     simpa [S] using natCard_symmetryGroup_eq_s hP hT hM hdeg hreg hp hpL₀
   have hnormH : G ≤ Subgroup.normalizer (G₀ : Set H) := by
     simpa [G, G₀] using translationGroup_le_normalizer_translationGroupMinus hP p L₀
-  haveI : (G₀.subgroupOf G).Normal :=
+  have : (G₀.subgroupOf G).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hG₀G).mpr hnormH
   have hcomm : S ≤ Subgroup.centralizer (G₀ : Set H) := by
     intro g hg
@@ -239,7 +242,7 @@ theorem translationGroup_eq_translationGroupMinus
     intro htop
     apply hne
     exact (le_antisymm hG₀G (Subgroup.subgroupOf_eq_top.mp htop)).symm
-  haveI : Finite (G ⧸ G₀.subgroupOf G) := Quotient.finite _
+  have : Finite (G ⧸ G₀.subgroupOf G) := Quotient.finite _
   have hlt : 1 < (G₀.subgroupOf G).index := Subgroup.one_lt_index_of_ne_top htop
   obtain ⟨q, hqprime, hqdiv⟩ := Nat.exists_prime_and_dvd (by omega : (G₀.subgroupOf G).index ≠ 1)
   have hqs : q ∣ s := dvd_trans hqdiv hdvdS
@@ -307,8 +310,8 @@ theorem translationGroup_eq_translationGroupMinus
       (f := (QuotientGroup.mk' (G₀.subgroupOf G)).comp Gy.subtype) hφYsurj
     rwa [← hcardQ] at h
   have hqY : q ∣ Nat.card Gy := dvd_trans hqdiv hdvdY
-  haveI : Fintype Gy := Fintype.ofFinite Gy
-  haveI : Fact q.Prime := ⟨hqprime⟩
+  have : Fintype Gy := Fintype.ofFinite Gy
+  have : Fact q.Prime := ⟨hqprime⟩
   obtain ⟨θ, hθorder⟩ := exists_prime_orderOf_dvd_card' (G := Gy) q hqY
   have hθG : (θ : H) ∈ G := θ.1.2
   have hθwhorl : (θ : H) ∈ whorlGroup H Γ p :=
@@ -355,7 +358,7 @@ theorem translationGroup_eq_translationGroupMinus
     · exact h
   have hcardM : Fintype.card ↥(Γ.neighborSet M) = s + 1 := by
     rw [← Nat.card_eq_fintype_card, Nat.card_coe_set_eq, SimpleGraph.ncard_neighborSet,
-      hdeg M, if_neg (by rw [hcM]; decide)]
+      hdeg M, ite_eq_right (by rw [hcM]; decide)]
   obtain ⟨z, hzM, hzx, hzy, hθz⟩ :=
     exists_fixed_third_of_prime_order hxM hyM.symm hxyp hMfix hθx hθy hqH hqprime hcardM hqs
   have hxp : Γ.dist x p = 2 := by
@@ -478,12 +481,13 @@ theorem translationGroup_fix_of_mem_stabilizer_line
       _ = h • z := by rw [hgz]
       _ = w := hhz
 
+omit [FaithfulSMul H V] in
 theorem index_stabilizer_translationGroup_line
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (hM : MoufangCondition H Γ 4)
     {c : Γ.Coloring (Fin 2)} {s t : ℕ}
-    (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1) (hst : s ≤ t)
+    (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1) (_hst : s ≤ t)
     (hreg : ∀ L, c L = 1 → IsRegularVertex Γ L)
-    {p A B : V} (hp : c p = 0) (h3 : 3 ≤ t)
+    {p A B : V} (hp : c p = 0) (_h3 : 3 ≤ t)
     (hpA : Γ.Adj p A) (hpB : Γ.Adj p B) (hAB : A ≠ B)
     {z : V} (hzA : Γ.Adj A z) (hzp : z ≠ p) :
     (MulAction.stabilizer (translationGroup H Γ p) z).index = s := by
@@ -528,7 +532,7 @@ theorem index_stabilizer_translationGroup_line
   rw [MulAction.index_stabilizer, horbit]
   have hp_mem : p ∈ Γ.neighborSet A := hpA.symm
   have hcard : (Γ.neighborSet A).ncard = s + 1 := by
-    rw [SimpleGraph.ncard_neighborSet, hdeg A, if_neg (by rw [hcA]; decide)]
+    rw [SimpleGraph.ncard_neighborSet, hdeg A, ite_eq_right (by rw [hcA]; decide)]
   rw [Set.ncard_sdiff_singleton_of_mem hp_mem, hcard]
   omega
 
@@ -547,12 +551,12 @@ theorem ncard_opposite_eq (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ)
 theorem s_sq_mul_t_le_natCard_translationGroup
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) (hM : MoufangCondition H Γ 4)
     {c : Γ.Coloring (Fin 2)} {s t : ℕ}
-    (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1) (hst : s ≤ t)
+    (hdeg : ∀ v, Γ.degree v = if c v = 0 then t + 1 else s + 1) (_hst : s ≤ t)
     (hreg : ∀ L, c L = 1 → IsRegularVertex Γ L)
     {p : V} (hp : c p = 0) (h3 : 3 ≤ t) :
     s ^ 2 * t ≤ Nat.card (translationGroup H Γ p) := by
   classical
-  haveI : Fintype H :=
+  have : Fintype H :=
     Fintype.ofInjective (MulAction.toPerm (α := H) (β := V))
       (MulAction.toPerm_injective (α := H) (β := V))
   obtain ⟨L₀, hpL₀, -, -⟩ := exists_adj_ne_two hT p p p
@@ -590,7 +594,7 @@ theorem rootGroup_le_translationGroup_of_adj
     (hpA : Γ.Adj p A) (hpB : Γ.Adj p B) (hAB : A ≠ B) :
     rootGroup H Γ A p B ≤ translationGroup H Γ p := by
   classical
-  haveI : Fintype H :=
+  have : Fintype H :=
     Fintype.ofInjective (MulAction.toPerm (α := H) (β := V))
       (MulAction.toPerm_injective (α := H) (β := V))
   let G : Subgroup H := translationGroup H Γ p
@@ -608,7 +612,7 @@ theorem rootGroup_le_translationGroup_of_adj
     · exact h
   have hs_pos : 0 < s := by
     have h := hT A
-    rw [hdeg A, if_neg (by rw [hcA]; decide)] at h
+    rw [hdeg A, ite_eq_right (by rw [hcA]; decide)] at h
     omega
   obtain ⟨zA, hzA, hzAp, -⟩ := exists_adj_ne_two hT A p p
   obtain ⟨zB, hzB, hzBp, -⟩ := exists_adj_ne_two hT B p p
@@ -632,7 +636,7 @@ theorem rootGroup_le_translationGroup_of_adj
         s * (s * t) = s ^ 2 * t := by ring
         _ ≤ Nat.card ↥G := hcardG
     exact Nat.le_of_mul_le_mul_left hle hs_pos
-  haveI : B0.Normal := ⟨by
+  have : B0.Normal := ⟨by
     intro n hn g
     have hcomm : Commute (g : H) (n : H) :=
       translationGroup_comm hP hT hM hdeg hst hreg hp h3 (g : H) (n : H) g.2 n.2
@@ -718,7 +722,7 @@ theorem rootGroup_le_translationGroup_of_adj
           have h1 : i ≠ 1 := by omega
           have h2 : i ≠ 2 := by omega
           have h3' : i ≠ 3 := by omega
-          simp [h0, h1, h2, h3', hzAp, hAB, hzBp] }
+          simp [h0, h1, h2, h3'] }
     have hq : q.NoBack := by
       intro i hi
       rcases (by omega : i = 0 ∨ i = 1 ∨ i = 2) with rfl | rfl | rfl
@@ -730,7 +734,7 @@ theorem rootGroup_le_translationGroup_of_adj
     have hq2 : q 2 = p := by simp [q]
     have hq3 : q 3 = B := by simp [q]
     have hq4 : q 4 = zB := by simp [q]
-    rw [hq1, hq2, hq3, hq4, hdeg zB, if_pos hzBcolor] at h
+    rw [hq1, hq2, hq3, hq4, hdeg zB, ite_eq_left hzBcolor] at h
     omega
   have hmapCard : Nat.card ((A0 ⊓ B0).map G.subtype) = Nat.card ↥(A0 ⊓ B0) :=
     Subgroup.card_map_of_injective (f := G.subtype) (Subtype.coe_injective)
@@ -787,7 +791,7 @@ theorem commute_of_mem_rootGroup_of_isRegular (hP : IsGeneralizedPolygon Γ 4) (
     have ht2 : 2 ≤ t := by
       by_cases hc2 : c (p 2) = 0
       · have h := hT (p 2)
-        rw [hdeg (p 2), if_pos hc2] at h
+        rw [hdeg (p 2), ite_eq_left hc2] at h
         omega
       · have hc2' : c (p 2) = 1 := by
           have hfin : ∀ x : Fin 2, x = 0 ∨ x = 1 := by decide
@@ -796,13 +800,13 @@ theorem commute_of_mem_rootGroup_of_isRegular (hP : IsGeneralizedPolygon Γ 4) (
           · exact h
         have hc1 : c (p 1) = 0 := h10 (p.adj 1 (by omega)) hc2'
         have h := hT (p 1)
-        rw [hdeg (p 1), if_pos hc1] at h
+        rw [hdeg (p 1), ite_eq_left hc1] at h
         omega
     have hs2 : 2 ≤ s := by
       by_cases hc2 : c (p 2) = 0
       · have hc1 : c (p 1) = 1 := h01 (p.adj 1 (by omega)).symm hc2
         have h := hT (p 1)
-        rw [hdeg (p 1), if_neg (by rw [hc1]; decide)] at h
+        rw [hdeg (p 1), ite_eq_right (by rw [hc1]; decide)] at h
         omega
       · have hc2' : c (p 2) = 1 := by
           have hfin : ∀ x : Fin 2, x = 0 ∨ x = 1 := by decide
@@ -810,7 +814,7 @@ theorem commute_of_mem_rootGroup_of_isRegular (hP : IsGeneralizedPolygon Γ 4) (
           · exact absurd h hc2
           · exact h
         have h := hT (p 2)
-        rw [hdeg (p 2), if_neg (by rw [hc2']; decide)] at h
+        rw [hdeg (p 2), ite_eq_right (by rw [hc2']; decide)] at h
         omega
     have ht_le : t ≤ 2 := by omega
     have hs_eq : s = 2 := by omega
@@ -825,8 +829,8 @@ theorem commute_of_mem_rootGroup_of_isRegular (hP : IsGeneralizedPolygon Γ 4) (
       have hdeg4 : Γ.degree (p 4) = 3 := by
         rw [hdeg (p 4)]
         by_cases hc2 : c (p 2) = 0
-        · rw [if_pos (by rw [hp4color]; exact hc2), ht_eq]
-        · rw [if_neg (by rw [hp4color]; exact hc2), hs_eq]
+        · rw [ite_eq_left (by rw [hp4color]; exact hc2), ht_eq]
+        · rw [ite_eq_right (by rw [hp4color]; exact hc2), hs_eq]
       omega
     let U := rootGroup H Γ (p 1) (p 2) (p 3)
     have hU2 : Nat.card ↥U = 2 := by simpa [U] using hUcard

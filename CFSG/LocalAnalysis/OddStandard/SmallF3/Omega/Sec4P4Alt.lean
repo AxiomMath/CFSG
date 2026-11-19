@@ -16,7 +16,7 @@ variable {n : ℕ} {N : Type*} [Group N]
 private theorem carmichaelPerm_apply_of_ne_val (k : CarmichaelIndex n) (q : Fin n)
     (h0 : (q : ℕ) ≠ 0) (h1 : (q : ℕ) ≠ 1) (hk : (q : ℕ) ≠ (k.1 : ℕ)) :
     carmichaelPerm k q = q := by
-  rw [carmichaelPerm_apply, if_neg h0, if_neg h1, if_neg fun h => hk (congrArg Fin.val h)]
+  rw [carmichaelPerm_apply, ite_eq_right h0, ite_eq_right h1, ite_eq_right fun h => hk (congrArg Fin.val h)]
 
 private theorem carmichaelPerm_mul_apply_of_ne_val (i j : CarmichaelIndex n) (q : Fin n)
     (h0 : (q : ℕ) ≠ 0) (h1 : (q : ℕ) ≠ 1) (hi : (q : ℕ) ≠ (i.1 : ℕ))
@@ -70,7 +70,7 @@ theorem sec4P4_alt_core (hn : 5 ≤ n) (ρ : N →* Perm (Fin n))
     have hcard : 3 ≤ Nat.card (Fin n) := by
       rw [Nat.card_eq_fintype_card, Fintype.card_fin]
       omega
-    haveI : MulAction.IsPretransitive (alternatingGroup (Fin n)) (Fin n) :=
+    have : MulAction.IsPretransitive (alternatingGroup (Fin n)) (Fin n) :=
       alternatingGroup.isPretransitive_of_three_le_card (Fin n) hcard
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (alternatingGroup (Fin n)) q p
     have hgp : (g : Perm (Fin n)) q = p := by

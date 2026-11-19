@@ -58,7 +58,7 @@ theorem linearIndependent_rat_of_zmod_linearIndependent {p : ℕ} (hp : p.Prime)
   have hrel : ∑ j ∈ s, g j • w j = 0 := by
     funext a
     have hthis := congrFun hg a
-    simp only [Finset.sum_apply, Pi.smul_apply, Pi.zero_apply, smul_eq_mul] at hthis
+    simp only [Finset.sum_apply, Pi.smul_apply, Pi.zero_apply] at hthis
     simp only [Finset.sum_apply, Pi.smul_apply, Pi.zero_apply, smul_eq_mul]
     exact_mod_cast (show ((∑ j ∈ s, g j * w j a : ℤ) : ℚ) = 0 by
       push_cast
@@ -78,7 +78,6 @@ theorem linearIndependent_rat_of_zmod_linearIndependent {p : ℕ} (hp : p.Prime)
     funext a
     have hthis := congrFun (congrArg (fun v : Fin m → ℤ => fun a => (v a : ZMod p)) hrel') a
     simp only [Finset.sum_apply, Pi.smul_apply, Pi.zero_apply, smul_eq_mul] at hthis ⊢
-    push_cast
     simpa using hthis
   have hex : ∃ j ∈ s, (g' j : ZMod p) ≠ 0 := by
     by_contra hcon
@@ -98,13 +97,13 @@ theorem linearIndependent_rat_of_zmod_linearIndependent {p : ℕ} (hp : p.Prime)
 theorem rank_map_zmod_le_rank_map_rat {p : ℕ} (hp : p.Prime) {m n : ℕ}
     (X : Matrix (Fin m) (Fin n) ℤ) :
     (X.map (Int.castRingHom (ZMod p))).rank ≤ (X.map (Int.castRingHom ℚ)).rank := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Xp := X.map (Int.castRingHom (ZMod p))
   let Xq := X.map (Int.castRingHom ℚ)
   let s : Set (Fin m → ZMod p) := Set.range Xp.col
   let W : Submodule (ZMod p) (Fin m → ZMod p) := Submodule.span (ZMod p) s
-  haveI hfinW : Module.Finite (ZMod p) W := by
-    haveI : Module.Finite (ZMod p) (Fin m → ZMod p) := inferInstance
+  have hfinW : Module.Finite (ZMod p) W := by
+    have : Module.Finite (ZMod p) (Fin m → ZMod p) := inferInstance
     exact Module.Finite.of_injective W.subtype W.subtype_injective
   let k := Module.finrank (ZMod p) W
   obtain ⟨f, hf_mem, hf_span, hf_ind⟩ :=
@@ -155,7 +154,7 @@ theorem matrix_rank_neg {r : ℕ} {R : Type*} [Field R]
 
 theorem matrix_rank_two_smul_one {r p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     ((2 : ZMod p) • (1 : Matrix (Fin r) (Fin r) (ZMod p))).rank = r := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcop : Nat.Coprime 2 p := by
     rw [Nat.coprime_comm, hp.coprime_iff_not_dvd]
     intro h
@@ -176,7 +175,7 @@ theorem exists_primitive_rank_one_of_involution {r p : ℕ} (hp : p.Prime) (hp2 
       (M.map (Int.castRingHom (ZMod p)))ᵀ *ᵥ z = (-1 : ZMod p) • z} < p ^ r) :
     ∃ u c : Fin r → ℤ, u ≠ 0 ∧ c ≠ 0 ∧ (∀ d : ℤ, (∀ j, d ∣ u j) → d = 1 ∨ d = -1) ∧
       ∀ x, M *ᵥ x = -x + (c ⬝ᵥ x) • u := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let N : Matrix (Fin r) (Fin r) (ZMod p) := M.map (Int.castRingHom (ZMod p))
   let T : Matrix (Fin r) (Fin r) ℤ := M + 1
   let Tp : Matrix (Fin r) (Fin r) (ZMod p) := T.map (Int.castRingHom (ZMod p))
@@ -193,11 +192,11 @@ theorem exists_primitive_rank_one_of_involution {r p : ℕ} (hp : p.Prime) (hp2 
   have hTp_eq : Tp = N + 1 := by
     ext i j
     by_cases h : i = j <;> simp [Tp, T, N, Matrix.map_apply, Matrix.add_apply,
-      Matrix.one_apply, h]
+      h]
   have hTQ_eq : TQ = MQ + 1 := by
     ext i j
     by_cases h : i = j <;> simp [TQ, T, MQ, Matrix.map_apply, Matrix.add_apply,
-      Matrix.one_apply, h]
+      h]
   let L : (Fin r → ZMod p) →ₗ[ZMod p] (Fin r → ZMod p) := (Nᵀ + 1).mulVecLin
   have hSset : Nat.card {z : Fin r → ZMod p // Nᵀ *ᵥ z = (-1 : ZMod p) • z} =
       Nat.card {z : Fin r → ZMod p // L z = 0} := by
@@ -254,7 +253,7 @@ theorem exists_primitive_rank_one_of_involution {r p : ℕ} (hp : p.Prime) (hp2 
       have heq : Tp + (2 - Tp) = (2 : ZMod p) • 1 := by
         rw [show Tp + (2 - Tp) = (2 : Matrix (Fin r) (Fin r) (ZMod p)) by abel]
         ext i j
-        by_cases h : i = j <;> simp [Matrix.one_apply, Matrix.ofNat_apply, h]
+        by_cases h : i = j <;> simp [Matrix.ofNat_apply, h]
       rw [heq, matrix_rank_two_smul_one hp hp2] at h1
       have h2 : (2 - Tp).rank = (Tp - 2).rank := by
         rw [show (2 : Matrix (Fin r) (Fin r) (ZMod p)) - Tp = -(Tp - 2) by abel]
@@ -274,13 +273,11 @@ theorem exists_primitive_rank_one_of_involution {r p : ℕ} (hp : p.Prime) (hp2 
   have hT_sub_p : (T - 2).map (Int.castRingHom (ZMod p)) = Tp - 2 := by
     ext i j
     by_cases h : i = j <;>
-      simp [Tp, Matrix.map_apply, Pi.sub_apply, Matrix.ofNat_apply, Matrix.one_apply, h] <;>
-      try ring
+      simp [Tp, Matrix.map_apply, Matrix.ofNat_apply, h]
   have hT_sub_q : (T - 2).map (Int.castRingHom ℚ) = TQ - 2 := by
     ext i j
     by_cases h : i = j <;>
-      simp [TQ, Matrix.map_apply, Pi.sub_apply, Matrix.ofNat_apply, Matrix.one_apply, h] <;>
-      try ring
+      simp [TQ, Matrix.map_apply, Matrix.ofNat_apply, h]
   have hTQ2_rank_ge : r - 1 ≤ (TQ - 2).rank := by
     have hr := rank_map_zmod_le_rank_map_rat hp (T - 2)
     rw [hT_sub_p, hT_sub_q] at hr
@@ -308,7 +305,7 @@ theorem exists_primitive_rank_one_of_involution {r p : ℕ} (hp : p.Prime) (hp2 
 
 theorem iform_mul_dotProduct_eq_two_mul {τ : Tag}
     (M : Matrix (Fin τ.rank) (Fin τ.rank) ℤ)
-    (hM : ∀ x y, iform (M *ᵥ x) (M *ᵥ y) = iform x y) {u c : Fin τ.rank → ℤ} (hu : u ≠ 0)
+    (hM : ∀ x y, iform (M *ᵥ x) (M *ᵥ y) = iform x y) {u c : Fin τ.rank → ℤ} (_hu : u ≠ 0)
     (hc : c ≠ 0) (h : ∀ x, M *ᵥ x = -x + (c ⬝ᵥ x) • u) (x : Fin τ.rank → ℤ) :
     iform u u * (c ⬝ᵥ x) = 2 * iform u x := by
   have hkey : ∀ y, (c ⬝ᵥ y) * (iform u u * (c ⬝ᵥ y) - 2 * iform u y) = 0 := by

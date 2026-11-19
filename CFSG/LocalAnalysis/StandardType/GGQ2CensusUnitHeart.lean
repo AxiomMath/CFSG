@@ -245,7 +245,7 @@ theorem censusCasesUnitHeart_holds : CensusCasesUnitHeart := by
   obtain ⟨a, b, c, hab, hac, hbc, hjabc, -⟩ :=
     UnitRaw.heartPlaneShapes_holds (n + 3) h3 U' j' hU hjocc hjcentH
   have hjcard : j'.card = n := by
-    rw [hjabc, Finset.card_univ_diff, Fintype.card_fin,
+    rw [hjabc, Finset.card_univ_sdiff, Fintype.card_fin,
       Finset.card_eq_three.mpr ⟨a, b, c, hab, hac, hbc, rfl⟩]
     omega
   have hu₁U : gccuh_heartDiff (n + 3) m₁ m₂ ∈ U' := by

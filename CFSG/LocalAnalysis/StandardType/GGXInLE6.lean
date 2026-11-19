@@ -71,10 +71,10 @@ private theorem lup8e_conj_injective {G : Type} [Group G] (hZ : Subgroup.center 
 
 private theorem lup8e_ad_injective {R : Type} [Group R] (D : FrameData R) (hD : D.Good) :
     Function.Injective D.ad :=
-  fun x y h => Multiplicative.ofAdd.injective (hD.faithful h)
+  fun _x _y h => Multiplicative.ofAdd.injective (hD.faithful h)
 
 private noncomputable def lup8e_eVec {R : Type} [Group R] (D : FrameData R)
-    (hD : D.Good) (r : D.V0) : (Fin Tag.E6.rank → ZMod 3) :=
+    (_hD : D.Good) (r : D.V0) : (Fin Tag.E6.rank → ZMod 3) :=
   Classical.choose r.2.2
 
 private theorem lup8e_eVec_mem {R : Type} [Group R] (D : FrameData R)
@@ -304,7 +304,7 @@ private theorem lup8e_tor_le_V0
     {R : Type} [Group R] [Finite R] (D : FrameData R)
     (hD : D.Good) (hTexp : ∀ t ∈ D.Tor, t ^ 3 = 1) (h3R : ¬ 3 ^ 10 ∣ Nat.card R) :
     D.Tor ≤ D.V0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Nbar : Subgroup R := Subgroup.closure (↑D.Tor ∪ Set.range D.nb)
   have hTor_pgroup : IsPGroup 3 D.Tor := fun t => ⟨1, by
     apply Subtype.ext
@@ -352,10 +352,10 @@ theorem e6_transfer_frame
     {R : Type} [Group R] [Finite R] {L' : Type} [Group L'] [Finite L']
     (D : FrameData R) (hAL : GGAbelianLift) (hD : D.Good) (hTexp : ∀ t ∈ D.Tor, t ^ 3 = 1)
     (h3R : ¬ 3 ^ 10 ∣ Nat.card R)
-    (hperf : commutator L' = ⊤) {ψ : L' →* R} (hψ : Function.Surjective ψ)
+    (_hperf : commutator L' = ⊤) {ψ : L' →* R} (hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center L') (hcard : Nat.card ψ.ker = 3)
-    {ρ : MulAut L' →* MulAut R} (hρ : ∀ a l, ρ a (ψ l) = ψ (a l)) (hρinj : Function.Injective ρ)
-    {A : Subgroup (MulAut L')} (hA : CFSG.Open.IsElemAbelian 3 A) (hsc : GGTorusSelfCent 3 A)
+    {ρ : MulAut L' →* MulAut R} (hρ : ∀ a l, ρ a (ψ l) = ψ (a l)) (_hρinj : Function.Injective ρ)
+    {A : Subgroup (MulAut L')} (hA : CFSG.Open.IsElemAbelian 3 A) (_hsc : GGTorusSelfCent 3 A)
     (hal : ∀ a ∈ A, ρ a ∈ D.diag.range) :
     ∃ (T N : Subgroup L') (hn : (T.subgroupOf N).Normal), T ≤ N ∧ ψ.ker ≤ T ∧
       (∀ s ∈ T, ∀ t ∈ T, s * t = t * s) ∧ (∀ t ∈ T, t ^ 3 = 1) ∧
@@ -406,7 +406,7 @@ theorem e6_transfer_frame
     rintro z (hz | ⟨i, rfl⟩)
     · exact Subgroup.le_normalizer hz
     · exact hmem_nb i
-  haveI hn : (T.subgroupOf N).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNnormT
+  have hn : (T.subgroupOf N).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNnormT
   have hCob : ∀ n ∈ N, ∀ a ∈ A, n * (a n)⁻¹ ∈ T := by
     intro n hn
     refine Subgroup.closure_induction (p := fun x _ => ∀ a ∈ A, x * (a x)⁻¹ ∈ T) ?_ ?_ ?_ ?_ hn
@@ -415,7 +415,7 @@ theorem e6_transfer_frame
         exact T.one_mem
       · exact (coboundary_clause D hAL hD hψ hker (Or.inr hcard) hρ hAp hal hw i a ha).1
     · intro a ha
-      simpa using T.one_mem
+      simp
     · intro x y hx hy ihx ihy a ha
       have hxN : x ∈ Subgroup.normalizer (T : Set L') := hNnormT hx
       have ht_y : y * (a y)⁻¹ ∈ T := ihy a ha
@@ -447,7 +447,7 @@ theorem e6_transfer_frame
       · exact Subgroup.subset_closure (Or.inl (Subgroup.mem_comap.mp hyT))
       · rw [hw i]
         exact Subgroup.subset_closure (Or.inr ⟨i, rfl⟩)
-    | one => simpa using Nbar.one_mem
+    | one => simp
     | mul a b _ _ ha hb => rw [map_mul]; exact Nbar.mul_mem ha hb
     | inv a _ ha => rw [map_inv]; exact Nbar.inv_mem ha
   let ψN : N →* Nbar :=
@@ -533,7 +533,6 @@ theorem e6_transfer_frame
       intro w
       obtain ⟨n, hn⟩ := (MonoidHom.range_eq_top.mp hΦrange) w
       exact ⟨QuotientGroup.mk n, by
-        change f (QuotientGroup.mk n) = w
         rw [show f (QuotientGroup.mk n) = Φ n from rfl]
         exact hn⟩
     have hNTdvd : 51840 ∣ Nat.card (N ⧸ T.subgroupOf N) := by

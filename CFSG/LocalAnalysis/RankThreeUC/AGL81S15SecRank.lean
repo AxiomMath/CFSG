@@ -30,7 +30,7 @@ theorem not_isCyclic_of_isElemAbelian {Y : Type} [Group Y] [Finite Y] {q k : ℕ
 theorem exists_isPGroup_map_eq_top {G H : Type} [Group G] [Group H] [Finite G] [Finite H]
     {q : ℕ} (hq : q.Prime) (f : G →* H) (hf : Function.Surjective f) (hH : IsPGroup q H) :
     ∃ S : Subgroup G, IsPGroup q S ∧ S.map f = ⊤ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hH
   have hTop : IsPGroup q (⊤ : Subgroup H) :=
     IsPGroup.iff_card.2 ⟨n, by rw [Subgroup.card_top, hn]⟩
@@ -38,13 +38,13 @@ theorem exists_isPGroup_map_eq_top {G H : Type} [Group G] [Group H] [Finite G] [
     rw [Subgroup.index_top]
     exact hq.not_dvd_one
   obtain ⟨S, hS⟩ := Sylow.mapSurjective_surjective hf q (hTop.toSylow hdvd)
-  exact ⟨S.toSubgroup, S.isPGroup', congrArg Sylow.toSubgroup hS⟩
+  exact ⟨S.toSubgroup, S.isPGroup, congrArg Sylow.toSubgroup hS⟩
 
 theorem two_le_pRank_of_map {X Y : Type} [Group X] [Group Y] [Finite X] [Finite Y] (φ : X →* Y)
     {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (U : Subgroup X)
     (h : 2 ≤ CFSG.Open.pRank q (U.map φ)) : 2 ≤ CFSG.Open.pRank q U := by
   have hq1 : 1 < q := hq.one_lt
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨E, hEU, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank hq1 (U.map φ)
   have hEnc : ¬ IsCyclic E := not_isCyclic_of_isElemAbelian hq h hE hEcard
   have hEp : IsPGroup q E := IsPGroup.iff_card.2 ⟨_, hEcard⟩
@@ -107,7 +107,7 @@ theorem two_le_pRank_normalizer_of_gnA {X : Type} [Group X] [Finite X] (T Ti : S
   omega
 
 theorem dvd_card_normalizer_of_dvd_gnA {X : Type} [Group X] [Finite X] (T Ti : Subgroup X)
-    (L : Subgroup (X ⧸ gnC T)) {q : ℕ} (hq : q.Prime) (h : q ∣ Nat.card (gnA T Ti L)) :
+    (L : Subgroup (X ⧸ gnC T)) {q : ℕ} (_hq : q.Prime) (h : q ∣ Nat.card (gnA T Ti L)) :
     q ∣ Nat.card (Subgroup.normalizer (Ti : Set X) ⊓
       L.comap (QuotientGroup.mk' (gnC T)) : Subgroup X) := by
   rw [gnA_eq_map] at h

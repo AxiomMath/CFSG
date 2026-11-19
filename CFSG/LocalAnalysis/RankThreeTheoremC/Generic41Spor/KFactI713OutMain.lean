@@ -49,7 +49,7 @@ theorem pGoodOut_three_of_cyclic {K : Type} [Group K] [Finite K] [IsSimpleGroup 
 theorem pGoodOut_ge_five_of_cyclic {K : Type} [Group K] [Finite K] [IsSimpleGroup K]
     (hnab : ∃ a b : K, a * b ≠ b * a) (hcat : IsCatalogGroup K) {p : ℕ} (hp : p.Prime)
     (hp5 : 5 ≤ p) (T : Sylow p K) (hT : IsCyclic (T : Subgroup K)) : PGoodOut p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ : Subgroup.center K = ⊥ := center_eq_bot_of_simple hnab
   have hA : ∀ A : Subgroup K, CFSG.Open.IsElemAbelian p A → Nat.card A ≤ p := fun A hA =>
     CFSG.AGLEmbedding.card_le_of_isElemAbelian_of_isCyclic_sylow T hT hA
@@ -89,11 +89,11 @@ theorem reducedOuterSylow_holds : CFSG.AGLEmbedding.OuterSylow.ReducedOuterSylow
 
 theorem kFactI713Out_holds : KFactI713Out := by
   intro p hp hp2 K _ _ hs hnab hcat hrk
-  haveI : IsSimpleGroup K := hs
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup K := hs
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨T⟩ : Nonempty (Sylow p K) := inferInstance
   have hT : IsCyclic (T : Subgroup K) := by
-    refine isCyclic_of_pRank_le_one hp hp2 (le_top : (T : Subgroup K) ≤ ⊤) T.isPGroup' ?_
+    refine isCyclic_of_pRank_le_one hp hp2 (le_top : (T : Subgroup K) ≤ ⊤) T.isPGroup ?_
     rw [CFSG.SectionRank.pRank_eq_open_pRank_top, ← CFSG.SectionRank.pRank_eq_pRank_top_subgroup]
     exact hrk
   refine ⟨fun hS => ?_, ?_⟩

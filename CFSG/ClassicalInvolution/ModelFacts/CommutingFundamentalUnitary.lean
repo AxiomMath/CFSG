@@ -110,7 +110,7 @@ theorem iSup_longRootSetU_centralizing (hK : Nat.card K = (p ^ f) ^ 2) (hp : p �
         · exact Or.inl (Fin.ext (by simp only; omega))
         · exact Or.inr (Fin.ext (by simp only; omega))
       rcases ha' with h | h <;> rcases hb' with h' | h' <;> rw [h, h'] <;>
-        first | rfl | exact hd | exact hd.symm
+        first | exact hd | exact hd.symm
     exact (commute_conj_of_diagonal_su d hi hy).symm
   have hcent : ∀ k : Fin m, blk k ≤ Subgroup.centralizer ({i₁} : Set (Su K p f (m + 1))) ∨
       blk k ≤ Subgroup.centralizer ({i₂} : Set (Su K p f (m + 1))) ∨

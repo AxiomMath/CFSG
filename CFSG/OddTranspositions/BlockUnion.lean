@@ -13,6 +13,7 @@ variable {G : Type*} [Group G] [Finite G] {D : Set G}
 
 @[expose] def blockUnion (V : Set (Set G)) : Set G := {x | ∃ β ∈ V, x ∈ β}
 
+omit [Finite G] in
 theorem blockUnion_conj (V : Set (Set G)) (g : G) :
     (fun x => g * x * g⁻¹) '' blockUnion V =
       blockUnion ((fun β => (fun x => g * x * g⁻¹) '' β) '' V) := by
@@ -23,6 +24,7 @@ theorem blockUnion_conj (V : Set (Set G)) (g : G) :
   · rintro ⟨β, ⟨γ, hγ, rfl⟩, y, hy, rfl⟩
     exact ⟨y, ⟨γ, hγ, hy⟩, rfl⟩
 
+omit [Finite G] in
 theorem blockUnion_subset {D α : Set G} {V : Set (Set G)} (hN : IsNormalSet D) (hα : IsBlock D α)
     (hV : V ⊆ blockClass α) : blockUnion V ⊆ D := by
   rintro x ⟨β, hβ, hx⟩
@@ -30,6 +32,7 @@ theorem blockUnion_subset {D α : Set G} {V : Set (Set G)} (hN : IsNormalSet D) 
   obtain ⟨y, hy, rfl⟩ := hx
   exact hN g y (hα.subset hy)
 
+omit [Finite G] in
 theorem blockUnion_nonempty {D α : Set G} {V : Set (Set G)} (hα : IsBlock D α) (hV : V ⊆ blockClass α)
     (hne : V.Nonempty) : (blockUnion V).Nonempty := by
   obtain ⟨β, hβ⟩ := hne
@@ -37,6 +40,7 @@ theorem blockUnion_nonempty {D α : Set G} {V : Set (Set G)} (hα : IsBlock D α
   obtain ⟨x, hx⟩ := hα.nonempty
   exact ⟨g * x * g⁻¹, (fun y => g * y * g⁻¹) '' α, hβ, ⟨x, hx, rfl⟩⟩
 
+omit [Finite G] in
 theorem isBlock_blockUnion {D α : Set G} {V : Set (Set G)} (hN : IsNormalSet D) (hα : IsBlock D α)
     (hV : V ⊆ blockClass α) (hVb : MulAction.IsBlock (ConjAct G) V)
     (hne : V.Nonempty) (hproper : V ≠ blockClass α) :
@@ -46,7 +50,7 @@ theorem isBlock_blockUnion {D α : Set G} {V : Set (Set G)} (hN : IsNormalSet D)
   · intro hU
     obtain ⟨γ, hγc, hγV⟩ : ∃ γ ∈ blockClass α, γ ∉ V := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact hproper (Set.Subset.antisymm hV h)
     obtain ⟨h, rfl⟩ := mem_blockClass_iff.mp hγc
     obtain ⟨x, hxγ⟩ := hα.nonempty
@@ -95,6 +99,7 @@ theorem isBlock_blockUnion {D α : Set G} {V : Set (Set G)} (hN : IsNormalSet D)
       rw [blockUnion_conj, ← hsmulV, hfix]
     exact hg (Subgroup.mem_normalizer_iff_conj_image_eq.mpr hUfix)
 
+omit [Finite G] in
 theorem Valpha_eq_singleton_of_isMaxBlock_of_ne {D α : Set G} (hN : IsNormalSet D)
     (hmax : IsMaxBlock D α) (hproper : Valpha D α ≠ blockClass α) :
     Valpha D α = {α} := by
@@ -129,6 +134,7 @@ theorem Valpha_eq_singleton_of_isMaxBlock_of_ne {D α : Set G} (hN : IsNormalSet
     rw [hβ]
     exact mem_Valpha_self D α
 
+omit [Finite G] in
 theorem Walpha_eq_singleton_of_isMaxBlock_of_ne {D α : Set G} (hN : IsNormalSet D)
     (hmax : IsMaxBlock D α) (hproper : Walpha D α ≠ blockClass α) :
     Walpha D α = {α} := by

@@ -43,7 +43,7 @@ theorem smul_Jm_transpose (l : K) : (l • Jm : Matrix (Fin 2) (Fin 2) K)ᵀ = l
 
 theorem single_eq (c : K) :
     (Matrix.single 0 0 c : Matrix (Fin 2) (Fin 2) K) = !![c, 0; 0, 0] := by
-  ext i j; fin_cases i <;> fin_cases j <;> simp [Matrix.single_apply]
+  ext i j; fin_cases i <;> fin_cases j <;> simp
 
 theorem det_isUnit {A : Matrix (Fin 2) (Fin 2) K} (hA : A.det = 1) : IsUnit A.det := by
   rw [hA]; exact isUnit_one
@@ -109,7 +109,7 @@ theorem levGL_conj_uS {A : Matrix (Fin 2) (Fin 2) K} (hA : A.det = 1)
     Matrix.fromBlocks A 0 0 (A⁻¹)ᵀ * uS S * Matrix.fromBlocks A⁻¹ 0 0 Aᵀ =
       uS (A * S * Aᵀ) := by
   simp only [uS, Matrix.fromBlocks_multiply, Matrix.mul_zero, Matrix.zero_mul, add_zero,
-    zero_add, Matrix.mul_one, Matrix.one_mul, mul_inv_eq_one' hA, transpose_inv_mul' hA,
+    zero_add, Matrix.mul_one, mul_inv_eq_one' hA, transpose_inv_mul' hA,
     Matrix.mul_assoc]
 
 theorem lev_conj_block {A : Matrix (Fin 2) (Fin 2) K} (hA : A.det = 1) (a b : K)
@@ -120,7 +120,7 @@ theorem lev_conj_block {A : Matrix (Fin 2) (Fin 2) K} (hA : A.det = 1) (a b : K)
       Matrix.fromBlocks (b • (1 : Matrix (Fin 2) (Fin 2) K)) (A * X * Aᵀ) 0
         (a • (1 : Matrix (Fin 2) (Fin 2) K)) := by
   simp only [Matrix.fromBlocks_multiply, Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add,
-    Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_one, Matrix.one_mul, mul_inv_eq_one' hA,
+    Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_one, mul_inv_eq_one' hA,
     transpose_inv_mul' hA, Matrix.mul_assoc, smul_zero, Matrix.mul_zero]
 
 theorem diag_mul_inv {α β : K} (h : α * β = 1) :
@@ -159,7 +159,7 @@ theorem diag_conj_block (a b : K) (s : Matrix (Fin 2) (Fin 2) K) :
       Matrix.fromBlocks (a • (1 : Matrix (Fin 2) (Fin 2) K)) ((b - a) • s) 0
         (b • (1 : Matrix (Fin 2) (Fin 2) K)) := by
   simp only [uS, Matrix.fromBlocks_multiply, Matrix.mul_zero, Matrix.zero_mul, add_zero,
-    zero_add, Matrix.mul_one, Matrix.one_mul, Matrix.mul_neg, Matrix.neg_mul, Matrix.mul_smul,
+    zero_add, Matrix.mul_one, Matrix.one_mul, Matrix.mul_neg, Matrix.mul_smul,
     Matrix.smul_mul, smul_zero, sub_smul]
   refine Matrix.fromBlocks_inj.2 ⟨rfl, ?_, rfl, ?_⟩
   · abel
@@ -368,7 +368,7 @@ theorem sp4TwistedLevi_holds :
           ((α ^ 2 - 1) * c) • (!![0, w; w, w ^ 2] : Matrix (Fin 2) (Fin 2) K) := by
         rw [hT]
         ext i j
-        fin_cases i <;> fin_cases j <;> simp [Matrix.mul_fin_two] <;> ring
+        fin_cases i <;> fin_cases j <;> simp <;> ring
       exact (comm_mat hAw (!![c, 0; 0, 0]) hαβ).trans (congrArg uS e1)
     have hgE : Good (hgrp x) (((α ^ 2 - 1) * c) • !![0, w; w, w ^ 2]) := ⟨_, hg1, hmat⟩
     have hsum := Good.add hgE (hGJ (((α ^ 2 - 1) * c) * w))
@@ -377,7 +377,7 @@ theorem sp4TwistedLevi_holds :
       rw [← hw]
       ext i j
       fin_cases i <;> fin_cases j <;> simp [Jm] <;>
-        first | ring1 | linear_combination ((α ^ 2 - 1) * c * w) * h2
+        linear_combination ((α ^ 2 - 1) * c * w) * h2
     rw [e2] at hsum
     exact hsum
   have hAJ : (!![0, 1; -1, 0] : Matrix (Fin 2) (Fin 2) K).det = 1 := by
@@ -392,7 +392,7 @@ theorem sp4TwistedLevi_holds :
         (!![t, 0; 0, 0] : Matrix (Fin 2) (Fin 2) K) := by
       rw [hT]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [Matrix.mul_fin_two]
+      fin_cases i <;> fin_cases j <;> simp
     rw [e] at key
     exact key
   have hAu : (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) K).det = 1 := by
@@ -407,7 +407,7 @@ theorem sp4TwistedLevi_holds :
         (!![t, t; t, t] : Matrix (Fin 2) (Fin 2) K) := by
       rw [hT]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [Matrix.mul_fin_two]
+      fin_cases i <;> fin_cases j <;> simp
     rw [e] at key
     exact key
   have hGsym : ∀ S : Matrix (Fin 2) (Fin 2) K, Sᵀ = S → Good (hgrp x) S := by
@@ -418,7 +418,7 @@ theorem sp4TwistedLevi_holds :
         !![S 0 1, S 0 1; S 0 1, S 0 1] := by
       ext i j
       fin_cases i <;> fin_cases j <;> simp [← hs] <;>
-        first | ring1 | linear_combination (-S 0 1) * h2 | linear_combination (S 0 1) * h2
+        linear_combination (-S 0 1) * h2
     rw [e]
     exact Good.add (Good.add (hGE11 _) (hGE22 _)) (hGM3 _)
   show siegelRadical K ≤ hgrp x

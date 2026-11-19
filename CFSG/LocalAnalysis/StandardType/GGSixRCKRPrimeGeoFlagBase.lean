@@ -127,7 +127,7 @@ private theorem rckRPgb_pair_mulVec {ι F : Type} [Fintype ι] [DecidableEq ι] 
       (α * (a ⬝ᵥ m)) • v + (β * (b ⬝ᵥ m)) • w := by
   rw [Matrix.add_mulVec, Matrix.smul_mulVec, Matrix.smul_mulVec,
     Matrix.vecMulVec_mulVec, Matrix.vecMulVec_mulVec]
-  simp [smul_smul, mul_comm, mul_left_comm, mul_assoc]
+  simp [smul_smul]
 
 private theorem rckRPgb_exists_coeff_v {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]
     {a b : ι → F} {i j : ι} (hd : a i * b j - a j * b i ≠ 0) :

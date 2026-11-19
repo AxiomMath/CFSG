@@ -84,7 +84,7 @@ theorem normalizes_of_forall_conj_le (H Γ X₁ X₂ T : Subgroup G)
     calc N₀ = conjSub h (conjSub h⁻¹ N₀) := (conjSub_conjSub_inv h N₀).symm
       _ ≤ conjSub h N₀ := conjSub_mono h (hN₀le h⁻¹ (H.inv_mem hh))
   set U : Subgroup X₂ := (N₀ ⊓ X₂).subgroupOf X₂ with hU
-  haveI hUn : U.Normal := ⟨fun z hz y => by
+  have hUn : U.Normal := ⟨fun z hz y => by
     rw [hU, Subgroup.mem_subgroupOf] at hz ⊢
     refine ⟨?_, (y * z * y⁻¹ : X₂).2⟩
     have hy : (y : G) ∈ H := hX₂ y.2

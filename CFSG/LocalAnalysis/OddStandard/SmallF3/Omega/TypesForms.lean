@@ -32,7 +32,7 @@ private theorem aux_signOf_mul_neg_one (x : RegularFormClass (ZMod 3)) :
 
 theorem quadSign_eq_signOf (R : QuadraticForm (ZMod 3) V) (h : R.Nondegenerate) :
     quadSign R = signOf (formClass R h) := by
-  rw [quadSign, dif_pos h]
+  rw [quadSign, dite_eq_left h]
 
 theorem quadSign_of_subsingleton [Subsingleton V] (R : QuadraticForm (ZMod 3) V) :
     quadSign R = 1 := by

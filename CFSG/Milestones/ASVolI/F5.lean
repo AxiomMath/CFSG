@@ -780,7 +780,7 @@ open scoped Pointwise
 
 private theorem bil_coord (u v : V6) : bil u v =
     2 * (u 0 * v 0 + u 1 * v 1 + u 2 * v 2 + u 3 * v 3 + u 4 * v 4) - 2 * (u 5 * v 5) := by
-  simp only [bil, qV, Pi.add_apply, Fin.sum_univ_six]
+  simp only [bil, qV, Pi.add_apply]
   ring
 
 private theorem bil_self (a : V6) : bil a a = 2 * qV a := by
@@ -935,8 +935,7 @@ private def negU : GL6 := ⟨negM, negM, negM_mul, negM_mul⟩
 private theorem negU_mulVec (v : V6) : (negU : Matrix (Fin 6) (Fin 6) (ZMod 3)) *ᵥ v = -v := by
   show negM *ᵥ v = -v
   ext i
-  simp [negM, Matrix.mulVec, dotProduct, Matrix.scalar_apply, Matrix.diagonal_apply,
-    neg_one_mul]
+  simp [negM, Matrix.mulVec, dotProduct, Matrix.scalar_apply, Matrix.diagonal_apply]
 
 private theorem negU_mem : negU ∈ CFSG.MatrixModel.isometryCore qV :=
   Subgroup.subset_closure fun v => by
@@ -1092,7 +1091,7 @@ private theorem mem_V3plus_of_coords (v : V6) (h2 : v 2 = 0) (h3 : v 3 = 0) (h4 
     v ∈ V3plus := by
   have hv : v = v 0 • x1 + v 1 • x2 + v 5 • x6 := by
     funext i
-    fin_cases i <;> simp [x1, x2, x6, xvec, Pi.single_apply, h2, h3, h4]
+    fin_cases i <;> simp [x1, x2, x6, xvec, h2, h3, h4]
   rw [hv]
   unfold V3plus spn
   refine Submodule.add_mem _ (Submodule.add_mem _ (Submodule.smul_mem _ _ ?_)
@@ -1104,7 +1103,7 @@ private theorem V3plus_coords (v : V6) (hv : v ∈ V3plus) : v 2 = 0 ∧ v 3 = 0
   induction hv using Submodule.span_induction with
   | mem x hx =>
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
-    rcases hx with rfl | rfl | rfl <;> simp [x1, x2, x6, xvec, Pi.single_apply]
+    rcases hx with rfl | rfl | rfl <;> simp [x1, x2, x6, xvec]
   | zero => simp
   | add x y _ _ hx hy => exact ⟨by simp [hx.1, hy.1], by simp [hx.2.1, hy.2.1],
       by simp [hx.2.2, hy.2.2]⟩
@@ -1164,22 +1163,21 @@ private theorem DeltaDotH_eq : DeltaDotH = {PA, PB, PC} := by
     · left
       refine pt_eq_of_smul v x6 hv qV_x6 (v 5) hc ?_
       funext i
-      fin_cases i <;> simp [x6, xvec, Pi.single_apply, h2, h3, h4, ha, hb]
+      fin_cases i <;> simp [x6, xvec, h2, h3, h4, ha, hb]
     · right; right
       refine pt_eq_of_smul v (x1 + x2) hv qV_x1_add_x2 (v 0) ha ?_
       funext i
-      fin_cases i <;> simp [x1, x2, xvec, Pi.single_apply, h2, h3, h4, hc, hab]
+      fin_cases i <;> simp [x1, x2, xvec, h2, h3, h4, hc, hab]
     · right; left
       refine pt_eq_of_smul v (x1 - x2) hv qV_x1_sub_x2 (v 0) ha ?_
       funext i
-      fin_cases i <;> simp [x1, x2, xvec, Pi.single_apply, h2, h3, h4, hc, hab] <;>
-        first | exact (neg_neg _).symm | norm_num | simp
+      fin_cases i <;> simp [x1, x2, xvec, h2, h3, h4, hc, hab]
   · rintro (rfl | rfl | rfl)
-    · exact ⟨x6, qV_x6, rfl, (mem_V3plus_iff x6).mpr (by simp [x6, xvec, Pi.single_apply])⟩
+    · exact ⟨x6, qV_x6, rfl, (mem_V3plus_iff x6).mpr (by simp [x6, xvec])⟩
     · exact ⟨x1 - x2, qV_x1_sub_x2, rfl,
-        (mem_V3plus_iff _).mpr (by simp [x1, x2, xvec, Pi.single_apply])⟩
+        (mem_V3plus_iff _).mpr (by simp [x1, x2, xvec])⟩
     · exact ⟨x1 + x2, qV_x1_add_x2, rfl,
-        (mem_V3plus_iff _).mpr (by simp [x1, x2, xvec, Pi.single_apply])⟩
+        (mem_V3plus_iff _).mpr (by simp [x1, x2, xvec])⟩
 
 private theorem PA_ne_PB : PA ≠ PB := by
   intro h
@@ -1188,7 +1186,7 @@ private theorem PA_ne_PB : PA ≠ PB := by
     rw [hsp]; exact Submodule.mem_span_singleton_self _
   obtain ⟨a, ha⟩ := (mem_spn_singleton x6 (x1 - x2)).mp hmem
   have h0 := congrFun ha 0
-  simp [x6, x1, x2, xvec, Pi.single_apply] at h0 <;> exact absurd h0 (by decide)
+  simp [x6, x1, x2, xvec] at h0
 
 private theorem PA_ne_PC : PA ≠ PC := by
   intro h
@@ -1197,7 +1195,7 @@ private theorem PA_ne_PC : PA ≠ PC := by
     rw [hsp]; exact Submodule.mem_span_singleton_self _
   obtain ⟨a, ha⟩ := (mem_spn_singleton x6 (x1 + x2)).mp hmem
   have h0 := congrFun ha 0
-  simp [x6, x1, x2, xvec, Pi.single_apply] at h0 <;> exact absurd h0 (by decide)
+  simp [x6, x1, x2, xvec] at h0
 
 private theorem PB_ne_PC : PB ≠ PC := by
   intro h
@@ -1207,20 +1205,20 @@ private theorem PB_ne_PC : PB ≠ PC := by
   obtain ⟨a, ha⟩ := (mem_spn_singleton (x1 - x2) (x1 + x2)).mp hmem
   have h0 := congrFun ha 0
   have h1 := congrFun ha 1
-  simp [x1, x2, xvec, Pi.single_apply] at h0 h1
+  simp [x1, x2, xvec] at h0 h1
   revert h0 h1
   generalize a = b
   revert b
   decide
 
 private theorem bil_PA_PB : bil x6 (x1 - x2) = 0 := by
-  rw [bil_coord]; simp [x6, x1, x2, xvec, Pi.single_apply] <;> decide
+  rw [bil_coord]; simp [x6, x1, x2, xvec]
 
 private theorem bil_PA_PC : bil x6 (x1 + x2) = 0 := by
-  rw [bil_coord]; simp [x6, x1, x2, xvec, Pi.single_apply] <;> decide
+  rw [bil_coord]; simp [x6, x1, x2, xvec]
 
 private theorem bil_PB_PC : bil (x1 - x2) (x1 + x2) = 0 := by
-  rw [bil_coord]; simp [x1, x2, xvec, Pi.single_apply] <;> decide
+  rw [bil_coord]; simp [x1, x2, xvec]
 
 private theorem DeltaDotH_isClique : DeltaDot.IsClique DeltaDotH := by
   rw [DeltaDotH_eq]
@@ -1287,9 +1285,9 @@ private theorem mem_Tpm_of_mem {x : V6} (hx : x ∈ Tv) : x ∈ Tpm := ⟨x, hx,
 private theorem Tv_sub_V3plus {x : V6} (hx : x ∈ Tv) : x ∈ V3plus := by
   simp only [Tv, Set.mem_insert_iff, Set.mem_singleton_iff] at hx
   rcases hx with rfl | rfl | rfl
-  · exact (mem_V3plus_iff _).mpr (by simp [x6, xvec, Pi.single_apply])
-  · exact (mem_V3plus_iff _).mpr (by simp [x1, x2, xvec, Pi.single_apply])
-  · exact (mem_V3plus_iff _).mpr (by simp [x1, x2, xvec, Pi.single_apply])
+  · exact (mem_V3plus_iff _).mpr (by simp [x6, xvec])
+  · exact (mem_V3plus_iff _).mpr (by simp [x1, x2, xvec])
+  · exact (mem_V3plus_iff _).mpr (by simp [x1, x2, xvec])
 
 private theorem Tpm_sub_V3plus {y : V6} (hy : y ∈ Tpm) : y ∈ V3plus := by
   obtain ⟨x, hx, h⟩ := hy
@@ -1363,7 +1361,7 @@ private theorem GoodH_R3 : GoodH (reflU x3 qV_x3_ne) := by
   have hfix : bil x x3 = 0 := by
     simp only [Tv, Set.mem_insert_iff, Set.mem_singleton_iff] at hx
     rcases hx with rfl | rfl | rfl <;>
-    (rw [bil_coord]; simp [x6, x1, x2, x3, xvec, Pi.single_apply])
+    (rw [bil_coord]; simp [x6, x1, x2, x3, xvec])
   rw [reflU_fix x3 qV_x3_ne x hfix]
   exact mem_Tpm_of_mem hx
 
@@ -1375,11 +1373,11 @@ private theorem GoodH_R6 : GoodH (reflU x6 qV_x6_ne) := by
   · rw [reflU_self x6 qV_x6_ne]
     exact Tpm_neg (mem_Tpm_of_mem (by simp [Tv]))
   · have hfix : bil (x1 - x2) x6 = 0 := by
-      rw [bil_coord]; simp [x6, x1, x2, xvec, Pi.single_apply]
+      rw [bil_coord]; simp [x6, x1, x2, xvec]
     rw [reflU_fix x6 qV_x6_ne _ hfix]
     exact mem_Tpm_of_mem (by simp [Tv])
   · have hfix : bil (x1 + x2) x6 = 0 := by
-      rw [bil_coord]; simp [x6, x1, x2, xvec, Pi.single_apply]
+      rw [bil_coord]; simp [x6, x1, x2, xvec]
     rw [reflU_fix x6 qV_x6_ne _ hfix]
     exact mem_Tpm_of_mem (by simp [Tv])
 
@@ -1633,7 +1631,7 @@ private theorem zmod_sq_of_ne (x : ZMod 3) (hx : x ≠ 0) : x ^ 2 = 1 := by
 private theorem two_ne_zero_z3 : (2 : ZMod 3) ≠ 0 := by decide
 
 private theorem tup5_x6 : tup5 x6 = (0, 0, 0, 0, 0) := by
-  simp [tup5, x6, xvec, Pi.single_apply]
+  simp [tup5, x6, xvec]
 
 private theorem dT_zero_right (C : T5) : dT C (0, 0, 0, 0, 0) = 0 := by
   simp [dT]
@@ -1655,7 +1653,7 @@ private theorem exists_perp_pair (vu vv : V6) (hu : qV vu = -1) (hv : qV vv = -1
     obtain ⟨h0', h1', h2', h3', h4'⟩ := hi
     have hwx : w = w 5 • x6 := by
       funext i
-      fin_cases i <;> simp [x6, xvec, Pi.single_apply, h0', h1', h2', h3', h4']
+      fin_cases i <;> simp [x6, xvec, h0', h1', h2', h3', h4']
     have e1 : vv = ((g⁻¹ : GL6) : Matrix (Fin 6) (Fin 6) (ZMod 3)) *ᵥ w := by
       rw [← hw, mulVec_inv_mulVec]
     have e2 : ((g⁻¹ : GL6) : Matrix (Fin 6) (Fin 6) (ZMod 3)) *ᵥ x6 = vu := by
@@ -1683,10 +1681,10 @@ private theorem exists_perp_pair (vu vv : V6) (hu : qV vu = -1) (hv : qV vv = -1
   · rw [bil_pull g hg, hgu, htx]
   · rw [bil_pull g hg, hw, htw]
 
-private theorem tup5_ne_zero_of (vu vw : V6) (hu : qV vu = -1) (hqw : qV vw = -1)
-    (hnew : ∀ c : ZMod 3, vw ≠ c • vu) (g : GL6) (hg : g ∈ CFSG.MatrixModel.isometryCore qV)
+private theorem tup5_ne_zero_of (vu vw : V6) (_hu : qV vu = -1) (_hqw : qV vw = -1)
+    (hnew : ∀ c : ZMod 3, vw ≠ c • vu) (g : GL6) (_hg : g ∈ CFSG.MatrixModel.isometryCore qV)
     (hgu : (g : Matrix (Fin 6) (Fin 6) (ZMod 3)) *ᵥ vu = x6) (w : V6)
-    (hwd : (g : Matrix (Fin 6) (Fin 6) (ZMod 3)) *ᵥ vw = w) (hw5 : w 5 ≠ 0) :
+    (hwd : (g : Matrix (Fin 6) (Fin 6) (ZMod 3)) *ᵥ vw = w) (_hw5 : w 5 ≠ 0) :
     tup5 w ≠ (0, 0, 0, 0, 0) := by
   intro h0
   have hi : tup5 w = (0, 0, 0, 0, 0) := h0
@@ -1694,7 +1692,7 @@ private theorem tup5_ne_zero_of (vu vw : V6) (hu : qV vu = -1) (hqw : qV vw = -1
   obtain ⟨h0', h1', h2', h3', h4'⟩ := hi
   have hwx : w = w 5 • x6 := by
     funext i
-    fin_cases i <;> simp [x6, xvec, Pi.single_apply, h0', h1', h2', h3', h4']
+    fin_cases i <;> simp [x6, xvec, h0', h1', h2', h3', h4']
   have e1 : vw = ((g⁻¹ : GL6) : Matrix (Fin 6) (Fin 6) (ZMod 3)) *ᵥ w := by
     rw [← hwd, mulVec_inv_mulVec]
   have e2 : ((g⁻¹ : GL6) : Matrix (Fin 6) (Fin 6) (ZMod 3)) *ᵥ x6 = vu := by

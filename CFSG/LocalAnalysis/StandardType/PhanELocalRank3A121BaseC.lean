@@ -10,6 +10,7 @@ open CFSG.Monster.B.Geometry Module
 
 variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_finrank_W2 : finrank K (W2 : Submodule K (Fin 4 → K)) = 2 := by
   let e : (W2 : Submodule K (Fin 4 → K)) ≃ₗ[K] (Fin 2 → K) :=
     { toFun := fun v => ![v.1 1, v.1 2]
@@ -34,6 +35,7 @@ private theorem plh_finrank_W2 : finrank K (W2 : Submodule K (Fin 4 → K)) = 2 
   rw [Module.finrank_fin_fun] at h
   exact h
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_W2_of_gen {c₀ y₀ : Fin 4 → K}
     (hc₀ : c₀ ∈ (Vtail : Submodule K (Fin 4 → K)))
     (hy₀ : y₀ ∈ (Vtail : Submodule K (Fin 4 → K))) :
@@ -46,6 +48,7 @@ private theorem plh_W2_of_gen {c₀ y₀ : Fin 4 → K}
   · simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
     ring
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_inf_eq_bot_of_not_le {p T : Submodule K (Fin 4 → K)}
     (hp : finrank K p = 1) (hnot : ¬ p ≤ T) : p ⊓ T = ⊥ := by
   by_contra h
@@ -55,6 +58,7 @@ private theorem plh_inf_eq_bot_of_not_le {p T : Submodule K (Fin 4 → K)}
   have heq : p ⊓ T = p := Submodule.eq_of_le_of_finrank_eq inf_le_left (by rw [h1, hp])
   exact hnot (heq ▸ inf_le_right)
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_not_le_of_dirVec_notMem {x₀ δ : Fin 4 → K}
     {T : Submodule K (Fin 4 → K)} (hxT : x₀ ∈ T) (hδT : δ ∉ T) {s : K} (hs : s ≠ 0) :
     ¬ Submodule.span K {x₀ + s • δ} ≤ T := by
@@ -77,7 +81,7 @@ theorem a121_cone (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) :
         finrank K ↥(y ⊔ z ⊔ t) = 3 ∧ finrank K ↥(z ⊔ x ⊔ t) = 3 := by
   intro x y z hx hy hz hxy hyz hzx
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨x₀, rfl, hx₀V, hx₀3⟩ := exists_gen_off_V3 hx (hxy.2.1).1
   obtain ⟨y₀, rfl, hy₀V, hy₀3⟩ := exists_gen_off_V3 hy (hyz.2.1).1
   obtain ⟨z₀, rfl, hz₀V, hz₀3⟩ := exists_gen_off_V3 hz (hzx.2.1).1

@@ -105,7 +105,7 @@ theorem typeStar_rotation_columns (hn : 4 ≤ n) (ht : t = (fS (r n) : G) ^ 2 ^ 
         (x : G) = q * c → (normalizerBasis.representation lambdaLabel).character x =
           thetaG t θ (c : G))
     (B : basis.index)
-    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
       (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _) le_rfl
         normalizerBasis lambdaLabel = centralCharacterResidueHom basis ideal B) :
     (∀ i j : ℤ, ¬ i ≡ 0 [ZMOD modulus n] → ¬ i ≡ (modulus n / 2 : ℕ) [ZMOD modulus n] →

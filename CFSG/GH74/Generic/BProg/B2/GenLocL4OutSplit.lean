@@ -64,7 +64,7 @@ variable {F : Type} [Field F]
 theorem diagonal_four (d : Fin 4 → F) :
     (Matrix.diagonal d : Matrix (Fin 4) (Fin 4) F) =
       !![d 0, 0, 0, 0; 0, d 1, 0, 0; 0, 0, d 2, 0; 0, 0, 0, d 3] := by
-  ext i j; fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply]
+  ext i j; fin_cases i <;> fin_cases j <;> simp
 
 theorem rot02_diag (d : Fin 4 → F) (m y z : F) (h : m * m - y * z = 1) (h1 : m * m * d 0 + y * y * d 2 = d 0)
     (h2 : m * z * d 0 + y * m * d 2 = 0) (h3 : z * z * d 0 + m * m * d 2 = d 2) :
@@ -169,8 +169,7 @@ theorem split_frame [Finite F] (hF4 : Nat.card F % 4 = 3) (B g : Matrix (Fin 4) 
   have e2 := hQ2 0 1 (by decide)
   have e2' := hQ2 1 0 (by decide)
   simp only [hB1, hB2, Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply, Matrix.of_apply, Matrix.cons_val',
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_fin_one, Matrix.empty_val', Matrix.head_cons,
-    Matrix.head_fin_const] at e1 e1' e2 e2'
+    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_fin_one, Matrix.empty_val'] at e1 e1' e2 e2'
   set Qm : Matrix (Fin 4) (Fin 4) F :=
     !![(Q1 : Matrix (Fin 2) (Fin 2) F) 0 0, (Q1 : Matrix (Fin 2) (Fin 2) F) 0 1, 0, 0;
        (Q1 : Matrix (Fin 2) (Fin 2) F) 1 0, (Q1 : Matrix (Fin 2) (Fin 2) F) 1 1, 0, 0;

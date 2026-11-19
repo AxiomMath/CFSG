@@ -82,18 +82,18 @@ theorem perm3_of_card_six {Y : Type} [Group Y] [Finite Y] (hcard : Nat.card Y = 
         rw [← this, hyx']
       calc y * x ^ k = (y * x ^ k * y⁻¹) * y := by group
         _ = x ^ k * y := by rw [hyk]
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : IsCyclic (Y ⧸ P) := isCyclic_of_prime_card hQcard
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : IsCyclic (Y ⧸ P) := isCyclic_of_prime_card hQcard
     have hf : (QuotientGroup.mk' P).ker ≤ Subgroup.center Y := by
       rw [QuotientGroup.ker_mk']; exact hcentral
     obtain ⟨a, b, hab⟩ := hnc
-    haveI := (QuotientGroup.mk' P).isMulCommutative_of_isCyclic_of_ker_le_center hf
+    have := (QuotientGroup.mk' P).isMulCommutative_of_isCyclic_of_ker_le_center hf
     exact hab (IsMulCommutative.is_comm.comm a b)
   have hbij : Function.Bijective φ := by
     refine hinj.bijective_of_nat_card_le ?_
     rw [hcard, Nat.card_perm, hQcard]
     decide
-  haveI : Fintype (Y ⧸ P) := Fintype.ofFinite _
+  have : Fintype (Y ⧸ P) := Fintype.ofFinite _
   let e : Y ⧸ P ≃ Fin 3 :=
     Fintype.equivFinOfCardEq (by rw [← Nat.card_eq_fintype_card]; exact hQcard)
   exact ⟨(MulEquiv.ofBijective φ hbij).trans (Equiv.permCongrHom e)⟩

@@ -51,7 +51,7 @@ theorem stdsub_sum_pair {k p : ℕ} (v : Fin k → ZMod p) (a b : Fin k) (s t : 
 theorem stdsub_dot_pair {k : ℕ} {ε : Fin k → ℤ} (hε : ∀ a, ε a = 1 ∨ ε a = -1)
     (a b : Fin k) : ggDDot ε (Pi.single a (ε a) - Pi.single b (ε b)) = 0 := by
   simp only [ggDDot, Pi.sub_apply, mul_sub, Finset.sum_sub_distrib, Pi.single_apply, mul_ite,
-    mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   rcases hε a with h | h <;> rcases hε b with h' | h' <;> simp [h, h']
 
 theorem ggDk_stdSub_point
@@ -155,11 +155,11 @@ theorem ggDk_stdSub_point
   refine ⟨a₀, db * (xb ^ n)⁻¹, (ggClosure_pair_eq hp hDcard hxD hd₀D hx1 (hBs.2 _ xb.2) hd₀x).symm,
     ⟨fun h => hμ ?_, fun u η hu => ?_⟩, hpJ, fun η => ?_⟩
   · have h3 := hθd₀ a₀
-    rw [h, ofMul_one, map_zero, Pi.zero_apply, if_pos rfl] at h3
+    rw [h, ofMul_one, map_zero, Pi.zero_apply, ite_eq_left rfl] at h3
     exact h3.symm
   ·
-    rw [hθ u η hu, Finset.sum_eq_single a₀ (fun c _ hc => by rw [hθd₀, if_neg hc, zero_mul])
-      (fun h => absurd (Finset.mem_univ a₀) h), hθd₀, if_pos rfl, mul_eq_zero, or_iff_right hμ]
+    rw [hθ u η hu, Finset.sum_eq_single a₀ (fun c _ hc => by rw [hθd₀, ite_eq_right hc, zero_mul])
+      (fun h => absurd (Finset.mem_univ a₀) h), hθd₀, ite_eq_left rfl, mul_eq_zero, or_iff_right hμ]
     rcases ggDRootSet_apply (hu.mem (by omega)) a₀ with h | h | h <;> rw [h] <;> simp
   · rw [hΦL]
     exact hiff η

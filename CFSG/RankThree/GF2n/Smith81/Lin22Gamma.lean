@@ -91,6 +91,7 @@ theorem Q_le_centPreimage (hc : Ctx M Q Z B) :
     exact Q.mul_mem hq ((Subgroup.mem_normalizer_iff.mp (hc.hyp.Q_normal.2 hxM) q⁻¹).mp
       (Q.inv_mem hq))
 
+omit [Finite G] in
 theorem card_comap_Gamma :
     Nat.card ↥(TM.Gamma.comap (Matrix.SpecialLinearGroup.toGL :
       Matrix.SpecialLinearGroup (Fin 2) TM.F →* GL (Fin 2) TM.F)) =
@@ -138,6 +139,7 @@ theorem inSubgroup_pCore_centPreimage_le (hc : Ctx M Q Z B) :
     _ ≤ (CFSG.pCore 2 M).map M.subtype := Subgroup.map_mono hN
     _ = Q := by rw [hc.hyp.hQ]; rfl
 
+omit [Finite G] in
 private theorem normalizer_map_toGL {C₀ : Subgroup G} {ψ : ↥C₀ →* GL (Fin 2) TM.F}
     (hrange : ψ.range = TM.Gamma ⊓ StatedSL 2 TM.F)
     {P : Subgroup (Matrix.SpecialLinearGroup (Fin 2) TM.F)}
@@ -179,6 +181,7 @@ private theorem normalizer_map_toGL {C₀ : Subgroup G} {ψ : ↥C₀ →* GL (F
         group
   simpa [Pbar] using hPbarnorm
 
+omit [Finite G] in
 private theorem exists_normal_two_comap {C₀ : Subgroup G} {ψ : ↥C₀ →* GL (Fin 2) TM.F}
     (hker : ψ.ker = Q.subgroupOf C₀) (hrange : ψ.range = TM.Gamma ⊓ StatedSL 2 TM.F)
     (hQ2 : IsPGroup 2 Q)
@@ -223,7 +226,7 @@ private theorem exists_normal_two_comap {C₀ : Subgroup G} {ψ : ↥C₀ →* G
   let N : Subgroup Ptilde := (Q.subgroupOf C₀).subgroupOf Ptilde
   have hN2 : IsPGroup 2 N := (hQ2.comap_subtype).comap_subtype
   have hNnorm : N.Normal := by
-    haveI : (Q.subgroupOf C₀).Normal := by
+    have : (Q.subgroupOf C₀).Normal := by
       rw [← hker]
       infer_instance
     exact inferInstance
@@ -238,7 +241,7 @@ private theorem exists_normal_two_comap {C₀ : Subgroup G} {ψ : ↥C₀ →* G
           ((QuotientGroup.quotientKerEquivRange (ψ.domRestrict Ptilde)).trans
             (MulEquiv.subgroupCongr hNrange))
       exact hPbar2.of_equiv hIso.symm
-    haveI : N.Normal := hNnorm
+    have : N.Normal := hNnorm
     exact IsPGroup.of_subgroup_of_quotient hN2 hquot2
   exact ⟨Pbar, Ptilde, rfl, hPtildenormal, hPtilde2, hPtildemap⟩
 

@@ -90,7 +90,7 @@ private theorem mclB5_sup_lt
     have hset : {g : Equiv.Perm (Fin 275) | g ∈ mclBGens5 i ++ mclBGens5 j}
         = {g | g ∈ mclBGens5 i} ∪ {g | g ∈ mclBGens5 j} := by
       ext g
-      simp only [Set.mem_setOf_eq, Set.mem_union, List.mem_append]
+      simp only [Set.mem_ofPred_eq, Set.mem_union, List.mem_append]
     rw [hset, Subgroup.closure_union]
   refine le_antisymm ?_ ?_
   · exact sup_le (mclB5_le ⟨i, hi⟩) (mclB5_le ⟨j, hj⟩)

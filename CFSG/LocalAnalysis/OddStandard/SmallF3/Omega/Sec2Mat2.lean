@@ -29,7 +29,7 @@ theorem finrank_mat2 : Module.finrank (ZMod 3) Mat2 = 4 := by
   simp [Module.finrank_matrix]
 
 theorem detForm_nondegenerate : detForm.Nondegenerate := by
-  haveI : Invertible (2 : ZMod 3) := invertibleOfNonzero (by decide)
+  have : Invertible (2 : ZMod 3) := invertibleOfNonzero (by decide)
   rw [QuadraticMap.nondegenerate_iff_radical_eq_bot, Submodule.eq_bot_iff]
   intro X hX
   obtain ⟨h0, h1⟩ := QuadraticMap.mem_radical_iff'.mp hX
@@ -79,7 +79,7 @@ theorem quadSign_detForm : quadSign detForm = 1 := by
     (by rw [finrank_mat2])).mp hplus
 
 @[expose] noncomputable def mulLeftEquiv (A : SL2F3) : Mat2 ≃ₗ[ZMod 3] Mat2 :=
-  LinearEquiv.ofLinear (LinearMap.mulLeft (ZMod 3) (A : Mat2))
+  LinearEquiv.ofLinearMap (LinearMap.mulLeft (ZMod 3) (A : Mat2))
     (LinearMap.mulLeft (ZMod 3) ((A⁻¹ : SL2F3) : Mat2))
     (by
       ext X : 1
@@ -93,7 +93,7 @@ theorem quadSign_detForm : quadSign detForm = 1 := by
         Matrix.SpecialLinearGroup.coe_one, Matrix.one_mul])
 
 @[expose] noncomputable def mulRightEquiv (B : SL2F3) : Mat2 ≃ₗ[ZMod 3] Mat2 :=
-  LinearEquiv.ofLinear (LinearMap.mulRight (ZMod 3) ((B⁻¹ : SL2F3) : Mat2))
+  LinearEquiv.ofLinearMap (LinearMap.mulRight (ZMod 3) ((B⁻¹ : SL2F3) : Mat2))
     (LinearMap.mulRight (ZMod 3) (B : Mat2))
     (by
       ext X : 1

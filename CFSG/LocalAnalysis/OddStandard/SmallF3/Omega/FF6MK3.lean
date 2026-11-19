@@ -47,7 +47,7 @@ private theorem auxHom_injective (hQ : Q.Nondegenerate) {t : OGroup Q} (htt : t 
   intro a b hab
   exact Subgroup.inclusion_injective inf_le_right ((auxProdEquiv hQ htt).symm.injective hab)
 
-private theorem aux_finrank_commSp_eq (hQ : Q.Nondegenerate) {t : OGroup Q} {α : ℤˣ}
+private theorem aux_finrank_commSp_eq (_hQ : Q.Nondegenerate) {t : OGroup Q} {α : ℤˣ}
     (hty : invType t = (3, α)) : Module.finrank (ZMod 3) (commSp t) = 3 := by
   have h := congrArg Prod.fst hty
   simpa only [invType, invDim] using h
@@ -60,18 +60,18 @@ private theorem aux_finrank_fixSp_eq (hQ : Q.Nondegenerate) (hdim : Module.finra
   omega
 
 theorem ff6m_K3_solvable (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = -1)
+    (_hsgn : quadSign Q = -1)
     {x : ProjSim Q} (hx : KM3 x) : Group.IsSolvable ↥(ffFix hQ (by omega) x) := by
   obtain ⟨α, y, hyx, htype⟩ := hx
   obtain ⟨_, t, htt, hty, hto⟩ := htype
   have hyx' : projOrthToProjSim Q (toProj Q t) = x := by rw [hto]; exact hyx
   have hdimC := aux_finrank_commSp_eq hQ hty
   have hdimU := aux_finrank_fixSp_eq hQ hdim hty
-  haveI hsol1 : Group.IsSolvable (OGroup (Q.restrict (fixSp t))) :=
+  have hsol1 : Group.IsSolvable (OGroup (Q.restrict (fixSp t))) :=
     ff_orth3_solvable (nondegenerate_restrict_fixSp hQ htt) hdimU
-  haveI hsol2 : Group.IsSolvable (OGroup (Q.restrict (commSp t))) :=
+  have hsol2 : Group.IsSolvable (OGroup (Q.restrict (commSp t))) :=
     ff_orth3_solvable (nondegenerate_restrict_commSp hQ htt) hdimC
-  haveI hsolC : Group.IsSolvable ↥(Subgroup.centralizer ({t} : Set (OGroup Q))) :=
+  have hsolC : Group.IsSolvable ↥(Subgroup.centralizer ({t} : Set (OGroup Q))) :=
     ff_solvable_congr (auxProdEquiv hQ htt) inferInstance
   have hsolA :
       Group.IsSolvable ↥(omegaGroup hQ ⊓ Subgroup.centralizer ({t} : Set (OGroup Q))) :=
@@ -85,7 +85,7 @@ theorem ff6m_K3_solvable (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
   exact ff6m_solvable_of_twist hQ hdim (orthToSim Q t) hsolA'
 
 theorem ff6m_K3_xTwoCore (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = -1)
+    (_hsgn : quadSign Q = -1)
     {x : ProjSim Q} (hx : KM3 x) : XTwoCore ↥(ffFix hQ (by omega) x) := by
   obtain ⟨α, y, hyx, htype⟩ := hx
   obtain ⟨_, t, htt, hty, hto⟩ := htype
@@ -94,8 +94,8 @@ theorem ff6m_K3_xTwoCore (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
   have hdimU := aux_finrank_fixSp_eq hQ hdim hty
   have h1 := ff_orth3_series (nondegenerate_restrict_fixSp hQ htt) hdimU
   have h2 := ff_orth3_series (nondegenerate_restrict_commSp hQ htt) hdimC
-  haveI : Finite (OGroup (Q.restrict (fixSp t))) := inferInstance
-  haveI : Finite (OGroup (Q.restrict (commSp t))) := inferInstance
+  have : Finite (OGroup (Q.restrict (fixSp t))) := inferInstance
+  have : Finite (OGroup (Q.restrict (commSp t))) := inferInstance
   have hcore : XTwoCore ↥(omegaGroup hQ ⊓ Subgroup.centralizer ({t} : Set (OGroup Q))) :=
     ff_xTwoCore_of_prod h1 h2 (auxHom hQ htt) (auxHom_injective hQ htt)
   have hEq : omegaGroup hQ ⊓ fixSub (simAct Q (orthToSim Q t)) =

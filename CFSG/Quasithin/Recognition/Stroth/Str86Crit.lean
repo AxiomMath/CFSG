@@ -51,7 +51,8 @@ theorem critB_set_nonempty (hc : CritHypN G₀ G₁ G₂ T Z) :
   rw [hbot] at hZ
   exact hc.ne_bot (le_bot_iff.mp hZ)
 
-theorem lt_critB_imp (hc : CritHypN G₀ G₁ G₂ T Z) {μ : CosetGeom G₀ G₁ G₂}
+omit [Finite G] in
+theorem lt_critB_imp (_hc : CritHypN G₀ G₁ G₂ T Z) {μ : CosetGeom G₀ G₁ G₂}
     (hμ : CosetGeom.dist (γ₀ G₀ G₁ G₂) μ < F112Crit.critB G₀ G₁ G₂ Z) : Z ≤ ballStab 1 μ := by
   by_contra h
   exact absurd (Nat.sInf_le (s := {n : ℕ | ∃ μ ∈ sphere n (γ₀ G₀ G₁ G₂), ¬ Z ≤ ballStab 1 μ})
@@ -87,6 +88,7 @@ theorem le_critB_iff_at (hc : CritHypN G₀ G₁ G₂ T Z) {γ : CosetGeom G₀ 
     refine (Zv_le_ballStab_smul_iff hc g μ').mp (h (g • μ') ?_)
     rwa [CosetGeom.dist_smul]
 
+omit [Finite G] in
 theorem le_stab_of_dist_le (hc : CritHypN G₀ G₁ G₂ T Z) (hb : 1 ≤ F112Crit.critB G₀ G₁ G₂ Z)
     {μ : CosetGeom G₀ G₁ G₂}
     (hμ : CosetGeom.dist (γ₀ G₀ G₁ G₂) μ ≤ F112Crit.critB G₀ G₁ G₂ Z) : Z ≤ stab μ := by
@@ -100,6 +102,7 @@ theorem le_stab_of_dist_le (hc : CritHypN G₀ G₁ G₂ T Z) (hb : 1 ≤ F112Cr
     exact (lt_critB_imp hc (by omega)).trans (CosetGeom.ballStab_le_stab_of_dist_le
       (CosetGeom.dist_eq_one_iff_adj.mpr hμν.symm).le)
 
+omit [Finite G] in
 theorem le_stab_of_dist_le_at (hc : CritHypN G₀ G₁ G₂ T Z)
     (hb : 1 ≤ F112Crit.critB G₀ G₁ G₂ Z) {γ μ : CosetGeom G₀ G₁ G₂} (hγ : vtype γ = false)
     (hμ : CosetGeom.dist γ μ ≤ F112Crit.critB G₀ G₁ G₂ Z) : Vv Z γ ≤ stab μ := by

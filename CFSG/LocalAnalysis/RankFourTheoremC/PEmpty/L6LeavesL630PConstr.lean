@@ -8,10 +8,10 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.L630
 
 theorem pConstrainedFivePart_holds : PConstrainedFivePart := by
   intro G _ _ M P z hz hPM hzP hcomm hPC
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hPtop : CFSG.ABGLocalTools.IsSylowOf 5 (P : Subgroup G) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, P.isPGroup', ?_⟩
+    refine ⟨le_top, P.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact P.not_dvd_index
   have hPM' : CFSG.ABGLocalTools.IsSylowOf 5 (P : Subgroup G) M :=

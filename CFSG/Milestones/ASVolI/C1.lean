@@ -298,7 +298,7 @@ private theorem burnsideC1b_quot_quasisimple_or_three {G : Type} [Group G] [Fini
     rw [commutatorElement_def]
     have h1 : g₁ ∈ X := CFSG.QuasithinUnique.C1.blockQ_le X hg₁
     exact X.mul_mem (X.mul_mem (X.mul_mem h1 hg₂) (X.inv_mem h1)) (X.inv_mem hg₂)
-  haveI hN : ((blockU X).subgroupOf X).Normal :=
+  have hN : ((blockU X).subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hUX).2
       (CFSG.QuasithinUnique.C1.le_normalizer_blockU X)
   refine ⟨↥X ⧸ (blockU X).subgroupOf X, inferInstance, QuotientGroup.mk' _,
@@ -474,12 +474,12 @@ private theorem burnsideC1d_schur {W : Type} [AddCommGroup W] [Finite W] [Nontri
     · rintro h _ ⟨i, rfl⟩
       ext w
       exact (h i w).symm
-  haveI : Finite E := by
+  have : Finite E := by
     have : Finite (AddMonoid.End W) :=
       Finite.of_injective (fun f : AddMonoid.End W => (f : W → W)) DFunLike.coe_injective
     infer_instance
   obtain ⟨w₀, hw₀⟩ := exists_ne (0 : W)
-  haveI : Nontrivial E := ⟨⟨1, 0, fun h => hw₀ (by
+  have : Nontrivial E := ⟨⟨1, 0, fun h => hw₀ (by
     have := congrArg (fun x : E => (x : AddMonoid.End W) w₀) h
     simpa using this)⟩⟩
   have hsurj : ∀ f : E, f ≠ 0 → ∀ w : W, ∃ v, (f : AddMonoid.End W) v = w := by
@@ -495,7 +495,7 @@ private theorem burnsideC1d_schur {W : Type} [AddCommGroup W] [Finite W] [Nontri
         exact (AddSubgroup.mem_bot.mp this))) hf
     · have : w ∈ R := by rw [h]; exact AddSubgroup.mem_top _
       exact this
-  haveI : NoZeroDivisors E := ⟨fun {a b} hab => by
+  have : NoZeroDivisors E := ⟨fun {a b} hab => by
     by_contra hcon
     obtain ⟨ha, hb⟩ := not_or.mp hcon
     refine ha (Subtype.ext (AddMonoidHom.ext fun w => ?_))
@@ -505,7 +505,7 @@ private theorem burnsideC1d_schur {W : Type} [AddCommGroup W] [Finite W] [Nontri
       rw [← hv]
       exact h2
     exact h3⟩
-  haveI : IsDomain E := NoZeroDivisors.to_isDomain E
+  have : IsDomain E := NoZeroDivisors.to_isDomain E
   have hfield : IsField E := Finite.isDomain_to_isField E
   have hcomm : ∀ a b : E, a * b = b * a := hfield.mul_comm
   let ε : Γ → E := fun γ => ⟨e γ, (hmemE (e γ)).2 (he γ)⟩
@@ -559,7 +559,7 @@ open CFSG.QuasithinUnique in
 private theorem burnsideC1d_nontrivial {G : Type} [Group G] {X : Subgroup G}
     (hX : IsShort2 X) {W : Type} [AddCommGroup W] (β : ↥(blockU X) →* Multiplicative W)
     (hβk : β.ker = (blockZ X).subgroupOf (blockU X)) : Nontrivial W := by
-  obtain ⟨u, huU, huZ⟩ := SetLike.exists_of_lt hX.2.2.2.2.1
+  obtain ⟨u, huU, huZ⟩ := _root_.IsConcreteLE.exists_of_lt hX.2.2.2.2.1
   refine ⟨⟨Multiplicative.toAdd (β ⟨u, huU⟩), 0, fun h => huZ ?_⟩⟩
   have h1 : β ⟨u, huU⟩ = 1 := by
     have := congrArg Multiplicative.ofAdd h
@@ -606,7 +606,7 @@ private theorem burnsideC1d_irr {G : Type} [Group G] {X : Subgroup G} (hX : IsSh
       exact hz
     have h2 : β ⟨z, hZU hz⟩ = 1 := h1
     rw [h2]
-    simpa using V.zero_mem
+    simp
   have hWU : W' ≤ blockU X := fun g hg => by
     obtain ⟨u, -, rfl⟩ := (hmem g).1 hg
     exact u.2
@@ -919,7 +919,7 @@ private theorem burnsideC1d_comm_mem_U {G : Type} [Group G] [Finite G] {X : Subg
   have hUQ : ∀ u ∈ blockU X, ∀ q ∈ Q, q * u * q⁻¹ = u := fun u hu q hq => by
     rw [Subgroup.mem_centralizer_iff.mp (hX.2.2.1.1 hu).2 q hq]
     group
-  haveI hN : ((blockU X).subgroupOf Q).Normal := ⟨fun n hn g => by
+  have hN : ((blockU X).subgroupOf Q).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     rw [hUQ _ hn _ g.2]
@@ -1049,7 +1049,7 @@ theorem as_C_1_13 : C_1_13 := by
   have hd := fun h6 => CFSG.Quasithin.H13.VolI.pCoreOf_le_centralizer_of_alt6 hL hT hTN h6
   refine ⟨ha, ⟨?_, ?_, hb.2.2⟩, ?_, hd⟩
   · intro W _ _ ρ β hβs hβk hβa
-    haveI : Finite W := by
+    have : Finite W := by
       have : Finite (Multiplicative W) := Finite.of_surjective β hβs
       exact Finite.of_equiv _ Multiplicative.toAdd
     rw [burnsideC1d_card_groupCohomology_one ρ]
@@ -1220,7 +1220,7 @@ theorem as_C_1_22 : C_1_22 := by
       exact hcard
     have hnt : ∃ h ∈ autI hU L, ∃ u ∈ (⊤ : Subgroup (IntMod (blockU L) hU)), h u ≠ u := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hcen : blockU L ≤ Subgroup.centralizer (L : Set G) := by
         intro u hu
         rw [Subgroup.mem_centralizer_iff]
@@ -1509,7 +1509,7 @@ private theorem burnsideC124_isPretransitive {M : Subgroup (Perm (ZMod 7))}
 open Equiv Equiv.Perm Subgroup in
 private theorem burnsideC124_isPreprimitive {M : Subgroup (Perm (ZMod 7))}
     (hc : Equiv.addRight (1 : ZMod 7) ∈ M) : MulAction.IsPreprimitive M (ZMod 7) := by
-  haveI := burnsideC124_isPretransitive hc
+  have := burnsideC124_isPretransitive hc
   refine MulAction.IsPreprimitive.of_prime_card ?_
   rw [Nat.card_zmod]
   norm_num
@@ -1518,8 +1518,8 @@ open Equiv Equiv.Perm Subgroup in
 private theorem burnsideC124_normal_eq_bot {M : Subgroup (Perm (ZMod 7))}
     (hc : Equiv.addRight (1 : ZMod 7) ∈ M) (K : Subgroup ↥M) [K.Normal]
     (hK : ¬ 7 ∣ Nat.card K) : K = ⊥ := by
-  haveI := burnsideC124_isPretransitive hc
-  haveI := burnsideC124_isPreprimitive hc
+  have := burnsideC124_isPretransitive hc
+  have := burnsideC124_isPreprimitive hc
   by_cases hfix : MulAction.fixedPoints K (ZMod 7) = Set.univ
   · rw [eq_bot_iff]
     intro k hk
@@ -1528,7 +1528,7 @@ private theorem burnsideC124_normal_eq_bot {M : Subgroup (Perm (ZMod 7))}
     have hx : x ∈ MulAction.fixedPoints K (ZMod 7) := by rw [hfix]; exact Set.mem_univ x
     exact hx ⟨k, hk⟩
   · exfalso
-    haveI : MulAction.IsPretransitive K (ZMod 7) :=
+    have : MulAction.IsPretransitive K (ZMod 7) :=
       MulAction.IsQuasiPreprimitive.isPretransitive_of_normal hfix
     have h1 := Subgroup.index_dvd_card (MulAction.stabilizer K (0 : ZMod 7))
     rw [MulAction.index_stabilizer, MulAction.orbit_eq_univ, Set.ncard_univ, Nat.card_zmod] at h1
@@ -1579,7 +1579,7 @@ private theorem burnsideC124_selfNormalizing {M : Subgroup (Perm (ZMod 7))}
   have hcompl := MonoidHom.ker_transferSylow_isComplement' P hP
   have hKbot : (MonoidHom.transferSylow P hP).ker = ⊥ :=
     burnsideC124_normal_eq_bot hc _ hK
-  have hcard := hcompl.card_mul
+  have hcard := hcompl.card_mul_card
   rw [hKbot, Subgroup.card_bot, one_mul, hPz, Nat.card_zpowers, hzo] at hcard
   exact hcard.symm
 
@@ -1588,7 +1588,7 @@ private theorem burnsideC124_card_le_of_free {M : Subgroup (Perm (ZMod 7))}
     (hc : Equiv.addRight (1 : ZMod 7) ∈ M)
     (hfree : ∀ g ∈ M, g ≠ 1 → ∀ x y : ZMod 7, x ≠ y → g x = x → g y = y → False) :
     Nat.card M ≤ 42 := by
-  haveI := burnsideC124_isPretransitive hc
+  have := burnsideC124_isPretransitive hc
   have hmul := Subgroup.card_mul_index (MulAction.stabilizer M (0 : ZMod 7))
   rw [MulAction.index_stabilizer, MulAction.orbit_eq_univ, Set.ncard_univ, Nat.card_zmod] at hmul
   have hle : Nat.card (MulAction.stabilizer M (0 : ZMod 7)) ≤ 6 := by
@@ -1637,7 +1637,7 @@ private theorem burnsideC124_multiset_six {s : Multiset ℕ} (hmem : ∀ n ∈ s
     intro n hn
     obtain ⟨h2, hd⟩ := hmem n hn
     have h6 : n ≤ 6 := Nat.le_of_dvd (by norm_num) hd
-    interval_cases n <;> first | omega | (exfalso; norm_num at hd)
+    interval_cases n <;> first | omega
   generalize hc : Multiset.card s = c at hcard
   interval_cases c
   · rw [Multiset.card_eq_zero] at hc
@@ -1667,7 +1667,6 @@ private theorem burnsideC124_multiset_six {s : Multiset ℕ} (hmem : ∀ n ∈ s
       rcases hc' with rfl | rfl | rfl <;> first
       | omega
       | (exfalso; revert hlcm; decide)
-      | (exfalso; revert hev; decide)
       | decide
 
 open Equiv Equiv.Perm Subgroup in
@@ -1781,14 +1780,14 @@ private theorem burnsideC124_solvable_card_84 {Q : Type*} [Group Q] [Finite Q] (
     have hle : Nat.card (Sylow 7 Q) ≤ 12 := Nat.le_of_dvd (by norm_num) hn
     have hpos : 0 < Nat.card (Sylow 7 Q) := Nat.card_pos
     generalize Nat.card (Sylow 7 Q) = n at hn hmod hle hpos
-    interval_cases n <;> first | rfl | omega | (exfalso; norm_num at hn)
-  haveI : Subsingleton (Sylow 7 Q) := (Nat.card_eq_one_iff_unique.1 hn1).1
-  haveI : (P : Subgroup Q).Normal := Sylow.normal_of_subsingleton P
-  haveI : Group.IsSolvable (P : Subgroup Q) :=
+    interval_cases n <;> first | rfl | omega
+  have : Subsingleton (Sylow 7 Q) := (Nat.card_eq_one_iff_unique.1 hn1).1
+  have : (P : Subgroup Q).Normal := Sylow.normal_of_subsingleton P
+  have : Group.IsSolvable (P : Subgroup Q) :=
     CFSG.GroupTheory.groups_order_below_sixty_solvable (by
       have : Nat.card (P : Subgroup Q) = 7 := hPcard
       omega)
-  haveI : Group.IsSolvable (Q ⧸ (P : Subgroup Q)) :=
+  have : Group.IsSolvable (Q ⧸ (P : Subgroup Q)) :=
     CFSG.GroupTheory.groups_order_below_sixty_solvable (by
       have : Nat.card (Q ⧸ (P : Subgroup Q)) = 12 := by rw [← Subgroup.index, hidx]
       omega)
@@ -1837,8 +1836,8 @@ private theorem burnsideC124_isKGroupCat_168 {M : Subgroup (Perm (ZMod 7))}
         exact lt_mul_right (by omega) hN1
       have hNd : Nat.card N ∣ 168 := ⟨Nat.card (↥M ⧸ N), by rw [hmul, mul_comm]⟩
       have hQd : Nat.card (↥M ⧸ N) ∣ 168 := ⟨Nat.card N, by rw [hmul]⟩
-      haveI := burnsideC124_solvable_of_card_dvd_168 hNd hNlt
-      haveI := burnsideC124_solvable_of_card_dvd_168 hQd hQlt
+      have := burnsideC124_solvable_of_card_dvd_168 hNd hNlt
+      have := burnsideC124_solvable_of_card_dvd_168 hQd hQlt
       exact Group.isSolvable_of_subgroup_quotient N
     have hnonab : ∃ a b : ↥M, a * b ≠ b * a := by
       by_contra hcomm
@@ -1885,7 +1884,7 @@ private theorem burnsideC124_order_cases' {m n : ℕ} (hdvd : m ∣ 2520) (h42 :
     exact Nat.dvd_of_mul_dvd_mul_right (by norm_num) this
   have hn2 : 2 ∣ n := by omega
   have hn119 : n < 120 := by omega
-  interval_cases n <;> first | omega | (exfalso; norm_num at hn120) | (exfalso; norm_num at hn2)
+  interval_cases n <;> first | omega
 
 open Equiv Equiv.Perm Subgroup in
 private theorem burnsideC124_isKGroupCat_transitive {M : Subgroup (Perm (ZMod 7))}
@@ -2052,7 +2051,7 @@ private theorem burnsideC124_isKGroupCat_alt7 :
     · exact burnsideC124_isKGroupCat_of_transitive hH htr
     · obtain ⟨b, hb⟩ := burnsideC124_exists_small_orbit htr
       exact burnsideC124_isKGroupCat_of_small_orbit hb
-  haveI := hs
+  have := hs
   exact CFSG.SectionRank.catalog_of_isKGroupCat_of_surjective hKH ⊤
     ((QuotientGroup.mk' N).comp (⊤ : Subgroup ↥H).subtype) (by
       intro q
@@ -2123,7 +2122,6 @@ private theorem burnsideC124_not_cube_dvd {N p : ℕ} (hN : N ∣ 15120) (hp : p
   interval_cases p <;> first
     | (exfalso; revert hp; norm_num; done)
     | omega
-    | (exfalso; revert h1; norm_num; done)
 
 open CFSG.Quasithin.H13.U3.GC137.SQ CFSG.RankThree.PerfectCover CFSG.Alternating.Multipliers CFSG.RankThree.PartTwo in
 private theorem burnsideC124_rankLeTwo {E : Type} [Group E]

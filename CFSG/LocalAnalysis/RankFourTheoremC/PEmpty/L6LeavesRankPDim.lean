@@ -33,11 +33,11 @@ theorem exists_central_commutator {p : ℕ} [Fact p.Prime] {P : Type*} [Group P]
   have hZtop : center P ≠ ⊤ := fun h => hnc fun a b => by
     have : a ∈ center P := h ▸ mem_top a
     exact (mem_center_iff.mp this b).symm
-  haveI : Nontrivial (P ⧸ center P) := by
+  have : Nontrivial (P ⧸ center P) := by
     rw [QuotientGroup.nontrivial_iff]
     exact hZtop
   have hPq : IsPGroup p (P ⧸ center P) := hP.to_quotient _
-  haveI := hPq.center_nontrivial
+  have := hPq.center_nontrivial
   obtain ⟨⟨ā, hā⟩, hne⟩ := exists_ne (1 : center (P ⧸ center P))
   have hā1 : ā ≠ 1 := fun h => hne (Subtype.ext h)
   obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective ā
@@ -99,7 +99,7 @@ theorem finrank_ge_of_faithful_nonabelian {f p : ℕ} [Fact f.Prime] [Fact p.Pri
     by_contra h
     push Not at h
     exact hc1 (hρ c (LinearMap.ext fun v => by simpa using h v))
-  haveI : Finite V := Module.finite_of_finite (ZMod f)
+  have : Finite V := Module.finite_of_finite (ZMod f)
   let S : Set (Submodule (ZMod f) V) :=
     {W | (∀ g : P, ∀ v ∈ W, ρ g v ∈ W) ∧ ∃ v ∈ W, ρ c v ≠ v}
   obtain ⟨v₀, hv₀⟩ := hρc
@@ -143,8 +143,8 @@ theorem card_ge_of_faithful_nonabelian {f p : ℕ} (hf : f.Prime) (hp : p.Prime)
     (hpow : ∀ a : W, a ^ f = 1) {P : Type*} [Group P] [Finite P] (hP : IsPGroup p P)
     (ρ : P →* MulAut W) (hρ : ∀ g : P, ρ g = 1 → g = 1)
     (hnc : ¬ ∀ a b : P, a * b = b * a) : f ^ p ≤ Nat.card W := by
-  haveI : Fact f.Prime := ⟨hf⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact f.Prime := ⟨hf⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hWp : IsPGroup f W := fun g => ⟨1, by simpa using hpow g⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hWp
   obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary hcomm hpow hn

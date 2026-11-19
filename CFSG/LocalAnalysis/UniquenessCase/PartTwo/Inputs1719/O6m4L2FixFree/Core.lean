@@ -124,7 +124,7 @@ theorem core_false {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
     exact hv g hg
   have hvW : v ∈ singSeq (Phi6 hirr) (Rep6 F b c) R 6 := by
     refine mem_of_fixed_of_stable (K := F) (V := Idx → F) 2 (Rep6 F b c)
-      (S := (S : Subgroup ↥(Omega6 F b c))) S.isPGroup' hWne ?_ ?_
+      (S := (S : Subgroup ↥(Omega6 F b c))) S.isPGroup hWne ?_ ?_
     · intro g hg w hw
       exact hJW g (hSJ hg) w hw
     · intro x hx

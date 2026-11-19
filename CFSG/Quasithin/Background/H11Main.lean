@@ -21,9 +21,9 @@ theorem h11_main :
         (n = 2 ∧ ∃ t ∈ A, IsFTransvection F (Fin 4) (MulAut.congr e t))) ∧
       (A ≤ perfectCore M → rk ↥A + n ≤ rkIdx (fixV A)) := by
   intro n hn ε hε F _ hF V _ _ hV2 M e hO A hA
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; positivity)
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 :=
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; positivity)
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n) (by rw [← Nat.card_eq_fintype_card, hF])
   rcases hε with rfl | rfl
   · rcases hO with ⟨-, hO⟩ | ⟨h, -⟩

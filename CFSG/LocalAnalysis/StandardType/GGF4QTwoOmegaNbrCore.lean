@@ -472,7 +472,7 @@ private theorem false_of_simple_of_solvable_centralizer {C : Type*} [Group C]
       exact hx'
   have := hsol
   have : Group.IsSolvable ↥X :=
-    solvable_of_solvable_injective (Subgroup.inclusion_injective (le_inf hXM hXR))
+    Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective (le_inf hXM hXR))
   obtain ⟨a, b, hab⟩ := hXna
   exact hab ((IsSimpleGroup.comm_iff_isSolvable).mpr inferInstance a b)
 
@@ -731,7 +731,7 @@ theorem false_of_ggOmegaTwoEndCoords {G : Type} [Group G] [Finite G] {Bs L K D J
     (fun h => hm1 (congrArg Subtype.val h))
   · have := hmix i j k₀ hij hik hjk s hs
     rw [Subgroup.centralizer_closure]
-    refine solvable_of_solvable_injective (f := MonoidHom.codRestrict
+    refine Group.isSolvable_of_isSolvable_injective (f := MonoidHom.codRestrict
       ((Subgroup.centralizer {x}).subtype.comp (Subgroup.subtype _))
       (L ⊓ Subgroup.centralizer {τx (Multiplicative.ofAdd (Pi.single i 1)),
         τx (Multiplicative.ofAdd (Pi.single j 1 + s • Pi.single k₀ 1))}) fun g => ?_) ?_

@@ -146,7 +146,7 @@ theorem factorization_two_centralizer
       pow_one])
   obtain ⟨Q, hQ⟩ := hJ2.exists_le_sylow
   set Q' := (Q : Subgroup C).map C.subtype with hQ'
-  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup'.map _
+  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup.map _
   have hJQ' : s.J ∈ Q' := ⟨⟨s.J, hJC⟩, hQ (Subgroup.mem_zpowers _), rfl⟩
   have hab := s.isMulCommutative_of_isPGroup hQ'2
   have hQ'H : Q' ≤ C ⊓ s.H := fun x hx =>
@@ -180,7 +180,7 @@ theorem exists_sylow_le_of_le {ℓ : ℕ} [Fact ℓ.Prime] {Q Y : Subgroup G} (h
   have hQ' : IsPGroup ℓ (Q.subgroupOf Y) := hQ.comap_subtype
   obtain ⟨S, hS⟩ := hQ'.exists_le_sylow
   refine ⟨(S : Subgroup Y).map Y.subtype, fun x hx => ⟨⟨x, hQY hx⟩,
-    hS (Subgroup.mem_subgroupOf.mpr hx), rfl⟩, Subgroup.map_subtype_le _, S.isPGroup'.map _, ?_⟩
+    hS (Subgroup.mem_subgroupOf.mpr hx), rfl⟩, Subgroup.map_subtype_le _, S.isPGroup.map _, ?_⟩
   rw [Subgroup.card_map_of_injective Y.subtype_injective, S.card_eq_multiplicity]
 
 theorem exists_mem_center_orderOf {ℓ : ℕ} [Fact ℓ.Prime] {P : Subgroup G} (hP : IsPGroup ℓ P)
@@ -350,7 +350,7 @@ theorem false_of_odd_torus
     refine JT.mem_normalizer_of_conj_mem fun x hx => ?_
     obtain ⟨y, hy, rfl⟩ := hx
     exact ⟨⟨s.J, hJM⟩ * y * (⟨s.J, hJM⟩ : M)⁻¹, (Subgroup.mem_normalizer_iff.mp hJR y).mp hy, rfl⟩
-  have hPeq := s.eq_of_mem_normalizer_J hℓ2 hPH hPcard hP₀P hsyl (R.isPGroup'.map _) hPR' hJR'
+  have hPeq := s.eq_of_mem_normalizer_J hℓ2 hPH hPcard hP₀P hsyl (R.isPGroup.map _) hPR' hJR'
   obtain ⟨RG, hPRG⟩ := hPℓ.exists_le_sylow
   have hXM : (RG : Subgroup G) ⊓ Subgroup.normalizer (P : Set G) ≤ M := by
     rintro x ⟨hxR, hxN⟩
@@ -371,7 +371,7 @@ theorem false_of_odd_torus
       eq_of_card_eq_of_le_cyclic hcycZ (Subgroup.zpowers_le.mpr hxz)
         (Subgroup.zpowers_le.mpr hzZ) (by rw [Nat.card_zpowers, Nat.card_zpowers, hxzo, hz])
     have hmem : x * z * x⁻¹ ∈ Subgroup.zpowers z := hzpow ▸ Subgroup.mem_zpowers _
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp RG.isPGroup') ⟨x, hxR⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp RG.isPGroup) ⟨x, hxR⟩
     rw [Subgroup.orderOf_mk] at hk
     have hxz' := commute_of_prime_order hℓ hz hmem hk
     calc x * z = (x * z * x⁻¹) * x := by group
@@ -380,7 +380,7 @@ theorem false_of_odd_torus
     intro x hx
     have hXℓ : IsPGroup ℓ
         (((RG : Subgroup G) ⊓ Subgroup.normalizer (P : Set G)).subgroupOf M) :=
-      (RG.isPGroup'.to_le inf_le_left).comap_subtype
+      (RG.isPGroup.to_le inf_le_left).comap_subtype
     have hRX : (R : Subgroup M) ≤
         ((RG : Subgroup G) ⊓ Subgroup.normalizer (P : Set G)).subgroupOf M := by
       intro y hy
@@ -394,7 +394,7 @@ theorem false_of_odd_torus
       exact Subgroup.mem_subgroupOf.mpr hx
     rw [hPeq]
     exact ⟨_, hxR, rfl⟩
-  have hPRG' := eq_of_le_of_inf_normalizer_le RG.isPGroup' hPRG hX
+  have hPRG' := eq_of_le_of_inf_normalizer_le RG.isPGroup hPRG hX
   refine false_of_perfect_of_metacyclic s.perfect hℓ2 RG ?_ ?_
   · rw [← hPRG']
     exact s.not_isMulCommutative hℓ2 hℓp hℓK hP₀E hP₀ℓ hP₀ne hPH hPℓ hPcard hP₀P

@@ -65,6 +65,7 @@ variable {n p : ℕ} {K : Type} [Field K] {Q : QuadraticForm K (Fin n → K)}
 
 local notation "ρ₀" => planeRep E0
 
+omit [Fintype ↥E0] [IsMulCommutative ↥E0] in
 theorem planeRep_mem_sesqUnitaryGroup (hEQ : ∀ e : ↥E0, ∀ v, Q (act ρ₀ e v) = Q v) (e : ↥E0) :
     ρ₀ e ∈ sesqUnitaryGroup (QuadraticMap.polarBilin Q) := by
   intro u v
@@ -74,20 +75,25 @@ theorem planeRep_mem_sesqUnitaryGroup (hEQ : ∀ e : ↥E0, ∀ v, Q (act ρ₀ 
 @[expose] noncomputable def actEquiv (e : ↥E0) : (Fin n → K) ≃ₗ[K] (Fin n → K) :=
   LinearMap.GeneralLinearGroup.generalLinearEquiv K _ (ρ₀ e)
 
+omit [Fintype ↥E0] [IsMulCommutative ↥E0] in
 theorem actEquiv_toLinearMap (e : ↥E0) : (actEquiv e).toLinearMap = act ρ₀ e := rfl
 
+omit [Fintype ↥E0] [IsMulCommutative ↥E0] in
 theorem actEquiv_mul (e f : ↥E0) : actEquiv (e * f) = actEquiv e * actEquiv f := by
   unfold actEquiv
   rw [map_mul, map_mul]
 
+omit [Fintype ↥E0] [IsMulCommutative ↥E0] in
 theorem actEquiv_pow (e : ↥E0) (k : ℕ) : actEquiv (e ^ k) = actEquiv e ^ k := by
   unfold actEquiv
   rw [map_pow, map_pow]
 
+omit [Fintype ↥E0] [IsMulCommutative ↥E0] in
 theorem actEquiv_one : actEquiv (1 : ↥E0) = 1 := by
   unfold actEquiv
   rw [map_one, map_one]
 
+omit [Fintype ↥E0] [IsMulCommutative ↥E0] in
 theorem mem_isometryCentralizer_actEquiv {g : (Fin n → K) ≃ₗ[K] (Fin n → K)}
     (hgO : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (hgc : ∀ e : ↥E0, Commute g.toLinearMap (act ρ₀ e)) (e : ↥E0) :
@@ -99,6 +105,7 @@ theorem mem_isometryCentralizer_actEquiv {g : (Fin n → K) ≃ₗ[K] (Fin n →
 variable (hP : IsPlane p E0) (hpK : (p : K) ≠ 0)
 include hP hpK
 
+omit [Fintype E0] [IsMulCommutative E0] in
 theorem oddOrderIsometry_actEquiv (hEQ : ∀ e : ↥E0, ∀ v, Q (act ρ₀ e v) = Q v)
     (hreg : ∀ v, (∀ w, QuadraticMap.polar Q v w = 0) → v = 0) (e : ↥E0) :
     OddOrderIsometry Q p (actEquiv e) where
@@ -107,6 +114,7 @@ theorem oddOrderIsometry_actEquiv (hEQ : ∀ e : ↥E0, ∀ v, Q (act ρ₀ e v)
   cast_ne_zero := hpK
   regular := hreg
 
+omit [IsMulCommutative E0] in
 theorem polar_projLine_sub (hEQ : ∀ e : ↥E0, ∀ v, Q (act ρ₀ e v) = Q v)
     {L : Subgroup ↥E0} (hL : L ∈ lines p E0) (u v : Fin n → K) :
     QuadraticMap.polar Q (projLine ρ₀ L u) (v - projLine ρ₀ L v) = 0 := by
@@ -163,6 +171,7 @@ theorem fixedSpace_auxEquiv {L : Subgroup ↥E0} (hL : L ∈ lines p E0) {c d : 
   rfl
 
 omit hP hpK in
+omit [IsMulCommutative ↥E0] in
 theorem act_apply_of_mem_range_projTop (e : ↥E0) {y : Fin n → K}
     (hy : y ∈ LinearMap.range (projTop ρ₀)) : act ρ₀ e y = y := by
   obtain ⟨u, rfl⟩ := hy
@@ -196,9 +205,9 @@ theorem blockComponent_mul (hx : OddOrderIsometry Q p x)
   rw [KCOrthogonal.blockComponent_apply_of_mem hx _ h ha hv,
     KCOrthogonal.blockComponent_apply_of_mem hx g' h ha hv]
   split_ifs with hc
-  · rw [KCOrthogonal.blockComponent_apply_of_mem hx g h ha hv', if_pos hc]
+  · rw [KCOrthogonal.blockComponent_apply_of_mem hx g h ha hv', ite_eq_left hc]
     rfl
-  · rw [KCOrthogonal.blockComponent_apply_of_mem hx g h ha hv, if_neg hc]
+  · rw [KCOrthogonal.blockComponent_apply_of_mem hx g h ha hv, ite_eq_right hc]
 
 @[expose] noncomputable def blockComponentHom (hx : OddOrderIsometry Q p x) {h : K[X]}
     (hh : h ∈ primaryFactors x.toLinearMap) :
@@ -218,9 +227,10 @@ theorem apply_eq_of_isSolvable_supportedBlock (hx : OddOrderIsometry Q p x) {h :
     ((blockComponentHom hx hh).comp (Subgroup.inclusion hR)) ⟨g, hg⟩
   have h2 : (KCOrthogonal.blockComponent hx ⟨g, (Subgroup.mem_inf.mp (hR hg)).2⟩ h).1 v = v :=
     congrArg (fun s : ↥(supportedBlock Q x h) => s.1 v) h1
-  rw [KCOrthogonal.blockComponent_apply_of_mem hx _ h hh hv, if_pos (Or.inl rfl)] at h2
+  rw [KCOrthogonal.blockComponent_apply_of_mem hx _ h hh hv, ite_eq_left (Or.inl rfl)] at h2
   exact h2
 
+omit [FiniteDimensional K V] in
 theorem apply_eq_of_isSolvable_fixed (hsol : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup
       (Q.comp (KCOrthogonal.fixedSpace x).subtype)))
     {R : Subgroup (V ≃ₗ[K] V)} [Group.IsPerfect ↥R] (hR : R ≤ isometryCentralizer Q x)
@@ -255,6 +265,7 @@ theorem mem_supportedBlock_of_le (hx : OddOrderIsometry Q p x) {y : V ≃ₗ[K] 
     rw [eq_zero_of_mem_primaryComponent_ne hhy hk (Ne.symm hkh) (hle h1) h2, map_zero]
   · exact KCOrthogonal.apply_eq_of_mem_supportedBlock hg ha hah (by rwa [hself]) h1
 
+omit [FiniteDimensional K V] in
 theorem le_specialBlock_of_perfect {h : K[X]} {P : Subgroup (V ≃ₗ[K] V)} [Group.IsPerfect ↥P]
     (hP : P ≤ supportedBlock Q x h) : P ≤ specialBlock Q x h := by
   intro g hg

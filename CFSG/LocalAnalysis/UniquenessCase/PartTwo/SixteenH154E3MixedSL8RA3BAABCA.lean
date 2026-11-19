@@ -15,6 +15,7 @@ open scoped Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem s16h_sl28_autSub_setup {L : Subgroup (MulAut W)}
     (h : s16h_H5RowSL2 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 3) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K), Nat.card K = 8 ∧
@@ -50,7 +51,7 @@ theorem s16h_sl28_autSub_setup {L : Subgroup (MulAut W)}
     rw [Subgroup.subgroupOf_self] at h0
     rwa [hfix] at h0
   · have hK4 : 4 ≤ Nat.card K := by rw [hKcard]; norm_num
-    haveI : Group.IsPerfect (FFModel.nat (StatedSL 2 K)).Gam :=
+    have : Group.IsPerfect (FFModel.nat (StatedSL 2 K)).Gam :=
       CFSG.Open.StatedAPI.isPerfect_statedSL_two_of_four_le_card hK4
     have hperf : Group.IsPerfect ↥L := Group.IsPerfect.ofSurjective (f := π) hπ.1
     have hLU : L ≤ stabSub (commSub ⊤ L) := by
@@ -90,6 +91,7 @@ theorem s16h_sl28_autSub_setup {L : Subgroup (MulAut W)}
     refine Subgroup.map_injective (commSub ⊤ L).subtype_injective ?_
     rw [hmap, htop]
 
+omit [Finite W] in
 theorem s16h_sl28_autSub_le_centralizer {L : Subgroup (MulAut W)} :
     autSub (Subgroup.centralizer (L : Set (MulAut W))) (commSub ⊤ L) ≤
       Subgroup.centralizer (autSub L (commSub ⊤ L) : Set (MulAut ↥(commSub ⊤ L))) := by
@@ -107,6 +109,7 @@ theorem s16h_sl28_autSub_le_centralizer {L : Subgroup (MulAut W)} :
     _ = resHom (commSub ⊤ L) g * resHom (commSub ⊤ L) l := map_mul _ _ _
     _ = x * y := by rw [hgx, hly]
 
+omit [Finite W] in
 theorem s16h_sl28_autSub_card_dvd_of_setup {L : Subgroup (MulAut W)} {K : Type}
     [Field K] [Finite K] (hKcard : Nat.card K = 8)
     (hreal : (FFModel.nat (StatedSL 2 K)).Realizes (autSub L (commSub ⊤ L)) ⊤

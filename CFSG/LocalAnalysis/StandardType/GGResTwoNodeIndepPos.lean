@@ -52,7 +52,7 @@ theorem ggIndep_pos_prep {G : Type} [Group G] [Finite G] {p N : ℕ} [Fact p.Pri
       ∀ g ∈ Subgroup.closure (Set.range (fun i : Fin (N - 1) => ggLin (p := p) ι (φ (e i))) ∪
           {ggLin (p := p) ι t}),
         ¬ (Module.finrank (ZMod p) (ggLinMove g) = 1 ∧ ∀ w, g (g w - w) = g w - w) := by
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   obtain ⟨t, htA₂, htrefl, htz⟩ := hmove
   obtain ⟨ha, αa, hαaha, hform⟩ := exists_of_ggIsReflection (p := p) ι htrefl
   have hw : αa (ι (Additive.ofMul ⟨z, hz⟩)) ≠ 0 := by
@@ -68,7 +68,7 @@ theorem ggIndep_pos_prep {G : Type} [Group G] [Finite G] {p N : ℕ} [Fact p.Pri
 
 theorem ggIndep_pos_branch (hKG : GGReflClassLargeInput') {G : Type} [Group G] [Finite G] {p N : ℕ}
     [Fact p.Prime] (hp : p ≠ 2) (hN : 9 ≤ N) {Bs : Subgroup G} {z : G} (hz : z ∈ Bs)
-    {A₁ A₂ : Subgroup (MulAut ↥Bs)} (hA : A₁ ⊔ A₂ ≤ ggAutomizer ⊤ Bs)
+    {A₁ A₂ : Subgroup (MulAut ↥Bs)} (_hA : A₁ ⊔ A₂ ≤ ggAutomizer ⊤ Bs)
     (hstab : Nat.card ↥((A₁ ⊔ A₂) ⊓ MulAction.stabilizer (MulAut ↥Bs) (⟨z, hz⟩ : ↥Bs)) ≤
       (p - 1) * 6 * Nat.card ↥A₁)
     (hgen₂ : GGReflGenerated p A₂) {Λ : Type} [Fintype Λ] [DecidableEq Λ] (e : Fin (N - 1) ≃ Λ)
@@ -87,8 +87,8 @@ theorem ggIndep_pos_branch (hKG : GGReflClassLargeInput') {G : Type} [Group G] [
     (hpm1 : 5 ≤ p → GGIndepPm1 p N ι (A₁ ⊔ A₂)) :
     GGWeylReflectionGroup p (A₁ ⊔ A₂) := by
   classical
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hφsup : ∀ i, φ i ∈ A₁ ⊔ A₂ := fun i =>
     Subgroup.mem_sup_left (by rw [hA₁]; exact Subgroup.subset_closure ⟨i, rfl⟩)
   have htsup : t ∈ A₁ ⊔ A₂ := Subgroup.mem_sup_right htA₂
@@ -145,8 +145,8 @@ theorem ggIndep_pos_weyl (hKG : GGReflClassLargeInput') {G : Type} [Group G] [Fi
     (hpm1 : 5 ≤ p → GGIndepPm1 p N ι (A₁ ⊔ A₂)) :
     GGWeylReflectionGroup p (A₁ ⊔ A₂) := by
   classical
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   obtain ⟨t, ha, αa, htA₂, hform, hαa, hw, hnt⟩ := ggIndep_pos_prep (N := N) hNT hz hA hmove e hA₁
     (ι := ι)
   by_cases hmem : ha ∈ Submodule.span (ZMod p) (Set.range fun i => h (e i))

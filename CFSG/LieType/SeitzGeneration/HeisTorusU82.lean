@@ -283,7 +283,7 @@ theorem ug82_homology_data (h : UnitaryFieldData ℓ f K) {w : Fin 2 → K}
     have hd : (diagonal ![s * σ, s] : Matrix (Fin 2) (Fin 2) K) =
         s • (diagonal ![σ, 1] : Matrix (Fin 2) (Fin 2) K) := by
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply]
+      fin_cases i <;> fin_cases j <;> simp
     rw [hμinv, Matrix.smul_mul, hg, hd, Matrix.mul_smul]
   have hne : s * σ ≠ (s * σ)⁻¹ := by
     rw [hμinv]

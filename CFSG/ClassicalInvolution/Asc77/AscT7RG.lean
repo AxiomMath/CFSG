@@ -26,6 +26,7 @@ theorem Hyp21.oddCore_centralizer_u_comm_tz (h : Hyp21 p f Ω K K' z u J t W) (h
   have htzA : t * z ∈ Subgroup.closure ({u, t * z} : Set G) := Subgroup.subset_closure (by simp)
   exact T8.oddCoreOf_centralizer_commutes hA huA h.hu1 htzA n hn
 
+omit [IsSimpleGroup G] in
 theorem Hyp21.conjSub_mem_dComp_of_comm (h : Hyp21 p f Ω K K' z u J t W) {g : G}
     (hg : g * z = z * g) : conjSub g K ∈ dComp Ω K := by
   have hΩ : HypOmegaMod p f Ω := h.std.stand.hyp
@@ -39,6 +40,7 @@ theorem Hyp21.conjSub_mem_dComp_of_comm (h : Hyp21 p f Ω K K' z u J t W) {g : G
     rwa [hgz] at this
   exact T7A.mem_dComp_of_mem_kPerp (mem_kPerp_of_twin hΩ (hΩ.conjInvariant g K hK) hK hzg hz)
 
+omit [IsSimpleGroup G] in
 theorem Hyp21.rSet_le_sigmaGen_of_le_centralizer (h : Hyp21 p f Ω K K' z u J t W) {R : Subgroup G}
     (hR : R ∈ RSet Ω) (hRz : R ≤ Subgroup.centralizer ({z} : Set G)) : R ≤ sigmaGen Ω K := by
   have hp : p ≠ 2 := h.std.stand.odd
@@ -57,6 +59,7 @@ theorem Hyp21.rSet_le_sigmaGen_of_le_centralizer (h : Hyp21 p f Ω K K' z u J t 
       exact T7A.mem_dComp_of_mem_omegaNbr ⟨hM₁Ω, hM₁K, R, hR, hRM₁.1, hRN⟩
   exact hRM₁.1.trans (le_iSup₂_of_le M₁ hMd le_rfl)
 
+omit [IsSimpleGroup G] in
 theorem Hyp21.c₀_facts (h : Hyp21 p f Ω K K' z u J t W) {c₀ : G} (hc₀ : c₀ = z ∨ c₀ = t * z) :
     c₀ * c₀ = 1 ∧ c₀ * u = u * c₀ := by
   constructor
@@ -71,6 +74,7 @@ theorem Hyp21.c₀_facts (h : Hyp21 p f Ω K K' z u J t W) {c₀ : G} (hc₀ : c
         _ = (u * t) * z := by rw [h.htu]
         _ = u * (t * z) := by group
 
+omit [IsSimpleGroup G] in
 theorem Hyp21.rLayer_u_le_sigmaGen_of_trivial (h : Hyp21 p f Ω K K' z u J t W)
     (hα : alphaOf (Subgroup.closure ({u, z} : Set G)) = ⊥) {c₀ : G} (hc₀ : c₀ = z ∨ c₀ = t * z)
     (htriv : ∀ y ∈ rLayer Ω u, c₀ * y * c₀⁻¹ * y⁻¹ ∈ oddCoreOf (rLayer Ω u))
@@ -129,6 +133,7 @@ theorem Hyp21.rLayer_u_le_centralizer_tz_of_trivial (h : Hyp21 p f Ω K K' z u J
     ((Subgroup.centralizer ({t * z} : Set G)).mul_mem
       ((Subgroup.centralizer ({t * z} : Set G)).inv_mem hnc) hx) hnc
 
+omit [IsSimpleGroup G] in
 theorem Hyp21.exists_mem_centralizer_tz_conj (h : Hyp21 p f Ω K K' z u J t W)
     (hne : dComp Ω K ≠ dstarComp Ω K)
     (hN : Subgroup.normalizer (K : Set G) ≤ Subgroup.centralizer ({t * z} : Set G)) :

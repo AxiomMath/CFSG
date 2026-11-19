@@ -203,10 +203,10 @@ theorem moves_rho_zpow (k : ℤ) : T.Moves (F.rho ^ k) (fun j => j + 2 * k) := b
     intro j
     have hconj1 : MulAut.conj (1 : G) = 1 := by
       ext x
-      simp [MulAut.conj_apply]
+      simp
     have hmap' : (MulEquiv.toMonoidHom (1 : MulAut G)) = MonoidHom.id G := rfl
     rw [show F.rho ^ (0 : ℤ) = 1 by simp, hconj1, hmap']
-    simpa using Subgroup.map_id (T.U j)
+    simp
   | succ i ih =>
     have h := TitsSystem.Moves.mul T ih F.moves_rho
     have hpow : F.rho ^ ((i : ℤ) + 1) = F.rho ^ (i : ℤ) * F.rho := zpow_add_one F.rho _
@@ -215,7 +215,7 @@ theorem moves_rho_zpow (k : ℤ) : T.Moves (F.rho ^ k) (fun j => j + 2 * k) := b
       funext j
       simp only [Function.comp_apply]
       ring
-    rw [show ((i : ℕ) + 1 : ℤ) = (i : ℤ) + 1 by push_cast; ring, hpow, hfun]
+    rw [show ((i : ℕ) + 1 : ℤ) = (i : ℤ) + 1 by ring, hpow, hfun]
     exact h
   | pred i ih =>
     have h := TitsSystem.Moves.mul T ih (TitsSystem.Moves.inv_shift T F.moves_rho)

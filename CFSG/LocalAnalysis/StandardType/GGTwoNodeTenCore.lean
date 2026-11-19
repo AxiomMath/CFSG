@@ -92,7 +92,7 @@ theorem ggTen_core_of_card_lt {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
     ggTen_Q_reflGen h α hα r hr A hA hinv
   have hQ : ZS.LinWeyl 3
       (ZS.restrictHom A (Submodule.span (ZMod 3) (Set.range h)) hinv).range := by
-    haveI : Module.Finite (ZMod 3) ↥(Submodule.span (ZMod 3) (Set.range h)) :=
+    have : Module.Finite (ZMod 3) ↥(Submodule.span (ZMod 3) (Set.range h)) :=
       Module.Finite.of_finite
     let d : ℕ := Module.finrank (ZMod 3) (Submodule.span (ZMod 3) (Set.range h))
     have hd5 : 5 ≤ d := by simpa [d] using hd
@@ -132,7 +132,7 @@ theorem ggTen_core_of_negated_complement {V : Type} [AddCommGroup V]
       (Module.finrank (ZMod 3) S * (Module.finrank (ZMod 3) S - 1) / 2)) :
     ZS.LinWeyl 3 A := by
   classical
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   let T : Submodule (ZMod 3) V := Submodule.span (ZMod 3) (Set.range h)
   have hrefl : ∀ i, Module.reflection (hα i) = r i := by
     intro i

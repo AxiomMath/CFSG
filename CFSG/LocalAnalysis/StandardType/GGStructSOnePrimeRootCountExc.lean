@@ -132,6 +132,7 @@ variable {K : Type} [Field K] [CharP K 2]
 variable {k : Type} [Field k] [Algebra k K]
 
 
+omit [CharP K 2] in
 theorem isChevTwoLayeredBy_su6Levi_subgroupOf {f : ℕ} (hf : 1 ≤ f)
     (hk : Nat.card k = 2 ^ f) (hK : Nat.card K = (2 ^ f) ^ 2) {σ : K →+* K}
     (hσ : ∀ c, σ c = c ^ 2 ^ f) :
@@ -142,7 +143,7 @@ theorem isChevTwoLayeredBy_su6Levi_subgroupOf {f : ℕ} (hf : 1 ≤ f)
   have hLq : CFSG.Open.IsQuasisimple ↥L :=
     ⟨(TwistedE6Pilot.isQuasisimple_su6Levi_subgroupOf hf hk hK hσ).1.commutator_eq_top,
       (TwistedE6Pilot.isQuasisimple_su6Levi_subgroupOf hf hk hK hσ).2.1⟩
-  haveI : IsSimpleGroup (TwistedE6Pilot.su6Levi σ) :=
+  have : IsSimpleGroup (TwistedE6Pilot.su6Levi σ) :=
     TwistedE6Pilot.isSimpleGroup_su6Levi hf hk hK hσ
   have hnc : ∃ a b : TwistedE6Pilot.su6Levi σ, a * b ≠ b * a := by
     by_contra hc
@@ -300,7 +301,7 @@ theorem stdRepC_zero_typedBy [CharP K 2] (hf : 1 ≤ f) (hk : Nat.card k = 2 ^ f
   have hQ2 : IsPGroup 2 ((tRadical σ).subgroupOf C₀) := by
     obtain ⟨-, hT⟩ := even_E6_graph_highest_root_normalizer f hf k K hk hK σ hσ
     obtain ⟨S, hS⟩ := hT.2.2.2.2.2.2.2.2.2.1
-    refine S.isPGroup'.to_le ?_
+    refine S.isPGroup.to_le ?_
     rw [hS]
     intro x hx
     rw [mem_subgroupOf] at hx ⊢
@@ -445,7 +446,7 @@ section TagF4
 
 theorem ggRootInvolModelCountTag_F4 : GGRootInvolModelCountTag .F4 := by
   intro X _ _ n f ψ hadm hrank hker hC r hr
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hψ := AutSt.ker_eq_center hker hC
@@ -479,7 +480,7 @@ section TagE6
 
 theorem ggRootInvolModelCountTag_E6 : GGRootInvolModelCountTag .E6 := by
   intro X _ _ n f ψ hadm hrank hker hC r hr
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hψ := AutSt.ker_eq_center hker hC
@@ -517,7 +518,7 @@ section TagE7
 
 theorem ggRootInvolModelCountTag_E7 : GGRootInvolModelCountTag .E7 := by
   intro X _ _ n f ψ hadm hrank hker hC r hr
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hψ := AutSt.ker_eq_center hker hC
@@ -555,7 +556,7 @@ section TagE8
 
 theorem ggRootInvolModelCountTag_E8 : GGRootInvolModelCountTag .E8 := by
   intro X _ _ n f ψ hadm hrank hker hC r hr
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf : 1 ≤ f := hadm.2.1
   have hK : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   have hψ := AutSt.ker_eq_center hker hC

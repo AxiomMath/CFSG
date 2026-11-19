@@ -35,7 +35,8 @@ structure FS79Hyp (b t b₁ b₂ : H) (J : Subgroup H) : Prop where
 
 variable {b t b₁ b₂ : H} {J : Subgroup H}
 
-theorem FS79Hyp.cen_le_nor (h : FS79Hyp b t b₁ b₂ J) :
+omit [Finite H] in
+theorem FS79Hyp.cen_le_nor (_h : FS79Hyp b t b₁ b₂ J) :
     Cen b ≤ Nor (Subgroup.zpowers b) := by
   intro x hx
   refine Subgroup.centralizer_le_normalizer _ ?_

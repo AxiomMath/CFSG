@@ -30,7 +30,7 @@ theorem tmOver_data_E7 (G : Type) [Group G] [Finite G] (hEm : IsEm 7 (⊤ : Subg
   refine ⟨by norm_num, hE, hcard, tmStruct_cent_E7 G hEm hsimple E hE hcard,
     tmStruct_irred_E7 G hEm hsimple E hE hcard, ?_, tmOrb_bounds_E7 G hEm hsimple E hE hcard,
     ?_, ?_, ?_⟩
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine tmAsm_exists_sylow_le 3 _ ?_
     rw [hMcard, hG]
     have hfac := Nat.factorization_mul (show (3 ^ 7 * 2903040 : ℕ) ≠ 0 by norm_num)
@@ -81,7 +81,7 @@ theorem tmOver_data_E8 (G : Type) [Group G] [Finite G] (hEm : IsEm 8 (⊤ : Subg
   refine ⟨by norm_num, hE, hcard, tmStruct_cent_E8 G hEm hsimple E hE hcard,
     tmStruct_irred_E8 G hEm hsimple E hE hcard, ?_, tmOrb_bounds_E8 G hEm hsimple E hE hcard,
     ?_, ?_, ?_⟩
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine tmAsm_exists_sylow_le 3 _ ?_
     rw [hMcard, hG]
     have hfac := Nat.factorization_mul (show (3 ^ 8 * 696729600 : ℕ) ≠ 0 by norm_num)

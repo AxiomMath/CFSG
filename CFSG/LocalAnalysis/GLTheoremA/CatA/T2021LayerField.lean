@@ -208,7 +208,7 @@ open CFSG.Blueprint CFSG.LocalAnalysis.GLTheoremA.FR.Res
 theorem t2021Layer_twF4Core {S : Type} [Group S] [Finite S] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hL : LieModel S .twistedF4 0 2 p) {β : MulAut S} (hβord : orderOf β = p)
     (hβi : β ∉ (MulAut.conj : S →* MulAut S).range) : CoreSub (FP.fixSub β) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hadm, a, hfa, K, _, _, hK, ⟨e0⟩⟩ := hL.reeTitsModel (by simp [reeTitsTags])
   have ha : 1 ≤ a := by
     rcases Nat.eq_zero_or_pos a with h0 | h0

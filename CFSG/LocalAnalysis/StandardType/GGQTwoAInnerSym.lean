@@ -47,12 +47,12 @@ private lemma ggQ2xS_swap_castSucc {m : ℕ} (i j k : Fin m) :
       = Fin.castSucc (Equiv.swap i j k) := by
   rw [Equiv.swap_apply_def]
   by_cases hki : k = i
-  · subst hki; rw [if_pos rfl, Equiv.swap_apply_left]
+  · subst hki; rw [ite_eq_left rfl, Equiv.swap_apply_left]
   · by_cases hkj : k = j
     · subst hkj
-      rw [if_neg (fun h => hki (ggQ2xS_castSucc_inj h)), if_pos rfl, Equiv.swap_apply_right]
-    · rw [if_neg (fun h => hki (ggQ2xS_castSucc_inj h)),
-        if_neg (fun h => hkj (ggQ2xS_castSucc_inj h)),
+      rw [ite_eq_right (fun h => hki (ggQ2xS_castSucc_inj h)), ite_eq_left rfl, Equiv.swap_apply_right]
+    · rw [ite_eq_right (fun h => hki (ggQ2xS_castSucc_inj h)),
+        ite_eq_right (fun h => hkj (ggQ2xS_castSucc_inj h)),
         Equiv.swap_apply_of_ne_of_ne hki hkj]
 
 private lemma ggQ2xS_swap_castSucc_last {m : ℕ} (i j : Fin m) :
@@ -63,10 +63,10 @@ private lemma ggQ2xS_swap_castSucc_last {m : ℕ} (i j : Fin m) :
 private lemma ggQ2xS_swap_last_castSucc {m : ℕ} (i k : Fin m) :
     (Equiv.swap (Fin.last m) (Fin.castSucc i)) (Fin.castSucc k)
       = if k = i then Fin.last m else Fin.castSucc k := by
-  rw [Equiv.swap_apply_def, if_neg (ggQ2xS_castSucc_ne_last k)]
+  rw [Equiv.swap_apply_def, ite_eq_right (ggQ2xS_castSucc_ne_last k)]
   by_cases h : k = i
-  · rw [if_pos (by rw [h]), if_pos h]
-  · rw [if_neg (fun hc => h (ggQ2xS_castSucc_inj hc)), if_neg h]
+  · rw [ite_eq_left (by rw [h]), ite_eq_left h]
+  · rw [ite_eq_right (fun hc => h (ggQ2xS_castSucc_inj hc)), ite_eq_right h]
 
 private lemma ggQ2xS_swap_last_last {m : ℕ} (i : Fin m) :
     (Equiv.swap (Fin.last m) (Fin.castSucc i)) (Fin.last m) = Fin.castSucc i :=
@@ -81,11 +81,11 @@ private lemma ggQ2xS_swap_eq_iff {α : Type*} [DecidableEq α] {a b c d : α} (h
     rw [Equiv.swap_apply_left, Equiv.swap_apply_def] at ha
     by_cases hac : a = c
     · left
-      exact ⟨hac, by rw [if_pos hac] at ha; exact ha⟩
+      exact ⟨hac, by rw [ite_eq_left hac] at ha; exact ha⟩
     · by_cases had : a = d
       · right
-        exact ⟨had, by rw [if_neg hac, if_pos had] at ha; exact ha⟩
-      · rw [if_neg hac, if_neg had] at ha
+        exact ⟨had, by rw [ite_eq_right hac, ite_eq_left had] at ha; exact ha⟩
+      · rw [ite_eq_right hac, ite_eq_right had] at ha
         exact absurd ha.symm hab
   · rintro (⟨rfl, rfl⟩ | ⟨rfl, rfl⟩)
     · rfl
@@ -221,8 +221,7 @@ private lemma ggQ2xS_dot_one_single {m : ℕ} (i : Fin m) :
 private lemma ggQ2xS_dot_one_add_single (m : ℕ) (i : Fin m) :
     (1 + Pi.single i (1 : ZMod 3) : GGBCV m) ⬝ᵥ
       (1 + Pi.single i (1 : ZMod 3) : GGBCV m) = (m : ZMod 3) + 3 := by
-  simp only [add_dotProduct, dotProduct_add, ggQ2xS_dot_one_one, ggQ2xS_dot_one_single,
-    dotProduct_single_one, single_one_dotProduct, Pi.add_apply, Pi.one_apply,
+  simp only [add_dotProduct, dotProduct_add, ggQ2xS_dot_one_one, dotProduct_single_one, single_one_dotProduct, Pi.add_apply, Pi.one_apply,
     Pi.single_eq_same]
   ring_nf
 
@@ -230,8 +229,7 @@ private lemma ggQ2xS_dot_type1_type1 (m : ℕ) (i k : Fin m) (hik : i ≠ k) :
     (1 + Pi.single i (1 : ZMod 3) : GGBCV m) ⬝ᵥ
       (1 + Pi.single k (1 : ZMod 3) : GGBCV m) = (m : ZMod 3) + 2 := by
   simp only [add_dotProduct, dotProduct_add, ggQ2xS_dot_one_one, dotProduct_single_one,
-    single_one_dotProduct, Pi.add_apply, Pi.one_apply, Pi.single_eq_same,
-    Pi.single_eq_of_ne (M := fun _ => ZMod 3) (Ne.symm hik)]
+    single_one_dotProduct, Pi.add_apply, Pi.one_apply, Pi.single_eq_of_ne (M := fun _ => ZMod 3) (Ne.symm hik)]
   ring_nf
 
 private lemma ggQ2xS_sum_pi_single {m : ℕ} (i : Fin m) :
@@ -426,7 +424,6 @@ private lemma ggQ2xS_refl_type1_type1 {m : ℕ} (hm : m % 3 = 2) (i k : Fin m)
   funext j
   rcases eq_or_ne j k with rfl | hjk
   · simp only [Pi.sub_apply, Pi.add_apply, Pi.one_apply, Pi.single_eq_same,
-      Pi.single_eq_of_ne (M := fun _ => ZMod 3) hik,
       Pi.single_eq_of_ne (M := fun _ => ZMod 3) (Ne.symm hik)]
     decide
   · rcases eq_or_ne j i with rfl | hji
@@ -546,19 +543,19 @@ private noncomputable def ggQ2xS_phiP (m : ℕ) (hm : m % 3 = 2) (i j : Fin (m +
 private lemma ggQ2xS_phiP_cc (m : ℕ) (hm : m % 3 = 2) (i j : Fin m) :
     ggQ2xS_phiP m hm (Fin.castSucc i) (Fin.castSucc j)
       = ggPermHom m (Equiv.swap i j) := by
-  simp only [ggQ2xS_phiP, ggQ2xS_root, Fin.val_castSucc, dif_pos i.isLt, dif_pos j.isLt]
+  simp only [ggQ2xS_phiP, ggQ2xS_root, Fin.val_castSucc, dite_eq_left i.isLt, dite_eq_left j.isLt]
 
 private lemma ggQ2xS_phiP_cl (m : ℕ) (hm : m % 3 = 2) (i : Fin m) :
     ggQ2xS_phiP m hm (Fin.castSucc i) (Fin.last m)
       = ggBCRefl (ggQ2xS_t1v m i) (ggQ2xS_t1v_norm_ne hm i) := by
-  simp only [ggQ2xS_phiP, ggQ2xS_type1, Fin.val_castSucc, Fin.val_last, dif_pos i.isLt,
-    dif_neg (lt_irrefl m)]
+  simp only [ggQ2xS_phiP, ggQ2xS_type1, Fin.val_castSucc, Fin.val_last, dite_eq_left i.isLt,
+    dite_eq_right (lt_irrefl m)]
 
 private lemma ggQ2xS_phiP_lc (m : ℕ) (hm : m % 3 = 2) (i : Fin m) :
     ggQ2xS_phiP m hm (Fin.last m) (Fin.castSucc i)
       = ggBCRefl (ggQ2xS_t1v m i) (ggQ2xS_t1v_norm_ne hm i) := by
-  simp only [ggQ2xS_phiP, ggQ2xS_type1, Fin.val_castSucc, Fin.val_last, dif_neg (lt_irrefl m),
-    dif_pos i.isLt]
+  simp only [ggQ2xS_phiP, ggQ2xS_type1, Fin.val_castSucc, Fin.val_last, dite_eq_right (lt_irrefl m),
+    dite_eq_left i.isLt]
 
 private lemma ggQ2xS_phiP_cl_t1v (m : ℕ) (hm : m % 3 = 2) (i : Fin m) :
     ggQ2xS_phiP m hm (Fin.castSucc i) (Fin.last m)
@@ -936,7 +933,7 @@ private lemma ggQ2xS_phiP_inj {m : ℕ} (hm8 : 8 ≤ m) (hm3 : m % 3 = 2)
       · exact absurd rfl hcd
 
 
-private lemma ggQ2xS_quandle_cc {m : ℕ} (hm3 : m % 3 = 2) {i j : Fin m} (hij : i ≠ j)
+private lemma ggQ2xS_quandle_cc {m : ℕ} (hm3 : m % 3 = 2) {i j : Fin m} (_hij : i ≠ j)
     (c d : Fin (m + 1)) (hcd : c ≠ d) :
     ggQ2xS_phiP m hm3 (Fin.castSucc i) (Fin.castSucc j) * ggQ2xS_phiP m hm3 c d *
         (ggQ2xS_phiP m hm3 (Fin.castSucc i) (Fin.castSucc j))⁻¹
@@ -1022,21 +1019,21 @@ private lemma ggQ2xS_quandle_T {m : ℕ} (hm3 : m % 3 = 2) (i : Fin m)
     · have hkl : k ≠ l := fun h => hcd (by rw [h])
       by_cases hki : k = i
       · subst k
-        rw [ggQ2xS_swap_last_castSucc, ggQ2xS_swap_last_castSucc, if_pos rfl,
-          if_neg (fun h => hkl (by rw [h]))]
+        rw [ggQ2xS_swap_last_castSucc, ggQ2xS_swap_last_castSucc, ite_eq_left rfl,
+          ite_eq_right (fun h => hkl (by rw [h]))]
         exact ggQ2xS_quandle_T_ii hm3 hkl
       · by_cases hli : l = i
         · subst l
           have hik : i ≠ k := fun h => hki h.symm
-          rw [ggQ2xS_swap_last_castSucc, ggQ2xS_swap_last_castSucc, if_neg hki,
-            if_pos rfl]
+          rw [ggQ2xS_swap_last_castSucc, ggQ2xS_swap_last_castSucc, ite_eq_right hki,
+            ite_eq_left rfl]
           rw [← ggQ2xS_phiP_comm m hm3 (Fin.castSucc i) (Fin.castSucc k),
             ggQ2xS_phiP_comm m hm3 (Fin.castSucc k) (Fin.last m)]
           exact ggQ2xS_quandle_T_ii hm3 hik
         · have hik : i ≠ k := fun h => hki h.symm
           have hil : i ≠ l := fun h => hli h.symm
-          rw [ggQ2xS_swap_last_castSucc, ggQ2xS_swap_last_castSucc, if_neg hki,
-            if_neg hli]
+          rw [ggQ2xS_swap_last_castSucc, ggQ2xS_swap_last_castSucc, ite_eq_right hki,
+            ite_eq_right hli]
           rw [show ggQ2xS_phiP m hm3 (Fin.last m) (Fin.castSucc i)
               = ggBCRefl (ggQ2xS_t1v m i) (ggQ2xS_t1v_norm_ne hm3 i) from
               ggQ2xS_phiP_lc_t1v m hm3 i,
@@ -1058,18 +1055,18 @@ private lemma ggQ2xS_quandle_T {m : ℕ} (hm3 : m % 3 = 2) (i : Fin m)
       ggQ2xS_refl_inv _ _, ← hbs, mul_assoc, hsi2, mul_one]
     · by_cases hki : k = i
       · subst k
-        rw [ggQ2xS_swap_last_castSucc, Equiv.swap_apply_left, if_pos rfl]
+        rw [ggQ2xS_swap_last_castSucc, Equiv.swap_apply_left, ite_eq_left rfl]
         exact ggQ2xS_quandle_T_self hm3 i
-      · rw [ggQ2xS_swap_last_castSucc, Equiv.swap_apply_left, if_neg hki]
+      · rw [ggQ2xS_swap_last_castSucc, Equiv.swap_apply_left, ite_eq_right hki]
         exact ggQ2xS_quandle_T_t1 hm3 (fun h => hki h.symm)
   · rcases ggQ2xS_fin_eq_castSucc_or_last d with ⟨l, rfl⟩ | rfl
     · by_cases hli : l = i
       · subst l
-        rw [Equiv.swap_apply_left, ggQ2xS_swap_last_castSucc, if_pos rfl,
+        rw [Equiv.swap_apply_left, ggQ2xS_swap_last_castSucc, ite_eq_left rfl,
           ggQ2xS_phiP_comm m hm3 (Fin.castSucc i) (Fin.last m)]
         exact ggQ2xS_quandle_T_self' hm3 i
       · have hil : i ≠ l := fun h => hli h.symm
-        rw [Equiv.swap_apply_left, ggQ2xS_swap_last_castSucc, if_neg hli,
+        rw [Equiv.swap_apply_left, ggQ2xS_swap_last_castSucc, ite_eq_right hli,
           ggQ2xS_phiP_comm m hm3 (Fin.last m) (Fin.castSucc l),
           ← ggQ2xS_phiP_comm m hm3 (Fin.castSucc l) (Fin.castSucc i)]
         exact ggQ2xS_quandle_T_t1 hm3 hil
@@ -1193,7 +1190,7 @@ theorem ggQ2_A_inner_sym (m : ℕ) (hm : 8 ≤ m) (h2 : m % 3 = 2) :
     have h : (Equiv.swap a b).IsSwap := ⟨a, b, hab, rfl⟩
     have hfun : π' (Equiv.swap a b)
         = pairSwap (swapPair (Equiv.swap a b) h).1 (swapPair (Equiv.swap a b) h).2
-          (swapPair_spec (Equiv.swap a b) h).1 := dif_pos h
+          (swapPair_spec (Equiv.swap a b) h).1 := dite_eq_left h
     rw [hfun]
     exact pairSwap_eq (swapPair_spec (Equiv.swap a b) h).1 hab
       (ggQ2xS_phiP_of_swap_eq hm3 (swapPair_spec (Equiv.swap a b) h).1 hab

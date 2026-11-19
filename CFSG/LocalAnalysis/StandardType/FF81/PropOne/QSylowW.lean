@@ -74,7 +74,7 @@ private theorem mem_sup_zpowers_of_mem_normalizer {G : Type} [Group G] [Finite G
       simpa using (Subgroup.mem_normalizer_iff.mp hgNB2inv x).mp hx
     have hinner : b * (g⁻¹ * x * g) * b⁻¹ * (g⁻¹ * x * g)⁻¹ ∈ bOne z := hB₂.comm _ hxg
     refine Subgroup.mem_map.mpr ⟨_, hinner, ?_⟩
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     group
   have hcard_cl : Nat.card ↥(Subgroup.closure
         {r : G | ∃ x ∈ B₂, r = (g * b * g⁻¹) * x * (g * b * g⁻¹)⁻¹ * x⁻¹}) ≤ 3 ^ 3 := by
@@ -281,7 +281,7 @@ theorem maximal_in_cen_tau {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L 
     have : (⟨t, ht⟩ : ↥T) ∈ (Subgroup.zpowers b ⊔ Subgroup.zpowers c).subgroupOf T := by
       rw [he]; trivial
     exact Subgroup.mem_subgroupOf.mp this
-  obtain ⟨g, hgN, hgQ'⟩ := SetLike.exists_of_lt
+  obtain ⟨g, hgN, hgQ'⟩ := _root_.IsConcreteLE.exists_of_lt
     (hcond ((Subgroup.zpowers b ⊔ Subgroup.zpowers c).subgroupOf T) hQ'lt)
   have hgQ : (g : G) ∉ Subgroup.zpowers b ⊔ Subgroup.zpowers c :=
     fun hq => hgQ' (Subgroup.mem_subgroupOf.mpr hq)

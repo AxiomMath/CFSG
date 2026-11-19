@@ -181,7 +181,7 @@ theorem exists_cube_root_unity (h : UnitaryFieldData p f K) (hp3 : p ≠ 3) :
       hp3 ((Nat.prime_dvd_prime_iff_eq Nat.prime_three h.prime).mp h3).symm
     omega
   have hp2 : p ^ 2 % 3 = 1 := by
-    rcases hp' with h1 | h1 <;> (rw [Nat.pow_mod, h1]; try decide)
+    rcases hp' with h1 | h1 <;> (rw [Nat.pow_mod, h1])
   have hmod : p ^ (2 * f) % 3 = 1 := by
     rw [pow_mul, Nat.pow_mod, hp2, one_pow]
     try decide

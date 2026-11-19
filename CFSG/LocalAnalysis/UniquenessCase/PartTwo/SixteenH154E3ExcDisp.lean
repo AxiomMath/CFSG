@@ -19,7 +19,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {W : Type} [CommGroup W] [Finite W]
 
 theorem s16h_exc_dispatch
-    (hJP : K_JonesParshallH1) {A L : Subgroup (MulAut W)} {t : MulAut W}
+    (_hJP : K_JonesParshallH1) {A L : Subgroup (MulAut W)} {t : MulAut W}
     (hc : s16h_H5Cfg A L t) (hZ : commSub ⊤ L ⊓ fixV L = ⊥) {q : ℕ} (hq : q.Prime)
     (hq2 : q ≠ 2) (hn1 : ¬ s16h_BlockBound A L q 1) (hnF : ¬ s16h_H5Fix A L q) :
     (q = 3 ∧ (s16h_H5A5Sum L (commSub ⊤ L) ⊥ 2 ∨ s16h_H5A5Sum L (commSub ⊤ L) ⊥ 3)) ∨

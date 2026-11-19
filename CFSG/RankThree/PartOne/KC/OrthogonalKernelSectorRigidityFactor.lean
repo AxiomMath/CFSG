@@ -59,7 +59,7 @@ theorem exists_sector_factor (hQ : (polarBilin Q).Nondegenerate) {p : ℕ} (hp :
     · exact hℓ.one_lt.ne' h
     · exact hpl h.symm
   have : NeZero (p : K) := ⟨hpK⟩
-  obtain ⟨ζ, hζp⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) p
+  obtain ⟨ζ, hζp⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) p
   obtain ⟨a, ha1, μ, hμ1, hμp, ⟨s₁, hs₁, hs₁0, hs₁e⟩, ⟨s₂, hs₂, hs₂0, hs₂e⟩⟩ :=
     exists_common_eigenvalue (AlgebraicClosure K) hp hΓ hζp (hζ ζ hζp) hM hN hMN hMa hNa
   set x : V ≃ₗ[K] V := ((a : orthDerived Q) : V ≃ₗ[K] V) with hxdef

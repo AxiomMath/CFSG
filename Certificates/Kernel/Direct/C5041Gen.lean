@@ -98,7 +98,7 @@ theorem mem_o3_two {p q r d e f : Fin n} (h1 : p < q) (h2 : q < r) (h3 : d < e) 
     x * y ∈ o3List n := by
   simp only [o3List, List.mem_append, List.mem_flatMap]
   refine Or.inr ⟨(p, q, r), mem_triples h1 h2, (d, e, f), mem_triples h3 h4, ?_⟩
-  rw [if_pos ⟨hpd, hpe, hpf, hqd, hqe, hqf, hrd, hre, hrf⟩]
+  rw [ite_eq_left ⟨hpd, hpe, hpf, hqd, hqe, hqf, hrd, hre, hrf⟩]
   rcases hx with rfl | rfl <;> rcases hy with rfl | rfl <;> simp
 
 theorem mem_o3_cyc3_mul {a b c d e f : Fin n} (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c)

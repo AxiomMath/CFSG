@@ -160,7 +160,7 @@ theorem injective_of_scalar_ne_one [Finite K] (hKd : UnitaryFieldData 2 n K)
     apply hs₁
     have : s₀ = 1 := Subtype.ext (by rw [hc₀, map_one]; rfl)
     rw [this, map_one]
-  haveI : IsCyclic (⊤ : Subgroup Kˣ) := (Subgroup.topEquiv (G := Kˣ)).isCyclic.mpr inferInstance
+  have : IsCyclic (⊤ : Subgroup Kˣ) := (Subgroup.topEquiv (G := Kˣ)).isCyclic.mpr inferInstance
   have hmem : c₀ ∈ Subgroup.zpowers c₁ :=
     mem_zpowers_of_isCyclic_of_pow_three (S := (⊤ : Subgroup Kˣ)) inferInstance trivial trivial
       hc₁3 hc₁1 hc₀3
@@ -177,6 +177,7 @@ section Transfer
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {Bs : Subgroup G}
 
+omit [Finite G] in
 theorem mem_center_of_mem_twoCenter {l : ↥L} (h : (l : G) ∈ twoCenter L) :
     l ∈ Subgroup.center ↥L := by
   rw [Subgroup.mem_center_iff]
@@ -186,6 +187,7 @@ theorem mem_center_of_mem_twoCenter {l : ↥L} (h : (l : G) ∈ twoCenter L) :
 @[expose] def redMkB (hBN : Bs ≤ Subgroup.normalizer (L : Set G)) : ↥Bs →* RedGrp L :=
   (redMk L).comp (Subgroup.inclusion hBN)
 
+omit [Finite G] in
 theorem redMkB_injective (hBN : Bs ≤ Subgroup.normalizer (L : Set G))
     (hBs : CFSG.Open.IsElemAbelian 3 Bs) : Function.Injective (redMkB hBN) := by
   rw [injective_iff_map_eq_one]
@@ -194,6 +196,7 @@ theorem redMkB_injective (hBN : Bs ≤ Subgroup.normalizer (L : Set G))
   have h3 : (b : G) ^ 3 = 1 := hBs.2 b b.2
   exact Subtype.ext (eq_one_of_cube (isPGroup_twoCenter L) h1 h3)
 
+omit [Finite G] in
 theorem isElemAbelian_redB (hBN : Bs ≤ Subgroup.normalizer (L : Set G))
     (hBs : CFSG.Open.IsElemAbelian 3 Bs) :
     CFSG.Open.IsElemAbelian 3 (redMkB hBN).range := by
@@ -209,6 +212,7 @@ theorem isElemAbelian_redB (hBN : Bs ≤ Subgroup.normalizer (L : Set G))
     have : b ^ 3 = 1 := Subtype.ext (by simpa using hBs.2 b b.2)
     rw [this, map_one]
 
+omit [Finite G] in
 theorem card_redB (hBN : Bs ≤ Subgroup.normalizer (L : Set G))
     (hBs : CFSG.Open.IsElemAbelian 3 Bs) :
     Nat.card (redMkB hBN).range = Nat.card Bs :=
@@ -273,11 +277,11 @@ theorem noTransvection_red (hBN : Bs ≤ Subgroup.normalizer (L : Set G))
   let N : Subgroup G := Subgroup.normalizer (L : Set G)
   let B' : Subgroup ↥N := Bs.subgroupOf N
   let Z : Subgroup ↥N := (twoCenter L).subgroupOf N
-  haveI : Z.Normal := twoCenter_normal (L := L)
+  have : Z.Normal := twoCenter_normal (L := L)
   have hBsp : IsPGroup 3 B' :=
     (CFSG.StandardType.isPGroup_of_isElemAbelian hBs).comap_subtype
   have hodd : ¬ 3 ∣ Nat.card Z := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hZ2 : IsPGroup 2 Z := (isPGroup_twoCenter L).comap_subtype
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hZ2
     rw [hk]
@@ -296,6 +300,7 @@ theorem noTransvection_red (hBN : Bs ≤ Subgroup.normalizer (L : Set G))
       exact ⟨⟨(b : G), hBN b.2⟩, Subgroup.mem_subgroupOf.mpr b.2, rfl⟩
   rwa [hBeq] at h
 
+omit [Finite G] in
 theorem redMk_conj (n : ↥(Subgroup.normalizer (L : Set G))) (l : ↥L) :
     redMk L n * redMkL L l * (redMk L n)⁻¹ = redMkL L (L.normalizerMonoidHom n l) := by
   have e0 : Subgroup.inclusion Subgroup.le_normalizer (L.normalizerMonoidHom n l) =
@@ -347,7 +352,7 @@ theorem redCyc {R : Type} [Group R] (θ : L ⧸ Subgroup.center L ≃* R) (hL : 
     rw [← hSmap] at hy
     obtain ⟨s, hs, rfl⟩ := hy
     exact ⟨⟨s, hs⟩, Subtype.ext rfl⟩
-  haveI := hScyc
+  have := hScyc
   exact isCyclic_of_surjective f hf
 
 end Transfer
@@ -357,6 +362,7 @@ section StepOne
 variable {K : Type} [Field K] [Finite K] {G : Type} [Group G] [Finite G] {L : Subgroup G}
   {Bs : Subgroup G}
 
+omit [Finite K] [Finite G] in
 theorem redActsAs (hcov : Line63.UnitaryCoverOddAt 1 6 K)
     (hKd : UnitaryFieldData 2 1 K)
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (unitarySU 2 1 K 6))

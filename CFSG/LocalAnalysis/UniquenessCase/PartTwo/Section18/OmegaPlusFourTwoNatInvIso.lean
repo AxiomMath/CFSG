@@ -223,7 +223,7 @@ private theorem omegaPlusTwoNatIso_aux (K : Type) [Field K] [Finite K] [CharP K 
   obtain ⟨c, hBc⟩ := hBscalar
   have hc0 : c ≠ 0 := by
     intro hc
-    have hB0 : (B : Matrix (Fin 2) (Fin 2) K) = 0 := by simpa [hc] using hBc
+    have hB0 : (B : Matrix (Fin 2) (Fin 2) K) = 0 := by simp [hc] at hBc
     have hmul : (B : Matrix (Fin 2) (Fin 2) K) *
         ((B⁻¹ : GL (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) = 1 :=
       Units.mul_inv B
@@ -247,7 +247,7 @@ private theorem omegaPlusTwoNatIso_aux (K : Type) [Field K] [Finite K] [CharP K 
     rw [hBc, Finset.sum_eq_single p.1]
     · simp [Pi.smul_apply, smul_eq_mul]
     · intro j _ hj
-      simp [Matrix.smul_apply, Matrix.one_apply, hj, Ne.symm hj]
+      simp [Matrix.smul_apply, Ne.symm hj]
     · intro hp
       exact (hp (Finset.mem_univ _)).elim
   have hTdiag : ∀ (v : Fin 2 × ι → K) (p : Fin 2 × ι),
@@ -390,8 +390,7 @@ private theorem omegaPlusTwoNatIso_aux (K : Type) [Field K] [Finite K] [CharP K 
     have hcard5 : Nat.card ↥(Subgroup.zpowers (⟨x₀, hx₀K'⟩ : ↥K')) = 5 := by
       rw [Nat.card_zpowers]
       rw [show orderOf (⟨x₀, hx₀K'⟩ : ↥K') = orderOf x₀ from by
-        simpa using orderOf_injective (Subgroup.subtype K') Subtype.val_injective
-          (⟨x₀, hx₀K'⟩ : ↥K')]
+        simp]
       exact hx₀ord
     rwa [hcard5] at h5
   have hconcl3 : ∀ y ∈ H, (∀ v ∈ CFSG.Quasithin.fixV (Subgroup.zpowers w), y v = v) →
@@ -434,7 +433,7 @@ private theorem omegaPlusTwoNatIso_aux (K : Type) [Field K] [Finite K] [CharP K 
         rw [Finset.sum_eq_single r.1]
         · simp
         · intro b _ hb
-          simp [Matrix.one_apply, Ne.symm hb]
+          simp [Ne.symm hb]
         · intro hr
           exact (hr (Finset.mem_univ _)).elim
       have hline := normalForm_lineEmb (k := 2) (T := T) (A := a)
@@ -473,7 +472,7 @@ private theorem omegaPlusTwoNatIso_aux (K : Type) [Field K] [Finite K] [CharP K 
       intro h
       apply heQ
       rw [h]
-      simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore]
+      simp [StatedQuadPlus]
     have hA'e0 : toAddMap A' e ≠ 0 := by
       intro h
       exact he0 ((toAddMap_eq_zero_iff A' (v := e)).mp h)
@@ -528,7 +527,7 @@ private theorem omegaPlusTwoNatIso_aux (K : Type) [Field K] [Finite K] [CharP K 
         exact hA'e0 (funext h)
       have h1 := congrFun (hdiag' p) i
       have h0 := congrFun (hdiag' 0) i
-      simp only [Pi.smul_apply, smul_eq_mul, b] at h1 h0
+      simp only [Pi.smul_apply, smul_eq_mul] at h1 h0
       exact mul_right_cancel₀ hi (h1.trans h0.symm)
     have hb0 : b ≠ 0 := by
       intro hb
@@ -568,7 +567,7 @@ private theorem omegaPlusTwoNatIso_aux (K : Type) [Field K] [Finite K] [CharP K 
       · rw [hqp]
         simpa [Matrix.smul_apply, Matrix.one_apply, smul_eq_mul] using hbk p
       · rw [hBoff q p hqp]
-        simp [Matrix.smul_apply, Matrix.one_apply, hqp]
+        simp [Matrix.smul_apply, hqp]
     have hYdiag : ∀ (v : Fin 2 × ι → K) (r : Fin 2 × ι),
         toAddMap Y v r = toAddMap ay (fun i => v (r.1, i)) r.2 := by
       intro v r
@@ -579,7 +578,7 @@ private theorem omegaPlusTwoNatIso_aux (K : Type) [Field K] [Finite K] [CharP K 
         rw [Finset.sum_eq_single r.1]
         · simp [Pi.smul_apply, smul_eq_mul]
         · intro j _ hj
-          simp [Matrix.smul_apply, Matrix.one_apply, hj, Ne.symm hj]
+          simp [Matrix.smul_apply, Ne.symm hj]
         · intro hr
           exact (hr (Finset.mem_univ _)).elim
       rw [hsum, hA'lin]
@@ -634,9 +633,9 @@ private theorem omegaPlusTwoNatIso_aux (K : Type) [Field K] [Finite K] [CharP K 
   exact ⟨hconcl1, hconcl2, hconcl3⟩
 
 theorem k_OmegaPlusFour_twoNat_inv_of_isoMod {W : Type} [CommGroup W] [Finite W]
-    (hW : ∀ w : W, w ^ 2 = 1) {X H : Subgroup (MulAut W)}
+    (_hW : ∀ w : W, w ^ 2 = 1) {X H : Subgroup (MulAut W)}
     (hXH : X ≤ H) (hHN : H ≤ Subgroup.normalizer (X : Set (MulAut W)))
-    (hX : IsOmegaPlus ↥X 4 2)
+    (_hX : IsOmegaPlus ↥X 4 2)
     (hsum : SumOfNatIsoMod (fun H U Z => NatOmegaPlus H U Z 4 2) X ⊤ ⊥ 2)
     {w : MulAut W} (hwH : w ∈ H) (hw1 : w ≠ 1) (hw2 : w ^ 2 = 1)
     (hm : E3.mQuot ⊤ (CFSG.Quasithin.fixV (Subgroup.zpowers w)) = 4) :

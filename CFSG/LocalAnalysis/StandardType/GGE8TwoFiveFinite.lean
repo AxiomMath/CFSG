@@ -620,7 +620,7 @@ theorem e8TwoFive_plane_root_count {R : Type} [Fintype R] [DecidableEq R]
   have hmem : r ∈ Finset.univ.filter (fun r => u r = 0 ∧ v r = 0) := by
     rw [Finset.mem_filter]; exact ⟨Finset.mem_univ r, hr⟩
   rw [Finset.card_eq_zero.mp hkey] at hmem
-  simpa using hmem
+  simp at hmem
 
 private theorem rootChar_pow_five_eq_one {τ : Tag} {L : Type} [Field L]
     {a : Fin τ.rank → Lˣ} (ha : ∀ i, a i ^ 5 = 1) (v : Fin τ.rank → ℤ) :
@@ -652,8 +652,8 @@ theorem e8TwoFive_plane_roots_nontrivial {L : Type} [Field L]
       (kernelRoots (rootCharHom (a ^ i * b ^ j))).ncard = 40) :
     ∀ β, IsRoot Tag.E8 β → rootChar a β ≠ 1 ∨ rootChar b β ≠ 1 := by
   classical
-  haveI : NeZero ((5 : ℕ) : L) := ⟨by simpa using h5⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 5
+  have : NeZero ((5 : ℕ) : L) := ⟨by simpa using h5⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 5
   have hunit : IsUnit ζ := hζ.isUnit (by norm_num)
   let ζu : Lˣ := hunit.unit
   have hζu : IsPrimitiveRoot ζu 5 := by
@@ -708,7 +708,7 @@ theorem e8TwoFive_plane_roots_nontrivial {L : Type} [Field L]
             i * uval β + j * vval β = 0} := by
       ext β
       rw [kernelRoots_rootCharHom]
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       refine and_congr_right fun _ => ?_
       have hL : rootChar (a ^ i.val * b ^ j.val) β = 1 ↔
           5 ∣ (i.val * ka β + j.val * kb β) := by
@@ -724,7 +724,7 @@ theorem e8TwoFive_plane_roots_nontrivial {L : Type} [Field L]
           5 ∣ (i.val * ka β + j.val * kb β) := by
         rw [← heq, ZMod.natCast_eq_zero_iff]
       exact hL.trans hR.symm
-    haveI : Fintype ↑({β : Fin Tag.E8.rank → ℤ | IsRoot Tag.E8 β ∧
+    have : Fintype ↑({β : Fin Tag.E8.rank → ℤ | IsRoot Tag.E8 β ∧
         i * uval β + j * vval β = 0} : Set (Fin Tag.E8.rank → ℤ)) :=
       Set.Finite.fintype ((finite_setOf_isRoot Tag.E8).subset fun β hβ => hβ.1)
     rw [← hh, hS]
@@ -742,9 +742,9 @@ theorem e8TwoFive_plane_roots_nontrivial {L : Type} [Field L]
   exact hnc ⟨β, hβ⟩ ⟨(hu_zero β).mpr hcon.1, (hv_zero β).mpr hcon.2⟩
 
 theorem e8TwoFive_plane_pow_mul_ne_one {G : Type} [Group G] {a b : G} (ha5 : a ^ 5 = 1)
-    (hb5 : b ^ 5 = 1) (hab : Commute a b) (ha1 : a ≠ 1) (hb : b ∉ Subgroup.zpowers a) {i j : ℕ}
+    (hb5 : b ^ 5 = 1) (_hab : Commute a b) (ha1 : a ≠ 1) (hb : b ∉ Subgroup.zpowers a) {i j : ℕ}
     (h : ¬ (5 ∣ i ∧ 5 ∣ j)) : a ^ i * b ^ j ≠ 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   intro hprod
   have hb1 : b ≠ 1 := fun hb1 => hb (by rw [hb1]; exact Subgroup.one_mem _)
   have hordb : orderOf b = 5 := by

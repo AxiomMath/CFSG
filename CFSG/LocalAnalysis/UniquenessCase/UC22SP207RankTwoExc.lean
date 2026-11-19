@@ -73,7 +73,7 @@ theorem uc22sp207_noStrongParabolic_3D4
       ⟨RingEquiv.ofBijective sigma ⟨sigma.injective,
         Finite.surjective_of_injective sigma.injective⟩, rfl⟩
     have hσ' : ∀ c, σ.toRingHom c = c ^ (2 ^ n) := hσ
-    have hq : 2 ≤ 2 ^ n := burnsideF45_two_le_q σ Nat.prime_two hn hK hσ'
+    have hq : 2 ≤ 2 ^ n := burnsideF45_two_le_q Nat.prime_two hn
     obtain ⟨f₀, hf₀, hrange, -⟩ := burnsideF4h_tri_exists_embedding Nat.prime_two hn hK σ hσ
     let e₁ : DerivedCentralQuotient (twistedFixedGroup TwistTag.D4 K σ.toRingHom) ≃*
         ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=

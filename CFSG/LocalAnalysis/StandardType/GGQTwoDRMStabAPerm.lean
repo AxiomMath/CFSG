@@ -24,7 +24,7 @@ private lemma p9uRMAP_one_eq_sum : (1 : DVec m) = ∑ i, dBasis m i := by
   rw [Finset.sum_apply, Finset.sum_eq_single k]
   · simp [dBasis, Pi.basisFun_apply]
   · intro i _ hi
-    simp [dBasis, Pi.basisFun_apply, Pi.single_apply, hi]
+    simp [dBasis, Pi.basisFun_apply, hi]
   · intro hk; exact absurd (Finset.mem_univ k) hk
 
 private lemma p9uRMAP_dPerm_eval (σ : Equiv.Perm (Fin m)) (v : DVec m) (i : Fin m) :
@@ -98,21 +98,21 @@ private lemma p9uRMAP_entry_rel {b : DVec m ≃ₗ[ZMod 3] DVec m}
 
 private lemma p9uRMAP_entry_diag {b : DVec m ≃ₗ[ZMod 3] DVec m}
     (hb : ∀ σ : Equiv.Perm (Fin m), b * dPerm m σ = dPerm m σ * b)
-    {i j : Fin m} (hij : i ≠ j) :
+    {i j : Fin m} (_hij : i ≠ j) :
     (b (dBasis m i)) i = (b (dBasis m j)) j := by
   have h := p9uRMAP_entry_rel hb (Equiv.swap i j) j i
   simpa [Equiv.symm_swap, Equiv.swap_apply_right, Equiv.swap_apply_left] using h
 
 private lemma p9uRMAP_entry_symm {b : DVec m ≃ₗ[ZMod 3] DVec m}
     (hb : ∀ σ : Equiv.Perm (Fin m), b * dPerm m σ = dPerm m σ * b)
-    {i j : Fin m} (hij : i ≠ j) :
+    {i j : Fin m} (_hij : i ≠ j) :
     (b (dBasis m i)) j = (b (dBasis m j)) i := by
   have h := p9uRMAP_entry_rel hb (Equiv.swap i j) j j
   simpa [Equiv.symm_swap, Equiv.swap_apply_right, Equiv.swap_apply_left] using h
 
 private lemma p9uRMAP_entry_col {b : DVec m ≃ₗ[ZMod 3] DVec m}
     (hb : ∀ σ : Equiv.Perm (Fin m), b * dPerm m σ = dPerm m σ * b)
-    {i j k : Fin m} (hij : i ≠ j) (hki : k ≠ i) (hkj : k ≠ j) :
+    {i j k : Fin m} (_hij : i ≠ j) (hki : k ≠ i) (hkj : k ≠ j) :
     (b (dBasis m i)) k = (b (dBasis m j)) k := by
   have h := p9uRMAP_entry_rel hb (Equiv.swap i j) j k
   simpa [Equiv.symm_swap, Equiv.swap_apply_of_ne_of_ne hki hkj] using h
@@ -160,7 +160,7 @@ private lemma p9uRMAP_centralizer_form (hm2 : 2 ≤ m) {b : DVec m ≃ₗ[ZMod 3
     · rw [hoff i k (Ne.symm hk)]
       simp only [Pi.add_apply, Pi.smul_apply, Pi.one_apply, smul_eq_mul]
       rw [show (dBasis m i) k = 0 from by
-        simp [dBasis, Pi.basisFun_apply, Pi.single_apply, hk]]
+        simp [dBasis, Pi.basisFun_apply, hk]]
       ring
   calc b v = b (∑ i, v i • dBasis m i) := by rw [p9uRMAP_sum_basis v]
     _ = ∑ i, v i • b (dBasis m i) := by rw [map_sum]; simp only [map_smul]

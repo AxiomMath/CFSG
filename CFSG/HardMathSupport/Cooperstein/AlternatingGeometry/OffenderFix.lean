@@ -100,13 +100,13 @@ theorem sgn2_inj {a b : ZMod 2} (h : sgn2 a = sgn2 b) : a = b := by
   have hne := neg_one_units_ne
   have h10 : ¬ ((1 : ZMod 2) = 0) := by decide
   rcases zmod2_cases a with rfl | rfl <;> rcases zmod2_cases b with rfl | rfl <;>
-    first | rfl | (exfalso; simp [sgn2, h10] at h; try (first | exact hne h | exact hne h.symm))
+    first | rfl | (exfalso; simp [sgn2, h10] at h)
 
 theorem card_twist_le {G : Type*} [Group G] [Finite G] (hcomm : ∀ a b : G, a * b = b * a)
     (hG : ∀ g : G, g * g = 1) (Y : Subgroup G)
     (S : Set (G → ZMod 2)) (hS1 : ∀ c ∈ S, ∀ g h, c (g * h) = c g + c h)
     (hS2 : ∀ c ∈ S, ∀ y ∈ Y, c y = 0) : Nat.card S ≤ Y.index := by
-  letI : CommGroup G := { ‹Group G› with mul_comm := hcomm }
+  let : CommGroup G := { ‹Group G› with mul_comm := hcomm }
   have h2 : Monoid.exponent G ∣ 2 := by
     apply Monoid.exponent_dvd_of_forall_pow_eq_one
     intro g; simpa [pow_two] using hG g
@@ -331,7 +331,7 @@ theorem card_FixEven_mul_two_le {p : Ω} (hp : ∀ g ∈ E, g p = p) :
           apply hi
           have := hp g hg
           exact g.injective (h.trans this.symm)
-        simp [Pi.single_apply, hi, this]
+        simp [hi, this]
     have h1 : (⟨Pi.single p 1, hmem⟩ : FixP E) ∈ (FixEven E).addSubgroupOf (FixP E) := by
       rw [htop]; trivial
     have h2 : (Pi.single p (1 : ZMod 2) : Ω → ZMod 2) ∈ evenVec Ω := h1.2

@@ -179,7 +179,7 @@ theorem Cyc.of_sylow (h : Setting G L n) (S : Sylow 2 (centralizer (L : Set G)))
     rw [card_sylowSub]
     exact two_dvd_card_sylow h.even_card S
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := sylowSub S) 2 h2
-  refine ⟨(x : G), Subgroup.map_subtype_le _, S.isPGroup'.map _, ?_, ?_, ?_, x.2⟩
+  refine ⟨(x : G), Subgroup.map_subtype_le _, S.isPGroup.map _, ?_, ?_, ?_, x.2⟩
   · have : (sylowSub S).relIndex (centralizer (L : Set G)) =
         (S : Subgroup (centralizer (L : Set G))).index := by
       unfold Subgroup.relIndex sylowSub

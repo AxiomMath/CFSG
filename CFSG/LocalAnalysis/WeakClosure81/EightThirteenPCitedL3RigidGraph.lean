@@ -11,7 +11,7 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.Lin
 open CFSG.ComponentClassification.UnbalancedCatalog
 
 theorem outerRigid_graph_std {k : Type} [Field k] [Finite k] {σ : k ≃+* k} (hk : Nat.card k = 4)
-    (hσ : ∀ a, σ a = a ^ 2) {γ : MulAut (projectiveSL 3 k)} (hγ : γ * γ = 1)
+    (_hσ : ∀ a, σ a = a ^ 2) {γ : MulAut (projectiveSL 3 k)} (_hγ : γ * γ = 1)
     (hc : γ * (dualAut 3 k) = (dualAut 3 k) * γ)
     (hf : ∀ x : projectiveSL 3 k, (dualAut 3 k) x = x → γ x = x) :
     γ = 1 ∨ γ = dualAut 3 k := by

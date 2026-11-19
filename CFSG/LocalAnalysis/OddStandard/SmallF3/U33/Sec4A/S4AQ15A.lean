@@ -14,6 +14,7 @@ section Q15A
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem q15_commutator_le {Q : Subgroup G} {ρ : G} (hρ : ρ ∈ normalizer (Q : Set G)) :
     ⁅Q, zpowers ρ⁆ ≤ Q := by
   rw [Subgroup.commutator_le]
@@ -25,6 +26,7 @@ theorem q15_commutator_le {Q : Subgroup G} {ρ : G} (hρ : ρ ∈ normalizer (Q 
   rw [commutatorElement_def q r, heq]
   exact Q.mul_mem hq hconj
 
+omit [Finite G] in
 theorem q15_conj_commutator_left {A B : Subgroup G} {a x : G} (ha : a ∈ A)
     (hx : x ∈ ⁅A, B⁆) : a * x * a⁻¹ ∈ ⁅A, B⁆ := by
   rw [Subgroup.commutator_def] at hx
@@ -39,7 +41,7 @@ theorem q15_conj_commutator_left {A B : Subgroup G} {a x : G} (ha : a ∈ A)
       group
     rw [heq]
     exact (⁅A, B⁆).mul_mem h1 ((⁅A, B⁆).inv_mem h2)
-  | one => simpa using one_mem (⁅A, B⁆)
+  | one => simp
   | mul y z _ _ ihy ihz =>
     have heq : a * (y * z) * a⁻¹ = (a * y * a⁻¹) * (a * z * a⁻¹) := by group
     rw [heq]
@@ -61,12 +63,14 @@ theorem q15_mem_normalizer_zpowers {ρ g : G} (h : g * ρ * g⁻¹ = ρ⁻¹ ∨
   rw [(conj_zpow (a := g) (b := ρ) (i := k)).symm]
   exact (zpowers ρ).zpow_mem hmem k
 
+omit [Finite G] in
 theorem q15_mem_normalizer_commutator {Q : Subgroup G} {ρ g : G}
     (hQ : g ∈ normalizer (Q : Set G)) (hρ : g ∈ normalizer ((zpowers ρ : Subgroup G) : Set G)) :
     g ∈ normalizer ((⁅Q, zpowers ρ⁆ : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq] at hQ hρ ⊢
   rw [Subgroup.map_commutator Q (zpowers ρ) (↑(MulAut.conj g) : G →* G), hQ, hρ]
 
+omit [Finite G] in
 theorem q15_comm_le_of_sectionIso {C N : Subgroup G} {K : Type} [CommGroup K]
     (e : Sec4SectionIso C N K) : ⁅C, C⁆ ≤ N := by
   obtain ⟨φ, -, hker⟩ := e

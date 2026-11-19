@@ -57,7 +57,7 @@ theorem a2l_finite_spinOdd [Finite F] (h2 : (2 : F) ≠ 0) (n : ℕ) :
 
 theorem a2l_card_center_spinOdd_le_two [Finite F] (h2 : (2 : F) ≠ 0) {n : ℕ} (hn : 3 ≤ n) :
     Nat.card (center (spinGroup (quadOdd n F))) ≤ 2 := by
-  haveI := a2l_finite_spinOdd h2 n
+  have := a2l_finite_spinOdd h2 n
   exact (Subgroup.card_le_of_le (a2l_center_spinOdd_le_ker h2 hn)).trans
     (card_ker_spinMatrix_le_two _ (coe_ker_spinMatrix_quadOdd h2))
 
@@ -122,7 +122,7 @@ theorem a2l_finite_spinMinus [Finite F] (hirr : ∀ s : F, s ^ 2 + b * s + c ≠
 theorem a2l_card_center_spinMinus_four_le_two [Finite F]
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (h2 : (2 : F) ≠ 0) :
     Nat.card (center (spinGroup (quadMinus 4 F b c))) ≤ 2 := by
-  haveI := a2l_finite_spinMinus hirr 4
+  have := a2l_finite_spinMinus hirr 4
   exact (Subgroup.card_le_of_le (a2l_center_spinMinus_four_le_ker hirr h2)).trans
     (card_ker_spinMatrix_le_two _ (coe_ker_spinMatrix_quadMinus hirr))
 

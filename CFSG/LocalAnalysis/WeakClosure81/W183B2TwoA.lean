@@ -39,6 +39,7 @@ private theorem w183b2_exists_mul_of_mem_sup {G : Type*} [Group G] {A B : Subgro
     calc a⁻¹ * b⁻¹ = (b * a)⁻¹ := (mul_inv_rev b a).symm
       _ = (a * b)⁻¹ := by rw [hcomm a ha b hb]
 
+omit [Finite V] in
 private theorem w183b2_fixSub_sup (A B : Subgroup (LGL 2 V)) :
     fixSub (A ⊔ B) = fixSub A ⊓ fixSub B := by
   refine le_antisymm ?_ ?_
@@ -62,6 +63,7 @@ private theorem w183b2_fixSub_sup (A B : Subgroup (LGL 2 V)) :
       sup_le (fun a ha => hv.1 a ha) (fun b hb => hv.2 b hb)
     exact fun g hg => hle hg
 
+omit [Finite V] in
 theorem w183b2_VA_inf_fixSub_of_quasi {i : ℕ} (h131 : Assumption131 Y Γ VA i)
     {D L : Subgroup (LGL 2 V)} (hD : D ∈ Γ)
     (hLq : CFSG.Open.IsQuasisimple ↥L) (hodd : Odd (Nat.card ↥(Subgroup.center ↥L)))
@@ -79,7 +81,7 @@ theorem w183b2_VA_inf_fixSub_of_quasi {i : ℕ} (h131 : Assumption131 Y Γ VA i)
     refine ⟨?_, ?_⟩
     · exact (Subgroup.mem_normalizer_iff.mp (hLnorm g.2) (n : LGL 2 V)).mp hn.1
     · exact L.mul_mem (L.mul_mem g.2 hn.2) (L.inv_mem g.2)⟩
-  haveI := hKnorm
+  have := hKnorm
   rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hLq
     ((D ⊓ L).subgroupOf L) with hbot | htop
   · have hKbot : D ⊓ L = ⊥ := by
@@ -132,9 +134,10 @@ theorem w183b2_VA_inf_fixSub_of_quasi {i : ℕ} (h131 : Assumption131 Y Γ VA i)
     obtain ⟨a, ha, b, hb, hab⟩ := W183K3.quasi_exists_noncomm hLq
     exact hab (IsElemAbelian.comm (h131.isElemAb D hD) (hLD ha) (hLD hb))
 
+omit [Finite V] in
 private theorem w183b2_odd_card_center_of_simple {L : Subgroup (LGL 2 V)} (hs : IsSimpleGroup ↥L)
     (hnab : ∃ a ∈ L, ∃ b ∈ L, a * b ≠ b * a) : Odd (Nat.card ↥(Subgroup.center ↥L)) := by
-  haveI : IsSimpleGroup ↥L := hs
+  have : IsSimpleGroup ↥L := hs
   have hc : Subgroup.center ↥L = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥L) with h | h
     · exact h
@@ -145,6 +148,7 @@ private theorem w183b2_odd_card_center_of_simple {L : Subgroup (LGL 2 V)} (hs : 
   rw [hc]
   simp
 
+omit [Finite V] in
 private theorem w183b2_VA_inf_fixSub_of_simple {i : ℕ} (h131 : Assumption131 Y Γ VA i)
     {D L : Subgroup (LGL 2 V)} (hD : D ∈ Γ)
     (hLsimple : IsSimpleGroup ↥L) (hLnonab : ∃ a ∈ L, ∃ b ∈ L, a * b ≠ b * a)
@@ -155,6 +159,7 @@ private theorem w183b2_VA_inf_fixSub_of_simple {i : ℕ} (h131 : Assumption131 Y
   w183b2_VA_inf_fixSub_of_quasi h131 hD (w183b2_quasi_of_simple_nonab hLsimple hLnonab)
     (w183b2_odd_card_center_of_simple hLsimple hLnonab) hLY hDnorm hDcent
 
+omit [Finite V] in
 theorem Br2TwoComp.mem_normalizer_iff (h : Br2TwoComp Y T L₁ L₂) {y : LGL 2 V} (hy : y ∈ Y) :
     y ∈ Subgroup.normalizer (L₁ : Set (LGL 2 V)) ↔
       y ∈ Subgroup.normalizer (L₂ : Set (LGL 2 V)) := by
@@ -173,7 +178,7 @@ theorem Br2TwoComp.mem_normalizer_iff (h : Br2TwoComp Y T L₁ L₂) {y : LGL 2 
 theorem w183b2_two_fixSub_eq_bot (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ)
     (hL : Br2TwoComp Y T L₁ L₂) : fixSub (L₁ ⊔ L₂) = ⊥ := by
   by_contra hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinv : ∀ t ∈ T, ∀ w ∈ fixSub (L₁ ⊔ L₂), t w ∈ fixSub (L₁ ⊔ L₂) := by
     intro t ht w hw l hl
     have htY : t ∈ Y := hc.sylow.le ht
@@ -205,6 +210,7 @@ theorem w183b2_two_fixSub_eq_bot (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ)
   have hlw : l w = w := hwW l hl
   exact hyw (by rw [LinearEquiv.mul_apply, htw, hlw])
 
+omit [Finite V] in
 theorem w183b2_two_top_eq (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ) (hL : Br2TwoComp Y T L₁ L₂) :
     Zs ⊔ commSpace L₁ ⊤ ⊔ commSpace L₂ ⊤ = ⊤ := by
   refine le_antisymm le_top ?_
@@ -239,6 +245,7 @@ theorem w183b2_two_top_eq (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ) (hL : Br2Tw
     exact hfin
   rwa [hc.zs_gen] at hle
 
+omit [Finite V] in
 theorem w183b2_two_VA_inf_fixSub (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ)
     (hL : Br2TwoComp Y T L₁ L₂) {D : Subgroup (LGL 2 V)} (hD : D ∈ Γ)
     (hmem : D ≤ Subgroup.normalizer (L₁ : Set (LGL 2 V)))
@@ -251,12 +258,12 @@ theorem w183b2_two_VA_inf_fixSub (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ)
       (fun d hd => (Br2TwoComp.mem_normalizer_iff hL (hDY hd)).mp (hmem hd)) hD₁
   · exact w183b2_VA_inf_fixSub_of_simple hc.h131 hD hL.simple₁ hL.nonab₁ hL.le₁ hmem hD₂
 
-theorem w183b2_finrank_comm_le {D B : Subgroup (LGL 2 V)} (hDe : IsElemAbelian 2 D)
-    (hDq : commSpace D (commSub D) = ⊥) (hBD : B ≤ D) {e : V} (he : e ∈ fixSub B) :
+theorem w183b2_finrank_comm_le {D B : Subgroup (LGL 2 V)} (_hDe : IsElemAbelian 2 D)
+    (hDq : commSpace D (commSub D) = ⊥) (_hBD : B ≤ D) {e : V} (he : e ∈ fixSub B) :
     Module.finrank (ZMod 2) (Submodule.span (ZMod 2) {w : V | ∃ d ∈ D, w = d e - e}) ≤
       mOf D B := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htriv : ∀ d ∈ D, ∀ u ∈ commSub D, d u = u := commSpace_eq_bot_iff.mp hDq
   let φ : ↥D →* Multiplicative V :=
     { toFun := fun d => Multiplicative.ofAdd ((d : LGL 2 V) e - e)

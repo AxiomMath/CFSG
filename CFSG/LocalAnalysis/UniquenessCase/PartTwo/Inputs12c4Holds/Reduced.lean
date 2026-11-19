@@ -30,8 +30,8 @@ private theorem isTwoReducedIn_of {M V : Subgroup G} (hV : InCalV M V)
   have hDC : D ≤ Subgroup.normalizer (C : Set G) := hDM.trans hMC
   have hMK : M ≤ Subgroup.normalizer (K : Set G) := B2F.le_normalizer_sup hDN hMC
   have hKC : K ≤ Subgroup.normalizer (C : Set G) := hKM.trans hMC
-  haveI : (C.subgroupOf D).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hDC
-  haveI : (C.subgroupOf K).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hKC
+  have : (C.subgroupOf D).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hDC
+  have : (C.subgroupOf K).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hKC
   have hDquot : IsPGroup 2 (D ⧸ C.subgroupOf D) := by
     intro x
     induction x using QuotientGroup.induction_on with
@@ -74,6 +74,7 @@ theorem pCoreOf_autI_eq_bot {M V : Subgroup G} (hV : InCalV M V) (hR : TwoReduce
   have h' : CFSG.pCore 2 (autI hVe M) = ⊥ := h
   rw [pCoreOf, h', Subgroup.map_bot]
 
+omit [Finite G] in
 theorem isKGroup_autI {M V : Subgroup G} (hVe : IsElemAbelian 2 V)
     (hMN : M ≤ normalizer (V : Set G)) (hK : CFSG.Open.IsKGroup ↥M) :
     CFSG.Open.IsKGroup ↥(autI hVe M) := by

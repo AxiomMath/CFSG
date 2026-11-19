@@ -92,7 +92,7 @@ theorem ggSporK_card_sporadicM
     ((CFSG.Blueprint.NativeSporadic.MonsterModel.y443DerivedEquivOpen.symm.trans e).toEquiv)
   have h2 : Nat.card (TauCeti.CFSGIndex.sporadic .M).Group =
       Nat.card CFSG.Open.MonsterY443Derived := h.symm
-  rw [h2, CFSG.Open.Open.monster_y443_derived_card]
+  rw [h2, CFSG.Open.Thm.monster_y443_derived_card]
   norm_num [CFSG.Open.monsterOrder]
 
 end CFSG.StandardType.SporadicShape

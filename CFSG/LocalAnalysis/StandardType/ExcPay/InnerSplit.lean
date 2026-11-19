@@ -36,7 +36,7 @@ private lemma excPayS_conj_mem {G : Type} [Group G] {Bs X : Subgroup G}
 private lemma excPayS_conj_conj_eq {G : Type} [Group G] {Bs X : Subgroup G}
     (hcomm : ∀ a ∈ Bs, ∀ b ∈ Bs, a * b = b * a)
     (hconj : ∀ a ∈ Bs, ∀ y ∈ X, a * y * a⁻¹ ∈ X)
-    {b b' x : G} (hb : b ∈ Bs) (hb' : b' ∈ Bs) (hxX : x ∈ X)
+    {b b' x : G} (hb : b ∈ Bs) (hb' : b' ∈ Bs) (_hxX : x ∈ X)
     (hx : ∀ y ∈ X, x * y * x⁻¹ = b * y * b⁻¹) :
     ∀ y ∈ X, (b' * x * b'⁻¹) * y * (b' * x * b'⁻¹)⁻¹ = x * y * x⁻¹ := by
   intro y hy

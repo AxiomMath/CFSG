@@ -189,7 +189,7 @@ theorem false_of_sl2_hom_a5 {E : Type*} [Field E] [Finite E] (h8 : 8 ≤ Nat.car
     have hZ : Subgroup.center SL(2, E) = ⊤ := by
       rw [eq_top_iff, ← hq.1.commutator_eq_top]
       exact hcomm.trans hker
-    haveI := hq.2.1.toNontrivial
+    have := hq.2.1.toNontrivial
     obtain ⟨u, hu⟩ := exists_ne (1 : SL(2, E) ⧸ Subgroup.center SL(2, E))
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective u
     exact hu ((QuotientGroup.eq_one_iff x).2 (hZ ▸ Subgroup.mem_top x))
@@ -245,7 +245,7 @@ theorem noA5_rationalComponent_inner (hq8 : 8 ≤ S.D.q)
   have : NeZero s := ⟨hs0.ne'⟩
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwistT S hT i hs0 hinner
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
   have hQ8 : 8 ≤ r ^ (e * s) := by
     calc 8 ≤ S.D.q := hq8
@@ -311,8 +311,8 @@ theorem noA5_of_split_frame
   classical
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.split_exists_hom S hT i hν hψ hΨ π hπ hr
       hchar he hq
@@ -349,8 +349,8 @@ theorem noA5_of_unitary_frame (hq8 : 8 ≤ S.D.q)
   classical
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
   have hes : 0 < e * s := Nat.mul_pos he hs0
   have hQ8 : 8 ≤ r ^ (e * s) := by
@@ -444,7 +444,7 @@ theorem noA5_rationalComponent_simplyLaced (hτ : SimplyLacedTag τ)
   classical
   obtain ⟨hs0, hs, hmin⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom a) i) with hsdef
-  haveI : NeZero s := ⟨hs0.ne'⟩
+  have : NeZero s := ⟨hs0.ne'⟩
   obtain ⟨θ, hθ⟩ := exists_mem_componentRoots i
   have hθr : IsRoot τ θ := isRoot_of_mem_componentRoots hθ
   have hneg : -θ ∈ componentRoots (rootCharHom a) i :=
@@ -455,8 +455,8 @@ theorem noA5_rationalComponent_simplyLaced (hτ : SimplyLacedTag τ)
   obtain ⟨w, hw, hwθ⟩ := exists_weyl_smul_eq_of_mem_componentRoots hτ hθ hρθ
   obtain ⟨σ, z, hσ, hnorm, hz⟩ := exists_untwist_root S hτ hT i hs0 hθ hw hwθ.symm
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   have hσ' : ∀ c, σ c = c ^ (r ^ (e * s)) := fun c => by rw [hσ, hq, ← pow_mul]
   have hQ8 : 8 ≤ r ^ (e * s) := by
     calc 8 ≤ S.D.q := hq8
@@ -709,8 +709,8 @@ theorem noA5_entrywise_field {τ : Tag} {c : TauCeti.PrimePower → TauCeti.LieT
   obtain ⟨q, hqp, hqcard⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.exists_primePower_card_subfield hK2
       (fixSubfield σ)
-  haveI : Finite (fixSubfield σ) := Subtype.finite
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨ι, hι, hJC, hJn, hsol⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ExcCopy.exists_fixed_structure τ σ
   have hJle : J ≤ ι.range :=
@@ -719,7 +719,7 @@ theorem noA5_entrywise_field {τ : Tag} {c : TauCeti.PrimePower → TauCeti.LieT
   ·
     obtain ⟨rfl, hk2⟩ := hG2
     intro hL
-    haveI : Finite ↥J := Subtype.finite
+    have : Finite ↥J := Subtype.finite
     have h5 := five_dvd_card_of_a5 hL
     have h1 : Nat.card ↥J ∣ Nat.card ↥ι.range := Subgroup.card_dvd_of_le hJle
     have h2 : Nat.card ↥ι.range = 12096 := by
@@ -744,13 +744,13 @@ theorem noA5_entrywise_field {τ : Tag} {c : TauCeti.PrimePower → TauCeti.LieT
   let eX : ↥(adjointGroup τ (fixSubfield σ)) ≃* (TauCeti.CFSGIndex.lie ⟨c q, hv⟩).Group :=
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm.trans eq
   let e : ↥(adjointGroup τ (fixSubfield σ)) ≃* ι.range := MonoidHom.ofInjective hι
-  haveI := hs
+  have := hs
   have hJs : IsSimpleGroup ι.range := e.symm.isSimpleGroup
   have hJnc : ∃ x y : ι.range, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
     exact ⟨e x, e y, fun h => hxy (e.injective (by simpa using h))⟩
   have hJq : CFSG.IsQuasisimple ↥ι.range := isQuasisimple_of_isSimpleGroup hJs hJnc
-  haveI := hJn
+  have := hJn
   have hJc : IsComponentOf ι.range (fixSubgroup (entrywiseAdjointAut τ σ)) :=
     ⟨hJC, CFSG.Open.IsSubnormal.step hJC inferInstance (CFSG.Open.IsSubnormal.refl _),
       open_isQuasisimple hJq⟩
@@ -758,12 +758,12 @@ theorem noA5_entrywise_field {τ : Tag} {c : TauCeti.PrimePower → TauCeti.LieT
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.eq_of_isComponentOf_of_perfect_le hJc
       (fun P hPC hP => perfect_le_of_solvable_quotient hJC hsol hPC hP) hJ
   subst hJeq
-  haveI : Finite (ModGL τ (fixSubfield σ)) := finite_modGL
-  haveI : Finite ↥(adjointGroup τ (fixSubfield σ)) := Subtype.finite
+  have : Finite (ModGL τ (fixSubfield σ)) := finite_modGL
+  have : Finite ↥(adjointGroup τ (fixSubfield σ)) := Subtype.finite
   have hcard : Nat.card ↥ι.range = lieOrderFormula (c q) := by
     rw [← Nat.card_congr e.toEquiv]
     exact CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds ⟨c q, hv⟩ _ ⟨eX⟩
-  haveI := hJs
+  have := hJs
   have hZJ : Subgroup.center ↥ι.range = ⊥ :=
     CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_center_eq_bot hJnc
   exact not_a5_of_center_eq_bot hZJ
@@ -883,10 +883,10 @@ theorem noA5_twE6_field {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K]
   set C := graphFixedRootGroup TwistTag.E6 K σ.toRingHom with hC
   set Jf := subfieldRootGroupImage TwistTag.E6 (fixSubfield κ) (fixSubfieldRestrict T κ) with hJdef
   set δ := fieldActor (t := TwistTag.E6) σ ε with hδdef
-  haveI : Finite (fixSubfield κ) := Subtype.finite
-  haveI : Finite C := Subtype.finite
+  have : Finite (fixSubfield κ) := Subtype.finite
+  have : Finite C := Subtype.finite
   have eJC : Jf.subgroupOf C ≃* Jf := Subgroup.subgroupOfEquivOfLe hJC
-  haveI := hsimpleJ
+  have := hsimpleJ
   have hJs : IsSimpleGroup (Jf.subgroupOf C) := eJC.isSimpleGroup
   have hJn : ∃ x y : Jf.subgroupOf C, x * y ≠ y * x := by
     by_contra hcon
@@ -924,7 +924,7 @@ theorem noA5_twE6_field {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [Finite K]
   have hZ : Subgroup.center ↥(Jf.subgroupOf C) = ⊥ :=
     CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_center_eq_bot hJn
   refine not_a5_of_center_eq_bot hZ ?_ hL'
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.E6 (fixSubfield κ)
+  have : Finite ↥(graphFixedRootGroup TwistTag.E6 (fixSubfield κ)
       (fixSubfieldRestrict T κ).toRingHom) := Finite.of_equiv _ eX.toEquiv.symm
   rw [← Nat.card_congr eX.toEquiv,
     CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds ⟨.twistedE6 q', hv'⟩ _
@@ -940,7 +940,7 @@ theorem noA5_twE6 (q : TauCeti.PrimePower)
     ¬ Nonempty ((↥J ⧸ Subgroup.center ↥J) ≃* alternatingGroup (Fin 5)) := by
   classical
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
   let e' : S ≃* ↥(twistedE6RootGroup K σ) := e.trans eK
@@ -1068,7 +1068,7 @@ theorem noA5_triD4 (hout : NoA5TriD4Outer) (q : TauCeti.PrimePower)
       apply hΘβ
       rw [← MonoidHom.mem_ker, hΘker, ← ha, InputsL33c.congr_conj_apply]
       exact ⟨e' a, rfl⟩
-    haveI : Finite S := Finite.of_equiv _ e'.symm.toEquiv
+    have : Finite S := Finite.of_equiv _ e'.symm.toEquiv
     exact hout q hv hq2 hq8 S ⟨e⟩ α hα hout' J hJ hL
 
 end TriD4
@@ -1127,7 +1127,7 @@ theorem noA5Comps_of_normal {H : Type} [Group H] [Finite H] (M : Subgroup H) [hM
   have hKM : K = M :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.eq_of_isComponentOf_of_perfect_le hMc
       (fun P _ hP => by
-        haveI := hsol
+        have := hsol
         have hP0 : ⁅P.map (QuotientGroup.mk' M), P.map (QuotientGroup.mk' M)⁆ =
             P.map (QuotientGroup.mk' M) := by rw [← Subgroup.map_commutator, hP]
         have hbot := Inputs141d.eq_bot_of_perfect_of_isSolvable hP0
@@ -1197,8 +1197,8 @@ theorem noA5Comps_adjointGroup_G2 (k : Type) [Field k] [Finite k] (hk : 3 ≤ Na
   obtain ⟨hs, hnc⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ExcCopy.isSimpleGroup_adjointGroup_of_perfect
       Tag.G2 k hperf
-  haveI := hs
-  haveI : Finite (ModGL Tag.G2 k) := finite_modGL
+  have := hs
+  have : Finite (ModGL Tag.G2 k) := finite_modGL
   refine noA5Comps_of_simple hnc ?_
   rw [CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_G2]
   exact ordG2_ne_sixty (by omega)
@@ -1221,7 +1221,7 @@ theorem noA5Comps_fieldActor_two {f : ℕ} (hf : 1 ≤ f) {K : Type} [Field K] [
   by_cases hf1 : f = 1
   ·
     subst hf1
-    haveI : Finite (ModGL Tag.G2 (fixSubfield σ)) := finite_modGL
+    have : Finite (ModGL Tag.G2 (fixSubfield σ)) := finite_modGL
     refine NoA5Comps.of_mulEquiv ((MulEquiv.subgroupCongr hfix).trans e)
       (noA5Comps_of_not_five_dvd ?_)
     rw [CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_G2, hk]
@@ -1315,7 +1315,7 @@ theorem noA5Comps_triality_outer {f : ℕ} (hf : 1 ≤ f) {K₃ : Type} [Field K
       by_cases hf1 : f = 1
       ·
         subst hf1
-        haveI := CFSG.RankThree.PartTwo.Sec13.isSolvable_projImage_glPi_two hPi (by norm_num)
+        have := CFSG.RankThree.PartTwo.Sec13.isSolvable_projImage_glPi_two hPi (by norm_num)
         exact NoA5Comps.of_mulEquiv (ef.trans (e₂.trans e₃)) noA5Comps_of_isSolvable
       · have hq2 : 2 < 2 ^ f :=
           lt_of_lt_of_le (by norm_num) (Nat.pow_le_pow_right (by norm_num) (by omega : 2 ≤ f))
@@ -1473,7 +1473,7 @@ theorem noA5Comps_entrywiseAdjointAut_D4 {K : Type} [Field K] [Finite K] [CharP 
   let eJ : J ≃* adjointGroup Tag.D4 (fixSubfield σ) :=
     (Subgroup.subgroupOfEquivOfLe hJC).trans
       ((adjointGroup Tag.D4 (fixSubfield σ)).equivMapOfInjective _ hinj).symm
-  haveI := hs
+  have := hs
   let eM := (Subgroup.subgroupOfEquivOfLe hJle).trans eJ
   have hq : CFSG.IsQuasisimple ↥(J.subgroupOf (fixSubgroup (entrywiseAdjointAut Tag.D4 σ))) :=
     CFSG.LocalCores.isQuasisimple_of_mulEquiv eM.symm
@@ -1494,7 +1494,7 @@ theorem noA5Comps_entrywiseAdjointAut_D4 {K : Type} [Field K] [Finite K] [CharP 
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, QuotientGroup.eq, Subgroup.mem_subgroupOf,
       hJmem]
     exact hq
-  haveI := hJn
+  have := hJn
   exact noA5Comps_of_normal _ hq hsol (not_a5_of_mulEquiv eM.symm
     (not_a5_of_center_eq_bot center_adjointGroup_eq_bot (card_adjointGroup_D4_ne_sixty _)))
 
@@ -1503,7 +1503,7 @@ theorem noA5Comps_twistedEntrywiseAut_one {K : Type} [Field K] [Finite K] [CharP
     (hσ : ∀ c, σ c = c ^ ((2 ^ e) ^ r)) :
     NoA5Comps ↥(fixSubgroup (twistedEntrywiseAut TwistTag.D4 1 σ)) := by
   classical
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨-, -, hfixeq, hsimple, hnc⟩ :=
     triality_both_field_orientations_simple_full_ambient_fixed_group 2 e Nat.prime_two he K
@@ -1513,8 +1513,8 @@ theorem noA5Comps_twistedEntrywiseAut_one {K : Type} [Field K] [Finite K] [CharP
       graphFixedRootGroup TwistTag.D4 K σ.toRingHom :=
     (fixedSubgroupTwistedEntrywiseAutOneEquiv TwistTag.D4 σ).trans
       (MulEquiv.subgroupCongr hfixeq)
-  haveI := hsimple
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have := hsimple
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   refine NoA5Comps.of_mulEquiv eΓ (noA5Comps_of_simple hnc ?_)
   rw [InputsL33d.card_graphFixedRootGroup_cubic Nat.prime_two he K (by rw [hK, pow_mul]) σ hr hσ]
   exact lieOrderFormula_exc_ne_sixty (by simp [CFSG.Yardstones.Md42047359a2a.lieFamily])
@@ -1711,7 +1711,7 @@ theorem noA5Comp_exceptional_big (hout : NoA5TriD4Outer) :
     NoA5CompOn fun d => CFSG.Yardstones.Md42047359a2a.lieFamily d.1 = .exceptional ∧
       d.1.characteristic = 2 ∧ Inputs256c.defField d.1 ≠ 2 ∧ Inputs256c.defField d.1 ≠ 4 := by
   intro S _ _ hs hna d hP he β hβ K hK
-  haveI := hs
+  have := hs
   obtain ⟨hF, hd2, hf2, hf4⟩ := hP
   by_cases hβ1 : β = 1
   · subst hβ1
@@ -1852,7 +1852,7 @@ theorem noA5On_orthogonal_two : Inputs256d.NoA5On fun d =>
     ((∃ r q, d.1 = TauCeti.LieTypeIndex.D r q) ∨ ∃ r q, d.1 = TauCeti.LieTypeIndex.twistedD r q) ∧
       Inputs256c.defField d.1 = 2 := by
   intro S _ _ hs hnc hPi d hd2 hP he β hβ J hJ hJ5
-  haveI := hs
+  have := hs
   have hl : PerfectInLayer β := by
     by_cases hβ1 : β = 1
     · subst hβ1

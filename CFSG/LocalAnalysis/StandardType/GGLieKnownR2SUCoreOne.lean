@@ -49,7 +49,7 @@ private theorem l10scsub_suGen {F : Type} [Field F] [Finite F] [CharP F 2] {f : 
     (hF : Nat.card F = (2 ^ f) ^ 2) {n : ℕ} (hn : 3 ≤ n) (hnf : ¬ (n = 3 ∧ f = 1)) :
     SUGenStmt F f n := by
   intro L hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hm3 : (n, 2 ^ f) ≠ (3, 2) := by
     intro h
     have h3 : n = 3 := congrArg Prod.fst h
@@ -202,7 +202,7 @@ theorem coreOne_PSU_long
     (hRm : Rm = ggRootSub (ggU .PSU n f).D (MonoidHom.id (ggU .PSU n f).K) (-β) u)
     (hQ : Q = pCoreOf 2 (Subgroup.normalizer (Rr : Set (ggU .PSU n f).K))) :
     Q ⊔ (Rr ⊔ Rm) = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hf1 : 1 ≤ f
   · have e : ggU .PSU n f = ⟨Unitary.SU (unitaryInvolution (GaloisField 2 (2 * f)) 2 f) n,
         Unitary.rootDatum (card_galoisField_two_mul 2 f hf1) n⟩ := by

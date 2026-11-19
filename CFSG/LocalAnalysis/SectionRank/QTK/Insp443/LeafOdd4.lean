@@ -28,7 +28,7 @@ open Subgroup CFSG.Open CFSG.Quasithin CFSG.Blueprint
 
 theorem two_ne_zero_of_odd_card {F : Type} [Field F] [Finite F] (hF : Odd (Nat.card F)) :
     (2 : F) ≠ 0 := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   refine Ring.two_ne_zero fun h => ?_
   have h2 := FiniteField.even_card_iff_char_two.mp h
   rw [Fintype.card_eq_nat_card] at h2
@@ -44,7 +44,7 @@ theorem rankFour_statedProj (hO3 : O3Facts) {ι F : Type} [Fintype ι] [Decidabl
   obtain ⟨hle, htr⟩ := hO3 ι F h2 hι H
   refine ⟨hle, fun E hE h16 => ?_⟩
   have hspan := span_liftMats_eq_top_of_trace h2 hι h16 (htr E hE h16)
-  exact ⟨centralizer_le_of_span_liftMats hE (by rw [h16, hι] <;> norm_num) hspan,
+  exact ⟨centralizer_le_of_span_liftMats hE (by rw [h16, hι]; norm_num) hspan,
     conj_eq_of_pow_seven_of_span_liftMats hE h16 hspan⟩
 
 theorem KConf.conclK_of_statedProj
@@ -64,7 +64,7 @@ theorem forKF_PSp4odd
     ForKF (fun S _ => ∃ p : ℕ, p.Prime ∧ 5 ≤ p ∧ StatedClassicalModel S .PSp 2 p 1) := by
   intro K _ _ L V MK hK hF ⟨p, hp, hp5, hS⟩
   obtain ⟨-, F, hFld, hFin, hcard, ⟨e⟩⟩ := hS
-  letI := hFld
+  let := hFld
   rw [pow_one] at hcard
   have hZ := center_eq_bot_of_psp4 hK.quasisimple hK.odd_card_center (by omega) e
   exact hK.conclK_of_statedProj hO3 hF hZ
@@ -75,7 +75,7 @@ theorem forKF_L4odd
     ForKF (fun S _ => ∃ p : ℕ, p.Prime ∧ p ≠ 2 ∧ StatedClassicalModel S .PSL 4 p 1) := by
   intro K _ _ L V MK hK hF ⟨p, hp, hp2, hS⟩
   obtain ⟨-, F, hFld, hFin, hcard, ⟨e⟩⟩ := hS
-  letI := hFld
+  let := hFld
   rw [pow_one] at hcard
   have hp3 : 3 ≤ p := by
     have := hp.two_le
@@ -89,7 +89,7 @@ theorem forKF_U4odd
     ForKF (fun S _ => ∃ p : ℕ, p.Prime ∧ 5 ≤ p ∧ StatedClassicalModel S .PSU 4 p 1) := by
   intro K _ _ L V MK hK hF ⟨p, hp, hp5, hS⟩
   obtain ⟨-, F, hFld, hFin, hcard, ⟨e⟩⟩ := hS
-  letI := hFld
+  let := hFld
   have hZ := center_eq_bot_of_psu4 hK.quasisimple hK.odd_card_center hcard
     (by rw [pow_one]; omega) (by rw [pow_one]; exact hp.isPrimePow) e
   exact hK.conclK_of_statedProj hO3 hF hZ
@@ -102,7 +102,7 @@ theorem forKF_U43
   intro K _ _ L V MK hK hF hS
   by_cases hZ : Subgroup.center K = ⊥
   · obtain ⟨-, F, hFld, hFin, hcard, ⟨e⟩⟩ := hS
-    letI := hFld
+    let := hFld
     exact hK.conclK_of_statedProj hO3 hF hZ
       (two_ne_zero_of_odd_card (by rw [hcard]; decide)) (by simp) e
   · exact hU43 K L V MK hK hF hS hZ

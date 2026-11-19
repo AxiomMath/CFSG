@@ -50,7 +50,7 @@ theorem not_dvd_card_units_of_pRank_le_one {S : Type} [Group S] [Finite S] {f : 
   obtain ⟨s, hs, hphi⟩ := hsec
   have h2 := CFSG.RankThree.PartOne.KLC.two_le_pRank_twistedE6_of_sector Nat.prime_two hf K hK σ
     hσ hp hp5 (by omega) hs hphi
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) := Finite.of_equiv S e.toEquiv
+  have : Finite ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) := Finite.of_equiv S e.toEquiv
   rw [CFSG.SectionRank.pRank_eq_open_pRank_top] at h2
   rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv hp.one_lt e] at hrank
   exact absurd (h2.trans hrank) (by norm_num)
@@ -61,7 +61,7 @@ theorem leviSubAt_twistedE6 {S : Type} [Group S] [Finite S] {f : ℕ}
     (hm : ChevalleyExceptionalModel S .twistedE6 2 f) : LeviSubAt S := by
   obtain ⟨⟨-, hf, -⟩, k, _, _, hk, θ, hθq, ⟨e⟩⟩ := id hm
   have hk2 : Nat.card k = (2 ^ f) ^ 2 := hk
-  haveI : CharP k 2 :=
+  have : CharP k 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega : 1 ≤ 2 * f) (by rw [hk2, ← pow_mul, mul_comm])
   have hθ : ∀ c, θ (θ c) = c :=
@@ -78,9 +78,9 @@ theorem leviSubAt_twistedE6 {S : Type} [Group S] [Finite S] {f : ℕ}
   have h4 : 4 ≤ Nat.card k := by
     rw [hk2]
     nlinarith
-  haveI : Finite (Module.End k (Fin CFSG.LieType.Steinberg.Minuscule.e6Data.d →₀ k)) :=
+  have : Finite (Module.End k (Fin CFSG.LieType.Steinberg.Minuscule.e6Data.d →₀ k)) :=
     Module.finite_of_finite k
-  haveI : Finite ↥(fixedGroup k θ) := inferInstance
+  have : Finite ↥(fixedGroup k θ) := inferInstance
   have h := CFSG.AGLEmbeddingD2.Tits.MsideParabolicEscape.Exceptional.borelQuotient_e6tw hθ h4
     hk2 hθq e
   exact BQ.leviSubAt_of_borelQuotient h rfl (twistedDatum_bruhatExtras θ)

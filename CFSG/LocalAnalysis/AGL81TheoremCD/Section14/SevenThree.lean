@@ -23,7 +23,7 @@ theorem sevenThreeInput_of_inputs
     SevenThree.exists_perfect_onto_a9_le_component h711 hKX hLcomp hFstar hHsQuot
   rcases hK34 ↥L hQ hCat hOdd hrankL with hON | ⟨h3Z, hcase⟩
   · exact (SevenThree.false_of_threeCover_onan hON I f hf).elim
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hZ : Subgroup.center ↥L = ⊥ :=
       CFSG.RankThree.CentralLift.eq_bot_of_isPGroup_of_not_dvd
         (SevenThree.isPGroup_center_of_isComponent (p := 3) hLcomp hO) h3Z

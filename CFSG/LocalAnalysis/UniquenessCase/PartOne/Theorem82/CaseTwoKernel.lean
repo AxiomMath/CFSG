@@ -23,11 +23,11 @@ variable {G : Type} [Group G] [Finite G]
 namespace Ctx812E
 
 theorem mem_AA_of_pow_three_eq_one (c : Ctx812E G) (d : SylowThreeData G)
-    (hdM : d.M = c.S.M) (hdL : d.L = c.L) {x : G} (hxM : x ∈ c.S.M)
+    (hdM : d.M = c.S.M) (_hdL : d.L = c.L) {x : G} (hxM : x ∈ c.S.M)
     (hxS : x ∈ Subgroup.normalizer (d.S : Set G))
     (hxL : ∀ i, x ∈ Subgroup.normalizer (d.Lf i : Set G)) (hx3 : x ^ 3 = 1) : x ∈ d.AA := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hxnot
   have hx1 : x ≠ 1 := fun h => hxnot (h ▸ d.AA.one_mem)
   have hord : orderOf x = 3 := orderOf_eq_prime hx3 hx1
@@ -37,7 +37,7 @@ theorem mem_AA_of_pow_three_eq_one (c : Ctx812E G) (d : SylowThreeData G)
   have hdisj : Disjoint d.AA (Subgroup.zpowers x) := by
     rw [Subgroup.disjoint_def]
     intro y hyA hyR
-    haveI : Fact (Nat.Prime (Nat.card (Subgroup.zpowers x))) := ⟨by rw [hcardR]; norm_num⟩
+    have : Fact (Nat.Prime (Nat.card (Subgroup.zpowers x))) := ⟨by rw [hcardR]; norm_num⟩
     have hH : (d.AA ⊓ Subgroup.zpowers x).subgroupOf (Subgroup.zpowers x) = ⊥ := by
       rcases Subgroup.eq_bot_or_eq_top_of_prime_card
         ((d.AA ⊓ Subgroup.zpowers x).subgroupOf (Subgroup.zpowers x)) with h | h
@@ -109,13 +109,13 @@ theorem conjModPCore_H_eq_one {P₀ : Subgroup G}
 theorem eq_one_of_mem_H_of_forall_commutator_mem (i : Fin 3) {h : G} (hh : h ∈ d.H i)
     (hZ : ¬ 3 ∣ Nat.card (Subgroup.center (↥(d.Lf i) ⧸ CFSG.Open.pCore 2 ↥(d.Lf i))))
     (hfix : ∀ x ∈ d.Lf i, h * x * h⁻¹ * x⁻¹ ∈ CFSG.Open.pCoreOf 2 (d.Lf i)) : h = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hL : h ∈ d.Lf i := d.H_le_Lf i hh
   set Pc : Subgroup ↥(d.Lf i) := CFSG.Open.pCore 2 ↥(d.Lf i) with hPc
   let X : Type := ↥(d.Lf i) ⧸ Pc
-  letI : Group X := inferInstance
-  letI : Finite X := inferInstance
+  let : Group X := inferInstance
+  let : Finite X := inferInstance
   let hbar : X := QuotientGroup.mk (s := Pc) ⟨h, hL⟩
   have hcent : hbar ∈ Subgroup.center X := by
     rw [Subgroup.mem_center_iff]
@@ -174,7 +174,7 @@ namespace Ctx812E
 private theorem exists_mem_H_mul_pow_three_eq_one (c : Ctx812E G) (hK8 : OuterThreeSplit)
     (d : SylowThreeData G) (hdM : d.M = c.S.M)
     (hcomp : ∀ i, CFSG.Yardstones.Mf4cdcdf2e013.Asc83CComponent c.S.M (d.Lf i))
-    {P₀ : Subgroup G} (hP03 : IsPGroup 3 P₀) (hP0M : P₀ ≤ d.M)
+    {P₀ : Subgroup G} (hP03 : IsPGroup 3 P₀) (_hP0M : P₀ ≤ d.M)
     (hPn : ∀ i, P₀ ≤ Subgroup.normalizer (d.Lf i : Set G))
     (hHP : ∀ i, d.H i ≤ P₀) (i : Fin 3) {x : G} (hxP0 : x ∈ P₀)
     (hx3S : x ^ 3 ∈ d.S) :
@@ -182,14 +182,14 @@ private theorem exists_mem_H_mul_pow_three_eq_one (c : Ctx812E G) (hK8 : OuterTh
         ⟨(h : G), hHP i h.2⟩ *
       (CFSG.GroupTheory.conjModPCore 2 (d.Lf i) P₀ (hPn i)) ⟨x, hxP0⟩) ^ 3 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hN, hQ⟩ := (hcomp i).2.2.2
   let X : Type := ↥(d.Lf i) ⧸ CFSG.Open.pCore 2 ↥(d.Lf i)
-  letI : Group X := inferInstance
-  letI : Finite X := inferInstance
+  let : Group X := inferInstance
+  let : Finite X := inferInstance
   have hQX : CFSG.Open.IsQuasisimple X := hQ
-  haveI : Group.IsPerfect X := ⟨hQX.1⟩
+  have : Group.IsPerfect X := ⟨hQX.1⟩
   have hne : d.Lf i ≠ ⊤ := by
     intro htop
     exact c.M_ne_top (hdM ▸ top_le_iff.mp (htop ▸ d.hLM i))
@@ -297,8 +297,8 @@ theorem inf_iInf_normalizer_Lf_eq (c : Ctx812E G) (hK8 : OuterThreeSplit)
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P c.S.M) (hdS : d.S = P ⊓ c.L) :
     P ⊓ ⨅ i, Subgroup.normalizer (d.Lf i : Set G) = P ⊓ c.L := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup G := ⨅ i, Subgroup.normalizer (d.Lf i : Set G) with hN
   set P₀ : Subgroup G := P ⊓ N with hP₀
   change P₀ = P ⊓ c.L
@@ -553,7 +553,7 @@ theorem inf_iInf_normalizer_Lf_eq (c : Ctx812E G) (hK8 : OuterThreeSplit)
       · obtain ⟨hNi, hQi⟩ := (hcomp i).2.2.2
         let Xi : Type := ↥(d.Lf i) ⧸ CFSG.Open.pCore 2 ↥(d.Lf i)
         have hQi' : CFSG.Open.IsQuasisimple Xi := hQi
-        haveI : Group.IsPerfect Xi := ⟨hQi'.1⟩
+        have : Group.IsPerfect Xi := ⟨hQi'.1⟩
         have hrankXi : CFSG.Open.pRank 3 (⊤ : Subgroup Xi) = 1 := by
           rw [← CFSG.SectionRank.pRank_eq_open_pRank_top]
           have h1 : CFSG.pRank 3 Xi = CFSG.pRank 3 ↥(d.Lf i) :=

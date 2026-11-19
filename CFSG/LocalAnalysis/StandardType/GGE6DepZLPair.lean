@@ -19,6 +19,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggE6Dep_pairOrder_K {Bs K : Subgroup G} {y : G} (hyBs : y ∈ Bs) (hy1 : y ≠ 1)
     (hBs : CFSG.Open.IsElemAbelian 3 Bs) (hcardBs : Nat.card Bs = 3 ^ 6)
     {κ : Additive ↥Bs →+ Vec6} (hκ : GGE6DepKFrame Bs K y κ) (hnt : GGNoTransvection 3 Bs)

@@ -46,8 +46,8 @@ theorem TBJOmData.exists_theta_rankOne_of_card_two {Q : QuadraticForm K V} {p : 
     (Nat.card_congr (MonoidHom.ofInjective hθinj).toEquiv).symm.trans hSL
   have hcard : Nat.card ↥(Δ.rankOne i j) = 6 :=
     Δ.card_rankOne_of_card_two hp2 hAΩ hfix hK hij
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V)) DFunLike.coe_injective
   refine ⟨θ, hθinj, ?_⟩
   exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hcard, hrange])).symm
@@ -64,7 +64,7 @@ theorem OrthFrameCore.rk1Ex_of_swapElt_two (hRig : GGLabelRigidInput) {p : ℕ} 
       Φ.Δ.τ (SpCoord.permAut (Equiv.swap i j) f))
     {a : MulAut ↥Bs} (haA : a ∈ ggAutomizer X Bs) (ha : ∀ b : ↥Bs, ((a b : ↥Bs) : G) = Φ.ψ w * b * (Φ.ψ w)⁻¹) :
     GGIsReflection p a ∧ GGRk1ConclEx p Bs X a := by
-  haveI := Φ.finite_linearEquiv
+  have := Φ.finite_linearEquiv
   have haR : GGIsReflection p a :=
     isReflection_of_inner Φ.ψ Φ.β Φ.hinj Φ.hcompat Φ.hβA Φ.hβsurj (Fact.out : p.Prime).one_lt ha
       (fun t ht => Φ.Δ.swap_sq_comm hw t ht) (fun t => Φ.Δ.mem_reflFixed_iff hw t) (Φ.Δ.card_reflFixed hij)

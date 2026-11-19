@@ -24,8 +24,8 @@ theorem not_two_dvd_index_inf {G : Type} [Group G] [Finite G] {L T : Subgroup G}
     unfold Subgroup.relIndex
     rw [Subgroup.inf_subgroupOf_left]
   have h6 : L.relIndex T = L.relIndex (T ⊔ L) := by
-    haveI := Subgroup.normal_subgroupOf_of_le_normalizer hTL
-    haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hTL
+    have := Subgroup.normal_subgroupOf_of_le_normalizer hTL
+    have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hTL
     unfold Subgroup.relIndex Subgroup.index
     exact Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient T L hTL).toEquiv
   have hL : 0 < L.index := Nat.pos_of_ne_zero (Subgroup.index_ne_zero_of_finite (H := L))
@@ -164,7 +164,7 @@ theorem prime_dvd_20160 {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (hd : p ∣ 2016
 theorem card_le_of_isPGroup {A : Type} [Group A] [Finite A] (hA : Nat.card A = 20160)
     {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) (H : Subgroup A) (hH : IsPGroup p H) :
     Nat.card H ≤ p := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hH
   have hdvd : Nat.card H ∣ 20160 := by
     have := Subgroup.card_subgroup_dvd_card H

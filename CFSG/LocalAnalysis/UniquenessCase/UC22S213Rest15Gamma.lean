@@ -225,7 +225,7 @@ theorem rest15_overgroup_core_le_of_centralizesBar
     exact Subgroup.map_mono hEP
   have hQM : Q ≤ S.M :=
     PartOne.Section9.le_of_mem_uniqueSet_of_isPGroup S.maxLocal hEU hEQ
-      (P.isPGroup'.map H.subtype)
+      (P.isPGroup.map H.subtype)
   have hO3 : (CFSG.pCore 3 H).map H.subtype ≤ S.M :=
     (Subgroup.map_mono (CFSG.fitting_pCore_le_sylow P)).trans hQM
   have hO3map : (CFSG.pPrimeCore 3 H).map H.subtype ≤ S.M := by
@@ -279,6 +279,7 @@ theorem rest15_perfectCore_centralizer_spec {M L : Subgroup G}
   exact ⟨hXC, CFSG.Quasithin.perfectCore_perfect C, hsup,
     CFSG.Open.IsQuasisimple.of_mulEquiv e hL.2.2⟩
 
+omit [Finite G] in
 theorem isComponentOf_inf_of_sup_pCore_of_pCore_eq_bot
     {M L X H : Subgroup G} (hL : L ∈ calC M) (hXL : X ≤ L)
     (hXH : X ≤ H) (hsup : X ⊔ pCoreOf 2 L = L)

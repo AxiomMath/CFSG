@@ -145,7 +145,7 @@ variable [Group A] [Group B] [MulAction A α] [MulAction B β]
 theorem image_orbit_of_map_eq (e : A ≃* B) (Φ : α → β) {a y : α} {K : Subgroup A}
     {L : Subgroup B} (hKL : K.map e.toMonoidHom = L)
     (hΦ : ∀ (g : A) {x : α}, x ∈ MulAction.orbit A a → Φ (g • x) = e g • Φ x)
-    (hinj : Set.InjOn Φ (MulAction.orbit A a)) (hy : y ∈ MulAction.orbit A a) :
+    (_hinj : Set.InjOn Φ (MulAction.orbit A a)) (hy : y ∈ MulAction.orbit A a) :
     Φ '' (MulAction.orbit ↥K y) = MulAction.orbit ↥L (Φ y) := by
   ext z
   constructor

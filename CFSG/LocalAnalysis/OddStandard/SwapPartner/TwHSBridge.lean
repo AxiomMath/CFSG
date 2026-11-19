@@ -65,7 +65,7 @@ theorem twHSFusion_holds :
     have hfix_θ : ∀ n : N, n ∈ B → α (θ n) = θ n := by
       intro n hn
       have h1 : τ n = n := hfixB ⟨n, hn⟩
-      simpa [hα, MulAut.congr_apply, h1]
+      simp [hα, MulAut.congr_apply, h1]
     let ρ : N →* Equiv.Perm (Fin 3850) :=
       (MulAut.conj g₁⁻¹).toMonoidHom.comp (hsP.subtype.comp θ.toMonoidHom)
     have hρinj : Function.Injective ρ := fun a b hab =>
@@ -79,9 +79,9 @@ theorem twHSFusion_holds :
       obtain ⟨c, hc, hc_eq⟩ := hmem
       have hρn : ρ n = c := by
         have hρ : ρ n = g₁⁻¹ * (θ n : Equiv.Perm (Fin 3850)) * g₁ := by
-          simp [ρ, MulAut.conj_apply]
+          simp [ρ]
         rw [hρ, ← hc_eq]
-        simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv]
+        simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
         group
       rwa [hρn]
     have hA8perf : Group.IsPerfect ↥(alternatingGroup (Fin 8)) :=
@@ -95,7 +95,7 @@ theorem twHSFusion_holds :
     have hcardBmap : Nat.card ↥(B.map ρ) = 20160 := by
       rw [Subgroup.card_map_of_injective (K := B) (f := ρ) hρinj, hcardB]
     have hBperf : Group.IsPerfect ↥B := by
-      haveI : Group.IsPerfect ↥(alternatingGroup (Fin 8)) := hA8perf
+      have : Group.IsPerfect ↥(alternatingGroup (Fin 8)) := hA8perf
       exact Group.IsPerfect.ofSurjective (f := eB.symm.toMonoidHom) eB.symm.surjective
     have hperfect : B.map ρ = ⁅B.map ρ, B.map ρ⁆ := by
       have hcomm : ⁅B, B⁆ = B := Subgroup.isPerfect_iff.mp hBperf
@@ -135,18 +135,17 @@ theorem twHSFusion_holds :
           ((Subgroup.equivMapOfInjective B ρ hρinj).symm.trans eB)
       have heE_symm : ((eE.symm abType22 : ↥outerE) : Equiv.Perm (Fin 3850)) = ρ b := by
         rw [hb]
-        simp only [eE, MulEquiv.symm_trans_apply, MulEquiv.symm_symm, MulEquiv.trans_apply,
-          MulEquiv.subgroupCongr_apply, Subgroup.coe_equivMapOfInjective_apply]
+        simp only [eE, MulEquiv.symm_trans_apply, MulEquiv.symm_symm, MulEquiv.subgroupCongr_apply, Subgroup.coe_equivMapOfInjective_apply]
       set θg : MulAut hsP := MulAut.congr θ g with hθg
       have hg' : θg * α * θg⁻¹ = α * MulAut.conj (θ b) := by
         have h := congrArg (MulAut.congr θ) hg
-        simp only [map_mul, map_inv, map_one, tw_congr_conj] at h
+        simp only [map_mul, map_inv, tw_congr_conj] at h
         rwa [← hα, ← hθg] at h
       have heAutx : eAut x = α := by
         apply MulEquiv.ext
         intro p
         apply Subtype.ext
-        simpa only [heAut x p, hxform p, Subgroup.coe_inv]
+        simp only [heAut x p, hxform p, Subgroup.coe_inv]
       let xg : hsR := eAut.symm θg
       have heAut_xg : eAut xg = θg := eAut.apply_symm_apply θg
       have h1 : xg * x * xg⁻¹ = x * ⟨θ b, hPR (θ b).2⟩ := by
@@ -173,7 +172,7 @@ theorem twHSFusion_holds :
                 from by group]
         exact hperm
       have hρb : ρ b = g₁⁻¹ * (θ b : Equiv.Perm (Fin 3850)) * g₁ := by
-        simp [ρ, MulAut.conj_apply]
+        simp [ρ]
       have hfinal : (g₁⁻¹ * (xg : Equiv.Perm (Fin 3850)) * g₁) * outerU *
           (g₁⁻¹ * (xg : Equiv.Perm (Fin 3850)) * g₁)⁻¹ =
           outerU * ((eE.symm abType22 : ↥outerE) : Equiv.Perm (Fin 3850)) := by

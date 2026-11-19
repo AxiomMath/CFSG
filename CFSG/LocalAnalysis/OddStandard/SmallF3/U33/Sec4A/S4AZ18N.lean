@@ -33,7 +33,7 @@ theorem z18_exists_M_abs {Y K V₁ V₂ : Subgroup G} {t lam : G} (hV₂ : IsPGr
   set ψ : ↥V₂ →* MulAut ↥Y := z18Psi Y V₂ hN with hψdef
   set ψ' : ↥V₂ →* ↥ψ.range := ψ.rangeRestrict with hψ'def
   have hψ' : Function.Surjective ψ' := ψ.rangeRestrict_surjective
-  haveI : Finite ↥ψ.range := Finite.of_surjective ψ' hψ'
+  have : Finite ↥ψ.range := Finite.of_surjective ψ' hψ'
   have hpg : IsPGroup 2 ↥ψ.range := hV₂.of_surjective ψ' hψ'
   have hone : ∀ v : ↥V₂, ψ' v = 1 ↔ (v : G) ∈ K := fun v =>
     ⟨fun hh => (hker' v).mp (congrArg Subtype.val hh), fun hh => Subtype.ext ((hker' v).mpr hh)⟩
@@ -98,7 +98,7 @@ theorem z18_exists_M_abs {Y K V₁ V₂ : Subgroup G} {t lam : G} (hV₂ : IsPGr
         Subtype.ext (show (v : G) = qV * (tV * lV) by rw [hvk, hk, hqV, htV, hlV])
       rw [hvq, map_mul, hψq, one_mul, map_mul]
   have hbig' : ∃ x : ↥ψ.range, x ≠ 1 ∧ x ≠ ψ' tV ∧ x ≠ ψ' lV ∧ x ≠ ψ' tV * ψ' lV := by
-    obtain ⟨v, hvV₂, hvV₁⟩ := SetLike.not_le_iff_exists.mp hbig
+    obtain ⟨v, hvV₂, hvV₁⟩ := IsConcreteLE.not_le_iff_exists.mp hbig
     have hne_of : ∀ w : ↥V₂, (w : G) ∈ V₁ → ψ' ⟨v, hvV₂⟩ ≠ ψ' w := fun w hw hvw =>
       hvV₁ (hmemV₁ _ _ hw (hmem_of_psi _ _ hvw))
     refine ⟨ψ' ⟨v, hvV₂⟩, ?_, ?_, ?_, ?_⟩

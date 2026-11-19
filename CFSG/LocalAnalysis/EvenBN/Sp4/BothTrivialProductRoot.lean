@@ -61,11 +61,12 @@ theorem dl_mul {x y : G} (hx : x ∈ P) (hy : y ∈ P) :
     _ = x * ((t * x * t⁻¹) * y) * (t * y * t⁻¹) := by rw [h]
     _ = x * (t * x * t⁻¹) * (y * (t * y * t⁻¹)) := by group
 
+omit hP in
 theorem dl_one : rtDl t (1 : G) = 1 := by simp [rtDl]
 
 theorem dl_inv {x : G} (hx : x ∈ P) : rtDl t x⁻¹ = (rtDl t x)⁻¹ := by
   have h := hP.dl_mul hx (inv_mem hx)
-  rw [mul_inv_cancel, hP.dl_one] at h
+  rw [mul_inv_cancel, RtPair.dl_one] at h
   exact eq_inv_of_mul_eq_one_right h.symm
 
 theorem dl_inj {x y : G} (hx : x ∈ P) (hy : y ∈ P) (h : rtDl t x = rtDl t y) : x = y := by
@@ -137,7 +138,7 @@ def rtPre {t : G} {P : Subgroup G} (hP : RtPair t P) (R A : Subgroup G) (hRP : R
   carrier := {x | x ∈ R ∧ rtDl t x ∈ A}
   mul_mem' := fun {x y} hx hy => ⟨mul_mem hx.1 hy.1, by
     rw [hP.dl_mul (hRP hx.1) (hRP hy.1)]; exact mul_mem hx.2 hy.2⟩
-  one_mem' := ⟨one_mem R, by rw [hP.dl_one]; exact one_mem A⟩
+  one_mem' := ⟨one_mem R, by rw [RtPair.dl_one]; exact one_mem A⟩
   inv_mem' := fun {x} hx => ⟨inv_mem hx.1, by
     rw [hP.dl_inv (hRP hx.1)]; exact inv_mem hx.2⟩
 
@@ -239,14 +240,14 @@ theorem conj₂_W {x : G} (hx : x ∈ d.W) : r₂ * x * r₂⁻¹ ∈ d.W := by
   exact d.A_r₂ _ hx.2
 
 theorem R_le_sup {x : G} (hx : x ∈ R) : x ∈ d.W ⊔ d.W.map (MulAut.conj r₁).toMonoidHom :=
-  rt_gen d.pair₁ d.tr₁ (fun y hy => d.norm₁ hy) (d.W_le_R.trans d.R_le₁)
-    (fun u hu => d.exists_W hu) (d.R_le₁ hx) (d.U_le (d.R_dl x hx))
+  rt_gen d.pair₁ d.tr₁ (fun _y hy => d.norm₁ hy) (d.W_le_R.trans d.R_le₁)
+    (fun _u hu => d.exists_W hu) (d.R_le₁ hx) (d.U_le (d.R_dl x hx))
 
 theorem P₁_le_sup {x : G} (hx : x ∈ P₁) : x ∈ R ⊔ R.map (MulAut.conj r₁).toMonoidHom :=
-  rt_gen d.pair₁ d.tr₁ (fun y hy => d.norm₁ hy) d.R_le₁ d.U_dl hx (d.gen₁ x hx)
+  rt_gen d.pair₁ d.tr₁ (fun _y hy => d.norm₁ hy) d.R_le₁ d.U_dl hx (d.gen₁ x hx)
 
 theorem P₂_le_sup {x : G} (hx : x ∈ P₂) : x ∈ R ⊔ R.map (MulAut.conj r₂).toMonoidHom :=
-  rt_gen d.pair₂ d.tr₂ (fun y hy => d.norm₂ hy) d.R_le₂ d.U_dl hx (d.gen₂ x hx)
+  rt_gen d.pair₂ d.tr₂ (fun _y hy => d.norm₂ hy) d.R_le₂ d.U_dl hx (d.gen₂ x hx)
 
 theorem key {s ã : G} (hs : s ∈ P₁) (hsr : rtDl t s = r₁) (hã : ã ∈ d.W)
     (hãa : rtDl t ã = a) :
@@ -512,7 +513,7 @@ theorem rt_card_le [Finite G] {t : G} {P L : Subgroup G} (hP : RtPair t P)
     (hL : ∀ x ∈ P, rtDl t x ∈ L) {N m : ℕ} (hN : 0 < N) (hLcard : Nat.card L = N * m)
     (hm : ¬ 2 ∣ m) : ∀ T : Subgroup G, T ≤ P → IsPGroup 2 T → Nat.card T ≤ N := by
   intro T hTP hT2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinj : Function.Injective (rtDelta hP) := fun x y h =>
     Subtype.ext (hP.dl_inj x.2 y.2 h)
   let T' : Subgroup G := (T.subgroupOf P).map (rtDelta hP)
@@ -637,6 +638,7 @@ section Model
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem rt_weyl_pow_four (i : Axis) : (weylElt K i * weylElt K i.swap) ^ 4 = 1 := by
   cases i
   · exact ProductModel.weylElt_mul_weylElt_pow_four

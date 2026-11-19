@@ -133,9 +133,9 @@ theorem eInvFour_of_typeC {X : Type} [Group X] [Finite X] {Ē : Subgroup (MulAut
     EInvFour X Ē := by
   obtain ⟨F, hF, hFin, Φ, g, τ, hFcard, hτ3, hτ1, hpart1, hpart2⟩ :=
     exists_typeC_model_sub hC hn eL
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
   refine eInvFour_of_model Φ.toMonoidHom Φ.surjective ?_ ?_ g hτ3 hτ1 hpart1 hpart2
@@ -168,9 +168,9 @@ theorem exists_typeCSL_model_sub {X : Type} [Group X] [Finite X] {Ē : Subgroup 
     ring
   obtain ⟨hπ, hKcard⟩ := Sec19.Step1911EndProof.card_slPi_eq hPi hmod hn hcard
   subst hπ
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by rw [← Nat.card_eq_fintype_card]; exact hKcard)
   obtain ⟨g, -, hdiag, hsurj⟩ := Sec4.isTypeC_conj_std hPi hmod hD
@@ -229,7 +229,7 @@ theorem exists_typeCSL_model_sub {X : Type} [Group X] [Finite X] {Ē : Subgroup 
     by_contra hne
     rw [Nat.not_odd_iff_even] at hne
     have h2 : 2 ∣ Nat.card Φ.ker := even_iff_two_dvd.mp hne
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 h2
     have hx3 : x ^ 3 = 1 := Subtype.ext (hker3 x x.2)
     have h3 : orderOf x ∣ 3 := orderOf_dvd_of_pow_eq_one hx3
@@ -257,9 +257,9 @@ theorem eInvFour_of_typeCSL {X : Type} [Group X] [Finite X] {Ē : Subgroup (MulA
     (hn : 2 ≤ n) (eL : X ≃* SL3 n) (hC : IsTypeCSubSL X Ē) : EInvFour X Ē := by
   obtain ⟨F, hF, hFin, Φ, hΦ, hker, hodd, g, τ, hFcard, hτ3, hτ1, hpart1, hpart2⟩ :=
     exists_typeCSL_model_sub hC hn eL
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (p := 2) (f := n)
       (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
   exact eInvFour_of_model Φ hΦ hker hodd g hτ3 hτ1 hpart1 hpart2

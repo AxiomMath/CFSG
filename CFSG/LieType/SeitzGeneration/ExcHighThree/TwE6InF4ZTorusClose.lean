@@ -47,8 +47,8 @@ theorem exists_eq_algebraMap_add_mul {k K : Type} [Field k] [Field K] [Algebra k
 theorem finrank_eq_two_of_card {k K : Type} [Field k] [Finite k] [Field K] [Finite K]
     [Algebra k K] (hK : Nat.card K = Nat.card k ^ 2) : Module.finrank k K = 2 := by
   classical
-  letI : Fintype k := Fintype.ofFinite k
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype k := Fintype.ofFinite k
+  let : Fintype K := Fintype.ofFinite K
   have h : Fintype.card K = Fintype.card k ^ Module.finrank k K := Module.card_eq_pow_finrank
   rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK] at h
   have hk : 1 < Nat.card k := Finite.one_lt_card
@@ -162,7 +162,7 @@ theorem mem_orbitField_short (σ : K ≃+* K) (hσ : ∀ c : K, σ c = c ^ Nat.c
   change σ (σ x) = x
   rw [hσ, hσ, ← pow_mul, ← sq, ← hK]
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card]
   exact FiniteField.pow_card x
 
@@ -185,7 +185,7 @@ theorem closure_top_of_torus (σ : K ≃+* K) (hσ : ∀ c : K, σ c = c ^ Nat.c
       ((v a : orbitField TwistTag.E6 K σ.toRingHom a) : K) ∉ Set.range (algebraMap k K)) :
     H = ⊤ := by
   classical
-  haveI : FiniteDimensional k K := Module.Finite.of_finite
+  have : FiniteDimensional k K := Module.Finite.of_finite
   have h2 : Module.finrank k K = 2 := finrank_eq_two_of_card hK
   set XG : (a : Fin TwistTag.E6.foldedTag.rank) → orbitField TwistTag.E6 K σ.toRingHom a →
       twistedE6RootGroup K σ := fun a c => ⟨_, orbitX_mem_twistedE6RootGroup σ a c⟩ with hXGdef

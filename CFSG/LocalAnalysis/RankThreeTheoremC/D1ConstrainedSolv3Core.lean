@@ -65,8 +65,8 @@ theorem false_of_sylow_three_action (hrank : evenRank G = 3) (h3 : 3 ∈ rankThr
   classical
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPL : (P : Subgroup G) ≤ Subgroup.normalizer (L : Set G) :=
-    le_normalizer_of_isPGroup_three3 hrank h3 hM hL.toIsTwoPrimeComponent P.isPGroup' hPM
-  obtain ⟨φ, hinj, -⟩ := exists_injective_action_of_weakBlock (by norm_num : 3 ≠ 2) P.isPGroup'
+    le_normalizer_of_isPGroup_three3 hrank h3 hM hL.toIsTwoPrimeComponent P.isPGroup hPM
+  obtain ⟨φ, hinj, -⟩ := exists_injective_action_of_weakBlock (by norm_num : 3 ≠ 2) P.isPGroup
     hL hNS hPM hPL hz hzP huniq hCH hQS
   have h27 : 27 ∣ Nat.card (P : Subgroup G) := by
     obtain ⟨E, hEP, -, hE⟩ := pRank_attained 3 (P : Subgroup G) (by omega)

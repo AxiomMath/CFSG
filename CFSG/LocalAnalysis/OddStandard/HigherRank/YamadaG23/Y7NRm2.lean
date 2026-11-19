@@ -11,6 +11,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma le_normalizer_of_commutator_le {H N C : Subgroup G} (h : ⁅H, N⁆ ≤ C)
     (hC : C ≤ N) : H ≤ Subgroup.normalizer N := by
   rw [Subgroup.le_normalizer_iff]
@@ -22,6 +23,7 @@ private lemma le_normalizer_of_commutator_le {H N C : Subgroup G} (h : ⁅H, N�
   rw [hmul]
   exact N.mul_mem h2 hn
 
+omit [Finite G] in
 private lemma commutator_mem_of_sup_inf {QM M A K : Subgroup G}
     (hKM : K ≤ Subgroup.normalizer QM) (hKA : K ≤ Subgroup.normalizer A)
     (hQMK : QM ≤ K) (hAK : A ≤ K) (hD : QM ⊓ A = M) {q a : G}
@@ -40,9 +42,9 @@ private lemma commutator_mem_of_sup_inf {QM M A K : Subgroup G}
   exact hD ▸ ⟨h1, h2⟩
 
 theorem y7n_normal_two_le {K A B M Q : Subgroup G} (hA : SimpleSec A M) (hB : SimpleSec B M)
-    (hsup : A ⊔ B = K) (hinf : A ⊓ B = M) (hcomm : ⁅A, B⁆ ≤ M) (hM2 : IsPGroup 2 M)
+    (hsup : A ⊔ B = K) (_hinf : A ⊓ B = M) (hcomm : ⁅A, B⁆ ≤ M) (hM2 : IsPGroup 2 M)
     (hQK : Q ≤ K) (hQn : ∀ k ∈ K, ∀ q ∈ Q, k * q * k⁻¹ ∈ Q) (hQ2 : IsPGroup 2 Q) : Q ≤ M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let QM : Subgroup G := Q ⊔ M
   have hQ_le_QM : Q ≤ QM := le_sup_left
   have hM_le_QM : M ≤ QM := le_sup_right

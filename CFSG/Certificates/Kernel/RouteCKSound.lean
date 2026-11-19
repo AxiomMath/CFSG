@@ -946,8 +946,8 @@ theorem membersK_eq (n : Nat) : membersK n = members n := by
   rw [forceN_eq, condTK_eq Kb hK]
   cases condT Kb (spanList Kb)
   · rfl
-  · simp only [if_true, flatMapR_eq, mapR_eq, filterR_eq, ← List.range_eq_range',
-      invK_eq Kb hK _ (Sm_chartY _), invK_eq Kb hK _ (Sm_chartD _), condY, condD]
+  · simp only [ite_true, flatMapR_eq, mapR_eq, filterR_eq, ← List.range_eq_range',
+      invK_eq Kb hK _ (Sm_chartY _), invK_eq Kb hK _ (Sm_chartD _)]
     rfl
 
 theorem check_of_checkK (surv : List (Mat × Mat × Mat)) (n : Nat) (data : List Nat)

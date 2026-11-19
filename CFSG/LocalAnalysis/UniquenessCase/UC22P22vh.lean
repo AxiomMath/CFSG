@@ -64,10 +64,11 @@ theorem uc22p22vh_contra2 (D : Data G) (Ch : Choice2011 G) (h1930 : H1930 D)
     exact h3.trans_le h
   exact uc22p22vf_rank_bridge D Ch h8 hSg h1930 c ⟨hq, hqB0⟩ h4
 
+omit [Finite G] in
 private theorem uc22p22vh_mem_uniqueSet_of_sp {M X : Subgroup G} {q : ℕ} (hq : q.Prime)
     (hsp : CFSG.RankThree.PartOne.IsStronglyPEmbedded q M) (hXM : X ≤ M) (hXq : IsPGroup q ↥X)
     (hX1 : X ≠ ⊥) : X ∈ uniqueSet M := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   refine ⟨hXM, fun g hg => ?_⟩
   by_cases hgM : g ∈ M
   · exact Subgroup.mem_normalizer_iff_map_conj_eq.1 (Subgroup.le_normalizer hgM)
@@ -79,6 +80,7 @@ private theorem uc22p22vh_mem_uniqueSet_of_sp {M X : Subgroup G} {q : ℕ} (hq :
       · exact h
     exact hqX.trans (Subgroup.card_dvd_of_le (le_inf hXM hg))
 
+omit [Finite G] in
 private theorem uc22p22vh_exists_cent_elt {M V Q A : Subgroup G} (hV : M ≤ normalizer (V : Set G))
     (hAM : A ≤ M) (hAQ : A ≤ normalizer (Q : Set G)) (hQV : Q ⊓ centralizer (V : Set G) = ⊥)
     {xb : MBar M V} (hxQ : xb ∈ mbarImage M V Q)
@@ -105,6 +107,7 @@ private theorem uc22p22vh_exists_cent_elt {M V Q A : Subgroup G} (hV : M ≤ nor
     rw [hQV, Subgroup.mem_bot] at h5
     exact mul_inv_eq_iff_eq_mul.1 (mul_inv_eq_one.1 h5)
 
+omit [Finite G] in
 private theorem uc22p22vh_invertedIn_mbarImage {M V B : Subgroup G} (hM : InvertedIn M B) :
     F05.InvertedIn ⊤ (mbarImage M V B) := by
   obtain ⟨m, hmM, hm⟩ := hM
@@ -181,7 +184,7 @@ private theorem uc22p22vh_odd_card_cyclic {H : Type*} [Group H] [Finite H]
     Odd (Nat.card ↥X) := by
   by_contra hodd
   have h2 : 2 ∣ Nat.card ↥X := even_iff_two_dvd.1 (Nat.not_odd_iff_even.1 hodd)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥X) 2 h2
   set Y : Subgroup ↥X := Subgroup.zpowers t with hY
   have hYcard : Nat.card ↥Y = 2 := by rw [hY, Nat.card_zpowers, ht]
@@ -225,8 +228,8 @@ theorem uc22p22vh_centralized_of_cyclic (D : Data G) (Ch : Choice2011 G) (h1930 
   set X : Subgroup (MBar D.M c.V) :=
     (CFSG.fittingSubgroup ↥(_root_.commutator (MBar D.M c.V))).map
       (_root_.commutator (MBar D.M c.V)).subtype
-  haveI hXn : X.Normal := uc22p22vh_normal_fitting (MBar D.M c.V)
-  haveI hXcyc : IsCyclic ↥X := by
+  have hXn : X.Normal := uc22p22vh_normal_fitting (MBar D.M c.V)
+  have hXcyc : IsCyclic ↥X := by
     have f := Subgroup.equivMapOfInjective
       (CFSG.fittingSubgroup ↥(_root_.commutator (MBar D.M c.V)))
       (_root_.commutator (MBar D.M c.V)).subtype (_root_.commutator (MBar D.M c.V)).subtype_injective

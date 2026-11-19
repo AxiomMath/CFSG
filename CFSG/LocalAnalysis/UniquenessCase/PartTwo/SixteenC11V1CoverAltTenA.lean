@@ -43,16 +43,16 @@ theorem s16c11_v1_eT_one : s16c11_v1_eT 1 = ⟨2, s16c11_v1_mem_T.2 (by decide)�
     ({s16c11_v1_c123, s16c11_v1_c345, s16c11_v1_c567, s16c11_v1_c789} : Set _)
 
 theorem s16c11_v1_c123_mem : s16c11_v1_c123 ∈ s16c11_v1_H :=
-  Subgroup.subset_closure (by simp [s16c11_v1_H])
+  Subgroup.subset_closure (by simp)
 
 theorem s16c11_v1_c345_mem : s16c11_v1_c345 ∈ s16c11_v1_H :=
-  Subgroup.subset_closure (by simp [s16c11_v1_H])
+  Subgroup.subset_closure (by simp)
 
 theorem s16c11_v1_c567_mem : s16c11_v1_c567 ∈ s16c11_v1_H :=
-  Subgroup.subset_closure (by simp [s16c11_v1_H])
+  Subgroup.subset_closure (by simp)
 
 theorem s16c11_v1_c789_mem : s16c11_v1_c789 ∈ s16c11_v1_H :=
-  Subgroup.subset_closure (by simp [s16c11_v1_H])
+  Subgroup.subset_closure (by simp)
 
 @[expose] def s16c11_v1_Q : Subgroup (Perm (Fin 10)) :=
   s16c11_v1_H.map (alternatingGroup (Fin 10)).subtype

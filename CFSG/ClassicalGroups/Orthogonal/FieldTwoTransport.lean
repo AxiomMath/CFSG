@@ -17,7 +17,7 @@ private theorem eq_zero_or_eq_one_of_natCard_eq_two (hF : Nat.card F = 2) (c : F
     c = 0 ∨ c = 1 := by
   classical
   have hFin : Finite F := Nat.finite_of_card_ne_zero (by omega)
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hc : ({0, 1} : Finset F).card = Fintype.card F := by
     rw [Finset.card_pair zero_ne_one, ← Nat.card_eq_fintype_card, hF]
   have h := Finset.eq_univ_of_card _ hc

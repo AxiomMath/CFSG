@@ -21,7 +21,7 @@ private theorem q2cFNP_sg_pow_two (hK : Nat.card K = (2 ^ f) ^ 2) :
 private theorem q2cFNP_sg_ne_one (hK : Nat.card K = (2 ^ f) ^ 2) : sg K f ≠ 1 := by
   intro h
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hf : 1 ≤ f := by
     by_contra h'
     have h0 : f = 0 := by omega
@@ -46,18 +46,21 @@ private theorem q2cFNP_sg_ne_one (hK : Nat.card K = (2 ^ f) ^ 2) : sg K f ≠ 1 
   rw [hs, Finset.mem_filter] at ha
   exact ha.2 (by rw [h]; rfl)
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNP_glLin_one {n : ℕ} :
     glLin (1 : GL (Fin n) K) = LinearEquiv.refl K (Fin n → K) := by
   ext v
   rw [glLin_apply]
   simp
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNP_glLin_mul {n : ℕ} (g h : GL (Fin n) K) :
     glLin (g * h) = (glLin h).trans (glLin g) := by
   ext v
   rw [glLin_apply, LinearEquiv.trans_apply, glLin_apply, glLin_apply,
     Matrix.GeneralLinearGroup.coe_mul, Matrix.mulVec_mulVec]
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNP_glLin_inv {n : ℕ} (g : GL (Fin n) K) :
     glLin g⁻¹ = (glLin g).symm := by
   apply LinearEquiv.ext
@@ -117,7 +120,7 @@ private theorem q2cFNP_block_invol (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n
     rw [hz, flagAct, flagMap_E]
     congr 1
     rw [hy, flagPsi_E hK hd pol hxmem hb (by simp only [blockSize] at hs'le ⊢; omega)]
-    rw [psiSub, if_pos hpol]
+    rw [psiSub, ite_eq_left hpol]
     congr 1
     rw [show blockSize d b - (blockSize d b - s') = s' by omega]
     rw [ha_l, hxE]
@@ -125,7 +128,7 @@ private theorem q2cFNP_block_invol (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n
       perpB K f n (d.getD b 0) (d.getD (b + 1) 0)
         (z.E (d.getD b 0 + (blockSize d b - s'))) ⊓ Vsub n (d.getD (b + 1) 0) := by
     rw [show l = d.getD b 0 + s' from ha_l.symm]
-    rw [flagPsi_E hK hd pol hz_ref hb hs'le, psiSub, if_pos hpol]
+    rw [flagPsi_E hK hd pol hz_ref hb hs'le, psiSub, ite_eq_left hpol]
   rw [hw_level, hz_level] at hkey
   have hU : X.map (blkOut n d b) = U := by
     rw [hX, map_blkOut_sup_map_blkIn hd hb U]
@@ -155,11 +158,13 @@ private noncomputable def q2cFNP_MbarInv (hd : IsCut n d) {b : ℕ} (hb : b + 1 
     (Fin (blockSize d b) → K) →ₗ[K] (Fin (blockSize d b) → K) :=
   (q2cFNP_MbarEquiv hd hb M hM).symm
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNP_MbarInv_apply (hd : IsCut n d) {b : ℕ} (hb : b + 1 < d.length)
     (M : GL (Fin n) K) (hM : StabV n d M) (v : Fin (blockSize d b) → K) :
     q2cFNP_MbarInv hd hb M hM (blkMat d b M v) = v :=
   LinearEquiv.symm_apply_apply (q2cFNP_MbarEquiv hd hb M hM) v
 
+omit [Finite K] [CharP K 2] in
 private theorem q2cFNP_Mbar_apply_MbarInv (hd : IsCut n d) {b : ℕ} (hb : b + 1 < d.length)
     (M : GL (Fin n) K) (hM : StabV n d M) (v : Fin (blockSize d b) → K) :
     blkMat d b M (q2cFNP_MbarInv hd hb M hM v) = v :=

@@ -43,7 +43,7 @@ private theorem e6c3p_pt_reflect (i : Fin Tag.E6.rank) (v : Fin Tag.E6.rank → 
       Pi.single_apply]
     rw [e6c3p_cartan_symm i k]
     congr 1
-    simp [mul_comm, mul_left_comm]
+    simp [mul_comm]
   simp only [e6ThreeRootPt, adRefl, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
   rw [hz]
   push_cast

@@ -91,13 +91,13 @@ private theorem eq_bot_of_card_eq_four (h : Conf684 A c L Y) {T K P : Subgroup G
       simp only [Subgroup.mem_subgroupOf, Subgroup.mem_inf]
       exact ⟨fun hx => ⟨x.2, hx⟩, fun hx => hx.2⟩
     rwa [hsub] at h1
-  haveI : IsSimpleGroup ↥J := by
+  have : IsSimpleGroup ↥J := by
     rw [hJdef]
     obtain ⟨e⟩ := hJiso
-    haveI : IsSimpleGroup (alternatingGroup (Fin 7)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin 7)) :=
       alternatingGroup.isSimpleGroup (by norm_num)
     exact e.isSimpleGroup
-  haveI := hnorm
+  have := hnorm
   have hinfJP : J ⊓ P = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((J ⊓ P).subgroupOf J) with hbot | htop
     · rw [← le_bot_iff]

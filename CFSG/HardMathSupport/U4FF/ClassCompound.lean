@@ -55,7 +55,7 @@ theorem compound2_transvection_row0 {k : Type*} [Field k] [CharP k 2] (j : Fin 4
   all_goals
     fin_cases I <;> fin_cases J <;>
       simp [compound2, deriv2, sortPair, pair6, Matrix.single_apply, Matrix.one_apply,
-        CharTwo.neg_eq, CharTwo.sub_eq_add]
+        CharTwo.sub_eq_add]
 
 theorem compound2_transvection_row1 {k : Type*} [Field k] [CharP k 2] (j : Fin 4)
     (hij : (1 : Fin 4) ≠ j) (a : k) :
@@ -66,7 +66,7 @@ theorem compound2_transvection_row1 {k : Type*} [Field k] [CharP k 2] (j : Fin 4
   all_goals
     fin_cases I <;> fin_cases J <;>
       simp [compound2, deriv2, sortPair, pair6, Matrix.single_apply, Matrix.one_apply,
-        CharTwo.neg_eq, CharTwo.sub_eq_add]
+        CharTwo.sub_eq_add]
 
 theorem compound2_transvection_row2 {k : Type*} [Field k] [CharP k 2] (j : Fin 4)
     (hij : (2 : Fin 4) ≠ j) (a : k) :
@@ -77,7 +77,7 @@ theorem compound2_transvection_row2 {k : Type*} [Field k] [CharP k 2] (j : Fin 4
   all_goals
     fin_cases I <;> fin_cases J <;>
       simp [compound2, deriv2, sortPair, pair6, Matrix.single_apply, Matrix.one_apply,
-        CharTwo.neg_eq, CharTwo.sub_eq_add]
+        CharTwo.sub_eq_add]
 
 theorem compound2_transvection_row3 {k : Type*} [Field k] [CharP k 2] (j : Fin 4)
     (hij : (3 : Fin 4) ≠ j) (a : k) :
@@ -88,7 +88,7 @@ theorem compound2_transvection_row3 {k : Type*} [Field k] [CharP k 2] (j : Fin 4
   all_goals
     fin_cases I <;> fin_cases J <;>
       simp [compound2, deriv2, sortPair, pair6, Matrix.single_apply, Matrix.one_apply,
-        CharTwo.neg_eq, CharTwo.sub_eq_add]
+        CharTwo.sub_eq_add]
 
 theorem compound2_transvection {k : Type*} [Field k] [CharP k 2] (i j : Fin 4) (hij : i ≠ j)
     (a : k) :

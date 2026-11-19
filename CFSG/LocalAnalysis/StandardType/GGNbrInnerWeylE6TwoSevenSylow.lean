@@ -84,7 +84,7 @@ section Main
 
 theorem sylowTorus_adjoint_E6_two_seven {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     SylowTorus (adjointGroup .E6 K) 7 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   have hp : Nat.Prime 7 := Nat.prime_seven
   have hp3 : 3 < 7 := by decide
   have hpq : ¬ 7 ∣ Nat.card K := by rw [hK]; decide

@@ -15,7 +15,7 @@ theorem not_smallAutomizer_linTwo {p : ℕ} (hp5 : 5 ≤ p) {d : TauCeti.ValidLi
     {K : Type} [Group K] [Finite K] (e : K ≃* (TauCeti.CFSGIndex.lie d).Group) :
     ¬ SmallAutomizer p K := by
   subst hq
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨b⟩ := CFSG.AGLEmbedding.nonempty_mulEquiv_psl2GF_of_isLinTwoIndex
     (p := q.p) (n := q.exponent) ⟨q, hd, rfl, rfl⟩
   have hcard : Nat.card (GaloisField q.p q.exponent) = q.p ^ q.exponent :=
@@ -57,7 +57,7 @@ theorem not_smallAutomizer_linThree {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p)
 
 theorem not_smallAutomizer_altTen {K : Type} [Group K] [Finite K]
     (e : K ≃* alternatingGroup (Fin 10)) : ¬ SmallAutomizer 5 K := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact not_smallAutomizer_of_autWitness
     (CFSG.RankThree.PartOne.K159.autWitness_alternating_ten.of_mulEquiv e.symm)
 

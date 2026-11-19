@@ -55,7 +55,7 @@ theorem burnsideJ4KW_isCharTwoType :
     (∀ g : J, ¬ P0.map (MulAut.conj g).toMonoidHom ≤ Subgroup.normalizer (R : Set J)) →
     ∃ g : J, Subgroup.normalizer (R : Set J) ≤ CFSG.Quasithin.KGJ4.M4.map (MulAut.conj g).toMonoidHom
 
-theorem burnsideJ4KW_subgroupOf_normal {L Y : Subgroup J} (hYL : Y ≤ L)
+theorem burnsideJ4KW_subgroupOf_normal {L Y : Subgroup J} (_hYL : Y ≤ L)
     (hn : L ≤ Subgroup.normalizer (Y : Set J)) : (Y.subgroupOf L).Normal :=
   ⟨fun n hn' g => by
     simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv] at hn' ⊢

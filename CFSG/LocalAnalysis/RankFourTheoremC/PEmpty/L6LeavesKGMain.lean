@@ -44,7 +44,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup
             (KGC.img H (GLBPrimeCore p H) S) → False
 
 @[expose] def KGStep5Sylow : Prop :=
-  KGLocal fun A _ _ Kb Sb => Sb ⊓ Kb ≠ ⊥ ∧ CFSG.ABGLocalTools.IsSylowOf 2 (Sb ⊓ Kb) Kb ∧
+  KGLocal fun _A _ _ Kb Sb => Sb ⊓ Kb ≠ ⊥ ∧ CFSG.ABGLocalTools.IsSylowOf 2 (Sb ⊓ Kb) Kb ∧
     ¬ fusionIsBenderGroup ↥Kb
 
 @[expose] def KGStep5Para : Prop :=
@@ -53,14 +53,14 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup
       ¬ CFSG.ABGLocalTools.IsSylowOf 2 (Sb ⊓ Kb) Kb → False
 
 @[expose] def KGStep6 : Prop :=
-  KGLocal fun A _ _ Kb Sb => Sb ⊓ Kb = ⊥
+  KGLocal fun _A _ _ Kb Sb => Sb ⊓ Kb = ⊥
 
 @[expose] def KGStep6Noncyc : Prop :=
   ∀ (A : Type) [Group A] [Finite A] (p : ℕ) (Kb Sb Bb Mb : Subgroup A) (z : A),
     KQCfg A p Kb Sb Bb Mb z → KGStep4Concl A Kb Sb → Sb ⊓ Kb = ⊥ → ¬ IsCyclic ↥Sb → False
 
 @[expose] def KGStep6Cyc : Prop :=
-  KGLocal fun A _ _ Kb Sb => Sb ⊓ Kb = ⊥ ∧ IsCyclic ↥Sb
+  KGLocal fun _A _ _ Kb Sb => Sb ⊓ Kb = ⊥ ∧ IsCyclic ↥Sb
 
 theorem kgStep6_of_cases (h6n : KGStep6Noncyc) (h6c : KGStep6Cyc) : KGStep6 := by
   intro G _ _ p P M x z hS hx hz H S hopt hO hΩ hnpc h2 L _ d3 hG hc hbot

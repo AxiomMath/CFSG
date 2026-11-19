@@ -44,7 +44,7 @@ theorem pCoreOf_centralizer_siegDiag {F : Type} [Field F] [Finite F] [CharP F 2]
     rcases card_eq_two_or_four_le F with h2 | h
     · exact eq_bot_of_normal_of_isPGroup_of_mulEquiv_two h2 hm
         (complSpEquiv (K := F) i).symm N' hN' hN'2
-    · haveI := hN'
+    · have := hN'
       exact eq_bot_of_normal_of_isPGroup_complSp h (le_trans (by norm_num) hm) N' hN'2
   exact RCSTOm.eq_bot_of_subgroupOf_eq_bot hN hbot
 

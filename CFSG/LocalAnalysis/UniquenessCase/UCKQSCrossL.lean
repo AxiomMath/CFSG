@@ -19,8 +19,8 @@ open CFSG.Open CFSG.Open.StatedAPI CFSG.GroupTheory.WeirSylow PSLCross
 
 theorem qsPSL_pca_proj {F : Type} [Field F] [Finite F] {n p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p)
     (hpF : ¬ p ∣ Nat.card F) : PCentralAbelianAt (StatedProj (StatedSL n F)) p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   have hp1 : Odd p := hp.odd_of_ne_two (by omega)
   have hpF' : ¬ p ∣ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
   have hGL : ∀ P : Sylow p (GL (Fin n) F), Nonempty (P ≃* sigmaModel p
@@ -66,7 +66,7 @@ theorem qsPSL_pca_proj {F : Type} [Field F] [Finite F] {n p : ℕ} (hp : p.Prime
 
 theorem pcaLieCross_PSL : PCALieCrossAt .PSL := by
   intro K _ _ _ _ n ℓ f hadm hmodel p hp h5 hpℓ _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨_, F, hF, hFin, hcard, ⟨e⟩⟩ := LieModel.statedClassicalModel hmodel (by simp [classicalTags])
   have hpF : ¬ p ∣ Nat.card F := by
     rw [hcard]
@@ -90,9 +90,10 @@ variable {L : Type} [Field L] [Finite L] {ℓ f n p : ℕ}
 
 theorem qsPSU_field (hL : Nat.card L = (ℓ ^ f) ^ 2) :
     ∃ f', ℓ ^ f = ringChar L ^ f' ∧ UnitaryFieldData (ringChar L) f' L := by
-  haveI := Fintype.ofFinite L
+  have := Fintype.ofFinite L
   exact exists_unitaryFieldData L (by rw [Fintype.card_eq_nat_card]; exact hL)
 
+omit [Finite L] in
 theorem qsPSU_mem_statedSU_iff (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (hn : 1 ≤ n)
     (A : GL (Fin n) L) :
     A ∈ StatedSU n (ℓ ^ f) L ↔ (A : Matrix (Fin n) (Fin n) L).det = 1 ∧
@@ -101,7 +102,7 @@ theorem qsPSU_mem_statedSU_iff (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^
 
 theorem qsPSU_exp_pos (hp : p.Prime) {q : ℕ} (hq2 : 2 ≤ q) (hpq : ¬ p ∣ q) :
     1 ≤ padicValInt p ((-(q : ℤ)) ^ orderOf (-(q : ZMod p)) - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hne0 : (-(q : ZMod p)) ≠ 0 :=
     neg_ne_zero.2 (fun h => hpq ((ZMod.natCast_eq_zero_iff q p).1 h))
   have hdvd : (p : ℤ) ∣ (-(q : ℤ)) ^ orderOf (-(q : ZMod p)) - 1 := by
@@ -138,8 +139,8 @@ theorem qsPSU_two_le (hL : Nat.card L = (ℓ ^ f) ^ 2) : 2 ≤ ℓ ^ f := by
 
 theorem qsPSU_pca_GU (hp : p.Prime) (h5 : 5 ≤ p) (hL : Nat.card L = (ℓ ^ f) ^ 2)
     (hpq : ¬ p ∣ ℓ ^ f) (hn : 1 ≤ n) : PCentralAbelianAt ↥(StatedGU n (ℓ ^ f) L) p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := Fintype.ofFinite L
+  have : Fact p.Prime := ⟨hp⟩
+  have := Fintype.ofFinite L
   have hLc : Fintype.card L = (ℓ ^ f) ^ 2 := by rw [Fintype.card_eq_nat_card]; exact hL
   exact PCentralAbelianAt.of_sylow_sigmaModel hp h5 (qsPSU_exp_pos hp (qsPSU_two_le hL) hpq)
     (fun P => sylow_GU (hp.odd_of_ne_two (by omega)) L hLc hpq hn P)
@@ -147,6 +148,7 @@ theorem qsPSU_pca_GU (hp : p.Prime) (h5 : 5 ≤ p) (hL : Nat.card L = (ℓ ^ f) 
 @[expose] noncomputable def qsPSU_det (n q : ℕ) (L : Type) [Field L] : ↥(StatedGU n q L) →* Lˣ :=
   Matrix.GeneralLinearGroup.det.comp (StatedGU n q L).subtype
 
+omit [Finite L] in
 theorem qsPSU_det_val {q : ℕ} (g : ↥(StatedGU n q L)) :
     ((qsPSU_det n q L g : Lˣ) : L) = ((g : GL (Fin n) L) : Matrix (Fin n) (Fin n) L).det := rfl
 
@@ -163,7 +165,7 @@ theorem qsPSU_subgroupOf_eq_ker (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) 
 
 theorem qsPSU_not_dvd_index (hp : p.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (hpq1 : ¬ p ∣ ℓ ^ f + 1) :
     ¬ p ∣ (qsPSU_det n (ℓ ^ f) L).ker.index := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨f', hq, h⟩ := qsPSU_field hL
   intro hdvd
   rw [Subgroup.index_ker] at hdvd
@@ -183,6 +185,7 @@ noncomputable def qsPSU_equivKer (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f)
   (Subgroup.subgroupOfEquivOfLe statedSU_le_statedGU).symm.trans
     (MulEquiv.subgroupCongr (qsPSU_subgroupOf_eq_ker hℓ hL hn))
 
+omit [Finite L] in
 theorem qsPSU_not_dvd_ker (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (hn : 1 ≤ n)
     (hpq1 : ¬ p ∣ ℓ ^ f + 1) :
     ¬ p ∣ Nat.card (QuotientGroup.mk' ((StatedScalars (Fin n) L).subgroupOf (StatedSU n (ℓ ^ f) L))).ker := by
@@ -192,7 +195,7 @@ theorem qsPSU_not_dvd_ker (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (
 theorem qsPSU_pca_of_not_dvd (hp : p.Prime) (h5 : 5 ≤ p) (hℓ : ℓ.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2)
     (hpq : ¬ p ∣ ℓ ^ f) (hn : 1 ≤ n) (hpq1 : ¬ p ∣ ℓ ^ f + 1) :
     PCentralAbelianAt (StatedProj (StatedSU n (ℓ ^ f) L)) p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hSU : PCentralAbelianAt ↥(StatedSU n (ℓ ^ f) L) p :=
     PCentralAbelianAt.of_mulEquiv (qsPSU_equivKer hℓ hL hn)
       (PCentralAbelianAt.of_normal_coprime_index _ (qsPSU_not_dvd_index hp hL hpq1)
@@ -202,7 +205,7 @@ theorem qsPSU_pca_of_not_dvd (hp : p.Prime) (h5 : 5 ≤ p) (hℓ : ℓ.Prime) (h
 
 theorem qsPSU_exists_zeta (hp : p.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (hpq1 : p ∣ ℓ ^ f + 1) :
     ∃ ζ : Lˣ, orderOf ζ = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine exists_prime_orderOf_dvd_card' p ?_
   rw [Nat.card_units, hL]
   refine hpq1.trans ⟨ℓ ^ f - 1, ?_⟩
@@ -213,11 +216,13 @@ theorem qsPSU_exists_zeta (hp : p.Prime) (hL : Nat.card L = (ℓ ^ f) ^ 2) (hpq1
   simp only [Nat.add_sub_cancel]
   ring
 
+omit [Finite L] in
 theorem qsPSU_zeta_pow (hpq1 : p ∣ ℓ ^ f + 1) {ζ : Lˣ} (hζ : orderOf ζ = p) :
     ∀ x ∈ Subgroup.zpowers ζ, x ^ (ℓ ^ f + 1) = 1 := fun x hx => by
   rw [← orderOf_dvd_iff_pow_eq_one]
   exact (orderOf_dvd_of_mem_zpowers hx).trans (by rw [hζ]; exact hpq1)
 
+omit [Finite L] in
 theorem qsPSU_diagGL_mem_statedSU {q : ℕ} (hq : q ≠ 0) (u : Fin n → Lˣ)
     (hu : ∀ i, (u i) ^ (q + 1) = 1) (hprod : ∏ i, u i = 1) : diagGL n u ∈ StatedSU n q L := by
   have hdet : ((diagGL n u : GL (Fin n) L) : Matrix (Fin n) (Fin n) L).det = 1 := by
@@ -235,6 +240,7 @@ theorem qsPSU_diagGL_mem_statedSU {q : ℕ} (hq : q ≠ 0) (u : Fin n → Lˣ)
   unfold StatedSU
   exact Subgroup.subset_closure ⟨hdet, hunit⟩
 
+omit [Finite L] in
 theorem qsPSU_permGL_mem_statedSU {q : ℕ} (hq : q ≠ 0) (σ : Equiv.Perm (Fin n))
     (hσ : Equiv.Perm.sign σ = 1) : permGL n σ ∈ StatedSU n q L := by
   have hdet : ((permGL n σ : GL (Fin n) L) : Matrix (Fin n) (Fin n) L).det = 1 := by
@@ -255,7 +261,7 @@ theorem qsPSU_permGL_mem_statedSU {q : ℕ} (hq : q ≠ 0) (σ : Equiv.Perm (Fin
 theorem qsPSU_pca_of_dvd (hp : p.Prime) (h5 : 5 ≤ p) (hL : Nat.card L = (ℓ ^ f) ^ 2)
     (hpq : ¬ p ∣ ℓ ^ f) (hn : 1 ≤ n) (hpq1 : p ∣ ℓ ^ f + 1) :
     PCentralAbelianAt (StatedProj (StatedSU n (ℓ ^ f) L)) p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq0 : ℓ ^ f ≠ 0 := by have := qsPSU_two_le hL; omega
   by_cases hnp5 : n < 5
   · have hnp : n < p := by omega
@@ -266,7 +272,7 @@ theorem qsPSU_pca_of_dvd (hp : p.Prime) (h5 : 5 ≤ p) (hL : Nat.card L = (ℓ ^
         exact eq_neg_of_add_eq_zero_left h0
       have h2 : -((ℓ ^ f : ℕ) : ZMod p) = 1 := neg_eq_iff_eq_neg.2 h1
       rw [h2, orderOf_one]
-    haveI := Fintype.ofFinite L
+    have := Fintype.ofFinite L
     have hLc : Fintype.card L = (ℓ ^ f) ^ 2 := by rw [Fintype.card_eq_nat_card]; exact hL
     have hGU : ∀ P : Sylow p ↥(StatedGU n (ℓ ^ f) L),
         IsMulCommutative (P : Subgroup ↥(StatedGU n (ℓ ^ f) L)) :=
@@ -314,7 +320,7 @@ end PSU
 
 theorem pcaLieCross_PSU : PCALieCrossAt .PSU := by
   intro K _ _ _ _ n ℓ f hadm hmodel p hp h5 hpℓ _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hℓ, hf, hn3, -⟩ := hadm
   obtain ⟨-, L, _, _, hL, ⟨e⟩⟩ := hmodel.statedClassicalModel_of_ne_zero (by omega)
   have hpq : ¬ p ∣ ℓ ^ f := fun h => hpℓ ((Nat.prime_dvd_prime_iff_eq hp hℓ).1 (hp.dvd_of_dvd_pow h))
@@ -340,7 +346,7 @@ theorem qsPSp_not_dvd_card_ker {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) {n : ℕ}
     [Field F] [Finite F] :
     ¬ p ∣ Nat.card (QuotientGroup.mk' ((StatedScalars (Fin n ⊕ Fin n) F).subgroupOf (StatedSp n F))).ker := by
   intro hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd
   have hx2 : x ^ 2 = 1 := by
     apply Subtype.ext
@@ -358,7 +364,7 @@ theorem qsPSp_not_dvd_card_ker {p : ℕ} (hp : p.Prime) (h5 : 5 ≤ p) {n : ℕ}
 
 theorem pcaLieCross_PSp : PCALieCrossAt .PSp := by
   intro K _ _ _ _ n ℓ f hadm hmodel p hp h5 hpℓ _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨_, F, _, _, hF, ⟨e⟩⟩ := hmodel.statedClassicalModel (by simp [classicalTags])
   have hℓ : ℓ.Prime := hadm.1
   have hpF : ¬ p ∣ Nat.card F := by
@@ -366,7 +372,7 @@ theorem pcaLieCross_PSp : PCALieCrossAt .PSp := by
     intro h
     exact hpℓ ((Nat.prime_dvd_prime_iff_eq hp hℓ).1 (hp.dvd_of_dvd_pow h))
   have hn : 1 ≤ n := by have := hadm.2.2.1; omega
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hpF' : ¬ p ∣ Fintype.card F := by rwa [← Nat.card_eq_fintype_card]
   have hSp : PCentralAbelianAt (StatedSp n F) p :=
     PCentralAbelianAt.of_sylow_sigmaModel hp h5 (qsPSp_one_le_padicValNat Fintype.one_lt_card hpF')

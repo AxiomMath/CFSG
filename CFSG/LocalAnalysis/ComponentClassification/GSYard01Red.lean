@@ -379,10 +379,12 @@ private def k2StabOdd (K : Subgroup G) (S : Set G) : Subgroup G where
     have h1 := inv_mem ((mem_normalizer_iff.mp (mem_normalizer_oddCoreIn hdN) _).mp (hd a ha))
     rwa [show (d * (a⁻¹ * d⁻¹ * a * d) * d⁻¹)⁻¹ = a⁻¹ * d⁻¹⁻¹ * a * d⁻¹ by group] at h1
 
+omit [Finite G] in
 private theorem mem_k2StabOdd {K : Subgroup G} {S : Set G} {d : G} :
     d ∈ k2StabOdd K S ↔
       d ∈ normalizer (K : Set G) ∧ ∀ a ∈ S, a⁻¹ * d⁻¹ * a * d ∈ oddCoreIn K := Iff.rfl
 
+omit [Finite G] in
 private theorem k2_isPGroup_zpowers {t : G} (ht : t * t = 1) : IsPGroup 2 (zpowers t) := by
   have hord : orderOf t ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact ht)
   rcases (Nat.dvd_prime Nat.prime_two).mp hord with h | h

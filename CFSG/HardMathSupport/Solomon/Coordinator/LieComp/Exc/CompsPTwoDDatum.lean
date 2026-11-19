@@ -82,7 +82,7 @@ theorem map_iterateFrobenius_zero (X : SL2 k) :
     Matrix.SpecialLinearGroup.map (iterateFrobenius k p₀ 0) X = X :=
   Subtype.ext (by
     ext i j
-    simp [Matrix.SpecialLinearGroup.map_apply_coe, iterateFrobenius_def])
+    simp [Matrix.SpecialLinearGroup.map_apply_coe])
 
 theorem orbitMap_single {O : Set (Fin τ.rank → ℤ)} (hO : GenFixedRootDatum.orbitCard O = 1)
     (A : SL2 (D.orbitField O)) :
@@ -165,8 +165,8 @@ theorem cartanD_swap {m : ℕ} (hm : 4 ≤ m) (j k : Fin m) :
     CFSG.LieType.Universal.Spin.cartanD m (Equiv.swap (⟨m - 2, by omega⟩ : Fin m) ⟨m - 1, by omega⟩ j)
       (Equiv.swap (⟨m - 2, by omega⟩ : Fin m) ⟨m - 1, by omega⟩ k) =
       CFSG.LieType.Universal.Spin.cartanD m j k := by
-  simp only [cartanD_apply, Equiv.swap_apply_def, Fin.ext_iff, Fin.val_mk]
-  split_ifs <;> (try simp only [Fin.val_mk] at *) <;> first | omega | simp_all
+  simp only [cartanD_apply, Equiv.swap_apply_def, Fin.ext_iff]
+  split_ifs <;> (try simp only at *) <;> first | omega | simp_all
 
 end Cartan
 

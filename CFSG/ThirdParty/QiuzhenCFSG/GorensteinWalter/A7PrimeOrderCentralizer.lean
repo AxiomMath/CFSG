@@ -56,7 +56,6 @@ public theorem aSeven_no_involution_centralizes_prime_five_seven
       rfl
     simpa [hsub] using h
   have hτ2 : τ ^ 2 = 1 := by
-    change (τ ^ 2 = 1)
     simpa [τ, pow_two] using
       congrArg (fun z : alternatingGroup (Fin 7) => (z : Equiv.Perm (Fin 7))) ht2
   obtain ⟨a, ha⟩ := hc.nonempty_support
@@ -129,7 +128,6 @@ public theorem aSeven_no_involution_centralizes_prime_five_seven
     have hswap : τ.IsSwap := Equiv.Perm.card_support_eq_two.mp hcard2
     have hsign : Equiv.Perm.sign τ = -1 := hswap.sign_eq
     have hsign1 : Equiv.Perm.sign τ = 1 := by
-      change Equiv.Perm.sign τ = 1
       exact (MonoidHom.mem_ker (f := Equiv.Perm.sign)).mp t.property
     have hbad : (-1 : ℤˣ) = 1 := hsign.symm.trans hsign1
     norm_num at hbad

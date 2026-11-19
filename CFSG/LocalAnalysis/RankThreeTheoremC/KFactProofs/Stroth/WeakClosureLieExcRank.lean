@@ -32,15 +32,15 @@ variable {F : Type} [Field F] [Finite F] {p : ℕ}
 
 theorem rankLE1_G2 (hp : p.Prime) (hp5 : 5 ≤ p) (hpK : ¬ p ∣ Nat.card F)
     (hnd : ¬ p ∣ Nat.card F ^ 2 - 1) : RankLE1 p (adjointGroup Tag.G2 F) := by
-  haveI : Finite (ModGL Tag.G2 F) := finite_modGL
+  have : Finite (ModGL Tag.G2 F) := finite_modGL
   refine CFSG.HardMathSupport.Timmesfeld.CrossChar.rankLE1_of_pRank hp fun hdvd => ?_
   by_cases h2 : ringChar F = 2
-  · haveI : CharP F 2 := h2 ▸ ringChar.charP F
-    haveI : Fintype F := Fintype.ofFinite F
+  · have : CharP F 2 := h2 ▸ ringChar.charP F
+    have : Fintype F := Fintype.ofFinite F
     obtain ⟨n, -, hn⟩ := FiniteField.card F 2
     exact CFSG.RankThree.PartOne.K128.pRank_le_one_G2 F hp hp5
       (by rw [Nat.card_eq_fintype_card]; exact hn) n.pos hdvd hnd
-  · haveI : Fintype F := Fintype.ofFinite F
+  · have : Fintype F := Fintype.ofFinite F
     obtain ⟨n, hℓ, hn⟩ := FiniteField.card F (ringChar F)
     have hodd : Odd (Nat.card F) := by
       rw [Nat.card_eq_fintype_card, hn]

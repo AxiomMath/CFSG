@@ -44,7 +44,7 @@ theorem lower_eq_zero_of_conj_unipSL {g : SL(2, F)} {b : F} (hb : b ≠ 0)
     (g : Matrix (Fin 2) (Fin 2) F) 1 0 = 0 := by
   rw [coe_conj_unipSL] at h
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons, neg_eq_zero, mul_eq_zero] at h
+    Matrix.empty_val', Matrix.cons_val_fin_one, neg_eq_zero, mul_eq_zero] at h
   rcases h with h | h
   · exact pow_eq_zero_iff (by norm_num) |>.mp h
   · exact absurd h hb
@@ -65,7 +65,7 @@ theorem conj_unipSL_of_upper {g : SL(2, F)} (hg : (g : Matrix (Fin 2) (Fin 2) F)
   rw [coe_conj_unipSL, coe_unipSL, hg]
   fin_cases i <;> fin_cases j <;> simp
 
-theorem upper_mul_zero_zero {g h : SL(2, F)} (hg : (g : Matrix (Fin 2) (Fin 2) F) 1 0 = 0)
+theorem upper_mul_zero_zero {g h : SL(2, F)} (_hg : (g : Matrix (Fin 2) (Fin 2) F) 1 0 = 0)
     (hh : (h : Matrix (Fin 2) (Fin 2) F) 1 0 = 0) :
     ((g * h : SL(2, F)) : Matrix (Fin 2) (Fin 2) F) 0 0 =
       (g : Matrix (Fin 2) (Fin 2) F) 0 0 * (h : Matrix (Fin 2) (Fin 2) F) 0 0 := by
@@ -86,8 +86,7 @@ theorem upper_conj_zero_zero {g h : SL(2, F)} (hg : (g : Matrix (Fin 2) (Fin 2) 
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, coe_inv_sl]
   simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val',
     Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-    Matrix.head_cons, Matrix.head_fin_const, hg, hh, neg_zero, zero_mul, mul_zero, add_zero,
-    zero_add]
+    hg, hh, neg_zero, mul_zero, add_zero]
   linear_combination (g : Matrix (Fin 2) (Fin 2) F) 0 0 * hdet +
     (g : Matrix (Fin 2) (Fin 2) F) 0 0 * (h : Matrix (Fin 2) (Fin 2) F) 0 1 * hh
 

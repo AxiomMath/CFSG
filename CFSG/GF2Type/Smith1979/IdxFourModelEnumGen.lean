@@ -37,7 +37,7 @@ theorem conj_mem_of_gen {gsN gsH : List (Array ℕ)} (hN : GensOK gsN) {g : Arra
       simp only [LinearEquiv.mul_apply, hG, eqvOf_apply, eqvOf_inv_apply, hyr, linOfRows_mulR]
     rw [this]
     exact hU
-  | one => simpa using one_mem _
+  | one => simp
   | mul y z _ _ hy hz =>
     have : G * (y * z) * G⁻¹ = (G * y * G⁻¹) * (G * z * G⁻¹) := by group
     rw [this]

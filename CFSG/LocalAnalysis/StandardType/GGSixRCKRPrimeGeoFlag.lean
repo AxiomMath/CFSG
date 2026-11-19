@@ -55,21 +55,21 @@ private theorem rckRPgf_scalar_of_commute_transvections {F : Type} [Field F]
   rw [Matrix.eta_fin_two Z] at h0 h1
   have hZ10 : Z 1 0 = 0 := by
     have e := congrFun (congrFun h0 0) 0
-    simp [Matrix.mul_fin_two] at e
+    simp at e
     linear_combination e
   have hZeq : Z 0 0 = Z 1 1 := by
     have e := congrFun (congrFun h0 0) 1
-    simp [Matrix.mul_fin_two] at e
+    simp at e
     linear_combination e
   have hZ01 : Z 0 1 = 0 := by
     have e := congrFun (congrFun h1 0) 0
-    simp [Matrix.mul_fin_two] at e
+    simp at e
     linear_combination e
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.scalar_apply, hZ10, hZ01, hZeq]
 
-private theorem rckRPgf_eq_one_of_center_SU_two {g : ℕ} (hg : 1 ≤ g)
+private theorem rckRPgf_eq_one_of_center_SU_two {g : ℕ} (_hg : 1 ≤ g)
     {z : ↥(Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution
       (GaloisField 2 (2 * g)) 2 g) 2)}
     (hz : z ∈ Subgroup.center _) (hz2 : z * z = 1) : z = 1 := by

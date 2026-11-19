@@ -89,7 +89,7 @@ theorem false_of_isPComponent_of_uniqueInvolution [Finite X] {C L K : Subgroup X
   obtain ⟨P, hPt⟩ := exists_sylow_two_normalized_of_mul_self ht2 htN
   set PX := (P : Subgroup ↥L).map L.subtype with hPXdef
   have hPXL : PX ≤ L := map_subtype_le _
-  have hPX2 : IsPGroup 2 PX := P.isPGroup'.map L.subtype
+  have hPX2 : IsPGroup 2 PX := P.isPGroup.map L.subtype
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht2
   have htPX : zpowers t ≤ normalizer (PX : Set X) := by
     rw [zpowers_le, mem_normalizer_iff]
@@ -112,7 +112,7 @@ theorem false_of_isPComponent_of_uniqueInvolution [Finite X] {C L K : Subgroup X
   have hunT := huniq T hTK hT2 (mem_sup_left (mem_zpowers t))
   have hPne : (P : Subgroup ↥L) ≠ ⊥ := P.ne_bot_of_dvd_card hev
   have h2P : 2 ∣ Nat.card (P : Subgroup ↥L) := by
-    rcases P.isPGroup'.card_eq_or_dvd with h | h
+    rcases P.isPGroup.card_eq_or_dvd with h | h
     · exact absurd (Subgroup.card_eq_one.mp h) hPne
     · exact h
   obtain ⟨u, hu2⟩ := exists_prime_orderOf_dvd_card' 2 h2P

@@ -55,6 +55,7 @@ private theorem s16h_sl4_isTransNZ_statedSL_two (K : Type) [Field K] :
   rw [CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL_coe]
   exact hg
 
+omit [Finite W] in
 theorem s16h_sl4_quotient_fixV_aux {L : Subgroup (MulAut W)}
     (hrow : s16h_H5RowSL2 L (commSub ⊤ L) (commSub ⊤ L ⊓ fixV L) 2)
     {d : MulAut W} (hdcent : ∀ a ∈ L, d * a = a * d)
@@ -63,10 +64,10 @@ theorem s16h_sl4_quotient_fixV_aux {L : Subgroup (MulAut W)}
       d v * v⁻¹ ∈ commSub ⊤ L ⊓ fixV L → v ∈ commSub ⊤ L ⊓ fixV L := by
   have hgen : commSub (commSub ⊤ L) L = commSub ⊤ L := by
     obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hrow.1
-    letI : Field K := hKf
-    letI : Finite K := hKfin
+    let : Field K := hKf
+    let : Finite K := hKfin
     have hK4 : 4 ≤ Nat.card K := by rw [hKcard]; norm_num
-    haveI : Group.IsPerfect ↥(StatedSL 2 K) :=
+    have : Group.IsPerfect ↥(StatedSL 2 K) :=
       CFSG.Open.StatedAPI.isPerfect_statedSL_two_of_four_le_card hK4
     have hperf : Group.IsPerfect ↥L :=
       Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
@@ -108,8 +109,8 @@ theorem s16h_sl4_quotient_fixV_aux {L : Subgroup (MulAut W)}
     change d (l w) * (l w)⁻¹ = l (d w * w⁻¹)
     rw [hdl, map_mul, map_inv]
   obtain ⟨K, hKf, hKfin, hKcard, π, hπ⟩ := hrow.2
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have htrans : CFSG.Quasithin.MS93.S32.IsTransNZ (CFSG.Open.StatedSL 2 K) :=
     s16h_sl4_isTransNZ_statedSL_two K
   have hirr : ∀ J : Subgroup W, (∀ x ∈ L, ∀ w ∈ J, x w ∈ J) → Z ≤ J → J ≤ U →

@@ -19,7 +19,7 @@ theorem range_actM_eq {j n : ℕ} (B : Matrix (Fin n) (Fin n) (ZMod 2)) :
     Set.range (fun Y' : Fin j → Fin n → ZMod 2 => actM B Y') =
       {Y | ∀ i, Y i ∈ Set.range (fun v : Fin n → ZMod 2 => B.mulVec v)} := by
   ext Y
-  simp only [Set.mem_range, Set.mem_setOf_eq]
+  simp only [Set.mem_range, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨Y', rfl⟩ i
     exact ⟨Y' i, rfl⟩
@@ -78,7 +78,7 @@ theorem colSet_two_eq_range_tens {j n : ℕ} {a : Fin n → ZMod 2} (ha : a ≠ 
       Set.range (fun t : Fin j → ZMod 2 => tens a t) := by
   have key : ∀ c : ZMod 2, c = 0 ∨ c = 1 := by decide
   ext Y
-  simp only [Set.mem_setOf_eq, Set.mem_range]
+  simp only [Set.mem_ofPred_eq, Set.mem_range]
   constructor
   · intro h
     refine ⟨fun i => if Y i = a then 1 else 0, ?_⟩
@@ -88,9 +88,9 @@ theorem colSet_two_eq_range_tens {j n : ℕ} {a : Fin n → ZMod 2} (ha : a ≠ 
         rw [h1]
         exact Ne.symm ha
       simp only [tens_apply]
-      rw [if_neg hne, h1, zero_smul]
+      rw [ite_eq_right hne, h1, zero_smul]
     · simp only [tens_apply]
-      rw [if_pos h1, one_smul, h1]
+      rw [ite_eq_left h1, one_smul, h1]
   · rintro ⟨t, rfl⟩ i
     rw [tens_apply]
     rcases key (t i) with h | h <;> simp [h]

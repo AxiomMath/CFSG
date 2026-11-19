@@ -50,9 +50,9 @@ theorem not_almostSimpleCase_of_derivedSeries (hS : Setup G D)
   have : IsCyclic ((G ⧸ M) ⧸ CFSG.oddCore (G ⧸ M)) := isCyclic_of_prime_card h2
   have : Group.IsSolvable ((G ⧸ M) ⧸ CFSG.oddCore (G ⧸ M)) := by
     let := IsCyclic.commGroup (α := (G ⧸ M) ⧸ CFSG.oddCore (G ⧸ M))
-    exact isSolvable_of_comm mul_comm
+    exact _root_.Group.isSolvable_of_comm mul_comm
   have hQsolv : Group.IsSolvable (G ⧸ M) :=
-    solvable_of_ker_le_range (CFSG.oddCore (G ⧸ M)).subtype
+    Group.isSolvable_of_ker_le_range (CFSG.oddCore (G ⧸ M)).subtype
       (QuotientGroup.mk' (CFSG.oddCore (G ⧸ M)))
       (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
   have hQder : derivedSeries (G ⧸ M) 1 = derivedSeries (G ⧸ M) 2 := by
@@ -176,13 +176,13 @@ theorem localSecond_of_threeTransp_imageClass (hC : HypothesisC D)
       CFSG.Timmesfeld.Bridge.OddTransp.isSolvable_solvableRadical
     have := hYbar
     let g : P →* Ybar := (π.comp P.subtype).codRestrict Ybar fun p => p.2
-    exact solvable_of_ker_le_range (Subgroup.inclusion hMP) g fun p hp => by
+    exact Group.isSolvable_of_ker_le_range (Subgroup.inclusion hMP) g fun p hp => by
       have hp1 : π (p : H) = 1 := congrArg Subtype.val hp
       exact ⟨⟨p, (QuotientGroup.eq_one_iff _).mp hp1⟩, rfl⟩
   set X : Subgroup G := P.map H.subtype
   have hXsolv : Group.IsSolvable X :=
     haveI := hPsolv
-    solvable_of_surjective (H.subtype.subgroupMap_surjective P)
+    Group.isSolvable_of_surjective (H.subtype.subgroupMap_surjective P)
   have hmem : ∀ a : H, π a ∈ Ybar → (a : G) ∈ X := fun a ha => ⟨a, ha, rfl⟩
   exact PartThree.orderOf_mul_eq_four_of_solvable_subgroup hS.oddT hS.normal hXsolv
     (hmem x' (Subgroup.subset_closure (by simp)))

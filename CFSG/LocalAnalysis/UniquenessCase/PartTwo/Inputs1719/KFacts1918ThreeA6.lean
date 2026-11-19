@@ -17,7 +17,7 @@ open scoped Pointwise
 
 private theorem alt6_eq_top_of_index_le_five {H : Subgroup (alternatingGroup (Fin 6))}
     (hH : H.index ≤ 5) : H = ⊤ := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   have hcard : Nat.card (alternatingGroup (Fin 6)) = 360 := by
     rw [nat_card_alternatingGroup, Nat.card_fin]
     norm_num
@@ -114,7 +114,7 @@ theorem kFacts1918_of_isA6ModZ3 {X : Type} [Group X] [Finite X] (hX : IsA6ModZ3 
       ¬ Nn ≤ pCoreOf 2 (Opp 2 Y) → S17.oUpperTwo (Opp 2 Y) ≤ Nn ⊔ pCoreOf 2 (Opp 2 Y)) ∧
     Nat.card (Bar2 (S17.oUpperTwo (Opp 2 Y))) = 3 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZleY : Subgroup.center X ≤ Y := center_le_of_isA6ModZ3 hX hY
   have hXcard : Nat.card X = 1080 := card_of_isA6ModZ3 hX
   obtain ⟨hcov, hZcard⟩ := hX
@@ -152,9 +152,9 @@ theorem kFacts1918_of_isA6ModZ3 {X : Type} [Group X] [Finite X] (hX : IsA6ModZ3 
   have hNcard : Nat.card ↥N = 4 := hNdata.1
   obtain ⟨aH, bH, habH⟩ := hNdata.2
   let Qy : Subgroup ↥Y := CFSG.pCore 2 ↥Y
-  haveI hQyN : Qy.Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have hQyN : Qy.Normal := CFSG.LieType.BorelTits.pCore_normal 2
   have hQp : IsPGroup 2 ↥Qy := CFSG.pCore_isPGroup (p := 2) (G := ↥Y)
-  haveI hNN : N.Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have hNN : N.Normal := CFSG.LieType.BorelTits.pCore_normal 2
   have hNp : IsPGroup 2 ↥N := CFSG.pCore_isPGroup (p := 2) (G := ↥H)
   have hρkerQ : (ρ.ker).subgroupOf Qy = ⊥ := by
     have hinf : ρ.ker ⊓ Qy = ⊥ := by
@@ -162,7 +162,7 @@ theorem kFacts1918_of_isA6ModZ3 {X : Type} [Group X] [Finite X] (hX : IsA6ModZ3 
       have hcop : Nat.Coprime (Nat.card ↥(ρ.ker)) (Nat.card ↥Qy) := by
         rw [hρker, hZbcard, hk]
         exact (by norm_num : Nat.Coprime 3 2).pow_right k
-      exact Subgroup.inf_eq_bot_of_coprime hcop
+      exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
     rw [← Subgroup.map_subtype_inj (H := Qy)]
     rw [Subgroup.subgroupOf_map_subtype, Subgroup.map_bot, hinf]
   have hQmapinj : Function.Injective (ρ.subgroupMap Qy) := by
@@ -178,7 +178,7 @@ theorem kFacts1918_of_isA6ModZ3 {X : Type} [Group X] [Finite X] (hX : IsA6ModZ3 
     exact Subgroup.card_le_of_le hQmap_le
   let R : Subgroup ↥Y := N.comap ρ
   have hRnormal : R.Normal := hNN.comap ρ
-  haveI hRN : R.Normal := hRnormal
+  have hRN : R.Normal := hRnormal
   have hRcard : Nat.card ↥R = 12 := by
     have hNidx : N.index = 6 := by
       have h := Subgroup.index_mul_card (H := N)
@@ -223,9 +223,9 @@ theorem kFacts1918_of_isA6ModZ3 {X : Type} [Group X] [Finite X] (hX : IsA6ModZ3 
     exact hZRcenter.trans (Subgroup.center_le_normalizer _)
   have hPchar : (P : Subgroup ↥R).Characteristic := Sylow.characteristic_of_normal P hPnorm
   have hPRchar : (P.map R.subtype).Normal := by
-    haveI := hPchar
+    have := hPchar
     exact ConjAct.normal_of_characteristic_of_normal
-  have hPmap2 : IsPGroup 2 (P.map R.subtype) := (P.isPGroup').map R.subtype
+  have hPmap2 : IsPGroup 2 (P.map R.subtype) := (P.isPGroup).map R.subtype
   have hPleQ : P.map R.subtype ≤ Qy :=
     CFSG.LieType.BorelTits.le_pCore 2 hPRchar hPmap2
   have hPcard : Nat.card ↥(P : Subgroup ↥R) = 4 := by
@@ -273,7 +273,7 @@ theorem kFacts1918_of_isA6ModZ3 {X : Type} [Group X] [Finite X] (hX : IsA6ModZ3 
           (Nat.card ↥((Subgroup.center X).subgroupOf Y)) := by
         rw [hQcard, hZbcard]
         norm_num
-      exact Subgroup.inf_eq_bot_of_coprime hcop
+      exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
     have hkerbot : Qy.subgroupOf ((Subgroup.center X).subgroupOf Y) = ⊥ := by
       rw [← Subgroup.map_subtype_inj (H := (Subgroup.center X).subgroupOf Y)]
       rw [Subgroup.subgroupOf_map_subtype, Subgroup.map_bot, hinf]

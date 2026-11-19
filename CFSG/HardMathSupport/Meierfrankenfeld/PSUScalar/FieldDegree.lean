@@ -110,7 +110,7 @@ private theorem rotEps_apply_zero {m : ℕ} (hf : 0 < m + 1) (ε : Fin (m + 1) �
 private theorem rotEps_apply_succ {m : ℕ} (hf : 0 < m + 1) (ε : Fin (m + 1) → Finset (Fin n))
     (s : Fin m) : rotEps hf ε (Fin.succ s) = ε (Fin.castSucc s) := by
   simp only [rotEps, Fin.val_succ]
-  rw [dif_neg (by simp)]
+  rw [dite_eq_right (by simp)]
   exact congrArg ε (Fin.ext rfl)
 
 theorem isFullNode_image_labelStar_iff (ε : Fin f → Finset (Fin n)) (s : Fin (n / 2)) :
@@ -181,7 +181,7 @@ private theorem sum_digit_eq {f n : ℕ} (ε : Fin f → Finset (Fin n)) (p : Fi
       = ∑ j : Fin n, ∑ r : Fin f, (if p j ∧ j ∈ ε r then 2 ^ (r : ℕ) else 0) := by
     refine Finset.sum_congr rfl fun j _ => ?_
     by_cases hp : p j
-    · simp only [hp, if_true, bDigit]
+    · simp only [hp, ite_true, bDigit]
       refine Finset.sum_congr rfl fun r _ => ?_
       by_cases hj : j ∈ ε r <;> simp [hj]
     · simp [hp]
@@ -217,8 +217,8 @@ private theorem bDigit_image {f n : ℕ} (ε : Fin f → Finset (Fin n)) (j : Fi
   rw [bDigit, bDigit]
   refine Finset.sum_congr rfl fun r _ => ?_
   by_cases h : labelStar j ∈ ε r
-  · rw [if_pos ((mem_image_labelStar_iff).mpr h), if_pos h]
-  · rw [if_neg (fun hh => h ((mem_image_labelStar_iff).mp hh)), if_neg h]
+  · rw [ite_eq_left ((mem_image_labelStar_iff).mpr h), ite_eq_left h]
+  · rw [ite_eq_right (fun hh => h ((mem_image_labelStar_iff).mp hh)), ite_eq_right h]
 
 private theorem bExp_image_add {f n : ℕ} (ε : Fin f → Finset (Fin n)) (a : Fin n) :
     bExp (fun r => (ε r).image labelStar) a + bExp ε (Fin.rev a) = expZero ε := by
@@ -275,10 +275,10 @@ private theorem bDigit_rotEps {m n : ℕ} (hf : 0 < m + 1)
     simp only [Fin.val_castSucc, Fin.val_last]
   rw [bDigit, bDigit, h0, h1]
   by_cases hL : j ∈ ε (Fin.last m)
-  · simp only [hL, if_true]
+  · simp only [hL, ite_true]
     rw [pow_succ]
     ring
-  · simp only [hL, if_false]
+  · simp only [hL, ite_false]
     ring
 
 private def rotD {m n : ℕ} (ε : Fin (m + 1) → Finset (Fin n)) (a : Fin n) : ℕ :=
@@ -366,7 +366,7 @@ private theorem bExp_rotEps {m n : ℕ} (hf : 0 < m + 1)
   refine Finset.sum_congr rfl fun j _ => ?_
   by_cases h : a < j
   · have := bDigit_rotEps hf ε j
-    simp only [h, if_true] at this ⊢
+    simp only [h, ite_true] at this ⊢
     exact this
   · simp [h]
 
@@ -569,7 +569,7 @@ private theorem eq_top_of_add_mul_eq {q a b : ℕ} (hq : 1 < q)
 
 private theorem eq_zero_of_add_mul_eq {q a b : ℕ} (hq : 0 < q)
     (h : a + q * b = 0) : a = 0 ∧ b = 0 := by
-  obtain ⟨ha, hb⟩ := Nat.add_eq_zero.mp h
+  obtain ⟨ha, hb⟩ := _root_.Nat.add_eq_zero_iff.mp h
   refine ⟨ha, ?_⟩
   rcases Nat.mul_eq_zero.mp (by rwa [ha, Nat.zero_add] at h) with hq0 | hb0
   · omega
@@ -697,9 +697,9 @@ theorem eq_of_chiEps_eq (hF : Nat.card F = (2 ^ f) ^ 2) (hn : 0 < n) (φ₀ : F 
       obtain ⟨x, hxH, hxmat⟩ := exists_mem_levelTorus_tFun_even hF s hlt hneven hcfix hσcfix
       have hχx := hχ x (Subgroup.mem_iSup_of_mem s hxH)
       have h1 : chiEps φ₀ ε x = φ₀ cfix ^ e := by
-        rw [chiEps_of_tFun φ₀ ε s hcfix hxmat, if_pos hPeq, mul_one, hloeq]
+        rw [chiEps_of_tFun φ₀ ε s hcfix hxmat, ite_eq_left hPeq, mul_one, hloeq]
       have h2 : chiEps φ₀ ε' x = φ₀ cfix ^ e' := by
-        rw [chiEps_of_tFun φ₀ ε' s hcfix hxmat, if_pos hPeq, mul_one, hloeq]
+        rw [chiEps_of_tFun φ₀ ε' s hcfix hxmat, ite_eq_left hPeq, mul_one, hloeq]
       rw [h1, h2] at hχx
       have hφ : φ₀ (cfix ^ e) = φ₀ (cfix ^ e') := by simpa [map_pow] using hχx
       have hpow : cfix ^ e = cfix ^ e' := RingHom.injective φ₀ hφ
@@ -754,10 +754,10 @@ theorem eq_of_chiEps_eq (hF : Nat.card F = (2 ^ f) ^ 2) (hn : 0 < n) (φ₀ : F 
       have hσgen : φ₀ (unitaryInvolution F 2 f cgen) = φ₀ cgen ^ q := by
         rw [unitaryInvolution_apply, map_pow]
       have h1 : chiEps φ₀ ε x = φ₀ cgen ^ e := by
-        rw [chiEps_of_tFun φ₀ ε s hcgen hxmat, if_neg hnotEven, hloeq, hhieq, hσgen,
+        rw [chiEps_of_tFun φ₀ ε s hcgen hxmat, ite_eq_right hnotEven, hloeq, hhieq, hσgen,
           ← pow_mul, ← pow_add]
       have h2 : chiEps φ₀ ε' x = φ₀ cgen ^ e' := by
-        rw [chiEps_of_tFun φ₀ ε' s hcgen hxmat, if_neg hnotEven, hloeq, hhieq, hσgen,
+        rw [chiEps_of_tFun φ₀ ε' s hcgen hxmat, ite_eq_right hnotEven, hloeq, hhieq, hσgen,
           ← pow_mul, ← pow_add]
       rw [h1, h2] at hχx
       have hφ : φ₀ (cgen ^ e) = φ₀ (cgen ^ e') := by simpa [map_pow] using hχx
@@ -843,17 +843,17 @@ private theorem mkWord_apply_lt {f n : ℕ} (hf : 0 < f) (ε : Fin f → Finset 
     {i : ZMod (2 * f)} (h : i.val < f) :
     mkWord hf ε i = ε ⟨i.val, h⟩ := by
   dsimp [mkWord]
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 private theorem rotEps_eq_zero {f n : ℕ} (hf : 0 < f) (ε : Fin f → Finset (Fin n))
     (r : Fin f) (hr : (r : ℕ) = 0) :
     rotEps hf ε r = (ε ⟨f - 1, by omega⟩).image labelStar := by
-  rw [rotEps, dif_pos hr]
+  rw [rotEps, dite_eq_left hr]
 
 private theorem rotEps_ne_zero {f n : ℕ} (hf : 0 < f) (ε : Fin f → Finset (Fin n))
     (r : Fin f) (hr : (r : ℕ) ≠ 0) :
     rotEps hf ε r = ε ⟨(r : ℕ) - 1, by have := r.isLt; omega⟩ := by
-  rw [rotEps, dif_neg hr]
+  rw [rotEps, dite_eq_right hr]
 
 private theorem mkWord_apply_ge {f n : ℕ} (hf : 0 < f) (ε : Fin f → Finset (Fin n))
     {i : ZMod (2 * f)} (h : ¬ i.val < f) :
@@ -863,7 +863,7 @@ private theorem mkWord_apply_ge {f n : ℕ} (hf : 0 < f) (ε : Fin f → Finset 
         have := ZMod.val_lt i
         omega⟩).image labelStar := by
   dsimp [mkWord]
-  rw [dif_neg h]
+  rw [dite_eq_right h]
 
 private theorem mkWord_rotEps {f n : ℕ} (hf : 0 < f) (ε : Fin f → Finset (Fin n))
     (i : ZMod (2 * f)) :

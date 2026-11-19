@@ -26,7 +26,7 @@ theorem f112sa_twist_right {L1 L2 S : Subgroup H}
   have hSP1 : S ≤ f112P1 L1 L2 S :=
     (le_sup_right : S ≤ bigB L1 L2 S).trans (le_sup_right : bigB L1 L2 S ≤ f112P1 L1 L2 S)
   have hTL2 : S ⊓ f112saK L1 L2 S ≤ L2 := hT.T_eq.ge.trans inf_le_right
-  obtain ⟨d, hdL, hd3⟩ := f112sa_exists_orderThree_L1 (L2 := L2) (S := S) h1
+  obtain ⟨d, hdL, hd3⟩ := f112sa_exists_orderThree_L1 (_L2 := L2) (_S := S) h1
   have hdO : d ∈ oTwoPrime (f112saP1' L1 L2 S) := hT.L1_eq.le hdL
   have hdE : d ∈ f112saP1' L1 L2 S := oTwoPrime_le _ hdO
   have hfree : ∀ e ∈ pCoreOf 2 (f112saP1' L1 L2 S), e * d = d * e → e = 1 := by

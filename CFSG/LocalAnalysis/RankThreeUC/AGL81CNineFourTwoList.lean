@@ -42,7 +42,7 @@ private theorem nineFourListGroup_of_stronglyPEmbedded_three
     (hKs : IsSimpleGroup ↥K) (hcent : Subgroup.centralizer (K : Set X) = ⊥)
     (hN : CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 N) :
     CFSG.LocalAnalysis.RankThreeTheoremC.NineFourListGroup 3 ↥K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKnab : ∃ a b : ↥K, a * b ≠ b * a := by
     by_contra h
     simp only [not_exists, not_not] at h
@@ -79,7 +79,7 @@ theorem nineFourListGroup_kStar_of_not
     (hA : 7 ≤ p → ¬ CFSG.AGLEmbedding.IsAltTwoP p ↥(kStar p M H))
     (hF : p = 5 → ¬ CFSG.AGLEmbedding.IsFi22 ↥(kStar p M H)) :
     CFSG.LocalAnalysis.RankThreeTheoremC.NineFourListGroup p ↥(kStar p M H) := by
-  haveI : Fact p.Prime := ⟨s.prime⟩
+  have : Fact p.Prime := ⟨s.prime⟩
   obtain ⟨-, hkNormalSub, -, -, hKsimple, hKcent⟩ := nineFourTwo_structure s hp hL hΓ
   obtain ⟨hNstrong, hgenFit, -, h2, -⟩ := nineFourTwo_star s hp hL hΓ
   let X := H ⧸ primeComplementCore (G := H) p
@@ -91,7 +91,7 @@ theorem nineFourListGroup_kStar_of_not
   have hKnorm : K.Normal :=
     hkNormalSub.map (QuotientGroup.mk' (primeComplementCore (G := ↥H) p))
       (QuotientGroup.mk'_surjective _)
-  haveI : K.Normal := hKnorm
+  have : K.Normal := hKnorm
   have h2' : 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup X) := h2
   by_cases h3 : p = 3
   · subst p

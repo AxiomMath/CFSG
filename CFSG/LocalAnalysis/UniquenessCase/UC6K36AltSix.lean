@@ -56,7 +56,7 @@ theorem eq_three_of_sq_dvd {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ^ 2 �
     | rfl
     | exact absurd rfl hp2
     | (exfalso; revert hp; norm_num; done)
-    | (exfalso; revert h; norm_num; done)
+    | (exfalso; revert h; norm_num)
 
 theorem card_map_of_faithful {G H : Type*} [Group G] [Group H] (f : G →* H) {E : Subgroup G}
     (hf : ∀ e ∈ E, f e = 1 → e = 1) : Nat.card (E.map f) = Nat.card E := by
@@ -79,17 +79,17 @@ end Alt36
 
 namespace Hyp36
 
-open Alt36 Odd
+open Alt36 _root_.CFSG.LocalAnalysis.UniquenessCase.UCK.Odd
 
 variable {G : Type} [Group G] [Finite G] {M E : Subgroup G} {p : ℕ}
 
 theorem false_of_alt_six (h : Hyp36 G M p E) {L : Subgroup G} [L.Normal] (hL : CFSG.IsComponent L)
     (hne : ⁅L, pCoreOf 2 M⁆ ≠ ⊥) (φ : ↥L ⧸ center ↥L ≃* alternatingGroup (Fin 6)) : False := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLc : commutator ↥L = ⊤ := hL.1.1.commutator_eq_top
-  have hLM : ¬ L ≤ M := fun hLM => h.false_of_component_le hL hne hLM
+  have hLM : ¬ L ≤ M := fun hLM => CFSG.LocalAnalysis.UniquenessCase.UCK.Hyp36.false_of_component_le hL hne hLM
   set Ψ : G →* MulAut (alternatingGroup (Fin 6)) := psi L φ with hΨ
   have hcj := conj_injective (n := 6) (by norm_num)
   have hfaith : ∀ e ∈ E, Ψ e = 1 → e = 1 := by
@@ -104,7 +104,7 @@ theorem false_of_alt_six (h : Hyp36 G M p E) {L : Subgroup G} [L.Normal] (hL : C
     exists_conj_eq_six h.prime h.odd (Ψ e) (by rw [← map_pow, h.elem.2 e he, map_one])
   have hcommE : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := by
     intro a ha b hb
-    haveI := h.elem.1
+    have := h.elem.1
     exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥E) ⟨b, hb⟩)
   obtain ⟨e₀, he₀, he₀1, q₀, hq₀, hq₀e, y₀, hy₀, hy₀'⟩ := h.exists_centralizer_act_nontrivially hLc hne
   set ε := Ψ e₀ with hεdef
@@ -243,7 +243,7 @@ theorem false_of_alt_six (h : Hyp36 G M p E) {L : Subgroup G} [L.Normal] (hL : C
   obtain ⟨P, hEtP⟩ := hEt3.exists_le_sylow
   have hPEt : (P : Subgroup (alternatingGroup (Fin 6))) = Et := by
     refine (Subgroup.eq_of_le_of_card_ge hEtP ?_).symm
-    obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
     have hdvd := Subgroup.card_subgroup_dvd_card (P : Subgroup (alternatingGroup (Fin 6)))
     rw [hk, card_alt_six] at hdvd
     have hk2 : k ≤ 2 := by
@@ -259,7 +259,7 @@ theorem false_of_alt_six (h : Hyp36 G M p E) {L : Subgroup G} [L.Normal] (hL : C
     rw [hes] at h1
     apply hcj
     rw [← mul_conj_mul_inv, h1, mul_inv_cancel_right]
-  letI : Fintype (GaloisField 3 2) := Fintype.ofFinite _
+  let : Fintype (GaloisField 3 2) := Fintype.ofFinite _
   have h9 : Fintype.card (GaloisField 3 2) = 9 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 3 2 (by norm_num)]
     norm_num

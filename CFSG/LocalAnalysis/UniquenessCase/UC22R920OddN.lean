@@ -21,9 +21,9 @@ private theorem oddN_normalizer_ne_top_of_isPGroup (D : Data G) {Z : Subgroup G}
     (hr : r.Prime) (hZ : IsPGroup r Z) (hZ1 : Z ≠ ⊥) :
     Subgroup.normalizer (Z : Set G) ≠ ⊤ := by
   intro htop
-  haveI : IsSimpleGroup G := D.standing.simple
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI hnorm : Z.Normal := Subgroup.normalizer_eq_top_iff.1 htop
+  have : IsSimpleGroup G := D.standing.simple
+  have : Fact r.Prime := ⟨hr⟩
+  have hnorm : Z.Normal := Subgroup.normalizer_eq_top_iff.1 htop
   have hZtop : Z = ⊤ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Z with h | h
     · exact absurd h hZ1
@@ -31,8 +31,8 @@ private theorem oddN_normalizer_ne_top_of_isPGroup (D : Data G) {Z : Subgroup G}
   have hP : IsPGroup r G := by
     have hZ' : IsPGroup r ↥(⊤ : Subgroup G) := hZtop ▸ hZ
     exact IsPGroup.of_equiv hZ' Subgroup.topEquiv
-  haveI : Group.IsNilpotent G := hP.isNilpotent
-  haveI : IsMulCommutative G :=
+  have : Group.IsNilpotent G := hP.isNilpotent
+  have : IsMulCommutative G :=
     Group.IsNilpotent.nilpotencyClass_le_one_iff.mp
       (Group.nilpotencyClass_le_one_of_isSimple_of_isNilpotent (G := G))
   obtain ⟨x, y, hxy⟩ := D.standing.nonab
@@ -57,8 +57,8 @@ private theorem oddN_false_of_r847 (D : Data G) (h847 : F08.R847 D) (hsig : D.si
   · obtain ⟨n, hSU3, -⟩ := h2
     exact not_lieModel_psl2_of_isSU3 hSU3 hLp
   · obtain ⟨ℓ, f, -, -, -, -, -, -, A', hGrpA, hLieA, hnf⟩ := h3
-    letI : Group A' := hGrpA
-    letI : IsSimpleGroup A' :=
+    let : Group A' := hGrpA
+    let : IsSimpleGroup A' :=
       CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (t := .PSL) (by decide) hLieA
     exact not_nonempty_mulEquiv_fstar_of_ne D hL hK hLK
       (A := A') (B := Multiplicative (ZMod 3) × Multiplicative (ZMod 3))

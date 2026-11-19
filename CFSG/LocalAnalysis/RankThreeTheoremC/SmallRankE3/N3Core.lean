@@ -17,6 +17,7 @@ open CFSG.ClassicalInvolution.Q3.Sec13
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 theorem conj_mem_sup {S Zc : Subgroup Γ} (hZc : ∀ k ∈ Zc, ∀ g : Γ, g * k = k * g) {x : Γ}
     (hx : ∀ s ∈ S, x * s * x⁻¹ ∈ S ⊔ Zc) : ∀ h ∈ S ⊔ Zc, x * h * x⁻¹ ∈ S ⊔ Zc := by
   have hZn : Zc.Normal := ⟨fun n hn h => by rw [hZc n hn h, mul_inv_cancel_right]; exact hn⟩
@@ -31,6 +32,7 @@ theorem conj_mem_sup {S Zc : Subgroup Γ} (hZc : ∀ k ∈ Zc, ∀ g : Γ, g * k
   rw [e]
   exact (S ⊔ Zc).mul_mem (hx s hs) (Subgroup.mem_sup_right hk)
 
+omit [Finite Γ] in
 theorem mem_normalizer_sup {S Zc : Subgroup Γ} (hZc : ∀ k ∈ Zc, ∀ g : Γ, g * k = k * g) {x : Γ}
     (hx : ∀ s ∈ S, x * s * x⁻¹ ∈ S ⊔ Zc) (hx' : ∀ s ∈ S, x⁻¹ * s * x ∈ S ⊔ Zc) :
     x ∈ Subgroup.normalizer ((S ⊔ Zc : Subgroup Γ) : Set Γ) := by
@@ -43,6 +45,7 @@ theorem mem_normalizer_sup {S Zc : Subgroup Γ} (hZc : ∀ k ∈ Zc, ∀ g : Γ,
     have := conj_mem_sup hZc (x := x⁻¹) (by simpa using hx') _ hh
     simpa [mul_assoc] using this
 
+omit [Finite Γ] in
 theorem normalizes_of_commutator_eq {S P : Subgroup Γ} (hSP : ⁅S, P⁆ = S) {p : Γ} (hp : p ∈ P) :
     ∀ s ∈ S, p * s * p⁻¹ ∈ S := by
   intro s hs
@@ -52,6 +55,7 @@ theorem normalizes_of_commutator_eq {S P : Subgroup Γ} (hSP : ⁅S, P⁆ = S) {
   rw [e]
   exact S.mul_mem h1 hs
 
+omit [Finite Γ] in
 theorem mem_normalizer_of_commutator {Zc S P : Subgroup Γ}
     (hZc : ∀ k ∈ Zc, ∀ g : Γ, g * k = k * g) (hSP : ⁅S, P⁆ = S) {p : Γ} (hp : p ∈ P) :
     p ∈ Subgroup.normalizer ((S ⊔ Zc : Subgroup Γ) : Set Γ) :=
@@ -61,6 +65,7 @@ theorem mem_normalizer_of_commutator {Zc S P : Subgroup Γ}
       rw [inv_inv] at h
       exact Subgroup.mem_sup_left h)
 
+omit [Finite Γ] in
 theorem comm_sup_mem_Zc {S Zc : Subgroup Γ} {z : Γ} (hF : Q8D8Facts S z) (hz : z ∈ Zc)
     (hZc : ∀ k ∈ Zc, ∀ g : Γ, g * k = k * g) {t : Γ} (ht : t ∈ S ⊔ Zc) {s : Γ} (hs : s ∈ S) :
     t * s * t⁻¹ * s⁻¹ ∈ Zc := by

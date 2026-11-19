@@ -35,7 +35,7 @@ theorem cent_model {E Q : Subgroup H6} {v z : H6}
   obtain ⟨x, hx⟩ := Item812Res5.exists_map_conj_le_wreathW hW hEp
   set c : H6 →* H6 := (MulAut.conj x⁻¹).toMonoidHom with hc
   have hcinj : Function.Injective c := (MulAut.conj x⁻¹).injective
-  have hcxy : ∀ y, c y = x⁻¹ * y * x := fun y => by simp [hc, MulAut.conj_apply]
+  have hcxy : ∀ y, c y = x⁻¹ * y * x := fun y => by simp [hc]
   have hEA : E.map c = baseA zH :=
     eq_baseA_of_le_wreathW hf h81 hx (Item812Res5.isElemAbelian_map_hom c hE)
       (by rw [Subgroup.card_map_of_injective hcinj, hE27])

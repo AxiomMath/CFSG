@@ -179,7 +179,7 @@ theorem le_subP_or_le_subQ (H : Subgroup Γ) (hS : subP ⊓ subQ ≤ H) (hH : H 
   by_contra hcon
   rw [not_or] at hcon
   obtain ⟨hnP, hnQ⟩ := hcon
-  rw [SetLike.not_le_iff_exists] at hnP hnQ
+  rw [IsConcreteLE.not_le_iff_exists] at hnP hnQ
   obtain ⟨a, haH, haP⟩ := hnP
   obtain ⟨b, hbH, hbQ⟩ := hnQ
   have haQ : a ∈ subQ := (hsub a haH).resolve_left haP

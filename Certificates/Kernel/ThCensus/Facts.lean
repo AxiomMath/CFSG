@@ -58,6 +58,7 @@ variable {G : Type*} [Group G] [Finite G] {φ : G →* Matrix (Fin 248) (Fin 248
   (hφ : Function.Injective φ) {a b : G} (ha : φ a = pkMat (RB 1)) (hb : φ b = pkMat (RB 2))
 include hφ ha hb
 
+omit [Finite G] hφ in
 theorem regs_elem : ∀ r, 0 < r → r < nreg → ∃ u : G, φ u = pkMat (RB r) := by
   have hk := CFSG.KD.ThS.k0
   obtain ⟨hL1, hL⟩ := Dce.andB_iff.1 ch17305L
@@ -109,7 +110,7 @@ theorem census_facts {Z S U : G} (hZ : φ Z = pkMat (RB regZ)) (hS : φ S = pkMa
       ∀ x ∈ Q, orderOf x = 3 → ∃ k C : G,
         (C = Z ∨ C = Z ^ 2 ∨ C = S ∨ C = S ^ 2 ∨ C = U ∨ C = U ^ 2) ∧ k * C * k⁻¹ = x := by
   have hk := CFSG.KD.ThS.k0
-  have hreg := regs_elem hφ ha hb
+  have hreg := regs_elem ha hb
   obtain ⟨-, hL⟩ := Dce.andB_iff.1 ch17305L
   obtain ⟨-, hL⟩ := Dce.andB_iff.1 hL
   obtain ⟨hpr, hL⟩ := Dce.andB_iff.1 hL

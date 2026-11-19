@@ -31,12 +31,14 @@ variable (Sp : D.Split)
 
 @[expose] noncomputable def βV' : Sp.V' →ₗ[K] V := D.β0 ∘ₗ Sp.V'.subtype
 
+omit [CharP K 2] in
 theorem βV'_injective : Function.Injective Sp.βV' := by
   rw [injective_iff_map_eq_zero]
   intro v hv
   have h1 : (v : S.E) ∈ V := (D.β0_eq_zero_iff _).1 hv
   exact Subtype.ext ((Submodule.disjoint_def.1 Sp.hc.disjoint) v h1 v.2)
 
+omit [CharP K 2] in
 theorem finrank_V' : Module.finrank K Sp.V' = 4 := by
   have h := Submodule.finrank_add_eq_of_isCompl Sp.hc
   rw [D.dimV, D.dimE] at h
@@ -49,12 +51,15 @@ theorem finrank_V' : Module.finrank K Sp.V' = 4 := by
 
 @[expose] noncomputable def τ : V →ₗ[K] S.E := Sp.V'.subtype ∘ₗ Sp.eV.symm.toLinearMap
 
+omit [CharP K 2] in
 theorem β0_τ (w : V) : D.β0 (Sp.τ w) = w := by
   have h : Sp.eV (Sp.eV.symm w) = w := Sp.eV.apply_symm_apply w
   exact h
 
+omit [CharP K 2] in
 theorem τ_mem (w : V) : Sp.τ w ∈ Sp.V' := (Sp.eV.symm w).2
 
+omit [CharP K 2] in
 theorem τ_act (g : ↥Xg) (w : V) : Sp.τ (D.act g w) = (g : S.E ≃ₗ[K] S.E) (Sp.τ w) := by
   have h1 : Sp.τ (D.act g w) ∈ Sp.V' := Sp.τ_mem _
   have h2 : (g : S.E ≃ₗ[K] S.E) (Sp.τ w) ∈ Sp.V' := Sp.hinv g g.2 _ (Sp.τ_mem w)
@@ -63,6 +68,7 @@ theorem τ_act (g : ↥Xg) (w : V) : Sp.τ (D.act g w) = (g : S.E ≃ₗ[K] S.E)
     rw [Sp.β0_τ, D.β0_act, Sp.β0_τ]
   exact congrArg Subtype.val (Sp.βV'_injective h3)
 
+omit [CharP K 2] in
 theorem B_τ (w w' : V) : S.B (Sp.τ w) w' = D.pf w w' := by
   rw [← D.pf_β0, Sp.β0_τ]
 
@@ -70,18 +76,23 @@ theorem B_τ (w w' : V) : S.B (Sp.τ w) w' = D.pf w w' := by
   (LinearEquiv.prodCongr (LinearEquiv.refl K V) Sp.eV.symm).trans
     (Submodule.prodEquivOfIsCompl V Sp.V' Sp.hc)
 
+omit [CharP K 2] in
 theorem Θ_apply (v w : V) : Sp.Θ (v, w) = (v : S.E) + Sp.τ w := rfl
 
+omit [CharP K 2] in
 theorem act_Θ (g : ↥Xg) (v w : V) :
     (g : S.E ≃ₗ[K] S.E) (Sp.Θ (v, w)) = Sp.Θ (D.act g v, D.act g w) := by
   rw [Θ_apply, Θ_apply, map_add, D.act_coe, τ_act]
 
+omit [CharP K 2] in
 theorem β0_Θ (v w : V) : D.β0 (Sp.Θ (v, w)) = w := by
   rw [Θ_apply, map_add, (D.β0_eq_zero_iff _).2 v.2, zero_add, Sp.β0_τ]
 
+omit [CharP K 2] in
 theorem β_Θ (v w : V) : D.β (Sp.Θ (v, w)) = (w : S.E) := by
   rw [β_apply, Sp.β0_Θ]
 
+omit [CharP K 2] in
 theorem blocks (φ : S.E →ₗ[K] S.E)
     (hcomm : ∀ (x : ↥Xg) e, φ ((x : S.E ≃ₗ[K] S.E) e) = (x : S.E ≃ₗ[K] S.E) (φ e)) :
     ∃ a b c d : K, ∀ v w : V, φ (Sp.Θ (v, w)) = Sp.Θ (a • v + b • w, c • v + d • w) := by
@@ -115,12 +126,12 @@ theorem blocks (φ : S.E →ₗ[K] S.E)
     refine Prod.ext ?_ ?_
     · have e1 := ha v
       have e2 := hb w
-      simp only [LinearMap.comp_apply, LinearMap.inl_apply, LinearMap.inr_apply,
+      simp only [LinearMap.inl_apply, LinearMap.inr_apply,
         LinearMap.fst_apply] at e1 e2
       simp [e1, e2]
     · have e1 := hc v
       have e2 := hd w
-      simp only [LinearMap.comp_apply, LinearMap.inl_apply, LinearMap.inr_apply,
+      simp only [LinearMap.inl_apply, LinearMap.inr_apply,
         LinearMap.snd_apply] at e1 e2
       simp [e1, e2]
   rw [h1, h2]
@@ -130,15 +141,18 @@ theorem blocks (φ : S.E →ₗ[K] S.E)
 theorem Qf_Θ (v w : V) : S.Qf (Sp.Θ (v, w)) = Sp.ν w + D.pf w v := by
   rw [Θ_apply, S.Qf_add, D.ts _ v.2, ν, S.B_comm (v : S.E) (Sp.τ w), Sp.B_τ, zero_add]
 
+omit [CharP K 2] in
 theorem ν_smul (c : K) (w : V) : Sp.ν (c • w) = c ^ 2 * Sp.ν w := by
   simp only [ν, map_smul]
   exact S.Qf_smul c _
 
+omit [CharP K 2] in
 theorem ν_add (w w' : V) :
     Sp.ν (w + w') = Sp.ν w + Sp.ν w' + S.B (Sp.τ w) (Sp.τ w') := by
   simp only [ν, map_add]
   exact S.Qf_add _ _
 
+omit [CharP K 2] in
 theorem ν_zero : Sp.ν 0 = 0 := by
   have := Sp.ν_smul 0 0
   simpa using this
@@ -162,6 +176,7 @@ theorem iso_identity {g : S.E ≃ₗ[K] S.E} (hgO : g ∈ S.O) {a b c d : K}
 
 end Split
 
+omit [CharP K 2] in
 theorem exists_pf_ne_zero : ∃ v w : V, D.pf v w ≠ 0 := by
   obtain ⟨v, hv, hne⟩ := D.exists_ne_zero
   by_contra h
@@ -194,7 +209,7 @@ theorem entries_of_nu_ne_zero {w₀ : V} (hw₀ : Sp.ν w₀ ≠ 0) {g : S.E ≃
   have h2' : (2 : K) = 0 := CharTwo.two_eq_zero
   have hc : c = 0 := by
     have h := Sp.iso_identity hgO hg w₀ 0
-    simp only [Sp.ν_zero, map_zero, LinearMap.zero_apply, mul_zero, add_zero, zero_add] at h
+    simp only [Sp.ν_zero, map_zero, mul_zero, add_zero] at h
     have h3 : c ^ 2 * Sp.ν w₀ = 0 := by simpa using h
     exact pow_eq_zero_iff (two_ne_zero) |>.mp ((mul_eq_zero.mp h3).resolve_right hw₀)
   have hd : d = 1 := by
@@ -226,9 +241,11 @@ theorem cent_of_nu_ne_zero {w₀ : V} (hw₀ : Sp.ν w₀ ≠ 0) {g : S.E ≃ₗ
   LinearMap.prod (M 0 0 • LinearMap.fst K W W + M 0 1 • LinearMap.snd K W W)
     (M 1 0 • LinearMap.fst K W W + M 1 1 • LinearMap.snd K W W)
 
+omit [CharP K 2] in
 theorem blockMap_apply {W : Type} [AddCommGroup W] [Module K W] (M : Matrix (Fin 2) (Fin 2) K)
     (v w : W) : blockMap W M (v, w) = (M 0 0 • v + M 0 1 • w, M 1 0 • v + M 1 1 • w) := rfl
 
+omit [CharP K 2] in
 theorem blockMap_mul (W : Type) [AddCommGroup W] [Module K W] (M N : Matrix (Fin 2) (Fin 2) K) :
     blockMap W (M * N) = blockMap W M * blockMap W N := by
   refine LinearMap.ext fun p => ?_
@@ -240,6 +257,7 @@ theorem blockMap_mul (W : Type) [AddCommGroup W] [Module K W] (M N : Matrix (Fin
   · simp only [Matrix.mul_apply, Fin.sum_univ_two, smul_add, smul_smul, add_smul]
     abel
 
+omit [CharP K 2] in
 theorem blockMap_one (W : Type) [AddCommGroup W] [Module K W] :
     blockMap W (1 : Matrix (Fin 2) (Fin 2) K) = 1 := by
   refine LinearMap.ext fun p => ?_
@@ -257,11 +275,13 @@ theorem blockMap_one (W : Type) [AddCommGroup W] [Module K W] :
     ext e
     simp [Module.End.mul_apply]
 
+omit [CharP K 2] in
 theorem φMhom_Θ (M : Matrix (Fin 2) (Fin 2) K) (v w : V) :
     Sp.φMhom M (Sp.Θ (v, w)) = Sp.Θ (M 0 0 • v + M 0 1 • w, M 1 0 • v + M 1 1 • w) := by
   change Sp.Θ (blockMap V M (Sp.Θ.symm (Sp.Θ (v, w)))) = _
   rw [LinearEquiv.symm_apply_apply, blockMap_apply]
 
+omit [CharP K 2] in
 theorem φMhom_comm (M : Matrix (Fin 2) (Fin 2) K) (x : ↥Xg) (e : S.E) :
     (x : S.E ≃ₗ[K] S.E) (Sp.φMhom M e) = Sp.φMhom M ((x : S.E ≃ₗ[K] S.E) e) := by
   obtain ⟨⟨v, w⟩, rfl⟩ := Sp.Θ.surjective e
@@ -370,22 +390,20 @@ theorem split_cent (Sp : D.Split) :
 end Split
 
 @[expose] noncomputable def unip (D : LCData S V Xg) (c : K) : S.E ≃ₗ[K] S.E :=
-  LinearEquiv.ofLinear (LinearMap.id + c • D.β) (LinearMap.id + c • D.β)
+  LinearEquiv.ofLinearMap (LinearMap.id + c • D.β) (LinearMap.id + c • D.β)
     (by
       ext e
       have h2 : ∀ x : S.E, x + x = 0 := fun x => by rw [← two_smul K x, CharTwo.two_eq_zero,
         zero_smul]
       simp only [LinearMap.comp_apply, LinearMap.add_apply, LinearMap.id_apply,
-        LinearMap.smul_apply, map_add, map_smul, D.β_β, smul_zero, add_zero, LinearMap.id_coe,
-        id_eq]
+        LinearMap.smul_apply, map_add, map_smul, D.β_β, smul_zero, add_zero]
       rw [add_assoc, h2, add_zero])
     (by
       ext e
       have h2 : ∀ x : S.E, x + x = 0 := fun x => by rw [← two_smul K x, CharTwo.two_eq_zero,
         zero_smul]
       simp only [LinearMap.comp_apply, LinearMap.add_apply, LinearMap.id_apply,
-        LinearMap.smul_apply, map_add, map_smul, D.β_β, smul_zero, add_zero, LinearMap.id_coe,
-        id_eq]
+        LinearMap.smul_apply, map_add, map_smul, D.β_β, smul_zero, add_zero]
       rw [add_assoc, h2, add_zero])
 
 theorem unip_apply (D : LCData S V Xg) (c : K) (e : S.E) : D.unip c e = e + c • D.β e := rfl

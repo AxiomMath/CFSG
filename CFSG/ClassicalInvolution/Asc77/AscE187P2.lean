@@ -289,6 +289,7 @@ theorem E187C.goodFour_of_fixed_gen (htw : ∀ {K K' : Subgroup G} {z : G} {W : 
   exact E187C.goodFour_core_gen htw hle2 hR2 hK hK'Ω hKK' hz hz' htz huK huR hu4 hu'K hu'R hu'4 htd
       hzcent h2
 
+omit [Finite G] in
 theorem E187C.goodFour_coreW_gen (htw : ∀ {K K' : Subgroup G} {z : G} {W : Subgroup G} {u u' : G}, IsPGroup 2 W → K ∈ Ω →
       K' ∈ Ω → K ≠ K' → IsUniqueInvolution K z → IsUniqueInvolution K' z → u ∈ K → u ∈ W →
       u' ∈ K' → u' ∈ W → u * u' = u' * u)
@@ -369,6 +370,7 @@ theorem E187C.goodFour_coreW_gen (htw : ∀ {K K' : Subgroup G} {z : G} {W : Sub
   · exact h2 (z * d) ((R₁ ⊔ R₂).mul_mem hzR hdR) (W.mul_mem hzW' hdW) hzdne hzdsq
 
 
+omit [Finite G] in
 theorem E187C.goodFour_of_swapW_gen (hc : ConjInvariant Ω)
     (htw : ∀ {K K' : Subgroup G} {z : G} {W : Subgroup G} {u u' : G}, IsPGroup 2 W → K ∈ Ω →
       K' ∈ Ω → K ≠ K' → IsUniqueInvolution K z → IsUniqueInvolution K' z → u ∈ K → u ∈ W →

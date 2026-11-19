@@ -21,7 +21,7 @@ theorem card_le
     (hF : Nat.card (sylowFixedPoints X P s S) = 7) : Nat.card S ≤ 65536 := by
   classical
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 2 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 2 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hQcard : Nat.card Q = Nat.card S :=
     Subgroup.card_map_of_injective (fixingSubgroup P s).subtype_injective
   have hAlt := Degree67TwoEntrance.alternating_image P hcard h5 s hs S

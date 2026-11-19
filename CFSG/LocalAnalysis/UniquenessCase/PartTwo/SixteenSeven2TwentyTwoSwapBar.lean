@@ -20,12 +20,14 @@ variable {G : Type} [Group G] [Finite G]
       (Subgroup.inclusion (fun _ hm => s16c167_mem_stabTil_bot (hM hm)))).codRestrict
     _ (fun m => actTil_mem_barSub ⊥ V hV m.2 (s16c167_mem_stabTil_bot (hM m.2)))
 
+omit [Finite G] in
 theorem s16c167_barHom_apply {M V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (m : ↥M) :
     (s16c167_barHom hV hM m : MulAut (Vtil ⊥ V hV)) =
       actTil ⊥ V hV ⟨(m : G), s16c167_mem_stabTil_bot (hM m.2)⟩ :=
   rfl
 
+omit [Finite G] in
 theorem s16c167_twenty_two_family {M V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) {F : Fin 3 → Subgroup (Vtil ⊥ V hV)}
     {π : ↥(Mbar M ⊥ V hV) →* Equiv.Perm (Fin 3)}
@@ -56,6 +58,7 @@ theorem s16c167_twenty_two_family {M V : Subgroup G} (hV : IsElemAbelian 2 V)
     rw [← s15_Infra_preTil_map_actTil ⊥ V hV hminv, ← hact, hinv]
     rfl
 
+omit [Finite G] in
 theorem s16c167_twenty_two_centralizer {M V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) {π : ↥(Mbar M ⊥ V hV) →* Equiv.Perm (Fin 3)}
     (hcomm : ∀ x : ↥(Mbar M ⊥ V hV), (∃ k : ℕ, x ^ (2 ^ k) = 1) →
@@ -77,6 +80,7 @@ theorem s16c167_twenty_two_centralizer {M V : Subgroup G} (hV : IsElemAbelian 2 
     intro y hy
     exact (h y hy).symm
 
+omit [Finite G] in
 theorem s16c167_twenty_two_nontrivial {M V A : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (hAM : A ≤ M) (hAel : IsElemAbelian 2 A)
     {π : ↥(Mbar M ⊥ V hV) →* Equiv.Perm (Fin 3)}

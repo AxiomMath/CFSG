@@ -18,6 +18,7 @@ section Steps
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {K : Type} [Field K] [CharP K 2]
   [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [Finite G] [Finite K] in
 theorem sixH_U_comm_Tplus (h1 : H1Concl φ t i) :
     ∀ u ∈ U φ i, ∀ g ∈ Tplus φ t i, g * u = u * g := by
   intro u hu g hg
@@ -152,6 +153,7 @@ theorem sixH_h14_Kc_decomp (h : FullCenter.FCHyp L K n φ t) (k : Axis) {x : G}
     (pull_mono φ (FullCenter.rootU_le_center (K := K) k.swap) hu)
   exact ⟨a * u, (A φ k).mul_mem ha (hUsA hu), w, hw, by rw [hcomm, mul_assoc]⟩
 
+omit [Finite G] in
 theorem sixH_h14_conj_comm {g p q : G} (hgg : g * g = 1)
     (h : (g⁻¹ * p * g) * q = q * (g⁻¹ * p * g)) :
     p * (g⁻¹ * q * g) = (g⁻¹ * q * g) * p := by
@@ -186,7 +188,7 @@ theorem sixH_h14_v_one (hS : SCSetting L K n φ t i) (hM2 : ∀ x ∈ Mc φ t i,
   have hw₁M : w₁ ∈ Mc φ t i :=
     NextCores.F_le_M hS.fc i hS.ne_bot hS.eq_bot (FullCenterTorus.W_le_F i.swap hw₁)
   have hyM : (w φ i)⁻¹ * w₁ * w φ i ∈ Mhat φ t i i :=
-    mem_sup_right (Subgroup.mem_map.mpr ⟨w₁, hw₁M, by simp [MulAut.conj_apply]⟩)
+    mem_sup_right (Subgroup.mem_map.mpr ⟨w₁, hw₁M, by simp⟩)
   have hw'V : w' ∈ Vtor φ t i i := RootStandard.W_le_V hS.fc i hS.ne_bot hS.eq_bot i hw'
   have hE : (w φ i)⁻¹ * w' * w φ i ∈ Vtor φ t i i := h2b.1 w' hw'V
   have hEc : ((w φ i)⁻¹ * w' * w φ i) * w₁ = w₁ * ((w φ i)⁻¹ * w' * w φ i) :=
@@ -314,7 +316,7 @@ theorem sixH_h15 (hS : SCSetting L K n φ t i) (hM2 : ∀ x ∈ Mc φ t i, x * x
         (sixH_U_comm_Tplus h1 u hu (g : G) (hDT g.2)), rfl⟩
 
 theorem sixH_h16_quot_elem {Γ : Type} [Group Γ] {P N H : Subgroup Γ} [(N.subgroupOf P).Normal]
-    (hHP : H ≤ P) (hcomm : ∀ a ∈ H, ∀ b ∈ H, a⁻¹ * b⁻¹ * a * b ∈ N) (hsq : ∀ a ∈ H, a * a ∈ N) :
+    (_hHP : H ≤ P) (hcomm : ∀ a ∈ H, ∀ b ∈ H, a⁻¹ * b⁻¹ * a * b ∈ N) (hsq : ∀ a ∈ H, a * a ∈ N) :
     IsElementaryAbelian 2 ((H.subgroupOf P).map (QuotientGroup.mk' (N.subgroupOf P))) := by
   have hmem : ∀ a : ↥((H.subgroupOf P).map (QuotientGroup.mk' (N.subgroupOf P))),
       ∃ h : ↥P, (h : Γ) ∈ H ∧
@@ -345,9 +347,9 @@ theorem sixH_h16_cover {Γ : Type} [Group Γ] [Finite Γ] {P N B₁ B₂ H : Sub
     [(N.subgroupOf P).Normal] (hmax : SixG.MNMaximal P B₁ B₂ P N) (hNB₁ : N ≤ B₁)
     (hNB₂ : N ≤ B₂) (hHP : H ≤ P) (hcomm : ∀ a ∈ H, ∀ b ∈ H, a⁻¹ * b⁻¹ * a * b ∈ N)
     (hsq : ∀ a ∈ H, a * a ∈ N) : H ≤ B₁ ∨ H ≤ B₂ := by
-  haveI : IsElementaryAbelian 2 ((H.subgroupOf P).map (QuotientGroup.mk' (N.subgroupOf P))) :=
+  have : IsElementaryAbelian 2 ((H.subgroupOf P).map (QuotientGroup.mk' (N.subgroupOf P))) :=
     sixH_h16_quot_elem hHP hcomm hsq
-  haveI : Finite (↥P ⧸ N.subgroupOf P) :=
+  have : Finite (↥P ⧸ N.subgroupOf P) :=
     Finite.of_surjective (QuotientGroup.mk : ↥P → _) QuotientGroup.mk_surjective
   have hle : (H.subgroupOf P).map (QuotientGroup.mk' (N.subgroupOf P)) ≤
       (P.subgroupOf P).map (QuotientGroup.mk' (N.subgroupOf P)) :=
@@ -374,7 +376,7 @@ theorem sixH_h16_uniq (hS : SCSetting L K n φ t i) (hM2 : ∀ x ∈ Mc φ t i, 
     (h13 : H13Concl φ t i) {g : G} (hgT : g ∈ Tplus φ t i)
     (hgD : g ∈ normalizer (Dstar φ t i : Set G)) : g ∈ normalizer (Mhat φ t i i : Set G) := by
   obtain ⟨hNU, hmax⟩ := h13
-  haveI := hNU
+  have := hNU
   have hUc := sixH_U_comm_Tplus h1
   have hUM : U φ i ≤ Mc φ t i := sixH_h13_U_le_Mc hS hM2
   have hMM : Mc φ t i ≤ Mhat φ t i i := le_sup_left
@@ -465,6 +467,7 @@ theorem sixH_h16_uniq (hS : SCSetting L K n φ t i) (hM2 : ∀ x ∈ Mc φ t i, 
   have := key g⁻¹ (inv_mem hgT) (inv_mem hgD) q hq
   simpa using this
 
+omit [Finite G] [Finite K] in
 theorem sixH_h16_Tplus_normalizes_S (h8 : H8Concl φ t i) :
     Tplus φ t i ≤ normalizer (S φ t i : Set G) :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer (by rw [← h8.2.2.2.1]; exact le_sup_left)).mp
@@ -483,15 +486,18 @@ theorem sixH_h16_Tbar_normalizes_D (hS : SCSetting L K n φ t i) (h8 : H8Concl �
     mem_inf.mpr ⟨(Subgroup.mem_normalizer_iff.mp hT q).mp (mem_inf.mp hq).1,
       (Subgroup.mem_normalizer_iff.mp hSn q).mp (mem_inf.mp hq).2⟩
 
+omit [Finite G] in
 theorem sixH_h16_zpowers_two (ht : t * t = 1) {a : G} (ha : a ∈ zpowers t) : a = 1 ∨ a = t := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha
   exact RootAxisTwoCore.zpow_eq_one_or_eq ht k
 
+omit [Finite G] [Finite K] in
 theorem sixH_h16_Mhat_le_S (k : Axis) : Mhat φ t i k ≤ S φ t i := by
   cases k
   · exact le_sup_left
   · exact le_sup_right
 
+omit [Finite G] [Finite K] in
 theorem sixH_h16_Kstar_le_D (h4a : H4aConcl φ t i) : Kstar φ t ≤ Dstar φ t i := by
   refine sup_le ?_ ?_
   · rcases SingleComm.eq_or_eq_swap i Axis.one with rfl | h
@@ -627,6 +633,7 @@ theorem sixH_h16_Cstar_conj (hS : SCSetting L K n φ t i) (hM2 : ∀ x ∈ Mc φ
   (Subgroup.mem_normalizer_iff.mp
     (mem_inf.mp (SixG.Tplus_le_normalizers hS.fc i hS.ne_bot hS.eq_bot hM2 ha)).2 n).mp hn
 
+omit [Finite G] [Finite K] in
 theorem sixH_h16_M_conj (h9 : H9Concl φ t i) {a : G} (ha : a ∈ Tplus φ t i) {n : G}
     (hn : n ∈ Mc φ t i) : a * n * a⁻¹ ∈ Mc φ t i :=
   (Subgroup.mem_normalizer_iff.mp
@@ -899,6 +906,7 @@ section Assembly
 variable {G : Type} [Group G] [Finite G] [IsSimpleGroup G] {L : Subgroup G} {K : Type} [Field K]
   [CharP K 2] [Finite K] {n : ℕ} {φ : L ≃* antiSp K} {t : G} {i : Axis}
 
+omit [IsSimpleGroup G] in
 theorem sixH_of_steps (hS : SCSetting L K n φ t i) (hM2 : ∀ x ∈ Mc φ t i, x * x ∈ U φ i) :
     SixHConclusion φ t i := by
   have h1a := sixH_h1a_normalizer_A hS hM2

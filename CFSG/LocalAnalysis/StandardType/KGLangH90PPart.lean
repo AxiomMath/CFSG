@@ -77,7 +77,7 @@ theorem kgLangDatum_of_pow {p j : ℕ} (hp : p.Prime) (hj : ¬ p ∣ j) {K : Typ
       | zero => intro x; simp
       | succ n ih => intro x; rw [pow_succ, MulAut.mul_apply, ih, hst]
     exact hgen j' t
-  letI : CommGroup M := CommGroup.mk fun a b => Subtype.ext (hab a a.2 b b.2)
+  let : CommGroup M := CommGroup.mk fun a b => Subtype.ext (hab a a.2 b b.2)
   let βM : MulAut M :=
     { toFun t := ⟨α₀ (t : K), (hstα (t : K)).mpr t.2⟩
       invFun t := ⟨α₀⁻¹ (t : K), (hstα (α₀⁻¹ (t : K))).mp (by

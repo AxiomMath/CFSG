@@ -30,6 +30,7 @@ theorem centB_le (p : ℕ) (B L : Subgroup G) : centB p B L ≤ B := fun _ hb =>
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem card_B_eq (p : ℕ) (B L : Subgroup G) :
     Nat.card B = (B ⊓ Subgroup.normalizer (L : Set G)).relIndex B *
       (Nat.card (autBar p B L) * Nat.card (centB p B L)) := by

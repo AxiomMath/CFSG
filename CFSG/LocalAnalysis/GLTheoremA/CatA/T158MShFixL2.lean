@@ -32,8 +32,8 @@ theorem t158FixL2_holds_of_cube (hcube : L2cFieldCaseCube) : T158FixL2 := by
   have hxN : x ∈ Subgroup.normalizer (J : Set X) := hFG.elim (fun h => h.1) (fun h => h.1.1)
   have hap : IsPGroup 3 (Subgroup.zpowers x) := isPGroup_zpowers_of_pow_eq_one hx3
   obtain ⟨hm1, F, hFf, hFfin, hF, ⟨e⟩⟩ := l2c_isTypeL2_of_catalog (n := 3 * n) hcat
-  letI := hFf
-  letI := hFfin
+  let := hFf
+  let := hFfin
   have h4 : 4 ≤ Nat.card F := by
     rw [hF]
     calc 4 = 2 ^ 2 := by norm_num

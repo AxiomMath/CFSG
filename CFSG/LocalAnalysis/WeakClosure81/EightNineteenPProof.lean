@@ -26,18 +26,21 @@ private theorem wc819pp_cGrp_normal {V H T A L K : Subgroup G} {i : ℕ}
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCH).mp h.concl813.comp.1
   exact (Subgroup.normal_subgroupOf_iff_le_normalizer h.concl813.ge_C).mpr (hKH.trans hHnorm)
 
+omit [Finite G] in
 private theorem wc819pp_le_oTwoMod_self {N K : Subgroup G} (hNK : N ≤ K)
     (hN : (N.subgroupOf K).Normal) : N ≤ oTwoMod N K :=
   le_iSup₂ (f := fun W (_ : W ∈ {W : Subgroup G | N ≤ W ∧ W ≤ K ∧
     (W.subgroupOf K).Normal ∧ ∀ w ∈ W, ∃ k : ℕ, w ^ (2 ^ k) ∈ N}) => W) N
     ⟨le_rfl, hNK, hN, fun w hw => ⟨0, by simpa using hw⟩⟩
 
+omit [Finite G] in
 private theorem wc819pp_oTwoMod_le_self {N K : Subgroup G} : oTwoMod N K ≤ K :=
   iSup₂_le fun _ hW => hW.2.1
 
+omit [Finite G] in
 private theorem wc819pp_conjClosure_le_self {L H : Subgroup G} (hLH : L ≤ H) :
     conjClosure L H ≤ H :=
-  conjClosure_le fun a ha z hz => H.mul_mem (H.mul_mem ha (hLH hz)) (H.inv_mem ha)
+  conjClosure_le fun _a ha _z hz => H.mul_mem (H.mul_mem ha (hLH hz)) (H.inv_mem ha)
 
 private theorem wc819pp_sylow_two_sup {J T : Subgroup G} (hTJ : T ≤ normalizer (J : Set G))
     (hT : IsPGroup 2 ↥T) (hS : IsSylowIn 2 (T ⊓ J) J) : IsSylowIn 2 T (J ⊔ T) :=
@@ -46,7 +49,7 @@ private theorem wc819pp_sylow_two_sup {J T : Subgroup G} (hTJ : T ≤ normalizer
 private theorem wc819pp_frattini {J D Y : Subgroup G} (hJD : J ≤ D)
     (hDJ : D ≤ normalizer (J : Set G)) (hY : IsSylowIn 3 Y J) :
     D = J ⊔ (D ⊓ normalizer (Y : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJN : (J.subgroupOf D).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hJD).mpr hDJ
   refine le_antisymm (fun x hx => ?_) (sup_le hJD inf_le_left)
@@ -74,7 +77,7 @@ theorem isSylowIn_three_inf_normalizer {J K V Y : Subgroup G} (hY : IsSylowIn 3 
     (hKJ : K ⊓ normalizer (V : Set G) ≤ J) (hYK : Y ≤ normalizer (K : Set G))
     (hYV : Y ≤ normalizer (V : Set G)) :
     IsSylowIn 3 (Y ⊓ K) (K ⊓ normalizer (V : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hYK₀ : Y ≤ normalizer ((K ⊓ normalizer (V : Set G) : Subgroup G) : Set G) :=
     (le_inf hYK (hYV.trans (Subgroup.le_normalizer (H := normalizer (V : Set G))))).trans
       Subgroup.inf_normalizer_le_normalizer_inf
@@ -117,7 +120,7 @@ theorem Sit813.le_normalizer_conjClosure_inf (h : Sit813 V H T i A L K) :
 theorem Sit813.isSylowIn_two_inf_conjClosure (h : Sit813 V H T i A L K) :
     IsSylowIn 2 (T ⊓ (conjClosure L H ⊓ normalizer (V : Set G)))
       (conjClosure L H ⊓ normalizer (V : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hJH : conjClosure L H ≤ H := wc819pp_conjClosure_le_self h.concl813.comp.2.2.1
   have hJnorm : ((conjClosure L H).subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hJH).mpr (le_normalizer_conjClosure L H)
@@ -163,8 +166,8 @@ theorem Sit813.conjClosure_inf_le_normalizer (h5_11 : Asch5_11AS)
     conjClosure L H ⊓ normalizer (V : Set G) ≤ normalizer (K : Set G) := by
   obtain ⟨hK, L₀, hL₀⟩ := h.toPre.exists_data810 h5_11 h5_13
   obtain ⟨Q, hQgrp, hQfin, φ, hφ⟩ := exists_isBarMap h.concl813.comp.1
-  letI : Group Q := hQgrp
-  letI : Finite Q := hQfin
+  let : Group Q := hQgrp
+  let : Finite Q := hQfin
   have hcfg := h.toPre.cfg h5_11 h5_13 hK hL₀ hφ
   have hLB : IsComponentOf (barSub H φ L) ⊤ := Sit813.isComponentOf_barSub h hφ
   have hKL : barSub H φ K ≤ barSub H φ L :=

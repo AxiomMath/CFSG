@@ -13,7 +13,7 @@ theorem s16c167_elem_two_in_gl {n : ℕ} (X : Subgroup (GL (Fin n) (ZMod 7)))
     (hX : ∀ x ∈ X, x * x = 1) :
     Nat.card X ≤ 2 ^ n ∧ (Nat.card X = 2 ^ n → (-1 : GL (Fin n) (ZMod 7)) ∈ X) := by
   have h2 : (2 : ZMod 7) ≠ 0 := by decide
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hx2 : ∀ x : ↥X, x * x = 1 := fun x => Subtype.ext (hX _ x.2)
   have hcomm : ∀ x y : ↥X, x * y = y * x := by
     intro x y
@@ -21,7 +21,7 @@ theorem s16c167_elem_two_in_gl {n : ℕ} (X : Subgroup (GL (Fin n) (ZMod 7)))
     calc x * y = (x * y)⁻¹ := eq_inv_of_mul_eq_one_left hxy
       _ = y⁻¹ * x⁻¹ := mul_inv_rev x y
       _ = y * x := by rw [inv_eq_of_mul_eq_one_right (hx2 x), inv_eq_of_mul_eq_one_right (hx2 y)]
-  haveI : CFSG.IsElementaryAbelian 2 X :=
+  have : CFSG.IsElementaryAbelian 2 X :=
     { toIsMulCommutative := ⟨⟨hcomm⟩⟩
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.2 fun x => by
         rw [pow_two]
@@ -38,7 +38,7 @@ theorem s16c167_elem_two_in_gl {n : ℕ} (X : Subgroup (GL (Fin n) (ZMod 7)))
 theorem s16c167_elem_two_in_aut {T : Type} [Group T] (hT : IsElemAbelianOfRank 7 3 T)
     {X : Subgroup (MulAut T)} (hX : ∀ x ∈ X, x * x = 1) :
     Nat.card X ≤ 8 ∧ (Nat.card X = 8 → ∃ x ∈ X, ∀ t : T, x t = t⁻¹) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨e⟩ := hT
   let φ := CFSG.SectionRank.Ccomm.elemAutEquivGL (p := 7) e
   have hX' : ∀ y ∈ X.map φ.toMonoidHom, y * y = 1 := by

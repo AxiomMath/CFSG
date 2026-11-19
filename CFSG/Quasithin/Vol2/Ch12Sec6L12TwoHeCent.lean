@@ -109,7 +109,7 @@ theorem a6CentHe_holds :
   by_contra hlt
   replace hlt : 2 ^ 9 ≤ Nat.card ↥P := not_lt.1 hlt
   obtain ⟨-, hiso, huY, hu2, huc⟩ := hY
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hu1 : u ≠ 1 := by
     rintro rfl
     rw [orderOf_one] at hu2

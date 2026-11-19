@@ -80,8 +80,8 @@ theorem le_iSup_inf_centralizer {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {N : Sub
     (hfix : N ⊓ Subgroup.centralizer ({x} : Set G) ⊓ Subgroup.centralizer ({y} : Set G) = ⊥) :
     N ≤ (⨆ b : ZMod p, N ⊓ Subgroup.centralizer ({x * y ^ b.val} : Set G)) ⊔
       (N ⊓ Subgroup.centralizer ({y} : Set G)) := by
-  letI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  letI : IsElementaryAbelian 2 ↥N := isElemAbelian_iff_isElementaryAbelian.mp hN
+  let : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  let : IsElementaryAbelian 2 ↥N := isElemAbelian_iff_isElementaryAbelian.mp hN
   set σ : Module.End (ZMod 2) (Additive ↥N) := conjEnd N ⟨x, hxN⟩ with hσdef
   set τ : Module.End (ZMod 2) (Additive ↥N) := conjEnd N ⟨y, hyN⟩ with hτdef
   let T : Subgroup G := (⨆ b : ZMod p, N ⊓ Subgroup.centralizer ({x * y ^ b.val} : Set G)) ⊔
@@ -127,7 +127,7 @@ theorem le_iSup_inf_centralizer {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {N : Sub
     have h1 : (⟨x, hxN⟩ * ⟨y, hyN⟩ ^ b.val : ↥(Subgroup.normalizer (N : Set G))) =
         ⟨x * y ^ b.val, hmem b⟩ := by
       apply Subtype.ext
-      simp [Subgroup.coe_mul, Subgroup.coe_pow]
+      simp
     calc σ * τ ^ b.val = conjEnd N (⟨x, hxN⟩ * ⟨y, hyN⟩ ^ b.val) := by
           rw [hσdef, hτdef, ← map_pow, ← map_mul]
       _ = conjEnd N ⟨x * y ^ b.val, hmem b⟩ := by rw [h1]
@@ -166,14 +166,14 @@ theorem exists_card_eq_pow_of_inverting_involution {p : ℕ} [Fact p.Prime] (hp 
     (hgI : g ∈ Subgroup.normalizer (I : Set G)) (hvI : v ∈ Subgroup.normalizer (I : Set G))
     (hx : x ^ p = 1) (hz : z ^ p = 1) (hxz : x * z = z * x)
     (hgx : g * x * g⁻¹ = x * z) (hgz : g * z = z * g)
-    (hvx : v * x * v⁻¹ = x⁻¹) (hvz : v * z = z * v) (hv : v * v = 1)
+    (hvx : v * x * v⁻¹ = x⁻¹) (_hvz : v * z = z * v) (hv : v * v = 1)
     (hCz : I ⊓ Subgroup.centralizer ({z} : Set G) = ⊥)
     (hCx : I ⊓ Subgroup.centralizer ({x} : Set G) ≤ Subgroup.centralizer ({v} : Set G)) :
     ∃ k : ℕ, Nat.card ↥I = 2 ^ (p * k) ∧
       Nat.card ↥(I ⊓ Subgroup.centralizer ({v} : Set G)) = 2 ^ ((p + 1) * k / 2) ∧
       Nat.card ↥⁅I, Subgroup.zpowers v⁆ = 2 ^ ((p - 1) * k / 2) := by
-  letI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  letI : IsElementaryAbelian 2 ↥I := isElemAbelian_iff_isElementaryAbelian.mp hI
+  let : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  let : IsElementaryAbelian 2 ↥I := isElemAbelian_iff_isElementaryAbelian.mp hI
   set σ : Module.End (ZMod 2) (Additive ↥I) := conjEnd I ⟨x, hxI⟩ with hσdef
   set τ : Module.End (ZMod 2) (Additive ↥I) := conjEnd I ⟨z, hzI⟩ with hτdef
   set γ : Module.End (ZMod 2) (Additive ↥I) := conjEnd I ⟨g, hgI⟩ with hγdef

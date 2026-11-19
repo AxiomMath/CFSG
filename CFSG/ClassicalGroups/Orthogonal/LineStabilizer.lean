@@ -11,6 +11,7 @@ open QuadraticMap Matrix
 
 variable {K ι : Type*} [Field K] [Fintype ι] [DecidableEq ι] (Q : QuadraticForm K (ι → K))
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem polar_map_of_linearIsometry {ι' : Type*}
     {Q' : QuadraticForm K (ι' → K)} (φ : (ι → K) ≃ₗ[K] (ι' → K))
     (hφ : ∀ x, Q' (φ x) = Q x) (x y : ι → K) :

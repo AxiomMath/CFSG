@@ -214,7 +214,7 @@ theorem mem_of_comm_nonA2 (E : ElemMatrixIso Q' X) (hQ : (polarBilin Q').Nondege
   classical
   have hsec := SecHyp.of_isOppDecomp hd hP hI
   obtain ⟨Md, iM, iA, κ, hκ, hker⟩ := exists_sectionModule_ker hNφ hsec hN
-  haveI : Finite Md := hκ.finite
+  have : Finite Md := hκ.finite
   have hdec := isCompl_fixedSub_of_isOppDecomp hP hκ hd h₁ h₂
   obtain ⟨hy1, -, -⟩ := stroth_2_1_ii_omega_fixed_of_hom E φ hφ hQ hκ.two hker hu hu' huu' hL₁
     hL₂ hdec h4 (Subgroup.mem_subgroupOf.mpr hy) hn

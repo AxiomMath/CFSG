@@ -27,7 +27,7 @@ theorem noNormalCop_fixSub_graphType (hR : TrialityThreeRest) {K : Type} [Field 
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hpr, hn⟩ := FiniteField.card K (ringChar K)
   have hKc : Nat.card K = ringChar K ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
-  haveI : Fact (ringChar K).Prime := ⟨hpr⟩
+  have : Fact (ringChar K).Prime := ⟨hpr⟩
   have hℓ3 : ringChar K ≠ 3 := by
     intro h
     apply hK3

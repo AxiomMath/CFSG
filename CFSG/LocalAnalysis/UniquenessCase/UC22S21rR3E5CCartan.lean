@@ -15,11 +15,12 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22r3e5c_card_core_mul_card_barImage {X Y : Subgroup G} (hYX : Y ≤ X)
     (hQY : pCoreOf 2 X ≤ Y) :
     Nat.card (pCoreOf 2 X) * Nat.card (barImage X Y) = Nat.card Y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : ↥X →* Bar2 X := QuotientGroup.mk' (CFSG.pCore 2 ↥X)
   have hπker : π.ker = CFSG.pCore 2 ↥X := QuotientGroup.ker_mk' _
   have h := uc22r3e5c_card_ker_mul_card_map π (Y.subgroupOf X)

@@ -69,7 +69,7 @@ theorem markLabel_deg_aux {lab : LargeEvenLabel} {t : StatedLieTag} {f : ℕ}
   obtain ⟨tg, rk, m⟩ := lab
   subst h3
   subst h1
-  cases tg <;> simp_all [markTag, markChar, markDeg] <;> split_ifs at * <;> simp_all
+  cases tg <;> simp_all [markTag, markChar, markDeg]; split_ifs at * <;> simp_all
 
 theorem ggHasLabel_congr_aux {lab : LargeEvenLabel} {R R' : Type} [Group R] [Group R']
     (h : GGHasLabel lab R) (e : R ≃* R') : GGHasLabel lab R' := by
@@ -119,7 +119,7 @@ theorem ggSplitLie_markLabel
 
 theorem ggSplitLie_label
     {G : Type} [Group G] [Finite G] {p : ℕ} {L : Subgroup G}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hL : GGSplitLie p L) :
+    (_hp : p.Prime) (_hp2 : p ≠ 2) (hL : GGSplitLie p L) :
     ∃ lab : LargeEvenLabel, LargeEvenInLambda2 lab ∧
       GGHasLabel lab (L ⧸ Subgroup.center L) ∧ p ∣ 2 ^ lab.n - 1 := by
   obtain ⟨t, n, f, ψ, hadm, hker, hrange, ht, hpf⟩ := hL

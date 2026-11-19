@@ -158,7 +158,7 @@ private theorem g14_key (hn : 0 < n) (c : Fin n → (Fin n → F)) (hc : LinearI
   set M : Matrix (Fin n) (Fin n) F := Matrix.of fun i k => c k i with hM
   have hcol : (fun k => M.col k) = c := funext fun k => funext fun i => rfl
   have hc' : LinearIndependent F (fun k => M.col k) := by rw [hcol]; exact hc
-  have hunit : IsUnit M := Matrix.linearIndependent_cols_iff_isUnit.1 hc'
+  have hunit : IsUnit M := Matrix.linearIndependent_col_iff_isUnit.1 hc'
   have hdetu : IsUnit M.det := (Matrix.isUnit_iff_isUnit_det M).1 hunit
   have hd0 : M.det⁻¹ ≠ 0 := inv_ne_zero hdetu.ne_zero
   set i0 : Fin n := ⟨0, hn⟩ with hi0
@@ -176,7 +176,7 @@ private theorem g14_key (hn : 0 < n) (c : Fin n → (Fin n → F)) (hc : LinearI
     by_cases hik : i = k
     · subst hik
       simp [hD, Matrix.mulVec_diagonal]
-    · simp [hD, Matrix.mulVec_diagonal, Pi.single_apply, hik]
+    · simp [hD, Matrix.mulVec_diagonal, hik]
   refine ⟨⟨M * D, hdetD⟩, fun k => ?_⟩
   refine ⟨if k = i0 then M.det⁻¹ else 1, ?_, ?_⟩
   · split_ifs
@@ -222,9 +222,9 @@ private theorem g14_flag_basis {W : Fin (n + 1) → Submodule F (Fin n → F)} (
       have h1 := hfr k.castSucc
       have h2 := hfr k.succ
       rw [hEq] at h1
-      simp only [Fin.coe_castSucc, Fin.val_succ] at h1 h2
+      simp only [Fin.val_castSucc, Fin.val_succ] at h1 h2
       omega
-    exact SetLike.exists_of_lt hlt
+    exact _root_.IsConcreteLE.exists_of_lt hlt
   choose b hb1 hb2 using hex
   have hsplit : ∀ k : Fin n, W k.succ = W k.castSucc ⊔ Submodule.span F {b k} := by
     intro k
@@ -244,7 +244,7 @@ private theorem g14_flag_basis {W : Fin (n + 1) → Submodule F (Fin n → F)} (
     rw [hinf, finrank_bot, finrank_span_singleton hbz, add_zero] at hsum
     have hPfin := hfr k.castSucc
     have hQfin := hfr k.succ
-    simp only [Fin.coe_castSucc, Fin.val_succ] at hPfin hQfin
+    simp only [Fin.val_castSucc, Fin.val_succ] at hPfin hQfin
     have hle : W k.castSucc ⊔ Submodule.span F {b k} ≤ W k.succ :=
       sup_le (hmono (hcs k).le)
         (Submodule.span_le.2 (Set.singleton_subset_iff.2 (hb1 k)))
@@ -306,19 +306,15 @@ private theorem g14_swap [CharP F 2] {a b : Fin n} (hab : a ≠ b) :
       simp [hab, hab.symm]
       first
         | linear_combination (v a + v b) * h2
-        | linear_combination (v a) * h2
-        | linear_combination (v b) * h2
-        | (ring_nf; simp [h2])
     · by_cases hkb : k = b
       · rw [hkb, Equiv.swap_apply_right]
-        simp [hab, hab.symm, hka]
+        simp [hab.symm]
         first
           | linear_combination (v a + v b) * h2
           | linear_combination (v a) * h2
           | linear_combination (v b) * h2
-          | (ring_nf; simp [h2])
       · rw [Equiv.swap_apply_of_ne_of_ne hka hkb]
-        simp [hka, hkb, hab, hab.symm]
+        simp [hka, hkb]
   refine ⟨_, hP, fun x => ?_⟩
   funext j
   rw [hP]
@@ -379,7 +375,7 @@ private theorem g14_point_span {D : Submodule F (Fin n → F)} (hD : IsPoint D) 
 private theorem g14_coord_of_ne {i0 : Fin n} {d : Fin n → F} (hd0 : d ≠ 0)
     (hne : Submodule.span F {d} ≠ Vi F n i0) : ∃ k : Fin n, k ≠ i0 ∧ d k ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hne
   have hdi : d = d i0 • (Pi.single i0 (1 : F) : Fin n → F) := by
     funext k
@@ -412,7 +408,7 @@ private theorem g14_pt0 [CharP F 2] (hn : 2 ≤ n) (D : Submodule F (Fin n → F
     refine ⟨g * P, ?_, ?_⟩
     · apply g14_mem_setStab_Vi (c := 1)
       rw [mul_smul, hPe, Equiv.swap_apply_of_ne_of_ne hi01 hk0.symm, hg]
-      simp [Pi.single_apply, hk0]
+      simp [hk0]
     · show actSub (g * P) (Submodule.span F {(Pi.single (⟨1, by omega⟩ : Fin n) (1 : F) :
           Fin n → F)}) = D
       rw [g14_actSub_span, mul_smul, hPe, Equiv.swap_apply_left, hgk, hDd,
@@ -426,7 +422,7 @@ private theorem g14_pt0 [CharP F 2] (hn : 2 ≤ n) (D : Submodule F (Fin n → F
     refine ⟨g, ?_, ?_⟩
     · apply g14_mem_setStab_Vi (c := 1)
       rw [hg, one_smul]
-      simp [Pi.single_apply, hi01.symm]
+      simp [hi01.symm]
     · show actSub g (Submodule.span F {(Pi.single (⟨1, by omega⟩ : Fin n) (1 : F) :
           Fin n → F)}) = D
       rw [g14_actSub_span, hgi1, hDd,
@@ -452,7 +448,7 @@ private theorem g14_stab_pt [CharP F 2] (hn : 3 ≤ n) (D : Submodule F (Fin n �
   have hgi1 : ∀ v : Fin n → F, (g • v) ⟨1, by omega⟩ = v ⟨1, by omega⟩ := by
     intro v
     rw [hg]
-    simp [Pi.single_apply, hd1, hk1.symm]
+    simp [hd1, hk1.symm]
   have hmain : ∃ h : Matrix.SpecialLinearGroup (Fin n) F,
       h • (Pi.single (⟨0, by omega⟩ : Fin n) (1 : F) : Fin n → F) =
         Pi.single (⟨0, by omega⟩ : Fin n) (1 : F) ∧
@@ -461,13 +457,13 @@ private theorem g14_stab_pt [CharP F 2] (hn : 3 ≤ n) (D : Submodule F (Fin n �
     by_cases hk2 : k = ⟨2, by omega⟩
     · refine ⟨g, ?_, hgi1, ?_⟩
       · rw [hg]
-        simp [Pi.single_apply, hk0]
+        simp [hk0]
       · rw [hg]
         simp [hk2]
     · obtain ⟨P, hPv, hPe⟩ := g14_swap (F := F) (a := ⟨2, by omega⟩) (b := k) (Ne.symm hk2)
       refine ⟨g * P, ?_, ?_, ?_⟩
       · rw [mul_smul, hPe, Equiv.swap_apply_of_ne_of_ne hi02 hk0.symm, hg]
-        simp [Pi.single_apply, hk0]
+        simp [hk0]
       · intro v
         rw [mul_smul, hgi1, hPv, Equiv.swap_apply_of_ne_of_ne hi12 hk1.symm]
       · rw [mul_smul, hPe, Equiv.swap_apply_left, hg]
@@ -565,7 +561,7 @@ private theorem g14_hyperplane_ker {B : Submodule F (Fin n → F)} (hB : IsHyper
     intro c
     obtain ⟨x, hx⟩ : ∃ x, f x ≠ 0 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact hf0 (LinearMap.ext fun y => hcon y)
     exact ⟨(c * (f x)⁻¹) • x, by rw [map_smul, smul_eq_mul]; field_simp⟩
   have hrange : Module.finrank F (LinearMap.range f) = 1 := by
@@ -604,7 +600,7 @@ private theorem g14_flag_transport [CharP F 2] (hn : 2 ≤ n) {A B : Submodule F
     by_cases h1 : ell (Pi.single (⟨1, by omega⟩ : Fin n) (1 : F)) = 0
     · have hj : ∃ j : Fin n, ell (Pi.single j (1 : F)) ≠ 0 := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         apply hℓne
         apply LinearMap.pi_ext
         intro i x
@@ -618,7 +614,7 @@ private theorem g14_flag_transport [CharP F 2] (hn : 2 ≤ n) {A B : Submodule F
         by_cases hk : k = j
         · subst hk
           simp [Pi.single_apply, hi0.symm]
-        · simp [Pi.single_apply, hk, hi0.symm]
+        · simp [Pi.single_apply, hk]
       · have hTe1 : Matrix.SpecialLinearGroup.transvection hj1 (ell (Pi.single j (1 : F)))⁻¹ •
             (Pi.single (⟨1, by omega⟩ : Fin n) (1 : F) : Fin n → F) =
             Pi.single (⟨1, by omega⟩ : Fin n) (1 : F) +
@@ -627,7 +623,7 @@ private theorem g14_flag_transport [CharP F 2] (hn : 2 ≤ n) {A B : Submodule F
           rw [T_smul_apply]
           by_cases hk : k = j
           · subst hk
-            simp [Pi.single_apply, hj1]
+            simp [hj1]
           · simp [Pi.single_apply, hk]
         rw [hTe1, map_add, map_smul, h1, smul_eq_mul, zero_add, inv_mul_cancel₀ hj]
     · refine ⟨1, by rw [one_smul], ell (Pi.single (⟨1, by omega⟩ : Fin n) (1 : F)), h1, ?_⟩
@@ -660,7 +656,7 @@ private theorem g14_flag_transport [CharP F 2] (hn : 2 ≤ n) {A B : Submodule F
       simp only [hu]
       split_ifs <;> ring
     rw [hlin y, dotProduct]
-    simp only [hterm, Finset.sum_sub_distrib, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    simp only [hterm, Finset.sum_sub_distrib, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     ring
   have hdot0 : dotProduct u (-(c⁻¹) • (Pi.single (⟨1, by omega⟩ : Fin n) (1 : F) : Fin n → F)) = 0 := by
     simp [dotProduct_smul, dotProduct_single, hu1]
@@ -681,7 +677,7 @@ private theorem g14_flag_transport [CharP F 2] (hn : 2 ≤ n) {A B : Submodule F
       rw [hg, mul_smul, mul_smul]
       rfl
     rw [h1, hform, hM x]
-    simp [dotProduct_add, dotProduct_smul, hdot0, hu1, Pi.single_apply] <;> field_simp <;> ring
+    simp [dotProduct_add, dotProduct_smul, hu1]; field_simp; ring
   refine ⟨g, ?_, ?_⟩
   · show actSub g (Submodule.span F {(Pi.single (⟨0, by omega⟩ : Fin n) (1 : F) : Fin n → F)}) = A
     rw [g14_actSub_span, hgA]
@@ -939,7 +935,7 @@ private theorem g15_mem_conjSub {X : Subgroup (Matrix.SpecialLinearGroup (Fin 2)
   · rintro ⟨y, hy, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hy
   · intro hx
-    exact ⟨g * x * g⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, hx, by simp [mul_assoc]⟩
 
 private theorem g15_actSub_inv_actSub (g : Matrix.SpecialLinearGroup (Fin 2) F)
     (A : Submodule F (Fin 2 → F)) : actSub g⁻¹ (actSub g A) = A := by
@@ -1035,7 +1031,7 @@ private theorem g15_sylow_rootGroup [Finite F] [CharP F 2]
     ∃ A : Submodule F (Fin 2 → F), IsPoint A ∧ R = rootGroup A A := by
   have hRsyl : CFSG.QuasithinUnique.IsSylowTwoOf R ⊤ := by
     obtain ⟨P, rfl⟩ := hR
-    refine ⟨le_top, P.isPGroup', ?_⟩
+    refine ⟨le_top, P.isPGroup, ?_⟩
     rw [show ((P : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)).subgroupOf ⊤).index =
       (P : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)).index from
         Subgroup.relIndex_top_right _]
@@ -1586,7 +1582,7 @@ private theorem g15_sq_of_fix [CharP F 2] {x : Matrix.SpecialLinearGroup (Fin 2)
     exact this
   have hv : w 0 ≠ 0 ∨ w 1 ≠ 0 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     exact hw0 (funext fun i => by fin_cases i <;> simp [hc.1, hc.2])
   have htr := g15_aux_trace hdet h0 h1 hv
   apply Subtype.ext
@@ -1743,7 +1739,6 @@ private theorem g15_entries_decomp [CharP F 2] (y : Matrix.SpecialLinearGroup (F
         | linear_combination (-1 : F) * h2
         | linear_combination (-e) * hdet - (y.1 0 1) * he
             + (-(e * (1 + y.1 1 1 ^ 2 + 2 * y.1 1 1 + y.1 0 0))) * h2
-        | ring
   ·
     apply Subtype.ext
     ext i j
@@ -1753,17 +1748,15 @@ private theorem g15_entries_decomp [CharP F 2] (y : Matrix.SpecialLinearGroup (F
         | linear_combination (y.1 1 1 ^ 2 + 3 * y.1 1 1 + 2) * h2 + (y.1 1 1 + 1) ^ 2 * he
         | linear_combination ((1 + (y.1 1 1 + 1)) * (y.1 1 1 + 1) ^ 2 * e) * h2
         | linear_combination ((y.1 1 0) * (1 + (y.1 1 1 + 1))) * h2
-        | linear_combination h2
-        | ring
   ·
     refine ⟨fun v => ?_, fun v hv => ?_⟩
     · have hvec : t • v - v = (((y.1 1 0) * v 0 + (y.1 1 1 + 1) * v 1) * e) •
           (![y.1 1 1 + 1, y.1 1 0] : Fin 2 → F) := by
         funext i
         fin_cases i
-        · simp [CFSG.Quasithin.G1.smul_eq_mulVec', ht, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+        · simp [CFSG.Quasithin.G1.smul_eq_mulVec', ht, dotProduct, Fin.sum_univ_two]
           linear_combination (-(y.1 1 1 + 1) * v 0) * he
-        · simp [CFSG.Quasithin.G1.smul_eq_mulVec', ht, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+        · simp [CFSG.Quasithin.G1.smul_eq_mulVec', ht, dotProduct, Fin.sum_univ_two]
           linear_combination (-((y.1 1 0) * v 0 + (y.1 1 1 + 1) * v 1)) * he
       rw [hvec]
       exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _)
@@ -1811,7 +1804,7 @@ private theorem g15_lower_left_conj [CharP F 2] (x : Matrix.SpecialLinearGroup (
     · refine ⟨wmat F, ?_⟩
       have hw : (wmat F * x * (wmat F)⁻¹).1 1 0 = x.1 0 1 := by
         simp [wmat_inv, Matrix.SpecialLinearGroup.coe_mul, wmat_coe, Matrix.mul_apply,
-          Fin.sum_univ_two, h10, Matrix.vecMul, dotProduct]
+          Fin.sum_univ_two, Matrix.vecMul, dotProduct]
       rw [hw]
       exact h01
   · refine ⟨1, ?_⟩
@@ -2305,7 +2298,7 @@ private theorem g16_core [CharP F 2] [Finite F] {V : Type} [AddCommGroup V] [Fin
       (∀ (g : Matrix.SpecialLinearGroup (Fin 2) F) (v : V) (i : Fin s),
         f (g • v) i = g • f v i) ∧
       ∀ v : V, f v = 0 ↔ ∀ k : Matrix.SpecialLinearGroup (Fin 2) F, k • v = v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let mk : V →+ (V ⧸ fixU (U := V) (⊤ : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F))) :=
     QuotientAddGroup.mk' _
   have hsqQ : ∀ q : V ⧸ fixU (U := V) (⊤ : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)),
@@ -2354,7 +2347,7 @@ private theorem g16_core [CharP F 2] [Finite F] {V : Type} [AddCommGroup V] [Fin
         obtain ⟨a, ha, b, hb, hv⟩ := g16_decomp hsq hC hgen wmat_lower_left v
         exact ⟨mk a, AddSubgroup.mem_map.2 ⟨a, ha, rfl⟩, mk b,
           AddSubgroup.mem_map.2 ⟨b, hb, rfl⟩, by rw [hv]; exact map_add mk a (wmat F • b)⟩ }
-  haveI : Finite (V ⧸ fixU (U := V) (⊤ : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F))) :=
+  have : Finite (V ⧸ fixU (U := V) (⊤ : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F))) :=
     inferInstance
   obtain ⟨s, Θ, hΘ, -, -⟩ := exists_equiv_of_halves_core hsqQ hY
   have key : ∀ (g : Matrix.SpecialLinearGroup (Fin 2) F)
@@ -2384,7 +2377,7 @@ private theorem g16_core [CharP F 2] [Finite F] {V : Type} [AddCommGroup V] [Fin
     exact h0.trans ((QuotientAddGroup.eq_zero_iff v).trans
       ⟨fun h k => h k (Subgroup.mem_top k), fun h k _ => h k⟩)
 
-private def g16Tw (g : Matrix.SpecialLinearGroup (Fin 2) F) (V : Type) : Type := V
+private def g16Tw (_g : Matrix.SpecialLinearGroup (Fin 2) F) (V : Type) : Type := V
 
 private instance g16TwAddCommGroup (g : Matrix.SpecialLinearGroup (Fin 2) F) (V : Type)
     [AddCommGroup V] : AddCommGroup (g16Tw g V) :=
@@ -2421,10 +2414,10 @@ open CFSG.Quasithin.SL2Model
 
 theorem as_G_1_6 : G_1_6 := by
   intro F _ _ _ hF R hR U _ _ _ hsq hgen hC
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRsyl : CFSG.QuasithinUnique.IsSylowTwoOf R ⊤ := by
     obtain ⟨P, rfl⟩ := hR
-    refine ⟨le_top, P.isPGroup', ?_⟩
+    refine ⟨le_top, P.isPGroup, ?_⟩
     rw [show ((P : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)).subgroupOf ⊤).index =
       (P : Subgroup (Matrix.SpecialLinearGroup (Fin 2) F)).index from
         Subgroup.relIndex_top_right _]
@@ -2599,7 +2592,7 @@ private theorem asG11_iSupIndep_of_coord {F : Type} [Field F] {n s : ℕ} {U : T
     obtain ⟨a, rfl⟩ := (hmem j u).1 hu
     rw [AddMonoidHom.mem_ker]
     funext l
-    simp [P, Pi.single_apply, hj, Ne.symm hj]
+    simp [P, Ne.symm hj]
   refine eq_bot_iff.2 fun u hu => ?_
   obtain ⟨a, rfl⟩ := (hmem k u).1 (AddSubgroup.mem_inf.1 hu).1
   have h0 := hle (AddSubgroup.mem_inf.1 hu).2
@@ -2654,7 +2647,7 @@ private theorem asG12_transvection_mem_setStab {F : Type} [Field F] {n : ℕ} {i
   · intro hw k hk
     have hwj : w j = 0 := by
       have h := hw j hp
-      rw [T_smul_apply, if_neg hij.symm, add_zero] at h
+      rw [T_smul_apply, ite_eq_right hij.symm, add_zero] at h
       exact h
     have h := hw k hk
     simpa [T_smul_apply, hwj] using h
@@ -2670,7 +2663,7 @@ private theorem asG12_transvection_sq {F : Type} [Field F] [CharP F 2] {n : ℕ}
   · subst hm
     simp [T_smul_apply, Ne.symm hij]
     linear_combination (b * v j) * h2
-  · simp [T_smul_apply, hm, Ne.symm hij]
+  · simp [T_smul_apply, hm]
 
 private theorem asG12_smul_e {F : Type} [Field F] {n : ℕ} {p : Fin n}
     {g : Matrix.SpecialLinearGroup (Fin n) F} (hg : g ∈ setStab F (Vi F n p)) :
@@ -2736,7 +2729,7 @@ private theorem asG12_fixSub_flagSylow {F : Type} [Field F] {n : ℕ} (hn : 2 �
     have hle : Rij F (⟨0, by omega⟩ : Fin n) k ≤ flagSylow F n :=
       le_iSup_of_le (⟨0, by omega⟩ : Fin n) (le_iSup_of_le k (le_iSup_of_le hk0 le_rfl))
     have h := congrFun (hv _ (hle (T_mem_Rij (Ne.symm hk) 1))) (⟨0, by omega⟩ : Fin n)
-    rw [T_smul_apply, if_pos rfl] at h
+    rw [T_smul_apply, ite_eq_left rfl] at h
     simpa using h
   · intro hv t ht
     have hle : flagSylow F n ≤ MulAction.stabilizer (Matrix.SpecialLinearGroup (Fin n) F) v := by
@@ -2768,7 +2761,7 @@ private theorem asG12_fixSub_oTwo {F : Type} [Field F] [CharP F 2] {n : ℕ} (hn
       exact ⟨asG12_transvection_mem_setStab (Ne.symm hk) hk 1, 1,
         by simpa using asG12_transvection_sq (Ne.symm hk) (1 : F)⟩
     have h := congrFun (hv _ ht) (⟨0, by omega⟩ : Fin n)
-    rw [T_smul_apply, if_pos rfl] at h
+    rw [T_smul_apply, ite_eq_left rfl] at h
     simpa using h
   · intro hv
     have hle : oTwoPrimeUpper (setStab F (Vi F n (⟨0, by omega⟩ : Fin n))) ≤
@@ -2798,10 +2791,10 @@ private theorem asG12_embSL_e {F : Type} [Field F] {n : ℕ} {i j : Fin n} (hij 
   funext k
   rw [smul_eq_mulVec', embSL_coe, emb_mulVec, blockMap_apply]
   by_cases hki : k = i
-  · subst hki; simp [Pi.single_apply, Ne.symm hij]
+  · subst hki; simp [Ne.symm hij]
   · by_cases hkj : k = j
-    · subst hkj; simp [Pi.single_apply, hki, hB]
-    · simp [Pi.single_apply, hki, hkj]
+    · subst hkj; simp [hki, hB]
+    · simp [hki, hkj]
 
 private theorem asG12_diag_exists {F : Type} [Field F] {n : ℕ} {i j : Fin n} (hij : i ≠ j)
     {c : F} (hc : c ≠ 0) :
@@ -2906,7 +2899,7 @@ private theorem asG12_irred {F U : Type} [Field F] [AddCommGroup U] {n s : ℕ}
     · right
       obtain ⟨y, hyY, hy0⟩ : ∃ y ∈ Y, y ≠ 0 := by
         by_contra h
-        push_neg at h
+        push Not at h
         exact hY0 (eq_bot_iff.2 fun y hy => AddSubgroup.mem_bot.2 (h y hy))
       obtain ⟨a, rfl⟩ := hY hyY
       have ha : a ≠ 0 := by
@@ -2951,7 +2944,7 @@ private theorem asG12_mem_coord {F U : Type} [Field F] {n s : ℕ} [AddCommGroup
   · intro hu l
     obtain ⟨a, rfl⟩ := (hmem k _).1 hu
     rw [AddEquiv.symm_apply_apply]
-    exact mem_Vi.2 fun m hm => by simp [Pi.single_apply, hm]
+    exact mem_Vi.2 fun m hm => by simp [hm]
   · intro hu
     have hx : Θ.symm u = fun l => Pi.single k (Θ.symm u l k) := by
       funext l
@@ -2974,7 +2967,7 @@ private theorem asG12_range_le {F U : Type} [Field F] {n s : ℕ} [AddCommGroup 
   by_cases hl : l = j
   · subst hl
     rw [Pi.single_eq_same]
-    exact mem_Vi.2 fun k hk => by simp [Pi.single_apply, hk]
+    exact mem_Vi.2 fun k hk => by simp [hk]
   · rw [Pi.single_eq_of_ne hl]
     exact Submodule.zero_mem _
 
@@ -3094,7 +3087,7 @@ private theorem asG10_fixSub_Rij {F : Type} [Field F] {n : ℕ} {i j : Fin n} (h
   constructor
   · intro hv
     have h := congrFun (hv _ (T_mem_Rij hij 1)) i
-    rw [T_smul_apply, if_pos rfl] at h
+    rw [T_smul_apply, ite_eq_left rfl] at h
     simpa using h
   · intro hv t ht
     obtain ⟨b, rfl⟩ := (mem_Rij_iff hij).1 ht
@@ -3112,11 +3105,11 @@ private theorem asG10_transvection_mem_Vij {F : Type} [Field F] {n : ℕ} {i j :
   rw [mem_Vij hij, mem_Vij hij]
   constructor
   · intro hw k hk1 hk2
-    rw [T_smul_apply, if_neg hk1, add_zero]
+    rw [T_smul_apply, ite_eq_right hk1, add_zero]
     exact hw k hk1 hk2
   · intro hw k hk1 hk2
     have h := hw k hk1 hk2
-    rw [T_smul_apply, if_neg hk1, add_zero] at h
+    rw [T_smul_apply, ite_eq_right hk1, add_zero] at h
     exact h
 
 private theorem asG10_Lij_le_setStab {F : Type} [Field F] {n : ℕ} {i j : Fin n} (hij : i ≠ j) :

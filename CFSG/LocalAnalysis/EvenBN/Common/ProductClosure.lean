@@ -171,7 +171,7 @@ theorem isPerfect_prod {A B : Type*} [Group A] [Group B] [Group.IsPerfect A]
 
 theorem le_commutator_sup_of_perfect [Group.IsPerfect S] {X : Subgroup G}
     (hρ : Function.Surjective ρ) (hker : ρ.ker = X.subgroupOf N) : N ≤ ⁅N, N⁆ ⊔ X := by
-  haveI : Group.IsPerfect (S × S) := isPerfect_prod
+  have : Group.IsPerfect (S × S) := isPerfect_prod
   intro n hn
   have hmap : (⁅(⊤ : Subgroup N), (⊤ : Subgroup N)⁆).map ρ = ⊤ := by
     rw [map_commutator, ← MonoidHom.range_eq_map, MonoidHom.range_eq_top.2 hρ,
@@ -534,7 +534,7 @@ theorem exists_perfect_commuting_factor_of_prodClosure
       ∀ Q : Subgroup G, Q ≤ prodFst ρ → ⁅Q, Q⁆ = Q → Q ≤ P := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKf : Fintype.card K = 2 ^ m := by
     rw [← Nat.card_eq_fintype_card]
     exact hK
@@ -543,7 +543,7 @@ theorem exists_perfect_commuting_factor_of_prodClosure
     rw [hK]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
-  haveI := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK4
+  have := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK4
   have hXΛ : X ≤ prodFst ρ := le_prodFst hXN hker
   have hNX : N ≤ normalizer (X : Set G) := le_normalizer_of_ker hXN hker
   have htX : t ∈ normalizer (X : Set G) := mem_normalizer_ker_of_swap htN hswap hXN hker

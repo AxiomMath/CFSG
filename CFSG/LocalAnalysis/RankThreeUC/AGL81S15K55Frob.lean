@@ -17,7 +17,7 @@ theorem card_GL32 : Nat.card GL32 = 168 := by
 
 theorem exists_subgroup_card_21 : ∃ F : Subgroup GL32, Nat.card F = 21 := by
   have h7 : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI := CFSG.HardMathSupport.Meierfrankenfeld.AGL81.I542.isSimpleGroup_gl32
+  have := CFSG.HardMathSupport.Meierfrankenfeld.AGL81.I542.isSimpleGroup_gl32
   obtain ⟨P⟩ : Nonempty (Sylow 7 GL32) := inferInstance
   have hP7 : Nat.card P = 7 := by
     rw [Sylow.card_eq_multiplicity P, card_GL32]
@@ -37,12 +37,12 @@ theorem exists_subgroup_card_21 : ∃ F : Subgroup GL32, Nat.card F = 21 := by
   have hn : Nat.card (Sylow 7 GL32) = 1 ∨ Nat.card (Sylow 7 GL32) = 8 := by
     have hle : Nat.card (Sylow 7 GL32) ≤ 24 := Nat.le_of_dvd (by norm_num) hdvd
     unfold Nat.ModEq at hmod
-    interval_cases h : Nat.card (Sylow 7 GL32) <;> simp_all <;> omega
+    interval_cases h : Nat.card (Sylow 7 GL32) <;> simp_all
   rcases hn with h1 | h8
   · exfalso
-    haveI : Subsingleton (Sylow 7 GL32) := (Nat.card_eq_one_iff_unique.1 h1).1
+    have : Subsingleton (Sylow 7 GL32) := (Nat.card_eq_one_iff_unique.1 h1).1
     have hnorm : (P : Subgroup GL32).Normal := Sylow.normal_of_subsingleton P
-    haveI := hnorm
+    have := hnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (P : Subgroup GL32) with hb | ht
     · have : Nat.card (P : Subgroup GL32) = 1 := by rw [hb]; exact Subgroup.card_bot
       have h7' : Nat.card (P : Subgroup GL32) = 7 := hP7
@@ -68,7 +68,7 @@ theorem exists_mul_of_sylow {G : Type*} [Group G] [Finite G] {L F S₀ : Subgrou
     (hF : Nat.card F = 21) (hSL : S₀ ≤ L) (hS : Nat.card S₀ = 8) (hL : Nat.card L = 168) :
     ∀ l ∈ L, ∃ f ∈ F, ∃ s ∈ S₀, l = f * s := by
   have hcop : Nat.Coprime (Nat.card F) (Nat.card S₀) := by rw [hF, hS]; norm_num
-  have hinf : F ⊓ S₀ = ⊥ := Subgroup.inf_eq_bot_of_coprime hcop
+  have hinf : F ⊓ S₀ = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))
   let φ : ↥F × ↥S₀ → ↥L := fun p => ⟨(p.1 : G) * p.2, L.mul_mem (hFL p.1.2) (hSL p.2.2)⟩
   have hinj : Function.Injective φ := by
     rintro ⟨f, s⟩ ⟨f', s'⟩ h
@@ -117,7 +117,7 @@ theorem fixed_eq_zero_of_generation [Finite G] (ρ : Representation (ZMod 2) G W
       {v | ∃ l ∈ L, ∃ c : W, (∀ s ∈ S₀, ρ s c = c) ∧ v = ρ l c}) :
     ∀ u ∈ commOn ρ L ⊤, (∀ f ∈ F, ρ f u = u) → u = 0 := by
   classical
-  haveI : Fintype ↥F := Fintype.ofFinite _
+  have : Fintype ↥F := Fintype.ofFinite _
   set e : Module.End (ZMod 2) W := ∑ f : ↥F, ρ (f : G) with he
   have hmul : ∀ f' ∈ F, e * ρ f' = e := by
     intro f' hf'
@@ -158,7 +158,7 @@ theorem fixed_eq_zero_of_generation [Finite G] (ρ : Representation (ZMod 2) G W
   have h1 : e u = u := by
     rw [he, LinearMap.sum_apply]
     have : ∀ f : ↥F, (ρ (f : G)) u = u := fun f => hfix f f.2
-    simp only [this, Finset.sum_const, Finset.card_univ, Fintype.card_coe]
+    simp only [this, Finset.sum_const, Finset.card_univ]
     have hc : Fintype.card ↥F = Nat.card ↥F := (Nat.card_eq_fintype_card).symm
     rw [hc]
     exact odd_nsmul_eq_self hF u
@@ -171,7 +171,7 @@ theorem not_secTrivial_of_fixed_zero [Finite G] (ρ : Representation (ZMod 2) G 
     (hinv : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ L Z₁) : ¬ SecTrivial ρ L Z₀ Z₁ := by
   classical
   intro htriv
-  haveI : Fintype ↥F := Fintype.ofFinite _
+  have : Fintype ↥F := Fintype.ofFinite _
   obtain ⟨z, hz1, hz0⟩ := Set.exists_of_ssubset hlt
   set ez : W := ∑ f : ↥F, ρ (f : G) z with hez
   have hez1 : ez ∈ Z₁ := Submodule.sum_mem _ fun f _ => hinv f (hFL f.2) z hz1

@@ -15,7 +15,7 @@ open CFSG.Open CFSG.Sporadic.Th CFSG.Sporadic.Th.Native CFSG.SectionRank.Native
   CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThSlpNative
   CFSG.HardMathSupport.Timmesfeld.SporadicBalance.ThCent
 
-theorem matJ_injective : Function.Injective matJ := fun g h hgh =>
+theorem matJ_injective : Function.Injective matJ := fun _g _h hgh =>
   Subtype.ext (Units.ext hgh)
 
 theorem card_centralizer_conj_eq (g s : J) :
@@ -76,8 +76,8 @@ theorem rowsMatrix_slpRows {A B : Array V4} {g h : J} (hA : rowsMatrix A = matJ 
       rw [getElem!_setIfInBounds_of_lt hr']
       by_cases hkr : k = r
       · subst hkr
-        rw [if_pos rfl, Function.update_self, rowsMatrix_mulRows, hR i hi, hR j hj, matJ_mul]
-      · rw [if_neg hkr, Function.update_of_ne (Ne.symm hkr), hR r hr]
+        rw [ite_eq_left rfl, Function.update_self, rowsMatrix_mulRows, hR i hi, hR j hj, matJ_mul]
+      · rw [ite_eq_right hkr, Function.update_of_ne (Ne.symm hkr), hR r hr]
     | pow e i k =>
       have hp1 := hp.1
       simp only [Op.lt, Bool.and_eq_true, decide_eq_true_eq] at hp1
@@ -86,8 +86,8 @@ theorem rowsMatrix_slpRows {A B : Array V4} {g h : J} (hA : rowsMatrix A = matJ 
       rw [getElem!_setIfInBounds_of_lt hr']
       by_cases hkr : k = r
       · subst hkr
-        rw [if_pos rfl, Function.update_self, rowsMatrix_powRowsN, hR i hi, matJ_pow]
-      · rw [if_neg hkr, Function.update_of_ne (Ne.symm hkr), hR r hr]
+        rw [ite_eq_left rfl, Function.update_self, rowsMatrix_powRowsN, hR i hi, matJ_pow]
+      · rw [ite_eq_right hkr, Function.update_of_ne (Ne.symm hkr), hR r hr]
 
 theorem rowsMatrix_wordRowsL {gs : Array (Array V4)} {R : ℕ → J} {w : List ℕ}
     (h : ∀ r ∈ w, rowsMatrix gs[r]! = matJ (R r)) :

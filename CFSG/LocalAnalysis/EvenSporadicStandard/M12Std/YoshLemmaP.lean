@@ -16,8 +16,8 @@ def conjIntoSet {G : Type*} [Group G] (H : Subgroup G) (x : G) : Set G :=
 theorem conjIntoSet_eq_preimage_fixedBy {G : Type*} [Group G] (H : Subgroup G) (x : G) :
     conjIntoSet H x = QuotientGroup.mk ⁻¹' MulAction.fixedBy (G ⧸ H) x := by
   ext g
-  simp only [conjIntoSet, Set.mem_setOf_eq, Set.mem_preimage, MulAction.mem_fixedBy,
-    MulAction.Quotient.smul_coe, smul_eq_mul, QuotientGroup.eq, mul_inv_rev, inv_inv]
+  simp only [conjIntoSet, Set.mem_ofPred_eq, Set.mem_preimage, MulAction.mem_fixedBy,
+    MulAction.Quotient.smul_coe, smul_eq_mul, QuotientGroup.eq, mul_inv_rev]
   constructor <;> intro h <;>
     simpa only [mul_inv_rev, inv_inv, mul_assoc] using H.inv_mem h
 

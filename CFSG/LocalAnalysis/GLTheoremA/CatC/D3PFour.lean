@@ -24,8 +24,8 @@ def fourSubgroup (a b : G) (ha : a * a = 1) (hb : b * b = 1) (hab : a * b = b * 
     intro u v hu hv
     have hba : b * a = a * b := hab.symm
     rcases hu with hu | hu | hu | hu <;> rcases hv with hv | hv | hv | hv <;> rw [hu, hv] <;>
-      simp only [Set.mem_setOf_eq, one_mul, mul_one, ha, hb, e1, e2, e3, e4, e5, hba, true_or,
-        or_true, eq_self_iff_true]
+      simp only [Set.mem_ofPred_eq, one_mul, mul_one, ha, hb, e1, e2, e3, e4, e5, hba, true_or,
+        or_true]
   inv_mem' := by
     intro u hu
     have hai : a⁻¹ = a := inv_eq_of_mul_eq_one_right ha
@@ -96,7 +96,7 @@ theorem min_invariant_four [Finite G] {E H : Subgroup G} (hE : IsElemAbelian 3 E
       · rw [h x hx, h _ hx1H, hx2]; exact ⟨hWx1, hWx2⟩
       · rw [h x hx, h _ hx1H, hbx, hbx1]; exact ⟨hWx2, hWx⟩
     rcases hw with hw | hw | hw | hw <;> rw [hw]
-    · simpa using W.one_mem
+    · simp
     · exact key.1
     · exact key.2
     · have : e * (x * (b * x * b⁻¹)) * e⁻¹ = (e * x * e⁻¹) * (e * (b * x * b⁻¹) * e⁻¹) := by group
@@ -118,7 +118,7 @@ theorem min_invariant_card [Finite G] {E H : Subgroup G} (hE : IsElemAbelian 3 E
   have hbx : b⁻¹ * x * b = x * (b * x * b⁻¹) := by
     calc b⁻¹ * x * b = b⁻¹ * (b * (x * (b * x * b⁻¹)) * b⁻¹) * b := by rw [h4]
       _ = x * (b * x * b⁻¹) := by group
-  letI : MulAction ↥E G := MulAction.compHom G
+  let : MulAction ↥E G := MulAction.compHom G
     ((ConjAct.toConjAct : G ≃* ConjAct G).toMonoidHom.comp E.subtype)
   have hsmul : ∀ (e : ↥E) (y : G), e • y = (e : G) * y * (e : G)⁻¹ := fun e y => by
     show ConjAct.toConjAct (e : G) • y = _

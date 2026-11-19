@@ -76,7 +76,7 @@ theorem exists_conj_eq_z_mul (hE : E8.SmithE8E23a) [Finite G] [IsSimpleGroup G]
   have hu' : IsConj S.z (g⁻¹ * u * g) := hu.trans (isConj_iff.mpr ⟨g⁻¹, by group⟩)
   have htu' : orderOf ((g⁻¹ * t * g) * (g⁻¹ * u * g)) = 3 := by
     rw [show (g⁻¹ * t * g) * (g⁻¹ * u * g) = MulAut.conj g⁻¹ (t * u) by
-      simp [MulAut.conj_apply]; group, MulEquiv.orderOf_eq]
+      simp; group, MulEquiv.orderOf_eq]
     exact htu
   have hz'Q : g⁻¹ * S.z * g ∈ S.QG := (SME.mem_Qa_iff S g S.z).mp (S.z_mem_Qa haQ haz)
   have hzt : Commute S.z t := (mem_centralizer_singleton_iff.mp htM).symm

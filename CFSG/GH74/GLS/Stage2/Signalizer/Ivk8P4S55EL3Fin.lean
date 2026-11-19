@@ -26,7 +26,7 @@ theorem false_of_graph_normalized {A : Type} [Group A] [Finite A] {J : Subgroup 
     Sylow.coe_mapSurjective _ _
   have hT : IsSylowOf 2 (Q' : Subgroup (projectiveSL 3 F)) ⊤ := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, Q'.isPGroup', ?_⟩
+    refine ⟨le_top, Q'.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact Q'.not_dvd_index
   let U : Subgroup (projectiveSL 3 F) := (Pb.subgroupOf J).map e.toMonoidHom

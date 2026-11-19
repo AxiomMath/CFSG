@@ -93,7 +93,7 @@ theorem card_le_nine_of_pgl2 [Finite K] (h3 : (3 : K) ≠ 0) (E : Subgroup (PGL2
   set Q : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K) := (P : Subgroup Et).map Et.subtype
   have hQcard : Nat.card Q = Nat.card P :=
     Subgroup.card_map_of_injective Et.subtype_injective
-  have hQp : IsPGroup 3 Q := P.isPGroup'.map Et.subtype
+  have hQp : IsPGroup 3 Q := P.isPGroup.map Et.subtype
   have htriv : ∀ s ∈ Q, φ s = 1 → s = 1 := by
     intro s hs h1
     obtain ⟨n, hn⟩ := hQp ⟨s, hs⟩

@@ -62,7 +62,7 @@ theorem centralizer_map_lbar (c : Counterexample4 G) {q : ℕ} [Fact q.Prime] (h
   classical
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* (↥c.L ⧸ N) := QuotientGroup.mk' N
-  haveI : N.Normal := CFSG.pCore_normal
+  have : N.Normal := CFSG.pCore_normal
   have hN2 : IsPGroup 2 N := CFSG.pCore_isPGroup
   have hNq : ¬ q ∣ Nat.card N :=
     CFSG.GroupTheory.not_dvd_card_of_isPGroup (p := 2) (q := q) hN2 Fact.out hq2
@@ -87,7 +87,7 @@ theorem pRank_centralizer_lbar (c : Counterexample4 G) {q : ℕ} [Fact q.Prime] 
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* (↥c.L ⧸ N) := QuotientGroup.mk' N
   let C : Subgroup ↥c.L := (c.L ⊓ Subgroup.centralizer (B : Set G)).subgroupOf c.L
-  haveI : N.Normal := CFSG.pCore_normal
+  have : N.Normal := CFSG.pCore_normal
   have hN2 : IsPGroup 2 N := CFSG.pCore_isPGroup
   have hCmap : Subgroup.centralizer (((B.subgroupOf c.L).map π : Subgroup (↥c.L ⧸ N)) :
         Set (↥c.L ⧸ N)) = C.map π :=
@@ -132,7 +132,7 @@ theorem dvd_card_centralizer_lbar_iff (c : Counterexample4 G) {q : ℕ} [Fact q.
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* (↥c.L ⧸ N) := QuotientGroup.mk' N
   let C : Subgroup ↥c.L := (c.L ⊓ Subgroup.centralizer (B : Set G)).subgroupOf c.L
-  haveI : N.Normal := CFSG.pCore_normal
+  have : N.Normal := CFSG.pCore_normal
   have hN2 : IsPGroup 2 N := CFSG.pCore_isPGroup
   have hCmap : Subgroup.centralizer (((B.subgroupOf c.L).map π : Subgroup (↥c.L ⧸ N)) :
         Set (↥c.L ⧸ N)) = C.map π :=
@@ -177,7 +177,7 @@ theorem exists_mem_normalizer_of_mem_normalizer_lbar (c : Counterexample4 G) {q 
   classical
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* (↥c.L ⧸ N) := QuotientGroup.mk' N
-  haveI : N.Normal := CFSG.pCore_normal
+  have : N.Normal := CFSG.pCore_normal
   have hN2 : IsPGroup 2 N := CFSG.pCore_isPGroup
   have hNq : ¬ q ∣ Nat.card N :=
     CFSG.GroupTheory.not_dvd_card_of_isPGroup (p := 2) (q := q) hN2 Fact.out hq2
@@ -205,11 +205,11 @@ theorem exists_case811Sylow (c : Counterexample4 G)
     (hPL : ∀ P : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 P c.S.M → P ≤ c.L) :
     Nonempty (Case811Sylow c) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let N : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let Lbar := ↥c.L ⧸ N
   let π : ↥c.L →* Lbar := QuotientGroup.mk' N
-  haveI : N.Normal := CFSG.pCore_normal
+  have : N.Normal := CFSG.pCore_normal
   have hN2 : IsPGroup 2 N := CFSG.pCore_isPGroup
   have hN3 : ¬ 3 ∣ Nat.card N :=
     CFSG.GroupTheory.not_dvd_card_of_isPGroup (p := 2) (q := 3) hN2 (by norm_num) (by norm_num)

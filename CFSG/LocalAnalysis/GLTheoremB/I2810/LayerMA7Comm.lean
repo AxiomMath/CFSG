@@ -53,7 +53,7 @@ theorem commutator_eq_top_of_perf (hperf : ⁅Kh, Kh⁆ = Kh) : commutator ↥Kh
 
 theorem aux_id (hc : ∀ a b : V, a * b = b * a) (gb a b y : V) :
     gb * y⁻¹ = (gb * a⁻¹ * (b * y⁻¹)⁻¹) * ((a * y⁻¹) * (b * y⁻¹)) := by
-  letI : CommGroup V := { ‹Group V› with mul_comm := hc }
+  let : CommGroup V := { ‹Group V› with mul_comm := hc }
   apply Additive.ofMul.injective
   simp only [ofMul_mul, ofMul_inv]
   abel
@@ -62,7 +62,7 @@ theorem commIn_commIn (hperf : ⁅Kh, Kh⁆ = Kh) (hc : ∀ a b : V, a * b = b *
     (hY : ∀ g ∈ Kh, ∀ y ∈ Y, g y ∈ Y) : commIn Kh (commIn Kh Y) = commIn Kh Y := by
   have hR := commIn_inv hY
   refine le_antisymm (commIn_le hR) ?_
-  haveI : IsMulCommutative V := IsMulCommutative.of_comm hc
+  have : IsMulCommutative V := IsMulCommutative.of_comm hc
   refine (Subgroup.closure_le _).2 ?_
   rintro _ ⟨g₀, hg₀, y, hy, rfl⟩
   let W₂ : Subgroup V := commIn Kh (commIn Kh Y)
@@ -82,7 +82,7 @@ theorem commIn_commIn (hperf : ⁅Kh, Kh⁆ = Kh) (hc : ∀ a b : V, a * b = b *
         show QuotientGroup.mk _ = QuotientGroup.mk _ * QuotientGroup.mk _
         rw [hid, QuotientGroup.mk_mul, (QuotientGroup.eq_one_iff _).2 hw, one_mul,
           QuotientGroup.mk_mul] }
-  haveI : IsMulCommutative (V ⧸ W₂) :=
+  have : IsMulCommutative (V ⧸ W₂) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.2
       (by rw [(commutator_eq_bot_iff V).2 inferInstance]; exact bot_le)
   have hker : ∀ g : ↥Kh, f g = 1 := by
@@ -117,8 +117,8 @@ theorem a7Comm_core
     {R : Subgroup V} (hR : ∀ g ∈ Kh, ∀ r ∈ R, g r ∈ R) (hRc : commIn Kh R = R) (hRne : R ≠ ⊥) :
     16 * Nat.card ↥(R ⊓ fixV' Kh) ≤ Nat.card ↥R ∧
       (Nat.card ↥R = 16 * Nat.card ↥(R ⊓ fixV' Kh) → R ⊓ fixV' Kh = ⊥) := by
-  haveI : Nontrivial ↥R := (Subgroup.nontrivial_iff_ne_bot R).2 hRne
-  letI : CommGroup ↥R :=
+  have : Nontrivial ↥R := (Subgroup.nontrivial_iff_ne_bot R).2 hRne
+  let : CommGroup ↥R :=
     { (inferInstance : Group ↥R) with mul_comm := fun a b => Subtype.ext (hc _ _) }
   let act : ↥Kh →* MulAut ↥R := actOn Kh hR
   have hV2 : ∀ v : ↥R, v ^ 2 = 1 := fun v => Subtype.ext (by simpa [pow_two] using h2 v)

@@ -47,7 +47,7 @@ private theorem TwD_root_smul (A : GL ι K) (lambda : Kˣ)
 theorem exists_conj_neg_of_nonsquare [Nonempty ι] (A : GL ι K) (lambda : Kˣ)
     (hns : ¬ IsSquare lambda.val) (hsq : A ^ 2 = GeneralLinearGroup.scalar ι lambda) :
     ∃ w : GL ι K, w * A * w⁻¹ = GeneralLinearGroup.scalar ι (-1) * A := by
-  haveI : Fact (¬ IsSquare lambda.val) := ⟨hns⟩
+  have : Fact (¬ IsSquare lambda.val) := ⟨hns⟩
   set s : GL ι K := GeneralLinearGroup.scalar ι (-1) with hs
   set A' : GL ι K := s * A with hA'
   have hcomm : Commute s A := GeneralLinearGroup.scalar_commute _ A
@@ -70,8 +70,7 @@ theorem exists_conj_neg_of_nonsquare [Nonempty ι] (A : GL ι K) (lambda : Kˣ)
     intro x
     ext i
     rw [hs]
-    simp [GeneralLinearGroup.scalar, Matrix.mulVec, dotProduct, Matrix.diagonal_apply,
-      Matrix.one_apply]
+    simp [GeneralLinearGroup.scalar, Matrix.mulVec, dotProduct, Matrix.one_apply]
   have hA'mul : ∀ u : ι → K, A'.val.mulVec u = -(A.val.mulVec u) := by
     intro u
     rw [hA', Units.val_mul, ← Matrix.mulVec_mulVec, hsmul]
@@ -102,14 +101,15 @@ section Quad4Dvd
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem card_units_eq_two_of_card_three (hK : Nat.card K = 3) : Nat.card Kˣ = 2 := by
   rw [Nat.card_units, hK]
 
 theorem card_range_quad_dvd (hK : Nat.card K = 3) {A : GL (Fin 4) K} {lambda : Kˣ}
     (hns : ¬ IsSquare lambda.val) (hsq : A ^ 2 = GeneralLinearGroup.scalar (Fin 4) lambda) :
     2 ^ 6 ∣ Nat.card (ordinaryCentralizerProjection A).range := by
-  haveI : Fact (¬ IsSquare lambda.val) := ⟨hns⟩
-  haveI : Finite (extension lambda.val) := Module.finite_of_finite K
+  have : Fact (¬ IsSquare lambda.val) := ⟨hns⟩
+  have : Finite (extension lambda.val) := Module.finite_of_finite K
   have hdim := matrixDimension_twice A lambda hsq
   simp only [Fintype.card_fin] at hdim
   have hm : matrixDimension A lambda hsq = 2 := by omega
@@ -118,7 +118,7 @@ theorem card_range_quad_dvd (hK : Nat.card K = 3) {A : GL (Fin 4) K} {lambda : K
     norm_num
   have hGL : Nat.card (GL (Fin (matrixDimension A lambda hsq)) (extension lambda.val)) = 5760 := by
     rw [hm]
-    letI : Fintype (extension lambda.val) := Fintype.ofFinite _
+    let : Fintype (extension lambda.val) := Fintype.ofFinite _
     have hE' : Fintype.card (extension lambda.val) = 9 := by
       rw [← Nat.card_eq_fintype_card]
       exact hE

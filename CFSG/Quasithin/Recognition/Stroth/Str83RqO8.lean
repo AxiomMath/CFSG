@@ -16,6 +16,7 @@ open CFSG.Quasithin.Stroth.G5 CFSG.GH74.Uniqueness.Bender CFSG.LieType.BorelTits
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem conj_eq_of_mem_centralizerMod {L D Z W : Subgroup G} {k : G}
     (hk : k ∈ centralizerMod Z L D) (hWD : W ≤ D) (hkW : k ∈ normalizer (W : Set G))
     (hWZ : W ⊓ Z = ⊥) {w : G} (hw : w ∈ W) : k * w * k⁻¹ = w := by
@@ -33,10 +34,13 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem D2_le_K : t.D2 ≤ t.K := le_sup_right
 
+omit [Finite G] in
 private theorem D2_le_Gv (i : ℤ) : t.D2 ≤ t.Gv i := t.D2_le_K.trans (t.K_le_Gv i)
 
+omit [Finite G] in
 private theorem K_le_normalizer_pCoreOf_Gw (a b : ℤ) :
     t.K ≤ normalizer (pCoreOf 2 (t.Gw a b) : Set G) :=
   (t.K_le_Gw a b).trans (le_normalizer_pCoreOf 2 _)
@@ -99,6 +103,7 @@ private theorem exists_D2_conj_ne {f : ℕ} (hf : 2 ≤ f) (hcard : Nat.card (t.
     rw [Set.ncard_singleton] at h1
     omega
 
+omit [Finite G] in
 private theorem Zv_zero_inf_Gv_eq_bot {j : ℤ} (hj : ¬ t.Zv 0 ≤ t.Gv j)
     (hN3 : ∀ z ∈ t.Zv 0, z ≠ 1 → ∀ z' ∈ t.Zv 0, z' ≠ 1 → ∃ d ∈ t.D2, d * z * d⁻¹ = z') :
     t.Zv 0 ⊓ t.Gv j = ⊥ := by
@@ -120,7 +125,7 @@ private theorem Zv_one_inf_Gv_neg_two_le {a f : ℕ}
     (hZ0 : t.Zv 1 ≤ t.Gw (-1) 3) (hZ2 : t.Zv (-1) ≤ t.Gw (-3) 1) (hZ2' : ¬ t.Zv (-1) ≤ t.Gv 2)
     (hN2 : ∀ s ∈ S, s ∉ t.Qv 1 → ∀ z ∈ t.Zv 1, s * z * s⁻¹ = z → z ∈ t.Zv 0) :
     t.Zv 1 ⊓ t.Gv (-2) ≤ t.Zv 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hX : IsPGroup 2 ↥(t.Zv 1 ⊓ t.Gv (-2)) := (t.isPGroup_Zv 1).to_le inf_le_left
   have hXw : t.Zv 1 ⊓ t.Gv (-2) ≤ t.Gw (-2) 3 := by
     intro y hy
@@ -212,7 +217,7 @@ private theorem card_le_of_le_Gw_left {a f : ℕ}
     Nat.card X ≤ 2 ^ f * Nat.card ↥(X ⊓ t.Gv (v + 1)) := by
   have h1 := (t.inf_Gv_eq_inf_Qv hfr v hX).1 hXw
   have h2 := t.relIndex_Qv_le hfr v hX (Or.inl hXw)
-  rw [if_neg hv] at h2
+  rw [ite_eq_right hv] at h2
   have h3 := Subgroup.relIndex_mul_card (t.Qv v) X
   rw [inf_comm, ← h1] at h3
   rw [← h3]
@@ -224,7 +229,7 @@ private theorem card_le_of_le_Gw_right {a f : ℕ}
     Nat.card X ≤ 2 ^ f * Nat.card ↥(X ⊓ t.Gv (v - 1)) := by
   have h1 := (t.inf_Gv_eq_inf_Qv hfr v hX).2 hXw
   have h2 := t.relIndex_Qv_le hfr v hX (Or.inr hXw)
-  rw [if_neg hv] at h2
+  rw [ite_eq_right hv] at h2
   have h3 := Subgroup.relIndex_mul_card (t.Qv v) X
   rw [inf_comm, ← h1] at h3
   rw [← h3]
@@ -233,7 +238,7 @@ private theorem card_le_of_le_Gw_right {a f : ℕ}
 private theorem card_pCoreOf_Gw_neg_three_three_le {a f : ℕ}
     (hfr : Frame L1 L2 S a f) (hwlog : pCoreOf 2 (t.Gw (-4) 4) = ⊥) :
     Nat.card (pCoreOf 2 (t.Gw (-3) 3)) ≤ 2 ^ f * 2 ^ f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPp : IsPGroup 2 (pCoreOf 2 (t.Gw (-3) 3)) := pCoreOf_isPGroup 2 _
   have hPle : pCoreOf 2 (t.Gw (-3) 3) ≤ t.Gw (-3) 3 := pCoreOf_le 2 _
   have hodd3 : ¬ Even (3 : ℤ) := by decide
@@ -275,7 +280,7 @@ private theorem Zv_zero_le_sup_pCoreOf {a f : ℕ}
     (hmax : pCoreOf 2 (t.Gw (-5) 5) = ⊥) (hwlog : pCoreOf 2 (t.Gw (-4) 4) = ⊥)
     (hZ1 : t.Zv 0 ≤ t.Gw (-3) 3) :
     t.Zv 0 ≤ pCoreOf 2 (t.Gw (-3) 5) ⊔ pCoreOf 2 (t.Gw (-5) 3) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hWp : IsPGroup 2 (pCoreOf 2 (t.Gw (-3) 5)) := pCoreOf_isPGroup 2 _
   have hW'p : IsPGroup 2 (pCoreOf 2 (t.Gw (-5) 3)) := pCoreOf_isPGroup 2 _
   have hWP : pCoreOf 2 (t.Gw (-3) 5) ≤ pCoreOf 2 (t.Gw (-3) 3) :=
@@ -305,9 +310,11 @@ private theorem Zv_zero_le_sup_pCoreOf {a f : ℕ}
   rw [hsup]
   exact hZP
 
+omit [Finite G] in
 private theorem P1_le_normalizer_Z1 : P1 L1 L2 S ≤ normalizer (Z1 L1 L2 S : Set G) :=
   (le_normalizer_pCoreOf 2 _).trans (A4.normalizer_le_normalizer_omegaOneCenterOf _)
 
+omit [Finite G] in
 private theorem P2_le_normalizer_Z2 : P2 L1 L2 S ≤ normalizer (Z2 L1 L2 S : Set G) :=
   (le_normalizer_pCoreOf 2 _).trans (A4.normalizer_le_normalizer_omegaOneCenterOf _)
 
@@ -352,8 +359,9 @@ private theorem Qv_one_le_normalizer_centralizerMod {a f : ℕ}
   exact A4.mem_normalizer_inf (t.Gv_le_normalizer_Qv 0 (h1 hx))
     (t.Gv_le_normalizer_Qv 2 (h2 hx))
 
+omit [Finite G] in
 private theorem x₂_mem_normalizer_centralizerMod {a f : ℕ}
-    (hfr : Frame L1 L2 S a f) :
+    (_hfr : Frame L1 L2 S a f) :
     t.x₂ ∈ normalizer (centralizerMod (t.Zv 1) (t.Gv 1) (t.Qv 0 ⊓ t.Qv 2) : Set G) := by
   have hx₂G : t.x₂ ∈ t.Gv 1 := by rw [t.Gv_one]; exact t.track.x₂_mem
   have hQx : ∀ (i : ℤ) (n : G), n ∈ t.Qv i ↔ t.x₂ * n * t.x₂⁻¹ ∈ t.Qv (2 - i) := by
@@ -363,7 +371,7 @@ private theorem x₂_mem_normalizer_centralizerMod {a f : ℕ}
   have hU : t.x₂ ∈ normalizer ((t.Qv 0 ⊓ t.Qv 2 : Subgroup G) : Set G) := by
     rw [mem_normalizer_iff]
     intro n
-    simp only [SetLike.mem_coe, mem_inf]
+    simp only [mem_inf]
     have h0 := hQx 0 n
     have h2 := hQx 2 n
     rw [sub_zero] at h0
@@ -375,6 +383,7 @@ private theorem x₂_mem_normalizer_centralizerMod {a f : ℕ}
     (zpowers_le.mpr (Subgroup.le_normalizer hx₂G)) (zpowers_le.mpr hU)
   exact this (mem_zpowers _)
 
+omit [Finite G] in
 private theorem map_conj_eq_of_mem {H : Subgroup G} {g : G}
     (hg : g ∈ normalizer (H : Set G)) : H.map (MulAut.conj g).toMonoidHom = H := by
   ext y
@@ -383,6 +392,7 @@ private theorem map_conj_eq_of_mem {H : Subgroup G} {g : G}
   rw [inv_inv] at this
   exact this.symm
 
+omit [Finite G] in
 private theorem mem_normalizer_sup {H K : Subgroup G} {g : G}
     (hH : g ∈ normalizer (H : Set G)) (hK : g ∈ normalizer (K : Set G)) :
     g ∈ normalizer ((H ⊔ K : Subgroup G) : Set G) :=
@@ -395,20 +405,24 @@ private theorem pCoreOf_le_Qv_one (hF : Hyp111 L1 L2 S) : pCoreOf 2 L2 ≤ t.Qv 
   rw [t.Qv_one]
   exact h
 
+omit [Finite G] in
 private theorem P2_le_normalizer_L2 (hF : Hyp111 L1 L2 S) :
     P2 L1 L2 S ≤ normalizer (L2 : Set G) := by
   have h := bigB_le_normalizer_of_hyp111 hF.symm
   rw [bigB_comm] at h
   exact sup_le le_normalizer h
 
+omit [Finite G] in
 private theorem odd_orderOf_of_mem_D2 {d : G} (hd : d ∈ t.D2) : Odd (orderOf d) :=
   Odd.of_dvd_nat t.hD2hall.2.1 (Subgroup.orderOf_dvd_natCard t.D2 hd)
 
+omit [Finite G] in
 private theorem D2_le_normalizer_Zv (i : ℤ) : t.D2 ≤ normalizer (t.Zv i : Set G) := by
   rw [t.Zv_eq i]
   exact (t.D2_le_Gv i).trans ((t.Gv_le_normalizer_Qv i).trans
     (A4.normalizer_le_normalizer_omegaOneCenterOf _))
 
+omit [Finite G] in
 private theorem D2_le_normalizer_T : t.D2 ≤ normalizer ((S ⊓ L2 : Subgroup G) : Set G) :=
   t.hD2hall.1.trans inf_le_right
 
@@ -423,7 +437,7 @@ private theorem D2_le_of_le_normalizer {a f : ℕ}
     (hQC : t.Qv 1 ≤ normalizer (C : Set G)) (hxC : t.x₂ ∈ normalizer (C : Set G))
     (hZ2 : t.Zv (-1) ≤ t.Gw (-3) 1) (hZ2' : ¬ t.Zv (-1) ≤ t.Gv 2) :
     t.D2 ≤ C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTsyl : IsSylowTwoOf (S ⊓ L2) L2 := hfr.hF.1.h2.sylow
   have hQ2le : pCoreOf 2 L2 ≤ t.Qv 1 := t.pCoreOf_le_Qv_one hfr.hF.1
   have hx₂L2 : t.x₂ ∈ normalizer (L2 : Set G) :=
@@ -497,7 +511,7 @@ private theorem D2_le_of_le_normalizer {a f : ℕ}
     have hSle : S ≤ t.Qv 1 := hSQ.le.trans (sup_le le_rfl hTQ)
     have hQS : (t.Qv 1).relIndex S = 1 := Subgroup.relIndex_eq_one.mpr hSle
     have h9 := (t.relIndex_Qv_pCoreOf hfr 1).1
-    rw [sub_self, t.pCoreOf_Gw_zero_one hfr, if_neg Int.not_even_one, hQS] at h9
+    rw [sub_self, t.pCoreOf_Gw_zero_one hfr, ite_eq_right Int.not_even_one, hQS] at h9
     have h4 : 4 ≤ 2 ^ f :=
       calc 4 = 2 ^ 2 := by norm_num
         _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hfr.hf
@@ -523,7 +537,7 @@ theorem false_of_t_eq_eight {a f : ℕ}
     (hN2 : ∀ s ∈ S, s ∉ t.Qv 1 → ∀ z ∈ t.Zv 1, s * z * s⁻¹ = z → z ∈ t.Zv 0)
     (hN3 : ∀ z ∈ t.Zv 0, z ≠ 1 → ∀ z' ∈ t.Zv 0, z' ≠ 1 → ∃ d ∈ t.D2, d * z * d⁻¹ = z') :
     False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨d, hd, z, hz, hdz⟩ := t.exists_D2_conj_ne hfr.hf hcard hN3
   have hdC : d ∈ centralizerMod (t.Zv 1) (t.Gv 1) (t.Qv 0 ⊓ t.Qv 2) :=
     t.D2_le_of_le_normalizer hfr (t.Zv_neg_one_le_centralizerMod hfr hZ2 hZ10 hN1)

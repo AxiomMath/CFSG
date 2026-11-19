@@ -95,6 +95,7 @@ section E6
 variable {K : Type} [Field K] [CharP K 2]
 
 
+omit [CharP K 2] in
 theorem conj_nE6Two (h2 : (2 : K) = 0) (i : Fin 4) (v : V) :
     nE6Two i * torusE6Two h2 (.ofAdd v) * (nE6Two i)⁻¹ =
       torusE6Two (K := K) h2 (.ofAdd (Function.update v i (-(v i)))) := by
@@ -125,6 +126,7 @@ theorem weylSet_conj_mem (h2 : (2 : K) = 0) {w : adjointGroup .E6 K} (hw : w ∈
   · rw [conj_sE6Two]
     exact ⟨_, rfl⟩
 
+omit [CharP K 2] in
 theorem exists_section (h2 : (2 : K) = 0) {L' : Type} [Group L'] (ψ : L' →* adjointGroup .E6 K)
     (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L') :
     ∃ σ : (Fin 4 → Multiplicative (ZMod 3)) →* L',
@@ -200,6 +202,7 @@ theorem torus_irreducible (h2 : (2 : K) = 0) {E' : Subgroup (adjointGroup .E6 K)
     change torusE6Two h2 (.ofAdd (Multiplicative.toAdd x)) ∈ E' at hx
     rwa [ofAdd_toAdd] at hx
 
+omit [CharP K 2] in
 theorem torus_nontrivial (h2 : (2 : K) = 0) :
     ∃ w ∈ weylSet K, ∃ e ∈ (torusE6Two h2).range, w * e * w⁻¹ ≠ e := by
   refine ⟨nE6Two 0, Or.inl ⟨0, rfl⟩, torusE6Two h2 (.ofAdd (Pi.single 0 1)), ⟨_, rfl⟩,
@@ -246,7 +249,7 @@ theorem torus_schur (h2 : (2 : K) = 0) (F : adjointGroup .E6 K → adjointGroup 
 
 theorem secEltAt_torus (h2 : (2 : K) = 0) : SecEltAt 3 (torusE6Two h2).range :=
   ⟨4, TableBF4.piTorus (torusE6Two h2), weylSet K, TableBF4.range_piTorus _,
-    fun L' _ ψ hψ hker => exists_section h2 ψ hψ hker,
+    fun _L' _ ψ hψ hker => exists_section h2 ψ hψ hker,
     fun _ hw _ he => weylSet_conj_mem h2 hw he,
     fun _ hle hinv => torus_irreducible h2 hle hinv,
     torus_nontrivial h2,

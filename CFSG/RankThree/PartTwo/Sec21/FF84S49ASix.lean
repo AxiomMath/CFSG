@@ -12,7 +12,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF84
 open CFSG.RankThree.PartTwo.Sec21.FF84.S3 (P8 A8s)
 
 @[expose] def A_cent_A5_odd_stmt : Prop :=
-  ∀ (K' : Subgroup P8), K' ≤ A8s → ∀ (e5 : ↥K' ≃* alternatingGroup (Fin 5)) (c : P8),
+  ∀ (K' : Subgroup P8), K' ≤ A8s → ∀ (_e5 : ↥K' ≃* alternatingGroup (Fin 5)) (c : P8),
     c.IsThreeCycle → c ∈ K' → Odd (Nat.card ↥(CenS K' ⊓ A8s))
 
 open Equiv Equiv.Perm in
@@ -21,10 +21,11 @@ private theorem isThreeCycle_dd : dd.IsThreeCycle :=
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L B K : Subgroup G} {b₁ b₂ : G}
 
+omit [Finite G] in
 theorem a49_K_perf (eK : ↥K ≃* alternatingGroup (Fin 5)) : ⁅K, K⁆ = K := by
-  haveI : Group.IsPerfect (alternatingGroup (Fin 5)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 5)) :=
     Group.IsPerfect.mk (commutator_alternatingGroup_eq_top (by simp))
-  haveI : Group.IsPerfect ↥K := Group.IsPerfect.ofSurjective (f := eK.symm.toMonoidHom) eK.symm.surjective
+  have : Group.IsPerfect ↥K := Group.IsPerfect.ofSurjective (f := eK.symm.toMonoidHom) eK.symm.surjective
   exact Subgroup.commutator_eq_self
 
 theorem a49_conj_K_le_L (hA : A8Model L)

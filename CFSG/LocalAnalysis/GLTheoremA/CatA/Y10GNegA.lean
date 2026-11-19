@@ -14,6 +14,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup mem_fixSubgroup)
 
 variable {F : Type} [Field F] [DecidableEq F] [CharP F 2]
 
+omit [DecidableEq F] [CharP F 2] in
 theorem iterate_form [Finite F] (β : ↥(StatedSU 6 (2 ^ 2) F) → ↥(StatedSU 6 (2 ^ 2) F))
     (A : GL (Fin 6) F) (φ : F ≃+* F)
     (hβ : ∀ x : ↥(StatedSU 6 (2 ^ 2) F),
@@ -52,6 +53,7 @@ theorem iterate_form [Finite F] (β : ↥(StatedSU 6 (2 ^ 2) F) → ↥(StatedSU
       simp only [Matrix.mul_assoc]
 
 
+omit [DecidableEq F] in
 theorem phi_eq_id_of_iterate [Finite F] (hF : Nat.card F = (2 ^ 2) ^ 2)
     (β : ↥(StatedSU 6 (2 ^ 2) F) → ↥(StatedSU 6 (2 ^ 2) F)) (A : GL (Fin 6) F) (φ : F ≃+* F)
     (hβ : ∀ x : ↥(StatedSU 6 (2 ^ 2) F),
@@ -100,7 +102,7 @@ theorem phi_eq_id_of_iterate [Finite F] (hF : Nat.card F = (2 ^ 2) ^ 2)
   have htr := congrArg Matrix.trace h1
   rw [Matrix.trace_mul_cycle, hCB, Matrix.one_mul, Matrix.diagonal_map hφ0, Matrix.trace_diagonal,
     Matrix.trace_diagonal] at htr
-  simp only [t, Function.comp_apply, Fin.sum_univ_six, Matrix.cons_val, Fin.isValue] at htr
+  simp only [t, Fin.sum_univ_six, Matrix.cons_val, Fin.isValue] at htr
   have h1' : (⇑φ)^[5] 1 = 1 := Function.iterate_fixed (map_one φ) 5
   simp only [hτ, map_pow, map_one] at htr
   have hu5 : (τ ζ) ^ 5 = 1 := by rw [← map_pow, hζ5, map_one]
@@ -129,6 +131,7 @@ theorem phi_eq_id_of_iterate [Finite F] (hF : Nat.card F = (2 ^ 2) ^ 2)
   exact fun y => ringEquiv_eq_id_of_iterate_five hF16 φ h5' y
 
 
+omit [DecidableEq F] [CharP F 2] in
 theorem conj_iterate_form [Finite F] (β : MulAut ↥(StatedSU 6 (2 ^ 2) F)) (A : GL (Fin 6) F)
     (hβ : ∀ x : ↥(StatedSU 6 (2 ^ 2) F),
       ((β x : ↥(StatedSU 6 (2 ^ 2) F)) : GL (Fin 6) F) = A * ((x : GL (Fin 6) F)) * A⁻¹)
@@ -199,7 +202,7 @@ theorem i14NegPieceA_of_matrix (hM : U6SevenFree) : I14NegPieceA := by
       intro g
       apply Units.ext
       rw [Units.val_mul, Units.val_mul, hc]
-      simp [Matrix.smul_mul, Matrix.mul_smul]
+      simp
     have hβid : ∀ x, β x = x := by
       intro x
       apply Subtype.ext
@@ -251,7 +254,7 @@ theorem i14NegPieceA_of_matrix (hM : U6SevenFree) : I14NegPieceA := by
     have hpair : 7 ∣ Nat.card ↥J := by
       rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center ↥J), hcardJ]
       exact Dvd.dvd.mul_right (by norm_num) _
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 7 hpair
     have hsfix : α (y : S) = (y : S) := mem_fixSubgroup.1 (hcomp.1 y.2)
     have hβw : β (Φ (y : S)) = Φ (y : S) := by

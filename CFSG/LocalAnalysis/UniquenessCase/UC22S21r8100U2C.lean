@@ -45,6 +45,7 @@ variable {G : Type} [Group G] [Finite G]
     (∀ c ∈ D.M, orderOf c = p → ∃ y ∈ L ⊔ K, c * y * c⁻¹ * y⁻¹ ∉ pCoreOf 2 D.M) →
     ∀ A : Subgroup G, A ≤ L → Nat.card A = r → A ∈ uniqueSet D.M
 
+omit [Finite G] in
 private theorem uc22r8u2_card_bar2_of_isSz {L : Subgroup G} {n : ℕ} (hSz : IsSz (Bar2 L) n) :
     Nat.card (Bar2 L) = ((2 ^ n) ^ 2 + 1) * (2 ^ n) ^ 2 * (2 ^ n - 1) := by
   obtain ⟨a, ha, rfl, ⟨e⟩⟩ :=
@@ -86,18 +87,21 @@ private theorem uc22r8u2_dvd_card_of_cong {L : Subgroup G} {n p : ℕ}
       exact (h1.mul_right _).mul_right _
   exact hbar.trans (Subgroup.card_quotient_dvd_card (CFSG.pCore 2 ↥L))
 
+omit [Finite G] in
 private theorem uc22r8u2_card_eq {M L K : Subgroup G} (hK : K ∈ conjSetOf M L) :
     Nat.card K = Nat.card L := by
   obtain ⟨g, -, rfl⟩ := hK
   exact Subgroup.card_map_of_injective (MulAut.conj g).injective
 
+omit [Finite G] in
 private theorem uc22r8u2_center_bot {M L : Subgroup G} (hL : L ∈ calC M) {n : ℕ}
     (hLS : IsL2 (Bar2 L) n ∨ IsSz (Bar2 L) n) : center (Bar2 L) = ⊥ := by
   rcases hLS with hX | hX
   · exact uc22p22g_center_bot hX
-  · haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hX
+  · have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hX
     exact uc22p21k_center_eq_bot hL.2.2
 
+omit [Finite G] in
 private theorem uc22r8u2_exists_comm_subgroup (M Y : Subgroup G) : ∃ S : Subgroup G,
     ∀ g, g ∈ S ↔ g ∈ M ∧ ∀ y ∈ Y, g * y * g⁻¹ * y⁻¹ ∈ pCoreOf 2 M := by
   have hMO : M ≤ normalizer (pCoreOf 2 M : Set G) :=
@@ -117,6 +121,7 @@ private theorem uc22r8u2_exists_comm_subgroup (M Y : Subgroup G) : ∃ S : Subgr
               rw [e]
               exact h1⟩ }, fun g => Iff.rfl⟩
 
+omit [Finite G] in
 private theorem uc22r8u2_pCoreOf_comm {M Y : Subgroup G} (hYM : Y ≤ M) {o : G}
     (ho : o ∈ pCoreOf 2 M) {y : G} (hy : y ∈ Y) : o * y * o⁻¹ * y⁻¹ ∈ pCoreOf 2 M := by
   have hMO : M ≤ normalizer (pCoreOf 2 M : Set G) :=
@@ -126,6 +131,7 @@ private theorem uc22r8u2_pCoreOf_comm {M Y : Subgroup G} (hYM : Y ≤ M) {o : G}
   rw [e]
   exact (pCoreOf 2 M).mul_mem ho h1
 
+omit [Finite G] in
 private theorem uc22r8u2_eq_one_of_comm {M K : Subgroup G} (hK : K ∈ calC M)
     (hZ : center (Bar2 K) = ⊥) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {x : G} (hxK : x ∈ K)
     (hxc : ∀ y ∈ K, x * y * x⁻¹ * y⁻¹ ∈ pCoreOf 2 M) (hxq : x ^ q = 1) : x = 1 := by
@@ -182,7 +188,7 @@ theorem uc22r8u2_exists_B₀ {M L K : Subgroup G} (hL : L ∈ calC M) (hK : K �
     (hcX : ∀ y ∈ L ⊔ K, c * y * c⁻¹ * y⁻¹ ∈ pCoreOf 2 M) :
     ∃ B₀ : Subgroup G, B₀ ≤ M ∧ IsElemAbelian p B₀ ∧ Nat.card B₀ = p ^ 2 ∧
       ∀ b ∈ B₀, ∀ y ∈ L, b * y * b⁻¹ * y⁻¹ ∈ pCoreOf 2 M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hLM : L ≤ M := uc22p22a_le_of_isSubnormal hL.1
   have hKM : K ≤ M := uc22p22a_le_of_isSubnormal hK.1
   have hMO : M ≤ normalizer (pCoreOf 2 M : Set G) :=
@@ -247,7 +253,7 @@ theorem uc22r8u2_exists_omega {M L K : Subgroup G} (hL : L ∈ calC M) (hK : K �
     (hAr : Nat.card A = r) :
     ∃ R E : Subgroup G, CFSG.ABGLocalTools.IsSylowOf r R M ∧ A ≤ E ∧ E ≤ R ∧ E ≤ L ⊔ K ∧
       IsElemAbelian r E ∧ Nat.card E = r ^ 2 ∧ ∀ x ∈ R, x ^ r = 1 → x ∈ E := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hLM : L ≤ M := uc22p22a_le_of_isSubnormal hL.1
   have hKM : K ≤ M := uc22p22a_le_of_isSubnormal hK.1
   have hLmem : L ∈ conjSetOf M L := by
@@ -358,8 +364,8 @@ theorem uc22r8u2_mem_uniqueSet_of_cent {D : Data G} (hSg : UC6S846.SigmaStd D)
     (hcX : ∀ y ∈ L ⊔ K, c * y * c⁻¹ * y⁻¹ ∈ pCoreOf 2 D.M) {A : Subgroup G} (hAL : A ≤ L)
     (hAr : Nat.card A = r) : A ∈ uniqueSet D.M := by
   obtain ⟨hpP, hp2⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpP⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hpP⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr7 : 7 ≤ r := PartTwo.s13_seven_le_of_dvd hs hr hrs
   have hr2 : r ≠ 2 := by omega
   have hrn : r ∣ 2 ^ n - 1 := hrs.trans (Nat.pow_sub_one_dvd_pow_sub_one 2 hsn)
@@ -419,7 +425,7 @@ theorem r8100U2_of_r8100U2D {D : Data G} (hSg : UC6S846.SigmaStd D)
   intro he L n s r p hL hc2 hcong hs hsn hr hrs hp A hAL hAr
   obtain ⟨K, hne, hset, hK⟩ := uc22s21ru4e_exists_second_member hc2 hL
   by_cases hsp : IsStronglyPEmbedded r D.M
-  · haveI : Fact r.Prime := ⟨hr⟩
+  · have : Fact r.Prime := ⟨hr⟩
     refine uc22p22r_mem_uniqueSet_of_sp D hr hsp (hAL.trans hL.1.le)
       (IsPGroup.of_card (n := 1) (by rw [hAr, pow_one])) ?_
     rintro rfl

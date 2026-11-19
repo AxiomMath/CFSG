@@ -37,18 +37,18 @@ private lemma ggNineDepRowLinAux_flipL_apply_fb {d : ℕ} {M : Type} [AddCommGro
   have hsum : ∑ x ∈ S, (if x = k then (1 : ZMod 3) else 0) • fb x =
       if k ∈ S then fb k else 0 := by
     by_cases hk : k ∈ S
-    · rw [if_pos hk, Finset.sum_eq_single k]
+    · rw [ite_eq_left hk, Finset.sum_eq_single k]
       · simp
       · intro x _ hxk; simp [hxk]
       · intro h; exact absurd hk h
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
       apply Finset.sum_eq_zero
       intro x hx
       have hxk : x ≠ k := fun h => hk (h ▸ hx)
       simp [hxk]
   rw [hsum]
   by_cases hk : k ∈ S
-  · simp only [hk, if_true]
+  · simp only [hk, ite_true]
     module
   · simp [hk]
 
@@ -77,8 +77,8 @@ private lemma ggNineDepRowLinAux_hflip {d : ℕ} {M : Type} [AddCommGroup M]
     intro k
     rw [LinearMap.comp_apply, ggNineDepRowLinAux_flipL_apply_fb, LinearMap.id_apply]
     by_cases hk : k ∈ S
-    · rw [if_pos hk, map_neg, ggNineDepRowLinAux_flipL_apply_fb, if_pos hk, neg_neg]
-    · rw [if_neg hk, ggNineDepRowLinAux_flipL_apply_fb, if_neg hk]
+    · rw [ite_eq_left hk, map_neg, ggNineDepRowLinAux_flipL_apply_fb, ite_eq_left hk, neg_neg]
+    · rw [ite_eq_right hk, ggNineDepRowLinAux_flipL_apply_fb, ite_eq_right hk]
   have h := LinearMap.congr_fun hcomp y
   simpa [LinearMap.comp_apply] using h
 
@@ -281,18 +281,18 @@ private lemma ggNineDepRowLinAux_flip_coord {d : ℕ} {M : Type} [AddCommGroup M
     rw [map_sum]
     simp only [map_smul, smul_eq_mul, hc]
     by_cases hk : k ∈ S
-    · rw [if_pos hk, Finset.sum_eq_single k]
+    · rw [ite_eq_left hk, Finset.sum_eq_single k]
       · simp
       · intro i _ hik; simp [hik]
       · intro h; exact absurd hk h
-    · rw [if_neg hk]
+    · rw [ite_eq_right hk]
       apply Finset.sum_eq_zero
       intro i hi
       have hik : i ≠ k := fun h => hk (h ▸ hi)
       simp [hik]
   rw [hsum]
   by_cases hk : k ∈ S
-  · simp only [hk, if_true]
+  · simp only [hk, ite_true]
     ring_nf
   · simp [hk]
 
@@ -321,15 +321,15 @@ private lemma ggNineDepRowLinAux_transvection_comm_flip {d : ℕ} {M : Type} [Ad
       · simp [Basis.coord_apply, h]
     rw [hck]
     by_cases hk1 : k = i1
-    · rw [if_pos hk1]
+    · rw [ite_eq_left hk1]
       by_cases hS1 : i1 ∈ S
       · have hS0 : i0 ∈ S := h01.mpr hS1
-        simp only [hS1, hS0, if_true]
+        simp only [hS1, hS0, ite_true]
         module
       · have hS0 : i0 ∉ S := fun h => hS1 (h01.mp h)
-        simp only [hS1, hS0, if_false]
+        simp only [hS1, hS0, ite_false]
         module
-    · rw [if_neg hk1]
+    · rw [ite_eq_right hk1]
       simp
   exact LinearMap.congr_fun hlin y
 
@@ -389,7 +389,7 @@ private theorem ggNineDepRowLinAux_main
     apply hρinj
     rw [map_mul, map_mul, hd1, hd2, hδ12]
   have hfv : fb.coord i1 (fb i0) = 0 := by
-    rw [Basis.coord_apply, Basis.repr_self_apply, if_neg hi01]
+    rw [Basis.coord_apply, Basis.repr_self_apply, ite_eq_right hi01]
   let u : ↥Tr ≃ₗ[ZMod 3] ↥Tr := LinearEquiv.transvection hfv
   have hu_apply : ∀ y : ↥Tr, u y = y + fb.coord i1 y • fb i0 :=
     fun y => LinearEquiv.transvection.apply hfv y
@@ -520,7 +520,7 @@ private theorem ggNineDepRowLinAux_main
     change (uhat : V ≃ₗ[ZMod 3] V) (fb i1 : V) - (fb i1 : V) = (fb i0 : V)
     rw [huhat_Tr (fb i1)]
     have h2 : u (fb i1) = fb i1 + fb i0 := by
-      rw [hu_apply, Basis.coord_apply, Basis.repr_self_apply, if_pos rfl, one_smul]
+      rw [hu_apply, Basis.coord_apply, Basis.repr_self_apply, ite_eq_left rfl, one_smul]
     rw [h2]
     simp
   have hmove : ggLinMove (uhat : V ≃ₗ[ZMod 3] V) =

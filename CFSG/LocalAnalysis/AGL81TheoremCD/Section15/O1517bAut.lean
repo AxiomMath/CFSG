@@ -99,7 +99,7 @@ private lemma isSylow_P₀
     (hLY : ¬ L ≤ Y) :
     CFSG.ABGLocalTools.IsSylowOf 3
       ((P.subgroupOf (compN L)).map (compAut L)) (compAut L).range := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hPN : P ≤ compN L := O1517bRed.le_normalizer hKA h hL hLY
   have hleft : CFSG.ABGLocalTools.IsSylowOf 3
       ((P.subgroupOf (compN L)).map (compN L).subtype)
@@ -149,7 +149,7 @@ private lemma simple_compL
     (center_compL_eq_bot hKA h hL hLY)
 
 private lemma noncomm_compL {X : Type} [Group X] [Finite X] {p : ℕ} {P A Y : Subgroup X}
-    (h : O1517bRed X p P A Y) {L : Subgroup X} (hL : CFSG.IsComponent L) :
+    (_h : O1517bRed X p P A Y) {L : Subgroup X} (hL : CFSG.IsComponent L) :
     ∃ a b : ↥(compL L), a * b ≠ b * a :=
   CFSG.RankThree.GF2n.Stroth80.exists_noncomm_of_isComponent
     (CFSG.LocalCores.component_overgroup hL Subgroup.le_normalizer)
@@ -183,7 +183,7 @@ private lemma inf_P_component_ne_bot
     {X : Type} [Group X] [Finite X] {p : ℕ} {P A Y : Subgroup X}
     (h : O1517bRed X p P A Y) {L : Subgroup X} (hL : CFSG.IsComponent L)
     (hLY : ¬ L ≤ Y) : P ⊓ L ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPN : P ≤ compN L := O1517bRed.le_normalizer hKA h hL hLY
   have hPsyl : CFSG.ABGLocalTools.IsSylowOf 3 P (compN L) := h.sylow.of_le hPN le_top
   have hsyl : CFSG.ABGLocalTools.IsSylowOf 3 (P ⊓ L) L :=
@@ -276,7 +276,7 @@ private lemma not_inn_le
     rw [Subgroup.map_bot, Subgroup.subgroupOf_map_subtype,
       inf_eq_left.mpr inf_le_left] at hmap
     exact hmap
-  haveI : IsSimpleGroup ↥L :=
+  have : IsSimpleGroup ↥L :=
     CFSG.RankThree.GF2n.Stroth80.isSimpleGroup_of_center_eq_bot hL
       (O1517bRed.center_eq_bot hKA h hL hLY)
   have htop : (L ⊓ Y).subgroupOf L = ⊤ := by
@@ -331,7 +331,7 @@ private lemma isSylow_A_ker
     (h : O1517bRed X p P A Y) {L : Subgroup X} (hL : CFSG.IsComponent L)
     (hLY : ¬ L ≤ Y) :
     CFSG.ABGLocalTools.IsSylowOf 3 (A.subgroupOf (compN L)) (compAut L).ker := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hPC : P ≤ Subgroup.normalizer
       ((Subgroup.centralizer (L : Set X) : Subgroup X) : Set X) :=
     P_le_normalizer_centralizer hKA h hL hLY
@@ -354,7 +354,7 @@ private lemma factorization_card_ker
     (h : O1517bRed X p P A Y) {L : Subgroup X} (hL : CFSG.IsComponent L)
     (hLY : ¬ L ≤ Y) :
     (Nat.card (compAut L).ker).factorization 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hPN : P ≤ compN L := O1517bRed.le_normalizer hKA h hL hLY
   have hAsyl : CFSG.ABGLocalTools.IsSylowOf 3 (A.subgroupOf (compN L))
       (compAut L).ker := isSylow_A_ker hKA h hL hLY
@@ -393,10 +393,10 @@ private lemma map_inf_preW {X : Type} [Group X] {P : Subgroup X} {L : Subgroup X
     exact ⟨p, ⟨hp, by change (compAut L) p ∈ D; rw [hpd]; exact hd⟩, hpd⟩
 
 private lemma card_preW
-    (hKA : CFSG.LocalAnalysis.RankFourTheoremC.GL83ComponentPCoreTrivial)
+    (_hKA : CFSG.LocalAnalysis.RankFourTheoremC.GL83ComponentPCoreTrivial)
     {X : Type} [Group X] [Finite X] {p : ℕ} {P A Y : Subgroup X}
-    (h : O1517bRed X p P A Y) {L : Subgroup X} (hL : CFSG.IsComponent L)
-    (hLY : ¬ L ≤ Y) {D : Subgroup (MulAut ↥(compL L))}
+    (_h : O1517bRed X p P A Y) {L : Subgroup X} (_hL : CFSG.IsComponent L)
+    (_hLY : ¬ L ≤ Y) {D : Subgroup (MulAut ↥(compL L))}
     (hD : D ≤ (P.subgroupOf (compN L)).map (compAut L)) :
     Nat.card ↥(preW D) = Nat.card ↥D * Nat.card ↥(compAut L).ker := by
   have hDrange : D ≤ (compAut L).range :=
@@ -450,9 +450,9 @@ private lemma isSylow_inf_preW
     {X : Type} [Group X] [Finite X] {p : ℕ} {P A Y : Subgroup X}
     (h : O1517bRed X p P A Y) {L : Subgroup X} (hL : CFSG.IsComponent L)
     (hLY : ¬ L ≤ Y) {D : Subgroup (MulAut ↥(compL L))}
-    (hD : D ≤ (P.subgroupOf (compN L)).map (compAut L)) (hDne : D ≠ ⊥) :
+    (hD : D ≤ (P.subgroupOf (compN L)).map (compAut L)) (_hDne : D ≠ ⊥) :
     CFSG.ABGLocalTools.IsSylowOf 3 (P.subgroupOf (compN L) ⊓ preW D) (preW D) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hP₀3 : IsPGroup 3 ↥((P.subgroupOf (compN L)).map (compAut L)) :=
     (elem_P₀ hKA h hL hLY).isPGroup
   have hD3 : IsPGroup 3 ↥D := hP₀3.to_le hD
@@ -472,7 +472,7 @@ private lemma two_le_pRank_inf_preW
     (hD : D ≤ (P.subgroupOf (compN L)).map (compAut L)) (hDne : D ≠ ⊥) :
     2 ≤ CFSG.Open.pRank 3
       (((P.subgroupOf (compN L) ⊓ preW D).map (compN L).subtype)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hD₁elem : CFSG.Open.IsElemAbelian 3 (P.subgroupOf (compN L) ⊓ preW D) :=
     ((O1517bRed.elem hKA h hL hLY).1.subgroupOf (compN L)).mono inf_le_left
   have hmapelem : CFSG.Open.IsElemAbelian 3
@@ -575,7 +575,7 @@ private lemma strong_sylow_map_eq_bot
       r ∣ Nat.card ((Y.subgroupOf (compN L)).map (compAut L)) → r = 2 ∨ r = 3) :
     ∃ S : Subgroup X, CFSG.ABGLocalTools.IsSylowOf p S ⊤ ∧ S ≤ Y ∧ S ≠ ⊥ ∧
       (S.subgroupOf (compN L)).map (compAut L) = ⊥ := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hYN : Y ≤ compN L := O1517bRed.Y_le_normalizer hKA h hL hLY
   obtain ⟨S, hS, hSY⟩ :=
     CFSG.RankThree.PartOne.IsStronglyPEmbedded.exists_isSylowOf_le h.strong
@@ -621,7 +621,7 @@ private lemma range_le_image_Y
     (h : O1517bRed X p P A Y) {L : Subgroup X} (hL : CFSG.IsComponent L)
     (hLY : ¬ L ≤ Y) :
     (compAut L).range ≤ (Y.subgroupOf (compN L)).map (compAut L) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hprimes : ∀ r : ℕ, r.Prime →
       r ∣ Nat.card ((Y.subgroupOf (compN L)).map (compAut L)) → r = 2 ∨ r = 3 :=
     hKB ↥(compL L) (simple_compL hKA h hL hLY) (noncomm_compL h hL)
@@ -647,7 +647,7 @@ private lemma range_le_image_Y
     rw [← CFSG.ABGLocalTools.isSylowOf_map_subtype_iff (compN L)]
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hSYN]
     exact hSabg.of_le hSleV le_top
-  haveI hVn : V.Normal := MonoidHom.normal_ker (compAut L)
+  have hVn : V.Normal := MonoidHom.normal_ker (compAut L)
   have hFrattiniN : (⊤ : Subgroup ↥(compN L)) ≤
       V ⊔ Subgroup.normalizer ((S.subgroupOf (compN L) : Subgroup ↥(compN L)) :
         Set ↥(compN L)) :=

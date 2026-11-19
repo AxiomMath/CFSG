@@ -53,14 +53,14 @@ private theorem q2cE6_card_le_pow_six_of_le_hatAut_of_ne_three
     {A : Subgroup (MulAut (adjointGroup Tag.E6 K))} (hA : IsElemAbelian p A)
     (hAI : A ≤ (TableBExc.E6Three.hatAut .E6 K).range) :
     Nat.card A ≤ p ^ 6 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAinn : A ≤
       (MulAut.conj : adjointGroup Tag.E6 K →* MulAut (adjointGroup Tag.E6 K)).range := by
     obtain ⟨Φ, -, hker, hdvd⟩ :=
       CFSG.LieType.Chevalley.exists_outer_hom_E (K := K) (τ := Tag.E6) (Or.inl rfl)
     let N := CFSG.ComponentClassification.OuterAutomorphisms.inner (adjointGroup Tag.E6 K)
-    haveI : N.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
-    haveI : ((MulAut.conj : adjointGroup Tag.E6 K →*
+    have : N.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
+    have : ((MulAut.conj : adjointGroup Tag.E6 K →*
         MulAut (adjointGroup Tag.E6 K)).range).Normal :=
       CFSG.StandardType.AutSt.normal_range_conj
     have hdet : Nat.card Φ.ker ∣ 3 := by
@@ -139,12 +139,12 @@ theorem q2c_E6_rank {p d : ℕ} {lab : LargeEvenLabel} (hlab : lab.tag = .E6) (h
   obtain ⟨t, l, n⟩ := lab
   dsimp only at hlab
   subst hlab
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro Q hQ
   obtain ⟨K, hF, hFin, hKcard, hQ'⟩ := hQ
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : CharP K 2 := charP_two_of_card hKcard
+  let : Field K := hF
+  let : Finite K := hFin
+  have : CharP K 2 := charP_two_of_card hKcard
   refine ⟨K, hF, hFin, hKcard, hQ', ?_⟩
   intro A hA hAI hbig hlo hup
   let e := TableBExc.recipeEquiv .E6 K

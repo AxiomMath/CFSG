@@ -177,7 +177,7 @@ theorem exists_twist {σ : Equiv.Perm (Fin 6)} (hσ : σ ∈ alternatingGroup (F
       ((o₁ ^ 2 * u₀ : ↥L) : G) := by
     calc ((g₀ * o₁ : ↥L) : G) * r * (((g₀ * o₁ : ↥L) : G))⁻¹ * r⁻¹
         = (g₀ : G) * (o₁ : G) * r * (o₁ : G)⁻¹ * (g₀ : G)⁻¹ * r⁻¹ := by
-            simp only [Subgroup.coe_mul, Subgroup.coe_inv]; group
+            simp only [Subgroup.coe_mul]; group
       _ = (g₀ : G) * ((o₁ : G) * r) * (o₁ : G)⁻¹ * (g₀ : G)⁻¹ * r⁻¹ := by group
       _ = (g₀ : G) * (r * (o₁ : G)⁻¹) * (o₁ : G)⁻¹ * (g₀ : G)⁻¹ * r⁻¹ := by rw [ho₁r]
       _ = (g₀ : G) * r * ((o₁ : G) ^ 2)⁻¹ * (g₀ : G)⁻¹ * r⁻¹ := by group

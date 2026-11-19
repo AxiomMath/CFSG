@@ -81,7 +81,7 @@ theorem ExtremalObstruction.exists_mem_normalizer_zpowers_eq (hS : Setting G)
   obtain ⟨n, hnP, hnD, hnC⟩ :=
     hext.exists_mem_normalizer_not_mem_centralizer hS hD1 hp hPD hDab hCD
   have hn : ∃ k : ℕ, n ^ (p ^ k) = 1 := by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨n, hnP⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨n, hnP⟩
     exact ⟨k, congrArg Subtype.val hk⟩
   have hnz : n * z = z * n := mem_centralizer_iff.mp hzc n hnP
   obtain ⟨k, hk⟩ := exists_pow_conj_zpowers_eq hDe hDc hzD hz1 hn hnD hnz hnC hwD hwz hdD hdz
@@ -190,7 +190,7 @@ theorem ExtremalObstruction.pRank_normalizer_inf_eq_two (hS : Setting G) (hD1 : 
     exact le_csSup (pRank_set_bddAbove p hprime.one_lt _)
       ⟨E, le_inf hEH (hEP'.trans hP'M'), hE, hEc⟩
   obtain ⟨m, hm⟩ := pGroup_conjugate_into_sylow_within_overgroup p hprime P' M' hP'M' D
-    (P.isPGroup'.to_le hDP) (hDH.trans hHM')
+    (P.isPGroup.to_le hDP) (hDH.trans hHM')
   set P'' : Sylow p G := ((m : G)⁻¹) • P' with hP''
   have hDP'' : D ≤ (P'' : Subgroup G) := by
     rw [hP'', sylow_coe_smul_eq_map]
@@ -216,7 +216,7 @@ theorem ExtremalObstruction.pRank_normalizer_inf_eq_two (hS : Setting G) (hD1 : 
     exact card_le_of_le hE'D
   obtain ⟨A, hAP'', hA, hAc⟩ := pRank_attained p (P'' : Subgroup G) (by rw [hP''3]; norm_num)
   rw [hP''3] at hAc
-  obtain ⟨-, z'', hz''D, hz''1, hz''c, -, -⟩ := isolatedPlane_structure hprime P''.isPGroup' hiso
+  obtain ⟨-, z'', hz''D, hz''1, hz''c, -, -⟩ := isolatedPlane_structure hprime P''.isPGroup hiso
     hAP'' ((CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p A).2 hA) hAc
   obtain ⟨g, hgN, hgz⟩ := hext.exists_mem_normalizer_zpowers_eq hS hD1 hp hPD hDab hCD hzD hz1
     hzc hN₀M hz''D hz''1
@@ -237,7 +237,7 @@ theorem ExtremalObstruction.pRank_normalizer_inf_eq_two (hS : Setting G) (hD1 : 
     rw [← hMgeq, hMg'] at hHM'
     exact hescape hHM'
   have hPN₀ := le_normalizer_zpowers_of_le_centralizer hzc
-  exact not_normalizer_inf_le_map_conj_of_relativePair hprime (P.isPGroup'.to_le hDP) hDM hCD
+  exact not_normalizer_inf_le_map_conj_of_relativePair hprime (P.isPGroup.to_le hDP) hDM hCD
     (coprime_card_pPrimeCoreIn_sup hN₀M)
     (hDP.trans (le_normalizer_pPrimeCoreIn_sup hPM hPN₀))
     (fun T₁ hT₁ => (h13 p hp P M D hext hPD hDab z hzD hz1 hzc hzp T₁ hT₁).le) hglob hRmax
@@ -293,6 +293,6 @@ theorem gl83InvariantTwoContainment_of_relativePairExclusion (hS : Setting G)
       hmaximal)
     (relative_pair_intersection_normalizer_escapes M R T hRmax.1 hRM hTM hint)
     (relative_maximal_pair_intersection_normalizer_not_prime_constrained p hprime hodd D M R T
-      (P.isPGroup'.to_le hDP) hDM hRmax hTmax hRM hTM hint hCD hmaximal hglobalize hcontains)
+      (P.isPGroup.to_le hDP) hDM hRmax hTmax hRM hTM hint hCD hmaximal hglobalize hcontains)
 
 end CFSG.LocalAnalysis.RankThreeTheoremC

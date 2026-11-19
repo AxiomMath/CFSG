@@ -64,7 +64,7 @@ theorem ncard_tv_A2g : Set.ncard {g : MulAut (PairN 4) | g ∈ A2g ∧ IsTvElt g
       {a2Hom (Multiplicative.ofAdd (Pi.single 0 1)), a2Hom (Multiplicative.ofAdd (Pi.single 1 1)),
         a2Hom (Multiplicative.ofAdd (Pi.single 2 1))} := by
     ext g
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨hgA, hgT⟩
       rw [← a2Hom_range] at hgA

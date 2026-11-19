@@ -420,7 +420,7 @@ private theorem inducesInnerMod_or_shape_of_innerDiagMarking
     exact (CFSG.LocalAnalysis.GLTheoremA.catalogIs_congr eP
       (Q := onLie (I171.I171LieShape p))).mp hshapeZ
   · left
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hstep : GLARawDatum lab (fun R _ I F =>
         (IsSimpleGroup R ∧ (∃ a b : R, a * b ≠ b * a) ∧
           ∃ θ : ↥L ⧸ Subgroup.center ↥L ≃* R,

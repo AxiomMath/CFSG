@@ -162,7 +162,7 @@ open CFSG.Open CFSG.Quasithin.G11
 structure Thm66Frontier : Prop where
 
 theorem thm66Named_of_frontier
-    (h : Thm66Frontier) : Thm66Named where
+    (_h : Thm66Frontier) : Thm66Named where
   aschbacherTheorem5 := CFSG.ComponentClassification.GSThmB.aschbacherTheorem5Input_holds
   knownGroupFacts := CFSG.ComponentClassification.AschbacherKnownGroup.knownGroupFacts_holds
   g8 := g8_holds

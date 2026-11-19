@@ -29,8 +29,7 @@ open scoped CFSG.Certificates.Kernel.PkCV.FastDecide in
 open CFSG.Certificates.Kernel.PkCV in
 private theorem searchAll6_true_1 : searchAll6 a4C6 oddC6 evenC6 := by
   unfold searchAll6 searchB6 a4C6 oddC6 evenC6
-  simp only [univ_filter_eq_allPL, Finset.mem_filter, List.mem_toFinset, and_imp,
-    decide_eq_permBEq]
+  simp only [univ_filter_eq_allPL, Finset.mem_filter, List.mem_toFinset, and_imp]
   decide +kernel
 
 end CertificateChecks.Batch5093

@@ -28,14 +28,14 @@ theorem exists_elemAbelian_conj_le_six
     have hcard : Nat.card K = 1 := by simpa using hK
     have h1 : 1 < Nat.card K := Finite.one_lt_card
     omega
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK' : Nat.card K = ℓ ^ (2 * f) := by rw [hK, ← pow_mul, mul_comm]
   have hU : UnitaryFieldData ℓ f K := ⟨hℓ, hf, hK'⟩
-  haveI : CharP K ℓ := hU.charP
+  have : CharP K ℓ := hU.charP
   have hσ' : ∀ c, σ.toRingHom c = c ^ (ℓ ^ f) := hσ
   obtain ⟨ψ₁, hk₁, -, hX₁⟩ := twE6SU6Cover_five K σ ℓ f hℓ hf hK hσ 5 le_rfl h5
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   obtain ⟨e₂⟩ := exists_mulEquiv_sl2_su2 (K := K) hK σ.toRingHom hσ'
   let θ : SL(2, RingHom.eqLocusField σ.toRingHom (RingHom.id K)) × unitarySL σ.toRingHom ≃*
       CFSG.ClassicalGroups.UnitaryFlag.unitarySU ℓ f K 2 ×

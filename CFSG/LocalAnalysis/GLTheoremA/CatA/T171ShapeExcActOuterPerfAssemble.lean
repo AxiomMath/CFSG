@@ -34,9 +34,9 @@ theorem fixedTorus_le_orbitGroupC_of_cartan_det_four
     D.fixedTorus ≤ D.orbitGroupC :=
   CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.E6Three.KSGen.fixedTorus_le_orbitGroupC_of_coords
     D Δ hΔ
-    (fun t ht =>
+    (fun _t ht =>
       exists_rootDiagUnit_coordTuple_of_mem_torusJ D Δ hΔ hΔroot hdet hspan hcenter ht)
-    (fun c c' h => coordTuple_injective_of_det_four Δ hΔroot hdet h)
+    (fun _c _c' h => coordTuple_injective_of_det_four Δ hΔroot hdet h)
 
 end Torus
 

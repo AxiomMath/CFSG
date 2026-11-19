@@ -69,7 +69,7 @@ theorem act_refl_single (i : Fin 5) (x : Fin 5 → ZMod 3) (j : Fin 5) :
     generalize x j = a
     revert a
     decide
-  · simp [Pi.single_apply, hji]
+  · simp [hji]
 
 theorem neg_one_eq_prod_refl :
     (-1 : GL (Fin 5) (ZMod 3)) =

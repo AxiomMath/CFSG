@@ -96,7 +96,7 @@ theorem burnsideF429a_rank_single {ι F : Type} [Fintype ι] [DecidableEq ι] [F
       rw [single_apply, vecMulVec_apply]
       by_cases ha : i = a <;> by_cases hb : j = b
       · subst ha; subst hb; simp
-      · subst ha; simp [Pi.single_apply, Ne.symm hb, hb]
+      · subst ha; simp [Ne.symm hb, hb]
       · simp [Pi.single_apply, Ne.symm ha, ha]
       · simp [Pi.single_apply, Ne.symm ha, ha]
     rw [e]
@@ -173,12 +173,12 @@ theorem burnsideF429a_U4_ref {θ : K} (hθ : θ + h.bar θ = 1) :
     rw [mul_apply, sum_ix]
     simp only [mul_apply, sum_ix, transpose_apply, map_apply]
     rcases ix_cases i with rfl | rfl | rfl | rfl <;> rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-      simp [one_apply, single_apply, hypGram_apply] <;> grind
+      simp [one_apply, hypGram_apply]; grind
   · ext i j
     rw [mul_apply, sum_ix]
     simp only [map_apply]
     rcases ix_cases i with rfl | rfl | rfl | rfl <;> rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-      simp [one_apply, single_apply] <;> grind
+      simp [one_apply]; grind
 
 theorem burnsideF429a_U4_cocycle_mat {G : Matrix Ix Ix K}
     (hGu : (G.map h.bar)ᵀ * hypGram 2 0 K * G = hypGram 2 0 K) (hGG : G * G.map h.bar = 1) :
@@ -389,7 +389,7 @@ theorem burnsideF429a_U4_z0_mul_self :
   ext i j
   rw [mul_apply, sum_ix]
   rcases ix_cases i with rfl | rfl | rfl | rfl <;> rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-    simp [one_apply, single_apply] <;> grind
+    simp [one_apply]; grind
 
 theorem burnsideF429a_U4_frobElt_z0 : frobElt h (burnsideF429a_U4_z0 h) = burnsideF429a_U4_z0 h := by
   apply hypSU_ext h
@@ -401,7 +401,7 @@ theorem burnsideF429a_U4_z0_ne_one : burnsideF429a_U4_z0 h ≠ 1 := by
   intro h1
   have e := congrArg (fun x : hypSU h 2 0 => ((x : GL Ix K) : Matrix Ix Ix K) ie1 if1) h1
   simp only [burnsideF429a_U4_coe_z0, OneMemClass.coe_one, Units.val_one] at e
-  simp [one_apply, single_apply] at e
+  simp [one_apply] at e
 
 theorem burnsideF429a_U4_rank_z0 :
     ((((burnsideF429a_U4_z0 h : hypSU h 2 0) : GL Ix K) : Matrix Ix Ix K) - 1).rank = 1 := by
@@ -417,13 +417,13 @@ theorem burnsideF429a_U4_row_of_form [CharP K 2] {X : Matrix Ix Ix K} {c : Ix}
     single_apply] at e
   have e' : X c j ^ 2 = if c = j then 1 else 0 := by
     rcases ix_cases c with rfl | rfl | rfl | rfl <;> rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-      (first | rw [if_pos rfl] | rw [if_neg (by decide)]) <;> simp at e <;> grind
+      (first | rw [ite_eq_left rfl] | rw [ite_eq_right (by decide)]) <;> simp at e <;> grind
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   by_cases hcj : c = j
-  · rw [if_pos hcj] at e' ⊢
+  · rw [ite_eq_left hcj] at e' ⊢
     have e2 : (X c j - 1) ^ 2 = 0 := by linear_combination e' - X c j * h2 + h2
     exact sub_eq_zero.mp (pow_eq_zero_iff two_ne_zero |>.mp e2)
-  · rw [if_neg hcj] at e' ⊢
+  · rw [ite_eq_right hcj] at e' ⊢
     exact pow_eq_zero_iff two_ne_zero |>.mp e'
 
 theorem burnsideF429a_U4_z0t_mul_J :
@@ -432,7 +432,7 @@ theorem burnsideF429a_U4_z0t_mul_J :
   ext a b
   rw [mul_hypGram_apply, transpose_apply]
   rcases ix_cases a with rfl | rfl | rfl | rfl <;> rcases ix_cases b with rfl | rfl | rfl | rfl <;>
-    simp [one_apply, single_apply, hypGram_apply]
+    simp [one_apply, hypGram_apply]
 
 theorem burnsideF429a_U4_J_mul_z0t :
     hypGram 2 0 K * ((1 : Matrix Ix Ix K) + single ie1 if1 1)ᵀ =
@@ -440,7 +440,7 @@ theorem burnsideF429a_U4_J_mul_z0t :
   ext a b
   rw [hypGram_mul_apply, transpose_apply]
   rcases ix_cases a with rfl | rfl | rfl | rfl <;> rcases ix_cases b with rfl | rfl | rfl | rfl <;>
-    simp [one_apply, single_apply, hypGram_apply]
+    simp [one_apply, hypGram_apply]
 
 theorem burnsideF429a_U4_comm_z0_mat [CharP K 2] {X : Matrix Ix Ix K}
     (hXu : (X.map h.bar)ᵀ * hypGram 2 0 K * X = hypGram 2 0 K)
@@ -453,7 +453,7 @@ theorem burnsideF429a_U4_comm_z0_mat [CharP K 2] {X : Matrix Ix Ix K}
     ext i j
     rw [mul_apply, sum_ix]
     rcases ix_cases i with rfl | rfl | rfl | rfl <;> rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-      simp [one_apply, single_apply] <;> grind
+      simp [one_apply]; grind
   have hZt : Zᵀ * Zᵀ = 1 := by rw [← transpose_mul, hZZ, transpose_one]
   have hXbar : X.map h.bar = Z * X * Z := by
     calc X.map h.bar = Z * Z * X.map h.bar := by rw [hZZ, Matrix.one_mul]
@@ -495,7 +495,7 @@ theorem burnsideF429a_U4_comm_z0_mat [CharP K 2] {X : Matrix Ix Ix K}
   ext i j
   rw [mul_apply, mul_apply, sum_ix, sum_ix]
   rcases ix_cases i with rfl | rfl | rfl | rfl <;> rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-    simp [single_apply, hr, hc]
+    simp [hr, hc]
 
 theorem burnsideF429a_U4_comm_z0 {k : hypSU h 2 0}
     (hk : k * burnsideF429a_U4_z0 h = burnsideF429a_U4_z0 h * frobElt h k) :

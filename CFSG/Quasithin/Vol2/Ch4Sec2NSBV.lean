@@ -26,7 +26,7 @@ theorem V_le_perfectCore (c : Conf4212 G T M L I H K) :
 
 theorem pCoreOf_I_le_normalizer (c : Conf4212 G T M L I H K) :
     pCoreOf 2 I ≤ Subgroup.normalizer (perfectCore (L ⊓ H) : Set G) :=
-  fun r hr => c.LH_normal (c.hypC28.le_M hr)
+  fun _r hr => c.LH_normal (c.hypC28.le_M hr)
 
 theorem pCoreOf_perfectCore_le_pCoreOf_sup (c : Conf4212 G T M L I H K) :
     pCoreOf 2 (perfectCore (L ⊓ H)) ≤ pCoreOf 2 (perfectCore (L ⊓ H) ⊔ pCoreOf 2 I) := by
@@ -35,7 +35,7 @@ theorem pCoreOf_perfectCore_le_pCoreOf_sup (c : Conf4212 G T M L I H K) :
   refine sup_le (le_normalizer_pCoreOf 2 _) fun r hr => ?_
   exact normalizer_le_normalizer_pCoreOf 2 _ (pCoreOf_I_le_normalizer c hr)
 
-theorem inf_pCoreOf_sup_le_pCoreOf (c : Conf4212 G T M L I H K) :
+theorem inf_pCoreOf_sup_le_pCoreOf (_c : Conf4212 G T M L I H K) :
     perfectCore (L ⊓ H) ⊓ pCoreOf 2 (perfectCore (L ⊓ H) ⊔ pCoreOf 2 I) ≤
       pCoreOf 2 (perfectCore (L ⊓ H)) := by
   set LH := perfectCore (L ⊓ H) with hLH
@@ -76,7 +76,7 @@ theorem eq_zero_of_mulVec_eq_self {m : ℕ} (hm : 2 ≤ m) (w : Fin m → ZMod 2
   funext j
   obtain ⟨i, hij⟩ : ∃ i : Fin m, i ≠ j := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have h0 : (⟨0, by omega⟩ : Fin m) = j := hcon _
     have h1 : (⟨1, by omega⟩ : Fin m) = j := hcon _
     have h2 := h0.trans h1.symm
@@ -99,6 +99,7 @@ theorem eq_zero_of_mulVec_eq_self {m : ℕ} (hm : 2 ≤ m) (w : Fin m → ZMod 2
   have : w j = 0 := by simpa using h
   simpa using this
 
+omit [Finite G] in
 theorem card_V_of_isSum {A V : Subgroup G} {N : Subgroup ↥A} {m k : ℕ}
     (h : IsSumOfNaturalModules A V ⊥ N (CFSG.Assembly.LowTwoRank.StatedSL m (ZMod 2)) false k) :
     Nat.card V = 2 ^ (m * k) := by
@@ -115,6 +116,7 @@ theorem card_V_of_isSum {A V : Subgroup G} {N : Subgroup ↥A} {m k : ℕ}
     Nat.card_eq_fintype_card (α := Fin m), Fintype.card_fin, Nat.card_eq_fintype_card (α := Fin k),
     Fintype.card_fin, ← pow_mul]
 
+omit [Finite G] in
 theorem nine_le_card_V {A V : Subgroup G} {N : Subgroup ↥A} {m k : ℕ} (hm : 3 ≤ m) (hmk : m ≤ k)
     (h : IsSumOfNaturalModules A V ⊥ N (CFSG.Assembly.LowTwoRank.StatedSL m (ZMod 2)) false k) :
     2 ^ 9 ≤ Nat.card V := by
@@ -164,7 +166,7 @@ theorem V_inf_centralizer (c : Conf4212 G T M L I H K) (m k : ℕ) (hm : 2 ≤ m
     have hgα : ((α a : Matrix.GeneralLinearGroup (Fin m) (ZMod 2)) : Matrix (Fin m) (Fin m) (ZMod 2))
         = (g : Matrix (Fin m) (Fin m) (ZMod 2)) := by
       rw [hαa]
-    simp only [moduleAct, if_neg Bool.false_ne_true] at h
+    simp only [moduleAct, ite_eq_right Bool.false_ne_true] at h
     rw [hgα] at h
     exact h.symm
   have hβ0 : β vv = 1 := by

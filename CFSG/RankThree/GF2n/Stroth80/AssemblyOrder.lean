@@ -42,7 +42,7 @@ structure StrothSectionsOT : Prop where
 theorem stroth_centTrivialOT (S : StrothSectionsOT) (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n)
     (hn : 2 < n) (hno : NoA2 Q Z (LB M Q B)) (hgen : GenByB M Q B) :
     CentTrivial M Q Z (Lgen M (LB M Q B)) := by
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   set T := Lgen M (LB M Q B) with hT
   have hLT : bar M Q (LB M Q B) ≤ bar M Q T :=
     Subgroup.map_mono (fun x hx => le_Lgen (LB M Q B) (show (x : G) ∈ LB M Q B from hx))
@@ -86,7 +86,7 @@ theorem stroth_centTrivialOT (S : StrothSectionsOT) (hc : Ctx M Q Z B) {n : ℕ}
 theorem stroth_case_TIOT (S : StrothSectionsOT) (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n)
     (hn : 2 < n) (hno : NoA2 Q Z (LB M Q B)) (hgen : GenByB M Q B)
     (hTI : IsTIMod M Q (LB M Q B)) : StrothC3 M Q Z (Lgen M (LB M Q B)) := by
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   obtain ⟨hn4, hbar, hSL⟩ := S.h37 G M Q Z B hc n hw hn hno hgen hTI
   subst hn4
   refine ⟨by simpa [Width] using hw, ?_, stroth_centTrivialOT S hc hw hn hno hgen⟩
@@ -117,7 +117,7 @@ theorem stroth_case_6_5OT (S : StrothSectionsOT) (hc : Ctx M Q Z B) {n : ℕ} (h
       exact hΩ
   · right
     subst hnm
-    haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+    have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
     have hRle : Rt M (LB M Q B) t ≤ Lgen M (LB M Q B) := Rt_le_Lgen M (LB M Q B) t
     have hRM : Rt M (LB M Q B) t ≤ M := hc.Rt_le_M t
     have hXM : X ≤ M := hXR.trans hRM
@@ -206,7 +206,7 @@ theorem stroth_case_finalOT (S : StrothSectionsOT) (hc : Ctx M Q Z B) {n : ℕ} 
     ∃ t ∈ LB M Q B, t ∉ Q ∧ CentTrivial M Q Z (Lgen M (LB M Q B)) ∧
       (StrothCi M Q Z B t ∨ StrothCii M Q Z B t ∨ StrothCiii M Q Z (Lgen M (LB M Q B)) ∨
         StrothCiv M Q Z B t ∨ StrothCv M Q Z B t) := by
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have s12 : Stroth12Hyp hc n := ⟨hw, hn, hno, hgen, hTI, hlarge⟩
   obtain ⟨t, ht, htQ, hbig⟩ := stroth_exists_bigOT S hc hw hn hno hgen hTI
   have s5 : Sec5Hyp hc n t := s12.toSec5 ht htQ

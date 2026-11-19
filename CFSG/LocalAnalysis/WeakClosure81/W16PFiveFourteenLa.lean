@@ -17,6 +17,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem w16pLa_card_sp {J E : Subgroup G} (M : ModDataE J E) (S : Subgroup G) :
     Nat.card ↥(M.sp S) = Nat.card ↥(S ⊓ E) := by
   refine (Nat.card_congr (Equiv.ofBijective
@@ -199,7 +200,7 @@ theorem Hyp167.le_n_of_quad (hMult : SchurMultiplierInput)
     hPD hPnorm hQnorm hfix
 
 theorem Hyp167.le_mSub_of_F (hMult : SchurMultiplierInput)
-    (hS : Std15 G) (h152 : Thm152 G) (h1 : W16One G) (hX : Hyp167 M V₀ V U S H g X T)
+    (hS : Std15 G) (_h152 : Thm152 G) (h1 : W16One G) (hX : Hyp167 M V₀ V U S H g X T)
     (hVO : V ≤ pCoreOf 2 H) {Y : Subgroup G} {k : ℕ} (hAY : conjSubgroup V g ≤ Y)
     (hYX : Y ≤ X) (hYM : ¬ Y ≤ M)
     (h12 : Setting12Two ((conjSubgroup V g).subgroupOf Y) (M.subgroupOf Y) k)

@@ -47,9 +47,9 @@ theorem lm_eq (c : ℕ) : lm c = if c % 2 = 1 then Mr (c / 2) else Mi (c / 2) :=
   unfold lm Mr Mi
   rw [CertificateChecks.KernelWP.letC_div]
   by_cases h : c % 2 = 1
-  · simp only [h, decide_true, if_true]
+  · simp only [h, decide_true, ite_true]
     rfl
-  · simp only [h, decide_false, if_false]
+  · simp only [h, decide_false, ite_false]
     change OMs (RB (Nat.add (Nat.succ 46) (c / 2))) = _
     rfl
 
@@ -104,7 +104,7 @@ theorem word_root_of {RWl RELl : List (List ℕ)} (hRL : RELl.length = 44)
   have h := relW_one (List.all_eq_true.1 hrels _ hmem)
   have e : g - 2 + 2 = g := by omega
   rw [hrel (g - 2) (by omega), e, List.map_append, List.prod_append,
-    List.map_singleton, List.prod_singleton, lm_eq, if_neg (by omega : ¬ 2 * g % 2 = 1),
+    List.map_singleton, List.prod_singleton, lm_eq, ite_eq_right (by omega : ¬ 2 * g % 2 = 1),
     Nat.mul_div_cancel_left g (by norm_num : 0 < 2)] at h
   have h2' : Mi g * Mr g = 1 := mul_comm_of_one (pair g hg)
   calc ((RWl.getD (g - 2) []).map lm).prod
@@ -130,13 +130,13 @@ theorem rEl_eq (g : ℕ) : rEl g = if g = 0 then a Ds else if g = 1 then b Ds el
 theorem rEl_roots : RootsEq rEl RW := by
   intro g hg
   obtain ⟨-, -, hr, -⟩ := tie_parts
-  rw [rEl_eq, if_neg (by omega), if_neg (by omega), wordEl]
+  rw [rEl_eq, ite_eq_right (by omega), ite_eq_right (by omega), wordEl]
   congr 1
   refine List.map_congr_left fun c hc => ?_
   have hcg : c / 2 < g := by
     have := rootsOK_spec hr hc
     omega
-  rw [if_pos hcg]
+  rw [ite_eq_left hcg]
   rfl
 
 noncomputable abbrev matHom : J Ds →* Matrix (Fin (Ds).d) (Fin (Ds).d) (ZMod 5) :=
@@ -186,30 +186,30 @@ theorem mat_rEl : ∀ g < 46, mat Ds (rEl g) = Mr g := by
     intro hg
     rcases Nat.lt_or_ge g 2 with h2 | h2
     · interval_cases g
-      · rw [rEl_eq, if_pos rfl, mat_a]
-      · rw [rEl_eq, if_neg (by norm_num), if_pos rfl, mat_b]
+      · rw [rEl_eq, ite_eq_left rfl, mat_a]
+      · rw [rEl_eq, ite_eq_right (by norm_num), ite_eq_left rfl, mat_b]
     · obtain ⟨-, -, hr, -⟩ := tie_parts
-      rw [rEl_eq, if_neg (by omega), if_neg (by omega), ← word_root hg h2, mat_prod, List.map_map]
+      rw [rEl_eq, ite_eq_right (by omega), ite_eq_right (by omega), ← word_root hg h2, mat_prod, List.map_map]
       congr 1
       refine List.map_congr_left fun c hc => ?_
       have hcg : c / 2 < g := by
         have := rootsOK_spec hr hc
         omega
-      simp only [Function.comp_apply, if_pos hcg]
+      simp only [Function.comp_apply, ite_eq_left hcg]
       rw [lm_eq]
       by_cases hp : c % 2 = 1
-      · rw [if_pos hp, if_pos hp]
+      · rw [ite_eq_left hp, ite_eq_left hp]
         exact ih _ hcg (by omega)
-      · rw [if_neg hp, if_neg hp]
+      · rw [ite_eq_right hp, ite_eq_right hp]
         exact mat_inv_of (by omega) (ih _ hcg (by omega))
 
 theorem mat_codeEl {c : ℕ} (hc : c / 2 < 46) : mat Ds (codeEl rEl c) = lm c := by
   unfold codeEl
   rw [lm_eq]
   by_cases hp : c % 2 = 1
-  · rw [if_pos hp, if_pos hp]
+  · rw [ite_eq_left hp, ite_eq_left hp]
     exact mat_rEl _ hc
-  · rw [if_neg hp, if_neg hp]
+  · rw [ite_eq_right hp, ite_eq_right hp]
     exact mat_inv_of hc (mat_rEl _ hc)
 
 theorem mat_wordEl {w : List ℕ} (hw : ∀ c ∈ w, c / 2 < 46) :

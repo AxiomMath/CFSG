@@ -61,7 +61,7 @@ theorem exists_isElemAbelian_card_nine_statedSU {K : Type} [Field K] [Finite K] 
     (hK : Nat.card K = (2 ^ f) ^ 2) (h3 : 3 ∣ 2 ^ f + 1) (hn : 4 ≤ n) :
     ∃ E : Subgroup (StatedSU n (2 ^ f) K), IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 2 ∧
       ∀ g ∈ E, (g : GL (Fin n) K) ∈ StatedScalars (Fin n) K → g = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq : 2 ^ f ≠ 0 := by positivity
   have hcard : Nat.card Kˣ = (2 ^ f + 1) * (2 ^ f - 1) := by
     rw [Nat.card_units, hK, ← Nat.sq_sub_sq, one_pow]

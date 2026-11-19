@@ -195,7 +195,7 @@ theorem exists_fusing_of_not_induced {α : MulAut ↥(alternatingGroup (Fin 6))}
 theorem alt_injective_of_surj {n : ℕ} (hn : 5 ≤ n) {Y : Type} [Group Y] {A : Subgroup Y}
     (hA : A ≠ ⊥) (π : ↥(alternatingGroup (Fin n)) →* ↥A) (hπ : Function.Surjective π) :
     Function.Injective π := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin n)) := alternatingGroup.isSimpleGroup (by simpa using hn)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin n)) := alternatingGroup.isSimpleGroup (by simpa using hn)
   have hne : ∃ s, π s ≠ 1 := by
     obtain ⟨a, ha1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp hA
     obtain ⟨s, rfl⟩ := hπ a
@@ -209,6 +209,7 @@ attribute [local instance] CFSG.Quasithin.commGroupOfFact
 variable {G : Type} [Group G] [Finite G] {T V L V₁ Vp H K I : Subgroup G}
   [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))]
 
+omit [Finite G] [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))] in
 theorem actH_conj_mem_autIH (h : HypF918 T V L V₁ Vp H K) (hK : conjClosure K T = K) {x : G}
     (hx : x ∈ H) {l : MulAut ↥(tildeOf V₁ (conjClosure I H))} (hl : l ∈ autIH V₁ I H K) :
     actH h.H_le_normalizer_V₁ (le_normalizer_conjClosure I H) ⟨x, hx⟩ * l *

@@ -81,7 +81,7 @@ private theorem card_le_eleven_of_L5 {Y : Type} [Group Y] [Finite Y] (Q : PrimeP
     (hchar : Q.p = 3) (hQe : Q.exponent = 1) {A : Subgroup Y} (hA : IsElemAbelian 11 A) :
     Nat.card A ≤ 11 := by
   classical
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   have hT := CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.lieModel_typeA 4 Q hv
   have hcl : CFSG.Assembly.LowTwoRank.StatedClassicalModel Y .PSL (4 + 1) 3 1 := by
     rcases hT.2 with h | ⟨h0, -⟩
@@ -104,14 +104,14 @@ private theorem card_le_eleven_of_L5 {Y : Type} [Group Y] [Finite Y] (Q : PrimeP
   let ι := (Matrix.SpecialLinearGroup.toGL : Matrix.SpecialLinearGroup (Fin (4 + 1)) K →* _)
   have hι : Function.Injective ι := Matrix.SpecialLinearGroup.toGL_injective
   obtain ⟨S, hS⟩ := (hP.map ι).exists_le_sylow
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h5 : orderOf ((Nat.card K : ℕ) : ZMod 11) = 5 := by
     rw [hK, Nat.cast_ofNat]
     exact orderOf_eq_prime three_pow_five_zmod three_ne_one_zmod
-  haveI hScyc : IsCyclic S := CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.isCyclic_sylow_gl_of_div
+  have hScyc : IsCyclic S := CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.isCyclic_sylow_gl_of_div
     (by decide) (by rw [hK]; norm_num) (by rw [h5]) S
-  haveI : IsCyclic (P.map ι) := Subgroup.isCyclic_of_le hS
-  haveI : IsCyclic P := isCyclic_of_injective (P.equivMapOfInjective ι hι).toMonoidHom
+  have : IsCyclic (P.map ι) := Subgroup.isCyclic_of_le hS
+  have : IsCyclic P := isCyclic_of_injective (P.equivMapOfInjective ι hι).toMonoidHom
     (P.equivMapOfInjective ι hι).injective
   let f : ↥P →* ↥A' := ((CFSG.LocalAnalysis.ComponentInitial.LinearFlag.proj (4 + 1) K).comp
     P.subtype).codRestrict A' fun x => by
@@ -122,8 +122,8 @@ private theorem card_le_eleven_of_L5 {Y : Type} [Group Y] [Finite Y] (Q : PrimeP
     rw [← hPA] at hy
     obtain ⟨x, hx, rfl⟩ := hy
     exact ⟨⟨x, hx⟩, rfl⟩
-  haveI : IsCyclic A' := isCyclic_of_surjective f hf
-  haveI : IsCyclic A := isCyclic_of_injective (A.equivMapOfInjective e₂.toMonoidHom
+  have : IsCyclic A' := isCyclic_of_surjective f hf
+  have : IsCyclic A := isCyclic_of_injective (A.equivMapOfInjective e₂.toMonoidHom
     e₂.injective).toMonoidHom (A.equivMapOfInjective e₂.toMonoidHom e₂.injective).injective
   exact card_le_of_isCyclic_of_pow_eq_one (by norm_num)
     fun a => Subtype.ext (by simpa using hA.2 a a.2)
@@ -151,7 +151,7 @@ theorem card_le_of_three_le_ten {Y : Type} [Group Y] [Finite Y] (d : LieTypeInde
     have := (Nat.Prime.pow_dvd_iff_le_factorization Nat.prime_three hY0).1 h
     omega
   have hAp : IsPGroup p A := CFSG.Open.IsElemAbelian.isPGroup hA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hAp.exists_card_eq
   have hrange := (LieTypeIndex.inStandardRange_iff _).1 ((LieTypeIndex.valid_iff _).1 hv).1
   have hdup := ((LieTypeIndex.valid_iff _).1 hv).2

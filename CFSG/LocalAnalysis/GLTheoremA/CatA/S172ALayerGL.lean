@@ -29,13 +29,13 @@ theorem Nsub_simple_nonab_c {c : ℕ} (hc3 : 3 ≤ c) (h3 : e ^ 3 = 1)
 theorem Nsub_isQuasisimple_c {c : ℕ} (hc3 : 3 ≤ c) (h3 : e ^ 3 = 1)
     (hc : Module.finrank (ZMod 2) (fixSp e) = c) : CFSG.Open.IsQuasisimple (Nsub h3) := by
   obtain ⟨hs, hn⟩ := Nsub_simple_nonab_c hc3 h3 hc
-  haveI := hs
+  have := hs
   exact isQuasisimple_of_simple_nonab hn
 
 theorem Nsub_center_c {c : ℕ} (hc3 : 3 ≤ c) (h3 : e ^ 3 = 1)
     (hc : Module.finrank (ZMod 2) (fixSp e) = c) : Subgroup.center (Nsub h3) = ⊥ := by
   obtain ⟨hs, hn⟩ := Nsub_simple_nonab_c hc3 h3 hc
-  haveI := hs
+  have := hs
   exact center_eq_bot_of_simple_nonab hn
 
 theorem three_dvd_card_Nsub_c {k : ℕ} (hk : 1 ≤ k) (h3 : e ^ 3 = 1)
@@ -60,7 +60,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMo
 theorem card_le_three_pow (E : Subgroup (V ≃ₗ[ZMod 2] V)) (hE : IsElemAbelian 3 E) :
     Nat.card E ≤ 3 ^ (Module.finrank (ZMod 2) V / 2) := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   obtain ⟨kE, hkE⟩ := card_eq_pow_three hE
   have hodd : Odd (Fintype.card E) := by
     rw [← Nat.card_eq_fintype_card, hkE]

@@ -106,7 +106,7 @@ theorem UCtx3.phanChain3U_of_end (c : UCtx3 m (conjClass3 K) K z) (nd : UNodes3 
   · intro i j hij
     rcases hU i with ⟨hi, h⟩ | ⟨hi, h⟩ | ⟨a, ha, hi, h⟩ <;>
     rcases hU j with ⟨hj, h'⟩ | ⟨hj, h'⟩ | ⟨b, hb, hj, h'⟩
-    all_goals first | (exfalso; omega) | skip
+    all_goals try (exfalso; omega)
     · rw [h, h']
       exact nd.commK b hb
     · rw [h, h']
@@ -120,7 +120,7 @@ theorem UCtx3.phanChain3U_of_end (c : UCtx3 m (conjClass3 K) K z) (nd : UNodes3 
   · intro i j hij
     rcases hU i with ⟨hi, h⟩ | ⟨hi, h⟩ | ⟨a, ha, hi, h⟩ <;>
     rcases hU j with ⟨hj, h'⟩ | ⟨hj, h'⟩ | ⟨b, hb, hj, h'⟩
-    all_goals first | (exfalso; omega) | skip
+    all_goals try (exfalso; omega)
     · rw [h, h']
       exact ⟨W1, hW1⟩
     · rw [h, h']
@@ -135,7 +135,7 @@ theorem UCtx3.phanChain3U_of_end (c : UCtx3 m (conjClass3 K) K z) (nd : UNodes3 
     rcases hU i with ⟨hi, h⟩ | ⟨hi, h⟩ | ⟨a, ha, hi, h⟩ <;>
     rcases hU j with ⟨hj, h'⟩ | ⟨hj, h'⟩ | ⟨b, hb, hj, h'⟩ <;>
     rcases hU k with ⟨hk, h''⟩ | ⟨hk, h''⟩ | ⟨d, hd, hk, h''⟩
-    all_goals first | (exfalso; omega) | skip
+    all_goals try (exfalso; omega)
     · have hd0 : d = 0 := by omega
       subst hd0
       rw [h, h', h'']

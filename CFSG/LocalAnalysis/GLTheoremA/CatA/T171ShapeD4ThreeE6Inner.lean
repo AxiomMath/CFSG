@@ -91,8 +91,8 @@ theorem d4Neg_smul_parabolicRoot {α : Fin Tag.E6.rank → ℤ}
   have hdec : α = α 1 • (Pi.single 1 1 : Fin Tag.E6.rank → ℤ) + α 2 • Pi.single 2 1 +
       α 3 • Pi.single 3 1 + α 4 • Pi.single 4 1 := by
     funext k
-    fin_cases k <;> simp (config := { decide := true }) [h0, h5, Pi.single_apply] <;>
-      first | rfl | exact h0 | exact h5
+    fin_cases k <;> simp (config := { decide := true }) [h0, Pi.single_apply] <;>
+      first | rfl | exact h5
   rw [hdec]
   simp only [smul_add, smul_comm _ (α _), h1, h2, h3, h4, smul_neg, neg_add]
 

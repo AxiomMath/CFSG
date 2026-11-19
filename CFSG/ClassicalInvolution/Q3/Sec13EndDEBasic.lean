@@ -36,13 +36,15 @@ private structure DEBase (Ω : Set (Subgroup G)) : Prop where
   perp : Perp9 Ω
   dNorm : ∀ L ∈ Ω, zGroup Ω ≤ Subgroup.normalizer (L : Set G)
 
-private def deb_of {Ω : Set (Subgroup G)} (h : DEHyp Ω) : DEBase Ω :=
+omit [Finite G] in
+private theorem deb_of {Ω : Set (Subgroup G)} (h : DEHyp Ω) : DEBase Ω :=
   ⟨h.hyp, h.two, h.card, h.inO2, h.perp, h.dNorm⟩
 
 section Common
 
 variable {Ω : Set (Subgroup G)}
 
+omit [Finite G] in
 private theorem deb_zGroup_normal_of (hΩ : ConjInvariant Ω) : (zGroup Ω).Normal := by
   refine ⟨fun n hn g => ?_⟩
   have hn' : n ∈ Subgroup.closure {u : G | ∃ L ∈ Ω, IsUniqueInvolution L u} := hn
@@ -63,9 +65,11 @@ private theorem deb_zGroup_normal_of (hΩ : ConjInvariant Ω) : (zGroup Ω).Norm
     rw [e]
     exact (zGroup Ω).inv_mem hx
 
+omit [Finite G] in
 private theorem deb_zGroup_normal (B : DEBase Ω) : (zGroup Ω).Normal :=
   deb_zGroup_normal_of B.hyp.conjInvariant
 
+omit [Finite G] in
 private theorem deb_conjSub_eq_of_normal {X : Subgroup G} (hX : X.Normal) (g : G) :
     conjSub g X = X := by
   apply le_antisymm
@@ -78,6 +82,7 @@ private theorem deb_conjSub_eq_of_normal {X : Subgroup G} (hX : X.Normal) (g : G
     have h1 := hX.conj_mem x hx g⁻¹
     rwa [inv_inv] at h1
 
+omit [Finite G] in
 private theorem deb_zGroup_le_pCore (B : DEBase Ω) : zGroup Ω ≤ pCore 2 G := by
   refine (Subgroup.closure_le _).mpr ?_
   rintro u ⟨L, hL, hu⟩
@@ -186,6 +191,7 @@ private theorem deb_mem_zGroup_iff (B : DEBase Ω) {x : G} :
     · exact Subgroup.one_mem _
     · exact Subgroup.subset_closure ⟨L, hL, hu⟩
 
+omit [Finite G] in
 private theorem deb_mem_zpowers_involution {K : Subgroup G} {z x : G}
     (hz : IsUniqueInvolution K z) (hx : x ∈ Subgroup.zpowers z) : x = 1 ∨ x = z := by
   have hxK : x ∈ K := (Subgroup.zpowers_le.mpr hz.mem) hx
@@ -194,6 +200,7 @@ private theorem deb_mem_zpowers_involution {K : Subgroup G} {z x : G}
     rw [← zpow_add, show k + k = 2 * k by ring, zpow_mul, zpow_two, hz.sq, one_zpow]
   exact hz.unique x hxK hxx
 
+omit [Finite G] in
 private theorem deb_mem_zpowers_of {z x : G} (h : x = 1 ∨ x = z) :
     x ∈ Subgroup.zpowers z := by
   rcases h with rfl | rfl
@@ -248,6 +255,7 @@ private theorem deb_dComm_mem_zpowers (B : DEBase Ω) {K : Subgroup G} (hK : K �
     dComm d k ∈ Subgroup.zpowers z :=
   deb_mem_zpowers_of (deb_dComm_eq_one_or B hK hz hd hk)
 
+omit [Finite G] in
 private theorem deb_dComm_mul_left_K {K : Subgroup G} {z : G} (hz : IsUniqueInvolution K z)
     {x y d : G} (hx : x ∈ K) (hc : dComm y d = 1 ∨ dComm y d = z) :
     dComm (x * y) d = dComm y d * dComm x d := by
@@ -283,12 +291,12 @@ private theorem deb_pCore_comm_zGroup (B : DEBase Ω) {q : G} (hq : q ∈ pCore 
     obtain ⟨S, hLS⟩ := (B.two L hL).exists_le_sylow
     have hqS : q ∈ (S : Subgroup G) := CFSG.pCore_isPGroup.le_sylow_of_normal S hq
     exact Subgroup.mem_centralizer_singleton_iff.mpr
-      (deb_commute_z_of_le B hL hu S.isPGroup' hLS hqS).symm
+      (deb_commute_z_of_le B hL hu S.isPGroup hLS hqS).symm
   exact fun x hx => Subgroup.mem_centralizer_singleton_iff.mp (hle hx)
 
-private theorem deb_zGroup_comm (B : DEBase Ω) : ∀ a ∈ zGroup Ω, ∀ b ∈ zGroup Ω,
-    a * b = b * a :=
-  fun a ha b hb => deb_pCore_comm_zGroup B (deb_zGroup_le_pCore B hb) a ha
+private theorem deb_zGroup_comm (B : DEBase Ω) : ∀ a ∈ zGroup Ω, ∀ _b ∈ zGroup Ω,
+    a * _b = _b * a :=
+  fun a ha _b hb => deb_pCore_comm_zGroup B (deb_zGroup_le_pCore B hb) a ha
 
 private theorem deb_zGroup_mul_self (B : DEBase Ω) : ∀ a ∈ zGroup Ω, a * a = 1 := by
   intro a ha
@@ -629,10 +637,10 @@ private noncomputable def deb_psiHom (B : DEBase Ω) {K : Subgroup G} (hK : K �
     refine Prod.ext (Subtype.ext ?_) (Subtype.ext ?_)
     · show dComm ((a * b : K) : G) d₁ = dComm (a : G) d₁ * dComm (b : G) d₁
       rw [Subgroup.coe_mul, deb_dComm_mul_left_K hz a.2 hb₁]
-      rcases hb₁ with e | e <;> rcases ha₁ with e' | e' <;> rw [e, e'] <;> simp [hz.sq]
+      rcases hb₁ with e | e <;> rcases ha₁ with e' | e' <;> rw [e, e'] <;> simp
     · show dComm ((a * b : K) : G) d₂ = dComm (a : G) d₂ * dComm (b : G) d₂
       rw [Subgroup.coe_mul, deb_dComm_mul_left_K hz a.2 hb₂]
-      rcases hb₂ with e | e <;> rcases ha₂ with e' | e' <;> rw [e, e'] <;> simp [hz.sq]
+      rcases hb₂ with e | e <;> rcases ha₂ with e' | e' <;> rw [e, e'] <;> simp
 
 private theorem deb_card_ker_psiHom_le (B : DEBase Ω) (hD8 : Nat.card (zGroup Ω) = 8)
     {K : Subgroup G} (hK : K ∈ Ω) {z a b : G} (hQ : Q8Data K z a b) {e : Fin 3 → G}
@@ -687,10 +695,10 @@ private theorem deb_conjMat_eq_transvection {e : Fin 3 → G} (he : TL4.E8Basis 
       TL4.e8Coord e ((if c = j then Pi.single i 1 else 0) + Pi.single c 1) := by
     intro c
     by_cases hc : c = j
-    · rw [hc, if_pos rfl, TL4.e8Coord_add he, TL4.e8Coord_single, TL4.e8Coord_single]
+    · rw [hc, ite_eq_left rfl, TL4.e8Coord_add he, TL4.e8Coord_single, TL4.e8Coord_single]
       have e1 : x * e j * x⁻¹ = dComm x (e j) * e j := by unfold dComm; group
       rw [e1, hxj]
-    · rw [if_neg hc, zero_add, TL4.e8Coord_single]
+    · rw [ite_eq_right hc, zero_add, TL4.e8Coord_single]
       rcases fin3_cover i j k c hij hik.symm hjk.symm with rfl | rfl | rfl
       · have e1 : x * e c * x⁻¹ = dComm x (e c) * e c := by unfold dComm; group
         rw [e1, hxi, one_mul]
@@ -759,6 +767,7 @@ namespace DEHyp
 variable {Ω : Set (Subgroup G)} (h : DEHyp Ω)
 include h
 
+omit [Finite G] in
 theorem exists_isUniqueInvolution {L : Subgroup G} (hL : L ∈ Ω) :
     ∃ z : G, IsUniqueInvolution L z :=
   Sec6Gen.exists_uniqueInvolution h.hyp hL
@@ -794,9 +803,11 @@ theorem exists_ne : ∃ L ∈ Ω, ∃ L' ∈ Ω, L ≠ L' := by
     rw [h.card_zGroup, card_zpowers_of_involution hz0.sq hz0.ne_one] at h8
     norm_num at h8
 
+omit [Finite G] in
 theorem zGroup_normal : (zGroup Ω).Normal :=
   deb_zGroup_normal (deb_of h)
 
+omit [Finite G] in
 theorem zGroup_le_pCore : zGroup Ω ≤ pCore 2 G :=
   deb_zGroup_le_pCore (deb_of h)
 
@@ -933,6 +944,7 @@ theorem rhoD_range {e : Fin 3 → G} (he : TL4.E8Basis (zGroup Ω) e) :
   · rw [Matrix.TransvectionStruct.toSpecialLinearGroup_mk]
     exact deb_transvection_mem_range h he hij
 
+omit [Finite G] in
 theorem centralizer_zGroup_normal : (Subgroup.centralizer (zGroup Ω : Set G)).Normal := by
   refine ⟨fun c hc g => ?_⟩
   rw [Subgroup.mem_centralizer_iff] at hc ⊢
@@ -950,6 +962,7 @@ theorem index_centralizer_zGroup : (Subgroup.centralizer (zGroup Ω : Set G)).in
   rw [← h.rhoD_ker he, Subgroup.index_ker, h.rhoD_range he, Subgroup.card_top,
     TL4.card_sl3Two]
 
+omit [Finite G] in
 theorem exists_conj_involution {L L' : Subgroup G} (hL : L ∈ Ω) (hL' : L' ∈ Ω) {u u' : G}
     (hu : IsUniqueInvolution L u) (hu' : IsUniqueInvolution L' u') :
     ∃ g : G, g * u * g⁻¹ = u' := by

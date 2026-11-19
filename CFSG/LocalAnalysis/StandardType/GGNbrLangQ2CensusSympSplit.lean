@@ -89,9 +89,9 @@ private theorem q2cSpS_labelIso_A_A {r n r' n' : ℕ}
 private theorem q2cSpS_solvable_projectiveSL_two_small
     (K : Type) [Field K] [Finite K] (hcard : Nat.card K = 2 ∨ Nat.card K = 3) :
     Group.IsSolvable (LinearFlag.projectiveSL 2 K) := by
-  haveI : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
+  have : Group.IsSolvable (Matrix.GeneralLinearGroup (Fin 2) K) :=
     CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable K hcard
-  haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) K) :=
+  have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) K) :=
     Group.isSolvable_of_isSolvable_injective Matrix.SpecialLinearGroup.toGL_injective
   exact Group.isSolvable_of_surjective (LinearFlag.proj_surjective 2 K)
 
@@ -133,23 +133,23 @@ theorem q2cSpS_fixed_block {F : Type} [Field F] [Finite F] [CharP F 2]
       LargeEvenProj (LargeEvenSLGroup (Fin d) K))) :
     2 ≤ d ∧ d ≤ ℓ ∧ Nat.card K = Nat.card F := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hC0 : CFSG.Assembly.IsComponentOf C Blk :=
     (CFSG.Assembly.isComponentOf_iff_open).mpr hCε
   obtain ⟨θ⟩ := hne
-  haveI hsimpC : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hC0.2.2.2
-  haveI : Group.IsPerfect ↥C := Group.isPerfect_def.mpr hC0.2.2.1
+  have hsimpC : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hC0.2.2.2
+  have : Group.IsPerfect ↥C := Group.isPerfect_def.mpr hC0.2.2.1
   have eP : ↥C ⧸ Subgroup.center ↥C ≃* LinearFlag.projectiveSL d K :=
     θ.trans (TypeA.recipeEquiv d K)
-  haveI hsimpP : IsSimpleGroup (LinearFlag.projectiveSL d K) := eP.isSimpleGroup_congr.mp hsimpC
-  haveI hperfP : Group.IsPerfect (LinearFlag.projectiveSL d K) :=
+  have hsimpP : IsSimpleGroup (LinearFlag.projectiveSL d K) := eP.isSimpleGroup_congr.mp hsimpC
+  have hperfP : Group.IsPerfect (LinearFlag.projectiveSL d K) :=
     Group.IsPerfect.ofSurjective (f := eP.toMonoidHom) eP.surjective
   have hd : 2 ≤ d := by
     by_contra h
     have hd1 : d ≤ 1 := by omega
-    haveI : Subsingleton (LinearFlag.projectiveSL d K) :=
+    have : Subsingleton (LinearFlag.projectiveSL d K) :=
       CFSG.AGLEmbedding.ToralCensus.subsingleton_projectiveSL hd1 K
-    haveI : Subsingleton (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) :=
+    have : Subsingleton (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) :=
       (TypeA.recipeEquiv d K).toEquiv.subsingleton
     exact not_subsingleton _ θ.toEquiv.subsingleton
   have hm1 : 1 ≤ m := by
@@ -164,7 +164,7 @@ theorem q2cSpS_fixed_block {F : Type} [Field F] [Finite F] [CharP F 2]
     by_contra hm2
     have hm1' : m = 1 := by omega
     have hK2 : Nat.card K = 2 := by rw [hK, hm1', pow_one]
-    haveI hsolv : Group.IsSolvable (LinearFlag.projectiveSL 2 K) :=
+    have hsolv : Group.IsSolvable (LinearFlag.projectiveSL 2 K) :=
       q2cSpS_solvable_projectiveSL_two_small K (Or.inl hK2)
     exact (Group.IsPerfect.not_isSolvable (LinearFlag.projectiveSL 2 K)) hsolv
   have hA_lambda : LargeEvenInLambda2 (⟨.A, d - 1, m⟩ : LargeEvenLabel) :=
@@ -413,8 +413,8 @@ theorem q2cSpS_pair_block {F : Type} [Field F] [Finite F] [CharP F 2]
       LargeEvenProj (LargeEvenSLGroup (Fin d) K))) :
     2 ≤ d ∧ d ≤ ℓ ∧ Nat.card K = Nat.card F := by
   classical
-  haveI : Fintype E := Fintype.ofFinite E
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype E := Fintype.ofFinite E
+  have : Fintype F := Fintype.ofFinite F
   have hC0 : CFSG.Assembly.IsComponentOf C Blk :=
     (CFSG.Assembly.isComponentOf_iff_open).mpr hCε
   let eC : ↥C ≃* StatedSL m₀ E := componentEquivStatedSLOfMulEquiv eL hC0
@@ -422,24 +422,24 @@ theorem q2cSpS_pair_block {F : Type} [Field F] [Finite F] [CharP F 2]
       LargeEvenProj (LargeEvenSLGroup (Fin m₀) E) :=
     (centerQuotCongr eC).trans (statedSLQuotEquivLargeEvenProj (m := m₀) (E := E))
   obtain ⟨θ⟩ := hne
-  haveI hsimpC : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hC0.2.2.2
+  have hsimpC : IsSimpleGroup (↥C ⧸ Subgroup.center ↥C) := hC0.2.2.2
   have hsimpSL : IsSimpleGroup (StatedSL m₀ E ⧸ Subgroup.center (StatedSL m₀ E)) :=
     (centerQuotCongr eC).isSimpleGroup_congr.mp hsimpC
-  haveI : Group.IsPerfect ↥C := Group.isPerfect_def.mpr hC0.2.2.1
+  have : Group.IsPerfect ↥C := Group.isPerfect_def.mpr hC0.2.2.1
   have hperfSL : commutator (StatedSL m₀ E) = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := eC.toMonoidHom) eC.surjective).commutator_eq_top
   have hm₀ : 2 ≤ m₀ := q2cSpS_two_le_of_isSimpleGroup_centerQuot_statedSL hsimpSL
   have eP : ↥C ⧸ Subgroup.center ↥C ≃* LinearFlag.projectiveSL d K :=
     θ.trans (TypeA.recipeEquiv d K)
-  haveI hsimpP : IsSimpleGroup (LinearFlag.projectiveSL d K) := eP.isSimpleGroup_congr.mp hsimpC
-  haveI hperfP : Group.IsPerfect (LinearFlag.projectiveSL d K) :=
+  have hsimpP : IsSimpleGroup (LinearFlag.projectiveSL d K) := eP.isSimpleGroup_congr.mp hsimpC
+  have hperfP : Group.IsPerfect (LinearFlag.projectiveSL d K) :=
     Group.IsPerfect.ofSurjective (f := eP.toMonoidHom) eP.surjective
   have hd : 2 ≤ d := by
     by_contra h
     have hd1 : d ≤ 1 := by omega
-    haveI : Subsingleton (LinearFlag.projectiveSL d K) :=
+    have : Subsingleton (LinearFlag.projectiveSL d K) :=
       CFSG.AGLEmbedding.ToralCensus.subsingleton_projectiveSL hd1 K
-    haveI : Subsingleton (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) :=
+    have : Subsingleton (LargeEvenProj (LargeEvenSLGroup (Fin d) K)) :=
       (TypeA.recipeEquiv d K).toEquiv.subsingleton
     exact not_subsingleton _ θ.toEquiv.subsingleton
   have hm1 : 1 ≤ m := by
@@ -479,7 +479,7 @@ theorem q2cSpS_pair_block {F : Type} [Field F] [Finite F] [CharP F 2]
     by_contra hm2
     have hm1' : m = 1 := by omega
     have hK2 : Nat.card K = 2 := by rw [hK, hm1', pow_one]
-    haveI hsolv : Group.IsSolvable (LinearFlag.projectiveSL 2 K) :=
+    have hsolv : Group.IsSolvable (LinearFlag.projectiveSL 2 K) :=
       q2cSpS_solvable_projectiveSL_two_small K (Or.inl hK2)
     exact (Group.IsPerfect.not_isSolvable (LinearFlag.projectiveSL 2 K)) hsolv
   have hΛK : LargeEvenInLambda2 (⟨.A, d - 1, m⟩ : LargeEvenLabel) :=
@@ -505,7 +505,7 @@ theorem q2cSp_statedSp_split_component_psl {F : Type} [Field F] [Finite F] [Char
       LargeEvenProj (LargeEvenSLGroup (Fin d) K))) :
     2 ≤ d ∧ d ≤ ℓ ∧ Nat.card K = Nat.card F := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hord : orderOf s = p := by
     have hdvd : orderOf s ∣ p := orderOf_dvd_of_pow_eq_one hs
     rcases hp.eq_one_or_self_of_dvd (orderOf s) hdvd with h | h
@@ -623,8 +623,8 @@ theorem q2cSp_statedSp_split_component_psl {F : Type} [Field F] [Finite F] [Char
     obtain ⟨d₀, m₀, E, hEfield, hEfin, hd₀1, hEcard, hdim, hblockdeg, ⟨eL⟩⟩ :=
       blockGroup_iso_Sp_linear (s : GL (Fin ℓ ⊕ Fin ℓ) F) s.2 hodd (hPprim ε hεP) he he' hne'
         hεe
-    letI : Field E := hEfield
-    letI : Fintype E := hEfin
+    let : Field E := hEfield
+    let : Fintype E := hEfin
     have hdeg1 : blockDegree (Algebra.adjoin F
         (Units.val '' ({(s : GL (Fin ℓ ⊕ Fin ℓ) F)} : Set (GL (Fin ℓ ⊕ Fin ℓ) F)))) e = 1 :=
       CFSG.StandardType.TableCRes.blockDegree_eq_one_of_pow_eq_pow hp hpF' hS hoddS hpow he

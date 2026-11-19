@@ -48,7 +48,7 @@ private theorem s16k_isIrreducible {Q : Type} [CommGroup Q] [Finite Q] [Nontrivi
         show Additive.ofMul (a * b) ∈ U
         rw [ofMul_mul]
         exact U.add_mem ha hb
-      one_mem' := by simpa using U.zero_mem
+      one_mem' := by simp
       inv_mem' := fun {a} ha => by
         show Additive.ofMul a⁻¹ ∈ U
         rw [ofMul_inv]
@@ -111,8 +111,6 @@ private noncomputable def s16kCentToEnd {Q : Type} [CommGroup Q] [Module (ZMod 2
     intro v
     change (s16kEndOf (c * d)) v = (s16kEndOf c * s16kEndOf d) v
     rw [s16kEndOf_spec]
-    change (s16kLinHom ((c * d : ↥(Subgroup.centralizer (L : Set (MulAut Q)))) : MulAut Q)) v =
-      (s16kEndOf c * s16kEndOf d) v
     simp only [Module.End.mul_apply]
     rw [s16kEndOf_spec, s16kEndOf_spec]
     rfl
@@ -138,15 +136,15 @@ theorem s16k_centralizer_isCyclic {Q : Type} [CommGroup Q] [Finite Q] (h2 : ∀ 
     IsCyclic ↥(Subgroup.centralizer (L : Set (MulAut Q))) := by
   classical
   by_cases hQ1 : Subsingleton Q
-  · haveI : Subsingleton Q := hQ1
-    haveI : Subsingleton (MulAut Q) :=
+  · have : Subsingleton Q := hQ1
+    have : Subsingleton (MulAut Q) :=
       ⟨fun f g => MulEquiv.ext fun x => by simp [Subsingleton.elim x 1]⟩
     infer_instance
-  · haveI : Nontrivial Q := not_subsingleton_iff_nontrivial.mp hQ1
-    letI : Module (ZMod 2) (Additive Q) :=
+  · have : Nontrivial Q := not_subsingleton_iff_nontrivial.mp hQ1
+    let : Module (ZMod 2) (Additive Q) :=
       AddCommGroup.zmodModule (s16k_two_nsmul h2)
     have hρ : (s16kRho L).IsIrreducible := s16k_isIrreducible hirr
-    haveI : Fact (s16kRho L).IsIrreducible := ⟨hρ⟩
+    have : Fact (s16kRho L).IsIrreducible := ⟨hρ⟩
     exact isCyclic_of_injective_ringHom (R := EndRing (s16kRho L))
       (s16kCentToEnd L) (s16kCentToEnd_injective L)
 
@@ -157,7 +155,7 @@ theorem s16k_centralizer_card_dvd {Q : Type} [CommGroup Q] [Finite Q] (h2 : ∀ 
     ∃ e : ℕ, e ∣ d ∧ Nat.card ↥(Subgroup.centralizer (L : Set (MulAut Q))) ∣ 2 ^ e - 1 := by
   classical
   by_cases hQ1 : Subsingleton Q
-  · haveI : Subsingleton Q := hQ1
+  · have : Subsingleton Q := hQ1
     have h1 : Nat.card Q = 1 := Nat.card_eq_one_iff_unique.mpr ⟨hQ1, inferInstance⟩
     have hd : d = 0 := by
       have h2d : 2 ^ d = 1 := by rw [← hQ, h1]
@@ -165,19 +163,19 @@ theorem s16k_centralizer_card_dvd {Q : Type} [CommGroup Q] [Finite Q] (h2 : ∀ 
       · norm_num at h
       · exact h
     subst hd
-    haveI : Subsingleton (MulAut Q) :=
+    have : Subsingleton (MulAut Q) :=
       ⟨fun f g => MulEquiv.ext fun x => by simp [Subsingleton.elim x 1]⟩
     refine ⟨0, dvd_zero 0, ?_⟩
-    haveI : Subsingleton ↥(Subgroup.centralizer (L : Set (MulAut Q))) :=
+    have : Subsingleton ↥(Subgroup.centralizer (L : Set (MulAut Q))) :=
       ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
     simp
-  · haveI : Nontrivial Q := not_subsingleton_iff_nontrivial.mp hQ1
-    letI : Module (ZMod 2) (Additive Q) :=
+  · have : Nontrivial Q := not_subsingleton_iff_nontrivial.mp hQ1
+    let : Module (ZMod 2) (Additive Q) :=
       AddCommGroup.zmodModule (s16k_two_nsmul h2)
     have hρ : (s16kRho L).IsIrreducible := s16k_isIrreducible hirr
-    haveI : Fact (s16kRho L).IsIrreducible := ⟨hρ⟩
+    have : Fact (s16kRho L).IsIrreducible := ⟨hρ⟩
     let E := EndRing (s16kRho L)
-    haveI : Field E := endRingField (s16kRho L)
+    have : Field E := endRingField (s16kRho L)
     let e := Module.finrank (ZMod 2) E
     have hEcard : Nat.card E = 2 ^ e := by
       have := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := E)
@@ -194,12 +192,11 @@ theorem s16k_centralizer_card_dvd {Q : Type} [CommGroup Q] [Finite Q] (h2 : ∀ 
     refine ⟨e, hdvd, ?_⟩
     let f : ↥(Subgroup.centralizer (L : Set (MulAut Q))) →* E := s16kCentToEnd L
     have hf : Function.Injective f := s16kCentToEnd_injective L
-    haveI : Finite E := finite_endRing (s16kRho L)
+    have : Finite E := finite_endRing (s16kRho L)
     let f' : ↥(Subgroup.centralizer (L : Set (MulAut Q))) →* Eˣ := f.toHomUnits
     have hf' : Function.Injective f' := by
       intro c d h
       apply hf
-      change f c = f d
       simpa only [f', MonoidHom.coe_toHomUnits] using
         congrArg (fun u : Eˣ => Units.val u) h
     have hcard : Nat.card ↥(Subgroup.centralizer (L : Set (MulAut Q))) ∣ Nat.card Eˣ :=
@@ -215,7 +212,7 @@ private theorem s16k_pRank_le_one_of_isCyclic {G : Type} [Group G] [Finite G] {H
     (hcyc : IsCyclic ↥H) (p : ℕ) (hp : p.Prime) : CFSG.Open.pRank p H ≤ 1 := by
   apply CFSG.GH74.Uniqueness.SU.SU1.pRank_le_of
   intro E hEH hEab k hk
-  haveI : IsCyclic ↥E := Subgroup.isCyclic_of_le hEH
+  have : IsCyclic ↥E := Subgroup.isCyclic_of_le hEH
   have hexp : Monoid.exponent ↥E ∣ p :=
     Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr fun x =>
       Subtype.ext (by simpa using hEab.2 x.val x.2)
@@ -235,7 +232,7 @@ private theorem s16k_pRank_le_one_of_isCyclic {G : Type} [Group G] [Finite G] {H
 theorem s16k_pRank_centralizer_le {Q : Type} [CommGroup Q] [Finite Q] (h2 : ∀ x : Q, x ^ 2 = 1)
     {L : Subgroup (MulAut Q)}
     (hirr : ∀ B : Subgroup Q, (∀ l ∈ L, ∀ b ∈ B, l b ∈ B) → B = ⊥ ∨ B = ⊤) {d : ℕ}
-    (hQ : Nat.card Q = 2 ^ d) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
+    (hQ : Nat.card Q = 2 ^ d) {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) :
     CFSG.Open.pRank p (Subgroup.centralizer (L : Set (MulAut Q))) ≤
       if orderOf (2 : ZMod p) ∣ d then 1 else 0 := by
   classical
@@ -243,8 +240,8 @@ theorem s16k_pRank_centralizer_le {Q : Type} [CommGroup Q] [Finite Q] (h2 : ∀ 
   have hcyc : IsCyclic ↥C := s16k_centralizer_isCyclic h2 hirr
   have hle : CFSG.Open.pRank p C ≤ 1 := s16k_pRank_le_one_of_isCyclic hcyc p hp
   by_cases hdiv : orderOf (2 : ZMod p) ∣ d
-  · rw [if_pos hdiv]; exact hle
-  · rw [if_neg hdiv]
+  · rw [ite_eq_left hdiv]; exact hle
+  · rw [ite_eq_right hdiv]
     by_contra hne
     have hpos : 0 < CFSG.Open.pRank p C := Nat.lt_of_not_le hne
     have hp_dvd : p ∣ Nat.card C := by

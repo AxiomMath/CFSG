@@ -140,7 +140,7 @@ theorem j1 [Finite4 G] [DSLeaf LeafDSBA5Vertex] [DSLeaf LeafSylowS] [DSLeaf Leaf
   have hZQ : dsZ S ≤ dsQ L1 L2 S := hZY'.trans hY1Q
   have hY1comm : ∀ l ∈ L1, ∀ y ∈ dsOmega1 (centerOf (dsQ L1 L2 S)), l * y = y * l := by
     by_contra hne
-    simp only [not_forall, not_imp] at hne
+    simp only [not_forall] at hne
     obtain ⟨l, hl, y, hy, hly⟩ := hne
     have hel : IsElemSec (⊥ : Subgroup G) (dsOmega1 (centerOf (dsQ L1 L2 S))) := by
       refine ⟨bot_le, ?_, fun e he => ?_⟩
@@ -265,11 +265,11 @@ theorem s3Hom_apply {L : Subgroup G} (e : oTwoQuot ↥L ≃* Equiv.Perm (Fin 3))
 
 theorem s3Hom_eq_one_iff {L : Subgroup G} (e : oTwoQuot ↥L ≃* Equiv.Perm (Fin 3)) (g : ↥L) :
     s3Hom L e g = 1 ↔ (g : G) ∈ pCoreOf 2 L := by
-  haveI : (CFSG.Open.pCore 2 ↥L).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have : (CFSG.Open.pCore 2 ↥L).Normal := CFSG.LieType.BorelTits.pCore_normal 2
   rw [s3Hom_apply, MulEquiv.map_eq_one_iff, QuotientGroup.eq_one_iff]
   exact (mem_pCoreOf_iff g).symm
 
-theorem not_mem_pCoreOf_of_orderOf [Finite G] {L : Subgroup G} {k : G} (hk : k ∈ L)
+theorem not_mem_pCoreOf_of_orderOf [Finite G] {L : Subgroup G} {k : G} (_hk : k ∈ L)
     (hk3 : orderOf k = 3) : k ∉ pCoreOf 2 L := by
   intro hmem
   have hp : IsPGroup 2 ↥(pCoreOf 2 L) := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L
@@ -335,7 +335,7 @@ theorem s3_decomp_mem {L : Subgroup G} [Finite G] (e : oTwoQuot ↥L ≃* Equiv.
 
 theorem exists_order3 [Finite G] {L : Subgroup G} (e : oTwoQuot ↥L ≃* Equiv.Perm (Fin 3)) :
     ∃ k ∈ L, orderOf k = 3 := by
-  haveI : (CFSG.Open.pCore 2 ↥L).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have : (CFSG.Open.pCore 2 ↥L).Normal := CFSG.LieType.BorelTits.pCore_normal 2
   have hcard : Nat.card ↥L = Nat.card (oTwoQuot ↥L) * Nat.card (CFSG.Open.pCore 2 ↥L) :=
     Subgroup.card_eq_card_quotient_mul_card_subgroup _
   have hq6 : Nat.card (oTwoQuot ↥L) = 6 := by
@@ -744,7 +744,7 @@ theorem j2d [Finite4 G] [DSLeaf LeafZiStructure] [DSLeaf LeafDSBS3Vertex] {L1 L2
 
 theorem j3 [Finite4 G] [DSLeaf LeafDSBA5Vertex] [DSLeaf LeafSylowS] [DSLeaf LeafDSBS3Vertex]
     [DSLeaf LeafZiStructure] [DSLeaf LeafM5] {L1 L2 S : Subgroup G} (h : DSBHyp L1 L2 S)
-    (cJ : ⁅dsZi L1 S, L1⁆ = ⊥)
+    (_cJ : ⁅dsZi L1 S, L1⁆ = ⊥)
     (hdcen : ∀ d ∈ borelOf L1 S, orderOf d = 3 → ∀ z ∈ dsZi L2 S, ⁅d, z⁆ = 1) :
     dsZi L2 S ≤ dsQ L1 L2 S := by
   have hyp : Hyp111R L1 L2 S := h.hyp

@@ -177,27 +177,26 @@ private theorem om8_vecMul_signThree (v : Fin 4 → ZMod 7) :
   · change (v ᵥ* a8SignThree) 0 =
         ((Fin.cons (v 0) (fun i : Fin 3 => (om8_etaSign i : ZMod 7) * v i.succ) :
           Fin 4 → ZMod 7) 0)
-    simp [a8SignThree, om8_etaSign, Matrix.vecMul, dotProduct, Fin.sum_univ_four,
-      Matrix.diagonal, Fin.cons_zero]
+    simp [a8SignThree, om8_etaSign, Matrix.vecMul, dotProduct, Matrix.diagonal, Fin.cons_zero]
   · change (v ᵥ* a8SignThree) 1 =
         ((Fin.cons (v 0) (fun i : Fin 3 => (om8_etaSign i : ZMod 7) * v i.succ) :
           Fin 4 → ZMod 7) 1)
     rw [show (1 : Fin 4) = (0 : Fin 3).succ from rfl, Fin.cons_succ]
-    simp [a8SignThree, om8_etaSign, Matrix.vecMul, dotProduct, Fin.sum_univ_four, Matrix.diagonal]
+    simp [a8SignThree, om8_etaSign, Matrix.vecMul, dotProduct, Matrix.diagonal]
   · change (v ᵥ* a8SignThree) 2 =
         ((Fin.cons (v 0) (fun i : Fin 3 => (om8_etaSign i : ZMod 7) * v i.succ) :
           Fin 4 → ZMod 7) 2)
     rw [show (2 : Fin 4) = (1 : Fin 3).succ from rfl, Fin.cons_succ]
-    simp [a8SignThree, om8_etaSign, Matrix.vecMul, dotProduct, Fin.sum_univ_four, Matrix.diagonal]
+    simp [a8SignThree, om8_etaSign, Matrix.vecMul, dotProduct, Matrix.diagonal]
   · change (v ᵥ* a8SignThree) 3 =
         ((Fin.cons (v 0) (fun i : Fin 3 => (om8_etaSign i : ZMod 7) * v i.succ) :
           Fin 4 → ZMod 7) 3)
     rw [show (3 : Fin 4) = (2 : Fin 3).succ from rfl, Fin.cons_succ]
-    simp [a8SignThree, om8_etaSign, Matrix.vecMul, dotProduct, Fin.sum_univ_four, Matrix.diagonal]
+    simp [a8SignThree, om8_etaSign, Matrix.vecMul, dotProduct, Matrix.diagonal]
 
 private theorem om8_centralizer_inf_eq {G : Type} [Group G] {L D : Subgroup G} {x y e : G}
     {k : ℕ} (hD : D = Subgroup.closure ({x, y} : Set G)) (hy : y = e * x ^ k)
-    (hLx : L ≤ Subgroup.centralizer ({x} : Set G)) (heL : e ∈ L) :
+    (hLx : L ≤ Subgroup.centralizer ({x} : Set G)) (_heL : e ∈ L) :
     L ⊓ Subgroup.centralizer (D : Set G) = L ⊓ Subgroup.centralizer ({e} : Set G) := by
   apply le_antisymm
   · rintro l ⟨hlL, hlD⟩
@@ -398,7 +397,7 @@ private theorem om8_class_seven_dvd {A : Subgroup (OmV ≃ₗ[GaloisField 2 3] O
       4 (GaloisField 2 3) (CFSG.LieType.Universal.minusCoeffs 2 3).1
       (CFSG.LieType.Universal.minusCoeffs 2 3).2 (by norm_num)
       (CFSG.LieType.Universal.minusCoeffs_irr 2 3)).1
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨-, hperm⟩ := omSiegel hAΩ F ζ hζ hdim hal hmoves hc hh hX hJeq hm
   have hxodd := F.oddOrderIsometry hQ (by norm_num) (by norm_num) hAΩ (ofAdd (fun _ : Fin 3 => c))
   obtain ⟨-, -, hnorm, -⟩ :=
@@ -451,8 +450,7 @@ private theorem om8_class_seven_dvd {A : Subgroup (OmV ≃ₗ[GaloisField 2 3] O
     have h1 := congrFun h0 0
     have h2 : (t - t ∘ σ) 0 = 1 := by
       have hσ : σ 0 = 1 := Equiv.swap_apply_left 0 1
-      simp only [Pi.sub_apply, Function.comp_apply, hσ, t, Pi.single_eq_same,
-        Pi.single_eq_of_ne (show (0 : Fin 3) ≠ 1 by decide)]
+      simp only [Pi.sub_apply, Function.comp_apply, hσ, t, Pi.single_eq_same]
       norm_num
     rw [h2] at h1
     exact one_ne_zero h1
@@ -470,7 +468,7 @@ theorem ggA8Nbr_lSideOm
     {K : Subgroup G} (hnb : GGNbr 7 B x D J y K)
     (hKm : StatedClassicalModel (K ⧸ Subgroup.center K) .PSL 9 2 1) :
     J ≤ K ∧ GGA8LSideB Bs D L J ⟨x, hcfg.tableB_facts.2.2.1⟩ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨φ, hinj, hrange⟩ := ggA8Nbr_omLift hInnL hmod
   have hin := ggA8Nbr_omInner hMp hInnL hmod
   have hxB : x ∈ Bs := hcfg.tableB_facts.2.2.1
@@ -532,7 +530,7 @@ theorem ggA8Nbr_lSideOm
     have h1 : (⟨F.ι (ofAdd β), omA_le φ Bs (F.mem _)⟩ : ↥omΩ) = 1 := by
       apply Subtype.ext
       rw [h0]
-      simpa using map_one F.ι
+      simp
     have h2 : e₀ = 1 := by rw [← hφβ, h1, map_one]
     exact he₀_ne h2
   have hcent_eq := om8_centralizer_inf_eq hnb.2.1 hy_eq hLx he₀.2
@@ -650,7 +648,7 @@ theorem ggA8Nbr_lSideOm
     ggStdSubBstarCentralizer_of_twoSubgroup hcfg ⟨T, hTne, hT2, hTJ, hBT⟩
   have hqs : CFSG.Assembly.IsQuasisimple L := isQuasisimple_of_largeEvenMarking hInnL
   have hY : CFSG.IsQuasisimple ↥L := (TableBSymp.isQuasisimple_iff ↥L).mp hqs
-  haveI : Group.IsPerfect ↥L := hY.1
+  have : Group.IsPerfect ↥L := hY.1
   have hZL : Subgroup.center L = ⊥ := HalfRowData.center_eq_bot_of_pomegaMinus_two hmod
   have hEx_disj : (Bs ⊓ L) ⊓ Subgroup.zpowers x = ⊥ := by
     rw [Subgroup.eq_bot_iff_forall]

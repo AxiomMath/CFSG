@@ -36,8 +36,7 @@ private lemma coordEmbeddingFun_mul {p n r : ℕ} {ι : Fin (r + 1) → Fin n}
   · obtain ⟨k, rfl⟩ := hj
     simp only [coordEmbeddingFun_apply (hι := hι), Pi.mul_apply]
   · have hb : ∀ k, ι k ≠ j := fun k hk => hj ⟨k, hk⟩
-    simp only [coordEmbeddingFun_apply_of_notMem (h := hb), Pi.mul_apply, Pi.one_apply,
-      one_mul]
+    simp only [coordEmbeddingFun_apply_of_notMem (h := hb), Pi.mul_apply, one_mul]
 
 private lemma coordEmbeddingFun_one {p n r : ℕ} {ι : Fin (r + 1) → Fin n}
     (hι : Function.Injective ι) :
@@ -121,7 +120,7 @@ private lemma coordEmbedding_permAut {p n r : ℕ} {ι : Fin (r + 1) → Fin n}
       exact coordEmbedding_apply_of_notMem (p := p) hι y hb
     rw [h1, h2]
 
-private def intertwinerSubgroup {p n r : ℕ} {I : Finset (Fin n)} {ι : Fin (r + 1) → Fin n}
+private def intertwinerSubgroup {p n r : ℕ} {I : Finset (Fin n)} {_ι : Fin (r + 1) → Fin n}
     (E : (Fin (r + 2) → Multiplicative (ZMod p)) →*
       (Fin n → Multiplicative (ZMod p))) :
     Subgroup (MulAut (Fin (r + 2) → Multiplicative (ZMod p))) where
@@ -215,7 +214,7 @@ theorem ggSecFiveBPermSpK_exists_align_on {p n r : ℕ} [Fact p.Prime] (hp2 : p 
       E (SpCoord.permAut (Equiv.swap k.succ l.succ) y) =
         SpCoord.permAut (Equiv.swap (ι k) (ι l)) (E y) :=
     fun k l y => coordEmbedding_permAut hι k l y
-  let H := intertwinerSubgroup (p := p) (n := n) (r := r) (I := I) (ι := ι) E
+  let H := intertwinerSubgroup (p := p) (n := n) (r := r) (I := I) (_ι := ι) E
   have hclosure : bCoordinateBlock (r + 2) p 0 ≤ H := by
     simp only [bCoordinateBlock, Subgroup.closure_le]
     rintro w (⟨i, hi, rfl⟩ | ⟨a, b, hab, ha0, hb0, rfl⟩)
@@ -280,7 +279,7 @@ theorem ggSecFiveBPermSpK_exists_align_on {p n r : ℕ} [Fact p.Prime] (hp2 : p 
       intro h0
       have h1 : m.succ = 0 := by
         have := congrArg π' h0
-        simpa [hπ'0] using this
+        simp [hπ'0] at this
       exact Fin.succ_ne_zero m h1
     refine ⟨(π'.symm m.succ).pred hm, ?_⟩
     simp only [f, Fin.succ_pred, π'.apply_symm_apply, Fin.pred_succ]

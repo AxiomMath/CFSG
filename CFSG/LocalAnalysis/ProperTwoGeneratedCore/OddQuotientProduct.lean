@@ -71,7 +71,7 @@ theorem properTwoGenCoreGamma_eq_top_of_oddKer_prod
   let H : Subgroup Y := C.comap f
   obtain ⟨P⟩ : Nonempty (Sylow 2 H) := inferInstance
   let E0 : Subgroup Y := (P : Subgroup H).map H.subtype
-  have hE0p : IsPGroup 2 E0 := P.isPGroup'.map H.subtype
+  have hE0p : IsPGroup 2 E0 := P.isPGroup.map H.subtype
   have hE0map : E0.map f = C := by
     have h := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.map_sylow_comap_eq f hf C hC2 P
     simpa [E0, H] using h
@@ -415,20 +415,20 @@ theorem exists_central_isKleinFour_of_oddKer_alt5_prod
     CFSG.Quasithin.Vol2.Ch11.O5.isKleinFour_sylow_two_alt5 SA
   have hSXtop : CFSG.QuasithinUnique.IsSylowTwoOf
       (SX : Subgroup (alternatingGroup (Fin 5) × Z)) ⊤ := by
-    refine ⟨le_top, SX.isPGroup', ?_⟩
+    refine ⟨le_top, SX.isPGroup, ?_⟩
     rw [show ((SX : Subgroup (alternatingGroup (Fin 5) × Z)).subgroupOf ⊤).index =
         (SX : Subgroup (alternatingGroup (Fin 5) × Z)).index from
       Subgroup.relIndex_top_right (SX : Subgroup (alternatingGroup (Fin 5) × Z))]
     exact SX.not_dvd_index
   have hSAtop : CFSG.QuasithinUnique.IsSylowTwoOf
       (SA : Subgroup (alternatingGroup (Fin 5))) ⊤ := by
-    refine ⟨le_top, SA.isPGroup', ?_⟩
+    refine ⟨le_top, SA.isPGroup, ?_⟩
     rw [show ((SA : Subgroup (alternatingGroup (Fin 5))).subgroupOf ⊤).index =
         (SA : Subgroup (alternatingGroup (Fin 5))).index from
       Subgroup.relIndex_top_right (SA : Subgroup (alternatingGroup (Fin 5)))]
     exact SA.not_dvd_index
   have hSBtop : CFSG.QuasithinUnique.IsSylowTwoOf (SB : Subgroup Z) ⊤ := by
-    refine ⟨le_top, SB.isPGroup', ?_⟩
+    refine ⟨le_top, SB.isPGroup, ?_⟩
     rw [show ((SB : Subgroup Z).subgroupOf ⊤).index = (SB : Subgroup Z).index from
       Subgroup.relIndex_top_right (SB : Subgroup Z)]
     exact SB.not_dvd_index

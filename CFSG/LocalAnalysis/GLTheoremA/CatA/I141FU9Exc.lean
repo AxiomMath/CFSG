@@ -82,7 +82,7 @@ private theorem i141U9Fam_exc_of_e78 : I141F.I141U9Fam I141F.u9FamExc := by
     rcases excU9_two_cases hi hfs2 with ⟨q, hq, hq2⟩ | hF4 | hD4
     ·
       obtain ⟨hs, hnc⟩ := I141F.u9_simple_nonabelian hI1
-      haveI := hs
+      have := hs
       have hxN : x ∈ Subgroup.normalizer (K : Set Γ) := hI1.1 (Subgroup.mem_zpowers x)
       have hβ3 : chevAut 3 K ⟨x, hxN⟩ ^ 3 = 1 := chevAut_pow_eq_one 3 K hxN hx
       have hJp : GLAPComponent 3 (fixSubgroup (chevAut 3 K ⟨x, hxN⟩)) (chevTransfer 3 K J) :=

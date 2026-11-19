@@ -52,7 +52,7 @@ theorem string_nonempty {n : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n)
     refine (ht.2.2.2 s).2 ⟨fun z => ?_, ?_⟩
     · show χ (e6Data_valid.hm K s z) = 1
       rw [hχ z, h0]; simp
-    · letI : Fintype K := Fintype.ofFinite K
+    · let : Fintype K := Fintype.ofFinite K
       refine ((e6CoverRankOne K).heckeT_datum ρ s y).trans ?_
       have hn' : ∀ c : K, ρ ((e6CoverRankOne K).x s c * (e6CoverData K).nhat s) y = y := by
         intro c

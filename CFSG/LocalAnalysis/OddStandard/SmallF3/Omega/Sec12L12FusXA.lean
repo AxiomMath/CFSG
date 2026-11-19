@@ -25,7 +25,7 @@ theorem sec12fx_le_of_alt {N S X : Subgroup G} (hS : IsPGroup 2 S)
     (hSN : S ≤ normalizer (N : Set G)) (hXY : X ≤ N ⊔ S)
     (hX : Nonempty (↥X ≃* ↥(alternatingGroup (Fin 5)))) : X ≤ N := by
   obtain ⟨e⟩ := hX
-  haveI : IsSimpleGroup ↥X := e.isSimpleGroup
+  have : IsSimpleGroup ↥X := e.isSimpleGroup
   have hYN : N ⊔ S ≤ normalizer (N : Set G) := sup_le Subgroup.le_normalizer hSN
   have hnorm : ((X ⊓ N).subgroupOf X).Normal := by
     constructor
@@ -34,11 +34,11 @@ theorem sec12fx_le_of_alt {N S X : Subgroup G} (hS : IsPGroup 2 S)
     obtain ⟨hkX, hkN⟩ := hk
     refine ⟨X.mul_mem (X.mul_mem x.2 hkX) (X.inv_mem x.2), ?_⟩
     exact (Subgroup.mem_normalizer_iff.mp (hYN (hXY x.2)) (k : G)).1 hkN
-  haveI := hnorm
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((X ⊓ N).subgroupOf X) with hbot | htop
   · exfalso
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : Finite ↥X := Finite.of_equiv _ e.symm.toEquiv
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Finite ↥X := Finite.of_equiv _ e.symm.toEquiv
     have hcard : Nat.card ↥X = 60 := by
       have h2 := two_mul_nat_card_alternatingGroup (α := Fin 5)
       have h3 : Nat.card (Equiv.Perm (Fin 5)) = 120 := by

@@ -235,7 +235,7 @@ theorem perfect_projective_linear_central_quotient_outer_prime_control (J : Type
       (∀ P : Sylow ℓ (Outer J), IsCyclic P) ∧ CFSG.pRank ℓ (Outer J) ≤ 1 := by
     intro ℓ hℓ hℓ2 hℓd
     have : Fact ℓ.Prime := ⟨hℓ⟩
-    exact ⟨fun P => hmain ℓ hℓ hℓ2 hℓd P P.isPGroup',
+    exact ⟨fun P => hmain ℓ hℓ hℓ2 hℓd P P.isPGroup,
       pRank_le_one_of_forall_isCyclic (hmain ℓ hℓ hℓ2 hℓd)⟩
   refine ⟨hpart, fun hn23 ℓ hℓ hℓ5 => hpart ℓ hℓ (by omega) fun hdvd => ?_, fun hn2 hq => ?_⟩
   · have h1 : ℓ ∣ n := hdvd.trans (Nat.gcd_dvd_left _ _)

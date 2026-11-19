@@ -87,7 +87,7 @@ private theorem wcU_lt_of_single_sub {n : ℕ} {a b a' b' : Fin n} (h1 : a < b) 
 theorem wcU_nonscalarPPair_su_of_lt (hσ : ∀ c, σ (σ c) = c) {p : ℕ} [Fact p.Prime] [CharP F p]
     {n : ℕ} {i j : Fin n} (h12 : i < j) (h23 : j < Fin.rev j) {c : F} (hc0 : c ≠ 0)
     (hc : c + σ c = 0) : NonscalarPPair p (SU σ n) := by
-  haveI : Nonempty (Fin n) := ⟨i⟩
+  have : Nonempty (Fin n) := ⟨i⟩
   have h34 : Fin.rev j < Fin.rev i := Fin.rev_lt_rev.2 h12
   have hij : i ≠ j := h12.ne
   have hjj : j ≠ Fin.rev j := h23.ne
@@ -171,7 +171,7 @@ private theorem wcU_charP {F : Type} [Field F] [Finite F] {p f : ℕ} [Fact p.Pr
 theorem wcOn_psu {K : Type} [Group K] [Finite K] {n p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     (hn : 3 ≤ n) (h : CFSG.Open.StatedClassicalModel K .PSU n p f) : WCOn p K := by
   obtain ⟨-, F, _, _, hF, ⟨e⟩⟩ := h
-  haveI : CharP F p := wcU_charP (f := f * 2) (by rw [hF, pow_mul])
+  have : CharP F p := wcU_charP (f := f * 2) (by rw [hF, pow_mul])
   exact NonscalarPPair.wcOn e
     (wcU_nonscalarPPair_statedSU hF n (wcU_nonscalarPPair_su hp2 hF hn))
 

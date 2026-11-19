@@ -41,7 +41,7 @@ private lemma ggLieSU3Fixed_permGL_conj_diagonal {K : Type} [Field K] {d : ℕ}
       apply hkl
       have : σ.symm k = σ.symm l := by rw [← Equiv.Perm.inv_def]; exact h'
       exact σ.symm.injective this
-    simp [hkl, hne]
+    simp [hkl]
 
 private lemma ggLieSU3Fixed_core_case_not_dvd {K : Type} [Field K] [Finite K] {n : ℕ}
     (hK : Nat.card K = (2 ^ n) ^ 2)
@@ -50,8 +50,8 @@ private lemma ggLieSU3Fixed_core_case_not_dvd {K : Type} [Field K] [Finite K] {n
     (hzc : ∀ j ∈ Jh, z * j = j * z) (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1)
     (h3 : ¬ 3 ∣ 2 ^ n + 1) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : NeZero 3 := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : NeZero 3 := ⟨by norm_num⟩
   have hdvd : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units, hK]
     have hmain : ∀ m : ℕ, 3 ∣ (2 ^ m) ^ 2 - 1 := by
@@ -118,7 +118,7 @@ private lemma ggLieSU3Fixed_core_case_not_dvd {K : Type} [Field K] [Finite K] {n
       (MulAut.conj T) (z : GL (Fin 4) K) * (MulAut.conj T) (j : GL (Fin 4) K)
     rw [← map_mul, ← map_mul, hjc]
   have hHd : ∀ g ∈ H, g * (1 : GL (Fin 4) K) = (1 : GL (Fin 4) K) * g := fun g _ => by simp
-  rcases ggLieSU3Fixed_diag_pattern hz'diag (by simpa using Matrix.isDiag_one) hz'3 H hHperf hz'H
+  rcases ggLieSU3Fixed_diag_pattern hz'diag (by simp) hz'3 H hHperf hz'H
       hHz hHd with hz'1 | ⟨k, β, α, hβ1, hzk, hrest⟩
   · have hz1' : (MulAut.conj T) (z : GL (Fin 4) K) = (MulAut.conj T) 1 := by
       rw [map_one]; exact hz'1

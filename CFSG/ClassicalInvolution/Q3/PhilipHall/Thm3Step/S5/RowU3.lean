@@ -39,7 +39,7 @@ theorem commutatorElement_central_mul_right {q : G} (hq : q ∈ Subgroup.center 
 
 theorem commutator_sup_le_of_le_center {D Q : Subgroup G} (hQc : Q ≤ Subgroup.center G) :
     ⁅D ⊔ Q, D ⊔ Q⁆ ≤ ⁅D, D⁆ := by
-  haveI : Q.Normal := Subgroup.normal_of_le_center hQc
+  have : Q.Normal := Subgroup.normal_of_le_center hQc
   rw [Subgroup.commutator_le]
   intro a ha b hb
   rw [sup_comm, Subgroup.mem_sup_of_normal_left] at ha hb
@@ -132,7 +132,7 @@ theorem S5Hyp.commutator_inf_eq_bot_of_u33
     calc D = ⁅commutator G, commutator G⁆ := hDdef
       _ ≤ ⁅D ⊔ Q, D ⊔ Q⁆ := Subgroup.commutator_mono hG'D hG'D
       _ ≤ ⁅D, D⁆ := commutator_sup_le_of_le_center h.le_center
-  haveI : Group.IsPerfect ↥D := Subgroup.isPerfect_iff.mpr hDD
+  have : Group.IsPerfect ↥D := Subgroup.isPerfect_iff.mpr hDD
   have hDN : ∀ d : ↥D, (ρ.comp D.subtype) d ∈ N := fun d => by
     rw [← hD]
     exact Subgroup.mem_map_of_mem ρ d.2
@@ -228,7 +228,7 @@ theorem S5Hyp.false_of_rowU3
   obtain ⟨N, hNn, hidx, hL⟩ := hrow
   obtain ⟨θ, hθ⟩ := exists_u33_model hidx hL (centralizer_eq_bot_of_u33 hidx hL hX)
   have hdisj := h.commutator_inf_eq_bot_of_u33 hρ hker hidx hL
-  haveI := u33P_normal
+  have := u33P_normal
   have hG'N : ∀ g ∈ commutator G, ρ g ∈ N := fun g hg =>
     commutator_le_of_index_two hidx (map_commutator_of_surjective ρ hρ ▸
       Subgroup.mem_map_of_mem ρ hg)
@@ -255,7 +255,7 @@ theorem S5Hyp.false_of_rowU3
     set φ : G →* ↥U33.QA.originalSubgroup :=
       (MulAut.conj g⁻¹).toMonoidHom.comp (θ.toMonoidHom.comp ρ) with hφ
     have hφx : ∀ x : G, φ x = g⁻¹ * θ (ρ x) * g := fun x => by
-      simp [hφ, MulAut.conj_apply]
+      simp [hφ]
     rw [← hφx, ← hφx] at hn1 hn2
     obtain ⟨w, hw, hwe⟩ := exists_of_mem_q8Span_map φ hn1
     refine ⟨i, hi, j, hj, hij, hspan, ?_, hjN⟩
@@ -296,9 +296,9 @@ theorem S5Hyp.false_of_rowU3
     set φ₂ : G →* ↥U33.QA.originalSubgroup :=
       (MulAut.conj g₂⁻¹).toMonoidHom.comp (θ.toMonoidHom.comp ρ) with hφ₂
     have hφ₁x : ∀ x : G, φ₁ x = g₁⁻¹ * θ (ρ x) * g₁ := fun x => by
-      simp [hφ₁, MulAut.conj_apply]
+      simp [hφ₁]
     have hφ₂x : ∀ x : G, φ₂ x = g₂⁻¹ * θ (ρ x) * g₂ := fun x => by
-      simp [hφ₂, MulAut.conj_apply]
+      simp [hφ₂]
     rw [← hφ₁x, ← hφ₂x, ← hφ₂x] at hu1
     rw [← hφ₁x, ← hφ₂x, ← hφ₂x] at hu2
     have hi₂' : φ₂ i₂ ∈ T₂.map φ₂ := Subgroup.mem_map_of_mem φ₂ hi₂

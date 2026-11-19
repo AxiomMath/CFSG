@@ -35,7 +35,7 @@ theorem shape1413Prime_simple_nonab {L : Type} [Group L] (h : Shape1413Prime L) 
         (h.statedClassicalModel (by decide))
     by_contra hnab
     push Not at hnab
-    haveI : IsMulCommutative L := IsMulCommutative.of_comm hnab
+    have : IsMulCommutative L := IsMulCommutative.of_comm hnab
     have hp' : (Nat.card L).Prime := (Group.is_simple_iff_prime_card).mp hsimple
     rw [hcard] at hp'
     exact (by norm_num : ¬ Nat.Prime 5616) hp'
@@ -44,8 +44,8 @@ theorem shape1413Prime_simple_nonab {L : Type} [Group L] (h : Shape1413Prime L) 
     refine ⟨hsimple, ?_⟩
     obtain ⟨-, -, F, hFfield, hFfinite, hFcard, ⟨e⟩⟩ :=
       CFSG.GH74.Generic.lieModel_psp_data h
-    letI : Field F := hFfield
-    letI : Finite F := hFfinite
+    let : Field F := hFfield
+    let : Finite F := hFfinite
     have hcardF : Nat.card F = p := by simpa using hFcard
     have hp2 : p ≠ 2 := by omega
     have hodd : Odd (Nat.card F) := by
@@ -69,7 +69,7 @@ theorem asch1413For_of_red {S : ∀ (L : Type) [Group L], Prop}
   intro Q _ _ V _ _ hV ρ hρ L A hL hSL hA hAe hq
   subst hL
   obtain ⟨hs, hnab⟩ := hS ↥(genFittingFStar Q) hSL
-  haveI : IsSimpleGroup ↥(genFittingFStar Q) := hs
+  have : IsSimpleGroup ↥(genFittingFStar Q) := hs
   have hLn : (genFittingFStar Q).Normal := CFSG.ClassicalInvolution.genFittingFStar_normal Q
   have hcent : Subgroup.centralizer (genFittingFStar Q : Set Q) = ⊥ :=
     CFSG.ClassicalInvolution.centralizer_genFittingFStar_eq_bot hnab
@@ -97,7 +97,7 @@ theorem asch1413For_of_red {S : ∀ (L : Type) [Group L], Prop}
     intro hbot
     have hbot' : genFittingFStar Q = ⊥ :=
       (Subgroup.map_eq_bot_iff_of_injective (H := genFittingFStar Q) hρ).mp hbot
-    haveI : Nontrivial ↥(genFittingFStar Q) := hs.toNontrivial
+    have : Nontrivial ↥(genFittingFStar Q) := hs.toNontrivial
     exact (Subgroup.nontrivial_iff_ne_bot (genFittingFStar Q)).mp inferInstance hbot'
   obtain ⟨W, hGW, hWnon, hWmem⟩ :=
     Asch6.exists_quot_fixV_eq_bot (V := V) hLG hnorm hperf' hL'
@@ -109,7 +109,7 @@ theorem asch1413For_of_red {S : ∀ (L : Type) [Group L], Prop}
     exact quotHom_mk W (ρ.codRestrict (stabSub W) (fun q => hGW ⟨q, rfl⟩) q) v
   have hNnormal : ρ'.ker.Normal := MonoidHom.normal_ker ρ'
   have hNLbot : ρ'.ker.subgroupOf (genFittingFStar Q) = ⊥ := by
-    haveI hNLnormal : (ρ'.ker.subgroupOf (genFittingFStar Q)).Normal :=
+    have hNLnormal : (ρ'.ker.subgroupOf (genFittingFStar Q)).Normal :=
       hNnormal.subgroupOf (genFittingFStar Q)
     rcases hs.eq_bot_or_eq_top_of_normal (ρ'.ker.subgroupOf (genFittingFStar Q)) with h | h
     · exact h

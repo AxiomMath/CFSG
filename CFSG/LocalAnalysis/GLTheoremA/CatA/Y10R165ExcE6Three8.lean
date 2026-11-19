@@ -39,7 +39,7 @@ open scoped Matrix MatrixGroups Pointwise
 
 theorem exists_psi_of_kernelLayer {F : Type} [Field F] [Finite F] [CharP F 2]
     {n p : ℕ} (hcard : Nat.card F = 2 ^ n) (hp : p.Prime) (hp5 : 5 < p)
-    (hpq : (p : ℤ) ∣ (Nat.card F : ℤ) ^ 2 + (Nat.card F : ℤ) + 1)
+    (_hpq : (p : ℤ) ∣ (Nat.card F : ℤ) ^ 2 + (Nat.card F : ℤ) + 1)
     {g0 : ModGL Tag.E6 (AlgebraicClosure F)}
     (hg0C : g0 ∈ adjointGroup Tag.E6 (AlgebraicClosure F))
     (hg0 : Units.map (entrywiseHom (iterateFrobenius (AlgebraicClosure F) 2 n)) g0 =
@@ -68,7 +68,7 @@ theorem exists_psi_of_kernelLayer {F : Type} [Field F] [Finite F] [CharP F 2]
           (phi3N (AlgebraicClosure F))⁻¹ = ψ y) ∧
       (∀ i, KL.P i ≤ ψ.range) := by
   classical
-  haveI : CharP (AlgebraicClosure F) 2 :=
+  have : CharP (AlgebraicClosure F) 2 :=
     charP_of_injective_algebraMap (algebraMap F (AlgebraicClosure F)).injective 2
   have hFr : ∀ c, iterateFrobenius (AlgebraicClosure F) 2 n c = c ^ (2 ^ n) :=
     fun c => iterateFrobenius_def 2 n c

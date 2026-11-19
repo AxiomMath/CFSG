@@ -121,7 +121,7 @@ theorem dstarComp_eq_blocks (hs : FrameStd K z J zJ) :
   have hΩ := hs.hyp
   have hK : K ∈ CoreAssembly.conjClass K := CoreAssembly.mem_conjClass_self K
   ext M
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · intro hM
     induction hM with

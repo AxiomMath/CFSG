@@ -24,7 +24,7 @@ private theorem eq_bot_of_isPGroup_three_reeGamma {F : Type}
     {V : Subgroup (ReeTag.F4.reeGamma F 2)} (hV : IsPGroup 3 V)
     (hPV : (P : Subgroup (ReeTag.F4.reeGamma F 2)) ≤
       Subgroup.normalizer (V : Set (ReeTag.F4.reeGamma F 2))) : V = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E, hEP, hE, hEcard⟩ := exists_plane_of_sylow hF P
   refine Hyp111.eq_bot_of_plane Nat.prime_five (fun b hb => hE.2 b hb) hEcard
     (Hyp111.coprime_card_of_isPGroup Nat.prime_five Nat.prime_three (by norm_num) hV)
@@ -45,13 +45,13 @@ theorem signalizerThreeOn_reeF4 {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .ree
     {K : Type} [Group K] [Finite K] (hK : Nonempty (K ≃* (TauCeti.CFSGIndex.lie d).Group)) :
     SignalizerThreeOn 5 K := by
   intro T W hW hnorm
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨F, _, _, _, hF, ⟨eΓ⟩⟩ :=
     CFSG.HardMathSupport.Malle.LocalAction.exists_reeGamma_model hd hK
   obtain ⟨e⟩ := hK
-  haveI : IsSimpleGroup (CFSG.AGLEmbedding.CatGroup d) :=
+  have : IsSimpleGroup (CFSG.AGLEmbedding.CatGroup d) :=
     CFSG.AGLEmbedding.isSimpleGroup_of_catGroup_reeF4 hd
-  haveI : IsSimpleGroup K := e.isSimpleGroup
+  have : IsSimpleGroup K := e.isSimpleGroup
   have h25 : 5 ^ 2 ∣ Nat.card K := by
     rw [Nat.card_congr e.toEquiv, CFSG.AGLEmbedding.card_catGroup_reeF4 hd]
     norm_num [CFSG.Open.ordTwistedF4]
@@ -86,7 +86,7 @@ theorem signalizerThreeOn_reeF4 {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .ree
     rw [Subgroup.mem_normalizer_iff]
     intro g
     simpa [hW₀] using Subgroup.mem_normalizer_iff.mp (hTV t ht) (MulAut.conj g)
-  haveI : Finite (ReeTag.F4.reeGamma F 2) := Finite.of_equiv K eΓ.toEquiv
+  have : Finite (ReeTag.F4.reeGamma F 2) := Finite.of_equiv K eΓ.toEquiv
   have hsurj : Function.Surjective eΓ.toMonoidHom := eΓ.surjective
   have hV : W₀.map eΓ.toMonoidHom = ⊥ := by
     refine eq_bot_of_isPGroup_three_reeGamma hF (T.mapSurjective hsurj)

@@ -192,11 +192,11 @@ theorem ThreeFourSolvThreeNoneAt.of_coreE1 {X : Type*} [Group X]
   intro Y _ _ K Y₀ E R I₀ _ _ σ hKn hKX hZ _ hrkC hC hcomp hER hE hEc hcore hO2 hker hσY hσs hb
     _ hdir
   classical
-  haveI := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hsimple, hout, hΓ, hdatum⟩ := hX ↥K hKX
   set C := centralizer (K : Set Y) with hCdef
-  haveI : C.Normal := by rw [hCdef]; infer_instance
+  have : C.Normal := by rw [hCdef]; infer_instance
   set J := (CFSG.ComponentClassification.AS76b.oUpperTwo (⊤ : Subgroup I₀)).map σ
   have hKC : K ⊓ C = ⊥ :=
     CFSG.QuasithinUnique.RankOneRecog.inf_centralizer_eq_bot_of_center_eq_bot hZ
@@ -205,8 +205,8 @@ theorem ThreeFourSolvThreeNoneAt.of_coreE1 {X : Type*} [Group X]
   have hT27 : Nat.card (T : Subgroup K) = 3 ^ 3 := hTcard.trans (by norm_num)
   have hKcomp : IsComponentOf K ⊤ := by
     obtain ⟨a, -, b, -, hab⟩ := hTnc
-    haveI := hsimple
-    haveI : Group.IsPerfect ↥K :=
+    have := hsimple
+    have : Group.IsPerfect ↥K :=
       ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top ↥K ⟨a, b, hab⟩⟩
     exact ⟨le_top, CFSG.Open.IsSubnormal.step le_top inferInstance (CFSG.Open.IsSubnormal.refl ⊤),
       CFSG.ComponentClassification.Quasisimple.simple_of_perfect ↥K⟩
@@ -217,7 +217,7 @@ theorem ThreeFourSolvThreeNoneAt.of_coreE1 {X : Type*} [Group X]
   have h3K : ∀ P : Subgroup Y, IsPGroup 3 P → P ≤ K := fun P hP x hx => by
     obtain ⟨n, hn⟩ := hP ⟨x, hx⟩
     exact mem_of_pow_eq_one hout hKC hCcop (n := n) (by simpa using congrArg Subtype.val hn)
-  have hRK : (R : Subgroup Y) ≤ K := h3K _ R.isPGroup'
+  have hRK : (R : Subgroup Y) ≤ K := h3K _ R.isPGroup
   have hTR : (T : Subgroup K).map K.subtype = R := by rw [hT, inf_eq_left.mpr hRK]
   have hTRmem : ∀ t ∈ (T : Subgroup K), (t : Y) ∈ (R : Subgroup Y) := fun t ht =>
     hTR ▸ Subgroup.mem_map_of_mem K.subtype ht
@@ -236,7 +236,7 @@ theorem ThreeFourSolvThreeNoneAt.of_coreE1 {X : Type*} [Group X]
     have hbF : (b : Y) ∈ F := hFR' ▸ hTRmem b hb
     have h1 : (a : Y) * b = b * a := congrArg Subtype.val (hF.1.is_comm.comm ⟨_, haF⟩ ⟨_, hbF⟩)
     exact hab (Subtype.ext (by simpa using h1))
-  have hcore1 : GLBCore 3 1 E ≤ Y₀ := by rwa [if_neg hR3] at hcore
+  have hcore1 : GLBCore 3 1 E ≤ Y₀ := by rwa [ite_eq_right hR3] at hcore
   have hEK : E ≤ K := hER.trans hRK
   set E' : Subgroup K := E.subgroupOf K
   have hE'el : IsElemAbelian 3 E' := hE.subgroupOf K
@@ -268,7 +268,7 @@ theorem ThreeFourSolvThreeNoneAt.of_coreE1 {X : Type*} [Group X]
     CFSG.RankThreeCoreUniqueness.Helpers.localGroup_le_normalizer_pCoreOf 3 _
   have hW₀p : IsPGroup 3 W₀ := CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_isPGroup 3 _
   have hW₀T : W₀ ≤ T := by
-    have hp := hW₀p.to_sup_of_normal_left' T.isPGroup' (hTY₀.trans hW₀N)
+    have hp := hW₀p.to_sup_of_normal_left' T.isPGroup (hTY₀.trans hW₀N)
     exact le_sup_left.trans (T.maximal_isPGroup.eq_of_ge hp le_sup_right).le
   have hJ3 : ∀ x ∈ J, x ^ 3 ∈ C := cube_mem_of_pCoreOf_le σ hσs hO2 hb
   have hJsub : CFSG.Open.IsSubnormal J Y₀ := isSubnormal_oUpperTwo_map σ hσs
@@ -299,7 +299,7 @@ theorem ThreeFourSolvThreeNoneAt.of_coreE1 {X : Type*} [Group X]
     rw [hg, inv_one, one_mul] at hgc
     exact hgc
   have hcen : W₀ ≠ ⊥ → ∃ w ∈ W₀, w ≠ 1 ∧ ∀ t ∈ (T : Subgroup K), t * w = w * t := fun hW =>
-    CFSG.GH74.Uniqueness.SU.SU1.exists_central_of_normal Nat.prime_three T.isPGroup' hW₀T
+    CFSG.GH74.Uniqueness.SU.SU1.exists_central_of_normal Nat.prime_three T.isPGroup hW₀T
       (fun g hg u hu => (mem_normalizer_iff.mp (hW₀N (hTY₀ hg)) u).mp hu) hW
   rcases hTE E' hE'T hE'el hE'c with hmove | htrans
   ·

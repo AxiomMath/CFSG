@@ -62,6 +62,7 @@ theorem innerPart_normalized {L P : Subgroup G} (hPL : ∀ y ∈ P, y ∈ normal
     _ = y * (s * (y⁻¹ * l * y) * s⁻¹) * y⁻¹ := by rw [h1]
     _ = y * s * y⁻¹ * l * (y * s * y⁻¹)⁻¹ := by group
 
+omit [Finite G] in
 theorem innerPart_comm {L : Subgroup G} {s x : G} (hs : s ∈ L)
     (hx : ∀ l ∈ L, x * l * x⁻¹ = s * l * s⁻¹) : (∀ l ∈ L, (s⁻¹ * x) * l = l * (s⁻¹ * x)) ∧
       s * x = x * s := by
@@ -77,6 +78,7 @@ theorem innerPart_comm {L : Subgroup G} {s x : G} (hs : s ∈ L)
   calc s * x = s * (s⁻¹ * x * s) := by rw [h3]
     _ = x * s := by group
 
+omit [Finite G] in
 theorem innerPart_isPGroup {p : ℕ} {L P : Subgroup G} (hP : IsPGroup p P)
     (hcen : ∀ s ∈ L, (∀ l ∈ L, s * l = l * s) → s = 1) : IsPGroup p (innerPart L P) := by
   rintro ⟨s, hsL, x, hxP, hx⟩
@@ -111,8 +113,8 @@ theorem c626gen_of_lieModel (h620 : m.C620) (hL : LieModel ↥m.L .PSL 2 m.r 2) 
   intro p hp P hP hPne
   have hpp : p.Prime := hp.1.1
   have hp2 : p ≠ 2 := hp.1.2.1
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hpr : p ≠ m.r := fun h => m.hrσ (h ▸ hp)
   have hstrong : IsStronglyPEmbedded p m.M :=
     isStronglyPEmbedded_of_sigmaOne m.hU m.S.maxLocal hp (m.hσ1 hp)

@@ -36,8 +36,8 @@ public theorem theorem1_abcdAlternatives_of_suzukiTwoGroup
       IsSuzukiTwoTypeD (⊤ : Subgroup P) := by
   rcases hP.2.2.2 with
     ⟨X, hXGroup, hXAction, hXcyclic, hXfaithful, hXregular⟩
-  letI : Group X := hXGroup
-  letI : MulDistribMulAction X P := hXAction
+  let : Group X := hXGroup
+  let : MulDistribMulAction X P := hXAction
   have hXtrans : ∀ x : P, x ∈ involutions P →
       ∀ y : P, y ∈ involutions P → ∃ k : X, y = k • x := by
     intro x hx y hy

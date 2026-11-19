@@ -57,7 +57,7 @@ theorem even_G2_cyclotomic_three_six_tori_and_prime_centralizers (K : Type) [Fie
     exists_conj_map_le_of_not_dvd_index hidx hP
   refine ⟨T, hcyc, hcard, ?_, fun P hP => ?_, fun x hx => ?_⟩
   · obtain ⟨S₀⟩ : Nonempty (Sylow p T) := inferInstance
-    have hS : IsPGroup p ((S₀ : Subgroup T).map T.subtype) := S₀.isPGroup'.map T.subtype
+    have hS : IsPGroup p ((S₀ : Subgroup T).map T.subtype) := S₀.isPGroup.map T.subtype
     have hSi : ¬ p ∣ ((S₀ : Subgroup T).map T.subtype).index := by
       rw [Subgroup.index_map_subtype]
       exact fun h => ((Fact.out : p.Prime).dvd_mul.1 h).elim S₀.not_dvd_index hidx

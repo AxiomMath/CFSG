@@ -82,6 +82,7 @@ theorem exists_algebraMap_eq_of_pow_eight {E : Type*} [Field E] [Algebra K E]
   rw [FiniteField.X_pow_card_sub_X_natDegree_eq E (by norm_num : 1 < 8), hcard] at this
   omega
 
+omit [Finite K] in
 theorem eq_one_of_mul_self_eq_one [CharP K 2] {l : K} (h : l * l = 1) : l = 1 := by
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have h1 : (l - 1) * (l - 1) = 0 := by linear_combination h + (1 - l) * h2
@@ -134,6 +135,7 @@ theorem cyc3_le_othersSpace (hK : Nat.card K = 8) :
   · rw [primaryComponent_cyc3_eq_bot hK hh]
     exact bot_le
 
+omit [Finite K] in
 theorem fixedSpace_le_othersSpace_cyc3 :
     fixedSpace x ≤ othersSpace x.toLinearMap (cyc3 K) := by
   by_cases hh : (X - 1 : K[X]) ∈ primaryFactors x.toLinearMap
@@ -174,6 +176,7 @@ theorem eq_one_of_fixes (hK : Nat.card K = 8) (hx : OddOrderIsometry Q 3 x) {g :
   rw [map_add, hW w hw, hh r hr]
   rfl
 
+omit [Finite K] in
 theorem fixes_fixedSpace_of_mem_supportedBlock_cyc3 {g : V ≃ₗ[K] V}
     (hg : g ∈ supportedBlock Q x (cyc3 K)) : ∀ w ∈ fixedSpace x, g w = w := fun w hw =>
   (mem_supportedBlock.mp hg).2 w (fixedSpace_le_othersSpace_cyc3 hw)

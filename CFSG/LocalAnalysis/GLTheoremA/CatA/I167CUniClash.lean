@@ -36,7 +36,7 @@ theorem i167CU_clash {p n0 : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : GLALabel
     · rw [hc] at h
       simp at h
   · by_cases h3 : n = 3
-    · rw [if_pos h3] at hc
+    · rw [ite_eq_left h3] at hc
       rcases hM with ⟨a, m, -, h | h⟩ | ⟨b, e, he, h⟩
       · rw [hc] at h
         simp at h
@@ -45,7 +45,7 @@ theorem i167CU_clash {p n0 : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : GLALabel
       · have hkeq : k = n0 * (2 * e) := congrArg (fun l : GLALabel => l.n) (hc.symm.trans h)
         subst hkeq
         exact i167CU_not_dvd_pow_add_one hp hp2 hnum ⟨e, by ring⟩ hpk
-    · rw [if_neg h3] at hc
+    · rw [ite_eq_right h3] at hc
       rcases hM with ⟨a, m, -, h | h⟩ | ⟨b, e, he, h⟩
       · rw [hc] at h
         simp at h

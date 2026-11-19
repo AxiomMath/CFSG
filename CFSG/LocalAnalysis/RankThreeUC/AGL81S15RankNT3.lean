@@ -39,7 +39,7 @@ theorem exists_prime_rank_ge_four_aux2 {m z q : ℕ} (hm : 5 ≤ m) (hq : q.Prim
     (hgood : q ∣ z ∨ q ≠ 5 ∨ 6 ≤ m) {P : Prop} [Decidable P] (hP : P → ¬ q ∣ z ∧ q ∣ m) :
     4 ≤ m - 1 - (if P then 1 else 0) := by
   by_cases hp : P
-  · rw [if_pos hp]
+  · rw [ite_eq_left hp]
     obtain ⟨hz, hqm⟩ := hP hp
     rcases hgood with h | h | h
     · exact absurd h hz
@@ -53,7 +53,7 @@ theorem exists_prime_rank_ge_four_aux2 {m z q : ℕ} (hm : 5 ≤ m) (hq : q.Prim
         · exact hge
       omega
     · omega
-  · rw [if_neg hp]
+  · rw [ite_eq_right hp]
     omega
 
 theorem exists_prime_rank_ge_four_aux3 {n m z q : ℕ} (hm : 5 ≤ m) (hq : q.Prime)
@@ -63,18 +63,18 @@ theorem exists_prime_rank_ge_four_aux3 {n m z q : ℕ} (hm : 5 ≤ m) (hq : q.Pr
   have hQ : 1 ≤ 2 ^ n := Nat.one_le_two_pow
   have hE : (if decide (Odd n) = true then eP (2 ^ n) q else eM (2 ^ n) q) = 1 := by
     rcases Nat.even_or_odd n with hev | hodd
-    · rw [if_pos hev] at hqN
+    · rw [ite_eq_left hev] at hqN
       have hnodd : ¬ Odd n := Nat.not_odd_iff_even.mpr hev
       simp only [decide_eq_true_eq]
-      rw [if_neg hnodd]
+      rw [ite_eq_right hnodd]
       exact eM_eq_one_iff.mpr hqN
     · have hnev : ¬ Even n := Nat.not_even_iff_odd.mpr hodd
-      rw [if_neg hnev] at hqN
+      rw [ite_eq_right hnev] at hqN
       simp only [decide_eq_true_eq]
-      rw [if_pos hodd]
+      rw [ite_eq_left hodd]
       exact (eP_eq_one_iff hQ).mpr hqN
   unfold rkLin
-  rw [if_pos hE]
+  rw [ite_eq_left hE]
   apply exists_prime_rank_ge_four_aux2 hm hq hgood
   exact fun hP => ⟨hP.1, hP.2.1⟩
 
@@ -109,7 +109,7 @@ theorem exists_prime_rank_ge_four (n m z : ℕ) (hn : 2 ≤ n) (hm5 : 5 ≤ m) (
   · exact Or.inr ⟨5, hq, hqN, exists_prime_rank_ge_four_aux3 hm5 hq hqN (Or.inl hz)⟩
   refine Or.inl ⟨rfl, ?_, hz⟩
   by_cases hev : Even n
-  · rw [if_pos hev] at hA
+  · rw [ite_eq_left hev] at hA
     have hall : ∀ {d : ℕ}, d.Prime → d ∣ 2 ^ n + 1 → d = 5 := by
       intro d hd hdv
       by_contra hne
@@ -118,7 +118,7 @@ theorem exists_prime_rank_ge_four (n m z : ℕ) (hn : 2 ≤ n) (hm5 : 5 ≤ m) (
       hall
     exact two_pow_add_one_eq_five_pow (by omega) hN
   · exfalso
-    rw [if_neg hev] at hqN
+    rw [ite_eq_right hev] at hqN
     obtain ⟨t, rfl⟩ := Nat.not_even_iff_odd.mp hev
     have h1 := exists_prime_rank_ge_four_aux4 t
     have h2 : 1 ≤ 2 ^ (2 * t + 1) := Nat.one_le_two_pow

@@ -46,7 +46,7 @@ theorem derivedPreimage_centerQuotientEquiv {K C : Type} [Group K] [Group C]
     {J : Subgroup C} [Group.IsPerfect J] :
     Nonempty (derivedPreimage π J ⧸ Subgroup.center (derivedPreimage π J) ≃*
       J ⧸ Subgroup.center J) := by
-  haveI hperfD : Group.IsPerfect (derivedPreimage π J) :=
+  have hperfD : Group.IsPerfect (derivedPreimage π J) :=
     derivedPreimage_perfect π hπ hker J
   have hle : derivedPreimage π J ≤ J.comap π := by
     rw [derivedPreimage_eq_commutator]
@@ -93,7 +93,6 @@ theorem comap_map_eq_of_map_eq {K C : Type} [Group K] [Group C]
   · intro x hx
     refine Subgroup.mem_map.2 ⟨ε⁻¹ x, ?_, by simp⟩
     rw [Subgroup.mem_comap]
-    change π (ε⁻¹ x) ∈ J
     rw [hεδ' x hx]
     exact hJ' ▸ Subgroup.mem_map_of_mem δ.symm.toMonoidHom hx
 
@@ -111,7 +110,7 @@ theorem derivedPreimage_fixed {K C : Type} [Group K] [Group C]
     {J : Subgroup C} [Group.IsPerfect J] {ε : MulAut K} {δ : MulAut C}
     (hεδ : ∀ g ∈ J.comap π, π (ε g) = δ (π g)) (hfix : ∀ y ∈ J, δ y = y) :
     ∀ x ∈ derivedPreimage π J, ε x = x := by
-  haveI : Group.IsPerfect (derivedPreimage π J) :=
+  have : Group.IsPerfect (derivedPreimage π J) :=
     derivedPreimage_perfect π hπ hker J
   have hle : derivedPreimage π J ≤ J.comap π := by
     rw [derivedPreimage_eq_commutator]

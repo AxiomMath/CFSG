@@ -31,7 +31,7 @@ open scoped commutatorElement
 
 private theorem one_le_of_faithful {G : Type} [Group G] [Finite G] {p N n : ℕ}
     {L J A : Subgroup G} {d b : G} {K : Type} [Field K] [Finite K]
-    (hS : WSetup p L J A d b) (hcard : Nat.card K = 2 ^ n)
+    (hS : WSetup p L J A d b) (_hcard : Nat.card K = 2 ^ n)
     (θ : ↥L ⧸ Subgroup.center ↥L ≃* LargeEvenProj (StatedSL N K))
     (D : GL (Fin N) K) (hD : D ∈ Subgroup.normalizer (StatedSL N K : Set (GL (Fin N) K)))
     (hDind : LargeEvenInduces θ (conjRel d)
@@ -75,7 +75,7 @@ theorem linBlockInnDiagStated_holds :
     CFSG.LocalAnalysis.GLTheoremA.S171.normalizer_of_innerDiagMarking hS.idiag hS.d_mem
   have hbN : b ∈ Subgroup.normalizer (L : Set G) :=
     CFSG.LocalAnalysis.GLTheoremA.S171.normalizer_of_innerDiagMarking hS.idiag hS.b_mem
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hchar : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n) (by
       rw [Nat.card_eq_fintype_card] at hcard
@@ -89,9 +89,9 @@ theorem linBlockInnDiagStated_holds :
       (TableB.projConj (StatedSL N K) ⟨B, hB⟩)
       (fun h h' hh => projConj_apply_mk D hD hh)
       (fun g g' hg => projConj_apply_mk B hB hg) hDind hBind
-  letI : Field D₁ := instD
-  letI : Finite D₁ := finD
-  letI : Fintype D₁ := Fintype.ofFinite D₁
+  let : Field D₁ := instD
+  let : Finite D₁ := finD
+  let : Fintype D₁ := Fintype.ofFinite D₁
   let B₁n : Subgroup.normalizer (StatedSL d₁ D₁ : Set (GL (Fin d₁) D₁)) :=
     ⟨B₁, by rw [Subgroup.normalizer_eq_top]; exact Subgroup.mem_top B₁⟩
   have hIndPow : (MI.indAut p J b hS.b_norm) ^ p = 1 := by

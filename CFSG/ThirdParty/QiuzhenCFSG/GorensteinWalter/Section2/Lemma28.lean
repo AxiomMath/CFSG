@@ -103,7 +103,7 @@ private lemma S_not_cyclic {G : Type u} [Group G] [Finite G]
       _ ≤ 2 ^ c.m := Nat.pow_le_pow_right (by norm_num) c.one_le_m
   have hne : 2 ^ c.m ≠ 1 := by
     intro h1
-    have : 2 ≤ (1 : ℕ) := by simpa [h1] using hpow
+    have : 2 ≤ (1 : ℕ) := by simp [h1] at hpow
     norm_num at this
   exact hne hD
 
@@ -117,7 +117,7 @@ private lemma sylow_noncyclic_of_S_le {G : Type u} [Group G] [Finite G]
   intro P hPcyc
   let S' : Subgroup (↥M) := (c.S : Subgroup G).subgroupOf M
   have hS'p : IsPGroup 2 S' := by
-    exact c.S.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hSle).symm
+    exact c.S.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hSle).symm
   rcases hS'p.exists_le_sylow with ⟨Q, hSleQ⟩
   have hQcyc : IsCyclic (↥(Q : Subgroup (↥M))) := by
     exact isCyclic_of_surjective (Sylow.equiv P Q) (Sylow.equiv P Q).surjective
@@ -136,7 +136,7 @@ private lemma H_normalizes_U {G : Type u} [Group G] [Finite G]
     ∀ u : G, u ∈ c.U → h * u * h⁻¹ ∈ c.U := by
   intro u hu
   have huH : u ∈ c.H :=
-    SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) hu
+    _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) hu
   have hchar : (pPrimeCore 2 c.H).Characteristic :=
     pPrimeCore_characteristic (p := 2) (G := c.H)
   have hcomap : pPrimeCore 2 c.H ≤

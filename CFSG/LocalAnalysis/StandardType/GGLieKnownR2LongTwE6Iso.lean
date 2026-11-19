@@ -85,7 +85,7 @@ theorem coreFour_twistedE6_highest
           Subgroup ↥(fixedGroup k θ)) : Set ↥(fixedGroup k θ)) := by
   have hγ : highRoot .F4 ∈ (twistedDatum k θ).roots := by
     rw [twistedDatum_roots]; exact isRoot_highRoot .F4
-  haveI : Finite (graphFixedRootGroup TwistTag.E6 k θ) := inferInstance
+  have : Finite (graphFixedRootGroup TwistTag.E6 k θ) := inferInstance
   have hmap := map_twistedIsogenyC_rootGroup_highRoot hf hK θ hσ
   have hadj := coreFour_adjoint_twE6_highest θ
   refine CFSG.StandardType.LieKnownR2.four_lift_of_odd_central_ker

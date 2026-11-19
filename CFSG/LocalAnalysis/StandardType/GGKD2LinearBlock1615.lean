@@ -74,8 +74,8 @@ private theorem ltrcle_blockdata {K : Type} [Field K] [Finite K] {d : ℕ}
   obtain ⟨r, D, e, hFld, hFin, hAlg, _Φ, θ, _hd1, _hΦinj, hθinj, hθrange, _hθapply,
     ⟨i, hd2, hWeq⟩⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.K1419.k1419ClsLinBlock_exists M hord W hW
-  letI : ∀ i, Field (D i) := hFld
-  haveI : ∀ i, Finite (D i) := hFin
+  let : ∀ i, Field (D i) := hFld
+  have : ∀ i, Finite (D i) := hFin
   have hms : Function.Injective (MonoidHom.mulSingle (fun k => GL (Fin (e k)) (D k)) i) := by
     intro a b hab
     have := congrFun hab i

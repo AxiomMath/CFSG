@@ -78,7 +78,7 @@ theorem l34FieldNormalUTSection_of_host (h : L34FieldHost) : L34FieldNormalUTSec
   set V : Sylow 2 (Fin k → projectiveSL 3 F) := R.mapSurjective hφs with hV
   have hVcoe : (V : Subgroup (Fin k → projectiveSL 3 F)) = (R : Subgroup ↥Y).map φ :=
     Sylow.coe_mapSurjective hφs R
-  have hV2 : IsPGroup 2 ↥(V : Subgroup (Fin k → projectiveSL 3 F)) := V.isPGroup'
+  have hV2 : IsPGroup 2 ↥(V : Subgroup (Fin k → projectiveSL 3 F)) := V.isPGroup
   have hφR : ∀ r ∈ (R : Subgroup ↥Y), φ r ∈ (V : Subgroup (Fin k → projectiveSL 3 F)) := by
     intro r hr
     rw [hVcoe]

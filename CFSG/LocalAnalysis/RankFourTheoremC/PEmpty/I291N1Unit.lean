@@ -111,6 +111,7 @@ theorem pairIncl_map (φ : K →+* K) (b : Fin 2) :
     (pairIncl e b : Matrix ι (Fin 2) K).map φ = pairIncl e b := by
   ext i k; simp only [pairIncl, Matrix.map_apply, Matrix.of_apply]; split_ifs <;> simp
 
+omit [Fintype ι] in
 theorem blk_map_transpose (φ : K →+* K) (b : Fin 2) (M : Matrix (Fin 2) (Fin 2) K) :
     ((blk e b M).map φ)ᵀ = blk e b ((M.map φ)ᵀ) := by
   unfold blk
@@ -128,6 +129,7 @@ theorem blk_map_transpose (φ : K →+* K) (b : Fin 2) (M : Matrix (Fin 2) (Fin 
   simp only [Matrix.mul_assoc]
 
 
+omit [Fintype ι] in
 theorem blk_apply_same (he : ∀ b k c l, e b k = e c l → b = c ∧ k = l) (b : Fin 2)
     (M : Matrix (Fin 2) (Fin 2) K) (k l : Fin 2) : blk e b M (e b k) (e b l) = M k l := by
   have h01 : e b 0 ≠ e b 1 := fun h => by simpa using (he _ _ _ _ h).2
@@ -135,6 +137,7 @@ theorem blk_apply_same (he : ∀ b k c l, e b k = e c l → b = c ∧ k = l) (b 
   fin_cases k <;> fin_cases l <;>
     simp [blk, Matrix.mul_apply, Fin.sum_univ_two, pairIncl, Matrix.one_apply, h01, h10]
 
+omit [Fintype ι] in
 theorem blk_apply_other (he : ∀ b k c l, e b k = e c l → b = c ∧ k = l) {b c : Fin 2} (h : c ≠ b)
     (M : Matrix (Fin 2) (Fin 2) K) (k : Fin 2) (j : ι) :
     blk e b M (e c k) j = (1 : Matrix ι ι K) (e c k) j := by
@@ -169,7 +172,7 @@ theorem blkGL_commute (he : ∀ b k c l, e b k = e c l → b = c ∧ k = l) {b c
 
 theorem scalar_apply_ne {u : Kˣ} {i j : ι} (h : i ≠ j) :
     ((Matrix.GeneralLinearGroup.scalar ι u : GL ι K) : Matrix ι ι K) i j = 0 := by
-  simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply, h]
+  simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, h]
 
 
 end Block
@@ -360,7 +363,7 @@ theorem two_pow_mod_three_cases (f : ℕ) : 2 ^ f % 3 = 1 ∨ 2 ^ f % 3 = 2 := b
 theorem uniE9_holds : UniE9 := by
   intro n q K _ _ hK hn
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = q ^ 2 := by rw [← Nat.card_eq_fintype_card, hK]
   have hq0 : q ≠ 0 := by
     have hpos : 0 < q ^ 2 := hcard ▸ Fintype.card_pos
@@ -369,7 +372,7 @@ theorem uniE9_holds : UniE9 := by
   · exact le_trans (by norm_num) (psu_three_le_pRank_of_dvd hq0 hK h3 hn)
   obtain ⟨p₀, hp₀⟩ := CharP.exists K
   obtain ⟨f, hpp, hf⟩ := FiniteField.card K p₀
-  haveI := Fact.mk hpp
+  have := Fact.mk hpp
   obtain ⟨e, -, hqe⟩ := (Nat.dvd_prime_pow hpp).1
     (show q ∣ p₀ ^ (f : ℕ) from (hcard.symm.trans hf) ▸ dvd_pow_self q two_ne_zero)
   let φ : K →+* K := iterateFrobenius K p₀ e
@@ -396,7 +399,7 @@ theorem uniE9_holds : UniE9 := by
     have hcardU : Nat.card Kˣ = (q + 1) * (q - 1) := by
       rw [Nat.card_units, hK, ← Nat.sq_sub_sq, one_pow]
     have hp : (q + 1).minFac.Prime := Nat.minFac_prime (by omega)
-    haveI := Fact.mk hp
+    have := Fact.mk hp
     obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) (q + 1).minFac
       (by rw [hcardU]; exact (Nat.minFac_dvd _).mul_right _)
     have haq : a ^ (q + 1) = 1 :=

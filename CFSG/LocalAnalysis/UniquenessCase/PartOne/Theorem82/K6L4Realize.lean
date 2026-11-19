@@ -109,7 +109,7 @@ theorem neg_one_pow_eq_neg_one_of_card_eq_sq [Finite K] {q : ℕ} (hK : Nat.card
     (-1 : K) ^ q = -1 := by
   rcases Nat.even_or_odd q with hq | hq
   · have hchar : ringChar K = 2 := by
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       rw [FiniteField.even_card_iff_char_two, ← Nat.card_eq_fintype_card, hK]
       exact Nat.even_iff.mp (Nat.even_pow.mpr ⟨hq, by norm_num⟩)
     have h1 : (-1 : K) = 1 := neg_one_eq_one_iff.mpr hchar

@@ -32,7 +32,7 @@ theorem isShapeCentralizerThree_of_shape3OK (h : shape3OK = true)
   obtain ⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨⟨hwr, hord⟩, hY⟩, hN⟩, hV⟩, hA⟩, hcY⟩, hnY⟩, hNY⟩, hVN⟩, hAN⟩, hVNc⟩,
     htriv⟩, hsq⟩, hblk⟩, himg⟩ := h
   have hg : gensOK = true := gensOK_of_blkDataOK hblk
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hrr : Rep 1408 (tabW fix3.rep) (elemW fix3.rep) := rep_elemW_of_gensOK hg hwr
   have hr3 : orderOf (elemW fix3.rep) = 3 := orderOf_eq_of_primeOrderOK hrr hord
   obtain ⟨hYc, hYe⟩ := enumW_spec hY
@@ -64,7 +64,7 @@ theorem isShapeCentralizerThree_of_shape3OK (h : shape3OK = true)
     (eq_one_of_mem_zpowers_of_not_mem hr3 hnotY)
     (fun v hv n hn => (commPairsOK_spec hg hVw hNw hVNc v hv n hn).symm)
     ((trivInterOK_iff hVe hAe).1 htriv)
-    ⟨mulEquivOfPrimeCardEq hLc (by simp [Nat.card_zmod])⟩
+    ⟨mulEquivOfPrimeCardEq hLc (by simp)⟩
     (TwoHSData.nonempty_mulEquiv_elem2 (G := ↥(closure (elemW '' {w | w ∈ v3Words}))) 2
       (fun v => Subtype.ext (hVsq v.1 v.2)) (by rw [hVc]; norm_num))
     (TwoHSData.nonempty_mulEquiv_alternating_five φ hAc hφ60)

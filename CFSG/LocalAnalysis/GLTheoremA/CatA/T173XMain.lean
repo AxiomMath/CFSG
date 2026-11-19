@@ -13,7 +13,7 @@ open CFSG.LocalAnalysis.GLTheoremA.S10 CFSG.LocalAnalysis.GLTheoremA.T173
 private lemma not_dvd_card_center_of_isPGroup_two {p : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S : Subgroup Ω}
     (hp : p.Prime) (hp2 : p ≠ 2) (hZ : IsPGroup 2 (Subgroup.center ↥S)) :
     ¬ p ∣ Nat.card (Subgroup.center ↥S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hZ.exists_card_eq
   rw [hn]
   intro hd

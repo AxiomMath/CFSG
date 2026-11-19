@@ -101,7 +101,7 @@ theorem isElemAbelian_L (hF1 : F1Prop) : IsElemAbelian 2 D.L := by
   obtain ⟨-, -, -, -, hL1ea, -⟩ := h
   exact (D.isElemAbelian_pull_iff (D.decSubgroup_le_invE (l := l1Decs) (by decide))).mpr hL1ea
 
-theorem t1_central (D : LocalData G z) (hF1 : F1Prop) (y : Equiv.Perm (Fin 1782))
+theorem t1_central (_D : LocalData G z) (hF1 : F1Prop) (y : Equiv.Perm (Fin 1782))
     (hy : y ∈ decSubgroup s1pDecs) :
     permC 1782 tTab * y = y * permC 1782 tTab := by
   have h := hF1
@@ -109,17 +109,17 @@ theorem t1_central (D : LocalData G z) (hF1 : F1Prop) (y : Equiv.Perm (Fin 1782)
   obtain ⟨-, ht1S, hcent, -⟩ := h
   exact (hcent _ ht1S).mpr (Or.inr rfl) y hy
 
-theorem t1_ne_one (D : LocalData G z) (hF1 : F1Prop) : permC 1782 tTab ≠ 1 := by
+theorem t1_ne_one (_D : LocalData G z) (hF1 : F1Prop) : permC 1782 tTab ≠ 1 := by
   have h := hF1
   dsimp only [F1Prop] at h
   obtain ⟨hcard, ht1S, hcent, -⟩ := h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpg : IsPGroup 2 ↥(decSubgroup s1pDecs) :=
     IsPGroup.of_card (n := 13) (by rw [hcard]; norm_num)
-  haveI : Nontrivial ↥(decSubgroup s1pDecs) := by
+  have : Nontrivial ↥(decSubgroup s1pDecs) := by
     rw [← Finite.one_lt_card_iff_nontrivial, hcard]
     norm_num
-  haveI hcentn : Nontrivial ↥(Subgroup.center ↥(decSubgroup s1pDecs)) :=
+  have hcentn : Nontrivial ↥(Subgroup.center ↥(decSubgroup s1pDecs)) :=
     IsPGroup.center_nontrivial hpg
   obtain ⟨c, hc⟩ := exists_ne (1 : ↥(Subgroup.center ↥(decSubgroup s1pDecs)))
   have hc1 : ((c : ↥(decSubgroup s1pDecs)) : Equiv.Perm (Fin 1782)) ≠ 1 :=
@@ -249,7 +249,7 @@ theorem center_S (hF1 : F1Prop) (s : ↥D.S) (hs : s ∈ Subgroup.center ↥D.S)
     rw [hs']
 
 theorem isSylow_S [Finite G] (hF1 : F1Prop) : ∃ P : Sylow 2 G, (P : Subgroup G) = D.S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSle : D.S ≤ centralizer ({z} : Set G) := D.pull_le_centralizer _
   have hScard : Nat.card D.S = 8192 := D.card_S hF1
   have hS2 : IsPGroup 2 (D.S : Subgroup G) :=
@@ -462,7 +462,7 @@ theorem t0_ne_one : D.t0 ≠ 1 := by
     rw [show D.elt (permC 1782 w0T) D.w0_mem = (1 : G) from h, D.elt_one]
   exact D.elt_injective h2
 
-theorem w0_mem_orbit (D : LocalData G z) (hF3 : F3Prop) :
+theorem w0_mem_orbit (_D : LocalData G z) (_hF3 : F3Prop) :
     permC 1782 w0T ∈ {x : Equiv.Perm (Fin 1782) |
       ∃ g ∈ decSubgroup nl1Decs, x = g * permC 1782 w0T * g⁻¹} :=
   ⟨1, one_mem _, by group⟩
@@ -507,7 +507,7 @@ theorem map_conj_eq_M_of_le_S (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop) {m 
 theorem exists_mem_normalizer_M [Finite G] (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop)
     {x y g : G} (hx : x ∈ D.L) (hy : y ∈ D.L) (hxy : g * x * g⁻¹ = y) :
     ∃ n ∈ normalizer (D.M : Set G), n * x * n⁻¹ = y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMcard : Nat.card D.M = 1024 := D.card_M hF1M
   have hM2 : IsPGroup 2 (D.M : Subgroup G) :=
     IsPGroup.of_card (n := 10) (by rw [hMcard]; norm_num)
@@ -614,7 +614,7 @@ theorem exists_mem_normalizer_M [Finite G] (hF1 : F1Prop) (hF1M : F1MProp) (hF2 
 
 theorem normalizer_L_eq [Finite G] (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop) :
     normalizer (D.L : Set G) = normalizer (D.M : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMcard : Nat.card D.M = 1024 := D.card_M hF1M
   have hM2 : IsPGroup 2 (D.M : Subgroup G) :=
     IsPGroup.of_card (n := 10) (by rw [hMcard]; norm_num)
@@ -712,7 +712,7 @@ theorem exists_conj_L [Finite G] (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop)
   obtain ⟨n, hn, hnxy⟩ := D.exists_mem_normalizer_M hF1 hF1M hF2 hx hy hg
   exact ⟨n, (D.normalizer_L_eq hF1 hF1M hF2).symm ▸ hn, hnxy⟩
 
-@[instance_reducible] private def conjActionOf (D : LocalData G z) (K : Subgroup G) :
+@[instance_reducible] private def conjActionOf (_D : LocalData G z) (K : Subgroup G) :
     MulAction ↥(Subgroup.normalizer (K : Set G)) ↥K where
   smul k l := ⟨(k : G) * (l : G) * (k : G)⁻¹,
     (Subgroup.mem_normalizer_iff.mp k.2 (l : G)).mp l.2⟩
@@ -732,11 +732,11 @@ theorem card_normalizer_L [Finite G] (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Pr
     (hF4 : F4Prop) (hF5 : F5Prop) : Nat.card (normalizer (D.L : Set G)) = 1105920 := by
   classical
   let K : Subgroup G := Subgroup.normalizer (D.L : Set G)
-  letI : MulAction ↥K ↥D.L := D.conjActionOf (D.L)
-  haveI : Fintype ↥K := Fintype.ofFinite ↥K
-  haveI : Fintype ↥D.L := Fintype.ofFinite ↥D.L
-  haveI : Fintype (MulAction.orbit ↥K (⟨z, D.z_mem_L hF1⟩ : ↥D.L)) := Fintype.ofFinite _
-  haveI : Fintype (MulAction.stabilizer ↥K (⟨z, D.z_mem_L hF1⟩ : ↥D.L)) := Fintype.ofFinite _
+  let : MulAction ↥K ↥D.L := D.conjActionOf (D.L)
+  have : Fintype ↥K := Fintype.ofFinite ↥K
+  have : Fintype ↥D.L := Fintype.ofFinite ↥D.L
+  have : Fintype (MulAction.orbit ↥K (⟨z, D.z_mem_L hF1⟩ : ↥D.L)) := Fintype.ofFinite _
+  have : Fintype (MulAction.stabilizer ↥K (⟨z, D.z_mem_L hF1⟩ : ↥D.L)) := Fintype.ofFinite _
   have hz : (⟨z, D.z_mem_L hF1⟩ : ↥D.L) ∈
       MulAction.orbit ↥K (⟨z, D.z_mem_L hF1⟩ : ↥D.L) :=
     MulAction.mem_orbit_self _
@@ -812,7 +812,7 @@ theorem card_normalizer_L [Finite G] (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Pr
   rw [Nat.card_eq_fintype_card]
   exact hKcard
 
-private theorem conj_t0_of_mem (hF1 : F1Prop) (hF2 : F2Prop) (hF3 : F3Prop)
+private theorem conj_t0_of_mem (_hF1 : F1Prop) (hF2 : F2Prop) (hF3 : F3Prop)
     {u : Equiv.Perm (Fin 1782)} (huE : u ∈ invE 1) (huM : u ∈ decSubgroup m1Decs)
     (hu2 : u * u = 1) (hu1 : u ≠ 1) (huL : u ∉ decSubgroup l1Decs) :
     ∃ n ∈ normalizer (D.L : Set G) ⊓ centralizer ({z} : Set G), D.elt u huE = n * D.t0 * n⁻¹ := by
@@ -849,7 +849,7 @@ private theorem conj_t0_of_mem (hF1 : F1Prop) (hF2 : F2Prop) (hF3 : F3Prop)
   refine ⟨D.elt g hgE, hnK, ?_⟩
   rw [hprod]
 
-theorem exists_conj_t0 (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop) (hF3 : F3Prop)
+theorem exists_conj_t0 (hF1 : F1Prop) (_hF1M : F1MProp) (hF2 : F2Prop) (hF3 : F3Prop)
     {x : G} (hxM : x ∈ D.M) (hx2 : x * x = 1) (hx1 : x ≠ 1) (hxL : x ∉ D.L) :
     ∃ n ∈ normalizer (D.L : Set G) ⊓ centralizer ({z} : Set G), x = n * D.t0 * n⁻¹ := by
   obtain ⟨hxC, hxM1⟩ := D.mem_pull.mp hxM
@@ -914,8 +914,8 @@ theorem exists_five [Finite G] (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop) (h
     ∃ f ∈ normalizer (D.L : Set G), orderOf f = 5 ∧ (∀ l ∈ D.L, f * l = l * f → l = 1) ∧
       f * D.t0 = D.t0 * f := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : Nat.card ↥(Subgroup.normalizer (D.L : Set G)) = 1105920 :=
     D.card_normalizer_L hF1 hF1M hF2 hF4 hF5
   obtain ⟨f₀, hf₀ord⟩ := exists_prime_orderOf_dvd_card' 5 (by rw [hN]; norm_num)
@@ -934,11 +934,11 @@ theorem exists_five [Finite G] (hF1 : F1Prop) (hF1M : F1MProp) (hF2 : F2Prop) (h
       exact h
     rw [hf₀order, hCL] at hdvd
     norm_num at hdvd
-  letI : MulAction ↥(Subgroup.normalizer (D.L : Set G)) ↥D.L := D.conjActionOf (D.L)
-  letI : MulAction ↥(Subgroup.normalizer (D.M : Set G)) ↥D.M := D.conjActionOf (D.M)
-  letI : MulAction ↥(Subgroup.zpowers (f₀ : G)) ↥D.L :=
+  let : MulAction ↥(Subgroup.normalizer (D.L : Set G)) ↥D.L := D.conjActionOf (D.L)
+  let : MulAction ↥(Subgroup.normalizer (D.M : Set G)) ↥D.M := D.conjActionOf (D.M)
+  let : MulAction ↥(Subgroup.zpowers (f₀ : G)) ↥D.L :=
     MulAction.compHom _ (Subgroup.inclusion (Subgroup.zpowers_le.mpr hf₀L))
-  letI : MulAction ↥(Subgroup.zpowers (f₀ : G)) ↥D.M :=
+  let : MulAction ↥(Subgroup.zpowers (f₀ : G)) ↥D.M :=
     MulAction.compHom _ (Subgroup.inclusion (Subgroup.zpowers_le.mpr hf₀M))
   have hpg : IsPGroup 5 ↥(Subgroup.zpowers (f₀ : G)) := by
     apply IsPGroup.of_card (n := 1)

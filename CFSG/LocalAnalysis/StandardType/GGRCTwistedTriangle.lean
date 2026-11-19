@@ -15,19 +15,19 @@ private noncomputable def l05nK43a_twUnit {p : ℕ} [Fact p.Prime] {n : ℕ}
 
 private noncomputable def l05nK43a_Tw {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V)
-    (i j : Fin n) (c : ZMod p) (hij : i ≠ j) (hc : c ≠ 0) : V ≃ₗ[ZMod p] V :=
+    (i j : Fin n) (c : ZMod p) (_hij : i ≠ j) (hc : c ≠ 0) : V ≃ₗ[ZMod p] V :=
   (b.equiv (b.unitsSMul (l05nK43a_twUnit i j c hc)) (Equiv.refl (Fin n))) *
     (b.equiv b (Equiv.swap i j))
 
 private lemma l05nK43a_twUnit_self {p : ℕ} [Fact p.Prime] {n : ℕ}
-    (i j : Fin n) (c : ZMod p) (hc : c ≠ 0) (hij : i ≠ j) :
+    (i j : Fin n) (c : ZMod p) (hc : c ≠ 0) (_hij : i ≠ j) :
     l05nK43a_twUnit i j c hc i = Units.mk0 c⁻¹ (inv_ne_zero hc) := by
   simp [l05nK43a_twUnit]
 
 private lemma l05nK43a_twUnit_other {p : ℕ} [Fact p.Prime] {n : ℕ}
     (i j : Fin n) (c : ZMod p) (hc : c ≠ 0) (hij : i ≠ j) :
     l05nK43a_twUnit i j c hc j = Units.mk0 c hc := by
-  simp only [l05nK43a_twUnit, if_neg (Ne.symm hij)]
+  simp only [l05nK43a_twUnit, ite_eq_right (Ne.symm hij)]
   simp
 
 private lemma l05nK43a_Tw_apply_i {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
@@ -53,7 +53,7 @@ private lemma l05nK43a_Tw_apply_other {p : ℕ} [Fact p.Prime] {V : Type} [AddCo
     l05nK43a_Tw b i j c hij hc (b k) = b k := by
   simp only [l05nK43a_Tw, LinearEquiv.mul_apply, Module.Basis.equiv_apply,
     Equiv.swap_apply_of_ne_of_ne hki hkj, Module.Basis.unitsSMul_apply, Equiv.refl_apply]
-  simp only [l05nK43a_twUnit, if_neg hki, if_neg hkj, one_smul]
+  simp only [l05nK43a_twUnit, ite_eq_right hki, ite_eq_right hkj, one_smul]
 
 private lemma l05nK43a_Tw_apply {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V)
@@ -118,12 +118,12 @@ private lemma l05nK43a_coord_apply {p : ℕ} [Fact p.Prime] {V : Type} [AddCommG
 private lemma l05nK43a_coord_apply_self {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V) (i : Fin n) :
     b.coord i (b i) = 1 := by
-  rw [l05nK43a_coord_apply, if_pos rfl]
+  rw [l05nK43a_coord_apply, ite_eq_left rfl]
 
 private lemma l05nK43a_coord_apply_ne {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V) {i k : Fin n}
     (hki : k ≠ i) : b.coord i (b k) = 0 := by
-  rw [l05nK43a_coord_apply, if_neg hki]
+  rw [l05nK43a_coord_apply, ite_eq_right hki]
 
 private lemma l05nK43a_two_ne_zero {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) :
     (2 : ZMod p) ≠ 0 := by
@@ -167,21 +167,21 @@ private lemma l05nK43a_bcan_self {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGro
     [Module (ZMod p) V] {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V)
     (i j : Fin n) (c : ZMod p) (hij : i ≠ j) :
     l05nK43a_bcan b i j c (b i) = 1 := by
-  rw [l05nK43a_bcan_apply, if_pos rfl, if_neg hij]
+  rw [l05nK43a_bcan_apply, ite_eq_left rfl, ite_eq_right hij]
   ring
 
 private lemma l05nK43a_bcan_other {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V)
     (i j : Fin n) (c : ZMod p) (hij : i ≠ j) :
     l05nK43a_bcan b i j c (b j) = -c⁻¹ := by
-  rw [l05nK43a_bcan_apply, if_neg (Ne.symm hij), if_pos rfl]
+  rw [l05nK43a_bcan_apply, ite_eq_right (Ne.symm hij), ite_eq_left rfl]
   ring
 
 private lemma l05nK43a_bcan_ne {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V)
     (i j : Fin n) (c : ZMod p) {k : Fin n} (hki : k ≠ i) (hkj : k ≠ j) :
     l05nK43a_bcan b i j c (b k) = 0 := by
-  rw [l05nK43a_bcan_apply, if_neg hki, if_neg hkj]
+  rw [l05nK43a_bcan_apply, ite_eq_right hki, ite_eq_right hkj]
   ring
 
 private inductive l05nK43a_ReflShape {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
@@ -275,8 +275,7 @@ private lemma l05nK43a_reflShape {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {V : T
     have hbjd : α (b j) = -C⁻¹ * a := by
       have hc1 := congrArg (b.coord i) hbjdata
       simp only [map_smul, smul_eq_mul, map_sub, l05nK43a_coord_apply_self,
-        l05nK43a_coord_apply_ne b (i := i) (k := j) (Ne.symm hij), mul_zero, sub_zero,
-        mul_one, zero_sub] at hc1
+        l05nK43a_coord_apply_ne b (i := i) (k := j) (Ne.symm hij), mul_one, zero_sub] at hc1
       rw [hcoord_i'] at hc1
       calc α (b j) = α (b j) * (a⁻¹ * a) := by rw [inv_mul_cancel₀ ha0, mul_one]
         _ = (α (b j) * a⁻¹) * a := by ring
@@ -360,10 +359,10 @@ private lemma l05nK43a_eq_Tw_action {p : ℕ} [Fact p.Prime] {V : Type} [AddComm
   change r (b k) = l05nK43a_Tw b i j C hij hC (b k)
   rw [l05nK43a_Tw_apply b i j C hij hC k]
   by_cases hki : k = i
-  · rw [hki, hi, if_pos rfl]
+  · rw [hki, hi, ite_eq_left rfl]
   · by_cases hkj : k = j
-    · rw [hkj, hj, if_neg (Ne.symm hij), if_pos rfl]
-    · rw [ho k hki hkj, if_neg hki, if_neg hkj]
+    · rw [hkj, hj, ite_eq_right (Ne.symm hij), ite_eq_left rfl]
+    · rw [ho k hki hkj, ite_eq_right hki, ite_eq_right hkj]
 
 private def l05nK43a_UnitMono {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V) :
@@ -401,7 +400,7 @@ private lemma l05nK43a_bad_refl_exists {p : ℕ} [Fact p.Prime] {V : Type} [AddC
       (∀ i, c i = 1 ∨ c i = -1) ∧ ∀ i, a (b i) = c i • b (σ i)) :
     ∃ r ∈ A, GGLinRefl r ∧ r ∉ l05nK43a_UnitMono b := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply hbad
   intro a ha
   have hAle : A ≤ l05nK43a_UnitMono b := by
@@ -498,13 +497,13 @@ private lemma l05nK43a_delta_inv {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGro
       l05nK43a_delta b j k ζ⁻¹ hjk (inv_ne_zero hζ) :=
   inv_eq_of_mul_eq_one_right (l05nK43a_delta_mul_inv b j k ζ hjk hζ)
 
-private lemma l05nK43a_construct_one_line {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {V : Type}
+private lemma l05nK43a_construct_one_line {p : ℕ} [Fact p.Prime] (_hp5 : 5 ≤ p) {V : Type}
     [AddCommGroup V] [Module (ZMod p) V] {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V)
     {A : Subgroup (V ≃ₗ[ZMod p] V)} {s s' : V ≃ₗ[ZMod p] V}
     {αs αs' : Module.Dual (ZMod p) V} {hs₀ hs₀' : V}
     (hsl : ∀ w, s w = w - αs w • hs₀) (hsl' : ∀ w, s' w = w - αs' w • hs₀')
     {i j k : Fin n} {c d a a' : ZMod p}
-    (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k) (hc : c ≠ 0) (hd : d ≠ 0)
+    (hij : i ≠ j) (hjk : j ≠ k) (hik : i ≠ k) (hc : c ≠ 0) (_hd : d ≠ 0)
     (ha : a ≠ 0) (ha' : a' ≠ 0)
     (hh : hs₀ = a⁻¹ • (b i - c • b j)) (hα : αs = a • l05nK43a_bcan b i j c)
     (hh' : hs₀' = a'⁻¹ • (b j - d • b k)) (hα' : αs' = a' • l05nK43a_bcan b j k d)
@@ -591,7 +590,6 @@ private lemma l05nK43a_construct_one_line {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ 
   refine ⟨δ, hδA', ζ'⁻¹, inv_ne_zero hζ'0, hinv1, hinvm1, ?_, ?_, ?_, ?_⟩
   · rw [g1, g2]
     field_simp
-    try ring
   · rw [g3, g4]
     field_simp
     try ring
@@ -731,12 +729,10 @@ private lemma l05nK43a_construct_same {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {
   refine ⟨δ, hδA', ζ, hζ0, hζ1, hζm1, ?_, ?_, ?_, ?_⟩
   · rw [g1, g2]
     field_simp
-    try ring
   · rw [g3, g4, hζsum]
     simp
   · rw [f1, g2, g3, hζ]
     field_simp
-    try ring
   · intro hcomm
     have hL : (δ * s * δ⁻¹ * s') (b i) = d • b j := by
       simp only [LinearEquiv.mul_apply, hs'_i, map_smul, ht_j]
@@ -757,7 +753,7 @@ private def l05nK43a_TriangleConclusion {p : ℕ} [Fact p.Prime] {V : Type} [Add
     δ * s * δ⁻¹ * s' ≠ s' * (δ * s * δ⁻¹)
 
 private lemma l05nK43a_third_line {n : ℕ} (hn : 3 ≤ n)
-    (i j : Fin n) (hij : i ≠ j) : ∃ k : Fin n, k ≠ i ∧ k ≠ j := by
+    (i j : Fin n) (_hij : i ≠ j) : ∃ k : Fin n, k ≠ i ∧ k ≠ j := by
   have hlt : ({i, j} : Finset (Fin n)).card < (Finset.univ : Finset (Fin n)).card := by
     rw [Finset.card_univ, Fintype.card_fin]
     have h2 : ({i, j} : Finset (Fin n)).card ≤ 2 := by
@@ -769,7 +765,7 @@ private lemma l05nK43a_third_line {n : ℕ} (hn : 3 ≤ n)
   rw [Finset.mem_insert, Finset.mem_singleton, not_or] at hk
   exact ⟨k, hk.1, hk.2⟩
 
-private lemma l05nK43a_two_ne_one {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) :
+private lemma l05nK43a_two_ne_one {p : ℕ} [Fact p.Prime] (_hp5 : 5 ≤ p) :
     (2 : ZMod p) ≠ 1 := by
   have h21 : (2 : ZMod p) - 1 = 1 := by norm_num
   intro h
@@ -782,12 +778,12 @@ private lemma l05nK43a_bcan_swap {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGro
   apply Module.Basis.ext b
   intro k
   rw [l05nK43a_bcan, l05nK43a_bcan]
-  simp only [LinearMap.smul_apply, LinearMap.neg_apply, LinearMap.sub_apply,
+  simp only [LinearMap.smul_apply, LinearMap.sub_apply,
     l05nK43a_coord_apply, smul_eq_mul]
   by_cases hki : k = i
   · rw [hki]; simp [hij]
   · by_cases hkj : k = j
-    · rw [hkj]; simp [Ne.symm hij, hij, hki, mul_inv_cancel₀ hd]
+    · rw [hkj]; simp [Ne.symm hij, mul_inv_cancel₀ hd]
     · simp [hki, hkj]
 
 private lemma l05nK43a_twist_swap_data {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
@@ -808,7 +804,6 @@ private lemma l05nK43a_twist_swap_data {p : ℕ} [Fact p.Prime] {V : Type} [AddC
     rw [smul_comm, smul_smul]
     congr 1
     field_simp
-    try ring
 
 private lemma l05nK43a_twist_twist_prod {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V)
@@ -819,7 +814,6 @@ private lemma l05nK43a_twist_twist_prod {p : ℕ} [Fact p.Prime] {V : Type} [Add
         l05nK43a_bcan b p' q d (b i - c • b j) := by
   simp only [LinearMap.smul_apply, map_smul, smul_eq_mul]
   field_simp
-  try ring
 
 private lemma l05nK43a_use_one_line {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {V : Type}
     [AddCommGroup V] [Module (ZMod p) V] {n : ℕ} (b : Module.Basis (Fin n) (ZMod p) V)
@@ -899,13 +893,13 @@ private lemma l05nK43a_classify {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {V : Ty
       rw [hα, hα', hh, hh'] at hpair
       simp only [LinearMap.smul_apply, map_smul, l05nK43a_coord_apply, smul_eq_mul] at hpair
       by_cases hki : k = i
-      · rw [if_pos hki] at hpair
-        rw [if_pos hki.symm] at hpair
+      · rw [ite_eq_left hki] at hpair
+        rw [ite_eq_left hki.symm] at hpair
         simp only [mul_one] at hpair
-        have h4 : (4 : ZMod p) = 1 := by rw [← hpair] <;> field_simp <;> try ring
+        have h4 : (4 : ZMod p) = 1 := by rw [← hpair]; field_simp; try ring
         exact l05nK43a_four_ne_one hp5 h4
-      · rw [if_neg hki] at hpair
-        rw [if_neg (fun h => hki h.symm)] at hpair
+      · rw [ite_eq_right hki] at hpair
+        rw [ite_eq_right (fun h => hki h.symm)] at hpair
         simp only [mul_zero] at hpair
         exact one_ne_zero hpair.symm
     · exfalso
@@ -914,26 +908,26 @@ private lemma l05nK43a_classify {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {V : Ty
         l05nK43a_bcan_apply, smul_eq_mul] at hpair
       by_cases hpi : p' = i
       · have hqi : q ≠ i := fun h => hp' (by rw [hpi, h])
-        rw [if_pos hpi] at hpair
-        rw [if_neg hqi] at hpair
-        rw [if_pos hpi.symm] at hpair
-        rw [if_neg (fun h => hqi h.symm)] at hpair
+        rw [ite_eq_left hpi] at hpair
+        rw [ite_eq_right hqi] at hpair
+        rw [ite_eq_left hpi.symm] at hpair
+        rw [ite_eq_right (fun h => hqi h.symm)] at hpair
         simp only [mul_zero, sub_zero, mul_one] at hpair
-        have h2 : (2 : ZMod p) = 1 := by rw [← hpair] <;> field_simp <;> try ring
+        have h2 : (2 : ZMod p) = 1 := by rw [← hpair]; field_simp
         exact l05nK43a_two_ne_one hp5 h2
       · by_cases hqi : q = i
-        · rw [if_neg hpi] at hpair
-          rw [if_pos hqi] at hpair
-          rw [if_neg (fun h => hpi h.symm)] at hpair
-          rw [if_pos hqi.symm] at hpair
-          simp only [mul_zero, sub_zero, mul_one] at hpair
-          have h2 : (2 : ZMod p) = 1 := by rw [← hpair] <;> field_simp <;> try ring
+        · rw [ite_eq_right hpi] at hpair
+          rw [ite_eq_left hqi] at hpair
+          rw [ite_eq_right (fun h => hpi h.symm)] at hpair
+          rw [ite_eq_left hqi.symm] at hpair
+          simp only [mul_zero, mul_one] at hpair
+          have h2 : (2 : ZMod p) = 1 := by rw [← hpair]; field_simp; try ring
           exact l05nK43a_two_ne_one hp5 h2
-        · rw [if_neg hpi] at hpair
-          rw [if_neg hqi] at hpair
-          rw [if_neg (fun h => hpi h.symm)] at hpair
-          rw [if_neg (fun h => hqi h.symm)] at hpair
-          simp only [mul_zero, sub_zero, mul_one] at hpair
+        · rw [ite_eq_right hpi] at hpair
+          rw [ite_eq_right hqi] at hpair
+          rw [ite_eq_right (fun h => hpi h.symm)] at hpair
+          rw [ite_eq_right (fun h => hqi h.symm)] at hpair
+          simp only [mul_zero, sub_zero] at hpair
           exact one_ne_zero hpair.symm
   · rcases hsδ' with ⟨k, a', ha', hh', hα'⟩ | ⟨p', q, d, a', hp', hd, ha', hh', hα'⟩
     · exfalso
@@ -942,26 +936,26 @@ private lemma l05nK43a_classify {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {V : Ty
         l05nK43a_bcan_apply, smul_eq_mul] at hpair
       by_cases hki : k = i
       · have hkj : k ≠ j := fun h => hij (hki.symm.trans h)
-        rw [if_pos hki] at hpair
-        rw [if_neg hkj] at hpair
-        rw [if_pos hki.symm] at hpair
-        rw [if_neg (fun h => (Ne.symm hij) (h.trans hki))] at hpair
+        rw [ite_eq_left hki] at hpair
+        rw [ite_eq_right hkj] at hpair
+        rw [ite_eq_left hki.symm] at hpair
+        rw [ite_eq_right (fun h => (Ne.symm hij) (h.trans hki))] at hpair
         simp only [mul_zero, sub_zero, mul_one] at hpair
-        have h2 : (2 : ZMod p) = 1 := by rw [← hpair] <;> field_simp <;> try ring
+        have h2 : (2 : ZMod p) = 1 := by rw [← hpair]; field_simp
         exact l05nK43a_two_ne_one hp5 h2
       · by_cases hkj : k = j
-        · rw [if_neg hki] at hpair
-          rw [if_pos hkj] at hpair
-          rw [if_neg (fun h => hij (h.trans hkj))] at hpair
-          rw [if_pos hkj.symm] at hpair
-          simp only [mul_zero, sub_zero, mul_one] at hpair
-          have h2 : (2 : ZMod p) = 1 := by rw [← hpair] <;> field_simp <;> try ring
+        · rw [ite_eq_right hki] at hpair
+          rw [ite_eq_left hkj] at hpair
+          rw [ite_eq_right (fun h => hij (h.trans hkj))] at hpair
+          rw [ite_eq_left hkj.symm] at hpair
+          simp only [mul_zero, mul_one] at hpair
+          have h2 : (2 : ZMod p) = 1 := by rw [← hpair]; field_simp; try ring
           exact l05nK43a_two_ne_one hp5 h2
-        · rw [if_neg hki] at hpair
-          rw [if_neg hkj] at hpair
-          rw [if_neg (fun h => hki h.symm)] at hpair
-          rw [if_neg (fun h => hkj h.symm)] at hpair
-          simp only [mul_zero, sub_zero, mul_one] at hpair
+        · rw [ite_eq_right hki] at hpair
+          rw [ite_eq_right hkj] at hpair
+          rw [ite_eq_right (fun h => hki h.symm)] at hpair
+          rw [ite_eq_right (fun h => hkj h.symm)] at hpair
+          simp only [mul_zero, sub_zero] at hpair
           exact one_ne_zero hpair.symm
     · by_cases hpi : p' = i
       · by_cases hqj : q = j
@@ -970,7 +964,7 @@ private lemma l05nK43a_classify {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {V : Ty
           rw [hα, hα', hh, hh'] at hpair
           rw [l05nK43a_twist_twist_prod b ha ha'] at hpair
           simp only [map_sub, map_smul, l05nK43a_bcan_apply, smul_eq_mul] at hpair
-          simp only [hij, Ne.symm hij, if_true, if_false] at hpair
+          simp only [hij, Ne.symm hij, ite_true, ite_false] at hpair
           obtain ⟨k3, hk3i, hk3j⟩ := l05nK43a_third_line hn i j hij
           have hζr : (d * c⁻¹) ^ 2 + d * c⁻¹ + 1 = 0 := by
             apply l05nK43a_same_zeta c d hc hd
@@ -997,7 +991,7 @@ private lemma l05nK43a_classify {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {V : Ty
             rw [hα, hα'', hh, hh''] at hpair
             rw [l05nK43a_twist_twist_prod b ha ha''] at hpair
             simp only [map_sub, map_smul, l05nK43a_bcan_apply, smul_eq_mul] at hpair
-            simp only [hij, Ne.symm hij, if_true, if_false] at hpair
+            simp only [hij, Ne.symm hij, ite_true, ite_false] at hpair
             obtain ⟨k3, hk3i, hk3j⟩ := l05nK43a_third_line hn i j hij
             have hζr : (d⁻¹ * c⁻¹) ^ 2 + d⁻¹ * c⁻¹ + 1 = 0 := by
               apply l05nK43a_same_zeta c d⁻¹ hc (inv_ne_zero hd)
@@ -1036,7 +1030,7 @@ private lemma l05nK43a_classify {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {V : Ty
               have hpj' : j ≠ p' := fun h => hpj h.symm
               have hqi' : i ≠ q := fun h => hqi h.symm
               have hqj' : j ≠ q := fun h => hqj h.symm
-              simp only [hpi, hpj, hqi, hqj, hpi', hpj', hqi', hqj', if_true, if_false,
+              simp only [hpi, hpj, hqi, hqj, hpi', hpj', hqi', hqj', ite_false,
                 mul_zero, sub_zero] at hpair
               exact one_ne_zero hpair.symm
 theorem ggRC_twisted_triangle {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {V : Type}
@@ -1052,7 +1046,7 @@ theorem ggRC_twisted_triangle {p : ℕ} [Fact p.Prime] (hp5 : 5 ≤ p) {V : Type
     {hs₀ hs₀' : V} {αs αs' : Module.Dual (ZMod p) V}
     (hsl : ∀ w, s w = w - αs w • hs₀) (hsl' : ∀ w, s' w = w - αs' w • hs₀')
     (h2 : αs hs₀ = 2) (h2' : αs' hs₀' = 2) (hpair : αs hs₀' * αs' hs₀ = 1)
-    (hind : LinearIndependent (ZMod p) ![hs₀, hs₀']) :
+    (_hind : LinearIndependent (ZMod p) ![hs₀, hs₀']) :
     ∃ δ ∈ A, ∃ ζ : ZMod p, ζ ≠ 0 ∧ ζ ≠ 1 ∧ ζ ≠ -1 ∧
       αs' (δ hs₀) * αs (δ⁻¹ hs₀') = 1 ∧ αs (δ hs₀) * αs (δ⁻¹ hs₀) = 2 + ζ + ζ⁻¹ ∧
       αs' hs₀ * αs (δ⁻¹ hs₀') * αs (δ hs₀) = 1 + ζ⁻¹ ∧

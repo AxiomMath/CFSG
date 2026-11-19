@@ -47,6 +47,7 @@ theorem barSub_M_le_normalizer_barSub (D : Data G) {V₀ V : Subgroup G} {p : �
     have hEq : g * (g⁻¹ * y * g) * g⁻¹ = y := by group
     rwa [hEq] at h1
 
+omit [Finite G] in
 theorem conj_eq_of_actTil_tilOf_eq_of_bot {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hV₀ : V₀ = ⊥) {g : G} (hgs : g ∈ stabTil V₀ V) {v : G} (hv : v ∈ V)
     (hfix : actTil V₀ V hV ⟨g, hgs⟩ (tilOf V₀ V hV v hv) = tilOf V₀ V hV v hv) :
@@ -108,7 +109,7 @@ theorem preBarSub_S_eq (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L : Subgrou
       rw [← map_mul]
       congr 1
       ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [Subgroup.coe_mul]
       group
     have hact1 : actTil V₀ V hV ⟨(s : G)⁻¹ * g, hgsx⟩ = 1 := by
       have h6 : actTil V₀ V hV ⟨g, hgs⟩ * actTil V₀ V hV ⟨(s : G)⁻¹ * g, hgsx⟩ =
@@ -186,7 +187,7 @@ theorem two_mul_le_mBar_of_involution (D : Data G) {V : Subgroup G} {p : ℕ} {L
   have hMnorm : Mbar ≤ Subgroup.normalizer (Xbar : Set _) :=
     barSub_M_le_normalizer_barSub D h
   unfold mBar
-  rw [CFSG.Quasithin.E3.mParam, if_pos heven]
+  rw [CFSG.Quasithin.E3.mParam, ite_eq_left heven]
   refine le_csInf ?_ ?_
   · obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥Mbar) 2
       (even_iff_two_dvd.mp heven)
@@ -480,7 +481,7 @@ theorem actTil_eq_mul_of_centOverO2 (D : Data G) {V₀ V : Subgroup G} {p : ℕ}
   constructor
   · have hst : (⟨t, hts⟩ : ↥(stabTil V₀ V)) = ⟨s, hss⟩ * ⟨s⁻¹ * t, hcs⟩ := by
       ext
-      simp [mul_assoc]
+      simp
     rw [hst, map_mul]
   · rw [Subgroup.mem_centralizer_iff]
     intro y hy

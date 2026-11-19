@@ -59,8 +59,8 @@ theorem eq_or_eq_top_of_fixed {N P₃ P₅ : Subgroup G} (hidx : N.index = 2926)
     (hfix3 : ∀ g : G, (∀ s ∈ P₃, g⁻¹ * s * g ∈ N) → g ∈ N)
     (hfix5 : ∀ g : G, (∀ s ∈ P₅, g⁻¹ * s * g ∈ N) → g ∈ N) {W : Subgroup G} (hNW : N ≤ W) :
     W = N ∨ W = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have m3 := relIndex_modEq_one hNW h3N h3 hfix3
   have m5 := relIndex_modEq_one hNW h5N h5 hfix5
   have hdvd : N.relIndex W ∣ 2926 := hidx ▸ Subgroup.relIndex_dvd_index_of_le hNW

@@ -13,7 +13,7 @@ section Helpers
 private theorem exists_zpow_mul_zpow_of_mem_sup {Q : Type} [Group Q] {c d x : Q}
     (hd : d ∈ Subgroup.center Q) (hx : x ∈ Subgroup.zpowers c ⊔ Subgroup.zpowers d) :
     ∃ i j : ℤ, x = c ^ i * d ^ j := by
-  haveI : (Subgroup.zpowers d).Normal :=
+  have : (Subgroup.zpowers d).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hd)
   obtain ⟨y, hy, z, hz, rfl⟩ := Subgroup.mem_sup_of_normal_right.mp hx
   obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy

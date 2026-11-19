@@ -40,11 +40,11 @@ theorem rootSep_of_check {m : Fin 6} (h : rootSepCheck m = true) : RootSep m := 
         (fun k => if h : k < dim m then ((F m j ⟨k, h⟩) % 3).toNat else 0) := by
       funext k
       by_cases hk : k < dim m
-      · rw [dif_pos hk, dif_pos hk]
+      · rw [dite_eq_left hk, dite_eq_left hk]
         exact congrArg Int.toNat
           ((ZMod.intCast_eq_intCast_iff' (F m i ⟨k, hk⟩) (F m j ⟨k, hk⟩) 3).1
             (by simpa using hc ⟨k, hk⟩))
-      · rw [dif_neg hk, dif_neg hk]
+      · rw [dite_eq_right hk, dite_eq_right hk]
     have hkey : rowKey m i = rowKey m j := by
       simp only [rowKey, hfun]
     exact ⟨hinj hkey, hε⟩
@@ -54,13 +54,13 @@ theorem rootSep_of_check {m : Fin 6} (h : rootSepCheck m = true) : RootSep m := 
         (fun k => if h : k < dim m then (((-1 : ℤ) * F m j ⟨k, h⟩) % 3).toNat else 0) := by
       funext k
       by_cases hk : k < dim m
-      · rw [dif_pos hk, dif_pos hk]
+      · rw [dite_eq_left hk, dite_eq_left hk]
         exact congrArg Int.toNat
           ((ZMod.intCast_eq_intCast_iff' (F m i ⟨k, hk⟩) ((-1 : ℤ) * F m j ⟨k, hk⟩) 3).1 (by
             rw [hc ⟨k, hk⟩]
             push_cast
             rfl))
-      · rw [dif_neg hk, dif_neg hk]
+      · rw [dite_eq_right hk, dite_eq_right hk]
     have hkey : rowKey m i = negRowKey m j := by
       simp only [rowKey, negRowKey, hfun]
     exact hd (rowKey m i) (List.mem_map.2 ⟨i, List.mem_finRange i, rfl⟩)

@@ -54,7 +54,7 @@ theorem noCfgS429_l62 {S : Type} [Group S] [Finite S]
 
 theorem eight_SL6 : RowSOf429 (projSL 6 (GaloisField 2 1)) :=
   rowSOf429_of_noCfg fun S _ _ hs hna ⟨e⟩ => by
-    haveI := hs
+    have := hs
     exact noCfgS429_l62 hna e
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK429F

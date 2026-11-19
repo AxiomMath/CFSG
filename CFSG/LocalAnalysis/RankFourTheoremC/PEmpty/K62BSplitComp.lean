@@ -32,7 +32,7 @@ theorem simple_of_centre {K : Type*} [Group K] (hq : CFSG.IsQuasisimple K) (hZ :
 
 theorem sylow_comp (h : SplitCfg p P x) (C : ComponentIndex Y) :
     CFSG.ABGLocalTools.IsSylowOf p (P ⊓ C.1) C.1 := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   exact isSylowOf_inf_subnormal h.sylow C.2.2
 
 theorem simple_comp (h : SplitCfg p P x) (C : ComponentIndex Y) :
@@ -52,7 +52,7 @@ theorem exists_sylow_comp (h : SplitCfg p P x) (C : ComponentIndex Y) :
   exact h1
 
 theorem dvd_inf_comp (h : SplitCfg p P x) (C : ComponentIndex Y) : p ∣ Nat.card ↥(P ⊓ C.1) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   rw [(sylow_comp h C).card_eq]
   have h1 : 1 ≤ (Nat.card C.1).factorization p := by
     have hn : Nat.card C.1 ≠ 0 := Nat.card_pos.ne'

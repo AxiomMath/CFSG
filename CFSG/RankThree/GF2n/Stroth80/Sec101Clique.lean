@@ -11,6 +11,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem IsClique101.le_of_roots {X Y : Subgroup G} (hX : IsClique101 M Q Z B X) (hZY : Z ≤ Y)
     (h : ∀ E, IsRootB M B E → E ≤ X → E ≤ Y) : X ≤ Y := by
   intro x hx
@@ -19,6 +20,7 @@ theorem IsClique101.le_of_roots {X Y : Subgroup G} (hX : IsClique101 M Q Z B X) 
   · obtain ⟨E, hE, hxE, hEX⟩ := hX.cover x hx hxZ
     exact h E hE hEX hxE
 
+omit [Finite G] in
 theorem IsClique101.conj (hc : Ctx M Q Z B) {X : Subgroup G} (hX : IsClique101 M Q Z B X)
     {g : G} (hg : g ∈ M) : IsClique101 M Q Z B (conjSubgroup g X) where
   Z_le := by
@@ -55,6 +57,7 @@ theorem IsClique101.conj (hc : Ctx M Q Z B) {X : Subgroup G} (hX : IsClique101 M
       rw [← conjSubgroup_mul, mul_inv_cancel, conjSubgroup_one]
     rwa [h3] at h2
 
+omit [Finite G] in
 theorem IsMaxClique101.conj (hc : Ctx M Q Z B) {X : Subgroup G} (hX : IsMaxClique101 M Q Z B X)
     {g : G} (hg : g ∈ M) : IsMaxClique101 M Q Z B (conjSubgroup g X) := by
   refine ⟨hX.1.conj hc hg, fun Y hY => ?_⟩
@@ -140,7 +143,7 @@ private theorem IsMaxClique101.exists_not_le_Z (hc : Ctx M Q Z B) {X : Subgroup 
 theorem Ctx.exists_maxClique (hc : Ctx M Q Z B) :
     ∃ X, IsMaxClique101 M Q Z B X ∧ B ≤ X := by
   classical
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   let S : Set (Subgroup G) := {X | IsClique101 M Q Z B X}
   have hSne : S.Nonempty := ⟨B ⊔ Z, hc.isClique101_sup⟩

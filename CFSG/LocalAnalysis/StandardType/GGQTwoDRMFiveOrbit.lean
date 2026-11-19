@@ -40,16 +40,16 @@ private lemma dot_two_support_dichotomy (b : DVec 5) (h : b ⬝ᵥ b = 2) :
     · have hmem : i ∉ A := by
         rw [hA, mem_dVecSupp]
         exact fun hne => hne hi
-      rw [hi, if_neg hmem]
+      rw [hi, ite_eq_right hmem]
       ring
     · have hmem : i ∈ A := by
         rw [hA, mem_dVecSupp]
         exact hi
       rcases hunit (b i) with h0 | h1 | h1
       · exact absurd h0 hi
-      · rw [h1, if_pos hmem]
+      · rw [h1, ite_eq_left hmem]
         norm_num
-      · rw [h1, if_pos hmem]
+      · rw [h1, ite_eq_left hmem]
         norm_num
   have hsum : ∑ i : Fin 5, b i * b i = (A.card : ZMod 3) := by
     simp_rw [hterm]

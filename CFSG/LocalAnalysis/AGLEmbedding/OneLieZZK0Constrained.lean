@@ -73,7 +73,7 @@ theorem false_of_hasPrimeConstraint_of_coprimeAut
     exists_competitorHom_apply_of_map_eq (hd.map_nclIn_eq le_rfl hd.d1LiftX_ne_bot) hc.nclIn_le
   obtain ⟨hKs, hKnab⟩ := hd.isSimpleGroup
   obtain ⟨T, -, hKcat, hTnc, hΓ, -⟩ := hd.exists_kFactHyps
-  obtain ⟨m, hm⟩ := T.isPGroup'.exists_card_eq
+  obtain ⟨m, hm⟩ := T.isPGroup.exists_card_eq
   have hm2 : 2 ≤ m := by
     by_contra hlt
     apply hTnc

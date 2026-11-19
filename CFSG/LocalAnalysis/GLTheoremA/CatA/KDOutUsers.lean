@@ -40,6 +40,7 @@ section Lift
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem inducesInnerMod_of_comap {p : ℕ} {J : Subgroup G} [Group.IsPerfect (PQuot p J)]
     {g : G} (x : ↥(Subgroup.normalizer (J : Set G))) (hx : (x : G) = g⁻¹)
     (h : ((centerQuotientHom (PQuot p J)).comp (barAut p J)) x ∈ inner (PSimple p J)) :
@@ -82,7 +83,7 @@ private theorem commutator_le_comap_inner {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 
         P.subgroupOf (Subgroup.normalizer (J : Set G))⁆ ≤
       (inner (PSimple p J)).comap ((centerQuotientHom (PQuot p J)).comp (barAut p J)) := by
   have hq : CFSG.Open.IsQuasisimple (PQuot p J) := isQuasisimple_pQuot_of_glaPComponent hp hJ
-  haveI : Group.IsPerfect (PQuot p J) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot p J) := ⟨hq.1⟩
   have hsimple : IsSimpleGroup (PSimple p J) := hq.2
   have hnonab : ∃ a b : PSimple p J, a * b ≠ b * a :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian _ hq
@@ -171,7 +172,7 @@ private theorem false_of_pow_twelve_dvd_co2 {p : ℕ} (hp : p.Prime) (hp2 : p �
   all_goals first
     | (norm_num at hp; done)
     | (norm_num at hp2; done)
-    | (norm_num at hd; done)
+    | (norm_num at hd)
 
 private theorem false_of_charTwo_iso_D4 {S : Type} [Group S] [Finite S]
     (d : TauCeti.ValidLieTypeIndex) (hd : d.1.characteristic = 2)
@@ -216,7 +217,7 @@ private theorem false_of_charTwo_iso_D4 {S : Type} [Group S] [Finite S]
 
 private theorem card_alternating_of_iso {S : Type} [Group S] {n : ℕ} (hn : 5 ≤ n)
     (e : S ≃* (TauCeti.CFSGIndex.alternating n hn).Group) : Nat.card S = n.factorial / 2 := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
   rw [Nat.card_congr e.toEquiv]
   show Nat.card (alternatingGroup (Fin n)) = _
   rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
@@ -499,7 +500,7 @@ end ListExceptions
 theorem i71InnerAt_holds (G : Type) [Group G] [Finite G] : S8.L89.I71InnerAt G := by
   intro X J T D _hX hJ hcat hT hTN hD hDN hDT hTD t ht
   have hcat' : IsCatalogGroup (PSimple 3 J) := isCatalogGroup_of_catalogIs' hcat
-  haveI : Group.IsPerfect (PQuot 3 J) := ⟨(isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ).1⟩
+  have : Group.IsPerfect (PQuot 3 J) := ⟨(isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ).1⟩
   have hexc : ¬ (3 = 3 ∧ IsPOmegaEightPlusOdd (PSimple 3 J)) := fun h =>
     not_isPOmegaEightPlusOdd_of_i1431 hcat h.2
   have hK := commutator_le_comap_inner Nat.prime_three (by norm_num) hJ hcat' hexc hD hT hDT
@@ -520,7 +521,7 @@ theorem i71InnerAt_holds (G : Type) [Group G] [Finite G] : S8.L89.I71InnerAt G :
 theorem i712At_holds (G : Type) [Group G] [Finite G] (p : ℕ) : I712At G p := by
   intro hp hp2 X L A T _hX hL hchev hA hT hAN hTN hAT a ha t ht
   have hcat : IsCatalogGroup (PSimple p L) := isCatalogGroup_of_isChevSimple' hchev
-  haveI : Group.IsPerfect (PQuot p L) := ⟨(isQuasisimple_pQuot_of_glaPComponent hp hL).1⟩
+  have : Group.IsPerfect (PQuot p L) := ⟨(isQuasisimple_pQuot_of_glaPComponent hp hL).1⟩
   have hexc : ¬ (p = 3 ∧ IsPOmegaEightPlusOdd (PSimple p L)) := fun h =>
     not_isPOmegaEightPlusOdd_of_isChevSimple_two hchev h.2
   have hK := commutator_le_comap_inner hp hp2 hL hcat hexc hA hT hAT

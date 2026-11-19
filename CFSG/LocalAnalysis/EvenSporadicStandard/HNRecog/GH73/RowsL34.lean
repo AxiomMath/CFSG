@@ -22,7 +22,7 @@ private lemma a8xUT_central_in_U {F : Type} [Field F] (c : F) :
   simp only [Subgroup.coe_mul]
   rw [CFSG.CGT.T75P.a8xUT_mul, CFSG.CGT.T75P.a8xUT_mul]
   simp only [add_zero, zero_add, mul_zero]
-  congr 1 <;> ring
+  congr 1; ring
 
 private lemma a8xU_inf_center_eq_bot {F : Type} [Field F] :
     CFSG.CGT.T75P.a8xU F ⊓ Subgroup.center (Matrix.SpecialLinearGroup (Fin 3) F) = ⊥ := by
@@ -50,7 +50,7 @@ theorem not_l34_of_center_two {X : Type} [Group X] [Finite X]
     (hZ : ∀ S : Sylow 2 X, Nat.card (Subgroup.center ↥(S : Subgroup X)) = 2) :
     ¬ LieModel X .PSL 3 2 2 := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨by norm_num⟩
   obtain ⟨e⟩ := CFSG.GH74.KGroups.PSLN.psl_equiv_of_lieModel (F := F4) 3 2 2 (by norm_num)
     (CFSG.GH74.KGroups.L34.card_F) h
   let U : Subgroup (Matrix.SpecialLinearGroup (Fin 3) F4) := CFSG.CGT.T75P.a8xU F4

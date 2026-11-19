@@ -127,15 +127,15 @@ private theorem e6InF_finrank_fix (h3K : (3 : K) ≠ 0) (S : Module.End K (κ �
       rw [hsingle b a, map_smul, Finsupp.smul_apply, Finsupp.smul_apply, smul_eq_mul,
         smul_eq_mul]
       rcases b with j | i'
-      · rw [hSh, Finsupp.single_apply, if_neg Sum.inl_ne_inr]
+      · rw [hSh, Finsupp.single_apply, ite_eq_right Sum.inl_ne_inr]
         ring
       · rw [hSr, Finsupp.smul_apply, smul_eq_mul, Finsupp.single_apply, Finsupp.single_apply]
         by_cases hi : i' = i
         · subst hi
-          simp only [if_true]
+          simp only [ite_true]
           ring
-        · rw [if_neg (fun h => hi (hσinj (Sum.inr_injective h))),
-            if_neg (fun h => hi (Sum.inr_injective h))]
+        · rw [ite_eq_right (fun h => hi (hσinj (Sum.inr_injective h))),
+            ite_eq_right (fun h => hi (Sum.inr_injective h))]
           ring
   have hPinl : ∀ (x : κ ⊕ ι →₀ K) (k : κ), (x + S x + S (S x)) (Sum.inl k) = 0 := by
     intro x k
@@ -155,7 +155,7 @@ private theorem e6InF_finrank_fix (h3K : (3 : K) ≠ 0) (S : Module.End K (κ �
       rcases b with j | i
       · rw [hPh, Finsupp.zero_apply, smul_zero]
       · rw [hSr, map_smul, hSr]
-        simp [Finsupp.single_apply]
+        simp
   have hFinl : ∀ x ∈ F, ∀ k, x (Sum.inl k) = 0 := by
     intro x hx k
     have hSx := (hmem x).1 hx
@@ -203,11 +203,11 @@ private theorem e6InF_finrank_fix (h3K : (3 : K) ≠ 0) (S : Module.End K (κ �
     rw [hSr, map_smul, hSr]
     simp only [Finsupp.add_apply, Finsupp.smul_apply, smul_eq_mul, Finsupp.single_apply,
       Sum.inr.injEq, Pi.single_apply]
-    rw [if_neg (Ne.symm hne.1), if_neg (Ne.symm hne.2)]
+    rw [ite_eq_right (Ne.symm hne.1), ite_eq_right (Ne.symm hne.2)]
     by_cases hrr : r' = r
     · subst hrr
       simp
-    · rw [if_neg (fun h => hrr (Subtype.ext h.symm)), if_neg hrr]
+    · rw [ite_eq_right (fun h => hrr (Subtype.ext h.symm)), ite_eq_right hrr]
       ring
   have hle : Module.finrank K F ≤ R.card := by
     have h := LinearMap.finrank_le_finrank_of_injective hΨ
@@ -282,7 +282,7 @@ private theorem e6InF_hStep (i : Fin Tag.E6.rank) (c : Fin Tag.E6.rank → ℤ) 
     Pi.single_apply]
   by_cases hki : k = i
   · subst hki
-    simp only [if_true, mul_one]
+    simp only [ite_true, mul_one]
     have hs : ∑ j, ((Tag.E6.cartan j k).natAbs : ℤ) * c j =
         e6InF_eps k * ∑ j, Tag.E6.cartan k j * (e6InF_eps j * c j) := by
       rw [Finset.mul_sum]
@@ -291,7 +291,7 @@ private theorem e6InF_hStep (i : Fin Tag.E6.rank) (c : Fin Tag.E6.rank → ℤ) 
       ring
     rw [hs]
     linear_combination (-c k) * hε k
-  · simp only [hki, if_false, mul_zero, sub_zero]
+  · simp only [hki, ite_false, mul_zero, sub_zero]
     rw [← mul_assoc, hε k, one_mul]
 
 private theorem e6InF_foldr_hStep (μ : List (Fin Tag.E6.rank)) (c : Fin Tag.E6.rank → ℤ) :
@@ -370,7 +370,7 @@ theorem e6MonoEllipticFix24_holds : E6MonoEllipticFix24 := by
     intro j i
     rw [show (Finsupp.single (Sum.inl j) 1 : RootModule Tag.E6 K) = hVec Tag.E6 K j from rfl,
       ← hVecSum_single, hSh]
-    simp [hVecSum, hVec, Finsupp.single_apply]
+    simp [hVecSum, hVec]
   have hMR : MapsRootLines (s : ModGL Tag.E6 K) v := by
     have h := (bm_mapsRootLines_weylWordElt (K := K) μ).mul
       (mapsRootLines_rootDiagUnit (τ := Tag.E6) (K := K) b)

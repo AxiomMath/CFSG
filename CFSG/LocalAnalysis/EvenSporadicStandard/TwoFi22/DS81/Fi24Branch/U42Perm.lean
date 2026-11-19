@@ -61,8 +61,7 @@ theorem z0_data :
   · obtain ⟨x, hx, y, hy, hxy⟩ := hc
     exact ⟨x, hx, y, hy, hxy⟩
   · have hca := hall a ha
-    simp only [ha1, haz, haz', decide_false, Bool.false_or, Bool.or_eq_true, decide_eq_true_eq,
-      false_or] at hca
+    simp only [ha1, haz, haz', false_or] at hca
     simp only [cosetCheck, Bool.and_eq_true, decide_eq_true_eq, List.all_eq_true,
       List.any_eq_true] at hca
     refine ⟨cosetReps (conjSet a), hca.1, fun x hx hxa => ?_⟩
@@ -229,7 +228,7 @@ theorem hom_eq_one_of_statedClassicalModel_psu42
     {U : Type} [Group U]
     (hU : CFSG.Open.StatedClassicalModel U .PSU 4 2 1) {n : ℕ} (hn : n ≤ 26)
     (φ : U →* Equiv.Perm (Fin n)) : φ = 1 := by
-  haveI : IsSimpleGroup U := (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity U 4 2 1 hU).2
+  have : IsSimpleGroup U := (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity U 4 2 1 hU).2
   obtain ⟨e⟩ := nonempty_mulEquiv_qp45_of_statedClassicalModel hU
   exact action_eq_one_of_simple_u42 e (by simpa using hn) φ
 

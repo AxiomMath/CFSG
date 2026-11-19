@@ -27,7 +27,7 @@ theorem exists_nb (hL : GGLBalanceInput) :
     ∃ N : Subgroup G, GGNbr p B x (dPrime x φ₁ φ₂) (sl3four.map φ₁) (bElt φ₁ φ₂) N ∧
       sl3four.map φ₁ ≤ N ∧ sl3four.map φ₂ ≤ N := by
   have hp : p.Prime := by rw [h.nbr.2.1]; exact Nat.prime_three
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpJ : p ∣ Nat.card (sl3four.map φ₁) := by
     rw [h.nbr.2.1, Subgroup.card_map_of_injective (f := φ₁) h.coords.inj₁, card_sl3four]
     norm_num

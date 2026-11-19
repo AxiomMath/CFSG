@@ -66,8 +66,8 @@ theorem row427_of_noCfg_on'
     have hK₁q : IsQuasisimple (K'.subgroupOf L) :=
       CFSG.LocalCores.isQuasisimple_of_mulEquiv eKL.symm hK'q
     have hZK : Subgroup.center (K'.subgroupOf L ⧸ CFSG.pCore 2 (K'.subgroupOf L)) = ⊥ := by
-      haveI := (isA5Type_quot_congr eKL hT).isSimpleGroup
-      haveI : Group.IsPerfect (K'.subgroupOf L) := hK₁q.1
+      have := (isA5Type_quot_congr eKL hT).isSimpleGroup
+      have : Group.IsPerfect (K'.subgroupOf L) := hK₁q.1
       exact center_eq_bot_of_isSimpleGroup_of_isPerfect
     have hinf : K'.subgroupOf L ⊓ Subgroup.center L = ⊥ :=
       inf_eq_bot_of_center_eq_bot hK₁q hZK le_rfl hZ3
@@ -135,12 +135,14 @@ open Matrix
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] in
 theorem three_ne_zero_char_two : (3 : F) ≠ 0 := by
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   intro h0
   have h1 : (1 : F) = 0 := by linear_combination h0 - h2
   exact one_ne_zero h1
 
+omit [Finite F] in
 theorem exists_form_of_involution {n : ℕ} (hPi : PiField false 2 n F) {B : GL (Fin 3) F} {c : F}
     (hBm3 : (B : Matrix (Fin 3) (Fin 3) F) ^ 3 = c • (1 : Matrix (Fin 3) (Fin 3) F))
     (hBs : ∀ x : F, (B : Matrix (Fin 3) (Fin 3) F) ≠ x • (1 : Matrix (Fin 3) (Fin 3) F))
@@ -201,10 +203,11 @@ theorem exists_form_of_involution {n : ℕ} (hPi : PiField false 2 n F) {B : GL 
       rw [sub_mul, mul_sub, one_mul, mul_one, hcommM]
     simp only [Matrix.mul_smul, Matrix.smul_mul, hNB]
 
+omit [CharP F 2] in
 theorem exists_involution_of_even {q : ℕ} {B : GL (Fin 3) F}
     (h2 : 2 ∣ Nat.card (suCentralizer q B)) :
     ∃ T : GL (Fin 3) F, T * T = 1 ∧ T ≠ 1 ∧ T * B = B * T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' 2 h2
   refine ⟨((t : CFSG.Open.StatedSU 3 q F) : GL (Fin 3) F), ?_, ?_, mem_suCentralizer.mp t.2⟩
   · have hTord : orderOf ((t : CFSG.Open.StatedSU 3 q F) : GL (Fin 3) F) = 2 := by
@@ -385,7 +388,7 @@ theorem simple_of_psuConj (hodd : Odd n) (hn3 : 3 ≤ n) [Finite (unitaryPSU h 3
     {K : Subgroup (unitaryPSU h 3)} (hKC : K ≤ Sec4.autFix (psuConj h B))
     (hKq : IsQuasisimple K) (hKs : (K.subgroupOf (Sec4.autFix (psuConj h B))).IsSubnormal) :
     IsSimpleGroup K ∧ Nat.card K = 2 ^ n * ((2 ^ n) ^ 2 - 1) := by
-  haveI : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K := hKq.1
   have h2K : 2 ∣ Nat.card K :=
     even_iff_two_dvd.mp (CFSG.RankThree.OddKernel.even_card_of_isQuasisimple hKq)
   have h2 : 2 ∣ Nat.card (suCentralizer (2 ^ n) (B : GL (Fin 3) F)) := by
@@ -425,15 +428,15 @@ theorem simple_of_psuConj (hodd : Odd n) (hn3 : 3 ≤ n) [Finite (unitaryPSU h 3
       ((suCentralizer (2 ^ n) (B₀ : GL (Fin 3) F)).map (unitaryProj h 3)) := by rw [hN, hfix₀]
   let ι' : N ≃* Matrix.SpecialLinearGroup (Fin 2) F₀ := (MulEquiv.subgroupCongr hNeq).trans ι
   have hNC : N ≤ Sec4.autFix (psuConj h B₀) := Subgroup.map_subtype_le _
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F₀ := Fintype.ofFinite F₀
-  haveI : CharP F₀ 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF₀])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F₀ := Fintype.ofFinite F₀
+  have : CharP F₀ 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hF₀])
   obtain ⟨hNs, -, hNcard⟩ := sl2_char_two_data (by rw [hF₀]; exact hq) ι'.symm
   have hK₀N : K₀ ≤ N := KFacts.le_inSubgroup_perfectResidual hK₀q.1 hK₀C
   have hK₀eq : K₀ = N := eq_of_subnormal_of_le_simple hK₀N hNC hK₀s hNs
     (ne_bot_of_isQuasisimple hK₀q)
   let eKN : K ≃* N := eK.trans (MulEquiv.subgroupCongr hK₀eq)
-  haveI := hNs
+  have := hNs
   exact ⟨eKN.isSimpleGroup, by rw [Nat.card_congr eKN.toEquiv, hNcard, hF₀]⟩
 
 theorem good427_psuConj (hodd : Odd n) (hn3 : 3 ≤ n) [Finite (unitaryPSU h 3)]
@@ -441,7 +444,7 @@ theorem good427_psuConj (hodd : Odd n) (hn3 : 3 ≤ n) [Finite (unitaryPSU h 3)]
     Good427 (Sec4.autFix (psuConj h B)) := by
   intro K hKC hKq hKs hA5
   obtain ⟨hs, hcard⟩ := simple_of_psuConj hodd hn3 hB3 hB1 hKC hKq hKs
-  haveI := hs
+  have := hs
   exact not_isA5Type_of_simple (exists_ne_comm_of_isQuasisimple hKq)
     (by rw [hcard]; exact sl2_card_ne_sixty hn3) hA5
 
@@ -471,11 +474,12 @@ theorem onFree_inner (hodd : Odd n) (hn3 : 3 ≤ n) [Finite (unitaryPSU h 3)]
   obtain ⟨hs, hcard⟩ := simple_of_psuConj hodd hn3 hB3 hB1 hKC hKq hKs
   exact ⟨hs, by rw [hcard]; exact sl2_card_ne_sixty hn3⟩
 
-theorem good427_field (hodd : Odd n) [Finite (unitaryPSU h 3)] (hn3 : 3 ≤ n)
+omit [CharP F 2] in
+theorem good427_field (_hodd : Odd n) [Finite (unitaryPSU h 3)] (hn3 : 3 ≤ n)
     {α : MulAut (unitaryPSU h 3)} (hα3 : α ^ 3 = 1) (hD : α ∉ (psuConj h).range) :
     Good427 (Sec4.autFix α) := by
   intro K hKC hKq hKs hA5
-  haveI : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K := hKq.1
   have hnt : K ≠ ⊥ := ne_bot_of_isQuasisimple hKq
   have hq2 : 2 < 2 ^ n := by
     have : 2 ^ 2 ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (by omega)
@@ -496,20 +500,20 @@ theorem good427_field (hodd : Odd n) [Finite (unitaryPSU h 3)] (hn3 : 3 ≤ n)
     omega
   obtain ⟨eK⟩ := nonempty_mulEquiv_uniFix h₀ hbar ((MulEquiv.refl _).trans (psuConj h H)⁻¹) hστ'
     hq₀ (fun x => Sec4.mem_autFix) hKC hnt hKs
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hG₀ : Nat.card (GaloisField 2 (2 * m)) = 2 ^ (2 * m) :=
     GaloisField.card 2 (2 * m) (by omega)
   have h₁ : UnitaryFieldData 2 m (GaloisField 2 (2 * m)) := ⟨Nat.prime_two, hm, hG₀⟩
-  haveI := Fintype.ofFinite (fixedField φ)
+  have := Fintype.ofFinite (fixedField φ)
   have ψ : fixedField φ ≃+* GaloisField 2 (2 * m) :=
     CFSG.ClassicalModels.finiteFieldEquivGaloisField (fixedField φ) 2 (2 * m) (by omega) hK₀
   obtain ⟨φ₁⟩ := nonempty_unitaryPSU_mulEquiv_projSU h₁
   have eK' : K ≃* projSU 3 2 m := (eK.trans
     (CFSG.RankThree.PartTwo.Sec21.Item223CensusResProof.psuEquiv ψ h₁ h₀ hq₀)).trans φ₁
-  haveI : IsSimpleGroup (projSU 3 2 m) :=
+  have : IsSimpleGroup (projSU 3 2 m) :=
     CFSG.PGLModel.isSimpleGroup_projSU_of_admissible
       ⟨Nat.prime_two, hm, le_rfl, fun h' => by simp only [Prod.mk.injEq] at h'; omega⟩
-  haveI : IsSimpleGroup K := eK'.isSimpleGroup
+  have : IsSimpleGroup K := eK'.isSimpleGroup
   have hm2 : 2 ≤ m := by
     by_contra hlt
     have : m = 1 := by omega
@@ -545,8 +549,8 @@ theorem center_or_odd_su3
     Subgroup.center L = ⊥ ∨ ∀ x : L, x ^ 3 = 1 → x ∉ Subgroup.center L →
       Odd (Nat.card (Subgroup.centralizer ({x} : Set L))) := by
   set K := GaloisField 2 (2 * m) with hKdef
-  haveI : Group.IsPerfect L := hL.1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect L := hL.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hoddZ : Odd (Nat.card (Subgroup.center L)) := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hZ3
     rw [hk]
@@ -633,19 +637,19 @@ theorem rowOf427_su3_odd
     exfalso
     have hsolv : Group.IsSolvable (projSU 3 2 1) :=
       CFSG.RankThree.PartTwo.Sec13.isSolvable_projSU_two
-    haveI : Group.IsSolvable S :=
+    have : Group.IsSolvable S :=
       Group.isSolvable_of_surjective (f := eSX.symm.toMonoidHom) eSX.symm.surjective
     obtain ⟨a, b, hab⟩ := hna
     exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr ‹_› a b)
   have hm3 : 3 ≤ m := by
     obtain ⟨j, hj⟩ := hodd
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : UnitaryFieldData 2 m (GaloisField 2 (2 * m)) :=
     ⟨Nat.prime_two, hm, GaloisField.card 2 (2 * m) (by omega)⟩
   obtain ⟨φ₀⟩ := nonempty_unitaryPSU_mulEquiv_projSU h
   let τ : S ≃* unitaryPSU h 3 := eSX.trans φ₀.symm
-  haveI : Finite (unitaryPSU h 3) := Finite.of_equiv _ τ.toEquiv
+  have : Finite (unitaryPSU h 3) := Finite.of_equiv _ τ.toEquiv
   have hZ : Subgroup.center (unitaryPSU h 3) = ⊥ := by
     have hZS : Subgroup.center S = ⊥ := RonanK429.center_eq_bot_of_isSimpleGroup hs hna
     rw [eq_bot_iff]

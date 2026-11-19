@@ -87,17 +87,17 @@ theorem uc2_17_36b_barSub_ne_bot (D : Data G) {V₀ V L : Subgroup G} {n : ℕ}
       intro v _
       simp [CFSG.Quasithin.fixV]
     obtain ⟨S⟩ := (h1735.1 L n c).1
-    letI : Field S.K := S.fieldK
-    letI : Finite S.K := S.finiteK
+    let : Field S.K := S.fieldK
+    let : Finite S.K := S.finiteK
     have hn2 : 2 ≤ n := s13_two_le_of_isU3 c.shape.2
-    haveI : Nontrivial S.K := by
+    have : Nontrivial S.K := by
       rw [← Finite.one_lt_card_iff_nontrivial, S.cardK]
       have h1 : 2 ≤ 2 ^ n := by
         calc 2 = 2 ^ 1 := by norm_num
           _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (by omega)
       nlinarith
-    haveI : Nontrivial (Multiplicative (Fin 3 → S.K)) := inferInstance
-    haveI : Nontrivial ↥W' := S.e.toEquiv.nontrivial
+    have : Nontrivial (Multiplicative (Fin 3 → S.K)) := inferInstance
+    have : Nontrivial ↥W' := S.e.toEquiv.nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot W').1 inferInstance hWbot
 
 theorem uc2_17_35_v0_ne_bot_of_ne_two (D : Data G) {V₀ V L : Subgroup G} {n : ℕ}

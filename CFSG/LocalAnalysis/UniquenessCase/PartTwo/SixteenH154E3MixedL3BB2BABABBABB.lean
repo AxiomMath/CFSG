@@ -131,8 +131,8 @@ theorem s16h_e3_l3_bb2bababba_rank_normalizer_of_central
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16h_e3_l3_bb2bababba_central_rank
-    (D : Data G) (S : s16h_Std D) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
-    (hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
+    (D : Data G) (_S : s16h_Std D) {V L : Subgroup G} (h : Setting16 D ⊥ V L)
+    (_hs2 : s15 D.M ⊥ V h.hyp151.isElemAbelian L = 2)
     {t : MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)}
     (ht : t ∈ Mbar D.M ⊥ V h.hyp151.isElemAbelian)
     (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (htr : rk ↥(commSub ⊤ (Subgroup.zpowers t)) ≤ 3)

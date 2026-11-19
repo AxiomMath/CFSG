@@ -30,6 +30,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M V₀ V U S H : Subgroup G}
 
+omit [Finite G] in
 private theorem w16l_noncomm_of_barSub {K : Subgroup G} {X : Type} [Group X] (φ : ↥K →* X)
     (g : ↥K)
     (hnc : ∃ a ∈ SevenK.barSub K φ V, ∃ b ∈ (SevenK.barSub K φ V).map
@@ -96,7 +97,7 @@ theorem IsMinFam16.liftShape_many (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G
     Shape166 X (SevenK.barSub (CFSG.Quasithin.conjClosure V H) φ V) (E3.mQuot V (iSub16 V H)) ∧
       ∀ N : Subgroup X, N.Normal → IsPGroup 2 N → N = ⊥ := by
   classical
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   obtain ⟨ρ, hρ⟩ := IsMinFam16.exists_barRep h1 h5 hS h hH hV D hφ
   obtain ⟨θ, hθ, hθsurj, hθA⟩ := IsMinFam16.exists_barTheta h1 h5 hS h hH hV D hφ
   have hLift := IsMinFam16.liftHyp h1 h5 hS h hH hV D hφ hρ
@@ -161,7 +162,7 @@ theorem IsMinFam16.liftShape_one (h1 : W16One G) (h5 : W16Five G) (hS : Std15 G)
     Shape166 X (SevenK.barSub (CFSG.Quasithin.conjClosure V H) φ V) (E3.mQuot V (iSub16 V H)) ∧
       ∀ N : Subgroup X, N.Normal → IsPGroup 2 N → N = ⊥ := by
   classical
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   obtain ⟨ρ, hρ⟩ := IsMinFam16.exists_barRep h1 h5 hS h hH hV D hφ
   obtain ⟨θ, hθ, hθsurj, hθA⟩ := IsMinFam16.exists_barTheta h1 h5 hS h hH hV D hφ
   have hLift := IsMinFam16.liftHyp h1 h5 hS h hH hV D hφ hρ
@@ -223,7 +224,7 @@ theorem w16SixI_of_inputs (hLie : SpPSULieFacts) (hTim : TimmesfeldTIRootInput)
     CFSG.Quasithin.le_normalizer_conjClosure _ _
   obtain ⟨D⟩ := exists_modDataE hI hJ
   have hIK := iSub16_le_conjClosure V H
-  haveI hN : ((iSub16 V H).subgroupOf (CFSG.Quasithin.conjClosure V H)).Normal := by
+  have hN : ((iSub16 V H).subgroupOf (CFSG.Quasithin.conjClosure V H)).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer hIK]
     exact fun k hk => hJ (IsMinFam16.conjClosure_le_H h hH hk)
   let φ := QuotientGroup.mk' ((iSub16 V H).subgroupOf (CFSG.Quasithin.conjClosure V H))

@@ -18,7 +18,7 @@ theorem ElevenOneHyp.exists_sylow_le_centralizer {hC : HypothesisC D} (h : Eleve
   classical
   let H := Halpha D hC.alpha
   let T : Sylow 2 H := default
-  have hP : IsPGroup 2 ((T : Subgroup H).map H.subtype) := T.isPGroup'.map H.subtype
+  have hP : IsPGroup 2 ((T : Subgroup H).map H.subtype) := T.isPGroup.map H.subtype
   obtain ⟨S, hTS⟩ := hP.exists_le_sylow
   obtain ⟨v, hv⟩ := h.exists_frame S T hTS
   have hd_not_range : hC.d ∉ Set.range v := by
@@ -44,7 +44,7 @@ theorem ElevenOneHyp.exists_sylow_le_centralizer {hC : HypothesisC D} (h : Eleve
     rw [hΔdef] at hx ⊢
     exact ⟨Subgroup.mul_mem _ (Subgroup.mul_mem _ s.2 hx.1) (Subgroup.inv_mem _ s.2),
       hC.setup.normal s x hx.2⟩
-  letI : MulAction ↥(S : Subgroup G) ↥Δ :=
+  let : MulAction ↥(S : Subgroup G) ↥Δ :=
     { smul := fun s x => ⟨(s : G) * (x : G) * (s : G)⁻¹, hΔmem s x.2⟩
       one_smul := fun x => Subtype.ext (by
         change (↑(1 : ↥(S : Subgroup G)) : G) * (x : G) *
@@ -61,7 +61,7 @@ theorem ElevenOneHyp.exists_sylow_le_centralizer {hC : HypothesisC D} (h : Eleve
   have hnotdvd : ¬ 2 ∣ Nat.card ↥Δ := by
     rw [hcard]
     norm_num
-  obtain ⟨δ, hδ⟩ := (S.isPGroup').nonempty_fixed_point_of_prime_not_dvd_card ↥Δ hnotdvd
+  obtain ⟨δ, hδ⟩ := (S.isPGroup).nonempty_fixed_point_of_prime_not_dvd_card ↥Δ hnotdvd
   have hS_le_Cδ : (S : Subgroup G) ≤ Subgroup.centralizer ({(δ : G)} : Set G) := by
     intro s hs
     rw [Subgroup.mem_centralizer_singleton_iff]

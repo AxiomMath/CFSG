@@ -13,6 +13,7 @@ open CFSG.LieType.BorelTits CFSG.Blueprint CFSG.LieType.Ree
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sup_pCoreOf_eq_of_normal_of_isSimple {H N : Subgroup G}
     (hsim : IsSimpleGroup (oTwoQuot ↥H)) (hNH : N ≤ H)
     (hN : H ≤ Subgroup.normalizer (N : Set G)) (hNQ : ¬ N ≤ pCoreOf 2 H) :
@@ -115,7 +116,7 @@ theorem str83G4Data_D1_ne_bot (hfr : Str83G4Frame L1 L2 S a)
 theorem str83G4Data_odd_card_sup (d : Str83G4Data L1 L2 S) : Odd (Nat.card ↥(d.D1 ⊔ d.D2)) := by
   classical
   by_contra hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(d.D1 ⊔ d.D2)) 2
     (even_iff_two_dvd.mp (Nat.not_odd_iff_even.mp hodd))
   have hD2C : d.D2 ≤ Subgroup.centralizer (d.D1 : Set G) := fun y hy =>

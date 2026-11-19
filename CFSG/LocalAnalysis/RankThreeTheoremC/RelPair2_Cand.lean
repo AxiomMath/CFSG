@@ -162,7 +162,7 @@ theorem MaximalRelativePair.isRelPairCandidate {p : ℕ} (hS : Setting G) (hD1 :
   have hDM : D ≤ M := hDP.trans (sylow_le_of_isCoreMaxLocal hS hp hM).1
   refine ⟨hd.twoLocal, sup_le inf_le_right hd.le_normalizer, ?_⟩
   exact prime_dvd_card_invariantTwoJoinIn_normalizer_inf p hprime D M R T
-    (P.isPGroup'.to_le hDP) hDM hd.maxR hd.maxT hd.not_le_R hd.le_T hd.inf_eq hCD hd.maximal
+    (P.isPGroup.to_le hDP) hDM hd.maxR hd.maxT hd.not_le_R hd.le_T hd.inf_eq hCD hd.maximal
     (fun T₁ hT₁ => (hglob T₁ hT₁).1)
 
 theorem MaximalRelativePair.exists_optimal {p : ℕ} (hS : Setting G)

@@ -118,7 +118,7 @@ public theorem secondCase_equationSevenPrime_primeFactors_centralizerIn_FU_inter
     have hxM : x ∈ w.M := hNFeq ▸ hxN
     exact ⟨hx.1, hxM⟩
   have hcop : Nat.Coprime (Nat.card RG) (Nat.card c.FU) := by
-    rcases R.isPGroup'.exists_card_eq with ⟨n, hn⟩
+    rcases R.isPGroup.exists_card_eq with ⟨n, hn⟩
     have hcop' : Nat.Coprime (r ^ n) (Nat.card c.FU) :=
       coprime_card_of_not_dvd_pow_eq7centralizer (n := n) hr hrnFU
     rwa [← hn, ← hRGcard] at hcop'

@@ -84,6 +84,7 @@ theorem d4Cfg_single (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {a 
     by rw [iform_single_cartan hτ, hbk], by rw [iform_single_cartan hτ, hca],
     by rw [iform_single_cartan hτ, hcb], by rw [iform_single_cartan hτ, hck]⟩
 
+omit [CharP L 2] in
 theorem range_rootSL2_single_le {j : Fin τ.rank} (hj : j ∈ d4Set τ) :
     (rootSL2 τ L (Pi.single j 1 : Fin τ.rank → ℤ)).range ≤ subsystemGroup τ L (d4Set τ) := by
   have h : rootSL2 τ L (Pi.single j 1 : Fin τ.rank → ℤ) = simpleRootSL2 τ L j :=
@@ -93,6 +94,7 @@ theorem range_rootSL2_single_le {j : Fin τ.rank} (hj : j ∈ d4Set τ) :
   · exact xUnit_mem_subsystemGroup hj c
   · exact yUnit_mem_subsystemGroup hj c
 
+omit [CharP L 2] in
 theorem cfgGroup_single_le {a b k c : Fin τ.rank} (ha : a ∈ d4Set τ) (hb : b ∈ d4Set τ)
     (hk : k ∈ d4Set τ) (hc : c ∈ d4Set τ) :
     cfgGroup τ L (Pi.single a 1) (Pi.single b 1) (Pi.single k 1) (Pi.single c 1) ≤
@@ -110,6 +112,7 @@ section Layer
 
 variable {τ : Tag} {L : Type} [Field L] [CharP L 2] [IsAlgClosed L]
 
+omit [IsAlgClosed L] in
 theorem stdF_a {n₁ : ModGL τ L} {π : Equiv.Perm (Fin τ.rank)} {f : ℕ}
     (hgen : ∀ j ∈ d4Set τ, ∀ c : L, n₁ * xUnit τ L j c * n₁⁻¹ = xUnit τ L (π j) c ∧
       n₁ * yUnit τ L j c * n₁⁻¹ = yUnit τ L (π j) c) {j j' : Fin τ.rank} (hj : j ∈ d4Set τ)
@@ -159,7 +162,7 @@ theorem formPerm_three_vals {α : Type*} [DecidableEq α] {a b c : α} (hab : a 
     List.formPerm [a, b, c] a = b ∧ List.formPerm [a, b, c] b = c ∧
       List.formPerm [a, b, c] c = a := by
   refine ⟨?_, ?_, ?_⟩ <;>
-    simp [List.formPerm_cons_cons, Equiv.swap_apply_def, hab, hbc, hac, hab.symm, hbc.symm,
+    simp [List.formPerm_cons_cons, Equiv.swap_apply_def, hab, hac, hbc.symm,
       hac.symm]
 
 theorem bad3_d4_std (hτ : τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {f : ℕ} (hf : 1 ≤ f) {n₁ : ModGL τ L}

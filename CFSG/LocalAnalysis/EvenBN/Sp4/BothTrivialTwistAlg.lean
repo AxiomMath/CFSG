@@ -154,9 +154,9 @@ theorem core_false_of_comm [Finite V₁] (hab₂ : ∀ a b : V₂, a * b = b * a
     (hfpf₂ : ∀ v, f₂ v = v → v = 1)
     (hMf : ∀ m, fM m = m → m = 1) (hMg : ∀ m, gM m = m)
     (v₀ : V₂) (hv₀ : v₀ ≠ 1) : False := by
-  letI : CommGroup V₂ := { (inferInstance : Group V₂) with mul_comm := hab₂ }
-  letI : CommGroup V₁ := { (inferInstance : Group V₁) with mul_comm := hab₁ }
-  letI : CommGroup M := { (inferInstance : Group M) with mul_comm := habM }
+  let : CommGroup V₂ := { (inferInstance : Group V₂) with mul_comm := hab₂ }
+  let : CommGroup V₁ := { (inferInstance : Group V₁) with mul_comm := hab₁ }
+  let : CommGroup M := { (inferInstance : Group M) with mul_comm := habM }
   exact core_false hV₂ f₂ g₂ f₁ g₁ fM gM hf₂ hg₂ hc₂ hc₁ p hpf hpg hp₂ hns σ hσf hσg hfpf₂ hMf
     hMg v₀ hv₀
 

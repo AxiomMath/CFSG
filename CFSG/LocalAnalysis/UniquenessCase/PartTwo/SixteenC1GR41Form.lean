@@ -75,14 +75,14 @@ theorem s16c1G_card_mul : Nat.card (Multiplicative V₀) = 64 := by
   decide +kernel
 
 theorem s16c1G_rk_top_model : rk ↥(⊤ : Subgroup (Multiplicative V₀)) = 6 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold rk
   rw [Subgroup.card_top, s16c1G_card_mul, show (64 : ℕ) = 2 ^ 6 by norm_num,
     padicValNat.prime_pow]
 
 theorem s16c1G_card_eight {U : Subgroup (Multiplicative V₀)}
     (h : 2 * rk ↥U = rk ↥(⊤ : Subgroup (Multiplicative V₀))) : Nat.card U = 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [s16c1G_rk_top_model] at h
   have hdvd : Nat.card U ∣ 2 ^ 6 := by
     have h1 := Subgroup.card_subgroup_dvd_card U
@@ -169,7 +169,7 @@ theorem s16c1G_isMinusQuadF2_qMul : IsMinusQuadF2 s16c1G_qMul := by
     exact QuadraticMap.polar_add_right (qModel true) _ _ _
   · intro x hx
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hx
     have h0 : Multiplicative.toAdd x = 0 := by
       refine (qModel_nondegenerate true).1 _ (fun y => ?_)

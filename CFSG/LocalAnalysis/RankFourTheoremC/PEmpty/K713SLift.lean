@@ -53,7 +53,7 @@ theorem exists_complement_in_sylow [Finite G] {p : ℕ} [Fact p.Prime] (N : Subg
   have hTM : T ≤ M := map_subtype_le _
   have hRT : R ≤ T := fun r hr =>
     ⟨⟨r, hRM hr⟩, hT' (by simpa [mem_subgroupOf] using hr), rfl⟩
-  have hTp : IsPGroup p T := T'.isPGroup'.map M.subtype
+  have hTp : IsPGroup p T := T'.isPGroup.map M.subtype
   have hTidx : ¬ p ∣ T.index := by
     have h1 : T.relIndex M * M.index = T.index := relIndex_mul_index hTM
     have h2 : T.relIndex M = (T' : Subgroup M).index := by
@@ -66,7 +66,7 @@ theorem exists_complement_in_sylow [Finite G] {p : ℕ} [Fact p.Prime] (N : Subg
     · exact T'.not_dvd_index (h2 ▸ hd)
     · exact hidx hd
   let T0 : Sylow p G := hTp.toSylow hTidx
-  haveI : Finite (Sylow p G) :=
+  have : Finite (Sylow p G) :=
     Finite.of_injective (fun P : Sylow p G => (P : Subgroup G)) fun P Q h => Sylow.ext h
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G T0 S
   have hTS : ∀ t ∈ T, g * t * g⁻¹ ∈ (S : Subgroup G) := by
@@ -114,7 +114,7 @@ theorem exists_lift_of_chain [Finite G] {p : ℕ} [Fact p.Prime] {N D F : Subgro
   set R : Subgroup G := (P : Subgroup F).map F.subtype with hR
   have hRF : R ≤ F := map_subtype_le _
   have hFN : F ⊓ N = ⊥ := eq_bot_iff.2 ((inf_le_inf_left F hND).trans hF.le)
-  refine ⟨R, P.isPGroup'.map F.subtype, eq_bot_iff.2 ((inf_le_inf_right N hRF).trans hFN.le), ?_⟩
+  refine ⟨R, P.isPGroup.map F.subtype, eq_bot_iff.2 ((inf_le_inf_right N hRF).trans hFN.le), ?_⟩
   have h1 : R.relIndex F = (P : Subgroup F).index := by
     have : R.subgroupOf F = (P : Subgroup F) :=
       Subgroup.comap_map_eq_self_of_injective F.subtype_injective _

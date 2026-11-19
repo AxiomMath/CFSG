@@ -25,7 +25,7 @@ theorem sylow_isCyclic_of_injective {H G : Type*} [Group H] [Group G] [Finite G]
     (hH : ∀ P : Sylow r H, IsCyclic P) (R : Sylow r G) : IsCyclic R := by
   have : Finite H := Finite.of_injective φ hφ
   obtain ⟨P₀⟩ : Nonempty (Sylow r H) := inferInstance
-  have hS : IsPGroup r ((P₀ : Subgroup H).map φ) := P₀.isPGroup'.map φ
+  have hS : IsPGroup r ((P₀ : Subgroup H).map φ) := P₀.isPGroup.map φ
   have hSi : ¬ r ∣ ((P₀ : Subgroup H).map φ).index := by
     rw [Subgroup.index_map_of_injective _ hφ]
     exact fun h => ((Fact.out : r.Prime).dvd_mul.1 h).elim P₀.not_dvd_index hr
@@ -63,7 +63,7 @@ theorem small_Ree_sylow_isCyclic (a : ℕ) (K : Type) [Field K] [Finite K] [Char
       (-1) (Or.inl rfl) _ hd hr hr3 hrd
     let ι : G2.reeGamma K a →* adjointGroup G2.tag K :=
       Subgroup.inclusion (reeGamma_le_adjointGroup G2 a)
-    have hP : IsCyclic ((R : Subgroup (G2.reeGamma K a)).map ι) := hcyc _ (R.isPGroup'.map ι)
+    have hP : IsCyclic ((R : Subgroup (G2.reeGamma K a)).map ι) := hcyc _ (R.isPGroup.map ι)
     let e := Subgroup.equivMapOfInjective (R : Subgroup (G2.reeGamma K a)) ι
       (Subgroup.inclusion_injective _)
     exact isCyclic_of_injective e.toMonoidHom e.injective

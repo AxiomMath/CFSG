@@ -172,7 +172,7 @@ theorem q2OmegaQuotient_commutingLift
   have hσ : ∀ a : ↥A, MulAut.conj (σ a) = f a := by
     intro a
     exact MonoidHom.apply_ofInjective_symm hconj (f' a)
-  haveI : IsMulCommutative ↥A := hA
+  have : IsMulCommutative ↥A := hA
   refine ⟨σ, inferInstance, ?_⟩
   intro a z
   have h := DFunLike.congr_fun (hσ a) z
@@ -200,7 +200,7 @@ theorem q1RToralTransfer_DTwD_high :
   rcases htag with rfl | rfl
   ·
     dsimp only [CFSG.StandardType.LargeEvenRawDatum] at hQ ⊢
-    rw [if_neg (by omega : rank ≠ 3)] at hQ ⊢
+    rw [ite_eq_right (by omega : rank ≠ 3)] at hQ ⊢
     obtain ⟨K, fieldK, finiteK, hK, hQK⟩ := hQ
     let : Field K := fieldK
     let : Finite K := finiteK
@@ -230,7 +230,7 @@ theorem q1RToralTransfer_DTwD_high :
       hp hp2 A hA hAI u hu huord J hJ
   ·
     dsimp only [CFSG.StandardType.LargeEvenRawDatum] at hQ ⊢
-    rw [if_neg (by omega : rank ≠ 2), if_neg (by omega : rank ≠ 3)] at hQ ⊢
+    rw [ite_eq_right (by omega : rank ≠ 2), ite_eq_right (by omega : rank ≠ 3)] at hQ ⊢
     obtain ⟨K, fieldK, finiteK, hK, b, c, hbc, hQK⟩ := hQ
     let : Field K := fieldK
     let : Finite K := finiteK

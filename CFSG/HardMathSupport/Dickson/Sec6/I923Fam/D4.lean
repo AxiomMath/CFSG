@@ -25,9 +25,9 @@ theorem noL2OuterAt_d4 (hO : LieOrderFormulasInput) (hA2 : TriD4Aux.TriD4A2NoL2)
   obtain ⟨⟨hp, hf, -⟩, K, _, _, hK, ⟨e⟩⟩ := hC
   obtain ⟨e'⟩ :=
     CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup K
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let E : P ≃* adjointGroup Tag.D4 K := e.trans e'
-  haveI := D4Aux.finite_adjointD4 K
+  have := D4Aux.finite_adjointD4 K
   refine OrthAux.noL2Layer_of_congr E ?_
   have hα3 : MulAut.congr E ψ ^ 3 = 1 := by rw [← map_pow, hψ3, map_one]
   have hα : MulAut.congr E ψ ∉

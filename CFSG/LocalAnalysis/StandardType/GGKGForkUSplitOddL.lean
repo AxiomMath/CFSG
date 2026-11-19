@@ -19,7 +19,7 @@ private theorem ggKGUl1_hypEntries_add {r p : ℕ} {K : Type} [Field K] {ζ : K}
     (hp : p.Prime) (hpow : ζ ^ p = 1) (t t' : Fin r → ZMod p) :
     ggKGUl1_hypEntries (r := r) ζ (t + t') =
       ggKGUl1_hypEntries ζ t * ggKGUl1_hypEntries ζ t' := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   funext x
   rcases x with i | k | i
   · simp only [ggKGUl1_hypEntries, Pi.add_apply, Pi.mul_apply, ZMod.val_add]
@@ -35,7 +35,7 @@ private theorem ggKGUl1_exists_hypTorusHom {n r p : ℕ} {K : Type} [Field K]
       (((ι (ofAdd t) : hypSU h r 1) : GL (HypIndex r 1) K) :
         Matrix (HypIndex r 1) (HypIndex r 1) K) = diagonal (ggKGUl1_hypEntries ζ t) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hbar_pow : ∀ m : ℕ, h.bar (ζ ^ m) = ζ ^ m := fun m => by rw [map_pow, hbar]
   have hζ0 : ζ ≠ 0 := hζ.ne_zero hp.ne_zero
   let a : (Fin r → ZMod p) → Fin r → Kˣ :=
@@ -93,7 +93,7 @@ private theorem ggKGUl1_card_range_hypTorusHom {n r p : ℕ} {K : Type} [Field K
       (((ι (ofAdd t) : hypSU h r 1) : GL (HypIndex r 1) K) :
         Matrix (HypIndex r 1) (HypIndex r 1) K) = diagonal (ggKGUl1_hypEntries ζ t)) :
     Nat.card ι.range = p ^ r := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hker : ∀ t : Fin r → ZMod p, ι (ofAdd t) = 1 → t = 0 := by
     intro t ht
     funext i
@@ -119,7 +119,7 @@ private theorem ggKGUl1_card_range_hypTorusHom {n r p : ℕ} {K : Type} [Field K
   have hcard : Nat.card ι.range = Nat.card (Multiplicative (Fin r → ZMod p)) :=
     (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
   rw [hcard, Nat.card_congr Multiplicative.toAdd, Nat.card_pi]
-  simp [Nat.card_zmod, Finset.prod_const]
+  simp [Finset.prod_const]
 
 private theorem ggKGUl1_hypTorus_inf_hypScalars {n r p : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 n K) (hp : p.Prime) (hp2 : p ≠ 2) {ζ : K}
@@ -129,7 +129,7 @@ private theorem ggKGUl1_hypTorus_inf_hypScalars {n r p : ℕ} {K : Type} [Field 
       (((ι (ofAdd t) : hypSU h r 1) : GL (HypIndex r 1) K) :
         Matrix (HypIndex r 1) (HypIndex r 1) K) = diagonal (ggKGUl1_hypEntries ζ t)) :
     ι.range ⊓ hypScalars h r 1 = ⊥ := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   rw [eq_bot_iff]
   rintro x ⟨hx, hxs⟩
   rw [Subgroup.mem_bot]
@@ -195,12 +195,12 @@ theorem ggTorusLift_unitarySplit_odd
   classical
   have := Fact.mk hp
   have : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := TableBU.unitaryFieldData_of_card hK hn
   have : CharP K 2 := h.charP
   obtain ⟨R, hR⟩ := exists_isHypTransport (r := r) (ε := 1) h
   set H := unitarySU 2 n K (2 * r + 1) with hH
-  haveI : Finite H := Finite.of_injective
+  have : Finite H := Finite.of_injective
     (fun x : H => ((x : GL (Fin (2 * r + 1)) K) : Matrix (Fin (2 * r + 1)) (Fin (2 * r + 1)) K))
     (fun x y hxy => Subtype.ext (Units.ext hxy))
   set e := hypTransport h hR with he

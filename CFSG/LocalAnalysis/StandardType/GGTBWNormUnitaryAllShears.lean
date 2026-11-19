@@ -354,9 +354,9 @@ theorem ggTorusWNormSC_unitary_of_odd {K : Type} [Field K] [Finite K]
             by_cases hjc : j ∈ cls j₁
             · exfalso
               apply hj'
-              rw [if_pos hjc, hwc j₁ j hjc, show w j₁ = (wU : K) by rw [hwU, Units.val_mk0], ← hζe,
+              rw [ite_eq_left hjc, hwc j₁ j hjc, show w j₁ = (wU : K) by rw [hwU, Units.val_mk0], ← hζe,
                 ← Units.val_mul, ← pow_add, Nat.add_sub_cancel' he.le, hζ.pow_eq_one, Units.val_one]
-            · rw [if_neg hjc, mul_one] at hj'
+            · rw [ite_eq_right hjc, mul_one] at hj'
               refine Finset.mem_erase.mpr ⟨fun hjj => hjc (hjj ▸ hbC j₁), ?_⟩
               rw [hbad, Finset.mem_filter, hw, diagonal_apply_eq]
               exact ⟨Finset.mem_univ _, hj'⟩
@@ -505,7 +505,7 @@ theorem largeEvenLabelAll_wnorm_unitary_w3 {p : ℕ} {lab : LargeEvenLabel} (hp 
   subst tag
   have hn : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with rfl | h0
-    · have h2 : 3 ∣ 2 := by simpa using hpq
+    · have h2 : 3 ∣ 2 := by simp at hpq
       have := Nat.le_of_dvd (by norm_num) h2
       omega
     · exact h0

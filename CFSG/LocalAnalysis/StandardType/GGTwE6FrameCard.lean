@@ -25,7 +25,7 @@ theorem three_pow_five_le_card_of_maximal
     rcases Nat.eq_zero_or_pos f with rfl | hf
     · norm_num at h3
     · exact hf
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := GaloisField 2 (2 * f)
   let σ : K ≃+* K :=
     RingEquiv.ofBijective (frobQ 2 f)

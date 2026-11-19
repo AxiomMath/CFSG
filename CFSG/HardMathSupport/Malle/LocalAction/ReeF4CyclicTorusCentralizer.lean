@@ -223,7 +223,7 @@ theorem exists_regular_element_of_data (D : ReeFrameData K L 2) (w : WeylGroup R
   have : NeZero (p : L) := ⟨hpL⟩
   obtain ⟨Φ, hΦinj, hΦF, hΦ⟩ := exists_hom_rank1_explicit_vec D.isFrob w Wm U i hW hunit hfix
   obtain ⟨g₀, hg₀, hFg₀, Ψ, hΨinj, hΨ⟩ := exists_hom_reeGamma_explicit D w Φ hΦinj hΦF
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   lift ζ₀ to Lˣ using hζ₀.isUnit hp.ne_zero
   rw [IsPrimitiveRoot.coe_units_iff] at hζ₀
   have hζord : orderOf ζ₀ = p := hζ₀.eq_orderOf.symm

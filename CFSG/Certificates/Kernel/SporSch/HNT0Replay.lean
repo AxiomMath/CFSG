@@ -259,7 +259,7 @@ theorem kids_bit (hG : GraphFacts AL PR m) {Sl cand : List ℕ} {S k M lo : ℕ}
   have h2 : M.testBit (1024 + c) = true := hI.mand _ fun s hs => by
     have hsc := hadj s hs
     have e := hG.high s (hI.lt s hs) c hcm
-    rw [(hG.pr s c hsc).2, if_pos ⟨hsc, hpr s hs⟩, bit_eq] at e
+    rw [(hG.pr s c hsc).2, ite_eq_left ⟨hsc, hpr s hs⟩, bit_eq] at e
     split_ifs at e with hb
     exact hb
   have h3 : c < 1024 := by
@@ -345,10 +345,10 @@ theorem child_inv (hG : GraphFacts AL PR m) {Sl cand : List ℕ} {S k M lo : ℕ
     have hj' : j < Sl.length := by rw [hI.len]; exact hj
     have hg : (if j < k then fld(PR c, Nat.mul 10 fld(S, Nat.mul 10 j, 1023), 1023) else 0) <
         2 ^ 10 := by
-      rw [if_pos hj]
+      rw [ite_eq_left hj]
       exact Nat.and_lt_two_pow _ (by norm_num)
     have e := fld10_of hX hg
-    rw [if_pos hj, fld10_of hI.pack (getD_lt (fun s hs => by
+    rw [ite_eq_left hj, fld10_of hI.pack (getD_lt (fun s hs => by
       have := hI.lt s hs; have := hG.le; omega) (by norm_num) j)] at e
     rw [e]
     exact hi _ (mem_childS.2 (Or.inr (Or.inr ⟨_, getD_mem hj', rfl⟩)))
@@ -608,12 +608,12 @@ theorem basisK_sound (hG : GraphFacts AL PR m) : ∀ (bs Sl : List ℕ) (S k SB 
     simp only [strictB_eq₀, bAnd_eq, Bool.and_eq_true, beq_eq, decide_eq_true_eq] at h
     obtain ⟨hsb, haa, hrest⟩ := h
     have hcS : c ∉ Sl := fun hc => by
-      rw [bit_eq, if_pos (hI.sb c hc)] at hsb
+      rw [bit_eq, ite_eq_left (hI.sb c hc)] at hsb
       exact absurd hsb (by decide)
     have hAA : AA.testBit c = true := by
       rw [bit_eq] at haa
       by_contra hne
-      rw [if_neg hne] at haa
+      rw [ite_eq_right hne] at haa
       exact absurd haa (by decide)
     obtain ⟨hc1024, hrow⟩ := hI.aa c hAA
     obtain ⟨s0, hs0⟩ := List.exists_mem_of_ne_nil Sl hI.ne

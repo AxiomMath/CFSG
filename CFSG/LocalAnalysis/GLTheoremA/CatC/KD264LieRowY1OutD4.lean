@@ -17,7 +17,7 @@ theorem kd264Y1OutD4_holds : KD264Y1OutD4 := by
   obtain ⟨-, hSC | ⟨h0, -⟩⟩ := CFSG.Models.lieModel_D 4 q hv (MulEquiv.refl _)
   · exfalso
     obtain ⟨hadm, K, hfield, hfinite, hK, ⟨eM⟩⟩ := hSC
-    letI := hfield
+    let := hfield
     have hchar : ringChar K = q.p :=
       CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq hadm.1 hadm.2.1 hK
     have h3 : (3 : K) ≠ 0 := by

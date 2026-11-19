@@ -49,7 +49,7 @@ theorem fz59u_fixed_point [Finite G] {R : Subgroup G} {u₀ rho : G} (hrho : rho
         rho ^ 3 * x.1 * (rho ^ 3)⁻¹ := by
       rw [pow_three]; group
     rw [e, hrho]; group
-  haveI : Fintype {x // P x} := Fintype.ofFinite _
+  have : Fintype {x // P x} := Fintype.ofFinite _
   have hcard : Fintype.card {x // P x} = Nat.card R := by
     rw [← Nat.card_eq_fintype_card]
     exact Nat.card_congr
@@ -57,7 +57,7 @@ theorem fz59u_fixed_point [Finite G] {R : Subgroup G} {u₀ rho : G} (hrho : rho
         invFun := fun r => ⟨u₀ * r.1, by simp [P]⟩
         left_inv := fun x => by simp
         right_inv := fun r => by simp }
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨x, hx⟩, hfix⟩ := Equiv.Perm.exists_fixed_point_of_prime (p := 3) (n := 1)
     (by rw [hcard]; exact h3) hσ
   refine ⟨u₀⁻¹ * x, hx, ?_⟩

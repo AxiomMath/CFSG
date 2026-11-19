@@ -22,7 +22,7 @@ theorem le_of_normal_two_group_of_sup_eq {Y : Type} [Group Y] [Finite Y] {E N R 
     exact hBn (g : Y) g.2 (n : Y) hn
   have hB'2 : IsPGroup 2 (B.subgroupOf E) :=
     hB2.of_equiv (Subgroup.subgroupOfEquivOfLe hBE).symm
-  haveI hMn : ((B.subgroupOf E).map θ).Normal := Subgroup.Normal.map hB'n θ hθs
+  have hMn : ((B.subgroupOf E).map θ).Normal := Subgroup.Normal.map hB'n θ hθs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((B.subgroupOf E).map θ) with hbot | htop
   · intro b hb
     have he : (⟨b, hBE hb⟩ : ↥E) ∈ B.subgroupOf E := hb
@@ -49,11 +49,11 @@ theorem notUnitary_abstract (hLevi : UnitarySixLeviStatement)
       Nonempty ((↥R ⧸ N.subgroupOf R) ≃* StatedProj (StatedSL 4 K₀))) : False := by
   classical
   obtain ⟨hnormNR, ⟨eRN⟩⟩ := hRN
-  haveI : (generalizedFitting Y).Normal :=
+  have : (generalizedFitting Y).Normal :=
     (CFSG.LocalCores.generalized_fitting_characteristic (G := Y)).2
   obtain ⟨f, hf, rfl⟩ := hq2
   have hmodel := statedClassicalModel_psu_six hf hU
-  haveI hsimpU : IsSimpleGroup ↥(generalizedFitting Y) :=
+  have hsimpU : IsSimpleGroup ↥(generalizedFitting Y) :=
     (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity _ 6 2 f hmodel).2
   have hnonab := exists_noncomm_of_psu_six_model hmodel
   have hCU : ∀ c : Y, (∀ s ∈ generalizedFitting Y, c * s = s * c) → c = 1 := by
@@ -71,8 +71,8 @@ theorem notUnitary_abstract (hLevi : UnitarySixLeviStatement)
       have ha : a ∈ Subgroup.center ↥(generalizedFitting Y) := by rw [h]; exact Subgroup.mem_top a
       exact hab ((Subgroup.mem_center_iff.mp ha b).symm)
   obtain ⟨hsimp4, hnab4⟩ := statedProj_statedSL_four_simple_nonabelian K₀
-  haveI : IsSimpleGroup (StatedProj (StatedSL 4 K₀)) := hsimp4
-  haveI : Finite (StatedProj (StatedSL 4 K₀)) := Finite.of_equiv _ eRN.toEquiv
+  have : IsSimpleGroup (StatedProj (StatedSL 4 K₀)) := hsimp4
+  have : Finite (StatedProj (StatedSL 4 K₀)) := Finite.of_equiv _ eRN.toEquiv
   have hperf4 : Group.IsPerfect (StatedProj (StatedSL 4 K₀)) :=
     isPerfect_of_simple_nonabelian hnab4
   have hperfRN : commutator (↥R ⧸ N.subgroupOf R) = ⊤ :=
@@ -83,7 +83,7 @@ theorem notUnitary_abstract (hLevi : UnitarySixLeviStatement)
     intro h
     have hRN' : R ≤ N := by
       rw [← hEN, h, bot_sup_eq]
-    haveI : Subsingleton (↥R ⧸ N.subgroupOf R) := by
+    have : Subsingleton (↥R ⧸ N.subgroupOf R) := by
       have : N.subgroupOf R = ⊤ := Subgroup.subgroupOf_eq_top.mpr hRN'
       rw [this]
       exact QuotientGroup.subsingleton_quotient_top

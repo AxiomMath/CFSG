@@ -93,7 +93,7 @@ theorem check2 : checkLetterFix = true := by
     mul_eq c0 c2, eq_eq (cpc c2 c2) cid, lineFixed_eq cPi (by norm_num),
     lineFixed_eq c0 (by norm_num), lineFixed_eq c3 (by norm_num),
     lineMaps_eq (cpc c0 c2) (by norm_num) (by norm_num)]
-  simp only [get_eq cPi, get_eq c0, get_eq c1, get_eq c2, get_eq c3, get_eq c4, get_eq c5,
+  simp only [get_eq cPi, get_eq c0, get_eq c1, get_eq c2, get_eq c4, get_eq c5,
     get_eq c6, get_eq cj', beqN]
   exact checks.1
 
@@ -174,7 +174,7 @@ theorem mem_modify {acc : Array (List Nat)} {i j x : Nat} {f : List Nat → List
 
 theorem mem_modify_self {acc : Array (List Nat)} {j v : Nat} (hj : j < acc.size) :
     v ∈ (acc.modify j fun l => l ++ [v])[j]! := by
-  rw [getElem!_pos _ j (by simpa using hj), Array.getElem_modify, if_pos rfl]
+  rw [getElem!_pos _ j (by simpa using hj), Array.getElem_modify, ite_eq_left rfl]
   simp
 
 theorem inner_fold (v : Nat) (g : Nat → Nat) : ∀ (ks : List Nat) (acc : Array (List Nat)),

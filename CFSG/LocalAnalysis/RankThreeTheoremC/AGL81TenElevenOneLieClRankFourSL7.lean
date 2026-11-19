@@ -44,7 +44,7 @@ theorem exists_rankFour_psl_diag {X A : Type} [Group X] [Finite X] [Finite K]
     (hδf : ∀ a x, δ a * SpecialLinearGroup.toGL (f x) = SpecialLinearGroup.toGL (f x) * δ a) :
     ∃ F : Subgroup (MulAut X), F ≤ H ∧ IsElemAbelian 3 F ∧ Nat.card F = 81 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P := projectiveSL m K
   set Ψ : MulAut X ≃* MulAut P := MulAut.congr e with hΨ
   have hΨconj : ∀ x : X, Ψ (MulAut.conj x) = MulAut.conj (e x) := fun x => by
@@ -96,8 +96,7 @@ theorem exists_rankFour_psl_diag {X A : Type} [Group X] [Finite X] [Finite K]
       rw [← powCoprime_apply hr]
       exact (powCoprime hr).apply_symm_apply c
     have hsc : GeneralLinearGroup.det (GeneralLinearGroup.scalar (Fin m) c) = c ^ m :=
-      Units.ext (by simp [GeneralLinearGroup.val_det_apply, GeneralLinearGroup.coe_scalar,
-        scalar_apply, det_diagonal])
+      Units.ext (by simp)
     have hdet : GeneralLinearGroup.det B = ((powCoprime hr).symm c) ^ m := by
       apply (powCoprime hr).injective
       rw [powCoprime_apply, powCoprime_apply, ← map_pow, ← hc, hsc, ← pow_mul, mul_comm,
@@ -129,7 +128,7 @@ theorem exists_rankFour_psl_diag {X A : Type} [Group X] [Finite X] [Finite K]
     rw [hψdef, hB']
     simp only [map_mul, map_inv]
     group
-  haveI := inner_normal P
+  have := inner_normal P
   have hψH : Ψ.symm ψ ∈ H := by
     rw [hψ, map_mul, map_pow, Ψ.symm_apply_apply]
     refine H.mul_mem (H.pow_mem hαH _) (hinn (hinnΨ' _ ?_))
@@ -300,9 +299,9 @@ theorem kFactOuterThreeRankFourRestSL4_of_sl7 (h : KFactOuterThreeRankFourRestSL
   have hodd : Odd q.exponent := hl
   obtain ⟨_, K, _, _, hK, ⟨e'⟩⟩ := CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv_typeA hv e
   rw [hp] at hK
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have h3K : ¬ 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hK]
     have h3 : 2 ^ q.exponent % 3 = 2 := by

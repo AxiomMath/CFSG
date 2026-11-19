@@ -39,7 +39,7 @@ theorem uniqueTwoLocalKy (hK11 : K11) (hK32 : CFSG.LocalAnalysis.UniquenessCase.
     (hN : t.PairNormalizerLe p)
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) : t.UniqueTwoLocalKy := by
   classical
-  haveI := c.standing.simple
+  have := c.standing.simple
   by_contra hne
   obtain ⟨Y, hY⟩ := t.exists_isMuStar hne
   have hYM : Y ≤ c.S.M := hY.1.1

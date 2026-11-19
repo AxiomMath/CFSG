@@ -23,7 +23,7 @@ theorem nsOrthExclInputOf_holds {T : ∀ {ι : Type}, CoxeterMatrix ι → Prop}
   intro G _ _ p B Bs x L D J 𝒦 hcfg hC hp3 V _ _ Q hQ _ ι hdim himage
   subst hp3
   exfalso
-  haveI : Finite V := Finite.of_injective (⇑ι.toEquiv.symm) ι.toEquiv.symm.injective
+  have : Finite V := Finite.of_injective (⇑ι.toEquiv.symm) ι.toEquiv.symm.injective
   have hcfgR : GGSecFiveRouteCfg' 3 B Bs x L D J 𝒦 := ggSecFiveRouteCfg'_of_routeCfg hcfg.1
   have hconf : GGConfig 3 B Bs x L D J := hcfgR.1.1
   have hInn : GGInnerDiagOn Bs L := hcfgR.1.2.2.1.1

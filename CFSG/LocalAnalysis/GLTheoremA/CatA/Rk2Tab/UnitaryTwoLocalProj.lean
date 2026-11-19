@@ -90,7 +90,7 @@ structure ProjectiveSetup (F : Type) [Field F] (f d r : ℕ)
 
 theorem projective_setup_exists
     (hK : Nat.card F = (2 ^ f) ^ 2) (hd : 3 ≤ d)
-    {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hrq : r ∣ 2 ^ f + 1)
+    {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (_hrq : r ∣ 2 ^ f + 1)
     (C : Subgroup (StatedSU d (2 ^ f) F))
     (hC : C ≤ Subgroup.center (StatedSU d (2 ^ f) F))
     {R Er : Subgroup (StatedSU d (2 ^ f) F)} (hR1 : R ≠ ⊥) (hR2 : IsPGroup 2 R)
@@ -100,10 +100,10 @@ theorem projective_setup_exists
     (hErDer : commutator Er ≤ CrE)
     (hCrC : ∀ c ∈ CrE, (c : StatedSU d (2 ^ f) F) ∈ C)
     (hPRL : ProjectiveRankLemma F r) :
-    ∃ D : ProjectiveSetup F f d r (unitaryForm 2 f hK d)
+    ∃ _D : ProjectiveSetup F f d r (unitaryForm 2 f hK d)
       (natRep (StatedSU d (2 ^ f) F)) Er CrE, True := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let S : Subgroup (GL (Fin d) F) := StatedSU d (2 ^ f) F
   have hCS : C ≤ Subgroup.center S := hC
   let Ff : ReflForm F (Fin d → F) := unitaryForm 2 f hK d
@@ -208,8 +208,8 @@ theorem projective_setup_exists
   let BW : Subgroup (M ≃ₗ[F] M) := ρM.range
   let AWs : Subgroup (W ≃ₗ[F] W) := AW ⊓ scalars F W
   let BWs : Subgroup (M ≃ₗ[F] M) := BW ⊓ scalars F M
-  haveI : Finite (W ≃ₗ[F] W) := FlagSplit.finite_linearEquiv (K := F)
-  haveI : Finite (M ≃ₗ[F] M) := FlagSplit.finite_linearEquiv (K := F)
+  have : Finite (W ≃ₗ[F] W) := FlagSplit.finite_linearEquiv (K := F)
+  have : Finite (M ≃ₗ[F] M) := FlagSplit.finite_linearEquiv (K := F)
   have hAWr : IsPGroup r AW :=
     hEr2.of_surjective ρW.rangeRestrict ρW.rangeRestrict_surjective
   have hBWr : IsPGroup r BW :=
@@ -346,7 +346,7 @@ theorem projective_setup_exists
     have hz : (x : Er) * (y : Er) * (x : Er)⁻¹ * (y : Er)⁻¹ = 1 := hker _ h1 h2
     exact Subtype.ext (commutatorElement_eq_one_iff_mul_comm.mp (by
       simpa [commutatorElement_def] using hz))
-  letI : CommGroup N := { (inferInstance : Group N) with mul_comm := hNcomm }
+  let : CommGroup N := { (inferInstance : Group N) with mul_comm := hNcomm }
   have hNr : ∀ x : N, x ^ r ∈ CrE.subgroupOf N := by
     intro x
     rw [Subgroup.mem_subgroupOf]
@@ -408,7 +408,7 @@ theorem projective_setup_exists
   have hmu_root : ∀ x : N, m ≠ 0 → (x : Er) ^ r = 1 → mu x ^ r = 1 := by
     intro x hm0 hx
     have hpos : 0 < Module.finrank F M := by omega
-    letI : Nontrivial M := Module.nontrivial_of_finrank_pos hpos
+    let : Nontrivial M := Module.nontrivial_of_finrank_pos hpos
     obtain ⟨w0, hw0⟩ := exists_ne (0 : M)
     have h1 : (ρM (x : Er)) ^ r = 1 := by rw [← map_pow, hx, map_one]
     have hpow : ∀ n : ℕ, ((ρM (x : Er)) ^ n) w0 = (mu x ^ n) • w0 := by
@@ -593,9 +593,9 @@ theorem projective_torsion {F : Type} [Field F] [Finite F] [CharP F 2] {f d r : 
     (D.m ≠ 0 → (CrE.subgroupOf D.N).index ≤ r ^ 2) ∧
     ((D.m = 0 ∨ D.k = 1) → (CrE.subgroupOf D.N).index ≤ r) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  letI : CommGroup D.N := { (inferInstance : Group D.N) with mul_comm := D.hNcomm }
-  haveI : Finite D.N := Subtype.finite
+  have : Fact r.Prime := ⟨hr⟩
+  let : CommGroup D.N := { (inferInstance : Group D.N) with mul_comm := D.hNcomm }
+  have : Finite D.N := Subtype.finite
   have hxr : ∀ x : D.N, (x : D.N) ^ r = 1 → (x : Er) ^ r = 1 := by
     intro x hx
     simpa using congrArg (fun z : D.N => (z : Er)) hx
@@ -667,7 +667,7 @@ theorem card_le_pow_sub_two_of_normalizes_statedSU_quot
         Nat.card {x : R // ∃ a : F, ∀ v, (x : V ≃ₗ[F] V) v = a • v}) :
     Nat.card E ≤ r ^ (d - 2) := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hEel : CFSG.IsElementaryAbelian r E := hE.isElementaryAbelian
   have hE2 : IsPGroup r E := CFSG.IsElementaryAbelian.isPGroup r E
   let S : Subgroup (GL (Fin d) F) := StatedSU d (2 ^ f) F
@@ -842,9 +842,9 @@ theorem card_le_pow_sub_two_of_normalizes_statedSU_quot
         ((QuotientGroup.mk' (CrE)) a) ^ r from
           (map_pow (QuotientGroup.mk' (CrE)) a r).symm]
       exact hx)
-  haveI hErCr_el : CFSG.IsElementaryAbelian r (Er ⧸ (CrE)) :=
+  have hErCr_el : CFSG.IsElementaryAbelian r (Er ⧸ (CrE)) :=
     CFSG.IsElementaryAbelian.of_mulEquiv hErCr.symm hEel
-  haveI hErCr_comm : IsMulCommutative (Er ⧸ (CrE)) := inferInstance
+  have hErCr_comm : IsMulCommutative (Er ⧸ (CrE)) := inferInstance
   have hErDer : commutator Er ≤ CrE :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mp hErCr_comm
   have hCrC : ∀ c ∈ CrE, (c : S) ∈ C := by
@@ -868,7 +868,7 @@ theorem twoLocalPrimeRank_statedSU_quot_le
     CFSG.Open.twoLocalPrimeRank r (StatedSU d (2 ^ f) F ⧸ C) ≤ d - 2 := by
   refine CFSG.LocalAnalysis.GLTheoremA.twoLocalPrimeRank_le_of_card_le hr ?_
   intro R E hR1 hR2 hER hE
-  haveI : CFSG.IsElementaryAbelian r E := hE.isElementaryAbelian
+  have : CFSG.IsElementaryAbelian r E := hE.isElementaryAbelian
   exact card_le_pow_sub_two_of_normalizes_statedSU_quot hK hd hr hr2 hrq C hC hR1 hR2 hER hE hPRL
 
 end CFSG.LocalAnalysis.GLTheoremA

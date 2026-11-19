@@ -72,14 +72,14 @@ theorem rootSpan_famOrbit_le_centralizer_group
 theorem not_abelian_of_isComponentOf {G : Type*} [Group G] {J K : Subgroup G}
     (hJ : IsComponentOf J K) (h : ∀ y ∈ J, ∀ z ∈ J, y * z = z * y) : False := by
   obtain ⟨-, -, -, hsimp⟩ := hJ
-  haveI := hsimp
+  have := hsimp
   have hc : Subgroup.center ↥J = ⊤ := by
     rw [eq_top_iff]
     intro x _
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext (h y y.2 x x.2)
-  haveI : Subsingleton (↥J ⧸ Subgroup.center ↥J) := by
+  have : Subsingleton (↥J ⧸ Subgroup.center ↥J) := by
     rw [hc]
     exact QuotientGroup.subsingleton_quotient_top
   exact not_subsingleton (↥J ⧸ Subgroup.center ↥J) inferInstance
@@ -98,7 +98,7 @@ theorem componentLabel_chainSet
     have hin' : twistInner (tcChainSet δ)
         ((ρ : (Fin Tag.E6.rank → ℤ) → (Fin Tag.E6.rank → ℤ))^[1]) := by
       simpa using hin
-    rw [if_pos hin']
+    rw [ite_eq_left hin']
   rw [hk, compRank_chainSet hδ.gram, ncard_chainSet hδ.gram]
   simp [componentLabel]
 
@@ -242,7 +242,7 @@ theorem e6two_prep
   obtain ⟨α₃, β₃, fr⟩ := e6_frame_lang hαr hβr hα₂r hβ₂r hab a2 o1 o2 o3 o4
   obtain ⟨v, hmul, hinj, hchar, hrho⟩ := family_vectors S hp hp2 Dg a ha hap hT
   have hq1 : (p : ℤ) ∣ (S.D.q : ℤ) + 1 := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have h2 : ((2 : ZMod p) ^ f) ^ 2 = 1 := by
       have := pow_orderOf_eq_one ((2 : ZMod p) ^ f)
       rwa [hc] at this

@@ -126,7 +126,7 @@ private theorem isWeaklyClosedIn_map_mk' {G : Type} [Group G] [Finite G] {S Z N 
     [N.Normal] (hS : IsSylowOf 3 S ⊤) (hZS : Z ≤ S) (hZp : IsPGroup 3 Z)
     (hwc : IsWeaklyClosedIn Z S) :
     IsWeaklyClosedIn (Z.map (QuotientGroup.mk' N)) (S.map (QuotientGroup.mk' N)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hconj : ∀ {s : G}, s ∈ S → CFSG.conjugate Z s = Z := fun {s} hs => by
     apply hwc s
     intro x hx
@@ -177,10 +177,10 @@ private theorem descend332' {G : Type} [Group G] [Finite G] (hK : CFSG.Open.IsKG
       Nat.card (Z.map (QuotientGroup.mk' N)) = 3 ∧
       IsWeaklyClosedIn (Z.map (QuotientGroup.mk' N)) (S.map (QuotientGroup.mk' N)) := by
   intro N
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : Nat.Coprime 3 (Nat.card N) := CFSG.pPrimeCore_coprime_card
   obtain ⟨P, hPS⟩ := UCK.N588A.exists_sylow_of_isSylowOf_top hS
-  have hSp : IsPGroup 3 S := hPS ▸ P.isPGroup'
+  have hSp : IsPGroup 3 S := hPS ▸ P.isPGroup
   have hZp : IsPGroup 3 Z := IsPGroup.of_card (n := 1) (by rw [pow_one]; exact hZ3)
   have hSN : S ⊓ N = ⊥ := UCK.N588A.inf_eq_bot_of_coprime hSp hN
   have hker : ∀ x ∈ S, QuotientGroup.mk' N x = 1 → x = 1 := fun x hx h1 => by
@@ -216,7 +216,7 @@ theorem k332Z3_route
     descend332' hK hS hrk hZS hZ3 hwc
   set N := CFSG.pPrimeCore 3 G₀ with hN
   have hcore : CFSG.pPrimeCore 3 (G₀ ⧸ N) = ⊥ := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact CFSG.Semidihedral.Local.pPrimeCore_quotient_self_eq_bot G₀ 3
   have hrkT : CFSG.Open.pRank 3 (⊤ : Subgroup (G₀ ⧸ N)) ≤ 3 :=
     (UCK.N588A.pRank_le_of_isSylowOf Nat.prime_three hS' ⊤).trans hrk'
@@ -246,7 +246,7 @@ theorem k332Z3_route
 
 theorem k332Z3_holds
     :
-    K332Z3 := fun G₀ _ _ hK S Z hS hrk hZS hZ3 hwc h2 =>
+    K332Z3 := fun _G₀ _ _ hK _S _Z hS hrk hZS hZ3 hwc h2 =>
   k332Z3_route hK hS hrk hZS hZ3 hwc h2
 
 end CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82E3.ONan

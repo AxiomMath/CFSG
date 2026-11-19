@@ -30,7 +30,7 @@ private theorem amb_isSubnormal_top {T : Type} [Group T] [IsSimpleGroup T] {H K 
     rcases ih hK with hM | hM
     · exact Or.inl (le_bot_iff.1 (hM ▸ hle))
     · subst hM
-      haveI : H.Normal :=
+      have : H.Normal :=
         ⟨fun n hn' g => (Subgroup.normal_subgroupOf_iff le_top).1 hn n g hn' (Subgroup.mem_top g)⟩
       exact IsSimpleGroup.eq_bot_or_eq_top_of_normal H
 
@@ -56,13 +56,13 @@ private theorem amb_pSimple_top_equiv {p : ℕ} (hp : p.Prime) {T : Type} [Group
   have hq : CFSG.Open.IsQuasisimple (PQuot p (⊤ : Subgroup T)) :=
     isQuasisimple_pQuot_of_glaPComponent hp hI
   have hnt : Nontrivial (↥(⊤ : Subgroup T) ⧸ GLAPPrimeCore p ↥(⊤ : Subgroup T)) := by
-    haveI : Nontrivial (PQuot p (⊤ : Subgroup T) ⧸ Subgroup.center (PQuot p (⊤ : Subgroup T))) :=
+    have : Nontrivial (PQuot p (⊤ : Subgroup T) ⧸ Subgroup.center (PQuot p (⊤ : Subgroup T))) :=
       hq.2.toNontrivial
     exact (QuotientGroup.mk'_surjective
       (Subgroup.center (PQuot p (⊤ : Subgroup T)))).nontrivial
   have hOb : GLAPPrimeCore p ↥(⊤ : Subgroup T) = ⊥ := by
     let ψ : ↥(⊤ : Subgroup T) ≃* T := Subgroup.topEquiv
-    haveI : ((GLAPPrimeCore p ↥(⊤ : Subgroup T)).map ψ.toMonoidHom).Normal :=
+    have : ((GLAPPrimeCore p ↥(⊤ : Subgroup T)).map ψ.toMonoidHom).Normal :=
       Subgroup.Normal.map (GLAPPrimeCore.normal p _) ψ.toMonoidHom ψ.surjective
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
         ((GLAPPrimeCore p ↥(⊤ : Subgroup T)).map ψ.toMonoidHom) with h | h
@@ -93,18 +93,18 @@ private theorem amb_pSimple_top_equiv {p : ℕ} (hp : p.Prime) {T : Type} [Group
 private theorem amb_kLevel_eq_one {p : ℕ} {S : Type} [Group S] (h : IsChevSimple p S) :
     kLevel p S = 1 := by
   unfold kLevel
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 private theorem amb_nonab_of_card_not_prime {T : Type} [Group T] [IsSimpleGroup T]
     (hc : ¬ (Nat.card T).Prime) : ∃ a b : T, a * b ≠ b * a := by
   by_contra h
   push Not at h
-  letI : CommGroup T := { ‹Group T› with mul_comm := fun a b => h a b }
+  let : CommGroup T := { ‹Group T› with mul_comm := fun a b => h a b }
   exact hc ((CommGroup.is_simple_iff_prime_card (α := T)).1 ‹IsSimpleGroup T›)
 
 private theorem amb_false_of_solvable_component {p : ℕ} {S : Type} [Group S] [Finite S]
     {X I : Subgroup S} (hsolv : Group.IsSolvable ↥X) (hI : GLAPComponent p X I) : False := by
-  haveI := hsolv
+  have := hsolv
   have hJX : I ≤ X := hI.1
   have hperf : ⁅I, I⁆ = I := glaPComponent_perfect hI
   have hne : I ≠ ⊥ := glaPComponent_ne_bot' hI
@@ -142,13 +142,13 @@ private theorem amb_valid_A1_ambQ8 : (TauCeti.LieTypeIndex.A 1 ambQ8).Valid := b
 
 private theorem amb_isChev_l2 (F : Type) [Field F] [Finite F] (hF8 : Nat.card F = 8) :
     IsChevSimple 3 (StatedProj (StatedSL 2 F)) := by
-  haveI : Fact ambQ8.p.Prime := ⟨ambQ8.prime_p⟩
+  have : Fact ambQ8.p.Prime := ⟨ambQ8.prime_p⟩
   have hv : (TauCeti.LieTypeIndex.A 1 ambQ8).Valid := amb_valid_A1_ambQ8
   have hamb : ambiguousChev 3 (TauCeti.CFSGIndex.lie ⟨.A 1 ambQ8, hv⟩) :=
     Or.inr ⟨by norm_num [ambQ8, TauCeti.PrimePower.card_def], rfl⟩
   have e : StatedProj (StatedSL 2 F) ≃* (TauCeti.CFSGIndex.lie ⟨.A 1 ambQ8, hv⟩).Group :=
     (CFSG.ClassicalModels.statedLinearModelEquivGaloisPSL F 2 2 3 (by norm_num)
-      (by rw [hF8] <;> norm_num)).trans
+      (by rw [hF8]; norm_num)).trans
       (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 ambQ8 hv).symm
   exact Or.inr ⟨TauCeti.CFSGIndex.lie ⟨.A 1 ambQ8, hv⟩, hamb, ⟨e⟩⟩
 
@@ -165,10 +165,10 @@ theorem downLe_one_alt {n p : ℕ} (h : (n = 5 ∧ p = 5) ∨ (n = 6 ∧ p = 3))
   by_cases hα1 : α = 1
   · subst hα1
     rw [amb_fixSubgroup_one] at hI
-    haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+    have : IsSimpleGroup (alternatingGroup (Fin n)) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
     have hnp : ¬ (Nat.card (alternatingGroup (Fin n))).Prime := by
-      haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+      have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
       rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
       rcases h with ⟨rfl, -⟩ | ⟨rfl, -⟩ <;> norm_num [Nat.factorial]
     obtain ⟨f⟩ := amb_pSimple_top_equiv hp (amb_nonab_of_card_not_prime hnp) hI
@@ -185,7 +185,7 @@ theorem downLe_one_l2_eight (F : Type) [Field F] [Fintype F] (hF : Fintype.card 
   by_cases hα1 : α = 1
   · subst hα1
     rw [amb_fixSubgroup_one] at hI
-    haveI : IsSimpleGroup (StatedProj (StatedSL 2 F)) :=
+    have : IsSimpleGroup (StatedProj (StatedSL 2 F)) :=
       CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL (d := 2) F le_rfl
         (Or.inr (by omega)) (Or.inr (by omega))
     have hcard : Nat.card (StatedProj (StatedSL 2 F)) = 504 := by
@@ -203,7 +203,7 @@ theorem downLe_one_l2_eight (F : Type) [Field F] [Fintype F] (hF : Fintype.card 
       · exact h
       · obtain ⟨F₀, _, _, hcard, ⟨ψ⟩⟩ :=
           CFSG.HardMathSupport.Solomon.Coordinator.l2FieldFixed_holds F α hα hα1 σ φ γ hφ hβ
-        have h8 : Nat.card F₀ ^ 3 = 2 ^ 3 := by rw [← hcard, hF8] <;> norm_num
+        have h8 : Nat.card F₀ ^ 3 = 2 ^ 3 := by rw [← hcard, hF8]; norm_num
         have h2 : Nat.card F₀ = 2 := Nat.pow_left_injective (n := 3) (by norm_num) h8
         have ψ' : ↥(fixSubgroup α) ≃* StatedProj (StatedSL 2 F₀) := ψ
         exact amb_isSolvable_of_card_six
@@ -213,11 +213,11 @@ theorem downLe_one_l2_eight (F : Type) [Field F] [Fintype F] (hF : Fintype.card 
 private theorem amb_downLe_l2_lie (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.A 1 q).Valid) (hq8 : q.card = 8) :
     DownLe 3 1 (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hK : Nat.card (GaloisField q.p q.exponent) = q.card := by
     rw [TauCeti.PrimePower.card_def]
     exact GaloisField.card q.p q.exponent q.exponent_pos.ne'
-  letI : Fintype (GaloisField q.p q.exponent) := Fintype.ofFinite _
+  let : Fintype (GaloisField q.p q.exponent) := Fintype.ofFinite _
   have hc : Fintype.card (GaloisField q.p q.exponent) = 8 := by
     rw [← Nat.card_eq_fintype_card, hK, hq8]
   have e : StatedProj (StatedSL 2 (GaloisField q.p q.exponent)) ≃*

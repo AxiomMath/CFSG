@@ -52,6 +52,7 @@ private theorem sum_range_eq_sum_bitSum {f : ℕ} {M : Type*} [AddCommMonoid M] 
     fun _ _ _ _ h => bitSum_injective h
   rw [← image_bitSum f, Finset.sum_image hinj]
 
+omit [CharP K 2] in
 private theorem eval_eq_sum_bitSum {f : ℕ} (hf : Fintype.card K = 2 ^ f) (p : Polynomial K)
     (hp : p.natDegree < Fintype.card K) (t : K) :
     p.eval t = ∑ B : Finset (Fin f), t ^ bitSum B * p.coeff (bitSum B) := by
@@ -59,6 +60,7 @@ private theorem eval_eq_sum_bitSum {f : ℕ} (hf : Fintype.card K = 2 ^ f) (p : 
   rw [Polynomial.eval_eq_sum_range' hn t, sum_range_eq_sum_bitSum (fun n => p.coeff n * t ^ n)]
   exact Finset.sum_congr rfl fun B _ => mul_comm _ _
 
+omit [Fintype K] in
 private theorem add_pow_bitSum {f : ℕ} (s t : K) (D : Finset (Fin f)) :
     (s + t) ^ bitSum D = ∑ B ∈ D.powerset, s ^ bitSum B * t ^ bitSum (D \ B) := by
   have h1 : (s + t) ^ bitSum D = ∏ r ∈ D, (s ^ 2 ^ (r : ℕ) + t ^ 2 ^ (r : ℕ)) := by
@@ -96,6 +98,7 @@ private theorem sum_powerset_reindex {f : ℕ} {M : Type*} [AddCommMonoid M]
   · intro D B
     simp [Finset.mem_powerset]
 
+omit [CharP K 2] in
 theorem coeff_eq_zero_of_sum_pow_eq_zero {f : ℕ} (hf : Fintype.card K = 2 ^ f)
     (c : Finset (Fin f) → K) (h : ∀ t : K, ∑ B : Finset (Fin f), t ^ bitSum B * c B = 0)
     (B : Finset (Fin f)) : c B = 0 := by
@@ -134,6 +137,7 @@ theorem coeff_eq_zero_of_sum_pow_eq_zero {f : ℕ} (hf : Fintype.card K = 2 ^ f)
       exact absurd (Finset.mem_univ B) hB
   rw [← hcoeff, hPzero, Polynomial.coeff_zero]
 
+omit [CharP K 2] in
 theorem rootExpansion_unique {f : ℕ} (hf : Fintype.card K = 2 ^ f)
     (F : Finset (Fin f) → (V →ₗ[K] V))
     (h : ∀ t : K, ∑ B : Finset (Fin f), t ^ bitSum B • F B = 0) : ∀ B, F B = 0 := by
@@ -149,6 +153,7 @@ theorem rootExpansion_unique {f : ℕ} (hf : Fintype.card K = 2 ^ f)
   have h4 := congrArg φ h2
   simpa [map_sum, map_smul, smul_eq_mul] using h4
 
+omit [CharP K 2] in
 private theorem two_var_unique {f : ℕ} (hf : Fintype.card K = 2 ^ f)
     (G : Finset (Fin f) → Finset (Fin f) → (V →ₗ[K] V))
     (h : ∀ s t : K, ∑ B : Finset (Fin f), ∑ C : Finset (Fin f),
@@ -181,9 +186,9 @@ theorem exists_rootExpansion {f : ℕ} (hf : Fintype.card K = 2 ^ f) (x : K → 
     · dsimp only
       by_cases hts : t = s
       · subst hts
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
         exact Lagrange.eval_basis_self hinj (Finset.mem_univ _)
-      · rw [if_neg hts]
+      · rw [ite_eq_right hts]
         exact Lagrange.eval_basis_of_ne (v := (id : K → K)) (s := Finset.univ) (i := s) (j := t)
           (Ne.symm hts) (Finset.mem_univ t)
     · dsimp only
@@ -232,8 +237,8 @@ theorem exists_rootExpansion {f : ℕ} (hf : Fintype.card K = 2 ^ f) (x : K → 
     rw [hre]
     refine Finset.sum_congr rfl fun B _ => Finset.sum_congr rfl fun C _ => ?_
     by_cases hBC : Disjoint B C
-    · simp only [if_pos hBC, Finset.union_sdiff_cancel_left hBC]
-    · simp only [if_neg hBC, smul_zero]
+    · simp only [ite_eq_left hBC, Finset.union_sdiff_cancel_left hBC]
+    · simp only [ite_eq_right hBC, smul_zero]
   have hG : ∀ B C : Finset (Fin f), E B * E C - (if Disjoint B C then E (B ∪ C) else 0) = 0 := by
     refine two_var_unique hf
       (fun B C => E B * E C - (if Disjoint B C then E (B ∪ C) else 0)) ?_

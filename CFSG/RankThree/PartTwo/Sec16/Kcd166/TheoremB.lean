@@ -25,7 +25,7 @@ private theorem apply_ne_of_mem_center_ne_one {𝕜 : Type*} [Field 𝕜] [IsAlg
     (ρ : Representation 𝕜 Γ V) (hirr : ρ.IsIrreducible) (hfaith : Function.Injective ρ)
     {z : Γ} (hz : z ∈ Subgroup.center Γ) (hz1 : z ≠ 1) {v : V} (hv : v ≠ 0) :
     ρ z v ≠ v := by
-  haveI : Nontrivial V := ⟨v, 0, hv⟩
+  have : Nontrivial V := ⟨v, 0, hv⟩
   intro hfix
   obtain ⟨μ, hμ⟩ := exists_scalar_of_mem_center ρ hirr hfaith hz
   have hμv : μ • v = v := by
@@ -51,7 +51,7 @@ private theorem exists_involution_of_map_altFive {Γ T : Type*} [Group Γ] [Fini
   have h2dvd : 2 ∣ Nat.card (alternatingGroup (Fin 5)) := by
     rw [hcard]
     norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := alternatingGroup (Fin 5)) 2 h2dvd
   have hdvd1 : orderOf (e.symm a) ∣ 2 := by
     rw [MulEquiv.orderOf_eq e.symm a, ha]
@@ -126,7 +126,7 @@ private theorem eq_zero_of_ker_eq_bot {𝕜 : Type*} [Field 𝕜] [IsAlgClosed �
   have hIso : Nonempty (I ≃* alternatingGroup (Fin 5)) :=
     ⟨(Subgroup.equivMapOfInjective I π hinj).trans hI.some⟩
   by_contra hv0
-  haveI : Nontrivial V := ⟨v, 0, hv0⟩
+  have : Nontrivial V := ⟨v, 0, hv0⟩
   have hZs : ∀ z ∈ Subgroup.center Γ, ∃ μ : 𝕜, ρ z v = μ • v := by
     intro z hz
     obtain ⟨μ, hμ⟩ := exists_scalar_of_mem_center ρ hirr hfaith hz
@@ -146,7 +146,7 @@ private theorem eq_zero_of_ker_eq_bot {𝕜 : Type*} [Field 𝕜] [IsAlgClosed �
   have h2dvd : 2 ∣ Nat.card Γ := by
     rw [hcard]
     norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, htord⟩ := exists_prime_orderOf_dvd_card' (G := Γ) 2 h2dvd
   have ht2 : t ^ 2 = 1 := by rw [← htord, pow_orderOf_eq_one]
   have ht1 : t ≠ 1 := by

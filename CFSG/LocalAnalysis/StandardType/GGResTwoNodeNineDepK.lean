@@ -37,11 +37,11 @@ theorem ggTwoNodeNineDepK_closer (hNine : LR6NineDepPos) (hOrbK : GGResCentBound
   obtain ⟨Λ, i1, i2, b₁, b₂, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α, hb, hcardΛa,
     hWML, hCL, hWMK, hCK, hlin, hrefl, hpairK, hpairL, hfK, hfL, hclosK, hclosL, hconn, hJ⟩ :=
     ggResTwoNodeDatum_of_sides_card_one ggWeylSimpleSystemsConjInput_holds hp2 hXs hYs
-  letI := i1; letI := i2; letI := i3; letI := i4; letI := i5; letI := i6
+  let := i1; let := i2; let := i3; let := i4; let := i5; let := i6
   obtain ⟨fK, hfK⟩ := hfK
   obtain ⟨fL, hfL⟩ := hfL
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hφsup : ∀ i : Λ, φ (Sum.inl i) ∈ ggAutomizer K Bs ⊔ ggAutomizer L Bs := fun i =>
     Subgroup.mem_sup_left (by rw [hclosK]; exact Subgroup.subset_closure ⟨i, rfl⟩)
   have hφsupL : ∀ a : Λa, φ (Sum.inr a) ∈ ggAutomizer K Bs ⊔ ggAutomizer L Bs := fun a =>
@@ -64,10 +64,10 @@ theorem ggTwoNodeNineDepK_closer (hNine : LR6NineDepPos) (hOrbK : GGResCentBound
         · exact Subgroup.subset_closure ⟨Sum.inr a, rfl⟩
   have hA : ggAutomizer K Bs ⊔ ggAutomizer L Bs ≤ ggAutomizer ⊤ Bs :=
     sup_le (ggAutomizer_mono Bs le_top) (ggAutomizer_mono Bs le_top)
-  haveI : Subsingleton Λa := by
+  have : Subsingleton Λa := by
     rw [← Fintype.card_le_one_iff_subsingleton, ← Nat.card_eq_fintype_card]
     omega
-  haveI : Nonempty Λa := by
+  have : Nonempty Λa := by
     rw [← Fintype.card_pos_iff, ← Nat.card_eq_fintype_card]
     omega
   let a₀ : Λa := Classical.choice (inferInstance : Nonempty Λa)
@@ -77,7 +77,7 @@ theorem ggTwoNodeNineDepK_closer (hNine : LR6NineDepPos) (hOrbK : GGResCentBound
   let yv : V := ι (Additive.ofMul ⟨y, hy⟩)
   obtain ⟨Λ₁, j1, j2, M₁, C₁, V₁, k1, k2, ι₁, φ₁, h₁, α₁, e₁, hM₁, hWM₁, hC₁, hlin₁, hrefl₁,
     hpair₁, ⟨f₁, hf₁⟩, hclos₁⟩ := hXd
-  letI := j1; letI := j2; letI := k1; letI := k2
+  let := j1; let := j2; let := k1; let := k2
   obtain ⟨e, hML⟩ := ggTW_typeA_of_datum (p := 3) (n := 8) hp2 (by norm_num) hH.1.2.1.2.1
     (ggAutomizer K Bs) e₁ hM₁ hWM₁ f₁ φ₁ hf₁ hrefl₁ hWML fK (fun i => φ (Sum.inl i))
     (fun i => hfK i) (fun i => hrefl (Sum.inl i))
@@ -148,7 +148,7 @@ theorem ggTwoNodeNineDepK_closer (hNine : LR6NineDepPos) (hOrbK : GGResCentBound
     have hrk := LinearMap.finrank_range_add_finrank_ker Ψ
     omega
   have hcomm : ∀ a b : ↥Bs, a * b = b * a := by
-    haveI : IsMulCommutative ↥Bs := hH.1.2.1.2.1.1
+    have : IsMulCommutative ↥Bs := hH.1.2.1.2.1.1
     exact fun a b => Subtype.ext (setLike_mul_comm (s := Bs) a.2 b.2)
   have hclosK' : ggAutomizer K Bs = Subgroup.closure (Set.range (fun i : Fin 8 =>
       φ (Sum.inl (e i)))) := by

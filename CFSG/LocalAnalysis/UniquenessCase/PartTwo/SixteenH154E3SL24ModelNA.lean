@@ -62,7 +62,7 @@ theorem s16h_orth3ActM_one (v : GF4 × GF4 × GF4) :
 
 theorem s16h_orth3ActM_add (A : Matrix (Fin 2) (Fin 2) GF4) (v w : GF4 × GF4 × GF4) :
     s16h_orth3ActM A (v + w) = s16h_orth3ActM A v + s16h_orth3ActM A w := by
-  haveI : CharP GF4 2 := CharTwo.of_one_ne_zero_of_two_eq_zero (by decide) (by decide)
+  have : CharP GF4 2 := CharTwo.of_one_ne_zero_of_two_eq_zero (by decide) (by decide)
   ext <;> simp only [s16h_orth3ActM, Prod.fst_add, Prod.snd_add] <;> ring_nf
 
 theorem s16h_orth3ActM_smul (A : Matrix (Fin 2) (Fin 2) GF4) (c : GF4)
@@ -128,7 +128,7 @@ theorem s16h_det_mem_statedSL (γ : ↥(StatedSL 2 GF4)) :
       have h := congrArg (fun δ : ↥(StatedSL 2 GF4) =>
         ((δ : Matrix.GeneralLinearGroup (Fin 2) GF4) : Matrix (Fin 2) (Fin 2) GF4))
         (inv_mul_cancel γ)
-      simpa using h
+      simp
     rw [hcoe, s16h_orth3ActM_one]
     exact ofAdd_toAdd v
   right_inv v := by
@@ -147,7 +147,7 @@ theorem s16h_det_mem_statedSL (γ : ↥(StatedSL 2 GF4)) :
       have h := congrArg (fun δ : ↥(StatedSL 2 GF4) =>
         ((δ : Matrix.GeneralLinearGroup (Fin 2) GF4) : Matrix (Fin 2) (Fin 2) GF4))
         (mul_inv_cancel γ)
-      simpa using h
+      simp
     rw [hcoe, s16h_orth3ActM_one]
     exact ofAdd_toAdd v
   map_mul' a b := by

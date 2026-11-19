@@ -140,10 +140,10 @@ theorem exists_isCoherentWith_cfInner_eq_neg_ite
       linear_combination hx
     refine ⟨μ, hμ, hspan, fun η => ?_⟩
     by_cases hη : η = (⟨η₀, hη₀⟩ : S)
-    · rw [hη, if_pos rfl, hμ0, cfInner_neg_right, hrel (⟨η₁, hη₁S⟩ : S), if_neg hi₁, h1]
+    · rw [hη, ite_eq_left rfl, hμ0, cfInner_neg_right, hrel (⟨η₁, hη₁S⟩ : S), ite_eq_right hi₁, h1]
       push_cast
       ring
-    · rw [huniq η hη, hμ1, cfInner_neg_right, hrel (⟨η₀, hη₀⟩ : S), if_pos rfl, if_neg hi₁, h1]
+    · rw [huniq η hη, hμ1, cfInner_neg_right, hrel (⟨η₀, hη₀⟩ : S), ite_eq_left rfl, ite_eq_right hi₁, h1]
       push_cast
       ring
 
@@ -170,8 +170,8 @@ theorem cfInner_indClassFun_sub_smul_eq
       (fun he => (Set.disjoint_left.1 hdisj hξ₀) (he ▸ hη))
   have h2 : cfInner η₀ η = if η = η₀ then 1 else 0 := by
     by_cases hcase : η = η₀
-    · rw [if_pos hcase, hcase, cfInner_self_of_mem_Irr (hYIrr hη₀)]
-    · rw [if_neg hcase, cfInner_eq_zero_of_mem_Irr (hYIrr hη₀) (hYIrr hη) (Ne.symm hcase)]
+    · rw [ite_eq_left hcase, hcase, cfInner_self_of_mem_Irr (hYIrr hη₀)]
+    · rw [ite_eq_right hcase, cfInner_eq_zero_of_mem_Irr (hYIrr hη₀) (hYIrr hη) (Ne.symm hcase)]
   rw [cfInner_sub_left, cfInner_smul_left, cfInner_add_right, cfInner_add_right,
     cfInner_add_right, cfInner_add_right, cfInner_smul_right, cfInner_smul_right,
     h1, h2, hξ₀A, hη₀A, hξ₀Δ, hη₀Δ, map_intCast]
@@ -247,8 +247,8 @@ theorem exists_isCoherentWith_and_norm_one_bridge
     rw [hkey]
     congr 2
     by_cases hcase : (η : ↥L → ℂ) = η₀
-    · rw [if_pos hcase, if_pos (Subtype.ext hcase : η = (⟨η₀, hη₀⟩ : Y))]
-    · rw [if_neg hcase, if_neg (fun he : η = (⟨η₀, hη₀⟩ : Y) => hcase (congrArg Subtype.val he))]
+    · rw [ite_eq_left hcase, ite_eq_left (Subtype.ext hcase : η = (⟨η₀, hη₀⟩ : Y))]
+    · rw [ite_eq_right hcase, ite_eq_right (fun he : η = (⟨η₀, hη₀⟩ : Y) => hcase (congrArg Subtype.val he))]
   obtain ⟨μY, hμY, hspan, hμrel⟩ := exists_isCoherentWith_cfInner_eq_neg_ite hYIrr hYfin hνY
     hη₀ hYne (fun η hη => (hdegY η hη).trans (hdegY η₀ hη₀).symm) hc1 hδnorm hrel
   refine ⟨μY, hμY, hspan, indClassFun L (ξ₀ - (c : ℂ) • η₀)
@@ -258,9 +258,9 @@ theorem exists_isCoherentWith_and_norm_one_bridge
       Int.cast_smul_eq_zsmul ℂ c _]
     exact Submodule.smul_mem _ _ (coherentVal_mem_virtualChars μY _)
   · have hON := cfInner_coherentVal_coherentVal hYIrr hμY (⟨η₀, hη₀⟩ : Y) (⟨η₀, hη₀⟩ : Y)
-    rw [if_pos rfl] at hON
+    rw [ite_eq_left rfl] at hON
     have h1 := hμrel (⟨η₀, hη₀⟩ : Y)
-    rw [if_pos rfl] at h1
+    rw [ite_eq_left rfl] at h1
     have h2 : cfInner (coherentVal μY ⟨η₀, hη₀⟩) (indClassFun L (ξ₀ - (c : ℂ) • η₀))
         = -(c : ℂ) := by
       rw [← conj_cfInner, h1]
@@ -274,9 +274,9 @@ theorem exists_isCoherentWith_and_norm_one_bridge
     have h1 := hμrel η
     rw [cfInner_add_left, cfInner_smul_left, h1, hON]
     by_cases hcase : η = (⟨η₀, hη₀⟩ : Y)
-    · rw [if_pos hcase, if_pos hcase.symm]
+    · rw [ite_eq_left hcase, ite_eq_left hcase.symm]
       ring
-    · rw [if_neg hcase, if_neg (Ne.symm hcase)]
+    · rw [ite_eq_right hcase, ite_eq_right (Ne.symm hcase)]
       ring
   · funext x
     simp only [Pi.add_apply, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]

@@ -17,7 +17,7 @@ theorem nine_le_support
     (h5 : MulAction.IsMultiplyPretransitive P X 5)
     (hnotAlt : ¬ alternatingGroup X ≤ P)
     {g : Perm X} (hg : g ∈ P) (hne : g ≠ 1) : 9 ≤ g.support.card := by
-  letI : MulAction.IsMultiplyPretransitive P X 5 := h5
+  let : MulAction.IsMultiplyPretransitive P X 5 := h5
   have h4 : MulAction.IsMultiplyPretransitive P X 4 :=
     MulAction.isMultiplyPretransitive_of_le (G := P) (α := X) (m := 4) (n := 5)
       (by omega) (by simpa only [Nat.card_eq_fintype_card] using (show 5 ≤ Fintype.card X by omega))

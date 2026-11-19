@@ -51,10 +51,10 @@ private def heisCol (F : Type) [Field F] : Subgroup (Heis F) where
   carrier := {x | x.a = 0}
   one_mem' := rfl
   mul_mem' := fun {x y} hx hy => by
-    simp only [Set.mem_setOf_eq] at hx hy ⊢
+    simp only [Set.mem_ofPred_eq] at hx hy ⊢
     rw [Heis.mul_a, hx, hy, add_zero]
   inv_mem' := fun {x} hx => by
-    simp only [Set.mem_setOf_eq] at hx ⊢
+    simp only [Set.mem_ofPred_eq] at hx ⊢
     rw [Heis.inv_a, hx, neg_zero]
 
 open CFSG.GH74.GLS.IVK.Proofs2.Lemma41dL3 in

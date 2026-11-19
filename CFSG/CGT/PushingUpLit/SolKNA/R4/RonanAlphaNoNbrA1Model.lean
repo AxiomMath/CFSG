@@ -43,7 +43,7 @@ theorem linkDichSyl_of_linkZ2L2 (hr : 4 ≤ r) (hL : TightLargeHypR r n Y R S t)
       obtain ⟨g, hg⟩ := htr _ hK L hL'
       exact ⟨g, by rw [hgen]; exact Subgroup.mem_top g, hg⟩
   obtain ⟨S', hd, hc', hfam⟩ := exists_datumR_of_omegaTransitive (by omega) hΦ hO hgen hK htr' hz'
-  haveI := hsimp
+  have := hsimp
   have hnab : ∃ a b : ↥(genFittingFStar ↥(linkGrp R t)), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := (CFSG.ComponentClassification.HarrisLit.L415.simple_nonabelian_of_lieModel
       hmod).2
@@ -77,14 +77,14 @@ theorem linkDichSyl_of_linkZ2L2 (hr : 4 ≤ r) (hL : TightLargeHypR r n Y R S t)
     unfold TightEdgeless
     rw [hfam]
     exact hZ2.2.2.1
-  haveI hFN : (genFittingFStar ↥(linkGrp R t)).Normal := genFittingFStar_normal _
+  have hFN : (genFittingFStar ↥(linkGrp R t)).Normal := genFittingFStar_normal _
   have hM := model163R_holds r hr ↥(linkGrp R t) (genFittingFStar ↥(linkGrp R t))
     hsimp hnab hCF (Or.inl hSmall) _ S' z' hd hc' hnO hE
   have hcore : tightCore
       ((secImg (CoreAssembly.conjClass (tightCore R)) t J).subgroupOf (linkGrp R t)) =
       (secImg (CoreAssembly.conjClass (tightCore R)) t J).subgroupOf (linkGrp R t) :=
     hΦ.closure_twoElts hK
-  haveI : (⊤ : Subgroup ↥(linkGrp R t)).Normal := inferInstance
+  have : (⊤ : Subgroup ↥(linkGrp R t)).Normal := inferInstance
   have hdich : ∀ β : MulAut ↥(linkGrp R t), β * β = 1 → (∀ s ∈ sylowSet S', β s = s) →
       (∀ y ∈ (⊤ : Subgroup ↥(linkGrp R t)), β y = y) ∨
         (∀ y ∈ (⊤ : Subgroup ↥(linkGrp R t)), β y = z' * y * z'⁻¹) := by

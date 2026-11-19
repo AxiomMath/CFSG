@@ -50,6 +50,7 @@ theorem s3_dich_aut (e : B ≃* Outside.Z4pow 2) {ρ lam ψ : MulAut B} (hρ3 : 
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s3_dichotomy {A : Subgroup G} (hA : IsZ4pow 2 A) {rho lam psi : G}
     (hr : rho ∈ normalizer (A : Set G)) (hl : lam ∈ normalizer (A : Set G))
     (hp : psi ∈ normalizer (A : Set G)) (hrho3 : rho ^ 3 = 1)

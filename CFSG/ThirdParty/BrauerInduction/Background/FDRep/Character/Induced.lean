@@ -137,7 +137,7 @@ theorem ind_ofChar
         (FDRep.coind H V).character g :=
     congrFun (FDRep.char_eq_of_iso (FDRep.indIsoCoind H V)) g
 
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype G := Fintype.ofFinite G
   rw [hχ, FDRep.char_coind_over_right_cosets]
 
 /--

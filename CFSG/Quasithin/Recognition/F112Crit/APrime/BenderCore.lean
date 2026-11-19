@@ -21,7 +21,7 @@ theorem BenderVertex.pCoreOf_le_pCoreOf {H K : Subgroup G} (hB : BenderVertex H 
   CFSG.Quasithin.F7.pCoreOf_mono_of_le_normalizer hB.le hB.normalizes
 
 private theorem commutator_mem_pCoreOf {H K N : Subgroup G} (hB : BenderVertex H K)
-    (hNH : N ≤ H) (hHN : H ≤ Subgroup.normalizer (N : Set G)) (hQN : pCoreOf 2 H ≤ N)
+    (_hNH : N ≤ H) (hHN : H ≤ Subgroup.normalizer (N : Set G)) (hQN : pCoreOf 2 H ≤ N)
     (hKN : ¬ K ≤ N) {x : G} (hxH : x ∈ H)
     (hxK : ∀ y ∈ K, y * x * y⁻¹ * x⁻¹ ∈ N) :
     ∀ y ∈ K, y * x * y⁻¹ * x⁻¹ ∈ pCoreOf 2 K := by
@@ -65,7 +65,7 @@ private theorem commutator_mem_pCoreOf {H K N : Subgroup G} (hB : BenderVertex H
       simpa using congrArg Subtype.val hqm
     rw [← hyval]
     exact N.mul_mem hqN hmN
-  haveI : Mbar.Normal := hMbarN
+  have : Mbar.Normal := hMbarN
   have hMbar_center : Mbar ≤ Subgroup.center (oTwoQuot ↥K) :=
     (CFSG.LocalCores.quasisimple_normal_subgroups hB.quasisimple hMbarN).resolve_left hMbar_ne
   have hchar : Subgroup.map φ.toMonoidHom (pCore 2 ↥K) = pCore 2 ↥K :=
@@ -80,7 +80,6 @@ private theorem commutator_mem_pCoreOf {H K N : Subgroup G} (hB : BenderVertex H
     have hmemM : πK (y * (φ y)⁻¹) ∈ Mbar := by
       refine Subgroup.mem_map_of_mem πK ?_
       rw [Subgroup.mem_subgroupOf]
-      change ((y * (φ y)⁻¹ : ↥K) : G) ∈ K ⊓ N
       refine ⟨K.mul_mem y.2 (K.inv_mem (φ y).2), ?_⟩
       have hcoe : ((y * (φ y)⁻¹ : ↥K) : G) = (y : G) * x * (y : G)⁻¹ * x⁻¹ := by
         rw [Subgroup.coe_mul, Subgroup.coe_inv, hφ y]
@@ -134,7 +133,7 @@ theorem BenderVertex.mem_pCoreOf {H K N : Subgroup G} (hB : BenderVertex H K)
     (hKN : ¬ K ≤ N) {x : G} (hxH : x ∈ H) (hx : ∃ k : ℕ, x ^ 2 ^ k = 1)
     (hxK : ∀ y ∈ K, y * x * y⁻¹ * x⁻¹ ∈ N) : x ∈ pCoreOf 2 H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hstep1 : ∀ y ∈ K, y * x * y⁻¹ * x⁻¹ ∈ pCoreOf 2 K :=
     commutator_mem_pCoreOf hB hNH hHN hQN hKN hxH hxK
   have hstep1' : ∀ y ∈ K, y * x * y⁻¹ * x⁻¹ ∈ pCoreOf 2 H :=
@@ -149,8 +148,8 @@ theorem BenderVertex.mem_pCoreOf {H K N : Subgroup G} (hB : BenderVertex H K)
   have hKYn : KY.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hB.le).mpr hB.normalizes
   have hKbarN : Kbar.Normal := hKYn.map πQ (QuotientGroup.mk'_surjective QY)
-  haveI : Kbar.Normal := hKbarN
-  haveI : Dbar.Normal := Subgroup.normal_centralizer
+  have : Kbar.Normal := hKbarN
+  have : Dbar.Normal := Subgroup.normal_centralizer
   have hxbarD : πQ xY ∈ Dbar := by
     rw [Subgroup.mem_centralizer_iff]
     intro z hz
@@ -207,7 +206,7 @@ theorem BenderVertex.mem_pCoreOf {H K N : Subgroup G} (hB : BenderVertex H K)
       intro d
       apply Subtype.ext
       exact (Subgroup.mem_centralizer_iff.mp d.2 _ hcK).symm
-    haveI : Group.IsNilpotent ((Y ⧸ QY) ⧸ Kbar) := htarget2.isNilpotent
+    have : Group.IsNilpotent ((Y ⧸ QY) ⧸ Kbar) := htarget2.isNilpotent
     exact Subgroup.isNilpotent_of_ker_le_center f hker
   let Pbar : Sylow 2 ↥Dbar := default
   have hPbarN : (Pbar : Subgroup ↥Dbar).Normal :=
@@ -224,7 +223,7 @@ theorem BenderVertex.mem_pCoreOf {H K N : Subgroup G} (hB : BenderVertex H K)
     have hpim : πQ (p : Y) ∈ (Pbar : Subgroup ↥Dbar).map Dbar.subtype :=
       Subgroup.mem_comap.mp p.2
     obtain ⟨z, hz, hzval⟩ := Subgroup.mem_map.mp hpim
-    obtain ⟨k, hk⟩ := (Pbar.isPGroup') ⟨z, hz⟩
+    obtain ⟨k, hk⟩ := (Pbar.isPGroup) ⟨z, hz⟩
     have hzpow : z ^ 2 ^ k = 1 := congrArg Subtype.val hk
     have hpQ : (p : Y) ^ 2 ^ k ∈ QY := by
       have hzval' : (Dbar.subtype z : Y ⧸ QY) = πQ (p : Y) := hzval
@@ -286,9 +285,9 @@ theorem BenderVertex.le_pCoreOf {H K N P : Subgroup G} (hB : BenderVertex H K)
   obtain ⟨k, hk⟩ := hP ⟨x, hxP⟩
   exact ⟨k, congrArg Subtype.val hk⟩
 
-theorem BenderVertex.pCoreOf_eq {H K N : Subgroup G} (hB : BenderVertex H K)
+theorem BenderVertex.pCoreOf_eq {H K N : Subgroup G} (_hB : BenderVertex H K)
     (hNH : N ≤ H) (hHN : H ≤ Subgroup.normalizer (N : Set G)) (hQN : pCoreOf 2 H ≤ N)
-    (hKN : ¬ K ≤ N) : pCoreOf 2 N = pCoreOf 2 H := by
+    (_hKN : ¬ K ≤ N) : pCoreOf 2 N = pCoreOf 2 H := by
   refine le_antisymm ?_ ?_
   · exact CFSG.Quasithin.F7.pCoreOf_mono_of_le_normalizer hNH hHN
   · exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 hQN

@@ -49,9 +49,9 @@ theorem fixCnt_rec {X : Nat} : ∀ n, Nat.rec (motive := fun _ => Nat) 0
         (nIf(Nat.beq (pt X n) n, 1, 0)) = _
     rw [ih, nIf_ite, Finset.range_add_one, Finset.filter_insert]
     by_cases h : pt X n = n
-    · rw [if_pos (by simp [h]), if_pos h, Finset.card_insert_of_notMem
+    · rw [ite_eq_left (by simp [h]), ite_eq_left h, Finset.card_insert_of_notMem
         (fun hm => by simp at hm)]
-    · rw [if_neg (fun h' => h (Nat.eq_of_beq_eq_true h')), if_neg h]
+    · rw [ite_eq_right (fun h' => h (Nat.eq_of_beq_eq_true h')), ite_eq_right h]
       rfl
 
 theorem fixCntF_eq {X : Nat} {g : Equiv.Perm (Fin 1408)} (hX : RepC X g) :

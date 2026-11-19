@@ -152,7 +152,7 @@ theorem burnsideB610_famS_conj {t₀ : MulAut (IntMod V hV)} :
   obtain ⟨g, hg, hig⟩ := burnsideB610_mem_famS.1 hi
   have hhX : convI hV ⟨h, hHN hh⟩ ∈ autI hV H := convI_mem_autI hV hh (hHN hh)
   refine ⟨⟨i.1.map (MulAut.conj (convI hV ⟨h, hHN hh⟩)).toMonoidHom,
-    burnsideB610_map_conj_mem_blocks hW hS i.2 hhX⟩, ?_, ?_⟩
+    burnsideB610_map_conj_mem_blocks hS i.2 hhX⟩, ?_, ?_⟩
   · refine burnsideB610_mem_famS.2 ⟨convI hV ⟨h, hHN hh⟩ * g, Subgroup.mul_mem _ hhX hg, ?_⟩
     show i.1.map (MulAut.conj (convI hV ⟨h, hHN hh⟩)).toMonoidHom = _
     rw [hig, B19.map_conj_map_conj]

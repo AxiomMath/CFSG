@@ -147,6 +147,7 @@ theorem s16h_e3_z3f5_card_diagHom_range {f : (Module.End F V)ˣ}
     rw [Nat.card_units, s16h_e3_z3f5_card_omegaField]
   rw [hcard]
 
+omit [FiniteDimensional F V] in
 theorem s16h_e3_z3f5_diagHom_pow_three {f : (Module.End F V)ˣ}
     (hf5 : (f : Module.End F V) ^ 5 = 1) (p : Fˣ × Fˣ) :
     (s16h_e3_z3f5_diagHom (V := V) hf5 p) ^ 3 = 1 := by
@@ -162,6 +163,7 @@ theorem s16h_e3_z3f5_diagHom_pow_three {f : (Module.End F V)ˣ}
       exact hp2
   rw [← map_pow, hp3, map_one]
 
+omit [FiniteDimensional F V] in
 theorem s16h_e3_z3f5_diagHom_comm {f : (Module.End F V)ˣ}
     (hf5 : (f : Module.End F V) ^ 5 = 1) (p q : Fˣ × Fˣ) :
     s16h_e3_z3f5_diagHom (V := V) hf5 p * s16h_e3_z3f5_diagHom (V := V) hf5 q =

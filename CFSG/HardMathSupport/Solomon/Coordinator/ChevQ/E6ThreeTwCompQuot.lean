@@ -95,7 +95,7 @@ theorem twCompQuot_torsion_cong {G : Type*} [Group G] {T N : Subgroup G} [Finite
     have hi : (i : ℕ) ∈ Set.Iio (orderOf h₀) := by rw [ho]; exact i.isLt
     have hi' : (i' : ℕ) ∈ Set.Iio (orderOf h₀) := by rw [ho]; exact i'.isLt
     exact Prod.ext (Fin.ext (pow_injOn_Iio_orderOf hi hi' hii)) rfl
-  haveI : Finite {τ : G // τ ∈ T ∧ τ ^ 3 = 1} :=
+  have : Finite {τ : G // τ ∈ T ∧ τ ^ 3 = 1} :=
     Finite.of_injective (fun x => (⟨x.1, x.2.1⟩ : T)) fun a b hab =>
       Subtype.ext (congrArg (fun x : T => (x : G)) hab)
   obtain ⟨⟨i, j⟩, hij⟩ := (hinj.bijective_of_nat_card_le (by simpa using hX)).2 ⟨ψ, hψT, hψ3⟩

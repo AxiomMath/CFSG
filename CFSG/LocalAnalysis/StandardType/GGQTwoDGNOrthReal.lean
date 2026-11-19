@@ -259,14 +259,14 @@ theorem OrthFrameCore.permAut_mem_realGroup (Φ : OrthFrameCore p Bs X)
   | one =>
     have h1 : (SpCoord.permAut (1 : Equiv.Perm (Fin Φ.r)) :
         MulAut (Fin Φ.r → Multiplicative (ZMod p))) = 1 :=
-      MulEquiv.ext fun f => funext fun j => by simp [SpCoord.permAut_apply]
+      MulEquiv.ext fun f => funext fun j => by simp
     rw [h1]
     exact Φ.realGroup.one_mem
   | swap_mul σ a b hab ih =>
     have h1 : (SpCoord.permAut (Equiv.swap a b * σ) :
         MulAut (Fin Φ.r → Multiplicative (ZMod p))) =
         SpCoord.permAut (Equiv.swap a b) * SpCoord.permAut σ :=
-      MulEquiv.ext fun f => funext fun j => by simp [SpCoord.permAut_apply, mul_inv_rev]
+      MulEquiv.ext fun f => funext fun j => by simp [SpCoord.permAut_apply]
     rw [h1]
     refine Φ.realGroup.mul_mem ?_ ih
     obtain ⟨w, hw, hn⟩ := Φ.swapReal a b hab
@@ -315,6 +315,7 @@ theorem OrthFrameCore.img_map_conj (Φ : OrthFrameCore p Bs X) (μ : ↥(orthDer
 
 variable [Finite G] [Fact p.Prime]
 
+omit [Finite G] in
 theorem OrthFrameCore.exists_img_rank2_conj (Φ : OrthFrameCore p Bs X)
     {x y x' y' : OmPlusIdx Φ.r}
     (hnc : omPlusRefl p x * omPlusRefl p y ≠ omPlusRefl p y * omPlusRefl p x)
@@ -343,6 +344,7 @@ open CFSG.RankThree.Classical2 (orthDerived)
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {Bs X : Subgroup G}
 
+omit [Finite G] in
 theorem qTwoD_orth_anchor_gen (Φ : OrthFrameCore p Bs X) (hF : Nat.card Φ.F = 2)
     {x y : OmPlusIdx Φ.r}
     (hxy : omPlusRefl p x * omPlusRefl p y ≠ omPlusRefl p y * omPlusRefl p x) :
@@ -353,6 +355,7 @@ theorem qTwoD_orth_anchor_gen (Φ : OrthFrameCore p Bs X) (hF : Nat.card Φ.F = 
   rw [heq]
   exact le_iSup₂_of_le g hg le_rfl
 
+omit [Finite G] in
 theorem qTwoD_gn_of_orthChart {J : Subgroup G} (Φ : OrthFrameCore p Bs X)
     (hF : Nat.card Φ.F = 2) {x y : OmPlusIdx Φ.r}
     (hxy : omPlusRefl p x * omPlusRefl p y ≠ omPlusRefl p y * omPlusRefl p x)

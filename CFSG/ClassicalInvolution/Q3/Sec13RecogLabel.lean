@@ -17,6 +17,7 @@ open CFSG.ClassicalInvolution.Q3.TC.Thin
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem labMapConjSub {M : Type*} [Group M] (φ : G →* M) (g : G) (K : Subgroup G) :
     (conjSub g K).map φ = conjSub (φ g) (K.map φ) := by
   unfold conjSub
@@ -25,10 +26,12 @@ private theorem labMapConjSub {M : Type*} [Group M] (φ : G →* M) (g : G) (K :
   ext x
   simp [MulAut.conj_apply, map_mul, map_inv, mul_assoc]
 
+omit [Finite G] in
 private theorem labMapSubgroupOf {M : Type*} [Group M] {L K : Subgroup G} (hLK : L ≤ K)
     (φ : G →* M) : (L.subgroupOf K).map (φ.comp K.subtype) = L.map φ := by
   rw [← Subgroup.map_map, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hLK]
 
+omit [Finite G] in
 private theorem labRangeComp {M : Type*} [Group M] {Ω : Set (Subgroup G)}
     (hgen : pSpan Ω = ⊤) (φ : G →* M) : (φ.comp (pSpan Ω).subtype).range = φ.range := by
   rw [MonoidHom.range_comp, Subgroup.range_subtype, hgen, ← MonoidHom.range_eq_map]
@@ -130,6 +133,7 @@ private theorem labE29Closure :
       r.map s⁻¹.toEmbedding ∈ AE.affinePlanes := hs
   exact (hs' α hα).1
 
+omit [Finite G] in
 private theorem labLabels {Ω : Set (Subgroup G)}
     (hinv : ∀ g : G, ∀ L ∈ Ω, conjSub g L ∈ Ω)
     (htrans : ∀ L ∈ Ω, ∀ L' ∈ Ω, ∃ g : G, conjSub g L = L') (hgen : pSpan Ω = ⊤)
@@ -202,6 +206,7 @@ private theorem labLabels {Ω : Set (Subgroup G)}
     refine ⟨conjSub g' K, hinv g' K hK, ?_⟩
     rw [hlab _ (hinv g' K hK), labMapConjSub, hg', hKφ, hwc]
 
+omit [Finite G] in
 theorem nonempty_aeIdent_of_hom {Ω : Set (Subgroup G)}
     (hinv : ∀ g : G, ∀ L ∈ Ω, conjSub g L ∈ Ω)
     (htrans : ∀ L ∈ Ω, ∀ L' ∈ Ω, ∃ g : G, conjSub g L = L') (hgen : pSpan Ω = ⊤) {n : ℕ}
@@ -225,6 +230,7 @@ theorem nonempty_aeIdent_of_hom {Ω : Set (Subgroup G)}
   · intro β hβ c
     exact h4 β hβ hβ c
 
+omit [Finite G] in
 theorem nonempty_aeIdentOn_e64_of_hom {Ω : Set (Subgroup G)}
     (hinv : ∀ g : G, ∀ L ∈ Ω, conjSub g L ∈ Ω)
     (htrans : ∀ L ∈ Ω, ∀ L' ∈ Ω, ∃ g : G, conjSub g L = L') (hgen : pSpan Ω = ⊤)
@@ -237,6 +243,7 @@ theorem nonempty_aeIdentOn_e64_of_hom {Ω : Set (Subgroup G)}
     TL4.l32_sign (𝒜 := AE.e64Sets) labE64Card labE64Closure labE64Trans hinj hrange' hK hαS hKφ
   exact ⟨⟨φ.comp (pSpan Ω).subtype, h1.trans hrange, h2, h3, h4⟩⟩
 
+omit [Finite G] in
 theorem nonempty_aeIdentOn_e29_of_hom {Ω : Set (Subgroup G)}
     (hinv : ∀ g : G, ∀ L ∈ Ω, conjSub g L ∈ Ω)
     (htrans : ∀ L ∈ Ω, ∀ L' ∈ Ω, ∃ g : G, conjSub g L = L') (hgen : pSpan Ω = ⊤)

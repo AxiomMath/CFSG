@@ -439,19 +439,19 @@ theorem u_maximal (W : Set (Fin 64)) (hW : ∀ v ∈ W, ∀ w ∈ W, xorF v w �
       · exact hUv _ hx0 x.2
       · have hu := hUv _ hx1 (Nat.xor_lt_two_pow (n := 6) x.2 a.2)
         have hux : xorF ⟨Nat.xor x.val a.val, Nat.xor_lt_two_pow (n := 6) x.2 a.2⟩ a = x :=
-          Fin.ext (by simp [xorF, Nat.xor_assoc])
+          Fin.ext (by simp [xorF])
         rw [← hux]
         exact hW _ hu a haW
     · rcases orB_eq_true82 hx23 with hx2 | hx3
       · have hlt : Nat.xor x.val (Nat.xor b.val a.val) < 64 :=
           Nat.xor_lt_two_pow (n := 6) x.2 (Nat.xor_lt_two_pow (n := 6) b.2 a.2)
         have hu := hUv _ hx2 hlt
-        have hux : xorF ⟨_, hlt⟩ (xorF b a) = x := Fin.ext (by simp [xorF, Nat.xor_assoc])
+        have hux : xorF ⟨_, hlt⟩ (xorF b a) = x := Fin.ext (by simp [xorF])
         rw [← hux]
         exact hW _ hu _ hbaW
       · have hlt : Nat.xor x.val b.val < 64 := Nat.xor_lt_two_pow (n := 6) x.2 b.2
         have hu := hUv _ hx3 hlt
-        have hux : xorF ⟨_, hlt⟩ b = x := Fin.ext (by simp [xorF, Nat.xor_assoc])
+        have hux : xorF ⟨_, hlt⟩ b = x := Fin.ext (by simp [xorF])
         rw [← hux]
         exact hW _ hu b hbW
   · left

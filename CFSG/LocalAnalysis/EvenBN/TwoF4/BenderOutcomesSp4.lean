@@ -431,7 +431,7 @@ theorem uElt_one_mem_szSylow : uElt (1 : K) 1 1 1 ∈ szSylow K m := by
   refine mem_inf.mpr ⟨uElt_mem_antiUnipotent _ _ _ _, ?_⟩
   rw [mem_etaFix, eta_uElt]
   simp only [one_pow, mul_one]
-  congr 1 <;> first | ring1 | linear_combination two_eq_zero K
+  congr 1 <;> (linear_combination two_eq_zero K)
 
 theorem benderSylowAut_eta (hK : Nat.card K = 2 ^ (2 * m + 1)) (hm : 1 ≤ m) :
     BenderSylowAut (minorAut K ^ (2 * m + 1)) (szSylow K m) (antiUnipotent K) := by

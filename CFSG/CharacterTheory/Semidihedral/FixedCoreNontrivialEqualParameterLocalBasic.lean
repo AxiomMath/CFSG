@@ -119,7 +119,7 @@ theorem card_sylow_two (h : EqualParameterData G t s₀ d d₁ J p f F κ F' φ)
     rw [hm] at this
     exact (Dvd.intro m rfl).trans this
   have h1 : 2 ^ 4 ∣ Nat.card S := S.pow_dvd_card_of_pow_dvd_card h16G
-  obtain ⟨a, ha⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨a, ha⟩ := S.isPGroup.exists_card_eq
   have h2 : Nat.card S ∣ 16 * m := by
     rw [← hm]
     exact Subgroup.card_dvd_of_le hSC

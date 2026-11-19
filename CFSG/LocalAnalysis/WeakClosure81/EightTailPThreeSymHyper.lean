@@ -18,13 +18,13 @@ theorem le_iSup_inf_centralizer_of_index_two {Y : Type} [Group Y] [Finite Y] {O 
     [O.Normal] (hO : Odd (Nat.card O)) (hQ : IsElemAbelian 2 Q) (hQ1 : Q ≠ ⊥) :
     O ≤ ⨆ (B : Subgroup Y) (_ : B ≤ Q) (_ : (B.subgroupOf Q).index = 2),
       O ⊓ Subgroup.centralizer (B : Set Y) := by
-  letI : CommGroup ↥Q :=
+  let : CommGroup ↥Q :=
     { (inferInstance : Group ↥Q) with mul_comm := hQ.1.is_comm.comm }
-  haveI : CFSG.IsElementaryAbelian 2 ↥Q :=
+  have : CFSG.IsElementaryAbelian 2 ↥Q :=
     { toIsMulCommutative := hQ.1
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun g =>
         Subtype.ext (by simpa using hQ.2 (g : Y) g.2) }
-  haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQ1
+  have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQ1
   have hcop : ¬ 2 ∣ Nat.card ↥O := by
     rw [← even_iff_two_dvd]
     exact Nat.not_even_iff_odd.mpr hO
@@ -195,7 +195,7 @@ theorem fusionOddCore_inf_centralizer_le_centralizer {Y : Type} [Group Y] [Finit
   have hker : (symPi e).ker = fusionOddCore Y := by
     rw [symPi]
     ext z
-    simp [MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp
   have hq_ker : symPi e q = 1 := by
     rw [← MonoidHom.mem_ker, hker]
     exact hqO

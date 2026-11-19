@@ -16,7 +16,7 @@ set_option linter.unusedSectionVars false
 
 theorem coverActsTriviallyOnSmall_of_isoLie_ree {L : Type} [Group L] [Finite L] [IsSimpleGroup L]
     {m : ℕ} (hI : IsoLie L (.reeG2 m)) : CoverActsTriviallyOnSmall 3 L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hv, ⟨e⟩⟩ := hI
   have hm : 1 ≤ m :=
     (TauCeti.LieTypeIndex.inStandardRange_iff _).1 ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1

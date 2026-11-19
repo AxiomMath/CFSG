@@ -28,12 +28,12 @@ theorem unitary_case (hGA : CFSG.Open.GriessAllModelsStatement) {Y : Type} [Grou
     {x : Y} (hx : orderOf x = 5) (hx2 : CFSG.Open.pRank 5 (centralizer ({x} : Set Y)) ≤ 2)
     (hpn : 5 ∣ n) (hK : Nat.card K = (r ^ f) ^ 2) (hpq : 5 ∣ r ^ f + 1)
     (e : ↥L ⧸ center ↥L ≃* StatedProj (StatedSU n (r ^ f) K)) : I291P65.Is29a ↥L := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hp : Nat.Prime 5 := by norm_num
   have hn0 : 0 < n := by
     rcases Nat.eq_zero_or_pos n with rfl | h
-    · haveI := hq.2
-      haveI : Subsingleton (StatedProj (StatedSU 0 (r ^ f) K)) := inferInstance
+    · have := hq.2
+      have : Subsingleton (StatedProj (StatedSU 0 (r ^ f) K)) := inferInstance
       exact absurd e.injective.subsingleton (not_subsingleton _)
     · exact h
   have hn5 : 5 ≤ n := Nat.le_of_dvd hn0 hpn

@@ -19,7 +19,7 @@ theorem small1522_simple_center_aux1 {S : Type} [Group S] [IsSimpleGroup S]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
   · exact h
   · exfalso
-    haveI : IsMulCommutative S := Subgroup.center_eq_top_iff.mp h
+    have : IsMulCommutative S := Subgroup.center_eq_top_iff.mp h
     exact hS (Group.is_simple_iff_prime_card.mp ‹IsSimpleGroup S›)
 
 theorem small1522_simple_center_aux2 {q : TauCeti.PrimePower} {ℓ : ℕ} (hℓ : ℓ.Prime)
@@ -66,19 +66,19 @@ theorem small1522_simple_center {S : Type} [Group S] (h : Small1522 S) :
     IsSimpleGroup S ∧ Subgroup.center S = ⊥ := by
   rcases h with h | h | h | h | h
   · obtain ⟨hs, hc⟩ := small1522_simple_center_aux3 (isLThreeTwo_iff_isLThreeOfExp_one.2 h)
-    haveI := hs
+    have := hs
     exact ⟨hs, small1522_simple_center_aux1 (by rw [hc]; norm_num)⟩
   · obtain ⟨e⟩ := h
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
     exact ⟨MulEquiv.isSimpleGroup e, center_eq_bot_of_alt (by norm_num) e⟩
   · obtain ⟨e⟩ := h
-    haveI : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
     exact ⟨MulEquiv.isSimpleGroup e, center_eq_bot_of_alt (by norm_num) e⟩
   · obtain ⟨hs, hc⟩ := small1522_simple_center_aux4 (isL5Two_iff_isLinTwo_five.2 h)
-    haveI := hs
+    have := hs
     exact ⟨hs, small1522_simple_center_aux1 (by rw [hc]; norm_num)⟩
   · obtain ⟨hs, hc⟩ := small1522_simple_center_aux5 h
-    haveI := hs
+    have := hs
     exact ⟨hs, small1522_simple_center_aux1 (by rw [hc]; norm_num)⟩
 
 theorem primes_of_isLThreeOfExp_one {S : Type} [Group S] [Finite S] (h : IsLThreeOfExp 1 S)
@@ -144,12 +144,12 @@ theorem false_of_isAltSixCoverThree_le {Y : Type} [Group Y] [Finite Y] {Ls Js : 
     hz1' ((Subgroup.inclusion_injective hle) (by rw [map_one]; exact h))
   rcases hJ with hJ | hJ | hJ
   · obtain ⟨hs, hc⟩ := small1522_simple_center hJ
-    haveI := hs
+    have := hs
     exact hinc (false_of_isAltSixCoverThree_le_aux1 hsub hle hc (MonoidHom.id _)
       Function.surjective_id hz)
   · obtain ⟨P, _, hP, ⟨φ⟩⟩ := hJ
     obtain ⟨hs, hc⟩ := small1522_simple_center (Or.inl hP)
-    haveI := hs
+    have := hs
     have h1 := false_of_isAltSixCoverThree_le_aux1 hsub hle hc
       ((MonoidHom.fst P P).comp φ.toMonoidHom) (Prod.fst_surjective.comp φ.surjective) hz
     have h2 := false_of_isAltSixCoverThree_le_aux1 hsub hle hc
@@ -160,7 +160,7 @@ theorem false_of_isAltSixCoverThree_le {Y : Type} [Group Y] [Finite Y] {Ls Js : 
     exact Prod.ext h1 h2
   · obtain ⟨P, _, hP, ⟨φ⟩⟩ := hJ
     obtain ⟨hs, hc⟩ := small1522_simple_center (Or.inl hP)
-    haveI := hs
+    have := hs
     have h1 := false_of_isAltSixCoverThree_le_aux1 hsub hle hc
       ((MonoidHom.fst P (P × P)).comp φ.toMonoidHom) (Prod.fst_surjective.comp φ.surjective) hz
     have h2 := false_of_isAltSixCoverThree_le_aux1 hsub hle hc

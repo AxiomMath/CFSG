@@ -22,7 +22,7 @@ theorem ker_eq_bot_of_odd_of_hopfMultiplier_dvd_two {P H : Type} [Group P] [Fini
     (hη : Function.Surjective η) (hK : η.ker ≤ Subgroup.center P)
     (hodd : Odd (Nat.card η.ker)) (hM : Nat.card (hopfMultiplier H) ∣ 2) :
     η.ker = ⊥ := by
-  haveI : Finite (hopfMultiplier H) := finite_hopfMultiplier inferInstance
+  have : Finite (hopfMultiplier H) := finite_hopfMultiplier inferInstance
   have hdvd : Nat.card η.ker ∣ Nat.card (hopfMultiplier H) :=
     Subgroup.card_dvd_of_surjective (hopfMultiplierToKer_surjective η hη hK)
   have h2 : Nat.card η.ker ∣ 2 := hdvd.trans hM
@@ -54,11 +54,11 @@ theorem kSchurC1_sp4 {X : Type} [Group X] [Finite X] (Z : Subgroup X) [Z.Normal]
     (hodd : Odd (Nat.card ↥Z)) (hsp : ∃ n : ℕ, 3 ≤ n ∧ IsSp4 (X ⧸ Z) n) : Z = ⊥ := by
   obtain ⟨n, hn, hSp⟩ := hsp
   obtain ⟨-, -, F, hField, hFinite, hF, ⟨e⟩⟩ := CFSG.GH74.Generic.lieModel_psp_data hSp
-  letI := hField
-  letI := hFinite
-  haveI : Group.IsPerfect X := Group.isPerfect_def.2 (by rwa [_root_.commutator_def])
+  let := hField
+  let := hFinite
+  have : Group.IsPerfect X := Group.isPerfect_def.2 (by rwa [_root_.commutator_def])
   obtain ⟨hperfH, hM⟩ := sp4_hopfMultiplier_dvd_two hF hn
-  haveI : Group.IsPerfect (StatedProj (StatedSp 2 F)) := hperfH
+  have : Group.IsPerfect (StatedProj (StatedSp 2 F)) := hperfH
   let π : X →* X ⧸ Z := QuotientGroup.mk' Z
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective Z
   have hkerπ : π.ker = Z := QuotientGroup.ker_mk' Z
@@ -81,11 +81,11 @@ theorem kSchurC1_sp4 {X : Type} [Group X] [Finite X] (Z : Subgroup X) [Z.Normal]
 private theorem ker_eq_bot_of_statedSU
     {X : Type} [Group X] [Finite X]
     {Z : Subgroup X} [Z.Normal] (hX : ⁅(⊤ : Subgroup X), (⊤ : Subgroup X)⁆ = ⊤)
-    (hZc : Z ≤ Subgroup.center X) (hodd : Odd (Nat.card ↥Z)) {a : ℕ} (ha : 2 ≤ a)
+    (hZc : Z ≤ Subgroup.center X) (_hodd : Odd (Nat.card ↥Z)) {a : ℕ} (ha : 2 ≤ a)
     {F : Type} [Field F] [Finite F] [CharP F 2] (hF : Nat.card F = (2 ^ a) ^ 2)
     (e : X ⧸ Z ≃* StatedSU 4 (2 ^ a) F) : Z = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsPerfect X := Group.isPerfect_def.2 (by rwa [_root_.commutator_def])
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect X := Group.isPerfect_def.2 (by rwa [_root_.commutator_def])
   let π : X →* X ⧸ Z := QuotientGroup.mk' Z
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective Z
   have hkerπ : π.ker = Z := QuotientGroup.ker_mk' Z
@@ -121,14 +121,14 @@ private theorem ker_eq_bot_of_omegaMinus
     (hZc : Z ≤ Subgroup.center X) (hodd : Odd (Nat.card ↥Z)) {n : ℕ} (hn : 3 ≤ n)
     (hΩ : IsOmegaMinus (X ⧸ Z) 6 n) : Z = ⊥ := by
   obtain ⟨-, E, hField, hFiniteE, b, c, hE, hirr, ⟨eΩ⟩⟩ := hΩ
-  letI := hField
-  letI := hFiniteE
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let := hField
+  let := hFiniteE
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcharE : CharP E 2 := by
     have : Fintype E := Fintype.ofFinite E
     refine charP_of_card_eq_prime_pow (p := 2) (f := n) ?_
     rwa [Fintype.card_eq_nat_card]
-  letI := hcharE
+  let := hcharE
   have hinj : Function.Injective (oProj (StatedQuadMinus 3 E b c)) :=
     oProj_injective (v₀ := minusVec 3)
       (by rw [statedQuadMinus_minusVec]; exact one_ne_zero)
@@ -152,11 +152,11 @@ theorem kSchurC1_holds :
   rcases hshape with ⟨n, hn, hSp⟩ | ⟨a, ha, hSU⟩ | ⟨n, hn, hΩ⟩
   · exact kSchurC1_sp4 Z hX hZc hodd ⟨n, hn, hSp⟩
   · obtain ⟨F, hField, hFinite, hF, ⟨e⟩⟩ := hSU
-    letI := hField
-    letI := hFinite
-    haveI hchar : CharP F 2 := by
+    let := hField
+    let := hFinite
+    have hchar : CharP F 2 := by
       have : Fintype F := Fintype.ofFinite F
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       refine charP_of_card_eq_prime_pow (p := 2) (f := 2 * a) ?_
       have hpow : (2 ^ a) ^ 2 = 2 ^ (2 * a) := by
         rw [← pow_mul, Nat.mul_comm]

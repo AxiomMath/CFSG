@@ -82,7 +82,7 @@ private theorem pCoreOf_L_le_pCoreOf_sup {D : Data G} {Ch : Choice2011 G} (c : C
     CFSG.Open.pCoreOf 2 c.L ≤ CFSG.Open.pCoreOf 2 (c.L ⊔ D.T) :=
   uc22main1_le_pCoreOf ((uc22main1_pCoreOf_le c.L).trans le_sup_left)
     (uc22main1_isPGroup_pCoreOf c.L)
-    (fun n hn x hx => (Subgroup.mem_normalizer_iff.mp (hHP hn) x).mp hx)
+    (fun _n hn x hx => (Subgroup.mem_normalizer_iff.mp (hHP hn) x).mp hx)
 
 private def chiefSect_of_section {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D Ch)
     {X Y : Subgroup G} (hVY : c.V ≤ Y) (hYX : Y ≤ X)
@@ -123,7 +123,7 @@ private theorem exists_chiefSect (D : Data G) (Ch : Choice2011 G) (h4 : S23_4 D 
     (h23 : S23_23 D Ch) (h205 : S20_5 D) (h640 : UC6.R6_40_1 D) (h1930 : H1930 D)
     (c : Ctx23L D Ch) (h3 : 3 ≤ CFSG.Open.pRank 2 D.Z) : Nonempty (ChiefSect c) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hV, hLV, κ, -, -⟩ := c.exists_coordinates_V D Ch h4 h23 h1930
   obtain ⟨hHP, hHQ⟩ := normalizer_pCoreOf c
   have hVP := V_le_pCoreOf_L D Ch h4 h1930 c κ
@@ -188,7 +188,7 @@ private theorem exists_mul_mem_inf_centralizer (D : Data G) (Ch : Choice2011 G)
       (D.T ⊓ Subgroup.centralizer (c.V : Set G)).subgroupOf D.T = ⊤ := by
     rw [← Subgroup.subgroupOf_sup inf_le_left inf_le_left, ← hsupT,
       Subgroup.subgroupOf_self]
-  haveI hBnorm : ((D.T ⊓ Subgroup.centralizer (c.V : Set G)).subgroupOf D.T).Normal := by
+  have hBnorm : ((D.T ⊓ Subgroup.centralizer (c.V : Set G)).subgroupOf D.T).Normal := by
     rw [Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_left]
     refine (le_inf Subgroup.le_normalizer ?_).trans
       (show Subgroup.normalizer (D.T : Set G) ⊓
@@ -218,7 +218,7 @@ private theorem alpha_involution_of_mem_T_inf_L (D : Data G) (Ch : Choice2011 G)
     (hac : a ∉ Subgroup.centralizer (c.V : Set G)) :
     κ.α ⟨a, haL⟩ * κ.α ⟨a, haL⟩ = 1 ∧ κ.α ⟨a, haL⟩ ≠ 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   constructor
   · have hTp : IsPGroup 2 D.T := CFSG.ABGLocalTools.IsSylowOf.isPGroup D.sylowG
     obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hTp) ⟨a, haT⟩
@@ -320,7 +320,7 @@ private theorem exists_torus_preimage (D : Data G) (Ch : Choice2011 G) (c : Ctx2
     ∃ (a : κ.Kˣ) (h₀ : ↥c.L), orderOf a = Nat.card κ.K - 1 ∧
       Odd (Nat.card κ.K - 1) ∧ κ.α h₀ = sl2Diag a := by
   classical
-  haveI : IsCyclic κ.Kˣ := by
+  have : IsCyclic κ.Kˣ := by
     let : IsCyclic (⊤ : Subgroup κ.Kˣ) := isCyclic_subgroup_units ⊤
     exact isCyclic_of_surjective (⊤ : Subgroup κ.Kˣ).subtype
       (fun a => ⟨⟨a, Subgroup.mem_top a⟩, rfl⟩)
@@ -401,12 +401,14 @@ private theorem exists_odd_order_torus_lift (D : Data G) (Ch : Choice2011 G) (h4
   obtain ⟨h, a', hodd, ha', hα⟩ := exists_odd_lift D Ch h4 h23 h1930 c κ hq hqodd hh₀
   exact ⟨h, a', hodd, ha'.trans hq, hα⟩
 
+omit [Finite G] in
 private theorem relIndex_inf_le_four {X A B : Subgroup G} (hA : A.relIndex X ≤ 2)
     (hB : B.relIndex X ≤ 2) : (A ⊓ B).relIndex X ≤ 4 := by
   refine (Subgroup.relIndex_inf_le (H := A) (K := B) (L := X)).trans ?_
   have h3 := Nat.mul_le_mul hA hB
   omega
 
+omit [Finite G] in
 private theorem le_centMod_inf {X Y : Subgroup G} {w h : G} (hYX : Y ≤ X) (hXX : ⁅X, X⁆ ≤ Y)
     (hwY : w ∈ Subgroup.normalizer (Y : Set G))
     (hwhY : w * h ∈ Subgroup.normalizer (Y : Set G)) :
@@ -418,6 +420,7 @@ private theorem le_centMod_inf {X Y : Subgroup G} {w h : G} (hYX : Y ≤ X) (hXX
   have harg : w⁻¹ * (w * h) = h := by group
   rwa [harg] at hinf
 
+omit [Finite G] in
 private theorem normalizer_of_le_centMod {X Y P : Subgroup G} {h : G} (hYP : Y ≤ P)
     (hPX : P ≤ X) (hPh : P ≤ CFSG.GroupTheory.centMod X Y h) (hXX : ⁅X, X⁆ ≤ Y)
     (hY : h ∈ Subgroup.normalizer (Y : Set G)) :
@@ -521,7 +524,7 @@ private def centralizingSubgroup {D : Data G} {Ch : Choice2011 G} (c : Ctx23L D 
   { carrier := {n | ∀ x ∈ S.X, (n : G) * x * (n : G)⁻¹ * x⁻¹ ∈ S.Y}
     one_mem' := by
       intro x _
-      simpa using S.Y.one_mem
+      simp
     mul_mem' := by
       intro a b ha hb x hx
       have hb' : (a : G) * ((b : G) * x * (b : G)⁻¹ * x⁻¹) * (a : G)⁻¹ ∈ S.Y :=
@@ -598,8 +601,8 @@ private theorem map_centralizingSubgroup_eq_top {D : Data G} {Ch : Choice2011 G}
     (ha' : orderOf a' = Nat.card κ.K - 1) (hα : κ.α h = sl2Diag a')
     (hhN : h ^ 24 ∈ centralizingSubgroup c S) :
     (centralizingSubgroup c S).map κ.α = ⊤ := by
-  haveI : (centralizingSubgroup c S).Normal := centralizingSubgroup_normal c S
-  haveI : ((centralizingSubgroup c S).map κ.α).Normal :=
+  have : (centralizingSubgroup c S).Normal := centralizingSubgroup_normal c S
+  have : ((centralizingSubgroup c S).map κ.α).Normal :=
     (centralizingSubgroup_normal c S).map κ.α κ.α_surj
   have hmem : (sl2Diag a') ^ 24 ∈ (centralizingSubgroup c S).map κ.α := by
     rw [← hα, ← map_pow]

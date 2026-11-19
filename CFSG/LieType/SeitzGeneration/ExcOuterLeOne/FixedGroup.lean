@@ -21,6 +21,7 @@ section Fixed
 
 variable {τ : Tag} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem fixedSubgroup_entrywiseAdjointAut_of_eq (σ : K ≃+* K)
     (hΓJ : entrywiseFixedGroup τ σ = fixedFieldImage τ σ) :
     fixedSubgroup (entrywiseAdjointAut τ σ) = (fixedFieldImage τ σ).subgroupOf (adjointGroup τ K) := by

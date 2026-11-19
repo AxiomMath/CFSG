@@ -187,16 +187,16 @@ theorem herm_comp_eq_zero_of_quadPlus_isotropic
         rw [hb_lr a a, hb_lr t t]
         simp
       have hb_at : polar Q₀ (E a) (F t) = 0 := by
-        rw [hb_lr a t, if_neg (Ne.symm hta)]
+        rw [hb_lr a t, ite_eq_right (Ne.symm hta)]
       have hb_ta : polar Q₀ (F a) (E t) = 0 := by
-        rw [hb_rl a t, if_neg (Ne.symm hta)]
+        rw [hb_rl a t, ite_eq_right (Ne.symm hta)]
       exact herm_eq_zero_of_hyperbolic_pairs (Q := Q₀) (h := h')
         hne h'_herm h'_sing (Y := ⊤) (by trivial) (by trivial) (by trivial) (by trivial)
         (hE_sing a) (hF_sing a) (hE_sing t) (hF_sing t)
         hb_aa (hb_ll a t) hb_at hb_ta (hb_rr a t)
     · exact herm_eq_zero_of_singular_orthogonal (Q := Q₀) (h := h')
         hne h'_herm h'_sing (Y := ⊤) (by trivial) (by trivial) (hE_sing a) (hF_sing b)
-        (by rw [hb_lr a b, if_neg hab])
+        (by rw [hb_lr a b, ite_eq_right hab])
   have h_rl : ∀ a b : Fin k, h' (F a) (E b) = 0 := by
     intro a b
     by_cases hab : a = b
@@ -204,7 +204,7 @@ theorem herm_comp_eq_zero_of_quadPlus_isotropic
       rw [h'_herm (E a) (F a), h_lr a a, map_zero]
     · exact herm_eq_zero_of_singular_orthogonal (Q := Q₀) (h := h')
         hne h'_herm h'_sing (Y := ⊤) (by trivial) (by trivial) (hF_sing a) (hE_sing b)
-        (by rw [hb_rl a b, if_neg hab])
+        (by rw [hb_rl a b, ite_eq_right hab])
   have h_ll : ∀ a b : Fin k, h' (E a) (E b) = 0 := by
     intro a b
     by_cases hab : a = b

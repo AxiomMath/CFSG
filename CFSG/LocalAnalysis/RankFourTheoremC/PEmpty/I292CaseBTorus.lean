@@ -40,21 +40,21 @@ theorem eq_zero_of_comm_mod_scalar {ζ : K} (hζ0 : ζ ≠ 0) (hζ1 : ζ ≠ 1) 
     have f1 : ∀ a, a ≠ j → M a j * (ζ - c) = 0 := by
       intro a ha
       have := hc a j
-      simp only [if_true, if_neg ha] at this
+      simp only [ite_true, ite_eq_right ha] at this
       linear_combination this
     have f2 : M j j * (ζ * (1 - c)) = 0 := by
       have := hc j j
-      simp only [if_true] at this
+      simp only [ite_true] at this
       linear_combination this
     have f3 : ∀ a b, a ≠ j → b ≠ j → M a b * (1 - c) = 0 := by
       intro a b ha hb
       have := hc a b
-      simp only [if_neg ha, if_neg hb] at this
+      simp only [ite_eq_right ha, ite_eq_right hb] at this
       linear_combination this
     have f4 : ∀ b, b ≠ j → M j b * (1 - c * ζ) = 0 := by
       intro b hb
       have := hc j b
-      simp only [if_true, if_neg hb] at this
+      simp only [ite_true, ite_eq_right hb] at this
       linear_combination this
     by_cases hc1 : c = 1
     · subst hc1
@@ -246,7 +246,7 @@ theorem mem_centralizer_of_comm_mod_scalar (hsep : ∀ i j : Fin p, i ≠ j → 
       by_cases hk : k = j
       · subst hk
         simp
-      · simp [Pi.mulSingle_eq_of_ne hk, hk]
+      · simp [hk]
     simp only [e1] at h3
     exact h3
 

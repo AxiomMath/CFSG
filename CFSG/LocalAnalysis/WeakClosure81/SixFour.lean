@@ -38,25 +38,30 @@ structure Hyp64 (n : ℕ) (M V₀ V : Subgroup G) (g : G) : Prop where
 @[expose] def SwapHyp (V : Subgroup G) (g : G) : Prop :=
   ∃ l ∈ LOf V g, conjSubgroup V l = conjSubgroup V g ∧ conjSubgroup (conjSubgroup V g) l = V
 
+omit [Finite G] in
 theorem conjSubgroup_mono {A B : Subgroup G} (h : A ≤ B) (g : G) :
     conjSubgroup A g ≤ conjSubgroup B g :=
   Subgroup.map_mono (f := (MulAut.conj g⁻¹).toMonoidHom) h
 
+omit [Finite G] in
 theorem conjSubgroup_sup (A B : Subgroup G) (g : G) :
     conjSubgroup (A ⊔ B) g = conjSubgroup A g ⊔ conjSubgroup B g := by
   unfold conjSubgroup
   rw [Subgroup.map_sup]
 
+omit [Finite G] in
 theorem conjSubgroup_inf (A B : Subgroup G) (g : G) :
     conjSubgroup (A ⊓ B) g = conjSubgroup A g ⊓ conjSubgroup B g := by
   unfold conjSubgroup
   exact Subgroup.map_inf _ _ _ (MulAut.conj g⁻¹).injective
 
+omit [Finite G] in
 theorem conjSubgroup_commutator (A B : Subgroup G) (g : G) :
     conjSubgroup ⁅A, B⁆ g = ⁅conjSubgroup A g, conjSubgroup B g⁆ := by
   unfold conjSubgroup
   rw [Subgroup.map_commutator]
 
+omit [Finite G] in
 theorem conjSubgroup_V₀_eq_of_conjSubgroup_eq {A M V : Subgroup G} {x y : G}
     (hM : normalizer (V : Set G) = M) (hAM : M ≤ normalizer (A : Set G))
     (hxy : conjSubgroup V x = conjSubgroup V y) :
@@ -72,6 +77,7 @@ theorem conjSubgroup_V₀_eq_of_conjSubgroup_eq {A M V : Subgroup G} {x y : G}
     _ = conjSubgroup (conjSubgroup A (x * y⁻¹)) y := by rw [conjSubgroup_conjSubgroup]
     _ = conjSubgroup A y := by rw [hA]
 
+omit [Finite G] in
 theorem timmesfeld_conjSubgroup_eq (A : Subgroup G) (g : G) :
     CFSG.CGT.Timmesfeld75.conjSubgroup g A = conjSubgroup A g⁻¹ := by
   ext x
@@ -87,6 +93,7 @@ theorem timmesfeld_conjSubgroup_eq (A : Subgroup G) (g : G) :
     ⁅b, v⁆ ∈ (V₀ ⊔ conjSubgroup V₀ g) ⊔ NOf M V g →
       b ∈ conjSubgroup V₀ g ⊔ NOf M V g
 
+omit [Finite G] in
 theorem NOf_eq (M V : Subgroup G) (g : G) (hVM : V ≤ M) :
     NOf M V g = V ⊓ conjSubgroup V g := by
   ext x
@@ -97,6 +104,7 @@ theorem NOf_eq (M V : Subgroup G) (g : G) (hVM : V ≤ M) :
   · rintro ⟨hxV, hxVg⟩
     exact ⟨⟨hxV, conjSubgroup_mono hVM g hxVg⟩, hxVg, hVM hxV⟩
 
+omit [Finite G] in
 private theorem UOf_le_normalizer_conjV {M V : Subgroup G} {g : G}
     (hM : normalizer (V : Set G) = M) :
     UOf M V g ≤ Subgroup.normalizer (conjSubgroup V g : Set G) := by
@@ -448,6 +456,7 @@ theorem NOf_le_centralizer_L {n : ℕ} {M V₀ V : Subgroup G} {g : G}
   intro y hy
   exact (Subgroup.mem_centralizer_iff.1 (hL hy) x (Set.mem_singleton x)).symm
 
+omit [Finite G] in
 private theorem mem_normalizer_of_conj_mem {V : Subgroup G} {y : G} (hy2 : y * y = 1)
     (h : ∀ v ∈ V, y * v * y⁻¹ ∈ V) : y ∈ Subgroup.normalizer (V : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -1148,7 +1157,7 @@ private theorem stepF {n : ℕ} {M V₀ V : Subgroup G} {g : G}
 
 theorem StepFHyp_of_genHyp {n : ℕ} {M V₀ V : Subgroup G} {g : G}
     (h : Hyp64 n M V₀ V g) (hgen : GenHyp M V g) : StepFHyp M V₀ V g :=
-  fun v hvV hvU b hbB hbv => stepF h hgen hvV hvU hbB hbv
+  fun _v hvV hvU _b hbB hbv => stepF h hgen hvV hvU hbB hbv
 
 theorem six_four_three_of_gen {n : ℕ} {M V₀ V D : Subgroup G} {g : G}
     (h : Hyp64 n M V₀ V g) (hgen : GenHyp M V g)
@@ -1593,7 +1602,7 @@ private theorem map_conj_eq {X Y : Type*} [Group X] [Group Y] (e : X ≃* Y)
   rw [Subgroup.map_map, Subgroup.map_map]
   congr 1
   ext a
-  simp [MulAut.conj_apply]
+  simp
 
 theorem exists_involution_conj_of_dihedral {X : Type*} [Group X] {m : ℕ} (hm : Odd m)
     (e : X ≃* DihedralGroup m) {A B : Subgroup X} {z₀ : X}

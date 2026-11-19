@@ -51,7 +51,7 @@ private theorem two_ne_zero_of_ringChar_ne_two [Finite K] (hK : ringChar K ≠ 2
     (2 : K) ≠ 0 := by
   intro h
   exact hK (by
-    haveI : CharP K 2 := CFSG.GroupTheory.WeirSylow.charP_two_of_two_eq_zero h
+    have : CharP K 2 := CFSG.GroupTheory.WeirSylow.charP_two_of_two_eq_zero h
     exact ringChar.eq K 2)
 
 private theorem polarBilin_toQuadraticForm'_one_nondegenerate [Finite K]
@@ -109,8 +109,8 @@ theorem exists_orthogonal_orderOf_eq [Finite K] (hK : ringChar K ≠ 2) {ℓ : �
   have hdvdG : ℓ ∣ Nat.card (TauCeti.QuadraticMap.orthogonalGroup Q) := by
     rw [hcard]
     simpa only [mul_assoc] using dvd_mul_of_dvd_right hdvd 2
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Finite (TauCeti.QuadraticMap.orthogonalGroup Q) :=
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Finite (TauCeti.QuadraticMap.orthogonalGroup Q) :=
     Finite.of_injective (QuadraticMap.orthogonalToGeneralLinear Q)
       (QuadraticMap.orthogonalToGeneralLinear_injective Q)
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card'
@@ -192,8 +192,8 @@ theorem exists_orthogonal_orderOf_eq_ringChar_fixing_isotropic [Finite K]
       (A : Matrix (Fin 3) (Fin 3) K)ᵀ * A = 1 ∧ orderOf A = ringChar K ∧
         ∃ x : Fin 3 → K, x ≠ 0 ∧ x ⬝ᵥ x = 0 ∧ (A : Matrix (Fin 3) (Fin 3) K) *ᵥ x = x := by
   classical
-  haveI : Fact (ringChar K).Prime := ⟨CharP.prime_ringChar K⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : Fact (ringChar K).Prime := ⟨CharP.prime_ringChar K⟩
+  let : Fintype K := Fintype.ofFinite K
   have hq : ringChar K ∣ Nat.card K := by
     have hchar : ringChar K ∣ Fintype.card K :=
       (prime_dvd_char_iff_dvd_card (R := K) (ringChar K)).1 dvd_rfl

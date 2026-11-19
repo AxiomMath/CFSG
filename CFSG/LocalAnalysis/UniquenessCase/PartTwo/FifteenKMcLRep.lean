@@ -13,7 +13,7 @@ theorem s15k_mcl_nonempty {W : Type} [CommGroup W] [Finite W] (hW : ∀ w : W, w
     apply Additive.toMul.injective
     show (Additive.toMul x) ^ 2 = 1
     exact Subtype.ext (hW _)
-  letI : Module (ZMod 2) (Additive ↥R) := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) (Additive ↥R) := AddCommGroup.zmodModule h2
   let rest : ↥J → (Additive ↥R →+ Additive ↥R) := fun j =>
     { toFun := fun x => Additive.ofMul ⟨(j : MulAut W) (Additive.toMul x : ↥R),
         hst j j.2 _ (Additive.toMul x).2⟩

@@ -45,10 +45,10 @@ theorem inf_primaryComponent_ne_bot_of_eigenvector (L : Type) [Field L] [Algebra
     rw [hbot] at h2
     exact Subtype.ext (Submodule.mem_bot K |>.mp h2)
   have hinjL : Function.Injective ((F.restrict hFS).baseChange L) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap _ hinj
   have hjL : Function.Injective (S.subtype.baseChange L) := by
-    rw [LinearMap.baseChange_eq_ltensor]
+    rw [LinearMap.baseChange_eq_lTensor]
     exact Module.Flat.lTensor_preserves_injective_linearMap _ S.subtype_injective
   obtain ⟨u, rfl⟩ := hsS
   have hcomm : S.subtype ∘ₗ F.restrict hFS = F ∘ₗ S.subtype := by

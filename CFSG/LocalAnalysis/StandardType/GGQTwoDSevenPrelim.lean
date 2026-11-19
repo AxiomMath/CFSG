@@ -52,10 +52,12 @@ section Refl
 variable {G : Type} [Group G] [Finite G] {Bs : Subgroup G} {A : Subgroup (MulAut ↥Bs)} {ι : Type}
   {M : CoxeterMatrix ι} (e : M.Group ≃* ↥A) {m : ℕ} (e' : Fin m ≃ ι)
 
+omit [Finite G] in
 theorem conjRefl_mem_ggCoxRefl (w : M.Group) (t : Fin m) :
     ((e (w * M.simple (e' t) * w⁻¹) : ↥A) : MulAut ↥Bs) ∈ ggCoxRefl M e :=
   ⟨w, e' t, rfl⟩
 
+omit [Finite G] in
 theorem conjRefl_comm (hM : M = (ggCoxeterMatrixD m).reindex e') (w : M.Group) {i j : Fin m}
     (h : ggCoxeterMatrixD m i j = 2) :
     ((e (w * M.simple (e' i) * w⁻¹) : ↥A) : MulAut ↥Bs) *
@@ -66,6 +68,7 @@ theorem conjRefl_comm (hM : M = (ggCoxeterMatrixD m).reindex e') (w : M.Group) {
   rw [hM, reindex_label]
   exact h
 
+omit [Finite G] in
 theorem conjRefl_noncomm [Finite ι] (hM : M = (ggCoxeterMatrixD m).reindex e')
     (w : M.Group) {i j : Fin m} (h : ggCoxeterMatrixD m i j = 3) :
     ((e (w * M.simple (e' i) * w⁻¹) : ↥A) : MulAut ↥Bs) *
@@ -77,6 +80,7 @@ theorem conjRefl_noncomm [Finite ι] (hM : M = (ggCoxeterMatrixD m).reindex e')
   rw [hM, reindex_label]
   exact h
 
+omit [Finite G] in
 theorem conjRefl_ne (w : M.Group) {i j : Fin m} (hij : i ≠ j) :
     ((e (w * M.simple (e' i) * w⁻¹) : ↥A) : MulAut ↥Bs) ≠
       ((e (w * M.simple (e' j) * w⁻¹) : ↥A) : MulAut ↥Bs) := by

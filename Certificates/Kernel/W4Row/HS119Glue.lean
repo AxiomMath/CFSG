@@ -43,10 +43,10 @@ theorem sgI_rep {l : ℕ} (hl : l < 4) : RepF 3850 (fun x => fd 12 (GIt l) x) (s
   exact (HS72.T_rep (k := Nat.succ l) (by omega)).2
 
 theorem e_rep {k : ℕ} (hk : k < 1024) : RepF 3850 (evS SPA Gt 9 k) (e k) :=
-  evS_rep tree' (fun l hl => sg_rep hl) 9 k hk
+  evS_rep tree' (fun _l hl => sg_rep hl) 9 k hk
 
 theorem eI_rep {k : ℕ} (hk : k < 1024) : RepF 3850 (evSI SPA GIt 9 k) (e k)⁻¹ :=
-  evSI_rep tree' (fun l hl => sgI_rep hl) 9 k hk
+  evSI_rep tree' (fun _l hl => sgI_rep hl) 9 k hk
 
 theorem dep {k : ℕ} (hk : k < 1024) : parK SPA 0 9 k < 2 :=
   Nat.blt_eq.mp ((allN_iff _ _).1 c_dep k hk)
@@ -62,7 +62,7 @@ theorem sg_memS {l : ℕ} (hl : l < 4) : sg l ∈ hsS := by
   interval_cases l <;> simp
 
 theorem e_memS {k : ℕ} (hk : k < 1024) : e k ∈ hsS :=
-  eF_mem tree' (fun l hl => sg_memS hl) 9 k hk
+  eF_mem tree' (fun _l hl => sg_memS hl) 9 k hk
 
 theorem e_memR {k : ℕ} (hk : k < 1024) : e k ∈ hsR := HS72.S_le_R (e_memS hk)
 
@@ -199,7 +199,7 @@ noncomputable abbrev lE (c : ℕ) : Equiv.Perm (Fin 3850) := letE e hsGen c
 
 theorem evH_rep {c : ℕ} (hc : 2 ≤ Nat.shiftRight c 10 → Nat.land c 1023 < 2) :
     RepF 3850 (evH c) (lE c) :=
-  evL_rep (fun v hv => ⟨e_rep hv, eI_rep hv⟩) (fun j hj => a_rep hj) hc
+  evL_rep (fun _v hv => ⟨e_rep hv, eI_rep hv⟩) (fun _j hj => a_rep hj) hc
 
 theorem small_parts {c : ℕ} (hc : c < 1024) : Nat.shiftRight c 10 = 0 ∧ Nat.land c 1023 = c := by
   constructor
@@ -213,7 +213,7 @@ theorem small_parts {c : ℕ} (hc : c < 1024) : Nat.shiftRight c 10 = 0 ∧ Nat.
 theorem lE_small {c : ℕ} (hc : c < 1024) : lE c = e c := by
   obtain ⟨h1, h2⟩ := small_parts hc
   unfold lE letE
-  rw [if_pos h1, h2]
+  rw [ite_eq_left h1, h2]
 
 theorem evH_small {c : ℕ} (hc : c < 1024) : RepF 3850 (evH c) (e c) := by
   have h := evH_rep (c := c) (fun h2 => by rw [(small_parts hc).1] at h2; omega)
@@ -239,9 +239,9 @@ theorem lE_memP {c : ℕ} (h : aLetOK c = true) : lE c ∈ hsP := by
     interval_cases (Nat.land c 1023) <;> simp
   unfold lE letE
   rcases ht with ht | ht
-  · rw [if_neg (by omega), if_neg (by omega), if_pos ht]
+  · rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left ht]
     exact hg
-  · rw [if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+  · rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
     exact hsP.inv_mem hg
 
 noncomputable abbrev wA (W : ℕ) : Equiv.Perm (Fin 3850) := wE lE W (fd 12 W 0)
@@ -345,8 +345,8 @@ theorem sg_mem_iff {l : ℕ} (hl : l < 4) :
     exact hsP.mul_mem hP (hsP.inv_mem (wA_memP hw))
 
 theorem e_mem_iff {k : ℕ} (hk : k < 1024) : e k ∈ hsP ↔ parK SPA (GO 0) 9 k = 0 :=
-  parK_mem tree' (fun l hl => HS72.S_le_R (sg_memS hl))
-    (fun x hx y hy => mul_memP_iff hx hy) (fun l hl => sg_mem_iff hl) 9 k hk
+  parK_mem tree' (fun _l hl => HS72.S_le_R (sg_memS hl))
+    (fun _x hx _y hy => mul_memP_iff hx hy) (fun _l hl => sg_mem_iff hl) 9 k hk
     (parK_lt_of_dep _ 9 k (dep hk))
 
 end HS4

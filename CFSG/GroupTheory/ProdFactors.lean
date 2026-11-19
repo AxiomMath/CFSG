@@ -96,7 +96,7 @@ theorem commute_prodFirstFactor_prodSecondFactor (e : X ≃* A × B) {x y : X}
   have hxeq : e x = ((e x).1, (1 : B)) := Prod.ext rfl hx2'
   have hyeq : e y = ((1 : A), (e y).2) := Prod.ext hy1' rfl
   rw [map_mul, map_mul, hxeq, hyeq]
-  simp [mul_comm]
+  simp
 
 noncomputable def prodFirstFactorMulEquiv (e : X ≃* A × B) :
     ↥(prodFirstFactor e) ≃* A :=

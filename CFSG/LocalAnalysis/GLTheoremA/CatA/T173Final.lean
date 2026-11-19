@@ -15,10 +15,12 @@ section Final
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem subgroupOf_le_subgroupOf {A A' H : Subgroup G} (h : A ≤ A') : A.subgroupOf H ≤ A'.subgroupOf H := by
   intro t ht
   exact Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 ht))
 
+omit [Finite G] in
 theorem commutator_ne_bot_of_map {H : Subgroup G} {M T : Subgroup ↥H} {A C : Subgroup G}
     (hMA : M.map H.subtype = A) (hTC : T.map H.subtype = C) (h : (⁅A, C⁆ : Subgroup G) ≠ ⊥) :
     (⁅M, T⁆ : Subgroup ↥H) ≠ ⊥ := by

@@ -146,7 +146,7 @@ variable {K : Type} [Field K] [Finite K]
 @[expose] def torusHom3 (K : Type) [Field K] :
     (Fin Tag.E6.rank → rootsOfUnity 3 K) →* e6Data_valid.minGroup K :=
   (minTorus e6Data_valid K).comp
-    (Pi.monoidHom fun i => (rootsOfUnity 3 K).subtype.comp
+    (_root_.MonoidHom.pi fun i => (rootsOfUnity 3 K).subtype.comp
       (Pi.evalMonoidHom (fun _ => rootsOfUnity 3 K) i))
 
 theorem torusHom3_apply (v : Fin Tag.E6.rank → rootsOfUnity 3 K) :

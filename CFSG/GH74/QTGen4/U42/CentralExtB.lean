@@ -15,12 +15,12 @@ def pb (z : H) (z' : H') [(Subgroup.zpowers z).Normal] [(Subgroup.zpowers z').No
   carrier := {p | (QuotientGroup.mk p.2 : H' ⧸ Subgroup.zpowers z') = θbar (QuotientGroup.mk p.1)}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, Prod.fst_mul, Prod.snd_mul, QuotientGroup.mk_mul] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Prod.fst_mul, Prod.snd_mul, QuotientGroup.mk_mul] at ha hb ⊢
     rw [ha, hb, map_mul]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq, Prod.fst_inv, Prod.snd_inv, QuotientGroup.mk_inv] at ha ⊢
+    simp only [Set.mem_ofPred_eq, Prod.fst_inv, Prod.snd_inv, QuotientGroup.mk_inv] at ha ⊢
     rw [ha, map_inv]
 
 theorem mem_pb (z : H) (z' : H') [(Subgroup.zpowers z).Normal] [(Subgroup.zpowers z').Normal]
@@ -69,8 +69,8 @@ theorem iso_of_complement (z : H) (z' : H') [(Subgroup.zpowers z).Normal]
       Subgroup.zpowers (dW z z' θbar))
     (hC3 : C ⊔ Subgroup.comap (pb z z' θbar).subtype (Zp z z') = ⊤) :
     ∃ θ : H ≃* H', ∀ h : H, QuotientGroup.mk (θ h) = θbar (QuotientGroup.mk h) := by
-  haveI := Zp_normal z z'
-  haveI : (Subgroup.comap (pb z z' θbar).subtype (Zp z z')).Normal :=
+  have := Zp_normal z z'
+  have : (Subgroup.comap (pb z z' θbar).subtype (Zp z z')).Normal :=
     Subgroup.Normal.comap (Zp_normal z z') _
   have hfst_zpow : ∀ (x : H × H') (k : ℤ), (x ^ k).1 = x.1 ^ k :=
     fun x k => map_zpow (MonoidHom.fst H H') x k
@@ -207,7 +207,7 @@ theorem normal_zpowers_of_mem_center {G : Type*} [Group G] (g : G)
 
 theorem z_mem_T {H : Type*} [Group H] (z : H) (hz : z ∈ Subgroup.center H) (ho : orderOf z = 2)
     (T : Subgroup H) (hT : IsPGroup 2 T) (hTi : ¬ 2 ∣ T.index) : z ∈ T := by
-  haveI := normal_zpowers_of_mem_center z hz
+  have := normal_zpowers_of_mem_center z hz
   have hzP : IsPGroup 2 (Subgroup.zpowers z) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ho]; norm_num)
   have hzS : Subgroup.zpowers z ≤ (hT.toSylow hTi : Subgroup H) :=
@@ -293,15 +293,15 @@ theorem central_extension_rigidity {H H' : Type*} [Group H] [Group H'] [Finite H
     (z : H) (z' : H') [(Subgroup.zpowers z).Normal] [(Subgroup.zpowers z').Normal]
     (hz : z ∈ Subgroup.center H) (hz' : z' ∈ Subgroup.center H')
     (ho : orderOf z = 2) (ho' : orderOf z' = 2)
-    (T : Subgroup H) (T' : Subgroup H') (hT : IsPGroup 2 T) (hT' : IsPGroup 2 T')
-    (hTi : ¬ 2 ∣ T.index) (hTi' : ¬ 2 ∣ T'.index)
+    (T : Subgroup H) (T' : Subgroup H') (hT : IsPGroup 2 T) (_hT' : IsPGroup 2 T')
+    (hTi : ¬ 2 ∣ T.index) (_hTi' : ¬ 2 ∣ T'.index)
     (θbar : H ⧸ Subgroup.zpowers z ≃* H' ⧸ Subgroup.zpowers z') (θT : ↥T ≃* ↥T')
     (hcomp : ∀ t : ↥T, θbar (QuotientGroup.mk (t : H)) = QuotientGroup.mk (θT t : H')) :
     ∃ θ : H ≃* H', ∀ h : H, QuotientGroup.mk (θ h) = θbar (QuotientGroup.mk h) := by
   have hzT : z ∈ T := z_mem_T z hz ho T hT hTi
-  haveI hΔn : (Subgroup.zpowers (dW z z' θbar)).Normal :=
+  have hΔn : (Subgroup.zpowers (dW z z' θbar)).Normal :=
     normal_zpowers_of_mem_center _ (dW_mem_center z z' hz hz' θbar)
-  haveI hV0n : (Subgroup.comap (pb z z' θbar).subtype (Zp z z')).Normal :=
+  have hV0n : (Subgroup.comap (pb z z' θbar).subtype (Zp z z')).Normal :=
     Subgroup.Normal.comap (Zp_normal z z') _
   obtain ⟨ψ, hψ⟩ : ∃ ψ : ↥T →* ↥(pb z z' θbar), ∀ t : ↥T,
       ((ψ t : ↥(pb z z' θbar)) : H × H') = ((t : H), (θT t : H')) := by
@@ -309,7 +309,7 @@ theorem central_extension_rigidity {H H' : Type*} [Group H] [Group H'] [Finite H
       (mem_pb z z' θbar _).mpr (hcomp t).symm⟩ : ↥(pb z z' θbar))) ?_, fun t => rfl⟩
     intro a b
     apply Subtype.ext
-    exact Prod.ext (by simp [map_mul]) (by simp [map_mul])
+    exact Prod.ext (by simp) (by simp [map_mul])
   obtain ⟨K0, hK0⟩ : ∃ K : Subgroup ↥(pb z z' θbar), K = (⊤ : Subgroup ↥T).map ψ := ⟨_, rfl⟩
   obtain ⟨Q0, hQ0⟩ : ∃ Q : Subgroup ↥(pb z z' θbar),
       Q = Subgroup.comap ((MonoidHom.fst H H').comp (pb z z' θbar).subtype) T := ⟨_, rfl⟩

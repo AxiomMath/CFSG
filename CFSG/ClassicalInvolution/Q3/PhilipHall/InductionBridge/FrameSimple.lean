@@ -28,7 +28,7 @@ instance FrameSimple.of_isSimpleGroup (G : Type*) [Group G] [IsSimpleGroup G] : 
         rw [← Subgroup.card_top (G := G), ← h]
         exact hodd
       have hsol : Group.IsSolvable G := by
-        haveI : Finite G := Nat.finite_of_card_ne_zero hG.pos.ne'
+        have : Finite G := Nat.finite_of_card_ne_zero hG.pos.ne'
         exact CFSG.FeitThompson.isSolvable_of_odd_natCard _ hG
       obtain ⟨a, b, hab⟩ := hnab
       exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr hsol a b)

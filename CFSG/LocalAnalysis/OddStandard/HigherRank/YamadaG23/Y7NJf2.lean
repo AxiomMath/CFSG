@@ -74,8 +74,8 @@ theorem y7n_ext26_of_mulEquiv {X Y : Type} [Group X] [Group Y] [Finite X] [Finit
     (e : X ≃* Y) (h : Sec2.IsExt26 1 X) : Sec2.IsExt26 1 Y := by
   obtain ⟨h1, h2, h3⟩ := h
   have hmap := pCoreOf_top_map_mulEquiv e
-  haveI := pCoreOf_top_normal X
-  haveI := pCoreOf_top_normal Y
+  have := pCoreOf_top_normal X
+  have := pCoreOf_top_normal Y
   refine ⟨?_, ?_, ?_⟩
   · obtain ⟨f⟩ := h1
     exact ⟨((Subgroup.equivMapOfInjective (pCoreOf 2 (⊤ : Subgroup X)) e.toMonoidHom
@@ -110,7 +110,7 @@ theorem y7n_nonsplit_of_mulEquiv {X Y : Type} [Group X] [Group Y] [Finite X] [Fi
 theorem y7n_card_of_ext26 {X : Type} [Group X] [Finite X] (h : Sec2.IsExt26 1 X) :
     Nat.card X = 1344 := by
   obtain ⟨h1, h2, _h3⟩ := h
-  haveI := pCoreOf_top_normal X
+  have := pCoreOf_top_normal X
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (pCoreOf 2 (⊤ : Subgroup X))]
   have hcore : Nat.card (pCoreOf 2 (⊤ : Subgroup X)) = 8 := by
     obtain ⟨f⟩ := h1

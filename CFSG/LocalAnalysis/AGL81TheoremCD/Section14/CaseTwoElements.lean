@@ -76,15 +76,17 @@ private lemma caseTwo_quotient_sylow {M H E Q : Subgroup G}
     rw [hf] at hmaple
     exact hmaple
 
+omit [Finite G] in
 private lemma cube_eq_one_of_injective {K : Subgroup G}
     {Q₀ : Subgroup ↥K} {ψ : ↥Q₀ →* alternatingGroup (Fin 11)}
     (hψinj : Function.Injective ψ) {x : ↥Q₀} (hx : ψ x ^ 3 = 1) :
     ((x : ↥K) : G) ^ 3 = 1 := by
-  have hcubeQ : x ^ 3 = 1 := hψinj (by rwa [map_pow, hx, map_one])
+  have hcubeQ : x ^ 3 = 1 := hψinj (by rw [map_pow, hx, map_one])
   have hcube : (x : ↥K) ^ 3 = 1 := by
     simpa using congrArg (fun z : ↥Q₀ => (z : ↥K)) hcubeQ
   simpa using congrArg (fun z : ↥K => (z : G)) hcube
 
+omit [Finite G] in
 private lemma caseTwo_lift_props {K : Subgroup G}
     {Q₀ : Subgroup ↥K} {ψ : ↥Q₀ →* alternatingGroup (Fin 11)}
     (hψinj : Function.Injective ψ)
@@ -135,7 +137,7 @@ private lemma caseTwo_lift_perms {M H Q : Subgroup G} (hQp : IsPGroup 3 Q)
       ((u₁ : G) ^ 3 = 1) ∧ ((u₂ : G) ^ 3 = 1) ∧ (u₁ : G) ≠ 1 ∧
       Commute (u₁ : G) (u₂ : G) ∧ (u₂ : G) ∉ Subgroup.zpowers (u₁ : G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let O : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K
   let π : ↥K →* threeStar K := QuotientGroup.mk' O
@@ -163,6 +165,7 @@ private lemma caseTwo_lift_perms {M H Q : Subgroup G} (hQp : IsPGroup 3 Q)
     caseTwo_lift_props hψinj hx1 hx2 hs1cube hs2cube hs1ne hs12 hs2notz
   exact ⟨y₁, y₂, hy1Q, hy2Q, hy1, hy2, hc1, hc2, hn1, hcomm, hz⟩
 
+omit [Finite G] in
 private lemma caseTwo_U0_eq_closure {M H : Subgroup G}
     {u₁ u₂ : ↥(kSub 3 M H)} :
     let K : Subgroup G := kSub 3 M H
@@ -203,7 +206,7 @@ private lemma caseTwo_U0_map_centralizer {M H Q : Subgroup G} (hQp : IsPGroup 3 
       Subgroup.centralizer ((U₀.map π : Subgroup (threeStar K)) : Set (threeStar K)) =
         (Subgroup.centralizer (U₀ : Set ↥K)).map π := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let O : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K
   let π : ↥K →* threeStar K := QuotientGroup.mk' O
@@ -241,6 +244,7 @@ private lemma caseTwo_U0_map_centralizer {M H Q : Subgroup G} (hQp : IsPGroup 3 
     CFSG.GroupTheory.SteinbergBS.centralizer_map_mk'_eq (p := 3) (N := O) hN hU0p
   exact ⟨hUK, hU0map, hcent⟩
 
+omit [Finite G] in
 private lemma caseTwo_centralizer_range_le {M H : Subgroup G}
     (f : threeStar (kSub 3 M H) ≃* alternatingGroup (Fin 11))
     {s₁ s₂ : alternatingGroup (Fin 11)}
@@ -298,7 +302,7 @@ private lemma caseTwo_centralizer_range_ge {M H Q : Subgroup G} (hQp : IsPGroup 
         (Subgroup.inclusion (inf_le_left : D ≤ kSub 3 M H)))
     Subgroup.centralizer ({s₁, s₂} : Set (alternatingGroup (Fin 11))) ≤ φ.range := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let O : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K
   let π : ↥K →* threeStar K := QuotientGroup.mk' O
@@ -375,7 +379,7 @@ private lemma caseTwo_not_isPSolvable {M H Q : Subgroup G} (hQp : IsPGroup 3 Q)
       ↥(kSub 3 M H ⊓ Subgroup.centralizer
         (Subgroup.closure ({(u₁ : G), (u₂ : G)} : Set G) : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let O : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K
   let π : ↥K →* threeStar K := QuotientGroup.mk' O
@@ -412,7 +416,7 @@ private lemma caseTwo_lift_centralizer {M H Q : Subgroup G} (hQp : IsPGroup 3 Q)
       y₁ ∈ Subgroup.centralizer (Subgroup.zpowers u₁ : Set ↥(kSub 3 M H)) ∧
       QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(kSub 3 M H)) y₁ = f.symm t := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let O : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K
   let π : ↥K →* threeStar K := QuotientGroup.mk' O
@@ -453,7 +457,7 @@ private lemma caseTwo_lift_mem_M {M H E Q : Subgroup G}
     (hy1π : QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(kSub 3 M H)) y₁ = f.symm t) :
     (y₁ : G) ∈ M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let O : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K
   let π : ↥K →* threeStar K := QuotientGroup.mk' O
@@ -500,7 +504,7 @@ private lemma caseTwo_lift_five {M H E Q : Subgroup G}
       y₁ ^ 5 ∈ CFSG.pPrimeCore 3 ↥(kSub 3 M H) ∧
       Commute (u₁ : G) (y₁ : G) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let O : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K
   let π : ↥K →* threeStar K := QuotientGroup.mk' O
@@ -532,7 +536,7 @@ private lemma caseTwo_orderOf_lift {M H E Q : Subgroup G}
     (h5O : y₁ ^ 5 ∈ CFSG.pPrimeCore 3 ↥(kSub 3 M H)) :
     ∃ b : ℕ, orderOf ((y₁ : G) ^ 5) = 2 ^ b ∧ orderOf (y₁ : G) = 5 * 2 ^ b := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let O : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K
   let π : ↥K →* threeStar K := QuotientGroup.mk' O
@@ -564,6 +568,7 @@ private lemma caseTwo_orderOf_lift {M H E Q : Subgroup G}
     rw [← hmul, Nat.mul_comm]
   exact ⟨b, hbG, hord⟩
 
+omit [Finite G] in
 private lemma caseTwo_pi_pow_ne_one {M H : Subgroup G}
     (f : threeStar (kSub 3 M H) ≃* alternatingGroup (Fin 11))
     {t : alternatingGroup (Fin 11)} {y₁ : ↥(kSub 3 M H)}
@@ -571,7 +576,7 @@ private lemma caseTwo_pi_pow_ne_one {M H : Subgroup G}
     (htord : orderOf t = 5) (b : ℕ) :
     QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(kSub 3 M H)) (y₁ ^ (2 ^ b)) ≠ 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let O : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K
   let π : ↥K →* threeStar K := QuotientGroup.mk' O
@@ -588,6 +593,7 @@ private lemma caseTwo_pi_pow_ne_one {M H : Subgroup G}
   have h2' : orderOf (t' ^ (2 ^ b)) = 1 := by rw [h1, orderOf_one]
   omega
 
+omit [Finite G] in
 private lemma caseTwo_five_order {M H : Subgroup G}
     (f : threeStar (kSub 3 M H) ≃* alternatingGroup (Fin 11))
     {u₁ : ↥(kSub 3 M H)} {t : alternatingGroup (Fin 11)}
@@ -613,7 +619,7 @@ private lemma caseTwo_five_order {M H : Subgroup G}
       simpa [Subgroup.coe_pow] using h1)
     rw [hK, map_one]
   have hyord : orderOf ((y₁ : G) ^ (2 ^ b)) = 5 := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     exact orderOf_eq_prime hy5 hyne
   exact ⟨hyM, hyord, hcommy⟩
 
@@ -627,7 +633,7 @@ private lemma caseTwo_five_not_mem {M H E Q : Subgroup G}
     (htord : orderOf t = 5) (b : ℕ) :
     ((y₁ : G) ^ (2 ^ b)) ∉ (CFSG.pPrimeCore 3 ↥M).map M.subtype := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let O : Subgroup ↥K := CFSG.pPrimeCore 3 ↥K
   let π : ↥K →* threeStar K := QuotientGroup.mk' O
@@ -643,7 +649,7 @@ private lemma caseTwo_five_not_mem {M H E Q : Subgroup G}
     rwa [hyo]
   have hπy1 : π (⟨(y₁ : G) ^ (2 ^ b), hyK⟩) ≠ 1 := by
     have hyeq : (⟨(y₁ : G) ^ (2 ^ b), hyK⟩ : ↥K) = y₁ ^ (2 ^ b) :=
-      Subtype.ext (by simp [Subgroup.coe_pow])
+      Subtype.ext (by simp)
     rwa [hyeq]
   exact hπy1 ((QuotientGroup.eq_one_iff _).mpr hyO')
 
@@ -675,7 +681,7 @@ theorem S14Choice.exists_caseTwo_elements {M H E Q : Subgroup G}
         Subgroup.centralizer (Subgroup.closure ({u₁, u₂} : Set G) : Set G)) ∧
       y ∈ M ∧ orderOf y = 5 ∧ Commute u₁ y ∧ y ∉ (CFSG.pPrimeCore 3 ↥M).map M.subtype := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQp : IsPGroup 3 Q := (h.isSylowOf_kSub h2).isPGroup
   obtain ⟨f, hf⟩ := caseTwo_twoSet_aut h h2 hK hU hL hKF
   obtain ⟨T, hTle, hT⟩ := caseTwo_quotient_sylow h h2 hU f hf

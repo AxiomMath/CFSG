@@ -42,7 +42,7 @@ theorem card_T_of_card_cbar {T : Sylow 2 H} {z : H}
   have hk : k = k' := eq_of_two_pow_mul_odd hm hm' (hcard.symm.trans hX)
   have hcardT : Nat.card (T : Subgroup H) = Nat.card (Tb : Subgroup (CBar H z)) := by
     rw [hTb]
-    exact Nat.card_congr (mulEquivBarImage (centralizer ({z} : Set H)) T.isPGroup'
+    exact Nat.card_congr (mulEquivBarImage (centralizer ({z} : Set H)) T.isPGroup
       (T_le_cen hzc)).toEquiv
   rw [hcardT, hk', hk]
 

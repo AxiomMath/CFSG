@@ -17,11 +17,11 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 private theorem isQuasisimple_of_open {Q : Type} [Group Q] (h : CFSG.Open.IsQuasisimple Q) :
     CFSG.IsQuasisimple Q := by
   obtain ⟨h1, h2⟩ := h
-  haveI hQperf : Group.IsPerfect Q := ⟨h1⟩
+  have hQperf : Group.IsPerfect Q := ⟨h1⟩
   refine ⟨hQperf, h2, ?_⟩
   by_contra hc
   push Not at hc
-  haveI hperf' : Group.IsPerfect (Q ⧸ center Q) :=
+  have hperf' : Group.IsPerfect (Q ⧸ center Q) :=
     Group.IsPerfect.ofSurjective (G := Q) (G' := Q ⧸ center Q)
       (f := QuotientGroup.mk' (center Q)) (QuotientGroup.mk'_surjective _)
   have hbot : _root_.commutator (Q ⧸ center Q) = ⊥ := by
@@ -32,14 +32,14 @@ private theorem isQuasisimple_of_open {Q : Type} [Group Q] (h : CFSG.Open.IsQuas
     exact hc y x
   have htop : (⊤ : Subgroup (Q ⧸ center Q)) = ⊥ :=
     (Group.IsPerfect.commutator_eq_top (G := Q ⧸ center Q)).symm.trans hbot
-  haveI := h2.toNontrivial
+  have := h2.toNontrivial
   obtain ⟨x, hx⟩ := exists_ne (1 : Q ⧸ center Q)
   exact hx (Subgroup.mem_bot.mp (htop ▸ Subgroup.mem_top x))
 
 private theorem isSylowIn_map_subtype {V : Subgroup G} (P : Sylow 2 ↥V) :
     IsSylowIn 2 V ((P : Subgroup ↥V).map V.subtype) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map V.subtype, ?_⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  refine ⟨Subgroup.map_subtype_le _, P.isPGroup.map V.subtype, ?_⟩
   have h := Subgroup.relIndex_map_map_of_injective (f := V.subtype)
     (P : Subgroup ↥V) (⊤ : Subgroup ↥V) V.subtype_injective
   rw [Subgroup.map_top V.subtype, Subgroup.range_subtype, Subgroup.relIndex_top_right] at h
@@ -51,7 +51,7 @@ theorem exists_setting3 (hF : G23Facts) (hS : HRSetting G L) (hL : HRG23 (L ⧸ 
     ∃ s : Setting3 G L, s.t = t := by
   classical
   have hqsOpen : CFSG.Open.IsQuasisimple ↥L := hS.std.standard.1
-  haveI hLperf : Group.IsPerfect ↥L := ⟨hqsOpen.1⟩
+  have hLperf : Group.IsPerfect ↥L := ⟨hqsOpen.1⟩
   have hqs : CFSG.IsQuasisimple ↥L := isQuasisimple_of_open hqsOpen
   have hcenter : Nat.card (center ↥L) ∣ 3 := card_center_dvd_three hLperf hL
   have hoddZ : Odd (Nat.card (center ↥L)) :=

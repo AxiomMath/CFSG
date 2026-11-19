@@ -129,7 +129,7 @@ theorem ordProj_cof_orth (h : Setup s q Q) {n : ℕ} (hn : 2 ≤ n) :
     rcases Finset.mem_insert.mp hi with rfl | hi
     · simpa [deg] using hn
     · have := hmem i hi
-      simp only [deg, if_neg (show i ≠ 0 by omega)]
+      simp only [deg, ite_eq_right (show i ≠ 0 by omega)]
       omega
   have hprod : fac Q n * ∏ i ∈ Icc 1 (n - 1), fac Q (2 * i) =
       ∏ i ∈ insert 0 (Icc 1 (n - 1)), fac Q (deg i) := by
@@ -137,18 +137,18 @@ theorem ordProj_cof_orth (h : Setup s q Q) {n : ℕ} (hn : 2 ≤ n) :
     congr 1
     refine Finset.prod_congr rfl fun i hi => ?_
     have := hmem i hi
-    simp only [deg, if_neg (show i ≠ 0 by omega)]
+    simp only [deg, ite_eq_right (show i ≠ 0 by omega)]
   have hsum : ∑ i ∈ insert 0 (Icc 1 (n - 1)), (deg i - 1) = n * (n - 1) := by
     rw [Finset.sum_insert h0, ← sub_one_add_sq_sub_one (by omega : 1 ≤ n),
       ← sum_Icc_one_two_mul_sub_one]
     congr 1
     refine Finset.sum_congr rfl fun i hi => ?_
     have := hmem i hi
-    simp only [deg, if_neg (show i ≠ 0 by omega)]
+    simp only [deg, ite_eq_right (show i ≠ 0 by omega)]
   have hzero : ∀ i ∈ insert 0 (Icc 1 (n - 1)), Odd (deg i) → i = 0 := by
     intro i _ hodd
     by_contra hi
-    simp only [deg, if_neg hi] at hodd
+    simp only [deg, ite_eq_right hi] at hodd
     exact Nat.not_odd_iff_even.mpr (even_two_mul i) hodd
   rw [hprod, ← hsum, ordProj_prod fun i hi => h.fac_ne_zero (by have := hdeg i hi; omega)]
   refine h.prod_ordProj_fac_le hdeg (i₂ := 1) (Finset.mem_insert_of_mem

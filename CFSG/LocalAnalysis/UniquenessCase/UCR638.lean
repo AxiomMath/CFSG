@@ -53,6 +53,7 @@ variable {G : Type} [Group G] [Finite G]
 
 section Residual
 
+omit [Finite G] in
 theorem opRes_eq_map_oResidual_uc6 {p : ℕ} (hp : p.Prime) (X : Subgroup G) :
     UC22.F10.OpRes p X = (CFSG.GH74.GLS.oResidual p ↥X).map X.subtype := by
   rw [CFSG.GH74.GLS.oResidual, MonoidHom.map_closure, UC22.F10.OpRes]
@@ -71,10 +72,11 @@ theorem opRes_eq_map_oResidual_uc6 {p : ℕ} (hp : p.Prime) (X : Subgroup G) :
     rw [Subgroup.orderOf_coe]
     exact (Nat.Prime.coprime_iff_not_dvd hp).mp (Nat.coprime_comm.mp hy')
 
+omit [Finite G] in
 theorem eq_top_of_isPGroup_quotient_of_opRes_eq_uc6 {p : ℕ} (hp : p.Prime) {M : Subgroup G}
     (h : UC22.F10.OpRes p M = M) (N : Subgroup ↥M) [N.Normal] (hN : IsPGroup p (↥M ⧸ N)) :
     N = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have htop : CFSG.GH74.GLS.oResidual p ↥M = ⊤ := by
     apply Subgroup.map_injective M.subtype_injective
     rw [← opRes_eq_map_oResidual_uc6 hp, h, Subgroup.map_top, Subgroup.range_subtype]
@@ -86,7 +88,7 @@ theorem oResidual_eq_top_of_sylow_le_commutator_uc6 {X : Type} [Group X] [Finite
     [Fact p.Prime] (P : Sylow p X) (hP : (P : Subgroup X) ≤ commutator X) :
     CFSG.GH74.GLS.oResidual p X = ⊤ := by
   set L := CFSG.GH74.GLS.oResidual p X with hL
-  haveI : L.Normal := CFSG.RankThree.Transfer.oResidual_normal p X
+  have : L.Normal := CFSG.RankThree.Transfer.oResidual_normal p X
   have hQ : IsPGroup p (X ⧸ L) :=
     CFSG.RankThree.Transfer.isPGroup_quotient_of_oResidual_le L le_rfl
   have hmap := CFSG.RankThree.Transfer.map_mk_eq_top_of_isPGroup P L hQ
@@ -100,10 +102,10 @@ theorem oResidual_eq_top_of_sylow_le_commutator_uc6 {X : Type} [Group X] [Finite
           Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective L)]
   by_contra hne
   have hidx : L.index ≠ 1 := fun h => hne (Subgroup.index_eq_one.mp h)
-  haveI : Nontrivial (X ⧸ L) :=
+  have : Nontrivial (X ⧸ L) :=
     Finite.one_lt_card_iff_nontrivial.mp
       (Nat.one_lt_iff_ne_zero_and_ne_one.mpr ⟨Nat.card_pos.ne', hidx⟩)
-  haveI : Group.IsNilpotent (X ⧸ L) := hQ.isNilpotent
+  have : Group.IsNilpotent (X ⧸ L) := hQ.isNilpotent
   exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (X ⧸ L)).ne hcomm
 
 end Residual
@@ -125,20 +127,20 @@ theorem sylow_le_commutator_map_of_stronglyEmbedded_uc6 (hG : IsSimpleGroup G)
     by_cases hx1 : x = 1
     · subst hx1
       simp
-    · have hgM : g ∈ M := hM.mem_of_fusion S.isPGroup' hSM hx hx1 hgx
+    · have hgM : g ∈ M := hM.mem_of_fusion S.isPGroup hSM hx hx1 hgx
       refine ⟨(S : Subgroup G).mul_mem ((S : Subgroup G).inv_mem hx) hgx, ?_⟩
       refine ⟨⁅(⟨x⁻¹, M.inv_mem (hSM hx)⟩ : ↥M), (⟨g, hgM⟩ : ↥M)⁆, ?_, ?_⟩
       · rw [_root_.commutator_def]
         exact Subgroup.commutator_mem_commutator (Subgroup.mem_top _) (Subgroup.mem_top _)
       · simp [commutatorElement_def, mul_assoc]
   obtain ⟨N, hN, hNp, hNi, -⟩ := CFSG.Holt.exists_normal_inf_eq_of_focal S inf_le_left hfoc
-  haveI := hN
+  have := hN
   rcases hG.eq_bot_or_eq_top_of_normal N with hN0 | hN1
   · exfalso
     have hinj : Function.Injective (QuotientGroup.mk' N) := by
       rw [← MonoidHom.ker_eq_bot_iff, QuotientGroup.ker_mk', hN0]
     have hGp : IsPGroup p G := hNp.of_injective _ hinj
-    haveI : Nontrivial G := by
+    have : Nontrivial G := by
       obtain ⟨a, b, hab⟩ := hnab
       exact ⟨⟨a, b, fun h => hab (h ▸ rfl)⟩⟩
     have hcn : Nontrivial (Subgroup.center G) := hGp.center_nontrivial
@@ -157,7 +159,7 @@ theorem sylow_le_commutator_map_of_stronglyEmbedded_uc6 (hG : IsSimpleGroup G)
 theorem opRes_eq_of_stronglyEmbedded_uc6 (hG : IsSimpleGroup G)
     (hnab : ∃ a b : G, a * b ≠ b * a) {p : ℕ} (hp : p.Prime) {M : Subgroup G}
     (hM : IsStronglyPEmbedded p M) : UC22.F10.OpRes p M = M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨S, hSM, hSc⟩ := sylow_le_commutator_map_of_stronglyEmbedded_uc6 hG hnab hM
   let SY : Sylow p ↥M := S.subtype hSM
   have hSY : (SY : Subgroup ↥M) ≤ commutator ↥M := by

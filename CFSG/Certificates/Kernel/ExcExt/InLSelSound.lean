@@ -86,10 +86,10 @@ theorem ls_walk_sound {d cv : Nat} {pl : KLPlane → Bool} {W : Nat → List KLP
         rintro rfl
         rw [hc] at hcn
         exact Bool.noConfusion hcn
-      rw [if_neg (by simp)]
+      rw [ite_eq_right (by simp)]
       exact ih hw cy (by omega) hc
     · rw [hcn] at hw
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       cases ps with
       | nil => exact Bool.noConfusion hw
       | cons P tl =>
@@ -259,7 +259,7 @@ theorem scanLineLK_sound {m : Fin 6} {K : KT} {fx hx fx' hx' : Nat}
   rcases hL' with hL' | hL'
   · left
     obtain ⟨e, he, hok⟩ := inl_refLIK_sound hT hL'
-    simp only [lsearchOf, if_pos rfl, he]
+    simp only [lsearchOf, he]
     exact hok
   · right
     have hW : ∀ n ps, lwalkK K Es L.cv L.cref (n + 1) ps = Bool.rec (motive := fun _ => Bool)
@@ -420,7 +420,7 @@ theorem ls_reflMask_rec {K : KT} {u n x : Nat} :
           (fun t acc => nif (bit n t) (Nat.lor acc (Nat.shiftLeft 1 (rtK K u t))) acc) s) := rfl
     rw [e, nif_eq, bit_eq]
     cases hb : n.testBit s
-    · simp only [Bool.false_eq_true, if_false]
+    · simp only [Bool.false_eq_true, ite_false]
       rw [ih]
       constructor
       · rintro ⟨t, ht, h1, h2⟩
@@ -431,7 +431,7 @@ theorem ls_reflMask_rec {K : KT} {u n x : Nat} :
           rw [hb] at h1
           exact Bool.noConfusion h1
         exact ⟨t, by omega, h1, h2⟩
-    · simp only [if_true]
+    · simp only [ite_true]
       change (_ ||| 1 <<< rtK K u s).testBit x = true ↔ _
       rw [Nat.testBit_or, Bool.or_eq_true, ih, Nat.one_shiftLeft,
         Nat.testBit_two_pow, decide_eq_true_eq]

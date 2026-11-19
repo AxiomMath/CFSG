@@ -16,7 +16,7 @@ variable {G : Type*} [Group G]
 
 theorem fu_eq_bot_or_eq {A N : Subgroup G} [IsSimpleGroup A] (hNA : N ≤ A)
     (hn : ∀ f ∈ A, ∀ n ∈ N, f * n * f⁻¹ ∈ N) : N = ⊥ ∨ N = A := by
-  haveI : (N.subgroupOf A).Normal :=
+  have : (N.subgroupOf A).Normal :=
     ⟨fun n hn' g => hn g.1 g.2 n.1 hn'⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf A) with h | h
   · left
@@ -97,10 +97,10 @@ end FactorUnique
 
 theorem factor_unique {G : Type*} [Group G] {F₁ F₂ F₁' F₂' : Subgroup G}
     (h12 : ∀ a ∈ F₁, ∀ b ∈ F₂, a * b = b * a) (h12' : ∀ a ∈ F₁', ∀ b ∈ F₂', a * b = b * a)
-    (hinf : F₁ ⊓ F₂ = ⊥) (hinf' : F₁' ⊓ F₂' = ⊥) (hsup : F₁ ⊔ F₂ = F₁' ⊔ F₂')
+    (_hinf : F₁ ⊓ F₂ = ⊥) (_hinf' : F₁' ⊓ F₂' = ⊥) (hsup : F₁ ⊔ F₂ = F₁' ⊔ F₂')
     [IsSimpleGroup F₁] [IsSimpleGroup F₂] [IsSimpleGroup F₁'] [IsSimpleGroup F₂']
     (hn₁ : ¬ IsMulCommutative F₁) (hn₂ : ¬ IsMulCommutative F₂)
-    (hn₁' : ¬ IsMulCommutative F₁') (hn₂' : ¬ IsMulCommutative F₂') :
+    (_hn₁' : ¬ IsMulCommutative F₁') (_hn₂' : ¬ IsMulCommutative F₂') :
     (F₁' = F₁ ∧ F₂' = F₂) ∨ (F₁' = F₂ ∧ F₂' = F₁) := by
   have h21 : ∀ a ∈ F₂, ∀ b ∈ F₁, a * b = b * a := fun a ha b hb => (h12 b hb a ha).symm
   have hF₁ : F₁ ≤ F₁ ⊔ F₂ := le_sup_left
@@ -192,9 +192,9 @@ theorem ct3_comm_single {act : Matrix (Fin 2) (Fin 2) K → Tensor3 K → Tensor
     rw [hA, hadd, hadd, hone, hone, map_add] at h
     exact add_left_cancel h
   have h01 := key (Matrix.single 0 1 1) (unipSL 1) (by
-    ext i j; fin_cases i <;> fin_cases j <;> simp [unipSL_apply, Matrix.single_apply])
+    ext i j; fin_cases i <;> fin_cases j <;> simp [unipSL_apply])
   have h10 := key (Matrix.single 1 0 1) ct3LowSL (by
-    ext i j; fin_cases i <;> fin_cases j <;> simp [ct3LowSL, Matrix.single_apply])
+    ext i j; fin_cases i <;> fin_cases j <;> simp [ct3LowSL])
   have h00 : ∀ T, g (act (Matrix.single 0 0 1) T) = act (Matrix.single 0 0 1) (g T) := by
     intro T
     have e : (Matrix.single 0 0 1 : Matrix (Fin 2) (Fin 2) K) =
@@ -206,6 +206,7 @@ theorem ct3_comm_single {act : Matrix (Fin 2) (Fin 2) K → Tensor3 K → Tensor
 
 variable [CharP K 2]
 
+omit [CharP K 2] in
 theorem ct3_indT_eq (a b c : Fin 2) :
     (indT a b c : Tensor3 K) = tensor3Act1 (Matrix.single b 0 1)
       (tensor3Act2 (Matrix.single c 0 1) (indT a 0 0)) := by
@@ -214,6 +215,7 @@ theorem ct3_indT_eq (a b c : Fin 2) :
   simp only [indT]
   split_ifs <;> simp_all
 
+omit [CharP K 2] in
 theorem ct3_comm_form (g : T3E K) (hr : ∀ h ∈ rowG, g * h = h * g)
     (hc : ∀ h ∈ colG, g * h = h * g) (a b c a' b' c' : Fin 2) :
     g (indT a b c) a' b' c' = if b = b' ∧ c = c' then g (indT a 0 0) a' 0 0 else 0 := by
@@ -234,6 +236,7 @@ theorem ct3_comm_form (g : T3E K) (hr : ∀ h ∈ rowG, g * h = h * g)
   rw [ct3_indT_eq a b c, e1, e2, ct3_act1_single, ct3_act2_single]
   by_cases hbb : b = b' <;> by_cases hcc : c = c' <;> simp [hbb, hcc]
 
+omit [CharP K 2] in
 theorem ct3_decomp (T : Tensor3 K) :
     T = T 0 0 0 • indT 0 0 0 + T 0 0 1 • indT 0 0 1 + T 0 1 0 • indT 0 1 0 +
       T 0 1 1 • indT 0 1 1 + T 1 0 0 • indT 1 0 0 + T 1 0 1 • indT 1 0 1 +
@@ -241,6 +244,7 @@ theorem ct3_decomp (T : Tensor3 K) :
   funext a b c
   fin_cases a <;> fin_cases b <;> fin_cases c <;> simp [indT]
 
+omit [CharP K 2] in
 theorem ct3_act0_indT (M : Matrix (Fin 2) (Fin 2) K) (a b c a' b' c' : Fin 2) :
     tensor3Act0 M (indT a b c) a' b' c' = if b = b' ∧ c = c' then M a' a else 0 := by
   simp only [tensor3Act0, indT]
@@ -256,6 +260,7 @@ theorem ct3_act0_indT (M : Matrix (Fin 2) (Fin 2) K) (a b c a' b' c' : Fin 2) :
   · have hb' : ¬ b' = b := fun h => hb h.symm
     simp [hb, hb']
 
+omit [CharP K 2] in
 theorem ct3_eq_act0 (g : T3E K) (hr : ∀ h ∈ rowG, g * h = h * g)
     (hc : ∀ h ∈ colG, g * h = h * g) :
     ∃ M : Matrix (Fin 2) (Fin 2) K, ∀ T, g T = tensor3Act0 M T := by
@@ -274,7 +279,7 @@ theorem ct3_det (g : T3E K) (hO : g ∈ Ok 0) (M : Matrix (Fin 2) (Fin 2) K)
   have h := mem_Ok.mp hO (indT 0 0 0 + indT 1 1 1)
   rw [hM] at h
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
-  simp [Qk, tensor3Form, tensor3Act0, indT, Fin.sum_univ_two] at h
+  simp [Qk, tensor3Form, tensor3Act0, indT] at h
   rw [Matrix.det_fin_two]
   linear_combination h - M 0 1 * M 1 0 * h2
 

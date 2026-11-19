@@ -240,7 +240,7 @@ variable {p : ℕ} [hp : Fact p.Prime]
 theorem le_of_isCoatom_of_cyclic {G : Type*} [Group G] [Finite G] [IsCyclic G]
     (hG : Nat.card G = p ^ 2) {W M : Subgroup G} (hW : W ≠ ⊤) (hM : IsCoatom M) : W ≤ M := by
   have hP : IsPGroup p G := IsPGroup.of_card hG
-  haveI := hP.isNilpotent
+  have := hP.isNilpotent
   have hidx : M.index = p := hP.isCoatom_iff_index_eq_prime.1 hM
   have hMcard : Nat.card M = p := by
     have h := M.card_mul_index
@@ -260,7 +260,7 @@ theorem le_of_isCoatom_of_cyclic {G : Type*} [Group G] [Finite G] [IsCyclic G]
 theorem le_frattini_of_cyclic {G : Type*} [Group G] [Finite G] [IsCyclic G]
     (hG : Nat.card G = p ^ 2) {W : Subgroup G} (hW : W ≠ ⊤) : W ≤ frattini G := by
   unfold frattini Order.radical
-  simp only [Set.mem_setOf_eq, le_iInf_iff]
+  simp only [Set.mem_ofPred_eq, le_iInf_iff]
   exact fun M hM => le_of_isCoatom_of_cyclic hG hW hM
 
 variable {K : Type*} [Group K] [Finite K]
@@ -332,6 +332,7 @@ theorem irredAt_of_heis {S : Subgroup K} (hS : Nat.card S = p ^ 3)
     rw [hVeq]
     exact mem_zOf_iff.2 ⟨hxS, hxc⟩
 
+omit [Finite K] in
 theorem hirr_of_between {S : Subgroup K}
     (h : ∀ A : Subgroup K, zOf S ≤ A → A ≤ S →
       normalizer (S : Set K) ≤ normalizer (A : Set K) → A = zOf S ∨ A = S) :
@@ -345,6 +346,7 @@ theorem hirr_of_between {S : Subgroup K}
   · exact Or.inl (le_sup_left.trans h1.le)
   · exact Or.inr h1
 
+omit [Finite K] in
 theorem hirr_of_invariant {S : Subgroup K}
     (h : ∀ V : Subgroup K, V ≤ S → V ≠ ⊥ →
       normalizer (S : Set K) ≤ normalizer (V : Set K) → V = S ∨ V = zOf S) :
@@ -366,7 +368,7 @@ variable {K : Type} [Group K] [Finite K]
 theorem irredAt_alt_six (e : K ≃* alternatingGroup (Fin 6)) (S : Sylow 3 K) :
     IrredAt 3 (S : Subgroup K) :=
   irredAt_of_normIrred (normIrr_sylow_of_equiv (p := 3) e
-    (fun T V hVS hV1 hVn => Hyp111.eq_of_le_sylow_alt6 T hVS hV1 hVn) S)
+    (fun T _V hVS hV1 hVn => Hyp111.eq_of_le_sylow_alt6 T hVS hV1 hVn) S)
 
 theorem irredAt_psl_two {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
     (e : K ≃* CFSG.AGLEmbedding.PSL2GF p 2) (S : Sylow p K) : IrredAt p (S : Subgroup K) :=
@@ -377,7 +379,7 @@ theorem irredAt_unitary {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {q : TauCeti.Pr
     (hqp : q.p = p) (hq1 : q.exponent = 1) {d : TauCeti.ValidLieTypeIndex}
     (hd : d.1 = .twistedA 2 q) (e : K ≃* (TauCeti.CFSGIndex.lie d).Group) (S : Sylow p K) :
     IrredAt p (S : Subgroup K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hIS : CFSG.AGLEmbedding.IsSmallUnitary p K := ⟨d, ⟨q, hqp, hq1, hd⟩, ⟨e⟩⟩
   have D := CFSG.AGLEmbedding.smallRankOneData_of_isSmallUnitary hp hIS S
   have hdi : CFSG.AGLEmbedding.IsUnitaryIndex p d := ⟨q, hqp, hd⟩
@@ -429,7 +431,7 @@ theorem kFactStepThreeIrred_holds :
     ·
       have hL : CFSG.AGLEmbedding.IsCaseTwoGroup 3 K :=
         ⟨⟨d1, hv⟩, Or.inl ⟨rfl, q, hq1, hq2, hd⟩, ⟨e⟩⟩
-      haveI := CFSG.AGLEmbedding.l28_isCyclic_sylow_three hL S
+      have := CFSG.AGLEmbedding.l28_isCyclic_sylow_three hL S
       exact Irred.irredAt_of_cyclic (p := 3)
         (by rw [CFSG.AGLEmbedding.l28_card_sylow_three hL S]; norm_num)
     ·
@@ -438,7 +440,7 @@ theorem kFactStepThreeIrred_holds :
       exact Irred.irredAt_of_normIrred (Irred.normIrr_of_transitive fun a ha ha1 b hb hb1 =>
         kFactL34SylowTransitive K hL S a b ha hb ha1 hb1)
     ·
-      haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+      have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
       obtain ⟨e₂⟩ := CFSG.AGLEmbedding.nonempty_mulEquiv_psl2GF_of_isLinTwoIndex (p := 5) (n := 2)
         (d := ⟨d1, hv⟩) ⟨q, hd, hq1, hq2⟩
       exact Irred.irredAt_psl_two (by norm_num) (e.trans e₂) S
@@ -446,9 +448,9 @@ theorem kFactStepThreeIrred_holds :
       exact Irred.irredAt_unitary Nat.prime_five (by norm_num) hq1 hq2 hd e S
     ·
       obtain rfl : d1 = .suzuki 2 := hd
-      haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+      have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
       obtain ⟨hc, hcard⟩ := Generic41Spor.sz32_sylow K ⟨rfl, hv, ⟨e⟩⟩ S
-      haveI := hc
+      have := hc
       exact Irred.irredAt_of_cyclic (p := 5) hcard
     ·
       obtain rfl : d1 = .tits := hd
@@ -460,7 +462,7 @@ theorem kFactStepThreeIrred_holds :
       exact Irred.irredAt_of_normIrred (Irred.normIrr_of_transitive fun a ha ha1 b hb hb1 =>
         m11SylowTransitive_proved K ⟨e⟩ S a b ha hb ha1 hb1)
     ·
-      haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+      have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
       have hM : Generic41Spor.IsMcLType 5 K := ⟨rfl, ⟨e⟩⟩
       obtain ⟨hcard, hnc, -⟩ := Generic41Spor.mcl_sylow K hM S
       exact Irred.irredAt_of_heis hcard hnc

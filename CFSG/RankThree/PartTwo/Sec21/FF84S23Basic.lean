@@ -45,26 +45,32 @@ namespace Red3
 variable [Finite H] {P P₁ P₂ : Subgroup H} (h : Red3 P P₁ P₂)
 include h
 
+omit [Finite H] in
 theorem le₁ : P₁ ≤ P := h.sup ▸ le_sup_left
 
+omit [Finite H] in
 theorem le₂ : P₂ ≤ P := h.sup ▸ le_sup_right
 
+omit [Finite H] in
 theorem comm {x y : H} (hx : x ∈ P) (hy : y ∈ P) : x * y = y * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card P = 3 ^ 2 := by rw [h.card]; norm_num
-  have := IsPGroup.commutative_of_card_eq_prime_sq hcard
+  have := (IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard).is_comm.comm
   exact congrArg Subtype.val (this (⟨x, hx⟩ : P) ⟨y, hy⟩)
 
+omit [Finite H] in
 theorem pow_three_of_mem₁ {a : H} (ha : a ∈ P₁) : a ^ 3 = 1 := by
   have : (⟨a, ha⟩ : P₁) ^ Nat.card P₁ = 1 := pow_card_eq_one'
   rw [h.c₁] at this
   exact congrArg Subtype.val this
 
+omit [Finite H] in
 theorem pow_three_of_mem₂ {a : H} (ha : a ∈ P₂) : a ^ 3 = 1 := by
   have : (⟨a, ha⟩ : P₂) ^ Nat.card P₂ = 1 := pow_card_eq_one'
   rw [h.c₂] at this
   exact congrArg Subtype.val this
 
+omit [Finite H] in
 theorem pow_three {x : H} (hx : x ∈ P) : x ^ 3 = 1 := by
   rw [← h.sup] at hx
   obtain ⟨a, ha, b, hb, rfl⟩ := exists_mul_of_mem_sup_of_commute
@@ -75,9 +81,10 @@ theorem pow_three {x : H} (hx : x ∈ P) : x ^ 3 = 1 := by
 @[expose] noncomputable def toSylow : Sylow 3 H :=
   h.sylow.2.1.toSylow (by
     have := h.sylow.2.2
-    rwa [Subgroup.relIndex_top_right, ← Nat.Prime.coprime_iff_not_dvd Nat.prime_three,
-      Nat.coprime_comm] at *)
+    rw [Subgroup.relIndex_top_right, ← Nat.Prime.coprime_iff_not_dvd Nat.prime_three,
+      Nat.coprime_comm] at *; assumption)
 
+omit [Finite H] in
 @[simp] theorem coe_toSylow : (h.toSylow : Subgroup H) = P := rfl
 
 theorem eq_of_invariant {Q R T : Subgroup H} (hT : Nat.card T = 3)

@@ -64,7 +64,7 @@ theorem card_twoPart_ge (H : Subgroup G) (hc : ∀ a ∈ H, ∀ b ∈ H, a * b =
   have hS : (S : Subgroup ↥H).map H.subtype ≤ twoPart H hc := by
     rintro _ ⟨x, hx, rfl⟩
     refine ⟨x.2, ?_⟩
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨x, hx⟩
     have hk' : x ^ (2 ^ k) = 1 := by simpa using congrArg Subtype.val hk
     exact ⟨k, by simpa using congrArg Subtype.val hk'⟩
   have h1 := Subgroup.card_le_of_le hS

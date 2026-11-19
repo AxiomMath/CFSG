@@ -60,7 +60,7 @@ theorem ggHalfCoords_of_leviData {Bs L J K : Subgroup G} {x y : G} {m : ℕ} (hm
     · refine ⟨ψ₂, h.frameK, c, fun w => ?_⟩
       have e : ψ₁ (slLower2Hom m (θ w)) = ψ₂ (slUpper2Hom m w) := hθ w
       rw [← e, hθc]
-      simp [MulAut.mul_apply, MulAut.conj_apply]
+      simp [MulAut.conj_apply]
     · refine ⟨ψ₂.comp (slGraphAut (m + 1 + 1 + 1) F2).toMonoidHom, h.frameK.graph, c, fun w => ?_⟩
       have e : ψ₁ (slLower2Hom m (θ (slGraphAut (m + 1) F2 w))) =
           ψ₂ (slUpper2Hom m (slGraphAut (m + 1) F2 w)) := hθ _

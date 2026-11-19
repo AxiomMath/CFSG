@@ -121,8 +121,8 @@ theorem exists_perp_natCard_isIsom_le [Module.Finite (ZMod p) U] (hp : p ≠ 2)
       simpa [F, ext_apply_w g₁.1 w, ext_apply_w g₂.1 w] using h1
     exact h2
   refine ⟨W, hfin, hWpolar, ?_⟩
-  haveI : Finite (U ≃ₗ[ZMod p] U) := by
-    haveI : Finite (U →ₗ[ZMod p] U) := Module.finite_of_finite (ZMod p)
+  have : Finite (U ≃ₗ[ZMod p] U) := by
+    have : Finite (U →ₗ[ZMod p] U) := Module.finite_of_finite (ZMod p)
     exact Finite.of_injective (fun e : U ≃ₗ[ZMod p] U => (e : U →ₗ[ZMod p] U))
       fun _ _ h => LinearEquiv.ext fun x => congrArg (fun g : U →ₗ[ZMod p] U => g x) h
   exact Nat.card_le_card_of_injective F hF
@@ -163,17 +163,17 @@ theorem natCard_orthogonalGroup_le_mul [Module.Finite (ZMod p) U]
   let O := TauCeti.QuadraticMap.orthogonalGroup Q
   let S := O ⊓ MulAction.stabilizer (U ≃ₗ[ZMod p] U) x
   change Nat.card ↥O ≤ Nat.card ↥S * Nat.card {v : U // v ≠ 0 ∧ Q v = Q x}
-  haveI : Finite U := Module.finite_of_finite (ZMod p)
-  haveI : Finite (U ≃ₗ[ZMod p] U) := by
-    haveI : Finite (U →ₗ[ZMod p] U) := Module.finite_of_finite (ZMod p)
+  have : Finite U := Module.finite_of_finite (ZMod p)
+  have : Finite (U ≃ₗ[ZMod p] U) := by
+    have : Finite (U →ₗ[ZMod p] U) := Module.finite_of_finite (ZMod p)
     exact Finite.of_injective (fun e : U ≃ₗ[ZMod p] U => (e : U →ₗ[ZMod p] U))
       fun _ _ h => LinearEquiv.ext fun x => congrArg (fun g : U →ₗ[ZMod p] U => g x) h
   have hstab := natCard_stabilizer_orthogonalGroup_eq Q x
   have hcard : Nat.card ↥O = Nat.card (MulAction.orbit ↥O x) * Nat.card ↥S := by
     rw [← hstab]
-    haveI : Fintype ↥O := Fintype.ofFinite _
-    haveI : Fintype (MulAction.orbit ↥O x) := Fintype.ofFinite _
-    haveI : Fintype ↥(MulAction.stabilizer ↥O x) := Fintype.ofFinite _
+    have : Fintype ↥O := Fintype.ofFinite _
+    have : Fintype (MulAction.orbit ↥O x) := Fintype.ofFinite _
+    have : Fintype ↥(MulAction.stabilizer ↥O x) := Fintype.ofFinite _
     simpa only [Nat.card_eq_fintype_card] using
       (MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := ↥O) (X := U) x).symm
   let f : MulAction.orbit ↥O x → {v : U // v ≠ 0 ∧ Q v = Q x} := fun v =>
@@ -210,12 +210,12 @@ theorem two_mul_natCard_stabilizer_dvd [Module.Finite (ZMod p) U] (hp : p ≠ 2)
   let S := O ⊓ MulAction.stabilizer (U ≃ₗ[ZMod p] U) x
   let n : U ≃ₗ[ZMod p] U := LinearEquiv.neg (ZMod p)
   change 2 * Nat.card ↥S ∣ Nat.card ↥O
-  haveI : Finite U := Module.finite_of_finite (ZMod p)
-  haveI : Finite (U ≃ₗ[ZMod p] U) := by
-    haveI : Finite (U →ₗ[ZMod p] U) := Module.finite_of_finite (ZMod p)
+  have : Finite U := Module.finite_of_finite (ZMod p)
+  have : Finite (U ≃ₗ[ZMod p] U) := by
+    have : Finite (U →ₗ[ZMod p] U) := Module.finite_of_finite (ZMod p)
     exact Finite.of_injective (fun e : U ≃ₗ[ZMod p] U => (e : U →ₗ[ZMod p] U))
       fun _ _ h => LinearEquiv.ext fun x => congrArg (fun g : U →ₗ[ZMod p] U => g x) h
-  haveI : Fintype (MulAction.orbit ↥O x) := Fintype.ofFinite _
+  have : Fintype (MulAction.orbit ↥O x) := Fintype.ofFinite _
   have h2 : (2 : ZMod p) ≠ 0 := ZMod.prime_ne_zero p 2 hp
   have hnO : n ∈ O := by
     rw [TauCeti.QuadraticMap.mem_orthogonalGroup_iff]
@@ -226,9 +226,9 @@ theorem two_mul_natCard_stabilizer_dvd [Module.Finite (ZMod p) U] (hp : p ≠ 2)
     simp [n]
   have hcard : Nat.card ↥O = Nat.card (MulAction.orbit ↥O x) * Nat.card ↥S := by
     rw [← natCard_stabilizer_orthogonalGroup_eq Q x]
-    haveI : Fintype ↥O := Fintype.ofFinite _
-    haveI : Fintype (MulAction.orbit ↥O x) := Fintype.ofFinite _
-    haveI : Fintype ↥(MulAction.stabilizer ↥O x) := Fintype.ofFinite _
+    have : Fintype ↥O := Fintype.ofFinite _
+    have : Fintype (MulAction.orbit ↥O x) := Fintype.ofFinite _
+    have : Fintype ↥(MulAction.stabilizer ↥O x) := Fintype.ofFinite _
     simpa only [Nat.card_eq_fintype_card] using
       (MulAction.card_orbit_mul_card_stabilizer_eq_card_group (G := ↥O) (X := U) x).symm
   have hX : ∀ v : MulAction.orbit ↥O x, (v : U) ≠ 0 := by
@@ -331,7 +331,7 @@ theorem natCard_singular_of_finrank_eq_odd [Module.Finite (ZMod p) U] (hp : p �
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) :
     Nat.card {v : U // v ≠ 0 ∧ Q v = 0} = p ^ (2 * n) - 1 := by
   classical
-  haveI : Finite U := Module.finite_of_finite (ZMod p)
+  have : Finite U := Module.finite_of_finite (ZMod p)
   have h2 : ringChar (ZMod p) ≠ 2 := by
     rw [ZMod.ringChar_zmod_n]
     exact hp
@@ -369,7 +369,7 @@ theorem natCard_singular_of_isPlusType [Module.Finite (ZMod p) U] {n : ℕ} (hn1
     (hplus : CFSG.GroupTheory.WeirSylow.IsPlusType Q) :
     Nat.card {v : U // v ≠ 0 ∧ Q v = 0} = (p ^ n - 1) * (p ^ (n - 1) + 1) := by
   classical
-  haveI : Finite U := Module.finite_of_finite (ZMod p)
+  have : Finite U := Module.finite_of_finite (ZMod p)
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, by omega⟩
   have hsub : (m + 1) - 1 = m := by omega
   rw [hsub]
@@ -403,7 +403,7 @@ theorem natCard_singular_of_not_isPlusType [Module.Finite (ZMod p) U] (hp : p �
     (hminus : ¬ CFSG.GroupTheory.WeirSylow.IsPlusType Q) :
     Nat.card {v : U // v ≠ 0 ∧ Q v = 0} = (p ^ n + 1) * (p ^ (n - 1) - 1) := by
   classical
-  haveI : Finite U := Module.finite_of_finite (ZMod p)
+  have : Finite U := Module.finite_of_finite (ZMod p)
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 1 := ⟨n - 1, by omega⟩
   have hsub : (m + 1) - 1 = m := by omega
   rw [hsub]
@@ -440,7 +440,7 @@ theorem natCard_inf_le_two_mul {G : Type*} [Group G] {O A : Subgroup G} [Finite 
     (hAO : A ≤ O) (h : ∀ g ∈ O, ∀ g' ∈ O, g ∉ A → g' ∉ A → g⁻¹ * g' ∈ A) (S : Subgroup G) :
     Nat.card ↥(O ⊓ S) ≤ 2 * Nat.card ↥(A ⊓ S) := by
   classical
-  haveI : Finite ↥(A ⊓ S) := by
+  have : Finite ↥(A ⊓ S) := by
     refine Finite.of_injective
       (fun x : ↥(A ⊓ S) => (⟨x.1, hAO x.2.1⟩ : ↥O)) ?_
     intro x y hxy
@@ -474,8 +474,8 @@ theorem natCard_inf_le_two_mul {G : Type*} [Group G] {O A : Subgroup G} [Finite 
             ⟨y'.1, ⟨hyA', y'.2.2⟩⟩ :=
           Sum.inl_injective (α := ↥(A ⊓ S)) (β := ↥(A ⊓ S)) hyy''
         exact Subtype.ext (congrArg (fun z : ↥(A ⊓ S) => (z : G)) hEq)
-      · exact (by simpa [f, hyA, hyA'] using hyy' : False).elim
-      · exact (by simpa [f, hyA, hyA'] using hyy' : False).elim
+      · exact (by simp [f, hyA, hyA'] at hyy' : False).elim
+      · exact (by simp [f, hyA, hyA'] at hyy' : False).elim
       · have hyy'' : (Sum.inr (⟨g0⁻¹ * y.1, ⟨h g0 hg0O y.1 y.2.1 hg0A hyA,
               S.mul_mem (S.inv_mem hg0S) y.2.2⟩⟩ : ↥(A ⊓ S)) :
             ↥(A ⊓ S) ⊕ ↥(A ⊓ S)) = Sum.inr ⟨g0⁻¹ * y'.1,

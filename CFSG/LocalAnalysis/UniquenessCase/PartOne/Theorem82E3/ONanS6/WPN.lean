@@ -24,6 +24,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22 (Data IsSpor)
 open CFSG.LocalAnalysis.UniquenessCase.UCK (ThreeCover)
 variable {G : Type} [Group G] [Finite G] {D : Data G}
 
+omit [Finite G] in
 theorem normalizer_alpha_ne_top {E₀ : Subgroup G}
     (hsimple : IsSimpleGroup G)
     (hnonab : ∃ a b : G, a * b ≠ b * a)
@@ -31,15 +32,15 @@ theorem normalizer_alpha_ne_top {E₀ : Subgroup G}
     (hαsolv : Group.IsSolvable ↥(thetaAlpha 3 E₀)) :
     Subgroup.normalizer (thetaAlpha 3 E₀ : Set G) ≠ ⊤ := by
   intro htop
-  haveI : IsSimpleGroup G := hsimple
+  have : IsSimpleGroup G := hsimple
   have hnormal : (thetaAlpha 3 E₀).Normal := Subgroup.normalizer_eq_top_iff.mp htop
   have htop' : thetaAlpha 3 E₀ = ⊤ := by
-    haveI : (thetaAlpha 3 E₀).Normal := hnormal
+    have : (thetaAlpha 3 E₀).Normal := hnormal
     rcases Subgroup.Normal.eq_bot_or_eq_top (thetaAlpha 3 E₀) with h | h
     · exact absurd h hαne
     · exact h
   have hGsolv : Group.IsSolvable G := by
-    haveI : Group.IsSolvable ↥(⊤ : Subgroup G) := htop' ▸ hαsolv
+    have : Group.IsSolvable ↥(⊤ : Subgroup G) := htop' ▸ hαsolv
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.topEquiv (G := G)).symm.toMonoidHom)
       (Subgroup.topEquiv (G := G)).symm.injective

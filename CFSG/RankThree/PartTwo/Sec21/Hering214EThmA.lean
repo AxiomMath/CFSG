@@ -33,6 +33,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isElemAbelian_map_subtype {L : Subgroup G} {p : ℕ} {Q : Subgroup L}
     (hQ : IsElemAbelian p Q) : IsElemAbelian p (Q.map L.subtype) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
@@ -72,7 +73,7 @@ theorem false_of_even_of_facts {A E U L : Subgroup G} {c : G}
   have hinn : barImage L E ≤ (MulAut.conj : lBar L →* MulAut (lBar L)).range := fun τ hτ =>
     hF1 τ ((Item211LieProof.isElemAbelian_barImage_E hPF).2 τ hτ)
   have hQ : ∃ Q : Subgroup G, Q ≤ L ∧ IsElemAbelian 3 Q ∧ Nat.card Q = 9 := by
-    haveI : (aschbacherSolvableCore 3 ↥L).Normal := Subgroup.normal_of_characteristic _
+    have : (aschbacherSolvableCore 3 ↥L).Normal := Subgroup.normal_of_characteristic _
     obtain ⟨Q, hQe, hQc⟩ := exists_elemAbelian_of_quotient (aschbacherSolvableCore 3 ↥L) hT3 hQb
     refine ⟨Q.map L.subtype, Subgroup.map_subtype_le Q, isElemAbelian_map_subtype hQe, ?_⟩
     rw [Subgroup.card_map_of_injective L.subtype_injective, hQc, hQb9]

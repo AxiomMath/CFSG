@@ -218,10 +218,12 @@ theorem caseA_even_relIndex_N00
   rw [← Subgroup.inf_relIndex_left (caseAEvenXInf b x) (caseAEvenN00 b x l), hF]
   exact caseA_even_relIndex_F hfr hA hx hbe hb hl hl1
 
+omit [Finite G] in
 private theorem evencb_caseAY_le_Qy (v : f112Gamma L1 L2 S) : caseAY v ≤ CosetGeom.Qy v := by
   unfold caseAY
   exact inf_le_left
 
+omit [Finite G] in
 private theorem evencb_caseAY_le_centralizer (v : f112Gamma L1 L2 S) :
     caseAY v ≤ Subgroup.centralizer (caseAX v : Set (f112Amalgam L1 L2 S).Ghat) := by
   unfold caseAY
@@ -262,6 +264,7 @@ private theorem evencb_relIndex_centralizer_le_card_commutator {H : Type*} [Grou
       _ = z * ((a : H)⁻¹ * b) := by group
   exact Nat.card_le_card_of_injective φ hφ
 
+omit [Finite G] in
 private theorem evencb_relIndex_mul_le_relIndex {V₁ W U B : Subgroup (f112Amalgam L1 L2 S).Ghat}
     [Finite ↥U] (hV₁W : V₁ ≤ W) (hWU : W ≤ U)
     (hUW : U ≤ Subgroup.normalizer (W : Set (f112Amalgam L1 L2 S).Ghat))
@@ -290,7 +293,7 @@ private theorem evencb_relIndex_mul_le_relIndex {V₁ W U B : Subgroup (f112Amal
     have hfin : Finite ↥(centralizerMod W U B) :=
       Finite.of_injective (Subgroup.inclusion (centralizerMod_le_left W U B))
         (Subgroup.inclusion_injective _)
-    haveI := hfin
+    have := hfin
     show ((centralizerMod V₁ U B).subgroupOf (centralizerMod W U B)).index ≠ 0
     exact Subgroup.index_ne_zero_of_finite
   rw [e, Subgroup.inf_relIndex_right, ← hmul]
@@ -312,7 +315,7 @@ private theorem evencb_relIndex_N_centralizer_le_mul
   have hα : CosetGeom.vtype (x (b - 1)) = false :=
     (hx.vtype_eq_false_iff_odd (i := b - 1) (by omega)).mpr
       (Nat.not_even_iff_odd.mp (evencb_not_even_sub_one (by omega) hbe))
-  haveI : Finite ↥(CosetGeom.stab (x (b - 1))) := caseA_finite_stab L1 L2 S (x (b - 1))
+  have : Finite ↥(CosetGeom.stab (x (b - 1))) := caseA_finite_stab L1 L2 S (x (b - 1))
   have hNstab : caseAN (x (b - 1)) ≤ CosetGeom.stab (x (b - 1)) :=
     (caseA_N_le_Y hfr hA hα).trans
       ((evencb_caseAY_le_Qy (x (b - 1))).trans (caseA_Qy_le_stab (x (b - 1))))
@@ -320,10 +323,10 @@ private theorem evencb_relIndex_N_centralizer_le_mul
       A ≤ CosetGeom.stab (x (b - 1)) → B ≤ A →
       (A ⊓ C).relIndex A ≤ B.relIndex A * (B ⊓ C).relIndex B := by
     intro A B hAstab hBA
-    haveI : Finite ↥A :=
+    have : Finite ↥A :=
       Finite.of_injective (Subgroup.inclusion hAstab) (Subgroup.inclusion_injective hAstab)
     have hne : (B ⊓ C).relIndex A ≠ 0 := by
-      haveI : Finite (↥A ⧸ ((B ⊓ C).subgroupOf A)) := inferInstance
+      have : Finite (↥A ⧸ ((B ⊓ C).subgroupOf A)) := inferInstance
       show ((B ⊓ C).subgroupOf A).index ≠ 0
       exact Subgroup.index_ne_zero_of_finite
     calc (A ⊓ C).relIndex A ≤ (B ⊓ C).relIndex A :=
@@ -369,8 +372,8 @@ theorem caseA_relIndex_centralizer_le_of_le_Qy
     (hB : B ≤ CosetGeom.Qy α) {u : (f112Amalgam L1 L2 S).Ghat} (hu : u ∈ caseAX α) :
     (B ⊓ Subgroup.centralizer ({u} : Set (f112Amalgam L1 L2 S).Ghat)).relIndex B ≤
       2 ^ (2 * a + 1) := by
-  haveI : Finite ↥(CosetGeom.stab α) := caseA_finite_stab L1 L2 S α
-  haveI : Finite ↥(caseAZ α) :=
+  have : Finite ↥(CosetGeom.stab α) := caseA_finite_stab L1 L2 S α
+  have : Finite ↥(caseAZ α) :=
     Finite.of_injective (Subgroup.inclusion ((caseA_Z_le_Qy α).trans (caseA_Qy_le_stab α)))
       (Subgroup.inclusion_injective _)
   refine (caseA_relIndex_centralizer_le_card_of_comm_mem (B := B) (Z := caseAZ α) (u := u)
@@ -386,7 +389,7 @@ theorem caseA_relIndex_centralizer_le_of_le_Qy
 theorem caseA_even_le_relIndex_N_centralizer
     {a : ℕ} (hfr : Str83G4Frame L1 L2 S a) (hA : str83R L1 L2 S ≤ Q1 L1 L2 S) {b : ℕ}
     {x : GPath (f112Amalgam L1 L2 S).graphHat b} (hx : caseACritPath L1 L2 S b x) (hbe : Even b)
-    (hb : 5 ≤ b) {l : f112Gamma L1 L2 S} (hl : l ∈ CosetGeom.nbrs (x 0)) (hl1 : l ≠ x 1)
+    (hb : 5 ≤ b) {l : f112Gamma L1 L2 S} (hl : l ∈ CosetGeom.nbrs (x 0)) (_hl1 : l ≠ x 1)
     {u : (f112Amalgam L1 L2 S).Ghat} (hu : u ∈ caseAX l) (huQ : u ∉ CosetGeom.Qy (x (b - 1))) :
     (2 ^ (2 * a + 1)) ^ 4 ≤
       (caseAN (x (b - 1)) ⊓ Subgroup.centralizer ({u} : Set (f112Amalgam L1 L2 S).Ghat)).relIndex
@@ -414,10 +417,10 @@ theorem caseA_even_le_relIndex_N_centralizer
   have hBW : Subgroup.zpowers u ≤
       Subgroup.normalizer (caseAX (x (b - 1)) : Set (f112Amalgam L1 L2 S).Ghat) :=
     Subgroup.zpowers_le.mpr (caseA_stab_le_normalizer_X (x (b - 1)) huStab)
-  haveI : Finite ↥(CosetGeom.stab (x (b - 1))) := caseA_finite_stab L1 L2 S (x (b - 1))
+  have : Finite ↥(CosetGeom.stab (x (b - 1))) := caseA_finite_stab L1 L2 S (x (b - 1))
   have hNstab : caseAN (x (b - 1)) ≤ CosetGeom.stab (x (b - 1)) :=
     hNY.trans ((evencb_caseAY_le_Qy (x (b - 1))).trans (caseA_Qy_le_stab (x (b - 1))))
-  haveI : Finite ↥(caseAN (x (b - 1))) :=
+  have : Finite ↥(caseAN (x (b - 1))) :=
     Finite.of_injective (Subgroup.inclusion hNstab) (Subgroup.inclusion_injective hNstab)
   have hprod := evencb_relIndex_mul_le_relIndex hVW hWU hUW hBW
   have hNz : caseAN (x (b - 1)) ≤
@@ -484,10 +487,10 @@ theorem caseA_even_commutator_N00_eq
         (caseA_commutator_X_Qy_le_Z hfr hl_false))
   have hZstab : caseAZ l ≤ CosetGeom.stab l :=
     (caseA_Z_le_Qy l).trans (caseA_Qy_le_stab l)
-  haveI : Finite ↥(CosetGeom.stab l) := caseA_finite_stab L1 L2 S l
-  haveI : Finite ↥(caseAZ l) :=
+  have : Finite ↥(CosetGeom.stab l) := caseA_finite_stab L1 L2 S l
+  have : Finite ↥(caseAZ l) :=
     Finite.of_injective (Subgroup.inclusion hZstab) (Subgroup.inclusion_injective hZstab)
-  haveI : Finite ↥⁅caseAEvenN00 b x l, Subgroup.zpowers u⁆ :=
+  have : Finite ↥⁅caseAEvenN00 b x l, Subgroup.zpowers u⁆ :=
     Finite.of_injective (Subgroup.inclusion hcomm_le) (Subgroup.inclusion_injective hcomm_le)
   have hcard_lower : 2 ^ (2 * a + 1) ≤
       Nat.card ↥⁅caseAEvenN00 b x l, Subgroup.zpowers u⁆ := by
@@ -502,7 +505,7 @@ theorem caseA_even_Z_le_N
     {x : GPath (f112Amalgam L1 L2 S).graphHat b} (hx : caseACritPath L1 L2 S b x) (hbe : Even b)
     (hb : 5 ≤ b) {l : f112Gamma L1 L2 S} (hl : l ∈ CosetGeom.nbrs (x 0)) (hl1 : l ≠ x 1) :
     caseAZ l ≤ caseAN (x (b - 1)) := by
-  obtain ⟨u, hu, huQ⟩ := SetLike.not_le_iff_exists.mp
+  obtain ⟨u, hu, huQ⟩ := IsConcreteLE.not_le_iff_exists.mp
     (caseA_even_not_X_le_Qy_pred hfr hx hbe hb hl hl1)
   have hcomm := caseA_even_commutator_N00_eq hfr hA hx hbe hb hl hl1 hu huQ
   rw [← hcomm]

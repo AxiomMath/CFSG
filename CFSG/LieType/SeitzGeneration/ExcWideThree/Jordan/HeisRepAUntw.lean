@@ -63,13 +63,13 @@ end HeisA
 theorem e6HeisFrameFixedEltA_holds : E6HeisFrameFixedEltA := by
   intro K _ _ hK3 hK4 E hE hcard hd F hA
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have h3 : ¬ 3 ∣ Nat.card K := not_three_dvd_card_of_ringChar K hK3
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : IsAlgClosed (AlgebraicClosure K) := IsAlgClosure.isAlgClosed K
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   set ℓ := ringChar K with hℓdef
   set L := AlgebraicClosure K with hL

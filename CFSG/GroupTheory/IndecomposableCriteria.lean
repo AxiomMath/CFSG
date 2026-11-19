@@ -61,7 +61,7 @@ private theorem inf_sylow_eq_bot_of_normal {Y : Type*} [Group Y] [Finite Y]
   have hle : X ⊓ (T : Subgroup Y) ≤ CFSG.pCore 2 Y := by
     rw [CFSG.pCore_eq_iSup]
     exact le_iSup_of_le (X ⊓ (T : Subgroup Y)) (le_iSup_of_le hXT
-      (le_iSup_of_le ((T.isPGroup').to_le inf_le_right) le_rfl))
+      (le_iSup_of_le ((T.isPGroup).to_le inf_le_right) le_rfl))
   rw [hO] at hle
   exact le_bot_iff.mp hle
 
@@ -69,7 +69,7 @@ private theorem not_two_dvd_card_of_inf_sylow_eq_bot {Y : Type*} [Group Y] [Fini
     (T : Sylow 2 Y) {X : Subgroup Y} (hX : X.Normal)
     (hXT : X ⊓ (T : Subgroup Y) = ⊥) : ¬ 2 ∣ Nat.card X := by
   have hTY : CFSG.QuasithinUnique.IsSylowTwoOf (T : Subgroup Y) (⊤ : Subgroup Y) := by
-    refine ⟨le_top, T.isPGroup', ?_⟩
+    refine ⟨le_top, T.isPGroup, ?_⟩
     have hcoeeq : (↑(T.subtype le_top) : Subgroup ↥(⊤ : Subgroup Y)) =
         (T : Subgroup Y).subgroupOf ⊤ := Sylow.coe_subtype T le_top
     rw [← hcoeeq]

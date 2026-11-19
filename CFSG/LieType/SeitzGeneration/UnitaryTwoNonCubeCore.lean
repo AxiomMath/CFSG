@@ -46,6 +46,7 @@ theorem field4_of_two (h : UnitaryFieldData ℓ f K) (hq : ℓ ^ f = 2) {ζ : K}
     linear_combination hc3
   exact ⟨hσ, hqn, h2, hζ3, hζ1⟩
 
+omit [Finite K] in
 theorem mulVec_mem_sup {x : Matrix (Fin n) (Fin n) K} {S₁ S₂ : Submodule K (Fin n → K)}
     (h₁ : ∀ s ∈ S₁, x *ᵥ s ∈ S₁) (h₂ : ∀ s ∈ S₂, x *ᵥ s ∈ S₂) :
     ∀ s ∈ S₁ ⊔ S₂, x *ᵥ s ∈ S₁ ⊔ S₂ := by

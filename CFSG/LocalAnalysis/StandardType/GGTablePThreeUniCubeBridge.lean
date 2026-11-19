@@ -303,8 +303,8 @@ theorem uni_cube_primeForm_component_eq_specialBlock {K : Type} [Field K] {f n :
               (Polynomial.X - Polynomial.C μ)).comap
             (CFSG.HardMathSupport.Dickson.Sec6.I1431.t6psuh_toLinSU h n)).map
           (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n)) := by
-  haveI := h.finite
-  haveI : Finite (GL (Fin n) K) :=
+  have := h.finite
+  have : Finite (GL (Fin n) K) :=
     Finite.of_injective (fun g : GL (Fin n) K => (g : Matrix (Fin n) (Fin n) K)) Units.val_injective
   obtain ⟨i, hi⟩ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.component_mem_named_factors
     (fun i : CFSG.HardMathSupport.Dickson.Sec6.I1431.t6psub_Idx h n A =>

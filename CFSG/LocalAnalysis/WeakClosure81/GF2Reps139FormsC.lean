@@ -236,6 +236,7 @@ private lemma w1369_formQuot_nondegenerate (m : ℕ)
         exact Multiplicative.ofAdd.injective (by simpa using h)
       exact hne (hx0 y)
 
+omit [Finite W] in
 theorem hasSympForm_of_alternatingNatural {K : Subgroup (MulAut W)} {m : ℕ}
     (h : AlternatingNatural K ⊤ ⊥ m) : HasSympForm K := by
   simp only [AlternatingNatural, FFModel.Realizes, FFModel.RealizesVia] at h

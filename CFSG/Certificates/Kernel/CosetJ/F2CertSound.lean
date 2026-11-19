@@ -156,17 +156,17 @@ theorem foxW_spec (a b : Array ℕ) {x : ℕ} (hx : x < 2 ^ 11) : ∀ w : List B
     ·
       have hM := mulV_lt a.toList (P &&& 2047)
       have hG := Nat.xor_lt_two_pow hF (lt_of_lt_of_le hy (by decide) : P &&& 2047 < 2 ^ 22)
-      simp only [Bool.false_eq_true, if_false]
+      simp only [Bool.false_eq_true, ite_false]
       refine ⟨pack_lt hG hM, fun i => ?_, fun i => ?_, fun i => ?_⟩
-      · rw [Nat.testBit_two_pow_mul_add _ hM, if_pos i.isLt, ind_testBit_mulV a _ i]
-        simp only [actPos, Bool.false_eq_true, if_false, Matrix.mulVec, dotProduct]
+      · rw [Nat.testBit_two_pow_mul_add _ hM, ite_eq_left i.isLt, ind_testBit_mulV a _ i]
+        simp only [actPos, Bool.false_eq_true, ite_false, Matrix.mulVec, dotProduct]
         exact Finset.sum_congr rfl fun v _ => by rw [hyv v]
-      · rw [Nat.testBit_two_pow_mul_add _ hM, if_neg (by omega),
+      · rw [Nat.testBit_two_pow_mul_add _ hM, ite_eq_right (by omega),
           show 11 + i.val - 11 = i.val by omega, Nat.testBit_xor, ind_xor, Nat.testBit_shiftRight,
           hf1 i, testBit_and2047, decide_eq_true i.isLt, Bool.and_true, hact i]
-        simp only [foxVec, Bool.false_eq_true, if_false, Prod.fst_add, Pi.add_apply]
+        simp only [foxVec, Bool.false_eq_true, ite_false, Prod.fst_add, Pi.add_apply]
         rw [add_comm]
-      · rw [Nat.testBit_two_pow_mul_add _ hM, if_neg (by omega),
+      · rw [Nat.testBit_two_pow_mul_add _ hM, ite_eq_right (by omega),
           show 22 + i.val - 11 = 11 + i.val by omega, Nat.testBit_xor, ind_xor,
           Nat.testBit_shiftRight, show 11 + (11 + i.val) = 22 + i.val by omega, hf2 i,
           testBit_and2047, decide_eq_false (by omega : ¬ (11 + i.val < 11)), Bool.and_false]
@@ -178,22 +178,22 @@ theorem foxW_spec (a b : Array ℕ) {x : ℕ} (hx : x < 2 ^ 11) : ∀ w : List B
         calc (P &&& 2047) * 2 ^ 11 < 2 ^ 11 * 2 ^ 11 := Nat.mul_lt_mul_of_pos_right hy (by decide)
           _ = 2 ^ 22 := by rw [← Nat.pow_add]
       have hG := Nat.xor_lt_two_pow hF hE
-      simp only [if_true]
+      simp only [ite_true]
       refine ⟨pack_lt hG hM, fun i => ?_, fun i => ?_, fun i => ?_⟩
-      · rw [Nat.testBit_two_pow_mul_add _ hM, if_pos i.isLt, ind_testBit_mulV b _ i]
-        simp only [actPos, if_true, Matrix.mulVec, dotProduct]
+      · rw [Nat.testBit_two_pow_mul_add _ hM, ite_eq_left i.isLt, ind_testBit_mulV b _ i]
+        simp only [actPos, ite_true, Matrix.mulVec, dotProduct]
         exact Finset.sum_congr rfl fun v _ => by rw [hyv v]
-      · rw [Nat.testBit_two_pow_mul_add _ hM, if_neg (by omega),
+      · rw [Nat.testBit_two_pow_mul_add _ hM, ite_eq_right (by omega),
           show 11 + i.val - 11 = i.val by omega, Nat.testBit_xor, ind_xor, Nat.testBit_shiftRight,
           hf1 i, Nat.testBit_shiftLeft, decide_eq_false (by omega : ¬ (i.val ≥ 11)), Bool.false_and]
         simp [foxVec, ind]
-      · rw [Nat.testBit_two_pow_mul_add _ hM, if_neg (by omega),
+      · rw [Nat.testBit_two_pow_mul_add _ hM, ite_eq_right (by omega),
           show 22 + i.val - 11 = 11 + i.val by omega, Nat.testBit_xor, ind_xor,
           Nat.testBit_shiftRight, show 11 + (11 + i.val) = 22 + i.val by omega, hf2 i,
           Nat.testBit_shiftLeft, decide_eq_true (by omega : 11 + i.val ≥ 11), Bool.true_and,
           show 11 + i.val - 11 = i.val by omega, testBit_and2047, decide_eq_true i.isLt,
           Bool.and_true, hact i]
-        simp only [foxVec, if_true, Prod.snd_add, Pi.add_apply]
+        simp only [foxVec, ite_true, Prod.snd_add, Pi.add_apply]
         rw [add_comm]
 
 theorem getW_eq : ∀ (ws : List (List Bool)) (i : ℕ),
@@ -219,7 +219,7 @@ theorem vecN_two_pow (k : Fin 11) : vecN (2 ^ k.val) = Pi.single k 1 := by
   by_cases h : i = k
   · subst h
     simp
-  · rw [if_neg h, if_neg (fun e => h (Fin.ext e.symm))]
+  · rw [ite_eq_right h, ite_eq_right (fun e => h (Fin.ext e.symm))]
 
 theorem rowFox_spec (a b : Array ℕ) (i : Fin 6) (k : Fin 11) :
     rowFox a.toList b.toList ((List.finRange 6).map wordsPos) (11 * i.val + k.val) < 2 ^ 22 ∧
@@ -235,9 +235,9 @@ theorem rowFox_spec (a b : Array ℕ) (i : Fin 6) (k : Fin 11) :
   refine ⟨shiftRight11_lt hP, fun c => ?_⟩
   rw [Nat.testBit_shiftRight]
   induction c using Fin.addCases with
-  | left c1 => rw [Fin.coe_castAdd, hf1 c1, flat, Fin.append_left]
+  | left c1 => rw [Fin.val_castAdd, hf1 c1, flat, Fin.append_left]
   | right c2 =>
-    rw [Fin.coe_natAdd, show 11 + (11 + c2.val) = 22 + c2.val by omega, hf2 c2, flat,
+    rw [Fin.val_natAdd, show 11 + (11 + c2.val) = 22 + c2.val by omega, hf2 c2, flat,
       Fin.append_right]
 
 theorem sum_I6 (g : ℕ → ZMod 2) :
@@ -277,12 +277,12 @@ theorem deltaMat_eq (a b : Array ℕ) (r : Fin (11 + 11)) (j : Fin 11) :
   induction r using Fin.addCases with
   | left r1 =>
     dsimp only [deltaMat]
-    rw [Fin.append_left, Fin.coe_castAdd, testBit_rowDelta_lo _ _ r1.isLt j.isLt, ind_xor, ind_decide,
+    rw [Fin.append_left, Fin.val_castAdd, testBit_rowDelta_lo _ _ r1.isLt j.isLt, ind_xor, ind_decide,
       getD_toList, Matrix.add_apply, Matrix.transpose_apply, colsMatrix_eq, Matrix.one_apply]
     simp only [Fin.ext_iff]
   | right r2 =>
     dsimp only [deltaMat]
-    rw [Fin.append_right, Fin.coe_natAdd, testBit_rowDelta_hi _ _ r2.isLt j.isLt, ind_xor,
+    rw [Fin.append_right, Fin.val_natAdd, testBit_rowDelta_hi _ _ r2.isLt j.isLt, ind_xor,
       ind_decide, getD_toList, Matrix.add_apply, Matrix.transpose_apply, colsMatrix_eq,
       Matrix.one_apply]
     simp only [Fin.ext_iff]
@@ -313,7 +313,7 @@ theorem ind_testBit_deltaPart (a b X : Array ℕ) {r c : ℕ} (hr : r < 22) (hc 
       rw [one_mul]
     · rw [zero_mul]
   rw [Finset.sum_congr rfl hterm, Finset.sum_ite_eq' (Finset.range 22) r,
-    if_pos (Finset.mem_range.2 hr), ind_testBit_xorN, ← Fin.sum_univ_eq_sum_range]
+    ite_eq_left (Finset.mem_range.2 hr), ind_testBit_xorN, ← Fin.sum_univ_eq_sum_range]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [testBit_mulBit, ind_and, Nat.testBit_and, show (4194303 : ℕ) = 2 ^ 22 - 1 from rfl,
     Nat.testBit_two_pow_sub_one, decide_eq_true hc, Bool.and_true, getL_eq, getD_toList]

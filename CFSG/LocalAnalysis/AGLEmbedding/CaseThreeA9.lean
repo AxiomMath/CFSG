@@ -64,7 +64,7 @@ theorem d1CaseThreeA9_of (hData : StmtA9Data) (hSoc : @StmtA3pSocleData 3 ⟨Nat
     have : Finite (MulAut K) := MulEquiv.finite_left
     intro x hx
     rw [← hcfg.rbar] at hx
-    obtain ⟨k, hk⟩ := Rbar.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := Rbar.isPGroup ⟨x, hx⟩
     have hxk : x ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hmem := mem_sup_centralizer_of_pow hp hOutK hxk
     rwa [hC, sup_bot_eq] at hmem

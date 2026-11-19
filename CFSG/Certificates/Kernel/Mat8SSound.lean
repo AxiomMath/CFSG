@@ -94,9 +94,9 @@ theorem nInv_step (st : NT ℕ × List ℕ × List ℕ) (y : ℕ) (hy : y < 2 ^ 
       (if memP st.1 y then st else (insP st.1 y, y :: st.2.1, y :: st.2.2)).2.1 := by
   obtain ⟨h1, h2, h3⟩ := h
   by_cases hc : memP st.1 y = true
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     exact ⟨h1, h2, h3⟩
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     have hn : y ∉ st.2.1 := by
       intro hm
       rw [h1 y, List.contains_iff_mem.mpr hm] at hc
@@ -110,14 +110,14 @@ theorem nInv_step (st : NT ℕ × List ℕ × List ℕ) (y : ℕ) (hy : y < 2 ^ 
 
 theorem nInv_inner (gens : List ℕ) (x : ℕ) :
     ∀ (l : List ℕ) (st : NT ℕ × List ℕ × List ℕ), NInv st.1 st.2.1 →
-      NInv (l.foldl (fun (st : NT ℕ × List ℕ × List ℕ) i =>
-          let y := mulP (gens.getD i oneP) x
+      NInv (l.foldl (fun (st : NT ℕ × List ℕ × List ℕ) _i =>
+          let y := mulP (gens.getD _i oneP) x
           if memP st.1 y then st else (insP st.1 y, y :: st.2.1, y :: st.2.2)) st).1
-        (l.foldl (fun (st : NT ℕ × List ℕ × List ℕ) i =>
-          let y := mulP (gens.getD i oneP) x
+        (l.foldl (fun (st : NT ℕ × List ℕ × List ℕ) _i =>
+          let y := mulP (gens.getD _i oneP) x
           if memP st.1 y then st else (insP st.1 y, y :: st.2.1, y :: st.2.2)) st).2.1
   | [], _, h => h
-  | i :: l, st, h => nInv_inner gens x l _ (nInv_step st _ (mulP_lt _ _) h)
+  | _i :: l, st, h => nInv_inner gens x l _ (nInv_step st _ (mulP_lt _ _) h)
 
 theorem nInv_outer (gens : List ℕ) :
     ∀ (fr : List ℕ) (st : NT ℕ × List ℕ × List ℕ), NInv st.1 st.2.1 →
@@ -162,7 +162,7 @@ theorem code64R_unpackM (X : ℕ) (h : X < 2 ^ 64) : code64R (unpackM X) = X := 
 theorem nodupP_elemsF (gens : List (List ℕ)) (hg : gens.all validB = true) (cap : ℕ) :
     nodupP ((elemsF gens cap).map code64R) = true := by
   obtain ⟨h1, h2⟩ := nInv_elemsP (gens.map code64R) cap
-  rw [elemsF, if_pos hg, List.map_map, nodupP_iff]
+  rw [elemsF, ite_eq_left hg, List.map_map, nodupP_iff]
   rw [List.map_congr_left (f := code64R ∘ unpackM) (g := id)
     (fun q hq => code64R_unpackM q (h2 q hq)), List.map_id]
   exact h1
@@ -204,37 +204,37 @@ theorem closedB_elemsF (gens : List (List ℕ)) (cap : ℕ) :
       closedP (gens.map code64R) (elemsP (gens.map code64R) cap)
     else closedB gens (elemsOf gens cap) := by
   by_cases hg : gens.all validB = true
-  · rw [if_pos hg, elemsF, if_pos hg]
+  · rw [ite_eq_left hg, elemsF, ite_eq_left hg]
     have h := closedB_unpack (gens.map code64R) (elemsP (gens.map code64R) cap)
       (nInv_elemsP _ _).2
     rw [map_unpack_code64 gens hg] at h
     exact h
-  · rw [if_neg hg, elemsF, if_neg hg]
+  · rw [ite_eq_right hg, elemsF, ite_eq_right hg]
 
 theorem nodupP_elemsF_if (gens : List (List ℕ)) (cap : ℕ) :
     nodupP ((elemsF gens cap).map code64R) = if gens.all validB then true
     else nodupP ((elemsOf gens cap).map code64R) := by
   by_cases hg : gens.all validB = true
-  · rw [if_pos hg, nodupP_elemsF gens hg]
-  · rw [if_neg hg, elemsF, if_neg hg]
+  · rw [ite_eq_left hg, nodupP_elemsF gens hg]
+  · rw [ite_eq_right hg, elemsF, ite_eq_right hg]
 
 theorem all_validB_elemsF (gens : List (List ℕ)) (cap : ℕ) :
     (elemsF gens cap).all validB = if gens.all validB then true
     else (elemsOf gens cap).all validB := by
   by_cases hg : gens.all validB = true
-  · rw [if_pos hg, elemsF, if_pos hg, List.all_map, List.all_eq_true]
+  · rw [ite_eq_left hg, elemsF, ite_eq_left hg, List.all_map, List.all_eq_true]
     intro X _
     exact validB_unpackM X
-  · rw [if_neg hg, elemsF, if_neg hg]
+  · rw [ite_eq_right hg, elemsF, ite_eq_right hg]
 
 theorem memLR_elemsF_one (gens : List (List ℕ)) (cap : ℕ) :
     memLR (ofListLR (elemsF gens cap)) one8 = if gens.all validB then
       memP (ofListP (elemsP (gens.map code64R) cap)) oneP
     else memLR (ofListLR (elemsOf gens cap)) one8 := by
   by_cases hg : gens.all validB = true
-  · rw [if_pos hg, elemsF, if_pos hg, memLR_ofListLR, memP_ofListP, ← oneP_eq,
+  · rw [ite_eq_left hg, elemsF, ite_eq_left hg, memLR_ofListLR, memP_ofListP, ← oneP_eq,
       contains_map_unpackM _ (nInv_elemsP _ _).2 _ oneP_lt]
-  · rw [if_neg hg, elemsF, if_neg hg]
+  · rw [ite_eq_right hg, elemsF, ite_eq_right hg]
 
 theorem all_memLR_elemsF (L : List ℕ) (gens : List (List ℕ)) (cap : ℕ) :
     (L.map unpackM).all (memLR (ofListLR (elemsF gens cap))) =
@@ -242,33 +242,33 @@ theorem all_memLR_elemsF (L : List ℕ) (gens : List (List ℕ)) (cap : ℕ) :
         L.all (memP (ofListP (elemsP (gens.map code64R) cap)))
       else (L.map unpackM).all (memLR (ofListLR (elemsOf gens cap))) := by
   by_cases hg : (gens.all validB && L.all (fun q => decide (q < 2 ^ 64))) = true
-  · rw [if_pos hg]
+  · rw [ite_eq_left hg]
     rw [Bool.and_eq_true] at hg
     obtain ⟨hg, hL⟩ := hg
     rw [List.all_eq_true] at hL
-    rw [elemsF, if_pos hg, List.all_map, Bool.eq_iff_iff, List.all_eq_true, List.all_eq_true]
+    rw [elemsF, ite_eq_left hg, List.all_map, Bool.eq_iff_iff, List.all_eq_true, List.all_eq_true]
     refine forall₂_congr fun X hX => ?_
     rw [Function.comp_apply, memLR_ofListLR, memP_ofListP,
       contains_map_unpackM _ (nInv_elemsP _ _).2 _ (of_decide_eq_true (hL X hX))]
-  · rw [if_neg hg, elemsOf_toF]
+  · rw [ite_eq_right hg, elemsOf_toF]
 
 theorem all_elemsF (gens : List (List ℕ)) (cap : ℕ) (f : List ℕ → Bool) :
     (elemsF gens cap).all f = if gens.all validB then
       (elemsP (gens.map code64R) cap).all (fun X => f (unpackM X))
     else (elemsOf gens cap).all f := by
   by_cases hg : gens.all validB = true
-  · rw [if_pos hg, elemsF, if_pos hg, List.all_map]
+  · rw [ite_eq_left hg, elemsF, ite_eq_left hg, List.all_map]
     rfl
-  · rw [if_neg hg, elemsF, if_neg hg]
+  · rw [ite_eq_right hg, elemsF, ite_eq_right hg]
 
 theorem any_elemsF (gens : List (List ℕ)) (cap : ℕ) (f : List ℕ → Bool) :
     (elemsF gens cap).any f = if gens.all validB then
       (elemsP (gens.map code64R) cap).any (fun X => f (unpackM X))
     else (elemsOf gens cap).any f := by
   by_cases hg : gens.all validB = true
-  · rw [if_pos hg, elemsF, if_pos hg, List.any_map]
+  · rw [ite_eq_left hg, elemsF, ite_eq_left hg, List.any_map]
     rfl
-  · rw [if_neg hg, elemsF, if_neg hg]
+  · rw [ite_eq_right hg, elemsF, ite_eq_right hg]
 
 theorem mul8F_unpackM (X Y : ℕ) : mul8F (unpackM X) (unpackM Y) = unpackM (mulP X Y) := by
   rw [mul8F_eq, mul8_unpackM]

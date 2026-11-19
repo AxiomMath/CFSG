@@ -80,7 +80,7 @@ theorem Good101.le_of_min_conj {hc : Ctx M Q Z B} {m : ℕ}
       (conjSubgroup r B) y := by
     rwa [hc.conj_M_eq hr, hc.conj_Q_eq hr, hc.conj_Z_eq hr]
   have hyc : Good101 M Q Z B (r⁻¹ * y * r) := by
-    have h := Good101.conjG (hc := hc.conjBy r) hy' r⁻¹
+    have h := Good101.conjG (_hc := hc.conjBy r) hy' r⁻¹
     simpa only [conjSubgroup_conjSubgroup, inv_mul_cancel, conjSubgroup_one, inv_inv] using h
   have hk' : SLMNat (hc.conjBy r) y k :=
     SLMNat.of_eq hk (hc.conjBy r) (hc.conj_M_eq hr).symm (hc.conj_Q_eq hr).symm

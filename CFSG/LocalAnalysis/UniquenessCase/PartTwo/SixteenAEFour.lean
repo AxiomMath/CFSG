@@ -22,7 +22,7 @@ theorem s16ae_aSet_eq_empty_of_symSum {T : Type} [CommGroup T] [Finite T]
     (hge : 3 ≤ CFSG.Open.pRank p X) (hk : 2 ≤ k) : E3.aSet k X = ∅ := by
   classical
   obtain ⟨ι, hι, Y, hind, hinj, hsup, hcard, hrk, hperm, hsurj⟩ := s16n9b_case4_data hS
-  letI := hι
+  let := hι
   have hY : ∀ i, Y i ≠ ⊥ := by
     intro i h
     have h0 := hrk i

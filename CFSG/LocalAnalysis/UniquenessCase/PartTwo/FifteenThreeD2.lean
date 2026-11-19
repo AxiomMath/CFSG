@@ -73,8 +73,8 @@ private theorem s15_Three_pRank_centralizer_eq (h : Hyp151 D V₀ V L) (h127 : R
   exact le_antisymm (CFSG.SectionRank.pRank_mono (p := 3) (by norm_num) hKH)
     (s15_Three_pRank_le_of_relIndex hKH hrel)
 
-private theorem s15_Three_O1a_of_V0 (h : Hyp151 D V₀ V L) (h127 : R127 D) (hV0 : mSub V₀ ≤ 2)
-    (h3M : 3 ≤ CFSG.Open.pRank 3 D.M) {v : G} (hv : v ∈ V₀) (hv1 : v ≠ 1) :
+private theorem s15_Three_O1a_of_V0 (h : Hyp151 D V₀ V L) (_h127 : R127 D) (hV0 : mSub V₀ ≤ 2)
+    (h3M : 3 ≤ CFSG.Open.pRank 3 D.M) {v : G} (hv : v ∈ V₀) (_hv1 : v ≠ 1) :
     1 < CFSG.Open.pRank 3 (D.M ⊓ centralizer ({v} : Set G)) := by
   have hcard : Nat.card V₀ ≤ 4 := by
     rw [card_eq_two_pow_mSub h.hyp125.pairFacts.elemAbelian₀.isPGroup]
@@ -83,7 +83,7 @@ private theorem s15_Three_O1a_of_V0 (h : Hyp151 D V₀ V L) (h127 : R127 D) (hV0
   obtain ⟨E, hEM, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank (p := 3) (by norm_num) D.M
   have hDMleE : CFSG.Open.pRank 3 D.M ≤ CFSG.Open.pRank 3 E :=
     CFSG.SectionRank.le_pRank (p := 3) (by norm_num) (H := E) le_rfl hE hEcard
-  haveI : IsMulCommutative ↥E := hE.1
+  have : IsMulCommutative ↥E := hE.1
   have hcyc : IsCyclic (↥E ⧸ (E ⊓ centralizer (V₀ : Set G)).subgroupOf E) :=
     ElevenFourteen.isCyclic_quotient_of_card_le_four Nat.prime_three (by norm_num)
       hE.isPGroup (hEM.trans h.hyp125.pairFacts.le_normalizer₀) hcard

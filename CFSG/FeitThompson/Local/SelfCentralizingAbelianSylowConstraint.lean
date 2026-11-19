@@ -90,7 +90,7 @@ theorem le_pComplCore_of_normal_selfCentralizing_of_le_normalizer [Finite X] [Gr
   set f := QuotientGroup.mk' N with hf
   have hfsurj : Function.Surjective f := QuotientGroup.mk'_surjective _
   have hNS : N ⊓ (S : Subgroup X) = ⊥ :=
-    inf_eq_bot_of_not_dvd_natCard_of_isPGroup hp (not_dvd_natCard_pComplCore hp X) S.isPGroup'
+    inf_eq_bot_of_not_dvd_natCard_of_isPGroup hp (not_dvd_natCard_pComplCore hp X) S.isPGroup
   have hTnormal : (pCore p (X ⧸ N)).Normal := pCore_normal p _
   set T := pCore p (X ⧸ N) with hT
   set Ab := A.map f with hAb

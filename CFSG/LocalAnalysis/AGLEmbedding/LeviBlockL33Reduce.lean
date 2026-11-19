@@ -32,7 +32,7 @@ theorem kFactCompParabNoL33U35L37He_of_families
 namespace LeviBlock
 
 theorem card_dvd_ker_of_perm_normal {X U : Type*} [Group X] [Finite X] [Group U] [Finite U]
-    [IsSimpleGroup U] (h3U : 3 ∣ Nat.card U) {n : ℕ}
+    [IsSimpleGroup U] (_h3U : 3 ∣ Nat.card U) {n : ℕ}
     (hnU : Nat.card (alternatingGroup (Fin n)) ≠ Nat.card U) (ρ : X →* Equiv.Perm (Fin n))
     (hρ : Function.Surjective ρ) {O W : Subgroup X} [O.Normal] (hO3 : Nat.Coprime 3 (Nat.card O))
     [(W ⊔ O).Normal] (hW : ⁅W, W⁆ = W) (ψ : ↥W →* U) (hψ : Function.Surjective ψ) :
@@ -47,7 +47,7 @@ theorem card_dvd_ker_of_perm_normal {X U : Type*} [Group X] [Finite X] [Group U]
   by_cases hn : 5 ≤ n
   · have h5 : 5 ≤ Nat.card (Fin n) := by
       rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hn
-    haveI : IsSimpleGroup A := alternatingGroup.isSimpleGroup h5
+    have : IsSimpleGroup A := alternatingGroup.isSimpleGroup h5
     have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
     have h3A : 3 ∣ Nat.card A := by
       have hAc := two_mul_nat_card_alternatingGroup (α := Fin n)
@@ -110,7 +110,7 @@ theorem card_dvd_ker_of_perm_normal {X U : Type*} [Group X] [Finite X] [Group U]
     have hbot : W.map ρ = ⊥ := by
       by_contra hne
       have hnt : Nontrivial ↥(W.map ρ) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
-      haveI : Group.IsPerfect ↥W := Subgroup.isPerfect_iff.mpr hW
+      have : Group.IsPerfect ↥W := Subgroup.isPerfect_iff.mpr hW
       let σ₀ : ↥W →* ↥(W.map ρ) := (ρ.comp W.subtype).codRestrict (W.map ρ)
         (fun w => ⟨w, w.2, rfl⟩)
       have hσ₀ : Function.Surjective σ₀ := by
@@ -125,7 +125,7 @@ theorem card_dvd_ker_of_perm_normal {X U : Type*} [Group X] [Finite X] [Group U]
           map_mul' := fun a b => by ext; rfl }
       have hf : Function.Injective f := fun a b h =>
         Subtype.ext (congrArg (fun y : ↥A => (y : Equiv.Perm (Fin n))) h)
-      haveI : Group.IsSolvable ↥A := hsolA
+      have : Group.IsSolvable ↥A := hsolA
       have hsol : Group.IsSolvable ↥(W.map ρ) :=
         Group.isSolvable_of_isSolvable_injective (f := f) hf
       exact (Group.IsPerfect.not_isSolvable (G := ↥(W.map ρ))) hsol
@@ -166,11 +166,11 @@ theorem false_of_perm_quotient_of_normal_section {Y : Type} [Group Y] [Finite Y]
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hOP).toEquiv]
     exact hOc
   have hW' : ⁅W.subgroupOf P, W.subgroupOf P⁆ = W.subgroupOf P := by
-    haveI : Group.IsPerfect ↥W := Subgroup.isPerfect_iff.mpr hW
+    have : Group.IsPerfect ↥W := Subgroup.isPerfect_iff.mpr hW
     exact Subgroup.isPerfect_iff.mp (Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hWP).symm.toMonoidHom) (MulEquiv.surjective _))
-  haveI : (O.subgroupOf P).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hPO
-  haveI : (W.subgroupOf P ⊔ O.subgroupOf P).Normal := by
+  have : (O.subgroupOf P).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hPO
+  have : (W.subgroupOf P ⊔ O.subgroupOf P).Normal := by
     rw [← Subgroup.subgroupOf_sup hWP hOP]
     exact Subgroup.normal_subgroupOf_of_le_normalizer hPWO
   have h := card_dvd_ker_of_perm_normal (X := ↥P) h3U hnU ρ hρ (O := O.subgroupOf P)
@@ -206,6 +206,7 @@ theorem kFactBlockNoL33_nineThreeTwo (hC : KFactCompParabNoL33U35L37He)
   hC _ _ _ (LeviBlock.compParab_of_nineThreeTwo hA hL hS h2) O (barM M V) hO hPO hOc hV hPVO
     (commutator_barM_eq_self hVM hVV) U ψ' hψ' hd
 
+omit [Finite U] in
 theorem kFactBlockNoL33_nineThreeThree_sp {k : ℕ} {d' : TauCeti.ValidLieTypeIndex}
     (hk : 3 ≤ k) {q' : TauCeti.PrimePower} (hq' : q'.card = 2) (hdq' : d'.1 = .B k q')
     (e : (↥(blockParabolic M S L) ⧸ CFSG.pCore 2 ↥(blockParabolic M S L)) ≃* CatGroup d')
@@ -229,17 +230,17 @@ theorem kFactBlockNoL33_nineThreeThree_sp {k : ℕ} {d' : TauCeti.ValidLieTypeIn
     have h2 : 3 ∣ Nat.card (CatGroup d') :=
       LeviBlock.dvd_of_dvd_two_pow_mul (by norm_num) (by norm_num) h1
     rwa [Nat.card_congr e.toEquiv]
-  haveI : IsSimpleGroup (↥(blockParabolic M S L) ⧸
+  have : IsSimpleGroup (↥(blockParabolic M S L) ⧸
       CFSG.pCore 2 ↥(blockParabolic M S L)) := by
-    haveI : IsSimpleGroup (CatGroup d') :=
+    have : IsSimpleGroup (CatGroup d') :=
       (kFactSpTwoSimple_holds k d' hk ⟨q', hq', hdq'⟩).1
     exact e.isSimpleGroup
   have hO3 : Nat.Coprime 3 (Nat.card (O.subgroupOf (blockParabolic M S L))) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hO).toEquiv]
     exact hOc
-  haveI : (O.subgroupOf (blockParabolic M S L)).Normal :=
+  have : (O.subgroupOf (blockParabolic M S L)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hPO
-  haveI : ((barM M V).subgroupOf (blockParabolic M S L) ⊔
+  have : ((barM M V).subgroupOf (blockParabolic M S L) ⊔
       O.subgroupOf (blockParabolic M S L)).Normal := by
     rw [← Subgroup.subgroupOf_sup hV hO]
     exact Subgroup.normal_subgroupOf_of_le_normalizer hPVO
@@ -265,6 +266,7 @@ theorem kFactBlockNoL33_nineThreeThree_sp {k : ℕ} {d' : TauCeti.ValidLieTypeIn
     exact LeviBlock.ordBC_not_isL33U35L37HeOrder (n := k) (q := 2) (f := 1)
       (by norm_num) this
 
+omit [Group U] [Finite U] [IsSimpleGroup U] in
 theorem kFactBlockNoL33_nineThreeThree_perm {n : ℕ} (hn : n = 3 ∨ n = 4 ∨ n = 6)
     (e : (↥(blockParabolic M S L) ⧸ CFSG.pCore 2 ↥(blockParabolic M S L)) ≃*
       Equiv.Perm (Fin n))
@@ -278,12 +280,14 @@ theorem kFactBlockNoL33_nineThreeThree_perm {n : ℕ} (hn : n = 3 ∨ n = 4 ∨ 
   have hn11 : n ≤ 11 := by rcases hn with rfl | rfl | rfl <;> norm_num
   exact LeviBlock.not_dvd_two_pow_mul_factorial_of_isL33U35L37HeOrder hn11 hd h1
 
+omit [Finite G] [Group U] [Finite U] [IsSimpleGroup U] in
 theorem kFactBlockNoL33_nineThreeFour (h4 : NineThreeFour M S L)
     (hU : Nat.card U ∣ Nat.card (blockParabolic M S L))
     (hd : IsL33U35L37HeOrder (Nat.card U)) : False := by
   have h72 : Nat.card U ∣ 72 := hU.trans (card_blockPL_dvd_of_nineThreeFour h4)
   rcases hd with h | h | h | h <;> rw [h] at h72 <;> exact absurd h72 (by norm_num)
 
+omit [Group U] [Finite U] [IsSimpleGroup U] in
 theorem kFactBlockNoL33_nineThreeFive (hA7 : CitedBlockAltSevenPL)
     (hK : Open.IsKGroup ↥M) (hA : Asc81bHyp M S) (hL : IsWeakSBlock M S L)
     (hX : ¬ InClassXBlock L) (hS : ¬ IsSylowTwoOf (S ⊓ L) L) (h5 : NineThreeFive M L)
@@ -309,6 +313,7 @@ theorem kFactBlockNoL33_permQuotient {n : ℕ}
     (ψ'.comp (Subgroup.subgroupOfEquivOfLe hV).toMonoidHom)
     (hψ'.comp (MulEquiv.surjective _))
 
+omit [Group U] [Finite U] [IsSimpleGroup U] in
 theorem kFactBlockNoL33_nineThreeEight {N r : ℕ} (h2r : 2 * r ≤ N)
     (eL : ↥(barM M L) ≃* alternatingGroup (Fin N))
     (e : (↥(blockParabolic M S L) ⧸ CFSG.pCore 2 ↥(blockParabolic M S L)) ≃*

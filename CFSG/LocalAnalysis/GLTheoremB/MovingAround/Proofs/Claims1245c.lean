@@ -25,6 +25,7 @@ section Generic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem three_dvd_card_of_modCenter {J : Subgroup G}
     (h : IsLThreeFour (barOf 3 J ⧸ Subgroup.center (barOf 3 J))) : 3 ∣ Nat.card J := by
   have h1 := CFSG.HardMathSupport.Solomon.Coordinator.card_of_isLThreeFour h
@@ -60,6 +61,7 @@ theorem isLThreeFour_quot_center' {X D : Type} [Group X] [Group D]
       (QuotientGroup.quotientKerEquivOfSurjective ψ hsurj)
   exact Lemma1245.isLThreeFour_congr e.symm h
 
+omit [Finite G] in
 theorem barAut_eq_one_of_comm {J : Subgroup G} {u : G} (hu : u ∈ Subgroup.normalizer (J : Set G))
     (h : ∀ l ∈ J, u * l * u⁻¹ * l⁻¹ ∈ GLAPPrimeCoreOf 3 J) : barAut 3 J ⟨u, hu⟩ = 1 :=
   (Lemma129.mem_centBar_top_iff hu).1
@@ -67,7 +69,7 @@ theorem barAut_eq_one_of_comm {J : Subgroup G} {u : G} (hu : u ∈ Subgroup.norm
 
 theorem inf_glaPPrimeCoreOf_le {J X : Subgroup G} (hJX : J ≤ X) :
     J ⊓ GLAPPrimeCoreOf 3 X ≤ GLAPPrimeCoreOf 3 J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine sec11_le_glaPPrimeCoreOf inf_le_left (fun h hh n hn =>
     ⟨J.mul_mem (J.mul_mem hh hn.1) (J.inv_mem hh),
       (Subgroup.mem_normalizer_iff.1 (le_normalizer_glaPPrimeCoreOf 3 X (hJX hh)) n).1 hn.2⟩) ?_
@@ -86,6 +88,7 @@ theorem exists_not_mem_zpowers {F : Subgroup G} (hFel : IsElemAbelian 3 F) (hF9 
   rw [Nat.card_zpowers, hF9] at hle
   omega
 
+omit [Finite G] in
 theorem orderOf_eq_three_of_mem_zpowers {y d : G} (hy : y ^ 3 = 1) (hd : d ∈ Subgroup.zpowers y)
     (hd1 : d ≠ 1) : orderOf d = 3 := by
   have hd3 : d ^ 3 = 1 := by
@@ -119,6 +122,7 @@ theorem eq_zpowers_sup {F : Subgroup G} (hFel : IsElemAbelian 3 F) (hF9 : Nat.ca
   exact (Subgroup.eq_of_le_of_card_ge (sup_le (Subgroup.zpowers_le.2 hxF) (Subgroup.zpowers_le.2 hyF))
     (by rw [hcard, hF9])).symm
 
+omit [Finite G] in
 theorem inf_centralizer_eq {F : Subgroup G} {x y : G} (hF : F = Subgroup.zpowers x ⊔ Subgroup.zpowers y)
     (hyF : y ∈ F) :
     Cg x ⊓ Subgroup.centralizer (F : Set G) = Cg x ⊓ Subgroup.centralizer ({y} : Set G) := by
@@ -138,7 +142,7 @@ theorem barX_eq_top_of_modCenter {Lx J : Subgroup G} (hJL : J ≤ Lx)
     (hLt : IsLThreeFour (barOf 3 Lx ⧸ Subgroup.center (barOf 3 Lx)))
     (hJt : IsLThreeFour (barOf 3 J ⧸ Subgroup.center (barOf 3 J))) :
     barX 3 Lx J = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π : ↥Lx →* barOf 3 Lx := QuotientGroup.mk' (GLAPPrimeCore 3 ↥Lx) with hπ
   set ρ : barOf 3 Lx →* barOf 3 Lx ⧸ Subgroup.center (barOf 3 Lx) :=
     QuotientGroup.mk' (Subgroup.center (barOf 3 Lx)) with hρ
@@ -223,7 +227,7 @@ theorem barX_eq_top_of_modCenter {Lx J : Subgroup G} (hJL : J ≤ Lx)
 
 theorem covers_of_le {a : G} {K J M : Subgroup G} (hK : GLAPComponent 3 (Cg a) K) (hJK : J ≤ K)
     (hcov : barX 3 K J = ⊤) (hJM : J ≤ M) : Covers 3 (Cg a) (M ⊓ Cg a) K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rintro _ ⟨⟨k, hkC⟩, hk, rfl⟩
   have hk' : k ∈ K := Subgroup.mem_subgroupOf.1 hk
   obtain ⟨j, hj, o, ho, rfl⟩ := Sec12b.mem_mul_glaPPrimeCoreOf_of_barX hJK hcov hk'
@@ -241,7 +245,7 @@ theorem exists_not_centralized {x u : G} {J Δ : Subgroup G} {𝒞 : Set (Subgro
     (hu1 : barAut 3 J ⟨u, huN⟩ ≠ 1) :
     ∃ L ∈ 𝒞, ¬ barX 3 (Cg x) Δ ≤
       Subgroup.centralizer (barX 3 (Cg x) L : Set (↥(Cg x) ⧸ GLAPPrimeCore 3 ↥(Cg x))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   push Not at hcon
   apply hu1
@@ -279,10 +283,12 @@ theorem exists_not_centralized {x u : G} {J Δ : Subgroup G} {𝒞 : Set (Subgro
     J.mul_mem ((Subgroup.mem_normalizer_iff.1 huN l).1 hl) (J.inv_mem hl)
   exact inf_glaPPrimeCoreOf_le hJx ⟨hJmem, hcore⟩
 
+omit [Finite G] in
 theorem gLBConj_injective (g : G) {H₁ H₂ : Subgroup G} (h : GLBConj g H₁ = GLBConj g H₂) : H₁ = H₂ := by
   have := congrArg (GLBConj g⁻¹) h
   rwa [gLBConj_inv_gLBConj, gLBConj_inv_gLBConj] at this
 
+omit [Finite G] in
 theorem gLBConj_eq_of_mem_zpowers {x v : G} {L : Subgroup G} (hL : L ≤ Cg x)
     (hv : v ∈ Subgroup.zpowers x) : GLBConj v L = L := by
   refine gLBConj_eq_of_mem_normalizer (Subgroup.centralizer_le_normalizer _ ?_)
@@ -300,7 +306,7 @@ theorem isLThreeFour_of_cycled {x y : G} {L₁ L₂ L₃ J : Subgroup G}
     (hJ : GLAPComponent 3 (Cg x ⊓ Subgroup.centralizer ({y} : Set G)) J) (hJ123 : J ≤ L₁ ⊔ L₂ ⊔ L₃)
     (hJt : IsLThreeFour (barOf 3 J ⧸ Subgroup.center (barOf 3 J))) :
     IsLThreeFour (barOf 3 L₁ ⧸ Subgroup.center (barOf 3 L₁)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : Nat.Prime 3 := Nat.prime_three
   set π := QuotientGroup.mk' (GLAPPrimeCore 3 ↥(Cg x)) with hπ
   set X₁ := barX 3 (Cg x) L₁ with hX₁def
@@ -399,8 +405,8 @@ theorem exists_unitary_cent_A' {m : ℕ} {B M E A : Subgroup G} {a : G} {K : Sub
       ∃ hu : u ∈ Subgroup.normalizer (K : Set G), IsUnitaryAut (barAut 3 K ⟨u, hu⟩)) :
     ∃ u ∈ Tof 3 M a ⊓ Subgroup.centralizer (A : Set G),
       ∃ hu : u ∈ Subgroup.normalizer (K : Set G), IsUnitaryAut (barAut 3 K ⟨u, hu⟩) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hp3 : Nat.Prime 3 := by norm_num
   obtain ⟨u₀, hu₀, hu₀N, hu₀U⟩ := hu
   have hAel : IsElemAbelian 3 A := h.pair.1.2.1.1.1.2.1
@@ -505,43 +511,48 @@ theorem le_M : A ≤ M := c.h.pair.1.2.1.1.1.1
 theorem comm {b b' : G} (hb : b ∈ A) (hb' : b' ∈ A) : b * b' = b' * b :=
   CFSG.Open.IsElemAbelian.comm c.elemAbelian hb hb'
 
-theorem le_cg {x : G} (hx : x ∈ A) : A ≤ Cg x := fun b hb =>
+theorem le_cg {x : G} (hx : x ∈ A) : A ≤ Cg x := fun _b hb =>
   Subgroup.mem_centralizer_singleton_iff.2 (c.comm hb hx)
 
+omit [Finite G] c in
 theorem ff_le : Lemma1245.FF A K ≤ A := inf_le_right
 
 theorem ff_elem : IsElemAbelian 3 (Lemma1245.FF A K) :=
-  Lemma124.isElemAbelian_of_le c.ff_le c.elemAbelian
+  Lemma124.isElemAbelian_of_le KxCtx.ff_le c.elemAbelian
 
 theorem a_mem_ff : a ∈ Lemma1245.FF A K := Lemma1245.mem_centBar_of_component c.h.ha.1 c.hK.1
 
 theorem quasisimple : CFSG.Open.IsQuasisimple (barOf 3 K) :=
   l119_isQuasisimple_barOf (p := 3) Nat.prime_three c.hK
 
+omit c in
 theorem jj_le_K : Lemma1245.JJ A K ≤ K := (Sec12b.layer_le 3 _).trans inf_le_left
 
+omit c in
 theorem jj_cent : Lemma1245.JJ A K ≤ Subgroup.centralizer ((Lemma1245.FF A K : Subgroup G) : Set G) :=
   (Sec12b.layer_le 3 _).trans inf_le_right
 
 theorem cover : barX 3 K (Lemma1245.JJ A K) = ⊤ := Lemma1245.barX_JJ_eq_top c.elemAbelian c.quasisimple
 
 theorem jj_quasisimple : CFSG.Open.IsQuasisimple (barOf 3 (Lemma1245.JJ A K)) := by
-  obtain ⟨e, -⟩ := Lemma1245.exists_barOf_equiv_of_cover (p := 3) Nat.prime_three c.jj_le_K c.cover
+  obtain ⟨e, -⟩ := Lemma1245.exists_barOf_equiv_of_cover (p := 3) Nat.prime_three KxCtx.jj_le_K c.cover
   exact CFSG.SignalizerFunctorTheorem.TransportA.isQuasisimple_of_mulEquiv e.symm c.quasisimple
 
 theorem jj_type :
     IsLThreeFour (barOf 3 (Lemma1245.JJ A K) ⧸ Subgroup.center (barOf 3 (Lemma1245.JJ A K))) := by
-  obtain ⟨e, -⟩ := Lemma1245.exists_barOf_equiv_of_cover (p := 3) Nat.prime_three c.jj_le_K c.cover
+  obtain ⟨e, -⟩ := Lemma1245.exists_barOf_equiv_of_cover (p := 3) Nat.prime_three KxCtx.jj_le_K c.cover
   exact Lemma1245.isLThreeFour_modCenter_congr e.symm c.hK3
 
 theorem jj_three_dvd : 3 ∣ Nat.card (Lemma1245.JJ A K) := three_dvd_card_of_modCenter c.jj_type
 
+omit c [Finite G] in
 theorem cent_ff_le {x : G} (hx : x ∈ Lemma1245.FF A K) :
     Subgroup.centralizer ((Lemma1245.FF A K : Subgroup G) : Set G) ≤ Cg x :=
   Sec12b.cent_le_cent_of_mem hx
 
+omit c in
 theorem jj_le_cg {x : G} (hx : x ∈ Lemma1245.FF A K) : Lemma1245.JJ A K ≤ Cg x :=
-  c.jj_cent.trans (c.cent_ff_le hx)
+  KxCtx.jj_cent.trans (KxCtx.cent_ff_le hx)
 
 theorem jj_comp {x : G} (hx : x ∈ Lemma1245.FF A K) :
     GLAPComponent 3 (Cg x ⊓ Subgroup.centralizer ((Lemma1245.FF A K : Subgroup G) : Set G))
@@ -557,7 +568,7 @@ theorem jj_comp {x : G} (hx : x ∈ Lemma1245.FF A K) :
     have h1 := c.hK.2.1.inf (Subgroup.centralizer ((Lemma1245.FF A K : Subgroup G) : Set G))
     have e1 : Cg a ⊓ Subgroup.centralizer ((Lemma1245.FF A K : Subgroup G) : Set G) =
         Cg x ⊓ Subgroup.centralizer ((Lemma1245.FF A K : Subgroup G) : Set G) := by
-      rw [inf_eq_right.2 (c.cent_ff_le c.a_mem_ff), inf_eq_right.2 (c.cent_ff_le hx)]
+      rw [inf_eq_right.2 (KxCtx.cent_ff_le c.a_mem_ff), inf_eq_right.2 (KxCtx.cent_ff_le hx)]
     rwa [e1] at h1
   exact l119_glaPComponent_of_isSubnormal Nat.prime_three hsn hJcomp0
 
@@ -613,13 +624,13 @@ theorem exists_unitary (h122 : Lemma122_i_iiStatement) (h122iii : Lemma122_iiiSt
     ∃ u ∈ pCoreOf 2 M ⊓ Tof 3 M a ⊓ Subgroup.centralizer (A : Set G),
       ∃ hu : u ∈ Subgroup.normalizer (Lemma1245.JJ A K : Set G),
         IsUnitaryAut (barAut 3 (Lemma1245.JJ A K) ⟨u, hu⟩) :=
-  Lemma1245.exists_unitary_J c.h h122iii ⟨c.ff_le, c.ff_elem, by rw [hF9]; norm_num⟩
+  Lemma1245.exists_unitary_J c.h h122iii ⟨KxCtx.ff_le, c.ff_elem, by rw [hF9]; norm_num⟩
     (fun x hx hx1 V hV1 hV2 => hVx c.h c.hK c.hK3 c.hKM c.hA0 c.hAN c.cover hx hx1 hV1 hV2)
-    c.cover c.jj_le_K (exists_unitary_cent_A' c.h hdec (c.tof_cent_le_normalizer h122) c.hu₀)
+    c.cover KxCtx.jj_le_K (exists_unitary_cent_A' c.h hdec (c.tof_cent_le_normalizer h122) c.hu₀)
 
 theorem mem_deltaTwo {x u : G} (hx : x ∈ A) (hu : u ∈ pCoreOf 2 M)
     (huA : u ∈ Subgroup.centralizer (A : Set G)) : u ∈ Lemma129.deltaTwo (Cg x) (E ⊓ A) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold Lemma129.deltaTwo
   refine Subgroup.mem_iInf.2 fun d => Subgroup.mem_iInf.2 fun hd => Subgroup.mem_iInf.2 fun hd1 => ?_
   have hud : u ∈ Subgroup.centralizer ({d} : Set G) :=
@@ -646,8 +657,8 @@ theorem cover_of_component (hI191 : Lemma129.Input19_1_two) (hI1916 : Lemma123.I
     {L : Subgroup G} (hL : GLAPComponent 3 (Cg x) L) (hJL : Lemma1245.JJ A K ≤ L)
     (hFN : Lemma1245.FF A K ≤ Subgroup.normalizer (L : Set G)) :
     barX 3 L (Lemma1245.JJ A K) = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  have hxA : x ∈ A := c.ff_le hx
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hxA : x ∈ A := KxCtx.ff_le hx
   have hXtop : Cg x ≠ ⊤ := Sec12b.cent_ne_top c.h.standing hx1
   have hXK : CFSG.Open.IsKGroup ↥(Cg x) := isKGroup_of_isKProper c.h.standing.kProper hXtop
   have huX : u ∈ Cg x :=
@@ -655,7 +666,7 @@ theorem cover_of_component (hI191 : Lemma129.Input19_1_two) (hI1916 : Lemma123.I
   obtain ⟨L', hL', hnc⟩ := exists_not_centralized (𝒞 := {L})
     (fun L₀ hL₀ => (Set.mem_singleton_iff.1 hL₀) ▸ hL.1)
     (le_iSup₂_of_le (f := fun L₀ (_ : L₀ ∈ ({L} : Set (Subgroup G))) => L₀) L (Set.mem_singleton L) hJL)
-    (c.jj_le_cg hx) (c.mem_deltaTwo hxA huM huA) huX huN hu1
+    (CFSG.LocalAnalysis.GLTheoremB.MovingAround.Claims1245c.KxCtx.jj_le_cg hx) (c.mem_deltaTwo hxA huM huA) huX huN hu1
   rw [Set.mem_singleton_iff] at hL'
   rw [hL'] at hnc
   obtain ⟨hA0N, hfaith, hbal, -⟩ := (hI191 G c.h.standing.kProper 3 Nat.prime_three (by norm_num) (Cg x)
@@ -691,13 +702,13 @@ theorem false_of_cycled (hI191 : Lemma129.Input19_1_two) (hI1916 : Lemma123.Inpu
     (hstab : ∀ L ∈ 𝒞, ∀ e ∈ Lemma1245.FF A K, GLBConj e L ∈ 𝒞)
     (htr : ∀ L ∈ 𝒞, ∀ L' ∈ 𝒞, ∃ e ∈ Lemma1245.FF A K, GLBConj e L = L')
     (hcyc : ∃ L ∈ 𝒞, ∃ e ∈ Lemma1245.FF A K, GLBConj e L ≠ L) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  have hxA : x ∈ A := c.ff_le hx
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hxA : x ∈ A := KxCtx.ff_le hx
   have hXtop : Cg x ≠ ⊤ := Sec12b.cent_ne_top c.h.standing hx1
   have hXK : CFSG.Open.IsKGroup ↥(Cg x) := isKGroup_of_isKProper c.h.standing.kProper hXtop
   have huX : u ∈ Cg x :=
     Subgroup.mem_centralizer_singleton_iff.2 (Subgroup.mem_centralizer_iff.1 huA x hxA).symm
-  obtain ⟨L, hL𝒞, hnc⟩ := exists_not_centralized (fun L hL => (hcomp L hL).1) hJ𝒞 (c.jj_le_cg hx)
+  obtain ⟨L, hL𝒞, hnc⟩ := exists_not_centralized (fun L hL => (hcomp L hL).1) hJ𝒞 (CFSG.LocalAnalysis.GLTheoremB.MovingAround.Claims1245c.KxCtx.jj_le_cg hx)
     (c.mem_deltaTwo hxA huM huA) huX huN hu1
   have hL := hcomp L hL𝒞
   obtain ⟨y, hyF, hyL⟩ : ∃ y ∈ Lemma1245.FF A K, GLBConj y L ≠ L := by
@@ -705,10 +716,10 @@ theorem false_of_cycled (hI191 : Lemma129.Input19_1_two) (hI1916 : Lemma123.Inpu
     obtain ⟨f, hf, rfl⟩ := htr L₀ hL₀ L hL𝒞
     refine ⟨e, he, fun heq => hne ?_⟩
     have h1 : GLBConj e (GLBConj f L₀) = GLBConj f (GLBConj e L₀) := by
-      rw [gLBConj_gLBConj, gLBConj_gLBConj, c.comm (c.ff_le hf) (c.ff_le he)]
+      rw [gLBConj_gLBConj, gLBConj_gLBConj, c.comm (KxCtx.ff_le hf) (KxCtx.ff_le he)]
     rw [h1] at heq
     exact gLBConj_injective f heq
-  have hyA : y ∈ A := c.ff_le hyF
+  have hyA : y ∈ A := KxCtx.ff_le hyF
   have hyX : y ∈ Cg x := c.le_cg hxA hyA
   have hy3 : y ^ 3 = 1 := c.ff_elem.2 y hyF
   have hyx : y ∉ Subgroup.zpowers x := fun hy => hyL (gLBConj_eq_of_mem_zpowers hL.1 hy)
@@ -730,8 +741,8 @@ theorem false_of_cycled (hI191 : Lemma129.Input19_1_two) (hI1916 : Lemma123.Inpu
     obtain ⟨f, hf, rfl⟩ := htr L hL𝒞 L' hL'
     have hf' : f ∈ Subgroup.zpowers x ⊔ Subgroup.zpowers y := hFxy ▸ hf
     obtain ⟨v, hv, w, hw, rfl⟩ := Lemma124.exists_mul_of_mem_sup
-      (fun a ha b hb => c.comm (c.ff_le (Subgroup.zpowers_le.2 hx ha))
-        (c.ff_le (Subgroup.zpowers_le.2 hyF hb))) hf'
+      (fun a ha b hb => c.comm (KxCtx.ff_le (Subgroup.zpowers_le.2 hx ha))
+        (KxCtx.ff_le (Subgroup.zpowers_le.2 hyF hb))) hf'
     rw [← gLBConj_gLBConj, gLBConj_eq_of_mem_zpowers hL.1 hv]
     rcases Claims1245.mem_zpowers_of_pow_three hy3 hw with h | h | h
     · left
@@ -780,7 +791,7 @@ theorem false_of_cycled (hI191 : Lemma129.Input19_1_two) (hI1916 : Lemma123.Inpu
     have hL₂M : L₂ ≤ M := (gLBConj_mono y hLM).trans hMy.le
     have hL₃M : L₃ ≤ M := (gLBConj_mono y hL₂M).trans hMy.le
     have hJM : Lemma1245.JJ A K ≤ M := hJ123.trans (sup_le (sup_le hLM hL₂M) hL₃M)
-    exact c.hKM (covers_of_le c.hK c.jj_le_K c.cover hJM)
+    exact c.hKM (covers_of_le c.hK KxCtx.jj_le_K c.cover hJM)
 
 end KxCtx
 
@@ -799,11 +810,11 @@ theorem kxClaim_of_inputs (h123 : Lemma123Statement) (h117 : Prop117_cex_falseSt
     have h2 := huU.1
     rw [h1, orderOf_one] at h2
     norm_num at h2
-  have hxA : x ∈ A := c.ff_le hx
+  have hxA : x ∈ A := KxCtx.ff_le hx
   have hXK : CFSG.Open.IsKGroup ↥(Cg x) :=
     isKGroup_of_isKProper h.standing.kProper (Sec12b.cent_ne_top h.standing hx1)
   obtain ⟨𝒞, hcomp, heq, hstab, htr⟩ := h1834 G (Cg x) hXK 3 Nat.prime_three (Lemma1245.FF A K)
-    (c.ff_le.trans (c.le_cg hxA)) c.ff_elem (Lemma1245.JJ A K) (c.jj_comp hx)
+    (KxCtx.ff_le.trans (c.le_cg hxA)) c.ff_elem (Lemma1245.JJ A K) (c.jj_comp hx)
   have heq' : (⨆ L ∈ 𝒞, L) = Kx 3 (Lemma1245.JJ A K) x := heq
   have hJ𝒞 : Lemma1245.JJ A K ≤ ⨆ L ∈ 𝒞, L := heq' ▸ Sec12b.le_kx x (Lemma1245.JJ A K)
   by_cases hcyc : ∃ L ∈ 𝒞, ∃ e ∈ Lemma1245.FF A K, GLBConj e L ≠ L

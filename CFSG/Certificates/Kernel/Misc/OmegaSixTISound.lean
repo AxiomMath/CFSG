@@ -99,7 +99,7 @@ theorem lookup_of_BInvE {T : ℕ → Array ℕ} {PA PB : ℕ → ℕ} {c : ℕ} 
   unfold Enum.lookup
   rw [h.2.2.2.2.2.2 t ht]
   simp only
-  rw [if_pos ⟨by rw [h.1]; exact ht, h.2.2.2.1 t ht⟩]
+  rw [ite_eq_left ⟨by rw [h.1]; exact ht, h.2.2.2.1 t ht⟩]
 
 theorem anyLt_of {n : ℕ} {p : ℕ → Bool} {j : ℕ} (hj : j < n) (h : p j = true) :
     anyLt n p = true := by

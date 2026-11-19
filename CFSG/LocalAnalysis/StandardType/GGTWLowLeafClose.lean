@@ -97,7 +97,7 @@ theorem ggTWLowLeaf_reflGenerated {G : Type} [Group G] [Finite G] {p : ℕ} [Fac
     intro j
     have hfx : α (Sum.inl j.1) (h (Sum.inl j.1)) = 2 := by
       have h1 := hpair (Sum.inl j) (Sum.inl j)
-      simp only [Sum.map_inl, id_eq] at h1
+      simp only [Sum.map_inl] at h1
       rw [h1, hCK.1 (Sum.inl j)]
       norm_num
     exact ggIsReflection_of_eq_reflection hp2 ι hfx
@@ -157,7 +157,7 @@ theorem ggTWLowLeaf_close_one {p N : ℕ} [Fact p.Prime] (hPZin : GGPZInput)
           (∀ y ∈ S, ∃ g ∈ Set.range r,
             (g : V →ₗ[ZMod p] V) = θ.symm.toLinearMap ∘ₗ y ∘ₗ θ.toLinearMap) := by
   classical
-  haveI : Subsingleton Λa := (Nat.card_eq_one_iff_unique.mp hcard).1
+  have : Subsingleton Λa := (Nat.card_eq_one_iff_unique.mp hcard).1
   have hp2 : p ≠ 2 := by omega
   have hN' : N = 5 ∨ N = 6 ∨ N = 7 ∨ N = 9 ∨ N = 10 := by
     rcases hN with h | h | h

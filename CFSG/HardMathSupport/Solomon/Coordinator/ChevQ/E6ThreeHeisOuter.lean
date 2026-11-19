@@ -18,7 +18,7 @@ theorem rowSL_mul (s s' t t' : F) : rowSL s s' * rowSL t t' = rowSL (s + t) (s' 
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [rowSL, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [rowSL, Matrix.mul_apply, Fin.sum_univ_three]; ring
 
 theorem rowSL_zero : (rowSL 0 0 : SpecialLinearGroup (Fin 3) F) = 1 := by
   ext i j
@@ -117,7 +117,7 @@ theorem rowSL_mem_of_transvection {K : Subgroup (SpecialLinearGroup (Fin 3) F)}
       !![1 + 3 * κ, 0, -(3 * κ); 3 * κ, 1, -(3 * κ); 3 * κ, 0, 1 - 3 * κ] := by
     rw [hT]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [vecMulVec_apply, Matrix.one_apply] <;> ring
+    fin_cases i <;> fin_cases j <;> simp; ring
   have e : rowSL s (-s) * (diagSL ξ (ξ ^ 2)⁻¹ ξ hδ * T) = T * diagSL ξ (ξ ^ 2)⁻¹ ξ hδ := by
     apply Subtype.ext
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul,
@@ -141,7 +141,7 @@ theorem rowSL_coe (s s' : F) :
     ((rowSL s s' : SpecialLinearGroup (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
       1 + vecMulVec (Pi.single 1 1) ![s, 0, s'] := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [rowSL, vecMulVec_apply, Matrix.one_apply, Pi.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [rowSL, Pi.single_apply]
 
 theorem eq_top_of_rowSL {K : Subgroup (SpecialLinearGroup (Fin 3) F)}
     (hrow : ∀ s s' : F, rowSL s s' ∈ K) {m₁ m₂ : SpecialLinearGroup (Fin 3) F} (h₁ : m₁ ∈ K)

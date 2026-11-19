@@ -65,9 +65,9 @@ theorem inf_inn_card_eq_three {B : Subgroup (MulAut X)} (hB : CFSG.Assembly.IsEl
     (hαI : α ∉ (MulAut.conj : X →* MulAut X).range) :
     Nat.card (B ⊓ (MulAut.conj : X →* MulAut X).range : Subgroup (MulAut X)) = 3 ∧
       ∀ x ∈ B, ∃ i : ℤ, α ^ i * x ∈ (MulAut.conj : X →* MulAut X).range := by
-  haveI := inn_normal (X := X)
-  haveI := l34_mulAut_finite hk χ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := inn_normal (X := X)
+  have := l34_mulAut_finite hk χ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set I := (MulAut.conj : X →* MulAut X).range with hI
   set q : MulAut X →* MulAut X ⧸ I := QuotientGroup.mk' I with hq
   have hker : q.ker = I := QuotientGroup.ker_mk' I
@@ -103,9 +103,9 @@ theorem false_of_inner_commute {B : Subgroup (MulAut X)} (hB : CFSG.Assembly.IsE
     (hαI : α ∉ (MulAut.conj : X →* MulAut X).range)
     (hcomm : ∀ x : X, x ^ 3 = 1 → MulAut.conj x ∈ Subgroup.normalizer (B : Set (MulAut X)) →
       MulAut.conj x * α = α * MulAut.conj x) : False := by
-  haveI := inn_normal (X := X)
-  haveI := l34_mulAut_finite hk χ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := inn_normal (X := X)
+  have := l34_mulAut_finite hk χ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set I := (MulAut.conj : X →* MulAut X).range with hI
   obtain ⟨hBI3, hdec⟩ := inf_inn_card_eq_three hk χ hZ hB hB9 hαB hαI
   have hBp : IsPGroup 3 B := fun x => ⟨1, by rw [pow_one]; exact Subtype.ext (hB.2 x x.2)⟩
@@ -154,7 +154,7 @@ theorem false_of_inner_commute {B : Subgroup (MulAut X)} (hB : CFSG.Assembly.IsE
     omega
   obtain ⟨y, rfl⟩ := hnRI.2
   set Q : Subgroup X := (R : Subgroup (MulAut X)).comap (MulAut.conj : X →* MulAut X) with hQdef
-  have hQ : IsPGroup 3 Q := R.isPGroup'.comap_of_injective _ (conj_injective_of_center hZ)
+  have hQ : IsPGroup 3 Q := R.isPGroup.comap_of_injective _ (conj_injective_of_center hZ)
   have hyQ : y ∈ Q := hnRI.1
   have hy3 : y ^ 3 = 1 := l34_pow_three hk χ hQ hyQ
   have hn3 : MulAut.conj y ^ 3 = 1 := by rw [← map_pow, hy3, map_one]

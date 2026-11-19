@@ -79,7 +79,7 @@ theorem conj_e0_of_col0 [IsMulCommutative M₁] [Module (ZMod 3) (Additive M₁)
     simp only [Fin.sum_univ_three, ← rhoMat_entry, h10, h20, zero_smul, add_zero]
   set c := rhoMat b n 0 0 with hc
   refine ⟨(c.val : ℤ), ?_⟩
-  have hck : ((c.val : ℤ) : ZMod 3) = c := by simp [ZMod.natCast_zmod_val]
+  have hck : ((c.val : ℤ) : ZMod 3) = c := by simp
   have hz : c • b 0 = Additive.ofMul ((⟨e 0, e0_mem_M₁ hv⟩ : M₁) ^ (c.val : ℤ)) := by
     rw [hb0, zpow_smul_eq, hck]
   have key : Additive.toMul (conjLin (n : G) (mem_NM_conj n.2) (b 0)) =
@@ -115,7 +115,7 @@ theorem col0_of_normalizes [IsMulCommutative M₁] [Module (ZMod 3) (Additive M�
   exact col0_of_conj_e0 hv b hb0 n k hk.symm
 
 theorem exists_move_line [Finite G] [IsMulCommutative M₁] [Module (ZMod 3) (Additive M₁)]
-    (hone : G23One H H₁ H₂) (hlet : HLetters H H₁ H₂ e) (hv : VertexCore e H (e 0) H₂ M₁)
+    (_hone : G23One H H₁ H₂) (hlet : HLetters H H₁ H₂ e) (hv : VertexCore e H (e 0) H₂ M₁)
     (hst : B27State e M₁ Pb W₁ Mf t')
     (b : Module.Basis (Fin 3) (ZMod 3) (Additive M₁))
     (hb0 : b 0 = Additive.ofMul (⟨e 0, e0_mem_M₁ hv⟩ : M₁))
@@ -126,7 +126,7 @@ theorem exists_move_line [Finite G] [IsMulCommutative M₁] [Module (ZMod 3) (Ad
     mem_normalizer_of_conj (hst.M₁_normal x hx) (hst.M₁_normal x⁻¹ (Mf.inv_mem hx))
   have hsnorm : ∃ n ∈ Mf, n ∉ Subgroup.normalizer (Subgroup.zpowers (e 0) : Set G) := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : Mf ≤ Subgroup.normalizer (Subgroup.zpowers (e 0) : Set G) := hcon
     have hinf : Mf ⊓ Subgroup.normalizer (Subgroup.zpowers (e 0) : Set G) = Mf :=
       inf_eq_left.mpr hle
@@ -152,7 +152,7 @@ theorem exists_move_line [Finite G] [IsMulCommutative M₁] [Module (ZMod 3) (Ad
   have hnM : n ∈ Subgroup.normalizer (M₁ : Set G) := hMfN n hnMf
   refine ⟨rhoGL b ⟨n, hnM⟩, ⟨⟨n, hnM⟩, rfl⟩, ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   simp only [rhoGL_val] at hcon
   exact hnN (normalizes_e0_of_col0 hv b hb0 ⟨n, hnM⟩ hcon.1 hcon.2)
 

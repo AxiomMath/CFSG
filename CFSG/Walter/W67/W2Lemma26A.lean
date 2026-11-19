@@ -180,7 +180,7 @@ theorem lspec_of_three
   have hSL : (fr.S : Subgroup G) ≤ L := by
     have := hL'n
     have hS' : IsPGroup 2 ((fr.S : Subgroup G).subgroupOf NX) :=
-      fr.S.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hSN).symm
+      fr.S.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hSN).symm
     have h1 := le_of_odd_index (hL'idx ▸ hO'odd) hS'
     intro s hs
     exact ⟨⟨s, hSN hs⟩, h1 hs, rfl⟩
@@ -250,7 +250,7 @@ theorem lspec_of_three
       · exact ht1 (hkj ▸ h1)
       · rw [← hkj, h1] at htT
         exact fr.J_not_mem_T htT
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp fr.S.isPGroup') ⟨k, hkS⟩
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp fr.S.isPGroup) ⟨k, hkS⟩
     rw [Subgroup.orderOf_mk] at hn
     have hkc : k ∈ ⁅K'', K''⁆ := PSL2Sub.mem_commutator_of_orderOf eK'' (by decide) one_pos
       (by norm_num) hk hn

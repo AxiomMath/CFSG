@@ -139,9 +139,9 @@ theorem three_pow_le_card_closure [Finite G] {m : ℕ} (h w : Fin (m + 1) → G)
       (Subgroup.closure (Set.range (fun j : Fin m => h j.castSucc))).subgroupOf Y
     else (Subgroup.centralizer ({w i} : Set G)).subgroupOf Y
   have hS_last : S (Fin.last m) =
-      (Subgroup.closure (Set.range (fun j : Fin m => h j.castSucc))).subgroupOf Y := if_pos rfl
+      (Subgroup.closure (Set.range (fun j : Fin m => h j.castSucc))).subgroupOf Y := ite_eq_left rfl
   have hS_ne : ∀ i, i ≠ Fin.last m →
-      S i = (Subgroup.centralizer ({w i} : Set G)).subgroupOf Y := fun i hi => if_neg hi
+      S i = (Subgroup.centralizer ({w i} : Set G)).subgroupOf Y := fun i hi => ite_eq_right hi
   have hS : ∀ i j, i ≠ j → f' j ∈ S i := by
     intro i j hij
     by_cases hi : i = Fin.last m
@@ -278,7 +278,7 @@ theorem LiftDatum.cover_localRank {K S : Type} [Group K] [Finite K] [Group S] {m
     m + 1 + k ≤ localRank 3 K := by
   classical
   obtain ⟨h, w, U, hcomm, hord, hinv, hfix, hU1, hU2, hN⟩ := hL
-  haveI : Finite S := Finite.of_surjective π hπ
+  have : Finite S := Finite.of_surjective π hπ
   have hp3 : (3 : ℕ).Prime := Nat.prime_three
   have hpow : ∀ i, h i ^ 3 = 1 := fun i => (hord i) ▸ pow_orderOf_eq_one (h i)
   have hF := comap_closure_comm_of_inversions hπ hker h w hcomm hpow hinv hfix

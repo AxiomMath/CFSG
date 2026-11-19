@@ -37,7 +37,7 @@ theorem u33_card_le_of_outdiagCyclic {R : Type} [Group R] [Finite R] {p : ℕ} (
     Nat.card E ≤ p := by
   obtain ⟨φ₀, hφ₀⟩ := hI
   set N := (MulAut.conj : R →* MulAut R).range
-  haveI : N.Normal := ⟨fun x hx φ => by
+  have : N.Normal := ⟨fun x hx φ => by
     obtain ⟨r, rfl⟩ := hx
     refine ⟨φ r, ?_⟩
     ext y
@@ -56,23 +56,23 @@ theorem u33_card_le_of_outdiagCyclic {R : Type} [Group R] [Finite R] {p : ℕ} (
     have hmap := Subgroup.mem_map_of_mem (QuotientGroup.mk' N) hx
     rw [Subgroup.map_sup, QuotientGroup.map_mk'_self, bot_sup_eq, MonoidHom.map_zpowers] at hmap
     exact hmap
-  haveI : IsCyclic f.range := Subgroup.isCyclic_of_le hrange
-  haveI : IsCyclic E := isCyclic_of_surjective (MonoidHom.ofInjective hinj).symm.toMonoidHom
+  have : IsCyclic f.range := Subgroup.isCyclic_of_le hrange
+  have : IsCyclic E := isCyclic_of_surjective (MonoidHom.ofInjective hinj).symm.toMonoidHom
     (MonoidHom.ofInjective hinj).symm.surjective
   exact u33_card_le_of_isCyclic hp inferInstance hE
 
 theorem u33_card_le_of_comm {R : Type} [Group R] [hs : IsSimpleGroup R] {p : ℕ} (hp : p.Prime)
     (hcomm : ∀ a b : R, a * b = b * a) {E : Subgroup (MulAut R)}
     (hE : CFSG.Open.IsElemAbelian p E) : Nat.card E ≤ p := by
-  haveI : IsMulCommutative R := ⟨⟨hcomm⟩⟩
+  have : IsMulCommutative R := ⟨⟨hcomm⟩⟩
   have hℓ : (Nat.card R).Prime := Group.is_simple_iff_prime_card.1 hs
-  haveI : Fact (Nat.card R).Prime := ⟨hℓ⟩
-  haveI : Finite R := Nat.finite_of_card_ne_zero hℓ.ne_zero
-  haveI : IsCyclic R := isCyclic_of_prime_card rfl
-  haveI : IsCyclic (MulAut R) :=
+  have : Fact (Nat.card R).Prime := ⟨hℓ⟩
+  have : Finite R := Nat.finite_of_card_ne_zero hℓ.ne_zero
+  have : IsCyclic R := isCyclic_of_prime_card rfl
+  have : IsCyclic (MulAut R) :=
     isCyclic_of_surjective (IsCyclic.mulAutMulEquiv R).symm.toMonoidHom
       (IsCyclic.mulAutMulEquiv R).symm.surjective
-  haveI : Finite (MulAut R) :=
+  have : Finite (MulAut R) :=
     Finite.of_equiv _ (IsCyclic.mulAutMulEquiv R).symm.toEquiv
   exact u33_card_le_of_isCyclic hp inferInstance hE
 
@@ -85,7 +85,7 @@ theorem ggInnCoprimeRankInput :
   by_cases hcomm : ∀ a b : R, a * b = b * a
   · exact u33_card_le_of_comm hp hcomm hE
   · push Not at hcomm
-    haveI : Finite R := Nat.finite_of_card_ne_zero fun h => hpR (h ▸ dvd_zero p)
+    have : Finite R := Nat.finite_of_card_ne_zero fun h => hpR (h ▸ dvd_zero p)
     exact u33_card_le_of_outdiagCyclic hp hpR (hO hs hcomm) hE hEI
 
 end CFSG.StandardType.RCKU33

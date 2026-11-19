@@ -13,11 +13,11 @@ theorem exists_hom_glFour_ker_le {p : ℕ} [Fact p.Prime] {V : Type*} [Group V] 
     [IsMulCommutative V] (hpow : ∀ v : V, v ^ p = 1) (hcard : Nat.card V ≤ p ^ 4)
     {Y : Type*} [Group Y] (ρ : Y →* MulAut V) :
     ∃ ρ' : Y →* GL (Fin 4) (ZMod p), ρ'.ker ≤ ρ.ker := by
-  letI : CFSG.IsElementaryAbelian p V :=
+  let : CFSG.IsElementaryAbelian p V :=
     { toIsMulCommutative := inferInstance
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr hpow }
   obtain ⟨ψ, hψ⟩ := CFSG.AGLEmbedding.ThompsonGen.exists_hom_gl (p := p) ρ
-  haveI : Module.Finite (ZMod p) (Additive V) := Module.Finite.of_finite
+  have : Module.Finite (ZMod p) (Additive V) := Module.Finite.of_finite
   let d := Module.finrank (ZMod p) (Additive V)
   have hd : d ≤ 4 := by
     have h1 : Nat.card (Additive V) = p ^ d := by

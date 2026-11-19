@@ -185,7 +185,7 @@ theorem isElemAbelian2_secMulImg (hY : CFSG.HardMathSupport.Meierfrankenfeld.Gen
   rw [← secImg_eq_map_secMulImg D]
   exact secImg_isElementaryAbelian hD
 
-theorem secMulImg_le_normalizer {L D : Subgroup G} (hLH : L ≤ H) (hDH : D ≤ H)
+theorem secMulImg_le_normalizer {L D : Subgroup G} (hLH : L ≤ H) (_hDH : D ≤ H)
     (hY : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ H Y) (hZ : CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ H Z)
     (hDN : D ≤ Subgroup.normalizer (L : Set G)) :
     secMulImg hY hZ D ≤

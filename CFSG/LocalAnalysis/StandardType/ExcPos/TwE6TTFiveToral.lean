@@ -26,7 +26,7 @@ theorem isToralE6_of_le_ggFixGp_five
     have h : ZMod.algebra GGL 2 = (inferInstance : Algebra (ZMod 2) GGL) := Subsingleton.elim _ _
     rw [h]
     exact AlgebraicClosure.isAlgebraic (ZMod 2)
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact CFSG.StandardType.LieCore.isToralSubgroup_of_familyStabilizer_le (τ := Tag.E6) (p := 5)
     (L := GGL) (ℓ := 2)
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.monomialToralAt_E6_five (by decide) halg

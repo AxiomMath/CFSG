@@ -18,7 +18,7 @@ variable {H : Type} [Group H] [Finite H]
 theorem exists_conj_of_order_three (C A B : Subgroup H) (hAC : A ≤ C) (hBC : B ≤ C)
     (hA : Nat.card A = 3) (hB : Nat.card B = 3) (hidx : ¬ 3 ∣ A.relIndex C) :
     ∃ c ∈ C, ∀ a ∈ A, c * a * c⁻¹ ∈ B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAs : Nat.card (A.subgroupOf C) = 3 := by
     rw [← hA]; exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAC).toEquiv
   have hBs : Nat.card (B.subgroupOf C) = 3 := by
@@ -51,10 +51,11 @@ noncomputable def mulEquivQuotientOfEqBot {X : Type*} [Group X] (N : Subgroup X)
     ⟨(MonoidHom.ker_eq_bot_iff _).mp (by rw [QuotientGroup.ker_mk']; exact hN),
       QuotientGroup.mk'_surjective N⟩
 
+omit [Finite H] in
 theorem comp_simple {C : Subgroup H} (hC : IsComponent C) (hcen : Subgroup.center C = ⊥) :
     IsSimpleGroup C ∧ ∃ a b : C, a * b ≠ b * a := by
   obtain ⟨-, hs, hnab⟩ := hC.1
-  haveI : (Subgroup.center C).Normal := inferInstance
+  have : (Subgroup.center C).Normal := inferInstance
   let e : C ≃* C ⧸ Subgroup.center C := mulEquivQuotientOfEqBot _ hcen
   exact ⟨e.isSimpleGroup, KCore.nonabelian_of_mulEquiv e hnab⟩
 
@@ -65,12 +66,12 @@ include h
 
 theorem comp_sylow {C : Subgroup H} (hC : IsComponent C) :
     ∃ S : Sylow 3 C, (S : Subgroup C).map C.subtype = P ⊓ C := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.QuasithinUnique.exists_sylow_map_eq_inf_of_subnormal h.toSylow hC.2
 
 theorem comp_card {C : Subgroup H} (hO : pPrimeCore 3 H = ⊥) (hC : IsComponent C) :
     Nat.card ↥(P ⊓ C) = 3 ∨ Nat.card ↥(P ⊓ C) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := h.comp_sylow hC
   have hcard : Nat.card ↥(P ⊓ C) = Nat.card S := by
     rw [← hS]
@@ -96,10 +97,10 @@ theorem comp_card {C : Subgroup H} (hO : pPrimeCore 3 H = ⊥) (hC : IsComponent
 
 theorem comp_center_bot {C : Subgroup H} (hO : pPrimeCore 3 H = ⊥) (hC : IsComponent C) :
     Subgroup.center C = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := h.comp_sylow hC
-  haveI hperf : Group.IsPerfect C := hC.1.1
-  haveI hab : IsMulCommutative (S : Subgroup C) := by
+  have hperf : Group.IsPerfect C := hC.1.1
+  have hab : IsMulCommutative (S : Subgroup C) := by
     refine ⟨⟨fun a b => ?_⟩⟩
     have ha : ((a : C) : H) ∈ P ⊓ C := by
       rw [← hS]; exact ⟨a.1, a.2, rfl⟩
@@ -123,7 +124,7 @@ theorem comp_center_bot {C : Subgroup H} (hO : pPrimeCore 3 H = ⊥) (hC : IsCom
   exact this
 
 theorem comp_relIndex {C : Subgroup H} (hC : IsComponent C) : ¬ 3 ∣ (P ⊓ C).relIndex C := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := h.comp_sylow hC
   have : (P ⊓ C).subgroupOf C = S := by
     rw [← hS]
@@ -153,12 +154,14 @@ theorem sup_eq_P {Q Q' : Subgroup H} (hQP : Q ≤ P) (hQ'P : Q' ≤ P) (hQ : Nat
     simp at hQ'
   · exact Subgroup.eq_of_le_of_card_ge (sup_le hQP hQ'P) (by rw [h9, h.card])
 
+omit [Finite H] in
 theorem strongClosed_of_eq {Q : Subgroup H} (hQ : Q = P₁ ∨ Q = P₂) :
     ∀ a ∈ Q, ∀ x : H, x⁻¹ * a * x ∈ P → x⁻¹ * a * x ∈ Q := by
   rcases hQ with rfl | rfl
   · exact h.sc₁.2
   · exact h.sc₂.2
 
+omit [Finite H] h in
 theorem comp_inf_eq_bot {C C' : Subgroup H} (hcen : Subgroup.center C = ⊥)
     (hcomm : ⁅C, C'⁆ = ⊥) : C ⊓ C' = ⊥ := by
   rw [eq_bot_iff]
@@ -191,7 +194,7 @@ theorem card_three_of_inf_bot {A B : Subgroup H} (hAP : A ≤ P) (hBP : B ≤ P)
 
 theorem comp_normal (hO : pPrimeCore 3 H = ⊥) {C : Subgroup H} (hC : IsComponent C) :
     C.Normal := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcen := h.comp_center_bot hO hC
   have hmain : ∀ g : H, C.map (MulAut.conj g).toMonoidHom = C := by
     intro g
@@ -202,7 +205,7 @@ theorem comp_normal (hO : pPrimeCore 3 H = ⊥) {C : Subgroup H} (hC : IsCompone
       rcases CFSG.LocalCores.distinct_components_commute hC hC' with h1 | h1
       · exact absurd h1.symm hne
       · exact h1
-    have hCC' : C ⊓ C' = ⊥ := h.comp_inf_eq_bot hcen hcomm
+    have hCC' : C ⊓ C' = ⊥ := CFSG.RankThree.PartTwo.Sec21.FF84.Red3.comp_inf_eq_bot hcen hcomm
     obtain ⟨hCs, hCnab⟩ := comp_simple hC hcen
     have hcardQ := h.comp_card hO hC
     have hcardQ' := h.comp_card hO hC'

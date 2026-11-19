@@ -29,7 +29,7 @@ structure HeisSetup where
 theorem isMulCommutative_of_isPGroup_three_card_le_nine {H : Type*} [Group H] [Finite H]
     (hp : IsPGroup 3 H) (hcard : Nat.card H ≤ 9) : ∀ x y : H, x * y = y * x := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := hp.exists_card_eq
   have hk2 : k ≤ 2 := by
     by_contra h
@@ -37,13 +37,13 @@ theorem isMulCommutative_of_isPGroup_three_card_le_nine {H : Type*} [Group H] [F
     rw [hk] at hcard
     omega
   interval_cases k
-  · haveI : Subsingleton H := Finite.card_le_one_iff_subsingleton.1 (by rw [hk]; norm_num)
+  · have : Subsingleton H := Finite.card_le_one_iff_subsingleton.1 (by rw [hk]; norm_num)
     exact fun x y => Subsingleton.elim (x * y) (y * x)
   · have hcyc : IsCyclic H := isCyclic_of_prime_card (p := 3) (by rw [hk]; norm_num)
-    letI : IsMulCommutative H := hcyc.isMulCommutative
+    let : IsMulCommutative H := hcyc.isMulCommutative
     exact fun x y => (IsMulCommutative.is_comm (M := H)).comm x y
   · have h9 : Nat.card H = 9 := by rw [hk]; norm_num
-    letI : IsMulCommutative H := IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) h9
+    let : IsMulCommutative H := IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) h9
     exact fun x y => (IsMulCommutative.is_comm (M := H)).comm x y
 
 namespace HeisSetup
@@ -160,7 +160,7 @@ theorem ac_sq : (S.a * S.c) ^ 2 = S.a ^ 2 * S.c ^ 2 * S.b⁻¹ := by
 theorem d_conj_ac : S.d * (S.a * S.c) * S.d⁻¹ = S.a ^ 2 * S.c := by
   calc S.d * (S.a * S.c) * S.d⁻¹
       = (S.d * S.a * S.d⁻¹) * (S.d * S.c * S.d⁻¹) := by group
-    _ = S.a * (S.a * S.c) := by simp only [S.hda, S.hdc, pow_one]
+    _ = S.a * (S.a * S.c) := by simp only [S.hda, S.hdc]
     _ = S.a ^ 2 * S.c := by rw [pow_two]; group
 
 theorem d_conj_c2 : S.d * S.c ^ 2 * S.d⁻¹ = (S.a * S.c) ^ 2 := by
@@ -249,7 +249,7 @@ theorem mem_closure_conj {g : Γ} (hg : g ∈ Subgroup.closure ({S.a, S.c} : Set
     apply hgz
     rw [hg_eq]
     simp only [S.commutator_a_c]
-    simpa using (Subgroup.npow_mem_zpowers S.b k)
+    simp
   · simpa using S.R'_c k
   · simpa using S.R'_c2 k
   · simpa using S.R'_a k
@@ -280,7 +280,7 @@ theorem card_closure [Finite Γ] :
       apply Subtype.ext
       simp only [S.commutator_a_c] at hg ⊢
       exact hg.symm
-    haveI : Fintype H := Fintype.ofFinite H
+    have : Fintype H := Fintype.ofFinite H
     have hle := Fintype.card_le_of_surjective f hsurj
     change Nat.card H ≤ 27
     simpa [Nat.card_eq_fintype_card] using hle
@@ -299,7 +299,7 @@ theorem card_closure [Finite Γ] :
           _ = (S.c * S.a) * 1 := by rw [mul_one]
       simpa using congrArg Inv.inv h1
     exact S.hbne' hb1
-  haveI : Finite H := Subtype.finite
+  have : Finite H := Subtype.finite
   have hexp : ∀ g : H, g ^ 3 = 1 := by
     intro g
     exact Subtype.ext (S.hcr.pow_three_eq_one g.2)
@@ -309,7 +309,7 @@ theorem card_closure [Finite Γ] :
   have hge : 27 ≤ Nat.card H := by
     by_contra hlt
     have h9 : Nat.card H ≤ 9 := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       obtain ⟨k, hk⟩ := hp.exists_card_eq
       rw [hk] at hlt ⊢
       have hk3 : k < 3 := by

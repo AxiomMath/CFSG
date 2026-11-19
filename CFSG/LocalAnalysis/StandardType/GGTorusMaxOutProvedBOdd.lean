@@ -34,7 +34,7 @@ theorem tmOut_B_odd (d : TauCeti.ValidLieTypeIndex) (n : ℕ) (q : TauCeti.Prime
       exact hout
     have ht : tmLieOut (.B n q) =
         q.exponent * Nat.gcd 2 (q.p ^ q.exponent - 1) := by
-      rw [tmLieOut.eq_3, if_neg (by rintro ⟨-, h2⟩; exact hp h2),
+      rw [tmLieOut.eq_3, ite_eq_right (by rintro ⟨-, h2⟩; exact hp h2),
         TauCeti.PrimePower.card_def, Nat.mul_one]
       ring
     rw [ht]
@@ -50,7 +50,7 @@ theorem tmOut_B_odd (d : TauCeti.ValidLieTypeIndex) (n : ℕ) (q : TauCeti.Prime
     have hg : Nat.gcd 2 (q.p ^ q.exponent - 1) = 2 :=
       Nat.gcd_eq_left (even_iff_two_dvd.mp (Nat.Odd.sub_odd hqodd odd_one))
     have ht : tmLieOut (.B n q) = 2 * q.exponent := by
-      rw [tmLieOut.eq_3, if_neg (by rintro ⟨-, h2⟩; exact hp h2),
+      rw [tmLieOut.eq_3, ite_eq_right (by rintro ⟨-, h2⟩; exact hp h2),
         TauCeti.PrimePower.card_def, Nat.mul_one, hg]
     rw [ht]
     exact CFSG.StandardType.SporadicShape.bmOut_card_aut_dvd houtR

@@ -24,7 +24,7 @@ private theorem mat_mul (a b : H) : mat (a * b) = mat a * mat b := by
   simp [mat, Subgroup.coe_mul]
 
 private theorem mat_inv (a : H) : mat a⁻¹ = (mat a)⁻¹ := by
-  simp [mat, Subgroup.coe_inv]
+  simp [mat]
 
 private theorem mat_one : mat (1 : H) = 1 := by
   simp [mat]
@@ -37,7 +37,6 @@ private theorem exists_scalar_of_mk_eq {h₁ h₂ : H}
   obtain ⟨c, hc⟩ := hmem
   have hmat : mat (h₁⁻¹ * h₂) = (c : K) • 1 := by
     rw [mat]
-    change ((↑(h₁⁻¹ * h₂) : GL ι K) : Matrix ι ι K) = (c : K) • 1
     rw [← hc, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
       ← Matrix.smul_one_eq_diagonal]
   have hmul : mat h₂ = (c : K) • mat h₁ := by
@@ -114,9 +113,9 @@ theorem span_liftMats_eq_top_of_trace {ι K : Type} [Fintype ι] [DecidableEq ι
     Submodule.span K (liftMats E) = ⊤ := by
   classical
   have hEne : Nat.card E ≠ 0 := by rw [hcard]; norm_num
-  haveI : Finite E := Nat.finite_of_card_ne_zero hEne
-  letI : Fintype E := Fintype.ofFinite E
-  haveI : Nonempty E := ⟨1⟩
+  have : Finite E := Nat.finite_of_card_ne_zero hEne
+  let : Fintype E := Fintype.ofFinite E
+  have : Nonempty E := ⟨1⟩
   have hcardE : Fintype.card E = Module.finrank K (Matrix ι ι K) := by
     rw [← Nat.card_eq_fintype_card, hcard, Module.finrank_matrix]
     simp [hι, Module.finrank_self]
@@ -275,6 +274,7 @@ private theorem eq_one_of_commute_lift (E : Subgroup (CFSG.Open.StatedProj H))
     rw [← mk_lift E a, hone]
   exact Subtype.ext h1
 
+omit [Fintype ι] [DecidableEq ι] in
 private theorem fun_eq_of_sum_smul_eq {κ : Type*} [Fintype κ]
     {v : κ → Matrix ι ι K} (hli : LinearIndependent K v) {c d : κ → K}
     (h : ∑ i, c i • v i = ∑ i, d i • v i) : c = d := by
@@ -294,12 +294,12 @@ theorem centralizer_le_of_span_liftMats {ι K : Type} [Fintype ι] [DecidableEq 
     Subgroup.centralizer (E : Set (CFSG.Open.StatedProj H)) ≤ E := by
   classical
   by_cases hι0 : Fintype.card ι = 0
-  · haveI : IsEmpty ι := Fintype.card_eq_zero_iff.mp hι0
-    haveI : Subsingleton (GL ι K) := by
+  · have : IsEmpty ι := Fintype.card_eq_zero_iff.mp hι0
+    have : Subsingleton (GL ι K) := by
       constructor
       intro u v
       exact Units.ext (by ext i; exact (IsEmpty.false i).elim)
-    haveI : Subsingleton (CFSG.Open.StatedProj H) := by
+    have : Subsingleton (CFSG.Open.StatedProj H) := by
       refine ⟨fun a b => ?_⟩
       induction a using Quotient.inductionOn with
       | h x =>
@@ -309,11 +309,11 @@ theorem centralizer_le_of_span_liftMats {ι K : Type} [Fintype ι] [DecidableEq 
     rw [hcard, hι0] at h1
     omega
   · have hιpos : 0 < Fintype.card ι := Nat.pos_of_ne_zero hι0
-    haveI : Nonempty ι := Fintype.card_pos_iff.mp hιpos
+    have : Nonempty ι := Fintype.card_pos_iff.mp hιpos
     have hEne : Nat.card E ≠ 0 := by rw [hcard]; positivity
-    haveI : Finite E := Nat.finite_of_card_ne_zero hEne
-    letI : Fintype E := Fintype.ofFinite E
-    haveI : Nonempty E := ⟨1⟩
+    have : Finite E := Nat.finite_of_card_ne_zero hEne
+    let : Fintype E := Fintype.ofFinite E
+    have : Nonempty E := ⟨1⟩
     have hcardE : Fintype.card E = Module.finrank K (Matrix ι ι K) := by
       rw [← Nat.card_eq_fintype_card, hcard, Module.finrank_matrix]
       simp [Module.finrank_self, pow_two]
@@ -524,16 +524,16 @@ theorem conj_eq_of_pow_seven_of_span_liftMats {ι K : Type} [Fintype ι] [Decida
       (∀ e ∈ E, n ^ 7 * e * (n ^ 7)⁻¹ = e) → ∀ e ∈ E, n * e * n⁻¹ = e := by
   classical
   intro n hn hn7 e he
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI hne : Nonempty ι := by
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have hne : Nonempty ι := by
     by_contra hι
     rw [not_nonempty_iff] at hι
-    haveI : IsEmpty ι := hι
-    haveI : Subsingleton (GL ι K) := by
+    have : IsEmpty ι := hι
+    have : Subsingleton (GL ι K) := by
       constructor
       intro u v
       exact Units.ext (by ext i; exact (IsEmpty.false i).elim)
-    haveI : Subsingleton (CFSG.Open.StatedProj H) := by
+    have : Subsingleton (CFSG.Open.StatedProj H) := by
       refine ⟨fun a b => ?_⟩
       induction a using Quotient.inductionOn with
       | h x =>
@@ -542,8 +542,8 @@ theorem conj_eq_of_pow_seven_of_span_liftMats {ι K : Type} [Fintype ι] [Decida
     have h1 : Nat.card E = 1 := Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨1⟩⟩
     omega
   have hEne : Nat.card E ≠ 0 := by rw [hcard]; norm_num
-  haveI : Finite E := Nat.finite_of_card_ne_zero hEne
-  letI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Nat.finite_of_card_ne_zero hEne
+  let : Fintype E := Fintype.ofFinite E
   have hmap : E.map (MulAut.conj n).toMonoidHom = E :=
     Subgroup.mem_normalizer_iff_map_conj_eq.mp hn
   let σ : MulAut E :=
@@ -575,7 +575,7 @@ theorem conj_eq_of_pow_seven_of_span_liftMats {ι K : Type} [Fintype ι] [Decida
     exact hval
   · exfalso
     let P : Subgroup (MulAut E) := Subgroup.zpowers σ
-    letI : MulAction P E := MulAction.compHom E P.subtype
+    let : MulAction P E := MulAction.compHom E P.subtype
     have hPcard : Nat.card P = 7 := by
       have horder : orderOf σ = 7 := orderOf_eq_prime hσ7 hσ1
       rw [show P = Subgroup.zpowers σ from rfl, Nat.card_zpowers, horder]
@@ -754,7 +754,6 @@ theorem conj_eq_of_pow_seven_of_span_liftMats {ι K : Type} [Fintype ι] [Decida
         intro e f
         apply scalar_injective (ι := ι)
         rw [← hγ (e * f)]
-        change (cfun (e * f) : GL ι K) = Matrix.GeneralLinearGroup.scalar ι (γ e * γ f)
         rw [show (cfun (e * f) : GL ι K) = (cfun e : GL ι K) * (cfun f : GL ι K) by
           rw [hcfun_mul, Subgroup.coe_mul]]
         rw [hγ e, hγ f, ← map_mul]
@@ -826,8 +825,8 @@ theorem conj_eq_of_pow_seven_of_span_liftMats {ι K : Type} [Fintype ι] [Decida
       have hrange_finite : Finite φ.range :=
         Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
       have hrange_card : Nat.card φ.range = 2 := by
-        haveI : Finite φ.range := hrange_finite
-        haveI : Finite ↥(Subgroup.zpowers (-1 : Kˣ)) := hzpowers_finite
+        have : Finite φ.range := hrange_finite
+        have : Finite ↥(Subgroup.zpowers (-1 : Kˣ)) := hzpowers_finite
         have hle : Nat.card φ.range ≤ 2 := by
           calc Nat.card φ.range ≤ Nat.card ↥(Subgroup.zpowers (-1 : Kˣ)) :=
                 Subgroup.card_le_of_le hφ_range_le
@@ -910,7 +909,6 @@ theorem conj_eq_of_pow_seven_of_span_liftMats {ι K : Type} [Fintype ι] [Decida
               mat (lift E (σ (d : E))) * mat (lift E (a : E)) from mat_mul _ _]
           exact hcommσ
         rw [hDmem]
-        change cfun (σ (d : E)) = 1
         simp only [cfun]
         rw [hcommH]
         group
@@ -950,7 +948,7 @@ theorem conj_eq_of_pow_seven_of_span_liftMats {ι K : Type} [Fintype ι] [Decida
         omega
       have horderD : orderOf σD = 7 := orderOf_eq_prime hσD7 hσD_ne_one
       let PD : Subgroup (MulAut D) := Subgroup.zpowers σD
-      letI : MulAction PD D := MulAction.compHom D PD.subtype
+      let : MulAction PD D := MulAction.compHom D PD.subtype
       have hPDcard : Nat.card PD = 7 := by
         rw [show PD = Subgroup.zpowers σD from rfl, Nat.card_zpowers, horderD]
       have hPDis : IsPGroup 7 PD := IsPGroup.of_card (n := 1) (by rw [hPDcard]; norm_num)

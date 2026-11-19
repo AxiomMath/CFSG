@@ -49,7 +49,7 @@ theorem S_le_M (c : S622Conf p P M x z T S) : S ≤ M := by
   rw [eq_bot_iff]
   exact (le_inf c.le_S c.config.S_le_M).trans h.le
 
-theorem B_le_normalizer_of_z (c : S622Conf p P M x z T S) {W : Subgroup G}
+theorem B_le_normalizer_of_z (_c : S622Conf p P M x z T S) {W : Subgroup G}
     (hWC : W ≤ centralizer ({x} : Set G)) (hz : zpowers z ≤ normalizer (W : Set G)) :
     zpowers x ⊔ zpowers z ≤ normalizer (W : Set G) := by
   refine sup_le ?_ hz
@@ -123,7 +123,7 @@ theorem s622_isKGroup_centralizer (hS : Situation G p P M) (hx : Point P M x) :
 theorem s622_isKGroup_primeCore (hS : Situation G p P M) (hx : Point P M x) :
     CFSG.Open.IsKGroup ↥(smallRankD p x) := by
   have : IsSimpleGroup G := hS.simple
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   have hDne : smallRankD p x ≠ ⊤ := fun h => s622_centralizer_ne_top hS hx (top_le_iff.mp
     (h ▸ (CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec p _ |>.1 :
       smallRankD p x ≤ centralizer ({x} : Set G))))
@@ -135,7 +135,7 @@ theorem s622_x_not_mem_zpowers (hS : Situation G p P M) (hx : Point P M x) (hz :
   intro hxz
   have hpl := plane_of_central hS hx hz
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hBc := hpl.card_eq
   have hsup : zpowers x ⊔ zpowers z = zpowers z := sup_eq_right.mpr (zpowers_le.mpr hxz)
   rw [hsup, Nat.card_zpowers, orderOf_eq_prime hz.pow_eq_one hz.ne_one] at hBc
@@ -144,13 +144,14 @@ theorem s622_x_not_mem_zpowers (hS : Situation G p P M) (hx : Point P M x) (hz :
 
 theorem s622_primeCore_two_eq_of_odd {D : Subgroup G} (hD : Odd (Nat.card D)) :
     rankThreePrimeCore 2 D = D := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm (CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec 2 D).1 ?_
   refine le_sSup ⟨le_rfl, ?_, ?_⟩
   · rw [Subgroup.subgroupOf_self]
     infer_instance
   · exact Nat.coprime_two_left.mpr hD
 
+omit [Finite G] in
 theorem s622_zpowers_le_normalizer_of_le_centralizer {W : Subgroup G}
     (hW : W ≤ centralizer ({z} : Set G)) : zpowers z ≤ normalizer (W : Set G) := by
   rw [zpowers_le]
@@ -160,7 +161,7 @@ theorem s622_zpowers_le_normalizer_of_le_centralizer {W : Subgroup G}
 theorem s622_card_coprime_odd {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) (hfp : f ≠ p) (hp : p.Prime)
     {F F' : Subgroup G} (hF : IsPGroup f F) (hle : F' ≤ F) :
     Nat.Coprime p (Nat.card F') ∧ Odd (Nat.card F') := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   obtain ⟨k, hk⟩ := hF.exists_card_eq
   have hdvd : Nat.card F' ∣ f ^ k := hk ▸ Subgroup.card_dvd_of_le hle
   refine ⟨Nat.Coprime.coprime_dvd_right hdvd (Nat.Coprime.pow_right k
@@ -171,7 +172,7 @@ theorem s622_le_sup_of_hasNormalPComplement {q : ℕ} (hq : q.Prime) {H Q : Subg
     (hQ : CFSG.ABGLocalTools.IsSylowOf q Q H) (h : CFSG.HasNormalPComplement q ↥H) :
     H ≤ Q ⊔ rankThreePrimeCore q H := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨N, hNn, hNcop, hNq⟩ := h
   obtain ⟨Q', hQ'⟩ := hQ.exists_sylow_eq_subgroupOf
   have hidxN : (N ⊔ (Q' : Subgroup ↥H)).index ∣ Nat.card (↥H ⧸ N) :=

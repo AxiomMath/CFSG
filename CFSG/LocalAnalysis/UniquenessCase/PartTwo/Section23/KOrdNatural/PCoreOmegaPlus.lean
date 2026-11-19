@@ -58,11 +58,11 @@ private theorem plusNatRep_isIrreducible {K : Type} [Field K] {m : ℕ} (hm : 2 
   have hP : ∃ P : Fin 2 → HypPair (quadPlus m K), ∀ i j, i ≠ j → (P i).Orth (P j) :=
     ⟨fun i => plusPair K (Fin.castLE hm i),
       fun _ _ hij => plusPair_orth (fun h => hij (Fin.castLE_injective hm h))⟩
-  haveI : Nontrivial (Fin m ⊕ Fin m → K) := by
+  have : Nontrivial (Fin m ⊕ Fin m → K) := by
     refine ⟨0, Pi.single (Sum.inl (⟨0, by omega⟩ : Fin m)) (1 : K), ?_⟩
     intro h
     have := congrFun h (Sum.inl (⟨0, by omega⟩ : Fin m))
-    simpa using this
+    simp at this
   refine ⟨fun R => ?_⟩
   have hWin : ∀ g ∈ CFSG.MatrixModel.isometryCore (StatedQuadPlus m K),
       ∀ x ∈ R.toSubmodule,
@@ -107,7 +107,7 @@ theorem pCore_statedOmega_plus_eq_bot {K : Type} [Field K] [Finite K] (p : ℕ) 
     change (StatedOmega (StatedQuadPlus m K)).comap O.subtype = _root_.commutator ↥O
     rw [hΩO, ← Subgroup.map_subtype_commutator O]
     exact Subgroup.comap_map_eq_self_of_injective O.subtype_injective _
-  haveI hN : ((StatedOmega (StatedQuadPlus m K)).subgroupOf O).Normal := by
+  have hN : ((StatedOmega (StatedQuadPlus m K)).subgroupOf O).Normal := by
     rw [hcomm]
     infer_instance
   have hsub : ((StatedOmega (StatedQuadPlus m K)).subgroupOf O).IsSubnormal := hN.isSubnormal

@@ -29,7 +29,7 @@ theorem exists_threePrime_overgroup {M : Type*} [Group M] [Finite M] {T W A : Su
     [W.Normal] [A.Normal] (hM : CharTwo (⊤ : Subgroup M)) (hT : IsSylowTwoOf T ⊤)
     (hWA : W ≤ A) (hOW : pCoreOf 2 (⊤ : Subgroup M) ≤ W) (h3 : ¬ 3 ∣ W.relIndex A) :
     ∃ D : Subgroup M, T ≤ D ∧ ¬ 3 ∣ Nat.card D ∧ CharTwo D ∧ A ≤ D ⊔ W := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hT2, hTi'⟩ := hT
   have hTi : ¬ 2 ∣ T.index := by
     rw [← relIndex_top_right]
@@ -108,7 +108,7 @@ theorem exists_threePrime_overgroup {M : Type*} [Group M] [Finite M] {T W A : Su
   ·
     have hOe : pCoreOf 2 (⊤ : Subgroup M) = CFSG.pCore 2 M :=
       CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_top_eq_pCore 2
-    haveI hOn : (CFSG.pCore 2 M).Normal := inferInstance
+    have hOn : (CFSG.pCore 2 M).Normal := inferInstance
     have hOT : CFSG.pCore 2 M ≤ T := by
       have := (CFSG.pCore_isPGroup (p := 2) (G := M)).le_sylow_of_normal (hT2.toSylow hTi)
       rwa [IsPGroup.toSylow_coe] at this

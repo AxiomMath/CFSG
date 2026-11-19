@@ -55,7 +55,7 @@ theorem false_of_rest₆ (hSol : SolomonZ2A6) (hR : Fin76bInnerRest₆) (h : Std
     (fun g hg => EConfig.map_conj_eq_of_le hcfg hE hzt hg)
     (fun y hy => EConfig.mem_normalizer_of_mem_normalizer hcfg hE hzt hy)
     (fun S hS2 hSC hSmax hzS => EConfig.sylow_centralizer_shape hcfg hE hS2 hSC hSmax hzS)
-    hTQ hxQ hxT hxN hxz hxt (EConfig.t_central_Q hcfg hE Q.isPGroup' hTQ hxQ hxz hxt)
+    hTQ hxQ hxT hxN hxz hxt (EConfig.t_central_Q hcfg hE Q.isPGroup hTQ hxQ hxz hxt)
     hBL hBt hBiso hβB hβ3 h64
 
 end CFSG.EvenSporadicStandard.Fin76b

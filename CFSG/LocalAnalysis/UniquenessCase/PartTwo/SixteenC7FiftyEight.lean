@@ -25,7 +25,7 @@ theorem exists_noncyclic_seven_fix {M V₀ V L : Subgroup G} (hV : IsElemAbelian
       normalizer (barSub V₀ V hV L : Set (MulAut (Vtil V₀ V hV)))) :
     ∃ B : Subgroup G, B ≤ M ∧ IsPGroup 7 B ∧ ¬ IsCyclic B ∧
       3 ≤ rk ↥(fixV (barSub V₀ V hV B)) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨E, hEM, hEel, hEcard⟩ :=
     UC6S846.exists_elemAbelian_card_of_le_pRank (by norm_num : Nat.Prime 7) hrank
   have hEst : E ≤ stabTil V₀ V := hEM.trans hMs

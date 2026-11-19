@@ -21,10 +21,10 @@ theorem card_inf_centralizer_eq_one_or_four_or_sixteen {Q : Subgroup G} [Finite 
   classical
   let A : Subgroup G := Subgroup.zpowers c
   have hAQ : A ≤ Subgroup.normalizer (Q : Set G) := Subgroup.zpowers_le.mpr hcN
-  letI : Subgroup.Normalizes A Q := ⟨hAQ⟩
+  let : Subgroup.Normalizes A Q := ⟨hAQ⟩
   have hAcard : Nat.card ↥A = 3 := by
     rw [show A = Subgroup.zpowers c from rfl, Nat.card_zpowers, hc3]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA3 : IsPGroup 3 ↥A := IsPGroup.of_card (n := 1) (by simpa using hAcard)
   have hmod := hA3.card_modEq_card_fixedPoints (↥Q)
   let C : Subgroup G := Q ⊓ Subgroup.centralizer ({c} : Set G)
@@ -128,8 +128,8 @@ theorem relIndex_sup_eq_three_of_not_le {A B : Subgroup G}
     (hcardB : Nat.card B = 3) (hBA : B ≤ Subgroup.normalizer (A : Set G))
     (hnot : ¬ B ≤ A) : A.relIndex (A ⊔ B) = 3 := by
   have hsup : A.relIndex (A ⊔ B) = A.relIndex B := by
-    letI := Subgroup.normal_subgroupOf_of_le_normalizer hBA
-    letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hBA
+    let := Subgroup.normal_subgroupOf_of_le_normalizer hBA
+    let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hBA
     rw [sup_comm]
     exact (Nat.card_congr
       (QuotientGroup.quotientInfEquivProdNormalizerQuotient B A hBA).toEquiv).symm
@@ -321,8 +321,8 @@ theorem mem_of_commutator_mem_of_fixedPointFree {Q A : Subgroup G}
       (Q.mul_mem hcQ (Q.mul_mem haQ hqQ))
   have hsub : (⟨q * (a * q) * (c * (a * q)), hmemL⟩ : ↥Q) =
       (⟨q * c, Q.mul_mem hqQ hcQ⟩ : ↥Q) := by
-    haveI : IsMulCommutative ↥Q := hQab
-    letI : CommGroup ↥Q := IsMulCommutative.instCommGroup
+    have : IsMulCommutative ↥Q := hQab
+    let : CommGroup ↥Q := IsMulCommutative.instCommGroup
     change (⟨q, hqQ⟩ : ↥Q) * (⟨a, haQ⟩ * ⟨q, hqQ⟩) *
         (⟨c, hcQ⟩ * (⟨a, haQ⟩ * ⟨q, hqQ⟩)) =
       (⟨q, hqQ⟩ : ↥Q) * ⟨c, hcQ⟩
@@ -348,8 +348,8 @@ theorem exists_orderOf_eq_three_of_not_le_of_relIndex_nine [Finite G] {K S R : S
     (hRK : R ≤ K) (hRnotS : ¬ R ≤ S) (hS2 : IsPGroup 2 S) :
     ∃ r ∈ R, orderOf r = 3 ∧ r ∉ S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : (S.subgroupOf K).Normal := hSnorm
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : (S.subgroupOf K).Normal := hSnorm
   let π : ↥K →* (↥K ⧸ S.subgroupOf K) := QuotientGroup.mk' (S.subgroupOf K)
   have hRnotSub : ¬ R.subgroupOf K ≤ S.subgroupOf K := by
     intro hle
@@ -357,7 +357,7 @@ theorem exists_orderOf_eq_three_of_not_le_of_relIndex_nine [Finite G] {K S R : S
     intro r hr
     have hxK : (⟨r, hRK hr⟩ : ↥K) ∈ R.subgroupOf K := Subgroup.mem_subgroupOf.mpr hr
     exact Subgroup.mem_subgroupOf.mp (hle hxK)
-  obtain ⟨x, hxR, hxS⟩ := SetLike.not_le_iff_exists.mp hRnotSub
+  obtain ⟨x, hxR, hxS⟩ := IsConcreteLE.not_le_iff_exists.mp hRnotSub
   have hxK : (x : G) ∈ K := x.2
   have hyR : (x : G) ∈ R := Subgroup.mem_subgroupOf.mp hxR
   have hyS : (x : G) ∉ S := fun h => hxS (Subgroup.mem_subgroupOf.mpr h)
@@ -392,7 +392,7 @@ theorem exists_orderOf_eq_three_of_not_le_of_relIndex_nine [Finite G] {K S R : S
   have hπz3 : orderOf (π ⟨z, hzK⟩) = 3 := by
     rw [hzpow]
     rcases hm with hm | hm
-    · simpa [hm]
+    · simp [hm]
     · rw [orderOf_pow, hm]
       norm_num
   have hπzne : π ⟨z, hzK⟩ ≠ 1 := by

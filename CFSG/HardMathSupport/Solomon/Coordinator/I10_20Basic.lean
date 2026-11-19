@@ -258,7 +258,7 @@ theorem i1020_frattini_lift [Finite G] {G' : Type*} [Group G'] {p : ℕ} [Fact p
       rw [Sylow.coe_mapSurjective, mem_map] at hmem
       obtain ⟨x, hx, hxs⟩ := hmem
       exact ⟨x, ⟨x, hx, rfl⟩, congrArg Subtype.val hxs⟩
-  refine ⟨S, Q.isPGroup'.map _, hSmap, ?_⟩
+  refine ⟨S, Q.isPGroup.map _, hSmap, ?_⟩
   intro g' hg'
   obtain ⟨g, rfl⟩ := hπ g'
   have hgP : g ∈ normalizer (P : Set G) := by

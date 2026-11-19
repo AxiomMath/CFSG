@@ -168,7 +168,7 @@ private theorem twist_mem_of_twistInner_d4
         parabolicRoots Tag.E6 (CFSG.RankThree.PartOne.KE.d4Nodes Tag.E6) := by
       refine ⟨IsRoot.basis j, fun k hk => ?_⟩
       have hkj : k ≠ j := fun h => hk (h ▸ hj)
-      simp [Pi.single_apply, hkj]
+      simp [hkj]
     have hγ : v • (Pi.single j 1 : Fin Tag.E6.rank → ℤ) ∈ componentRoots (rootCharHom a) i := by
       rw [hv]
       exact ⟨_, hjΦ, rfl⟩

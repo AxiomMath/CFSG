@@ -15,6 +15,7 @@ section Abstract
 
 variable {N : Type} [Group N] [Finite N]
 
+omit [Finite N] in
 theorem ff6m_solvable_of_sq_mem (A : Subgroup N) [A.Normal] (hA : Group.IsSolvable ↥A)
     (hsq : ∀ g : N, g * g ∈ A) : Group.IsSolvable N := by
   have hzz : ∀ z : N ⧸ A, z * z = 1 := by
@@ -30,10 +31,11 @@ theorem ff6m_solvable_of_sq_mem (A : Subgroup N) [A.Normal] (hA : Group.IsSolvab
     calc x * y = (x * y)⁻¹ := (inv_eq_of_mul_eq_one_right (hzz (x * y))).symm
       _ = y⁻¹ * x⁻¹ := mul_inv_rev x y
       _ = y * x := by rw [hx, hy]
-  haveI : Group.IsSolvable (N ⧸ A) := Group.isSolvable_of_comm hcomm
+  have : Group.IsSolvable (N ⧸ A) := Group.isSolvable_of_comm hcomm
   exact Group.isSolvable_of_ker_le_range A.subtype (QuotientGroup.mk' A) (by
     rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
 
+omit [Finite N] in
 theorem ff6m_xTwoCore_of_sq_mem (A : Subgroup N) [A.Normal] (hA : XTwoCore ↥A)
     (hsq : ∀ g : N, g * g ∈ A) : XTwoCore N := by
   unfold XTwoCore at hA ⊢
@@ -68,9 +70,10 @@ theorem ff6m_xTwoCore_of_sq_mem (A : Subgroup N) [A.Normal] (hA : XTwoCore ↥A)
     exact ff_XOut_eq_map A
   rw [hffN, hmap1, htwoRes]
 
+omit [Finite N] in
 theorem ff6m_xTwoCore_of_surj_two_ker {B : Type} [Group B] (φ : N →* B)
     (hφ : Function.Surjective φ) (hk : IsPGroup 2 φ.ker) (hX : XTwoCore N) : XTwoCore B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold XTwoCore at hX ⊢
   have hS : twoRes (⊤ : Subgroup B) = (twoRes (⊤ : Subgroup N)).map φ := by
     apply le_antisymm

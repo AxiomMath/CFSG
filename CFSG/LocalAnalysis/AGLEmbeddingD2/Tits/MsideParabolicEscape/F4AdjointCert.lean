@@ -90,6 +90,7 @@ theorem sub_one_lvec {f : Module.End R (RootModule Tag.F4 R)} {fIdx : List ℕ �
     idxMask (fIdx [b]) == xorMap (fun k => zs.getD k 0)
       ((List.range piv.length).filter fun k => (idxMask (fIdx [b])).testBit (piv.getD k 0))
 
+omit [CharP R 2] in
 theorem list_sum_mem_span {M : Type*} [AddCommGroup M] [Module R M] {s : Set M} :
     ∀ L : List M, (∀ x ∈ L, x ∈ s) → L.sum ∈ Submodule.span R s
   | [], _ => by simp

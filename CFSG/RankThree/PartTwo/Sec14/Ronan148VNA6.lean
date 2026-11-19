@@ -20,7 +20,7 @@ theorem mem_of_centralNoncentral_of_inner {Q : Type} [Group Q] [Finite Q]
     {Aq Bq Jq Z : Subgroup Q} {dα j : Q} (hAab : ∀ x ∈ Aq, ∀ y ∈ Aq, x * y = y * x)
     (hA3 : ∀ a ∈ Aq, a ^ 3 = 1) (hAp : IsPGroup 3 Aq)
     (hF3 : ∀ w : Q, w ∈ Subgroup.centralizer (Aq : Set Q) → w ^ 3 = 1 → w ∈ Aq)
-    (hBA : Bq ≤ Aq) (hB9 : Nat.card Bq = 9) (hdB : dα ∈ Bq) (hdA : dα ∈ Aq) (hd1 : dα ≠ 1)
+    (_hBA : Bq ≤ Aq) (hB9 : Nat.card Bq = 9) (hdB : dα ∈ Bq) (hdA : dα ∈ Aq) (hd1 : dα ≠ 1)
     (hjJ : j ∈ Jq) (hAeq : Bq ⊔ Subgroup.zpowers j = Aq)
     (hAZB : Aq ⊓ Z ≤ Bq) (hdZ : ∀ v ∈ Z, dα * v = v * dα)
     (hJZ : ∀ u ∈ Jq, ∀ v ∈ Z, u * v = v * u)

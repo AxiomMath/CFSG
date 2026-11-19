@@ -223,7 +223,7 @@ theorem pr_length : ∀ (l : List Γ), (pr l).length = 2 ^ l.length
 theorem eq_pr_of_nodup [Finite Γ] {E : Subgroup Γ} (hcard : Nat.card E = 16) {l : List Γ}
     (hl : l.length = 4) (hmem : ∀ x ∈ l, x ∈ E) (hnd : (pr l).Nodup) : ∀ x ∈ E, x ∈ pr l := by
   classical
-  haveI : Fintype Γ := Fintype.ofFinite Γ
+  have : Fintype Γ := Fintype.ofFinite Γ
   let Ef : Finset Γ := Finset.univ.filter (· ∈ E)
   have hEcard : Ef.card = 16 := by
     rw [← hcard, Nat.card_eq_fintype_card, Fintype.card_subtype]
@@ -357,7 +357,7 @@ theorem mask_of_le_Sg {E : Subgroup PG} (hES : E ≤ Sg) (h2 : ∀ x ∈ E, x * 
       (∀ x ∈ xs, ∃ z ∈ E, ∀ q < 100, IF x q = act 100 z q) ∧
       ∀ z ∈ E, z ≠ 1 → ∃ x ∈ xs, ∀ q < 100, IF x q = act 100 z q := by
   classical
-  haveI : Fintype PG := Fintype.ofFinite PG
+  have : Fintype PG := Fintype.ofFinite PG
   have hc : ∀ {a b : PG}, a ∈ E → b ∈ E → a * b = b * a := fun ha hb => comm_of_sq h2 ha hb
   have hι : ∀ z : PG, ∃ i, z ∈ E → z ≠ 1 → i < 87 ∧ ∀ q < 100, IF i q = act 100 z q := by
     intro z

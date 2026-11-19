@@ -25,7 +25,7 @@ theorem case1_core (hI : GL83I66Two) {X : Type} [Group X] [Finite X] {p f : ℕ}
       (L ⊓ centralizer (E : Set X)).map (QuotientGroup.mk' R))
     (y : X) (hy : orderOf y = f) (hEy : y ∈ normalizer (E : Set X)) :
     3 ≤ CFSG.Open.pRank f (centralizer ({y} : Set X)) := by
-  haveI := Fact.mk hf
+  have := Fact.mk hf
   have hf2 : f ≠ 2 := by omega
   have hf3 : 3 ≤ f := by omega
   have hyf : y ^ f = 1 := by
@@ -105,10 +105,10 @@ end RankP
 
 theorem rankPCase1_of_inputs (hI : RankP.GL83I66Two) : RankPCase1 := by
   intro X _ _ p f hp hf hf5 hfp hK hC hcard E hEp hEO hEmax hcover y hy hEy
-  haveI := Fact.mk hp
-  haveI hLc : (CFSG.pLayer X p).Characteristic :=
+  have := Fact.mk hp
+  have hLc : (CFSG.pLayer X p).Characteristic :=
     CFSG.ComponentClassification.CatalogueBPrimeJoin.pLayer_characteristic (G := X) (p := p)
-  haveI : (CFSG.pLayer X p).Normal := inferInstance
+  have : (CFSG.pLayer X p).Normal := inferInstance
   exact RankP.case1_core hI hf hf5 hfp hK (CFSG.pPrimeCore p X) (CFSG.pLayer X p) hC hcard E hEp
     hEO hEmax hcover y hy hEy
 

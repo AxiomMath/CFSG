@@ -40,7 +40,7 @@ theorem ggStdSubTwoTorusDeltaSmall_spTwo
     GGStdSubTwoTorusDeltaSmall 3 r (LargeEvenProj (LargeEvenSpGroup K m)) I := by
   intro L' _ _ ψ hψ hker hperf A _ hAI _ _ hδ
   exfalso
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   obtain ⟨-, hδ2⟩ := hδ
   rcases hδ2 with ⟨⟨a', ha', hna⟩, -⟩ | ⟨hdvd, -, -⟩
   · obtain ⟨φ, -, hφ⟩ := hAI a' ha'

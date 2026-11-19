@@ -53,7 +53,7 @@ theorem ker_dHom_eq {F : Type} [Field F] [Finite F] (hq : Nat.card F = 4) :
       rw [coe_dMat, htt, Matrix.scalar_apply]
       congr 1
       funext i
-      fin_cases i <;> first | rfl | simp
+      fin_cases i <;> first | rfl
     show proj 3 F (dMat t t) = 1
     exact proj_eq_one_iff.mpr (mem_scalars.mpr ⟨t, unit_pow_three_of_card_four hq t, hmat⟩)
 

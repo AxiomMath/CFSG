@@ -99,7 +99,7 @@ theorem ggTorusInducedCardElt_adjoint [Finite K] {p : ℕ} (hp : p.Prime) (hp2 :
     (hV : Nat.card (TableBExc.torusPow τ K p) = p ^ τ.rank) (hT : GGExcToralRankInput τ K p)
     (hsymm : ∀ i j, τ.cartan i j = τ.cartan j i) :
     GGTorusInducedCardElt p τ.rank (adjointGroup τ K) (Nat.card (WeylGroup τ)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζo⟩ := @TableBSymp.exists_orderOf_eq_of_dvd K _ _ p ⟨hp⟩ hpq
   have hζ : ζ ^ p = 1 := by

@@ -18,11 +18,13 @@ open CFSG.GH74.BNPair CFSG.Quasithin.H13.F431.BN
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ} (D : RankTwoSystem X 6)
 
+omit [Finite X] in
 theorem burnsideF45_g2d_bn_adj (i : Bool) : (Γ D).Adj (v D i) (v D (!i)) := by
   cases i
   · exact (adj_v D).symm
   · exact adj_v D
 
+omit [Finite X] in
 theorem burnsideF45_g2d_bn_edge (i : Bool) :
     MulAction.stabilizer X (v D i) ⊓ MulAction.stabilizer X (v D (!i)) = D.B := by
   rw [stabilizer_v_eq, stabilizer_v_eq]
@@ -109,7 +111,7 @@ variable {W V : Type} {ΓW : SimpleGraph W} {ΓV : SimpleGraph V} {X : Type} [Gr
 theorem burnsideF45_transAct_graph [GraphAction X ΓV] (e : W ≃ V)
     (he : ∀ a b, ΓW.Adj a b ↔ ΓV.Adj (e a) (e b)) :
     @GraphAction W X _ (burnsideF45_transAct e) ΓW := by
-  letI := burnsideF45_transAct (X := X) e
+  let := burnsideF45_transAct (X := X) e
   refine ⟨fun x a b => ?_⟩
   show ΓW.Adj (e.symm (x • e a)) (e.symm (x • e b)) ↔ ΓW.Adj a b
   rw [he, he, Equiv.apply_symm_apply, Equiv.apply_symm_apply, GraphAction.adj_smul]
@@ -117,7 +119,7 @@ theorem burnsideF45_transAct_graph [GraphAction X ΓV] (e : W ≃ V)
 theorem burnsideF45_hexModel_transport (e : W ≃ V) (he : ∀ a b, ΓW.Adj a b ↔ ΓV.Adj (e a) (e b))
     {R : Subgroup X} {x₀ l₀ : V} (M : burnsideF45_HexModel ΓV X R x₀ l₀) :
     @burnsideF45_HexModel W ΓW X _ (burnsideF45_transAct e) R (e.symm x₀) (e.symm l₀) := by
-  letI := burnsideF45_transAct (X := X) e
+  let := burnsideF45_transAct (X := X) e
   have hsm : ∀ (x : X) (w : W), x • w = e.symm (x • e w) := fun _ _ => rfl
   have hfix : ∀ (x : X) (w : W), x • w = w ↔ x • e w = e w := by
     intro x w
@@ -257,12 +259,12 @@ theorem burnsideF45_g2d_hexModel (hK : Nat.card K = 2) :
       (burnsideF4h_g2_incl K hK).range (v (burnsideF4h_g2_sys K) true)
       (v (burnsideF4h_g2_sys K) false) := by
   set D := burnsideF4h_g2_sys K with hD
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype K := Fintype.ofFinite K
   have hK' : Nat.card K = 2 ^ 1 := by rw [hK]; norm_num
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hK')
-  haveI : Finite (G2Native.Parent K) := CFSG.Quasithin.finite_g2Group
-  haveI : Finite (G2Native.FullModel K) := inferInstance
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hK')
+  have : Finite (G2Native.Parent K) := CFSG.Quasithin.finite_g2Group
+  have : Finite (G2Native.FullModel K) := inferInstance
   have hU : ChF.IsSylowOf 2 D.U ⊤ := burnsideF4h_g2_sys_U_sylow 2
   have hBcard : Nat.card ↥D.B = 64 := by
     rw [hD, ← burnsideF4h_g2_fullLocal_borel]
@@ -326,7 +328,7 @@ theorem burnsideF45_g2d_hexModel (hK : Nat.card K = 2) :
   · have hBR : ¬ D.B ≤ (burnsideF4h_g2_incl K hK).range := by
       rw [hD, ← burnsideF4h_g2_fullLocal_borel]
       exact burnsideF4h_g2_borel_not_le_range hK
-    obtain ⟨y, hyB, hyR⟩ := SetLike.not_le_iff_exists.1 hBR
+    obtain ⟨y, hyB, hyR⟩ := IsConcreteLE.not_le_iff_exists.1 hBR
     exact ⟨y, smul_v_of_mem_B D true hyB, smul_v_of_mem_B D false hyB, hyR⟩
 
 end G2

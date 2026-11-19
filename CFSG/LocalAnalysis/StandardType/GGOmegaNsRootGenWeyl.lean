@@ -62,48 +62,59 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
 private noncomputable abbrev eu (e : Fin k → ↥(orthDerived Q)) (u : Fin k → V) (a : Fin k) : V :=
   (e a : V ≃ₗ[F] V) (u a)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem eu_mem (hF : IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     eu e u a ∈ U a :=
   hF.maps_to a (u a) (hF.mem a)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem quad_eu (hF : IsCoherentFrame Q p U e E u c t) (a : Fin k) : Q (eu e u a) = c := by
   rw [eu, map_of_mem (Subgroup.commutator_le_self (TauCeti.QuadraticMap.orthogonalGroup Q)
     (e a).2), hF.quad_eq]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem polar_u_eu (hF : IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     polar Q (u a) (eu e u a) = t * c :=
   hF.polar_eq a
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem polar_eu_u (hF : IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     polar Q (eu e u a) (u a) = t * c := by
   rw [polar_comm, hF.polar_eq]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem polar_u_u_of_ne (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     polar Q (u a) (u b) = 0 :=
   hF.toIsPlaneSystem.perp a b hab (u a) (hF.mem a) (u b) (hF.mem b)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem polar_u_eu_of_ne (hF : IsCoherentFrame Q p U e E u c t)
     (hab : a ≠ b) : polar Q (u a) (eu e u b) = 0 :=
   hF.toIsPlaneSystem.perp a b hab (u a) (hF.mem a) (eu e u b) (eu_mem hF b)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem polar_eu_u_of_ne (hF : IsCoherentFrame Q p U e E u c t)
     (hab : a ≠ b) : polar Q (eu e u a) (u b) = 0 :=
   hF.toIsPlaneSystem.perp a b hab (eu e u a) (eu_mem hF a) (u b) (hF.mem b)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem polar_eu_eu_of_ne (hF : IsCoherentFrame Q p U e E u c t)
     (hab : a ≠ b) : polar Q (eu e u a) (eu e u b) = 0 :=
   hF.toIsPlaneSystem.perp a b hab (eu e u a) (eu_mem hF a) (eu e u b) (eu_mem hF b)
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem quad_u_add (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     Q (u a + u b) = 0 := by
   rw [QuadraticMap.map_add Q, hF.quad_eq a, hF.quad_eq b, polar_u_u_of_ne hF hab]
   simp [CharTwo.add_self_eq_zero]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem quad_eu_add (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     Q (eu e u a + eu e u b) = 0 := by
   rw [QuadraticMap.map_add Q, quad_eu hF a, quad_eu hF b, polar_eu_eu_of_ne hF hab]
   simp [CharTwo.add_self_eq_zero]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem polar_u_add_center (hF : IsCoherentFrame Q p U e E u c t)
     (hab : a ≠ b) :
     polar Q (u a + u b) (eu e u a + eu e u b) = 0 := by
@@ -111,35 +122,42 @@ private theorem polar_u_add_center (hF : IsCoherentFrame Q p U e E u c t)
     polar_u_eu_of_ne (a := b) (b := a) hF hab.symm, polar_u_eu hF b]
   simp [CharTwo.add_self_eq_zero]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem polar_u_add_swapParam (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     polar Q (u a + u b) ((t * c)⁻¹ • (eu e u a + eu e u b)) = 0 := by
   rw [polar_smul_right_eq, polar_u_add_center hF hab, mul_zero]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem quad_swapParam (hF : IsCoherentFrame Q p U e E u c t)
     (hab : a ≠ b) :
     Q ((t * c)⁻¹ • (eu e u a + eu e u b)) = 0 := by
   rw [map_smul_eq_sq, quad_eu_add hF hab, mul_zero]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem polar_u_swapParam_left (hF : IsCoherentFrame Q p U e E u c t)
     (hab : a ≠ b) : polar Q (u a) ((t * c)⁻¹ • (eu e u a + eu e u b)) = 1 := by
   rw [polar_smul_right_eq, polar_add_right, polar_u_eu hF a, polar_u_eu_of_ne hF hab, add_zero,
     inv_mul_cancel₀ (mul_ne_zero hF.t_ne_zero hF.c_ne_zero)]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem polar_u_swapParam_right (hF : IsCoherentFrame Q p U e E u c t)
     (hab : a ≠ b) : polar Q (u b) ((t * c)⁻¹ • (eu e u a + eu e u b)) = 1 := by
   rw [polar_smul_right_eq, polar_add_right, polar_u_eu_of_ne hF hab.symm, polar_u_eu hF b,
     zero_add, inv_mul_cancel₀ (mul_ne_zero hF.t_ne_zero hF.c_ne_zero)]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem polar_eu_swapParam_left (hF : IsCoherentFrame Q p U e E u c t)
     (hab : a ≠ b) : polar Q (eu e u a) ((t * c)⁻¹ • (eu e u a + eu e u b)) = 0 := by
   rw [polar_smul_right_eq, polar_add_right, polar_self_eq_two_mul, quad_eu hF a,
     CharTwo.two_eq_zero, zero_mul, polar_eu_eu_of_ne hF hab, add_zero, mul_zero]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem polar_eu_swapParam_right (hF : IsCoherentFrame Q p U e E u c t)
     (hab : a ≠ b) : polar Q (eu e u b) ((t * c)⁻¹ • (eu e u a + eu e u b)) = 0 := by
   rw [polar_smul_right_eq, polar_add_right, polar_eu_eu_of_ne hF hab.symm,
     polar_self_eq_two_mul, quad_eu hF b, CharTwo.two_eq_zero, zero_mul, zero_add, mul_zero]
 
+omit [Finite F] in
 private theorem span_u_eu (hF : IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     Submodule.span F {u a, eu e u a} = U a := by
   have hu0 : u a ≠ 0 := by
@@ -171,6 +189,7 @@ private theorem span_u_eu (hF : IsCoherentFrame Q p U e E u c t) (a : Fin k) :
     · exact eu_mem hF a
   exact Submodule.eq_of_le_of_finrank_eq hle (by rw [hspan2, hF.finrank_eq a])
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem nondeg_sup (hF : IsCoherentFrame Q p U e E u c t) :
     (QuadraticMap.polarBilin (Q.comp (U a ⊔ U b).subtype)).Nondegenerate := by
   have h := hF.toIsPlaneSystem.nondeg_biSup ({a, b} : Finset (Fin k))
@@ -193,10 +212,12 @@ theorem frameSwap_mem_orthDerived (hQ : (QuadraticMap.polarBilin Q).Nondegenerat
   rw [orthDerived_eq_elementaryGroup_of_three_le hQ hℓ hdim]
   exact eichler_mem_elementaryGroup Q _ _
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem frameSwap_mem_orthogonalGroup :
     frameSwap Q e u c t a b ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
   eichler_mem_orthogonalGroup Q _ _
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem frameSwap_apply_left (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     frameSwap Q e u c t a b (u a) = u b := by
   rw [frameSwap, eichler_apply (quad_u_add hF hab) (polar_u_add_swapParam hF hab)]
@@ -209,6 +230,7 @@ theorem frameSwap_apply_left (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠
   calc u a + (u b + u a) = (u a + u a) + u b := by abel
     _ = u b := by rw [add_self_eq_zero_v (F := F), zero_add]
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem frameSwap_apply_right (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     frameSwap Q e u c t a b (u b) = u a := by
   rw [frameSwap, eichler_apply (quad_u_add hF hab) (polar_u_add_swapParam hF hab)]
@@ -221,6 +243,7 @@ theorem frameSwap_apply_right (hF : IsCoherentFrame Q p U e E u c t) (hab : a �
   calc u b + (u b + u a) = (u b + u b) + u a := by abel
     _ = u a := by rw [add_self_eq_zero_v (F := F), zero_add]
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem frameSwap_apply_e_left (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     frameSwap Q e u c t a b ((e a : V ≃ₗ[F] V) (u a)) = (e b : V ≃ₗ[F] V) (u b) := by
   change frameSwap Q e u c t a b (eu e u a) = eu e u b
@@ -233,6 +256,7 @@ theorem frameSwap_apply_e_left (hF : IsCoherentFrame Q p U e E u c t) (hab : a �
   calc eu e u a + (eu e u a + eu e u b) = (eu e u a + eu e u a) + eu e u b := by abel
     _ = eu e u b := by rw [add_self_eq_zero_v (F := F), zero_add]
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem frameSwap_apply_e_right (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     frameSwap Q e u c t a b ((e b : V ≃ₗ[F] V) (u b)) = (e a : V ≃ₗ[F] V) (u a) := by
   change frameSwap Q e u c t a b (eu e u b) = eu e u a
@@ -246,6 +270,7 @@ theorem frameSwap_apply_e_right (hF : IsCoherentFrame Q p U e E u c t) (hab : a 
   calc eu e u b + (eu e u a + eu e u b) = (eu e u b + eu e u b) + eu e u a := by abel
     _ = eu e u a := by rw [add_self_eq_zero_v (F := F), zero_add]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem frameSwap_apply_of_mem_polarPerp (hF : IsCoherentFrame Q p U e E u c t) {x : V}
     (hx : x ∈ polarPerp Q (U a ⊔ U b)) : frameSwap Q e u c t a b x = x := by
   rw [frameSwap]
@@ -267,6 +292,7 @@ theorem frameSwap_apply_of_mem_polarPerp (hF : IsCoherentFrame Q p U e E u c t) 
       exact mem_polarPerp_iff.1 hx (eu e u b) (Submodule.mem_sup_right (eu_mem hF b))
     rw [h1, h2, add_zero, mul_zero]
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem frameSwap_mul_self (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     frameSwap Q e u c t a b * frameSwap Q e u c t a b = 1 := by
   rw [frameSwap, eichler_mul (polar_u_add_swapParam hF hab) (polar_u_add_swapParam hF hab)]
@@ -274,6 +300,7 @@ theorem frameSwap_mul_self (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b
     rw [← add_smul, CharTwo.add_self_eq_zero, zero_smul]
   rw [hz, eichler_zero_right]
 
+omit [Finite F] in
 private theorem frameSwap_mapsTo_left (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b)
     {x : V} (hx : x ∈ U a) : frameSwap Q e u c t a b x ∈ U b := by
   rw [← span_u_eu hF a] at hx
@@ -289,6 +316,7 @@ private theorem frameSwap_mapsTo_left (hF : IsCoherentFrame Q p U e E u c t) (ha
   · intro r y _ ihy
     rw [map_smul]; exact Submodule.smul_mem _ r ihy
 
+omit [Finite F] in
 private theorem frameSwap_mapsTo_right (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b)
     {x : V} (hx : x ∈ U b) : frameSwap Q e u c t a b x ∈ U a := by
   rw [← span_u_eu hF b] at hx
@@ -304,6 +332,7 @@ private theorem frameSwap_mapsTo_right (hF : IsCoherentFrame Q p U e E u c t) (h
   · intro r y _ ihy
     rw [map_smul]; exact Submodule.smul_mem _ r ihy
 
+omit [Finite F] in
 private theorem frameSwap_mapsTo_apply_left (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b)
     {x : V} (hx : x ∈ U a) :
     (frameSwap Q e u c t a b * (e a : V ≃ₗ[F] V) * frameSwap Q e u c t a b) x =
@@ -320,6 +349,7 @@ private theorem frameSwap_mapsTo_apply_left (hF : IsCoherentFrame Q p U e E u c 
     frameSwap_mul_self hF hab]
   rfl
 
+omit [Finite F] in
 private theorem frameSwap_mapsTo_apply_right (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b)
     {x : V} (hx : x ∈ U b) :
     (frameSwap Q e u c t a b * (e a : V ≃ₗ[F] V) * frameSwap Q e u c t a b) x =
@@ -340,6 +370,7 @@ private theorem frameSwap_mapsTo_apply_right (hF : IsCoherentFrame Q p U e E u c
   · intro r y _ ihy
     rw [map_smul, map_smul, ihy]
 
+omit [Finite F] in
 theorem frameSwap_conj_left (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     frameSwap Q e u c t a b * (e a : V ≃ₗ[F] V) * frameSwap Q e u c t a b =
       (e b : V ≃ₗ[F] V) := by
@@ -361,6 +392,7 @@ theorem frameSwap_conj_left (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ 
         mem_polarPerp_iff.1 hx y (Submodule.mem_sup_right hy))
     rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hsw, hea, hsw, heb]
 
+omit [Finite F] in
 theorem frameSwap_conj_right (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     frameSwap Q e u c t a b * (e b : V ≃ₗ[F] V) * frameSwap Q e u c t a b =
       (e a : V ≃ₗ[F] V) := by
@@ -406,6 +438,7 @@ theorem frameSwap_conj_right (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠
         mem_polarPerp_iff.1 hx y (Submodule.mem_sup_right hy))
     rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hsw, heb, hsw, hea]
 
+omit [Finite F] in
 theorem frameSwap_conj_of_ne (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) {j : Fin k}
     (hja : j ≠ a) (hjb : j ≠ b) :
     frameSwap Q e u c t a b * (e j : V ≃ₗ[F] V) * frameSwap Q e u c t a b =
@@ -451,6 +484,7 @@ theorem frameSwap_conj_of_ne (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠
     rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hsw,
       frameSwap_apply_of_mem_polarPerp hF hejx]
 
+omit [Finite F] in
 theorem reflect_conj_self (hF : IsCoherentFrame Q p U e E u c t) :
     reflect Q (u a) * (e a : V ≃ₗ[F] V) * reflect Q (u a) = ↑((e a)⁻¹) := by
   rw [Subgroup.coe_inv]
@@ -500,6 +534,7 @@ theorem reflect_conj_self (hF : IsCoherentFrame Q p U e E u c t) :
     simp only [LinearEquiv.mul_apply, hρx, hea]
     exact hinvx.symm
 
+omit [Finite F] [CharP F 2] in
 theorem reflect_commute_of_ne (hF : IsCoherentFrame Q p U e E u c t) {j : Fin k} (hj : j ≠ a) :
     reflect Q (u a) * (e j : V ≃ₗ[F] V) = (e j : V ≃ₗ[F] V) * reflect Q (u a) := by
   have hρO : reflect Q (u a) ∈ TauCeti.QuadraticMap.orthogonalGroup Q :=
@@ -530,6 +565,7 @@ theorem reflect_commute_of_ne (hF : IsCoherentFrame Q p U e E u c t) {j : Fin k}
       hF.apply_of_perp j _ hρx
     rw [LinearEquiv.mul_apply, LinearEquiv.mul_apply, hejx, hfix]
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem frameSwap_mul_reflect (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     frameSwap Q e u c t a b * reflect Q (u a) =
       reflect Q (u b) * frameSwap Q e u c t a b := by
@@ -547,6 +583,7 @@ theorem frameSwap_mul_reflect (hF : IsCoherentFrame Q p U e E u c t) (hab : a �
         frameSwap Q e u c t a b := by group
     _ = reflect Q (u b) * frameSwap Q e u c t a b := by rw [h]
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem frameSwap_mul_reflect_symm (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     frameSwap Q e u c t a b * reflect Q (u b) =
       reflect Q (u a) * frameSwap Q e u c t a b := by
@@ -576,6 +613,7 @@ theorem signedSwap_mem_orthDerived (hQ : (QuadraticMap.polarBilin Q).Nondegenera
     exact eichler_mem_elementaryGroup Q _ _
   exact Subgroup.mul_mem _ hρ hsw
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem signedSwap_mul_self (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     signedSwap Q e u c t a b * signedSwap Q e u c t a b = 1 := by
   have hρab : reflect Q (u a) * reflect Q (u b) = reflect Q (u b) * reflect Q (u a) := by
@@ -614,6 +652,7 @@ theorem signedSwap_mul_self (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ 
           (frameSwap Q e u c t a b * frameSwap Q e u c t a b) := by group
     _ = 1 := by rw [reflect_mul_self, frameSwap_mul_self hF hab, one_mul]
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem frameSwap_reflect_mul_reflect (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     reflect Q (u a) * reflect Q (u b) * frameSwap Q e u c t a b =
       frameSwap Q e u c t a b * reflect Q (u b) * reflect Q (u a) := by
@@ -623,6 +662,7 @@ private theorem frameSwap_reflect_mul_reflect (hF : IsCoherentFrame Q p U e E u 
   rw [signedSwap, mul_inv_rev, mul_inv_rev, reflect_inv, reflect_inv, hsinv] at h
   exact h.symm
 
+omit [Finite F] in
 theorem signedSwap_conj_left (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     signedSwap Q e u c t a b * (e a : V ≃ₗ[F] V) * signedSwap Q e u c t a b =
       ↑((e b)⁻¹) := by
@@ -651,6 +691,7 @@ theorem signedSwap_conj_left (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠
     _ = ↑((e b)⁻¹) := by
         rw [hcomm', mul_assoc, reflect_mul_self, mul_one]
 
+omit [Finite F] in
 theorem signedSwap_conj_right (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) :
     signedSwap Q e u c t a b * (e b : V ≃ₗ[F] V) * signedSwap Q e u c t a b =
       ↑((e a)⁻¹) := by
@@ -676,6 +717,7 @@ theorem signedSwap_conj_right (hF : IsCoherentFrame Q p U e E u c t) (hab : a �
           rw [hcomm, mul_assoc, reflect_mul_self, mul_one]]
     _ = ↑((e a)⁻¹) := reflect_conj_self hF
 
+omit [Finite F] in
 theorem signedSwap_conj_of_ne (hF : IsCoherentFrame Q p U e E u c t) (hab : a ≠ b) {j : Fin k}
     (hja : j ≠ a) (hjb : j ≠ b) :
     signedSwap Q e u c t a b * (e j : V ≃ₗ[F] V) * signedSwap Q e u c t a b =
@@ -700,6 +742,7 @@ theorem signedSwap_conj_of_ne (hF : IsCoherentFrame Q p U e E u c t) (hab : a �
     _ = reflect Q (u a) * (e j : V ≃ₗ[F] V) * reflect Q (u a) := by rw [hb]
     _ = (e j : V ≃ₗ[F] V) := ha
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem signedSwap_apply_of_mem_polarPerp (hF : IsCoherentFrame Q p U e E u c t) {x : V}
     (hx : x ∈ polarPerp Q (U a ⊔ U b)) : signedSwap Q e u c t a b x = x := by
   have hsw : frameSwap Q e u c t a b x = x := frameSwap_apply_of_mem_polarPerp hF hx
@@ -711,6 +754,7 @@ theorem signedSwap_apply_of_mem_polarPerp (hF : IsCoherentFrame Q p U e E u c t)
       (mem_polarPerp_iff.1 hx (u a) (Submodule.mem_sup_left (hF.mem a)))
   rw [signedSwap, LinearEquiv.mul_apply, LinearEquiv.mul_apply, hsw, hb, ha]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem reflect_commute_of_polar_eq_zero {x y : V} (h : polar Q x y = 0) :
     reflect Q x * reflect Q y = reflect Q y * reflect Q x := by
   have hy : reflect Q y x = x :=
@@ -730,6 +774,7 @@ theorem signChange_mem_orthDerived (hQ : (QuadraticMap.polarBilin Q).Nondegenera
   rw [signChange]
   exact reflect_mul_reflect_mem_orthDerived hQ (by rw [hF.quad_eq a]; exact hF.c_ne_zero) hQv
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem signChange_mul_self (hF : IsCoherentFrame Q p U e E u c t) {v : V}
     (hv : v ∈ polarPerp Q (⨆ j, U j)) :
     signChange Q u v a * signChange Q u v a = 1 := by
@@ -746,6 +791,7 @@ theorem signChange_mul_self (hF : IsCoherentFrame Q p U e E u c t) {v : V}
     _ = reflect Q (u a) * reflect Q (u a) := by rw [hconj]
     _ = 1 := reflect_mul_self Q (u a)
 
+omit [Finite F] in
 theorem signChange_conj_self (hF : IsCoherentFrame Q p U e E u c t) {v : V}
     (hv : v ∈ polarPerp Q (⨆ j, U j)) :
     signChange Q u v a * (e a : V ≃ₗ[F] V) * signChange Q u v a = ↑((e a)⁻¹) := by
@@ -779,6 +825,7 @@ theorem signChange_conj_self (hF : IsCoherentFrame Q p U e E u c t) {v : V}
     _ = reflect Q (u a) * (e a : V ≃ₗ[F] V) * reflect Q (u a) := by rw [hvea]
     _ = ↑((e a)⁻¹) := reflect_conj_self hF
 
+omit [Finite F] [CharP F 2] in
 theorem signChange_conj_of_ne (hF : IsCoherentFrame Q p U e E u c t) {v : V}
     (hv : v ∈ polarPerp Q (⨆ j, U j)) {j : Fin k} (hj : j ≠ a) :
     signChange Q u v a * (e j : V ≃ₗ[F] V) * signChange Q u v a = (e j : V ≃ₗ[F] V) := by

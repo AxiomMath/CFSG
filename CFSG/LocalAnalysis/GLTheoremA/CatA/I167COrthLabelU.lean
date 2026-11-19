@@ -91,7 +91,7 @@ private theorem i167COrth_label_isUnA_aux1 {S : Type} [Group S] {m f : ℕ} (hf 
       exact CFSG.Models.LieModel.toBlueprint (by decide) hm
     | _ => simp [onLie, isLnEps] at hi
 
-private theorem i167COrth_label_isUnA_aux2 {lab : GLALabel} {m f : ℕ} (hm : 3 ≤ m) (hf : 1 ≤ f)
+private theorem i167COrth_label_isUnA_aux2 {lab : GLALabel} {m f : ℕ} (hm : 3 ≤ m) (_hf : 1 ≤ f)
     (hP : CFSG.StandardType.markTag lab = .PSU ∧ CFSG.StandardType.markRank lab = m ∧
       CFSG.StandardType.markChar lab = 2 ∧ CFSG.StandardType.markDeg lab = f) :
     canonLabel lab = (⟨.twA, m - 1, f⟩ : GLALabel) := by
@@ -164,7 +164,7 @@ private theorem i167COrth_label_isUnA_aux4 {f : ℕ} {i : TauCeti.CFSGIndex}
       omega
     | _ => simp [onLie, isLnEps] at hi
 
-private theorem i167COrth_label_isUnA_aux5 {lab : GLALabel} {f : ℕ} (hf : 1 ≤ f)
+private theorem i167COrth_label_isUnA_aux5 {lab : GLALabel} {f : ℕ} (_hf : 1 ≤ f)
     (hP : CFSG.StandardType.markTag lab = .PSL ∧ CFSG.StandardType.markRank lab = 2 ∧
       CFSG.StandardType.markChar lab = 2 ∧ CFSG.StandardType.markDeg lab = f) :
     canonLabel lab = (⟨.A, 1, f⟩ : GLALabel) := by
@@ -172,7 +172,7 @@ private theorem i167COrth_label_isUnA_aux5 {lab : GLALabel} {f : ℕ} (hf : 1 �
   cases tg <;>
     simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
       CFSG.StandardType.markChar, CFSG.StandardType.markDeg, canonLabel] at hP ⊢ <;>
-    (try split_ifs at hP ⊢) <;> simp_all <;> omega
+    (try split_ifs at hP ⊢) <;> simp_all
 
 theorem i167COrth_label_isUnA {X : Type} [Group X] (hq : CFSG.Open.IsQuasisimple X) {m f : ℕ} (hm : 2 ≤ m)
     (hf : 1 ≤ f) (h : catalogIs (X ⧸ Subgroup.center X) (isUnA m (2 ^ f))) :
@@ -191,7 +191,7 @@ theorem i167COrth_label_isUnA {X : Type} [Group X] (hq : CFSG.Open.IsQuasisimple
         CFSG.StandardType.Canonical.largeEvenMarking_of_lieModel_centerQuot hq.1 hm
       obtain ⟨lab, hP, hLab⟩ := i167COrth_label_isLnA_aux3 hmark
       refine ⟨lab, hLab, ?_⟩
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact i167COrth_label_isUnA_aux5 hf hP
   · have hm3 : 3 ≤ m := by omega
     rcases hi with hi | ⟨hm2', -⟩
@@ -202,7 +202,7 @@ theorem i167COrth_label_isUnA {X : Type} [Group X] (hq : CFSG.Open.IsQuasisimple
         CFSG.StandardType.Canonical.largeEvenMarking_of_lieModel_centerQuot hq.1 hm
       obtain ⟨lab, hP, hLab⟩ := i167COrth_label_isLnA_aux3 hmark
       refine ⟨lab, hLab, ?_⟩
-      rw [if_neg hm2]
+      rw [ite_eq_right hm2]
       exact i167COrth_label_isUnA_aux2 hm3 hf hP
     · exact absurd hm2' hm2
 

@@ -139,10 +139,12 @@ theorem smul_mem_fixedSub_of_normalizer {S : Set Γ} {g : Γ}
 
 end ModuleFacts
 
+omit [Finite K] [CharP K 2] in
 theorem finrank_quadPlus_space : Module.finrank K (Fin n ⊕ Fin n → K) = 2 * n := by
   rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
   ring
 
+omit [Finite K] [CharP K 2] in
 theorem exists_gom_swap (hn : 2 ≤ n) (P : HypPair (quadPlus n K)) :
     ∃ w : Gom (quadPlus n K), w.app P.e = P.f ∧ w.app P.f = P.e :=
   exists_gom_pair (nondegenerate_polarBilin_quadPlus n K)

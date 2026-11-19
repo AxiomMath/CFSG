@@ -141,13 +141,13 @@ theorem framePoly_dvd_cyclotomic (hF : IsCoherentFrame Q p U e E u c t) (hp : p.
       refine minpoly.dvd F φ ?_
       rw [map_sub, map_pow]
       simp [hφpow]
-    haveI : Nontrivial (U a) := by
+    have : Nontrivial (U a) := by
       rw [Submodule.nontrivial_iff_ne_bot]
       intro hbot
       have hfin := hF.finrank_eq a
       rw [hbot, finrank_bot] at hfin
       norm_num at hfin
-    haveI : Nontrivial (Module.End F (U a)) := Module.End.instNontrivial
+    have : Nontrivial (Module.End F (U a)) := Module.End.instNontrivial
     have h2 : minpoly F φ = g :=
       (minpoly.eq_of_irreducible_of_monic hirr haeval hmon).symm
     rwa [h2] at h1
@@ -157,7 +157,7 @@ theorem framePoly_dvd_cyclotomic (hF : IsCoherentFrame Q p U e E u c t) (hp : p.
     rw [hgdeg, show (Polynomial.X - 1 : Polynomial F).natDegree = 1 by
       simpa using Polynomial.natDegree_X_sub_C (1 : F)] at h2
     norm_num at h2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [← Polynomial.cyclotomic_prime_mul_X_sub_one F p] at hdiv
   rcases hirr.prime.dvd_or_dvd hdiv with h1 | h1
   · exact h1
@@ -272,7 +272,7 @@ theorem quad_planeRotSL (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prime)
   exact quad_planeRotLin hF hp hpq hnorm x
 
 private theorem dnsTorus_odd_card : Odd (Nat.card F + 1) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hmod : Nat.card F % 2 = 0 := by
     have h := FiniteField.even_card_of_char_two (F := F) (ringChar.eq F 2)
     rwa [Nat.card_eq_fintype_card]
@@ -350,7 +350,7 @@ private theorem dnsTorus_mem_orthDerived (hQ : (polarBilin Q).Nondegenerate)
     (b : Multiplicative (ZMod (Nat.card F + 1))) :
     dnsTorus_planeRotSL_equiv hF hp hpq a (D.ζm b) (dnsTorus_zeta_comm D hD b) ∈
       orthDerived Q := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hmod : Nat.card F % 2 = 0 := by
     have h := FiniteField.even_card_of_char_two (F := F) (ringChar.eq F 2)
     rwa [Nat.card_eq_fintype_card]
@@ -550,6 +550,7 @@ private theorem dnsTorus_u_ne_zero (hF : IsCoherentFrame Q p U e E u c t) (a : F
   rw [h0, map_zero] at hq
   exact hF.c_ne_zero hq.symm
 
+omit [CharP F 2] [FiniteDimensional F V] in
 private theorem dnsTorus_linearIndependent_u_rotE (hF : IsCoherentFrame Q p U e E u c t)
     (hp : p.Prime) (hpq : ¬ p ∣ Nat.card F - 1) (a : Fin k) :
     LinearIndependent F ![u a, rotE e a (u a)] := by
@@ -703,7 +704,7 @@ theorem mem_iff_pow_eq_one_and_mem_range (hF : IsCoherentFrame Q p U e E u c t) 
     have hfp : f ^ p = 1 := by
       apply fullTorus_injective hF hp hpq hTU
       rw [map_pow, hf, hgp, map_one]
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     have hex : ∀ a, ∃ n : ℕ, f a = b₀ ^ n := by
       intro a
       have hfa : (f a) ^ p = 1 := by
@@ -845,6 +846,7 @@ theorem mem_range_of_commute (hF : IsCoherentFrame Q p U e E u c t) (hp : p.Prim
   change planeRotLin e t a (α a) (β a) x = ((g : V ≃ₗ[F] V)) x
   exact (hgplane a x hx).symm
 
+omit [CharP F 2] in
 private theorem dnsTorus_span_u_rotE (hF : IsCoherentFrame Q p U e E u c t)
     (hp : p.Prime) (hpq : ¬ p ∣ Nat.card F - 1) (a : Fin k) :
     Submodule.span F ({u a, rotE e a (u a)} : Set V) = U a := by
@@ -1044,6 +1046,7 @@ private theorem dnsTorus_reflect_apply_planeRot (hF : IsCoherentFrame Q p U e E 
   have h := LinearMap.congr_fun (reflect_comp_planeRotLin (a := a) hF hp hpq α β) x
   exact h
 
+omit [Finite F] [CharP F 2] in
 private theorem dnsTorus_reflect_apply_planeRot_of_ne (hF : IsCoherentFrame Q p U e E u c t)
     {j : Fin k} (hja : j ≠ a) (α β : F) (x : V) :
     reflect Q (u a) (planeRotLin e t j α β x) =

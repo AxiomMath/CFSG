@@ -47,7 +47,7 @@ theorem exists_zpowers_sylow_sl2 {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [
     have hx2 : (x : SpecialLinearGroup (Fin 2) K) ^ 2 = 1 := by
       apply e.injective
       rw [map_pow, hsq, map_one]
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup') x
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup) x
     have h1 : orderOf (x : SpecialLinearGroup (Fin 2) K) ∣ 2 := orderOf_dvd_of_pow_eq_one hx2
     have h2 : orderOf (x : SpecialLinearGroup (Fin 2) K) ∣ r ^ k := by
       rw [Subgroup.orderOf_coe, hk]

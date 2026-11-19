@@ -46,7 +46,7 @@ theorem nfQ_mul (h : QRel m q z) (a b : QV) : nfQ q z a * nfQ q z b = nfQ q z (m
     fun i => pow_pow_assoc (q i)
   have zq := h.zq_assoc
   unfold nfQ mulQ
-  simp only [mul_assoc, w01, w02, w03, w12, w13, w23, zz, qq, zq, ← pow_add]
+  simp only [mul_assoc, w01, w02, w03, w12, w13, w23, qq, zq, ← pow_add]
   rw [pow_mod_seven (h.q7 0) (a.a0 + b.a0), pow_mod_seven (h.q7 1) (a.a1 + b.a1),
     pow_mod_seven (h.q7 2) (a.a2 + b.a2), pow_mod_seven (h.q7 3) (a.a3 + b.a3),
     pow_mod_seven h.z7]

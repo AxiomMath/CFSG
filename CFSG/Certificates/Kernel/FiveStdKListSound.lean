@@ -44,8 +44,8 @@ theorem map_dedupL (L : List E) : (dedupL L).map codeE = dedupK (L.map codeE) :=
       congr 1
       unfold inL
       by_cases h : acc.contains y = true
-      · rw [if_pos h, if_pos h]
-      · rw [if_neg h, if_neg h, List.map_append]
+      · rw [ite_eq_left h, ite_eq_left h]
+      · rw [ite_eq_right h, ite_eq_right h, List.map_append]
         rfl
   exact key L []
 
@@ -69,8 +69,8 @@ theorem map_closureAux (gens : List E) :
       rw [← hL', List.length_map, List.length_map]
     simp only [closureAux, closureAuxK]
     by_cases h : (dedupL (L ++ L.flatMap fun x => gens.map fun g => mulE x g)).length = L.length
-    · rw [if_pos h, if_pos (hlen.1 h)]
-    · rw [if_neg h, if_neg (mt hlen.2 h), map_closureAux gens fuel _, hL']
+    · rw [ite_eq_left h, ite_eq_left (hlen.1 h)]
+    · rw [ite_eq_right h, ite_eq_right (mt hlen.2 h), map_closureAux gens fuel _, hL']
 
 theorem map_closureL (gens : List E) : (closureL gens).map codeE = closureK (gens.map codeE) :=
   map_closureAux gens 64 [oneE]

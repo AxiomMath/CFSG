@@ -190,11 +190,11 @@ theorem isSimpleGroup_commutator_isometryGroup [FiniteDimensional (ZMod 2) U] (h
       (CFSG.ComponentClassification.CatalogueBAlternatingIsometry.isometryMatrixEquiv b f
         hb).trans
         (MulEquiv.subgroupCongr CFSG.ClassicalGroups.Symplectic.statedSp_eq_GLSymplectic.symm)
-    haveI : IsSimpleGroup (commutator (CFSG.Assembly.LowTwoRank.StatedSp 2 (ZMod 2))) :=
+    have : IsSimpleGroup (commutator (CFSG.Assembly.LowTwoRank.StatedSp 2 (ZMod 2))) :=
       CFSG.SeitzReduction.SymplecticPilot.isSimpleGroup_commutator_statedSp_two
         (Nat.card_zmod 2)
     exact Recognition.R3.isSimpleGroup_commutator_of_mulEquiv e.symm
-  · haveI hS : IsSimpleGroup (TauCeti.BilinForm.isometryGroup f) :=
+  · have hS : IsSimpleGroup (TauCeti.BilinForm.isometryGroup f) :=
       Recognition.SymO.isSimpleGroup_isometryGroup f hf hnd hk hge
     have htop : commutator (TauCeti.BilinForm.isometryGroup f) = ⊤ := by
       refine (hS.eq_bot_or_eq_top_of_normal _).resolve_left fun hbot => ?_

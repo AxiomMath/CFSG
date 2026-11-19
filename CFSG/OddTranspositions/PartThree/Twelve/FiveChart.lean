@@ -69,7 +69,7 @@ theorem orderOf_reflQ_mul {n : ℕ} {b : LinearMap.BilinForm (ZMod 5) (Fin n →
       exact refl_mul_refl_pow_five hsym hp hq hβ1
     have hpow : (reflQ b p * reflQ b q) ^ 5 = 1 := by
       rw [reflQ_mul_eq_mk, ← QuotientGroup.mk_pow, hgl, QuotientGroup.mk_one]
-    rw [if_pos hβ2]
+    rw [ite_eq_left hβ2]
     exact orderOf_eq_prime (hp := ⟨Nat.prime_five⟩) hpow hne
   · have hβ2' : b p q = 2 ∨ b p q = -2 := by
       revert hβ2 hβ
@@ -83,7 +83,7 @@ theorem orderOf_reflQ_mul {n : ℕ} {b : LinearMap.BilinForm (ZMod 5) (Fin n →
       exact refl_mul_refl_pow_three hsym hp hq hβ2'
     have hpow : (reflQ b p * reflQ b q) ^ 3 = 1 := by
       rw [reflQ_mul_eq_mk, ← QuotientGroup.mk_pow, hgl, QuotientGroup.mk_one]
-    rw [if_neg hβ2]
+    rw [ite_eq_right hβ2]
     exact orderOf_eq_prime (hp := ⟨Nat.prime_three⟩) hpow hne
 
 end CFSG.OddTranspositions.PartFour.RootBlockFive
@@ -104,6 +104,7 @@ private def IsChartVec (hC : HypothesisC D) (hα : hC.alpha = {hC.d}) {n : ℕ}
     φ (QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha))
       (⟨z, mem_Halpha_of_mem_commSet hC hα hz⟩ : Halpha D hC.alpha)) = reflQ b (vec z)
 
+omit [Finite G] in
 private theorem exists_reflQ_preimage (hC : HypothesisC D) (hα : hC.alpha = {hC.d})
     {n : ℕ} {b : LinearMap.BilinForm (ZMod 5) (Fin n → ZMod 5)}
     {φ : Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha) ≃*
@@ -137,6 +138,7 @@ private noncomputable def chartVec (hC : HypothesisC D) (hα : hC.alpha = {hC.d}
   exact fun z => if hz : z ∈ commSet D hC.d then
     Classical.choose (exists_reflQ_preimage hC hα hφ z hz) else 0
 
+omit [Finite G] in
 private theorem chartVec_spec (hC : HypothesisC D) (hα : hC.alpha = {hC.d}) {n : ℕ}
     {b : LinearMap.BilinForm (ZMod 5) (Fin n → ZMod 5)}
     {φ : Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha) ≃*
@@ -147,9 +149,10 @@ private theorem chartVec_spec (hC : HypothesisC D) (hα : hC.alpha = {hC.d}) {n 
     IsChartVec hC hα φ (chartVec hC hα hφ) := by
   intro z hz
   unfold chartVec
-  rw [dif_pos hz]
+  rw [dite_eq_left hz]
   exact Classical.choose_spec (exists_reflQ_preimage hC hα hφ z hz)
 
+omit [Finite G] in
 private theorem exists_vec_of_model (hC : HypothesisC D) (hα : hC.alpha = {hC.d})
     {n : ℕ} {b : LinearMap.BilinForm (ZMod 5) (Fin n → ZMod 5)}
     {φ : Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha) ≃*
@@ -183,6 +186,7 @@ private theorem exists_vec_of_model (hC : HypothesisC D) (hα : hC.alpha = {hC.d
     rw [h3]
     exact (neg_neg (vec (y : G))).symm
 
+omit [Finite G] in
 private theorem eq_of_vec_of_model (hC : HypothesisC D) (hα : hC.alpha = {hC.d})
     {n : ℕ} {b : LinearMap.BilinForm (ZMod 5) (Fin n → ZMod 5)}
     {φ : Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha) ≃*
@@ -266,9 +270,7 @@ private theorem orderOf_mul_of_model (hC : HypothesisC D)
     exact hβ ((hcomm z hz z' hz' hzz').mp (congrArg Subtype.val hcon.eq))
   have hcoe : orderOf ((⟨z, mem_Halpha_of_mem_commSet hC hα hz⟩ : Halpha D hC.alpha) *
       ⟨z', mem_Halpha_of_mem_commSet hC hα hz'⟩) = orderOf (z * z') := by
-    simpa using (Subgroup.orderOf_coe
-      ((⟨z, mem_Halpha_of_mem_commSet hC hα hz⟩ : Halpha D hC.alpha) *
-        ⟨z', mem_Halpha_of_mem_commSet hC hα hz'⟩)).symm
+    simp
   have hquot : orderOf (QuotientGroup.mk' R ⟨z, mem_Halpha_of_mem_commSet hC hα hz⟩ *
       QuotientGroup.mk' R ⟨z', mem_Halpha_of_mem_commSet hC hα hz'⟩) =
       orderOf ((⟨z, mem_Halpha_of_mem_commSet hC hα hz⟩ : Halpha D hC.alpha) *
@@ -293,6 +295,7 @@ private theorem orderOf_mul_of_model (hC : HypothesisC D)
     _ = if b (vec z) (vec z') ^ 2 = 1 then 5 else 3 :=
           orderOf_reflQ_mul hsym hnd hn hp hq hqp hqp' hβ
 
+omit [Finite G] in
 private theorem vec_conj_of_model (hC : HypothesisC D) (hα : hC.alpha = {hC.d}) {n : ℕ}
     {b : LinearMap.BilinForm (ZMod 5) (Fin n → ZMod 5)} (hsym : ∀ x y, b x y = b y x)
     (hnd : ∀ x, (∀ y, b x y = 0) → x = 0) (hn : 4 ≤ n)

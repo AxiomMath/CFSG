@@ -113,7 +113,7 @@ theorem uRad_sup_zpowers_eq_top_of_involutive {F : Type} [Field F] [CharP F 2] {
 
 theorem uRad_sup_zpowers_eq_top {F : Type} [Field F] [Finite F] [CharP F 2] {f : ℕ}
     (hF : Nat.card F = (2 ^ f) ^ 2) {m : ℕ} (hG : SUGenStmt F f m)
-    (hP : SUPartnerStmt (unitaryInvolution F 2 f) m)
+    (_hP : SUPartnerStmt (unitaryInvolution F 2 f) m)
     (hB : SUBothStmt (unitaryInvolution F 2 f) m)
     {a : Fin m → F} (ha : a ≠ 0) (haa : uForm (unitaryInvolution F 2 f) a a = 0)
     {T : Subgroup (SU (unitaryInvolution F 2 f) m)}

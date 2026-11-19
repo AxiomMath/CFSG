@@ -13,7 +13,7 @@ theorem ncard_orderOf_le {K : Type*} [Group K] [Finite K] {p : ℕ} [hp : Fact p
     (Q : Sylow p K) :
     {x : K | orderOf x = p}.ncard ≤ Nat.card (Sylow p K) * (Nat.card Q - 1) := by
   classical
-  haveI : Fintype (Sylow p K) := Fintype.ofFinite _
+  have : Fintype (Sylow p K) := Fintype.ofFinite _
   have hsub : {x : K | orderOf x = p} ⊆
       ⋃ R ∈ (Finset.univ : Finset (Sylow p K)), ((R : Set K) \ {1}) := by
     intro x hx
@@ -34,7 +34,7 @@ theorem ncard_orderOf_le {K : Type*} [Group K] [Finite K] {p : ℕ} [hp : Fact p
     _ = ∑ _R ∈ (Finset.univ : Finset (Sylow p K)), (Nat.card Q - 1) := by
         refine Finset.sum_congr rfl fun R _ => ?_
         have h1 : (1 : K) ∈ (R : Set K) := (R : Subgroup K).one_mem
-        rw [Set.ncard_diff_singleton_of_mem h1]
+        rw [Set.ncard_sdiff_singleton_of_mem h1]
         have h2 : ((R : Set K)).ncard = Nat.card (R : Subgroup K) := by
           rw [← Nat.card_coe_set_eq]
           rfl
@@ -102,9 +102,9 @@ theorem ncard_orderOf_le_of_normalizer {G : Type*} [Group G] [Finite G] {p a : �
     ext σ
     constructor
     · rintro ⟨hσ, ho⟩
-      exact ⟨⟨σ, hσ⟩, by rwa [Set.mem_setOf_eq, Subgroup.orderOf_mk], rfl⟩
+      exact ⟨⟨σ, hσ⟩, by rwa [Set.mem_ofPred_eq, Subgroup.orderOf_mk], rfl⟩
     · rintro ⟨x, hx, rfl⟩
-      exact ⟨x.2, by rwa [Set.mem_setOf_eq, Subgroup.orderOf_coe] at *⟩
+      exact ⟨x.2, by (rw [Set.mem_ofPred_eq, Subgroup.orderOf_coe] at *; assumption)⟩
   rw [himg, Set.ncard_image_of_injective _ Subtype.val_injective]
   have hQcard : Nat.card Q = p ^ m := by
     rw [← hm, ← hPc]

@@ -41,7 +41,7 @@ theorem isElemAbelian_of_map_injective {G H : Type} [Group G] [Group H] (f : G �
 theorem no_quadratic_of_card_eight {K : Type} [Field K] [Finite K] [CharP K 2] (hcard : Nat.card K = 8)
     (z : K) : z ^ 2 + z + 1 ≠ 0 := by
   intro h
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have h8 : z ^ 8 = z := by
     have := FiniteField.pow_card z
     rwa [← Nat.card_eq_fintype_card, hcard] at this
@@ -123,7 +123,7 @@ theorem false_of_plane {K : Type} [Field K] [Finite K] (hK : ∀ z : K, z ^ 2 + 
   have hfix : ∀ t ∈ T, ∀ v, OnPlane i v → mat t *ᵥ v = v := fun t ht v hv => hi v hv t ht
   have hpl : ∀ t ∈ T, ∀ v, OnPlane j v → OnPlane j (mat t *ᵥ v) :=
     fun t ht v hv => onPlane_of_fixes hij (fun v' hv' => hfix t ht v' hv') hv
-  letI := planeMulAction T j hpl
+  let := planeMulAction T j hpl
   have hevj : Even (Nat.card {v : Fin 2 ⊕ Fin 2 → K // OnPlane j v}) := by
     rw [natCard_onPlane j]
     exact Nat.even_pow.2 ⟨hev, two_ne_zero⟩
@@ -155,8 +155,8 @@ theorem card_le_three_of_normalizes {K : Type} [Field K] [Finite K] [CharP K 2]
     (hcard : Nat.card K = 8)
     {E T : Subgroup (StatedSp 2 K)} (hE : IsElemAbelian 3 E) (hT : IsPGroup 2 T) (hT0 : T ≠ ⊥)
     (hN : ∀ g ∈ E, ∀ t ∈ T, g * t * g⁻¹ ∈ T) : Nat.card E ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : ∀ z : K, z ^ 2 + z + 1 ≠ 0 := no_quadratic_of_card_eight hcard
   have hev : Even (Nat.card K) := ⟨4, by rw [hcard]⟩
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
@@ -307,7 +307,7 @@ theorem card_le_three_of_normalizes {K : Type} [Field K] [Finite K] [CharP K 2]
   have hevV : Even (Nat.card (Fin 2 ⊕ Fin 2 → K)) := by
     rw [natCard_vec, hcard]; exact ⟨2048, by norm_num⟩
   obtain ⟨w, hwC, hw0⟩ : ∃ w ∈ fixSub T', w ≠ 0 := by
-    letI := vecMulAction T'
+    let := vecMulAction T'
     obtain ⟨w, hw0, hwfix⟩ := exists_fixed_ne hT'2 hevV 0
       (fun g => by show mat g.1 *ᵥ (0 : Fin 2 ⊕ Fin 2 → K) = 0; simp)
     exact ⟨w, mem_fixSub.2 (fun t ht => hwfix ⟨t, ht⟩), hw0⟩

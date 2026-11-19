@@ -131,15 +131,18 @@ variable {G : Type} [Group G] [Finite G]
     (A : Subgroup (Bar2 L)) : Subgroup G :=
   perfDelta L A ⊔ D.T
 
+omit [Finite G] in
 theorem preDelta_le (L : Subgroup G) (A : Subgroup (Bar2 L)) : preDelta L A ≤ L :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem perfDelta_le_pre (L : Subgroup G) (A : Subgroup (Bar2 L)) :
     perfDelta L A ≤ preDelta L A := by
   intro x hx
   obtain ⟨y, -, rfl⟩ := Subgroup.mem_map.mp hx
   exact y.2
 
+omit [Finite G] in
 theorem perfDelta_le (L : Subgroup G) (A : Subgroup (Bar2 L)) : perfDelta L A ≤ L :=
   (perfDelta_le_pre L A).trans (preDelta_le L A)
 
@@ -154,10 +157,12 @@ theorem member_le_M (D : Data G) {L : Subgroup G} (hLM : L ≤ D.M)
     ↥(preDelta L A) →* Bar2 L :=
   (S18.piBar2 L).comp (Subgroup.inclusion (preDelta_le L A))
 
+omit [Finite G] in
 theorem preDeltaMap_apply (L : Subgroup G) (A : Subgroup (Bar2 L))
     (x : ↥(preDelta L A)) :
     preDeltaMap L A x = S18.piBar2 L ⟨(x : G), preDelta_le L A x.2⟩ := rfl
 
+omit [Finite G] in
 theorem preDeltaMap_range (L : Subgroup G) (A : Subgroup (Bar2 L)) :
     (preDeltaMap L A).range = A := by
   ext a
@@ -179,6 +184,7 @@ theorem preDeltaMap_range (L : Subgroup G) (A : Subgroup (Bar2 L)) :
     refine ⟨⟨(y : G), hyP⟩, ?_⟩
     rw [preDeltaMap_apply, ← hyq]
 
+omit [Finite G] in
 theorem preDelta_contains_pCore (L : Subgroup G) (A : Subgroup (Bar2 L)) :
     (CFSG.pCore 2 ↥L).map L.subtype ≤ preDelta L A := by
   intro x hx
@@ -209,6 +215,7 @@ theorem perfDeltaMap_eq (L : Subgroup G) (A : Subgroup (Bar2 L)) (hAlt : IsAlt �
     top_le_iff.mp ((CFSG.perfect_residual_transport (MonoidHom.id ↥A)).2.2 ⊤ hperfTop)
   rw [h, hperfRes, Subgroup.map_top, Subgroup.range_subtype]
 
+omit [Finite G] in
 theorem preDeltaMap_ker (L : Subgroup G) (A : Subgroup (Bar2 L)) :
     (preDeltaMap L A).ker =
       (CFSG.pCore 2 ↥L).comap (Subgroup.inclusion (preDelta_le L A)) := by
@@ -325,6 +332,7 @@ theorem perfDelta_bar2_alt (L : Subgroup G) (A : Subgroup (Bar2 L)) (hAlt : IsAl
   exact ⟨eQ.trans eA⟩
 
 
+omit [Finite G] in
 theorem mem_preDelta_iff {L : Subgroup G} {A : Subgroup (Bar2 L)} {x : G} (hxL : x ∈ L) :
     x ∈ preDelta L A ↔ S18.piBar2 L ⟨x, hxL⟩ ∈ A := by
   constructor
@@ -336,6 +344,7 @@ theorem mem_preDelta_iff {L : Subgroup G} {A : Subgroup (Bar2 L)} {x : G} (hxL :
   · intro hx
     exact Subgroup.mem_map.mpr ⟨⟨x, hxL⟩, hx, rfl⟩
 
+omit [Finite G] in
 theorem preDelta_conj_eq (L M : Subgroup G) (hM : M ≤ Subgroup.normalizer (L : Set G))
     (A : Subgroup (Bar2 L))
     (hA : ∀ m : ↥M, A.map (CFSG.GroupTheory.conjModPCore 2 L M hM m).toMonoidHom = A)
@@ -407,6 +416,7 @@ theorem pCore_le_sylow_of_le_normalizer (D : Data G) {L : Subgroup G} (hLM : L �
     ↥(perfDelta L A) →* Bar2 L :=
   (S18.piBar2 L).comp (Subgroup.inclusion (perfDelta_le L A))
 
+omit [Finite G] in
 theorem perfDeltaMap_eq_comp (L : Subgroup G) (A : Subgroup (Bar2 L)) :
     perfDeltaMap L A =
       (preDeltaMap L A).comp (Subgroup.inclusion (perfDelta_le_pre L A)) := by
@@ -438,6 +448,7 @@ theorem perfDeltaMap_range (L : Subgroup G) (A : Subgroup (Bar2 L)) (hAlt : IsAl
       Subgroup.mem_map.mpr ⟨y, hy, rfl⟩
     exact ⟨⟨((preDelta L A).subtype y : G), hyP⟩, hyf⟩
 
+omit [Finite G] in
 theorem perfDelta_subgroupOf_iSup (L : Subgroup G) {ι : Type*} (Δ : Finset ι)
     (A : ι → Subgroup (Bar2 L)) :
     (⨆ i ∈ Δ, perfDelta L (A i)).subgroupOf L =

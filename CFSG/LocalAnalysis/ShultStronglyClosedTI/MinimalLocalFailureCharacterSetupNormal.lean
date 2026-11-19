@@ -150,7 +150,7 @@ theorem mem_normal_of_odd_hall_torus [Finite E] {W : Subgroup E} {a : ℕ}
       exact S.not_dvd_index h
     · exact hpidx h
   have hPp : IsPGroup p (P.subgroupOf N) :=
-    (S.isPGroup'.map _).of_equiv (Subgroup.subgroupOfEquivOfLe hPN).symm
+    (S.isPGroup.map _).of_equiv (Subgroup.subgroupOfEquivOfLe hPN).symm
   let PN : Sylow p N := hPp.toSylow hPidx
   have hPNcoe : (PN : Subgroup N) = P.subgroupOf N := IsPGroup.toSylow_coe hPp hPidx
   have hNC : Subgroup.normalizer ((PN : Subgroup N) : Set N) ≤
@@ -184,7 +184,7 @@ theorem mem_normal_of_odd_hall_torus [Finite E] {W : Subgroup E} {a : ℕ}
     intro hbot
     have hK : K = ⊥ := (Subgroup.map_eq_bot_iff_of_injective _ N.subtype_injective).mp hbot
     rw [hK, Subgroup.card_bot, one_mul, ← hcardPN] at hKN
-    obtain ⟨m, hm⟩ := PN.isPGroup'.exists_card_eq
+    obtain ⟨m, hm⟩ := PN.isPGroup.exists_card_eq
     have hNodd : Odd (Nat.card N) := by
       rw [← hKN, hm]
       exact hpodd.pow

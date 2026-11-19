@@ -27,9 +27,9 @@ theorem L28_linear_model (h : L28Hyp A w ψ) :
             (n : X) * (a : X) * (n : X)⁻¹ := by
   obtain ⟨V, instACG, instMod, instFin, e, act, hfin, hact⟩ :=
     L28_exists_action h.elemAb h.card
-  letI : AddCommGroup V := instACG
-  letI : Module (ZMod 2) V := instMod
-  letI : Finite V := instFin
+  let : AddCommGroup V := instACG
+  let : Module (ZMod 2) V := instMod
+  let : Finite V := instFin
   have hker_le : ψ.ker ≤ act.ker := by
     intro n hn
     rw [MonoidHom.mem_ker] at hn
@@ -46,7 +46,7 @@ theorem L28_linear_model (h : L28Hyp A w ψ) :
       intro a
       have hcommA : (n : X) * (a : X) * (n : X)⁻¹ = (a : X) := by
         have hcomm : (⟨(n : X), hnA⟩ : ↥A) * a = a * ⟨(n : X), hnA⟩ := by
-          haveI : IsMulCommutative ↥A := h.elemAb.1
+          have : IsMulCommutative ↥A := h.elemAb.1
           exact mul_comm' _ _
         have hc : (n : X) * (a : X) = (a : X) * (n : X) := by
           simpa using congrArg (fun z : ↥A => (z : X)) hcomm

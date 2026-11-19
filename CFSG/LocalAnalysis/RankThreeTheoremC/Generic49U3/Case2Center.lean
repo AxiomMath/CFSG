@@ -18,7 +18,7 @@ variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P T D F : Subgroup Y} {x : Y
 private theorem T_comm_of_commute (h : Case2Data p P T D F x) {u : Y} (hu : u ∈ T)
     (hnc : u ∉ zOf T) {a b : Y} (ha : a ∈ T) (hb : b ∈ T)
     (hau : a * u = u * a) (hbu : b * u = u * b) : a * b = b * a := by
-  haveI := h.fact
+  have := h.fact
   have hZcard : Nat.card (zOf T) = p :=
     card_inf_centralizer_of_nonabelian_card_p_cube h.pdata.T_card h.pdata.T_nonab
   set C : Subgroup Y := T ⊓ centralizer ({u} : Set Y) with hC
@@ -62,7 +62,7 @@ private theorem comm_iff (h : Case2Data p P T D F x) {t t' : Y} (ht : t ∈ T) (
     (t * d) * (t' * d') = (t' * d') * (t * d) ↔ t * t' = t' * t := by
   have e1 : d * t' = t' * d := (h.pdata.comm t' ht' d hd).symm
   have e2 : d' * t = t * d' := (h.pdata.comm t ht d' hd').symm
-  haveI := h.pdata.D_cyc
+  have := h.pdata.D_cyc
   have e3 : d * d' = d' * d := setLike_mul_comm hd hd'
   have l : (t * d) * (t' * d') = (t * t') * (d * d') := by
     calc (t * d) * (t' * d') = t * (d * t') * d' := by simp only [mul_assoc]
@@ -85,12 +85,12 @@ private theorem exists_noncomm_inf (h : Case2Data p P T D F x) {L : Subgroup Y}
     by_contra hne
     exact hcon0 ⟨a, ha, b, hb, hne⟩
   apply hc
-  haveI := h.fact
+  have := h.fact
   have hN : P ≤ normalizer (L : Set Y) := h.P_le_normalizer hL
   have hPsyl : IsSylowOf p P ⊤ := by
     obtain ⟨S, hS⟩ := h.sylow
     rw [isSylowOf_iff]
-    refine ⟨le_top, hS ▸ S.isPGroup', ?_⟩
+    refine ⟨le_top, hS ▸ S.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right, ← hS]
     exact S.not_dvd_index
   have hPL : IsSylowOf p (P ⊓ L) L :=

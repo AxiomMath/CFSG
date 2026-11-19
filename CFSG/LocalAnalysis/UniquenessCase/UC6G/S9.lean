@@ -50,12 +50,12 @@ theorem six9_key (hK : UCK.K47) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Su
     {P : Subgroup G} (hPM : P ≤ Dat.M) (hPp : IsPGroup p P) (hXP : X ≤ P) {y : G} (hy : y ∈ P)
     (hyc : ∀ x ∈ X, ∀ w ∈ P, (y * x * y⁻¹ * x⁻¹) * w = w * (y * x * y⁻¹ * x⁻¹)) :
     ∀ x ∈ X, y * x = x * y := by
-  haveI := Dat.standing.simple
+  have := Dat.standing.simple
   have hMtop : Dat.M ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top Dat.standing.nonab Dat.maxLocal.1
   have hMg : CFSG.Open.IsKGroup ↥Dat.M := Dat.standing.kProper.isKGroup Dat.M hMtop
-  haveI hQn : (CFSG.pCore 2 ↥Dat.M).Normal := CFSG.LieType.BorelTits.pCore_normal 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hQn : (CFSG.pCore 2 ↥Dat.M).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : IsPGroup 2 (CFSG.pCore 2 ↥Dat.M) := CFSG.LieType.BorelTits.pCore_isPGroup 2
   have hchar : centralizer ((CFSG.pCore 2 ↥Dat.M : Subgroup ↥Dat.M) : Set ↥Dat.M) ≤
       CFSG.pCore 2 ↥Dat.M := by

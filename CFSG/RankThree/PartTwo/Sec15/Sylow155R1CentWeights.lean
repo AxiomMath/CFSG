@@ -5,7 +5,7 @@ public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import CFSG.GH74.Filter.Small.Eigenbasis
 import TauCeti.LinearAlgebra.Eigenspace.JointEigenvector.Basic
 import Mathlib.Algebra.Order.Ring.Star
-import Mathlib.Data.Int.Star
+import Mathlib.Algebra.Order.Star.Int
 
 public section
 

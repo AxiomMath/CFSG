@@ -43,7 +43,7 @@ theorem commute_a_lower : Commute (ι₁ (sl2Lower 1)) tM := by
   apply mat6_injective
   simp only [map_mul, mat6_eq]
   rw [ι₁, tM, mat_shortBlock, mat_longBlock]
-  simp only [Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_two_of]
+  simp only [Matrix.SpecialLinearGroup.coe_inv]
   decide +kernel
 
 theorem commute_a_upper_conj :
@@ -53,7 +53,7 @@ theorem commute_a_upper_conj :
   apply mat6_injective
   simp only [map_mul, mat6_eq]
   rw [ι₁, tM, nsElt, mat_shortBlock, mat_longBlock, mat_longBlock]
-  simp only [Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_two_of]
+  simp only [Matrix.SpecialLinearGroup.coe_inv]
   decide +kernel
 
 end CFSG.RankThree.PartTwo.Sec21.FF81.Am4

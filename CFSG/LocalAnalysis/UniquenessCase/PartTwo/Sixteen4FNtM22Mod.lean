@@ -265,9 +265,9 @@ private theorem w183_T_inc10 (x : W11) (i : Fin 10) : T x (inc10 i) = x (inc1011
   rw [T]
   simp only [LinearMap.coe_mk, AddHom.coe_mk, Finset.sum_apply, Pi.smul_apply, smul_eq_mul]
   rw [Finset.sum_eq_single (inc1011 i)]
-  · rw [w183_v_inc10' i (inc1011 i), if_pos rfl, mul_one]
+  · rw [w183_v_inc10' i (inc1011 i), ite_eq_left rfl, mul_one]
   · intro k _ hk
-    rw [w183_v_inc10' i k, if_neg hk, mul_zero]
+    rw [w183_v_inc10' i k, ite_eq_right hk, mul_zero]
   · intro hk
     exact absurd (Finset.mem_univ _) hk
 
@@ -276,9 +276,9 @@ private theorem w183_T_last (x : W11) :
   rw [T]
   simp only [LinearMap.coe_mk, AddHom.coe_mk, Finset.sum_apply, Pi.smul_apply, smul_eq_mul]
   rw [Finset.sum_eq_single ⟨10, by norm_num⟩]
-  · rw [w183_v_ten' ⟨10, by norm_num⟩, if_pos rfl, mul_one]
+  · rw [w183_v_ten' ⟨10, by norm_num⟩, ite_eq_left rfl, mul_one]
   · intro k _ hk
-    rw [w183_v_ten' k, if_neg hk, mul_zero]
+    rw [w183_v_ten' k, ite_eq_right hk, mul_zero]
   · intro hk
     exact absurd (Finset.mem_univ _) hk
 
@@ -686,8 +686,8 @@ private theorem w183SpanFold_mem_span {V : Type*} [AddCommGroup V] [Module (ZMod
           (if x ∈ acc then acc else acc ++ acc.map (fun y => y ^^^ x))
           (fun z hz => by
             by_cases hx : x ∈ acc
-            · rw [if_pos hx] at hz; exact hacc z hz
-            · rw [if_neg hx, List.mem_append] at hz
+            · rw [ite_eq_left hx] at hz; exact hacc z hz
+            · rw [ite_eq_right hx, List.mem_append] at hz
               rcases hz with hz | hz
               · exact hacc z hz
               · rw [List.mem_map] at hz
@@ -816,6 +816,7 @@ private theorem w183Orbit_reach {v x : ℕ} (h : x ∈ w183Orbit v) : w183Reach 
     (by intro y hy; rw [List.mem_singleton] at hy; rw [hy]; exact ⟨[], rfl⟩)
     x (by simpa [w183Orbit] using h)
 
+set_option exponentiation.threshold 1024 in
 private theorem w183Check_cover {x : ℕ} (hx : x < 1024) (hx0 : x ≠ 0) :
     x ∈ w183Orbit 1 ∨ x ∈ w183Orbit 3 ∨ x ∈ w183Orbit 4 := by
   have h := w183Check_eq_true
@@ -838,6 +839,7 @@ private theorem w183Check_cover {x : ℕ} (hx : x < 1024) (hx0 : x ≠ 0) :
     rw [Nat.testBit_two_pow] at h1
     exact hx0 (of_decide_eq_true h1).symm
 
+set_option exponentiation.threshold 1024 in
 private theorem w183Check_span (i : ℕ) (hi : i = 1 ∨ i = 3 ∨ i = 4) :
     ∀ x < 1024, x ∈ w183SpanFold (w183Orbit i) := by
   have h := w183Check_eq_true
@@ -973,8 +975,8 @@ private theorem w183_submodule_eq_bot_or_top (U : Submodule (ZMod 2) Q10)
         simp only [qVec] at h
         by_cases hx : x.val.testBit i <;> by_cases hy : y.val.testBit i <;>
           simp [hx, hy] at h ⊢
-      · have hx10 : x.val < 2 ^ 10 := by simpa using x.isLt
-        have hy10 : y.val < 2 ^ 10 := by simpa using y.isLt
+      · have hx10 : x.val < 2 ^ 10 := by simp
+        have hy10 : y.val < 2 ^ 10 := by simp
         have hlt : 2 ^ 10 ≤ 2 ^ i := Nat.pow_le_pow_right (by norm_num) (by omega)
         rw [Nat.testBit_lt_two_pow (lt_of_lt_of_le hx10 hlt),
           Nat.testBit_lt_two_pow (lt_of_lt_of_le hy10 hlt)]
@@ -1012,7 +1014,7 @@ theorem s16nt_m22_module :
         Module.finrank (ZMod 2) (LinearMap.range (∑ i ∈ Finset.range 4, ρ b ^ i)) = 2 := by
   refine ⟨Q10, inferInstance, inferInstance, inferInstance, rhoRep, a, b, ?_, ?_, ?_, ?_, ?_, ?_,
     ?_, ?_⟩
-  · haveI : Nontrivial (Subrepresentation rhoRep) :=
+  · have : Nontrivial (Subrepresentation rhoRep) :=
       ⟨⊥, ⊤, fun h => bot_ne_top (α := Submodule (ZMod 2) Q10)
         (congrArg Subrepresentation.toSubmodule h)⟩
     refine IsSimpleOrder.of_forall_eq_top ?_

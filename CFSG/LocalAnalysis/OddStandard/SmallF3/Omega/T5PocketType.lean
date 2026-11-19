@@ -45,7 +45,7 @@ private noncomputable def rot2 : P2 ≃ₗ[ZMod 3] P2 where
   invFun x := fun i => if i = 0 then - x 1 else x 0
   left_inv x := by funext i; fin_cases i <;> simp
   right_inv x := by funext i; fin_cases i <;> simp
-  map_add' x y := by funext i; fin_cases i <;> simp [neg_add, add_comm]
+  map_add' x y := by funext i; fin_cases i <;> simp [add_comm]
   map_smul' a x := by funext i; fin_cases i <;> simp
 
 private lemma rot2_apply_zero (x : P2) : rot2 x 0 = x 1 := by
@@ -70,8 +70,7 @@ private lemma p2_sq : p2 * p2 = piOrth Q2 := by
   intro x
   funext i
   fin_cases i <;>
-    simp only [p2, Subgroup.coe_mul, LinearEquiv.mul_apply, rot2_apply_zero, rot2_apply_one,
-      coe_piOrth_apply, Pi.neg_apply]
+    simp only [p2, Subgroup.coe_mul, LinearEquiv.mul_apply, coe_piOrth_apply, Pi.neg_apply]
   · rfl
   · rfl
 
@@ -104,7 +103,7 @@ private lemma planeB_ne_zero : Q2 planeB ≠ 0 := by
 private lemma coe_reflOf_apply' (u : P2) (hu : Q2 u ≠ 0) (x : P2) :
     ((reflOf Q2 u hu : OGroup Q2) : P2 ≃ₗ[ZMod 3] P2) x =
       x - (QuadraticMap.polar Q2 u x / Q2 u) • u := by
-  letI : Invertible (Q2 u) := invertibleOfNonzero hu
+  let : Invertible (Q2 u) := invertibleOfNonzero hu
   rw [reflOf_eq u hu, TauCeti.QuadraticMap.coe_reflectionOrthogonal]
   exact TauCeti.QuadraticMap.reflection_apply_eq_sub_div Q2 u x
 
@@ -152,7 +151,7 @@ private lemma p2_eq_refl :
 private lemma detSpinorNorm_reflOf_planeA :
     detSpinorNorm Q2_nondegenerate (reflOf Q2 planeA planeA_ne_zero) =
       ((-1 : (ZMod 3)ˣ), Multiplicative.ofAdd (squareClass (-1 : (ZMod 3)ˣ))) := by
-  letI : Invertible (Q2 planeA) := invertibleOfNonzero planeA_ne_zero
+  let : Invertible (Q2 planeA) := invertibleOfNonzero planeA_ne_zero
   rw [reflOf_eq planeA planeA_ne_zero, detSpinorNorm_reflectionOrthogonal]
   have hunit : unitOfInvertible (Q2 planeA) = (-1 : (ZMod 3)ˣ) := by
     apply Units.ext
@@ -163,7 +162,7 @@ private lemma detSpinorNorm_reflOf_planeA :
 private lemma detSpinorNorm_reflOf_planeB :
     detSpinorNorm Q2_nondegenerate (reflOf Q2 planeB planeB_ne_zero) =
       ((-1 : (ZMod 3)ˣ), (1 : Multiplicative (SquareClassGroup (ZMod 3)))) := by
-  letI : Invertible (Q2 planeB) := invertibleOfNonzero planeB_ne_zero
+  let : Invertible (Q2 planeB) := invertibleOfNonzero planeB_ne_zero
   rw [reflOf_eq planeB planeB_ne_zero, detSpinorNorm_reflectionOrthogonal]
   have hunit : unitOfInvertible (Q2 planeB) = 1 := by
     apply Units.ext
@@ -274,6 +273,7 @@ private lemma detSpinorNorm_pM_ne_one :
     simpa using this
   exact aux_squareClass_neg_one_ne_zero h3
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma congr_piOrth {W : Type} [AddCommGroup W] [Module (ZMod 3) W]
     [FiniteDimensional (ZMod 3) W] {Q' : QuadraticForm (ZMod 3) W}
     (e : Q.IsometryEquiv Q') :
@@ -292,7 +292,7 @@ private lemma detSpinorNorm_orthogonalGroupCongr {W : Type} [AddCommGroup W]
   have key : (detSpinorNorm hQ').comp
       (TauCeti.QuadraticMap.orthogonalGroupCongr e).toMonoidHom = detSpinorNorm hQ := by
     refine TauCeti.QuadraticMap.orthogonalGroup_hom_ext Q hQ fun v hv => ?_
-    haveI : Invertible (Q' (e v)) := by rw [e.map_app]; exact hv
+    have : Invertible (Q' (e v)) := by rw [e.map_app]; exact hv
     rw [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
       TauCeti.QuadraticMap.orthogonalGroupCongr_reflectionOrthogonal,
       detSpinorNorm_reflectionOrthogonal, detSpinorNorm_reflectionOrthogonal]

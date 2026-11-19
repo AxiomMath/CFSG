@@ -141,8 +141,8 @@ theorem U4qLocalData.exists_twist_of_ext (hf : 2 ≤ f) (hH : Hyp111 L1 L2 S)
   have R := hD.extension_reduction hH hf hS2
   obtain ⟨F, hF, -, ⟨c₁⟩⟩ := R.data.exists_coordLeft R.hyp R.card_inf
   obtain ⟨K, hK, -, ⟨c₂⟩⟩ := R.data.exists_coordRight R.hyp R.card_inf
-  letI := hF
-  letI := hK
+  let := hF
+  let := hK
   have hU : UnitaryFieldData 2 f K := ⟨Nat.prime_two, hD.one_le, c₂.card⟩
   obtain ⟨ψ₁, hψ₁Q, hψ₁N⟩ := R.data.exists_mulEquiv_parP hf R.hyp R.card_inf c₁ c₂ hU
   obtain ⟨ψ₂, hψ₂Q, -, hψ₂N⟩ := R.data.exists_mulEquiv_parP2 R.hyp R.card_inf c₁ c₂ hU

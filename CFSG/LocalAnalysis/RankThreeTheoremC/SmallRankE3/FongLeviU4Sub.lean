@@ -37,7 +37,7 @@ theorem exists_prime_two_le_pRank_hypSU (h : UnitaryFieldData 2 m K) :
   have hf2 : f ≠ 2 := by
     rintro rfl
     omega
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hdiv : f ∣ (2 ^ m - 1) * (2 ^ m + 1) := by
     rw [← card_sub_one_eq h]
     exact hfd

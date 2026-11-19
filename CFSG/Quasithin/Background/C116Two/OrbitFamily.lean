@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem orbitBlocks_ctx {H T V L A : Subgroup G} (h : Ctx H T V L) (hAT : A ≤ T)
     {L' : Subgroup G} (hL' : L' ∈ orbitBlocks A L) : Ctx H T V L' := by
   obtain ⟨a, ha, rfl⟩ := hL'

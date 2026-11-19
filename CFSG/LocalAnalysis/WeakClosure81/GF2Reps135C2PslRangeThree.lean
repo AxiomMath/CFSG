@@ -40,7 +40,7 @@ private lemma c2slr3_const_of_shift_one {f : ℕ} (hf : 0 < f) (ε : Fin f → F
   exact H r.val r.isLt
 
 theorem w135c2_psl_range_three {f s d : ℕ}
-    (hs : 1 ≤ s) (ε : Fin f → Finset (Fin 3))
+    (_hs : 1 ≤ s) (ε : Fin f → Finset (Fin 3))
     (h0 : ∀ r, (⟨0, by omega⟩ : Fin 3) ∉ ε r) (hact : ∃ r, ε r ≠ ∅)
     (hper : f ≤ s * (univ.filter fun r => ε r ≠ ∅).card)
     (hrot : ∀ r : Fin f, ε ⟨(r + s) % f, Nat.mod_lt _ r.pos⟩ = ε r)
@@ -123,7 +123,7 @@ theorem w135c2_psl_range_three {f s d : ℕ}
         intro r; rw [hconstS r, hS2]
       · exfalso
         have hd12 : d ≤ 12 := by
-          rw [if_neg (by omega : ¬ f = 1)] at hd1
+          rw [ite_eq_right (by omega : ¬ f = 1)] at hd1
           norm_num at hd1
           exact hd1
         rw [hN12, hf2] at hpow
@@ -132,7 +132,7 @@ theorem w135c2_psl_range_three {f s d : ℕ}
     ·
       exfalso
       have hd12 : d ≤ 12 := by
-        rw [if_neg (by omega : ¬ f = 1)] at hd1
+        rw [ite_eq_right (by omega : ¬ f = 1)] at hd1
         norm_num at hd1
         exact hd1
       have hN3 : 3 ≤ orbitSize S := by
@@ -151,7 +151,7 @@ theorem w135c2_psl_range_three {f s d : ℕ}
       exact hr (congrArg ε (Subsingleton.elim _ _))
     have hf2 : 2 ≤ f := by omega
     have hd4 : d ≤ 4 := by
-      rw [if_neg hfne1] at hd23
+      rw [ite_eq_right hfne1] at hd23
       exact hd23
     have hpow4 : 3 ^ T.card ≤ d := le_trans hpow_prod hlow
     have hcard1 : T.card = 1 := by

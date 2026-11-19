@@ -139,7 +139,7 @@ theorem pCoreOf_arcStab_le_Q_right (m r : ℤ) (hmr : m < r) (hsing : ¬ X.Right
   have hPH : pCoreOf 2 (X.arcStab m r) ≤ X.Gi (r - 1) ⊓ X.Gi r :=
     le_inf (hPle.trans (X.arcStab_le_Gi_right_pred hmr))
       (hPle.trans (X.arcStab_le_Gi_right hmr))
-  haveI : Finite ↥(X.Gi (r - 1) ⊓ X.Gi r) :=
+  have : Finite ↥(X.Gi (r - 1) ⊓ X.Gi r) :=
     finite_of_le_stabilizer X.hyp (H := X.Gi (r - 1) ⊓ X.Gi r) inf_le_left
   have hSylow : IsSylowTwoOf (pCoreOf 2 (X.Gi (r - 1) ⊓ X.Gi r))
       (X.Gi (r - 1) ⊓ X.Gi r) :=
@@ -220,7 +220,7 @@ theorem pCoreOf_arcStab_le_Q_left (m r : ℤ) (hmr : m < r) (hsing : ¬ X.LeftTr
   have hPH : pCoreOf 2 (X.arcStab m r) ≤ X.Gi m ⊓ X.Gi (m + 1) :=
     le_inf (hPle.trans (X.arcStab_le_Gi_left hmr))
       (hPle.trans (X.arcStab_le_Gi_left_succ hmr))
-  haveI : Finite ↥(X.Gi m ⊓ X.Gi (m + 1)) :=
+  have : Finite ↥(X.Gi m ⊓ X.Gi (m + 1)) :=
     finite_of_le_stabilizer X.hyp (H := X.Gi m ⊓ X.Gi (m + 1)) inf_le_left
   have hSylow : IsSylowTwoOf (X.edgeSylow m) (X.Gi m ⊓ X.Gi (m + 1)) :=
     X.isSylowTwoOf_edgeSylow m

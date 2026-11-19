@@ -103,7 +103,7 @@ private theorem ncard_cycleType_two_four_listSubgroup {L : List (Perm (Fin 8))}
   have hs : {x : Perm (Fin 8) | x ∈ listSubgroup L h ∧ x.cycleType = {2, 2, 2, 2}} =
       ↑(L.toFinset.filter fun x => ∀ i, x i ≠ i) := by
     ext x
-    simp only [Set.mem_setOf_eq, Finset.coe_filter, List.mem_toFinset, mem_listSubgroup]
+    simp only [Set.mem_ofPred_eq, Finset.coe_filter, List.mem_toFinset, mem_listSubgroup]
     constructor
     · rintro ⟨hx, hc⟩
       exact ⟨hx, (cycleType_eq_two_four_iff ((goodList_spec h).2.2.1 x hx)).1 hc⟩

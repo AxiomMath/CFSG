@@ -63,6 +63,7 @@ theorem derivedSeries_Halpha_conj_ne (hC : HypothesisC D) (g : G)
     (conjEquiv hC g).symm.surjective 2
   exact hne (by rw [← h1, ← h2, h])
 
+omit [Finite G] in
 theorem derivedSeries_quotient_Halpha_conj_ne (hC : HypothesisC D) (g : G)
     (hne : derivedSeries (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) 1 ≠
       derivedSeries (Halpha D hC.alpha ⧸ CFSG.solvableRadical (Halpha D hC.alpha)) 2) :

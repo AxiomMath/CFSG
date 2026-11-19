@@ -57,7 +57,7 @@ private theorem twops_card_eq_of_planeFrame {F : Type} [Field F] [Finite F] [Cha
   exact h1
 
 theorem ggTwOmPlus_scRank_rec {K : Type} [Field K] [Finite K] [CharP K 2] {n m r : ℕ}
-    (hK : Nat.card K = 2 ^ n) (hr : 3 ≤ r) (hev : Even r) (hmr : m = r + 1)
+    (hK : Nat.card K = 2 ^ n) (hr : 3 ≤ r) (_hev : Even r) (hmr : m = r + 1)
     (h3 : 3 ∣ 2 ^ n + 1) :
     GGSelfCentRankGE 3 r (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K m))) := by
   subst hmr

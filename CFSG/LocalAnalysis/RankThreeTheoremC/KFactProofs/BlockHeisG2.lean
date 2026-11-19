@@ -76,8 +76,8 @@ theorem heisCoreOn_g2_of_oddCenterRest
     (hZ : OddCenterRest) : HeisCoreOn IdxG2 := by
   intro L _ _ hperf hodd hrk hsimple d hd e p hp hp5
   left
-  haveI := hperf
-  haveI := hsimple
+  have := hperf
+  have := hsimple
   obtain ⟨d, hv⟩ := d
   cases d
   case G2 q =>

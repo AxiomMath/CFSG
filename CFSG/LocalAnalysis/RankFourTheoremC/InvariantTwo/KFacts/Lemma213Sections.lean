@@ -28,7 +28,7 @@ namespace Red
 
 theorem eq_one_of_mem_centralizer_layer (R : Red n p K P z D) {x : K}
     (hx : x ∈ centralizer (layer K : Set K)) : x = 1 := by
-  haveI := R.fact
+  have := R.fact
   have hF : fittingSubgroup K = ⊥ := by rw [Fitting_eq_pcore K p R.core, R.pc]
   have hgf : generalizedFitting K = layer K := by
     rw [generalizedFitting.eq_sup, hF, bot_sup_eq]
@@ -120,7 +120,7 @@ theorem false_of_section_ker (R : Red n p K P z D)
     (hnab : ∃ a b : S, a * b ≠ b * a) (hdvd : p ∣ Nat.card S) (V : Subgroup K)
     (hVY : V ≤ (actHom K).ker) (hVz : V ≤ centralizer ({z} : Set K)) (g : V →* S)
     (hg : Function.Surjective g) : False := by
-  haveI := R.fact
+  have := R.fact
   set Y := (actHom K).ker with hY
   let e : V.subgroupOf Y ≃* V := Subgroup.subgroupOfEquivOfLe hVY
   let g₁ : V.subgroupOf Y →* S := g.comp e.toMonoidHom
@@ -145,10 +145,10 @@ theorem false_of_section_ker (R : Red n p K P z D)
         (hV'' v v.2).2 (k := k) (congrArg Subtype.val hk)
       exact h1.symm
     exact false_of_central_pElements R.prime hnab hdvd hcent f₂ hf₂
-  · haveI : ∀ C : ComponentIndex K, Group.IsSolvable (Outer C.1) := hOut
-    haveI : Group.IsSolvable (∀ C : ComponentIndex K, Outer C.1) := isSolvable_pi_of_finite
-    haveI : Group.IsSolvable V' := inferInstance
-    haveI : Group.IsSolvable S := Group.isSolvable_of_surjective hg'
+  · have : ∀ C : ComponentIndex K, Group.IsSolvable (Outer C.1) := hOut
+    have : Group.IsSolvable (∀ C : ComponentIndex K, Outer C.1) := isSolvable_pi_of_finite
+    have : Group.IsSolvable V' := inferInstance
+    have : Group.IsSolvable S := Group.isSolvable_of_surjective hg'
     obtain ⟨a, b, hab⟩ := hnab
     exact hab ((IsSimpleGroup.comm_iff_isSolvable (G := S)).2 inferInstance a b)
 

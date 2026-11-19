@@ -14,7 +14,7 @@ theorem L3U3Pumpup.exists_elemAbelian_gt_nine {S : Type} [Group S] [Finite S] (h
     (hZ : Subgroup.center S = ⊥) {x : S} (h : L3U3Pumpup S (MulAut.conj x)) :
     ∃ E : Subgroup S, CFSG.Assembly.IsElemAbelian 3 E ∧ 9 < Nat.card E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hx3', hx1', I, hI, hI34⟩ := h
   have hx3 : x ^ 3 = 1 := by
     have h1 : (MulAut.conj (x ^ 3) : MulAut S) = 1 := by rw [map_pow]; exact hx3'

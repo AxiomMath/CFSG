@@ -386,7 +386,7 @@ theorem isolated_tau {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subg
     rw [Subgroup.mem_map] at hx
     obtain ⟨w, hw, hwx⟩ := hx
     rw [← hwx]
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     apply hInv_le
     · exact (Subgroup.mem_normalizer_iff.mp hg w).mp (GGFF.SettingCore.tor_le_Bt b z hw)
     · have hτw : τ * w * τ⁻¹ = w⁻¹ := by
@@ -405,7 +405,7 @@ theorem isolated_tau {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subg
     rw [Subgroup.mem_map] at hyJ
     obtain ⟨w, hw, hwy⟩ := hyJ
     rw [← hwy]
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     have hτw : τ * w * τ⁻¹ = w⁻¹ := by
       obtain ⟨v, rfl⟩ := hS.mem_torG.mp hw
       exact hτvec v
@@ -558,11 +558,11 @@ theorem isolated_t {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subgro
     constructor
     · rintro ⟨w, hw, hwx⟩
       rw [← hwx]
-      simpa [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, mul_assoc]
+      simpa [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, mul_assoc]
         using hw
     · intro h
       exact ⟨g⁻¹ * x * g, h, by
-        simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+        simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
         group⟩
   have hfixP : ∀ x ∈ GGFF.Bt b z,
       P * x * P⁻¹ = x ↔ x ∈ (GGFF.tor (GGFF.zs z)).map (MulAut.conj g).toMonoidHom := by
@@ -741,7 +741,7 @@ theorem isolated_t {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subgro
     rw [Subgroup.mem_map] at hx
     obtain ⟨w, hw, hwx⟩ := hx
     rw [← hwx]
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
     apply hFix_le
     · exact (Subgroup.mem_normalizer_iff.mp hg w).mp (GGFF.SettingCore.tor_le_Bt b z hw)
     · obtain ⟨v, rfl⟩ := hS.mem_torG.mp hw

@@ -26,14 +26,14 @@ theorem exists_untw_frame {τ : Tag} (d : ℕ)
       ((Nat.card K : ℕ) : L) = 0 ∧
       LangDescent D p ((baseChangeGL (algebraMap K L)).comp (adjointGroup τ K).subtype) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
   have hq : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : CharP K (ringChar K) := ringChar.charP K
   let L := AlgebraicClosure K
-  haveI : CharP L (ringChar K) := charP_of_injective_algebraMap (algebraMap K L).injective _
+  have : CharP L (ringChar K) := charP_of_injective_algebraMap (algebraMap K L).injective _
   let Fr : L →+* L := iterateFrobenius L (ringChar K) (f : ℕ)
   have hFr : ∀ c, Fr c = c ^ Nat.card K := fun c => by
     rw [hq]
@@ -54,24 +54,24 @@ theorem exists_sylow_of_hord {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] (D 
       (Nat.card C).factorization p ≤ (Nat.card H).factorization p) :
     ∃ S₀ : Sylow p D.Γ, (S₀ : Subgroup D.Γ) ≤ D.torus.subgroupOf D.Γ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hfm := hd.finite_model
+  have : Fact p.Prime := ⟨hp⟩
+  have hfm := hd.finite_model
   have hTM := D.torus_le_model
-  haveI hTfin : Finite D.torus :=
+  have hTfin : Finite D.torus :=
     Finite.of_injective (Subgroup.inclusion hTM) (Subgroup.inclusion_injective hTM)
   have hΓfin : Finite D.Γ :=
     Finite.of_injective (Subgroup.inclusion hd.Γ_le_model) (Subgroup.inclusion_injective _)
   obtain ⟨H, hHT, hCH⟩ := hord
   have hord' : (Nat.card C).factorization p ≤ (Nat.card D.torus).factorization p := by
     refine hCH.trans ?_
-    haveI : Finite H :=
+    have : Finite H :=
       Finite.of_injective (Subgroup.inclusion hHT) (Subgroup.inclusion_injective hHT)
     have hdvd : Nat.card H ∣ Nat.card D.torus := Subgroup.card_dvd_of_le hHT
     exact (Nat.factorization_le_iff_dvd Nat.card_pos.ne' Nat.card_pos.ne').2 hdvd p
   obtain ⟨P0⟩ : Nonempty (Sylow p D.torus) := inferInstance
   set P1 : Subgroup (ModGL τ L) := (P0 : Subgroup D.torus).map D.torus.subtype with hP1
   have hP1T : P1 ≤ D.torus := Subgroup.map_subtype_le _
-  have hP1p : IsPGroup p P1 := P0.isPGroup'.map _
+  have hP1p : IsPGroup p P1 := P0.isPGroup.map _
   have hP1Γ : P1 ≤ D.Γ := hd.pgroup_le_Γ P1 (hP1T.trans hTM) hP1p
   have hP1card : Nat.card P1 = p ^ (Nat.card D.torus).factorization p := by
     rw [hP1, Subgroup.card_map_of_injective D.torus.subtype_injective, Sylow.card_eq_multiplicity]
@@ -108,11 +108,11 @@ theorem exists_exact_frame_sylow {τ : Tag} (hτ : τ = .G2 ∨ τ = .F4) (F : T
       Nonempty (adjointGroup τ F ≃* D.Γ) ∧
       ∃ S₀ : Sylow p D.Γ, (S₀ : Subgroup D.Γ) ≤ D.torus.subgroupOf D.Γ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL τ F) := finite_modGL
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL τ F) := finite_modGL
   obtain ⟨L, _, _, _, D, Fr, hFr, hD, hDq, hDn, hK0, hd⟩ :=
     exists_exact_frame (K := F) hτ (p := p) w hperf
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed F
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed F
   set ι : adjointGroup τ F →* ModGL τ L :=
     (baseChangeGL (algebraMap F L)).comp (adjointGroup τ F).subtype with hιdef
   have hι : Function.Injective ι :=
@@ -154,11 +154,11 @@ theorem exists_exact_frame_sylow_of_S {τ : Tag} (hτ : τ = .G2 ∨ τ = .F4) (
       Nonempty (adjointGroup τ F ≃* D.Γ) ∧
       ∃ S₀ : Sylow p D.Γ, (S₀ : Subgroup D.Γ) ≤ D.torus.subgroupOf D.Γ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL τ F) := finite_modGL
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL τ F) := finite_modGL
   obtain ⟨L, _, _, _, D, Fr, hFr, hD, hDq, hDn, hK0, hd⟩ :=
     exists_exact_frame (K := F) hτ (p := p) w hperf
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed F
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed F
   set ι : adjointGroup τ F →* ModGL τ L :=
     (baseChangeGL (algebraMap F L)).comp (adjointGroup τ F).subtype with hιdef
   have hι : Function.Injective ι :=

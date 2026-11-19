@@ -52,8 +52,8 @@ private lemma centralizes_small {F : Type*} {H : Type} {V : Type*} [Field F] [Is
     (hUc : IsMulCommutative U) :
     D ≤ Subgroup.centralizer (U : Set H) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : CommGroup U := { (inferInstance : Group U) with
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : CommGroup U := { (inferInstance : Group U) with
     mul_comm := fun a b => IsMulCommutative.is_comm.comm a b }
   have hcard : (Nat.card U : F) ≠ 0 := by
     obtain ⟨m, hm⟩ := (IsPGroup.iff_card (p := 2) (G := E)).mp hE2
@@ -97,7 +97,7 @@ private lemma centralizes_small {F : Type*} {H : Type} {V : Type*} [Field F] [Is
       simp
     have h1 : ρ d * ρ d⁻¹ = 1 := by rw [← map_mul, mul_inv_cancel, map_one]
     have h2 : ρ d⁻¹ * ρ d = 1 := by rw [← map_mul, inv_mul_cancel, map_one]
-    let σ : V ≃ₗ[F] V := LinearEquiv.ofLinear (ρ d) (ρ d⁻¹)
+    let σ : V ≃ₗ[F] V := LinearEquiv.ofLinearMap (ρ d) (ρ d⁻¹)
       (by rw [← Module.End.mul_eq_comp, h1]; rfl) (by rw [← Module.End.mul_eq_comp, h2]; rfl)
     have hcov : ∀ (g : U) (v : V), σ (τ g v) = τ (α g) (σ v) := by
       intro g v
@@ -126,7 +126,7 @@ theorem special_and_center {F : Type*} {H : Type} {V : Type*} [Field F] [IsAlgCl
     IsSpecialPGroup E ∧
       (Subgroup.center E).map E.subtype = E ⊓ Subgroup.centralizer (D : Set H) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hcop : Nat.Coprime 2 (Nat.card D) := by
     rw [hD, Nat.coprime_primes Nat.prime_two hq]
     omega

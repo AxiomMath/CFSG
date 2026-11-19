@@ -11,6 +11,7 @@ namespace CFSG.GroupTheory
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem card_centralizer_singleton_eq_of_isConj {x y : G} (h : IsConj x y) :
     Nat.card (Subgroup.centralizer ({x} : Set G)) =
       Nat.card (Subgroup.centralizer ({y} : Set G)) := by

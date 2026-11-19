@@ -39,9 +39,11 @@ namespace Setting
 
 variable {Y : Type*} [Group Y] [Finite Y] {P : Subgroup Y}
 
+omit [Finite Y] in
 theorem isElemAbelian (h : Setting Y P) : CFSG.Open.IsElemAbelian 3 P :=
   ⟨IsMulCommutative.of_comm fun a b => Subtype.ext (h.comm a a.2 b b.2), h.cube⟩
 
+omit [Finite Y] in
 theorem card_centralizer (h : Setting Y P) {a : Y} (ha : a ∈ P) (ha1 : a ≠ 1) :
     Nat.card (centralizer ({a} : Set Y)) = 360 := by
   obtain ⟨e⟩ := h.cent a ha ha1
@@ -49,7 +51,7 @@ theorem card_centralizer (h : Setting Y P) {a : Y} (ha : a ∈ P) (ha1 : a ≠ 1
 
 theorem not_dvd (h : Setting Y P) : ¬ 3 ^ 3 ∣ Nat.card Y := by
   intro h27
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : Nat.card P = 3 ^ 2 := by rw [h.card]; norm_num
   have h27' : 3 ^ (2 + 1) ∣ Nat.card Y := by simpa using h27
   obtain ⟨T, hTcard, hPT⟩ :=
@@ -67,12 +69,12 @@ theorem not_dvd (h : Setting Y P) : ¬ 3 ^ 3 ∣ Nat.card Y := by
   have hnorm : P'.Normal :=
     Subgroup.normal_of_index_eq_minFac_card (by rw [hidx, hTcard', hmin])
   have hpg : IsPGroup 3 ↥T := IsPGroup.of_card (n := 3) (by rw [hTcard']; norm_num)
-  haveI : Group.IsNilpotent ↥T := hpg.isNilpotent
+  have : Group.IsNilpotent ↥T := hpg.isNilpotent
   have hne : P' ≠ ⊥ := by
     intro hbot
     rw [hbot, Subgroup.card_bot] at hcardP'
     norm_num at hcardP'
-  haveI : P'.Normal := hnorm
+  have : P'.Normal := hnorm
   have hinf : P' ⊓ Subgroup.center ↥T ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal hne
   obtain ⟨a, ha1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hinf
@@ -96,7 +98,7 @@ theorem not_dvd (h : Setting Y P) : ¬ 3 ^ 3 ∣ Nat.card Y := by
 
 theorem centralizer_equiv (h : Setting Y P) {x : Y} (hx : orderOf x = 3) :
     Nonempty (↥(centralizer ({x} : Set Y)) ≃* Z35) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : Nat.card P = 3 ^ 2 := by rw [h.card]; norm_num
   have hk : ¬ 3 ^ (2 + 1) ∣ Nat.card Y := by simpa using h.not_dvd
   obtain ⟨g, hg⟩ :=
@@ -123,7 +125,7 @@ theorem eq_bot_of_normal_of_coprime (h : Setting Y P) {M : Subgroup Y} (hM : M.N
     (hc : Nat.Coprime 3 (Nat.card M)) : M = ⊥ := by
   have hA : CFSG.Open.IsElemAbelian 3 P := h.isElemAbelian
   have hrank : 3 ^ 2 ≤ Nat.card P := by rw [h.card]; norm_num
-  haveI : M.Normal := hM
+  have : M.Normal := hM
   have hAX : P ≤ Subgroup.normalizer (M : Set Y) := by
     rw [Subgroup.normalizer_eq_top]
     exact le_top
@@ -163,6 +165,7 @@ theorem eq_bot_of_normal_of_coprime (h : Setting Y P) {M : Subgroup Y} (hM : M.N
     exact le_of_eq (hterm a ha ha1)
   exact le_bot_iff.mp hle
 
+omit [Finite Y] in
 theorem solvableRadical_eq_bot (h : Setting Y P) : CFSG.solvableRadical Y = ⊥ := by
   rw [CFSG.solvableRadical]
   refine le_bot_iff.mp (sSup_le fun N hN => le_bot_iff.mpr ?_)
@@ -188,7 +191,7 @@ theorem solvableRadical_eq_bot (h : Setting Y P) : CFSG.solvableRadical Y = ⊥ 
     have hk1 : k + 1 = n := by omega
     rw [hk1]
     exact hn
-  haveI : N.Normal := hN.1
+  have : N.Normal := hN.1
   let D : Subgroup Y := (derivedSeries ↥N k).map N.subtype
   have hDne : D ≠ ⊥ := by
     intro hbot

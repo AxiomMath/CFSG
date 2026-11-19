@@ -63,7 +63,7 @@ theorem le_normalizer_of_onan_pump
     rw [hcard]
     exact Nat.coprime_two_left.mp (pPrimeCore_coprime_card (G := ↥P) (p := 2))
   have hbot : R ⊓ oddIn P = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hR2
     rw [hn]
     exact (hoddP.coprime_two_left).pow_left n

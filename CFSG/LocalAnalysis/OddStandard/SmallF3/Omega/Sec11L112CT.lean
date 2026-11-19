@@ -108,7 +108,7 @@ theorem conj_z (hm : Sec11Model t L S z K1 K2 T Alt φ) {r : G}
     (hr : ∀ v, r * φ v * r⁻¹ = φ (permVec (Equiv.swap 0 1) v)) : r * z * r⁻¹ = z := by
   have h : permVec (Equiv.swap 0 1) (Pi.single 0 1 + Pi.single 1 1) =
       Pi.single 0 1 + Pi.single 1 1 :=
-    sec11_permVec_swap01 _ (by simp [Pi.single_apply])
+    sec11_permVec_swap01 _ (by simp)
   conv_lhs => rw [← hm.z_eq, hr, h]
   exact hm.z_eq
 

@@ -63,7 +63,7 @@ theorem exists_code_matches3 (hA : SLDiagram A) {J I : Set (Fin n)} (hIJ : I ⊆
     fin_cases i <;> fin_cases j <;>
       simp [e01, e12, e02, ε, cx3, Matrix.cons_val_zero, Matrix.cons_val_one,
         Matrix.cons_val_two, hxy, hxz, hyz, Ne.symm hxy, Ne.symm hxz, Ne.symm hyz,
-        hyx, hzy, hzx] <;>
+        hyx, hzy, hzx];
       (split_ifs <;> simp_all)
   have hπJ : ∀ i, ε i ∈ I → ∃ j, ε j = π (ε i) := by
     intro i hi
@@ -75,7 +75,7 @@ theorem exists_code_matches3 (hA : SLDiagram A) {J I : Set (Fin n)} (hIJ : I ⊆
   have hπ' : ∀ i, ε i ∈ I → ε (π' i) = π (ε i) := by
     intro i hi
     dsimp only [π']
-    rw [dif_pos hi]
+    rw [dite_eq_left hi]
     exact (hπJ i hi).choose_spec
   have hvalid : Valid3 e01 e12 e02 I' π' := by
     unfold Valid3
@@ -110,7 +110,7 @@ theorem exists_code_matches3 (hA : SLDiagram A) {J I : Set (Fin n)} (hIJ : I ⊆
         have hdec : decide (A (π (ε i)) (π (ε j)) ≠ 0)
             = decide (A (ε i) (ε j) ≠ 0) :=
           decide_eq_decide.mpr (hπA (ε i) hIi (ε j) hIj hεij)
-        rw [if_neg hπij, if_neg hεij, hdec]
+        rw [ite_eq_right hπij, ite_eq_right hεij, hdec]
   obtain ⟨c, hcmem, σ₀, hσ₀, hmatch⟩ := classify3 e01 e12 e02 I' π' hvalid
   let σ : Fin 3 → Fin n := fun i => ε (σ₀ i)
   have hσinj : Function.Injective σ := hε.comp (perms3_injective σ₀ hσ₀)
@@ -122,12 +122,12 @@ theorem exists_code_matches3 (hA : SLDiagram A) {J I : Set (Fin n)} (hIJ : I ⊆
     have hσ₀ij : σ₀ i ≠ σ₀ j := fun h => hij ((perms3_injective σ₀ hσ₀) h)
     have hεij : ε (σ₀ i) ≠ ε (σ₀ j) := fun h => hσ₀ij (hε h)
     have hc : c.coxN i j = (if decide (A (σ i) (σ j) ≠ 0) then 3 else 2) := by
-      rw [← hmatch.2.1 i j hij, hkey (σ₀ i) (σ₀ j), if_neg hεij]
+      rw [← hmatch.2.1 i j hij, hkey (σ₀ i) (σ₀ j), ite_eq_right hεij]
     rcases hA.sl (σ i) (σ j) (fun h => hij (hσinj h)) with h0 | hneg
-    · have hc2 : c.coxN i j = 2 := by rw [hc, if_neg (by rw [h0]; decide)]
-      rw [h0, if_neg (by rw [hc2]; decide)]
-    · have hc3 : c.coxN i j = 3 := by rw [hc, if_pos (by rw [hneg]; decide)]
-      rw [hneg, if_pos hc3]
+    · have hc2 : c.coxN i j = 2 := by rw [hc, ite_eq_right (by rw [h0]; decide)]
+      rw [h0, ite_eq_right (by rw [hc2]; decide)]
+    · have hc3 : c.coxN i j = 3 := by rw [hc, ite_eq_left (by rw [hneg]; decide)]
+      rw [hneg, ite_eq_left hc3]
   · intro i
     rw [← hmatch.2.2.1 i]
     dsimp only [I', σ]
@@ -177,8 +177,7 @@ theorem exists_code_matches2 (hA : SLDiagram A) {J I : Set (Fin n)} (hIJ : I ⊆
     have hyx : (A y x ≠ 0) = (A x y ≠ 0) := propext (plh_symm_ne hA y x)
     fin_cases i <;> fin_cases j <;>
       simp [e01, ε, cx2, Matrix.cons_val_zero, Matrix.cons_val_one, hxy, Ne.symm hxy,
-        hyx] <;>
-      (split_ifs <;> simp_all)
+        hyx]
   have hπJ : ∀ i, ε i ∈ I → ∃ j, ε j = π (ε i) := by
     intro i hi
     have hmem : π (ε i) ∈ Set.range ε := by
@@ -189,7 +188,7 @@ theorem exists_code_matches2 (hA : SLDiagram A) {J I : Set (Fin n)} (hIJ : I ⊆
   have hπ' : ∀ i, ε i ∈ I → ε (π' i) = π (ε i) := by
     intro i hi
     dsimp only [π']
-    rw [dif_pos hi]
+    rw [dite_eq_left hi]
     exact (hπJ i hi).choose_spec
   have hvalid : Valid2 e01 I' π' := by
     unfold Valid2
@@ -218,7 +217,7 @@ theorem exists_code_matches2 (hA : SLDiagram A) {J I : Set (Fin n)} (hIJ : I ⊆
         have hdec : decide (A (π (ε i)) (π (ε j)) ≠ 0)
             = decide (A (ε i) (ε j) ≠ 0) :=
           decide_eq_decide.mpr (hπA (ε i) hIi (ε j) hIj hεij)
-        rw [if_neg hπij, if_neg hεij, hdec]
+        rw [ite_eq_right hπij, ite_eq_right hεij, hdec]
   obtain ⟨c, hcmem, σ₀, hσ₀, hmatch⟩ := classify2 e01 I' π' hvalid
   let σ : Fin 2 → Fin n := fun i => ε (σ₀ i)
   have hσinj : Function.Injective σ := hε.comp (perms2_injective σ₀ hσ₀)
@@ -230,12 +229,12 @@ theorem exists_code_matches2 (hA : SLDiagram A) {J I : Set (Fin n)} (hIJ : I ⊆
     have hσ₀ij : σ₀ i ≠ σ₀ j := fun h => hij ((perms2_injective σ₀ hσ₀) h)
     have hεij : ε (σ₀ i) ≠ ε (σ₀ j) := fun h => hσ₀ij (hε h)
     have hc : c.coxN i j = (if decide (A (σ i) (σ j) ≠ 0) then 3 else 2) := by
-      rw [← hmatch.2.1 i j hij, hkey (σ₀ i) (σ₀ j), if_neg hεij]
+      rw [← hmatch.2.1 i j hij, hkey (σ₀ i) (σ₀ j), ite_eq_right hεij]
     rcases hA.sl (σ i) (σ j) (fun h => hij (hσinj h)) with h0 | hneg
-    · have hc2 : c.coxN i j = 2 := by rw [hc, if_neg (by rw [h0]; decide)]
-      rw [h0, if_neg (by rw [hc2]; decide)]
-    · have hc3 : c.coxN i j = 3 := by rw [hc, if_pos (by rw [hneg]; decide)]
-      rw [hneg, if_pos hc3]
+    · have hc2 : c.coxN i j = 2 := by rw [hc, ite_eq_right (by rw [h0]; decide)]
+      rw [h0, ite_eq_right (by rw [hc2]; decide)]
+    · have hc3 : c.coxN i j = 3 := by rw [hc, ite_eq_left (by rw [hneg]; decide)]
+      rw [hneg, ite_eq_left hc3]
   · intro i
     rw [← hmatch.2.2.1 i]
     dsimp only [I', σ]

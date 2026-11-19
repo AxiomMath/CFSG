@@ -129,9 +129,9 @@ theorem exists_twist_rootPairs_inv_extraGood {τ : Tag}
       h.root_add h.add_eq.symm hQα hQβ hQγ hQδ
   have hcfαβ := twRoot_commutator (k := k) hτ h.root₁ h.root₂ h.ne₁₂ h.ne₁₂' h.root_add
   have hcfγδ := twRoot_commutator (k := k) hτ h.root₃ h.root₄ h.ne₃₄ h.ne₃₄' (h.add_eq ▸ h.root_add)
-  obtain ⟨la, hla⟩ := (IsAlgClosed.exists_eq_mul_self sα).imp fun _ => Eq.symm
-  obtain ⟨lb, hlb⟩ := (IsAlgClosed.exists_eq_mul_self sβ).imp fun _ => Eq.symm
-  obtain ⟨lg, hlg⟩ := (IsAlgClosed.exists_eq_mul_self sγ).imp fun _ => Eq.symm
+  obtain ⟨la, hla⟩ := (IsAlgClosed.isSquare sα).imp fun _ => Eq.symm
+  obtain ⟨lb, hlb⟩ := (IsAlgClosed.isSquare sβ).imp fun _ => Eq.symm
+  obtain ⟨lg, hlg⟩ := (IsAlgClosed.isSquare sγ).imp fun _ => Eq.symm
   set N₁ : k := (commConst τ α β (1, 1) : k) with hN₁
   set N₂ : k := (commConst τ γ δ (1, 1) : k) with hN₂
   have hN₁sq : N₁ * N₁ = 1 := by
@@ -416,8 +416,8 @@ theorem exists_twist_fixed_orbit_three_inv_extraGood {τ : Tag}
   have hN0 : N ≠ 0 := left_ne_zero_of_mul_eq_one hNsq
   have hsign : sα * sβ = se :=
     twRoot_sign_eq hτ Q hα hβ hαβ.1 hαβ.2.1 hαβ.2.2 hQα' hQβ' hQε'
-  obtain ⟨la, hla⟩ := (IsAlgClosed.exists_eq_mul_self sα).imp fun _ => Eq.symm
-  obtain ⟨lb, hlb⟩ := (IsAlgClosed.exists_eq_mul_self sβ).imp fun _ => Eq.symm
+  obtain ⟨la, hla⟩ := (IsAlgClosed.isSquare sα).imp fun _ => Eq.symm
+  obtain ⟨lb, hlb⟩ := (IsAlgClosed.isSquare sβ).imp fun _ => Eq.symm
   have hε : IsRoot τ (α + β) := hαβ.2.2
   have hCA : ∀ c d, Commute (pinnedX τ k (α + β) (N * c)) (pinnedX τ k α d) :=
     fun c d => pinnedX_commute_of_rootsCommute hτ hε hα hzα (N * c) d

@@ -77,10 +77,10 @@ theorem ggQ2TwAHeartDatumInput_holds (hRig : GGLabelRigidInput) (hLB : GGLBalanc
   have hE : ggTorEnn 3 ⟨.twA, rX, nX⟩ = 1 := by
     unfold ggTorEnn
     dsimp only
-    rw [if_pos hpqX]
+    rw [ite_eq_left hpqX]
   have hs : rX - 1 - ggTorEnn 3 ⟨.twA, rX, nX⟩ = ggUnitaryTorusRank 3 (rX + 1) := by
     rw [hE]
-    simp only [ggUnitaryTorusRank, if_pos hdvd]
+    simp only [ggUnitaryTorusRank, ite_eq_left hdvd]
     omega
   have hTorW := ggTorusTorW_uni_label (p := 3) (n := nX) (l := rX) Nat.prime_three hΛX
     (by omega) hdvd hm3 (by omega)
@@ -199,7 +199,7 @@ theorem ggQ2_tnBigSel_nbr_of_rowA (hRig : GGLabelRigidInput) (hLB : GGLBalanceIn
   have hE : ggTorEnn 3 ⟨.A, rX, nX⟩ = 0 := by
     unfold ggTorEnn
     dsimp only
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     have h2 : 3 ∣ (2 ^ nX + 1) - (2 ^ nX - 1) := Nat.dvd_sub h hpqX
     have h3 : (2 ^ nX + 1) - (2 ^ nX - 1) = 2 := by

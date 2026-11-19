@@ -49,9 +49,9 @@ theorem exists_fld_conj_of_pElement (fld : Γ →* MulAut P) (D : Subgroup (MulA
     ∃ (s : ℕ) (ι d : MulAut P) (τ : Γ), ι ∈ inner P ∧ d ∈ D ∧ orderOf τ = p ∧
       α ^ (p ^ s) = ι * (d * fld τ * d⁻¹) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut P) := CFSG.RankThree.PartOne.OutStructure.instFiniteMulAut' _
-  haveI hIn : (inner P).Normal := inner_normal _
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut P) := CFSG.RankThree.PartOne.OutStructure.instFiniteMulAut' _
+  have hIn : (inner P).Normal := inner_normal _
   obtain ⟨k, hk⟩ := hα
   have hαD : α ∉ D := fun h => hαI (hDI α h ⟨k, hk⟩)
   have hex : ∃ t : ℕ, α ^ (p ^ t) ∈ D := ⟨k, by rw [hk]; exact one_mem _⟩
@@ -93,8 +93,8 @@ theorem exists_fld_conj_of_pElement (fld : Γ →* MulAut P) (D : Subgroup (MulA
     exact G₁.mul_mem (hDG hcD) hfG
   let Dg : Subgroup G₁ := D.subgroupOf G₁
   let Ig : Subgroup G₁ := (inner P).subgroupOf G₁
-  haveI : Dg.Normal := Subgroup.Normal.subgroupOf hDn G₁
-  haveI : Ig.Normal := Subgroup.Normal.subgroupOf hIn G₁
+  have : Dg.Normal := Subgroup.Normal.subgroupOf hDn G₁
+  have : Ig.Normal := Subgroup.Normal.subgroupOf hIn G₁
   have hIDg : Ig ≤ Dg := fun x hx => hIDle hx
   have hDIg : ∀ w ∈ Dg, (∃ k : ℕ, w ^ (p ^ k) = 1) → w ∈ Ig := by
     rintro w hw ⟨m, hm⟩
@@ -142,7 +142,7 @@ theorem pElements_inner_of_two_indep (fld : Γ →* MulAut P) (D : Subgroup (Mul
     exact ⟨k, by rw [← map_pow, hk, map_one]⟩
   obtain ⟨s, ι, d, τ, hιI, hdD, hτ, hz⟩ :=
     exists_fld_conj_of_pElement fld D hp hIDle hDI hfld hdec hαp hαI
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x₁, x₂, hc, h1, h2, hi, hfix1, hfix2⟩ := hTwo τ hτ
   have hτp : τ ^ p = 1 := hτ ▸ pow_orderOf_eq_one τ
   have hτ1 : τ ≠ 1 := by

@@ -37,9 +37,9 @@ theorem omq_omPlus_core_four_of_interfaces (h1 : OmqPlusWeightVector) (h2 : OmqR
     rw [hF]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf
-  haveI : ρ.IsIrreducible :=
+  have : ρ.IsIrreducible :=
     (CFSG.QuasithinUnique.Setup.SL2Modules.isIrreducible_iff ρ).mpr hρ
-  haveI : Finite (CFSG.LieType.RootSystem.coxeterMatrix (isFiniteType_cartanD 4)).Group :=
+  have : Finite (CFSG.LieType.RootSystem.coxeterMatrix (isFiniteType_cartanD 4)).Group :=
     CFSG.LieType.RootSystem.finite_group (isFiniteType_cartanD 4)
   let D := omPlusCurtisDatum 4 F hn3
   obtain ⟨k, _hk, _hkc, _hka, _halg, ι, s, y₀, χ, μ, hs, hE, hsimp, ht, hfrob, hrank, htriv⟩ :=
@@ -47,11 +47,11 @@ theorem omq_omPlus_core_four_of_interfaces (h1 : OmqPlusWeightVector) (h2 : OmqR
   let σ := CFSG.Theory.Representation.extendScalars k (CFSG.endFieldRep ρ)
   let Vm := k ⊗[Module.End (MonoidAlgebra (ZMod 2) (spinGroup (quadPlus 4 F)))
       ρ.asModule] ρ.asModule
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
-  haveI : FiniteDimensional (Module.End (MonoidAlgebra (ZMod 2) (spinGroup (quadPlus 4 F)))
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : FiniteDimensional (Module.End (MonoidAlgebra (ZMod 2) (spinGroup (quadPlus 4 F)))
       ρ.asModule) ρ.asModule :=
     CFSG.HardMathSupport.GuralnickMalle.finiteDimensional_endField ρ
-  haveI : Module.Finite k (k ⊗[Module.End (MonoidAlgebra (ZMod 2) (spinGroup (quadPlus 4 F)))
+  have : Module.Finite k (k ⊗[Module.End (MonoidAlgebra (ZMod 2) (spinGroup (quadPlus 4 F)))
       ρ.asModule] ρ.asModule) := inferInstance
   have hy1 : y ≠ 1 := fun h => hρy (by rw [h, map_one])
   have hσy : σ y ≠ 1 := fun h => hρy ((htriv y).mp h)
@@ -133,9 +133,9 @@ theorem omq_omPlus_core_four_of_interfaces (h1 : OmqPlusWeightVector) (h2 : OmqR
       exact hσy
     rcases omq_omPlus_node_zero_dichotomy h1 h2 hn3 hF4 ι hsimp' ht' hJ' hg2' hσg' with
       ⟨a, β, hβ⟩ | h4
-    · haveI := CFSG.HardMathSupport.Meierfrankenfeld.PSUScalar.isIrreducible_comp_mulEquiv ρ γ
+    · have := CFSG.HardMathSupport.Meierfrankenfeld.PSUScalar.isIrreducible_comp_mulEquiv ρ γ
       obtain ⟨hAlg, θ, hθ⟩ := exists_extendScalars_comp_equiv (k := k) ρ γ
-      letI := hAlg
+      let := hAlg
       obtain ⟨T, hT⟩ := h3 (n := 4) (le_refl 4) (F := F) (ρ.comp γ.toMonoidHom) ι a
         (θ.trans β) (by
           intro g v

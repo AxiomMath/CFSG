@@ -24,7 +24,7 @@ theorem calCGS_le_of_uniqueMax {R Z M : Subgroup G} (hR2 : IsPGroup 2 R)
     hC1 (hR2.to_le hCR) (hZ.trans (F09.normalizer_le_normalizer_of_char hCR hchar)) hZM
 
 theorem w7_9_1_5 {M I X Y H P : Subgroup G} (hIM : I ≤ M) (hIn : (I.subgroupOf M).Normal)
-    (hXM : X ≤ M)
+    (_hXM : X ≤ M)
     (heta : ∀ R : Subgroup G, R ≤ M → IsPGroup 2 R → X ≤ normalizer (R : Set G) →
       pCoreOf 2 I ≤ R → calMOf (M ⊓ normalizer (R : Set G)) = {M})
     (hYM : Y ≤ M) (hY : Y = X ⊔ pCoreOf 2 Y) (hYne : pCoreOf 2 Y ≠ ⊥)
@@ -47,7 +47,7 @@ theorem w7_9_1_5 {M I X Y H P : Subgroup G} (hIM : I ≤ M) (hIn : (I.subgroupOf
       IsPGroup.to_sup_of_normal_left' hO2 hP2 (hPM.trans hMO)
     have hlt : P < pCoreOf 2 I ⊔ P :=
       lt_of_le_of_ne le_sup_right (fun h => hOP (h ▸ le_sup_left))
-    obtain ⟨q, hq, hqP⟩ := SetLike.exists_of_lt (CFSG.Goldschmidt75.lt_inf_normalizer hQ2 hlt)
+    obtain ⟨q, hq, hqP⟩ := _root_.IsConcreteLE.exists_of_lt (CFSG.Goldschmidt75.lt_inf_normalizer hQ2 hlt)
     have hqmem : q ∈ ((pCoreOf 2 I ⊔ P : Subgroup G) : Set G) := hq.1
     rw [Subgroup.coe_mul_of_right_le_normalizer_left _ _ (hPM.trans hMO)] at hqmem
     obtain ⟨a, ha, b, hb, rfl⟩ := hqmem

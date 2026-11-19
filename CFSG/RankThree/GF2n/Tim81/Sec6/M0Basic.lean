@@ -18,10 +18,12 @@ theorem Sec5Hyp.m0Of_le_M (hS : Sec5Hyp M V) : m0Of M V ≤ M := by
   unfold m0Of
   exact iSup₂_le fun U hU => (hS.le_M_of_mem_sigmaSet hU).1
 
+omit [Finite G] in
 theorem le_m0Of_of_mem_sigmaSet {U : Subgroup G} (hU : U ∈ sigmaSet M V) :
     U ≤ m0Of M V :=
   le_iSup₂ (f := fun U (_ : U ∈ sigmaSet M V) => U) U hU
 
+omit [Finite G] in
 theorem Hyp.le_normalizer_m0Of (h : Hyp M V) :
     M ≤ Subgroup.normalizer (m0Of M V : Set G) := by
   intro m hm
@@ -40,21 +42,26 @@ theorem Sec6Hyp.mk_eq_one_iff (hS : Sec6Hyp M V) (x : ↥M) :
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, ← hS.sec5.Pc_subgroupOf hS.ne,
     Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem mem_imgQ_iff {U : Subgroup G} {z : MBar M} :
     z ∈ imgQ M U ↔ ∃ x : ↥M, (x : G) ∈ U ∧ QuotientGroup.mk' (pCore 2 ↥M) x = z := by
   simp [imgQ, Subgroup.mem_map, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem mk_mem_imgQ {U : Subgroup G} {x : ↥M} (hx : (x : G) ∈ U) :
     QuotientGroup.mk' (pCore 2 ↥M) x ∈ imgQ M U :=
   Subgroup.mem_map.mpr ⟨x, by rw [Subgroup.mem_subgroupOf]; exact hx, rfl⟩
 
+omit [Finite G] in
 theorem imgQ_mono {U U' : Subgroup G} (h : U ≤ U') : imgQ M U ≤ imgQ M U' :=
-  Subgroup.map_mono fun x hx => h (Subgroup.mem_subgroupOf.mp hx)
+  Subgroup.map_mono fun _x hx => h (Subgroup.mem_subgroupOf.mp hx)
 
+omit [Finite G] in
 theorem isPGroup_conj_Pc (M V : Subgroup G) (g : G) :
     IsPGroup 2 (conjSubgroup g (Pc M V)) :=
   ((inSubgroup_pCore_two M).1.to_le inf_le_left).map (MulAut.conj g).toMonoidHom
 
+omit [Finite G] in
 theorem conjSubgroup_Pc_le_centralizer (M V : Subgroup G) (g : G) :
     conjSubgroup g (Pc M V) ≤ Subgroup.centralizer (conjSubgroup g V : Set G) := by
   rw [← Pc_conjSubgroup]

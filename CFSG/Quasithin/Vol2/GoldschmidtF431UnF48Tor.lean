@@ -84,7 +84,6 @@ theorem injective_torusDiag_un {σ : F ≃+* F} {c : F} (hc : c ≠ 0) (h1 : σ 
     | exact absurd hij e1 | exact absurd hij e1.symm
     | exact absurd hij e2 | exact absurd hij e2.symm
     | exact absurd hij e3 | exact absurd hij e3.symm
-    | exact absurd hij e4 | exact absurd hij e4.symm
     | exact absurd hij hc1 | exact absurd hij hc1.symm
     | exact absurd hij hs1 | exact absurd hij hs1.symm
 

@@ -95,12 +95,12 @@ def kleinGroup : Subgroup (Perm (Fin 7)) where
   carrier := {g | g = 1 ∨ g = S7.x ∨ g = S7.y ∨ g = S7.x * S7.y}
   mul_mem' := by
     intro g h hg hh
-    simp only [Set.mem_setOf_eq] at hg hh ⊢
+    simp only [Set.mem_ofPred_eq] at hg hh ⊢
     rcases hg with rfl | rfl | rfl | rfl <;> rcases hh with rfl | rfl | rfl | rfl <;> decide
   one_mem' := Or.inl rfl
   inv_mem' := by
     intro g hg
-    simp only [Set.mem_setOf_eq] at hg ⊢
+    simp only [Set.mem_ofPred_eq] at hg ⊢
     rcases hg with rfl | rfl | rfl | rfl <;> decide
 
 theorem V_le_kleinGroup : S7.V ≤ kleinGroup :=
@@ -250,7 +250,7 @@ theorem double_cent_odd {π : Perm (Fin 7)} (hπ : π.cycleType = {3, 3}) :
   subst hc
   by_contra hodd
   rw [Nat.not_odd_iff_even] at hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 2 (even_iff_two_dvd.1 hodd)
   have hg2 : (g : Perm (Fin 7)) * g = 1 := by
     have h := pow_orderOf_eq_one g
@@ -306,10 +306,12 @@ noncomputable def psiOf (J : Subgroup G)
     (ι.toMonoidHom.comp ((QuotientGroup.mk' (Subgroup.center (JbarQ J))).comp
       (QuotientGroup.mk' (CFSG.pCore 2 ↥J))))
 
+omit [Finite G] in
 theorem psiOf_mem_alt (J : Subgroup G) (ι : (JbarQ J ⧸ Subgroup.center (JbarQ J)) ≃*
     ↥(alternatingGroup (Fin 7))) (x : ↥J) : psiOf J ι x ∈ alternatingGroup (Fin 7) :=
   (ι _).2
 
+omit [Finite G] in
 theorem psiOf_surj (J : Subgroup G) (ι : (JbarQ J ⧸ Subgroup.center (JbarQ J)) ≃*
     ↥(alternatingGroup (Fin 7))) :
     ∀ σ ∈ alternatingGroup (Fin 7), ∃ x : ↥J, psiOf J ι x = σ := by
@@ -322,6 +324,7 @@ theorem psiOf_surj (J : Subgroup G) (ι : (JbarQ J ⧸ Subgroup.center (JbarQ J)
   rw [h1, hx, hy]
   simp
 
+omit [Finite G] in
 theorem two_elem_center_eq_one (J : Subgroup G) (hX : IsHatSeven (JbarQ J)) (x : ↥J) (k : ℕ)
     (hk : (x : G) ^ 2 ^ k = 1) (hz : (QuotientGroup.mk x : JbarQ J) ∈ Subgroup.center (JbarQ J)) :
     x ∈ CFSG.pCore 2 ↥J := by
@@ -344,6 +347,7 @@ def ConjsBy (J : Subgroup G) (ι : (JbarQ J ⧸ Subgroup.center (JbarQ J)) ≃*
     ↥(alternatingGroup (Fin 7))) (g : G) (π : Perm (Fin 7)) : Prop :=
   ∀ x y : ↥J, (y : G) = g * x * g⁻¹ → psiOf J ι y = π * psiOf J ι x * π⁻¹
 
+omit [Finite G] in
 theorem conjsBy_pow (J : Subgroup G) (ι : (JbarQ J ⧸ Subgroup.center (JbarQ J)) ≃*
     ↥(alternatingGroup (Fin 7))) (e : G) (πe : Perm (Fin 7))
     (hne : ∀ x ∈ J, e * x * e⁻¹ ∈ J) (hE : ConjsBy J ι e πe) (n : ℕ) (x : ↥J) :
@@ -359,6 +363,7 @@ theorem conjsBy_pow (J : Subgroup G) (ι : (JbarQ J ⧸ Subgroup.center (JbarQ J
     · rw [hE y ⟨e * (y : G) * e⁻¹, hne _ y.2⟩ rfl, hy2]
       rw [pow_succ]; group
 
+omit [Finite G] in
 theorem perm_comm_of_conjsBy (J : Subgroup G) (ι : (JbarQ J ⧸ Subgroup.center (JbarQ J)) ≃*
     ↥(alternatingGroup (Fin 7))) (a e : G) (hae : a * e = e * a)
     (hna : ∀ x ∈ J, a * x * a⁻¹ ∈ J) (hne : ∀ x ∈ J, e * x * e⁻¹ ∈ J)
@@ -401,6 +406,7 @@ theorem perm_comm_of_conjsBy (J : Subgroup G) (ι : (JbarQ J ⧸ Subgroup.center
   rw [inv_mul_eq_one] at hc
   exact hc.symm
 
+omit [Finite G] in
 theorem perm_pow_three_eq_one (J : Subgroup G) (ι : (JbarQ J ⧸ Subgroup.center (JbarQ J)) ≃*
     ↥(alternatingGroup (Fin 7))) (e : G) (πe : Perm (Fin 7))
     (hne : ∀ x ∈ J, e * x * e⁻¹ ∈ J) (hE : ConjsBy J ι e πe) (he3 : e ^ 3 = 1) :
@@ -416,6 +422,7 @@ theorem perm_pow_three_eq_one (J : Subgroup G) (ι : (JbarQ J ⧸ Subgroup.cente
       _ = σ * πe ^ 3 := by rw [hfix σ hσ])
   exact hc
 
+omit [Finite G] in
 theorem two_elem_of_fpf (J : Subgroup G) (hX : IsHatSeven (JbarQ J))
     (ι : (JbarQ J ⧸ Subgroup.center (JbarQ J)) ≃* ↥(alternatingGroup (Fin 7)))
     (a e : G) (hae : a * e = e * a) (hna : ∀ x ∈ J, a * x * a⁻¹ ∈ J)
@@ -452,9 +459,10 @@ theorem two_elem_of_fpf (J : Subgroup G) (hX : IsHatSeven (JbarQ J))
     exact (QuotientGroup.eq_one_iff _).1 h2
   exact two_elem_center_eq_one J hX x k hk hz
 
+omit [Finite G] in
 theorem isTwoPrimeComp_self_of_hatSeven (J : Subgroup G) (hX : IsHatSeven (JbarQ J))
     (hp : ⁅J, J⁆ = J) : IsTwoPrimeComp J J := by
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
   obtain ⟨ι⟩ := hX.2.2
   have hq : CFSG.Open.IsQuasisimple (JbarQ J) := ⟨hX.1, ι.isSimpleGroup⟩
   refine ⟨le_rfl, IsSubnormal.refl J, hp, ?_⟩
@@ -482,6 +490,7 @@ theorem isSubnormal_of_centralized_comp {E M : Subgroup G} {e : G}
     isTwoPrimeComp_of_le (isTwoPrimeComp_self_of_hatSeven J hX hJp) (le_inf hJα hJe) hsub
   exact (hE.clause_f rfl e he he1 J hTP).2.1
 
+omit [Finite G] in
 theorem exists_perm_conjsBy (J : Subgroup G) (ι : (JbarQ J ⧸ Subgroup.center (JbarQ J)) ≃*
     ↥(alternatingGroup (Fin 7))) (e : G) (he : e ∈ Subgroup.normalizer (J : Set G)) :
     ∃ π : Perm (Fin 7), ConjsBy J ι e π := by
@@ -555,7 +564,7 @@ variable {G : Type} [Group G] [Finite G]
 
 @[expose] def BlockDecomp : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (m : ℕ) (B M E A : Subgroup G) (a : G)
-    (h : Cex121 G m 3 B M E A a), ¬ Tof 3 M a ≤ CFSG.Open.pCoreOf 2 M →
+    (_h : Cex121 G m 3 B M E A a), ¬ Tof 3 M a ≤ CFSG.Open.pCoreOf 2 M →
       ∀ e ∈ E ⊓ A, e ≠ 1 →
         Tof 3 M a ⊓ Cg e ≤ CFSG.Open.pCoreOf 2 (Cg e) ⊔
           ⨆ (J : Subgroup G) (_ : CompSet M J ∧ ThreeCycComp a J), Wpc e a J ⊓ Cg e
@@ -569,7 +578,7 @@ variable {G : Type} [Group G] [Finite G]
 
 @[expose] def DiagPiece : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (m : ℕ) (B M E A : Subgroup G) (a : G)
-    (h : Cex121 G m 3 B M E A a) (e : G), e ∈ E ⊓ A → e ≠ 1 → ∀ J : Subgroup G,
+    (_h : Cex121 G m 3 B M E A a) (e : G), e ∈ E ⊓ A → e ≠ 1 → ∀ J : Subgroup G,
       CompSet M J → ThreeCycComp a J →
       (GLBConj e J ≠ J ∨ (e ∈ Subgroup.normalizer (J : Set G) ∧
         ∃ (ι : (JbarQ J ⧸ Subgroup.center (JbarQ J)) ≃* ↥(alternatingGroup (Fin 7)))
@@ -584,12 +593,12 @@ end Block
 section SylowCore
 
 theorem sylow_core {W : Type} [Group W] [Finite W] {K L : Subgroup W} [hK : K.Normal]
-    (hLK : L ≤ K) (hL2 : IsPGroup 2 L)
+    (_hLK : L ≤ K) (hL2 : IsPGroup 2 L)
     (hcomm : ∀ k ∈ K, ∀ y : W, k * y * k⁻¹ * y⁻¹ ∈ L)
     (hquot : ∀ w : W, ∃ n : ℕ, w ^ 2 ^ n ∈ K) :
     ∃ P : Subgroup W, IsPGroup 2 P ∧ L ≤ P ∧ (∀ w : W, ∀ y ∈ P, w * y * w⁻¹ ∈ P) ∧
       ∀ x : W, (∃ n : ℕ, x ^ 2 ^ n = 1) → x ∈ P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq : IsPGroup 2 (W ⧸ K) := by
     intro g
     obtain ⟨w, rfl⟩ := QuotientGroup.mk_surjective g
@@ -630,8 +639,8 @@ theorem sylow_core {W : Type} [Group W] [Finite W] {K L : Subgroup W} [hK : K.No
     rw [h2]
     exact (S : Subgroup W).mul_mem ((S : Subgroup W).mul_mem hs
       ((S : Subgroup W).mul_mem hcS hy)) ((S : Subgroup W).inv_mem hs)
-  haveI hSN : (S : Subgroup W).Normal := ⟨fun n hn g => hSnorm g n hn⟩
-  refine ⟨(S : Subgroup W), S.isPGroup', hLS, fun w y hy => hSnorm w y hy, ?_⟩
+  have hSN : (S : Subgroup W).Normal := ⟨fun n hn g => hSnorm g n hn⟩
+  refine ⟨(S : Subgroup W), S.isPGroup, hLS, fun w y hy => hSnorm w y hy, ?_⟩
   intro x ⟨n, hn⟩
   have hzp : IsPGroup 2 (Subgroup.zpowers x) := by
     intro g
@@ -644,9 +653,9 @@ theorem sylow_core {W : Type} [Group W] [Finite W] {K L : Subgroup W} [hK : K.No
       one_zpow]
   obtain ⟨Q, hxQ⟩ := hzp.exists_le_sylow
   have hSQ : (S : Subgroup W) ≤ (Q : Subgroup W) :=
-    IsPGroup.le_sylow_of_normal S.isPGroup' Q
+    IsPGroup.le_sylow_of_normal S.isPGroup Q
   have hQS : (Q : Subgroup W) = (S : Subgroup W) :=
-    S.maximal_isPGroup.eq_of_ge Q.isPGroup' hSQ
+    S.maximal_isPGroup.eq_of_ge Q.isPGroup hSQ
   rw [← hQS]
   exact hxQ (Subgroup.mem_zpowers x)
 
@@ -656,6 +665,7 @@ section Reduction
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_GLBConj_iff' (g : G) (H : Subgroup G) (x : G) :
     x ∈ GLBConj g H ↔ g * x * g⁻¹ ∈ H := by
   unfold GLBConj
@@ -665,8 +675,9 @@ theorem mem_GLBConj_iff' (g : G) (H : Subgroup G) (x : G) :
     simpa [MulAut.conj_apply, mul_assoc] using hy
   · intro hx
     refine ⟨g * x * g⁻¹, hx, ?_⟩
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
 
+omit [Finite G] in
 theorem normalizer_of_glbConj_eq (J : Subgroup G) (e : G) (hfix : GLBConj e J = J) :
     e ∈ Subgroup.normalizer (J : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -675,6 +686,7 @@ theorem normalizer_of_glbConj_eq (J : Subgroup G) (e : G) (hfix : GLBConj e J = 
   rw [hfix] at h
   exact h
 
+omit [Finite G] in
 theorem glbConj_pow_eq_self (J : Subgroup G) (e : G) (hfix : GLBConj e J = J) (k : ℕ) :
     GLBConj (e ^ k) J = J := by
   have he := normalizer_of_glbConj_eq J e hfix
@@ -683,11 +695,13 @@ theorem glbConj_pow_eq_self (J : Subgroup G) (e : G) (hfix : GLBConj e J = J) (k
   rw [mem_GLBConj_iff']
   exact (Subgroup.mem_normalizer_iff.1 hk x).symm
 
+omit [Finite G] in
 theorem wpc_eq_vpc (J : Subgroup G) (e a : G) (hfix : GLBConj e J = J) :
     Wpc e a J = Vpc a J := by
   unfold Wpc Vpc
   simp [glbConj_pow_eq_self J e hfix]
 
+omit [Finite G] in
 theorem compSet_le_alpha {M J : Subgroup G} (hJ : CompSet M J) : J ≤ alphaOf 3 M :=
   le_sup_of_le_right (le_iSup₂_of_le J ⟨rfl, hJ.1, hJ.2.1, hJ.2.2.1, hJ.2.2.2⟩ le_rfl)
 
@@ -700,16 +714,18 @@ theorem two_part_le_O2C {E M : Subgroup G} {e : G} (hE : IsUniquenessTwoLocal 3 
     (he : e ∈ E) (he1 : e ≠ 1) {Y : Subgroup G}
     (hY : IsSubnormal Y (alphaOf 3 M ⊓ Subgroup.centralizer ({e} : Set G)))
     (hY2 : IsPGroup 2 ↥Y) : Y ≤ CFSG.Open.pCoreOf 2 (Subgroup.centralizer ({e} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : Y ≤ CFSG.Open.pCoreOf 2 (alphaOf 3 M ⊓ Subgroup.centralizer ({e} : Set G)) :=
     Sec12a2.le_pCoreOf_of_isSubnormal hY hY2
   exact h1.trans (hE.clause_b e he he1)
 
+omit [Finite G] in
 theorem isSubnormal_pCoreOf_self (Y : Subgroup G) : IsSubnormal (CFSG.Open.pCoreOf 2 Y) Y :=
   Sec12a2.isSubnormal_of_normal (CFSG.LieType.BorelTits.pCoreOf_le 2 Y)
     ((Subgroup.normal_subgroupOf_iff_le_normalizer (CFSG.LieType.BorelTits.pCoreOf_le 2 Y)).2
       (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 Y))
 
+omit [Finite G] in
 theorem piece_mem_PeT {M J' : Subgroup G} {a e : G} (hJα : J' ≤ alphaOf 3 M)
     (hJsub : IsSubnormal J' (Cg e)) :
     CFSG.Open.pCoreOf 2 (J' ⊓ Cg a) ≤
@@ -718,6 +734,7 @@ theorem piece_mem_PeT {M J' : Subgroup G} {a e : G} (hJα : J' ≤ alphaOf 3 M)
   le_iSup₂_of_le (f := fun J'' (_ : J'' ≤ alphaOf 3 M ∧ IsSubnormal J'' (Cg e)) =>
     CFSG.Open.pCoreOf 2 (J'' ⊓ Cg a)) J' ⟨hJα, hJsub⟩ le_rfl
 
+omit [Finite G] in
 theorem delta_piece_le {M Δ : Subgroup G} {a e : G} {X : Subgroup G}
     (hΔα : Δ ≤ alphaOf 3 M) (hΔT : IsTwoPrimeComp (Cg e) Δ)
     (hX : X ≤ CFSG.Open.pCoreOf 2 (Cg e) ⊔ CFSG.Open.pCoreOf 2 (Δ ⊓ Cg a)) :
@@ -727,7 +744,7 @@ theorem delta_piece_le {M Δ : Subgroup G} {a e : G} {X : Subgroup G}
   hX.trans (sup_le_sup_left (piece_mem_PeT hΔα hΔT.2.1) _)
 
 theorem piece_power {E M : Subgroup G} {a e : G} {J : Subgroup G}
-    (hE : IsUniquenessTwoLocal 3 E M) (heE : e ∈ E) (he1 : e ≠ 1) (hJC : CompSet M J)
+    (hE : IsUniquenessTwoLocal 3 E M) (heE : e ∈ E) (he1 : e ≠ 1) (_hJC : CompSet M J)
     (hJα' : IsSubnormal J (alphaOf 3 M))
     (h1 : Vpc a J ⊓ Cg e ≤ CFSG.Open.pCoreOf 2 (J ⊓ Cg e)) :
     Vpc a J ⊓ Cg e ≤ CFSG.Open.pCoreOf 2 (Cg e) := by
@@ -738,7 +755,7 @@ theorem piece_power {E M : Subgroup G} {a e : G} {J : Subgroup G}
   · exact CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (J ⊓ Cg e)
 
 theorem piece_fpf {E M : Subgroup G} {a e : G} {J : Subgroup G}
-    (hE : IsUniquenessTwoLocal 3 E M) (heE : e ∈ E) (he1 : e ≠ 1) (hJC : CompSet M J)
+    (hE : IsUniquenessTwoLocal 3 E M) (heE : e ∈ E) (he1 : e ≠ 1) (_hJC : CompSet M J)
     (hJα' : IsSubnormal J (alphaOf 3 M))
     (hfpf : ∀ x : ↥J, (x : G) * a = a * (x : G) → (x : G) * e = e * (x : G) →
       (∃ k : ℕ, (x : G) ^ 2 ^ k = 1) → x ∈ CFSG.pCore 2 ↥J) :
@@ -817,13 +834,13 @@ theorem comm_of_conj_eq' {σ c : Perm (Fin 7)} (h : σ = c * σ * c⁻¹) : σ *
   calc σ * c = (c * σ * c⁻¹) * c := by rw [← h]
     _ = c * σ := by group
 
-theorem power_piece_of_perm (M J : Subgroup G) (a e : G) (hJ : CompSet M J)
-    (he_norm : e ∈ Subgroup.normalizer (J : Set G))
+theorem power_piece_of_perm (M J : Subgroup G) (a e : G) (_hJ : CompSet M J)
+    (_he_norm : e ∈ Subgroup.normalizer (J : Set G))
     (ι : (JbarQ J ⧸ Subgroup.center (JbarQ J)) ≃* ↥(alternatingGroup (Fin 7)))
     (πa πe : Perm (Fin 7)) (hπa : πa.cycleType = {3}) (hA : ConjsBy J ι a πa)
     (hE : ConjsBy J ι e πe) (hpow : πe = πa ∨ πe = πa ^ 2) :
     Vpc a J ⊓ Cg e ≤ CFSG.Open.pCoreOf 2 (J ⊓ Cg e) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨V, -, -, hV3, hV4, hV5, -⟩ := three_cycle_klein hπa
   have hπa3 : πa ^ 3 = 1 := three_cycle_pow_three hπa
   have hcommH : ∀ y : ↥J, (y : G) ∈ Cg e → psiOf J ι y * πa = πa * psiOf J ι y := by
@@ -929,7 +946,7 @@ theorem power_piece_of_perm (M J : Subgroup G) (a e : G) (hJ : CompSet M J)
       rw [this, map_mul, map_mul, map_inv]
       exact hconj
     · exact (Cg e).mul_mem ((Cg e).mul_mem hhC hgW.2) ((Cg e).inv_mem hhC)
-  haveI hKnormal : (Kc.subgroupOf Wc).Normal := ⟨fun n hn g => by
+  have hKnormal : (Kc.subgroupOf Wc).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have hgJ := hWJmem g.1 g.2
     have hgC := hWCe g.1 g.2

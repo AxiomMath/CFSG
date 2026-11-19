@@ -463,7 +463,7 @@ theorem exists_diag_conj_invTransposeHom_of_diagonal [IsAlgClosed Ω] (hq : 1 �
       by_cases hij : i = j
       · subst hij
         rfl
-      · rw [if_neg hij, if_neg (Ne.symm hij)]
+      · rw [ite_eq_right hij, ite_eq_right (Ne.symm hij)]
     rw [Matrix.transpose_nonsing_inv, hsymm]
   have hDH : H * (invTransposeHom (Matrix.GeneralLinearGroup.map σ H))⁻¹ =
       Matrix.GeneralLinearGroup.scalar (Fin n) (Units.mk0 c0 hc0) * D := by

@@ -115,7 +115,7 @@ theorem klein_core (hK : ringChar K ≠ 2) (h3 : (3 : K) = 0)
         · simp [signD, hε]
         · rw [hc]
           ext i j
-          fin_cases i <;> fin_cases j <;> simp [blk, signD, Matrix.one_apply]
+          fin_cases i <;> fin_cases j <;> simp [blk, signD]
       have hsa : (s - 1) * (s + 1) = 0 := by linear_combination hss
       rcases mul_eq_zero.1 hsa with hs1 | hs1
       ·
@@ -133,7 +133,7 @@ theorem klein_core (hK : ringChar K ≠ 2) (h3 : (3 : K) = 0)
         have hsig : signD s = -(signD 1) := by
           rw [hs']
           ext i j
-          fin_cases i <;> fin_cases j <;> simp [signD, Matrix.diagonal_apply]
+          fin_cases i <;> fin_cases j <;> simp [signD]
         have e1 := hgen g₁
         rw [hQiBQ, hsig] at e1
         have e2 := hgen g₂
@@ -189,8 +189,7 @@ theorem klein_core (hK : ringChar K ≠ 2) (h3 : (3 : K) = 0)
     have hβ0 : β = 0 := by
       have h3' := hN3
       rw [hβ] at h3'
-      simp only [Matrix.smul_mul, Matrix.mul_smul, smul_smul, hG₂sq, Matrix.one_mul,
-        Matrix.mul_one] at h3'
+      simp only [Matrix.smul_mul, Matrix.mul_smul, smul_smul, hG₂sq, Matrix.one_mul] at h3'
       have hb0 : β * (β * β) = 0 := (smul_eq_zero.1 h3').resolve_right hG₂ne
       have hb3 : β ^ 3 = 0 := by rw [show β ^ 3 = β * (β * β) by ring]; exact hb0
       exact pow_eq_zero_iff (by norm_num) |>.1 hb3

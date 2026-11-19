@@ -23,21 +23,25 @@ theorem finrank_le_two_of_natCard_eq_four {W : Submodule (ZMod 2) V}
       _ ≤ 2 ^ Module.finrank (ZMod 2) ↥W := Nat.pow_le_pow_right (by norm_num) h3
   omega
 
+omit [Finite V] in
 theorem Wt49.X_mul_A0_mul_Xi (hW : Wt49 A0 A1 A2 X Xi S Si) : X * A0 * Xi = A2 := by
   calc X * A0 * Xi = X * (Xi * A2 * X) * Xi := by rw [← hW.rot2]
     _ = (X * Xi) * A2 * (X * Xi) := by noncomm_ring
     _ = A2 := by rw [hW.XXi]; simp
 
+omit [Finite V] in
 theorem Wt49.X_mul_A0 (hW : Wt49 A0 A1 A2 X Xi S Si) : X * A0 = A2 * X := by
   calc X * A0 = X * A0 * (Xi * X) := by rw [hW.XiX, mul_one]
     _ = (X * A0 * Xi) * X := by noncomm_ring
     _ = A2 * X := by rw [hW.X_mul_A0_mul_Xi]
 
+omit [Finite V] in
 theorem Wt49.Xi_mul_A2 (hW : Wt49 A0 A1 A2 X Xi S Si) : Xi * A2 = A0 * Xi := by
   calc Xi * A2 = Xi * A2 * (X * Xi) := by rw [hW.XXi, mul_one]
     _ = (Xi * A2 * X) * Xi := by noncomm_ring
     _ = A0 * Xi := by rw [hW.rot2]
 
+omit [Finite V] in
 theorem Wt49.S_mul_A2 (hW : Wt49 A0 A1 A2 X Xi S Si) : S * A2 = A2 * S := by
   have h : S * A2 * Si = A2 := by
     calc S * A2 * Si = S * (Si * A2 * S) * Si := by rw [hW.fix2]
@@ -47,21 +51,25 @@ theorem Wt49.S_mul_A2 (hW : Wt49 A0 A1 A2 X Xi S Si) : S * A2 = A2 * S := by
     _ = (S * A2 * Si) * S := by noncomm_ring
     _ = A2 * S := by rw [h]
 
+omit [Finite V] in
 theorem Wt49.Si_mul_A2 (hW : Wt49 A0 A1 A2 X Xi S Si) : Si * A2 = A2 * Si := by
   calc Si * A2 = Si * A2 * (S * Si) := by rw [hW.SSi, mul_one]
     _ = (Si * A2 * S) * Si := by noncomm_ring
     _ = A2 * Si := by rw [hW.fix2]
 
+omit [Finite V] in
 theorem Wt49.Si_mul_A1 (hW : Wt49 A0 A1 A2 X Xi S Si) : Si * A1 = A1 * Si := by
   calc Si * A1 = Si * A1 * (S * Si) := by rw [hW.SSi, mul_one]
     _ = (Si * A1 * S) * Si := by noncomm_ring
     _ = A1 * Si := by rw [hW.fix1]
 
+omit [Finite V] in
 theorem Wt49.Si_mul_A0 (hW : Wt49 A0 A1 A2 X Xi S Si) : Si * A0 = A0 ^ 2 * Si := by
   calc Si * A0 = Si * A0 * (S * Si) := by rw [hW.SSi, mul_one]
     _ = (Si * A0 * S) * Si := by noncomm_ring
     _ = A0 ^ 2 * Si := by rw [hW.inv0]
 
+omit [Finite V] in
 theorem Wt49.S1_mul_A0 (hW : Wt49 A0 A1 A2 X Xi S Si) :
     (Xi * S * X) * A0 = A0 * (Xi * S * X) := by
   calc (Xi * S * X) * A0 = Xi * S * (X * A0) := by noncomm_ring
@@ -72,6 +80,7 @@ theorem Wt49.S1_mul_A0 (hW : Wt49 A0 A1 A2 X Xi S Si) :
     _ = (A0 * Xi) * S * X := by rw [hW.Xi_mul_A2]
     _ = A0 * (Xi * S * X) := by noncomm_ring
 
+omit [Finite V] in
 theorem Wt49.Si1_mul_A0 (hW : Wt49 A0 A1 A2 X Xi S Si) :
     (Xi * Si * X) * A0 = A0 * (Xi * Si * X) := by
   calc (Xi * Si * X) * A0 = Xi * Si * (X * A0) := by noncomm_ring
@@ -82,6 +91,7 @@ theorem Wt49.Si1_mul_A0 (hW : Wt49 A0 A1 A2 X Xi S Si) :
     _ = (A0 * Xi) * Si * X := by rw [hW.Xi_mul_A2]
     _ = A0 * (Xi * Si * X) := by noncomm_ring
 
+omit [Finite V] in
 theorem Wt49.cube_mul_A1_A2sq (hW : Wt49 A0 A1 A2 X Xi S Si) :
     (A1 * A2 ^ 2) ^ 3 = 1 := by
   rw [Commute.mul_pow (Commute.pow_right (show Commute A1 A2 from hW.comm12) 2) 3,
@@ -90,6 +100,7 @@ theorem Wt49.cube_mul_A1_A2sq (hW : Wt49 A0 A1 A2 X Xi S Si) :
     rw [← pow_mul, show 2 * 3 = 3 * 2 by norm_num, pow_mul, hW.cube2, one_pow]
   rw [hA2sq3, one_mul]
 
+omit [Finite V] in
 theorem Wt49.cube_mul_A0_A2sq (hW : Wt49 A0 A1 A2 X Xi S Si) :
     (A0 * A2 ^ 2) ^ 3 = 1 := by
   rw [Commute.mul_pow (Commute.pow_right (show Commute A0 A2 from hW.comm02) 2) 3,
@@ -98,12 +109,15 @@ theorem Wt49.cube_mul_A0_A2sq (hW : Wt49 A0 A1 A2 X Xi S Si) :
     rw [← pow_mul, show 2 * 3 = 3 * 2 by norm_num, pow_mul, hW.cube2, one_pow]
   rw [hA2sq3, one_mul]
 
+omit [Finite V] in
 theorem Wt49.cube_A0A1 (hW : Wt49 A0 A1 A2 X Xi S Si) : (A0 * A1) ^ 3 = 1 := by
   rw [Commute.mul_pow (show Commute A0 A1 from hW.comm01) 3, hW.cube0, hW.cube1, mul_one]
 
+omit [Finite V] in
 theorem Wt49.cube_A0A2 (hW : Wt49 A0 A1 A2 X Xi S Si) : (A0 * A2) ^ 3 = 1 := by
   rw [Commute.mul_pow (show Commute A0 A2 from hW.comm02) 3, hW.cube0, hW.cube2, mul_one]
 
+omit [Finite V] in
 theorem Wt49.A0_eq_A1_of_fixed_b (hW : Wt49 A0 A1 A2 X Xi S Si) {v : V}
     (hv : (A0 * A1 ^ 2) v = v) : A0 v = A1 v := by
   have hv' : A0 (A1 (A1 v)) = v := by
@@ -117,6 +131,7 @@ theorem Wt49.A0_eq_A1_of_fixed_b (hW : Wt49 A0 A1 A2 X Xi S Si) {v : V}
   rw [hcomm, hcube] at h
   exact h
 
+omit [Finite V] in
 theorem Wt49.z_eq_A0_of_fixed (hW : Wt49 A0 A1 A2 X Xi S Si) {v : V}
     (hb : (A0 * A1 ^ 2) v = v) (h02 : (A0 * A2) v = v) :
     (A0 * A1 * A2) v = A0 v := by
@@ -128,6 +143,7 @@ theorem Wt49.z_eq_A0_of_fixed (hW : Wt49 A0 A1 A2 X Xi S Si) {v : V}
     _ = A1 v := by rw [Module.End.mul_apply, hA0A2v]
     _ = A0 v := hA01.symm
 
+omit [Finite V] in
 theorem Wt49.range_e2_A0_le_join (hW : Wt49 A0 A1 A2 X Xi S Si) (hD : Disj49 A0 A1 A2) :
     LinearMap.range (e2 A0) ≤
       (LinearMap.range (e2 A0) ⊓ LinearMap.range (e2 (A1 * A2))) ⊔
@@ -178,6 +194,7 @@ theorem Wt49.range_e2_A0_le_join (hW : Wt49 A0 A1 A2 X Xi S Si) (hD : Disj49 A0 
   rw [hz]
   exact Submodule.add_mem_sup ht2 ht3
 
+omit [Finite V] in
 theorem Wt49.invariance_A0_A1A2sq (hW : Wt49 A0 A1 A2 X Xi S Si) :
     ∀ v ∈ (LinearMap.range (e2 A0) ⊓ LinearMap.range (e2 (A1 * A2 ^ 2))),
       (A0 * A1 * A2) v ∈
@@ -197,6 +214,7 @@ theorem Wt49.invariance_A0_A1A2sq (hW : Wt49 A0 A1 A2 X Xi S Si) :
   exact ⟨range_e2_invariant_of_comm (A0 * A1 * A2) A0 hz_A0 v hv.1,
     range_e2_invariant_of_comm (A0 * A1 * A2) (A1 * A2 ^ 2) hz_A1A2sq v hv.2⟩
 
+omit [Finite V] in
 theorem Wt49.fpf_A0_A1A2sq (hW : Wt49 A0 A1 A2 X Xi S Si) (hD : Disj49 A0 A1 A2) :
     ∀ v ∈ (LinearMap.range (e2 A0) ⊓ LinearMap.range (e2 (A1 * A2 ^ 2))),
       (A0 * A1 * A2) v = v → v = 0 := by
@@ -380,6 +398,7 @@ theorem Wt49.range_e2_b_le_E1_join_E2 (hW : Wt49 A0 A1 A2 X Xi S Si) (hP : PatII
   rw [hbase v]
   exact Submodule.add_mem_sup ht1 ht2
 
+omit [Finite V] in
 theorem Wt49.E1_invariant (hW : Wt49 A0 A1 A2 X Xi S Si) :
     ∀ v ∈ (LinearMap.range (e2 (A0 * A1 ^ 2)) ⊓ LinearMap.range (e2 (A0 * A2))),
       (A0 * A1 * A2) v ∈
@@ -424,6 +443,7 @@ theorem Wt49.E1_le_Wb (hW : Wt49 A0 A1 A2 X Xi S Si) (hP : PatIIb A0 A1 A2)
   intro v hv
   exact ⟨hv.1, hker hv⟩
 
+omit [Finite V] in
 theorem Wt49.Si_mul_b (hW : Wt49 A0 A1 A2 X Xi S Si) :
     Si * (A0 * A1 ^ 2) = (A0 * A1) ^ 2 * Si := by
   calc Si * (A0 * A1 ^ 2) = (Si * A0) * A1 ^ 2 := by rw [mul_assoc]
@@ -435,6 +455,7 @@ theorem Wt49.Si_mul_b (hW : Wt49 A0 A1 A2 X Xi S Si) :
     _ = (A0 * A1) ^ 2 * Si := by
         rw [← Commute.mul_pow (show Commute A0 A1 from hW.comm01) 2]
 
+omit [Finite V] in
 theorem Wt49.Si_mul_b2 (hW : Wt49 A0 A1 A2 X Xi S Si) :
     Si * (A0 * A2 ^ 2) = (A0 * A2) ^ 2 * Si := by
   calc Si * (A0 * A2 ^ 2) = (Si * A0) * A2 ^ 2 := by rw [mul_assoc]
@@ -446,6 +467,7 @@ theorem Wt49.Si_mul_b2 (hW : Wt49 A0 A1 A2 X Xi S Si) :
     _ = (A0 * A2) ^ 2 * Si := by
         rw [← Commute.mul_pow (show Commute A0 A2 from hW.comm02) 2]
 
+omit [Finite V] in
 theorem Wt49.Si_fixed_b (hW : Wt49 A0 A1 A2 X Xi S Si) {v : V}
     (hbv : (A0 * A1 ^ 2) v = v) (hb2v : (A0 * A2 ^ 2) v = v) :
     (A0 * A1) (Si v) = Si v ∧ (A0 * A2) (Si v) = Si v := by
@@ -471,6 +493,7 @@ theorem Wt49.Si_fixed_b (hW : Wt49 A0 A1 A2 X Xi S Si) {v : V}
     exact h.symm
   exact ⟨hg, hg'⟩
 
+omit [Finite V] in
 theorem Wt49.Si_A1_A2_eq_A0sq (hW : Wt49 A0 A1 A2 X Xi S Si) {v : V}
     (h1 : (A0 * A1) (Si v) = Si v) (h2 : (A0 * A2) (Si v) = Si v) :
     A1 (Si v) = (A0 ^ 2) (Si v) ∧ A2 (Si v) = (A0 ^ 2) (Si v) := by
@@ -517,6 +540,7 @@ theorem Wt49.Si_z_eq_A0 (hW : Wt49 A0 A1 A2 X Xi S Si) {v : V}
   rw [hzw, hz2w]
   abel
 
+omit [Finite V] in
 theorem Wt49.Si_bz2_fixed (hW : Wt49 A0 A1 A2 X Xi S Si) {v : V}
     (hA1w : A1 (Si v) = (A0 ^ 2) (Si v)) (hA2w : A2 (Si v) = (A0 ^ 2) (Si v)) :
     (A1 * A2 ^ 2) (Si v) = Si v := by

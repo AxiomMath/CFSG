@@ -45,10 +45,10 @@ theorem isSolvable_spinPlus_centralizer_of_hasNormalPComplement
       CFSG.hasNormalPComplement_of_le p hXleD hNPC'
     have hpX : p ∣ Nat.card X :=
       LayerPDiv.dvd_card_of_isComponentOf_spinPlus_family hn hker hp hp2 hpK hE hdiag hX
-    haveI : Group.IsPerfect ↥X := LayerFacts.ggIsPerfect_of_commutator_eq hXperf
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Group.IsPerfect ↥X := LayerFacts.ggIsPerfect_of_commutator_eq hXperf
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨N, hN, hcop, hpg⟩ := hNPCX
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     have hNtop : N = ⊤ :=
       CFSG.ComponentClassification.LiteratureLocal.eq_top_of_isPGroup_quotient_of_perfect N hpg
     have hcardN : Nat.card ↥N = Nat.card ↥X := by rw [hNtop, Subgroup.card_top]
@@ -102,10 +102,10 @@ theorem isSolvable_spinMinus_centralizer_of_hasNormalPComplement
       CFSG.hasNormalPComplement_of_le p hXleD hNPC'
     have hpX : p ∣ Nat.card X :=
       LayerPDiv.dvd_card_of_isComponentOf_spinMinus_family hirr hn hker hp hp2 hpK hE hdiag hX
-    haveI : Group.IsPerfect ↥X := LayerFacts.ggIsPerfect_of_commutator_eq hXperf
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Group.IsPerfect ↥X := LayerFacts.ggIsPerfect_of_commutator_eq hXperf
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨N, hN, hcop, hpg⟩ := hNPCX
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     have hNtop : N = ⊤ :=
       CFSG.ComponentClassification.LiteratureLocal.eq_top_of_isPGroup_quotient_of_perfect N hpg
     have hcardN : Nat.card ↥N = Nat.card ↥X := by rw [hNtop, Subgroup.card_top]

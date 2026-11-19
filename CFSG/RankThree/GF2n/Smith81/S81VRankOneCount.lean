@@ -14,6 +14,7 @@ namespace RankOneData
 variable {K : Type} [Field K] [Fintype K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   (D : RankOneData K V)
 
+omit [Fintype K] in
 theorem twist_mem_map_Psi [FiniteDimensional K V] (hfix : finrank K D.fix = 1) {v' : V}
     (hv' : v' ∈ D.fix) (hv'0 : v' ≠ 0) {c : V →ₗ[K] K} (hc : c v' = 1)
     {β : V →ₗ[K] V →ₗ[K] K} (hβa : ∀ g u w, β (D.a g u) (D.a g w) = β u w) {r : ℕ} {w : V}

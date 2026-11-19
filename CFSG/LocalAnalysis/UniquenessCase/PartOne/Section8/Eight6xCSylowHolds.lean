@@ -333,7 +333,7 @@ private theorem k1513b_sylow_le {H : Type} [Group H] [Finite H] {r : ℕ} (hr : 
     {T : Subgroup H} (hidx : ¬ r ∣ T.index) : ∃ S : Sylow r H, (S : Subgroup H) ≤ T := by
   have : Fact r.Prime := ⟨hr⟩
   obtain ⟨S₀⟩ : Nonempty (Sylow r T) := inferInstance
-  have hS : IsPGroup r ((S₀ : Subgroup T).map T.subtype) := S₀.isPGroup'.map _
+  have hS : IsPGroup r ((S₀ : Subgroup T).map T.subtype) := S₀.isPGroup.map _
   have hSi : ¬ r ∣ ((S₀ : Subgroup T).map T.subtype).index := by
     rw [Subgroup.index_map_subtype]
     exact fun h => (hr.dvd_mul.1 h).elim S₀.not_dvd_index hidx

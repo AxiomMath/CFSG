@@ -512,9 +512,9 @@ private theorem subset_of_planeIdem_mul_eq {t : ℕ} {ε : Fin 2} {S T : Finset 
   rw [planeIdem_mul] at h
   have h1 := congrFun (congrFun h (Sum.inl (Sum.inl j))) (Sum.inl (Sum.inl j))
   rw [planeIdem_inl_lin, planeIdem_inl_lin] at h1
-  rw [if_pos hj] at h1
+  rw [ite_eq_left hj] at h1
   by_contra hjS
-  rw [if_neg fun h' => hjS (Finset.mem_inter.mp h').2] at h1
+  rw [ite_eq_right fun h' => hjS (Finset.mem_inter.mp h').2] at h1
   exact zero_ne_one h1
 
 private theorem keyIdem_ne_zero [Finite K] [CharP K 2]
@@ -698,7 +698,7 @@ theorem linExistsCodeOfIsPrimIdemIn_holds : LinExistsCodeOfIsPrimIdemIn := by
       have h0' : (planeIdem t ε (PlaneRaw.Code.extSupport e) false :
           Matrix (LinIdx t ε) (LinIdx t ε) K) = 0 := h0
       have hiS' : i ∈ PlaneRaw.Code.extSupport e := hiS
-      rw [h0', Matrix.zero_apply, if_pos hiS'] at h1
+      rw [h0', Matrix.zero_apply, ite_eq_left hiS'] at h1
       exact zero_ne_one h1
     have hmulP : keyIdem t ε (.extension e) * P = keyIdem t ε (.extension e) := by
       rw [heq]

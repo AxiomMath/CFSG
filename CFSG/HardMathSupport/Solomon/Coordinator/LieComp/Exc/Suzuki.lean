@@ -16,7 +16,7 @@ theorem noThreeComponents_suzuki (m : ℕ)
   obtain ⟨-, a, ha, K, _, _, hf, hK', ⟨θ⟩⟩ :=
     CFSG.RankThree.PartTwo.Sec4.Census.suzukiModel_of_index m hv
   have hK : Nat.card K = 2 ^ (2 * a + 1) := by rw [hK', hf]
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   refine noThreeComponents_of_not_dvd (fun h3 => ?_) β
   rw [Nat.card_congr (e.trans θ).toEquiv] at h3
   exact CFSG.RankThree.PartTwo.KFacts.not_three_dvd_card_suzukiGroup hK h3

@@ -88,7 +88,7 @@ theorem rootChar_D4_eq_one_iff {ω : Kˣ} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1)
     (hl : a (nd 0) = ω ^ x) (hm : a (nd 2) = ω ^ y) (v : Fin TwistTag.D4.tag.rank → ℤ) :
     rootChar a v = 1 ↔
       ((x : ℤ) * (v (nd 0) + v (nd 1) + v (nd 3)) + (y : ℤ) * v (nd 2)) % 3 = 0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [rootChar_D4 a hρ v, hl, hm]
   have e : (ω ^ x) ^ (v (nd 0) + v (nd 1) + v (nd 3)) * (ω ^ y) ^ v (nd 2) =
       ω ^ ((x : ℤ) * (v (nd 0) + v (nd 1) + v (nd 3)) + (y : ℤ) * v (nd 2)) := by
@@ -124,7 +124,7 @@ theorem ncard_posKernel (a : Fin TwistTag.D4.tag.rank → Kˣ) (h3 : ∀ i, a i 
         ((((x : ℤ) * (v (nd 0) + v (nd 1) + v (nd 3)) + (y : ℤ) * v (nd 2)) % 3 = 0 ∧
           0 < height v))} := by
     ext v
-    simp only [rootCharKernel, Set.mem_inter_iff, Set.mem_setOf_eq]
+    simp only [rootCharKernel, Set.mem_inter_iff, Set.mem_ofPred_eq]
     rw [rootChar_D4_eq_one_iff hω3 hω1 a hρ hl hm v]
     tauto
   rw [hset, ncard_setOf_isRoot_and]

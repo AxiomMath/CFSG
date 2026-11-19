@@ -53,7 +53,7 @@ theorem burnsideF437_F_4_37_iff_kinds : F_4_37 ↔ ∀ κ, burnsideF437_F437Kind
 
 theorem burnsideF437_F437Kind_Tits : burnsideF437_F437Kind .Tits := by
   intro degree E _ Gp M₁ M₂ Y _ β M _ ε z hyp chart Tb hTb fb hfbT hfbS hsq hiii hsyl
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   have hfG : (fb : E) ∉ Gp := burnsideF437_not_mem_Gp hsyl (fun h => hfbS h.1) hsq
   exact absurd (by rw [hyp.amalgam.canonical (Or.inr rfl)]; exact Subgroup.mem_top _) hfG
 

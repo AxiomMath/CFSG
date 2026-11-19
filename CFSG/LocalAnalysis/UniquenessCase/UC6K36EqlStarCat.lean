@@ -41,7 +41,7 @@ section Parts
 theorem k36EqlStar_of_catalog (hS : AGLEmbeddingD2.KFactSeitzRankTwo) (hR : K36OddDefChar) (hK315 : K315Spor)
     (hGe4 : K36EqlStarSporGe4) : K36EqlStar := by
   intro G _ _ hK M p E h hSt L hL hLc hne hX
-  haveI := hL
+  have := hL
   have hLM : L ⊔ M = ⊤ := by
     refine top_le_iff.1 (hX.symm.le.trans ?_)
     exact sup_le (sup_le (h.E_le.trans le_sup_right) ((CFSG.openPCoreOf_le 2 M).trans le_sup_right))

@@ -11,9 +11,9 @@ namespace CFSG.QuasithinUnique.Lin2
 open CFSG.Open CFSG.QuasithinUnique.K1.SporadicPerm
 open CFSG.Sporadic.Mathieu (m24a m24b card_M24)
 
-@[expose] def m24ZI : ℕ := 129
+def m24ZI : ℕ := 129
 
-@[expose] def m24Wit : List (List ℕ × List ℕ × ℕ) := [
+def m24Wit : List (List ℕ × List ℕ × ℕ) := [
   ([0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0],
    [0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0],
    129),
@@ -47,7 +47,7 @@ open CFSG.Sporadic.Mathieu (m24a m24b card_M24)
    [1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0],
    719)]
 
-@[expose] def m24GW : List (List ℕ) := [
+def m24GW : List (List ℕ) := [
   [4, 6, 2],
   [2, 5, 3, 2],
   [2, 6, 2, 3, 1],

@@ -99,7 +99,7 @@ theorem exists_sl2_pair_fix {K : Type} [Field K] [Finite K] (hK : Nat.card K = 8
     ∃ p : SL(2, K) × SL(2, K), p ≠ 1 ∧ p ^ 7 = 1 ∧
       (p.1 : Matrix (Fin 2) (Fin 2) K) * X * (p.2 : Matrix (Fin 2) (Fin 2) K)ᵀ = X := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 8 := by simpa [Nat.card_eq_fintype_card] using hK
   have hs : ∃ s : K, s ≠ 0 ∧ s ≠ 1 := by
     have hlt : ({0, 1} : Finset K).card < (Finset.univ : Finset K).card := by
@@ -256,7 +256,7 @@ theorem exists_orderOf_eq_seven_of_ne_one (hK : Nat.card S.K = 8) {w : W} (hw : 
       apply hp_ne
       apply S.jHom_injective
       rw [h, map_one]
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     exact orderOf_eq_prime hpow hne
   · apply S.vec_injective
     rw [S.vec_jHom]

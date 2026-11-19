@@ -86,7 +86,7 @@ private lemma ctxA_linearIndependent (X : GGNineDepCtx h α r s x) :
   cartanA_linearIndependent (ctxA_not_dvd X) (ctxA_pair X)
 
 theorem finrank_eq (X : GGNineDepCtx h α r s x) : Module.finrank (ZMod p) V = N := by
-  haveI : Module.Finite (ZMod p) V := finite X
+  have : Module.Finite (ZMod p) V := finite X
   set S : Submodule (ZMod p) V :=
     Submodule.span (ZMod p) (Set.range fun j : Fin (N - 2) => h (ctxA_idx N j)) with hS
   have hSdim : Module.finrank (ZMod p) S = N - 2 := by
@@ -133,7 +133,7 @@ theorem natCard_ne_factorial (X : GGNineDepCtx h α r s x) :
   have hcardA : Nat.card ↥(ggLargeGrp r s) = N.factorial := by
     rw [← natCard_ggNineQ X]
     exact hcard
-  haveI : Finite ↥(ggLargeGrp r s) :=
+  have : Finite ↥(ggLargeGrp r s) :=
     Nat.finite_of_card_ne_zero (by rw [hcardA]; exact Nat.factorial_ne_zero N)
   have hP : Subgroup.closure (Set.range r) ≤ ggLargeGrp r s := by
     rw [ggLargeGrp]
@@ -154,7 +154,7 @@ theorem natCard_ne_factorial (X : GGNineDepCtx h α r s x) :
     | mul y z hy hz ihy ihz => rw [LinearEquiv.mul_apply, ihz, ihy]
     | inv y hy ihy =>
         calc y⁻¹ v = y⁻¹ (y v) := by rw [ihy]
-          _ = v := by simpa using (y⁻¹).apply_symm_apply v
+          _ = v := by simp
   have hv' : v ∈ ggLinFix (Set.range r ∪ Set.range s) := by
     intro a ha
     rcases ha with ⟨i, rfl⟩ | ⟨k, rfl⟩
@@ -178,14 +178,14 @@ theorem natCard_le (X : GGNineDepCtx h α r s x) :
     Nat.card ↥(ggNineQ X) ≤ p ^ Module.finrank (ZMod p) ↥(ggFixLineT r s) *
       (6 * (p - 1) * Nat.card ↥(Subgroup.closure (Set.range s))) := by
   classical
-  haveI : Module.Finite (ZMod p) V := X.finite
-  haveI : Finite V := Module.finite_of_finite (ZMod p)
-  haveI : Finite (V ≃ₗ[ZMod p] V) :=
+  have : Module.Finite (ZMod p) V := X.finite
+  have : Finite V := Module.finite_of_finite (ZMod p)
+  have : Finite (V ≃ₗ[ZMod p] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod p] V => (e : V → V)) DFunLike.coe_injective
-  haveI : Finite ↥(MulAction.orbit (ggLargeGrp r s) x) :=
+  have : Finite ↥(MulAction.orbit (ggLargeGrp r s) x) :=
     Finite.of_injective (fun y : ↥(MulAction.orbit (ggLargeGrp r s) x) => (y : V))
       Subtype.val_injective
-  haveI : Finite ↥(ggFixLineT r s) :=
+  have : Finite ↥(ggFixLineT r s) :=
     Finite.of_injective (fun w : ↥(ggFixLineT r s) => (w : V)) Subtype.val_injective
   set A := ggLargeGrp r s
   have h1 := Subgroup.card_mul_index (MulAction.stabilizer ↥A x)
@@ -251,11 +251,11 @@ theorem exists_stab_restrict (X : GGNineDepCtx h α r s x) (hxT : x ∈ ggFixLin
           MulAction.stabilizer (↥(ggFixLineT r s) ≃ₗ[ZMod p] ↥(ggFixLineT r s)) x') ≤
         6 * (p - 1) * Nat.card ↥(Subgroup.closure (Set.range s)) := by
   classical
-  haveI : Module.Finite (ZMod p) V := X.finite
-  haveI : Finite V := Module.finite_of_finite (ZMod p)
-  haveI : Finite (V ≃ₗ[ZMod p] V) :=
+  have : Module.Finite (ZMod p) V := X.finite
+  have : Finite V := Module.finite_of_finite (ZMod p)
+  have : Finite (V ≃ₗ[ZMod p] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod p] V => (e : V → V)) DFunLike.coe_injective
-  haveI : Finite ↥(ggLargeGrp r s ⊓ MulAction.stabilizer (V ≃ₗ[ZMod p] V) x) :=
+  have : Finite ↥(ggLargeGrp r s ⊓ MulAction.stabilizer (V ≃ₗ[ZMod p] V) x) :=
     Finite.of_injective
       (fun y : ↥(ggLargeGrp r s ⊓ MulAction.stabilizer (V ≃ₗ[ZMod p] V) x) =>
         (y : V ≃ₗ[ZMod p] V)) Subtype.val_injective
@@ -333,7 +333,7 @@ theorem weylTypeData
 theorem not_linearIndependent_α (X : GGNineDepCtx h α r s x) :
     ¬ LinearIndependent (ZMod p) α := by
   intro hLI
-  haveI : Module.Finite (ZMod p) V := finite X
+  have : Module.Finite (ZMod p) V := finite X
   have hN : Module.finrank (ZMod p) V = N := finrank_eq X
   set W : Submodule (ZMod p) (Module.Dual (ZMod p) V) :=
     Submodule.span (ZMod p) (Set.range α) with hW
@@ -402,7 +402,7 @@ theorem not_isImprimitiveOnV (X : GGNineDepCtx h α r s x) :
   exact ggLargeDep_noImprim X.case.lin X.case.two X.hA X.restr
 
 theorem family (X : GGNineDepCtx h α r s x) (hUse : ZS.UseInput) : ZS.Family p (ggNineQ X) := by
-  haveI : Module.Finite (ZMod p) V := X.finite
+  have : Module.Finite (ZMod p) V := X.finite
   have h3 : 3 ≤ Module.finrank (ZMod p) ↥(ggFixLineT r s) := by
     have h5 := X.case.lin.N_ge
     have hd := X.d_ge

@@ -23,7 +23,7 @@ theorem burnsideF4r_conj_of_same_type (hyp : HypF_4_4 κ 2 f Gp M₁ M₂) (hL3 
     (hL : (∃ g ∈ Gp, g * i * g⁻¹ ∈ ctr (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)))) ↔
       (∃ g ∈ Gp, g * j * g⁻¹ ∈ ctr (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))))) :
     ∃ g ∈ Gp, g * i * g⁻¹ = j := by
-  haveI := hyp.finite
+  have := hyp.finite
   have hyp' := burnsideF4j_restrict ChF.nativeChartCompatibility hyp
   have h27 := as_F_4_27 κ f ↥Gp ⊤ _ _ hyp' rfl
   dsimp only at h27
@@ -95,8 +95,8 @@ variable {Y : Type} [Group Y] {β : Cpl M₁ M₂ Y} {M : Type} [Group M] {ε : 
 theorem burnsideF4r_zbar (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε z) (hL3 : κ ≠ .L3) :
     ∃ x : ↥(M₁ ⊓ M₂), (x : E) ∈ ctr (pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) ∧ bM β ε x = z ∧
       x ≠ 1 ∧ x * x = 1 := by
-  haveI := hyp.amalgam.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.amalgam.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz := hyp.z_mem.1 hL3
   rw [burnsideF4j_Z1_eq hyp] at hz
   obtain ⟨x, hx1, hxZ, hxz⟩ := mem_subImg.mp hz
@@ -167,7 +167,7 @@ theorem burnsideF4r_F_4_35_of_nonfused (hyp : HypF_4_31 κ f Gp M₁ M₂ β ε 
     (hj : (j : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂))) (hi1 : i ≠ 1) (hj1 : j ≠ 1)
     (hi2 : i * i = 1) (hj2 : j * j = 1) :
     ((∃ g ∈ Gp, g * (i : E) * g⁻¹ = (j : E)) ↔ IsConj (bM β ε i) (bM β ε j)) := by
-  haveI := hyp.amalgam.finite
+  have := hyp.amalgam.finite
   refine ⟨burnsideF4j_F_4_35_forward hyp i j hi hj, fun h => ?_⟩
   obtain ⟨x, hxZ, hxz, hx1, hx2⟩ := burnsideF4r_zbar hyp hL3
   set S := pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) with hSdef

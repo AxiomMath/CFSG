@@ -40,7 +40,7 @@ namespace CertificateChecks.KernelU6.AQ
 theorem perm : allN 12 (fun j => permOK 693 10 (mask 10) (693 * 10) (S j) (SI j)) = true := by
   quickRfl
 
-@[expose] noncomputable def SA : Array (Array Nat) :=
+noncomputable def SA : Array (Array Nat) :=
   Array.ofFn (n := 12) fun j => unpack 693 10 (S j.val)
 
 theorem binds : Binds 693 10 S 12 3 BP SA aBase := by
@@ -62,7 +62,7 @@ namespace CertificateChecks.KernelU6.SQ
 theorem perm : allN 15 (fun j => permOK 693 10 (mask 10) (693 * 10) (S j) (SI j)) = true := by
   quickRfl
 
-@[expose] noncomputable def SA : Array (Array Nat) :=
+noncomputable def SA : Array (Array Nat) :=
   Array.ofFn (n := 15) fun j => unpack 693 10 (S j.val)
 
 theorem binds : Binds 693 10 S 15 3 BP SA aBase := by
@@ -84,7 +84,7 @@ namespace CertificateChecks.KernelU6.TQ
 theorem perm : allN 5 (fun j => permOK 693 10 (mask 10) (693 * 10) (S j) (SI j)) = true := by
   quickRfl
 
-@[expose] noncomputable def SA : Array (Array Nat) :=
+noncomputable def SA : Array (Array Nat) :=
   Array.ofFn (n := 5) fun j => unpack 693 10 (S j.val)
 
 theorem binds : Binds 693 10 S 5 2 BP SA tBase := by
@@ -106,7 +106,7 @@ namespace CertificateChecks.KernelU6.PQ
 theorem perm : allN 19 (fun j => permOK 693 10 (mask 10) (693 * 10) (S j) (SI j)) = true := by
   quickRfl
 
-@[expose] noncomputable def SA : Array (Array Nat) :=
+noncomputable def SA : Array (Array Nat) :=
   Array.ofFn (n := 19) fun j => unpack 693 10 (S j.val)
 
 theorem binds : Binds 693 10 S 19 4 BP SA pBase := by

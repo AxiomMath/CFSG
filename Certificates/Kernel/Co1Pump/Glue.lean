@@ -208,7 +208,7 @@ theorem pair_facts : ∃ u₁ u₂ : ↥GA,
   have hc9 : CFSG.KD.Co1Pairs.c9.toArray = transposeRows 24 (unpack 24 24 CFSG.KD.Co1Pairs.K9) := by
     decide +kernel
   have hd := orbit_dvd_s q8 q9 hc8 hc9 ch36909s
-  haveI : Finite ↥GA := Co1T.finite_GA
+  have : Finite ↥GA := Co1T.finite_GA
   have hpos : 0 < Nat.card ↥(Subgroup.closure ({Co1T.wG CFSG.KD.Co1Pairs.w8,
       Co1T.wG CFSG.KD.Co1Pairs.w9} : Set ↥GA)) := Nat.card_pos
   exact ⟨_, _, c8', c9', o8, o9, lt_of_lt_of_le (by norm_num) (Nat.le_of_dvd hpos hd)⟩

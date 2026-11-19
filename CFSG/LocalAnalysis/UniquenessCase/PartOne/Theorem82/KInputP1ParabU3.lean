@@ -58,7 +58,7 @@ theorem l3EvenParabolic_psu {X : Type} [Group X] [Finite X] {f : ℕ}
     exact hNT
   have hJeq : J = Subgroup.normalizer (T : Set X) := (hco.le_iff.mp hle).resolve_left hJ
   rw [hJeq] at hKJ
-  haveI := hsolv
+  have := hsolv
   exact eq_bot_of_perfect_of_le_solvable hKJ hK
 
 end CFSG.LocalAnalysis.UniquenessCase.PartOne.Theorem82

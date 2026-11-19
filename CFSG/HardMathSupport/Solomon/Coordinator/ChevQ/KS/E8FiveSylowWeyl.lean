@@ -53,7 +53,7 @@ theorem card_zpowers_cElt : Nat.card (Subgroup.zpowers cElt) = 5 := by
 
 theorem cElt_mem_zpowers_of_ne_one {w : WeylGroup Tag.E8} (hw : w ∈ Subgroup.zpowers cElt)
     (hw1 : w ≠ 1) : cElt ∈ Subgroup.zpowers w := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h1 : (⟨w, hw⟩ : Subgroup.zpowers cElt) ≠ 1 := fun h => hw1 (congrArg Subtype.val h)
   have h2 := zpowers_eq_top_of_prime_card card_zpowers_cElt h1
   have h3 : (⟨cElt, Subgroup.mem_zpowers cElt⟩ : Subgroup.zpowers cElt) ∈

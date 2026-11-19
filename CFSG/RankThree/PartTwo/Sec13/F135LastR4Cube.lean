@@ -48,7 +48,7 @@ theorem r4d_exists_coatom_not_le {G : Type*} [Group G] [Finite G] {p : ℕ} [Fac
     (hG : IsPGroup p G) (hexp : ∀ x : G, x ^ p = 1) {Y : Subgroup G} (hY : Y ≠ ⊥)
     (hYc : Y ⊓ commutator G = ⊥) : ∃ H : Subgroup G, IsCoatom H ∧ ¬ Y ≤ H := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : Y ≤ frattini G := by
     unfold frattini Order.radical
     exact le_iInf₂ fun H hH => hcon H hH

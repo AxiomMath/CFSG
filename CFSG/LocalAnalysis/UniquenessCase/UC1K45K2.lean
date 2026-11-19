@@ -27,7 +27,7 @@ private lemma uc45_kof_isSolvable (c : Pre45 p G D) : Group.IsSolvable ↥(Kof G
 
 private lemma uc45_kof_map_isSolvable (c : Pre45 p G D) :
     Group.IsSolvable ↥((Kof G).map (QuotientGroup.mk' (Wker G))) := by
-  haveI : Group.IsSolvable ↥(Kof G) := uc45_kof_isSolvable c
+  have : Group.IsSolvable ↥(Kof G) := uc45_kof_isSolvable c
   let ψ : ↥(Kof G) →* ↥((Kof G).map (QuotientGroup.mk' (Wker G))) :=
     { toFun := fun x => ⟨QuotientGroup.mk' (Wker G) x.1,
         Subgroup.mem_map_of_mem _ x.2⟩
@@ -45,9 +45,9 @@ private lemma uc45_kof_map_normalClosure (c : Pre45 p G D) :
     (QuotientGroup.mk' (Wker G)) (QuotientGroup.mk'_surjective _), c.gen,
     Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)]
 
-private lemma uc45_kof_map_coprime (c : Pre45 p G D) :
+private lemma uc45_kof_map_coprime (_c : Pre45 p G D) :
     Nat.Coprime 3 (Nat.card ↥((Kof G).map (QuotientGroup.mk' (Wker G)))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine (CFSG.pPrimeCore_coprime_card (p := 3) (G := G)).coprime_dvd_right ?_
   refine (Subgroup.card_map_dvd (Kof G) (QuotientGroup.mk' (Wker G))).trans ?_
   exact Subgroup.card_dvd_of_le (Subgroup.commutator_le_left (H₁ := CFSG.pPrimeCore 3 G)
@@ -83,7 +83,7 @@ private lemma uc45_kof_map_pair (hPair : PairX) (c : Pre45 p G D) :
 
 private lemma uc45_kof_map_isPGroup (hCore : Core2) (hPair : PairX) (c : Pre45 p G D) :
     IsPGroup 2 ((Kof G).map (QuotientGroup.mk' (Wker G))) := by
-  haveI : ((Kof G).map (QuotientGroup.mk' (Wker G))).Normal :=
+  have : ((Kof G).map (QuotientGroup.mk' (Wker G))).Normal :=
     (kof_normal (G := G)).map (QuotientGroup.mk' (Wker G)) (QuotientGroup.mk'_surjective _)
   exact hCore (G ⧸ Wker G) (D.map (QuotientGroup.mk' (Wker G)))
     ((Kof G).map (QuotientGroup.mk' (Wker G))) (uc45_card_D_map c)
@@ -93,7 +93,7 @@ private lemma uc45_kof_map_isPGroup (hCore : Core2) (hPair : PairX) (c : Pre45 p
 private lemma uc45_odd_prime_order_not_mem_inf_wker (c : Pre45 p G D)
     {x : G} (hxK : x ∈ Kof G) (hxW : x ∈ Wker G)
     {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hxq : orderOf x = q) : False := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hPX : ⁅Subgroup.zpowers x, Xof G⁆ ≤ ZXof G := by
     refine Subgroup.commutator_le.mpr fun a ha y hy => ?_
     exact (mem_wker.mp (Subgroup.zpowers_le.mpr hxW ha)) y hy
@@ -141,7 +141,7 @@ private lemma uc45_inf_wker_isPGroup (c : Pre45 p G D) :
       (Subgroup.card_dvd_of_le (inf_le_left : Kof G ⊓ Wker G ≤ Kof G))) with h2 | hp
     · exact h2
     · exfalso
-      haveI : Fact r.Prime := ⟨hr⟩
+      have : Fact r.Prime := ⟨hr⟩
       obtain ⟨x, hxq⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Kof G ⊓ Wker G)) r hrdvd
       exact uc45_odd_prime_order_not_mem_inf_wker c x.2.1 x.2.2 hr
         (by rw [hp]; exact ne_of_gt c.odd) (by rw [Subgroup.orderOf_coe, hxq])
@@ -149,6 +149,7 @@ private lemma uc45_inf_wker_isPGroup (c : Pre45 p G D) :
     (Nat.eq_prime_pow_of_unique_prime_dvd (Nat.card_pos (α := ↥(Kof G ⊓ Wker G))).ne'
       (fun {r} hr hrdvd => hprime r hr hrdvd))
 
+omit [Finite G] in
 private lemma uc45_kof_isPGroup_of_map
     (hKmap : IsPGroup 2 ((Kof G).map (QuotientGroup.mk' (Wker G))))
     (hKinf : IsPGroup 2 ↥(Kof G ⊓ Wker G)) : IsPGroup 2 (Kof G) := by

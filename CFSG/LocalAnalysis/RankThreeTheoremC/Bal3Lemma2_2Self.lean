@@ -137,7 +137,7 @@ theorem exists_conj_normalizer_inf {p : ℕ} (hprime : p.Prime) (P : Sylow p G) 
   have hTP : T < (P : Subgroup G) :=
     lt_of_le_of_ne inf_le_left fun heq => hPD (by rw [← heq]; exact inf_le_right)
   obtain ⟨g, hgN, hgT⟩ := IsConcreteLE.exists_of_lt
-    (pGroup_proper_subgroup_lt_internal_normalizer p hprime P T P.isPGroup' hTP)
+    (pGroup_proper_subgroup_lt_internal_normalizer p hprime P T P.isPGroup hTP)
   have hgP : g ∈ (P : Subgroup G) := hgN.1
   have hgnT : ∀ x, x ∈ T ↔ g * x * g⁻¹ ∈ T := fun x => mem_normalizer_iff.mp hgN.2 x
   have hmem : ∀ w, w ∈ D.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * w * g ∈ D := by
@@ -185,7 +185,7 @@ theorem ExtremalObstruction.inf_centralizer_le_self (hS : Setting G) (hD1 : Theo
   set T : Subgroup G := (P : Subgroup G) ⊓ normalizer (D : Set G) with hTdef
   have hDS : D ≤ S := le_inf hDP hDC
   have hST : S ≤ T := inf_le_inf_left _ hCN
-  have hSp : IsPGroup p S := P.isPGroup'.to_inf_left
+  have hSp : IsPGroup p S := P.isPGroup.to_inf_left
   have hSD : ∀ y ∈ S, y ^ p = 1 → y ∈ D := fun y hy hyp => hCp y hy.2 hyp
   have hsyl : CFSG.ABGLocalTools.IsSylowOf p S (centralizer (D : Set G)) := by
     have hN := hext.isSylowOf_normalizer_inf hS hD1 hp hPD hDab hCM hzD hz1 hzc hN₀M

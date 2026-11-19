@@ -17,7 +17,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -511,6 +511,7 @@ noncomputable def bridgeChar : L → ℂ :=
   bridgePermChar H W₁ - hc.primeCyclicTI.primeTIirr σ (principalIrr ↥W₁) j
 
 omit hσ in
+omit [Fintype ↥(W₁ ⊔ W₂)] in
 theorem bridgeChar_apply (x : L) :
     hc.bridgeChar (σ := σ) (H := H) (j := j) x
       = bridgePermChar H W₁ x - hc.primeCyclicTI.primeTIirr σ (principalIrr ↥W₁) j x := (rfl)

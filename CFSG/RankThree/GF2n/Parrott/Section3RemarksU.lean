@@ -36,6 +36,7 @@ theorem mulAut_eq_one_or_of_isKleinFour {E : Type*} [Group E] [IsKleinFour E] {f
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem conjVA_eq_one_of_mem_J (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) {g : ↥(H z)}
     (hg : (g : G) ∈ J z) : conjVA z g = 1 := by
   apply MulEquiv.ext
@@ -44,6 +45,7 @@ theorem conjVA_eq_one_of_mem_J (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) {g 
   rw [MulAut.one_apply]
   exact conjVA_apply_pi_eq hcomm hg x
 
+omit [Finite G] in
 theorem conjVA_eq_of_map_eq (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) {Q : Type*} [Group Q]
     (φ : ↥(H z) →* Q) (hker : φ.ker = (J z).subgroupOf (H z)) {x y : ↥(H z)}
     (h : φ x = φ y) : conjVA z x = conjVA z y := by
@@ -91,6 +93,7 @@ theorem fixDimV_eq_of_map_conj (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z)
   have hxy : φ x = φ (g * y * g⁻¹) := by rw [map_mul, map_mul, map_inv, h]
   rw [fixDimV_eq_of_conjVA_eq hcomm hJ (conjVA_eq_of_map_eq hcomm φ hker hxy), fixDimV_conj]
 
+omit [Finite G] in
 theorem isPGroup_ker_of_ker_eq (hcard : Nat.card (J z) = 2 ^ 9) {Q : Type*} [Group Q]
     (φ : ↥(H z) →* Q) (hker : φ.ker = (J z).subgroupOf (H z)) : IsPGroup 2 φ.ker := by
   rw [hker]
@@ -124,6 +127,7 @@ theorem exists_lift_commute_of_orderOf_eq_three (hcard : Nat.card (J z) = 2 ^ 9)
   refine ⟨m ^ n, by rw [hn, hm], ?_, hord⟩
   exact (show Commute σ m from hmc σ (Subgroup.mem_zpowers σ)).pow_right n
 
+omit [Finite G] in
 theorem conjVA_mem_autFixedSubgroup {σ h : ↥(H z)} (hh : Commute σ h) {v : QuotientV.V z}
     (hv : v ∈ autFixedSubgroup (conjVA z σ)) :
     conjVA z h v ∈ autFixedSubgroup (conjVA z σ) := by
@@ -157,6 +161,7 @@ private noncomputable def resFix (σ : ↥(H z)) :
       conjVA z h₁ (conjVA z h₂ (v : QuotientV.V z))
     rw [map_mul, MulAut.mul_apply]
 
+omit [Finite G] in
 private theorem resFix_apply (σ : ↥(H z)) (h : ↥(Subgroup.centralizer ({σ} : Set ↥(H z))))
     (v : ↥(autFixedSubgroup (conjVA z σ))) :
     ((resFix σ h v : ↥(autFixedSubgroup (conjVA z σ))) : QuotientV.V z) = conjVA z h v := rfl

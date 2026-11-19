@@ -30,7 +30,7 @@ theorem exists_cex16 {M V₀ V : Subgroup G} (hyp : Hyp15 M V₀ V)
     (hm : 1 < mBar M V₀ V hyp.h6.elemAbelian)
     (hr : rMV M V < ((mBar M V₀ V hyp.h6.elemAbelian + mSub V₀ : ℕ) : ℕ∞)) :
     ∃ U S : Subgroup G, Cex16 M V₀ V U S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   classical
   have hne : ∃ U : Subgroup G, U ≤ V ∧ ¬ centralizer (U : Set G) ≤ M := by
     by_contra hcon
@@ -71,6 +71,7 @@ theorem mBar_le_mQuot {M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V) (hV₀ : 
     _ ≤ rk (Vtil V₀ V hV) := E3.mParam_le_rk _
     _ = E3.mQuot V V₀ := by rw [rk, E3.mQuot, hidx]
 
+omit [Finite G] in
 theorem exists_mul_of_mem_sup {U V₀ V : Subgroup G} (hU : U ≤ V) (hV₀ : V₀ ≤ V)
     (hcomm : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x) {y : G} (hy : y ∈ U ⊔ V₀) :
     ∃ u ∈ U, ∃ w ∈ V₀, u * w = y := by
@@ -93,6 +94,7 @@ theorem exists_mul_of_mem_sup {U V₀ V : Subgroup G} (hU : U ≤ V) (hV₀ : V�
   rw [← SetLike.mem_coe, coe_mul_of_left_le_normalizer_right U V₀ hnorm] at hy
   exact hy
 
+omit [Finite G] in
 private theorem card_sup_eq_mul {U V₀ V : Subgroup G} (hU : U ≤ V) (hV₀ : V₀ ≤ V)
     (hcomm : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x) (hinf : U ⊓ V₀ = ⊥) :
     Nat.card ↥(U ⊔ V₀) = Nat.card U * Nat.card V₀ := by
@@ -134,13 +136,15 @@ theorem inf_eq_bot (h : Cex16 M V₀ V U S) : U ⊓ V₀ = ⊥ := by
     (Subgroup.centralizer_le (Set.singleton_subset_iff.2 hwU)) hg
   exact h.hyp.centralizer_le hwV (fun h1 => hw1 (Subtype.ext h1)) hgc
 
-theorem exists_mul_of_mem_sup (h : Cex16 M V₀ V U S) {y : G} (hy : y ∈ U ⊔ V₀) :
-    ∃ u ∈ U, ∃ w ∈ V₀, u * w = y :=
+omit [Finite G] in
+theorem exists_mul_of_mem_sup (h : Cex16 M V₀ V U S) {_y : G} (hy : _y ∈ U ⊔ V₀) :
+    ∃ u ∈ U, ∃ w ∈ V₀, u * w = _y :=
   CFSG.LocalAnalysis.WeakClosure81.exists_mul_of_mem_sup h.le h.hyp.h6.le
-    (fun x hx y hy => B2F.isElemAbelian_comm h.hyp.h6.elemAbelian hx hy) hy
+    (fun _x hx _y hy => B2F.isElemAbelian_comm h.hyp.h6.elemAbelian hx hy) hy
 
+omit [Finite G] in
 theorem V_le_S (h : Cex16 M V₀ V U S) : V ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hH := h.hyp
   have hVc : V ≤ centralizer (U : Set G) := fun v hv => by
     rw [Subgroup.mem_centralizer_iff]
@@ -152,10 +156,13 @@ theorem V_le_S (h : Cex16 M V₀ V U S) : V ≤ S := by
     exact inf_le_left.trans (hH.h6.normalizer_eq ▸ le_rfl)
   exact h.sylow.le_of_normal hVK hVnorm hH.isPGroup
 
+omit [Finite G] in
 theorem V₀_le_S (h : Cex16 M V₀ V U S) : V₀ ≤ S := h.hyp.h6.le.trans h.V_le_S
 
+omit [Finite G] in
 theorem S_le_M (h : Cex16 M V₀ V U S) : S ≤ M := h.sylow.le.trans inf_le_left
 
+omit [Finite G] in
 theorem S_le_centralizer (h : Cex16 M V₀ V U S) : S ≤ centralizer (U : Set G) :=
   h.sylow.le.trans inf_le_right
 

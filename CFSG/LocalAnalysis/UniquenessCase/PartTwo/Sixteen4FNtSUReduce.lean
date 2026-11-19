@@ -47,10 +47,10 @@ theorem s16nt_su_supp_reduce {K : Type} [Field K] [Finite K] [CharP K 2] (hK : N
     simpa [Function.mem_support] using h
   let w : Fin n → K := Pi.single i1 (a i1) + Pi.single i2 (a i2) +
     Pi.single i3 (ω ^ 2 * a i3) + Pi.single i4 (ω * a i4)
-  have hw1 : w i1 = a i1 := by simp [w, Pi.single_apply, h12.symm, h13.symm, h14.symm]
-  have hw2 : w i2 = a i2 := by simp [w, Pi.single_apply, h12, h23.symm, h24.symm]
-  have hw3 : w i3 = ω ^ 2 * a i3 := by simp [w, Pi.single_apply, h13, h23, h34.symm]
-  have hw4 : w i4 = ω * a i4 := by simp [w, Pi.single_apply, h14, h24, h34]
+  have hw1 : w i1 = a i1 := by simp [w, h12.symm, h13.symm, h14.symm]
+  have hw2 : w i2 = a i2 := by simp [w, h12, h23.symm, h24.symm]
+  have hw3 : w i3 = ω ^ 2 * a i3 := by simp [w, h13, h23, h34.symm]
+  have hw4 : w i4 = ω * a i4 := by simp [w, h14, h24, h34]
   have hsupp : Function.support w = I := by
     ext k
     simp only [Function.mem_support, hI_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
@@ -62,7 +62,7 @@ theorem s16nt_su_supp_reduce {K : Type} [Field K] [Finite K] [CharP K 2] (hK : N
     · rw [hk3]; simp [hw3, mul_ne_zero hω2_ne_zero ha_i3]
     by_cases hk4 : k = i4
     · rw [hk4]; simp [hw4, mul_ne_zero hω_ne_zero ha_i4]
-    · have hw0 : w k = 0 := by simp [w, Pi.single_apply, hk1, hk2, hk3, hk4]
+    · have hw0 : w k = 0 := by simp [w, hk1, hk2, hk3, hk4]
       simp [hw0, hk1, hk2, hk3, hk4]
   refine ⟨w, ?_, ?_, ?_, ?_⟩
   · rw [hsupp, hI_card]
@@ -135,7 +135,7 @@ theorem s16nt_su_supp_reduce {K : Type} [Field K] [Finite K] [CharP K 2] (hK : N
     rw [CharTwo.add_self_eq_zero, zero_add, hω_add]
   · have hsupp_aw : Function.support (a + w) = Function.support a \ {i1, i2} := by
       ext k
-      simp only [Function.mem_support, Set.mem_diff, Set.mem_insert_iff, Set.mem_singleton_iff]
+      simp only [Function.mem_support, Set.mem_sdiff, Set.mem_insert_iff, Set.mem_singleton_iff]
       by_cases hk1 : k = i1
       · rw [hk1]
         have haw1 : (a + w) i1 = 0 := by simp [Pi.add_apply, hw1, CharTwo.add_self_eq_zero]
@@ -166,7 +166,7 @@ theorem s16nt_su_supp_reduce {K : Type} [Field K] [Finite K] [CharP K 2] (hK : N
         have hk_supp : i4 ∈ Function.support a := hI_sub (by rw [hI_eq]; simp)
         have ha_i4' : a i4 ≠ 0 := by simpa [Function.mem_support] using hk_supp
         simp [mul_ne_zero hω2_ne_zero ha_i4', ha_i4', h14.symm, h24.symm]
-      · have hw0 : w k = 0 := by simp [w, Pi.single_apply, hk1, hk2, hk3, hk4]
+      · have hw0 : w k = 0 := by simp [w, hk1, hk2, hk3, hk4]
         have haw : (a + w) k = a k := by simp [Pi.add_apply, hw0, add_zero]
         rw [haw]
         simp [hk1, hk2]

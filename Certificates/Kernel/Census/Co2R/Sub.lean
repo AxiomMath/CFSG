@@ -112,7 +112,7 @@ theorem pinvOKQ_of_chunks {m S K : Nat} {r : RootR} (hh : invHead m r = true)
     have := List.all_eq_true.1 h4 x hx
     simp only [Nat.blt_eq] at this
     rw [← hK] at this
-    simp only [Nat.ble_eq, Bool.not_eq_true, decide_eq_true_eq]
+    simp only [Nat.ble_eq]
     omega
   rw [h0, hKe] at hw
   rw [hw]

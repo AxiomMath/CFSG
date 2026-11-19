@@ -18,7 +18,7 @@ open CFSG.Assembly CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.SeitzGen
 theorem ggTorusDetEltElt_adjoint_E6_two_seven
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) (r : ℕ) :
     NbrFrameDet.GGTorusDetEltElt 7 r (adjointGroup .E6 K) := by
-  haveI : CharP K 2 := charP_two_of_card (K := K) (m := 1) (by rw [pow_one]; exact hK)
+  have : CharP K 2 := charP_two_of_card (K := K) (m := 1) (by rw [pow_one]; exact hK)
   obtain ⟨s, m, hs, hm, hZ⟩ := exists_order_seven_frobenius_sl3 hK
   obtain ⟨ρ, hρ, hc, -⟩ := exists_sl3_frame_E6 (K := K)
   exact NbrFrameDet.ggTorusDetEltElt_of_sylowTorus_frame Nat.prime_seven
@@ -35,7 +35,7 @@ theorem ggDetAt_E6_two_seven
   intro Q hQ
   obtain ⟨K, _, _, hK, hQ⟩ := hQ
   have hK2 : Nat.card K = 2 := by simpa only [pow_one] using hK
-  haveI : CharP K 2 := charP_two_of_card (K := K) (m := 1) (by rw [pow_one]; exact hK2)
+  have : CharP K 2 := charP_two_of_card (K := K) (m := 1) (by rw [pow_one]; exact hK2)
   refine ⟨K, inferInstance, inferInstance, hK, hQ, 0, TypeA.ggTorusLift_zero ?_, ?_⟩
   · show 2 ∣ Nat.card (TableBExc.RecipeGroup .E6 K)
     rw [Nat.card_congr (TableBExc.recipeEquiv .E6 K).toEquiv]

@@ -43,14 +43,14 @@ private lemma injOn_of_inf_ker_eq_bot {G H : Type*} [Group G] [Group H] (f : G �
 theorem M22Normal.exists_mul_ne_mul (h : M22Normal N) : ∃ a b : N, a * b ≠ b * a := by
   by_contra hcomm
   push Not at hcomm
-  haveI hsimple : IsSimpleGroup N := h.isSimpleGroup
-  haveI : IsMulCommutative N := ⟨⟨hcomm⟩⟩
+  have hsimple : IsSimpleGroup N := h.isSimpleGroup
+  have : IsMulCommutative N := ⟨⟨hcomm⟩⟩
   have hprime : (Nat.card N).Prime := Group.is_simple_iff_prime_card.mp inferInstance
   rw [h.card_eq] at hprime
   exact absurd hprime (by norm_num)
 
 theorem M22Normal.center_eq_bot (h : M22Normal N) : center N = ⊥ := by
-  haveI : IsSimpleGroup N := h.isSimpleGroup
+  have : IsSimpleGroup N := h.isSimpleGroup
   exact (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup h.exists_mul_ne_mul).2
 
 theorem M22Normal.card_quotient_center (h : M22Normal N) :
@@ -60,13 +60,13 @@ theorem M22Normal.card_quotient_center (h : M22Normal N) :
     _ = 443520 := h.card_eq
 
 theorem M22Normal.isComponent (h : M22Normal N) : CFSG.IsComponent N := by
-  haveI : IsSimpleGroup N := h.isSimpleGroup
+  have : IsSimpleGroup N := h.isSimpleGroup
   exact ⟨(CFSG.LocalCores.isQuasisimple_of_isSimpleGroup h.exists_mul_ne_mul).1,
     h.normal.isSubnormal⟩
 
 theorem M22Normal.fusionZStar_eq_bot [Finite C] (h : M22Normal N) :
     CFSG.Open.fusionZStar N = ⊥ := by
-  haveI : IsSimpleGroup N := h.isSimpleGroup
+  have : IsSimpleGroup N := h.isSimpleGroup
   have hO : CFSG.Open.fusionOddCore N = ⊥ := by
     show CFSG.oddCore N = ⊥
     exact eq_bot_of_normal_odd_card _
@@ -91,9 +91,9 @@ theorem M22Normal.card_quotient_fusionZStar [Finite C] (h : M22Normal N) :
 
 private lemma inf_pPrimeCore_two_eq_bot [Finite C] (h : M22Normal N) :
     N ⊓ CFSG.pPrimeCore 2 C = ⊥ := by
-  haveI hNnormal : N.Normal := h.normal
-  haveI hNsimple : IsSimpleGroup N := h.isSimpleGroup
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hNnormal : N.Normal := h.normal
+  have hNsimple : IsSimpleGroup N := h.isSimpleGroup
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPodd : Odd (Nat.card (CFSG.pPrimeCore 2 C)) :=
     Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := C))
   have hModd : Odd (Nat.card ((N ⊓ CFSG.pPrimeCore 2 C).subgroupOf N)) := by
@@ -104,7 +104,7 @@ private lemma inf_pPrimeCore_two_eq_bot [Finite C] (h : M22Normal N) :
       exact Subgroup.card_dvd_of_le inf_le_right
     exact Odd.of_dvd_nat hPodd hdvd
   have hMbot : (N ⊓ CFSG.pPrimeCore 2 C).subgroupOf N = ⊥ := by
-    haveI : ((N ⊓ CFSG.pPrimeCore 2 C).subgroupOf N).Normal :=
+    have : ((N ⊓ CFSG.pPrimeCore 2 C).subgroupOf N).Normal :=
       (inferInstance : (N ⊓ CFSG.pPrimeCore 2 C).Normal).subgroupOf N
     exact eq_bot_of_normal_odd_card _ hModd (by rw [h.card_eq]; norm_num)
   rw [eq_bot_iff]
@@ -165,7 +165,7 @@ theorem m22Normal_subgroupOf {F : Type*} [Group F] {α : MulAut F} {K : Subgroup
     (hnorm : ∀ x : F, α x = x → ∀ k ∈ K, x * k * x⁻¹ ∈ K) :
     M22Normal (K.subgroupOf (fixedSubgroup α)) := by
   have hle : K ≤ fixedSubgroup α := fun k hk => hKα k hk
-  haveI : IsSimpleGroup K := hKs
+  have : IsSimpleGroup K := hKs
   refine ⟨?_, (Subgroup.subgroupOfEquivOfLe hle).isSimpleGroup, ?_⟩
   · refine Subgroup.Normal.mk fun k hk x => ?_
     rw [Subgroup.mem_subgroupOf] at hk ⊢

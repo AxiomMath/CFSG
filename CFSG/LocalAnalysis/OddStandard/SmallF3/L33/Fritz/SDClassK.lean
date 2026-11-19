@@ -20,7 +20,7 @@ private lemma isConj_not_inner {L : Type*} [Group L] {φ ψ : MulAut L}
   simp only [MulAut.mul_apply, MulAut.inv_apply_self] at h1
   calc φ u = c⁻¹ (c (φ u)) := by simp
     _ = c⁻¹ (a * c u * a⁻¹) := by rw [h1]
-    _ = c⁻¹ a * u * (c⁻¹ a)⁻¹ := by simp [map_mul, map_inv, MulAut.inv_apply_self]
+    _ = c⁻¹ a * u * (c⁻¹ a)⁻¹ := by simp [map_mul, map_inv]
 
 variable {X : Type} [Group X] [Finite X] {t : X} {L : Subgroup X} (ctx : SDCtx X t L)
 

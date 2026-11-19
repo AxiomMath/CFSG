@@ -31,9 +31,9 @@ theorem evPt_unpack (P0 P1 : Nat) :
         (Nat.beq k 0)
     rw [ih, unpack_rd, unpack_rd]
     by_cases hk : k = 0
-    · rw [if_pos hk, hk]
+    · rw [ite_eq_left hk, hk]
       rfl
-    · rw [if_neg hk, Bool.eq_false_iff.mpr fun h' => hk (Nat.eq_of_beq_eq_true h')]
+    · rw [ite_eq_right hk, Bool.eq_false_iff.mpr fun h' => hk (Nat.eq_of_beq_eq_true h')]
 
 theorem heE8OK_eq (A B : Array Nat) : heE8OK A B = heE8OKF (evPt A B) := rfl
 

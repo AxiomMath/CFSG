@@ -132,9 +132,9 @@ theorem ru_hv
     have key : ∀ (l : List (List ℕ)) (f : List ℕ → Array ℕ) (j : ℕ), j < l.length →
         (l.map f).toArray.getD j #[] = f (l.getD j []) := by
       intro l f j hj
-      simp [Array.getD, hj, List.getD_eq_getElem _ _ hj]
+      simp [Array.getD, hj]
     rw [ruVTabs]
-    exact key _ _ _ (by simpa [ruVWords] using i.2)
+    exact key _ _ _ (by simp [ruVWords])
   rw [h1, wordTabA_eq ruE2.toArray ruQuotL2.toArray ruE2_hel _ (hw i)]
   rfl
 

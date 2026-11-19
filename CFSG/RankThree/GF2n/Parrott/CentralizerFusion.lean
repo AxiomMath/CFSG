@@ -13,6 +13,7 @@ variable {G : Type} [Group G] [Finite G] {z : G}
 
 def CJ (z : G) (σ : G) : Subgroup G := Subgroup.centralizer ({σ} : Set G) ⊓ J z
 
+omit [Finite G] in
 theorem mem_CJ {σ : G} {x : G} : x ∈ CJ z σ ↔ x ∈ Subgroup.centralizer ({σ} : Set G) ∧ x ∈ J z :=
   Iff.rfl
 
@@ -20,7 +21,7 @@ theorem CJ_eq_of_conj_eq_of_card_eq {σ₁ σ₂ : G}
     (hcard : Nat.card (CJ z σ₁) = Nat.card (CJ z σ₂))
     (hfix : ∀ x ∈ CJ z σ₁, σ₂ * x * σ₂⁻¹ = x) :
     CJ z σ₁ = CJ z σ₂ := by
-  haveI : Finite ↥(CJ z σ₂) := Subtype.finite
+  have : Finite ↥(CJ z σ₂) := Subtype.finite
   apply Subgroup.eq_of_le_of_card_ge
   · intro x hx
     rw [mem_CJ] at hx ⊢

@@ -215,13 +215,13 @@ theorem closure_sGen : Subgroup.closure (sGen '' {l | l < 15}) = co1Sylow := by
   refine le_antisymm ((Subgroup.closure_le _).2 fun _ ⟨l, _, he⟩ => he ▸ sGen_mem l)
     (co1Sylow_le (fun i => ?_) fun j => ?_)
   · have hi := i.isLt
-    refine Subgroup.subset_closure ⟨i.val, by rw [Set.mem_setOf_eq]; omega, ?_⟩
-    rw [sGen, dif_pos hi]
+    refine Subgroup.subset_closure ⟨i.val, by rw [Set.mem_ofPred_eq]; omega, ?_⟩
+    rw [sGen, dite_eq_left hi]
   · have hj := j.isLt
     have h1 : ¬ 11 + j.val < 11 := by omega
     have h2 : 11 + j.val - 11 < 4 := by omega
     have e : (⟨11 + j.val - 11, h2⟩ : Fin 4) = j := Fin.ext (Nat.add_sub_cancel_left ..)
-    refine Subgroup.subset_closure ⟨11 + j.val, by rw [Set.mem_setOf_eq]; omega, ?_⟩
-    rw [sGen, dif_neg h1, dif_pos h2, e]
+    refine Subgroup.subset_closure ⟨11 + j.val, by rw [Set.mem_ofPred_eq]; omega, ?_⟩
+    rw [sGen, dite_eq_right h1, dite_eq_left h2, e]
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.F10.Co1K

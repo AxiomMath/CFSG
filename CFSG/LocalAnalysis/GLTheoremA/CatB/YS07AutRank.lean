@@ -121,7 +121,7 @@ theorem aut_psimple_le_27 {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
 theorem autRank96At_holds (G : Type) [Group G] [Finite G] : AutRank96At G := by
   intro X L B _ hL hcat hB hBN
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : IsSimpleGroup (PSimple 3 L) := (isQuasisimple_pQuot_of_glaPComponent hp hL).2
+  have : IsSimpleGroup (PSimple 3 L) := (isQuasisimple_pQuot_of_glaPComponent hp hL).2
   let φ : ↥B →* MulAut (PSimple 3 L) := (chevAut 3 L).comp (Subgroup.inclusion hBN)
   have hφ : ∀ b : ↥B, φ b = 1 ↔ (b : G) ∈ centModSubgroup 3 L := fun b =>
     (chevAut_eq_one_iff hp hL (hBN b.2)).trans centMod_iff

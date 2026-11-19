@@ -15,9 +15,11 @@ variable {K : Type*} [Field K] {ι : Type*} [DecidableEq ι]
   zero_mem' := fun _ _ => rfl
   smul_mem' := fun c v hv x hx => by simp [hv x hx]
 
+omit [DecidableEq ι] in
 theorem mem_Fil {lev : ι → ℤ} {k : ℤ} {v : ι →₀ K} : v ∈ Fil lev k ↔ ∀ b, lev b < k → v b = 0 :=
   Iff.rfl
 
+omit [DecidableEq ι] in
 theorem Fil_mono {lev : ι → ℤ} {k k' : ℤ} (h : k ≤ k') : Fil (K := K) lev k' ≤ Fil lev k :=
   fun _ hv b hb => hv b (lt_of_lt_of_le hb h)
 
@@ -27,11 +29,12 @@ theorem Fil_mono {lev : ι → ℤ} {k k' : ℤ} (h : k ≤ k') : Fil (K := K) l
 theorem single_mem_Fil (lev : ι → ℤ) (b : ι) : Finsupp.single b (1 : K) ∈ Fil lev (lev b) := by
   rw [mem_Fil]
   intro b' hb'
-  rw [Finsupp.single_apply, if_neg]
+  rw [Finsupp.single_apply, ite_eq_right]
   intro h
   subst h
   exact lt_irrefl _ hb'
 
+omit [DecidableEq ι] in
 theorem Raises.map_Fil {lev : ι → ℤ} {d : ℤ} {E : Module.End K (ι →₀ K)} (h : Raises lev d E)
     {k : ℤ} {v : ι →₀ K} (hv : v ∈ Fil lev k) : E v ∈ Fil lev (k + d) := by
   rw [mem_Fil]
@@ -41,7 +44,7 @@ theorem Raises.map_Fil {lev : ι → ℤ} {d : ℤ} {E : Module.End K (ι →₀
     rw [Finsupp.sum]
     refine Finset.sum_congr rfl fun b _ => ?_
     rw [Finsupp.smul_single_one]
-  rw [hsum, map_sum, Finsupp.finset_sum_apply]
+  rw [hsum, map_sum, _root_.Finsupp.finsetSum_apply]
   refine Finset.sum_eq_zero fun b hb => ?_
   rw [map_smul, Finsupp.smul_apply, smul_eq_mul]
   by_cases hE : E (Finsupp.single b 1) b' = 0
@@ -58,6 +61,7 @@ theorem Raises.single_mem_Fil {lev : ι → ℤ} {d : ℤ} {E : Module.End K (ι
     (h : Raises lev d E) (b : ι) : E (Finsupp.single b 1) ∈ Fil lev (lev b + d) :=
   h.map_Fil (XOps.single_mem_Fil lev b)
 
+omit [DecidableEq ι] in
 theorem xops_list_sum_mem {ρ : Type*} (lev : ι → ℤ) (k : ℤ) (g : ρ → ι →₀ K) (L : List ρ)
     (h : ∀ γ ∈ L, g γ ∈ Fil lev k) : (L.map g).sum ∈ Fil lev k := by
   induction L with
@@ -66,6 +70,7 @@ theorem xops_list_sum_mem {ρ : Type*} (lev : ι → ℤ) (k : ℤ) (g : ρ → 
     rw [List.map_cons, List.sum_cons]
     exact Submodule.add_mem _ (h a (by simp)) (ih fun γ hγ => h γ (by simp [hγ]))
 
+omit [DecidableEq ι] in
 theorem xops_list_sum_apply {ρ : Type*} (L : List ρ) (g : ρ → ι →₀ K) (x : ι) :
     (L.map g).sum x = (L.map fun γ => g γ x).sum := by
   induction L with
@@ -114,7 +119,7 @@ theorem prod_coord {ρ : Type*} (lev : ι → ℤ) {d : ℤ} (hd : 0 < d) (L : L
       (L.map fun γ => c γ * E γ (Finsupp.single b 1) b').sum := by
   have hexp := (mem_Fil.mp (prod_expansion lev hd L E c hL b)) b' (by omega)
   have hbb : Finsupp.single b (1 : K) b' = 0 := by
-    rw [Finsupp.single_apply, if_neg]
+    rw [Finsupp.single_apply, ite_eq_right]
     intro h
     subst h
     omega
@@ -128,7 +133,7 @@ theorem prod_coord_low {ρ : Type*} (lev : ι → ℤ) {d : ℤ} (hd : 0 < d) (L
     ((L.map fun γ => (1 : Module.End K (ι →₀ K)) + c γ • E γ).prod) (Finsupp.single b 1) b' = 0 := by
   have hexp := (mem_Fil.mp (prod_expansion lev hd L E c hL b)) b' (by omega)
   have hbb : Finsupp.single b (1 : K) b' = 0 := by
-    rw [Finsupp.single_apply, if_neg]
+    rw [Finsupp.single_apply, ite_eq_right]
     exact fun h => hne h.symm
   have ht : (L.map fun γ => c γ • E γ (Finsupp.single b 1)).sum ∈ Fil lev (lev b + d) :=
     xops_list_sum_mem lev _ _ L fun γ hγ => Submodule.smul_mem _ _ ((hL γ hγ).single_mem_Fil b)

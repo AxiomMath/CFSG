@@ -380,13 +380,13 @@ theorem ggSecFiveQTwoFieldTwoSelectedAt_PSU : GGSecFiveQTwoFieldTwoSelectedAt .P
   have hantidiag : ∀ a b : Fin r, (Unitary.antidiag r : Matrix (Fin r) (Fin r) (ftF 0)) a b =
       if b = Fin.rev a then 1 else 0 := fun a b => rfl
   have hv : Matrix.vecMul (fun i => ftσ 0 (v i)) (Unitary.antidiag n) ⬝ᵥ v = 0 := by
-    rw [hvdef, form_mulVec_single, hiso, hantidiag, if_neg hr0]
+    rw [hvdef, form_mulVec_single, hiso, hantidiag, ite_eq_right hr0]
   have hw : Matrix.vecMul (fun i => ftσ 0 (w i)) (Unitary.antidiag n) ⬝ᵥ w = 0 := by
-    rw [hwdef, form_mulVec_single, hiso, hantidiag, if_neg]
+    rw [hwdef, form_mulVec_single, hiso, hantidiag, ite_eq_right]
     intro h
     exact hr0 (by rw [Fin.rev_rev] at h; exact h.symm)
   have hvw : Matrix.vecMul (fun i => ftσ 0 (v i)) (Unitary.antidiag n) ⬝ᵥ w = 1 := by
-    rw [hvdef, hwdef, form_mulVec_single, hiso, hantidiag, if_pos rfl]
+    rw [hvdef, hwdef, form_mulVec_single, hiso, hantidiag, ite_eq_left rfl]
   obtain ⟨u₀, α, β, hα0, -, hu0, hu1⟩ :=
     Geo.exists_su_mulVec_single_eq_smul (card_ftF 0) hn0 v w hv hw hvw
   rw [hvdef] at hu0
@@ -412,7 +412,7 @@ theorem ggSecFiveQTwoFieldTwoSelectedAt_PSU : GGSecFiveQTwoFieldTwoSelectedAt .P
     rw [hiso_u, hu0, hu1, form_smul_smul, ← hvdef, ← hwdef, hvw, mul_one] at h
     rw [h]
     show (Unitary.antidiag n : Matrix (Fin n) (Fin n) (ftF 0)) ⟨0, _⟩ (Fin.rev ⟨0, _⟩) = 1
-    exact if_pos rfl
+    exact ite_eq_left rfl
   have hβ : β = α := by
     have hσ0 : ftσ 0 α ≠ 0 := (map_ne_zero (ftσ 0)).mpr hα0
     exact mul_left_cancel₀ hσ0 (hαβ.trans hα.symm)

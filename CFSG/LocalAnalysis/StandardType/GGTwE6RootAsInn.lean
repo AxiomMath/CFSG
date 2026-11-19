@@ -18,7 +18,7 @@ open CFSG.Assembly CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 theorem ringChar_eq_two_of_card_sq {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = (2 ^ n) ^ 2) : ringChar K = 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   refine FiniteField.even_card_iff_char_two.2 ?_
   rw [← Nat.card_eq_fintype_card, hK]
   exact Nat.even_iff.1 (Nat.even_pow.2 ⟨Nat.even_pow.2 ⟨even_two, by omega⟩, two_ne_zero⟩)
@@ -30,7 +30,7 @@ theorem exists_twLangData_three {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [F
     ∃ D : TwLangData K σ (2 ^ n) A, D.c = 1 ∧
       ∀ γ, D.v • permLattice TwistTag.E6.perm γ = -γ := by
   classical
-  haveI : CharP K 2 := ringChar.of_eq (ringChar_eq_two_of_card_sq hn hK)
+  have : CharP K 2 := ringChar.of_eq (ringChar_eq_two_of_card_sq hn hK)
   have hAΓ : A ≤ RecipeExcLang.twInndiagGroup K σ :=
     (TwE6FieldCore.le_twMatPre_map σ hAI).trans (Subgroup.map_subtype_le _)
   set S := (A.subgroupOf (RecipeExcLang.twInndiagGroup K σ)).map (RecipeExcLang.twConj K σ)
@@ -41,7 +41,7 @@ theorem exists_twLangData_three {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [F
   have hScard : Nat.card S = Nat.card A := by
     rw [hS, Subgroup.card_map_of_injective (NoOffTwE6Three.twConj_injective hn hK σ hσ)]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hAΓ).toEquiv
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hFr : ∀ c, iterateFrobenius (AlgebraicClosure K) 2 n c = c ^ 2 ^ n :=
     fun c => iterateFrobenius_def 2 n c
@@ -54,8 +54,8 @@ theorem ggTwE6RootAsInnThreeInput_of_core (hRK : RootKill) (hCore : TwE6CorootCo
     GGTwE6RootAsInnThreeInput := by
   intro K _ _ n hn hK h3
   obtain ⟨σ, hσ, ε, hε⟩ := TwE6Transport.exists_recipeConj hn hK
-  haveI := TwE6Delta.finite_recipeR hK
-  haveI : Finite (MulAut (TwE6Delta.RecipeR K n)) :=
+  have := TwE6Delta.finite_recipeR hK
+  have : Finite (MulAut (TwE6Delta.RecipeR K n)) :=
     Finite.of_injective (fun φ : MulAut (TwE6Delta.RecipeR K n) => (φ : _ → _))
       fun φ ψ h => MulEquiv.ext (congrFun h)
   refine ggEndNodeRootAsInn_of_self (TwE6Delta.center_recipeR_eq_bot hn hK)
@@ -90,7 +90,7 @@ theorem ggTwE6RootAsInnInput_of_core (hRK : RootKill) (hCore : TwE6CorootCore)
   intro A As hA hAAs _ hAsI hr
   have hAr : A ≤ (TwE6Transport.recipeConj σ ε).range := fun φ hφ =>
     (hε φ).2 (hAsI (hAAs.le hφ))
-  rw [if_neg hp3] at hr
+  rw [ite_eq_right hp3] at hr
   exact hDat K σ (2 ^ n) hK hσ p hp hp5 hpn _ (TwE6Transport.recipeMat_le σ ε A)
     (TwE6Transport.isElemAbelian_recipeMat σ ε hn hK hσ hA)
     (by

@@ -84,9 +84,9 @@ theorem ker_eq_bot_of_commuting_lifts {K : Type*} [Group K] [Finite K] (hK : Gro
     {x y : K} (hx : (q x : Perm (Fin n)) = swap a b * swap c d)
     (hy : (q y : Perm (Fin n)) = swap a c * swap b d) (hxy : x * y = y * x) : q.ker = ⊥ := by
   obtain ⟨m', rfl⟩ : ∃ m', n = m' + 2 := ⟨n - 2, by omega⟩
-  haveI : Group.IsPerfect K := hK
+  have : Group.IsPerfect K := hK
   let S := alternatingGroup (Fin (m' + 2))
-  haveI : Group.IsPerfect S := ⟨commutator_alternatingGroup_eq_top (by simp; omega)⟩
+  have : Group.IsPerfect S := ⟨commutator_alternatingGroup_eq_top (by simp; omega)⟩
   let xS : S :=
     ⟨swap a b * swap c d, CFSG.Alternating.Multipliers.swap_mul_swap_mem_alternatingGroup hab hcd⟩
   let yS : S :=

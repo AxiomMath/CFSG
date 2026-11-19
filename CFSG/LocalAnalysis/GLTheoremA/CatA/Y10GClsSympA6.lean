@@ -13,7 +13,7 @@ open CFSG.Assembly CFSG.Open CFSG.LocalAnalysis.ComponentInitial
 theorem zmod_two_ringEquiv {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     Nonempty (ZMod 2 ≃+* K) := by
   have := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_two_of_card_pow (m := 1) (by rw [hK]; norm_num)
+  have : CharP K 2 := charP_two_of_card_pow (m := 1) (by rw [hK]; norm_num)
   let f : ZMod 2 →+* K := ZMod.castHom (dvd_refl 2) K
   have hbij : Function.Bijective f := by
     rw [Fintype.bijective_iff_injective_and_card]

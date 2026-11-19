@@ -30,7 +30,7 @@ theorem typeLayer_entrywise_e6W (hD : LieSOutTypeW T tm tf tN) {d : ℕ} (hd : 1
     [Field K] [Finite K]
     (σ : K ≃+* K) (hcard : Nat.card (fixSubfield σ) = 2 ^ d) :
     TypeLayer T (entrywiseAdjointAut Tag.E6 σ) False := by
-  haveI : Finite ↥(fixSubfield σ) := Subtype.finite
+  have : Finite ↥(fixSubfield σ) := Subtype.finite
   have hM : ChevalleyExceptionalModel ↥(adjointGroup Tag.E6 ↥(fixSubfield σ)) .E6 2 d :=
     ⟨⟨Nat.prime_two, hd, rfl⟩, untwisted_adjointGroup hcard⟩
   obtain ⟨hnt, hsimp⟩ := CFSG.LieType.Simplicity.fam_e6_simplicity _ 2 d hM
@@ -45,8 +45,8 @@ theorem typeLayer_of_not_mem_e6InndiagW (hD : LieSOutTypeW T tm tf tN) {f : ℕ}
     {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ f) {x : MulAut (adjointGroup Tag.E6 K)} (hx3 : x ^ 3 = 1)
     (hxo : x ∉ e6Inndiag K) : TypeLayer T x False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
   obtain ⟨σ, hσo, hpf, δ, hδ⟩ := exists_conj_entrywise_of_not_mem_e6Inndiag Nat.prime_two hf K hK
     Nat.prime_three (by norm_num) hx3 hxo
   have hd : 1 ≤ f / 3 := Nat.div_pos (Nat.le_of_dvd (by omega) hpf) (by norm_num)
@@ -67,8 +67,8 @@ theorem typeLayer_fieldActor_twE6W (hD : LieSOutTypeW T tm tf tN) {d : ℕ} (hd 
     TypeLayer T (fieldActor (t := TwistTag.E6) σ η) False := by
   classical
   obtain ⟨hfin, hcyc, Tf, κ, ε, hT, hκ, hε, hε3⟩ := exists_twE6_frobenius_powers hd hK
-  haveI := hfin
-  haveI := hcyc
+  have := hfin
+  have := hcyc
   have hσ₀ : ∀ c, (fixSubfieldRestrict Tf κ c : K) = (c : K) ^ 2 ^ d := fun c => by
     rw [coe_fixSubfieldRestrict, hT]
   obtain ⟨-, hkcard, hJC, hδord, hderived, hsimple, hnc, -⟩ :=
@@ -89,7 +89,7 @@ theorem typeLayer_fieldActor_twE6W (hD : LieSOutTypeW T tm tf tN) {d : ℕ} (hd 
     rw [hfix, hΓ]
     exact hderived.symm
   have e1 : ↥(J.subgroupOf C) ≃* ↥J := Subgroup.subgroupOfEquivOfLe hJC
-  haveI : IsSimpleGroup ↥J := hsimple
+  have : IsSimpleGroup ↥J := hsimple
   have hs : IsSimpleGroup ↥(J.subgroupOf C) := e1.isSimpleGroup
   have hnab : ∃ a b : ↥(J.subgroupOf C), a * b ≠ b * a := by
     by_contra hcon
@@ -103,7 +103,7 @@ theorem typeLayer_fieldActor_twE6W (hD : LieSOutTypeW T tm tf tN) {d : ℕ} (hd 
   have hcardk : Nat.card k = (2 ^ d) ^ 2 := by rw [hkcard, ← pow_mul, mul_comm]
   have hσ₀' : ∀ c, σ₀ c = c ^ (2 ^ d) := fun c => Subtype.ext (by
     rw [hσ₀ c, SubmonoidClass.coe_pow])
-  haveI : Finite k := Subtype.finite
+  have : Finite k := Subtype.finite
   have eJ : ↥J ≃* twistedE6RootGroup k σ₀ :=
     (Subgroup.equivMapOfInjective (twistedE6RootGroup k σ₀) _
       (baseChangeGL_injective (τ := TwistTag.E6.tag) k.subtype)).symm

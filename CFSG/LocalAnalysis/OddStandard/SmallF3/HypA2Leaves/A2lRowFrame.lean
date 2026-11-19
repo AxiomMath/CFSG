@@ -64,13 +64,13 @@ variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [Finite
 theorem a2lDatum_projElementary_of_frame (hodd : Odd (Nat.card K)) (h9 : 9 ≤ Nat.card K)
     (F : Frame Q) {v : V} (hv0 : v ≠ 0) (hv : F.coords v = 0) :
     a2lDatum (ProjElementary Q) := by
-  haveI : Finite (V ≃ₗ[K] V) := a2l_finite_linearEquiv
+  have : Finite (V ≃ₗ[K] V) := a2l_finite_linearEquiv
   have h2 : (2 : K) ≠ 0 := IsFundamental.two_ne_zero_of_odd hodd
   have hfund : IsFundamental Q F.La.range (F.La (-1)) := IsFundamental.of_frame F
   have hLE : F.La.range ≤ elementaryGroup Q := hfund.le_elementaryGroup
   let t : elementaryGroup Q := ⟨F.La (-1), hLE hfund.mem⟩
   let J : Subgroup (elementaryGroup Q) := F.La.range.subgroupOf (elementaryGroup Q)
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨s, -, hs⟩ : ∃ s ⊆ (Finset.univ : Finset K), s.card = 4 :=
     Finset.exists_subset_card_eq (by
       rw [Finset.card_univ, ← Nat.card_eq_fintype_card]; omega)

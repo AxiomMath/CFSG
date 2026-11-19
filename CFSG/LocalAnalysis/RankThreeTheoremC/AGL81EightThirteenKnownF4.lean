@@ -102,7 +102,7 @@ theorem threePlaneGen_of_four [Finite G] {u v w z : G} (huv : Commute u v) (huw 
     (hgen : Subgroup.normalizer (Subgroup.closure ({u, v} : Set G) : Set G) ⊔
       Subgroup.normalizer (Subgroup.closure ({w, z} : Set G) : Set G) = ⊤) :
     ThreePlaneGen G := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set E := Subgroup.closure ({u, v, w, z} : Set G)
   have hpair : ({u, v, w, z} : Set G).Pairwise Commute := by
     intro x hx y hy _
@@ -161,11 +161,13 @@ private theorem hasBits_powPair
     (i j : ℕ) : HasBits K (x ^ i * y ^ j) (powPair X Y i j) :=
   (hasBits_pow hx i).mul (hasBits_pow hy j)
 
+omit [CharP K 2] in
 private theorem eq_of_eqP
     {g h : adjointGroup ReeTag.F4.tag K} {A B : ℕ} (hg : HasBits K g A) (hh : HasBits K h B)
     (e : eqP A B = true) : g = h :=
   (hg.eq_iff hh).2 (of_decide_eq_true e)
 
+omit [CharP K 2] in
 private theorem eqP_of_eq
     {g h : adjointGroup ReeTag.F4.tag K} {A B : ℕ} (hg : HasBits K g A) (hh : HasBits K h B)
     (e : g = h) : eqP A B = true :=

@@ -36,7 +36,7 @@ theorem isPGroup_pSpan_of_comm {p : ℕ} [Fact p.Prime] {S : Set (Subgroup G)}
     ⟨⟨x, le_pSpan hL hx⟩, hle L hL (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
   intro x
   obtain ⟨y, hy, hyx⟩ := htop x.2
-  obtain ⟨k, hk⟩ := S'.isPGroup' ⟨y, hy⟩
+  obtain ⟨k, hk⟩ := S'.isPGroup ⟨y, hy⟩
   refine ⟨k, Subtype.ext ?_⟩
   have e : (y : ↥T) = x := Subtype.ext hyx
   have := congrArg (fun w : ↥(S' : Subgroup ↥T) => ((w : ↥T) : G)) hk

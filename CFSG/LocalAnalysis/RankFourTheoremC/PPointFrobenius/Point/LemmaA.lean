@@ -102,7 +102,7 @@ private theorem commutator_eq_bot_of_pt [Fact p.Prime] (hG : FrobGlobal G)
       exact dvd_pow_self 2 (by omega)
     have h2O : 2 ∣ Nat.card O := h2E.trans (card_dvd_of_le (hED.trans hDO))
     exact (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr h2O)
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hDJ : D ≤ J := hDO.trans hOJ
   have hDM : D ≤ M := hDO.trans hOM
   have hJD : J ≤ normalizer (D : Set G) := (normal_subgroupOf_iff_le_normalizer hDJ).mp hDn

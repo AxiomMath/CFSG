@@ -69,7 +69,7 @@ open CFSG.KC.ListGroup (grp)
 
 @[expose] def wtRepK : List (ℤ × ℤ) := [(1, 0), (0, 1), (1, -1)]
 
-abbrev FrameK (c₁ d₁ c₂ d₂ c₃ d₃ : List ℤ) : Prop :=
+abbrev _root_.CFSG.StandardType.TableCRes.FrameK (c₁ d₁ c₂ d₂ c₃ d₃ : List ℤ) : Prop :=
   e6ip c₃ d₃ = -1 ∧
   (∀ g ∈ e6RootList, (g ∈ a2K c₁ d₁ ++ a2K c₂ d₂ ↔ (e6ip g c₃ = 0 ∧ e6ip g d₃ = 0))) ∧
   (∀ g ∈ e6RootList, g ∉ a2K c₁ d₁ ++ a2K c₂ d₂ → (e6ip g c₃, e6ip g d₃) ∈ tab12K) ∧
@@ -153,7 +153,7 @@ theorem bitB_eq (M k : ℕ) : bitB M k = M.testBit k := by
     rw [← Nat.and_two_pow, ← Nat.one_shiftLeft]
     rfl
   rw [bitB, e, Bool.eq_iff_iff, Nat.blt_eq]
-  cases M.testBit k <;> simp [Nat.two_pow_pos]
+  cases M.testBit k <;> simp
 
 theorem testBit_maskOf {k : ℕ} : ∀ {L : List ℕ}, (maskOf L).testBit k = decide (k ∈ L)
   | [] => by
@@ -162,7 +162,7 @@ theorem testBit_maskOf {k : ℕ} : ∀ {L : List ℕ}, (maskOf L).testBit k = de
   | a :: L => by
     have e : maskOf (a :: L) = (maskOf L ||| 1 <<< a) := rfl
     rw [e, Nat.testBit_or, testBit_maskOf, Nat.one_shiftLeft, Nat.testBit_two_pow]
-    simp [List.mem_cons, eq_comm, or_comm, Bool.or_comm]
+    simp [List.mem_cons, eq_comm, Bool.or_comm]
 
 theorem bitB_maskOf (L : List ℕ) (k : ℕ) : bitB (maskOf L) k = memL k L := by
   rw [bitB_eq, testBit_maskOf, memL_eq]
@@ -344,7 +344,6 @@ theorem a2_rt {i j : ℕ} (h : baseOK i j = true) :
 theorem len6 {x : List ℤ} (h : x.length = 6) : ∃ a b c d e f, x = [a, b, c, d, e, f] := by
   rcases x with _ | ⟨a, _ | ⟨b, _ | ⟨c, _ | ⟨d, _ | ⟨e, _ | ⟨f, _ | ⟨g, x⟩⟩⟩⟩⟩⟩⟩
   all_goals try simp at h
-  all_goals try omega
   exact ⟨a, b, c, d, e, f, rfl⟩
 
 theorem smulK_one (x : List ℤ) : smulK 1 x = x := by simp [smulK]
@@ -400,7 +399,7 @@ theorem chain_eq {d₀ d₁ d₂ d₃ d₄ : List ℤ} (h₀ : d₀.length = 6) 
   simp only [chainK, std30_eq, List.map_cons, List.map_nil, comb5K, smulK_one, smulK_neg_one,
     smulK_zero h₀, smulK_zero h₁, smulK_zero h₂, smulK_zero h₃, smulK_zero h₄, chainP,
     List.cons_append, List.nil_append]
-  simp only [z6_z6, addK_z6, z6_addK, addK_negK, len_addK', len_negK', len_z6, h₀, h₁, h₂, h₃,
+  simp only [z6_z6, addK_z6, z6_addK, addK_negK, len_addK', len_negK', h₀, h₁, h₂, h₃,
     h₄, min_self]
 
 @[expose] def chainPos (e₀ e₁ e₂ e₃ e₄ : ℕ) : List ℕ :=
@@ -489,12 +488,12 @@ theorem frG_sound {MX : ℕ} {X X₁ X₂ : List ℕ} {k a b : ℕ} (hM : ∀ k,
       (a * 8 + b ∈ codesW → (∃ m ∈ X₁, ipN k m ≠ 2) ∧ (∃ m ∈ X₂, ipN k m ≠ 2))) := by
   cases hm : memL k X with
   | true =>
-    rw [frG, hM, hm, cond_true] at h
+    rw [frG, hM, hm, _root_.Bool.cond_true] at h
     simp only [Bool.and_eq_true, Nat.beq_eq] at h
     have hk := memL_iff.1 hm
     exact ⟨⟨fun _ => h, fun _ => hk⟩, fun hn => absurd hk hn⟩
   | false =>
-    rw [frG, hM, hm, cond_false] at h
+    rw [frG, hM, hm, Bool.cond_false] at h
     simp only [Bool.and_eq_true, Bool.or_eq_true, Bool.not_eq_true', Nat.beq_eq, memL_eq,
       decide_eq_true_eq, decide_eq_false_iff_not, allL_iff, anyL_iff, Bool.not_and,
       nbeq_false] at h
@@ -704,7 +703,7 @@ theorem recI_sound {p₁ p₂ : ℕ × ℕ} {w : List ℕ} (hb₁ : baseOK p₁.
     (hb₂ : baseOK p₂.1 p₂.2 = true) (h : recI p₁ p₂ w = true) :
     ∃ c₃ ∈ compK (a2K (rt p₁.1) (rt p₁.2) ++ a2K (rt p₂.1) (rt p₂.2)),
       ∃ d₃ ∈ compK (a2K (rt p₁.1) (rt p₁.2) ++ a2K (rt p₂.1) (rt p₂.2)),
-      FrameK (rt p₁.1) (rt p₁.2) (rt p₂.1) (rt p₂.2) c₃ d₃ := by
+      CFSG.StandardType.TableCRes.FrameK (rt p₁.1) (rt p₁.2) (rt p₂.1) (rt p₂.2) c₃ d₃ := by
   obtain ⟨hA₁, hX₁⟩ := a2_rt hb₁
   obtain ⟨hA₂, hX₂⟩ := a2_rt hb₂
   unfold recI at h
@@ -712,7 +711,7 @@ theorem recI_sound {p₁ p₂ : ℕ × ℕ} {w : List ℕ} (hb₁ : baseOK p₁.
   · simp only [Bool.and_eq_true] at h
     obtain ⟨⟨⟨hf, ha⟩, hb⟩, he⟩ := h
     obtain ⟨hc, hd, hcc, hdc, h1, h2, h3, h4, h5⟩ := frameI_sound hX₁ hX₂ hf
-    unfold FrameK
+    unfold CFSG.StandardType.TableCRes.FrameK
     rw [hA₁, hA₂]
     refine ⟨_, hcc, _, hdc, h1, h2, h3, h4, h5, ?_⟩
     rw [wtRepK_eq]
@@ -737,7 +736,7 @@ theorem walkB_sound {α β : Type} (f : α → Bool) (g : α → β → Bool) :
   | [], _, _, a, ha, _ => absurd ha List.not_mem_nil
   | a :: as, ws, h, x, hx, hf => by
     cases hfa : f a
-    · simp only [walkB, hfa, cond_false] at h
+    · simp only [walkB, hfa, Bool.cond_false] at h
       rcases List.mem_cons.1 hx with rfl | hx
       · rw [hfa] at hf
         exact absurd hf (by decide)
@@ -745,7 +744,7 @@ theorem walkB_sound {α β : Type} (f : α → Bool) (g : α → β → Bool) :
     · cases ws with
       | nil => simp [walkB, hfa] at h
       | cons w ws' =>
-        simp only [walkB, hfa, cond_true, Bool.and_eq_true] at h
+        simp only [walkB, hfa, _root_.Bool.cond_true, Bool.and_eq_true] at h
         rcases List.mem_cons.1 hx with rfl | hx
         · exact ⟨w, h.1⟩
         · exact walkB_sound f g as ws' h.2 x hx hf
@@ -764,7 +763,7 @@ theorem frames_of (S B : List (ℕ × ℕ)) (W : List (List (List ℕ))) (h : sl
       (e6ip p₁.1 p₂.1 = 0 ∧ e6ip p₁.1 p₂.2 = 0 ∧ e6ip p₁.2 p₂.1 = 0 ∧ e6ip p₁.2 p₂.2 = 0) →
       ∃ c₃ ∈ compK (a2K p₁.1 p₁.2 ++ a2K p₂.1 p₂.2),
         ∃ d₃ ∈ compK (a2K p₁.1 p₁.2 ++ a2K p₂.1 p₂.2),
-        FrameK p₁.1 p₁.2 p₂.1 p₂.2 c₃ d₃ := by
+        CFSG.StandardType.TableCRes.FrameK p₁.1 p₁.2 p₂.1 p₂.2 c₃ d₃ := by
   intro p₁ hp₁ p₂ hp₂ ho
   obtain ⟨q₁, hq₁, rfl⟩ := List.mem_map.1 hp₁
   obtain ⟨q₂, hq₂, rfl⟩ := List.mem_map.1 hp₂

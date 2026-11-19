@@ -90,7 +90,7 @@ theorem card_centralizer_le_two_of_oddCore {C : Type*} [Group C] [Finite C] {D :
       exact u.2)
     rwa [card_map_of_injective K.subtype_injective] at h
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 K))
-  have hP2 : Nat.card (P : Subgroup K) ≤ 2 := hK2 P P.isPGroup'
+  have hP2 : Nat.card (P : Subgroup K) ≤ 2 := hK2 P P.isPGroup
   obtain ⟨N, -, hN2, hNidx, -, hNchar, -⟩ := CFSG.GroupTheory.burnside_normal_complement P
     (normalizer_le_centralizer_of_card_le_two hP2)
   obtain ⟨H, hH⟩ : ∃ H : Subgroup C, H = centralizer {a} := ⟨_, rfl⟩

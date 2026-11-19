@@ -21,9 +21,9 @@ theorem s168e3_z3_four_dichotomy [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
     (hcard : Nat.card W = 2 ^ 4) {A L : Subgroup (MulAut W)} {t : MulAut W} (hLA : L ≤ A)
     (hLn : ∀ g ∈ A, L.map (MulAut.conj g).toMonoidHom = L) (hL : IsElemAbelianOfRank 3 1 ↥L)
     (hWL : commSub ⊤ L = ⊤) (hind : IsIndivisible A)
-    (hO2 : ∀ P : Subgroup (MulAut W), P ≤ A → (P.subgroupOf A).Normal → IsPGroup 2 ↥P → P = ⊥)
-    (ht : t ∈ A) (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1)
-    (htr : rk ↥(commSub ⊤ (Subgroup.zpowers t)) ≤ 3) (hW' : Conc4_136W A t L) {q : ℕ}
+    (_hO2 : ∀ P : Subgroup (MulAut W), P ≤ A → (P.subgroupOf A).Normal → IsPGroup 2 ↥P → P = ⊥)
+    (ht : t ∈ A) (ht2 : t ^ 2 = 1) (_ht1 : t ≠ 1)
+    (_htr : rk ↥(commSub ⊤ (Subgroup.zpowers t)) ≤ 3) (hW' : Conc4_136W A t L) {q : ℕ}
     (hq : q.Prime) (hq2 : q ≠ 2) (hqm : 2 ≤ CFSG.Open.pRank q A) :
     S168e3Tool A q ∨ ∃ K : Subgroup (MulAut W), Conc4_136W A t K ∧ IsCyclicOrd ↥K 3 ∧
       rk ↥(commSub ⊤ K) = 2 ∧
@@ -83,7 +83,7 @@ theorem s168e3_z3_four_dichotomy [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
       hy₂E hy₂ hfpf hfix₂ hcom₂ hZ₁ hZ₂ hZtop hBcoord hKdef
     have hy₂3 : y₂ ^ 3 = 1 := hE3 y₂ hy₂E
     have hKc : IsCyclicOrd ↥K 3 := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have horder : orderOf y₂ = 3 := orderOf_eq_prime hy₂3 hy₂
       have hKcard : Nat.card ↥K = 3 := by rw [hKy, Nat.card_zpowers, horder]
       exact ⟨isCyclic_of_prime_card hKcard, hKcard⟩
@@ -92,7 +92,7 @@ theorem s168e3_z3_four_dichotomy [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
       rw [hKy]
       exact s168e3_cyc3_not_commute hW hEc hE3 hxE hy₂E hfpf hinv hcom₂ hZ₁
     have hrk : rk ↥Z₁ = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       unfold rk
       rw [hZ₁, show (4 : ℕ) = 2 ^ 2 by norm_num]
       exact padicValNat.prime_pow 2
@@ -114,12 +114,12 @@ section SevenSix
 variable {W : Type} [CommGroup W]
 
 theorem s168e3_z7_six_dichotomy [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
-    (hcard : Nat.card W = 2 ^ 6) {A L : Subgroup (MulAut W)} {t : MulAut W} (hLA : L ≤ A)
+    (hcard : Nat.card W = 2 ^ 6) {A L : Subgroup (MulAut W)} {t : MulAut W} (_hLA : L ≤ A)
     (hLn : ∀ g ∈ A, L.map (MulAut.conj g).toMonoidHom = L) (hL : IsElemAbelianOfRank 7 1 ↥L)
-    (hWL : commSub ⊤ L = ⊤) (hind : IsIndivisible A)
-    (hO2 : ∀ P : Subgroup (MulAut W), P ≤ A → (P.subgroupOf A).Normal → IsPGroup 2 ↥P → P = ⊥)
-    (ht : t ∈ A) (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1)
-    (htr : rk ↥(commSub ⊤ (Subgroup.zpowers t)) ≤ 3) (hW' : Conc4_136W A t L) {q : ℕ}
+    (hWL : commSub ⊤ L = ⊤) (_hind : IsIndivisible A)
+    (_hO2 : ∀ P : Subgroup (MulAut W), P ≤ A → (P.subgroupOf A).Normal → IsPGroup 2 ↥P → P = ⊥)
+    (ht : t ∈ A) (ht2 : t ^ 2 = 1) (_ht1 : t ≠ 1)
+    (_htr : rk ↥(commSub ⊤ (Subgroup.zpowers t)) ≤ 3) (hW' : Conc4_136W A t L) {q : ℕ}
     (hq : q.Prime) (hq2 : q ≠ 2) (hqm : 2 ≤ CFSG.Open.pRank q A) :
     S168e3Tool A q ∨ ∃ K : Subgroup (MulAut W), Conc4_136W A t K ∧ IsCyclicOrd ↥K 7 ∧
       rk ↥(commSub ⊤ K) = 3 ∧

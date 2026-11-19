@@ -38,7 +38,7 @@ theorem smallReeInvCentralizer_hasCompOrSolv (a : ℕ) (K : Type) [Field K] [Fin
   let e' : ↥(ψ.range.subgroupOf (smallReeInvCentralizer a K)) ≃*
       Matrix.ProjectiveSpecialLinearGroup (Fin 2) K :=
     (Subgroup.subgroupOfEquivOfLe hLC).trans e.symm
-  haveI : IsSimpleGroup ↥(ψ.range.subgroupOf (smallReeInvCentralizer a K)) :=
+  have : IsSimpleGroup ↥(ψ.range.subgroupOf (smallReeInvCentralizer a K)) :=
     e'.isSimpleGroup
   have hnc : ∃ x y : ↥(ψ.range.subgroupOf (smallReeInvCentralizer a K)), x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ :=

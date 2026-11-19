@@ -11,6 +11,7 @@ open Subgroup CFSG.OddStandard.SmallF3.HarrisU33
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho q : G}
 
+omit [Finite G] in
 private theorem fzc_sy3_pow_odd {f : G} (hf : f ^ 2 = 1) {k : ℕ} (hk : k % 2 = 1) :
     f ^ k = f := by
   obtain ⟨m, hm⟩ : ∃ m, k = 2 * m + 1 := by
@@ -90,7 +91,7 @@ theorem fzc_sy3_R_sq (h : Ctx0 t L S x₁ x₂ lam rho) (hq : FzCQFacts t S x₁
       rw [← hr2eq]; group
     have hrqk : r * q ^ k * r⁻¹ = g ^ k * q ^ k := by
       have h1 : r * q ^ k * r⁻¹ = (r * q * r⁻¹) ^ k := by
-        simpa [MulAut.conj_apply] using map_pow (MulAut.conj r) q k
+        simp
       rw [h1, hgq]
       exact (show Commute g q from hWcomm g hgW q hqW).mul_pow k
     have hexpand : r * (q ^ k * e) * r⁻¹ = g ^ k * q ^ k * (r * e * r⁻¹) := by
@@ -150,6 +151,7 @@ theorem fzc_sy3_R_comm (h : Ctx0 t L S x₁ x₂ lam rho) (hq : FzCQFacts t S x�
     ((baseGrp x₁ x₂ ⊔ zpowers t).mul_mem
       (fzc_sy3_R_sq h hq hK hq4 hqt (a * b) hab) hconj) hb2
 
+omit [Finite G] in
 theorem fzc_sy3_P_eq (hq : FzCQFacts t S x₁ x₂ lam rho) :
     fzP t x₁ x₂ rho = ⁅fzR t x₁ x₂, zpowers rho⁆ := by
   rw [fzP, hq.Q_eq]

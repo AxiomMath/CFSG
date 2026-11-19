@@ -44,7 +44,7 @@ public theorem secondCase_linear_aligned_setup
   have hAleH : A ≤ c.H := by
     rw [c.H_eq_centralizer]
     exact hSMcent
-  have hAp : IsPGroup 2 A := SM.isPGroup'.map w.M.subtype
+  have hAp : IsPGroup 2 A := SM.isPGroup.map w.M.subtype
   let AH : Subgroup c.H := A.subgroupOf c.H
   have hAHp : IsPGroup 2 AH := hAp.comap_subtype
   let SH : Sylow 2 c.H := c.S.subtype hSleH

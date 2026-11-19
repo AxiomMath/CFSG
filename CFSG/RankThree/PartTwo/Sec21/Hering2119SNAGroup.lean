@@ -61,7 +61,7 @@ theorem exists_pgroup_lift {N Γ : Type} [Group N] [Finite N] [Group Γ] (ρ : N
   have heT3 : eT ^ 3 = 1 := Subtype.ext (by simpa using he3)
   obtain ⟨Q, hQ⟩ := (isPGroup_zpowers_of_pow_three heT3).exists_le_sylow
   let S : Subgroup N := (Q : Subgroup T).map T.subtype
-  have hS3 : IsPGroup 3 S := Q.isPGroup'.map _
+  have hS3 : IsPGroup 3 S := Q.isPGroup.map _
   have heS : e ∈ S := ⟨eT, hQ (Subgroup.mem_zpowers eT), rfl⟩
   have hSX : ∀ s ∈ S, ρ s ∈ X := by
     rintro _ ⟨t, -, rfl⟩
@@ -87,8 +87,8 @@ theorem exists_pgroup_lift {N Γ : Type} [Group N] [Finite N] [Group Γ] (ρ : N
   have hTcard : Nat.card T = Nat.card ρ.ker * Nat.card X := by
     rw [← hker]
     exact (Subgroup.card_ker_mul_card_of_surjective hπsurj).symm
-  haveI : Finite ρ.range := Finite.of_surjective _ ρ.rangeRestrict_surjective
-  haveI : Finite X := Finite.of_injective (fun x : X => (⟨x, hXr x.2⟩ : ρ.range)) (by
+  have : Finite ρ.range := Finite.of_surjective _ ρ.rangeRestrict_surjective
+  have : Finite X := Finite.of_injective (fun x : X => (⟨x, hXr x.2⟩ : ρ.range)) (by
     intro a b h
     have := congrArg Subtype.val h
     exact Subtype.ext this)
@@ -123,7 +123,7 @@ theorem na_group {D M Y : Subgroup G} {e y d : G}
     (hkerM : ∀ x ∈ D, e * x * e⁻¹ * x⁻¹ = 1 → x ∈ M)
     (hMc : ∀ m ∈ M, e * m * e⁻¹ = m)
     (hcent : ∀ w ∈ Y, ∃ h ∈ M, w * e * w⁻¹ = e * h)
-    (hMY : ∀ w ∈ Y, ∀ m ∈ M, w * m * w⁻¹ ∈ M)
+    (_hMY : ∀ w ∈ Y, ∀ m ∈ M, w * m * w⁻¹ ∈ M)
     (htrans : ∀ v ∈ M, ∀ w ∈ M, v ≠ 1 → w ≠ 1 → ∃ m ∈ Y, m * v * m⁻¹ = w)
     (hq : ∃ q ∈ Y, q ^ 3 = 1 ∧ ∃ m ∈ M, q * m * q⁻¹ ≠ m)
     (hyN : y ∈ Subgroup.normalizer (D : Set G)) (hyK : y ∉ Subgroup.centralizer (D : Set G))
@@ -134,8 +134,8 @@ theorem na_group {D M Y : Subgroup G} {e y d : G}
         Nat.card X ≤ Nat.card (X ⊓ Subgroup.centralizer (D : Set G) : Subgroup G) * 81) :
     False := by
   classical
-  haveI : Fact (IsElem3 D) := ⟨hD⟩
-  haveI : Finite (Vec D) := inferInstanceAs (Finite (Additive D))
+  have : Fact (IsElem3 D) := ⟨hD⟩
+  have : Finite (Vec D) := inferInstanceAs (Finite (Additive D))
   set N : Subgroup G := Subgroup.normalizer (D : Set G) with hNdef
   let ρ : N →* (Vec D ≃ₗ[F3] Vec D) := conjLinHom D
   let eN : N := ⟨e, heN⟩

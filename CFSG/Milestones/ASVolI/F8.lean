@@ -89,7 +89,7 @@ private theorem f86_oTwoRes_mono {G : Type} [Group G] {A B : Subgroup G} (h : A 
 
 private theorem f86_oTwoRes_oTwoRes {G : Type} [Group G] (X : Subgroup G) :
     oTwoRes (oTwoRes X) = oTwoRes X :=
-  le_antisymm (oTwoRes_le _) ((Subgroup.closure_le _).mpr fun x hx =>
+  le_antisymm (oTwoRes_le _) ((Subgroup.closure_le _).mpr fun _x hx =>
     Subgroup.subset_closure ⟨Subgroup.subset_closure hx, hx.2⟩)
 
 private theorem f86_oTwoRes_sup_le {G : Type} [Group G] [Finite G] {N T : Subgroup G}

@@ -12,6 +12,7 @@ open CFSG.Monster.B.Geometry Module
 
 variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_mem_farSet_a3_121_iff (x : FlagK K 4) :
     x ∈ farSet 4 [0, 1, 3, 4] ↔
       x.E 1 ⊓ Vsub 4 3 = ⊥ ∧ x.E 3 ⊓ Vsub 4 1 = ⊥ := by
@@ -101,7 +102,7 @@ private theorem plh_mem_farSet_a3_121_iff (x : FlagK K 4) :
 theorem genSet_a3_121_eq :
     genSet K f 4 [0, 1, 3, 4] [] = admSet (Adm121 (K := K) f) := by
   ext x
-  simp only [genSet, Set.mem_setOf_eq, admSet, Adm121]
+  simp only [genSet, Set.mem_ofPred_eq, admSet, Adm121]
   have hfar_iff := plh_mem_farSet_a3_121_iff (K := K) x
   refine ⟨?_, ?_⟩
   · rintro ⟨hfar, hblock⟩

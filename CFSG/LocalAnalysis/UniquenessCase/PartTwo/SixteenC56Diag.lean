@@ -13,11 +13,11 @@ namespace OmegaEig
 
 variable {K : Type} [Field K]
 
-@[expose] abbrev quad (v : OmI → K) : K := StatedQuadPlus 2 K v
+abbrev quad (v : OmI → K) : K := StatedQuadPlus 2 K v
 
 theorem quad_eq (v : OmI → K) :
     quad v = v (Sum.inl 0) * v (Sum.inr 0) + v (Sum.inl 1) * v (Sum.inr 1) := by
-  simp [quad, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_two]
+  simp [quad, StatedQuadPlus, Fin.sum_univ_two]
 
 @[expose] def pol (v w : OmI → K) : K := quad (v + w) - quad v - quad w
 

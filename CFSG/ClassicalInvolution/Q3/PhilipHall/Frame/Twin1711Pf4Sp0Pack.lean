@@ -40,7 +40,7 @@ theorem compAux_lt (t u : ℕ) : ∀ n, compAux t u n < 64 ^ n
     simp only [compAux, pow_succ]
     omega
 
-theorem dg_add_mul {A d n i : ℕ} (hA : A < 64 ^ n) (hd : d < 64) (hi : i < n) :
+theorem dg_add_mul {A d n i : ℕ} (hA : A < 64 ^ n) (_hd : d < 64) (hi : i < n) :
     dg (A + d * 64 ^ n) i = dg A i := by
   obtain ⟨k, rfl⟩ : ∃ k, n = i + 1 + k := ⟨n - i - 1, by omega⟩
   unfold dg

@@ -18,6 +18,7 @@ section Component
 
 variable {A : Type} [Group A] [Finite A] {K O : Subgroup A}
 
+omit [Finite A] in
 theorem normal_inf_subgroupOf_self (hKO : K ≤ normalizer (O : Set A)) :
     ((K ⊓ O).subgroupOf K).Normal :=
   normal_inf_subgroupOf hKO
@@ -32,7 +33,7 @@ theorem pPrimeCore_eq (hKO : K ≤ normalizer (O : Set A)) (hO2 : IsPGroup 2 O)
     have h2 : IsPGroup 2 ↥((K ⊓ O).subgroupOf K) := by
       have h := hO2.to_le (inf_le_right : K ⊓ O ≤ O)
       exact IsPGroup.of_equiv h (Subgroup.subgroupOfEquivOfLe inf_le_left).symm
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp h2
     rw [hk]
     exact Nat.Coprime.pow_right k (by norm_num)
@@ -58,13 +59,14 @@ theorem pPrimeCore_eq (hKO : K ≤ normalizer (O : Set A)) (hO2 : IsPGroup 2 O)
       exact QuotientGroup.subsingleton_quotient_top
     exact Nat.card_unique
 
-theorem isSimpleGroup_of_ker (hKO : K ≤ normalizer (O : Set A)) (hlt : K ⊓ O < K)
+omit [Finite A] in
+theorem isSimpleGroup_of_ker (_hKO : K ≤ normalizer (O : Set A)) (hlt : K ⊓ O < K)
     (hmax : ∀ N : Subgroup A, N ≤ K → (N.subgroupOf K).Normal → K ⊓ O ≤ N →
       N = K ⊓ O ∨ N = K)
     {H : Type} [Group H] (ψ : ↥K →* H) (hψ : Function.Surjective ψ)
     (hker : ψ.ker = (K ⊓ O).subgroupOf K) : IsSimpleGroup H := by
   have hnt : Nontrivial H := by
-    obtain ⟨k, hkK, hkO⟩ := SetLike.exists_of_lt hlt
+    obtain ⟨k, hkK, hkO⟩ := _root_.IsConcreteLE.exists_of_lt hlt
     refine ⟨⟨ψ ⟨k, hkK⟩, 1, fun h1 => hkO ?_⟩⟩
     have h2 : (⟨k, hkK⟩ : ↥K) ∈ ψ.ker := h1
     rw [hker, mem_subgroupOf] at h2
@@ -91,6 +93,7 @@ theorem isSimpleGroup_of_ker (hKO : K ≤ normalizer (O : Set A)) (hlt : K ⊓ O
     have h1 : M.comap ψ = ⊤ := by rw [← hPs, h, subgroupOf_self]
     rw [← map_comap_eq_self_of_surjective hψ M, h1, map_top_of_surjective ψ hψ]
 
+omit [Finite A] in
 theorem inf_centralizer_eq {W : Subgroup A} (hKW : K ≤ normalizer (W : Set A))
     (hOW : O ≤ centralizer (W : Set A)) (hKC : ¬ K ≤ centralizer (W : Set A))
     (hmax : ∀ N : Subgroup A, N ≤ K → (N.subgroupOf K).Normal → K ⊓ O ≤ N →
@@ -102,12 +105,14 @@ theorem inf_centralizer_eq {W : Subgroup A} (hKW : K ≤ normalizer (W : Set A))
   · exact h
   · exact absurd (h.ge.trans inf_le_right) hKC
 
+omit [Finite A] in
 theorem convI_mul_self {W : Subgroup A} (hW : IsElemAbelian 2 W) {a : A}
     (haW : a ∈ normalizer (W : Set A)) (ha2 : a * a ∈ centralizer (W : Set A)) :
     convI hW ⟨a, haW⟩ * convI hW ⟨a, haW⟩ = 1 := by
   rw [← map_mul]
   exact (convI_eq_one_iff hW _).mpr ha2
 
+omit [Finite A] in
 theorem convI_conj_mem {W : Subgroup A} (hW : IsElemAbelian 2 W) {a : A}
     (haW : a ∈ normalizer (W : Set A)) (haK : a ∈ normalizer (K : Set A)) :
     ∀ n ∈ autI hW K, convI hW ⟨a, haW⟩ * n * (convI hW ⟨a, haW⟩)⁻¹ ∈ autI hW K := by
@@ -132,6 +137,7 @@ theorem nonempty_psl_equiv_S :
 
 variable {A : Type} [Group A] [Finite A] {K O : Subgroup A}
 
+omit [Finite A] in
 theorem card_kbar (e : Kbar K ≃* PSL(3, GaloisField 2 2)) : Nat.card (Kbar K) = 20160 := by
   obtain ⟨θ⟩ := nonempty_psl_equiv_S
   exact (CFSG.ComponentClassification.PSL3Four.facts_of_equiv_S.{0, 0} (e.trans θ)).1
@@ -189,7 +195,7 @@ theorem false_of_module {W : Subgroup A} (hO2 : IsPGroup 2 O) (hKO : K ≤ norma
       n * convI hW ⟨a, haW⟩ * m = m * (n * convI hW ⟨a, haW⟩)) → n * convI hW ⟨a, haW⟩ = 1) :
     False := by
   obtain ⟨hs, hc, hi⟩ := autI_facts hO2 hKO hlt hmax e hW hKW hOW hKC
-  haveI := hs
+  have := hs
   exact false_of_transvection (fun v => by rw [← pow_two]; exact IntMod.sq_eq_one v)
     (autI hW K) hc hi _ hτ (convI_mul_self hW haW ha2) (convI_conj_mem hW haW haK) hτc hout
 
@@ -205,7 +211,7 @@ theorem false_of_module_of_mem {W : Subgroup A} (hO2 : IsPGroup 2 O)
     (hτ : UniquenessMaximal.IsTransvection (convI hW ⟨a, haW⟩))
     (hτK : convI hW ⟨a, haW⟩ ∈ autI hW K) : False := by
   obtain ⟨hs, hc, hi⟩ := autI_facts hO2 hKO hlt hmax e hW hKW hOW hKC
-  haveI := hs
+  have := hs
   refine false_of_module hO2 hKO hlt hmax e hW hKW hOW hKC haW haK ha2 hτ ?_
     (hout_of_mem hc hi hτK)
   by_contra hall

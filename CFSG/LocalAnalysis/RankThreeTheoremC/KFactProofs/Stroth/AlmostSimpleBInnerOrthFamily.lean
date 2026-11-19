@@ -20,7 +20,7 @@ theorem OddPCoreInClosure.of_inf_of_conj_mem {G : Type*} [Group G] [Finite G] {p
   have heq : (U ⊓ N).subgroupOf U = N.subgroupOf U := by
     ext g
     simp [Subgroup.mem_subgroupOf]
-  haveI hNn : ((U ⊓ N).subgroupOf U).Normal := by
+  have hNn : ((U ⊓ N).subgroupOf U).Normal := by
     rw [heq]
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
@@ -58,7 +58,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V]
 theorem pClosureOdd_orthDerived (hQ : (polarBilin Q).Nondegenerate) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) : PClosureOdd p ↥(orthDerived Q) := by
   intro x hx1 hxp
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : Finite V := Module.finite_of_finite K
   have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)

@@ -96,7 +96,7 @@ theorem exists_coverIndex_of_conn_class
       exists_slCover_of_rankOne S hT i (hS1 rfl).1 (hS1 rfl).2.1 hQS hr hchar he hq
     rw [hs1, Nat.mul_one] at hKcard
     have he3 : e ≠ 3 := fun h => hq8 (by rw [hq, h]; norm_num)
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hperf : commutator SL(2, K) = ⊤ :=
       (slFactorFacts_holds K 2 le_rfl (fun _ => by rwa [← Nat.card_eq_fintype_card])).perfect
     have hmodel := statedClassicalModel_PSL_of_slCover hr he hKcard hK4 g hg hgk hperf
@@ -164,7 +164,7 @@ theorem twE6CoverShape_of_dim
         (QuasiHigh.CoverIndex 3 d.1 →
           ¬ ExcIndex 3 d.1 ∧ ¬ IsLThreeFour (J ⧸ Subgroup.center J)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨hp, f, hf, hqf⟩ := prime_ringChar_and_eq_pow_of_card_sq K q hKq hq2
   have hK' : Nat.card K = (ringChar K ^ f) ^ 2 := by rw [← hqf]; exact hKq
   have hσ' : ∀ c, σ c = c ^ (ringChar K ^ f) := by intro c; rw [← hqf]; exact hσ c
@@ -191,7 +191,7 @@ theorem twE6CoverShape_of_dim
     (twistedE6InndiagConj K σ h) hconj hT hap h1 hTame hJ
   have h3q' : 3 ∣ S.D.q + 1 := by rw [hDq, ← hqf]; exact h3q
   have hFr' : ∀ c, Fr c = c ^ S.D.q := fun c => by rw [hDq]; exact hFr c
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective (ringChar K)
   have hL2 : ringChar (AlgebraicClosure K) = 2 := by
     rw [ringChar.eq (AlgebraicClosure K) (ringChar K), hK2]
@@ -218,7 +218,7 @@ theorem exists_coverIndex_of_pominus {G : Type} [Group G] {n r e : ℕ}
   have hf : 0 < e := hadm.2.1
   rcases h with ⟨-, hmod⟩ | ⟨hn0, ht, -⟩ | ⟨hn0, ht, -⟩ | ⟨hn0, ht, -⟩
   · obtain ⟨-, K, _, _, hK, b, c, hirr, ⟨eG⟩⟩ := hmod
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hring : ringChar K = r :=
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ringChar_eq_of_natCard_eq_pow hp hK hf
     obtain ⟨q, hv, hqp, ⟨eq⟩⟩ := exists_twistedD_of_statedProj_minus (K := K) n hn4 hirr
@@ -263,7 +263,7 @@ theorem exists_coverIndex_of_inner_d4
     (h3 : ((3 : ℕ) : L) ≠ 0)
     {a : Fin Tag.E6.rank → Lˣ} (hT : rootDiagUnit .E6 a ∈ S.D.torus) (hap : ∀ i, a i ^ 3 = 1)
     (i : KernelComponent (rootCharHom a))
-    (hr : compRank (componentRoots (rootCharHom a) i) = 4)
+    (_hr : compRank (componentRoots (rootCharHom a) i) = 4)
     (hc : (componentRoots (rootCharHom a) i).ncard = 24)
     (hρ : ∀ γ ∈ componentRoots (rootCharHom a) i, S.ρ γ ∈ componentRoots (rootCharHom a) i)
     (hin : twistInner (componentRoots (rootCharHom a) i)
@@ -337,8 +337,8 @@ theorem exists_coverIndex_of_outer_d4
           ¬ ExcIndex 3 d.1 ∧
             ¬ IsLThreeFour (↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) ⧸
               Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i))) := by
-  haveI : Fact l.Prime := ⟨hl⟩
-  haveI : CharP L l := by
+  have : Fact l.Prime := ⟨hl⟩
+  have : CharP L l := by
     rw [CharP.charP_iff_prime_eq_zero hl]
     have h := S.hqpow.2
     rw [hq, Nat.cast_pow] at h

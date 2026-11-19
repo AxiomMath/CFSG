@@ -35,15 +35,15 @@ private theorem isPerfect_of_quotient {H : Type} [Group H] (N : Subgroup H) [N.N
 private theorem eq_top_of_perfect {H : Type} [Group H] [Finite H] [Group.IsPerfect H]
     (N : Subgroup H) [N.Normal] (hN : IsPGroup 2 (H ⧸ N)) : N = ⊤ := by
   by_contra hne
-  haveI : Nontrivial (H ⧸ N) := QuotientGroup.nontrivial_iff.mpr hne
+  have : Nontrivial (H ⧸ N) := QuotientGroup.nontrivial_iff.mpr hne
   have : Group.IsNilpotent (H ⧸ N) := hN.isNilpotent
   exact Group.IsPerfect.not_isNilpotent (H ⧸ N) this
 
 private theorem isQuasisimple_of_mulEquiv_alt5 {H : Type} [Group H]
     (e : H ≃* alternatingGroup (Fin 5)) : CFSG.IsQuasisimple H := by
-  haveI : Group.IsPerfect (alternatingGroup (Fin 5)) := isPerfect_alt5
-  haveI : IsSimpleGroup H := e.isSimpleGroup
-  haveI : Group.IsPerfect H :=
+  have : Group.IsPerfect (alternatingGroup (Fin 5)) := isPerfect_alt5
+  have : IsSimpleGroup H := e.isSimpleGroup
+  have : Group.IsPerfect H :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hc : Subgroup.center H = ⊥ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center H) with h | h
@@ -51,7 +51,7 @@ private theorem isQuasisimple_of_mulEquiv_alt5 {H : Type} [Group H]
     · exact absurd (Subgroup.center_eq_top_iff.mp h) (Group.IsPerfect.not_isMulCommutative H)
   have hsimp : IsSimpleGroup (H ⧸ Subgroup.center H) :=
     MulEquiv.isSimpleGroup ((QuotientGroup.quotientMulEquivOfEq hc).trans QuotientGroup.quotientBot)
-  haveI := hsimp
+  have := hsimp
   have hnc : ∃ a b : H ⧸ Subgroup.center H, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
@@ -62,10 +62,10 @@ private theorem isQuasisimple_of_mulEquiv_alt5 {H : Type} [Group H]
 theorem leafShort2OfA5 [DSLeaf LeafFaithfulA5] : LeafShort2OfA5 := by
   intro G _ _ L hq hc he hn
   obtain ⟨e⟩ := CFSG.Quasithin.S1421QA17.nonempty_mulEquiv_alt5_of_isL2Quot_two hq
-  haveI : Group.IsPerfect (alternatingGroup (Fin 5)) := isPerfect_alt5
-  haveI : Group.IsPerfect (oTwoQuot ↥L) :=
+  have : Group.IsPerfect (alternatingGroup (Fin 5)) := isPerfect_alt5
+  have : Group.IsPerfect (oTwoQuot ↥L) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
-  haveI : IsSimpleGroup (oTwoQuot ↥L) := e.isSimpleGroup
+  have : IsSimpleGroup (oTwoQuot ↥L) := e.isSimpleGroup
   have hc' : L ⊓ Subgroup.centralizer (blockQ L : Set G) ≤ blockQ L := hc
   have hLQn : L ≤ Subgroup.normalizer (blockQ L : Set G) :=
     CFSG.QuasithinUnique.C1.le_normalizer_blockQ L
@@ -165,7 +165,7 @@ theorem leafShort2OfA5 [DSLeaf LeafFaithfulA5] : LeafShort2OfA5 := by
     have hyk' : y = k := Subtype.ext hyk
     rw [← hyk']
     exact hy
-  haveI : Group.IsPerfect ↥L := isPerfect_of_quotient (pCore 2 ↥L) hK
+  have : Group.IsPerfect ↥L := isPerfect_of_quotient (pCore 2 ↥L) hK
   exact ⟨fun N _ hN => eq_top_of_perfect N hN, hc, ⟨h3a, h3b⟩,
     Or.inl (isQuasisimple_of_mulEquiv_alt5 e), ⟨hlt, h5b⟩⟩
 

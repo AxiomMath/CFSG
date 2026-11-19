@@ -106,7 +106,7 @@ theorem ggActsDiag_of_offDiag_eq_zero {φ : SpecialLinearGroup (Fin m) F →* X}
       by_cases hab : a = b
       · subst hab
         simp [hne a]
-      · rw [hs a b hab, if_neg hab, mul_zero]
+      · rw [hs a b hab, ite_eq_right hab, mul_zero]
     have hd : diagonal (fun i => ((Units.mk0 _ (hne i) : Fˣ) : F)) =
         (s : Matrix (Fin m) (Fin m) F) := by
       ext a b

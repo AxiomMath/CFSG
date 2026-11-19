@@ -15,8 +15,8 @@ noncomputable section
 theorem pow_five_eq_self_iff (a : K25) :
     a ^ 5 = a ↔ ∃ x : ZMod 5, algebraMap (ZMod 5) K25 x = a := by
   classical
-  haveI : Fintype K25 := Fintype.ofFinite K25
-  haveI : DecidableEq K25 := Classical.decEq K25
+  have : Fintype K25 := Fintype.ofFinite K25
+  have : DecidableEq K25 := Classical.decEq K25
   let g : ZMod 5 → K25 := algebraMap (ZMod 5) K25
   have hg_inj : Function.Injective g := (algebraMap (ZMod 5) K25).injective
   have hdeg : (X ^ 5 - X : K25[X]).natDegree = 5 := by
@@ -46,7 +46,7 @@ theorem pow_five_eq_self_iff (a : K25) :
       rw [Polynomial.IsRoot, eval_sub, eval_pow, eval_X, sub_eq_zero]
       have hx : x ^ 5 = x := by
         have := FiniteField.pow_card x
-        simpa using this
+        simp
       rw [← map_pow, hx]
     have himg_card : (Finset.univ.image g).card = 5 := by
       rw [Finset.card_image_of_injective _ hg_inj, Finset.card_univ]
@@ -64,7 +64,7 @@ theorem pow_five_eq_self_iff (a : K25) :
   · rintro ⟨x, rfl⟩
     have hx : x ^ 5 = x := by
       have := FiniteField.pow_card x
-      simpa using this
+      simp
     rw [← map_pow, hx]
 
 end

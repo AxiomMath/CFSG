@@ -123,8 +123,8 @@ theorem wordAp_cons (k m : Nat) (Nf : Nat → Nat) (c : Nat) (w : List Nat) (X :
   rw [Benes.strictN_eq]
   cases hb : Nat.blt c m
   · have : ¬ c < m := fun h => by rw [← Nat.blt_eq] at h; rw [h] at hb; exact absurd hb (by decide)
-    rw [if_neg this]
-  · rw [if_pos (Nat.blt_eq.mp hb)]
+    rw [ite_eq_right this]
+  · rw [ite_eq_left (Nat.blt_eq.mp hb)]
 
 theorem acts_wordAp {k m : Nat} {Nf : Nat → Nat} (hv : ∀ c < m, StagesValid k (Nf c)) :
     ∀ w : List Nat, Acts k k (wF k m Nf w) (wordAp k m Nf w)
@@ -140,26 +140,26 @@ theorem acts_wordAp {k m : Nat} {Nf : Nat → Nat} (hv : ∀ c < m, StagesValid 
       have := h1.comp ih
       refine ⟨fun r hr => ?_, fun X u hu r hr => ?_⟩
       · change (if c < m then _ else _) < _
-        rw [if_pos hc]
+        rw [ite_eq_left hc]
         exact this.1 r hr
-      · rw [wordAp_cons, if_pos hc]
+      · rw [wordAp_cons, ite_eq_left hc]
         change _ = X.testBit (2 ^ k * u + if c < m then _ else _)
-        rw [if_pos hc]
+        rw [ite_eq_left hc]
         exact this.2 X u hu r hr
     · refine ⟨fun r hr => ?_, fun X u hu r hr => ?_⟩
       · change (if c < m then _ else _) < _
-        rw [if_neg hc]
+        rw [ite_eq_right hc]
         exact ih.1 r hr
-      · rw [wordAp_cons, if_neg hc]
+      · rw [wordAp_cons, ite_eq_right hc]
         change _ = X.testBit (2 ^ k * u + if c < m then _ else _)
-        rw [if_neg hc]
+        rw [ite_eq_right hc]
         exact ih.2 X u hu r hr
 
 theorem wF_zero {k : Nat} {Nf : Nat → Nat} : ∀ (w : List Nat) (i : Nat), wF k 0 Nf w i = i
   | [], _ => rfl
   | c :: w, i => by
     change (if c < 0 then _ else wF k 0 Nf w i) = i
-    rw [if_neg (Nat.not_lt_zero c), wF_zero w i]
+    rw [ite_eq_right (Nat.not_lt_zero c), wF_zero w i]
 
 theorem eq_of_idP {k : Nat} {f g F G : Nat → Nat} (hF : Acts k k f F) (hG : Acts k k g G)
     (h : F (idP k) = G (idP k)) : ∀ r < 2 ^ k, f r = g r := by

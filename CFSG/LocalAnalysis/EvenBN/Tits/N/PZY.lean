@@ -33,8 +33,8 @@ theorem exists_fixed_coset {H : Type*} [Group H] {y u : H} {B : Subgroup H} [Fin
   have hσ : σ ^ 3 ^ 1 = 1 := Equiv.Perm.ext fun b => by
     rw [pow_one, Equiv.Perm.coe_pow]
     exact hf b
-  haveI := Fintype.ofFinite B
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := Fintype.ofFinite B
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Nat.card_eq_fintype_card] at hcard
   obtain ⟨a, ha⟩ := Equiv.Perm.exists_fixed_point_of_prime hcard hσ
   refine ⟨a, a.2, ?_⟩

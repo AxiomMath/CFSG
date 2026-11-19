@@ -28,8 +28,9 @@ theorem s16c4_r56_comm_mem (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAbel
       (g * a * g⁻¹) * ((g * v * g⁻¹) * (g * a * g⁻¹)⁻¹ * (g * v * g⁻¹)⁻¹) by group]
   exact V.mul_mem ha' hconj
 
+omit [Finite G] in
 theorem s16c4_r56_fixV_of_mem {V₀ V : Subgroup G} {hV : IsElemAbelian 2 V} {B : Subgroup G}
-    {g : G} (hBg : B ≤ conjSubgroup V g) (hBst : B ≤ stabTil V₀ V) {u : IntMod V hV}
+    {g : G} (hBg : B ≤ conjSubgroup V g) (_hBst : B ≤ stabTil V₀ V) {u : IntMod V hV}
     (hu : u.val ∈ conjSubgroup V g) : mkTil V₀ V hV u ∈ fixV (barSub V₀ V hV B) := by
   rw [mem_fixV]
   intro z hz
@@ -51,7 +52,7 @@ theorem s16c4_r56_hcom (D : Data G) (h22 : R1622 D) {V₀ V L : Subgroup G}
     (hr : ((mSub V₀ + 5 : ℕ) : ℕ∞) ≤ rMV D.M V) :
     ∀ x ∈ barSub V₀ V hV B, x ≠ 1 → ∀ w : Vtil V₀ V hV, x w = w →
       ∀ y ∈ barSub V₀ V hV B, y w * w⁻¹ ∈ fixV (barSub V₀ V hV B) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP := hS.setting.hyp16.hyp125.pairFacts
   have hMst : D.M ≤ stabTil V₀ V := le_stabTil hP.le_normalizer hP.le_normalizer₀
   have hBst : B ≤ stabTil V₀ V := hB.1.trans hMst

@@ -23,7 +23,7 @@ private theorem isCyclic_sylow_three_of_isCyclic_pCore (D : Data G)
     (h : IsCyclic ↥(CFSG.pCore 3 (Bar2 D.M))) :
     ∀ P : Sylow 3 ↥(oTwoThreeOf D.M), IsCyclic ↥P := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro P
   let Q : Subgroup G := (P : Subgroup ↥(oTwoThreeOf D.M)).map (oTwoThreeOf D.M).subtype
   have hQ0 : CFSG.ABGLocalTools.IsSylowOf 3 Q (oTwoThreeOf D.M) := ⟨P, rfl⟩
@@ -38,11 +38,11 @@ private theorem isCyclic_sylow_three_of_isCyclic_pCore (D : Data G)
   have hinj : Function.Injective f :=
     injective_barImage_mk'_of_disjoint_pCoreOf hQM hbar.2 f fun _ => rfl
   have hQcyc : IsCyclic ↥Q := by
-    letI : IsCyclic ↥(CFSG.pCore 3 (Bar2 D.M)) := h
+    let : IsCyclic ↥(CFSG.pCore 3 (Bar2 D.M)) := h
     exact isCyclic_of_injective f hinj
   let e := Subgroup.equivMapOfInjective (P : Subgroup ↥(oTwoThreeOf D.M))
     (oTwoThreeOf D.M).subtype (oTwoThreeOf D.M).subtype_injective
-  letI : IsCyclic ↥Q := hQcyc
+  let : IsCyclic ↥Q := hQcyc
   exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
 
 private theorem three_not_mem_sig_of (D : Data G) (Ch : Choice2011 G) (h52 : S23_5_2Omega D Ch)
@@ -85,10 +85,10 @@ private theorem three_not_mem_sig_of (D : Data G) (Ch : Choice2011 G) (h52 : S23
   exact h212 (normalizer_le_of_mem_uniqueSet D.maxLocal hAU)
 
 theorem s23_26Omega_of (D : Data G) (Ch : Choice2011 G) (h52 : S23_5_2Omega D Ch)
-    (h53 : S23_5_3 D Ch) (h54 : S23_5_4 D Ch) (h6 : S23_6 D Ch) (h71 : S23_7_1 D Ch)
+    (_h53 : S23_5_3 D Ch) (_h54 : S23_5_4 D Ch) (h6 : S23_6 D Ch) (_h71 : S23_7_1 D Ch)
     (hsp : ∀ p ∈ D.sig1, CFSG.RankThree.PartOne.IsStronglyPEmbedded p D.M)
-    (hsig : D.sig.Nonempty) (hn3 : H1930 D → ∀ c : Ctx21 D Ch, 3 ≤ c.n)
-    (hrk : ∀ r : ℕ, r.Prime → r ≠ 2 → r ∉ D.sig → CFSG.Open.pRank r D.M ≤ 3)
+    (_hsig : D.sig.Nonempty) (_hn3 : H1930 D → ∀ c : Ctx21 D Ch, 3 ≤ c.n)
+    (_hrk : ∀ r : ℕ, r.Prime → r ≠ 2 → r ∉ D.sig → CFSG.Open.pRank r D.M ≤ 3)
     (hcore : S23_26OmegaCore D Ch) :
     S23_26Omega D Ch := by
   classical

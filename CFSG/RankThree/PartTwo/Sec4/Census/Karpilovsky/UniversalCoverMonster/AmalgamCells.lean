@@ -15,7 +15,7 @@ theorem isPerfect_of_isSimpleGroup_card_not_prime {X : Type} [Group X] [Finite X
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator X) with h1 | h1
   · exfalso
     have hc : IsMulCommutative X := (commutator_eq_bot_iff X).mp h1
-    letI : CommGroup X := { ‹Group X› with mul_comm := fun a b => hc.is_comm.comm a b }
+    let : CommGroup X := { ‹Group X› with mul_comm := fun a b => hc.is_comm.comm a b }
     exact h IsSimpleGroup.prime_card
   · exact h1
 

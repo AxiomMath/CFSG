@@ -64,7 +64,7 @@ theorem triOdd_closure_fixUnion_eq_top_of_central_tau {ℓ f : ℕ} (hℓ : ℓ.
   have hσ2 : σ ^ 2 ≠ 1 := nf1_sq_ne_one σ hσ3 hσ1
   obtain ⟨-, hdec, ⟨Θ, hΘ, -, -, -⟩, hcyc, hcard3, -, hZ, -⟩ :=
     odd_triality_exact_automorphism_normal_form hℓ hℓ2 hf X hX σ hσ
-  haveI : Finite (X ≃+* X) := Nat.finite_of_card_ne_zero (by rw [hcard3]; omega)
+  have : Finite (X ≃+* X) := Nat.finite_of_card_ne_zero (by rw [hcard3]; omega)
   have hinj : Function.Injective (MulAut.conj : C0 σ →* MulAut (C0 σ)) := nf1_conj_injective hZ
   have hτ3 : tauAut σ ^ 3 = 1 := triOdd_tauAut_pow_three σ hσ3
   obtain ⟨nf, hnf, huniq⟩ : ∃ nf : MulAut (C0 σ) → C0 σ × (X ≃+* X),
@@ -176,6 +176,7 @@ theorem triOdd_closure_fixUnion_eq_top_of_central_tau {ℓ f : ℕ} (hℓ : ℓ.
   rw [eq_top_iff, ← hW]
   exact sup_le hxle hτle
 
+omit [Finite X] in
 theorem triOdd_map_congr_plane (φ : MulAut (C0 σ)) (E : Subgroup (MulAut (C0 σ)))
     (hE : CFSG.IsElementaryAbelian 3 E) (hcard : Nat.card E = 3 ^ 2)
     (hout : ¬ E ≤ innerAut (C0 σ)) :

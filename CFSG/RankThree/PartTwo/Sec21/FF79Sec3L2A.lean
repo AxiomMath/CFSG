@@ -29,6 +29,7 @@ theorem isSylowOf_top_of_nor {p : ℕ} [hp : Fact p.Prime] {P : Subgroup G} (hP 
   have h2 := Sylow.prime_dvd_card_quotient_normalizer h1 hn
   exact (Nat.Prime.coprime_iff_not_dvd hp.out).mp h h2
 
+omit [Finite G] in
 theorem cube_aux {c a s : G} (h : c * a * c⁻¹ = s * a) (hsc : s * c = c * s)
     (hsa : s * a = a * s) (hs3 : s ^ 3 = 1) (hc3 : c ^ 3 = 1) : (c * a) ^ 3 = a ^ 3 := by
   have h2 : c * (s * a) * c⁻¹ = s * (s * a) := by
@@ -74,6 +75,7 @@ theorem noncomm_check :
     ∃ q : Z3, linHom (2, 0) (0, 1) (linHom (0, 1) (1, 0) q) ≠
       linHom (0, 1) (1, 0) (linHom (2, 0) (0, 1) q) := ⟨(1, 0), by decide⟩
 
+omit [Finite G] in
 theorem comm_conj {g a : G} (h : g * a * g⁻¹ = a) : g⁻¹ * a * g = a := by
   calc g⁻¹ * a * g = g⁻¹ * (g * a * g⁻¹) * g := by rw [h]
     _ = a := by group
@@ -91,9 +93,9 @@ theorem cube_comm_J {c₁ c₂ : Z3} (h1 : x ^ 3 = ψ u v c₁) (h2 : y ^ 3 = ψ
     (by rw [pow_one]; exact K.toCtx.conj_b_of_J hrJ)
   rw [pow_one] at hmb
   have hf₁ : m * u * m⁻¹ = ψ u v (lin E₁ E₂ (1, 0)) := by
-    rw [hmR u K.toCtx.uR, ← hr, ψ_10]
+    rw [hmR u CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR, ← hr, ψ_10]
   have hf₂ : m * v * m⁻¹ = ψ u v (lin E₁ E₂ (0, 1)) := by
-    rw [hmR v K.toCtx.vR, ← hr, ψ_01]
+    rw [hmR v CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.vR, ← hr, ψ_01]
   have he : m⁻¹ * b * m = b ^ (1 : ZMod 3).val * ψ u v 0 := by
     rw [comm_conj hmb, ψ_zero, mul_one]; exact (pow_val_one b).symm
   have := K.cube_equivariant h1 h2 hmP hmB hf₁ hf₂ he q
@@ -109,7 +111,7 @@ theorem cube_scalar {c₁ c₂ : Z3} (h1 : x ^ 3 = ψ u v c₁) (h2 : y ^ 3 = ψ
 theorem cube_bpow {a : G} (ha : a ∈ Agrp x y u v) (k : ℕ) : (b ^ k * a) ^ 3 = a ^ 3 := by
   have haT := K.A_le_T ha
   set s := (θ b a)⁻¹ ^ k with hs
-  have hsR : s ∈ R u v := (R u v).pow_mem ((R u v).inv_mem (K.toCtx.θ_mem haT)) k
+  have hsR : s ∈ R u v := (R u v).pow_mem ((R u v).inv_mem (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem haT)) k
   refine cube_aux (s := s) ?_ ((Commute.pow_left (K.toCtx.comm_bR hsR) k).eq).symm ?_
     (K.toCtx.pow3_R hsR) ?_
   · have := K.toCtx.bpow_comm_T haT k
@@ -121,6 +123,7 @@ theorem cube_bpow {a : G} (ha : a ∈ Agrp x y u v) (k : ℕ) : (b ^ k * a) ^ 3 
   · exact (Subgroup.mem_centralizer_iff.mp haT.2.1 s hsR)
   · rw [← pow_mul, mul_comm, pow_mul, K.toCtx.b3, one_pow]
 
+omit [Finite G] in
 theorem inv_conj_sq {m : G} (hm : m * b * m⁻¹ = b ^ (2 : ZMod 3).val) :
     m⁻¹ * b * m = b ^ (2 : ZMod 3).val * ψ u v 0 := by
   rw [ψ_zero, mul_one, pow_val_two]
@@ -139,18 +142,18 @@ theorem inv_conj_sq {m : G} (hm : m * b * m⁻¹ = b ^ (2 : ZMod 3).val) :
 
 theorem cube_one_of_simple (hs : IsSimpleGroup G) (hna : ∃ g h : G, g * h ≠ h * g) {a : G}
     (ha : a ∈ Agrp x y u v) : a ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨c₁, c₂, h1, h2⟩ := K.exists_cubes
   obtain ⟨l, hl⟩ := K.cube_scalar h1 h2
   by_cases hl0 : l = 0
-  · obtain ⟨q, hq⟩ := exists_ψ K.toCtx.E (K.toCtx.θ_mem (K.A_le_T ha))
+  · obtain ⟨q, hq⟩ := exists_ψ K.toCtx.E (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem (K.A_le_T ha))
     rw [K.cube_eq h1 h2 ha hq, hl, hl0]
     have : (((0 : ZMod 3) * q.1, (0 : ZMod 3) * q.2) : Z3) = 0 := by ext <;> simp
     rw [this, ψ_zero]
   exfalso
   have hinj : ∀ a ∈ Agrp x y u v, a ^ 3 = 1 → a ∈ R u v := by
     intro a ha h3
-    obtain ⟨q, hq⟩ := exists_ψ K.toCtx.E (K.toCtx.θ_mem (K.A_le_T ha))
+    obtain ⟨q, hq⟩ := exists_ψ K.toCtx.E (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.θ_mem (K.A_le_T ha))
     rw [K.cube_eq h1 h2 ha hq, hl] at h3
     have hq0 := scalar_inj l hl0 q (ψ_eq_one K.toCtx.E h3)
     rw [hq0, ψ_zero] at hq
@@ -170,9 +173,9 @@ theorem cube_one_of_simple (hs : IsSimpleGroup G) (hna : ∃ g h : G, g * h ≠ 
     intro n hn p h
     obtain ⟨s, hs, hsb⟩ := K.toCtx.exists_T_fix hn h two_ne_zero_z3
     obtain ⟨m, hmP, hmB, hmb, -⟩ :=
-      K.toCtx.realize K.hP (Subgroup.mul_mem _ (K.toCtx.T_le_N hs) hn) hsb
-    obtain ⟨f₁, hf₁⟩ := exists_ψ K.toCtx.E (K.toCtx.nor0 hmB K.toCtx.uR)
-    obtain ⟨f₂, hf₂⟩ := exists_ψ K.toCtx.E (K.toCtx.nor0 hmB K.toCtx.vR)
+      K.toCtx.realize K.hP (Subgroup.mul_mem _ (CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.T_le_N hs) hn) hsb
+    obtain ⟨f₁, hf₁⟩ := exists_ψ K.toCtx.E (K.toCtx.nor0 hmB CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.uR)
+    obtain ⟨f₂, hf₂⟩ := exists_ψ K.toCtx.E (K.toCtx.nor0 hmB CFSG.RankThree.PartTwo.Sec21.FF79.S3.Ctx.vR)
     have heq := K.cube_equivariant h1 h2 hmP hmB hf₁ hf₂ (K.inv_conj_sq hmb) (1, 0)
     rw [lin_10, hl, hl, val_nsmul, lin_eq] at heq
     have hf0 : f₁ ≠ 0 := fun h0 => K.u_ne (by
@@ -215,7 +218,7 @@ theorem cube_one_of_simple (hs : IsSimpleGroup G) (hna : ∃ g h : G, g * h ≠ 
     rcases zmod3_cases k with rfl | rfl | rfl
     · exact absurd rfl hk
     · rw [pow_val_one, ← mul_assoc, inv_mul_cancel, one_mul]
-      exact K.R_le_A (ψ_mem K.toCtx.E p)
+      exact CFSG.RankThree.PartTwo.Sec21.FF79.S3.PCtx.R_le_A (ψ_mem K.toCtx.E p)
     · exact absurd (by rw [inv_inv]; exact hkp) (hnoinv g⁻¹ hgB p)
   have hne := CFSG.RankThree.PartTwo.Sec8.commutator_ne_top_of_extremal S habel
     (hSP ▸ K.hBP K.toCtx.bB) K.b_not_A K.toCtx.b3 hfus

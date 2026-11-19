@@ -86,7 +86,7 @@ private theorem orderOf_frobPow_right (hn4 : 4 ≤ r)
 
 private theorem frobPow_pow_eq_one (hn4 : 4 ≤ r)
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (hf : Nat.card K = 2 ^ n) {v F : ℕ}
-    (hnF : n = p ^ v * F) (hpF : ¬ p ∣ F) : frobPow hn4 hirr F ^ p ^ v = 1 := by
+    (hnF : n = p ^ v * F) (_hpF : ¬ p ∣ F) : frobPow hn4 hirr F ^ p ^ v = 1 := by
   obtain ⟨hnd, hT3⟩ := regular_coordinateQuadMinus r K b c hn4 hirr
   have hAP := coordinate_minus_point_action_properties r K b c hn4 hirr
   have hQne : ∃ v, Qm r hn4 b c v ≠ 0 :=
@@ -267,7 +267,7 @@ theorem ggCoverPTableB_omegaMinus_of_dvd_two_pow_add_one {K : Type} [Field K] [F
   have hpq : p ∣ Nat.card K + 1 := by
     rw [hK]
     exact hpn
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   obtain ⟨v, F, hpF, hnF⟩ :=
     Nat.exists_eq_pow_mul_and_not_dvd (by omega : n ≠ 0) p hp.ne_one
   let R := LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (r - 1) b c))
@@ -292,11 +292,11 @@ theorem ggCoverPTableB_omegaMinus_of_dvd_two_pow_add_one {K : Type} [Field K] [F
       GGTableBPosition p L' E (LargeEvenInnSet R) θ hE →
         p ^ 0 ≤ Nat.card (ggLAutImage L' θ E) := by
     intro M _ _ L' E θ hE hP
-    haveI : Finite (L' ⧸ Subgroup.center L') :=
+    have : Finite (L' ⧸ Subgroup.center L') :=
       Finite.of_surjective (QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
-    haveI : Finite R :=
+    have : Finite R :=
       Finite.of_equiv (L' ⧸ Subgroup.center L') θ.symm.toEquiv.symm
-    haveI : Nonempty (ggLAutImage L' θ E) := ⟨⟨1, one_mem _⟩⟩
+    have : Nonempty (ggLAutImage L' θ E) := ⟨⟨1, one_mem _⟩⟩
     rw [pow_zero]
     have hpos : 0 < Nat.card (ggLAutImage L' θ E) := Nat.card_pos
     omega

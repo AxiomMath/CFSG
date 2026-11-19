@@ -57,9 +57,9 @@ private theorem rho_of_two_le (m : ℕ) (hm : 3 ≤ m) {i : Fin (m + 1)} (hi : 2
   have h2 : (i.castSucc.castSucc : Fin (m + 1 + 1 + 1)).val ≤ m := by
     simp only [Fin.val_castSucc]; omega
   unfold rhoFun
-  rw [dif_neg h1, dif_pos h2]
+  rw [dite_eq_right h1, dite_eq_left h2]
   apply Fin.ext
-  simp only [Fin.val_mk, Fin.val_castSucc, Fin.val_succ]
+  simp only [Fin.val_castSucc, Fin.val_succ]
 
 private theorem rho_m1 (m : ℕ) (hm : 3 ≤ m) :
     rho m hm (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1)) = ⟨2, by omega⟩ := by
@@ -70,7 +70,7 @@ private theorem rho_m1 (m : ℕ) (hm : 3 ≤ m) :
     show ¬ (m + 1 ≤ m); omega
   have h3 : (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1)).val = m + 1 := rfl
   unfold rhoFun
-  rw [dif_neg h1, dif_neg h2, dif_pos h3]
+  rw [dite_eq_right h1, dite_eq_right h2, dite_eq_left h3]
 
 private theorem rho_m2 (m : ℕ) (hm : 3 ≤ m) :
     rho m hm (⟨m + 2, by omega⟩ : Fin (m + 1 + 1 + 1)) = ⟨3, by omega⟩ := by
@@ -82,7 +82,7 @@ private theorem rho_m2 (m : ℕ) (hm : 3 ≤ m) :
   have h3 : ¬ (⟨m + 2, by omega⟩ : Fin (m + 1 + 1 + 1)).val = m + 1 := by
     show ¬ (m + 2 = m + 1); omega
   unfold rhoFun
-  rw [dif_neg h1, dif_neg h2, dif_neg h3]
+  rw [dite_eq_right h1, dite_eq_right h2, dite_eq_right h3]
 
 private theorem rho_two (m : ℕ) (hm : 3 ≤ m) :
     rho m hm (2 : Fin (m + 1 + 1 + 1)) = 4 := by
@@ -94,9 +94,9 @@ private theorem rho_two (m : ℕ) (hm : 3 ≤ m) :
     rw [Fin.coe_ofNat_eq_mod, Nat.mod_eq_of_lt (show (2:ℕ) < m + 1 + 1 + 1 by omega)]
     omega
   unfold rhoFun
-  rw [dif_neg h1, dif_pos h2]
+  rw [dite_eq_right h1, dite_eq_left h2]
   apply Fin.ext
-  simp only [Fin.val_mk, Fin.coe_ofNat_eq_mod,
+  simp only [Fin.coe_ofNat_eq_mod,
     Nat.mod_eq_of_lt (show (2:ℕ) < m + 1 + 1 + 1 by omega),
     Nat.mod_eq_of_lt (show (4:ℕ) < m + 1 + 1 + 1 by omega)]
 
@@ -175,17 +175,17 @@ theorem map_conj_slOn012 {m : ℕ} (hm : 3 ≤ m) {a : SpecialLinearGroup (Fin (
     ext j
     constructor
     · rintro ⟨i, hi, rfl⟩
-      simp only [Set.mem_setOf_eq] at hi
+      simp only [Set.mem_ofPred_eq] at hi
       refine ⟨hi, ?_⟩
       simp only [Fin.val_castSucc]
       have := i.isLt
       omega
     · intro hj
-      simp only [Set.mem_setOf_eq] at hj
+      simp only [Set.mem_ofPred_eq] at hj
       refine ⟨⟨j.val, by omega⟩, ?_, ?_⟩
       · exact hj.1
       · apply Fin.ext
-        simp only [Fin.val_castSucc, Fin.val_mk]
+        simp only [Fin.val_castSucc]
   have hS : ∀ s ∈ slOn (m + 1 + 1 + 1) {j : Fin (m + 1 + 1 + 1) | 2 ≤ j.val ∧ j.val ≤ m},
       d * s = s * d := by
     have hmap : slOn (m + 1 + 1 + 1) {j : Fin (m + 1 + 1 + 1) | 2 ≤ j.val ∧ j.val ≤ m} =
@@ -206,14 +206,14 @@ theorem map_conj_slOn012 {m : ℕ} (hm : 3 ≤ m) {a : SpecialLinearGroup (Fin (
     have hc0 : rho m hm ((⟨0, by omega⟩ : Fin (m + 1 + 1)).castSucc) =
         (⟨0, by omega⟩ : Fin (m + 1 + 1)).castSucc := by
       rw [show (⟨0, by omega⟩ : Fin (m + 1 + 1)).castSucc = (0 : Fin (m + 1 + 1 + 1)) by
-        apply Fin.ext; simp only [Fin.val_castSucc, Fin.val_mk, Fin.val_zero]]
+        apply Fin.ext; simp only [Fin.val_castSucc, Fin.val_zero]]
       exact rho_zero m hm
     have hs0 : rho m hm ((⟨0, by omega⟩ : Fin (m + 1 + 1)).succ) =
         (⟨0, by omega⟩ : Fin (m + 1 + 1)).succ := by
       rw [show (⟨0, by omega⟩ : Fin (m + 1 + 1)).succ = (1 : Fin (m + 1 + 1 + 1)) by
         apply Fin.ext
-        simp only [Fin.val_succ, Fin.val_mk, Fin.val_zero, Fin.coe_ofNat_eq_mod,
-          Nat.mod_eq_of_lt (show (1:ℕ) < m + 1 + 1 + 1 by omega), Nat.zero_mod]]
+        simp only [Fin.val_succ, Fin.coe_ofNat_eq_mod,
+          Nat.mod_eq_of_lt (show (1:ℕ) < m + 1 + 1 + 1 by omega)]]
       exact rho_one m hm
     rw [show P = slPerm gf2_two (rho m hm) from rfl,
       slPerm_conj_omegaBlock (rho m hm) hc0 hs0]
@@ -249,18 +249,18 @@ theorem map_conj_slOn012 {m : ℕ} (hm : 3 ≤ m) {a : SpecialLinearGroup (Fin (
         (⟨2, by omega⟩ : Fin (m + 1 + 1)).castSucc := by
       rw [show (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).castSucc =
           (⟨m + 1, by omega⟩ : Fin (m + 1 + 1 + 1)) by
-        apply Fin.ext; simp only [Fin.val_castSucc, Fin.val_mk]]
+        apply Fin.ext; simp only [Fin.val_castSucc]]
       rw [rho_m1 m hm]
       apply Fin.ext
-      simp only [Fin.val_castSucc, Fin.val_mk]
+      simp only [Fin.val_castSucc]
     have hs : rho m hm ((⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).succ) =
         (⟨2, by omega⟩ : Fin (m + 1 + 1)).succ := by
       rw [show (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).succ =
           (⟨m + 2, by omega⟩ : Fin (m + 1 + 1 + 1)) by
-        apply Fin.ext; simp only [Fin.val_succ, Fin.val_mk]]
+        apply Fin.ext; simp only [Fin.val_succ]]
       rw [rho_m2 m hm]
       apply Fin.ext
-      simp only [Fin.val_succ, Fin.val_mk]
+      simp only [Fin.val_succ]
     rw [show P = slPerm gf2_two (rho m hm) from rfl,
       slPerm_conj_omegaBlock (rho m hm) hc hs]
   have hkcomm : d * omegaBlock (m + 1 + 1) ⟨m + 1, by omega⟩ =
@@ -284,13 +284,13 @@ theorem map_conj_slOn012 {m : ℕ} (hm : 3 ≤ m) {a : SpecialLinearGroup (Fin (
         simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
         left
         apply Fin.ext
-        simp only [Fin.val_castSucc, Fin.val_mk, Fin.val_zero])
+        simp only [Fin.val_castSucc, Fin.val_zero])
       (by
         simp only [Set.mem_insert_iff, Set.mem_singleton_iff]
         right; left
         apply Fin.ext
-        simp only [Fin.val_succ, Fin.val_mk, Fin.val_zero, Fin.coe_ofNat_eq_mod,
-          Nat.mod_eq_of_lt (show (1:ℕ) < m + 1 + 1 + 1 by omega), Nat.zero_mod])
+        simp only [Fin.val_succ, Fin.coe_ofNat_eq_mod,
+          Nat.mod_eq_of_lt (show (1:ℕ) < m + 1 + 1 + 1 by omega)])
   have hkN : omegaBlock (m + 1 + 1) ⟨m + 1, by omega⟩ ∈
       Subgroup.normalizer (slOn (m + 1 + 1 + 1) ({0, 1, 2} : Set (Fin (m + 1 + 1 + 1)))) := by
     have hkc : (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).castSucc ∉

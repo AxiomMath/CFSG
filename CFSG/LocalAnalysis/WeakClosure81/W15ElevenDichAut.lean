@@ -17,6 +17,7 @@ variable {p : ℕ} [Fact p.Prime] [hN : CFSG.IsExtraspecial p N]
 
 include hN
 
+omit [Fact p.Prime] hN in
 private theorem b15_W15ElevenDichAut_map_center_mem (σ : MulAut N)
     (hσσ : ∀ x, σ (σ x) = x) {z : N} (hz : z ∈ Subgroup.center N) :
     σ z ∈ Subgroup.center N := by
@@ -32,7 +33,7 @@ private theorem b15_W15ElevenDichAut_map_center_mem (σ : MulAut N)
 theorem mulAut_fix_or_inv_center (σ : MulAut N) (hσσ : ∀ x, σ (σ x) = x) :
     (∀ z ∈ Subgroup.center N, σ z = z) ∨ (∀ z ∈ Subgroup.center N, σ z = z⁻¹) := by
   have hZcard : Nat.card (Subgroup.center N) = p := CFSG.IsExtraspecial.center_order_p p N
-  haveI hZfin : Finite ↥(Subgroup.center N) :=
+  have hZfin : Finite ↥(Subgroup.center N) :=
     Nat.finite_of_card_ne_zero (by rw [hZcard]; exact (Fact.out : p.Prime).ne_zero)
   have hZnt : Nontrivial ↥(Subgroup.center N) := by
     rw [← Finite.one_lt_card_iff_nontrivial]
@@ -56,7 +57,7 @@ theorem mulAut_fix_or_inv_center (σ : MulAut N) (hσσ : ∀ x, σ (σ x) = x) 
     apply Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.2 hz₀mem)
     rw [Nat.card_zpowers, hzord, hZcard]
   have hσz₀mem : σ z₀ ∈ Subgroup.center N :=
-    b15_W15ElevenDichAut_map_center_mem (p := p) σ hσσ hz₀mem
+    b15_W15ElevenDichAut_map_center_mem σ hσσ hz₀mem
   obtain ⟨m, hm⟩ := Subgroup.mem_zpowers_iff.1 (by rw [hzp]; exact hσz₀mem)
   have hsq : m * m ≡ 1 [ZMOD p] := by
     have h1 : z₀ ^ (m * m) = z₀ ^ (1 : ℤ) := by
@@ -229,7 +230,7 @@ private theorem b15_W15ElevenDichAut_finite_mulAut [Finite N] : Finite (MulAut N
 
 private theorem b15_W15ElevenDichAut_isCyclic_mulAut [Finite N] (hcard : Nat.card N = p) :
     IsCyclic (MulAut N) := by
-  haveI : IsCyclic N := isCyclic_of_prime_card hcard
+  have : IsCyclic N := isCyclic_of_prime_card hcard
   have h2 : IsCyclic (ZMod (Nat.card N))ˣ := by
     rw [hcard]
     exact ZMod.isCyclic_units_prime (Fact.out : p.Prime)
@@ -238,9 +239,9 @@ private theorem b15_W15ElevenDichAut_isCyclic_mulAut [Finite N] (hcard : Nat.car
 theorem index_ker_le_two_of_card_prime [Finite N] (hcard : Nat.card N = p)
     {A : Type*} [Group A] (ρ : A →* MulAut N) (hsq : ∀ a : A, a * a = 1) : ρ.ker.index ≤ 2 := by
   classical
-  haveI : IsCyclic (MulAut N) := b15_W15ElevenDichAut_isCyclic_mulAut hcard
-  haveI : Finite (MulAut N) := b15_W15ElevenDichAut_finite_mulAut
-  haveI : Fintype (MulAut N) := Fintype.ofFinite _
+  have : IsCyclic (MulAut N) := b15_W15ElevenDichAut_isCyclic_mulAut hcard
+  have : Finite (MulAut N) := b15_W15ElevenDichAut_finite_mulAut
+  have : Fintype (MulAut N) := Fintype.ofFinite _
   have hcard_range : Nat.card ρ.range ≤ 2 := by
     let f : ρ.range → {x : MulAut N // x ^ 2 = 1} := fun g =>
       ⟨(g : MulAut N), by
@@ -262,9 +263,9 @@ theorem index_ker_le_two_of_card_prime [Finite N] (hcard : Nat.card N = p)
 theorem mulAut_eq_of_card_prime [Finite N] (hcard : Nat.card N = p) (σ τ : MulAut N)
     (hσσ : σ * σ = 1) (hττ : τ * τ = 1) (hσ : σ ≠ 1) (hτ : τ ≠ 1) : σ = τ := by
   classical
-  haveI : IsCyclic (MulAut N) := b15_W15ElevenDichAut_isCyclic_mulAut hcard
-  haveI : Finite (MulAut N) := b15_W15ElevenDichAut_finite_mulAut
-  haveI : Fintype (MulAut N) := Fintype.ofFinite _
+  have : IsCyclic (MulAut N) := b15_W15ElevenDichAut_isCyclic_mulAut hcard
+  have : Finite (MulAut N) := b15_W15ElevenDichAut_finite_mulAut
+  have : Fintype (MulAut N) := Fintype.ofFinite _
   by_contra hne
   have hsub : ({1, σ, τ} : Finset (MulAut N)) ⊆
       Finset.univ.filter (fun g : MulAut N => g ^ 2 = 1) := by
@@ -294,8 +295,8 @@ end Prime
 
 theorem mulAut_sq_eq_one_of_card_three [Finite N] (hcard : Nat.card N = 3) (σ : MulAut N) :
     σ * σ = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic N := isCyclic_of_prime_card (p := 3) hcard
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic N := isCyclic_of_prime_card (p := 3) hcard
   have hcardAut : Nat.card (MulAut N) = 2 := by
     rw [IsCyclic.card_mulAut N, hcard, Nat.totient_prime Nat.prime_three]
   have h := pow_card_eq_one' (x := σ)
@@ -303,7 +304,7 @@ theorem mulAut_sq_eq_one_of_card_three [Finite N] (hcard : Nat.card N = 3) (σ :
 
 theorem mulAut_eq_of_card_three [Finite N] (hcard : Nat.card N = 3) (σ τ : MulAut N)
     (hσ : σ ≠ 1) (hτ : τ ≠ 1) : σ = τ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact mulAut_eq_of_card_prime (p := 3) hcard σ τ
     (mulAut_sq_eq_one_of_card_three hcard σ)
     (mulAut_sq_eq_one_of_card_three hcard τ) hσ hτ

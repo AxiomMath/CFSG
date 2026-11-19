@@ -50,7 +50,7 @@ theorem not_sq_dvd_card_of_isPSLType_two {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2
 theorem not_sq_dvd_card_of_isSLType_two_five {Y : Type} [Group Y] (h : IsSLType 2 (ZMod 5) Y) :
     ¬ 3 ^ 2 ∣ Nat.card Y := by
   obtain ⟨e⟩ := h
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hcard : Nat.card Y = 120 := by
     rw [Nat.card_congr e.toEquiv, CFSG.PSL2Table.card_SL (F := ZMod 5), ZMod.card]
     norm_num
@@ -59,7 +59,7 @@ theorem not_sq_dvd_card_of_isSLType_two_five {Y : Type} [Group Y] (h : IsSLType 
 
 theorem natCard_alternatingGroup_fin (n : ℕ) (hn : 2 ≤ n) :
     Nat.card (alternatingGroup (Fin n)) = n.factorial / 2 := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr hn
   rw [Nat.card_eq_fintype_card, card_alternatingGroup, Fintype.card_fin]
 
 theorem not_dvd_card_of_isQ8D8Type {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {B : Type} [Group B]
@@ -95,7 +95,7 @@ theorem not_sq_dvd_card_of_isExtNotation {p : ℕ} [Fact p.Prime]
     (hB : ∀ (V : Type) [Group V] [Finite V], PB V → ¬ p ∣ Nat.card V)
     (h : IsExtNotation PA PB X) : ¬ p ^ 2 ∣ Nat.card X := by
   obtain ⟨N, hN, hBN, hAN, -⟩ := h
-  haveI := hN
+  have := hN
   intro hdvd
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup N] at hdvd
   have hp : p.Prime := Fact.out

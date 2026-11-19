@@ -63,7 +63,7 @@ lemma w1369_ta_SecIsoOn_of_mulEquiv {Q : Type} [CommGroup Q] {Λ : Subgroup (Mul
     · intro b hb
       refine ⟨e.symm ⟨b, hb⟩, ?_⟩
       have h2 : (e (e.symm ⟨b, hb⟩) : Q) = b := congrArg Subtype.val (e.apply_symm_apply ⟨b, hb⟩)
-      simp [h2]
+      simp
     · intro g hg a a' ha'
       have ha'' : a' = ⟨g (a : Q), hA g hg (a : Q) a.2⟩ := Subtype.ext ha'
       rw [ha'']

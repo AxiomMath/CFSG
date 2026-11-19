@@ -21,7 +21,7 @@ theorem heldKDiagonalCentralStep_of_component
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hHS, -, -, ⟨e⟩, -⟩ := id hset
   obtain ⟨hsimp, hnab, -, -, -, -, ⟨e₀⟩⟩ := id hHS
-  haveI := hsimp
+  have := hsimp
   set Cu := centralizer ({u} : Set X) with hCu
   set N := conjugate M a with hN
   have haa : a * a = 1 := by rw [← pow_two, ← ha, pow_orderOf_eq_one]

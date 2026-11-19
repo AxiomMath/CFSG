@@ -59,7 +59,7 @@ theorem two_le_pRank_of_isWitness {q : ℕ} (hq : q ∈ rankThreeSigmaA G) {Q : 
 theorem sigmaOf_eq (M : Subgroup G) :
     sigmaOf M = sigmaOneOf M ∪ sigmaTwoOf M ∪ sigmaThreeOf M := by
   ext q
-  simp only [sigmaOf, sigmaOneOf, sigmaTwoOf, sigmaThreeOf, Set.mem_setOf_eq, Set.mem_union]
+  simp only [sigmaOf, sigmaOneOf, sigmaTwoOf, sigmaThreeOf, Set.mem_ofPred_eq, Set.mem_union]
   constructor
   · rintro ⟨hq, Q, hw⟩
     rcases hw.u1 with h1 | h2 | h3

@@ -24,7 +24,7 @@ theorem exists_zeta (F : Ctx V u H Bv) {P M1 M2 : Subgroup (MulAut V)}
       (∀ m ∈ M1, ∀ g ∈ Q, m * g = g * m) ∧ (∀ m ∈ M2, ∀ g ∈ Q, m * g = g * m) ∧
       ∃ ζ ∈ Q, ζ ≠ 1 ∧ ζ ^ q = 1 ∧ ∀ v : V, ζ v = v → v = 1 := by
   classical
-  haveI : Finite (MulAut V) := inferInstance
+  have : Finite (MulAut V) := inferInstance
   obtain ⟨Q, hQP, hQn, hQ1, hQexp⟩ := exists_torsion_subgroup H P hPn hcommP q hqd
   have hQodd : Odd (Nat.card Q) := hPodd.of_dvd_nat (Subgroup.card_dvd_of_le hQP)
   have hQcard : Nat.card Q = q :=
@@ -52,12 +52,12 @@ theorem eq_bot_of_ctx (F : Ctx V u H Bv) {P M1 M2 : Subgroup (MulAut V)}
     (hPu : ∀ p ∈ P, p * u = u * p → p = 1) (hW : WreathMod H P M1 M2 u) : P = ⊥ := by
   classical
   by_contra hP
-  haveI : Finite (MulAut V) := inferInstance
+  have : Finite (MulAut V) := inferInstance
   have hcommP : ∀ p ∈ P, ∀ q ∈ P, p * q = q * p :=
     comm_of_fixedPointFree P u F.u_sq (fun p hp => hPn u F.u_mem p hp) hPu
   have hprime : ∀ p : ℕ, p.Prime → p ∣ Nat.card P → p ∣ 255 := by
     intro p hp hpd
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨Q, hQP, hQn, hQ1, hQexp⟩ := exists_torsion_subgroup H P hPn hcommP p hpd
     exact prime_dvd_255 F hQ1 (hPodd.of_dvd_nat (Subgroup.card_dvd_of_le hQP)) hQn p hQexp
   have hdvd51 : Nat.card P ∣ 51 :=
@@ -71,7 +71,7 @@ theorem eq_bot_of_ctx (F : Ctx V u H Bv) {P M1 M2 : Subgroup (MulAut V)}
     omega
   have h17 : ¬ 17 ∣ Nat.card P := by
     intro hd
-    haveI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 17) := ⟨by norm_num⟩
     obtain ⟨Q, hQP, hQc, hc1, hc2, ζ, hζQ, hζ1, hζq, hfpf⟩ :=
       exists_zeta F hPn hPodd hcommP hW hdvd51 17 hd le_rfl (by norm_num)
     obtain ⟨x, hxM, hx2, hx1⟩ := exists_involution_of_quotEquivTo hW.quot1 hPodd
@@ -81,7 +81,7 @@ theorem eq_bot_of_ctx (F : Ctx V u H Bv) {P M1 M2 : Subgroup (MulAut V)}
     · exact h
     · exact absurd (by omega) h17
     · exact absurd (by omega) h17
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨Q, hQP, hQc, hc1, hc2, ζ, hζQ, hζ1, hζq, hfpf⟩ :=
     exists_zeta F hPn hPodd hcommP hW hdvd51 3 (by rw [h3]) (by norm_num) (by norm_num)
   have hQP' : Q = P := Subgroup.eq_of_le_of_card_ge hQP (by rw [hQc, h3])

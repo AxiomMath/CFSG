@@ -62,7 +62,7 @@ theorem a6_psl_pureGraph_small_four (hO : LieOrderFormulasInput) {f : ℕ} {K : 
           (isometryGroupEquiv A⁻¹).symm.trans
             (MulEquiv.subgroupCongr (orthogonalGroup_matrixQuadraticForm hodd' A⁻¹ hR).symm)
         have hN₀ : IsComponent (N.map e₁.toMonoidHom) := LocalCores.isComponent_map_mulEquiv e₁ hN
-        haveI : Group.IsSolvable
+        have : Group.IsSolvable
             ↥(TauCeti.QuadraticMap.orthogonalGroup (matrixQuadraticForm A⁻¹)) :=
           ((CatalogueBOrthogonalLowDimensionFrontiers.orthogonal_four_split_p_components_frontier
             hodd (matrixQuadraticForm A⁻¹) hQ₀ hdim hS).2 hK3).1

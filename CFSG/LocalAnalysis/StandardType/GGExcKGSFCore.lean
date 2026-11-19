@@ -27,7 +27,7 @@ private lemma normal_range_mulAut_conj {Q : Type*} [Group Q] :
 theorem finite_ggAutU
     {t : StatedLieTag} {n f : ℕ} [Finite (ggU t n f).K] :
     Finite (GGAutU t n f) := by
-  haveI : Finite ((ggU t n f).K ⧸ Subgroup.center (ggU t n f).K) := inferInstance
+  have : Finite ((ggU t n f).K ⧸ Subgroup.center (ggU t n f).K) := inferInstance
   exact inferInstanceAs (Finite (MulAut ((ggU t n f).K ⧸ Subgroup.center (ggU t n f).K)))
 
 theorem normal_range_ggPsiU
@@ -65,8 +65,8 @@ theorem ggSF_core
     ∃ κ : GGAutU t n f, GGInnDiagU t n f κ ∧
       (E.map (MulAut.conj κ).toMonoidHom = M.Bfull ∨
         E.map (MulAut.conj κ).toMonoidHom = M.Bfull ⊓ (ggPsiU t n f).range) := by
-  haveI : Finite (GGAutU t n f) := GGSFCore.finite_ggAutU
-  haveI : ((ggPsiU t n f).range).Normal := GGSFCore.normal_range_ggPsiU t n f
+  have : Finite (GGAutU t n f) := GGSFCore.finite_ggAutU
+  have : ((ggPsiU t n f).range).Normal := GGSFCore.normal_range_ggPsiU t n f
   obtain ⟨hCIa, hCId⟩ := hCI t n f ht hadm p hp hp2 hreg M.π M.hπ
   exact GGSFCore.sf_core_abstract (A := GGAutU t n f) (Inn := (ggPsiU t n f).range)
     (N := N) hp hN P (GGInnDiagU t n f)

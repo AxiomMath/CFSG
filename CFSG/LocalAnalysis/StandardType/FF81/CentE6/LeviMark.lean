@@ -81,6 +81,6 @@ theorem exists_lE_mulEquiv :
   show Matrix.SpecialLinearGroup.map eF.toRingHom
       (Matrix.SpecialLinearGroup.transvection hij (1 : F2)) = elem i j
   rw [Matrix.SpecialLinearGroup.map_transvection, map_one]
-  rw [elem, dif_neg hij]
+  rw [elem, dite_eq_right hij]
 
 end CFSG.StandardType.FF81.CentE6

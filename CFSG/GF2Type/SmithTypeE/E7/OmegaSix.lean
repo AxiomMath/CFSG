@@ -43,7 +43,7 @@ theorem partC_of_smithE7Input_six
   have hfin : Finite Mbar := by
     obtain ⟨φ, hφ, -⟩ := hMbar
     exact Finite.of_surjective φ hφ
-  haveI : IsSimpleGroup Mbar := hMs
+  have : IsSimpleGroup Mbar := hMs
   obtain ⟨hext', hcard'⟩ := timmesfeld_hypotheses hext hcard
   have hMbar' : timmesfeldQuotientIso
       (timmesfeldFStar ↥(Subgroup.centralizer ({z} : Set G))) Mbar := by

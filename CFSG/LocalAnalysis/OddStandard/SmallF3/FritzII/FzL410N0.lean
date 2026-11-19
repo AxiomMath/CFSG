@@ -78,7 +78,7 @@ theorem fzl410_N0 (hN : FzL410.NormSpec) {P : Subgroup G} {rho : G} (hr3 : rho ^
       _ = emb0 a := by
             have h1 : rho * (rho * (rho * emb0 a * rho⁻¹) * rho⁻¹) * rho⁻¹
                 = (MulAut.conj rho ^ 3) (emb0 a) := by
-              simp only [pow_succ, pow_one, pow_zero, MulAut.mul_apply, MulAut.conj_apply,
+              simp only [pow_succ, pow_zero, MulAut.mul_apply, MulAut.conj_apply,
                 MulAut.one_apply]
             rw [h1, ← map_pow, hr3, map_one, MulAut.one_apply]
   have hfpf' : ∀ p, σ p = p → p = 0 := by

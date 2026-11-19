@@ -14,6 +14,7 @@ variable {G : Type} [Group G]
 
 variable [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 private theorem fzbs_prod_sup_equiv {H₁ H₂ : Subgroup G}
     (hcomm : ∀ x ∈ H₁, ∀ y ∈ H₂, Commute x y) (hdisj : H₁ ⊓ H₂ = ⊥) :
     Nonempty ((H₁ × H₂) ≃* (H₁ ⊔ H₂ : Subgroup G)) := by

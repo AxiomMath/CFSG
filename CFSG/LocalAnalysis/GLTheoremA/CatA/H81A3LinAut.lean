@@ -16,7 +16,7 @@ theorem eq_of_perfect_of_mul_inv_mem {G : Type*} [Group G] (L C : Subgroup G)
     (hL : commutator ↥L = ⊤) (hC : ∀ x ∈ C, ∀ y ∈ C, x * y = y * x) (φ : G →* G)
     (hδ : ∀ l ∈ L, φ l * l⁻¹ ∈ C) (hcomm : ∀ l ∈ L, ∀ c ∈ C, φ l * c = c * φ l) :
     ∀ l ∈ L, φ l = l := by
-  haveI : IsMulCommutative ↥C := ⟨⟨fun a b => Subtype.ext (hC a a.2 b b.2)⟩⟩
+  have : IsMulCommutative ↥C := ⟨⟨fun a b => Subtype.ext (hC a a.2 b b.2)⟩⟩
   let δ : ↥L →* ↥C :=
     { toFun := fun l => ⟨φ l * (l : G)⁻¹, hδ l l.2⟩
       map_one' := by
@@ -69,13 +69,13 @@ private theorem entries_of_commute_transvection {A : Matrix (Fin 4) (Fin 4) F} {
   have e1 : (A * Matrix.single i j (1 : F)) k l = A k i * (if j = l then 1 else 0) := by
     by_cases hjl : j = l
     · subst hjl
-      rw [mul_single_apply_same, if_pos rfl]
-    · rw [mul_single_apply_of_ne (hbj := Ne.symm hjl), if_neg hjl, mul_zero]
+      rw [mul_single_apply_same, ite_eq_left rfl]
+    · rw [mul_single_apply_of_ne (hbj := Ne.symm hjl), ite_eq_right hjl, mul_zero]
   have e2 : (Matrix.single i j (1 : F) * A) k l = (if k = i then 1 else 0) * A j l := by
     by_cases hki : k = i
     · subst hki
-      rw [single_mul_apply_same, if_pos rfl]
-    · rw [single_mul_apply_of_ne (h := hki), if_neg hki, zero_mul]
+      rw [single_mul_apply_same, ite_eq_left rfl]
+    · rw [single_mul_apply_of_ne (h := hki), ite_eq_right hki, zero_mul]
   exact e1.symm.trans (h1.trans e2)
 
 private theorem conjAut_fieldAut_mul {n : ℕ} (A B : GL (Fin n) F) (σ τ : F ≃+* F) :
@@ -145,13 +145,13 @@ include hp hp2 hμ hF
 
 private theorem core_le_center :
     GLAPPrimeCore p ↥(JH F) ≤ Subgroup.center ↥(JH F) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine CFSG.LocalAnalysis.GLTheoremA.le_center_of_normal_of_isQuasisimple
-    (isQuasisimple_JH hp hp2 hμ hF) (GLAPPrimeCore.normal p _) fun htop => ?_
+    (isQuasisimple_JH hF) (GLAPPrimeCore.normal p _) fun htop => ?_
   have hcop : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥(JH F))) := CFSG.pPrimeCore_coprime_card
   rw [htop, Subgroup.card_top] at hcop
   have hdvd : p ∣ Nat.card ↥(JH F) :=
-    (dvd_card_JH hp hp2 hμ hF).trans (Subgroup.card_quotient_dvd_card _)
+    (dvd_card_JH hp hp2 hμ).trans (Subgroup.card_quotient_dvd_card _)
   exact (Nat.Prime.coprime_iff_not_dvd hp).1 hcop hdvd
 
 private theorem fixes_JH {α : MulAut (projectiveSL 4 F)}
@@ -167,7 +167,7 @@ private theorem fixes_JH {α : MulAut (projectiveSL 4 F)}
     have h := hcent j hj
     change α j * j⁻¹ ∈ (GLAPPrimeCore p ↥(JH F)).map (JH F).subtype at h
     exact Subgroup.map_mono (core_le_center hp hp2 hμ hF) h
-  refine eq_of_perfect_of_mul_inv_mem (JH F) C (isQuasisimple_JH hp hp2 hμ hF).1
+  refine eq_of_perfect_of_mul_inv_mem (JH F) C (isQuasisimple_JH hF).1
     (fun x hx y hy => (hCJ x hx).2 y (hCJ y hy).1) α.toMonoidHom hδ fun l hl c hc => ?_
   have hαl : α l ∈ JH F := by
     have h1 := (hCJ _ (hδ l hl)).1
@@ -178,9 +178,9 @@ private theorem fixes_JH {α : MulAut (projectiveSL 4 F)}
 
 theorem aut_eq_conj_ySL_zpow (α : MulAut (projectiveSL 4 F)) (hα : α ^ p = 1)
     (hcent : ∀ j ∈ JH F, α j * j⁻¹ ∈ GLAPPrimeCoreOf p (JH F)) :
-    ∃ k : ℤ, α = MulAut.conj (proj 4 F (ySL (ne_zero_of_root hp hp2 hμ)) ^ k) := by
+    ∃ k : ℤ, α = MulAut.conj (proj 4 F (ySL (ne_zero_of_root hp hμ)) ^ k) := by
   classical
-  have hμ0 := ne_zero_of_root hp hp2 hμ
+  have hμ0 := ne_zero_of_root hp hμ
   have hfix := fixes_JH hp hp2 hμ hF hcent
   obtain ⟨A, σ, hασ⟩ := exists_eq_conjAut_mul_fieldAut_of_odd_pow (n := 4) (by norm_num)
     (hp.odd_of_ne_two hp2) hα
@@ -193,7 +193,7 @@ theorem aut_eq_conj_ySL_zpow (α : MulAut (projectiveSL 4 F)) (hα : α ^ p = 1)
     rfl
   have hβfix : ∀ g ∈ coordBlockSL F blockJ, β g = g := by
     refine eq_of_perfect_of_mul_inv_mem (coordBlockSL F blockJ) (scalars 4 F)
-      (isQuasisimple_coordBlockSL_blockJ hp hp2 hμ hF).1
+      (isQuasisimple_coordBlockSL_blockJ hF).1
       (fun x hx y _ => (Subgroup.mem_center_iff.1 (scalars_le_center 4 F hx) y).symm) β
       (fun g hg => ?_) (fun g _ c hc => Subgroup.mem_center_iff.1 (scalars_le_center 4 F hc) _)
     rw [← ker_proj, MonoidHom.mem_ker, map_mul, map_inv, hβproj,
@@ -330,7 +330,7 @@ theorem aut_eq_conj_ySL_zpow (α : MulAut (projectiveSL 4 F)) (hα : α ^ p = 1)
       have : Nat.Coprime (2 ^ 2) p := Nat.Coprime.pow_left 2 h2
       simpa using this
     exact hμ.inv.pow_of_coprime 4 hcop
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨i, -, hi⟩ := hprim.eq_pow_of_pow_eq_one hν
   have hc' : b * μ⁻¹ ^ i ≠ 0 := mul_ne_zero hb0 (pow_ne_zero _ (inv_ne_zero hμ0))
   have hAy : A = GeneralLinearGroup.scalar (Fin 4) (Units.mk0 _ hc') *

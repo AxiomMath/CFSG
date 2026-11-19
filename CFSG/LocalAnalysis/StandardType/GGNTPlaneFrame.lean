@@ -43,7 +43,7 @@ private theorem rcf_ggCompFieldAt_congr {G H : Type} [Group G] [Group H]
     {X : Subgroup G} {Y : Subgroup H} {Q : ℕ}
     (h : GGCompFieldAt Q X) (θ : ↥X ≃* ↥Y) : GGCompFieldAt Q Y := by
   obtain ⟨lab, hlab, hchar, hdeg, h1, h2, h3, hhas, R, instR, hR, ⟨φ⟩⟩ := h
-  letI : Group R := instR
+  let : Group R := instR
   have hq : (↥X ⧸ Subgroup.center ↥X) ≃* (↥Y ⧸ Subgroup.center ↥Y) :=
     QuotientGroup.congr _ _ θ (Subgroup.map_center_eq θ)
   have hhas' : GGHasLabel lab (↥Y ⧸ Subgroup.center ↥Y) := by
@@ -95,8 +95,8 @@ theorem ntp_frame
     exact hnt ⟨C⁻¹, inv_mem hC, fun x hx => by
       have h := hCD x hx
       simpa only [inv_inv] using h⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨C, hC, a, m, ha3, hCx, hCD, hm, hm3, hma, hstab, hnotker⟩ :=
     plane_nontoral_normal_form (p := 3) (ℓ := 2) (τ := Tag.E6)
       CFSG.HardMathSupport.Timmesfeld.CrossChar.monomialToralAt_E6_three

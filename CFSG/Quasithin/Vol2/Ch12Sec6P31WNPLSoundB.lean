@@ -41,7 +41,7 @@ theorem dig_enc8 (d0 d1 d2 d3 d4 d5 d6 d7 : ℕ) (h0 : d0 < 8) (h1 : d1 < 8) (h2
       dig (enc8 d0 d1 d2 d3 d4 d5 d6 d7) 4 = d4 ∧ dig (enc8 d0 d1 d2 d3 d4 d5 d6 d7) 5 = d5 ∧
       dig (enc8 d0 d1 d2 d3 d4 d5 d6 d7) 6 = d6 ∧ dig (enc8 d0 d1 d2 d3 d4 d5 d6 d7) 7 = d7 := by
   simp only [enc8_eq, dig_add8_zero, dig_add8_succ, dig_small, h0, h1, h2, h3, h4, h5, h6, h7,
-    and_self, true_and]
+    and_self]
 
 theorem dig_encP' (σ : Equiv.Perm (Fin 8)) (k : ℕ) (hk : k < 8) :
     dig (encP σ) k = (σ ⟨k, hk⟩).val := by
@@ -77,7 +77,7 @@ theorem mulC_encP (σ τ : Equiv.Perm (Fin 8)) : mulC (encP σ) (encP τ) = encP
     simp only [dig_encP' τ k hk, dig_encP, Equiv.Perm.mul_apply]
   unfold mulC
   rw [h 0 (by norm_num), h 1 (by norm_num), h 2 (by norm_num), h 3 (by norm_num),
-    h 4 (by norm_num), h 5 (by norm_num), h 6 (by norm_num), h 7 (by norm_num)] <;> rfl
+    h 4 (by norm_num), h 5 (by norm_num), h 6 (by norm_num), h 7 (by norm_num)]; rfl
 
 theorem powC_encP (σ : Equiv.Perm (Fin 8)) (n : ℕ) : powC (encP σ) n = encP (σ ^ n) := by
   induction n with

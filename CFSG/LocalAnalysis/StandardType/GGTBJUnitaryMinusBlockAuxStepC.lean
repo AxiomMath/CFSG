@@ -60,12 +60,12 @@ theorem hypGram_zeroCoordsEmb (S : Finset (Fin m)) (i j : HypIndex S.card ε) :
   by_cases h : j = hypPartner i
   · have h' : zeroCoordsEmb (ε := ε) S j = hypPartner (zeroCoordsEmb (ε := ε) S i) := by
       rw [h, zeroCoordsEmb_partner]
-    rw [if_pos h, if_pos h']
+    rw [ite_eq_left h, ite_eq_left h']
   · have h' : zeroCoordsEmb (ε := ε) S j ≠ hypPartner (zeroCoordsEmb (ε := ε) S i) := by
       intro hh
       rw [← zeroCoordsEmb_partner] at hh
       exact h ((zeroCoordsEmb_injective S) hh)
-    rw [if_neg h, if_neg h']
+    rw [ite_eq_right h, ite_eq_right h']
 
 theorem extHyp_zeroCoords_range (S : Finset (Fin m)) :
     (extHyp h (zeroCoordsEmb (ε := ε) S) (zeroCoordsEmb_injective S)
@@ -290,8 +290,8 @@ theorem weightClass_zero_eq_zeroCoords {E : Set (Multiplicative (Fin m → ZMod 
   classical
   ext x
   rcases x with i | k | i
-  · simp only [Set.mem_union, weightClass, weightClassPartner, Set.mem_setOf_eq, zeroCoords,
-      Set.mem_setOf_eq, splitWeight_inl]
+  · simp only [Set.mem_union, weightClass, weightClassPartner, Set.mem_ofPred_eq, zeroCoords,
+      Set.mem_ofPred_eq, splitWeight_inl]
     have hA : (∀ t : Fin m → ZMod p, Multiplicative.ofAdd t ∈ E → t i = splitWeight a t) ↔
         (∀ t : Fin m → ZMod p, Multiplicative.ofAdd t ∈ E → t i = 0) := by
       constructor <;> intro h t ht
@@ -307,15 +307,15 @@ theorem weightClass_zero_eq_zeroCoords {E : Set (Multiplicative (Fin m → ZMod 
         simp
     rw [hA, hB]
     simp [mem_zeroSet]
-  · simp only [Set.mem_union, weightClass, weightClassPartner, Set.mem_setOf_eq, zeroCoords,
-      Set.mem_setOf_eq, splitWeight_z]
+  · simp only [Set.mem_union, weightClass, weightClassPartner, Set.mem_ofPred_eq, zeroCoords,
+      Set.mem_ofPred_eq, splitWeight_z]
     have hA : (∀ t : Fin m → ZMod p, Multiplicative.ofAdd t ∈ E → (0 : ZMod p) = splitWeight a t) :=
       fun t ht => (hz t ht).symm
     have hB : (∀ t : Fin m → ZMod p, Multiplicative.ofAdd t ∈ E →
         splitWeight a t = 0) := fun t ht => hz t ht
     exact ⟨fun _ => Or.inr (Or.inl ⟨k, rfl⟩), fun _ => Or.inl hA⟩
-  · simp only [Set.mem_union, weightClass, weightClassPartner, Set.mem_setOf_eq, zeroCoords,
-      Set.mem_setOf_eq, splitWeight_inr]
+  · simp only [Set.mem_union, weightClass, weightClassPartner, Set.mem_ofPred_eq, zeroCoords,
+      Set.mem_ofPred_eq, splitWeight_inr]
     have hA : (∀ t : Fin m → ZMod p, Multiplicative.ofAdd t ∈ E → -t i = splitWeight a t) ↔
         (∀ t : Fin m → ZMod p, Multiplicative.ofAdd t ∈ E → t i = 0) := by
       constructor <;> intro h t ht

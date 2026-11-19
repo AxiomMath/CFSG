@@ -35,7 +35,7 @@ theorem exists_noncomm_of_isSimpleGroup_of_dvd {U : Type*} [Group U] [Finite U]
   have hcomm : ∀ a b : U, a * b = b * a := fun a b => by
     by_contra h
     exact hcon ⟨a, b, h⟩
-  haveI : IsMulCommutative U := ⟨⟨hcomm⟩⟩
+  have : IsMulCommutative U := ⟨⟨hcomm⟩⟩
   have hp : (Nat.card U).Prime := Group.is_simple_iff_prime_card.mp hs
   rcases (Nat.dvd_prime hp).1 h9 with h | h
   · omega
@@ -48,8 +48,8 @@ theorem exists_isElemAbelian_card_nine_of_statedSU_quotient {Y : Type} [Group Y]
     (hn : 4 ≤ n) (h3 : 3 ∣ 2 ^ f + 1)
     (e : Y ⧸ Subgroup.center Y ≃* StatedProj (StatedSU n (2 ^ f) K)) :
     ∃ E : Subgroup Y, IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 2 ∧ E ⊓ Subgroup.center Y = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn3 : 3 ≤ n := by omega
   have hnq : (n, 2 ^ f) ≠ (3, 2) := fun h => by
     have := (Prod.mk.inj h).1
@@ -93,7 +93,7 @@ theorem exists_isElemAbelian_card_nine_of_statedSU_quotient {Y : Type} [Group Y]
     (Subgroup.center Y') le_rfl with hAdef
   have hAc : A ≤ Subgroup.center Y' :=
     CFSG.LocalAnalysis.ComponentInitial.LinearCover.twoPart_le_center
-  haveI hAn : A.Normal := Subgroup.normal_of_le_center hAc
+  have hAn : A.Normal := Subgroup.normal_of_le_center hAc
   have hA2 : IsPGroup 2 A :=
     CFSG.LocalAnalysis.ComponentInitial.LinearCover.isPGroup_twoPart
   obtain ⟨hqq, -, -⟩ := CFSG.LocalCores.quasisimple_central_quotient hY' A hAc
@@ -168,9 +168,9 @@ theorem kFactTwelveRanksLeU_holds :
   have hc := CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv e
   rw [hqp] at hc
   obtain ⟨⟨-, -, hn3, hnq⟩, K, hKf, hKfin, hcard, ⟨e'⟩⟩ := hc
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2 * q.exponent)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2 * q.exponent)
     (by rw [← Nat.card_eq_fintype_card, hcard, ← pow_mul, mul_comm])
   exact TwelveRanksLe.exists_isElemAbelian_card_nine_of_statedSU_quotient hcard (by omega)
     (by rw [hqe]; norm_num) e'

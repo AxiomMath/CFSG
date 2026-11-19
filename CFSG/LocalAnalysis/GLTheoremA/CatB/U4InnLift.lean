@@ -69,6 +69,7 @@ section CentralCover2
 variable {M S : Type} [Group M] [Finite M] [Group S] [Finite S]
   {π : M →* S} {α : MulAut M} {β : MulAut S}
 
+omit [Finite M] [Finite S] in
 theorem pPrimeCore_coverX_eq_bot (hZc : π.ker ≤ Subgroup.center M)
     (hZ3 : ∀ z ∈ π.ker, z ^ 3 = 1) (hαβ : ∀ u, π (α u) = β (π u))
     (h : CFSG.pPrimeCore 3 ↥(u4Fix α) = ⊥) : CFSG.pPrimeCore 3 ↥(coverX π β) = ⊥ := by
@@ -91,7 +92,7 @@ theorem pPrimeCore_fix_of_central_cover (hπ : Function.Surjective π)
     (hZc : π.ker ≤ Subgroup.center M) (hZ3 : ∀ z ∈ π.ker, z ^ 3 = 1)
     (hαβ : ∀ u, π (α u) = β (π u)) (h : CFSG.pPrimeCore 3 ↥(u4Fix α) = ⊥) :
     CFSG.pPrimeCore 3 ↥(u4Fix β) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hX := pPrimeCore_coverX_eq_bot hZc hZ3 hαβ h
   let f : ↥(coverX π β) →* ↥(u4Fix β) :=
     (π.comp (coverX π β).subtype).codRestrict (u4Fix β) (fun x => x.2)
@@ -117,6 +118,7 @@ theorem pPrimeCore_fix_of_central_cover (hπ : Function.Surjective π)
   show CFSG.pPrimeCore 3 ↥(u4Fix β) = ⊥
   rw [this, hX, Subgroup.map_bot]
 
+omit [Finite S] in
 theorem exists_perfect_of_central_cover (hπ : Function.Surjective π)
     (hZc : π.ker ≤ Subgroup.center M) (hαβ : ∀ u, π (α u) = β (π u))
     (hq : HasU4Quot (u4Fix β)) :

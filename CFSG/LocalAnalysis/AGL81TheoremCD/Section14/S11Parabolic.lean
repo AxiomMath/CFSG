@@ -15,12 +15,13 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique Subgroup
 
 variable {X : Type} [Group X] [Finite X] {n : ℕ}
 
+omit [Finite X] in
 theorem map_eq_alternatingGroup_of_closure_odd (hn : 5 ≤ n) {L : Subgroup X} (hLn : L.Normal)
     (hLodd : L = Subgroup.closure {x : X | x ∈ L ∧ Odd (orderOf x)})
     (φ : X →* Equiv.Perm (Fin n)) (hφ : Function.Surjective φ) (hLker : ¬ L ≤ φ.ker) :
     L.map φ = alternatingGroup (Fin n) := by
   classical
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   have hmap_closure : L.map φ = Subgroup.closure (φ '' {x : X | x ∈ L ∧ Odd (orderOf x)}) := by
     conv_lhs => rw [hLodd]
     rw [MonoidHom.map_closure]
@@ -39,11 +40,12 @@ theorem map_eq_alternatingGroup_of_closure_odd (hn : 5 ≤ n) {L : Subgroup X} (
     rw [hbot] at hxmem
     exact hx1 (by simpa using hxmem)
   have hmap_normal : (L.map φ).Normal := hLn.map φ hφ
-  haveI : (L.map φ).Normal := hmap_normal
+  have : (L.map φ).Normal := hmap_normal
   have hAlt : alternatingGroup (Fin n) ≤ L.map φ :=
     Equiv.Perm.alternatingGroup_le_of_normal (α := Fin n) (by simpa using hn) hnt
   exact le_antisymm hle hAlt
 
+omit [Finite X] in
 theorem map_eq_zpowers_swap (hn : 7 ≤ n) {R : Subgroup X} (φ : X →* Equiv.Perm (Fin n))
     (hφ : Function.Surjective φ) (hker : φ.ker = CFSG.Open.pCoreOf 2 (⊤ : Subgroup X))
     (hQR : CFSG.Open.pCoreOf 2 (⊤ : Subgroup X) ≤ R) (hR2 : IsPGroup 2 R) {i j : Fin n}
@@ -78,7 +80,7 @@ theorem map_eq_zpowers_swap (hn : 7 ≤ n) {R : Subgroup X} (φ : X →* Equiv.P
     intro hSbot
     have hR_le_ker : R ≤ φ.ker := (Subgroup.map_eq_bot_iff R).mp hSbot
     have hR_eq_Q : R = Q := le_antisymm (by simpa [Q, hker] using hR_le_ker) hQR
-    haveI : Q.Normal := by
+    have : Q.Normal := by
       change (CFSG.Open.pCoreOf 2 (⊤ : Subgroup X)).Normal
       rw [← hker]
       exact MonoidHom.normal_ker φ
@@ -96,7 +98,7 @@ theorem map_eq_zpowers_swap (hn : 7 ≤ n) {R : Subgroup X} (φ : X →* Equiv.P
       Equiv.Perm.IsSwap.orderOf (Equiv.Perm.swap_isSwap_iff.mpr hij)]
   have hS_eq_zpowers : S = Subgroup.zpowers (Equiv.swap i j) := by
     let Z : Subgroup (Equiv.Perm (Fin n)) := Subgroup.zpowers (Equiv.swap i j)
-    haveI : Fact (Nat.card Z).Prime :=
+    have : Fact (Nat.card Z).Prime :=
       ⟨by rw [show Nat.card Z = 2 from hZ_card]; norm_num⟩
     have hsub : S.subgroupOf Z = ⊥ ∨ S.subgroupOf Z = ⊤ :=
       (S.subgroupOf Z).eq_bot_or_eq_top_of_prime_card
@@ -111,6 +113,7 @@ theorem map_eq_zpowers_swap (hn : 7 ≤ n) {R : Subgroup X} (φ : X →* Equiv.P
     · exact le_antisymm hS_le_zpowers (Subgroup.subgroupOf_eq_top.mp htop)
   exact hS_eq_zpowers
 
+omit [Finite X] in
 theorem sup_eq_top_of_map_eq {L R : Subgroup X} (φ : X →* Equiv.Perm (Fin n))
     (hkerR : φ.ker ≤ R) (hL : L.map φ = alternatingGroup (Fin n))
     {i j : Fin n} (hij : i ≠ j) (hR : R.map φ = Subgroup.zpowers (Equiv.swap i j)) :
@@ -125,6 +128,7 @@ theorem sup_eq_top_of_map_eq {L R : Subgroup X} (φ : X →* Equiv.Perm (Fin n))
 
 section Parabolic
 
+omit [Finite X] in
 theorem le_comap_fixingSubgroup {R : Subgroup X} (φ : X →* Equiv.Perm (Fin n))
     {i j k : Fin n} (hR : R.map φ = Subgroup.zpowers (Equiv.swap i j)) :
     R ≤ (fixingSubgroup (Equiv.Perm (Fin n)) ({i, j, k}ᶜ : Set (Fin n))).comap φ := by
@@ -134,7 +138,7 @@ theorem le_comap_fixingSubgroup {R : Subgroup X} (φ : X →* Equiv.Perm (Fin n)
 
 theorem minParabolic_comap_fixingSubgroup {R : Subgroup X} (φ : X →* Equiv.Perm (Fin n))
     (hφ : Function.Surjective φ) (hker : φ.ker = CFSG.Open.pCoreOf 2 (⊤ : Subgroup X))
-    (hQR : CFSG.Open.pCoreOf 2 (⊤ : Subgroup X) ≤ R) (hR2 : IsPGroup 2 R)
+    (hQR : CFSG.Open.pCoreOf 2 (⊤ : Subgroup X) ≤ R) (_hR2 : IsPGroup 2 R)
     {i j k : Fin n} (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k)
     (hR : R.map φ = Subgroup.zpowers (Equiv.swap i j)) :
     CFSG.Quasithin.MinParabolic
@@ -168,6 +172,7 @@ theorem minParabolic_comap_fixingSubgroup {R : Subgroup X} (φ : X →* Equiv.Pe
 
 end Parabolic
 
+omit [Finite X] in
 theorem charTwo_comap_fixingSubgroup {R : Subgroup X} (φ : X →* Equiv.Perm (Fin n))
     (hC : CFSG.QuasithinUnique.CharTwo (⊤ : Subgroup X))
     (hQR : CFSG.Open.pCoreOf 2 (⊤ : Subgroup X) ≤ R)
@@ -183,27 +188,28 @@ theorem charTwo_comap_fixingSubgroup {R : Subgroup X} (φ : X →* Equiv.Perm (F
 
 theorem perfectCore_comap_fixingSubgroup_eq_bot {R : Subgroup X}
     (φ : X →* Equiv.Perm (Fin n)) (hker : φ.ker = CFSG.Open.pCoreOf 2 (⊤ : Subgroup X))
-    (hQR : CFSG.Open.pCoreOf 2 (⊤ : Subgroup X) ≤ R)
-    {i j k : Fin n} (hR : R.map φ = Subgroup.zpowers (Equiv.swap i j)) :
+    (_hQR : CFSG.Open.pCoreOf 2 (⊤ : Subgroup X) ≤ R)
+    {i j k : Fin n} (_hR : R.map φ = Subgroup.zpowers (Equiv.swap i j)) :
     CFSG.Quasithin.perfectCore
       ((fixingSubgroup (Equiv.Perm (Fin n)) ({i, j, k}ᶜ : Set (Fin n))).comap φ) = ⊥ := by
   classical
-  have hker_solv : IsSolvable φ.ker := by
+  have hker_solv : Group.IsSolvable φ.ker := by
     rw [hker]
-    haveI : Group.IsNilpotent (CFSG.Open.pCoreOf 2 (⊤ : Subgroup X)) :=
+    have : Group.IsNilpotent (CFSG.Open.pCoreOf 2 (⊤ : Subgroup X)) :=
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (⊤ : Subgroup X)).isNilpotent
     exact IsNilpotent.to_isSolvable
   have hSf_solv :
-      IsSolvable (fixingSubgroup (Equiv.Perm (Fin n)) ({i, j, k}ᶜ : Set (Fin n))) :=
+      Group.IsSolvable (fixingSubgroup (Equiv.Perm (Fin n)) ({i, j, k}ᶜ : Set (Fin n))) :=
     CFSG.Permutation.TranspositionCentralizer.isSolvable_fixingSubgroup_compl_triple i j k
   exact perfectCore_comap_eq_bot (X := X) φ hker_solv hSf_solv
 
+omit [Finite X] in
 theorem normalizer_sup_comap_fixingSubgroup_eq_top {R : Subgroup X}
     (φ : X →* Equiv.Perm (Fin n)) (hφ : Function.Surjective φ)
     (hker : φ.ker = CFSG.Open.pCoreOf 2 (⊤ : Subgroup X))
     (hQR : CFSG.Open.pCoreOf 2 (⊤ : Subgroup X) ≤ R)
     {i j k : Fin n} (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k)
-    (hR : R.map φ = Subgroup.zpowers (Equiv.swap i j))
+    (_hR : R.map φ = Subgroup.zpowers (Equiv.swap i j))
     (hNR : (Subgroup.normalizer (R : Set X)).map φ =
       Subgroup.centralizer ({Equiv.swap i j} : Set (Equiv.Perm (Fin n)))) :
     Subgroup.normalizer (R : Set X) ⊔

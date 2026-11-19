@@ -108,7 +108,7 @@ theorem inPlane_eq {pts P : List Nat} (hpts : uPts () = pts.toArray) (hlen : pts
     (hP : ∀ i < 891, P.getD i 0 = ptBits (wMask i) pts) {k a : Nat} (hk : k < 891)
     (ha : a < 693) : inPlane k a = (P.getD k 0).testBit a := by
   rw [hP k hk, testBit_ptBits, hlen]
-  simp only [inPlane, maskArr_get hk, hpts, CFSG.SmithL6.Kernel.get0, List.toList_toArray]
+  simp only [inPlane, maskArr_get hk, hpts, CFSG.SmithL6.Kernel.get0]
   simp [ha]
 
 theorem mask_lt {pts P : List Nat} (hlen : pts.length = 693)
@@ -120,6 +120,7 @@ theorem mask_lt {pts P : List Nat} (hlen : pts.length = 693)
 theorem mem_planePts {i a : Nat} : a ∈ (planePts i).toList ↔ a < 693 ∧ inPlane i a = true := by
   simp [planePts]
 
+set_option exponentiation.threshold 693 in
 theorem oppB_eq {pts P : List Nat} (hpts : uPts () = pts.toArray) (hlen : pts.length = 693)
     (hP : ∀ i < 891, P.getD i 0 = ptBits (wMask i) pts) {i j : Nat} (hi : i < 891)
     (hj : j < 891) : oppB i j = (P.getD i 0 &&& P.getD j 0 == 0) := by
@@ -149,6 +150,7 @@ theorem oppB_eq {pts P : List Nat} (hpts : uPts () = pts.toArray) (hlen : pts.le
     rw [← inPlane_eq hpts hlen hP hi ha1, ← inPlane_eq hpts hlen hP hj ha1, ha2] at e
     simpa using e
 
+set_option exponentiation.threshold 693 in
 theorem planePts_size {pts P : List Nat} (hpts : uPts () = pts.toArray)
     (hlen : pts.length = 693) (hP : ∀ i < 891, P.getD i 0 = ptBits (wMask i) pts) {i : Nat}
     (hi : i < 891) : (planePts i).size = cntK 693 (P.getD i 0) := by
@@ -158,6 +160,7 @@ theorem planePts_size {pts P : List Nat} (hpts : uPts () = pts.toArray)
   refine List.countP_congr fun a ha => ?_
   rw [inPlane_eq hpts hlen hP hi (List.mem_range.mp ha)]
 
+set_option exponentiation.threshold 693 in
 theorem chkPlanes_of {pts P : List Nat} {M : Nat} (hpts : uPts () = pts.toArray)
     (hlen : pts.length = 693) (hPl : P.length = 891)
     (hP : ∀ i < 891, P.getD i 0 = ptBits (wMask i) pts) (h : planesK P M = true) :

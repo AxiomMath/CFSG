@@ -33,7 +33,7 @@ theorem universalF_of_good_mem_center [Finite G] (hLB : LayerBalanceAt G)
 
 theorem goodInv_of_fourGroup [Finite G] (hLB : LayerBalanceAt G)
     (hglaub : GlaubermanSimplePerfect) {B : Subgroup G} (hB : MaximalF B) {u₁ u₂ : G}
-    (h₁ : GoodInv B u₁) (h₂ : GoodInv B u₂) (h₃ : GoodInv B (u₁ * u₂)) (h12 : u₁ * u₂ = u₂ * u₁)
+    (h₁ : GoodInv B u₁) (h₂ : GoodInv B u₂) (h₃ : GoodInv B (u₁ * u₂)) (_h12 : u₁ * u₂ = u₂ * u₁)
     {b : G} (hb : orderOf b = 2) (hbB : B ≤ centralizer ({b} : Set G))
     (hb₁ : u₁ * b = b * u₁) (hb₂ : u₂ * b = b * u₂) : GoodInv B b := by
   refine goodInv_of_not_badInv hb hbB ?_

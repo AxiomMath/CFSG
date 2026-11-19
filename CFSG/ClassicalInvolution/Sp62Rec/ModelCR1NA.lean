@@ -193,7 +193,7 @@ theorem orbN0_eq_of_closed {x : List ℕ} {cs : List (List ℕ)} (hx : ∀ i ∈
       rw [show a * b * y * (a * b)⁻¹ = a * (b * y * b⁻¹) * a⁻¹ by group]
       exact ha _ (hb y hy)
   ext y
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨n, hn, rfl⟩
     have hx0 : yword x ∈ orbElems x cs :=
@@ -348,7 +348,7 @@ theorem le_S0_of_normal {P : Subgroup (StatedSp 3 (ZMod 2))} (hPN : P ≤ N0)
   have hSi' : ¬ 2 ∣ (S0.subgroupOf N0).index := by
     rw [hSi]
     decide
-  haveI : (P.subgroupOf N0).Normal :=
+  have : (P.subgroupOf N0).Normal :=
     ⟨fun k hk g => by
       rw [Subgroup.mem_subgroupOf] at hk ⊢
       rw [Subgroup.coe_mul, Subgroup.coe_mul, Subgroup.coe_inv]
@@ -562,7 +562,7 @@ theorem mem_orbN0_of_mem_A0 : ∀ a ∈ A0, a ≠ 1 →
       rwa [← code_injective hze]
     rw [orbN0_alpha, orbN0_pi12, orbN0_pi3, orbN0_rho28]
     simp only [List.mem_append] at h
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rcases h with ((h | h) | h) | h
     · exact Or.inl (hmem (by decide) (orbWords_lt (Or.inl rfl)) h)
     · exact Or.inr (Or.inl (hmem (by decide) (orbWords_lt (Or.inr (Or.inl rfl))) h))
@@ -636,7 +636,7 @@ theorem rhoConj_toBlocks₂₁ {n : StatedSp 3 (ZMod 2)} (hn : n ∈ N0) :
   | one =>
     rw [rhoConj_one]
     ext i j
-    simp [Matrix.toBlocks₂₁, Matrix.one_apply]
+    simp [Matrix.toBlocks₂₁]
   | mul a b _ _ ha hb =>
     rw [rhoConj_mul, toBlocks₂₁_mul', ha, hb, Matrix.zero_mul, Matrix.mul_zero, add_zero]
 

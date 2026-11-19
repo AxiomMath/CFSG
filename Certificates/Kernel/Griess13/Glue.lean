@@ -84,6 +84,7 @@ theorem commuteCheck_true : commuteCheck = true := by
   rw [mulWK_unpack, mulWK_unpack, eqRows_unpackR]
   exact commuteK i k
 
+set_option exponentiation.threshold 624 in
 theorem xRows_eq : xRows = GD.X.map (unpackR 24) := by
   rw [xRows, prX_eq, prX_eq, prX_eq]
   rfl

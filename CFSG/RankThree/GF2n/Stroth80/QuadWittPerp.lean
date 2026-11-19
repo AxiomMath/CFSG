@@ -65,7 +65,7 @@ theorem card_ge_of_perp_singular [Finite K] (M₀ : QuadModel QF V K γ)
     (hU : ∀ e ∈ U, M₀.Qf e = 0)
     (hperp : ∀ v : M₀.E, (∀ u ∈ U, M₀.B v u = 0) → M₀.Qf v = 0 → v ∈ U) :
     Nat.card K ^ w ≤ Nat.card U := by
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hpolar : ∀ x y, QuadraticMap.polar M₀.toQuadraticForm x y = M₀.B x y :=
     polar_toQuadraticForm M₀
   have hBeq : QuadraticMap.polarBilin M₀.toQuadraticForm = M₀.B := by

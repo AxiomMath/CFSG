@@ -30,13 +30,13 @@ theorem ite_xor_mod (m m' b : ℕ) : (if (m ^^^ m') % 2 = 1 then b else 0) =
   have h' := mod_two_xor m m'
   by_cases ha : m % 2 = 1 <;> by_cases hb : m' % 2 = 1
   · rw [decide_eq_true ha, decide_eq_true hb] at h'
-    rw [if_neg (of_decide_eq_false h'), if_pos ha, if_pos hb, Nat.xor_self]
+    rw [ite_eq_right (of_decide_eq_false h'), ite_eq_left ha, ite_eq_left hb, Nat.xor_self]
   · rw [decide_eq_true ha, decide_eq_false hb] at h'
-    rw [if_pos (of_decide_eq_true h'), if_pos ha, if_neg hb, Nat.xor_zero]
+    rw [ite_eq_left (of_decide_eq_true h'), ite_eq_left ha, ite_eq_right hb, Nat.xor_zero]
   · rw [decide_eq_false ha, decide_eq_true hb] at h'
-    rw [if_pos (of_decide_eq_true h'), if_neg ha, if_pos hb, Nat.zero_xor]
+    rw [ite_eq_left (of_decide_eq_true h'), ite_eq_right ha, ite_eq_left hb, Nat.zero_xor]
   · rw [decide_eq_false ha, decide_eq_false hb] at h'
-    rw [if_neg (of_decide_eq_false h'), if_neg ha, if_neg hb, Nat.xor_zero]
+    rw [ite_eq_right (of_decide_eq_false h'), ite_eq_right ha, ite_eq_right hb, Nat.xor_zero]
 
 theorem xor_four (a b c d : ℕ) : a ^^^ b ^^^ (c ^^^ d) = a ^^^ c ^^^ (b ^^^ d) := by
   apply Nat.eq_of_testBit_eq

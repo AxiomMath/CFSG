@@ -38,7 +38,7 @@ theorem blk6_mulVec_ext (M : Matrix (Fin 4) (Fin 4) K) (N : Matrix (Fin 2) (Fin 
     rw [ext6_ia]
     simp only [Matrix.mulVec, dotProduct]
     rw [sum6_blocks]
-    simp [ext6_ia, ext6_ib, blk6_ia_ia, blk6_ia_ib, Matrix.mulVec, dotProduct]
+    simp [ext6_ia, ext6_ib, blk6_ia_ia, blk6_ia_ib]
   · show (blk6 M N *ᵥ ext6 v) (ib b) = ext6 (M *ᵥ v) (ib b)
     rw [ext6_ib]
     simp only [Matrix.mulVec, dotProduct]
@@ -105,7 +105,7 @@ theorem diag_eq_blk6 :
     by_cases h : a = b
     · subst h; simp [ia]
     · have h' : ia a ≠ ia b := fun h2 => h ((ia_inj' a b).mp h2)
-      rw [Matrix.diagonal_apply_ne _ h', if_neg h]
+      rw [Matrix.diagonal_apply_ne _ h', ite_eq_right h]
   · rw [show e6 (Sum.inl a) = ia a from rfl, show e6 (Sum.inr b) = ib b from rfl, blk6_ia_ib]
     have h' : ia a ≠ ib b := by
       intro h2
@@ -127,7 +127,7 @@ theorem diag_eq_blk6 :
       · exact Or.inl (fun h2 => h ((ib_inj' a b).mp h2))
     rcases h' with h' | h'
     · rw [Matrix.diagonal_apply_ne _ (fun h2 => h' h2)]
-      simp [ib]
+      simp
     · subst h'
       simp [ib]
 
@@ -218,14 +218,14 @@ theorem frame6 (hnr : ∀ r : K, r ^ 2 + r + 1 ≠ 0) (g t e : Matrix (Fin 6) (F
     have h : E0 * g0 = E0 := hE0g
     rw [hL g0] at h
     have h2 := congrFun (congrFun h (ia a)) (ib b)
-    rw [E0_entry, if_neg (hne_ia_ib a b)] at h2
+    rw [E0_entry, ite_eq_right (hne_ia_ib a b)] at h2
     simpa [ia] using h2
   have hg_off2 : ∀ (a : Fin 2) (b : Fin 4), g0 (ib a) (ia b) = 0 := by
     intro a b
     have h : g0 * E0 = E0 := hg0E
     rw [hR g0] at h
     have h2 := congrFun (congrFun h (ib a)) (ia b)
-    rw [E0_entry, if_neg (hne_ib_ia a b)] at h2
+    rw [E0_entry, ite_eq_right (hne_ib_ia a b)] at h2
     simpa [ia] using h2
   have ht_off1 : ∀ (a : Fin 4) (b : Fin 2), t0 (ia a) (ib b) = 0 := by
     intro a b
@@ -326,7 +326,7 @@ theorem frame6 (hnr : ∀ r : K, r ^ 2 + r + 1 ≠ 0) (g t e : Matrix (Fin 6) (F
       _ = Q' * blk6 1 0 * Q := by rw [hE0, diag_eq_blk6]
       _ = blk6 1 0 := by
         rw [hQ, hQ', ← blk6_mul, ← blk6_mul]
-        simp only [Matrix.mul_one, Matrix.one_mul, Matrix.mul_zero, Matrix.zero_mul]
+        simp only [Matrix.mul_one, Matrix.mul_zero]
         rw [hS1ii']
 
 end CFSG.LocalAnalysis.GLTheoremA.KD264Lie.KA6L

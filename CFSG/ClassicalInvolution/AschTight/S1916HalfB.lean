@@ -52,7 +52,7 @@ theorem Ctx12.mem_Q_of_centralizes_t [IsSimpleGroup G] (c : Ctx12 p f K z S W L 
   have hInA := c.inA_J hY hA hzh hUmem hUJ hUS
   have hJt : IsUniqueInvolution (conjSub h Y') t := hzh ▸ hzY.conj h
   have hUsyl : IsSylow2In (conjSub h (W ⊓ sec19Y K z)) (conjSub h Y' ⊓ C) := by
-    refine isSylow2In_inf_of_half (S.isPGroup'.to_le hUS) (le_inf hUJ (hUS.trans hd.hSz))
+    refine isSylow2In_inf_of_half (S.isPGroup.to_le hUS) (le_inf hUJ (hUS.trans hd.hSz))
       (fun T hT => ?_) (fun T hT hTC => ?_)
     · rw [hT.natCard_eq hJQ, natCard_conjSub, natCard_conjSub]
       exact hU₀card
@@ -90,12 +90,12 @@ theorem Ctx12.mem_Q_of_centralizes_t [IsSimpleGroup G] (c : Ctx12 p f K z S W L 
   obtain ⟨-, h2⟩ := h98 G (omegaPrime K Y') (hypOmegaGen_omegaPrime ht hY) K
     (Or.inl (CoreAssembly.mem_conjClass_self K)) (conjSub h Y') hJΩ hInA z t hzK hJt Y'
     (Or.inr (CoreAssembly.mem_conjClass_self Y')) hY'ne (twinSet_omegaPrime ht hY)
-    Xg (S.isPGroup'.to_le hXgS) hXgC _ hMsyl hPinv S (sup_le inf_le_left hXgS) hJS W' hW' hW'S
+    Xg (S.isPGroup.to_le hXgS) hXgC _ hMsyl hPinv S (sup_le inf_le_left hXgS) hJS W' hW' hW'S
   obtain ⟨A, hAeq, -, -, hA1, hA2⟩ := h2 fun y hy w hw =>
     (Subgroup.mem_centralizer_iff.mp hy.1.2 w ⟨hW'S hw.1, hw.2⟩).symm
   have hB1 : W' ⊓ conjSub h Y' ≤ sec19X K z :=
     le_sec19X_of_isSylow2In hUsyl (hUW.trans c.W_le_X) inf_le_right
-      (S.isPGroup'.to_le (inf_le_left.trans hW'S))
+      (S.isPGroup.to_le (inf_le_left.trans hW'S))
       (le_inf inf_le_right (inf_le_left.trans (hW'S.trans hd.hSz)))
   have hB2 : W' ⊓ K ≤ sec19X K z := inf_le_right.trans (le_sec19X ht.branch.member)
   have hBS : (W' ⊓ conjSub h Y') ⊔ (W' ⊓ K) ≤ (S : Subgroup G) :=
@@ -115,7 +115,7 @@ theorem Ctx12.mem_Q_of_centralizes_t [IsSimpleGroup G] (c : Ctx12 p f K z S W L 
         _ = t * a := by rw [h3]
     have haR : ∀ r ∈ (S : Subgroup G) ⊓ K, a * r = r * a := fun r hr =>
       commute_of_mem_centralizerModOdd ha1 (inf_le_right.trans le_sup_left)
-        (S.isPGroup'.to_le inf_le_left)
+        (S.isPGroup.to_le inf_le_left)
         (mem_normalizer_inf_of_mem haS (hNK (hd.hSz haS))) hr
     have hav := S1911.comm_V_of_mem_A c.data haS
       (Subgroup.mem_centralizer_iff.mpr fun r hr => (haR r hr).symm)
@@ -131,7 +131,7 @@ theorem Ctx12.mem_Q_of_centralizes_t [IsSimpleGroup G] (c : Ctx12 p f K z S W L 
     exact Subgroup.mem_sup_right hxXg
   have hxX : x ∈ sec19X K z := sup_le (sup_le hB1 hB2) hAX h1
   exact ⟨hxS, mem_sec19Y_of_centralizes ht (sd_isSylow2In_R hd) hxX
-    (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxS)) fun r hr => (hxR r hr).symm⟩
+    (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hxS)) fun r hr => (hxR r hr).symm⟩
 
 theorem Ctx12.mem_Q_of_centralizes_R [IsSimpleGroup G] (c : Ctx12 p f K z S W L t)
     (h98 : L9_8GenSTmp) (h11 : C19_11Tmp p f) {x : G} (hxS : x ∈ (S : Subgroup G))
@@ -176,7 +176,7 @@ theorem Ctx12.mem_Q_of_centralizes_R [IsSimpleGroup G] (c : Ctx12 p f K z S W L 
     S.mul_mem (S.mul_mem (S.mul_mem hxS htS) (S.inv_mem hxS)) (S.inv_mem htS)
   have hcY : x * t * x⁻¹ * t⁻¹ ∈ sec19Y K z :=
     mem_sec19Y_of_centralizes ht (sd_isSylow2In_R hd) hxX
-      (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hcS)) fun r hr => (hcomm r hr).symm
+      (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hcS)) fun r hr => (hcomm r hr).symm
   have hdich := conj_eq_or_of_mem c.ab htW ht2 hxW hzQ ⟨hcS, hcY⟩
   refine mem_of_conj_mem_pair hq₀ hq₀t hdich (c.mem_Q_of_centralizes_t h98 h11 hxS hxR) ?_
   refine c.mem_Q_of_centralizes_t h98 h11 (S.mul_mem (S.inv_mem hq₀.1) hxS) fun r hr => ?_

@@ -56,7 +56,7 @@ theorem false_of_inner {p : ℕ} (hp : p.Prime) (hKD : KDChevInner p) {K : Type}
     {x : MulAut K} (hxo : orderOf x = p) (hin : x ∈ innerAut K) {J1 : Subgroup K}
     (hJ1 : GLAPComponent p (Lemma1314.fixSub x) J1) : False := by
   obtain ⟨k, rfl⟩ := hin
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hnc := Lemma1315b.exists_noncomm_quot hq
   have hSz : Subgroup.center (K ⧸ Subgroup.center K) = ⊥ :=
     Lemma1315b.center_eq_bot_of_simple hnc
@@ -111,7 +111,7 @@ theorem center_eq_bot_of_outer {p : ℕ} (hp : p.Prime) (hK65 : KD65 p) {K : Typ
     [Finite K] (hq : CFSG.Open.IsQuasisimple K) (hO : GLAPPrimeCore p K = ⊥)
     (hchev : IsChevSimple p (K ⧸ Subgroup.center K)) {x : MulAut K} (hxp : x ^ p = 1)
     (hout : x ∉ innerAut K) : Subgroup.center K = ⊥ := by
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hnc := Lemma1315b.exists_noncomm_quot hq
   refine hK65 (K ⧸ Subgroup.center K) hq.2 hnc hchev
     ⟨CFSG.HardMathSupport.Timmesfeld.Coordinator.autCenterQuot K x, ?_, ?_⟩ K hq
@@ -148,7 +148,7 @@ theorem lieModel_of_isLpType {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {X J : Typ
 theorem nontrivial_barOf {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {X J1 : Subgroup G} (hJ1 : GLAPComponent p X J1) : Nontrivial (barOf p J1) := by
   have hqJ := Lemma1315b.isQuasisimple_barOf_of_comp hp hJ1
-  haveI : IsSimpleGroup (barOf p J1 ⧸ Subgroup.center (barOf p J1)) := hqJ.2
+  have : IsSimpleGroup (barOf p J1 ⧸ Subgroup.center (barOf p J1)) := hqJ.2
   exact (QuotientGroup.mk_surjective (s := Subgroup.center (barOf p J1))).nontrivial
 
 theorem primeCore_eq_bot_of_simple {G : Type} [Group G] {p : ℕ} {I : Subgroup G}
@@ -175,7 +175,7 @@ theorem nonempty_barOf_equiv {G T : Type} [Group G] [Group T] [Finite G] {p : �
     (hsol : Group.IsSolvable (↥(fixSubgroup a) ⧸ J.subgroupOf (fixSubgroup a)))
     {I : Subgroup G} (hI : GLAPComponent p (Lemma1314.fixSub β) I) :
     Nonempty (barOf p I ≃* ↥J) := by
-  haveI : Finite T := Finite.of_equiv G e.toEquiv
+  have : Finite T := Finite.of_equiv G e.toEquiv
   have hI' : GLAPComponent p (fixSubgroup β) I := by
     rw [← fixSub_eq_fixSubgroup]
     exact hI
@@ -196,7 +196,7 @@ theorem nonempty_barOf_equiv {G T : Type} [Group G] [Group T] [Finite G] {p : �
     · exact h0
   let E : ↥I ≃* ↥J := (I.equivMapOfInjective e.toMonoidHom e.injective).trans
     (MulEquiv.subgroupCongr hIJ)
-  haveI : IsSimpleGroup ↥I := E.isSimpleGroup
+  have : IsSimpleGroup ↥I := E.isSimpleGroup
   exact ⟨(barOfEquivSelf (nontrivial_barOf hp hI)).trans E⟩
 
 theorem nonempty_barOf_equiv_of_eq {G T : Type} [Group G] [Group T] [Finite G] {p : ℕ}
@@ -243,7 +243,7 @@ theorem isSimpleGroup_projectiveSL {n : ℕ} (hn : 2 ≤ n) {k : Type} [Field k]
     (hk : 4 ≤ Nat.card k) : IsSimpleGroup (projectiveSL n k) := by
   obtain ⟨hnt, hsimp, -⟩ := CFSG.LinearGroups.linear_projective_simple (K := k) (n := n) hn
     (Or.inr (exists_finset_card_four hk))
-  haveI := hnt
+  have := hnt
   exact (LinearCover.projectiveSpecialLinearEquivProjectiveSL n k).symm.isSimpleGroup
 
 theorem input9_1FieldAt_PSL : Input9_1FieldAt .PSL := by
@@ -251,7 +251,7 @@ theorem input9_1FieldAt_PSL : Input9_1FieldAt .PSL := by
   have hadm := CFSG.Blueprint.LieModel.admissible hS
   obtain ⟨-, hf, hn, -, -⟩ := hadm
   obtain ⟨F, hF, hFin, hFcard, ⟨e⟩⟩ := LinearCover.exists_mulEquiv_projectiveSL_of_lieModel hS
-  haveI := hFin
+  have := hFin
   have hp2 : p ≠ 2 := by omega
   set β : MulAut (projectiveSL n F) := MulAut.congr e x with hβdef
   have hβo : orderOf β = p := by rw [hβdef, MulEquiv.orderOf_eq]; exact hxo
@@ -271,10 +271,10 @@ theorem input9_1FieldAt_PSL : Input9_1FieldAt .PSL := by
   have hpk : p ≤ p ^ (f / p) := Nat.le_self_pow (Nat.div_pos (Nat.le_of_dvd (by omega) hpf)
     hp.pos).ne' p
   have hk4 : 4 ≤ Nat.card k := by rw [hkcard]; omega
-  haveI : IsSimpleGroup (projectiveSL n k) := isSimpleGroup_projectiveSL (by omega) hk4
+  have : IsSimpleGroup (projectiveSL n k) := isSimpleGroup_projectiveSL (by omega) hk4
   let eR : ↥(fixSubgroup (fieldAut n F τ)) ≃* projectiveSL n k :=
     (MulEquiv.subgroupCongr hC).trans (MonoidHom.ofInjective hinj).symm
-  haveI := CFSG.HardMathSupport.Dickson.DefCharOuter.Export.normal_subgroupOf_self
+  have := CFSG.HardMathSupport.Dickson.DefCharOuter.Export.normal_subgroupOf_self
     (fixSubgroup (fieldAut n F τ))
   obtain ⟨E0⟩ := nonempty_barOf_equiv hp _ hcongr le_rfl eR.isSimpleGroup
     (CFSG.HardMathSupport.Dickson.DefCharOuter.Export.isSolvable_quotient_self _) hJ1
@@ -298,10 +298,10 @@ open CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher CFSG.ClassicalGroups.Unit
 theorem input9_1FieldAt_PSU : Input9_1FieldAt .PSU := by
   intro S _ _ n p f hp hp5 hS x hxo hout J1 hJ1
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨-, hf, hn, hq⟩, K, hKf, hKfin, hK, ⟨eT⟩⟩ := hS.statedClassicalModel (by decide)
   have h : UnitaryFieldData p f K := ⟨hp, hf, by rw [hK, ← pow_mul, mul_comm]⟩
-  haveI := h.finite
+  have := h.finite
   have hC : IsPrimeFormGram (1 : GL (Fin n) K) :=
     CFSG.LocalAnalysis.ComponentInitial.UnitaryHigher.isPrimeFormGram_one
   obtain ⟨eP⟩ := nonempty_primeFormP_mulEquiv h hC
@@ -341,7 +341,7 @@ theorem input9_1FieldAt_PSU : Input9_1FieldAt .PSU := by
     (CFSG.LocalAnalysis.unitaryPSUEquivPrimeFormOne h₀ n).symm.trans
       (unitaryPSUEquiv h₀ (by omega))
   have hcongr := congr_trans_inv e' x g a hβeq
-  haveI := CFSG.HardMathSupport.Dickson.DefCharOuter.Export.normal_subgroupOf_self (fixSubgroup a)
+  have := CFSG.HardMathSupport.Dickson.DefCharOuter.Export.normal_subgroupOf_self (fixSubgroup a)
   have hsa : IsSimpleGroup ↥(fixSubgroup a) := by
     rw [hCeq]
     exact hsC
@@ -363,7 +363,7 @@ open CFSG.ComponentClassification.CatalogueBSymplecticRepresentation
 theorem input9_1FieldAt_PSp : Input9_1FieldAt .PSp := by
   intro S _ _ r p f hp hp5 hS x hxo hout J1 hJ1
   have hp2 : p ≠ 2 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hadm, K, hfield, hfin, hK, ⟨θ⟩⟩ := hS.statedClassicalModel (by decide)
   have hf : 1 ≤ f := hadm.2.1
   have hr : 2 ≤ r := hadm.2.2.1
@@ -385,7 +385,7 @@ theorem input9_1FieldAt_PSp : Input9_1FieldAt .PSp := by
       hO.relIndex_dvd.trans (Nat.gcd_dvd_left 2 _)
     exact hβ'out (mem_of_pow_eq_one_of_relIndex_dvd_two hrel hp hp2 hD hβ'p)
   obtain ⟨-, σ, hσ, h', -, hβeq⟩ := hO.descent p hp β' hE hD hβ'ord
-  haveI : CharP K p := finite_field_prime_power_characteristic hp hf hK
+  have : CharP K p := finite_field_prime_power_characteristic hp hf hK
   set k : Subfield K := descentField σ with hkdef
   obtain ⟨hpf, hkcard⟩ := CFSG.RankThree.PartOne.card_semilinearFixedSubfield hp hf hK hσ
   have hk : Nat.card k = p ^ (f / p) := hkcard
@@ -409,7 +409,7 @@ theorem input9_1FieldAt_PSp : Input9_1FieldAt .PSp := by
     CFSG.HardMathSupport.Dickson.DefCharOuter.Export.Sporth.finite_simple_nonab_of_model hmodel
       (Or.inl ⟨rfl, hr⟩)
   have hcongr := congr_trans_inv θ x h' a hβeq
-  haveI := CFSG.HardMathSupport.Dickson.DefCharOuter.Export.normal_subgroupOf_self (fixSubgroup a)
+  have := CFSG.HardMathSupport.Dickson.DefCharOuter.Export.normal_subgroupOf_self (fixSubgroup a)
   obtain ⟨E0⟩ := nonempty_barOf_equiv hp _ hcongr le_rfl hsimpC
     (CFSG.HardMathSupport.Dickson.DefCharOuter.Export.isSolvable_quotient_self _) hJ1
   exact ⟨hpf, Or.inl ⟨by decide, ⟨hadm', ↥k, inferInstance, inferInstance, hk, ⟨E0.trans eC⟩⟩⟩⟩
@@ -442,11 +442,11 @@ theorem orth_barOf_equiv {G : Type} [Group G] [Finite G] {K : Type} [Field K] [F
   obtain ⟨hsimple, -⟩ := matrix_simple_nonabelian hd S.hnd₀ S.hT₀
   have hfix : fixSubgroup (fieldAutT Q σ S.hQσ) = subfieldFixedGroup k Q₀ Q :=
     Subgroup.ext fun t => fieldAutT_apply_iff S t
-  haveI hJnorm := subfieldDerivedImage_normal k S.hext
+  have hJnorm := subfieldDerivedImage_normal k S.hext
   have hquot := fixedGroup_quotient_isPGroup k S.hext S.hnd₀ S.hT₀
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := IsPGroup.isNilpotent hquot
-  haveI := hsimple
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := IsPGroup.isNilpotent hquot
+  have := hsimple
   obtain ⟨E0⟩ := nonempty_barOf_equiv_of_eq S.hp E hβ hfix (subfieldDerivedImage_le k S.hext)
     (inclEquiv k S.hext hd).symm.isSimpleGroup inferInstance hI
   exact ⟨E0.trans (inclEquiv k S.hext hd).symm⟩
@@ -667,7 +667,7 @@ theorem entrywise_barOf_equiv (τ : Tag) {K : Type} [Field K] [Finite K] (hK2 : 
     refine Subtype.ext ?_
     rw [coe_entrywiseAdjointAut]
     exact (hJΓ ((hmemJ x).1 hx)).2
-  haveI hJn : (J.subgroupOf (fixSubgroup a)).Normal := by
+  have hJn : (J.subgroupOf (fixSubgroup a)).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf, hmemJ] at hn ⊢
     have h1 := hnormal.conj_mem ⟨((n : ↥(adjointGroup τ K)) : ModGL τ K), hΓ n⟩
@@ -675,7 +675,7 @@ theorem entrywise_barOf_equiv (τ : Tag) {K : Type} [Field K] [Finite K] (hK2 : 
     simpa using Subgroup.mem_subgroupOf.1 h1
   let eJ : ↥J ≃* adjointGroup τ (fixSubfield σ) :=
     (Subgroup.subgroupOfEquivOfLe hJA).trans (fixedFieldImageEquiv σ).symm
-  haveI := hs
+  have := hs
   have hsJ : IsSimpleGroup ↥J := eJ.isSimpleGroup
   have hsol : Group.IsSolvable (↥(fixSubgroup a) ⧸ J.subgroupOf (fixSubgroup a)) := by
     refine Group.isSolvable_of_comm fun u v => ?_
@@ -700,8 +700,8 @@ theorem exc_untwisted_descent (τ : Tag) (hτ : τ = .G2 ∨ τ = .F4 ∨ τ = .
     ∃ (r j : ℕ) (δ : MulAut (adjointGroup τ K)) (σ : K ≃+* K),
       orderOf σ = ℓ ∧ (α ^ r) ^ j = α ∧ δ * α ^ r * δ⁻¹ = entrywiseAdjointAut τ σ := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ :=
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
   have hαp : α ^ ℓ = 1 := by rw [← hα]; exact pow_orderOf_eq_one α
   rcases hτ with rfl | rfl | hE
@@ -739,13 +739,13 @@ theorem input9_1FieldAt_untwisted {t : StatedLieTag} (τ : Tag)
   intro S _ _ n p f hp hp5 hS x hxo hout I hI
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases hS with ⟨ht, -⟩ | ⟨hn, -, hce⟩ | ⟨-, ht, -⟩ | ⟨-, ht, -⟩
   · exact absurd ht hcl
   · subst hn
     obtain ⟨hadm, K, _, _, hK, ⟨e⟩⟩ := (hmodel S p f).1 hce
     have hf : 1 ≤ f := hadm.2.1
-    haveI : CharP K p :=
+    have : CharP K p :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
     have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K p]; exact hp2
     let θ : S ≃* ↥(adjointGroup τ K) := e.trans
@@ -875,7 +875,7 @@ theorem input9_1FieldAt_twistedE6 : Input9_1FieldAt .twistedE6 := by
         rw [commutatorElement_def]
         exact (fixSubgroup δ).mul_mem ((fixSubgroup δ).mul_mem ((fixSubgroup δ).mul_mem ha hb)
           ((fixSubgroup δ).inv_mem ha)) ((fixSubgroup δ).inv_mem hb)
-    haveI hJnorm : ((J.subgroupOf C).subgroupOf (fixSubgroup δ)).Normal := by
+    have hJnorm : ((J.subgroupOf C).subgroupOf (fixSubgroup δ)).Normal := by
       rw [← hder']
       have h := Subgroup.normal_subgroupOf_commutator_sup (fixSubgroup δ) (fixSubgroup δ)
       rwa [sup_idem] at h
@@ -889,7 +889,7 @@ theorem input9_1FieldAt_twistedE6 : Input9_1FieldAt .twistedE6 := by
         ExcTwistedE6.coe_commutatorElement_subgroup]
       exact Subgroup.commutator_mem_commutator (v⁻¹).2 (u⁻¹).2
     let eJC : ↥(J.subgroupOf C) ≃* ↥J := Subgroup.subgroupOfEquivOfLe hJC
-    haveI := hsimpleJ
+    have := hsimpleJ
     have hJs : IsSimpleGroup ↥(J.subgroupOf C) := eJC.isSimpleGroup
     have hσ₀' : ∀ c : fixSubfield κ, fixSubfieldRestrict T κ c = c ^ (p ^ d) := fun c =>
       Subtype.ext (by rw [hσ₀]; rfl)
@@ -938,7 +938,7 @@ theorem input9_1FieldAt_trialityD4 : Input9_1FieldAt .trialityD4 := by
   have hp2 : p ≠ 2 := by omega
   have hp3 : p ≠ 3 := by omega
   have hp4 : 3 < p := by omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases hS with ⟨ht, -⟩ | ⟨hn, -, hchev⟩ | ⟨-, ht, -⟩ | ⟨-, ht, -⟩
   · exact absurd ht (by decide)
   · subst hn
@@ -953,7 +953,7 @@ theorem input9_1FieldAt_trialityD4 : Input9_1FieldAt .trialityD4 := by
     have hK3 : Nat.card K = p ^ (3 * f) := by rw [hK₃, ← pow_mul, mul_comm]
     obtain ⟨-, hcyc, Θ, hΘ, -⟩ :=
       CFSG.RankThree.Chevalley.triality_normal_form_data hp hf K hK₃ σ hσ
-    haveI := hcyc
+    have := hcyc
     obtain ⟨hηord, hpf, ⟨h₀, hh₀⟩, -⟩ :=
       CFSG.RankThree.Chevalley.triality_noninner_large_prime_field_descent_and_local_core_trivial
         hp hf K hK₃ σ hσ Θ hΘ hp hp4 ⊤ le_top ⟨β, Subgroup.mem_top _⟩ hβin
@@ -1002,13 +1002,13 @@ theorem input9_1FieldAt_trialityD4 : Input9_1FieldAt .trialityD4 := by
       CFSG.RankThree.Chevalley.triality_canonical_field_full_centralizer_and_pointwise_kernel hp
         hd hp.two_le hm3 K hK' σ hσ' δc hδc
     set δ₀ := fieldActor (t := TwistTag.D4) σ δc with hδ₀
-    haveI := hsimple
+    have := hsimple
     let e3 : ↥(fixSubgroup δ₀) ≃* ↥(trialityFieldImage σ δc) :=
       (Subgroup.equivMapOfInjective _ C.subtype C.subtype_injective).trans
         (MulEquiv.subgroupCongr hmap)
     have hsimE : IsSimpleGroup ↥(fixSubgroup δ₀) := e3.isSimpleGroup
     have hk3 : Nat.card (fixSubfield δc) = (p ^ f') ^ 3 := by rw [hk, ← pow_mul, mul_comm]
-    haveI : Finite (fixSubfield δc) := Subtype.finite
+    have : Finite (fixSubfield δc) := Subtype.finite
     obtain ⟨r, hr, hσr⟩ := CFSG.HardMathSupport.Dickson.DefCharOuter.Export.exists_cubic_exponent hp
       hp3 (fixSubfield δc) hk σ hσ'
     have hσ₀ : ∀ c, fixSubfieldRestrict σ δc c = c ^ ((p ^ f') ^ r) := fun c =>
@@ -1049,7 +1049,7 @@ theorem input9_1FieldAt_trialityD4 : Input9_1FieldAt .trialityD4 := by
         ext y
         rfl
       rw [h1, hh₀']
-    haveI := CFSG.HardMathSupport.Dickson.DefCharOuter.Export.normal_subgroupOf_self
+    have := CFSG.HardMathSupport.Dickson.DefCharOuter.Export.normal_subgroupOf_self
       (fixSubgroup δ₀)
     obtain ⟨E0⟩ := nonempty_barOf_equiv_of_eq hp _ hcongr hfix_eq le_rfl hsimE
       (CFSG.HardMathSupport.Dickson.DefCharOuter.Export.isSolvable_quotient_self _) hI
@@ -1130,7 +1130,7 @@ theorem input14_18_of_inputs (h91 : Input9_1Field) : Lemma1315b.Input14_18 := by
     have hαp : MulAut.congr e x ^ p = 1 := by rw [← map_pow, hxp, map_one]
     have hsolv := hamb i hi (MulAut.congr e x) hαp hα1
     rw [CFSG.HardMathSupport.Dickson.I271.fixSubgroup_congr] at hsolv
-    haveI : Group.IsSolvable ↥((fixSubgroup x).map e.toMonoidHom) := hsolv
+    have : Group.IsSolvable ↥((fixSubgroup x).map e.toMonoidHom) := hsolv
     have hsolvx : Group.IsSolvable ↥(fixSubgroup x) :=
       Group.isSolvable_of_isSolvable_injective
         (f := ((fixSubgroup x).equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom)
@@ -1196,7 +1196,7 @@ theorem chevDown_of_kd {G : Type} [Group G] [Finite G] {p r : ℕ} (hp : p.Prime
     (hr : IsChevSimple r (barOf p J1 ⧸ Subgroup.center (barOf p J1))) :
     IsChevSimple r (barOf p J0 ⧸ Subgroup.center (barOf p J0)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Js : Subgroup G := ⨆ g ∈ Subgroup.zpowers a, GLBConj g J1 with hJs
   rw [hKx] at hJ0
   have hcomp : ∀ g ∈ Subgroup.zpowers a, GLAPComponent p (Cg e) (GLBConj g J1) := by

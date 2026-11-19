@@ -19,7 +19,7 @@ theorem bal3MaxClassEightyOne :
       CFSG.Open.pRank 3 P = 3 → Nat.card P = 81 := by
   classical
   intro X _ _ P z D hP hzo hzc huniq hDP hDe hDc hzD hCD hrk
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : (3 : ℕ).Prime := Nat.prime_three
   have hzP : z ∈ P := hDP hzD
   obtain ⟨x, hxD, hxz⟩ := exists_mem_notMem_zpowers hp3 hzo hDc

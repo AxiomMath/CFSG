@@ -26,12 +26,12 @@ theorem rk2_up_e6_two {K : Type} [Group K] [Finite K] {lab : GLALabel} (hK : Rk2
       CFSG.StandardType.markDeg] using hM
   obtain ⟨-, F, hF, hFin, hFcard, ⟨e0⟩⟩ := hM'.chevalleyExceptionalModel
     (by decide : StatedLieTag.E6 ∈ chevalleyExceptionalTags)
-  letI : Field F := hF
-  letI : Finite F := hFin
-  haveI : CharP F 2 :=
+  let : Field F := hF
+  let : Finite F := hFin
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (k := 2) (by norm_num) (by simpa using hFcard)
-  haveI : Finite (adjointGroup Tag.E6 F) := CFSG.LieType.Chevalley.generated_group_finite Tag.E6 F
+  have : Finite (adjointGroup Tag.E6 F) := CFSG.LieType.Chevalley.generated_group_finite Tag.E6 F
   let χ : AdjointQuotient .E6 F ≃* adjointGroup Tag.E6 F :=
     (QuotientGroup.quotientMulEquivOfEq (center_adjointGroup_eq_bot (τ := Tag.E6) (K := F))).trans
       QuotientGroup.quotientBot

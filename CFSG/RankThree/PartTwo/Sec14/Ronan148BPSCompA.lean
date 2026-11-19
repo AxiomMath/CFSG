@@ -16,10 +16,12 @@ variable {Y : Type} [Group Y] [Finite Y]
     ↥B →* MulAut ↥W :=
   W.normalizerMonoidHom.comp (Subgroup.inclusion hBW)
 
+omit [Finite Y] in
 theorem conjAct_apply {W B : Subgroup Y} (hBW : B ≤ Subgroup.normalizer (W : Set Y)) (b : ↥B)
     (w : ↥W) : ((conjAct hBW b w : ↥W) : Y) = (b : Y) * w * (b : Y)⁻¹ :=
   rfl
 
+omit [Finite Y] in
 theorem mem_fixSub_conjAct {W B : Subgroup Y} (hBW : B ≤ Subgroup.normalizer (W : Set Y))
     (w : ↥W) : w ∈ fixSub (conjAct hBW) ↔ (w : Y) ∈ Subgroup.centralizer (B : Set Y) := by
   rw [mem_fixSub, Subgroup.mem_centralizer_iff]
@@ -107,12 +109,12 @@ theorem map_ne_bot (hQW : Q ≤ W) (hQO : ¬ Q ≤ pPrimeCoreOf 3 W) :
   exact inSubgroup_theta_le W ⟨_, h1, rfl⟩
 
 theorem map_le_centralizer_pCore' (hD : IsPGroup 3 D₀) (hDW : D₀ ≤ Subgroup.normalizer (W : Set Y))
-    (hQW : Q ≤ W) (hQO : Q ≤ pPrimeCoreOf 3 (W ⊓ Subgroup.centralizer (D₀ : Set Y))) :
+    (_hQW : Q ≤ W) (hQO : Q ≤ pPrimeCoreOf 3 (W ⊓ Subgroup.centralizer (D₀ : Set Y))) :
     (Q.subgroupOf W).map (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥W)) ≤
       Subgroup.centralizer (CFSG.pCore 3 (↥W ⧸ aschbacherSolvableCore 3 ↥W) :
         Set (↥W ⧸ aschbacherSolvableCore 3 ↥W)) := by
   obtain ⟨hKfix, hKn, hK3⟩ := signalizer_data hDW
-  haveI := theta_characteristic ↥W
+  have := theta_characteristic ↥W
   exact map_le_centralizer_pCore hD (conjAct hDW) _ (theta_not_dvd _)
     (fun q hq => Subgroup.mem_subgroupOf.mpr (hQO (Subgroup.mem_subgroupOf.mp hq))) hKfix hKn hK3
 

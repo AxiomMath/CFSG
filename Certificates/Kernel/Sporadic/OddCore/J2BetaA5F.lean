@@ -94,14 +94,14 @@ theorem s_hs : ∀ i < J2BA.cnt,
 theorem s_cl : ∀ c < J2BA.cnt * 4, findPtK J2BA.cnt J2BA.T
     (prodQK 315 9 (mask 9) 4 J2BA.T (bothK 2 J2BA.GI J2BAI)) J2BACl c = true :=
   fun c hc => slK_spec sCl c (Nat.zero_le _) (by change c < Nat.mul J2BA.cnt 4; omega)
-    (by change c < Nat.mul J2BA.cnt 4; omega)
+    (by omega)
 
 theorem mul_eq : mulClosureH 315 gensK 100 = hRec 315 9 J2BA.cnt J2BA.T J2BA.PL ∧
     mulTreeOK 315 gensK (hRec 315 9 J2BA.cnt J2BA.T J2BA.PL).1
       (hRec 315 9 J2BA.cnt J2BA.T J2BA.PL).2.1 (hRec 315 9 J2BA.cnt J2BA.T J2BA.PL).2.2 =
         true ∧
     hkeysDistinct 315 (hRec 315 9 J2BA.cnt J2BA.T J2BA.PL).1.toList = true :=
-  mulH_sound base.1 (fun j hj => (gen hj).2.2.2.2.1) s_tabs base.2.2.2.2.2.2.2.2.2.2 s_pe s_hs
+  mulH_sound base.1 (fun _j hj => (gen hj).2.2.2.2.1) s_tabs base.2.2.2.2.2.2.2.2.2.2 s_pe s_hs
 
 theorem hT {i : ℕ} (hi : i < 60) : canonK 315 9 (mask 9) (315 * 9) (J2BA.T i) = true :=
   penumPt_canon (s_pe i (by rw [hcnt]; exact hi))

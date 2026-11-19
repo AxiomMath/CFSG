@@ -50,7 +50,7 @@ theorem n4_O2_eq_R (h : L41GPh7 t L S x₁ x₂ lam rho) :
     exact Subgroup.mem_sup_right (Subgroup.mem_zpowers t)
   · exact Subgroup.eq_of_le_of_card_ge hle (by omega)
 
-theorem n4_conj_R_le (h : L41GPh1 t L S x₁ x₂ lam rho) {g : G} (hg : g ∈ l41N t x₁ x₂)
+theorem n4_conj_R_le (_h : L41GPh1 t L S x₁ x₂ lam rho) {g : G} (hg : g ∈ l41N t x₁ x₂)
     (hgρ : g * rho * g⁻¹ ∈ zpowers rho) :
     ∀ x ∈ l41R t x₁ x₂ rho, g * x * g⁻¹ ∈ l41R t x₁ x₂ rho := by
   have hmap := Subgroup.map_commutator (l41O2 t x₁ x₂) (zpowers rho) (MulAut.conj g).toMonoidHom

@@ -70,8 +70,8 @@ theorem conj_fix_m₁ (y : P8) (h : y = m₂ ∨ y = m₂⁻¹) :
   · exact ⟨1, by simp, by simp⟩
   · exact ⟨Equiv.swap 0 3 * Equiv.swap 1 4 * Equiv.swap 2 5, by decide, by decide⟩
 
-theorem A2_normalize (x₁ x₂ : P8) (h₁ : x₁ ∈ A8s) (h₂ : x₂ ∈ A8s) (hc : x₁ * x₂ = x₂ * x₁)
-    (o₁ : orderOf x₁ = 3) (o₂ : orderOf x₂ = 3) (t₁ : x₁.cycleType = {3, 3})
+theorem A2_normalize (x₁ x₂ : P8) (_h₁ : x₁ ∈ A8s) (_h₂ : x₂ ∈ A8s) (hc : x₁ * x₂ = x₂ * x₁)
+    (_o₁ : orderOf x₁ = 3) (o₂ : orderOf x₂ = 3) (t₁ : x₁.cycleType = {3, 3})
     (t₂ : x₂.cycleType = {3, 3}) (hn : x₂ ∉ Subgroup.zpowers x₁) :
     ∃ σ : P8, σ * x₁ * σ⁻¹ = m₁ ∧ σ * x₂ * σ⁻¹ = m₂ := by
   obtain ⟨σ₁, hσ₁⟩ := isConj_iff.1 (isConj_iff_cycleType_eq.2 (t₁.trans cycleType_m₁.symm))

@@ -102,7 +102,7 @@ theorem exists_orthonormal_cols {p f : ℕ} {K : Type} [Field K] (h : UnitaryFie
         intro i
         rw [← hsymm.eq ((e i : W) : Fin d → K) (U *ᵥ c - P *ᵥ v), hdi i, map_zero h.bar]
       rw [hsum_repr y]
-      simp only [map_sum, map_smul, RingHom.id_apply, hdie, smul_zero,
+      simp only [map_sum, map_smul, hdie, smul_zero,
         Finset.sum_const_zero]
     have h1 : (U * (U.map h.bar)ᵀ) *ᵥ v = U *ᵥ c := by rw [← Matrix.mulVec_mulVec]
     rw [h1]

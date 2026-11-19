@@ -163,7 +163,7 @@ theorem letter_sound {n w kS : Nat} {PS PSI : Nat → Nat} {S : Array (Array Nat
       ∀ i < n, CFSG.KC.Enum.pg w (mask w) (letK PS PSI (icode z)) i < n := by
   have h1' := Nat.blt_eq.mp h1
   have h2' := Nat.ble_eq.mp h2
-  simp [Nat.shiftRight_eq_div_pow, Nat.pow_one] at h2'
+  simp [Nat.shiftRight_eq_div_pow] at h2'
   cases z with
   | ofNat k =>
     rw [icode_ofNat] at h1' h2'

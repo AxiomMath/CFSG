@@ -40,10 +40,11 @@ theorem eq_three {q : ℕ} {E H : Subgroup G} (hpre : PreambleTypes M)
 theorem mem_H2StarAll (h : HypCGen G M 3 E H) : H ∈ H2StarAll M :=
   ⟨3, E, h.mem_QSet, h.mem⟩
 
-theorem isPerfect_kSub {M E H : Subgroup G} (hC3 : CaseThree M H) :
+omit [Finite G] in
+theorem isPerfect_kSub {M _E H : Subgroup G} (hC3 : CaseThree M H) :
     Group.IsPerfect ↥(kSub 3 M H) := by
   have hcomp : CFSG.IsPComponent 3 ((kSub 3 M H).subgroupOf (kSub 3 M H)) := hC3.1.2
-  haveI : Group.IsPerfect ↥((kSub 3 M H).subgroupOf (kSub 3 M H)) :=
+  have : Group.IsPerfect ↥((kSub 3 M H).subgroupOf (kSub 3 M H)) :=
     CFSG.ComponentClassification.CatalogueBAlternating.pComponent_perfect hcomp
   let e := Subgroup.subgroupOfEquivOfLe (le_refl (kSub 3 M H))
   exact Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
@@ -66,7 +67,7 @@ theorem nonempty_mulEquiv_kSub_quotient_pCore_two
 
 theorem isSylowOf_three_E (h : HypCGen G M 3 E H) (hC3 : CaseThree M H) (hEK : E ≤ kSub 3 M H) :
     CFSG.ABGLocalTools.IsSylowOf 3 E (kSub 3 M H) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨A, hA⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 (kSub 3 M H)
   have hA9 : Nat.card A = 9 :=
     card_eq_nine_of_isSylowOf (HypCGen.nonempty_mulEquiv_threeStar hC3) hA
@@ -78,7 +79,7 @@ theorem isSylowOf_three_E (h : HypCGen G M 3 E H) (hC3 : CaseThree M H) (hEK : E
 
 theorem invariant_two_le_M (h : HypCGen G M 3 E H) {R : Subgroup G} (hR : IsPGroup 2 R)
     (hER : E ≤ Subgroup.normalizer (R : Set G)) : R ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : ¬ 3 ∣ Nat.card R := by
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hR
     rw [hn]
@@ -97,7 +98,7 @@ theorem pCoreOf_two_le_M (h : HypCGen G M 3 E H) : CFSG.Open.pCoreOf 2 H ≤ M :
 private theorem le_isSylowOf_of_le_normalizer {H M O T : Subgroup G}
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T (H ⊓ M)) (hOHM : O ≤ H ⊓ M)
     (hOp : IsPGroup 2 O) (hTnorm : T ≤ Subgroup.normalizer (O : Set G)) : O ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsupP : IsPGroup 2 (O ⊔ T : Subgroup G) :=
     IsPGroup.to_sup_of_normal_left' hOp hT.isPGroup hTnorm
   have hsupLe : (O ⊔ T : Subgroup G) ≤ H ⊓ M := sup_le hOHM hT.le
@@ -114,7 +115,7 @@ theorem pCoreOf_two_le_of_isSylowOf (h : HypCGen G M 3 E H) {T : Subgroup G}
 
 theorem isMaxTwoLocal_of_mem_H2StarFam (h : HypCGen G M 3 E H) {N : Subgroup G}
     (hN : N ∈ H2StarFam M E) : CFSG.Open.IsMaxTwoLocalSubgroup N := by
-  haveI := h.cstar.simple
+  have := h.cstar.simple
   have hEbot : E ≠ ⊥ := h.E_ne_bot
   have hNloc : IsTwoLocal N :=
     isTwoLocal_of_mem_H2StarFam h.cstar.nonab h.cstar.charTwo hEbot hN
@@ -130,7 +131,7 @@ theorem pCoreOf_two_kSub_ne_bot_of_quasisimple (h : HypCGen G M 3 E H)
     (hq : CFSG.IsQuasisimple (↥(kSub 3 M H) ⧸ CFSG.pCore 2 ↥(kSub 3 M H)))
     (hHK : H ≤ Subgroup.normalizer (kSub 3 M H : Set G)) :
     CFSG.Open.pCoreOf 2 (kSub 3 M H) ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup G := kSub 3 M H
   have hKH : K ≤ H := kSub_le 3 M H
   have hHnorm : H ≤ Subgroup.normalizer (K : Set G) := hHK
@@ -154,11 +155,11 @@ theorem pCoreOf_two_kSub_ne_bot_of_quasisimple (h : HypCGen G M 3 E H)
     exact hleF
   have hKp : IsPGroup 2 K :=
     (CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_isPGroup 2 H).to_le hleP
-  haveI : Group.IsPerfect ↥K := hqs.1
-  haveI : Nontrivial ↥K := by
+  have : Group.IsPerfect ↥K := hqs.1
+  have : Nontrivial ↥K := by
     have hsimple := hqs.2.1
     exact (QuotientGroup.mk'_surjective (Subgroup.center ↥K)).nontrivial
-  haveI : Group.IsNilpotent ↥K := hKp.isNilpotent
+  have : Group.IsNilpotent ↥K := hKp.isNilpotent
   exact Group.IsPerfect.not_isNilpotent ↥K inferInstance
 
 theorem eq_normalizer_kSub_of_quasisimple (h : HypCGen G M 3 E H)
@@ -182,7 +183,7 @@ theorem eq_normalizer_kSub_of_quasisimple (h : HypCGen G M 3 E H)
       ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 K : Set G) := hKN
     _ = H := hNH
 
-theorem eq_normalizer_kSub (h : HypCGen G M 3 E H) (hC3 : CaseThree M H)
+theorem eq_normalizer_kSub (h : HypCGen G M 3 E H) (_hC3 : CaseThree M H)
     (hTwo : KTwoComponentAt M) (hK : KNormalAt M) :
     Subgroup.normalizer (kSub 3 M H : Set G) = H :=
   h.eq_normalizer_kSub_of_quasisimple (h.isQuasisimple_kSub_quotient hTwo) (hK 3 E H h)
@@ -194,7 +195,7 @@ theorem exists_char_normal_of_l34_sup_sylow
     ∃ D : Subgroup G, D ≠ ⊥ ∧ D ≤ T ∧ (D.subgroupOf T).Characteristic ∧
       kSub 3 M H ≤ Subgroup.normalizer (D : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup G := kSub 3 M H
   let X : Subgroup G := K ⊔ T
   have hKH : K ≤ H := kSub_le 3 M H
@@ -297,7 +298,7 @@ theorem exists_char_normal_of_l34_sup_sylow
 theorem mem_H2StarFam_of_isMaxTwoLocal (h : HypCGen G M 3 E H) {K N : Subgroup G}
     (hEK : E ≤ K) (hKM : ¬ K ≤ M) (hN : CFSG.Open.IsMaxTwoLocalSubgroup N) (hKN : K ≤ N) :
     N ∈ H2StarFam M E := by
-  haveI := h.cstar.simple
+  have := h.cstar.simple
   have hEbot : E ≠ ⊥ := h.E_ne_bot
   have hNmem : N ∈ H2Fam M E :=
     ⟨CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top h.cstar.nonab N hN.1,
@@ -351,7 +352,7 @@ theorem normalizer_sylow_le_of_max
       kSub 3 M H₁ = kSub 3 M H) {T : Subgroup G}
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T (H ⊓ M)) :
     Subgroup.normalizer (T : Set G) ≤ H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hC3 : CaseThree M H := h3 H h.mem_H2StarAll
   obtain ⟨D, hDne, hDT, hDchar, hKD⟩ :=
     h.exists_char_normal_of_l34_sup_sylow hC3 hTwo hK hEK hT

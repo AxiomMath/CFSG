@@ -75,10 +75,10 @@ theorem runE_unfold (gs : Array (Array ℕ)) (s : IState) (h : ℕ) :
   unfold outerE withH
   dsimp only
   by_cases hc : h < s.2.1.size
-  · rw [if_pos hc, if_pos hc]
+  · rw [ite_eq_left hc, ite_eq_left hc]
     dsimp only [pure]
     rw [inner_eq]
-  · rw [if_neg hc, if_neg hc]
+  · rw [ite_eq_right hc, ite_eq_right hc]
     rfl
 
 theorem enumBFS_eq_run (gs : Array (Array ℕ)) :
@@ -187,13 +187,13 @@ theorem bfsRowK_mono (h : ℕ) :
     intro l c hne
     rw [bfsRowK_succ] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       split at hne
-      · rw [if_pos ‹_›]; exact ih _ _ hne
+      · rw [ite_eq_left ‹_›]; exact ih _ _ hne
       · exact absurd rfl hne
-    · rw [if_neg ‹_›]
+    · rw [ite_eq_right ‹_›]
       split at hne
-      · rw [if_pos ‹_›]; exact Nat.le_of_succ_le (ih _ _ hne)
+      · rw [ite_eq_left ‹_›]; exact Nat.le_of_succ_le (ih _ _ hne)
       · exact absurd rfl hne
 
 theorem bfsRunK_succ (cap fuel h c : ℕ) :
@@ -220,12 +220,12 @@ theorem bfsRunK_mono (cap : ℕ) :
     intro h c hne
     rw [bfsRunK_succ] at hne ⊢
     split at hne
-    · rw [if_pos ‹_›]
+    · rw [ite_eq_left ‹_›]
       split at hne
       · exact absurd rfl hne
-      · rw [if_neg ‹_›]
+      · rw [ite_eq_right ‹_›]
         exact Nat.le_trans (bfsRowK_mono h ng 0 c ‹_›) (ih _ _ hne)
-    · rw [if_neg ‹_›]
+    · rw [ite_eq_right ‹_›]
 
 theorem step_eq {gs : Array (Array ℕ)} (hg : ∀ l < ng, gs[l]! = unpackR 24 (G l)) (x : ℕ) {l : ℕ}
     (hl : l < ng) : mulR gs[l]! (unpackR 24 x) = unpackR 24 (stepK G x l) := by
@@ -254,17 +254,17 @@ theorem row_replay {gs : Array (Array ℕ)} (hg : ∀ l < ng, gs[l]! = unpackR 2
     unfold stepE
     rw [step_eq hg _ (by omega)]
     by_cases hw : W (h * ng + l) < c
-    · rw [if_pos hw] at hne hle hmono ⊢
+    · rw [ite_eq_left hw] at hne hle hmono ⊢
       by_cases hp : P (W (h * ng + l)) = stepK G (P h) l
-      · rw [if_pos hp] at hne hle hmono ⊢
+      · rw [ite_eq_left hp] at hne hle hmono ⊢
         have hcN : c ≤ N := Nat.le_trans hmono hle
         rw [← hp, hs.seen _ (by omega), decide_eq_true hw]
         exact ih (l + 1) c s (by omega) hhc hs ht hne hle
-      · rw [if_neg hp] at hne
+      · rw [ite_eq_right hp] at hne
         exact absurd rfl hne
-    · rw [if_neg hw] at hne hle hmono ⊢
+    · rw [ite_eq_right hw] at hne hle hmono ⊢
       by_cases hn : W (h * ng + l) = c ∧ P c = stepK G (P h) l ∧ PAR c = h ∧ LAB c = l
-      · rw [if_pos hn] at hne hle hmono ⊢
+      · rw [ite_eq_left hn] at hne hle hmono ⊢
         obtain ⟨hwc, hpc, hpar, hlab⟩ := hn
         have hcN : c < N := Nat.lt_of_lt_of_le (Nat.lt_succ_self c)
           (Nat.le_trans (bfsRowK_mono h k (l + 1) (c + 1) hne) hle)
@@ -276,7 +276,7 @@ theorem row_replay {gs : Array (Array ℕ)} (hg : ∀ l < ng, gs[l]! = unpackR 2
         rcases Nat.lt_succ_iff_lt_or_eq.1 hi with hi | rfl
         · exact ht i h0 hi
         · exact ⟨by omega, by omega, by rw [hpar, hlab, hpc]⟩
-      · rw [if_neg hn] at hne
+      · rw [ite_eq_right hn] at hne
         exact absurd rfl hne
 
 theorem run_replay {gs : Array (Array ℕ)} (hng : gs.size = ng)
@@ -300,20 +300,20 @@ theorem run_replay {gs : Array (Array ℕ)} (hng : gs.size = ng)
     rw [bfsRunK_succ] at hr hmono
     by_cases hc : h < c
     · have hc' : h < c ∧ c < N + 1 := ⟨hc, by omega⟩
-      rw [if_pos hc'] at hr hmono
-      rw [if_pos hc]
+      rw [ite_eq_left hc'] at hr hmono
+      rw [ite_eq_left hc]
       by_cases h0 : bfsRowK (stepK G) P PAR LAB W ng h ng 0 c = 0
-      · rw [if_pos h0] at hr
+      · rw [ite_eq_left h0] at hr
         omega
-      · rw [if_neg h0] at hr hmono
+      · rw [ite_eq_right h0] at hr hmono
         have hle : bfsRowK (stepK G) P PAR LAB W ng h ng 0 c ≤ N :=
           hr ▸ bfsRunK_mono (N + 1) fuel (h + 1) _ (by omega)
         rw [hs.pts h hc, hng]
         obtain ⟨hs', ht'⟩ := row_replay (W := W) hg hP hinj ng 0 c s (by omega) hc hs ht h0 hle
         exact ih (h + 1) _ _ hle hs' ht' hr
     · have hc' : ¬ (h < c ∧ c < N + 1) := fun e => hc e.1
-      rw [if_neg hc'] at hr
-      rw [if_neg hc]
+      rw [ite_eq_right hc'] at hr
+      rw [ite_eq_right hc]
       subst hr
       exact ⟨hs, ht⟩
 
@@ -450,14 +450,14 @@ theorem mkIdx_fold (hP : ∀ i < N, P i < 2 ^ 576) (hinj : ∀ a < N, ∀ b < N,
       simp
     · simp only [decide_eq_false e, Bool.false_eq_true, ↓reduceIte]
       by_cases hwc : w < c
-      · rw [if_pos hwc, if_pos (by omega)]
-      · rw [if_neg hwc, if_neg (by omega)]
+      · rw [ite_eq_left hwc, ite_eq_left (by omega)]
+      · rw [ite_eq_right hwc, ite_eq_right (by omega)]
 
 theorem lookup_mkIdx (hP : ∀ i < N, P i < 2 ^ 576) (hinj : ∀ a < N, ∀ b < N, P a = P b → a = b)
     {w : ℕ} (hw : w < N) :
     lookup (mkIdx (Array.ofFn (n := N) (fun i => unpackR 24 (P i.val)))) (unpackR 24 (P w)) = w := by
   unfold lookup
-  rw [mkIdx_eq, Array.size_ofFn, mkIdx_fold hP hinj N le_rfl w hw, if_pos hw]
+  rw [mkIdx_eq, Array.size_ofFn, mkIdx_fold hP hinj N le_rfl w hw, ite_eq_left hw]
 
 @[expose] noncomputable def ipK (X : ℕ) : ℕ → ℕ → ℕ → ℕ
   | 0, _, q => q

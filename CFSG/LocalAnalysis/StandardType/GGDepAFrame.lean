@@ -64,15 +64,15 @@ private theorem l05nDF1_cartan_of_reindex {m : ℕ} {Λ : Type} [Fintype Λ] [De
     have hne : eA i ≠ eA j := fun h => hij (eA.injective h)
     by_cases h3 : (i : ℕ) + 1 = j ∨ (j : ℕ) + 1 = i
     · have hM3 : ML (eA i) (eA j) = 3 := by
-        rw [hentryM, l05nDF1_coxeterA_entry, if_neg hij]
-        rw [if_pos (h3.elim (fun h => Or.inr h) (fun h => Or.inl h))]
+        rw [hentryM, l05nDF1_coxeterA_entry, ite_eq_right hij]
+        rw [ite_eq_left (h3.elim (fun h => Or.inr h) (fun h => Or.inl h))]
       have hthree := l05nDF1_ggIntCartan_three hCL hne hM3
-      rw [hthree.1, l05nDF1_cartanA_entry, if_neg hij, if_pos h3]
+      rw [hthree.1, l05nDF1_cartanA_entry, ite_eq_right hij, ite_eq_left h3]
     · have hM2 : ML (eA i) (eA j) = 2 := by
-        rw [hentryM, l05nDF1_coxeterA_entry, if_neg hij]
-        rw [if_neg (fun h => h3 (h.elim (fun h => Or.inr h) (fun h => Or.inl h)))]
+        rw [hentryM, l05nDF1_coxeterA_entry, ite_eq_right hij]
+        rw [ite_eq_right (fun h => h3 (h.elim (fun h => Or.inr h) (fun h => Or.inl h)))]
       have htwo := l05nDF1_ggIntCartan_two hCL hne hM2
-      rw [htwo.1, l05nDF1_cartanA_entry, if_neg hij, if_neg h3]
+      rw [htwo.1, l05nDF1_cartanA_entry, ite_eq_right hij, ite_eq_right h3]
 
 private theorem l05nDF1_det_eq {m : ℕ} {Λ : Type} [Fintype Λ] [DecidableEq Λ]
     {ML : CoxeterMatrix Λ} {CL : Matrix Λ Λ ℤ} (eA : Fin m ≃ Λ)
@@ -107,7 +107,7 @@ private theorem l05nDF1_det_cast_eq_zero {p : ℕ} [Fact p.Prime] {Λ : Type} [F
     Matrix.exists_mulVec_eq_zero_iff.mp ⟨c, hcne, hmul⟩
   rwa [Int.cast_det]
 
-private theorem l05nDF1_dvd_of_dep {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {m : ℕ} (hm : 1 ≤ m)
+private theorem l05nDF1_dvd_of_dep {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {m : ℕ} (_hm : 1 ≤ m)
     {Λ : Type} [Fintype Λ] [DecidableEq Λ] {ML : CoxeterMatrix Λ} {CL : Matrix Λ Λ ℤ}
     (eA : Fin m ≃ Λ) (hCL : GGIntCartan ML CL) (hML : ML = (CoxeterMatrix.A m).reindex eA)
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] (h : Λ → V)
@@ -121,7 +121,7 @@ private theorem l05nDF1_dvd_of_dep {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {m :
     exact (ZMod.intCast_zmod_eq_zero_iff_dvd ((m : ℤ) + 1) p).mp hdet
   exact Int.natCast_dvd_natCast.mp hdvd
 
-private theorem l05nDF1_connected_end {m : ℕ} (hm : 1 ≤ m) {Λ : Type} [Fintype Λ]
+private theorem l05nDF1_connected_end {m : ℕ} (_hm : 1 ≤ m) {Λ : Type} [Fintype Λ]
     [DecidableEq Λ] {b : Λ} {ML : CoxeterMatrix Λ} (hconn : GGDeletedConnected ML b)
     (eA : Fin m ≃ Λ) (hML : ML = (CoxeterMatrix.A m).reindex eA) :
     (eA.symm b).val = 0 ∨ (eA.symm b).val + 2 = m + 1 := by
@@ -138,12 +138,12 @@ private theorem l05nDF1_connected_end {m : ℕ} (hm : 1 ≤ m) {Λ : Type} [Fint
   have hlow_ne : ilow ≠ c := by
     intro h
     have hh := congrArg Fin.val h
-    simp only [ilow, Fin.val_mk] at hh
+    simp only [ilow] at hh
     omega
   have hhigh_ne : ihigh ≠ c := by
     intro h
     have hh := congrArg Fin.val h
-    simp only [ihigh, Fin.val_mk] at hh
+    simp only [ihigh] at hh
     omega
   have hbc : eA c = b := by rw [hcdef, Equiv.apply_symm_apply]
   let u : {i : Λ // i ≠ b} := ⟨eA ilow, fun hb => hlow_ne (eA.injective (hb.trans hbc.symm))⟩
@@ -164,7 +164,7 @@ private theorem l05nDF1_connected_end {m : ℕ} (hm : 1 ≤ m) {Λ : Type} [Fint
         (eA.symm x.1).val + 1 = (eA.symm y.1).val := by
       by_contra hcc
       apply hA2
-      rw [l05nDF1_coxeterA_entry, if_neg hixy, if_neg hcc]
+      rw [l05nDF1_coxeterA_entry, ite_eq_right hixy, ite_eq_right hcc]
     have hxc : eA.symm x.1 ≠ c := by
       intro h
       exact x.2 (by simpa [Equiv.apply_symm_apply, hbc] using congrArg eA h)
@@ -243,26 +243,26 @@ private theorem l05nDF2_A_mul_d {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N)
   have hprev : (j : ℕ) - 1 < N - 1 := by omega
   simp only [hc']
   by_cases hlast : (j : ℕ) + 1 < N - 1
-  · rw [if_pos j.isLt, if_pos hlast]
+  · rw [ite_eq_left j.isLt, ite_eq_left hlast]
     by_cases hj0 : (j : ℕ) = 0
-    · rw [if_pos hj0, hj0]; norm_num
-    · rw [if_neg hj0, if_pos hprev]
+    · rw [ite_eq_left hj0, hj0]; norm_num
+    · rw [ite_eq_right hj0, ite_eq_left hprev]
       have hsub : ((↑j - 1 : ℕ) : ZMod p) = (↑j : ZMod p) - 1 := by
         rw [Nat.cast_sub (by omega : 1 ≤ (j : ℕ))]
         norm_num
       simp only [Nat.cast_add, Nat.cast_one]
       rw [hsub]; ring
-  · rw [if_pos j.isLt, if_neg hlast]
+  · rw [ite_eq_left j.isLt, ite_eq_right hlast]
     have hlast' : (j : ℕ) + 1 = N - 1 := by omega
     by_cases hj0 : (j : ℕ) = 0
-    · rw [if_pos hj0, hj0]
+    · rw [ite_eq_left hj0, hj0]
       have hN : N = 2 := by omega
       have h2 : (2 : ZMod p) = 0 := by
         have hNcast : ((N : ℕ) : ZMod p) = 0 := (CharP.cast_eq_zero_iff (ZMod p) p N).2 hpN
         simpa [hN] using hNcast
       norm_num
       exact h2
-    · rw [if_neg hj0, if_pos hprev]
+    · rw [ite_eq_right hj0, ite_eq_left hprev]
       have hjval : (j : ℕ) = N - 2 := by omega
       have e1 : (N - 2 : ℕ) + 1 = N - 1 := by omega
       have e2 : (N - 2 : ℕ) - 1 + 1 = N - 2 := by omega
@@ -329,7 +329,7 @@ theorem ggDepA_relation {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     have hbA : ∀ i, ∑ k, (CartanMatrix.A (N - 1) i k : ZMod p) * b k = 0 := by
       intro i
       have hh := congrArg (α i) hb
-      simp only [map_sum, map_smul, F.pair, smul_eq_mul, F.x_ker i, map_zero] at hh
+      simp only [map_sum, map_smul, F.pair, smul_eq_mul, F.x_ker i] at hh
       calc ∑ k, (CartanMatrix.A (N - 1) i k : ZMod p) * b k
           = ∑ k, b k * (CartanMatrix.A (N - 1) i k : ZMod p) := by
             refine Finset.sum_congr rfl fun k _ => ?_

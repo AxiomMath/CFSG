@@ -64,7 +64,7 @@ theorem exists_isPGroup_two_section_of_isL2 {Q : Type} [Group Q] {X : Subgroup Q
   let π : ↥T₀ →* ↥(S : Subgroup (Bar2 X)) := φ.comp eT.symm.toMonoidHom
   have hTpre : IsPGroup 2 ↥Tpre := by
     refine IsPGroup.comap_of_ker_isPGroup (p := 2)
-      (H := (S : Subgroup (Bar2 X))) S.isPGroup' π₀ ?_
+      (H := (S : Subgroup (Bar2 X))) S.isPGroup π₀ ?_
     rw [QuotientGroup.ker_mk']
     exact CFSG.pCore_isPGroup (p := 2) (G := ↥X)
   have hT₀ : IsPGroup 2 ↥T₀ := IsPGroup.map hTpre X.subtype

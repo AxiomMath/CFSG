@@ -159,9 +159,9 @@ private theorem invLoop_prop (INVM w n : ℕ) : ∀ m, m ≤ n → invLoop INVM 
     · subst h1
       have h2 : ¬ (n - 1 - (n - 1 - m) < m) := by omega
       have e : n - 1 - (n - 1 - m) = m := by omega
-      rw [if_pos rfl, if_neg (fun h => h2 h.2), if_pos ⟨by omega, by omega⟩, e, Nat.zero_or]
+      rw [ite_eq_left rfl, ite_eq_right (fun h => h2 h.2), ite_eq_left ⟨by omega, by omega⟩, e, Nat.zero_or]
     · have h3 : (j < n ∧ n - 1 - j < m + 1) ↔ (j < n ∧ n - 1 - j < m) := by omega
-      rw [if_neg h1, Nat.or_zero]
+      rw [ite_eq_right h1, Nat.or_zero]
       simp only [h3]
 
 theorem wInv_spec (INVM w : ℕ) : wLen (wInv INVM w) = wLen w ∧ wOK (wInv INVM w) = true ∧
@@ -181,7 +181,7 @@ theorem wInv_spec (INVM w : ℕ) : wLen (wInv INVM w) = wLen w ∧ wOK (wInv INV
     have hi : i < wLen w := by simpa using hi1
     simp only [List.getElem_map, List.getElem_range, List.getElem_reverse, lst, List.length_map,
       List.length_range]
-    rw [hf i, if_pos ⟨hi, by omega⟩]
+    rw [hf i, ite_eq_left ⟨hi, by omega⟩]
 
 private theorem below_loop (m w n : ℕ) :
     (Nat.rec (motive := fun _ => Bool) true
@@ -231,7 +231,7 @@ private theorem evP_loop (F : ℕ → ℕ) : ∀ (n s x : ℕ),
   | succ n ih =>
     intro s x
     rw [digs_succ, List.foldl_cons]
-    simp only [Nat.rec_add_one, sN_eq] at ih ⊢
+    simp only [sN_eq] at ih ⊢
     rw [ih, land15, shr4]
 
 theorem evP_eq (F : ℕ → ℕ) (w x : ℕ) :

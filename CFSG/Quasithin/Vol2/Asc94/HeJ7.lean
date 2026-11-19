@@ -12,14 +12,17 @@ open Matrix Subgroup CFSG.CGT.M24S CFSG.Open
 
 variable {G : Type} [Group G] [Finite G] {z : G} (e : ↥(Cz z) ≃* L52.Hc)
 
+omit [Finite G] in
 theorem mG_z (hz : orderOf z = 2) : mG e z = L52.zC L52.zt := by
   have h := mG_emb e L52.zt
   rwa [emb_zt e hz] at h
 
+omit [Finite G] in
 theorem det_mG_z (hz : orderOf z = 2) : (mG e z).det = 0 := by
   rw [mG_z e hz]
   exact L52.det_zC_zt
 
+omit [Finite G] in
 theorem exists_a : ∃ a : G, a ∈ tr e L52.A1 ⊓ tr e L52.A2 ∧ mG e a = 1 := by
   obtain ⟨x, hx, hxm⟩ := L52.exists_zC 1
   refine ⟨emb e x, ?_, by rw [mG_emb, hxm]⟩
@@ -44,7 +47,8 @@ theorem not_inZG_of_mG_one (hF6 : L52.F6Model) (hz : orderOf z = 2) {a : G}
     Matrix.det_one] at hdet
   exact absurd hdet (by decide)
 
-theorem card_NA (hz : orderOf z = 2) :
+omit [Finite G] in
+theorem card_NA (_hz : orderOf z = 2) :
     Nat.card ↥(Cz z ⊓ normalizer (tr e L52.A1 : Set G)) = 3072 := by
   have : Cz z ⊓ normalizer (tr e L52.A1 : Set G) = tr e L52.NH1 := by
     ext x
@@ -68,6 +72,7 @@ theorem card_M (hF6 : L52.F6Model) (S : Setting G z e)
       Nat.card ↥(frame2 e hz hF6).NA := h
   rw [h', hSz, hNA]
 
+omit [Finite G] in
 theorem inZG_conj {a l : G} (h : InZG z (l⁻¹ * a * l)) : InZG z a := by
   obtain ⟨g, hg⟩ := h
   refine ⟨g * l⁻¹, ?_⟩

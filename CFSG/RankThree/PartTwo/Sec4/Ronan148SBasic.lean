@@ -28,7 +28,7 @@ theorem isSLThreePi_congr (e : X ≃* Y) (h : IsSLThreePi X) : IsSLThreePi Y := 
 theorem isExtOf_congr {S B : Type*} [Group S] [Group B] (e : X ≃* Y) (h : IsExtOf X S B) :
     IsExtOf Y S B := by
   obtain ⟨N, hN, ⟨eN⟩, ⟨eQ⟩⟩ := h
-  haveI : (N.map (e : X →* Y)).Normal := hN.map _ e.surjective
+  have : (N.map (e : X →* Y)).Normal := hN.map _ e.surjective
   refine ⟨N.map (e : X →* Y), inferInstance, ⟨?_⟩, ⟨?_⟩⟩
   · exact (N.equivMapOfInjective (e : X →* Y) e.injective).symm.trans eN
   · exact (QuotientGroup.congr N (N.map (e : X →* Y)) e rfl).symm.trans eQ
@@ -97,11 +97,12 @@ section Map
 
 variable {S T : Type} [Group S] [Group T] [Finite S]
 
+omit [Finite S] in
 theorem map_centralizer_singleton_equiv (e : S ≃* T) (s : S) :
     (Subgroup.centralizer ({s} : Set S)).map (e : S →* T) =
       Subgroup.centralizer ({e s} : Set T) := by
   ext y
-  simp only [Subgroup.mem_map, Subgroup.mem_centralizer_singleton_iff, MonoidHom.coe_coe]
+  simp only [Subgroup.mem_map, Subgroup.mem_centralizer_singleton_iff, _root_.MonoidHom.coe_ofClass]
   constructor
   · rintro ⟨x, hx, rfl⟩
     rw [← map_mul, ← map_mul, hx]
@@ -112,7 +113,7 @@ theorem map_centralizer_singleton_equiv (e : S ≃* T) (s : S) :
 
 theorem CC425.map (e : S ≃* T) {s : S} {K : Subgroup S} (h : CC425 s K) :
     CC425 (e s) (K.map (e : S →* T)) := by
-  haveI : Finite T := Finite.of_equiv S e.toEquiv
+  have : Finite T := Finite.of_equiv S e.toEquiv
   have eK : K ≃* K.map (e : S →* T) := K.equivMapOfInjective _ e.injective
   refine ⟨by rw [MulEquiv.orderOf_eq]; exact h.orderOf_eq, ⟨s, h.mem, rfl⟩, ?_,
     CFSG.LocalCores.isQuasisimple_of_mulEquiv eK h.isQuasisimple, ?_,
@@ -131,7 +132,7 @@ theorem CC425.map (e : S ≃* T) {s : S} {K : Subgroup S} (h : CC425 s K) :
     have heq : (K.subgroupOf C).map (eC : C →* Subgroup.centralizer ({e s} : Set T)) =
         (K.map (e : S →* T)).subgroupOf (Subgroup.centralizer ({e s} : Set T)) := by
       ext ⟨y, hy⟩
-      simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, MonoidHom.coe_coe]
+      simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, _root_.MonoidHom.coe_ofClass]
       constructor
       · rintro ⟨x, hxK, hxy⟩
         refine ⟨x, hxK, ?_⟩
@@ -151,6 +152,7 @@ section Transfer
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem descAut_eq_conj {L : Subgroup G} {c : G} (hcL : c ∈ L) :
     descAut L ⟨c, Subgroup.le_normalizer hcL⟩ =
       MulAut.conj (((⟨c, hcL⟩ : L) : L ⧸ Subgroup.center L)) := by
@@ -161,6 +163,7 @@ theorem descAut_eq_conj {L : Subgroup G} {c : G} (hcL : c ∈ L) :
       ← QuotientGroup.mk_mul]
     rfl
 
+omit [Finite G] in
 theorem mk_eq_one_iff {L : Subgroup G} {c : G} (hcL : c ∈ L) :
     (((⟨c, hcL⟩ : L) : L ⧸ Subgroup.center L)) = 1 ↔ L ≤ Subgroup.centralizer {c} := by
   rw [QuotientGroup.eq_one_iff, Subgroup.mem_center_iff]

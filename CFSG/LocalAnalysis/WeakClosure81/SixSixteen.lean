@@ -11,6 +11,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_le_of_isCyclic_of_pow_eq_one {p : ℕ} (hp : p.Prime) {X Y : Subgroup G}
     (hYX : Y ≤ X) (hexp : ∀ x ∈ X, x ^ p = 1) (hYc : IsCyclic Y) : Nat.card Y ≤ p := by
   have hexpY : Monoid.exponent Y ∣ p := by
@@ -26,7 +27,7 @@ theorem inf_eq_bot_of_cyclic_of_prod {p : ℕ} (hp : p.Prime) {X A B : Subgroup 
     (hprod : ∀ x ∈ X, ∃ a ∈ A, ∃ b ∈ B, x = a * b)
     (hXnc : ¬ IsCyclic X) : A ⊓ B = ⊥ := by
   by_contra hne
-  haveI : Nontrivial ↥(A ⊓ B) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
+  have : Nontrivial ↥(A ⊓ B) := (Subgroup.nontrivial_iff_ne_bot _).mpr hne
   obtain ⟨z, hz⟩ := exists_ne (1 : ↥(A ⊓ B))
   have hzA : (z : G) ∈ A := z.2.1
   have hzB : (z : G) ∈ B := z.2.2

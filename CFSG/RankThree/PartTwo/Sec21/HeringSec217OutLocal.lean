@@ -184,7 +184,7 @@ theorem CoverOut.exists_component_ge_iCore (h48 : Sec4.Item4_8) (h45 : Sec4.Item
     refine isQuasisimple_quot_theta_of_simple ?_
     by_contra hcomm
     push Not at hcomm
-    letI : CommGroup ↥J := { (inferInstance : Group ↥J) with mul_comm := hcomm }
+    let : CommGroup ↥J := { (inferInstance : Group ↥J) with mul_comm := hcomm }
     have hp := IsSimpleGroup.prime_card (α := ↥J)
     have hcard : Nat.card ↥J = 360 := by
       rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, card_alternatingGroup]

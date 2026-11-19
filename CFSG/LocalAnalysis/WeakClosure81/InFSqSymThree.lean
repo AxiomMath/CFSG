@@ -31,7 +31,7 @@ private theorem isPGroup_alt_three : IsPGroup 3 (alternatingGroup (Fin 3)) := by
 
 private theorem pCore_two_perm_three : pCore 2 (Equiv.Perm (Fin 3)) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := pCore 2 (Equiv.Perm (Fin 3))
   have hNnormal : N.Normal := pCore_normal
   have hNp : IsPGroup 2 N := pCore_isPGroup
@@ -97,7 +97,7 @@ private theorem card_quotient_pCore_two_perm_three :
   exact h.symm
 
 private theorem oTwoPTwo_perm_three : CFSG.Quasithin.E1.oTwoPTwo (Equiv.Perm (Fin 3)) 3 = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.Quasithin.E1.oTwoPTwo_eq_top_of_series
     (N₂ := ⊥) (N₂p := alternatingGroup (Fin 3)) ?_ ?_ ?_
   · exact IsPGroup.of_card (n := 0) (by simp)
@@ -107,7 +107,7 @@ private theorem oTwoPTwo_perm_three : CFSG.Quasithin.E1.oTwoPTwo (Equiv.Perm (Fi
       have h := pow_card_eq_one' (x := (⟨x, hx⟩ : alternatingGroup (Fin 3)))
       rw [altThree_card] at h
       exact congrArg Subtype.val h
-    simpa [hx3]
+    simp [hx3]
   · intro q
     refine ⟨1, ?_⟩
     have hqcard : Nat.card ((Equiv.Perm (Fin 3)) ⧸ alternatingGroup (Fin 3)) = 2 := by
@@ -119,7 +119,7 @@ private theorem oTwoPTwo_perm_three : CFSG.Quasithin.E1.oTwoPTwo (Equiv.Perm (Fi
       rw [hqcard] at h
       rw [← QuotientGroup.eq_one_iff (N := alternatingGroup (Fin 3)) (q ^ 2)]
       simpa using h
-    simpa using hq2
+    simp
 
 private theorem commutator_alt_three_of_card_two {B : Subgroup (Equiv.Perm (Fin 3))}
     (hB : Nat.card B = 2) : ⁅alternatingGroup (Fin 3), B⁆ = alternatingGroup (Fin 3) := by
@@ -170,7 +170,7 @@ private theorem pCore_three_quotient_perm_three :
       (alternatingGroup (Fin 3)).map
         (QuotientGroup.mk' (pCore 2 (Equiv.Perm (Fin 3)))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set A := alternatingGroup (Fin 3)
   set π := QuotientGroup.mk' (pCore 2 (Equiv.Perm (Fin 3)))
   have hAle : A.map π ≤ pCore 3 ((Equiv.Perm (Fin 3)) ⧸ pCore 2 (Equiv.Perm (Fin 3))) := by
@@ -201,7 +201,7 @@ private theorem pCore_three_quotient_perm_three :
 private theorem eOne_perm_three_of_card_two {B : Subgroup (Equiv.Perm (Fin 3))}
     (hB : Nat.card B = 2) : CFSG.Quasithin.E1.EOne (Equiv.Perm (Fin 3)) B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set A := alternatingGroup (Fin 3)
   set π := QuotientGroup.mk' (pCore 2 (Equiv.Perm (Fin 3)))
   have hcomm : ⁅A.map π, B.map π⁆ = A.map π := by
@@ -231,7 +231,7 @@ private theorem card_eq_six_of_mulEquiv_perm_three {Q : Type} [Group Q] [Finite 
 private theorem card_isSylowOf_two_top {Q : Type} [Group Q] [Finite Q]
     (e : Q ≃* Equiv.Perm (Fin 3)) {T : Subgroup Q}
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T ⊤) : Nat.card T = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := CFSG.ABGLocalTools.IsSylowOf.card_eq hT
   rw [Subgroup.card_top, card_eq_six_of_mulEquiv_perm_three e, factorization_two_six] at h
   simpa using h
@@ -242,7 +242,7 @@ private theorem mem_invColl_of_isSylow_two {Q : Type} [Group Q] [Finite Q]
     {Ω : Set (Subgroup Q)} (hΩ : CFSG.Quasithin.E1.IsInvColl ⊤ Ω)
     (hΩne : Ω.Nonempty) (hΩnt : ∀ A ∈ Ω, A ≠ ⊥) : T ∈ Ω := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardQ : Nat.card Q = 6 := card_eq_six_of_mulEquiv_perm_three e
   have hfac : (Nat.card Q).factorization 2 = 1 := by
     rw [hcardQ]
@@ -298,7 +298,7 @@ private theorem mem_invColl_of_isSylow_two {Q : Type} [Group Q] [Finite Q]
   let PT : Sylow 2 Q := Sylow.ofCard T (by rw [hcardT, hfac]; norm_num)
   have hPA : (PA : Subgroup Q) = A := Sylow.coe_ofCard _ _
   have hPT : (PT : Subgroup Q) = T := Sylow.coe_ofCard _ _
-  haveI : MulAction.IsPretransitive Q (Sylow 2 Q) := Sylow.isPretransitive_of_finite
+  have : MulAction.IsPretransitive Q (Sylow 2 Q) := Sylow.isPretransitive_of_finite
   obtain ⟨g, hg⟩ := (inferInstance : MulAction.IsPretransitive Q (Sylow 2 Q)).exists_smul_eq PA PT
   have hmap : T = A.map (MulAut.conj g).toMonoidHom := by
     rw [← hPT, ← hPA, ← hg, Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def]
@@ -312,7 +312,7 @@ private theorem isEP_top_self_of_mulEquiv_perm_three {Q : Type} [Group Q] [Finit
     (hT : CFSG.ABGLocalTools.IsSylowOf 2 T ⊤) :
     CFSG.LocalAnalysis.UniquenessCase.UC22.F12.IsEP 1 (⊤ : Subgroup Q) T T ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardT : Nat.card T = 2 := card_isSylowOf_two_top e hT
   let e' : (↥(⊤ : Subgroup Q)) ≃* Equiv.Perm (Fin 3) := Subgroup.topEquiv.trans e
   have hEOne : CFSG.Quasithin.E1.EOne (↥(⊤ : Subgroup Q)) (T.subgroupOf ⊤) := by

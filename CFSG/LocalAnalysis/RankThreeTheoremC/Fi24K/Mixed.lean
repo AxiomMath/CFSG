@@ -69,7 +69,7 @@ theorem sK_66_mem_normalizer :
 
 theorem sK_common_mem_normalizer {k : ℕ} (hk : k ∈ [1085, 1086, 64, 66, 1087]) :
     sK k ∈ Subgroup.normalizer (Subgroup.zpowers C7 : Set J) := by
-  simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hk
+  simp only [List.mem_cons, List.not_mem_nil, or_false] at hk
   rcases hk with rfl | rfl | rfl | rfl | rfl
   exacts [sK_1085_mem_normalizer, sK_1086_mem_normalizer, sK_64_mem_normalizer,
     sK_66_mem_normalizer, sK_1087_mem_normalizer]
@@ -99,7 +99,7 @@ theorem closure_normalizer_union_centralizer_Y7 :
   have hgs : sK '' {k | k ∈ [1085, 1086, 64, 66, 1087, 1082, 1083, 1084]} ⊆
       Subgroup.closure S := by
     rintro _ ⟨k, hk, rfl⟩
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hk
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hk
     rcases hk with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
     · exact Subgroup.subset_closure (Or.inl (sK_common_mem_normalizer (by simp)))
     · exact Subgroup.subset_closure (Or.inl (sK_common_mem_normalizer (by simp)))
@@ -139,7 +139,7 @@ theorem closure_normalizer_union_centralizer_X7 :
   have hgs : sK '' {k | k ∈ [1085, 1086, 64, 66, 1087, 1107, 1108, 1109]} ⊆
       Subgroup.closure S := by
     rintro _ ⟨k, hk, rfl⟩
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hk
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hk
     rcases hk with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
     · exact Subgroup.subset_closure (Or.inl (sK_common_mem_normalizer (by simp)))
     · exact Subgroup.subset_closure (Or.inl (sK_common_mem_normalizer (by simp)))

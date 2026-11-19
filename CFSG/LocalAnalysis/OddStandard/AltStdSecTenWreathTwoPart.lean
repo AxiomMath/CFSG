@@ -56,7 +56,7 @@ theorem WreathK.not_le_centralizer_of_two_part (hK : WreathK t A K) {s : X} (hs2
     {T : Subgroup X} (hT : IsPGroup 2 T) (hTidx : ¬ 2 ∣ T.index) :
     ¬ T ≤ centralizer ({s} : Set X) := by
   intro hTs
-  haveI : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
+  have : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
   have hle : (Nat.card ↥(CFSG.layer X)).factorization 2 ≤
       (Nat.card ↥(CFSG.layer X ⊓ centralizer ({s} : Set X))).factorization 2 :=
     factorization_two_card_le_of_le_centralizer (E := CFSG.layer X) hT hTidx hTs

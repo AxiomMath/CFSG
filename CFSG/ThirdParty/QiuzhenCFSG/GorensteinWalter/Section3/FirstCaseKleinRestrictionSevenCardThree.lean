@@ -163,7 +163,7 @@ public theorem firstCase_klein_restrictionSeven_card_three
         have hc := (Commute.zpow_right ((commute_iff_eq _ _).2 hcomm) m).eq
         rw [hc]
         simp
-      exact Subgroup.mem_zpowers_iff.mpr ⟨m, by simpa [hpow]⟩
+      exact Subgroup.mem_zpowers_iff.mpr ⟨m, by simp [hpow]⟩
     have hQnorm := hfirst.2 Q hQne hQle
     exfalso
     exact hVg_escape (fun v hv => hQnorm (hVgN hv))

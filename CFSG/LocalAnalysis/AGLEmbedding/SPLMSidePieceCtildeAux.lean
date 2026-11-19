@@ -109,7 +109,7 @@ theorem conj_mem_inf_of_coatom {K : Subgroup X} (hKn : K.Normal) {T : Sylow p K}
     ∀ x ∈ X₀, ∀ t ∈ (R : Subgroup X) ⊓ K, x * t * x⁻¹ ∈ (R : Subgroup X) ⊓ K := by
   intro x hx t ht
   set S : Subgroup X := (R : Subgroup X) ⊓ K
-  have hSp : IsPGroup p S := R.isPGroup'.to_le inf_le_left
+  have hSp : IsPGroup p S := R.isPGroup.to_le inf_le_left
   have hSX₀ : S ≤ X₀ := fun y hy => hN ⟨hy.2, Subgroup.le_normalizer hy⟩
   set Q : Subgroup X := S.map (MulAut.conj x).toMonoidHom
   have hQ : ∀ q ∈ Q, q ∈ K ∧ q ∈ X₀ := by
@@ -148,7 +148,7 @@ theorem exists_pow_eq_one_of_commute [Fact p.Prime] {K : Subgroup X} (hKn : K.No
       _ = (t : X)⁻¹ * (x * k * x⁻¹) * x := by rw [h1]
       _ = (t : X)⁻¹ * x * k := by group
   obtain ⟨a, ha⟩ := hC ⟨_, hyC⟩
-  obtain ⟨b, hb⟩ := T.isPGroup' ⟨t, htT⟩
+  obtain ⟨b, hb⟩ := T.isPGroup ⟨t, htT⟩
   have hcomm : Commute (t : X) ((t : X)⁻¹ * x) := Subgroup.mem_centralizer_iff.mp hyC t t.2
   have ha' : ((t : X)⁻¹ * x) ^ p ^ a = 1 := by simpa using congrArg Subtype.val ha
   have hb' : (t : X) ^ p ^ b = 1 := by

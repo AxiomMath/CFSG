@@ -17,7 +17,7 @@ theorem perm_fix_eq_of_core3 : ∀ σ τ : Equiv.Perm (Fin 3), ∀ w : PermMod 3
     permAct 3 τ w = w → permAct 3 σ w = w → σ = 1 ∨ σ = τ := by
   decide +kernel
 
-theorem exists_mem_agree_of_symData_three {V : Type} [CommGroup V] [Finite V] (hV : ∀ v : V, v ^ 2 = 1)
+theorem exists_mem_agree_of_symData_three {V : Type} [CommGroup V] [Finite V] (_hV : ∀ v : V, v ^ 2 = 1)
     {E R : Subgroup (MulAut V)} (θ : ↥E ≃* Equiv.Perm (Fin 3)) (β : ↥(commV E) →* coreMod 3)
     (hinv : ∀ x ∈ E, ∀ p ∈ commV E, x p ∈ commV E) (hsurj : Function.Surjective β)
     (hker : β.ker = ⊥)

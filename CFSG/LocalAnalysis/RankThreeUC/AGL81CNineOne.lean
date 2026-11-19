@@ -31,7 +31,7 @@ theorem CStarSetting.toGen {M : Subgroup G} (h : CStarSetting G M) : CStarSettin
 theorem CStarSettingGen.le_of_two_le_pRank {M : Subgroup G} (hC : CStarSettingGen G M) {p : ℕ}
     (hp : p ∈ sigmaM G M) {Q : Subgroup G} (hQM : Q ≤ M) (hQ : 2 ≤ CFSG.Open.pRank p Q)
     {H : Subgroup G} (hH : IsTwoLocal H) (hQH : Q ≤ H) : H ≤ M := by
-  haveI : Fact p.Prime := ⟨sigmaA_prime p hp.1⟩
+  have : Fact p.Prime := ⟨sigmaA_prime p hp.1⟩
   obtain ⟨E, hEQ, hE, hEc⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := p) (k := 2) hQ
   exact hC.cstar.embed p hp.1 M hC.maxLocal E (hEQ.trans hQM) (elementary_isPGroup p E hE)
@@ -53,7 +53,7 @@ theorem CStarSettingGen.normalizer_le_of_two_le_pRank {M : Subgroup G}
     (hC : CStarSettingGen G M) {p : ℕ} (hp : p ∈ sigmaM G M) {R : Subgroup G} (hRM : R ≤ M)
     (hR : 2 ≤ CFSG.Open.pRank p R) : normalizer (R : Set G) ≤ M :=
   normalizer_le_of_mem_uniqueSet hC.maxLocal
-    (mem_uniqueSet_of_forall hC.maxLocal hRM fun H hH hRH =>
+    (mem_uniqueSet_of_forall hC.maxLocal hRM fun _H hH hRH =>
       (hH.2 M hC.maxLocal.1 (hC.le_of_two_le_pRank hp hRM hR hH.1 hRH)).symm)
 
 namespace QSet
@@ -181,7 +181,7 @@ theorem k_two_le (h : NineCore G M p Q H E k) : 2 ≤ k := by
   rcases h.stdE.1 with rfl | rfl <;> omega
 
 theorem relPPrimeCore_le (h : NineCore G M p Q H E k) : relPPrimeCore p H ≤ M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨hk, hEQ, hE, hEc, hΓ⟩ := h.stdE
   have hcard : p ^ (k - 1 + 1) ≤ Nat.card E := by
     rcases hk with rfl | rfl <;> simp [hEc]
@@ -234,7 +234,7 @@ private theorem exists_conj_le_of_isSylowOf {p : ℕ} [Fact p.Prime] {P K U : Su
     exact ⟨y, hy, rfl⟩
   have : (MulAut.conj ((m⁻¹ : K) : G)).toMonoidHom t = (y : G) := by
     rw [← hyt']
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   rw [this]
   exact hyP
 
@@ -242,7 +242,7 @@ theorem isSylowOf_of_isSylowOf_inf (h : NineSettingGen G M p Q H E k) (hp : p �
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf p P (H ⊓ M)) :
     CFSG.ABGLocalTools.IsSylowOf p P H ∧ P ∈ QSet M p := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨x, hx, hQx⟩ := exists_conj_le_of_isSylowOf hP (QSet.isPGroup_of_mem h.mem_Q)
     (le_inf h.Q_le_H h.Q_le_M)
   have hPQ : P ∈ QSet M p :=
@@ -255,7 +255,7 @@ theorem isSylowOf_of_isSylowOf_inf (h : NineSettingGen G M p Q H E k) (hp : p �
     (QSet.isPGroup_of_mem hPQ) (hP.le.trans inf_le_left) (QSet.le_of_mem hPQ) hNorm
   have hTP : T = P := hP.eq_of_le hPT (le_inf hTH hTM) hTp
   obtain ⟨S, hS⟩ := ((QSet.isPGroup_of_mem hPQ).comap_subtype (K := H)).exists_le_sylow
-  have hSp : IsPGroup p (S.map H.subtype) := S.isPGroup'.map H.subtype
+  have hSp : IsPGroup p (S.map H.subtype) := S.isPGroup.map H.subtype
   have hPS : P ≤ (S : Subgroup H).map H.subtype := fun t ht =>
     ⟨⟨t, hP.le.trans inf_le_left ht⟩, hS (Subgroup.mem_subgroupOf.mpr ht), rfl⟩
   have hSeq : (S : Subgroup H).map H.subtype = T :=
@@ -297,7 +297,7 @@ theorem mem_muSet (h : NineSetting G M p Q H E k) : p ∈ muSet M := by
   exact (dvd_pow_self p (by have := h.k_two_le; omega)).trans h1
 
 theorem relPPrimeCore_le (h : NineSetting G M p Q H E k) : relPPrimeCore p H ≤ M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨hk, hEQ, hE, hEc, hΓ⟩ := h.stdE
   have hcard : p ^ (k - 1 + 1) ≤ Nat.card E := by
     rcases hk with rfl | rfl <;> simp [hEc]

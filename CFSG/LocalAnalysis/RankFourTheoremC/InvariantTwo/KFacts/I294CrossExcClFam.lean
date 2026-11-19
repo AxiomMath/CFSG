@@ -19,9 +19,9 @@ theorem crossExcCl_card_orthogonalGroup_quadMinus {K : Type} [Field K] [Finite K
         ∏ i ∈ Finset.Icc 1 m, ((Nat.card K : ℤ) ^ (2 * i) - 1) := by
   by_cases h2 : ℓ = 2
   · subst h2
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨hℓ⟩
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨hℓ⟩
+    have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
     exact (CFSG.Timmesfeld.ClassicalOrders.card_quadMinus m hirr).2
   · exact CFSG.ClassicalInvolution.card_orthogonalGroup_quadMinus_of_two_ne_zero
       (CFSG.ClassicalInvolution.two_ne_zero_of_card_eq_prime_pow hℓ h2 hK) hirr m
@@ -30,7 +30,7 @@ theorem crossAtPrime_B_odd_of_lt {r : ℕ} {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.B r q).Valid) (hq : q.p ≠ 2) (hr : 3 ≤ r) {p : ℕ} (hrp : r < p) :
     CrossAtPrime ⟨.B r q, hv⟩ p := by
   refine crossAtPrime_of_sylowAbelian fun hp hp5 hdp L _ _ hs ⟨e⟩ P => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeB_odd r q hv hq hr e
   have hdp' : q.p ≠ p := by simpa using hdp
@@ -48,7 +48,7 @@ theorem crossAtPrime_D_of_lt {r : ℕ} {q : TauCeti.PrimePower}
   have hr : 4 ≤ r :=
     (TauCeti.LieTypeIndex.inStandardRange_iff _).mp ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
   refine crossAtPrime_of_sylowAbelian fun hp hp5 hdp L _ _ hs ⟨e⟩ P => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeD r q hv e
   have hdp' : q.p ≠ p := by simpa using hdp
@@ -65,7 +65,7 @@ theorem crossAtPrime_twistedD_of_lt {r : ℕ} {q : TauCeti.PrimePower}
   have hr : 4 ≤ r :=
     (TauCeti.LieTypeIndex.inStandardRange_iff _).mp ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
   refine crossAtPrime_of_sylowAbelian fun hp hp5 hdp L _ _ hs ⟨e⟩ P => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, K, _, _, hK, b, c, hirr, ⟨e'⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeTwistedD r q hv e
   have hdp' : q.p ≠ p := by simpa using hdp

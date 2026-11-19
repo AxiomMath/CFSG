@@ -511,7 +511,7 @@ theorem isCyclic_Zb (h2 : (2 : F) ≠ 0) (h5 : 5 ≤ p ^ f) : IsCyclic ↥(Zb h)
         have he : GeneralLinearGroup.scalar (Fin 2) (s 1) = 1 := by rw [hs, map_one, map_one]
         have he00 := congrArg (fun A : GL (Fin 2) F => (A : Matrix (Fin 2) (Fin 2) F) 0 0) he
         simpa only [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply,
-          if_pos, Units.val_one, Matrix.one_apply_eq] using he00
+          ite_eq_left, Units.val_one, Matrix.one_apply_eq] using he00
       map_mul' a b := by
         apply Units.ext
         have he : GeneralLinearGroup.scalar (Fin 2) (s (a * b)) =
@@ -519,7 +519,7 @@ theorem isCyclic_Zb (h2 : (2 : F) ≠ 0) (h5 : 5 ≤ p ^ f) : IsCyclic ↥(Zb h)
           rw [hs, map_mul, map_mul, map_mul, hs, hs]
         have he00 := congrArg (fun A : GL (Fin 2) F => (A : Matrix (Fin 2) (Fin 2) F) 0 0) he
         simpa only [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply,
-          if_pos] using he00 }
+          ite_eq_left] using he00 }
   apply isCyclic_of_injective χ
   intro a b hab
   have hab' : psi h h2 (j a) = psi h h2 (j b) := by

@@ -22,6 +22,7 @@ private theorem normalizer_le_normalizer_zOneOf (T : Subgroup G) :
     CFSG.AGLEmbeddingD2.Tits.OrdinaryProofs.normalizer_le_normalizer_higherElemThompsonOmega
       T 1
 
+omit [Finite G] in
 private theorem le_zOneOf_of_le_center {T A : Subgroup G}
     (hA : A ≤ zJOneOf T) (hexp : ∀ x ∈ A, x ^ 2 = 1) : A ≤ zOneOf T := by
   intro x hx
@@ -77,7 +78,7 @@ private theorem jOf_le_jOneOf (T : Subgroup G) (hm : 1 < CFSG.pRank 2 ↥T) :
   rw [CFSG.higherElemThompson]
   refine sSup_le fun A hA => ?_
   have hAfam := (CFSG.mem_higherElemThompsonFamily_iff 0 A).mp hA
-  haveI : CFSG.IsElementaryAbelian 2 ↥A := hAfam.1
+  have : CFSG.IsElementaryAbelian 2 ↥A := hAfam.1
   have hrankA : CFSG.pRank 2 ↥A = CFSG.pRank 2 ↥T := by
     rw [CFSG.pRank_eq_of_card_eq_pow (p := 2) one_lt_two hAfam.2, Nat.sub_zero]
   exact CFSG.Quasithin.SteinbergBK.le_higherElemThompson_of_le_pRank hm hAfam.1
@@ -90,6 +91,7 @@ private theorem le_centralizer_omegaOneCenter {S : Type} [Group S] (J : Subgroup
   rw [← hwz]
   exact congrArg J.subtype (Subgroup.mem_center_iff.mp hw ⟨j, hj⟩).symm
 
+omit [Finite G] in
 private theorem jOneOf_le_centralizer_zOneOf (T : Subgroup G) :
     jOneOf T ≤ Subgroup.centralizer (zOneOf T : Set G) := by
   intro x hx
@@ -167,6 +169,7 @@ private theorem caseB_frattini_sup {X K T : Subgroup G}
   rw [hx']
   exact Subgroup.mul_mem_sup hkK ht
 
+omit [Finite G] in
 private theorem caseB_quotient_two_of_sup {X K T : Subgroup G}
     (hKX : K ≤ X) (hTK : T ≤ X) (hKN : (K.subgroupOf X).Normal)
     (hX : X ≤ K ⊔ T) (hT2 : IsPGroup 2 ↥T) :
@@ -178,8 +181,8 @@ private theorem caseB_quotient_two_of_sup {X K T : Subgroup G}
   have hsup : KX ⊔ TX = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hKX hTK, Subgroup.subgroupOf_eq_top]
     exact hX
-  haveI : KX.Normal := hKN
-  haveI : (KX.subgroupOf ⊤).Normal := hKN.subgroupOf ⊤
+  have : KX.Normal := hKN
+  have : (KX.subgroupOf ⊤).Normal := hKN.subgroupOf ⊤
   have hTXnorm : TX ≤ Subgroup.normalizer (KX : Set ↥X) := by
     rw [Subgroup.normalizer_eq_top]
     exact le_top
@@ -191,6 +194,7 @@ private theorem caseB_quotient_two_of_sup {X K T : Subgroup G}
   exact IsPGroup.of_equiv hquotTop
     (QuotientGroup.congr (KX.subgroupOf ⊤) KX (Subgroup.topEquiv (G := ↥X)) he)
 
+omit [Finite G] in
 private theorem caseB_qGroup_le_of_sup_two {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
     {X K T Q : Subgroup G} (hKX : K ≤ X) (hTK : T ≤ X)
     (hKN : (K.subgroupOf X).Normal) (hX : X ≤ K ⊔ T) (hT2 : IsPGroup 2 ↥T)
@@ -202,7 +206,7 @@ private theorem caseB_qGroup_le_of_sup_two {q : ℕ} (hq : q.Prime) (hq2 : q ≠
   let π : ↥X →* (↥X ⧸ KX) := QuotientGroup.mk' KX
   have hquot2 : IsPGroup 2 (↥X ⧸ KX) := caseB_quotient_two_of_sup hKX hTK hKN hX hT2
   have hQXq : IsPGroup q QX := hQq.of_equiv (Subgroup.subgroupOfEquivOfLe hQX).symm
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hImg2 : IsPGroup 2 (QX.map π) := hquot2.to_subgroup (QX.map π)
   have hImgq : IsPGroup q (QX.map π) := hQXq.map π
   have hbot : QX.map π = ⊥ :=
@@ -249,7 +253,7 @@ private theorem caseB_Q_normalizes_zOne (D : Data G) {Ch : Choice2011 G}
 private theorem caseB_normalizer_P₀_le_T (D : Data G) {Ch : Choice2011 G}
     (c : Ctx23L D Ch) {Q X K : Subgroup G}
     (hX : X = Q ⊔ D.T) (hJleK : F12.jOf D.T ≤ K)
-    (hQNZ : Q ≤ Subgroup.normalizer (zOneOf D.T : Set G)) (hTQ : Permutes D.T Q)
+    (_hQNZ : Q ≤ Subgroup.normalizer (zOneOf D.T : Set G)) (hTQ : Permutes D.T Q)
     (hQN : Q ⊓ c.N = ⊥) (hJN : Subgroup.normalizer (F12.jOf D.T : Set G) ≤ c.N) :
     X ⊓ Subgroup.normalizer ((D.T ⊓ K : Subgroup G) : Set G) ≤ D.T := by
   classical
@@ -331,8 +335,8 @@ private theorem exists_elemAbelian_sq_of_goodQ {q : ℕ} (hq : q.Prime) {Q : Sub
     (hnc : ¬ IsCyclic ↥Q) :
     ∃ E : Subgroup G, E ≤ Q ∧ IsElemAbelian q E ∧ Nat.card E = q ^ 2 := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI hQnt : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
+  have : Fact q.Prime := ⟨hq⟩
+  have hQnt : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
   obtain ⟨n, hnpos, hn⟩ :=
     (IsPGroup.nontrivial_iff_card (p := q) (G := ↥Q) (hG := hQq)).mp inferInstance
   have hcard_gt : q < Nat.card ↥Q := by
@@ -363,6 +367,7 @@ private theorem exists_elemAbelian_sq_of_goodQ {q : ℕ} (hq : q.Prime) {Q : Sub
     CFSG.GroupTheory.exists_isElemAbelian_card_sq_of_le_of_card_prime hQq hprankQ hXQ hXcard
   exact ⟨E, hEQ, hEel, hEcard⟩
 
+omit [Finite G] in
 private theorem normalizer_le_of_inf_conj_eq_bot {M Q F : Subgroup G}
     (hFQ : F ≤ Q) (hFM : F ≤ M)
     (hconj : ∀ g : G, g ∉ M → Q ⊓ M.map (MulAut.conj g).toMonoidHom = ⊥)
@@ -394,7 +399,7 @@ private theorem caseB_rankThreeGamma_le_of_not_sig (D : Data G) {Ch : Choice2011
       (barPreimage D.M (CFSG.pCore q (Bar2 D.M))))
     (hexp : ∀ x ∈ Q, x ^ q = 1) (hcl : ⁅⁅Q, Q⁆, Q⁆ = ⊥)
     (hQn : (Q.subgroupOf (D.M ⊓ normalizer (Q₀ : Set G))).Normal)
-    (hTQ : Permutes D.T Q) (hQnc : ¬ IsCyclic ↥Q) (hqsig : q ∉ D.sig)
+    (_hTQ : Permutes D.T Q) (hQnc : ¬ IsCyclic ↥Q) (hqsig : q ∉ D.sig)
     {E : Subgroup G} (hEQ : E ≤ Q) :
     rankThreeGamma 1 q E ≤ D.M := by
   classical
@@ -475,14 +480,14 @@ private theorem caseB_H_core (D : Data G) {A₀ H : Subgroup G}
     (hA0M : A₀ ≤ D.M) (hA0ne : A₀ ≠ ⊥) :
     H ≠ ⊤ ∧ CFSG.Open.pCoreOf 2 (H ⊓ D.M) ≠ ⊥ := by
   classical
-  haveI : IsSimpleGroup G := D.standing.simple
+  have : IsSimpleGroup G := D.standing.simple
   have hH2 : IsTwoLocal H := ⟨A₀, hA0ne, hA0el.isPGroup, hH⟩
   have hHne : H ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab hH2
   have hA0X : A₀ ≤ H ⊓ D.M := by
     rw [hH]
     exact le_inf Subgroup.le_normalizer hA0M
-  haveI hA0Xn : (A₀.subgroupOf (H ⊓ D.M)).Normal :=
+  have hA0Xn : (A₀.subgroupOf (H ⊓ D.M)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hA0X).mpr (by rw [hH]; exact inf_le_left)
   have hA0sub2 : IsPGroup 2 (A₀.subgroupOf (H ⊓ D.M)) :=
     hA0el.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hA0X).symm

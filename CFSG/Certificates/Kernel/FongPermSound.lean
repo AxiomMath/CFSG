@@ -261,7 +261,6 @@ theorem elemsP_spec (hn : n ≤ 32) (c : PSimple) (g1 g2 : Perm (Fin n)) (m : �
         simp only [decide_eq_false_iff_not, not_lt]
         omega
       rw [hk, code_one]
-      congr 1
       rw [List.getD_eq_default _ _ (by simp [hlen]; omega)]
 
 theorem laneD_elems (hn : n ≤ 32) (c : PSimple) (g1 g2 : Perm (Fin n)) :
@@ -269,18 +268,45 @@ theorem laneD_elems (hn : n ≤ 32) (c : PSimple) (g1 g2 : Perm (Fin n)) :
       fun k => code ((c.elems g1 g2).getD k 1) :=
   funext (elemsP_spec hn c g1 g2 c.par.length).2
 
-theorem check_match (o : Option (ℕ × ℕ)) (A : Bool) (B : ℕ → ℕ → Bool) :
-    PSimple.check.match_1 (motive := fun _ => Bool) o (fun _ => A) B =
-      Option.rec (motive := fun _ => Bool) A (fun p => B p.1 p.2) o := by
-  rcases o with _ | ⟨u, i⟩ <;> rfl
+theorem check_eq_rec {G : Type*} [Group G] [DecidableEq G] (c : PSimple) (g1 g2 z : G) :
+    c.check g1 g2 z =
+      (let n := c.par.length
+      let s := c.elems g1 g2
+      let S : ℕ → G := fun k => s.getD k 1
+      decide (0 < n) && decide (c.gen.length = n) && decide (c.suc1.length = n) &&
+      decide (c.suc2.length = n) && decide (c.cls.length = n) && decide (0 < c.o1) &&
+      decide (0 < c.o2) && decide (g1 ^ c.o1 = 1) && decide (g2 ^ c.o2 = 1) &&
+      (List.range n).all (fun k =>
+        decide (k = 0 ∨ c.par.getD k 0 < k) &&
+        decide (c.suc1.getD k 0 < n) && decide (c.suc2.getD k 0 < n) &&
+        decide (S k * g1 = S (c.suc1.getD k 0)) && decide (S k * g2 = S (c.suc2.getD k 0)) &&
+        Option.rec (motive := fun _ => Bool) (decide (S k = 1))
+          (fun p => decide (p.1 < n) && decide (p.2 < c.reps.length) &&
+            decide (S k * S p.1 = S p.1 * S (c.reps.getD p.2 0))) (c.cls.getD k none)) &&
+      c.reps.all (fun r => decide (r < n)) &&
+      (List.range c.reps.length).all (fun i =>
+        (c.nc.getD i ([], [])).1.all (fun l => decide (l < n) &&
+          decide ((c.cls.getD l none).map Prod.snd = some i)) &&
+        (c.nc.getD i ([], [])).2.all (fun l => decide (l < n) &&
+          decide ((c.cls.getD l none).map Prod.snd = some i)) &&
+        decide ((((c.nc.getD i ([], [])).1).map S).prod = g1) &&
+        decide ((((c.nc.getD i ([], [])).2).map S).prod = g2)) &&
+      decide (g1 * g2 ≠ g2 * g1) && decide (S c.k3 ^ 3 = 1) && decide (S c.k3 ≠ 1) &&
+      decide (S c.kz = z)) := by
+  unfold PSimple.check
+  dsimp only
+  congr
+  funext k
+  congr 1
+  rcases c.cls.getD k none with _ | ⟨u, i⟩ <;> rfl
 
 theorem simpleK_eq (hn : n ≤ 32) (c : PSimple) (g1 g2 z : Perm (Fin n)) :
     simpleK n c (code g1) (code g2) (code z) = c.check g1 g2 z := by
   simp only [simpleK, letB_eq, lenK_eq]
   rw [laneD_elems hn]
-  simp only [PSimple.check, rowK, ncK, allN_eq, allLK_eq, getK_eq, lenK_eq, mulS_eq, powS_eq,
+  simp only [check_eq_rec, rowK, ncK, allN_eq, allLK_eq, getK_eq, lenK_eq, mulS_eq, powS_eq,
     code_pow hn, code_mul hn, code_one, beq_code_dec hn, beq_dec, blt_dec, decide_not,
-    prodK_code hn, clsIs_eq, Bool.decide_or, check_match]
+    prodK_code hn, clsIs_eq, Bool.decide_or]
 
 theorem secK_eq (hn : n ≤ 32) (a b : Perm (Fin n)) (c : PSec) :
     secK n (code a) (code b) c = PSec.check canonPerm a b c := by

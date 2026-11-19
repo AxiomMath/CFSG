@@ -21,6 +21,7 @@ structure SgFacts (S F : Subgroup G) (g : G) : Prop where
   cent_eq : centEl S g = F
   invol : ∀ y ∈ S, (y * g) ^ 2 = 1 → y ∈ centEl S g
 
+omit [Finite G] in
 private lemma isElemAbelian_top_iff {X : Subgroup G} :
     IsElemAbelian 2 (⊤ : Subgroup X) ↔ IsElemAbelian 2 X := by
   constructor
@@ -33,17 +34,19 @@ private lemma isElemAbelian_top_iff {X : Subgroup G} :
       have hx2 := h.2 ⟨x, hx⟩ trivial
       simpa using congrArg (fun z : X => (z : G)) hx2
   · intro h
-    haveI := h.1
+    have := h.1
     refine ⟨IsMulCommutative.of_comm ?_, ?_⟩
     · intro a b
       exact Subtype.ext (mul_comm' a.1 b.1)
     · intro x _
       exact Subtype.ext (h.2 (x : G) x.2)
 
+omit [Finite G] in
 private lemma isE_toSub {X : Subgroup G} (h : IsE 3 ↥X) :
     IsElemAbelian 2 X ∧ Nat.card X = 8 :=
   ⟨isElemAbelian_top_iff.mp h.1, by rw [h.2]; norm_num⟩
 
+omit [Finite G] in
 theorem y7n_mem_sup_zpowers {H : Subgroup G} {g : G} (hg2 : g ^ 2 = 1)
     (hgH : ∀ x ∈ H, g * x * g⁻¹ ∈ H) {x : G} (hx : x ∈ H ⊔ zpowers g) :
     x ∈ H ∨ ∃ y ∈ H, x = y * g := by
@@ -111,6 +114,7 @@ theorem SgFacts.elemCover {S F : Subgroup G} {g : G} (h : SgFacts S F g) :
     · rw [hxy]
       exact mul_mem (Subgroup.mem_sup_left hyF) (Subgroup.mem_sup_right (Subgroup.mem_zpowers g))
 
+omit [Finite G] in
 theorem sgFacts_of_frame (fr : Frame G) (hrank : RankFacts fr.S) (hF : IsE 3 ↥fr.F)
     (h13 : fr.Fact13) (hg2 : fr.σ ^ 2 = 1) (hgS : fr.σ ∉ fr.S)
     (hgN : ∀ x ∈ fr.S, fr.σ * x * fr.σ⁻¹ ∈ fr.S) : SgFacts fr.S fr.F fr.σ := by
@@ -123,7 +127,7 @@ theorem sgFacts_of_frame (fr : Frame G) (hrank : RankFacts fr.S) (hF : IsE 3 ↥
     have hσ : fr.σ = y⁻¹ := (mul_eq_one_iff_inv_eq.mp h1).symm
     rw [hσ]
     exact fr.S.inv_mem hy
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf (y * fr.σ) = 2 := orderOf_eq_prime hy2 hne
   have hmem : y * fr.σ ∈ {w : G | (∃ s ∈ fr.S, w = s * fr.σ) ∧ orderOf w = 2} :=
     ⟨⟨y, hy, rfl⟩, hord⟩

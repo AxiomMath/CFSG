@@ -75,8 +75,8 @@ private theorem det_lv {U W : Matrix (Fin d) (Fin 2) K} (h : LeviData σ U W)
 
 private theorem lv_mul_U {U W : Matrix (Fin d) (Fin 2) K} (h : LeviData σ U W)
     (M N : Matrix (Fin 2) (Fin 2) K) : lv σ U W M N * U = U * M := by
-  simp only [lv, Matrix.mul_add, Matrix.add_mul, Matrix.mul_sub, Matrix.sub_mul, Matrix.mul_one,
-    Matrix.one_mul, Matrix.mul_assoc, h.wu, h.uu, Matrix.mul_zero, Matrix.zero_mul]
+  simp only [lv, Matrix.add_mul, Matrix.sub_mul, Matrix.mul_one,
+    Matrix.one_mul, Matrix.mul_assoc, h.wu, h.uu, Matrix.mul_zero]
   abel
 
 private theorem lv_mulVec {U W : Matrix (Fin d) (Fin 2) K} (M N : Matrix (Fin 2) (Fin 2) K)
@@ -201,7 +201,7 @@ private theorem leviData_of (hσ : ∀ c, σ (σ c) = c) {x y : Fin 2 → Fin d 
     by_cases hij : i = j
     · subst hij
       simp
-    · simp [Matrix.one_apply, hij, Ne.symm hij]
+    · simp [hij, Ne.symm hij]
   uw := Matrix.ext fun i j => (cT_mul_of x y i j).trans ((hxy i j).trans (by simp [one_apply]))
   uu := Matrix.ext fun i j => (cT_mul_of x x i j).trans (hxx i j)
   ww := Matrix.ext fun i j => (cT_mul_of y y i j).trans (hyy i j)

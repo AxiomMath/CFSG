@@ -53,7 +53,7 @@ theorem uc22p22za_cent_pair (D : Data G) (hstd : Sigma23Std D) (h61 : UC6.R6_1 D
     P ≤ centralizer ((P ⊓ UC6.inftyOf (centralizer (P₀ : Set G)) : Subgroup G) : Set G) := by
   have hid := uc22p22qo_ident_pair D hstd h61 hH hc2
   obtain ⟨h5, hsolv, hwc, ⟨hfact, n, hn2, ⟨e⟩⟩, hnot, hfrob, hN⟩ := hc2
-  haveI : Fact p.Prime := hfact
+  have : Fact p.Prime := hfact
   have hpP : p.Prime := hfact.out
   have hp2 : p ≠ 2 := by omega
   have hLie : LieModel (UC6.inftyOf (centralizer (P₀ : Set G))) .PSL 2 p n := by
@@ -80,7 +80,7 @@ theorem uc22p22za_cent_pair (D : Data G) (hstd : Sigma23Std D) (h61 : UC6.R6_1 D
   have hP₁card : Nat.card (P ⊓ L : Subgroup G) = p ^ n := by
     rw [← Nat.card_congr (Subgroup.subgroupOfEquivOfLe hle).toEquiv]
     exact hcard
-  haveI hsimple : IsSimpleGroup ↥L := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hLie
+  have hsimple : IsSimpleGroup ↥L := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hLie
   have hdvd : p ^ n ∣ Nat.card ↥L := by
     rw [← hcard]
     exact Subgroup.card_subgroup_dvd_card _

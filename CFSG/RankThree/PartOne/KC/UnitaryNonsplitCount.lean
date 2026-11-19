@@ -171,7 +171,7 @@ theorem card_adjointOrbits_le (H : UnitaryPrimaryData h.bar B x) {p : ℕ} (hp :
   have : NeZero (p : K) := ⟨hp0⟩
   have hcharE : CharP (AlgebraicClosure K) ℓ :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective ℓ
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) p
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) p
   let ψ : AddChar (ZMod p) (AlgebraicClosure K) := AddChar.zmodChar p hζ.pow_eq_one
   have hdvd : ∀ a ∈ primaryFactors (x : Module.End K V), a ∣ X ^ p - C 1 := by
     intro a ha

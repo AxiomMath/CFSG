@@ -35,7 +35,7 @@ private lemma relIndex_eq_relIndex_sup_of_normal {G : Type*} [Group G] [Finite G
   have hAB : (A ⊓ B).relIndex A = B.relIndex A := Subgroup.inf_relIndex_left A B
   have hBA : B.relIndex (A ⊔ B) = B.relIndex A := Subgroup.relIndex_sup_right A B
   have hne : B.relIndex A ≠ 0 := by
-    haveI : (B.subgroupOf A).FiniteIndex := inferInstance
+    have : (B.subgroupOf A).FiniteIndex := inferInstance
     exact FiniteIndex.index_ne_zero
   have key : B.relIndex A * A.relIndex (A ⊔ B) = B.relIndex A * (A ⊓ B).relIndex B := by
     simp only [hAB, hBA] at h1 h2
@@ -91,14 +91,14 @@ theorem lit_inv_sylow [Finite G] {N : Subgroup G} {t : G} (ht : orderOf t = 2)
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, Subgroup.orderOf_mk, ht]; norm_num)
   obtain ⟨S₀, hS₀⟩ := hz.exists_le_sylow
   let NQ : Subgroup ↥Q := N.subgroupOf Q
-  haveI : NQ.Normal := hNQ_normal
+  have : NQ.Normal := hNQ_normal
   have hNQ_map : NQ.map Q.subtype = N := by
     rw [Subgroup.map_subgroupOf_eq_of_le le_sup_left]
   have hS_eq : (S₀ : Subgroup ↥Q).map Q.subtype ⊓ N =
       ((S₀ : Subgroup ↥Q) ⊓ NQ).map Q.subtype := by
     rw [← hNQ_map, ← Subgroup.map_inf (S₀ : Subgroup ↥Q) NQ Q.subtype Subtype.coe_injective]
   refine ⟨(S₀ : Subgroup ↥Q).map Q.subtype ⊓ N, inf_le_right,
-    (S₀.isPGroup'.map Q.subtype).to_inf_left, ?_, ?_⟩
+    (S₀.isPGroup.map Q.subtype).to_inf_left, ?_, ?_⟩
   · have hrel : ((S₀ : Subgroup ↥Q).map Q.subtype ⊓ N).relIndex N =
         ((S₀ : Subgroup ↥Q) ⊓ NQ).relIndex NQ := by
       rw [hS_eq, ← hNQ_map]

@@ -50,7 +50,7 @@ theorem cgRK_spec {A B : Nat} {a b : Equiv.Perm (Fin n)} (hA : PRep n w A a) (hB
   have hmem := runA_mem _ D.prog1 hgen
   obtain ⟨R2, -, hR2, hfin2⟩ := runK_sim hsz _ D.hints _ D.prog2 _ (initA S1 S2)
     (hlen _ _ D.nx2) (ps_init hsz p1 p2) h2
-  simp only [bA, Bool.and_eq_true] at hfin2
+  simp only [Bool.and_eq_true] at hfin2
   obtain ⟨hra, hrb⟩ := hfin2
   have hgen2 : ∀ r, initA S1 S2 r ∈ Subgroup.closure ({S1, S2} : Set (Equiv.Perm (Fin n))) :=
     initA_mem _ (Subgroup.subset_closure (by simp)) (Subgroup.subset_closure (by simp))

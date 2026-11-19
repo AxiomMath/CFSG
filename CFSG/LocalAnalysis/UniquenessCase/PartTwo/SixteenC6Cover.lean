@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem s16c6_ker_le_center {Q B : Type} [Group Q] [Group B] [Nontrivial B]
     (hQ : CFSG.Open.IsQuasisimple Q) (f : Q →* B) (hf : Function.Surjective f)
     (hZB : Subgroup.center B = ⊥) : f.ker ≤ Subgroup.center Q := by
-  haveI hsimple : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have hsimple : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
   have hZle : Subgroup.center Q ≤ f.ker := by
     intro z hz
     rw [MonoidHom.mem_ker]
@@ -47,7 +47,7 @@ private theorem s16c6_ker_le_center {Q B : Type} [Group Q] [Group B] [Nontrivial
       have hxeq : x = (x * y⁻¹) * y := by group
       rw [hxeq]
       exact f.ker.mul_mem (hZle hxy) hy
-    haveI : Subsingleton B := ⟨fun a b => by
+    have : Subsingleton B := ⟨fun a b => by
       obtain ⟨x, rfl⟩ := hf a
       obtain ⟨y, rfl⟩ := hf b
       have hx1 : f x = 1 := by rw [← MonoidHom.mem_ker, htop]; trivial
@@ -55,34 +55,34 @@ private theorem s16c6_ker_le_center {Q B : Type} [Group Q] [Group B] [Nontrivial
       rw [hx1, hy1]⟩
     exact not_subsingleton B inferInstance
 
-private theorem s16c6_lBar_quasisimple (D : Data G) {V₀ V L : Subgroup G}
+private theorem s16c6_lBar_quasisimple (_D : Data G) {V₀ V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (hΩ : IsOmegaMinus ↥(lBar V₀ V hV L) 6 3) :
     CFSG.Open.IsQuasisimple ↥(lBar V₀ V hV L) ∧
       Subgroup.center ↥(lBar V₀ V hV L) = ⊥ ∧ Nontrivial ↥(lBar V₀ V hV L) := by
   have hΩ' := hΩ
   obtain ⟨-, K, instK, instFin, b, c, hcard, hirr, ⟨e⟩⟩ := hΩ
-  letI : Field K := instK
-  letI : Finite K := instFin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 :=
+  let : Field K := instK
+  let : Finite K := instFin
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := 3) (by rw [Fintype.card_eq_nat_card, hcard])
   have hfacts :=
     CFSG.ComponentClassification.RankTwoClassical.isSimpleGroup_statedOmega_quadMinus_small
       (K := K) (n := 3) (Or.inr rfl) hirr
-  haveI : Group.IsPerfect (StatedOmega (StatedQuadMinus 3 K b c)) :=
+  have : Group.IsPerfect (StatedOmega (StatedQuadMinus 3 K b c)) :=
     Group.isPerfect_def.mpr hfacts.2.1
-  haveI : Group.IsPerfect (StatedProj (StatedOmega (StatedQuadMinus 3 K b c))) :=
+  have : Group.IsPerfect (StatedProj (StatedOmega (StatedQuadMinus 3 K b c))) :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective _)
   have hperf : Group.IsPerfect ↥(lBar V₀ V hV L) :=
     Group.isPerfect_def.mpr
       (CFSG.ComponentClassification.RankTwoClassical.commutator_eq_top_of_mulEquiv e
         Group.IsPerfect.commutator_eq_top)
-  haveI : Group.IsPerfect ↥(lBar V₀ V hV L) := hperf
+  have : Group.IsPerfect ↥(lBar V₀ V hV L) := hperf
   have hU4 : IsU4 ↥(lBar V₀ V hV L) 3 := S18.isU4_of_isOmegaMinus hΩ'
   have hsimple : IsSimpleGroup ↥(lBar V₀ V hV L) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hU4
-  haveI : IsSimpleGroup ↥(lBar V₀ V hV L) := hsimple
-  haveI : Nontrivial ↥(lBar V₀ V hV L) := hsimple.toNontrivial
+  have : IsSimpleGroup ↥(lBar V₀ V hV L) := hsimple
+  have : Nontrivial ↥(lBar V₀ V hV L) := hsimple.toNontrivial
   have hna : ¬ ∀ x y : ↥(lBar V₀ V hV L), x * y = y * x := fun h =>
     (Group.IsPerfect.not_isMulCommutative ↥(lBar V₀ V hV L)) (IsMulCommutative.of_comm h)
   have hq := CFSG.ComponentClassification.RankTwoClassical.isQuasisimple_of_isSimpleGroup hna
@@ -104,7 +104,7 @@ private theorem s16c6_griessHopfMultiplier_subsingleton
       norm_num
     rw [hgen, hexc]
     norm_num
-  haveI : Subsingleton (CFSG.Blueprint.Multiplier.generic .PSU 4 2 3 ×
+  have : Subsingleton (CFSG.Blueprint.Multiplier.generic .PSU 4 2 3 ×
       CFSG.Blueprint.Multiplier.exceptional .PSU 4 2 3) :=
     (Nat.card_eq_one_iff_unique.mp hcard).1
   exact eG.injective.subsingleton
@@ -115,8 +115,8 @@ private theorem s16c6_bar2_simple
     (hKc : K ∈ calC D.M) (hbarK : barSub V₀ V hV K = lBar V₀ V hV L) :
     Subgroup.center (Bar2 K) = ⊥ := by
   obtain ⟨hLbarQ, hZLbar, hNtriv⟩ := s16c6_lBar_quasisimple D hΩ
-  haveI : Group.IsPerfect (Bar2 K) := ⟨hKc.2.2.1⟩
-  haveI : Nontrivial ↥(barSub V₀ V hV K) := by rw [hbarK]; exact hNtriv
+  have : Group.IsPerfect (Bar2 K) := ⟨hKc.2.2.1⟩
+  have : Nontrivial ↥(barSub V₀ V hV K) := by rw [hbarK]; exact hNtriv
   have hZLbar' : Subgroup.center ↥(barSub V₀ V hV K) = ⊥ := by rw [hbarK]; exact hZLbar
   let ψ := barSubBar2HomOfHyp125 hS.setting.hyp151.hyp125 hKc
   have hψ : Function.Surjective ψ :=
@@ -127,7 +127,7 @@ private theorem s16c6_bar2_simple
   have hkerψ : ψ.ker ≤ Subgroup.center (Bar2 K) := s16c6_ker_le_center hKc.2.2 ψ hψ hZLbar'
   have hker_eq : φ.ker = ψ.ker := by
     ext x
-    simp only [MonoidHom.mem_ker, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom]
+    simp only [MonoidHom.mem_ker]
     exact eB.map_eq_one_iff
   have hker : φ.ker ≤ Subgroup.center (Bar2 K) := by
     rw [hker_eq]
@@ -156,7 +156,7 @@ private theorem s16c6_bar2_simple
 private theorem s16c6_mBar_le_normalizer (D : Data G) {V₀ V L : Subgroup G}
     {hV : IsElemAbelian 2 V} (h : s15 D.M V₀ V hV L = 1) :
     Mbar D.M V₀ V hV ≤ normalizer
-      ((lBar V₀ V hV L : Subgroup (MulAut (Vtil V₀ V hV))) : Set _) := fun φ hφ =>
+      ((lBar V₀ V hV L : Subgroup (MulAut (Vtil V₀ V hV))) : Set _) := fun _φ hφ =>
   Subgroup.mem_normalizer_iff_map_conj_eq.mpr (lBar_conj_eq_of_s15_eq_one h hφ)
 
 theorem s16c6_exists_cover
@@ -175,8 +175,8 @@ theorem s16c6_exists_cover
   obtain ⟨K, hKc, hbarK⟩ :=
     s16h_exists_cover D hstd.h127 hstd.h119 hS.setting.hyp151.hyp125 hB
   have hZ : Subgroup.center (Bar2 K) = ⊥ := s16c6_bar2_simple D hS hc.1 hKc hbarK
-  haveI : IsSimpleGroup (Bar2 K) := by
-    haveI : IsSimpleGroup (Bar2 K ⧸ Subgroup.center (Bar2 K)) := hKc.2.2.2
+  have : IsSimpleGroup (Bar2 K) := by
+    have : IsSimpleGroup (Bar2 K ⧸ Subgroup.center (Bar2 K)) := hKc.2.2.2
     exact ((QuotientGroup.quotientMulEquivOfEq hZ).trans
       QuotientGroup.quotientBot).symm.isSimpleGroup
   have hbarN : barSub V₀ V hV (UC22.conjClosure D.M K) = lBar V₀ V hV L := by

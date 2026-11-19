@@ -33,7 +33,7 @@ theorem eq_of_relIndex_le_two_of_conj_fixedPointFree {Q W N : Subgroup G} [Finit
     omega
   rcases h12 with h1 | h2
   · exact le_antisymm hNQ (Subgroup.relIndex_eq_one.mp h1)
-  haveI : (W.subgroupOf Q).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQW
+  have : (W.subgroupOf Q).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hQW
   let c : ↥Q →* ↥Q :=
     { toFun := fun u => ⟨d * u * d⁻¹, (Subgroup.mem_normalizer_iff.mp hdQ u).mp u.2⟩
       map_one' := Subtype.ext (by simp)
@@ -140,8 +140,8 @@ private theorem range_upperUnipotent_le_utri_U4qExt {F : Type} [Field F] :
   rw [Matrix.mulVec_single_one] at h
   have h0 := congrFun h 0
   have h1 := congrFun h 1
-  simp only [Matrix.transpose_apply, Pi.single_eq_same] at h0
-  simp only [Matrix.transpose_apply, ne_eq, Fin.one_eq_zero_iff, OfNat.ofNat_ne_one,
+  simp only [Pi.single_eq_same] at h0
+  simp only [ne_eq, Fin.one_eq_zero_iff, OfNat.ofNat_ne_one,
     not_false_eq_true, Pi.single_eq_of_ne] at h1
   exact mem_utri_entries.mpr ⟨h1, h0⟩
 
@@ -262,12 +262,12 @@ private theorem eq_zero_of_mul_eq_U4qExt {F : Type} [Field F] {X A : SL(2, F)} {
     · have h := e 0 j
       simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val',
         Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-        Matrix.head_cons, zero_mul, add_zero] at h
+        zero_mul, add_zero] at h
       exact eq_zero_of_mul_eq_self_U4qExt hs1 h
     · have h := e 1 j
       simp only [Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val',
         Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-        Matrix.head_cons, zero_mul, zero_add] at h
+        zero_mul, zero_add] at h
       exact eq_zero_of_mul_eq_self_U4qExt hs2 h
   have hYM : Y = ((X⁻¹ : SL(2, F)) : Matrix (Fin 2) (Fin 2) F) * M := by
     rw [hM, ← Matrix.mul_assoc, ← Matrix.SpecialLinearGroup.coe_mul, inv_mul_cancel,
@@ -281,7 +281,7 @@ private theorem diag_mul_mul_map_transpose_U4qExt {K : Type} [Field K] (σ : K �
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.transpose_apply, Matrix.map_apply,
-      Matrix.vecMul, dotProduct, -mul_eq_mul_right_iff, -mul_eq_mul_left_iff] <;> ring
+      Matrix.vecMul, dotProduct, -mul_eq_mul_right_iff, -mul_eq_mul_left_iff]
 
 private theorem eq_zero_of_conj_herm_eq_U4qExt {K : Type} [Field K] (σ : K →+* K)
     {X A : SL(2, K)} {t : Kˣ} (h1 : (t : K) * σ t ≠ 1) (h2 : σ t ≠ t)
@@ -312,7 +312,7 @@ private theorem eq_zero_of_conj_herm_eq_U4qExt {K : Type} [Field K] (σ : K →+
   have e10 := congrFun (congrFun hDM 1) 0
   have e11 := congrFun (congrFun hDM 1) 1
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons] at e00 e01 e10 e11
+    Matrix.empty_val', Matrix.cons_val_fin_one] at e00 e01 e10 e11
   have h2' : σ t - t ≠ 0 := sub_ne_zero.mpr h2
   have hM00 : M 0 0 = 0 :=
     eq_zero_of_mul_eq_self_U4qExt h1 (by linear_combination e00)
@@ -364,7 +364,7 @@ private theorem exists_unit_ne_one_U4qExt {F : Type} [Field F] [Fintype F] {f : 
   have h : 1 < Nat.card Fˣ := by
     rw [Nat.card_units, Nat.card_eq_fintype_card, hF]
     omega
-  haveI : Nontrivial Fˣ := Finite.one_lt_card_iff_nontrivial.mp h
+  have : Nontrivial Fˣ := Finite.one_lt_card_iff_nontrivial.mp h
   exact exists_ne 1
 
 private theorem exists_unit_pow_ne_U4qExt {K : Type} [Field K] [Fintype K] {f : ℕ} (hf : 2 ≤ f)
@@ -407,6 +407,7 @@ theorem U4qLocalData.card_inf_right_of_ext (hH : Hyp111 L1 L2 S)
     (hD : U4qLocalData L1 L2 S f) : Nat.card ↥(S ⊓ L2) = 2 ^ (6 * f) := by
   rw [IsSylowTwoOf.card_eq hH.h2.sylow, hD.twoPart_right]
 
+omit [Finite G] in
 private theorem relIndex_eq_two_U4qExt {X : Subgroup G} (hXS : X ≤ S)
     (hX : Nat.card X = 2 ^ (6 * f)) (hS2 : Nat.card S = 2 * 2 ^ (6 * f)) : X.relIndex S = 2 := by
   have h := Subgroup.relIndex_mul_card X S
@@ -423,6 +424,7 @@ theorem U4qLocalData.relIndex_inf_right_of_ext (hH : Hyp111 L1 L2 S)
     (S ⊓ L2).relIndex S = 2 :=
   relIndex_eq_two_U4qExt inf_le_left (hD.card_inf_right_of_ext hH) hS2
 
+omit [Finite G] in
 private theorem mem_normalizer_bot_U4qExt (x : G) :
     x ∈ Subgroup.normalizer ((⊥ : Subgroup G) : Set G) :=
   Subgroup.le_normalizer_of_normal (H := ⊥) (K := ⊤) (Subgroup.mem_top x)
@@ -432,9 +434,9 @@ theorem U4qLocalData.pCoreOf_right_le_left_of_ext (hH : Hyp111 L1 L2 S)
     pCoreOf 2 L2 ≤ L1 := by
   classical
   obtain ⟨K, hKfield, hKfin, hKcard, α, hα, hker, β, -, hβker, hβeq⟩ := hD.omega_right
-  letI := hKfield
-  letI := hKfin
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow hKcard
+  let := hKfield
+  let := hKfin
+  have : CharP K 2 := charP_of_card_eq_prime_pow hKcard
   obtain ⟨t, ht1, ht2⟩ := exists_unit_pow_ne_U4qExt hf hKcard
   obtain ⟨X, d, hdN, hdX⟩ := exists_mem_normalizer_conj_eq_diag_U4qExt hH.h2.sylow α hα
     (by rw [hker]; exact CFSG.pCore_isPGroup) t
@@ -465,6 +467,7 @@ theorem U4qLocalData.pCoreOf_right_le_left_of_ext (hH : Hyp111 L1 L2 S)
     bot_le (Subgroup.inf_normalizer_le_normalizer_inf ⟨hdQ, hdL1⟩) hidx
   exact inf_eq_left.mp hN
 
+omit [Finite G] in
 private theorem U4qLocalData.commutator_eq_center_of_ext (hD : U4qLocalData L1 L2 S f) :
     commutator ↥(pCoreOf 2 L1) = Subgroup.center ↥(pCoreOf 2 L1) := by
   rcases hD.special_left.1.2 with ⟨hab, -⟩ | ⟨hc, -, -⟩
@@ -501,9 +504,9 @@ theorem U4qLocalData.pCoreOf_left_le_right_of_ext (hH : Hyp111 L1 L2 S)
     pCoreOf 2 L1 ≤ L2 := by
   classical
   obtain ⟨F, hFfield, hFfin, hFcard, α, hα, hker, β, -, hβker, hβeq⟩ := hD.twoNat_left
-  letI := hFfield
-  letI := hFfin
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hFcard
+  let := hFfield
+  let := hFfin
+  have : CharP F 2 := charP_of_card_eq_prime_pow hFcard
   obtain ⟨s, hs⟩ := exists_unit_ne_one_U4qExt hf hFcard
   obtain ⟨X, d, hdN, hdX⟩ := exists_mem_normalizer_conj_eq_diag_U4qExt hH.h1.sylow α hα
     (by rw [hker]; exact CFSG.pCore_isPGroup) s

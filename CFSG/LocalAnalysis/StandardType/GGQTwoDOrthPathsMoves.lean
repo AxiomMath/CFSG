@@ -86,10 +86,10 @@ theorem omPerm_refl (σ : Equiv.Perm (Fin r)) (x : OmPlusIdx r) :
   rw [MulAut.mul_apply, MulAut.mul_apply, SpCoord.permAut_apply, SpCoord.permAut_inv_apply]
   simp only [Function.comp_apply]
   by_cases h : σ a < σ b
-  · rw [omPerm, dif_pos h]
+  · rw [omPerm, dite_eq_left h]
     simp only [omPlusRefl_apply_coord, Equiv.Perm.coe_inv, Equiv.symm_apply_eq,
       Equiv.apply_symm_apply, Function.comp_apply]
-  · rw [omPerm, dif_neg h]
+  · rw [omPerm, dite_eq_right h]
     simp only [omPlusRefl_apply_coord, Equiv.Perm.coe_inv, Equiv.symm_apply_eq,
       Equiv.apply_symm_apply, Function.comp_apply]
     have habne : a ≠ b := ne_of_lt hab
@@ -128,18 +128,15 @@ theorem omTog_refl (i : Fin r) (x : OmPlusIdx r) :
   · rcases em (i = b) with hib | hib
     · exact absurd (hia ▸ hib) habne
     · cases s <;> rcases em (k = a) with hka | hka <;> rcases em (k = b) with hkb | hkb <;>
-        simp_all [hia, habne.symm, hka, hkb, Bool.xor_true, Bool.xor_false, Bool.true_xor,
-          Bool.false_xor]
+        simp_all [habne.symm]
   · rcases em (i = b) with hib | hib
     · cases s <;> rcases em (k = a) with hka | hka <;> rcases em (k = b) with hkb | hkb <;>
-        simp_all [hib, habne, hka, hkb, Bool.xor_true, Bool.xor_false, Bool.true_xor,
-          Bool.false_xor]
+        simp_all
     · have hai : a ≠ i := fun h => hia h.symm
       have hbi : b ≠ i := fun h => hib h.symm
       cases s <;> rcases em (k = a) with hka | hka <;> rcases em (k = b) with hkb | hkb <;>
         rcases em (k = i) with hki | hki <;>
-        simp_all [hai, hbi, hia, hib, hka, hkb, hki, Bool.xor_true, Bool.xor_false,
-          Bool.true_xor, Bool.false_xor]
+        simp_all
 
 structure OmMove (p r : ℕ) where
   w : MulAut (Fin r → Multiplicative (ZMod p))
@@ -208,24 +205,24 @@ variable {r : ℕ}
 theorem omSupp_omStd_chain (hr : 2 ≤ r) {k : Fin r} (h : k.val + 1 < r) :
     omSupp (omStd r hr k) = {k, ⟨k.val + 1, h⟩} := by
   unfold omStd
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   rfl
 
 theorem omStd_sign_chain (hr : 2 ≤ r) {k : Fin r} (h : k.val + 1 < r) :
     (omStd r hr k).2 = false := by
   unfold omStd
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem omSupp_omStd_last (hr : 2 ≤ r) {k : Fin r} (h : ¬ k.val + 1 < r) :
     omSupp (omStd r hr k) = {⟨r - 2, by omega⟩, ⟨r - 1, by omega⟩} := by
   unfold omStd
-  rw [dif_neg h]
+  rw [dite_eq_right h]
   rfl
 
 theorem omStd_sign_last (hr : 2 ≤ r) {k : Fin r} (h : ¬ k.val + 1 < r) :
     (omStd r hr k).2 = true := by
   unfold omStd
-  rw [dif_neg h]
+  rw [dite_eq_right h]
 
 end Std
 

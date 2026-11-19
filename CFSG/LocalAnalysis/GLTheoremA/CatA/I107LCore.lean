@@ -55,7 +55,7 @@ theorem twoRankLow_sp (S : Type) [Group S] [Finite S] (lab : GLALabel) (hS : IsS
     obtain ⟨K, hf, hfin, hK, hQ⟩ := hraw
     obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ
     replace θ : S ⧸ Subgroup.center S ≃* LargeEvenProj (LargeEvenSpGroup K rank) := θ
-    haveI : Finite (LargeEvenProj (LargeEvenSpGroup K rank)) :=
+    have : Finite (LargeEvenProj (LargeEvenSpGroup K rank)) :=
       Finite.of_equiv _ θ.toEquiv
     rw [pRank_eq_of_quotient θ hna]
     exact CFSG.GH74.Filter.le_pRank_Sp_sym (K := K) (n := rank) (by omega) (p := 2) (f := n) hK
@@ -77,7 +77,7 @@ theorem twoRankLow_lin_D3 (S : Type) [Group S] [Finite S] (lab : GLALabel) (hS :
     CFSG.Assembly.LargeEvenRecipeLinear] at hraw
   obtain ⟨K, hf, hfin, hK, hQ⟩ := hraw
   obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ
-  haveI : Finite (LargeEvenProj (LargeEvenSLGroup (Fin 4) K)) :=
+  have : Finite (LargeEvenProj (LargeEvenSLGroup (Fin 4) K)) :=
     Finite.of_equiv _ θ.toEquiv
   rw [pRank_eq_of_quotient θ hna]
   exact I107G.pRank_unipProj_ge (K := K) (d := 4) (k := 2) (n := n) (by norm_num) (by norm_num) hn hK
@@ -99,7 +99,7 @@ theorem twoRankLow_lin_twD2 (S : Type) [Group S] [Finite S] (lab : GLALabel) (hS
     CFSG.Assembly.LargeEvenRecipeLinear] at hraw
   obtain ⟨K, hf, hfin, hK, hQ⟩ := hraw
   obtain ⟨hsR, hna, ⟨θ⟩⟩ := hQ
-  haveI : Finite (LargeEvenProj (LargeEvenSLGroup (Fin 2) K)) :=
+  have : Finite (LargeEvenProj (LargeEvenSLGroup (Fin 2) K)) :=
     Finite.of_equiv _ θ.toEquiv
   have hK' : Nat.card K = 2 ^ (2 * n) := by
     rw [hK, ← pow_mul, mul_comm]

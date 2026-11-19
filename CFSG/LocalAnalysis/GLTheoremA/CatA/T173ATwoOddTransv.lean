@@ -16,6 +16,7 @@ open CFSG.LocalAnalysis.GLTheoremA.T173X (innerClosure stdLayer)
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma comSp_conj (a e : V ≃ₗ[ZMod 2] V) :
     comSp (a * e * a⁻¹) = (comSp e).map (a : V →ₗ[ZMod 2] V) := by
   apply le_antisymm
@@ -79,10 +80,12 @@ private def twoOddAnti (g : V ≃ₗ[ZMod 2] V) (a : V) (f : V →ₗ[ZMod 2] ZM
     V →ₗ[ZMod 2] V :=
   f.smulRight (g a) + (f.comp (g : V →ₗ[ZMod 2] V)).smulRight a
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma twoOddLin_apply (g : V ≃ₗ[ZMod 2] V) (a : V)
     (f : V →ₗ[ZMod 2] ZMod 2) (v : V) :
     twoOddLin g a f v = f v • g (g a) + f (g v) • a := rfl
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma twoOddAnti_apply (g : V ≃ₗ[ZMod 2] V) (a : V)
     (f : V →ₗ[ZMod 2] ZMod 2) (v : V) :
     twoOddAnti g a f v = f v • g a + f (g v) • a := rfl
@@ -347,8 +350,7 @@ theorem lin_two_oddFull_transv_mem {A : Subgroup (V ≃ₗ[ZMod 2] V)}
     · intro x hx
       exact LinearMap.mem_ker.mpr (hfV0 x hx)
     · apply iSup_le; intro k
-      apply iSup_le; intro hk
-      intro x hx
+      apply iSup_le; intro hk x hx
       exact LinearMap.mem_ker.mpr (hfP k hk x hx)
   set L1 : V →ₗ[ZMod 2] V := LinearMap.id + (h : V →ₗ[ZMod 2] V) + (g : V →ₗ[ZMod 2] V) with hL1
   have hL1_le : LinearMap.range L1 ≤ U := by

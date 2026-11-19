@@ -13,7 +13,7 @@ private theorem heisInd_finrank_ne_zero {F V G : Type} [Field F] [AddCommGroup V
     (hnc : ∃ g h, φ g * φ h ≠ φ h * φ g) : Module.finrank F V ≠ 0 := by
   intro h0
   obtain ⟨g, h, hgh⟩ := hnc
-  haveI : Subsingleton V := Module.finrank_zero_iff.mp h0
+  have : Subsingleton V := Module.finrank_zero_iff.mp h0
   apply hgh
   ext v
   exact Subsingleton.elim _ _

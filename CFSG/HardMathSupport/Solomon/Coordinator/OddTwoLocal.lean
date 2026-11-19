@@ -104,7 +104,7 @@ theorem exists_twoLocal_not_isPGroup (hsimple : IsSimpleGroup K) (hnc : ∃ a b 
       · subst hN
         have hc := (hcompl P).card_mul_card
         rw [Subgroup.card_bot, mul_one] at hc
-        obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 P.isPGroup'
+        obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 P.isPGroup
         have hK : IsPGroup 2 K := IsPGroup.of_card (n := n) (hc.symm.trans hn)
         have := hK.isNilpotent
         infer_instance

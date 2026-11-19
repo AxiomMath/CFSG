@@ -29,7 +29,7 @@ theorem irredAct_of_map {W : Type*} [CommGroup W] (e : V ≃* W) {L : Subgroup (
     obtain ⟨l, hl, rfl⟩ := hg
     obtain ⟨u0, hu0, rfl⟩ := hu
     refine ⟨l u0, hU l hl u0 hu0, ?_⟩
-    simp [congrHom_apply]
+    simp
   rcases h _ hinv with h0 | h0
   · exact Or.inl ((Subgroup.map_eq_bot_iff_of_injective U
       (f := e.toMonoidHom) e.injective).1 h0)
@@ -193,7 +193,7 @@ private theorem irredAct_rhoC10_mog22 :
         rfl
       rw [matrixBaseChange_apply, h1, rep10b_apply, ← Matrix.toLin'_apply, toLin'_mulAutMat]
       exact hU g u hu⟩
-  haveI := isIrreducible_rep10b (RingHom.id (ZMod 2))
+  have := isIrreducible_rep10b (RingHom.id (ZMod 2))
   rcases IsSimpleOrder.eq_bot_or_eq_top S with h0 | h0
   · exact Or.inl (congrArg Subrepresentation.toSubmodule h0)
   · exact Or.inr (congrArg Subrepresentation.toSubmodule h0)
@@ -210,7 +210,7 @@ private theorem irredAct_rho10_mog22 :
         rfl
       rw [matrixBaseChange_apply, h1, rep10a_apply, ← Matrix.toLin'_apply, toLin'_mulAutMat]
       exact hU g u hu⟩
-  haveI := isIrreducible_rep10a (RingHom.id (ZMod 2))
+  have := isIrreducible_rep10a (RingHom.id (ZMod 2))
   rcases IsSimpleOrder.eq_bot_or_eq_top S with h0 | h0
   · exact Or.inl (congrArg Subrepresentation.toSubmodule h0)
   · exact Or.inr (congrArg Subrepresentation.toSubmodule h0)

@@ -66,8 +66,8 @@ theorem owCc_wit_orthClass_cr {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {U : Type
     (hp5 : 5 ≤ p) (hd : 4 ≤ Module.finrank (ZMod p) U) :
     ∀ r ∈ A, IsRefl p r → WitCR p A r := by
   intro r hrA hr
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  letI : Field (ZMod p) := @ZMod.instField p ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  let : Field (ZMod p) := @ZMod.instField p ⟨hp⟩
   have h2K : (2 : ZMod p) ≠ 0 := by
     intro h
     have hdiv : p ∣ 2 := (CharP.cast_eq_zero_iff (ZMod p) p 2).mp h

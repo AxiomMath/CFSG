@@ -84,6 +84,7 @@ namespace Case811L4
 
 variable {c : Counterexample4 G} (t : Case811L4 c)
 
+omit [Finite G] in
 private theorem zpowers_mul_self {y : G} (hy : y ^ 3 = 1) :
     Subgroup.zpowers (y * y) = Subgroup.zpowers y := by
   have h2 : y * y = y⁻¹ := by
@@ -112,7 +113,7 @@ theorem exists_conj_point {X : Subgroup G} (hXA : X ≤ t.A) (hX : Nat.card X = 
         X.map (MulAut.conj n).toMonoidHom = Subgroup.zpowers t.a2 ∨
         X.map (MulAut.conj n).toMonoidHom = Subgroup.zpowers t.a3) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hXne : X ≠ ⊥ := by
     rintro rfl
     rw [Subgroup.card_bot] at hX
@@ -191,7 +192,7 @@ theorem factorization_card_centralizer_a2 :
     (Nat.card (Subgroup.centralizer ({t.a2} : Set G))).factorization t.r = 1 := by
   classical
   have hrp : t.r.Prime := t.mem_sigma.1.1
-  haveI : Fact t.r.Prime := ⟨hrp⟩
+  have : Fact t.r.Prime := ⟨hrp⟩
   have hr5 : 5 ≤ t.r := t.five_le
   let C : Subgroup G := Subgroup.centralizer ({t.a2} : Set G)
   let CM : Subgroup G := c.S.M ⊓ C
@@ -228,6 +229,7 @@ theorem factorization_card_centralizer_a2 :
 private noncomputable def pointFactor (X : Subgroup G) : ℕ :=
   (Nat.card (Subgroup.centralizer (X : Set G))).factorization t.r
 
+omit [Finite G] in
 private theorem map_conj_centralizer (X : Subgroup G) (n : G) :
     (Subgroup.centralizer (X : Set G)).map (MulAut.conj n).toMonoidHom =
       Subgroup.centralizer ((X.map (MulAut.conj n).toMonoidHom : Subgroup G) : Set G) := by
@@ -429,6 +431,7 @@ private theorem pf_e_ne_one
   intro h1
   exact h (repVal_inj (by simpa [repVal] using h1))
 
+omit [Finite G] in
 private theorem mem_normalizer_zpowers_of_conj_eq {a z g n₁ n₂ : G}
     (h1 : Subgroup.zpowers (n₁ * z * n₁⁻¹) = Subgroup.zpowers a)
     (h2 : Subgroup.zpowers (n₂ * (g * z * g⁻¹) * n₂⁻¹) = Subgroup.zpowers a) :

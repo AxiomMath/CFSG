@@ -44,7 +44,7 @@ private theorem ggL45NtVacSz_vac
       (LargeEvenInnSet (LargeEvenCenterQuot (LargeEvenSzGroup a K))) F := by
   right
   rintro ⟨A, hAab, hAcard, hAI⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcenter : Subgroup.center (suzukiGroup a K) = ⊥ := by
     obtain ⟨-, -, hsimple⟩ := CFSG.LieType.Ree.suzuki_simple (a := a) ha (K := K) hK
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (suzukiGroup a K)) with h | h
@@ -59,8 +59,8 @@ private theorem ggL45NtVacSz_vac
     MulEquiv.subgroupCongr (CFSG.LieType.BorelTits.suzukiGroup_eq_glaSzGroup a K)
   let eR : LargeEvenCenterQuot (LargeEvenSzGroup a K) ≃* GLASzGroup a K :=
     e1.trans (e2.trans e3)
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenSzGroup a K)) := by
-    haveI : Finite (LargeEvenSzGroup a K) := Subtype.finite
+  have : Finite (LargeEvenCenterQuot (LargeEvenSzGroup a K)) := by
+    have : Finite (LargeEvenSzGroup a K) := Subtype.finite
     exact Finite.of_surjective _ (QuotientGroup.mk'_surjective _)
   let e12 : LargeEvenCenterQuot (LargeEvenSzGroup a K) ≃* suzukiGroup a K := e1.trans e2
   have hcenterR : Subgroup.center (LargeEvenCenterQuot (LargeEvenSzGroup a K)) = ⊥ := by

@@ -68,7 +68,7 @@ private theorem qTwoSixGen_fin5_notMem (a : Fin 6) (ha : a ∉ qTwoSixGen_J0123)
     rw [h4]; decide
   · exfalso; omega
 
-theorem qTwoSixGen_blockEmb_J0123_le {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.card K = 4) :
+theorem qTwoSixGen_blockEmb_J0123_le {K : Type} [Field K] [Finite K] [CharP K 2] (_hK : Nat.card K = 4) :
     (coordBlockSU K 2 1 ({0, 1, 2, 3} : Finset (Fin 5))).map
         (blockEmb K 2 1 6 5 0 (by norm_num)) ≤
       coordBlockSU K 2 1 qTwoSixGen_J0123 := by
@@ -79,7 +79,7 @@ theorem qTwoSixGen_blockEmb_J0123_le {K : Type} [Field K] [Finite K] [CharP K 2]
   intro a b hab
   rw [coe_coe_blockEmb, blockMat_apply]
   by_cases hc : (0 ≤ a.val ∧ a.val < 0 + 5) ∧ (0 ≤ b.val ∧ b.val < 0 + 5)
-  · rw [dif_pos hc]
+  · rw [dite_eq_left hc]
     obtain ⟨⟨ha0, ha5⟩, hb0, hb5⟩ := hc
     have hxij : ¬ ((⟨a.val, ha5⟩ : Fin 5) ∈ ({0, 1, 2, 3} : Finset (Fin 5))) ∨
         ¬ ((⟨b.val, hb5⟩ : Fin 5) ∈ ({0, 1, 2, 3} : Finset (Fin 5))) := by
@@ -98,13 +98,13 @@ theorem qTwoSixGen_blockEmb_J0123_le {K : Type} [Field K] [Finite K] [CharP K 2]
     rw [hL, hxval']
     by_cases h : (⟨a.val, ha5⟩ : Fin 5) = ⟨b.val, hb5⟩
     · have h2 : a = b := Fin.ext (by simpa using congrArg Fin.val h)
-      simp [h, h2]
+      simp [h2]
     · have h2 : a ≠ b := fun h2 => h (Fin.ext (by simpa using congrArg Fin.val h2))
       simp [h, h2]
-  · rw [dif_neg hc]
+  · rw [dite_eq_right hc]
     exact Matrix.one_apply
 
-theorem qTwoSixGen_blockEmb_injective {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.card K = 4) :
+theorem qTwoSixGen_blockEmb_injective {K : Type} [Field K] [Finite K] [CharP K 2] (_hK : Nat.card K = 4) :
     Function.Injective (blockEmb K 2 1 6 5 0 (by norm_num)) := by
   intro x y h
   apply Subtype.ext
@@ -126,17 +126,17 @@ private theorem qTwoSixGen_blockMat_perm {K : Type} [Field K] [Finite K] [CharP 
   ext a b
   rw [blockMat_apply]
   by_cases hwin : (0 ≤ a.val ∧ a.val < 0 + 5) ∧ (0 ≤ b.val ∧ b.val < 0 + 5)
-  · rw [dif_pos hwin]
+  · rw [dite_eq_left hwin]
     rw [qTwoSixGen_permMatrix_apply (K := K) (n := Fin 5) (σ := Equiv.swap i j)]
     rw [qTwoSixGen_permMatrix_apply (K := K) (n := Fin 6) (σ := Equiv.swap i.castSucc i.succ)]
     congr 1
     rw [Equiv.swap_apply_def, Equiv.swap_apply_def]
-    split_ifs <;> simp_all [Fin.ext_iff, Fin.val_castSucc, Fin.val_succ, Nat.sub_zero] <;> omega
-  · rw [dif_neg hwin, Matrix.one_apply]
+    split_ifs <;> simp_all [Fin.ext_iff, Fin.val_castSucc, Fin.val_succ]
+  · rw [dite_eq_right hwin, Matrix.one_apply]
     rw [qTwoSixGen_permMatrix_apply (K := K) (n := Fin 6) (σ := Equiv.swap i.castSucc i.succ)]
     congr 1
     rw [Equiv.swap_apply_def]
-    split_ifs <;> simp_all [Fin.ext_iff, Fin.val_castSucc, Fin.val_succ, Nat.sub_zero] <;> omega
+    split_ifs <;> simp_all [Fin.ext_iff, Fin.val_castSucc, Fin.val_succ] <;> omega
 
 theorem qTwoSixGen_blockEmb_perm {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Nat.card K = 4) (i j : Fin 5) (hij : i.val + 1 = j.val)
     {g : Su K 2 1 5}
@@ -195,7 +195,7 @@ theorem qTwoSixGen_chart5_lower {K : Type} [Field K] [Finite K] [CharP K 2] (hK 
     rw [← htop]
     rintro y ⟨x, hx, rfl⟩
     exact hx
-  haveI : Finite ↥H5 := Subtype.finite
+  have : Finite ↥H5 := Subtype.finite
   have hcard : Nat.card (Su K 2 1 5) = 13685760 := CFSG.StandardType.QTwo.card_Su_five hK
   have hinj : Function.Injective
       (fun x : (⊤ : Subgroup (Su K 2 1 5)).map φ => (⟨x, hmap_top x.2⟩ : H5)) := by

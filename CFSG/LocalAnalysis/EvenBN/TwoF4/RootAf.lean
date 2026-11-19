@@ -67,7 +67,7 @@ theorem r1c_comm_r1Elt_eq_of_mem_R {r : G} (hr : r ∈ h.R) (u : Idx → h.K) :
         x 9 * (Pi.single k 1 : Idx → h.K) .i8 := fun k hk => by
     rw [rb, h.elt_rootElt_eq_r1Elt hk, hx]
   rw [hx, hrb .i11 rfl, hrb .i10 rfl, hrb .i9 rfl, hrb .i8 rfl]
-  simp [Pi.single_apply]
+  simp
 
 theorem mem_V5_sup_R₁_of_rb {r : G} (hr : r ∈ h.R) (h11 : h.rb r .i11 = 0)
     (h10 : h.rb r .i10 = 0) (h9 : h.rb r .i9 = 0) (h8 : h.rb r .i8 = 0) :
@@ -180,7 +180,7 @@ theorem rb_torus_ten {z : G} (hz : z ∈ d.RA1) (t : h.Kˣ × h.Kˣ) :
   have hpair : h.r1c ⁅z, h.elt (rootElt h.K h.a .i10 ((rootChar h.K h.a .i10 t⁻¹ : h.K) * 1))⁆
       .i12 = h.rb z .i10 * ((rootChar h.K h.a .i10 t⁻¹ : h.K) * 1) := by
     rw [h.elt_rootElt_eq_r1Elt rfl, d.r1c_comm_r1Elt_eq hz]
-    simp [Pi.single_apply]
+    simp
   have hne : (rootChar h.K h.a .i10 t : h.K) ≠ 0 := Units.ne_zero _
   show h.r1c ⁅h.elt (torusPair h.a t) * z * (h.elt (torusPair h.a t))⁻¹,
     h.elt (rootElt h.K h.a .i10 1)⁆ .i12 = _

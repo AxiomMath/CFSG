@@ -136,7 +136,7 @@ private theorem rckJB8910_cent_D4_rootGroup
 
 theorem charP_two_of_triField {F : Type} [Field F] [Finite F] {σ : F →+* F} {g : ℕ}
     (hF : TriField F σ g) : CharP F 2 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h0 : ((Fintype.card F : ℕ) : F) = 0 := FiniteField.cast_card_eq_zero F
   rw [← Nat.card_eq_fintype_card, hF.2.1, ← pow_mul] at h0
   rw [Nat.cast_pow, Nat.cast_ofNat] at h0
@@ -145,7 +145,7 @@ theorem charP_two_of_triField {F : Type} [Field F] [Finite F] {σ : F →+* F} {
 
 private theorem rckJB8910_long_orbit
     {F : Type} [Field F] {σ : F →+* F} {g : ℕ}
-    (hF : TriField F σ g)
+    (_hF : TriField F σ g)
     {β : Fin (Tag.rank .G2) → ℤ} (hβ : GGLongRoot (twistedDatum σ) β) :
     ∃ w : WeylGroup .G2, w • β = Pi.single (ng 0) 1 := by
   obtain ⟨w, γ₀, hγ₀mem, hmax, hβeq⟩ := hβ
@@ -210,7 +210,7 @@ private theorem rckJB8910_cent_conj {M : LieUniversal} {β β' : Fin M.D.rank �
 
 private theorem rckJB8910_sq_surjective_fixedUnits {F : Type} [Field F] [CharP F 2] [Finite F]
     (σ : F →+* F) : Function.Surjective (fun t : fixedUnits σ => t * t) := by
-  haveI : Finite (fixedUnits σ) := inferInstance
+  have : Finite (fixedUnits σ) := inferInstance
   have hsq : ∀ x : Fˣ, x * x = 1 → x = 1 := by
     intro x hx
     have hx' : (x : F) * (x : F) = 1 := by
@@ -242,7 +242,7 @@ private theorem rckJB8910_trans_betaZero
             (twistedRootGroup σ (Pi.single (ng 0) 1) : Set (twistedGroup σ)),
           n * x * n⁻¹ = y := by
   have hσ : ∀ c, σ (σ (σ c)) = c := sigma_three_of_card hF.2.1 hF.2.2
-  haveI hchar : CharP F 2 := charP_two_of_triField hF
+  have hchar : CharP F 2 := charP_two_of_triField hF
   have hsurj := rckJB8910_sq_surjective_fixedUnits (F := F) σ
   intro x hx hx1 y hy hy1
   obtain ⟨c, hc, hxc⟩ := (mem_twistedRootSubgroupD4_iff_of_fixed hσ
@@ -387,7 +387,7 @@ theorem rckHB_cent_triD4
     {β : Fin (triD4Universal F σ).D.rank → ℤ} (hβ : GGLongRoot (triD4Universal F σ).D β) :
     RCKLemmaHCent (triD4Universal F σ) β := by
   show RCKLemmaHCent ⟨↥(twistedGroup σ), twistedDatum σ⟩ β
-  haveI hchar : CharP F 2 := charP_two_of_triField hF
+  have hchar : CharP F 2 := charP_two_of_triField hF
   have hσ : ∀ c, σ (σ (σ c)) = c := sigma_three_of_card hF.2.1 hF.2.2
   have hC0 : RCKLemmaHCent ⟨↥(twistedGroup σ), twistedDatum σ⟩ (Pi.single (ng 0) 1) := by
     intro x hx hx1 k hk

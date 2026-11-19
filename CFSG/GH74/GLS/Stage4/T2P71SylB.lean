@@ -32,6 +32,7 @@ theorem X₂_le_ZR (h : T6Ctx N u p) : N.X₂ ≤ ZR N p := by
   calc r * w = (r * w * r⁻¹) * r := by group
     _ = w * r := by rw [this]
 
+omit [Finite G] in
 theorem norm_ZR {g : G} (hg : g ∈ M₂ N) {y : G} (hy : y ∈ ZR N p) : g * y * g⁻¹ ∈ ZR N p := by
   refine ⟨R₂_norm N p hg hy.1, Subgroup.mem_centralizer_iff.2 fun r hr => ?_⟩
   have hr' : g⁻¹ * r * g ∈ R₂ N p := by simpa using R₂_norm N p ((M₂ N).inv_mem hg) hr

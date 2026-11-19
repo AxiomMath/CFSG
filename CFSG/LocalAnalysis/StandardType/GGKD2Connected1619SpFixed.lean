@@ -50,7 +50,7 @@ theorem spFixedBlock_action {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2
     {s : ℕ} (e₁ : A₁ ≃* ↥(StatedSp s K)) {C : Subgroup ↥(StatedSp m K)}
     (hC : CFSG.Assembly.IsComponentOf C (Subgroup.centralizer ({x} : Set ↥(StatedSp m K))))
     (hle : C ≤ A₁) (hlab : GGHasLabel (⟨.A, 1, 3⟩ : LargeEvenLabel) (↥C ⧸ Subgroup.center ↥C))
-    {y : ↥(StatedSp m K)} (hxy : x * y = y * x) (hyC : ∀ c ∈ C, MulAut.conj y c ∈ C) :
+    {y : ↥(StatedSp m K)} (hxy : x * y = y * x) (_hyC : ∀ c ∈ C, MulAut.conj y c ∈ C) :
     QuotientInner C (MulAut.conj y) := by
   classical
   have h7 : 7 ∣ Nat.card (StatedSp s K) := by
@@ -58,16 +58,16 @@ theorem spFixedBlock_action {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2
       unfold GGHasLabel at hlab
       dsimp only [CFSG.StandardType.LargeEvenRawDatum, CFSG.Assembly.LargeEvenRecipeLinear] at hlab
       obtain ⟨F, hFfield, hFfinite, hFcard, hQF⟩ := hlab
-      letI : Field F := hFfield
-      letI : Finite F := hFfinite
+      let : Field F := hFfield
+      let : Finite F := hFfinite
       obtain ⟨e₀⟩ := hQF
       rw [Nat.card_congr e₀.toEquiv]
       rw [CFSG.Assembly.largeEvenProj_eq_statedProj,
         CFSG.Assembly.largeEvenSLGroup_eq_statedSL 2]
       refine CFSG.StandardType.prime_dvd_card_statedProj_statedSL (p := 7) (a := 2)
         Nat.prime_seven (by norm_num) (by norm_num) ?_ ?_
-      · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-        letI : Fintype F := Fintype.ofFinite F
+      · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        let : Fintype F := Fintype.ofFinite F
         have hchar : CharP F 2 :=
           charP_of_card_eq_prime_pow (p := 2) (f := 3) (by
             rw [Fintype.card_eq_nat_card, hFcard])
@@ -98,11 +98,11 @@ theorem spFixedBlock_action {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2
     by_contra h
     have hs0 : s = 0 := by omega
     subst hs0
-    haveI : Subsingleton (StatedSp 0 K) :=
+    have : Subsingleton (StatedSp 0 K) :=
       subsingleton_statedSp_zero
         (K := K)
     have hcard0 : Nat.card (StatedSp 0 K) = 1 := by
-      haveI : Unique ↥(StatedSp 0 K) := ⟨⟨1⟩, fun a => Subsingleton.elim a 1⟩
+      have : Unique ↥(StatedSp 0 K) := ⟨⟨1⟩, fun a => Subsingleton.elim a 1⟩
       exact Nat.card_unique
     rw [hcard0] at h7
     norm_num at h7

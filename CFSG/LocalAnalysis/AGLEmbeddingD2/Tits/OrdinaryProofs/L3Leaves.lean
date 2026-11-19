@@ -74,7 +74,7 @@ theorem exists_conj_eq_of_card_eq_three {G : Type} [Group G] [Finite G]
     exact Set.mem_smul_set.mpr ⟨x, hxP, rfl⟩
   have hA'card : Nat.card A' = 3 := by
     rw [hA', Subgroup.card_map_of_injective (MulEquiv.injective (MulAut.conj g)), hA]
-  have : IsCyclic (Q : Subgroup G) := hcyc _ Q.isPGroup'
+  have : IsCyclic (Q : Subgroup G) := hcyc _ Q.isPGroup
   have hEq : B.subgroupOf Q = A'.subgroupOf Q := by
     rw [IsCyclic.subgroup_eq_iff_card_eq]
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBQ).toEquiv,

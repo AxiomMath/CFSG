@@ -16,6 +16,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem exists_actsAs_evalWord_gensAll {Bs : Subgroup G} {ι : Additive ↥Bs ≃+ Vec6}
     {t w : ZMod 3} (hgen : ∀ i : Fin 7, ∃ φ ∈ ggAutomizer ⊤ Bs, ActsAs ι φ (gensAll 0 t 0 w i))
     (word : List (Fin 7)) :
@@ -30,6 +31,7 @@ private theorem exists_actsAs_evalWord_gensAll {Bs : Subgroup G} {ι : Additive 
 private noncomputable def pt {Bs : Subgroup G} (ι : Additive ↥Bs ≃+ Vec6) (v : Vec6) : ↥Bs :=
   Additive.toMul (ι.symm v)
 
+omit [Finite G] in
 private theorem iota_pt {Bs : Subgroup G} {ι : Additive ↥Bs ≃+ Vec6} (v : Vec6) :
     ι (Additive.ofMul (pt ι v)) = v := by
   simp [pt]
@@ -38,6 +40,7 @@ private theorem xx_eq_single : xx = Pi.single 5 (1 : ZMod 3) := by
   funext i
   fin_cases i <;> simp [xx]
 
+omit [Finite G] in
 private theorem automizer_top_conj {Bs : Subgroup G} {φ : MulAut ↥Bs}
     (hφ : φ ∈ ggAutomizer ⊤ Bs) :
     ∃ g : G, g ∈ Subgroup.normalizer (Bs : Set G) ∧
@@ -45,6 +48,7 @@ private theorem automizer_top_conj {Bs : Subgroup G} {φ : MulAut ↥Bs}
   obtain ⟨g, -, hgN, hg⟩ := mem_ggAutomizer_iff.mp hφ
   exact ⟨g, hgN, hg⟩
 
+omit [Finite G] in
 private theorem actsAs_apply_pt {Bs : Subgroup G} {ι : Additive ↥Bs ≃+ Vec6} {φ : MulAut ↥Bs}
     {gm : Mat6} (h : ActsAs ι φ gm) {a a' : Vec6} (haa : gm.mulVec a = a') :
     φ (pt ι a) = pt ι a' := by
@@ -52,12 +56,14 @@ private theorem actsAs_apply_pt {Bs : Subgroup G} {ι : Additive ↥Bs ≃+ Vec6
   apply ι.injective
   rw [h (pt ι a), iota_pt a, haa, iota_pt a']
 
+omit [Finite G] in
 private theorem pt_eq_of {Bs : Subgroup G} {ι : Additive ↥Bs ≃+ Vec6} {b : ↥Bs} {v : Vec6}
     (h : ι (Additive.ofMul b) = v) : pt ι v = b := by
   apply Additive.ofMul.injective
   apply ι.injective
   rw [iota_pt v, h]
 
+omit [Finite G] in
 private theorem pt_mem_L {Bs L : Subgroup G} {x : G} {hxBs : x ∈ Bs}
     {ι : Additive ↥Bs ≃+ Vec6} (hι : GGE6DepCoord Bs L x hxBs ι) {v : Vec6} (hv : v 5 = 0) :
     ((pt ι v : ↥Bs) : G) ∈ L := by
@@ -91,11 +97,13 @@ private def setU {Bs : Subgroup G} (ι : Additive ↥Bs ≃+ Vec6) (wv : Vec6) :
     · rw [ofMul_inv, map_neg, setU_bil6_neg, ha2, neg_zero]
     · rw [ofMul_inv, map_neg, setU_bil6_neg, ha3, neg_zero]
 
+omit [Finite G] in
 private theorem mem_setU {Bs : Subgroup G} (ι : Additive ↥Bs ≃+ Vec6) (wv : Vec6) (u : ↥Bs) :
     u ∈ setU ι wv ↔ bil6 (ι (Additive.ofMul u)) xx = 0 ∧ bil6 (ι (Additive.ofMul u)) xs = 0 ∧
       bil6 (ι (Additive.ofMul u)) wv = 0 :=
   Iff.rfl
 
+omit [Finite G] in
 private theorem card_setU {Bs : Subgroup G} (ι : Additive ↥Bs ≃+ Vec6) (wv : Vec6)
     (hcard : (Finset.univ.filter fun v : Vec6 =>
       bil6 v xx = 0 ∧ bil6 v xs = 0 ∧ bil6 v wv = 0).card = 27) :
@@ -113,6 +121,7 @@ private theorem card_setU {Bs : Subgroup G} (ι : Additive ↥Bs ≃+ Vec6) (wv 
   rw [h1, h2, hcard]
   norm_num
 
+omit [Finite G] in
 private theorem u1_exists {Bs : Subgroup G} {ι : Additive ↥Bs ≃+ Vec6} {φ : MulAut ↥Bs}
     {gm : Mat6} (h : ActsAs ι φ gm) (hiso : gm.transpose * gram6 * gm = gram6) (u : ↥Bs) :
     ∃ u₁ : ↥Bs, φ u₁ = u ∧ ∀ z : Vec6,
@@ -125,6 +134,7 @@ private theorem u1_exists {Bs : Subgroup G} {ι : Additive ↥Bs ≃+ Vec6} {φ 
   rw [hu]
   exact (bil6_isometry hiso _ _).symm
 
+omit [Finite G] in
 theorem ggE6Dep_setting_of_frame {Bs L : Subgroup G} {x y : G} (hxBs : x ∈ Bs) (hyBs : y ∈ Bs)
     (hZ : ¬ 3 ∣ Nat.card ↥(Subgroup.center ↥L))
     (hBsL : ∀ b ∈ Bs, ∃ l ∈ L, ∃ k : ℕ, b = l * x ^ k)

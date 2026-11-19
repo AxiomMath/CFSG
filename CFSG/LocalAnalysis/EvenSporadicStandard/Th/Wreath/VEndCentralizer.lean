@@ -60,6 +60,7 @@ private theorem ThCyc.vConj_t_add_one_mul_self (H : ThCyc G L R t) (W : ThLocalI
           VSub.add_self hD (vConj hD t)]
         abel
 
+omit [Finite G] in
 private theorem ThCyc.mul_add_one_commute (hD : DHyp A Aa t D) {f : AddMonoid.End (VSub hD)}
     (h : f * vConj hD t = vConj hD t * f) :
     f * (vConj hD t + 1) = (vConj hD t + 1) * f := by
@@ -135,7 +136,7 @@ private theorem ThCyc.eq_zero_or_eq_vConj_t_add_one_of_kills_A
   have hdef : ∀ (a : G) (ha : a ∈ A), h a = (f (pre a ha)).val := by
     intro a ha
     dsimp only [h]
-    rw [dif_pos ha]
+    rw [dite_eq_left ha]
   have hNpre : ∀ (a : G) (ha : a ∈ A),
       (vConj hD t + 1) (pre a ha) = AbelianSub.mk a (hAV ha) := by
     intro a ha
@@ -268,7 +269,7 @@ private theorem ThCyc.kills_A_or_fixes_A_of_commute (H : ThCyc G L R t)
   have hgdef : ∀ (a : G) (ha : a ∈ A), g a = (f (AbelianSub.mk a (hAV ha))).val := by
     intro a ha
     dsimp only [g]
-    rw [dif_pos ha]
+    rw [dite_eq_left ha]
   have hgA : ∀ a ∈ A, g a ∈ A := by
     intro a ha
     rw [hgdef a ha]

@@ -281,7 +281,7 @@ private theorem e6ia_pow_val_add
     e6ia_zElt i ^ ((a + b).val) = e6ia_zElt i ^ a.val * e6ia_zElt i ^ b.val := by
   rcases e6ia_zmod2_eq_zero_or_one a with rfl | rfl <;>
     rcases e6ia_zmod2_eq_zero_or_one b with rfl | rfl
-  · simp only [add_zero, zero_add, e6ia_zmod2_val_zero, pow_zero, mul_one]
+  · simp only [add_zero, e6ia_zmod2_val_zero, pow_zero, mul_one]
   · simp only [zero_add, e6ia_zmod2_val_zero, e6ia_zmod2_val_one, pow_zero, pow_one, one_mul]
   · simp only [add_zero, e6ia_zmod2_val_zero, e6ia_zmod2_val_one, pow_zero, pow_one, mul_one]
   · rw [e6ia_zmod2_val_two, e6ia_zmod2_val_one, pow_zero, pow_one, e6ia_zElt_mul_self]
@@ -342,7 +342,7 @@ private theorem e6ia_conj_zElt
         apply hr
         rw [add_comm γ (e6ia_zRt i), ← h]
         exact (e6ia_zRt_mem_zRoots i').1
-      simp only [e6ia_zMat, Pi.add_apply, Pi.single_apply, Matrix.col_apply, h2, if_false, add_zero]
+      simp only [e6ia_zMat, Pi.single_apply, Matrix.col_apply, h2, ite_false, add_zero]
     rw [hcol, e6ia_zPow_single]
     apply Subtype.ext
     show pinnedX .E6 F2 γ 1 * pinnedX .E6 F2 (e6ia_zRt i) 1 * (pinnedX .E6 F2 γ 1)⁻¹ =
@@ -359,7 +359,7 @@ private theorem e6ia_sum_single_supp (v : Fin 8 → ZMod 2) :
     refine Finset.sum_eq_zero (fun i hi => ?_)
     rw [Finset.mem_filter] at hi
     simp only [Pi.single_apply]
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h; exact hi.2 (h ▸ hj)
   · have hvj : v j = 1 := (e6ia_zmod2_eq_zero_or_one (v j)).resolve_left hj
     rw [hvj]
@@ -367,7 +367,7 @@ private theorem e6ia_sum_single_supp (v : Fin 8 → ZMod 2) :
     · rw [Pi.single_eq_same]
     · intro i _ hij
       simp only [Pi.single_apply]
-      rw [if_neg]
+      rw [ite_eq_right]
       intro h; exact hij h.symm
     · intro h; exact absurd (Finset.mem_filter.2 ⟨Finset.mem_univ j, hj⟩) h
 
@@ -1187,21 +1187,21 @@ private theorem e6ia_shiftMat_col_root
   simp only [e6ia_shiftMat, Matrix.col_apply, Pi.add_apply, Pi.single_apply]
   by_cases h : i' = i
   · subst h
-    rw [if_pos hi, if_pos rfl]
+    rw [ite_eq_left hi, ite_eq_left rfl]
   · have h2 : ¬ (l1Root i' = l1Root j + γ) := by
       intro hh; exact h (e6ia_l1Root_injective (hh.trans hi.symm))
-    rw [if_neg h2, if_neg h]
+    rw [ite_eq_right h2, ite_eq_right h]
 
 private theorem e6ia_shiftMat_col_not
     {γ : Fin Tag.E6.rank → ℤ} {j : Fin 16} (hr : ¬ IsRoot .E6 (l1Root j + γ)) :
     Matrix.mulVec (e6ia_shiftMat γ) (Pi.single j 1) = Pi.single j 1 := by
   rw [Matrix.mulVec_single_one]
   funext i'
-  simp only [e6ia_shiftMat, Matrix.col_apply, Pi.add_apply, Pi.single_apply]
+  simp only [e6ia_shiftMat, Matrix.col_apply, Pi.single_apply]
   have h2 : ¬ (l1Root i' = l1Root j + γ) := by
     intro h
     exact hr (h ▸ e6ia_l1Root_isRoot i')
-  rw [if_neg h2, add_zero]
+  rw [ite_eq_right h2, add_zero]
 
 private theorem e6ia_c_eq_one_of_mem_z0E
     {c : ↥qE →* Multiplicative e6TwoRestQV} (hc : IsQCoord c) {x : ↥qE} (hx : (x : EC) ∈ z0E) :

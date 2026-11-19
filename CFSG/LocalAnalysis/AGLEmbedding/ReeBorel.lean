@@ -54,7 +54,7 @@ theorem stmtReeBorel_of (hKR2 : KFactReeSylowCenterTorus) (hKR3 : KFactReeCenter
       exact ⟨a, by simp [ψ, ha]⟩
   obtain ⟨hZel, hZcard⟩ := isElemAbelian_range_galoisField hn0 ψ hψ
   rw [hψZ] at hZel hZcard
-  have hZp : IsPGroup 3 Z := Rb.isPGroup'.to_le (inf_le_left.trans inf_le_left)
+  have hZp : IsPGroup 3 Z := Rb.isPGroup.to_le (inf_le_left.trans inf_le_left)
   have hrank : 3 ≤ Open.pRank 3 Ub :=
     hn3.trans (le_csSup (pRank_bddAbove 3 hp _) ⟨Z, inf_le_left, hZel, hZcard⟩)
   have hN : Subgroup.normalizer (Ub : Set Y) ≤ Y₀ :=
@@ -129,7 +129,7 @@ theorem stmtReeBorel_of (hKR2 : KFactReeSylowCenterTorus) (hKR3 : KFactReeCenter
       rwa [hWU] at hwWU
     · right
       have : Fact (Nat.Prime 3) := ⟨hp⟩
-      have hUbp : IsPGroup 3 Ub := Rb.isPGroup'.to_inf_left
+      have hUbp : IsPGroup 3 Ub := Rb.isPGroup.to_inf_left
       have : Group.IsNilpotent Ub := hUbp.isNilpotent
       have hNn : ((W ⊓ Ub).subgroupOf Ub).Normal := by
         refine (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).mpr ?_

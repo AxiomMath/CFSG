@@ -141,6 +141,7 @@ theorem Ctx.commute_of_not_conj [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B)
       (Set.insert_subset_iff.mpr ⟨hEX he, Set.singleton_subset_iff.mpr (hEX hf)⟩) hg
     exact absurd hge (hef g hgX)
 
+omit [Finite G] in
 theorem Ctx.exists_conj_LB_lift [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {t : Mbar M Q}
     (ht : t ∈ Ebar M Q Z B) :
     ∃ m ∈ M, ∃ a : ↥M, (a : G) ∈ LB M Q (conjSubgroup m B) ∧ IsA2 Q Z (a : G) ∧

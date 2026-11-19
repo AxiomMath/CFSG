@@ -41,13 +41,13 @@ theorem false_of_isL24 {𝒦 : HostClass} {S : Type u} [Group S] [Finite S] (hTh
     {H : Type v} [Group H] {κ : S →* H} (hκ : F2Host 𝒦 κ) {M L : Subgroup H}
     (hMW : M ≤ normalizer (((stellW 𝒦 S).map κ : Subgroup H) : Set H))
     (hL : Stell.IsL24 κ.range M ((stellW 𝒦 S).map κ) L) : False := by
-  haveI := hκ.admissible.finite
+  have := hκ.admissible.finite
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinj := hκ.admissible.injective
   have hS3 : IsSym3Free H := hκ.admissible.isSym3Free
   obtain ⟨Tsyl, hTsyl⟩ := hκ.admissible.sylow
-  haveI : (stellW 𝒦 S).Characteristic := stellW_characteristic
-  have hT2 : IsPGroup 2 κ.range := hTsyl ▸ Tsyl.isPGroup'
+  have : (stellW 𝒦 S).Characteristic := stellW_characteristic
+  have hT2 : IsPGroup 2 κ.range := hTsyl ▸ Tsyl.isPGroup
   have hS2 : IsPGroup 2 S :=
     hT2.of_injective κ.rangeRestrict (fun a b hab => hinj (congrArg Subtype.val hab))
   have hWhT : (stellW 𝒦 S).map κ ≤ κ.range := map_le_range κ _
@@ -60,7 +60,7 @@ theorem false_of_isL24 {𝒦 : HostClass} {S : Type u} [Group S] [Finite S] (hTh
   obtain ⟨u, hcfg, h3, hnp⟩ := exists_lcfg hS3 hT2 hMW hTW hWel hL
   set P := oTwoSub L with hP
   have hPX : P ≤ LCfg.X Wh P u := hcfg.P_le_X hnp
-  have hXP : LCfg.X Wh P u ≤ P := hcfg.X_le_P
+  have hXP : LCfg.X Wh P u ≤ P := CFSG.RankThree.S4Free.Stell33.LCfgCore.X_le_P
   have hXT : LCfg.X Wh P u ≤ κ.range :=
     hXP.trans (oTwoSub_le_of_relIndex hT2 hL.not_dvd_relIndex)
   set X := LCfg.X Wh P u with hX
@@ -136,8 +136,8 @@ theorem false_of_isL24 {𝒦 : HostClass} {S : Type u} [Group S] [Finite S] (hTh
     rintro U ⟨hUn, hU⟩ - hUW K _ ι hι hnn
     refine ⟨normalClosure_normal.comap ι, fun φ hφ => ?_⟩
     by_contra hU'X
-    haveI := hι.admissible.finite
-    haveI : (pResidual 2 K).Normal := normal_pResidual 2 K
+    have := hι.admissible.finite
+    have : (pResidual 2 K).Normal := normal_pResidual 2 K
     have hιW : (W.map ι).Normal := stellW_normal hι
     have hιWO : W.map ι ≤ oTwo K := Stell.le_oTwo ((hS2.to_subgroup W).map ι)
     let θ : ↥(X ⊔ Wh) →* K := ι.comp (φ.comp e.symm.toMonoidHom)
@@ -197,7 +197,7 @@ theorem false_of_isL24 {𝒦 : HostClass} {S : Type u} [Group S] [Finite S] (hTh
           exact commutator_mem_commutator hr (subset_normalClosure ht)
         rw [show r * t * r⁻¹ = (r * t * r⁻¹ * t⁻¹) * t by group]
         exact mul_mem (mem_sup_right hc) (mem_sup_left ht)
-      haveI hnorm : (U.map ι ⊔ ⁅V₀, pResidual 2 K⁆).Normal := by
+      have hnorm : (U.map ι ⊔ ⁅V₀, pResidual 2 K⁆).Normal := by
         rw [← normalizer_eq_top_iff, eq_top_iff, ← range_sup_pResidual_eq_top hι.admissible.sylow]
         refine sup_le (fun g hg => mem_normalizer_sup_of_mem (range_le_normalizer_map ι hUn hg)
           ?_) (fun r hr => mem_normalizer_of_conj (fun x hx => hR r hr hx) (fun x hx => ?_))
@@ -262,8 +262,8 @@ theorem isCoatom_normalizer_of_minimal {𝒦 : HostClass} {S : Type u} [Group S]
     IsCoatom (normalizer (((stellW 𝒦 S).map κ : Subgroup H) : Set H)) ∧
       ¬ (stellW 𝒦 S).map κ ≤
         (normalizer (((stellW 𝒦 S).map κ : Subgroup H) : Set H)).normalCore := by
-  haveI := hκ.admissible.finite
-  haveI : (stellW 𝒦 S).Characteristic := stellW_characteristic
+  have := hκ.admissible.finite
+  have : (stellW 𝒦 S).Characteristic := stellW_characteristic
   have hTW := range_le_normalizer_map κ (inferInstance : (stellW 𝒦 S).Normal)
   set Wh := (stellW 𝒦 S).map κ with hWh
   have hMtop : normalizer (Wh : Set H) ≠ ⊤ := fun h => hnot (normalizer_eq_top_iff.mp h)

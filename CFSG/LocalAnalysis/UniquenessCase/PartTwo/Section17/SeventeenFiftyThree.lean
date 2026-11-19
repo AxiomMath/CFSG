@@ -68,7 +68,7 @@ theorem seventeen_fiftythree (D : Data G) (V₀ V : Subgroup G)
   let R : Subgroup G := (Q : Subgroup C).map C.subtype
   have hR : CFSG.ABGLocalTools.IsSylowOf r R C := ⟨Q, rfl⟩
   have hRC : R ≤ C := Subgroup.map_subtype_le _
-  have hRgrp : IsPGroup r R := Q.isPGroup'.map C.subtype
+  have hRgrp : IsPGroup r R := Q.isPGroup.map C.subtype
   have hRM : R ≤ D.M := hRC.trans (ctx.cartan.1.trans ctx.mem_calC.1.le)
   exact h17_51 L L p n l C Dc Gamma ctx r hr hrdvd R hR
     (CFSG.RankThree.PartOne.IsStronglyPEmbedded.rankThreeGamma_one_le_of_le hsp hr hRgrp hRM)

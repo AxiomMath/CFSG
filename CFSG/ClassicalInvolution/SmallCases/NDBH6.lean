@@ -196,7 +196,7 @@ theorem rset_of_shape (hs : Std8Core p f Ω K J S R T W z t) (hsh : ShapeAt p f 
   have hle : modOdd z (P ⊔ T) ≤ modOdd z (exactCore z J) := by
     rw [modOdd_sup hPc hTc]
     exact sup_le (hsh' ▸ modOdd_mono hPE) (modOdd_mono hTE.1)
-  have hAT := eq_of_modOdd_le (S.isPGroup'.to_le (sup_le hPS hTS)) (sup_le hPc hTc) le_sup_right
+  have hAT := eq_of_modOdd_le (S.isPGroup.to_le (sup_le hPS hTS)) (sup_le hPc hTc) le_sup_right
     hTE (exactCore_le_centralizer z J) hle
   have hPT : P ≤ T := hAT ▸ le_sup_left
   have hcardP : Nat.card P = Nat.card T := by
@@ -272,16 +272,16 @@ theorem four_of_shape (hs : Std8Core p f Ω K J S R T W z t) (hsh : ShapeAt p f 
   have hMSE : M ⊓ (S : Subgroup G) ≤ exactCore z M := fun s hs' =>
     NDB.Vertex.mem_exactCore_of_isPGroup hΩ hp hq hz2 hMz hs'.1
       (Subgroup.mem_centralizer_singleton_iff.mp (hMSc hs'))
-      (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hs'.2))
+      (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hs'.2))
   have hTE : IsSylow2In T (exactCore z J) :=
     (isSylow2In_exactCore_iff hΩ hz2 hJΩ hJz.2).mpr ⟨hTsyl, hTc⟩
   have hle : modOdd z (M ⊓ (S : Subgroup G) ⊔ T) ≤ modOdd z (exactCore z J) := by
     rw [modOdd_sup hMSc hTc]
     exact sup_le (hsh' ▸ modOdd_mono hMSE) (modOdd_mono hTE.1)
-  have hAT := eq_of_modOdd_le (S.isPGroup'.to_le (sup_le inf_le_right hTS)) (sup_le hMSc hTc)
+  have hAT := eq_of_modOdd_le (S.isPGroup.to_le (sup_le inf_le_right hTS)) (sup_le hMSc hTc)
     le_sup_right hTE (exactCore_le_centralizer z J) hle
   have hMST : M ⊓ (S : Subgroup G) ≤ J := (hAT ▸ le_sup_left : M ⊓ (S : Subgroup G) ≤ T).trans hTJ
-  exact hMJ (hΩ.eq_of_le_of_le hM hJΩ S.isPGroup'.to_inf_right (by omega) inf_le_left hMST)
+  exact hMJ (hΩ.eq_of_le_of_le hM hJΩ S.isPGroup.to_inf_right (by omega) inf_le_left hMST)
 
 theorem loc26_of_shape (C : XCtx p f Ω z) (hs : Std8Core p f Ω K J S R T W z t)
     (hsh : ShapeAt p f Ω z J) : Loc26 Ω K J S R T z t (involutionOddCore z) :=

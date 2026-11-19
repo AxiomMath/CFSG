@@ -37,7 +37,7 @@ theorem bender_section_setup (hns : ¬ Group.IsSolvable H) (T : Sylow 2 H)
       inSubgroup (pCore 2) (M.map (QuotientGroup.mk' (kerIn M ⊤))) := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hTsyl : IsSylowTwoOf (T : Subgroup H) ⊤ := ⟨le_top, T.isPGroup', by
+  have hTsyl : IsSylowTwoOf (T : Subgroup H) ⊤ := ⟨le_top, T.isPGroup, by
     show ¬ 2 ∣ (T : Subgroup H).relIndex ⊤
     rw [relIndex_top_right]
     exact T.not_dvd_index⟩
@@ -114,7 +114,7 @@ theorem bender_section_setup (hns : ¬ Group.IsSolvable H) (T : Sylow 2 H)
   have hVDQ : V ⊓ J = V ⊓ Q := by
     refine le_antisymm (fun v hv => ?_) (inf_le_inf_left V hQJ)
     obtain ⟨hvV, hvJ⟩ := mem_inf.1 hv
-    obtain ⟨n, hn⟩ := T.isPGroup' ⟨v, hVT hvV⟩
+    obtain ⟨n, hn⟩ := T.isPGroup ⟨v, hVT hvV⟩
     have hvn : v ^ 2 ^ n = 1 := congrArg Subtype.val hn
     have h1 : QuotientGroup.mk' (CFSG.Open.pCore 2 H) v = 1 :=
       eq_one_of_mem_odd (Y := J.map (QuotientGroup.mk' (CFSG.Open.pCore 2 H))) hodd

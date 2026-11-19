@@ -619,7 +619,7 @@ section Steps
 
 theorem step148PGLCentInd_of_cent (h : Step148PGLCent) : Step148PGLCentInd := by
   intro G _ _ A c L hS Y hY hs ih hYB B Q e K Le hP hkt he J hJ hKJ hAJ halt hpgl heΩ hLeA
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   rcases h G A c L hS Y hY hs ih hYB B Q e K Le hP hkt he J hJ hKJ hAJ halt hpgl heΩ hLeA with
     hc | h7
   · exact Or.inl (Ronan148M.img148_deltaZero_centPre148_le.trans hc)
@@ -630,7 +630,7 @@ theorem step148PGLCent_of_ind
     (h415 : Sec4.Item4_15) (hKF : KF148PGLCentAct) (hInd : Step148PGLCentInd) :
     Step148PGLCent := by
   intro G _ _ A c L h Y hY hs ih hYB B Q e K Le hP hkt he J hJ hKJ hAJ hEq hpgl heΩ hLeA
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   rcases hInd G A c L h Y hY hs ih hYB B Q e K Le hP hkt he J hJ hKJ hAJ hEq hpgl heΩ hLeA with
     hD1 | h7
   swap

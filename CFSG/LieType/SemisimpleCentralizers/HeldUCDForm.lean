@@ -29,7 +29,7 @@ theorem hfm_smul_left (c : L) (x y : Fin n → L) : hfm τ (c • x) y = τ c * 
   simp [hfm, Finset.mul_sum, mul_assoc]
 
 theorem hfm_smul_right (c : L) (x y : Fin n → L) : hfm τ x (c • y) = c * hfm τ x y := by
-  simp [hfm, Finset.mul_sum, mul_assoc, mul_left_comm]
+  simp [hfm, Finset.mul_sum, mul_left_comm]
 
 theorem adjM_mul (X Y : Matrix (Fin n) (Fin n) L) :
     adjM τ (X * Y) = adjM τ Y * adjM τ X := by
@@ -74,10 +74,10 @@ theorem hfm_nondeg (x : Fin n → L) (h : ∀ y, hfm τ x y = 0) : x = 0 := by
   funext j
   have := h (Pi.single j 1)
   simp only [hfm, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq',
-    Finset.mem_univ, if_true] at this
+    Finset.mem_univ, ite_true] at this
   simpa using this
 
-theorem adjM_aeval (hτ : ∀ x, τ (τ x) = x) (s : Matrix (Fin n) (Fin n) L) (p : L[X]) :
+theorem adjM_aeval (_hτ : ∀ x, τ (τ x) = x) (s : Matrix (Fin n) (Fin n) L) (p : L[X]) :
     adjM τ (aeval s p) = aeval (adjM τ s) (p.map (τ : L →+* L)) := by
   induction p using Polynomial.induction_on' with
   | add p q hp hq => rw [map_add, adjM_add, hp, hq, Polynomial.map_add, map_add]
@@ -87,7 +87,7 @@ theorem adjM_aeval (hτ : ∀ x, τ (τ x) = x) (s : Matrix (Fin n) (Fin n) L) (
       adjM_smul, adjM_pow]
     simp
 
-theorem adjM_eq_pow (hτ : ∀ x, τ (τ x) = x) {m : ℕ} (hm : 0 < m) (s : Matrix (Fin n) (Fin n) L)
+theorem adjM_eq_pow (_hτ : ∀ x, τ (τ x) = x) {m : ℕ} (hm : 0 < m) (s : Matrix (Fin n) (Fin n) L)
     (hsm : s ^ m = 1) (hs : adjM τ s * s = 1) : adjM τ s = s ^ (m - 1) := by
   have h1 : s * s ^ (m - 1) = 1 := by
     rw [← pow_succ', Nat.sub_add_cancel hm, hsm]

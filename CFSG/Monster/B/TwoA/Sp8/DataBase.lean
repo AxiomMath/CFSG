@@ -17,7 +17,7 @@ open CFSG.Monster CFSG.Monster.Code CFSG.Monster.Spin CFSG.Monster.SpinLattice
   CFSG.Monster.Griess CFSG.Monster.Visible CFSG.Monster.Generated CFSG.Monster.B.Short
   CFSG.Monster.B CFSG.Monster.B.TwoA CFSG.Monster.B.TwoA.Co2Inv
 
-@[expose] def b0 : LinearMap.BilinForm (ZMod 2) (Fin 8 → ZMod 2) := Matrix.toBilin' gram0
+def b0 : LinearMap.BilinForm (ZMod 2) (Fin 8 → ZMod 2) := Matrix.toBilin' gram0
 
 theorem b0_single (i j : Fin 8) :
     b0 (Pi.single i 1) (Pi.single j 1) = bvec 8 (gramRows.getD i 0) j := by

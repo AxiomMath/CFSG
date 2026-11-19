@@ -141,7 +141,7 @@ theorem exists_normalized {n : ℕ} {X W : Subgroup G} (h : InducesNaturalSL2 n 
   · exact (MulAut.conj P⁻¹).surjective.comp hφs
   · rw [← hφk]
     ext z
-    simp [MonoidHom.mem_ker, conj_eq_one_iff]
+    simp [MonoidHom.mem_ker]
   · intro z w w' hww
     have h1 := hφψ z w w' hww
     simp only [MulEquiv.trans_apply, toAdd_mulVecEquiv, h1, MonoidHom.comp_apply,
@@ -173,7 +173,7 @@ theorem torus_conj_generates [Finite G] {n : ℕ} (hn : 2 ≤ n)
   obtain ⟨φ, ψ, -, hφk, hφψ, hψb₀⟩ := exists_normalized hnat (hBW hb₀B) hb₀1
   let V : G → (Fin 2 → GaloisField 2 n) :=
     fun g => if h : g ∈ W then Multiplicative.toAdd (ψ ⟨g, h⟩) else 0
-  have hV : ∀ g (h : g ∈ W), V g = Multiplicative.toAdd (ψ ⟨g, h⟩) := fun g h => dif_pos h
+  have hV : ∀ g (h : g ∈ W), V g = Multiplicative.toAdd (ψ ⟨g, h⟩) := fun g h => dite_eq_left h
   have hact : ∀ x (hx : x ∈ X) b, b ∈ W → x * b * x⁻¹ ∈ W →
       V (x * b * x⁻¹) = (φ ⟨x, hx⟩ : Matrix (Fin 2) (Fin 2) (GaloisField 2 n)) *ᵥ V b := by
     intro x hx b hb hxb
@@ -254,7 +254,7 @@ theorem torus_conj_generates [Finite G] {n : ℕ} (hn : 2 ≤ n)
     have : 1 < Nat.card (GaloisField 2 n)ˣ := by
       rw [Nat.card_units, hcardF]
       omega
-    haveI := Finite.one_lt_card_iff_nontrivial.mp this
+    have := Finite.one_lt_card_iff_nontrivial.mp this
     exact exists_ne 1
   obtain ⟨x₀, hx₀⟩ := hdiag a₀
   have he₀E : t₀ * x₀ * t₀⁻¹ * (x₀ : G)⁻¹ ∈ E :=

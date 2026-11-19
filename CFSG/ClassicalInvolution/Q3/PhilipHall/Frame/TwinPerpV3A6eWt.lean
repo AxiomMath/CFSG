@@ -71,7 +71,7 @@ theorem mem_tG_W' (C : A6eCtx n R S t K K' K₃ u₁ u₂ u₃ K₄ W a₁ a₂ 
     Subgroup.mem_centralizer_iff.mpr fun x hx =>
       Q3CL.Thompson.commutes_of_mem_WSet hP.hyp hW' x hx _ hv
   obtain ⟨m, hmN, hm⟩ := Sec7.control_centralizer_of_weaklyClosed
-    (S₀.isPGroup'.to_le hWS₀) hWC (hWab htW') (g := g) (by rw [hg]; exact hWab hwW)
+    (S₀.isPGroup.to_le hWS₀) hWC (hWab htW') (g := g) (by rw [hg]; exact hWab hwW)
   rw [hg] at hm
   set J := conjSub m K with hJdef
   have hJΩ : J ∈ Ω[R] := hΩ.conjInvariant m K hd.mem

@@ -340,7 +340,7 @@ theorem card_P : Finite (PresentedCover (wordSet rels)
     exact hle
 
 theorem psi_bij : Function.Bijective psi := by
-  haveI := card_P.1
+  have := card_P.1
   exact psi_surj.bijective_of_nat_card_le (by rw [card_ySub]; exact card_P.2)
 
 theorem hPres : IsPresentation sympGenX (wordSet rels) := isPresentation_co3X36
@@ -370,7 +370,7 @@ theorem qYc_surjective : Function.Surjective qYc := fun x => by
   obtain ⟨p, hp⟩ := coverMap_surjective hPres hwgComm x
   refine ⟨psi p, ?_⟩
   have h : psiEquiv.symm (psi p) = p := psiEquiv.symm_apply_apply p
-  simp only [qYc, MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe]
+  simp only [qYc, MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass]
   rw [h]
   exact hp
 
@@ -379,7 +379,7 @@ theorem qYc_e3 (i : Fin 3) : qYc (e3 i) = sympGenX i := by
     apply psiEquiv.injective
     rw [MulEquiv.apply_symm_apply]
     exact (psi_of i).symm
-  simp only [qYc, MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, h,
+  simp only [qYc, MonoidHom.comp_apply, MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, h,
     coverMap_of]
 
 theorem qYc_ker_central : qYc.ker ≤ Subgroup.center ↥ySub := by
@@ -394,7 +394,7 @@ theorem qYc_ker_central : qYc.ker ≤ Subgroup.center ↥ySub := by
   simpa using h2
 
 theorem Y_perfect : Group.IsPerfect ↥ySub := by
-  haveI := presentedCover_isPerfect (R := wordSet rels) hwComm
+  have := presentedCover_isPerfect (R := wordSet rels) hwComm
   rw [Group.isPerfect_def, eq_top_iff]
   intro y _
   obtain ⟨x, rfl⟩ := psi_surj y

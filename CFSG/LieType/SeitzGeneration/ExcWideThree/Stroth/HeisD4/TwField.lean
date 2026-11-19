@@ -14,11 +14,11 @@ theorem exists_fixedField_data {K : Type} [Field K] [Finite K] {ℓ f : ℕ} (h�
     ∃ (K₀ : Type) (_ : Field K₀) (_ : Finite K₀) (_ : Algebra K₀ (AlgebraicClosure K)),
       IsAlgClosure K₀ (AlgebraicClosure K) ∧ Nat.card K₀ = ℓ ^ f ∧ ringChar K₀ = ℓ := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fintype K := Fintype.ofFinite K
   have hKc : Fintype.card K = ℓ ^ (2 * f) := by
     rw [← Nat.card_eq_fintype_card, hK, ← pow_mul, mul_comm]
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow hKc
+  have : CharP K ℓ := charP_of_card_eq_prime_pow hKc
   have hq2 : 2 ≤ ℓ ^ f := by
     calc 2 ≤ ℓ := hℓ.two_le
       _ = ℓ ^ 1 := (pow_one ℓ).symm
@@ -46,7 +46,7 @@ theorem exists_fixedField_data {K : Type} [Field K] [Finite K] {ℓ f : ℕ} (h�
     have hle := Polynomial.card_le_degree_of_subset_roots hsub
     rw [hdeg, Finset.card_univ, hKc'] at hle
     nlinarith
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hord : orderOf σ = 2 := orderOf_eq_prime hσ2 hσ1
   set A : Subgroup (K ≃+* K) := Subgroup.zpowers σ with hA
   have hcardK : Nat.card K = ℓ ^ (2 * f) := by rw [hK, ← pow_mul, mul_comm]
@@ -54,8 +54,8 @@ theorem exists_fixedField_data {K : Type} [Field K] [Finite K] {ℓ f : ℕ} (h�
     have h := fixedSubfield_card ℓ (2 * f) K hcardK A
     rw [hA, Nat.card_zpowers, hord, Nat.mul_div_cancel_left f (by norm_num : 0 < 2)] at h
     exact h
-  haveI : Algebra.IsAlgebraic (FixedPoints.subfield A K) K := Algebra.IsAlgebraic.of_finite _ _
-  haveI : CharP (FixedPoints.subfield A K) ℓ :=
+  have : Algebra.IsAlgebraic (FixedPoints.subfield A K) K := Algebra.IsAlgebraic.of_finite _ _
+  have : CharP (FixedPoints.subfield A K) ℓ :=
     RingHom.charP (algebraMap (FixedPoints.subfield A K) K)
       (algebraMap (FixedPoints.subfield A K) K).injective ℓ
   exact ⟨↥(FixedPoints.subfield A K), inferInstance, inferInstance, inferInstance,

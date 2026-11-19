@@ -40,7 +40,7 @@ variable (c : Hyp11 G)
 
 /-- The `N_G(S)`-orbit of a character of `B`. -/
 @[expose]
-public def nuHatOrbit (h12 : Hyp12 c) (β : Irr (↥c.B)) : Finset (Irr (↥c.B)) :=
+public def nuHatOrbit (_h12 : Hyp12 c) (β : Irr (↥c.B)) : Finset (Irr (↥c.B)) :=
   Finset.univ.filter (fun β' : Irr (↥c.B) =>
     ∃ g : G, ∃ hg : g ∈ normalizerS c,
       conjIrrB c (B_conj_mem_of_normalizerS c hg) β = β')
@@ -61,7 +61,7 @@ public lemma conjIrrB_mul_local (c : Hyp11 G) {g h : G}
   apply Subtype.ext
   funext b
   dsimp [conjIrrB]
-  simp [conjIrrB_apply_local]
+  simp
   group
 
 /-- Conjugation by `g⁻¹` undoes conjugation by `g`. -/
@@ -72,7 +72,7 @@ public lemma conjIrrB_inv_local (c : Hyp11 G) {g : G}
   apply Subtype.ext
   funext b
   dsimp [conjIrrB]
-  simp [conjIrrB_apply_local]
+  simp
   group
 
 /-- Conjugation by `1` is the identity. -/

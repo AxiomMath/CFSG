@@ -6,10 +6,10 @@ public section
 
 namespace CFSG.QuasithinUnique.Setup.SL2Modules
 
-theorem hom_stabilizer_trivial {Ω : Type*} [Fintype Ω] [DecidableEq Ω] (h4 : 4 ≤ Fintype.card Ω)
+theorem hom_stabilizer_trivial {Ω : Type*} [Fintype Ω] [DecidableEq Ω] (_h4 : 4 ≤ Fintype.card Ω)
     (ω₀ : Ω) {N : Type*} [CommGroup N] (hN : ∀ x : N, x ^ 2 = 1)
     (φ : ↥(MulAction.stabilizer (alternatingGroup Ω) ω₀) →* N) : φ = 1 := by
-  clear h4
+  clear _h4
   have key : ∀ y : N, y ^ 3 = y := fun y => by
     rw [show (3 : ℕ) = 2 + 1 from rfl, pow_succ, hN, one_mul]
   have claim : ∀ τ ∈ Subgroup.closure {σ : Equiv.Perm {x : Ω // x ≠ ω₀} | σ.IsThreeCycle},

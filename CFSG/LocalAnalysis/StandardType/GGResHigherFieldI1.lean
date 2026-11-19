@@ -28,7 +28,7 @@ theorem GGResHyp.D_le_inf_centralizer {p : ℕ} {B Bs : Subgroup G} {x : G}
     D ≤ Bs ⊓ Subgroup.centralizer (J : Set G) :=
   GGConfig.D_le_inf_centralizer hH.1
 
-@[expose] def GGResHigherFieldRootTwo {G : Type} [Group G] (p : ℕ) (B Bs J : Subgroup G) : Prop :=
+@[expose] def GGResHigherFieldRootTwo {G : Type} [Group G] (_p : ℕ) (B _Bs J : Subgroup G) : Prop :=
   ∃ T : Subgroup G, T ≠ ⊥ ∧ IsPGroup 2 T ∧ T ≤ J ∧
     B ≤ Subgroup.normalizer (T : Set G)
 
@@ -48,7 +48,7 @@ theorem GGConfig.iOne_iff_card_ne_p3 {p : ℕ} {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} (hcfg : GGConfig p B Bs x L D J) (hp : p.Prime) :
     Bs ⊓ Subgroup.centralizer (J : Set G) = D ↔
       Nat.card ↥(Bs ⊓ Subgroup.centralizer (J : Set G)) ≠ p ^ 3 := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hD : D = B ⊓ Subgroup.centralizer (J : Set G) := hcfg.2.2.1.2.2.2.2.2.2
   have hDle : D ≤ Bs ⊓ Subgroup.centralizer (J : Set G) :=
     GGConfig.D_le_inf_centralizer hcfg
@@ -116,7 +116,7 @@ theorem GGResHyp.exactThree_data_of_iOne_ne {p : ℕ} {B Bs : Subgroup G} {x : G
     ∃ r : ℕ, Nat.card Bs = p ^ r ∧ 5 ≤ r ∧
       Nat.card (ggGamma J hH.Bs_le_normalizer_J).range = p ^ (r - 3) ∧ B < Bs := by
   have hp : p.Prime := hH.1.1.2.2.2.2.2.1.1
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hcard : Nat.card ↥(Bs ⊓ Subgroup.centralizer (J : Set G)) = p ^ 3 :=
     GGResHyp.card_eq_p3_of_ne hH hne
   have hBsp : IsPGroup p Bs := CFSG.Open.IsElemAbelian.isPGroup hH.1.2.1.2.1

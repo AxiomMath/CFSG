@@ -59,13 +59,13 @@ theorem fixer_mul (a b : Fin 10) (τ₁ τ₂ : Perm (Fin 8)) :
   rcases Int.units_eq_one_or (Perm.sign τ₁) with h1 | h1 <;>
     rcases Int.units_eq_one_or (Perm.sign τ₂) with h2 | h2
   · have h12 : Perm.sign (τ₁ * τ₂) = 1 := by rw [map_mul, h1, h2]; rfl
-    rw [if_pos h12, if_pos h1, if_pos h2, mul_one]
+    rw [ite_eq_left h12, ite_eq_left h1, ite_eq_left h2, mul_one]
   · have h12 : ¬ Perm.sign (τ₁ * τ₂) = 1 := by rw [map_mul, h1, h2]; exact hne
-    rw [if_neg h12, if_pos h1, if_neg (by rw [h2]; exact hne), one_mul]
+    rw [ite_eq_right h12, ite_eq_left h1, ite_eq_right (by rw [h2]; exact hne), one_mul]
   · have h12 : ¬ Perm.sign (τ₁ * τ₂) = 1 := by rw [map_mul, h1, h2]; exact hne
-    rw [if_neg h12, if_neg (by rw [h1]; exact hne), if_pos h2, mul_one]
+    rw [ite_eq_right h12, ite_eq_right (by rw [h1]; exact hne), ite_eq_left h2, mul_one]
   · have h12 : Perm.sign (τ₁ * τ₂) = 1 := by rw [map_mul, h1, h2]; rfl
-    rw [if_pos h12, if_neg (by rw [h1]; exact hne), if_neg (by rw [h2]; exact hne), hss]
+    rw [ite_eq_left h12, ite_eq_right (by rw [h1]; exact hne), ite_eq_right (by rw [h2]; exact hne), hss]
 
 theorem commute_ext8_fixer {a b : Fin 10} (hab : a ≠ b) (τ₁ τ₂ : Perm (Fin 8)) :
     Commute (ext8 hab τ₂) (fixer a b τ₁) := by
@@ -104,7 +104,7 @@ theorem sign_twist {a b : Fin 10} (hab : a ≠ b) (τ : Perm (Fin 8)) :
   rcases Int.units_eq_one_or (Perm.sign τ) with h | h
   · simp [h]
   · have h' : ¬ Perm.sign τ = 1 := by rw [h]; decide
-    simp [h', h, Perm.sign_swap hab]
+    simp [h, Perm.sign_swap hab]
 
 theorem twist_injective {a b : Fin 10} (hab : a ≠ b) : Function.Injective (twist hab) := by
   rw [injective_iff_map_eq_one]

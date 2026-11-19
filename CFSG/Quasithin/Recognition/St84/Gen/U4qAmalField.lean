@@ -17,6 +17,7 @@ open scoped MatrixGroups
 
 variable {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G} {f : ℕ}
 
+omit [Finite G] in
 theorem U4qCoordLeft.commutator {F : Type*} [Field F] (c₁ : U4qCoordLeft L1 L2 S f F)
     {c : ↥L1} {t : F} (hc : (c₁.α c : Matrix (Fin 2) (Fin 2) F) = !![1, t; 0, 1])
     (a w : ↥(pCoreOf 2 L1)) (hw : (w : G) = c * a * c⁻¹ * a⁻¹) :
@@ -39,6 +40,7 @@ theorem U4qCoordLeft.commutator {F : Type*} [Field F] (c₁ : U4qCoordLeft L1 L2
     have hj := congrFun h1 j
     rw [Matrix.add_apply, Matrix.neg_apply, hj, Pi.zero_apply, add_neg_cancel]
 
+omit [Finite G] in
 theorem U4qCoordRight.commutator {K : Type*} [Field K] (c₂ : U4qCoordRight L1 L2 S f K)
     {a : ↥L2} {s : K} (ha : (c₂.α a : Matrix (Fin 2) (Fin 2) K) = !![1, s; 0, 1])
     (c w : ↥(pCoreOf 2 L2)) (hw : (w : G) = a * c * a⁻¹ * c⁻¹) :
@@ -49,7 +51,7 @@ theorem U4qCoordRight.commutator {K : Type*} [Field K] (c₂ : U4qCoordRight L1 
   rw [ha, unitriangular_mul_mul_map_transpose] at hv
   rw [hwv, map_mul, map_inv, toAdd_mul, toAdd_inv, Matrix.add_apply, Matrix.neg_apply, hv]
   simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons]
+    Matrix.empty_val', Matrix.cons_val_fin_one]
   ring
 
 section Total
@@ -76,40 +78,49 @@ private noncomputable def pR (c₂ : U4qCoordRight L1 L2 S f K) (x : G) : K :=
 
 variable (c₁ : U4qCoordLeft L1 L2 S f F) (c₂ : U4qCoordRight L1 L2 S f K)
 
+omit [Finite G] in
 private theorem bL_of_mem {x : G} (h : x ∈ pCoreOf 2 L1) :
     bL c₁ x = Multiplicative.toAdd (c₁.β ⟨x, h⟩) := by
-  rw [bL, dif_pos h]
+  rw [bL, dite_eq_left h]
 
+omit [Finite G] in
 private theorem bR_of_mem {x : G} (h : x ∈ pCoreOf 2 L2) :
     bR c₂ x = Multiplicative.toAdd (c₂.β ⟨x, h⟩) := by
-  rw [bR, dif_pos h]
+  rw [bR, dite_eq_left h]
 
+omit [Finite G] in
 private theorem pL_of_mem {x : G} (h : x ∈ L1) :
     pL c₁ x = (c₁.α ⟨x, h⟩ : Matrix (Fin 2) (Fin 2) F) 0 1 := by
-  rw [pL, dif_pos h]
+  rw [pL, dite_eq_left h]
 
+omit [Finite G] in
 private theorem pR_of_mem {x : G} (h : x ∈ L2) :
     pR c₂ x = (c₂.α ⟨x, h⟩ : Matrix (Fin 2) (Fin 2) K) 0 1 := by
-  rw [pR, dif_pos h]
+  rw [pR, dite_eq_left h]
 
+omit [Finite G] in
 private theorem bL_mul {x y : G} (hx : x ∈ pCoreOf 2 L1) (hy : y ∈ pCoreOf 2 L1) :
     bL c₁ (x * y) = bL c₁ x + bL c₁ y := by
   rw [bL_of_mem c₁ (mul_mem hx hy), bL_of_mem c₁ hx, bL_of_mem c₁ hy, ← toAdd_mul, ← map_mul]
   rfl
 
+omit [Finite G] in
 private theorem bL_inv {x : G} (hx : x ∈ pCoreOf 2 L1) : bL c₁ x⁻¹ = -bL c₁ x := by
   rw [bL_of_mem c₁ (inv_mem hx), bL_of_mem c₁ hx, ← toAdd_inv, ← map_inv]
   rfl
 
+omit [Finite G] in
 private theorem bR_mul {x y : G} (hx : x ∈ pCoreOf 2 L2) (hy : y ∈ pCoreOf 2 L2) :
     bR c₂ (x * y) = bR c₂ x + bR c₂ y := by
   rw [bR_of_mem c₂ (mul_mem hx hy), bR_of_mem c₂ hx, bR_of_mem c₂ hy, ← toAdd_mul, ← map_mul]
   rfl
 
+omit [Finite G] in
 private theorem bR_inv {x : G} (hx : x ∈ pCoreOf 2 L2) : bR c₂ x⁻¹ = -bR c₂ x := by
   rw [bR_of_mem c₂ (inv_mem hx), bR_of_mem c₂ hx, ← toAdd_inv, ← map_inv]
   rfl
 
+omit [Finite G] in
 private theorem bL_eq_zero_iff {x : G} (hx : x ∈ pCoreOf 2 L1) :
     bL c₁ x = 0 ↔ x ∈ centerOf (pCoreOf 2 L1) := by
   rw [bL_of_mem c₁ hx]
@@ -122,43 +133,51 @@ private theorem bL_eq_zero_iff {x : G} (hx : x ∈ pCoreOf 2 L1) :
   · intro h1
     rw [h1, toAdd_one]
 
+omit [Finite G] in
 private theorem bL_one_eq_zero_iff {x : G} (hx : x ∈ pCoreOf 2 L1) :
     bL c₁ x 1 = 0 ↔ x ∈ pCoreOf 2 L2 := by
   rw [bL_of_mem c₁ hx]
   exact (c₁.mem_inf_iff ⟨x, hx⟩).symm
 
+omit [Finite G] in
 private theorem bL_surj (M : Matrix (Fin 2) (Fin 2) F) :
     ∃ x, x ∈ pCoreOf 2 L1 ∧ bL c₁ x = M := by
   obtain ⟨u, hu⟩ := c₁.surjective_β (Multiplicative.ofAdd M)
   exact ⟨u, u.2, by rw [bL_of_mem c₁ u.2, hu, toAdd_ofAdd]⟩
 
+omit [Finite G] in
 private theorem bR_herm {x : G} (hx : x ∈ pCoreOf 2 L2) :
     (bR c₂ x).map (· ^ 2 ^ f) = (bR c₂ x).transpose := by
   rw [bR_of_mem c₂ hx]
   exact (c₂.range_iff _).mp ⟨_, rfl⟩
 
+omit [Finite G] in
 private theorem bR_center_iff {x : G} (hx : x ∈ pCoreOf 2 L2) :
     bR c₂ x 0 1 = 0 ∧ bR c₂ x 1 1 = 0 ↔ x ∈ centerOf (pCoreOf 2 L1) := by
   rw [bR_of_mem c₂ hx]
   exact (c₂.mem_center_iff ⟨x, hx⟩).symm
 
+omit [Finite G] in
 private theorem bR_one_one_eq_zero_iff {x : G} (hx : x ∈ pCoreOf 2 L2) :
     bR c₂ x 1 1 = 0 ↔ x ∈ pCoreOf 2 L1 := by
   rw [bR_of_mem c₂ hx]
   exact (c₂.mem_inf_iff ⟨x, hx⟩).symm
 
+omit [Finite G] in
 private theorem alpha_eq_pL {x : G} (hx : x ∈ L1) (hxS : x ∈ S) :
     (c₁.α ⟨x, hx⟩ : Matrix (Fin 2) (Fin 2) F) = !![1, pL c₁ x; 0, 1] := by
   obtain ⟨t, ht⟩ := (c₁.mem_iff ⟨x, hx⟩).mp hxS
   rw [pL_of_mem c₁ hx, ht]
   simp
 
+omit [Finite G] in
 private theorem alpha_eq_pR {x : G} (hx : x ∈ L2) (hxS : x ∈ S) :
     (c₂.α ⟨x, hx⟩ : Matrix (Fin 2) (Fin 2) K) = !![1, pR c₂ x; 0, 1] := by
   obtain ⟨t, ht⟩ := (c₂.mem_iff ⟨x, hx⟩).mp hxS
   rw [pR_of_mem c₂ hx, ht]
   simp
 
+omit [Finite G] in
 private theorem pL_mul {x y : G} (hx : x ∈ L1) (hy : y ∈ L1) (hxS : x ∈ S) (hyS : y ∈ S) :
     pL c₁ (x * y) = pL c₁ x + pL c₁ y := by
   rw [pL_of_mem c₁ (mul_mem hx hy)]
@@ -166,6 +185,7 @@ private theorem pL_mul {x y : G} (hx : x ∈ L1) (hy : y ∈ L1) (hxS : x ∈ S)
   rw [map_mul, Matrix.SpecialLinearGroup.coe_mul, alpha_eq_pL c₁ hx hxS, alpha_eq_pL c₁ hy hyS]
   simp [Matrix.mul_apply, Fin.sum_univ_two, add_comm]
 
+omit [Finite G] in
 private theorem pR_mul {x y : G} (hx : x ∈ L2) (hy : y ∈ L2) (hxS : x ∈ S) (hyS : y ∈ S) :
     pR c₂ (x * y) = pR c₂ x + pR c₂ y := by
   rw [pR_of_mem c₂ (mul_mem hx hy)]
@@ -173,6 +193,7 @@ private theorem pR_mul {x y : G} (hx : x ∈ L2) (hy : y ∈ L2) (hxS : x ∈ S)
   rw [map_mul, Matrix.SpecialLinearGroup.coe_mul, alpha_eq_pR c₂ hx hxS, alpha_eq_pR c₂ hy hyS]
   simp [Matrix.mul_apply, Fin.sum_univ_two, add_comm]
 
+omit [Finite G] in
 private theorem pL_eq_zero_iff {x : G} (hx : x ∈ L1) (hxS : x ∈ S) :
     pL c₁ x = 0 ↔ x ∈ pCoreOf 2 L1 := by
   rw [← c₁.eq_one_iff ⟨x, hx⟩]
@@ -184,6 +205,7 @@ private theorem pL_eq_zero_iff {x : G} (hx : x ∈ L1) (hxS : x ∈ S) :
     rw [pL_of_mem c₁ hx, h1]
     simp
 
+omit [Finite G] in
 private theorem pR_eq_zero_iff {x : G} (hx : x ∈ L2) (hxS : x ∈ S) :
     pR c₂ x = 0 ↔ x ∈ pCoreOf 2 L2 := by
   rw [← c₂.eq_one_iff ⟨x, hx⟩]
@@ -195,16 +217,19 @@ private theorem pR_eq_zero_iff {x : G} (hx : x ∈ L2) (hxS : x ∈ S) :
     rw [pR_of_mem c₂ hx, h1]
     simp
 
+omit [Finite G] in
 private theorem bL_inv_mul_apply {x y : G} (hx : x ∈ pCoreOf 2 L1) (hy : y ∈ pCoreOf 2 L1)
     (i j : Fin 2) : bL c₁ (y⁻¹ * x) i j = bL c₁ x i j - bL c₁ y i j := by
   rw [bL_mul c₁ (inv_mem hy) hx, bL_inv c₁ hy, Matrix.add_apply, Matrix.neg_apply]
   ring
 
+omit [Finite G] in
 private theorem bR_inv_mul_apply {x y : G} (hx : x ∈ pCoreOf 2 L2) (hy : y ∈ pCoreOf 2 L2)
     (i j : Fin 2) : bR c₂ (y⁻¹ * x) i j = bR c₂ x i j - bR c₂ y i j := by
   rw [bR_mul c₂ (inv_mem hy) hx, bR_inv c₂ hy, Matrix.add_apply, Matrix.neg_apply]
   ring
 
+omit [Finite G] in
 private theorem pL_inv_mul {x y : G} (hx : x ∈ L1) (hy : y ∈ L1) (hxS : x ∈ S) (hyS : y ∈ S) :
     pL c₁ (y⁻¹ * x) = pL c₁ x - pL c₁ y := by
   have h1 := pL_mul c₁ (inv_mem hy) hy (inv_mem hyS) hyS
@@ -215,6 +240,7 @@ private theorem pL_inv_mul {x y : G} (hx : x ∈ L1) (hy : y ∈ L1) (hxS : x �
   rw [pL_mul c₁ (inv_mem hy) hx (inv_mem hyS) hxS]
   linear_combination h0 - h1
 
+omit [Finite G] in
 private theorem pR_eq_of_inv_mul_mem {x y : G} (hx : x ∈ L2) (hy : y ∈ L2)
     (h : y⁻¹ * x ∈ pCoreOf 2 L2) : pR c₂ x = pR c₂ y := by
   have h1 : c₂.α ⟨y⁻¹ * x, mul_mem (inv_mem hy) hx⟩ = 1 := (c₂.eq_one_iff _).mpr h
@@ -317,8 +343,8 @@ theorem U4qLocalData.exists_ringHom_field {F K : Type} [Field F] [Field K]
         Multiplicative.toAdd (c₂.β ⟨c, hc⟩) 1 1 =
           κ * ρ ((c₁.α ⟨c, hc'⟩ : Matrix (Fin 2) (Fin 2) F) 0 1)) := by
   classical
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [c₁.card]; positivity)
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [c₂.card]; positivity)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [c₁.card]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [c₂.card]; positivity)
   have hU : UnitaryFieldData 2 f K := ⟨Nat.prime_two, hD.one_le, c₂.card⟩
   have hSL1 : S ≤ L1 := hD.le_left hH hS
   have hSL2 : S ≤ L2 := hD.le_right hH hS

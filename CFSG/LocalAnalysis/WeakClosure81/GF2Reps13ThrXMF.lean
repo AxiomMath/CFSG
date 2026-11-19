@@ -45,6 +45,7 @@ private theorem w16g_coord_eq_zero_of_mem_sup {X : Subgroup (MulAut W)} {q r x :
       (Subgroup.zpowers_le.mpr (show r ∈ P from hr0))
   exact hle hx'
 
+omit [Finite W] in
 private theorem w16g_mem_s13Supp_zpowers_iff {X : Subgroup (MulAut W)} {p : ℕ}
     {lam : s13IsoComps X → Additive ↥X →+ ZMod p} (hl : IsCoord X p lam)
     {z : MulAut W} (hz : z ∈ X) (U : s13IsoComps X) :
@@ -52,7 +53,7 @@ private theorem w16g_mem_s13Supp_zpowers_iff {X : Subgroup (MulAut W)} {p : ℕ}
       lam U (Additive.ofMul ⟨z, hz⟩) ≠ 0 := by
   have h1 : (U : Subgroup W) ∈ s13Supp X (Subgroup.zpowers z) ↔
       commSub (U : Subgroup W) (Subgroup.zpowers z) ≠ ⊥ := by
-    simp only [s13Supp, Set.mem_setOf_eq, U.2, true_and]
+    simp only [s13Supp, Set.mem_ofPred_eq, U.2, true_and]
   rw [h1]
   exact (coord_ne_zero_iff hl ⟨z, hz⟩ U).symm
 
@@ -101,6 +102,7 @@ private theorem w16g_dot_three_zero' (a b c : ZMod 3) (ha : a ≠ 0) (hb : b ≠
   revert a b c
   decide +kernel
 
+omit [Finite W] in
 theorem w16g_tetra_supp (h : HAb A X Q t 3)
     (hH0 : ∀ y ∈ X, y ≠ 1 → (s13Supp X (Subgroup.zpowers y)).ncard ≠ 1)
     (hQ3 : Nat.card ↥Q = 3) (he : (s13Supp X Q).ncard = 3)
@@ -322,7 +324,6 @@ private theorem w16g_tetra_rank_six (h : HAb A X Q t 3)
     fin_cases i <;> fin_cases j <;>
       simp only [g'] at hij ⊢ <;>
       first
-        | rfl
         | exact absurd hij F.h12
         | exact absurd hij.symm F.h12
         | exact absurd hij F.h1c

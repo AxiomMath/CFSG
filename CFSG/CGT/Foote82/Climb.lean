@@ -19,13 +19,15 @@ open Matrix
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_pCoreOf_of_normalizes {D R : Subgroup G} (hRD : R ≤ D)
     (hDR : D ≤ Subgroup.normalizer (R : Set G)) (hR : IsPGroup 2 R) : R ≤ pCoreOf 2 D := by
-  haveI : (R.subgroupOf D).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hRD).mpr hDR
+  have : (R.subgroupOf D).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hRD).mpr hDR
   have hS : IsPGroup 2 (R.subgroupOf D) := hR.of_equiv (Subgroup.subgroupOfEquivOfLe hRD).symm
   intro x hx
   exact ⟨⟨x, hRD hx⟩, le_pCore_of_normal (R.subgroupOf D) hS (Subgroup.mem_subgroupOf.mpr hx), rfl⟩
 
+omit [Finite G] in
 theorem map_conj_eq_self_of_mem_normalizer {C : Subgroup G} {g : G}
     (hC : g ∈ Subgroup.normalizer (C : Set G)) : C.map (MulAut.conj g).toMonoidHom = C := by
   ext x
@@ -38,6 +40,7 @@ theorem map_conj_eq_self_of_mem_normalizer {C : Subgroup G} {g : G}
     have := (Subgroup.mem_normalizer_iff.mp (Subgroup.inv_mem _ hC) x).mp hx
     simpa using this
 
+omit [Finite G] in
 theorem mem_normalizer_of_map_conj_eq {C : Subgroup G} {g : G}
     (h : C.map (MulAut.conj g).toMonoidHom = C) : g ∈ Subgroup.normalizer (C : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -52,6 +55,7 @@ theorem mem_normalizer_of_map_conj_eq {C : Subgroup G} {g : G}
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, mul_left_inj, mul_right_inj] at hyx
     rwa [← hyx]
 
+omit [Finite G] in
 theorem mem_normalizer_pCoreOf {D : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (D : Set G)) :
     g ∈ Subgroup.normalizer (pCoreOf 2 D : Set G) := by
@@ -79,6 +83,7 @@ theorem mem_normalizer_pCoreOf {D : Subgroup G} {g : G}
   have := key g⁻¹ (Subgroup.inv_mem _ hg) ⟨x, hx, rfl⟩
   exact ⟨g⁻¹ * x * g⁻¹⁻¹, this, by simp [MulAut.conj_apply, mul_assoc]⟩
 
+omit [Finite G] in
 theorem mem_normalizer_commutator {A B : Subgroup G} {g : G}
     (hA : g ∈ Subgroup.normalizer (A : Set G)) (hB : g ∈ Subgroup.normalizer (B : Set G)) :
     g ∈ Subgroup.normalizer ((⁅A, B⁆ : Subgroup G) : Set G) := by
@@ -91,6 +96,7 @@ namespace ChiefHyp
 variable {N K Q : Subgroup G} (h : ChiefHyp N K Q)
 include h
 
+omit [Finite G] h in
 theorem mem_normalizer_kClosure {y : G} (hyX : y ∈ Subgroup.normalizer (footeX N K : Set G))
     (hyK : y ∈ Subgroup.normalizer (K : Set G)) :
     y ∈ Subgroup.normalizer (kClosure N K : Set G) := by
@@ -118,17 +124,20 @@ theorem mem_normalizer_kClosure {y : G} (hyX : y ∈ Subgroup.normalizer (footeX
   simpa [mul_assoc] using this
 
 theorem Q_le_normalizer_kClosure : Q ≤ Subgroup.normalizer (kClosure N K : Set G) :=
-  fun _ hq => h.mem_normalizer_kClosure (h.Q_le_normalizer_footeX hq) (h.normalizes hq)
+  fun _ hq => ChiefHyp.mem_normalizer_kClosure (h.Q_le_normalizer_footeX hq) (h.normalizes hq)
 
 theorem gam_le_normalizer_kClosure :
     footeX N K ⊔ Q ≤ Subgroup.normalizer (kClosure N K : Set G) :=
-  sup_le h.footeX_le_normalizer_kClosure h.Q_le_normalizer_kClosure
+  sup_le (CFSG.CGT.Foote82.ChiefHyp.footeX_le_normalizer_kClosure (G := G) (N := N) (K := K)) h.Q_le_normalizer_kClosure
 
+omit [Finite G] in
 theorem kClosure_le_gam : kClosure N K ≤ footeX N K ⊔ Q :=
   h.kClosure_le_footeX.trans le_sup_left
 
+omit [Finite G] in
 theorem kClosure_le : kClosure N K ≤ N := h.kClosure_le_footeX.trans (footeX_le N K)
 
+omit [Finite G] in
 theorem commutator_kClosure : ⁅kClosure N K, kClosure N K⁆ = kClosure N K := by
   refine le_antisymm ((Subgroup.commutator_le).mpr fun a ha b hb => ?_) ?_
   · rw [commutatorElement_def]
@@ -149,7 +158,7 @@ theorem kClosure_eq_closure :
   refine le_antisymm ((Subgroup.closure_le _).mpr ?_) ((Subgroup.closure_le _).mpr ?_)
   · rintro _ ⟨x, hx, k, hk, rfl⟩
     have hXH : kClosure N K ≤ Subgroup.normalizer (pCoreOf 2 N : Set G) :=
-      h.kClosure_le.trans h.le_normalizer_core
+      h.kClosure_le.trans CFSG.CGT.Foote82.ChiefHyp.le_normalizer_core
     have hx' : x ∈ ((kClosure N K ⊔ pCoreOf 2 N : Subgroup G) : Set G) := by
       rw [← h.footeX_eq_sup]; exact hx
     rw [Subgroup.coe_mul_of_left_le_normalizer_right _ _ hXH] at hx'
@@ -158,21 +167,21 @@ theorem kClosure_eq_closure :
       (Subgroup.mem_normalizer_iff.mp (h.normalizes (h.core_le hc)) k).mp hk
     exact Subgroup.subset_closure ⟨d, hd, c * k * c⁻¹, hck, by group⟩
   · rintro _ ⟨ℓ, hℓ, k, hk, rfl⟩
-    exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hℓ (h.K_le_kClosure hk)) (Subgroup.inv_mem _ hℓ)
+    exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hℓ ((CFSG.CGT.Foote82.ChiefHyp.K_le_kClosure (N := N) (K := K)) hk)) (Subgroup.inv_mem _ hℓ)
 
 theorem isSubnormal_kClosure : IsSubnormal (kClosure N K) N :=
   .step h.kClosure_le_footeX
     ((Subgroup.normal_subgroupOf_iff_le_normalizer h.kClosure_le_footeX).mpr
-      h.footeX_le_normalizer_kClosure) h.isSubnormal_footeX
+      (CFSG.CGT.Foote82.ChiefHyp.footeX_le_normalizer_kClosure (G := G) (N := N) (K := K))) h.isSubnormal_footeX
 
 theorem pCoreOf_kClosure : pCoreOf 2 (kClosure N K) = kClosure N K ⊓ pCoreOf 2 N := by
   apply le_antisymm
   · refine le_inf (CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_le 2 _) ?_
     refine h.le_core_of_isPGroup (CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_isPGroup 2 _)
       ((CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_le 2 _).trans h.kClosure_le_footeX)
-      fun x hx => mem_normalizer_pCoreOf (h.footeX_le_normalizer_kClosure hx)
+      fun x hx => mem_normalizer_pCoreOf ((CFSG.CGT.Foote82.ChiefHyp.footeX_le_normalizer_kClosure (G := G) (N := N) (K := K)) hx)
   · refine le_pCoreOf_of_normalizes inf_le_left (fun d hd => ?_)
-      (h.core_isPGroup.to_le inf_le_right)
+      (CFSG.CGT.Foote82.ChiefHyp.core_isPGroup.to_le inf_le_right)
     rw [Subgroup.mem_normalizer_iff]
     intro x
     have h1 := Subgroup.mem_normalizer_iff.mp
@@ -183,11 +192,11 @@ theorem pCoreOf_kClosure : pCoreOf 2 (kClosure N K) = kClosure N K ⊓ pCoreOf 2
 
 theorem blockU_le_pCoreOf_kClosure : blockU K ≤ pCoreOf 2 (kClosure N K) := by
   rw [h.pCoreOf_kClosure]
-  exact le_inf ((blockU_le_self K).trans h.K_le_kClosure) h.blockU_le
+  exact le_inf ((blockU_le_self K).trans (CFSG.CGT.Foote82.ChiefHyp.K_le_kClosure (N := N) (K := K))) h.blockU_le
 
 theorem blockU_le_blockU_kClosure : blockU K ≤ blockU (kClosure N K) := by
   rw [← IsFooteBlock.commutator_blockU h.block]
-  exact Subgroup.commutator_mono h.blockU_le_pCoreOf_kClosure h.K_le_kClosure
+  exact Subgroup.commutator_mono h.blockU_le_pCoreOf_kClosure (CFSG.CGT.Foote82.ChiefHyp.K_le_kClosure (N := N) (K := K))
 
 theorem blockU_kClosure_le_wOne : blockU (kClosure N K) ≤ wOne N K Q := by
   refine (Subgroup.commutator_le).mpr fun x hx d hd => ?_
@@ -221,7 +230,7 @@ include h
 
 theorem isComponentOf_barIn_kClosure :
     IsComponentOf (barIn (kClosure N K) K) (centralizerBarIn (kClosure N K) Q) := by
-  have hKD := h.K_le_kClosure
+  have hKD := (CFSG.CGT.Foote82.ChiefHyp.K_le_kClosure (N := N) (K := K))
   have hPQ : pCoreOf 2 (kClosure N K) ≤ Q := by
     rw [h.pCoreOf_kClosure]
     exact inf_le_right.trans h.core_le
@@ -257,7 +266,7 @@ theorem isComponentOf_barIn_kClosure :
         (mem_ker_hatMap hKD k).mpr (h.blockU_le_pCoreOf_kClosure hk))
 
 theorem footeArrow_kClosure : FooteArrow K (kClosure N K) :=
-  ⟨h.K_le_kClosure, h.commutator_pCoreOf_kClosure_K.symm, Q, h.two, h.Q_le_normalizer_kClosure,
+  ⟨(CFSG.CGT.Foote82.ChiefHyp.K_le_kClosure (N := N) (K := K)), h.commutator_pCoreOf_kClosure_K.symm, Q, h.two, h.Q_le_normalizer_kClosure,
     h.isComponentOf_barIn_kClosure⟩
 
 end ChiefHyp
@@ -279,6 +288,7 @@ variable {Γ W₀ W₁ : Subgroup G} {V : Type} [AddCommGroup V] [Module (ZMod 2
     · exact ⟨1, B.one_mem, by rw [lin.vec_one, zero_smul]⟩
     · exact ⟨a, ha, by rw [one_smul]⟩
 
+omit [Finite G] in
 theorem invariant_imgVec {A B : Subgroup G} (hAB : A ≤ Subgroup.normalizer (B : Set G)) :
     Invariant (lin.img A) (lin.imgVec B) := by
   rintro _ ⟨a, ha, rfl⟩ _ ⟨w, hw, rfl⟩
@@ -288,6 +298,7 @@ theorem invariant_imgVec {A B : Subgroup G} (hAB : A ≤ Subgroup.normalizer (B 
   exact ⟨⟨_, hconj⟩, (Subgroup.mem_normalizer_iff.mp (hAB haA) w).mp hw,
     (lin.ρ_vec a w ⟨_, hconj⟩ rfl).symm⟩
 
+omit [Finite G] in
 theorem kProper_img (hK : CFSG.Assembly.KProper CFSG.Assembly.InCatalog G) (A : Subgroup G) :
     CFSG.Assembly.KProper CFSG.Assembly.InCatalog ↥(lin.img A) :=
   CFSG.ComponentClassification.CatalogueKProper.of_surjective
@@ -295,6 +306,7 @@ theorem kProper_img (hK : CFSG.Assembly.KProper CFSG.Assembly.InCatalog G) (A : 
       (CFSG.ComponentClassification.CatalogueKProper.subgroup hK Γ) (A.subgroupOf Γ))
     (lin.ρ.subgroupMap (A.subgroupOf Γ)) (lin.ρ.subgroupMap_surjective (A.subgroupOf Γ))
 
+omit [Finite G] in
 theorem img_le_img_self (A : Subgroup G) : lin.img A ≤ lin.img Γ := by
   refine Subgroup.map_mono ?_
   rw [Subgroup.subgroupOf_self]
@@ -302,13 +314,14 @@ theorem img_le_img_self (A : Subgroup G) : lin.img A ≤ lin.img Γ := by
 
 end ChiefLin
 
+omit [Finite G] in
 theorem isPerfect_of_commutator_eq {D : Subgroup G} (hD : ⁅D, D⁆ = D) : Group.IsPerfect ↥D := by
   refine ⟨Subgroup.map_injective D.subtype_injective ?_⟩
   rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype, hD]
 
 theorem isQuasisimple_of_isSimpleGroup_of_commutator_eq_top {S : Type*} [Group S]
     (hS : IsSimpleGroup S) (hp : commutator S = ⊤) : CFSG.Open.IsQuasisimple S := by
-  haveI := hS
+  have := hS
   refine ⟨hp, ?_⟩
   have hc : Subgroup.center S = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with hb | ht
@@ -334,6 +347,7 @@ variable {N K Q : Subgroup G} (h : ChiefHyp N K Q) {W₀ : Subgroup G}
 include h hW₀
 
 omit hW₀ in
+omit [Finite V] in
 theorem ChiefHyp.img_kClosure_normal : ∀ γ ∈ lin.img (footeX N K ⊔ Q),
     ∀ b ∈ lin.img (kClosure N K), γ * b * γ⁻¹ ∈ lin.img (kClosure N K) := by
   rintro _ ⟨x, -, rfl⟩ _ ⟨d, hd, rfl⟩
@@ -342,11 +356,14 @@ theorem ChiefHyp.img_kClosure_normal : ∀ γ ∈ lin.img (footeX N K ⊔ Q),
   exact (Subgroup.mem_normalizer_iff.mp (h.gam_le_normalizer_kClosure x.2) d).mp hd'
 
 omit hW₀ in
+omit [Finite V] in
+omit [Finite G] h in
 theorem ChiefHyp.img_K_le_img_kClosure : lin.img K ≤ lin.img (kClosure N K) := by
   rintro _ ⟨k, hk, rfl⟩
-  exact ⟨k, Subgroup.mem_subgroupOf.mpr (h.K_le_kClosure (Subgroup.mem_subgroupOf.mp hk)), rfl⟩
+  exact ⟨k, Subgroup.mem_subgroupOf.mpr ((CFSG.CGT.Foote82.ChiefHyp.K_le_kClosure (N := N) (K := K)) (Subgroup.mem_subgroupOf.mp hk)), rfl⟩
 
 omit hW₀ in
+omit [Finite V] in
 theorem ChiefHyp.img_kClosure_le_normalClosure :
     lin.img (kClosure N K) ≤ normalClosure (lin.img (kClosure N K)) (lin.img K) := by
   rintro _ ⟨d, hd, rfl⟩
@@ -370,13 +387,13 @@ theorem ChiefHyp.eq_bot_or_eq_top_img_kClosure {U : Submodule (ZMod 2) V}
     (hU : Invariant (lin.img (kClosure N K)) U) : U = ⊥ ∨ U = ⊤ := by
   have hS := h.setup6Irr_img hW₀ lin
   exact eq_bot_or_eq_top_of_le_normalClosure hS.irr (h.img_kClosure_normal lin)
-    (h.img_K_le_img_kClosure lin) (h.img_kClosure_le_normalClosure lin)
+    (CFSG.CGT.Foote82.ChiefHyp.img_K_le_img_kClosure lin) (h.img_kClosure_le_normalClosure lin)
     (commutator_eq_of_isPerfect ⟨hS.component.2.2.1⟩) hS.irrTilde hU
 
 theorem ChiefHyp.fixedSpace_img_kClosure : fixedSpace (lin.img (kClosure N K)) = ⊥ := by
   have hS := h.setup6Irr_img hW₀ lin
   exact fixedSpace_eq_bot_of_le_normalClosure hS.irr (h.img_kClosure_normal lin)
-    (h.img_K_le_img_kClosure lin) (h.img_kClosure_le_normalClosure lin)
+    (CFSG.CGT.Foote82.ChiefHyp.img_K_le_img_kClosure lin) (h.img_kClosure_le_normalClosure lin)
     (commutator_eq_of_isPerfect ⟨hS.component.2.2.1⟩) hS.irrTilde
 
 theorem ChiefHyp.imgVec_blockU_kClosure : lin.imgVec (blockU (kClosure N K)) = ⊤ := by
@@ -384,8 +401,8 @@ theorem ChiefHyp.imgVec_blockU_kClosure : lin.imgVec (blockU (kClosure N K)) = �
     lin.invariant_imgVec h.gam_le_normalizer_blockU_kClosure
   rcases IsIrr.eq_bot_or_eq (h.setup6Irr_img hW₀ lin).irr hinv le_top with hb | ht
   · exfalso
-    obtain ⟨u, hu, hu0⟩ := SetLike.not_le_iff_exists.mp hW₀.1.2.2
-    have huW : u ∈ wOne N K Q := h.blockU_le_wOne hu
+    obtain ⟨u, hu, hu0⟩ := IsConcreteLE.not_le_iff_exists.mp hW₀.1.2.2
+    have huW : u ∈ wOne N K Q := CFSG.CGT.Foote82.ChiefHyp.blockU_le_wOne hu
     have hmem : lin.vec ⟨u, huW⟩ ∈ lin.imgVec (blockU (kClosure N K)) :=
       ⟨⟨u, huW⟩, h.blockU_le_blockU_kClosure hu, rfl⟩
     rw [hb, Submodule.mem_bot, lin.vec_eq_zero_iff] at hmem
@@ -419,7 +436,7 @@ theorem ChiefHyp.chief_kClosure : blockZ (kClosure N K) < blockU (kClosure N K) 
         W = blockZ (kClosure N K) ∨ W = blockU (kClosure N K) := by
   have hZ := h.blockU_inf_wZero_kClosure hW₀ lin
   have hUW := h.blockU_kClosure_le_wOne
-  haveI := lin.nontrivial (h.isChiefFactor hW₀).lt
+  have := lin.nontrivial (CFSG.CGT.Foote82.ChiefHyp.isChiefFactor hW₀).lt
   refine ⟨lt_of_le_of_ne inf_le_left fun heq => ?_, fun W hZW hWU hDW => ?_⟩
   · obtain ⟨v, hv⟩ := exists_ne (0 : V)
     have hv' : v ∈ lin.imgVec (blockU (kClosure N K)) := by
@@ -472,7 +489,7 @@ theorem ChiefHyp.ker_restr_kClosure :
 
 theorem ChiefHyp.kClosure_eq_of_img_eq (h1 : lin.img K = lin.img (footeX N K ⊔ Q)) :
     kClosure N K = K := by
-  refine le_antisymm ((Subgroup.closure_le _).mpr ?_) h.K_le_kClosure
+  refine le_antisymm ((Subgroup.closure_le _).mpr ?_) (CFSG.CGT.Foote82.ChiefHyp.K_le_kClosure (N := N) (K := K))
   rintro _ ⟨x, hx, k, hk, rfl⟩
   have hxΓ : x ∈ footeX N K ⊔ Q := Subgroup.mem_sup_left hx
   have hmem : lin.ρ ⟨x, hxΓ⟩ ∈ lin.img K := by
@@ -514,7 +531,7 @@ theorem ChiefHyp.img_kClosure_eq_layerIn
     refine ⟨fun x hx g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact h.img_kClosure_normal lin g (hEΓ g.2) x hx
-  haveI := hE
+  have := hE
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((lin.img (kClosure N K)).subgroupOf E) with
     hb | ht
   · exfalso
@@ -524,7 +541,7 @@ theorem ChiefHyp.img_kClosure_eq_layerIn
       have hx' : (⟨x, hDE hx⟩ : ↥E) ∈ (lin.img (kClosure N K)).subgroupOf E := hx
       rw [hb, Subgroup.mem_bot] at hx'
       exact (Subgroup.mem_bot).mpr (congrArg Subtype.val hx')
-    have hK : lin.img K = ⊥ := le_bot_iff.mp (hD ▸ h.img_K_le_img_kClosure lin)
+    have hK : lin.img K = ⊥ := le_bot_iff.mp (hD ▸ CFSG.CGT.Foote82.ChiefHyp.img_K_le_img_kClosure lin)
     have hirr := (h.setup6Irr_img hW₀ lin).irrTilde.1
     have hc : commSpace (lin.img K) ⊤ = ⊥ := by
       rw [commSpace_eq_bot_iff]
@@ -548,15 +565,15 @@ theorem ChiefHyp.isFooteBlock_kClosure
     ((QuotientGroup.quotientMulEquivOfEq (h.ker_restr_kClosure hW₀ lin).symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective _ (lin.restr_surjective h.kClosure_le_gam))).trans
       (MulEquiv.subgroupCongr himg)
-  haveI hp : Group.IsPerfect ↥(kClosure N K) := isPerfect_of_commutator_eq h.commutator_kClosure
+  have hp : Group.IsPerfect ↥(kClosure N K) := isPerfect_of_commutator_eq h.commutator_kClosure
   refine ⟨h.kClosure_le, h.isSubnormal_kClosure, fun M _ h2 => ?_, ?_, h.chief_kClosure hW₀ lin⟩
-  · haveI : Group.IsPerfect (↥(kClosure N K) ⧸ M) :=
+  · have : Group.IsPerfect (↥(kClosure N K) ⧸ M) :=
       Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective M)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     by_contra hne
-    haveI : Nontrivial (↥(kClosure N K) ⧸ M) := QuotientGroup.nontrivial_iff.mpr hne
+    have : Nontrivial (↥(kClosure N K) ⧸ M) := QuotientGroup.nontrivial_iff.mpr hne
     exact (Group.IsPerfect.not_isNilpotent (G := ↥(kClosure N K) ⧸ M)) h2.isNilpotent
-  · haveI := hE
+  · have := hE
     exact isQuasisimple_of_isSimpleGroup_of_commutator_eq_top e.isSimpleGroup
       (Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective _)).commutator_eq_top
 
@@ -683,11 +700,11 @@ theorem ChiefHyp.climb (hKP : CFSG.Assembly.KProper CFSG.Assembly.InCatalog G) (
           ((∃ n : ℕ, 8 ≤ n ∧ IsAltNaturalType (kClosure N K) n) ∨
             (IsOmegaMinusType (kClosure N K) 2 ∧ IsAltNaturalType K 6)))) := by
   obtain ⟨W₀, hW₀⟩ := h.exists_wZero
-  have hc := h.isChiefFactor hW₀
+  have hc := CFSG.CGT.Foote82.ChiefHyp.isChiefFactor hW₀
   have hW₁Γ : wOne N K Q ≤ footeX N K ⊔ Q :=
     h.wOne_le_core.trans ((core_le_footeX N K).trans le_sup_left)
   obtain ⟨V, iV, iM, iF, ⟨lin⟩⟩ :=
-    exists_chiefLin hc (h.core_isPGroup.to_le h.wOne_le_core) hW₁Γ
+    exists_chiefLin hc (CFSG.CGT.Foote82.ChiefHyp.core_isPGroup.to_le h.wOne_le_core) hW₁Γ
   have hS := h.setup6Irr_img hW₀ lin
   have hFM := h.isFPrimeModule_img hW₀ lin hKF
   rcases h66 V _ _ _ (lin.kProper_img hKP _) hS hFM with h1 | ⟨n, k, hn, hk, ⟨eK⟩, hE⟩ |
@@ -698,15 +715,15 @@ theorem ChiefHyp.climb (hKP : CFSG.Assembly.KProper CFSG.Assembly.InCatalog G) (
       have hsub := h.isSubnormal_kClosure
       rw [hDK] at hsub ⊢
       exact ⟨h.K_le, hsub, h.block.residual, h.block.quasisimple, h.block.chief⟩
-    exact ⟨hblock, h.K_le_kClosure, h.Q_le_normalizer_kClosure, h.kClosure_eq_closure, Or.inl hDK⟩
+    exact ⟨hblock, (CFSG.CGT.Foote82.ChiefHyp.K_le_kClosure (N := N) (K := K)), h.Q_le_normalizer_kClosure, h.kClosure_eq_closure, Or.inl hDK⟩
   ·
     have hE' := hE
     obtain ⟨φ, -, -⟩ := hE'
-    haveI : IsSimpleGroup (alternatingGroup (Fin (n + 2 * k))) :=
+    have : IsSimpleGroup (alternatingGroup (Fin (n + 2 * k))) :=
       alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)
     have hEs : IsSimpleGroup ↥(layerIn (lin.img (footeX N K ⊔ Q))) := φ.isSimpleGroup
     have himg := h.img_kClosure_eq_layerIn hW₀ lin hEs
-    refine ⟨h.isFooteBlock_kClosure hW₀ lin hEs, h.K_le_kClosure, h.Q_le_normalizer_kClosure,
+    refine ⟨h.isFooteBlock_kClosure hW₀ lin hEs, (CFSG.CGT.Foote82.ChiefHyp.K_le_kClosure (N := N) (K := K)), h.Q_le_normalizer_kClosure,
       h.kClosure_eq_closure, Or.inr ⟨fun hDK => ?_, h.footeArrow_kClosure,
         h.isComponentOf_barIn_kClosure,
         Or.inl ⟨n + 2 * k, by omega, h.isAltNaturalType_kClosure hW₀ lin himg hE⟩⟩⟩
@@ -726,13 +743,13 @@ theorem ChiefHyp.climb (hKP : CFSG.Assembly.KProper CFSG.Assembly.InCatalog G) (
     obtain ⟨hsimple, -, -⟩ :=
       CFSG.ComponentClassification.RankTwoClassical.isSimpleGroup_statedOmega_quadMinus_small
         (n := 3) (Or.inr rfl) hirr
-    haveI : IsSimpleGroup ↥(omegaMinusTwo 2) := hsimple
+    have : IsSimpleGroup ↥(omegaMinusTwo 2) := hsimple
     have hEs : IsSimpleGroup ↥(layerIn (lin.img (footeX N K ⊔ Q))) := φ.isSimpleGroup
     have himg := h.img_kClosure_eq_layerIn hW₀ lin hEs
     have h360 : Nat.card ↥(lin.img K) = 360 := by
       rw [Nat.card_congr eK.toEquiv, card_alternatingGroup_fin (by norm_num)]
       decide
-    refine ⟨h.isFooteBlock_kClosure hW₀ lin hEs, h.K_le_kClosure, h.Q_le_normalizer_kClosure,
+    refine ⟨h.isFooteBlock_kClosure hW₀ lin hEs, (CFSG.CGT.Foote82.ChiefHyp.K_le_kClosure (N := N) (K := K)), h.Q_le_normalizer_kClosure,
       h.kClosure_eq_closure, Or.inr ⟨fun hDK => ?_, h.footeArrow_kClosure,
         h.isComponentOf_barIn_kClosure,
         Or.inr ⟨h.isOmegaMinusType_kClosure hW₀ lin himg hE,

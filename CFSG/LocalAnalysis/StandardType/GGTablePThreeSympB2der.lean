@@ -46,7 +46,7 @@ private theorem sympB2der_mem_sp_of_mem_gspSet {K : Type} [Field K] (hKcard : Na
   obtain ⟨μ, hμ, hform⟩ := hA
   have hμ1 : μ = 1 := by
     have hunits : Nat.card Kˣ = 1 := by rw [Nat.card_units, hKcard]
-    haveI : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.mp hunits).1
+    have : Subsingleton Kˣ := (Nat.card_eq_one_iff_unique.mp hunits).1
     have h := Subsingleton.eq_one (Units.mk0 μ hμ)
     simpa using congrArg Units.val h
   rw [hμ1, one_smul] at hform
@@ -64,7 +64,7 @@ private theorem sympB2der_card_bound {K : Type} [Field K] [Finite K] (hKcard : N
     Nat.card A ∣ 720 := by
   let H := sympB2derCarrier K
   let N : Subgroup ↥H := (LargeEvenScalars (Fin 2 ⊕ Fin 2) K).subgroupOf H
-  haveI : N.Normal := inferInstance
+  have : N.Normal := inferInstance
   let φGL : ↥(LargeEvenSpGroup K 2) →* MulAut (GL (Fin 2 ⊕ Fin 2) K) :=
     (MulAut.conj).comp (LargeEvenSpGroup K 2).subtype
   have hH : ∀ g : ↥(LargeEvenSpGroup K 2), ∀ h ∈ H, φGL g h ∈ H := by
@@ -128,7 +128,7 @@ private theorem sympB2der_raw {lab : LargeEvenLabel} (htag : lab.tag = .B2der)
         (LargeEvenMatConjImage (LargeEvenProjMk (sympB2derCarrier K)) (LargeEvenGSpSet K 2))
         (LargeEvenMatFieldImage (LargeEvenProjMk (sympB2derCarrier K))) := by
   rcases lab with ⟨tag, rank, n⟩
-  simp only [LargeEvenLabel.tag] at htag
+  simp only at htag
   subst tag
   simp only [CFSG.StandardType.LargeEvenRawDatum, CFSG.Assembly.LargeEvenRecipeSymplectic] at h
   exact h
@@ -157,7 +157,7 @@ theorem sympB2der_noDatum :
     refine ⟨1, ?_⟩
     apply Subtype.ext
     simpa using hKLocal.1.1.2 (x : MulAut X) x.2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := hA3p.exists_card_eq
   have hdvd' : (3:ℕ) ^ n ∣ 720 := by rw [hn] at hdvd; exact hdvd
   have hn3 : 3 ≤ n := by

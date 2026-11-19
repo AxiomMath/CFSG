@@ -40,6 +40,7 @@ private theorem frattini_split {p : ℕ} [Fact p.Prime] {Y S : Subgroup G}
     exact e2
   exact ⟨k, hk, k⁻¹ * g, hkx, by group⟩
 
+omit [Finite G] in
 private theorem exists_mul_of_mem_sup {A B : Subgroup G}
     (hB : ∀ b ∈ B, ∀ a ∈ A, b * a * b⁻¹ ∈ A) {g : G} (hg : g ∈ A ⊔ B) :
     ∃ a ∈ A, ∃ b ∈ B, g = a * b := by
@@ -60,6 +61,7 @@ private theorem exists_mul_of_mem_sup {A B : Subgroup G}
   have hBS : B ≤ S := fun b hb => ⟨1, A.one_mem, b, hb, (one_mul b).symm⟩
   exact sup_le hAS hBS hg
 
+omit [Finite G] in
 private theorem u3T_le_C : u3T P x J ≤ Subgroup.centralizer ({x} : Set G) :=
   (inf_le_left : u3T P x J ≤ u3S P x).trans inf_le_right
 
@@ -90,12 +92,12 @@ private theorem K0_centralizes_T {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} 
   exact mul_inv_eq_one.mp h3
 
 theorem u3_frattini_NC_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hc : PointConfig Typ G p P M x J)
-    (hP : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G)) (hPdec : (P : Subgroup G) ≤ u3T P x J ⊔ ((P : Subgroup G) ⊓ u3K0 p x J)) :
+    (_hP : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G)) (hPdec : (P : Subgroup G) ≤ u3T P x J ⊔ ((P : Subgroup G) ⊓ u3K0 p x J)) :
     ∀ n ∈ Subgroup.normalizer ((u3T P x J : Subgroup G) : Set G) ⊓ J,
       ∃ e ∈ u3T P x J ⊔ u3K0 p x J, ∃ m ∈ Subgroup.normalizer ((P : Subgroup G) : Set G) ⊓
         Subgroup.centralizer ({x} : Set G), n = e * m := by
   intro n hn
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   obtain ⟨hnT, hnJ⟩ := Subgroup.mem_inf.mp hn
   have hnC : n ∈ Subgroup.centralizer ({x} : Set G) := hc.le_cent hnJ
   have hnK : n ∈ Subgroup.normalizer ((u3K0 p x J : Subgroup G) : Set G) := by
@@ -127,7 +129,7 @@ private theorem exists_pcomplement {p : ℕ} [hp : Fact p.Prime] (P : Sylow p G)
     (hPN : (P : Subgroup G) ≤ N) (hNP : N ≤ Subgroup.normalizer ((P : Subgroup G) : Set G)) :
     ∃ F : Subgroup G, F ≤ N ∧ (∀ m ∈ N, ∃ s ∈ (P : Subgroup G), ∃ f ∈ F, m = s * f) ∧
       ∃ s : ℕ, Nat.Coprime p s ∧ ∀ f ∈ F, f ^ s = 1 := by
-  haveI hnorm : ((P : Subgroup G).subgroupOf N).Normal :=
+  have hnorm : ((P : Subgroup G).subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPN).mpr hNP
   have hndvd : ¬ p ∣ ((P : Subgroup G).subgroupOf N).index := by
     intro h
@@ -158,6 +160,7 @@ private theorem exists_pcomplement {p : ℕ} [hp : Fact p.Prime] (P : Sylow p G)
       rw [← Subgroup.coe_pow, h2]
       rfl
 
+omit [Finite G] in
 private theorem comm_mem_zOf {p : ℕ} [hp : Fact p.Prime] {T : Subgroup G}
     (hcard : Nat.card T = p ^ 3) (hnc : ¬ IsMulCommutative T) :
     ∀ a ∈ T, ∀ b ∈ T, a * b * a⁻¹ * b⁻¹ ∈ zOf T := by
@@ -228,6 +231,7 @@ private theorem NJ_action {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hc : P
     _ = k * ((t₁ * t₀) * (f * t * f⁻¹) * (t₁ * t₀)⁻¹) * k⁻¹ := by rw [hd]
     _ = (t₁ * t₀) * (f * t * f⁻¹) * (t₁ * t₀)⁻¹ := hkc _ hz
 
+omit [Finite G] in
 private theorem zOf_conj_mem {T : Subgroup G} {f : G} (hf : f ∈ Subgroup.normalizer (T : Set G))
     {z : G} (hz : z ∈ zOf T) : f * z * f⁻¹ ∈ zOf T := by
   refine ⟨(Subgroup.mem_normalizer_iff.mp hf z).mp hz.1,
@@ -244,7 +248,7 @@ theorem u3_exists_Fhat_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hS : 
     (hP : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G)) (hpd : PGroupData p (P : Subgroup G) (u3T P x J) ((P : Subgroup G) ⊓ u3K0 p x J) x) (hPdec : (P : Subgroup G) ≤ u3T P x J ⊔ ((P : Subgroup G) ⊓ u3K0 p x J)) (hNJ : TorusProps p (u3T P x J) (Subgroup.normalizer ((u3T P x J : Subgroup G) : Set G) ⊓ J)) :
     ∃ F : Subgroup G, F ≤ M ∧ TorusProps p (u3T P x J) F ∧
       ∀ f ∈ F, ∀ d ∈ (P : Subgroup G) ⊓ u3K0 p x J, f * d * f⁻¹ = d := by
-  haveI : Fact p.Prime := ⟨hc.prime⟩
+  have : Fact p.Prime := ⟨hc.prime⟩
   have pd := hpd
   obtain ⟨F, hFN, hFdec, s, hs, hFs⟩ := exists_pcomplement P
     (Subgroup.normalizer ((P : Subgroup G) : Set G) ⊓ Subgroup.centralizer ({x} : Set G))
@@ -295,11 +299,11 @@ theorem u3_exists_Fhat_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hS : 
     group
   ·
     intro f hf d hd
-    haveI : IsCyclic ↥((P : Subgroup G) ⊓ u3K0 p x J) := pd.D_cyc
+    have : IsCyclic ↥((P : Subgroup G) ⊓ u3K0 p x J) := pd.D_cyc
     obtain ⟨hfP, hfC⟩ := Subgroup.mem_inf.mp (hFN hf)
     refine cyclic_coprime_aut_trivial hc.prime ?_ pd.x_mem pd.x_ord ?_ ?_ hs ?_ d hd
     · intro d' hd'
-      obtain ⟨j, hj⟩ := P.isPGroup' ⟨d', hd'.1⟩
+      obtain ⟨j, hj⟩ := P.isPGroup ⟨d', hd'.1⟩
       exact ⟨j, congrArg Subtype.val hj⟩
     · intro d' hd'
       exact ⟨(Subgroup.mem_normalizer_iff.mp hfP d').mp hd'.1, u3K0_conj_gen hc f hfC d' hd'.2⟩

@@ -33,7 +33,7 @@ theorem pRank_inf_centralizer_le_one (c : Ctx812E G) {p : ℕ}
       intro x hx
       rw [Subgroup.mem_centralizer_iff]
       intro e he
-      haveI : IsMulCommutative ↥E := hEab.1
+      have : IsMulCommutative ↥E := hEab.1
       exact congrArg Subtype.val (mul_comm' (⟨e, he⟩ : E) (⟨x, hXE hx⟩ : E))
     have hle' : c.S.M ⊓ Subgroup.centralizer (E : Set G) ≤
         c.S.M ⊓ Subgroup.normalizer (X : Set G) :=
@@ -62,7 +62,7 @@ theorem false_of_commutator_le_pCoreOf (c : Ctx812E G) {p : ℕ}
   have hOM : O ≤ c.S.M := by
     rw [hO]
     exact CFSG.openPCoreOf_le 2 c.S.M
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO2 : IsPGroup 2 O := by
     rw [hO, CFSG.openPCoreOf_eq_map_pCore]
     exact IsPGroup.map (CFSG.pCore_isPGroup (p := 2) (G := ↥c.S.M)) c.S.M.subtype
@@ -82,8 +82,8 @@ theorem false_of_commutator_le_pCoreOf (c : Ctx812E G) {p : ℕ}
     intro hdvd
     have h32 : 3 ∣ 2 := Nat.prime_three.dvd_of_dvd_pow hdvd
     norm_num at h32
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hbound : CFSG.Open.pRank p R ≤
       CFSG.Open.pRank p (c.S.M ⊓ Subgroup.centralizer (E : Set G)) :=
     CFSG.GroupTheory.pRank_le_pRank_inf_centralizer_of_commutator_le (p := p) (q := 3)

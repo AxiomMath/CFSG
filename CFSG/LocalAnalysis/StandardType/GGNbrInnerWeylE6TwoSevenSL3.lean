@@ -47,7 +47,7 @@ def sl3Frobenius (K : Type) [Field K] [CharP K 2] :
 
 lemma sl3Singer_orderOf_seven (K : Type) [Field K] [CharP K 2] :
     orderOf (sl3Singer K) = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   apply orderOf_eq_prime
   · apply Matrix.SpecialLinearGroup.ext
     intro i j
@@ -73,19 +73,19 @@ lemma sl3Frobenius_conj_singer (K : Type) [Field K] [CharP K 2] :
 
 lemma sl3CenterEqBotOfCardTwo (K : Type) [Field K] [Finite K] (hK : Nat.card K = 2) :
     Subgroup.center (Matrix.SpecialLinearGroup (Fin 3) K) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 2 := by
     rw [Fintype.card_eq_nat_card]
     exact hK
-  haveI : CharP K 2 := charP_of_card_eq_prime (p := 2) hcard
+  have : CharP K 2 := charP_of_card_eq_prime (p := 2) hcard
   rw [eq_bot_iff]
   intro x hx
   obtain ⟨r, hr3, hr⟩ := (Matrix.SpecialLinearGroup.mem_center_iff (n := Fin 3) (R := K)).mp hx
   have hr3' : r ^ 3 = 1 := by simpa using hr3
   have hr0 : r ≠ 0 := by
     intro h0
-    have h01 : (0 : K) = 1 := by simpa [h0] using hr3'
+    have h01 : (0 : K) = 1 := by simp [h0] at hr3'
     exact zero_ne_one h01
   have hr1 : r = 1 := by
     obtain ⟨y, _, hyuniq⟩ := (Nat.card_eq_two_iff' (0 : K)).mp hK
@@ -99,12 +99,12 @@ theorem exists_order_seven_frobenius_sl3 {K : Type} [Field K] [Finite K] (hK : N
     ∃ s n : Matrix.SpecialLinearGroup (Fin 3) K, orderOf s = 7 ∧
       n * s * n⁻¹ = s ^ (2 : ZMod 7).val ∧
       Disjoint (Subgroup.zpowers s) (Subgroup.center (Matrix.SpecialLinearGroup (Fin 3) K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 2 := by
     rw [Fintype.card_eq_nat_card]
     exact hK
-  haveI : CharP K 2 := charP_of_card_eq_prime (p := 2) hcard
+  have : CharP K 2 := charP_of_card_eq_prime (p := 2) hcard
   refine ⟨sl3Singer K, sl3Frobenius K, sl3Singer_orderOf_seven K, ?_, ?_⟩
   · have hval : (2 : ZMod 7).val = 2 :=
       ZMod.val_natCast_of_lt (n := 7) (a := 2) (by norm_num)

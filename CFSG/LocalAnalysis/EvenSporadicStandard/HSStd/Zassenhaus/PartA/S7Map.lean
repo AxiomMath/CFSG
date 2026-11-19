@@ -16,17 +16,21 @@ variable {T : Type} [Group T] [Finite T]
     T →* (T ⧸ F) ⧸ Open.fusionOddCore (T ⧸ F) :=
   (QuotientGroup.mk' (Open.fusionOddCore (T ⧸ F))).comp (QuotientGroup.mk' F)
 
+omit [Finite T] in
 theorem xhatMap_apply (F : Subgroup T) [F.Normal] (x : T) :
     xhatMap F x = (QuotientGroup.mk (QuotientGroup.mk x : T ⧸ F) :
       (T ⧸ F) ⧸ Open.fusionOddCore (T ⧸ F)) := rfl
 
+omit [Finite T] in
 theorem xhatMap_surjective (F : Subgroup T) [F.Normal] : Function.Surjective (xhatMap F) :=
   (QuotientGroup.mk'_surjective _).comp (QuotientGroup.mk'_surjective _)
 
+omit [Finite T] in
 theorem mem_ker_xhatMap (F : Subgroup T) [F.Normal] {x : T} :
     x ∈ (xhatMap F).ker ↔ (QuotientGroup.mk x : T ⧸ F) ∈ Open.fusionOddCore (T ⧸ F) := by
   rw [MonoidHom.mem_ker, xhatMap_apply, QuotientGroup.eq_one_iff]
 
+omit [Finite T] in
 theorem le_ker_xhatMap (F : Subgroup T) [F.Normal] : F ≤ (xhatMap F).ker := by
   intro f hf
   rw [mem_ker_xhatMap, (QuotientGroup.eq_one_iff f).2 hf]

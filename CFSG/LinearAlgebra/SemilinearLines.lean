@@ -36,10 +36,10 @@ theorem ringEquiv_eq_refl_of_forall_exists_smul {F : Type*} [Field F] {n : ℕ}
     exact h.symm
   have hp₁ : p₁ ≠ 0 := by
     intro hp
-    exact one_ne_zero (hind 1 0 (by simpa [hp])).1
+    exact one_ne_zero (hind 1 0 (by simp [hp])).1
   have hp₂ : p₂ ≠ 0 := by
     intro hp
-    exact one_ne_zero (hind 0 1 (by simpa [hp])).2
+    exact one_ne_zero (hind 0 1 (by simp [hp])).2
   have hμ0 : μ 0 ≠ 0 := by
     intro h
     have hzero : Am *ᵥ (fun i => φ (p₁ i)) = 0 := by rw [h0, h, zero_smul]

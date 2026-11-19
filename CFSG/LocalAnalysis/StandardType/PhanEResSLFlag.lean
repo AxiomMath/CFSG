@@ -129,7 +129,7 @@ theorem exists_flagAct_stdFlag (E : FlagK Fld (m + 1)) :
       · simp [e]
       · intro k _ hk
         simp only [e]
-        rw [if_neg]
+        rw [ite_eq_right]
         intro h0
         exact hk (Fin.ext h0)
       · intro hmem

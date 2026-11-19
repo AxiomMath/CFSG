@@ -34,7 +34,7 @@ theorem s21_12aFR2_of_rest (hGA : GriessAllModelsStatement) {D : Data G} {Ch : C
     (hσ : UC6S846.SigmaStd D) (hKF7 : KF7Use D) (hg : S21_12aFR2g D Ch)
     (hd : S21_12aFR2d D Ch) : S21_12aFR2 D Ch := by
   intro hH c L hL p hp hp2 f hX hfaith ⟨b₀, hb₀B, hb₀, hθ₀⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨b, hbB, hb, hbr, hbr2, hθ⟩ := uc22s2112r2_exists_prime c.hB0 hb₀B hb₀ hθ₀
   obtain ⟨hrf, hfL, -, -⟩ := uc22s2112r2_setup hGA hL hp2 hX hb hbr hbr2 rfl hθ
   by_cases hfr : 2 ≤ f / orderOf b

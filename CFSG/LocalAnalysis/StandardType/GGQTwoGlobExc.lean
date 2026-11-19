@@ -14,7 +14,7 @@ theorem qTwo_family_imprimitive_excl
     {U : Type} [AddCommGroup U] [Module (ZMod 3) U]
     {A : Subgroup (U ≃ₗ[ZMod 3] U)} {n : ℕ}
     (f : Module.Basis (Fin n) (ZMod 3) U) (i₀ i₁ : Fin n) (ζ : (ZMod 3)ˣ) (m : ℕ)
-    (hi : i₀ ≠ i₁)
+    (_hi : i₀ ≠ i₁)
     (hcase : (3 ≤ m ∧ orderOf ζ = m ∧ A = ZS.gmmn 3 f i₀ i₁ ζ) ∨
              (2 ≤ m ∧ orderOf ζ = 2 * m ∧ A = ZS.g2mmn 3 f i₀ i₁ ζ)) : False := by
   have hζ : ζ ^ 2 = 1 := by

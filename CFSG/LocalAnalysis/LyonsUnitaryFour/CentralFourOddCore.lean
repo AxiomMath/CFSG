@@ -202,7 +202,7 @@ theorem conj_eq_of_mem_center_four (S : Sylow 2 G)
         _ = c * (z * s) * c⁻¹ := by rw [hsz]
         _ = (c * z) * s * c⁻¹ := by group
         _ = z * (c * s * c⁻¹) := by rw [hc]; group
-  have hQp : IsPGroup 2 Q := S.isPGroup'.map _
+  have hQp : IsPGroup 2 Q := S.isPGroup.map _
   obtain ⟨h, hhH, hh⟩ := exists_conj_le_sylow_of_le S hSH hQH hQp
   set n := h * c with hn
   have hnS : (S : Subgroup G).map (MulAut.conj n).toMonoidHom = (S : Subgroup G) := by

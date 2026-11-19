@@ -101,7 +101,7 @@ private theorem card_statedProj_two_of_card_three (hF3 : Fintype.card F = 3) :
 private theorem exists_psp (hF3 : Fintype.card F = 3) (A : GL (Fin 4) F)
     (hA : (A : Matrix (Fin 4) (Fin 4) F)ᵀ = -A) :
     ∃ (M : Subgroup (projectiveSL 4 F))
-      (e : M ≃* CFSG.Open.StatedProj (StatedSp 2 F)),
+      (_e : M ≃* CFSG.Open.StatedProj (StatedSp 2 F)),
       IsSimpleGroup M ∧ Nat.card M = 25920 ∧
       (∀ y ∈ M, (conjAut 4 F A * dualAut 4 F) y = y) ∧
       (∀ g : SpecialLinearGroup (Fin 4) F,
@@ -176,13 +176,13 @@ private theorem exists_psp (hF3 : Fintype.card F = 3) (A : GL (Fin 4) F)
         exact Units.ext (by rw [Units.val_pow_eq_pow_val, hd, Units.val_one])
       · rw [hι, hc, Matrix.mul_smul, Matrix.mul_one, Matrix.smul_mul, hPP, Matrix.scalar_apply,
           Matrix.smul_one_eq_diagonal]
-  let e : φ.range ≃* CFSG.Open.StatedProj (StatedSp 2 F) :=
+  let _e : φ.range ≃* CFSG.Open.StatedProj (StatedSp 2 F) :=
     (QuotientGroup.quotientKerEquivRange φ).symm.trans
       (QuotientGroup.quotientMulEquivOfEq hker)
   have hcard : Nat.card φ.range = 25920 := by
-    rw [Nat.card_congr e.toEquiv]
+    rw [Nat.card_congr _e.toEquiv]
     exact card_statedProj_two_of_card_three hF3
-  refine ⟨φ.range, e, ?_, hcard, ?_, ?_⟩
+  refine ⟨φ.range, _e, ?_, hcard, ?_, ?_⟩
   ·
     have hK : Nat.card F = 3 ^ 1 := by rw [Nat.card_eq_fintype_card, hF3, pow_one]
     exact ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp _ 2 3 1
@@ -301,7 +301,7 @@ private theorem perfect_le_of_isometry_mem (hF3 : Fintype.card F = 3) (A : GL (F
 theorem exists_psp_universal (hF3 : Fintype.card F = 3) (A : GL (Fin 4) F)
     (hA : (A : Matrix (Fin 4) (Fin 4) F)ᵀ = -A) :
     ∃ (M : Subgroup (projectiveSL 4 F))
-      (e : M ≃* CFSG.Open.StatedProj (StatedSp 2 F)),
+      (_e : M ≃* CFSG.Open.StatedProj (StatedSp 2 F)),
       IsSimpleGroup M ∧ Nat.card M = 25920 ∧
       (∀ y ∈ M, (conjAut 4 F A * dualAut 4 F) y = y) ∧
       (∀ g : SpecialLinearGroup (Fin 4) F,
@@ -309,8 +309,8 @@ theorem exists_psp_universal (hF3 : Fintype.card F = 3) (A : GL (Fin 4) F)
           proj 4 F g ∈ M) ∧
       (∀ T : Subgroup (projectiveSL 4 F), ⁅T, T⁆ = T →
         (∀ y ∈ T, (conjAut 4 F A * dualAut 4 F) y = y) → T ≤ M) := by
-  obtain ⟨M, e, hMs, hMcard, hMfix, hMmem⟩ := exists_psp hF3 A hA
-  exact ⟨M, e, hMs, hMcard, hMfix, hMmem,
+  obtain ⟨M, _e, hMs, hMcard, hMfix, hMmem⟩ := exists_psp hF3 A hA
+  exact ⟨M, _e, hMs, hMcard, hMfix, hMmem,
     fun T hTp hfix => perfect_le_of_isometry_mem hF3 A hMmem hTp hfix⟩
 
 theorem exists_psp_not_le (hF3 : Fintype.card F = 3) (A : GL (Fin 4) F)

@@ -48,13 +48,13 @@ theorem exists_points95 (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ} {
   have hs5 := hs.toSec5
   have hnotQB : ¬ Vt M (LB M Q B) B Z t ≤ QB B := sec9_notQB h34 hs
   obtain ⟨K, fK, finK, hK, φ, hφ, hker, hnorm, hn, ψ, hψ⟩ := hs.plus4
-  haveI := hn
-  haveI : CharP K 2 := by
+  have := hn
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   have hq4 : 4 ≤ Nat.card K := hK ▸ hc.hyp.q4
   obtain ⟨c0, hc0, hc1⟩ := exists_ne_zero_ne_one_of_nat_card_ge_four hq4
-  haveI : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
+  have : Nonempty (Fin 2 ⊕ Fin 2) := ⟨Sum.inl 0⟩
   have h3 : 3 ≤ Module.finrank K (Fin 2 ⊕ Fin 2 → K) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
     omega

@@ -87,6 +87,7 @@ section Aut
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem i271h_dQ_eq_centralizer {K : Subgroup X} (h : GLAPPrimeCoreOf 3 K = ⊥) :
     dQ K = Subgroup.centralizer (K : Set X) := by
   ext g
@@ -102,7 +103,7 @@ theorem i271h_dQ_eq_centralizer {K : Subgroup X} (h : GLAPPrimeCoreOf 3 K = ⊥)
         (Subgroup.mem_centralizer_iff.2 hg)
     · rw [Subgroup.mem_normalizer_iff]
       intro x
-      simp only [SetLike.mem_coe, Subgroup.mem_bot]
+      simp only [Subgroup.mem_bot]
       constructor
       · rintro rfl; group
       · intro hx
@@ -113,6 +114,7 @@ theorem i271h_dQ_eq_centralizer {K : Subgroup X} (h : GLAPPrimeCoreOf 3 K = ⊥)
       calc y * g * y⁻¹ * g⁻¹ = (y * g) * (g * y)⁻¹ := by group
         _ = 1 := by rw [this]; group
 
+omit [Finite X] in
 theorem i271h_autOrderIn_eq_relIndex {B K : Subgroup X} (hBN : B ≤ Subgroup.normalizer (K : Set X)) :
     autOrderIn B K = (Subgroup.centralizer (K : Set X)).relIndex B := by
   unfold autOrderIn

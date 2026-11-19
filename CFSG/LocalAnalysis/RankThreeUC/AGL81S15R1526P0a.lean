@@ -38,6 +38,7 @@ theorem card_eq_of_isLThreeOfExp_one {S : Type} [Group S] (h : IsLThreeOfExp 1 S
     Nat.card S = 168 :=
   CFSG.AGLEmbeddingD2.McLaughlin.isLThreeTwo_card_eq (isLThreeTwo_of_isLThreeOfExp_one h)
 
+omit [Finite X] in
 theorem card_barO2_mul (L : Subgroup X) :
     Nat.card (barO2 L) * Nat.card (L ⊓ CFSG.pCore 2 X : Subgroup X) = Nat.card L := by
   have h1 : Nat.card (barO2 L) = (CFSG.pCore 2 X).relIndex L :=
@@ -49,7 +50,7 @@ theorem card_barO2_mul (L : Subgroup X) :
 
 theorem pRank_le_one_of_not_sq_dvd {Y : Type} [Group Y] [Finite Y] {K : Subgroup Y} {q : ℕ}
     (hq : q.Prime) (h : ¬ q ^ 2 ∣ Nat.card K) : CFSG.Open.pRank q K ≤ 1 := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   refine CFSG.SectionRank.pRank_le hq.one_lt ?_
   intro E hEK hE
   have hEp : IsPGroup q E := fun x => ⟨1, Subtype.ext (by simpa using hE.2 x x.2)⟩
@@ -62,15 +63,15 @@ theorem pRank_le_one_of_not_sq_dvd {Y : Type} [Group Y] [Finite Y] {K : Subgroup
   rw [hj]
   exact Nat.pow_le_pow_right hq.pos hj1
 
-theorem card_sylow_three_of_isLThree {L A : Subgroup X} (hL : IsC2 L)
+theorem card_sylow_three_of_isLThree {L A : Subgroup X} (_hL : IsC2 L)
     (h3 : IsLThreeOfExp 1 ↥(barO2 L)) (hA : CFSG.ABGLocalTools.IsSylowOf 3 A L) :
     Nat.card A = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard := card_barO2_mul L
   rw [card_eq_of_isLThreeOfExp_one h3] at hcard
   have hK : IsPGroup 2 (L ⊓ CFSG.pCore 2 X : Subgroup X) :=
     (CFSG.pCore_isPGroup (p := 2) (G := X)).to_le inf_le_right
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp hK
   rw [ha] at hcard
   have hf : (Nat.card L).factorization 3 = 1 := by
@@ -95,6 +96,7 @@ theorem pRank_eq_one_of_isLThree {L : Subgroup X} (hL : IsC2 L) (h : IsLThreeOfE
   exact ⟨key 3 Nat.prime_three (by norm_num) (by norm_num) (by norm_num),
     key 7 (by norm_num) (by norm_num) (by norm_num) (by norm_num)⟩
 
+omit [Finite X] in
 theorem not_isPSolvable_barO2_of_isLThree {L : Subgroup X}
     (h3 : IsLThreeOfExp 1 ↥(barO2 L)) : ¬ CFSG.HallHigman.IsPSolvable 7 ↥(barO2 L) := by
   intro hps
@@ -103,7 +105,7 @@ theorem not_isPSolvable_barO2_of_isLThree {L : Subgroup X}
   have hc := card_eq_of_isLThreeOfExp_one h3
   have e : (↥(⊤ : Subgroup ↥(barO2 L)) ⧸ (⊥ : Subgroup ↥(⊤ : Subgroup ↥(barO2 L)))) ≃*
       ↥(barO2 L) := QuotientGroup.quotientBot.trans Subgroup.topEquiv
-  haveI : IsSimpleGroup (↥(⊤ : Subgroup ↥(barO2 L)) ⧸
+  have : IsSimpleGroup (↥(⊤ : Subgroup ↥(barO2 L)) ⧸
       (⊥ : Subgroup ↥(⊤ : Subgroup ↥(barO2 L)))) := MulEquiv.isSimpleGroup e
   have h := hps ⊤ Subgroup.IsSubnormal.top ⊥ inferInstance
   rw [Subgroup.index_bot, Subgroup.card_top, hc] at h

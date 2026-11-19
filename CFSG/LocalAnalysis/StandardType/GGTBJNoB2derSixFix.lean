@@ -11,7 +11,7 @@ open Module CFSG.Open
 
 private theorem l48dC_comm {G : Type*} [Group G] {E : Subgroup G} (hE : IsElemAbelian 3 E) {a b : G}
     (ha : a ∈ E) (hb : b ∈ E) : a * b = b * a := by
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   have h : (⟨a, ha⟩ : E) * ⟨b, hb⟩ = ⟨b, hb⟩ * ⟨a, ha⟩ := mul_comm' _ _
   simpa using congrArg Subtype.val h
 
@@ -161,7 +161,7 @@ private theorem l48dC_mem_Efix {K : Type*} [Field K] [CharP K 2] [Finite K] {V :
 theorem ggB2der_six_dim_fixer {K : Type*} [Field K] [CharP K 2] [Finite K] {V : Type*}
     [AddCommGroup V] [Module K V] [FiniteDimensional K V] {G : Type*} [Group G]
     (hK : Nat.card K = 2) (ρ : G →* (Module.End K V)ˣ)
-    (hρ : Function.Injective ρ) (B : LinearMap.BilinForm K V) (hB : B.Nondegenerate)
+    (_hρ : Function.Injective ρ) (B : LinearMap.BilinForm K V) (hB : B.Nondegenerate)
     (hr : B.IsRefl)
     (hiso : ∀ g v w, B ((ρ g : Module.End K V) v) ((ρ g : Module.End K V) w) = B v w)
     (hdim : Module.finrank K V = 8) {E : Subgroup G} (hE : IsElemAbelian 3 E)
@@ -177,7 +177,7 @@ theorem ggB2der_six_dim_fixer {K : Type*} [Field K] [CharP K 2] [Finite K] {V : 
       ∀ a ∈ E, (∀ v ∈ SmallRule.fixSpaceOf ρ (Subgroup.zpowers e),
         (ρ a : Module.End K V) v = v) → a ∈ Subgroup.zpowers e := by
   classical
-  haveI : Finite E := (Nat.card_pos_iff.mp (by rw [hEc]; norm_num)).2
+  have : Finite E := (Nat.card_pos_iff.mp (by rw [hEc]; norm_num)).2
   have hz3 : z ^ 3 = 1 := hE.2 z hzE
   obtain ⟨hcompl, hW0inv0, hW1inv0, hzfix0⟩ :=
     ggB2der_fix_orth_decomp hK ρ B hB hr hiso hz3
@@ -312,7 +312,7 @@ theorem ggB2der_six_dim_fixer {K : Type*} [Field K] [CharP K 2] [Finite K] {V : 
       rw [hK1mem] at ha
       exact hETmem.mpr ⟨ha.1, fun v hv => ha.2 v (hTW1 hv)⟩
     · exact hTE_le_W1
-  letI : MulAction E T := l48dC_actionT ρ E T hTE
+  let : MulAction E T := l48dC_actionT ρ E T hTE
   let ψT : E →* Equiv.Perm T := MulAction.toPermHom E T
   have hETker : l48dC_fixSub ρ E T = ψT.ker := by
     ext a
@@ -339,8 +339,8 @@ theorem ggB2der_six_dim_fixer {K : Type*} [Field K] [CharP K 2] [Finite K] {V : 
     rw [hETker]
     have hcard := Subgroup.card_ker_mul_card_range ψT
     rw [hEc] at hcard
-    haveI : Finite V := Module.finite_of_finite K
-    haveI : Finite T := Finite.of_injective (Subtype.val) Subtype.val_injective
+    have : Finite V := Module.finite_of_finite K
+    have : Finite T := Finite.of_injective (Subtype.val) Subtype.val_injective
     have hcardT : Nat.card T = 4 := by
       rw [Module.natCard_eq_pow_finrank (K := K), hK, hT2]
       norm_num
@@ -391,7 +391,7 @@ theorem ggB2der_six_dim_fixer {K : Type*} [Field K] [CharP K 2] [Finite K] {V : 
     have hane : (a : G) ≠ 1 := fun h => ha1 (Subtype.ext h)
     have hord : orderOf (a : G) = 3 := orderOf_eq_prime (hE.2 (a : G) haE) hane
     have hzEsub : Subgroup.zpowers z ≤ E := Subgroup.zpowers_le.mpr hzE
-    haveI : Finite (Subgroup.zpowers z) :=
+    have : Finite (Subgroup.zpowers z) :=
       Finite.of_injective (fun x : Subgroup.zpowers z => (⟨x.1, hzEsub x.2⟩ : E))
         (by intro x y h; exact Subtype.ext (congrArg (fun w : E => (w : G)) h))
     have hcarda : Nat.card (Subgroup.zpowers (a : G)) = 3 := by rw [Nat.card_zpowers, hord]

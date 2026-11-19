@@ -84,8 +84,8 @@ theorem exists_primitiveRoot_five (S : LangSetup .E8 L 5) : ∃ ζ : Lˣ, IsPrim
     simp only [eq_intCast, Int.cast_natCast] at h1
     rw [h, S.hqpow.2] at h1
     exact not_isUnit_zero (isCoprime_zero_left.1 h1)
-  haveI : NeZero ((5 : ℕ) : L) := ⟨h5⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L 5
+  have : NeZero ((5 : ℕ) : L) := ⟨h5⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L 5
   have hu : IsUnit ζ := hζ.isUnit (by norm_num)
   exact ⟨hu.unit, IsPrimitiveRoot.coe_units_iff.1 (by simpa using hζ)⟩
 
@@ -99,7 +99,7 @@ theorem exists_starData (q : ℕ) (h5 : 5 ∣ q ^ 2 + 1) :
       simp [Nat.add_mod, Nat.pow_mod]
     rw [hsq] at h0
     have hlt : q % 5 < 5 := Nat.mod_lt _ (by norm_num)
-    interval_cases hr : q % 5 <;> first | omega | (norm_num at h0)
+    interval_cases hr : q % 5 <;> first | omega
   rcases hq with hq | hq
   · exact ⟨starData2, starData2_valid, by rw [show starData2.r = 2 from rfl]; omega⟩
   · exact ⟨starData3, starData3_valid, by rw [show starData3.r = 3 from rfl]; omega⟩
@@ -128,7 +128,7 @@ theorem localDeltaIn_zpowers_eq_bot_of_commute_lift
     (hvu : v * u = u * v) {H : Subgroup (MulAut ↥S.Γ)} (hH : innerAut ↥S.Γ ≤ H) :
     localDeltaIn 5 H ((Subgroup.zpowers u).map (MulAut.conj : ↥S.Γ →* MulAut ↥S.Γ)) = ⊥ := by
   classical
-  haveI := S.finite_Γ
+  have := S.finite_Γ
   obtain ⟨ζ, hζ⟩ := exists_primitiveRoot_five S
   obtain ⟨D, hD, hDr⟩ := exists_starData S.D.q hq5
   have hz5 : ζ ^ 5 = 1 := hζ.pow_eq_one
@@ -210,7 +210,7 @@ theorem localDeltaIn_zpowers_eq_bot_of_commute_lift
     change rootDiagUnit Tag.E8 (aS ^ k) = (rootDiagUnit Tag.E8 aS) ^ k
     exact map_zpow (rootDiagUnitHom Tag.E8 L) aS k
   have huS5 : uS ^ 5 = 1 := Subtype.ext (by simpa using hpow5 D.e)
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hz : Subgroup.zpowers u = Subgroup.zpowers uS := by
     have hle : Subgroup.zpowers u ≤ Subgroup.zpowers uS := by
       rw [Subgroup.zpowers_le, huk]

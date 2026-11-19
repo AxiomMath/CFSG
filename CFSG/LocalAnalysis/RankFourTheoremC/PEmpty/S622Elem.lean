@@ -35,7 +35,7 @@ theorem s622_exists_center_preimage {G : Type} [Group G] {D L : Subgroup G}
     (hDn : ∀ d k : G, d ∈ D → k ∈ L → k * d * k⁻¹ ∈ D) :
     ∃ Z : Subgroup G, ∀ z : G, z ∈ Z ↔ z ∈ L ∧ ∀ l ∈ L, z * l * z⁻¹ * l⁻¹ ∈ D :=
   ⟨{ carrier := {z | z ∈ L ∧ ∀ l ∈ L, z * l * z⁻¹ * l⁻¹ ∈ D}
-     one_mem' := ⟨L.one_mem, fun l _ => by simpa using D.one_mem⟩
+     one_mem' := ⟨L.one_mem, fun l _ => by simp⟩
      mul_mem' := by
        rintro a b ⟨haL, ha⟩ ⟨hbL, hb⟩
        refine ⟨L.mul_mem haL hbL, fun l hl => ?_⟩
@@ -51,7 +51,7 @@ theorem s622_exists_center_preimage {G : Type} [Group G] {D L : Subgroup G}
        exact hDn _ a⁻¹ (D.inv_mem (ha l hl)) (L.inv_mem haL) }, fun _ => Iff.rfl⟩
 
 theorem s622_centralizer_ne_bot {G : Type} [Group G] [Finite G] {D L : Subgroup G} {y : G}
-    (hD : Odd (Nat.card D)) (hD1 : D ≠ ⊥) (hL : S622IsSimpleSection L D) (hyL : y ∈ L)
+    (_hD : Odd (Nat.card D)) (hD1 : D ≠ ⊥) (hL : S622IsSimpleSection L D) (hyL : y ∈ L)
     (hy2 : y ^ 2 = 1) (hy1 : y ∉ D) : ∃ d ∈ D, d ≠ 1 ∧ y * d = d * y := by
   obtain ⟨hDL, hDn, -, hsimp, hnab⟩ := hL
   have hDn' : ∀ d k : G, d ∈ D → k ∈ L → k * d * k⁻¹ ∈ D :=
@@ -176,8 +176,8 @@ theorem s622_exists_central_elemAbelian {G : Type} [Group G] [Finite G] {R : Sub
   refine ⟨R₁, ?_, fun x hx => ((hmem x).mp hx).1,
     ⟨IsMulCommutative.of_comm fun a b => Subtype.ext ?_, fun x hx => ((hmem x).mp hx).2.2⟩, ?_⟩
   ·
-    haveI : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).mpr hR1
-    haveI := hR.center_nontrivial
+    have : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).mpr hR1
+    have := hR.center_nontrivial
     have hcard : 1 < Nat.card (Subgroup.center R) :=
       Finite.one_lt_card_iff_nontrivial.mpr inferInstance
     have hdvd : 2 ∣ Nat.card (Subgroup.center R) :=

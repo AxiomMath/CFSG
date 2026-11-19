@@ -34,7 +34,7 @@ theorem twE6ComponentShape_of_dim (K : Type) [Field K] [Finite K] (σ : K ≃+* 
     TwE6ComponentShape J := by
   classical
   intro _
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨hp, f, hf, hqf⟩ := prime_ringChar_and_eq_pow_of_card_sq K q hKq hq2
   have hK' : Nat.card K = (ringChar K ^ f) ^ 2 := by rw [← hqf]; exact hKq
   have hσ' : ∀ c, σ c = c ^ (ringChar K ^ f) := by intro c; rw [← hqf]; exact hσ c
@@ -63,7 +63,7 @@ theorem twE6ComponentShape_of_dim (K : Type) [Field K] [Finite K] (σ : K ≃+* 
     (J.equivMapOfInjective ι hinj).trans (MulEquiv.subgroupCongr hi)
   have h3q' : 3 ∣ S.D.q + 1 := by rw [hDq, ← hqf]; exact h3q
   have hFr' : ∀ c, Fr c = c ^ S.D.q := fun c => by rw [hDq]; exact hFr c
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective (ringChar K)
   have hL2 : ringChar (AlgebraicClosure K) = 2 := by
     rw [ringChar.eq (AlgebraicClosure K) (ringChar K), hK2]

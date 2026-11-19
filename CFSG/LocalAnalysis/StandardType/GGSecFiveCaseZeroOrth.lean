@@ -45,9 +45,9 @@ private lemma ggCZProj_smul (e : Fin m → V) (φ : Fin m → Module.Dual (ZMod 
 private lemma ggCZProj_apply_e {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod p) V}
     (hd : GGCZDual e φ) (i : Fin m) : ggCZProj e φ (e i) = e i := by
   rw [ggCZProj_apply, Finset.sum_eq_single i]
-  · rw [hd i i, if_pos rfl, one_smul]
+  · rw [hd i i, ite_eq_left rfl, one_smul]
   · intro j _ hji
-    rw [hd j i, if_neg hji, zero_smul]
+    rw [hd j i, ite_eq_right hji, zero_smul]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 
@@ -77,9 +77,9 @@ private lemma ggCZProj_coord {e : Fin m → V} {φ : Fin m → Module.Dual (ZMod
     (hd : GGCZDual e φ) (v : V) (k : Fin m) :
     φ k (∑ j, φ j v • e j) = φ k v := by
   rw [map_sum, Finset.sum_eq_single k]
-  · rw [map_smul, hd k k, if_pos rfl, smul_eq_mul, mul_one]
+  · rw [map_smul, hd k k, ite_eq_left rfl, smul_eq_mul, mul_one]
   · intro j _ hjk
-    rw [map_smul, hd k j, if_neg (Ne.symm hjk), smul_zero]
+    rw [map_smul, hd k j, ite_eq_right (Ne.symm hjk), smul_zero]
   · intro hk
     exact absurd (Finset.mem_univ k) hk
 

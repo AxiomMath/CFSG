@@ -169,7 +169,6 @@ theorem plusResAut_mem_orthElementaryGroup [Finite K] [CharP K 2] (hr : 3 ≤ r)
       have hcomp : ((g : (Fin r ⊕ Fin r → K) ≃ₗ[K] (Fin r ⊕ Fin r → K)) y) ∘
           plusResIdx htm = x ∘ plusResIdx htm := by
         rw [plusResAut_comp_plusResIdx hD ht htm hy, ← hh, hydef, plusResExt_apply_comp]
-        change h (h⁻¹ (x ∘ plusResIdx htm)) = x ∘ plusResIdx htm
         rw [← LinearEquiv.mul_apply, mul_inv_cancel]
         rfl
       intro u hu

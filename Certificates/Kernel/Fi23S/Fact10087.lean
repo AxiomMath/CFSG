@@ -31,7 +31,7 @@ theorem s12_facts :
     fun e => ?_, h7, h8⟩
   · have h2' := allN_iff.1 (allN_iff.1 h2 i hi) j hj
     have hn : ¬ j < i + 2 := by omega
-    rw [bIf_eq, if_neg (by rw [Nat.blt_eq]; exact hn)] at h2'
+    rw [bIf_eq, ite_eq_right (by rw [Nat.blt_eq]; exact hn)] at h2'
     exact h2'
   · rw [e] at h5
     exact absurd h5 (by decide)

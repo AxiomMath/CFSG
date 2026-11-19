@@ -75,10 +75,10 @@ private theorem slConj_nsCore_submatrix_reindex {F : Type} [Field F] {d d' s r :
         Equiv.refl_apply, Matrix.blockDiagonal_apply]
       by_cases h : j = j'
       · subst h
-        rw [if_pos rfl, if_pos rfl]
+        rw [ite_eq_left rfl, ite_eq_left rfl]
         rw [slConj_submatrix_pow_equiv (C := C) (e := e) (m := k j)]
         simp only [Matrix.submatrix_apply, Equiv.symm_apply_apply]
-      · rw [if_neg h, if_neg h]
+      · rw [ite_eq_right h, ite_eq_right h]
     · simp only [SLNS.nsCore, Matrix.submatrix_apply, Matrix.fromBlocks_apply₁₂,
         Equiv.sumCongr_apply, Sum.map_inl, Sum.map_inr, Equiv.prodCongr_apply, Prod.map_apply,
         Equiv.refl_apply, Matrix.zero_apply]
@@ -163,7 +163,7 @@ private theorem slConj_nsCore_inr_inr {s r : ℕ} (k : Fin s → ℕ) (x y : Fin
 private theorem slConj_nsCore_i0_i0 {s r : ℕ} (i₀ : Fin s) (c d : Fin 2) :
     SLNS.nsCore (r := r) rhoM (Pi.single i₀ 1) (Sum.inl (c, i₀)) (Sum.inl (d, i₀)) =
       rhoM c d := by
-  rw [slConj_nsCore_inl_inl, if_pos rfl, Pi.single_eq_same, pow_one]
+  rw [slConj_nsCore_inl_inl, ite_eq_left rfl, Pi.single_eq_same, pow_one]
 
 private theorem slConj_nsCore_i0_left {s r : ℕ} (i₀ : Fin s) (c : Fin 2)
     {v : (Fin 2 × Fin s) ⊕ Fin r} (hv : ∀ d : Fin 2, v ≠ Sum.inl (d, i₀)) :
@@ -171,7 +171,7 @@ private theorem slConj_nsCore_i0_left {s r : ℕ} (i₀ : Fin s) (c : Fin 2)
   rcases v with ⟨d, j⟩ | x
   · by_cases hj : j = i₀
     · exfalso; exact hv d (by rw [hj])
-    · rw [slConj_nsCore_inl_inl, if_neg (Ne.symm hj)]
+    · rw [slConj_nsCore_inl_inl, ite_eq_right (Ne.symm hj)]
   · rw [slConj_nsCore_inl_inr]
 
 private theorem slConj_nsCore_i0_right {s r : ℕ} (i₀ : Fin s) (d : Fin 2)
@@ -180,7 +180,7 @@ private theorem slConj_nsCore_i0_right {s r : ℕ} (i₀ : Fin s) (d : Fin 2)
   rcases u with ⟨c, j⟩ | x
   · by_cases hj : j = i₀
     · exfalso; exact hu c (by rw [hj])
-    · rw [slConj_nsCore_inl_inl, if_neg hj]
+    · rw [slConj_nsCore_inl_inl, ite_eq_right hj]
   · rw [slConj_nsCore_inr_inl]
 
 private theorem slConj_nsCore_notblock {s r : ℕ} (i₀ : Fin s)
@@ -193,30 +193,30 @@ private theorem slConj_nsCore_notblock {s r : ℕ} (i₀ : Fin s)
     rw [slConj_nsCore_inl_inl]
     by_cases hjj : j = j'
     · subst hjj
-      rw [if_pos rfl, Pi.single_eq_of_ne' (Ne.symm hj), pow_zero]
+      rw [ite_eq_left rfl, Pi.single_eq_of_ne' (Ne.symm hj), pow_zero]
       by_cases hcd : c = d
       · subst hcd; simp
-      · rw [Matrix.one_apply, if_neg hcd]
-        rw [if_neg]
+      · rw [Matrix.one_apply, ite_eq_right hcd]
+        rw [ite_eq_right]
         intro h
         exact hcd (Prod.ext_iff.mp (Sum.inl.inj h)).1
-    · rw [if_neg hjj]
-      rw [if_neg]
+    · rw [ite_eq_right hjj]
+      rw [ite_eq_right]
       intro h
       exact hjj (Prod.ext_iff.mp (Sum.inl.inj h)).2
   · rw [slConj_nsCore_inl_inr]
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     exact (by cases h)
   · rw [slConj_nsCore_inr_inl]
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     exact (by cases h)
   · rw [slConj_nsCore_inr_inr, Matrix.one_apply]
     by_cases hxy : x = y
     · subst hxy; simp
-    · rw [if_neg hxy]
-      rw [if_neg]
+    · rw [ite_eq_right hxy]
+      rw [ite_eq_right]
       intro h
       exact hxy (Sum.inr.inj h)
 
@@ -225,7 +225,7 @@ private theorem slConj_rhs_cc {n : ℕ} (k : Fin n) :
       Matrix.single k.castSucc k.castSucc 1 : Matrix (Fin (n + 1)) (Fin (n + 1)) F2)
         k.castSucc k.castSucc = 0 := by
   have h : (k.castSucc : Fin (n + 1)) ≠ k.succ := (Fin.castSucc_lt_succ (i := k)).ne
-  simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, h, Ne.symm h]
+  simp [Matrix.add_apply, Ne.symm h]
   linear_combination gf2_two
 
 private theorem slConj_rhs_cs {n : ℕ} (k : Fin n) :
@@ -233,21 +233,21 @@ private theorem slConj_rhs_cs {n : ℕ} (k : Fin n) :
       Matrix.single k.castSucc k.castSucc 1 : Matrix (Fin (n + 1)) (Fin (n + 1)) F2)
         k.castSucc k.succ = 1 := by
   have h : (k.castSucc : Fin (n + 1)) ≠ k.succ := (Fin.castSucc_lt_succ (i := k)).ne
-  simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, h, Ne.symm h]
+  simp [Matrix.add_apply, h, Ne.symm h]
 
 private theorem slConj_rhs_sc {n : ℕ} (k : Fin n) :
     (1 + Matrix.single k.castSucc k.succ (1 : F2) + Matrix.single k.succ k.castSucc 1 +
       Matrix.single k.castSucc k.castSucc 1 : Matrix (Fin (n + 1)) (Fin (n + 1)) F2)
         k.succ k.castSucc = 1 := by
   have h : (k.castSucc : Fin (n + 1)) ≠ k.succ := (Fin.castSucc_lt_succ (i := k)).ne
-  simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, h, Ne.symm h]
+  simp [Matrix.add_apply, h, Ne.symm h]
 
 private theorem slConj_rhs_ss {n : ℕ} (k : Fin n) :
     (1 + Matrix.single k.castSucc k.succ (1 : F2) + Matrix.single k.succ k.castSucc 1 +
       Matrix.single k.castSucc k.castSucc 1 : Matrix (Fin (n + 1)) (Fin (n + 1)) F2)
         k.succ k.succ = 1 := by
   have h : (k.castSucc : Fin (n + 1)) ≠ k.succ := (Fin.castSucc_lt_succ (i := k)).ne
-  simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, h, Ne.symm h]
+  simp [Matrix.add_apply, h]
 
 private theorem slConj_rhs_cc_not {n : ℕ} (k : Fin n) {b : Fin (n + 1)}
     (hb0 : b ≠ k.castSucc) (hb1 : b ≠ k.succ) :
@@ -255,8 +255,7 @@ private theorem slConj_rhs_cc_not {n : ℕ} (k : Fin n) {b : Fin (n + 1)}
       Matrix.single k.castSucc k.castSucc 1 : Matrix (Fin (n + 1)) (Fin (n + 1)) F2)
         k.castSucc b = 0 := by
   have h : (k.castSucc : Fin (n + 1)) ≠ k.succ := (Fin.castSucc_lt_succ (i := k)).ne
-  simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, h, Ne.symm h, hb0, hb1,
-    Ne.symm hb0, Ne.symm hb1]
+  simp [Matrix.add_apply, Ne.symm h, Ne.symm hb0, Ne.symm hb1]
 
 private theorem slConj_rhs_sc_not {n : ℕ} (k : Fin n) {b : Fin (n + 1)}
     (hb0 : b ≠ k.castSucc) (hb1 : b ≠ k.succ) :
@@ -264,8 +263,7 @@ private theorem slConj_rhs_sc_not {n : ℕ} (k : Fin n) {b : Fin (n + 1)}
       Matrix.single k.castSucc k.castSucc 1 : Matrix (Fin (n + 1)) (Fin (n + 1)) F2)
         k.succ b = 0 := by
   have h : (k.castSucc : Fin (n + 1)) ≠ k.succ := (Fin.castSucc_lt_succ (i := k)).ne
-  simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, h, Ne.symm h, hb0, hb1,
-    Ne.symm hb0, Ne.symm hb1]
+  simp [Matrix.add_apply, h, Ne.symm hb0, Ne.symm hb1]
 
 private theorem slConj_rhs_not_cc {n : ℕ} (k : Fin n) {a : Fin (n + 1)}
     (ha0 : a ≠ k.castSucc) (ha1 : a ≠ k.succ) :
@@ -273,8 +271,7 @@ private theorem slConj_rhs_not_cc {n : ℕ} (k : Fin n) {a : Fin (n + 1)}
       Matrix.single k.castSucc k.castSucc 1 : Matrix (Fin (n + 1)) (Fin (n + 1)) F2)
         a k.castSucc = 0 := by
   have h : (k.castSucc : Fin (n + 1)) ≠ k.succ := (Fin.castSucc_lt_succ (i := k)).ne
-  simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, h, Ne.symm h, ha0, ha1,
-    Ne.symm ha0, Ne.symm ha1]
+  simp [Matrix.add_apply, Ne.symm h, ha0, Ne.symm ha0, Ne.symm ha1]
 
 private theorem slConj_rhs_not_sc {n : ℕ} (k : Fin n) {a : Fin (n + 1)}
     (ha0 : a ≠ k.castSucc) (ha1 : a ≠ k.succ) :
@@ -282,7 +279,7 @@ private theorem slConj_rhs_not_sc {n : ℕ} (k : Fin n) {a : Fin (n + 1)}
       Matrix.single k.castSucc k.castSucc 1 : Matrix (Fin (n + 1)) (Fin (n + 1)) F2)
         a k.succ = 0 := by
   have h : (k.castSucc : Fin (n + 1)) ≠ k.succ := (Fin.castSucc_lt_succ (i := k)).ne
-  simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, h, Ne.symm h, ha0, ha1,
+  simp [Matrix.add_apply, h, ha1,
     Ne.symm ha0, Ne.symm ha1]
 
 private theorem slConj_rhs_not {n : ℕ} (k : Fin n) {a b : Fin (n + 1)}
@@ -293,10 +290,8 @@ private theorem slConj_rhs_not {n : ℕ} (k : Fin n) {a b : Fin (n + 1)}
   have h : (k.castSucc : Fin (n + 1)) ≠ k.succ := (Fin.castSucc_lt_succ (i := k)).ne
   by_cases hab : a = b
   · subst hab
-    simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, ha0, ha1, h, Ne.symm h,
-      Ne.symm ha0, Ne.symm ha1]
-  · simp [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, ha0, ha1, hb0, hb1, h,
-      Ne.symm h, Ne.symm ha0, Ne.symm ha1, Ne.symm hb0, Ne.symm hb1, hab]
+    simp [Matrix.add_apply, Ne.symm ha0, Ne.symm ha1]
+  · simp [Matrix.add_apply, Ne.symm ha0, Ne.symm ha1, Ne.symm hb0, Ne.symm hb1, hab]
 
 private theorem slConj_slPerm_inv_mul_mul_coe {N : ℕ} (π : Equiv.Perm (Fin N))
     (M : Matrix (Fin N) (Fin N) F2) :

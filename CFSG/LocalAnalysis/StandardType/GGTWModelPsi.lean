@@ -35,26 +35,26 @@ private theorem l05nTM_A_mul_d {p N : ℕ} [Fact p.Prime] (hpN : p ∣ N)
   have hprev : (j : ℕ) - 1 < N - 1 := by omega
   simp only [hc']
   by_cases hlast : (j : ℕ) + 1 < N - 1
-  · rw [if_pos j.isLt, if_pos hlast]
+  · rw [ite_eq_left j.isLt, ite_eq_left hlast]
     by_cases hj0 : (j : ℕ) = 0
-    · rw [if_pos hj0, hj0]; norm_num
-    · rw [if_neg hj0, if_pos hprev]
+    · rw [ite_eq_left hj0, hj0]; norm_num
+    · rw [ite_eq_right hj0, ite_eq_left hprev]
       have hsub : ((↑j - 1 : ℕ) : ZMod p) = (↑j : ZMod p) - 1 := by
         rw [Nat.cast_sub (by omega : 1 ≤ (j : ℕ))]
         norm_num
       simp only [Nat.cast_add, Nat.cast_one]
       rw [hsub]; ring
-  · rw [if_pos j.isLt, if_neg hlast]
+  · rw [ite_eq_left j.isLt, ite_eq_right hlast]
     have hlast' : (j : ℕ) + 1 = N - 1 := by omega
     by_cases hj0 : (j : ℕ) = 0
-    · rw [if_pos hj0, hj0]
+    · rw [ite_eq_left hj0, hj0]
       have hN : N = 2 := by omega
       have h2 : (2 : ZMod p) = 0 := by
         have hNcast : ((N : ℕ) : ZMod p) = 0 := (CharP.cast_eq_zero_iff (ZMod p) p N).2 hpN
         simpa [hN] using hNcast
       norm_num
       exact h2
-    · rw [if_neg hj0, if_pos hprev]
+    · rw [ite_eq_right hj0, ite_eq_left hprev]
       have hjval : (j : ℕ) = N - 2 := by omega
       have e1 : (N - 2 : ℕ) + 1 = N - 1 := by omega
       have e2 : (N - 2 : ℕ) - 1 + 1 = N - 2 := by omega
@@ -68,7 +68,7 @@ private lemma l05nTM_sum_ggTWh {p N : ℕ} :
   simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, ggTWh, Pi.zero_apply]
   by_cases hj : j.val + 2 = N
   · simp [hj]
-  · simp only [hj, if_false]
+  · simp only [hj, ite_false]
     have hjlt : j.val + 1 < N - 1 := by have := j.isLt; omega
     let i0 : Fin (N - 1) := ⟨0, by omega⟩
     let i1 : Fin (N - 1) := ⟨j.val+1, hjlt⟩
@@ -83,7 +83,7 @@ private lemma l05nTM_sum_ggTWh {p N : ℕ} :
       · have hi0 : i = i0 := Fin.ext (by simpa [i0] using h0)
         subst hi0
         have hc : ¬ (j.val + 1 = 0) := by omega
-        simp only [Fin.val_mk, if_pos rfl, if_neg hc, if_neg hne, if_neg (Ne.symm hne)]
+        simp only [ite_eq_right hne]
         norm_num
       · have hi0 : i ≠ i0 := by
           intro h; exact h0 (by simpa [i0] using congrArg Fin.val h)
@@ -92,7 +92,7 @@ private lemma l05nTM_sum_ggTWh {p N : ℕ} :
           subst hi1
           have hc0 : ¬ (i1.val = 0) := by simp [i1]
           have hc1 : j.val + 1 = i1.val := by simp [i1]
-          simp only [hc0, hc1, if_false, if_true, if_neg hne, if_neg (Ne.symm hne)]
+          simp only [hc0, hc1, ite_false, ite_true, ite_eq_right (Ne.symm hne)]
           have hv1 : (i1.val : ℕ) = j.val + 1 := rfl
           rw [hv1]
           push_cast
@@ -100,11 +100,11 @@ private lemma l05nTM_sum_ggTWh {p N : ℕ} :
         · have hi1 : i ≠ i1 := by
             intro h; exact h1 (by simpa [i1] using congrArg Fin.val h)
           have hcond1 : ¬ (j.val + 1 = i.val) := by omega
-          rw [if_neg h0, if_neg hcond1, if_neg hi0, if_neg hi1]
+          rw [ite_eq_right h0, ite_eq_right hcond1, ite_eq_right hi0, ite_eq_right hi1]
           ring_nf
     rw [Finset.sum_congr rfl (fun i _ => hpt i), Finset.sum_add_distrib,
       Finset.sum_ite_eq', Finset.sum_ite_eq']
-    simp [i0, i1, hne]
+    simp [i0, i1]
 
 @[expose] noncomputable def l05nTMψ {p N : ℕ} {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     (h : Fin (N - 1) → V) (x : V) :
@@ -116,7 +116,7 @@ private lemma l05nTMψ_apply {p N : ℕ} {V : Type} [AddCommGroup V] [Module (ZM
     (h : Fin (N - 1) → V) (x : V) (w : Fin (N - 1) → ZMod p) :
     l05nTMψ h x w = ∑ k : Fin (N - 1), w k •
       (if hk : k.val + 2 = N then x else h ⟨k.val + 1, by have := k.isLt; omega⟩) := by
-  simp [l05nTMψ, Finset.sum_apply, LinearMap.smulRight_apply]
+  simp [l05nTMψ, Finset.sum_apply]
 
 lemma l05nTMψ_single {p N : ℕ} {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     (h : Fin (N - 1) → V) (x : V) (k : Fin (N - 1)) :
@@ -133,14 +133,14 @@ lemma l05nTM_x_single {p N : ℕ} (hN : 5 ≤ N) :
   funext j
   by_cases hj : j = ⟨N - 2, by omega⟩
   · subst hj
-    simp only [ggTWx, Fin.val_mk]
-    rw [if_pos (show N - 2 + 2 = N by omega), Pi.single_eq_same]
+    simp only [ggTWx]
+    rw [ite_eq_left (show N - 2 + 2 = N by omega), Pi.single_eq_same]
   · rw [Pi.single_eq_of_ne hj, ggTWx]
-    rw [if_neg]
+    rw [ite_eq_right]
     intro h
     apply hj
     ext
-    simp only [Fin.val_mk]
+    simp only
     omega
 
 private lemma l05nTM_ggTWh_single {p N : ℕ} (i : Fin (N - 1)) (hi : i.val ≠ 0) :
@@ -150,18 +150,18 @@ private lemma l05nTM_ggTWh_single {p N : ℕ} (i : Fin (N - 1)) (hi : i.val ≠ 
   · subst hj
     rw [Pi.single_eq_same, ggTWh]
     have h1 : ¬ (i.val - 1 + 2 = N) := by have := i.isLt; omega
-    rw [if_neg h1, if_neg hi]
+    rw [ite_eq_right h1, ite_eq_right hi]
     have h2 : (i.val - 1 + 1 = i.val) := by omega
     simp [h2]
   · rw [Pi.single_eq_of_ne hj, ggTWh]
     by_cases hlast : j.val + 2 = N
     · simp [hlast]
-    · rw [if_neg hlast, if_neg hi]
-      rw [if_neg]
+    · rw [ite_eq_right hlast, ite_eq_right hi]
+      rw [ite_eq_right]
       intro hv
       apply hj
       ext
-      simp only [Fin.val_mk]
+      simp only
       omega
 
 lemma l05nTM_alpha_coeff {p N : ℕ} (i k : Fin (N - 1)) (hk : ¬ k.val + 2 = N) :
@@ -169,8 +169,8 @@ lemma l05nTM_alpha_coeff {p N : ℕ} (i k : Fin (N - 1)) (hk : ¬ k.val + 2 = N)
       (CartanMatrix.A (N - 1) i
         ⟨k.val + 1, by have h1 := k.isLt; have h2 := hk; omega⟩ : ZMod p) := by
   have hk' : k.val + 2 ≠ N := hk
-  simp only [ggTWα, CartanMatrix.A, Matrix.of_apply, Fin.val_mk, Fin.ext_iff, hk', if_false]
-  split_ifs <;> (first | rfl | (exfalso; omega) | norm_num)
+  simp only [ggTWα, CartanMatrix.A, Matrix.of_apply, Fin.ext_iff, hk', ite_false]
+  split_ifs <;> (first | (exfalso; omega) | norm_num)
 
 private lemma l05nTM_kernel_eq_zero {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] {h : Fin (N - 1) → V} {α : Fin (N - 1) → Module.Dual (ZMod p) V}
@@ -198,7 +198,7 @@ private lemma l05nTM_kernel_eq_zero {p N : ℕ} [Fact p.Prime] {V : Type} [AddCo
     obtain ⟨l, hl⟩ := ggCartanA_ker_le_one d c hdA hcA hd0
     have hl0 : l = 0 := by
       have hcong := congrFun hl ⟨0, by omega⟩
-      simp only [Pi.smul_apply, smul_eq_mul, d, Fin.val_mk, Nat.cast_zero, zero_add,
+      simp only [Pi.smul_apply, smul_eq_mul, d, zero_add,
         Nat.cast_one, mul_one] at hcong
       rw [h0] at hcong
       exact hcong.symm
@@ -224,11 +224,11 @@ lemma l05nTMψ_ggTWh_succ {p N : ℕ} {V : Type} [AddCommGroup V] [Module (ZMod 
     l05nTMψ h x (ggTWh p N i) = h i := by
   rw [l05nTM_ggTWh_single i hi, l05nTMψ_single]
   have hk : ¬ ((⟨i.val - 1, by have := i.isLt; omega⟩ : Fin (N - 1)).val + 2 = N) := by
-    simp only [Fin.val_mk]; have := i.isLt; omega
-  rw [dif_neg hk]
+    simp only; have := i.isLt; omega
+  rw [dite_eq_right hk]
   congr 1
   ext
-  simp only [Fin.val_mk]
+  simp only
   omega
 
 lemma l05nTM_alpha_ψ {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
@@ -242,9 +242,9 @@ lemma l05nTM_alpha_ψ {p N : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
   have hc : α i (if hk : k.val + 2 = N then x else
       h ⟨k.val + 1, by have := k.isLt; omega⟩) = ggTWα p N i k := by
     by_cases hk : k.val + 2 = N
-    · rw [dif_pos hk, F.x_ker i]
+    · rw [dite_eq_left hk, F.x_ker i]
       simp [ggTWα, hk]
-    · rw [dif_neg hk, F.pair, ← l05nTM_alpha_coeff i k hk]
+    · rw [dite_eq_right hk, F.pair, ← l05nTM_alpha_coeff i k hk]
   rw [hc, mul_comm]
 
 lemma l05nTM_ψ_ggTWh_zero {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) {V : Type}
@@ -300,7 +300,7 @@ private lemma l05nTM_ψ_ker {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) {V : Type}
     rw [← l05nTMψ_apply]; exact hw
   have hcL : c iL = x := by
     simp only [c, iL]
-    rw [dif_pos (show N - 2 + 2 = N by omega)]
+    rw [dite_eq_left (show N - 2 + 2 = N by omega)]
   have hdecomp : w iL • x + (∑ k ∈ (Finset.univ.erase iL), w k • c k) = 0 := by
     have he := Finset.add_sum_erase (Finset.univ : Finset (Fin (N - 1)))
       (fun k => w k • c k) (Finset.mem_univ iL)
@@ -316,9 +316,9 @@ private lemma l05nTM_ψ_ker {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) {V : Type}
       intro hcon
       apply hkne
       ext
-      simp only [iL, Fin.val_mk]
+      simp only [iL]
       omega
-    simp only [c, dif_neg hknot]
+    simp only [c, dite_eq_right hknot]
     exact Submodule.subset_span ⟨⟨k.val + 1, by have := k.isLt; omega⟩, rfl⟩
   have hwL : w iL = 0 := by
     by_contra hne
@@ -358,9 +358,9 @@ private lemma l05nTM_ψ_ker {p N : ℕ} [Fact p.Prime] (hN : 5 ≤ N) {V : Type}
         intro hcon
         apply hkne
         ext
-        simp only [iL, Fin.val_mk]
+        simp only [iL]
         omega
-      simp only [c, dif_neg hknot]
+      simp only [c, dite_eq_right hknot]
       congr 1
       rw [l05nTM_finRotate_succ k hknot]
     calc ∑ k : Fin (N - 1), w k • h (σ k)

@@ -44,10 +44,10 @@ theorem innerTy_iff {k n : ℕ} (hk : k < 5) : innerTy innerTab n = k + 1 ↔ n 
   have hlt : n % 2 ^ 22 < 2 ^ 22 := Nat.mod_lt _ (Nat.two_pow_pos 22)
   unfold innerTy
   by_cases h0 : n % 2 ^ 22 = 0
-  · rw [if_pos h0, h0]
+  · rw [ite_eq_left h0, h0]
     refine ⟨fun h => ?_, fun h => absurd (S_valid hC hk h).1 (Nat.lt_irrefl 0)⟩
-    split_ifs at h <;> omega
-  · rw [if_neg h0]
+    split_ifs at h; omega
+  · rw [ite_eq_right h0]
     exact tab_iff hC hk (Nat.pos_of_ne_zero h0) hlt
 
 theorem frameA_iff (n : ℕ) :

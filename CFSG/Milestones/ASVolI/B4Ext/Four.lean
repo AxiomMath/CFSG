@@ -58,7 +58,7 @@ theorem burnsideB49x_slMap_surjective (hK : Nat.card K = 2) (e : K ≃+* ZMod 2)
   apply Units.ext
   rw [burnsideB49x_slMap_coe]
   ext i j
-  simp [Matrix.GeneralLinearGroup.map_apply]
+  simp
 
 @[expose] def burnsideB49x_vecEquiv (e : K ≃+* ZMod 2) :
     Multiplicative (Fin n → K) ≃* Multiplicative (Fin n → ZMod 2) where
@@ -292,7 +292,7 @@ theorem burnsideB49x_part2i_four_five {V : Type} [CommGroup V] [Finite V]
     (hquot : QuotIsoSub G U ∨ QuotIsoDual G U)
     {T : Subgroup (MulAut V)} (hT : IsSylowTwoOf T G) {A : Subgroup (MulAut V)}
     (hA : IsFFStarOffender T A) : SplitsOver G U := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hcardK : Fintype.card K = Fintype.card (ZMod 2) := by
     rw [← Nat.card_eq_fintype_card, hK, ZMod.card]
   let e : K ≃+* ZMod 2 := FiniteField.ringEquivOfCardEq hcardK

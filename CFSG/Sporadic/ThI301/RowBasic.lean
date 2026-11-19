@@ -188,14 +188,14 @@ theorem split_t : ∃ K : Subgroup J, K ≤ Subgroup.centralizer ({hswJ 6} : Set
 
 theorem row_hI : RowI .th Row.th.prime (rowIOf Row.th.prime (hswJ 6)) := by
   obtain ⟨K, hKC, -, -, hKc, ⟨e⟩⟩ := split_t
-  haveI : IsSimpleGroup Ghat := ghat_simple
-  haveI hS : IsSimpleGroup ↥K := MulEquiv.isSimpleGroup e
+  have : IsSimpleGroup Ghat := ghat_simple
+  have hS : IsSimpleGroup ↥K := MulEquiv.isSimpleGroup e
   have hcard : Nat.card ↥K = 7371 * 576 := (Nat.card_congr e.toEquiv).trans ghat_card
   have h3 : 3 ∣ Nat.card ↥K := by rw [hcard]; norm_num
   have hnab : ∃ a b : ↥K, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 3 h3
     have hn : (Subgroup.zpowers x).Normal :=
       ⟨fun n hn g => by rw [hcon g n, mul_inv_cancel_right]; exact hn⟩

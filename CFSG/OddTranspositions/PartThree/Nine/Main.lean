@@ -26,7 +26,7 @@ theorem theorem9_1_of_steps (hW : Lemma9_2Wreath) (h92 : Lemma9_2) (h93 : Lemma9
           exact hwr ⟨M, hM, hns⟩
         have h3 := h93 G D hC hH hs
         obtain ⟨T⟩ : Nonempty (Sylow 2 (Halpha D hC.alpha)) := inferInstance
-        obtain ⟨S, hTS⟩ := (T.isPGroup'.map (Halpha D hC.alpha).subtype).exists_le_sylow
+        obtain ⟨S, hTS⟩ := (T.isPGroup.map (Halpha D hC.alpha).subtype).exists_le_sylow
         have h4 := h94 G D hC hH hs h3 T S hTS
         have h5 := h95 G D hC hH hs hIH h3 T S hTS h4
         have hsol : Group.IsSolvable (cosetNormalizerPerm ((S : Set G) ∩ D)).range := by

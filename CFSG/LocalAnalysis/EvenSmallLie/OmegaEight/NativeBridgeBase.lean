@@ -39,7 +39,7 @@ theorem one_add_one_eq_zero (hK : Nat.card K = 2) : (1 : K) + 1 = 0 := by
   rw [one_add_one_eq_two]
   exact CharTwo.two_eq_zero
 
-@[expose] def ind (K : Type) [Field K] (b : Bool) : K := if b then 1 else 0
+def ind (K : Type) [Field K] (b : Bool) : K := if b then 1 else 0
 
 omit [Finite K] in
 theorem ind_and (a b : Bool) : ind K (a && b) = ind K a * ind K b := by
@@ -56,11 +56,11 @@ theorem ind_injective : Function.Injective (ind K) := by
 
 end Field
 
-@[expose] def cidx : Fin 4 ⊕ Fin 4 → ℕ
+def cidx : Fin 4 ⊕ Fin 4 → ℕ
   | .inl i => i
   | .inr i => i + 4
 
-@[expose] def vecK (K : Type) [Field K] (v : ℕ) : Fin 4 ⊕ Fin 4 → K :=
+def vecK (K : Type) [Field K] (v : ℕ) : Fin 4 ⊕ Fin 4 → K :=
   fun c => ind K (v.testBit (cidx c))
 
 section Vectors
@@ -152,7 +152,7 @@ theorem quadPlus_elementary (g : orthElementaryGroup (quadPlus 4 K)) (v : Fin 4 
   map_of_mem (orthElementaryGroup_le _ g.2) v
 
 omit [Finite K] hK in
-@[expose] def nsPerm (g : orthElementaryGroup (quadPlus 4 K)) : Equiv.Perm (NS K) :=
+def nsPerm (g : orthElementaryGroup (quadPlus 4 K)) : Equiv.Perm (NS K) :=
   Equiv.Perm.subtypePerm (g : (Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] (Fin 4 ⊕ Fin 4 → K)).toEquiv
     fun v => by rw [LinearEquiv.coe_toEquiv, quadPlus_elementary]
 
@@ -170,7 +170,7 @@ theorem rootArr_getElem! (p : List (ℕ × ℕ)) {j : ℕ} (hj : j < 120) :
   rw [rootArr, CFSG.Monster.B.Co2.getElem!_ofFn_nat _ (by omega)]
   simp only [Nat.div_eq_of_lt hj, Nat.mod_eq_of_lt hj, mul_zero, zero_add]
 
-@[expose] def pair0 (i : ℕ) : ℕ × ℕ := (rootPairs.getD i []).getD 0 (0, 0)
+def pair0 (i : ℕ) : ℕ × ℕ := (rootPairs.getD i []).getD 0 (0, 0)
 
 theorem pair0_ok {i : ℕ} (hi : i < 8) : qNat (pair0 i).1 = false ∧
     bNat (pair0 i).1 (pair0 i).2 = false ∧ (pair0 i).1 < 256 ∧ (pair0 i).2 < 256 := by
@@ -190,7 +190,7 @@ variable {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2)
 include hK
 
 omit [Finite K] hK in
-@[expose] def eichGen (K : Type) [Field K] (i : ℕ) : orthElementaryGroup (quadPlus 4 K) :=
+def eichGen (K : Type) [Field K] (i : ℕ) : orthElementaryGroup (quadPlus 4 K) :=
   ⟨eichler (quadPlus 4 K) (vecK K (pair0 i).1) (vecK K (pair0 i).2),
     eichler_mem_elementaryGroup _ _ _⟩
 

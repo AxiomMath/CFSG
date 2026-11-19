@@ -95,7 +95,7 @@ theorem rk_le_two_mul_of_singularOn
     {F : Type} [Field F] [Finite F] {b c : F},
     Nat.card F = 2 ^ n → (∀ s : F, s ^ 2 + b * s + c ≠ 0) →
       p.Prime → p ≠ 2 → (2 : ℤ) ^ n ≡ -1 [ZMOD (p : ℤ)] →
-      ∀ (W' : Subgroup W) (hW' : StableUnder H W') (hN : NatOmegaMinus H W' ⊥ 6 n)
+      ∀ (W' : Subgroup W) (hW' : StableUnder H W') (_hN : NatOmegaMinus H W' ⊥ 6 n)
         (ε : ↥H ≃* ↥(StatedOmega (StatedQuadMinus 3 F b c)))
         (ψ : W' ≃* Multiplicative (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F)),
       NatCoordsOmegaMinusOn H W' hW' F b c ε ψ →
@@ -105,11 +105,13 @@ theorem rk_le_two_mul_of_singularOn
         ∃ P : Subgroup (MulAut W),
           P ≤ H ⊓ stabSub E ∧ IsPGroup p P ∧ ¬ IsCyclic P
 
+omit [Finite W] in
 theorem rk_eq_six_mul_of_natOmegaMinus
     {H : Subgroup (MulAut W)} {n : ℕ} {U : Subgroup W}
     (h : NatOmegaMinus H U ⊥ 6 n) : rk U = 6 * n :=
   (s16c1610_rk_natOmegaMinus (by norm_num) h).trans (Nat.mul_comm _ _)
 
+omit [Finite W] in
 theorem rk_top_eq_eight_mul_of_natSUn
     {H : Subgroup (MulAut W)} {n : ℕ} (h : NatSUn H ⊤ ⊥ 4 n) :
     rk (⊤ : Subgroup W) = 8 * n := by
@@ -120,6 +122,7 @@ theorem rk_top_eq_eight_mul_of_natSUn
     rw [hc, Nat.mul_comm n 8]
   exact s16c1610_rk_of_card_two_pow hc'
 
+omit [Finite W] in
 theorem rk_top_eq_four_mul_of_natOmegaPlus
     {H : Subgroup (MulAut W)} {n : ℕ} (h : NatOmegaPlus H ⊤ ⊥ 4 n) :
     rk (⊤ : Subgroup W) = 4 * n :=
@@ -132,8 +135,8 @@ theorem exists_natCoords_of_natOmegaPlus {W : Type} [CommGroup W] [Finite W]
         (ψ : W ≃* Multiplicative (Fin 2 ⊕ Fin 2 → F)), NatCoordsOmegaPlus H F ε ψ := by
   classical
   obtain ⟨-, K, hK, hKf, hK2, π, hπ⟩ := hN
-  letI := hK
-  haveI : Finite K := hKf
+  let := hK
+  have : Finite K := hKf
   have hinj : Function.Injective π :=
     CFSG.Quasithin.FFModel.RealizesVia.injective_of_faithful
       (CFSG.Quasithin.FFModel.nat_faithful _) hπ
@@ -184,8 +187,8 @@ theorem exists_natCoords_of_natOmegaMinusOn
         NatCoordsOmegaMinusOn H W' hW' F b c ε ψ := by
   classical
   obtain ⟨-, K, hK, hKf, b, c, hK2, hpoly, π, hπ⟩ := hN
-  letI := hK
-  haveI : Finite K := hKf
+  let := hK
+  have : Finite K := hKf
   have hinj : Function.Injective π :=
     CFSG.Quasithin.FFModel.RealizesVia.injective_of_faithful_on
       (CFSG.Quasithin.FFModel.nat_faithful _) hπ

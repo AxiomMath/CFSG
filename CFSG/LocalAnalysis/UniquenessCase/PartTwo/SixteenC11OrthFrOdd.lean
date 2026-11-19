@@ -67,7 +67,7 @@ theorem s16c11_fr_orbit_subset_isLine {m : ℕ} (hm : m = 3 ∨ m = 4) :
   rintro L ⟨g, rfl⟩
   have hlin : g • (s16c11FrE m 0 + s16c11FrE m 1) =
       g • s16c11FrE m 0 + g • s16c11FrE m 1 := by
-    simp [Matrix.mulVec_add]
+    simp
   refine ⟨g • s16c11FrE m 0, g • s16c11FrE m 1,
     s16c11_fr_smul_ne_zero m g (s16c11_fr_E_ne_zero hm 0),
     s16c11_fr_smul_ne_zero m g (s16c11_fr_E_ne_zero hm 1), ?_,

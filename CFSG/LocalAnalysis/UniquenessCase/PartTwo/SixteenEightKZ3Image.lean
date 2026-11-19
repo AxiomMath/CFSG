@@ -40,12 +40,13 @@ private theorem s16k_pRank_map_mulEquiv {X Y : Type*} [Group X] [Finite X] [Grou
 private theorem s16k_card_le_pow_pRank {X : Type*} [Group X] [Finite X] {p : ℕ} (hp : p.Prime)
     {E K : Subgroup X} (hEK : E ≤ K) (hE : IsElemAbelian p E) :
     Nat.card ↥E ≤ p ^ CFSG.Open.pRank p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hE.isPGroup
   have hk_le : k ≤ CFSG.Open.pRank p K := CFSG.SectionRank.le_pRank hp.one_lt hEK hE hk
   rw [hk]
   exact Nat.pow_le_pow_right hp.pos hk_le
 
+omit [Finite G] in
 private theorem s16k_cTilde_mono {A M V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hAM : A ≤ M) (hM : M ≤ Subgroup.normalizer (V : Set G)) :
     F11.CTilde A V₀ V ≤ F11.CTilde M V₀ V := by
@@ -123,7 +124,7 @@ theorem s16k_z3_three_mem_sig (h : S16kBase D V₀ V L hV)
       if p = 3 then 3 else 1 := s16k_z3_pRank_le hN hpp hp2
   have hp3 : p = 3 := by
     by_contra hne
-    rw [if_neg hne, ← heq] at hle
+    rw [ite_eq_right hne, ← heq] at hle
     omega
   rw [← hp3]
   exact hpσ
@@ -142,7 +143,7 @@ theorem s16k_z3_image_torus (h : S16kBase D V₀ V L hV)
         (Mbar D.M V₀ V hV).map φ.toMonoidHom ≤ Subgroup.normalizer (s16kScal : Set S16kGL6) ∧
         (barSub V₀ V hV A).map φ.toMonoidHom = s16kDiag := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e₀, φ₀, hmul, hφ₀L, hN⟩ := s16k_z3_model_data h hZ hrk
   have hMbar_le : CFSG.Open.pRank 3 (Mbar D.M V₀ V hV) ≤ 3 := by
     rw [s16k_pRank_map_mulEquiv Nat.prime_three φ₀ (Mbar D.M V₀ V hV)]
@@ -263,7 +264,7 @@ theorem s16k_z3_image_torus (h : S16kBase D V₀ V L hV)
         MonoidHom.id S16kGL6 from by
       apply MonoidHom.ext
       intro g
-      simp only [MonoidHom.comp_apply, MonoidHom.id_apply, MulAut.conj_apply]
+      simp only [MonoidHom.comp_apply, MonoidHom.id_apply]
       show n⁻¹ * (n * g * n⁻¹) * n = g
       group,
       Subgroup.map_id]

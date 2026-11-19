@@ -25,6 +25,7 @@ variable {n : ℕ}
 private def radA2CMap (v : Fin 2 → F) (c : F) : Fin 3 → F :=
   ![c + v 0 * v 1, v 0 ^ 2, v 1 ^ 2]
 
+omit [Finite F] in
 private theorem radA2Rep_exists (x : ↥(radA2 F)) :
     ∃ p : (Fin 2 → F) × F, (x : antiSp F) = aElt p.1 p.2 := by
   obtain ⟨v, c, h⟩ := mem_radA2_iff.mp x.2
@@ -33,10 +34,12 @@ private theorem radA2Rep_exists (x : ↥(radA2 F)) :
 private def radA2Rep (x : ↥(radA2 F)) : (Fin 2 → F) × F :=
   Classical.choose (radA2Rep_exists (F := F) x)
 
+omit [Finite F] in
 private theorem radA2Rep_spec (x : ↥(radA2 F)) :
     (x : antiSp F) = aElt (radA2Rep (F := F) x).1 (radA2Rep (F := F) x).2 :=
   Classical.choose_spec (radA2Rep_exists (F := F) x)
 
+omit [Finite F] in
 private theorem aElt_inj {v v' : Fin 2 → F} {c c' : F} (h : aElt v c = aElt v' c') :
     v = v' ∧ c = c' := by
   have h' : uElt (v 1) (v 0) c 0 = uElt (v' 1) (v' 0) c' 0 := h
@@ -50,6 +53,7 @@ private theorem aElt_inj {v v' : Fin 2 → F} {c c' : F} (h : aElt v c = aElt v'
 private def radA2CoordFun (x : ↥(radA2 F)) : Fin 3 → F :=
   radA2CMap (radA2Rep (F := F) x).1 (radA2Rep (F := F) x).2
 
+omit [Finite F] in
 private theorem radA2CoordFun_eq (x : ↥(radA2 F)) (v : Fin 2 → F) (c : F)
     (h : (x : antiSp F) = aElt v c) :
     radA2CoordFun (F := F) x = radA2CMap v c := by
@@ -57,6 +61,7 @@ private theorem radA2CoordFun_eq (x : ↥(radA2 F)) (v : Fin 2 → F) (c : F)
   obtain ⟨hv, hc⟩ := aElt_inj ((radA2Rep_spec (F := F) x).symm.trans h)
   rw [hv, hc]
 
+omit [Finite F] in
 private theorem radA2CMap_add (v w : Fin 2 → F) (c e : F) :
     radA2CMap (v + w) (c + e + (v 0 * w 1 + v 1 * w 0)) =
       radA2CMap v c + radA2CMap w e := by
@@ -97,6 +102,7 @@ private def radA2CoordHom : ↥(radA2 F) →* Multiplicative (Fin 3 → F) where
             radA2CoordFun_eq (F := F) y _ _ (radA2Rep_spec (F := F) y)]
           exact radA2CMap_add _ _ _ _
 
+omit [Finite F] in
 private theorem radA2CoordFun_injective : Function.Injective (radA2CoordFun (F := F)) := by
   intro x y h
   have hx := radA2Rep_spec (F := F) x
@@ -167,16 +173,17 @@ theorem actsByMatrix_radA2Coord (w : Fin 2 → F) (e : F) (l : Fˣ) (M : SL(2, F
     linear_combination hdet + (M 0 1 * M 1 0) * h2
   ext i
   fin_cases i
-  · simp [radA2CMap, Matrix.mulVec, dotProduct, Fin.sum_univ_two, Fin.sum_univ_three,
+  · simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three,
       Matrix.smul_apply, sp4RadMat]
     linear_combination ((l : F) ^ 2 * v 0 * v 1) * hdet2
-  · simp [radA2CMap, Matrix.mulVec, dotProduct, Fin.sum_univ_two, Fin.sum_univ_three,
+  · simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three,
       Matrix.smul_apply, sp4RadMat]
     linear_combination ((l : F) ^ 2 * M 0 0 * M 0 1 * v 0 * v 1) * h2
-  · simp [radA2CMap, Matrix.mulVec, dotProduct, Fin.sum_univ_two, Fin.sum_univ_three,
+  · simp [Matrix.mulVec, dotProduct, Fin.sum_univ_three,
       Matrix.smul_apply, sp4RadMat]
     linear_combination ((l : F) ^ 2 * M 1 0 * M 1 1 * v 0 * v 1) * h2
 
+omit [Finite F] in
 private theorem radA2_sup_leviHom_range :
     radA2 F ⊔ (leviHom₂ F).range = lineStab F := by
   apply le_antisymm

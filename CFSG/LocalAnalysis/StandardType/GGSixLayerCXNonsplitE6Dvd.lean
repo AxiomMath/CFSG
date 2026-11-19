@@ -93,7 +93,7 @@ theorem dvd_card_of_isComponentOf_E6_ad_of_phiThree {K : Type} [Field K] [Finite
     (hX : IsComponentOf X (Subgroup.centralizer ({x} : Set ↥(adjointGroup .E6 K)))) :
     p ∣ Nat.card X := by
   obtain ⟨f, hf, hK⟩ := exists_card_eq_two_pow (K := K)
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hpq : (p : ℤ) ∣ (Nat.card K : ℤ) ^ 2 + (Nat.card K : ℤ) + 1 := by
     simpa [exhaustionPhi] using hpf
@@ -107,7 +107,7 @@ theorem dvd_card_of_isComponentOf_E6_ad_of_phiSix {K : Type} [Field K] [Finite K
     (hX : IsComponentOf X (Subgroup.centralizer ({x} : Set ↥(adjointGroup .E6 K)))) :
     p ∣ Nat.card X := by
   obtain ⟨f, hf, hK⟩ := exists_card_eq_two_pow (K := K)
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hpq : (p : ℤ) ∣ (Nat.card K : ℤ) ^ 2 - (Nat.card K : ℤ) + 1 := by
     simpa [exhaustionPhi] using hpf
@@ -121,7 +121,7 @@ theorem dvd_card_of_isComponentOf_E6_ad_of_phiFour {K : Type} [Field K] [Finite 
     (hX : IsComponentOf X (Subgroup.centralizer ({x} : Set ↥(adjointGroup .E6 K)))) :
     p ∣ Nat.card X := by
   obtain ⟨f, hf, hK⟩ := exists_card_eq_two_pow (K := K)
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hpq : (p : ℤ) ∣ (Nat.card K : ℤ) ^ 2 + 1 := by
     simpa [exhaustionPhi] using hpf

@@ -28,10 +28,10 @@ theorem exists_mem_normalizer_comm_mem {Q U M : Subgroup G} (hQ : IsPGroup 2 Q) 
     rw [lt_top_iff_ne_top]
     intro h
     exact not_le_of_gt hMU (Subgroup.subgroupOf_eq_top.mp h)
-  haveI hU_nil : Group.IsNilpotent ↥U := hU2.isNilpotent
+  have hU_nil : Group.IsNilpotent ↥U := hU2.isNilpotent
   have hNC : NormalizerCondition ↥U := Group.normalizerCondition_of_isNilpotent
   obtain ⟨y, hyN', hyM'⟩ :=
-    (SetLike.lt_iff_le_and_exists.mp (hNC (M.subgroupOf U) hM'_lt_top)).2
+    (IsConcreteLE.lt_iff_le_and_exists.mp (hNC (M.subgroupOf U) hM'_lt_top)).2
   have hyNorm : (y : G) ∈ normalizer (M : Set G) :=
     mem_normalizer_of_forall_conj_mem fun m hm => by
       have hz : (⟨m, hMU.le hm⟩ : ↥U) ∈ M.subgroupOf U := hm
@@ -55,10 +55,10 @@ theorem exists_mem_normalizer_comm_mem {Q U M : Subgroup G} (hQ : IsPGroup 2 Q) 
   have hNQ : N ≤ Q := inf_le_left.trans hUQ
   have hN2 : IsPGroup 2 N := hQ.to_le hNQ
   let M' : Subgroup ↥N := M.subgroupOf N
-  haveI hM'normal : M'.Normal :=
+  have hM'normal : M'.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hMN).mpr inf_le_right
   let α := ↥N ⧸ M'
-  letI : Fintype α := M'.fintypeQuotientOfFiniteIndex
+  let : Fintype α := M'.fintypeQuotientOfFiniteIndex
   let τ : ↥N → ↥N := fun x => ⟨t * (x : G) * t⁻¹, htN' x x.2⟩
   let σfun : α → α := Quotient.map' τ (fun a b hab => by
     rw [QuotientGroup.leftRel_apply] at hab ⊢
@@ -67,13 +67,13 @@ theorem exists_mem_normalizer_comm_mem {Q U M : Subgroup G} (hQ : IsPGroup 2 Q) 
       exact htM _ hab
     have heq : (τ a)⁻¹ * τ b = τ (a⁻¹ * b) := by
       apply Subtype.ext
-      simp only [τ, Subgroup.coe_mul, Subgroup.coe_inv, Subtype.coe_mk]
+      simp only [τ, Subgroup.coe_mul, Subgroup.coe_inv]
       group
     rw [heq]
     exact hmem)
   have hτ_inv : Function.Involutive τ := fun x => by
     apply Subtype.ext
-    simp only [τ, Subtype.coe_mk]
+    simp only [τ]
     have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht
     calc t * (t * (x : G) * t⁻¹) * t⁻¹
         = (t * t) * (x : G) * (t⁻¹ * t⁻¹) := by group
@@ -103,7 +103,7 @@ theorem exists_mem_normalizer_comm_mem {Q U M : Subgroup G} (hQ : IsPGroup 2 Q) 
   let a : α := QuotientGroup.mk (1 : ↥N)
   have hτ1 : τ (1 : ↥N) = 1 := by
     apply Subtype.ext
-    simp only [τ, Subtype.coe_mk, Subgroup.coe_one]
+    simp only [τ, Subgroup.coe_one]
     group
   have ha : σ a = a := by
     change σfun (QuotientGroup.mk (1 : ↥N)) = QuotientGroup.mk (1 : ↥N)
@@ -138,12 +138,12 @@ theorem exists_mem_normalizer_comm_mem {Q U M : Subgroup G} (hQ : IsPGroup 2 Q) 
     rwa [hcomm_eq]
 
 theorem isPGroup_of_prime_order_mem {p : ℕ} [Fact p.Prime] {X K : Subgroup G}
-    (hK : IsPGroup p K) (hKX : K ≤ X)
+    (hK : IsPGroup p K) (_hKX : K ≤ X)
     (h : ∀ x ∈ X, ∀ q : ℕ, q.Prime → q ≠ p → x ^ q = 1 → x ∈ K) : IsPGroup p X := by
   refine IsPGroup.of_card (Nat.eq_prime_pow_of_unique_prime_dvd ?_ ?_)
   · exact Nat.card_ne_zero.mpr ⟨⟨1, X.one_mem⟩, inferInstance⟩
   · intro d hdprime hddvd
-    haveI : Fact d.Prime := ⟨hdprime⟩
+    have : Fact d.Prime := ⟨hdprime⟩
     obtain ⟨x, hxord⟩ := exists_prime_orderOf_dvd_card' d hddvd
     have hxq : (x : G) ^ d = 1 := by
       rw [← hxord, ← Subgroup.orderOf_coe, pow_orderOf_eq_one]
@@ -155,8 +155,9 @@ theorem isPGroup_of_prime_order_mem {p : ℕ} [Fact p.Prime] {X K : Subgroup G}
     have hdvd : d ∣ p ^ k := ⟨1, by rw [hd, mul_one]⟩
     exact hdp (Nat.prime_eq_prime_of_dvd_pow hdprime (Fact.out : p.Prime) hdvd)
 
+omit [Finite G] in
 theorem comm_mem_of_odd_pow_eq_one {X W M : Subgroup G} {t : G} (hMW : M ≤ W)
-    (hMn : ∀ w ∈ W, ∀ m ∈ M, w * m * w⁻¹ ∈ M) (hab : ∀ w ∈ W, ∀ w' ∈ W, ⁅w, w'⁆ ∈ M)
+    (hMn : ∀ w ∈ W, ∀ m ∈ M, w * m * w⁻¹ ∈ M) (_hab : ∀ w ∈ W, ∀ w' ∈ W, ⁅w, w'⁆ ∈ M)
     (hsq : ∀ w ∈ W, w ^ 2 ∈ M) (hX : ∀ x ∈ X, ∀ w ∈ W, ⁅x, w⁆ ∈ M)
     (hc : ∀ x ∈ X, ⁅x, t⁆ ∈ W) {x : G} (hx : x ∈ X) {n : ℕ} (hn : Odd n) (hxn : x ^ n = 1) :
     ⁅x, t⁆ ∈ M := by

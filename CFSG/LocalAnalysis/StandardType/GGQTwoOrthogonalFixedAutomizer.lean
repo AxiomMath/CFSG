@@ -22,9 +22,9 @@ theorem four_dvd_fixed_of_full_data
     (h6 : 6 ≤ finrank K (fixedSpace (Δ.τ f₀))) :
     4 ∣ Nat.card (ggAutomizer (supportedFixedDerived Q (Δ.τ f₀)) E) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Finite V := Module.finite_of_finite K
-  letI : Finite (V ≃ₗ[K] V) :=
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Finite V := Module.finite_of_finite K
+  let : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V)) DFunLike.coe_injective
   let C := Fin n → Multiplicative (ZMod 3)
   let κ : C ≃* E := (MonoidHom.ofInjective Δ.τ_inj).trans

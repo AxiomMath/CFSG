@@ -11,7 +11,7 @@ theorem card_le_eight_of_quotient {S : Type*} [Group S] [Finite S] (B : Subgroup
     (hB2 : ∀ F : Subgroup S, F ≤ B → (∀ x ∈ F, x ^ 2 = 1) → Nat.card F ≤ 4)
     {E : Type*} [Group E] (hE : ∀ x : E, x ^ 2 = 1)
     (ρ : S →* E) (hρ : Function.Surjective ρ) : Nat.card E ≤ 8 := by
-  haveI : Finite E := Finite.of_surjective ρ hρ
+  have : Finite E := Finite.of_surjective ρ hρ
   have hidx : (B.map ρ).index ≤ 2 := by
     have hdvd := Subgroup.index_map_dvd (H := B) hρ
     have hB0 : B.index ≠ 0 := Subgroup.index_ne_zero_of_finite
@@ -91,11 +91,11 @@ theorem exists_isPGroup_map_eq {Γ Q : Type*} [Group Γ] [Finite Γ] [Group Q] (
     intro s
     obtain ⟨x, hx⟩ := hSf s.2
     exact ⟨⟨x, show f x ∈ S by rw [hx]; exact s.2⟩, Subtype.ext hx⟩
-  refine ⟨(T₀ : Subgroup Γ₁).map Γ₁.subtype, T₀.isPGroup'.map Γ₁.subtype, ?_⟩
+  refine ⟨(T₀ : Subgroup Γ₁).map Γ₁.subtype, T₀.isPGroup.map Γ₁.subtype, ?_⟩
   have hfin : Finite S := Finite.of_surjective g hg
   have htop : ((T₀.mapSurjective hg : Sylow p S) : Subgroup S) = ⊤ := by
     set P : Sylow p S := T₀.mapSurjective hg
-    haveI : (P : Subgroup S).FiniteIndex := P.finiteIndex_of_finite
+    have : (P : Subgroup S).FiniteIndex := P.finiteIndex_of_finite
     obtain ⟨n, hn⟩ := hS.index (P : Subgroup S)
     have hn0 : n = 0 := by
       by_contra hne

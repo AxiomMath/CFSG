@@ -77,8 +77,8 @@ theorem ggQ2s08d_full_split {G : Type} [Group G] [Finite G] {Bs L : Subgroup G} 
     Submodule.disjoint_span_singleton_of_notMem hxVnot
   have hcompl : IsCompl M.coSpan (Submodule.span (ZMod 3) {M.xV}) :=
     ⟨hdisj, codisjoint_iff.mpr hsup⟩
-  haveI : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
-  haveI : Module.Finite (ZMod 3) M.V := Module.Finite.of_finite
+  have : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
+  have : Module.Finite (ZMod 3) M.V := Module.Finite.of_finite
   have hfinrank : Module.finrank (ZMod 3) M.V = Fintype.card M.Λ + 1 := by
     have hcs : Module.finrank (ZMod 3) M.coSpan = Fintype.card M.Λ := by
       rw [GGQ2LDatum.coSpan]

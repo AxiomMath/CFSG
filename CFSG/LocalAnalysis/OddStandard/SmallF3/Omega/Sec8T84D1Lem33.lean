@@ -13,7 +13,7 @@ open Subgroup CFSG.EvenSporadicStandard.HSStd.Zassenhaus.A6A6
 private theorem sec8t84d1_trans_aux {E : Type} [Group E] [Finite E]
     {A : Subgroup (MulAut E)} (hA : Nonempty (↥A ≃* alternatingGroup (Fin 6)))
     {E1 E2 : Subgroup E}
-    (hE2 : ∀ a ∈ A, orderOf a = 5 → fixSub a = E2)
+    (_hE2 : ∀ a ∈ A, orderOf a = 5 → fixSub a = E2)
     (hsup : E1 ⊔ E2 = ⊤)
     (hcard1 : Nat.card E1 = 2 ^ 4)
     (hinv : ∀ a ∈ A, ∀ x ∈ E1, a x ∈ E1)

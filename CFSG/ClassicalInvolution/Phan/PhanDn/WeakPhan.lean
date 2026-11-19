@@ -68,9 +68,9 @@ theorem ggCoxeterMatrixD_eq_three_iff {n : ℕ} (hn : 4 ≤ n) (i j : Fin n) :
     · rintro (h | h)
       · exact absurd h (edgeD_irrefl n i)
       · exact absurd h (edgeD_irrefl n i)
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     by_cases hD : CartanMatrix.D n i j = 0
-    · rw [if_pos hD]
+    · rw [ite_eq_left hD]
       constructor
       · intro h
         omega
@@ -79,7 +79,7 @@ theorem ggCoxeterMatrixD_eq_three_iff {n : ℕ} (hn : 4 ≤ n) (i j : Fin n) :
             ((CFSG.ClassicalInvolution.RouteD.D_eq_zero_iff i j).1 hD).2
         · exact absurd ((routeD_dAdj_iff_edgeD hn i j).2 (Or.inr h))
             ((CFSG.ClassicalInvolution.RouteD.D_eq_zero_iff i j).1 hD).2
-    · rw [if_neg hD]
+    · rw [ite_eq_right hD]
       have hDAdj : CFSG.ClassicalInvolution.RouteD.DAdj n i j := by
         by_contra h
         exact hD ((CFSG.ClassicalInvolution.RouteD.D_eq_zero_iff i j).2 ⟨hij, h⟩)
@@ -97,9 +97,9 @@ theorem ggCoxeterMatrixD_eq_two_iff {n : ℕ} (hn : 4 ≤ n) (i j : Fin n) :
       omega
     · rintro ⟨h, -⟩
       exact absurd rfl h
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     by_cases hD : CartanMatrix.D n i j = 0
-    · rw [if_pos hD]
+    · rw [ite_eq_left hD]
       have hne : ¬ CFSG.ClassicalInvolution.RouteD.DAdj n i j :=
         ((CFSG.ClassicalInvolution.RouteD.D_eq_zero_iff i j).1 hD).2
       constructor
@@ -111,7 +111,7 @@ theorem ggCoxeterMatrixD_eq_two_iff {n : ℕ} (hn : 4 ≤ n) (i j : Fin n) :
           exact hne ((routeD_dAdj_iff_edgeD hn i j).2 (Or.inr h))
       · intro _
         rfl
-    · rw [if_neg hD]
+    · rw [ite_eq_right hD]
       constructor
       · intro h
         omega

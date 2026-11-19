@@ -83,7 +83,7 @@ theorem exists_torusCoord (n : ℕ) :
       omega
     refine Subgroup.mem_iSup_of_mem i ?_
     refine ⟨Multiplicative.ofAdd (1 : ZMod 3), ?_⟩
-    haveI : Fact (1 < 3) := ⟨by norm_num⟩
+    have : Fact (1 < 3) := ⟨by norm_num⟩
     rw [tCoord_apply, show omegaBlock n k = tG n i by rw [tG, hik], toAdd_ofAdd]
     change tG n i ^ (1 : ZMod 3).val = tG n i
     rw [ZMod.val_one 3, pow_one]
@@ -108,7 +108,7 @@ theorem exists_torusCoord (n : ℕ) :
   change tPhi n (Pi.mulSingle j (Multiplicative.ofAdd 1)) =
     omegaBlock n ⟨2 * j.val, two_mul_lt_of_lt_half j.isLt⟩
   rw [tPhi, MonoidHom.noncommPiCoprod_mulSingle, tCoord_apply]
-  haveI : Fact (1 < 3) := ⟨by norm_num⟩
+  have : Fact (1 < 3) := ⟨by norm_num⟩
   rw [toAdd_ofAdd, ZMod.val_one 3, pow_one]
   rfl
 

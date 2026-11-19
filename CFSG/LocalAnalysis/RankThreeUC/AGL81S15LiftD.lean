@@ -24,9 +24,9 @@ theorem not_k63List_three (hList : KListI1) {S : Type} [Group S] [Finite S] (hI1
   intro h
   unfold K63List at h
   rcases h with ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨-, ⟨e⟩⟩ | ⟨h5, -⟩ | ⟨h7, -⟩
-  · haveI := hS
-    haveI := not_k63List_three_aux_psl23_solvable
-    haveI : Group.IsSolvable S :=
+  · have := hS
+    have := not_k63List_three_aux_psl23_solvable
+    have : Group.IsSolvable S :=
       Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
     exact hnab ⟨⟨fun a b => IsSimpleGroup.comm_iff_isSolvable.2 inferInstance a b⟩⟩
   · exact (hList S hI1).1 ⟨e⟩
@@ -56,7 +56,7 @@ theorem k63_apply_aux_pElement_normal {Y : Type} [Group Y] (p : ℕ) :
     refine ⟨k, ?_⟩
     have := orderOf_injective (MulAut.conj g).toMonoidHom (MulAut.conj g).injective x
     simpa [MulAut.conj_apply, hk] using this
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
     rw [this]
@@ -69,7 +69,7 @@ theorem k63_apply_aux_pElement_normal {Y : Type} [Group Y] (p : ℕ) :
 theorem k63_apply_aux_rElement {r : ℕ} (hr : r.Prime) {X S : Type} [Group X] [Finite X] [Group S]
     [Finite S] (h : X →* S) (hh : Function.Surjective h) (hrS : r ∣ Nat.card S) :
     ∃ x : X, (∃ k : ℕ, orderOf x = r ^ k) ∧ h x ≠ 1 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨s, hs⟩ := exists_prime_orderOf_dvd_card' r hrS
   obtain ⟨y, rfl⟩ := hh s
   have hdvd : r ∣ orderOf y := hs ▸ orderOf_map_dvd h y
@@ -90,8 +90,8 @@ theorem k63_apply_aux_rElement {r : ℕ} (hr : r.Prime) {X S : Type} [Group X] [
 theorem k63_apply_aux_pPrimeCore_le_centralizer {r : ℕ} (hr : r.Prime) {G : Type} [Group G]
     [Finite G] (Q : Subgroup G) [Q.Normal] (hQ : IsPGroup r Q) :
     CFSG.pPrimeCore r G ≤ Subgroup.centralizer (Q : Set G) := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI hK₀n : (CFSG.pPrimeCore r G).Normal := CFSG.pPrimeCore_normal
+  have : Fact r.Prime := ⟨hr⟩
+  have hK₀n : (CFSG.pPrimeCore r G).Normal := CFSG.pPrimeCore_normal
   intro k hk
   rw [Subgroup.mem_centralizer_iff]
   intro q hq
@@ -117,12 +117,12 @@ theorem k63_apply_aux_pPrimeCore_le_centralizer {r : ℕ} (hr : r.Prime) {G : Ty
 
 theorem k63_apply_aux_solvable_normal_eq_bot {S : Type} [Group S] (hS : IsSimpleGroup S)
     (hnab : ¬ IsMulCommutative S) (B : Subgroup S) [B.Normal] [Group.IsSolvable ↥B] : B = ⊥ := by
-  haveI := hS
+  have := hS
   rcases (inferInstance : B.Normal).eq_bot_or_eq_top with h | h
   · exact h
   · exfalso
-    haveI : Group.IsSolvable ↥(⊤ : Subgroup S) := by rw [← h]; infer_instance
-    haveI : Group.IsSolvable S :=
+    have : Group.IsSolvable ↥(⊤ : Subgroup S) := by rw [← h]; infer_instance
+    have : Group.IsSolvable S :=
       Group.isSolvable_of_surjective (f := (⊤ : Subgroup S).subtype) (fun s => ⟨⟨s, trivial⟩, rfl⟩)
     exact hnab ⟨⟨fun a b => IsSimpleGroup.comm_iff_isSolvable.2 inferInstance a b⟩⟩
 
@@ -133,13 +133,13 @@ theorem k63_apply_core (hK63 : K63) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hr
     (f : ↥V →* S) (hf : Function.Surjective f) (hS : IsSimpleGroup S)
     (hnab : ¬ IsMulCommutative S) (hrS : r ∣ Nat.card S) : K63List r S := by
   subst hr3
-  haveI : Fact (Nat.Prime 3) := ⟨hr⟩
-  haveI : Finite S := Finite.of_surjective f hf
+  have : Fact (Nat.Prime 3) := ⟨hr⟩
+  have : Finite S := Finite.of_surjective f hf
   set K₀ : Subgroup G := CFSG.pPrimeCore 3 G with hK₀
-  haveI hK₀n : K₀.Normal := CFSG.pPrimeCore_normal
+  have hK₀n : K₀.Normal := CFSG.pPrimeCore_normal
   let π : G →* G ⧸ K₀ := QuotientGroup.mk' K₀
   set P : Subgroup (G ⧸ K₀) := CFSG.pCore 3 (G ⧸ K₀) with hP
-  haveI hPn : P.Normal := CFSG.pCore_normal
+  have hPn : P.Normal := CFSG.pCore_normal
   let φ : G →* (G ⧸ K₀) ⧸ P := (QuotientGroup.mk' P).comp π
   have hφ : Function.Surjective φ :=
     (QuotientGroup.mk'_surjective P).comp (QuotientGroup.mk'_surjective K₀)
@@ -177,23 +177,23 @@ theorem k63_apply_core (hK63 : K63) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hr
       exact P.one_mem
     have hK₀C : K₀ ≤ Subgroup.centralizer (Q : Set G) :=
       k63_apply_aux_pPrimeCore_le_centralizer hr Q hQ
-    haveI : Group.IsSolvable ↥K₀ :=
-      solvable_of_solvable_injective (f := Subgroup.inclusion hK₀C)
+    have : Group.IsSolvable ↥K₀ :=
+      Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hK₀C)
         (Subgroup.inclusion_injective hK₀C)
-    haveI : Group.IsSolvable ↥P := by
-      haveI := (CFSG.pCore_isPGroup (p := 3) (G := G ⧸ K₀)).isNilpotent
+    have : Group.IsSolvable ↥P := by
+      have := (CFSG.pCore_isPGroup (p := 3) (G := G ⧸ K₀)).isNilpotent
       infer_instance
     let f₁ : ↥K₀ →* ↥K₁ := Subgroup.inclusion hK₀le
     let g₁ : ↥K₁ →* ↥P := (π.comp K₁.subtype).codRestrict P (fun k => k.2)
-    refine solvable_of_ker_le_range f₁ g₁ ?_
+    refine Group.isSolvable_of_ker_le_range f₁ g₁ ?_
     intro x hx
     rw [MonoidHom.mem_ker] at hx
     have h1 : π x.1 = 1 := congrArg Subtype.val hx
     exact ⟨⟨x.1, (QuotientGroup.eq_one_iff _).1 h1⟩, rfl⟩
   have hker : g.ker ≤ f.ker := by
     set A : Subgroup ↥V := g.ker with hA
-    haveI : A.Normal := MonoidHom.normal_ker g
-    haveI : (A.map f).Normal := Subgroup.Normal.map inferInstance f hf
+    have : A.Normal := MonoidHom.normal_ker g
+    have : (A.map f).Normal := Subgroup.Normal.map inferInstance f hf
     have hmemK₁ : ∀ a : ↥A, ((a : ↥V) : G) ∈ K₁ := by
       intro a
       have h1 : g (a : ↥V) = 1 := a.2
@@ -205,10 +205,10 @@ theorem k63_apply_core (hK63 : K63) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hr
       apply Subtype.ext
       apply Subtype.ext
       exact congrArg (fun x : ↥K₁ => (x : G)) hab
-    haveI := hK₁solv
-    haveI hAs : Group.IsSolvable ↥A := solvable_of_solvable_injective hj
-    haveI : Group.IsSolvable ↥(A.map f) :=
-      solvable_of_surjective (MonoidHom.subgroupMap_surjective f A)
+    have := hK₁solv
+    have hAs : Group.IsSolvable ↥A := Group.isSolvable_of_isSolvable_injective hj
+    have : Group.IsSolvable ↥(A.map f) :=
+      Group.isSolvable_of_surjective (MonoidHom.subgroupMap_surjective f A)
     exact (Subgroup.map_eq_bot_iff _).1 (k63_apply_aux_solvable_normal_eq_bot hS hnab _)
   let h : (G ⧸ K₀) ⧸ P →* S := (g.liftOfSurjective hg) ⟨f, hker⟩
   have hh : ∀ v : ↥V, h (g v) = f v := fun v =>
@@ -218,13 +218,13 @@ theorem k63_apply_core (hK63 : K63) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hr
     obtain ⟨v, rfl⟩ := hf s
     exact ⟨g v, hh v⟩
   let H : Subgroup ((G ⧸ K₀) ⧸ P) := pElementSubgroup 3 (⊤ : Subgroup ((G ⧸ K₀) ⧸ P))
-  haveI hHn : H.Normal := k63_apply_aux_pElement_normal 3
+  have hHn : H.Normal := k63_apply_aux_pElement_normal 3
   let h' : ↥H →* S := h.comp H.subtype
   have hh' : Function.Surjective h' := by
     obtain ⟨x, hxr, hx1⟩ := k63_apply_aux_rElement hr h hhs hrS
     have hxH : x ∈ H := Subgroup.subset_closure ⟨Subgroup.mem_top _, hxr⟩
-    haveI : (H.map h).Normal := Subgroup.Normal.map hHn h hhs
-    haveI := hS
+    have : (H.map h).Normal := Subgroup.Normal.map hHn h hhs
+    have := hS
     rcases (inferInstance : (H.map h).Normal).eq_bot_or_eq_top with h0 | h0
     · exfalso
       have hmem : h x ∈ H.map h := Subgroup.mem_map_of_mem h hxH
@@ -240,14 +240,14 @@ theorem k63_apply_core (hK63 : K63) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hr
     ext x
     rw [Subgroup.mem_subgroupOf, Subgroup.mem_inf, MonoidHom.mem_ker, MonoidHom.mem_ker]
     exact ⟨fun hx => hx.2, fun hx => ⟨x.2, hx⟩⟩
-  haveI hN₁n : (N₁.subgroupOf H).Normal := by
+  have hN₁n : (N₁.subgroupOf H).Normal := by
     rw [hker']
     exact MonoidHom.normal_ker h'
   let eH : (↥H ⧸ N₁.subgroupOf H) ≃* S :=
     (QuotientGroup.quotientMulEquivOfEq hker').trans
       (QuotientGroup.quotientKerEquivOfSurjective h' hh')
   have hS' : IsSimpleGroup (↥H ⧸ N₁.subgroupOf H) := by
-    haveI := hS
+    have := hS
     exact eH.isSimpleGroup
   have hnab' : ¬ IsMulCommutative (↥H ⧸ N₁.subgroupOf H) := by
     intro hc
@@ -268,13 +268,13 @@ theorem k63_apply_amb (hK63 : K63) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hr3
     [Group Y] [Finite Y] (hY : CFSG.Open.IsKGroup Y) (hrk : CFSG.Open.pRank r (⊤ : Subgroup Y) ≤ 3)
     (Q V : Subgroup Y) [Q.Normal] (hQ : IsPGroup r Q)
     (hC : Group.IsSolvable ↥((Q ⊔ V) ⊓ Subgroup.centralizer (Q : Set Y)))
-    (N : Subgroup Y) (hNV : N ≤ V) [(N.subgroupOf V).Normal]
+    (N : Subgroup Y) (_hNV : N ≤ V) [(N.subgroupOf V).Normal]
     (hS : IsSimpleGroup (↥V ⧸ N.subgroupOf V)) (hnab : ¬ IsMulCommutative (↥V ⧸ N.subgroupOf V))
     (hrS : r ∣ Nat.card (↥V ⧸ N.subgroupOf V)) : K63List r (↥V ⧸ N.subgroupOf V) := by
   set W : Subgroup Y := Q ⊔ V with hW
   have hQW : Q ≤ W := le_sup_left
   have hVW : V ≤ W := le_sup_right
-  haveI hQn : (Q.subgroupOf W).Normal := ‹Q.Normal›.subgroupOf W
+  have hQn : (Q.subgroupOf W).Normal := ‹Q.Normal›.subgroupOf W
   have hKW : CFSG.Open.IsKGroup ↥W := hY.subgroup W
   have hrkW : CFSG.Open.pRank r (⊤ : Subgroup ↥W) ≤ 3 := by
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup (p := r) W]
@@ -302,8 +302,8 @@ theorem k63_apply_amb (hK63 : K63) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hr3
       apply Subtype.ext
       apply Subtype.ext
       exact congrArg (fun x : ↥(W ⊓ Subgroup.centralizer (Q : Set Y)) => (x : Y)) hab
-    haveI := hC
-    exact solvable_of_solvable_injective hj
+    have := hC
+    exact Group.isSolvable_of_isSolvable_injective hj
   let e : ↥(V.subgroupOf W) ≃* ↥V := Subgroup.subgroupOfEquivOfLe hVW
   exact k63_apply_core hK63 hr hr2 hr3 hKW hrkW (Q.subgroupOf W) (V.subgroupOf W) hQpg hsup hC'
     ((QuotientGroup.mk' (N.subgroupOf V)).comp e.toMonoidHom)

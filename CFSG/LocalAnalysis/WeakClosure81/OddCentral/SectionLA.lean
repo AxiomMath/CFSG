@@ -9,7 +9,7 @@ theorem exists_fixed_mem_coset {Y : Type} [Group Y] [Finite Y] {Z : Subgroup Y} 
     (hZodd : Odd (Nat.card Z)) {u : Y} (hu : u * u = 1) {a : Y}
     (ha : u * a * u⁻¹ * a⁻¹ ∈ Z) : ∃ z ∈ Z, u * (a * z) * u⁻¹ = a * z := by
   classical
-  haveI : Fintype Z := Fintype.ofFinite Z
+  have : Fintype Z := Fintype.ofFinite Z
   have hui : u⁻¹ = u := inv_eq_of_mul_eq_one_right hu
   have hmem : ∀ z ∈ Z, a⁻¹ * (u * (a * z) * u⁻¹) ∈ Z := by
     intro z hz
@@ -27,7 +27,7 @@ theorem exists_fixed_mem_coset {Y : Type} [Group Y] [Finite Y] {Z : Subgroup Y} 
     rw [show a⁻¹ * (u * (a * (a⁻¹ * (u * (a * ↑z) * u⁻¹))) * u⁻¹) =
       a⁻¹ * ((u * u) * (a * z) * (u⁻¹ * u⁻¹)) by group, hu, ← mul_inv_rev, hu]
     group
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmod := Equiv.Perm.card_fixedPoints_modEq (p := 2) (n := 1) hf2
   rw [← Nat.card_eq_fintype_card] at hmod
   have hpos : 0 < Fintype.card (Function.fixedPoints f) := by

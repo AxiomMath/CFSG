@@ -41,7 +41,7 @@ private theorem q2Nil_mul (C C' : Matrix (Fin 2) (Fin 2) K) : q2Nil C * q2Nil C'
   rw [Matrix.mul_apply, sum_ix]
   rcases ix_cases i with rfl | rfl | rfl | rfl <;>
     rcases ix_cases j with rfl | rfl | rfl | rfl <;>
-    simp [q2Nil, Matrix.single_apply]
+    simp [q2Nil]
 
 private theorem q2Mat_mul (C C' : Matrix (Fin 2) (Fin 2) K) :
     q2Mat C * q2Mat C' = q2Mat (C + C') := by
@@ -148,25 +148,25 @@ theorem q2Blk_mem_herm [CharP K 2] (h : UnitaryFieldData 2 m K)
   · have e := congrFun (congrFun hgram if1) if1
     rw [Matrix.mul_apply, sum_ix] at e
     simp only [mul_hypGram_apply, transpose_apply, map_apply] at e
-    simp [q2Mat_apply, one_apply, hypGram_apply, frobPow, ie1, ie2, if1, if2] at e
+    simp [q2Mat_apply, one_apply, hypGram_apply, ie1, ie2, if1, if2] at e
     rw [add_eq_zero_iff_eq_neg, CharTwo.neg_eq] at e
     exact e.symm
   · have e := congrFun (congrFun hgram if1) if2
     rw [Matrix.mul_apply, sum_ix] at e
     simp only [mul_hypGram_apply, transpose_apply, map_apply] at e
-    simp [q2Mat_apply, one_apply, hypGram_apply, frobPow, ie1, ie2, if1, if2] at e
+    simp [q2Mat_apply, one_apply, hypGram_apply, ie1, ie2, if1, if2] at e
     rw [add_eq_zero_iff_eq_neg, CharTwo.neg_eq] at e
     exact e.symm
   · have e := congrFun (congrFun hgram if2) if1
     rw [Matrix.mul_apply, sum_ix] at e
     simp only [mul_hypGram_apply, transpose_apply, map_apply] at e
-    simp [q2Mat_apply, one_apply, hypGram_apply, frobPow, ie1, ie2, if1, if2] at e
+    simp [q2Mat_apply, one_apply, hypGram_apply, ie1, ie2, if1, if2] at e
     rw [add_eq_zero_iff_eq_neg, CharTwo.neg_eq] at e
     exact e.symm
   · have e := congrFun (congrFun hgram if2) if2
     rw [Matrix.mul_apply, sum_ix] at e
     simp only [mul_hypGram_apply, transpose_apply, map_apply] at e
-    simp [q2Mat_apply, one_apply, hypGram_apply, frobPow, ie1, ie2, if1, if2] at e
+    simp [q2Mat_apply, one_apply, hypGram_apply, ie1, ie2, if1, if2] at e
     rw [add_eq_zero_iff_eq_neg, CharTwo.neg_eq] at e
     exact e.symm
 
@@ -184,8 +184,7 @@ private theorem q2Blk_add (h : UnitaryFieldData 2 m K) {q q' : hypSU h 2 0}
   fin_cases i <;> fin_cases j <;>
     simp only [q2Blk, Matrix.of_apply, coe_mul_hypSU, Matrix.mul_apply, sum_ix,
       Matrix.add_apply] <;>
-    simp [a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
-      b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, one_apply] <;> ring
+    simp [a1, a2, a3, a4, b7, b8, b11, b12] <;> ring
 
 private noncomputable def slInvMat (A : Matrix.SpecialLinearGroup (Fin 2) K) :
     Matrix (Fin 2) (Fin 2) K :=
@@ -234,7 +233,7 @@ private theorem lev2Mat_conj_single [CharP K 2] (h : UnitaryFieldData 2 m K)
     · simp [Matrix.single_apply, eq_comm]
     · intro c _ hc
       have hc' : eIdx a ≠ c := fun h => hc h.symm
-      simp [Matrix.single_apply, hc, hc']
+      simp [hc']
     · intro h
       exact absurd (Finset.mem_univ (eIdx a)) h
   rw [Matrix.mul_apply]
@@ -365,7 +364,7 @@ private theorem mem_hermA_off [CharP K 2] :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [frobPow]
 
-private theorem eq_one_of_forall_twistAct [CharP K 2] (h : UnitaryFieldData 2 m K)
+private theorem eq_one_of_forall_twistAct [CharP K 2] (_h : UnitaryFieldData 2 m K)
     (A : Matrix.SpecialLinearGroup (Fin 2) K)
     (hA : ∀ C ∈ hermA m K, twistActCh6 m A C = C) : A = 1 := by
   have hA' : ∀ C ∈ hermA m K, A.1 * C * (A.1.map (fun x => x ^ 2 ^ m))ᵀ = C := by
@@ -399,20 +398,20 @@ private theorem eq_one_of_forall_twistAct [CharP K 2] (h : UnitaryFieldData 2 m 
       _ = (A.1 * C * (A.1.map (fun x => x ^ 2 ^ m))ᵀ) * A.1 := by noncomm_ring
       _ = C * A.1 := by rw [hAC]
   have h01 : A.1 0 1 = 0 := by
-    have h := hcomm !![1, 0; 0, 0] hE11
-    have e := congrFun (congrFun h 0) 1
+    have _h := hcomm !![1, 0; 0, 0] hE11
+    have e := congrFun (congrFun _h 0) 1
     simpa [Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Fin.zero_eta,
       Fin.mk_one, Fin.isValue, Matrix.cons_val', Matrix.cons_val_zero,
       Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one] using e.symm
   have h10 : A.1 1 0 = 0 := by
-    have h := hcomm !![1, 0; 0, 0] hE11
-    have e := congrFun (congrFun h 1) 0
+    have _h := hcomm !![1, 0; 0, 0] hE11
+    have e := congrFun (congrFun _h 1) 0
     simpa [Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Fin.zero_eta,
       Fin.mk_one, Fin.isValue, Matrix.cons_val', Matrix.cons_val_zero,
       Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one] using e
   have hdiag : A.1 0 0 = A.1 1 1 := by
-    have h := hcomm !![0, 1; 1, 0] hoff
-    have e := congrFun (congrFun h 0) 1
+    have _h := hcomm !![0, 1; 1, 0] hoff
+    have e := congrFun (congrFun _h 0) 1
     simpa [Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Fin.zero_eta,
       Fin.mk_one, Fin.isValue, Matrix.cons_val', Matrix.cons_val_zero,
       Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one, h01, h10] using e
@@ -427,15 +426,15 @@ private theorem eq_one_of_forall_twistAct [CharP K 2] (h : UnitaryFieldData 2 m 
     · rw [h1, CharTwo.neg_eq]
   apply Subtype.ext
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [h00, hdiag, h01, h10, ← hdiag]
+  fin_cases i <;> fin_cases j <;> simp [h00, h01, h10, ← hdiag]
 
 theorem radQ2_irreducible (h : UnitaryFieldData 2 m K)
     (W : Subgroup (hypSU h 2 0)) (hW : W ≤ radQ2 h)
     (hWN : (lev2Hom h).range ≤ Subgroup.normalizer (W : Set (hypSU h 2 0))) :
     W = ⊥ ∨ W = radQ2 h := by
-  haveI := h.charP
-  haveI := h.finite
-  haveI : Fintype K := Fintype.ofFinite K
+  have := h.charP
+  have := h.finite
+  have : Fintype K := Fintype.ofFinite K
   by_cases hbot : W = ⊥
   · exact Or.inl hbot
   right
@@ -497,7 +496,7 @@ theorem radQ2_irreducible (h : UnitaryFieldData 2 m K)
 
 private theorem inf_centralizer_radQ2_le (h : UnitaryFieldData 2 m K) :
     perfectCore (parP2 h) ⊓ Subgroup.centralizer (radQ2 h : Set (hypSU h 2 0)) ≤ radQ2 h := by
-  haveI := h.charP
+  have := h.charP
   rintro x ⟨hxL, hxC⟩
   have hxH : x ∈ parH2 h := perfectCore_parP2_le_parH2 h hxL
   set A : Matrix.SpecialLinearGroup (Fin 2) K := rho2F h ⟨x, hxH⟩ with hA
@@ -518,7 +517,7 @@ private theorem inf_centralizer_radQ2_le (h : UnitaryFieldData 2 m K) :
 
 private theorem exists_radQ2_commutator_ne_one (h : UnitaryFieldData 2 m K) :
     ∃ q ∈ radQ2 h, ∃ A : Matrix.SpecialLinearGroup (Fin 2) K, ⁅q, lev2Hom h A⁆ ≠ 1 := by
-  haveI := h.charP
+  have := h.charP
   let C0 : Matrix (Fin 2) (Fin 2) K := !![1, 0; 0, 0]
   have hC0 : C0 ∈ hermA m K := by
     rw [mem_hermA]
@@ -550,7 +549,7 @@ private theorem exists_radQ2_commutator_ne_one (h : UnitaryFieldData 2 m K) :
 
 theorem commutator_radQ2_lev2_eq (h : UnitaryFieldData 2 m K) :
     ⁅radQ2 h, (lev2Hom h).range⁆ = radQ2 h := by
-  haveI := h.charP
+  have := h.charP
   have hLN : perfectCore (parP2 h) ≤ Subgroup.normalizer (radQ2 h : Set (hypSU h 2 0)) :=
     (perfectCore_le (parP2 h)).trans (parP2_le_normalizer_radQ2 h)
   have hle : ⁅radQ2 h, (lev2Hom h).range⁆ ≤ radQ2 h :=
@@ -592,7 +591,7 @@ theorem pCoreOf_perfectCore_parP2_eq' (h : UnitaryFieldData 2 m K) :
 private theorem eq_one_of_mem_radQ2_centralizer (h : UnitaryFieldData 2 m K)
     {q : hypSU h 2 0} (hq : q ∈ radQ2 h)
     (hcent : ∀ ℓ ∈ perfectCore (parP2 h), q * ℓ = ℓ * q) : q = 1 := by
-  haveI := h.charP
+  have := h.charP
   let W : Subgroup (hypSU h 2 0) :=
     radQ2 h ⊓ Subgroup.centralizer (perfectCore (parP2 h) : Set (hypSU h 2 0))
   have hLN : perfectCore (parP2 h) ≤ Subgroup.normalizer (radQ2 h : Set (hypSU h 2 0)) :=
@@ -710,7 +709,7 @@ private noncomputable def quotEquivSL2 (h : UnitaryFieldData 2 m K) :
 private theorem isQuasisimple_quot (h : UnitaryFieldData 2 m K) :
     CFSG.IsQuasisimple
       (↥(perfectCore (parP2 h)) ⧸ CFSG.pCore 2 (perfectCore (parP2 h))) := by
-  haveI := h.charP
+  have := h.charP
   have h4 : 4 ≤ Nat.card K := four_le_card h
   have hperf : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) K) := by
     rw [Group.isPerfect_def, commutator_def]
@@ -766,7 +765,7 @@ private theorem q2BlkHom_ker (h : UnitaryFieldData 2 m K) : (q2BlkHom h).ker = �
 
 theorem blockZ_perfectCore_parP2 (h : UnitaryFieldData 2 m K) :
     blockZ (perfectCore (parP2 h)) = ⊥ := by
-  haveI := h.charP
+  have := h.charP
   have hU : blockU (perfectCore (parP2 h)) = radQ2 h := blockU_perfectCore_parP2 h
   rw [blockZ, hU]
   refine le_bot_iff.mp ?_
@@ -779,8 +778,8 @@ theorem blockZ_perfectCore_parP2 (h : UnitaryFieldData 2 m K) :
 theorem _root_.CFSG.Quasithin.F112R.isShort2_perfectCore_parP2 {m : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 m K) :
     IsShort2 (perfectCore (parP2 h)) := by
-  haveI := h.charP
-  haveI := finite_hypSU h
+  have := h.charP
+  have := finite_hypSU h
   set L := perfectCore (parP2 h) with hLdef
   have hQ : blockQ L = radQ2 h := pCoreOf_perfectCore_parP2_eq' h
   have hU : blockU L = radQ2 h := blockU_perfectCore_parP2 h
@@ -792,11 +791,11 @@ theorem _root_.CFSG.Quasithin.F112R.isShort2_perfectCore_parP2 {m : ℕ} {K : Ty
     Group.isPerfect_def.mp (Subgroup.isPerfect_iff.mpr hperf)
   refine ⟨?_, ?_, ⟨?_, ?_⟩, Or.inl (isQuasisimple_quot h), ?_, ?_⟩
   · intro N hN hN2
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     by_contra hNtop
-    haveI : Nontrivial (↥L ⧸ N) := QuotientGroup.nontrivial_iff.mpr hNtop
-    haveI : Group.IsNilpotent (↥L ⧸ N) := hN2.isNilpotent
-    haveI : Group.IsSolvable (↥L ⧸ N) := inferInstance
+    have : Nontrivial (↥L ⧸ N) := QuotientGroup.nontrivial_iff.mpr hNtop
+    have : Group.IsNilpotent (↥L ⧸ N) := hN2.isNilpotent
+    have : Group.IsSolvable (↥L ⧸ N) := inferInstance
     have hle : (⊤ : Subgroup ↥L) ≤ N :=
       Subgroup.le_of_commutator_eq_self_of_isSolvable_quotient (M := N) (H := ⊤) hperfTop
     exact hNtop (top_le_iff.mp hle)
@@ -821,9 +820,9 @@ theorem _root_.CFSG.Quasithin.F112R.isOmega4MinusType_perfectCore_parP2 {m : ℕ
     [Field K]
     (h : UnitaryFieldData 2 m K) :
     IsOmega4MinusType (perfectCore (parP2 h)) m := by
-  haveI := h.charP
-  haveI := h.finite
-  letI : Fintype K := Fintype.ofFinite K
+  have := h.charP
+  have := h.finite
+  let : Fintype K := Fintype.ofFinite K
   have hU : blockU (perfectCore (parP2 h)) = radQ2 h := blockU_perfectCore_parP2 h
   let eU : ↥(blockU (perfectCore (parP2 h))) ≃* ↥(radQ2 h) := MulEquiv.subgroupCongr hU
   let β : ↥(blockU (perfectCore (parP2 h))) →* Multiplicative (Matrix (Fin 2) (Fin 2) K) :=

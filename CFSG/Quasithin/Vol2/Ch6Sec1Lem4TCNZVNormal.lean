@@ -127,7 +127,7 @@ theorem nZVNormalFact_of (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39ForSQTK
       exact Subgroup.mem_map.mpr ⟨y, Subgroup.mem_subgroupOf.mpr
         (hK₁L' (Subgroup.mem_subgroupOf.mp hy)), rfl⟩
     have hK₁perf : Group.IsPerfect ↥K₁ := Subgroup.isPerfect_iff.mpr hK₁.2.1
-    haveI := hK₁perf
+    have := hK₁perf
     have hperf : Group.IsPerfect ↥(modO2Image H K₁) := Group.IsPerfect.ofSurjective (f := ψ) hψ
     have hI := init_of_a312Nonquasi hBL hperf hnq
     rw [hBcard] at hI

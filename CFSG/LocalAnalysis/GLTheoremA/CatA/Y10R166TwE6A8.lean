@@ -31,6 +31,7 @@ variable {f : ℕ} {K : Type} [Field K] [Finite K] {σ : K ≃+* K}
   {Ω : Type} [Field Ω] [Algebra K Ω] [IsAlgClosure K Ω] [IsAlgClosed Ω] [CharP Ω 2]
   {Fr : Ω →+* Ω}
 
+omit [Finite K] in
 theorem twE6_isComponentOf_and_glaLayer_eq_centralizer (hf : 2 ≤ f)
     (hK : Nat.card K = (2 ^ f) ^ 2) (hσ : ∀ c, σ c = c ^ (2 ^ f))
     (hFr : ∀ c, Fr c = c ^ (2 ^ f)) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
@@ -41,16 +42,16 @@ theorem twE6_isComponentOf_and_glaLayer_eq_centralizer (hf : 2 ≤ f)
     (hxval : (x : ModGL Tag.E6 Ω) = rootDiagUnit Tag.E6 (twE6omega1Tuple ζ))
     (hx1 : x ≠ 1) :
     CFSG.Open.IsComponentOf
-        ((twE6JStar (Fr := Fr) (q := q) (ζ := ζ) i).subgroupOf
+        ((twE6JStar (Fr := Fr) (_q := q) (ζ := ζ) i).subgroupOf
           ⁅thetaFixed Fr, thetaFixed Fr⁆)
         (Subgroup.centralizer ({x})) ∧
       CFSG.Open.GLALayer (Subgroup.centralizer ({x})) =
-        (twE6JStar (Fr := Fr) (q := q) (ζ := ζ) i).subgroupOf
+        (twE6JStar (Fr := Fr) (_q := q) (ζ := ζ) i).subgroupOf
           ⁅thetaFixed Fr, thetaFixed Fr⁆ := by
   classical
   let C : Subgroup (ModGL Tag.E6 Ω) := ⁅thetaFixed Fr, thetaFixed Fr⁆
   let S : LangSetup Tag.E6 Ω q := twE6EnnolaSetup (Fr := Fr) hf hK hσ hFr hq hqdvd
-  let J : Subgroup ↥C := (twE6JStar (Fr := Fr) (q := q) (ζ := ζ) i).subgroupOf C
+  let J : Subgroup ↥C := (twE6JStar (Fr := Fr) (_q := q) (ζ := ζ) i).subgroupOf C
   let d : ModGL Tag.E6 Ω := rootDiagUnit Tag.E6 (twE6omega1Tuple ζ)
   let H : Subgroup (ModGL Tag.E6 Ω) := S.Γ ⊓ Subgroup.centralizer {d}
   have hT : d ∈ S.D.torus := by
@@ -83,12 +84,12 @@ theorem twE6_isComponentOf_and_glaLayer_eq_centralizer (hf : 2 ≤ f)
     exact twE6_isQuasisimple_omega1 hf hK hσ hFr hq hq2 hqdvd hζq hζ1 j
   have hker : kernelRoots (rootCharHom (twE6omega1Tuple ζ)) = twE6D5 :=
     kernelRoots_omega1 hq hζq hζ1
-  haveI hsub : Subsingleton (KernelComponent (rootCharHom (twE6omega1Tuple ζ))) := by
+  have hsub : Subsingleton (KernelComponent (rootCharHom (twE6omega1Tuple ζ))) := by
     refine ⟨fun a b => ?_⟩
     obtain ⟨α, rfl⟩ := Quotient.exists_rep a
     obtain ⟨β, rfl⟩ := Quotient.exists_rep b
     exact twE6D5_mk_eq hker
-  haveI : Finite ↥C := S.finite_Γ
+  have : Finite ↥C := S.finite_Γ
   have hrange : C.subtype.range = S.Γ := by
     rw [Subgroup.range_subtype]
     exact (twE6EnnolaSetup_Gamma (Fr := Fr) hf hK hσ hFr hq hqdvd).symm
@@ -100,7 +101,7 @@ theorem twE6_isComponentOf_and_glaLayer_eq_centralizer (hf : 2 ≤ f)
   have hcd : H ≤ C.subtype.range := by
     rw [hrange]
     exact inf_le_left
-  have hcompR : CFSG.Open.IsComponentOf (twE6JStar (Fr := Fr) (q := q) (ζ := ζ) i) H := by
+  have hcompR : CFSG.Open.IsComponentOf (twE6JStar (Fr := Fr) (_q := q) (ζ := ζ) i) H := by
     obtain ⟨hle, hsubn⟩ := langSubnormal_of_mem_torus S hT i
     refine ⟨hle, (CFSG.Open.IsSubnormal.iff_subgroupOf hle).2 hsubn, ?_⟩
     exact ⟨(twE6_isQuasisimple_omega1 hf hK hσ hFr hq hq2 hqdvd hζq hζ1 i).1.commutator_eq_top,
@@ -111,7 +112,7 @@ theorem twE6_isComponentOf_and_glaLayer_eq_centralizer (hf : 2 ≤ f)
     rw [← hfixmap]
     exact Subgroup.comap_map_eq_self_of_injective C.subtype_injective _
   have hcompJ : CFSG.Open.IsComponentOf
-      ((twE6JStar (Fr := Fr) (q := q) (ζ := ζ) i).comap C.subtype)
+      ((twE6JStar (Fr := Fr) (_q := q) (ζ := ζ) i).comap C.subtype)
       (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup (MulAut.conj x)) := by
     have h := isComponentOf_comap_of_injective C.subtype C.subtype_injective
       (hcompR.1.trans hcd) hcd hcompR
@@ -142,7 +143,7 @@ theorem twE6_isComponentOf_and_glaLayer_eq_centralizer (hf : 2 ≤ f)
   have hji : j = i := Subsingleton.elim j i
   rw [hji] at hPj
   intro p hp
-  have hpm : (p : ModGL Tag.E6 Ω) ∈ twE6JStar (Fr := Fr) (q := q) (ζ := ζ) i := by
+  have hpm : (p : ModGL Tag.E6 Ω) ∈ twE6JStar (Fr := Fr) (_q := q) (ζ := ζ) i := by
     have h1' := Subgroup.mem_map_of_mem C.subtype hp
     rw [hPj] at h1'
     exact h1'
@@ -172,12 +173,12 @@ theorem twE6_exists_x_J (hf : 2 ≤ f)
         HasLabel ↥J (· = ⟨.twD, 5, f⟩) ∧
         Subgroup.center ↥J = ⊥ ∧ TrivialMultiplierT ↥J := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let C : Subgroup (ModGL Tag.E6 Ω) := ⁅thetaFixed Fr, thetaFixed Fr⁆
   let x : ↥C :=
     twE6xStar (ℓ := 2) (σ := σ.toRingHom) Nat.prime_two (by omega) hK (fun c => hσ c) hFr
       hq hq2 hqdvd hq3 hζq hζ1
-  let J : Subgroup ↥C := (twE6JStar (Fr := Fr) (q := q) (ζ := ζ) i).subgroupOf C
+  let J : Subgroup ↥C := (twE6JStar (Fr := Fr) (_q := q) (ζ := ζ) i).subgroupOf C
   have hxval : (x : ModGL Tag.E6 Ω) = rootDiagUnit Tag.E6 (twE6omega1Tuple ζ) := rfl
   have hxq : x ^ q = 1 :=
     twE6xStar_pow_eq_one (ℓ := 2) Nat.prime_two (by omega) hK (fun c => hσ c) hFr hq hq2
@@ -188,7 +189,7 @@ theorem twE6_exists_x_J (hf : 2 ≤ f)
       hq2 hqdvd hq3 hζq hζ1 (Subtype.ext (congrArg Subtype.val h))
   have hcomp := twE6_isComponentOf_and_glaLayer_eq_centralizer hf hK hσ hFr hq hq2 hqdvd
     hζq hζ1 i x hxval hx1
-  have hJle : twE6JStar (Fr := Fr) (q := q) (ζ := ζ) i ≤ C :=
+  have hJle : twE6JStar (Fr := Fr) (_q := q) (ζ := ζ) i ≤ C :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.E6Three.KSGen.rationalComponent_le_Γ
       (twE6EnnolaSetup (Fr := Fr) hf hK hσ hFr hq hqdvd) i
   have hJq : CFSG.IsQuasisimple ↥J :=
@@ -199,11 +200,11 @@ theorem twE6_exists_x_J (hf : 2 ≤ f)
       (twE6_hasLabel_omega1 hf hK hσ hFr hq hq2 hqdvd hζq hζ1 i)
   have hZJ : Subgroup.center ↥J = ⊥ := by
     let e := Subgroup.subgroupOfEquivOfLe hJle
-    have hZj : Subgroup.center ↥(twE6JStar (Fr := Fr) (q := q) (ζ := ζ) i) = ⊥ :=
+    have hZj : Subgroup.center ↥(twE6JStar (Fr := Fr) (_q := q) (ζ := ζ) i) = ⊥ :=
       (twE6_center_eq_bot_and_trivialMultiplierT hf hK hσ hFr hq hq2 hqdvd hζq hζ1 i).1
     rw [eq_bot_iff]
     intro z hz
-    have hz' : e z ∈ Subgroup.center ↥(twE6JStar (Fr := Fr) (q := q) (ζ := ζ) i) := by
+    have hz' : e z ∈ Subgroup.center ↥(twE6JStar (Fr := Fr) (_q := q) (ζ := ζ) i) := by
       rw [Subgroup.mem_center_iff] at hz ⊢
       intro w
       obtain ⟨y, rfl⟩ := e.surjective w

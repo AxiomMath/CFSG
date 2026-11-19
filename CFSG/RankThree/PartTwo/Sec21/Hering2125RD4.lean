@@ -68,7 +68,7 @@ theorem d4_cases {G : Type} [Group G] [Finite G] {Y I : Subgroup G} {c : G}
   have hJS : imageI Y I = (KS11Lie4Proof.d4ShortSL2 K σ.toRingHom).comap e.toMonoidHom :=
     hB.eq hJz
   obtain ⟨e₂⟩ := KS11Lie4Proof.nonempty_mulEquiv_d4ShortSL2 (K := K) hσ3
-  haveI hFin : Finite (orbitField TwistTag.D4 K σ.toRingHom KS11Lie4Proof.d4Outer) :=
+  have hFin : Finite (orbitField TwistTag.D4 K σ.toRingHom KS11Lie4Proof.d4Outer) :=
     Subtype.finite
   have hcardF := KS11Lie4Proof.natCard_orbitField_d4Outer hσ3
   have hq2 : 2 ≤ q' := by

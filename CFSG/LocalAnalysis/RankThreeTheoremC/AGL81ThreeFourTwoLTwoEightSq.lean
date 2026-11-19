@@ -60,11 +60,11 @@ theorem isSolvable_of_le_prod {p : ℕ} [Fact p.Prime] [Finite X] [IsSimpleGroup
     {H : Subgroup (X × X)} (S : Sylow p (X × X)) (hSH : (S : Subgroup (X × X)) ≤ H)
     (h₁ : ¬ (MonoidHom.snd X X).ker ≤ H) (h₂ : ¬ (MonoidHom.fst X X).ker ≤ H) :
     Group.IsSolvable H := by
-  haveI := hsol _ (map_proj_ne_top hpX S hSH (MonoidHom.fst X X) (MonoidHom.snd X X)
+  have := hsol _ (map_proj_ne_top hpX S hSH (MonoidHom.fst X X) (MonoidHom.snd X X)
     (MonoidHom.inl X X) (fun _ => rfl) (fun _ => rfl)
     (fun y hy => Prod.ext rfl (by simpa using hy.symm))
     (fun h a => Prod.ext (by simp) (by simp)) h₁)
-  haveI := hsol _ (map_proj_ne_top hpX S hSH (MonoidHom.snd X X) (MonoidHom.fst X X)
+  have := hsol _ (map_proj_ne_top hpX S hSH (MonoidHom.snd X X) (MonoidHom.fst X X)
     (MonoidHom.inr X X) (fun _ => rfl) (fun _ => rfl)
     (fun y hy => Prod.ext (by simpa using hy.symm) rfl)
     (fun h a => Prod.ext (by simp) (by simp)) h₂)
@@ -81,8 +81,8 @@ end Product
 private theorem isComponentOf_top_of_le {Y : Type*} [Group Y] {K L : Subgroup Y} [K.Normal]
     (hLK : L ≤ K) (hLn : (L.subgroupOf K).Normal) (hL : IsSimpleGroup L)
     (hnab : ∃ a b : L, a * b ≠ b * a) : IsComponentOf L ⊤ := by
-  haveI := hL
-  haveI : Group.IsPerfect L := ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top L hnab⟩
+  have := hL
+  have : Group.IsPerfect L := ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top L hnab⟩
   exact ⟨le_top, IsSubnormal.step hLK hLn (IsSubnormal.step le_top inferInstance
     (IsSubnormal.refl ⊤)), CFSG.ComponentClassification.Quasisimple.simple_of_perfect L⟩
 
@@ -97,7 +97,7 @@ private theorem isComponentOf_factor {Y X : Type*} [Group Y] [Group X] [IsSimple
   let φ : X ≃* M.map K.subtype :=
     (MonoidHom.ofInjective hι).trans ((equivMapOfInjective ι.range e.symm.toMonoidHom
       e.symm.injective).trans (equivMapOfInjective M K.subtype K.subtype_injective))
-  haveI : IsSimpleGroup (M.map K.subtype) := φ.symm.isSimpleGroup
+  have : IsSimpleGroup (M.map K.subtype) := φ.symm.isSimpleGroup
   have hMn' : ((M.map K.subtype).subgroupOf K).Normal := by rw [hsub]; exact hMn
   refine isComponentOf_top_of_le (map_subtype_le M) hMn' inferInstance ?_
   obtain ⟨a, b, hab⟩ := hnab
@@ -107,12 +107,12 @@ private theorem isComponentOf_factor {Y X : Type*} [Group Y] [Group X] [IsSimple
 theorem threeFourTwoLTwoEightSq_holds : ThreeFourTwoLTwoEightSq := by
   intro q d hq2 hq3 hd
   obtain ⟨hs, hnab, hout⟩ := lTwoEight_catalog_facts hq2 hq3 hd
-  haveI := hs
-  haveI := finite_lTwoEight hq2 hq3 hd
+  have := hs
+  have := finite_lTwoEight hq2 hq3 hd
   have hZ := CFSG.ComponentClassification.Helpers.center_eq_bot _ hnab
   have hSC : CFSG.ComponentClassification.AutL2Facts.SimpleCentreless
       (TauCeti.CFSGIndex.lie d).Group := by
-    refine ⟨fun N hN => by haveI := hN; exact IsSimpleGroup.eq_bot_or_eq_top_of_normal N,
+    refine ⟨fun N hN => by have := hN; exact IsSimpleGroup.eq_bot_or_eq_top_of_normal N,
       fun z hz => ?_, ?_⟩
     · have hz' : z ∈ center (TauCeti.CFSGIndex.lie d).Group :=
         mem_center_iff.mpr fun g => (hz g).symm
@@ -125,8 +125,8 @@ theorem threeFourTwoLTwoEightSq_holds : ThreeFourTwoLTwoEightSq := by
     (CFSG.LocalAnalysis.UniquenessCase.PartTwo.s16c167_frame_outer_square_solvable hSC hout) ?_
   · rw [Subgroup.center_prod, hZ, bot_prod_bot]
   intro Y _ _ K Y₀ E R hp _ hKn hKX _ _ hcomp _ _ _ _ hRY₀ J hJ hJ1 hJp _ _
-  haveI := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have := hKn
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨e⟩ := hKX
   set X := (TauCeti.CFSGIndex.lie d).Group
   set H : Subgroup (X × X) := (Y₀.subgroupOf K).map e.toMonoidHom with hHdef
@@ -164,7 +164,7 @@ theorem threeFourTwoLTwoEightSq_holds : ThreeFourTwoLTwoEightSq := by
     rw [← hrange₂]
     exact hfac _ (fun a b h => congrArg Prod.snd h) (hrange₂ ▸ inferInstance)
   have h3X : 3 ∣ Nat.card X := by rw [card_lTwoEight hq2 hq3 hd]; norm_num
-  haveI hHsol : Group.IsSolvable H := isSolvable_of_le_prod h3X
+  have hHsol : Group.IsSolvable H := isSolvable_of_le_prod h3X
     (lTwoEight_isSolvable_of_ne_top hq2 hq3 hd) _ hSH h₁ h₂
   have hKH : Group.IsSolvable (K ⊓ Y₀ : Subgroup Y) := by
     let f : (K ⊓ Y₀ : Subgroup Y) →* H :=
@@ -175,9 +175,9 @@ theorem threeFourTwoLTwoEightSq_holds : ThreeFourTwoLTwoEightSq := by
     have h1 : (⟨x, x.2.1⟩ : K) = ⟨y, y.2.1⟩ := e.injective (congrArg Subtype.val hxy)
     have h2 : (x : Y) = y := congrArg (fun z : K => (z : Y)) h1
     exact Subtype.ext h2
-  haveI : Group.IsSolvable J := Group.isSolvable_of_isSolvable_injective (inclusion_injective hJ)
-  haveI : Group.IsPerfect J := Subgroup.isPerfect_iff.mpr hJp
-  haveI : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hJ1
+  have : Group.IsSolvable J := Group.isSolvable_of_isSolvable_injective (inclusion_injective hJ)
+  have : Group.IsPerfect J := Subgroup.isPerfect_iff.mpr hJp
+  have : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hJ1
   exact Group.IsPerfect.not_isSolvable J inferInstance
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.TenThirteen

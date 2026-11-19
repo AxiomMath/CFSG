@@ -47,7 +47,7 @@ public theorem proposition111_exists_rightConjugate_le_twoPointStabilizer
   let alphaFixed : theorem4bFixedPoints M Y := ⟨alpha, halpha⟩
   have hnontrivial : Nontrivial (theorem4bFixedPoints M Y) :=
     Finite.one_lt_card_iff_nontrivial.mp (by omega)
-  letI : Nontrivial (theorem4bFixedPoints M Y) := hnontrivial
+  let : Nontrivial (theorem4bFixedPoints M Y) := hnontrivial
   obtain ⟨betaFixed, hbetaNe⟩ := exists_ne alphaFixed
   let beta : conjugateCosetSpace M := betaFixed
   have hAlphaBeta : alpha ≠ beta := by

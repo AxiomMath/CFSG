@@ -11,7 +11,7 @@ open CFSG.AGLEmbedding.MaxD2 (dcoset conjStab)
 open Certificates.MaxD2Perm (fpTab fpOK memFp)
 
 theorem fp3_eq {n : ℕ} {pts : List ℕ} (hpts : ∀ x ∈ pts, x < n) {a b c : Tab}
-    {α β γ : Equiv.Perm (Fin n)} (ha : TabRep a α) (hb : TabRep b β) (hc : TabRep c γ) :
+    {α β γ : Equiv.Perm (Fin n)} (_ha : TabRep a α) (_hb : TabRep b β) (hc : TabRep c γ) :
     fp3 pts a b c = fpTab pts (comp n (comp n a b) c) := by
   unfold fp3 fpTab
   apply congrArg List.toArray

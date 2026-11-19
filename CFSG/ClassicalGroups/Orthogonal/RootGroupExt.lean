@@ -195,6 +195,7 @@ section Step
 variable {K : Type uK} [Field K] [Finite K] [CharP K 2] {V : Type uV} [AddCommGroup V]
   [Module K V] {Q : QuadraticForm K V}
 
+omit [Finite K] in
 theorem omega_step (hQ : (polarBilin Q).Nondegenerate) (Ph : HypPair Q) (x₁ x₁' w : Ph.perp)
     (hx₁ : Q (x₁ : V) = 0) (hx₁' : Q (x₁' : V) = 0) (hxx : polar Q (x₁ : V) (x₁' : V) = 1)
     (hw₁ : polar Q (x₁ : V) (w : V) = 0) (hw₂ : polar Q (x₁' : V) (w : V) = 0)
@@ -262,7 +263,7 @@ theorem omega_step (hQ : (polarBilin Q).Nondegenerate) (Ph : HypPair Q) (x₁ x�
       w ∈ fixedSub M (Lom Q Ph.e : Set (Gom Q)) →
         π g' • w ∈ fixedSub M (Lom Q Ph.e : Set (Gom Q)) := fun g' w hw =>
     smul_mem_fixedSub_Lom (extId_app_of_mem hPW horth g' (Submodule.subset_span (by simp))) hw
-  letI inst : DistribMulAction (Gom (Q.restrict Ph.perp))
+  let inst : DistribMulAction (Gom (Q.restrict Ph.perp))
       (fixedSub M (Lom Q Ph.e : Set (Gom Q))) :=
     restrictAction π (fixedSub M (Lom Q Ph.e : Set (Gom Q))) hW
   have hdec' := isCompl_fixedSub_restrict π (fixedSub M (Lom Q Ph.e : Set (Gom Q))) hW

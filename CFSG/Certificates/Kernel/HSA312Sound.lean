@@ -232,7 +232,7 @@ theorem e8VPow_rep {vc : List Nat} {vt : Array (Array Nat)} {idn : Nat}
   · subst hb
     exact hv.getA hi
   · have hb' : (b == 1) = false := beq_eq_false_iff_ne.2 hb
-    rw [hb', if_neg hb]
+    rw [hb', ite_eq_right hb]
     exact hid
 
 theorem e8BTab_rep (hn : n < 2 ^ 32) (hw : 0 < w) {vc : List Nat} {vt : Array (Array Nat)}

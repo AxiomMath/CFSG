@@ -394,10 +394,10 @@ theorem stabLowK_bound {G : Nat → Nat} {ngen : Nat} {L : List (Nat × List Nat
     (hsz : CFSG.KS.Raw.szOK n w = true) (hG : ∀ k < ngen, PP n w (G k))
     (h : stabLowK n w G ngen L = true) (F : Subgroup (Equiv.Perm (Fin n)))
     (hFG : F ≤ Subgroup.closure (gens n w G ngen))
-    (hF : ∀ g ∈ F, ∀ lv ∈ L, ∀ hb : lv.1 < n, g ⟨lv.1, hb⟩ = ⟨lv.1, hb⟩) :
+    (hF : ∀ _g ∈ F, ∀ lv ∈ L, ∀ hb : lv.1 < n, _g ⟨lv.1, hb⟩ = ⟨lv.1, hb⟩) :
     (L.map fun lv => lv.2.2.2.length).prod * Nat.card F ≤
       Nat.card (Subgroup.closure (gens n w G ngen)) :=
-  levelsK_bound hsz hG L [] _ F (fun g hg _ => hg) hFG hF h
+  levelsK_bound hsz hG L [] _ F (fun _g hg _ => hg) hFG hF h
 
 theorem prod_le_card_of_stabLowK {G : Nat → Nat} {ngen : Nat}
     {L : List (Nat × List Nat × List (List Nat) × List Rec)}

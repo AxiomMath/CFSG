@@ -253,13 +253,13 @@ theorem permSL_swap_normalizer [Fact p.Prime] (hLF : GGSecFiveBPermSpLFrame Bs L
     have hy₀2 : y₀ ≠ π (τ (π.symm x)) := fun h => hy₀ (by simp [h])
     have hc0 : c₀ = 0 := by
       have := hcomp y₀
-      rw [if_neg hy₀1, if_neg hy₀2, add_zero] at this
+      rw [ite_eq_right hy₀1, ite_eq_right hy₀2, add_zero] at this
       exact this.symm
     have h1 := hcomp (ρ x)
-    rw [if_pos rfl, hc0, zero_add] at h1
+    rw [ite_eq_left rfl, hc0, zero_add] at h1
     have hρx : ρ x = π (τ (π.symm x)) := by
       by_contra h
-      rw [if_neg h] at h1
+      rw [ite_eq_right h] at h1
       exact one_ne_zero h1
     rw [hρx, hτ, Equiv.swap_apply_def, Equiv.swap_apply_def]
     by_cases hxi : x = π i

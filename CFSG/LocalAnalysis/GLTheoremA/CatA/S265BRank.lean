@@ -74,7 +74,7 @@ private theorem qs_data {S B T : Subgroup Ω} {x : Ω} {D K : Subgroup Ω} (hN :
       CFSG.Open.IsQuasisimple (PQuot 3 K) := by
   have hc := hN.cfg
   obtain ⟨hDB, hD, hD9, -, -, -, hDK⟩ := hc.std
-  haveI := isSimpleGroup_of_tyUnTwo hcat
+  have := isSimpleGroup_of_tyUnTwo hcat
   have hJ := (hN.nlAct (T123C.dvd_card_of_nontrivial_pSimple hc.prime (X := K) inferInstance)).comp
   exact ⟨hDB, hJ.1.trans inf_le_left, hD, hD9.trans (by norm_num), fun d hd j hj =>
     (Subgroup.mem_centralizer_iff.1 (hDK.le hd).2 j hj).symm,
@@ -85,7 +85,7 @@ private theorem false_of_comm {S B T E : Subgroup Ω} (hT2 : IsPGroup 2 T)
     (hB : Nat.card B = 3 ^ 5) (hT : (⁅T, B⁆ : Subgroup Ω) ≠ ⊥)
     (hc : (⁅T, B⁆ : Subgroup Ω) ≤ Subgroup.centralizer (S : Set Ω)) (hEBS : E ≤ B ⊔ S)
     (hE : IsElemAbelian 3 E) (hE6 : 3 ^ 6 ≤ Nat.card E) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTB2 : IsPGroup 2 (⁅T, B⁆ : Subgroup Ω) :=
     hT2.to_le (Subgroup.le_normalizer_iff_commutator_le_left.1 hBT)
   have hEN : E ≤ Subgroup.normalizer ((⁅T, B⁆ : Subgroup Ω) : Set Ω) :=

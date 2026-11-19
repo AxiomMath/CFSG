@@ -319,7 +319,7 @@ theorem inverted_supplied_prime_order_normalizer_le
   have hwt : t * (w : G) * t⁻¹ = (w : G)⁻¹ := ((hUs _).mp (hFUs w.2)).2
   obtain ⟨y, hy1, hyp, hty, hyu⟩ := exists_inverted_centralizing_witness V htV hsV ht1 hs1 hts
     hr (Ds ⊔ Us) hModd hVM (Subgroup.mem_sup_left huD) hur htu hVu F
-    (hFUs.trans le_sup_right) (Qs.isPGroup'.map Us.subtype) hVQs w.2
+    (hFUs.trans le_sup_right) (Qs.isPGroup.map Us.subtype) hVQs w.2
     (fun h => hw1 (Subtype.ext h)) hwt
   obtain ⟨hVP, hstat, hcovP⟩ := stationaryCovered_explicit t s P hP
   have hloc :=

@@ -202,8 +202,8 @@ theorem ggRankLower_of_quotient {G S : Type} [Group G] [Finite G] [Group S] {p :
   refine Nat.mul_le_mul_right _ ?_
   by_contra hlt
   push Not at hlt
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Finite (f.comp (Subgroup.inclusion hB₀X)).range :=
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Finite (f.comp (Subgroup.inclusion hB₀X)).range :=
     Nat.finite_of_card_ne_zero (by rw [← hc]; exact Nat.card_pos.ne')
   have hE3 : Nat.card (f.comp (Subgroup.inclusion hB₀X)).range ≤ p ^ 3 := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hE.isPGroup

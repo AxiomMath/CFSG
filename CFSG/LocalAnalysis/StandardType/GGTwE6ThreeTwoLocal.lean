@@ -95,8 +95,8 @@ theorem eq_bot_of_isPGroup_two_of_tFrame {n : ℕ} (hn : 1 ≤ n)
     {U : Subgroup ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)} (hU2 : IsPGroup 2 U)
     (hAU : ∀ x ∈ NoOffRest.hypE6, ∀ u ∈ U, D.ad x u ∈ U) : U = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CharP K 2 := TwE6FieldCore.charP_two_of_card_sq hK
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 2 := TwE6FieldCore.charP_two_of_card_sq hK
   let C := graphFixedRootGroup TwistTag.E6 K σ.toRingHom
   let φ : ↥C →* ModGL Tag.E6 K := C.subtype
   let A : Subgroup (ModGL Tag.E6 K) := D.V0.map φ

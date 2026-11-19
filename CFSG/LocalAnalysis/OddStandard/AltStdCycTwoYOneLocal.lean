@@ -23,6 +23,7 @@ theorem mem_moved {τ : Perm α} {x : α} : x ∈ moved τ ↔ τ x ≠ x := by
   simp [moved]
 
 omit [Fintype α] in
+omit [DecidableEq α] in
 theorem apply_apply_of_mul_self {τ : Perm α} (hτ : τ * τ = 1) (x : α) : τ (τ x) = x := by
   simpa using congrArg (fun f : Perm α => f x) hτ
 
@@ -110,6 +111,7 @@ theorem eq_one_of_comm_of_odd {τ g : Perm α} (hτ : τ * τ = 1) (hcard : (mov
     · exact absurd hodd (by decide)
   exact orderOf_eq_one_iff.1 h1
 
+omit [Fintype α] in
 theorem cyc3_pow_three {x y w : α} (hxy : x ≠ y) (hyw : y ≠ w) (hxw : x ≠ w) :
     cyc3 x y w ^ 3 = 1 := by
   ext v
@@ -271,6 +273,7 @@ theorem exists_three_pairs {τ : Perm α} (hτ : τ * τ = 1) (hcard : 5 ≤ (mo
       rw [hs₃, swap_apply_of_ne_of_ne d23 f23, hs₂, swap_apply_left] at h1
       exact f22 h1.symm
 
+omit [Fintype α] in
 theorem preserves_of_comm_cyc3 {F : Finset α} (hF : 3 ≤ F.card) {g : Perm α}
     (h : ∀ x ∈ F, ∀ y ∈ F, ∀ w ∈ F, x ≠ y → y ≠ w → x ≠ w →
       g * cyc3 x y w = cyc3 x y w * g) : ∀ x, x ∈ F ↔ g x ∈ F := by
@@ -341,7 +344,7 @@ theorem isSolvable_of_preserves {P : Subgroup (Perm α)} {U₁ U₂ U₃ : Finse
   exact Group.isSolvable_of_isSolvable_injective hinj
 
 theorem perfect_eq_bot_of_comm {P : Subgroup (Perm α)} [Group.IsPerfect P] {ε : Perm α}
-    {F : Finset α} (hF : 3 ≤ F.card) (hεF : ∀ x ∈ F, ε x = x) (hmov : (moved ε).card ≤ 4)
+    {F : Finset α} (hF : 3 ≤ F.card) (_hεF : ∀ x ∈ F, ε x = x) (hmov : (moved ε).card ≤ 4)
     (hrest : (Finset.univ.filter fun x => x ∉ F ∧ ε x = x).card ≤ 4)
     (hε : ∀ g ∈ P, g * ε = ε * g)
     (hc : ∀ g ∈ P, ∀ x ∈ F, ∀ y ∈ F, ∀ w ∈ F, x ≠ y → y ≠ w → x ≠ w →
@@ -401,7 +404,7 @@ theorem exists_equiv_of_mulEquiv_alternatingGroup {Ω Δ : Type*} [Fintype Ω] [
   have h2 : (φ g : alternatingGroup Δ) = β₀.altCongrHom ((φ.trans β₀.altCongrHom.symm) g) := by
     simp
   rw [h2, Equiv.altCongrHom_apply_coe, h1]
-  simp [Equiv.permCongrHom, Equiv.permCongr_apply]
+  simp [Equiv.permCongr_apply]
 
 end Perm
 
@@ -441,12 +444,14 @@ theorem altLookupAt_seven_of_weakA7Lookup (h : WeakA7Lookup) : AltLookupAt 7 := 
 
 variable {t : X} {D : Subgroup X} {Ω : Type} [Fintype Ω] [DecidableEq Ω]
 
+omit [Finite X] in
 theorem LocalDatum.isSimpleGroup (h : LocalDatum t D Ω) (η : D ≃* alternatingGroup Ω) :
     IsSimpleGroup D := by
   have : IsSimpleGroup (alternatingGroup Ω) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card]; have := h.card; omega)
   exact η.isSimpleGroup
 
+omit [Finite X] in
 theorem LocalDatum.nonab (h : LocalDatum t D Ω) (η : D ≃* alternatingGroup Ω) :
     ∃ a b : D, a * b ≠ b * a := by
   by_contra hcon
@@ -460,20 +465,24 @@ theorem LocalDatum.nonab (h : LocalDatum t D Ω) (η : D ≃* alternatingGroup �
   rw [Nat.card_eq_fintype_card] at h3
   omega
 
+omit [Finite X] in
 theorem LocalDatum.isQuasisimple (h : LocalDatum t D Ω) (η : D ≃* alternatingGroup Ω) :
     CFSG.IsQuasisimple D :=
   have := h.isSimpleGroup η
   (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup (h.nonab η)).1
 
+omit [Finite X] in
 theorem LocalDatum.center_eq_bot (h : LocalDatum t D Ω) (η : D ≃* alternatingGroup Ω) :
     center D = ⊥ :=
   have := h.isSimpleGroup η
   (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup (h.nonab η)).2
 
+omit [Finite X] in
 theorem LocalDatum.isPerfect (h : LocalDatum t D Ω) (η : D ≃* alternatingGroup Ω) :
     Group.IsPerfect D :=
   (h.isQuasisimple η).1
 
+omit [Finite X] in
 theorem LocalDatum.isComponent (h : LocalDatum t D Ω) (η : D ≃* alternatingGroup Ω) :
     CFSG.IsComponent (D.subgroupOf (centralizer ({t} : Set X))) := by
   refine ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv (subgroupOfEquivOfLe h.le_cent).symm
@@ -515,9 +524,11 @@ variable {G : Type} [Group G] [Finite G] {L Q : Subgroup G} {n : ℕ} {z : G}
 @[expose] def fixGroup (θ : L ≃* alternatingGroup (Fin n)) (w : L) : Subgroup G :=
   corr θ (altSub (fixFin ((θ w : alternatingGroup (Fin n)) : Perm (Fin n))))
 
+omit [Finite G] in
 theorem fixGroup_le (θ : L ≃* alternatingGroup (Fin n)) (w : L) : fixGroup θ w ≤ L :=
   corr_le θ _
 
+omit [Finite G] in
 theorem fixGroup_le_centralizer (θ : L ≃* alternatingGroup (Fin n)) (w : L) :
     fixGroup θ w ≤ centralizer ({(w : G)} : Set G) := by
   intro x hx
@@ -553,8 +564,7 @@ theorem mem_normalizer_fixGroup (B : Two.Base G L Q n z) (θ : L ≃* alternatin
   MulEquiv.ofBijective ((altEquivAltSub F).symm.toMonoidHom.comp φ₀) <| by
     refine ⟨(altEquivAltSub F).symm.injective.comp fun x y hxy => ?_, fun k => ?_⟩
     · have h1 := congrArg (fun g : altSub F => (g : Perm (Fin n))) hxy
-      simp only [φ₀, MonoidHom.codRestrict_apply, MonoidHom.comp_apply, Subgroup.coe_subtype,
-        MulEquiv.coe_toMonoidHom] at h1
+      simp only [φ₀] at h1
       have h2 := θ.injective (Subtype.ext h1)
       exact Subgroup.inclusion_injective _ h2
     · set g : altSub F := altEquivAltSub F k
@@ -573,6 +583,7 @@ theorem mem_normalizer_fixGroup (B : Two.Base G L Q n z) (θ : L ≃* alternatin
       change ((θ l : alternatingGroup (Fin n)) : Perm (Fin n)) = _
       rw [hl]
 
+omit [Finite G] in
 theorem ofSubtype_fixGroupEquiv (θ : L ≃* alternatingGroup (Fin n)) (F : Finset (Fin n))
     (x : corr (X := G) θ (altSub F)) :
     Perm.ofSubtype ((fixGroupEquiv θ F x : alternatingGroup F) : Perm F) =

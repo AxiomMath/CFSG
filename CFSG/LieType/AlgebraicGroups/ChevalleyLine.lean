@@ -110,7 +110,7 @@ theorem exists_exteriorLine_basePointsRepresentation [FiniteDimensional k M]
   obtain ⟨ω, hω, hequiv, hmap, -, hdiff⟩ := exists_exteriorLine U
   refine ⟨ω, hω, ?_, hmap, ?_⟩
   · intro g
-    let e : M ≃ₗ[k] M := LinearEquiv.ofLinear (basePointsRepresentation (H := H) M g)
+    let e : M ≃ₗ[k] M := LinearEquiv.ofLinearMap (basePointsRepresentation (H := H) M g)
       (basePointsRepresentation (H := H) M g⁻¹)
       (by rw [← Module.End.mul_eq_comp, ← map_mul, mul_inv_cancel, map_one, Module.End.one_eq_id])
       (by rw [← Module.End.mul_eq_comp, ← map_mul, inv_mul_cancel, map_one, Module.End.one_eq_id])

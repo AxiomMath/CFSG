@@ -48,13 +48,13 @@ theorem noDatum4R_of_lie_good {r : ℕ} (hr : 4 ≤ r) {tag : StatedLieTag} {n p
       ∀ {R : Subgroup Y} {S : Sylow 2 R} {t : Y}, TightDatum R S t → GoodThreeElement R t) :
     NoDatum4R r F := by
   intro G _ _ N _ ⟨e⟩ hC _ R S t hd hq
-  haveI : IsSimpleGroup ↥N := e.isSimpleGroup
+  have : IsSimpleGroup ↥N := e.isSimpleGroup
   have hnabN : ∃ a b : ↥N, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨e.symm a, e.symm b, fun h => hab (by simpa using congrArg e h)⟩
   have hF : genFittingFStar G = N := genFittingFStar_eq_of_normal_simple N hnabN hC
   let e' : ↥(genFittingFStar G) ≃* F := (MulEquiv.subgroupCongr hF).trans e
-  haveI : IsSimpleGroup ↥(genFittingFStar G) := e'.isSimpleGroup
+  have : IsSimpleGroup ↥(genFittingFStar G) := e'.isSimpleGroup
   have hnab' : ∃ a b : ↥(genFittingFStar G), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨e'.symm a, e'.symm b, fun h => hab (by simpa using congrArg e' h)⟩

@@ -26,6 +26,7 @@ theorem rankThreeLayer_le_sup_centralizer {L : Subgroup Y} (hL : IsComponentOf L
     rw [kComp_holds.1 _ L I hL hI (Ne.symm h), Subgroup.mem_bot] at h1
     exact commutatorElement_eq_one_iff_mul_comm.1 h1
 
+omit [Finite Y] in
 theorem dvd_index_of_pElement_not_mem {N : Subgroup Y} [N.Normal] {q : ℕ} (hq : q.Prime)
     {g : Y} (hgq : ∃ k : ℕ, orderOf g = q ^ k) (hg : g ∉ N) : q ∣ N.index := by
   obtain ⟨k, hk⟩ := hgq
@@ -51,9 +52,9 @@ theorem exists_pElement_not_mem_sup_of_cover {T T₁ T₂ : Subgroup X} (hcov : 
     ∃ x : X, (∃ k : ℕ, orderOf x = p ^ k) ∧
       (x ∈ Subgroup.centralizer (T₁ : Set X) ∨ x ∈ Subgroup.normalizer (T₂ : Set X)) ∧
       toStar T x ∉ Ls ⊔ Subgroup.centralizer (Ls : Set (X ⧸ gnC T)) := by
-  haveI := hn
+  have := hn
   set M : Subgroup (X ⧸ gnC T) := Ls ⊔ Subgroup.centralizer (Ls : Set (X ⧸ gnC T)) with hM
-  haveI hB : (M.comap (toStar T)).Normal := Subgroup.Normal.comap inferInstance _
+  have hB : (M.comap (toStar T)).Normal := Subgroup.Normal.comap inferInstance _
   have hCB : gnC T ≤ M.comap (toStar T) := fun x hx => by
     rw [Subgroup.mem_comap, (toStar_eq_one_iff_mem_gnC x).2 hx]
     exact Subgroup.one_mem _

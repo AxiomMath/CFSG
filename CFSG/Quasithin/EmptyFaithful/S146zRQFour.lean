@@ -19,7 +19,6 @@ theorem Setting146.sqtkHyp_quotient (S : Setting146 G T M) : SQTKHyp (OTwoQuot (
   have := sqtkHyp_quotient_of_pCoreOf_ne_bot S.hyp.qtke S.hyp.simple S.hyp.nonabelian
     S.isHTM_mcOf.1.2
   convert this using 3
-  all_goals exact (CFSG.pCore_eq_open _ _).symm
 
 theorem Setting146.pRank_quotient_le_two (S : Setting146 G T M) {r : ℕ} (hr : r.Prime)
     (hr2 : r ≠ 2) : CFSG.Open.pRank r (⊤ : Subgroup (OTwoQuot (mcOf T))) ≤ 2 := by

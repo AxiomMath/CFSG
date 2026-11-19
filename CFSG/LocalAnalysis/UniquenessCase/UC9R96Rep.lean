@@ -33,7 +33,7 @@ namespace Core
 variable {D : Data G} {Y H : Subgroup G} {q : ℕ}
 
 theorem not_isPGroup_barO3_opp (S : Core D Y H q) : ¬ IsPGroup 3 (F09.BarO3 (Opp 3 Y)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro h3
   have hle : CFSG.pPrimeCore 3 ↥(Opp 3 Y) ≤ CFSG.pCore 2 ↥(Opp 3 Y) :=
     le_pCore_two_of_normal S.isSimpleGroup_bar2_opp S.three_dvd_card_bar2_opp
@@ -41,7 +41,7 @@ theorem not_isPGroup_barO3_opp (S : Core D Y H q) : ¬ IsPGroup 3 (F09.BarO3 (Op
   have hker : CFSG.pPrimeCore 3 ↥(Opp 3 Y) ≤
       (QuotientGroup.mk' (CFSG.pCore 2 ↥(Opp 3 Y))).ker := by
     rwa [QuotientGroup.ker_mk']
-  haveI := (h3.of_surjective (QuotientGroup.lift _ _ hker)
+  have := (h3.of_surjective (QuotientGroup.lift _ _ hker)
     (QuotientGroup.lift_surjective_of_surjective _ _
       (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥(Opp 3 Y))) hker)).isNilpotent
   exact S.not_isSolvable_bar2_opp inferInstance
@@ -55,8 +55,8 @@ theorem mem_of_fixed_of_inv_opp (S : Core D Y H q)
     (hA : (Nat.card A).Prime) (hA2 : Nat.card A ≠ 2) {t : G} (htX : t ∈ Opp 3 Y)
     (htA : ∀ a ∈ A, a * t = t * a) (htinv : ∀ u ∈ U, u * (t * u * t⁻¹) ∈ W) :
     ∀ u ∈ U, (∀ a ∈ A, a * u * a⁻¹ * u⁻¹ ∈ W) → u ∈ W := by
-  haveI : Fact (Nat.card A).Prime := ⟨hA⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.card A).Prime := ⟨hA⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hWU : W ≤ U := hUW.1.le
   have hUnW : U ≤ normalizer (W : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWU).mp hUW.normal
@@ -134,7 +134,7 @@ theorem exists_sl2_rep_of_not_le (S : Core D Y H q)
       Fintype.card F = q ∧ p ≠ 2 ∧ p ≠ q ∧ Function.Injective σ ∧ (∀ v, σ (-1) v = -v) ∧
       ∀ g : SL(2, F), (orderOf g).Prime → orderOf g ≠ 2 → ∀ v : V, σ g v = v → v = 0 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXY : Opp 3 Y ≤ Y := opp_le 3 Y
   have hXH : Opp 3 Y ≤ H := S.opp_le_H
   have hHK : CFSG.Open.IsKGroup ↥H :=
@@ -149,7 +149,7 @@ theorem exists_sl2_rep_of_not_le (S : Core D Y H q)
   have hKgen : ∀ B : Subgroup G, B ≤ Opp 3 Y → Opp 3 Y ≤ normalizer (B : Set G) → E ≤ B →
       B = Opp 3 Y := fun B hBX hBn hDB =>
     F09.eq_opp_of_normal hSch hXK hE9 hX hyp.2.2.1 hyp.2.2.2 hBX hBn hDB
-  haveI hperf' : Group.IsPerfect ↥(Opp 3 Y) := F09.isPerfect_opp hE9 hX
+  have hperf' : Group.IsPerfect ↥(Opp 3 Y) := F09.isPerfect_opp hE9 hX
   obtain ⟨p, U, W, hp, -, hUW, hUI, hWM, hUM, hfix⟩ := F09.exists_chief_factor_not_le hSch
     (CFSG.Open.IsKGroup.of_le hHK (sup_le (map_subtype_le _) hXH)) hyp.2.2.1 hyp.2.2.2
     (hXY.trans hyp.1.1) ((centralizer_le_normalizer _).trans
@@ -160,10 +160,10 @@ theorem exists_sl2_rep_of_not_le (S : Core D Y H q)
   have hWH : W ≤ H := (hUW.1.le.trans hUI).trans (Subgroup.map_subtype_le _)
   have hW3 : ¬ 3 ∣ Nat.card W := fun h =>
     hI3 (h.trans (Subgroup.card_dvd_of_le (hUW.1.le.trans hUI)))
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hWn : (W.subgroupOf U).Normal := hUW.normal
-  haveI hEl : IsElementaryAbelian p (↥U ⧸ W.subgroupOf U) := hUW.isElementaryAbelian
-  haveI : Nontrivial (↥U ⧸ W.subgroupOf U) := by
+  have : Fact p.Prime := ⟨hp⟩
+  have hWn : (W.subgroupOf U).Normal := hUW.normal
+  have hEl : IsElementaryAbelian p (↥U ⧸ W.subgroupOf U) := hUW.isElementaryAbelian
+  have : Nontrivial (↥U ⧸ W.subgroupOf U) := by
     rw [QuotientGroup.nontrivial_iff]
     intro htop
     exact hUW.1.ne ((Subgroup.subgroupOf_eq_top.mp htop).antisymm hUW.1.le).symm

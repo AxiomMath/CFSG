@@ -20,7 +20,7 @@ theorem exists_maximal_B_subgroup (B L T₀ : Subgroup G) (hT₀L : T₀ ≤ L) 
     (hT₀B : B ≤ Subgroup.normalizer (T₀ : Set G)) :
     ∃ T : Subgroup G, T₀ ≤ T ∧ T ≤ L ∧ IsPGroup 2 T ∧ B ≤ Subgroup.normalizer (T : Set G) ∧
       ∀ T' : Subgroup G, T ≤ T' → T' ≤ L → IsPGroup 2 T' → B ≤ Subgroup.normalizer (T' : Set G) → T' = T := by
-  haveI : Finite (Subgroup G) := Finite.of_injective (fun T : Subgroup G => (T : Set G)) SetLike.coe_injective
+  have : Finite (Subgroup G) := Finite.of_injective (fun T : Subgroup G => (T : Set G)) SetLike.coe_injective
   let S : Set (Subgroup G) := {T' | T₀ ≤ T' ∧ T' ≤ L ∧ IsPGroup 2 T' ∧ B ≤ Subgroup.normalizer (T' : Set G)}
   obtain ⟨T, hTS, hmax⟩ := (Set.toFinite S).exists_maximal ⟨T₀, le_rfl, hT₀L, hT₀2, hT₀B⟩
   obtain ⟨h1, h2, h3, h4⟩ := hTS
@@ -28,6 +28,7 @@ theorem exists_maximal_B_subgroup (B L T₀ : Subgroup G) (hT₀L : T₀ ≤ L) 
   have hmem : T' ∈ S := ⟨h1.trans hTT', hT'L, hT'2, hT'B⟩
   exact le_antisymm (hmax hmem hTT') hTT'
 
+omit [Finite G] in
 theorem normalizes_map_of_invariant {B L : Subgroup G} (hBL : B ≤ Subgroup.normalizer (L : Set G))
     (hcomm : ∀ g ∈ B, ∀ h ∈ B, g * h = h * g) {T' : Subgroup ↥L}
     (hinv : ∀ g : ↥B, ∀ t ∈ T', conjHom L B hBL hcomm g t ∈ T') :

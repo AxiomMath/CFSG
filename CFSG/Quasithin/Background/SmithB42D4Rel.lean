@@ -366,7 +366,7 @@ theorem ox₁_comm_ox₃ (s t : K) :
       Xr d4N13 (σ s * σ (σ t) + σ (σ s) * σ t) := by congr 1; ring
   have f2 : Xr d4N03 (σ (σ s) * t + s * σ (σ t)) =
       Xr d4N03 (σ (σ s * σ (σ t) + σ (σ s) * σ t)) := by
-    congr 1; simp only [map_add, map_mul, h3]; try ring
+    congr 1; simp only [map_add, map_mul, h3]
   have f3 : Xr d4N01 (σ s * t + s * σ t) =
       Xr d4N01 (σ (σ (σ s * σ (σ t) + σ (σ s) * σ t))) := by
     congr 1; simp only [map_add, map_mul, h3]; try ring

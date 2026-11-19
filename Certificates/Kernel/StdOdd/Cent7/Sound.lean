@@ -175,12 +175,12 @@ theorem subClosK_sound {H : Type*} [Group H] [Finite H] (R : ℕ → H → Prop)
   have hF : ∀ N x, R N x → F N = x := by
     intro N x hNx
     have hN : ∃ x, R N x := ⟨x, hNx⟩
-    simp only [F, dif_pos hN]
+    simp only [F, dite_eq_left hN]
     exact (hinj hN.choose_spec hNx).1 rfl
   have hset : (Q : Set H) = ((L.toFinset.image F : Finset H) : Set H) := by
     ext x
     simp only [SetLike.mem_coe, Finset.coe_image, List.coe_toFinset, Set.mem_image,
-      Set.mem_setOf_eq]
+      Set.mem_ofPred_eq]
     constructor
     · intro hx
       obtain ⟨N, hN, hNx⟩ := hcov x hx
@@ -263,6 +263,7 @@ theorem wordsB_sound {ls : List ℕ} {X : ℕ → H} {n : ℕ} (hX : ∀ i < n, 
 
 omit hone in
 include hinj in
+omit hmul in
 theorem length_le_ncard [Finite H] {L : List ℕ} (hnd : L.Nodup) {S : Set H}
     (hL : ∀ N ∈ L, ∃ x ∈ S, R N x) : L.length ≤ S.ncard := by
   classical
@@ -270,7 +271,7 @@ theorem length_le_ncard [Finite H] {L : List ℕ} (hnd : L.Nodup) {S : Set H}
   have hF : ∀ N x, R N x → F N = x := by
     intro N x hNx
     have hN : ∃ x, R N x := ⟨x, hNx⟩
-    simp only [F, dif_pos hN]
+    simp only [F, dite_eq_left hN]
     exact (hinj hN.choose_spec hNx).1 rfl
   have hinjF : Set.InjOn F (L.toFinset : Set ℕ) := by
     intro N hN N' hN' e
@@ -301,6 +302,7 @@ theorem ordB_sound {a p : ℕ} {x : H} (ha : R a x) (h : ordB a p = true) : x ^ 
   exact Bool.false_ne_true this
 
 include hinj in
+omit hmul hone hinj in
 theorem wordsLt_sound {n : ℕ} {tw : List ℕ} {ws : List (List ℕ × ℕ)} (h : wordsLt n tw ws = true) :
     (∀ i ∈ tw, i < n) ∧ ∀ w ∈ ws, ∀ i ∈ w.1, i < n := by
   unfold wordsLt at h
@@ -339,7 +341,7 @@ theorem invClassK_sound [Finite H] {ls tw : List ℕ} {te : ℕ} {qws : List (Li
   unfold invClassK at h
   rw [andB_eq', andB_eq', Bool.and_eq_true, Bool.and_eq_true, letL_eq, letB_eq', letL_eq] at h
   obtain ⟨-, hwl, h⟩ := h
-  obtain ⟨htw, hqw⟩ := wordsLt_sound R hmul hone hinj hwl
+  obtain ⟨htw, hqw⟩ := wordsLt_sound hwl
   rw [andB_eq', andB_eq', andB_eq', andB_eq', Bool.and_eq_true, Bool.and_eq_true,
     Bool.and_eq_true, Bool.and_eq_true] at h
   obtain ⟨hA, hB, ht, hcomm, h⟩ := h
@@ -403,7 +405,7 @@ theorem invClassK_sound [Finite H] {ls tw : List ℕ} {te : ℕ} {qws : List (Li
   have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   refine ⟨t, htK, ht2, ht1, ?_, ⟨Q, ?_, ?_, hcard, ?_⟩, g₁, hg₁, g₂, hg₂, orderOf_eq_prime h7a h7b⟩
   · rw [← hlen]
-    exact length_le_ncard R hmul hinj hnd fun N hN => by
+    exact length_le_ncard R hinj hnd fun N hN => by
       obtain ⟨u, hu, hNu⟩ := hPL N hN
       exact ⟨_, ⟨u, hu, rfl⟩, hNu⟩
   · rw [Subgroup.closure_le]

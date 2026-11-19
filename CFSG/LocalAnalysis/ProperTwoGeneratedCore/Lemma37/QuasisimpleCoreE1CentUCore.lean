@@ -148,7 +148,7 @@ theorem mem_zpowers_of_isPGroup {c : QuasiQuotient u}
       rw [hb₀]; exact hconjK _ d.quasiBar_mem_centralizer)⟩)
   have hinj := fun {a b : quasiNormalizer u} (ha : a ∈ (T : Subgroup (quasiNormalizer u)))
     (hb : b ∈ (T : Subgroup (quasiNormalizer u))) (hab : quasiMk u a = quasiMk u b) =>
-    quasiMk_injOn_twoGroup u T.isPGroup' ha hb hab
+    quasiMk_injOn_twoGroup u T.isPGroup ha hb hab
   have hab : a₀ * b₀ = b₀ * a₀ := hinj ((T : Subgroup (quasiNormalizer u)).mul_mem ha₀T hb₀T)
     ((T : Subgroup (quasiNormalizer u)).mul_mem hb₀T ha₀T) (by
       rw [map_mul, map_mul, ha₀, hb₀]

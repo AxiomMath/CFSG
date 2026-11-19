@@ -183,7 +183,7 @@ private theorem orthTBlock_self_mem_specialBlock {K V : Type*} [Field K] [AddCom
     (hm : 3 ∣ primaryMultiplicity x.toLinearMap h) :
     x ∈ specialBlock Q x h := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hx_supp : x ∈ supportedBlock Q x h := orthTBlock_self_mem_supportedBlock hx hh hne1
   refine mem_specialBlock.mpr ⟨hx_supp, ?_⟩
   obtain ⟨hroot, hord⟩ := hx.orderOf_root Nat.prime_three hh hne1
@@ -204,10 +204,10 @@ private theorem orthTBlock_self_mem_specialBlock {K V : Type*} [Field K] [AddCom
 private theorem orthTBlock_two_le {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V]
     [Module K V] [FiniteDimensional K V] {Q : QuadraticForm K V} {x : V ≃ₗ[K] V}
     (hx : OddOrderIsometry Q 3 x) {h : K[X]} (hh : h ∈ primaryFactors x.toLinearMap)
-    (hne1 : h ≠ X - 1) (hq : CFSG.IsQuasisimple ↥(specialBlock Q x h)) :
+    (_hne1 : h ≠ X - 1) (hq : CFSG.IsQuasisimple ↥(specialBlock Q x h)) :
     2 ≤ primaryMultiplicity x.toLinearMap h := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   by_contra hlt
   have hpos := hx.primaryMultiplicity_pos hh
   have h1 : primaryMultiplicity x.toLinearMap h = 1 := by omega
@@ -222,7 +222,7 @@ private theorem orthTBlock_reciprocal_X2 {K : Type} [Field K] :
   have h0 : (X ^ 2 + X + 1 : K[X]).coeff 0 = 1 := by simp
   have hrev : (X ^ 2 + X + 1 : K[X]).reverse = X ^ 2 + X + 1 := by
     rw [Polynomial.reverse, hd]
-    simp [reflect_add, reflect_monomial, hX] <;> ring
+    simp [reflect_add, reflect_monomial, hX]; ring
   rw [reciprocalPolynomial, h0, hrev, inv_one, map_one, one_mul]
 
 private theorem orthTBlock_quot {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V]
@@ -273,7 +273,7 @@ private theorem orthTBlock_selfDual_phi {K : Type} [Field K] [Finite K] {V : Typ
     (hself : h = reciprocalPolynomial h) (f : ℕ) (hcard : Nat.card K = 2 ^ f) :
     h = X ^ 2 + X + 1 ∧ 3 ∣ 2 ^ f + 1 := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   obtain ⟨d, _, hdeg, hroot, _, _, _, _, _, _⟩ :=
     hx.exists_selfDual_hermitian (p := 3) (by decide) hh hne1 hself
   have hdvd : h ∣ (X ^ 2 + X + 1 : K[X]) := orthTBlock_dvd_phi hx hh hne1
@@ -292,7 +292,7 @@ private theorem orthTBlock_selfDual_phi {K : Type} [Field K] [Finite K] {V : Typ
   have hmonic : h.Monic := monic_of_mem_primaryFactors hh
   have heq : h = X ^ 2 + X + 1 :=
     (eq_of_monic_of_dvd_of_natDegree_le hmonic hFmonic hdvd (by omega)).symm
-  haveI : CharP (AdjoinRoot h) 2 := by
+  have : CharP (AdjoinRoot h) 2 := by
     have h2 : ringChar (AdjoinRoot h) = 2 :=
       (Algebra.ringChar_eq K (AdjoinRoot h)).symm.trans hchar
     exact h2 ▸ ringChar.charP (AdjoinRoot h)
@@ -340,8 +340,8 @@ private theorem orthTBlock_paired {K : Type} [Field K] [Finite K] {V : Type} [Ad
       GGHasLabel ⟨.A, primaryMultiplicity x.toLinearMap h - 1, f⟩
         (↥(componentImage Q x h) ⧸ Subgroup.center ↥(componentImage Q x h)) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : CharP K 2 := hchar ▸ ringChar.charP K
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : CharP K 2 := hchar ▸ ringChar.charP K
   have hdvd : h ∣ (X ^ 2 + X + 1 : K[X]) := orthTBlock_dvd_phi hx hh hne1
   have hFmonic : (X ^ 2 + X + 1 : K[X]).Monic := by
     rw [show (X ^ 2 + X + 1 : K[X]) = X ^ 2 + (X + 1) by ring]
@@ -365,7 +365,7 @@ private theorem orthTBlock_paired {K : Type} [Field K] [Finite K] {V : Type} [Ad
     intro h0
     rw [h0, zero_pow (by norm_num : (3 : ℕ) ≠ 0)] at hroot3
     exact zero_ne_one hroot3
-  haveI : CharP (AdjoinRoot h) 2 := by
+  have : CharP (AdjoinRoot h) 2 := by
     have h2 : ringChar (AdjoinRoot h) = 2 :=
       (Algebra.ringChar_eq K (AdjoinRoot h)).symm.trans hchar
     exact h2 ▸ ringChar.charP (AdjoinRoot h)
@@ -438,7 +438,7 @@ private theorem orthTBlock_selfDual {K : Type} [Field K] [Finite K] {V : Type} [
           GGHasLabel ⟨.twA, primaryMultiplicity x.toLinearMap h - 1, f⟩
             (↥(componentImage Q x h) ⧸ Subgroup.center ↥(componentImage Q x h)))) := by
   classical
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   obtain ⟨hself_eq, h3dvd⟩ := orthTBlock_selfDual_phi hchar hx hh hne1 hself f hcard
   have hnat : h.natDegree = 2 := by rw [hself_eq]; compute_degree!
   obtain ⟨eJS⟩ := orthTBlock_quot hq
@@ -478,10 +478,10 @@ private theorem orthTBlock_selfDual {K : Type} [Field K] [Finite K] {V : Type} [
   let e₁ : ↥(specialBlock Q x h) ≃* ↥(sesqSpecialUnitaryGroup B) :=
     (MonoidHom.ofInjective (hx.specialBlockGL_injective hh)).trans
       (MulEquiv.subgroupCongr hrange)
-  haveI := hU.finite
-  haveI : Fact ℓ.Prime := ⟨hU.prime⟩
-  haveI := hU.charP
-  letI : Fintype (AdjoinRoot h) := Fintype.ofFinite _
+  have := hU.finite
+  have : Fact ℓ.Prime := ⟨hU.prime⟩
+  have := hU.charP
+  let : Fintype (AdjoinRoot h) := Fintype.ofFinite _
   have hE : Nat.card (AdjoinRoot h) = (ℓ ^ (ff * d)) ^ 2 := by
     rw [hU.card, ← pow_mul, mul_comm]
   have hcharE : ringChar (AdjoinRoot h) = ringChar K := (Algebra.ringChar_eq K (AdjoinRoot h)).symm
@@ -504,13 +504,13 @@ private theorem orthTBlock_selfDual {K : Type} [Field K] [Finite K] {V : Type} [
     have hm2 : Module.finrank (AdjoinRoot h) (primaryComponent x.toLinearMap h) = 2 := hm2_eq
     obtain ⟨φ⟩ := CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hU
       hBsymm hBl hm2
-    letI : Fintype ↥hU.fixedField := Fintype.ofFinite _
+    let : Fintype ↥hU.fixedField := Fintype.ofFinite _
     have hcardF : Fintype.card ↥hU.fixedField = ℓ ^ (ff * d) := by
       rw [Fintype.card_eq_nat_card, hU.card_fixedField]
     have h4 : 4 ≤ Fintype.card ↥hU.fixedField := by
       by_contra hlt
       refine (CFSG.LocalAnalysis.GLTheoremA.S172B.Cent.not_isSolvable_of_isQuasisimple_aux hq) ?_
-      haveI := isSolvable_specialLinear_two_of_card_le_three (K := ↥hU.fixedField)
+      have := isSolvable_specialLinear_two_of_card_le_three (K := ↥hU.fixedField)
         (by rw [Nat.card_eq_fintype_card]; omega)
       exact Group.isSolvable_of_isSolvable_injective (f := (e₁.trans φ).toMonoidHom)
         (e₁.trans φ).injective
@@ -531,7 +531,7 @@ private theorem orthTBlock_selfDual {K : Type} [Field K] [Finite K] {V : Type} [
       have h3 : primaryMultiplicity x.toLinearMap h = 3 := (Prod.mk.inj he).1
       have h2 : ℓ ^ (ff * d) = 2 := (Prod.mk.inj he).2
       refine (CFSG.LocalAnalysis.GLTheoremA.S172B.Cent.not_isSolvable_of_isQuasisimple_aux hq) ?_
-      haveI : Group.IsSolvable ↥(sesqSpecialUnitaryGroup B) := by
+      have : Group.IsSolvable ↥(sesqSpecialUnitaryGroup B) := by
         refine isSolvable_of_card_primeFactors_le_two ?_
         have hcard := (CFSG.LinearGroups.unitary_full_group_order hU hBsymm hBl
           (n := primaryMultiplicity x.toLinearMap h) rfl (by omega)).2.1

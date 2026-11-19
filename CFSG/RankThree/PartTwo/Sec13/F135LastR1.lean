@@ -24,7 +24,7 @@ open scoped commutatorElement IsMulCommutative
 
 theorem r1u_holds : R1U := by
   intro G _ _ A c L p C c1 z hz2 hz1 hzc
-  haveI : (omegaOneCore p C).Characteristic := c1.crit.characteristic
+  have : (omegaOneCore p C).Characteristic := c1.crit.characteristic
   obtain ⟨e⟩ := c1.odd_alt7.quotient_center
   obtain ⟨u, hu2, hu1, huz, huc, huN⟩ := u1c_core (L_le_centralizer c1.data) (orderOf_c c1.data)
     c1.c_not_mem c1.t_norm_L c1.t_inv c1.odd_alt7.isQuasisimple.1 c1.center_two e z hz2 hz1 hzc
@@ -33,9 +33,9 @@ theorem r1u_holds : R1U := by
 theorem r1_of_u (hU : R1U) : R1 := by
   intro G _ _ A c L p C c1
   have hcrit := c1.crit
-  haveI : Fact p.Prime := ⟨hcrit.prime⟩
+  have : Fact p.Prime := ⟨hcrit.prime⟩
   have hDD : DData p ((omegaOneCore p C).map L.subtype) := dData_of_crit135 hcrit
-  haveI hEA : IsElementaryAbelian p (↥((omegaOneCore p C).map L.subtype) ⧸
+  have hEA : IsElementaryAbelian p (↥((omegaOneCore p C).map L.subtype) ⧸
       frattini ↥((omegaOneCore p C).map L.subtype)) := hDD.isElementaryAbelian
   obtain ⟨e⟩ := c1.alt7
   obtain ⟨z, hz2, hz1, hzc, h4, h7⟩ := r1_dim_W hcrit c1.odd_alt7 c1.center_two e
@@ -80,7 +80,7 @@ theorem r1_of_u (hU : R1U) : R1 := by
       (frattiniLinN p ((omegaOneCore p C).map L.subtype) z') (-1 : ZMod p) ⊓
       Module.End.eigenspace (frattiniLinN p ((omegaOneCore p C).map L.subtype) u') (1 : ZMod p))) := by
     omega
-  haveI hEA' : IsElementaryAbelian p (↥(dOf L p C) ⧸ frattini ↥(dOf L p C)) := hEA
+  have hEA' : IsElementaryAbelian p (↥(dOf L p C) ⧸ frattini ↥(dOf L p C)) := hEA
   exact ⟨{ c1 with
     z := (z : G)
     u := u

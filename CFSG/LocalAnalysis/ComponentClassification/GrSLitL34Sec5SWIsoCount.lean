@@ -89,7 +89,7 @@ variable {J S : Subgroup G} {hSN : S ≤ normalizer (J : Set G)}
 namespace WStd
 
 theorem card_conjSet_of_label (D : WStd J S hSN) {e : G}
-    (he : e ∈ S) {t i : ℕ} (hi : i < 36) (hy : (D.ψ ⟨e, he⟩)⁻¹ = yPerm t i) {lab : ℕ}
+    (he : e ∈ S) {t i : ℕ} (_hi : i < 36) (hy : (D.ψ ⟨e, he⟩)⁻¹ = yPerm t i) {lab : ℕ}
     (hlab : typeOf t i = lab) (hlab3 : lab < 3) :
     Nat.card {j : J // (j : G)⁻¹ * e⁻¹ * j * e ∈ zStarIn J} =
       Nat.card ↥(centralizer ({rhoPerm lab} : Set (Equiv.Perm (Fin 42))) ⊓ PSL3Four.S) *

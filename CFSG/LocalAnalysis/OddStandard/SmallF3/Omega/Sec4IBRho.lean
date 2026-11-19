@@ -83,7 +83,7 @@ theorem natCard_map_sec4IRho [Finite G] (hL : IsOmega7Group L)
 theorem sec4IRho_isSylow2Of [Finite G] (hL : IsOmega7Group L)
     (e : ↥L ⧸ Subgroup.center ↥L ≃* Sec4IOmega) {P : Subgroup G} (hP : IsSylow2Of P L) :
     IsSylow2Of ((P.subgroupOf L).map (sec4IRho e)) Sec4IOmega := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hT⟩ := hP.exists_sylow
   have hTsub : (T : Subgroup ↥L) = P.subgroupOf L := by
     have h := congrArg (Subgroup.comap L.subtype) hT
@@ -98,7 +98,7 @@ theorem sec4IRho_isElemAbelian_map (e : ↥L ⧸ Subgroup.center ↥L ≃* Sec4I
     {S : Subgroup ↥L} (hS : CFSG.Open.IsElemAbelian 2 S) :
     CFSG.Open.IsElemAbelian 2 (S.map (sec4IRho e)) := by
   obtain ⟨hcomm, hexp⟩ := hS
-  haveI : IsMulCommutative ↥S := hcomm
+  have : IsMulCommutative ↥S := hcomm
   refine ⟨inferInstance, ?_⟩
   intro y hy
   obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hy
@@ -108,7 +108,7 @@ theorem sec4IRho_isElemAbelian_of_map [Finite G] (hL : IsOmega7Group L)
     (e : ↥L ⧸ Subgroup.center ↥L ≃* Sec4IOmega) {S : Subgroup ↥L} (hS : IsPGroup 2 ↥S)
     (h : CFSG.Open.IsElemAbelian 2 (S.map (sec4IRho e))) : CFSG.Open.IsElemAbelian 2 S := by
   obtain ⟨hcomm, hexp⟩ := h
-  haveI : IsMulCommutative ↥(S.map (sec4IRho e)) := hcomm
+  have : IsMulCommutative ↥(S.map (sec4IRho e)) := hcomm
   have hinj := sec4IRho_injOn hL e hS
   refine ⟨?_, ?_⟩
   · rw [isMulCommutative_iff_of_setLike]

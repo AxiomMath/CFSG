@@ -131,15 +131,13 @@ theorem orthBlockLg_pow_three : orthBlockLg (F := F) ^ 3 = 1 := by
   apply Matrix.GeneralLinearGroup.ext
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [orthBlockLg, orthBlockUnitOfCube, orthBlockLgMat, Units.val_pow_eq_pow_val,
-      Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero, pow_succ, pow_two]
+    simp [orthBlockLg, orthBlockUnitOfCube, orthBlockLgMat, Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero, pow_succ]
 
 theorem orthBlockRg_pow_three : orthBlockRg (F := F) ^ 3 = 1 := by
   apply Matrix.GeneralLinearGroup.ext
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [orthBlockRg, orthBlockUnitOfCube, orthBlockRgMat, Units.val_pow_eq_pow_val,
-      Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero, pow_succ, pow_two]
+    simp [orthBlockRg, orthBlockUnitOfCube, orthBlockRgMat, Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero, pow_succ]
 
 theorem orthBlockLg_comm_orthBlockRg :
     orthBlockLg (F := F) * orthBlockRg = orthBlockRg * orthBlockLg := by
@@ -147,7 +145,7 @@ theorem orthBlockLg_comm_orthBlockRg :
   intro i j
   fin_cases i <;> fin_cases j <;>
     simp [orthBlockLg, orthBlockRg, orthBlockUnitOfCube, orthBlockLgMat, orthBlockRgMat,
-      Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero, pow_succ, pow_two]
+      Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero]
 
 theorem orthBlockLg_ne_one : orthBlockLg (F := F) ≠ 1 := by
   intro h
@@ -205,11 +203,13 @@ variable [CharP F 2]
   (LinearEquiv.funCongrLeft F F (quadAddCoord m).symm).trans
     (sumArrowProd (Fin m ⊕ Fin m) (Fin 2 ⊕ Fin 2))
 
+omit [CharP F 2] in
 theorem quadAddBlockEquiv_apply (m : ℕ) (v : Fin (m + 2) ⊕ Fin (m + 2) → F) :
     quadAddBlockEquiv (F := F) m v =
       (fun a => v ((quadAddCoord m).symm (Sum.inl a)),
        fun k => v ((quadAddCoord m).symm (Sum.inr k))) := rfl
 
+omit [CharP F 2] in
 theorem quadPlus_add_two (m : ℕ) (v : Fin (m + 2) ⊕ Fin (m + 2) → F) :
     quadPlus (m + 2) F v =
       quadPlus m F (quadAddBlockEquiv (F := F) m v).1 +
@@ -244,10 +244,12 @@ variable [CharP F 2]
     (Fin 2 ⊕ Fin 2 → F) ≃ₗ[F] (Fin 2 ⊕ Fin 2 → F) :=
   quadFourReindex.symm.trans (g.trans quadFourReindex)
 
+omit [CharP F 2] in
 theorem quadFourConj_one : quadFourConj (F := F) 1 = 1 := by
   ext v
   simp [quadFourConj]
 
+omit [CharP F 2] in
 theorem quadFourConj_mul (g h : (Fin 4 → F) ≃ₗ[F] (Fin 4 → F)) :
     quadFourConj (g * h) = quadFourConj g * quadFourConj h := by
   ext v
@@ -259,11 +261,13 @@ theorem quadFourConj_mul (g h : (Fin 4 → F) ≃ₗ[F] (Fin 4 → F)) :
   map_one' := quadFourConj_one
   map_mul' := quadFourConj_mul
 
+omit [CharP F 2] in
 theorem quadFourConj_leftInverse (e : (Fin 4 → F) ≃ₗ[F] (Fin 4 → F)) :
     quadFourReindex.trans ((quadFourConj e).trans quadFourReindex.symm) = e := by
   ext v
   simp [quadFourConj]
 
+omit [CharP F 2] in
 theorem quadFourConj_injective : Function.Injective (quadFourConj (F := F)) := by
   intro g h gh
   have := congrArg (fun e => quadFourReindex.trans (e.trans quadFourReindex.symm)) gh
@@ -329,27 +333,35 @@ private abbrev qbf₀ : Fin 2 ⊕ Fin 2 → F := Pi.single (Sum.inr 0) 1
 
 private abbrev qbf₁ : Fin 2 ⊕ Fin 2 → F := Pi.single (Sum.inr 1) 1
 
+omit [CharP F 2] in
 private theorem quadPlus_two_qbe₀ : (quadPlus 2 F) qbe₀ = 0 := by
   rw [quadPlus_apply]; simp [qbe₀]
 
+omit [CharP F 2] in
 private theorem quadPlus_two_qbe₁ : (quadPlus 2 F) qbe₁ = 0 := by
   rw [quadPlus_apply]; simp [qbe₁]
 
+omit [CharP F 2] in
 private theorem quadPlus_two_qbf₀ : (quadPlus 2 F) qbf₀ = 0 := by
   rw [quadPlus_apply]; simp [qbf₀]
 
+omit [CharP F 2] in
 private theorem polar_qbe₀_qbe₁ : polar (quadPlus 2 F) qbe₀ qbe₁ = 0 := by
   rw [polar_quadPlus]; simp [qbe₀, qbe₁]
 
+omit [CharP F 2] in
 private theorem polar_qbe₀_qbf₁ : polar (quadPlus 2 F) qbe₀ qbf₁ = 0 := by
   rw [polar_quadPlus]; simp [qbe₀, qbf₁]
 
+omit [CharP F 2] in
 private theorem polar_qbf₀_qbe₁ : polar (quadPlus 2 F) qbf₀ qbe₁ = 0 := by
   rw [polar_quadPlus]; simp [qbf₀, qbe₁]
 
+omit [CharP F 2] in
 private theorem polar_qbf₀_qbf₁ : polar (quadPlus 2 F) qbf₀ qbf₁ = 0 := by
   rw [polar_quadPlus]; simp [qbf₀, qbf₁]
 
+omit [CharP F 2] in
 private theorem polar_qbe₁_qbf₀ : polar (quadPlus 2 F) qbe₁ qbf₀ = 0 := by
   rw [polar_quadPlus]; simp [qbe₁, qbf₀]
 
@@ -359,10 +371,10 @@ private theorem blockRt_apply_basis (c : Fin 2 ⊕ Fin 2) :
   funext i
   rcases c with c | c <;> fin_cases c <;> rcases i with i | i <;> fin_cases i <;>
     simp [blockRt, quadFourConj, quadFourReindex, LinearEquiv.funCongrLeft, LinearMap.funLeft_apply,
-      quadFourCoord, quadFour, polar_quadPlus, Fin.sum_univ_two, Pi.single_apply,
-      orthBlockRt, orthBlockUnitOfSq, orthBlockRtMat, Matrix.mulVec, dotProduct, Fin.sum_univ_four,
-      quadPlus_apply, CharTwo.two_eq_zero, CharTwo.neg_eq, CharTwo.sub_eq_add,
-      CharTwo.add_self_eq_zero, qbe₀, qbe₁, qbf₀, qbf₁]
+      quadFourCoord, polar_quadPlus, Pi.single_apply,
+      orthBlockRt, orthBlockUnitOfSq, orthBlockRtMat, dotProduct, Fin.sum_univ_four,
+      quadPlus_apply, CharTwo.sub_eq_add,
+      CharTwo.add_self_eq_zero, qbe₁, qbf₀]
 
 private theorem blockLg_apply_basis (c : Fin 2 ⊕ Fin 2) :
     blockLg F (Pi.single c 1) =
@@ -372,9 +384,9 @@ private theorem blockLg_apply_basis (c : Fin 2 ⊕ Fin 2) :
   funext i
   rcases c with c | c <;> fin_cases c <;> rcases i with i | i <;> fin_cases i <;>
     simp [blockLg, quadFourConj, quadFourReindex, LinearEquiv.funCongrLeft, LinearMap.funLeft_apply,
-      quadFourCoord, quadFour, polar_quadPlus, Fin.sum_univ_two, Pi.single_apply,
-      orthBlockLg, orthBlockUnitOfCube, orthBlockLgMat, Matrix.mulVec, dotProduct, Fin.sum_univ_four,
-      quadPlus_apply, CharTwo.two_eq_zero, CharTwo.neg_eq, CharTwo.sub_eq_add,
+      quadFourCoord, polar_quadPlus, Pi.single_apply,
+      orthBlockLg, orthBlockUnitOfCube, orthBlockLgMat, dotProduct, Fin.sum_univ_four,
+      quadPlus_apply, CharTwo.sub_eq_add,
       CharTwo.add_self_eq_zero, qbe₀, qbe₁, qbf₀, qbf₁]
 
 private theorem blockRg_apply_basis (c : Fin 2 ⊕ Fin 2) :
@@ -385,9 +397,9 @@ private theorem blockRg_apply_basis (c : Fin 2 ⊕ Fin 2) :
   funext i
   rcases c with c | c <;> fin_cases c <;> rcases i with i | i <;> fin_cases i <;>
     simp [blockRg, quadFourConj, quadFourReindex, LinearEquiv.funCongrLeft, LinearMap.funLeft_apply,
-      quadFourCoord, quadFour, polar_quadPlus, Fin.sum_univ_two, Pi.single_apply,
-      orthBlockRg, orthBlockUnitOfCube, orthBlockRgMat, Matrix.mulVec, dotProduct, Fin.sum_univ_four,
-      quadPlus_apply, CharTwo.two_eq_zero, CharTwo.neg_eq, CharTwo.sub_eq_add,
+      quadFourCoord, polar_quadPlus, Pi.single_apply,
+      orthBlockRg, orthBlockUnitOfCube, orthBlockRgMat, dotProduct, Fin.sum_univ_four,
+      quadPlus_apply, CharTwo.sub_eq_add,
       CharTwo.add_self_eq_zero, qbe₀, qbe₁, qbf₀, qbf₁]
 
 private theorem blockRt_eq_eichler :
@@ -453,8 +465,7 @@ private theorem orthBlockLg_comm_orthBlockRt :
   intro i j
   fin_cases i <;> fin_cases j <;>
     simp [orthBlockLg, orthBlockRt, orthBlockUnitOfCube, orthBlockUnitOfSq, orthBlockLgMat,
-      orthBlockRtMat, Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero, pow_succ,
-      pow_two]
+      orthBlockRtMat, Matrix.mul_apply, Fin.sum_univ_four, CharTwo.add_self_eq_zero]
 
 private theorem blockLg_comm_blockRt : blockLg F * blockRt F = blockRt F * blockLg F := by
   have h := orthBlockLg_comm_orthBlockRt (F := F)
@@ -525,6 +536,7 @@ def QuadWitness (V : Type*) [AddCommGroup V] [Module F V] (Q : QuadraticForm F V
       U ≠ ⊥ ∧ IsPGroup 2 U ∧
       E ≤ Subgroup.normalizer (U : Set (CFSG.LocalAnalysis.ComponentInitial.orthElementaryGroup Q))
 
+omit [CharP F 2] in
 theorem QuadWitness.of_isometryEquiv {V W : Type*} [AddCommGroup V] [Module F V]
     [AddCommGroup W] [Module F W] {Q : QuadraticForm F V} {R : QuadraticForm F W}
     (e : Q.IsometryEquiv R) {k : ℕ} (h : QuadWitness W R k) : QuadWitness V Q k := by
@@ -551,8 +563,8 @@ theorem QuadWitness.of_isometryEquiv {V W : Type*} [AddCommGroup V] [Module F V]
 private theorem isElemAbelian_prod {G H : Type*} [Group G] [Group H] {p : ℕ}
     {E : Subgroup G} {B : Subgroup H} (hE : IsElemAbelian p E) (hB : IsElemAbelian p B) :
     IsElemAbelian p (E.prod B) := by
-  haveI := hE.1
-  haveI := hB.1
+  have := hE.1
+  have := hB.1
   refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => ?_⟩
   · refine Subtype.ext (Prod.ext ?_ ?_)
     · exact congrArg Subtype.val (mul_comm' (⟨x.1.1, (Subgroup.mem_prod.mp x.2).1⟩ : E)
@@ -593,17 +605,18 @@ section WitnessBase
 
 variable [CharP F 2] [Finite F]
 
+omit [CharP F 2] in
 private theorem finite_quadPlus_two :
     Finite ((Fin 2 ⊕ Fin 2 → F) ≃ₗ[F] (Fin 2 ⊕ Fin 2 → F)) := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fintype (Fin 2 ⊕ Fin 2 → F) := inferInstance
+  have : Fintype F := Fintype.ofFinite F
+  have : Fintype (Fin 2 ⊕ Fin 2 → F) := inferInstance
   exact Finite.of_injective
     (fun e : (Fin 2 ⊕ Fin 2 → F) ≃ₗ[F] (Fin 2 ⊕ Fin 2 → F) => (e : _ → _))
     DFunLike.coe_injective
 
 private theorem exist_witness_quadPlus_two :
     QuadWitness (F := F) (Fin 2 ⊕ Fin 2 → F) (quadPlus 2 F) 1 := by
-  haveI : Finite ((Fin 2 ⊕ Fin 2 → F) ≃ₗ[F] (Fin 2 ⊕ Fin 2 → F)) := finite_quadPlus_two
+  have : Finite ((Fin 2 ⊕ Fin 2 → F) ≃ₗ[F] (Fin 2 ⊕ Fin 2 → F)) := finite_quadPlus_two
   let g : orthElementaryGroup (quadPlus 2 F) := ⟨blockLg F, blockLg_mem_elementaryGroup⟩
   let u : orthElementaryGroup (quadPlus 2 F) := ⟨blockRt F, blockRt_mem_elementaryGroup⟩
   have hg3 : g ^ 3 = 1 := Subtype.ext (by simpa [g] using blockLg_pow_three (F := F))
@@ -630,7 +643,7 @@ private theorem exist_witness_quadPlus_two :
 
 private theorem exist_blockNine_quadPlus_two :
     ∃ B : Subgroup (orthElementaryGroup (quadPlus 2 F)), IsElemAbelian 3 B ∧ Nat.card B = 9 := by
-  haveI : Finite ((Fin 2 ⊕ Fin 2 → F) ≃ₗ[F] (Fin 2 ⊕ Fin 2 → F)) := finite_quadPlus_two
+  have : Finite ((Fin 2 ⊕ Fin 2 → F) ≃ₗ[F] (Fin 2 ⊕ Fin 2 → F)) := finite_quadPlus_two
   let g : orthElementaryGroup (quadPlus 2 F) := ⟨blockLg F, blockLg_mem_elementaryGroup⟩
   let h : orthElementaryGroup (quadPlus 2 F) := ⟨blockRg F, blockRg_mem_elementaryGroup⟩
   have hg3 : g ^ 3 = 1 := Subtype.ext (by simpa [g] using blockLg_pow_three (F := F))
@@ -644,14 +657,14 @@ private theorem exist_blockNine_quadPlus_two :
   have hc : g * h = h * g := Subtype.ext (by simpa [g, h] using blockLg_comm_blockRg (F := F))
   have hmem : h ∉ Subgroup.zpowers g := by
     rw [CFSG.Walter.JT.mem_zpowers_iff_of_orderOf_three (z := g) (orderOf_eq_prime hg3 hg1)]
-    simp only [not_or, not_not]
+    simp only [not_or]
     exact ⟨hh1, hhl, hhl2⟩
   refine ⟨Subgroup.zpowers g ⊔ Subgroup.zpowers h,
     ?_, CFSG.HardMathSupport.Lang.E27Lie.card_zpowers_sup_zpowers_of_order_three hc hg3 hg1 hh3 hmem⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : CFSG.IsElementaryAbelian 3 ↥(Subgroup.zpowers g) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CFSG.IsElementaryAbelian 3 ↥(Subgroup.zpowers g) :=
     CFSG.IsElementaryAbelian.zpowers_of_pow_eq_one (p := 3) hg3
-  haveI : CFSG.IsElementaryAbelian 3 ↥(Subgroup.zpowers h) :=
+  have : CFSG.IsElementaryAbelian 3 ↥(Subgroup.zpowers h) :=
     CFSG.IsElementaryAbelian.zpowers_of_pow_eq_one (p := 3) hh3
   have hle : Subgroup.zpowers h ≤ Subgroup.centralizer (Subgroup.zpowers g : Set _) := by
     rw [Subgroup.zpowers_le, Subgroup.mem_centralizer_iff]
@@ -752,11 +765,13 @@ theorem orthElementaryGroupProdHom_injective
   map_one' := by ext x <;> rfl
   map_mul' p q := by ext x <;> rfl
 
+omit [CharP F 2] in
 theorem prodCongrSndHom_apply (m : ℕ) (b : (Fin 2 ⊕ Fin 2 → F) ≃ₗ[F] (Fin 2 ⊕ Fin 2 → F)) :
     prodCongrSndHom (F := F) m b =
       (LinearEquiv.refl F (Fin m ⊕ Fin m → F)).prodCongr b :=
   rfl
 
+omit [CharP F 2] in
 theorem map_orthElementaryGroup_prodCongrSnd_le (m : ℕ) :
     (orthElementaryGroup (quadPlus 2 F)).map (prodCongrSndHom (F := F) m) ≤
       orthElementaryGroup (quadTail m (quadPlus 2 F)) := by
@@ -776,6 +791,7 @@ theorem map_orthElementaryGroup_prodCongrSnd_le (m : ℕ) :
     rw [quadTail_apply]
     exact (quadPlus_add_two (F := F) m v).symm
 
+omit [CharP F 2] in
 theorem prodCongr_mem (m : ℕ) {g : (Fin m ⊕ Fin m → F) ≃ₗ[F] (Fin m ⊕ Fin m → F)}
     (hg : g ∈ orthElementaryGroup (quadPlus m F))
     {b : (Fin 2 ⊕ Fin 2 → F) ≃ₗ[F] (Fin 2 ⊕ Fin 2 → F)}
@@ -809,6 +825,7 @@ theorem prodCongr_mem (m : ℕ) {g : (Fin m ⊕ Fin m → F) ≃ₗ[F] (Fin m �
   map_mul' p q := by
     refine Subtype.ext (LinearEquiv.ext fun x => Prod.ext rfl rfl)
 
+omit [CharP F 2] in
 theorem tailProdHom_injective (m : ℕ) : Function.Injective (tailProdHom (F := F) m) := by
   intro p q hpq
   have h : ((p.1 : (Fin m ⊕ Fin m → F) ≃ₗ[F] (Fin m ⊕ Fin m → F)).prodCongr
@@ -833,6 +850,7 @@ theorem tailProdHom_injective (m : ℕ) : Function.Injective (tailProdHom (F := 
   ((CFSG.ComponentClassification.CatalogueBOrthogonalPointIsometry.elementaryIsometryEquiv
       (quadAddTailIsometry (F := F) m)).symm.toMonoidHom).comp (tailProdHom (F := F) m)
 
+omit [CharP F 2] in
 theorem quadAddBlockHom_injective (m : ℕ) : Function.Injective (quadAddBlockHom (F := F) m) := by
   intro x y hxy
   exact tailProdHom_injective (F := F) m
@@ -883,10 +901,10 @@ private theorem exist_witness_quadPlus_three :
     set w₀ : W := (Pi.single (Sum.inl 0) 1, 0) with hw₀
     have hqu : (quadTail 2 (quadPlus 1 F)) u = 0 := by
       rw [quadTail_apply]
-      simp [u, hu, e, quadPlus_apply]
+      simp [u, e, quadPlus_apply]
     have huw₀ : polar (quadTail 2 (quadPlus 1 F)) u w₀ = 0 := by
       rw [polar_quadTail]
-      simp [u, hu, w₀, hw₀, e]
+      simp [u, w₀, e]
     have hy₀_ne : eichler (quadTail 2 (quadPlus 1 F)) u w₀ ≠ 1 := by
       intro h1
       have h2 : eichler (quadTail 2 (quadPlus 1 F)) u w₀
@@ -894,7 +912,7 @@ private theorem exist_witness_quadPlus_three :
         rw [h1]
         exact LinearEquiv.refl_apply (0, (Pi.single (Sum.inr 0) 1 : A))
       rw [eichler_apply hqu huw₀] at h2
-      simp [u, hu, w₀, hw₀, e, polar_quadTail, polar_quadPlus, quadPlus_apply, Pi.single_apply,
+      simp [u, hu, w₀, e, polar_quadTail, polar_quadPlus, quadPlus_apply, Pi.single_apply,
         Prod.ext_iff] at h2
     obtain ⟨B, hB, hBcard⟩ := exist_blockNine_quadPlus_two (F := F)
     let U : Subgroup (orthElementaryGroup (quadTail 2 (quadPlus 1 F))) :=
@@ -980,21 +998,21 @@ theorem le_evenRank_of_quadPlusWitness {K : Type} [Group K] [Finite K] {lab : GL
   obtain ⟨hQ, hlab, hM⟩ := quasisimple_markedModel_of_isLabel hK
   have htag3 : lab.rank ≠ 3 := by omega
   have ht : markTag lab = .POmegaPlus := by
-    simp [CFSG.StandardType.markTag, htag, if_neg htag3]
+    simp [CFSG.StandardType.markTag, htag, ite_eq_right htag3]
   have hrk : markRank lab = lab.rank := by
-    simp [CFSG.StandardType.markRank, htag, if_neg htag3]
+    simp [CFSG.StandardType.markRank, htag, ite_eq_right htag3]
   have hch : markChar lab = 2 := by simp [CFSG.StandardType.markChar, htag]
   have hdg : markDeg lab = lab.n := by simp [CFSG.StandardType.markDeg, htag]
   have hM' := hM
   unfold CFSG.StandardType.MarkedModel at hM'
   rw [ht, hrk, hch, hdg] at hM'
   obtain ⟨hadm, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype F := Fintype.ofFinite F
   have hcard2 : Nat.card F = 2 := by rw [hcard, hn]; norm_num
   have hcard' : Fintype.card F = 2 ^ 1 := by
     rw [← Nat.card_eq_fintype_card]; exact hcard2
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow hcard'
+  have : CharP F 2 := charP_of_card_eq_prime_pow hcard'
   have hv : ∃ v : Fin lab.rank ⊕ Fin lab.rank → F, quadPlus lab.rank F v ≠ 0 := by
     let i0 : Fin lab.rank := ⟨0, by omega⟩
     let v : Fin lab.rank ⊕ Fin lab.rank → F :=
@@ -1007,8 +1025,8 @@ theorem le_evenRank_of_quadPlusWitness {K : Type} [Group K] [Finite K] {lab : GL
         if i = i0 then 1 else 0 := by
       intro i
       by_cases hi : i = i0
-      · subst hi; rw [hv1, hv2, if_pos rfl, one_mul]
-      · rw [if_neg hi]
+      · subst hi; rw [hv1, hv2, ite_eq_left rfl, one_mul]
+      · rw [ite_eq_right hi]
         have h1 : v (Sum.inl i) = 0 := by
           simp [v, hi]
         rw [h1, zero_mul]

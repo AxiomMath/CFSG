@@ -141,8 +141,8 @@ theorem mem_scalars_subgroupOf_iff (hK : UnitaryFieldData 2 n K) (hd : 0 < d)
     ext i j
     by_cases hij : i = j
     · subst hij
-      simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
-    · simp [Matrix.diagonal_apply, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
+      simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
+    · simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
         hij]
   · rintro ⟨c, hc⟩
     have hdet : (∏ _ : Fin d, c) = 1 := by
@@ -163,10 +163,10 @@ theorem exists_scalar_of_map_conj_eq_U (hK : UnitaryFieldData 2 n K) (hd : 4 ≤
       ∃ c : K, ((g : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) = diagonal (fun _ => c))
     {g : ↥(unitarySU 2 n K d)} (h : ∀ y, φ (g * y * g⁻¹) = φ y) :
     ∃ c : K, ((g : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) = diagonal (fun _ => c) := by
-  haveI : Finite K := hK.finite
+  have : Finite K := hK.finite
   set Z : Subgroup (↥(unitarySU 2 n K d)) :=
     (CFSG.Open.StatedScalars (Fin d) K).subgroupOf (unitarySU 2 n K d) with hZ
-  haveI hZn : Z.Normal := by rw [hZ]; infer_instance
+  have hZn : Z.Normal := by rw [hZ]; infer_instance
   have hmemZ : ∀ z : ↥(unitarySU 2 n K d),
       (∃ c : K, ((z : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) = diagonal (fun _ => c)) →
       z ∈ Z := by
@@ -213,7 +213,7 @@ theorem isDiag_of_conj_comm_U (hK : UnitaryFieldData 2 n K) (hd : 4 ≤ d)
   have hζ0 : ζ ≠ 0 := fun h0 => by
     rw [h0, zero_pow (Nat.succ_ne_zero (2 ^ n))] at hζ
     exact zero_ne_one hζ
-  haveI : CharP K 2 := hK.charP
+  have : CharP K 2 := hK.charP
   refine CFSG.StandardType.TypeANbrDvd.isDiag_of_mul_diagonal_pairVec_of_four_le ?_ hd hζ2 ?_
   · rw [((mem_unitarySU_iff hK).mp s.2).1]
     exact one_ne_zero

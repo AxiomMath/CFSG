@@ -14,6 +14,7 @@ namespace CFSG.HardMathSupport.Lang.UnitaryAutomorphisms
 variable {K : Type} [Field K] [Finite K] {k : Subfield K} {d : ℕ}
   {Q₀ : QuadraticForm k (Fin d → k)} {Q Q' : QuadraticForm K (Fin d → K)} {σ : K ≃+* K} {p : ℕ}
 
+omit [Finite K] in
 theorem matrixProjectiveConjugationHom_eq_fieldAutT (S : SubfieldSetup k Q₀ Q' σ p)
     (g' : similarityPairs Q') (hl : g'.val.left = 1) (hr : g'.val.right = σ) :
     matrixProjectiveConjugationHom Q' g' = fieldAutT Q' σ S.hQσ := by
@@ -23,6 +24,7 @@ theorem matrixProjectiveConjugationHom_eq_fieldAutT (S : SubfieldSetup k Q₀ Q'
   rw [hl, fieldPair_left]
   simp
 
+omit [Finite K] in
 theorem card_fixedSubgroup_eq_subfieldFixedGroup (S : SubfieldSetup k Q₀ Q' σ p)
     {β : MulAut (matrixProjectiveDerived Q)}
     (Θ : matrixProjectiveDerived Q ≃* matrixProjectiveDerived Q')

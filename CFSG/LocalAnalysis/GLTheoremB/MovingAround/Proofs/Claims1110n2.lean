@@ -95,7 +95,7 @@ theorem card_ne_of_compRelC_d4n (hb : LieOrderBridge) {d : TauCeti.LieTypeIndex}
         norm_num
     rw [Nat.card_congr φ.toEquiv]
     show Nat.card (alternatingGroup (Fin n)) ≠ 174182400
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
     rw [nat_card_alternatingGroup, Nat.card_fin]
     interval_cases n <;> decide
   | lie e =>
@@ -335,7 +335,7 @@ theorem false_of_pumpup_restBig_d4n (hX : Inputs256p.ExcCompFieldIdx) {K : Type}
   have hlay : PerfectInLayer (autCenterQuot K x) :=
     perfectInLayer_restBig_d4n hs hna hd ⟨e⟩ hβ5 hβ1
   obtain ⟨T, hT, hTc⟩ := Claims1110m.exists_d4_component_d4cls hD hK.1 hx hlay
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv _ e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv _ e.toEquiv
   have hS : Nat.card (K ⧸ Subgroup.center K) = lieOrderFormula d.1 := hb d _ ⟨e⟩
   by_cases hmem : autCenterQuot K x ∈ innAutDerived (K ⧸ Subgroup.center K)
   ·

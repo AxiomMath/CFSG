@@ -54,7 +54,7 @@ theorem le_normalizer_of_charTwo [Finite G] (S : Sylow 2 G) {U X : Subgroup G}
       intro y hy
       exact Subtype.ext (Subgroup.mem_centralizer_iff.1 hxc y ⟨y, hy, rfl⟩)
     exact ⟨⟨x, hx⟩, hchar hmem, rfl⟩
-  have hUp : IsPGroup 2 U := (S.isPGroup').to_le hUS
+  have hUp : IsPGroup 2 U := (S.isPGroup).to_le hUS
   have hP : IsPGroup 2 (Q ⊔ U : Subgroup G) :=
     IsPGroup.to_sup_of_normal_left' hQp hUp (hUX.trans hXQ)
   obtain ⟨S', hPS', hcl'⟩ := stronglyClosed_of_le_pGroup S hcl hP le_sup_right

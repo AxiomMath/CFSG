@@ -72,9 +72,9 @@ theorem sZ_one : sZ m 1 = 0 := by
 theorem four_mul_sZ_add_signZ (hm : 1 ≤ m) (π : Perm (Fin 4)) :
     4 * sZ m π + Multiplicative.toAdd (signZ (m + 2) (Perm.sign π)) = 0 := by
   rcases Int.units_eq_one_or (Perm.sign π) with h | h
-  · rw [sZ, h, if_pos rfl, signZ_one, toAdd_one]
+  · rw [sZ, h, ite_eq_left rfl, signZ_one, toAdd_one]
     simp
-  · rw [sZ, h, if_neg (by decide), signZ_neg_one, toAdd_ofAdd]
+  · rw [sZ, h, ite_eq_right (by decide), signZ_neg_one, toAdd_ofAdd]
     have h2 : (4 * 2 ^ (m - 1) + 2 ^ (m + 2 - 1) : ℕ) = 2 ^ (m + 2) := by
       obtain ⟨k, rfl⟩ : ∃ k, m = k + 1 := ⟨m - 1, by omega⟩
       rw [show k + 1 - 1 = k by omega, show k + 1 + 2 - 1 = k + 2 by omega]
@@ -111,7 +111,7 @@ theorem cZ_sZ_add_sZ_sub (hm : 1 ≤ m) (π σ : Perm (Fin 4)) :
         rw [show k + 1 - 1 = k by omega]
         ring
       have h11 : (-1 : ℤˣ) * -1 = 1 := by decide
-      rw [h11, if_neg hne, if_pos rfl, ← h2, Int.cast_add, Int.cast_zero, sub_zero]
+      rw [h11, ite_eq_right hne, ite_eq_left rfl, ← h2, Int.cast_add, Int.cast_zero, sub_zero]
   obtain ⟨z, hz, hzeq⟩ := key
   rw [hzeq, cZ_const_intCast, Torus.ofInt_eq_zero_iff]
   intro i
@@ -147,7 +147,7 @@ theorem cZ_eq_of_eq_add_sZ (hm : 1 ≤ m) (π σ : Perm (Fin 4)) {X Y : Fin 4 �
       rw [toAdd_ψ200, toAdd_ofAdd, ← cZ_perm _ hb, ← map_add (cZ m)]
       refine cZ_eq_of_eq_add_sZ hm ((a : L4Hat (m + 2)).right : Perm (Fin 4))
         ((b : L4Hat (m + 2)).right : Perm (Fin 4)) fun i => ?_
-      simp only [Pi.add_apply, toAdd_mul, toAdd_actL4, Subgroup.coe_mul]
+      simp only [Pi.add_apply, toAdd_actL4]
       ring
     · rfl
 

@@ -56,7 +56,7 @@ theorem sup_zpowers_center_inf_eq {J₁ : Subgroup G}
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 variable (D : QuotientData (z := z) hN)
 
-@[expose] noncomputable def J1sub (h : Tim79a.ParrottHyp z) : Subgroup G :=
+@[expose] noncomputable def J1sub (_h : Tim79a.ParrottHyp z) : Subgroup G :=
   ⁅(Subgroup.zpowers (sigma1Nine (z := z) D)).map (H z).subtype, J z⁆ ⊔ centerIn (J z)
 
 theorem J1sub_le_J (h : Tim79a.ParrottHyp z) :

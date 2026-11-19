@@ -23,10 +23,10 @@ theorem sporadicTwoBalanceFive_Fi23 :
     @innerAut_eq_top_of_mulEquiv S Blueprint.NativeSporadic.Fi23 _ _ f hinnF
   refine isLocallyBalancedAbs_two_of_plane_witness (center_eq_bot_of_isSimpleGroup hnab) hinn ?_
   intro E hE hEc
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨d, hdE, hd1⟩ : ∃ d ∈ E, d ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hbot : E = ⊥ := by
       rw [Subgroup.eq_bot_iff_forall]
       exact h

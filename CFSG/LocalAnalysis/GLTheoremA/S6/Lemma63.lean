@@ -44,9 +44,9 @@ theorem mem_glaBeta {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {m : ℕ} (hlt : m 
 theorem exists_sylow_pair {q : ℕ} (hq : q.Prime) (L : Subgroup G) :
     ∃ (Q₀ : Subgroup G) (Q : Sylow q G), Q₀ ≤ L ∧ IsPGroup q Q₀ ∧
       Nat.card Q₀ = q ^ (Nat.card L).factorization q ∧ Q₀ ≤ (Q : Subgroup G) := by
-  haveI := Fact.mk hq
+  have := Fact.mk hq
   obtain ⟨S⟩ : Nonempty (Sylow q ↥L) := inferInstance
-  have hP : IsPGroup q ((S : Subgroup ↥L).map L.subtype) := S.isPGroup'.map L.subtype
+  have hP : IsPGroup q ((S : Subgroup ↥L).map L.subtype) := S.isPGroup.map L.subtype
   obtain ⟨Q, hQ⟩ := hP.exists_le_sylow
   refine ⟨(S : Subgroup ↥L).map L.subtype, Q, Subgroup.map_subtype_le _, hP, ?_, hQ⟩
   rw [Subgroup.card_map_of_injective L.subtype_injective]
@@ -69,13 +69,13 @@ theorem coreIn_top_eq_glbCore (q k : ℕ) (P : Subgroup G) :
 theorem coreIn_le_glaWeakCore {q : ℕ} (hq : q.Prime) {Q₀ Q : Subgroup G} (hQ : Q₀ ≤ Q)
     (X : Subgroup G) :
     CFSG.HardMathSupport.Solomon.Coordinator.coreIn q 3 Q₀ X ≤ GLAWeakCore q Q :=
-  iSup₂_le fun E hE => inf_le_right.trans (normalizer_le_glaWeakCore hq (hE.1.trans hQ) hE.2)
+  iSup₂_le fun _E hE => inf_le_right.trans (normalizer_le_glaWeakCore hq (hE.1.trans hQ) hE.2)
 
 theorem exists_mul_mem_normalizer {q : ℕ} (hq : q.Prime) {L Q₀ : Subgroup G} (hQ₀L : Q₀ ≤ L)
     (hcard : Nat.card Q₀ = q ^ (Nat.card L).factorization q) {b : G}
     (hb : b ∈ Subgroup.normalizer (L : Set G)) :
     ∃ l ∈ L, l * b ∈ Subgroup.normalizer (Q₀ : Set G) := by
-  haveI := Fact.mk hq
+  have := Fact.mk hq
   have hcard' : Nat.card (Q₀.subgroupOf L) = q ^ (Nat.card ↥L).factorization q := by
     rw [← hcard]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQ₀L).toEquiv

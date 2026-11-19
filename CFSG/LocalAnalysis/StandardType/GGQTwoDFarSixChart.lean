@@ -24,7 +24,7 @@ theorem qtwoFarSix_exists_chart_of_frameCore {Bs X : Subgroup G} (Φ : OrthFrame
       φ₀.range = X ∧ ∀ i (hi : i ∈ Finset.univ.erase i₀),
         φ₀ ⟨SixPlane.rot 6 i, SixPlane.rot_mem_supp hi⟩ =
           ((Additive.toMul (β.symm (Pi.single i 1)) : ↥Bs) : G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨π, s, hs, hπ⟩ := qtwoFarSix_align_of_frameCore Φ hF hZ β hc hx hxc hxX hAe
   obtain ⟨φ, hφ, hrange, hrot⟩ := Φ.exists_sixPlane_chart hF π s hs
   refine ⟨φ, hφ, hrange, fun i hi => ?_⟩
@@ -38,8 +38,8 @@ section Cfg
 theorem qtwoFarSix_exists_chart {B Bs : Subgroup G} {x : G} {L D J : Subgroup G}
     {𝒦 : Finset (Subgroup G)} {ι : Type} {M : CoxeterMatrix ι}
     {e : M.Group ≃* ↥(ggAutomizerJoin L Bs 𝒦)} (hcfg : GGQTwoDCfg 3 B Bs x L D J 𝒦 M e)
-    (e' : Fin 6 ≃ ι) (hM : M = (ggCoxeterMatrixD 6).reindex e') (β : Additive ↥Bs ≃+ DVec 6)
-    (hβ : ∀ (t : Fin 6) (s : ↥Bs),
+    (e' : Fin 6 ≃ ι) (_hM : M = (ggCoxeterMatrixD 6).reindex e') (β : Additive ↥Bs ≃+ DVec 6)
+    (_hβ : ∀ (t : Fin 6) (s : ↥Bs),
       β (Additive.ofMul (((e (M.simple (e' t)) : ↥(ggAutomizerJoin L Bs 𝒦)) : MulAut ↥Bs) s)) =
         dTau 6 (decide (t.val + 1 = 6)) (simpleLo t) (simpleHi t) (β (Additive.ofMul s)))
     {i₀ : Fin 6} {c : ZMod 3} (hc : c ≠ 0) (hx : x ∈ Bs)

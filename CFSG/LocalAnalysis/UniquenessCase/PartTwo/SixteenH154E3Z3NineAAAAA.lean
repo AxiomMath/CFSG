@@ -86,7 +86,7 @@ theorem s16h_e3_Z3NineAAAAA_K1_pcore_bot
     (hO2 : ∀ P : Subgroup (MulAut W), P ≤ A → (P.subgroupOf A).Normal → IsPGroup 2 P → P = ⊥) :
     pCore 2 ↥(A ⊓ centSub (commSub (⊤ : Subgroup W) L₂)) = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let U₂ : Subgroup W := commSub (⊤ : Subgroup W) L₂
   let K1 : Subgroup (MulAut W) := A ⊓ centSub U₂
   let N : Subgroup (MulAut W) := A ⊓ Subgroup.normalizer (L : Set (MulAut W))

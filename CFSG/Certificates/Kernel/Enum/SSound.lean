@@ -77,7 +77,7 @@ theorem sChk_sound {T : Nat → Nat} {sh lm rb rm m nw pm iw im nS idn k : Nat} 
       rw [hinv, hc]
       rfl
     have h0 := bIf_true hc' (bIf_true hf hD)
-    simp only [PK.strictB_eq, Bool.and_eq_true, Nat.blt_eq] at h0
+    simp only [Bool.and_eq_true, Nat.blt_eq] at h0
     exact ⟨_, h0.1, Nat.eq_of_beq_eq_true h0.2⟩
 
 theorem sRange_iff {T : Nat → Nat} {sh lm rb rm m nw pm iw im nS idn k : Nat} {G : Nat → Nat}

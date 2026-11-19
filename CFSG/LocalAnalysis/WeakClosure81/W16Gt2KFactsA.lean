@@ -63,7 +63,7 @@ private theorem exists_sylow_quotient_card_center {X : Type} [Group X] [Finite X
     have hxZ : (x : X) ∈ Subgroup.center X := by
       have := hx
       simpa [hπ, QuotientGroup.eq_one_iff] using this
-    obtain ⟨k, hk⟩ := P.isPGroup' x
+    obtain ⟨k, hk⟩ := P.isPGroup x
     have h1 : orderOf (x : X) ∣ 2 ^ k := by
       apply orderOf_dvd_of_pow_eq_one
       simpa using congrArg Subtype.val hk

@@ -147,7 +147,7 @@ theorem triD4_modelB {K : Type} [Field K] [Finite K] {p f : ℕ} (hp : p.Prime) 
     (hp3 : p ≠ 3) (hf : 1 ≤ f) {σ δ : K ≃+* K} (hK : Nat.card K = (p ^ f) ^ 3)
     (hσ : ∀ c, σ c = c ^ (p ^ f)) (hδ3 : δ ^ 3 = 1) (hδ1 : δ ≠ 1) :
     ModelB (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) (fieldActor σ δ) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK3 : Nat.card K = p ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
   have : CharP K p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp (by omega) hK3
@@ -170,8 +170,8 @@ theorem concA_of_triD4 (H : P3Hyp q S B) {K : Type} [Field K] [Finite K] {p f : 
     S267ConcA 3 S B := by
   classical
   set C₀ := graphFixedRootGroup TwistTag.D4 K σ.toRingHom
-  haveI : S.Normal := H.normal
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : S.Normal := H.normal
+  have : Fact p.Prime := ⟨hp⟩
   have hK3 : Nat.card K = p ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
   have : CharP K p :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp (by omega) hK3

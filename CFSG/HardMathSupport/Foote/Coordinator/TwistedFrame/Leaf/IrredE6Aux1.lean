@@ -164,7 +164,7 @@ theorem aE_unit {γ μ : V6} (hγ : γ ∈ rootFinset Tag.E6) (hγ0 : γ 1 = 0)
   obtain ⟨hε, -⟩ := (simply_laced_root_commutator_unit.{0} Tag.E6 simplyLaced_E6
     (mem_rootFinset.1 hγ) (mem_rootFinset.1 hμ) hne hne').1
       (mem_rootFinset.1 (by rwa [add_comm] at h))
-  rw [aE, if_pos h]
+  rw [aE, ite_eq_left h]
   exact hε
 
 theorem aE_ne_zero {F : Type} [Field F] {γ μ : V6} (hγ : γ ∈ rootFinset Tag.E6) (hγ0 : γ 1 = 0)
@@ -173,7 +173,7 @@ theorem aE_ne_zero {F : Type} [Field F] {γ μ : V6} (hγ : γ ∈ rootFinset Ta
   rcases aE_unit hγ hγ0 hμ hμ1 h with h' | h' <;> rw [h'] <;> simp
 
 theorem aE_eq_zero {γ μ : V6} (h : μ + γ ∉ rootFinset Tag.E6) : aE γ μ = 0 := by
-  rw [aE, if_neg h]
+  rw [aE, ite_eq_right h]
 
 section Conj
 
@@ -229,7 +229,7 @@ theorem conj_gen_deg1 {γ μ : V6} (hγ : γ ∈ rootFinset Tag.E6) (hγ0 : γ 1
     rw [hconj]
     refine ⟨mul_mem hP hμQ, ?_⟩
     rw [(heisCoord_spec Tag.E6 F).mul _ hP _ hμQ, (heisCoord_spec Tag.E6 F).pinnedX_deg1 _ hD,
-      hμc, aE, if_pos h, add_comm, ← Pi.single_smul]
+      hμc, aE, ite_eq_left h, add_comm, ← Pi.single_smul]
     congr 2
     rw [smul_eq_mul]
     ring
@@ -237,7 +237,7 @@ theorem conj_gen_deg1 {γ μ : V6} (hγ : γ ∈ rootFinset Tag.E6) (hγ0 : γ 1
     have hcomm := ((simply_laced_root_commutator_unit.{0} Tag.E6 simplyLaced_E6 hγr
       (mem_rootFinset.1 hμr) hne hne').2 hnot F _ (mem_rootSubgroup.2 ⟨t, rfl⟩) _
         (mem_rootSubgroup.2 ⟨c, rfl⟩)).eq
-    rw [hcomm, mul_assoc, mul_inv_cancel, mul_one, aE, if_neg h]
+    rw [hcomm, mul_assoc, mul_inv_cancel, mul_one, aE, ite_eq_right h]
     refine ⟨hμQ, ?_⟩
     rw [hμc]
     simp

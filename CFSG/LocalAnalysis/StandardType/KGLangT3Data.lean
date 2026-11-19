@@ -13,13 +13,13 @@ private lemma l02qj5b2_mem_centralizer_singleton_iff {G : Type*} [Group G] {a x 
   constructor
   · intro h
     have := (Subgroup.mem_centralizer_iff.mp h) a (Set.mem_singleton a)
-    first | exact this | exact this.symm
+    first | exact this
   · intro h
     rw [Subgroup.mem_centralizer_iff]
     intro y hy
     rw [Set.mem_singleton_iff] at hy
     subst hy
-    first | exact h | exact h.symm
+    first | exact h
 
 private lemma l02qj5b2_mulAut_mul_inv_apply {G : Type*} [Group G] (β a : MulAut G) (x : G) :
     (β * a * β⁻¹) x = β (a (β⁻¹ x)) := by

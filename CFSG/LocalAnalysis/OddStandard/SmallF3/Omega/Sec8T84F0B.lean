@@ -27,7 +27,7 @@ theorem exists_odd_conj_normalized {G : Type*} [Group G] [Finite G] {M O Q E : S
   have hA2 : IsPGroup 2 A := hE2.of_equiv (Subgroup.subgroupOfEquivOfLe hE).symm
   have hBnorm : B.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (H := O) (K := M) hO).mpr hOleN
-  haveI : B.Normal := hBnorm
+  have : B.Normal := hBnorm
   have hAB_top : A ⊔ B = ⊤ := by
     have h := Subgroup.subgroupOf_sup (A := E) (A' := O) (B := M) hE hO
     rw [← hM, Subgroup.subgroupOf_self] at h
@@ -62,11 +62,11 @@ theorem exists_odd_conj_normalized {G : Type*} [Group G] [Finite G] {M O Q E : S
     exact Nat.not_even_iff_odd.mpr hAodd
   let PE : Sylow 2 ↥M := hA2.toSylow hAnotdvd
   have hPE : (PE : Subgroup ↥M) = A := IsPGroup.toSylow_coe hA2 hAnotdvd
-  haveI : Finite (Sylow 2 ↥M) := Sylow.finite_of_finiteIndex PE
+  have : Finite (Sylow 2 ↥M) := Sylow.finite_of_finiteIndex PE
   let φ : Q →* MulAut ↥M := M.normalizerMonoidHom.comp (Subgroup.inclusion hQleN)
   have hφ : ∀ (q : Q) (x : ↥M), ((φ q x : ↥M) : G) = (q : G) * x * (q : G)⁻¹ :=
     fun q x => Subgroup.normalizerMonoidHom_apply_apply_coe M (Subgroup.inclusion hQleN q) x
-  letI : MulAction Q (Sylow 2 ↥M) := MulAction.compHom (Sylow 2 ↥M) φ
+  let : MulAction Q (Sylow 2 ↥M) := MulAction.compHom (Sylow 2 ↥M) φ
   obtain ⟨P, hPfix⟩ := hQ.nonempty_fixed_point_of_prime_not_dvd_card (Sylow 2 ↥M)
     (not_dvd_card_sylow 2 ↥M)
   have hQnormP : ∀ q ∈ Q, q ∈ normalizer ((P : Subgroup ↥M).map M.subtype : Set G) := by
@@ -109,7 +109,7 @@ theorem exists_odd_conj_normalized {G : Type*} [Group G] [Finite G] {M O Q E : S
   have hgM : (g : G) ∈ M := g.2
   have hgprod : (g : G) ∈ (E : Set G) * (O : Set G) := by
     rw [← Subgroup.coe_mul_of_left_le_normalizer_right E O (hE.trans hOleN)]
-    simpa [← hM] using hgM
+    simp [← hM]
   obtain ⟨e, he, o, ho, heo⟩ := Set.mem_mul.mp hgprod
   set o' : G := e * o * e⁻¹ with ho'def
   have ho' : o' ∈ O := hOn e (hE he) o ho

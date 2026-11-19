@@ -18,7 +18,7 @@ theorem card_eq_pow_rk (H : Subgroup W10) : Nat.card ↥H = 2 ^ rk ↥H := by
     have := Subgroup.card_subgroup_dvd_card H
     rwa [Nat.card_eq_fintype_card (α := W10), card_Wn] at this
   obtain ⟨k, hk, hk'⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hdvd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [hk', rk, hk', padicValNat.prime_pow]
 
 theorem card_of_rk (H : Subgroup W10) (n : ℕ) (h : rk ↥H = n) : Nat.card ↥H = 2 ^ n := by
@@ -132,11 +132,11 @@ theorem part4_std :
   refine ⟨⟨U8, U9, ?_, V5_le_U9, V5_not_le_U4⟩, ?_⟩
   · have := chain_std
     unfold Chain163 at this ⊢
-    rwa [KY_Q_L2, fixV_NQ2] at this ⊢
+    rw [KY_Q_L2, fixV_NQ2] at this ⊢; assumption
   · intro V₈ V₉ h
     obtain ⟨-, rfl⟩ := unique_chain163 V₈ V₉ (by
       unfold Chain163 at h ⊢
-      rwa [KY_Q_L2, fixV_NQ2] at h ⊢)
+      rw [KY_Q_L2, fixV_NQ2] at h ⊢; assumption)
     exact ⟨V5_le_U9, V5_not_le_U4⟩
 
 end CFSG.Quasithin.RonanH163

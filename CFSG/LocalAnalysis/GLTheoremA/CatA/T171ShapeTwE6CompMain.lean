@@ -25,18 +25,18 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 @[expose] def TwE6ComponentAction :
     Prop :=
   ExcKernelCompAction → TwE6CentralizerConnOdd →
-    ∀ {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-      {q : TauCeti.PrimePower} (hq2 : q.p = 2)
+    ∀ {p : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2)
+      {q : TauCeti.PrimePower} (_hq2 : q.p = 2)
       {K : Type} [Field K] [Finite K] (σ : K ≃+* K)
-      (hKcard : Nat.card K = (q.p ^ q.exponent) ^ 2)
-      (hσ : ∀ c, σ c = c ^ (q.p ^ q.exponent))
-      (hnot3 : p = 3 → ¬ 3 ∣ q.p ^ q.exponent + 1)
-      (x w : ↥(twistedE6RootGroup K σ)) (hx1 : x ≠ 1) (hxp : x ^ p = 1)
-      (hxw : x * w = w * x)
+      (_hKcard : Nat.card K = (q.p ^ q.exponent) ^ 2)
+      (_hσ : ∀ c, σ c = c ^ (q.p ^ q.exponent))
+      (_hnot3 : p = 3 → ¬ 3 ∣ q.p ^ q.exponent + 1)
+      (x w : ↥(twistedE6RootGroup K σ)) (_hx1 : x ≠ 1) (_hxp : x ^ p = 1)
+      (_hxw : x * w = w * x)
       (Kc : Subgroup ↥(twistedE6RootGroup K σ))
-      (hKc : CFSG.Assembly.IsComponentOf Kc (fixedSubgroup (MulAut.conj x)))
+      (_hKc : CFSG.Assembly.IsComponentOf Kc (fixedSubgroup (MulAut.conj x)))
       (hstab : MulAut.conj w ∈ CFSG.GroupActions.subgroupStabAut Kc)
-      (h360 : Nat.card (↥Kc ⧸ Subgroup.center ↥Kc) ≠ 360),
+      (_h360 : Nat.card (↥Kc ⧸ Subgroup.center ↥Kc) ≠ 360),
       centerQuotientHom ↥Kc (CFSG.GroupActions.subgroupStabRestrict Kc ⟨MulAut.conj w, hstab⟩) ∈
         innAutDerived (↥Kc ⧸ Subgroup.center ↥Kc)
 
@@ -58,7 +58,7 @@ theorem twE6_indAut_of_twistedModel {G : Type} [Group G] [Finite G] {p : ℕ}
   have hbN : b ∈ Subgroup.normalizer (L : Set G) :=
     S171.normalizer_of_innerDiagMarking hS.idiag hS.b_mem
   have hLself : GLAPComponent p L L := glaPComponent_self_of_dvd_card hS.prime hS.qs hpL
-  haveI hperfL : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hS.qs.1
+  have hperfL : Group.IsPerfect ↥L := Group.isPerfect_def.mpr hS.qs.1
   have hdin : InducesInnerMod p L d := inducesInnerMod_of_mem_not_shape hS hshape hS.d_mem
   obtain ⟨eP, heP⟩ := exists_pSimpleEquivCenterQuot_mk hS.prime hS.qs hpL
   obtain ⟨r, hr⟩ : ∃ r : PSimple p L, MulAut.conj r = MI.indAut p L d hdN :=
@@ -79,8 +79,8 @@ theorem twE6_indAut_of_twistedModel {G : Type} [Group G] [Finite G] {p : ℕ}
         rw [← TauCeti.LieTypeIndex.characteristic_twistedE6]; exact hPchar
       obtain ⟨K, hKf, σ, hKcard, hσ, ⟨eAd⟩⟩ :=
         CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-      letI := hKf
-      haveI : Finite K := Nat.finite_of_card_ne_zero
+      let := hKf
+      have : Finite K := Nat.finite_of_card_ne_zero
         (by rw [hKcard]; positivity)
       have hnot3 : p = 3 → ¬ 3 ∣ q.p ^ q.exponent + 1 := by
         intro hp3 h3

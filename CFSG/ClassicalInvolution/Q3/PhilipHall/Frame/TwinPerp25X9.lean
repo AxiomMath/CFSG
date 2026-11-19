@@ -69,7 +69,7 @@ theorem fix_of_fix_sylow {X : Type} [Group X] {A Q : Subgroup X} (e : A ≃* SL(
         have : (⟨β ((e.symm 1 : A) : X), hβA _ (e.symm 1).2⟩ : A) = 1 := by
           apply Subtype.ext
           simp
-        simp [this]
+        simp
       map_mul' := by
         intro s t
         have : (⟨β ((e.symm (s * t) : A) : X), hβA _ (e.symm (s * t)).2⟩ : A) =

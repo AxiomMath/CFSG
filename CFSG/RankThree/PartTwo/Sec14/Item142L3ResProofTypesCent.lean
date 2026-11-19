@@ -65,6 +65,7 @@ theorem eq_of_orderPoly_eq {π₁ π₂ : Bool} {q₁ q₂ : ℕ} (h1 : 2 ≤ q�
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem two_lt_of_model {L : Subgroup G}
     (hqs : CFSG.IsQuasisimple (↥L ⧸ aschbacherSolvableCore 3 ↥L))
     {π : Bool} {p f : ℕ} {K : Type} [Field K] (hK : PiField π p f K) (hq : ModThree π (p ^ f))

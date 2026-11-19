@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem pCoreOf_top_eq_subgroupOf (H : Subgroup G) :
     pCoreOf 2 (⊤ : Subgroup ↥H) = (pCoreOf 2 H).subgroupOf H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply le_antisymm
   · set P : Subgroup ↥H := pCoreOf 2 (⊤ : Subgroup ↥H) with hP
     have hPn : P.Normal := by
@@ -39,22 +39,26 @@ theorem pCoreOf_top_eq_subgroupOf (H : Subgroup G) :
         (Subgroup.subgroupOfEquivOfLe (CFSG.LieType.BorelTits.pCoreOf_le 2 H)).symm
     exact CFSG.LieType.BorelTits.le_pCoreOf 2 le_top inferInstance hNp
 
+omit [Finite G] in
 theorem isMulCommutative_subgroupOf {K H : Subgroup G} (hK : IsMulCommutative K) :
     IsMulCommutative (K.subgroupOf H) := by
-  haveI := hK
+  have := hK
   infer_instance
 
+omit [Finite G] in
 theorem isElemAbelian_subgroupOf {p : ℕ} {K H : Subgroup G} (hK : IsElemAbelian p K) :
     IsElemAbelian p (K.subgroupOf H) := by
   refine ⟨isMulCommutative_subgroupOf hK.1, fun x hx => ?_⟩
   have h := hK.2 ((x : ↥H) : G) (Subgroup.mem_subgroupOf.mp hx)
   exact Subtype.ext (by simpa using h)
 
+omit [Finite G] in
 private theorem subgroupOf_inf_eq (H₁ H₂ K : Subgroup G) :
     (H₁ ⊓ H₂).subgroupOf K = H₁.subgroupOf K ⊓ H₂.subgroupOf K :=
   Subgroup.comap_inf _ _ _
 
-theorem isTI_subgroupOf {A H : Subgroup G} (hAH : A ≤ H) (hTI : IsTI A) :
+omit [Finite G] in
+theorem isTI_subgroupOf {A H : Subgroup G} (_hAH : A ≤ H) (hTI : IsTI A) :
     IsTI (A.subgroupOf H) := by
   intro g
   have hconj : CFSG.CGT.Timmesfeld75.conjSubgroup g (A.subgroupOf H) =
@@ -70,6 +74,7 @@ theorem isTI_subgroupOf {A H : Subgroup G} (hAH : A ≤ H) (hTI : IsTI A) :
   · right
     rw [h]
 
+omit [Finite G] in
 private theorem commutator_le_of_le_of_le {X A H : Subgroup G} (hXH : X ≤ H) (hAH : A ≤ H) :
     ⁅X, A⁆ ≤ H := by
   rw [Subgroup.commutator_le]
@@ -78,6 +83,7 @@ private theorem commutator_le_of_le_of_le {X A H : Subgroup G} (hXH : X ≤ H) (
   exact H.mul_mem (H.mul_mem (H.mul_mem (hXH hx) (hAH ha)) (H.inv_mem (hXH hx)))
     (H.inv_mem (hAH ha))
 
+omit [Finite G] in
 theorem commutator_subgroupOf_of_le {X A H : Subgroup G} (hXH : X ≤ H) (hAH : A ≤ H) :
     ⁅X.subgroupOf H, A.subgroupOf H⁆ = ⁅X, A⁆.subgroupOf H := by
   have hXAH : ⁅X, A⁆ ≤ H := commutator_le_of_le_of_le hXH hAH
@@ -148,7 +154,7 @@ theorem iSub_subgroupOf_le {V H E A : Subgroup G} (hA : A ∈ omegaSet V H E) (h
 
 theorem seven_six_three_rel {V H E J A X : Subgroup G} {p : ℕ}
     (hV : IsElemAbelian 2 V) (hTI : IsTI V) (hp : p.Prime) (hp2 : p ≠ 2)
-    (hE : IsMulCommutative E) (hEH : E ≤ H) (hEnorm : (E.subgroupOf H).Normal)
+    (hE : IsMulCommutative E) (_hEH : E ≤ H) (hEnorm : (E.subgroupOf H).Normal)
     (hJ : J ≤ pCoreOf 2 H) (hJnorm : (J.subgroupOf H).Normal) (hIJ : iSub V H E ≤ J)
     (hA : A ∈ omegaSet V H E) (hAH : A ≤ H) (hJA : J.relIndex A = 2)
     (hJX : J ≤ X) (hXH : X ≤ H) (hAX : A ≤ Subgroup.normalizer (X : Set G))
@@ -158,8 +164,8 @@ theorem seven_six_three_rel {V H E J A X : Subgroup G} {p : ℕ}
   have hAab : IsElemAbelian 2 A := isElemAbelian_of_mem_omegaSet hV hA
   have hTIA : IsTI A := isTI_of_mem_omegaSet hA hTI
   have hJleH : J ≤ H := hJX.trans hXH
-  haveI : (E.subgroupOf H).Normal := hEnorm
-  haveI : (J.subgroupOf H).Normal := hJnorm
+  have : (E.subgroupOf H).Normal := hEnorm
+  have : (J.subgroupOf H).Normal := hJnorm
   have key := seven_six_three_member (G := ↥H) (V := A.subgroupOf H) (H := ⊤)
     (E := E.subgroupOf H) (J := J.subgroupOf H) (A := A.subgroupOf H) (X := X.subgroupOf H)
     (p := p) (isElemAbelian_subgroupOf hAab) (isTI_subgroupOf hAH hTIA) hp hp2

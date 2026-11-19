@@ -118,6 +118,7 @@ private theorem weak1_phi_rho_sq_sub_two_torsion
 
 
 
+omit [Finite G] in
 private theorem weak1_rho_commutator_mem_closure (dD : StrothWeakTypeData D τ)
     (hk : ∀ i, 2 ≤ τ.k i) (hrel : τ.m + 1 = τ.n)
     {x : G} (hx : x ∈ omegaIn 1 D) :
@@ -211,6 +212,7 @@ private theorem weak1_rho_commutator_mem_closure (dD : StrothWeakTypeData D τ)
   exact hmem
 
 
+omit [Finite G] in
 private theorem weak1_commutator_zpowers_rho_le (dD : StrothWeakTypeData D τ)
     (hk : ∀ i, 2 ≤ τ.k i) (hrel : τ.m + 1 = τ.n) :
     ⁅Subgroup.zpowers (dD.ρ : G), omegaIn 1 D⁆ ≤
@@ -387,6 +389,7 @@ private theorem weak1_rho_commutator_ab_pow (dD : StrothWeakTypeData D τ)
   rfl
 
 
+omit [Finite G] in
 private theorem weak1_omegaIn_a_pow (dD : StrothWeakTypeData D τ)
     (hk : ∀ i, 2 ≤ τ.k i) (hrel : τ.m + 1 = τ.n) :
     (dD.a : G) ^ (2 ^ τ.m) ∈ omegaIn 1 D := by
@@ -419,6 +422,7 @@ private theorem weak1_omegaIn_a_pow (dD : StrothWeakTypeData D τ)
   simpa [ya] using mem_omegaIn_one_of_mul_self ya.2 (congrArg Subtype.val hya2)
 
 
+omit [Finite G] in
 private theorem weak1_omegaIn_b_pow (dD : StrothWeakTypeData D τ)
     (hk : ∀ i, 2 ≤ τ.k i) (hrel : τ.m + 1 = τ.n) :
     (dD.b : G) ^ (2 ^ τ.m) ∈ omegaIn 1 D := by
@@ -450,6 +454,7 @@ private theorem weak1_omegaIn_b_pow (dD : StrothWeakTypeData D τ)
     rw [map_add, ← two_zsmul, h2, ofMul_one, map_zero]
   simpa [yb] using mem_omegaIn_one_of_mul_self yb.2 (congrArg Subtype.val hyb2)
 
+omit [Finite G] in
 private theorem weak1_omegaIn_ab_pow (dD : StrothWeakTypeData D τ)
     (hk : ∀ i, 2 ≤ τ.k i) (hrel : τ.m + 1 = τ.n) :
     ((dD.a : G) ^ (2 ^ τ.m) * (dD.b : G) ^ (2 ^ τ.m)) ∈
@@ -457,6 +462,7 @@ private theorem weak1_omegaIn_ab_pow (dD : StrothWeakTypeData D τ)
   (omegaIn 1 D).mul_mem (weak1_omegaIn_a_pow dD hk hrel) (weak1_omegaIn_b_pow dD hk hrel)
 
 
+omit [Finite G] in
 private theorem weak1_commutator_zpowers_rho_ge (dD : StrothWeakTypeData D τ)
     (hk : ∀ i, 2 ≤ τ.k i) (hrel : τ.m + 1 = τ.n) :
     Subgroup.closure ({(dD.a : G) ^ (2 ^ τ.m),
@@ -478,6 +484,7 @@ private theorem weak1_commutator_zpowers_rho_ge (dD : StrothWeakTypeData D τ)
     simpa [inv_pow] using hinv
 
 
+omit [Finite G] in
 private theorem weak1_commutator_zpowers_rho_eq (dD : StrothWeakTypeData D τ)
     (hk : ∀ i, 2 ≤ τ.k i) (hrel : τ.m + 1 = τ.n) :
     ⁅Subgroup.zpowers (dD.ρ : G), omegaIn 1 D⁆ =

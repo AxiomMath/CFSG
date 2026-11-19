@@ -27,7 +27,7 @@ theorem fzr_nonabelian_of_wreath {x₁ x₂ lam : G} (h : WreathRel x₁ x₂ la
 
 theorem fzr_transfer [Finite G] [IsSimpleGroup G] (hnab : ∃ a b : G, a * b ≠ b * a)
     {T M : Subgroup G} (hT : FzSylow T) (hMT : M ≤ T) (hM : M.relIndex T = 2) {g : G}
-    (hgT : g ∈ T) (hg : g * g = 1) : ∃ x : G, x⁻¹ * g * x ∈ M := by
+    (_hgT : g ∈ T) (hg : g * g = 1) : ∃ x : G, x⁻¹ * g * x ∈ M := by
   by_cases hgM : g ∈ M
   · exact ⟨1, by simpa using hgM⟩
   · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

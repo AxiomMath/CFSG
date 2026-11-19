@@ -72,7 +72,7 @@ theorem asc82End520_of (hGold : GoldStmt) (hN11a : S_N11a) (hN11b : S_N11b) (hN1
   have hH := pocketHyp_of_G hq hNz8 hTN hTH hQT hperm htrans hclosed hcentS
   obtain ⟨P, p, n, hp, hzP, hsub, hn, h8, hmod⟩ :=
     pocket_of_hyp hGold hN11a hN11b hN11c hH (zCent_mem_center z)
-  haveI : Fact p.Prime := hp
+  have : Fact p.Prime := hp
   exact ⟨p, n, hp, P.map (centralizer ({z} : Set G)).subtype, hn, h8,
     pocket_to_G z hzP hsub hmod⟩
 

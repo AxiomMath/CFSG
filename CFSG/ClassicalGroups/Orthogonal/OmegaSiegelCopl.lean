@@ -57,7 +57,7 @@ private theorem cpl_pair_smul {u v : N} (h : LinearIndependent K' ![u, v]) {μ :
   have h' := h s (t * μ) (by rw [mul_smul]; exact hst)
   exact ⟨h'.1, (mul_eq_zero.mp h'.2).resolve_right hμ⟩
 
-omit [Finite K] [FiniteDimensional K V] in
+omit [Finite K] [FiniteDimensional K V] [CharP K 2] in
 private theorem cpl_ne_one (hnd : ∀ x : V, (∀ y, polar Qf x y = 0) → x = 0)
     {s : V ≃ₗ[K] V} (hs : IsLongRootElement Qf s) : s ≠ 1 :=
   fun h => not_isLongRootElement_one hnd (h ▸ hs)

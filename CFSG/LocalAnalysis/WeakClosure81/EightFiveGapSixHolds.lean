@@ -14,7 +14,7 @@ open Matrix
 
 private lemma natCast_three_eq_zero_of_card_eq_three {F : Type*} [Field F] [Finite F]
     (hF : Nat.card F = 3) : (3 : F) = 0 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 3 := by
     rwa [← Nat.card_eq_fintype_card]
   obtain ⟨p, hchar, n, hpprime, hpow⟩ := FiniteField.card' F
@@ -24,7 +24,7 @@ private lemma natCast_three_eq_zero_of_card_eq_three {F : Type*} [Field F] [Fini
     rcases (Nat.dvd_prime Nat.prime_three).mp hpdvd with h | h
     · exact absurd h hpprime.ne_one
     · exact h
-  haveI : CharP F 3 := hp3 ▸ hchar
+  have : CharP F 3 := hp3 ▸ hchar
   exact CharP.cast_eq_zero F 3
 
 private lemma map_mulAut_symm_map {G : Type*} [Group G] (H : Subgroup G) (e : MulAut G) :

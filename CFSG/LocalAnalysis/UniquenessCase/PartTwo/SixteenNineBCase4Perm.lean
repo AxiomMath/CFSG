@@ -12,7 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 variable {T : Type} [CommGroup T] [Finite T]
 
 private theorem s16n9b_case4_perm_dParam_three : dParam 3 = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold dParam
   exact orderOf_eq_prime (by decide) (by decide)
 
@@ -26,7 +26,7 @@ theorem s16n9b_case4_perm_normal {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {I : T
       ⟨Equiv.permCongrHom e⟩ p hp hpodd N hN hNp
   · have h5 : 5 ≤ Fintype.card I := by omega
     by_contra hNne
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     have hntN : Nontrivial ↥N := (Subgroup.nontrivial_iff_ne_bot N).mpr hNne
     have hle : alternatingGroup I ≤ N :=
       Equiv.Perm.alternatingGroup_le_of_normal (α := I)
@@ -34,13 +34,13 @@ theorem s16n9b_case4_perm_normal {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {I : T
     have hdvd : Nat.card ↥(alternatingGroup I) ∣ Nat.card ↥N :=
       Subgroup.card_dvd_of_le hle
     have hNodd : Odd (Nat.card ↥N) := by
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       obtain ⟨m, hm⟩ := hNp.exists_card_eq
       rw [hm]
       exact hpodd.pow
     have hAltodd : Odd (Nat.card ↥(alternatingGroup I)) :=
       hNodd.of_dvd_nat hdvd
-    haveI : Nontrivial I := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
+    have : Nontrivial I := Fintype.one_lt_card_iff_nontrivial.mp (by omega)
     have hEven : Even (Nat.card ↥(alternatingGroup I)) := by
       have h2A : 2 * Nat.card ↥(alternatingGroup I) = Nat.factorial (Fintype.card I) := by
         rw [two_mul_nat_card_alternatingGroup, Nat.card_perm,
@@ -53,7 +53,7 @@ theorem s16n9b_case4_perm_normal {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {I : T
 
 theorem s16n9b_case4_perm_small {p : ℕ} (hp : p.Prime) {I : Type} [Fintype I] [DecidableEq I]
     (hI : Fintype.card I < p) {H : Subgroup (Equiv.Perm I)} (hH : IsPGroup p ↥H) : H = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnot : ¬ p ∣ Nat.card (Equiv.Perm I) := by
     rw [Nat.card_eq_fintype_card, Fintype.card_perm, hp.dvd_factorial]
     exact not_le.mpr hI
@@ -66,13 +66,13 @@ theorem s16n9b_case4_perm_small {p : ℕ} (hp : p.Prime) {I : Type} [Fintype I] 
     exact hnot (hpH.trans (Subgroup.card_subgroup_dvd_card H))
 
 theorem s16n9b_case4_perm_E (hT : ∀ t : T, t ^ 2 = 1) {I : Type} [Fintype I]
-    (hI : Fintype.card I = 3) {Y : I → Subgroup T} (hind : iSupIndep Y)
+    (hI : Fintype.card I = 3) {Y : I → Subgroup T} (_hind : iSupIndep Y)
     (hinj : Function.Injective Y) (hsup : ⨆ i, Y i = ⊤) (hrk : ∀ i, rk ↥(Y i) = 2)
     {E : Subgroup (MulAut T)} (hE : IsElemAbelian 3 E) (hcard : 3 ^ 3 ≤ Nat.card E)
     (hperm : ∀ g ∈ E, ∀ i, ∃ j, (Y i).map g.toMonoidHom = Y j) :
     ∀ g ∈ E, ∀ i, (Y i).map g.toMonoidHom = Y i := by
   classical
-  haveI : IsMulCommutative ↥E := hE.1
+  have : IsMulCommutative ↥E := hE.1
   let pick : ↥E → I → I := fun g i => Classical.choose (hperm g.1 g.2 i)
   have hpick : ∀ (g : ↥E) (i : I), (Y i).map g.1.toMonoidHom = Y (pick g i) :=
     fun g i => Classical.choose_spec (hperm g.1 g.2 i)
@@ -124,7 +124,7 @@ theorem s16n9b_case4_perm_E (hT : ∀ t : T, t ^ 2 = 1) {I : Type} [Fintype I]
       simpa using hE.2 g0 hg0E
     rw [← map_pow, hg03, map_one]
   have horder : orderOf (ρ ⟨g0, hg0E⟩) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime h3g hg0ne
   have hcycle : (ρ ⟨g0, hg0E⟩).IsCycle :=
     Equiv.Perm.isCycle_of_prime_order'' (α := I)
@@ -212,7 +212,7 @@ theorem s16n9b_case4_perm_E (hT : ∀ t : T, t ^ 2 = 1) {I : Type} [Fintype I]
     rw [mul_comm] at h1
     exact h1.symm
   have hρrange3 : Nat.card ρ.range ≤ 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     obtain ⟨n, hn⟩ := (CFSG.Open.IsElemAbelian.isPGroup hE).exists_card_eq
     have hdvdE : Nat.card ρ.range ∣ 3 ^ n := by
       rw [← hn]

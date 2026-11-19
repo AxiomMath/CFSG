@@ -90,7 +90,7 @@ private theorem FN_coord [Finite G] (F : G24Frame2 L1 L2 S)
     · have hval : ((v (Fin.natAdd 2 j)).val : ZMod 2) = v (Fin.natAdd 2 j) := by
         apply ZMod.val_injective 2
         rw [ZMod.val_natCast_of_lt (ZMod.val_lt (v (Fin.natAdd 2 j)))]
-      simp [w, Pi.single, hval, ZMod.val_one]
+      simp [w, Pi.single, hval]
     · intro b _ hb
       by_cases h2 : 2 ≤ b.val
       · have hne : (⟨b.val - 2, by omega⟩ : Fin 4) ≠ j := by
@@ -255,7 +255,7 @@ theorem G24Vertex2.eElt_block_omega (k u : G) (n : Fin 4 → G) :
     simp [show ¬ (2 + k.val < 2) by omega]
   rw [hval1, hval2, h1, h2, eElt_zero, mul_one]
   have hlist : List.finRange 2 = [0, 1] := rfl
-  simpa [eElt, List.ofFn_eq_map, hlist, ZMod.val_one, fU]
+  simp [eElt, ZMod.val_one, fU]
 
 theorem G24Frame2.exists_act [Finite G] (F : G24Frame2 L1 L2 S)
     (hD : G24LocalData L1 L2 S) {u : G} {n : Fin 4 → G} (hu : u ∈ F.W)
@@ -351,7 +351,7 @@ theorem G24Frame2.mat_eq_of_actions [Finite G] (F : G24Frame2 L1 L2 S)
   have hZQ : Z2 ≤ Q2 := inf_le_left
   have hZcQ : ∀ y ∈ Z2, ∀ x ∈ Q2, y * x = x * y :=
     (F.special_data hD).2.2.2.1
-  haveI : (Z2.subgroupOf Q2).Normal := Subgroup.normal_of_le_center fun z hz =>
+  have : (Z2.subgroupOf Q2).Normal := Subgroup.normal_of_le_center fun z hz =>
     Subgroup.mem_center_iff.mpr fun x => Subtype.ext (hZcQ z hz x x.2).symm
   ext i j
   let B : Fin 6 → ZMod 2 := fun k => M k j

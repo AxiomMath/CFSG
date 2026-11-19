@@ -122,7 +122,7 @@ theorem mul_card_le_cent_inf' [Finite G] (hk : orderOf k = p) {H : Subgroup G}
     (fun g hg hgH => hKH g hg hgH.1)
     ⟨mem_centralizer_singleton_iff.2 (mem_centralizer_singleton_iff.1 (hHk ht)).symm,
       mem_centralizer_singleton_iff.2 rfl⟩
-    (fun x hx => ⟨hx.2, hHk hx.1⟩)
+    (fun _x hx => ⟨hx.2, hHk hx.1⟩)
 
 theorem card_centralizer_le_of_involutions' [Finite G] (hp : p.Prime) (hp2 : p ≠ 2)
     (hk : orderOf k = p) {H : Subgroup G} (hKH : ∀ g ∈ zpowers k, g ∈ H → g = 1)
@@ -218,7 +218,7 @@ theorem tabMSeven_shapeRkAt'_of_simple {p : ℕ} (hp : p.Prime)
     (hnab : ∃ a b : ↥H, a * b ≠ b * a) (hpH : p ∣ Nat.card ↥H)
     (hbound : Nat.card ↥(Subgroup.centralizer ({k} : Set G)) ≤ p * Nat.card ↥H)
     (hG : Good ↥H) (hR : Rk ↥H) : ShapeRkAt' p Good Rk k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set X : Subgroup G := Subgroup.centralizer ({k} : Set G) with hX
   have hkX : k ∈ X := Subgroup.mem_centralizer_singleton_iff.2 rfl
   have hZ : Subgroup.center ↥H = ⊥ := center_eq_bot_of_simple_nonab hnab

@@ -92,12 +92,12 @@ theorem chBlk_transpose {ℓ : ℕ} (M : Fin ℓ → Blk2) : (chBlk M)ᵀ = chBl
 
 theorem chBlk_one {ℓ : ℕ} : chBlk (fun _ : Fin ℓ => (1 : Blk2)) = 1 := by
   ext a b
-  rcases a with a | a <;> rcases b with b | b <;> simp [chBlk, Matrix.one_apply, Matrix.diagonal_apply]
+  rcases a with a | a <;> rcases b with b | b <;> simp [chBlk, Matrix.one_apply]
 
 theorem chBlk_gram {ℓ : ℕ} : chBlk (fun _ : Fin ℓ => chJ) = chGram ℓ := by
   ext a b
   rcases a with a | a <;> rcases b with b | b <;> by_cases h : a = b <;>
-    simp [chBlk, chGram, chJ, Matrix.diagonal_apply, Matrix.neg_apply, Matrix.one_apply, h] <;> decide
+    simp [chBlk, chGram, chJ, Matrix.neg_apply, h]
 
 theorem chBlk_symp {ℓ : ℕ} {M : Fin ℓ → Blk2} (hM : ∀ i, (M i)ᵀ * chJ * M i = chJ) :
     (chBlk M)ᵀ * chGram ℓ * chBlk M = chGram ℓ := by

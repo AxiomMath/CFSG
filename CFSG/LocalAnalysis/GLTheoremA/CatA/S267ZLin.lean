@@ -27,7 +27,7 @@ private theorem exists_lam {p : ℕ} (hp : p.Prime) {σ : K ≃+* K}
     (hK9 : p = 3 → 9 ∣ Nat.card K - 1) :
     ∃ lam : K, IsPrimitiveRoot (lam ^ 3) p ∧ σ (lam ^ 3) = lam ^ 3 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K₀ := semilinearFixedSubfield σ with hK₀
   have : Fintype K₀ˣ := Fintype.ofFinite _
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card (G := K₀ˣ) p (by
@@ -47,10 +47,10 @@ private theorem exists_lam {p : ℕ} (hp : p.Prime) {σ : K ≃+* K}
     obtain ⟨m, hm⟩ := h9
     have hpos : 0 < Nat.card Kˣ := Nat.card_pos
     have hgm : orderOf (g ^ m) = 9 := by
-      rw [orderOf_pow' g (by rintro rfl; simp at hm <;> omega), hg, hm,
+      rw [orderOf_pow' g (by rintro rfl; simp at hm), hg, hm,
         Nat.gcd_mul_left_left, Nat.mul_div_cancel _ (by
           rcases Nat.eq_zero_or_pos m with h | h
-          · subst h; simp at hm <;> omega
+          · subst h; simp at hm
           · exact h)]
     set lam : K := ((g ^ m : Kˣ) : K) with hlam
     have hl : IsPrimitiveRoot lam 9 := by
@@ -65,7 +65,7 @@ private theorem exists_lam {p : ℕ} (hp : p.Prime) {σ : K ≃+* K}
 
 theorem z1Model_psl3 {ℓ f p : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) [CharP K ℓ] (hK : Nat.card K = ℓ ^ f)
     (hp : p.Prime) (hp2 : p ≠ 2) (hpℓ : p ≠ ℓ) (hℓ2 : ℓ ≠ 2) : Z1Model p (projectiveSL 3 K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : (p : K) ≠ 0 := by
     intro h
     rw [CharP.cast_eq_zero_iff K ℓ] at h
@@ -129,7 +129,7 @@ theorem z1Model_psl3 {ℓ f p : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f) [CharP K 
 
 theorem z1LinBranch_holds : Z1LinBranch := by
   intro p Q hp hp2 hQ2 hQp M _ _ hcat
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   obtain ⟨i, hi, ⟨e₀⟩⟩ := hcat
   rcases i with _ | _ | ⟨⟨d, hv⟩⟩ | _
   · exact absurd hi id

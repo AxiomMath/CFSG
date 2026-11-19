@@ -34,8 +34,8 @@ theorem coverLow_holds :
     CoverLow := by
   intro Q _ _ hCov hle
   obtain ⟨hQ, hZ, hZ2, hZc, hr3, -⟩ := hCov
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (Q ⧸ center Q) := hQ.2.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup (Q ⧸ center Q) := hQ.2.1
   have hr3' : 3 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup Q) := by
     rw [← CFSG.SectionRank.pRank_eq_open_pRank_top 2 Q]
     exact hr3
@@ -47,7 +47,7 @@ theorem coverLow_holds :
     have h8 := card_le_two_of_le_cyclic hEZ hE.2
     rw [hEcard] at h8
     norm_num at h8
-  obtain ⟨x, hxE, hxZ⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨x, hxE, hxZ⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   have hx2 : x ^ 2 = 1 := hE.2 x hxE
   have hxbar1 : (x : Q ⧸ center Q) ≠ 1 := fun h => hxZ ((QuotientGroup.eq_one_iff x).mp h)
   have hxbar2 : (x : Q ⧸ center Q) ^ 2 = 1 := by

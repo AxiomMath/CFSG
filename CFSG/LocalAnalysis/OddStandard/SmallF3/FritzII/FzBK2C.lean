@@ -12,7 +12,7 @@ open Certificates.FzBU CFSG.GH74.GLS.Bg.TwoGroups
 theorem fzb_uMul_zero_left (y : ℕ) : uMul 0 y = y := by
   unfold uMul f4mul
   simp only [Nat.zero_div, Nat.zero_mod, Nat.zero_xor, Nat.xor_zero, Nat.zero_mul,
-    Nat.mul_zero, Nat.zero_add, Nat.add_zero]
+    Nat.mul_zero, Nat.add_zero]
   omega
 
 theorem fzb_uMul_assoc {x y z : ℕ} (hx : x < 64) (hy : y < 64) (hz : z < 64) :
@@ -177,12 +177,12 @@ theorem fzb_extArr_eq {words : Array (List ℕ)} (hw : wordsOK words = true) {a 
   have pre_lt : ∀ x < 64, pre x < 64 := by
     intro x hx
     have h : ∃ y < 64, g[y]! = x := fzb_isAutArr_surj hg hx
-    simp only [pre, dif_pos h]
+    simp only [pre, dite_eq_left h]
     exact (Classical.choose_spec h).1
   have pre_spec : ∀ x < 64, g[pre x]! = x := by
     intro x hx
     have h : ∃ y < 64, g[y]! = x := fzb_isAutArr_surj hg hx
-    simp only [pre, dif_pos h]
+    simp only [pre, dite_eq_left h]
     exact (Classical.choose_spec h).2
   refine ⟨fun p => g[C.enc p]!, fun x => C.dec (pre x), ?_, ?_, ?_, ?_, ?_, ?_⟩
   · intro p hp

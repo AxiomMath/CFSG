@@ -37,7 +37,7 @@ theorem reciprocal_eq_self (hs3 : s ^ 3 = 1) {h : (ZMod 2)[X]}
   · rw [h1]; exact reciprocalPolynomial_X_sub_one
   · have hord : orderOf (Nat.card (ZMod 2) : ZMod 3) = 2 := by
       rw [Nat.card_zmod]
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime (by decide) (by decide)
     exact CFSG.RankThree.PartOne.TCP.reciprocalPolynomial_eq_of_mem Nat.prime_three
       (spEnd_pow hs3) hord hh h1
@@ -117,8 +117,8 @@ theorem commute_supported (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1)
 theorem primaryMultiplicity_q2_eq_zero (hq : q2 ∉ primaryFactors (spEnd s)) :
     primaryMultiplicity (spEnd s) q2 = 0 := by
   have hbot := primaryComponent_eq_bot_of_not_mem (y := spEnd s) q2_irreducible monic_q2 hq
-  haveI : Fact (Irreducible q2) := ⟨q2_irreducible⟩
-  haveI : Subsingleton ↥(primaryComponent (spEnd s) q2) := by rw [hbot]; infer_instance
+  have : Fact (Irreducible q2) := ⟨q2_irreducible⟩
+  have : Subsingleton ↥(primaryComponent (spEnd s) q2) := by rw [hbot]; infer_instance
   exact Module.finrank_zero_of_subsingleton
 
 open CFSG.RankThree.PartOne.KCOrthogonal in
@@ -137,10 +137,10 @@ theorem dimension_count (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1) :
   rw [Finset.sum_filter]
   by_cases hq : q2 ∈ primaryFactors (spEnd s)
   · rw [Finset.sum_eq_single q2]
-    · rw [if_pos ⟨reciprocal_eq_self hs3 hq, q2_ne_X_sub_one⟩, natDegree_q2]
+    · rw [ite_eq_left ⟨reciprocal_eq_self hs3 hq, q2_ne_X_sub_one⟩, natDegree_q2]
       simp
     · intro h hh hne
-      rw [if_neg]
+      rw [ite_eq_right]
       rintro ⟨-, hne1⟩
       rcases mem_primaryFactors_pow_three (spEnd_pow hs3) hh with h' | h'
       · exact hne1 h'
@@ -149,7 +149,7 @@ theorem dimension_count (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1) :
       exact absurd hq hq'
   · rw [Finset.sum_eq_zero, primaryMultiplicity_q2_eq_zero hq]
     intro h hh
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨-, hne1⟩
     rcases mem_primaryFactors_pow_three (spEnd_pow hs3) hh with h' | h'
     · exact hne1 h'
@@ -196,7 +196,7 @@ theorem exists_class_spSupported (hs3 : s ^ 3 = 1) (hs1 : s ≠ 1) :
   have blocks := sp8_blocks s hord
   have hsq := squarefree_minpoly_spEnd hs3
   have hq := q2_mem_primaryFactors hs3 hs1
-  haveI : Fact (Irreducible q2) := ⟨q2_irreducible⟩
+  have : Fact (Irreducible q2) := ⟨q2_irreducible⟩
   obtain ⟨s₀, hs₀, hs4⟩ := dimension_count hs3 hs1
   refine ⟨s₀, ⟨hs4.symm, ?_, centralizer_eq_sup hs3 hs1, ?_, inf_supported_eq_bot hs3, ?_, ?_⟩⟩
   ·

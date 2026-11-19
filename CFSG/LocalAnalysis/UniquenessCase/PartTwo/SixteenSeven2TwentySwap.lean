@@ -25,6 +25,7 @@ structure Swap20 (A V I₀ I₁ : Subgroup G) (a : G) : Prop where
   acts : ∀ x ∈ A, (conjSubgroup I₀ x = I₀ ∧ conjSubgroup I₁ x = I₁) ∨
     (conjSubgroup I₀ x = I₁ ∧ conjSubgroup I₁ x = I₀)
 
+omit [Finite G] in
 private theorem s16c167_twenty_ne {A V I₀ I₁ : Subgroup G} {a : G} (hS : Swap20 A V I₀ I₁ a) :
     I₀ ≠ I₁ := by
   intro h
@@ -32,18 +33,21 @@ private theorem s16c167_twenty_ne {A V I₀ I₁ : Subgroup G} {a : G} (hS : Swa
   rw [hS.inf] at h1
   exact hS.ne_bot h1.symm
 
+omit [Finite G] in
 private theorem s16c167_twenty_conj_I₁ {A V I₀ I₁ : Subgroup G} {a : G}
     (hS : Swap20 A V I₀ I₁ a) : conjSubgroup I₁ a = I₀ := by
   rcases hS.acts a hS.mem with ⟨h0, -⟩ | ⟨-, h1⟩
   · exact absurd (h0.symm.trans hS.swap) (s16c167_twenty_ne hS)
   · exact h1
 
+omit [Finite G] in
 private theorem s16c167_twenty_mem_conjSubgroup {X Y : Subgroup G} {g x : G}
     (h : conjSubgroup X g = Y) (hx : x ∈ X) : g⁻¹ * x * g ∈ Y := by
   rw [← h]
   have := Subgroup.mem_map_of_mem (MulAut.conj g⁻¹).toMonoidHom hx
   simpa [conjSubgroup, MulAut.conj_apply] using this
 
+omit [Finite G] in
 private theorem s16c167_twenty_inf_centralizer_eq_bot {A V I₀ I₁ : Subgroup G} {a : G}
     (hS : Swap20 A V I₀ I₁ a) :
     I₀ ⊓ Subgroup.centralizer (A : Set G) = ⊥ := by
@@ -61,6 +65,7 @@ private theorem s16c167_twenty_inf_centralizer_eq_bot {A V I₀ I₁ : Subgroup 
   rw [hS.inf] at this
   exact Subgroup.mem_bot.1 this
 
+omit [Finite G] in
 private theorem s16c167_twenty_eq_left_of_mul_eq_mul {I J : Subgroup G} (hinf : I ⊓ J = ⊥)
     {x y x' y' : G} (hx : x ∈ I) (hy : y ∈ J) (hx' : x' ∈ I) (hy' : y' ∈ J)
     (h : x * y = x' * y') : x = x' := by
@@ -77,10 +82,12 @@ private theorem s16c167_twenty_eq_left_of_mul_eq_mul {I J : Subgroup G} (hinf : 
   calc x = x' * (x'⁻¹ * x) := by group
     _ = x' := by rw [h1, mul_one]
 
+omit [Finite G] in
 private theorem s16c167_twenty_comm {A : Subgroup G} (hA : IsElemAbelian 2 A) {x y : G}
     (hx : x ∈ A) (hy : y ∈ A) : x * y = y * x :=
   congrArg Subtype.val (hA.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
 
+omit [Finite G] in
 private theorem s16c167_twenty_conj_mul_inv {x y a : G} (h : x * a = a * x) :
     x * (a * y * a⁻¹) * x⁻¹ = a * (x * y * x⁻¹) * a⁻¹ := by
   have hx : a⁻¹ * x⁻¹ = x⁻¹ * a⁻¹ := by
@@ -90,6 +97,7 @@ private theorem s16c167_twenty_conj_mul_inv {x y a : G} (h : x * a = a * x) :
     _ = (a * x) * y * (x⁻¹ * a⁻¹) := by rw [h, hx]
     _ = a * (x * y * x⁻¹) * a⁻¹ := by group
 
+omit [Finite G] in
 private theorem s16c167_twenty_centralizer_components {C I J : Subgroup G}
     (hCI : ∀ d ∈ C, conjSubgroup I d = I) (hCJ : ∀ d ∈ C, conjSubgroup J d = J)
     {w : G} (hw : w ∈ Subgroup.centralizer (C : Set G)) {wI : G} (hwI : wI ∈ I)
@@ -125,6 +133,7 @@ private theorem s16c167_twenty_centralizer_components {C I J : Subgroup G}
     calc d * wJ = d * wJ * d⁻¹ * d := by group
       _ = wJ * d := by rw [(key d hd).2]
 
+omit [Finite G] in
 private theorem s16c167_twenty_mem_sup_of_commute {I J : Subgroup G}
     (hcomm : ∀ i ∈ I, ∀ j ∈ J, i * j = j * i) {x : G} (hx : x ∈ I ⊔ J) :
     ∃ i ∈ I, ∃ j ∈ J, i * j = x := by
@@ -147,6 +156,7 @@ private theorem s16c167_twenty_mem_sup_of_commute {I J : Subgroup G}
       (fun j hj => ⟨1, I.one_mem, j, hj, by simp⟩)
   simpa [T] using hle hx
 
+omit [Finite G] in
 private theorem s16c167_twenty_card_sup_eq_mul {H K : Subgroup G}
     (hcomm : ∀ h ∈ H, ∀ k ∈ K, h * k = k * h) (hinf : H ⊓ K = ⊥) :
     Nat.card ↥(H ⊔ K) = Nat.card ↥H * Nat.card ↥K := by
@@ -178,6 +188,7 @@ private theorem s16c167_twenty_card_sup_eq_mul {H K : Subgroup G}
     obtain ⟨h, hh, k, hk, hk_eq⟩ := s16c167_twenty_mem_sup_of_commute hcomm x.2
     exact ⟨(⟨h, hh⟩, ⟨k, hk⟩), Subtype.ext hk_eq⟩
 
+omit [Finite G] in
 private theorem s16c167_twenty_relIndex_eq_two {A V I₀ I₁ B₀ : Subgroup G} {a : G}
     (hS : Swap20 A V I₀ I₁ a)
     (hB₀ : ∀ x : G, x ∈ B₀ ↔ x ∈ A ∧ conjSubgroup I₀ x = I₀) :
@@ -281,7 +292,7 @@ theorem s16c167_twenty_chain {A V I₀ I₁ B₀ U : Subgroup G} {a : G} (hS : S
       simpa [inf_eq_left.2 hCU] using
         (Subgroup.relIndex_mul_card (H := V ⊓ Subgroup.centralizer (A : Set G)) (K := U))
     rw [← hrel] at hcard
-    haveI : Nonempty ↥(V ⊓ Subgroup.centralizer (A : Set G)) :=
+    have : Nonempty ↥(V ⊓ Subgroup.centralizer (A : Set G)) :=
       ⟨1, (V ⊓ Subgroup.centralizer (A : Set G)).one_mem⟩
     have hQle := Nat.le_of_mul_le_mul_right hcard Nat.card_pos
     calc Nat.card ↥(I₀ ⊓ Subgroup.centralizer (B₀ : Set G))
@@ -526,7 +537,7 @@ theorem s16c167_twenty_extend {A V I₀ I₁ B₀ C : Subgroup G} {a : G} (hS : 
   have hrelAD : (C ⊔ Subgroup.zpowers a).relIndex A = 2 := by
     have h := Subgroup.relIndex_mul_card (H := C ⊔ Subgroup.zpowers a) (K := A)
     rw [inf_eq_left.2 hD'A, hcardA2] at h
-    haveI : Nonempty ↥(C ⊔ Subgroup.zpowers a) :=
+    have : Nonempty ↥(C ⊔ Subgroup.zpowers a) :=
       ⟨1, (C ⊔ Subgroup.zpowers a).one_mem⟩
     exact Nat.eq_of_mul_eq_mul_right Nat.card_pos h
   have hmQuot : E3.mQuot A (C ⊔ Subgroup.zpowers a) = 1 := by

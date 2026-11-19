@@ -122,27 +122,33 @@ namespace Lemma11Hyp
 variable [Finite V] {X : Type*} [Group X] [Finite X] {ρ : X →* MulAut V} {d₀ d₁ x₀ x₁ τ : X}
   {b₀ b₁ : V}
 
+omit [Finite V] [Finite X] in
 theorem pow_three₀ (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) : (ρ x₀) ^ 3 = 1 := by
   rw [← map_pow, ← h.orderOf₀, pow_orderOf_eq_one, map_one]
 
+omit [Finite V] [Finite X] in
 theorem pow_three₁ (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) : (ρ x₁) ^ 3 = 1 := by
   rw [← map_pow, ← h.orderOf₁, pow_orderOf_eq_one, map_one]
 
+omit [Finite V] [Finite X] in
 theorem ne_one_x₀ (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) : ρ x₀ ≠ 1 := fun h1 => by
   have : x₀ = 1 := h.injective (h1.trans (map_one ρ).symm)
   have h3 := h.orderOf₀
   rw [this, orderOf_one] at h3
   exact absurd h3 (by decide)
 
+omit [Finite V] [Finite X] in
 theorem ne_one_x₁ (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) : ρ x₁ ≠ 1 := fun h1 => by
   have : x₁ = 1 := h.injective (h1.trans (map_one ρ).symm)
   have h3 := h.orderOf₁
   rw [this, orderOf_one] at h3
   exact absurd h3 (by decide)
 
+omit [Finite V] [Finite X] in
 private theorem conj_ρ {g x y : X} (hgx : g * x * g⁻¹ = y) : ρ g * ρ x * (ρ g)⁻¹ = ρ y := by
   rw [← map_inv, ← map_mul, ← map_mul, hgx]
 
+omit [Finite X] in
 theorem comm₀_facts (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
     Nat.card (commV (Subgroup.zpowers (ρ x₀))) = 4 ∧ b₀ ∈ commV (Subgroup.zpowers (ρ x₀)) ∧
       (∀ c ∈ fixV (Subgroup.zpowers (ρ x₀)), ρ d₀ c = c) ∧
@@ -154,6 +160,7 @@ theorem comm₀_facts (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
   commV_of_inverted h.sq_eq_one h.tv₀ h.ne_one₀ h.pow_three₀ h.ne_one_x₀
     (by rw [conj_ρ h.inv₀, map_inv])
 
+omit [Finite X] in
 theorem comm₁_facts (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
     Nat.card (commV (Subgroup.zpowers (ρ x₁))) = 4 ∧ b₁ ∈ commV (Subgroup.zpowers (ρ x₁)) ∧
       (∀ c ∈ fixV (Subgroup.zpowers (ρ x₁)), ρ d₁ c = c) ∧
@@ -165,12 +172,14 @@ theorem comm₁_facts (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
   commV_of_inverted h.sq_eq_one h.tv₁ h.ne_one₁ h.pow_three₁ h.ne_one_x₁
     (by rw [conj_ρ h.inv₁, map_inv])
 
+omit [Finite V] [Finite X] in
 private theorem comm_apply (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) (v : V) :
     ρ x₀ (ρ x₁ v) = ρ x₁ (ρ x₀ v) := by
   have := congrArg (fun f : MulAut V => f v) (show ρ x₀ * ρ x₁ = ρ x₁ * ρ x₀ by
     rw [← map_mul, ← map_mul, h.comm])
   simpa only [MulAut.mul_apply] using this
 
+omit [Finite X] in
 theorem fix_comm₁ (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
     ∀ u ∈ commV (Subgroup.zpowers (ρ x₁)), ρ x₀ u = u := by
   have hb : ρ x₀ b₁ = b₁ := B1.tv_comm_centre h.tv₁ h.ne_one₁ (by
@@ -183,6 +192,7 @@ theorem fix_comm₁ (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
   · rw [comm_apply h, hb]
   · rw [comm_apply h, comm_apply h, hb]
 
+omit [Finite X] in
 theorem fix_comm₀ (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
     ∀ u ∈ commV (Subgroup.zpowers (ρ x₀)), ρ x₁ u = u := by
   have hb : ρ x₁ b₀ = b₀ := B1.tv_comm_centre h.tv₀ h.ne_one₀ (by
@@ -195,6 +205,7 @@ theorem fix_comm₀ (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
   · rw [← comm_apply h, hb]
   · rw [← comm_apply h, ← comm_apply h, hb]
 
+omit [Finite X] in
 theorem comm_inf_comm (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
     commV (Subgroup.zpowers (ρ x₀)) ⊓ commV (Subgroup.zpowers (ρ x₁)) = ⊥ := by
   rw [eq_bot_iff]
@@ -204,11 +215,13 @@ theorem comm_inf_comm (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
   have : u ∈ commV (Subgroup.zpowers (ρ x₀)) ⊓ fixV (Subgroup.zpowers (ρ x₀)) := ⟨hu₀, hfix⟩
   rwa [commV_zpowers_inf_eq h.sq_eq_one h.pow_three₀] at this
 
+omit [Finite V] in
 private theorem card_sup_of_inf {U W : Subgroup V} (hUW : U ⊓ W = ⊥) :
     Nat.card (U ⊔ W : Subgroup V) = Nat.card U * Nat.card W :=
   CFSG.GorensteinWalter.card_sup_eq_mul_of_disjoint_of_le_normalizer U W
     (by rw [CommGroup.normalizer_eq_top]; exact le_top) (disjoint_iff.mpr hUW)
 
+omit [Finite X] in
 private theorem fix_decomp (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
     (fixV (Subgroup.zpowers (ρ x₀)) ⊓ fixV (Subgroup.zpowers (ρ x₁))) ⊔
         commV (Subgroup.zpowers (ρ x₁)) = fixV (Subgroup.zpowers (ρ x₀)) ∧
@@ -263,6 +276,7 @@ private theorem fix_decomp (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) 
   rw [heq] at hsup hinf
   exact ⟨hsup, hinf, hcard₀⟩
 
+omit [Finite V] [Finite X] in
 theorem mem_fix_iff (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) {v : V} :
     v ∈ fixV (Subgroup.zpowers (ρ x₀)) ⊓ fixV (Subgroup.zpowers (ρ x₁)) ↔
       ∀ o ∈ pPrimeCore 2 X, ρ o v = v := by
@@ -282,6 +296,7 @@ theorem mem_fix_iff (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) {v : V}
       rw [h.core_eq]; exact Subgroup.mem_sup_right (Subgroup.mem_zpowers x₁)
     exact ⟨mem_fixV_zpowers_iff_apply.mpr (hv x₀ hx₀), mem_fixV_zpowers_iff_apply.mpr (hv x₁ hx₁)⟩
 
+omit [Finite X] in
 theorem card_fix (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
     Nat.card (fixV (Subgroup.zpowers (ρ x₀)) ⊓ fixV (Subgroup.zpowers (ρ x₁)) : Subgroup V) = 4 := by
   obtain ⟨hsup, hinf, hcard⟩ := h.fix_decomp
@@ -289,6 +304,7 @@ theorem card_fix (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
   rw [hsup, hcard, h.comm₁_facts.1] at h1
   omega
 
+omit [Finite X] in
 theorem fix_inf_eq (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
     (fixV (Subgroup.zpowers (ρ x₀)) ⊓ fixV (Subgroup.zpowers (ρ x₁))) ⊓
       (commV (Subgroup.zpowers (ρ x₀)) ⊔ commV (Subgroup.zpowers (ρ x₁))) = ⊥ := by
@@ -305,6 +321,7 @@ theorem fix_inf_eq (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
   have h2 : u₁ ∈ commV (Subgroup.zpowers (ρ x₁)) ⊓ fixV (Subgroup.zpowers (ρ x₁)) := ⟨hu₁, hv₁⟩
   rwa [commV_zpowers_inf_eq h.sq_eq_one h.pow_three₁] at h2
 
+omit [Finite X] in
 theorem fix_sup_eq (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
     (fixV (Subgroup.zpowers (ρ x₀)) ⊓ fixV (Subgroup.zpowers (ρ x₁))) ⊔
       commV (Subgroup.zpowers (ρ x₀)) ⊔ commV (Subgroup.zpowers (ρ x₁)) = ⊤ := by
@@ -313,14 +330,17 @@ theorem fix_sup_eq (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
   rw [← hsup] at h1
   rw [← h1, sup_comm (commV _) (_ ⊔ _), sup_assoc, sup_assoc, sup_comm (commV (Subgroup.zpowers (ρ x₁)))]
 
+omit [Finite X] in
 theorem d₀_fix (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
     ∀ v ∈ fixV (Subgroup.zpowers (ρ x₀)) ⊓ fixV (Subgroup.zpowers (ρ x₁)), ρ d₀ v = v :=
   fun v hv => h.comm₀_facts.2.2.1 v hv.1
 
+omit [Finite X] in
 theorem d₁_fix (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
     ∀ v ∈ fixV (Subgroup.zpowers (ρ x₀)) ⊓ fixV (Subgroup.zpowers (ρ x₁)), ρ d₁ v = v :=
   fun v hv => h.comm₁_facts.2.2.1 v hv.2
 
+omit [Finite V] [Finite X] in
 theorem fix_invariant (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) (g : X) :
     ∀ v ∈ fixV (Subgroup.zpowers (ρ x₀)) ⊓ fixV (Subgroup.zpowers (ρ x₁)),
       ρ g v ∈ fixV (Subgroup.zpowers (ρ x₀)) ⊓ fixV (Subgroup.zpowers (ρ x₁)) := by
@@ -334,6 +354,7 @@ theorem fix_invariant (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) (g : 
     simp only [map_mul, map_inv, MulAut.mul_apply, MulAut.inv_apply, MulEquiv.apply_symm_apply]
   rw [e, hv _ hconj]
 
+omit [Finite X] in
 theorem d₀_apply (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) {u : V}
     (hu : u ∈ commV (Subgroup.zpowers (ρ x₀))) (hu1 : u ≠ 1) (hub : u ≠ b₀) :
     ρ d₀ u = u * b₀ := by
@@ -344,6 +365,7 @@ theorem d₀_apply (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) {u : V}
   · exact h1
   · exact h2
 
+omit [Finite X] in
 theorem d₁_apply (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) {u : V}
     (hu : u ∈ commV (Subgroup.zpowers (ρ x₁))) (hu1 : u ≠ 1) (hub : u ≠ b₁) :
     ρ d₁ u = u * b₁ := by
@@ -354,6 +376,7 @@ theorem d₁_apply (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) {u : V}
   · exact h1
   · exact h2
 
+omit [Finite X] in
 theorem exists_conj₀ (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) {u : V}
     (hu : u ∈ commV (Subgroup.zpowers (ρ x₀))) (hu1 : u ≠ 1) :
     ∃ g ∈ Subgroup.zpowers x₀, ρ g b₀ = u := by
@@ -365,6 +388,7 @@ theorem exists_conj₀ (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) {u :
   · exact ⟨x₀ * x₀, Subgroup.mul_mem _ (Subgroup.mem_zpowers x₀) (Subgroup.mem_zpowers x₀),
       by rw [map_mul, MulAut.mul_apply]⟩
 
+omit [Finite X] in
 theorem exists_conj₁ (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) {u : V}
     (hu : u ∈ commV (Subgroup.zpowers (ρ x₁))) (hu1 : u ≠ 1) :
     ∃ g ∈ Subgroup.zpowers x₁, ρ g b₁ = u := by
@@ -376,6 +400,7 @@ theorem exists_conj₁ (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) {u :
   · exact ⟨x₁ * x₁, Subgroup.mul_mem _ (Subgroup.mem_zpowers x₁) (Subgroup.mem_zpowers x₁),
       by rw [map_mul, MulAut.mul_apply]⟩
 
+omit [Finite X] in
 theorem exists_conj_mul (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) {u₀ u₁ : V}
     (hu₀ : u₀ ∈ commV (Subgroup.zpowers (ρ x₀))) (hu₀1 : u₀ ≠ 1)
     (hu₁ : u₁ ∈ commV (Subgroup.zpowers (ρ x₁))) (hu₁1 : u₁ ≠ 1) :
@@ -396,18 +421,21 @@ theorem exists_conj_mul (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) {u�
   · rw [map_mul ρ g₀ g₁, MulAut.mul_apply, map_mul (ρ g₁) b₀ b₁, hb₀, hg₁b,
       map_mul (ρ g₀) b₀ u₁, hg₀b, hu₁']
 
+omit [Finite V] [Finite X] in
 theorem mem_zpowers₁_of_inverted (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) {o : X}
     (ho : o ∈ pPrimeCore 2 X) (hinv : d₁ * o * d₁⁻¹ = o⁻¹) : o ∈ Subgroup.zpowers x₁ := by
   rw [h.core_eq, sup_comm] at ho
   have hx₀3 : x₀ ^ 3 = 1 := by rw [← h.orderOf₀]; exact pow_orderOf_eq_one x₀
   exact mem_zpowers_of_inverted_of_mem_sup h.comm.symm hx₀3 h.inv₁ h.comm₁₀.symm ho hinv
 
+omit [Finite V] [Finite X] in
 theorem mem_zpowers₀_of_inverted (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) {o : X}
     (ho : o ∈ pPrimeCore 2 X) (hinv : d₀ * o * d₀⁻¹ = o⁻¹) : o ∈ Subgroup.zpowers x₀ := by
   rw [h.core_eq] at ho
   have hx₁3 : x₁ ^ 3 = 1 := by rw [← h.orderOf₁]; exact pow_orderOf_eq_one x₁
   exact mem_zpowers_of_inverted_of_mem_sup h.comm hx₁3 h.inv₀ h.comm₀₁.symm ho hinv
 
+omit [Finite V] [Finite X] in
 theorem conj_mem_zpowers (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
     τ * x₀ * τ⁻¹ ∈ Subgroup.zpowers x₁ ∧ τ⁻¹ * x₁ * τ ∈ Subgroup.zpowers x₀ := by
   have hO := (inferInstance : (pPrimeCore 2 X).Normal)
@@ -431,6 +459,7 @@ theorem conj_mem_zpowers (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
           group
       _ = (τ⁻¹ * x₁ * τ)⁻¹ := by rw [h.inv₁]; group
 
+omit [Finite V] [Finite X] in
 private theorem apply_mem_commV_of_conj {g x y : X} (hg : g * x * g⁻¹ ∈ Subgroup.zpowers y) :
     ∀ v ∈ commV (Subgroup.zpowers (ρ x)), ρ g v ∈ commV (Subgroup.zpowers (ρ y)) := by
   intro v hv
@@ -444,6 +473,7 @@ private theorem apply_mem_commV_of_conj {g x y : X} (hg : g * x * g⁻¹ ∈ Sub
   rw [e, ← hm, map_zpow, ← zpow_mul]
   exact Subgroup.zpow_mem_zpowers _ _
 
+omit [Finite V] [Finite X] in
 theorem map_comm_eq (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
     (commV (Subgroup.zpowers (ρ x₀))).map (ρ τ).toMonoidHom = commV (Subgroup.zpowers (ρ x₁)) := by
   obtain ⟨h₀, h₁⟩ := h.conj_mem_zpowers
@@ -456,6 +486,7 @@ theorem map_comm_eq (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
     show ρ τ (ρ τ⁻¹ u) = u
     rw [← MulAut.mul_apply, ← map_mul, mul_inv_cancel, map_one, MulAut.one_apply]
 
+omit [Finite X] in
 theorem fix_inf_closure_eq (h : Lemma11Hyp ρ d₀ d₁ x₀ x₁ τ b₀ b₁) :
     (fixV (Subgroup.zpowers (ρ x₀)) ⊓ fixV (Subgroup.zpowers (ρ x₁))) ⊓
       Subgroup.closure ({b₀, b₁} : Set V) = ⊥ := by

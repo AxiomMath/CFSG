@@ -206,14 +206,14 @@ theorem w4Thm11_1RowM_Suz_holds :
     omega
   unfold E3.mParam
   by_cases hEven : Even (Nat.card Y)
-  · rw [if_pos hEven]
+  · rw [ite_eq_left hEven]
     refine le_csInf ?_ ?_
     · obtain ⟨t, hto⟩ :=
         exists_prime_orderOf_dvd_card' (G := ↥Y) 2 (even_iff_two_dvd.1 hEven)
       exact ⟨_, (t : MulAut W), t.2, by rwa [Subgroup.orderOf_coe], rfl⟩
     · rintro n ⟨t, htY, hto, rfl⟩
       exact key t htY hto
-  · rw [if_neg hEven]
+  · rw [ite_eq_right hEven]
     have hcard : Nat.card W = 2 ^ rk W :=
       card_eq_two_pow_of_isPGroup (isPGroup_two_of_sq_eq_one hW)
     have h := h22.trans (index_fixV_le_card L)

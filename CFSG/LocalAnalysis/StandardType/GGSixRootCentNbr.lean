@@ -31,34 +31,34 @@ section Excluding
 variable {G : Type} [Group G]
 
 theorem GGRootCentDerivedAt.toQ_of_not_isSolvable [Finite G] {p : ℕ} {G₀ : Subgroup G} {r : G}
-    (h : GGRootCentDerivedAt p G₀ r) (hX : ¬ IsSolvable ↥(ggRCSX G₀ r)) :
+    (h : GGRootCentDerivedAt p G₀ r) (hX : ¬ Group.IsSolvable ↥(ggRCSX G₀ r)) :
     GGRootCentDerivedAtQ p G₀ r := by
   rcases h with h | ⟨hp, hQ, hcov⟩ | ⟨Q, -, hQ2, hQn, he⟩
   · exact Or.inl h
   · exact Or.inr ⟨hp, hQ, hcov⟩
   · exfalso
     apply hX
-    letI := hQn
+    let := hQn
     obtain ⟨e⟩ := he
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hQ2X : IsPGroup 2 (Q.subgroupOf (ggRCSX G₀ r)) :=
       hQ2.comap_of_injective (ggRCSX G₀ r).subtype (Subgroup.subtype_injective _)
-    haveI : Group.IsSolvable (Q.subgroupOf (ggRCSX G₀ r)) :=
+    have : Group.IsSolvable (Q.subgroupOf (ggRCSX G₀ r)) :=
       @IsNilpotent.to_isSolvable _ _ hQ2X.isNilpotent
-    haveI : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by simp)
-    haveI : Group.IsSolvable (↥(ggRCSX G₀ r) ⧸ Q.subgroupOf (ggRCSX G₀ r)) :=
+    have : Group.IsSolvable (Equiv.Perm (Fin 3)) := Equiv.Perm.isSolvable (by simp)
+    have : Group.IsSolvable (↥(ggRCSX G₀ r) ⧸ Q.subgroupOf (ggRCSX G₀ r)) :=
       Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
     exact Group.isSolvable_of_ker_le_range (Q.subgroupOf (ggRCSX G₀ r)).subtype
       (QuotientGroup.mk' (Q.subgroupOf (ggRCSX G₀ r)))
       (by rw [QuotientGroup.ker_mk', Subgroup.range_subtype])
 
 theorem ggRCSX_not_isSolvable_of_le {G₀ : Subgroup G} {r : G} {L₀ : Subgroup G}
-    (hL₀ : CFSG.IsQuasisimple L₀) (hL₀X : L₀ ≤ ggRCSX G₀ r) : ¬ IsSolvable ↥(ggRCSX G₀ r) := by
-  haveI : Nontrivial ↥L₀ := CFSG.LocalCores.isQuasisimple_nontrivial hL₀
-  haveI : Group.IsPerfect ↥L₀ := hL₀.1
+    (hL₀ : CFSG.IsQuasisimple L₀) (hL₀X : L₀ ≤ ggRCSX G₀ r) : ¬ Group.IsSolvable ↥(ggRCSX G₀ r) := by
+  have : Nontrivial ↥L₀ := CFSG.LocalCores.isQuasisimple_nontrivial hL₀
+  have : Group.IsPerfect ↥L₀ := hL₀.1
   intro hsol
-  haveI : Group.IsSolvable ↥(ggRCSX G₀ r) := hsol
-  haveI : Group.IsSolvable ↥(L₀.subgroupOf (ggRCSX G₀ r)) :=
+  have : Group.IsSolvable ↥(ggRCSX G₀ r) := hsol
+  have : Group.IsSolvable ↥(L₀.subgroupOf (ggRCSX G₀ r)) :=
     CFSG.subgroup_solvable_of_solvable _
   have hsolL : Group.IsSolvable ↥L₀ :=
     Group.isSolvable_of_isSolvable_injective

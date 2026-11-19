@@ -235,7 +235,7 @@ theorem inf_le_of_not_mem_Psi {X : Subgroup (ModGL .E7 (ZMod 2))} {δ : Vec7} (h
 theorem Psi_inter_none (X : Subgroup (ModGL .E7 (ZMod 2))) {t : ℤ} (h : ∀ β ∈ Phip, lw β ≠ t) :
     Psi X ∩ {δ | t ≤ lw δ} = Psi X ∩ {δ | t + 1 ≤ lw δ} := by
   ext δ
-  simp only [Set.mem_inter_iff, Set.mem_setOf_eq]
+  simp only [Set.mem_inter_iff, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hδ, ht⟩
     have := h δ (Psi_subset X hδ)
@@ -246,7 +246,7 @@ theorem Psi_inter_none (X : Subgroup (ModGL .E7 (ZMod 2))) {t : ℤ} (h : ∀ β
 theorem Psi_inter_of_not_mem (X : Subgroup (ModGL .E7 (ZMod 2))) {γ : Vec7} (hγp : γ ∈ Phip)
     (hγ : γ ∉ Psi X) : Psi X ∩ {δ | lw γ ≤ lw δ} = Psi X ∩ {δ | lw γ + 1 ≤ lw δ} := by
   ext δ
-  simp only [Set.mem_inter_iff, Set.mem_setOf_eq]
+  simp only [Set.mem_inter_iff, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hδ, ht⟩
     have hne : lw δ ≠ lw γ := fun e =>
@@ -259,7 +259,7 @@ theorem Psi_inter_insert (X : Subgroup (ModGL .E7 (ZMod 2))) {γ : Vec7} (hγp :
     (hγ : γ ∈ Psi X) :
     Psi X ∩ {δ | lw γ ≤ lw δ} = insert γ (Psi X ∩ {δ | lw γ + 1 ≤ lw δ}) := by
   ext δ
-  simp only [Set.mem_inter_iff, Set.mem_setOf_eq, Set.mem_insert_iff]
+  simp only [Set.mem_inter_iff, Set.mem_ofPred_eq, Set.mem_insert_iff]
   constructor
   · rintro ⟨hδ, ht⟩
     by_cases e : lw δ = lw γ
@@ -275,7 +275,7 @@ theorem nPsi_succ_of_mem (X : Subgroup (ModGL .E7 (ZMod 2))) {γ : Vec7} (hγp :
   have hnot : γ ∉ Psi X ∩ {δ | lw γ + 1 ≤ lw δ} := by
     intro h
     have := h.2
-    simp only [Set.mem_setOf_eq] at this
+    simp only [Set.mem_ofPred_eq] at this
     omega
   rw [Psi_inter_insert X hγp hγ,
     Set.ncard_insert_of_notMem hnot ((Psi_finite X).subset Set.inter_subset_left)]
@@ -320,7 +320,7 @@ theorem card_le_two_pow_Psi {X : Subgroup (ModGL .E7 (ZMod 2))}
   rw [Ge_zero, inf_eq_left.2 hX] at h
   have hset : Psi X ∩ {δ | 0 ≤ lw δ} = Psi X := by
     ext δ
-    simp only [Set.mem_inter_iff, Set.mem_setOf_eq, and_iff_left_iff_imp]
+    simp only [Set.mem_inter_iff, Set.mem_ofPred_eq, and_iff_left_iff_imp]
     intro hδ
     exact (lw_pos (Psi_subset X hδ).1 (Psi_subset X hδ).2).le
   unfold nPsi at h

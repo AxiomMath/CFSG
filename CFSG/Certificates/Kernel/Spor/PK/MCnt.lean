@@ -37,7 +37,7 @@ theorem dsum_digit {a : Nat → Nat} (ha : ∀ f, a f < 2 ^ 20) (e : Nat) :
     have hS := dsum_lt ha N
     change (dsum a N + a N * 2 ^ (20 * N)) / 2 ^ (20 * e) % 2 ^ 20 = _
     rcases Nat.lt_trichotomy e N with h | h | h
-    · rw [if_pos (by omega)]
+    · rw [ite_eq_left (by omega)]
       obtain ⟨d, rfl⟩ : ∃ d, N = e + 1 + d := ⟨N - e - 1, by omega⟩
       have hP : 2 ^ (20 * (e + 1 + d)) = 2 ^ (20 * e) * (2 ^ 20 * 2 ^ (20 * d)) := by
         rw [← Nat.pow_add, ← Nat.pow_add]
@@ -47,13 +47,13 @@ theorem dsum_digit {a : Nat → Nat} (ha : ∀ f, a f < 2 ^ 20) (e : Nat) :
           2 ^ 20 * (a (e + 1 + d) * 2 ^ (20 * d)) * 2 ^ (20 * e) := by ring
       rw [hP, e2, Nat.add_mul_div_right _ _ (Nat.two_pow_pos _), Nat.add_mul_mod_self_left]
       have hd := dsum_digit ha e (e + 1 + d)
-      rw [if_pos (by omega)] at hd
+      rw [ite_eq_left (by omega)] at hd
       exact hd
     · subst h
-      rw [if_pos (by omega), Nat.add_mul_div_right _ _ (Nat.two_pow_pos _),
+      rw [ite_eq_left (by omega), Nat.add_mul_div_right _ _ (Nat.two_pow_pos _),
         Nat.div_eq_of_lt hS, Nat.zero_add]
       exact Nat.mod_eq_of_lt (ha e)
-    · rw [if_neg (by omega)]
+    · rw [ite_eq_right (by omega)]
       have hlt : dsum a N + a N * 2 ^ (20 * N) < 2 ^ (20 * e) := by
         have h1 := dsum_lt ha (N + 1)
         have h2 : 2 ^ (20 * (N + 1)) ≤ 2 ^ (20 * e) := Nat.pow_le_pow_right (by decide) (by omega)
@@ -79,13 +79,13 @@ theorem flds_one (c0 c1 : Nat) (P M : Nat → Nat) : flds c0 c1 P M 1 = c1 := rf
 
 theorem flds_even (c0 c1 : Nat) (P M : Nat → Nat) (j : Nat) : flds c0 c1 P M (2 + 2 * j) = P j := by
   unfold flds
-  rw [if_neg (by omega), if_neg (by omega), if_pos (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left (by omega)]
   congr 1
   omega
 
 theorem flds_odd (c0 c1 : Nat) (P M : Nat → Nat) (j : Nat) : flds c0 c1 P M (3 + 2 * j) = M j := by
   unfold flds
-  rw [if_neg (by omega), if_neg (by omega), if_neg (by omega)]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega)]
   congr 1
   omega
 
@@ -288,7 +288,7 @@ theorem ltr_recBS {n w : Nat} {F : Nat → Nat → Nat} {s : BS} (hn16 : n < 2 ^
   have h : ltr (n * w) (mask (n * w)) (recBS n w F s V) k =
       if k < s.pts.length then enc w (BS.trans F s k) n else 0 :=
     ltr_recOf (mc_recBS_ok hn16 hw hs) (Nat.lt_of_lt_of_le hk hs.2.1)
-  rw [if_pos hk] at h
+  rw [ite_eq_left hk] at h
   exact h
 
 theorem pcomp_encode {n w : Nat} (hn32 : n < 2 ^ 32) (hw : n < 2 ^ w) {p q : Nat → Nat}
@@ -309,7 +309,7 @@ theorem pg_encode {n w : Nat} (hw : n < 2 ^ w) {p : Nat → Nat} (hp : ∀ x < n
   fun x => if h : x < n then (σ ⟨x, h⟩ : Nat) else x
 
 theorem cfn_lt {n : Nat} (σ : Equiv.Perm (Fin n)) {x : Nat} (hx : x < n) : cfn σ x < n := by
-  simp only [cfn, dif_pos hx]
+  simp only [cfn, dite_eq_left hx]
   exact (σ ⟨x, hx⟩).isLt
 
 theorem cfn_apply {n : Nat} (σ : Equiv.Perm (Fin n)) (x : Fin n) : cfn σ x = σ x := by
@@ -488,7 +488,7 @@ theorem raw5_eq (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w) (hg : ∀ i, GoodBS n F
     pcomp_encode hn32 hwn p0.1 p1.1, pcomp_encode hn32 hwn (p0.comp p1).1 p2.1,
     pg_encode hwn p4.1 hx, pg_encode hwn p3.1 (p4.1 x hx), pg_encode hwn (p0.comp (p1.comp p2)).1
       (p3.1 _ (p4.1 x hx))]
-  simp only [cfn, dif_pos hx, mul_one, Equiv.Perm.mul_apply, tau]
+  simp only [cfn, dite_eq_left hx, mul_one, Equiv.Perm.mul_apply, tau]
   rw [permOf_apply p0, permOf_apply p1, permOf_apply p2, permOf_apply p3, permOf_apply p4]
 
 theorem raw5_lt (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w) (hg : ∀ i, GoodBS n F (s i))
@@ -537,7 +537,7 @@ theorem cntSum_five (hn16 : n < 2 ^ 16) (hw : n + 1 < 2 ^ w) (hg : ∀ i, GoodBS
     intro i hi
     rw [← hc i hi, sliceZ_five hn16 hw hg]
     simp only [cntZ_eq, Nat.zero_add, rsum_dsum]
-    rw [Nat.shiftRight_eq_div_pow, dsum_digit _ f N, if_pos hf]
+    rw [Nat.shiftRight_eq_div_pow, dsum_digit _ f N, ite_eq_left hf]
     intro f'
     have hb : (rsum q fun j => rsum (c 2) fun k2 => rsum (c 3) fun k3 => rsum (c 4) fun k4 =>
         cfld n w (mask w) ky r Rs (raw5 n w F s V (i / sub) (q * (i % sub) + j) k2 k3 k4) f') ≤
@@ -598,8 +598,8 @@ theorem cfld_congr_mem {n w m ky r : Nat} {Rs : List (Nat × Nat)} {f : Nat}
     allFrom_congr fun i hi => by rw [h i hi]
   unfold cfld flds
   rcases hf with rfl | rfl | hf
-  · simp only [if_true, hp]
-  · simp only [if_true, if_false, hp, one_ne_zero]
+  · simp only [ite_true, hp]
+  · simp only [ite_true, ite_false, hp, one_ne_zero]
   · have h0 : f ≠ 0 := by omega
     have h1 : f ≠ 1 := by omega
     have h2 : f % 2 ≠ 0 := by omega
@@ -746,7 +746,7 @@ theorem cfld_part_cfn {n w ky r R Ri : Nat} {Rs : List (Nat × Nat)} (hky : ky =
   · have hn : ¬ (powId n (cfn σ) 2 = false ∧ powId n (cfn σ) ky = true) := by
       rintro ⟨h2, hk⟩
       exact ho ((orderOf_ky_iff hky σ).1 ⟨(powId_cfn_false σ 2).1 h2, (powId_cfn σ ky).1 hk⟩)
-    rw [if_neg (fun h => hn ⟨h.1, h.2.1⟩), if_neg (fun h => ho h.1)]
+    rw [ite_eq_right (fun h => hn ⟨h.1, h.2.1⟩), ite_eq_right (fun h => ho h.1)]
 
 end CFSG.KS.PK
 

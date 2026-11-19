@@ -17,15 +17,15 @@ namespace CFSG.LocalAnalysis.UniquenessCase.UC22.KTabD
 open CFSG.Open PartTwo
 
 theorem kTab23d_omegaMinusEight {W : Type} [CommGroup W] [Finite W] (H : Subgroup (MulAut W))
-    (n : ℕ) (hnat : IsNaturalClassicalModule H n) (hperf : ⁅H, H⁆ = H) (hn : 3 ≤ n)
+    (n : ℕ) (_hnat : IsNaturalClassicalModule H n) (_hperf : ⁅H, H⁆ = H) (hn : 3 ≤ n)
     (S : Sylow 2 ↥H)
     (h : IsOmega8m ↥H n ∧ NatOmegaMinus H ⊤ ⊥ 8 n) :
     IsU4 (Bar2 (Hinf (pointStab H S))) n := by
   classical
   obtain ⟨-, K, hKf, hKfin, b, c, hcard, hirr, hreal⟩ := h.2
-  letI : Field K := hKf
-  haveI : Finite K := hKfin
-  haveI : CharP K 2 :=
+  let : Field K := hKf
+  have : Finite K := hKfin
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22d_charP_two (by omega) hcard
   have hline : KTabC.SylowFixedLine (StatedOmega (StatedQuadMinus 4 K b c))
       (Pi.single (Sum.inl ⟨0, by omega⟩) 1) :=

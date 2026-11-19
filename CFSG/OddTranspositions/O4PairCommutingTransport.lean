@@ -11,7 +11,7 @@ open CFSG.GroupTheory
 
 instance : Finite (K25 ≃+* K25) :=
   Finite.of_injective (fun e : K25 ≃+* K25 => (e : K25 → K25))
-    (fun a b h => RingEquiv.ext (congrFun h))
+    (fun _a _b h => RingEquiv.ext (congrFun h))
 
 instance : Finite PSigmaL225 :=
   Finite.of_equiv (PSL225 × (K25 ≃+* K25)) SemidirectProduct.equivProd.symm

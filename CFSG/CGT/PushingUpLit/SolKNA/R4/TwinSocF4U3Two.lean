@@ -26,8 +26,8 @@ theorem two_elts_U3 [IsSimpleGroup ↥T] (hC : Subgroup.centralizer (T : Set A) 
     ∀ ψ ∈ autCentOf T (sylowSet S), ∀ k : ℕ, ψ ^ 2 ^ k = 1 →
       ψ ∈ F.J.map (MulAut.conjNormal (H := T)) := by
   intro ψ hψ k hk
-  haveI := h.charP
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have := h.charP
+  have : Fact p.Prime := ⟨h.prime⟩
   have h2 : (2 : K) ≠ 0 := Ring.two_ne_zero (by rw [ringChar.eq K p]; exact hp2)
   obtain ⟨Al, l, b, hAl, hπAlS, hnorm, hlpow, hl2u, hl3u, hbS, hbT, hbz⟩ :=
     entry_U3 F hr hC hcomm hsc hd hc

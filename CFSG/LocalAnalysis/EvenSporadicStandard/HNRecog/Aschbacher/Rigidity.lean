@@ -104,7 +104,7 @@ theorem exists_conj_of_forall_mem_centerOf {L : Subgroup C} (hE : IsExtraspecial
         (((γ l : L) : C) * (l : C)⁻¹) *
           ((l : C) * (((γ l' : L) : C) * (l' : C)⁻¹) * (l : C)⁻¹)
       rw [map_mul γ l l']
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [Subgroup.coe_mul]
       group
     change π (u (l * l')) = π (u l) + ρ (l : C) (π (u l'))
     rw [hu, hπmul, extraspecialConjOrth_apply]
@@ -196,7 +196,7 @@ theorem exists_conj_of_forall_mem_centerOf {L : Subgroup C} (hE : IsExtraspecial
         (q : C)⁻¹ * ((γ l : L) : C) * (q : C) * μ l' * (l : C)⁻¹ := by
       dsimp only [μ]
       rw [map_mul γ l l']
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [Subgroup.coe_mul]
       group
     calc μ (l * l')
         = (q : C)⁻¹ * ((γ l : L) : C) * (q : C) * μ l' * (l : C)⁻¹ := h1

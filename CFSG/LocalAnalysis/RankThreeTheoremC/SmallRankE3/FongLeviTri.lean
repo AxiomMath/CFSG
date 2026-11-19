@@ -28,9 +28,9 @@ theorem tri_false {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z : A
   obtain ⟨F, _, _, σ, hK, hσ, ⟨θ⟩⟩ :=
     exists_mulEquiv_graphFixedRootGroup_card .D4 Nat.prime_two hf hmod
   have hK3 : Nat.card F = (2 ^ q.exponent) ^ 3 := hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL TwistTag.D4.tag F) := finite_modGL
-  haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL TwistTag.D4.tag F) := finite_modGL
+  have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by omega : 1 ≤ 3 * q.exponent) (by rw [hK3, ← pow_mul, mul_comm])
   obtain ⟨w₀, hw₀, -⟩ := weyl_longest_element TwistTag.D4.tag
   obtain ⟨⟨T₀, hT₀⟩, -⟩ := exceptional_fixed_Sylow_opposition TwistTag.D4 F 2 σ w₀ hw₀

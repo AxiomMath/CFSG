@@ -32,13 +32,13 @@ theorem nine3_isRankOneIn_rank {ι F : Type} [Fintype ι] [DecidableEq ι] [Fiel
   h
 
 private theorem nine3_orth63_lift {F : Type} [Field F] [Finite F]
-    {b c' : F} (hbc : ∀ t : F, t ^ 2 + b * t + c' ≠ 0)
+    {b c' : F} (_hbc : ∀ t : F, t ^ 2 + b * t + c' ≠ 0)
     (N : Subgroup (Matrix.ProjGenLinGroup (Fin 2 ⊕ Fin 2 ⊕ Fin 2) F))
     (hN2 : N ≤ (CFSG.PGLModel.orthogonalMinus 2 F b c').map Matrix.ProjGenLinGroup.mk)
     {r : GL (Fin 2 ⊕ Fin 2 ⊕ Fin 2) F}
-    (hr : r ∈ CFSG.PGLModel.orthogonalMinus 2 F b c')
+    (_hr : r ∈ CFSG.PGLModel.orthogonalMinus 2 F b c')
     {x0 : Fin 2 ⊕ Fin 2 ⊕ Fin 2 → F} (hQx0 : nine3Q F b c' x0 ≠ 0)
-    (hrx0 : CFSG.ClassicalGroups.Orthogonal.toLinEquiv (Fin 2 ⊕ Fin 2 ⊕ Fin 2) F r =
+    (_hrx0 : CFSG.ClassicalGroups.Orthogonal.toLinEquiv (Fin 2 ⊕ Fin 2 ⊕ Fin 2) F r =
       reflect (nine3Q F b c') x0)
     {c x : ↥N}
     (hc : ((c : ↥N) : Matrix.ProjGenLinGroup (Fin 2 ⊕ Fin 2 ⊕ Fin 2) F) =
@@ -95,11 +95,11 @@ theorem nine3_prop710_orth63 {F : Type} [Field F] [Finite F] (hF : Nat.card F = 
       Matrix.ProjGenLinGroup.mk r)
     (h : Nine3Config c a e a' v) :
     ∃ d, IsConj c d ∧ d ≠ v ∧ d * a = a * d ∧ d * e = e * d := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fintype F := Fintype.ofFinite F
   have hcard : Fintype.card F = 3 := by rwa [Nat.card_eq_fintype_card] at hF
   have hchar : CharP F 3 := charP_of_card_eq_prime hcard
-  haveI : CharP F 3 := hchar
+  have : CharP F 3 := hchar
   have h2 : (2 : F) ≠ 0 := by
     intro h0
     exact absurd ((CharP.cast_eq_zero_iff F 3 2).mp h0) (by omega)

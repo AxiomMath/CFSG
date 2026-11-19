@@ -20,16 +20,16 @@ theorem center_subgroupOf_sylow_le_frattini [Group.IsPerfect Q] (P : Sylow p Q) 
   simp only [Subgroup.mem_iInf]
   intro K hK
   by_contra hzK
-  haveI hPg : Fact (IsPGroup p ↥(P : Subgroup Q)) := ⟨P.isPGroup'⟩
-  haveI hnil : Group.IsNilpotent ↥(P : Subgroup Q) := IsPGroup.isNilpotent P.isPGroup'
-  haveI hKn : K.Normal := CFSG.coatom_normal_of_isPGroup (p := p) hK
+  have hPg : Fact (IsPGroup p ↥(P : Subgroup Q)) := ⟨P.isPGroup⟩
+  have hnil : Group.IsNilpotent ↥(P : Subgroup Q) := IsPGroup.isNilpotent P.isPGroup
+  have hKn : K.Normal := CFSG.coatom_normal_of_isPGroup (p := p) hK
   let π : ↥(P : Subgroup Q) →* (↥(P : Subgroup Q) ⧸ K) := QuotientGroup.mk' K
   have hindex : K.index = p :=
-    (IsPGroup.isCoatom_iff_index_eq_prime (p := p) P.isPGroup' (H := K)).mp hK
+    (IsPGroup.isCoatom_iff_index_eq_prime (p := p) P.isPGroup (H := K)).mp hK
   have hcard : Nat.card (↥(P : Subgroup Q) ⧸ K) = p := by
     rw [← Subgroup.index_eq_card, hindex]
-  haveI hcyc : IsCyclic (↥(P : Subgroup Q) ⧸ K) := isCyclic_of_prime_card hcard
-  letI : CommGroup (↥(P : Subgroup Q) ⧸ K) := IsCyclic.commGroup
+  have hcyc : IsCyclic (↥(P : Subgroup Q) ⧸ K) := isCyclic_of_prime_card hcard
+  let : CommGroup (↥(P : Subgroup Q) ⧸ K) := IsCyclic.commGroup
   let zP : ↥(P : Subgroup Q) := ⟨(z : Q), z.2⟩
   have hzcenter : (z : Q) ∈ Subgroup.center Q := hz
   have hπz : π zP ≠ 1 := by
@@ -106,7 +106,7 @@ theorem not_isCyclic_sylow_quotient_of_center [Group.IsPerfect Q]
       rw [sup_comm] at hmem
       exact (sup_le_sup_left hZ₀P (Subgroup.zpowers xP)) hmem
     have hxPtop : Subgroup.zpowers xP = ⊤ := by
-      haveI : IsCoatomic (Subgroup ↥(P : Subgroup Q)) := Finite.to_isCoatomic
+      have : IsCoatomic (Subgroup ↥(P : Subgroup Q)) := Finite.to_isCoatomic
       exact frattini_nongenerating hsup
     have hcycTop : IsCyclic ↥(⊤ : Subgroup ↥(P : Subgroup Q)) :=
       (Subgroup.isCyclic_iff_exists_zpowers_eq_top
@@ -131,8 +131,8 @@ theorem exists_elemAbelian_card_prime_sq_quotient_center [Group.IsPerfect Q] (hp
   have hodd : Odd p := (Fact.out : p.Prime).odd_of_ne_two hp2
   obtain ⟨B, hBelem, hBcard⟩ :=
     SteinbergBK.odd_noncyclic_pgroup_rank_two (p := p) hodd
-      (P := ↥(S₀ : Subgroup (Q ⧸ Z₀))) S₀.isPGroup' hS₀nc
-  letI : IsElementaryAbelian p B := hBelem
+      (P := ↥(S₀ : Subgroup (Q ⧸ Z₀))) S₀.isPGroup hS₀nc
+  let : IsElementaryAbelian p B := hBelem
   let E : Subgroup (Q ⧸ Z₀) := B.map (S₀ : Subgroup (Q ⧸ Z₀)).subtype
   refine ⟨E, ?_, ?_⟩
   · exact CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mpr

@@ -29,7 +29,7 @@ private lemma commutatorElement_mul_mul_of_central {G : Type} [Group G] {Z K N :
     Subgroup.commutator_le_self N (commutator_mem_commutator hk₁N hk₂N)
   rw [commutatorElement_mul_left_eq_conj_mul, commutatorElement_mul_right_eq_mul_conj,
     commutatorElement_mul_right_eq_mul_conj, hc₁, hc₂, hc₃]
-  simp only [one_mul, mul_one, inv_one]
+  simp only [one_mul, mul_one]
   have hinner : z₂ * ⁅k₁, k₂⁆ * z₂⁻¹ = ⁅k₁, k₂⁆ := by
     rw [hZc z₂ hz₂ ⁅k₁, k₂⁆ hcN]; group
   rw [hinner, hZc z₁ hz₁ ⁅k₁, k₂⁆ hcN]
@@ -71,7 +71,7 @@ theorem centExt_comm_complement {G : Type} [Group G] [Finite G] {N N₁ Z A F : 
     have hNcard : Nat.card ↥N = 4032 := by
       rw [centExt_card_of_secProp_gl32 (sup_le hZN hFN) hQ, hZFcard]
     obtain ⟨κ, hκN₁, hκ3, hκn⟩ :=
-      exists_threeElem_not_mem_of_secProp_perm3 (hKN := hZA) hQ₁
+      exists_threeElem_not_mem_of_secProp_perm3 (_hKN := hZA) hQ₁
     have hκN : κ ∈ N := hN₁ hκN₁
     have hκcube : κ ^ 3 = 1 :=
       centExt_cube_eq_one hZA (fun z hz g hg => hZc z hz g (hN₁ hg)) hZ3 hA2 hAn hQ₁ hκN₁ hκ3 hκn
@@ -84,7 +84,7 @@ theorem centExt_comm_complement {G : Type} [Group G] [Finite G] {N N₁ Z A F : 
       · exact h
     have hK₀card : Nat.card ↥(zpowers κ) = 3 := by rw [Nat.card_zpowers, hκord]
     have hZK₀ : Z ⊓ zpowers κ = ⊥ := by
-      haveI : Fact (Nat.card ↥Z).Prime := ⟨by rw [hZ3card]; norm_num⟩
+      have : Fact (Nat.card ↥Z).Prime := ⟨by rw [hZ3card]; norm_num⟩
       rcases Subgroup.eq_bot_or_eq_top_of_prime_card ((Z ⊓ zpowers κ).subgroupOf Z) with h | h
       · have h' : (Z ⊓ zpowers κ) ⊓ Z = ⊥ := disjoint_iff.mp (Subgroup.subgroupOf_eq_bot.mp h)
         simpa [inf_assoc, inf_comm, inf_left_comm, inf_idem] using h'

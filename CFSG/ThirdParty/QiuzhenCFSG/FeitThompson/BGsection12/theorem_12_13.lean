@@ -643,7 +643,7 @@ private theorem CFSG.section12_nonabelian_pSubgroup_unique_of_rankTwo_maximal
       (section12_rankTwo_le hA_P).trans hP_le_Pamb
     have hPamb_p : IsPGroup p.val Pamb := by
       change IsPGroup p.val ((S : Subgroup I).map I.subtype)
-      exact IsPGroup.map S.isPGroup' I.subtype
+      exact IsPGroup.map S.isPGroup I.subtype
     have hPamb_le_M : Pamb ≤ M := by
       intro x hx
       rcases Subgroup.mem_map.mp hx with ⟨y, _hy, rfl⟩

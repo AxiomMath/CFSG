@@ -299,7 +299,7 @@ theorem exists_g_hCS {z g t : G} (hSylz : IsSylow2In ((S : Subgroup G) ⊓ Subgr
     have := IsSylow2In.conj hSylz g
     rwa [hC1] at this
   set A : Subgroup G := (S : Subgroup G) ⊓ Subgroup.centralizer ({t} : Set G) with hA
-  have hA2 : IsPGroup 2 A := S.isPGroup'.to_le inf_le_left
+  have hA2 : IsPGroup 2 A := S.isPGroup.to_le inf_le_left
   obtain ⟨Q, hQ, hAQ⟩ := IsSylow2In.exists_ge hA2 (inf_le_right : A ≤ Subgroup.centralizer ({t} : Set G))
   obtain ⟨x, hxC, hxQ⟩ := exists_conjSub_eq_of_isSylow2In hSylt hQ
   have hxt : x * t = t * x := Subgroup.mem_centralizer_singleton_iff.mp hxC

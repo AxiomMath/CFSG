@@ -67,8 +67,6 @@ theorem s15k_mcl_realizes_nat {W : Type} [CommGroup W] {J : Subgroup (MulAut W)}
     · intro u
       have h1 : β u = 1 ↔ φ (D.e u) = 1 := by
         rw [hβ]
-        change (QuotientGroup.mk (Subgroup.topEquiv.symm (φ (D.e u))) :
-          ↥(⊤ : Subgroup (Multiplicative (ι → ZMod 2))) ⧸ _) = 1 ↔ _
         rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf, Subgroup.mem_bot]
         rfl
       have h2 : φ (D.e u) = 1 ↔ u = 1 := by

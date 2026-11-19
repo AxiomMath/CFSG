@@ -99,7 +99,7 @@ theorem c16_cent_Q_Y (h : L41GPh15 t L S x₁ x₂ lam rho)
     by_cases hCR : C ≤ R
     · rw [Subgroup.relIndex_eq_one.mpr hCR]
       norm_num
-    · obtain ⟨a, haC, haR⟩ := SetLike.not_le_iff_exists.mp hCR
+    · obtain ⟨a, haC, haR⟩ := IsConcreteLE.not_le_iff_exists.mp hCR
       have haQ1 : a ∉ Q₁ := fun ha => haR (hCQ1R (Subgroup.mem_inf.mpr ⟨haC, ha⟩))
       refine relIndex_le_two_of_forall hRC a haC ?_
       intro n hn

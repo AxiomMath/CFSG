@@ -27,7 +27,7 @@ local instance finite_e8Group (F : Type) [Field F] [Finite F] :
 
 theorem edgeCond_e6 (F : Type) [Field F] [Finite F] [CharP F 2]
     (H : Fin (Minuscule.e6Datum F).rank → Subgroup ↥(Minuscule.e6Data_valid.minGroup F))
-    (hrank : 3 ≤ (Minuscule.e6Datum F).rank) (u v : Fin (Minuscule.e6Datum F).rank)
+    (_hrank : 3 ≤ (Minuscule.e6Datum F).rank) (u v : Fin (Minuscule.e6Datum F).rank)
     (hadj : (TauCeti.diagramGraph (Minuscule.e6Datum F).cartan).Adj u v) :
     CFSG.AGLEmbeddingD2.Tits.GN516.Core.EdgeCond (Minuscule.e6Datum F) H u v := by
   obtain ⟨hne, hc⟩ := ((Minuscule.e6Datum F).isFiniteType.diagramGraph_adj_iff).1 hadj
@@ -45,7 +45,7 @@ theorem edgeCond_e6 (F : Type) [Field F] [Finite F] [CharP F 2]
 
 theorem edgeCond_e7 (F : Type) [Field F] [Finite F] [CharP F 2]
     (H : Fin (Minuscule.e7Datum F).rank → Subgroup ↥(Minuscule.e7Data_valid.minGroup F))
-    (hrank : 3 ≤ (Minuscule.e7Datum F).rank) (u v : Fin (Minuscule.e7Datum F).rank)
+    (_hrank : 3 ≤ (Minuscule.e7Datum F).rank) (u v : Fin (Minuscule.e7Datum F).rank)
     (hadj : (TauCeti.diagramGraph (Minuscule.e7Datum F).cartan).Adj u v) :
     CFSG.AGLEmbeddingD2.Tits.GN516.Core.EdgeCond (Minuscule.e7Datum F) H u v := by
   obtain ⟨hne, hc⟩ := ((Minuscule.e7Datum F).isFiniteType.diagramGraph_adj_iff).1 hadj
@@ -64,7 +64,7 @@ theorem edgeCond_e7 (F : Type) [Field F] [Finite F] [CharP F 2]
 theorem edgeCond_e8 (F : Type) [Field F] [Finite F] [CharP F 2]
     (H : Fin (Adjoint.e8Datum F).rank →
       Subgroup ↥(CFSG.Blueprint.Chevalley.adjointGroup .E8 F))
-    (hrank : 3 ≤ (Adjoint.e8Datum F).rank) (u v : Fin (Adjoint.e8Datum F).rank)
+    (_hrank : 3 ≤ (Adjoint.e8Datum F).rank) (u v : Fin (Adjoint.e8Datum F).rank)
     (hadj : (TauCeti.diagramGraph (Adjoint.e8Datum F).cartan).Adj u v) :
     CFSG.AGLEmbeddingD2.Tits.GN516.Core.EdgeCond (Adjoint.e8Datum F) H u v := by
   obtain ⟨hne, hc⟩ := ((Adjoint.e8Datum F).isFiniteType.diagramGraph_adj_iff).1 hadj

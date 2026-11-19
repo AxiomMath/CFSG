@@ -31,7 +31,7 @@ theorem mem_M_and_mem_normalizer_inf_of_mem_normalizer_imgK (h : RootHyp M V)
       (Subgroup.map_le_range (piK V H) ((Pc M V).subgroupOf H))]
     rw [Subgroup.comap_map_eq (piK V H) ((Pc M V).subgroupOf H)]
     have hker : (piK V H).ker = (kOf V H).subgroupOf H := by
-      simpa [piK] using (QuotientGroup.ker_mk' ((kOf V H).subgroupOf H))
+      simp [piK]
     rw [hker]
   have hz' : z ∈ (Subgroup.normalizer (imgK V H (Pc M V) : Set (HBar V H))).comap
       (piK V H) := Subgroup.mem_comap.mpr hz
@@ -73,7 +73,7 @@ theorem mem_M_and_mem_normalizer_inf_of_mem_normalizer_imgK (h : RootHyp M V)
     exact hzV
   exact ⟨hzM, mem_normalizer_inf (h.toHyp.le_normalizer_Pc hzM) (le_normalizer_kOf V H z.2)⟩
 
-@[expose] def TransitiveFixed (hPH : Pc M V ≤ H) (hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H))
+@[expose] def TransitiveFixed (_hPH : Pc M V ≤ H) (hW : Assembly.IsElemAbelian 2 (Tim79a.xOf V H))
     {X : Type} [Group X] (ψ : HBar V H ≃* X)
     (hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW))) : Prop :=
   letI := hmod
@@ -88,7 +88,7 @@ theorem eq_bot_or_eq_of_transitiveFixed (h : RootHyp M V) (hPH : Pc M V ≤ H)
     (hmod : Module (ZMod 2) (Additive (IntMod (Tim79a.xOf V H) hW)))
     (htrans : TransitiveFixed (V := V) (H := H) hPH hW ψ hmod) :
     MinimalInvariant M V := by
-  letI := hmod
+  let := hmod
   intro U hUV hUN
   by_cases hU : U = ⊥
   · exact Or.inl hU
@@ -136,7 +136,7 @@ theorem eq_bot_or_eq_of_transitiveFixed (h : RootHyp M V) (hPH : Pc M V ≤ H)
         obtain ⟨m, hm, hmn⟩ := Subgroup.mem_map.mp hnmap
         have hsymm : ψ.symm n = m := by
           rw [← hmn]
-          simpa using (MulEquiv.symm_apply_apply ψ m)
+          simp
         rwa [hsymm]
       obtain ⟨z, hz⟩ := piK_surjective V H (ψ.symm n)
       have hzN : piK V H z ∈ Subgroup.normalizer (imgK V H (Pc M V) : Set (HBar V H)) := by

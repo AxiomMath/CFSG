@@ -104,14 +104,14 @@ theorem stabCls_le (a : ℕ) : stabCls a ≤ 5 := by
 
 theorem stabCls_zero : stabCls 0 = 0 := by
   unfold stabCls
-  exact if_pos rfl
+  exact ite_eq_left rfl
 
 theorem stabCls_eq_zero_iff {a : ℕ} : stabCls a = 0 ↔ a = 0 := by
   constructor
   · intro h
     by_contra ha
     unfold stabCls at h
-    split_ifs at h <;> first | omega | (simp_all)
+    split_ifs at h; (simp_all)
   · rintro rfl
     exact stabCls_zero
 
@@ -221,7 +221,7 @@ theorem orbit_cases {O : Finset (Fin 365211)}
       (if decide (B 3) then 25200 else 0) + (if decide (B 4) then 207360 else 0) +
       (if decide (B 5) then 131072 else 0) := by
     rw [hcard]
-    simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, if_pos hB0,
+    simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, ite_eq_left hB0,
       decide_eq_true_eq]
     rfl
   rcases stabSizes_dvd (decide (B 1)) (decide (B 2)) (decide (B 3)) (decide (B 4))
@@ -355,7 +355,7 @@ theorem eq_TD6_of_stabilizer_le {K : Subgroup (Equiv.Perm (Fin 365211))} (hK : K
   let f := (MulAut.conj c⁻¹).toMonoidHom
   have hf : Function.Injective f := (MulAut.conj c⁻¹).injective
   let K' := K.map f
-  haveI : IsSimpleGroup K' := (Subgroup.equivMapOfInjective K f hf).symm.isSimpleGroup
+  have : IsSimpleGroup K' := (Subgroup.equivMapOfInjective K f hf).symm.isSimpleGroup
   have hmemT : ∀ {g : Equiv.Perm (Fin 365211)} (d : Equiv.Perm (Fin 365211)), d ∈ TD6 →
       g ∈ TD6 → d * g * d⁻¹ ∈ TD6 := fun d hd hg =>
     TD6.mul_mem (TD6.mul_mem hd hg) (TD6.inv_mem hd)
@@ -367,7 +367,7 @@ theorem eq_TD6_of_stabilizer_le {K : Subgroup (Equiv.Perm (Fin 365211))} (hK : K
     refine ⟨c * g * c⁻¹, hstab _ (hmemT c hc hg) ?_, ?_⟩
     · rw [← hck]
       simp [hg0]
-    · simp [f, MulAut.conj_apply, mul_assoc]
+    · simp [f, mul_assoc]
   have hT := eq_TD6_of_stabilizer_zero_le hK' hstab'
   refine le_antisymm hK fun g hg => ?_
   have : c⁻¹ * g * c⁻¹⁻¹ ∈ K' := by
@@ -400,7 +400,7 @@ theorem stabOrd_unpack :
   by_cases h1 : stabOrd[c]! = 1
   · exact Or.inl h1
   · by_cases h4 : stabOrd[c]! = 4
-    · simp [h1, h4, List.any_eq_true] at hB
+    · simp [h4, List.any_eq_true] at hB
       exact Or.inr (Or.inl ⟨h4, hB⟩)
     · simp [h1, h4, List.any_eq_true] at hB
       exact Or.inr (Or.inr ⟨h1, h4, hB⟩)
@@ -476,21 +476,21 @@ theorem orderOf_of_pow {G : Type*} [Group G] {x : G} {o : ℕ} (ho : o = 1 ∨ o
       · omega
       · omega
       · exact h
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime h1 hne
   · have hne : x ≠ 1 := by
       rcases h2 with h | ⟨h, _⟩ | ⟨_, _, h⟩
       · omega
       · omega
       · exact h
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime h1 hne
   · have hne : x ^ 2 ≠ 1 := by
       rcases h2 with h | ⟨_, h⟩ | ⟨_, h, _⟩
       · omega
       · exact h
       · omega
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime_pow (p := 2) (n := 1) (by simpa using hne) (by simpa using h1)
 
 theorem orderOf_tvP_mul_tvP_rep {c : ℕ} (hc : c < 6) (hr : stabRep c < 365211) :

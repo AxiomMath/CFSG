@@ -19,7 +19,7 @@ theorem exists_glaPLayer_ne_bot_om10 (hF : Nat.card F = 2) (hQ : (polarBilin Q).
     (hdim : finrank F V = 10) {A : Subgroup ↥(orthDerived Q)} (hA : IsElemAbelian 3 A)
     (h27 : 27 ≤ Nat.card A) :
     ∃ a ∈ A, a ≠ 1 ∧ GLAPLayer 3 (Subgroup.centralizer ({a} : Set ↥(orthDerived Q))) ≠ ⊥ := by
-  haveI := CFSG.HardMathSupport.Dickson.Bal207.OrthRow.Two.charP_two hF
+  have := CFSG.HardMathSupport.Dickson.Bal207.OrthRow.Two.charP_two hF
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
   have hpF : ((3 : ℕ) : F) ≠ 0 := cast_prime_ne_zero Nat.prime_three (by decide)
   by_contra hcon'
@@ -33,7 +33,7 @@ theorem exists_glaPLayer_ne_bot_om10 (hF : Nat.card F = 2) (hQ : (polarBilin Q).
     rw [← Nat.card_congr (Subgroup.equivMapOfInjective K _ A.subtype_injective).toEquiv, hK]
     norm_num
   have hA₀ : IsElemAbelian 3 A₀ := hA.mono hA₀A
-  letI : Fintype ↥(orthImage A₀) := Fintype.ofFinite _
+  let : Fintype ↥(orthImage A₀) := Fintype.ofFinite _
   have hAe : IsElemAbelian 3 (orthImage A₀) := isElemAbelian_orthImage hA₀
   have hB : ∀ a : ↥(orthImage A₀), ∀ u v : V,
       polarBilin Q ((a : V ≃ₗ[F] V) u) ((a : V ≃ₗ[F] V) v) = polarBilin Q u v :=

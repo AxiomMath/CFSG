@@ -46,7 +46,7 @@ theorem zc_centralizes (R : Red n p K P z D) {C : ComponentIndex K} {w : K} (hw 
 
 theorem zc_mem_of_normalizes (R : Red n p K P z D)
     (hD : ∀ w ∈ D, ∀ C : ComponentIndex K, w • C = C) (C : ComponentIndex K) : R.zc C ∈ D := by
-  haveI := R.fact
+  have := R.fact
   have hcen : R.zc C ∈ centralizer (D : Set K) := by
     rw [mem_centralizer_iff]
     intro w hw
@@ -56,13 +56,13 @@ theorem zc_mem_of_normalizes (R : Red n p K P z D)
 
 theorem subsingleton_of_normalizes (R : Red n p K P z D) (h3 : 3 ≤ p)
     (hD : ∀ w ∈ D, ∀ C : ComponentIndex K, w • C = C) : Subsingleton (ComponentIndex K) := by
-  haveI := R.fact
+  have := R.fact
   have hp := R.prime
-  haveI := R.isPretransitive
+  have := R.isPretransitive
   by_contra hns
   rw [not_subsingleton_iff_nontrivial] at hns
   obtain ⟨C₀⟩ := exists_comp R.core R.nc
-  obtain ⟨k, hk⟩ := (P.isPGroup' : IsPGroup p (P : Subgroup K)).card_orbit C₀
+  obtain ⟨k, hk⟩ := (P.isPGroup : IsPGroup p (P : Subgroup K)).card_orbit C₀
   have hcard : Nat.card (ComponentIndex K) = p ^ k := by
     rw [← hk, MulAction.orbit_eq_univ (P : Subgroup K) C₀]
     exact (Nat.card_congr (Equiv.Set.univ _)).symm
@@ -74,7 +74,7 @@ theorem subsingleton_of_normalizes (R : Red n p K P z D) (h3 : 3 ≤ p)
   have hge : 3 ≤ Nat.card (ComponentIndex K) := by
     rw [hcard]
     exact h3.trans (Nat.le_self_pow hk0 p)
-  haveI := Fintype.ofFinite (ComponentIndex K)
+  have := Fintype.ofFinite (ComponentIndex K)
   obtain ⟨a, b, c, hab, hac, hbc⟩ := (Fintype.two_lt_card_iff (α := ComponentIndex K)).1
     (by rw [Fintype.card_eq_nat_card]; omega)
   have hxa := R.zc_mem_of_normalizes hD a
@@ -105,6 +105,7 @@ theorem subsingleton_of_normalizes (R : Red n p K P z D) (h3 : 3 ≤ p)
       (inv_mem (pow_mem (comp_le_centralizer_of_ne hab (R.zc_mem a)) t))
   exact R.zc_ne_one c (by rw [hst, hsb, hta]; simp)
 
+omit [Finite K] in
 theorem layer_eq_of_subsingleton (hS : Subsingleton (ComponentIndex K)) (C₀ : ComponentIndex K) :
     layer K = C₀.1 := by
   apply le_antisymm
@@ -115,7 +116,7 @@ theorem layer_eq_of_subsingleton (hS : Subsingleton (ComponentIndex K)) (C₀ : 
 
 theorem centralizer_eq_bot (R : Red n p K P z D) (hS : Subsingleton (ComponentIndex K))
     (C₀ : ComponentIndex K) : centralizer (C₀.1 : Set K) = ⊥ := by
-  haveI := R.fact
+  have := R.fact
   have hF : fittingSubgroup K = ⊥ := by rw [Fitting_eq_pcore K p R.core, R.pc]
   have hgf : generalizedFitting K = C₀.1 := by
     rw [generalizedFitting.eq_sup, hF, bot_sup_eq]
@@ -141,11 +142,11 @@ theorem caseA (hI : GL83I294Two) (R : Red n p K P z D) (h5 : 5 ≤ p) (hn : 3 �
     (hD : ∀ w ∈ D, ∀ C : ComponentIndex K, w • C = C) :
     (∀ T : Subgroup K, p.Coprime (Nat.card T) → D ≤ normalizer (T : Set K) → T = ⊥) ∨
       LinesTransitive D := by
-  haveI := R.fact
+  have := R.fact
   have hS := R.subsingleton_of_normalizes (by omega) hD
   obtain ⟨C₀⟩ := exists_comp R.core R.nc
   obtain ⟨hsimple, hnonab⟩ := R.isSimpleGroup_comp C₀
-  haveI : C₀.1.Normal :=
+  have : C₀.1.Normal :=
     ⟨fun x hx g => by
       have h1 := mem_cjComp_of_mem g C₀ hx
       rwa [Subsingleton.elim (cjComp g C₀) C₀] at h1⟩

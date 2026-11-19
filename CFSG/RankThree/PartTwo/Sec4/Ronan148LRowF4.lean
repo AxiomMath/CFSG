@@ -69,9 +69,9 @@ theorem false_of_f4_cover (k : Type) [Field k] [Finite k] [CharP k ReeTag.F4.pri
     rw [CFSG.PGLModel.card_projSU_three_eight] at h
     norm_num [CFSG.Open.ordTwistedF4] at h
   ·
-    haveI : IsSimpleGroup (ReeTag.F4.reeGamma k b) :=
+    have : IsSimpleGroup (ReeTag.F4.reeGamma k b) :=
       CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 hb hk
-    haveI hCs : IsSimpleGroup C := eC.isSimpleGroup
+    have hCs : IsSimpleGroup C := eC.isSimpleGroup
     rcases Subgroup.IsSubnormal.eq_bot_or_top_of_isSimpleGroup hCs hsub with h | h
     ·
       have hY1 : Y = ⊥ := by
@@ -92,7 +92,7 @@ theorem false_of_f4_cover (k : Type) [Field k] [Finite k] [CharP k ReeTag.F4.pri
           exact Subgroup.mem_top _
         exact this
       have eY : Y ≃* C := MulEquiv.subgroupCongr hYeq
-      haveI : IsSimpleGroup Y := eY.isSimpleGroup
+      have : IsSimpleGroup Y := eY.isSimpleGroup
       have hcY := card_eq_of_isSimpleGroup_surj π hπ hU1
       have hv := padicValNat_ordTwistedF4_two_pow (by omega : 1 ≤ 2 * b + 1)
       rw [← hcardC, ← Nat.card_congr eY.toEquiv, hcY, hU] at hv
@@ -155,7 +155,7 @@ theorem rowU3_F4 {S : Type} [Group S] [Finite S] {f : ℕ}
       CFSG.HardMathSupport.Lang.Coordinator.largeRee_fixed_data_of_odd hK Nat.prime_three
         (by norm_num) p.right hβ
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP (fixSubfield p.right) ReeTag.F4.prime := by
+    have : CharP (fixSubfield p.right) ReeTag.F4.prime := by
       have := Fintype.ofFinite (fixSubfield p.right)
       exact charP_of_card_eq_prime_pow (f := 2 * b + 1)
         (by rw [← Nat.card_eq_fintype_card, hkcard]; rfl)

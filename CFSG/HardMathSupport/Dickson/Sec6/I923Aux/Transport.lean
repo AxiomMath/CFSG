@@ -146,7 +146,7 @@ theorem noL2Layer_of_fixed_equiv {P : Type} [Group P] [Finite P] (ψ : MulAut P)
     [Group X] (e : ↥(fixSubgroup ψ) ≃* X) (hs : IsSimpleGroup X)
     (hnab : ∃ a b : X, a * b ≠ b * a) (hL2 : ∀ r : ℕ, 10 ≤ r → ¬ IsTypeL2 r X) :
     NoL2Layer ψ := by
-  haveI : IsSimpleGroup ↥(fixSubgroup ψ) := e.isSimpleGroup
+  have : IsSimpleGroup ↥(fixSubgroup ψ) := e.isSimpleGroup
   refine noL2_of_simple_fixed ψ inferInstance ?_ fun r hr hT =>
     hL2 r hr (l2fld_isTypeL2_of_mulEquiv e hT)
   obtain ⟨a, b, hab⟩ := hnab
@@ -167,7 +167,7 @@ theorem noL2Layer_of_fixed_commutator_equiv {P : Type} [Group P] [Finite P] (ψ 
       ((commutator ↥(fixSubgroup ψ)).equivMapOfInjective (fixSubgroup ψ).subtype
         (fixSubgroup ψ).subtype_injective).symm
   let e' : ↥⁅fixSubgroup ψ, fixSubgroup ψ⁆ ≃* X := eS.trans e
-  haveI : IsSimpleGroup ↥⁅fixSubgroup ψ, fixSubgroup ψ⁆ := e'.isSimpleGroup
+  have : IsSimpleGroup ↥⁅fixSubgroup ψ, fixSubgroup ψ⁆ := e'.isSimpleGroup
   refine noL2_of_simple_commutator_fixed ψ _ rfl inferInstance ?_ fun r hr hT =>
     hL2 r hr (l2fld_isTypeL2_of_mulEquiv e' hT)
   obtain ⟨a, b, hab⟩ := hnab
@@ -176,7 +176,7 @@ theorem noL2Layer_of_fixed_commutator_equiv {P : Type} [Group P] [Finite P] (ψ 
 theorem exists_noncomm_of_center_bot {G : Type*} [Group G] [Nontrivial G]
     (h : Subgroup.center G = ⊥) : ∃ a b : G, a * b ≠ b * a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨x, hx⟩ := exists_ne (1 : G)
   have hxc : x ∈ Subgroup.center G := Subgroup.mem_center_iff.2 fun g => (hcon g x)
   rw [h, Subgroup.mem_bot] at hxc

@@ -38,7 +38,7 @@ theorem mem_B_of_two_elt {w : h.W} (hwK : (w : H) ∈ coreActionKernel h.K) {a :
     exact mem_normalizer_iff.1 w.2 b
   have hxR : x ∈ (R : Subgroup X) := by
     have hsup : IsPGroup 2 ↥((R : Subgroup X) ⊔ zpowers x) :=
-      IsPGroup.to_sup_of_normal_left' R.isPGroup' hx2 (zpowers_le.2 hRn)
+      IsPGroup.to_sup_of_normal_left' R.isPGroup hx2 (zpowers_le.2 hRn)
     rw [← R.maximal_isPGroup.eq_of_ge hsup le_sup_left]
     exact mem_sup_right (mem_zpowers x)
   rw [hR, mem_subgroupOf] at hxR
@@ -357,7 +357,7 @@ theorem exists_T_K_of_mem_fourGroup {τ : Perm (Fin 10)} (h4 : τ.support.card =
   set P' := R'.mapSurjective (f := ψ.rangeRestrict) ψ.rangeRestrict_surjective with hP'
   have hV'P : V' ≤ (P' : Subgroup ψ.range) := by
     have hsup : IsPGroup 2 ↥((P' : Subgroup ψ.range) ⊔ V') :=
-      IsPGroup.to_sup_of_normal_right' P'.isPGroup' hV'2
+      IsPGroup.to_sup_of_normal_right' P'.isPGroup hV'2
         (by rw [@normalizer_eq_top _ _ V' hV'n]; exact le_top)
     rw [← P'.maximal_isPGroup.eq_of_ge hsup le_sup_left]
     exact le_sup_right

@@ -180,7 +180,7 @@ theorem k2PSp_holds : K2PSpStatement2 := by
     rwa [hK] at this
   refine ⟨hO ▸ hQle, ?_⟩
   have hdvd : Nat.card (wRadical K (1 : Fin (m + 3)) 2) ∣ (2 ^ f) ^ (4 * (m + 3) - 5) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨j, hj⟩ := hQ2.exists_card_eq
     have hjle : j ≤ f * (4 * (m + 3) - 5) := by
       have h1 : 2 ^ j ≤ 2 ^ (f * (4 * (m + 3) - 5)) := by

@@ -12,9 +12,9 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.Lin
 @[expose] noncomputable def gammaPtLn (F : Type) [Field F] [CharP F 2] : ↥(Pt F) ≃* ↥(Ln F) where
   toFun x := ⟨gammaAut F (x : projectiveSL 3 F), (gammaAut_mem_Pt_iff F).mp x.2⟩
   invFun y := ⟨gammaAut F (y : projectiveSL 3 F), (gammaAut_mem_Ln_iff F).mp y.2⟩
-  left_inv x := Subtype.ext (gammaAut_gammaAut F _)
-  right_inv y := Subtype.ext (gammaAut_gammaAut F _)
-  map_mul' x y := Subtype.ext (map_mul (gammaAut F) _ _)
+  left_inv _x := Subtype.ext (gammaAut_gammaAut F _)
+  right_inv _y := Subtype.ext (gammaAut_gammaAut F _)
+  map_mul' _x _y := Subtype.ext (map_mul (gammaAut F) _ _)
 
 theorem gammaPtLn_val (F : Type) [Field F] [CharP F 2] (x : ↥(Pt F)) :
     ((gammaPtLn F x : ↥(Ln F)) : projectiveSL 3 F) = gammaAut F (x : projectiveSL 3 F) :=

@@ -8,11 +8,11 @@ namespace CFSG.EvenSporadicStandard.TwoFi22.DS81.RouteP
 
 theorem exists_sylow_le_of_odd_index {G : Type*} [Group G] [Finite G] {N : Subgroup G}
     (hN : Odd N.index) : ∃ P : Sylow 2 G, (P : Subgroup G) ≤ N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q⟩ := Sylow.nonempty (p := 2) (G := N)
   have hQodd : Odd (Q : Subgroup N).index :=
     Nat.not_even_iff_odd.mp fun h => Q.not_dvd_index (even_iff_two_dvd.mp h)
-  refine ⟨IsPGroup.toSylow (Q.isPGroup'.map N.subtype) ?_, ?_⟩
+  refine ⟨IsPGroup.toSylow (Q.isPGroup.map N.subtype) ?_, ?_⟩
   · rw [Subgroup.index_map_subtype, ← even_iff_two_dvd]
     exact Nat.not_even_iff_odd.mpr (hQodd.mul hN)
   · exact Subgroup.map_subtype_le (Q : Subgroup N)
@@ -22,10 +22,10 @@ theorem exists_conj_of_odd_index_normalizer {G : Type*} [Group G] [Finite G] {E 
     (huniq : ∀ B : Subgroup G, B ≤ Subgroup.normalizer (E : Set G) → Nonempty (↥B ≃* ↥F) →
       B = E) :
     ∃ c : G, ∀ x : G, x ∈ F ↔ c⁻¹ * x * c ∈ E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P', hP'⟩ := exists_sylow_le_of_odd_index hodd
   obtain ⟨P, hFP⟩ := hF.exists_le_sylow
-  haveI : Finite (Sylow 2 G) := by
+  have : Finite (Sylow 2 G) := by
     obtain ⟨Q⟩ := Sylow.nonempty (p := 2) (G := G)
     exact Sylow.finite_of_finiteIndex Q
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G P' P
@@ -51,7 +51,7 @@ theorem exists_conj_of_odd_index_normalizer {G : Type*} [Group G] [Finite G] {E 
   rw [← hB_eq, Subgroup.mem_map]
   constructor
   · intro hx
-    exact ⟨x, hx, by simp [MulAut.conj_apply]⟩
+    exact ⟨x, hx, by simp⟩
   · rintro ⟨z, hz, hzx⟩
     have hzx' : z = x := by
       have h2 : g⁻¹ * z * g = g⁻¹ * x * g := by

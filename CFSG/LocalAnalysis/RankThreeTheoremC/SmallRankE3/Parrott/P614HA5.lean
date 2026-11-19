@@ -42,7 +42,7 @@ theorem kbarA5_of_a5Case (hyp : Hyp P M x z H S) (h618 : Stage618 M H K z)
     refine ⟨⟨_, hyK⟩, Subtype.ext ?_⟩
     have hι : ι ⟨_, hyK⟩ = y * ι k * y⁻¹ := Subtype.ext (by simp [ι])
     rw [hg'k, hι, map_mul, map_mul, map_inv, hy, coe_mul, coe_mul, coe_inv, hg'k]
-  haveI := alternatingGroup.isSimpleGroup_five
+  have := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal g'.range with h | h
   · exfalso
     obtain ⟨k₀, hk₀K, hk₀O⟩ := exists_not_mem_pCoreOf h618

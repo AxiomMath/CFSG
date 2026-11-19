@@ -94,7 +94,7 @@ theorem isPGroup_of_elemAbelian3 {X : Type} [Group X] {F : Subgroup X} (hF : IsE
 
 theorem card_lt_27_of_dvd {X : Type} [Group X] [Finite X] {F : Subgroup X} (hF : IsPGroup 3 F)
     {n : ℕ} (hdvd : Nat.card F ∣ n) (h27 : ¬ 27 ∣ n) : Nat.card F < 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 hF
   rw [hk] at hdvd ⊢
   by_contra hlt
@@ -109,7 +109,7 @@ theorem card_lt_27_of_dvd {X : Type} [Group X] [Finite X] {F : Subgroup X} (hF :
 theorem card_le_27_of_nine {G : Type} [Group G] [Finite G] {H : Subgroup G}
     (hH : ¬ 3 ^ 5 ∣ Nat.card H) {g : G} (hg : g ∈ H) (h3 : g ^ 3 ≠ 1) (h9 : g ^ 9 = 1)
     {F : Subgroup G} (hFH : F ≤ H) (hF : IsElemAbelian 3 F) : Nat.card F ≤ 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 (isPGroup_of_elemAbelian3 hF)
   have hFdvd : Nat.card F ∣ Nat.card H := Subgroup.card_dvd_of_le hFH
   have hk4 : k ≤ 4 := by
@@ -130,7 +130,7 @@ theorem card_le_27_of_nine {G : Type} [Group G] [Finite G] {H : Subgroup G}
   have hP : IsPGroup 3 P := IsPGroup.of_card hPc
   obtain ⟨S, hPS⟩ := hP.exists_le_sylow
   have hSc : Nat.card (S : Subgroup H) ≤ 3 ^ 4 := by
-    obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 S.isPGroup'
+    obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 S.isPGroup
     have hSd : Nat.card (S : Subgroup H) ∣ Nat.card H := Subgroup.card_subgroup_dvd_card _
     rw [hj] at hSd ⊢
     by_contra h
@@ -189,7 +189,7 @@ theorem elemAbelian_range {X Y : Type} [Group X] [Group Y] {p : ℕ} {F : Subgro
     obtain ⟨_, y, rfl⟩ := b
     show φ x * φ y = φ y * φ x
     rw [← map_mul, ← map_mul]
-    haveI := hF.1
+    have := hF.1
     rw [mul_comm' x y]
   · rintro _ ⟨x, rfl⟩
     show φ x ^ p = 1

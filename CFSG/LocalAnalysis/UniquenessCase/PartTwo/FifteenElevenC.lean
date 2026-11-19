@@ -66,6 +66,7 @@ theorem s15_Eleven_exists_Bv_two (D : Data G) {V₀ V L : Subgroup G} (h : Hyp15
     exact Subgroup.one_mem _
   · exact hvX (hN.symm.le.trans inf_le_right)
 
+omit [Finite G] in
 theorem s15_Eleven_exists_transvection_member {Δ : Set (Subgroup G)} {t : G}
     (hcard : (suppAct Δ t).ncard = 2) (f : Subgroup G → ℕ)
     (h1 : ∀ E ∈ suppAct Δ t, 1 ≤ f E) (hsum : ∑ᶠ E ∈ suppAct Δ t, f E ≤ 3) :

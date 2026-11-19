@@ -13,7 +13,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA.I1416Rows
 
 theorem not_simple_of_card_dvd_294 {T : Type} [Group T] [Finite T] [IsSimpleGroup T]
     (hnab : ∃ a b : T, a * b ≠ b * a) (hd : Nat.card T ∣ 294) : False := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hns : ¬ Group.IsSolvable T := fun h => by
     obtain ⟨a, b, hab⟩ := hnab
     exact hab ((IsSimpleGroup.comm_iff_isSolvable.2 h) a b)
@@ -86,9 +86,9 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 theorem card_pSimple_dvd_2520 (s : J) (hs : orderOf s = 7) {I : Subgroup J}
     (hI : GLAPComponent 7 (Subgroup.centralizer ({s} : Set J)) I) :
     Nat.card (PSimple 7 I) ∣ 2520 := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
   obtain ⟨hsI, hnab⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab (by norm_num) hI
-  haveI := hsI
+  have := hsI
   have hd := prime_mul_card_pSimple_dvd_cent (by norm_num) hs hI.1
   obtain ⟨g, hg⟩ := fi7_conj_class s hs
   have hc : Nat.card (Subgroup.centralizer ({s} : Set J)) =
@@ -117,7 +117,7 @@ theorem row_Fi24_seven (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Spora
   obtain ⟨hfin, hs, hnc, ⟨b⟩⟩ := fi24_model hbr
   refine @row_of_model .Fi24Prime 7 J _ hfin hs hOut b hnc fun x hx I hI => ?_
   obtain ⟨hsI, hnab⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab (by norm_num) hI
-  haveI := hsI
+  have := hsI
   exact typeOK_seven_of_card_dvd_2520 hb hnab (card_pSimple_dvd_2520 x hx hI)
 
 theorem qrow_Fi24_seven (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo)
@@ -128,7 +128,7 @@ theorem qrow_Fi24_seven (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Spor
   refine @CFSG.LocalAnalysis.GLTheoremA.I1416QRows.qrow_of_model .Fi24Prime 7 J _ hfin hs hOut b
     hnc fun x hx I hI => ?_
   obtain ⟨hsI, hnab⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab (by norm_num) hI
-  haveI := hsI
+  have := hsI
   exact qtypeOK_seven_of_card_dvd_2520 hb hnab (card_pSimple_dvd_2520 x hx hI)
 
 end CFSG.HardMathSupport.Dickson.I271.Fi7

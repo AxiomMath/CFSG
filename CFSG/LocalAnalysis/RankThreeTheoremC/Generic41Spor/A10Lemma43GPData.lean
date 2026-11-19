@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G] {P : Sylow 5 G} {M : Subgroup G} {x : G
 theorem a10_pdata (hX : A10Facts) (hc : PointConfig IsA10Type G 5 P M x J)
     (hP : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G)) :
     PGroupDataAb 5 (P : Subgroup G) (u3T P x J) ((P : Subgroup G) ⊓ u3K0 5 x J) x := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨hcard, hE, -⟩ := plane_T_structure hX.sylow hc
   have hSdec := plane_S_decomp hX.sylow hX.noOuter hc
   have hdec := u3_P_decomp_core hc hP (k := 2) hcard
@@ -30,9 +30,9 @@ theorem a10_P_comm (hX : A10Facts) (hc : PointConfig IsA10Type G 5 P M x J)
     (hP : (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G)) :
     IsMulCommutative (P : Subgroup G) := by
   have hpd := a10_pdata hX hc hP
-  haveI : IsMulCommutative ↥(u3T P x J) := hpd.T_comm
-  haveI : IsMulCommutative ↥((P : Subgroup G) ⊓ u3K0 5 x J) := by
-    haveI := hpd.D_cyc
+  have : IsMulCommutative ↥(u3T P x J) := hpd.T_comm
+  have : IsMulCommutative ↥((P : Subgroup G) ⊓ u3K0 5 x J) := by
+    have := hpd.D_cyc
     exact inferInstance
   have h := plane_sup_comm (A := u3T P x J) (B := (P : Subgroup G) ⊓ u3K0 5 x J) hpd.comm
   rwa [hpd.sup_eq] at h

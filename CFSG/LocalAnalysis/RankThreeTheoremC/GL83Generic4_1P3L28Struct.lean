@@ -66,13 +66,13 @@ theorem l28s_reducedCentralizer_sylow_cyclic (hS : Setting G) (hU0 : FullCoreLoc
   have hDc : ∀ d ∈ D, ∀ a ∈ r1sBar x J, a * d = d * a := fun d hd a ha =>
     mem_centralizer_iff.mp (by rw [← r1s_reducedCentralizerOfJ_eq]; exact hd) a ha
   have hSY : IsSylowOf 3 (S : Subgroup (GenericReduced 3 x)) ⊤ := (isSylowOf_iff).mpr
-    ⟨le_top, S.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
+    ⟨le_top, S.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
   have hSD : IsSylowOf 3 ((S : Subgroup (GenericReduced 3 x)) ⊓ D) D :=
     hSY.inf_of_le_normalizer le_top (normalizer_eq_top D).ge
   have hSDc : IsCyclic ↥((S : Subgroup (GenericReduced 3 x)) ⊓ D) := by
     by_contra hnc
     have h2 := two_le_pRank_of_not_isCyclic Nat.prime_three (by norm_num)
-      S.isPGroup'.to_inf_left hnc
+      S.isPGroup.to_inf_left hnc
     have hN := hsh.normalizer_le _ inf_le_left h2
     refine hJ.not_le fun j hj => ?_
     have hjC : j ∈ centralizer ({x} : Set G) := hJ.le_centralizer hj
@@ -265,7 +265,7 @@ theorem l28_T_data (_hS : Setting G) (_hU0 : FullCoreLocal G) (hK1 : KFactL28Thr
   have hker : ∀ c : ↥C, (c : G) ∈ (P : Subgroup G) ⊓ J → l34Hom x J c = 1 → c = 1 := by
     intro c hc h1
     have hcO := l28_mem_of_ker_of_mem_J hJ c hc.2 h1
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨(c : G), hc.1⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨(c : G), hc.1⟩
     have hk' : orderOf c = 3 ^ k := by
       rw [← hk, Subgroup.orderOf_mk (c : G) hc.1, Subgroup.orderOf_coe]
     have h2 : orderOf c ∣ Nat.card (primeComplementCore (G := C) 3) :=

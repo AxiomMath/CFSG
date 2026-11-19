@@ -16,8 +16,8 @@ open scoped Pointwise
 theorem le_centralizer_of_conj_mem {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {P V₀ : Subgroup G} (hP : IsPGroup p P) (hV₀ : Nat.card V₀ < p) {v : G}
     (hv : ∀ x ∈ P, x * v * x⁻¹ * v⁻¹ ∈ V₀) : P ≤ Subgroup.centralizer ({v} : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  letI : MulAction P G :=
+  have : Fact p.Prime := ⟨hp⟩
+  let : MulAction P G :=
     MulAction.compHom G (ConjAct.toConjAct.toMonoidHom.comp P.subtype)
   have hsmul : ∀ y : P, y • v = (y : G) * v * (y : G)⁻¹ := by
     intro y
@@ -68,7 +68,7 @@ theorem le_centralizer_of_conj_mem {G : Type*} [Group G] [Finite G] {p : ℕ} (h
 theorem two_le_pRank_of_card {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {H E : Subgroup G} (hEH : E ≤ H) (hE : IsElemAbelian p E) (hcard : p ^ 2 ≤ Nat.card E) :
     2 ≤ pRank p H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hE.isPGroup
   have hk2 : 2 ≤ k := by
     rw [hk] at hcard
@@ -78,8 +78,8 @@ theorem two_le_pRank_of_card {G : Type*} [Group G] [Finite G] {p : ℕ} (hp : p.
 theorem le_ker_of_isPGroup_of_not_dvd {M B : Type*} [Group M] [Finite M] [Group B] (φ : M →* B)
     {p : ℕ} (hp : p.Prime) (hφ : ¬ p ∣ Nat.card φ.range) {X : Subgroup M} (hX : IsPGroup p X) :
     X ≤ φ.ker := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (X.map φ) := by
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (X.map φ) := by
     have h : (φ '' (X : Set M)).Finite := (Set.toFinite (X : Set M)).image φ
     exact h.to_subtype
   have hmap : IsPGroup p (X.map φ) := hX.map φ
@@ -122,8 +122,8 @@ theorem exists_isElemAbelian_map_le_zpowers {M B : Type*} [Group M] [Finite M] [
     (hrange : ¬ p ^ 3 ∣ Nat.card φ.range) {b : B} (hb : b ∈ φ.range) (hbp : orderOf b = p) :
     ∃ E' : Subgroup M, IsElemAbelian p E' ∧ p ^ 2 ≤ Nat.card E' ∧
       E'.map φ ≤ Subgroup.zpowers b := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (E.map φ) := by
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (E.map φ) := by
     have h : (φ '' (E : Set M)).Finite := (Set.toFinite (E : Set M)).image φ
     exact h.to_subtype
   let K : Subgroup M := E ⊓ φ.ker
@@ -169,8 +169,8 @@ theorem exists_isElemAbelian_map_le_zpowers {M B : Type*} [Group M] [Finite M] [
         _ = p ^ 3 := by ring
     exact le_antisymm hle hEcard
   let R : Subgroup B := φ.range
-  haveI : Finite R := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
-  haveI : Finite (Sylow p R) :=
+  have : Finite R := Finite.of_surjective φ.rangeRestrict φ.rangeRestrict_surjective
+  have : Finite (Sylow p R) :=
     Finite.of_injective (SetLike.coe : Sylow p R → Set R) SetLike.coe_injective
   let Ebar : Subgroup R := (E.map φ).subgroupOf R
   have hEbar_card : Nat.card Ebar = p ^ 2 := by
@@ -293,7 +293,7 @@ theorem map_normalizer_sylow {M B : Type*} [Group M] [Finite M] [Group B] (φ : 
     {q : ℕ} (hq : q.Prime) {T : Subgroup M} (hT : IsPGroup q T) (hTi : ¬ q ∣ T.index) :
     (Subgroup.normalizer (T : Set M)).map φ =
       Subgroup.normalizer (T.map φ : Set B) ⊓ φ.range := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   apply le_antisymm
   · intro b hb
     obtain ⟨n, hn, rfl⟩ := Subgroup.mem_map.1 hb
@@ -362,7 +362,7 @@ theorem exists_isPGroup_noncyclic_le_normalizer {M B : Type*} [Group M] [Finite 
     (hTi : ¬ q ∣ T.index) {X : Subgroup B} (hXr : X ≤ φ.range) (hXp : IsPGroup p X)
     (hXc : ¬ IsCyclic X) (hXN : X ≤ Subgroup.normalizer (T.map φ : Set B)) :
     ∃ Y : Subgroup M, Y ≤ Subgroup.normalizer (T : Set M) ∧ IsPGroup p Y ∧ ¬ IsCyclic Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let C : Subgroup M := Subgroup.normalizer (T : Set M)
   let g : C →* B := φ.comp C.subtype
   have hg_range : g.range = Subgroup.normalizer (T.map φ : Set B) ⊓ φ.range := by

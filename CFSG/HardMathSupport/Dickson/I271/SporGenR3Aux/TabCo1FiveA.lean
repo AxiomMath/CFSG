@@ -123,7 +123,7 @@ section Final
 
 theorem tabCo1_fiveA (hOut : SporadicOuterLeTwo) (x : ↥GA) (hx : MRep repD0 (x : GL24)) :
     ShapeRkAt 5 (GoodSpor 5 [.J2]) (RkSpor 5 [.J2]) x := by
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   obtain ⟨hrep, hk5, hk1, hku, hkv, hu1, hw1, hw2, hw3, hbound⟩ := fiveA_data
   obtain ⟨h1, h2, h3⟩ := relators_of_wordG hw1 hw2 hw3
   exact shapeRkAt_J2_of_data hOut GA x _ _ _ (hx.eq hrep) (kG_mem ext 89) (kG_mem ext 90) hk5 hk1

@@ -111,7 +111,7 @@ theorem braid_core {s s' y r : G} (hs : s * s = 1) (hs' : s' * s' = 1) (hsr : s 
     calc y * r = (s * s) * y * (s * r * s) := by rw [hs, hsr, one_mul]
       _ = s * w * s := by rw [hw]; group
   rw [e2, e]
-  simp only [mul_inv_rev, hsi, hs'i, mul_assoc, hsl, hs'l, hs, hs']
+  simp only [mul_inv_rev, hsi, hs'i, mul_assoc, hsl]
 
 end SixCoxAux
 
@@ -120,7 +120,7 @@ namespace Cfg.PiData
 variable {G : Type} [Group G] [Finite G] {M X : Subgroup G} {C : Cfg G M X 6} (D : C.PiData)
 
 include D in
-theorem sixCox_conj_eq (hR : Nat.card ↥(Rc X) ≤ 2) (hsurj : Function.Surjective C.θ) {x : G}
+theorem sixCox_conj_eq (hR : Nat.card ↥(Rc X) ≤ 2) (_hsurj : Function.Surjective C.θ) {x : G}
     (hx : x ∈ CFSG.Open.pCoreOf 2 M) {i j : Fin 6} (hij : i ≠ j)
     (hπ : Multiplicative.toAdd (D.piQ ⟨x, hx⟩) = barInd {i, j}) {m m' : ↥M}
     (hmm : ({C.θ m i, C.θ m j} : Finset (Fin 6)) = {C.θ m' i, C.θ m' j}) :
@@ -130,7 +130,7 @@ theorem sixCox_conj_eq (hR : Nat.card ↥(Rc X) ≤ 2) (hsurj : Function.Surject
       Finset.image_insert, Finset.image_singleton, ← hmm, Finset.image_insert,
       Finset.image_singleton, perm_inv_apply_self, perm_inv_apply_self]
   have hk : ((m⁻¹ * m' : ↥M) : G) ∈ CMOf M x := by
-    rw [D.CMOf_eq_thetaPre hR hsurj hx hij hπ]
+    rw [D.CMOf_eq_thetaPre hR hx hij hπ]
     exact C.mem_thetaPre.2 ⟨(m⁻¹ * m').2, hθ⟩
   have hc : ((m⁻¹ * m' : ↥M) : G) * x * ((m⁻¹ * m' : ↥M) : G)⁻¹ = x :=
     mem_centralizer_zpowers_iff.1 (Subgroup.mem_inf.1 hk).2
@@ -325,7 +325,7 @@ theorem sixCox_exists_section_of_class (hR : Nat.card ↥(Rc X) ≤ 2)
     exact ⟨m, by rw [hm, ← Perm.smul_def, hσi], by rw [hm, ← Perm.smul_def, hσj]⟩
   choose mk hmk using hex
   let g : ℕ → ↥M := fun k => if hk : k < 5 then mk k hk * t * (mk k hk)⁻¹ else 1
-  have hg : ∀ k (hk : k < 5), g k = mk k hk * t * (mk k hk)⁻¹ := fun k hk => dif_pos hk
+  have hg : ∀ k (hk : k < 5), g k = mk k hk * t * (mk k hk)⁻¹ := fun k hk => dite_eq_left hk
   have hcox : Permutation.SymmetricCoxeter.IsCoxeterA 5 g := by
     refine ⟨fun k hk => ?_, fun k hk => ?_, fun k l hkl hl => ?_⟩
     · rw [hg k hk]

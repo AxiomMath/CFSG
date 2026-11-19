@@ -32,6 +32,7 @@ theorem eq_top_of_not_le_frattini_of_isCyclic {X : Type} [Group X] [Finite X] {p
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem oTwoUpper_subgroup_map_le (A : Subgroup X) :
     (oTwoUpper (⊤ : Subgroup A)).map A.subtype ≤ oTwoUpper A := by
   unfold oTwoUpper
@@ -52,7 +53,7 @@ theorem map_oTwoUpper_top_eq {A B : Type} [Group A] [Group B] [Finite A] [Finite
 theorem exists_lift_rotation {A : Type} [Group A] [Finite A] {m : ℕ} (hm : m.Prime)
     (hm2 : m ≠ 2) (ψ : A →* DihedralGroup m) (hψ : Function.Surjective ψ) :
     ∃ y ∈ oTwoUpper (⊤ : Subgroup A), ψ y = DihedralGroup.r (1 : ZMod m) := by
-  haveI : NeZero m := ⟨hm.ne_zero⟩
+  have : NeZero m := ⟨hm.ne_zero⟩
   have hodd : Odd m := hm.odd_of_ne_two hm2
   have h1 : DihedralGroup.r (1 : ZMod m) ∈ oTwoUpper (⊤ : Subgroup (DihedralGroup m)) := by
     apply Subgroup.subset_closure
@@ -69,7 +70,7 @@ theorem prime_eq_of_dihedral_core {p m : ℕ} [hp : Fact p.Prime] {Ix Mx : Subgr
     (hO : oTwoUpper (⊤ : Subgroup (X ⧸ CFSG.Open.pCore 2 X)) =
       CFSG.Open.pCore p (X ⧸ CFSG.Open.pCore 2 X)) :
     m = p := by
-  haveI : (CFSG.Open.pCore 2 X).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have : (CFSG.Open.pCore 2 X).Normal := CFSG.LieType.BorelTits.pCore_normal 2
   set Q := CFSG.Open.pCore 2 X with hQ
   set φ := QuotientGroup.mk' Q with hφ
   have hφs : Function.Surjective φ := QuotientGroup.mk'_surjective Q
@@ -106,13 +107,13 @@ theorem oTwoUpper_le_of_isCyclic_core {p m : ℕ} [hp : Fact p.Prime] {Ix Mx : S
         (CFSG.Open.pCore p (X ⧸ CFSG.Open.pCore 2 X)).subtype)
     (hcyc : IsCyclic ↥(CFSG.Open.pCore p (X ⧸ CFSG.Open.pCore 2 X))) :
     oTwoUpper (⊤ : Subgroup X) ≤ Ix ⊔ kerIn Mx ⊤ := by
-  haveI : (CFSG.Open.pCore 2 X).Normal := CFSG.LieType.BorelTits.pCore_normal 2
+  have : (CFSG.Open.pCore 2 X).Normal := CFSG.LieType.BorelTits.pCore_normal 2
   set Q := CFSG.Open.pCore 2 X with hQ
   set φ := QuotientGroup.mk' Q with hφ
   have hφs : Function.Surjective φ := QuotientGroup.mk'_surjective Q
   set P := CFSG.Open.pCore p (X ⧸ Q) with hP
   have hPp : IsPGroup p ↥P := CFSG.LieType.BorelTits.pCore_isPGroup (G := X ⧸ Q) p
-  haveI : IsCyclic ↥P := hcyc
+  have : IsCyclic ↥P := hcyc
   have hφO : (oTwoUpper (⊤ : Subgroup X)).map φ = P := by
     rw [map_oTwoUpper_top_eq φ hφs, hO]
   have hSP : (oTwoUpper Ix).map φ ≤ P := by
@@ -211,7 +212,7 @@ theorem l3M22Solv_of (hmod : StmtFSUModule) (h711n : Stmt7_1_1_normal) (h825 : S
     rwa [hP] at this
   have hMP : MinParabolic H T (H ⊓ fsuM T L) := ⟨hTsyl, hnN, hUM⟩
   obtain ⟨p, hpp, hp2, hO2p2, hJbar, -, -⟩ := hMP.subgroupOf.solvable_structure hsolv
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hquot : ∀ y : ↥H ⧸ CFSG.Open.pCore 2 ↥H, ∃ j : ℕ,
       y ^ 2 ^ j ∈ CFSG.Open.pCore p (↥H ⧸ CFSG.Open.pCore 2 ↥H) := by
     intro y

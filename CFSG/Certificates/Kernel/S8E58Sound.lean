@@ -170,6 +170,7 @@ theorem g4_lt {L : List Nat} (hL : ∀ a ∈ L, a < 44) {l : Nat} (hl : l < 44)
   · obtain ⟨f, hf, rfl⟩ := List.mem_map.1 ha
     exact (T.prod f (hL f hf) l hl (List.all_eq_true.1 h f hf)).1
 
+omit T in
 theorem contains4_false {k i j m : Nat} (hk : iv k ∉ [iv 43, iv i, iv j, iv m]) :
     [43, i, j, m].contains k = false := by
   rw [Bool.eq_false_iff]
@@ -178,6 +179,7 @@ theorem contains4_false {k i j m : Nat} (hk : iv k ∉ [iv 43, iv i, iv j, iv m]
   rw [List.contains_iff_mem] at hc
   exact List.mem_map_of_mem (f := iv) hc
 
+omit T in
 theorem contains_false {L : List Nat} {l : Nat} (hl : iv l ∉ L.map iv) : L.contains l = false := by
   rw [Bool.eq_false_iff]
   intro hc
@@ -213,7 +215,7 @@ theorem k34_of {R W : Nat} (h : ∀ i < 43, k34K CM MT FX R W i = true) : K34 :=
   have cjk := (T.comm j (by omega) k (by omega)).1 hcjk
   have hpij := T.prod i (by omega) j (by omega) cij
   have hkn' : [43, i, j, mt MT i j].contains k = false := by
-    refine contains4_false T ?_
+    refine contains4_false ?_
     rw [iv43, ← hpij.2]
     exact hkn
   rw [blt_t hij, blt_t hjk, cij, cik, cjk, hkn'] at h2
@@ -230,9 +232,8 @@ theorem k34_of {R W : Nat} (h : ∀ i < 43, k34K CM MT FX R W i = true) : K34 :=
   have h4 := PK.allN_iff.1 h3.2 l hl
   rw [blt_t hkl, (T.comm i (by omega) l (by omega)).1 cil,
     (T.comm j (by omega) l (by omega)).1 cjl, (T.comm k (by omega) l (by omega)).1 ckl,
-    contains_false T hln] at h4
-  simp only [Bool.not_false, Bool.and_self, Bool.not_true, Bool.false_or, Bool.and_eq_true,
-    PK.strictB_eq] at h4
+    contains_false hln] at h4
+  simp only [Bool.not_false, Bool.and_self, Bool.not_true, Bool.false_or, Bool.and_eq_true] at h4
   obtain ⟨⟨hall, hw4⟩, hmax⟩ := h4
   rw [grp4_eq T (g3_lt T G) (by omega) hall]
   exact ⟨w4_sound T (g4_lt T (g3_lt T G) (by omega) hall) hw4,

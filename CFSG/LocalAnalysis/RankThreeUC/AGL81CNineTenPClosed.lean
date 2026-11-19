@@ -16,11 +16,11 @@ variable {X : Type*} [Group X] [Finite X] {p : ℕ}
 theorem IsPClosedMod.sup_normalizer_eq_top [Fact p.Prime] {U : Subgroup X} [U.Normal]
     (hU : IsPClosedMod p U) (P : Sylow p X) : U ⊔ normalizer (P : Set X) = ⊤ := by
   obtain ⟨S, hSn, hUS, ⟨k, hk⟩, hSp⟩ := hU
-  haveI := hSn
+  have := hSn
   have hp : p.Prime := Fact.out
   have hPS : (P : Subgroup X) ≤ S := by
     have h1 : IsPGroup p ↥(Subgroup.map (QuotientGroup.mk' S) (P : Subgroup X)) :=
-      (show IsPGroup p (P : Subgroup X) from P.isPGroup').map (QuotientGroup.mk' S)
+      (show IsPGroup p (P : Subgroup X) from P.isPGroup).map (QuotientGroup.mk' S)
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp h1
     have hdvd : Nat.card ↥(Subgroup.map (QuotientGroup.mk' S) (P : Subgroup X)) ∣ S.index := by
       rw [Subgroup.index_eq_card]
@@ -52,11 +52,11 @@ theorem IsPClosedMod.sup_normalizer_eq_top [Fact p.Prime] {U : Subgroup X} [U.No
         sup_le le_sup_right (sup_le le_sup_left (Subgroup.le_normalizer.trans le_sup_right))
 
 theorem IsPClosedMod.le_sup_normalizer {G : Type*} [Group G] [Finite G] [Fact p.Prime]
-    {B U P : Subgroup G} (hUB : U ≤ B) (hUn : (U.subgroupOf B).Normal)
+    {B U P : Subgroup G} (_hUB : U ≤ B) (hUn : (U.subgroupOf B).Normal)
     (hU : IsPClosedMod p (U.subgroupOf B)) (hP : CFSG.ABGLocalTools.IsSylowOf p P B) :
     B ≤ U ⊔ (B ⊓ normalizer (P : Set G)) := by
   obtain ⟨Q, hQ⟩ := hP
-  haveI := hUn
+  have := hUn
   have htop : (U.subgroupOf B) ⊔ normalizer (Q : Set ↥B) = ⊤ :=
     IsPClosedMod.sup_normalizer_eq_top hU Q
   have h₁ : ((U.subgroupOf B) ⊔ normalizer (Q : Set ↥B)).map B.subtype ≤
@@ -79,6 +79,7 @@ theorem IsPClosedMod.le_sup_normalizer {G : Type*} [Group G] [Finite G] [Fact p.
   conv_lhs => rw [← hBeq]
   exact h₁
 
+omit [Finite X] in
 theorem isPClosedMod_of_index_eq_pow [Fact p.Prime] {U : Subgroup X} (k : ℕ)
     (hk : U.index = p ^ k) : IsPClosedMod p U := by
   refine ⟨⊤, inferInstance, le_top, ⟨k, ?_⟩, ?_⟩
@@ -96,10 +97,11 @@ private lemma relIndex_dvd_relIndex_of_le_of_normal {G : Type*} [Group G] {H K K
   rw [h1, h2] at h3
   exact dvd_of_mul_right_eq _ h3
 
+omit [Finite X] in
 theorem IsPClosedMod.comap [Fact p.Prime] {Y : Type*} [Group Y] [Finite Y] {U : Subgroup X}
     [U.Normal] (hU : IsPClosedMod p U) (f : Y →* X) : IsPClosedMod p (U.comap f) := by
   obtain ⟨S, hSn, hUS, ⟨k, hk⟩, hSp⟩ := hU
-  haveI := hSn
+  have := hSn
   have hp : p.Prime := Fact.out
   have hdvd : (U.comap f).relIndex (S.comap f) ∣ p ^ k := by
     rw [Subgroup.relIndex_comap U f (S.comap f), Subgroup.map_comap_eq f S, ← hk]
@@ -109,12 +111,13 @@ theorem IsPClosedMod.comap [Fact p.Prime] {Y : Type*} [Group Y] [Finite Y] {U : 
   rw [Subgroup.index_comap]
   exact fun hdiv => hSp (hdiv.trans (Subgroup.relIndex_dvd_index_of_normal S f.range))
 
+omit [Finite X] in
 theorem IsPClosedMod.inf [Fact p.Prime] {U₁ U₂ : Subgroup X} [U₁.Normal] [U₂.Normal]
     (h₁ : IsPClosedMod p U₁) (h₂ : IsPClosedMod p U₂) : IsPClosedMod p (U₁ ⊓ U₂) := by
   obtain ⟨S₁, hS₁n, hU₁S₁, ⟨k₁, hk₁⟩, hS₁p⟩ := h₁
   obtain ⟨S₂, hS₂n, hU₂S₂, ⟨k₂, hk₂⟩, hS₂p⟩ := h₂
-  haveI := hS₁n
-  haveI := hS₂n
+  have := hS₁n
+  have := hS₂n
   have hp : p.Prime := Fact.out
   have hdvd₁ : U₁.relIndex (U₂ ⊓ (S₁ ⊓ S₂)) ∣ p ^ k₁ := by
     rw [← hk₁]
@@ -139,6 +142,7 @@ theorem IsPClosedMod.inf [Fact p.Prime] {U₁ U₂ : Subgroup X} [U₁.Normal] [
   · exact hS₂p (hdiv.trans (Subgroup.relIndex_dvd_index_of_normal S₂ S₁))
   · exact hS₁p hdiv
 
+omit [Finite X] in
 theorem IsPClosedMod.finset_inf [Fact p.Prime] {ι : Type*} (s : Finset ι) (U : ι → Subgroup X)
     (hn : ∀ i ∈ s, (U i).Normal) (h : ∀ i ∈ s, IsPClosedMod p (U i)) :
     IsPClosedMod p (s.inf U) := by
@@ -160,11 +164,12 @@ theorem IsPClosedMod.finset_inf [Fact p.Prime] {ι : Type*} (s : Finset ι) (U :
         have hsa : IsPClosedMod p (U a) := hs a (Finset.mem_insert_self a s)
         have hss : ∀ i ∈ s, IsPClosedMod p (U i) := fun i hi => hs i (Finset.mem_insert_of_mem hi)
         obtain ⟨hsn, hsi⟩ := ih hns hss
-        haveI := hna
-        haveI := hsn
+        have := hna
+        have := hsn
         exact ⟨inferInstance, IsPClosedMod.inf hsa hsi⟩
   exact (key s hn h).2
 
+omit [Finite X] in
 private lemma mem_map_subtype_iff {N U : Subgroup X} [N.Normal] [U.Normal] [Fact p.Prime]
     {S : Subgroup ↥N} [S.Normal] (hUS : U.subgroupOf N ≤ S) (hSp : ¬ p ∣ S.index) (k : ℕ)
     (hk : (U.subgroupOf N).relIndex S = p ^ k) {x : X} :
@@ -214,11 +219,12 @@ private lemma mem_map_subtype_iff {N U : Subgroup X} [N.Normal] [U.Normal] [Fact
       exact hone
     exact Subgroup.mem_map.mpr ⟨⟨x, hxN⟩, hxS, rfl⟩
 
+omit [Finite X] in
 theorem IsPClosedMod.of_subgroupOf [Fact p.Prime] {N U : Subgroup X} [N.Normal] [U.Normal]
     (hUN : U ≤ N) (hN : ¬ p ∣ N.index) (hU : IsPClosedMod p (U.subgroupOf N)) :
     IsPClosedMod p U := by
   obtain ⟨S₀, hS₀n, hUS₀, ⟨k, hk⟩, hS₀p⟩ := hU
-  haveI := hS₀n
+  have := hS₀n
   have hNn : N.Normal := inferInstance
   have hUn : U.Normal := inferInstance
   have hp : p.Prime := Fact.out

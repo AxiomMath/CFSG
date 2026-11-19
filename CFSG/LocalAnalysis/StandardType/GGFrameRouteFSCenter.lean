@@ -55,9 +55,8 @@ theorem center_eq_bot_of_fsEndMarking
     dsimp only at ht hn
     subst hn
     rcases ht with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;>
-      simp [markTag, markRank, markChar, markDeg, genericOrders, exceptionalOrders,
-        Nat.card_congr Multiplicative.toAdd]
-  haveI : Finite (CFSG.Open.griessHopfMultiplier R) :=
+      simp [markTag, markRank, markChar, markDeg, genericOrders, exceptionalOrders]
+  have : Finite (CFSG.Open.griessHopfMultiplier R) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact one_ne_zero)
   have hd := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hq θ
   rw [hcard, Nat.dvd_one] at hd

@@ -39,7 +39,7 @@ theorem five_one_end {H M S : Subgroup G} (hM : IsMaxSubgroupIn H M)
   let M' : Subgroup ↥H := M.subgroupOf H
   let S' : Subgroup ↥H := S.subgroupOf H
   have hS'M' : S' ≤ M' := Subgroup.subgroupOf_mono H hSM
-  haveI hS'normal : S'.Normal := hSn
+  have hS'normal : S'.Normal := hSn
   let q : ↥H →* (↥H ⧸ S') := QuotientGroup.mk' S'
   have hq_surj : Function.Surjective q := QuotientGroup.mk'_surjective S'
   have hq_ker : q.ker = S' := QuotientGroup.ker_mk' S'

@@ -59,7 +59,7 @@ theorem commutator_mem_of_schur {U Z A B : Subgroup G}
       simp only [commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv]; group
     rw [e]
     exact Z.mul_mem (hab _ u.2 _ z.2) hz⟩
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   have hPc : ∀ x y : U ⧸ N, x * y = y * x := by
     intro x y
     induction x using QuotientGroup.induction_on with
@@ -71,7 +71,7 @@ theorem commutator_mem_of_schur {U Z A B : Subgroup G}
           simp only [commutatorElement_def, Subgroup.coe_mul, Subgroup.coe_inv]; group
         rw [e]
         exact hab _ (U.inv_mem v.2) _ (U.inv_mem u.2)
-  letI : CommGroup (U ⧸ N) := { (inferInstance : Group (U ⧸ N)) with mul_comm := hPc }
+  let : CommGroup (U ⧸ N) := { (inferInstance : Group (U ⧸ N)) with mul_comm := hPc }
   let σ₀ : A →* MulAut U := (Subgroup.normalizerMonoidHom U).comp (Subgroup.inclusion hAU)
   let τ₀ : B →* MulAut U := (Subgroup.normalizerMonoidHom U).comp (Subgroup.inclusion hBU)
   have hσ₀ : ∀ (a : A) (x : U), ((σ₀ a x : U) : G) = a * x * (a : G)⁻¹ :=
@@ -100,7 +100,7 @@ theorem commutator_mem_of_schur {U Z A B : Subgroup G}
     exact ⟨fun h => by rw [h, map_one], fun h => (τ t).injective (by rw [h, map_one])⟩
   have hne : (⊥ : Subgroup (U ⧸ N)) ≠ ⊤ := by
     intro h
-    obtain ⟨u, huU, huZ⟩ := (SetLike.lt_iff_le_and_exists.1 hlt).2
+    obtain ⟨u, huU, huZ⟩ := (IsConcreteLE.lt_iff_le_and_exists.1 hlt).2
     have h1 : (QuotientGroup.mk (⟨u, huU⟩ : U) : U ⧸ N) ∈ (⊤ : Subgroup (U ⧸ N)) := trivial
     rw [← h, Subgroup.mem_bot, QuotientGroup.eq_one_iff, hmemN] at h1
     exact huZ h1
@@ -299,6 +299,7 @@ private theorem le_normalizer_of_commutator_mem {H J K : Subgroup G} (hJ : IsFoo
   have := key x⁻¹ (inv_mem hx) _ hg
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 private theorem inf_pCoreOf_le_blockQ {H K : Subgroup G} (hK : IsFooteBlock H K) :
     K ⊓ pCoreOf 2 H ≤ blockQ K := by
   have hKQ : K ≤ Subgroup.normalizer (pCoreOf 2 H : Set G) :=

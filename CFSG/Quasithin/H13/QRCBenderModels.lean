@@ -117,7 +117,7 @@ theorem benderData_psl2 {n : ℕ} (hcard : Nat.card k = 2 ^ n) :
   isPGroup := by
     obtain ⟨S, hS⟩ := LinearModel.exists_sylow_eq_rootGroup hcard
     rw [← hS]
-    exact S.isPGroup'
+    exact S.isPGroup
   not_dvd_index := by
     obtain ⟨S, hS⟩ := LinearModel.exists_sylow_eq_rootGroup hcard
     rw [← hS]
@@ -162,7 +162,7 @@ theorem suzuki_normalizer_suzukiU
   · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨P, hP⟩ := SuzukiModel.exists_sylow_eq_suzukiU hK
     refine normalizer_le_of_stronglyEmbedded (SuzukiModel.fusionStronglyEmbedded_suzukiB hK)
-      (hP ▸ P.isPGroup') ?_ (suzukiU_le_suzukiB a k)
+      (hP ▸ P.isPGroup) ?_ (suzukiU_le_suzukiB a k)
     intro h
     have h1 := (suzuki_unipotent_structure hK).2.1
     rw [h, card_bot] at h1
@@ -178,7 +178,7 @@ theorem benderData_suzuki
   isPGroup := by
     obtain ⟨P, hP⟩ := SuzukiModel.exists_sylow_eq_suzukiU hK
     rw [← hP]
-    exact P.isPGroup'
+    exact P.isPGroup
   not_dvd_index := by
     obtain ⟨P, hP⟩ := SuzukiModel.exists_sylow_eq_suzukiU hK
     rw [← hP]
@@ -202,7 +202,7 @@ theorem benderData_suzuki
       CFSG.ComponentClassification.UnbalancedGS.SuzukiOddCore.suzuki_involution_centralizer_sylow
         hK g hg
     rw [← hS]
-    exact S.isPGroup'
+    exact S.isPGroup
   sq_comm := by
     intro u hu hu2 v hv
     by_cases hu1 : u = 1

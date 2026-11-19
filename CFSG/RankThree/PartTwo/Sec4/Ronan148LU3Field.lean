@@ -177,7 +177,7 @@ theorem kf148PGUFieldCent : Sec14.Ronan148R.KF148PGUFieldCent := by
     set c : Kˣ := (Units.map (σ : K →* K) μ)⁻¹ * μ with hc
     have hσμ3 : (Units.map (σ : K →* K) μ) ^ 3 = μ ^ 3 := by
       apply Units.ext
-      rw [Units.val_pow_eq_pow_val, Units.coe_map, MonoidHom.coe_coe, ← map_pow, hμ3',
+      rw [Units.val_pow_eq_pow_val, Units.coe_map, _root_.MonoidHom.coe_ofClass, ← map_pow, hμ3',
         map_inv₀, hlamσ, ← hμ3', Units.val_pow_eq_pow_val]
     have hσμN : (Units.map (σ : K →* K) μ) ^ (2 ^ f + 1) = 1 := by
       rw [← map_pow, hμN, map_one]

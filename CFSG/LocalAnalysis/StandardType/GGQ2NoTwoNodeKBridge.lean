@@ -40,7 +40,7 @@ theorem ggQ2_noTwoNodeK_of_placement
   have hy1 : y ≠ 1 := hnb.1.2.2.1
   have hy3 : y ^ 3 = 1 := hBstar.2.1.2 y (hDBs hyD)
   have hord : orderOf y = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hy3 hy1
   obtain ⟨hsimple, hnab, hKP, -, -, hβ, hSS, hst⟩ := hI
   have hKc : IsComponentOf K (Subgroup.centralizer ({y} : Set G)) :=

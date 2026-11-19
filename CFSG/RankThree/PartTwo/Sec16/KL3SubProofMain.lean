@@ -360,7 +360,7 @@ theorem ksl3TwoIrrSimpleNonab : KSL3TwoIrrSimpleNonab := by
   intro K _ _ _ J hirr hsimp P hP
   by_contra h3
   obtain ⟨B, hB⟩ := exists_conj_mem_utSub (K := K) ((P : Subgroup ↥J).map J.subtype)
-    (P.isPGroup'.map J.subtype)
+    (P.isPGroup.map J.subtype)
   set ρ : ↥J →* GL (Fin 3) K := (MulAut.conj B⁻¹).toMonoidHom.comp J.subtype with hρdef
   have hρ : ∀ j : ↥J, ρ j = B⁻¹ * (j : GL (Fin 3) K) * B := fun j => by
     simp [hρdef]

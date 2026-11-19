@@ -109,7 +109,7 @@ theorem exists_alt_section [FiniteDimensional k V] (h2 : (2 : k) ≠ 0)
   have hztR : zt ∈ normalizer ((⁅S.comap F, zpowers zt⁆ : Subgroup Q) : Set Q) :=
     mem_normalizer_commutator' hztSt (Subgroup.le_normalizer (Subgroup.mem_zpowers zt))
   generalize hRdef : (⁅S.comap F, zpowers zt⁆ : Subgroup Q) = R at hR2 hRR hFR hR1 hztR
-  haveI : Finite (R.map ρ) := Finite.of_surjective _ (ρ.subgroupMap_surjective R)
+  have : Finite (R.map ρ) := Finite.of_surjective _ (ρ.subgroupMap_surjective R)
   have hRρ2 : IsPGroup 2 (R.map ρ) := hR2.map ρ
   have hRρ1 : R.map ρ ≠ ⊥ := by
     intro h
@@ -210,8 +210,8 @@ theorem alt_five_not_comm : ∃ a b : alternatingGroup (Fin 5), a * b ≠ b * a 
   have hc : ∀ a b : alternatingGroup (Fin 5), a * b = b * a := fun a b => by
     by_contra h
     exact hcon ⟨a, b, h⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
-  letI : CommGroup (alternatingGroup (Fin 5)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
+  let : CommGroup (alternatingGroup (Fin 5)) :=
     { (inferInstance : Group (alternatingGroup (Fin 5))) with mul_comm := hc }
   have hprime := IsSimpleGroup.prime_card (α := alternatingGroup (Fin 5))
   rw [card_alt_five] at hprime
@@ -220,7 +220,7 @@ theorem alt_five_not_comm : ∃ a b : alternatingGroup (Fin 5), a * b ≠ b * a 
 theorem kxSection_of_alt {A : Type} [Group A] {X H : Subgroup A} {z : A} (hHX : H ≤ X)
     (hzH : z ∈ H) (φ : H →* alternatingGroup (Fin 5)) (hφ : Function.Surjective φ)
     (hz1 : φ ⟨z, hzH⟩ ≠ 1) : KxSection z X 3 := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hsec := S622IsSimpleSection.of_surjective φ hφ alt_five_not_comm
   refine ⟨H, φ.ker.map H.subtype, hHX, hsec, hzH, ?_, ?_⟩
   · rintro ⟨k, hk, hkz⟩

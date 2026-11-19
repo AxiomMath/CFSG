@@ -70,7 +70,7 @@ theorem sec710_A_inf_L [Finite G] (hP : Asc82Tab6P) (h78 : Asc82Lemma78) {t : G}
   · intro b hb
     exact ⟨sec79_B_le_A hc hb, (hc.normalE16.1 hb).2⟩
 
-theorem sec710_B_eq_closure [Finite G] (h36 : Asc82Lemma36) (hP : Asc82Tab6P)
+theorem sec710_B_eq_closure [Finite G] (_h36 : Asc82Lemma36) (hP : Asc82Tab6P)
     (h75b : Asc82Lemma75b) (h78 : Asc82Lemma78) (h710b : Asc82Lemma710b) {t : G}
     {L S : Subgroup G} {z g : G} {B : Subgroup G} (hc : Sec7Choice G t L S z g B) :
     B = Subgroup.closure ({x : G | IsConj z x} ∩ (ASub S B : Set G)) := by

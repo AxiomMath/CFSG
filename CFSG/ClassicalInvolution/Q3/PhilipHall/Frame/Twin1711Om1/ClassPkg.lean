@@ -72,7 +72,7 @@ theorem ncard_orb_negSet {ws : List (List ℕ)} (hws : ∀ w ∈ ws, wordOK w = 
       (fun S : Finset (Fin 240) => (S : Set (Fin 240))) ''
         MulAction.orbit (closureW ws) (negSet (eW m)) := by
     ext S'
-    simp only [Om1Facts.orb, Set.mem_setOf_eq, Set.mem_image]
+    simp only [Om1Facts.orb, Set.mem_ofPred_eq, Set.mem_image]
     constructor
     · rintro ⟨g, hg, rfl⟩
       obtain ⟨x, hx, rfl⟩ := exists_of_mem_G hws hg

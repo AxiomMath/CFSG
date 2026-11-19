@@ -36,7 +36,7 @@ theorem isCyclic_fieldAutThree_of_exponent_three {Y : Type} [Group Y] [Finite Y]
     apply hmodel _ 1
     rw [pow_one]
     exact orderOf_eq_prime hpow hne
-  haveI : IsCyclic ↥(E.map (centerDescend Y)) :=
+  have : IsCyclic ↥(E.map (centerDescend Y)) :=
     isCyclic_descend_of_members e P hP fld E hmem (fun α hα hin => hker α (hf α hα) hin)
   have hinj : Function.Injective (centerDescend Y) := by
     rw [injective_iff_map_eq_one]

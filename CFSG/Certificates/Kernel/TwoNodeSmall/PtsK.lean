@@ -50,10 +50,10 @@ theorem sat_cons (cs : List Con) (a : Nat) (v : Vec) :
   | cons q cs ih =>
     unfold sat at ih ⊢
     cases hq : q.free with
-    | true => simp [List.filter_cons, hq, Con.holds_cons q a v hq, ih, Bool.and_assoc]
+    | true => simp [hq, Con.holds_cons q a v hq, ih, Bool.and_assoc]
     | false =>
-      simp only [List.all_cons, List.filter_cons, hq, Bool.not_false, if_true, Bool.false_eq_true,
-        if_false, ih]
+      simp only [List.all_cons, List.filter_cons, hq, Bool.not_false, ite_true, Bool.false_eq_true,
+        ite_false, ih]
       cases q.holds (a :: v) <;> simp
 
 theorem filter_map_cons (l : List Nat) (cs : List Con) (v : Vec) :
@@ -71,7 +71,7 @@ theorem flatMap_ite {α β : Type} (l : List α) (p : α → Bool) (F : α → L
     (l.flatMap fun v => if p v then F v else []) = (l.filter p).flatMap F := by
   induction l with
   | nil => simp
-  | cons a l ih => cases h : p a <;> simp [List.filter_cons, h, ih]
+  | cons a l ih => cases h : p a <;> simp [h, ih]
 
 theorem filter_allVecs : ∀ (n : Nat) (cs : List Con), (allVecs n).filter (sat cs) = enumP n cs
   | 0, cs => by

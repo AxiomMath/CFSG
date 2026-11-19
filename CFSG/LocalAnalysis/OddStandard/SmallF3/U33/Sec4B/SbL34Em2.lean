@@ -26,7 +26,7 @@ theorem card_CW_eq (ha : Ctx4A t L S x₁ x₂ lam rho tau) {W : Subgroup G} {v 
     card_pgroup_le_of_conj hg₀' S hc.le_invCent hc.relIndex_odd
       (Ctx4.card_S_seven hc.toCtx4) hD2 inf_le_left
   have hSp : ctxSp t tau x₁ x₂ lam v ≤ centralizer ({t * lam} : Set G) ⊓ W := by
-    refine le_inf (Sp_le_cent hc hv) ?_
+    refine le_inf (Sp_le_cent hv) ?_
     unfold ctxSp
     exact sup_le (inf_le_left.trans hv.U_le) (zpowers_le.mpr hv.v_mem)
   have hge : 2 ^ 7 ≤ Nat.card ↥(centralizer ({t * lam} : Set G) ⊓ W) :=

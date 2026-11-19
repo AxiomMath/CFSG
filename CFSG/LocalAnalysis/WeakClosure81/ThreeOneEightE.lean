@@ -19,10 +19,10 @@ private theorem isPretransitive_of_normal_ne_bot {K N : Subgroup (Perm Ω)}
     (hK : MulAction.IsMultiplyPretransitive K Ω 2) (hNK : N ≤ K)
     (hN : (N.subgroupOf K).Normal) (hNne : N ≠ ⊥) :
     MulAction.IsPretransitive N Ω := by
-  haveI : MulAction.IsPreprimitive K Ω :=
+  have : MulAction.IsPreprimitive K Ω :=
     MulAction.isPreprimitive_of_is_two_pretransitive hK
-  haveI : MulAction.IsQuasiPreprimitive K Ω := inferInstance
-  haveI : (N.subgroupOf K).Normal := hN
+  have : MulAction.IsQuasiPreprimitive K Ω := inferInstance
+  have : (N.subgroupOf K).Normal := hN
   have hfix : MulAction.fixedPoints (N.subgroupOf K) Ω ≠ Set.univ := by
     intro huniv
     obtain ⟨a, ha⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hNne
@@ -37,7 +37,7 @@ private theorem isPretransitive_of_normal_ne_bot {K N : Subgroup (Perm Ω)}
     have hcon := (MulAction.mem_fixedPoints.mp hmem)
       (⟨⟨(a : Perm Ω), hNK a.2⟩, a.2⟩ : N.subgroupOf K)
     exact hx hcon
-  haveI : MulAction.IsPretransitive (N.subgroupOf K) Ω :=
+  have : MulAction.IsPretransitive (N.subgroupOf K) Ω :=
     MulAction.IsQuasiPreprimitive.isPretransitive_of_normal (N := N.subgroupOf K) hfix
   exact MulAction.IsPretransitive.of_smul_eq
     (fun c : N.subgroupOf K => (⟨(c : K), Subgroup.mem_subgroupOf.mp c.2⟩ : N))
@@ -47,18 +47,19 @@ private theorem card_le_card_of_normal_ne_bot (hΩ : Fintype.card Ω = 8)
     {K N : Subgroup (Perm Ω)} (hK : MulAction.IsMultiplyPretransitive K Ω 2)
     (hNK : N ≤ K) (hN : (N.subgroupOf K).Normal) (hNne : N ≠ ⊥) :
     Nat.card Ω ≤ Nat.card N := by
-  haveI : MulAction.IsPretransitive N Ω :=
+  have : MulAction.IsPretransitive N Ω :=
     isPretransitive_of_normal_ne_bot hK hNK hN hNne
-  haveI : Nonempty Ω := Fintype.card_pos_iff.mp (by rw [hΩ]; norm_num)
+  have : Nonempty Ω := Fintype.card_pos_iff.mp (by rw [hΩ]; norm_num)
   let x : Ω := Classical.arbitrary Ω
   have hx : (MulAction.stabilizer N x).index = Nat.card Ω :=
     MulAction.index_stabilizer_of_transitive N x
   have hdvd : Nat.card Ω ∣ Nat.card N := by
     rw [← hx]
     exact Subgroup.index_dvd_card _
-  haveI : Nonempty N := ⟨⟨1, N.one_mem⟩⟩
+  have : Nonempty N := ⟨⟨1, N.one_mem⟩⟩
   exact Nat.le_of_dvd Nat.card_pos hdvd
 
+omit [Fintype Ω] [DecidableEq Ω] in
 private theorem normal_centerOf {Q K : Subgroup (Perm Ω)} (hQK : Q ≤ K)
     (hQ : (Q.subgroupOf K).Normal) : ((centerOf Q).subgroupOf K).Normal := by
   change ((Q ⊓ Subgroup.centralizer (Q : Set (Perm Ω))).subgroupOf K).Normal
@@ -77,6 +78,7 @@ private theorem normal_centerOf {Q K : Subgroup (Perm Ω)} (hQK : Q ≤ K)
     _ = k * (z * (k⁻¹ * y * k)) * k⁻¹ := by rw [hcomm]
     _ = (k * z * k⁻¹) * y := by group
 
+omit [Fintype Ω] [DecidableEq Ω] in
 private theorem eq_one_of_mem_Q_of_smul_eq {Q Z : Subgroup (Perm Ω)} {x : Ω}
     (hZtrans : MulAction.IsPretransitive Z Ω)
     (hZc : Z ≤ Subgroup.centralizer (Q : Set (Perm Ω)))
@@ -131,8 +133,8 @@ theorem isElemAbelian_of_isMultiplyPretransitive (hΩ : Fintype.card Ω = 8)
   have hZc : Z ≤ Subgroup.centralizer (Q : Set (Perm Ω)) := inf_le_right
   have hZnorm : (Z.subgroupOf K).Normal := normal_centerOf hQK hQ
   have hZne : Z ≠ ⊥ := by
-    haveI : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
-    haveI : Nontrivial (Subgroup.center Q) := hQ2.center_nontrivial
+    have : Nontrivial Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hQne
+    have : Nontrivial (Subgroup.center Q) := hQ2.center_nontrivial
     obtain ⟨a, ha⟩ := exists_ne (1 : Subgroup.center Q)
     have hmem : ((a : Q) : Perm Ω) ∈ Z := by
       refine Subgroup.mem_inf.mpr ⟨(a : Q).2, ?_⟩
@@ -147,8 +149,8 @@ theorem isElemAbelian_of_isMultiplyPretransitive (hΩ : Fintype.card Ω = 8)
     exact hne (Subgroup.mem_bot.mp hmem)
   have hZtrans : MulAction.IsPretransitive Z Ω :=
     isPretransitive_of_normal_ne_bot hK hZK hZnorm hZne
-  haveI := hZtrans
-  haveI : Nonempty Ω := Fintype.card_pos_iff.mp (by rw [hΩ]; norm_num)
+  have := hZtrans
+  have : Nonempty Ω := Fintype.card_pos_iff.mp (by rw [hΩ]; norm_num)
   let x : Ω := Classical.arbitrary Ω
   have hstabZ : MulAction.stabilizer Z x = ⊥ := by
     rw [Subgroup.eq_bot_iff_forall]

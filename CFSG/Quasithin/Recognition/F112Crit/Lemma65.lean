@@ -59,6 +59,7 @@ theorem vtype_eq_false_of_mem_nbrs {γ δ : CosetGeom G₀ G₁ G₂} (hγ : vty
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem dist_le_two_of_mem_nbrs (hc : CritAmalgam G₀ G₁ G₂ T Z) {δ γ μ : CosetGeom G₀ G₁ G₂}
     (hγ : γ ∈ nbrs δ) (hμ : μ ∈ nbrs δ) : CosetGeom.dist γ μ ≤ 2 := by
   have h1 := CosetGeom.dist_triangle hc.amalgam.gen γ δ μ
@@ -75,7 +76,7 @@ theorem pCoreOf_stab_le_pCoreOf_stab_inf (hc : CritAmalgam G₀ G₁ G₂ T Z)
 theorem le_pCoreOf_stab_of_le_ballStab {γ δ : CosetGeom G₀ G₁ G₂} (hδ : δ ∈ nbrs γ) {X : Subgroup G}
     (hX : X ≤ pCoreOf 2 (stab γ ⊓ stab δ)) (hX' : X ≤ ballStab 1 δ) :
     X ≤ pCoreOf 2 (stab δ) :=
-  fun x hx =>
+  fun _x hx =>
     pCoreOf_mono_of_le_normalizer (CosetGeom.ballStab_le_stab 1 δ)
       (CosetGeom.le_normalizer_ballStab 1 δ)
       ((CosetGeom.pCoreOf_stab_inf_ballStab_le hδ).2 ⟨hX hx, hX' hx⟩)

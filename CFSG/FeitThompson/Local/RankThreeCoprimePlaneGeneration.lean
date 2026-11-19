@@ -225,7 +225,7 @@ theorem natCard_mul_natCard_fixedPoints_pow_eq_finprod_of_card_eq_cube (hp : p.P
   set m : Subgroup E → ℕ := fun D => if D = ⊥ then p ^ 2 else if D = ⊤ then p + 1 else 0 with hm
   set n : Subgroup E → ℕ := fun D => if Nat.card D = p ^ 2 then 1 else 0 with hn
   have hmbot : m ⊥ = p ^ 2 := by rw [hm]; simp
-  have hmtop : m ⊤ = p + 1 := by rw [hm]; simp only [if_neg htb, ite_true]
+  have hmtop : m ⊤ = p + 1 := by rw [hm]; simp only [ite_eq_right htb, ite_true]
   have hpair : ∀ f : Subgroup E → ℕ, (∀ D, D ≠ ⊥ → D ≠ ⊤ → f D = 0) →
       ∑ D : Subgroup E, f D = f ⊥ + f ⊤ := by
     intro f hf
@@ -247,20 +247,20 @@ theorem natCard_mul_natCard_fixedPoints_pow_eq_finprod_of_card_eq_cube (hp : p.P
     rw [Finset.sum_filter, Finset.sum_filter]
     have hLHS := hpair (fun D => if a ∈ D then m D else 0) (by
       intro D h1 h2
-      simp only [hm, if_neg h1, if_neg h2, ite_self])
+      simp only [hm, ite_eq_right h1, ite_eq_right h2, ite_self])
     have hRHS : ∑ D : Subgroup E, (if a ∈ D then n D else 0)
         = Nat.card {D : Subgroup E // Nat.card D = p ^ 2 ∧ a ∈ D} := by
       have h : ∀ D : Subgroup E, (if a ∈ D then n D else 0)
           = (if (Nat.card D = p ^ 2 ∧ a ∈ D) then 1 else 0) := by
         intro D
         by_cases h1 : a ∈ D <;> by_cases h2 : Nat.card D = p ^ 2 <;>
-          simp only [hn, h1, h2, if_true, if_false, and_true, and_false]
+          simp only [hn, h1, h2, ite_true, ite_false, and_true, and_false]
       rw [Finset.sum_congr rfl (fun D _ => h D), Finset.sum_boole, Nat.cast_id,
         Nat.card_eq_fintype_card, Fintype.card_subtype]
     rw [hLHS, hRHS, hmbot, hmtop]
     by_cases ha : a = 1
     · subst ha
-      rw [if_pos (one_mem _), if_pos (one_mem _)]
+      rw [ite_eq_left (one_mem _), ite_eq_left (one_mem _)]
       have hc : Nat.card {D : Subgroup E // Nat.card D = p ^ 2 ∧ (1 : E) ∈ D} = p ^ 2 + p + 1 := by
         rw [← hcount1]
         exact Nat.card_congr
@@ -269,13 +269,13 @@ theorem natCard_mul_natCard_fixedPoints_pow_eq_finprod_of_card_eq_cube (hp : p.P
             left_inv := fun _ => rfl
             right_inv := fun _ => rfl }
       rw [hc, add_assoc]
-    · rw [if_neg (by simpa [Subgroup.mem_bot] using ha), if_pos (Subgroup.mem_top a),
+    · rw [ite_eq_right (by simpa [Subgroup.mem_bot] using ha), ite_eq_left (Subgroup.mem_top a),
         hcount2 a ha, zero_add]
   have key := prod_natCard_fixedPoints_comp_subtype_pow_eq ρ hcopE (fun D : Subgroup E => D) m n
     hcover
   rw [hpairP _ (by
     intro D h1 h2
-    simp only [hm, if_neg h1, if_neg h2, zero_mul, pow_zero])] at key
+    simp only [hm, ite_eq_right h1, ite_eq_right h2, zero_mul, pow_zero])] at key
   rw [hmbot, hmtop, fixedPoints_comp_bot_subtype, fixedPoints_comp_top_subtype, Subgroup.card_bot,
     Subgroup.card_top, Subgroup.card_top, hE, mul_one] at key
   have hRHS : ∏ D : Subgroup E,
@@ -291,10 +291,10 @@ theorem natCard_mul_natCard_fixedPoints_pow_eq_finprod_of_card_eq_cube (hp : p.P
     rw [hset, finprod_mem_coe_finset, ← Finset.prod_pow, Finset.prod_filter]
     refine Finset.prod_congr rfl fun D _ => ?_
     by_cases hD : Nat.card D = p ^ 2
-    · rw [if_pos hD]
-      simp only [hn, if_pos hD, one_mul, hD]
-    · rw [if_neg hD]
-      simp only [hn, if_neg hD, zero_mul, pow_zero]
+    · rw [ite_eq_left hD]
+      simp only [hn, ite_eq_left hD, one_mul, hD]
+    · rw [ite_eq_right hD]
+      simp only [hn, ite_eq_right hD, zero_mul, pow_zero]
   rw [hRHS] at key
   refine Nat.pow_left_injective (n := p ^ 2) (by positivity) ?_
   simp only

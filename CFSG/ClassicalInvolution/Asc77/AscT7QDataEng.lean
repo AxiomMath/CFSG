@@ -101,7 +101,7 @@ theorem exists_coord_s_gen (h : Frame S R R' z t') {s : G} (hsN : s ∈ Nsub S R
       s * a * s⁻¹ = a ^ i ∧ s * b * s⁻¹ = b * a ^ m := by
   obtain ⟨hsS, hsR⟩ := mem_Nsub.mp hsN
   have hV2 : IsPGroup 2 (Subgroup.zpowers s) :=
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hsS)
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr hsS)
   have hVR : ∀ y ∈ Subgroup.zpowers s, conjSub y R = R := fun y hy =>
     (mem_Nsub.mp ((Subgroup.zpowers_le.mpr hsN) hy)).2
   obtain ⟨a, b, n, c, hinv⟩ := T7F2.exists_coord h.hqR h.hzR hV2 hVR

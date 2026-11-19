@@ -77,8 +77,8 @@ private theorem ggTwE6BigT_e6AdToral_baseChange
     E6AdToral (((E.comap (twistedE6InndiagConj K σ)).map
       (twistedE6InndiagGL K σ).subtype).map
         (baseChangeGL (τ := Tag.E6) (algebraMap K (AlgebraicClosure K)))) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2) (by
     rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   have hnot3 : ¬ 3 ∣ Nat.card K := by rw [hK]; norm_num
   set X := ((E.comap (twistedE6InndiagConj K σ)).map
@@ -128,8 +128,8 @@ private theorem ggTwE6BigT_labelsKnown_of_ad
   obtain ⟨hE, hI, hcard, ha₀, hne, hcomp⟩ := hset'
   obtain ⟨φ₀, -, hφ₀⟩ := hI a₀ ha₀
   have hK4 : Nat.card K = 4 := by rw [hK]; norm_num
-  haveI := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 1 * 2)
+  have := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 1 * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
   have hinj : Function.Injective (iterateFrobenius K 2 1) :=
     (iterateFrobenius K 2 1).injective

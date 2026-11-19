@@ -51,20 +51,21 @@ private theorem mem_of_mem_sup_of_odd_orderOf {H K : Subgroup G} (hK : IsPGroup 
   rw [← hm]
   exact H.pow_mem hpow m
 
+omit [Finite G] in
 private theorem odd_orderOf_of_coprime {O : Subgroup G} (hO : Nat.Coprime 2 (Nat.card O))
     {g : G} (hg : g ∈ O) : Odd (orderOf g) :=
   Nat.coprime_two_left.mp (Nat.Coprime.coprime_dvd_right (Subgroup.orderOf_dvd_natCard _ hg) hO)
 
 private theorem pPrimeCoreOf_two_eq_bot {M : Subgroup G} (hM : IsCharacteristicP 2 ↥M) :
     pPrimeCoreOf 2 M = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [pPrimeCoreOf, CFSG.pPrimeCore_eq_bot_of_isCharacteristicP ↥M 2 hM, Subgroup.map_bot]
 
 theorem pPrimeCoreOf_two_le_centralizer_of_normalizes {M E H₀ : Subgroup G} (hEM : E ≤ M)
     (hME : M ≤ Subgroup.normalizer (E : Set G)) (hM : pPrimeCoreOf 2 M = ⊥) (hH₀M : H₀ ≤ M)
     (hEH₀ : E ≤ Subgroup.normalizer (H₀ : Set G)) :
     pPrimeCoreOf 2 H₀ ≤ Subgroup.centralizer (E : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEO : E ≤ Subgroup.normalizer (pPrimeCoreOf 2 H₀ : Set G) :=
     hEH₀.trans (normalizer_le_normalizer_pPrimeCoreOf 2 H₀)
   have hOE : pPrimeCoreOf 2 E = ⊥ := by
@@ -97,7 +98,7 @@ theorem eq_bot_of_le_centralizer_wE {M E O : Subgroup G} (hM : IsCharacteristicP
     (hOW : O ≤ Subgroup.centralizer
       ((CFSG.Open.pCoreOf 2 M ⊓ Subgroup.centralizer (E : Set G) : Subgroup G) : Set G)) :
     O = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMC : M ≤ Subgroup.normalizer
       ((M ⊓ Subgroup.centralizer (E : Set G) : Subgroup G) : Set G) :=
     Late.le_normalizer_inf Subgroup.le_normalizer
@@ -134,7 +135,7 @@ theorem pPrimeCoreOf_two_host_le {A X K Y M T P : Subgroup G} (hE : End155N A X 
     (hRP : CFSG.Open.pCoreOf 2 Y ≤ P) :
     pPrimeCoreOf 2 (delta A (lB A) (CFSG.Open.pCoreOf 2 Y ⊔ pPrimeCoreOf 3 (u155 A M X))) ≤
       pPrimeCoreOf 3 (u155 A M X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro g hg
   have hg' : g ∈ pPrimeCoreOf 3 (u155 A M X) ⊔ CFSG.Open.pCoreOf 2 Y := by
     rw [sup_comm]
@@ -171,7 +172,7 @@ theorem charTwo_and_le_normalizer_oPrimeResidualOf {A : Subgroup G} {c : G} {L :
     (hC : Ctx155 A X K Y M T) :
     IsCharacteristicP 2 ↥M ∧
       M ≤ Subgroup.normalizer ((oPrimeResidualOf 3 (delta A (lB A) M) : Subgroup G) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMY : M ∈ CFSG.maximalTwoLocalsContaining ((Y ⊔ A : Subgroup G) : Set G) :=
     ⟨hC.mem_m.1, fun z hz => hC.mem_m.2 (by rwa [sup_comm] at hz)⟩
   obtain ⟨-, -, hM2, hF⟩ := Sec15.facts_of_mem_maximalTwoLocalsContaining h hMY
@@ -184,7 +185,7 @@ theorem pPrimeCoreOf_two_host_le_centralizer {A : Subgroup G} {c : G} {L : Subgr
     (hRP : CFSG.Open.pCoreOf 2 Y ≤ P) (hIX : delta A (lB A) M ≤ Subgroup.normalizer (X : Set G)) :
     pPrimeCoreOf 2 (delta A (lB A) (CFSG.Open.pCoreOf 2 Y ⊔ pPrimeCoreOf 3 (u155 A M X))) ≤
       Subgroup.centralizer ((oPrimeResidualOf 3 (delta A (lB A) M) : Subgroup G) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hMchar, hME⟩ := charTwo_and_le_normalizer_oPrimeResidualOf h h149 hC
   have hH₀I : delta A (lB A) (pPrimeCoreOf 3 (u155 A M X)) ≤ delta A (lB A) M :=
     (delta_le _).trans ((pPrimeCoreOf_le 3 _).trans inf_le_left)
@@ -207,7 +208,7 @@ theorem pPrimeCoreOf_two_host_eq_bot_of_wE155_mem {A : Subgroup G} {c : G} {L : 
     (hRP : CFSG.Open.pCoreOf 2 Y ≤ P) (hIX : delta A (lB A) M ≤ Subgroup.normalizer (X : Set G))
     (hW : wE155 A M ∈ scriptQ A (lB A)) :
     pPrimeCoreOf 2 (delta A (lB A) (CFSG.Open.pCoreOf 2 Y ⊔ pPrimeCoreOf 3 (u155 A M X))) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hMchar, hME⟩ := charTwo_and_le_normalizer_oPrimeResidualOf h h149 hC
   obtain ⟨-, hRH, -, -⟩ := Sylow155B1.delta_host_facts h h146 hC hE hRP
     (Sylow155S.sup_mem_invariant hC hE hRP) (Sylow155S.sup_le_u155 hE hRP)

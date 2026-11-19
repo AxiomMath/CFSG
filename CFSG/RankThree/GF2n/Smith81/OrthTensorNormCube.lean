@@ -23,9 +23,9 @@ variable {K : Type*} [Field K] {n : ℕ}
     funext x
     have hx : x = Fin.cons (x 0) (Fin.tail x) := (Fin.cons_self_tail x).symm
     rcases Fin.exists_fin_two.mp ⟨x 0, rfl⟩ with h | h
-    · simp only [h, if_true]
+    · simp only [h, ite_true]
       conv_rhs => rw [hx, h]
-    · simp only [h, one_ne_zero, if_false]
+    · simp only [h, one_ne_zero, ite_false]
       conv_rhs => rw [hx, h]
   right_inv p := by
     refine Prod.ext (funext fun z => ?_) (funext fun z => ?_)
@@ -72,7 +72,7 @@ theorem mulSingle_zero_eq (A : Matrix (Fin 2) (Fin 2) K) :
   funext i
   refine Fin.cases ?_ (fun j => ?_) i
   · simp
-  · simp [Pi.mulSingle_apply, Fin.succ_ne_zero]
+  · simp [Fin.succ_ne_zero]
 
 theorem mulSingle_succ_eq (j : Fin n) (A : Matrix (Fin 2) (Fin 2) K) :
     (Pi.mulSingle j.succ A : Fin (n + 1) → Matrix (Fin 2) (Fin 2) K) =
@@ -80,10 +80,10 @@ theorem mulSingle_succ_eq (j : Fin n) (A : Matrix (Fin 2) (Fin 2) K) :
         (Pi.mulSingle j A : Fin n → Matrix (Fin 2) (Fin 2) K) := by
   funext i
   refine Fin.cases ?_ (fun l => ?_) i
-  · simp [Pi.mulSingle_apply, (Fin.succ_ne_zero j).symm]
+  · simp [(Fin.succ_ne_zero j).symm]
   · by_cases h : l = j
     · subst h; simp
-    · simp [Pi.mulSingle_apply, h, Fin.succ_inj]
+    · simp [h, Fin.succ_inj]
 
 theorem splitCube_actMap_zero (A : Matrix (Fin 2) (Fin 2) K) (T : Cube (n + 1) K) :
     splitCube n K (actMap 0 A T) = tensorAct A (fun w => w) (splitCube n K T) := by

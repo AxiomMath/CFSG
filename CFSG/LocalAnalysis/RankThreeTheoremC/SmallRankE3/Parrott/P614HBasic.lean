@@ -34,7 +34,7 @@ theorem le_normalizer_pCoreOf (p : ℕ) (H : Subgroup G) :
 
 theorem coprime_three_of_isPGroup_two {A : Type*} [Group A] [Finite A] (h : IsPGroup 2 A) :
     Nat.Coprime 3 (Nat.card A) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp h
   rw [hn]
   exact Nat.Coprime.pow_right n (by norm_num)
@@ -45,7 +45,7 @@ theorem card_sup_dvd_of_le_normalizer [Finite G] {A B : Subgroup G}
   have hAJ : A ≤ A ⊔ B := le_sup_left
   have hBJ : B ≤ A ⊔ B := le_sup_right
   have hJN : A ⊔ B ≤ normalizer (A : Set G) := sup_le le_normalizer hB
-  haveI : (A.subgroupOf (A ⊔ B)).Normal := (normal_subgroupOf_iff_le_normalizer hAJ).2 hJN
+  have : (A.subgroupOf (A ⊔ B)).Normal := (normal_subgroupOf_iff_le_normalizer hAJ).2 hJN
   have htop : B.subgroupOf (A ⊔ B) ⊔ A.subgroupOf (A ⊔ B) = ⊤ := by
     rw [sup_comm (B.subgroupOf (A ⊔ B)), ← subgroupOf_sup hAJ hBJ, subgroupOf_self]
   have h1 := relIndex_sup_right (H := B.subgroupOf (A ⊔ B)) (K := A.subgroupOf (A ⊔ B))
@@ -62,8 +62,8 @@ theorem card_sup_dvd_of_le_normalizer [Finite G] {A B : Subgroup G}
 theorem isCyclic_of_pRank_le_one [Finite G] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {P : Subgroup G} (hP : IsPGroup p P) (hrk : CFSG.Open.pRank p P ≤ 1) : IsCyclic P := by
   by_contra hnc
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (IsPGroup p P) := ⟨hP⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a hp2 hnc
   have hel : IsElemAbelian p S :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p S).1 hSel
@@ -93,7 +93,7 @@ theorem eq_one_of_mem_center_of_perfect {E : Type*} [Group E] [Finite E] {p : �
     have h := htriv
     rw [show tr z = _ from MonoidHom.transfer_eq_pow (MonoidHom.id S) z hkey] at h
     exact congrArg Subtype.val h
-  obtain ⟨n, hn⟩ := S.isPGroup' ⟨z, hzS⟩
+  obtain ⟨n, hn⟩ := S.isPGroup ⟨z, hzS⟩
   have h1 : orderOf z ∣ (S : Subgroup E).index := orderOf_dvd_of_pow_eq_one hpow
   have h2 : orderOf z ∣ p ^ n :=
     orderOf_dvd_of_pow_eq_one (by simpa using congrArg Subtype.val hn)

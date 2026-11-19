@@ -35,8 +35,8 @@ private noncomputable abbrev solOn (t : CaseTwoTransitive c) (N : Subgroup G) : 
 private lemma pCore_two_sol (N : Subgroup G) :
     CFSG.Open.pCoreOf 2 (t.solOn N) = CFSG.Open.pCoreOf 2 (t.Dn N) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let D : Subgroup G := t.Dn N
   let O : Subgroup G := t.On N
   let S : Subgroup G := t.solOn N
@@ -56,7 +56,7 @@ private lemma pCore_two_sol (N : Subgroup G) :
     rw [show Q0.subgroupOf D = CFSG.pCore 2 ↥D from
       CFSG.openPCoreOf_subgroupOf (p := 2) (H := D)]
     exact CFSG.pCore_normal
-  haveI : (Q0.subgroupOf D).Normal := hQ0n
+  have : (Q0.subgroupOf D).Normal := hQ0n
   have hNQ0 : N ≤ Subgroup.normalizer (Q0 : Set G) :=
     (t.le_normalizer_Dn N).trans
       (CFSG.RankThreeCoreUniqueness.Helpers.normalizer_le_normalizer_characteristic_map
@@ -241,12 +241,12 @@ private lemma commutator_Dn_le_pCore (N : Subgroup G) {F1 : Subgroup G}
     (t.le_normalizer_Dn N).trans
       (CFSG.RankThreeCoreUniqueness.Helpers.normalizer_le_normalizer_characteristic_map
         D (CFSG.pCore 2 ↥D) CFSG.pCore_characteristic)
-  haveI : QN.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hQ0N).mpr hNQ0
+  have : QN.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hQ0N).mpr hNQ0
   let FN : Subgroup (↥N ⧸ QN) := (F1.subgroupOf N).map (QuotientGroup.mk' QN)
   have hFNn : FN.Normal := by
     refine Subgroup.Normal.map ?_ (QuotientGroup.mk' QN) (QuotientGroup.mk'_surjective QN)
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hF1N).mpr hNF1
-  haveI : FN.Normal := hFNn
+  have : FN.Normal := hFNn
   let CN : Subgroup ↥N := (Subgroup.centralizer (FN : Set (↥N ⧸ QN))).comap
     (QuotientGroup.mk' QN)
   have hZ_le_CN : t.Z.subgroupOf N ≤ CN := by
@@ -345,7 +345,7 @@ theorem sol_On_le (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
       ⁅t.Dn N, CFSG.SignalizerFunctorTheorem.McBride.sol (t.On N)⁆ ≤
         CFSG.Open.pCoreOf 2 (t.Dn N) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let D : Subgroup G := t.Dn N
   let O : Subgroup G := t.On N
   let S : Subgroup G := t.solOn N

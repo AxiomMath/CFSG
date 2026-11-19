@@ -36,7 +36,7 @@ theorem triple_of_free (hKF10 : H1TensorStatement) (hKF11a : Sp4InvolutionStatem
   have hNR' : Nt M (LB M Q B) t ≤ Rt M (LB M Q B) t := orthE1_Nt_le_Rt M (LB M Q B) t
   have hXH0 : E1Xpre M Q B t ≤ H0 M Z := hXR'.trans hRH0
   have hNH0 : Nt M (LB M Q B) t ≤ H0 M Z := hNR'.trans hRH0
-  haveI : (Q.subgroupOf M).Normal :=
+  have : (Q.subgroupOf M).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer fun x hx => hc.hyp.Q_normal.2 hx
   have hQH0 : Q ≤ H0 M Z := hc.Q_le_H0
   obtain ⟨hQFb, hQFc, hFbX, hFcX, hsupF, hintF, hcommF, hSb, hSc⟩ := hFF
@@ -82,8 +82,8 @@ theorem triple_of_free (hKF10 : H1TensorStatement) (hKF11a : Sp4InvolutionStatem
     exact Img_bot_of_le AM.φ AM.φ_ker le_rfl
   obtain ⟨hSimpB, hBn, hBcard⟩ := Img_sl_facts AM.φ AM.φ_ker hQFb hFbH0 hSb hqn hq4
   obtain ⟨hSimpC, hCn, hCcard⟩ := Img_sl_facts AM.φ AM.φ_ker hQFc hFcH0 hSc hqn hq4
-  haveI : IsSimpleGroup ↥(AM.actImage Fb) := hSimpB
-  haveI : IsSimpleGroup ↥(AM.actImage Fc) := hSimpC
+  have : IsSimpleGroup ↥(AM.actImage Fb) := hSimpB
+  have : IsSimpleGroup ↥(AM.actImage Fc) := hSimpC
   obtain ⟨θ, κ, hθ, hBθ, hCθ, hunip⟩ := exists_frame hKF10 hK4 D c hact hpf
     (AM.actImage Fb) (AM.actImage Fc) hBC hcomm hinf hBn hCn
   have hTFb : Img (PhiT AM θ) Fb = rowG := (TI_eq_map AM θ Fb).trans hBθ
@@ -230,7 +230,7 @@ theorem triple_of_free (hKF10 : H1TensorStatement) (hKF11a : Sp4InvolutionStatem
         simpa [commutatorElement_def] using this
       exact Subgroup.mem_inf.mpr ⟨mem_CommQ.mpr ⟨(Subgroup.mem_inf.mp hxH0).1, h2⟩, hxH0⟩
     obtain ⟨hRE, hidx, -⟩ := hCt G M Q Z B t hH
-    haveI : (Rt M (LB M Q B) t).IsFiniteRelIndex (E1Ct hc t) :=
+    have : (Rt M (LB M Q B) t).IsFiniteRelIndex (E1Ct hc t) :=
       ⟨Subgroup.index_ne_zero_of_finite⟩
     have hrel : (Rt M (LB M Q B) t).relIndex 𝒱 ≤ 2 :=
       (Subgroup.relIndex_le_of_le_right h𝒱E Subgroup.relIndex_ne_zero).trans hidx
@@ -252,7 +252,7 @@ theorem triple_of_free (hKF10 : H1TensorStatement) (hKF11a : Sp4InvolutionStatem
       exact Nat.le_of_mul_le_mul_left this hQpos
     have hR : Img (PhiT AM θ) (Rt M (LB M Q B) t) = lineG ⊔ (rowG ⊔ colG) := by
       rw [← hNR, Img_sup _ hNH0 hXH0, hTN, hTX]
-    haveI := simple_colG (K := AM.K) hK4
+    have := simple_colG (K := AM.K) hK4
     have h𝒰₀ : Img (PhiT AM θ) (Rt M (LB M Q B) t) ⊓ 𝒰 ≤ lineG ⊔ rowG := by
       intro u hu
       obtain ⟨huR, hu𝒰⟩ := Subgroup.mem_inf.mp hu

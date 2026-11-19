@@ -171,7 +171,7 @@ theorem exists_torus_le_centralizer_qplus_three (K : Type) [Field K] [Finite K] 
     ∃ T : Subgroup (adjointGroup .G2 K), T ≤ Subgroup.centralizer ({x} : Set _) ∧
       Nat.card T = (Nat.card K + 1) ^ 2 := by
   classical
-  haveI hEE : CFSG.IsElementaryAbelian 3 E :=
+  have hEE : CFSG.IsElementaryAbelian 3 E :=
     (CFSG.Open.isElemAbelian_iff_isElementaryAbelian).1 hE
   have hdeg : Module.finrank K (KFQ.Qext K) = 2 := KFQ.finrank_qext
   have : Module.Finite K (KFQ.Qext K) := Module.finite_of_finrank_pos (by omega)

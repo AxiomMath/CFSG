@@ -77,7 +77,7 @@ theorem exists_sylow_of_isSylowOf_top {X : Subgroup G} (h : IsSylowOf 2 X (⊤ :
 theorem isSylowOf_top_of_sylow (S : Sylow 2 G) :
     IsSylowOf 2 (S : Subgroup G) (⊤ : Subgroup G) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, S.isPGroup', ?_⟩
+  refine CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, S.isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right]
   exact S.not_dvd_index
 
@@ -114,9 +114,9 @@ theorem isSylowOf_top_of_normalizer {X : Subgroup G}
   by_cases hne : X = (T : Subgroup G)
   · rw [hne]
     exact isSylowOf_top_of_sylow T
-  · obtain ⟨g, hgT, hgN, hgX⟩ := exists_mem_normalizer_of_lt T.isPGroup' hXT hne
+  · obtain ⟨g, hgT, hgN, hgX⟩ := exists_mem_normalizer_of_lt T.isPGroup hXT hne
     have heq := hX.eq_of_le (le_inf hXT le_normalizer) inf_le_right
-      (T.isPGroup'.to_inf_left (K := normalizer (X : Set G)))
+      (T.isPGroup.to_inf_left (K := normalizer (X : Set G)))
     exact absurd (heq ▸ (mem_inf.mpr ⟨hgT, hgN⟩) : g ∈ X) hgX
 
 theorem isSylowOf_map {K H : Type*} [Group K] [Finite K] [Group H] {P L : Subgroup K}

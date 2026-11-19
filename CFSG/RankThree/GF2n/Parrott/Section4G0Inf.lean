@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem inSubgroup_pCore_inf_normal (z : G) {G₀ : Subgroup G} (hG₀ : G₀.Normal) :
     inSubgroup (pCore 2) (H z ⊓ G₀) = J z ⊓ G₀ := by
   have hHN : ∀ x ∈ H z, ∀ y ∈ H z ⊓ G₀, x * y * x⁻¹ ∈ H z ⊓ G₀ := fun x hx y hy =>

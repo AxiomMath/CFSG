@@ -25,7 +25,7 @@ theorem not_trivial_action {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     have h1 : restrictEquiv g I hg = restrictHom H I hHI ⟨g, hgH⟩ := rfl
     rw [h1, htriv ⟨g, hgH⟩]
     exact LinearMap.ext fun x => rfl
-  haveI : Module.Finite (ZMod 2) I := Module.finite_of_finrank_pos (by rw [hI4]; norm_num)
+  have : Module.Finite (ZMod 2) I := Module.finite_of_finrank_pos (by rw [hI4]; norm_num)
   let b : Module.Basis (Fin 4) (ZMod 2) I := Module.finBasisOfFinrankEq (ZMod 2) I hI4
   let f : Module.End (ZMod 2) I := (b.coord 0).smulRight (b 1)
   have hf_b0 : f (b 0) = b 1 := by
@@ -57,7 +57,7 @@ theorem not_trivial_action {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     have h := congrArg (fun x : endOn H I => (x : Module.End (ZMod 2) I)) hij
     rw [hval i, hval j] at h
     fin_cases i <;> fin_cases j <;> simp_all
-  haveI : Finite (endOn H I) := Finite.of_equiv D.F D.endEquiv.symm.toEquiv
+  have : Finite (endOn H I) := Finite.of_equiv D.F D.endEquiv.symm.toEquiv
   have hcard := Nat.card_le_card_of_injective _ hinj
   rw [Nat.card_congr D.endEquiv.toEquiv, hF, Nat.card_fin] at hcard
   omega
@@ -67,7 +67,7 @@ theorem faithful_of_E11 {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
     (D : E11Data H I) (hF : Nat.card D.F = 2) (hI4 : Module.finrank (ZMod 2) I = 4)
     (φH : ↥H ≃* ↥(alternatingGroup (Fin 5))) :
     ∀ h : H, (∀ v ∈ I, (h : GLV V) v = v) → h = 1 := by
-  haveI : IsSimpleGroup ↥H := φH.isSimpleGroup
+  have : IsSimpleGroup ↥H := φH.isSimpleGroup
   intro h hh
   rcases Subgroup.Normal.eq_bot_or_eq_top (restrictHom H I hHI).ker with hbot | htop
   · have hmem : h ∈ (restrictHom H I hHI).ker :=

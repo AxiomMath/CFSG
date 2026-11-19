@@ -84,6 +84,7 @@ theorem mem_conjOrbit_of_third_kind (hS : Setup G D) {u w v : G}
     rwa [show gv⁻¹ * w * (gv⁻¹)⁻¹ = v by rw [← hgvw]; group] at h
   exact ⟨hvO, hwO⟩
 
+omit [Finite G] in
 theorem transitive_or_exists_commute (hS : Setup G D)
     {u w v : G} (htri : IsTriangle D u w v) {n : ℕ} (hn : Odd n)
     (hord : orderOf (u * v * w) = 2 * n) {z : G} (hzdef : (u * v * w) ^ n = z) :

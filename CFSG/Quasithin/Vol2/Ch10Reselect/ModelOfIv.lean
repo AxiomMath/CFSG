@@ -18,7 +18,7 @@ open scoped IsMulCommutative commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {T L I : Subgroup G}
 
-theorem exists_uModel [IsMulCommutative ↥(fsuVM T L I)] (hfsu : FSU G T L I)
+theorem exists_uModel [IsMulCommutative ↥(fsuVM T L I)] (_hfsu : FSU G T L I)
     (hiv : Case3_2_6_iv T L I) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K) (_ : CharP K 2), 4 ≤ Nat.card K ∧
       Nonempty (UModel (fsuVM T L I) (fsuUL T L I)

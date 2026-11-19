@@ -50,7 +50,7 @@ theorem siegel_fix_eq_add [Finite K] {B : LinearMap.BilinForm K E} {Qf : E → K
   obtain ⟨a₀, ha₀⟩ := hS.exists_dual hQ
   have hadd : ∀ g g' : Γ,
       B (α (g * g') p - p) a₀ = B (α g p - p) a₀ + B (α g' p - p) a₀ := fun g g' => by
-    rw [hS.sub_mul hQ g g' hpU, LinearMap.map_add₂]
+    rw [hS.sub_mul g g' hpU, LinearMap.map_add₂]
   let f : Γ →* Multiplicative K :=
     { toFun := fun g => Multiplicative.ofAdd (B (α g p - p) a₀)
       map_one' := by simp
@@ -61,7 +61,7 @@ theorem siegel_fix_eq_add [Finite K] {B : LinearMap.BilinForm K E} {Qf : E → K
     rw [ofAdd_eq_one]
     constructor
     · intro h
-      have h1 := hS.sub_eq_smul hQ g hpU ha₀
+      have h1 := hS.sub_eq_smul g hpU ha₀
       rw [h, zero_smul] at h1
       exact sub_eq_zero.mp h1
     · intro h
@@ -71,7 +71,7 @@ theorem siegel_fix_eq_add [Finite K] {B : LinearMap.BilinForm K E} {Qf : E → K
     rfl
   have hidx : f.ker.index ≤ Nat.card K := by
     rw [Subgroup.index_ker f]
-    haveI : Finite (Multiplicative K) := inferInstanceAs (Finite K)
+    have : Finite (Multiplicative K) := inferInstanceAs (Finite K)
     calc Nat.card f.range ≤ Nat.card (Multiplicative K) := Subgroup.card_le_card_group _
       _ = Nat.card K := Nat.card_congr Multiplicative.toAdd
   have hcard' : Nat.card K ^ m ≤ α.ker.relIndex f.ker := by
@@ -96,6 +96,7 @@ section Phi
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G} {K' : Type} [Field K']
   {γ : G → K'} {M₀ : Tim79.QuadModel Q Z K' γ}
 
+omit [Finite G] in
 theorem pi_commutator (hc : Ctx M Q Z B) (φ₀ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K'] M₀.E))
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ₀ m (M₀.π x))
     (g : H0 M Z) {x : G} (hx : x ∈ Q) :
@@ -109,6 +110,7 @@ theorem pi_commutator (hc : Ctx M Q Z B) (φ₀ : ↥(H0 M Z) →* (M₀.E ≃�
   · rw [commutatorElement_def, M₀.π_mul _ hgx _ (Q.inv_mem hx), M₀.pi_inv hx, hφπ g x hx,
       sub_eq_add_neg]
 
+omit [Finite G] in
 theorem mem_range_sub_one_iff (hc : Ctx M Q Z B) (φ₀ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K'] M₀.E))
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ₀ m (M₀.π x))
     (hφQ : ∀ m : H0 M Z, φ₀ m = 1 ↔ (m : G) ∈ Q) (s : H0 M Z) (hs2 : (s : G) ^ 2 ∈ Q)

@@ -37,14 +37,14 @@ theorem eval_homogeneousComponent_eq_zero [Infinite k] {σ : Type*} [Fintype σ]
     refine Polynomial.funext fun c => ?_
     rw [Polynomial.eval_zero, ← h c]
     conv_rhs => rw [← sum_homogeneousComponent f]
-    rw [map_sum, Polynomial.eval_finset_sum]
+    rw [map_sum, Polynomial.eval_finsetSum]
     refine Finset.sum_congr rfl fun e _ => ?_
     rw [Polynomial.eval_monomial,
       eval_smul_of_isHomogeneous (homogeneousComponent_isHomogeneous e f), mul_comm]
   have hcoeff := congrArg (fun q : Polynomial k => q.coeff n) hQ
-  simp only [Q, Polynomial.finset_sum_coeff, Polynomial.coeff_monomial, Polynomial.coeff_zero,
+  simp only [Q, Polynomial.finsetSum_coeff, Polynomial.coeff_monomial, Polynomial.coeff_zero,
     Finset.sum_ite_eq', Finset.mem_range] at hcoeff
-  rwa [if_pos (Nat.lt_succ_of_le hn)] at hcoeff
+  rwa [ite_eq_left (Nat.lt_succ_of_le hn)] at hcoeff
 
 theorem IsZariskiClosed.exists_isHomogeneous [Infinite k] {V : Type v} [AddCommGroup V]
     [Module k V] {X : Set V} (hX : IsZariskiClosed k X) (hc : IsCone k X) {σ : Type*}

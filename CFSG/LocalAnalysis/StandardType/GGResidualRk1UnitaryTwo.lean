@@ -29,8 +29,8 @@ theorem GGRk1ConclEx.eq_one_of_mem_center {p : ℕ} {G : Type} [Group G] [Finite
     (hzH : (z : G) ∈ Subgroup.centralizer (ggHyperplane Bs r : Set G)) {k : ℕ}
     (hk : z ^ 2 ^ k = 1) : z = 1 := by
   obtain ⟨F, hF, -, θ, hchar, hinj, hrange, -, -, -, -, -, -⟩ := h
-  letI : Field F := hF
-  letI : CharP F 2 := hchar
+  let : Field F := hF
+  let : CharP F 2 := hchar
   have hz2 : (z : G) ^ (2 ^ k) = 1 := by
     simpa using congrArg (fun w : ↥X => (w : G)) hk
   have hzR : (z : G) ∈ ggRankOneIn X Bs r :=
@@ -51,7 +51,7 @@ theorem GGRk1ConclEx.eq_one_of_mem_center {p : ℕ} {G : Type} [Group G] [Finite
   have hs1 : s = 1 := by
     apply Subtype.ext
     rw [← hcA, hc1]
-    simpa using map_one (Matrix.scalar (Fin 2) : F →+* Matrix (Fin 2) (Fin 2) F)
+    simp
   refine Subtype.ext ?_
   rw [← hs, hs1, map_one]
   rfl

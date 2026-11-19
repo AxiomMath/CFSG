@@ -92,7 +92,7 @@ theorem Phi_apply (B : U ≃ₗ[K] U) (x : V) :
   S.embHom_apply _ _ _
 
 theorem Phi_injective : Function.Injective S.Phi :=
-  S.embHom_injective fun a b h => LinearEquiv.ext fun d => congrArg (fun m => m d) h
+  S.embHom_injective fun _a _b h => LinearEquiv.ext fun d => congrArg (fun m => m d) h
 
 theorem Phi_apply_incl (B : U ≃ₗ[K] U) (d : U) : S.Phi B (S.incl d) = S.incl (B d) := by
   rw [Phi_apply, S.coords_incl, map_sub]
@@ -164,7 +164,7 @@ theorem HasKey.coords_apply {g : V ≃ₗ[K] V} (hg : S.HasKey g) (x : V) :
   rw [act_apply, hg x, S.coords_incl]
 
 @[expose] noncomputable def actEquiv {g : V ≃ₗ[K] V} (hg : S.HasKey g) : U ≃ₗ[K] U :=
-  LinearEquiv.ofLinear (S.act g) (S.act g⁻¹)
+  LinearEquiv.ofLinearMap (S.act g) (S.act g⁻¹)
     (LinearMap.ext fun d => by
       rw [LinearMap.comp_apply, LinearMap.id_apply, S.act_apply g, ← hg.inv.apply_incl,
         LinearEquiv.apply_inv_apply', S.coords_incl])

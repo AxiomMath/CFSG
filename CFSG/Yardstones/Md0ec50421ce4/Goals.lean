@@ -497,7 +497,7 @@ theorem ys01
     YS01 :=
   have hS := CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog
     CFSG.RankThree.PartOne.SPOR.schreierFor_catalog
-  ys01_of_catalogue fun G _ _ m hctx p hp =>
+  ys01_of_catalogue fun G _ _ _m hctx p hp =>
     have hpp : p.Prime := hp.1.1
     have hp2 : p ≠ 2 := hp.1.2.1
     have hamb : KDAmbSolv p := kdAmbSolv_holds hpp hp2 u42_fixSubgroup_solvable

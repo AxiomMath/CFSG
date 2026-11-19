@@ -129,7 +129,7 @@ theorem latGram_latPerm (Δ : UniversalRootDatum U') (S : Matrix (Fin Δ.rank) (
   let G : SimpleGraph (Fin Δ.rank) := SimpleGraph.fromRel fun i j => Δ.cartan i j ≠ 0
   have hconnG : G.Connected :=
     (SimpleGraph.Iso.connected_iff (SimpleGraph.induceUnivIso G)).mp hconn
-  haveI : Nonempty (Fin Δ.rank) := ⟨hconn.nonempty.some.1⟩
+  have : Nonempty (Fin Δ.rank) := ⟨hconn.nonempty.some.1⟩
   obtain ⟨i0, -, hmax⟩ :=
     Finset.exists_max_image Finset.univ (fun i => S i i) Finset.univ_nonempty
   have crossAdj : ∀ i j, G.Adj i j → S i i * S (π j) (π j) = S (π i) (π i) * S j j := by
@@ -206,7 +206,7 @@ theorem latGram_latPerm (Δ : UniversalRootDatum U') (S : Matrix (Fin Δ.rank) (
 theorem latCorootSpan_eq_top (Δ : UniversalRootDatum U') (p : ℕ) (hp : p.Prime)
     (hdet : ¬ (p : ℤ) ∣ Δ.cartan.det) (f : Fin Δ.rank → ZMod p) : f ∈ LatCorootSpan Δ p := by
   classical
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   let A : Matrix (Fin Δ.rank) (Fin Δ.rank) (ZMod p) := Δ.cartan.map fun x => (x : ZMod p)
   have hAdet : A.det = ((Δ.cartan.det : ℤ) : ZMod p) := (Int.cast_det Δ.cartan).symm
   have hAne : A.det ≠ 0 := by
@@ -258,7 +258,7 @@ theorem stronglyOrth_neg (Δ : UniversalRootDatum U') {α β : Fin Δ.rank → �
 theorem latPhi_smul (R : Set (Fin N → ℤ)) (p : ℕ) [Fact p.Prime] (k : ZMod p) (hk : k ≠ 0)
     (f : Fin N → ZMod p) : latPhi R p (k • f) = latPhi R p f := by
   ext α
-  simp only [latPhi, Set.mem_setOf_eq]
+  simp only [latPhi, Set.mem_ofPred_eq]
   have hchar : latChar p (k • f) α = k * latChar p f α := by
     simp only [latChar, Pi.smul_apply, smul_eq_mul, Finset.mul_sum]
     refine Finset.sum_congr rfl fun i _ => ?_

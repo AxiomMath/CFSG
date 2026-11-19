@@ -138,8 +138,8 @@ private theorem ggQ2xKD_class_E {n : ℕ} (hn : n = 6 ∨ n = 7 ∨ n = 8) (a₀
     · exact absurd h.2.2 ggQ2xKDg_E8_a7_noKernel
 
 private noncomputable def ggQ2xKDc_subtypeEquiv {n : ℕ} (D : GGQ2Lin 3) (e : Fin n ≃ D.ι) :
-    {i : Fin n // i ≠ e.symm D.a} ≃ {k // k ≠ D.a} :=
-  Equiv.subtypeEquiv e (fun i => (not_congr (Equiv.apply_eq_iff_eq_symm_apply e)).symm)
+    {_i : Fin n // _i ≠ e.symm D.a} ≃ {k // k ≠ D.a} :=
+  Equiv.subtypeEquiv e (fun _i => (not_congr ((Iff.symm (_root_.Equiv.eq_symm_apply e)))).symm)
 
 private theorem ggQ2xKDc_kernel (D : GGQ2Lin 3) (xV : D.V) (hx0 : xV ≠ 0)
     (hspan : xV ∈ Submodule.span (ZMod 3) (Set.range fun i : {k // k ≠ D.a} => D.coroot i))

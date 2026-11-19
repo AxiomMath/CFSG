@@ -165,7 +165,7 @@ theorem theta_involutive_of_normalForm_one_E6
   have hw1 := LayerExc.mem_famReflectionGroup_of_coprime_orderOf hp F
     (fun b hb => ⟨1, funext fun i => by simpa using hF b hb i⟩) hw₂F hcop
   rw [LayerExc.famReflectionGroup, hF0] at hw1
-  simp only [Set.mem_empty_iff_false, false_and, exists_false, Set.setOf_false,
+  simp only [Set.mem_empty_iff_false, false_and, exists_false, Set.ofPred_false,
     Subgroup.closure_empty, Subgroup.mem_bot] at hw1
   rw [← hθ2 β, hw1, one_smul]
 

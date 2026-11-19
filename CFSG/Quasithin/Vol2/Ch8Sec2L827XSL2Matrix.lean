@@ -86,7 +86,7 @@ theorem center_map_eq_pm {F K : Type*} [Field F] [Field K] (σ : F →+* K)
 
 theorem card_SL_two (K : Type*) [Field K] [Finite K] :
     Nat.card (Matrix.SpecialLinearGroup (Fin 2) K) = Nat.card K * (Nat.card K ^ 2 - 1) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hq : 1 < Fintype.card K := Fintype.one_lt_card
   rw [Matrix.card_SL_field, Nat.card_eq_fintype_card]
   simp only [Fin.prod_univ_two, Fin.val_zero, Fin.val_one, pow_zero, pow_one]

@@ -155,7 +155,7 @@ theorem lyons_order_three_centralizer_eq_sylow_mul_oddCore [IsSimpleGroup G]
     rw [Subgroup.mem_center_iff.mp (hEc ha) g, mul_inv_cancel_right]
     exact ha
   have hZCp : IsPGroup 2 ZC := by
-    have hZp : IsPGroup 2 Z := (S.isPGroup'.to_le (fun w hw => hZS w hw))
+    have hZp : IsPGroup 2 Z := (S.isPGroup.to_le (fun w hw => hZS w hw))
     exact hZp.of_equiv (Subgroup.subgroupOfEquivOfLe (fun w hw => hSC (hZS w hw))).symm
   have hE2 : IsPGroup 2 E := hZCp.map πK
   set πE := QuotientGroup.mk' E with hπEdef
@@ -220,7 +220,7 @@ theorem lyons_order_three_centralizer_eq_sylow_mul_oddCore [IsSimpleGroup G]
       rintro _ ⟨s, hs, rfl⟩
       exact hA s hs
     have hQp : IsPGroup 2 (SC.map (MulAut.conj c).toMonoidHom) :=
-      (hSCs_coe ▸ SCs.isPGroup').map _
+      (hSCs_coe ▸ SCs.isPGroup).map _
     obtain ⟨v, hv, hvc⟩ := exists_conj_le_sylow_of_le SCs hSCK hQ hQp
     set n := v * c with hndef
     have hnN : ∀ s ∈ SC, n * s * n⁻¹ ∈ SC := by
@@ -335,7 +335,7 @@ theorem lyons_order_three_normalizer_involution_complements [IsSimpleGroup G]
       rw [Subgroup.mem_bot]
       have hodd : Odd (orderOf (k : G)) := by
         rw [Subgroup.orderOf_coe]; exact CFSG.Adapters.odd_orderOf_of_mem_oddCore hk
-      obtain ⟨j, hj⟩ := S.isPGroup' ⟨(k : G), hxS⟩
+      obtain ⟨j, hj⟩ := S.isPGroup ⟨(k : G), hxS⟩
       have hdvd : orderOf (k : G) ∣ 2 ^ j := by
         apply orderOf_dvd_of_pow_eq_one
         have := congrArg Subtype.val hj

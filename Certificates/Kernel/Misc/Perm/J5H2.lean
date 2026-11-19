@@ -38,7 +38,7 @@ theorem pInv {p : ℕ} (hp : permB 315 9 p = true) : permB 315 9 (pinvS 315 9 (m
   cj (F (sel.getD h 0)) (pinvS 315 9 (mask 9) (F k))
 
 theorem conjSel_get {c : CFSG.Monster.B.Fischer.ArrCert} {N : ℕ} {F : ℕ → ℕ}
-    (hN : c.pts.size = N) (hP : ∀ i < N, c.pts[i]! = unpack 315 9 (F i))
+    (_hN : c.pts.size = N) (hP : ∀ i < N, c.pts[i]! = unpack 315 9 (F i))
     (hPp : ∀ i < N, permB 315 9 (F i) = true) {k : ℕ} (hk : k < N) {sel : List ℕ}
     (hsel : ∀ j ∈ sel, j < N) :
     ∀ h < sel.length, (conjSel 315 c k sel)[h]! = unpack 315 9 (selC F k sel h) ∧
@@ -55,7 +55,7 @@ theorem conjSel_get {c : CFSG.Monster.B.Fischer.ArrCert} {N : ℕ} {F : ℕ → 
     rfl
   · rw [getElem!_pos _ h (by simpa [conjSelInv] using hh)]
     simp only [conjSelInv, List.getElem_toArray, List.getElem_map]
-    rw [← hg, hP _ hj, hP k hk, inv_unpack hw (hPp k hk),
+    rw [← hg, hP _ hj, hP k hk, inv_unpack (hPp k hk),
       conj_eq (hPp _ hj) (pInv (hPp k hk))]
     rfl
 

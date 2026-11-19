@@ -288,7 +288,7 @@ theorem selected_full_core_escape_has_rank_two_obstruction
     full_core_escape_has_exact_rank_two_obstruction prime (sigmaA_prime prime hselected).one_lt
       (sylowGroup : Subgroup G) maximalLocal hcore (hfullNonlocal maximalLocal hmaximal.1)
   exact ⟨maximalLocal, generator, hmaximal, hcore, hinclusion, hlocalRank, hgenerator,
-    sylowGroup.isPGroup'.to_le hgenerator, hgeneratorRank, hproductRank, hcentralizerRank,
+    sylowGroup.isPGroup.to_le hgenerator, hgeneratorRank, hproductRank, hcentralizerRank,
     hnormalizer⟩
 
 theorem abelian_sylow_transporter_mem_of_gamma_two_le_overgroup

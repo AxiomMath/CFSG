@@ -191,9 +191,9 @@ theorem cGen_of {G : Type} [Group G] (φ : G →* Matrix (Fin 248) (Fin 248) (ZM
     refine List.map_congr_left fun i hi => ?_
     rcases hw i hi with rfl | rfl
     · show pkMat (wordLetter _ _ _ 0) = φ a
-      rw [wordLetter, if_pos rfl, rA]
+      rw [wordLetter, ite_eq_left rfl, rA]
     · show pkMat (wordLetter _ _ _ 1) = φ b
-      rw [wordLetter, if_neg (by decide), if_pos rfl, rB]
+      rw [wordLetter, ite_eq_right (by decide), ite_eq_left rfl, rB]
   have rg0 : pkMat D.ThO_Gg0 = φ (abProd a b CFSG.Sporadic.Th.Kernel.fusionWord0') := by
     rw [← CFSG.KC.Th.Max3S.eq_of_eqN L33]
     exact hword _ _ _ digits0 (by decide)

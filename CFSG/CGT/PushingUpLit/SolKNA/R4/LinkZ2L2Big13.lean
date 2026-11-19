@@ -16,7 +16,7 @@ section Small
 
 variable {G G' : Type} [Group G] [Group G']
 
-theorem isCyclic_of_small (θ : G →* G') (σ₀ : G') (ζ : G) (hσ₀ : σ₀ * σ₀ = 1) (hζ2 : ζ * ζ = 1)
+theorem isCyclic_of_small (θ : G →* G') (σ₀ : G') (ζ : G) (_hσ₀ : σ₀ * σ₀ = 1) (hζ2 : ζ * ζ = 1)
     (hζ1 : ζ ≠ 1) (H : Subgroup G) (hθ : ∀ β ∈ H, θ β = 1 ∨ θ β = σ₀)
     (h1 : ∀ β ∈ H, θ β = 1 → β = 1 ∨ β = ζ) (h2 : ∀ β ∈ H, θ β ≠ 1 → β * β = ζ) :
     IsCyclic ↥H ∧ Nat.card ↥H ∣ 4 ∧ ∀ β ∈ H, β * β = 1 → β ≠ 1 → β = ζ := by
@@ -112,7 +112,7 @@ theorem isCyclic_of_small (θ : G →* G') (σ₀ : G') (ζ : G) (hσ₀ : σ₀
           rcases h1 β hβ (hall β hβ) with h | h
           · exact h
           · exact absurd (h ▸ hβ) hζH
-        haveI : Subsingleton ↥H :=
+        have : Subsingleton ↥H :=
           ⟨fun a b => Subtype.ext (by rw [hall1 a a.2, hall1 b b.2])⟩
         exact isCyclic_of_subsingleton
     have hcard : Nat.card ↥H ∣ 4 := by

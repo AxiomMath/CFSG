@@ -18,10 +18,12 @@ variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 @[expose] def traceSpace (ρ : Representation (ZMod 2) G W) (u : G) : Submodule (ZMod 2) W :=
   LinearMap.range (ρ u - 1)
 
+omit [Finite G] [Finite W] in
 theorem mem_traceSpace {ρ : Representation (ZMod 2) G W} {u : G} {w : W} :
     w ∈ traceSpace ρ u ↔ ∃ v : W, ρ u v - v = w := by
   simp [traceSpace, LinearMap.mem_range]
 
+omit [Finite G] in
 private lemma s763R_mul_eq_mul_inv {u y : G} (hu : u * u = 1) (h : u * y * u⁻¹ = y⁻¹) :
     y * u = u * y⁻¹ := by
   have huinv : u⁻¹ = u := inv_eq_of_mul_eq_one_right hu

@@ -26,6 +26,7 @@ private theorem commute_of_pow_three (h : P812Hyp G M p L₁ L₂)
     u * v = v * u :=
   h.commute_of_pow_three_eq_one hSch hK h714 hSM hS3 hC hu hv hu3 hv3
 
+omit [Finite G] in
 private theorem pow_three_of_mem_card_three {A : Subgroup G} (hA3 : Nat.card A = 3)
     {a : G} (ha : a ∈ A) : a ^ 3 = 1 := by
   have hdvd : orderOf a ∣ 3 := by
@@ -151,6 +152,7 @@ theorem isElemAbelian_zpowers_sup (h : P812Hyp G M p L₁ L₂)
   · rw [sup_assoc]
     simpa [hxord] using hcard
 
+omit [Finite G] in
 private theorem sup_zpowers_sup_le_centralizer
     {S A₁ A₂ : Subgroup G}
     (hcomm : ∀ u ∈ S, ∀ v ∈ S, u ^ 3 = 1 → v ^ 3 = 1 → u * v = v * u)

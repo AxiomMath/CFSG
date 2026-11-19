@@ -19,11 +19,11 @@ theorem pCoreOf_le_pCoreOf_kz3 {G : Type} [Group G] {Gz K : Subgroup G} (hKG : K
     CFSG.Open.pCoreOf 2 K ≤ CFSG.Open.pCoreOf 2 Gz :=
   CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
     ((CFSG.LieType.BorelTits.pCoreOf_le 2 K).trans hKG)
-    (fun g hg => CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 K (hKn hg))
+    (fun _g hg => CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 K (hKn hg))
     (kzIsPGroupPCoreOf_kz3 K)
 
 theorem pCoreOf_inf_le_pCoreOf_kz3 {G : Type} [Group G] {Gz K : Subgroup G} (hKG : K ≤ Gz)
-    (hKn : Gz ≤ Subgroup.normalizer (K : Set G)) :
+    (_hKn : Gz ≤ Subgroup.normalizer (K : Set G)) :
     CFSG.Open.pCoreOf 2 Gz ⊓ K ≤ CFSG.Open.pCoreOf 2 K := by
   refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 inf_le_right ?_
     (IsPGroup.to_le (kzIsPGroupPCoreOf_kz3 Gz) inf_le_left)
@@ -127,7 +127,7 @@ theorem kzStepsRel_kz3_holds (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39For
   intro G _ _ T L I hyp h731 h821 hc hrow hrowM hnot H hH hVH hXi hrel z P Lz hz1 hzV hzΩ hHz hTz
     hPX hP3 hPcard hcon hLzG hLzT hLzF hA6 hH6
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hV, -⟩ := stmtFSUModule_of_eight h3228 G T L I hyp.fsu
   have hz2 : z ^ 2 = 1 := hV.2 z hzV
   have hLzq : CFSG.Quasithin.IsAlt 6 (↥Lz ⧸ CFSG.pCore 2 ↥Lz) ∨
@@ -147,7 +147,7 @@ theorem kzStepsRel_kz3_holds (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39For
       (lemma_1_2_4_normal hyp.fsu.qtke hyp.fsu.simple hyp.fsu.nonabelian h37 h38 hpC hTsyl hLzF hLK hK hLzT)
   have hLzP : ⁅Lz, Lz⁆ = Lz := perfect_of_mem_cComp (X := Lz ⊔ T) hLzF
   have hloc : LocalSQTK G := by
-    haveI : IsSimpleGroup G := hyp.fsu.simple
+    have : IsSimpleGroup G := hyp.fsu.simple
     exact (qtkeCore_of_cat hyp.fsu.nonabelian hyp.fsu.qtke).1
   have hM11 : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .M11) = 7920 :=
     CFSG.Sporadic.Mathieu.card_M11

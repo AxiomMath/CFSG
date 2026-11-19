@@ -45,7 +45,7 @@ theorem quad_blkMat (b c : K) (A : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K)
       CFSG.Open.StatedQuadPlus m K (w ∘ Sum.inl) + w (Sum.inr 0) ^ 2 + b * w (Sum.inr 0) * w (Sum.inr 1) +
         c * w (Sum.inr 1) ^ 2 := by
     intro w
-    simp [LargeEvenQMinus, CFSG.Open.StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Function.comp]
+    simp [LargeEvenQMinus, CFSG.Open.StatedQuadPlus, Function.comp]
   have hl : (blkMat A *ᵥ v) ∘ Sum.inl = A *ᵥ (v ∘ Sum.inl) := by
     funext i
     simp [blkMat, fromBlocks_mulVec]
@@ -95,7 +95,7 @@ theorem blkMat_altHom_fix (x : Multiplicative (OffIdx m → K)) (i0 : Fin m) :
     simp [Pi.single_apply]
   have hr : (Pi.single (Sum.inl (Sum.inl i0)) (1 : K) : LargeEvenMinusIdx m → K) ∘ Sum.inr = 0 := by
     funext t
-    simp [Pi.single_apply]
+    simp
   funext k
   rcases k with k | k
   · simp only [blkMat, fromBlocks_mulVec, Sum.elim_inl, Pi.add_apply]
@@ -103,14 +103,14 @@ theorem blkMat_altHom_fix (x : Multiplicative (OffIdx m → K)) (i0 : Fin m) :
     simp [Pi.single_apply]
   · simp only [blkMat, fromBlocks_mulVec, Sum.elim_inr, Pi.add_apply]
     rw [hr]
-    simp [Pi.single_apply]
+    simp
 
 end AltM
 
-theorem pRank_alt_minus_ge {m n : ℕ} (hn : 1 ≤ n) (hm : 3 ≤ m) {K : Type} [Field K] [Finite K]
+theorem pRank_alt_minus_ge {m n : ℕ} (_hn : 1 ≤ n) (hm : 3 ≤ m) {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 2 ^ n) (b c : K) :
     n * m.choose 2 ≤ CFSG.Open.pRank 2 (⊤ : Subgroup (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus m b c)))) := by
-  haveI : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (p := 2) (f := n) hK
+  have : CharP K 2 := CFSG.SectionRank.ClassicalOdd.charP_of_card (p := 2) (f := n) hK
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   let φ : Multiplicative (OffIdx m → K) →* GL (LargeEvenMinusIdx m) K := (blkGL).comp (altHom m K)
   have hinj : Function.Injective φ := by

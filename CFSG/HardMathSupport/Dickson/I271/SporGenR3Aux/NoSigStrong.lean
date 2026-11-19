@@ -48,7 +48,7 @@ theorem sporStrong_of_noSig_model (hOut : SporadicOuterLeTwo) {s : TauCeti.Spora
   obtain ⟨e⟩ := hS
   have hq : CFSG.Open.IsQuasisimple ↥K := hC.quasi
   have hperf : commutator ↥K = ⊤ := hq.1
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
   have hnab := exists_noncomm_of_isQuasisimple hq
   have hcen : Subgroup.center (↥K ⧸ Subgroup.center ↥K) = ⊥ := center_eq_bot_of_isSimpleGroup hnab
   have hout : Nat.card (Outer (↥K ⧸ Subgroup.center ↥K)) ≤ 2 := hOut _ hq.2 hnab s ⟨e⟩

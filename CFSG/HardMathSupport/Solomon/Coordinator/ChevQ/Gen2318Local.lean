@@ -76,7 +76,7 @@ variable {F : Type} [Field F]
 
 theorem card_mu3 [Finite F] (hF : Nat.card F = 4) : Nat.card (rootsOfUnity 3 F) = 3 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h4 : Fintype.card F = 4 := by rw [Fintype.card_eq_nat_card]; exact hF
   rw [card_rootsOfUnity_eq_gcd 3, h4]
   norm_num
@@ -105,7 +105,7 @@ theorem tDiag_mul {M : ℕ} (x y : Fin M → rootsOfUnity 3 F) :
   | last => simp [tDiag_last]
   | cast i =>
     induction i using Fin.lastCases with
-    | last => simp [tDiag_last_castSucc, Finset.prod_mul_distrib, mul_inv, mul_comm]
+    | last => simp [tDiag_last_castSucc, Finset.prod_mul_distrib, mul_comm]
     | cast j => simp [tDiag_castSucc_castSucc]
 
 theorem prod_tDiag {M : ℕ} (x : Fin M → rootsOfUnity 3 F) : ∏ i, tDiag x i = 1 := by
@@ -171,7 +171,7 @@ theorem tDiag_eq_of_central {M : ℕ} (x : Fin M → rootsOfUnity 3 F)
       Matrix.transvection i j 1 := rfl
   simp only [Matrix.SpecialLinearGroup.coe_mul, hD, hT] at h
   rw [Matrix.mul_diagonal, Matrix.diagonal_mul] at h
-  simp [Matrix.transvection, Matrix.single_apply, hij] at h
+  simp [Matrix.transvection, hij] at h
   exact h.symm
 
 theorem torusElt_eq_one_of_central {M : ℕ} (x : Fin M → rootsOfUnity 3 F)
@@ -190,7 +190,7 @@ theorem torusElt_eq_one_of_central {M : ℕ} (x : Fin M → rootsOfUnity 3 F)
   simpa using h
 
 theorem zero_ne_one_fin (M : ℕ) : (0 : Fin (M + 1 + 1)) ≠ 1 := by
-  simp [Fin.ext_iff]
+  simp
 
 @[expose] def rootSL (M : ℕ) (c : F) : Matrix.SpecialLinearGroup (Fin (M + 1 + 1)) F :=
   trSL (0 : Fin (M + 1 + 1)) 1 (zero_ne_one_fin M) c
@@ -240,11 +240,11 @@ theorem rootSL_not_central (M : ℕ) (h2 : (2 : F) = 0) :
     h
   have hL : ((Matrix.transvection (1 : Fin (M + 1 + 1)) 0 (1 : F) *
       Matrix.transvection (0 : Fin (M + 1 + 1)) 1 (1 : F) : Matrix (Fin (M + 1 + 1)) (Fin (M + 1 + 1)) F)) 0 0 = 1 := by
-    simp [Matrix.mul_apply, Matrix.one_apply, Matrix.transvection, Matrix.single_apply, zero_ne_one_fin M]
+    simp [Matrix.mul_apply, Matrix.one_apply, Matrix.transvection]
   have hR : ((Matrix.transvection (0 : Fin (M + 1 + 1)) 1 (1 : F) *
       Matrix.transvection (1 : Fin (M + 1 + 1)) 0 (1 : F) : Matrix (Fin (M + 1 + 1)) (Fin (M + 1 + 1)) F)) 0 0 = 0 := by
     simp [Matrix.mul_apply, Matrix.one_apply, Matrix.transvection, Matrix.single_apply, zero_ne_one_fin M, h2,
-      Finset.sum_add_distrib, add_mul, mul_add, ite_mul, mul_ite, one_add_one_eq_two]
+      Finset.sum_add_distrib, mul_add, mul_ite, one_add_one_eq_two]
   rw [hL, hR] at key
   exact one_ne_zero key
 
@@ -307,7 +307,7 @@ theorem exists_lift_gen {G S K : Type} [Group G] [Group S] [Group K] [Finite G] 
 theorem core_generic {G S K : Type} [Group G] [Group S] [Group K] [Finite G] [Finite K]
     (hsec : ∀ (E : Type) [Group E] [Finite E] (p : E →* G), Function.Surjective p →
       p.ker ≤ Subgroup.center E → ∃ s : G →* E, ∀ g, p (s g) = g)
-    (π : G →* S) (hπ : Function.Surjective π) (hπk : π.ker = Subgroup.center G)
+    (π : G →* S) (_hπ : Function.Surjective π) (hπk : π.ker = Subgroup.center G)
     (ρ : K →* S) (hρ : Function.Surjective ρ) (hρk : ρ.ker = Subgroup.center K)
     {A : Type} [CommGroup A] [Finite A] (Ehom : A →* G) (hAel : ∀ x : A, x ^ 3 = 1)
     (r : ℕ) (hAcard : Nat.card A = 3 ^ r)
@@ -492,7 +492,7 @@ theorem typeA_witness (K : Type) [Group K] [Finite K] (r : ℕ) (q : TauCeti.Pri
     (e : K ⧸ Subgroup.center K ≃* TauCeti.ValidLieTypeIndex.Group ⟨TauCeti.LieTypeIndex.A r q, hv⟩) :
     ∃ E P : Subgroup K, IsElemAbelian 3 E ∧ E ⊓ Subgroup.center K = ⊥ ∧
       r - 1 ≤ CFSG.Open.pRank 3 E ∧ P ≠ ⊥ ∧ IsPGroup 2 P ∧ E ≤ Subgroup.normalizer (P : Set K) := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨hq1, hq2⟩ := hq
   have h9 : 9 ≤ 3 ^ n := by
     calc 9 = 3 ^ 2 := by norm_num
@@ -533,7 +533,7 @@ open CFSG.Blueprint.Chevalley CFSG.LocalAnalysis.ComponentInitial.FourGroupCheva
 theorem charP_two_of_card_four (K' : Type) [Field K'] [Finite K'] (h : Nat.card K' = 4) :
     CharP K' 2 := by
   classical
-  haveI : Fintype K' := Fintype.ofFinite K'
+  have : Fintype K' := Fintype.ofFinite K'
   obtain ⟨p, hchar, n, hp, hcard⟩ := FiniteField.card' K'
   rw [Fintype.card_eq_nat_card, h] at hcard
   have hdvd : p ∣ 4 := by
@@ -571,7 +571,7 @@ theorem adjoint_torus_witness (τ : Tag) {K' : Type} [Field K'] [Finite K'] [Cha
   have h2K : (2 : K') = 0 := by
     have h := CharP.cast_eq_zero K' 2
     exact_mod_cast h
-  haveI : Finite (ModGL τ K') := CFSG.LieType.Chevalley.finite_modGL
+  have : Finite (ModGL τ K') := CFSG.LieType.Chevalley.finite_modGL
   let G := ↥(adjointGroup τ K')
   let π : G →* CFSG.Blueprint.AdjointQuotient τ K' := QuotientGroup.mk' (Subgroup.center G)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective (Subgroup.center G)
@@ -661,7 +661,7 @@ theorem f4_four_witness {K : Type} [Group K] [Finite K] {K' : Type} [Field K'] [
     ∃ E P : Subgroup K, IsElemAbelian 3 E ∧ E ⊓ Subgroup.center K = ⊥ ∧
       Tag.F4.rank ≤ CFSG.Open.pRank 3 E ∧ P ≠ ⊥ ∧ IsPGroup 2 P ∧
       E ≤ Subgroup.normalizer (P : Set K) := by
-  haveI : CharP K' 2 := charP_two_of_card_four K' (by rw [hK']; norm_num)
+  have : CharP K' 2 := charP_two_of_card_four K' (by rw [hK']; norm_num)
   exact adjoint_torus_witness Tag.F4 hK' (by decide)
     (fun E _ _ p hp hc => CFSG.LieType.Steinberg.CentralExt.FieldFour.f4_four_exists_section hK' E p hp hc)
     (fun a => CFSG.RankThree.Chevalley.torusGroup_le_adjointGroup_F4
@@ -697,7 +697,7 @@ theorem e8_four_witness {K : Type} [Group K] [Finite K] {K' : Type} [Field K'] [
     ∃ E P : Subgroup K, IsElemAbelian 3 E ∧ E ⊓ Subgroup.center K = ⊥ ∧
       Tag.E8.rank ≤ CFSG.Open.pRank 3 E ∧ P ≠ ⊥ ∧ IsPGroup 2 P ∧
       E ≤ Subgroup.normalizer (P : Set K) := by
-  haveI : CharP K' 2 := charP_two_of_card_four K' (by rw [hK']; norm_num)
+  have : CharP K' 2 := charP_two_of_card_four K' (by rw [hK']; norm_num)
   exact adjoint_torus_witness Tag.E8 hK' (by decide)
     (fun E _ _ p hp hc => CFSG.LieType.Steinberg.CentralExt.FieldFour.e8_four_exists_section hK' E p hp hc)
     (fun a => CFSG.RankThree.CentralCover.torusGroup_le_adjointGroup

@@ -32,7 +32,7 @@ theorem exists_fixed_order_four_elt {Q : Type} [Group Q] [Finite Q]
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨R⟩ : Nonempty (Sylow 2 ↥(fixedSubgroup Q φ)) := inferInstance
   have hncyc := fixedCond_noncyclic_sylow φ hf R
-  have hR2 : IsPGroup 2 ↥(R : Subgroup ↥(fixedSubgroup Q φ)) := R.isPGroup'
+  have hR2 : IsPGroup 2 ↥(R : Subgroup ↥(fixedSubgroup Q φ)) := R.isPGroup
   have hrank : NoCommutingDistinctInvolutions ↥(R : Subgroup ↥(fixedSubgroup Q φ)) := by
     intro u v huv
     have hu : orderOf ((((u.1 : ↥(R : Subgroup ↥(fixedSubgroup Q φ))) : ↥(fixedSubgroup Q φ)) : Q)) = 2 := by
@@ -70,7 +70,7 @@ theorem sylow_two_not_cyclic_of_quasisimple
       exact (QuotientGroup.mk_surjective (s := Subgroup.center Q)).nontrivial
     exact ⟨hnt, (Group.isPerfect_def).1 hperf, hsimple⟩
   apply CFSG.GorensteinWalter.quasisimple_not_quotient_isTwoGroup hgw
-  obtain ⟨k, hk⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := P.isPGroup.exists_card_eq
   apply IsPGroup.of_card (n := k)
   show (pPrimeCore 2 Q).index = 2 ^ k
   rw [hidx]
@@ -96,7 +96,7 @@ theorem sylow_quaternion_of_quasisimple
       have := congrArg (fun x : ↥(P : Subgroup Q) => (x : Q)) huv
       simpa using this
     exact Subtype.ext (Subtype.ext (hno _ _ hu hv hcomm))
-  rcases rank_one_two_cyclic_or_quaternion P.isPGroup' hrank with hc | ⟨e, he1, ⟨ε⟩⟩
+  rcases rank_one_two_cyclic_or_quaternion P.isPGroup hrank with hc | ⟨e, he1, ⟨ε⟩⟩
   · exact absurd hc hncyc
   · refine ⟨e, ?_, ⟨ε⟩⟩
     by_contra hlt
@@ -127,7 +127,7 @@ theorem sylow_exists_noncomm
       have := congrArg (fun x : ↥(P : Subgroup Q) => (x : Q)) huv
       simpa using this
     exact Subtype.ext (Subtype.ext (hno _ _ hu hv hcomm))
-  rcases rank_one_two_cyclic_or_quaternion P.isPGroup' hrank with hc | ⟨e, he1, ⟨ε⟩⟩
+  rcases rank_one_two_cyclic_or_quaternion P.isPGroup hrank with hc | ⟨e, he1, ⟨ε⟩⟩
   · exact absurd hc hncyc
   · refine ⟨(ε (QuaternionGroup.a 1) : Q), (ε (QuaternionGroup.a 1)).2,
       (ε (QuaternionGroup.xa 0) : Q), (ε (QuaternionGroup.xa 0)).2, fun h => ?_⟩
@@ -225,7 +225,7 @@ theorem dict_cent
     obtain ⟨n, hn, ⟨ε⟩⟩ := sylow_quaternion_of_quasisimple hO.quasi hno P h16
     exact exists_fixed_order_four φ hφ2 r hr4 hrφ P hPφ n hn ε
   · have hP2 : IsSylow2In (P : Subgroup Q) ⊤ :=
-      ⟨le_top, P.isPGroup', by rw [Subgroup.relIndex_top_right]; exact Sylow.not_dvd_index P⟩
+      ⟨le_top, P.isPGroup, by rw [Subgroup.relIndex_top_right]; exact Sylow.not_dvd_index P⟩
     exact (h2A7 Q h7).2.2.2.2.2.2 φ hφ hφ1 P hP2 hPφ
 
 end Dict

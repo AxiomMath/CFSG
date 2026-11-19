@@ -97,7 +97,7 @@ private theorem card_center_dvd_of_multiplier_equiv {G : Type} [Group G] {M : �
 private theorem center_eq_bot_of_isLie811_psp6
     {r f : ℕ} (h : IsLie811 Y .psp6 r f) (hsp : r ^ f ≠ 2) : center Y = ⊥ := by
   obtain ⟨hY, hodd, hr, hr3, hm⟩ := h
-  haveI : Group.IsPerfect Y := hY.1
+  have : Group.IsPerfect Y := hY.1
   have hf : 1 ≤ f := hm.admissible.2.1
   have hq := five_le_pow_or_eq_four_of_prime_ne_three hr hr3 hf hsp
   have hm' : Models.LieModel (Y ⧸ center Y) .PSp 3 r f :=
@@ -116,7 +116,7 @@ private theorem center_eq_bot_of_isLie811_psp6
 private theorem center_eq_bot_of_isLie811_omega7
     {r f : ℕ} (h : IsLie811 Y .omega7 r f) : center Y = ⊥ := by
   obtain ⟨hY, hodd, hr, hr2, hr3, hm⟩ := h
-  haveI : Group.IsPerfect Y := hY.1
+  have : Group.IsPerfect Y := hY.1
   have hf : 1 ≤ f := hm.admissible.2.1
   have hr5 := five_le_of_prime_ne_two_ne_three hr hr2 hr3
   have hq : 5 ≤ r ^ f := le_trans hr5 (Nat.le_self_pow (by omega) r)
@@ -136,7 +136,7 @@ private theorem center_eq_bot_of_isLie811_omega7
 private theorem center_eq_bot_of_isLie811_pomega8m
     {r f : ℕ} (h : IsLie811 Y .pomega8m r f) : center Y = ⊥ := by
   obtain ⟨hY, hodd, _hr, _hr3, hm⟩ := h
-  haveI : Group.IsPerfect Y := hY.1
+  have : Group.IsPerfect Y := hY.1
   have hm' : Models.LieModel (Y ⧸ center Y) .POmegaMinus 4 r f :=
     CFSG.Models.LieModel.of_blueprint_of_ne_zero (by decide) hm
   obtain ⟨-, he⟩ := griess_classical_of_large .POmegaMinus hm'
@@ -154,7 +154,7 @@ private theorem center_eq_bot_of_isLie811_pomega8m
 private theorem center_eq_bot_of_isLie811_l4
     {r f : ℕ} (h : IsLie811 Y .l4 r f) : center Y = ⊥ := by
   obtain ⟨hY, hodd, hr, hq2, hm⟩ := h
-  haveI : Group.IsPerfect Y := hY.1
+  have : Group.IsPerfect Y := hY.1
   rcases hm with ⟨h3, hm⟩ | ⟨h3, hm⟩
   · have hm' : Models.LieModel (Y ⧸ center Y) .PSL 4 r f :=
       CFSG.Models.LieModel.of_blueprint_of_ne_zero (by decide) hm
@@ -191,7 +191,7 @@ private theorem center_eq_bot_of_isLie811_l4
 private theorem center_eq_bot_of_isLie811_l6
     {r f : ℕ} (h : IsLie811 Y .l6 r f) : center Y = ⊥ := by
   obtain ⟨hY, hodd, hr, hm⟩ := h
-  haveI : Group.IsPerfect Y := hY.1
+  have : Group.IsPerfect Y := hY.1
   rcases hm with ⟨h3, hm⟩ | ⟨h3, hm⟩
   · have hm' : Models.LieModel (Y ⧸ center Y) .PSL 6 r f :=
       CFSG.Models.LieModel.of_blueprint_of_ne_zero (by decide) hm
@@ -245,7 +245,7 @@ theorem center_eq_bot_of_isLie811_of_ne
 theorem center_eq_bot_of_isLie811_psp6_two
     {r f : ℕ} (h : IsLie811 Y .psp6 r f) (hq : r ^ f = 2) : center Y = ⊥ := by
   obtain ⟨hY, hodd, hr, -, hm⟩ := h
-  haveI : Group.IsPerfect Y := hY.1
+  have : Group.IsPerfect Y := hY.1
   have hf : 1 ≤ f := hm.admissible.2.1
   obtain ⟨rfl, rfl⟩ := GriessExceptionalPow.eq_two_one_of_pow_eq_two hr (by omega) hq
   have hm' : Models.LieModel (Y ⧸ center Y) .PSp 3 2 1 :=
@@ -270,7 +270,7 @@ theorem card_center_dvd_of_isLie811_l7
     {r f : ℕ} (h : IsLie811 Y .l7 r f) :
     Nat.card (center Y) ∣ Nat.gcd 7 (qPlusPi r f) := by
   obtain ⟨hY, -, hr, hm⟩ := h
-  haveI : Group.IsPerfect Y := hY.1
+  have : Group.IsPerfect Y := hY.1
   rcases hm with ⟨h3, hm⟩ | ⟨h3, hm⟩
   · have hm' : Models.LieModel (Y ⧸ center Y) .PSL 7 r f :=
       CFSG.Models.LieModel.of_blueprint_of_ne_zero (by decide) hm
@@ -280,11 +280,11 @@ theorem card_center_dvd_of_isLie811_l7
     have hgen : genericOrders .PSL 7 r f = (Nat.gcd 7 (r ^ f - 1), 1) := by simp [genericOrders]
     have hq : qPlusPi r f = r ^ f - 1 := by
       unfold qPlusPi
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
     have hM : Nat.card (generic .PSL 7 r f × exceptional .PSL 7 r f) ∣
         Nat.gcd 7 (qPlusPi r f) := by
       rw [card_generic_exceptional_eq, hgen, hexp, hq]
-      simpa using dvd_rfl
+      simp
     exact card_center_dvd_of_multiplier_equiv he hM
   · have hm' : Models.LieModel (Y ⧸ center Y) .PSU 7 r f :=
       CFSG.Models.LieModel.of_blueprint_of_ne_zero (by decide) hm
@@ -295,11 +295,11 @@ theorem card_center_dvd_of_isLie811_l7
     have hgen : genericOrders .PSU 7 r f = (Nat.gcd 7 (r ^ f + 1), 1) := by simp [genericOrders]
     have hq : qPlusPi r f = r ^ f + 1 := by
       unfold qPlusPi
-      rw [if_pos h3]
+      rw [ite_eq_left h3]
     have hM : Nat.card (generic .PSU 7 r f × exceptional .PSU 7 r f) ∣
         Nat.gcd 7 (qPlusPi r f) := by
       rw [card_generic_exceptional_eq, hgen, hexp, hq]
-      simpa using dvd_rfl
+      simp
     exact card_center_dvd_of_multiplier_equiv he hM
 
 theorem not_three_dvd_card_center_of_isLie811

@@ -22,8 +22,7 @@ theorem dgenComposition_holds :
     GGLabelRigidInput →
     S2MathAs51600.CentralFixedComponentTransfer →
     GGInnerOnD4DGen := by
-  intro hSel hFix hReps hComp hRig hTr
-  intro X _instGroupX _instFiniteX A σ J hA hσ hJ hN hmark labJ hΛ htag hrk hlab a ha
+  intro hSel hFix hReps hComp hRig hTr X _instGroupX _instFiniteX A σ J hA hσ hJ hN hmark labJ hΛ htag hrk hlab a ha
   obtain ⟨hX, lab, hΛlab, hraw⟩ := @hSel X _instGroupX _instFiniteX A hmark
   obtain ⟨R, hR, I, F, hsimple, hna, θ, hP⟩ := largeEvenRawDatum_exists hraw
   obtain ⟨hregimeInn, hmodel⟩ := hP

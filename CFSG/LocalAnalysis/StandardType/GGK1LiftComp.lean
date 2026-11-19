@@ -195,7 +195,7 @@ theorem ggK1_lift_component {R L' : Type} [Group R] [Group L'] (ψ : L' →* R)
     rw [← MonoidHom.ker_eq_bot_iff, QuotientGroup.ker_map, hcen]
     ext q
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
-    simp [Subgroup.mem_map, QuotientGroup.eq_one_iff]
+    simp [QuotientGroup.eq_one_iff]
   have hgsurj : Function.Surjective g := by
     intro q
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective q
@@ -204,7 +204,7 @@ theorem ggK1_lift_component {R L' : Type} [Group R] [Group L'] (ψ : L' →* R)
   let eqv : (↥Q ⧸ Subgroup.center ↥Q) ≃* (↥K ⧸ Subgroup.center ↥K) :=
     MulEquiv.ofBijective g ⟨hginj, hgsurj⟩
   have hQsimple : IsSimpleGroup (↥Q ⧸ Subgroup.center ↥Q) := by
-    haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKsimple
+    have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hKsimple
     exact eqv.isSimpleGroup
   have hC'le : ggFixSub e ≤ (ggFixSub φ).comap ψ := by
     intro l hl

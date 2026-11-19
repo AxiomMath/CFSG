@@ -49,20 +49,24 @@ variable {K : Type} [Field K] [Finite K] {n : ℕ}
 
 local notation "σ" => CatalogueBHigherLinearAction.slConjugation n K
 
+omit [Finite K] in
 theorem proj_mem_fix {A : GL (Fin n) K} {g : SpecialLinearGroup (Fin n) K}
     (hg : g ∈ fixSubgroup (σ A)) : proj n K g ∈ fixSubgroup (conjAut n K A) := by
   rw [mem_fixSubgroup, conjAut_proj, mem_fixSubgroup.1 hg]
 
+omit [Finite K] in
 theorem map_specialFactor_le_fix (A : GL (Fin n) K) (h : K[X]) :
     (specialFactor A h).map (proj n K) ≤ fixSubgroup (conjAut n K A) := by
   rintro _ ⟨g, hg, rfl⟩
   exact proj_mem_fix (specialFactor_le_fixSubgroup A h hg)
 
+omit [Finite K] in
 theorem map_fix_le_fix (A : GL (Fin n) K) :
     (fixSubgroup (σ A)).map (proj n K) ≤ fixSubgroup (conjAut n K A) := by
   rintro _ ⟨g, hg, rfl⟩
   exact proj_mem_fix hg
 
+omit [Finite K] in
 theorem conj_mem_map_fix {A : GL (Fin n) K} {x : projectiveSL n K}
     (hx : x ∈ fixSubgroup (conjAut n K A)) {c : projectiveSL n K}
     (hc : c ∈ (fixSubgroup (σ A)).map (proj n K)) :

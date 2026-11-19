@@ -12,11 +12,13 @@ section Sylow
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem coe_smul_sylow_eq_gLBConj {p : ℕ} (Q : Sylow p G) (g : G) :
     ((g • Q : Sylow p G) : Subgroup G) = GLBConj g⁻¹ (Q : Subgroup G) := by
   rw [Sylow.coe_subgroup_smul, Subgroup.pointwise_smul_def, GLBConj, inv_inv]
   rfl
 
+omit [Finite G] in
 private theorem card_gLBConj (g : G) (H : Subgroup G) : Nat.card (GLBConj g H) = Nat.card H :=
   Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective
 
@@ -45,7 +47,7 @@ private theorem card_eq_of_le {A K : Subgroup G} (hAK : A ≤ K)
     (hA : Nat.card A = 3 ^ (Nat.card G).factorization 3) :
     Nat.card A = 3 ^ (Nat.card K).factorization 3 := by
   let S : Sylow 3 G := Sylow.ofCard A hA
-  obtain ⟨Q, hAQ, -, hQ, hQcard⟩ := exists_sylow_ge Nat.prime_three hAK S.isPGroup'
+  obtain ⟨Q, hAQ, -, hQ, hQcard⟩ := exists_sylow_ge Nat.prime_three hAK S.isPGroup
   have hQA : Q = A := (S.maximal_isPGroup.eq_of_le hQ hAQ).symm
   rwa [hQA] at hQcard
 
@@ -55,7 +57,7 @@ private theorem exists_mem_normalizer_not_mem {S H : Subgroup G} (hS : IsPGroup 
   have hnc : NormalizerCondition S := Group.normalizerCondition_of_isNilpotent (G := S)
   have hlt : H.subgroupOf S < ⊤ :=
     lt_top_iff_ne_top.2 fun h => hne (le_antisymm hHS (Subgroup.subgroupOf_eq_top.1 h))
-  obtain ⟨x, hxN, hxnot⟩ := SetLike.exists_of_lt (hnc _ hlt)
+  obtain ⟨x, hxN, hxnot⟩ := _root_.IsConcreteLE.exists_of_lt (hnc _ hlt)
   refine ⟨x, x.2, ?_, fun hxH => hxnot (Subgroup.mem_subgroupOf.2 hxH)⟩
   have hxsub : x ∈ (Subgroup.normalizer (H : Set G)).subgroupOf S := by
     rw [Subgroup.subgroupOf_normalizer_eq hHS]
@@ -71,12 +73,12 @@ private theorem card_eq_of_normalizer_le {K R : Subgroup G} (hRK : R ≤ K) (hR 
   · rw [hEq]
     exact S.card_eq_multiplicity
   · exfalso
-    obtain ⟨x, hxS, hxN, hxR⟩ := exists_mem_normalizer_not_mem S.isPGroup' hRS hEq
+    obtain ⟨x, hxS, hxN, hxR⟩ := exists_mem_normalizer_not_mem S.isPGroup hRS hEq
     set R' : Subgroup G := R ⊔ Subgroup.zpowers x with hR'
     have hR'S : R' ≤ S := sup_le hRS (Subgroup.zpowers_le.2 hxS)
     have hR'K : R' ≤ K := sup_le hRK (Subgroup.zpowers_le.2 (hN hxN))
     obtain ⟨Q, hR'Q, -, -, hQcard⟩ :=
-      exists_sylow_ge Nat.prime_three hR'K (S.isPGroup'.to_le hR'S)
+      exists_sylow_ge Nat.prime_three hR'K (S.isPGroup.to_le hR'S)
     have hxR' : x ∈ R' := Subgroup.mem_sup_right (Subgroup.mem_zpowers x)
     have hlt : R < R' := lt_of_le_of_ne le_sup_left fun h => hxR (h ▸ hxR')
     have h1 : Nat.card R < Nat.card R' :=

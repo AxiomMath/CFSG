@@ -19,6 +19,7 @@ theorem FiveTenHyp.sec5Hyp {H M T A : Subgroup G} {Ω : Set (Subgroup G)}
   not_le := h.not_le
   odd_relIndex := h.odd_relIndex
 
+omit [Finite G] in
 theorem isSylowIn_of_odd_relIndex {M D S : Subgroup G} (hS : IsSylowIn 2 S (M ⊓ D))
     (hodd : Odd (M.relIndex D)) : IsSylowIn 2 S D := by
   have hSD : S ≤ D := hS.le.trans inf_le_right

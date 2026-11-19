@@ -33,14 +33,14 @@ private theorem ggQ2s08b1a_A_le_four (n : ℕ) (i j : Fin n) :
     CoxeterMatrix.A n i j ≤ 4 := by
   by_cases hij : i = j
   · subst hij; simp [CoxeterMatrix.A]
-  · simp only [CoxeterMatrix.A, Matrix.of_apply, hij, if_false]
+  · simp only [CoxeterMatrix.A, Matrix.of_apply, hij, ite_false]
     split_ifs <;> omega
 
 private theorem ggQ2s08b1a_B_le_four (n : ℕ) (i j : Fin n) :
     CoxeterMatrix.B n i j ≤ 4 := by
   by_cases hij : i = j
   · subst hij; simp [CoxeterMatrix.B]
-  · simp only [CoxeterMatrix.B, Matrix.of_apply, hij, if_false]
+  · simp only [CoxeterMatrix.B, Matrix.of_apply, hij, ite_false]
     split_ifs <;> omega
 
 private lemma ggQ2s08b1a_cast_eq_zero {z : ℤ}
@@ -171,7 +171,7 @@ private theorem ggQ2s08b1a_path_aut {n : ℕ} (hn : 2 ≤ n) {σ : Fin n ≃ Fin
   have hx : ∀ i : Fin n, x i.val = (σ i : ℕ) := by
     intro i
     simp only [x]
-    rw [dif_pos i.isLt]
+    rw [dite_eq_left i.isLt]
   have hstep : ∀ i, i + 1 ≤ n - 1 → x (i + 1) = x i + 1 ∨ x i = x (i + 1) + 1 := by
     intro i hi
     have hi1 : i < n := by omega
@@ -208,7 +208,7 @@ private theorem ggQ2s08b1a_path_aut {n : ℕ} (hn : 2 ≤ n) {σ : Fin n ≃ Fin
       have hlt : (σ ⟨n - 1, by omega⟩ : ℕ) < n := (σ ⟨n - 1, by omega⟩).isLt
       have hx0 : x 0 = (σ ⟨0, by omega⟩ : ℕ) := by
         simp only [x]
-        rw [dif_pos (by omega)]
+        rw [dite_eq_left (by omega)]
       have hx0lt : x 0 < n := by rw [hx0]; exact (σ ⟨0, by omega⟩).isLt
       omega
     refine Equiv.ext (fun i => Fin.ext ?_)
@@ -224,7 +224,7 @@ private theorem ggQ2s08b1a_path_aut {n : ℕ} (hn : 2 ≤ n) {σ : Fin n ≃ Fin
       have hlt : (σ ⟨n - 1, by omega⟩ : ℕ) < n := (σ ⟨n - 1, by omega⟩).isLt
       have hx0 : x 0 = (σ ⟨0, by omega⟩ : ℕ) := by
         simp only [x]
-        rw [dif_pos (by omega)]
+        rw [dite_eq_left (by omega)]
       have hx0lt : x 0 < n := by rw [hx0]; exact (σ ⟨0, by omega⟩).isLt
       omega
     refine Equiv.ext (fun i => Fin.ext ?_)
@@ -246,19 +246,19 @@ private theorem ggQ2s08b1a_card_le_two {ι : Type} {C : Matrix ι ι ℤ} {ρ : 
     have hπ := h π.1 π.2
     have hτ := h τ.1 τ.2
     by_cases hp : π.1 = 1
-    · have hp' : (if π.1 = 1 then (0 : Fin 2) else 1) = 0 := if_pos hp
+    · have hp' : (if π.1 = 1 then (0 : Fin 2) else 1) = 0 := ite_eq_left hp
       rw [hp'] at heq
       have hq : τ.1 = 1 := by
         by_contra hq
-        have hq' : (if τ.1 = 1 then (0 : Fin 2) else 1) = 1 := if_neg hq
+        have hq' : (if τ.1 = 1 then (0 : Fin 2) else 1) = 1 := ite_eq_right hq
         rw [hq'] at heq
         exact absurd heq (by decide)
       exact Subtype.ext (hp.trans hq.symm)
-    · have hp' : (if π.1 = 1 then (0 : Fin 2) else 1) = 1 := if_neg hp
+    · have hp' : (if π.1 = 1 then (0 : Fin 2) else 1) = 1 := ite_eq_right hp
       rw [hp'] at heq
       have hq : ¬ τ.1 = 1 := by
         intro hq
-        have hq' : (if τ.1 = 1 then (0 : Fin 2) else 1) = 0 := if_pos hq
+        have hq' : (if τ.1 = 1 then (0 : Fin 2) else 1) = 0 := ite_eq_left hq
         rw [hq'] at heq
         exact absurd heq (by decide)
       exact Subtype.ext ((hπ.resolve_left hp).trans (hτ.resolve_left hq).symm)
@@ -270,8 +270,8 @@ private theorem ggQ2s08b1a_path_card_le {n : ℕ} (hn : 2 ≤ n)
     {M : CoxeterMatrix (Fin n)} {C : Matrix (Fin n) (Fin n) ℤ} (hC : GGIntCartan M C)
     (hM2 : ∀ i j, M i j = 2 ↔ ¬ ggQ2s08b1a_AdjA n i j)
     (hMv : ∀ i j, M i j ≤ 4) :
-    Nat.card {σ : Fin n ≃ Fin n // GGQ2S08DiagPerm 3 C σ} ≤ 2 :=
-  ggQ2s08b1a_card_le_two fun σ hσ =>
+    Nat.card {_σ : Fin n ≃ Fin n // GGQ2S08DiagPerm 3 C _σ} ≤ 2 :=
+  ggQ2s08b1a_card_le_two fun _σ hσ =>
     ggQ2s08b1a_path_aut hn (ggQ2s08b1a_adj_of_diagPerm hC hM2 hMv hσ)
 
 private theorem ggQ2s08b1a_D_card_le {n : ℕ} (hn : 6 ≤ n) {C : Matrix (Fin n) (Fin n) ℤ}

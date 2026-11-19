@@ -35,10 +35,10 @@ theorem exists_component_of_perfect_le_twE6 {K : Type} [Field K] [Finite K]
     rintro rfl
     rw [orderOf_one] at hs
     exact absurd hs (by norm_num)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI hcK : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
+  have : Fintype K := Fintype.ofFinite K
+  have hcK : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
-  haveI hcL : CharP (AlgebraicClosure K) 2 :=
+  have hcL : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   obtain ⟨S, a, ι, hq, hρ, hT, hap, h1, hin, hinj, hrange, hιs⟩ :=
     exists_stdSetup_of_inner hK σ hσ hs3 hs1
@@ -57,7 +57,7 @@ theorem exists_component_of_perfect_le_twE6 {K : Type} [Field K] [Finite K]
   have hCdrange : S.Γ ⊓ Subgroup.centralizer {d} ≤ ι.range := fun x hx => by
     rw [hrange]
     exact (Subgroup.mem_inf.1 hx).1
-  haveI : Finite (KernelComponent (rootCharHom a)) :=
+  have : Finite (KernelComponent (rootCharHom a)) :=
     (root_character_kernel_orthogonal_central_product Tag.E6 (AlgebraicClosure K)
       (rootCharHom a)).2.1
   have hcompR : ∀ i : KernelComponent (rootCharHom a),
@@ -83,7 +83,7 @@ theorem exists_component_of_perfect_le_twE6 {K : Type} [Field K] [Finite K]
     obtain ⟨i₀, hi₀⟩ : ∃ i, CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom a) i) := by
       by_contra hcon
       push Not at hcon
-      haveI : IsEmpty {i : KernelComponent (rootCharHom a) //
+      have : IsEmpty {i : KernelComponent (rootCharHom a) //
           CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom a) i)} :=
         ⟨fun ⟨i, hi⟩ => hcon i hi⟩
       rw [iSup_of_empty] at h2

@@ -126,7 +126,7 @@ theorem inv_mul_mem_of_card_eq_two_mul {S : Type*} [Group S] [Finite S] {H N : S
     rw [hcardH', hcard] at h1
     have hpos : 0 < Nat.card H := Nat.card_pos
     exact Nat.eq_of_mul_eq_mul_left hpos (by rw [h1, mul_comm])
-  haveI : H'.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : H'.Normal := Subgroup.normal_of_index_eq_two hidx
   obtain ⟨c, hc⟩ := Subgroup.index_eq_two_iff.mp hidx
   have hu : (⟨a, ha⟩ : N) * c ∈ H' := by
     have := hc ⟨a, ha⟩
@@ -158,8 +158,8 @@ theorem exists_eq_one_or_eq_of_card_eq_two {S : Type*} [Group S] {H : Subgroup S
 theorem exists_chain {S : Type*} [Group S] [Finite S] (hS : IsPGroup 2 S) (F : Subgroup S)
     (hF : F.Normal) (hcomm : ∀ a ∈ F, ∀ b ∈ F, a * b = b * a) (hsq : ∀ a ∈ F, a * a = 1)
     (h8 : 8 ≤ Nat.card F) : ∃ z x y : S, Chain z x y ∧ z ∈ F ∧ x ∈ F ∧ y ∈ F := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 S) := ⟨hS⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 S) := ⟨hS⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp (hS.to_subgroup F)
   have hk3 : 3 ≤ k := by
     by_contra hlt
@@ -180,8 +180,8 @@ theorem exists_chain {S : Type*} [Group S] [Finite S] (hS : IsPGroup 2 S) (F : S
   have hlt48 : F4 < F8 := lt_of_le_of_ne hF4le fun h => by
     rw [h, hF8c'] at hF4c'
     omega
-  obtain ⟨x, hxF4, hxF2⟩ := SetLike.exists_of_lt hlt24
-  obtain ⟨y, hyF8, hyF4⟩ := SetLike.exists_of_lt hlt48
+  obtain ⟨x, hxF4, hxF2⟩ := _root_.IsConcreteLE.exists_of_lt hlt24
+  obtain ⟨y, hyF8, hyF4⟩ := _root_.IsConcreteLE.exists_of_lt hlt48
   have hc24 : Nat.card F4 = 2 * Nat.card F2 := by rw [hF4c', hF2c']
   have hc48 : Nat.card F8 = 2 * Nat.card F4 := by rw [hF8c', hF4c']
   have hF2F : F2 ≤ F := hF2le.trans (hF4le.trans hF8le)

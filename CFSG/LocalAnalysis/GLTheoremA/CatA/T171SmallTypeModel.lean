@@ -39,7 +39,7 @@ theorem card_le_of_mulAut_rank {Ω : Type} [Group Ω] [Finite Ω] {B K D : Subgr
   have hker_card : Nat.card α.ker = 9 := by
     rw [hker, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDleB).toEquiv, hDcard]
   have hBtop : IsElemAbelian 3 (⊤ : Subgroup ↥B) := by
-    haveI : IsMulCommutative ↥B := hB.1
+    have : IsMulCommutative ↥B := hB.1
     refine ⟨⟨⟨fun a b => Subtype.ext (mul_comm' (a : ↥B) (b : ↥B))⟩⟩, fun a _ => ?_⟩
     exact Subtype.ext (by simpa using hB.2 (a : ↥B) a.2)
   have hrange_el : IsElemAbelian 3 α.range := by
@@ -81,10 +81,10 @@ theorem pRank_three_mulAut_u42 {Ω : Type} [Group Ω] [Finite Ω] {K : Subgroup 
       (CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 1
         (by rw [hcard]; norm_num) 4 (by norm_num) (by decide))
   have hZ : Subgroup.center ↥K = ⊥ := by
-    haveI : IsSimpleGroup ↥K := hKsimple
+    have : IsSimpleGroup ↥K := hKsimple
     have hnc : ¬ IsMulCommutative ↥K := by
       intro hc
-      haveI : IsMulCommutative ↥K := hc
+      have : IsMulCommutative ↥K := hc
       have hp : Nat.Prime (Nat.card ↥K) := (Group.is_simple_iff_prime_card).1 hKsimple
       rw [hKcard] at hp
       exact (by norm_num : ¬ Nat.Prime 25920) hp

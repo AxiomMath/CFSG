@@ -78,7 +78,7 @@ theorem cV_inj {M N : V0} (h : cV M = cV N) : M = N := by
 theorem cV_surj (n : ℕ) (hn : n < 256) : ∃ M : V0, cV M = n := by
   obtain ⟨hp, h0, h1, h2, h3⟩ := pk_f n hn
   refine ⟨Matrix.of ![![dF (f0 n), dF (f1 n)], ![dF (f2 n), dF (f3 n)]], ?_⟩
-  simp only [cV, Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+  simp only [cV, Matrix.of_apply, Matrix.cons_val_zero, Matrix.cons_val_one]
   rw [code_dF _ h0, code_dF _ h1, code_dF _ h2, code_dF _ h3, hp]
 
 theorem cV_zero : cV (0 : V0) = 0 := by

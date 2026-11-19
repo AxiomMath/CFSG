@@ -129,7 +129,7 @@ theorem matAct_invGen_idx4_succ {k n : ℕ} (hkn : k + 1 ≤ n) (hK : K = ![k, n
       mul_smul, hc, smul_zero]
   rw [invGen, map_zsmul, matAct_gen_eq, tw, invGen, invGen, invGen, hj]
   simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_two, Matrix.head_cons,
-    Matrix.tail_cons, smul_add, smul_smul, zero_smul, zero_add, h0]
+    Matrix.tail_cons, smul_add, smul_smul, zero_add, h0]
   module
 
 theorem map_tw_of_invGen (a : Torus K →+ Torus K) {a0 b0 c0 a1 b1 c1 a2 b2 c2 : ℤ}
@@ -316,34 +316,34 @@ theorem profile4_of_par (A : SigmaFourAction K)
   · rw [map_tw_idx4 hK hk hkn A.compat_uv hv1 hv2]
     refine tw_congr hk1 ?_ ?_ ?_
     · convert two_dvd_lin (a := 1) (b := 0) (c := 0) (o V00) (z even_zero) (z even_zero) x y z'
-        using 1 <;> ring
-    · convert two_dvd_lin (a := 1) (b := 1) (c := 0) (o pv1) (o V11) (z V12) x y z' using 1 <;>
+        using 1; ring
+    · convert two_dvd_lin (a := 1) (b := 1) (c := 0) (o pv1) (o V11) (z V12) x y z' using 1;
         ring
-    · convert two_dvd_lin (a := 1) (b := 0) (c := 1) (o pv2) (z V21) (o V22) x y z' using 1 <;>
+    · convert two_dvd_lin (a := 1) (b := 0) (c := 1) (o pv2) (z V21) (o V22) x y z' using 1;
         ring
   · rw [map_tw_idx4 hK hk hkn A.compat_t hw1 hw2]
     refine tw_congr hk1 ?_ ?_ ?_
     · convert two_dvd_lin (a := 1) (b := 0) (c := 0) (o W00) (z even_zero) (z even_zero) x y z'
-        using 1 <;> ring
-    · convert two_dvd_lin (a := 1) (b := 1) (c := 0) (o pw1) (o W11) (z W12) x y z' using 1 <;>
+        using 1; ring
+    · convert two_dvd_lin (a := 1) (b := 1) (c := 0) (o pw1) (o W11) (z W12) x y z' using 1;
         ring
-    · convert two_dvd_lin (a := 0) (b := 0) (c := 1) (z pw2) (z W21) (o W22) x y z' using 1 <;>
+    · convert two_dvd_lin (a := 0) (b := 0) (c := 1) (z pw2) (z W21) (o W22) x y z' using 1;
         ring
   · rw [map_tw_idx4 hK hk hkn A.compat_u hu1 hu2]
     refine tw_congr hk1 ?_ ?_ ?_
     · convert two_dvd_lin (a := 1) (b := 0) (c := 0) (o U00) (z even_zero) (z even_zero) x y z'
-        using 1 <;> ring
-    · convert two_dvd_lin (a := 0) (b := 0) (c := 1) (z pu1) (z U11) (o U12) x y z' using 1 <;>
+        using 1; ring
+    · convert two_dvd_lin (a := 0) (b := 0) (c := 1) (z pu1) (z U11) (o U12) x y z' using 1;
         ring
-    · convert two_dvd_lin (a := 0) (b := 1) (c := 0) (z pu2) (o U21) (z U22) x y z' using 1 <;>
+    · convert two_dvd_lin (a := 0) (b := 1) (c := 0) (z pu2) (o U21) (z U22) x y z' using 1;
         ring
   · rw [map_tw_idx4 hK hk hkn A.compat_ρ hr1 hr2]
     refine tw_congr hk1 ?_ ?_ ?_
     · convert two_dvd_lin (a := 1) (b := 0) (c := 0) (o R00) (z even_zero) (z even_zero) x y z'
-        using 1 <;> ring
-    · convert two_dvd_lin (a := 0) (b := 0) (c := 1) (z pr1) (z R11) (o R12) x y z' using 1 <;>
+        using 1; ring
+    · convert two_dvd_lin (a := 0) (b := 0) (c := 1) (z pr1) (z R11) (o R12) x y z' using 1;
         ring
-    · convert two_dvd_lin (a := 0) (b := 1) (c := 1) (z pr2) (o R21) (o R22) x y z' using 1 <;>
+    · convert two_dvd_lin (a := 0) (b := 1) (c := 1) (z pr2) (o R21) (o R22) x y z' using 1;
         ring
 
 include hK hk hkn in

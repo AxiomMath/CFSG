@@ -47,6 +47,7 @@ theorem two_le_finrank_commSp_of_card_ge (hσ : IsUnitaryInvolution σ) {E : Sub
   · omega
   · omega
 
+omit [Finite F] in
 theorem herm_eq_zero_of_span {G : Set (Fin 4 → F)} (hG : ∀ g ∈ G, ∀ g' ∈ G, herm σ g g' = 0) :
     ∀ u ∈ Submodule.span F G, ∀ u' ∈ Submodule.span F G, herm σ u u' = 0 := by
   intro u hu u' hu'
@@ -61,6 +62,7 @@ theorem herm_eq_zero_of_span {G : Set (Fin 4 → F)} (hG : ∀ g ∈ G, ∀ g' �
   | add v v' _ _ h1 h2 => rw [herm_add_left, h1, h2, add_zero]
   | smul c v _ h1 => rw [herm_smul_left, h1, mul_zero]
 
+omit [Finite F] in
 theorem commSp_le_fixSp_of_finrank_eq_two (hσ : IsUnitaryInvolution σ) (h2 : (2 : F) = 0)
     {E : Subgroup (SUid σ 4)} (hE2 : ∀ a ∈ E, a * a = 1)
     (hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a) (hu : Module.finrank F ↥(commSp E) = 2) :
@@ -68,14 +70,14 @@ theorem commSp_le_fixSp_of_finrank_eq_two (hσ : IsUnitaryInvolution σ) (h2 : (
   by_contra hnle
   obtain ⟨b, hb, x, hy⟩ : ∃ b ∈ E, ∃ x, b • x - x ∉ fixSp E := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hnle
     refine Submodule.span_le.mpr ?_
     rintro _ ⟨b, hb, x, rfl⟩
     exact hcon b hb x
   obtain ⟨a, ha, hay⟩ : ∃ a ∈ E, a • (b • x - x) ≠ b • x - x := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hy (mem_fixSp.mpr hcon)
   set y := b • x - x with hydef
   set z := a • y - y with hzdef
@@ -130,7 +132,7 @@ theorem commSp_le_fixSp_of_finrank_eq_two (hσ : IsUnitaryInvolution σ) (h2 : (
     rw [← hspan]
     refine herm_eq_zero_of_span ?_
     rintro g ⟨i, rfl⟩ g' ⟨j, rfl⟩
-    fin_cases i <;> fin_cases j <;> simpa [hyy, hyz, hzy, hzz]
+    fin_cases i <;> fin_cases j <;> simp [hyy, hyz, hzy, hzz]
   have hyfix : y ∈ fixSp E := by
     rw [fixSp_eq_horth hσ hE2]
     exact mem_horth.mpr fun u hu => hti u hu y (sub_mem_commSp hb x)
@@ -157,9 +159,11 @@ def PW (W : Submodule F (Fin 4 → F)) : Subgroup (SUid σ 4) where
       rw [inv_smul_eq_iff]
       exact this.symm
 
+omit [Finite F] in
 theorem mem_PW {W : Submodule F (Fin 4 → F)} {g : SUid σ 4} :
     g ∈ PW W ↔ (∀ x, g • x - x ∈ W) ∧ ∀ w ∈ W, g • w = w := Iff.rfl
 
+omit [Finite F] in
 theorem PW_sq (h2 : (2 : F) = 0) {W : Submodule F (Fin 4 → F)} {g : SUid σ 4}
     (hg : g ∈ PW W) : g * g = 1 := by
   refine ext_smul σ fun x => ?_
@@ -175,6 +179,7 @@ theorem PW_sq (h2 : (2 : F) = 0) {W : Submodule F (Fin 4 → F)} {g : SUid σ 4}
   calc g • x + (g • x - x) - x = (g • x - x) + (g • x - x) := by abel
     _ = 0 := by rw [← two_smul F, h2, zero_smul]
 
+omit [Finite F] in
 theorem PW_comm {W : Submodule F (Fin 4 → F)} {g g' : SUid σ 4}
     (hg : g ∈ PW W) (hg' : g' ∈ PW W) : g * g' = g' * g := by
   refine ext_smul σ fun x => ?_

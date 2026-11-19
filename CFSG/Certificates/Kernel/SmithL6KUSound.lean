@@ -46,7 +46,7 @@ theorem uaWC_range' {T : List Nat} (hT : ∀ k < 1953, T.getD k 0 = codeOf (tvPa
     rw [List.range'_succ, List.map_cons, List.foldr_cons, uaWC_cons, hb, hdiv, e]
     cases a.testBit s
     · exact ⟨rfl, hlt⟩
-    · rw [cond_true, if_pos rfl, hT _ hg, conjF_code hg hlt, tvTab_get hg hlt]
+    · rw [_root_.Bool.cond_true, ite_eq_left rfl, hT _ hg, conjF_code hg hlt, tvTab_get hg hlt]
       exact ⟨rfl, tvImg_lt hg hlt⟩
 
 theorem ugens_toList : ugens.toList = (List.range' 0 9).map (ugens[·]!) := by decide +kernel

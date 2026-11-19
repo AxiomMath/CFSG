@@ -84,7 +84,7 @@ private theorem w1369_addHom_eq_smul_of_commute_tensor (hd : 2 ≤ d)
     intro i j c
     by_cases hij : i = j
     · subst hij
-      haveI : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.2 hd
+      have : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.2 hd
       obtain ⟨k, hk⟩ : ∃ k : Fin d, k ≠ i := exists_ne i
       have he : Matrix.single i i c = Matrix.single i k c * Matrix.single k i (1 : K) := by
         rw [Matrix.single_mul_single_same, mul_one]
@@ -108,10 +108,10 @@ private theorem w1369_addHom_eq_smul_of_commute_tensor (hd : 2 ≤ d)
         1 + Matrix.single i j 1 := by
       rw [w1369_tv_val]
       simp [Matrix.transvection, Matrix.transpose_add, Matrix.transpose_single]
-    simp only [Matrix.SpecialLinearGroup.coe_one, Matrix.one_mul] at h
+    simp only at h
     rw [he] at h
     simp only [Subgroup.coe_one, Matrix.GeneralLinearGroup.coe_one,
-      Matrix.SpecialLinearGroup.coe_one, Matrix.one_mul, Matrix.mul_one] at h
+      Matrix.one_mul, Matrix.mul_one] at h
     rw [hFC (1 + Matrix.single i j 1)] at h
     simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one] at h
     exact add_left_cancel h
@@ -164,7 +164,7 @@ private theorem w1369_invariant_addSubgroup_eq_bot_or_top (hd : 2 ≤ d)
       intro i j c
       by_cases hij : i = j
       · subst hij
-        haveI : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.2 hd
+        have : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.2 hd
         obtain ⟨k, hk⟩ : ∃ k : Fin d, k ≠ i := exists_ne i
         have he : Matrix.single i i c = Matrix.single i k c * Matrix.single k i (1 : K) := by
           rw [Matrix.single_mul_single_same, mul_one]
@@ -210,7 +210,7 @@ private theorem w1369_invariant_addSubgroup_eq_bot_or_top (hd : 2 ≤ d)
       intro i j c
       by_cases hij : i = j
       · subst hij
-        haveI : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.2 hd
+        have : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.2 hd
         obtain ⟨k, hk⟩ : ∃ k : Fin d, k ≠ i := exists_ne i
         have he : Matrix.single i i c = Matrix.single i k c * Matrix.single k i (1 : K) := by
           rw [Matrix.single_mul_single_same, mul_one]
@@ -270,11 +270,12 @@ private theorem w1369_invariant_addSubgroup_eq_bot_or_top (hd : 2 ≤ d)
 
 end Helpers
 
+omit [Finite W] in
 theorem natTensor_isIrrOn {Y : Subgroup (MulAut W)} {U : Subgroup W} {d a : ℕ}
     (hd : 2 ≤ d) (h : NatTensor Y U ⊥ d a) : IsIrrOn Y U ⊥ ∧ fixV Y ⊓ U = ⊥ := by
   obtain ⟨K, hKfield, hKfinite, hKcard, hRealizes⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   obtain ⟨π, hVia⟩ := hRealizes
   obtain ⟨β, hβs, hβk, hβe⟩ :=
     FFModel.RealizesVia.coord (D := FFModel.tensorNat d K) rfl rfl hVia
@@ -295,7 +296,7 @@ theorem natTensor_isIrrOn {Y : Subgroup (MulAut W)} {U : Subgroup W} {d a : ℕ}
   have hUinv : ∀ y : ↥Y, ∀ u ∈ U, (y : MulAut W) u ∈ U := hVia.2.2.2.1
   have hUbot : U ≠ ⊥ := by
     intro hU
-    haveI : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.2 hd
+    have : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.2 hd
     have hne : (Multiplicative.ofAdd (1 : Matrix (Fin d) (Fin d) K)) ≠ 1 := by
       intro hh
       exact one_ne_zero (Multiplicative.ofAdd.injective hh)
@@ -388,8 +389,7 @@ theorem natTensor_isIrrOn {Y : Subgroup (MulAut W)} {U : Subgroup W} {d a : ℕ}
       have h := hfixβ (w1369_tv i j hij c, 1)
       rw [w1369_tv_val] at h
       simp only [Matrix.transvection, Matrix.add_mul, Matrix.one_mul, Matrix.transpose_one,
-        Matrix.mul_one, Subgroup.coe_one, Matrix.GeneralLinearGroup.coe_one,
-        Matrix.SpecialLinearGroup.coe_one, add_zero] at h
+        Matrix.mul_one, Subgroup.coe_one, Matrix.GeneralLinearGroup.coe_one] at h
       have h' : Multiplicative.toAdd (e ⟨w, hwU⟩) +
           Matrix.single i j c * Multiplicative.toAdd (e ⟨w, hwU⟩) =
           Multiplicative.toAdd (e ⟨w, hwU⟩) + 0 := by
@@ -398,7 +398,7 @@ theorem natTensor_isIrrOn {Y : Subgroup (MulAut W)} {U : Subgroup W} {d a : ℕ}
       exact add_left_cancel h'
     have hXzero : Multiplicative.toAdd (e ⟨w, hwU⟩) = 0 := by
       ext aa bb
-      haveI : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.2 hd
+      have : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.2 hd
       obtain ⟨i, hi⟩ : ∃ i : Fin d, i ≠ aa := exists_ne aa
       have h := congrFun (congrFun (hX0 i aa hi 1) i) bb
       rwa [Matrix.single_mul_apply_same, one_mul] at h
@@ -411,8 +411,8 @@ theorem natTensor_order3_even {Y : Subgroup (MulAut W)} {U : Subgroup W} {d a : 
     (hxU : StableUnder (Subgroup.zpowers x) U) (hcomm : ∀ y ∈ Y, x * y = y * x)
     (hfix : fixV (Subgroup.zpowers x) ⊓ U = ⊥) : Even a := by
   obtain ⟨K, hKfield, hKfinite, hKcard, hRealizes⟩ := h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   obtain ⟨π, hVia⟩ := hRealizes
   obtain ⟨β, hβs, hβk, hβe⟩ :=
     FFModel.RealizesVia.coord (D := FFModel.tensorNat d K) rfl rfl hVia
@@ -511,7 +511,7 @@ theorem natTensor_order3_even {Y : Subgroup (MulAut W)} {U : Subgroup W} {d a : 
     simpa using h3
   have hUbot : U ≠ ⊥ := by
     intro hU
-    haveI : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.2 hd
+    have : Nontrivial (Fin d) := Fin.nontrivial_iff_two_le.2 hd
     have hne : (Multiplicative.ofAdd (1 : Matrix (Fin d) (Fin d) K)) ≠ 1 := by
       intro hh
       exact one_ne_zero (Multiplicative.ofAdd.injective hh)
@@ -632,7 +632,7 @@ theorem Std139.conc134_of_moved (h134 : W4Lem13_4) (hw2 : ∀ w : W, w ^ 2 = 1)
 
 theorem Std139.selection (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n)
     {K : Subgroup (MulAut W)} {d : MulAut W} (hK : IsComponentOf K G) (hd : d ∈ D)
-    (hd1 : d ≠ 1) (hKd : K.map (MulAut.conj d).toMonoidHom ≠ K) (h134 : Conc4_134 G K d) :
+    (_hd1 : d ≠ 1) (_hKd : K.map (MulAut.conj d).toMonoidHom ≠ K) (h134 : Conc4_134 G K d) :
     IsL2 ↥K 2 ∧ NatTensor (swapPair K d) (commSub ⊤ (swapPair K d)) ⊥ 2 2 := by
   let z : MulAut W := Classical.choose (Std139.exists_gen hw2 S)
   have hzspec := Classical.choose_spec (Std139.exists_gen hw2 S)

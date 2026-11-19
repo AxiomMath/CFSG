@@ -36,7 +36,7 @@ theorem range_comp_inclusion_eq {H : Type*} [Group H] [Finite H] {z : H} {R0 : S
     rcases MonoidHom.mem_range.mp hg with ⟨y, rfl⟩
     exact hsign y
   have n : ψY.ker = f.ker := ker_comp_inclusion_eq hzR hR0 hker hY hf hfk
-  haveI : Nonempty f.ker := ⟨1, f.ker.one_mem⟩
+  have : Nonempty f.ker := ⟨1, f.ker.one_mem⟩
   have h1 : Nat.card f.ker * Nat.card ψY.range = Nat.card ↥Y := by
     rw [← n]
     exact Subgroup.card_ker_mul_card_range ψY

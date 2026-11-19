@@ -38,6 +38,7 @@ theorem exists_isotropic_of_le_normalizer [CharP F 2] {S E : Subgroup ↥(Stated
       exact h,
     fun g hg w hw => hWE g hg w hw⟩
 
+omit [Finite F] in
 theorem eqOn_of_fixes_flag [CharP F 2] {b : ↥(StatedSp ℓ F)} (hb3 : b ^ 3 = 1)
     {R Y : Submodule F (Fin ℓ ⊕ Fin ℓ → F)} (hbY : ∀ v ∈ Y, spEnd b v ∈ Y)
     (hbR : ∀ r ∈ R, spEnd b r = r)
@@ -137,6 +138,7 @@ theorem card_le_card_mul_pow_restrict [CharP F 2] (hF : Nat.card F = 2)
   calc Nat.card E = Nat.card ψ.ker * Nat.card ψ.range := hcard
     _ ≤ Nat.card N * 3 ^ (finrank F Y / 2) := Nat.mul_le_mul hkerN hrange
 
+omit [Finite F] in
 theorem mem_of_perp_of_lagrangian {R Y : Submodule F (Fin ℓ ⊕ Fin ℓ → F)} (hRY : R ≤ Y)
     (hY : ∀ y ∈ Y, (∀ y' ∈ Y, spForm ℓ F y y' = 0) → y = 0)
     (hR : ∀ u ∈ R, ∀ v ∈ R, spForm ℓ F u v = 0)
@@ -180,6 +182,7 @@ theorem mem_of_perp_of_lagrangian {R Y : Submodule F (Fin ℓ ⊕ Fin ℓ → F)
   rw [← heq] at hv'
   simpa [R', Submodule.mem_comap] using hv'
 
+omit [Finite F] in
 theorem spEnd_commutator_transvection [CharP F 2] {u v : Fin ℓ ⊕ Fin ℓ → F}
     (huv : spForm ℓ F u v = 1) (x : Fin ℓ ⊕ Fin ℓ → F) :
     spEnd ⁅spTransvection u (1 : F), spTransvection v (1 : F)⁆ x =
@@ -202,13 +205,14 @@ theorem spEnd_commutator_transvection [CharP F 2] {u v : Fin ℓ ⊕ Fin ℓ →
   have h4 : (4 : F) = 0 := by
     rw [show (4 : F) = 2 + 2 by norm_num, htwo, add_zero]
   simp only [Module.End.mul_apply, spEnd_spTransvection, map_add, map_smul, one_mul,
-    one_smul, smul_eq_mul, hvu, huu, hvv, huv, add_zero, zero_add, zero_smul, mul_zero, hnegF,
-    htwo, h3, h4, mul_one]
+    one_smul, hvu, huu, hvv, huv, add_zero, zero_smul, mul_zero, hnegF,
+    mul_one]
   have h2V : ∀ w : V, w + w = 0 := fun w => by
     rw [← two_smul F w, htwo, zero_smul]
   linear_combination (norm := module)
     (spForm ℓ F x u + 2 * spForm ℓ F x v) • h2V u + spForm ℓ F x v • h2V v
 
+omit [Finite F] in
 theorem commutator_transvection_pow_three [CharP F 2] {u v : Fin ℓ ⊕ Fin ℓ → F}
     (huv : spForm ℓ F u v = 1) :
     ⁅spTransvection u (1 : F), spTransvection v (1 : F)⁆ ^ 3 = 1 := by
@@ -241,8 +245,7 @@ theorem commutator_transvection_pow_three [CharP F 2] {u v : Fin ℓ ⊕ Fin ℓ
   have hc2 : spEnd c (spEnd c x) = x + (spForm ℓ F x u + spForm ℓ F x v) • u +
       spForm ℓ F x v • v := by
     rw [hc, hc]
-    simp only [map_add, map_smul, one_smul, smul_eq_mul, hvu, huu, hvv, huv, hnegF, htwo,
-      LinearMap.add_apply, LinearMap.smul_apply, add_zero, zero_add, zero_smul, mul_zero,
+    simp only [map_add, map_smul, smul_eq_mul, hvu, huu, hvv, huv, LinearMap.add_apply, LinearMap.smul_apply, add_zero, mul_zero,
       mul_one]
     linear_combination (norm := module) (spForm ℓ F x u) • h2V u +
       (2 * spForm ℓ F x u + spForm ℓ F x v) • h2V v
@@ -251,12 +254,12 @@ theorem commutator_transvection_pow_three [CharP F 2] {u v : Fin ℓ ⊕ Fin ℓ
         simp only [Module.End.mul_apply]
     _ = x := by
         rw [hc2, hc]
-        simp only [map_add, map_smul, one_smul, smul_eq_mul, hvu, huu, hvv, huv, hnegF, htwo,
-          LinearMap.add_apply, LinearMap.smul_apply, add_zero, zero_add, zero_smul, mul_zero,
+        simp only [map_add, map_smul, smul_eq_mul, hvu, huu, hvv, huv, LinearMap.add_apply, LinearMap.smul_apply, add_zero, mul_zero,
           mul_one]
         linear_combination (norm := module) (spForm ℓ F x u + spForm ℓ F x v) • h2V u +
           (spForm ℓ F x u + 2 * spForm ℓ F x v) • h2V v
 
+omit [Finite F] in
 theorem false_of_isotropic_of_move {W : Submodule F (Fin ℓ ⊕ Fin ℓ → F)}
     (hW : ∀ u ∈ W, ∀ v ∈ W, spForm ℓ F u v = 0) {κ : ↥(StatedSp ℓ F)}
     (hκ : ∀ w ∈ W, spEnd κ w ∈ W) {u v : Fin ℓ ⊕ Fin ℓ → F} (hu : u ∈ W)

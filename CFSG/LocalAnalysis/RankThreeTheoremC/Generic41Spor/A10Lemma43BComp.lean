@@ -22,6 +22,7 @@ theorem comp_commute {J₁ J₂ : Subgroup Y} (h₁ : IsComponentOf J₁ ⊤) (h
       (Subgroup.commutator_eq_bot_iff_le_centralizer.mp h) ha
     exact (Subgroup.mem_centralizer_iff.mp hmem b hb).symm
 
+omit [Finite Y] in
 theorem comp_conj {J : Subgroup Y} (hJ : IsComponentOf J ⊤) (y : Y) :
     IsComponentOf (J.map (MulAut.conj y).toMonoidHom) ⊤ :=
   (CFSG.isComponent_iff_open _).1

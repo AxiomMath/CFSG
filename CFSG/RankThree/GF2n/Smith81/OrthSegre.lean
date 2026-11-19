@@ -45,9 +45,11 @@ private theorem seg_polar_self (q : QuadraticForm K (ι → K)) (v : ι → K) :
     QuadraticMap.polar q v v = 0 := by
   rw [QuadraticMap.polar_self, two_nsmul, CharTwo.add_self_eq_zero]
 
+omit [CharP K 2] in
 private theorem seg_q_add (q : QuadraticForm K (ι → K)) (a b : ι → K) :
     q (a + b) = q a + q b + QuadraticMap.polar q a b := QuadraticMap.map_add q a b
 
+omit [CharP K 2] in
 private theorem seg_polar_comb (q : QuadraticForm K (ι → K)) (a b c d : ι → K) (x y z t : K) :
     QuadraticMap.polar q (x • a + y • b) (z • c + t • d) =
       x * z * QuadraticMap.polar q a c + x * t * QuadraticMap.polar q a d +
@@ -56,6 +58,7 @@ private theorem seg_polar_comb (q : QuadraticForm K (ι → K)) (a b c d : ι �
     QuadraticMap.polar_smul_left, QuadraticMap.polar_smul_right, smul_eq_mul]
   ring
 
+omit [CharP K 2] in
 private theorem seg_q_comb (q : QuadraticForm K (ι → K)) (a b : ι → K) (x y : K) :
     q (x • a + y • b) = x * x * q a + y * y * q b + x * y * QuadraticMap.polar q a b := by
   rw [seg_q_add, QuadraticMap.map_smul, QuadraticMap.map_smul, QuadraticMap.polar_smul_left,
@@ -119,6 +122,7 @@ private theorem seg_mem_of_singular (q : QuadraticForm K (ι → K)) (s y y' : �
 @[expose] def PolarFormNondeg (q : QuadraticForm K (ι → K)) : Prop :=
   ∀ u : ι → K, (∀ v : ι → K, QuadraticMap.polar q u v = 0) → u = 0
 
+omit [CharP K 2] in
 private theorem seg_exists_one (q : QuadraticForm K (ι → K)) (hnd : PolarFormNondeg q)
     {u : ι → K} (hu : u ≠ 0) : ∃ v, QuadraticMap.polar q u v = 1 := by
   by_contra hcon
@@ -157,6 +161,7 @@ private theorem seg_span_sing (q : QuadraticForm K (ι → K)) (hnd : PolarFormN
   refine seg_mem_of_singular q 0 u v hu hv huv (by simp) (by simp) _
     (fun z hz _ => Submodule.subset_span hz) x (by simp)
 
+omit [CharP K 2] in
 private theorem seg_exists_pair (q : QuadraticForm K (ι → K)) (hnd : PolarFormNondeg q)
     {y s : ι → K} (hind : ∀ a b : K, a • y + b • s = 0 → a = 0 ∧ b = 0) :
     ∃ v, QuadraticMap.polar q y v = 1 ∧ QuadraticMap.polar q s v = 0 := by
@@ -196,6 +201,7 @@ private theorem seg_exists_pair (q : QuadraticForm K (ι → K)) (hnd : PolarFor
   · have := congrArg Prod.snd hv
     simpa [f] using this
 
+omit [CharP K 2] in
 private theorem seg_par {x₁ x₂ y₁ y₂ : K} (hy : y₁ ≠ 0 ∨ y₂ ≠ 0) (h : x₁ * y₂ = x₂ * y₁) :
     ∃ l : K, x₁ = l * y₁ ∧ x₂ = l * y₂ := by
   by_cases h1 : y₁ = 0
@@ -210,6 +216,7 @@ private theorem seg_par {x₁ x₂ y₁ y₂ : K} (hy : y₁ ≠ 0 ∨ y₂ ≠ 
     · field_simp
       linear_combination -h
 
+omit [CharP K 2] in
 private theorem seg_pure_sum {c₁ c₂ c₁' c₂' d₁ d₂ : K} (hD : c₁ * c₂' - c₂ * c₁' ≠ 0)
     {x y z : ι → K} (h1 : c₁ • x + c₁' • y = d₁ • z) (h2 : c₂ • x + c₂' • y = d₂ • z) :
     ∃ l m : K, x = l • z ∧ y = m • z := by
@@ -226,6 +233,7 @@ private theorem seg_pure_sum {c₁ c₂ c₁' c₂' d₁ d₂ : K} (hD : c₁ * 
   · rw [mul_smul, ← ex, inv_smul_smul₀ hD]
   · rw [mul_smul, ← ey, inv_smul_smul₀ hD]
 
+omit [CharP K 2] in
 private theorem seg_singTensor_vec {q : QuadraticForm K (ι → K)} {c₁ c₂ : K} (hc : c₁ ≠ 0 ∨ c₂ ≠ 0)
     {x : ι → K} (h : SingTensor q (c₁ • x, c₂ • x)) : q x = 0 := by
   obtain ⟨d₁, d₂, u, hu, he⟩ := h
@@ -239,6 +247,7 @@ private theorem seg_singTensor_vec {q : QuadraticForm K (ι → K)} {c₁ c₂ :
       rw [mul_smul, ← h2, inv_smul_smul₀ hc]
     rw [this, QuadraticMap.map_smul, hu, smul_zero]
 
+omit [CharP K 2] in
 private theorem seg_tens_cancel {c₁ c₂ : K} (hc : c₁ ≠ 0 ∨ c₂ ≠ 0) {x y : ι → K}
     (h : (c₁ • x, c₂ • x) = (c₁ • y, c₂ • y)) : x = y := by
   have h1 : c₁ • x = c₁ • y := congrArg Prod.fst h
@@ -247,6 +256,7 @@ private theorem seg_tens_cancel {c₁ c₂ : K} (hc : c₁ ≠ 0 ∨ c₂ ≠ 0)
   · exact smul_right_injective _ hc h1
   · exact smul_right_injective _ hc h2
 
+omit [CharP K 2] in
 private theorem seg_two_tensors (q : QuadraticForm K (ι → K)) {p p' : (ι → K) × (ι → K)}
     (hp : p ≠ 0) (hp' : p' ≠ 0) (hS : ∀ a b : K, SingTensor q (a • p + b • p'))
     (hI : ∀ a b : K, a • p + b • p' = 0 → a = 0 ∧ b = 0) :
@@ -323,11 +333,13 @@ private theorem seg_two_tensors (q : QuadraticForm K (ι → K)) {p p' : (ι →
     · rw [hpe', hs'']
       exact Prod.ext (by simp [smul_smul]) (by simp [smul_smul])
 
+omit [CharP K 2] in
 private theorem singTensor_swap {q : QuadraticForm K (ι → K)} {x y : ι → K}
     (h : SingTensor q (x, y)) : SingTensor q (y, x) := by
   obtain ⟨c₁, c₂, u, hu, he⟩ := h
   exact ⟨c₂, c₁, u, hu, Prod.ext (congrArg Prod.snd he) (congrArg Prod.fst he)⟩
 
+omit [CharP K 2] in
 private theorem seg_sing_aux {q : QuadraticForm K (ι → K)} {u x y : ι → K} (hu : u ≠ 0)
     (h1 : SingTensor q (x, y)) (h2 : SingTensor q (u + x, y)) : ∃ b : K, y = b • u := by
   obtain ⟨d₁, d₂, z, hz, he⟩ := h1
@@ -369,10 +381,12 @@ namespace IsSegreMap
 variable {q : QuadraticForm K (ι → K)} {σ : K ≃+* K} {ρ : K}
   {F : (ι → K) × (ι → K) → (ι → K) × (ι → K)}
 
+omit [CharP K 2] in
 theorem map_zero (hF : IsSegreMap q σ ρ F) : F 0 = 0 := by
   have := hF.add 0 0
   simpa using this
 
+omit [CharP K 2] in
 theorem singTensor_map_iff (hF : IsSegreMap q σ ρ F) (w : (ι → K) × (ι → K)) :
     SingTensor q (F w) ↔ SingTensor q w := by
   have h0 : F w = 0 ↔ w = 0 :=
@@ -380,6 +394,7 @@ theorem singTensor_map_iff (hF : IsSegreMap q σ ρ F) (w : (ι → K) × (ι �
   rw [_root_.CFSG.RankThree.GF2n.Smith81.singTensor_iff,
     _root_.CFSG.RankThree.GF2n.Smith81.singTensor_iff, hF.typeA, h0]
 
+omit [CharP K 2] in
 theorem exists_inv (hF : IsSegreMap q σ ρ F) :
     ∃ G : (ι → K) × (ι → K) → (ι → K) × (ι → K), (∀ p, F (G p) = p) ∧ (∀ w, G (F w) = w) ∧
       (∀ p p', G (p + p') = G p + G p') ∧ (∀ (c : K) p, G (c • p) = σ.symm c • G p) := by
@@ -404,9 +419,11 @@ private def segM (q : QuadraticForm K (ι → K)) (p : (ι → K) × (ι → K))
 private def segTensL (a₁ a₂ : K) : (ι → K) →ₗ[K] (ι → K) × (ι → K) :=
   LinearMap.prod (a₁ • LinearMap.id) (a₂ • LinearMap.id)
 
+omit [CharP K 2] in
 private theorem segTensL_apply (a₁ a₂ : K) (x : ι → K) : segTensL a₁ a₂ x = (a₁ • x, a₂ • x) :=
   rfl
 
+omit [CharP K 2] in
 private theorem seg_segM_snd {q : QuadraticForm K (ι → K)} {u : ι → K} (hu : u ≠ 0)
     {y : (ι → K) × (ι → K)} (hy : y ∈ segM q ((u, 0) : (ι → K) × (ι → K))) :
     ∃ b : K, y.2 = b • u := by
@@ -426,6 +443,7 @@ private theorem seg_segM_snd {q : QuadraticForm K (ι → K)} {u : ι → K} (hu
     obtain ⟨b, hb⟩ := ihx
     exact ⟨c * b, by rw [Prod.smul_snd, hb, smul_smul]⟩
 
+omit [CharP K 2] in
 private theorem seg_segM_fst {q : QuadraticForm K (ι → K)} {u : ι → K} (hu : u ≠ 0)
     {y : (ι → K) × (ι → K)} (hy : y ∈ segM q ((0, u) : (ι → K) × (ι → K))) :
     ∃ b : K, y.1 = b • u := by
@@ -445,6 +463,7 @@ private theorem seg_segM_fst {q : QuadraticForm K (ι → K)} {u : ι → K} (hu
     obtain ⟨b, hb⟩ := ihx
     exact ⟨c * b, by rw [Prod.smul_fst, hb, smul_smul]⟩
 
+omit [CharP K 2] in
 private theorem seg_segM_inv {q : QuadraticForm K (ι → K)} {σ : K ≃+* K} {ρ : K}
     {F : (ι → K) × (ι → K) → (ι → K) × (ι → K)} (hF : IsSegreMap q σ ρ F)
     {G : (ι → K) × (ι → K) → (ι → K) × (ι → K)} (hG1 : ∀ p, F (G p) = p)
@@ -596,6 +615,7 @@ private def SegRep (σ : K ≃+* K) (F : (ι → K) × (ι → K) → (ι → K)
   ∀ c₁ c₂ : K, F (c₁ • u, c₂ • u) =
     ((g 0 0 * σ c₁ + g 0 1 * σ c₂) • u', (g 1 0 * σ c₁ + g 1 1 * σ c₂) • u')
 
+omit [CharP K 2] in
 private theorem seg_rep_of_step1 {q : QuadraticForm K (ι → K)} {σ : K ≃+* K} {ρ : K}
     {F : (ι → K) × (ι → K) → (ι → K) × (ι → K)} (hF : IsSegreMap q σ ρ F) {u u' : ι → K}
     {a b c d : K} (h1 : F (u, 0) = (a • u', b • u')) (h2 : F (0, u) = (c • u', d • u')) :
@@ -606,6 +626,7 @@ private theorem seg_rep_of_step1 {q : QuadraticForm K (ι → K)} {σ : K ≃+* 
   rw [e, hF.add, hF.smul, hF.smul, h1, h2]
   exact Prod.ext (by simp; module) (by simp; module)
 
+omit [CharP K 2] in
 private theorem seg_three_point {g h : Matrix (Fin 2) (Fin 2) K} (hh : h.det ≠ 0)
     (H : ∀ C₁ C₂ : K, (g 0 0 * C₁ + g 0 1 * C₂) * (h 1 0 * C₁ + h 1 1 * C₂) =
       (g 1 0 * C₁ + g 1 1 * C₂) * (h 0 0 * C₁ + h 0 1 * C₂)) :

@@ -19,7 +19,7 @@ theorem fixedCount_eq_two_pow_sub_rank {n : ℕ} (M : Matrix (Fin n) (Fin n) (ZM
   have hker : {y : Fin n → ZMod 2 // M.mulVec y = y} ≃
       LinearMap.ker (Matrix.mulVecLin (M - 1)) :=
     Equiv.subtypeEquivRight fun y => by
-      simp [LinearMap.mem_ker, Matrix.sub_mulVec, sub_eq_zero]
+      simp [LinearMap.mem_ker, sub_eq_zero]
   unfold fixedCount
   rw [Fintype.card_congr hker, Module.card_eq_pow_finrank (K := ZMod 2), ZMod.card 2]
   congr 1
@@ -35,7 +35,7 @@ theorem fixedCount_B_eq (g : NativeSporadic.B) :
 theorem card_dvd_sum_fixedCount_B (H : Subgroup NativeSporadic.B) [Fintype H] :
     Fintype.card H ∣ ∑ h : H, fixedCount (h : NativeSporadic.B).val.val := by
   classical
-  letI : MulAction H (Fin 4370 → ZMod 2) :=
+  let : MulAction H (Fin 4370 → ZMod 2) :=
     { smul := fun h v => ((h : NativeSporadic.B).val.val).mulVec v
       one_smul := fun v => by simp
       mul_smul := fun a b v => by
@@ -43,7 +43,7 @@ theorem card_dvd_sum_fixedCount_B (H : Subgroup NativeSporadic.B) [Fintype H] :
           (((a : H) : NativeSporadic.B).val.val).mulVec
             ((((b : H) : NativeSporadic.B).val.val).mulVec v)
         simp only [Subgroup.coe_mul, Units.val_mul, Submonoid.coe_mul, Matrix.mulVec_mulVec] }
-  haveI : Fintype (Quotient (MulAction.orbitRel H (Fin 4370 → ZMod 2))) := Quotient.fintype _
+  have : Fintype (Quotient (MulAction.orbitRel H (Fin 4370 → ZMod 2))) := Quotient.fintype _
   have hcard : ∀ h : H, Fintype.card (MulAction.fixedBy (Fin 4370 → ZMod 2) h) =
       fixedCount ((h : NativeSporadic.B).val.val) := by
     intro h

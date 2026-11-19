@@ -33,7 +33,7 @@ theorem sylow_barS (hS : IsSylowOf 2 S (Cen z)) : IsSylowOf 2 (barOf z S) ⊤ :=
       Subgroup.comap_map_eq_self_of_injective (Cen z).subtype_injective _]
   rw [h1, ← Sylow.coe_mapSurjective (toBar_surjective z) Q]
   rw [isSylowOf_iff]
-  refine ⟨le_top, (Sylow.mapSurjective (toBar_surjective z) Q).isPGroup', ?_⟩
+  refine ⟨le_top, (Sylow.mapSurjective (toBar_surjective z) Q).isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right]
   exact Sylow.not_dvd_index _
 
@@ -209,7 +209,7 @@ theorem S_isPGroup (hS : IsSylowOf 2 S (Cen z)) : IsPGroup 2 ↥S := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Q, hQ⟩ := hS
   rw [← hQ]
-  exact Q.isPGroup'.map (Cen z).subtype
+  exact Q.isPGroup.map (Cen z).subtype
 
 theorem rhoS_injective (hS : IsSylowOf 2 S (Cen z)) : Function.Injective (rhoS hS) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩

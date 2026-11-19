@@ -119,6 +119,7 @@ variable
 open SeriesN2Aux
 open CFSG.LocalAnalysis.EvenBN.TrialityD4.ProductCase (mem_centerMod_iff mem_centralizerMod_iff)
 
+omit [Finite K] in
 theorem Y₂_le_N₂ (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) :
     yamadaY₂ d t ≤ yamadaN₂ d t :=
@@ -584,7 +585,7 @@ variable
 
 theorem yamadaN₂_centers (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t)
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d)
-    (hsyl : IsSylowOf 2 (yamadaP d t) (yamadaN₂ d t)) {α : ↥(yamadaBarK₂ d t) ≃* SL(2, K)}
+    (_hsyl : IsSylowOf 2 (yamadaP d t) (yamadaN₂ d t)) {α : ↥(yamadaBarK₂ d t) ≃* SL(2, K)}
     (hex : ExactClosure (yamadaBarK₂ d t) α (yamadaT₂ d t) (yamadaBarP₂ d t) f) :
     yamadaN₂ d t ≤ normalizer (yamadaW₃ d t : Set G) ∧
       centerMod (yamadaY₂ d t) (yamadaN₂ d t) = yamadaW₃ d t ∧

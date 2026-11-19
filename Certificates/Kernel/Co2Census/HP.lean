@@ -346,7 +346,7 @@ theorem hp_cls_le {F : ℕ → ℕ} {er nr nf slot : ℕ} (her : er < 512) (hnr 
     h.choose else 1
   have hlift' : ∀ s ∈ KS, piK (lift s) * sElt nr * (piK (lift s))⁻¹ = s := by
     intro s hs
-    simp only [lift, dif_pos (hlift s hs)]
+    simp only [lift, dite_eq_left (hlift s hs)]
     exact (hlift s hs).choose_spec
   let Φ : K × ℕ → Hprime := fun p => lift p.1 * hpElt (fld21 (F p.2) 0) nr * (lift p.1)⁻¹
   have hmaps : Set.MapsTo Φ (KS ×ˢ FS) (conjSet (hpElt er nr)) := by

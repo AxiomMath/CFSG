@@ -186,7 +186,6 @@ theorem z_central {x : E} (hx : validE x = true) : mulE x zE = mulE zE x := by
   rw [st.model.map_mul _ _ hx hz, st.model.map_mul _ _ hz hx]
   first
   | exact hmem
-  | exact hmem.symm
 
 theorem cj_z {c : E} (hc : validE c = true) : conjE c zE = zE := by
   have : Fact (Nat.Prime 5) := fact5

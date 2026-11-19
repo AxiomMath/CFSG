@@ -69,7 +69,7 @@ theorem seg27_card_mul_card_le {G : Type*} [Group G] [Finite G] {A B C : Subgrou
 
 theorem seg27_exists_orderOf_prime {G : Type*} [Group G] [Finite G] (A : Subgroup G) {p : ℕ}
     (hp : p.Prime) (h : p ∣ Nat.card A) : ∃ g ∈ A, orderOf g = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := A) p h
   exact ⟨(x : G), x.2, by rw [Subgroup.orderOf_coe, hx]⟩
 
@@ -90,7 +90,7 @@ theorem seg27_mem_of_card_eq_two_mul_of_odd {G : Type*} [Group G] [Finite G] {X 
     (hodd : Odd (orderOf s)) : s ∈ X := by
   have hnorm : (X.subgroupOf S).Normal := seg27_subgroupOf_normal_of_card_eq_two_mul hXS hc
   have hindex : (X.subgroupOf S).index = 2 := seg27_index_subgroupOf_eq_two hXS hc
-  haveI : (X.subgroupOf S).Normal := hnorm
+  have : (X.subgroupOf S).Normal := hnorm
   have hsq' : (⟨s, hs⟩ : ↥S) ^ 2 ∈ X.subgroupOf S := by
     have := Subgroup.pow_index_mem (X.subgroupOf S) (⟨s, hs⟩ : ↥S)
     rwa [hindex] at this
@@ -119,10 +119,10 @@ theorem seg27_card_dvd_factorial {G : Type*} [Group G] [Finite G] [IsSimpleGroup
 
 private lemma seg27_sylow_five_subsingleton {G : Type*} [Group G] [Finite G]
     (h : Nat.card G = 45) : Subsingleton (Sylow 5 G) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let P : Sylow 5 G := default
-  haveI : (P : Subgroup G).FiniteIndex := inferInstance
-  haveI : Finite (Sylow 5 G) := Sylow.finite_of_finiteIndex P
+  have : (P : Subgroup G).FiniteIndex := inferInstance
+  have : Finite (Sylow 5 G) := Sylow.finite_of_finiteIndex P
   set n := Nat.card (Sylow 5 G) with hn
   have hmod : n % 5 = 1 := by
     have := card_sylow_modEq_one 5 G
@@ -150,10 +150,10 @@ private lemma seg27_sylow_five_subsingleton {G : Type*} [Group G] [Finite G]
 
 private lemma seg27_sylow_three_subsingleton {G : Type*} [Group G] [Finite G]
     (h : Nat.card G = 45) : Subsingleton (Sylow 3 G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Q : Sylow 3 G := default
-  haveI : (Q : Subgroup G).FiniteIndex := inferInstance
-  haveI : Finite (Sylow 3 G) := Sylow.finite_of_finiteIndex Q
+  have : (Q : Subgroup G).FiniteIndex := inferInstance
+  have : Finite (Sylow 3 G) := Sylow.finite_of_finiteIndex Q
   set n := Nat.card (Sylow 3 G) with hn
   have hmod : n % 3 = 1 := by
     have := card_sylow_modEq_one 3 G
@@ -181,10 +181,10 @@ private lemma seg27_sylow_three_subsingleton {G : Type*} [Group G] [Finite G]
 
 theorem seg27_exists_orderOf_fifteen {G : Type*} [Group G] [Finite G] (h : Nat.card G = 45) :
     ∃ g : G, orderOf g = 15 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Subsingleton (Sylow 5 G) := seg27_sylow_five_subsingleton h
-  haveI : Subsingleton (Sylow 3 G) := seg27_sylow_three_subsingleton h
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Subsingleton (Sylow 5 G) := seg27_sylow_five_subsingleton h
+  have : Subsingleton (Sylow 3 G) := seg27_sylow_three_subsingleton h
   let P : Sylow 5 G := default
   let Q : Sylow 3 G := default
   have hPnorm : (P : Subgroup G).Normal := Sylow.normal_of_subsingleton P

@@ -180,6 +180,7 @@ private theorem eq_pair_of_ncard_le_two {L I : Subgroup G}
   · rw [Set.ncard_pair hLI]
     exact hcard
 
+omit [Finite G] in
 private theorem map_conj_eq_left_or_right_of_pair
     {L I J : Subgroup G} (hS : {K : Subgroup G | IsPComponentIn p K H ∧ ¬ K ≤ M} = {L, I})
     (hJ : IsPComponentIn p J H) (hJM : ¬ J ≤ M) {t : G} (htH : t ∈ H) (htM : t ∈ M) :
@@ -204,6 +205,7 @@ private theorem map_conj_eq_left_or_right_of_pair
   rw [hS] at hmem
   simpa only [Set.mem_insert_iff, Set.mem_singleton_iff] using hmem
 
+omit [Finite G] in
 private theorem mem_normalizer_of_odd_orderOf_of_Kconjugates
     {K L I : Subgroup G} (hKleH : K ≤ H) (hKleM : K ≤ M)
     (hLI : L ≠ I) (hL : IsPComponentIn p L H) (hLM : ¬ L ≤ M)
@@ -284,6 +286,7 @@ private theorem mem_centralizingInV_iff {p : ℕ} {H V J : Subgroup G} {v : G} (
     refine Subgroup.mem_inf.mpr ⟨?_, hvV⟩
     exact Subgroup.mem_map.mpr ⟨⟨v, hvH⟩, Subgroup.mem_comap.mpr hcent, rfl⟩
 
+omit [Finite G] in
 private theorem starImg_mem_normalizer_of_mem_normalizer {p : ℕ} {H J : Subgroup G} {t : G}
     (htH : t ∈ H) (hJ : t ∈ Subgroup.normalizer (J : Set G)) :
     (QuotientGroup.mk' (primeComplementCore (G := ↥H) p) ⟨t, htH⟩) ∈
@@ -295,6 +298,7 @@ private theorem starImg_mem_normalizer_of_mem_normalizer {p : ℕ} {H J : Subgro
   rw [hJmap] at h
   exact h.symm
 
+omit [Finite G] in
 private theorem map_conj_mem_centralizingInV_of_normalizer {p : ℕ} {H V J : Subgroup G} {t v : G}
     (hVH : V ≤ H) (htH : t ∈ H) (hV : t ∈ Subgroup.normalizer (V : Set G))
     (hJ : t ∈ Subgroup.normalizer (J : Set G))
@@ -340,6 +344,7 @@ private noncomputable def actionOnStar (p : ℕ) (H V J : Subgroup G) (hVH : V �
     starImg_mem_normalizer_of_mem_normalizer (hVH v.2) (hVJ v.2)
   (starImg p H J).normalizerMonoidHom.comp ψ
 
+omit [Finite G] in
 private theorem actionOnStar_apply (p : ℕ) (H V J : Subgroup G) (hVH : V ≤ H)
     (hVJ : V ≤ Subgroup.normalizer (J : Set G)) (v : V) (x : ↥(starImg p H J)) :
     ((actionOnStar p H V J hVH hVJ v) x : StarGroup p H) =
@@ -354,6 +359,7 @@ private theorem actionOnStar_apply (p : ℕ) (H V J : Subgroup G) (hVH : V ≤ H
   rw [Subgroup.normalizerMonoidHom_apply_apply_coe]
   rfl
 
+omit [Finite G] in
 private theorem centralizingInV_eq_ker_map (p : ℕ) (H V J : Subgroup G) (hVH : V ≤ H)
     (hVJ : V ≤ Subgroup.normalizer (J : Set G)) :
     centralizingInV p H V J =
@@ -544,7 +550,7 @@ private theorem center_starImg_eq_bot_of_pair
       (nineSixTwoComp_holds G M E H E p h hH2 hpσ hnotlayer)
   have hkSub : kSub p M H = L ⊔ I := by
     unfold kSub
-    rw [if_neg hnotlayer, hS]
+    rw [ite_eq_right hnotlayer, hS]
     simp [sSup_insert, sSup_singleton]
   have hkStar : kStar p M H = starImg p H L ⊔ starImg p H I := by
     rw [kStar_eq_starImg, hkSub, starImg_sup' hL.1 hI.1]
@@ -803,6 +809,7 @@ private theorem le_fixed_or_eq_inverted {V F J D : Subgroup G} {t : G}
     rw [hDeq]
     exact Subgroup.zpowers_le.mpr hdJ
 
+omit [Finite G] in
 private theorem map_conj_centralizingInV_le {p : ℕ} {H V J J' : Subgroup G} {t v : G}
     (hVH : V ≤ H) (htH : t ∈ H) (hV : t ∈ Subgroup.normalizer (V : Set G))
     (hJJ' : J.map (MulAut.conj t).toMonoidHom = J')
@@ -843,6 +850,7 @@ private theorem map_conj_centralizingInV_le {p : ℕ} {H V J J' : Subgroup G} {t
     _ = wbar * (vbar * (wbar⁻¹ * y * wbar)) * wbar⁻¹ := by rw [hcomm]
     _ = (wbar * vbar * wbar⁻¹) * y := by group
 
+omit [Finite G] in
 private theorem mem_normalizer_right_of_fixes_left
     {L I : Subgroup G} (hS : {K : Subgroup G | IsPComponentIn p K H ∧ ¬ K ≤ M} = {L, I})
     (hLI : L ≠ I) (hI : IsPComponentIn p I H) (hIM : ¬ I ≤ M)
@@ -872,6 +880,7 @@ private theorem false_of_invariant_centralizingInV
     simpa using hmem
   exact hIM (hc.le_M_of_starImg_le_centralizer D hI hWV hcard hcent hWL)
 
+omit [Finite G] in
 private theorem centralizingInV_invariant_under_triple
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {I : Subgroup G}
     (hVH : D.V ≤ H)
@@ -1168,7 +1177,7 @@ private theorem centralizingInV_inf_eq_bot
       (nineSixTwoComp_holds G M E H E p h hH2 hpσ hnotlayer)
   have hkSub : kSub p M H = L ⊔ I := by
     unfold kSub
-    rw [if_neg hnotlayer, hS]
+    rw [ite_eq_right hnotlayer, hS]
     simp [sSup_insert, sSup_singleton]
   have hkStar : kStar p M H = starImg p H L ⊔ starImg p H I := by
     rw [kStar_eq_starImg, hkSub, starImg_sup' hL.1 hI.1]
@@ -1527,6 +1536,7 @@ private theorem card_centralizingInV_eq_three_of_swap
     eq_three_of_dvd_27_of_mul_self_le hCIdvd hCIneCard hcardLe'
   exact ⟨by rw [hcardEq, hCI3], hCI3⟩
 
+omit [Finite G] in
 private theorem conj_actionOnStar (p : ℕ) (H V J : Subgroup G) (hVH : V ≤ H)
     (hVJ : V ≤ Subgroup.normalizer (J : Set G))
     (t : G) (htH : t ∈ H) (htJ : t ∈ Subgroup.normalizer (J : Set G))
@@ -1658,6 +1668,7 @@ private theorem map_mul_conj_eq_left_of_swaps {L I : Subgroup G} {t s : G}
     simp [MulAut.conj_apply, mul_assoc]
   rw [hcomp, ← Subgroup.map_map, hs, ht]
 
+omit [Finite G] in
 private theorem map_conj_eq_left_of_swap
     {L I : Subgroup G} (hS : {J : Subgroup G | IsPComponentIn p J H ∧ ¬ J ≤ M} = {L, I})
     (hLI : L ≠ I) (hI : IsPComponentIn p I H) (hIM : ¬ I ≤ M)
@@ -1816,6 +1827,7 @@ private theorem sup_centralizingInV_eq_sup_of_two_swap
     exact Subgroup.eq_of_le_of_card_ge hle (by rw [hcardCLCI, hcardWiWj])
   exact ⟨hsupEq, by rw [hVeq, hsupEq]⟩
 
+omit [Finite G] in
 private theorem two_swap_kernel
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {L CL : Subgroup G}
     (hVH : D.V ≤ H) (hVL : D.V ≤ Subgroup.normalizer (L : Set G))
@@ -2043,6 +2055,7 @@ private theorem two_swap_case_C
   exact le_Wk_or_le_sup_WiWj_of_invariant D hWiV hWjV hWkV hV hCle hcardC
     hCinvIJ hfixWk hinvWij
 
+omit [Finite G] in
 private theorem not_le_sup_of_centralizingInV
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {L I Wj Wk CL CI : Subgroup G} {ti : G}
     (hVH : D.V ≤ H) (hIHi : ti ∈ H)
@@ -2109,6 +2122,7 @@ private theorem false_of_two_swaps_case
     hfixCL hfixCI hnotCLWk hnotCIWk hfixK hfixIJ hinvWk hinvWij
     hIHk hCVk hIHi hCVi hIHj hCVj hVH hVL
 
+omit [Finite G] in
 private theorem false_of_one_swap_case
     (D : TwelveSixIData H L₁ L₂ L₃ n₁ n₂ n₃) {L I Wi Wj Wk CL CI : Subgroup G} {ti : G}
     (hVH : D.V ≤ H) (hIHi : ti ∈ H)
@@ -2142,6 +2156,7 @@ private theorem pair_three_cards
       Nat.card (centralizingInV 3 H D.V I) = 3 :=
   card_centralizingInV_eq_three_of_swap hc D h hH2 hpσ hLI hL hLM hI hIM hVI hIL2 htH htV hswap
 
+omit [Finite G] in
 private theorem fix_I_of_fix_L {L I : Subgroup G}
     (hS : {J : Subgroup G | IsPComponentIn 3 J H ∧ ¬ J ≤ M} = {L, I})
     (hLI : L ≠ I) (hI : IsPComponentIn 3 I H) (hIM : ¬ I ≤ M)

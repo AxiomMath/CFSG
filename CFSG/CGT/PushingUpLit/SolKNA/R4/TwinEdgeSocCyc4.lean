@@ -40,8 +40,8 @@ theorem socleCyc4_u3 {F : Type} [Group F] [Finite F] (h : SmallU3Ne3 F) : SocleC
   obtain ⟨-, h5⟩ := Q5L5U5.five_le hp hp2 hf h3
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f K :=
     ⟨hp, hf, by rw [hK, ← pow_mul, mul_comm]⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := hU.charP
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := hU.charP
   have hcardF : Nat.card (CFSG.LieType.Steinberg.fixedSubfield K p f) = p ^ f :=
     CFSG.LieType.Steinberg.card_fixedSubfield hK
   have hF₀ : ringChar (CFSG.LieType.Steinberg.fixedSubfield K p f) ≠ 2 :=

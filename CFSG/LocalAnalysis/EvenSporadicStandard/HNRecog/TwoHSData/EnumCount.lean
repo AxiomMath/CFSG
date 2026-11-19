@@ -34,7 +34,7 @@ private theorem ncard_filter_size (E : Array Table) (b : Table → Bool) :
       Array.countP_eq_size_filter (p := b) (xs := E)]
   rw [← hlen]
   exact ncard_eq_length_of_nodup ((List.nodup_range (n := E.size)).filter _) fun x => by
-    simp only [Set.mem_setOf_eq, List.mem_filter, List.mem_range]
+    simp only [Set.mem_ofPred_eq, List.mem_filter, List.mem_range]
 
 theorem getElem!_map_of_lt_size {α β : Type*} [Inhabited α] [Inhabited β] (f : α → β)
     (a : Array α) {i : ℕ} (hi : i < a.size) : (a.map f)[i]! = f a[i]! := by
@@ -84,10 +84,10 @@ theorem IsEnumSet.ncard_filter {n : ℕ} {E : Array Table} {S : Set (Equiv.Perm 
     fun k => if hk : k < E.size then Classical.choose (h.rep k hk) else 1
   have hπrep : ∀ k (hk : k < E.size), Rep n E[k]! (π k) := by
     intro k hk
-    simpa only [π, dif_pos hk] using (Classical.choose_spec (h.rep k hk)).2
+    simpa only [π, dite_eq_left hk] using (Classical.choose_spec (h.rep k hk)).2
   have hπmem : ∀ k (hk : k < E.size), π k ∈ S := by
     intro k hk
-    simpa only [π, dif_pos hk] using (Classical.choose_spec (h.rep k hk)).1
+    simpa only [π, dite_eq_left hk] using (Classical.choose_spec (h.rep k hk)).1
   have himage : π '' {k : ℕ | k < E.size} = S := by
     apply Set.Subset.antisymm
     · rintro g ⟨k, hk, rfl⟩
@@ -112,7 +112,7 @@ theorem IsEnumSet.ncard_filter {n : ℕ} {E : Array Table} {S : Set (Equiv.Perm 
       exact ⟨hπmem k hk, (hb (E[k]!) (π k) (hπrep k hk)).1 hbk⟩
   have hinj' : Set.InjOn π s' := by
     intro k hk l hl hkl
-    simp only [s', Set.mem_setOf_eq] at hk hl
+    simp only [s', Set.mem_ofPred_eq] at hk hl
     exact hinj hk.1 hl.1 hkl
   have hTs : T.ncard = s'.ncard := by
     rw [hT, hinj'.ncard_image]

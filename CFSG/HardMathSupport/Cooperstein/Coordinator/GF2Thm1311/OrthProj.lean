@@ -21,7 +21,7 @@ variable {K : Type} [Field K] [CharP K 2] {d : ℕ}
 @[expose] def Frame.leviEquiv {V : Type*} [AddCommGroup V] [Module K V] {σ : K ≃+* K}
     {Q : QuadraticForm K V} {T : V →ₛₗ[(σ : K →+* K)] V} {r : ℕ} (F : Frame Q T r)
     (M M' : Matrix (Fin r) (Fin r) K) (h1 : M * M' = 1) (h2 : M' * M = 1) : V ≃ₗ[K] V :=
-  LinearEquiv.ofLinear (F.levi M M') (F.levi M' M)
+  LinearEquiv.ofLinearMap (F.levi M M') (F.levi M' M)
     (LinearMap.ext fun v => by
       rw [LinearMap.comp_apply, Frame.levi_levi, h1, Frame.levi_one]
       rfl)
@@ -29,6 +29,7 @@ variable {K : Type} [Field K] [CharP K 2] {d : ℕ}
       rw [LinearMap.comp_apply, Frame.levi_levi, h2, Frame.levi_one]
       rfl)
 
+omit [CharP K 2] in
 theorem Frame.leviEquiv_pow {V : Type*} [AddCommGroup V] [Module K V] {σ : K ≃+* K}
     {Q : QuadraticForm K V} {T : V →ₛₗ[(σ : K →+* K)] V} {r : ℕ} (F : Frame Q T r)
     (M M' : Matrix (Fin r) (Fin r) K) (h1 : M * M' = 1) (h2 : M' * M = 1) (m : ℕ) (v : V) :
@@ -40,6 +41,7 @@ theorem Frame.leviEquiv_pow {V : Type*} [AddCommGroup V] [Module K V] {σ : K �
     show F.levi (M ^ m) (M' ^ m) (F.levi M M' v) = _
     rw [Frame.levi_levi, pow_succ, pow_succ']
 
+omit [CharP K 2] in
 theorem bigInv_of_frame [Finite K] (Q : QuadraticForm K (Fin d → K)) (g : similarityPairs Q)
     (hgg : g * g = 1) (hZ : matrixDerivedScalars Q = ⊥)
     (hab : Nat.card (Abelianization (matrixIsometries Q)) ≤ 2)

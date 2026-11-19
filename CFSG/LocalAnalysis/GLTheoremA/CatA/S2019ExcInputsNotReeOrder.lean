@@ -194,7 +194,7 @@ theorem not_lie_char_of_card_ree (hb : LieOrderBridge) {T : Type} [Group T] [Fin
 private theorem eight_dvd_pow_two_mul_sub_one {Q : ℕ} (hQ : Odd Q) (k : ℕ) : 8 ∣ Q ^ (2 * k) - 1 := by
   exact (Nat.eight_dvd_sq_sub_one_of_odd hQ).trans (Nat.pow_sub_one_dvd_pow_sub_one Q (dvd_mul_right 2 k))
 
-private theorem sixteen_dvd_pow_four_mul_sub_one {Q : ℕ} (hQ : Odd Q) {k : ℕ} (hk : 1 ≤ k) :
+private theorem sixteen_dvd_pow_four_mul_sub_one {Q : ℕ} (hQ : Odd Q) {k : ℕ} (_hk : 1 ≤ k) :
     16 ∣ Q ^ (4 * k) - 1 := by
   have h4 : 16 ∣ Q ^ 4 - 1 := by
     have hQ1 : 1 ≤ Q ^ 2 := Nat.one_le_pow _ _ hQ.pos

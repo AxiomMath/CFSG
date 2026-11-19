@@ -90,7 +90,7 @@ theorem omegaToPerm_siegel0_ne_one : omegaToPerm siegel0 ≠ 1 := by
   exact hmove (congrArg Subtype.val h1)
 
 theorem omegaToPerm_injective : Function.Injective omegaToPerm := by
-  haveI := isSimpleGroup_omegaPlus
+  have := isSimpleGroup_omegaPlus
   rw [← MonoidHom.ker_eq_bot_iff]
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal omegaToPerm.ker with h | h
   · exact h
@@ -159,7 +159,7 @@ theorem mul_tvP_mul_inv {g : Equiv.Perm (Fin 365211)} (hg : g ∈ TD6) (p : Fin 
   exact conj_siegelK hx' p.2 (actPerm ⟨x.1, hx⟩ p).2 (lineSet_actPerm ⟨x.1, hx⟩ p)
 
 theorem isSimpleGroup_TD6 : IsSimpleGroup TD6 := by
-  haveI := isSimpleGroup_omegaPlus
+  have := isSimpleGroup_omegaPlus
   exact omegaTD6.symm.isSimpleGroup
 
 theorem siegelK_commSpace {k : ℕ} (hk : k < 365211) :
@@ -172,7 +172,7 @@ theorem siegelK_commSpace {k : ℕ} (hk : k < 365211) :
   exact commSpace_eichler Q12_polarBilin_nondegenerate (by rw [Q12_apply]; exact hT.1)
     (by rw [polar_Q12]; exact hT.2.2) (OrthoF2.linearIndependent_pair_iff.mpr ⟨hu, hw, huw⟩)
 
-theorem lineSet_subset_of_span_eq {k l : ℕ} (hk : k < 365211) (hl : l < 365211)
+theorem lineSet_subset_of_span_eq {k l : ℕ} (hk : k < 365211) (_hl : l < 365211)
     (h : Submodule.span (ZMod 2) {dec12 (linePair k).1, dec12 (linePair k).2} =
       Submodule.span (ZMod 2) {dec12 (linePair l).1, dec12 (linePair l).2}) :
     lineSet k ⊆ lineSet l := by

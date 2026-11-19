@@ -116,7 +116,7 @@ theorem exists_plane (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) :
     have := Subgroup.card_le_of_le hle
     rw [hset.card_A, ha3] at this
     norm_num at this
-  obtain ⟨e₁, he₁A, he₁⟩ := SetLike.not_le_iff_exists.mp hnle1
+  obtain ⟨e₁, he₁A, he₁⟩ := IsConcreteLE.not_le_iff_exists.mp hnle1
   have he₁1 : e₁ ≠ 1 := fun h => he₁ (h ▸ one_mem _)
   have he₁3 := hord e₁ he₁A he₁1
   set B₁ := Subgroup.zpowers abar ⊔ Subgroup.zpowers e₁ with hB₁
@@ -127,7 +127,7 @@ theorem exists_plane (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) :
     have := Subgroup.card_le_of_le hle
     rw [hset.card_A, hB₁9] at this
     norm_num at this
-  obtain ⟨e₂, he₂A, he₂⟩ := SetLike.not_le_iff_exists.mp hnle2
+  obtain ⟨e₂, he₂A, he₂⟩ := IsConcreteLE.not_le_iff_exists.mp hnle2
   have he₂1 : e₂ ≠ 1 := fun h => he₂ (h ▸ one_mem _)
   have he₂3 := hord e₂ he₂A he₂1
   have he₂₁ : e₂ ∉ Subgroup.zpowers e₁ := fun h => he₂ (Subgroup.mem_sup_right h)
@@ -154,8 +154,8 @@ theorem false_of_trivOn (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) [hXn : X
     (hS : InvTwo Abar Ybar S) (hT : InvTwo Abar Ybar T) (hST : S ⊔ T = Ybar)
     (hsupp : S ⊓ Subgroup.centralizer ({e} : Set M) = ⊥ ∨
       T ⊓ Subgroup.centralizer ({e} : Set M) = ⊥) : False := by
-  haveI hUn := hP.normal_left
-  haveI hVn := hP.normal_right
+  have hUn := hP.normal_left
+  have hVn := hP.normal_right
   have hA3 : ∀ g ∈ Abar, g ^ 3 = 1 := hset.isElemAbelian.2
   set σ := MulAut.conjNormal (H := Xbar) e with hσ
   have hσapp : ∀ g : ↥Xbar, ((σ g : ↥Xbar) : M) = e * g * e⁻¹ := fun g =>
@@ -366,8 +366,8 @@ open Wales1411W Wales1411W.HJA6A6 Res9Pair in
 theorem ks1411HJCoreA6A6 : KS1411HJCoreA6A6 := by
   intro M _ _ Ybar Abar Xbar Rbar abar hset hX S T hS hT hST hsupp
   exfalso
-  haveI := HJInner.normal_X hset
-  haveI := hset.perfect
+  have := HJInner.normal_X hset
+  have := hset.perfect
   obtain ⟨U, V, hP⟩ := exists_isPair hX
   have hnot : ∀ e ∈ Abar, ¬ Ybar ≤ Subgroup.centralizer ({e} : Set M) ∨ e ∈ Subgroup.zpowers abar :=
     fun e heA => by
@@ -396,7 +396,7 @@ theorem ks1411HJCoreA6A6 : KS1411HJCoreA6A6 := by
       rw [hset.card_A, Nat.card_zpowers,
         orderOf_eq_prime (hset.isElemAbelian.2 abar hset.mem_A) hset.ne_one] at hc
       norm_num at hc
-    obtain ⟨e, heA, hea⟩ := SetLike.not_le_iff_exists.mp hnle
+    obtain ⟨e, heA, hea⟩ := IsConcreteLE.not_le_iff_exists.mp hnle
     apply hea
     apply hset.mem_zpowers e heA
     intro y hy

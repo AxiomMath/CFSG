@@ -33,7 +33,7 @@ section G2
 theorem noL34Layer_fieldActor_odd {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 2) (hf : 1 ≤ f)
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = (ℓ ^ f) ^ 3) (σ : K ≃+* K)
     (hσ : ∀ c, σ c = c ^ (ℓ ^ f)) : NoL34Layer (fieldActor (t := TwistTag.D4) σ σ) := by
-  haveI := TriD4Aux.finite_graphFixedRootGroup_D4 σ
+  have := TriD4Aux.finite_graphFixedRootGroup_D4 σ
   have hs := isSimpleGroup_fixSubgroup_fieldActor_D4 ℓ f hℓ hℓ2 K hK σ hσ
   have hnab := nonabelian_fixSubgroup_fieldActor_D4 ℓ f hℓ hℓ2 K hK σ hσ
   refine noL34Layer_of_fixed_equiv _ (MulEquiv.refl _) hs hnab fun hT => ?_

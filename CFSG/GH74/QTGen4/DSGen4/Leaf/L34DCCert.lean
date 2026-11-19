@@ -95,8 +95,7 @@ theorem mat_entries (c a b : KF) (t : Units KF) :
     Matrix.SpecialLinearGroup.coe_mul, coe_dMat]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [wMat, xMat, yMat, xM, yM, wM, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal] <;>
-    ring
+    simp [wMat, xMat, yMat, xM, yM, wM, Matrix.mul_apply, Matrix.diagonal]
 
 theorem nfY_eq_proj (x : Elt) : nfY x =
     proj 3 KF (wMat (psi x.2.2.1) * xMat (psi x.1) * yMat (psi x.2.1) * dMat (tU x.2.2.2) 1) := by
@@ -109,7 +108,7 @@ theorem elt_idx (x : Elt) : elt (idx x) = x := by
   have hc := c.isLt
   have hk := k.isLt
   simp only [elt, idx, idxN, Prod.mk.injEq, GF4.mk.injEq, Fin.ext_iff]
-  refine ⟨?_, ?_, ?_, ?_⟩ <;> (try simp only [Fin.val_mk]) <;> omega
+  refine ⟨?_, ?_, ?_, ?_⟩ <;> omega
 
 theorem idx_elt (i : Fin 192) : idx (elt i) = i := by
   have := i.isLt
@@ -120,7 +119,7 @@ theorem idx_elt (i : Fin 192) : idx (elt i) = i := by
 theorem dd_nf (k : Fin 3) (c a b : KF) :
     dd k * (wP c * xP a * yP b) = (wP (Tk k * Tk k * c) * xP (Tk k * a) * yP (Tk k * b)) * dd k := by
   have h := dP_conj_nf (tU k) 1 c a b
-  simp only [tU_val, Units.val_one, mul_one, one_mul, inv_one] at h
+  simp only [tU_val, Units.val_one, mul_one, inv_one] at h
   unfold dd
   rw [← h]
   group
@@ -164,7 +163,7 @@ theorem nfY_mul (x y : Elt) : nfY (mulE x y) = nfY x * nfY y := by
     _ = _ := by simp only [mul_assoc]
 
 theorem nfY_one : nfY one = 1 := by
-  simp only [nfY, one, gf4_zero_eq, map_zero, xP_zero, wP_zero, yP_zero, dd_zero, one_mul, mul_one]
+  simp only [nfY, one, gf4_zero_eq, map_zero, xP_zero, wP_zero, yP_zero, dd_zero, mul_one]
 
 theorem nfY_inj : Function.Injective nfY := by
   rintro ⟨a, b, c, k⟩ ⟨a', b', c', k'⟩ h
@@ -229,14 +228,14 @@ theorem nfY_mem_V2_iff (x : Elt) : nfY x ∈ (V2' : Subgroup YF) ↔ x.1 = 0 ∧
   · intro h
     obtain ⟨b', c', hbc⟩ := mem_V2.mp h
     have h0 : nfY (0, psi.symm b', psi.symm c', 0) = yP b' * wP c' := by
-      simp only [nfY, map_zero, xP_zero, dd_zero, mul_one, one_mul, RingEquiv.apply_symm_apply]
+      simp only [nfY, map_zero, xP_zero, dd_zero, mul_one, RingEquiv.apply_symm_apply]
       exact wP_mul_yP c' b'
     have h1 := nfY_inj (h0.trans hbc.symm)
     subst h1
     exact ⟨rfl, rfl⟩
   · rintro ⟨h1, h2⟩
     refine mem_V2.mpr ⟨psi x.2.1, psi x.2.2.1, ?_⟩
-    simp only [nfY, h1, h2, map_zero, xP_zero, dd_zero, mul_one, one_mul]
+    simp only [nfY, h1, h2, map_zero, xP_zero, dd_zero, mul_one]
     exact wP_mul_yP _ _
 
 theorem tk_of_ne (u : KF) (hu : u ≠ 0) : ∃ j : Fin 3, u = Tk j := by

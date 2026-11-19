@@ -619,7 +619,7 @@ theorem radical_aux [IsAlgClosed L] {ζ : L} (hζ : IsPrimitiveRoot ζ 5)
     rw [hj, pow_mul, griessZ_pow_five hζ, one_pow]
   have h0 := @hb.inj (⟨i % 5, Nat.mod_lt _ (by norm_num)⟩, ⟨k % 5, Nat.mod_lt _ (by norm_num)⟩,
     ⟨1, by norm_num⟩) (0, 0, 0) (by
-      simp only [pow_zero, mul_one, pow_one]
+      simp only [pow_one]
       rw [← pow_eq_pow_mod _ hb.pow_a, ← pow_eq_pow_mod _ hb.pow_b]
       calc a ^ i * b ^ k * c = a ^ i * (b ^ k * c) := by rw [mul_assoc]
         _ = a ^ i * (c * b ^ k) := by rw [(hb.comm_bc.pow_left k).eq]
@@ -952,7 +952,7 @@ theorem card_le_five_cube_of_nontoral_le_mulSub {ζ : L} (h5 : (5 : L) ≠ 0)
           (inv_mem (pow_mem hamem i))
       simpa using hc_mem
     have hcard : Nat.card E ≤ 5 ^ 3 := by
-      haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
       let F : (Fin 5 × Fin 5 × Fin 5) →
           Subgroup.closure ({z, (a : ModGL Tag.E8 L),
             (b : ModGL Tag.E8 L)} : Set (ModGL Tag.E8 L)) :=
@@ -965,7 +965,7 @@ theorem card_le_five_cube_of_nontoral_le_mulSub {ζ : L} (h5 : (5 : L) ≠ 0)
         obtain ⟨v, hv⟩ := (mem_closure_triple_iff (p := 5) hza hzb hab hz5
           (hpowE a) (hpowE b) (x : ModGL Tag.E8 L)).1 x.2
         exact ⟨v, Subtype.ext hv⟩
-      haveI : Finite (Subgroup.closure
+      have : Finite (Subgroup.closure
           ({z, (a : ModGL Tag.E8 L), (b : ModGL Tag.E8 L)} : Set (ModGL Tag.E8 L))) :=
         Finite.of_surjective F hsurj
       have hcl : Nat.card (Subgroup.closure

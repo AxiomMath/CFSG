@@ -48,13 +48,14 @@ section Sylow
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_sylow_map_eq' {p : ℕ} {Y X : Subgroup G} (hX : IsSylowIn p Y X) :
     ∃ S : Sylow p ↥Y, (S : Subgroup ↥Y).map Y.subtype = X := by
   have hXY : IsPGroup p ↥(X.subgroupOf Y) :=
     hX.2.1.comap_of_injective Y.subtype Subtype.val_injective
   obtain ⟨S, hS⟩ := IsPGroup.exists_le_sylow hXY
   refine ⟨S, ?_⟩
-  have hmap : IsPGroup p ↥((S : Subgroup ↥Y).map Y.subtype) := S.isPGroup'.map Y.subtype
+  have hmap : IsPGroup p ↥((S : Subgroup ↥Y).map Y.subtype) := S.isPGroup.map Y.subtype
   have hle : X ≤ (S : Subgroup ↥Y).map Y.subtype := fun x hx =>
     ⟨⟨x, hX.1 hx⟩, hS (Subgroup.mem_subgroupOf.2 hx), rfl⟩
   exact hX.2.2 _ (Subgroup.map_subtype_le _) hmap hle
@@ -66,6 +67,7 @@ theorem exists_sylowIn_above' {p : ℕ} {X P : Subgroup G} (hPX : P ≤ X) (hP :
   exact ⟨Q, ⟨hQmax.1.1, hQmax.1.2, fun R' hR'X hR'p hQR' =>
     le_antisymm (hQmax.2 ⟨hR'X, hR'p⟩ hQR') hQR'⟩, hPQ⟩
 
+omit [Finite G] in
 theorem centralizer_le_normalizer_zpowers' (y : G) :
     Subgroup.centralizer ({y} : Set G) ≤
       Subgroup.normalizer ((Subgroup.zpowers y : Subgroup G) : Set G) := by
@@ -215,7 +217,7 @@ theorem lemma113_ii_pieceD_cond (hI : Input32_7) {G : Type} [Group G] [Finite G]
       PieceD_R4 E R)
     (hK3 : PieceD_K3 E Q A e) : False := by
   obtain ⟨-, -, R, hRN, hQR, -, -, hRG⟩ := hC
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsimple : IsSimpleGroup G := h.standing.simple
   have hnonab : ∃ a b : G, a * b ≠ b * a := h.standing.nonabelian
   have hAsc : IsSCp 3 M A := h.pair.1.2.1.1.1
@@ -240,9 +242,9 @@ theorem lemma113_ii_pieceD_cond (hI : Input32_7) {G : Type} [Group G] [Finite G]
   let Rs : Sylow 3 G :=
     ⟨R, hRG.2.1, fun {Q} hQ hRQ => (hRG.2.2 Q le_top hQ hRQ).le⟩
   obtain ⟨W, _hWR, hWn, hEW, hWcard, hWΩ⟩ := hR4 R hRN hQR
-  haveI : (W.subgroupOf R).Normal := hWn
-  haveI : IsCyclic (↥R ⧸ W.subgroupOf R) := isCyclic_of_prime_card hWcard
-  letI hcomm : CommGroup (↥R ⧸ W.subgroupOf R) := IsCyclic.commGroup
+  have : (W.subgroupOf R).Normal := hWn
+  have : IsCyclic (↥R ⧸ W.subgroupOf R) := isCyclic_of_prime_card hWcard
+  let hcomm : CommGroup (↥R ⧸ W.subgroupOf R) := IsCyclic.commGroup
   let φ : (Rs : Subgroup G) →* (↥R ⧸ W.subgroupOf R) := QuotientGroup.mk' (W.subgroupOf R)
   have hbW : b ∉ W := fun hbW' => hbE (hWΩ b hbW' hb3)
   have hφb : φ ⟨b, hbR⟩ ≠ 1 := fun h1 =>
@@ -312,7 +314,7 @@ theorem lemma113_ii_pieceD_cond (hI : Input32_7) {G : Type} [Group G] [Finite G]
     show ((QuotientGroup.mk' (W.subgroupOf R)) (⟨b⁻¹ * y, _⟩ : (Rs : Subgroup G))) = 1
     exact (QuotientGroup.eq_one_iff _).2 (Subgroup.mem_subgroupOf.2 hkey)
   have hcommutator : ⁅(⊤ : Subgroup G), (⊤ : Subgroup G)⁆ = ⊤ := by
-    haveI := hsimple
+    have := hsimple
     rcases Subgroup.Normal.eq_bot_or_eq_top ⁅(⊤ : Subgroup G), (⊤ : Subgroup G)⁆ with h1 | h1
     · exfalso
       obtain ⟨a₁, b₁, hab⟩ := hnonab
@@ -353,6 +355,7 @@ variable {G : Type} [Group G] [Finite G]
       (∀ t ∈ T, ∀ z ∈ E ⊓ A, t * z = z * t) ∧
       (∀ a ∈ A, (∀ t ∈ T, t * a = a * t) → a ∈ E ⊓ A)
 
+omit [Finite G] in
 theorem mem_normalizer_of_GLBConj_eq {H : Subgroup G} {x : G} (hx : GLBConj x H = H) :
     x ∈ Subgroup.normalizer (H : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -375,6 +378,7 @@ theorem mem_normalizer_of_GLBConj_eq {H : Subgroup G} {x : G} (hx : GLBConj x H 
       group
     rwa [h2] at h1
 
+omit [Finite G] in
 theorem GLBConj_le_of_mem_normalizer {Q H : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.normalizer (Q : Set G)) (hHQ : H ≤ Q) : GLBConj x H ≤ Q := by
   rintro _ ⟨k, hk, rfl⟩
@@ -519,11 +523,11 @@ theorem eq_of_normalizer_inf_eq {p : ℕ} [Fact p.Prime] {P R : Subgroup G}
     apply hne
     have hPR : P ≤ R := (Subgroup.subgroupOf_eq_top).1 htop
     exact le_antisymm hRP hPR
-  haveI hnil : Group.IsNilpotent ↥P := IsPGroup.isNilpotent hP
+  have hnil : Group.IsNilpotent ↥P := IsPGroup.isNilpotent hP
   have hlt := (Group.normalizerCondition_of_isNilpotent (G := ↥P)) (R.subgroupOf P) hHtop
   have hnot : ¬ Subgroup.normalizer ((R.subgroupOf P : Subgroup ↥P) : Set ↥P) ≤ R.subgroupOf P :=
     fun hle => lt_irrefl _ (lt_of_lt_of_le hlt hle)
-  obtain ⟨y, hyN, hyH⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨y, hyN, hyH⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   have hyR : (y : G) ∈ Subgroup.normalizer (R : Set G) := by
     apply mem_normalizer_of_conj_le
     intro k hk
@@ -552,6 +556,7 @@ theorem isSylowIn_top_of_normalizer_le {p : ℕ} [Fact p.Prime] {N R : Subgroup 
   rw [hRP] at hRle ⊢
   exact (P'.maximal_isPGroup.eq_of_le hR'p hRle).symm
 
+omit [Finite G] in
 theorem isElemAbelian_GLBConj {p : ℕ} {E' : Subgroup G} (g : G) (h : IsElemAbelian p E') :
     IsElemAbelian p (GLBConj g E') := by
   obtain ⟨hc, hx⟩ := h
@@ -614,7 +619,7 @@ theorem GLBConj_thompsonJ_eq {p : ℕ} {R : Subgroup G} {n : G}
       exact Subgroup.map_mono h2
 
 theorem lemma113_ii_pieceC_cond {m : ℕ} {B M E A : Subgroup G} {a e : G} {K Q : Subgroup G}
-    (h : Cfg113 G m B M E A a e K Q) (_hA : Claim113A (M := M) E A e K Q)
+    (_h : Cfg113 G m B M E A a e K Q) (_hA : Claim113A (M := M) E A e K Q)
     (_hB : ¬ Subgroup.normalizer (E : Set G) ≤
       Subgroup.normalizer ((Subgroup.zpowers e : Subgroup G) : Set G))
     (hEC : IsSylowIn 3 (Subgroup.centralizer (E : Set G)) E) (hQcard : Nat.card Q = 3 ^ 5)
@@ -623,7 +628,7 @@ theorem lemma113_ii_pieceC_cond {m : ℕ} {B M E A : Subgroup G} {a e : G} {K Q 
     (hR2 : ∀ R : Subgroup G, IsSylowIn 3 (Subgroup.normalizer (E : Set G)) R → Q ≤ R →
       Nat.card R = 3 ^ 8 → E = thompsonJ 3 R) :
     Claim113C E A Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R, hRN, hQR, hR8⟩ := hR1
   have hEJ : E = thompsonJ 3 R := hR2 R hRN hQR hR8
   have hNR : Subgroup.normalizer (R : Set G) ≤ Subgroup.normalizer (E : Set G) := by
@@ -642,7 +647,7 @@ open Lemma113b
 
 @[expose] def Lemma113_ii_pieceB_Claims : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a e : G} {K Q : Subgroup G}
-    (h : Cfg113 G m B M E A a e K Q) (hA : Claim113A (M := M) E A e K Q),
+    (_h : Cfg113 G m B M E A a e K Q) (_hA : Claim113A (M := M) E A e K Q),
     PieceB_WC E Q ∧ PieceB_SylZ (E ⊓ A) Q ∧ PieceB_fus E A e ∧ PieceB_core E A e
 
 theorem lemma113_ii_pieceB_of (hP : Lemma113_ii_pieceB_Claims) :
@@ -653,8 +658,8 @@ theorem lemma113_ii_pieceB_of (hP : Lemma113_ii_pieceB_Claims) :
 
 @[expose] def Lemma113_ii_pieceC_Claims : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a e : G} {K Q : Subgroup G}
-    (h : Cfg113 G m B M E A a e K Q) (hA : Claim113A (M := M) E A e K Q)
-    (hB : ¬ Subgroup.normalizer (E : Set G) ≤
+    (_h : Cfg113 G m B M E A a e K Q) (_hA : Claim113A (M := M) E A e K Q)
+    (_hB : ¬ Subgroup.normalizer (E : Set G) ≤
       Subgroup.normalizer ((Subgroup.zpowers e : Subgroup G) : Set G)),
     IsSylowIn 3 (Subgroup.centralizer (E : Set G)) E ∧ Nat.card Q = 3 ^ 5 ∧
       (∃ R : Subgroup G, IsSylowIn 3 (Subgroup.normalizer (E : Set G)) R ∧ Q ≤ R ∧
@@ -670,7 +675,7 @@ theorem lemma113_ii_pieceC_of (hP : Lemma113_ii_pieceC_Claims) :
 
 @[expose] def Lemma113_ii_pieceD_Claims : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m : ℕ} {B M E A : Subgroup G} {a e : G} {K Q : Subgroup G}
-    (h : Cfg113 G m B M E A a e K Q) (hC : Claim113C E A Q),
+    (_h : Cfg113 G m B M E A a e K Q) (_hC : Claim113C E A Q),
     (∀ R : Subgroup G, IsSylowIn 3 (Subgroup.normalizer (E : Set G)) R → Q ≤ R →
       PieceD_R2 e R) ∧
     (∀ R : Subgroup G, IsSylowIn 3 (Subgroup.normalizer (E : Set G)) R → Q ≤ R →

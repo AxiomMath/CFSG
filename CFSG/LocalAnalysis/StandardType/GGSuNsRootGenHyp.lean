@@ -22,7 +22,7 @@ theorem conj_swapU_comm_conj_iff
     {D : ↥(unitarySU 2 n K d)} {σ : Fin d → Kˣ} (hD : (D : GL (Fin d) K) = diagHom d σ) :
     MulAut.conj (φ (SURep.swapU h i j)) * MulAut.conj (φ D) =
       MulAut.conj (φ D) * MulAut.conj (φ (SURep.swapU h i j)) ↔ σ i = σ j := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   constructor
   · intro hcomm
     by_cases hij : i = j
@@ -155,7 +155,7 @@ theorem ggHypCent_swapU_eq (hp : p.Prime) (hpd : ¬ p ∣ d)
     (hφker : ∀ g, φ g = 1 → g ∈ (LargeEvenProjMk (unitarySU 2 n K d)).ker)
     (hM : IsDiagTorusModelU p φ A) (i j : Fin d) :
     ggHypCent A (φ (SURep.swapU h i j)) = (pairCentU n p K i j).map φ := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hker_center : φ.ker ≤ Subgroup.center ↥(unitarySU 2 n K d) :=
     (show φ.ker ≤ (LargeEvenProjMk (unitarySU 2 n K d)).ker from
       fun z hz => hφker z hz).trans TableBUE.ker_projMk_le_center

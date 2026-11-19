@@ -255,7 +255,7 @@ theorem four_le_card (hmp : MinParabolic (⊤ : Subgroup X) T M) (hL : IsPSL 3 3
   obtain ⟨hVP, hPT⟩ := le_pCoreOf_and_pCoreOf_le hmp hC ι hz hVT hVM
   by_contra h4
   push Not at h4
-  obtain ⟨t, htV, htK⟩ := SetLike.not_le_iff_exists.mp hVK
+  obtain ⟨t, htV, htK⟩ := IsConcreteLE.not_le_iff_exists.mp hVK
   have ht1 : t ≠ 1 := fun h => htK (h ▸ K.one_mem)
   have ht2 : t * t = 1 := by rw [← pow_two]; exact hVe.2 t htV
   have hord : orderOf t = 2 := orderOf_eq_prime (by rw [pow_two]; exact ht2) ht1

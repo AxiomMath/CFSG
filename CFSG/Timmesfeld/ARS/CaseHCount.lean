@@ -31,13 +31,13 @@ theorem ncard_mul_eq_ncard_mul {α β : Type*} {s : Set α} {t : Set β} (hs : s
     rw [← Finset.card_filter (p := r a) (s := ht.toFinset), ← Set.ncard_coe_finset]
     congr 1
     ext b
-    simp [Finset.mem_filter, Set.Finite.mem_toFinset ht]
+    simp [Set.Finite.mem_toFinset ht]
   have h2 : ∀ b, {a | a ∈ s ∧ r a b}.ncard = ∑ a ∈ hs.toFinset, (if r a b then 1 else 0 : ℕ) := by
     intro b
     rw [← Finset.card_filter (p := fun a => r a b) (s := hs.toFinset), ← Set.ncard_coe_finset]
     congr 1
     ext a
-    simp [Finset.mem_filter, Set.Finite.mem_toFinset hs]
+    simp [Set.Finite.mem_toFinset hs]
   have key : ∑ a ∈ hs.toFinset, ({b | b ∈ t ∧ r a b}.ncard : ℕ)
       = ∑ b ∈ ht.toFinset, ({a | a ∈ s ∧ r a b}.ncard : ℕ) := by
     simp only [h1, h2]

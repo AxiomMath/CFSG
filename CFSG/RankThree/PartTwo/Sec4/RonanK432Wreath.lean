@@ -14,7 +14,7 @@ theorem mem_zpowers_const_of_central {S : Type} [Group S] {z : Fin 3 → S} {t :
     (hf : WreathFacts z t) {u : S} (huW : u ∈ wreathW z t)
     (hucent : ∀ q ∈ wreathW z t, q * u = u * q) :
     u ∈ Subgroup.zpowers (vecElt z ![1, 1, 1]) := by
-  haveI : IsMulCommutative (baseA z) := (isElemAbelian_baseA hf).1
+  have : IsMulCommutative (baseA z) := (isElemAbelian_baseA hf).1
   have hzW : ∀ i, z i ∈ wreathW z t := fun i => Subgroup.mem_sup_left (z_mem_baseA i)
   obtain ⟨v, j, rfl⟩ := mem_wreathW hf huW
   have hj : (j : ℕ) = 0 := by
@@ -59,7 +59,7 @@ theorem listRow_of_wreath3 {S : Type} [Group S] [Finite S] {z : Fin 3 → S} {t 
   set c := vecElt z ![1, 1, 1] with hc
   have hW' : Nat.card (wreathW z t) = 3 ^ 4 := by rw [hW]; norm_num
   have hS' : ¬ 3 ^ (4 + 1) ∣ Nat.card S := by norm_num; exact hS
-  haveI : IsMulCommutative (baseA z) := (isElemAbelian_baseA hf).1
+  have : IsMulCommutative (baseA z) := (isElemAbelian_baseA hf).1
   have hcA : c ∈ baseA z := vecElt_mem_baseA hf _
   have hAexp : ∀ x ∈ baseA z, x ^ 3 = 1 := (isElemAbelian_baseA hf).2
   have hc3 : c ^ 3 = 1 := hAexp c hcA

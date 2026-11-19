@@ -115,9 +115,9 @@ theorem natImage_statedSU_exists_normalizer_mod_fix {k : ℕ}
         ∃ n ∈ H.natImage (StatedSU 3 (2 ^ k) K) ⊓
             Subgroup.normalizer (T : Set (MulAut (H.StdMod (Fin 3) K))),
           u (n w₁ * w₂⁻¹) = n w₁ * w₂⁻¹ := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.Quasithin.SteinbergCB.charP_two_of_card (by omega) hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let L : Subgroup (MulAut (H.StdMod (Fin 3) K)) :=
     H.natImage (StatedSU 3 (2 ^ k) K)
   let U0 : Subgroup (MulAut (H.StdMod (Fin 3) K)) := H.natImage (H.SU3.ujSub k K)
@@ -252,14 +252,14 @@ theorem natImage_statedSU_exists_normalizer_mod_fix {k : ℕ}
       calc u w₁ = g (b (g⁻¹ w₁)) := by simp [hbu, mul_assoc]
         _ = g (c (y X1)) := by rw [hb_eq]; simp [X1, mul_assoc]
         _ = g (c X1) := by rw [hfix]
-        _ = w₁ := by simp [X1, mul_assoc]
+        _ = w₁ := by simp [X1]
     have hX2 : y X2 ≠ X2 := by
       intro hfix
       apply hu1w2
       calc u w₂ = g (b (g⁻¹ w₂)) := by simp [hbu, mul_assoc]
         _ = g (c (y X2)) := by rw [hb_eq]; simp [X2, mul_assoc]
         _ = g (c X2) := by rw [hfix]
-        _ = w₂ := by simp [X2, mul_assoc]
+        _ = w₂ := by simp [X2]
     obtain ⟨A, hA, hAeq⟩ := natImage_ujSub_exists_normalizer_mod_fix (K := K) (k := k) hk hK
       hyU0 hy2 hy1 hX1 hX2
     have hA1L : c * A * c⁻¹ ∈ L := by
@@ -280,7 +280,7 @@ theorem natImage_statedSU_exists_normalizer_mod_fix {k : ℕ}
     have hz : (g * (c * A * c⁻¹) * g⁻¹) w₁ * w₂⁻¹ = g (c (A X1 * X2⁻¹)) := by
       calc (g * (c * A * c⁻¹) * g⁻¹) w₁ * w₂⁻¹
           = g (c (A X1)) * (g (c X2))⁻¹ := by simp [X1, X2, mul_assoc]
-        _ = g (c (A X1 * X2⁻¹)) := by simp [mul_assoc]
+        _ = g (c (A X1 * X2⁻¹)) := by simp
     have hfix : u (g (c (A X1 * X2⁻¹))) = g (c (A X1 * X2⁻¹)) := by
       calc u (g (c (A X1 * X2⁻¹)))
           = g (b (g⁻¹ (g (c (A X1 * X2⁻¹))))) := by simp [hbu, mul_assoc]

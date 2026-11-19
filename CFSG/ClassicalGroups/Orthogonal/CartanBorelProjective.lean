@@ -12,7 +12,7 @@ namespace CFSG.ClassicalGroups.Orthogonal
 open CFSG.Open CFSG.ComponentClassification.CatalogueBOrthogonalPointPlusBorel
 
 theorem exists_piSubgroup_three_le_pRank_in_borel_projective {m : Nat} (hm : 4 <= m)
-    {F : Type} [Field F] [Finite F] [CharP F 2] {q : Nat} (hq : q.Prime) (hq2 : q != 2)
+    {F : Type} [Field F] [Finite F] [CharP F 2] {q : Nat} (hq : q.Prime) (_hq2 : q != 2)
     (hdvd : q ∣ Nat.card F - 1) :
     exists H : Subgroup (StatedProj (StatedOmega (StatedQuadPlus m F))),
       H <= Subgroup.normalizer (plusProjectiveUnipotent m F) ∧

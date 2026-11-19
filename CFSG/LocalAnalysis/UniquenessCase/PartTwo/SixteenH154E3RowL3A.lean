@@ -19,8 +19,8 @@ private structure s16h_Proj {Q : Type} [CommGroup Q] {k : ℕ} (I : Fin k → Su
     (Λ : Subgroup (MulAut Q)) where
   e : Fin k → Q →* Q
   e_mem : ∀ i x, e i x ∈ I i
-  e_self : ∀ i x (hx : x ∈ I i), e i x = x
-  e_other : ∀ i j, j ≠ i → ∀ x (hx : x ∈ I j), e i x = 1
+  e_self : ∀ i x (_hx : x ∈ I i), e i x = x
+  e_other : ∀ i j, j ≠ i → ∀ x (_hx : x ∈ I j), e i x = 1
   e_prod : ∀ x, ∏ i, e i x = x
   e_equiv : ∀ i, ∀ g ∈ Λ, ∀ x, e i (g x) = g (e i x)
 
@@ -100,7 +100,7 @@ private noncomputable def s16h_block {Q : Type} [CommGroup Q] {Λ : Subgroup (Mu
     {k : ℕ} {I : Fin k → Subgroup Q} (P : s16h_Proj I Λ) (c : MulAut Q) (i j : Fin k) :
     I j →* I i :=
   MonoidHom.codRestrict ((P.e i).comp (c.toMonoidHom.comp (I j).subtype)) (I i)
-    (fun x => P.e_mem i _)
+    (fun _x => P.e_mem i _)
 
 private lemma s16h_block_coe {Q : Type} [CommGroup Q] {Λ : Subgroup (MulAut Q)}
     {k : ℕ} {I : Fin k → Subgroup Q} (P : s16h_Proj I Λ) (c : MulAut Q) (i j : Fin k)
@@ -416,13 +416,13 @@ private lemma s16h_matrix_one {Q : Type} [CommGroup Q] {Λ : Subgroup (MulAut Q)
       have h := congrArg (fun f : I i →* I i => f x) h1
       have hx' : (x : I i) = 1 := by simpa [hblock] using h
       exact hx hx'
-    rw [s16h_matrix, Matrix.of_apply, if_neg hne, Matrix.one_apply_eq]
+    rw [s16h_matrix, Matrix.of_apply, ite_eq_right hne, Matrix.one_apply_eq]
   · have h1 : s16h_block P (1 : MulAut Q) i j = 1 := by
       ext x
       rw [s16h_block_coe P (1 : MulAut Q) i j x, MulAut.one_apply]
       rw [P.e_other i j (Ne.symm hij) (x : Q) x.2, MonoidHom.one_apply]
       rfl
-    rw [s16h_matrix, Matrix.of_apply, if_pos h1, Matrix.one_apply_ne hij]
+    rw [s16h_matrix, Matrix.of_apply, ite_eq_left h1, Matrix.one_apply_ne hij]
 
 private lemma s16h_block_mul_eq_one_iff {Q : Type} [CommGroup Q] (hQ : ∀ x : Q, x ^ 2 = 1)
     {Λ : Subgroup (MulAut Q)} {k : ℕ} {I : Fin k → Subgroup Q} (P : s16h_Proj I Λ)
@@ -435,37 +435,37 @@ private lemma s16h_block_mul_eq_one_iff {Q : Type} [CommGroup Q] (hQ : ∀ x : Q
     {c c' : MulAut Q} (hc : ∀ g ∈ Λ, ∀ x, c (g x) = g (c x))
     (hc' : ∀ g ∈ Λ, ∀ x, c' (g x) = g (c' x)) (i j : Fin k) :
     s16h_block P (c * c') i j = 1 ↔
-      Even (@Finset.filter (Fin k) (fun l =>
-        s16h_block P c i l ≠ 1 ∧ s16h_block P c' l j ≠ 1)
-        (fun l => Classical.dec _) Finset.univ).card := by
+      Even (@Finset.filter (Fin k) (fun _l =>
+        s16h_block P c i _l ≠ 1 ∧ s16h_block P c' _l j ≠ 1)
+        (fun _l => Classical.dec _) Finset.univ).card := by
   classical
   let S : Finset (Fin k) :=
-    @Finset.filter (Fin k) (fun l => s16h_block P c i l ≠ 1 ∧ s16h_block P c' l j ≠ 1)
-      (fun l => Classical.dec _) Finset.univ
-  have hmemS : ∀ l, l ∈ S ↔ s16h_block P c i l ≠ 1 ∧ s16h_block P c' l j ≠ 1 := by
-    intro l
+    @Finset.filter (Fin k) (fun _l => s16h_block P c i _l ≠ 1 ∧ s16h_block P c' _l j ≠ 1)
+      (fun _l => Classical.dec _) Finset.univ
+  have hmemS : ∀ _l, _l ∈ S ↔ s16h_block P c i _l ≠ 1 ∧ s16h_block P c' _l j ≠ 1 := by
+    intro _l
     simp [S]
-  have hcomp_bij : ∀ l ∈ S, Function.Bijective (s16h_comp_block P c c' i l j) := by
-    intro l hl
+  have hcomp_bij : ∀ _l ∈ S, Function.Bijective (s16h_comp_block P c c' i _l j) := by
+    intro _l hl
     rw [hmemS] at hl
-    have hb1 := (s16h_block_one_or_bij P hstab hsimple hc i l).resolve_left hl.1
-    have hb2 := (s16h_block_one_or_bij P hstab hsimple hc' l j).resolve_left hl.2
-    exact s16h_comp_block_bijective P i l j hb1 hb2
-  have hterm_out : ∀ (x : I j) (l : Fin k), l ∉ S →
-      ((s16h_comp_block P c c' i l j x : I i) : Q) = 1 := by
-    intro x l hl
-    by_cases h1 : s16h_block P c i l = 1
+    have hb1 := (s16h_block_one_or_bij P hstab hsimple hc i _l).resolve_left hl.1
+    have hb2 := (s16h_block_one_or_bij P hstab hsimple hc' _l j).resolve_left hl.2
+    exact s16h_comp_block_bijective P i _l j hb1 hb2
+  have hterm_out : ∀ (x : I j) (_l : Fin k), _l ∉ S →
+      ((s16h_comp_block P c c' i _l j x : I i) : Q) = 1 := by
+    intro x _l hl
+    by_cases h1 : s16h_block P c i _l = 1
     · simp [s16h_comp_block, h1]
-    · have h2 : s16h_block P c' l j = 1 := by
+    · have h2 : s16h_block P c' _l j = 1 := by
         by_contra h2
         exact hl (by rw [hmemS]; exact ⟨h1, h2⟩)
       simp [s16h_comp_block, h2]
   have hprod_subset : ∀ x : I j,
-      (∏ l : Fin k, ((s16h_comp_block P c c' i l j x : I i) : Q)) =
-        ∏ l ∈ S, ((s16h_comp_block P c c' i l j x : I i) : Q) := by
+      (∏ _l : Fin k, ((s16h_comp_block P c c' i _l j x : I i) : Q)) =
+        ∏ _l ∈ S, ((s16h_comp_block P c c' i _l j x : I i) : Q) := by
     intro x
     symm
-    exact Finset.prod_subset (Finset.subset_univ S) (fun l _ hl => hterm_out x l hl)
+    exact Finset.prod_subset (Finset.subset_univ S) (fun _l _ hl => hterm_out x _l hl)
   constructor
   · intro hblock
     by_contra hne
@@ -474,28 +474,28 @@ private lemma s16h_block_mul_eq_one_iff {Q : Type} [CommGroup Q] (hQ : ∀ x : Q
       rcases hodd with ⟨m, hm⟩
       omega
     obtain ⟨l0, hl0⟩ := Finset.card_pos.mp hSpos
-    have hterm_eq : ∀ (x : I j) (l : Fin k), l ∈ S →
-        ((s16h_comp_block P c c' i l j x : I i) : Q) =
+    have hterm_eq : ∀ (x : I j) (_l : Fin k), _l ∈ S →
+        ((s16h_comp_block P c c' i _l j x : I i) : Q) =
           ((s16h_comp_block P c c' i l0 j x : I i) : Q) := by
-      intro x l hl
-      have hcomp_eq : s16h_comp_block P c c' i l j =
+      intro x _l hl
+      have hcomp_eq : s16h_comp_block P c c' i _l j =
           s16h_comp_block P c c' i l0 j :=
-        s16h_bijective_unique P hstab hsimple hend _ _ (hcomp_bij l hl) (hcomp_bij l0 hl0)
-          (s16h_comp_block_equivariant P hstab hc hc' i l j)
+        s16h_bijective_unique P hstab hsimple hend _ _ (hcomp_bij _l hl) (hcomp_bij l0 hl0)
+          (s16h_comp_block_equivariant P hstab hc hc' i _l j)
           (s16h_comp_block_equivariant P hstab hc hc' i l0 j)
       rw [hcomp_eq]
     have hcomp1 : s16h_comp_block P c c' i l0 j = 1 := by
       ext x
-      have hprod1 : (∏ l : Fin k, ((s16h_comp_block P c c' i l j x : I i) : Q)) = 1 := by
-        change (∏ l : Fin k, ((s16h_block P c i l (s16h_block P c' l j x) : I i) : Q)) = 1
+      have hprod1 : (∏ _l : Fin k, ((s16h_comp_block P c c' i _l j x : I i) : Q)) = 1 := by
+        change (∏ _l : Fin k, ((s16h_block P c i _l (s16h_block P c' _l j x) : I i) : Q)) = 1
         rw [← s16h_block_prod_formula P c c' i j x]
         exact congrArg (fun z : I i => (z : Q))
           (by simpa using congrArg (fun f : I j →* I i => f x) hblock)
-      have hpow : (∏ l ∈ S, ((s16h_comp_block P c c' i l j x : I i) : Q)) =
+      have hpow : (∏ _l ∈ S, ((s16h_comp_block P c c' i _l j x : I i) : Q)) =
           ((s16h_comp_block P c c' i l0 j x : I i) : Q) ^ S.card := by
         apply Finset.prod_eq_pow_card
-        intro l hl
-        exact hterm_eq x l hl
+        intro _l hl
+        exact hterm_eq x _l hl
       rw [hprod_subset x, hpow] at hprod1
       rcases hodd with ⟨m, hm⟩
       rw [hm, s16h_pow_odd (hQ _) m] at hprod1
@@ -506,24 +506,24 @@ private lemma s16h_block_mul_eq_one_iff {Q : Type} [CommGroup Q] (hQ : ∀ x : Q
   · intro heven
     by_cases hS : S.Nonempty
     · obtain ⟨l0, hl0⟩ := hS
-      have hterm_eq : ∀ (x : I j) (l : Fin k), l ∈ S →
-          ((s16h_comp_block P c c' i l j x : I i) : Q) =
+      have hterm_eq : ∀ (x : I j) (_l : Fin k), _l ∈ S →
+          ((s16h_comp_block P c c' i _l j x : I i) : Q) =
             ((s16h_comp_block P c c' i l0 j x : I i) : Q) := by
-        intro x l hl
-        have hcomp_eq : s16h_comp_block P c c' i l j =
+        intro x _l hl
+        have hcomp_eq : s16h_comp_block P c c' i _l j =
             s16h_comp_block P c c' i l0 j :=
-          s16h_bijective_unique P hstab hsimple hend _ _ (hcomp_bij l hl) (hcomp_bij l0 hl0)
-            (s16h_comp_block_equivariant P hstab hc hc' i l j)
+          s16h_bijective_unique P hstab hsimple hend _ _ (hcomp_bij _l hl) (hcomp_bij l0 hl0)
+            (s16h_comp_block_equivariant P hstab hc hc' i _l j)
             (s16h_comp_block_equivariant P hstab hc hc' i l0 j)
         rw [hcomp_eq]
       ext x
-      have hpow : (∏ l ∈ S, ((s16h_comp_block P c c' i l j x : I i) : Q)) =
+      have hpow : (∏ _l ∈ S, ((s16h_comp_block P c c' i _l j x : I i) : Q)) =
           ((s16h_comp_block P c c' i l0 j x : I i) : Q) ^ S.card := by
         apply Finset.prod_eq_pow_card
-        intro l hl
-        exact hterm_eq x l hl
+        intro _l hl
+        exact hterm_eq x _l hl
       rw [s16h_block_prod_formula P c c' i j x]
-      change (∏ l : Fin k, ((s16h_comp_block P c c' i l j x : I i) : Q)) = (1 : Q)
+      change (∏ _l : Fin k, ((s16h_comp_block P c c' i _l j x : I i) : Q)) = (1 : Q)
       rw [hprod_subset x, hpow]
       rcases heven with ⟨m, hm⟩
       rw [hm]
@@ -531,7 +531,7 @@ private lemma s16h_block_mul_eq_one_iff {Q : Type} [CommGroup Q] (hQ : ∀ x : Q
     · have hSempty : S = ∅ := Finset.not_nonempty_iff_eq_empty.mp hS
       ext x
       rw [s16h_block_prod_formula P c c' i j x]
-      change (∏ l : Fin k, ((s16h_comp_block P c c' i l j x : I i) : Q)) = (1 : Q)
+      change (∏ _l : Fin k, ((s16h_comp_block P c c' i _l j x : I i) : Q)) = (1 : Q)
       rw [hprod_subset x, hSempty]
       simp
 
@@ -561,10 +561,10 @@ private lemma s16h_matrix_mul {Q : Type} [CommGroup Q] (hQ : ∀ x : Q, x ^ 2 = 
         (if l ∈ S then (1 : ZMod 2) else 0) := by
     intro l
     by_cases h : l ∈ S
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       obtain ⟨h1, h2⟩ := (hS l).mp h
       simp [h1, h2]
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have h' : ¬ (s16h_block P c i l ≠ 1 ∧ s16h_block P c' l j ≠ 1) :=
         fun hc => h ((hS l).mpr hc)
       simp only [not_and_or, not_not] at h'
@@ -577,8 +577,8 @@ private lemma s16h_matrix_mul {Q : Type} [CommGroup Q] (hQ : ∀ x : Q, x ^ 2 = 
     simp [Finset.sum_ite_mem]
   rw [hsum, s16h_block_mul_eq_one_iff hQ P hstab hsimple hend hc hc' i j]
   by_cases he : Even S.card
-  · rw [if_pos he, ZMod.natCast_eq_zero_iff_even.mpr he]
-  · rw [if_neg he, ZMod.natCast_eq_one_iff_odd.mpr (Nat.not_even_iff_odd.mp he)]
+  · rw [ite_eq_left he, ZMod.natCast_eq_zero_iff_even.mpr he]
+  · rw [ite_eq_right he, ZMod.natCast_eq_one_iff_odd.mpr (Nat.not_even_iff_odd.mp he)]
 
 private lemma s16h_cent_comm {Q : Type} [CommGroup Q] {Λ : Subgroup (MulAut Q)}
     {c : MulAut Q} (hc : c ∈ Subgroup.centralizer (Λ : Set (MulAut Q))) :
@@ -615,7 +615,7 @@ private noncomputable def s16h_matrixHom {Q : Type} [CommGroup Q] (hQ : ∀ x : 
     rw [Units.val_mul]
     exact s16h_matrix_mul hQ P hstab hsimple hend (s16h_cent_comm c.2) (s16h_cent_comm c'.2)
 
-private lemma s16h_matrixHom_eq_one {Q : Type} [CommGroup Q] (hQ : ∀ x : Q, x ^ 2 = 1)
+private lemma s16h_matrixHom_eq_one {Q : Type} [CommGroup Q] (_hQ : ∀ x : Q, x ^ 2 = 1)
     {Λ : Subgroup (MulAut Q)} {k : ℕ} {I : Fin k → Subgroup Q} (P : s16h_Proj I Λ)
     (hstab : ∀ i, ∀ g ∈ Λ, ∀ x ∈ I i, g x ∈ I i)
     (hsimple : ∀ i, I i ≠ ⊥ ∧ ∀ J : Subgroup Q, (∀ g ∈ Λ, ∀ x ∈ J, g x ∈ J) → J ≤ I i →
@@ -714,15 +714,15 @@ private lemma s16h_prime_dvd_168 {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (h : q
 
 
 private theorem s16h_sum_cent_card_dvd {Q : Type} [CommGroup Q] [Finite Q] (hQ : ∀ x : Q, x ^ 2 = 1)
-    {Λ : Subgroup (MulAut Q)} {k : ℕ} (hk : k ≤ 3) {I : Fin k → Subgroup Q}
+    {Λ : Subgroup (MulAut Q)} {k : ℕ} (_hk : k ≤ 3) {I : Fin k → Subgroup Q}
     (hstab : ∀ i, ∀ g ∈ Λ, ∀ x ∈ I i, g x ∈ I i)
     (hsimple : ∀ i, I i ≠ ⊥ ∧ ∀ J : Subgroup Q, (∀ g ∈ Λ, ∀ x ∈ J, g x ∈ J) → J ≤ I i →
       J = ⊥ ∨ J = I i)
     (hend : ∀ i, ∀ f : Q →* Q, (∀ g ∈ Λ, ∀ x, f (g x) = g (f x)) → (∀ x ∈ I i, f x ∈ I i) →
       (∀ j, j ≠ i → ∀ x ∈ I j, f x = 1) → (∀ x ∈ I i, f x = x) ∨ (∀ x ∈ I i, f x = 1))
     (hspan : ⨆ i, I i = ⊤) (hind : ∀ i, I i ⊓ (⨆ (j : Fin k) (_ : j ≠ i), I j) = ⊥)
-    {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) {F : Subgroup (MulAut Q)}
-    (hF : F ≤ Subgroup.centralizer (Λ : Set (MulAut Q))) (hFe : IsElemAbelian q F) :
+    {q : ℕ} (_hq : q.Prime) (_hq2 : q ≠ 2) {F : Subgroup (MulAut Q)}
+    (hF : F ≤ Subgroup.centralizer (Λ : Set (MulAut Q))) (_hFe : IsElemAbelian q F) :
     Nat.card F ∣ Nat.card (GL (Fin k) (ZMod 2)) := by
   classical
   let P := s16h_mkProj hstab hspan hind
@@ -859,7 +859,7 @@ private theorem s16h_card_GL_two_dvd_six {k : ℕ} (hk : k ≤ 2) :
 private theorem s16h_card_GL_eq_one {k : ℕ} (hk : k ≤ 1) :
     Nat.card (GL (Fin k) (ZMod 2)) = 1 := by
   rw [Matrix.card_GL_field, ZMod.card]
-  interval_cases k <;> simp [Fin.prod_univ_succ]
+  interval_cases k <;> simp
 
 private theorem s16h_H5_normalizer_le_stabSub_commSub {L : Subgroup (MulAut W)} {g : MulAut W}
     (hg : g ∈ normalizer (L : Set (MulAut W))) : g ∈ stabSub (commSub ⊤ L) := by
@@ -880,7 +880,7 @@ private theorem s16h_H5_normalizer_le_stabSub_commSub {L : Subgroup (MulAut W)} 
     exact commSub_top_stable151b hnorm u hu
 
 private theorem s16h_H5_le_stabSub_commSub (L : Subgroup (MulAut W)) :
-    L ≤ stabSub (commSub ⊤ L) := fun l hl =>
+    L ≤ stabSub (commSub ⊤ L) := fun _l hl =>
   s16h_H5_normalizer_le_stabSub_commSub (Subgroup.le_normalizer hl)
 
 private theorem s16h_le_stabSub_fixV (L : Subgroup (MulAut W)) : L ≤ stabSub (fixV L) := by
@@ -1002,7 +1002,7 @@ theorem s16h_H5_row_L3_one_rank [Finite W] {A L : Subgroup (MulAut W)} {t : MulA
     fun I hI => s16h_simpleScalar_binarySL3 hqcomp hs hI
   intro E hE hEab
   classical
-  haveI : Finite (MulAut W) := s16h_finite_mulAut_of_finite W
+  have : Finite (MulAut W) := s16h_finite_mulAut_of_finite W
   set U : Subgroup W := commSub ⊤ L with hU
   set Z : Subgroup W := commSub ⊤ L ⊓ fixV L with hZ
   have hLU : L ≤ stabSub U := by
@@ -1070,8 +1070,8 @@ theorem s16h_H5_row_L3_one_rank [Finite W] {A L : Subgroup (MulAut W)} {t : MulA
     s16h_sum_cent_sec hc.elem hN hk hsum hLU hLZ hq hq2 hFle hFea
   have hFdvd : Nat.card F ∣ Nat.card (GL (Fin k) (ZMod 2)) :=
     s16h_sum_cent_sec_dvd hc.elem hN hk hsum hLU hLZ hq hq2 hFle hFea
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Finite (MulAut (Sec U Z)) := s16h_finite_mulAut_of_finite (Sec U Z)
+  have : Fact q.Prime := ⟨hq⟩
+  have : Finite (MulAut (Sec U Z)) := s16h_finite_mulAut_of_finite (Sec U Z)
   have hrangeEA : IsElemAbelian q ρ.range := by
     have hmap := IsElemAbelian.map (hE'ea.subgroupOf E') ρ
     rw [Subgroup.subgroupOf_self, ← MonoidHom.range_eq_map ρ] at hmap

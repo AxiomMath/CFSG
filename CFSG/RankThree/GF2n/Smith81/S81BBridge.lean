@@ -18,8 +18,9 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {φ : Lgen M (LB M Q B) →* (V ≃ₗ[K] V)} {Γ : Subgroup (V ≃ₗ[K] V)} {p₀ : V}
   {U₀ : Subgroup (V ≃ₗ[K] V)}
 
+omit [Finite G] in
 theorem finite_of_quadModel_equiv (ψ : M₀.E ≃ₗ[K] V) : Finite V := by
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   exact Finite.of_equiv M₀.E ψ.toEquiv
 
 theorem Ctx.comm_mem_of_mem_QB {C : Subgroup G} (hC : Ctx M Q Z C) {t x : G} (ht : t ∈ QB C)
@@ -39,11 +40,13 @@ theorem Ctx.comm_mem_of_mem_QB {C : Subgroup G} (hC : Ctx M Q Z C) {t x : G} (ht
   rw [heq]
   exact hcomm
 
+omit [Finite G] [Finite K] in
 theorem quadModel_pi_one (M₀ : Tim79.QuadModel Q Z K γ) : M₀.π 1 = 0 := by
   have h := M₀.π_mul 1 Q.one_mem 1 Q.one_mem
   rw [mul_one] at h
   exact left_eq_add.mp h
 
+omit [Finite G] [Finite K] in
 theorem quadModel_pi_inv (M₀ : Tim79.QuadModel Q Z K γ) {x : G} (hx : x ∈ Q) :
     M₀.π x⁻¹ = - M₀.π x := by
   have h := M₀.π_mul x hx x⁻¹ (Q.inv_mem hx)
@@ -62,10 +65,12 @@ theorem quadModel_pi_inv (M₀ : Tim79.QuadModel Q Z K γ) {x : G} (hx : x ∈ Q
     rw [M₀.π_mul x.1 x.2 y.1 y.2, map_add]
     rfl
 
+omit [Finite G] [Finite K] in
 theorem psiHom_apply (ψ : M₀.E ≃ₗ[K] V) (x : ↥Q) :
     Multiplicative.toAdd (psiHom ψ x) = ψ (M₀.π (x : G)) := rfl
 
-theorem psiHom_eq_one_iff (ψ : M₀.E ≃ₗ[K] V) (x : ↥Q) : psiHom ψ x = 1 ↔ (x : G) ∈ Z := by
+omit [Finite G] [Finite K] in
+theorem psiHom_eq_one_iff [Finite G] [Finite K] (ψ : M₀.E ≃ₗ[K] V) (x : ↥Q) : psiHom ψ x = 1 ↔ (x : G) ∈ Z := by
   rw [← (M₀.π_ker x.1 x.2)]
   constructor
   · intro h
@@ -78,6 +83,7 @@ theorem psiHom_eq_one_iff (ψ : M₀.E ≃ₗ[K] V) (x : ↥Q) : psiHom ψ x = 1
     rw [h, map_zero]
     rfl
 
+omit [Finite G] [Finite K] in
 theorem psiHom_surjective (ψ : M₀.E ≃ₗ[K] V) : Function.Surjective (psiHom ψ) := by
   intro v
   obtain ⟨x, hx, hxv⟩ := M₀.π_surj (ψ.symm (Multiplicative.toAdd v))
@@ -87,6 +93,7 @@ theorem psiHom_surjective (ψ : M₀.E ≃ₗ[K] V) : Function.Surjective (psiHo
   rw [hxv]
   simp
 
+omit [Finite K] in
 theorem EGeom.EUniData.psi_mem_Wsp (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) {C : Subgroup G}
     (hC : Ctx M Q Z C) {g : V ≃ₗ[K] V}
     (himg : (fun a : G => ψ (M₀.π a)) '' (C : Set G) = (Submodule.span K {g p₀} : Set V))
@@ -127,7 +134,7 @@ theorem EGeom.EUniData.exists_mem_inf_of_mem_Wsp (d : EUniData M Q Z B M₀ ψ �
   have hTQ : ∀ x : G, x ∈ Q ⊓ QB C → x ∈ Q := fun x hx => (Subgroup.mem_inf.mp hx).1
   have hZT : Z ≤ Q ⊓ QB C := le_inf hC.Z_le_Q hC.Z_le_QB.1
   have hpos : 0 < Nat.card Z := by
-    haveI : Nonempty ↥Z := ⟨⟨1, Z.one_mem⟩⟩
+    have : Nonempty ↥Z := ⟨⟨1, Z.one_mem⟩⟩
     exact Nat.card_pos
   obtain ⟨f, hf⟩ : ∃ f : ↥(Q ⊓ QB C) →* Multiplicative V,
       ∀ x : ↥(Q ⊓ QB C), f x = Multiplicative.ofAdd (ψ (M₀.π (x : G))) := by
@@ -192,7 +199,7 @@ theorem EGeom.EUniData.exists_mem_inf_of_mem_Wsp (d : EUniData M Q Z B M₀ ψ �
     rw [hWeq, hspan, card_Wsp_conj g (Submodule.span K {p₀}) U₀]
     exact hW
   intro v hv
-  haveI : Finite V := finite_of_quadModel_equiv ψ
+  have : Finite V := finite_of_quadModel_equiv ψ
   have hSW : {v | ∃ x ∈ Q ⊓ QB C, ψ (M₀.π x) = v}
       ⊆ (Wsp (Submodule.span K {g p₀}) (conjSub g U₀) : Set V) := by
     rintro v ⟨x, hx, rfl⟩
@@ -206,6 +213,8 @@ theorem EGeom.EUniData.exists_mem_inf_of_mem_Wsp (d : EUniData M Q Z B M₀ ψ �
   obtain ⟨x, hx, hxv⟩ := hvS
   exact ⟨x, hx, hxv⟩
 
+omit [Finite K] in
+omit [Finite G] in
 theorem EGeom.EUniData.exists_ctx_point (d : EUniData M Q Z B M₀ ψ φ Γ p₀ U₀) (hB : Ctx M Q Z B)
     (hp₀ : p₀ ≠ 0) {h : V ≃ₗ[K] V} (hh : h ∈ Γ) :
     ∃ D : Subgroup G, Ctx M Q Z D ∧
@@ -295,7 +304,7 @@ theorem natCard_comap_eq_mul_ker {H H' : Type} [Group H] [Group H'] [Finite H]
   rw [h1, ← h3, ← h2]
   ring
 
-theorem card_psi_preimage (ψ : M₀.E ≃ₗ[K] V) [Finite G] (P : Submodule K V) (hZQ : Z ≤ Q) :
+theorem card_psi_preimage (ψ : M₀.E ≃ₗ[K] V) (P : Submodule K V) (hZQ : Z ≤ Q) :
     Nat.card {x : G // ∃ _ : x ∈ Q, ψ (M₀.π x) ∈ P} = Nat.card Z * Nat.card P := by
   have hker : (psiHom ψ).ker = Z.subgroupOf Q := by
     ext y
@@ -316,6 +325,7 @@ theorem card_psi_preimage (ψ : M₀.E ≃ₗ[K] V) [Finite G] (P : Submodule K 
           psiHom_apply]))
   rw [Nat.card_congr hequiv, hcomap, hT, hZ, Nat.mul_comm]
 
+omit [Finite K] in
 theorem card_span_pair [Finite K] [Finite V] {c r : V} (hc : c ≠ 0)
     (hr : r ∉ Submodule.span K {c}) : Nat.card (Submodule.span K {c, r}) = Nat.card K ^ 2 := by
   have hli : LinearIndependent K ![c, r] := by
@@ -329,7 +339,7 @@ theorem card_span_pair [Finite K] [Finite V] {c r : V} (hc : c ≠ 0)
     have h := finrank_span_eq_card hli
     rw [hrange, Fintype.card_fin] at h
     exact h
-  haveI : Module.Finite K (Submodule.span K ({c, r} : Set V)) :=
+  have : Module.Finite K (Submodule.span K ({c, r} : Set V)) :=
     FiniteDimensional.span_of_finite K (Set.toFinite ({c, r} : Set V))
   rw [Module.natCard_eq_pow_finrank (K := K) (V := ↥(Submodule.span K ({c, r} : Set V))), hfin]
 
@@ -344,7 +354,7 @@ theorem exists_S_of_uniform (hg : GlobalModelData M Q Z γ M₀)
   have hH : StrothHyp M Q Z := hB.hyp
   obtain ⟨gC, hgCΓ, himgC, hradC⟩ := d.point C hC.conj hC.le hC.ne
   obtain ⟨g₁, hg₁Γ, hg₁W, hg₁n, hplane⟩ := hG.line
-  haveI : Finite V := finite_of_quadModel_equiv ψ
+  have : Finite V := finite_of_quadModel_equiv ψ
   have hcard : Nat.card ↥(Q ⊓ QB C) = Nat.card Z ^ (n + 1) :=
     (stroth_3_5 h34 hC hw hn (hno C hC) (hgen C hC)).2.2.2
   have hcover := d.exists_mem_inf_of_mem_Wsp hC himgC hradC hcard hG.W_le hg.card

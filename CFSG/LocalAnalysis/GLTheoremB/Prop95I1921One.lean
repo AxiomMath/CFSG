@@ -89,7 +89,7 @@ theorem input19_21_1_core (hH : HatSevenOddInverts)
     · exact absurd h hsne
     · exact h4
   have hthree : σ.IsThreeCycle := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hct := cycleType_of_pow_prime_eq_one hσ3
     have hsum : σ.cycleType.sum = σ.support.card := sum_cycleType σ
     have hsupp : σ.support.card = 3 := by

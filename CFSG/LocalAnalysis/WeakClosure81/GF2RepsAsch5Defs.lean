@@ -72,7 +72,7 @@ open CFSG.Blueprint (LieModel)
     (∃ p : ℕ, p.Prime ∧ p ≠ 2 ∧ 3 < CFSG.Open.pRank p (perfectCore H) ∧
         1 < CFSG.Open.pRank p (lGen IsCalL0 H T)) ∨
     (calNIn H T = {lGen IsCalL0 H T} ∧
-      (IsSolvable ↥H ∨ ∃ L : Subgroup Q, IsComponentModN (OInf H) H L ∧ L ⊔ T = H ∧
+      (Group.IsSolvable ↥H ∨ ∃ L : Subgroup Q, IsComponentModN (OInf H) H L ∧ L ⊔ T = H ∧
         Shape54 H T L))
 
 @[expose] def Asch5_12 : Prop :=
@@ -80,8 +80,8 @@ open CFSG.Blueprint (LieModel)
     CFSG.Open.IsKGroup ↥H → IsSylowIn 2 T H → T < H → CFSG.Open.pRank 3 H ≤ 1 →
     ¬ HasCompFactor H IsCalL1 → H ≠ lGen IsCalL1 H T →
     calNIn H T = {lGen IsCalL1 H T} ∧
-      (IsSolvable ↥H ∨
-        (IsSolvable ↥(relPPrimeCore 3 H) ∧ relPPrimeCore 3 H ≤ lGen IsCalL1 H T ∧ Shape512 H))
+      (Group.IsSolvable ↥H ∨
+        (Group.IsSolvable ↥(relPPrimeCore 3 H) ∧ relPPrimeCore 3 H ≤ lGen IsCalL1 H T ∧ Shape512 H))
 
 @[expose] def Asch5_PSp4Three : Prop :=
   ∀ (L₀ : Type) [Group L₀] [Finite L₀], LieModel L₀ .PSp 2 3 1 →

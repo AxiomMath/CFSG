@@ -16,8 +16,8 @@ private theorem c2slomqoe_indicator_shift {j m : ℕ} (hm : m ≠ j) :
     (if m + 1 ≤ j then (1 : ℤ) else 0) = (if m ≤ j then (1 : ℤ) else 0) := by
   by_cases h : m ≤ j
   · have hlt : m < j := lt_of_le_of_ne h hm
-    rw [if_pos h, if_pos (by omega)]
-  · rw [if_neg h, if_neg (by omega)]
+    rw [ite_eq_left h, ite_eq_left (by omega)]
+  · rw [ite_eq_right h, ite_eq_right (by omega)]
 
 private theorem c2slomqoe_stdReflD_indicator {n j : ℕ} (hj : j + 3 ≤ n) {k : Fin n}
     (hk : k.val ≠ j) :
@@ -42,22 +42,22 @@ private theorem c2slomqoe_stdReflD_indicator {n j : ℕ} (hj : j + 3 ≤ n) {k :
     rw [hkp]
     funext a
     by_cases hah : a = h
-    · rw [hah, if_pos (Or.inl (by dsimp only [h]; omega)), Equiv.swap_apply_left]
+    · rw [hah, ite_eq_left (Or.inl (by dsimp only [h]; omega)), Equiv.swap_apply_left]
       have hjk : ¬ k.val ≤ j := by omega
       have hjh : ¬ h.val ≤ j := by dsimp only [h]; omega
-      rw [if_neg hjk, if_neg hjh]
+      rw [ite_eq_right hjk, ite_eq_right hjh]
       ring
     · by_cases hak : a = k
-      · rw [hak, if_pos (Or.inr (by omega)), Equiv.swap_apply_right]
+      · rw [hak, ite_eq_left (Or.inr (by omega)), Equiv.swap_apply_right]
         have hjk : ¬ k.val ≤ j := by omega
         have hjh : ¬ h.val ≤ j := by dsimp only [h]; omega
-        rw [if_neg hjk, if_neg hjh]
+        rw [ite_eq_right hjk, ite_eq_right hjh]
         ring
       · have hif : ¬ (a.val + 2 = n ∨ a.val + 1 = n) := by
           rintro (h' | h')
           · exact hah (Fin.ext (by dsimp only [h]; omega))
           · exact hak (Fin.ext (by omega))
-        rw [if_neg hif, Equiv.swap_apply_of_ne_of_ne hah hak, one_mul]
+        rw [ite_eq_right hif, Equiv.swap_apply_of_ne_of_ne hah hak, one_mul]
 
 theorem weylAction_simple_omExtWt {n j : ℕ} (hn : 2 ≤ n) (hj : j + 3 ≤ n) {k : Fin n}
     (hk : k.val ≠ j) :
@@ -89,7 +89,7 @@ private theorem c2slomqoe_spSgnOn_empty {n : ℕ} (x : Fin n) :
 private theorem c2slomqoe_spSgnOn_pair_of_ne {n : ℕ} {a b x : Fin n} (hxa : x ≠ a)
     (hxb : x ≠ b) : spSgnOn ({a, b} : Finset (Fin n)) x = 1 := by
   simp only [spSgnOn, Finset.mem_insert, Finset.mem_singleton]
-  rw [if_neg]
+  rw [ite_eq_right]
   exact fun h => h.elim hxa hxb
 
 private theorem c2slomqoe_spSgnOn_pair_left {n : ℕ} {a b : Fin n} (hab : a ≠ b) :
@@ -98,7 +98,7 @@ private theorem c2slomqoe_spSgnOn_pair_left {n : ℕ} {a b : Fin n} (hab : a ≠
 
 private theorem c2slomqoe_spSgnOn_pair_right {n : ℕ} {a b : Fin n} (hab : a ≠ b) :
     spSgnOn ({a, b} : Finset (Fin n)) b = -1 := by
-  simp [spSgnOn, hab, Ne.symm hab]
+  simp [spSgnOn, Ne.symm hab]
 
 private theorem c2slomqoe_exists_orbit {n j : ℕ} (hn : 2 ≤ n) (π : Equiv.Perm (Fin n))
     (T : Finset (Fin n)) (hT : Even T.card) :
@@ -121,7 +121,7 @@ private theorem c2slomqoe_exists_orbit {n j : ℕ} (hn : 2 ≤ n) (π : Equiv.Pe
   rw [Equiv.apply_symm_apply]
   ring
 
-private theorem c2slomqoe_orbit_four_of_sep {n j : ℕ} (hn : 2 ≤ n)
+private theorem c2slomqoe_orbit_four_of_sep {n j : ℕ} (_hn : 2 ≤ n)
     {x : (coxeterMatrix (isFiniteType_cartanD n)).Group} {π : Equiv.Perm (Fin n)}
     {s : Fin n → ℤ} (hxr : OmRealizes n x π s)
     (d : Fin 4 → Fin n → ℤ)
@@ -149,7 +149,7 @@ private theorem c2slomqoe_orbit_four_of_sep {n j : ℕ} (hn : 2 ≤ n)
 
 theorem exists_four_orbit_omExtWt {n j : ℕ} (hn : 5 ≤ n) (hj1 : 1 ≤ j) (hj : j + 3 ≤ n)
     {x : (coxeterMatrix (isFiniteType_cartanD n)).Group} {π : Equiv.Perm (Fin n)}
-    {s : Fin n → ℤ} (hxr : OmRealizes n x π s) (hs : SpIsSign s)
+    {s : Fin n → ℤ} (hxr : OmRealizes n x π s) (_hs : SpIsSign s)
     (hx : (π ⟨0, by omega⟩ = ⟨0, by omega⟩ ∧ s ⟨0, by omega⟩ = -1) ∨
       (π ⟨0, by omega⟩ = ⟨1, by omega⟩ ∧ π ⟨1, by omega⟩ = ⟨0, by omega⟩ ∧
         s ⟨0, by omega⟩ = s ⟨1, by omega⟩)) :
@@ -198,14 +198,13 @@ theorem exists_four_orbit_omExtWt {n j : ℕ} (hn : 5 ≤ n) (hj1 : 1 ≤ j) (hj
         c2slomqoe_spSgnOn_pair_of_ne, hσ0, h01, h0j, h0l]
     have hA1v : ∀ i, dA i i1 = ![1, -1, 0, 0] i := by
       intro i
-      fin_cases i <;> simp [dA, πA, TA, i0, i1, jj, ilast, c2slomqoe_spSgnOn_empty,
-        c2slomqoe_spSgnOn_pair_of_ne, c2slomqoe_spSgnOn_pair_left, hσ1, hσj,
-        h01, h1j, h1l, hjl, hj1, hjle]
+      fin_cases i <;> simp [dA, πA, TA, i1, jj, ilast, c2slomqoe_spSgnOn_empty,
+        c2slomqoe_spSgnOn_pair_left, hσ1, h1l, hj1, hjle]
     have hAjv : ∀ i, dA i jj = ![0, 0, 1, -1] i := by
       intro i
-      fin_cases i <;> simp [dA, πA, TA, i0, i1, jj, ilast, c2slomqoe_spSgnOn_empty,
-        c2slomqoe_spSgnOn_pair_of_ne, c2slomqoe_spSgnOn_pair_left, hσ1, hσj,
-        h01, h1j, h1l, hjl, hj1, hjle]
+      fin_cases i <;> simp [dA, πA, TA, i1, jj, ilast, c2slomqoe_spSgnOn_empty,
+        c2slomqoe_spSgnOn_pair_left, hσj,
+        hjl, hj1, hjle]
     have hinj : Function.Injective dA := by
       intro i l hil
       have hsig : (dA i i1, dA i jj) = (dA l i1, dA l jj) := by rw [hil]
@@ -235,17 +234,17 @@ theorem exists_four_orbit_omExtWt {n j : ℕ} (hn : 5 ≤ n) (hj1 : 1 ≤ j) (hj
         fun a => 2 * dB i a := fun i => c2slomqoe_exists_orbit hn2 (πB i) (TB i) (hTB i)
     have hB0v : ∀ i, dB i i0 = ![1, -1, 1, -1] i := by
       intro i
-      fin_cases i <;> simp [dB, πB, TB, i0, i1, jj, ilast, c2slomqoe_spSgnOn_empty,
+      fin_cases i <;> simp [dB, πB, TB, i0, jj, ilast, c2slomqoe_spSgnOn_empty,
         c2slomqoe_spSgnOn_pair_of_ne, c2slomqoe_spSgnOn_pair_left, hσ0,
-        h01, h0j, h0l, h1l, hjl]
+        h0j, h0l]
     have hBjv : ∀ i, dB i jj = ![1, 1, -1, -1] i := by
       intro i
       fin_cases i <;> simp [dB, πB, TB, i0, i1, jj, ilast, c2slomqoe_spSgnOn_empty,
         c2slomqoe_spSgnOn_pair_of_ne, c2slomqoe_spSgnOn_pair_left,
-        c2slomqoe_spSgnOn_pair_right, hσj, h01, h0j, h0l, h1l, hjl, hj1, hjle]
+        c2slomqoe_spSgnOn_pair_right, hσj, h0j, hjl, hj1]
     have hB1v : ∀ i, dB i i1 = 0 := by
       intro i
-      fin_cases i <;> simp [dB, πB, TB, i0, i1, jj, ilast, hσ1, h1j, h1l, hjle]
+      fin_cases i <;> simp [dB, πB, TB, i0, i1, jj, ilast, hσ1, hjle]
     have hinj : Function.Injective dB := by
       intro i l hil
       have hsig : (dB i i0, dB i jj) = (dB l i0, dB l jj) := by rw [hil]

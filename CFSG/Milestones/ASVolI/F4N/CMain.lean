@@ -21,14 +21,14 @@ theorem burnsideF4nC_N1set_le (c : α.Completion Y) (cc y : c.Γ) :
     N1set c GLKind.Tits cc y ⊆ stv c c.xv := by
   intro s hs
   unfold N1set at hs
-  rw [if_pos rfl] at hs
+  rw [ite_eq_left rfl] at hs
   exact hs.1
 
 theorem burnsideF4nC_N2set_le (c : α.Completion Y) (cc y y' : c.Γ) :
     N2set c GLKind.Tits cc y y' ⊆ stv c c.lv := by
   intro s hs
   unfold N2set at hs
-  rw [if_pos rfl] at hs
+  rw [ite_eq_left rfl] at hs
   exact hs.1
 
 theorem burnsideF4nC_ncard_N1_pre (c : α.Completion Y) (hc : c.IsFaithful) (cc y : c.Γ) :

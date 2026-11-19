@@ -85,7 +85,7 @@ theorem g2RootElt_pow {β : Fin Tag.G2.rank → ℤ} (hβ : IsRoot .G2 β) (A : 
   Subtype.ext (by rw [Subgroup.coe_pow]; exact map_pow _ A n)
 
 theorem g2RootElt_injective {β : Fin Tag.G2.rank → ℤ} (hβ : IsRoot .G2 β) :
-    Function.Injective (g2RootElt (K := K) hβ) := fun A B h =>
+    Function.Injective (g2RootElt (K := K) hβ) := fun _A _B h =>
   rootSL2_injective_of_field β (congrArg Subtype.val h)
 
 theorem exists_g2RootElt_eq {β : Fin Tag.G2.rank → ℤ} (hβ : IsRoot .G2 β)

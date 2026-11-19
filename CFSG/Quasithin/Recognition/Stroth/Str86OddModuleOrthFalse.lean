@@ -18,6 +18,7 @@ open scoped Pointwise commutatorElement MatrixGroups
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem o5a_commutator_mem_z1 {V Zg Zy Z1 A : Subgroup G} {c : G}
     (hVab : IsElemAbelian 2 V) (hAab : IsElemAbelian 2 A)
     (hV : V = Zy ⊔ (V ⊓ A)) (hZyV : Zy ≤ V) (hZgV : Zg ≤ V)
@@ -51,6 +52,7 @@ private theorem o5a_commutator_mem_z1 {V Zg Zy Z1 A : Subgroup G} {c : G}
   rw [← hint]
   exact Subgroup.mem_inf.mpr ⟨hmemZg, hmemZy⟩
 
+omit [Finite G] in
 private theorem o5a_mem_normalizer_conj_z2 {L1 L2 S : Subgroup G} {c h : G}
     (hcQ : c ∈ Q1 L1 L2 S) (hh : h ∈ P1 L1 L2 S)
     (hQ1B : Q1 L1 L2 S ≤ bigB L1 L2 S)
@@ -87,6 +89,7 @@ private theorem o5as_mem_conj_s {L1 L2 S : Subgroup G} {g c : G}
       (le_normalizer_pCoreOf 2 (P1 L1 L2 S) ((P1 L1 L2 S).inv_mem hg)) c).mp hcQ)
   simpa using (CFSG.Quasithin.H13.A7.mem_conj_smul_iff (V := S) (g := g⁻¹) (x := c)).mpr hmem
 
+omit [Finite G] in
 private theorem o5as_range_commutator_subset {V Zg Zy Z1 A : Subgroup G} {c : G}
     (hVab : IsElemAbelian 2 V) (hAab : IsElemAbelian 2 A)
     (hV : V = Zy ⊔ (V ⊓ A)) (hZyV : Zy ≤ V) (hZgV : Zg ≤ V)

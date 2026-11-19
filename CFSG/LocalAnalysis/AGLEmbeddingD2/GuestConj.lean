@@ -55,7 +55,7 @@ theorem exists_eq_map_conj_of_three_le_pRank (hpre : GLBPreuniqueness G) {q : �
   obtain ⟨QH, hQH⟩ := exists_weakCore_le_of_three_le_pRank hpre hq hD1 hH hH3
   obtain ⟨QM, hQM⟩ := exists_weakCore_le_of_three_le_pRank hpre hq hD1 hM hM3
   obtain ⟨g, -, hg⟩ := CFSG.AGLEmbedding.exists_mem_map_conj_eq_of_card_eq
-    (L := ⊤) (le_top : (QM : Subgroup G) ≤ ⊤) le_top QM.isPGroup' QH.isPGroup'
+    (L := ⊤) (le_top : (QM : Subgroup G) ≤ ⊤) le_top QM.isPGroup QH.isPGroup
     (by
       change ¬ q ∣ (QM : Subgroup G).relIndex ⊤
       rw [Subgroup.relIndex_top_right]

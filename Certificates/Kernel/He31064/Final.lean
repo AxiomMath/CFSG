@@ -722,7 +722,7 @@ theorem cnt_eq_cntT {i j : Nat} (hj : j < 133) :
   have hpts : wordInvL ab (W j) pts = (2 :: 0 :: B).map (act 8330 (xs j)⁻¹) := by
     rw [wordInvL_eq]
     refine List.map_congr_left fun p hp => wordInv_code (W_letters hj) p ?_
-    simp only [pts, B, List.mem_cons, List.not_mem_nil, or_false] at hp
+    simp only [pts, List.mem_cons, List.not_mem_nil, or_false] at hp
     omega
   unfold cnt
   rw [hpts]

@@ -179,7 +179,7 @@ theorem oddCoreFact_three_adjointG2_eight {K : Type} [Field K] [Finite K]
 theorem oddCoreFact_three_of_G2_eight {q : TauCeti.PrimePower} (hq : q.card = 8)
     (hv : (TauCeti.LieTypeIndex.G2 q).Valid) {S : Type} [Group S]
     (e : S ≃* (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group) : OddCoreFact 3 S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hGal : Nat.card (GaloisField 2 3) = 8 := by
     rw [GaloisField.card 2 3 (by norm_num)]
     norm_num

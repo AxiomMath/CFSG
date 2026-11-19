@@ -19,7 +19,7 @@ theorem transvGL_mulVec_e_of_ne {a b j : Fin 6} (hab : a ≠ b) (hj : j ≠ b) :
     (transvGL K a b hab 1 : Matrix (Fin 6) (Fin 6) K) *ᵥ e K j = e K j := by
   rw [transvGL_val, transvection_mulVec_eq_add]
   have h0 : e K j b = 0 := by
-    simp [e, Pi.single_apply, Ne.symm hj]
+    simp [e, Ne.symm hj]
   rw [h0, mul_zero, Pi.single_zero, add_zero]
 
 theorem transvGL_mulVec_e_self {a b : Fin 6} (hab : a ≠ b) :

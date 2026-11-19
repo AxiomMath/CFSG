@@ -63,10 +63,10 @@ theorem map_mem_centralizer_of_map_eq {Q : Type*} [Group Q] {e : MulAut Q} {K : 
 
 theorem exists_involution_of_component {Q : Type} [Group Q] [Finite Q] (P : Sylow 2 Q) {K : Subgroup Q}
     (hK : IsComponentOf K ⊤) : ∃ s ∈ K, s ∈ (P : Subgroup Q) ∧ s ≠ 1 ∧ s ^ 2 = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsub : K.IsSubnormal := G310.isSubnormal_of_isComponentOf hK
   obtain ⟨R, hR⟩ := CFSG.Walter.exists_sylow_map_eq_inf_of_isSubnormal P hsub
-  obtain ⟨s, hsR, hs2⟩ := PropHSetup.exists_orderOf_eq_two R.isPGroup'
+  obtain ⟨s, hsR, hs2⟩ := PropHSetup.exists_orderOf_eq_two R.isPGroup
     (R.ne_bot_of_dvd_card (LemmaX.two_dvd_card_of_isQuasisimple hK.2.2))
   have hs2' : orderOf (s : Q) = 2 := (Subgroup.orderOf_coe s).trans hs2
   have h1 : (s : Q) ∈ (R : Subgroup K).map K.subtype := ⟨s, hsR, rfl⟩
@@ -91,7 +91,7 @@ theorem comp_transitive {Q : Type} [Group Q] [Finite Q] (hO : goldschmidtOddCore
     (hsolv : Group.IsSolvable ↥(fixSub ψ)) :
     ∀ a ∈ Ab, ∀ b ∈ Ab, a ≠ 1 → b ≠ 1 → ∃ n ∈ normalizer (Ab : Set Q), n⁻¹ * a * n = b := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hlay : goldschmidtLayer Q = ⊤ := by rwa [hR, bot_sup_eq] at hL
   have hinv0 : ∀ t ∈ (Sb : Subgroup Q), t ^ 2 = 1 → t ∈ Ab := by
     intro t ht ht2
@@ -119,7 +119,7 @@ theorem comp_transitive {Q : Type} [Group Q] [Finite Q] (hO : goldschmidtOddCore
     by_contra hcon
     push Not at hcon
     exact hs1 (hZK s hsK hcon)
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hφK : K.map φ.toMonoidHom = K :=
     map_eq_of_fpf hφ (fun a ha b hb => congrArg Subtype.val (hEA.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩))
       hφA hfpf hK hsAb hsK hsnc
@@ -177,8 +177,8 @@ theorem comp_transitive {Q : Type} [Group Q] [Finite Q] (hO : goldschmidtOddCore
   let e : ↥(⊤ : Subgroup Q) ⧸ center ↥(⊤ : Subgroup Q) ≃* Q :=
     ((QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot).trans
       Subgroup.topEquiv
-  haveI hsimple : IsSimpleGroup Q := by
-    haveI := hK.2.2.2
+  have hsimple : IsSimpleGroup Q := by
+    have := hK.2.2.2
     exact e.symm.isSimpleGroup
   have hGT : goldschmidtSimpleType Q :=
     Red2.goldschmidtSimpleType_of_mulEquiv e.symm (hgold _ hK)

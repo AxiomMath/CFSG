@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem closureIn_eq_iSup_gLBConj (I H : Subgroup G) :
     closureIn I H = ⨆ g ∈ H, GLBConj g I := by
   unfold closureIn
@@ -26,6 +27,7 @@ theorem closureIn_eq_iSup_gLBConj (I H : Subgroup G) :
   · refine iSup₂_le fun g hg => ?_
     exact le_biSup (fun a => I.map (MulAut.conj a).toMonoidHom) (H.inv_mem hg)
 
+omit [Finite G] in
 theorem closureIn_eq_self {K B : Subgroup G} (hBK : B ≤ Subgroup.normalizer (K : Set G)) :
     closureIn K B = K := by
   rw [closureIn_eq_iSup_gLBConj]
@@ -48,6 +50,7 @@ theorem glaPComponent_ne_bot' {p : ℕ} {X L : Subgroup G} (h : GLAPComponent p 
       Subgroup.center ↥(⊥ : Subgroup (↥X ⧸ GLAPPrimeCore p ↥X))) := inferInstance
   exact (not_subsingleton_iff_nontrivial.2 inferInstance) hss
 
+omit [Finite G] in
 theorem centralizer_ne_top_of_ne_one (hsimple : IsSimpleGroup G)
     (hnonab : ∃ a b : G, a * b ≠ b * a) {a : G} (ha : a ≠ 1) :
     Subgroup.centralizer ({a} : Set G) ≠ ⊤ := by
@@ -65,10 +68,12 @@ theorem centralizer_ne_top_of_ne_one (hsimple : IsSimpleGroup G)
     have hu : u ∈ Subgroup.center G := h ▸ Subgroup.mem_top u
     exact ((Subgroup.mem_center_iff.1 hu) v).symm
 
+omit [Finite G] in
 theorem isElemAbelian_zpowers_of_mem {p : ℕ} {E : Subgroup G} (hE : IsElemAbelian p E) {x : G}
     (hx : x ∈ E) : IsElemAbelian p (Subgroup.zpowers x) :=
   isElemAbelian_mono hE (Subgroup.zpowers_le.2 hx)
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_mem {p : ℕ} {E : Subgroup G} (hE : IsElemAbelian p E) {x : G}
     (hx : x ∈ E) : IsPGroup p (Subgroup.zpowers x) :=
   isPGroup_of_isElemAbelian (isElemAbelian_zpowers_of_mem hE hx)
@@ -91,7 +96,7 @@ theorem pump_step (h183 : Input18_3_4) {p : ℕ} (hp : p.Prime) (hS4 : Stage4Ord
       CentMod p K x ∧
       (∀ d ∈ A, CentMod p L d → CentMod p K d) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Cx := Subgroup.centralizer ({x} : Set G) with hCx
   set Ca := Subgroup.centralizer ({a} : Set G) with hCa
   have hxL : GLAPComponent p Cx L := hBxL.1.2.2

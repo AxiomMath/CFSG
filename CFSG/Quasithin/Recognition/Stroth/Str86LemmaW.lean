@@ -43,6 +43,7 @@ private theorem commute_z2_of_fixedPointFree
   exact commute_of_commute_of_fixedPointFree hV hstep.2.2.1.le hstep.1.1 hL hN
     hfpf hhH hhodd hhw (hZV hv) hvw
 
+omit [Finite G] in
 private theorem conj_smul_eq_of_commute {Z : Subgroup G} {h : G}
     (hcomm : ∀ v ∈ Z, Commute h v) : MulAut.conj h • Z = Z := by
   ext v

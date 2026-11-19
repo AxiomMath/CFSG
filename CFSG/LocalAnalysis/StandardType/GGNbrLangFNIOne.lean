@@ -84,21 +84,21 @@ theorem kgInducedAut_induces {X : Type*} [Group X] {R : Type} [Group R]
 theorem largeEvenMarking_not_induces_of_not_inner {X : Type} [Group X]
     (hX : Group.IsPerfect X) (f : MulAut X)
     (hf : f ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner X)
-    (hmark : LargeEvenMarking X (fun _ R _ I _ _ => I = LargeEvenInnSet R)) :
-    LargeEvenMarking X (fun _ R _ I _ θ =>
+    (hmark : LargeEvenMarking X (fun _ _R _ I _ _ => I = LargeEvenInnSet _R)) :
+    LargeEvenMarking X (fun _ _R _ I _ θ =>
       ¬ ∃ φ ∈ Subgroup.closure I,
         LargeEvenInduces θ (fun j k : X => k = f j) φ) := by
   refine largeEvenMarking_mono ?_ hmark
-  intro lab R _ I F θ hI
+  intro lab _R _ I F θ hI
   rintro ⟨φ, hφcl, hind⟩
   have hIinner : I =
-      (CFSG.ComponentClassification.OuterAutomorphisms.inner R : Set (MulAut R)) := by
+      (CFSG.ComponentClassification.OuterAutomorphisms.inner _R : Set (MulAut _R)) := by
     rw [hI]
     rfl
   have hclosure : Subgroup.closure I =
-      CFSG.ComponentClassification.OuterAutomorphisms.inner R := by
+      CFSG.ComponentClassification.OuterAutomorphisms.inner _R := by
     rw [hIinner, Subgroup.closure_eq]
-  have hφinner : φ ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner R := by
+  have hφinner : φ ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner _R := by
     rw [← hclosure]
     exact hφcl
   have hφeq : φ = kgInducedAut θ f := by
@@ -107,7 +107,7 @@ theorem largeEvenMarking_not_induces_of_not_inner {X : Type} [Group X]
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
     exact (hind x (f x) rfl).trans (kgInducedAut_induces θ f x (f x) rfl).symm
   have hkg : kgInducedAut θ f ∈
-      CFSG.ComponentClassification.OuterAutomorphisms.inner R := by
+      CFSG.ComponentClassification.OuterAutomorphisms.inner _R := by
     simpa [hφeq] using hφinner
   have hstd : CFSG.StandardType.centerQuotAut X f ∈
       CFSG.ComponentClassification.OuterAutomorphisms.inner
@@ -216,7 +216,7 @@ theorem kgFieldRestriction_hOne_of_rawImage {lab : LargeEvenLabel}
     exact ⟨hsimple'', hna'',
       ⟨(CFSG.LocalAnalysis.GLTheoremA.CanonInn.quotCenterEquivOfBot hcenterR).trans e'',
         kgfni_not_induces_rawImage hcenterR e'' hF'' hsimple'' hna'' hinn'' hf hord⟩⟩
-  letI : IsSimpleGroup R := hsimpleR
+  let : IsSimpleGroup R := hsimpleR
   exact kgFieldRestriction_hOne hmark hJ f' hf'
 
 end CFSG.StandardType

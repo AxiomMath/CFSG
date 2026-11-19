@@ -213,7 +213,7 @@ theorem exists_frobenius_fixed_conj_of_toral {τ : Tag} {L : Type} [Field L] [Is
   let afam : Unit → Fin τ.rank → Lˣ := fun _ => a
   have hkernel : familyKernel afam = rootCharKernel a := by
     ext α
-    simp only [familyKernel, rootCharKernel, Set.mem_setOf_eq]
+    simp only [familyKernel, rootCharKernel, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨hα, h⟩; exact ⟨hα, h ()⟩
     · rintro ⟨hα, h⟩; exact ⟨hα, fun _ => h⟩

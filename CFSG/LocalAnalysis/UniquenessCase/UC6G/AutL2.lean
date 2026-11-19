@@ -20,12 +20,12 @@ variable {G : Type} [Group G] [Finite G] {Dat : Data G} (m : Mz614 Dat)
 
 theorem isSylowOf_Ebar_of_lieModel (h620 : m.C620) (hL : LieModel m.Lbar .PSL 2 m.r 2) :
     IsSylowOf m.r m.Ebar ⊤ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hp : IsPGroup m.r m.Ebar := IsPGroup.of_card (m.card_Ebar h620)
   obtain ⟨P, hP⟩ := hp.exists_le_sylow
   have hPsyl : IsSylowOf m.r (P : Subgroup m.Lbar) ⊤ := by
     rw [isSylowOf_iff]
-    refine ⟨le_top, P.isPGroup', ?_⟩
+    refine ⟨le_top, P.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact P.not_dvd_index
   have hPcard := (UC22.uc22p22q_psl2_sylow_elem m.hr m.d.odd hL hPsyl).2

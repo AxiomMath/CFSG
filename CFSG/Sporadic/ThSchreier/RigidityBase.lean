@@ -18,7 +18,7 @@ namespace CFSG.Sporadic.ThSchreier
 
 open CFSG.Sporadic.Th CFSG.Sporadic.Th.Max3
 
-@[expose] def posWord {G : Type*} [Monoid G] (g h : G) (w : List ℕ) : G :=
+def posWord {G : Type*} [Monoid G] (g h : G) (w : List ℕ) : G :=
   (w.map fun l => if l = 1 then g else h).prod
 
 theorem posWord_nil {G : Type*} [Monoid G] (g h : G) : posWord g h [] = 1 := rfl
@@ -34,11 +34,11 @@ theorem map_posWord {G G' : Type*} [Monoid G] [Monoid G'] (f : G →* G') (g h :
     rw [posWord_cons, posWord_cons, map_mul, ih]
     split_ifs <;> rfl
 
-@[expose] def tPerm : Equiv.Perm (Fin 9) := Equiv.swap 0 1
+def tPerm : Equiv.Perm (Fin 9) := Equiv.swap 0 1
 
-@[expose] def oddD1 : Matrix (Fin 8) (Fin 8) (ZMod 2) := posWord B1 B2 oddWord1
+def oddD1 : Matrix (Fin 8) (Fin 8) (ZMod 2) := posWord B1 B2 oddWord1
 
-@[expose] def oddD2 : Matrix (Fin 8) (Fin 8) (ZMod 2) := posWord B1 B2 oddWord2
+def oddD2 : Matrix (Fin 8) (Fin 8) (ZMod 2) := posWord B1 B2 oddWord2
 
 theorem oddWords_perm : posWord aPerm bPerm oddWord1 = tPerm * aPerm * tPerm⁻¹ ∧
     posWord aPerm bPerm oddWord2 = tPerm * bPerm * tPerm⁻¹ := by
@@ -55,18 +55,18 @@ theorem mul_posWord_of_intertwine {T C₁ C₂ : Matrix (Fin 8) (Fin 8) (ZMod 2)
     · rw [← Matrix.mul_assoc, h₁, Matrix.mul_assoc, ih, Matrix.mul_assoc]
     · rw [← Matrix.mul_assoc, h₂, Matrix.mul_assoc, ih, Matrix.mul_assoc]
 
-@[expose] def basisWords : Fin 8 → List ℕ :=
+def basisWords : Fin 8 → List ℕ :=
   ![[], [1], [2, 1], [1, 2, 1], [2, 1, 2, 1], [1, 2, 1, 2, 1], [2, 2, 1, 2, 1], [1, 2, 2, 1, 2, 1]]
 
-@[expose] def e0 : Fin 8 → ZMod 2 := Pi.single 0 1
+def e0 : Fin 8 → ZMod 2 := Pi.single 0 1
 
-@[expose] def colMat (C₁ C₂ : Matrix (Fin 8) (Fin 8) (ZMod 2)) (u : Fin 8 → ZMod 2) :
+def colMat (C₁ C₂ : Matrix (Fin 8) (Fin 8) (ZMod 2)) (u : Fin 8 → ZMod 2) :
     Matrix (Fin 8) (Fin 8) (ZMod 2) :=
   Matrix.of fun i k => (posWord C₁ C₂ (basisWords k)).mulVec u i
 
-@[expose] def basisP : Matrix (Fin 8) (Fin 8) (ZMod 2) := colMat B1 B2 e0
+def basisP : Matrix (Fin 8) (Fin 8) (ZMod 2) := colMat B1 B2 e0
 
-@[expose] def basisPInv : Matrix (Fin 8) (Fin 8) (ZMod 2) := mat8 basisPInvEnc
+def basisPInv : Matrix (Fin 8) (Fin 8) (ZMod 2) := mat8 basisPInvEnc
 
 theorem mat8_B1enc : mat8 B1enc = B1 := by
   ext i j
@@ -110,12 +110,12 @@ theorem mat8_D1enc : mat8 D1enc = oddD1 := by
 theorem mat8_D2enc : mat8 D2enc = oddD2 := by
   rw [D2enc, mat8_posWord8, mat8_B1enc, mat8_B2enc, oddD2]
 
-@[expose] def rTop : Matrix (Fin 8) (Fin 8) (ZMod 2) :=
+def rTop : Matrix (Fin 8) (Fin 8) (ZMod 2) :=
   !![1, 0, 1, 1, 0, 1, 0, 1; 0, 0, 0, 0, 0, 0, 0, 0; 1, 1, 1, 0, 1, 0, 1, 0;
     0, 0, 0, 0, 0, 0, 0, 0; 1, 1, 1, 1, 0, 1, 1, 1; 1, 1, 1, 1, 1, 1, 1, 0;
     0, 0, 0, 0, 0, 0, 0, 0; 0, 0, 0, 0, 0, 0, 0, 0]
 
-@[expose] def rBot : Matrix (Fin 8) (Fin 8) (ZMod 2) :=
+def rBot : Matrix (Fin 8) (Fin 8) (ZMod 2) :=
   !![0, 0, 0, 0, 0, 0, 0, 0; 0, 0, 0, 0, 1, 0, 1, 0; 0, 0, 1, 1, 0, 1, 0, 1;
     1, 1, 1, 1, 0, 1, 0, 1; 0, 0, 0, 0, 0, 0, 0, 0; 1, 1, 1, 1, 1, 0, 1, 0;
     0, 0, 0, 0, 0, 0, 0, 0; 0, 0, 0, 0, 0, 0, 0, 0]

@@ -47,7 +47,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 theorem Qm_apply (v : Fin 5 → ZMod 7) : Qm v = v 0 * v 4 + v 1 * v 3 + v 2 ^ 2 := by
   unfold Qm
-  simp only [QuadraticMap.add_apply, QuadraticMap.linMulLin_apply, LinearMap.proj_apply]
+  simp only [_root_.add_apply, QuadraticMap.linMulLin_apply, LinearMap.proj_apply]
   ring
 
 private theorem polar_Qm_apply (x y : Fin 5 → ZMod 7) :
@@ -108,7 +108,7 @@ theorem exists_isometry {T : Type} [AddCommGroup T] [Module (ZMod 7) T]
     [Module.Finite (ZMod 7) T] (hT : Module.finrank (ZMod 7) T = 5)
     {Q : QuadraticForm (ZMod 7) T} (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) :
     ∃ d : ZMod 7, d ≠ 0 ∧ ∃ e : T ≃ₗ[ZMod 7] (Fin 5 → ZMod 7), ∀ t, Qm (e t) = d * Q t := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have h2 : ringChar (ZMod 7) ≠ 2 := by
     rw [ZMod.ringChar_zmod_n]
     norm_num
@@ -118,14 +118,14 @@ theorem exists_isometry {T : Type} [AddCommGroup T] [Module (ZMod 7) T]
   let sigmaIso : (CFSG.LieType.Universal.Spin.quadOdd 2 (ZMod 7)).IsometryEquiv Qm :=
     ⟨sigma, fun v => Qm_sigma v⟩
   refine ⟨d, hd, (iso.trans sigmaIso).toLinearEquiv, fun t => ?_⟩
-  simpa [QuadraticMap.smul_apply, smul_eq_mul] using (iso.trans sigmaIso).map_app t
+  simp [smul_apply, smul_eq_mul]
 
 private lemma lOne_apply (v : Fin 5 → ZMod 7) :
     lOne v = ![v 0 + v 1, v 1, v 2, v 3 - v 4, v 4] := by
   rw [lOne, ← LinearEquiv.coe_coe, Matrix.toLinearEquiv'_apply, Matrix.toLin'_apply]
   funext k
-  fin_cases k <;> simp [Matrix.mulVec_apply_eq_sum, Fin.sum_univ_five] <;>
-    ring_nf <;> reduce_mod_char <;> ring
+  fin_cases k <;> simp [Matrix.mulVec_apply_eq_sum, Fin.sum_univ_five];
+    ring_nf; reduce_mod_char; ring
 
 private lemma sOne_apply (v : Fin 5 → ZMod 7) :
     sOne v = ![v 0, v 1 + v 2 + 5 * v 3, v 2 + 3 * v 3, v 3, v 4] := by
@@ -166,48 +166,45 @@ private lemma sOne_pow_apply (n : ℕ) : ∀ v : Fin 5 → ZMod 7,
       intro v
       rw [pow_succ, LinearEquiv.mul_apply, ih (sOne v), sOne_apply]
       funext i
-      fin_cases i <;> simp [Nat.cast_succ] <;> ring_nf <;> reduce_mod_char <;> ring_nf
+      fin_cases i <;> simp [Nat.cast_succ] <;> ring_nf; reduce_mod_char
 
 theorem dTwo_pow_three : dTwo ^ 3 = 1 := by
   ext v i
   fin_cases i <;>
-    simp [pow_succ, pow_one, pow_zero, LinearEquiv.mul_apply, LinearEquiv.coe_one,
+    simp [pow_succ, pow_zero, LinearEquiv.mul_apply, LinearEquiv.coe_one,
       dTwo_apply] <;>
-    ring_nf <;> reduce_mod_char <;> ring_nf
+    ring_nf <;> reduce_mod_char
 
 theorem dTwo_conj_lOne : dTwo * lOne * dTwo⁻¹ = lOne ^ 4 := by
   ext v i
   fin_cases i <;>
     simp [LinearEquiv.mul_apply, LinearEquiv.coe_inv, dTwo_symm_apply, lOne_apply,
       dTwo_apply, lOne_pow_apply] <;>
-    ring_nf <;> reduce_mod_char <;> ring_nf
+    ring_nf <;> reduce_mod_char
 
 theorem dTwo_conj_sOne : dTwo * sOne * dTwo⁻¹ = sOne ^ 2 := by
   ext v i
   fin_cases i <;>
     simp [LinearEquiv.mul_apply, LinearEquiv.coe_inv, dTwo_symm_apply, sOne_apply,
       dTwo_apply, sOne_pow_apply] <;>
-    ring_nf <;> reduce_mod_char <;> ring_nf
+    ring_nf <;> reduce_mod_char
 
 private lemma sum_lOne_range_four (x : Fin 5 → ZMod 7) :
     (∑ k ∈ Finset.range 4, (lOne ^ k) x) =
       ![4 * x 0 + 6 * x 1, 4 * x 1, 4 * x 2, 4 * x 3 - 6 * x 4, 4 * x 4] := by
   funext i
   fin_cases i <;>
-    simp [Finset.sum_apply, Finset.sum_range_succ, Finset.sum_range_zero,
-      Finset.sum_range_one, pow_zero, pow_one, pow_succ, LinearEquiv.mul_apply,
+    simp [Finset.sum_apply, Finset.sum_range_succ, pow_zero, pow_succ, LinearEquiv.mul_apply,
       LinearEquiv.coe_one, lOne_apply] <;>
-    ring_nf <;> reduce_mod_char <;> ring
+    ring_nf
 
 private lemma sum_sOne_range_two (y : Fin 5 → ZMod 7) :
     (∑ k ∈ Finset.range 2, (sOne ^ k) y) =
       ![2 * y 0, 2 * y 1 + y 2 + 5 * y 3, 2 * y 2 + 3 * y 3, 2 * y 3, 2 * y 4] := by
   funext i
   fin_cases i <;>
-    simp [Finset.sum_apply, Finset.sum_range_succ, Finset.sum_range_zero,
-      Finset.sum_range_one, pow_zero, pow_one, pow_succ, LinearEquiv.mul_apply,
-      LinearEquiv.coe_one, sOne_apply] <;>
-    ring_nf <;> reduce_mod_char <;> ring
+    simp [Finset.sum_apply, Finset.sum_range_succ, pow_zero, pow_succ, LinearEquiv.coe_one, sOne_apply] <;>
+    ring_nf
 
 theorem cocycle_exists (x y : Fin 5 → ZMod 7)
     (hx : ∑ k ∈ Finset.range 4, (lOne ^ k) x = dTwo x)
@@ -332,7 +329,7 @@ private lemma exists_sq_or_three_sq (c : ZMod 7) (hc : c ≠ 0) :
 theorem mem_closure_classRefl {c : ZMod 7} (hc : c ≠ 0) :
     lOne ∈ closure (ClassRefl 7 Qm c) ∧ sOne ∈ closure (ClassRefl 7 Qm c) ∧
       dTwo ∈ closure (ClassRefl 7 Qm c) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   rcases exists_sq_or_three_sq c hc with ⟨s, hs, hc'⟩ | ⟨s, hs, hc'⟩
   · rw [hc', classRefl_sq_mul (Q := Qm) (c := 1) (s := s) hs]
     exact ⟨lOne_mem_one, sOne_mem_one, dTwo_mem_one⟩
@@ -391,7 +388,7 @@ private noncomputable abbrev H : Subgroup ((Fin 5 → ZMod 7) ≃ₗ[ZMod 7] (Fi
   closure ({lOne, sOne} : Set ((Fin 5 → ZMod 7) ≃ₗ[ZMod 7] (Fin 5 → ZMod 7)))
 
 private lemma isPGroup_closure : IsPGroup 7 H := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hpgU : IsPGroup 7
       (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.unitriangular 5 (ZMod 7)) :=
     IsPGroup.of_card (by
@@ -437,7 +434,7 @@ private lemma C_apply (v : Fin 5 → ZMod 7) :
   simp only [C, LinearEquiv.mul_apply, LinearEquiv.coe_inv, sOne_inv_apply, lOne_inv_apply,
     sOne_apply, lOne_apply]
   funext i
-  fin_cases i <;> simp <;> ring_nf <;> reduce_mod_char <;> ring_nf <;> reduce_mod_char
+  fin_cases i <;> simp <;> ring_nf <;> reduce_mod_char; ring_nf; reduce_mod_char
 
 private lemma C_pow_apply (n : ℕ) : ∀ v : Fin 5 → ZMod 7,
     (C ^ n) v = ![v 0 + (n : ZMod 7) * v 2 + 2 * (n : ZMod 7) * v 3 +
@@ -449,7 +446,7 @@ private lemma C_pow_apply (n : ℕ) : ∀ v : Fin 5 → ZMod 7,
       intro v
       rw [pow_succ, LinearEquiv.mul_apply, ih (C v), C_apply]
       funext i
-      fin_cases i <;> simp [Nat.cast_succ] <;> ring_nf <;> reduce_mod_char
+      fin_cases i <;> simp [Nat.cast_succ] <;> ring_nf; reduce_mod_char
 
 private lemma C_pow_seven : C ^ 7 = 1 := by
   apply LinearEquiv.ext
@@ -493,7 +490,6 @@ private lemma pow_prod_coords (a b c d : ℕ) :
     simp only [LinearEquiv.mul_apply, lOne_pow_apply, sOne_pow_apply, C_pow_apply, Z_pow_apply]
   all_goals simp
   all_goals ring_nf
-  all_goals reduce_mod_char
 
 private lemma fin7_natCast_injective {a b : Fin 7}
     (h : ((a : ℕ) : ZMod 7) = ((b : ℕ) : ZMod 7)) : a = b := by
@@ -520,8 +516,8 @@ theorem pow_four_dvd_card_closure :
     7 ^ 4 ∣ Nat.card (closure
       ({lOne, sOne} : Set ((Fin 5 → ZMod 7) ≃ₗ[ZMod 7] (Fin 5 → ZMod 7)))) := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite ((Fin 5 → ZMod 7) ≃ₗ[ZMod 7] (Fin 5 → ZMod 7)) :=
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite ((Fin 5 → ZMod 7) ≃ₗ[ZMod 7] (Fin 5 → ZMod 7)) :=
     Finite.of_injective
       (fun e : (Fin 5 → ZMod 7) ≃ₗ[ZMod 7] (Fin 5 → ZMod 7) =>
         (e : (Fin 5 → ZMod 7) → (Fin 5 → ZMod 7)))
@@ -579,11 +575,11 @@ theorem exists_splitData {T : Type} [AddCommGroup T] [Module (ZMod 7) T]
       ¬ 7 ∣ (closure ({ℓ, s} : Set (T ≃ₗ[ZMod 7] T))).relIndex
         (closure (ClassRefl 7 Q c)) := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨μ, hμ, e, he⟩ := exists_isometry hT hQ
   have he' : ∀ v : Fin 5 → ZMod 7, (μ • Q) (e.symm v) = Qm v := by
     intro v
-    rw [QuadraticMap.smul_apply, smul_eq_mul, ← he (e.symm v),
+    rw [_root_.smul_apply, smul_eq_mul, ← he (e.symm v),
       LinearEquiv.apply_symm_apply]
   let φ : ((Fin 5 → ZMod 7) ≃ₗ[ZMod 7] (Fin 5 → ZMod 7)) ≃* (T ≃ₗ[ZMod 7] T) :=
     { toFun := fun x => e.trans (x.trans e.symm)

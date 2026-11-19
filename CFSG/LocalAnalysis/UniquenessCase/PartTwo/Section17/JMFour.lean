@@ -46,7 +46,7 @@ theorem jM_mem_of_nonempty {D : Data G} {p : ℕ} (h : (calL0Star D p).Nonempty)
 theorem not_isSimpleGroup_of_isA5xA5 {Y : Type} [Group Y] (hs : IsSimpleGroup Y)
     (h : IsA5xA5 Y) : False := by
   obtain ⟨e⟩ := h
-  haveI := hs
+  have := hs
   exact CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22g_prod_not_simple
     (A := alternatingGroup (Fin 5)) (B := alternatingGroup (Fin 5)) e.symm.isSimpleGroup
 
@@ -61,7 +61,7 @@ theorem not_isQuasisimple_of_isA5xA5 {Y : Type} [Group Y] (h : IsA5xA5 Y) :
   have hZ : Subgroup.center Y = ⊥ := by
     apply Subgroup.map_injective (f := e.toMonoidHom) e.injective
     rw [show Subgroup.map e.toMonoidHom (Subgroup.center Y) = ⊥ by
-      simpa [MulEquiv.coe_toMonoidHom, hZprod] using Subgroup.map_center_eq e]
+      simp [hZprod]]
     rw [Subgroup.map_bot]
   have hA5q : IsA5xA5 (Y ⧸ Subgroup.center Y) :=
     ⟨((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).trans e⟩

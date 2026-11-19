@@ -42,11 +42,11 @@ theorem le_of_isStronglyPEmbedded_of_coprime {G : Type} [Group G] [Finite G] {p 
     (hVp : ¬ p ∣ Nat.card V) : V ≤ M' := by
   have hp1 : 1 < p := (Fact.out : p.Prime).one_lt
   have hpp : p < p ^ 2 := by nlinarith
-  haveI : IsMulCommutative ↥F := hFel.1
-  haveI : CFSG.IsElementaryAbelian p ↥F :=
+  have : IsMulCommutative ↥F := hFel.1
+  have : CFSG.IsElementaryAbelian p ↥F :=
     ⟨Monoid.exponent_dvd_of_forall_pow_eq_one fun x => Subtype.ext (by
       rw [Subgroup.coe_pow, Subgroup.coe_one]; exact hFel.2 x x.2)⟩
-  haveI : Nontrivial ↥F := by
+  have : Nontrivial ↥F := by
     rw [Subgroup.nontrivial_iff_ne_bot]
     intro h
     rw [h, Subgroup.card_bot] at hF
@@ -75,7 +75,7 @@ open N588
 
 theorem not_dvd_card_rCoreL_of_mem_sigma (hLM : ¬ m.L ≤ m.M) {q : ℕ}
     (hq : q ∈ uniqueFourSigma m.M) : ¬ q ∣ Nat.card (rCore m.r m.L) := by
-  haveI : Fact q.Prime := ⟨hq.1.1⟩
+  have : Fact q.Prime := ⟨hq.1.1⟩
   have hOM : rCore m.r m.L ≤ m.M := m.rCoreL_le_M
   intro hd
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow q ↥(rCore m.r m.L)))
@@ -85,7 +85,7 @@ theorem not_dvd_card_rCoreL_of_mem_sigma (hLM : ¬ m.L ≤ m.M) {q : ℕ}
   have hQne : (P : Subgroup ↥(rCore m.r m.L)).map (rCore m.r m.L).subtype ≠ ⊥ := fun h =>
     hPne ((Subgroup.map_eq_bot_iff_of_injective _ (rCore m.r m.L).subtype_injective).1 h)
   have hQp : IsPGroup q ((P : Subgroup ↥(rCore m.r m.L)).map (rCore m.r m.L).subtype) :=
-    P.isPGroup'.map _
+    P.isPGroup.map _
   have hNQ := (m.isStronglyPEmbedded_M hq).normalizer_le hQne hQp
     ((map_subtype_le _).trans hOM)
   have hfr := frattini_of_isSylowOf (rCore_le m.r m.L) m.L_le_normalizer_rCoreL hQsyl
@@ -100,7 +100,7 @@ theorem Mz614.not_alt_fi22_of_inputs {G : Type} [Group G] [Finite G] (m : Mz614 
     (hSch : UCK.KSch) (hX : UCK.K620Exc) :
     ¬ ((∃ n : ℕ, 13 ≤ n ∧ IsAlt m.Lbar n) ∨ IsSpor m.Lbar .Fi22) := by
   intro hL
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h619 := m.c619_of_inputs hKM hK3 h69 hSch
   have hLM := m.not_L_le_M_of_inputs hKM hK3 h69 hSch
   have h3 : 3 < twoLocalPrimeRank 3 ↥m.L :=

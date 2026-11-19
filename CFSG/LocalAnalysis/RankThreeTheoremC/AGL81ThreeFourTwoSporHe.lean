@@ -55,7 +55,7 @@ theorem heSeven_sylow_shape
     (hK : Nonempty (K ≃* (TauCeti.CFSGIndex.sporadic .He).Group)) (T : Sylow 7 K) :
     Nat.card (T : Subgroup K) = 7 ^ 3 ∧ (∀ x ∈ (T : Subgroup K), x ^ 7 = 1) ∧
       ∃ x ∈ (T : Subgroup K), ∃ y ∈ (T : Subgroup K), x * y ≠ y * x := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨⟨-, -, -, -⟩, -, -, -, -, -, -, -, ⟨hA0C, -, hA0P, hA0c, hA0e, hAcard, -⟩, -, -⟩ :=
     R3E_He_full_seven_centralizer_structures
   obtain ⟨e⟩ := nonempty_mulEquiv_carrier_of_sporadicIndex (s := .He)
@@ -79,7 +79,7 @@ theorem heSeven_sylow_shape
     exact congrArg Subtype.val h
   have hAnab : ∃ x ∈ heSevenA0, ∃ y ∈ heSevenA0, x * y ≠ y * x := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : heSevenA0 ≤ centralizer (heSevenA0 : Set (Equiv.Perm (Fin 8330))) ⊓ heSevenC0 :=
       fun x hx => ⟨mem_centralizer_iff.mpr fun y hy => hcon y hy x hx, hA0C hx⟩
     have := Subgroup.card_le_of_le hle
@@ -106,7 +106,7 @@ private theorem sylow_seven_normalizer_of_maximal {K : Type*} [Group K] [Finite 
     Group.IsSolvable (normalizer ((T : Subgroup K) : Set K)) ∧
       ∀ H : Subgroup K, normalizer ((T : Subgroup K) : Set K) ≤ H →
         H = normalizer ((T : Subgroup K) : Set K) ∨ H = ⊤ := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨P⟩ : Nonempty (Sylow 7 R) := inferInstance
   have h0 : (6174 : ℕ) ≠ 0 := by norm_num
   have hfac : (6174 : ℕ).factorization 7 = 3 := by
@@ -128,7 +128,7 @@ private theorem sylow_seven_normalizer_of_maximal {K : Type*} [Group K] [Finite 
     generalize Nat.card (Sylow 7 R) = m at hdvd hmod hle ⊢
     interval_cases m <;> omega
   have hPn : (P : Subgroup R).Normal := by
-    haveI : Subsingleton (Sylow 7 R) := (Nat.card_eq_one_iff_unique.mp hone).1
+    have : Subsingleton (Sylow 7 R) := (Nat.card_eq_one_iff_unique.mp hone).1
     exact Sylow.normal_of_subsingleton P
   set T₀ : Subgroup K := (P : Subgroup R).map R.subtype with hT₀
   have hT₀c : Nat.card T₀ = 7 ^ 3 := by
@@ -156,7 +156,7 @@ private theorem sylow_seven_normalizer_of_maximal {K : Type*} [Group K] [Finite 
       rwa [h2] at h1
   have hNtop : normalizer (T₀ : Set K) ≠ ⊤ := by
     intro htop
-    haveI : T₀.Normal := Subgroup.normalizer_eq_top_iff.mp htop
+    have : T₀.Normal := Subgroup.normalizer_eq_top_iff.mp htop
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal T₀ with h | h
     · rw [h, card_bot] at hT₀c
       norm_num at hT₀c
@@ -184,13 +184,13 @@ private theorem sylow_seven_normalizer_of_maximal {K : Type*} [Group K] [Finite 
       norm_num at this
     omega
   obtain ⟨l, -, hl⟩ := CFSG.AGLEmbedding.exists_mem_map_conj_eq_of_card_eq (L := ⊤) le_top le_top
-    (IsPGroup.of_card hT₀c) T.isPGroup' hT₀idx
+    (IsPGroup.of_card hT₀c) T.isPGroup hT₀idx
     (by rw [Sylow.card_eq_multiplicity T, hKc, hT₀c, hKfac])
   have hNT : normalizer ((T : Subgroup K) : Set K) = R.map (MulAut.conj l).toMonoidHom := by
     rw [← hl, ← map_equiv_normalizer_eq, hNR]
   rw [hNT]
   refine ⟨?_, fun H hH => ?_⟩
-  · haveI := hRsol
+  · have := hRsol
     exact Group.isSolvable_of_surjective
       (f := (R.equivMapOfInjective (MulAut.conj l).toMonoidHom
         (MulAut.conj l).injective).toMonoidHom) (MulEquiv.surjective _)
@@ -249,7 +249,7 @@ theorem heSeven_normalizer_facts_of
     CFSG.Sporadic.Bridge.He.nonempty_mulEquiv hK
   obtain ⟨R, hRc, hRmax⟩ := exists_maximal_of_mulEquiv
     (A := CFSG.Blueprint.NativeSporadic.Carrier .He) (A' := K) eK.symm hN
-  haveI : IsSimpleGroup K :=
+  have : IsSimpleGroup K :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.He.isSimpleGroup_He eK
   have hKc : Nat.card K = 4030387200 := by
     rw [Nat.card_congr eK.toEquiv]
@@ -266,7 +266,7 @@ theorem threeFourTwoNoneAt_he :
     ThreeFourTwoNoneAt 7 (TauCeti.CFSGIndex.sporadic .He).Group := by
   have hO : Nat.card (Outer (CFSG.Blueprint.NativeSporadic.Carrier .He)) ≤ 2 :=
     CFSG.Sporadic.Schreier.AT_He_Schreier.1
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .He) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .He) :=
     CFSG.Sporadic.He.fam_he_simplicity.1
   have hsq : 7 ^ 2 ∣ Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .He) := by
     show 7 ^ 2 ∣ Nat.card CFSG.Blueprint.NativeSporadic.He
@@ -278,11 +278,11 @@ theorem threeFourTwoNoneAt_he :
   refine threeFourTwoNoneAt_of_normalizer_maximal hX hnab hout fun K _ _ hK => ?_
   obtain ⟨e⟩ := nonempty_mulEquiv_carrier_of_sporadicIndex (s := .He)
     CFSG.Sporadic.Bridge.He.nonempty_mulEquiv hK
-  haveI : Finite (MulAut (CFSG.Blueprint.NativeSporadic.Carrier .He)) := MulEquiv.finite_left
+  have : Finite (MulAut (CFSG.Blueprint.NativeSporadic.Carrier .He)) := MulEquiv.finite_left
   refine ⟨?_, fun T => ?_⟩
   · rw [Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence e).toEquiv]
     exact (isSolvable_and_not_dvd_of_card_le_two hO (by norm_num) (by norm_num)).2
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨hc, hexp, hnc⟩ := heSeven_sylow_shape hK T
   obtain ⟨h2, hZ⟩ := pRank_and_card_inf_centralizer_of_card_cube hc hexp hnc
   obtain ⟨hsol, hmax⟩ := heSeven_normalizer_facts_of heSeven_maximal_J hK T

@@ -20,7 +20,7 @@ theorem s16e_two_trans_til (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbel
     (hnot : (⊤ : Subgroup (Vtil V₀ V hV)) ∉ irrSet (lBar V₀ V hV L)) :
     ∀ I₁ ∈ irrSet (lBar V₀ V hV L), ∀ I₂ ∈ irrSet (lBar V₀ V hV L),
       ∃ g ∈ Mbar D.M V₀ V hV, I₂ = I₁.map g.toMonoidHom := by
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   have hW : wTil V₀ V hV L = ⊤ := wTil_eq_top_of_case163_2 hconc hs
   obtain ⟨t, -, -, -, -, hsup, hcomm, hcases⟩ := hconc
   rcases hcases with h1 | h2 | h3 | h4
@@ -30,10 +30,10 @@ theorem s16e_two_trans_til (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbel
       (CFSG.pCore_isPGroup (p := p) (G := ↥(Mbar D.M V₀ V hV))).map
         (Mbar D.M V₀ V hV).subtype
     have hpL : IsPGroup p ↥(lBar V₀ V hV L) := hpG.to_le hle
-    haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Group.IsPerfect ↥(lBar V₀ V hV L) :=
+    have : Fact p.Prime := ⟨hp⟩
+    have : Group.IsPerfect ↥(lBar V₀ V hV L) :=
       (Subgroup.isPerfect_iff (H := lBar V₀ V hV L)).2 hperf
-    haveI : Nontrivial ↥(lBar V₀ V hV L) := hsimple.toNontrivial
+    have : Nontrivial ↥(lBar V₀ V hV L) := hsimple.toNontrivial
     exact False.elim ((Group.IsPerfect.not_isNilpotent ↥(lBar V₀ V hV L)) hpL.isNilpotent)
   ·
     obtain ⟨K, hK, g, hg, hne, hL, -⟩ := h2
@@ -57,7 +57,7 @@ theorem s16e_two_trans_til (D : Data G) {V₀ V L : Subgroup G} (hV : IsElemAbel
       have h := CFSG.Open.IsSubnormal.inf_of_le hK.2.1 hLM
       rwa [inf_eq_left.2 hKLb] at h
     have hKne : K ≠ ⊥ := by
-      haveI : Nontrivial (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2.toNontrivial
+      have : Nontrivial (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2.toNontrivial
       exact (Subgroup.nontrivial_iff_ne_bot K).mp
         (QuotientGroup.mk'_surjective (Subgroup.center ↥K)).nontrivial
     rcases CFSG.Open.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hsub hsimple with

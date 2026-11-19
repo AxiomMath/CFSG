@@ -10,7 +10,7 @@ open scoped Matrix
 
 private lemma q2nN7_neg_eq_self_zmod3 : ∀ a : ZMod 3, -a = a → a = 0 := by decide
 
-private lemma q2nN7_exists_ne_zero_ne {i : Fin 8} (hi : i ≠ 0) :
+private lemma q2nN7_exists_ne_zero_ne {i : Fin 8} (_hi : i ≠ 0) :
     ∃ j : Fin 8, j ≠ 0 ∧ j ≠ i := by
   by_cases h : i = 1
   · exact ⟨2, by decide, by rw [h]; decide⟩
@@ -78,7 +78,7 @@ theorem eq_smul_e0_of_fixed {v : Fin 8 → ZMod 3} (hv : ∀ f ∈ S.F1, S.ρ f 
   · subst hi
     simp [e0]
   · have hvi : v i = 0 := hzero i hi
-    simp [e0, hvi, Pi.single_apply, hi]
+    simp [e0, hvi, hi]
 
 theorem normalizer_F1 : Subgroup.normalizer (S.F1 : Set X) = S.H := by
   apply le_antisymm

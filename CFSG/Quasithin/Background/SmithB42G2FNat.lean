@@ -253,13 +253,13 @@ theorem exists_natural_of_six {f d : ℕ} (hK : Fintype.card K = 2 ^ f)
         rw [h] at this
         exact (Submodule.mem_bot _).mp this
       have h10 : (1 : EndRing ρ) ≠ 0 := by
-        haveI : CharP (EndRing ρ) 2 := hchar
+        have : CharP (EndRing ρ) 2 := hchar
         intro hc
         have hd : 2 ∣ 1 :=
           (CharP.cast_eq_zero_iff (EndRing ρ) 2 1).mp (by rw [Nat.cast_one]; exact hc)
         obtain ⟨k, hk⟩ := hd
         omega
-      haveI : NeZero (1 : EndRing ρ) := ⟨h10⟩
+      have : NeZero (1 : EndRing ρ) := ⟨h10⟩
       have h2 := congrArg (fun w => θ w (.inl 0)) h1
       simp at h2
     · intro x

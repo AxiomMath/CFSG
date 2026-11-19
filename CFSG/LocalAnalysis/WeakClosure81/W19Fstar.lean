@@ -9,6 +9,7 @@ namespace CFSG.LocalAnalysis.WeakClosure81
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_pCore_iff_mem_pCoreOf' {N : Subgroup G} (x : ↥N) :
     x ∈ CFSG.pCore 2 ↥N ↔ (x : G) ∈ CFSG.Open.pCoreOf 2 N := by
   unfold CFSG.Open.pCoreOf

@@ -93,7 +93,7 @@ private theorem chief_facts {B : Type} [Group B] {X Y₀ : Subgroup B} [X.Normal
     (hmin : ∀ N : Subgroup B, N.Normal → Y₀ ≤ N → N ≤ X → N = Y₀ ∨ N = X)
     (hnc : ¬ ⁅X, (⊤ : Subgroup B)⁆ ≤ Y₀) :
     X ⊓ center B = Y₀ ∧ shortU B ⊔ Y₀ = X := by
-  haveI : (shortU B).Normal := by
+  have : (shortU B).Normal := by
     unfold shortU
     infer_instance
   refine ⟨?_, ?_⟩
@@ -173,7 +173,7 @@ theorem IsAschbacherBlockGomi.isBlockInX [Finite Y] (hY : IsCharacteristicP 2 Y)
   have hirr : ∀ N : Subgroup B, N.Normal → N ≤ shortU B → shortC B ≤ N →
       N = shortC B ∨ N = shortU B := by
     intro N hN hNU hCN
-    haveI := hN
+    have := hN
     rcases hmin (N ⊔ Y₀) inferInstance le_sup_right (sup_le (hNU.trans hUX') hY₀X.le) with h | h
     · refine Or.inl (le_antisymm (fun n hn => ⟨hNU hn, hY₀Z ?_⟩) hCN)
       rw [← h]

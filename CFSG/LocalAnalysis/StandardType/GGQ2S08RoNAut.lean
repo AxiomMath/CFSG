@@ -315,7 +315,7 @@ theorem four_dvd_card_automizer_of_mem (c : GGQ2S08RoN n Bs L x) {w : Fin (n + 1
       have hσ : ∀ k, σ k = σ (0 : Fin (n + 1)) * c.diag b k := fun k => by
         rw [hb, mul_inv_cancel_left]
       refine ⟨μ⁻¹, fun i => ?_⟩
-      rw [Equiv.Perm.one_symm, Equiv.Perm.coe_one, id, hσ ((τ ^ orderOf α).symm i), hσ i,
+      rw [← Equiv.Perm.inv_def 1, inv_one, Equiv.Perm.coe_one, id, hσ ((τ ^ orderOf α).symm i), hσ i,
         hμ i, mul_left_comm μ⁻¹, inv_mul_cancel_left]
     have h := orderOf_dvd_of_pow_eq_one hτm
     rw [hτord] at h

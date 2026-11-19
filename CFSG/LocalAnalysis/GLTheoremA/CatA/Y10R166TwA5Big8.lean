@@ -132,8 +132,8 @@ theorem concl166S_twA5Big_of_transport
   obtain ⟨ht, hr, hn2, hpdvd⟩ := hfam
   obtain ⟨F, hFld, hFin, h', ⟨e⟩⟩ :=
     exists_mulEquiv_unitaryPSU_of_hasLabel_twA hK hz ht hn2
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   refine htr (hr ▸ e) ?_
   exact exists_concl166S_unitaryPSU_six_of_four_le (p := p) h' hn hp hp2 hpdvd
 

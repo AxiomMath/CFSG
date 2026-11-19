@@ -31,8 +31,8 @@ private theorem idxCoreAt_twistedA_fieldHom {q : TauCeti.PrimePower} {K : Type} 
     IdxCoreAt p (.twistedA n q)
       (primeFormFieldHom h (isPrimeFormGram_one (n := n + 1)) σ) := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite K := h.finite
+  have : Fact p.Prime := ⟨hp⟩
   set N := n + 1 with hNdef
   set h₀ := fixSubfield_unitaryFieldData h hp hp2 hσ with hh₀
   have hbar := fixSubfield_unitaryFieldData_bar h hp hp2 hσ
@@ -111,7 +111,7 @@ theorem lieOuterIdx_unitary : LieOuterIdx isUnitaryIdx := by
     have hmodel : StatedClassicalModel S .PSU (n + 1) q.p q.exponent :=
       statedClassicalModel_twistedA n q hd (MulEquiv.refl S)
     obtain ⟨K, _, hU, -, ⟨eP⟩⟩ := exists_primeFormP_mulEquiv_of_statedModel hmodel
-    haveI : Finite (primeFormP hU
+    have : Finite (primeFormP hU
         ((1 : GL (Fin (n + 1)) K) : Matrix (Fin (n + 1)) (Fin (n + 1)) K)) :=
       CFSG.RankThree.PartOne.KCUnitaryModel.finite_primeFormP
     have hN : 3 ≤ n + 1 := hmodel.1.2.2.1

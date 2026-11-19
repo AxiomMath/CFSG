@@ -27,7 +27,7 @@ private theorem not_swaps_of_coprime_three {B : Finset (Fin 10)} (hB : B.card = 
     {σ : alternatingGroup (Fin 10)} (hσ : σ ∈ Q)
     (hswap : ∀ i ∈ B, (σ : Perm (Fin 10)) i ∉ B) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hSB, hScard⟩ := Finset.exists_subset_card_eq (s := B) (n := 3) (by omega)
   obtain ⟨c, hccycle, hcsupp⟩ :=
     CFSG.AGLEmbedding.exists_isCycle_support_eq (s := S) (by omega)
@@ -165,7 +165,7 @@ private theorem inf_altOn_eq_bot {B : Finset (Fin 10)} (hB : B.card = 5)
   have hHnormal : (H.subgroupOf AB).Normal := by
     refine ⟨fun n hn g => ?_⟩
     exact Subgroup.mem_subgroupOf.2 (normal_on_block hnorm n (Subgroup.mem_subgroupOf.1 hn) g g.2)
-  haveI : IsSimpleGroup ↥AB :=
+  have : IsSimpleGroup ↥AB :=
     CFSG.GH74.GLS.IVK.GHInv.isSimpleGroup_altOn (F := B) (by omega)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (H.subgroupOf AB) with hbot | htop
   · rw [eq_bot_iff]
@@ -183,7 +183,7 @@ private theorem inf_altOn_eq_bot {B : Finset (Fin 10)} (hB : B.card = 5)
     exact ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp hQ.symm)
       (dvd_three_card_of_altOn_le hB hle)
 
-private theorem commute_altOn_of_preserves {B : Finset (Fin 10)} (hB : B.card = 5)
+private theorem commute_altOn_of_preserves {B : Finset (Fin 10)} (_hB : B.card = 5)
     {Q : Subgroup (alternatingGroup (Fin 10))}
     (hnorm : ∀ g : alternatingGroup (Fin 10), ((∀ i ∉ B, (g : Perm (Fin 10)) i = i) ∨
       ∀ i ∈ B, (g : Perm (Fin 10)) i = i) → ∀ σ ∈ Q, g * σ * g⁻¹ ∈ Q)

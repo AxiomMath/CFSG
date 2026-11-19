@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem mem_CJ_conj_iff_of_inv {g σ : G} (hg : g ∈ H z) (hgσ : g * σ * g⁻¹ = σ⁻¹) (a : G) :
     a ∈ CJ z σ ↔ g * a * g⁻¹ ∈ CJ z σ := by
   have key : ∀ x y : G, x ∈ H z → x * σ * x⁻¹ = σ⁻¹ → y ∈ CJ z σ → x * y * x⁻¹ ∈ CJ z σ := by
@@ -44,6 +45,7 @@ theorem mem_CJ_conj_iff_of_inv {g σ : G} (hg : g ∈ H z) (hgσ : g * σ * g⁻
     have := key g⁻¹ (g * a * g⁻¹) ((H z).inv_mem hg) hgσ' h
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem mem_commutator_conj_iff_of_inv {g σ : G} (hg : g ∈ H z) (hgσ : g * σ * g⁻¹ = σ⁻¹)
     (a : G) : a ∈ ⁅zpowers σ, J z⁆ ↔ g * a * g⁻¹ ∈ ⁅zpowers σ, J z⁆ := by
   have hmap : ∀ x : G, x ∈ H z → x * σ * x⁻¹ = σ⁻¹ →

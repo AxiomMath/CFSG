@@ -36,7 +36,7 @@ theorem card_pCore_inf_cent_le (h : cent xGriess) (p : Pvis)
     (hp : thetaEquiv p = (((h : MGriess) : AutO) : SpaceB ≃ₗ[ℚ] SpaceB)) :
     Nat.card ↥(pCore 2 (cent xGriess) ⊓ Subgroup.centralizer ({h} : Set (cent xGriess))) ≤
       Nat.card {r : Q // conjQ p r = r} := by
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [natCard_Q]; norm_num)
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [natCard_Q]; norm_num)
   have key : ∀ y : ↥(pCore 2 (cent xGriess) ⊓ Subgroup.centralizer ({h} : Set (cent xGriess))),
       ∃ r : Q, rhoEquiv r = (((y.1 : cent xGriess) : MGriess) : AutO) ∧ conjQ p r = r := by
     intro y
@@ -122,7 +122,7 @@ section Prime
 theorem orderOf_image_prime {H K : Type*} [Group H] [Group K] [Finite H] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (e : H ⧸ pCore 2 H ≃* K) {x : H} (hx : orderOf x = p) :
     orderOf (e (QuotientGroup.mk x)) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [MulEquiv.orderOf_eq]
   refine orderOf_eq_prime ?_ fun h1 => ?_
   · rw [← QuotientGroup.mk_pow, ← hx, pow_orderOf_eq_one, QuotientGroup.mk_one]
@@ -201,8 +201,8 @@ theorem card_centralizer_cent_xGriess_le (k : cent xGriess) :
       2 * fixCount (((cosetEquivJ24 (QuotientGroup.mk k) : J24) : GL (Fin 24) (ZMod 2)) :
           Matrix (Fin 24) (Fin 24) (ZMod 2)) *
         Nat.card (Subgroup.centralizer ({cosetEquivJ24 (QuotientGroup.mk k)} : Set J24)) := by
-  haveI : Finite (cent xGriess) := finite_cent_xGriess
-  haveI : Finite J24 := finite_J24
+  have : Finite (cent xGriess) := finite_cent_xGriess
+  have : Finite J24 := finite_J24
   obtain ⟨p, hp⟩ := mem_Gvis.1 (centGriessEquiv k).2
   have hp' : thetaEquiv p = (((k : MGriess) : AutO) : SpaceB ≃ₗ[ℚ] SpaceB) := hp
   have h1 := @card_centralizer_le_mul (cent xGriess) ↥J24 _ (Subgroup.toGroup J24) _ _
@@ -223,8 +223,8 @@ theorem card_centralizer_cent_xGriess_le (k : cent xGriess) :
 theorem card_inf_cent_xGriess_le (hS : Co1FiveBound) {k : MGriess} (hk : orderOf k = 5)
     (hxk : xGriess * k = k * xGriess) :
     Nat.card ↥(cent xGriess ⊓ Subgroup.centralizer ({k} : Set MGriess)) ≤ 18432000 := by
-  haveI : Finite (cent xGriess) := finite_cent_xGriess
-  haveI : Finite J24 := finite_J24
+  have : Finite (cent xGriess) := finite_cent_xGriess
+  have : Finite J24 := finite_J24
   have hkmem : k ∈ cent xGriess := Subgroup.mem_centralizer_singleton_iff.2 hxk.symm
   have hk' : orderOf (⟨k, hkmem⟩ : cent xGriess) = 5 := by
     rw [← Subgroup.orderOf_coe]

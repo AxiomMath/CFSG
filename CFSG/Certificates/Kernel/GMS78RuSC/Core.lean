@@ -120,7 +120,6 @@ theorem zx_core (m : Nat → Nat → Nat) (C : List Nat) (hnd : C.Nodup) (hlen :
   have hclosed : sClosed m C = true := by
     unfold sClosed
     rw [neStrictB_eq, ← hIDX]
-    beta_reduce
     rw [P117.neAllL_eq, List.all_eq_true]
     intro p hp
     rw [P117.neAllL_eq, List.all_eq_true]

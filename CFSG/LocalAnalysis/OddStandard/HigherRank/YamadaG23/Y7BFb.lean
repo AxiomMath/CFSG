@@ -169,7 +169,7 @@ theorem y7b_NH_S (hH : F33Hyp s e) : normIn s.H s.fr.S = s.T := by
     by_cases hnM : n ∈ L ⊔ centIn s.H L
     · exact y7b_mem_T_of_mem_M hH hnN hnM
     · have hRT : s.R ≠ s.T := y7b_R_ne_T_of_not_mem_M hH hnH hnM
-      obtain ⟨g, hgT, hgR⟩ := SetLike.exists_of_lt (lt_of_le_of_ne s.R_le_T hRT)
+      obtain ⟨g, hgT, hgR⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne s.R_le_T hRT)
       have hgH : g ∈ s.H := s.sylow_T.1 hgT
       have hgM : g ∉ L ⊔ centIn s.H L := s3_not_mem_M s hH.hS hgT hgR
       have hgN : g ∈ Subgroup.normalizer (s.fr.S : Set G) := hTnorm hgT

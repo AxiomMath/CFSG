@@ -1026,7 +1026,7 @@ private theorem sylow_mem_normalizer_of_embed_mem_normalizer
       (Subgroup.mem_normalizer_iff.mp hyN (embed x)).mp hxU
     simpa [MulAut.conj_apply] using hconjU
   have hK_p : IsPGroup p K :=
-    P.isPGroup'.map (MulAut.conj y).toMonoidHom
+    P.isPGroup.map (MulAut.conj y).toMonoidHom
   have hK_le_normalizer :
       K ≤ Subgroup.normalizer ((P : Subgroup H) : Set H) := by
     intro k hkK
@@ -1048,7 +1048,7 @@ private theorem sylow_mem_normalizer_of_embed_mem_normalizer
       exact hxP
     · rw [Subgroup.card_map_of_injective (MulAut.conj k).injective]
   have hsup_p : IsPGroup p ((P : Subgroup H) ⊔ K : Subgroup H) :=
-    P.isPGroup'.to_sup_of_normal_left' hK_p hK_le_normalizer
+    P.isPGroup.to_sup_of_normal_left' hK_p hK_le_normalizer
   have hsup_eq : (P : Subgroup H) ⊔ K = (P : Subgroup H) :=
     P.maximal_isPGroup.eq_of_ge hsup_p le_sup_left
   have hK_le_P : K ≤ (P : Subgroup H) := by

@@ -31,8 +31,8 @@ theorem list_exists_sorted_extension [DecidableEq α] (r : α → α → Prop) [
     (htrans : ∀ a b c, r a b → r b c → r a c) (htotal : ∀ a b, r a b ∨ r b a) {c : List α}
     (hc : c.Nodup) (hcr : c.Pairwise r) (S : Finset α) (hcS : ∀ x ∈ c, x ∈ S) :
     ∃ L : List α, L.Nodup ∧ (∀ x, x ∈ L ↔ x ∈ S) ∧ L.Pairwise r ∧ List.Sublist c L := by
-  haveI : Std.Total r := ⟨htotal⟩
-  haveI : IsTrans α r := ⟨htrans⟩
+  have : Std.Total r := ⟨htotal⟩
+  have : IsTrans α r := ⟨htrans⟩
   refine ⟨(c ++ (S.filter (· ∉ c)).toList).insertionSort r, ?_, ?_,
     List.pairwise_insertionSort r _,
     List.sublist_insertionSort hcr (List.sublist_append_left _ _)⟩
@@ -86,12 +86,12 @@ theorem prodInjectiveFor_of_sublist {X : (ι → ℤ) → Subgroup K} {c l : Lis
     intro f hf
     refine ⟨fun γ _ => ?_, ?_⟩
     · by_cases hγ : γ ∈ c
-      · rw [if_pos hγ]
+      · rw [ite_eq_left hγ]
         exact hf γ hγ
-      · rw [if_neg hγ]
+      · rw [ite_eq_right hγ]
         exact one_mem _
-    · rw [list_prod_map_eq_of_sublist h _ hl fun x _ hx => if_neg hx]
-      exact congrArg List.prod (List.map_congr_left fun x hx => if_pos hx)
+    · rw [list_prod_map_eq_of_sublist h _ hl fun x _ hx => ite_eq_right hx]
+      exact congrArg List.prod (List.map_congr_left fun x hx => ite_eq_left hx)
   obtain ⟨hf1, hf2⟩ := hext f hf
   obtain ⟨hg1, hg2⟩ := hext g hg
   have key := hinj _ _ hf1 hg1 (hf2.trans (hfg.trans hg2.symm)) γ (h.subset hγ)
@@ -399,6 +399,7 @@ theorem restrict_eq_one_of_mem_normalizer (hext : SteinbergExtras D n H) :
   exact Subtype.ext (hext.eq_one_of_mem_normalizer (e i) u
     ((mem_restrict_rootGroup_single he).mp hu) hnorm')
 
+omit he in
 theorem restrict_torus_commute (hext : SteinbergExtras D n H) :
     ∀ i j, ∀ h ∈ HC D H e i, ∀ h' ∈ HC D H e j, Commute h h' := by
   intro i j h hh h' hh'
@@ -453,7 +454,7 @@ theorem restrict_steinbergExtras (hext : SteinbergExtras D n H) :
   posPart_inf_negPart := SE.restrict_posPart_inf_negPart he hdiv hext
   rankOne_bruhat := SE.restrict_rankOne_bruhat he hct hext
   eq_one_of_mem_normalizer := SE.restrict_eq_one_of_mem_normalizer he hext
-  torus_commute := SE.restrict_torus_commute he hext
+  torus_commute := SE.restrict_torus_commute hext
   torus_iSupIndep := SE.restrict_torus_iSupIndep he hext
   torus_inf_posPart := SE.restrict_torus_inf_posPart he hdiv hext
 

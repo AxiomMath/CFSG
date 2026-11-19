@@ -169,7 +169,7 @@ theorem exists_mul_eq_mul_unitE {N : Matrix (Fin 3) (Fin 3) K} (hN : N * N = 0) 
   have hMcol : M.col = ![p₁, p₂, v] := by
     ext j i
     rfl
-  have hunit : IsUnit M := linearIndependent_cols_iff_isUnit.1 (by rw [hMcol]; exact hind)
+  have hunit : IsUnit M := linearIndependent_col_iff_isUnit.1 (by rw [hMcol]; exact hind)
   refine ⟨hunit.unit, ?_⟩
   rw [IsUnit.unit_spec]
   ext i j

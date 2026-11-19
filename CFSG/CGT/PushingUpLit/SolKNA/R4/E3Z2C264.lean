@@ -261,7 +261,7 @@ theorem c264One_of_wSet_secOrbR (hr : 2 ≤ r) (h4 : Thm4RBelow r n)
     hs.secImg_J_mem_omegaNbr.2.1.symm (Ne.symm hne.1) (Ne.symm hne.2) hV2 (hc4 hKΦ hKX)
     (hc4 hJΦ hJX) (hc4 hM hMX)
 
-theorem c264PairR (hr : 2 ≤ r) (hs : TightStd8R r n Rd Sd z J S R T W t)
+theorem c264PairR (_hr : 2 ≤ r) (hs : TightStd8R r n Rd Sd z J S R T W t)
     (hE : MuIsoE4 (CoreAssembly.conjClass (tightCore Rd)) W)
     (hKN : (secImg (CoreAssembly.conjClass (tightCore Rd)) (z * t) (tightCore Rd)).Normal)
     (hJN : (secImg (CoreAssembly.conjClass (tightCore Rd)) (z * t) J).Normal) :

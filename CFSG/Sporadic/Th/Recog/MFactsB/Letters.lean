@@ -177,25 +177,25 @@ private theorem wprod_relCD :
     wprod hswJ relCD = hswJ 0 * (hswJ 3)⁻¹ * (hswJ 2)⁻¹ * (hswJ 3)⁻¹ * (hswJ 2)⁻¹ *
       (hswJ 3)⁻¹ * (hswJ 2)⁻¹ * (hswJ 3)⁻¹ * (hswJ 2)⁻¹ := by
   simp only [relCD, wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-    if_true, Bool.false_eq_true, if_false, mul_one]
+    ite_true, Bool.false_eq_true, ite_false, mul_one]
   group
 
 private theorem wprod_relDE :
     wprod hswJ relDE = hswJ 3 * hswJ 4 * hswJ 3 * hswJ 4 * hswJ 3 * hswJ 4 := by
   simp only [relDE, wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-    if_true, Bool.false_eq_true, if_false, mul_one]
+    ite_true, mul_one]
   group
 
 private theorem wprod_relU2 :
     wprod hswJ relU2 = hswJ 7 * hswJ 7 * (hswJ 2)⁻¹ * (hswJ 0)⁻¹ := by
   simp only [relU2, wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-    if_true, Bool.false_eq_true, if_false, mul_one]
+    ite_true, Bool.false_eq_true, ite_false, mul_one]
   group
 
 private theorem wprod_relUC :
     wprod hswJ relUC = (hswJ 7)⁻¹ * ((hswJ 2)⁻¹ * (hswJ 7 * hswJ 2)) := by
   simp only [relUC, wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-    if_true, Bool.false_eq_true, if_false, mul_one]
+    ite_true, Bool.false_eq_true, ite_false, mul_one]
 
 private theorem dM_conj_cM_mul_dM : dM * (cM * dM) * dM = (cM * dM)⁻¹ := by
   apply Subtype.ext
@@ -208,7 +208,7 @@ theorem cM_mul_dM_pow_four : (cM * dM) ^ 4 = zM := by
   rw [wprod_relCD, inv_hswJ_three, inv_hswJ_two] at hw
   have h1 : hswJ 0 * (hswJ 3 * hswJ 2) ^ 4 = 1 := by
     rw [← hw]
-    simp [pow_succ, pow_two, mul_assoc]
+    simp [pow_succ, mul_assoc]
   have h2 : (hswJ 3 * hswJ 2) ^ 4 = hswJ 0 := by
     simpa [inv_hswJ_zero] using
       @eq_inv_of_mul_eq_one_right J (inferInstance : DivisionMonoid J) (hswJ 0)
@@ -226,7 +226,7 @@ theorem dM_mul_eM_pow_three : (dM * eM) ^ 3 = 1 := by
   rw [wprod_relDE] at hw
   have h : (hswJ 3 * hswJ 4) ^ 3 = 1 := by
     rw [← hw]
-    simp [pow_succ, pow_two, mul_assoc]
+    simp [pow_succ, mul_assoc]
   apply Subtype.ext
   rw [Subgroup.coe_pow, Subgroup.coe_mul, coe_dM, coe_eM, Subgroup.coe_one]
   exact h
@@ -323,7 +323,7 @@ private theorem ω₁_ne_one : ω₁ ≠ 1 := by
   exact absurd h0 (by decide +kernel)
 
 theorem orderOf_ω₁ : orderOf ω₁ = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   exact orderOf_eq_prime ω₁_pow_three ω₁_ne_one
 
 theorem uM_pow_four : uM ^ 4 = 1 := by

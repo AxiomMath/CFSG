@@ -27,8 +27,8 @@ theorem gomi_rootChar_eq_one_of_even (b : Fin τ.rank → Fˣ) (hb : ∀ i, b i 
   have h1 : ∀ i, b i ^ α i = (-1 : Fˣ) ^ (if b i = -1 then α i else 0) := by
     intro i
     by_cases hbi : b i = -1
-    · rw [if_pos hbi, hbi]
-    · rw [if_neg hbi, zpow_zero]
+    · rw [ite_eq_left hbi, hbi]
+    · rw [ite_eq_right hbi, zpow_zero]
       rcases hb i with h | h
       · rw [h, one_zpow]
       · exact absurd h hbi

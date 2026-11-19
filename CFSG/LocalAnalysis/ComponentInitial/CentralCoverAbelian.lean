@@ -138,7 +138,7 @@ theorem perfect_central_cover_abelian_sylow_prime_kernel_bound {E Q : Type*} [Gr
   have hTC : ∀ t : (T : Subgroup E), ∀ ht : (t : E) ∈ η.ker,
       (⟨t, ht⟩ : η.ker) ∈ (Cℓ : Subgroup η.ker) := fun t ht => by
     refine mem_sylow_of_normal Cℓ hnorm ?_
-    obtain ⟨n, hn⟩ := (T.isPGroup' t)
+    obtain ⟨n, hn⟩ := (T.isPGroup t)
     obtain ⟨m, hm⟩ := CFSG.LieType.CentralExt.exists_orderOf_eq_pow_of_pow_eq_one (p := ℓ) (n := n)
       (congrArg Subtype.val hn)
     exact ⟨m, by rw [Subgroup.orderOf_mk]; exact hm⟩
@@ -212,7 +212,7 @@ theorem perfect_central_cover_abelian_sylow_prime_kernel_bound {E Q : Type*} [Gr
   have hZT : ∀ z : (Cℓ : Subgroup η.ker), ((z : η.ker) : E) ∈ (T : Subgroup E) := fun z =>
     CFSG.ShultStronglyClosedTI.central_pSubgroup_le_sylow T
       ((Cℓ : Subgroup η.ker).map η.ker.subtype) (by rintro _ ⟨y, -, rfl⟩; exact hC y.2)
-      (Cℓ.isPGroup'.map _) ⟨z, z.2, rfl⟩
+      (Cℓ.isPGroup.map _) ⟨z, z.2, rfl⟩
   let ι : (Cℓ : Subgroup η.ker) →* (T : Subgroup E) :=
     ((η.ker.subtype.comp (Cℓ : Subgroup η.ker).subtype).codRestrict _ hZT)
   have hι : Function.Injective ι := fun u v h => by
@@ -232,7 +232,7 @@ theorem perfect_central_cover_abelian_sylow_prime_kernel_bound {E Q : Type*} [Gr
       rw [map_inv, hιc, commutatorElement_inv]
   have hAT := CFSG.ShultStronglyClosedTI.central_pSubgroup_le_sylow_derived T
     ((Cℓ : Subgroup η.ker).map η.ker.subtype) (by rintro _ ⟨y, -, rfl⟩; exact hC y.2)
-    (Cℓ.isPGroup'.map _) ⟨z, z.2, rfl⟩
+    (Cℓ.isPGroup.map _) ⟨z, z.2, rfl⟩
   obtain ⟨t, htT, hte⟩ := hAT
   obtain ⟨v, hv, hvt⟩ := hDle (hTD htT)
   have hvz : v = z := hι (by
@@ -270,7 +270,7 @@ theorem perfect_central_cover_elementary_sylow_prime_kernel_bound {E Q : Type*} 
   refine ⟨{ is_comm := ⟨fun u v => Subtype.ext (Subtype.ext
               (mem_center_iff.1 (hC v.1.2) _))⟩
             exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one hexp }, ?_⟩
-  obtain ⟨r, hr⟩ := (IsPGroup.iff_card).1 Cℓ.isPGroup'
+  obtain ⟨r, hr⟩ := (IsPGroup.iff_card).1 Cℓ.isPGroup
   refine ⟨r, ?_, hr⟩
   have hle := Nat.card_le_card_of_surjective φ hφ
   have hcardP : Nat.card ((p : {p : Fin d × Fin d // p.1 < p.2}) →

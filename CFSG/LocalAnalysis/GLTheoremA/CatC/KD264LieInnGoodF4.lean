@@ -124,10 +124,10 @@ theorem perfectCentralizerPlanes_cat_F4 (q : TauCeti.PrimePower)
   classical
   obtain ⟨K, hF, hFin, hK, hKchar, ⟨e⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  let : Field K := hF
+  let : Finite K := hFin
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K (ringChar K) := ringChar.charP K
   have hpK : ¬ p ∣ Nat.card K := by
     rw [hK]
     exact not_dvd_card_of_ne hp hpq
@@ -173,7 +173,7 @@ theorem outPNice_cat_F4 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.F4 
     ⟨⟨q.prime_p, q.exponent_pos, rfl⟩,
       CFSG.HardMathSupport.Timmesfeld.Tables.T1b.untwistedChevalleyModel_of_bridge
         CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 (MulEquiv.refl _)⟩
-  haveI : Finite (Cat ⟨.F4 q, hv⟩) :=
+  have : Finite (Cat ⟨.F4 q, hv⟩) :=
     CFSG.LieType.Simplicity.fam_chevalley_exceptional_finiteness _ .F4 q.p q.exponent hm
   exact outPNice_of_isCyclic_outer hp
     (isCyclic_outer_of_untwistedModel_F4 q.prime_p q.exponent_pos hm.2)
@@ -188,9 +188,9 @@ theorem innGoodAt_F4 (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.F4 q).
     InnGoodAt p (.F4 q) (Cat ⟨.F4 q, hv⟩) := by
   obtain ⟨K, hF, hFin, -, -, ⟨e⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.f4 q hv
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : Finite (Cat ⟨.F4 q, hv⟩) := Finite.of_equiv _ e.symm.toEquiv
+  let : Field K := hF
+  let : Finite K := hFin
+  have : Finite (Cat ⟨.F4 q, hv⟩) := Finite.of_equiv _ e.symm.toEquiv
   have hZ : Subgroup.center (Cat ⟨.F4 q, hv⟩) = ⊥ := by
     rw [← Subgroup.map_center_eq e.symm, center_adjointGroup_eq_bot, Subgroup.map_bot]
   exact innGoodAt_of_outPNice hp hZ (outPNice_cat_F4 q hv hp)

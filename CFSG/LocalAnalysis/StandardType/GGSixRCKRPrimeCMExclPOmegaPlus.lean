@@ -120,9 +120,9 @@ theorem rckEq_of_block_unitarySmall_POmegaPlus {n f : ℕ} (hn : 3 ≤ n) {X : T
       exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp h).symm
     rcases Nat.eq_zero_or_pos m with hm0 | hmpos
     · subst m
-      haveI : Subsingleton (GL (Fin 0) E) :=
+      have : Subsingleton (GL (Fin 0) E) :=
         ⟨fun a b => Units.ext (Subsingleton.elim _ _)⟩
-      haveI : Subsingleton (CFSG.Open.StatedProj (ClassicalBlocks.GUFull 0 Q E)) :=
+      have : Subsingleton (CFSG.Open.StatedProj (ClassicalBlocks.GUFull 0 Q E)) :=
         inferInstance
       have hle1 : Nat.card β'.range ≤ 1 :=
         Finite.card_le_one_iff_subsingleton.mpr inferInstance

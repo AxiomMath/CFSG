@@ -83,7 +83,7 @@ theorem sortKey_eq (a b c : ℕ) : CFSG.D4Hex.sortKey a b c = sortKeyF a b c := 
   unfold CFSG.D4Hex.sortKey CFSG.D4Hex.lineKey sortKeyF
   simp only [Nat.min_def, Nat.max_def]
   by_cases h1 : a ≤ b <;> by_cases h2 : b ≤ c <;> by_cases h3 : a ≤ c <;>
-    simp only [h1, h2, h3, if_true, if_false] <;> (try split_ifs) <;> omega
+    simp only [h1, h2, h3, ite_true, ite_false] <;> (try split_ifs) <;> omega
 
 theorem img_line {j l : ℕ} (hj : j < 8) (hl : l < 2457) :
     ∃ L < 2457, imgKey j l = keyF LTf L := by
@@ -105,7 +105,7 @@ theorem img_line {j l : ℕ} (hj : j < 8) (hl : l < 2457) :
   obtain ⟨-, hs⟩ := ha
   rw [ho] at hs
   unfold actSOKF at hs
-  rw [if_neg (by omega)] at hs
+  rw [ite_eq_right (by omega)] at hs
   simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] at hs
   obtain ⟨⟨hy1, hy2⟩, hkey⟩ := hs
   refine ⟨Ot 0 (Wt 0 (8 * Pst 0 (819 + l) + j)) - 819, by omega, ?_⟩
@@ -113,7 +113,7 @@ theorem img_line {j l : ℕ} (hj : j < 8) (hl : l < 2457) :
   have e : 819 + l - 819 = l := by omega
   rw [e]
   unfold imgKey gG
-  simp only [if_pos hj]
+  simp only [ite_eq_left hj]
   rw [lnPt0, lnPt1, lnPt2, perm_get (x := LTf (3 * l)) hj (by omega),
     perm_get (x := LTf (3 * l + 1)) hj (by omega), perm_get (x := LTf (3 * l + 2)) hj (by omega),
     sortKey_eq]

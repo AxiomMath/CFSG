@@ -16,7 +16,7 @@ theorem uc22p22u_sylow_barPreimage {M : Subgroup G} {r : ℕ} (hr : r.Prime) (hr
     {D : Subgroup (Bar2 M)} (hD : IsPGroup r ↥D) {P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf r P (barPreimage M D)) :
     barImage M P = D ∧ P ⊓ pCoreOf 2 M = ⊥ := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set Y : Subgroup G := barPreimage M D with hY
   have hYM : Y ≤ M := uc22p21c_barPreimage_le M D
   obtain ⟨S, hSP⟩ := hP
@@ -50,11 +50,12 @@ theorem uc22p22u_sylow_barPreimage {M : Subgroup G} {r : ℕ} (hr : r.Prime) (hr
 theorem uc22p22u_sylow_O2p {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf p P (F11.O2p p M)) :
     P ≤ M ∧ barImage M P = CFSG.pCore p (Bar2 M) ∧ P ⊓ pCoreOf 2 M = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hP' : CFSG.ABGLocalTools.IsSylowOf p P (barPreimage M (CFSG.pCore p (Bar2 M))) := hP
   obtain ⟨h1, h2⟩ := uc22p22u_sylow_barPreimage hp hp2 (CFSG.pCore_isPGroup (p := p)) hP'
   exact ⟨hP'.le.trans (uc22p21c_barPreimage_le M _), h1, h2⟩
 
+omit [Finite G] in
 theorem uc22p22u_mem_commutator_iff {M : Subgroup G} (m : ↥M) :
     (m : G) ∈ ⁅M, M⁆ ↔ m ∈ ⁅(⊤ : Subgroup ↥M), (⊤ : Subgroup ↥M)⁆ := by
   have h : ⁅M, M⁆ = (⁅(⊤ : Subgroup ↥M), (⊤ : Subgroup ↥M)⁆).map M.subtype := by
@@ -67,6 +68,7 @@ theorem uc22p22u_mem_commutator_iff {M : Subgroup G} (m : ↥M) :
   · intro hm
     exact ⟨m, hm, rfl⟩
 
+omit [Finite G] in
 theorem uc22p22u_map_commutator (M : Subgroup G) :
     (⁅(⊤ : Subgroup ↥M), (⊤ : Subgroup ↥M)⁆).map (uc22p21cPi M) =
       ⁅(⊤ : Subgroup (Bar2 M)), (⊤ : Subgroup (Bar2 M))⁆ := by
@@ -76,7 +78,7 @@ theorem uc22p22u_barImage_inf_commutator {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     (hP : CFSG.ABGLocalTools.IsSylowOf p P (F11.O2p p M)) :
     barImage M (P ⊓ ⁅M, M⁆) = CFSG.pCore p (Bar2 M) ⊓ ⁅(⊤ : Subgroup (Bar2 M)), (⊤ : Subgroup (Bar2 M))⁆ := by
   obtain ⟨hPM, hbar, -⟩ := uc22p22u_sylow_O2p hp hp2 hP
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hPp : IsPGroup p ↥P := (CFSG.ABGLocalTools.isSylowOf_iff.1 hP).2.1
   apply le_antisymm
   · intro y hy
@@ -125,10 +127,11 @@ theorem uc22p22u_le_pCoreOf {Γ : Type*} [Group Γ] {p : ℕ} (S T : Subgroup Γ
   intro b hb
   exact ⟨⟨b, hST hb⟩, hle (Subgroup.mem_subgroupOf.2 hb), rfl⟩
 
+omit [Finite G] in
 theorem uc22p22u_exists_phi {M X : Subgroup G} [hX : (X.subgroupOf M).Normal] (hO : pCoreOf 2 M ≤ X) :
     ∃ φ : Bar2 M →* ↥M ⧸ X.subgroupOf M, Function.Surjective φ ∧ φ.ker = barImage M X ∧
       ∀ m : ↥M, φ (uc22p21cPi M m) = (QuotientGroup.mk m : ↥M ⧸ X.subgroupOf M) := by
-  haveI : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
   have hle : CFSG.pCore 2 ↥M ≤ (QuotientGroup.mk' (X.subgroupOf M)).ker := by
     rw [QuotientGroup.ker_mk']
     intro m hm
@@ -162,7 +165,7 @@ theorem uc22p22u_r1110_part1 (D : Data G) (h118 : R118W D) {V : Subgroup G} (hV 
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf p P (F11.O2p p D.M)) :
     pCoreOf p ⁅(⊤ : Subgroup (F11.MBar11 D.M ⊥ V)), (⊤ : Subgroup (F11.MBar11 D.M ⊥ V))⁆ =
       F11.barImage11 D.M ⊥ V (P ⊓ ⁅D.M, D.M⁆) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hW, -⟩ := uc22p22u_hyp11_W D hV
   have hVc := uc22p22u_cTilde_bot D.M V
   have hO : pCoreOf 2 D.M ≤ F11.CTilde D.M ⊥ V := by
@@ -171,7 +174,7 @@ theorem uc22p22u_r1110_part1 (D : Data G) (h118 : R118W D) {V : Subgroup G} (hV 
   have hn : D.M ≤ normalizer ((F11.CTilde D.M ⊥ V : Subgroup G) : Set G) := by
     rw [hVc]
     exact uc22p22u_normalizes_cent hW.1.1.2.2.1
-  haveI hNn : (barImage D.M (F11.CTilde D.M ⊥ V)).Normal := uc22p22u_barImage_normal hn
+  have hNn : (barImage D.M (F11.CTilde D.M ⊥ V)).Normal := uc22p22u_barImage_normal hn
   obtain ⟨φ, hφs, hφk, hφπ⟩ := uc22p22u_exists_phi (M := D.M) (X := F11.CTilde D.M ⊥ V) hO
   have hbar := uc22p22u_barImage_inf_commutator hp hp2 hP
   have key := uc22p22u_pCore_commutator_le_image φ hφs (barImage D.M (F11.CTilde D.M ⊥ V)) hφk p hp
@@ -194,10 +197,10 @@ theorem uc22p22u_r1110_part1 (D : Data G) (h118 : R118W D) {V : Subgroup G} (hV 
       · rintro ⟨y, hy, rfl⟩
         obtain ⟨m, hm, rfl⟩ := uc22p21c_mem_barImage.1 hy
         exact ⟨m, hm, (hφπ m).symm⟩
-    haveI : (CFSG.pCore p (Bar2 D.M) ⊓ ⁅(⊤ : Subgroup (Bar2 D.M)), ⊤⁆).Normal := by
-      haveI : (CFSG.pCore p (Bar2 D.M)).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore p (Bar2 D.M) ⊓ ⁅(⊤ : Subgroup (Bar2 D.M)), ⊤⁆).Normal := by
+      have : (CFSG.pCore p (Bar2 D.M)).Normal := CFSG.pCore_normal
       infer_instance
-    haveI hSn : S.Normal := by
+    have hSn : S.Normal := by
       rw [hSφ]
       exact Subgroup.Normal.map inferInstance φ hφs
     have hSle : S ≤ T := by
@@ -214,14 +217,14 @@ theorem uc22p22u_r1110_part2 (D : Data G) (h116 : R116W D) {V : Subgroup G} (hV 
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {P : Subgroup G}
     (hP : CFSG.ABGLocalTools.IsSylowOf p P (F11.O2p p D.M)) :
     IsCyclic ↥(P ⊓ F11.CTilde D.M ⊥ V) ∧ ⁅P ⊓ ⁅D.M, D.M⁆, P ⊓ F11.CTilde D.M ⊥ V⁆ = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hPM, hbar, hP2⟩ := uc22p22u_sylow_O2p hp hp2 hP
   obtain ⟨hW, -⟩ := uc22p22u_hyp11_W D hV
   have hVc := uc22p22u_cTilde_bot D.M V
   have hn : D.M ≤ normalizer ((F11.CTilde D.M ⊥ V : Subgroup G) : Set G) := by
     rw [hVc]
     exact uc22p22u_normalizes_cent hW.1.1.2.2.1
-  haveI hNn : (barImage D.M (F11.CTilde D.M ⊥ V)).Normal := uc22p22u_barImage_normal hn
+  have hNn : (barImage D.M (F11.CTilde D.M ⊥ V)).Normal := uc22p22u_barImage_normal hn
   obtain ⟨hcyc, hcomm⟩ := h116 V hV
   set X₀ : Subgroup G := F11.CTilde D.M ⊥ V with hX₀
   set N : Subgroup (Bar2 D.M) := barImage D.M X₀ with hN
@@ -233,9 +236,9 @@ theorem uc22p22u_r1110_part2 (D : Data G) (h116 : R116W D) {V : Subgroup G} (hV 
     have h1 : uc22p21cPi D.M x ∈ CFSG.pCore p (Bar2 D.M) :=
       hbar ▸ uc22p21c_mem_barImage.2 ⟨x, hx.1, rfl⟩
     have h2 : uc22p21cPi D.M x ∈ N := uc22p21c_mem_barImage.2 ⟨x, hx.2, rfl⟩
-    haveI : (CFSG.pCore p (Bar2 D.M)).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore p (Bar2 D.M)).Normal := CFSG.pCore_normal
     set R : Subgroup (Bar2 D.M) := CFSG.pCore p (Bar2 D.M) ⊓ N with hR
-    haveI hRn : R.Normal := inferInstance
+    have hRn : R.Normal := inferInstance
     have hRp : IsPGroup p ↥R := (CFSG.pCore_isPGroup (p := p) (G := Bar2 D.M)).to_inf_left
     have hRN : (R.subgroupOf N).Normal := hRn.subgroupOf N
     have hRp' : IsPGroup p ↥(R.subgroupOf N) := hRp.comap_subtype
@@ -256,7 +259,7 @@ theorem uc22p22u_r1110_part2 (D : Data G) (h116 : R116W D) {V : Subgroup G} (hV 
   refine ⟨?_, ?_⟩
   · let g : ↥(P ⊓ X₀) →* ↥F := ((uc22p21cPi D.M).comp (Subgroup.inclusion hUM)).codRestrict F
       fun a => hA (Subgroup.inclusion hUM a) a.2
-    haveI := hFcyc
+    have := hFcyc
     exact isCyclic_of_injective g fun a b hab => hker a b (congrArg Subtype.val hab)
   · rw [← le_bot_iff, Subgroup.commutator_le]
     intro q hq u hu

@@ -2,7 +2,7 @@ module
 
 public import CFSG.CGT.PushingUpLit.CGT6.EmbFourSevenAb
 public import CFSG.CGT.PushingUpLit.CGT6.EmbFourSevenRed
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Tactic.ENatToNat
 
 public section

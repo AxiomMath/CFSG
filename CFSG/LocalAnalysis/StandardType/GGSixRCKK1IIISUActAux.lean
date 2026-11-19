@@ -65,7 +65,7 @@ theorem rckSUc_omega_ne_zero : suOmega ≠ 0 := by
   intro h
   have hspec := suOmega_spec
   rw [h] at hspec
-  exact one_ne_zero (show (1 : SUF) = 0 from by simpa using hspec)
+  exact one_ne_zero (show (1 : SUF) = 0 from by simp at hspec)
 
 theorem rckSUc_sigma_omega : SUσ suOmega = suOmega + 1 := by
   rw [rckSUc_sigma_apply, rckSUc_omega_sq]
@@ -132,7 +132,7 @@ theorem rckSUc_L_injective : Function.Injective rckSUc_L := by
     exact rckSUc_omega_notMem (p 0 - q 0) h1
 
 theorem rckSUc_L_surjective : Function.Surjective rckSUc_L := by
-  haveI : Fintype SUF := Fintype.ofFinite SUF
+  have : Fintype SUF := Fintype.ofFinite SUF
   have hcard : Fintype.card (Fin 2 → ZMod 2) = Fintype.card SUF := by
     rw [Fintype.card_fun, Fintype.card_fin, ZMod.card, ← Nat.card_eq_fintype_card,
       rckSUc_card]
@@ -220,7 +220,7 @@ theorem rckSUc_suR_eq (hk : 4 ≤ k) :
 theorem rckSUc_map_single (τ : SUF ≃+* SUF) (a b : Fin k) (c : SUF) :
     (Matrix.single a b c).map τ = Matrix.single a b (τ c) := by
   ext i j
-  by_cases h : a = i ∧ b = j <;> simp [Matrix.map_apply, Matrix.single_apply, h]
+  by_cases h : a = i ∧ b = j <;> simp [Matrix.map_apply, h]
 
 theorem rckSUc_map_add (τ : SUF ≃+* SUF) (M N : Matrix (Fin k) (Fin k) SUF) :
     (M + N).map τ = M.map τ + N.map τ := by
@@ -247,15 +247,15 @@ theorem rckSUc_single_mul_apply (c : SUF) (a b : Fin k)
   rw [Matrix.mul_apply]
   by_cases h : x = a
   · subst h
-    rw [if_pos rfl, Finset.sum_eq_single b]
+    rw [ite_eq_left rfl, Finset.sum_eq_single b]
     · simp
     · intro m _ hm
-      rw [Matrix.single_apply, if_neg (fun hc => hm hc.2.symm), zero_mul]
+      rw [Matrix.single_apply, ite_eq_right (fun hc => hm hc.2.symm), zero_mul]
     · intro hb; exact absurd (Finset.mem_univ b) hb
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     apply Finset.sum_eq_zero
     intro m _
-    rw [Matrix.single_apply, if_neg (fun hc => h hc.1.symm), zero_mul]
+    rw [Matrix.single_apply, ite_eq_right (fun hc => h hc.1.symm), zero_mul]
 
 theorem rckSUc_mul_single_apply (M : Matrix (Fin k) (Fin k) SUF) (a b : Fin k) (c : SUF)
     (x y : Fin k) :
@@ -263,15 +263,15 @@ theorem rckSUc_mul_single_apply (M : Matrix (Fin k) (Fin k) SUF) (a b : Fin k) (
   rw [Matrix.mul_apply]
   by_cases h : y = b
   · subst h
-    rw [if_pos rfl, Finset.sum_eq_single a]
+    rw [ite_eq_left rfl, Finset.sum_eq_single a]
     · simp
     · intro m _ hm
-      rw [Matrix.single_apply, if_neg (fun hc => hm hc.1.symm), mul_zero]
+      rw [Matrix.single_apply, ite_eq_right (fun hc => hm hc.1.symm), mul_zero]
     · intro ha; exact absurd (Finset.mem_univ a) ha
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     apply Finset.sum_eq_zero
     intro m _
-    rw [Matrix.single_apply, if_neg (fun hc => h hc.2.symm), mul_zero]
+    rw [Matrix.single_apply, ite_eq_right (fun hc => h hc.2.symm), mul_zero]
 
 theorem rckSUc_hBN_apply (hk : 4 ≤ k) (B : Matrix (Fin k) (Fin k) SUF)
     (hBN : B * rckSUc_N hk = rckSUc_N hk * B) (i j : Fin k) :
@@ -354,7 +354,7 @@ theorem rckSUc_conjTr_BJB_apply (B : Matrix (Fin k) (Fin k) SUF) (i j : Fin k) :
   intro p _
   have h1 : (rckSUc_J k * B) p j = B (Fin.rev p) j := by
     rw [Matrix.mul_apply, Finset.sum_eq_single (Fin.rev p)]
-    · simp [rckSUc_J, antidiag, Fin.rev_rev]
+    · simp [rckSUc_J, antidiag]
     · intro q _ hq; simp [rckSUc_J, antidiag, hq]
     · intro hp; exact absurd (Finset.mem_univ (Fin.rev p)) hp
   rw [h1, conjTr_apply]

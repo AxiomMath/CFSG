@@ -27,7 +27,7 @@ private theorem e6Cent_centralizer_le_adjoint {K : Type} [Field K] [Finite K]
     {E : Subgroup (adjointGroup .E6 K)} (hE : IsElemAbelian 3 E)
     (hcard : 3 ^ 4 ≤ Nat.card E) :
     Subgroup.centralizer (E : Set (adjointGroup .E6 K)) ≤ E := by
-  haveI : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK]; norm_num)
+  have : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK]; norm_num)
   intro c hc
   obtain ⟨g, hg⟩ := E6TwoPilot.exists_conj_eq_range_torusE6Two h2 hK hE hcard
   have hcent : (MulAut.conj g).toMonoidHom c ∈ Subgroup.centralizer
@@ -132,13 +132,13 @@ theorem e6TwoInput_holds :
   rw [hlabE] at hraw
   dsimp only [LargeEvenRawDatum, LargeEvenRecipeChevalley] at hraw
   obtain ⟨K, hKf, hKfin, hKcard, -, -, θ₀, -, -, -⟩ := hraw
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   let θ' : L ⧸ Subgroup.center L ≃* TableBExc.RecipeGroup .E6 K := θ₀
-  haveI : Finite (TableBExc.RecipeGroup .E6 K) := TableBExc.finite_recipeGroup .E6 K
-  haveI : Finite (MulAut (TableBExc.RecipeGroup .E6 K)) := MulEquiv.finite_left
+  have : Finite (TableBExc.RecipeGroup .E6 K) := TableBExc.finite_recipeGroup .E6 K
+  have : Finite (MulAut (TableBExc.RecipeGroup .E6 K)) := MulEquiv.finite_left
   have hK2 : Nat.card K = 2 := by simpa using hKcard
-  haveI : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK2]; norm_num)
+  have : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK2]; norm_num)
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have hBN : B ≤ Subgroup.normalizer (L : Set G) := hBBs.trans hN
   have hlift : GGTorusLift 3 4 (TableBExc.RecipeGroup .E6 K) :=

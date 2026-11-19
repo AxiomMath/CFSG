@@ -32,9 +32,9 @@ theorem exists_split_block (hpK : ¬ p ∣ Fintype.card K) :
       (J₀ φ₀ : S₀.isom), IsPlusQuadSpace S₀ ∧ finrank K S₀.V = 2 * weirE p K ∧
       Function.Injective ρ ∧ (∀ c, J₀ * ρ c * J₀⁻¹ = ρ c⁻¹) ∧
       ∀ c, φ₀ * ρ c * φ₀⁻¹ = ρ (c ^ (Fintype.card K : ℤ)) := by
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
-  haveI : NeZero (weirE p K) := ⟨(weirE_pos hpK).ne'⟩
-  haveI : NeZero (p ^ weirA p K) := ⟨pow_ne_zero _ hp.out.ne_zero⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
+  have : NeZero (weirE p K) := ⟨(weirE_pos hpK).ne'⟩
+  have : NeZero (p ^ weirA p K) := ⟨pow_ne_zero _ hp.out.ne_zero⟩
   let L := FiniteField.Extension K (ringChar K) (weirE p K)
   have hLcard : Nat.card L = Fintype.card K ^ weirE p K := by
     rw [FiniteField.natCard_extension, Nat.card_eq_fintype_card]
@@ -48,9 +48,9 @@ theorem exists_aniso_block (hpK : ¬ p ∣ Fintype.card K) {f : ℕ} (hf : weirE
       (J₀ φ₀ : S₀.isom), IsQuadSpace S₀ ∧ finrank K S₀.V = 2 * f ∧
       Function.Injective ρ ∧ (∀ c, J₀ * ρ c * J₀⁻¹ = ρ c⁻¹) ∧
       ∀ c, φ₀ * ρ c * φ₀⁻¹ = ρ (c ^ (Fintype.card K : ℤ)) := by
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
-  haveI : NeZero (weirE p K) := ⟨(weirE_pos hpK).ne'⟩
-  haveI : NeZero (p ^ weirA p K) := ⟨pow_ne_zero _ hp.out.ne_zero⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
+  have : NeZero (weirE p K) := ⟨(weirE_pos hpK).ne'⟩
+  have : NeZero (p ^ weirA p K) := ⟨pow_ne_zero _ hp.out.ne_zero⟩
   have hf0 : 0 < f := by have := weirE_pos hpK; omega
   let L := FiniteField.Extension K (ringChar K) (weirE p K)
   have hLdim : finrank K L = weirE p K := FiniteField.finrank_extension K _ _
@@ -116,7 +116,7 @@ theorem omegaFrameData_aniso_even (hp1 : Odd p) (hpK : ¬ p ∣ Fintype.card K) 
     simp only [hdim₀, Finset.sum_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul]
     ring
   have htypeS : IsPlusType QS ↔ Even r := by
-    haveI : NeZero (p ^ weirA p K) := ⟨pow_ne_zero _ hp.out.ne_zero⟩
+    have : NeZero (p ^ weirA p K) := ⟨pow_ne_zero _ hp.out.ne_zero⟩
     refine isPlusType_iff_even hp1 hpK hf hQS hr1 hSdim
       ((isomEquivOrthogonal _ hSF).toMonoidHom.comp (piTorus S₀ ρ r))
       ((isomEquivOrthogonal _ hSF).injective.comp (piTorus_injective S₀ hρ r)) ?_
@@ -154,6 +154,7 @@ section Sylow
 variable {K : Type} [Field K] [Fintype K] {p : ℕ} [hp : Fact p.Prime] {V : Type}
   [AddCommGroup V] [Module K V] [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [Field K] in
 theorem not_dvd_sq_sub_one_of_rank_two {k : ℕ} (hk : 3 ≤ k)
     (hr : (if Even (weirE p K) then 2 * k else k) / weirE p K = 2) :
     ¬ (p : ℤ) ∣ (Fintype.card K : ℤ) ^ 2 - 1 := by
@@ -167,6 +168,7 @@ theorem not_dvd_sq_sub_one_of_rank_two {k : ℕ} (hk : 3 ≤ k)
     simp at hr
     omega
 
+omit [FiniteDimensional K V] in
 theorem noncommSylowData_of_embedding (hpK : ¬ p ∣ Fintype.card K) {N : ℕ}
     (hN : p ≤ N / weirE p K)
     (ψ : sigmaModel p (weirE p K) (weirA p K) N →* ↥(TauCeti.QuadraticMap.orthogonalGroup Q))
@@ -186,19 +188,19 @@ theorem osylowData_odd (hp1 : Odd p) (hpK : ¬ p ∣ Fintype.card K) (h2 : ringC
     · obtain ⟨f, hf⟩ := hev
       have hf' : weirE p K = 2 * f := by omega
       have hr : (if Even (weirE p K) then 2 * n else n) / weirE p K = n / f := by
-        rw [if_pos ⟨f, hf⟩, hf', Nat.mul_div_mul_left n f two_pos]
+        rw [ite_eq_left ⟨f, hf⟩, hf', Nat.mul_div_mul_left n f two_pos]
       rw [hr]
       exact omegaFrameData_aniso_odd hpK hf' h2 hQ hdim (Nat.mul_div_le n f)
-    · rw [if_neg hev]
+    · rw [ite_eq_right hev]
       exact omegaFrameData_split_odd hpK h2 hQ hdim (Nat.mul_div_le n _)
   · intro hpr
     by_cases hev : Even (weirE p K)
     · obtain ⟨f, hf⟩ := hev
       have hf' : weirE p K = 2 * f := by omega
-      rw [if_pos ⟨f, hf⟩] at hpr
+      rw [ite_eq_left ⟨f, hf⟩] at hpr
       obtain ⟨ψ, hψ⟩ := exists_injective_sigmaModel_aniso_odd h2 hpK hf' hQ hdim (le_refl n)
       exact noncommSylowData_of_embedding hpK hpr ψ hψ
-    · rw [if_neg hev] at hpr
+    · rw [ite_eq_right hev] at hpr
       obtain ⟨ψ, hψ⟩ := exists_injective_sigmaModel_split_odd h2 hpK hQ hdim (le_refl n)
       exact noncommSylowData_of_embedding hpK hpr ψ hψ
 
@@ -217,22 +219,22 @@ theorem osylowData_even (hp1 : Odd p) (hpK : ¬ p ∣ Fintype.card K) {n : ℕ} 
     · obtain ⟨f, hf⟩ := hev
       have hf' : weirE p K = 2 * f := by omega
       have hr : (if Even (weirE p K) then 2 * k else k) / weirE p K = k / f := by
-        rw [if_pos ⟨f, hf⟩, hf', Nat.mul_div_mul_left k f two_pos]
+        rw [ite_eq_left ⟨f, hf⟩, hf', Nat.mul_div_mul_left k f two_pos]
       rw [hr] at hr1 hrp ⊢
       exact omegaFrameData_aniso_even hp1 hpK hf' hQ hT hdim hr1 hrp
         ((Nat.mul_div_le k f).trans hkn) (hta f hf')
     · have hr : (if Even (weirE p K) then 2 * k else k) / weirE p K = k / weirE p K := by
-        rw [if_neg hev]
+        rw [ite_eq_right hev]
       rw [hr]
       exact omegaFrameData_split_even hpK hQ hT hdim ((Nat.mul_div_le k _).trans hkn) (hts hev)
   · intro hpr
     by_cases hev : Even (weirE p K)
     · obtain ⟨f, hf⟩ := hev
       have hf' : weirE p K = 2 * f := by omega
-      rw [if_pos ⟨f, hf⟩] at hpr
+      rw [ite_eq_left ⟨f, hf⟩] at hpr
       obtain ⟨ψ, hψ⟩ := exists_injective_sigmaModel_aniso hp1 hpK hf' hQ hdim hkn (hta f hf')
       exact noncommSylowData_of_embedding hpK hpr ψ hψ
-    · rw [if_neg hev] at hpr
+    · rw [ite_eq_right hev] at hpr
       obtain ⟨ψ, hψ⟩ := exists_injective_sigmaModel_split hpK hQ hdim hkn (hts hev)
       exact noncommSylowData_of_embedding hpK hpr ψ hψ
 

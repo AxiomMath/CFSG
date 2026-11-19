@@ -41,10 +41,10 @@ theorem sum_ite_one {c m : ℕ} (h : c < m) :
   | succ m ih =>
     rw [Finset.sum_range_succ]
     rcases Nat.lt_or_ge c m with hc | hc
-    · rw [ih hc, if_neg (by omega)]
+    · rw [ih hc, ite_eq_right (by omega)]
     · have hc' : c = m := by omega
-      rw [Finset.sum_eq_zero fun j hj => if_neg (by rw [Finset.mem_range] at hj; omega),
-        if_pos hc']
+      rw [Finset.sum_eq_zero fun j hj => ite_eq_right (by rw [Finset.mem_range] at hj; omega),
+        ite_eq_left hc']
 
 theorem sum_cntB (f : ℕ → ℕ) (m : ℕ) :
     ∀ l : List ℕ, (∀ x ∈ l, f x < m) →

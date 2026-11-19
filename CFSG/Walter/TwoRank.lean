@@ -26,9 +26,9 @@ theorem two_le_twoRank (G : Type) [Group G] [Finite G] [IsSimpleGroup G]
   obtain ⟨P⟩ : Nonempty (Sylow 2 G) := inferInstance
   have hPne : (P : Subgroup G) ≠ ⊥ := P.ne_bot_of_dvd_card (even_iff_two_dvd.mp heven)
   have : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot _).mpr hPne
-  have hZ := P.isPGroup'.center_nontrivial
+  have hZ := P.isPGroup.center_nontrivial
   obtain ⟨k, hk, hkcard⟩ :=
-    ((P.isPGroup'.to_subgroup (Subgroup.center P)).nontrivial_iff_card).mp hZ
+    ((P.isPGroup.to_subgroup (Subgroup.center P)).nontrivial_iff_card).mp hZ
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center P) 2
     (hkcard ▸ dvd_pow_self 2 hk.ne')
   set t : G := ((z : P) : G)
@@ -76,7 +76,7 @@ theorem two_le_twoRank (G : Type) [Group G] [Finite G] [IsSimpleGroup G]
       rintro _ (rfl | rfl)
       · exact hsP
       · exact htP
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card.mp (P.isPGroup'.to_le hEP))
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card.mp (P.isPGroup.to_le hEP))
     have hk1 := hrank E ⟨hEcomm, hEsq⟩ k hk
     have hfour : 4 ≤ Nat.card E := by
       have hsub : (({1, s, t, s * t} : Finset G) : Set G) ⊆ E := by

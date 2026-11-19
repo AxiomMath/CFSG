@@ -528,7 +528,7 @@ theorem exists_char_of_stellmacher (hst : StellmacherKP)
   have hsolv : Group.IsSolvable ↥X := by
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow hp).mp hidx
     obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hS'2
-    letI := Fintype.ofFinite ↥X
+    let := Fintype.ofFinite ↥X
     refine CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow hp
       Nat.prime_two hp2 (a := j) (b := m) ?_
     rw [Fintype.card_eq_nat_card, Subgroup.card_eq_card_quotient_mul_card_subgroup S', hj, hm]

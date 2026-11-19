@@ -28,7 +28,7 @@ theorem burnsideF4m_index_odd {G : Type} [Group G] [Finite G] {N H : Subgroup G}
     rw [e]
     exact ht _ (mul_mem (mul_mem htk hn) (inv_mem htk))
   intro h2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2' : 2 ∣ Nat.card (H ⧸ N.subgroupOf H) := h2
   obtain ⟨q, hq⟩ := exists_prime_orderOf_dvd_card' (G := H ⧸ N.subgroupOf H) 2 h2'
   obtain ⟨⟨x, hxH⟩, rfl⟩ := QuotientGroup.mk_surjective q
@@ -170,7 +170,7 @@ theorem burnsideF4m_u5_sylow_t :
       (Subgroup.centralizer ({t5Y h} : Set (hypPSU h 2 1))) := by
   have := h.finite
   have hf1 := h.one_le
-  haveI : Finite (hypPSU h 2 1) := CFSG.RankThree.PartOne.U5K.Hyp.finite_hypPSU h
+  have : Finite (hypPSU h 2 1) := CFSG.RankThree.PartOne.U5K.Hyp.finite_hypPSU h
   have hP : hypProjUnitriangular h 2 1 ⊓ Subgroup.centralizer ({t5Y h} : Set (hypPSU h 2 1)) =
       sylSY h ⊔ sylBY h :=
     syl_inf_cent_eq_sup (fun x hU hx => burnsideF4m_u5_uni_decomp hU hx)

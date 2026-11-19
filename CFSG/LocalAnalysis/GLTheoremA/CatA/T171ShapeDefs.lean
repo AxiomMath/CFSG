@@ -69,7 +69,7 @@ structure Setup {G : Type} [Group G] [Finite G] (p : ℕ) (L J A : Subgroup G) (
 @[expose] def U6Marking : Prop :=
   ∀ (G : Type) [Group G] [Finite G] (L J A : Subgroup G) (d b : G) (n : ℕ),
     Setup 3 L J A d b → catalogIs (PSimple 3 L) (S10.isU6n n) → Odd n →
-    ∃ (K : Type) (_ : Field K) (_ : Finite K) (h : UnitaryFieldData 2 n K)
+    ∃ (K : Type) (_ : Field K) (_ : Finite K) (_h : UnitaryFieldData 2 n K)
       (θ : ↥L ⧸ Subgroup.center ↥L ≃* LargeEvenProj (unitarySU 2 n K 6)),
       ∀ a ∈ A, ∃ φ ∈ LargeEvenMatConjImage (LargeEvenProjMk (unitarySU 2 n K 6))
         (LargeEvenGUSet (Fin 6) K (2 ^ n)),

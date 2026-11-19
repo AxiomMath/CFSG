@@ -69,6 +69,7 @@ section Ident
 variable {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {Bs Y : Subgroup G}
   (Φ : OrthFrameCore p Bs Y)
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 private theorem pmoi_map_orthDerived_conj {μ : Φ.V ≃ₗ[Φ.F] Φ.V}
     (hμ : μ ∈ TauCeti.QuadraticMap.orthogonalGroup Φ.Q) :
     (orthDerived Φ.Q).map (MulAut.conj μ).toMonoidHom = orthDerived Φ.Q := by
@@ -85,6 +86,7 @@ private theorem pmoi_map_orthDerived_conj {μ : Φ.V ≃ₗ[Φ.F] Φ.V}
       TauCeti.QuadraticMap.orthogonalGroup Φ.Q⁆ from rfl]
   rw [Subgroup.map_commutator, hH]
 
+omit [Finite G] in
 private theorem pmoi_fixTorus_conj {μ : Φ.V ≃ₗ[Φ.F] Φ.V}
     {w : MulAut (Fin Φ.r → Multiplicative (ZMod p))}
     (hw : ∀ f, μ * Φ.Δ.τ f * μ⁻¹ = Φ.Δ.τ (w f)) {x x' : OmPlusIdx Φ.r}
@@ -102,7 +104,7 @@ private theorem pmoi_fixTorus_conj {μ : Φ.V ≃ₗ[Φ.F] Φ.V}
       change omPlusRefl p x (w⁻¹ g) = w⁻¹ g
       have h2 : omPlusRefl p x' g = w (omPlusRefl p x (w⁻¹ g)) := by
         rw [hx]
-        simp only [MulAut.mul_apply, MulAut.inv_apply_self]
+        simp only [MulAut.mul_apply]
       have h3 : w (omPlusRefl p x (w⁻¹ g)) = g := h2 ▸ hg
       apply w.injective
       rw [h3, MulAut.apply_inv_self]
@@ -124,6 +126,7 @@ private theorem pmoi_fixTorus_conj {μ : Φ.V ≃ₗ[Φ.F] Φ.V}
     · show Φ.Δ.τ (w f) = (MulAut.conj μ) (Φ.Δ.τ f)
       rw [MulAut.conj_apply, hw f]
 
+omit [Finite G] in
 theorem qtwoOrth_rank1_conj {μ : Φ.V ≃ₗ[Φ.F] Φ.V}
     (hμ : μ ∈ TauCeti.QuadraticMap.orthogonalGroup Φ.Q)
     {w : MulAut (Fin Φ.r → Multiplicative (ZMod p))}
@@ -138,6 +141,7 @@ theorem qtwoOrth_rank1_conj {μ : Φ.V ≃ₗ[Φ.F] Φ.V}
     Subgroup.map_inf _ _ _ (MulAut.conj μ).injective,
     ggMap_conj_centralizer μ (Φ.fixTorus x), hder, ← hfix]
 
+omit [Finite G] in
 theorem qtwoOrth_rank2_conj {μ : Φ.V ≃ₗ[Φ.F] Φ.V}
     (hμ : μ ∈ TauCeti.QuadraticMap.orthogonalGroup Φ.Q)
     {w : MulAut (Fin Φ.r → Multiplicative (ZMod p))}

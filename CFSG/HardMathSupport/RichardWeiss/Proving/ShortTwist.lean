@@ -94,7 +94,7 @@ theorem short_twist_cob (hN : 6 ≤ N) (hev : Even N) {y : G} (hy : y ∈ Q) {m 
     rw [e1]
     cases β
     · simp
-    · simp only [if_true, ite_true]
+    · simp only [ite_true]
       rw [altAct_pairEW]
       have : π₁ ((π₁⁻¹ * σ * π₁) a) = σ (π₁ a) := by
         simp [Perm.mul_apply]
@@ -104,7 +104,7 @@ theorem short_twist_cob (hN : 6 ≤ N) (hev : Even N) {y : G} (hy : y ∈ Q) {m 
   have hy'x : Fy π (m * y * m⁻¹) l = Fy π (m * y * m⁻¹ * y⁻¹) l + Fy π y l := by
     have e : m * y * m⁻¹ = (m * y * m⁻¹ * y⁻¹) * y := by group
     conv_lhs => rw [e]
-    exact D.Fy_yMul H hxQ hy hl
+    exact D.Fy_yMul (Q := Q) (L := L) (V := V) (S := S) (π := π) hxQ hy hl
   have hneg : ∀ z : altHeart N, -z = z := fun z =>
     (eq_neg_of_add_eq_zero_left (altHeart_add_self z)).symm
   have hPb : (if β then (pairEW (σ (π₁ a)) (π₁ a) : altHeart N) else 0) =
@@ -143,7 +143,7 @@ theorem short_twist (hN : 6 ≤ N) (hev : Even N) {y : G} (hy : y ∈ Q) {m : G}
   have hFu : ∀ l ∈ L, Fy π (u : G) l = altAct (thetaA θ l) w₃ - w₃ := by
     intro l hl
     have hlM : l ∈ L ⊔ S := Subgroup.mem_sup_left hl
-    have hc := D.conj_mem_U H hlM hu₁U
+    have hc := D.conj_mem_U hlM hu₁U
     have e : ⁅l, (u : G)⁆ = (l * (u : G) * l⁻¹) * (u : G)⁻¹ := by
       simp only [commutatorElement_def]
     show piA π ⁅l, (u : G)⁆ = _
@@ -155,7 +155,7 @@ theorem short_twist (hN : 6 ≤ N) (hev : Even N) {y : G} (hy : y ∈ Q) {m : G}
   have hcQ : ⁅m, y⁆ * (u : G)⁻¹ ∈ Q := Q.mul_mem hxQ (Q.inv_mem hu₁Q)
   have hFc : ∀ l ∈ L, Fy π (⁅m, y⁆ * (u : G)⁻¹) l = 0 := by
     intro l hl
-    rw [D.Fy_yMul H hxQ (Q.inv_mem hu₁Q) hl, D.Fy_yInv H hu₁Q hl, hFu l hl]
+    rw [D.Fy_yMul (Q := Q) (L := L) (V := V) (S := S) (π := π) hxQ (Q.inv_mem hu₁Q) hl, D.Fy_yInv hu₁Q hl, hFu l hl]
     have : ⁅m, y⁆ = m * y * m⁻¹ * y⁻¹ := rfl
     rw [this, hw₃ l hl]
     exact add_neg_cancel _

@@ -25,7 +25,7 @@ theorem tabBThree_centShapeRk' (hOut : SporadicOuterLeTwo) (hSpM : SporadicMulti
     CentShapeRk' 3 (GoodSpor 3 [.Fi22]) (RkSpor 3 [.Fi22]) NativeSporadic.B := by
   intro k hk1 hk3
   have hk : orderOf k = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hk3 hk1
   by_cases hinv : ∃ d : NativeSporadic.B, BabyInv 0 d ∧ d * k * d⁻¹ = k⁻¹
   · obtain ⟨d, hd, hdk⟩ := hinv

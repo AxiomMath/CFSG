@@ -39,6 +39,7 @@ theorem exists_a_mem (hs : Setting1282One G T L V 4 V₁ V₂) : ∃ a ∈ V₂,
   rw [card_V₂ hs, card_V₁ hs] at h1
   norm_num at h1
 
+omit [Finite G] in
 theorem K₁_le_normalizer (hK : quasithinIsCComponent K₁ (Subgroup.normalizer (V₁ : Set G))) :
     K₁ ≤ Subgroup.normalizer (V₁ : Set G) :=
   le_of_mem_cComp (show K₁ ∈ cComp _ from hK)

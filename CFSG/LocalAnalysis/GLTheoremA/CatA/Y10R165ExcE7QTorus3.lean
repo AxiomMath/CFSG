@@ -22,6 +22,7 @@ private def f2BlockSL6 : Multiplicative (Fin 3 → ZMod 3) →* SL(6, K) :=
       Multiplicative (Fin 3 → ZMod 3) →*
         Matrix.SpecialLinearGroup (Fin 2 ⊕ (Fin 2 ⊕ (Fin 2 ⊕ Fin 0))) K)
 
+omit [Finite K] in
 private theorem f2BlockSL6_injective : Function.Injective (f2BlockSL6 (K := K)) := by
   intro a b h
   change (CFSG.RankThree.PartOne.KFCL.BlockSL.reindexSL
@@ -34,6 +35,7 @@ private theorem f2BlockSL6_injective : Function.Injective (f2BlockSL6 (K := K)) 
     ((CFSG.RankThree.PartOne.KFCL.BlockSL.reindexSL
       (sixBlockEquiv 6 (by norm_num))).symm.injective h)
 
+omit [CharP K 2] in
 private theorem center_fixSubgroup_split_eq_bot {Φ' : SL(6, L) ≃* SL(6, L)} {H : SL(6, L)}
     (hfix : ∀ X : SL(6, L), X ∈ fixSubgroup Φ' ↔
       ∃ Y : SL(6, K), X = H * Matrix.SpecialLinearGroup.map (algebraMap K L) Y * H⁻¹)
@@ -83,9 +85,9 @@ theorem exists_elemAbelian_pRank_three_of_fixSubgroup_split_f2
       ∃ Y : SL(6, K), X = H * Matrix.SpecialLinearGroup.map (algebraMap K L) Y * H⁻¹)
     (hK2 : Nat.card K = 2)
     {J : Type*} [Group J] [Finite J] (ρ : ↥(fixSubgroup Φ') →* J)
-    (hρ : Function.Surjective ρ)
+    (_hρ : Function.Surjective ρ)
     (hc : ∀ z ∈ ρ.ker, ∀ u : ↥(fixSubgroup Φ'), z * u = u * z)
-    (hk : Nat.card ρ.ker ∣ 6) :
+    (_hk : Nat.card ρ.ker ∣ 6) :
     ∃ F : Subgroup J, IsElemAbelian 3 F ∧ 3 ≤ CFSG.Open.pRank 3 F := by
   classical
   have hcenter := center_fixSubgroup_split_eq_bot hfix hK2
@@ -110,7 +112,7 @@ theorem exists_elemAbelian_pRank_three_of_fixSubgroup_split_f2
     exact pow_three_multiplicative_fin_three x
   · have hcard : Nat.card ↥((ρ.comp φ).range) = 3 ^ 3 := by
       rw [← Nat.card_congr (MonoidHom.ofInjective (fun a b h => hφ (hρinj h))).toEquiv]
-      simp [Nat.card_fun, Nat.card_zmod, Nat.card_fin]
+      simp
     exact CFSG.SectionRank.le_pRank (p := 3) (by norm_num) le_rfl
       (by
         rw [← Subgroup.map_top (ρ.comp φ)]

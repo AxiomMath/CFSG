@@ -24,7 +24,7 @@ private theorem exists_involution_mem_Q_for_prop2d
     (hA1 : HypothesisA1 G Ω H D Q t) :
     ∃ s : G, s ∈ Q ∧ IsInvolution s := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htwo_dvd_Q : 2 ∣ Nat.card Q := hA1.Q_even.two_dvd
   obtain ⟨sQ, hsQ_order⟩ :=
     exists_prime_orderOf_dvd_card' (G := Q) 2 htwo_dvd_Q

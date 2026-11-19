@@ -56,7 +56,7 @@ theorem hs_isConj_of_orderOf_three
 theorem listRow_hs :
     ListRow NativeSporadic.HS := by
   obtain ⟨x, y, -, hx3, hy3, hxy, hcard, -⟩ := CFSG.SectionRank.HS_sylow3_square_witness
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx1 : x ≠ 1 := by
     rintro rfl
     have h9 := card_closure_pair_le_three (c := y) hy3 (Subgroup.one_mem _)

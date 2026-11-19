@@ -170,7 +170,7 @@ theorem rank3II_4_39 (h : Ctx434Core G A M Q)
       rw [hC, inf_bot_eq]
     · exact h2.1
   obtain ⟨P, hAP⟩ := h.isE27.isPGroup.exists_le_sylow
-  have hPp : IsPGroup 3 (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup 3 (P : Subgroup G) := P.isPGroup
   have hCPA : Subgroup.centralizer ((P : Subgroup G) : Set G) ≤
       Subgroup.centralizer (A : Set G) :=
     Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr hAP)

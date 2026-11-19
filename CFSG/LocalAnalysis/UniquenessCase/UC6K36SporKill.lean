@@ -24,7 +24,7 @@ theorem eq_bot_of_closure_planeFix_eq_top [IsSimpleGroup K] (hZ : Subgroup.cente
     {Ē R : Subgroup (MulAut K)} (hR2 : IsPGroup 2 R)
     (hfix : ∀ k ∈ planeFix Ē, MulAut.conj k ∈ normalizer (R : Set (MulAut K)))
     (hgen : Subgroup.closure (planeFix Ē) = ⊤) : R = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinn : ∀ k : K, MulAut.conj k ∈ normalizer (R : Set (MulAut K)) := fun k =>
     conj_mem_normalizer_of_mem_closure hfix (hgen ▸ Subgroup.mem_top k)
   set N : Subgroup K := R.comap MulAut.conj
@@ -42,7 +42,7 @@ theorem eq_bot_of_closure_planeFix_eq_top [IsSimpleGroup K] (hZ : Subgroup.cente
         intro g
         obtain ⟨n, hn⟩ := hN2 ⟨g, h ▸ Subgroup.mem_top g⟩
         exact ⟨n, by simpa using congrArg Subtype.val hn⟩
-      haveI : Nontrivial K := IsSimpleGroup.toNontrivial
+      have : Nontrivial K := IsSimpleGroup.toNontrivial
       have hlt := hK2.bot_lt_center
       rw [hZ] at hlt
       exact lt_irrefl _ hlt
@@ -57,7 +57,7 @@ theorem eq_bot_of_closure_planeFix_eq_top [IsSimpleGroup K] (hZ : Subgroup.cente
 theorem not_sporPlaneConf_of_planeKill [IsSimpleGroup K] (hZ : Subgroup.center K = ⊥) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hK : PlaneKill p K) {Ē R : Subgroup (MulAut K)} :
     ¬ SporPlaneConf K p Ē R := by
-  haveI : Finite (MulAut K) := MulEquiv.finite_left
+  have : Finite (MulAut K) := MulEquiv.finite_left
   rintro ⟨hE, hEc, hR2, hR1, hER, hfix⟩
   apply hR1
   rcases hK Ē hE hEc with ⟨T, hT, hTfix⟩ | hns
@@ -76,9 +76,9 @@ theorem planeGenOrExc_of_centGen (hZ : Subgroup.center K = ⊥) (hO : Nat.card (
 theorem planeOK_of_onePair (hZ : Subgroup.center K = ⊥) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hO' : OPrimeCoreTrivialAt p K) (hN : NoOuterFixesCentralizer p K) {A : Subgroup K}
     (hA : IsElemAbelian p A) (hAc : Nat.card A = p ^ 2) : PlaneOK A := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (MulAut K) := MulEquiv.finite_left
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (MulAut K) := MulEquiv.finite_left
   have hcomm : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := fun x hx y hy =>
     congrArg Subtype.val (hA.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
   have hmemC : ∀ b k : K, k ∈ Subgroup.centralizer ({b} : Set K) ↔ b * k = k * b := fun b k => by

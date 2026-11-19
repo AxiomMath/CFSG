@@ -79,7 +79,7 @@ theorem centralizes_of_induced_abstract {G : Type} [Group G] (hk : ¬ p ∣ k) (
     (hgB : g ∈ Subgroup.normalizer (Bs : Set G)) (hgp : g ^ p = 1) :
     g ∈ Subgroup.centralizer (Bs : Set G) := by
   classical
-  haveI : Finite C := inferInstance
+  have : Finite C := inferInstance
   obtain ⟨α, hα⟩ := exists_inducedAut ψ hψ hgN
   have hαp : α ^ p = 1 := inducedAut_pow_eq_one ψ hψ hα hgp
   obtain ⟨Dg, x, s, E, hDg, hkDg, hx, hEC, hE, hEc, hEs, hαx⟩ := hNF α hαp
@@ -108,6 +108,7 @@ section SelfCentralizing
 
 variable {C : Type*} [Group C] [Finite C] {p m : ℕ} [Fact p.Prime]
 
+omit [Finite C] [Fact (Nat.Prime p)] in
 theorem le_card_of_sylowTorus_of_sc (h : SylowTorus C p m) {A : Subgroup C}
     (hA : IsElemAbelian p A)
     (hSC : ∀ c ∈ Subgroup.centralizer (A : Set C), c ^ p = 1 → c ∈ A) : p ^ m ≤ Nat.card A := by

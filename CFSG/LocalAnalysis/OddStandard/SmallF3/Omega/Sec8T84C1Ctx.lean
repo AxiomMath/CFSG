@@ -56,7 +56,7 @@ theorem autIn_eq (F : Sec8T84Base) (h89 : Asc82Lemma89) (hE : Sec8E G t L S z g 
     obtain ⟨φ⟩ := h89 G t L S z g B hE.ctx
     rw [Nat.card_congr φ.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     decide
-  haveI : Finite ↥(autIn (centralizer ({t} : Set G)) B) :=
+  have : Finite ↥(autIn (centralizer ({t} : Set G)) B) :=
     Nat.finite_of_card_ne_zero (by rw [hcardC]; norm_num)
   exact Subgroup.eq_of_le_of_card_ge (B89.autIn_mono hLt)
     (le_of_eq (by rw [hcardC, hcardL]))
@@ -119,8 +119,8 @@ theorem hctx_of (F : Sec8T84Base) (h89 : Asc82Lemma89) (hE : Sec8E G t L S z g B
     u_sq := B89.rhoG_t_mul_self hE
     fix := B89.rhoG_t_fix_iff hE
     A_iso := B89.Abar_equiv_A6 F hE
-    A_comm := fun a ha => B89.Abar_comm_u hE ha
-    A_faith := fun a ha h => B89.Abar_faithful F hE ha h
+    A_comm := fun _a ha => B89.Abar_comm_u hE ha
+    A_faith := fun _a ha h => B89.Abar_faithful F hE ha h
     u_H := MonoidHom.mem_range.mpr ⟨⟨t, B89.t_mem_X hE⟩, kappa_t hE⟩
     A_H := Abar_le_range F hE
     u_A := B89.u_not_mem_Abar F hE

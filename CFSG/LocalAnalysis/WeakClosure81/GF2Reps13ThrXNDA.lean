@@ -16,7 +16,7 @@ variable {W : Type} [CommGroup W] [Finite W]
 variable {A Q O : Subgroup (MulAut W)} {t : MulAut W}
 
 theorem w16n_Q_rank (h : HNon A Q O t) : IsElemAbelianOfRank 3 2 ↥Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine w16g_isElemAbelianOfRank_of_card (p := 3) (n := 2) ?_ ?_ ?_
   · intro a b
     exact h.hQe.1.is_comm.comm a b
@@ -32,11 +32,13 @@ theorem w16n_Qg_rank (h : HNon A Q O t) (g : MulAut W) :
     (Subgroup.equivMapOfInjective Q (MulAut.conj g).toMonoidHom (MulAut.conj g).injective)
     (w16n_Q_rank h)
 
+omit [Finite W] in
 theorem w16n_Qg_le_O (h : HNon A Q O t) {g : MulAut W} (hg : g ∈ A) :
     Q.map (MulAut.conj g).toMonoidHom ≤ O := by
   rintro x ⟨q, hq, rfl⟩
   exact h.hOA g hg q (h.hQO hq)
 
+omit [Finite W] in
 theorem w16n_O_le_normalizer_Qg (h : HNon A Q O t) {g : MulAut W} (hg : g ∈ A) :
     O ≤ Subgroup.normalizer (Q.map (MulAut.conj g).toMonoidHom : Set (MulAut W)) := by
   refine Subgroup.le_normalizer_iff.mpr ?_
@@ -60,10 +62,12 @@ theorem w16n_isPOnePlusTwo_K (h : HNon A Q O t) {g : MulAut W} (hg : g ∈ A)
   exact w16g_isPOnePlusTwo_sup (w16n_Q_rank h) (w16n_Qg_rank h g)
     ((w16n_Qg_le_O h hg).trans hOQ) (h.hQO.trans (w16n_O_le_normalizer_Qg h hg)) hcomm
 
+omit [Finite W] in
 theorem w16n_K_le_O (h : HNon A Q O t) {g : MulAut W} (hg : g ∈ A) :
     Q ⊔ Q.map (MulAut.conj g).toMonoidHom ≤ O :=
   sup_le h.hQO (w16n_Qg_le_O h hg)
 
+omit [Finite W] in
 theorem w16n_K_map_conj (h : HNon A Q O t) {g n : MulAut W} (hg : g ∈ A) (hn : n ∈ O) :
     (Q ⊔ Q.map (MulAut.conj g).toMonoidHom).map (MulAut.conj n).toMonoidHom =
       Q ⊔ Q.map (MulAut.conj g).toMonoidHom := by
@@ -76,6 +80,7 @@ theorem w16n_K_map_conj (h : HNon A Q O t) {g n : MulAut W} (hg : g ∈ A) (hn :
     s13_map_conj_eq_of_normalizes hnorm hn
   rw [Subgroup.map_sup, s13_map_conj_eq_of_normalizes (fun y hy x hx => h.hQN y hy x hx) hn, hQg]
 
+omit [Finite W] in
 theorem w16n_commutator_K_t (h : HNon A Q O t) {g : MulAut W} :
     ⁅Q ⊔ Q.map (MulAut.conj g).toMonoidHom, Subgroup.zpowers t⁆ ≠ ⊥ := by
   intro hbot

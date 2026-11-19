@@ -100,7 +100,7 @@ theorem isCyclic_of_isPGroup_quotient {H : Type} [Group H] [Finite H] {N : Subgr
         _ = p ^ k := hR'card
         _ = Nat.card ↥S := hk.symm
     exact MonoidHom.range_eq_top.1 htop
-  haveI : IsCyclic ↥R' := hH R' hR'p
+  have : IsCyclic ↥R' := hH R' hR'p
   exact isCyclic_of_surjective g hg_surj
 
 
@@ -125,12 +125,12 @@ theorem isDirectZpowersInf_of_le_sup_centralizer {Ω : Type} [Group Ω] [Finite 
     {L B : Subgroup Ω} {x : Ω} (hLn : L.Normal) (hB : IsElemAbelian 3 B) (hxB : x ∈ B)
     (hx1 : x ≠ 1) (hxL : L ≤ Subgroup.centralizer ({x} : Set Ω))
     (hBL : B ≤ L ⊔ Subgroup.centralizer (L : Set Ω))
-    (hcent : ∀ b ∈ B, b ∈ Subgroup.centralizer (L : Set Ω) ↔ b ∈ Subgroup.zpowers x)
+    (_hcent : ∀ b ∈ B, b ∈ Subgroup.centralizer (L : Set Ω) ↔ b ∈ Subgroup.zpowers x)
     (hnoZ : ¬ 3 ∣ Nat.card (Subgroup.center ↥L))
     (hcyc : ∀ S : Subgroup Ω, S ≤ Subgroup.centralizer (L : Set Ω) → IsPGroup 3 S → IsCyclic S) :
     IsDirectZpowersInf B x L := by
   classical
-  haveI := hLn
+  have := hLn
   let C : Subgroup Ω := Subgroup.centralizer (L : Set Ω)
   have hxL' : x ∈ C := by
     rw [Subgroup.mem_centralizer_iff]
@@ -181,7 +181,7 @@ theorem isDirectZpowersInf_of_le_sup_centralizer {Ω : Type} [Group Ω] [Finite 
     · rintro ⟨-, hL⟩
       exact (QuotientGroup.eq_one_iff _).2 (Subgroup.mem_subgroupOf.2 hL)
   have hBtop : IsElemAbelian 3 (⊤ : Subgroup ↥B) := by
-    haveI : IsMulCommutative ↥B := hB.1
+    have : IsMulCommutative ↥B := hB.1
     refine ⟨⟨⟨fun a b => Subtype.ext (mul_comm' (a : ↥B) (b : ↥B))⟩⟩, fun a _ => ?_⟩
     exact Subtype.ext (by simpa using hB.2 (a : ↥B) a.2)
   have hφrange_el : IsElemAbelian 3 φ.range := by

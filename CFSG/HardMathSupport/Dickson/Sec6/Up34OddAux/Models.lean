@@ -195,7 +195,7 @@ theorem not_isChevSimple_of_isLThreeFour {r : ℕ} (hr2 : r ≠ 2) {T : Type} [G
     | sporadic s => exact hi
     | alternating n hn =>
       have e' : T ≃* alternatingGroup (Fin n) := e
-      haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+      have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
       have h := Nat.card_congr e'.toEquiv
       rw [hcard, nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin] at h
       rcases hi with ⟨rfl, -⟩ | ⟨rfl, -⟩ | ⟨-, rfl⟩

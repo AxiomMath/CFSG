@@ -25,7 +25,7 @@ variable {K : Type} [Field K] [Finite K] {d : ℕ}
 
 theorem qTwoFramePerm_moves_of_weight_ne
     {E : Subgroup (MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ 1))))}
-    {e : MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ 1)))} (he : e ∈ E)
+    {e : MulAut (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ 1)))} (_he : e ∈ E)
     {σ : Fin d → Kˣ}
     (hK : Nat.card K = (2 ^ 1) ^ 2) (hd3 : 3 ≤ d)
     (hdq : (d, 2 ^ 1) ≠ (3, 2))
@@ -105,7 +105,7 @@ theorem four_dvd_ggAutomizer_frameBlock
   have hcardUnits : Nat.card Kˣ = 3 := by
     rw [Nat.card_units, hK]
     norm_num
-  haveI : Fintype Kˣ := Fintype.ofFinite Kˣ
+  have : Fintype Kˣ := Fintype.ofFinite Kˣ
   have hcardUnitsF : Fintype.card Kˣ = 3 := by
     rw [← Nat.card_eq_fintype_card, hcardUnits]
   have hcardWbig : 1 < Nat.card ↥(TableBUD.frameWeights h Q hQ (by omega) 3 E) := by

@@ -24,6 +24,7 @@ abbrev head {V : Type*} [AddCommGroup V] [Module K V] {r : ℕ}
     (T : Fin r → V ≃ₗ[K] V) : Type _ :=
   Module.Dual K V ⧸ augDual T
 
+omit [CharP K 2] in
 theorem dualAnnihilator_augDual_eq_map_iterFixed {V : Type*} [AddCommGroup V] [Module K V]
     [FiniteDimensional K V] {r : ℕ} (T : Fin r → V ≃ₗ[K] V) :
     (augDual T).dualAnnihilator =
@@ -61,7 +62,7 @@ theorem dualAnnihilator_augDual_eq_map_iterFixed {V : Type*} [AddCommGroup V] [M
     intro ψ hψ
     have hs : augDualSet T ⊆ LinearMap.ker (Module.Dual.eval K V u) := by
       rintro ψ hψ
-      simp only [augDualSet, Set.mem_iUnion, Set.mem_range] at hψ
+      simp only [augDualSet, Set.mem_iUnion] at hψ
       obtain ⟨i, φ, rfl⟩ := hψ
       have hu' : T i u = u := (mem_iterFixed.mp hu) i i.2
       simp [LinearMap.sub_apply, hu']
@@ -70,6 +71,7 @@ theorem dualAnnihilator_augDual_eq_map_iterFixed {V : Type*} [AddCommGroup V] [M
       Submodule.span_le.mpr hs
     simpa using hle hψ
 
+omit [CharP K 2] in
 theorem finrank_head_eq_fixed {V : Type*} [AddCommGroup V] [Module K V]
     [FiniteDimensional K V] {r : ℕ} (T : Fin r → V ≃ₗ[K] V) :
     Module.finrank K (head T) = Module.finrank K (iterFixed T r) := by
@@ -125,45 +127,47 @@ variable {V W : Type*} [AddCommGroup V] [Module K V] [AddCommGroup W] [Module K 
     V ⊗[K] W →ₗ[K] (Module.Dual K V →ₗ[K] W) :=
   TensorProduct.lift contractionBilin
 
+omit [CharP K 2] in
 @[simp]
 theorem contract_tmul (v : V) (w : W) (φ : Module.Dual K V) :
     contract (v ⊗ₜ[K] w) φ = φ v • w := by
   rw [contract, TensorProduct.lift.tmul]
   rfl
 
+omit [CharP K 2] in
 theorem contract_map (T : V ≃ₗ[K] V) (S : W ≃ₗ[K] W) (t : V ⊗[K] W)
     (φ : Module.Dual K V) :
     contract (TensorProduct.map (T : V →ₗ[K] V) (S : W →ₗ[K] W) t) φ =
       S (contract t (T.dualMap φ)) := by
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul v w =>
     simp [TensorProduct.map_tmul]
   | add x y hx hy =>
     simp only [map_add, LinearMap.add_apply, hx, hy]
 
+omit [CharP K 2] in
 theorem repr_tensorProduct_eq_dualDistrib {ι κ : Type*} (b : Basis ι K V)
     (c : Basis κ K W) (t : V ⊗[K] W) (i : ι) (j : κ) :
     (b.tensorProduct c).repr t (i, j) =
       TensorProduct.dualDistrib K V W (b.coord i ⊗ₜ[K] c.coord j) t := by
   classical
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul m n =>
     simp [Basis.tensorProduct_repr_tmul_apply, TensorProduct.dualDistrib_apply, mul_comm]
   | add x y hx hy => simp only [map_add, Finsupp.add_apply, hx, hy]
 
+omit [CharP K 2] in
 theorem coord_contract_eq_dualDistrib {κ : Type*} (c : Basis κ K W)
     (t : V ⊗[K] W) (φ : Module.Dual K V) (j : κ) :
     c.coord j (contract t φ) =
       TensorProduct.dualDistrib K V W (φ ⊗ₜ[K] c.coord j) t := by
   classical
-  induction t using TensorProduct.induction_on with
-  | zero => simp
+  induction t using TensorProduct.inductionOn with
   | tmul m n =>
-    simp [contract_tmul, TensorProduct.dualDistrib_apply, smul_eq_mul, mul_comm]
+    simp [contract_tmul, TensorProduct.dualDistrib_apply, smul_eq_mul]
   | add x y hx hy => simp only [map_add, LinearMap.add_apply, hx, hy]
 
+omit [CharP K 2] in
 theorem contract_eq_zero_iff [FiniteDimensional K V] [FiniteDimensional K W]
     (t : V ⊗[K] W) : contract t = 0 ↔ t = 0 := by
   classical
@@ -193,6 +197,7 @@ theorem contract_eq_zero_iff [FiniteDimensional K V] [FiniteDimensional K W]
   · intro ht
     rw [ht, map_zero]
 
+omit [CharP K 2] in
 theorem contract_injective [FiniteDimensional K V] [FiniteDimensional K W] :
     Function.Injective (contract (K := K) (V := V) (W := W)) := by
   intro t u h
@@ -207,6 +212,7 @@ noncomputable def equivariantHom {r : ℕ} (T : Fin r → V ≃ₗ[K] V)
     (LinearMap.lcomp K W ((T i).dualMap : Module.Dual K V →ₗ[K] Module.Dual K V)
       - LinearMap.compRight K (S i : W →ₗ[K] W))
 
+omit [CharP K 2] in
 theorem mem_equivariantHom {r : ℕ} {T : Fin r → V ≃ₗ[K] V}
     {S : Fin r → W ≃ₗ[K] W} {f : Module.Dual K V →ₗ[K] W} :
     f ∈ equivariantHom T S ↔
@@ -214,11 +220,13 @@ theorem mem_equivariantHom {r : ℕ} {T : Fin r → V ≃ₗ[K] V}
         (S i : W →ₗ[K] W).comp f := by
   simp [equivariantHom, LinearMap.lcomp_apply', LinearMap.compRight_apply, sub_eq_zero]
 
+omit [CharP K 2] in
 theorem comp_self_of_mul_eq_one (S : W ≃ₗ[K] W) (hS : S * S = 1) :
     (S : W →ₗ[K] W).comp (S : W →ₗ[K] W) = 1 := by
   have h := congrArg (fun e : W ≃ₗ[K] W => (e : W →ₗ[K] W)) hS
   simpa [LinearEquiv.mul_eq_trans, Module.End.mul_eq_comp, Module.End.one_eq_id] using h
 
+omit [CharP K 2] in
 theorem quotientMap_comp_self (L : Submodule K W) (S : W ≃ₗ[K] W)
     (hL : ∀ x ∈ L, S x ∈ L) (hS : S * S = 1) :
     (L.mapQ L (S : W →ₗ[K] W) (fun x hx => hL x hx)).comp
@@ -246,12 +254,14 @@ noncomputable def quotientInv (L : Submodule K W) (S : W ≃ₗ[K] W)
     (L.mapQ L (S : W →ₗ[K] W) (fun x hx => hL x hx))
     (quotientMap_comp_self L S hL hS) (quotientMap_comp_self L S hL hS)
 
+omit [CharP K 2] in
 @[simp]
 theorem quotientInv_apply_mk (L : Submodule K W) (S : W ≃ₗ[K] W)
     (hL : ∀ x ∈ L, S x ∈ L) (hS : S * S = 1) (x : W) :
     quotientInv L S hL hS (Submodule.Quotient.mk x) = Submodule.Quotient.mk (S x) := by
   simp [quotientInv, Submodule.mapQ_apply]
 
+omit [CharP K 2] in
 theorem quotientInv_mul_self (L : Submodule K W) (S : W ≃ₗ[K] W)
     (hL : ∀ x ∈ L, S x ∈ L) (hS : S * S = 1) :
     quotientInv L S hL hS * quotientInv L S hL hS = 1 := by
@@ -268,6 +278,7 @@ theorem quotientInv_mul_self (L : Submodule K W) (S : W ≃ₗ[K] W)
       exact congrFun (congrArg DFunLike.coe h) x
     rw [hfun]
 
+omit [CharP K 2] in
 theorem quotientInv_comm (L : Submodule K W) (S S' : W ≃ₗ[K] W)
     (hL : ∀ x ∈ L, S x ∈ L) (hL' : ∀ x ∈ L, S' x ∈ L)
     (hS : S * S = 1) (hS' : S' * S' = 1) (hcomm : S * S' = S' * S) :
@@ -326,7 +337,7 @@ theorem exists_fixed_ne_zero {W : Type*} [AddCommGroup W] [Module K W]
     have hzero : Module.finrank K (iterFixed S r) = 0 := Nat.eq_zero_of_not_pos h
     rw [hzero, mul_zero] at hle
     omega
-  haveI : Nontrivial ↥(iterFixed S r) := Module.nontrivial_of_finrank_pos hpos
+  have : Nontrivial ↥(iterFixed S r) := Module.nontrivial_of_finrank_pos hpos
   obtain ⟨w, hw⟩ := exists_ne (0 : ↥(iterFixed S r))
   refine ⟨(w : W), ?_, ?_⟩
   · intro hw0
@@ -339,6 +350,7 @@ theorem exists_fixed_ne_zero {W : Type*} [AddCommGroup W] [Module K W]
     Submodule K (Module.Dual K V →ₗ[K] W) :=
   LinearMap.ker (LinearMap.lcomp K W (augDual T).subtype)
 
+omit [CharP K 2] in
 theorem mem_mapsKillingAug {V : Type*} [AddCommGroup V] [Module K V] {r : ℕ}
     {T : Fin r → V ≃ₗ[K] V} {W : Type*} [AddCommGroup W] [Module K W]
     {g : Module.Dual K V →ₗ[K] W} :
@@ -393,6 +405,7 @@ noncomputable def mapsKillingAugEquiv {V : Type*} [AddCommGroup V] [Module K V] 
       change ((augDual T).liftQ g.1 (mem_mapsKillingAug.mp g.2)).comp (augDual T).mkQ = g.1
       exact Submodule.liftQ_mkQ (p := augDual T) g.1 (mem_mapsKillingAug.mp g.2))
 
+omit [CharP K 2] in
 theorem finrank_maps_killing_augDual {V : Type*} [AddCommGroup V] [Module K V]
     [FiniteDimensional K V] {r : ℕ} (T : Fin r → V ≃ₗ[K] V) (W : Type*)
     [AddCommGroup W] [Module K W] [FiniteDimensional K W] :
@@ -401,6 +414,7 @@ theorem finrank_maps_killing_augDual {V : Type*} [AddCommGroup V] [Module K V]
   rw [LinearEquiv.finrank_eq (mapsKillingAugEquiv T W), Module.finrank_linearMap,
     finrank_head_eq_fixed]
 
+omit [CharP K 2] in
 theorem contract_mem_equivariantHom {V W : Type*} [AddCommGroup V] [Module K V]
     [AddCommGroup W] [Module K W] :
     ∀ (r : ℕ) (T : Fin r → V ≃ₗ[K] V) (S : Fin r → W ≃ₗ[K] W),
@@ -459,6 +473,7 @@ theorem contract_mem_equivariantHom {V W : Type*} [AddCommGroup V] [Module K V]
 
 
 
+omit [CharP K 2] in
 theorem kills_augDual_of_mem_equivariantHom {V W : Type*} [AddCommGroup V] [Module K V]
     [AddCommGroup W] [Module K W] {r : ℕ} (T : Fin r → V ≃ₗ[K] V)
     (S : Fin r → W ≃ₗ[K] W) (L : Submodule K W)
@@ -468,7 +483,7 @@ theorem kills_augDual_of_mem_equivariantHom {V W : Type*} [AddCommGroup V] [Modu
   rw [augDual]
   apply Submodule.span_le.mpr
   rintro ψ hψ
-  simp only [augDualSet, Set.mem_iUnion, Set.mem_range] at hψ
+  simp only [augDualSet, Set.mem_iUnion] at hψ
   obtain ⟨i, φ, rfl⟩ := hψ
   change f ((T i).dualMap φ - φ) = 0
   have hf_i : f ((T i).dualMap φ) = S i (f φ) := by
@@ -491,8 +506,8 @@ theorem finrank_equivariantHom_le {V : Type*} [AddCommGroup V] [Module K V]
     intro W _ _ _ hWdim S hS2 hSc
     by_cases hn : n = 0
     · have hWzero : Module.finrank K W = 0 := by omega
-      haveI : Subsingleton W := Module.finrank_zero_iff.mp hWzero
-      haveI : Subsingleton (Module.Dual K V →ₗ[K] W) := by infer_instance
+      have : Subsingleton W := Module.finrank_zero_iff.mp hWzero
+      have : Subsingleton (Module.Dual K V →ₗ[K] W) := by infer_instance
       have hzero : Module.finrank K ↥(equivariantHom T S) = 0 :=
         Module.finrank_zero_of_subsingleton
       rw [hzero, hWzero, mul_zero]
@@ -566,7 +581,7 @@ theorem finrank_equivariantHom_le {V : Type*} [AddCommGroup V] [Module K V]
           have hf2 : ((postEq f.1 : ↥(equivariantHom T S')) :
               Module.Dual K V →ₗ[K] Q) = 0 := by
             have := Subtype.ext_iff.mp hfker
-            simpa using this
+            simp
           have h0 : L.mkQ (f.1.1 φ) = 0 := by
             have h := congrFun (congrArg DFunLike.coe hf2) φ
             change (post f.1.1) φ = 0 at h
@@ -641,6 +656,7 @@ theorem finrank_equivariantHom_le {V : Type*} [AddCommGroup V] [Module K V]
             rw [hWdim]
 
 
+omit [CharP K 2] in
 theorem finrank_tensorFixed_le_equivariantHom {V W : Type*} [AddCommGroup V] [Module K V]
     [FiniteDimensional K V] [AddCommGroup W] [Module K W] [FiniteDimensional K W]
     {r : ℕ} (T : Fin r → V ≃ₗ[K] V) (S : Fin r → W ≃ₗ[K] W)
@@ -673,7 +689,7 @@ theorem finrank_fixed_tensor_le_zm_elemAbelian {K V W : Type*} [Field K] [CharP 
     [AddCommGroup V] [Module K V] [FiniteDimensional K V]
     [AddCommGroup W] [Module K W] [FiniteDimensional K W]
     {r : ℕ} (T : Fin r → V ≃ₗ[K] V) (S : Fin r → W ≃ₗ[K] W)
-    (hT2 : ∀ i, T i * T i = 1) (hTc : ∀ i j, T i * T j = T j * T i)
+    (_hT2 : ∀ i, T i * T i = 1) (_hTc : ∀ i j, T i * T j = T j * T i)
     (hS2 : ∀ i, S i * S i = 1) (hSc : ∀ i j, S i * S j = S j * S i) :
     Module.finrank K (tensorFixed T S) ≤
       Module.finrank K (iterFixed T r) * Module.finrank K W :=

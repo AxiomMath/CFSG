@@ -50,10 +50,10 @@ theorem step92Quot : Step92QuotStatement := by
   have hxR : x ∈ Rt M (LB M Q B) t := (le_Rt (M := M) (LB M Q B) ht) hxL
   obtain ⟨K, fK, finK, hK, φ, hφr, hφk, -⟩ := hs.plus4
   obtain ⟨jj, kk, hZ2, -⟩ := hc.hyp.cp
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hK.trans hZ2)
   have h4 : 4 ≤ Nat.card K := by rw [hK]; exact hc.hyp.q4
   obtain ⟨e⟩ := statedOmega_plus_four_nonempty_equiv K h4
-  haveI hsimple : IsSimpleGroup ↥(StatedSL 2 K) :=
+  have hsimple : IsSimpleGroup ↥(StatedSL 2 K) :=
     CFSG.Quasithin.H13.NQRigid.isSimpleGroup_statedSL_two_charTwo h4
   have hnonab : ∃ a b : ↥(StatedSL 2 K), a * b ≠ b * a :=
     sec9_nonabelian_of_commutator_eq_top
@@ -80,16 +80,16 @@ theorem step92Quot : Step92QuotStatement := by
       simp
   have hR₀R : Sec9R0 hc t x ≤ Rt M (LB M Q B) t := Sec9R0_le_Rt hc hxR
   have hNR₀ : hc.CN t ≤ Sec9R0 hc t x := CN_le_Sec9R0 hc t x
-  haveI hnormR₀ : ((Sec9R0 hc t x).subgroupOf (Rt M (LB M Q B) t)).Normal := by
+  have hnormR₀ : ((Sec9R0 hc t x).subgroupOf (Rt M (LB M Q B) t)).Normal := by
     refine ⟨fun a ha g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at ha ⊢
     exact Sec9R0_conj_mem hc ht g.2 ha
-  haveI hnormN : ((hc.CN t).subgroupOf (Sec9R0 hc t x)).Normal := by
+  have hnormN : ((hc.CN t).subgroupOf (Sec9R0 hc t x)).Normal := by
     refine ⟨fun a ha g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at ha ⊢
     exact hc.CN_conj_mem ht (hR₀R g.2) ha
   set H := ((Sec9R0 hc t x).subgroupOf (Rt M (LB M Q B) t)).map ψ with hH
-  haveI hHnormal : H.Normal := Subgroup.Normal.map hnormR₀ ψ hψsurj
+  have hHnormal : H.Normal := Subgroup.Normal.map hnormR₀ ψ hψsurj
   have hHbot : H ≠ ⊥ := by
     intro hbot
     have hmem : ψ ⟨x, hxR⟩ ∈ H :=

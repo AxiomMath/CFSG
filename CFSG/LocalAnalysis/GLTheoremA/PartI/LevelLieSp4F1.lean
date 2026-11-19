@@ -67,8 +67,8 @@ theorem level_of_comp_H0 {T : Type} [Group T] [Finite T] (H₀ : Subgroup T)
   have hJD : J ≤ ⁅H₀, H₀⁆ := by
     calc J = ⁅J, J⁆ := (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ).symm
       _ ≤ ⁅H₀, H₀⁆ := Subgroup.commutator_mono hJ.1 hJ.1
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := isSimple_A6
-  haveI : IsSimpleGroup ↥⁅H₀, H₀⁆ := f.isSimpleGroup
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := isSimple_A6
+  have : IsSimpleGroup ↥⁅H₀, H₀⁆ := f.isSimpleGroup
   have hsub : CFSG.Open.IsSubnormal (J ⊓ ⁅H₀, H₀⁆) ⁅H₀, H₀⁆ := hJ.2.1.inf_of_le hD6le
   rw [inf_eq_left.2 hJD] at hsub
   have hJeq : J = ⁅H₀, H₀⁆ :=
@@ -134,7 +134,7 @@ theorem fieldT_level (β : MulAut TF) (hβ3 : β ^ 3 = 1) (hβin : β ∉ innTF)
     exact (QuotientGroup.eq_one_iff β).1 (orderOf_eq_one_iff.1 h1)
   have hβD : β ∉ spLinearAutGroup 2 F8 := fun h => hβin (hDinn h)
   have hβ1 : β ≠ 1 := fun h => hβin (h ▸ (innTF).one_mem)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf β = 3 := orderOf_eq_prime hβ3 hβ1
   obtain ⟨-, σ, hσ, -, h, hhD, hβeq⟩ := hfield 3 Nat.prime_three β hβE hβD hord
   obtain ⟨x, hx⟩ := MonoidHom.mem_range.1 (hDinn hhD)

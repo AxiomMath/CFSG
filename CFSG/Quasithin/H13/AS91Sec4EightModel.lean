@@ -69,7 +69,7 @@ theorem eq_mk7 {M : Array ℕ} (hs : M.size = 7) (h0 : M[0]! = 1) : M = mk7 (lam
     · simpa using h0
     all_goals
       simp only [lam6, aPart, Nat.shiftRight_eq_div_pow, List.getD_eq_getElem?_getD]
-      simp [List.getElem?_drop, List.getElem?_map, Array.getElem?_toList, getElem!_pos, hs]
+      simp [getElem!_pos, hs]
       omega
   apply Array.ext
   · rw [hs, mk7_size]
@@ -178,7 +178,7 @@ theorem codeOf_add_q0c (v : V12) : codeOf (v + vecOf q0c) = codeOf v ^^^ q0c := 
 theorem setOfMask_s0Mask : setOfMask (s0Mask ()) = S0 := by
   ext v
   rw [mem_setOfMask, s0Mask, testBit_maskOf]
-  simp only [S0, Set.mem_setOf_eq, List.mem_map]
+  simp only [S0, Set.mem_ofPred_eq, List.mem_map]
   rw [mem_W1_iff, codeOf_add_q0c]
   constructor
   · rintro ⟨w, hw, he⟩

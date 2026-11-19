@@ -31,11 +31,11 @@ theorem levi_main {n : ℕ} (hK : Nat.card K = 3 ^ n) {t : MulAut (D4Model K)} (
     ∃ c ∈ P, c⁻¹ * t c ∈ Subgroup.normalizer ((S₁ : Subgroup (D4Model K)) : Set (D4Model K)) ∧
       c⁻¹ * y₀ * c ∈ Subgroup.normalizer ((S₁ : Subgroup (D4Model K)) : Set (D4Model K)) := by
   classical
-  haveI := charP_three_of_card hK
+  have := charP_three_of_card hK
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (D4Model K) := inferInstance
-  haveI : Finite ↥(adjointGroup Tag.D4 K) := inferInstance
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (D4Model K) := inferInstance
+  have : Finite ↥(adjointGroup Tag.D4 K) := inferInstance
   obtain ⟨ψ, hψdef⟩ : ∃ ψ : adjointGroup Tag.D4 K ≃* D4Model K,
       ψ = coordinatePlusWitnessEquiv K (isoAdj K).symm := ⟨_, rfl⟩
   obtain ⟨S', hS'coe⟩ : ∃ S' : Sylow 3 ↥(adjointGroup Tag.D4 K),
@@ -74,7 +74,7 @@ theorem levi_main {n : ℕ} (hK : Nat.card K = 3 ^ n) {t : MulAut (D4Model K)} (
     rw [inv_inv] at h
     rw [hα'def, h, hα3]; group
   have hα'app : ∀ w, α' w = x⁻¹ * α (x * w * x⁻¹) * x := by
-    intro w; simp [hα'def, MulAut.mul_apply, MulAut.conj_apply, MulAut.conj_inv_apply]
+    intro w; simp [hα'def, MulAut.mul_apply, MulAut.conj_apply]
   have hαx : ∀ w, α (x * w * x⁻¹) = x * α' w * x⁻¹ := by
     intro w; rw [hα'app]; group
   obtain ⟨g, a, σ, ε, hε3, hα'eq, hgB⟩ := exists_normal_form_borel α' hα'3 hUα'

@@ -62,7 +62,7 @@ theorem exists_eq_of_odd_index {Q₁ Q₂ : Type} [Group Q₁] [Group Q₂]
     (htrans : ∀ a a' : Q₁, ∀ b b' : Q₂, a * a = z₁ → a' * a' = z₁ → b * b = z₂ → b' * b' = z₂ →
       ∃ f ∈ J, (ρ f).1 a = a' ∧ (ρ f).2 b = b')
     (hodd : Odd J.index) : ∀ c : H, ∃ f ∈ J, ρ c = ρ f := by
-  letI : MulAction (MulAut Q₁ × MulAut Q₂) (Q₁ × Q₂) := prodAct Q₁ Q₂
+  let : MulAction (MulAut Q₁ × MulAut Q₂) (Q₁ × Q₂) := prodAct Q₁ Q₂
   have hΓ : Nat.card (MulAut Q₁ × MulAut Q₂) = 576 := by
     rw [Nat.card_prod, natCard_mulAut_of_quaternion e₁, natCard_mulAut_of_quaternion e₂]
   set SJ : Subgroup (MulAut Q₁ × MulAut Q₂) := J.map ρ with hSJ

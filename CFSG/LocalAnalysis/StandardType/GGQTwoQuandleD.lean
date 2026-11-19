@@ -70,7 +70,6 @@ private lemma ggQ2xQD_refl_smul {n : ℕ} (a : ZMod 3) (ha : a ≠ 0) (c : GGBCV
     rw [show a * (a * (c ⬝ᵥ c)) = c ⬝ᵥ c by
       rw [← mul_assoc, ggQ2x_mul_self_eq_one a ha, one_mul]]
   rw [h1, h2, smul_smul]
-  congr 1
   rw [show a * (c ⬝ᵥ v) * (c ⬝ᵥ c) * a = c ⬝ᵥ v * (c ⬝ᵥ c) by
     rw [show a * (c ⬝ᵥ v) * (c ⬝ᵥ c) * a = (a * a) * (c ⬝ᵥ v * (c ⬝ᵥ c)) by ring,
       ggQ2x_mul_self_eq_one a ha, one_mul]]
@@ -125,7 +124,7 @@ private lemma ggQ2xQD_ref_single_self {n : ℕ} (i j : Fin n) (e : ZMod 3)
     ggQ2xQD_ref i j e hij he (Pi.single i (1 : ZMod 3))
       = (-e) • Pi.single j (1 : ZMod 3) := by
   have hcases : e = 1 ∨ e = -1 := by revert he; revert e; decide
-  rw [ggQ2xQD_ref_apply, ggQ2xQD_vec_dot_single, if_pos rfl, if_neg (Ne.symm hij),
+  rw [ggQ2xQD_ref_apply, ggQ2xQD_vec_dot_single, ite_eq_left rfl, ite_eq_right (Ne.symm hij),
     mul_zero, add_zero, one_mul]
   rcases hcases with rfl | rfl
   · ext k
@@ -140,7 +139,7 @@ private lemma ggQ2xQD_ref_single_other {n : ℕ} (i j : Fin n) (e : ZMod 3)
     ggQ2xQD_ref i j e hij he (Pi.single j (1 : ZMod 3))
       = (-e) • Pi.single i (1 : ZMod 3) := by
   have hcases : e = 1 ∨ e = -1 := by revert he; revert e; decide
-  rw [ggQ2xQD_ref_apply, ggQ2xQD_vec_dot_single, if_neg hij, if_pos rfl, zero_add, mul_one]
+  rw [ggQ2xQD_ref_apply, ggQ2xQD_vec_dot_single, ite_eq_right hij, ite_eq_left rfl, zero_add, mul_one]
   rcases hcases with rfl | rfl
   · ext k
     simp only [ggQ2xQD_vec, Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply]
@@ -152,7 +151,7 @@ private lemma ggQ2xQD_ref_single_other {n : ℕ} (i j : Fin n) (e : ZMod 3)
 private lemma ggQ2xQD_ref_single_ne {n : ℕ} {i j k : Fin n} (e : ZMod 3)
     (hij : i ≠ j) (he : e ≠ 0) (hki : k ≠ i) (hkj : k ≠ j) :
     ggQ2xQD_ref i j e hij he (Pi.single k (1 : ZMod 3)) = Pi.single k (1 : ZMod 3) := by
-  rw [ggQ2xQD_ref_apply, ggQ2xQD_vec_dot_single, if_neg (Ne.symm hki), if_neg (Ne.symm hkj),
+  rw [ggQ2xQD_ref_apply, ggQ2xQD_vec_dot_single, ite_eq_right (Ne.symm hki), ite_eq_right (Ne.symm hkj),
     mul_zero, add_zero, zero_mul, zero_smul, add_zero]
 
 private lemma ggQ2xQD_ref_eq_iff {n : ℕ} {i j k l : Fin n} {e f : ZMod 3}
@@ -173,10 +172,10 @@ private lemma ggQ2xQD_ref_eq_iff {n : ℕ} {i j k l : Fin n} {e f : ZMod 3}
         at h2
       have hjl : j = l := by
         by_contra hne
-        rw [if_neg hne, mul_zero] at h2
+        rw [ite_eq_right hne, mul_zero] at h2
         exact (neg_ne_zero.mpr he) h2
       have hef : e = f := by
-        rw [hjl, if_pos rfl, mul_one] at h2
+        rw [hjl, ite_eq_left rfl, mul_one] at h2
         exact neg_inj.mp h2
       exact ⟨Or.inl ⟨hik, hjl⟩, hef⟩
     · by_cases hil : i = l
@@ -187,16 +186,16 @@ private lemma ggQ2xQD_ref_eq_iff {n : ℕ} {i j k l : Fin n} {e f : ZMod 3}
           at h2
         have hjk : j = k := by
           by_contra hne
-          rw [if_neg hne, mul_zero] at h2
+          rw [ite_eq_right hne, mul_zero] at h2
           exact (neg_ne_zero.mpr he) h2
         have hef : e = f := by
-          rw [hjk, if_pos rfl, mul_one] at h2
+          rw [hjk, ite_eq_left rfl, mul_one] at h2
           exact neg_inj.mp h2
         exact ⟨Or.inr ⟨hil, hjk⟩, hef⟩
       · rw [ggQ2xQD_ref_single_ne f hkl hf hik hil] at h1
         have h2 := congrArg (fun v : GGBCV n => v i) h1
         simp only [Pi.smul_apply, Pi.single_eq_same, Pi.single_apply, smul_eq_mul] at h2
-        rw [if_neg hij, mul_zero] at h2
+        rw [ite_eq_right hij, mul_zero] at h2
         exact (zero_ne_one h2).elim
   · rintro ⟨(⟨hik, hjl⟩ | ⟨hil, hjk⟩), hef⟩
     · subst hik; subst hjl; subst hef; rfl
@@ -214,7 +213,7 @@ private lemma ggQ2xQD_refl_comm_commutator {n : ℕ} (c c' v : GGBCV n)
   rw [ggQ2x_ggBCRefl_apply, ggQ2x_ggBCRefl_apply, ggQ2x_ggBCRefl_apply, ggQ2x_ggBCRefl_apply]
   ext j
   simp only [Pi.sub_apply, Pi.add_apply, Pi.smul_apply, smul_eq_mul, dotProduct_add,
-    dotProduct_smul, smul_dotProduct, add_dotProduct, sub_dotProduct]
+    dotProduct_smul]
   rw [dotProduct_comm c' c]
   ring
 
@@ -266,7 +265,7 @@ private lemma ggQ2xQD_refl_comm_iff_wt {n : ℕ} {c c' : GGBCV n}
 private lemma ggQ2xQD_vec_dot_disjoint {n : ℕ} {i j k l : Fin n} {e f : ZMod 3}
     (hik : i ≠ k) (hil : i ≠ l) (hjk : j ≠ k) (hjl : j ≠ l) :
     ggQ2xQD_vec i j e ⬝ᵥ ggQ2xQD_vec k l f = 0 := by
-  rw [ggQ2xQD_vec_dot_vec, if_neg hik, if_neg hil, if_neg hjk, if_neg hjl]
+  rw [ggQ2xQD_vec_dot_vec, ite_eq_right hik, ite_eq_right hil, ite_eq_right hjk, ite_eq_right hjl]
   simp
 
 private lemma ggQ2xQD_vec_dot_ne_share {n : ℕ} {i j k l : Fin n} {e f : ZMod 3}
@@ -279,21 +278,21 @@ private lemma ggQ2xQD_vec_dot_ne_share {n : ℕ} {i j k l : Fin n} {e f : ZMod 3
   · have hkil : i ≠ l := fun h => hkl (by rw [← hik, h])
     have hkij : j ≠ k := fun h => hij (by rw [hik, h])
     have hjl : j ≠ l := fun h => hne (Or.inl ⟨hik, h⟩)
-    rw [if_pos hik, if_neg hkil, if_neg hkij, if_neg hjl]
-    simpa using (by decide : (1 : ZMod 3) ≠ 0)
+    rw [ite_eq_left hik, ite_eq_right hkil, ite_eq_right hkij, ite_eq_right hjl]
+    simp
   · by_cases hil : i = l
     · have hjl : j ≠ l := fun h => hij (by rw [hil, h])
       have hjk : j ≠ k := fun h => hne (Or.inr ⟨hil, h⟩)
-      rw [if_neg hik, if_pos hil, if_neg hjk, if_neg hjl]
+      rw [ite_eq_right hik, ite_eq_left hil, ite_eq_right hjk, ite_eq_right hjl]
       simpa using hf
     · by_cases hjk : j = k
       · have hjl : j ≠ l := fun h => hkl (by rw [← hjk, h])
-        rw [if_neg hik, if_neg hil, if_pos hjk, if_neg hjl]
+        rw [ite_eq_right hik, ite_eq_right hil, ite_eq_left hjk, ite_eq_right hjl]
         simpa using he
       · have hjl : j = l := by
           by_contra h
           exact hdis ⟨hik, hil, hjk, h⟩
-        rw [if_neg hik, if_neg hil, if_neg hjk, if_pos hjl]
+        rw [ite_eq_right hik, ite_eq_right hil, ite_eq_right hjk, ite_eq_left hjl]
         simpa using mul_ne_zero he hf
 
 private lemma ggQ2xQD_ref_same_pair_comm {n : ℕ} (i j : Fin n) (e f : ZMod 3)
@@ -308,7 +307,7 @@ private lemma ggQ2xQD_ref_same_pair_comm {n : ℕ} (i j : Fin n) (e f : ZMod 3)
     simp only [ggQ2xQD_ref]
     rw [ggQ2xQD_refl_comm_iff_wt (ggQ2xQD_vec_wt hij he) (ggQ2xQD_vec_wt hij hf)
       (ggQ2xQD_vec_norm_ne hij he) (ggQ2xQD_vec_norm_ne hij hf) hne]
-    rw [ggQ2xQD_vec_dot_vec, if_pos rfl, if_neg hij, if_neg (Ne.symm hij), if_pos rfl]
+    rw [ggQ2xQD_vec_dot_vec, ite_eq_left rfl, ite_eq_right hij, ite_eq_right (Ne.symm hij), ite_eq_left rfl]
     simp only [mul_zero, add_zero, mul_one]
     rcases ggQ2xQD_zmod3_cases_of_sq (ggQ2xQD_zmod3_sq_eq_one he) with rfl | rfl
     · rcases ggQ2xQD_zmod3_cases_of_sq (ggQ2xQD_zmod3_sq_eq_one hf) with hf1 | hf1
@@ -361,10 +360,10 @@ private lemma ggQ2xQD_wt_two_repr {n : ℕ} {v : GGBCV n} (h : ggBCWt v = 2) :
   funext i
   by_cases hia : i = a
   · subst hia
-    simp [Pi.single_eq_of_ne (Ne.symm hab), hab]
+    simp [hab]
   · by_cases hib : i = b
     · subst hib
-      simp [Pi.single_eq_of_ne hab, hab]
+      simp [hab]
     · have hm : i ∉ Finset.univ.filter (fun i => v i ≠ 0) := by rw [ha]; simp [hia, hib]
       have hvi : v i = 0 := by simpa using hm
       simp [Pi.single_eq_of_ne hia, Pi.single_eq_of_ne hib, hvi]
@@ -412,13 +411,13 @@ private lemma ggQ2xQD_nbhd_determines {n : ℕ} (hn : 5 ≤ n)
       simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hm
       have hmk : k ≠ m := Ne.symm hm.2.2.1
       have hmem : ggQ2xQD_ref k m 1 hmk (by decide) ∈ ggQ2xQD_nbhd t := by
-        simp only [ggQ2xQD_nbhd, Set.mem_setOf_eq]
+        simp only [ggQ2xQD_nbhd, Set.mem_ofPred_eq]
         refine ⟨ggQ2xQD_ref_mem k m 1 hmk (by decide), ?_⟩
         rw [hteq]
         rw [ggQ2xQD_ref_comm_iff hmk hij (by decide) he]
         exact Or.inl ⟨Ne.symm hdis.1, Ne.symm hdis.2.2.1, hm.1, hm.2.1⟩
       have hnotmem : ggQ2xQD_ref k m 1 hmk (by decide) ∉ ggQ2xQD_nbhd u := by
-        simp only [ggQ2xQD_nbhd, Set.mem_setOf_eq]
+        simp only [ggQ2xQD_nbhd, Set.mem_ofPred_eq]
         rintro ⟨-, hcomm⟩
         rw [hueq] at hcomm
         rw [ggQ2xQD_ref_comm_iff hmk hkl (by decide) hf] at hcomm
@@ -429,10 +428,10 @@ private lemma ggQ2xQD_nbhd_determines {n : ℕ} (hn : 5 ≤ n)
       rw [h] at hmem
       exact hnotmem hmem
     · have hmem : ggQ2xQD_ref i j e hij he ∈ ggQ2xQD_nbhd t := by
-        simp only [ggQ2xQD_nbhd, Set.mem_setOf_eq]
+        simp only [ggQ2xQD_nbhd, Set.mem_ofPred_eq]
         exact ⟨ggQ2xQD_ref_mem i j e hij he, by rw [hteq]⟩
       have hnotmem : ggQ2xQD_ref i j e hij he ∉ ggQ2xQD_nbhd u := by
-        simp only [ggQ2xQD_nbhd, Set.mem_setOf_eq]
+        simp only [ggQ2xQD_nbhd, Set.mem_ofPred_eq]
         rintro ⟨-, hcomm⟩
         rw [hueq] at hcomm
         rw [ggQ2xQD_ref_comm_iff hij hkl he hf] at hcomm
@@ -472,7 +471,7 @@ private lemma ggQ2xQD_refl_isometry {n : ℕ} (c : GGBCV n) (hc : c ⬝ᵥ c ≠
 
 private lemma ggQ2xQD_refl_wt_two {n : ℕ} {a c : GGBCV n}
     (haw : ggBCWt a = 2) (hcw : ggBCWt c = 2)
-    (ha : a ⬝ᵥ a ≠ 0) (hc : c ⬝ᵥ c ≠ 0) :
+    (ha : a ⬝ᵥ a ≠ 0) (_hc : c ⬝ᵥ c ≠ 0) :
     ggBCWt (ggBCRefl a ha c) = 2 := by
   have hnorm : (ggBCRefl a ha c) ⬝ᵥ (ggBCRefl a ha c) = 2 := by
     rw [ggQ2xQD_refl_isometry a ha c c, ggQ2x_dot_self_eq_wt, hcw]; decide
@@ -540,7 +539,7 @@ private lemma ggQ2xQD_ref_mem_W {n : ℕ} (i j : Fin n) (e : ZMod 3)
     (hij : i ≠ j) (he : e ≠ 0) : ggQ2xQD_ref i j e hij he ∈ ggBCW n := by
   rw [ggQ2xQD_ref]
   refine Subgroup.subset_closure ⟨ggQ2xQD_vec i j e, ?_, ggQ2xQD_vec_norm_ne hij he, rfl⟩
-  simp only [ggBCRoots, Set.mem_setOf_eq, ggQ2xQD_vec_wt hij he]
+  simp only [ggBCRoots, Set.mem_ofPred_eq, ggQ2xQD_vec_wt hij he]
   omega
 
 private lemma ggQ2xQD_conj_mem {n : ℕ} {s t : GGBCV n ≃ₗ[ZMod 3] GGBCV n}
@@ -583,7 +582,7 @@ private lemma ggQ2xQD_range_Phi {n : ℕ} :
     exact ⟨⟨((i, j), e), ⟨hij, he⟩⟩, rfl⟩
 
 private lemma ggQ2xQD_finite_T {n : ℕ} : (ggDReflSet n).Finite := by
-  haveI : Finite (ggQ2xQD_Param n) := by
+  have : Finite (ggQ2xQD_Param n) := by
     unfold ggQ2xQD_Param
     infer_instance
   have h := Set.finite_range (ggQ2xQD_Phi (n := n))
@@ -600,13 +599,13 @@ private lemma ggQ2xQD_surj {n : ℕ}
 
 private lemma ggQ2xQD_pi_comm_iff {n : ℕ}
     (π : (GGBCV n ≃ₗ[ZMod 3] GGBCV n) → (GGBCV n ≃ₗ[ZMod 3] GGBCV n))
-    (hπT : ∀ t ∈ ggDReflSet n, π t ∈ ggDReflSet n)
+    (_hπT : ∀ _t ∈ ggDReflSet n, π _t ∈ ggDReflSet n)
     (hinj : Set.InjOn π (ggDReflSet n))
-    (hπ : ∀ s ∈ ggDReflSet n, ∀ t ∈ ggDReflSet n,
-      π (s * t * s⁻¹) = π s * π t * (π s)⁻¹)
-    {s t : GGBCV n ≃ₗ[ZMod 3] GGBCV n} (hs : s ∈ ggDReflSet n) (ht : t ∈ ggDReflSet n) :
-    s * t = t * s ↔ π s * π t = π t * π s :=
-  ggQ2xQD_comm_iff_of_quandle (ggDReflSet n) (fun s hs t ht => ggQ2xQD_conj_mem hs ht)
+    (hπ : ∀ _s ∈ ggDReflSet n, ∀ _t ∈ ggDReflSet n,
+      π (_s * _t * _s⁻¹) = π _s * π _t * (π _s)⁻¹)
+    {_s _t : GGBCV n ≃ₗ[ZMod 3] GGBCV n} (hs : _s ∈ ggDReflSet n) (ht : _t ∈ ggDReflSet n) :
+    _s * _t = _t * _s ↔ π _s * π _t = π _t * π _s :=
+  ggQ2xQD_comm_iff_of_quandle (ggDReflSet n) (fun _s hs _t ht => ggQ2xQD_conj_mem hs ht)
     π hinj hπ hs ht
 
 private lemma ggQ2xQD_pi_nbhd {n : ℕ}
@@ -642,12 +641,12 @@ private lemma ggQ2xQD_ref_conj_vec {n : ℕ} (i j k : Fin n) (r s : ZMod 3)
       = (-r) • ggQ2xQD_vec i k (-(r * s)) := by
   rcases ggQ2xQD_zmod3_cases_of_sq (ggQ2x_mul_self_eq_one r hr) with rfl | rfl
   · rw [ggQ2xQD_ref_apply, ggQ2xQD_vec_dot_vec]
-    rw [if_neg hij, if_neg hik, if_pos rfl, if_neg hjk]
+    rw [ite_eq_right hij, ite_eq_right hik, ite_eq_left rfl, ite_eq_right hjk]
     ext m
     simp only [ggQ2xQD_vec, Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply]
     split_ifs <;> fin_cases s <;> decide
   · rw [ggQ2xQD_ref_apply, ggQ2xQD_vec_dot_vec]
-    rw [if_neg hij, if_neg hik, if_pos rfl, if_neg hjk]
+    rw [ite_eq_right hij, ite_eq_right hik, ite_eq_left rfl, ite_eq_right hjk]
     ext m
     simp only [ggQ2xQD_vec, Pi.add_apply, Pi.smul_apply, smul_eq_mul, Pi.single_apply]
     split_ifs <;> fin_cases s <;> decide
@@ -679,7 +678,7 @@ private noncomputable def ggQ2xQDa_refT {n : ℕ} (i j : Fin n) (e : ZMod 3) :
 private lemma ggQ2xQDa_refT_eq {n : ℕ} (i j : Fin n) (e : ZMod 3)
     (hij : i ≠ j) (he : e ≠ 0) :
     ggQ2xQDa_refT i j e = ggQ2xQD_ref i j e hij he :=
-  dif_pos ⟨hij, he⟩
+  dite_eq_left ⟨hij, he⟩
 
 private lemma ggQ2xQDa_refT_mem {n : ℕ} (i j : Fin n) (e : ZMod 3)
     (hij : i ≠ j) (he : e ≠ 0) : ggQ2xQDa_refT i j e ∈ ggDReflSet n := by
@@ -693,7 +692,7 @@ private lemma ggQ2xQDa_refT_swap {n : ℕ} (i j : Fin n) (e : ZMod 3) :
       ggQ2xQD_ref_swap i j e h.1 h.2]
   · have h' : ¬ (j ≠ i ∧ e ≠ 0) := fun hh => h ⟨Ne.symm hh.1, hh.2⟩
     unfold ggQ2xQDa_refT
-    rw [dif_neg h', dif_neg h]
+    rw [dite_eq_right h', dite_eq_right h]
 
 private lemma ggQ2xQDa_ref_congr {n : ℕ} {i j k l : Fin n} {e f : ZMod 3}
     (hij : i ≠ j) (hkl : k ≠ l) (he : e ≠ 0) (hf : f ≠ 0)
@@ -738,7 +737,7 @@ private lemma ggQ2xQDa_wit_spec {n : ℕ}
         = ggQ2xQDa_refT (ggQ2xQDa_P π hπT i j).1 (ggQ2xQDa_P π hπT i j).2
             (ggQ2xQDa_S π hπT i j) := by
   unfold ggQ2xQDa_P ggQ2xQDa_S ggQ2xQDa_wit
-  rw [dif_pos hij]
+  rw [dite_eq_left hij]
   exact Classical.choose_spec (ggQ2xQDa_Pexists π hπT i j hij)
 
 private lemma ggQ2xQDa_P_sym {n : ℕ}
@@ -767,7 +766,7 @@ private lemma ggQ2xQDa_nbhd_refT_eq {n : ℕ} (i j : Fin n) (e : ZMod 3)
     ggQ2xQD_nbhd (ggQ2xQDa_refT i j e) = ggQ2xQD_nbhd (ggQ2xQDa_refT i j 1) := by
   apply Set.ext
   intro r
-  simp only [ggQ2xQD_nbhd, Set.mem_setOf_eq]
+  simp only [ggQ2xQD_nbhd, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hrT, hcomm⟩
     obtain ⟨k, l, f, hkl, hf, rfl⟩ := ggQ2xQD_exists_repr r hrT
@@ -839,7 +838,7 @@ private lemma ggQ2xQDa_swap_image_pair {n : ℕ} (a b c d : Fin n) :
   rw [Finset.image_insert, Finset.image_singleton]
 
 private lemma ggQ2xQDa_refT_pair_eq {n : ℕ} {p q k l : Fin n} {t : ZMod 3}
-    (hpq : p ≠ q) (hkl : k ≠ l)
+    (hpq : p ≠ q) (_hkl : k ≠ l)
     (h : ({p, q} : Finset (Fin n)) = {k, l}) :
     ggQ2xQDa_refT p q t = ggQ2xQDa_refT k l t := by
   have hp : p = k ∨ p = l := by
@@ -865,7 +864,7 @@ private lemma ggQ2xQDa_refT_pair_eq {n : ℕ} {p q k l : Fin n} {t : ZMod 3}
 
 private lemma ggQ2xQDa_conj_pair {n : ℕ} {a b c d : Fin n}
     (hab : a ≠ b) (hcd : c ≠ d) (r s : ZMod 3) (hr : r ≠ 0) (hs : s ≠ 0) :
-    ∃ (p q : Fin n) (hpq : p ≠ q) (t : ZMod 3), t ≠ 0 ∧
+    ∃ (p q : Fin n) (_hpq : p ≠ q) (t : ZMod 3), t ≠ 0 ∧
       ggQ2xQD_ref a b r hab hr * ggQ2xQD_ref c d s hcd hs * (ggQ2xQD_ref a b r hab hr)⁻¹
         = ggQ2xQDa_refT p q t ∧
       ({p, q} : Finset (Fin n)) = ({c, d} : Finset (Fin n)).image (Equiv.swap a b) := by
@@ -1110,7 +1109,7 @@ private lemma ggQ2xQDa_pi'_swap {n : ℕ}
     ggQ2xQDa_pi' π hπT (Equiv.swap i j)
       = Equiv.swap (ggQ2xQDa_P π hπT i j).1 (ggQ2xQDa_P π hπT i j).2 := by
   unfold ggQ2xQDa_pi'
-  rw [dif_pos ⟨i, j, hij, rfl⟩]
+  rw [dite_eq_left ⟨i, j, hij, rfl⟩]
   have hspec := ggQ2xQDa_rep_spec (Equiv.swap i j) ⟨i, j, hij, rfl⟩
   exact ggQ2xQDa_swap_P_eq π hπT hspec.1 hij hspec.2.symm
 
@@ -1286,7 +1285,7 @@ private noncomputable def ggQ2xQDb_refT {n : ℕ} (i j : Fin n) (e : ZMod 3) :
 private lemma ggQ2xQDb_refT_eq {n : ℕ} {i j : Fin n} {e : ZMod 3}
     (hij : i ≠ j) (he : e ≠ 0) :
     ggQ2xQDb_refT i j e = ggQ2xQD_ref i j e hij he := by
-  rw [ggQ2xQDb_refT, dif_pos (show i ≠ j ∧ e ≠ 0 from ⟨hij, he⟩)]
+  rw [ggQ2xQDb_refT, dite_eq_left (show i ≠ j ∧ e ≠ 0 from ⟨hij, he⟩)]
 
 private lemma ggQ2xQDb_refT_eq_iff {n : ℕ} {i j : Fin n} {e f : ZMod 3}
     (hij : i ≠ j) (he : e ≠ 0) (hf : f ≠ 0) :
@@ -1338,7 +1337,7 @@ private lemma ggQ2xQDb_eps_ne {n : ℕ}
     {σ : Equiv.Perm (Fin n)} (hσ : ggQ2xQDb_Hσ π σ)
     {i j : Fin n} (hij : i ≠ j) : ggQ2xQDb_eps hσ i j ≠ 0 := by
   unfold ggQ2xQDb_eps
-  rw [dif_pos hij]
+  rw [dite_eq_left hij]
   exact (Classical.choose_spec (ggQ2xQDb_eps_spec hσ i j hij)).1
 
 private lemma ggQ2xQDb_eps_one {n : ℕ}
@@ -1347,7 +1346,7 @@ private lemma ggQ2xQDb_eps_one {n : ℕ}
     {i j : Fin n} (hij : i ≠ j) :
     π (ggQ2xQDb_refT i j 1) = ggQ2xQDb_refT (σ i) (σ j) (ggQ2xQDb_eps hσ i j) := by
   unfold ggQ2xQDb_eps
-  rw [dif_pos hij]
+  rw [dite_eq_left hij]
   exact (Classical.choose_spec (ggQ2xQDb_eps_spec hσ i j hij)).2
 
 private lemma ggQ2xQDb_eps_neg_one {n : ℕ}
@@ -1460,7 +1459,7 @@ private lemma ggQ2xQDb_eps_cocycle {n : ℕ}
 
 private lemma ggQ2xQD_exists_theta {n : ℕ} (hn : 5 ≤ n)
     (π : (GGBCV n ≃ₗ[ZMod 3] GGBCV n) → (GGBCV n ≃ₗ[ZMod 3] GGBCV n))
-    (hπT : ∀ t ∈ ggDReflSet n, π t ∈ ggDReflSet n) (hinj : Set.InjOn π (ggDReflSet n))
+    (_hπT : ∀ t ∈ ggDReflSet n, π t ∈ ggDReflSet n) (hinj : Set.InjOn π (ggDReflSet n))
     (hπ : ∀ s ∈ ggDReflSet n, ∀ t ∈ ggDReflSet n, π (s * t * s⁻¹) = π s * π t * (π s)⁻¹)
     (σ : Equiv.Perm (Fin n))
     (hσ : ∀ (i j : Fin n) (hij : i ≠ j) (e : ZMod 3) (he : e ≠ 0),
@@ -1471,7 +1470,7 @@ private lemma ggQ2xQD_exists_theta {n : ℕ} (hn : 5 ≤ n)
         ∃ (hij' : σ i ≠ σ j) (he' : e * θ i * θ j ≠ 0),
           π (ggQ2xQD_ref i j e hij he)
             = ggQ2xQD_ref (σ i) (σ j) (e * θ i * θ j) hij' he' := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   have hH : ggQ2xQDb_Hσ π σ := hσ
   have theta_spec : ∃ θ : Fin n → ZMod 3,
       (∀ i, θ i ≠ 0) ∧
@@ -1480,8 +1479,8 @@ private lemma ggQ2xQD_exists_theta {n : ℕ} (hn : 5 ≤ n)
     · intro i
       dsimp only
       by_cases hi : i = (0 : Fin n)
-      · rw [dif_pos hi]; exact one_ne_zero
-      · rw [dif_neg hi]
+      · rw [dite_eq_left hi]; exact one_ne_zero
+      · rw [dite_eq_right hi]
         exact ggQ2xQDb_eps_ne hH (fun h => hi h.symm)
     · intro i j hij
       dsimp only
@@ -1608,7 +1607,7 @@ private lemma ggQ2xQD_short_mem_W {n : ℕ} (i : Fin n) : ggQ2xQD_short i ∈ gg
   exact Subgroup.subset_closure
     ⟨_, (by
       rw [ggBCRoots]
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       rw [ggQ2x_wt_single i]
       decide), (by
       rw [ggQ2x_dot_self_eq_wt, ggQ2x_wt_single i]; decide), rfl⟩
@@ -1653,14 +1652,14 @@ private lemma ggQ2xQD_diag_mem_W_aux {n : ℕ} (k : ℕ) :
         rw [LinearEquiv.mul_apply, hb j, map_smul]
         by_cases hji : j = i
         · subst hji
-          rw [if_pos hi, ggQ2xQD_short_apply_self, if_neg (by simp)]
+          rw [ite_eq_left hi, ggQ2xQD_short_apply_self, ite_eq_right (by simp)]
           calc (-1 : ZMod 3) • (-Pi.single j (1 : ZMod 3)) = Pi.single j 1 :=
                 ggQ2xQD_neg_one_smul_neg _
             _ = (1 : ZMod 3) • Pi.single j (1 : ZMod 3) := (one_smul _ _).symm
         · rw [ggQ2xQD_short_apply_of_ne i j hji]
           by_cases hjS : j ∈ S
-          · rw [if_pos hjS, if_pos (by rw [Finset.mem_erase]; exact ⟨hji, hjS⟩)]
-          · rw [if_neg hjS, if_neg (by rw [Finset.mem_erase]; exact fun h => hjS h.2)]
+          · rw [ite_eq_left hjS, ite_eq_left (by rw [Finset.mem_erase]; exact ⟨hji, hjS⟩)]
+          · rw [ite_eq_right hjS, ite_eq_right (by rw [Finset.mem_erase]; exact fun h => hjS h.2)]
       have hmem : ggQ2xQD_short i * b ∈ ggBCW n :=
         ih (S.erase i) (ggQ2xQD_short i * b) hcard hb'
       have hb_eq : b = (ggQ2xQD_short i)⁻¹ * (ggQ2xQD_short i * b) := by group
@@ -1674,8 +1673,8 @@ private lemma ggQ2xQD_diag_mem_W {n : ℕ} (θ : Fin n → ZMod 3) (hθ : ∀ i,
   intro j
   rw [ggQ2xQD_diag_single]
   by_cases hj : θ j = -1
-  · rw [if_pos (by simp [hj]), hj]
-  · rw [if_neg (by simp [hj])]
+  · rw [ite_eq_left (by simp [hj]), hj]
+  · rw [ite_eq_right (by simp [hj])]
     have h1 : θ j = 1 := by
       rcases ggQ2xQD_eq_one_or_neg_one (θ j) (hθ j) with h | h
       · exact h
@@ -1686,7 +1685,7 @@ private noncomputable def ggQ2xQD_perm {n : ℕ} (σ : Equiv.Perm (Fin n)) :
     GGBCV n ≃ₗ[ZMod 3] GGBCV n where
   toFun v j := v (σ.symm j)
   invFun v j := v (σ j)
-  map_add' x y := by ext j; simp [add_comm]
+  map_add' x y := by ext j; simp
   map_smul' c x := by ext j; simp
   left_inv v := by ext j; simp
   right_inv v := by ext j; simp
@@ -1699,9 +1698,9 @@ private lemma ggQ2xQD_perm_single {n : ℕ} (σ : Equiv.Perm (Fin n)) (i : Fin n
   ext m
   simp only [ggQ2xQD_perm_apply, Pi.single_apply]
   by_cases h : σ.symm m = i
-  · rw [if_pos h, if_pos]
+  · rw [ite_eq_left h, ite_eq_left]
     rw [← h, Equiv.apply_symm_apply]
-  · rw [if_neg h, if_neg]
+  · rw [ite_eq_right h, ite_eq_right]
     intro hm
     exact h (by rw [hm, Equiv.symm_apply_apply])
 
@@ -1728,7 +1727,7 @@ private lemma ggQ2xQD_perm_swap_mem_W {n : ℕ} (x y : Fin n) (hxy : x ≠ y) :
   exact Subgroup.subset_closure
     ⟨_, (by
       rw [ggBCRoots]
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       rw [ggQ2x_wt_sub_single x y hxy]
       decide), (by rw [ggQ2x_sub_single_norm x y hxy]; decide), rfl⟩
 
@@ -1787,11 +1786,11 @@ private lemma ggQ2xQD_conj_diag_perm {n : ℕ} (σ : Equiv.Perm (Fin n)) (θ : F
   exact ggQ2xQD_refl_smul (θ i) (hθ i)
     (ggQ2xQD_vec (σ i) (σ j) (e * θ i * θ j)) _ _
 
-private lemma ggQ2xQD_assemble {n : ℕ} (hn : 5 ≤ n)
+private lemma ggQ2xQD_assemble {n : ℕ} (_hn : 5 ≤ n)
     (π : (GGBCV n ≃ₗ[ZMod 3] GGBCV n) → (GGBCV n ≃ₗ[ZMod 3] GGBCV n))
-    (hπT : ∀ t ∈ ggDReflSet n, π t ∈ ggDReflSet n)
-    (hinj : Set.InjOn π (ggDReflSet n))
-    (hπ : ∀ s ∈ ggDReflSet n, ∀ t ∈ ggDReflSet n,
+    (_hπT : ∀ t ∈ ggDReflSet n, π t ∈ ggDReflSet n)
+    (_hinj : Set.InjOn π (ggDReflSet n))
+    (_hπ : ∀ s ∈ ggDReflSet n, ∀ t ∈ ggDReflSet n,
       π (s * t * s⁻¹) = π s * π t * (π s)⁻¹)
     (σ : Equiv.Perm (Fin n)) (θ : Fin n → ZMod 3) (hθ : ∀ i, θ i ≠ 0)
     (hrel : ∀ (i j : Fin n) (hij : i ≠ j) (e : ZMod 3) (he : e ≠ 0),
@@ -1803,8 +1802,8 @@ private lemma ggQ2xQD_assemble {n : ℕ} (hn : 5 ≤ n)
     mul_mem (ggQ2xQD_perm_mem_W σ) (ggQ2xQD_diag_mem_W θ hθ), ?_⟩
   intro t ht
   obtain ⟨i, j, e, hij, he, rfl⟩ := ggQ2xQD_exists_repr t ht
-  obtain ⟨hij', he', hπ⟩ := hrel i j hij e he
-  rw [hπ]
+  obtain ⟨hij', he', _hπ⟩ := hrel i j hij e he
+  rw [_hπ]
   exact (ggQ2xQD_conj_diag_perm σ θ hθ i j e hij he hij' he').symm
 
 theorem ggQ2_quandle_aut_D (n : ℕ) (hn : 5 ≤ n)

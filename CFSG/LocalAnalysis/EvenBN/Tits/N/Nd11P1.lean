@@ -91,7 +91,7 @@ theorem mem_Pe10_iff (h49 : d.Thm49Statement) (hd : d.Hyp) {x : G} :
       have := hd.s56_N_conj_U10 h49 (inv_mem hxN) hu
       simpa [mul_assoc] using this
     · rcases mem_zpowers_t hd ha with rfl | rfl
-      · simpa using one_mem d.s56U10
+      · simp
       · rwa [hd.s56_comm_t_eq_eps h49 hxN]
 
 theorem Pe10_le_P1 : Pe10 d ≤ P1 d := fun _ hx => hx.1

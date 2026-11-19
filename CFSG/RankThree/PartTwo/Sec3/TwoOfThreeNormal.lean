@@ -301,7 +301,7 @@ theorem relIndex_ne_four (hEnn : ¬ (omegaG (jG (T : Subgroup G) 1)).Normal) {A 
   set X := Subgroup.zpowers y with hXdef
   set H := (X ⊔ Q) ⊔ A with hHdef
   have hPT : P ≤ (T : Subgroup G) := sup_le hQT (inf_le_left.trans hA.1)
-  have hP2 : IsPGroup 2 P := T.isPGroup'.to_le hPT
+  have hP2 : IsPGroup 2 P := T.isPGroup.to_le hPT
   have hAP : A ⊓ P = A₀ := by
     apply le_antisymm
     · rintro x ⟨hxA, hxP⟩

@@ -59,9 +59,9 @@ theorem mem_foldl_steps (base : Array ℕ) (j : ℕ) (s : Array ℕ) :
     rw [List.foldl_cons, mem_foldl_steps base j s l]
     simp only [List.mem_cons, exists_eq_or_imp]
     by_cases hg : fixesFirst base g j = true
-    · rw [if_pos hg]
+    · rw [ite_eq_left hg]
       simp only [Array.mem_push, hg, true_and, or_assoc]
-    · rw [if_neg hg]
+    · rw [ite_eq_right hg]
       simp only [hg, Bool.false_eq_true, false_and, false_or]
 
 theorem mem_thirdSteps_iff {S : Array (Array ℕ)} {base : Array ℕ} {j : ℕ} {s : Array ℕ} :
@@ -103,7 +103,7 @@ theorem fix_of_fixesFirst {t : Array ℕ} {g : Equiv.Perm (Fin 2300)} (hg : Rep 
   have := allLt_iff.1 h i hi
   simpa using this
 
-@[expose] def Gj (j : ℕ) : Subgroup (Equiv.Perm (Fin 2300)) :=
+def Gj (j : ℕ) : Subgroup (Equiv.Perm (Fin 2300)) :=
   Subgroup.closure {g | ∃ s ∈ thirdSteps S3 thB j, Rep 2300 s g}
 
 theorem Gj_mono {j j' : ℕ} (hjj : j ≤ j') : Gj j' ≤ Gj j := by

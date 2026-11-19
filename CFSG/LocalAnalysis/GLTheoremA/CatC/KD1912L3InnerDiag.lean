@@ -31,7 +31,7 @@ variable {K : Type} [Field K] {n : ℕ} {π : Bool}
 theorem modThree_two_pow_odd {n : ℕ} (hn : Odd n) : ModThree false (2 ^ n) := by
   simpa [ModThree] using CFSG.two_pow_mod_three_of_odd hn
 
-theorem modThree_two_pow_even {F : Type} [Field F] {n : ℕ} (hF : Nat.card F = 2 ^ n)
+theorem modThree_two_pow_even {F : Type} [Field F] {n : ℕ} (_hF : Nat.card F = 2 ^ n)
     (hn : Even n) : ModThree true (2 ^ n) := by
   simpa [ModThree] using CFSG.two_pow_mod_three_of_even hn
 
@@ -43,7 +43,7 @@ theorem odd_qSubPi_two_pow {ε : Bool} {n : ℕ} (hn0 : n ≠ 0) : Odd (qSubPi �
     calc 2 = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) (Nat.one_le_iff_ne_zero.2 hn0)
   have hk1 : 1 ≤ k := by omega
-  cases ε <;> simp [qSubPi, hk, Nat.odd_iff] <;> omega
+  cases ε <;> simp [qSubPi, hk, Nat.odd_iff]; omega
 
 theorem eqLocus_conjM'_eq_map_centMod (hK : PiField π 2 n K)
     {g : GL (Fin 3) K} (hg : g ∈ glPi π 3 (2 ^ n) K) :
@@ -184,7 +184,7 @@ theorem odd_card_core_map_centMod_of_glTwo (hK : PiField π 2 n K) (hq : ModThre
       (((centMod (slPi π 3 (2 ^ n) K) y).subgroupOf (slPi π 3 (2 ^ n) K)).map
         (projOf (slPi π 3 (2 ^ n) K))))) := by
   classical
-  haveI hKfin : Finite K := hK.finite
+  have hKfin : Finite K := hK.finite
   let L := slPi π 3 (2 ^ n) K
   let C := centMod L y
   let G2 := glPi π 2 (2 ^ n) K
@@ -193,7 +193,7 @@ theorem odd_card_core_map_centMod_of_glTwo (hK : PiField π 2 n K) (hq : ModThre
   let ZL : Subgroup ↥L := Subgroup.center L
   change Odd (Nat.card (GLAPPrimeCoreOf 3 (C'.map (projOf L))))
   have hπ : π = false → UnitaryFieldData 2 n K := fun h => by subst h; exact hK.unitary
-  haveI : CharP K 2 := hK.charP
+  have : CharP K 2 := hK.charP
   have hn0 : n ≠ 0 := by omega
   have hq3 : 3 < 2 ^ n := by
     have h4 : 4 ≤ 2 ^ n := by
@@ -336,7 +336,7 @@ theorem odd_card_core_map_centMod_of_glTwo (hK : PiField π 2 n K) (hq : ModThre
       · exact Or.inl hq
     have h3dvd : 3 ∣ (2 ^ n) ^ 2 - 1 := by
       have hsq : (2 ^ n) ^ 2 % 3 = 1 := by
-        rcases hqmod with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+        rcases hqmod with h | h <;> rw [Nat.pow_mod, h]
       omega
     exact dvd_mul_of_dvd_right h3dvd _
   let δ : ↥C' →* Kˣ := GeneralLinearGroup.det.comp (G2.subtype.comp eC'.toMonoidHom)
@@ -432,18 +432,18 @@ theorem odd_card_core_map_centMod_of_glTwo (hK : PiField π 2 n K) (hq : ModThre
 
 theorem odd_card_core_map_centMod_of_singer (hK : PiField π 2 n K) (hq : ModThree π (2 ^ n)) (hn : 2 ≤ n)
     {y w : GL (Fin 3) K}
-    (hcyc : IsCyclic ↥(slPi π 3 (2 ^ n) K ⊓ Subgroup.centralizer ({y} : Set (GL (Fin 3) K))))
+    (_hcyc : IsCyclic ↥(slPi π 3 (2 ^ n) K ⊓ Subgroup.centralizer ({y} : Set (GL (Fin 3) K))))
     (hcardCL : Nat.card ↥(slPi π 3 (2 ^ n) K ⊓ Subgroup.centralizer ({y} : Set (GL (Fin 3) K))) =
       qSubPi π ((2 ^ n) ^ 3) / qSubPi π (2 ^ n))
     (hcent : centMod (slPi π 3 (2 ^ n) K) y =
       (slPi π 3 (2 ^ n) K ⊓ Subgroup.centralizer ({y} : Set (GL (Fin 3) K))) ⊔ Subgroup.zpowers w)
     (hwL : w ∈ slPi π 3 (2 ^ n) K) (hwo : orderOf w = 3)
-    (hwC : w ∉ slPi π 3 (2 ^ n) K ⊓ Subgroup.centralizer ({y} : Set (GL (Fin 3) K))) :
+    (_hwC : w ∉ slPi π 3 (2 ^ n) K ⊓ Subgroup.centralizer ({y} : Set (GL (Fin 3) K))) :
     Odd (Nat.card (GLAPPrimeCoreOf 3
       (((centMod (slPi π 3 (2 ^ n) K) y).subgroupOf (slPi π 3 (2 ^ n) K)).map
         (projOf (slPi π 3 (2 ^ n) K))))) := by
   classical
-  haveI hKfin : Finite K := hK.finite
+  have hKfin : Finite K := hK.finite
   let L := slPi π 3 (2 ^ n) K
   let CL := L ⊓ Subgroup.centralizer ({y} : Set (GL (Fin 3) K))
   let Cbar := (centMod L y).subgroupOf L |>.map (projOf L)

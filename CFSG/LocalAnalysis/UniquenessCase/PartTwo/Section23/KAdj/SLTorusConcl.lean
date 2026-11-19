@@ -21,7 +21,7 @@ variable {k : ℕ} {K : Type} [Field K]
 
 private theorem not_isPGroup_slRoot_B08 [NeZero k] [Finite K] (hk : 3 ≤ k) {n : ℕ}
     (hK : Nat.card K = 2 ^ n) (hn : 2 ≤ n) : ¬ IsPGroup 2 ↥(slRoot k hk K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro h2
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := Kˣ)
   have hgen : orderOf g = 2 ^ n - 1 := by

@@ -15,7 +15,7 @@ theorem uc22ine229_eq_of_ne_one {Q : Type*} [Group Q] [Finite Q] (hQ : Nat.card 
     (hc : c ≠ 1) (hd : d ≠ 1) : c = d := by
   classical
   by_contra hcd
-  haveI := Fintype.ofFinite Q
+  have := Fintype.ofFinite Q
   have h3 : ({1, c, d} : Finset Q).card = 3 := by
     rw [Finset.card_eq_three]
     exact ⟨1, c, d, hc.symm, hd.symm, hcd, rfl⟩

@@ -19,10 +19,12 @@ private theorem hermBlkZ_twisted (X : HMod 1 K) :
   simp only [Matrix.transpose_apply, Matrix.map_apply, hermBlkZ, barR_apply]
   exact (herm_apply X j.succ i.succ).symm
 
+omit [Finite K] in
 private theorem hermBlkZ_mul (X Y : HMod 1 K) : hermBlkZ (X * Y) = hermBlkZ X + hermBlkZ Y := by
   ext i j
   simp [hermBlkZ, mat_mul]
 
+omit [Finite K] in
 private theorem hermBlkZ_one : hermBlkZ (1 : HMod 1 K) = 0 := by
   ext i j
   simp [hermBlkZ, mat_one]

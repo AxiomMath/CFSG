@@ -21,8 +21,8 @@ theorem card_Agrp (F : UFrame z ι ιd) : Nat.card (Agrp ι) = 20160 := by
   rw [nat_card_alternatingGroup (α := Fin 8), Nat.card_fin]
   norm_num [Nat.factorial]
 
-theorem isPerfect_Agrp (F : UFrame z ι ιd) : Group.IsPerfect ↥(Agrp ι) := by
-  haveI : Group.IsPerfect ↥(alternatingGroup (Fin 8)) :=
+theorem isPerfect_Agrp (_F : UFrame z ι ιd) : Group.IsPerfect ↥(Agrp ι) := by
+  have : Group.IsPerfect ↥(alternatingGroup (Fin 8)) :=
     Group.isPerfect_def.mpr (commutator_alternatingGroup_eq_top (α := Fin 8) (by simp))
   rw [Agrp]
   exact Group.IsPerfect.map (ι.comp liftS8)

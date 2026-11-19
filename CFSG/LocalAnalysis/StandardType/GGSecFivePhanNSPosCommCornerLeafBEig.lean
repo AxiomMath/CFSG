@@ -25,6 +25,7 @@ open scoped MatrixGroups
 
 variable {K : Type} [Field K] [CharP K 2] {n : ℕ}
 
+omit [CharP K 2] in
 private lemma ggNSPosPF3C_mat2_sq_trace_sub_det (A : Matrix (Fin 2) (Fin 2) K) :
     A * A = A.trace • A - A.det • (1 : Matrix (Fin 2) (Fin 2) K) := by
   ext i j
@@ -36,6 +37,7 @@ private lemma ggNSPosPF3C_mat2_sq_trace_add_det (A : Matrix (Fin 2) (Fin 2) K) :
   have h := ggNSPosPF3C_mat2_sq_trace_sub_det A
   rwa [CharTwo.sub_eq_add] at h
 
+omit [CharP K 2] in
 private lemma ggNSPosPF3C_mat2_cube_of_CH {A : Matrix (Fin 2) (Fin 2) K}
     (hCH : A * A = A.trace • A + A.det • (1 : Matrix (Fin 2) (Fin 2) K)) :
     A ^ 3 = (A.trace ^ 2 + A.det) • A + (A.trace * A.det) • 1 := by
@@ -75,6 +77,7 @@ private lemma ggNSPosPF3C_mat2_quadratic {A : Matrix (Fin 2) (Fin 2) K} {s : K}
       _ = ((A.trace ^ 2 + A.det)⁻¹ * (s + A.trace * A.det)) • 1 := by rw [smul_smul]
       _ = ((s + A.trace * A.det) * (A.trace ^ 2 + A.det)⁻¹) • 1 := by rw [mul_comm]
 
+omit [CharP K 2] in
 private lemma ggNSPosPF3C_mulVec_eq_zero_of_commute {p : ℕ} (hp : p.Prime)
     {X Y : GL (Fin n) K} {z : Kˣ} (hz : IsPrimitiveRoot (z : K) p) (hX : X ^ p = 1)
     (hXY : Y * X * Y⁻¹ = GeneralLinearGroup.scalar (Fin n) z * X)
@@ -84,7 +87,7 @@ private lemma ggNSPosPF3C_mulVec_eq_zero_of_commute {p : ℕ} (hp : p.Prime)
     (hZ0 : ∀ v ∈ Module.End.eigenspace (Matrix.toLin' (X : Matrix (Fin n) (Fin n) K)) 1,
       Z *ᵥ v = 0)
     (v : Fin n → K) : Z *ᵥ v = 0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set g : (Fin n → K) ≃ₗ[K] (Fin n → K) :=
     LinearMap.GeneralLinearGroup.generalLinearEquiv K (Fin n → K)
       (Matrix.GeneralLinearGroup.toLin X) with hg
@@ -150,7 +153,7 @@ theorem ggNSPosPF3C_quadratic_of_commutant {ω : K} (hω : IsPrimitiveRoot ω 3)
     refine ⟨0, ?_⟩
     ext i j
     exact (h ⟨i⟩).elim
-  haveI := hn
+  have := hn
   obtain ⟨s, hs⟩ := hN3
   have hNcube : Nm ^ 3 = s • (1 : Matrix (Fin n) (Fin n) K) := by
     rw [hNm, ← Units.val_pow_eq_pow_val]
@@ -211,8 +214,7 @@ theorem ggNSPosPF3C_quadratic_of_commutant {ω : K} (hω : IsPrimitiveRoot ω 3)
       intro v hv
       have hv' : (M ⟨v, hv⟩ : Fin n → K) = a • v := by
         rw [ha]
-        simp only [LinearMap.smul_apply, Module.End.one_apply, Submodule.coe_smul,
-          Subtype.coe_mk]
+        simp only [LinearMap.smul_apply, Module.End.one_apply, Submodule.coe_smul]
       rw [hM_apply] at hv'
       rw [Matrix.sub_mulVec, Matrix.smul_mulVec, Matrix.one_mulVec, hv', sub_self]
     have hZY : (Nm - a • (1 : Matrix (Fin n) (Fin n) K)) * Ym =

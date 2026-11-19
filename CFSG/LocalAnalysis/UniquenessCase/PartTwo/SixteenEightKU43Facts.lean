@@ -15,19 +15,19 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 private theorem s16k_card_of_elemAbelianOfRank {A : Type} [Group A] {p r : ℕ}
     (hp : p.Prime) (h : IsElemAbelianOfRank p r A) : Nat.card A = p ^ r := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := h
   rw [Nat.card_congr e.toEquiv]
   simp [Nat.card_eq_fintype_card]
 
 private theorem s16k_isPGroup_of_elemAbelianOfRank {A : Type} [Group A] {p r : ℕ}
     (hp : p.Prime) (h : IsElemAbelianOfRank p r A) : IsPGroup p A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   exact IsPGroup.of_card (s16k_card_of_elemAbelianOfRank hp h)
 
 private theorem s16k_not_isCyclic_of_elemAbelianOfRank {A : Type} [Group A] {p r : ℕ}
     (hp : p.Prime) (hr : 2 ≤ r) (h : IsElemAbelianOfRank p r A) : ¬ IsCyclic A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := h
   intro hc
   have hc' : IsCyclic (Multiplicative (Fin r → ZMod p)) := e.isCyclic.1 hc
@@ -88,9 +88,9 @@ theorem s16k_u43_noncyclic3_of_table (hT : S16kU43Table) {W : Type} [CommGroup W
     have hrank : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
       obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ :=
         CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hU42
-      letI : Field K := hKfield
-      letI : Finite K := hKfinite
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      let : Field K := hKfield
+      let : Finite K := hKfinite
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hdiag := CFSG.SectionRank.OddCover.scalar_quotient_diagonal_torus_rank
         (K := K) (p := 2) (f := 1) (n := 4) (r := 3)
         Nat.prime_two (by norm_num) (by norm_num : (3 : ℕ) ≠ 2)
@@ -117,8 +117,8 @@ theorem s16k_u43_noncyclic3_of_table (hT : S16kU43Table) {W : Type} [CommGroup W
     obtain ⟨N, hNnormal, hNab, halt⟩ := hA6
     have hNcard : Nat.card ↥N = 2 ^ 4 := s16k_card_of_elemAbelianOfRank Nat.prime_two hNab
     have hN3 : ¬ 3 ∣ Nat.card ↥N := by rw [hNcard]; norm_num
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : N.Normal := hNnormal
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : N.Normal := hNnormal
     have hquot := CFSG.SectionRank.pRank_quotient_eq (p := 3) N hN3
     have hA6rank : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (alternatingGroup (Fin 6))) := by
       have h : CFSG.Open.pRank 3 (⊤ : Subgroup (alternatingGroup (Fin 6))) = 2 :=
@@ -150,8 +150,8 @@ private theorem s16k_finite_of_lieModel_u43 {S : Type} [Group S]
     (h : CFSG.Blueprint.LieModel S .PSU 4 3 1) : Finite S := by
   obtain ⟨-, K, hKfield, hKfinite, -, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) h
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   exact Finite.of_injective e.toEquiv e.toEquiv.injective
 
 private theorem s16k_card_outer_u43 {S : Type} [Group S]
@@ -200,9 +200,9 @@ private theorem s16k_not_dvd_sq_u43 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) :
 theorem s16k_pRank_aut_u43 {X : Type} [Group X] [Finite X] {S : Type} [Group S]
     (hS : CFSG.Blueprint.LieModel S .PSU 4 3 1) (hX : IsHat X S) {p : ℕ} (hp : p.Prime)
     (hp5 : 5 ≤ p) : CFSG.Open.pRank p (⊤ : Subgroup (MulAut X)) ≤ 1 := by
-  haveI : Finite S := s16k_finite_of_lieModel_u43 hS
+  have : Finite S := s16k_finite_of_lieModel_u43 hS
   obtain ⟨hquasi, -, ⟨e⟩⟩ := hX
-  haveI : Group.IsPerfect X := hquasi.1
+  have : Group.IsPerfect X := hquasi.1
   have hinj : Function.Injective
       ((MulAut.congr e).toMonoidHom.comp
         (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom X)) :=

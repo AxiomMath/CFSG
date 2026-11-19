@@ -58,7 +58,7 @@ namespace GrpFacts
 
 variable {minus : Bool} {D : GrpData}
 
-private theorem memO (hD : GrpFacts minus D) {i : ℕ} (hi : i < D.O.size) :
+private theorem memO (_hD : GrpFacts minus D) {i : ℕ} (hi : i < D.O.size) :
     D.O[i]! ∈ D.O.toList := by
   rw [array_getElem!_eq_getElem hi]
   exact array_getElem_mem_toList hi

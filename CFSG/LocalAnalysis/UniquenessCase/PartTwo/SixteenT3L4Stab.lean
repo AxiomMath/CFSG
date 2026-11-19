@@ -77,6 +77,7 @@ end Elementwise
 variable {G : Type} [Group G] [Finite G]
 variable {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
 
+omit [Finite G] in
 theorem s16t_l4_actTil_tilOf_eq_iff (g : ↥(stabTil V₀ V)) {w : G} (hw : w ∈ V) :
     actTil V₀ V hV g (tilOf V₀ V hV w hw) = tilOf V₀ V hV w hw ↔
       (g : G) * w * (g : G)⁻¹ * w⁻¹ ∈ V₀ := by
@@ -88,9 +89,9 @@ theorem s16t_l4_ptStab_perfect {W : Type} [CommGroup W] [Finite W] {H : Subgroup
     {w : W} (hpt : Close16PtStab H w) :
     ⁅H ⊓ MulAction.stabilizer (MulAut W) w, H ⊓ MulAction.stabilizer (MulAut W) w⁆ =
       H ⊓ MulAction.stabilizer (MulAut W) w := by
-  haveI : Finite (MulAut W) := MulEquiv.finite_left
+  have : Finite (MulAut W) := MulEquiv.finite_left
   obtain ⟨f, hfs, hf2, -⟩ := hpt.quot
-  haveI := GoldS146P.sl_simple 3 le_rfl
+  have := GoldS146P.sl_simple 3 le_rfl
   have hq : Close16Quot3 (H ⊓ MulAction.stabilizer (MulAut W) w)
       (Matrix.SpecialLinearGroup (Fin 3) (ZMod 2)) f := by
     refine ⟨hfs, GoldS146P.sl_simple 3 le_rfl, ?_, ?_, hf2⟩
@@ -114,7 +115,7 @@ theorem s16t_l4_barSub_cent_eq (hS : S16tL4Setting D V₀ V L hV) {Y : Subgroup 
   have hV₀ : ∀ a ∈ V₀, ∀ b ∈ V₀, a * b = b * a := fun a ha b hb =>
     IsElemAbelian.comm hV (hS.counterex.setting.hyp151.hyp125.pairFacts.le ha)
       (hS.counterex.setting.hyp151.hyp125.pairFacts.le hb)
-  haveI : Finite (Vtil V₀ V hV) := inferInstance
+  have : Finite (Vtil V₀ V hV) := inferInstance
   apply le_antisymm
   · intro φ hφ
     obtain ⟨g, hg, rfl⟩ := (mem_barSub V₀ V hV _ φ).1 hφ

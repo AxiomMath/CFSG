@@ -28,7 +28,7 @@ theorem pRank_le_pRank_top_quotient_pPrimeCore {p : ℕ} (hp : p.Prime)
     {H K : Subgroup G} (hK : K ≤ H) :
     CFSG.Open.pRank p K ≤
       CFSG.Open.pRank p (⊤ : Subgroup (↥H ⧸ CFSG.pPrimeCore p ↥H)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hmono : CFSG.Open.pRank p K ≤ CFSG.Open.pRank p (⊤ : Subgroup ↥H) := by
     rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup H]
     exact CFSG.SectionRank.pRank_mono hp.one_lt hK
@@ -42,7 +42,7 @@ theorem isStronglyPEmbedded_map_quotient_pPrimeCore {p r : ℕ} {M H : Subgroup 
     (hKle : CFSG.pPrimeCore p ↥H ≤ (H ⊓ M).subgroupOf H) :
     IsStronglyPEmbedded r
       (((H ⊓ M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore p ↥H))) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hY := hM.subgroupOf hHM hdvd
   exact hY.map_quotient hKle (hY.not_dvd_card_of_normal_le hKle)
 
@@ -52,7 +52,7 @@ theorem coverActsTriviallyOnSmall_of_stronglyEmbeddedFive
     (hHM : ¬ H ≤ M) (hrank : 2 ≤ CFSG.Open.pRank p (H ⊓ M)) :
     CoverActsTriviallyOnSmall p
       ↥(CFSG.generalizedFitting (↥H ⧸ CFSG.pPrimeCore p ↥H)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKQ : CFSG.Open.IsKGroup (↥H ⧸ CFSG.pPrimeCore p ↥H) :=
     CFSG.LocalAnalysis.GLTheoremB.isKGroup_quotient' hKH _
   have hO : CFSG.pPrimeCore p (↥H ⧸ CFSG.pPrimeCore p ↥H) = ⊥ :=
@@ -87,8 +87,8 @@ theorem pRank_le_three_of_normal_odd {M H K : Subgroup G}
   · by_cases hrσ : r ∈ sigmaSet G M
     · have hnot : ¬ r ∣ Nat.card K := by
         intro hdvd
-        haveI : Fact r.Prime := ⟨hr⟩
-        haveI : (K.subgroupOf H).Normal :=
+        have : Fact r.Prime := ⟨hr⟩
+        have : (K.subgroupOf H).Normal :=
           (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).mpr hKn
         have hcard : Nat.card (K.subgroupOf H) = Nat.card K :=
           Nat.card_congr (Subgroup.subgroupOfEquivOfLe hKH).toEquiv
@@ -135,7 +135,7 @@ theorem isSimpleGroup_generalizedFitting_quotient (k : S8Core G) {H : Subgroup G
         Subgroup (↥H ⧸ CFSG.pPrimeCore k.q ↥H)) :
         Set (↥H ⧸ CFSG.pPrimeCore k.q ↥H)) = ⊥ := by
   have hp : k.q.Prime := k.prime
-  haveI : Fact k.q.Prime := ⟨hp⟩
+  have : Fact k.q.Prime := ⟨hp⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.q ↥H
   let Lbar : Subgroup (↥H ⧸ K₀) := CFSG.generalizedFitting (↥H ⧸ K₀)
   have hO : CFSG.pPrimeCore k.q (↥H ⧸ K₀) = ⊥ := CFSG.pPrimeCore_quotient_eq_bot hp

@@ -72,7 +72,7 @@ theorem exists_map_conj_eq_of_isWitness (hS : Standing G) {p : ℕ}
     (h2 : 2 ≤ CFSG.Open.pRank p N) :
     ∃ g : G, M.map (MulAut.conj g).toMonoidHom = N := by
   have hqp : p.Prime := sigmaA_prime p hp
-  haveI : Fact p.Prime := ⟨hqp⟩
+  have : Fact p.Prime := ⟨hqp⟩
   obtain ⟨E, hEN, hE, hEc⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := p) (k := 2) h2
   have hEp : IsPGroup p E := elementary_isPGroup p E hE
@@ -116,7 +116,7 @@ theorem mem_rankThreeSigmaA_of_gt_five
   have hS₂ : ({q : ℕ | q.Prime ∧ 5 < q ∧ q ∣ Nat.card G ∧
       rankThreeLocalRank q G = 3} : Set ℕ).Nonempty := ⟨p, hp, hp5, hdvd, hrank⟩
   simp only [rankThreeSigmaA]
-  rw [if_neg hS₁, if_pos hS₂]
+  rw [ite_eq_right hS₁, ite_eq_left hS₂]
   exact ⟨hp, hp5, hdvd, hrank⟩
 
 theorem cStarGen_of_rankThreeUC (hS : Standing G) (hUC : rankThreeUC G) : CStarGen G where

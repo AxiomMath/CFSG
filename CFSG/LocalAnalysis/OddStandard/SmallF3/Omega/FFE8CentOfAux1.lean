@@ -61,6 +61,7 @@ theorem ffOutFFE8TrCent_simHasType (hK : IsOm6P K) (hQ : Q.Nondegenerate)
   rw [ffOutFFE8TrRho_apply, ffOmegaToSim_apply]
   exact simHasType_projOrthToProjSim (fg_hasType_of_isI4PlusIn_top_six_plus hQ hdim hsgn hP)
 
+omit [Finite G] in
 theorem ffOutFFE8TrCent_theta_mem_centralizer (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) (hsgn : quadSign Q = 1)
     (hz : Subgroup.center ↥K = ⊥) (e : ↥K ⧸ Subgroup.center ↥K ≃* omegaProj hQ) {x : G}

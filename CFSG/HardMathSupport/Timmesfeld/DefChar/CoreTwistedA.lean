@@ -299,8 +299,7 @@ theorem Em_isUni (h2 : (2 : K) ≠ 0) (hU : IsUni h N) {v w : Fin n → K} (hw :
   rw [hst]
   unfold Em
   simp only [Matrix.mul_sub, Matrix.sub_mul, Matrix.smul_mul, Matrix.mul_smul,
-    vecMulVec_mul_vecMulVec, d_ww, d_wv, d_vw, d_vv, zero_smul, smul_zero, sub_zero, zero_sub,
-    add_zero, smul_smul, vecMulVec_zero, vecMulVec_smul]
+    vecMulVec_mul_vecMulVec, d_ww, d_wv, d_vw, d_vv, zero_smul, smul_zero, sub_zero, vecMulVec_zero, vecMulVec_smul]
   match_scalars <;> field_simp <;> ring
 
 end CFSG.HardMathSupport.Timmesfeld.DefChar.TwA
@@ -750,7 +749,7 @@ theorem NN_ne_zero_of_ker_small (hn : 3 ≤ n) {w0 : Fin n → K} (hw0 : w0 ≠ 
       Module.finrank K (LinearMap.ker N.mulVecLin) := Submodule.finrank_mono hrange
   omega
 
-theorem KData.nil_of_id [NeZero n] (hK : KData h N A σ) (hσ : ∀ x, σ x = x) (hU : IsUni h N)
+theorem KData.nil_of_id [NeZero n] (hK : KData h N A σ) (hσ : ∀ x, σ x = x) (_hU : IsUni h N)
     (hN : IsNilpotent N) (hN0 : N ≠ 0) :
     ∃ c : K, c ≠ 0 ∧ IsNilpotent (A - c • (1 : Matrix (Fin n) (Fin n) K)) := by
   have hth : ∀ x, th A σ x = A *ᵥ x := fun x => by
@@ -1262,7 +1261,7 @@ theorem cj_of_commute {A X : Matrix (Fin n) (Fin n) K} (hA' : A * st h A = 1)
   have : X.map (1 : K ≃+* K) = X := by ext i j; rfl
   rw [this, hAX, mul_assoc, hA', mul_one]
 
-theorem pow_eq_one_of_scalar (h : UnitaryFieldData p f K) [NeZero n] (hp2 : p ≠ 2) {M : Matrix (Fin n) (Fin n) K}
+theorem pow_eq_one_of_scalar (h : UnitaryFieldData p f K) [NeZero n] (_hp2 : p ≠ 2) {M : Matrix (Fin n) (Fin n) K}
     (hM : ∃ c : K, c ≠ 0 ∧ IsNilpotent (M - c • (1 : Matrix (Fin n) (Fin n) K))) :
     ∃ (e : ℕ) (c : K), M ^ p ^ e = c • 1 := by
   have : Fact p.Prime := ⟨h.prime⟩
@@ -1272,7 +1271,7 @@ theorem pow_eq_one_of_scalar (h : UnitaryFieldData p f K) [NeZero n] (hp2 : p �
   refine ⟨e, c ^ p ^ e, ?_⟩
   rw [← he, add_sub_cancel]
 
-theorem uniq_inner [NeZero n] (hn : 3 ≤ n) (hp2 : p ≠ 2) {u : gramSU h (Cm n K)}
+theorem uniq_inner [NeZero n] (_hn : 3 ≤ n) (hp2 : p ≠ 2) {u : gramSU h (Cm n K)}
     (hN : IsNilpotent N) (hN0 : N ≠ 0) (hU : IsUni h N) (hu : smat u = 1 + N)
     (σ : gramSU h (Cm n K))
     (hσu : (σ : primeFormP h (Cm n K)) * (u : primeFormP h (Cm n K)) =

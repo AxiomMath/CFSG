@@ -34,9 +34,9 @@ theorem sl2_upper_lower_noncomm {F : Type} [Field F] :
 theorem centralizer_a_not_le_AB (P : D4Par n X σ) (hn : 2 ≤ n) {a : C0 σ} (ha : a ∈ Asub σ)
     (ha3 : a ^ 3 = 1) (ha1 : a ≠ 1) :
     ¬ Subgroup.centralizer ({a} : Set (C0 σ)) ≤ Asub σ ⊔ Bsub σ := by
-  haveI := P.charP
-  haveI := P.charP_fix
-  haveI : Finite (fixSubfield σ) := Nat.finite_of_card_ne_zero (by rw [P.card_fix]; positivity)
+  have := P.charP
+  have := P.charP_fix
+  have : Finite (fixSubfield σ) := Nat.finite_of_card_ne_zero (by rw [P.card_fix]; positivity)
   have hk4 : 4 ≤ Nat.card (fixSubfield σ) := P.four_le_card_fix hn
   let e := bsubEquiv P
   have h3 : ¬ 3 ∣ 2 ^ n := fun h => by
@@ -49,9 +49,9 @@ theorem centralizer_a_not_le_AB (P : D4Par n X σ) (hn : 2 ≤ n) {a : C0 σ} (h
     have hgh : g * h = h * g := Asub_Bsub_commute hg hh
     rw [hgh, mul_inv_cancel_right]
     exact hh
-  · haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (fixSubfield σ)) :=
+  · have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (fixSubfield σ)) :=
       (KS11Lie4Proof.isQuasisimple_sl2 hk4).1
-    haveI : Group.IsPerfect ↥(Bsub σ) :=
+    have : Group.IsPerfect ↥(Bsub σ) :=
       Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
     exact Group.isPerfect_def.mp inferInstance
   · refine ⟨(e (CFSG.LieType.Steinberg.sl2Upper 1) : C0 σ), (e _).2,
@@ -78,7 +78,7 @@ theorem centralizer_a_not_le_AB (P : D4Par n X σ) (hn : 2 ≤ n) {a : C0 σ} (h
 open CFSG.RankThree.PartOne.SEITZ7 CFSG.RankThree.PartOne.SEITZ3
   CFSG.LieType.Steinberg.TwistedD4 CFSG.LieType.Steinberg.Adjoint in
 theorem Gsub_not_le_AB (P : D4Par n X σ) : ¬ Gsub σ ≤ Asub σ ⊔ Bsub σ := by
-  haveI := P.charP
+  have := P.charP
   intro hle
   have hσ3 := P.sigma_cube_hom
   have hmem : (xN (1 : X) : adjointGroup d4 X) ∈ twistedGroup σ.toRingHom :=

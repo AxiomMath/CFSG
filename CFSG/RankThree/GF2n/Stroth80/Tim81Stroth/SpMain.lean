@@ -16,6 +16,7 @@ open scoped commutatorElement Matrix
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   [(Q.subgroupOf M).Normal]
 
+omit [(Q.subgroupOf M).Normal] in
 theorem isCentrePre_le_H0_sp (hc : Ctx M Q Z B) {t : G} {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) : Z0 ≤ H0 M Z :=
   (IsCentrePre.le hZ0).trans (hc.Rt_le_H0 t)
@@ -77,7 +78,7 @@ theorem bar_Z0_subgroupOf_ne_bot_sp (hc : Ctx M Q Z B) {n : ℕ} {t : G}
     Subgroup.map_mono (f := QuotientGroup.mk' (Q.subgroupOf M))
       (Subgroup.subgroupOf_mono M hZ0H)
   have hZbne : bar M Q Z0 ≠ ⊥ := bar_Z0_ne_bot_of_mem_notQ_sp hc hs hZ0
-  haveI : Nontrivial ↥(bar M Q Z0) := (Subgroup.nontrivial_iff_ne_bot _).mpr hZbne
+  have : Nontrivial ↥(bar M Q Z0) := (Subgroup.nontrivial_iff_ne_bot _).mpr hZbne
   have hlt : 1 < Nat.card ↥(bar M Q Z0) := Finite.one_lt_card
   intro hbot
   have h1 : Nat.card ↥((bar M Q Z0).subgroupOf (bar M Q (H0 M Z))) = 1 := by
@@ -175,6 +176,7 @@ theorem generalizedFitting_MbarPrime_sp (hc : Ctx M Q Z B) {n : ℕ} {t : G}
       pCore 2 ↥(bar M Q (NormH0 M Z Z0)) := hF2 G M Q Z B hc n t hs Z0 hZ0
   exact Subgroup.map_injective e.injective (hmapF.trans (hF2'.trans hmapP.symm))
 
+omit [Finite G] in
 theorem isTI_bar_Z0_mbar_sp (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec8Hyp hc n t)
     {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)
     (hN : ElementwiseNormalizerHyp M Q Z0) :
@@ -233,6 +235,7 @@ theorem isTI_bar_Z0_mbar_sp (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec8Hyp h
       rw [CFSG.GroupTheory.map_conjSubgroup, hsub]
     rw [hmbar, inf_idem]
 
+omit [Finite G] in
 theorem isTI_bar_Z0_sp (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec8Hyp hc n t)
     {Z0 : Subgroup G} (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q)
     (hN : ElementwiseNormalizerHyp M Q Z0) :

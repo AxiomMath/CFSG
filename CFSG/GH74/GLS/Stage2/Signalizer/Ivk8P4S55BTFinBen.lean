@@ -52,7 +52,7 @@ theorem isSolvable_centralizer {K : Type} [Group K] [Finite K] {n i e : ℕ}
   obtain ⟨Q, hQ⟩ := hyp.exists_le_sylow
   obtain ⟨t, hc⟩ := h.exists_benderCore Q
   have hQsol : Group.IsSolvable ↥(Q : Subgroup K) := by
-    have := Q.isPGroup'.isNilpotent
+    have := Q.isPGroup.isNilpotent
     infer_instance
   have hDsol : Group.IsSolvable ↥(cartan (Q : Subgroup K) t) := by
     have := hc.isCyclic

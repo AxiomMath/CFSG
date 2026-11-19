@@ -44,7 +44,7 @@ private theorem commutator_centralizer_eq_sl3four :
           rw [MonoidHom.range_eq_map, Subgroup.map_commutator]
       _ ≤ Subgroup.map (resGL 3) SpecialLinearGroup.toGL.range := Subgroup.map_mono hderiv
       _ = sl3four := by rw [sl3four, resSL, MonoidHom.range_comp]
-  · haveI : Group.IsPerfect ↥sl3four := isQuasisimple_sl3four.1
+  · have : Group.IsPerfect ↥sl3four := isQuasisimple_sl3four.1
     calc sl3four = ⁅sl3four, sl3four⁆ := (Subgroup.commutator_eq_self (H := sl3four)).symm
       _ ≤ ⁅Subgroup.centralizer ({zeta5} : Set (SpecialLinearGroup (Fin 6) F2)),
             Subgroup.centralizer ({zeta5} : Set (SpecialLinearGroup (Fin 6) F2))⁆ :=
@@ -145,9 +145,9 @@ theorem normal_coprime_eq_bot {Q : Subgroup (SpecialLinearGroup (Fin 6) F2)} (hQ
     (hnorm : (Q.subgroupOf sl3four).Normal) (hcop : Nat.Coprime (Nat.card Q) 3) : Q = ⊥ := by
   classical
   let Q' : Subgroup ↥sl3four := Q.subgroupOf sl3four
-  haveI hQ'normal : Q'.Normal := hnorm
+  have hQ'normal : Q'.Normal := hnorm
   let N : Subgroup (SpecialLinearGroup (Fin 3) F4) := Q'.comap sl3fourEquiv.toMonoidHom
-  haveI hNnormal : N.Normal := hnorm.comap sl3fourEquiv.toMonoidHom
+  have hNnormal : N.Normal := hnorm.comap sl3fourEquiv.toMonoidHom
   have hcardSL : Nat.card (SpecialLinearGroup (Fin 3) F4) = 60480 :=
     (Nat.card_congr sl3fourEquiv.toEquiv).trans card_sl3four
   have hcard_center : Nat.card (Subgroup.center (SpecialLinearGroup (Fin 3) F4)) = 3 := by

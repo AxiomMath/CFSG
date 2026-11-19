@@ -97,7 +97,7 @@ theorem kF88StepDCaseFive_of
     have hz : z ∈ Sec4.autFix (Sec4.thetaQuotMulAut Y (Sec4.compAction Y ⟨x, hxN⟩)) :=
       htop ▸ Subgroup.mem_top z
     rw [MulAut.conj_apply]
-    simp only [map_one, inv_one, one_mul, mul_one]
+    simp only [inv_one, one_mul, mul_one]
     exact (Sec4.mem_autFix.mp hz).symm
   obtain ⟨d, hdcl, hdx, hdA, hd3, hdN, hin, hne⟩ := exists_inner_d h45 hC hF h hY hIJ hx hxY
     (outThreeCyclic_of_projSp eY)

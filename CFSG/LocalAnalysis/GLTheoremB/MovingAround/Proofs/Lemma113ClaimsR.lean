@@ -134,6 +134,7 @@ theorem orbit_eq_image (c : Ctx E A e K Q)
       _ = 27 := by rw [← Nat.card_coe_set_eq]; exact c.card_Q0
   exact Set.eq_of_subset_of_ncard_le hsub hle (Set.toFinite _)
 
+omit [Finite G] in
 theorem zpowers_form (c : Ctx E A e K Q) {y : G} (hyE : y ∈ E)
     (hyQ0 : y ∉ (Q ⊓ K : Subgroup G)) :
     ∃ q ∈ (Q ⊓ K : Subgroup G), Subgroup.zpowers y = Subgroup.zpowers (e * q) := by
@@ -230,10 +231,12 @@ end Ctx
       have := Q0.inv_mem hu
       simpa [inv_inv] using this
 
+omit [Finite G] in
 theorem mem_N0 {E Q0 : Subgroup G} {n : G} :
     n ∈ N0 E Q0 ↔ n ∈ Subgroup.normalizer (E : Set G) ∧ (∀ q ∈ Q0, n * q * n⁻¹ = q) ∧
       ∀ y ∈ E, n * y * n⁻¹ * y⁻¹ ∈ Q0 := Iff.rfl
 
+omit [Finite G] in
 theorem N0_conj {E Q0 : Subgroup G} (hQ : ∀ n ∈ Subgroup.normalizer (E : Set G), ∀ q ∈ Q0,
     n * q * n⁻¹ ∈ Q0) {n k : G} (hn : n ∈ Subgroup.normalizer (E : Set G)) (hk : k ∈ N0 E Q0) :
     n * k * n⁻¹ ∈ N0 E Q0 := by
@@ -257,6 +260,7 @@ theorem N0_conj {E Q0 : Subgroup G} (hQ : ∀ n ∈ Subgroup.normalizer (E : Set
     rw [e1] at this
     exact this
 
+omit [Finite G] in
 theorem centralizer_le_N0 {E Q0 : Subgroup G} (hQE : Q0 ≤ E) :
     Subgroup.centralizer (E : Set G) ≤ N0 E Q0 := by
   intro n hn
@@ -291,6 +295,7 @@ theorem centralizer_le_N0 {E Q0 : Subgroup G} (hQE : Q0 ≤ E) :
     have := Q0.inv_mem hu
     simpa [inv_inv] using this
 
+omit [Finite G] in
 theorem mem_N1 {E Q0 : Subgroup G} {n : G} :
     n ∈ N1 E Q0 ↔ n ∈ Subgroup.normalizer (E : Set G) ∧
       n ∈ Subgroup.normalizer (Q0 : Set G) ∧ ∀ y ∈ E, n * y * n⁻¹ * y⁻¹ ∈ Q0 := Iff.rfl
@@ -328,8 +333,8 @@ theorem exists_fixed_conj {X : Set G} {g : G} {a : ℕ} (hga : g ^ 13 ^ a = 1)
     (hcl : ∀ y ∈ X, g * y * g⁻¹ ∈ X) (hcard : ¬ 13 ∣ Nat.card ↥X) :
     ∃ y ∈ X, g * y * g⁻¹ = y := by
   classical
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-  haveI : Fintype ↥X := Fintype.ofFinite _
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fintype ↥X := Fintype.ofFinite _
   have hσ : (conjPermOn X g hcl) ^ 13 ^ a = 1 := by
     ext y
     rw [conjPermOn_pow, hga]
@@ -345,8 +350,8 @@ theorem invariant_subgroup_eq {Q0 S : Subgroup G} (hcard : Nat.card ↥Q0 = 27) 
     (hfree : ∀ q ∈ Q0, x * q * x⁻¹ = q → q = 1) (hxS : ∀ s ∈ S, x * s * x⁻¹ ∈ S) :
     S = ⊥ ∨ S = Q0 := by
   classical
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-  haveI : Fintype ↥(S : Set G) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fintype ↥(S : Set G) := Fintype.ofFinite _
   have hS1 : (1 : G) ∈ (S : Set G) := S.one_mem
   have hσ : (conjPermOn (S : Set G) x hxS) ^ 13 ^ a = 1 := by
     ext y
@@ -426,6 +431,7 @@ theorem exists_conj_normalizes {p : ℕ} [Fact p.Prime] {N₀ T : Subgroup G} (h
   rw [e1]
   exact this
 
+omit [Finite G] in
 theorem isPGroup_zpowers {p : ℕ} {x : G} {a : ℕ} (hx : x ^ p ^ a = 1) :
     IsPGroup p ↥(Subgroup.zpowers x) := by
   intro g
@@ -435,6 +441,7 @@ theorem isPGroup_zpowers {p : ℕ} {x : G} {a : ℕ} (hx : x ^ p ^ a = 1) :
   show (g : G) ^ p ^ a = 1
   rw [← hi, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hx, one_zpow]
 
+omit [Finite G] in
 theorem pow_conj_mem {Q0 : Subgroup G} {g : G} (hg : ∀ q ∈ Q0, g * q * g⁻¹ ∈ Q0) (j : ℕ) :
     ∀ q ∈ Q0, g ^ j * q * (g ^ j)⁻¹ ∈ Q0 := by
   induction j with
@@ -446,6 +453,7 @@ theorem pow_conj_mem {Q0 : Subgroup G} {g : G} (hg : ∀ q ∈ Q0, g * q * g⁻�
     rw [this]
     exact ih _ (hg q hq)
 
+omit [Finite G] in
 theorem pow_act_mod {Q0 : Subgroup G} {g : G} (hg : ∀ q ∈ Q0, g * q * g⁻¹ ∈ Q0) {n : ℕ}
     (hn : ∀ q ∈ Q0, g ^ n * q * (g ^ n)⁻¹ = q) (k : ℕ) :
     ∀ q ∈ Q0, g ^ k * q * (g ^ k)⁻¹ = g ^ (k % n) * q * (g ^ (k % n))⁻¹ := by
@@ -539,9 +547,11 @@ namespace Ctx
 
 variable {E A : Subgroup G} {e : G} {K Q : Subgroup G}
 
+omit [Finite G] in
 theorem E_comm (c : Ctx E A e K Q) {x y : G} (hx : x ∈ E) (hy : y ∈ E) : x * y = y * x :=
   Lemma113f.comm_of_isElemAbelian c.hEel hx hy
 
+omit [Finite G] in
 theorem Q0_comm (c : Ctx E A e K Q) {x y : G} (hx : x ∈ (Q ⊓ K : Subgroup G))
     (hy : y ∈ (Q ⊓ K : Subgroup G)) : x * y = y * x :=
   c.E_comm (c.Q0_le_E hx) (c.Q0_le_E hy)
@@ -555,14 +565,17 @@ theorem e_not_mem_Q0 (c : Ctx E A e K Q) : e ∉ (Q ⊓ K : Subgroup G) := by
   rw [c.Q0_inf_centBar, Subgroup.mem_bot] at hmem
   exact c.he1 hmem
 
+omit [Finite G] in
 theorem E_le_centralizer (c : Ctx E A e K Q) : E ≤ Subgroup.centralizer (E : Set G) :=
-  fun y hy => Subgroup.mem_centralizer_iff.2 fun z hz => c.E_comm hz hy
+  fun _y hy => Subgroup.mem_centralizer_iff.2 fun _z hz => c.E_comm hz hy
 
+omit [Finite G] in
 theorem e_conj_Q0 (c : Ctx E A e K Q) {q : G} (hq : q ∈ (Q ⊓ K : Subgroup G)) :
     e * q * e⁻¹ = q := by
   calc e * q * e⁻¹ = q * e * e⁻¹ := by rw [c.hKe q hq.2]
     _ = q := by group
 
+omit [Finite G] in
 theorem Q0_le_centralizer_zpowers (c : Ctx E A e K Q) :
     (Q ⊓ K : Subgroup G) ≤ Subgroup.centralizer (Subgroup.zpowers e : Set G) := by
   intro q hq
@@ -586,6 +599,7 @@ theorem mem_normalizer_Q0 (c : Ctx E A e K Q)
     n ∈ Subgroup.normalizer (((Q ⊓ K : Subgroup G)) : Set G) :=
   mem_normalizer_of_conj_le fun _ hq => c.Q0_invariant hB hn hq
 
+omit [Finite G] in
 theorem mem_N0_of_e (c : Ctx E A e K Q) {n : G} (hn : n ∈ Subgroup.normalizer (E : Set G))
     (hnq : ∀ q ∈ (Q ⊓ K : Subgroup G), n * q * n⁻¹ = q)
     (hne : n * e * n⁻¹ * e⁻¹ ∈ (Q ⊓ K : Subgroup G)) : n ∈ N0 E (Q ⊓ K) := by
@@ -677,15 +691,19 @@ section Shear
 
 variable {E Q0 : Subgroup G}
 
+omit [Finite G] in
 theorem N0.centralizes {n q : G} (hn : n ∈ N0 E Q0) (hq : q ∈ Q0) : n * q * n⁻¹ = q :=
   (mem_N0.1 hn).2.1 q hq
 
+omit [Finite G] in
 theorem N0.shear_mem {n y : G} (hn : n ∈ N0 E Q0) (hy : y ∈ E) : n * y * n⁻¹ * y⁻¹ ∈ Q0 :=
   (mem_N0.1 hn).2.2 y hy
 
+omit [Finite G] in
 theorem N0.mem_normalizer {n : G} (hn : n ∈ N0 E Q0) : n ∈ Subgroup.normalizer (E : Set G) :=
   (mem_N0.1 hn).1
 
+omit [Finite G] in
 theorem shear_mul (hab : ∀ a ∈ Q0, ∀ b ∈ Q0, a * b = b * a) {n m y : G} (hn : n ∈ N0 E Q0)
     (hm : m ∈ N0 E Q0) (hy : y ∈ E) :
     (n * m) * y * (n * m)⁻¹ * y⁻¹ = (n * y * n⁻¹ * y⁻¹) * (m * y * m⁻¹ * y⁻¹) := by
@@ -706,9 +724,11 @@ theorem shear_mul (hab : ∀ a ∈ Q0, ∀ b ∈ Q0, a * b = b * a) {n m y : G} 
     apply Subtype.ext
     exact shear_mul hab n.2 m.2 hy
 
+omit [Finite G] in
 theorem shear_apply (hab : ∀ a ∈ Q0, ∀ b ∈ Q0, a * b = b * a) {y : G} (hy : y ∈ E)
     (n : ↥(N0 E Q0)) : ((shear hab hy n : ↥Q0) : G) = (n : G) * y * (n : G)⁻¹ * y⁻¹ := rfl
 
+omit [Finite G] in
 theorem shear_eq_one_iff (hab : ∀ a ∈ Q0, ∀ b ∈ Q0, a * b = b * a) {y : G} (hy : y ∈ E)
     (n : ↥(N0 E Q0)) : shear hab hy n = 1 ↔ (n : G) * y = y * (n : G) := by
   constructor
@@ -733,6 +753,7 @@ end Shear
 
 section Counting2
 
+omit [Finite G] in
 theorem relIndex_inf_centralizer_dvd {R Q0 : Subgroup G} (hR : R ≤ Subgroup.normalizer (Q0 : Set G)) :
     (Subgroup.centralizer (Q0 : Set G) ⊓ R).relIndex R ∣ Nat.card (MulAut ↥Q0) := by
   set ρ : ↥R →* MulAut ↥Q0 := (Subgroup.normalizerMonoidHom Q0).comp (Subgroup.inclusion hR)
@@ -793,20 +814,23 @@ variable {E A : Subgroup G} {e : G} {K Q R : Subgroup G} (r : RCfg E A e K Q R)
 
 include r
 
+omit [Finite G] in
 theorem hRN : R ≤ Subgroup.normalizer (E : Set G) := r.hR.1
 
+omit [Finite G] in
 theorem hRp : IsPGroup 3 ↥R := r.hR.2.1
 
 theorem R_le_normalizer_Q0 : R ≤ Subgroup.normalizer (((Q ⊓ K : Subgroup G)) : Set G) :=
   fun _ hn => r.ctx.mem_normalizer_Q0 r.hB (r.hRN hn)
 
+omit [Finite G] in
 theorem E_le_R : E ≤ R := r.ctx.hEQ.trans r.hQR
 
 theorem inf_centralizer_E : R ⊓ Subgroup.centralizer (E : Set G) = E :=
   r.ctx.inf_centralizer_R r.hB r.hR r.hQR
 
 theorem card_mulAut_Q0 : Nat.card (MulAut ↥(Q ⊓ K : Subgroup G)) = 11232 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : ∀ a b : ↥(Q ⊓ K : Subgroup G), a * b = b * a := fun a b =>
     Subtype.ext (r.ctx.Q0_comm a.2 b.2)
   have hpow : ∀ a : ↥(Q ⊓ K : Subgroup G), a ^ 3 = 1 := fun a =>
@@ -847,6 +871,7 @@ theorem mem_N0_of_mem_R {x : G} (hxR : x ∈ R)
     simpa using this
   exact r.ctx.mem_N0_of_odd r.hB (r.hRN hxR) hx (Odd.pow (by decide)) ha'
 
+omit [Finite G] in
 theorem hab : ∀ a ∈ (Q ⊓ K : Subgroup G), ∀ b ∈ (Q ⊓ K : Subgroup G), a * b = b * a :=
   fun _ ha _ hb => r.ctx.Q0_comm ha hb
 
@@ -854,6 +879,7 @@ theorem N0_normal : ∀ n ∈ Subgroup.normalizer (E : Set G), ∀ k ∈ N0 E (Q
     n * k * n⁻¹ ∈ N0 E (Q ⊓ K) :=
   fun _ hn _ hk => N0_conj (fun _ hm _ hq => r.ctx.Q0_invariant r.hB hm hq) hn hk
 
+omit r [Finite G] in
 theorem N0_le_normalizer : N0 E (Q ⊓ K) ≤ Subgroup.normalizer (E : Set G) :=
   fun _ hn => N0.mem_normalizer hn
 
@@ -930,17 +956,18 @@ theorem exists_shear_eq {q : G} (hq : q ∈ (Q ⊓ K : Subgroup G)) :
   obtain ⟨n, hn⟩ := hqS
   exact ⟨n, n.2, hn⟩
 
+omit [Finite G] in
 theorem shear_conj_eq {y : G} (hy : y ∈ E) (c n : ↥(N0 E (Q ⊓ K))) :
     shear r.hab hy (c * n * c⁻¹) = shear r.hab hy n := by
-  letI : CommGroup ↥(Q ⊓ K : Subgroup G) :=
+  let : CommGroup ↥(Q ⊓ K : Subgroup G) :=
     { (inferInstance : Group ↥(Q ⊓ K : Subgroup G)) with
       mul_comm := fun a b => Subtype.ext (r.hab a a.2 b b.2) }
   rw [map_mul, map_mul, map_inv, mul_comm (shear r.hab hy c) (shear r.hab hy n), mul_assoc,
     mul_inv_cancel, mul_one]
 
 theorem T_sylow : IsSylowIn 3 (N0 E (Q ⊓ K)) (R ⊓ N0 E (Q ⊓ K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  exact isSylowIn_inf_normal r.N0_le_normalizer r.N0_normal r.hR
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  exact isSylowIn_inf_normal RCfg.N0_le_normalizer r.N0_normal r.hR
 
 theorem exists_three_element {n : G} (hn : n ∈ N0 E (Q ⊓ K)) :
     ∃ k a : ℕ, (n ^ k) ^ 3 ^ a = 1 ∧ n ^ k * e * (n ^ k)⁻¹ * e⁻¹ = n * e * n⁻¹ * e⁻¹ := by
@@ -1010,6 +1037,7 @@ theorem card_T : Nat.card ↥(R ⊓ N0 E (Q ⊓ K) : Subgroup G) = 3 ^ 7 := by
   rw [← h]
   norm_num
 
+omit [Finite G] in
 theorem E_le_T : E ≤ R ⊓ N0 E (Q ⊓ K) := by
   refine le_inf r.E_le_R ?_
   intro y hy
@@ -1034,7 +1062,7 @@ theorem exists_m :
   have hxN : x ∈ Subgroup.normalizer (E : Set G) := r.ctx.mem_normalizer_E hxK hxn
   obtain ⟨c, hcN₀, hcm⟩ := exists_conj_normalizes r.T_sylow
     (fun k hk => r.N0_normal x hxN k hk)
-  have hcN : c ∈ Subgroup.normalizer (E : Set G) := r.N0_le_normalizer hcN₀
+  have hcN : c ∈ Subgroup.normalizer (E : Set G) := RCfg.N0_le_normalizer hcN₀
   set m : G := c * x with hm
   have hmN : m ∈ Subgroup.normalizer (E : Set G) := mul_mem hcN hxN
   have hcq : ∀ q ∈ (Q ⊓ K : Subgroup G), c * q * c⁻¹ = q := fun q hq => N0.centralizes hcN₀ hq
@@ -1084,7 +1112,7 @@ theorem exists_m :
         rw [pow_succ]; group
       rw [this]
       exact ih _ (hmX y hy)
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨k, a₁, hk13, hk1⟩ := exists_pow_pPart (G := G) 13 m
   have hxinv : ∀ q ∈ (Q ⊓ K : Subgroup G), x * q * x⁻¹ ∈ (Q ⊓ K : Subgroup G) := hxn
   have hact : ∀ j : ℕ, ∀ q ∈ (Q ⊓ K : Subgroup G),
@@ -1114,7 +1142,8 @@ theorem exists_m :
   · rw [hact j q hq, Nat.mod_eq_of_lt hj13] at hqfix
     exact hxfree j hj0 hj13 q hq hqfix
 
-theorem exists_b : ∃ b ∈ A, b ∉ E := SetLike.not_le_iff_exists.1 r.ctx.hAnE
+omit [Finite G] in
+theorem exists_b : ∃ b ∈ A, b ∉ E := IsConcreteLE.not_le_iff_exists.1 r.ctx.hAnE
 
 theorem card_inf_centralizer_b_le_three {b : G} (hbA : b ∈ A) (hbE : b ∉ E) :
     Nat.card ↥((Q ⊓ K : Subgroup G) ⊓ Subgroup.centralizer ({b} : Set G) : Subgroup G) ≤ 3 := by
@@ -1273,6 +1302,7 @@ theorem key_of_hΩ (hΩ : ∀ y ∈ R ⊓ N0 E (Q ⊓ K), y ^ 3 = 1 → y ∈ E)
       _ = q := by group⟩
   exact hΩ x hxT (hE1ab.2 x hx)
 
+omit [Finite G] in
 theorem isEkIn_E : IsEkIn 3 4 R E := ⟨r.E_le_R, r.ctx.hEel, r.ctx.hEcard⟩
 
 theorem thompsonJ_eq (hΩ : ∀ y ∈ R ⊓ N0 E (Q ⊓ K), y ^ 3 = 1 → y ∈ E) : thompsonJ 3 R = E :=
@@ -1291,7 +1321,7 @@ theorem no_big_abelian {M : Subgroup G} {a : G} (haA : a ∈ A)
       ∀ g : G, (∀ t ∈ R ⊓ N0 E (Q ⊓ K), g * t * g⁻¹ ∈ R ⊓ N0 E (Q ⊓ K)) →
         ∀ f ∈ F, g * f * g⁻¹ ∈ F := by
   rintro ⟨F, hFT, hF6, hFel, hFinv⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have haR : a ∈ R := r.hQR (r.ctx.hAQ haA)
   have haN : a ∈ Subgroup.normalizer (F : Set G) :=
     mem_normalizer_of_conj_le (hFinv a fun t ht => by
@@ -1306,7 +1336,7 @@ theorem no_big_abelian {M : Subgroup G} {a : G} (haA : a ∈ A)
 
 theorem card_R_of {R' : Subgroup G} (hR' : IsSylowIn 3 (Subgroup.normalizer (E : Set G)) R') :
     Nat.card ↥R' = 3 ^ 8 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [card_eq_of_isSylowIn r.hR hR', r.hR8]
 
 theorem dichotomy :

@@ -193,7 +193,7 @@ theorem odd_fixed_generation {actor group : Type*}
   refine ⟨sylow, ?_⟩
   apply Subgroup.subgroupOf_eq_top.mp
   apply CFSG.OrderReductions.PrimeInvolutionGeneration.pGroup_fixed_generation prime sylow_prime prime_actor
-    sylow.isPGroup' (fun divides => coprime
+    sylow.isPGroup (fun divides => coprime
       (divides.trans (sylow : Subgroup group).card_subgroup_dvd_card))
     (odd_group.of_dvd_nat (sylow : Subgroup group).card_subgroup_dvd_card)
     (CFSG.OrderReductions.InvariantSylow.restrictedHomomorphism action sylow action_invariant)

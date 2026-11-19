@@ -23,6 +23,7 @@ open Polynomial Module QuadraticMap CFSG.RankThree.Classical2 CFSG.RankThree.Par
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V] [Module F V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ}
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem i167COrth_adapted_plane_aux1 {U : Submodule F V}
     (h : (QuadraticMap.polarBilin (Q.comp U.subtype)).Nondegenerate) : RegOn Q U := by
   intro u hu hpol
@@ -30,6 +31,7 @@ private theorem i167COrth_adapted_plane_aux1 {U : Submodule F V}
   have := hpol (w : V) w.2
   simpa [QuadraticMap.polarBilin_apply_apply, polar_comp_subtype_cent] using this
 
+omit [Finite F] [CharP F 2] in
 private theorem i167COrth_adapted_plane_aux2 (hp : p.Prime) {A : Subgroup ↥(orthDerived Q)}
     {g : ↥(orthDerived Q)} (hgA : g ∈ A) (hg : orderOf g = p) {W N : Submodule F V}
     (hW : W = fixedSpace (g : V ≃ₗ[F] V)) (hN : N = polarPerp Q W)
@@ -89,6 +91,7 @@ theorem i167COrth_adapted_plane (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     exact ⟨hyW, hyN⟩
   exact (Submodule.mem_bot F).1 hbot
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem i167COrth_partial_rotation_aux1 {W : Submodule F V} {E : V ≃ₗ[F] V}
     (h1 : ∀ x ∈ W, E x ∈ W) (h2 : ∀ x ∈ W, E.symm x ∈ W) (n : ℕ) (u : W) :
     ((restrictEquiv W E h1 h2 ^ n) u : V) = (E ^ n) (u : V) := by
@@ -99,6 +102,7 @@ private theorem i167COrth_partial_rotation_aux1 {W : Submodule F V} {E : V ≃�
       LinearEquiv.mul_apply]
     rfl
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem i167COrth_partial_rotation_aux2 {W : Submodule F V} {E : V ≃ₗ[F] V}
     (hE : E ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (h1 : ∀ x ∈ W, E x ∈ W)
     (h2 : ∀ x ∈ W, E.symm x ∈ W) :
@@ -109,6 +113,7 @@ private theorem i167COrth_partial_rotation_aux2 {W : Submodule F V} {E : V ≃�
   rw [coe_restrictEquiv]
   exact TauCeti.QuadraticMap.map_app_of_mem_orthogonalGroup hE (u : V)
 
+omit [Finite F] [CharP F 2] in
 private theorem i167COrth_partial_rotation_aux3 {A : Subgroup ↥(orthDerived Q)}
     {g : ↥(orthDerived Q)} (hA : IsElemAbelian p A) (hgA : g ∈ A) {P : Submodule F V}
     (hP : RegOn Q P) (hPinv : ∀ b ∈ A, ∀ y ∈ P, (b : V ≃ₗ[F] V) y ∈ P)
@@ -139,6 +144,7 @@ private theorem i167COrth_partial_rotation_aux3 {A : Subgroup ↥(orthDerived Q)
         (map_pow _ _ p).symm
     _ = 1 := by rw [hsub, map_one]
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem i167COrth_partial_rotation_aux4 {A : Subgroup ↥(orthDerived Q)}
     {g : ↥(orthDerived Q)} (hA : IsElemAbelian p A) (hgA : g ∈ A) {P : Submodule F V}
     (hPinv : ∀ b ∈ A, ∀ y ∈ P, (b : V ≃ₗ[F] V) y ∈ P) {g' : P ≃ₗ[F] P}
@@ -181,6 +187,7 @@ theorem i167COrth_partial_rotation (hQ : (QuadraticMap.polarBilin Q).Nondegenera
       (fun w hw => apply_mem_polarPerp (Bb := A) hPinv ha hw) ⟨g', hg'⟩
       (i167COrth_partial_rotation_aux4 hA hgA hPinv hg'def a ha)
 
+omit [Finite F] [CharP F 2] in
 private theorem fixedSpace_le_polarPerp_aux1 {g : V ≃ₗ[F] V} {P : Submodule F V} (hP : RegOn Q P)
     (hgP : ∀ y ∈ P, g y ∈ P) (hgP' : ∀ y ∈ polarPerp Q P, g y ∈ polarPerp Q P)
     (hfix : ∀ y ∈ P, g y = y → y = 0) : fixedSpace g ≤ polarPerp Q P := by
@@ -202,6 +209,7 @@ private theorem fixedSpace_le_polarPerp_aux1 {g : V ≃ₗ[F] V} {P : Submodule 
   rw [hu0, zero_add]
   exact hz
 
+omit [Finite F] [CharP F 2] in
 private theorem commute_supportedFixedDerived_aux1 {x : V ≃ₗ[F] V} {t : V ≃ₗ[F] V}
     (hx : OddOrderIsometry Q p x) (ht : t ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (htW : ∀ w ∈ fixedSpace x, t w = w) {j : V ≃ₗ[F] V} (hj : j ∈ supportedFixedDerived Q x) :
@@ -212,6 +220,7 @@ private theorem commute_supportedFixedDerived_aux1 {x : V ≃ₗ[F] V} {t : V �
   exact commute_of_apply_eq hx.polarBilin_fixed_nondegenerate ht htW
     (fun y hy => by rw [hjW ⟨y, hy⟩]; exact (j' ⟨y, hy⟩).2) hjP
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem i167COrth_eq_of_mem_zpowers_aux1 {P : Submodule F V} {T : V ≃ₗ[F] V}
     (hT : ∀ y ∈ P, T y = y) (c : ℤ) : ∀ y ∈ P, (T ^ c) y = y := by
   have hTP : ∀ y ∈ P, T y ∈ P := fun y hy => by rw [hT y hy]; exact hy
@@ -233,6 +242,7 @@ private theorem i167COrth_eq_of_mem_zpowers_aux1 {P : Submodule F V} {T : V ≃�
     | succ n ih =>
       rw [pow_succ, LinearEquiv.mul_apply, ih (T⁻¹ y) (hTinvP y hy), hTinv y hy]
 
+omit [CharP F 2] in
 private theorem i167COrth_eq_of_mem_zpowers_aux2 (hp : p.Prime) {G : V ≃ₗ[F] V}
     (hGord : orderOf G = p) {P : Submodule F V} (hP : P ≠ ⊥)
     (hfix : ∀ y ∈ P, G y = y → y = 0) {k : ℤ}
@@ -261,6 +271,7 @@ private theorem i167COrth_eq_of_mem_zpowers_aux2 (hp : p.Prime) {G : V ≃ₗ[F]
   obtain ⟨y, hyP, hy0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hP
   exact hy0 (hfix y hyP (hGfixP y hyP))
 
+omit [CharP F 2] in
 theorem i167COrth_eq_of_mem_zpowers (hp : p.Prime) {g h : ↥(orthDerived Q)} (hg : orderOf g = p)
     {P : Submodule F V} (hP : P ≠ ⊥) (hPinv : ∀ y ∈ P, (g : V ≃ₗ[F] V) y ∈ P)
     (hfix : ∀ y ∈ P, (g : V ≃ₗ[F] V) y = y → y = 0) (hh : h ∈ Subgroup.zpowers g)

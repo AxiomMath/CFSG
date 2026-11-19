@@ -42,8 +42,8 @@ theorem exists_bar_ne_fixed (h : UnitaryFieldData 3 3 K) (F₀ : Subfield K) (hF
   classical
   by_contra hcon
   push Not at hcon
-  haveI : Finite F₀ := Nat.finite_of_card_ne_zero (by rw [hF₀]; norm_num)
-  haveI : Fintype F₀ := Fintype.ofFinite F₀
+  have : Finite F₀ := Nat.finite_of_card_ne_zero (by rw [hF₀]; norm_num)
+  have : Fintype F₀ := Fintype.ofFinite F₀
   have hroot : ∀ c : F₀, (c : K) ^ 3 = (c : K) := by
     intro c
     have h9 : c ^ 9 = c := by
@@ -86,20 +86,20 @@ theorem exists_bar_ne_fixed (h : UnitaryFieldData 3 3 K) (F₀ : Subfield K) (hF
   omega
 
 theorem f2_psu (h : UnitaryFieldData 3 3 K) (hK : ringChar K ≠ 2) (h3 : (3 : K) = 0)
-    (E : Subgroup (MulAut (unitaryPSU h 3))) (hE : IsElemAbelian 3 E) (hEcard : Nat.card E = 3 ^ 3)
+    (E : Subgroup (MulAut (unitaryPSU h 3))) (hE : IsElemAbelian 3 E) (_hEcard : Nat.card E = 3 ^ 3)
     (hnot : ¬ E ≤ inner (unitaryPSU h 3))
     (hE0 : Nat.card ↥(E ⊓ inner (unitaryPSU h 3)) = 3 ^ 2) :
     SmallF2 (unitaryPSU h 3) E := by
   classical
-  haveI : Finite (unitaryPSU h 3) := by
-    haveI := h.finite
+  have : Finite (unitaryPSU h 3) := by
+    have := h.finite
     infer_instance
-  haveI : Finite (MulAut (unitaryPSU h 3)) := MulEquiv.finite_left
+  have : Finite (MulAut (unitaryPSU h 3)) := MulEquiv.finite_left
   intro W hW hWI hWC
   by_contra hW0
   have h2 : (2 : K) ≠ 0 := Ring.two_ne_zero hK
   obtain ⟨b, hbE, hbI⟩ : ∃ b ∈ E, b ∉ inner (unitaryPSU h 3) := by
-    obtain ⟨b, hb, hbn⟩ := SetLike.not_le_iff_exists.1 hnot
+    obtain ⟨b, hb, hbn⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
     exact ⟨b, hb, hbn⟩
   have hb3 : b ^ 3 = 1 := hE.2 b hbE
   have hbD : b ∉ (psuConj h).range := fun hm => hbI (range_psuConj_le_inner h hm)
@@ -115,7 +115,7 @@ theorem f2_psu (h : UnitaryFieldData 3 3 K) (hK : ringChar K ≠ 2) (h3 : (3 : K
       exact hne (by rw [hn]; norm_num)
     rw [hn]
     exact dvd_pow_self 2 hn0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥W) 2 hW2
   have ht2 : (t : MulAut (unitaryPSU h 3)) ^ 2 = 1 := by
     have h' := congrArg (fun x : ↥W => (x : MulAut (unitaryPSU h 3)))
@@ -132,8 +132,8 @@ theorem f2_psu (h : UnitaryFieldData 3 3 K) (hK : ringChar K ≠ 2) (h3 : (3 : K
   set c := psuConj h H with hc_def
   set f := psuField h σ with hf_def
   set V : Subgroup (MulAut (unitaryPSU h 3)) := E ⊓ inner (unitaryPSU h 3) with hVdef
-  haveI : Finite V := Nat.finite_of_card_ne_zero (by rw [hE0]; norm_num)
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Finite V := Nat.finite_of_card_ne_zero (by rw [hE0]; norm_num)
+  have : Fintype V := Fintype.ofFinite V
   choose L hL using exists_lift h
   let uv : V → MulAut (unitaryPSU h 3) := fun v => c⁻¹ * (v : MulAut (unitaryPSU h 3)) * c
   have hvV : ∀ v : V, (v : MulAut (unitaryPSU h 3)) ∈ E ∧

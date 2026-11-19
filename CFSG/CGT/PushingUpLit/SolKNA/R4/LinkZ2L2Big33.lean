@@ -27,7 +27,7 @@ variable {Y : Type} [Group Y]
 
 theorem actsTriv_one' (Λ : Subgroup Y) : ActsTriv Λ 1 := by
   intro z hz
-  simpa using (oddCoreOf Λ).one_mem
+  simp
 
 theorem actsTriv_symm_a_of_not_forall {B Λ : Subgroup Y} {m : ℕ}
     (eB : ↥B ≃* QuaternionGroup (2 ^ m))

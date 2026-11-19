@@ -83,7 +83,7 @@ private lemma ggF4H4Psl64_lift {F : Type} [Field F] [Finite F] (hF : Nat.card F 
 
 private lemma ggF4H4Psl64_commute {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4)
     (A Z : ↥(LargeEvenSLGroup (Fin 6) F)) (ℓ : ℕ) (hgcd : ℓ.gcd 3 = 1) (hA : A ^ ℓ = 1)
-    (hZ : Z ^ 3 ∈ (LargeEvenScalars (Fin 6) F).subgroupOf (LargeEvenSLGroup (Fin 6) F))
+    (_hZ : Z ^ 3 ∈ (LargeEvenScalars (Fin 6) F).subgroupOf (LargeEvenSLGroup (Fin 6) F))
     (hcomm : (QuotientGroup.mk A : LargeEvenProj (LargeEvenSLGroup (Fin 6) F)) *
         (QuotientGroup.mk Z : LargeEvenProj (LargeEvenSLGroup (Fin 6) F)) =
       (QuotientGroup.mk Z : LargeEvenProj (LargeEvenSLGroup (Fin 6) F)) *
@@ -217,9 +217,9 @@ theorem ggF4H4Psl64_no_embedding {F : Type} [Field F] [Finite F] (hF : Nat.card 
     {J : Type} [Group J] [Finite J] (ι : J →* LargeEvenProj (LargeEvenSLGroup (Fin 6) F))
     (hι : Function.Injective ι) (h13 : 13 ∣ Nat.card J) (h17 : 17 ∣ Nat.card J)
     (h3 : 3 ∣ Nat.card (Subgroup.center J)) : False := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' 13 h13
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' 17 h17
   obtain ⟨zc, hzc⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center J) 3 h3

@@ -22,7 +22,7 @@ private theorem sec64_mem_conjugate {H : Subgroup G} {g x : G} :
   · rintro ⟨a, ha, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using ha
   · intro hx
-    exact ⟨g * x * g⁻¹, hx, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * x * g⁻¹, hx, by simp [mul_assoc]⟩
 
 theorem sec64_plain_of_chain [Finite G] (h63 : Asc82Lemma63) {t : G} {L : Subgroup G}
     (hS : Sec3SettingLB G t L) (hHyp : Asc82Hyp62 G) {X Y : Subgroup G} (hXF : InFStar X)

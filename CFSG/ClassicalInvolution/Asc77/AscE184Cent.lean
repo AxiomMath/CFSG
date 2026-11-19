@@ -168,7 +168,7 @@ theorem e18_5_of_layer (h3 : E18_3 p f) (h69 : L6_9 p f) (h611 : L6_11 p f) : E1
   have hSY : IsSylow2In ((S : Subgroup G) ⊓ (⨆ J ∈ Ω, J : Subgroup G))
       (⨆ J ∈ Ω, J : Subgroup G) := by
     refine isSylow2In_inf_of_le_normalizer ?_ le_top ?_
-    · exact ⟨le_top, S.isPGroup', fun V' _ hV'2 hSV' =>
+    · exact ⟨le_top, S.isPGroup, fun V' _ hV'2 hSV' =>
         (S.maximal_isPGroup.eq_of_le hV'2 hSV').symm⟩
     · intro x _
       have := hnorm

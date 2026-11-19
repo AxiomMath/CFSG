@@ -14,7 +14,7 @@ namespace NsQuot
 variable {G : Type} [Group G] [Finite G] {Q : Type} [Group Q]
 variable {p : ℕ} {N : Subgroup G} {f : ↥N →* Q} {L Bs Z : Subgroup G}
 
-theorem Datum.automizer_le_map (hD : Datum p N f L Bs Z) {X : Subgroup G} (hZX : Z ≤ X) (hXN : X ≤ N) :
+theorem Datum.automizer_le_map (hD : Datum p N f L Bs Z) {X : Subgroup G} (hZX : Z ≤ X) (_hXN : X ≤ N) :
     ggAutomizer (img N f X) (img N f Bs) ≤
       (ggAutomizer X Bs).map (MulAut.congr hD.tau).toMonoidHom := by
   unfold ggAutomizer
@@ -34,7 +34,7 @@ theorem Datum.automizer_le_map (hD : Datum p N f L Bs Z) {X : Subgroup G} (hZX :
 
 theorem Datum.card_automizer_le [Finite Q] (hD : Datum p N f L Bs Z) {X : Subgroup G} (hZX : Z ≤ X) (hXN : X ≤ N) :
     Nat.card ↥(ggAutomizer (img N f X) (img N f Bs)) ≤ Nat.card ↥(ggAutomizer X Bs) := by
-  haveI : Finite (MulAut ↥(img N f Bs)) :=
+  have : Finite (MulAut ↥(img N f Bs)) :=
     Finite.of_injective (fun φ : MulAut ↥(img N f Bs) => (φ : ↥(img N f Bs) → ↥(img N f Bs)))
       DFunLike.coe_injective
   have h1 := Subgroup.card_le_of_le (hD.automizer_le_map hZX hXN)

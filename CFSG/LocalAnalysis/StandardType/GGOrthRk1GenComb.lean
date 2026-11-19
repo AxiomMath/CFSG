@@ -15,16 +15,16 @@ namespace OrthTorus
   ⟨if i.val + 1 < r then i.val + 1 else r - 1, by have := i.isLt; split_ifs <;> omega⟩
 
 theorem simpleLo_of_lt {r : ℕ} {i : Fin r} (h : i.val + 1 < r) : (simpleLo i).val = i.val := by
-  simp only [simpleLo, Fin.val_mk, if_pos h]
+  simp only [simpleLo, Fin.val_mk, ite_eq_left h]
 
 theorem simpleHi_of_lt {r : ℕ} {i : Fin r} (h : i.val + 1 < r) : (simpleHi i).val = i.val + 1 := by
-  simp only [simpleHi, Fin.val_mk, if_pos h]
+  simp only [simpleHi, Fin.val_mk, ite_eq_left h]
 
 theorem simpleLo_of_last {r : ℕ} {i : Fin r} (h : i.val + 1 = r) : (simpleLo i).val = r - 2 := by
-  simp only [simpleLo, Fin.val_mk, if_neg (by omega : ¬ i.val + 1 < r)]
+  simp only [simpleLo, Fin.val_mk, ite_eq_right (by omega : ¬ i.val + 1 < r)]
 
 theorem simpleHi_of_last {r : ℕ} {i : Fin r} (h : i.val + 1 = r) : (simpleHi i).val = r - 1 := by
-  simp only [simpleHi, Fin.val_mk, if_neg (by omega : ¬ i.val + 1 < r)]
+  simp only [simpleHi, Fin.val_mk, ite_eq_right (by omega : ¬ i.val + 1 < r)]
 
 theorem simpleLo_ne_simpleHi {r : ℕ} (hr : 2 ≤ r) (i : Fin r) : simpleLo i ≠ simpleHi i := by
   intro h
@@ -41,37 +41,37 @@ private lemma q2cO5c_cartanD_ne_zero_iff {r : ℕ} (hr : 3 ≤ r) {i j : Fin r} 
       (j.val = i.val + 1 ∧ j.val + 1 < r) ∨ (i.val = j.val + 1 ∧ i.val + 1 < r) ∨
         (i.val + 3 = r ∧ j.val + 1 = r) ∨ (j.val + 3 = r ∧ i.val + 1 = r) := by
   simp only [CartanMatrix.D, Matrix.of_apply]
-  rw [if_neg hij, if_neg (by omega : ¬ r ≤ 2)]
+  rw [ite_eq_right hij, ite_eq_right (by omega : ¬ r ≤ 2)]
   by_cases h1 : i.val + 1 = j.val ∧ j.val + 2 < r
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     constructor
     · intro _; left; omega
     · intro _; norm_num
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     by_cases h2 : j.val + 1 = i.val ∧ i.val + 2 < r
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       constructor
       · intro _; right; left; omega
       · intro _; norm_num
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       by_cases h3 : i.val + 3 = r ∧ (j.val + 2 = r ∨ j.val + 1 = r)
-      · rw [if_pos h3]
+      · rw [ite_eq_left h3]
         constructor
         · intro _
           rcases h3 with ⟨h3a, h3b | h3b⟩
           · left; omega
           · exact Or.inr (Or.inr (Or.inl ⟨h3a, h3b⟩))
         · intro _; norm_num
-      · rw [if_neg h3]
+      · rw [ite_eq_right h3]
         by_cases h4 : j.val + 3 = r ∧ (i.val + 2 = r ∨ i.val + 1 = r)
-        · rw [if_pos h4]
+        · rw [ite_eq_left h4]
           constructor
           · intro _
             rcases h4 with ⟨h4a, h4b | h4b⟩
             · right; left; omega
             · exact Or.inr (Or.inr (Or.inr ⟨h4a, h4b⟩))
           · intro _; norm_num
-        · rw [if_neg h4]
+        · rw [ite_eq_right h4]
           constructor
           · intro h0; exact absurd rfl h0
           · rintro (hR | hR | hR | hR)
@@ -92,18 +92,18 @@ theorem ggCoxeterMatrixD_eq_three_iff {r : ℕ} (hr : 3 ≤ r) (i j : Fin r) :
         (i.val + 3 = r ∧ j.val + 1 = r) ∨ (j.val + 3 = r ∧ i.val + 1 = r) := by
   rw [ggCoxeterMatrixD_apply]
   by_cases hij : i = j
-  · rw [if_pos hij]
+  · rw [ite_eq_left hij]
     have hv : i.val = j.val := by rw [hij]
     constructor
     · intro h; exact absurd h (by norm_num)
     · rintro (⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩ | ⟨h1, h2⟩) <;> omega
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     by_cases hD : CartanMatrix.D r i j = 0
-    · rw [if_pos hD]
+    · rw [ite_eq_left hD]
       constructor
       · intro h; exact absurd h (by norm_num)
       · intro hR; exact absurd hD ((q2cO5c_cartanD_ne_zero_iff hr hij).mpr hR)
-    · rw [if_neg hD]
+    · rw [ite_eq_right hD]
       exact ⟨fun _ => (q2cO5c_cartanD_ne_zero_iff hr hij).mp hD, fun _ => rfl⟩
 
 theorem ggCoxeterMatrixD_eq_two_cases {r : ℕ} (hr : 4 ≤ r) {i j : Fin r} (hij : i ≠ j)

@@ -56,10 +56,10 @@ section Profile
 variable {K : Type} [Group K]
 
 theorem not_lamProfile_of_fixesElem {n b : ℕ} (ab : Prop) (hK : InvolutionFixesElem K n)
-    (hbn : b < n) : ∀ α : MulAut K, α ≠ 1 → α * α = 1 →
-      ¬ Hyp.LamProfile ab b (↥(fixSubgroup α) × Multiplicative (ZMod 2)) ∧
-        ((∃ k : K, α = MulAut.conj k) → ¬ Hyp.LamProfile ab b ↥(fixSubgroup α)) :=
-  fun α h1 h2 => ⟨fun hL => not_elemBound_fixProd hK hbn h1 h2 hL.2.1,
+    (hbn : b < n) : ∀ _α : MulAut K, _α ≠ 1 → _α * _α = 1 →
+      ¬ Hyp.LamProfile ab b (↥(fixSubgroup _α) × Multiplicative (ZMod 2)) ∧
+        ((∃ k : K, _α = MulAut.conj k) → ¬ Hyp.LamProfile ab b ↥(fixSubgroup _α)) :=
+  fun _α h1 h2 => ⟨fun hL => not_elemBound_fixProd hK hbn h1 h2 hL.2.1,
     fun _ hL => not_elemBound_fixSubgroup hK hbn h1 h2 hL.2.1⟩
 
 theorem not_lamProfile_of_nonsolvable (b : ℕ) (ab : Prop)

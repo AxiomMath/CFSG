@@ -156,7 +156,7 @@ theorem exists_inf_cen_eq [Finite X] (e : ↥Y ≃* F42C) {τ : X} (hτ2 : order
   have hα2 := indAut_sq e hτN hτ2'
   have hαo := (indAut_not_inner_iff e hτN).2 hout
   have hK : Nat.card (ZMod 2) = 2 := by simp
-  haveI : CharP (ZMod 2) ReeTag.F4.prime := inferInstanceAs (CharP (ZMod 2) 2)
+  have : CharP (ZMod 2) ReeTag.F4.prime := inferInstanceAs (CharP (ZMod 2) 2)
   obtain ⟨ψ, hψ⟩ := exists_fixSub_map_eq hK hα2 hαo
   exact ⟨ψ, inf_cen_eq_map e hτN ψ _ hψ⟩
 
@@ -166,7 +166,7 @@ theorem clause_O2 [Finite X] (e : ↥Y ≃* F42C) :
   intro τ hτ2 hτN hout R hR hRp hRN
   obtain ⟨ψ, hψ⟩ := exists_inf_cen_eq e hτ2 hτN hout
   have hK : Nat.card (ZMod 2) = 2 := by simp
-  haveI : CharP (ZMod 2) ReeTag.F4.prime := inferInstanceAs (CharP (ZMod 2) 2)
+  have : CharP (ZMod 2) ReeTag.F4.prime := inferInstanceAs (CharP (ZMod 2) 2)
   set ι' := embedY e ψ with hι'
   have hinj : Function.Injective ι' := embedY_injective e ψ
   set Γ := reeFixed ReeTag.F4 (ZMod 2) 0 with hΓ
@@ -181,7 +181,7 @@ theorem clause_O2 [Finite X] (e : ↥Y ≃* F42C) :
   have hR'p : IsPGroup 2 R' := hRp.comap_of_injective ι' hinj
   set N : Subgroup ↥Γ := R'.subgroupOf Γ with hN
   have hNp : IsPGroup 2 N := hR'p.comap_of_injective Γ.subtype Subtype.val_injective
-  haveI hNn : N.Normal := by
+  have hNn : N.Normal := by
     refine ⟨fun n hn g => ?_⟩
     have hn' : ι' (n : F42C) ∈ R := hn
     have hgH : ι' (g : F42C) ∈ Y ⊓ Cen τ := by

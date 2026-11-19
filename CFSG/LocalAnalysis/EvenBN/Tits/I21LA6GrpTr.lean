@@ -19,10 +19,10 @@ theorem a6grp_sylow_nonabelian [Finite G] [Group.IsPerfect G] {p : ℕ} [Fact p.
     ∃ a ∈ P, ∃ b ∈ P, a * b ≠ b * a := by
   by_contra hab
   push Not at hab
-  haveI : IsMulCommutative (P : Subgroup G) := ⟨⟨fun a b => Subtype.ext (hab a a.2 b b.2)⟩⟩
+  have : IsMulCommutative (P : Subgroup G) := ⟨⟨fun a b => Subtype.ext (hab a a.2 b b.2)⟩⟩
   have hcP : c ∈ (P : Subgroup G) := by
     have hle : Subgroup.zpowers c ≤ center G := (Subgroup.zpowers_le).mpr hc
-    haveI : (Subgroup.zpowers c).Normal :=
+    have : (Subgroup.zpowers c).Normal :=
       ⟨fun n hn g => by
         have hn' := mem_center_iff.mp (hle hn) g
         rw [hn', mul_assoc, mul_inv_cancel, mul_one]
@@ -60,7 +60,7 @@ theorem a6grp_commutator_prime_order {p : ℕ} [hp : Fact p.Prime] (P : Sylow p 
       calc b * a = (b * a * b⁻¹ * a⁻¹) * (a * b) := by group
         _ = a * b := by rw [← hc₀, h1, one_mul]
     exact h2.symm
-  obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') ⟨c₀, hc₀P⟩
+  obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨c₀, hc₀P⟩
   have hm' : orderOf c₀ = p ^ m := by
     rw [← hm]; exact (Subgroup.orderOf_mk _ _).symm
   have hm0 : m ≠ 0 := by
@@ -91,11 +91,11 @@ theorem a6grp_inf_eq_bot (ρ : Y →* (V ≃ₗ[ZMod 2] V)) (hinj : Function.Inj
     (hquot : ∀ p : ℕ, p.Prime → p ≠ 2 → ∀ Q : Subgroup Y, Q ≤ G₀ → IsPGroup p Q →
       ∀ a ∈ Q, ∀ b ∈ Q, b * a * b⁻¹ * a⁻¹ ∈ O) :
     G₀ ⊓ O = ⊥ := by
-  haveI : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite (ZMod 2) V := Module.finite_of_finrank_pos (by omega)
   by_contra hne
   have hcard1 : Nat.card ↥(G₀ ⊓ O) ≠ 1 := fun h => hne (Subgroup.card_eq_one.mp h)
   obtain ⟨p, hp, hpd⟩ := Nat.exists_prime_and_dvd hcard1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by
     rintro rfl
     have h2 : 2 ∣ Nat.card O := hpd.trans (Subgroup.card_dvd_of_le inf_le_right)
@@ -115,7 +115,7 @@ theorem a6grp_inf_eq_bot (ρ : Y →* (V ≃ₗ[ZMod 2] V)) (hinj : Function.Inj
   have hnab := a6grp_sylow_nonabelian hcz hcp P
   have hcomm : ∀ a ∈ P, ∀ b ∈ P, b * a * b⁻¹ * a⁻¹ ∈ center G₀ := by
     intro a ha b hb
-    have hQ : IsPGroup p ((P : Subgroup G₀).map G₀.subtype) := P.isPGroup'.map G₀.subtype
+    have hQ : IsPGroup p ((P : Subgroup G₀).map G₀.subtype) := P.isPGroup.map G₀.subtype
     have hQG : (P : Subgroup G₀).map G₀.subtype ≤ G₀ := by
       rintro _ ⟨g, -, rfl⟩
       exact g.2

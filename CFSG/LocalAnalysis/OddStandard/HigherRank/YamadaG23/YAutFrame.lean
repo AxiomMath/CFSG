@@ -31,42 +31,55 @@ private lemma sigma_conj_inv_of_sq {G : Type*} [Group G] {σ y : G} (hσ : σ ^ 
   rw [show σ * (σ * y * σ⁻¹) * σ⁻¹ = (σ * σ) * y * (σ⁻¹ * σ⁻¹) by group]
   rw [h1, ← mul_inv_rev, h1, inv_one, one_mul, mul_one]
 
+omit [Finite Q] in
 private lemma gens11_0 : fr.gens11 0 = fr.a₁ := by simp [Frame.gens11]
 
+omit [Finite Q] in
 private lemma gens11_1 : fr.gens11 1 = fr.b₁ := by simp [Frame.gens11]
 
+omit [Finite Q] in
 private lemma gens11_2 : fr.gens11 2 = fr.a₂ := by simp [Frame.gens11]
 
+omit [Finite Q] in
 private lemma gens11_3 : fr.gens11 3 = fr.b₂ := by simp [Frame.gens11]
 
+omit [Finite Q] in
 private lemma gens11_4 : fr.gens11 4 = fr.h₀ := by simp [Frame.gens11]
 
+omit [Finite Q] in
 private lemma gens11_5 : fr.gens11 5 = fr.σ := by simp [Frame.gens11]
 
+omit [Finite Q] in
 private lemma S_mem_a₁ {fr' : Frame (MulAut Q)} : fr'.a₁ ∈ fr'.S := by
   change fr'.a₁ ∈ Subgroup.closure ({fr'.a₁, fr'.b₁, fr'.a₂, fr'.b₂, fr'.h₀} : Set (MulAut Q))
   exact Subgroup.subset_closure (by simp)
 
+omit [Finite Q] in
 private lemma S_mem_b₁ {fr' : Frame (MulAut Q)} : fr'.b₁ ∈ fr'.S := by
   change fr'.b₁ ∈ Subgroup.closure ({fr'.a₁, fr'.b₁, fr'.a₂, fr'.b₂, fr'.h₀} : Set (MulAut Q))
   exact Subgroup.subset_closure (by simp)
 
+omit [Finite Q] in
 private lemma S_mem_a₂ {fr' : Frame (MulAut Q)} : fr'.a₂ ∈ fr'.S := by
   change fr'.a₂ ∈ Subgroup.closure ({fr'.a₁, fr'.b₁, fr'.a₂, fr'.b₂, fr'.h₀} : Set (MulAut Q))
   exact Subgroup.subset_closure (by simp)
 
+omit [Finite Q] in
 private lemma S_mem_b₂ {fr' : Frame (MulAut Q)} : fr'.b₂ ∈ fr'.S := by
   change fr'.b₂ ∈ Subgroup.closure ({fr'.a₁, fr'.b₁, fr'.a₂, fr'.b₂, fr'.h₀} : Set (MulAut Q))
   exact Subgroup.subset_closure (by simp)
 
+omit [Finite Q] in
 private lemma S_mem_h₀ {fr' : Frame (MulAut Q)} : fr'.h₀ ∈ fr'.S := by
   change fr'.h₀ ∈ Subgroup.closure ({fr'.a₁, fr'.b₁, fr'.a₂, fr'.b₂, fr'.h₀} : Set (MulAut Q))
   exact Subgroup.subset_closure (by simp)
 
+omit [Finite Q] in
 private lemma S_mem_z {fr' : Frame (MulAut Q)} : fr'.z ∈ fr'.S := by
   change fr'.b₁ ^ 2 ∈ fr'.S
   exact pow_mem S_mem_b₁ 2
 
+omit [Finite Q] in
 private lemma sigma_conj_relator (h : fr.Fact11 (innerAut Q)) (x w : FreeGroup (Fin 6))
     (hr : ⁅x, FreeGroup.of 5⁆ * w⁻¹ ∈ Frame.rels11)
     (hx : FreeGroup.lift fr.gens11 x ∈ fr.S)
@@ -78,15 +91,18 @@ private lemma sigma_conj_relator (h : fr.Fact11 (innerAut Q)) (x w : FreeGroup (
       using hh _ hr
   exact conj_mem_of_rel hx hw hk
 
+omit [Finite Q] in
 theorem frame_S_le_inner (h : fr.Fact11 (innerAut Q)) : fr.S ≤ innerAut Q :=
   h.2.1.1
 
+omit [Finite Q] in
 theorem frame_sigma_sq (h : fr.Fact11 (innerAut Q)) : fr.σ ^ 2 = 1 := by
   obtain ⟨hh, -⟩ := h.1
   have hr : FreeGroup.of 5 ^ 2 ∈ Frame.rels11 := by simp [Frame.rels11]
   have hk := hh _ hr
   simpa only [map_pow, FreeGroup.lift_apply_of, gens11_5] using hk
 
+omit [Finite Q] in
 theorem frame_sigma_normalizes (h : fr.Fact11 (innerAut Q)) :
     fr.σ ∈ normalizer (fr.S : Set (MulAut Q)) := by
   have hσ2 : fr.σ ^ 2 = 1 := frame_sigma_sq fr h
@@ -139,7 +155,7 @@ theorem frame_sigma_normalizes (h : fr.Fact11 (innerAut Q)) :
     have hy' : y ∈ Subgroup.closure
         ({fr.a₁, fr.b₁, fr.a₂, fr.b₂, fr.h₀} : Set (MulAut Q)) := hy
     exact Subgroup.closure_induction (p := fun z _ => fr.σ * z * fr.σ⁻¹ ∈ fr.S)
-      (fun x hx => hgen x hx) (by simpa using Subgroup.one_mem fr.S)
+      (fun x hx => hgen x hx) (by simp)
       (fun x y _ _ ihx ihy => by
         rw [show fr.σ * (x * y) * fr.σ⁻¹
             = (fr.σ * x * fr.σ⁻¹) * (fr.σ * y * fr.σ⁻¹) by group]
@@ -156,9 +172,11 @@ theorem frame_sigma_normalizes (h : fr.Fact11 (innerAut Q)) :
     have hzz : fr.σ * (fr.σ * y * fr.σ⁻¹) * fr.σ⁻¹ ∈ fr.S := hconj _ hy
     rwa [sigma_conj_inv_of_sq hσ2] at hzz
 
+omit [Finite Q] in
 theorem frame_Sσ_isPGroup (h : fr.Fact11 (innerAut Q)) : IsPGroup 2 fr.Sσ :=
   h.2.2.2.1
 
+omit [Finite Q] in
 theorem frame_S_le_Sσ : fr.S ≤ fr.Sσ := by
   change Subgroup.closure ({fr.a₁, fr.b₁, fr.a₂, fr.b₂, fr.h₀} : Set (MulAut Q)) ≤
     Subgroup.closure ({fr.a₁, fr.b₁, fr.a₂, fr.b₂, fr.h₀, fr.σ} : Set (MulAut Q))
@@ -167,11 +185,13 @@ theorem frame_S_le_Sσ : fr.S ≤ fr.Sσ := by
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx ⊢
   tauto
 
+omit [Finite Q] in
 theorem frame_sigma_mem_Sσ : fr.σ ∈ fr.Sσ := by
   change fr.σ ∈ Subgroup.closure
     ({fr.a₁, fr.b₁, fr.a₂, fr.b₂, fr.h₀, fr.σ} : Set (MulAut Q))
   exact Subgroup.subset_closure (by simp)
 
+omit [Finite Q] in
 theorem frame_sigma_not_mem_inner (h : fr.Fact11 (innerAut Q))
     (hOut : (innerAut Q).index = 2) : fr.σ ∉ innerAut Q := by
   intro hσ
@@ -194,6 +214,7 @@ theorem frame_sigma_not_mem_inner (h : fr.Fact11 (innerAut Q))
   have hEven : 2 ∣ fr.Sσ.relIndex ⊤ := by rwa [Subgroup.relIndex_top_right]
   exact h.2.2.2.2 hEven
 
+omit [Finite Q] in
 theorem frame_inner_sup_sigma (h : fr.Fact11 (innerAut Q)) (hOut : (innerAut Q).index = 2) :
     innerAut Q ⊔ closure {fr.σ} = ⊤ := by
   have hσnot : fr.σ ∉ innerAut Q := frame_sigma_not_mem_inner fr h hOut

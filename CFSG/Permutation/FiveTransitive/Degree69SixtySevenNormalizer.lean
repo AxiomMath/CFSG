@@ -26,7 +26,7 @@ private theorem two_dvd_normalizer
     have hh : Nat.card (S : Subgroup P) = 1 := Subgroup.card_eq_one.mpr he
     rw [hS] at hh
     omega
-  have hf := Degree69SixtySevenData.fixed_card P hcard hfree (S : Subgroup P) S.isPGroup' hne
+  have hf := Degree69SixtySevenData.fixed_card P hcard hfree (S : Subgroup P) S.isPGroup hne
   have hi := AmbientSylowSmallFixedImage.sylow_fixed_image 67 2 (by norm_num) (by omega)
     P (by omega) h5 S hf
   have hF : Nat.card (Fixed (X := X) (S : Subgroup P)) = 2 := by rw [fixed_eq]; exact hf

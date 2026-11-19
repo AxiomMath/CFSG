@@ -87,7 +87,7 @@ theorem Hyp19.isElemAbelian {D : Data G} {V₀ V : Subgroup G} {p : ℕ} {L : Su
 @[expose] noncomputable def IOf (D : Data G) (p : ℕ) (L : Subgroup G) : Subgroup G :=
   if S17.jM D p = 4 then ⨆ K ∈ S17.calLp D p, K else conjClosure D.M L
 
-@[expose] def Setting1910 (D : Data G) (V₀ V : Subgroup G) (p : ℕ) (L : Subgroup G) : Prop :=
+@[expose] def Setting1910 (D : Data G) (_V₀ _V : Subgroup G) (p : ℕ) (L : Subgroup G) : Prop :=
   let n := S17.nOf L
   evenRank G = 3 ∧
     ((IsSp4 (Bar2 (IOf D p L)) n ∧ Odd n ∧ S17.SwapsParabolics D.T (IOf D p L) ∧
@@ -283,7 +283,7 @@ structure Ctx19_23 (D : Data G) (V₀ V : Subgroup G) (p : ℕ) (L : Subgroup G)
   hO2 : pCoreOf 2 H = ⊥
 
 @[expose] def P19_29 (V : CFSG.LocalAnalysis.UniquenessCase.UC22.F10.LieAutVocab10)
-    (K E A₀ S : Subgroup G) : Prop :=
+    (K E _A₀ S : Subgroup G) : Prop :=
   let N : Subgroup G := (K ⊔ E ⊔ (S ⊓ normalizer (K : Set G))) ⊓ normalizer (K : Set G)
   let f : ↥N →* MulAut ↥K :=
     (Subgroup.normalizerMonoidHom (H := K)).comp (Subgroup.inclusion inf_le_right)

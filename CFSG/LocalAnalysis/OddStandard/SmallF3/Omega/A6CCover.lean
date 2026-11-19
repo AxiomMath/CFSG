@@ -58,9 +58,9 @@ theorem mem_fixSub_a6cConj_iff (L : Subgroup G) {s : G} (hsN : s ∈ normalizer 
   invFun q := ⟨⟨(q : G), q.2.1⟩, (mem_fixSub_a6cConj_iff L hsN ⟨(q : G), q.2.1⟩).mpr
     (Subgroup.mem_centralizer_singleton_iff.mp (show (q : G) ∈ centralizer ({s} : Set G) from
       q.2.2)).symm⟩
-  left_inv p := rfl
-  right_inv q := rfl
-  map_mul' a b := rfl
+  left_inv _p := rfl
+  right_inv _q := rfl
+  map_mul' _a _b := rfl
 
 section Model
 

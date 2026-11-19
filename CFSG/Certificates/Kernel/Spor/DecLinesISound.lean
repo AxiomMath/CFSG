@@ -140,10 +140,10 @@ private theorem filterMap_pieces : ∀ (ps : List (List Char)),
       rw [ofList_isEmpty]
     rw [List.map_cons]
     by_cases hp : p.isEmpty = true
-    · rw [if_pos hp] at e
+    · rw [ite_eq_left hp] at e
       rw [List.filterMap_cons_none (f := fun t : String => if t.isEmpty then none else some t.toInt!)
         (a := String.ofList p) e, filterMap_pieces ps, List.filter_cons_of_neg (by simp [hp])]
-    · rw [if_neg hp] at e
+    · rw [ite_eq_right hp] at e
       rw [List.filterMap_cons_some (f := fun t : String => if t.isEmpty then none else some t.toInt!)
         (a := String.ofList p) e, filterMap_pieces ps,
         List.filter_cons_of_pos (by simpa using hp), List.map_cons]
@@ -173,14 +173,14 @@ private theorem restI_cons_ne {ch : Char} (h : (ch == '\n') = false) (d o : List
     (ne : Bool) : restI (ch :: d) o ne = restI d (o ++ [ch]) true := by
   unfold restI
   obtain ⟨r, ls, e⟩ := List.exists_cons_of_ne_nil (List.splitOnP_ne_nil (· == '\n') d)
-  rw [List.splitOnP_cons_eq_ite_modifyHead, if_neg (by simp [h]), e, List.modifyHead_cons]
+  rw [List.splitOnP_cons_eq_ite_modifyHead, ite_eq_right (by simp [h]), e, List.modifyHead_cons]
   simp
 
 private theorem restI_lf (d o : List Char) (ne : Bool) :
     restI ('\n' :: d) o ne = (if ne = true then (toksI o).map tokI ++ [0] else []) ++
       encodeLI (lnsI d) := by
   unfold restI
-  rw [List.splitOnP_cons_eq_ite_modifyHead, if_pos (by decide : ('\n' == '\n') = true)]
+  rw [List.splitOnP_cons_eq_ite_modifyHead, ite_eq_left (by decide : ('\n' == '\n') = true)]
   simp only [List.isEmpty_nil, Bool.not_true, Bool.or_false, List.append_nil, lnsI]
 
 private theorem sg_ne_sp (neg : Bool) {ds : List Char} (hd : ∀ c ∈ ds, c.isDigit = true) :
@@ -189,7 +189,7 @@ private theorem sg_ne_sp (neg : Bool) {ds : List Char} (hd : ∀ c ∈ ds, c.isD
   rcases List.mem_append.1 hc with hc | hc
   · cases neg
     · simp [sg] at hc
-    · simp only [sg, if_true, List.mem_singleton] at hc
+    · simp only [sg, ite_true, List.mem_singleton] at hc
       subst hc
       rfl
   · have h := hd c hc
@@ -225,7 +225,7 @@ private theorem endI_true {neg : Bool} {ds : List Char} {T : List Nat} {k : List
       obtain ⟨R, rfl, hk⟩ := emit_true h'
       refine ⟨R, ?_, hk⟩
       have e1 : sg false ++ c :: ds' = c :: ds' := rfl
-      rw [e1, if_neg (by simp), toInt!_digits hd hne, List.map_cons, List.map_nil,
+      rw [e1, ite_eq_right (by simp), toInt!_digits hd hne, List.map_cons, List.map_nil,
         List.cons_append, List.nil_append, tokI_natCast]
     · have h' : Bool.rec (motive := fun _ => Bool) false (emit (Nat.mul 2 (val (c :: ds'))) T k)
           (Nat.blt 0 (val (c :: ds'))) = true := h
@@ -233,7 +233,7 @@ private theorem endI_true {neg : Bool} {ds : List Char} {T : List Nat} {k : List
       obtain ⟨R, rfl, hk⟩ := emit_true h1
       refine ⟨R, ?_, hk⟩
       have e1 : sg true ++ c :: ds' = '-' :: c :: ds' := rfl
-      rw [e1, if_neg (by simp), toInt!_neg hd hne, List.map_cons, List.map_nil,
+      rw [e1, ite_eq_right (by simp), toInt!_neg hd hne, List.map_cons, List.map_nil,
         List.cons_append, List.nil_append, tokI_neg (Nat.blt_eq.mp h0)]
 
 private theorem runI_data (ch : Char) (cs : List Char) (cur : Nat) (num neg ne : Bool)
@@ -318,7 +318,7 @@ private theorem runI_data_sound : ∀ (d : List Char) (neg : Bool) (ds : List Ch
       unfold restI
       obtain ⟨r, ls, e⟩ := List.exists_cons_of_ne_nil (List.splitOnP_ne_nil (· == '\n') d)
       rw [List.splitOnP_cons_eq_ite_modifyHead,
-        if_neg (show ¬ ((' ' == '\n') = true) by decide), e, List.modifyHead_cons]
+        ite_eq_right (show ¬ ((' ' == '\n') = true) by decide), e, List.modifyHead_cons]
       dsimp only
       rw [toksI_space (sg_ne_sp neg hd)]
       simp
@@ -357,11 +357,11 @@ private theorem runI_header : ∀ (cs : List Char) (ne : Bool) (T : List Nat),
   | ch :: cs, ne, T, h => by
     rw [runI_head] at h
     by_cases h10 : Nat.beq ch.toNat 10 = true
-    · rw [if_pos h10] at h
+    · rw [ite_eq_left h10] at h
       obtain rfl := lf_of h10
       rw [Bool.and_eq_true] at h
       exact ⟨[], cs, rfl, Or.inl h.1, fun c hc => absurd hc List.not_mem_nil, h.2⟩
-    · rw [if_neg h10] at h
+    · rw [ite_eq_right h10] at h
       obtain ⟨hh, d, e, -, hn, hr⟩ := runI_header cs true T h
       refine ⟨ch :: hh, d, by rw [e]; rfl, Or.inr (List.cons_ne_nil _ _), fun c hc => ?_, hr⟩
       rcases List.mem_cons.1 hc with rfl | hc

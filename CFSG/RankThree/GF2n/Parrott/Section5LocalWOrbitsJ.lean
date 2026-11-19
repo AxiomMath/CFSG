@@ -41,37 +41,44 @@ variable [hN : ((J z).subgroupOf (H z)).Normal] (D : QuotientData (z := z) hN)
 private noncomputable def sigma54 (σ₂ : ↥(H z)) : G :=
   ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G)
 
+omit [Finite G] hN in
 private theorem z_ne_one (h : Tim79a.ParrottHyp z) : z ≠ 1 := by
   intro hz
   have h2 := h.1
   rw [hz, orderOf_one] at h2
   exact absurd h2 (by norm_num)
 
+omit [Finite G] hN in
 private theorem z_mul_self (h : Tim79a.ParrottHyp z) : z * z = 1 := by
   have := pow_orderOf_eq_one z
   rwa [h.1, pow_two] at this
 
+omit [Finite G] hN in
 private theorem eq_of_mul_z_eq {a b : G} (hz : z * z = 1) (h : a * z = b) :
     a = b * z := by
   calc a = a * z * z := by rw [mul_assoc, hz, mul_one]
     _ = b * z := by rw [h]
 
+omit [Finite G] hN in
 private theorem z1_ne_one {z₁ : G} (hz₁z : z₁ ∉ Subgroup.zpowers z) : z₁ ≠ 1 := by
   intro h
   apply hz₁z
   rw [h]
   exact Subgroup.one_mem _
 
+omit [Finite G] hN in
 private theorem z1_ne_z {z₁ : G} (hz₁z : z₁ ∉ Subgroup.zpowers z) : z₁ ≠ z := by
   intro h
   apply hz₁z
   rw [h]
   exact Subgroup.mem_zpowers z
 
+omit hN [Finite G] in
 private theorem z1_comm_z (h : Tim79a.ParrottHyp z) {z₁ : G}
     (hz₁ : z₁ ∈ centerIn (J z)) : z₁ * z = z * z₁ :=
   (Subgroup.mem_centralizer_iff.mp hz₁.2 z (z_mem_J h)).symm
 
+omit [Finite G] hN in
 private theorem z1z_ne_one (h : Tim79a.ParrottHyp z) {z₁ : G}
     (hz₁z : z₁ ∉ Subgroup.zpowers z) : z₁ * z ≠ 1 := by
   intro hz
@@ -81,6 +88,7 @@ private theorem z1z_ne_one (h : Tim79a.ParrottHyp z) {z₁ : G}
     _ = 1 * z := by rw [hz]
     _ = z := one_mul z
 
+omit [Finite G] hN in
 private theorem z1z_ne_z (h : Tim79a.ParrottHyp z) {z₁ : G}
     (hz₁z : z₁ ∉ Subgroup.zpowers z) : z₁ * z ≠ z := by
   intro hz
@@ -90,6 +98,7 @@ private theorem z1z_ne_z (h : Tim79a.ParrottHyp z) {z₁ : G}
     _ = z * z := by rw [hz]
     _ = 1 := z_mul_self h
 
+omit [Finite G] hN in
 private theorem z1_ne_z1z (h : Tim79a.ParrottHyp z) {z₁ : G} : z₁ ≠ z₁ * z := by
   intro heq
   have hz : z = 1 := by
@@ -97,6 +106,7 @@ private theorem z1_ne_z1z (h : Tim79a.ParrottHyp z) {z₁ : G} : z₁ ≠ z₁ *
     simpa [mul_assoc] using this.symm
   exact z_ne_one h hz
 
+omit hN [Finite G] in
 private theorem conj_z_eq_self_of_mem_H (h : Tim79a.ParrottHyp z) {c : G} (hc : c ∈ H z) :
     c * z * c⁻¹ = z := by
   have hzc : c * z = z * c :=
@@ -105,6 +115,7 @@ private theorem conj_z_eq_self_of_mem_H (h : Tim79a.ParrottHyp z) {c : G} (hc : 
     _ = (z * c) * c⁻¹ := by rw [hzc]
     _ = z := by group
 
+omit hN in
 private theorem conj_z1_eq_z1_or_mul (h : Tim79a.ParrottHyp z) {z₁ c : G}
     (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
     (hcH : c ∈ H z) : c * z₁ * c⁻¹ = z₁ ∨ c * z₁ * c⁻¹ = z₁ * z := by
@@ -115,11 +126,13 @@ private theorem conj_z1_eq_z1_or_mul (h : Tim79a.ParrottHyp z) {z₁ c : G}
     have hcj := conj_z1_eq_of_not_mem_centralizer h hz₁ hz₁z hord hcH hcC
     rwa [← z1_comm_z h hz₁] at hcj
 
+omit [Finite G] hN in
 private theorem isLabel_tau_mul (σ τ e : G) :
     IsLemma54Label (z := z) σ τ (τ * e) e := by
   refine ⟨1, Subgroup.mem_inf.mpr ⟨Subgroup.one_mem _, Subgroup.one_mem _⟩, ?_⟩
   simp
 
+omit [Finite G] hN in
 private theorem isLabel_mul_right {σ τ x e a : G}
     (hx : IsLemma54Label (z := z) σ τ x e) :
     IsLemma54Label (z := z) σ τ (x * a) (e * a) := by
@@ -128,8 +141,9 @@ private theorem isLabel_mul_right {σ τ x e a : G}
   calc x * a = (q * τ * q⁻¹ * e) * a := by rw [hx]
     _ = q * τ * q⁻¹ * (e * a) := by group
 
+omit [Finite G] in
 private theorem eq_of_mul_tau_eq_tau_mul {τ e n : G} (hτ : τ * τ = 1)
-    (heτ : e * τ = τ * e) (he2 : e * e = 1) (h : n * τ = τ * e) : n = e := by
+    (heτ : e * τ = τ * e) (_he2 : e * e = 1) (h : n * τ = τ * e) : n = e := by
   calc n = n * τ * τ := by rw [mul_assoc, hτ, mul_one]
     _ = (τ * e) * τ := by rw [h]
     _ = τ * (e * τ) := by rw [mul_assoc]
@@ -137,6 +151,7 @@ private theorem eq_of_mul_tau_eq_tau_mul {τ e n : G} (hτ : τ * τ = 1)
     _ = (τ * τ) * e := by rw [mul_assoc]
     _ = e := by rw [hτ, one_mul]
 
+omit [Finite G] in
 private theorem eq_tau_mul_of_mul_tau_eq {x e τ : G} (hτ : τ * τ = 1)
     (heτ : e * τ = τ * e) (h : x * τ = e) : x = τ * e := by
   calc x = x * τ * τ := by rw [mul_assoc, hτ, mul_one]
@@ -190,6 +205,7 @@ private theorem isLabel_mul_tau_of_mem_centerIn (h : Tim79a.ParrottHyp z) (P : G
   simpa [hcomm] using
     isLabel_tau_mul (z := z) ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G) a
 
+omit [Finite G] in
 private theorem tau_not_mem_J {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) :
     (τ : G) ∉ J z := by
   intro hτJ
@@ -200,13 +216,16 @@ private theorem tau_not_mem_J {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) :
     exact hq
   exact t_ne_one (congrArg Subtype.val h1)
 
+omit [Finite G] hN in
 private theorem tau_mem_lemma54W (σ τ : G) : τ ∈ lemma54W z σ τ :=
   Subgroup.mem_sup_right (Subgroup.mem_zpowers τ)
 
+omit [Finite G] hN in
 private theorem tau_mul_self_val {τ : ↥(H z)} (hτ : τ * τ = 1) :
     (τ : G) * (τ : G) = 1 := by
   simpa using congrArg Subtype.val hτ
 
+omit [Finite G] hN in
 private theorem tau_inv_val {τ : ↥(H z)} (hτ : τ * τ = 1) :
     (τ : G)⁻¹ = (τ : G) :=
   inv_eq_of_mul_eq_one_right (tau_mul_self_val hτ)
@@ -234,7 +253,7 @@ private theorem exists_label_tau_of_mem_W_J (h : Tim79a.ParrottHyp z) (P : GL8)
 
 private theorem mem_O2_or_O3_of_label (h : Tim79a.ParrottHyp z) {z₁ : G}
     (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
-    {σ₂ : ↥(H z)} (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
+    {σ₂ : ↥(H z)} (_hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
     {τ : ↥(H z)} {a e : G} (haJ : a ∈ J z) (he : e ∈ centerIn (J z))
     (hlab : IsLemma54Label (z := z) (sigma54 D σ₂) (τ : G) (a * (τ : G)) e) :
     a = 1 ∨ a = z ∨ a = z₁ ∨ a = z₁ * z ∨
@@ -288,7 +307,7 @@ theorem mem_lemma54O2_or_mem_lemma54O3 (h : Tim79a.ParrottHyp z) {z₁ : G}
   exact mem_O2_or_O3_of_label (z := z) (D := D) h hz₁ hz₁z hord hc₂ haJ he hlab
 
 theorem mem_lemma54W_of_mem_lemma54O2 (h : Tim79a.ParrottHyp z) {z₁ : G}
-    (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
+    (_hz₁ : z₁ ∈ centerIn (J z)) (_hz₁z : z₁ ∉ Subgroup.zpowers z) (_hord : orderOf z₁ = 2)
     (P : GL8) (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
     {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
     (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
@@ -297,7 +316,7 @@ theorem mem_lemma54W_of_mem_lemma54O2 (h : Tim79a.ParrottHyp z) {z₁ : G}
     {a : G} (ha : a ∈ lemma54O2 (z := z) ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G)) :
     a ∈ lemma54W z ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G) ∧ a ∈ J z ∧
       a ∉ centerIn (J z) := by
-  simp only [lemma54O2, Set.mem_setOf_eq] at ha
+  simp only [lemma54O2, Set.mem_ofPred_eq] at ha
   obtain ⟨haJ, hlab, ha1, haz⟩ := ha
   have hτG : (τ : G) * (τ : G) = 1 := tau_mul_self_val hτ
   have hτW : (τ : G) ∈ lemma54W z
@@ -332,7 +351,7 @@ theorem mem_lemma54W_of_mem_lemma54O2 (h : Tim79a.ParrottHyp z) {z₁ : G}
     exact haz heq.symm
 
 theorem mem_lemma54W_of_mem_lemma54O3 (h : Tim79a.ParrottHyp z) {z₁ : G}
-    (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
+    (hz₁ : z₁ ∈ centerIn (J z)) (_hz₁z : z₁ ∉ Subgroup.zpowers z) (_hord : orderOf z₁ = 2)
     (P : GL8) (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
     {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
     (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
@@ -342,7 +361,7 @@ theorem mem_lemma54W_of_mem_lemma54O3 (h : Tim79a.ParrottHyp z) {z₁ : G}
     (ha : a ∈ lemma54O3 (z := z) ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G) z₁) :
     a ∈ lemma54W z ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G) ∧ a ∈ J z ∧
       a ∉ centerIn (J z) := by
-  simp only [lemma54O3, Set.mem_setOf_eq] at ha
+  simp only [lemma54O3, Set.mem_ofPred_eq] at ha
   obtain ⟨haJ, hlab, hz1a, hz1za⟩ := ha
   have hτG : (τ : G) * (τ : G) = 1 := tau_mul_self_val hτ
   have hτW : (τ : G) ∈ lemma54W z
@@ -378,7 +397,7 @@ theorem mem_lemma54W_of_mem_lemma54O3 (h : Tim79a.ParrottHyp z) {z₁ : G}
     exact hz1za heq.symm
 
 theorem disjoint_lemma54O2_lemma54O3 (h : Tim79a.ParrottHyp z) {z₁ : G}
-    (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
+    (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) (_hord : orderOf z₁ = 2)
     (P : GL8) (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
     {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
     (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
@@ -388,8 +407,8 @@ theorem disjoint_lemma54O2_lemma54O3 (h : Tim79a.ParrottHyp z) {z₁ : G}
       (lemma54O3 (z := z) ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G) z₁) := by
   rw [Set.disjoint_left]
   intro a ha2 ha3
-  simp only [lemma54O2, Set.mem_setOf_eq] at ha2
-  simp only [lemma54O3, Set.mem_setOf_eq] at ha3
+  simp only [lemma54O2, Set.mem_ofPred_eq] at ha2
+  simp only [lemma54O3, Set.mem_ofPred_eq] at ha3
   obtain ⟨-, hlab2, -⟩ := ha2
   obtain ⟨-, hlab3, -⟩ := ha3
   have hz1z_mem : z₁ * z ∈ centerIn (J z) := (centerIn (J z)).mul_mem hz₁ (z_mem_centerIn_J h)
@@ -435,10 +454,10 @@ private theorem ncard_labelPair_union (h : Tim79a.ParrottHyp z) (P : GL8)
     ncard_setOf_isLemma54Label (z := z) (D := D) h P hP hσ₂ hq₂ hc₂ hqτ hτ hτ₁ hτ₂ he₂]
 
 private theorem ncard_labelPair_image_mem (h : Tim79a.ParrottHyp z) (P : GL8)
-    (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
-    {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
-    (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
-    {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) (hτ : τ * τ = 1)
+    (_hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
+    {σ₂ : ↥(H z)} (_hσ₂ : orderOf σ₂ = 3) (_hq₂ : qH (z := z) D σ₂ = s2A)
+    (_hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
+    {τ : ↥(H z)} (_hqτ : qH (z := z) D τ = tA) (hτ : τ * τ = 1)
     {e₁ e₂ : G} (he₁τ : e₁ * (τ : G) = (τ : G) * e₁)
     (he₂τ : e₂ * (τ : G) = (τ : G) * e₂) (he₁sq : e₁ * e₁ = 1) (he₂sq : e₂ * e₂ = 1)
     {n : G} (hn : n ∈ lemma54O (z := z) e₁ e₂ (sigma54 D σ₂) (τ : G)) :
@@ -447,7 +466,7 @@ private theorem ncard_labelPair_image_mem (h : Tim79a.ParrottHyp z) (P : GL8)
         {y : G | IsLemma54Label (z := z) (sigma54 D σ₂) (τ : G) y e₂}) \
       ({(τ : G) * e₁, (τ : G) * e₂} : Set G) := by
   have hτG : (τ : G) * (τ : G) = 1 := tau_mul_self_val hτ
-  simp only [lemma54O, sigma54, Set.mem_setOf_eq] at hn
+  simp only [lemma54O, sigma54, Set.mem_ofPred_eq] at hn
   obtain ⟨-, hlab, hn₁, hn₂⟩ := hn
   simp only [sigma54]
   refine ⟨?_, ?_⟩
@@ -461,6 +480,7 @@ private theorem ncard_labelPair_image_mem (h : Tim79a.ParrottHyp z) (P : GL8)
     · intro h
       exact hn₂ (eq_of_mul_tau_eq_tau_mul hτG he₂τ he₂sq h)
 
+omit [Finite G] hN in
 private theorem label_of_mem_labelPair {σ τ e₁ e₂ x : G}
     (he₁ : e₁ ∈ centerIn (J z)) (he₂ : e₂ ∈ centerIn (J z))
     (hxL : x ∈
@@ -498,7 +518,7 @@ private theorem ncard_labelPair_preimage_J (h : Tim79a.ParrottHyp z) (P : GL8)
         _ = x * (τ : G) := by rw [hτG, one_mul]
     rwa [hconj] at h
 
-private theorem ncard_labelPair_preimage_mem (h : Tim79a.ParrottHyp z)
+private theorem ncard_labelPair_preimage_mem (_h : Tim79a.ParrottHyp z)
     {σ₂ : ↥(H z)} {τ : ↥(H z)} (hτ : τ * τ = 1) {e₁ e₂ x e : G}
     (hepair : e = e₁ ∨ e = e₂) (hxlab : IsLemma54Label (z := z) (sigma54 D σ₂) (τ : G) x e)
     (hxpair : x ∉ ({(τ : G) * e₁, (τ : G) * e₂} : Set G))
@@ -506,7 +526,7 @@ private theorem ncard_labelPair_preimage_mem (h : Tim79a.ParrottHyp z)
     (hxτJ : x * (τ : G) ∈ J z) :
     x * (τ : G) ∈ lemma54O (z := z) e₁ e₂ (sigma54 D σ₂) (τ : G) := by
   have hτG : (τ : G) * (τ : G) = 1 := tau_mul_self_val hτ
-  simp only [lemma54O, Set.mem_setOf_eq]
+  simp only [lemma54O, Set.mem_ofPred_eq]
   refine ⟨hxτJ, ?_, ?_, ?_⟩
   · have hlab : IsLemma54Label (z := z) (sigma54 D σ₂) (τ : G)
         (x * (τ : G) * (τ : G)) e := by
@@ -615,7 +635,7 @@ private theorem ncard_labelPair (h : Tim79a.ParrottHyp z) (P : GL8)
       he₁ he₂ he₁₂]
 
 theorem ncard_lemma54O2 (h : Tim79a.ParrottHyp z) {z₁ : G}
-    (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
+    (_hz₁ : z₁ ∈ centerIn (J z)) (_hz₁z : z₁ ∉ Subgroup.zpowers z) (_hord : orderOf z₁ = 2)
     (P : GL8) (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
     {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
     (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
@@ -627,7 +647,7 @@ theorem ncard_lemma54O2 (h : Tim79a.ParrottHyp z) {z₁ : G}
       (e₁ := 1) (e₂ := z) (Subgroup.one_mem _) (z_mem_centerIn_J h) (z_ne_one h).symm)
 
 theorem ncard_lemma54O3 (h : Tim79a.ParrottHyp z) {z₁ : G}
-    (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
+    (hz₁ : z₁ ∈ centerIn (J z)) (_hz₁z : z₁ ∉ Subgroup.zpowers z) (_hord : orderOf z₁ = 2)
     (P : GL8) (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
     {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
     (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
@@ -643,12 +663,12 @@ private theorem mul_z_mem_O2 (h : Tim79a.ParrottHyp z) (P : GL8)
     (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
     {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
     (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
-    {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) (hτ : τ * τ = 1)
+    {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) (_hτ : τ * τ = 1)
     (hτ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ)
     (hτ₂ : τ * σ₂ = σ₂ * τ) {a : G}
     (ha : a ∈ lemma54O2 (z := z) (sigma54 D σ₂) (τ : G)) :
     a * z ∈ lemma54O2 (z := z) (sigma54 D σ₂) (τ : G) := by
-  simp only [lemma54O2, Set.mem_setOf_eq] at ha
+  simp only [lemma54O2, Set.mem_ofPred_eq] at ha
   obtain ⟨haJ, hlab, ha1, haz⟩ := ha
   have hz2 : z * z = 1 := z_mul_self h
   have hzτ : z * (τ : G) = (τ : G) * z :=
@@ -681,7 +701,7 @@ private theorem mul_z_mem_O3 (h : Tim79a.ParrottHyp z) (P : GL8)
     (hτ₂ : τ * σ₂ = σ₂ * τ) {a z₁ : G}
     (ha : a ∈ lemma54O3 (z := z) (sigma54 D σ₂) (τ : G) z₁) :
     a * z ∈ lemma54O3 (z := z) (sigma54 D σ₂) (τ : G) z₁ := by
-  simp only [lemma54O3, Set.mem_setOf_eq] at ha
+  simp only [lemma54O3, Set.mem_ofPred_eq] at ha
   obtain ⟨haJ, hlab, hz1a, hz1za⟩ := ha
   have hz2 : z * z = 1 := z_mul_self h
   have hzτ : z * (τ : G) = (τ : G) * z :=
@@ -706,7 +726,7 @@ private theorem mul_z_mem_O3 (h : Tim79a.ParrottHyp z) (P : GL8)
     exact hz1a (by simpa [mul_assoc, hz2] using eq_of_mul_z_eq (z := z) hz2 hb)
 
 theorem mul_z_mem_lemma54O2 (h : Tim79a.ParrottHyp z) {z₁ : G}
-    (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
+    (_hz₁ : z₁ ∈ centerIn (J z)) (_hz₁z : z₁ ∉ Subgroup.zpowers z) (_hord : orderOf z₁ = 2)
     (P : GL8) (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
     {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
     (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
@@ -835,6 +855,7 @@ private theorem exists_label_conj_f (h : Tim79a.ParrottHyp z) (P : GL8)
   · right
     rwa [hxeq] at hmul
 
+omit [Finite G] hN in
 private theorem eq_or_of_center_mul {ℓ f A : G} (hℓ2 : ℓ * ℓ = 1) (hℓf : ℓ * f = f * ℓ)
     (hEq : ℓ * A = f * ℓ ∨ ℓ * A = f * ℓ * z) : A = f ∨ A = f * z := by
   rcases hEq with hEq | hEq
@@ -942,6 +963,7 @@ private theorem exists_label_conj (h : Tim79a.ParrottHyp z) (P : GL8)
     calc f = f * z * z := by rw [mul_assoc, z_mul_self h, mul_one]
       _ = (c * e * c⁻¹) * z := by rw [← hAfz]
 
+omit [Finite G] hN in
 private theorem mem_pair_of_conj_label {e₁ e₂ f A : G}
     (hfor : f = A ∨ f = A * z) (hA : A = e₁ ∨ A = e₂)
     (hz₁ : e₁ * z = e₂) (hz₂ : e₂ * z = e₁) : f = e₁ ∨ f = e₂ := by
@@ -952,6 +974,7 @@ private theorem mem_pair_of_conj_label {e₁ e₂ f A : G}
     · rw [hA, hz₁]; right; rfl
     · rw [hA, hz₂]; left; rfl
 
+omit [Finite G] in
 private theorem ne_pair_of_conj {c a e₁ e₂ : G}
     (hci₁ : c⁻¹ * e₁ * c = e₁ ∨ c⁻¹ * e₁ * c = e₂)
     (hci₂ : c⁻¹ * e₂ * c = e₁ ∨ c⁻¹ * e₂ * c = e₂)
@@ -1028,7 +1051,7 @@ private theorem mem_O2_of_conj (h : Tim79a.ParrottHyp z) (P : GL8)
       have ha' : a ∈ lemma54O (z := z) 1 z (sigma54 D σ₂) (τ : G) := by
         simpa only [lemma54O2, lemma54O] using ha
       obtain ⟨haJ, hlab, ha1, haz⟩ := by
-        simpa only [lemma54O, Set.mem_setOf_eq] using ha'
+        simpa only [lemma54O, Set.mem_ofPred_eq] using ha'
       obtain ⟨hc1, hcH⟩ := Subgroup.mem_inf.mp hc
       have hz2 : z * z = 1 := z_mul_self h
       have hcz : c * z * c⁻¹ = z := conj_z_eq_self_of_mem_H h hcH
@@ -1042,6 +1065,7 @@ private theorem mem_O2_of_conj (h : Tim79a.ParrottHyp z) (P : GL8)
           hc haJ ha1 haz (z_mem_centerIn_J h) hlab (Or.inr rfl) (Or.inl (by group))
           (Or.inr hcz) (Or.inl hci1) (Or.inr hci2) (by rw [one_mul]) hz2)
 
+omit hN in
 private theorem conj_z1_pair (h : Tim79a.ParrottHyp z) {z₁ c : G}
     (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
     (hcH : c ∈ H z) :
@@ -1092,7 +1116,7 @@ private theorem mem_O3_of_conj (h : Tim79a.ParrottHyp z) {z₁ : G}
       have ha' : a ∈ lemma54O (z := z) z₁ (z₁ * z) (sigma54 D σ₂) (τ : G) := by
         simpa only [lemma54O3, lemma54O] using ha
       obtain ⟨haJ, hlab, hz1a, hz1za⟩ := by
-        simpa only [lemma54O, Set.mem_setOf_eq] using ha'
+        simpa only [lemma54O, Set.mem_ofPred_eq] using ha'
       obtain ⟨hc1, hcH⟩ := Subgroup.mem_inf.mp hc
       obtain ⟨hce1, hce2, hci1, hci2⟩ :=
         conj_z1_pair (z := z) h hz₁ hz₁z hord hcH
@@ -1124,14 +1148,16 @@ theorem conj_mem_lemma54O2 (h : Tim79a.ParrottHyp z) {z₁ : G}
     fun a ha => mem_O3_of_conj (z := z) (D := D) h hz₁ hz₁z hord P hP hσ₂ hq₂ hc₂ hqτ hτ
       hτ₁ hτ₂ hc ha⟩
 
+omit [Finite G] hN in
 private theorem mem_J_of_mem_O2 {σ τ : G} {a : G}
     (ha : a ∈ lemma54O2 (z := z) σ τ) : a ∈ J z := by
-  simp only [lemma54O2, Set.mem_setOf_eq] at ha
+  simp only [lemma54O2, Set.mem_ofPred_eq] at ha
   exact ha.1
 
+omit [Finite G] hN in
 private theorem mem_J_of_mem_O3 {σ τ z₁ a : G}
     (ha : a ∈ lemma54O3 (z := z) σ τ z₁) : a ∈ J z := by
-  simp only [lemma54O3, Set.mem_setOf_eq] at ha
+  simp only [lemma54O3, Set.mem_ofPred_eq] at ha
   exact ha.1
 
 private def SixDistinct (z : G) (a g gi : G) : Prop :=
@@ -1143,6 +1169,7 @@ private def SixDistinct (z : G) (a g gi : G) : Prop :=
 private noncomputable def sixFun (z : G) (a g gi : G) : Fin 6 → G :=
   ![a, a * z, g, g * z, gi, gi * z]
 
+omit [Finite G] hN in
 private theorem six_injective {a g gi : G} (h : SixDistinct z a g gi) :
     Function.Injective (sixFun z a g gi) := by
   obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14, h15⟩ := h
@@ -1152,9 +1179,6 @@ private theorem six_injective {a g gi : G} (h : SixDistinct z a g gi) :
   intro i j hij
   fin_cases i <;> fin_cases j <;> simp [sixFun] at hij ⊢ <;>
     first
-    | rfl
-    | exact h1 hij
-    | exact h1 hij.symm
     | exact h2 hij
     | exact h2 hij.symm
     | exact h3 hij
@@ -1165,32 +1189,23 @@ private theorem six_injective {a g gi : G} (h : SixDistinct z a g gi) :
     | exact h5 hij.symm
     | exact h6 hij
     | exact h6 hij.symm
-    | exact h7 hij
-    | exact h7 hij.symm
     | exact h8 hij
     | exact h8 hij.symm
-    | exact h9 hij
-    | exact h9 hij.symm
-    | exact h10 hij
-    | exact h10 hij.symm
     | exact h11 hij
     | exact h11 hij.symm
     | exact h12 hij
     | exact h12 hij.symm
     | exact h13 hij
     | exact h13 hij.symm
-    | exact h14 hij
-    | exact h14 hij.symm
-    | exact h15 hij
-    | exact h15 hij.symm
     | exact hz hij
-    | exact hz hij.symm
 
+omit [Finite G] hN in
 private theorem six_ncard {a g gi : G} (h : SixDistinct z a g gi) :
     (Set.range (sixFun z a g gi)).ncard = 6 := by
   rw [Set.ncard_range_of_injective (six_injective h)]
   simp
 
+omit hN in
 private theorem six_eq_range {X : Set G} {a g gi : G} (h : SixDistinct z a g gi)
     (ha : a ∈ X) (haz : a * z ∈ X) (hg : g ∈ X) (hgz : g * z ∈ X)
     (hgi : gi ∈ X) (hgiz : gi * z ∈ X) (hXcard : X.ncard = 6) :
@@ -1207,6 +1222,7 @@ private theorem six_eq_range {X : Set G} {a g gi : G} (h : SixDistinct z a g gi)
     · simpa [sixFun] using hgiz
   exact (Set.eq_of_subset_of_ncard_le hsub (by rw [hXcard, hS_ncard])).symm
 
+omit hN [Finite G] in
 private theorem six_ineq (h : Tim79a.ParrottHyp z) {a g gi : G}
     (hneq_a : ∀ e ∈ centerIn (J z), g ≠ a * e)
     (hneq_gi : ∀ e ∈ centerIn (J z), a ≠ gi * e)
@@ -1283,12 +1299,12 @@ private theorem sigma54_sqinv (D : QuotientData (z := z) hN)
   eq_inv_of_mul_eq_one_left hσ1
 
 private theorem gi_ne_g_mul (h : Tim79a.ParrottHyp z) (P : GL8)
-    (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
-    {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
-    (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
-    {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) (hτ : τ * τ = 1)
-    (hτ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ)
-    (hτ₂ : τ * σ₂ = σ₂ * τ) {a e : G} (he : e ∈ centerIn (J z))
+    (_hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
+    {σ₂ : ↥(H z)} (_hσ₂ : orderOf σ₂ = 3) (_hq₂ : qH (z := z) D σ₂ = s2A)
+    (_hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
+    {τ : ↥(H z)} (_hqτ : qH (z := z) D τ = tA) (_hτ : τ * τ = 1)
+    (_hτ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ)
+    (_hτ₂ : τ * σ₂ = σ₂ * τ) {a e : G} (he : e ∈ centerIn (J z))
     (hneq_a : ∀ e ∈ centerIn (J z),
       ((sigma1Nine (z := z) D : ↥(H z)) : G) * a *
         ((sigma1Nine (z := z) D : ↥(H z)) : G)⁻¹ ≠ a * e) :
@@ -1451,7 +1467,7 @@ private theorem exists_conj_to_sixFun (h : Tim79a.ParrottHyp z) (P : GL8)
   · exact conj_to_gi (z := z) (D := D) h P hP hσ₂ hq₂ hc₂ hqτ hτ hτ₁ hτ₂ hmemN hXZ hgiaX hgi
       (Or.inr rfl)
 
-private theorem memN_of_mem_X (h : Tim79a.ParrottHyp z)
+private theorem memN_of_mem_X (_h : Tim79a.ParrottHyp z)
     {σ₂ : ↥(H z)} {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) (hτ : τ * τ = 1)
     {X : Set G}
     (hXJ : X ⊆ J z)
@@ -1616,16 +1632,16 @@ theorem exists_conj_eq_of_mem_lemma54O2 (h : Tim79a.ParrottHyp z) {z₁ : G}
         hc₂ hqτ hτ hτ₁ hτ₂ hc).2 a ha)
 
 private theorem mul_z1_mem_O3 (h : Tim79a.ParrottHyp z) {z₁ : G}
-    (hz₁ : z₁ ∈ centerIn (J z)) (hz₁z : z₁ ∉ Subgroup.zpowers z) (hord : orderOf z₁ = 2)
+    (hz₁ : z₁ ∈ centerIn (J z)) (_hz₁z : z₁ ∉ Subgroup.zpowers z) (_hord : orderOf z₁ = 2)
     (P : GL8) (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
     {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
     (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
-    {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) (hτ : τ * τ = 1)
+    {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA) (_hτ : τ * τ = 1)
     (hτ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ)
     (hτ₂ : τ * σ₂ = σ₂ * τ) {a : G}
     (ha : a ∈ lemma54O2 (z := z) ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G)) :
     a * z₁ ∈ lemma54O3 (z := z) ((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G) (τ : G) z₁ := by
-  simp only [lemma54O2, Set.mem_setOf_eq] at ha
+  simp only [lemma54O2, Set.mem_ofPred_eq] at ha
   obtain ⟨haJ, hlab, ha1, haz⟩ := ha
   have hz1τ : z₁ * (τ : G) = (τ : G) * z₁ :=
     z1_comm_tau (z := z) (D := D) h hz₁ P hP hσ₂ hq₂ hc₂ hqτ hτ₁ hτ₂

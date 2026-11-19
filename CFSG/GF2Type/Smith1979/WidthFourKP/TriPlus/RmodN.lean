@@ -26,7 +26,7 @@ theorem card_RmodN_eq_thirtysix {S : Setting G} {g : G} (H : Hyp4 S g) (C : Cons
     by_cases hv0 : v = 0
     · rw [hv0, map_zero]
     · exact (hsing v hv0).mpr (hP v hv hv0)
-  haveI : Finite (Vt S g t ≃ₗ[ZMod 2] Vt S g t) := finite_linearEquiv_of_finite
+  have : Finite (Vt S g t ≃ₗ[ZMod 2] Vt S g t) := finite_linearEquiv_of_finite
   have hcardZ := CFSG.GroupTheory.WeirSylow.natCard_orthogonalGroup_of_type
     (K := ZMod 2) (V := Vt S g t) hQ (m := 1) (by rw [h4]) (ε := 1)
     (Or.inl ⟨rfl, hplusQ⟩)
@@ -37,7 +37,7 @@ theorem card_RmodN_eq_thirtysix {S : Setting G} {g : G} (H : Hyp4 S g) (C : Cons
   rw [h72] at hcardZ
   have hcardO : Nat.card (TauCeti.QuadraticMap.orthogonalGroup Q) = 72 :=
     Nat.cast_injective hcardZ
-  haveI : Nontrivial (Vt S g t) := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+  have : Nontrivial (Vt S g t) := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
   have hidx := Subgroup.relIndex_mul_card (omegaGroup Q hQ)
     (TauCeti.QuadraticMap.orthogonalGroup Q)
   rw [inf_eq_left.mpr (omegaGroup_le Q hQ), relIndex_omegaGroup] at hidx

@@ -157,6 +157,7 @@ theorem tree_pos {XC SD : Nat → Nat} {N NL : Nat} (hNL : N ≤ 133 * NL)
   Nat.lt_of_lt_of_le (Nat.le_of_ble_eq_true h0)
     (key_min_of_order (order_facts hNL h).1 (order_facts hNL h).2 k hk)
 
+set_option exponentiation.threshold 53200 in
 theorem chunks_lt {XC : Nat → Nat} {n : Nat}
     (h : CFSG.KC.Loop.allBelow n (n / 64 + 1) (fun i => Nat.beq (Nat.shiftRight (XC i) 53200) 0) =
       true) : ∀ i < n, XC i < 2 ^ 53200 := by

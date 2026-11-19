@@ -76,7 +76,7 @@ theorem subBody_chevalley {τ : Tag}
       (LargeEvenCenterQuot (LargeEvenChevH τ.cartan K false)) I
       (LargeEvenChevFieldImage τ.cartan K (LargeEvenChevH τ.cartan K false)) := by
   have hu : 0 < chevExp τ := by rcases hτ with rfl | rfl | rfl | rfl | rfl <;> decide
-  haveI : Finite ↥(LargeEvenChevH τ.cartan K false) := by
+  have : Finite ↥(LargeEvenChevH τ.cartan K false) := by
     refine Nat.finite_of_card_ne_zero ?_
     rw [card_chevH]
     obtain ⟨r, hr, h⟩ := card_adjointGroup_spec hτ hm hK

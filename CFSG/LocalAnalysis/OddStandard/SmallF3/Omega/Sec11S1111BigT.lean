@@ -19,7 +19,7 @@ theorem sec11_dihSd_of_input [Finite G] (hB4 : Asc82InputDihSd) {H R D X : Subgr
     (hcl : ∀ x ∈ H, x ∈ normalizer (D : Set G) → x ∉ D → orderOf x = 2 →
       ∀ d ∈ D, orderOf d = 2 → ∀ g ∈ H, g⁻¹ * x * g ≠ d) :
     ∃ P : Subgroup G, IsSylow2Of P X ∧ IsDihSd P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hgens : {s : G | ∃ h ∈ H, s = h⁻¹ * t * h} ⊆ (H : Set G) := by
     rintro s ⟨h, hh, rfl⟩
     exact H.mul_mem (H.mul_mem (H.inv_mem hh) htH) hh
@@ -70,7 +70,7 @@ theorem sec11_dihSd_of_input [Finite G] (hB4 : Asc82InputDihSd) {H R D X : Subgr
     (Subgroup.normal_subgroupOf_iff_le_normalizer hXH).mpr hHnormX
   have hNormClosure_le :
       Subgroup.normalClosure (D.subgroupOf H : Set ↥H) ≤ X.subgroupOf H := by
-    haveI := hXsub_normal
+    have := hXsub_normal
     exact Subgroup.normalClosure_le_normal hDsub_le
   have hNormClosure_ge :
       X.subgroupOf H ≤ Subgroup.normalClosure (D.subgroupOf H : Set ↥H) := by

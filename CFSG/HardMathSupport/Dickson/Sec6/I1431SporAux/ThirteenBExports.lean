@@ -81,7 +81,7 @@ theorem babyInv_zero_of_nineteen_dvd {f : NativeSporadic.B} (hf : orderOf f = 2)
 theorem b13_exports {y : NativeSporadic.B} (hy : orderOf y = 13) :
     {s : NativeSporadic.B | BabyInv 0 s ∧ s * y = y * s}.ncard ≤ 9 ∧
       Nat.card (centralizer ({y} : Set NativeSporadic.B)) ≤ 468 := by
-  haveI hfin : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have hfin : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   have hp2 : ¬ 13 ^ 2 ∣ Nat.card NativeSporadic.B := by
     rw [CFSG.RankThree.OddKernel.card_B_eq]
     norm_num

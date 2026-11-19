@@ -68,8 +68,8 @@ private theorem levi_hom_ext {K G : Type} [Group K] [Group G] {I : Type} [Decida
 private theorem cartanD_five_eq_zero (k l : Fin 5) (hk : k.val ≤ 1) (hl : 3 ≤ l.val) :
     cartanD 5 k l = 0 := by
   have hkl : k ≠ l := fun h => by rw [h] at hk; omega
-  simp only [cartanD, Matrix.of_apply, if_neg hkl]
-  rw [if_neg (by omega)]
+  simp only [cartanD, Matrix.of_apply, ite_eq_right hkl]
+  rw [ite_eq_right (by omega)]
 
 private theorem five_nodes_cases (J : Finset (Fin 5)) (hJ : J.card ≤ 2) :
     (∀ k ∈ J, k.val ≤ 2) ∨ (∀ k ∈ J, 2 ≤ k.val) ∨
@@ -192,7 +192,7 @@ theorem exists_hom_spinTen_of_two_charts (Θ : spinGroup (quadPlus 5 F) ≃* X) 
   have hρP : ∀ (k : Fin 5) (hk : k.val ≤ 2) (x : spinTenRankOne F k),
       ρ k x = φ ⟨Θ x, hP k hk (Subgroup.mem_map_of_mem _ x.2)⟩ := by
     intro k hk x
-    simp only [ρ, dif_pos hk]
+    simp only [ρ, dite_eq_left hk]
     rfl
   have hρA : ∀ (k : Fin 5) (hk : 2 ≤ k.val) (x : spinTenRankOne F k),
       ρ k x = α ⟨Θ x, hA k hk (Subgroup.mem_map_of_mem _ x.2)⟩ := by
@@ -202,7 +202,7 @@ theorem exists_hom_spinTen_of_two_charts (Θ : spinGroup (quadPlus 5 F) ≃* X) 
       subst hk'
       rw [hρP 2 hk2 x]
       exact hagree x
-    · simp only [ρ, dif_neg hk2]
+    · simp only [ρ, dite_eq_right hk2]
       rfl
   obtain ⟨Ψ, hΨ⟩ := exists_hom_spinTen_of_rankOne Θ ρ fun J hJ => by
     rcases five_nodes_cases J hJ with hJ | hJ | ⟨k, l, hk, hl, rfl⟩

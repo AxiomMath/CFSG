@@ -49,7 +49,7 @@ theorem kgfniSp_selfDualBlock_coord {K : Type} [Field K] [Fintype K] [CharP K 2]
               B * Matrix.GeneralLinearGroup.map τ.toRingHom ((eG g : GUFull m Q E) : GL (Fin m) E) *
                 B⁻¹ := by
   classical
-  haveI hKchar : CharP K 2 := ‹CharP K 2›
+  have hKchar : CharP K 2 := ‹CharP K 2›
   let β : StatedSp n K := ⟨u, hu⟩
   have hoddβ : Odd (orderOf β) := by
     change Odd (orderOf (⟨u, hu⟩ : StatedSp n K))
@@ -113,13 +113,13 @@ theorem kgfniSp_selfDualBlock_coord {K : Type} [Field K] [Fintype K] [CharP K 2]
       CFSG.RankThree.Classical.monic_X_sub_one
       ((irreducible_of_mem_primaryFactors ha).associated_of_dvd
         CFSG.RankThree.Classical.irreducible_X_sub_one hdvdX))
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
   have h0 : a.coeff 0 ≠ 0 := H.coeff_zero_ne ha
   obtain ⟨d, hd, hσd⟩ := exists_rootInv_eq_pow h0 hrec hsq2
   let E : Type := AdjoinRoot a
   let m : ℕ := Module.finrank E (primaryComponent (spEnd β) a)
-  haveI : Finite E := Module.finite_of_finite K
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Finite E := Module.finite_of_finite K
+  have : Fintype E := Fintype.ofFinite E
   have hcardE : Nat.card E = (Fintype.card K ^ d) ^ 2 := by
     rw [Module.natCard_eq_pow_finrank (K := K), hd, Nat.card_eq_fintype_card, ← pow_mul]
     congr 1
@@ -145,7 +145,7 @@ theorem kgfniSp_selfDualBlock_coord {K : Type} [Field K] [Fintype K] [CharP K 2]
     rw [hbar z, hσd z, Nat.card_eq_fintype_card]
   have hη0 : (1 : E) ≠ 0 := one_ne_zero
   have hηbar : hE.bar (1 : E) = -(1 : E) := by
-    haveI : CharP E 2 :=
+    have : CharP E 2 :=
       @charP_of_injective_algebraMap K E _ _ _ (FaithfulSMul.algebraMap_injective K E) 2 hKchar
     rw [hbar, map_one]
     exact (CharTwo.neg_eq (1 : E)).symm

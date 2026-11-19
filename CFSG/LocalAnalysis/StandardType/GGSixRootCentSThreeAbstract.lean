@@ -21,7 +21,7 @@ theorem ggSThree_exists_normal {X : Type*} [Group X] [Finite X]
       Nonempty (↥R₀ ⧸ Q.subgroupOf R₀ ≃* Equiv.Perm (Fin 3))) :
     ∃ R : Subgroup X, R.Normal ∧
       IsPGroup 3 ↥(R.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 X))) ∧ S ≤ R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup X := CFSG.pPrimeCore 3 X
   let π : X →* X ⧸ N := QuotientGroup.mk' N
   let Ĥ : Subgroup (X ⧸ N) := H.map π

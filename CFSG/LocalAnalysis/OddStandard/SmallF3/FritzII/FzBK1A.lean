@@ -78,9 +78,9 @@ theorem fzb_countBelow_eq (p : ℕ → Bool) (n : ℕ) :
   | succ n ih =>
     rw [countBelow, ih, Finset.range_add_one, Finset.filter_insert]
     by_cases h : p n = true
-    · rw [if_pos h, if_pos h, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_left h, ite_eq_left h, Finset.card_insert_of_notMem (by simp)]
       omega
-    · rw [if_neg h, if_neg h]
+    · rw [ite_eq_right h, ite_eq_right h]
       omega
 
 theorem fzb_uMul_lt {x y : ℕ} (hx : x < 64) (hy : y < 64) : uMul x y < 64 := by
@@ -109,13 +109,13 @@ theorem fzb_mul_eq_mulA (c : Bool) (x y : ℕ) :
     fzbMul c x y = (modl c ()).mulA x y := by
   unfold fzbMul Certificates.FzBU.Mod.mul
   by_cases hxy : x < 1024 ∧ y < 1024
-  · rw [if_pos hxy]
+  · rw [ite_eq_left hxy]
     obtain ⟨hx, hy⟩ := hxy
     rw [modl_tab c]
     rw [range_map_getElem! (fun i => (modl c ()).mulA (i / 1024) (i % 1024))
       (show x * 1024 + y < 1048576 by omega)]
     rw [Nat.mul_comm x 1024, Nat.mul_add_div (by norm_num : 0 < 1024) x y,
       Nat.div_eq_of_lt hy, Nat.add_zero, Nat.mul_add_mod, Nat.mod_eq_of_lt hy]
-  · rw [if_neg hxy]
+  · rw [ite_eq_right hxy]
 
 end CFSG.OddStandard.SmallF3.FritzII

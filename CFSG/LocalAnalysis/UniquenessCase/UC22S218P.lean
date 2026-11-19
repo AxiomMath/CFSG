@@ -21,7 +21,7 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 theorem uc22s218p_pRank_le_one_sp4 {X : Type} [Group X] [Finite X] {n p : ℕ} (hX : IsSp4 X n)
     (hp : p.Prime) (hp2 : p ≠ 2) (hpd : ¬ p ∣ (2 ^ n) ^ 2 - 1) :
     CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
   have hpK : ¬ p ∣ Nat.card K := by
     rw [hK]
@@ -53,7 +53,7 @@ theorem uc22s218p_false_of_rank {D : Data G} {Ch : Choice2011 G} (h211 : S21_1 D
     False := by
   have hns := UC6S846.not_solvable_of_mem_calC hL
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hsp := UC6S846.sp_of_mem_sig hSg hns hp
   have hLM : L ≤ D.M := hL.1.le
   have hML : D.M ≤ normalizer (L : Set G) := le_normalizer_of_normal_subgroupOf hLM
@@ -64,7 +64,7 @@ theorem uc22s218p_false_of_rank {D : Data G} {Ch : Choice2011 G} (h211 : S21_1 D
     calc 8 = 2 ^ 3 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn3
   obtain ⟨r, hr, hrn⟩ := Nat.exists_prime_and_dvd (show 2 ^ n - 1 ≠ 1 by omega)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := uc22p218c_ne_two_of_dvd (by omega) hrn
   have hrσ : r ∉ D.sig := fun h => hCL r hr hr2 hrn (UC6S846.sp_of_mem_sig hSg hns h)
   obtain ⟨E, Q, hEL, hEel, hEc, hQM, hQel, hQc, hpow⟩ :=
@@ -99,7 +99,7 @@ theorem s21_8P_of_conclusion76 (D : Data G) (Ch : Choice2011 G) (h211 : S21_1 D 
     (hSg : UC6S846.SigmaStd D) (h614 : UC6.R6_14 D) (h76 : F07.R76Sig D) : S21_8P D Ch := by
   intro _ hH c L hL n hn hX p hp
   obtain ⟨hpp, hp2⟩ := D.sig_prime p hp
-  haveI : (L.subgroupOf D.M).Normal := s21_normalSp4_of D Ch hSg h211 hH c L hL n hn hX
+  have : (L.subgroupOf D.M).Normal := s21_normalSp4_of D Ch hSg h211 hH c L hL n hn hX
   have hLM : L ≤ D.M := hL.1.le
   have hpn : ¬ p ∣ 2 ^ n - 1 := fun h =>
     uc22p218s_not_stronglyEmbedded D Ch h211 hH c hLM (le_normalizer_of_normal_subgroupOf hLM)

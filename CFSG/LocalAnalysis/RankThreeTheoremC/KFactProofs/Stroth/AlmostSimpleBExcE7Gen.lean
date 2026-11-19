@@ -20,7 +20,7 @@ theorem map_mem_centralizer_of_pElem {C G : Type*} [Group C] [Finite C] [Group G
     (hS : ∀ s ∈ (S : Subgroup C), ψ s ∈ Subgroup.centralizer (X : Set G)) {y : C}
     (hy : ∃ k : ℕ, y ^ p ^ k = 1) : ψ y ∈ Subgroup.centralizer (X : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hy
   have hpg : IsPGroup p (Subgroup.zpowers y) := by
     obtain ⟨m, -, hm⟩ := (Nat.dvd_prime_pow hp).1 (orderOf_dvd_of_pow_eq_one hk)
@@ -71,7 +71,7 @@ theorem oddPCoreInClosure_of_closure_quasisimple {C G : Type*} [Group C] [Finite
     (hWodd : Odd (Nat.card W)) : OddPCoreInClosure p C := by
   classical
   set Q' : Subgroup C := Q.comap F with hQ'
-  haveI hQ'n : Q'.Normal := ⟨fun q hq c => by
+  have hQ'n : Q'.Normal := ⟨fun q hq c => by
     rw [hQ', Subgroup.mem_comap] at hq ⊢
     rw [map_mul, map_mul, map_inv]
     exact hQn c _ hq⟩
@@ -82,7 +82,7 @@ theorem oddPCoreInClosure_of_closure_quasisimple {C G : Type*} [Group C] [Finite
   have hq : CFSG.IsQuasisimple Q' := CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm hQq
   have hpQ' : p ∣ Nat.card Q' := by rw [Nat.card_congr e.toEquiv]; exact hpQ
   intro K hK hKle hKcop
-  haveI : K.Normal := hK
+  have : K.Normal := hK
   have hcomm : ⁅K, Q'⁆ = ⊥ :=
     commutator_eq_bot_of_normal_pPrime_of_quasisimple hp Q' hq hpQ' K hKcop
   have hKc : K ≤ Subgroup.centralizer (Q' : Set C) :=
@@ -115,15 +115,15 @@ theorem odd_card_range_inf_torus {C : Type*} [Group C] [Finite C] [CharP L 2]
     (ψ : C →* ModGL τ L) :
     Odd (Nat.card (ψ.range ⊓ torusGroup τ L : Subgroup (ModGL τ L))) := by
   classical
-  haveI : Finite ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
-  haveI : Finite (ψ.range ⊓ torusGroup τ L : Subgroup (ModGL τ L)) :=
+  have : Finite ψ.range := Finite.of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+  have : Finite (ψ.range ⊓ torusGroup τ L : Subgroup (ModGL τ L)) :=
     Finite.of_injective
       (Subgroup.inclusion (inf_le_left : ψ.range ⊓ torusGroup τ L ≤ ψ.range))
       (Subgroup.inclusion_injective _)
   by_contra hnodd
   have h2 : 2 ∣ Nat.card (ψ.range ⊓ torusGroup τ L : Subgroup (ModGL τ L)) :=
     (Nat.not_odd_iff_even.1 hnodd).two_dvd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card'
     (G := (ψ.range ⊓ torusGroup τ L : Subgroup (ModGL τ L))) 2 h2
   have hw2 : (w : ModGL τ L) ^ 2 = 1 := by

@@ -60,11 +60,11 @@ theorem exists_critical_big {f p : ℕ} (hf : f.Prime) (hp : p.Prime) (hf3 : 3 �
     ∃ D : Subgroup X, D ≤ E ∧ (∀ y ∈ normalizer (E : Set X), y ∈ normalizer (D : Set X)) ∧
       (∀ d ∈ D, d ^ f = 1) ∧ (∀ a ∈ D, ∀ b ∈ D, ∀ c ∈ D, ⁅a, b⁆ * c = c * ⁅a, b⁆) ∧
       f ^ (f + 1) * Nat.card (commutator D) ≤ Nat.card D := by
-  haveI := Fact.mk hf
-  haveI := Fact.mk hp
+  have := Fact.mk hf
+  have := Fact.mk hp
   have hf2 : f ≠ 2 := by omega
   have hfp' : f ≠ p := hfp.ne
-  haveI : Nontrivial E := by
+  have : Nontrivial E := by
     by_contra hnt
     rw [not_nontrivial_iff_subsingleton] at hnt
     apply hnc
@@ -76,7 +76,7 @@ theorem exists_critical_big {f p : ℕ} (hf : f.Prime) (hp : p.Prime) (hf3 : 3 �
     intro a ha b hb
     rw [h1 a ha, h1 b hb]
   obtain ⟨DE, hDEchar, hDEne, hDEcomm, hDEexp, hDEfix⟩ := odd_critical_exponent_subgroup hf2 hE
-  haveI := hDEchar
+  have := hDEchar
   have hDp : IsPGroup f DE := hE.to_subgroup DE
   refine ⟨DE.map E.subtype, Subgroup.map_subtype_le DE, ?_, ?_, ?_, ?_⟩
   ·

@@ -188,7 +188,7 @@ private lemma injective_of_conj_action (n : alternatingGroup (Fin 11)) (kf : Fin
   have hz_eq : Subgroup.zpowers (n⁻¹ * a11c k * n) =
       (Subgroup.zpowers (a11c k)).map (MulAut.conj n⁻¹).toMonoidHom := by
     rw [MonoidHom.map_zpowers]
-    simp [MulAut.conj_apply]
+    simp
   have hcardz : Nat.card (Subgroup.zpowers (n⁻¹ * a11c k * n)) = 3 := by
     rw [hz_eq, Subgroup.card_map_of_injective (MulAut.conj n⁻¹).injective,
       Nat.card_zpowers, orderOf_eq_prime (a11c_pow_three k) (a11c_ne_one k)]
@@ -288,7 +288,7 @@ private theorem d5_ne_one (j : Fin 3) : a11d5 j ≠ 1 := by
   fin_cases j <;> decide
 
 private theorem d5_order (j : Fin 3) : orderOf (a11d5 j) = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact orderOf_eq_prime (d5_pow_five j) (d5_ne_one j)
 
 private theorem d5_commute_coords (j : Fin 3) (v : Fin 3 → ZMod 3) (hj : v j = 0) :
@@ -423,7 +423,7 @@ theorem not_five_dvd_card_centralizer_of_elemAbelian_a11
     ¬ 5 ∣ Nat.card (Subgroup.centralizer (E : Set (alternatingGroup (Fin 11)))) := by
   intro h5
   rw [card_centralizer_eq_of_elemAbelian_a11 hE h27] at h5
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨y, hy5⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(Subgroup.centralizer (a11A0 : Set (alternatingGroup (Fin 11))))) 5 h5
   have horderPerm : orderOf ((y : alternatingGroup (Fin 11)) : Equiv.Perm (Fin 11)) = 5 := by

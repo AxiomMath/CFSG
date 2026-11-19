@@ -102,7 +102,7 @@ theorem exists_three_elt_not_mem {K T : Subgroup Y} (h3 : memberIndex K T = 3) :
   obtain ⟨y, hyP, hyN⟩ := IsConcreteLE.not_le_iff_exists.mp hPN
   refine ⟨(y : Y), y.2, fun hyT => hyN ?_, ?_⟩
   · exact le_sup_left (a := T.subgroupOf K) (Subgroup.mem_subgroupOf.mpr hyT)
-  · obtain ⟨k, hk⟩ := P.isPGroup' ⟨y, hyP⟩
+  · obtain ⟨k, hk⟩ := P.isPGroup ⟨y, hyP⟩
     refine ⟨k, ?_⟩
     have h1 : (y : K) ^ 3 ^ k = 1 := by
       have := congrArg Subtype.val hk

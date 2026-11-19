@@ -61,9 +61,9 @@ theorem getD_pairs (L : List (Nat × Nat)) (m : Std.HashMap Nat Nat) {k v d : Na
   | append_singleton L a ih =>
     rw [List.foldl_append, List.foldl_cons, List.foldl_nil, Std.HashMap.getD_insert]
     by_cases ha : a.1 = k
-    · rw [if_pos (by simp [ha])]
+    · rw [ite_eq_left (by simp [ha])]
       exact hu a (by simp) ha
-    · rw [if_neg (by simpa using ha)]
+    · rw [ite_eq_right (by simpa using ha)]
       refine ih ?_ fun p hp => hu p (List.mem_append_left _ hp)
       rcases List.mem_append.1 hmem with h | h
       · exact h
@@ -86,7 +86,7 @@ theorem fp_T (hw : ∀ j < 162, tVt j = true) {j k : Nat} (hj : j < 162) (hk : k
   rw [(pT hw hj hk).1, fp_unpack]
   rfl
 
-theorem fpConj_unpack {G GI A : Nat} (hG : cn G = true) (hGI : cn GI = true) (hA : cn A = true) :
+theorem fpConj_unpack {G GI A : Nat} (_hG : cn G = true) (hGI : cn GI = true) (hA : cn A = true) :
     fpConj (unpack 1782 11 G) (unpack 1782 11 GI) (unpack 1782 11 A) = fpCK 11 (mask 11) G GI A := by
   have e : ∀ i < 1782, (unpack 1782 11 G)[(unpack 1782 11 A)[(unpack 1782 11 GI)[i]!]!]! =
       pgk G (pgk A (pgk GI i)) := fun i hi => by
@@ -161,7 +161,7 @@ theorem vtab_getA (hv : ∀ i < 2835, aVt i = true) (hsA : sortK 2835 fA ordA po
   obtain ⟨hlt, hf, -⟩ := h
   rw [vtab_at hs (by omega)]
   unfold actV
-  rw [if_pos hvl, (pA hv hvl).1, (pG hs).1, (pGI hs).1,
+  rw [ite_eq_left hvl, (pA hv hvl).1, (pG hs).1, (pGI hs).1,
     fpConj_unpack (pG hs).2 (pGI hs).2 (pA hv hvl).2, ← hf]
   exact aIdx_get hv hsA hlt
 
@@ -187,7 +187,7 @@ theorem vtab_getW (hw : ∀ j < 162, tVt j = true) (hsT : sortK 486 fT ordT posT
   obtain ⟨k, hk, hfk⟩ := key
   rw [vtab_at hs (by omega)]
   unfold actV
-  rw [if_neg (by omega), show 2835 + j - 2835 = j by omega]
+  rw [ite_eq_right (by omega), show 2835 + j - 2835 = j by omega]
   rw [fpConj_eq, hfk, vIdx_get hw hsT hj' hk]
   omega
 
@@ -201,7 +201,7 @@ theorem sendsB_eq (hv : ∀ i < 2835, aVt i = true) (hw : ∀ j < 162, tVt j = t
     sendsB g gi v v' = sendsK G GI v v' := by
   unfold sendsB sendsK
   by_cases ha : v < 2835
-  · rw [if_pos ha, show Nat.blt v 2835 = true from nblt.2 ha]
+  · rw [ite_eq_left ha, show Nat.blt v 2835 = true from nblt.2 ha]
     by_cases hb : v' < 2835
     · rw [decide_eq_true hb, show Nat.blt v' 2835 = true from nblt.2 hb,
         conjEq_P hg hgi (pA hv ha) (pA hv hb)]
@@ -209,7 +209,7 @@ theorem sendsB_eq (hv : ∀ i < 2835, aVt i = true) (hw : ∀ j < 162, tVt j = t
     · rw [decide_eq_false hb,
         nblt_f hb]
       rfl
-  · rw [if_neg ha, nblt_f (b := 2835) ha]
+  · rw [ite_eq_right ha, nblt_f (b := 2835) ha]
     have hj : v - 2835 < 162 := by omega
     by_cases hb : 2835 ≤ v' ∧ v' < 2997
     · have hj' : v' - 2835 < 162 := Nat.sub_lt_left_of_lt_add hb.1 hb.2

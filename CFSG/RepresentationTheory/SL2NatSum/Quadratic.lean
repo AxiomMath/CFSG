@@ -12,7 +12,7 @@ open CFSG.LocalAnalysis.UniquenessCase.UCK.Higman
 open scoped Matrix MatrixGroups
 
 private lemma exists_order_three_sl2 {K : Type} [Field K] [Finite K] [CharP K 2]
-    {n : ℕ} (hK : Nat.card K = 2 ^ n) (hn : 2 ≤ n) :
+    {n : ℕ} (hK : Nat.card K = 2 ^ n) (_hn : 2 ≤ n) :
     ∃ d : SL(2, K), d ^ 3 = 1 ∧ d ≠ 1 := by
   have hpow : (2 ^ n : ℕ) ^ 2 = 4 ^ n := by
     rw [← pow_mul, show n * 2 = 2 * n by omega, pow_mul]
@@ -41,7 +41,7 @@ private lemma matrix_relation_of_torus {K : Type} [Field K] [Finite K] [CharP K 
     (hc : ∀ (g : SL(2, K)) (v : V), c (ρ g v) = Rm g *ᵥ c v) :
     ∀ x y : K, (Rm (uMat y) - 1) * (Rm (uMat x) - 1) = 0 := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hn2 : 2 ≤ n := by rcases hn with rfl | h4 <;> omega
   have hq : Fintype.card K = 2 ^ n := by
     rw [← Nat.card_eq_fintype_card]; exact hK
@@ -59,7 +59,7 @@ private lemma matrix_relation_of_torus {K : Type} [Field K] [Finite K] [CharP K 
   have hP0 : P 0 = 0 := by simp [P, uMat_zero]
   have hPadd : ∀ x y, P (x + y) = P x + P y + P x * P y := by
     intro x y
-    simp only [P, ← uMat_mul, map_mul, neg_smul, one_smul]
+    simp only [P, ← uMat_mul, map_mul]
     noncomm_ring
   have hh : ∀ x, h * P x = P ((t : K) ^ 2 * x) * h := by
     intro x

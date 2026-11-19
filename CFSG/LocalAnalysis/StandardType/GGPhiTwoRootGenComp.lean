@@ -50,7 +50,7 @@ private theorem familyKernel_zetaVec
       (fun t : {t : Fin τ.rank → ZMod p // ∑ j, (α j : ZMod p) * t j = 0} =>
         CFSG.StandardType.TableBExc.E6Three.zetaVec ζ hζ t.1) = {α, -α} := by
   ext β
-  simp only [CFSG.HardMathSupport.Timmesfeld.Torality.familyKernel, Set.mem_setOf_eq]
+  simp only [CFSG.HardMathSupport.Timmesfeld.Torality.familyKernel, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hβ, hβ1⟩
     have hzero : ∀ t : Fin τ.rank → ZMod p, ∑ j, (α j : ZMod p) * t j = 0 →
@@ -79,7 +79,7 @@ private theorem torusFix_eq_range
       Set.range (fun t : {t : Fin τ.rank → ZMod p //
         ∑ j, (β j : ZMod p) * t j = 0} => T (Multiplicative.ofAdd t.1)) := by
   ext y
-  simp only [SuSplitRootGen.torusFix, Set.mem_image, Set.mem_setOf_eq, Set.mem_range]
+  simp only [SuSplitRootGen.torusFix, Set.mem_image, Set.mem_ofPred_eq, Set.mem_range]
   constructor
   · rintro ⟨x, hx, rfl⟩
     exact ⟨⟨Multiplicative.toAdd x, (hfixset (Multiplicative.toAdd x)).1 hx⟩, rfl⟩
@@ -287,7 +287,7 @@ theorem isComponentOf_phiTwoComp
       ∑ j, (γ j : ZMod p) * t j = 0) → γ = β ∨ γ = -β) :
     IsComponentOf (phiTwoComp g0 β)
       (Subgroup.centralizer (SuSplitRootGen.torusFix T (ExcSplitRootGen.excRefl β))) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   let C := Subgroup.centralizer (SuSplitRootGen.torusFix T (ExcSplitRootGen.excRefl β))
   have hle : phiTwoComp g0 β ≤ C :=
     phiTwoComp_le_centralizer hζo hζ hT hβ hfixset

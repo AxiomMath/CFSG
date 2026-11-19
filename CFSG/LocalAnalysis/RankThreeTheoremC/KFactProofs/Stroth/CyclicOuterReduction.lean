@@ -35,11 +35,11 @@ theorem stronglyEmbeddedCyclicOuter_of_inputs (hS : SeitzOuterRankOne) (hK3 : KF
         K], IsoLie K .tits → ∀ p : ℕ, p.Prime → p ≠ 2 → ¬ p ∣ Nat.card (Outer K)) :
     StronglyEmbeddedCyclicOuterKFact := by
   intro X _ _ K hKn hs hnab hcat hKC p hp hp2 P hPK hrank hΓ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, hEP, hE, hEc, hEK, hT0⟩ := exists_plane hp hp2 hK3 K hs hnab hcat hKC P hPK hrank
   have hrk : RankLE1 p ↥K := rankLE1_of_isCyclic_inf hp P K hPK
   obtain ⟨T, hTcyc⟩ := exists_sylow_cyclic hp P K hPK
-  obtain ⟨x, hxE, hxK⟩ := SetLike.not_le_iff_exists.1 hEK
+  obtain ⟨x, hxE, hxK⟩ := IsConcreteLE.not_le_iff_exists.1 hEK
   have hxp : x ^ p = 1 := hE.2 x hxE
   have hOut : ¬ p ∣ Nat.card (Outer ↥K) → False := fun hout =>
     hxK (mem_of_pow_eq_one_of_not_dvd_outer hp K hKC hout hxp)

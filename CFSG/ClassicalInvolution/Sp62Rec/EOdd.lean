@@ -50,10 +50,10 @@ theorem mem_iff_of_quotient_alternating_six (V : Subgroup Γ) [V.Normal]
       have h1 : e (y : Γ ⧸ V) = 1 := hy
       rw [map_eq_one_iff _ e.injective, QuotientGroup.eq_one_iff] at h1
       exact h1
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-    haveI hW : (V.map φ.toMonoidHom).Normal :=
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have hW : (V.map φ.toMonoidHom).Normal :=
       Subgroup.Normal.map inferInstance φ.toMonoidHom φ.surjective
-    haveI : ((V.map φ.toMonoidHom).map π).Normal := Subgroup.Normal.map hW π hπ
+    have : ((V.map φ.toMonoidHom).map π).Normal := Subgroup.Normal.map hW π hπ
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((V.map φ.toMonoidHom).map π) with h | h
     · apply hker
       have hmem : π (φ x) ∈ (V.map φ.toMonoidHom).map π :=
@@ -180,7 +180,7 @@ theorem mem_of_odd_orderOf_of_mem_normalizer {Γ : Type*} [Group Γ] (E : Subgro
     {g : H} (hgE : g ∈ Subgroup.normalizer (E : Set H)) (hg : Odd (orderOf g)) : g ∈ E := by
   obtain ⟨γ, hγg⟩ : ∃ γ : ↥(Subgroup.normalizer (E : Set H)), (γ : H) = g := ⟨⟨g, hgE⟩, rfl⟩
   have hγ : γ ^ orderOf g = 1 :=
-    Subtype.ext (by rw [Subgroup.coe_pow, hγg]; simpa using pow_orderOf_eq_one g)
+    Subtype.ext (by rw [Subgroup.coe_pow, hγg]; simp)
   obtain ⟨φ, hφdef⟩ : ∃ φ : MulAut Γ, φ = (MulAut.congr θ).symm (E.normalizerMonoidHom γ) :=
     ⟨_, rfl⟩
   have hφ : φ ^ orderOf g = 1 := by
@@ -218,7 +218,7 @@ theorem mem_of_odd_orderOf_of_mem_normalizer {Γ : Type*} [Group Γ] (E : Subgro
     refine Subtype.ext ?_
     have h := congrArg Subtype.val hk
     simpa [pow_succ', pow_mul] using h
-  haveI : (E.subgroupOf (Subgroup.normalizer (E : Set H))).Normal := Subgroup.normal_in_normalizer
+  have : (E.subgroupOf (Subgroup.normalizer (E : Set H))).Normal := Subgroup.normal_in_normalizer
   have hmk : (QuotientGroup.mk γc : _ ⧸ E.subgroupOf (Subgroup.normalizer (E : Set H))) =
       QuotientGroup.mk γ := by
     rw [hγcdef, QuotientGroup.mk_mul,

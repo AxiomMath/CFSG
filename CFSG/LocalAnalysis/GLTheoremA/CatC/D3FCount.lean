@@ -21,7 +21,7 @@ theorem d4_card_posRoots :
     {α : Fin Tag.D4.rank → ℤ | IsRoot Tag.D4 α ∧ 0 < height α}.ncard = 12 := by
   have h : {α : Fin Tag.D4.rank → ℤ | IsRoot Tag.D4 α ∧ 0 < height α} = ↑(d4RootsFrom 1) := by
     ext α
-    simp only [Set.mem_setOf_eq, Finset.mem_coe, mem_d4RootsFrom]
+    simp only [Set.mem_ofPred_eq, Finset.mem_coe, mem_d4RootsFrom]
     constructor
     · rintro ⟨h1, h2⟩
       exact ⟨h1, h2, by omega⟩
@@ -57,7 +57,7 @@ theorem card_pow_le_of_sigma_ne_one {α : MulAut ↥(adjointGroup Tag.D4 K)} {σ
   have hlayer : ∀ k, Nat.card (layerImage A k) ^ 3 ≤
       Nat.card K ^ Nat.card (UnitRoots Tag.D4 k) := by
     intro k
-    haveI : Fintype (UnitRoots Tag.D4 k) := Fintype.ofFinite _
+    have : Fintype (UnitRoots Tag.D4 k) := Fintype.ofFinite _
     let τ : (UnitRoots Tag.D4 k → K) →+ (UnitRoots Tag.D4 k → K) :=
       monoTauAdd (la.r k) (la.f k) σ
     have hτ : ∀ (c : K) (a : UnitRoots Tag.D4 k → K), τ (c • a) = σ c • τ a := by
@@ -91,7 +91,7 @@ theorem card_pow_le_of_sigma_ne_one {α : MulAut ↥(adjointGroup Tag.D4 K)} {σ
         Nat.pow_le_pow_left hprod 3
     _ = ∏ k ∈ Finset.range d, Nat.card (layerImage A k) ^ 3 := (Finset.prod_pow _ _ _).symm
     _ ≤ ∏ k ∈ Finset.range d, Nat.card K ^ Nat.card (UnitRoots Tag.D4 k) :=
-        Finset.prod_le_prod' fun k _ => hlayer k
+        Finset.prod_le_prod fun k _ => hlayer k
     _ = Nat.card K ^ ∑ k ∈ Finset.range d, Nat.card (UnitRoots Tag.D4 k) :=
         Finset.prod_pow_eq_pow_sum _ _ _
     _ ≤ Nat.card K ^ 12 := Nat.pow_le_pow_right hqpos hsum

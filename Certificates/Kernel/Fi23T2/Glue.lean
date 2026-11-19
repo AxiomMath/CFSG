@@ -274,7 +274,7 @@ theorem covered {i : Nat} (hi : i < 262144)
     have h' : CFSG.KD.Fi23S.code (Nat.shiftRight i (nat_lit 9)) (Nat.land i (nat_lit 511)) < 2 :=
       Nat.blt_eq.mp h
     omega
-  rw [strictB_eq, e1, strictB_eq, bIf_eq, if_neg hn] at hd'
+  rw [strictB_eq, e1, strictB_eq, bIf_eq, ite_eq_right hn] at hd'
   obtain ⟨e, he, hhd⟩ := memH_spec hd'
   refine ⟨e, hhd, entsK_spec hents e he, fun h0 => ?_⟩
   rw [h0] at he
@@ -339,8 +339,8 @@ theorem subP_cons (a : Nat) (l : List Nat) (s x : Nat) :
     nIf(Nat.beq (Nat.land s (nat_lit 1)) (nat_lit 1), gL a y, y)) = _
   rw [strictN_eq, nIf_eq, shr1, land1]
   by_cases h : s % 2 = 1
-  · rw [if_pos h, if_pos (by rw [h]; rfl)]
-  · rw [if_neg h, if_neg (fun e => h (Nat.eq_of_beq_eq_true e))]
+  · rw [ite_eq_left h, ite_eq_left (by rw [h]; rfl)]
+  · rw [ite_eq_right h, ite_eq_right (fun e => h (Nat.eq_of_beq_eq_true e))]
 
 section J
 
@@ -438,10 +438,10 @@ theorem idx_conj {u i p : Nat} (hu : u < 1806) (hi : i < 262144) (hp : p < 31671
   unfold cE cjL
   rw [nIf_eq]
   by_cases h : u < 42
-  · rw [if_pos h, if_pos (Nat.blt_eq.mpr h), lG_inv, idx_mul, idx_mul,
+  · rw [ite_eq_left h, ite_eq_left (Nat.blt_eq.mpr h), lG_inv, idx_mul, idx_mul,
       idx_lG (invL_lt42 h) hp, idx_e hi (LS_lt' (invL_lt42 h) hp),
       idx_lG h (gL_lt hi (LS_lt' (invL_lt42 h) hp))]
-  · rw [if_neg h, if_neg (fun e => h (Nat.blt_eq.mp e)), strictN_eq, strictN_eq, strictN_eq]
+  · rw [ite_eq_right h, ite_eq_right (fun e => h (Nat.blt_eq.mp e)), strictN_eq, strictN_eq, strictN_eq]
     have ha : (u - 42) / 42 < 42 := by omega
     have hb : (u - 42) % 42 < 42 := Nat.mod_lt _ (by decide)
     change idx 31671 (CFSG.Perm.pairG sylG ((u - 42) / 42) * CFSG.Perm.pairG sylG ((u - 42) % 42) *
@@ -664,7 +664,7 @@ theorem large_of {b : Nat} {l : List Nat} (hb : b < 262144) (hhd : hd l = b)
       have hzb := (hall z hz).1
       change ((if h : z < 262144 then (⟨eL z, eL_mem z h⟩ : ↥(slvl 0)) else 1 : ↥(slvl 0)) : J) =
         (g : J) * eL b * (g : J)⁻¹
-      rw [dif_pos hzb, e]
+      rw [dite_eq_left hzb, e]
     have h8 := card_le_cent (⟨eL b, eL_mem _ hb⟩ : ↥(slvl 0)) (l.map f) hS hc
     rw [card_T] at h8
     have h15 : (2 : ℕ) ^ 15 = 32768 := by norm_num
@@ -710,7 +710,7 @@ theorem pB_mem : ∀ {l : List Nat}, (∀ a ∈ l, a < 262144) → ∀ s, pB l s
     · exact eL_mem a (hl a List.mem_cons_self)
     · exact (slvl 0).one_mem
 
-theorem pB_closure : ∀ {l : List Nat} (hl : ∀ a ∈ l, a < 262144),
+theorem pB_closure : ∀ {l : List Nat} (_hl : ∀ a ∈ l, a < 262144),
     (∀ a ∈ l, ∀ h : a < 262144, IsLargeInv (⟨eL a, eL_mem a h⟩ : ↥(slvl 0))) →
     ∀ s (h : pB l s ∈ slvl 0), (⟨pB l s, h⟩ : ↥(slvl 0)) ∈
       Subgroup.closure {x : ↥(slvl 0) | IsLargeInv x}
@@ -719,9 +719,9 @@ theorem pB_closure : ∀ {l : List Nat} (hl : ∀ a ∈ l, a < 262144),
       Subtype.ext (by rw [Subgroup.coe_one]; exact pB_nil s)
     rw [e]
     exact (Subgroup.closure _).one_mem
-  | a :: l, hl, hlarge, s, h => by
-    have ha := hl a List.mem_cons_self
-    have hl' : ∀ b ∈ l, b < 262144 := fun b hb => hl b (List.mem_cons_of_mem _ hb)
+  | a :: l, _hl, hlarge, s, h => by
+    have ha := _hl a List.mem_cons_self
+    have hl' : ∀ b ∈ l, b < 262144 := fun b hb => _hl b (List.mem_cons_of_mem _ hb)
     have ih := pB_closure hl' (fun b hb h => hlarge b (List.mem_cons_of_mem _ hb) h) (s / 2)
       (pB_mem hl' _)
     by_cases hs : s % 2 = 1
@@ -730,14 +730,14 @@ theorem pB_closure : ∀ {l : List Nat} (hl : ∀ a ∈ l, a < 262144),
         apply Subtype.ext
         rw [Subgroup.coe_mul]
         change pB (a :: l) s = eL a * pB l (s / 2)
-        rw [pB_cons, if_pos hs]
+        rw [pB_cons, ite_eq_left hs]
       rw [e]
       exact (Subgroup.closure _).mul_mem
         (Subgroup.subset_closure (hlarge a List.mem_cons_self ha)) ih
     · have e : (⟨pB (a :: l) s, h⟩ : ↥(slvl 0)) = ⟨pB l (s / 2), pB_mem hl' _⟩ := by
         apply Subtype.ext
         change pB (a :: l) s = pB l (s / 2)
-        rw [pB_cons, if_neg hs, one_mul]
+        rw [pB_cons, ite_eq_right hs, one_mul]
       rw [e]
       exact ih
 

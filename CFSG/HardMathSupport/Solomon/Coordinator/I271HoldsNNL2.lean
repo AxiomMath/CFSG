@@ -23,8 +23,8 @@ variable {F : Type} [Field F] [Finite F]
 
 theorem card_le_three_of_cube_psl2_even {n : ℕ} (hn : 3 ≤ n) (hF : Nat.card F = 2 ^ n)
     (E : Subgroup (PSL2 F)) (hE3 : ∀ x ∈ E, x ^ 3 = 1) : Nat.card E ≤ 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpg : IsPGroup 3 E := fun x => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (hE3 x x.2)⟩
@@ -39,7 +39,7 @@ theorem card_le_three_of_cube_psl2_even {n : ℕ} (hn : 3 ≤ n) (hF : Nat.card 
   have hcyc : IsCyclic (R : Subgroup (PSL2 F)) :=
     psl2_sylow_isCyclic_of_coprime_field_card F hF h7 3 (by norm_num) hcop R
   classical
-  haveI := Fintype.ofFinite (R : Subgroup (PSL2 F))
+  have := Fintype.ofFinite (R : Subgroup (PSL2 F))
   have hbound : Nat.card {x : (R : Subgroup (PSL2 F)) // x ^ 3 = 1} ≤ 3 := by
     have := IsCyclic.card_pow_eq_one_le (α := (R : Subgroup (PSL2 F))) (n := 3) (by norm_num)
     simpa [Nat.card_eq_fintype_card, Fintype.card_subtype] using this
@@ -57,9 +57,9 @@ theorem card_le_three_of_inner_even {S : Type} [Group S] [Finite S]
     (hS : IsLTwoOddPow S) (A : Subgroup (MulAut S)) (hA : IsElemAbelian 3 A)
     (hAi : A ≤ innerAut S) : Nat.card A ≤ 3 := by
   obtain ⟨K, hK, hfin, n, hn, hn1, hcard, ⟨e0⟩⟩ := hS
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n)
     (by rw [← Nat.card_eq_fintype_card, hcard])
   let e : S ≃* PSL2 K := e0.trans
     ((CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 K).symm.trans
@@ -145,7 +145,7 @@ theorem nnExc_lTwoOddPow :
     let eQ : ↥K ⧸ Subgroup.center ↥K ≃* ↥K :=
       (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
     have hS8 : IsLTwoEight (↥K ⧸ Subgroup.center ↥K) := ⟨F, hF, hfin, hcard, ⟨eQ.trans e8⟩⟩
-    exact isStronglyBalancedIn_of_autBalanced hBel hq.1 (MulEquiv.refl _) (by rw [h9]; all_goals norm_num)
+    exact isStronglyBalancedIn_of_autBalanced hBel hq.1 (MulEquiv.refl _) (by rw [h9])
       (fun A hA hn T hT hAT => autLTwoEightBalance_holds _ hS8 A hA hn T hT hAT)
   · left
     by_cases hinn : InducesInnerIn B K

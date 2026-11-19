@@ -46,7 +46,7 @@ theorem s23_9_B1_of (D : Data G) (Ch : Choice2011 G) (h8 : S23_8 D Ch)
     unfold barImage
     rw [← Subgroup.map_commutator, CFSG.GroupTheory.commutator_subgroupOf_eq hKM hKM,
       hKperf]
-  letI : Group.IsPerfect Kbar := Subgroup.isPerfect_iff.mpr hKbarperf
+  let : Group.IsPerfect Kbar := Subgroup.isPerfect_iff.mpr hKbarperf
   have hKF : ⁅Kbar, CFSG.fittingSubgroup (Bar2 D.M)⁆ = ⊥ := by
     simpa only [Kbar, K] using hA h1930 c h3
   refine le_layer_of_perfect_of_centralizes_fitting_of_component_sup_centralizer Kbar hKF ?_
@@ -57,7 +57,7 @@ theorem s23_9_B1_of (D : Data G) (Ch : Choice2011 G) (h8 : S23_8 D Ch)
   have hMnorm : D.M ≤ Subgroup.normalizer (X : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hX.1.le).mp hXnorm
   have hCnorm : (barImage D.M X).Normal := uc22p22u_barImage_normal hMnorm
-  haveI : (barImage D.M X).Normal := hCnorm
+  have : (barImage D.M X).Normal := hCnorm
   have hshape := shape_barImage_of_mem_calC (c := c) h8 h1930 hX
   exact le_sup_centralizer_of_perfect_of_perfect_aut_inner
     (Subgroup.le_normalizer_of_normal (H := barImage D.M X))

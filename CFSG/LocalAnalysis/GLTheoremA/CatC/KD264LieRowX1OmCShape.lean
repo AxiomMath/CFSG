@@ -69,7 +69,7 @@ section Derived
 
 open CFSG.LocalAnalysis.GLTheoremA.KD264Lie.OmC
 
-theorem omIsSubnormal_subgroupOf_of_conj {G : Type*} [Group G] {Ω C L : Subgroup G} (hCΩ : C ≤ Ω)
+theorem omIsSubnormal_subgroupOf_of_conj {G : Type*} [Group G] {Ω C L : Subgroup G} (_hCΩ : C ≤ Ω)
     (hLC : L ≤ C) (hconj : ∀ g ∈ C, ∀ x ∈ L, g * x * g⁻¹ ∈ L) :
     CFSG.Open.IsSubnormal (L.subgroupOf Ω) (C.subgroupOf Ω) := by
   refine CFSG.Open.IsSubnormal.step (fun x hx => ?_) ?_ (CFSG.Open.IsSubnormal.refl _)

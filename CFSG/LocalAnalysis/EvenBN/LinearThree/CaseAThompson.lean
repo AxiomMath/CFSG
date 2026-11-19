@@ -444,7 +444,7 @@ theorem false [IsSimpleGroup G] (hnonab : ∃ a b : G, a * b ≠ b * a) (hf3 : 3
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hp : IsPGroup 2 C.S₁ := C.isPGroup_S₁
   obtain ⟨Q, hQ⟩ := hp.exists_le_sylow
-  have hTp : IsPGroup 2 (Q : Subgroup G) := Q.isPGroup'
+  have hTp : IsPGroup 2 (Q : Subgroup G) := Q.isPGroup
   have hTidx : ¬ 2 ∣ (Q : Subgroup G).index := Q.not_dvd_index
   by_cases hS : C.S₁ = Q
   · refine C.false_of_le_normalizer hnonab hf3 hF' hR hsyl hW hWe hWc hcomm hF hTp hTidx hQ ?_

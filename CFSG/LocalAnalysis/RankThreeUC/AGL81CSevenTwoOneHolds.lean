@@ -9,8 +9,8 @@ namespace CFSG.LocalAnalysis.RankThreeUC.AGL81C
 
 theorem kFactOmegaNotCentral_holds : KFactOmegaNotCentral := by
   intro X _ _ _ C hC p hp hp2 hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Group.IsPerfect ↥C := hC.1.1
+  have : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect ↥C := hC.1.1
   obtain ⟨x, hxp, hxcent⟩ :=
     CFSG.Quasithin.Vol2.Ch11.SecS.KF.exists_pow_eq_one_not_mem_center (L := ↥C) hp2 hdvd
   have hx1 : x ≠ 1 := by

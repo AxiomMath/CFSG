@@ -38,7 +38,7 @@ theorem sec7E_A_elem [Finite G] (h78 : Asc82Lemma78) {t : G} {L S : Subgroup G} 
 theorem sec7E_A_le_K [Finite G] (h78 : Asc82Lemma78) {t : G} {L S : Subgroup G} {z g : G}
     {B : Subgroup G} (hc : Sec7Choice G t L S z g B) :
     ASub S B ≤ MSub S B ⊓ centralizer (B : Set G) := by
-  haveI : IsMulCommutative (ASub S B) := (sec7E_A_elem h78 hc).1
+  have : IsMulCommutative (ASub S B) := (sec7E_A_elem h78 hc).1
   refine le_inf Subgroup.le_normalizer ?_
   intro a ha
   exact Subgroup.mem_centralizer_iff.mpr fun b hb => setLike_mul_comm (sec79_B_le_A hc hb) ha
@@ -67,7 +67,7 @@ theorem sec7E_exists_sylow [Finite G] (h78 : Asc82Lemma78) {t : G} {L S : Subgro
     {B : Subgroup G} (hc : Sec7Choice G t L S z g B) :
     ∃ E : Subgroup G, IsSylow2Of E (MSub S B ⊓ centralizer (B : Set G)) ∧ ASub S B ≤ E := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hAK : ASub S B ≤ MSub S B ⊓ centralizer (B : Set G) := sec7E_A_le_K h78 hc
   have hAleS : ASub S B ≤ S := by
     change omega1 (S ⊓ centralizer (B : Set G)) ≤ S
@@ -89,8 +89,8 @@ theorem sec7E_inf_cent [Finite G] (h36 : Asc82Lemma36) (h76 : Asc82Lemma76) (hP 
     (hE : IsSylow2Of E (MSub S B ⊓ centralizer (B : Set G))) (hAE : ASub S B ≤ E) :
     E ⊓ centralizer (ASub S B : Set G) = ASub S B := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsMulCommutative (ASub S B) := (sec7E_A_elem h78 hc).1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsMulCommutative (ASub S B) := (sec7E_A_elem h78 hc).1
   have hAC : ASub S B ≤ centralizer (ASub S B : Set G) := fun a ha =>
     Subgroup.mem_centralizer_iff.mpr fun a' ha' => setLike_mul_comm ha' ha
   have hA := sec7E_A_sylow h36 h76 hP h77b h78 hc
@@ -121,7 +121,7 @@ theorem sec7E_exists_mul [Finite G] (h710d : Asc82Lemma710d) {t : G} {L S : Subg
     ∀ k ∈ MSub S B ⊓ centralizer (B : Set G),
       ∃ e ∈ E, ∃ c ∈ centralizer (ASub S B : Set G), k = e * c := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set K : Subgroup G := MSub S B ⊓ centralizer (B : Set G) with hKdef
   obtain ⟨φ, hφs, hφk⟩ := (h710d G t L S z g B hc).2.2.1
   have hcard : Nat.card E16 = 2 ^ 4 := by simp [E16, Nat.card_eq_fintype_card]
@@ -164,7 +164,7 @@ theorem sec7E_quot [Finite G] (h36 : Asc82Lemma36) (h76 : Asc82Lemma76) (hP : As
   obtain ⟨φ₀, hφs, hφk⟩ := (h710d G t L S z g B hc).2.2.1
   have hEK : E ≤ K := hE.1
   let φ : ↥E →* E16 := φ₀.comp (Subgroup.inclusion hEK)
-  haveI : IsMulCommutative (ASub S B) := (sec7E_A_elem h78 hc).1
+  have : IsMulCommutative (ASub S B) := (sec7E_A_elem h78 hc).1
   have hAC : ASub S B ≤ C := by
     rw [hCdef]
     intro a ha

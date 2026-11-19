@@ -32,11 +32,13 @@ abbrev Wplus (F : FrameData Q) : Submodule K V := tOp F |>.eigenspace 1
 
 abbrev Uminus (F : FrameData Q) : Submodule K V := tOp F |>.eigenspace (-1)
 
+omit [FiniteDimensional K V] in
 theorem tOp_mul_self (F : FrameData Q) :
     tOp F * tOp F = (1 : K) ^ 2 • (1 : Module.End K V) := by
   rw [one_pow, one_smul]
   exact congrArg (fun g : V ≃ₗ[K] V => (g : V →ₗ[K] V)) F.t_mul_self
 
+omit [FiniteDimensional K V] in
 theorem tOp_selfAdjoint (F : FrameData Q) (x y : V) :
     Q.polarBilin (tOp F x) y = Q.polarBilin x (tOp F y) := by
   have ht2 : ∀ v, tOp F (tOp F v) = v := by
@@ -48,6 +50,7 @@ theorem tOp_selfAdjoint (F : FrameData Q) (x y : V) :
     _ = Q.polarBilin x (tOp F y) :=
       CFSG.ClassicalGroups.Orthogonal.polar_map_of_mem F.t_mem x (tOp F y)
 
+omit [FiniteDimensional K V] in
 theorem Wplus_nondegenerate (F : FrameData Q) :
     (Q.comp (Wplus F).subtype).Nondegenerate := by
   let _ : Invertible (2 : K) := invertibleOfNonzero F.two_ne_zero
@@ -57,6 +60,7 @@ theorem Wplus_nondegenerate (F : FrameData Q) :
     (tOp F) 1 one_ne_zero F.two_ne_zero (tOp_mul_self F) (tOp_selfAdjoint F)).1
   exact QuadraticMap.nondegenerate_polar_iff.mp h
 
+omit [FiniteDimensional K V] in
 theorem Wplus_polar_nondegenerate (F : FrameData Q) :
     (Q.comp (Wplus F).subtype).polarBilin.Nondegenerate := by
   let _ : Invertible (2 : K) := invertibleOfNonzero F.two_ne_zero
@@ -66,6 +70,7 @@ theorem isCompl_Wplus (F : FrameData Q) :
     IsCompl (Wplus F) (orthPerp Q (Wplus F)) :=
   isCompl_orthPerp (Q := Q) (R := Wplus F) (Wplus_polar_nondegenerate F)
 
+omit [FiniteDimensional K V] in
 theorem Uminus_nondegenerate (F : FrameData Q) :
     (Q.comp (Uminus F).subtype).Nondegenerate := by
   let _ : Invertible (2 : K) := invertibleOfNonzero F.two_ne_zero
@@ -75,6 +80,7 @@ theorem Uminus_nondegenerate (F : FrameData Q) :
     (tOp F) 1 one_ne_zero F.two_ne_zero (tOp_mul_self F) (tOp_selfAdjoint F)).2
   exact QuadraticMap.nondegenerate_polar_iff.mp h
 
+omit [FiniteDimensional K V] in
 theorem Uminus_polar_nondegenerate (F : FrameData Q) :
     (Q.comp (Uminus F).subtype).polarBilin.Nondegenerate := by
   let _ : Invertible (2 : K) := invertibleOfNonzero F.two_ne_zero
@@ -250,14 +256,17 @@ abbrev CSO (F : FrameData Q) :
     C0 F →* TauCeti.QuadraticMap.orthogonalGroup (Q.comp (Wplus F).subtype) :=
   (orthogonalCentralizerRestriction Q (tOp F) 1).comp (C0toOperatorEquiv F).toMonoidHom
 
+omit [FiniteDimensional K V] in
 theorem resPlus_apply (F : FrameData Q) (g : C0 F) (w : Wplus F) :
     ((resPlus F g).val w).val = (g.val : V ≃ₗ[K] V) w.val := rfl
 
+omit [FiniteDimensional K V] in
 theorem C0_preserves_Wplus (F : FrameData Q) (g : C0 F) {w : V} (hw : w ∈ Wplus F) :
     (g.val : V ≃ₗ[K] V) w ∈ Wplus F := by
   exact CFSG.ComponentClassification.CatalogueBProjectiveInvolution.operatorCentralizer_preserves_eigenspace (tOp F) 1
     ⟨(g.val : V ≃ₗ[K] V), (C0toOperator F g).property⟩ hw
 
+omit [FiniteDimensional K V] in
 theorem C0_preserves_Uminus (F : FrameData Q) (g : C0 F) {w : V} (hw : w ∈ Uminus F) :
     (g.val : V ≃ₗ[K] V) w ∈ Uminus F := by
   exact CFSG.ComponentClassification.CatalogueBProjectiveInvolution.operatorCentralizer_preserves_eigenspace (tOp F) (-1)
@@ -328,6 +337,7 @@ theorem resPlus_tPositiveEmbedding (F : FrameData Q) :
   exact extendHom_apply_mem (isCompl_Wplus F) g w
 
 
+omit [FiniteDimensional K V] in
 theorem resPlus_surjective (F : FrameData Q) :
     Function.Surjective (resPlus F) := by
   intro h
@@ -345,6 +355,7 @@ theorem resPlus_surjective (F : FrameData Q) :
 @[expose] def detC0 (F : FrameData Q) : C0 F →* Kˣ :=
   LinearEquiv.det.comp ((TauCeti.QuadraticMap.orthogonalGroup Q).subtype.comp (C0 F).subtype)
 
+omit [FiniteDimensional K V] in
 theorem detC0_apply (F : FrameData Q) (g : C0 F) :
     detC0 F g = LinearEquiv.det (g.val : V ≃ₗ[K] V) := rfl
 
@@ -387,6 +398,7 @@ theorem detC0_sq (F : FrameData Q) (g : C0 F) : detC0 F g ^ 2 = 1 := by
   change (LinearEquiv.det g1.val * LinearEquiv.det g2.val) ^ 2 = 1
   rw [mul_pow, h1, h2, one_mul]
 
+omit [FiniteDimensional K V] in
 theorem CSO_eq_map_ker (F : FrameData Q) :
     CSO F = (detC0 F).ker.map (C0 F).subtype := by
   ext g
@@ -459,6 +471,7 @@ theorem rho_surjective (F : FrameData Q) (hodd : Odd (Nat.card K)) :
   rw [hh]
 
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem traceZeroProjectiveEquiv_one_apply (F : FrameData Q)
     (ε : rootsOfUnity 2 K) (X : traceZeroSubmodule K) :
     ((CFSG.ComponentClassification.CatalogueBOrthogonal.traceZeroProjectiveEquiv
@@ -705,6 +718,7 @@ section Normalization
 
 variable [Finite K] (hodd : Odd (Nat.card K))
 
+omit [Finite K] in
 theorem tPositive_conj (F : FrameData Q) (g : C0 F)
     (h : TauCeti.QuadraticMap.orthogonalGroup (Q.comp (Wplus F).subtype)) :
     (g : TauCeti.QuadraticMap.orthogonalGroup Q) * tPositiveEmbedding F h *
@@ -758,7 +772,8 @@ theorem tPositive_conj (F : FrameData Q) (g : C0 F)
   simpa [Subgroup.coe_mul, Subgroup.coe_inv, hiota, hres] using hv
 
 
-theorem tPositiveDerived_normalized (F : FrameData Q) (hodd : Odd (Nat.card K)) :
+omit [Finite K] in
+theorem tPositiveDerived_normalized (F : FrameData Q) (_hodd : Odd (Nat.card K)) :
     C0 F ≤ Subgroup.normalizer (tPositiveDerived F : Set
       (TauCeti.QuadraticMap.orthogonalGroup Q)) := by
   have hconj_mem : ∀ (c : C0 F) {y : TauCeti.QuadraticMap.orthogonalGroup Q},
@@ -863,7 +878,7 @@ variable [Finite K] (hodd : Odd (Nat.card K)) (h3 : 3 < Nat.card K)
 theorem tPositiveDerived_isSimpleGroup (F : FrameData Q) (hodd : Odd (Nat.card K))
     (h3 : 3 < Nat.card K) :
     IsSimpleGroup (tPositiveDerived F) := by
-  letI : IsSimpleGroup (CFSG.GorensteinWalter.PSL2 K) :=
+  let : IsSimpleGroup (CFSG.GorensteinWalter.PSL2 K) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (F := K) (by omega)
   exact MulEquiv.isSimpleGroup (eX F hodd h3)
 
@@ -875,11 +890,11 @@ theorem tPositiveDerived_not_isMulCommutative (F : FrameData Q) (hodd : Odd (Nat
   have hperf : Group.IsPerfect (tPositiveDerived F) :=
     Group.IsPerfect.ofSurjective (f := (eX F hodd h3).symm.toMonoidHom)
       (eX F hodd h3).symm.surjective
-  letI : IsSimpleGroup (CFSG.GorensteinWalter.PSL2 K) :=
+  let : IsSimpleGroup (CFSG.GorensteinWalter.PSL2 K) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (F := K) (by omega)
-  haveI : Nontrivial (tPositiveDerived F) := (eX F hodd h3).toEquiv.nontrivial
+  have : Nontrivial (tPositiveDerived F) := (eX F hodd h3).toEquiv.nontrivial
   intro hcomm
-  letI : Group.IsPerfect (tPositiveDerived F) := hperf
+  let : Group.IsPerfect (tPositiveDerived F) := hperf
   exact Group.IsPerfect.not_isMulCommutative (G := tPositiveDerived F) hcomm
 
 end Simplicity
@@ -896,16 +911,22 @@ variable [Finite K] (hodd : Odd (Nat.card K)) (h3 : 3 < Nat.card K)
     Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q) :=
   (tPositiveDerived F).map (MulAut.conj F.sO).toMonoidHom
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem e2_mem_Wplus (F : FrameData Q) : F.e 2 ∈ Wplus F := by
   change F.e 2 ∈ Module.End.eigenspace (tOp F) 1
   rw [Module.End.mem_eigenspace_iff]
   simp [tOp, F.t_e]
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem e3_mem_Wplus (F : FrameData Q) : F.e 3 ∈ Wplus F := by
   change F.e 3 ∈ Module.End.eigenspace (tOp F) 1
   rw [Module.End.mem_eigenspace_iff]
   simp [tOp, F.t_e]
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem e4_mem_Wplus (F : FrameData Q) : F.e 4 ∈ Wplus F := by
   change F.e 4 ∈ Module.End.eigenspace (tOp F) 1
   rw [Module.End.mem_eigenspace_iff]
@@ -971,9 +992,9 @@ theorem tPositive_common_centralizer_eq_one (F : FrameData Q)
       (congrArg (fun z : TauCeti.QuadraticMap.orthogonalGroup Q =>
         (z : V ≃ₗ[K] V)) hcomm)
     simpa [LinearEquiv.mul_apply] using h
-  have hs2 : (F.s : V ≃ₗ[K] V) (F.e 2) = F.e 0 := by simpa using F.s_e 2
-  have hs3 : (F.s : V ≃ₗ[K] V) (F.e 3) = F.e 1 := by simpa using F.s_e 3
-  have hs4 : (F.s : V ≃ₗ[K] V) (F.e 4) = F.e 4 := by simpa using F.s_e 4
+  have hs2 : (F.s : V ≃ₗ[K] V) (F.e 2) = F.e 0 := by simp
+  have hs3 : (F.s : V ≃ₗ[K] V) (F.e 3) = F.e 1 := by simp
+  have hs4 : (F.s : V ≃ₗ[K] V) (F.e 4) = F.e 4 := by simp
   have hb0 : g.val (F.e 0) = b • F.e 0 := by
     have h := hg_s (F.e 2)
     rw [hbact ⟨F.e 2, e2_mem_Wplus F⟩] at h

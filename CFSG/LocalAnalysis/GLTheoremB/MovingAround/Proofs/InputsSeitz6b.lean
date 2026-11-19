@@ -37,7 +37,7 @@ theorem le_glbCore_of_index_cube (h2 : KFactSeitzRankTwo) (hQ : SeitzQuasiAt 3)
     (hsmall : p ^ (CFSG.Open.pRank p B - 2) * Nat.card (cen B K) < Nat.card (stab B K))
     (d : TauCeti.ValidLieTypeIndex) (e : ↥K ⧸ Subgroup.center ↥K ≃* (TauCeti.CFSGIndex.lie d).Group)
     (hpd : p ≠ d.1.characteristic) : K ≤ GLBCore p 2 B := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h3le : p ^ 3 * Nat.card (cen B K) ≤ Nat.card (stab B K) :=
     (Nat.mul_le_mul_right _ (Nat.pow_le_pow_right hp.pos (by omega))).trans
       (InputsSeitz3.pow_succ_mul_le hp hB hsmall)
@@ -93,7 +93,7 @@ theorem le_glbCore_of_index_cube (h2 : KFactSeitzRankTwo) (hQ : SeitzQuasiAt 3)
 theorem input23_19ChevCore_of_seitzQuasiAt (h2 : KFactSeitzRankTwo)
     (hQ : SeitzQuasiAt 3) (hRes : InputsSeitz5.Input23_19ExcRes) : InputsSeitz.Input23_19ChevCore := by
   intro X _ _ hKX p hp hp2 hcore B hB hB4 hrk K hK hch haut
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBcard : Nat.card B = p ^ CFSG.Open.pRank p B := GL83.PiGen.card_eq_pow_pRank hB
   by_cases hsmall : Nat.card (stab B K) ≤ p ^ (CFSG.Open.pRank p B - 2) * Nat.card (cen B K)
   · exact InputsSeitz.le_glbCore_of_card_stab_le hp hB hK 2 (CFSG.Open.pRank p B - 2) (by omega)
@@ -183,7 +183,7 @@ theorem three_mul_pRank_le_of_not_mem {p : ℕ} (hp : p.Prime) {K : Subgroup X} 
     (hbb : b * b ∉ Subgroup.normalizer (K : Set X)) :
     3 * CFSG.Open.pRank p K ≤ CFSG.Open.pRank p (⊤ : Subgroup X) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K₁ := cj b K with hK₁def
   set K₂ := cj (b * b) K with hK₂def
   have hK₁ : IsComponentOf K₁ ⊤ := isComponentOf_cj hK b
@@ -258,7 +258,7 @@ theorem pRank_five_mulAut_le_three_of_ree32 {K : Type} [Group K] [Finite K]
     (hq : CFSG.Open.IsQuasisimple K) (d : TauCeti.ValidLieTypeIndex) (hd : d.1 = .reeF4 2)
     (e : K ⧸ Subgroup.center K ≃* (TauCeti.CFSGIndex.lie d).Group) :
     CFSG.Open.pRank 5 (⊤ : Subgroup (MulAut K)) ≤ 3 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine (InputsSeitz5.pRank_mulAut_le_quot Nat.prime_five hq.1).trans ?_
   have hs : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hnab := CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.SeitzBridgeAux.exists_noncomm_quot hq
@@ -275,19 +275,19 @@ theorem pRank_five_mulAut_le_three_of_ree32 {K : Type} [Group K] [Finite K]
     obtain ⟨F, _, _, _, hF, ⟨eΓ⟩⟩ := CFSG.HardMathSupport.Malle.LocalAction.exists_reeGamma_model hdR ⟨e⟩
     obtain ⟨hcyc, -⟩ := CFSG.AGLEmbedding.outer_reeGamma (a := 2) (K := F) (by norm_num) hF
     let eO := CFSG.ComponentClassification.OuterAutomorphisms.equivalence eΓ
-    haveI : IsCyclic (Outer (K ⧸ Subgroup.center K)) :=
+    have : IsCyclic (Outer (K ⧸ Subgroup.center K)) :=
       isCyclic_of_surjective eO.symm.toMonoidHom eO.symm.surjective
     exact CFSG.LocalAnalysis.RankFourTheoremC.pRank_le_one_of_isCyclic Nat.prime_five inferInstance
   omega
 
-theorem false_of_ree32_faithful (hGA : GriessMultipliersAllModels) (hcore : GLAPPrimeCore 5 X = ⊥)
+theorem false_of_ree32_faithful (hGA : GriessMultipliersAllModels) (_hcore : GLAPPrimeCore 5 X = ⊥)
     {B : Subgroup X} (hB : IsElemAbelian 5 B) (hB4 : 4 ≤ CFSG.Open.pRank 5 B)
     (hrk : CFSG.Open.pRank 5 B = CFSG.Open.pRank 5 (⊤ : Subgroup X)) {K : Subgroup X}
     (hK : IsComponentOf K ⊤)
     (hsmall : 5 ^ (CFSG.Open.pRank 5 B - 2) * Nat.card (cen B K) < Nat.card (stab B K))
     (d : TauCeti.ValidLieTypeIndex) (e : ↥K ⧸ Subgroup.center ↥K ≃* (TauCeti.CFSGIndex.lie d).Group)
     (hd : d.1 = .reeF4 2) (hC : B ⊓ Subgroup.centralizer (K : Set X) = ⊥) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hp : Nat.Prime 5 := Nat.prime_five
   have hpd : 5 ≠ d.1.characteristic := by
     rw [hd, TauCeti.LieTypeIndex.characteristic_reeF4]
@@ -381,7 +381,7 @@ section Assemble2319
 theorem input23_19ExcRes_of_three (hGA : GriessMultipliersAllModels) (h : Input23_19ExcThree) :
     InputsSeitz5.Input23_19ExcRes := by
   intro X _ _ hKX p hp hp2 hcore B hB hB4 hrk K hK haut hsmall d hd hexc htits hsz hl28 hsix hrest
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨e⟩ := hd
   have hd2 : d.1.characteristic = 2 := InputsSeitz5.characteristic_eq_two_of_excIndex hexc
   have hpd : p ≠ d.1.characteristic := by rw [hd2]; exact hp2
@@ -431,7 +431,7 @@ theorem le_glbCore_of_alt_of_rank (hp : p.Prime) (hp2 : p ≠ 2)
     (hnc : n / p + CFSG.Open.pRank p (cen B K) ≤ CFSG.Open.pRank p B) :
     K ≤ GLBCore p 2 B := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   set m := CFSG.Open.pRank p B with hm
@@ -443,7 +443,7 @@ theorem le_glbCore_of_alt_of_rank (hp : p.Prime) (hp2 : p ≠ 2)
   push Not at hsmall
   obtain ⟨e⟩ := hA
   have hq : CFSG.Open.IsQuasisimple K := hK.2.2
-  haveI : Group.IsPerfect K := ⟨hq.1⟩
+  have : Group.IsPerfect K := ⟨hq.1⟩
   have hn5 : 5 ≤ n := SchurFacts.five_le_of_isAltType hq ⟨e⟩
   set π := GL83.PiGen.permHom (GL83.PiGen.stab_le_normalizer B K) hn5 hn6 e with hπ
   have hAC : Nat.card (stab B K) = Nat.card (cen B K) * Nat.card π.range :=
@@ -468,7 +468,7 @@ theorem le_glbCore_of_alt_of_rank (hp : p.Prime) (hp2 : p ≠ 2)
       (((pow_dvd_pow p (by omega)).trans hdvd).trans (by norm_num))
   have hZ2 : Nat.card (Subgroup.center K) ∣ 2 := by
     have h := SchurFacts.card_center_dvd_of_isAltType hq ⟨e⟩
-    rwa [if_neg (by omega)] at h
+    rwa [ite_eq_right (by omega)] at h
   have hstab : stab B K = B := inf_eq_left.2 hBN
   have hAcard : Nat.card (stab B K) = p ^ m := by rw [hstab, hBcard]
   have hker : Nat.card π.ker = Nat.card (cen B K) := by
@@ -642,9 +642,9 @@ theorem lift_mem_glbCore (hp : p.Prime) (hp2 : p ≠ 2) {B K : Subgroup X} (hB :
     (hσV : ∀ v ∈ V, v * σ = σ * v) (k : ↥K)
     (hek : (e (QuotientGroup.mk k) : Perm (Fin n)) = σ) : (k : X) ∈ GLBCore p 2 B := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple K := hK.2.2
-  haveI : Group.IsPerfect K := ⟨hq.1⟩
+  have : Group.IsPerfect K := ⟨hq.1⟩
   set π := GL83.PiGen.permHom (GL83.PiGen.stab_le_normalizer B K) hn5 hn6 e with hπ
   have hAC : Nat.card (stab B K) = Nat.card (cen B K) * Nat.card π.range :=
     GL83.PiGen.card_stab_eq_mul hn5 hn6 e
@@ -770,7 +770,7 @@ theorem le_glbCore_of_alt_pairs (hp : p.Prime) (hp2 : p ≠ 2) {B K : Subgroup X
       (GL83.PiGen.permHom (GL83.PiGen.stab_le_normalizer B K) hn5 hn6 e).range ω ω')) :
     K ≤ GLBCore p 2 B := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   set π := GL83.PiGen.permHom (GL83.PiGen.stab_le_normalizer B K) hn5 hn6 e with hπ
   have hAel : IsElemAbelian p (stab B K) := elem_mono hB inf_le_left
@@ -885,11 +885,11 @@ theorem orbit_shape {t : ℕ} (hn : n = 3 * t) {R : Subgroup (Perm (Fin n))} (hR
     (∀ ω ω' : Fin n, Nat.card (orbit R ω) = 9 → Nat.card (orbit R ω') = 9 → ω' ∈ orbit R ω) ∧
     (∀ ω ω' : Fin n, Nat.card (orbit R ω) = 9 → 3 ≤ Nat.card (orbit R ω')) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRp : IsPGroup 3 R := CFSG.Open.IsElemAbelian.isPGroup hR
   have hRcomm : ∀ x ∈ R, ∀ y ∈ R, x * y = y * x := fun x hx y hy => elem_comm hR hx hy
   let Q := MulAction.orbitRel.Quotient R (Fin n)
-  haveI : Fintype Q := Fintype.ofFinite Q
+  have : Fintype Q := Fintype.ofFinite Q
   have hmem : ∀ q : Q, (Quotient.out q : Fin n) ∈ q.orbit := fun q =>
     MulAction.orbitRel.Quotient.mem_orbit.2 (Quotient.out_eq' q)
   have hex : ∀ q : Q, ∃ s, Nat.card q.orbit = 3 ^ s := fun q => by
@@ -1139,7 +1139,7 @@ theorem le_glbCore_of_alt_twelve {B K : Subgroup X} (hB : IsElemAbelian 3 B)
       (by norm_num) e).range α) = 9) :
     K ≤ GLBCore 3 2 B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := GL83.PiGen.permHom (GL83.PiGen.stab_le_normalizer B K) (by norm_num : 5 ≤ 12)
     (by norm_num : (12 : ℕ) ≠ 6) e with hπ
   set R := π.range with hR
@@ -1375,15 +1375,15 @@ theorem le_glbCore_of_alt_pred {B K : Subgroup X}
     (hrk : CFSG.Open.pRank 3 B + 1 = n / 3 + CFSG.Open.pRank 3 (cen B K)) :
     K ≤ GLBCore 3 2 B := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hA
   have hq : CFSG.Open.IsQuasisimple K := hK.2.2
-  haveI : Group.IsPerfect K := ⟨hq.1⟩
+  have : Group.IsPerfect K := ⟨hq.1⟩
   have hn5 : 5 ≤ n := by omega
   have hn6 : n ≠ 6 := by omega
   have hZ2 : Nat.card (Subgroup.center K) ∣ 2 := by
     have h := SchurFacts.card_center_dvd_of_isAltType hq ⟨e⟩
-    rwa [if_neg (by omega)] at h
+    rwa [ite_eq_right (by omega)] at h
   set π := GL83.PiGen.permHom (GL83.PiGen.stab_le_normalizer B K) hn5 hn6 e with hπ
   have hAC : Nat.card (stab B K) = Nat.card (cen B K) * Nat.card π.range :=
     GL83.PiGen.card_stab_eq_mul hn5 hn6 e
@@ -1482,7 +1482,7 @@ theorem rank3CuResExc_of_res_cube (hQ : SeitzQuasiAt 3) (hX : InputsSeitz5.Rank3
   have h139b' := h139b
   obtain ⟨hp3, -⟩ := h139b
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hB4 : 4 ≤ CFSG.Open.pRank 3 B := Claims1310.pRank_B_eq h ▸ h.standing.four_le
   rcases htype with ⟨n, hA⟩ | ⟨i, ⟨e⟩, hi3, hexc, hrest⟩
@@ -1576,7 +1576,7 @@ theorem rank3CuRes_of_seitzQuasiAt (h2 : KFactSeitzRankTwo) (hQ : SeitzQuasiAt 3
   have hgood0 := hgood
   obtain ⟨hp3, -⟩ := h139b
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hS : GLStanding G m 3 := h.standing
   have hBel : IsElemAbelian 3 B := h.bOne.1.1
@@ -1738,7 +1738,7 @@ theorem exists_elem_three_normalizing_four (n : ℕ) (hn : 4 ≤ n) :
   set V₀ : Subgroup (↥(alternatingGroup (Fin 4)) × Multiplicative (Fin s → ZMod 3)) :=
     (alternatingGroup.kleinFour (Fin 4)).prod ⊥ with hV₀
   have h4 : Nat.card (Fin 4) = 4 := Nat.card_fin 4
-  haveI := alternatingGroup.normal_kleinFour h4
+  have := alternatingGroup.normal_kleinFour h4
   have hV₀N : V₀.Normal := Subgroup.prod_normal _ _
   have hW₀el : IsElemAbelian 3 W₀ := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun x hx => ?_⟩
@@ -1784,8 +1784,8 @@ theorem le_of_normalizes_bar {G : Type} [Group G] [Finite G] {m : ℕ} (hS : GLS
     (hV : IsPGroup 2 ↥V) (hV1 : V ≠ ⊥)
     (hFV : F ≤ Subgroup.normalizer (V : Set (↥C ⧸ GLAPPrimeCore 3 ↥C)))
     {k : ℕ} (hFk : Nat.card F = 3 ^ k) : k ≤ m := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN3 : ¬ 3 ∣ Nat.card (GLAPPrimeCore 3 ↥C) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 CFSG.pPrimeCore_coprime_card
   obtain ⟨S, hSel, hSmap, hScard⟩ :=
@@ -1837,7 +1837,7 @@ theorem alt_rank_bound {G : Type} [Group G] [Finite G] {m : ℕ} (hS : GLStandin
     (n - 1) / 3 + CFSG.Open.pRank 3 (barX 3 (Cg u) B ⊓
       Subgroup.centralizer ((barX 3 (Cg u) Kc : Subgroup (↥(Cg u) ⧸ GLAPPrimeCore 3 ↥(Cg u))) :
         Set (↥(Cg u) ⧸ GLAPPrimeCore 3 ↥(Cg u)))) ≤ m := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨W, V, hWel, hWc, hV2, hV1, hWV⟩ := exists_elem_three_normalizing_four n hn4
   set Kt := barX 3 (Cg u) Kc with hKt
   set Ct := barX 3 (Cg u) B ⊓ Subgroup.centralizer ((Kt : Subgroup (↥(Cg u) ⧸ GLAPPrimeCore 3 ↥(Cg u))) :
@@ -1898,7 +1898,7 @@ theorem cen_bar_ne_bot {G : Type} [Group G] [Finite G] {B : Subgroup G} (hBel : 
     (huB : u ∈ B) (hu1 : u ≠ 1) (Kc : Subgroup G) :
     barX 3 (Cg u) B ⊓ Subgroup.centralizer ((barX 3 (Cg u) Kc :
       Subgroup (↥(Cg u) ⧸ GLAPPrimeCore 3 ↥(Cg u))) : Set (↥(Cg u) ⧸ GLAPPrimeCore 3 ↥(Cg u))) ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have huC : u ∈ Cg u := Subgroup.mem_centralizer_iff.2 fun g hg => by rw [Set.mem_singleton_iff.1 hg]
   have hū1 : QuotientGroup.mk' (GLAPPrimeCore 3 ↥(Cg u)) (⟨u, huC⟩ : ↥(Cg u)) ≠ 1 := by
     intro h1
@@ -1931,7 +1931,7 @@ theorem one_le_pRank_cen_bar {G : Type} [Group G] [Finite G] {B : Subgroup G} (h
     {u : G} (huB : u ∈ B) (hu1 : u ≠ 1) (Kc : Subgroup G) :
     1 ≤ CFSG.Open.pRank 3 (barX 3 (Cg u) B ⊓ Subgroup.centralizer ((barX 3 (Cg u) Kc :
       Subgroup (↥(Cg u) ⧸ GLAPPrimeCore 3 ↥(Cg u))) : Set (↥(Cg u) ⧸ GLAPPrimeCore 3 ↥(Cg u)))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hel : IsElemAbelian 3 (barX 3 (Cg u) B ⊓ Subgroup.centralizer ((barX 3 (Cg u) Kc :
       Subgroup (↥(Cg u) ⧸ GLAPPrimeCore 3 ↥(Cg u))) : Set (↥(Cg u) ⧸ GLAPPrimeCore 3 ↥(Cg u)))) :=
     elem_mono (isElemAbelian_barX hBel) inf_le_left
@@ -1970,7 +1970,7 @@ theorem rank3CuResExcRes_of_two (hGA : GriessMultipliersAllModels)
   have h139b' := h139b
   obtain ⟨hp3, -⟩ := h139b
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : Nat.Prime 3 := Nat.prime_three
   have hBel : IsElemAbelian 3 B := h.bOne.1.1
   have huB : u ∈ B := hU.1.1 hu
@@ -1991,7 +1991,7 @@ theorem rank3CuResExcRes_of_two (hGA : GriessMultipliersAllModels)
       exact ⟨(Lemma1315b.centerQuotEquiv eK.symm).trans eA⟩
     have hZt : Subgroup.center ↥(barX 3 (Cg u) Kc) = ⊥ := by
       have hZ2 := SchurFacts.card_center_dvd_of_isAltType hKt.2.2 hAt
-      rw [if_neg (by omega)] at hZ2
+      rw [ite_eq_right (by omega)] at hZ2
       have hZp : IsPGroup 3 ↥(Subgroup.center ↥(barX 3 (Cg u) Kc)) :=
         Inputs245b.isPGroup_center_of_component hp (glaPPrimeCore_quotient_eq_bot hp) hKt
       by_contra hne

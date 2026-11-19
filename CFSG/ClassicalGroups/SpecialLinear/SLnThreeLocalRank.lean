@@ -87,12 +87,12 @@ private theorem transvection_mulVec_single_ne :
   intro h
   have h1 := congrFun h 0
   simp [Matrix.mulVec, dotProduct, Matrix.SpecialLinearGroup.transvection_coe,
-    Fin.sum_univ_two, Pi.single_apply] at h1
+    Pi.single_apply] at h1
 
 private theorem leviMat_mulVec_single (U : Matrix (Fin 3) (Fin 3) K) (p : Fin 2) (b : Fin 3)
     (q : Fin 2) (k : Fin 3) : (leviMat U *ᵥ (Pi.single (p, b) 1 : Blk → K)) (q, k) =
       if p = q then U k b else 0 := by
-  simp [Matrix.mulVec, dotProduct, leviMat_apply, Fintype.sum_prod_type, Pi.single_apply,
+  simp [Matrix.mulVec, dotProduct, leviMat_apply, Pi.single_apply,
     eq_comm]
 
 private theorem leviSL_transvection_mulVec_ne (hn : n = 6 ∨ n = 7) {a b : Fin 3} (hab : a ≠ b)
@@ -116,9 +116,8 @@ private theorem leviSL_transvection_mulVec_eq (hn : n = 6 ∨ n = 7) {a b c : Fi
   rw [leviMat_mulVec_single]
   by_cases hpq : p = q
   · subst hpq
-    simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.one_apply, Matrix.single_apply,
-      Pi.single_apply, hbc, hbc.symm]
-  · simp [hpq, Pi.single_apply]
+    simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.one_apply, Pi.single_apply, hbc.symm]
+  · simp [hpq]
 
 private theorem transvection_pow {ι : Type} [Fintype ι] [DecidableEq ι] {i j : ι} (hij : i ≠ j)
     (k : ℕ) :
@@ -171,7 +170,7 @@ private theorem commute_leviSL_blockEmb (hn : n = 6 ∨ n = 7)
   · simp [Pi.mulSingle_eq_of_ne hi, Pi.mulSingle_eq_of_ne hk]
 
 private theorem commute_transvection_zero {a b c : Fin 3} (hab : a ≠ b) (hac : a ≠ c)
-    (hbc : b ≠ c) :
+    (_hbc : b ≠ c) :
     Commute (Matrix.SpecialLinearGroup.transvection hab (1 : K))
       (Matrix.SpecialLinearGroup.transvection hac (1 : K)) := by
   apply Subtype.ext
@@ -190,15 +189,17 @@ private theorem transvection_entry_ne_zero {a b : Fin 3} (hab : a ≠ b) {i j : 
   exfalso
   apply h
   have h3 : ¬ (a = i ∧ b = j) := fun ⟨e1, e2⟩ => h2 ⟨e1.symm, e2.symm⟩
-  simp [Matrix.SpecialLinearGroup.transvection_coe, Matrix.one_apply, Matrix.single_apply, h1, h3]
+  simp [Matrix.SpecialLinearGroup.transvection_coe, h1, h3]
 
 variable [Finite K] {r : ℕ} [Fact r.Prime] [CharP K r]
 
+omit [Finite K] in
 private theorem orderOf_blockEmb_transvection (hn : n = 6 ∨ n = 7) (j : Fin 3) :
     orderOf (blockEmb hn j (Matrix.SpecialLinearGroup.transvection
       (show (0 : Fin 2) ≠ 1 by decide) (1 : K))) = r := by
   rw [orderOf_blockEmb, orderOf_transvection]
 
+omit [Finite K] in
 private theorem orderOf_leviSL_transvection (hn : n = 6 ∨ n = 7) {a b : Fin 3} (hab : a ≠ b) :
     orderOf (leviSL hn (Matrix.SpecialLinearGroup.transvection hab (1 : K))) = r := by
   have h := orderOf_injective (leviSL (K := K) hn) (leviSL_injective hn)

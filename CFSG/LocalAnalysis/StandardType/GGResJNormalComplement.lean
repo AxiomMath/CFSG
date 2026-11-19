@@ -123,7 +123,7 @@ theorem false_of_hasNormalPComplement_of_perfect_pdiv
     (hpJ : p ∣ Nat.card J) : False := by
   have hJNP : CFSG.HasNormalPComplement p ↥J :=
     CFSG.hasNormalPComplement_of_le p hJH hNP
-  letI : Group.IsPerfect ↥J := ⟨hJperf⟩
+  let : Group.IsPerfect ↥J := ⟨hJperf⟩
   have hcop : Nat.Coprime p (Nat.card J) :=
     CFSG.LocalAnalysis.RankThreeTheoremC.RankOneCent.coprime_card_of_perfect hJNP
   exact (Nat.Prime.coprime_iff_not_dvd (Fact.out : p.Prime)).mp hcop hpJ

@@ -25,13 +25,13 @@ private theorem hdRo7CNormRAux_T_self {p : ℕ} [Fact p.Prime] {n : ℕ} {V : Ty
     [AddCommGroup V] [Module (ZMod p) V]
     (b : Module.Basis (Fin (n + 1)) (ZMod p) V) :
     hdRo7CNormRAux_T b (b 0) = b 0 := by
-  rw [hdRo7CNormRAux_T, Module.Basis.constr_basis, if_pos rfl]
+  rw [hdRo7CNormRAux_T, Module.Basis.constr_basis, ite_eq_left rfl]
 
 private theorem hdRo7CNormRAux_T_ne {p : ℕ} [Fact p.Prime] {n : ℕ} {V : Type}
     [AddCommGroup V] [Module (ZMod p) V]
     (b : Module.Basis (Fin (n + 1)) (ZMod p) V) {i : Fin (n + 1)} (hi : i ≠ 0) :
     hdRo7CNormRAux_T b (b i) = -b i := by
-  rw [hdRo7CNormRAux_T, Module.Basis.constr_basis, if_neg hi]
+  rw [hdRo7CNormRAux_T, Module.Basis.constr_basis, ite_eq_right hi]
 
 private theorem hdRo7CNormRAux_T_comp {p : ℕ} [Fact p.Prime] {n : ℕ} {V : Type}
     [AddCommGroup V] [Module (ZMod p) V]
@@ -92,9 +92,9 @@ private theorem hdRo7CNormRAux_z_apply {p : ℕ} [Fact p.Prime] {n : ℕ} {V : T
       by_cases hi : i = 0
       · subst hi
         rw [hdRo7CNormRAux_T_self b]
-        simp [Module.Basis.coord_apply, Module.Basis.repr_self_apply, two_smul]
+        simp [Module.Basis.coord_apply, two_smul]
       · rw [hdRo7CNormRAux_T_ne b hi]
-        simp [Module.Basis.coord_apply, Module.Basis.repr_self_apply, hi, two_smul]
+        simp [Module.Basis.coord_apply, hi]
     have h := congrArg (fun L : V →ₗ[ZMod p] V => L v) hlin
     simpa only [LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.smulRight_apply,
       LinearMap.id_apply, ← smul_smul] using h
@@ -189,7 +189,7 @@ theorem c2_reflNorm_holds : C2ReflNormLeaf := by
       (LinearMap.range (CFSG.RankThree.PartOne.ReflF.Nop r)) = 1 := by
     rw [hNop, LinearMap.range_neg]
     exact hrefl.2
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_basis b
   obtain ⟨u, φ, hd⟩ := CFSG.RankThree.PartOne.Sec138Loc.exists_reflData_field
     (K := ZMod 3) hdRo7CNormRAux_two_ne_zero r hrefl.1 hrankNop
   have hu : u ≠ 0 := hd.ne

@@ -42,19 +42,19 @@ theorem jOp_apply (m : Matrix (Fin 2) (Fin 2) K) (v : V K) (b : Fin e7Data.d) :
 theorem jFun_of_zero {m : Matrix (Fin 2) (Fin 2) K} {v : Fin e7Data.d → K} {b : Fin e7Data.d}
     (h : pr b theta = 0) : jFun m v b = v b := by
   unfold jFun
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 theorem jFun_of_neg {m : Matrix (Fin 2) (Fin 2) K} {v : Fin e7Data.d → K} {b : Fin e7Data.d}
     (h : pr b theta = -1) :
     jFun m v b = m 0 0 * v b + m 0 1 * v (shift theta b) := by
   unfold jFun
-  rw [if_neg (show ¬ (pr b theta = 0) by omega), if_pos h]
+  rw [ite_eq_right (show ¬ (pr b theta = 0) by omega), ite_eq_left h]
 
 theorem jFun_of_pos {m : Matrix (Fin 2) (Fin 2) K} {v : Fin e7Data.d → K} {b : Fin e7Data.d}
     (h : pr b theta = 1) :
     jFun m v b = m 1 0 * v (shift (-theta) b) + m 1 1 * v b := by
   unfold jFun
-  rw [if_neg (show ¬ (pr b theta = 0) by omega), if_neg (show ¬ (pr b theta = -1) by omega)]
+  rw [ite_eq_right (show ¬ (pr b theta = 0) by omega), ite_eq_right (show ¬ (pr b theta = -1) by omega)]
 
 theorem jOp_one : jOp (1 : Matrix (Fin 2) (Fin 2) K) = 1 := by
   apply LinearMap.ext
@@ -64,10 +64,10 @@ theorem jOp_one : jOp (1 : Matrix (Fin 2) (Fin 2) K) = 1 := by
   rw [jOp_apply, Module.End.one_apply]
   rcases pr_mem isRoot_theta b with h | h | h
   · rw [jFun_of_neg h]
-    simp [Matrix.one_apply]
+    simp
   · rw [jFun_of_zero h]
   · rw [jFun_of_pos h]
-    simp [Matrix.one_apply]
+    simp
 
 theorem jOp_mul (m m' : Matrix (Fin 2) (Fin 2) K) : jOp (m * m') = jOp m * jOp m' := by
   apply LinearMap.ext
@@ -110,7 +110,7 @@ theorem xu_theta [CharP K 2] (c : K) : e7Data_valid.xu K theta c = jHom (MinData
   intro b
   rw [xu_apply_coord isRoot_theta, jHom_val, jOp_apply, MinData.Valid.slLower_val]
   unfold jFun
-  rcases pr_mem isRoot_theta b with h | h | h <;> simp [h] <;> ring
+  rcases pr_mem isRoot_theta b with h | h | h <;> simp [h]; ring
 
 theorem xu_neg_theta [CharP K 2] (c : K) : e7Data_valid.xu K (-theta) c = jHom (MinData.Valid.slUpper K c) := by
   apply Units.ext
@@ -121,7 +121,7 @@ theorem xu_neg_theta [CharP K 2] (c : K) : e7Data_valid.xu K (-theta) c = jHom (
   rw [xu_apply_coord (isRoot_neg isRoot_theta), jHom_val, jOp_apply, MinData.Valid.slUpper_val,
     neg_neg, pr_neg]
   unfold jFun
-  rcases pr_mem isRoot_theta b with h | h | h <;> simp [h] <;> ring
+  rcases pr_mem isRoot_theta b with h | h | h <;> simp [h]
 
 @[expose] def Jgrp (K : Type) [Field K] : Subgroup (Module.End K (V K))ˣ :=
   Subgroup.closure {g | ∃ c : K, g = e7Data_valid.xu K theta c ∨ g = e7Data_valid.xu K (-theta) c}
@@ -222,13 +222,13 @@ theorem J_fixes_V0 [CharP K 2] {j : (Module.End K (V K))ˣ} (hj : j ∈ Jgrp K) 
   rcases pr_mem isRoot_theta b with h | h | h
   · have h0 : pr b theta ≠ 0 := by rw [h]; norm_num
     have hs : pr (shift theta b) theta ≠ 0 := by rw [pr_shift_self isRoot_theta h]; norm_num
-    rw [if_neg h0, if_pos h, hvb b h0, hvb (shift theta b) hs]
+    rw [ite_eq_right h0, ite_eq_left h, hvb b h0, hvb (shift theta b) hs]
     ring
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
   · have h0 : pr b theta ≠ 0 := by rw [h]; norm_num
     have h1 : ¬ pr b theta = -1 := by rw [h]; norm_num
     have hs : pr (shift (-theta) b) theta ≠ 0 := by rw [pr_shift_neg isRoot_theta h]; norm_num
-    rw [if_neg h0, if_neg h1, hvb b h0, hvb (shift (-theta) b) hs]
+    rw [ite_eq_right h0, ite_eq_right h1, hvb b h0, hvb (shift (-theta) b) hs]
     ring
 
 theorem fixed_eq_V0 [CharP K 2] {j : (Module.End K (V K))ˣ} (hj : j ∈ Jgrp K) (h1 : j ≠ 1)
@@ -294,12 +294,12 @@ theorem fixed_eq_V0 [CharP K 2] {j : (Module.End K (V K))ˣ} (hj : j ∈ Jgrp K)
       have eq1 : M 0 0 * v b + M 0 1 * v (shift theta b) = v b := by
         have h := hfix b
         unfold jFun at h
-        rw [if_neg hb0, if_pos hb] at h
+        rw [ite_eq_right hb0, ite_eq_left hb] at h
         exact h
       have eq2 : M 1 0 * v b + M 1 1 * v (shift theta b) = v (shift theta b) := by
         have h := hfix (shift theta b)
         unfold jFun at h
-        rw [if_neg hc0, if_neg hc1, hsh'] at h
+        rw [ite_eq_right hc0, ite_eq_right hc1, hsh'] at h
         exact h
       have hD : (M 0 0 - 1) * (M 1 1 - 1) - M 0 1 * M 1 0 = -(M 0 0 + M 1 1) := by
         linear_combination hdet + h2
@@ -347,17 +347,17 @@ theorem rootOp_range_eq_supported [CharP K 2] {γ : Fin (Tag.rank .E7) → ℤ} 
     intro b hb
     have hb' : ¬ pr b γ = 1 := fun h =>
       hb (Finset.mem_coe.2 (Finset.mem_filter.2 ⟨Finset.mem_univ _, h⟩))
-    rw [rootOp_apply hγ, if_neg hb']
+    rw [rootOp_apply hγ, ite_eq_right hb']
   · intro w hw
     rw [Finsupp.mem_supported'] at hw
     refine ⟨Finsupp.equivFunOnFinite.symm (fun a => if pr a γ = -1 then w (shift γ a) else 0), ?_⟩
     ext b
     rw [rootOp_apply hγ]
     by_cases hb : pr b γ = 1
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       simp only [Finsupp.equivFunOnFinite_symm_apply_apply]
-      rw [if_pos (pr_shift_neg hγ hb), shift_shift_neg hγ hb]
-    · rw [if_neg hb]
+      rw [ite_eq_left (pr_shift_neg hγ hb), shift_shift_neg hγ hb]
+    · rw [ite_eq_right hb]
       have hb'' : b ∉ ((Finset.univ.filter fun b : Fin e7Data.d => pr b γ = 1 :
           Finset (Fin e7Data.d)) : Set (Fin e7Data.d)) :=
         fun h => hb (Finset.mem_filter.1 (Finset.mem_coe.1 h)).2

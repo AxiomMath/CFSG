@@ -316,7 +316,7 @@ private theorem exists_psi [Finite V] (x₁ a₁ x₂ a₂ : GLV V) (U : Submodu
     rw [actX, hΘ, hΘ]
     simp only [map_add, map_smul, e3, e4]
     simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one]
+      Matrix.empty_val', Matrix.cons_val_fin_one]
     module
   · intro Y
     have e2 : a₁ (x₂ w) = x₂ w := by rw [comm_apply hax, hwa₁]
@@ -327,7 +327,7 @@ private theorem exists_psi [Finite V] (x₁ a₁ x₂ a₂ : GLV V) (U : Submodu
     rw [actS, hΘ, hΘ]
     simp only [map_add, map_smul, hwa₁, e2, e3, e4]
     simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one]
+      Matrix.empty_val', Matrix.cons_val_fin_one]
     module
   · intro Y
     have f1 : x₂ (x₂ w) = x₂ w + w := sq_apply hx₂ hx₂U hfp₂ hwU
@@ -337,7 +337,7 @@ private theorem exists_psi [Finite V] (x₁ a₁ x₂ a₂ : GLV V) (U : Submodu
     rw [actXt, hΘ, hΘ]
     simp only [map_add, map_smul, f1, f2, f3]
     simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one]
+      Matrix.empty_val', Matrix.cons_val_fin_one]
     module
   · intro Y
     have g2 : a₂ (x₂ w) = x₂ w + w := by
@@ -348,7 +348,7 @@ private theorem exists_psi [Finite V] (x₁ a₁ x₂ a₂ : GLV V) (U : Submodu
     rw [actSt, hΘ, hΘ]
     simp only [map_add, map_smul, hwa₂, g2, g3, g4]
     simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one]
+      Matrix.empty_val', Matrix.cons_val_fin_one]
     module
 
 end Module

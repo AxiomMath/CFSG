@@ -25,6 +25,7 @@ namespace SevenFourL34
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_normalizer_oUpperTwo' {X : Subgroup G} {n : G} (hn : n ∈ X) :
     n ∈ Subgroup.normalizer (CFSG.ComponentClassification.AS76b.oUpperTwo X : Set G) := by
   rw [Subgroup.mem_normalizer_iff_map_conj_eq, CFSG.ComponentClassification.AS76b.oUpperTwo,
@@ -48,11 +49,11 @@ private theorem mem_normalizer_oUpperTwo' {X : Subgroup G} {n : G} (hn : n ∈ X
 
 theorem oUpperTwo_eq_of_perfect {I : Subgroup G} (h : ⁅I, I⁆ = I) :
     CFSG.ComponentClassification.AS76b.oUpperTwo I = I := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T := CFSG.ComponentClassification.AS76b.oUpperTwo I with hT
   have hTI : T ≤ I := oUpperTwo_le_self I
   refine le_antisymm hTI ?_
-  haveI : (T.subgroupOf I).Normal := Subgroup.normal_subgroupOf_of_le_normalizer
+  have : (T.subgroupOf I).Normal := Subgroup.normal_subgroupOf_of_le_normalizer
     (fun g hg => mem_normalizer_oUpperTwo' hg)
   have hp : IsPGroup 2 (↥I ⧸ T.subgroupOf I) := by
     intro x
@@ -61,7 +62,7 @@ theorem oUpperTwo_eq_of_perfect {I : Subgroup G} (h : ⁅I, I⁆ = I) :
     refine ⟨a, ?_⟩
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
     exact ha
-  haveI : Group.IsNilpotent (↥I ⧸ T.subgroupOf I) := hp.isNilpotent
+  have : Group.IsNilpotent (↥I ⧸ T.subgroupOf I) := hp.isNilpotent
   have hcomm : commutator ↥I = ⊤ := by
     have h1 : (commutator ↥I).map I.subtype = I := by
       rw [commutator_def, Subgroup.map_commutator, Subgroup.map_top, Subgroup.range_subtype, h]
@@ -79,12 +80,13 @@ theorem oUpperTwo_eq_of_perfect {I : Subgroup G} (h : ⁅I, I⁆ = I) :
   have hsub : Subsingleton (↥I ⧸ T.subgroupOf I) := by
     by_contra hns
     rw [not_subsingleton_iff_nontrivial] at hns
-    exact (IsSolvable.commutator_lt_top_of_nontrivial (↥I ⧸ T.subgroupOf I)).ne hcomm'
+    exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (↥I ⧸ T.subgroupOf I)).ne hcomm'
   intro g hg
   have : (QuotientGroup.mk (⟨g, hg⟩ : ↥I) : ↥I ⧸ T.subgroupOf I) = 1 := Subsingleton.elim _ _
   rw [QuotientGroup.eq_one_iff] at this
   exact this
 
+omit [Finite G] in
 theorem eq_one_of_mem_pGroup_two {N : Subgroup G} (hN : IsPGroup 2 N) {g : G} (hg : g ∈ N)
     (h3 : g ^ 3 = 1) : g = 1 := by
   obtain ⟨k, hk⟩ := hN ⟨g, hg⟩
@@ -99,10 +101,10 @@ theorem two_le_pRank_of_commuting_mod {Y N C₁ C₂ : Subgroup G} (hN : IsPGrou
     (hmeet : (C₁ ⊔ N) ⊓ (C₂ ⊔ N) ≤ N)
     (hu : orderOf u = 3) (hv : orderOf v = 3) (hcomm : u * v * u⁻¹ * v⁻¹ ∈ N) :
     2 ≤ Open.pRank 3 Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hu3 : u ^ 3 = 1 := by rw [← hu]; exact pow_orderOf_eq_one u
   have hv3 : v ^ 3 = 1 := by rw [← hv]; exact pow_orderOf_eq_one v
-  haveI hNn : (N.subgroupOf Y).Normal := ⟨fun n hn g => by
+  have hNn : (N.subgroupOf Y).Normal := ⟨fun n hn g => by
     have := (Subgroup.mem_normalizer_iff.mp (hYN g.2) (n : G)).mp hn
     exact this⟩
   have hNp : ¬ 3 ∣ Nat.card (N.subgroupOf Y) := by
@@ -213,12 +215,12 @@ theorem normal_eq_bot_of_not_three_dvd (hSU : KFactSUThreeTwoNoNormalThreePrime)
     [Group T] [Finite T] (hT : IsSymThreeOrSUThreeTwo T) (N : Subgroup T) [hN : N.Normal]
     (h : ¬ 3 ∣ Nat.card N) : N = ⊥ := by
   rcases hT with ⟨⟨e⟩⟩ | ⟨K, hK, hKf, hcard, ⟨e⟩⟩
-  · haveI : (N.map e.toMonoidHom).Normal := hN.map _ e.surjective
+  · have : (N.map e.toMonoidHom).Normal := hN.map _ e.surjective
     have hc : Nat.card (N.map e.toMonoidHom) = Nat.card N :=
       Subgroup.card_map_of_injective e.injective
     have := perm_three_normal_eq_bot (N.map e.toMonoidHom) (by rwa [hc])
     exact (Subgroup.map_eq_bot_iff_of_injective N e.injective).mp this
-  · haveI : (N.map e.toMonoidHom).Normal := hN.map _ e.surjective
+  · have : (N.map e.toMonoidHom).Normal := hN.map _ e.surjective
     have hc : Nat.card (N.map e.toMonoidHom) = Nat.card N :=
       Subgroup.card_map_of_injective e.injective
     have := hSU K hcard (N.map e.toMonoidHom) inferInstance (by rwa [hc])
@@ -230,14 +232,16 @@ def kPre (p : ℕ) (H : Subgroup G) (K : Subgroup (H ⧸ primeComplementCore (G 
     Subgroup G :=
   (K.comap (QuotientGroup.mk' (primeComplementCore (G := H) p))).map H.subtype
 
+omit [Finite G] in
 theorem d1LiftX_le_kPre (p : ℕ) (H R : Subgroup G)
     (K : Subgroup (H ⧸ primeComplementCore (G := H) p)) : d1LiftX p H R K ≤ kPre p H K :=
   Subgroup.map_mono inf_le_right
 
+omit [Finite G] in
 theorem le_normalizer_kPre {p : ℕ} {H : Subgroup G}
     {K : Subgroup (H ⧸ primeComplementCore (G := H) p)} (hK : K.Normal) :
     H ≤ Subgroup.normalizer (kPre p H K : Set G) := by
-  haveI := hK
+  have := hK
   have hN : (K.comap (QuotientGroup.mk' (primeComplementCore (G := H) p))).Normal :=
     Subgroup.Normal.comap inferInstance _
   refine (Subgroup.normal_subgroupOf_iff_le_normalizer (Subgroup.map_subtype_le _)).mp ?_
@@ -248,6 +252,7 @@ theorem le_normalizer_kPre {p : ℕ} {H : Subgroup G}
   rw [e]
   exact hN
 
+omit [Finite G] in
 theorem kPre_inf_d1PlusCore_le {p : ℕ} {H : Subgroup G}
     {K : Subgroup (H ⧸ primeComplementCore (G := H) p)} (hZ : Subgroup.center K = ⊥) :
     kPre p H K ⊓ d1PlusCore p H K ≤ (primeComplementCore (G := H) p).map H.subtype := by
@@ -267,7 +272,7 @@ theorem false_of_orderOf_three {H : Subgroup G} {K : Subgroup (H ⧸ primeComple
     (hZ : Subgroup.center K = ⊥) {I₀ : Subgroup G}
     (hOX : AS76b.oUpperTwo I₀ ≤ d1PlusCore 3 H K) {n : G} (hn : n ∈ I₀) (hnK : n ∈ kPre 3 H K)
     (hno : orderOf n = 3) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hnO : n ∈ AS76b.oUpperTwo I₀ := Subgroup.subset_closure ⟨hn, by rw [hno]; decide⟩
   obtain ⟨c, hc, rfl⟩ := kPre_inf_d1PlusCore_le hZ ⟨hnK, hOX hnO⟩
   have ho : orderOf c = 3 := ((Subgroup.orderOf_coe c).symm).trans hno
@@ -284,7 +289,7 @@ theorem commutator_mem_pCoreOf {H : Subgroup G}
     (hAN : A ≤ Subgroup.normalizer (I₀ : Set G)) (hOX : AS76b.oUpperTwo I₀ ≤ d1PlusCore 3 H K)
     (hsh : IsSymThreeOrSUThreeTwo (↥I₀ ⧸ CFSG.pCore 2 ↥I₀)) :
     ∀ b ∈ A, ∀ x ∈ I₀, b * x * b⁻¹ * x⁻¹ ∈ pCoreOf 2 I₀ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set S : Set G := {y | ∃ b ∈ A, ∃ x ∈ I₀, y = b * x * b⁻¹ * x⁻¹} with hS
   set N : Subgroup G := Subgroup.closure S with hN
   have hSI : S ⊆ I₀ := by
@@ -319,8 +324,8 @@ theorem commutator_mem_pCoreOf {H : Subgroup G}
     rw [Subgroup.orderOf_mk] at hno
     exact false_of_orderOf_three hZ hOX (hNI hn) (hNK hn) hno
   have hNI' : N.subgroupOf I₀ ≤ ⊤ := le_top
-  haveI hNn : (N.subgroupOf I₀).Normal := ⟨fun n hn g => hconj g.1 g.2 n hn⟩
-  haveI hNb : ((N.subgroupOf I₀).map (QuotientGroup.mk' (CFSG.pCore 2 ↥I₀))).Normal :=
+  have hNn : (N.subgroupOf I₀).Normal := ⟨fun n hn g => hconj g.1 g.2 n hn⟩
+  have hNb : ((N.subgroupOf I₀).map (QuotientGroup.mk' (CFSG.pCore 2 ↥I₀))).Normal :=
     hNn.map _ (QuotientGroup.mk'_surjective _)
   have hcard : Nat.card (N.subgroupOf I₀) = Nat.card N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNI).toEquiv
@@ -388,11 +393,11 @@ theorem scalar_of_comm {ω : K} (hω : ω ^ 2 = ω + 1) (M : Matrix (Fin 3) (Fin
   · subst hij
     fin_cases i <;> simp [Matrix.scalar_apply] <;> grind
   · rw [hoff i j hij]
-    simp [Matrix.scalar_apply, Matrix.diagonal_apply, hij]
+    simp [Matrix.scalar_apply, hij]
 
 theorem kFactSUThreeTwoNoNormalThreePrime_holds : KFactSUThreeTwoNoNormalThreePrime := by
   intro K _ _ hK N hN h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω, h2⟩ := exists_omega hK
   let o : OmegaData K := ⟨ω, hω, h2⟩
   have hrel : Heis3Rel (OmegaData.sS o) (OmegaData.sD o) (sZ o) :=
@@ -402,7 +407,7 @@ theorem kFactSUThreeTwoNoNormalThreePrime_holds : KFactSUThreeTwoNoNormalThreePr
     have := orderOf_eq_prime_pow (p := 2) (n := 1) (x := OmegaData.sF o)
       (by simpa using sF_sq_ne_one o) (by simpa using sF_four o)
     simpa using this
-  haveI hEn : (heisSubgroup hrel).Normal := heisSubgroup_normal hcard hrel (sZ_ne_one o)
+  have hEn : (heisSubgroup hrel).Normal := heisSubgroup_normal hcard hrel (sZ_ne_one o)
     (hrel.F_mem_normalizer (sF_mul_sS o) (sF_mul_sD o)) hord
   have hE27 : Nat.card (heisSubgroup hrel) = 27 := card_heisSubgroup hcard hrel (sZ_ne_one o)
   have hdisj : Disjoint N (heisSubgroup hrel) := by

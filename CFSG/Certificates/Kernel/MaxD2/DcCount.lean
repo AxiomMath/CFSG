@@ -155,7 +155,7 @@ structure HypsBC (D : Data) (K : Pk) : Prop extends HypsC D K where
   hMK : ∀ i < K.nr, K.MK i = mkeyK K.n K.w K.hi K.cw K.nl K.L (K.REP i)
   hMd : ∀ i < K.nr, ∀ j < K.nr, i < j → K.MK i ≠ K.MK j ∨
     (if i = 0 then K.cnt else K.CN i) ≠ (if j = 0 then K.cnt else K.CN j) ∨
-    pairK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KS K.REP K.REPI K.RB2 K.H2 (K.PQ i j) i j =
+    pairK K.n K.w K.np K.kw K.cnt K.PT K.NT K.FS K.KSt K.REP K.REPI K.RB2 K.H2 (K.PQ i j) i j =
       true
 
 theorem cc_dcSum_of (H : HypsBC D K) :

@@ -11,11 +11,13 @@ open CFSG.Open Subgroup
 
 variable {Y : Type} [Group Y] [Finite Y] {Pb : Subgroup Y} {L₁ L₂ : Subgroup Y} {t : Y}
 
+omit [Finite Y] in
 theorem sz32b_mem_map_conj {H : Subgroup Y} {g x : Y} :
     x ∈ H.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * x * g ∈ H := by
   rw [Subgroup.mem_map_equiv]
   rfl
 
+omit [Finite Y] in
 theorem sz32b_mem_normalizer_iff_map {H : Subgroup Y} {g : Y} :
     g ∈ Subgroup.normalizer (H : Set Y) ↔ H.map (MulAut.conj g).toMonoidHom = H := by
   constructor
@@ -33,6 +35,7 @@ theorem sz32b_mem_normalizer_iff_map {H : Subgroup Y} {g : Y} :
     rw [e] at h1
     exact h1
 
+omit [Finite Y] in
 theorem sz32b_map_conj_mul (H : Subgroup Y) (g g' : Y) :
     H.map (MulAut.conj (g * g')).toMonoidHom =
       (H.map (MulAut.conj g').toMonoidHom).map (MulAut.conj g).toMonoidHom := by
@@ -41,15 +44,18 @@ theorem sz32b_map_conj_mul (H : Subgroup Y) (g g' : Y) :
   have e : g'⁻¹ * (g⁻¹ * x * g) * g' = (g * g')⁻¹ * x * (g * g') := by group
   rw [e]
 
+omit [Finite Y] in
 theorem sz32b_map_conj_one (H : Subgroup Y) : H.map (MulAut.conj (1 : Y)).toMonoidHom = H := by
   ext x
   rw [sz32b_mem_map_conj]
   simp
 
+omit [Finite Y] in
 theorem sz32b_map_conj_cancel (H : Subgroup Y) (g : Y) :
     (H.map (MulAut.conj g).toMonoidHom).map (MulAut.conj g⁻¹).toMonoidHom = H := by
   rw [← sz32b_map_conj_mul, inv_mul_cancel, sz32b_map_conj_one]
 
+omit [Finite Y] in
 theorem sz32b_map_conj_inj {H K : Subgroup Y} {g : Y}
     (hHK : H.map (MulAut.conj g).toMonoidHom = K.map (MulAut.conj g).toMonoidHom) : H = K :=
   Subgroup.map_injective (fun _ _ hab => (MulAut.conj g).injective hab) hHK

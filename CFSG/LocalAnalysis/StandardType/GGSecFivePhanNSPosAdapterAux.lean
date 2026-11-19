@@ -73,7 +73,7 @@ lemma ggNSPosPD_routeCfg_cent_K {G : Type} [Group G] [Finite G] {p : ℕ} {B : S
         exact bot_le
       exact (hiff z).mp ⟨hzB, hzN, hcm⟩
     · exact Subgroup.zpowers_le.mpr ⟨hyB, hyK⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [hEq, Nat.card_zpowers]
   exact orderOf_eq_prime (hnbr.1.1.1.2 y hyB) hy_ne
 

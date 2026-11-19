@@ -15,12 +15,12 @@ open CFSG.RankThree.Classical (spEnd IsReciprocalTransversal)
 open CFSG.RankThree.PartOne.KCPrimary
 
 theorem ggK1C_exists_lift {p nf r : ℕ} {K : Type} [Field K] [Finite K]
-    (hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
+    (_hnf : 1 ≤ nf) (hK : Nat.card K = 2 ^ nf)
     (φ : MulAut (StatedProj (StatedSp r K)))
     (hφ : φ ∈ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup K r)) (LargeEvenGSpSet K r))
     (hφp : φ ^ p = 1) :
     ∃ x : ↥(StatedSp r K), x ^ p = 1 ∧ MulAut.conj (proj r K x) = φ := by
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   obtain ⟨A, hA⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.Y10GFldSympMark.exists_conjAut_eq_of_mem_matConjImage hφ

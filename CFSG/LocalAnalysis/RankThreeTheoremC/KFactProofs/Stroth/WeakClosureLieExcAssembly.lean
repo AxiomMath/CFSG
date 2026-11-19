@@ -49,8 +49,8 @@ theorem SylowFrameM.toSylowFrame {F : Type} [Field F] [Finite F] {p : ℕ} {w : 
 theorem wcOn_adjoint_of_nm {F : Type} [Field F] [Finite F] {p : ℕ} [Fact p.Prime] {L : Type}
     [Field L] (D : LangDatum τ L) (e : adjointGroup τ F ≃* D.Γ) (S₀ : Sylow p D.Γ)
     (hnm : NormalizerMovesLines p (S₀ : Subgroup D.Γ)) : WCOn p (adjointGroup τ F) := by
-  haveI : Finite (ModGL τ F) := finite_modGL
-  haveI : Finite D.Γ := Finite.of_equiv _ e.toEquiv
+  have : Finite (ModGL τ F) := finite_modGL
+  have : Finite D.Γ := Finite.of_equiv _ e.toEquiv
   exact WCOn.of_mulEquiv e (WCOn.of_normalizerMovesLines S₀ fun _ _ => hnm)
 
 theorem SylowFrame.wcOn_dc {F : Type} [Field F] [Finite F] {p : ℕ} [Fact p.Prime]

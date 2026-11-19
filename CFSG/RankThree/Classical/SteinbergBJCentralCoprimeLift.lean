@@ -65,7 +65,7 @@ theorem exists_sylow_lift_of_ker_le_center [Finite G] (hp : p.Prime) (π : G →
     exact fun h => hp.one_lt.ne' (Nat.Coprime.eq_one_of_dvd hcop.symm h)
   have hpow : ∀ P : Sylow p M, ∀ x ∈ (P : Subgroup M).map M.subtype, ∃ a : ℕ, x ^ p ^ a = 1 := by
     intro P x hx
-    obtain ⟨a, ha⟩ := (P.isPGroup'.map M.subtype) ⟨x, hx⟩
+    obtain ⟨a, ha⟩ := (P.isPGroup.map M.subtype) ⟨x, hx⟩
     exact ⟨a, congrArg Subtype.val ha⟩
   have hinj : ∀ P : Sylow p M, ∀ x ∈ (P : Subgroup M).map M.subtype,
       ∀ y ∈ (P : Subgroup M).map M.subtype, π x = π y → x = y := by

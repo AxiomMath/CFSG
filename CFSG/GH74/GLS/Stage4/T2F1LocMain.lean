@@ -243,7 +243,7 @@ theorem ch6T2F1Local_proved
     rw [← hg, Sylow.coe_subgroup_smul] at hx' hy'
     obtain ⟨x', hx'', hxx⟩ := (Subgroup.mem_smul_pointwise_iff_exists _ _ _).1 hx'
     obtain ⟨y', hy'', hyy⟩ := (Subgroup.mem_smul_pointwise_iff_exists _ _ _).1 hy'
-    have hc : x' * y' = y' * x' := hab3 (P₀ : Subgroup G) hP₀ P₀.isPGroup' x' hx'' y' hy''
+    have hc : x' * y' = y' * x' := hab3 (P₀ : Subgroup G) hP₀ P₀.isPGroup x' hx'' y' hy''
     have hxx' : x = g * x' * g⁻¹ := by
       rw [← hxx]; simp [MulAut.smul_def, MulAut.conj_apply]
     have hyy' : y = g * y' * g⁻¹ := by

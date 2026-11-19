@@ -18,15 +18,17 @@ open CFSG.ComponentClassification.CatalogueBOrthogonalPointData (coordinateQuadP
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [CharP F 2] in
 theorem isQuasisimple_center_coordinatePlus {m : ℕ} (hm : 3 ≤ m) :
     CFSG.IsQuasisimple (matrixProjectiveDerived (coordinateQuadPlus m F)) ∧
       Subgroup.center (matrixProjectiveDerived (coordinateQuadPlus m F)) = ⊥ := by
   obtain ⟨hQ, hT⟩ := regular_coordinateQuadPlus m F hm
   obtain ⟨hs, hnab⟩ :=
     CFSG.RankThree.PartOne.KCOrthogonalSubfield.matrix_simple_nonabelian (by omega : 0 < 2 * m) hQ hT
-  haveI : IsSimpleGroup (matrixProjectiveDerived (coordinateQuadPlus m F)) := hs
+  have : IsSimpleGroup (matrixProjectiveDerived (coordinateQuadPlus m F)) := hs
   exact CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnab
 
+omit [CharP F 2] in
 theorem hasLabel_coordinatePlus (m n : ℕ) (hF : Nat.card F = 2 ^ n) (hm : 4 ≤ m)
     (hn : 2 ≤ n) :
     HasLabel (matrixProjectiveDerived (coordinateQuadPlus m F)) (· = ⟨.D, m, n⟩) := by
@@ -43,7 +45,7 @@ theorem hasLabel_coordinatePlus (m n : ℕ) (hF : Nat.card F = 2 ^ n) (hm : 4 �
   exact hasLabel_of_statedClassicalModel_POmegaPlus hQ hSC'
 
 theorem hasLabel_pairPerp {m n : ℕ} (hF : Nat.card F = 2 ^ n) (hm : 5 ≤ m)
-    (hn : 2 ≤ n) (k : Fin m) :
+    (_hn : 2 ≤ n) (k : Fin m) :
     HasLabel ↥(pairPerp (K := F) (n := m) k) (· = ⟨.D, m - 1, n⟩) := by
   have hM : CFSG.Blueprint.LieModel ↥(pairPerp (K := F) (n := m) k) .POmegaPlus (m - 1) 2 n :=
     lieModel_pairPerp (K := F) (n := m) hF hm k
@@ -63,7 +65,7 @@ theorem hasLabel_pairPerp {m n : ℕ} (hF : Nat.card F = 2 ^ n) (hm : 5 ≤ m)
 section LabelToModel
 
 theorem exists_mulEquiv_matrixProjectiveDerived_of_isLabel {K : Type} [Group K] [Finite K]
-    {m n : ℕ} (hm : 4 ≤ m) (hn : 2 ≤ n)
+    {m n : ℕ} (hm : 4 ≤ m) (_hn : 2 ≤ n)
     (hK : HasLabel K (· = ⟨.D, m, n⟩)) (hZ : Subgroup.center K = ⊥) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (_ : CharP F 2),
       Nat.card F = 2 ^ n ∧ Nonempty (K ≃* matrixProjectiveDerived (coordinateQuadPlus m F)) := by
@@ -71,14 +73,14 @@ theorem exists_mulEquiv_matrixProjectiveDerived_of_isLabel {K : Type} [Group K] 
   have hM' : CFSG.Blueprint.LieModel (K ⧸ Subgroup.center K) .POmegaPlus m 2 n := by
     simpa [CFSG.StandardType.MarkedModel, CFSG.StandardType.markTag,
       CFSG.StandardType.markRank, CFSG.StandardType.markChar, CFSG.StandardType.markDeg,
-      if_neg (by omega : m ≠ 3)] using hM
+      ite_eq_right (by omega : m ≠ 3)] using hM
   obtain ⟨-, F, hfield, hfinite, hcard, ⟨e⟩⟩ := hM'.statedClassicalModel (by decide)
-  letI : Field F := hfield
-  letI : Finite F := hfinite
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hfield
+  let : Finite F := hfinite
+  have : Fintype F := Fintype.ofFinite F
   have hcard' : Fintype.card F = 2 ^ n := by rwa [← Nat.card_eq_fintype_card]
   have hchar : CharP F 2 := charP_of_card_eq_prime_pow hcard'
-  letI : CharP F 2 := hchar
+  let : CharP F 2 := hchar
   refine ⟨F, hfield, hfinite, hchar, hcard, ⟨?_⟩⟩
   let eZ : K ≃* K ⧸ Subgroup.center K :=
     ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot).symm

@@ -24,7 +24,7 @@ theorem false_of_isExtOf_oTwoP {X : Type*} [Group X] [Finite X]
   have hR : Sec4.oTwoP 3 X ≤ Subgroup.center X := oTwoP_le_center hO2 hO3
   set π := QuotientGroup.mk' (Sec4.oTwoP 3 X) with hπ
   set M : Subgroup X := K'.comap π with hM
-  haveI : M.Normal := Subgroup.Normal.comap hK'n π
+  have : M.Normal := Subgroup.Normal.comap hK'n π
   let f : M →* K' := (π.comp M.subtype).codRestrict K' (fun x => x.2)
   have hK'2 : IsPGroup 2 K' := isPGroup_two_Q8D8.of_equiv eK.symm
   have hrange : IsPGroup 2 f.range := hK'2.to_subgroup _
@@ -41,12 +41,10 @@ theorem false_of_isExtOf_oTwoP {X : Type*} [Group X] [Finite X]
   obtain ⟨y, hy⟩ := QuotientGroup.mk'_surjective (Sec4.oTwoP 3 X) (b' : X ⧸ Sec4.oTwoP 3 X)
   have hxM : x ∈ M := by
     rw [hM, Subgroup.mem_comap]
-    change π x ∈ K'
     rw [hx]
     exact a'.2
   have hyM : y ∈ M := by
     rw [hM, Subgroup.mem_comap]
-    change π y ∈ K'
     rw [hy]
     exact b'.2
   have hxy : x * y = y * x := Subgroup.mem_center_iff.mp (hMc hxM) y |>.symm

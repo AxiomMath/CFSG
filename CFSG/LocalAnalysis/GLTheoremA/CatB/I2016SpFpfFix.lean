@@ -68,7 +68,7 @@ theorem fixedPointFree_of_class {g : StatedSp 4 (ZMod 2)} {A₀ A₁ : Subgroup 
   have hfin : Module.finrank (ZMod 2) ↥(primaryComponent (spEnd g) (X - 1 : (ZMod 2)[X])) = 0 := by
     rw [hs₁, hs0, mul_zero]
   have hzero := finrank_zero_iff_forall_zero.1 hfin
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have blocks := sp8_blocks g (orderOf_eq_prime hg3 hg1)
   intro v hv
   have hmem : v ∈ primaryComponent (spEnd g) (X - 1 : (ZMod 2)[X]) := by

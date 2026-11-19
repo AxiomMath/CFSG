@@ -52,7 +52,7 @@ theorem r3_odd_of_cube {M : Type} [Group M] [Finite M] {p : ℕ} (hp : p.Prime) 
       IsPGroup 2 T → ¬ A ≤ Subgroup.normalizer (T : Set M)) :
     Odd (Nat.card R) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hodd
   have h2 : 2 ∣ Nat.card R := by
     rcases Nat.even_or_odd (Nat.card R) with h | h
@@ -109,7 +109,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.LocalRank CFSG.RankThree.PartTwo
 theorem r3_pPrimeCore_facts {M : Type} [Group M] [Finite M] {p : ℕ} (hp : p.Prime) :
     ¬ p ∣ Nat.card (CFSG.pPrimeCore p M) ∧
       CFSG.pPrimeCore p (M ⧸ CFSG.pPrimeCore p M) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨?_, CFSG.pPrimeCore_quotient_eq_bot hp⟩
   exact (Nat.Prime.coprime_iff_not_dvd hp).mp
     (CFSG.pPrimeCore_coprime_card (p := p) (G := M))

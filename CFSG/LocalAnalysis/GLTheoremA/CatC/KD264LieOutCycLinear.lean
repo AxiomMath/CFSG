@@ -21,7 +21,7 @@ theorem outCycAt_psl2 {K : Type} [Field K] [Finite K] {p : ℕ}
   let φ : (⊤ : Subgroup (MulAut (PSL2 K))) →* (K ≃+* K) :=
     (SemidirectProduct.rightHom : PGammaL2 K →* (K ≃+* K)).comp
       (Ψ.symm.toMonoidHom.comp (⊤ : Subgroup (MulAut (PSL2 K))).subtype)
-  haveI : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
+  have : IsCyclic (K ≃+* K) := fieldAut_isCyclic K
   refine outCycAt_of_cyclic hp ⊤ (fun α _ => Subgroup.mem_top α) φ ?_
   intro x hx hxp
   have hx' : SemidirectProduct.rightHom (Ψ.symm (x : MulAut (PSL2 K))) = 1 := hx
@@ -73,13 +73,13 @@ theorem outCycAt_projectiveSL {K : Type} [Field K] [Finite K] {m : ℕ} (hm : 3 
   have hDnormR : (D.subgroupOf (standardAutGroup m K)).Normal :=
     (standard_outer_quotients (K := K) (n := m)).2.2.1
   have hEnorm : (D.subgroupOf E).Normal := by
-    letI := hDnormR
+    let := hDnormR
     have hRle : standardAutGroup m K ≤ Subgroup.normalizer D :=
       Subgroup.le_normalizer_of_normal_subgroupOf hDR
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hDE).2
       (semilinearAutGroup_le_standardAutGroup.trans hRle)
-  haveI := hEnorm
-  haveI : IsCyclic (E ⧸ D.subgroupOf E) :=
+  have := hEnorm
+  have : IsCyclic (E ⧸ D.subgroupOf E) :=
     isCyclic_semilinearAutGroup_quotient (K := K) (m := m)
   let φ : E →* (E ⧸ D.subgroupOf E) := QuotientGroup.mk' _
   refine outCycAt_of_cyclic hp E ?_ φ ?_
@@ -100,7 +100,7 @@ theorem lieOutCyc_linear : LieOutCyc isLinearIdx := by
   obtain ⟨i, hi⟩ := d
   cases i with
   | A n q =>
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     let F := GaloisField q.p q.exponent
     have hrange := (TauCeti.LieTypeIndex.inStandardRange_iff _).1
       ((TauCeti.LieTypeIndex.valid_iff _).1 hi).1

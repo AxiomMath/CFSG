@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Finite K]
 
+omit [Finite G] [Finite K] in
 private theorem e6QTwoSixFrameAction_normalizer_eq {Bs L : Subgroup G}
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G))
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
@@ -27,8 +28,9 @@ private theorem e6QTwoSixFrameAction_normalizer_eq {Bs L : Subgroup G}
       Subgroup.normalizer (L : Set G)) θ ⟨b, hNL b.2⟩ l]
   rw [e6QTwoSixFrameAction_apply hNL θ b l]
 
+omit [Finite G] in
 private theorem e6QTwoSixXMemCentralizer {Bs L : Subgroup G} {x : G}
-    (hx : x ∈ Bs)
+    (_hx : x ∈ Bs)
     (hBL : Bs ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x) :
     x ∈ Subgroup.centralizer (L : Set G) := by
   have hx' : x ∈ Bs ⊓ Subgroup.centralizer (L : Set G) := by
@@ -36,7 +38,8 @@ private theorem e6QTwoSixXMemCentralizer {Bs L : Subgroup G} {x : G}
     exact Subgroup.mem_zpowers x
   exact hx'.2
 
-private theorem e6QTwoSixGamma_comm (hK : Nat.card K = 4) {Bs L : Subgroup G} {x g : G}
+omit [Finite G] [Finite K] in
+private theorem e6QTwoSixGamma_comm (_hK : Nat.card K = 4) {Bs L : Subgroup G} {x g : G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hperf : commutator ↥L = ⊤) (hx : x ∈ Bs)
     (hBL : Bs ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x)
@@ -79,7 +82,7 @@ private theorem e6QTwoSixGamma_comm (hK : Nat.card K = 4) {Bs L : Subgroup G} {x
         apply Subtype.ext
         simp only [Subgroup.coe_mul, Subgroup.coe_zpow]
       rw [h1, map_mul, map_zpow]
-    simpa [hxpow, hxβ]
+    simp [hxpow, hxβ]
   have hconj : βN ⟨g, hgN⟩ * βN ⟨y, hNL y.2⟩ * (βN ⟨g, hgN⟩)⁻¹ =
       βN ⟨g * y * g⁻¹, hgyN⟩ := by
     have h1 : (⟨g * y * g⁻¹, hgyN⟩ : N) =
@@ -110,6 +113,7 @@ private noncomputable def frameChange (hK : Nat.card K = 4) (Q : GL (Fin 6) K)
       LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)) :=
   TableBUE.conjProj (USixTwo.fieldDataFour hK) Q hQ
 
+omit [Finite K] in
 private theorem frameChange_mk (hK : Nat.card K = 4) (Q : GL (Fin 6) K)
     (hQ : Q ∈ primeFormUnitary (USixTwo.fieldDataFour hK)
       (RankThree.PartOne.KCUnitaryModel.idGram K 6))
@@ -118,6 +122,7 @@ private theorem frameChange_mk (hK : Nat.card K = 4) (Q : GL (Fin 6) K)
       InndiagSU.projU 1 6 K (TableBUE.conjSU (USixTwo.fieldDataFour hK) Q hQ x) :=
   TableBUE.conjProj_mk (USixTwo.fieldDataFour hK) Q hQ x
 
+omit [Finite K] in
 private theorem frameMk_one_eq (hK : Nat.card K = 4) :
     InndiagSU.frameMk (USixTwo.fieldDataFour hK) (1 : GL (Fin 6) K)
       (Subgroup.one_mem _) = InndiagSU.projU 1 6 K := by
@@ -131,6 +136,7 @@ private theorem frameMk_one_eq (hK : Nat.card K = 4) :
   rw [TableBUE.coe_conjSU]
   simp
 
+omit [Finite K] in
 private theorem conjProj_symm_projU (hK : Nat.card K = 4) (Q : GL (Fin 6) K)
     (hQ : Q ∈ primeFormUnitary (USixTwo.fieldDataFour hK)
       (RankThree.PartOne.KCUnitaryModel.idGram K 6))
@@ -141,6 +147,7 @@ private theorem conjProj_symm_projU (hK : Nat.card K = 4) (Q : GL (Fin 6) K)
   rw [MulEquiv.apply_symm_apply, InndiagSU.frameMk_apply, frameChange_mk,
     MulEquiv.apply_symm_apply]
 
+omit [Finite K] in
 private theorem frameAct_conjProj (hK : Nat.card K = 4) (Q : GL (Fin 6) K)
     (hQ : Q ∈ primeFormUnitary (USixTwo.fieldDataFour hK)
       (RankThree.PartOne.KCUnitaryModel.idGram K 6))
@@ -159,6 +166,7 @@ private theorem frameAct_conjProj (hK : Nat.card K = 4) (Q : GL (Fin 6) K)
   rw [← conjProj_symm_projU hK Q hQ v]
   rw [MulEquiv.apply_symm_apply]
 
+omit [Finite G] in
 theorem e6QTwoSixGamma3 (hK : Nat.card K = 4) {Bs L : Subgroup G} {x : G}
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hperf : commutator ↥L = ⊤) (hBs : IsElemAbelian 3 Bs) (hcard : Nat.card Bs = 3 ^ 6)
@@ -215,7 +223,7 @@ theorem e6QTwoSixGamma3 (hK : Nat.card K = 4) {Bs L : Subgroup G} {x : G}
       rw [e6QTwoMulAutConjCongr γ ((e6QTwoFrameTorusHom hK Q hQ) σ), hb]
       ext x
       rw [MulAut.congr_apply]
-      simp only [MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
+      simp only [MulEquiv.trans_apply]
       calc (e6QTwoSixFrameAction (le_rfl : N ≤ N) θ ⟨g, hgN⟩)
             ((e6QTwoSixFrameAction hNL θ b)
               ((e6QTwoSixFrameAction (le_rfl : N ≤ N) θ ⟨g, hgN⟩).symm x)) =

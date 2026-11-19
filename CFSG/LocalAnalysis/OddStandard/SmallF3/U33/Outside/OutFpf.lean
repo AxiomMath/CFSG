@@ -15,7 +15,7 @@ variable {S : Type} [Group S] [Finite S]
 theorem card_mod_three_of_fpf (ρ : MulAut S) (hρ : ρ ^ 3 = 1) (hfpf : ∀ g : S, ρ g = g → g = 1)
     (H : Subgroup S) (hH : ∀ h ∈ H, ρ h ∈ H) : Nat.card H % 3 = 1 := by
   classical
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Fintype H := Fintype.ofFinite H
   let f : Function.End H := fun h => ⟨ρ h, hH h h.2⟩
   have hf : ∀ k : ℕ, ∀ h : H, ((f ^ k) h : S) = (ρ ^ k) h := by
     intro k
@@ -46,7 +46,7 @@ theorem eq_bot_of_card_le_two (ρ : MulAut S) (hρ : ρ ^ 3 = 1)
     (hfpf : ∀ g : S, ρ g = g → g = 1) (H : Subgroup S) (hH : ∀ h ∈ H, ρ h ∈ H)
     (h2 : Nat.card H ≤ 2) : H = ⊥ := by
   have hmod := card_mod_three_of_fpf ρ hρ hfpf H hH
-  haveI : Nonempty H := ⟨⟨1, one_mem H⟩⟩
+  have : Nonempty H := ⟨⟨1, one_mem H⟩⟩
   have hpos : 0 < Nat.card H := Nat.card_pos
   have h1 : Nat.card H = 1 := by omega
   exact Subgroup.eq_bot_of_card_eq H h1
@@ -85,10 +85,12 @@ theorem map_eq_of_forall_mem (ρ : MulAut S) (N : Subgroup S) (hN : ∀ n ∈ N,
     exact hN n hn
   · rw [Subgroup.card_map_of_injective ρ.injective]
 
+omit [Finite S] in
 theorem rho_mem_center (ρ : MulAut S) {z : S} (hz : z ∈ center S) : ρ z ∈ center S := by
   have hchar : (center S).Characteristic := Subgroup.centerCharacteristic
   exact Subgroup.characteristic_iff_map_le.mp hchar ρ ⟨z, hz, rfl⟩
 
+omit [Finite S] in
 theorem rho_mem_commutator (ρ : MulAut S) {g : S} (hg : g ∈ commutator S) :
     ρ g ∈ commutator S := by
   have hchar : (commutator S).Characteristic := inferInstance
@@ -113,6 +115,7 @@ section QuotientFpf
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem quotAut_pow_three (ρ : MulAut S) (hρ : ρ ^ 3 = 1) (N : Subgroup S) [N.Normal]
     (hN : N.map ρ.toMonoidHom = N) : quotAut ρ N hN ^ 3 = 1 := by
   apply MulEquiv.ext

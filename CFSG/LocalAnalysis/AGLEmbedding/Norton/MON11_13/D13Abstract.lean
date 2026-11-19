@@ -53,6 +53,7 @@ end Algebra
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_closure_of_comm_relation {x y z : G} (hz13 : z ^ 13 = 1)
     (hcomm : y * x = x * (y * z ^ 4)) : z ∈ Subgroup.closure ({x, y} : Set G) := by
   have hxS : x ∈ Subgroup.closure ({x, y} : Set G) := Subgroup.subset_closure (by simp)

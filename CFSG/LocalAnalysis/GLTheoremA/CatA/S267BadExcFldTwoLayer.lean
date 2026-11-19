@@ -136,8 +136,8 @@ theorem glaPLayer_perpJ_inf_frameTwo_ne_bot [Finite K]
     GLAPLayer p ((rootSpan τ K (perpRoots τ)).subgroupOf (adjointGroup τ K) ⊓
       Subgroup.centralizer (A₁₂ : Set ↥(adjointGroup τ K))) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
   have hd := hrRootData_of hτ
   have hodd : Odd p := hp.odd_of_ne_two hp2
   set X := ↥(adjointGroup τ K)

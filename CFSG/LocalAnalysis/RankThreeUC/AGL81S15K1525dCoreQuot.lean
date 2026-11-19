@@ -18,7 +18,7 @@ theorem quotient_pCore_equiv {G : Type*} [Group G] [Finite G] {A U M : Subgroup 
     (hMs : IsSimpleGroup ↥M) (hM2 : ¬ IsPGroup 2 ↥M) :
     Nonempty (↥A ⧸ CFSG.pCore 2 ↥A ≃* ↥M) := by
   set N : Subgroup ↥A := U.subgroupOf A with hN
-  haveI hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUA).mpr hUn
+  have hNn : N.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hUA).mpr hUn
   have hN2 : IsPGroup 2 ↥N :=
     hU2.of_injective (Subgroup.subgroupOfEquivOfLe hUA).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hUA).injective
@@ -36,7 +36,7 @@ theorem quotient_pCore_equiv {G : Type*} [Group G] [Finite G] {A U M : Subgroup 
     simpa using h1
   have hinj : Function.Injective ψ := by
     rw [← MonoidHom.ker_eq_bot_iff]
-    haveI : ψ.ker.Normal := MonoidHom.normal_ker ψ
+    have : ψ.ker.Normal := MonoidHom.normal_ker ψ
     rcases hMs.eq_bot_or_eq_top_of_normal ψ.ker with h | h
     · exact h
     · exfalso
@@ -62,9 +62,9 @@ theorem quotient_pCore_equiv {G : Type*} [Group G] [Finite G] {A U M : Subgroup 
     apply le_antisymm
     · have hQ2 : IsPGroup 2 ↥((CFSG.pCore 2 ↥A).map (QuotientGroup.mk' N)) :=
         (CFSG.pCore_isPGroup (p := 2) (G := ↥A)).map (QuotientGroup.mk' N)
-      haveI hQn : ((CFSG.pCore 2 ↥A).map (QuotientGroup.mk' N)).Normal :=
+      have hQn : ((CFSG.pCore 2 ↥A).map (QuotientGroup.mk' N)).Normal :=
         Subgroup.Normal.map inferInstance (QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
-      haveI hQ'n : (((CFSG.pCore 2 ↥A).map (QuotientGroup.mk' N)).comap ψ).Normal :=
+      have hQ'n : (((CFSG.pCore 2 ↥A).map (QuotientGroup.mk' N)).comap ψ).Normal :=
         Subgroup.normal_comap ψ
       have hQ'2 : IsPGroup 2 ↥(((CFSG.pCore 2 ↥A).map (QuotientGroup.mk' N)).comap ψ) :=
         hQ2.comap_of_injective ψ hinj

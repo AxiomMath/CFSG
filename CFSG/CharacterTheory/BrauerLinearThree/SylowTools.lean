@@ -54,7 +54,7 @@ theorem card_sylow_modEq_one_of_ti [Finite G] {p : ℕ} [Fact p.Prime] (P : Sylo
       have hgN : (g : G) ∈ Subgroup.normalizer (Q : Set G) :=
         Sylow.smul_eq_iff_mem_normalizer.mp hQ
       have hmem : (g : G) ∈ (P : Subgroup G) ⊓ Subgroup.normalizer (Q : Set G) := ⟨g.2, hgN⟩
-      rw [IsPGroup.inf_normalizer_sylow P.isPGroup' Q] at hmem
+      rw [IsPGroup.inf_normalizer_sylow P.isPGroup Q] at hmem
       exact hTI Q g g.2 hmem.2 (fun h => hg (Subtype.ext h))
     · rintro rfl
       exact Sylow.smul_eq_iff_mem_normalizer.mpr (Subgroup.le_normalizer g.2)

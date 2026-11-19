@@ -129,7 +129,7 @@ public theorem claim_2_a
       D ⊓ Subgroup.centralizer ((Q ⊓ C : Subgroup G) : Set G) ⊓ C
     refine ⟨N, rfl, ?_⟩
     let ΩP : Type _ := {ω : Ω // ω ∈ fixedPointsOfSubgroup G Ω P}
-    letI : MulAction C ΩP := fixedPointCentralizerAction G Ω P
+    let : MulAction C ΩP := fixedPointCentralizerAction G Ω P
     have hP_ne : P ≠ ⊥ :=
       claim_2_a_P_ne_bot H D Q K V W Q0 S Q1 P t s p hch
     have hkernel :=

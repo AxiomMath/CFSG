@@ -58,7 +58,7 @@ theorem isConnectedAlgebraicSubgroup_famZ {τ : Tag} {L : Type} [Field L] {ι : 
           ∀ α ∈ familyKernel a, ∑ i, α i * lam i = 0}, ∃ c : Lˣ,
         g = rootDiagUnit τ fun i => c ^ lam i} := by
     ext g
-    simp only [Set.mem_setOf_eq, cochar]
+    simp only [Set.mem_ofPred_eq]
     exact ⟨fun ⟨lam, c, hlam, hg⟩ => ⟨lam, hlam, c, hg⟩,
       fun ⟨lam, hlam, c, hg⟩ => ⟨lam, c, hlam, hg⟩⟩
   rw [famZ, hgen]

@@ -19,7 +19,7 @@ theorem burnsideF45_bn_not_dvd_index (hU : ChF.IsSylowOf p D.U ⊤) : ¬ p ∣ D
 
 theorem burnsideF45_bn_pCore_le_U (hp : p.Prime) (hU : ChF.IsSylowOf p D.U ⊤) (i : Bool) :
     pCoreOf p (P D i) ≤ D.U := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let S : Sylow p X := hU.2.1.toSylow (burnsideF45_bn_not_dvd_index D hU)
   have hQp : IsPGroup p (pCoreOf p (P D i)) :=
     CFSG.LieType.BorelTits.pCoreOf_isPGroup p (P D i)

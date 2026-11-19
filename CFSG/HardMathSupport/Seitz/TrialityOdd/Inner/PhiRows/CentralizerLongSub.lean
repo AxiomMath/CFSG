@@ -34,6 +34,7 @@ theorem d4X_zero_eq_one (i : Fin 6) (c : d43Par σ i) (hc : c = 0) :
   simpa [mul_assoc] using h2.symm
 
 include hσ in
+omit hσ in
 theorem chi_lift_four (s : fixedUnits σ) (t : Kˣ) :
     chi σ (s : Kˣ) t (d43Lift (hexPos 4)) = (s : Kˣ) := by
   have e0 : pr (nd 0) (d43Lift (hexPos 4)) = 0 := by decide +kernel
@@ -44,6 +45,7 @@ theorem chi_lift_four (s : fixedUnits σ) (t : Kˣ) :
   simp
 
 include hσ in
+omit hσ in
 theorem chi_lift_two (s : fixedUnits σ) (t : Kˣ) :
     chi σ (s : Kˣ) t (d43Lift (hexPos 2)) = (s : Kˣ)⁻¹ * normU σ t := by
   have e0 : pr (nd 0) (d43Lift (hexPos 2)) = 1 := by decide +kernel
@@ -153,7 +155,7 @@ theorem eq_slShort_of_mem_iSup_hHat_centralizer {c : twistedGroup σ}
       (isRoot_hexPos (by norm_num) (by norm_num))
       (by unfold CFSG.Timmesfeld.RankTwo.d43Long; decide) hne hmem4' hfix4)
   have hs1 : (s : Kˣ) = 1 := by
-    rw [chi_lift_four hσ] at hchi4
+    rw [chi_lift_four] at hchi4
     exact hchi4
   have hmem2 : d4X hσ 1 (1 : fixedField σ) ∈ longSub 6 (hexGroup (twistedX σ)) :=
     root_le_longSub (n := 6) (root := hexGroup (twistedX σ)) (k := 2)
@@ -177,7 +179,7 @@ theorem eq_slShort_of_mem_iSup_hHat_centralizer {c : twistedGroup σ}
       (isRoot_hexPos (by norm_num) (by norm_num))
       (by unfold CFSG.Timmesfeld.RankTwo.d43Long; decide) hne hmem2' hfix2)
   have hnorm : normU σ t = 1 := by
-    rw [chi_lift_two hσ, hs1, inv_one, one_mul] at hchi2
+    rw [chi_lift_two, hs1, inv_one, one_mul] at hchi2
     exact hchi2
   have hNval : (t : K) * σ t * σ (σ t) = 1 := by
     have h := congrArg (fun u : Kˣ => (u : K)) hnorm
@@ -195,6 +197,7 @@ theorem eq_slShort_of_mem_iSup_hHat_centralizer {c : twistedGroup σ}
   exact htor
 
 include hσ in
+omit hσ in
 theorem chi_tor_one (s : fixedUnits σ) (α : Fin d4.rank → ℤ) :
     chi σ (s : Kˣ) 1 α = (s : Kˣ) ^ (pr (nd 2) α) := by
   rw [chi]
@@ -213,7 +216,7 @@ theorem tor_fix_root_ne_three (s : fixedUnits σ) (hs1 : ((s : Kˣ) : K) ≠ 1)
   have hk : k = 1 ∨ k = 2 ∨ k = 4 ∨ k = 5 ∨ k = 6 := by omega
   rcases hk with rfl | rfl | rfl | rfl | rfl
   · have hχ : chi σ (s : Kˣ) 1 (d43Lift (hexPos 1)) ≠ 1 := by
-      rw [chi_tor_one hσ]
+      rw [chi_tor_one]
       have e : pr (nd 2) (d43Lift (hexPos 1)) = -1 := by decide +kernel
       rw [e, zpow_neg_one]
       exact inv_ne_one.2 hs1u
@@ -221,7 +224,7 @@ theorem tor_fix_root_ne_three (s : fixedUnits σ) (hs1 : ((s : Kˣ) : K) ≠ 1)
       (by unfold CFSG.Timmesfeld.RankTwo.d43Long; decide) hχ ?_ hfix
     exact hx
   · have hχ : chi σ (s : Kˣ) 1 (d43Lift (hexPos 2)) ≠ 1 := by
-      rw [chi_tor_one hσ]
+      rw [chi_tor_one]
       have e : pr (nd 2) (d43Lift (hexPos 2)) = -1 := by decide +kernel
       rw [e, zpow_neg_one]
       exact inv_ne_one.2 hs1u
@@ -229,7 +232,7 @@ theorem tor_fix_root_ne_three (s : fixedUnits σ) (hs1 : ((s : Kˣ) : K) ≠ 1)
       (by unfold CFSG.Timmesfeld.RankTwo.d43Long; decide) hχ ?_ hfix
     exact hx
   · have hχ : chi σ (s : Kˣ) 1 (d43Lift (hexPos 4)) ≠ 1 := by
-      rw [chi_tor_one hσ]
+      rw [chi_tor_one]
       have e : pr (nd 2) (d43Lift (hexPos 4)) = 1 := by decide +kernel
       rw [e, zpow_one]
       exact hs1u
@@ -237,7 +240,7 @@ theorem tor_fix_root_ne_three (s : fixedUnits σ) (hs1 : ((s : Kˣ) : K) ≠ 1)
       (by unfold CFSG.Timmesfeld.RankTwo.d43Long; decide) hχ ?_ hfix
     exact hx
   · have hχ : chi σ (s : Kˣ) 1 (d43Lift (hexPos 5)) ≠ 1 := by
-      rw [chi_tor_one hσ]
+      rw [chi_tor_one]
       have e : pr (nd 2) (d43Lift (hexPos 5)) = 1 := by decide +kernel
       rw [e, zpow_one]
       exact hs1u
@@ -245,7 +248,7 @@ theorem tor_fix_root_ne_three (s : fixedUnits σ) (hs1 : ((s : Kˣ) : K) ≠ 1)
       (by unfold CFSG.Timmesfeld.RankTwo.d43Long; decide) hχ ?_ hfix
     exact hx
   · have hχ : chi σ (s : Kˣ) 1 (d43Lift (hexPos 6)) ≠ 1 := by
-      rw [chi_tor_one hσ]
+      rw [chi_tor_one]
       have e : pr (nd 2) (d43Lift (hexPos 6)) = 2 := by decide +kernel
       rw [e, zpow_ofNat]
       exact hs2u
@@ -314,6 +317,7 @@ theorem tor_one_eq_slShort (t : Kˣ) :
   exact d4z_torE_one_left t
 
 include hσ in
+omit hσ in
 theorem chi_one_lift_three (t : fixedUnits σ) :
     chi σ 1 (t : Kˣ) (d43Lift (hexPos 3)) = (t : Kˣ) := by
   have e0 : pr (nd 0) (d43Lift (hexPos 3)) = -1 := by decide +kernel
@@ -330,7 +334,7 @@ theorem tor_one_fix_root_three (t : fixedUnits σ) (ht : ((t : Kˣ) : K) ≠ 1)
     {x : twistedGroup σ} (hx : x ∈ hexGroup (twistedX σ) 3)
     (hfix : tor hσ 1 t * x * (tor hσ 1 t)⁻¹ = x) : x = 1 := by
   have hχ : chi σ 1 (t : Kˣ) (d43Lift (hexPos 3)) ≠ 1 := by
-    rw [chi_one_lift_three hσ]
+    rw [chi_one_lift_three]
     exact fun h => ht (by simpa using congrArg (fun u : Kˣ => (u : K)) h)
   refine d4z_tor_fix_short hσ 1 t (isRoot_hexPos (by norm_num) (by norm_num))
     (by unfold CFSG.Timmesfeld.RankTwo.d43Long; decide) hχ ?_ hfix
@@ -355,6 +359,7 @@ theorem root_three_commute_root_six {a b : twistedGroup σ}
 
 
 include hσ in
+omit hσ in
 theorem commute_of_mem_iSup_hHat {g h : twistedGroup σ}
     (hg : g ∈ ⨆ i, hHat σ i) (hh : h ∈ ⨆ i, hHat σ i) : Commute g h := by
   refine Subgroup.iSup_induction _ (C := fun g => Commute g h) hg (fun i x hx => ?_)
@@ -460,6 +465,7 @@ theorem centralizerLongSub_cell {q : ℕ} (hq : 5 ≤ q)
   exact ⟨v, n, u, hv3, hu3, hnH, hcvu⟩
 
 include hσ in
+omit [Finite K] in
 theorem centralizerLongSub_eq_H (t0 : (fixedField σ)ˣ) (ht0 : (t0 : fixedField σ) ≠ 1)
     {c v n u : twistedGroup σ}
     (hc : c ∈ Subgroup.centralizer
@@ -490,7 +496,7 @@ theorem centralizerLongSub_eq_H (t0 : (fixedField σ)ˣ) (ht0 : (t0 : fixedField
         c * tor hσ 1 t0K * (tor hσ 1 t0K)⁻¹ := by rw [h]
       _ = c := by group
   have h2n : tor hσ 1 t0K * n * (tor hσ 1 t0K)⁻¹ = n := by
-    have h := (commute_of_mem_iSup_hHat hσ h2H hnH).eq
+    have h := (commute_of_mem_iSup_hHat h2H hnH).eq
     rw [h]
     group
   set w3 := v * (n * u * n⁻¹) with hw3
@@ -528,6 +534,7 @@ theorem centralizerLongSubInN_holds_aux {q : ℕ} (hq : 5 ≤ q)
   exact RGD2.H_le_N (d4RGD2 σ hσ) hcH
 
 include hσ in
+omit hσ in
 theorem exists_fixedUnits_regular {q : ℕ} (hq : 5 ≤ q)
     (hK : Nat.card K = q ^ 3) (hσq : ∀ c, σ c = c ^ q) :
     ∃ s : fixedUnits σ, ((s : Kˣ) : K) ≠ 1 ∧ (((s : Kˣ) : K)) ^ 2 ≠ 1 := by
@@ -548,6 +555,7 @@ theorem exists_fixedUnits_regular {q : ℕ} (hq : 5 ≤ q)
     omega
 
 include hσ in
+omit hσ in
 theorem exists_fixedField_unit_ne_one {q : ℕ} (hq : 5 ≤ q)
     (hK : Nat.card K = q ^ 3) (hσq : ∀ c, σ c = c ^ q) :
     ∃ t0 : (fixedField σ)ˣ, (t0 : fixedField σ) ≠ 1 := by
@@ -566,8 +574,8 @@ include hσ in
 theorem centralizerLongSubInN_holds {q : ℕ} (hq : 5 ≤ q)
     (hK : Nat.card K = q ^ 3) (hσq : ∀ c, σ c = c ^ q) :
     CentralizerLongSubInN σ hσ := by
-  obtain ⟨s, hs1, hs2⟩ := exists_fixedUnits_regular hσ hq hK hσq
-  obtain ⟨t0, ht0⟩ := exists_fixedField_unit_ne_one hσ hq hK hσq
+  obtain ⟨s, hs1, hs2⟩ := exists_fixedUnits_regular hq hK hσq
+  obtain ⟨t0, ht0⟩ := exists_fixedField_unit_ne_one hq hK hσq
   exact centralizerLongSubInN_holds_aux hσ hq hK hσq s hs1 hs2 t0 ht0
 
 include hσ in

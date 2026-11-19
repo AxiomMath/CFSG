@@ -18,9 +18,9 @@ theorem testBit_ones' (W q : Nat) : (ones W).testBit q = decide (q < W) := by
 theorem stBit_eq (k i : Nat) : KDense.stBit k i = if i < k then k - 1 - i else i + 1 - k := by
   unfold KDense.stBit
   by_cases h : i < k
-  · rw [Nat.blt_eq.mpr h, if_pos h]
+  · rw [Nat.blt_eq.mpr h, ite_eq_left h]
     rfl
-  · rw [blt_false' h, if_neg h]
+  · rw [blt_false' h, ite_eq_right h]
     rfl
 
 theorem stBit_rev {k i : Nat} (hi : i < 2 * k - 1) :
@@ -72,7 +72,7 @@ theorem orRec_horner (f : Nat → Nat) (W n : Nat) : ∀ m ≤ n + 1,
       Nat.rec (motive := fun _ => Nat) 0 (fun i acc => acc <<< W ||| f i) m <<< ((n + 1 - m) * W)
   | 0, _ => by simp
   | m + 1, hm => by
-    simp only [Nat.rec_add_one]
+    simp only
     rw [orRec_horner f W n m (by omega), Nat.shiftLeft_or_distrib, ← Nat.shiftLeft_add]
     have e1 : n + 1 - (m + 1) = n - m := by omega
     have e2 : n + 1 - m = n - m + 1 := by omega

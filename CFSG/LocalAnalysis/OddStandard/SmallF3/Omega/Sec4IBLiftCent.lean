@@ -46,7 +46,7 @@ theorem sec4ILift_cent (hL : IsOmega7Group L) (e : ↥L ⧸ Subgroup.center ↥L
       intro b hb
       rw [Subgroup.mem_centralizer_iff]
       intro c hc
-      haveI : IsMulCommutative ↥(sec4ILiftB e fr P) := hmax.2.1.1
+      have : IsMulCommutative ↥(sec4ILiftB e fr P) := hmax.2.1.1
       exact setLike_mul_comm (s := sec4ILiftB e fr P) hc hb
     · refine le_inf ?_ (by
         rintro _ ⟨z, -, rfl⟩

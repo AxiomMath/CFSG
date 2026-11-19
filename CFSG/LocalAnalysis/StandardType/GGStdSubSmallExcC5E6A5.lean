@@ -46,11 +46,13 @@ variable
 theorem neg_bE6_mem_perpB0 {k : Fin 4} (hk : k ≠ 0) : -bE6 k ∈ perpB0 :=
   ⟨isRoot_neg_bE6 k, by rw [iform_neg_left, (iform_bE6 k 0 hk).1, neg_zero]⟩
 
+omit [Finite K] [CharP K 2] in
 theorem uE6Two_mem_leviB0 {k : Fin 4} (hk : k ≠ 0) : uE6Two (K := K) k ∈ leviB0 K := by
   rw [leviB0, Subgroup.mem_subgroupOf]
   exact mul_mem (pinnedX_mem_rootSpan (bE6_mem_perpB0 hk) 1)
     (pinnedX_mem_rootSpan (neg_bE6_mem_perpB0 hk) 1)
 
+omit [Finite K] [CharP K 2] in
 theorem torusE6Two_mem_leviB0 (h2 : (2 : K) = 0) {w : Multiplicative (Fin 4 → ZMod 3)}
     (hw : Multiplicative.toAdd w 0 = 0) : torusE6Two h2 w ∈ leviB0 K :=
   torusE6Two_mem_of_coord_zero h2 0 (fun _ hi => uE6Two_mem_leviB0 hi) w hw

@@ -18,8 +18,8 @@ variable {f : ℕ} {K : Type} [Field K]
 
 theorem perfectCore_u5PtP_eq_map (h : UnitaryFieldData 2 f K) (hf : 2 ≤ f) :
     perfectCore (u5PtP h) = (N₂sub h ⊔ A₂sub h).map (hypProj h 2 1) := by
-  haveI := h.finite
-  haveI : Finite (hypPSU h 2 1) := finite_hypPSU_five h
+  have := h.finite
+  have : Finite (hypPSU h 2 1) := finite_hypPSU_five h
   rw [u5PtP, projIsoStabilizer, ← map_perfectCore, perfectCore_u5PtStab h hf,
     sup_comm (A₂sub h) (N₂sub h)]
 
@@ -74,9 +74,9 @@ private theorem exists_quot_hom (h : UnitaryFieldData 2 f K) (hf : 2 ≤ f) :
   have hNA' : (N₂sub h ⊔ A₂sub h) ≤
       Subgroup.normalizer (A₂sub h : Set (hypSU h 2 1)) :=
     sup_le hNA (Subgroup.le_normalizer)
-  haveI hAN_normal : ((A₂sub h).subgroupOf (N₂sub h)).Normal :=
+  have hAN_normal : ((A₂sub h).subgroupOf (N₂sub h)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hNA
-  haveI hAN_normal2 : ((A₂sub h).subgroupOf (N₂sub h ⊔ A₂sub h)).Normal :=
+  have hAN_normal2 : ((A₂sub h).subgroupOf (N₂sub h ⊔ A₂sub h)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hNA'
   let e := QuotientGroup.quotientInfEquivProdNormalizerQuotient (N₂sub h) (A₂sub h) hNA
   let eN : (↥(N₂sub h ⊔ A₂sub h) ⧸ (A₂sub h).subgroupOf (N₂sub h ⊔ A₂sub h)) ≃*
@@ -148,8 +148,8 @@ theorem nonempty_modO2_perfectCore_u5PtP_equiv (h : UnitaryFieldData 2 f K) (hf 
 
 theorem centerOf_pCoreOf_perfectCore_u5PtP (h : UnitaryFieldData 2 f K) (hf : 2 ≤ f) :
     centerOf (CFSG.Open.pCoreOf 2 (perfectCore (u5PtP h))) = (ZPsub h).map (hypProj h 2 1) := by
-  haveI := h.finite
-  haveI : Finite (hypPSU h 2 1) := finite_hypPSU_five h
+  have := h.finite
+  have : Finite (hypPSU h 2 1) := finite_hypPSU_five h
   rw [pCoreOf_perfectCore_u5PtP h hf, CFSG.Quasithin.centerOf]
   apply le_antisymm
   · rintro x ⟨hxA, hxC⟩
@@ -195,8 +195,8 @@ theorem perfectCore_u5PtP_le_centralizer (h : UnitaryFieldData 2 f K) (hf : 2 �
 theorem isSimpleGroup_modO2_perfectCore_u5PtP {K : Type} [Field K]
     (h : UnitaryFieldData 2 2 K) :
     IsSimpleGroup (CFSG.Quasithin.ModO2 (perfectCore (u5PtP h))) := by
-  haveI := h.finite
-  haveI : Finite (hypPSU h 2 1) := finite_hypPSU_five h
+  have := h.finite
+  have : Finite (hypPSU h 2 1) := finite_hypPSU_five h
   have hmq : (2 * 1 + 1, 2 ^ 2) ≠ (3, 2) := by norm_num
   obtain ⟨hq, -⟩ := CFSG.AGLEmbedding.LeviBlock.hypSU_facts_of_three_le (s := 1) (ε := 1) h
     (by norm_num) hmq
@@ -210,7 +210,7 @@ theorem isSimpleGroup_modO2_perfectCore_u5PtP {K : Type} [Field K]
   have hsimple : IsSimpleGroup ↥(hypSU h 1 1) :=
     (MulEquiv.isSimpleGroup_congr
       ((QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot)).mp hq.2
-  haveI : IsSimpleGroup ↥(N₂sub h) := (MulEquiv.isSimpleGroup_congr (N₂equiv h)).mp hsimple
+  have : IsSimpleGroup ↥(N₂sub h) := (MulEquiv.isSimpleGroup_congr (N₂equiv h)).mp hsimple
   obtain ⟨e⟩ := nonempty_modO2_perfectCore_u5PtP_equiv h (by norm_num)
   exact e.isSimpleGroup
 

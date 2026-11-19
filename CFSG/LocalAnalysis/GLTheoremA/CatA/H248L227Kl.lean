@@ -25,7 +25,7 @@ private theorem cm_self (a : G) : cm a a = 1 := by simp [cm]
 private theorem cm_one_right (a : G) : cm a 1 = 1 := by simp [cm]
 
 private theorem cm_eq_one_iff {a b : G} : cm a b = 1 ↔ a * b = b * a := by
-  simp only [cm, mul_inv_eq_one, mul_inv_eq_iff_eq_mul, one_mul]
+  simp only [cm, mul_inv_eq_iff_eq_mul, one_mul]
 
 variable {Zc : Subgroup G}
 
@@ -69,7 +69,7 @@ private theorem Cen.mem_Cd (h : Cen Zc) {d c : G} : c ∈ h.Cd d ↔ cm d c = 1 
 
 private def Dd (Zc : Subgroup G) (d : G) : Subgroup G := Subgroup.zpowers d ⊔ Zc
 
-private theorem Cen.Zc_le_Cd (h : Cen Zc) (d : G) : Zc ≤ h.Cd d := fun z hz =>
+private theorem Cen.Zc_le_Cd (h : Cen Zc) (d : G) : Zc ≤ h.Cd d := fun _z hz =>
   h.mem_Cd.2 (h.cm_of_mem_right hz d)
 
 private theorem Cen.d_mem_Cd (h : Cen Zc) (d : G) : d ∈ h.Cd d := h.mem_Cd.2 (cm_self d)
@@ -191,10 +191,10 @@ private theorem exists_fixed {X G : Type*} [Group X] [Group G] [Finite G] {q : �
     (hq : q.Prime) (γ : X →* MulAut G) (T : Subgroup X) (hT : IsPGroup q T)
     (Zc : Subgroup G) [Zc.Normal] (hZ : ∀ t ∈ T, ∀ z ∈ Zc, γ t z = z)
     (hdiv : q ∣ Nat.card (G ⧸ Zc)) : ∃ d : G, d ∉ Zc ∧ ∀ t ∈ T, d⁻¹ * γ t d ∈ Zc := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hmap : ∀ t ∈ T, Zc ≤ Zc.comap (γ t).toMonoidHom := fun t ht z hz => by
     simpa [hZ t ht z hz] using hz
-  letI : MulAction T (G ⧸ Zc) :=
+  let : MulAction T (G ⧸ Zc) :=
     { smul := fun t x => QuotientGroup.map Zc Zc (γ t).toMonoidHom (hmap t t.2) x
       one_smul := fun x => by
         induction x using QuotientGroup.induction_on with | H g =>
@@ -431,8 +431,8 @@ private theorem main_G {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (Zc : Subgroup G
     Nat.card T ≤ q ^ 4 * Nat.card (T ⊓ K : Subgroup X) ∧
       (Nat.card T = q ^ 4 * Nat.card (T ⊓ K : Subgroup X) →
         ∃ s ∈ T, ∃ t ∈ T, s * t * s⁻¹ * t⁻¹ ∉ K) := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Zc.Normal := Subgroup.normal_of_le_center (fun z hz =>
+  have : Fact q.Prime := ⟨hq⟩
+  have : Zc.Normal := Subgroup.normal_of_le_center (fun z hz =>
     Subgroup.mem_center_iff.2 fun g => (cen.central z hz g).symm)
   have hidx : Nat.card (G ⧸ Zc) = q ^ 4 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup Zc

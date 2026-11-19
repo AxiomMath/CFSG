@@ -4,7 +4,7 @@ public import Mathlib.Data.Matrix.Mul
 import Mathlib.Algebra.Order.Ring.Star
 import Mathlib.Analysis.Normed.Ring.Lemmas
 import Mathlib.Data.Int.Order.Units
-import Mathlib.Data.Int.Star
+import Mathlib.Algebra.Order.Star.Int
 
 public section
 
@@ -67,7 +67,7 @@ theorem sum_single_eq_self {u : ι → ℤ} {s : Finset ι} (hs : ∀ i, u i ≠
   simp only [Finset.sum_apply, Finset.sum_pi_single]
   by_cases hm : m ∈ s
   · simp [hm]
-  · simp only [hm, if_false]
+  · simp only [hm, ite_false]
     exact (not_not.mp fun h => hm (hs m h)).symm
 
 end DecEq

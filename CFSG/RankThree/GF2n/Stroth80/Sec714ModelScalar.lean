@@ -102,11 +102,11 @@ theorem exists_scalar_of_mem_Z0 (h310chi : Stroth310ChiStatement) (hZV : Sec7ZVS
     ∃ c : K, ∀ e, dmap ρ z e = c • dmap ρ (QuotientGroup.mk tm) e := by
   obtain ⟨K', hF, hFin, hK', hplus | hminus⟩ := hs.omegaNat
   · obtain ⟨m, hm, hnat⟩ := hplus
-    haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+    have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
     exact exists_scalar_of_nat h310chi hZV hMp hS hs hK'
       (addCommutantScalar_statedOmegaPlus hm) hnat tm htm hZ0 hz
   · obtain ⟨m, b', c', hm, hirr, hnat⟩ := hminus
-    haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+    have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
     exact exists_scalar_of_nat h310chi hZV hMp hS hs hK'
       (addCommutantScalar_statedOmegaMinus hm hirr) hnat tm htm hZ0 hz
 

@@ -24,7 +24,7 @@ theorem coreProduct_nontrivial {group : Type*} [Group group] [Finite group] [Non
   by_cases divides : prime ∣ Nat.card group
   · have : Nontrivial (sylow : Subgroup group) :=
       (Subgroup.nontrivial_iff_ne_bot _).mpr (sylow.ne_bot_of_dvd_card divides)
-    have center_nontrivial := thompsonCenter_nontrivial_of_prime_group prime sylow.isPGroup'
+    have center_nontrivial := thompsonCenter_nontrivial_of_prime_group prime sylow.isPGroup
     have image_bot : (thompsonCenter (sylow : Subgroup group)).map (sylow : Subgroup group).subtype = ⊥ :=
       le_bot_iff.mp (trivial ▸ (show
         (thompsonCenter (sylow : Subgroup group)).map (sylow : Subgroup group).subtype ≤ coreProduct prime sylow from le_sup_right))

@@ -68,10 +68,10 @@ theorem comm_mem_inner_of_mem_projectiveImage {K : Type} [Field K] [Finite K] {d
     Nat.pos_of_ne_zero Subgroup.index_ne_zero_of_finite
   have hD2 : (isometryConjugationHom Q).range.relIndex (linearConjugationHom Q).range ≤ 2 :=
     (Nat.le_of_dvd hsq0 (relIndex_isometryRange_dvd Q hQv)).trans hsq
-  haveI : Finite (matrixProjectiveDerived Q) := inferInstance
-  haveI : Finite (MulAut (matrixProjectiveDerived Q)) :=
+  have : Finite (matrixProjectiveDerived Q) := inferInstance
+  have : Finite (MulAut (matrixProjectiveDerived Q)) :=
     CFSG.RankThree.PartOne.OutStructure.instFiniteMulAut' _
-  haveI : (inner (matrixProjectiveDerived Q)).Normal := inner_normal _
+  have : (inner (matrixProjectiveDerived Q)).Normal := inner_normal _
   exact comm_mem_of_series (inner (matrixProjectiveDerived Q)) (isometryConjugationHom Q).range
     (linearConjugationHom Q).range (matrixProjectiveImage Q) hNO hOD hDE hOE hEE hO4 hD2 hp hp5
     hα hk hx

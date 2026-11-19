@@ -136,10 +136,10 @@ private theorem s15k_tsl_rot_comp_three {m : Fin n → ZMod 2} {j a b : Fin n}
       decide +revert
     · simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul,
         s15k_tsl_single_eq_of_ne hia, s15k_tsl_single_eq_of_ne hib, mul_zero,
-        add_zero, CharTwo.add_self_eq_zero]
+        add_zero]
 
 private theorem s15k_tsl_rot_single_a {m : Fin n → ZMod 2} {j a b : Fin n}
-    (hja : j ≠ a) (hjb : j ≠ b) (hab : a ≠ b) :
+    (hja : j ≠ a) (_hjb : j ≠ b) (hab : a ≠ b) :
     s15k_tsl_rot m j a b (Pi.single a 1) = Pi.single b 1 := by
   rw [s15k_tsl_rot_apply, s15k_tsl_c1_apply, s15k_tsl_c2_apply]
   have hc1 : (Pi.single a (1 : ZMod 2) : Fin n → ZMod 2) a +
@@ -272,7 +272,7 @@ private theorem s15k_tsl_c2_fixrot {m : Fin n → ZMod 2} {j a a' b' : Fin n}
     s15k_tsl_rot_apply_of_ne hja' hjb', s15k_tsl_c2_apply]
 
 private theorem s15k_tsl_rot_comm {m : Fin n → ZMod 2} {j a b a' b' : Fin n}
-    (hab : a ≠ b) (ha'b' : a' ≠ b')
+    (_hab : a ≠ b) (_ha'b' : a' ≠ b')
     (haa' : a ≠ a') (hab' : a ≠ b') (hba' : b ≠ a') (hbb' : b ≠ b')
     (hja' : j ≠ a') (hjb' : j ≠ b')
     (ha'a : a' ≠ a) (ha'b : a' ≠ b) (hb'a : b' ≠ a) (hb'b : b' ≠ b)

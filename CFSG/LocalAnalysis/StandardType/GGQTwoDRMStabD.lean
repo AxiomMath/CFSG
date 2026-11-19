@@ -111,15 +111,15 @@ theorem qtwoDRMStab_D_oddSign {m : ℕ} (a : DVec m ≃ₗ[ZMod 3] DVec m) (href
     by_contra hne
     obtain ⟨i, hi⟩ := not_forall.mp hne
     have h1 := hco i i
-    rw [if_neg (fun h => hi h.symm), if_pos rfl] at h1
+    rw [ite_eq_right (fun h => hi h.symm), ite_eq_left rfl] at h1
     have h2 := hco i (σ i)
-    rw [if_pos rfl, if_neg hi] at h2
+    rw [ite_eq_left rfl, ite_eq_right hi] at h2
     have hoff : ∀ j, j ≠ i → j ≠ σ i → σ j = j ∧ c j = 1 := by
       intro j hji hjs
       have h3 := hco i j
-      rw [if_neg hjs, if_neg hji] at h3
+      rw [ite_eq_right hjs, ite_eq_right hji] at h3
       have h4 := hco j j
-      rw [if_pos rfl] at h4
+      rw [ite_eq_left rfl] at h4
       have hwj : w j = 0 := by
         simp only [mul_zero, zero_sub, sub_zero] at h1 h3
         revert h1 h3
@@ -130,18 +130,18 @@ theorem qtwoDRMStab_D_oddSign {m : ℕ} (a : DVec m ≃ₗ[ZMod 3] DVec m) (href
         decide
       rw [hwj] at h4
       by_cases hsj : j = σ j
-      · rw [if_pos hsj, mul_one, mul_zero, sub_eq_zero] at h4
+      · rw [ite_eq_left hsj, mul_one, mul_zero, sub_eq_zero] at h4
         exact ⟨hsj.symm, h4⟩
-      · rw [if_neg hsj, mul_zero, mul_zero, zero_sub] at h4
+      · rw [ite_eq_right hsj, mul_zero, mul_zero, zero_sub] at h4
         exact absurd h4 (by decide)
     have hσσ : σ (σ i) = i := by
       by_contra h
       have hsi : σ (σ i) ≠ σ i := fun h' => hi (σ.injective h')
       exact hsi (σ.injective (hoff (σ (σ i)) h hsi).1)
     have h5 := hco (σ i) i
-    rw [if_pos hσσ.symm, if_neg (fun h => hi h.symm)] at h5
+    rw [ite_eq_left hσσ.symm, ite_eq_right (fun h => hi h.symm)] at h5
     have h6 := hco (σ i) (σ i)
-    rw [hσσ, if_neg hi, if_pos rfl] at h6
+    rw [hσσ, ite_eq_right hi, ite_eq_left rfl] at h6
     have hcc : c i * c (σ i) = 1 := by
       simp only [mul_zero, mul_one, zero_sub, sub_zero] at h1 h2 h5 h6
       revert h1 h2 h5 h6
@@ -171,11 +171,11 @@ theorem qtwoDRMStab_D_oddSign {m : ℕ} (a : DVec m ≃ₗ[ZMod 3] DVec m) (href
     by_contra hj
     have hj' : c j = -1 := (hc j).resolve_left hj
     have h1 := hco p p
-    rw [hσ p, if_pos rfl, hp'] at h1
+    rw [hσ p, ite_eq_left rfl, hp'] at h1
     have h2 := hco j p
-    rw [hσ j, if_neg (Ne.symm hjp)] at h2
+    rw [hσ j, ite_eq_right (Ne.symm hjp)] at h2
     have h3 := hco j j
-    rw [hσ j, if_pos rfl, hj'] at h3
+    rw [hσ j, ite_eq_left rfl, hj'] at h3
     simp only [mul_zero, mul_one, sub_zero] at h1 h2 h3
     revert h1 h2 h3
     generalize f (dBasis m p) = x₁
@@ -187,8 +187,8 @@ theorem qtwoDRMStab_D_oddSign {m : ℕ} (a : DVec m ≃ₗ[ZMod 3] DVec m) (href
   refine ⟨p, (dBasis m).ext' fun i => ?_⟩
   rw [hact i, hσ i, dNeg_basis]
   by_cases hip : i = p
-  · rw [if_pos hip, hip, hp']
-  · rw [if_neg hip, hother i hip]
+  · rw [ite_eq_left hip, hip, hp']
+  · rw [ite_eq_right hip, hother i hip]
 
 theorem qtwoDRMStab_D {m : ℕ} (hm : 6 ≤ m) (i₀ : Fin m) :
     Nat.card {a : DVec m ≃ₗ[ZMod 3] DVec m //
@@ -199,10 +199,10 @@ theorem qtwoDRMStab_D {m : ℕ} (hm : 6 ≤ m) (i₀ : Fin m) :
       (∀ w ∈ dEvenStab m (Pi.single i₀ 1), a * w * a⁻¹ ∈ dEvenStab m (Pi.single i₀ 1)) →
         dIsRefl a → a ∈ dEvenStab m (Pi.single i₀ 1) ∨ ∃ i, a = dNeg m i := by
   classical
-  haveI : Fintype (DVec m ≃ₗ[ZMod 3] DVec m) :=
+  have : Fintype (DVec m ≃ₗ[ZMod 3] DVec m) :=
     Fintype.ofInjective (fun e : DVec m ≃ₗ[ZMod 3] DVec m => (e : DVec m → DVec m))
       (fun _ _ h => LinearEquiv.ext (congrFun h))
-  haveI : Fintype (p9uRMD_A m i₀) :=
+  have : Fintype (p9uRMD_A m i₀) :=
     Fintype.ofInjective (Subtype.val : p9uRMD_A m i₀ → DVec m ≃ₗ[ZMod 3] DVec m)
       Subtype.val_injective
   constructor

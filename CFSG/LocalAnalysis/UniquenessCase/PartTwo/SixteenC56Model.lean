@@ -86,7 +86,7 @@ theorem card_eq : Nat.card W = Nat.card S.K ^ 4 := by
   simp [Nat.card_eq_fintype_card]
 
 theorem Q_smul (c : S.K) (w : W) : S.Q (S.smul c w) = c ^ 2 * S.Q w := by
-  simp only [Q, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, vec_smul, Fin.sum_univ_two]
+  simp only [Q, StatedQuadPlus, vec_smul, Fin.sum_univ_two]
   simp only [Pi.smul_apply, smul_eq_mul]
   ring
 
@@ -100,17 +100,17 @@ theorem pol_comm (w w' : W) : S.pol w w' = S.pol w' w := by
   ring
 
 theorem pol_mul_left (w w' w'' : W) : S.pol (w * w') w'' = S.pol w w'' + S.pol w' w'' := by
-  simp only [pol, Q, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, vec_mul, Fin.sum_univ_two,
+  simp only [pol, Q, StatedQuadPlus, vec_mul, Fin.sum_univ_two,
     Pi.add_apply]
   ring
 
 theorem pol_smul_left (c : S.K) (w w' : W) : S.pol (S.smul c w) w' = c * S.pol w w' := by
-  simp only [pol, Q, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, vec_mul, vec_smul,
+  simp only [pol, Q, StatedQuadPlus, vec_mul, vec_smul,
     Fin.sum_univ_two, Pi.add_apply, Pi.smul_apply, smul_eq_mul]
   ring
 
 theorem pol_self (w : W) : S.pol w w = 0 := by
-  simp only [pol, Q, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, vec_mul, Fin.sum_univ_two,
+  simp only [pol, Q, StatedQuadPlus, vec_mul, Fin.sum_univ_two,
     Pi.add_apply]
   have h2 : (2 : S.K) = 0 := CharP.cast_eq_zero S.K 2
   linear_combination (S.vec w (Sum.inl 0) * S.vec w (Sum.inr 0) +
@@ -123,12 +123,12 @@ theorem pol_smul_right (c : S.K) (w w' : W) : S.pol w (S.smul c w') = c * S.pol 
   rw [S.pol_comm w (S.smul c w'), S.pol_smul_left, S.pol_comm w' w]
 
 theorem Q_one : S.Q 1 = 0 := by
-  simp [Q, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, vec_one]
+  simp [Q, StatedQuadPlus, vec_one]
 
 theorem pol_eq (w w' : W) : S.pol w w' = S.vec w (Sum.inl 0) * S.vec w' (Sum.inr 0) +
     S.vec w' (Sum.inl 0) * S.vec w (Sum.inr 0) + S.vec w (Sum.inl 1) * S.vec w' (Sum.inr 1) +
     S.vec w' (Sum.inl 1) * S.vec w (Sum.inr 1) := by
-  simp only [pol, Q, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, vec_mul, Fin.sum_univ_two,
+  simp only [pol, Q, StatedQuadPlus, vec_mul, Fin.sum_univ_two,
     Pi.add_apply]
   ring
 
@@ -145,7 +145,7 @@ theorem eq_one_of_pol_eq_zero {w : W} (h : ∀ w' : W, S.pol w w' = 0) : w = 1 :
 
 theorem exists_Q_ne_zero : ∃ w : W, S.Q w ≠ 0 := by
   refine ⟨S.ofVec (fun i => if i = Sum.inl 0 ∨ i = Sum.inr 0 then 1 else 0), ?_⟩
-  simp [Q, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, vec_ofVec, Fin.sum_univ_two]
+  simp [Q, StatedQuadPlus, vec_ofVec]
 
 @[expose] def natAut {K : Type} [Field K] (γ : GL OmI K) : MulAut (Multiplicative (OmI → K)) where
   toFun x := Multiplicative.ofAdd ((γ : Matrix OmI OmI K) *ᵥ Multiplicative.toAdd x)
@@ -243,7 +243,7 @@ theorem ofMat_smul {K : Type} [Mul K] (c : K) (X : Matrix (Fin 2) (Fin 2) K) :
   rcases i with i | i <;> fin_cases i <;> simp [ofMat]
 
 theorem Q_eq_det (w : W) : S.Q w = (toMat (S.vec w)).det := by
-  simp only [Q, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_two, toMat,
+  simp only [Q, StatedQuadPlus, Fin.sum_univ_two, toMat,
     Matrix.det_fin_two_of]
   rw [sub_eq_add_neg, CharTwo.neg_eq]
 
@@ -436,7 +436,7 @@ theorem exists_actHom_of_smul_comm {h : MulAut W}
 private theorem exists_ne_zero_sq_ne_one (K : Type*) [Field K] [Finite K] [CharP K 2]
     (h : 4 ≤ Nat.card K) : ∃ a : K, a ≠ 0 ∧ a ^ 2 ≠ 1 := by
   classical
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hcard : 4 ≤ Fintype.card K := by simpa [Nat.card_eq_fintype_card] using h
   have h2 : ({0, 1} : Finset K).card = 2 := Finset.card_pair_eq_two_iff.mpr zero_ne_one
   have hlt : ({0, 1} : Finset K).card < (Finset.univ : Finset K).card := by
@@ -463,10 +463,10 @@ private theorem isPerfect_prod {G H : Type*} [Group G] [Group H]
 
 theorem omega0_le_omega : S.omega0 ≤ S.omega := by
   obtain ⟨a, ha0, hasq⟩ := exists_ne_zero_sq_ne_one S.K S.four_le
-  haveI hSL : Group.IsPerfect (SL(2, S.K)) :=
+  have hSL : Group.IsPerfect (SL(2, S.K)) :=
     Group.isPerfect_def.mpr (Matrix.SL2.commutator_eq_top ha0 hasq)
-  haveI hprod : Group.IsPerfect (SL(2, S.K) × SL(2, S.K)) := isPerfect_prod
-  haveI homega0 : Group.IsPerfect S.omega0 := Group.IsPerfect.range (f := S.jHom)
+  have hprod : Group.IsPerfect (SL(2, S.K) × SL(2, S.K)) := isPerfect_prod
+  have homega0 : Group.IsPerfect S.omega0 := Group.IsPerfect.range (f := S.jHom)
   have hle : S.omega0 ≤
       (CFSG.MatrixModel.isometryCore (StatedQuadPlus 2 S.K)).map S.actHom := by
     intro h hh

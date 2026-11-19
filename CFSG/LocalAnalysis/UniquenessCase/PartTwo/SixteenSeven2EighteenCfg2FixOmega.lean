@@ -96,7 +96,7 @@ private theorem fixV_eq_bot_omegaMinus_of_eichler {W : Type} [CommGroup W]
     (hReal : (FFModel.nat (StatedOmega (StatedQuadMinus d K b c))).Realizes H U ⊥) :
     U ⊓ fixV H = ⊥ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨π, hπ⟩ := hReal
   let R := CFSG.Quasithin.SzN15.NatReal.of_realizesVia hπ
   obtain ⟨β, hβsurj, hβker, hβe⟩ := R.exists_β
@@ -187,7 +187,7 @@ private theorem elementaryGroup_le_commutator_of_perfect {K V : Type*} [Field K]
     [Module K V] {Q : QuadraticForm K V} (hperf : Group.IsPerfect ↥(elementaryGroup Q)) :
     elementaryGroup Q ≤ ⁅TauCeti.QuadraticMap.orthogonalGroup Q,
       TauCeti.QuadraticMap.orthogonalGroup Q⁆ := by
-  haveI := hperf
+  have := hperf
   calc elementaryGroup Q = ⁅elementaryGroup Q, elementaryGroup Q⁆ :=
         (Subgroup.commutator_eq_self).symm
     _ ≤ _ := Subgroup.commutator_mono (elementaryGroup_le_orthogonalGroup Q)
@@ -200,7 +200,7 @@ private theorem eichler_mem_statedOmega {d : ℕ} (hd : 3 ≤ d) {K : Type} [Fie
     (hg : g ∈ elementaryGroup (quadMinus d K b c)) :
     (toLinEquiv (Fin (d - 1) ⊕ Fin (d - 1) ⊕ Fin 2) K).symm g ∈
       StatedOmega (StatedQuadMinus d K b c) := by
-  haveI : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
+  have : CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2 K :=
     CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.IsF2.of_natCard_eq_two hK2
   have hQ : (polarBilin (quadMinus d K b c)).Nondegenerate :=
     nondegenerate_polarBilin_quadMinus_of_finite d K hpoly
@@ -230,13 +230,13 @@ theorem s16c167_cfg2_fix_omegaMinus {W : Type} [CommGroup W] {H : Subgroup (MulA
     U ⊓ fixV H = ⊥ := by
   rcases hn with rfl | rfl
   · obtain ⟨-, K, hK, hKf, b, c, hK2, hpoly, π, hπ⟩ := h
-    letI := hK
-    haveI : Finite K := hKf
+    let := hK
+    have : Finite K := hKf
     exact fixV_eq_bot_omegaMinus_of_eichler (d := 3) (by norm_num) b c hK2 hpoly
       (fun g hg => eichler_mem_statedOmega (by norm_num) b c hK2 hpoly hg) ⟨π, hπ⟩
   · obtain ⟨-, K, hK, hKf, b, c, hK2, hpoly, π, hπ⟩ := h
-    letI := hK
-    haveI : Finite K := hKf
+    let := hK
+    have : Finite K := hKf
     exact fixV_eq_bot_omegaMinus_of_eichler (d := 4) (by norm_num) b c hK2 hpoly
       (fun g hg => eichler_mem_statedOmega (by norm_num) b c hK2 hpoly hg) ⟨π, hπ⟩
 

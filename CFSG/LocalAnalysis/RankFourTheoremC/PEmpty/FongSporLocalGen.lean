@@ -37,6 +37,7 @@ theorem mem_normalizer_zpowers_of_commute {x t : G} (h : x * t = t * x) :
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem mem_of_centralizes_involution {z : G} {K : Subgroup G}
     (hN : normalizer (zpowers z : Set G) ≤ K)
     (hcl : ∀ U : Subgroup G, IsPGroup 2 U → z ∈ normalizer (U : Set G) → U ⊓ K ≠ ⊥ →
@@ -56,6 +57,7 @@ theorem mem_of_centralizes_involution {z : G} {K : Subgroup G}
   exact hcl (zpowers t) hU (mem_normalizer_zpowers_of_commute hzt) hUK
     (mem_normalizer_zpowers_of_commute hmt)
 
+omit [Finite G] in
 theorem closure_le_of_gen {z : G} {K : Subgroup G}
     (hN : normalizer (zpowers z : Set G) ≤ K)
     (hcl : ∀ U : Subgroup G, IsPGroup 2 U → z ∈ normalizer (U : Set G) → U ⊓ K ≠ ⊥ →
@@ -70,6 +72,7 @@ theorem closure_le_of_gen {z : G} {K : Subgroup G}
   · obtain ⟨t, h2, h1, hzt, hmt⟩ := hms g hg
     exact mem_of_centralizes_involution hN hcl h2 h1 hzt hmt
 
+omit [Finite G] in
 theorem eq_top_of_gen {z : G} {K : Subgroup G}
     (hN : normalizer (zpowers z : Set G) ≤ K)
     (hcl : ∀ U : Subgroup G, IsPGroup 2 U → z ∈ normalizer (U : Set G) → U ⊓ K ≠ ⊥ →

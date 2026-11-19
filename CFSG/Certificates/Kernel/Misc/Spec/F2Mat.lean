@@ -5,7 +5,7 @@ public import Mathlib.Data.Matrix.Mul
 import CFSG.Certificates.Kernel.Spor.PK.MiscBase
 public import Mathlib.Algebra.Group.End
 public import Mathlib.Algebra.Order.Ring.Nat
-public import Mathlib.Data.Nat.SuccPred
+public import Mathlib.Order.SuccPred.Nat
 public import Mathlib.Data.ZMod.Defs
 import Mathlib.Tactic.Ring.RingNF
 
@@ -114,13 +114,13 @@ theorem testBit_blockSum {n : ℕ} {f : ℕ → ℕ} (m : ℕ) (hf : ∀ t < m, 
         have := Nat.mul_le_mul_left n (show i + 1 ≤ m by omega)
         rw [Nat.mul_succ] at this
         omega
-      rw [if_pos h1, ih (fun t ht => hf t (by omega))]
+      rw [ite_eq_left h1, ih (fun t ht => hf t (by omega))]
       simp [hi, show i < m + 1 by omega]
     · obtain ⟨d, rfl⟩ : ∃ d, i = m + d := ⟨i - m, by omega⟩
       have h1 : ¬ n * (m + d) + j < n * m := by
         have := Nat.mul_le_mul_left n (show m ≤ m + d by omega)
         omega
-      rw [if_neg h1]
+      rw [ite_eq_right h1]
       have e1 : n * (m + d) + j - n * m = n * d + j := by
         rw [Nat.mul_add]
         omega
@@ -237,7 +237,7 @@ theorem testBit_stepF2 {n : ℕ} (hn : 0 < n) (A B k : ℕ) {i j : ℕ} (hj : j 
     testBit_blockSum n (fun _ _ => hVlt) i j hj, hV, Nat.testBit_and, Nat.testBit_shiftRight,
     Nat.testBit_two_pow_sub_one]
   by_cases hi : i < n
-  · cases hb : A.testBit (n * i + k) <;> simp [hi, hj, hb, Nat.add_comm]
+  · cases hb : A.testBit (n * i + k) <;> simp [hi, hj, Nat.add_comm]
   · simp [hi]
 
 @[expose] def xsum (f : ℕ → Bool) : ℕ → Bool

@@ -12,12 +12,14 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem barImage_mono {M K L : Subgroup G} (h : K ≤ L) :
     barImage M K ≤ barImage M L := by
   intro q hq
   obtain ⟨m, hm, rfl⟩ := uc22p21c_mem_barImage.1 hq
   exact uc22p21c_mem_barImage.2 ⟨m, h hm, rfl⟩
 
+omit [Finite G] in
 theorem barImage_barPreimage (M : Subgroup G) (Y : Subgroup (Bar2 M)) :
     barImage M (barPreimage M Y) = Y := by
   refine le_antisymm ?_ ?_
@@ -29,10 +31,12 @@ theorem barImage_barPreimage (M : Subgroup G) (Y : Subgroup (Bar2 M)) :
     exact uc22p21c_mem_barImage.2
       ⟨m, uc22p21c_mem_barPreimage.2 ⟨m.2, hq⟩, rfl⟩
 
+omit [Finite G] in
 theorem barPreimage_mono {M : Subgroup G} {Y Y' : Subgroup (Bar2 M)} (h : Y ≤ Y') :
     barPreimage M Y ≤ barPreimage M Y' :=
   Subgroup.map_mono (Subgroup.comap_mono h)
 
+omit [Finite G] in
 theorem pCoreOf_le_barPreimage (M : Subgroup G) (Y : Subgroup (Bar2 M)) :
     CFSG.Open.pCoreOf 2 M ≤ barPreimage M Y := by
   intro x hx
@@ -45,6 +49,7 @@ theorem pCoreOf_le_barPreimage (M : Subgroup G) (Y : Subgroup (Bar2 M)) :
   rw [hx1]
   exact Subgroup.one_mem _
 
+omit [Finite G] in
 theorem closure_le_barPreimage {M S : Subgroup G} {b : G}
     (hSM : S ≤ M) (hbM : b ∈ M) {C : Subgroup (Bar2 M)} (hC : C.Normal)
     (hbC : uc22p21cPi M ⟨b, hbM⟩ ∈ C) :
@@ -68,6 +73,7 @@ theorem closure_le_barPreimage {M S : Subgroup G} {b : G}
   rw [hmap, commutatorElement_def]
   exact hx
 
+omit [Finite G] in
 theorem le_pCoreOf_of_barImage_eq_bot {M R : Subgroup G} (hRM : R ≤ M)
     (h : barImage M R = ⊥) : R ≤ CFSG.Open.pCoreOf 2 M := by
   intro x hx

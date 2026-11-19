@@ -78,7 +78,7 @@ theorem pJL_eq (hM : MulCode m gA dA dct) (hxs : ∀ x ∈ xs, x.1 < 256)
 theorem jMem_eq_inJ {p : Pt} (hp : p.1 < 256) :
     Gen.jMemG gA dA dct xs p = Gen.inJG gA dA dct xs p := by
   unfold Gen.jMemG
-  rw [if_pos (encPt_lt hp), decPt_encPt hp]
+  rw [ite_eq_left (encPt_lt hp), decPt_encPt hp]
 
 theorem pJMem_code (hM : MulCode m gA dA dct) (hxs : ∀ x ∈ xs, x.1 < 256)
     (hJ : ∀ i < 16384, pBit JM i = pInJ m (xs.map pCode) (pCodeOf i)) {p : Pt} (hp : p.1 < 256) :
@@ -307,7 +307,7 @@ theorem checkF3G_of (hM : MulCode m gA dA dct) (hxs : ∀ x ∈ xs, x.1 < 256)
     intro j hj
     have hj1 := (mem_jPts.1 hj).1
     have := hu6 j hj
-    simp only [Function.comp, orB_eq, notB_eq] at this
+    simp only [Function.comp, orB_eq] at this
     rw [pCmt_code hM hj1 hr, hM.code up j hup hj1, sq_code hM (hM.lt up j hup hj1)] at this
     exact this
   rw [List.any_eq_true]

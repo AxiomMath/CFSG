@@ -31,7 +31,7 @@ theorem invB_iff (m : Nat) : invB m = true ↔ InvL m := by
     rw [h2]
     rfl
 
-theorem lap_mulC_lin {c d : Nat} (hc : c % 16 = 0) (hd : d % 16 = 0) {x : Nat} (hx : x < 16) :
+theorem lap_mulC_lin {c d : Nat} (hc : c % 16 = 0) (hd : d % 16 = 0) {x : Nat} (_hx : x < 16) :
     lap (mulC c d / 16) x = lap (c / 16) (lap (d / 16) x) := by
   have h1 : mulC c d % 16 = 0 := by rw [mulC_mod16, hd, aff_zero_lin hc]
   have := aff_mulC c d x

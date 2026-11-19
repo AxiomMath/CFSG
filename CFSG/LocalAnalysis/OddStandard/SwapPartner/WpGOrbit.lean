@@ -55,7 +55,7 @@ theorem card_le_ncard_mul_card_centralizer {X : Type*} [Group X] [Finite X] (u :
 theorem ncard_preimage_le {A B : Type*} [Group A] [Group B] [Finite A] (f : A →* B) (S : Set B) :
     {a : A | f a ∈ S}.ncard ≤ (S ∩ (f.range : Set B)).ncard * Nat.card f.ker := by
   classical
-  letI := Fintype.ofFinite A
+  let := Fintype.ofFinite A
   let s : Finset A := Finset.univ.filter (fun a => f a ∈ S)
   have hs : (s : Set A) = {a : A | f a ∈ S} := by
     ext a
@@ -138,7 +138,7 @@ theorem two_mul_card_range_le [Finite X] (H : WreathCase t Sg V K)
         {p : Perm (Fin 8) × Perm (Fin 8) |
           R p ∧ p ∈ ((Θ.range : Subgroup _) : Set _)} := by
       ext p
-      simp only [Set.mem_inter_iff, Set.mem_setOf_eq]
+      simp only [Set.mem_inter_iff, Set.mem_ofPred_eq]
     rw [hB] at h2
     exact h2
   have hcardX : Nat.card X = 2 * Nat.card Θ.ker * Nat.card Θ.range := by

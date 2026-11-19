@@ -39,7 +39,7 @@ theorem levSU_diagSLM : levSU diagSLM isUnit_det_diagSLM = e₁SU * e₂SU := by
   rw [mat_levSU, det_diagSLM, map_one, div_one, CFSG.ClassicalGroups.UnitaryFlag.oddDiag,
     barInvT_diagSLM, mat_e₁e₂]
   fin_cases i <;> fin_cases j <;>
-    simp [yIdx, blk3, diagSLM, Matrix.diagonal, Matrix.fromBlocks] <;> decide
+    simp [yIdx, diagSLM, Matrix.diagonal]
 
 theorem e₁e₂_mem_K₂sub : e₁SU * e₂SU ∈ K₂sub := by
   rw [K₂sub_eq_levSLHom_range]
@@ -146,7 +146,7 @@ theorem mat_pow_gen (g : SU52) (n : ℕ) : mat (g ^ n) = mat g ^ n := by
   | succ n ih => rw [pow_succ, pow_succ, mat_mul, ih]
 
 theorem exists_orderOf_eleven : ∃ x ∈ A₂sub ⊔ K₂sub ⊔ zpowers uSU, orderOf x = 11 := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   refine ⟨uSU * vSU * x₁SU 1 F4.ω one_omega_rel * x₃SU F4.ω, ?_, ?_⟩
   · refine mul_mem (mul_mem (mul_mem ?_ ?_) ?_) ?_
     · exact mem_sup_right (mem_zpowers uSU)

@@ -225,7 +225,7 @@ theorem invCentSectAbelianSylow_of_commutator_le [Finite S]
   obtain ⟨a, ha, rfl⟩ := mem_map.mp hx1
   obtain ⟨b, hb, rfl⟩ := mem_map.mp hy1
   have hP' : ⁅(P₀ : Subgroup R).map R.subtype, (P₀ : Subgroup R).map R.subtype⁆ ≤ Q := by
-    refine hPQ _ ?_ (P₀.isPGroup'.map _)
+    refine hPQ _ ?_ (P₀.isPGroup.map _)
     rintro _ ⟨r, -, rfl⟩
     exact hR r.2
   have habQ : ((⁅a, b⁆ : R) : S) ∈ Q := by

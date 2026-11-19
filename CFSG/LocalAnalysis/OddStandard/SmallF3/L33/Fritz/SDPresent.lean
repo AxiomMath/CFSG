@@ -68,7 +68,7 @@ private noncomputable def nfEquiv {Γ : Type*} [Group Γ] {a b c : Γ} (h : Rel 
     (hc : Nat.card (closure ({a, b, c} : Set Γ)) = 32) :
     I ≃ closure ({a, b, c} : Set Γ) :=
   Equiv.ofBijective (nfIdx a b c)
-    ((nfIdx_surjective h).bijective_of_nat_card_le (by simp [card_I, hc]))
+    ((nfIdx_surjective h).bijective_of_nat_card_le (by simp [hc]))
 
 private lemma nfEquiv_iA {Γ : Type*} [Group Γ] {a b c : Γ} (h : Rel a b c)
     (hc : Nat.card (closure ({a, b, c} : Set Γ)) = 32) :

@@ -52,9 +52,9 @@ private theorem commutatorElement_eq_of_map_eq {L R : Type*} [Group L] [Group R]
 
 private theorem mulAut_sq_eq_one_of_card_three {G : Type*} [Group G] (hG : Nat.card G = 3)
     (φ : MulAut G) : φ ^ 2 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite G := Nat.finite_of_card_ne_zero (by rw [hG]; norm_num)
-  haveI : IsCyclic G := isCyclic_of_prime_card hG
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite G := Nat.finite_of_card_ne_zero (by rw [hG]; norm_num)
+  have : IsCyclic G := isCyclic_of_prime_card hG
   have hcard : Nat.card (MulAut G) = 2 := by
     rw [IsCyclic.card_mulAut, hG]
     decide
@@ -81,9 +81,9 @@ theorem ggAbelianLift : GGAbelianLift := by
       rw [hker] at hmem
       exact Subgroup.mem_bot.mp hmem
   ·
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : IsCyclic ↥(ψ.ker) := isCyclic_of_prime_card (p := 3) hZ3
-    haveI : IsCyclic (Multiplicative (ZMod 3)) := inferInstance
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : IsCyclic ↥(ψ.ker) := isCyclic_of_prime_card (p := 3) hZ3
+    have : IsCyclic (Multiplicative (ZMod 3)) := inferInstance
     have hcardZ3 : Nat.card (Multiplicative (ZMod 3)) = 3 := by
       rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
     let e : ↥(ψ.ker) ≃* Multiplicative (ZMod 3) :=

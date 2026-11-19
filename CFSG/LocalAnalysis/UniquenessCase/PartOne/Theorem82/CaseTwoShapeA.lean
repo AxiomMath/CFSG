@@ -180,14 +180,14 @@ variable {c : Ctx812E G} (t : CaseTwoTransitive c)
 private theorem map_conj_Z_eq_of_le_inf_centralizer_y (hOut : PerfectAutInner) {p : ℕ}
     (hp : p ∈ c.sig) (hN : t.PairNormalizerLe p)
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) {h : G}
-    (hh : h ∈ Subgroup.centralizer ({t.y} : Set G))
+    (_hh : h ∈ Subgroup.centralizer ({t.y} : Set G))
     (hZh : t.Z.map (MulAut.conj h).toMonoidHom ≤
       t.P ⊓ Subgroup.centralizer ({t.y} : Set G)) :
     t.Z.map (MulAut.conj h).toMonoidHom = t.Z := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨z, hzZ, hz1⟩ : ∃ z : G, z ∈ t.Z ∧ z ≠ 1 := by
-    haveI : Nontrivial ↥t.Z :=
+    have : Nontrivial ↥t.Z :=
       Finite.one_lt_card_iff_nontrivial.mp (by rw [t.card_Z]; norm_num)
     obtain ⟨z, hz⟩ := exists_ne (1 : ↥t.Z)
     exact ⟨z, z.2, fun h' => hz (Subtype.ext h')⟩
@@ -203,7 +203,7 @@ private theorem map_conj_Z_eq_of_le_inf_centralizer_y (hOut : PerfectAutInner) {
   have hz'T : z' ∈ t.P ⊓ Subgroup.centralizer ({t.y} : Set G) := hZh hz'Zmap
   have hz'3 : z' ^ 3 = 1 := by
     have hconj : z' ^ 3 = h * z ^ 3 * h⁻¹ := by
-      simpa [z'] using conj_pow (a := h) (b := z) (i := 3)
+      simp [z']
     rw [hconj, hz3]
     group
   have hz'1 : z' ≠ 1 := by
@@ -296,7 +296,7 @@ theorem pRank_Xz (hK332 : CFSG.LocalAnalysis.UniquenessCase.UCK.K332ThreeAb)
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) :
     CFSG.Open.pRank 3 t.Xz = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := Subgroup.centralizer ({t.y} : Set G)
   let T : Subgroup G := t.P ⊓ K
   let S' : Subgroup ↥K := T.subgroupOf K
@@ -308,7 +308,7 @@ theorem pRank_Xz (hK332 : CFSG.LocalAnalysis.UniquenessCase.UCK.K332ThreeAb)
       intro g
       have hg : g ∈ K := htop ▸ Subgroup.mem_top g
       exact Subgroup.mem_centralizer_singleton_iff.mp hg
-    haveI : IsSimpleGroup G := c.standing.simple
+    have : IsSimpleGroup G := c.standing.simple
     have hcenter : Subgroup.center G = ⊥ := by
       rcases (inferInstance : (Subgroup.center G).Normal).eq_bot_or_eq_top with h | h
       · exact h

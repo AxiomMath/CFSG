@@ -82,7 +82,7 @@ theorem m24_stab_two (p : Fin 24) :
     ¬ 2 ^ 8 ∣ Nat.card (MulAction.stabilizer ↥NativeSporadic.M24 p) := by
   have h2 : MulAction.IsMultiplyPretransitive ↥NativeSporadic.M24 (Fin 24) 2 :=
     isMultiplyPretransitive_two m24_hyp (by decide) (by norm_num)
-  haveI : MulAction.IsPretransitive ↥NativeSporadic.M24 (Fin 24) :=
+  have : MulAction.IsPretransitive ↥NativeSporadic.M24 (Fin 24) :=
     MulAction.isPretransitive_of_is_two_pretransitive
   rw [card_stabilizer_eq p (by simp), card_M24, Nat.card_fin]
   norm_num
@@ -133,7 +133,7 @@ theorem y5_closure :
 theorem m24_fix5 :
     ∀ y : ↥NativeSporadic.M24, orderOf y = 5 → fixCount y ≤ 4 := by
   intro y hy
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hP : Nat.card (Subgroup.closure {g | g ∈ [y5]}) =
       5 ^ (Nat.card ↥NativeSporadic.M24).factorization 5 := by
     rw [y5_closure.1, card_M24, factorization_eq_of (k := 1) (by norm_num) (by norm_num)
@@ -256,7 +256,7 @@ theorem g3_closure :
 theorem m24_fix3 :
     ∀ x : ↥NativeSporadic.M24, x ≠ 1 → x ^ 3 = 1 → fixCount x = 0 ∨ fixCount x = 6 := by
   intro x hx1 hx3
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hP : Nat.card (Subgroup.closure {g | g ∈ g3}) =
       3 ^ (Nat.card ↥NativeSporadic.M24).factorization 3 := by
     rw [g3_closure.1, card_M24, factorization_eq_of (k := 3) (by norm_num) (by norm_num)

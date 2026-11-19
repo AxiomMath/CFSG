@@ -24,6 +24,7 @@ theorem gsWeakReach_conjugate {J K : Subgroup G} (h : GSWeakReach J K) (g : G) :
     obtain ⟨a, b, hC⟩ := hst
     exact Relation.ReflTransGen.tail ih ⟨_, _, gsWeakCorr_conjugate hC g⟩
 
+omit [Finite G] in
 theorem gsWeakCorr_self {a : G} {J : Subgroup G} (ha : orderOf a = 2)
     (hJa : J ≤ centralizer ({a} : Set G))
     (hJp : IsPComponent 2 (J.subgroupOf (centralizer ({a} : Set G)))) : GSWeakCorr a J a J := by

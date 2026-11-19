@@ -320,7 +320,7 @@ private theorem rootCharKernel_mulSingle_one' {ω : Kˣ} (hω : orderOf ω = 3) 
     · intro h
       exact absurd (Finset.mem_univ _) h
   ext α
-  simp only [rootCharKernel, cosetRoots, Set.mem_setOf_eq, hchar]
+  simp only [rootCharKernel, cosetRoots, Set.mem_ofPred_eq, hchar]
   rw [← orderOf_dvd_iff_zpow_eq_one, hω]
 
 private theorem toralRootGroup_mulSingle_one' {ω : Kˣ} (hω : orderOf ω = 3) :
@@ -342,8 +342,8 @@ theorem exists_conj_torus_of_zSplit_mem [Finite K] (hK : Nat.card K % 3 = 1) {ω
       k * zSplit K ω * k⁻¹ = zSplit K ω ∧
         ((k * x * k⁻¹ : adjointGroup Tag.F4 K) : ModGL Tag.F4 K) ∈ torusGroup Tag.F4 K := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   obtain ⟨ψA, ψB, σA, σB, hA, hB, hcomm, hSA, hSB⟩ := exists_splitFrame_F4' K
   have hrA : ψA.range = X1 K := by rw [hA.range, hSA]
   have hrB : ψB.range = X2 K := by rw [hB.range, hSB]
@@ -410,7 +410,7 @@ theorem exists_conj_torus_of_zSplit_mem [Finite K] (hK : Nat.card K % 3 = 1) {ω
     by_cases hall : E ≤ S'
     · rw [inf_of_le_left hall, hc]
       norm_num
-    obtain ⟨u, huE, huS⟩ := SetLike.not_le_iff_exists.1 hall
+    obtain ⟨u, huE, huS⟩ := IsConcreteLE.not_le_iff_exists.1 hall
     obtain ⟨γA, γB, hγA, hγB, hγQ⟩ := mem_frameDetSub.1 (hMR (hcent u huE))
     have hγQ' := (hQ _ _).1 hγQ
     have hnc : ¬ ∃ v : Kˣ, v ^ 3 = GeneralLinearGroup.det γA := by
@@ -439,7 +439,7 @@ theorem exists_conj_torus_of_zSplit_mem [Finite K] (hK : Nat.card K % 3 = 1) {ω
     omega
   have hz3 : zSplit K ω ^ 3 = 1 := hE.2 _ hz
   have hzo : orderOf (zSplit K ω) ∣ 3 := orderOf_dvd_of_pow_eq_one hz3
-  haveI : Finite (Subgroup.zpowers (zSplit K ω)) := Nat.finite_of_card_ne_zero (by
+  have : Finite (Subgroup.zpowers (zSplit K ω)) := Nat.finite_of_card_ne_zero (by
     rw [Nat.card_zpowers]
     exact (Nat.pos_of_dvd_of_pos hzo (by norm_num)).ne')
   have hzc : Nat.card (Subgroup.zpowers (zSplit K ω)) ≤ 3 := by
@@ -448,7 +448,7 @@ theorem exists_conj_torus_of_zSplit_mem [Finite K] (hK : Nat.card K % 3 = 1) {ω
   have hnle : ¬ E ⊓ S' ≤ Subgroup.zpowers (zSplit K ω) := fun hle => by
     have h93 : 9 ≤ 3 := hcard.trans ((Subgroup.card_le_of_le hle).trans hzc)
     omega
-  obtain ⟨x, hxES, hxz⟩ := SetLike.not_le_iff_exists.1 hnle
+  obtain ⟨x, hxES, hxz⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
   obtain ⟨hxE, hxS⟩ := Subgroup.mem_inf.1 hxES
   obtain ⟨γA, γB, hγA, hγB, hdA, hdB⟩ := (hS _).1 ((hS' x).1 hxS)
   obtain ⟨μA, hμA⟩ := (hC _).1 hdA
@@ -563,7 +563,7 @@ section Main
 theorem f4NonToralSplitHyperplane_holds : F4NonToralSplitHyperplane := by
   intro K _ _ hK hs E₀ hE₀ hc hN hD
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ω, hω⟩ : ∃ ω : Kˣ, orderOf ω = 3 := by
     have h3' : 3 ∣ Nat.card Kˣ := by rw [Nat.card_units]; omega
     exact exists_prime_orderOf_dvd_card' 3 h3'

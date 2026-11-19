@@ -42,7 +42,7 @@ private theorem mem_sup_of_commute {A V : Subgroup G}
       rw [mul_inv_rev, hc a⁻¹ (A.inv_mem ha) v⁻¹ (V.inv_mem hv)]
 
 theorem y7a_commhom {A V W Z : Subgroup G} {t : G} [hZ : (Z.subgroupOf A).Normal]
-    (hAV : ∀ a ∈ A, ∀ v ∈ V, a * v = v * a) (hVV : ∀ v ∈ V, ∀ v' ∈ V, v * v' = v' * v)
+    (hAV : ∀ a ∈ A, ∀ v ∈ V, a * v = v * a) (_hVV : ∀ v ∈ V, ∀ v' ∈ V, v * v' = v' * v)
     (hAA : ∀ a ∈ A, ∀ a' ∈ A, ⁅a, a'⁆ ∈ V) (hAVZ : A ⊓ V = Z)
     (hWAV : ∀ m ∈ W, ∀ x ∈ A ⊔ V, ⁅m, x⁆ ∈ V) (hmt : ∀ m ∈ W, ⁅m, t⁆ ∈ A ⊔ V) :
     ∃ f : ↥W →* ↥A ⧸ Z.subgroupOf A,
@@ -112,8 +112,8 @@ theorem y7a_commhom {A V W Z : Subgroup G} {t : G} [hZ : (Z.subgroupOf A).Normal
       have ha' : a'⁻¹ * u' ∈ V := by simpa [ha'_def, hu'_def] using haM m'
       have hv : v ∈ V := by simpa [hv_def] using ha
       have hv' : v' ∈ V := by simpa [hv'_def] using ha'
-      have hmemA : a ∈ A := by simpa [ha_def] using (aM m).2
-      have hmemA' : a' ∈ A := by simpa [ha'_def] using (aM m').2
+      have hmemA : a ∈ A := by simp [ha_def]
+      have hmemA' : a' ∈ A := by simp [ha'_def]
       have hmemAV : u' ∈ A ⊔ V := by simpa [hu'_def] using hmt m' m'.2
       have hw : w ∈ V := by
         rw [hw_def]

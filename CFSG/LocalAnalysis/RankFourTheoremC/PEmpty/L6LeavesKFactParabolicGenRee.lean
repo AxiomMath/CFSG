@@ -15,8 +15,8 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType
 theorem hasParGen_gm
     {K : Type} [Field K] [Finite K] [CharP K F4.prime] {a : ℕ}
     (hK : Nat.card K = 2 ^ (2 * a + 1)) : HasParGen (Gm K a) := by
-  haveI : Finite (ModGL F4.tag K) := finite_modGL
-  haveI : Finite (Gm K a) := Subtype.finite
+  have : Finite (ModGL F4.tag K) := finite_modGL
+  have : Finite (Gm K a) := Subtype.finite
   exact hasParGen_of_rankTwoSystem (CFSG.ASVolI.burnsideF4h_ree_system hK) (isSylowTwoOf_Ug hK)
 
 theorem commutator_reeGroup_eq
@@ -34,10 +34,10 @@ theorem hasParGen_of_reeModel_twistedF4
     {G : Type} [Group G] [Finite G] {f : ℕ} (h : ReeTitsModel G .twistedF4 2 f) :
     HasParGen G := by
   obtain ⟨⟨-, -, -, -, -, hf3⟩, a, hfa, K, _, _, hK, ⟨e⟩⟩ := h
-  haveI := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
+  have := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
     (by rw [← Nat.card_eq_fintype_card, hK])
-  haveI : CharP K F4.prime := inferInstanceAs (CharP K 2)
+  have : CharP K F4.prime := inferInstanceAs (CharP K 2)
   have hK' : Nat.card K = 2 ^ (2 * a + 1) := by rw [hK, hfa]
   have ha : 1 ≤ a := by omega
   have hperf := commutator_reeGroup_eq ha hK'
@@ -46,8 +46,8 @@ theorem hasParGen_of_reeModel_twistedF4
       (↥(reeGroup K a) ⧸ Subgroup.center ↥(reeGroup K a)) :=
     QuotientGroup.congr _ _ E' (Subgroup.map_center_eq E')
   obtain ⟨Φ, -⟩ := CFSG.ASVolI.burnsideF4h_ree_exists_iso hK'
-  haveI : Finite (ModGL F4.tag K) := finite_modGL
-  haveI : Finite (Gm K a) := Subtype.finite
+  have : Finite (ModGL F4.tag K) := finite_modGL
+  have : Finite (Gm K a) := Subtype.finite
   exact hasParGen_of_mulEquiv ((e.trans iso).trans Φ.symm).symm (hasParGen_gm hK')
 
 end KPGen

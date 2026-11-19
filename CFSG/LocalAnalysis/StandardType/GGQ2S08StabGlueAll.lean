@@ -30,8 +30,8 @@ theorem ggQ2s08_stab_card_le_all
   obtain ⟨ι, φ, h, α, hcompat, hpair, hsimple, hAut, hdisj, hcard⟩ :=
     ggQ2s08_stab_datum_all hS hInn hCen hOut hBsN M hSh hmark hlab hMW
   have h1 := ggQ2s08_stab_embed_all hTBW hS hnc hx hBsN M hInn ι φ h α hcompat hpair hsimple hAut
-  haveI : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
-  haveI : Finite (M.V ⧸ Submodule.span (ZMod 3) {M.xV}) :=
+  have : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
+  have : Finite (M.V ⧸ Submodule.span (ZMod 3) {M.xV}) :=
     Finite.of_surjective (Submodule.Quotient.mk (p := Submodule.span (ZMod 3) {M.xV}))
       (Submodule.Quotient.mk_surjective _)
   have h2 := ggQ2s08_hL_card_le_all ι φ h α hdisj hsimple

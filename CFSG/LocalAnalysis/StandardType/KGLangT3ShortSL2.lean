@@ -29,7 +29,7 @@ private lemma l02qj5a1_isMulCommutative_map_iff {G H : Type*} [Group G] [Group H
     IsMulCommutative T ↔ IsMulCommutative (T.map e.symm.toMonoidHom) := by
   constructor
   · intro h
-    haveI := h
+    have := h
     exact inferInstance
   · intro h
     refine IsMulCommutative.of_comm fun a b => ?_
@@ -48,18 +48,18 @@ private lemma l02qj5a1_quotient_two_abelian {G H : Type*} [Group G] [Finite G] [
     (f : G →* H) (hf : Function.Surjective f)
     (h : ∀ P : Subgroup G, IsPGroup 2 P → IsMulCommutative P) :
     ∀ P' : Subgroup H, IsPGroup 2 P' → IsMulCommutative P' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro P' hP'
   obtain ⟨S', hle⟩ := hP'.exists_le_sylow
   obtain ⟨S, hS⟩ := Sylow.mapSurjective_surjective (p := 2) (f := f) hf S'
   have hScoe : (S : Subgroup G).map f = (S' : Subgroup H) := by
     have := congrArg (fun X : Sylow 2 H => (X : Subgroup H)) hS
     simpa [Sylow.coe_mapSurjective] using this
-  have hScomm : IsMulCommutative (S : Subgroup G) := h S S.isPGroup'
-  haveI := hScomm
+  have hScomm : IsMulCommutative (S : Subgroup G) := h S S.isPGroup
+  have := hScomm
   have hmapcomm : IsMulCommutative ((S : Subgroup G).map f) := inferInstance
   rw [hScoe] at hmapcomm
-  haveI : IsMulCommutative ↥(S' : Subgroup H) := hmapcomm
+  have : IsMulCommutative ↥(S' : Subgroup H) := hmapcomm
   have htop : IsMulCommutative ↥(S'.comap P'.subtype) :=
     Subgroup.comap_injective_isMulCommutative (S' : Subgroup H) (f := P'.subtype) P'.subtype_injective
   have htop_eq : S'.comap P'.subtype = ⊤ := by
@@ -124,7 +124,7 @@ private lemma l02qj5a1_uniB_mem (E : Type) [Field E] :
 private lemma l02qj5a1_unitriangular_three_not_comm (E : Type) [Field E] :
     ¬ IsMulCommutative (unitriangular 3 E) := by
   intro h
-  haveI := h
+  have := h
   let a : ↥(unitriangular 3 E) := ⟨l02qj5a1_uniA E, l02qj5a1_uniA_mem E⟩
   let b : ↥(unitriangular 3 E) := ⟨l02qj5a1_uniB E, l02qj5a1_uniB_mem E⟩
   have hcomm := mul_comm' a b
@@ -135,7 +135,7 @@ private lemma l02qj5a1_projUnitriangular_not_comm (E : Type) [Field E] :
     ¬ IsMulCommutative (projUnitriangular 3 E) := by
   intro h
   apply l02qj5a1_unitriangular_three_not_comm E
-  haveI := h
+  have := h
   refine IsMulCommutative.of_comm fun a b => ?_
   apply Subtype.val_injective
   apply proj_injOn_unitriangular 3 (a * b).2 (b * a).2
@@ -149,13 +149,13 @@ private lemma l02qj5a1_projectiveSL_psl3_nonabelian_two (E : Type) [Field E] [Fi
     ∃ T : Subgroup (projectiveSL 3 E), IsPGroup 2 T ∧ ¬ IsMulCommutative T := by
   by_cases h2 : CharP E 2
   ·
-    haveI := h2
+    have := h2
     refine ⟨projUnitriangular 3 E, ?_, l02qj5a1_projUnitriangular_not_comm E⟩
     obtain ⟨S, hS⟩ := exists_sylow_projUnitriangular (K := E) 2 (n := 3) (by norm_num)
     rw [← hS]
-    exact S.isPGroup'
+    exact S.isPGroup
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hk : ringChar E ≠ 2 := by
       intro h
       exact h2 (h ▸ ringChar.charP E)
@@ -163,10 +163,10 @@ private lemma l02qj5a1_projectiveSL_psl3_nonabelian_two (E : Type) [Field E] [Fi
       CFSG.LocalAnalysis.ComponentInitial.sl2_odd_field_involution_structure (k := E) hk
     let P : Sylow 2 (Matrix.SpecialLinearGroup (Fin 2) E) := default
     let φ : Matrix.SpecialLinearGroup (Fin 2) E →* projectiveSL 3 E := blockEmb
-    refine ⟨(P : Subgroup _).map φ, IsPGroup.map P.isPGroup' φ, ?_⟩
+    refine ⟨(P : Subgroup _).map φ, IsPGroup.map P.isPGroup φ, ?_⟩
     intro hcomm
     apply hsyl P
-    haveI := hcomm
+    have := hcomm
     have hcomap : IsMulCommutative
         (((P : Subgroup (Matrix.SpecialLinearGroup (Fin 2) E)).map φ).comap φ) :=
       Subgroup.comap_injective_isMulCommutative ((P : Subgroup (Matrix.SpecialLinearGroup (Fin 2) E)).map φ)
@@ -191,7 +191,7 @@ private lemma l02qj5a1_two_subgroup_of_S {K : Type} [Field K] [Finite K] [CharP 
       IsMulCommutative P := by
   classical
   let L := orbitField TwistTag.D4 K σ.toRingHom KS11Lie4Proof.d4Outer
-  haveI : CharP L 2 := inferInstance
+  have : CharP L 2 := inferInstance
   let R := orbitRankOneHom TwistTag.D4 K σ.toRingHom KS11Lie4Proof.d4Outer
   have hSL2 : ∀ Q : Subgroup (SL2 L), IsPGroup 2 Q → IsMulCommutative Q := by
     intro Q hQ
@@ -231,7 +231,7 @@ theorem kgLangT3_not_psl3_in_short {K : Type} [Field K] [Finite K] [CharP K 2] {
     (J : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom))
     (hJS : J ≤ KS11Lie4Proof.d4ShortSL2 K σ.toRingHom) (E : Type) [Field E] [Finite E]
     (θ : ↥J ⧸ Subgroup.center ↥J ≃* LargeEvenProj (LargeEvenSLGroup (Fin 3) E)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSab : ∀ P : Subgroup ↥(KS11Lie4Proof.d4ShortSL2 K σ.toRingHom), IsPGroup 2 P →
       IsMulCommutative P := l02qj5a1_two_subgroup_of_S hσ
   have hJab : ∀ P : Subgroup ↥J, IsPGroup 2 P → IsMulCommutative P := by

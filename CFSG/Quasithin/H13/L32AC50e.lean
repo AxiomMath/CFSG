@@ -85,7 +85,7 @@ theorem exists_e9_of_hom {A B : Type*} [Group A] [Finite A] [Group B] (φ : A �
       mul_comm]
     exact (Subgroup.card_eq_card_quotient_mul_card_subgroup _)
   obtain ⟨P⟩ : Nonempty (Sylow 3 Q) := inferInstance
-  obtain ⟨r, hr⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨r, hr⟩ := P.isPGroup.exists_card_eq
   have hPi : ¬ 3 ∣ (P : Subgroup Q).index := P.not_dvd_index
   have hPmul := (P : Subgroup Q).card_mul_index
   rw [hr, hcardQ] at hPmul
@@ -120,7 +120,7 @@ theorem exists_e9_of_hom {A B : Type*} [Group A] [Finite A] [Group B] (φ : A �
     have hk' : x ^ 2 ^ k = 1 := Subtype.ext (Subtype.ext (by
       have := congrArg (fun y : φ.ker => (y : A)) hk
       simpa using this))
-    obtain ⟨j, hj⟩ := P.isPGroup' x
+    obtain ⟨j, hj⟩ := P.isPGroup x
     have h1 := orderOf_dvd_of_pow_eq_one hk'
     have h2 := orderOf_dvd_of_pow_eq_one hj
     exact orderOf_eq_one_iff.mp (Nat.eq_one_of_dvd_coprimes

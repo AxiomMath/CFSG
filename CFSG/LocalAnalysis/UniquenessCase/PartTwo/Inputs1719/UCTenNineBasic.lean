@@ -43,12 +43,14 @@ theorem exists_minimal_normal_above {H Y : Subgroup G} (hYH : Y < H) :
   · exact Or.inr (Subgroup.eq_of_le_of_card_ge hWX
       (hmin W ⟨lt_of_le_of_ne hYW (Ne.symm hW), hWX.trans hXH, hWn⟩))
 
+omit [Finite G] in
 theorem le_kerM_of_normal {M H K : Subgroup G} (hKH : K ≤ H)
     (hHK : H ≤ normalizer (K : Set G)) (hKM : K ≤ M) : K ≤ kerM M H := by
   intro k hk
   refine (RankThreeUC.WeakClosure.mem_kerIn (M := M) (H := H)).2 ⟨hKH hk, fun h hh => hKM ?_⟩
   exact (mem_normalizer_iff.1 (hHK hh) k).1 hk
 
+omit [Finite G] in
 theorem le_normalizer_kerM (M H : Subgroup G) : H ≤ normalizer (kerM M H : Set G) := by
   intro g hg
   rw [mem_normalizer_iff]
@@ -69,7 +71,7 @@ theorem le_normalizer_kerM (M H : Subgroup G) : H ≤ normalizer (kerM M H : Set
       simpa [mul_assoc] using this
 
 theorem inf_kerM_eq_bot {M H B : Subgroup G} {p : ℕ} (hp : p.Prime) (hBp : Nat.card B = p)
-    (hBM : B ≤ M) (hBH : B ≤ H) (hstar : ∀ g : G, (∀ b ∈ B, g⁻¹ * b * g ∈ M) → g ∈ M)
+    (_hBM : B ≤ M) (_hBH : B ≤ H) (hstar : ∀ g : G, (∀ b ∈ B, g⁻¹ * b * g ∈ M) → g ∈ M)
     (hHM : ¬ H ≤ M) : B ⊓ kerM M H = ⊥ := by
   have : Fact p.Prime := ⟨hp⟩
   by_contra hne
@@ -95,6 +97,7 @@ theorem inf_kerM_eq_bot {M H B : Subgroup G} {p : ℕ} (hp : p.Prime) (hBp : Nat
   have hfr := CFSG.LocalAnalysis.RankThreeUC.le_sup_inf_normalizer_of_isSylowOf hYH hYn hPsyl
   exact hfr.trans (sup_le hYM (inf_le_right.trans hNP))
 
+omit [Finite G] in
 theorem mem_kerM_of_forall_commutator_mem {M H X : Subgroup G}
     (hXn : H ≤ normalizer (X : Set G)) (hHMX : H ≤ (H ⊓ M) ⊔ X) {c : G} (hcH : c ∈ H)
     (hcM : c ∈ M) (hc : ∀ x ∈ X, ⁅x, c⁆ ∈ kerM M H) : c ∈ kerM M H := by
@@ -127,7 +130,7 @@ theorem exists_calMOf_ne_of_r6_40_2 (D : Data G) (h640 : UC6.R6_40_2 D) {B : Sub
     (top_le_iff.1 (h640.1 ▸ hle))
 
 theorem not_invertedIn_of_commutator_le {H T B Y : Subgroup G} {p : ℕ} (hp : p.Prime)
-    (hp2 : p ≠ 2) (hTsyl : CFSG.ABGLocalTools.IsSylowOf 2 T H) (hBH : B ≤ H)
+    (hp2 : p ≠ 2) (hTsyl : CFSG.ABGLocalTools.IsSylowOf 2 T H) (_hBH : B ≤ H)
     (hBp : Nat.card B = p) (hYn : H ≤ normalizer (Y : Set G)) (hBY : B ⊓ Y = ⊥)
     (hR : ⁅T, B⁆ ≤ Y) : ¬ UC22.F05.InvertedIn H B := by
   classical

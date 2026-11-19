@@ -17,7 +17,7 @@ open Subgroup
 
 theorem RankOneOver.of_surjective {A B : Type} [Group A] [Group B] [Finite A] (f : A →* B)
     (hf : Function.Surjective f) (h : RankOneOver A) : RankOneOver B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro S' H' hS'H'
   obtain ⟨S, rfl⟩ := Sylow.mapSurjective_surjective hf 2 S'
   have hSH : (S : Subgroup A) ≤ H'.comap f := by
@@ -57,8 +57,8 @@ private theorem eq_top_of_map_mk'_eq_top_of_perfect {Y : Type} [Group Y]
     Subgroup.le_centralizer_iff_isMulCommutative.mp
       (hZ.trans (Subgroup.center_le_centralizer (Z : Set Y)))
   have hcomm : _root_.commutator Y ≤ H := by
-    letI : H.Normal := hHnorm
-    haveI : IsMulCommutative Z := hZcomm
+    let : H.Normal := hHnorm
+    have : IsMulCommutative Z := hZcomm
     exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top
       (N := H) (H := Z) (by rw [sup_comm]; exact hsup)
   rw [eq_top_iff, ← hperf]
@@ -78,9 +78,9 @@ theorem normalizer_le_normalizer_of_le_normalizer {Y : Type} [Group Y] [Finite Y
   have hS'N : S' ≤ normalizer ((S : Subgroup Y) : Set Y) := hSW'.trans hWN
   have hP2 : IsPGroup p S' := by
     rw [hS']
-    exact S.isPGroup'.map (MulAut.conj g).toMonoidHom
+    exact S.isPGroup.map (MulAut.conj g).toMonoidHom
   have hsup2 : IsPGroup p (((S : Subgroup Y) ⊔ S' : Subgroup Y)) :=
-    IsPGroup.to_sup_of_normal_left' S.isPGroup' hP2 hS'N
+    IsPGroup.to_sup_of_normal_left' S.isPGroup hP2 hS'N
   have heq : ((S : Subgroup Y) ⊔ S') = (S : Subgroup Y) :=
     S.maximal_isPGroup.eq_of_ge hsup2 le_sup_left
   have hle : S' ≤ (S : Subgroup Y) :=
@@ -97,12 +97,12 @@ theorem normalizer_le_normalizer_of_le_normalizer {Y : Type} [Group Y] [Finite Y
 
 theorem dich_of_map_center {Y : Type} [Group Y] [Finite Y] (hperf : _root_.commutator Y = ⊤)
     (Z : Subgroup Y) [Z.Normal] (hZ : Z ≤ center Y) (S : Sylow 2 Y) (H : Subgroup Y)
-    (hSH : (S : Subgroup Y) ≤ H)
+    (_hSH : (S : Subgroup Y) ≤ H)
     (h : H.map (QuotientGroup.mk' Z) ≤
         normalizer (((S : Subgroup Y).map (QuotientGroup.mk' Z) : Subgroup (Y ⧸ Z)) : Set (Y ⧸ Z)) ∨
       H.map (QuotientGroup.mk' Z) = ⊤) :
     H ≤ normalizer ((S : Subgroup Y) : Set Y) ∨ H = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq : Function.Surjective (QuotientGroup.mk' Z) := QuotientGroup.mk'_surjective Z
   rcases h with hnorm | htop
   · left
@@ -125,7 +125,7 @@ theorem dich_of_map_center {Y : Type} [Group Y] [Finite Y] (hperf : _root_.commu
 
 theorem RankOneOver.of_quotient_center {Y : Type} [Group Y] [Finite Y]
     (hperf : _root_.commutator Y = ⊤) (h : RankOneOver (Y ⧸ center Y)) : RankOneOver Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro S H hSH
   have hSH' : ((S.mapSurjective (QuotientGroup.mk'_surjective (Subgroup.center Y)) :
       Sylow 2 (Y ⧸ center Y)) : Subgroup (Y ⧸ center Y)) ≤
@@ -140,7 +140,7 @@ theorem RankOneOver.of_quotient_center {Y : Type} [Group Y] [Finite Y]
 theorem RankOneOver.of_bender {X : Type} [Group X] [Finite X]
     (hB : CFSG.Open.fusionIsBenderGroup X) : RankOneOver X := by
   intro S H hSH
-  haveI : IsSimpleGroup X :=
+  have : IsSimpleGroup X :=
     CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hB
   by_cases hH : H = ⊤
   · exact Or.inr hH

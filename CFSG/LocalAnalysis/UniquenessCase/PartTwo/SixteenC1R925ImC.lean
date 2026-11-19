@@ -17,8 +17,8 @@ theorem r925_isSL2Prime_of_cover {Y B : Type} [Group Y] [Finite Y]
     IsSL2Prime Y 5 := by
   obtain ⟨K, hKf, hKfin, hK5, ⟨e⟩⟩ := hB
   have hBcard : Nat.card B = 120 := by
-    letI : Field K := hKf
-    letI : Finite K := hKfin
+    let : Field K := hKf
+    let : Finite K := hKfin
     rw [Nat.card_congr e.toEquiv, CFSG.Open.StatedAPI.card_statedSL_two, hK5]
     norm_num
   have hZcard : Nat.card Z ≤ 2 := a5_central_card_le_two Z hZ hY hq
@@ -39,7 +39,7 @@ theorem r925_isSL2Prime_of_cover {Y B : Type} [Group Y] [Finite Y]
 private lemma r925_orderOf_eq_two_pow_of_mem {G : Type} [Group G] {Y : Subgroup G}
     {Z : Subgroup Y} (hZ : IsPGroup 2 Z) {z : Y} (hz : z ∈ Z) :
     ∃ k : ℕ, orderOf (z : G) = 2 ^ k := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp hZ (⟨z, hz⟩ : Z)
   refine ⟨k, ?_⟩
   calc orderOf (z : G) = orderOf z := Subgroup.orderOf_coe (H := Y) z
@@ -49,7 +49,7 @@ private lemma r925_orderOf_eq_two_pow_of_mem {G : Type} [Group G] {Y : Subgroup 
 private lemma r925_not_three_dvd_orderOf_of_two {G : Type} [Group G] {Z : Subgroup G}
     (hZ : IsPGroup 2 Z) : ∀ z ∈ Z, ¬ 3 ∣ orderOf z := by
   intro z hz hdiv
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp hZ (⟨z, hz⟩ : Z)
   have hk' : orderOf z = 2 ^ k := (Subgroup.orderOf_mk z hz).symm.trans hk
   rw [hk'] at hdiv
@@ -72,7 +72,7 @@ theorem r925_im_o2_central {Γ : Type} [Group Γ] [Finite Γ]
   have hcenter : ∀ p : {p : ℕ // p.Prime ∧ 5 ≤ p},
       ∀ x ∈ CFSG.pCore p.1 Γ, (c : Γ) * x = x * (c : Γ) := by
     intro p x hx
-    haveI : Fact p.1.Prime := ⟨p.2.1⟩
+    have : Fact p.1.Prime := ⟨p.2.1⟩
     let ψp : ↥Y →* GL (Fin 2) (ZMod p.1) := (ψ p).comp Y.subtype
     have hcommGL : ψp z * ψp y = ψp y * ψp z := by
       rcases r925_gl2_of_a5 h.y_cover.1 Z hW hq p.1 p.2.2 ψp with h1 | ⟨-, hcent⟩
@@ -96,7 +96,7 @@ theorem r925_im_o2_central {Γ : Type} [Group Γ] [Finite Γ]
   have hA : ∀ p : ℕ, p.Prime → 5 ≤ p → ∀ a ∈ Subgroup.zpowers (c : Γ),
       ∀ x ∈ CFSG.pCore p Γ, a * x = x * a := by
     intro p hp h5 a ha x hx
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hmem : (c : Γ) ∈ Subgroup.centralizer (CFSG.pCore p Γ : Set Γ) :=
       Subgroup.mem_centralizer_iff.mpr (fun x hx => (hcenter ⟨p, ⟨hp, h5⟩⟩ x hx).symm)
     have hle : Subgroup.zpowers (c : Γ) ≤
@@ -122,7 +122,7 @@ theorem r925_im_sl2_image {Γ : Type} [Group Γ] [Finite Γ]
     (hbot : Y ⊓ centralizer (r925PCoreGe5 Γ : Set Γ) = ⊥) :
     ∃ (p : ℕ) (_ : Fact p.Prime) (ψ : ↥Y →* GL (Fin 2) (ZMod p)), IsSL2Prime ↥ψ.range 5 := by
   obtain ⟨Z, hZn, hZ2, hZq⟩ := h.y_cover.2
-  haveI := hZn
+  have := hZn
   obtain ⟨ψ, hψ⟩ := r925_pcore_reps h.rank_gt_three
   have hW : ∀ w ∈ Z, ¬ 3 ∣ orderOf w := r925_not_three_dvd_orderOf_of_two hZ2
   have hex : ∃ p : {p : ℕ // p.Prime ∧ 5 ≤ p},
@@ -131,14 +131,14 @@ theorem r925_im_sl2_image {Γ : Type} [Group Γ] [Finite Γ]
     push Not at hnone
     have htriv : ∀ p : {p : ℕ // p.Prime ∧ 5 ≤ p}, (ψ p).comp Y.subtype = 1 := by
       intro p
-      haveI : Fact p.1.Prime := ⟨p.2.1⟩
+      have : Fact p.1.Prime := ⟨p.2.1⟩
       rcases r925_gl2_of_a5 h.y_cover.1 Z hW hZq p.1 p.2.2
         ((ψ p).comp Y.subtype) with h1 | ⟨hsl, -⟩
       · exact h1
       · exact absurd hsl (hnone p)
     have hall : ∀ p : ℕ, p.Prime → 5 ≤ p → ∀ a ∈ Y, ∀ x ∈ CFSG.pCore p Γ, a * x = x * a := by
       intro p hp h5 a ha x hx
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hcomp := htriv ⟨p, ⟨hp, h5⟩⟩
       have h1 : ∀ b ∈ Y, ψ ⟨p, ⟨hp, h5⟩⟩ b = 1 := by
         intro b hb

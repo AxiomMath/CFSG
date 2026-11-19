@@ -37,12 +37,12 @@ theorem rootCoeff_zero (d : K) : rootCoeff 0 d = if d = 0 then 1 else 0 := by
 omit [Finite K] [CharP K 2] in
 theorem rootCoeff_of_pos_of_lt {k : ℕ} (hk0 : 0 < k) (hkN : k < Nat.card Kˣ) (d : K) :
     rootCoeff k d = if d = 0 then 0 else (d ^ k)⁻¹ := by
-  rw [rootCoeff, if_neg hk0.ne', if_pos hkN]
+  rw [rootCoeff, ite_eq_right hk0.ne', ite_eq_left hkN]
 
 omit [CharP K 2] in
 theorem rootCoeff_card (d : K) : rootCoeff (Nat.card Kˣ) d = 1 := by
   have hN : Nat.card Kˣ ≠ 0 := Nat.card_pos.ne'
-  rw [rootCoeff, if_neg hN, if_neg (lt_irrefl (Nat.card Kˣ)), if_pos rfl]
+  rw [rootCoeff, ite_eq_right hN, ite_eq_right (lt_irrefl (Nat.card Kˣ)), ite_eq_left rfl]
 
 omit [CharP K 2] in
 theorem rootCoeff_of_lt {k : ℕ} (hk : Nat.card Kˣ < k) (d : K) : rootCoeff k d = 0 := by
@@ -50,7 +50,7 @@ theorem rootCoeff_of_lt {k : ℕ} (hk : Nat.card Kˣ < k) (d : K) : rootCoeff k 
   have hk0 : k ≠ 0 := by omega
   have hnk : ¬ k < Nat.card Kˣ := by omega
   have hne : k ≠ Nat.card Kˣ := by omega
-  rw [rootCoeff, if_neg hk0, if_neg hnk, if_neg hne]
+  rw [rootCoeff, ite_eq_right hk0, ite_eq_right hnk, ite_eq_right hne]
 
 omit [CharP K 2] in
 private theorem sum_K_eq_zero_add {M : Type*} [AddCommMonoid M] (f : K → M) :
@@ -91,20 +91,20 @@ private theorem sum_units_zpow (n : ℤ) :
       rw [hn', Int.dvd_neg, Int.natCast_dvd_natCast]
     rw [h1, sum_units_pow]
     by_cases h : Nat.card Kˣ ∣ m
-    · rw [if_pos h, if_pos (hiff.mpr h)]
-    · rw [if_neg h, if_neg (fun hh => h (hiff.mp hh))]
+    · rw [ite_eq_left h, ite_eq_left (hiff.mpr h)]
+    · rw [ite_eq_right h, ite_eq_right (fun hh => h (hiff.mp hh))]
 
 omit [CharP K 2] in
 private theorem rootCoeff_sum_mul_zero {m : ℕ} (hm : m ≤ Nat.card Kˣ) :
     (∑ d : K, rootCoeff 0 d * d ^ m) = if 0 = m then 1 else 0 := by
   rw [Finset.sum_eq_single (0 : K)]
-  · rw [rootCoeff_zero, if_pos rfl, one_mul]
+  · rw [rootCoeff_zero, ite_eq_left rfl, one_mul]
     by_cases hm0 : m = 0
     · subst hm0
       simp
-    · rw [zero_pow hm0, if_neg (Ne.symm hm0)]
+    · rw [zero_pow hm0, ite_eq_right (Ne.symm hm0)]
   · intro d _ hd
-    rw [rootCoeff_zero, if_neg hd, zero_mul]
+    rw [rootCoeff_zero, ite_eq_right hd, zero_mul]
   · intro h
     exact absurd (Finset.mem_univ (0 : K)) h
 
@@ -117,7 +117,7 @@ private theorem rootCoeff_sum_mul_card {m : ℕ} (hm : m ≤ Nat.card Kˣ) :
     by_cases hm0 : m = 0
     · subst hm0
       simp
-    · rw [zero_pow hm0, if_neg hm0]
+    · rw [zero_pow hm0, ite_eq_right hm0]
   rw [h0]
   have h1 : ∀ u : Kˣ, rootCoeff (Nat.card Kˣ) (u : K) * (u : K) ^ m = (u : K) ^ m := by
     intro u
@@ -127,7 +127,7 @@ private theorem rootCoeff_sum_mul_card {m : ℕ} (hm : m ≤ Nat.card Kˣ) :
   have hN : Nat.card Kˣ ≠ 0 := Nat.card_pos.ne'
   by_cases hm0 : m = 0
   · subst hm0
-    rw [if_pos rfl, if_pos (dvd_zero _), if_neg hN]
+    rw [ite_eq_left rfl, ite_eq_left (dvd_zero _), ite_eq_right hN]
     exact CharTwo.add_self_eq_zero 1
   · have hdvd : Nat.card Kˣ ∣ m ↔ m = Nat.card Kˣ := by
       constructor
@@ -135,22 +135,22 @@ private theorem rootCoeff_sum_mul_card {m : ℕ} (hm : m ≤ Nat.card Kˣ) :
         exact Nat.le_antisymm hm (Nat.le_of_dvd (Nat.pos_of_ne_zero hm0) hd)
       · intro h
         rw [h]
-    rw [if_neg hm0]
+    rw [ite_eq_right hm0]
     by_cases h : Nat.card Kˣ ∣ m
-    · rw [if_pos h, if_pos (hdvd.mp h).symm, zero_add]
-    · rw [if_neg h, if_neg (fun hnm => h (hdvd.mpr hnm.symm)), zero_add]
+    · rw [ite_eq_left h, ite_eq_left (hdvd.mp h).symm, zero_add]
+    · rw [ite_eq_right h, ite_eq_right (fun hnm => h (hdvd.mpr hnm.symm)), zero_add]
 
 private theorem rootCoeff_sum_mul_pos {k m : ℕ} (hk0 : 0 < k) (hkN : k < Nat.card Kˣ)
     (hm : m ≤ Nat.card Kˣ) :
     (∑ d : K, rootCoeff k d * d ^ m) = if k = m then 1 else 0 := by
   rw [sum_K_eq_zero_add]
   have h0 : rootCoeff k (0 : K) * (0 : K) ^ m = 0 := by
-    rw [rootCoeff_of_pos_of_lt hk0 hkN, if_pos rfl, zero_mul]
+    rw [rootCoeff_of_pos_of_lt hk0 hkN, ite_eq_left rfl, zero_mul]
   rw [h0, zero_add]
   have hterm : ∀ u : Kˣ, rootCoeff k (u : K) * (u : K) ^ m =
       ((u ^ ((m : ℤ) - k) : Kˣ) : K) := by
     intro u
-    rw [rootCoeff_of_pos_of_lt hk0 hkN, if_neg (by exact u.ne_zero)]
+    rw [rootCoeff_of_pos_of_lt hk0 hkN, ite_eq_right (by exact u.ne_zero)]
     rw [Units.val_zpow_eq_zpow_val, zpow_sub₀ (by exact u.ne_zero), div_eq_mul_inv,
       mul_comm]
     simp only [zpow_natCast]
@@ -178,8 +178,8 @@ private theorem rootCoeff_sum_mul_pos {k m : ℕ} (hk0 : 0 < k) (hkN : k < Nat.c
       · intro h
         omega
   by_cases hkm : k = m
-  · rw [if_pos (hiff.mpr hkm), if_pos hkm]
-  · rw [if_neg (fun h => hkm (hiff.mp h)), if_neg hkm]
+  · rw [ite_eq_left (hiff.mpr hkm), ite_eq_left hkm]
+  · rw [ite_eq_right (fun h => hkm (hiff.mp h)), ite_eq_right hkm]
 
 theorem rootCoeff_sum_mul {k m : ℕ} (hk : k ≤ Nat.card Kˣ) (hm : m ≤ Nat.card Kˣ) :
     (∑ d : K, rootCoeff k d * d ^ m) = if k = m then 1 else 0 := by
@@ -194,7 +194,7 @@ private theorem sum_range_pow_succ (u : K) :
     (∑ k ∈ Finset.range (Nat.card Kˣ), u ^ (k + 1)) = if u = 1 then 1 else 0 := by
   have hN : Nat.card Kˣ ≠ 0 := Nat.card_pos.ne'
   by_cases hu : u = 0
-  · rw [if_neg (by rw [hu]; exact zero_ne_one), hu]
+  · rw [ite_eq_right (by rw [hu]; exact zero_ne_one), hu]
     simp
   · have huN : u ^ Nat.card Kˣ = 1 := by
       have h := congrArg ((↑) : Kˣ → K) (pow_card_eq_one' (x := Units.mk0 u hu))
@@ -207,11 +207,11 @@ private theorem sum_range_pow_succ (u : K) :
       exact Finset.sum_congr rfl fun k _ => by rw [pow_succ, mul_comm]]
     by_cases hu1 : u = 1
     · subst hu1
-      rw [if_pos rfl, one_mul]
+      rw [ite_eq_left rfl, one_mul]
       rw [Finset.sum_congr rfl fun k _ => one_pow k, Finset.sum_const, Finset.card_range,
         nsmul_eq_mul, mul_one]
       exact natCard_units_cast_eq_one
-    · rw [if_neg hu1]
+    · rw [ite_eq_right hu1]
       rcases mul_eq_zero.mp hgeom with h | h
       · rw [h, mul_zero]
       · exact absurd (sub_eq_zero.mp h) hu1
@@ -233,7 +233,7 @@ private theorem sum_range_rootCoeff_zero (c : K) :
     refine Finset.sum_eq_zero fun k hk => ?_
     rw [rootCoeff_of_pos_of_lt (Nat.succ_pos k) (by
       have := Finset.mem_range.mp hk
-      omega), if_pos rfl, mul_zero]
+      omega), ite_eq_left rfl, mul_zero]
   rw [hzero, zero_add]
 
 private theorem rootOp_interpolation_zero (c : K) :
@@ -242,12 +242,12 @@ private theorem rootOp_interpolation_zero (c : K) :
   have hN : Nat.card Kˣ ≠ 0 := Nat.card_pos.ne'
   rw [Finset.sum_range_succ']
   have h0 : c ^ 0 * rootCoeff 0 (0 : K) = 1 := by
-    rw [rootCoeff_zero, if_pos rfl, mul_one, pow_zero]
+    rw [rootCoeff_zero, ite_eq_left rfl, mul_one, pow_zero]
   rw [sum_range_rootCoeff_zero, h0]
   by_cases hc : c = 0
   · subst hc
-    rw [zero_pow hN, zero_add, if_pos rfl]
-  · rw [if_neg hc]
+    rw [zero_pow hN, zero_add, ite_eq_left rfl]
+  · rw [ite_eq_right hc]
     have hcN : c ^ Nat.card Kˣ = 1 := by
       have h := congrArg ((↑) : Kˣ → K) (pow_card_eq_one' (x := Units.mk0 c hc))
       rwa [Units.val_pow_eq_pow_val, Units.val_mk0, Units.val_one] at h
@@ -264,7 +264,7 @@ private theorem rootCoeff_pow_of_ne_zero {c d : K} (hd : d ≠ 0) {j : ℕ}
         have h := congrArg ((↑) : Kˣ → K) (pow_card_eq_one' (x := Units.mk0 d hd))
         rwa [Units.val_pow_eq_pow_val, Units.val_mk0, Units.val_one] at h,
       inv_one, mul_one]
-  · rw [rootCoeff_of_pos_of_lt (by omega) hj, if_neg hd, ← inv_pow, ← mul_pow]
+  · rw [rootCoeff_of_pos_of_lt (by omega) hj, ite_eq_right hd, ← inv_pow, ← mul_pow]
 
 private theorem rootOp_interpolation_ne_zero {c d : K} (hd : d ≠ 0) :
     (∑ j ∈ Finset.range (Nat.card Kˣ + 1), c ^ j * rootCoeff j d) =
@@ -281,7 +281,7 @@ private theorem rootOp_interpolation_ne_zero {c d : K} (hd : d ≠ 0) :
       ∑ k ∈ Finset.range (Nat.card Kˣ), (c * d⁻¹) ^ (k + 1) := by
     rw [Finset.sum_range_succ']
     have h0 : c ^ 0 * rootCoeff 0 d = 0 := by
-      rw [rootCoeff_zero, if_neg hd, mul_zero]
+      rw [rootCoeff_zero, ite_eq_right hd, mul_zero]
     rw [h0]
     simp only [add_zero]
     exact Finset.sum_congr rfl fun k hk =>
@@ -289,8 +289,8 @@ private theorem rootOp_interpolation_ne_zero {c d : K} (hd : d ≠ 0) :
         (Nat.succ_le_of_lt (Finset.mem_range.mp hk))
   rw [hsum, sum_range_pow_succ]
   by_cases hcd : c = d
-  · rw [if_pos hcd, if_pos (huval.mpr hcd)]
-  · rw [if_neg hcd, if_neg (fun h => hcd (huval.mp h))]
+  · rw [ite_eq_left hcd, ite_eq_left (huval.mpr hcd)]
+  · rw [ite_eq_right hcd, ite_eq_right (fun h => hcd (huval.mp h))]
 
 theorem rootOp_interpolation (c d : K) :
     (∑ j ∈ Finset.range (Nat.card Kˣ + 1), c ^ j * rootCoeff j d) =
@@ -320,9 +320,9 @@ theorem rho_eq_sum (c : K) :
     exact congrArg (fun z : K => z • ρ (x d) v) h
   simp only [hinner]
   rw [Finset.sum_eq_single c]
-  · rw [if_pos rfl, one_smul]
+  · rw [ite_eq_left rfl, one_smul]
   · intro d _ hd
-    rw [if_neg (Ne.symm hd), zero_smul]
+    rw [ite_eq_right (Ne.symm hd), zero_smul]
   · intro h
     exact absurd (Finset.mem_univ c) h
 
@@ -330,9 +330,9 @@ omit [CharP K 2] in
 theorem rootOp_zero (hx0 : x 0 = 1) : rootOp ρ x 0 = 1 := by
   ext v
   rw [rootOp_apply, Finset.sum_eq_single (0 : K)]
-  · rw [rootCoeff_zero, if_pos rfl, one_smul, hx0, map_one, Module.End.one_apply]
+  · rw [rootCoeff_zero, ite_eq_left rfl, one_smul, hx0, map_one, Module.End.one_apply]
   · intro d _ hd
-    rw [rootCoeff_zero, if_neg hd, zero_smul]
+    rw [rootCoeff_zero, ite_eq_right hd, zero_smul]
   · intro h
     exact absurd (Finset.mem_univ (0 : K)) h
 
@@ -348,13 +348,13 @@ theorem rootCoeff_inv_mul (k : ℕ) {lam : K} (hlam : lam ≠ 0) (d : K) :
   rcases Nat.eq_zero_or_pos k with rfl | hkpos
   · rw [rootCoeff_zero, rootCoeff_zero, pow_zero, one_mul]
     by_cases hd : d = 0
-    · rw [hd, mul_zero, if_pos rfl]
-    · rw [if_neg hd, if_neg (mul_ne_zero (inv_ne_zero hlam) hd)]
+    · rw [hd, mul_zero, ite_eq_left rfl]
+    · rw [ite_eq_right hd, ite_eq_right (mul_ne_zero (inv_ne_zero hlam) hd)]
   · rcases lt_or_ge k (Nat.card Kˣ) with hkN | hkN
     · rw [rootCoeff_of_pos_of_lt hkpos hkN, rootCoeff_of_pos_of_lt hkpos hkN]
       by_cases hd : d = 0
-      · rw [hd, mul_zero, if_pos rfl, mul_zero]
-      · rw [if_neg (mul_ne_zero (inv_ne_zero hlam) hd), if_neg hd, mul_pow, mul_inv_rev,
+      · rw [hd, mul_zero, ite_eq_left rfl, mul_zero]
+      · rw [ite_eq_right (mul_ne_zero (inv_ne_zero hlam) hd), ite_eq_right hd, mul_pow, mul_inv_rev,
           inv_pow, inv_inv, mul_comm]
     · rcases eq_or_lt_of_le hkN with hk | hk
       · rw [← hk, rootCoeff_card, rootCoeff_card,
@@ -454,7 +454,7 @@ private theorem rootCoeff_sum_mul' {i r : ℕ} (hr : r ≤ Nat.card Kˣ) :
   by_cases hi : i ≤ Nat.card Kˣ
   · exact rootCoeff_sum_mul hi hr
   · have hir : i ≠ r := by omega
-    rw [if_neg hir]
+    rw [ite_eq_right hir]
     exact Finset.sum_eq_zero fun c _ => by rw [rootCoeff_of_lt (by omega), zero_mul]
 
 omit [CharP K 2] in
@@ -502,26 +502,26 @@ private theorem rootCoeff_mul_binomial_sum {i j k : ℕ} (hk : k ≤ Nat.card K�
       rootCoeff_sum_mul' (by omega : k - r ≤ Nat.card Kˣ)]
   rw [Finset.sum_congr rfl hsum]
   by_cases h : k = i + j
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hi : i ∈ Finset.range (k + 1) := Finset.mem_range.mpr (by omega)
     rw [Finset.sum_eq_single i]
-    · rw [if_pos rfl, if_pos (by omega : j = k - i)]
+    · rw [ite_eq_left rfl, ite_eq_left (by omega : j = k - i)]
       ring
     · intro r _ hr
-      rw [if_neg (fun hri : i = r => hr hri.symm)]
+      rw [ite_eq_right (fun hri : i = r => hr hri.symm)]
       ring
     · intro hnot
       exact absurd hi hnot
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     refine Finset.sum_eq_zero fun r hr => ?_
     by_cases hri : i = r
     · have hrk : r ≤ k := by
         have := Finset.mem_range.mp hr
         omega
-      rw [if_pos hri]
-      rw [if_neg (fun hjk : j = k - r => h (by omega))]
+      rw [ite_eq_left hri]
+      rw [ite_eq_right (fun hjk : j = k - r => h (by omega))]
       ring
-    · rw [if_neg hri]
+    · rw [ite_eq_right hri]
       ring
 
 private theorem rootCoeff_mul_binomial {i j k : ℕ} (hk : k ≤ Nat.card Kˣ) :
@@ -591,19 +591,19 @@ private theorem rootOp_mul_apply (hadd : ∀ c d, x (c + d) = x c * x d) (i j : 
       omega)]
   rw [h3]
   by_cases hij : i + j ≤ Nat.card Kˣ
-  · rw [if_pos hij]
+  · rw [ite_eq_left hij]
     rw [Finset.sum_eq_single (i + j)]
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
     · intro k _ hk
-      rw [if_neg hk, zero_smul]
+      rw [ite_eq_right hk, zero_smul]
     · intro hnot
       exact absurd (Finset.mem_range.mpr (by omega)) hnot
-  · rw [if_neg hij, zero_smul]
+  · rw [ite_eq_right hij, zero_smul]
     refine Finset.sum_eq_zero fun k hk => ?_
     have hk' : k ≤ Nat.card Kˣ := by
       have := Finset.mem_range.mp hk
       omega
-    rw [if_neg (fun h => absurd h (by omega)), zero_smul]
+    rw [ite_eq_right (fun h => absurd h (by omega)), zero_smul]
 
 theorem rootOp_mul (hadd : ∀ c d, x (c + d) = x c * x d) (i j : ℕ) :
     rootOp ρ x i * rootOp ρ x j =
@@ -780,8 +780,8 @@ theorem rootOp_mul_card_sub (hadd : ∀ c d, x (c + d) = x c * x d) {i : ℕ}
     rootOp ρ x i * rootOp ρ x (Nat.card Kˣ - i) = rootOp ρ x (Nat.card Kˣ) := by
   have hcoef : (((Nat.card Kˣ).choose i : ℕ) : K) = 1 := by
     rw [CharTwo.natCast_eq_ite,
-      if_neg (Nat.not_even_iff_odd.mpr (odd_choose_card_units (K := K) hi))]
-  rw [rootOp_mul ρ x hadd i (Nat.card Kˣ - i), Nat.add_sub_of_le hi, if_pos le_rfl,
+      ite_eq_right (Nat.not_even_iff_odd.mpr (odd_choose_card_units (K := K) hi))]
+  rw [rootOp_mul ρ x hadd i (Nat.card Kˣ - i), Nat.add_sub_of_le hi, ite_eq_left le_rfl,
     hcoef, one_smul]
 
 theorem exists_rootOp_eq_mul (hadd : ∀ c d, x (c + d) = x c * x d) {k : ℕ}
@@ -791,7 +791,7 @@ theorem exists_rootOp_eq_mul (hadd : ∀ c d, x (c + d) = x c * x d) {k : ℕ}
   obtain ⟨i, j, hi0, hj0, hij, hsum, hodd⟩ := exists_odd_choose_decomp hk1 hk
   refine ⟨i, j, hi0, hj0, hij, hsum, ?_⟩
   have hcoef : ((k.choose i : ℕ) : K) = 1 := by
-    rw [CharTwo.natCast_eq_ite, if_neg (Nat.not_even_iff_odd.mpr hodd)]
-  rw [rootOp_mul ρ x hadd i j, hsum, if_pos hkN, hcoef, one_smul]
+    rw [CharTwo.natCast_eq_ite, ite_eq_right (Nat.not_even_iff_odd.mpr hodd)]
+  rw [rootOp_mul ρ x hadd i j, hsum, ite_eq_left hkN, hcoef, one_smul]
 
 end CFSG.LieType.TorusWeights

@@ -17,6 +17,7 @@ section Top
 
 variable {K : Type} [Field K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V] [Fintype V]
 
+omit [CharP K 2] in
 theorem qsum_bot (Q : QuadraticForm K V) : qsum Q ⊥ = 1 := by
   unfold qsum
   rw [Finset.sum_eq_single (0 : (⊥ : Submodule K V))]
@@ -57,8 +58,8 @@ theorem qsum_top_plus (hcard : Nat.card K = 2) : qsum (coordinateQuadPlus 4 K) �
     intro a
     by_cases ha : a = 0
     · subst ha
-      simp [chi_zero, Fintype.card_fun, hc]
-    · rw [if_neg ha]
+      simp [chi_zero, hc]
+    · rw [ite_eq_right ha]
       obtain ⟨i, hi⟩ := Function.ne_iff.mp ha
       refine sum_chi_eq_zero hK _ (fun b b' => ?_) ⟨Pi.single i 1, ?_⟩
       · simp only [Pi.add_apply, mul_add, Finset.sum_add_distrib]
@@ -75,6 +76,7 @@ open CFSG.RankThree.PartOne.KCOrthogonal Module
 variable {K : Type} [Field K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] [Fintype V]
 
+omit [CharP K 2] [Fintype V] in
 theorem reg_fixed {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V} (hx : OddOrderIsometry Q p x) :
     ∀ u ∈ CFSG.RankThree.PartOne.LIT.fixedSpace x,
       (∀ w ∈ CFSG.RankThree.PartOne.LIT.fixedSpace x, QuadraticMap.polar Q u w = 0) → u = 0 := by
@@ -85,16 +87,19 @@ theorem reg_fixed {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V} (hx : Od
   · rw [QuadraticMap.polarBilin_apply_apply, polar_comp_subtype]
     exact hperp (w : V) (by rw [← OrthRestOdd.fixedSpace_eq_lit]; exact w.2)
 
+omit [CharP K 2] [FiniteDimensional K V] in
 theorem card_sub [Finite K] (hcard : Nat.card K = 2) (S : Submodule K V) :
     Fintype.card S = 2 ^ finrank K S := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [Module.card_eq_pow_finrank (K := K) (V := S), ← Nat.card_eq_fintype_card, hcard]
 
+omit [CharP K 2] [FiniteDimensional K V] [Fintype V] in
 theorem pow_apply_of_fixed {g : V ≃ₗ[K] V} {v : V} (h : g v = v) (n : ℕ) : (g ^ n) v = v := by
   induction n with
   | zero => rfl
   | succ n ih => rw [pow_succ, LinearEquiv.mul_apply, h, ih]
 
+omit [CharP K 2] [FiniteDimensional K V] [Fintype V] in
 theorem fix_of_coprime {g : V ≃ₗ[K] V} {v : V} {a b : ℕ} (hgb : g ^ b = 1)
     (hab : Nat.Coprime a b) (hb : 1 < b) (h : (g ^ a) v = v) : g v = v := by
   obtain ⟨m, -, hm⟩ := Nat.exists_mul_mod_eq_one_of_coprime hab hb
@@ -104,6 +109,7 @@ theorem fix_of_coprime {g : V ≃ₗ[K] V} {v : V} {a b : ℕ} (hgb : g ^ b = 1)
     exact pow_apply_of_fixed h m
   rwa [h1] at h2
 
+omit [CharP K 2] [FiniteDimensional K V] [Fintype V] in
 theorem fixed_mul_eq {x y : V ≃ₗ[K] V} (hxy : x * y = y * x) {q : ℕ} (hq : q.Prime) (hq3 : 3 < q)
     (hx3 : x ^ 3 = 1) (hyq : y ^ q = 1) :
     CFSG.RankThree.PartOne.LIT.fixedSpace x ⊓ CFSG.RankThree.PartOne.LIT.fixedSpace y =
@@ -131,7 +137,7 @@ theorem no_commuting_prime [Finite K] (hcard : Nat.card K = 2) (Q : QuadraticFor
     (hd : finrank K (CFSG.RankThree.PartOne.LIT.fixedSpace x) = 2 ∨
       finrank K (CFSG.RankThree.PartOne.LIT.fixedSpace x) = 4) : False := by
   have hK := eq_zero_or_one_of_card_two hcard
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq2 : q ≠ 2 := by omega
   have h3K : ((3 : ℕ) : K) ≠ 0 := OrthRestOdd.natCast_ne_zero_of_odd Nat.prime_three (by norm_num)
   have hqK : ((q : ℕ) : K) ≠ 0 := OrthRestOdd.natCast_ne_zero_of_odd hq hq2
@@ -227,9 +233,9 @@ open CFSG.Assembly TableBSymp CFSG.StandardType.Triality CFSG.StandardType.D4Ran
 
 theorem midClassCommuteInput_holds : MidClassCommuteInput := by
   intro K _ _ hK t ht3 hd g hg q hq hq3 hgq
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Nat.card K = 2 ^ 1 := by rw [hK, pow_one]
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       le_rfl hK'
   obtain ⟨hnd, -⟩ := regular_coordinateQuadPlus (K := K) (n := 4) (by norm_num)

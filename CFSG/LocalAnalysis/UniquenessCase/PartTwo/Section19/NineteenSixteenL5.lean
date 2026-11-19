@@ -181,7 +181,7 @@ theorem p19_16_of_nineThreeFive
     CFSG.AGLEmbedding.not_isPGroup_blockPL h86 hX hhyp hK hnotSyl (h2.of_equiv ψ.symm)
   have hPeq : P = Subgroup.normalizer (T : Set (MulAut ↥(blockU Dsub))) ⊓ Hb :=
     le_antisymm (le_inf hPleN hPH) hNPleP
-  letI : CommGroup ↥(blockU Dsub) :=
+  let : CommGroup ↥(blockU Dsub) :=
     { (inferInstance : Group ↥(blockU Dsub)) with
       mul_comm := fun a b =>
         Subtype.ext (CFSG.QuasithinUnique.C1.blockU_comm hsh a a.2 b

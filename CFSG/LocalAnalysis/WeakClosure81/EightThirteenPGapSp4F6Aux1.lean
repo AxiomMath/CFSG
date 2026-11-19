@@ -40,7 +40,7 @@ private theorem wcgaps6Z_add (b c b' c' : F) :
   rw [wcgaps6Z, wcgaps6Z, wcgaps6Z, tau_mul_tau]
   refine tau_congr _ _ ?_
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [sym2, add_comm, add_left_comm]
+  fin_cases i <;> fin_cases j <;> simp [sym2]
 
 private theorem wcgaps6Z_injective {b c b' c' : F} (h : wcgaps6Z b c = wcgaps6Z b' c') :
     b = b' ∧ c = c' := by
@@ -169,7 +169,6 @@ private theorem wcgaps6_sym2_sum [CharP F 2] (a a' b c d b' c' d' : F) :
       | linear_combination (b + b') * h2
       | linear_combination (c + c') * h2
       | linear_combination (d + d') * h2
-      | ring
 
 private theorem wcgaps6_comm [CharP F 2] (a a' b c d b' c' d' : F) :
     (tau (sym2_transpose b c d) * lam a) * (tau (sym2_transpose b' c' d') * lam a') *
@@ -252,7 +251,7 @@ private theorem wcgaps6_all_first [Finite F] [CharP F 2] (hF : Nat.card F = 4)
   classical
   have hcard : Nat.card Fˣ = 3 := by rw [Nat.card_units, hF]
   obtain ⟨ν, hν⟩ : ∃ ν : Fˣ, ν ≠ 1 := by
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have h : 1 < Fintype.card Fˣ := by
       rw [← Nat.card_eq_fintype_card, hcard]
       norm_num
@@ -297,7 +296,7 @@ private theorem wcgaps6_all_second [Finite F] [CharP F 2] (hF : Nat.card F = 4)
   classical
   have hcard : Nat.card Fˣ = 3 := by rw [Nat.card_units, hF]
   obtain ⟨ν, hν⟩ : ∃ ν : Fˣ, ν ≠ 1 := by
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have h : 1 < Fintype.card Fˣ := by
       rw [← Nat.card_eq_fintype_card, hcard]
       norm_num

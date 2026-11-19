@@ -212,7 +212,7 @@ theorem a6_T_data (_hS : Setting G) (_hU0 : FullCoreLocal G) (hK1 : A6SylowData)
   have hker : ∀ c : ↥C, (c : G) ∈ (P : Subgroup G) ⊓ J → l34Hom x J c = 1 → c = 1 := by
     intro c hc h1
     have hcO := a6_mem_of_ker_of_mem_J hJ c hc.2 h1
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' ⟨(c : G), hc.1⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup ⟨(c : G), hc.1⟩
     have hk' : orderOf c = 3 ^ k := by
       rw [← hk, Subgroup.orderOf_mk (c : G) hc.1, Subgroup.orderOf_coe]
     have h2 : orderOf c ∣ Nat.card (primeComplementCore (G := C) 3) :=

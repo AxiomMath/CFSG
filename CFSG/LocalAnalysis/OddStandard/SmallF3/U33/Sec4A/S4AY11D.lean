@@ -45,7 +45,7 @@ theorem m11_quot_V_R (h : L41GPh8 t L S x₁ x₂ lam rho) :
       (CFSG.GH74.GLS.Bg.TwoGroups.E2 2) := by
   classical
   have hRV := m11_R_le_V h
-  haveI hN : ((l41R t x₁ x₂ rho).subgroupOf (l41V S t x₁ x₂)).Normal :=
+  have hN : ((l41R t x₁ x₂ rho).subgroupOf (l41V S t x₁ x₂)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hRV).mpr (m11_V_le_nR h)
   have hcard : Nat.card (↥(l41V S t x₁ x₂) ⧸
       (l41R t x₁ x₂ rho).subgroupOf (l41V S t x₁ x₂)) = 2 ^ 2 := by

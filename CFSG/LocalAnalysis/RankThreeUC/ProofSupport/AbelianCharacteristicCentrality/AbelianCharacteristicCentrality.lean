@@ -21,7 +21,7 @@ theorem nonabelian {G : Type} [Group G] [Finite G] {p : ℕ}
   have card_ne_zero {G : Type} [Group G] [Finite G] {p q : ℕ} (hp : p.Prime)
       (hq : q.Prime) (hqp : q ≠ p) (U : Subgroup G) (hU : IsPGroup q U) :
       ((Nat.card U : ℕ) : ZMod p) ≠ 0 := by
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     obtain ⟨n, hn⟩ := hU.exists_card_eq
     rw [hn, Ne, ZMod.natCast_eq_zero_iff]
     intro h
@@ -75,8 +75,8 @@ theorem nonabelian {G : Type} [Group G] [Finite G] {p : ℕ}
       ∀ U : Subgroup G, U ≤ Q → (U.subgroupOf Q).Characteristic → IsMulCommutative U →
         D ≤ Subgroup.centralizer (U : Set G) := by
     intro U hUQ hchar hUc
-    haveI : Fact p.Prime := ⟨hS.prime⟩
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact p.Prime := ⟨hS.prime⟩
+    have : Fact r.Prime := ⟨hr⟩
     have hUq : IsPGroup q U := hQq.of_injective (Subgroup.inclusion hUQ) (Subgroup.inclusion_injective hUQ)
     exact CFSG.GroupTheory.CoprimeActionSupport.FixedFreeNormalizerScalarExtension.centralizes
       ρ hS.faithful r D hD hCV U (normalizes_char D Q U hQD hUQ hchar)

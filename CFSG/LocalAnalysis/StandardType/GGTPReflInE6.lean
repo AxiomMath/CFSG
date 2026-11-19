@@ -37,7 +37,7 @@ theorem ggTPReflIn_E6 {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n)
             ∀ a b : ↥A, (b : MulAut L') = MulAut.conj m * (a : MulAut L') * (MulAut.conj m)⁻¹ →
               Multiplicative.toAdd (κ b) = KGL.rootRefl γ (Multiplicative.toAdd (κ a)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hchar : ringChar K = 2 := by
     obtain ⟨m, hprime, hm⟩ := FiniteField.card K (ringChar K)
     have hcard : Fintype.card K = 2 ^ n := by
@@ -48,7 +48,7 @@ theorem ggTPReflIn_E6 {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 ≤ n)
       exact dvd_pow_self _ m.pos.ne'
     exact (Nat.prime_dvd_prime_iff_eq hprime Nat.prime_two).mp
       (Nat.Prime.dvd_of_dvd_pow hprime hdvd)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcardu : Nat.card Kˣ = 2 ^ n - 1 := by rw [Nat.card_units, hK]
   have h3u : 3 ∣ Nat.card Kˣ := by rw [hcardu]; exact h3
   obtain ⟨ζ, hζo⟩ := exists_prime_orderOf_dvd_card' 3 h3u

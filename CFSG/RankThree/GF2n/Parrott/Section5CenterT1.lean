@@ -22,6 +22,7 @@ theorem card_J_inf_centralizer_sigma1Nine (h : Tim79a.ParrottHyp z) :
 
 omit
   hN in
+omit [Finite G] in
 theorem conj_mem_J_inf_centralizer {x c n : G} (hc : c ∈ H z ⊓ centralizer ({x} : Set G))
     (hn : n ∈ J z ⊓ centralizer ({x} : Set G)) :
     c * n * c⁻¹ ∈ J z ⊓ centralizer ({x} : Set G) := by

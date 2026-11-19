@@ -16,13 +16,13 @@ theorem eq_or_inf_eq_bot_of_normal_isSimple {Γ : Type*} [Group Γ]
     {K₁ K₂ : Subgroup Γ} (h₁n : K₁.Normal) (h₂n : K₂.Normal)
     (h₁ : IsSimpleGroup ↥K₁) (h₂ : IsSimpleGroup ↥K₂) :
     K₁ = K₂ ∨ K₁ ⊓ K₂ = ⊥ := by
-  haveI : IsSimpleGroup ↥K₁ := h₁
-  haveI : IsSimpleGroup ↥K₂ := h₂
-  haveI : K₁.Normal := h₁n
-  haveI : K₂.Normal := h₂n
+  have : IsSimpleGroup ↥K₁ := h₁
+  have : IsSimpleGroup ↥K₂ := h₂
+  have : K₁.Normal := h₁n
+  have : K₂.Normal := h₂n
   have hinf : (K₁ ⊓ K₂).Normal := Subgroup.normal_inf_normal K₁ K₂
-  haveI hinf₁ : ((K₁ ⊓ K₂).subgroupOf K₁).Normal := hinf.subgroupOf K₁
-  haveI hinf₂ : ((K₁ ⊓ K₂).subgroupOf K₂).Normal := hinf.subgroupOf K₂
+  have hinf₁ : ((K₁ ⊓ K₂).subgroupOf K₁).Normal := hinf.subgroupOf K₁
+  have hinf₂ : ((K₁ ⊓ K₂).subgroupOf K₂).Normal := hinf.subgroupOf K₂
   have h₁' := Subgroup.Normal.eq_bot_or_eq_top ((K₁ ⊓ K₂).subgroupOf K₁)
   have h₂' := Subgroup.Normal.eq_bot_or_eq_top ((K₁ ⊓ K₂).subgroupOf K₂)
   rcases h₁' with h | h
@@ -33,10 +33,10 @@ theorem eq_or_inf_eq_bot_of_normal_isSimple {Γ : Type*} [Group Γ]
   exact Or.inl (le_antisymm hle₁ ((Subgroup.subgroupOf_eq_top.mp h').trans inf_le_left))
 
 theorem map_eq_or_inf_eq_bot {M : Type*} [Group M] [Finite M] (σ : MulAut M)
-    {N S : Subgroup M} (hN : N.Normal) (hσinv : ∀ x ∈ N, σ x ∈ N)
+    {N S : Subgroup M} (_hN : N.Normal) (hσinv : ∀ x ∈ N, σ x ∈ N)
     (hSN : (S.subgroupOf N).Normal) (hSle : S ≤ N) (hS : IsSimpleGroup ↥S) :
     S.map σ.toMonoidHom = S ∨ S.map σ.toMonoidHom ⊓ S = ⊥ := by
-  haveI : IsSimpleGroup ↥S := hS
+  have : IsSimpleGroup ↥S := hS
   have hSmaple : (S.map σ.toMonoidHom : Subgroup M) ≤ N :=
     Subgroup.map_le_iff_le_comap.mpr fun x hx => hσinv x (hSle hx)
   have hnorm : ((S.map σ.toMonoidHom).subgroupOf N).Normal := by
@@ -61,7 +61,7 @@ theorem map_eq_or_inf_eq_bot {M : Type*} [Group M] [Finite M] (σ : MulAut M)
   have hSsub : IsSimpleGroup ↥(S.subgroupOf N) :=
     (Subgroup.subgroupOfEquivOfLe hSle).isSimpleGroup
   have hSmap_simple : IsSimpleGroup ↥((S.map σ.toMonoidHom).subgroupOf N) := by
-    haveI : IsSimpleGroup ↥(S.map σ.toMonoidHom) :=
+    have : IsSimpleGroup ↥(S.map σ.toMonoidHom) :=
       (Subgroup.equivMapOfInjective S σ.toMonoidHom σ.injective).symm.isSimpleGroup
     exact (Subgroup.subgroupOfEquivOfLe hSmaple).isSimpleGroup
   rcases eq_or_inf_eq_bot_of_normal_isSimple hnorm hSN hSmap_simple hSsub with h | h
@@ -82,7 +82,7 @@ theorem exists_sylow_map_eq_inf {M : Type*} [Group M] [Finite M] {ℓ : ℕ} [Fa
     (hSle : S ≤ N) :
     ∃ P : Sylow ℓ ↥S, (P : Subgroup ↥S).map S.subtype = (Q : Subgroup M) ⊓ S := by
   obtain ⟨QN, hQN⟩ := CFSG.HardMathSupport.Solomon.Coordinator.exists_sylow_inf_normal Q N
-  haveI := hSN
+  have := hSN
   have hnorm : N ≤ Subgroup.normalizer (S : Set M) :=
     Subgroup.le_normalizer_of_normal_subgroupOf hSle
   have h := IsSylowOf.inf_of_le_normalizer (P := (Q : Subgroup M) ⊓ N) (K := N) (N := S)
@@ -108,7 +108,7 @@ theorem exists_ne_one_mem_inf_of_dvd_card {M : Type*} [Group M] [Finite M] {ℓ 
 theorem exists_prime_dvd_card_ne_two_ne {S : Type*} [Group S] [Finite S] (hS : IsSimpleGroup S)
     (hna : ¬ IsMulCommutative S) (p : ℕ) :
     ∃ q : ℕ, q.Prime ∧ q ≠ 2 ∧ q ≠ p ∧ q ∣ Nat.card S := by
-  haveI : IsSimpleGroup S := hS
+  have : IsSimpleGroup S := hS
   have hnsolv : ¬ Group.IsSolvable S := fun hsolv =>
     hna (IsMulCommutative.of_comm (IsSimpleGroup.comm_iff_isSolvable.mpr hsolv))
   have h3 : 3 ≤ (Nat.card S).primeFactors.card := by
@@ -141,7 +141,7 @@ theorem false_of_moved_simple_factor {M : Type} [Group M] [Finite M] (σ : MulAu
   obtain ⟨q, hqp, hq2, hqp', hqdvd⟩ := exists_prime_dvd_card_ne_two_ne hSsimple hSna p
   have hFs : ∃ Q : Sylow q M, ∀ x ∈ (Q : Subgroup M), σ x = x := hfix q hqp hq2 hqp'
   obtain ⟨Q, hQfix⟩ := hFs
-  haveI : Fact q.Prime := ⟨hqp⟩
+  have : Fact q.Prime := ⟨hqp⟩
   obtain ⟨y, hy, hy1⟩ := exists_ne_one_mem_inf_of_dvd_card (Q := Q) hSN hSle hqdvd
   have hyfixed : σ y = y := hQfix y hy.1
   have hymap : y ∈ S.map σ.toMonoidHom := ⟨y, hy.2, hyfixed⟩
@@ -198,7 +198,7 @@ theorem exists_restriction_orderOf_three {M : Type*} [Group M] (σ : MulAut M) {
     have := congrArg (fun y : ↥S => (y : M)) hx'
     simpa [hσi_coe] using this
   have horder : orderOf σi = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact orderOf_eq_prime hσi3 hσi_ne
   exact ⟨σi, horder, hσi_coe⟩
 
@@ -217,13 +217,13 @@ theorem false_of_suzuki_order_three_aut {M : Type} [Group M] [Finite M] (σ : Mu
       (∀ P : Subgroup ↥S, IsSylowOf ℓ P ⊤ →
         (IsSylowOf ℓ₁ P ⊤ ∨ IsSylowOf ℓ₂ P ⊤)) → False := by
     intro ℓ hℓp hℓ2 hℓp' hclause
-    haveI : Fact ℓ.Prime := ⟨hℓp⟩
+    have : Fact ℓ.Prime := ⟨hℓp⟩
     have hFs : ∃ Q : Sylow ℓ M, ∀ x ∈ (Q : Subgroup M), σ x = x := hfix ℓ hℓp hℓ2 hℓp'
     obtain ⟨Q, hQfix⟩ := hFs
     obtain ⟨P, hP⟩ := exists_sylow_map_eq_inf Q hSN hSle
     have hP' : IsSylowOf ℓ (P : Subgroup ↥S) ⊤ := by
       rw [isSylowOf_iff]
-      refine ⟨le_top, P.isPGroup', ?_⟩
+      refine ⟨le_top, P.isPGroup, ?_⟩
       rw [Subgroup.relIndex_top_right]
       exact P.not_dvd_index
     obtain ⟨z, hz, hz1⟩ := hℓsyl (P : Subgroup ↥S) (hclause _ hP')
@@ -244,7 +244,7 @@ theorem chiefNon_holds : K22p.ChiefNon := by
   intro hS1 hS2 p M _ _ hK h3 σ hσ hcomm hfix N hN hna
   obtain ⟨r, S, _hr, hSleN, hSnorm, hSsimple, hSna, _hScomm, hSsup⟩ :=
     exists_factors_of_minInv σ hσ hN hna
-  haveI : N.Normal := hN.normal
+  have : N.Normal := hN.normal
   by_cases hmoved : ∃ i, (S i).map σ.toMonoidHom ≠ S i
   · obtain ⟨i, hi⟩ := hmoved
     exact false_of_moved_simple_factor σ hN.invariant (hSnorm i) (hSleN i) (hSsimple i)

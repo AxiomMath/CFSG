@@ -95,16 +95,16 @@ theorem tabMSeven_not_dvd_of_involutions {C : Subgroup G} {n : ℕ} (hn : 1 ≤ 
       ¬ 2 ^ n ∣ Nat.card ↥(C ⊓ Subgroup.centralizer ({v} : Set G))) :
     ¬ 2 ^ n ∣ Nat.card ↥C := by
   intro hdvd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥C) := inferInstance
   have hP : 2 ^ n ∣ Nat.card (P : Subgroup ↥C) := P.pow_dvd_card_of_pow_dvd_card hdvd
-  haveI : Nontrivial (P : Subgroup ↥C) := by
+  have : Nontrivial (P : Subgroup ↥C) := by
     rw [← Finite.one_lt_card_iff_nontrivial]
     have h2 : 2 ∣ Nat.card (P : Subgroup ↥C) := (dvd_pow_self 2 (by omega)).trans hP
     have := Nat.card_pos (α := (P : Subgroup ↥C))
     omega
-  have hZ : IsPGroup 2 (Subgroup.center (P : Subgroup ↥C)) := P.isPGroup'.to_subgroup _
-  haveI : Nontrivial (Subgroup.center (P : Subgroup ↥C)) := P.isPGroup'.center_nontrivial
+  have hZ : IsPGroup 2 (Subgroup.center (P : Subgroup ↥C)) := P.isPGroup.to_subgroup _
+  have : Nontrivial (Subgroup.center (P : Subgroup ↥C)) := P.isPGroup.center_nontrivial
   obtain ⟨k, hk, hcard⟩ := hZ.nontrivial_iff_card.1 inferInstance
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center (P : Subgroup ↥C)) 2
     (by rw [hcard]; exact dvd_pow_self 2 hk.ne')
@@ -126,7 +126,7 @@ theorem tabMSeven_not_dvd_of_involutions {C : Subgroup G} {n : ℕ} (hn : 1 ≤ 
 theorem tabMSeven_sylow_quat {C S : Subgroup G} (hSC : S ≤ C) (e : ↥S ≃* QuaternionGroup 4)
     (h32 : ¬ 32 ∣ Nat.card ↥C) :
     ∃ P : Sylow 2 ↥C, Nonempty ((P : Subgroup ↥C) ≃* QuaternionGroup 4) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : Nat.card (S.subgroupOf C) = 16 := by
     rw [Nat.card_congr ((Subgroup.subgroupOfEquivOfLe hSC).trans e).toEquiv,
       card_quaternionGroup_four]
@@ -150,7 +150,7 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem odd_card_oddCore_of_finite (H : Type*) [Group H] [Finite H] :
     Odd (Nat.card (CFSG.oddCore H)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle : CFSG.oddCore H ≤ CFSG.pPrimeCore 2 H :=
     sSup_le fun N hN => le_sSup ⟨hN.1, Nat.coprime_two_left.mpr hN.2⟩
   exact Nat.coprime_two_left.mp
@@ -162,9 +162,9 @@ private theorem factorization_seven_le_of_le_centralizer
       R ≤ Subgroup.centralizer ({v} : Set G) → Nat.card R ≤ 7 ^ 2)
     {v : G} (hv : orderOf v = 2) {L : Subgroup G}
     (hL : L ≤ Subgroup.centralizer ({v} : Set G)) : (Nat.card L).factorization 7 ≤ 2 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨T⟩ : Nonempty (Sylow 7 ↥L) := inferInstance
-  have h := hinv v hv ((T : Subgroup ↥L).map L.subtype) (T.isPGroup'.map L.subtype)
+  have h := hinv v hv ((T : Subgroup ↥L).map L.subtype) (T.isPGroup.map L.subtype)
     ((Subgroup.map_subtype_le _).trans hL)
   rw [Subgroup.card_map_of_injective L.subtype_injective, Sylow.card_eq_multiplicity] at h
   exact (Nat.pow_le_pow_iff_right (by norm_num)).1 h
@@ -194,7 +194,7 @@ theorem tabMSeven_noComp {C : Subgroup G} (hO : GLAPPrimeCoreOf 7 C = ⊥)
       R ≤ Subgroup.centralizer ({v} : Set G) → Nat.card R ≤ 7 ^ 2)
     (J : Subgroup G) : ¬ GLAPComponent 7 C J := by
   intro hJ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hJC : J ≤ C := hJ.1
   have hJq : CFSG.Open.IsQuasisimple ↥J :=
     CFSG.HardMathSupport.Solomon.Coordinator.isQuasisimple_of_glaPComponent_of_comm
@@ -204,13 +204,13 @@ theorem tabMSeven_noComp {C : Subgroup G} (hO : GLAPPrimeCoreOf 7 C = ⊥)
         rw [ho, one_mul, mul_one])
   have hcomp : CFSG.Assembly.IsComponentOf J C :=
     CFSG.Assembly.isComponentOf_iff_open.2 ⟨hJC, hJ.2.1, hJq⟩
-  haveI : Group.IsPerfect ↥J := ⟨hJq.1⟩
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJq.2
-  haveI : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
+  have : Group.IsPerfect ↥J := ⟨hJq.1⟩
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJq.2
+  have : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
   have hJodd : ¬ Odd (Nat.card ↥J) := fun h =>
     Group.IsPerfect.not_isSolvable (↥J) (CFSG.FeitThompson.isSolvable_of_odd_natCard _ h)
   set O : Subgroup ↥C := CFSG.oddCore ↥C
-  haveI hOn : O.Normal := CFSG.oddCore_normal _
+  have hOn : O.Normal := CFSG.oddCore_normal _
   have hOodd : Odd (Nat.card O) := odd_card_oddCore_of_finite ↥C
   set OG : Subgroup G := O.map C.subtype
   have hOGcard : Nat.card OG = Nat.card O := Subgroup.card_map_of_injective C.subtype_injective
@@ -258,7 +258,7 @@ theorem tabMSeven_noComp {C : Subgroup G} (hO : GLAPPrimeCoreOf 7 C = ⊥)
     rw [Subgroup.mem_center_iff.1 (Subgroup.zpow_mem _ hBS k) g, mul_inv_cancel_right]
     exact Subgroup.zpow_mem_zpowers _ k
   set K : Subgroup ↥C := Z.comap (QuotientGroup.mk' O) with hKdef
-  haveI : K.Normal := hZn.comap _
+  have : K.Normal := hZn.comap _
   have hKcard : Nat.card K = Nat.card O * 2 := by
     rw [← hub, ← Nat.card_zpowers]
     exact QuotientGroup.card_preimage_mk O (Z : Set (↥C ⧸ O))
@@ -314,7 +314,7 @@ theorem tabMSeven_isConj_zpowers_of_quot {E : Subgroup H} [E.Normal] {p : ℕ} (
     {c : H} {k : ℕ}
     (hck : (QuotientGroup.mk (c * y * c⁻¹) : H ⧸ E) = (QuotientGroup.mk w : H ⧸ E) ^ k) :
     ∃ g : H, ∃ m : ℕ, g * y * g⁻¹ = w ^ m := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpE : ¬ p ∣ Nat.card E := fun h => hp.one_lt.ne' (Nat.Coprime.eq_one_of_dvd hE.symm h)
   have hy' : orderOf (c * y * c⁻¹) = p := by
     rw [← MulAut.conj_apply, MulEquiv.orderOf_eq, hy]

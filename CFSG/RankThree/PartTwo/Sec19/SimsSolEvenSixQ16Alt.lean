@@ -159,7 +159,7 @@ theorem exists_sylow_q16S0 (hR : Nat.card ↥(Rc X) ≤ 2)
   obtain ⟨T, hT⟩ := (C.isPGroup_q16S0 hR hQ).exists_le_sylow
   refine ⟨T, hT, ?_⟩
   have hM := C.card_M_alt hR hQ halt
-  have hK2 : IsPGroup 2 ↥((T : Subgroup G) ⊓ M) := T.isPGroup'.to_le inf_le_left
+  have hK2 : IsPGroup 2 ↥((T : Subgroup G) ⊓ M) := T.isPGroup.to_le inf_le_left
   have hle : Nat.card ↥((T : Subgroup G) ⊓ M) ≤ 2 ^ 7 :=
     Q16Mod.card_le_of_dvd hK2 (n := 2 ^ 7 * 45) (m := 7)
       (by rw [← hM]; exact Subgroup.card_dvd_of_le inf_le_right) (by decide)
@@ -264,9 +264,9 @@ theorem q16_z_central (hR : Nat.card ↥(Rc X) ≤ 2)
     (hST : C.q16S0 ≤ T) : ∀ t ∈ (T : Subgroup G), t * z = z * t := by
   have hz1 : z ≠ 1 := D.ne_one_of_len_two hz (I := {4, 5}) (by decide) hπz
   have hQT : CFSG.Open.pCoreOf 2 M ≤ (T : Subgroup G) := C.pCoreOf_le_q16S0.trans hST
-  haveI : Nontrivial ↥(T : Subgroup G) :=
+  have : Nontrivial ↥(T : Subgroup G) :=
     ⟨⟨⟨z, hQT hz⟩, 1, fun h => hz1 (congrArg Subtype.val h)⟩⟩
-  haveI := T.isPGroup'.center_nontrivial
+  have := T.isPGroup.center_nontrivial
   obtain ⟨c, hc1⟩ := exists_ne (1 : ↥(Subgroup.center ↥(T : Subgroup G)))
   have hcc : ∀ t : ↥(T : Subgroup G), t * (c : ↥(T : Subgroup G)) = c * t :=
     Subgroup.mem_center_iff.1 c.2
@@ -336,9 +336,9 @@ theorem q16_false_alt (hR : Nat.card ↥(Rc X) ≤ 2) (hQ : Nat.card ↥(CFSG.Op
       (C.S.cent z hz hz1)
       (Subgroup.mem_inf.2 ⟨hTH ht, Subgroup.mem_centralizer_iff.2 fun x hx => (htc x hx).symm⟩)
   have hexp : ∀ t ∈ (T : Subgroup G), t ^ 4 ∈ O :=
-    Q16Grp.pow_four_mem hOT' T.isPGroup' (fun t ht x hx => hOn t (hTH ht) x hx) hzO hz1 hz2 hzT
+    Q16Grp.pow_four_mem hOT' T.isPGroup (fun t ht x hx => hOn t (hTH ht) x hx) hzO hz1 hz2 hzT
       hZO hcommO hO32 hC
-  obtain ⟨q, hqQ, hqO⟩ := SetLike.not_le_iff_exists.1 hQO
+  obtain ⟨q, hqQ, hqO⟩ := IsConcreteLE.not_le_iff_exists.1 hQO
   have hqq : q * q = 1 := D.q16_mul_self_eq_one hR hQ hqQ
   have hcent : ∀ t ∈ (T : Subgroup G), t * q * t⁻¹ * q⁻¹ ∈ O → t ∈ C.q16S0 := by
     intro t ht htq
@@ -346,7 +346,7 @@ theorem q16_false_alt (hR : Nat.card ↥(Rc X) ≤ 2) (hQ : Nat.card ↥(CFSG.Op
       (fun x hx => hOn t (hTH ht) x hx) htq
     rw [← hTM]
     exact Subgroup.mem_inf.2 ⟨ht, htM⟩
-  have hcardT := Q16Grp.card_le_of_pow_four_mem hS0 hST T.isPGroup'
+  have hcardT := Q16Grp.card_le_of_pow_four_mem hS0 hST T.isPGroup
     (fun t ht x hx => hOn t (hTH ht) x hx) (by omega) (hST (C.pCoreOf_le_q16S0 hqQ)) hqO
     (by rw [hqq]; exact O.one_mem) hcent hexp
   exact D.q16_false_of_card_sylow_le hR hQ halt T C.q16S0_le hST (by omega)

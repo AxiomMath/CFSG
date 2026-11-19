@@ -20,7 +20,7 @@ theorem card_subtype_mem_filter {α : Type*} [DecidableEq α] (L : List α) (hL 
     Nat.card {y // y ∈ L ∧ p y} = (L.filter fun y => decide (p y)).length := by
   have h1 : Nat.card {y // y ∈ L ∧ p y} =
       Nat.card ↥(L.filter fun y => decide (p y)).toFinset :=
-    Nat.card_congr (Equiv.subtypeEquivRight fun y => by simp [List.mem_filter])
+    Nat.card_congr (Equiv.subtypeEquivRight fun y => by simp)
   rw [h1, Nat.card_eq_finsetCard, List.toFinset_card_of_nodup (hL.filter _)]
 
 theorem card_sqOne_congr {A B : Type*} [Group A] [Group B] (e : A ≃* B) :
@@ -102,7 +102,7 @@ theorem exists_e16_T8 : ∃ E : Subgroup ↥T8, Nat.card E = 16 ∧ ∀ x ∈ E,
 
 @[expose] def unitsToPerm2 : ℤˣ →* Perm (Fin 2) where
   toFun u := if u = 1 then 1 else swap 0 1
-  map_one' := if_pos rfl
+  map_one' := ite_eq_left rfl
   map_mul' := by decide
 
 theorem sign_unitsToPerm2 (u : ℤˣ) : sign (unitsToPerm2 u) = u := by
@@ -194,7 +194,7 @@ theorem A10SylowData.of_sylow
     {X : Type} [Group X] [Finite X] (S : Sylow 2 X) (h : IsA10Type ↥(S : Subgroup X)) :
     A10SylowData X := by
   classical
-  haveI : Finite (Sylow 2 X) := Sylow.finite_of_finiteIndex S
+  have : Finite (Sylow 2 X) := Sylow.finite_of_finiteIndex S
   have hT : ∀ T : Sylow 2 X, IsA10Type ↥(T : Subgroup X) := by
     intro T
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X S T

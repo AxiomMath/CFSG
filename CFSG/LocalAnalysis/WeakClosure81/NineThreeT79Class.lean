@@ -55,35 +55,35 @@ theorem nine3_prop710 {X : Type} [Group X] [Finite X] {s : X} {O : Subgroup X} [
     ⟨n, m, hwr, hO⟩ | ⟨n, hsym, hO⟩ | h63
   · subst O
     obtain ⟨k, _hmk, F, hFld, hFin, hcard, ψ, hψ⟩ := hsp
-    letI : Field F := hFld
-    letI : Finite F := hFin
+    let : Field F := hFld
+    let : Finite F := hFin
     have hn1 : 1 ≤ n := nine3_one_le_of_card_eq_two_pow hcard
     exact nine3_prop710_transport ψ
       (nine3_prop710_sp ⟨n, hn1, hcard⟩ hψ (Nine3Config.map ψ h))
   · subst O
     obtain ⟨F, hFld, hFin, hcard, ψ, hψ⟩ := huni
-    letI : Field F := hFld
-    letI : Finite F := hFin
+    let : Field F := hFld
+    let : Finite F := hFin
     have hn1 : 1 ≤ n := nine3_one_le_of_card_eq_two_pow_sq hcard
     exact nine3_prop710_transport ψ
       (nine3_prop710_unitary hn1 hcard hψ (Nine3Config.map ψ h))
   · subst O
     rcases horth with ⟨k, hk, _hm, F, hFld, hFin, hcard, ψ, hc⟩ |
       ⟨k, hk, _hm, F, hFld, hFin, hcard, b, c', hbc, ψ, hc⟩
-    · letI : Field F := hFld
-      letI : Finite F := hFin
+    · let : Field F := hFld
+      let : Finite F := hFin
       have hn1 : 1 ≤ n := nine3_one_le_of_card_eq_two_pow hcard
       exact nine3_prop710_transport ψ
         (nine3_prop710_orthPlus hk ⟨n, hn1, hcard⟩ hc (Nine3Config.map ψ h))
-    · letI : Field F := hFld
-      letI : Finite F := hFin
+    · let : Field F := hFld
+      let : Finite F := hFin
       have hn1 : 1 ≤ n := nine3_one_le_of_card_eq_two_pow hcard
       exact nine3_prop710_transport ψ
         (nine3_prop710_orthMinus hk ⟨n, hn1, hcard⟩ hbc hc (Nine3Config.map ψ h))
   · subst O
     obtain ⟨hn1, F, hFld, hFin, hcard, ψ, i, j, hij, hψ⟩ := hwr
-    letI : Field F := hFld
-    letI : Finite F := hFin
+    let : Field F := hFld
+    let : Finite F := hFin
     exact nine3_prop710_transport ψ
       (nine3_prop710_wreath hn1 hcard hij hψ (Nine3Config.map ψ h))
   · subst O
@@ -92,8 +92,8 @@ theorem nine3_prop710 {X : Type} [Group X] [Finite X] {s : X} {O : Subgroup X} [
       (nine3_prop710_sym hψ (Nine3Config.map ψ h))
   · obtain ⟨F, hFld, hFin, hcardF, b, c', hbc, N, hN1, hN2, φ, hφsurj, hker, _hcardO,
       _hcen, r, hr, hr1, hrs⟩ := h63
-    letI : Field F := hFld
-    letI : Finite F := hFin
+    let : Field F := hFld
+    let : Finite F := hFin
     let ψ : X ⧸ O ≃* ↥N :=
       (QuotientGroup.quotientMulEquivOfEq hker.symm).trans
         (QuotientGroup.quotientKerEquivOfSurjective φ hφsurj)

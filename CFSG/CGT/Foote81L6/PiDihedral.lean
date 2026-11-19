@@ -35,7 +35,7 @@ theorem zz_ne_one (j : ι) (hj : 1 ≤ a j) : zz a j ≠ 1 := by
   rw [zz_apply_same] at this
   exact zc_ne_one hj this
 
-theorem zz_injective {i j : ι} (hi : 1 ≤ a i) (hj : 1 ≤ a j) (h : zz a i = zz a j) : i = j := by
+theorem zz_injective {i j : ι} (hi : 1 ≤ a i) (_hj : 1 ≤ a j) (h : zz a i = zz a j) : i = j := by
   by_contra hij
   have := congrFun h i
   rw [zz_apply_same, zz_apply_ne hij] at this
@@ -146,7 +146,7 @@ theorem sig1 {j i : ι} (hj : 2 ≤ a j) (y : MulAut (PX a)) (d : DihedralGroup 
 theorem sig_le {j i : ι} (hj : 1 ≤ a j) (hi : 1 ≤ a i) (y : MulAut (PX a))
     (h : y (zz a j) = zz a i) : a j ≤ a i := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have h1 := congrFun h i
   rw [zz_eq_pow j hj, map_pow, Pi.pow_apply, zz_apply_same] at h1
   have := pow_two_pow_eq_one hi (Nat.le_sub_one_of_lt hlt)
@@ -158,7 +158,7 @@ theorem sig2 {j : ι} (hj : 2 ≤ a j) (y : MulAut (PX a)) :
     ∃ i, ∃ (d : DihedralGroup (2 ^ a j)) (h : DihedralGroup (2 ^ a i)),
       y (Pi.mulSingle j d) * Pi.mulSingle i h ≠ Pi.mulSingle i h * y (Pi.mulSingle j d) := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨g, g', hgg⟩ := not_comm_of_two_le hj
   have hg := (comm_mulSingle_iff (y (Pi.mulSingle j g))).mp (fun i h => hcon i g h)
   apply hgg

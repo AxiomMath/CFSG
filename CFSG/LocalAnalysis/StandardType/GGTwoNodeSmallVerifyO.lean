@@ -59,7 +59,7 @@ private lemma pwo_eraseDups_sublist {α : Type*} [BEq α] (l : List α) : l.eras
   | nil => exact List.Sublist.slnil
   | cons a l =>
       rw [List.eraseDups_cons]
-      refine List.Sublist.cons₂ a ?_
+      refine List.Sublist.cons_cons a ?_
       have hrec : (l.filter (fun b => !b == a)).eraseDups.Sublist (l.filter (fun b => !b == a)) :=
         ih (l.filter (fun b => !b == a)).length (by
           have h1 : (l.filter (fun b => !b == a)).length ≤ l.length := List.length_filter_le _ _
@@ -93,7 +93,7 @@ private lemma pwo_nodup_of_eraseDups_length {α : Type*} [BEq α] [LawfulBEq α]
         intro ham
         have hmem : a ∈ l.filter (fun b => !b == a) := by rw [hfeq]; exact ham
         have hc : (!(a == a) : Bool) = true := (List.mem_filter.mp hmem).2
-        simpa using hc
+        simp at hc
       exact List.nodup_cons.mpr ⟨hane, hlnod⟩
 
 private lemma pwo_mem_zipIdx_get {α : Type*} (l : List α) (i : Fin l.length) :
@@ -117,7 +117,7 @@ private lemma pwo_levelOK_good (P : Pt) (E : List Vec) (L : Level)
     (h : P.levelOK E L = true) : pwo_Good P E L := by
   have hne : L.tree ≠ [] := by
     intro hnil
-    have h'' : False := by simpa [Pt.levelOK, hnil] using h
+    have h'' : False := by simp [Pt.levelOK, hnil] at h
     exact h''
   obtain ⟨e0, rest, htree⟩ := List.exists_cons_of_ne_nil hne
   have h1 := h
@@ -267,7 +267,7 @@ private lemma pwo_chainProd_spec (P : Pt) :
       intro E acc n h
       simp only [Pt.chainProd] at h
       by_cases hL : P.levelOK E L = true
-      · rw [if_pos hL] at h
+      · rw [ite_eq_left hL] at h
         obtain ⟨hn, hgood⟩ := ih (E ++ [L.base]) (acc * L.tree.length) n h
         refine ⟨?_, ?_⟩
         · rw [hn]
@@ -283,12 +283,12 @@ private lemma pwo_chainProd_spec (P : Pt) :
               have := hgood ⟨k, hk⟩
               simpa [List.take_succ_cons, List.map_cons, List.get_cons_succ, List.append_assoc]
                 using this
-      · rw [if_neg hL] at h
+      · rw [ite_eq_right hL] at h
         simp at h
 
 theorem verifyO_sound {P : Pt} [Fact P.p.Prime] (hwf : P.WF) {o : OWit} {b : ℕ}
     (h : verifyO P o b = true) : b < Nat.card P.group := by
-  haveI : NeZero P.p := ⟨(Fact.out : P.p.Prime).ne_zero⟩
+  have : NeZero P.p := ⟨(Fact.out : P.p.Prime).ne_zero⟩
   unfold verifyO at h
   cases hc : P.chainProd [] o.levels 1 with
   | none =>

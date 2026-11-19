@@ -217,6 +217,7 @@ theorem map_datumU2_congr (L : V ≃ₗ[k] V') (π : V →ₗ[k] E) :
 
 variable [Module.Finite k V] [Module.Finite k V'] [Module.Finite k E]
 
+omit [Module.Finite k E] in
 private lemma congr_datumElt (L : V ≃ₗ[k] V') (ι : E →ₗ[k] V) (π : V →ₗ[k] E)
     (h : ∀ t, π (ι t) = 0) (h' : ∀ t, (π ∘ₗ L.symm.toLinearMap) ((L.toLinearMap ∘ₗ ι) t) = 0)
     (t : E) :
@@ -229,6 +230,7 @@ private lemma congr_datumElt (L : V ≃ₗ[k] V') (ι : E →ₗ[k] V) (π : V �
   rfl
 
 
+omit [Module.Finite k E] in
 theorem map_datumRoot_congr (L : V ≃ₗ[k] V') (ι : E →ₗ[k] V) (π : V →ₗ[k] E)
     (h : ∀ t, π (ι t) = 0) (h' : ∀ t, (π ∘ₗ L.symm.toLinearMap) ((L.toLinearMap ∘ₗ ι) t) = 0) :
     (datumRoot ι π h).map (SpecialLinearGroup.congr_linearEquiv L).toMonoidHom =

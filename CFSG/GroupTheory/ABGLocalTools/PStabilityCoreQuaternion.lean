@@ -115,7 +115,7 @@ theorem quaternion_involution_mem {R : Sylow 2 H} {K : Subgroup H} (hRK : IsQGro
     (eY : (K ⊓ (R : Subgroup H) : Subgroup H) ≃* QuaternionGroup (2 ^ k)) :
     ((eY.symm (QuaternionGroup.a (2 ^ k : ℕ)) : H) ∈ L) := by
   have hK := hRK.normal
-  have hR : IsPGroup 2 (R : Subgroup H) := R.isPGroup'
+  have hR : IsPGroup 2 (R : Subgroup H) := R.isPGroup
   have hLR : L ⊓ (R : Subgroup H) ≠ ⊥ := by
     intro hbot
     apply hL

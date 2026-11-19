@@ -174,7 +174,7 @@ theorem uniPlaneGen_E6_field_of_ne_eight {K : Type} [Field K] [Finite K] (h8 : N
   · rw [hψb]
     exact fixedFieldImage_subgroupOf_le_subfieldGroup Tag.E6 σb
 
-theorem uniPlaneGen_E6_field {K : Type} [Field K] [Finite K] (hK3 : ringChar K ≠ 3)
+theorem uniPlaneGen_E6_field {K : Type} [Field K] [Finite K] (_hK3 : ringChar K ≠ 3)
     (hK2 : ringChar K ≠ 2) (E : Subgroup (MulAut ↥(adjointGroup Tag.E6 K)))
     [hE : CFSG.IsElementaryAbelian 3 ↥E] (hEc : Nat.card ↥E = 3 ^ 2) (hout : ¬ E ≤ e6Inndiag K) :
     UniPlaneGen (ringChar K) E := by

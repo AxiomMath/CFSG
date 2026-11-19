@@ -80,7 +80,7 @@ section Parabolic
 theorem uc22p22m_isSylowOf_map {X Y : Type} [Group X] [Finite X] [Group Y] [Finite Y] (π : X →* Y)
     (hπ : Function.Surjective π) {A : Subgroup X} (hA : CFSG.ABGLocalTools.IsSylowOf 2 A ⊤) :
     CFSG.ABGLocalTools.IsSylowOf 2 (A.map π) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff] at hA ⊢
   obtain ⟨-, hp, hdvd⟩ := hA
   refine ⟨le_top, hp.map π, ?_⟩
@@ -91,7 +91,7 @@ theorem uc22p22m_normalizer_le_of_parabolic {Y : Type} [Group Y] [Finite Y] {Qb 
     (hS : CFSG.ABGLocalTools.IsSylowOf 2 Sb ⊤) (hSQ : Sb ≤ normalizer (Qb : Set Y))
     (hS' : CFSG.ABGLocalTools.IsSylowOf 2 S' ⊤) (hN : normalizer (S' : Set Y) ≤ Qb) :
     normalizer (Sb : Set Y) ≤ Qb := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKN : Qb ⊔ Sb ≤ normalizer (Qb : Set Y) := sup_le Subgroup.le_normalizer hSQ
   have hSK : CFSG.ABGLocalTools.IsSylowOf 2 Sb (Qb ⊔ Sb) := hS.of_le le_sup_right le_top
   have hS'K : CFSG.ABGLocalTools.IsSylowOf 2 S' (Qb ⊔ Sb) :=
@@ -125,7 +125,7 @@ theorem uc22p22m_le_of_parabolic {G : Type} [Group G] [Finite G] {T L Q P : Subg
     (hQ : ParabolicOf L Q) (hTQ : T ≤ normalizer (Q : Set G)) (hPL : P ≤ L)
     (hPS : P ≤ normalizer ((T ⊓ L : Subgroup G) : Set G)) : P ≤ Q := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hOQ, hQL, S₁, hS₁⟩ := hQ
   have hTLT : CFSG.ABGLocalTools.IsSylowOf 2 T (L ⊔ T) := hTsyl.of_le le_sup_right le_top
   have hSyl : CFSG.ABGLocalTools.IsSylowOf 2 (T ⊓ L) L :=
@@ -149,7 +149,7 @@ theorem uc22p22m_le_of_parabolic {G : Type} [Group G] [Finite G] {T L Q P : Subg
     exact (Subgroup.mem_normalizer_iff.1 (hTQ hsT) (q : G)).1 hqQ
   have hSyl₁ : CFSG.ABGLocalTools.IsSylowOf 2 (S₁ : Subgroup (Bar2 L)) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, S₁.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S₁.not_dvd_index⟩
+    exact ⟨le_top, S₁.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S₁.not_dvd_index⟩
   have hNQ : normalizer (Sb : Set (Bar2 L)) ≤ Qb :=
     uc22p22m_normalizer_le_of_parabolic hSbS hSQ hSyl₁ hS₁
   have hPb : (P.subgroupOf L).map π ≤ normalizer (Sb : Set (Bar2 L)) := by

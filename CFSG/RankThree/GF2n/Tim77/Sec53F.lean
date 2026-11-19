@@ -115,7 +115,7 @@ theorem sec53f_cube [Finite G] {A Abar S₀ B : Subgroup G} (h : Sec3Ctx A Abar 
               (y * x * y⁻¹ * x⁻¹) * (x * (y * z * y⁻¹ * z⁻¹) * x⁻¹) := by group
           rw [e]
           exact (Section3.M A Abar).mul_mem hxM ((hnormM x hx _).mp hzM)
-        one_mem' := ⟨(A ⊔ Abar).one_mem, by simpa using (Section3.M A Abar).one_mem⟩
+        one_mem' := ⟨(A ⊔ Abar).one_mem, by simp⟩
         inv_mem' := by
           rintro x ⟨hx, hxM⟩
           refine ⟨(A ⊔ Abar).inv_mem hx, ?_⟩
@@ -216,12 +216,12 @@ theorem sec53f_exists_u [Finite G] {A Ab A₀ Ab₀ M Z W A₀' : Subgroup G}
   have hA : ∀ x ∈ A, ∀ x' ∈ A, x * x' = x' * x := fun x hx x' hx' => S.comm_A hx hx'
   have hsq : ∀ x ∈ A, x * x = 1 := fun x hx => S.sq_A hx
   have hA₀A : A₀ ≤ A := S.L_le
-  obtain ⟨t, ht, htL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
+  obtain ⟨t, ht, htL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
   have hnot : ¬ A₀ ≤ Z := by
     intro hle
     have h1 : Z.relIndex A₀ = 1 := Subgroup.relIndex_eq_one.mpr hle
     omega
-  obtain ⟨c, hc, hcZ⟩ : ∃ c ∈ A₀, c ∉ Z := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨c, hc, hcZ⟩ : ∃ c ∈ A₀, c ∉ Z := IsConcreteLE.not_le_iff_exists.mp hnot
   obtain ⟨y, hy, hyc⟩ := S.exists_commutator_eq ht htL hc
   have hcA : c ∈ A := hA₀A hc
   have hcc : c * c = 1 := hsq c hcA
@@ -372,10 +372,10 @@ theorem sec53_four_holds :
   have hq1 : (Section3.A0 A Abar).relIndex A = 2 := by
     rw [← S.relIndex_Lb]
     exact hq
-  haveI hN : ((Section3.M A Abar).subgroupOf (A ⊔ Abar)).Normal :=
+  have hN : ((Section3.M A Abar).subgroupOf (A ⊔ Abar)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer S.M_le_X).mpr S.sup_le_normalizer_M
-  obtain ⟨a, ha, haL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
-  obtain ⟨b, hb, hbL⟩ := SetLike.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
+  obtain ⟨a, ha, haL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.L_le S.ne)
+  obtain ⟨b, hb, hbL⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne S.Lb_le S.Lb_ne)
   exact sec53_dihedral_three S hq1 ha haL hb hbL (sec53f_cube_four h hq hnc h4 a ha haL b hb hbL)
 
 end CFSG.RankThree.GF2n.Tim77

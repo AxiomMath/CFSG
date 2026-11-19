@@ -26,7 +26,7 @@ theorem iform_eq_E6 (x y : Fin Tag.E6.rank → ℤ) :
 theorem dotProduct_cartan_single (x : Fin Tag.E6.rank → ℤ) (i : Fin Tag.E6.rank) :
     x ⬝ᵥ (Tag.cartan Tag.E6 *ᵥ Pi.single i 1) = (Tag.cartan Tag.E6 *ᵥ x) i := by
   simp only [dotProduct, mulVec, Pi.single_apply, mul_ite, mul_one, mul_zero,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   exact Finset.sum_congr rfl fun k _ => by rw [cartan_symmetric_E6, mul_comm]
 
 theorem reflect_eq_E6 (i : Fin Tag.E6.rank) (v : Fin Tag.E6.rank → ℤ) :

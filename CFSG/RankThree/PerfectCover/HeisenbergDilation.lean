@@ -202,7 +202,7 @@ theorem perfect_central_prime_kernel_heisenberg_dilation_trivial' [Finite E]
     have hle : (commutator U).comap π ≤ commutator (P : Subgroup E) := by
       rw [hcommU, comap_map_eq, hπker, sup_eq_left.mpr hCcomm]
     exact hle hmem
-  have hpg : ∀ c : (P : Subgroup E), ∃ j, c ^ p ^ j = 1 := P.isPGroup'
+  have hpg : ∀ c : (P : Subgroup E), ∃ j, c ^ p ^ j = 1 := P.isPGroup
   have hcast : ∀ n : ℕ, ((k ^ n : ℕ) : ZMod p) = ((t ^ n : (ZMod p)ˣ) : ZMod p) := by
     intro n
     rw [Nat.cast_pow, hk, ZMod.natCast_zmod_val, Units.val_pow_eq_pow_val]

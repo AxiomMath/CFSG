@@ -56,7 +56,7 @@ theorem sec8t84_elemAb_of_prod4 {M : Type} [Group M] [Finite M] {a b c d : M}
       | exact hab | exact hab.symm | exact hac | exact hac.symm
       | exact had | exact had.symm | exact hbc | exact hbc.symm
       | exact hbd | exact hbd.symm | exact hcd | exact hcd.symm
-  haveI hAcomm : IsMulCommutative A :=
+  have hAcomm : IsMulCommutative A :=
     Subgroup.isMulCommutative_closure (fun x hx y hy _ => hcommS x hx y hy)
   have hA2 : ∀ x ∈ A, x ^ 2 = 1 := by
     intro x hx
@@ -87,7 +87,7 @@ theorem sec8t84_elemAb_of_prod4 {M : Type} [Group M] [Finite M] {a b c d : M}
   have hcent : A ≤ centralizer ({a} : Set M) :=
     (Subgroup.le_centralizer A).trans
       (Subgroup.centralizer_le (Set.singleton_subset_iff.mpr haA))
-  haveI : Fintype M := Fintype.ofFinite M
+  have : Fintype M := Fintype.ofFinite M
   have hlen : (sec8t84Prod4 a b c d).length = 16 := by simp [sec8t84Prod4]
   have hmem : ∀ x ∈ sec8t84Prod4 a b c d, x ∈ A :=
     sec8t84Prod4_mem_closure A (Subgroup.subset_closure haS) (Subgroup.subset_closure hbS)

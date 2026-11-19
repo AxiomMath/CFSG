@@ -13,6 +13,7 @@ section Abstract
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem pp_eq_of_mk_eq (N : Subgroup X) [N.Normal] (hN : Nat.Coprime 3 (Nat.card N))
     {T : Subgroup X} (hT : IsPGroup 3 T) {x y : X} (hx : x ∈ T) (hy : y ∈ T)
     (h : (QuotientGroup.mk x : X ⧸ N) = QuotientGroup.mk y) : x = y := by
@@ -20,6 +21,7 @@ theorem pp_eq_of_mk_eq (N : Subgroup X) [N.Normal] (hN : Nat.Coprime 3 (Nat.card
   have := eq_one_of_pgroup_of_coprime hT hN (T.mul_mem (T.inv_mem hx) hy) hmem
   exact inv_mul_eq_one.mp this
 
+omit [Finite X] in
 theorem pp_mapEquiv (N : Subgroup X) [N.Normal] (hN : Nat.Coprime 3 (Nat.card N))
     {T : Subgroup X} (hT : IsPGroup 3 T) :
     Nonempty (↥T ≃* ↥(T.map (QuotientGroup.mk' N))) := by
@@ -29,6 +31,7 @@ theorem pp_mapEquiv (N : Subgroup X) [N.Normal] (hN : Nat.Coprime 3 (Nat.card N)
     exact pp_eq_of_mk_eq N hN hT x.2 y.2 (congrArg Subtype.val hxy)
   exact ⟨MulEquiv.ofBijective _ ⟨hinj, (QuotientGroup.mk' N).subgroupMap_surjective T⟩⟩
 
+omit [Finite X] in
 theorem pp_card_map (N : Subgroup X) [N.Normal] (hN : Nat.Coprime 3 (Nat.card N))
     {T : Subgroup X} (hT : IsPGroup 3 T) :
     Nat.card (T.map (QuotientGroup.mk' N)) = Nat.card T := by
@@ -38,7 +41,7 @@ theorem pp_card_map (N : Subgroup X) [N.Normal] (hN : Nat.Coprime 3 (Nat.card N)
 theorem pp_isSylowOf_map (N : Subgroup X) [N.Normal] (hN : Nat.Coprime 3 (Nat.card N))
     {S : Subgroup X} (hS : IsSylowOf 3 S ⊤) :
     IsSylowOf 3 (S.map (QuotientGroup.mk' N)) ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine L41.isSylowOf_of_card_p le_top ?_
   rw [pp_card_map N hN hS.2.1, L41.isSylowOf_card_p hS]
   have h1 : Nat.card (⊤ : Subgroup X) = Nat.card (X ⧸ N) * Nat.card N := by
@@ -49,6 +52,7 @@ theorem pp_isSylowOf_map (N : Subgroup X) [N.Normal] (hN : Nat.Coprime 3 (Nat.ca
   rw [h1, h2, Nat.factorization_mul Nat.card_pos.ne' Nat.card_pos.ne', Finsupp.add_apply, h3,
     add_zero]
 
+omit [Finite X] in
 theorem pp_orderOf_mk (N : Subgroup X) [N.Normal] (hN : Nat.Coprime 3 (Nat.card N)) {x : X}
     (hx : IsPGroup 3 (Subgroup.zpowers x)) : orderOf (QuotientGroup.mk x : X ⧸ N) = orderOf x := by
   refine Nat.dvd_antisymm (orderOf_map_dvd (QuotientGroup.mk' N) x) ?_
@@ -84,9 +88,9 @@ variable {Y : Type} [Group Y]
 theorem a5_inf_eq_bot (K R : Subgroup Y) [R.Normal]
     (hK : Nonempty (↥K ≃* alternatingGroup (Fin 5))) (hKR : ¬ K ≤ R) :
     ∀ x ∈ K, x ∈ R → x = 1 := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   obtain ⟨e⟩ := hK
-  haveI : IsSimpleGroup ↥K := e.isSimpleGroup
+  have : IsSimpleGroup ↥K := e.isSimpleGroup
   intro x hxK hxR
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (R.subgroupOf K) with h | h
   · have : (⟨x, hxK⟩ : ↥K) ∈ R.subgroupOf K := hxR

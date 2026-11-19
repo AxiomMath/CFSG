@@ -158,8 +158,10 @@ section Bridge
 
 variable {Γ : Type} [Group Γ] [Finite Γ] (fr : Frame Γ)
 
+omit [Finite Γ] in
 theorem fact12_iff : fr.Fact12 ↔ (GFrame.ofFrame fr).F12 := Iff.rfl
 
+omit [Finite Γ] in
 theorem fact13_iff : fr.Fact13 ↔ (GFrame.ofFrame fr).F13 := Iff.rfl
 
 theorem fact14_iff : fr.Fact14 ↔ (GFrame.ofFrame fr).F14 :=

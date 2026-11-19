@@ -68,7 +68,7 @@ theorem false_of_outer {σ : MulAut SUI} (hσ3 : σ ^ 3 = 1)
     simp
   have hφform : (∀ x : K, φ x = x ^ 4) ∨ ∀ x : K, φ x = x ^ 16 := by
     obtain ⟨σf, hσf, hord, hzp⟩ := RonanK432.exists_frob_gen
-    haveI : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [card_ringAut_K]; norm_num)
+    have : Finite (K ≃+* K) := Nat.finite_of_card_ne_zero (by rw [card_ringAut_K]; norm_num)
     have hφmem : φ ∈ Submonoid.powers σf := by
       rw [mem_powers_iff_mem_zpowers, hzp]
       exact Subgroup.mem_top φ
@@ -112,7 +112,7 @@ theorem false_of_outer {σ : MulAut SUI} (hσ3 : σ ^ 3 = 1)
   have hQd : Nat.card Q ∣ 95033953989081169920 := by
     have h7 : ¬ 7 ∣ Nat.card Q := by
       intro h
-      haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
       obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 7 h
       have h1 := hQ7 g (by rw [← hg]; exact pow_orderOf_eq_one g)
       rw [h1, orderOf_one] at hg
@@ -149,7 +149,7 @@ theorem false_of_outer {σ : MulAut SUI} (hσ3 : σ ^ 3 = 1)
 theorem noCfgS429_SUI : NoCfgS429 SUI := by
   intro A σ Q hc
   have hσ3 : σ ^ 3 = 1 := hc.isE27.1.2 σ hc.mem
-  haveI : Group.IsPerfect Q := hc.isPerfect
+  have : Group.IsPerfect Q := hc.isPerfect
   by_cases hin : σ ∈ (MulAut.conj : SUI →* MulAut SUI).range
   · obtain ⟨s, rfl⟩ := hin
     have hs3 : s ^ 3 = 1 := by
@@ -199,7 +199,7 @@ theorem noCfgS429_SUI : NoCfgS429 SUI := by
         (Subgroup.centralizer ({bs i} : Set SUI))).IsSubnormal := by
       have h := hc'.isSubnormal
       rwa [autFix_conj_eq_centralizer, hcent] at h
-    haveI := hc'.isPerfect
+    have := hc'.isPerfect
     have hT' := hc'.isType
     rcases (by decide : ∀ j : Fin 4, j = 0 ∨ j = 1 ∨ j = 2 ∨ j = 3) i with rfl | rfl | rfl | rfl
     · exact false_of_bs0 hQ' hsn' hT'

@@ -36,7 +36,7 @@ theorem isPGroup_of_isNilpotent {J N : Subgroup G} (hNJ : N ≤ J)
     have hPn : (P : Subgroup N).Normal := inferInstance
     have hPne : (P : Subgroup N) ≠ ⊥ := P.ne_bot_of_dvd_card hpd
     have hPodd : Odd (Nat.card (P : Subgroup N)) := by
-      obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+      obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
       rw [hk]
       exact (hp.eq_two_or_odd'.resolve_left hp2).pow
     set P' : Subgroup G := (P : Subgroup N).map N.subtype with hP'

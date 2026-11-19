@@ -47,7 +47,7 @@ private def eS (S : Finset (Fin 8)) : ↥(coreMod 8) :=
 private theorem coe_eS {S : Finset (Fin 8)} (h : S.card = 4) :
     (eS S : PermMod 8) = eset S := by
   unfold eS
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 private def yS (S : Finset (Fin 8)) : D8 := QuotientGroup.mk (eS S)
 
@@ -71,17 +71,17 @@ private theorem eq_of_yS_eq {S S' : Finset (Fin 8)} (hS : S ∈ Sfam) (hS' : S' 
     constructor
     · intro hm
       by_contra hm'
-      rw [if_pos hm, if_neg hm'] at hi
+      rw [ite_eq_left hm, ite_eq_right hm'] at hi
       exact absurd hi (by decide)
     · intro hm'
       by_contra hm
-      rw [if_neg hm, if_pos hm'] at hi
+      rw [ite_eq_right hm, ite_eq_left hm'] at hi
       exact absurd hi (by decide)
   · exfalso
     rw [coe_eS hS.1, coe_eS hS'.1] at h1
     have h0 := congrArg (fun x : PermMod 8 => Multiplicative.toAdd x 0) h1
-    simp only [toAdd_eset, toAdd_mul, Pi.add_apply, toAdd_allOnes, if_pos hS.2.1,
-      if_pos hS'.2.1] at h0
+    simp only [toAdd_eset, toAdd_mul, Pi.add_apply, toAdd_allOnes, ite_eq_left hS.2.1,
+      ite_eq_left hS'.2.1] at h0
     exact absurd h0 (by decide)
 
 theorem exists_D8_twenty : ∃ W : Finset D8, W.card = 20 ∧ (∀ y ∈ W, HasWt 4 y) ∧
@@ -102,12 +102,12 @@ theorem exists_D8_twenty : ∃ W : Finset D8, W.card = 20 ∧ (∀ y ∈ W, HasW
     rcases (S126L1a.mk_eq_iff (eS S) c).1 hyc with h1 | h1
     · rw [coe_eS hS.1] at h1
       have h0 := congrArg (fun x : PermMod 8 => Multiplicative.toAdd x 0) h1
-      simp only [toAdd_eset, if_pos hS.2.1] at h0
+      simp only [toAdd_eset, ite_eq_left hS.2.1] at h0
       rw [hc.1] at h0
       exact absurd h0 (by decide)
     · rw [coe_eS hS.1] at h1
       have h1' := congrArg (fun x : PermMod 8 => Multiplicative.toAdd x 1) h1
-      simp only [toAdd_eset, toAdd_mul, Pi.add_apply, toAdd_allOnes, if_neg hS.2.2, hc.2] at h1'
+      simp only [toAdd_eset, toAdd_mul, Pi.add_apply, toAdd_allOnes, ite_eq_right hS.2.2, hc.2] at h1'
       exact absurd h1' (by decide)
   · intro y hy y' hy'
     obtain ⟨S, hS, rfl⟩ := Finset.mem_image.1 hy
@@ -115,7 +115,7 @@ theorem exists_D8_twenty : ∃ W : Finset D8, W.card = 20 ∧ (∀ y ∈ W, HasW
     rw [mem_Sfam] at hS hS'
     refine ⟨(eS S)⁻¹ * eS S', ?_, ?_⟩
     · rw [mem_core01, toAdd_inv_mul_coe, toAdd_inv_mul_coe, coe_eS hS.1, coe_eS hS'.1]
-      simp only [toAdd_eset, if_pos hS.2.1, if_pos hS'.2.1, if_neg hS.2.2, if_neg hS'.2.2]
+      simp only [toAdd_eset, ite_eq_left hS.2.1, ite_eq_left hS'.2.1, ite_eq_right hS.2.2, ite_eq_right hS'.2.2]
       exact ⟨by decide, by decide⟩
     · show (QuotientGroup.mk (eS S) : D8)⁻¹ * QuotientGroup.mk (eS S') =
         QuotientGroup.mk ((eS S)⁻¹ * eS S')

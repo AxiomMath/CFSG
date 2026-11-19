@@ -21,8 +21,8 @@ open Matrix CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial
 theorem burnsideF429b_c6_U5 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
     (hyp : HypF_4_4 .U5 2 f Gp M₁ M₂) (hf : 2 ≤ f) (_hev : ¬ Odd Gp.index) {T : Subgroup E}
     (hT : ChF.IsSylowOf 2 T (M₁ ⊓ M₂)) : burnsideF429_C6 .U5 f Gp M₁ M₂ T := by
-  haveI := hyp.finite
-  haveI := hyp.normal
+  have := hyp.finite
+  have := hyp.normal
   obtain ⟨K, _, hK, Ψ, hB, -, -⟩ := burnsideF429a_U5_setup5 hyp
   set S := pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) with hSdef
   set φ : hypPSU hK 2 1 →* E := Gp.subtype.comp Ψ.toMonoidHom with hφdef
@@ -88,7 +88,7 @@ theorem burnsideF429b_c6_U5 {f : ℕ} {E : Type} [Group E] {Gp M₁ M₂ : Subgr
       exact h.trans_lt hlt
   ·
     intro A hAT hAe hAS
-    obtain ⟨t, htA, htS⟩ := SetLike.not_le_iff_exists.1 hAS
+    obtain ⟨t, htA, htS⟩ := IsConcreteLE.not_le_iff_exists.1 hAS
     have hinvA : ∀ a ∈ A, a * a = 1 := fun a ha => by rw [← sq]; exact hAe.2 a ha
     have hcommA : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := isMulCommutative_iff_of_setLike.mp hAe.1
     have hA1 : Nat.card A ≤ 2 * Nat.card ↥(A ⊓ S) := by

@@ -21,7 +21,7 @@ theorem le_centralizer_of_perfect_of_isL2Quot [Finite G] {L Z : Subgroup G} (hL 
     (hf : 2 ≤ f) (hq : IsL2Quot f (oTwoQuot ↥L)) (hZcard : Nat.card Z ≤ 2 ^ f) :
     L ≤ Subgroup.centralizer (Z : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ2 : IsPGroup 2 ↥Z := fun z => ⟨1, by simpa using hZpow z⟩
   obtain ⟨d, hd⟩ := hZ2.exists_card_eq
   have hdf : d ≤ f :=
@@ -93,7 +93,7 @@ private theorem pow_eq_one_of_mem_center_of_isSpecialPGroup {p : ℕ} {P : Type*
 
 theorem isSpecialPow_radical_one_of_card {f : ℕ} (hK : Nat.card K = 2 ^ f) :
     IsSpecialPow 2 (2 ^ f) 2 ↥(parabolicRadical Tag.G2 K {i1}) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q := parabolicRadical Tag.G2 K {i1} with hQdef
   have hcQ : Nat.card ↥Q = (2 ^ f) ^ 5 := by
     rw [card_radical, hK]
@@ -128,7 +128,7 @@ theorem isSpecialPow_radical_one_of_card {f : ℕ} (hK : Nat.card K = 2 ^ f) :
       obtain ⟨w, hw, hwz⟩ := h1
       rwa [← Q.subtype_injective hwz]
   refine ⟨⟨hP, Or.inr ⟨hC, ?_, ?_⟩⟩, ?_, ?_⟩
-  · haveI : (Subgroup.center ↥Q).Normal := inferInstance
+  · have : (Subgroup.center ↥Q).Normal := inferInstance
     refine CFSG.Sporadic.Recognition.LyonsSims.frattini_eq_of_commutator_eq hP ?_ ?_
     · rw [← commutator_def]
       exact hC

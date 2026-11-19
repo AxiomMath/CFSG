@@ -159,7 +159,7 @@ theorem exists_conj_le_range_sublinePSU {f : ℕ} (hf : 2 ≤ f) (hcard : Nat.ca
     intro b hb
     obtain ⟨u, hu, rfl⟩ := hconjU z PB hz b (hPB hb)
     exact hfix z u hu
-  have hU2 : IsPGroup 2 U := hS₀ ▸ S₀.isPGroup'
+  have hU2 : IsPGroup 2 U := hS₀ ▸ S₀.isPGroup
   by_cases hpp : rho y α = rho z α
   · exfalso
     apply hAB

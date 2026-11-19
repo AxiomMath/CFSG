@@ -33,7 +33,7 @@ theorem uc22r899c3_not_dvd_normalizer_Sz {K S : Subgroup Γ}
     {n : ℕ} (hK : IsSz K n) {p q : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpn : p ∣ 2 ^ (2 * n) + 1) (hq : q.Prime) (hq2 : q ≠ 2) (hqn : q ∣ 2 ^ n - 1)
     (hS : IsSylowOf q S K) : ∀ y ∈ K, y ∈ normalizer (S : Set Γ) → orderOf y ≠ p := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨Q, rfl⟩ := hS
   intro y hyK hyN hord
   have hmem : ∀ s : K, s ∈ (Q : Subgroup K) ↔ (s : Γ) ∈ (Q : Subgroup K).map K.subtype :=
@@ -77,7 +77,7 @@ theorem uc22r899c3_centralizes_Sz {n m p q : ℕ}
     (hq : q.Prime) (hq2 : q ≠ 2) (hqm : q ∣ 2 ^ m - 1) (hS : IsSylowOf q S K) {d : Γ}
     (hdK : d ∈ normalizer (K : Set Γ)) (hdS : d ∈ normalizer (S : Set Γ)) (hdp : d ^ p = 1)
     {t : Γ} (htS : t ∈ S) (hto : orderOf t = q) : d * t = t * d := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨Q, rfl⟩ := hS
   have htK : t ∈ K := Subgroup.map_subtype_le _ htS
   have hmem : ∀ y : K, y ∈ (Q : Subgroup K) ↔ (y : Γ) ∈ (Q : Subgroup K).map K.subtype :=
@@ -112,8 +112,8 @@ theorem uc22r899c3_exists_centralizing_D_Sz
     (ht₁ : t₁ ∈ K₁) (ht₂ : t₂ ∈ K₂) (hto₁ : orderOf t₁ = q) (hto₂ : orderOf t₂ = q) :
     ∃ D : Subgroup Γ, IsElemAbelian p D ∧ Nat.card D = p ^ 2 ∧
       ∀ d ∈ D, d * t₁ = t₁ * d ∧ d * t₂ = t₂ * d := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hqn : q ∣ 2 ^ n - 1 :=
     hqm.trans (Nat.pow_sub_one_dvd_pow_sub_one 2 ⟨p, by rw [hn, mul_comm]⟩)
   obtain ⟨S₁, hS₁, ht₁S⟩ := uc22r8100b_exists_sylow_mem ht₁ hto₁
@@ -165,8 +165,8 @@ theorem uc22r899c3_exists_comm_lift_Sz {M K₁ K₂ A₀ : Subgroup G}
     (ha₁o : orderOf a₁ = q) (ha₂o : orderOf a₂ = q) :
     ∃ A : Subgroup G, A ≤ M ∧ IsElemAbelian p A ∧ Nat.card A = p ^ 2 ∧
       ∀ e ∈ zpowers a₁ ⊔ zpowers a₂, ∀ a ∈ A, e * a * e⁻¹ * a⁻¹ ∈ pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hPn : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hPn : (CFSG.pCore 2 ↥M).Normal := CFSG.pCore_normal
   have hK₁M : K₁ ≤ M := uc22p22a_le_of_isSubnormal h₁.1
   have hK₂M : K₂ ≤ M := uc22p22a_le_of_isSubnormal h₂.1
   have hdisj : Disjoint (A₀.subgroupOf M) (uc22p21cPi M).ker := by

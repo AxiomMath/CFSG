@@ -12,6 +12,7 @@ open scoped Matrix
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pow_apply_iter {V : Subgroup G} (θ : MulAut ↥V) (n : ℕ) (w : ↥V) :
     (θ ^ n) w = (⇑θ)^[n] w := by
   induction n generalizing w with
@@ -25,8 +26,8 @@ theorem eq_one_of_two_pow_centralizes {L V : Subgroup G} (horth : IsOrthCh5 L V 
     (θ : MulAut ↥V) {k : ℕ} (hθ : θ ^ 2 ^ k = 1)
     (hcomm : ∀ x ∈ autOn L V, x * θ = θ * x) : θ = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype ↥V := Fintype.ofFinite _
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype ↥V := Fintype.ofFinite _
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp hV2
   have hV1 : 1 < Nat.card ↥V := (Subgroup.one_lt_card_iff_ne_bot V).mpr hVne
   have hn1 : 1 ≤ n := by

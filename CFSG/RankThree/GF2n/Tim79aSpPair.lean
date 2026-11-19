@@ -13,7 +13,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G]
 
 theorem exists_isTransGroup_of_transvConclusionSp_two {K : Type} [Group K] {Δ : Set (Subgroup K)}
-    {f : ℕ} (hf : 1 ≤ f) (h : TransvConclusionSp K Δ f) {A : Subgroup K} (hA : A ∈ Δ) :
+    {f : ℕ} (_hf : 1 ≤ f) (h : TransvConclusionSp K Δ f) {A : Subgroup K} (hA : A ∈ Δ) :
     ∃ (n : ℕ) (Φ : StatedSp n (GaloisField 2 f) →* K) (a : Fin n ⊕ Fin n → GaloisField 2 f)
       (T : Subgroup (StatedSp n (GaloisField 2 f))),
       2 ≤ n ∧ Function.Bijective Φ ∧ a ≠ 0 ∧ CFSG.Timmesfeld.ARS.CaseM.IsTransGroup a T ∧

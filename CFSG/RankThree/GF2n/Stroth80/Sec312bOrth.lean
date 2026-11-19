@@ -28,7 +28,7 @@ private theorem orth_toGL_tv01 {K V : Type} [Field K] [AddCommGroup V] [Module K
   ext i j
   rw [toGL_entry]
   fin_cases i <;> fin_cases j <;>
-    simp [e0, e1, Module.Basis.repr_self, Matrix.transvection, Matrix.single_apply]
+    simp [e0, e1, Module.Basis.repr_self, Matrix.transvection]
 
 private theorem orth_toGL_tv10 {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     {W : Submodule K V} (b : Module.Basis (Fin 2) K W) (f : W ≃ₗ[K] W) (c : K)
@@ -39,7 +39,7 @@ private theorem orth_toGL_tv10 {K V : Type} [Field K] [AddCommGroup V] [Module K
   ext i j
   rw [toGL_entry]
   fin_cases i <;> fin_cases j <;>
-    simp [e0, e1, Module.Basis.repr_self, Matrix.transvection, Matrix.single_apply]
+    simp [e0, e1, Module.Basis.repr_self, Matrix.transvection]
 
 private theorem orth_exists_dual {K V : Type} [Field K] [AddCommGroup V] [Module K V]
     {e₁ e₂ : V} (hind : LinearIndependent K ![e₁, e₂]) (a₁ a₂ : K) :

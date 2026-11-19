@@ -13,7 +13,7 @@ open scoped BigOperators
 
 variable {X : Type*} [Finite X]
 
-@[expose] abbrev PeriodRoot (g : Perm X) (n : ℕ) := {x : X // minimalPeriod g x = n}
+abbrev PeriodRoot (g : Perm X) (n : ℕ) := {x : X // minimalPeriod g x = n}
 
 private theorem periodic (g : Perm X) (x : X) : x ∈ periodicPts g := by
   refine ⟨orderOf g, orderOf_pos g, ?_⟩

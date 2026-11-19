@@ -39,7 +39,7 @@ theorem isStronglyEmbeddedOrder_map (hL : OneComponent Y e v L) (hc : BaseConfig
       Sylow.coe_mapSurjective _ _
     have hne : (Ss : Subgroup (L ⧸ Subgroup.center L)) ≠ ⊥ :=
       Ss.ne_bot_of_dvd_card (even_iff_two_dvd.mp (hL.even_card_quotient hc))
-    obtain ⟨n, hn⟩ := Ss.isPGroup'.exists_card_eq
+    obtain ⟨n, hn⟩ := Ss.isPGroup.exists_card_eq
     have hn0 : n ≠ 0 := by
       rintro rfl
       exact hne (Subgroup.card_eq_one.mp (by rw [hn, pow_zero]))

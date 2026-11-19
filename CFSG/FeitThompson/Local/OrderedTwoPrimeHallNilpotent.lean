@@ -91,7 +91,7 @@ theorem exists_normal_sylow_of_isNilpotent_normal [Finite H] {r : ℕ} [Fact r.P
   obtain ⟨S⟩ : Nonempty (Sylow r ↥J) := inferInstance
   have hSchar : (↑S : Subgroup ↥J).Characteristic := S.characteristic_of_normal inferInstance
   refine ⟨Subgroup.map J.subtype (↑S : Subgroup ↥J), ConjAct.normal_of_characteristic_of_normal,
-    S.isPGroup'.map _, ?_⟩
+    S.isPGroup.map _, ?_⟩
   rw [Subgroup.card_subtype, S.card_eq_multiplicity,
     factorization_natCard_eq_of_not_dvd_index hidx]
 
@@ -190,7 +190,7 @@ theorem FTS_ordered_two_prime_hall_nilpotent
     intro S
     have hTle : Subgroup.map W.subtype (↑S : Subgroup ↥W) ≤ M :=
       (Subgroup.map_subtype_le _).trans hWM
-    have hTq : IsPGroup q ↥(Subgroup.map W.subtype (↑S : Subgroup ↥W)) := S.isPGroup'.map _
+    have hTq : IsPGroup q ↥(Subgroup.map W.subtype (↑S : Subgroup ↥W)) := S.isPGroup.map _
     have hTK := le_map_pComplCore_of_isPGroup_of_lt hq hpq hbound hTle hTq
     have hS : (↑S : Subgroup ↥W) =
         (Subgroup.map W.subtype (↑S : Subgroup ↥W)).subgroupOf W := by

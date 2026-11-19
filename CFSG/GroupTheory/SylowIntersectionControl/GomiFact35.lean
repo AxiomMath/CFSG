@@ -535,11 +535,11 @@ private theorem core_card_fixCQ_le {W : Type*} [CommGroup W] [Finite W] {K : Typ
     let S : AddSubgroup (Fin 2 → K) :=
       { carrier := {x | A₀.mulVec x = x}
         add_mem' := fun {x y} hx hy => by
-          simp only [Set.mem_setOf_eq, Matrix.mulVec_add] at hx hy ⊢
+          simp only [Set.mem_ofPred_eq, Matrix.mulVec_add] at hx hy ⊢
           rw [hx, hy]
         zero_mem' := by simp
         neg_mem' := fun {x} hx => by
-          simp only [Set.mem_setOf_eq, Matrix.mulVec_neg] at hx ⊢
+          simp only [Set.mem_ofPred_eq, Matrix.mulVec_neg] at hx ⊢
           rw [hx] }
     have hinj : Function.Injective (fun c : CQ => (⟨χ c, by
         obtain ⟨v, hv⟩ := U.mkQ_surjective (c : Additive W ⧸ U)

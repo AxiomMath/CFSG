@@ -152,9 +152,9 @@ theorem apply_of_not_mem_plane_right (t : ℕ) (δ : Fin 2) (S : Finset (Fin t))
   rw [hdb, mul_one] at h
   rw [h, Matrix.one_apply]
   by_cases hab : a = b
-  · rw [if_pos hab, if_pos hab, hab]
+  · rw [ite_eq_left hab, ite_eq_left hab, hab]
     exact hdb
-  · rw [if_neg hab, if_neg hab]
+  · rw [ite_eq_right hab, ite_eq_right hab]
 
 omit [Finite K] in
 theorem apply_of_not_mem_plane_left (t : ℕ) (δ : Fin 2) (S : Finset (Fin t))
@@ -262,16 +262,16 @@ theorem orthExt_mul_one_sub (t : ℕ) (δ : Fin 2) (S : Finset (Fin t))
     rw [hdb, mul_zero]
     by_cases hab : a = b
     · subst hab
-      rw [if_pos rfl, show d a = 0 from hdb]
-    · rw [if_neg hab]
+      rw [ite_eq_left rfl, show d a = 0 from hdb]
+    · rw [ite_eq_right hab]
   · have hdb : d b = 1 := by simp [d, hb]
     rw [hdb, mul_one]
     have hnot : b ∉ Set.range (embSum t δ S) := fun h => hb ((mem_range_embSum_iff b).1 h)
     rw [orthExt_apply_not_mem t δ S A (fun hh => hnot hh.2)]
     by_cases hab : a = b
     · subst hab
-      rw [if_pos rfl, show d a = 1 from hdb, Matrix.one_apply_eq]
-    · rw [if_neg hab, Matrix.one_apply_ne hab]
+      rw [ite_eq_left rfl, show d a = 1 from hdb, Matrix.one_apply_eq]
+    · rw [ite_eq_right hab, Matrix.one_apply_ne hab]
 
 end CharTwo
 

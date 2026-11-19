@@ -62,7 +62,7 @@ theorem burnsideF48t_max_of_stab {X P R : Subgroup (Equiv.Perm (Fin N))} {pt : F
     (hcov : ∀ g ∈ X, g pt ≠ pt → ∃ q ∈ P, ∃ h ∈ X, q (h pt) = g pt ∧
       ∀ Q : Subgroup (Equiv.Perm (Fin N)), P ≤ Q → h ∈ Q → Q ≤ X → Q = X)
     (hlt : P < R) (hRX : R ≤ X) : R = X := by
-  obtain ⟨g, hgR, hgP⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨g, hgR, hgP⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hgX := hRX hgR
   have hgpt : g pt ≠ pt := fun he => hgP (by
     rw [hP]

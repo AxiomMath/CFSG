@@ -25,10 +25,10 @@ theorem indClassFun_apply_eq_zero_of_forall_not_isConj {G : Type*} [Group G] [Fi
   rw [indClassFun_apply]
   refine mul_eq_zero_of_right _ (Finset.sum_eq_zero fun t _ => ?_)
   by_cases hmem : t⁻¹ * x * t ∈ W
-  · rw [dif_pos hmem]
+  · rw [dite_eq_left hmem]
     refine hθ ⟨_, hmem⟩ fun hA => hx _ hA (isConj_iff.2 ⟨t⁻¹, ?_⟩)
     group
-  · rw [dif_neg hmem]
+  · rw [dite_eq_right hmem]
 
 theorem not_isIntegral_of_natCast_mul_add_one_eq_zero {q : ℕ} (hq : q.Prime) {z : ℂ}
     (hz : (q : ℂ) * z + 1 = 0) : ¬ IsIntegral ℤ z := by
@@ -139,14 +139,14 @@ theorem prodCharEtaColSum_apply_eq (hW : IsCyclicTIPair W W1 W2)
       = (t - 1) + (if i = principalIrr ↥W1 then 1 else 0) := by
     intro i
     by_cases hip : i = principalIrr ↥W1
-    · subst hip; rw [if_pos rfl]; ring
-    · rw [if_neg hip, add_zero, hW.prodCharEta_apply_eq_of_forall_not_isConj hσ i j₀ hnc,
+    · subst hip; rw [ite_eq_left rfl]; ring
+    · rw [ite_eq_right hip, add_zero, hW.prodCharEta_apply_eq_of_forall_not_isConj hσ i j₀ hnc,
         hW.prodCharEta_axis_apply_eq_zero hσ hq hip hi₀ h0, ht]
       ring
   rw [hW.prodCharEtaColSum_eq_sum, Finset.sum_apply,
     Finset.sum_congr rfl fun i _ => hentry i,
     Finset.sum_add_distrib, Finset.sum_const, Finset.sum_ite_eq' Finset.univ (principalIrr ↥W1)
-      (fun _ => (1 : ℂ)), if_pos (Finset.mem_univ _), Finset.card_univ, hi₀val,
+      (fun _ => (1 : ℂ)), ite_eq_left (Finset.mem_univ _), Finset.card_univ, hi₀val,
     show Fintype.card (Irr ↥W1) = Nat.card ↥W1 by
       rw [← Nat.card_eq_fintype_card, hW.card_Irr_left]]
   ring

@@ -19,13 +19,14 @@ section Heis
 variable {K : Type} [Field K] [Finite K] {W : Type*} [AddCommGroup W] [Module K W]
   [FiniteDimensional K W] {Q : QuadraticForm K W}
 
+omit [Finite K] in
 private theorem two_ne_zero_of_char_three [CharP K 3] : (2 : K) ≠ 0 := by
   intro h0
   have h3 : (3 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 3
   exact one_ne_zero (by linear_combination h3 - h0 : (1 : K) = 0)
 
 private theorem three_le_card_of_char_three [CharP K 3] : 3 ≤ Nat.card K := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨n, -, hn⟩ := FiniteField.card K 3
   rw [Nat.card_eq_fintype_card, hn]
   exact le_trans (by norm_num) (Nat.pow_le_pow_right (by norm_num) n.pos)
@@ -53,8 +54,8 @@ theorem orthBlockThree_heis [CharP K 3] (hQ : (polarBilin Q).Nondegenerate)
         (Submodule.smul_mem _ c he₂)
   · rintro ⟨_, s, t, c, rfl⟩
     exact ⟨1, Subtype.ext (by rw [pow_one, Subgroup.coe_pow, D.elt_pow_three]; rfl)⟩
-  · haveI : Finite W := Module.finite_of_finite K
-    haveI : Finite (W ≃ₗ[K] W) := Finite.of_injective (fun g : W ≃ₗ[K] W => (g : W → W))
+  · have : Finite W := Module.finite_of_finite K
+    have : Finite (W ≃ₗ[K] W) := Finite.of_injective (fun g : W ≃ₗ[K] W => (g : W → W))
       fun g₁ g₂ h => LinearEquiv.ext (congrFun h)
     have hinj : Function.Injective (fun st : K × K =>
         (⟨D.elt st.1 st.2 0, st.1, st.2, 0, rfl⟩ : D.heisGroupO)) := by
@@ -97,11 +98,13 @@ theorem orthBlockThree_heis [CharP K 3] (hQ : (polarBilin Q).Nondegenerate)
     rw [D.eq_eC_of_central hγ hcent]
     exact D.eC_sub_one_sq c
 
+omit [Finite K] [FiniteDimensional K W] in
 private theorem polar_eq_zero_of_mem_singular {S : Submodule K W} (hS : ∀ y ∈ S, Q y = 0)
     {x y : W} (hx : x ∈ S) (hy : y ∈ S) : polar Q x y = 0 := by
   rw [polar, hS _ (S.add_mem hx hy), hS x hx, hS y hy, sub_zero, sub_zero]
 
-theorem exists_orthHeisData (h2 : (2 : K) ≠ 0) (hQ : (polarBilin Q).Nondegenerate)
+omit [Finite K] in
+theorem exists_orthHeisData (_h2 : (2 : K) ≠ 0) (hQ : (polarBilin Q).Nondegenerate)
     (h5 : 5 ≤ finrank K W) (hS : ∃ S : Submodule K W, finrank K S = 2 ∧ ∀ y ∈ S, Q y = 0) :
     Nonempty (OrthHeisData Q) := by
   classical
@@ -130,7 +133,7 @@ theorem exists_orthHeisData (h2 : (2 : K) ≠ 0) (hQ : (polarBilin Q).Nondegener
     rw [Fintype.linearIndependent_iff] at hli
     have := hli ![-c, 1] (by
       rw [Fin.sum_univ_two]
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, one_smul]
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, one_smul]
       apply Subtype.ext
       simp only [Submodule.coe_add, Submodule.coe_smul, Submodule.coe_zero, neg_smul,
         Submodule.coe_neg]
@@ -202,16 +205,19 @@ open CFSG.ComponentClassification.CatalogueBOrthogonalFourSplit CFSG.LocalAnalys
 private noncomputable def slUp (a : K) : Matrix.SpecialLinearGroup (Fin 2) K :=
   ⟨!![1, a; 0, 1], by simp [Matrix.det_fin_two]⟩
 
+omit [Finite K] in
 private theorem slUp_add (a b : K) : slUp (a + b) = slUp a * slUp b := by
   ext i j
   change (!![1, a + b; 0, 1] : Matrix (Fin 2) (Fin 2) K) i j =
     (!![1, a; 0, 1] * !![1, b; 0, 1] : Matrix (Fin 2) (Fin 2) K) i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, add_comm]
 
+omit [Finite K] in
 private theorem slUp_zero : slUp (0 : K) = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [slUp]
 
+omit [Finite K] in
 theorem orthBlockThree_split_factors [CharP K 3] (hK9 : 9 ≤ Nat.card K)
     (ψ : W ≃ₗ[K] Matrix (Fin 2) (Fin 2) K)
     (e : TauCeti.QuadraticMap.orthogonalGroup Q ≃* DeterminantIsometries K)
@@ -379,7 +385,7 @@ theorem orthBlockThree_of_normal_quasisimple [CharP K 3] (hQ : (polarBilin Q).No
     have hK : ¬ (Nat.card K = 2 ∨ Nat.card K = 3) := fun h => hnexc (Or.inr ⟨hs, h⟩)
     push Not at hK
     have hK9 : 9 ≤ Nat.card K := by
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       obtain ⟨n, -, hn⟩ := FiniteField.card K 3
       have hn' : Nat.card K = 3 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
       have hn2 : 2 ≤ (n : ℕ) := by
@@ -390,8 +396,8 @@ theorem orthBlockThree_of_normal_quasisimple [CharP K 3] (hQ : (polarBilin Q).No
         _ ≤ 3 ^ (n : ℕ) := Nat.pow_le_pow_right (by norm_num) hn2
     obtain ⟨ψ, e, -, he, hsup, hLq', hRq', hLn', hRn', -, -, -⟩ :=
       orthogonal_split_four_derived hK.1 hK.2 Q hQ hs.1 hs.2
-    haveI : Finite W := Module.finite_of_finite K
-    haveI : Finite (W ≃ₗ[K] W) := Finite.of_injective (fun g : W ≃ₗ[K] W => (g : W → W))
+    have : Finite W := Module.finite_of_finite K
+    have : Finite (W ≃ₗ[K] W) := Finite.of_injective (fun g : W ≃ₗ[K] W => (g : W → W))
       fun g₁ g₂ h => LinearEquiv.ext (congrFun h)
     set Lf := (determinantLeftFactor K).map e.symm.toMonoidHom with hLf
     set Rf := (determinantRightFactor K).map e.symm.toMonoidHom with hRf

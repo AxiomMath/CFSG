@@ -150,7 +150,7 @@ theorem card_le_of_isElemAbelian_E6_two (hK : Nat.card K = 2)
     have := (Nat.pow_lt_pow_iff_right (by norm_num : 1 < 3)).mp hlt
     omega
   obtain ⟨P, hEP⟩ := hE3.exists_le_sylow
-  obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨j, hj⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hj6 : j ≤ 6 := by
     by_contra h
     push Not at h

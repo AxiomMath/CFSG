@@ -24,7 +24,7 @@ theorem p65_primeCore_le_of_rank_three {p : ℕ} {P : Sylow p G} {M : Subgroup G
     (hrank : 3 ≤ Open.pRank p H) (hBQ : zpowers x ⊔ zpowers z ≤ Q) :
     rankThreePrimeCore p H ≤ M := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   obtain ⟨-, hHO, hOp⟩ := CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec p H
   have hpl := hS.plane hx hz
   have hBP : zpowers x ⊔ zpowers z ≤ (P : Subgroup G) := hpl.isIsolatedPlane.1
@@ -60,7 +60,7 @@ private theorem p65r3_normalizer_zpowers_le (hS : Sit G p P M) {y : G} (hyM : y 
     (hEc : Nat.card E = p ^ 3) (hEy : E ≤ centralizer ({y} : Set G)) :
     normalizer ((zpowers y : Subgroup G) : Set G) ≤ M := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hE3 : 3 ≤ Open.pRank p E := p65r3_le_pRank hprime le_rfl hE hEc
   have hCM : centralizer ({y} : Set G) ≤ M :=
     hS.centralizer_le_of_pRank hyM hyo
@@ -78,7 +78,7 @@ private theorem p65r3_normalizer_le_of_le_elem (hS : Sit G p P M) {E S : Subgrou
     (hEM : E ≤ M) (hEa : IsElemAbelian p E) (hE3 : Nat.card E = p ^ 3) (hSE : S ≤ E)
     (hS1 : 1 ≤ Open.pRank p S) : normalizer (S : Set G) ≤ M := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hSp : IsPGroup p S := (elementary_isPGroup p E hEa).to_le hSE
   have hSa : IsElemAbelian p S := hEa.mono hSE
   by_cases h2 : 2 ≤ Open.pRank p S
@@ -120,7 +120,7 @@ private theorem p65r3_exists_mem_normalizer_not_mem {q : ℕ} [Fact q.Prime] {Q 
 
 private theorem p65r3_coprime_two_mul {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) (hfp : f ≠ p)
     (hp : p.Prime) {E : Subgroup G} (hE : IsPGroup f E) : Nat.Coprime (Nat.card E) (2 * p) := by
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   obtain ⟨k, hk⟩ := hE.exists_card_eq
   rw [hk]
   exact Nat.Coprime.pow_left k (Nat.Coprime.mul_right
@@ -129,7 +129,7 @@ private theorem p65r3_coprime_two_mul {f : ℕ} (hf : f.Prime) (hf2 : f ≠ 2) (
 private theorem p65r3_normalizer_ne_top (hS : Sit G p P M) (hx : SmallRankPoint P M x)
     {W : Subgroup G} (hW1 : W ≠ ⊥) (hWM : W ≤ M) : normalizer (W : Set G) ≠ ⊤ := by
   intro htop
-  haveI := hS.simple
+  have := hS.simple
   have hnormal : W.Normal := normalizer_eq_top_iff.mp htop
   rcases hnormal.eq_bot_or_eq_top with hbot | hW
   · exact hW1 hbot
@@ -186,7 +186,7 @@ theorem p65_rank_three_enlargeAt (hK : KFactP65RankThreeAt G) (hS : Sit G p P M)
       E ≤ rankThreePrimeCore p (normalizer (F : Set G)) ∧
       rankThreePrimeCore p (normalizer (F : Set G)) ≤ M := by
   have hprime := hS.prime
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   have hpl := hS.plane hx hz
   have hB3 : IsPGroup p (zpowers x ⊔ zpowers z : Subgroup G) :=
     IsPGroup.of_card (n := 2) hpl.card_eq
@@ -244,7 +244,7 @@ private theorem p65r3_false_of_normal_index (hS : Sit G p P M) {H N Q : Subgroup
     (hNn : (N.subgroupOf H).Normal) (hNp : (N.subgroupOf H).index = p) (hQH : Q ≤ H)
     (hQM : Q ≤ M) (hQidx : ¬ p ∣ (Q.subgroupOf H).index) : False := by
   have hprime := hS.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   obtain ⟨hDM, hMD, hDp⟩ := CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec p M
   have := hNn
   have hDn : ((rankThreePrimeCore p M).subgroupOf M).Normal :=
@@ -291,7 +291,7 @@ private theorem p65r3_false_of_normal_index (hS : Sit G p P M) {H N Q : Subgroup
   have hker : φ.ker.index = p := by
     rw [index_ker, MonoidHom.range_eq_top.2 hφsurj, card_top]
     exact hNp
-  haveI := φ.normal_ker
+  have := φ.normal_ker
   have hpq : IsPGroup p (↥M ⧸ φ.ker) := IsPGroup.of_card (n := 1) (by
     rw [← Subgroup.index, hker, pow_one])
   have htop := hS.eq_top_of_isPGroup_quotient φ.ker hpq

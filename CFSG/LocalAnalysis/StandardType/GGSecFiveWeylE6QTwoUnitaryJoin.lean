@@ -21,7 +21,7 @@ private theorem e6QTwoModelData {Bs : Subgroup G} (hBs : IsElemAbelian 3 Bs)
     (h720 : 720 ≤ Nat.card A₁) :
     ∃ (V : Type) (_ : AddCommGroup V) (_ : Module (ZMod 3) V) (_ : Finite V)
       (h : Fin 6 → V) (α : Fin 6 → Dual (ZMod 3) V) (hα : ∀ i, α i (h i) = 2)
-      (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMod 3))
+      (_hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMod 3))
       (B : LinearMap.BilinForm (ZMod 3) V) (ι : Additive ↥Bs ≃+ V),
       Nat.card V = 3 ^ 5 ∧ (∀ i v, B (h i) v = α i v) ∧
         ι (Additive.ofMul b) ≠ 0 ∧ B (ι (Additive.ofMul b)) (ι (Additive.ofMul b)) = 2 ∧
@@ -32,16 +32,16 @@ private theorem e6QTwoModelData {Bs : Subgroup G} (hBs : IsElemAbelian 3 Bs)
           (MulAction.stabilizer (E6QTwo.e6Weyl hα) (ι (Additive.ofMul b))).map
             (E6QTwo.e6Weyl hα).subtype := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨V, hVadd, hVmod, ⟨ι⟩⟩ := exists_ggLinData (p := 3) hBs
-  letI := hVadd
-  letI := hVmod
+  let := hVadd
+  let := hVmod
   have hVcard : Nat.card V = 3 ^ 5 := by
     rw [← card_eq_of_ggLin ι]
     exact hcard
-  haveI hVfin : Finite V := Nat.finite_of_card_ne_zero (by rw [hVcard]; norm_num)
-  obtain ⟨e, h, α, hα, he, hP⟩ := E6QTwo.exists_cartan_pairing_E6 hNT hW hA ι
-  obtain ⟨B, hB⟩ := E6QTwo.exists_bilinForm hP hVcard
+  have hVfin : Finite V := Nat.finite_of_card_ne_zero (by rw [hVcard]; norm_num)
+  obtain ⟨e, h, α, hα, he, _hP⟩ := E6QTwo.exists_cartan_pairing_E6 hNT hW hA ι
+  obtain ⟨B, hB⟩ := E6QTwo.exists_bilinForm _hP hVcard
   have hmapA : A.map (ggLin (p := 3) ι) = E6QTwo.e6Weyl hα :=
     E6QTwo.map_ggLin_eq_e6Weyl ι e hα he
   have hE6card : Nat.card (E6QTwo.e6Weyl hα) = 51840 := by
@@ -73,7 +73,7 @@ private theorem e6QTwoModelData {Bs : Subgroup G} (hBs : IsElemAbelian 3 Bs)
   have hge : 720 ≤
       Nat.card (MulAction.stabilizer (E6QTwo.e6Weyl hα) (ι (Additive.ofMul b))) :=
     le_trans h720 hcardle
-  have hcases := E6QTwo.stabilizer_cases hP hVcard hB hα hE6card hbv
+  have hcases := E6QTwo.stabilizer_cases _hP hVcard hB hα hE6card hbv
   have hstabc : Nat.card (MulAction.stabilizer (E6QTwo.e6Weyl hα) (ι (Additive.ofMul b))) =
       720 := by
     rcases hcases with ⟨-, h1⟩ | ⟨-, h1⟩ | ⟨-, h1⟩
@@ -92,7 +92,7 @@ private theorem e6QTwoModelData {Bs : Subgroup G} (hBs : IsElemAbelian 3 Bs)
     rw [Subgroup.card_map_of_injective (E6QTwo.e6Weyl hα).subtype_injective,
       Subgroup.card_map_of_injective (ggLin_injective ι), hstabc]
     exact h720
-  exact ⟨V, hVadd, hVmod, hVfin, h, α, hα, hP, B, ι, hVcard, hB, hbv, hBvv, hE6card,
+  exact ⟨V, hVadd, hVmod, hVfin, h, α, hα, _hP, B, ι, hVcard, hB, hbv, hBvv, hE6card,
     hstabc, hmapA, hmapA₁eq⟩
 
 theorem E6QTwo.eq_or_forall_apply_eq_of_le {Bs : Subgroup G} (hBs : IsElemAbelian 3 Bs)
@@ -105,9 +105,9 @@ theorem E6QTwo.eq_or_forall_apply_eq_of_le {Bs : Subgroup G} (hBs : IsElemAbelia
   classical
   obtain ⟨V, hVadd, hVmod, hVfin, h, α, hα, hP, B, ι, hVcard, hB, hbv, hBvv, hE6card,
     hstabc, hmapA, hmapA₁⟩ := e6QTwoModelData hBs hNT hcard hWcard hW hA hb hA₁ hfix h720
-  letI := hVadd
-  letI := hVmod
-  letI := hVfin
+  let := hVadd
+  let := hVmod
+  let := hVfin
   have hHle : H.map (ggLin (p := 3) ι) ≤ E6QTwo.e6Weyl hα := by
     rw [← hmapA]
     exact Subgroup.map_mono hHA
@@ -160,9 +160,9 @@ theorem E6QTwo.exists_mem_apply_ne_of_le {Bs : Subgroup G} (hBs : IsElemAbelian 
   classical
   obtain ⟨V, hVadd, hVmod, hVfin, h, α, hα, hP, B, ι, hVcard, hB, hbv, hBvv, hE6card,
     hstabc, hmapA, hmapA₁⟩ := e6QTwoModelData hBs hNT hcard hWcard hW hA hb hA₁ hfix h720
-  letI := hVadd
-  letI := hVmod
-  letI := hVfin
+  let := hVadd
+  let := hVmod
+  let := hVfin
   obtain ⟨g, hg, hgv, hgv'⟩ := E6QTwo.exists_mem_e6Weyl_apply_ne hP hVcard hB hα hBvv
   have hgA : g ∈ A.map (ggLin (p := 3) ι) := by
     rw [hmapA]
@@ -205,8 +205,8 @@ theorem GGSecFiveRouteCfg.exists_sup_eq_of_twA5
     GGSecFiveE6QTwoCfg.card_bstar_eq_of_twA5 hT hC hlab'
   obtain ⟨hperf, K, hfieldK, hfiniteK, θ, hK4, hBsN, hI⟩ :=
     exists_unitaryDatum_of_innerDiagOnLabel_twA5 hlab'
-  letI := hfieldK
-  letI := hfiniteK
+  let := hfieldK
+  let := hfiniteK
   have hBL : Bs ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x :=
     inf_centralizer_eq_zpowers_of_elemAbelian Nat.prime_three hBs hxB hx1 hLx
       (fun S hSL hSp => hcyc S hSp hSL)

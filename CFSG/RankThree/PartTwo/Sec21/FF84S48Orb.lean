@@ -13,15 +13,18 @@ variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B K : Subgroup G}
 @[expose] def S47Swap (b : G) (B : Subgroup G) : Prop :=
   ∀ U ∈ PiStar (Cen b) B 2, ∃ g ∈ Nor B ⊓ Cen b, conjBy g U ≠ U
 
+omit [Finite G] in
 theorem conjBy_mul (y z : G) (H : Subgroup G) : conjBy (y * z) H = conjBy y (conjBy z H) := by
   ext x
   rw [mem_conjBy_iff, mem_conjBy_iff, mem_conjBy_iff]
   simp [mul_assoc]
 
+omit [Finite G] in
 theorem conjBy_inj {y : G} {A A' : Subgroup G} (h : conjBy y A = conjBy y A') : A = A' := by
   have := congrArg (conjBy y⁻¹) h
   rwa [conjBy_inv_conjBy, conjBy_inv_conjBy] at this
 
+omit [Finite G] in
 theorem mem_nor_iff_conjBy {g : G} {M : Subgroup G} : g ∈ Nor M ↔ conjBy g M = M := by
   constructor
   · intro h
@@ -36,6 +39,7 @@ theorem mem_nor_iff_conjBy {g : G} {M : Subgroup G} : g ∈ Nor M ↔ conjBy g M
     have e : g⁻¹ * (g * y * g⁻¹) * g = y := by group
     rw [← h2 (g * y * g⁻¹), mem_conjBy_iff, e]
 
+omit [Finite G] in
 theorem nor_sup_pt {H K : Subgroup G} {g : G} (hH : g ∈ Nor H) (hK : g ∈ Nor K) :
     g ∈ Nor (H ⊔ K) := by
   rw [mem_nor_iff_conjBy] at hH hK ⊢
@@ -43,9 +47,11 @@ theorem nor_sup_pt {H K : Subgroup G} {g : G} (hH : g ∈ Nor H) (hK : g ∈ Nor
     unfold conjBy; rw [Subgroup.map_sup]
   rw [this, hH, hK]
 
+omit [Finite G] in
 theorem mem_nor_top (g : G) : g ∈ Nor (⊤ : Subgroup G) := by
   rw [Subgroup.mem_normalizer_iff]; intro h; simp
 
+omit [Finite G] in
 theorem le_nor_of_comm {T V : Subgroup G} (hT : ∀ x ∈ T, ∀ y ∈ T, x * y = y * x) (hVT : V ≤ T) :
     T ≤ Nor V := by
   intro t ht
@@ -90,7 +96,7 @@ theorem orbit_key {U : Subgroup G} (hU : U ∈ PiStar (Cen b) B 2) {x : G} (hx :
   have hTEA : EA2 T := (EA2.of_isElemAb hEA6).conj x
   set V := T ⊓ Cen b with hV
   have hBT : B ≤ Nor T := hTPi.2.2.1
-  have hBV : B ≤ Nor V := B_nor_inf_cen c hU (mem_b c.sec) hBT
+  have hBV : B ≤ Nor V := B_nor_inf_cen c (mem_b c.sec) hBT
   have hVconj : V = conjBy x (S ⊓ Cen (x⁻¹ * b * x)) := by
     rw [conjBy_inf, conjBy_cen]
     have : x * (x⁻¹ * b * x) * x⁻¹ = b := by group
@@ -114,7 +120,7 @@ theorem orbit_key {U : Subgroup G} (hU : U ∈ PiStar (Cen b) B 2) {x : G} (hx :
   have hsup2 : IsPGroup 2 (T ⊔ Op 2 (Nor V) : Subgroup G) :=
     hTEA.isPGroup.to_sup_of_normal_right' (op2_isPGroup _) hTSV
   have hBsup : B ≤ Nor (T ⊔ Op 2 (Nor V)) := fun g hg =>
-    nor_sup_pt (hBT hg) (B_le_nor_S c hVPi hg)
+    nor_sup_pt (hBT hg) (B_le_nor_S hVPi hg)
   have h1 : T ⊔ Op 2 (Nor V) = T := hTPi.2.2.2 _ le_sup_left le_top hsup2 hBsup
   have h2 : Op 2 (Nor V) ≤ T := sup_eq_left.1 h1
   exact hSVPi.2.2.2 T h2 le_top hTEA.isPGroup hBT
@@ -248,7 +254,7 @@ theorem S48_conj :
     · exact k1
     · exfalso
       have h3 : conjBy (n * (n * n)) (Op 2 (Nor U)) = Op 2 (Nor U) :=
-        mem_nor_iff_conjBy.1 (B_le_nor_S c hU hn3B)
+        mem_nor_iff_conjBy.1 (B_le_nor_S hU hn3B)
       rw [conjBy_mul, conjBy_mul, k1, k2, k1] at h3
       exact S_inj c hU' hU hne h3
   have hnH : n ∈ Nor (Op 2 (Nor U)) ⊓ Nor B := ⟨hnS, hn⟩

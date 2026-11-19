@@ -32,6 +32,7 @@ theorem exists_noncomm_V₂_U (s : Setup521 G T M L V H B D D₃ Z₁ n) (h5114 
   rw [← h1] at h2
   simp at h2
 
+omit [Finite G] in
 theorem conj_Z₁_eq_id {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m)
     (hNab : ∀ a ∈ N, ∀ b ∈ N, a * b = b * a) {z : G} (hzN : z ∈ N)
     {h : Subgroup.normalizer (N : Set G)} (hZ : (h : G) = 1 ∨ (h : G) = z) (w : Fin 2 → D.K) :
@@ -56,12 +57,12 @@ theorem false_of_n4 (s : Setup521 G T M L V H B D D₃ Z₁ n) (h5114 : Stmt5_1_
     (hU : ¬ IsMulCommutative ↥(conjClosure (conjClosure Z₁ D₃) (Subgroup.centralizer (Z₁ : Set G))))
     {N : Subgroup G} (D : NatL2Data L N 4) (hNab : ∀ a ∈ N, ∀ b ∈ N, a * b = b * a)
     {z : G} (hz : z ∈ Z₁) (hz1 : z ≠ 1) (hzN : z ∈ N)
-    (hLN : L ≤ Subgroup.normalizer (N : Set G))
+    (_hLN : L ≤ Subgroup.normalizer (N : Set G))
     (hTN : T ≤ Subgroup.normalizer (N : Set G))
     (hV2 : ∀ v ∈ conjClosure Z₁ D₃, ∃ hv : v ∈ N, ∃ μ : D.K, μ ^ 4 = μ ∧
       coordN D v hv = μ • coordN D z hzN) : False := by
   have hfin : Nat.card D.K = 16 := by rw [D.card]; norm_num
-  haveI : CharP D.K 2 := CFSG.ProperTwoGeneratedCore.LocalCriterionSquareField.char_two_of_card D.card
+  have : CharP D.K 2 := CFSG.ProperTwoGeneratedCore.LocalCriterionSquareField.char_two_of_card D.card
   obtain ⟨u, hu, v, hv, huv⟩ := exists_noncomm_V₂_U s h5114 hF hU
   have huT : u ∈ T := s.U_le_T h5114 hF hu
   have huN : u ∈ Subgroup.normalizer (N : Set G) := hTN huT

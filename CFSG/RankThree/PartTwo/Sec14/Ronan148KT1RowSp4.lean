@@ -379,12 +379,12 @@ theorem sp4R148Two_bot {F : Type} [Field F] [Finite F] [CharP F 2]
         exact hdY
       have hpf : (Nat.card Y).primeFactors.card ≤ 2 :=
         primeFactors_card_le_two_of_dvd Nat.prime_two (by norm_num) h80
-      haveI := subsingleton_of_isPerfect_of_card_primeFactors hpf
+      have := subsingleton_of_isPerfect_of_card_primeFactors hpf
       exact Subgroup.eq_bot_of_subsingleton _
 
 theorem sp4R148_outer_solvable {S K : Type} [Group S] [Field K] [Finite K]
     (e : S ≃* StatedProj (StatedSp 2 K)) : Group.IsSolvable (Outer S) := by
-  haveI : Group.IsSolvable (Outer (StatedProj (StatedSp 2 K))) :=
+  have : Group.IsSolvable (Outer (StatedProj (StatedSp 2 K))) :=
     (CFSG.ComponentClassification.CatalogueBSymplecticTwo.symplectic_two_schreier K).2
   exact CFSG.ComponentClassification.OuterAutomorphisms.solvable_of_equiv e.symm
 
@@ -407,9 +407,9 @@ theorem rowOf143_psp4_prime (p : ℕ) [Fact p.Prime] (hp : 3 < p) :
   exact sp4R148_bot_of_mulEquiv e (sp4R148Odd_bot hp hF h3P) β hβ (Sec4.autFix β) Y
     (fun z => Sec4.mem_autFix) hYfix hYsub hYperf hY3
 
-theorem rowOf143_sp4_two (n : ℕ) (hn : 1 ≤ n) :
+theorem rowOf143_sp4_two (n : ℕ) (_hn : 1 ≤ n) :
     RowOf143 (projSp 2 (GaloisField 2 n)) := by
-  clear hn
+  clear _hn
   unfold RowOf143
   intro S _ _ hS hnc hφ h3
   obtain ⟨φ⟩ := hφ

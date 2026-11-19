@@ -26,12 +26,12 @@ theorem sec35_exists_a_of_JL5 (hJ5 : FF79_JL5) (h : FF79Sec34In b J B A P D) :
   refine ⟨x, hxR, ?_, hxL⟩
   have h1 := h.elemB0.1
   have hx3 : x ^ 3 = 1 := by
-    haveI := h1
+    have := h1
     exact elemPow_eq_one_of_isElementaryAbelian x hxR
   exact orderOf_eq_prime hx3 hx1
 
 theorem sec35_exists_a
-    (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D) :
+    (_hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D) :
     ∃ a ∈ B ⊓ J, orderOf a = 3 ∧ IsLnq 2 2 2 (Lay (J ⊓ Cen a)) :=
   sec35_exists_a_of_JL5 ff79_JL5_holds h
 

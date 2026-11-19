@@ -46,7 +46,7 @@ theorem burnsideJ4NP_verdictW_of_false {W₀ : Subgroup J}
 
 theorem burnsideJ4NP_verdictW_F {W₀ : Subgroup J} {d : J}
     (hF : burnsideJ4NP_F.map (MulAut.conj d).toMonoidHom ≤ W₀) : burnsideJ4NP_VerdictW W₀ :=
-  fun A₀ hA R _ c hAZ hWA => burnsideJ4NP_verdict_F (hA ▸ hF) R c hAZ hWA
+  fun _A₀ hA R _ c hAZ hWA => burnsideJ4NP_verdict_F (hA ▸ hF) R c hAZ hWA
 
 theorem burnsideJ4NP_verdictW_np
     {W₀ : Subgroup J} {g : J}

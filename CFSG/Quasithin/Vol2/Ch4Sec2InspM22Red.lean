@@ -110,8 +110,8 @@ noncomputable def quotCenterEquiv [Group.IsPerfect G] (N : Subgroup G) [N.Normal
 
 theorem isQuasisimple_quotient (hQ : CFSG.IsQuasisimple G) (N : Subgroup G) [N.Normal]
     (hN : N ≤ Subgroup.center G) : CFSG.IsQuasisimple (G ⧸ N) := by
-  haveI : Group.IsPerfect G := hQ.1
-  haveI : IsSimpleGroup (G ⧸ Subgroup.center G) := hQ.2.1
+  have : Group.IsPerfect G := hQ.1
+  have : IsSimpleGroup (G ⧸ Subgroup.center G) := hQ.2.1
   have hperf : Group.IsPerfect (G ⧸ N) := by
     refine ⟨?_⟩
     have h1 := Subgroup.map_commutator (⊤ : Subgroup G) (⊤ : Subgroup G) (QuotientGroup.mk' N)
@@ -372,7 +372,7 @@ theorem exists_invol_aut_of_component [Finite Yh] (Y : Subgroup Yh)
         (∀ x ∈ D, β x = x) ∧
         (D.subgroupOf (fixSub β)).IsSubnormal ∧ CFSG.IsQuasisimple ↥D ∧
         IsSporadic .M22 (↥D ⧸ Subgroup.center ↥D) := by
-  haveI : Group.IsPerfect ↥Y := hq.1
+  have : Group.IsPerfect ↥Y := hq.1
   have hC_le_Y : C ≤ Y := hC.trans inf_le_left
   have hCK : C.subgroupOf Y ≤ cenY Y hY r hr := by
     intro y hy
@@ -453,7 +453,7 @@ theorem exists_invol_aut_of_component [Finite Yh] (Y : Subgroup Yh)
         (C.subgroupOf Y)) := QuotientGroup.quotientKerEquivOfSurjective φ hφ
     exact CFSG.IsQuasisimple.of_mulEquiv e1.symm hQD
   ·
-    haveI : Group.IsPerfect ↥(C.subgroupOf Y) := hQCg.1
+    have : Group.IsPerfect ↥(C.subgroupOf Y) := hQCg.1
     let φ : ↥(C.subgroupOf Y) →* ↥(Subgroup.map (QuotientGroup.mk' (Subgroup.center ↥Y))
         (C.subgroupOf Y)) :=
       ((QuotientGroup.mk' (Subgroup.center ↥Y)).comp (C.subgroupOf Y).subtype).codRestrict

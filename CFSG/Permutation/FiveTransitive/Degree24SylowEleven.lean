@@ -76,7 +76,7 @@ theorem eleven_not_dvd_five_point_stabilizer_of_not_alternating
     exact hnotElevenSq (by
       norm_num at h121h ⊢
       exact h121h)
-  letI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   let S : Sylow 11 P := Sylow.nonempty.some
   have hPfactorization : (Nat.card P).factorization 11 = 2 := by
     have hge :
@@ -95,7 +95,7 @@ theorem eleven_not_dvd_five_point_stabilizer_of_not_alternating
   have hScard : Nat.card S = 121 := by
     rw [S.card_eq_multiplicity, hPfactorization]
     norm_num
-  letI : IsMulCommutative S :=
+  let : IsMulCommutative S :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq
       (p := 11) (by
         rw [hScard]
@@ -104,7 +104,7 @@ theorem eleven_not_dvd_five_point_stabilizer_of_not_alternating
     Finite.one_lt_card_iff_nontrivial.mp (by
       rw [hScard]
       norm_num)
-  letI : Nontrivial S := hSnontrivial
+  let : Nontrivial S := hSnontrivial
   have hfixedPointsNe :
       MulAction.fixedPoints S X ≠ Set.univ := by
     obtain ⟨u, hu⟩ := exists_ne (1 : S)

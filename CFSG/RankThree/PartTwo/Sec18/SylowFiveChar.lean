@@ -107,6 +107,7 @@ theorem eq_qOf_of_mem {X : Subgroup G} (hAX : A ≤ X) (hXQ : X ≤ qOf P B) {m 
   rw [inf_eq_right.mpr hAX, hD, hS.card_eq, hS.card_plane] at h
   exact Subgroup.eq_of_le_of_card_ge hXQ (by rw [h, hS.card_qOf])
 
+variable (P B) in
 def cSub (s : G) : Subgroup G where
   carrier := {x | x ∈ qOf P B ∧ ⁅x, s⁆ ∈ B}
   mul_mem' := by
@@ -114,7 +115,7 @@ def cSub (s : G) : Subgroup G where
     refine ⟨(qOf P B).mul_mem hx hy, ?_⟩
     have e : ⁅x * y, s⁆ = x * ⁅y, s⁆ * x⁻¹ * ⁅x, s⁆ := by
       simp only [commutatorElement_def]; group
-    rw [e, hS.commute_of_mem_qOf hx hys, mul_inv_cancel_right]
+    rw [e, CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commute_of_mem_qOf hx hys, mul_inv_cancel_right]
     exact B.mul_mem hys hxs
   one_mem' := ⟨(qOf P B).one_mem, by simp⟩
   inv_mem' := by
@@ -122,19 +123,22 @@ def cSub (s : G) : Subgroup G where
     refine ⟨(qOf P B).inv_mem hx, ?_⟩
     have e : ⁅x⁻¹, s⁆ = x⁻¹ * ⁅x, s⁆⁻¹ * x := by
       simp only [commutatorElement_def]; group
-    rw [e, mul_assoc, ← hS.commute_of_mem_qOf hx (B.inv_mem hxs), inv_mul_cancel_left]
+    rw [e, mul_assoc, ← CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commute_of_mem_qOf hx (B.inv_mem hxs), inv_mul_cancel_left]
     exact B.inv_mem hxs
 
-theorem mem_cSub {s x : G} : x ∈ hS.cSub s ↔ x ∈ qOf P B ∧ ⁅x, s⁆ ∈ B := Iff.rfl
+omit [Finite G] hS in
+theorem mem_cSub {s x : G} : x ∈ cSub P B s ↔ x ∈ qOf P B ∧ ⁅x, s⁆ ∈ B := Iff.rfl
 
-theorem le_cSub {s : G} (hs : s ∈ qOf P B) : A ≤ hS.cSub s := by
+omit [Finite G] in
+theorem le_cSub {s : G} (hs : s ∈ qOf P B) : A ≤ cSub P B s := by
   intro a ha
-  refine (hS.mem_cSub).mpr ⟨hS.le_qOf ha, ?_⟩
+  refine (CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.mem_cSub).mpr ⟨hS.le_qOf ha, ?_⟩
   obtain ⟨i, -, b, hb, rfl⟩ := Sec13.exists_pow_mul_of_mem hS.isElemAbelian hS.mem hS.eq_sup ha
   rw [← commutatorElement_inv, hS.commutator_pow_mul hs hb]
   exact B.inv_mem (B.pow_mem (hS.commutator_mem hs.1) i)
 
-theorem cSub_le {s : G} : hS.cSub s ≤ qOf P B := fun _ hx => ((hS.mem_cSub).mp hx).1
+omit [Finite G] hS in
+theorem cSub_le {s : G} : cSub P B s ≤ qOf P B := fun _ hx => ((CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.mem_cSub).mp hx).1
 
 theorem commutator_not_mem_plane (hna : ∃ x ∈ qOf P B, ∃ y ∈ qOf P B, ⁅x, y⁆ ∉ B)
     {q m : G} (hq : q ∈ qOf P B) (hm : m ∈ qOf P B) (hm1 : ⁅m, c⁆ ≠ 1)
@@ -142,17 +146,18 @@ theorem commutator_not_mem_plane (hna : ∃ x ∈ qOf P B, ∃ y ∈ qOf P B, �
   intro hqmB
   have hswap : ∀ {x y : G}, ⁅x, y⁆ ∈ B → ⁅y, x⁆ ∈ B := fun h => by
     rw [← commutatorElement_inv]; exact B.inv_mem h
-  have hCm : hS.cSub m = qOf P B := hS.eq_qOf_of_mem (hS.le_cSub hm) hS.cSub_le
-    ((hS.mem_cSub).mpr ⟨hm, by simp⟩) ((hS.mem_cSub).mpr ⟨hq, hqmB⟩) hm1 hqm
-  have hCq : hS.cSub q = qOf P B := hS.eq_qOf_of_mem (hS.le_cSub hq) hS.cSub_le
-    ((hS.mem_cSub).mpr ⟨hm, hswap hqmB⟩) ((hS.mem_cSub).mpr ⟨hq, by simp⟩) hm1 hqm
+  have hCm : cSub P B m = qOf P B := hS.eq_qOf_of_mem (hS.le_cSub hm) CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.cSub_le
+    ((CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.mem_cSub).mpr ⟨hm, by simp⟩) ((CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.mem_cSub).mpr ⟨hq, hqmB⟩) hm1 hqm
+  have hCq : cSub P B q = qOf P B := hS.eq_qOf_of_mem (hS.le_cSub hq) CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.cSub_le
+    ((CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.mem_cSub).mpr ⟨hm, hswap hqmB⟩) ((CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.mem_cSub).mpr ⟨hq, by simp⟩) hm1 hqm
   obtain ⟨x, hx, y, hy, hxy⟩ := hna
-  have hmy : ⁅m, y⁆ ∈ B := hswap ((hS.mem_cSub).mp (hCm.ge hy)).2
-  have hqy : ⁅q, y⁆ ∈ B := hswap ((hS.mem_cSub).mp (hCq.ge hy)).2
-  have hCy : hS.cSub y = qOf P B := hS.eq_qOf_of_mem (hS.le_cSub hy) hS.cSub_le
-    ((hS.mem_cSub).mpr ⟨hm, hmy⟩) ((hS.mem_cSub).mpr ⟨hq, hqy⟩) hm1 hqm
-  exact hxy ((hS.mem_cSub).mp (hCy.ge hx)).2
+  have hmy : ⁅m, y⁆ ∈ B := hswap ((CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.mem_cSub).mp (hCm.ge hy)).2
+  have hqy : ⁅q, y⁆ ∈ B := hswap ((CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.mem_cSub).mp (hCq.ge hy)).2
+  have hCy : cSub P B y = qOf P B := hS.eq_qOf_of_mem (hS.le_cSub hy) CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.cSub_le
+    ((CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.mem_cSub).mpr ⟨hm, hmy⟩) ((CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.mem_cSub).mpr ⟨hq, hqy⟩) hm1 hqm
+  exact hxy ((CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.mem_cSub).mp (hCy.ge hx)).2
 
+omit [Finite G] in
 theorem commutator_qOf_le : ⁅qOf P B, qOf P B⁆ ≤ A := by
   rw [Subgroup.commutator_le]
   intro x hx y hy
@@ -173,6 +178,7 @@ theorem commutator_qOf_eq (hna : ∃ x ∈ qOf P B, ∃ y ∈ qOf P B, ⁅x, y�
     (by rw [hS.card_eq, hS.card_plane]) fun h => ?_
   exact hxy (h.le (Subgroup.commutator_mem_commutator hx hy))
 
+omit [Finite G] in
 theorem inf_centralizer_eq {X : Subgroup G} (hAX : A ≤ X) (hXQ : X ≤ qOf P B) (hne : X ≠ A) :
     X ⊓ Subgroup.centralizer (X : Set G) = B := by
   obtain ⟨m, hmX, hmA⟩ : ∃ m ∈ X, m ∉ A := by
@@ -195,7 +201,7 @@ theorem inf_centralizer_eq {X : Subgroup G} (hAX : A ≤ X) (hXQ : X ≤ qOf P B
         (hS.pow_three_of_mem_plane (hS.commutator_mem (hXQ hmX).1)) h.symm) hm1
   · intro b hb
     exact ⟨hAX (hS.le hb), Subgroup.mem_centralizer_iff.mpr fun x hx =>
-      hS.commute_of_mem_qOf (hXQ hx) hb⟩
+      CFSG.RankThree.PartTwo.Sec18.SylowFive.CaseTwo.commute_of_mem_qOf (hXQ hx) hb⟩
 
 theorem characteristic : (A.subgroupOf P).Characteristic := by
   obtain ⟨b₀, b₁, hF⟩ := hS.exists_flag

@@ -52,7 +52,7 @@ theorem inf_eq_bot_of_stronglyEmbedded_normalizer [Finite Y] {A B : Subgroup Y}
     exact hAB (by rw [← hc, h2])
   have hodd := hSE.2.2 c⁻¹ hcN
   rw [inv_inv] at hodd
-  refine eq_bot_of_isPGroup_of_odd (SA.isPGroup'.to_inf_left) (B := _) ?_ hodd
+  refine eq_bot_of_isPGroup_of_odd (SA.isPGroup.to_inf_left) (B := _) ?_ hodd
   refine le_inf (inf_le_left.trans Subgroup.le_normalizer) ?_
   refine inf_le_right.trans ?_
   rw [hSB]

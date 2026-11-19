@@ -32,6 +32,7 @@ structure XData15 (V₀ U H Q₀ : Subgroup G) (p : ℕ) (X : Subgroup G) (v : G
     iHull15 V₀ U H ⊓ centralizer ({z} : Set G) = ⊥ ∧
     iHull15 V₀ U H ⊓ centralizer ({x} : Set G) ≤ centralizer ({v} : Set G)
 
+omit [Finite G] in
 private theorem b15_relIndex_sup_eq_relIndex_of_le_normalizer {A B : Subgroup G}
     (h : B ≤ normalizer (A : Set G)) : B.relIndex (A ⊔ B) = B.relIndex A := by
   unfold Subgroup.relIndex Subgroup.index
@@ -50,6 +51,7 @@ private theorem b15_relIndex_sup_eq_relIndex_of_le_normalizer {A B : Subgroup G}
     Subgroup.mem_subgroupOf]
   simpa using hb
 
+omit [Finite G] in
 private theorem b15_heisConfig_map {K : Type} [Group K] (f : K →* G)
     (hf : Function.Injective f) {p : ℕ} {P : Subgroup K} {v x z g : K}
     (h : HeisConfig p P v x z g) :
@@ -153,7 +155,7 @@ private theorem b15_W15ElevenX_pair {V H E Q : Subgroup G} {p : ℕ} [Fact p.Pri
     exact commutator_iSub_eq_inf_iSub hV hTI hE hEH hEnorm hOmH hVΩ hN hvV hvI
   refine ⟨P, v, hPQ, hPI, hPIQ, hvV, hvI, hvP, hPv, hcent, hcommI, ?_⟩
   intro hcard hextP hexpP
-  haveI : CFSG.IsExtraspecial p ↥P := hextP
+  have : CFSG.IsExtraspecial p ↥P := hextP
   obtain ⟨x, z, g, cfg⟩ := exists_heisConfig hp hcard hexpP hv hvP hPv
   have hT : ∀ y ∈ normalizer (iSub V H E : Set G),
       ∀ w ∈ ⁅iSub V H E, zpowers v⁆, w ≠ 1 →
@@ -168,7 +170,7 @@ private theorem b15_W15ElevenX_pair {V H E Q : Subgroup G} {p : ℕ} [Fact p.Pri
 
 private theorem b15_W15ElevenX_pair_in {V H E Q I : Subgroup G} {p : ℕ} [Fact p.Prime]
     (hp : p ≠ 2) (hV : IsElemAbelian 2 V) (hTI : IsTI V) (hVH : V ≤ H)
-    (hE : IsMulCommutative E) (hEH : E ≤ H) (hEnorm : (E.subgroupOf H).Normal)
+    (hE : IsMulCommutative E) (_hEH : E ≤ H) (hEnorm : (E.subgroupOf H).Normal)
     (hVΩ : V ∈ omegaSet V H E) (hI : I = conjClosure (V ⊓ pCoreOf 2 H) H)
     (hQK : Q ≤ conjClosure V H) (hIQ : I ≤ Q) (hQnorm : H ≤ normalizer (Q : Set G))
     (hKQV : conjClosure V H = Q ⊔ V) [(I.subgroupOf Q).Normal]
@@ -186,12 +188,12 @@ private theorem b15_W15ElevenX_pair_in {V H E Q I : Subgroup G} {p : ℕ} [Fact 
   have hKeq := kSub_subgroupOf_top hVH hEnorm hVΩ
   have hIeq : iSub (V.subgroupOf H) (⊤ : Subgroup ↥H) (E.subgroupOf H) = I.subgroupOf H := by
     rw [iSub_subgroupOf_top hVH hEnorm hVΩ, hI]
-  haveI hQhat : (Q.subgroupOf H).Normal :=
+  have hQhat : (Q.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQH).2 hQnorm
-  haveI hIhat : (I.subgroupOf H).Normal :=
+  have hIhat : (I.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hIH).2
       (by rw [hI]; exact le_normalizer_conjClosure _ _)
-  haveI : ((iSub (V.subgroupOf H) (⊤ : Subgroup ↥H) (E.subgroupOf H)).subgroupOf
+  have : ((iSub (V.subgroupOf H) (⊤ : Subgroup ↥H) (E.subgroupOf H)).subgroupOf
       (Q.subgroupOf H)).Normal := by
     rw [hIeq]
     infer_instance
@@ -216,7 +218,7 @@ private theorem b15_W15ElevenX_pair_in {V H E Q I : Subgroup G} {p : ℕ} [Fact 
       (isMulCommutative_subgroupOf hE) le_top (hEnorm.subgroupOf ⊤) (fun _ _ => le_top)
       (subgroupOf_mem_omegaSet hVΩ hVH)
       (by rw [hKeq]; exact fun x hx => hQK hx) (by rw [hIeq]; exact fun x hx => hIQ hx)
-      (by haveI := hQhat; infer_instance)
+      (by have := hQhat; infer_instance)
       (by rw [hKeq, hKQV, Subgroup.subgroupOf_sup hQH hVH]) hQp'.isNilpotent hQp'
       (by rw [hIeq, Subgroup.relIndex_subgroupOf hQH]; exact hodd)
       (by
@@ -252,7 +254,7 @@ private theorem b15_W15ElevenX_pair_in {V H E Q I : Subgroup G} {p : ℕ} [Fact 
     exact h1
   · intro hcard hext hexp
     have e := Subgroup.equivMapOfInjective P H.subtype hf
-    haveI := hext
+    have := hext
     obtain ⟨x, z, g, cfg, hz, hx⟩ := hheis ((Nat.card_congr e.toEquiv).trans hcard)
       (isExtraspecial_of_mulEquiv e) ((Monoid.exponent_eq_of_mulEquiv e).trans hexp)
     refine ⟨H.subtype x, H.subtype z, H.subtype g, b15_heisConfig_map H.subtype hf cfg, ?_, ?_⟩
@@ -288,8 +290,8 @@ private theorem b15_W15ElevenX_pair_in {V H E Q I : Subgroup G} {p : ℕ} [Fact 
 
 theorem Cfg1511.exists_xData {M V₀ V U S H P Q₀ : Subgroup G} {p : ℕ}
     (c : Cfg1511 M V₀ V U S H P Q₀ p) : ∃ (X : Subgroup G) (v : G), XData15 V₀ U H Q₀ p X v := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
-  haveI hNormI : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := c.normal_subgroupOf
+  have : Fact p.Prime := ⟨c.prime⟩
+  have hNormI : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := c.normal_subgroupOf
   have hIeq : iHull15 V₀ U H = conjClosure (V₀ ⊓ pCoreOf 2 H) H := by
     rw [iHull15, Hyp1510.inf_pCoreOf_eq c.w81 c.std c.cex c.hyp]
   obtain ⟨X, v, hXle, hXinf, hXsup, hvV, hvI, hvN, hXv, hXcent, hXcomm, hXheis⟩ :=
@@ -307,7 +309,7 @@ theorem Cfg1511.exists_xData {M V₀ V U S H P Q₀ : Subgroup G} {p : ℕ}
       rw [← hXsup, sup_comm]
     rw [h1, b15_relIndex_sup_eq_relIndex_of_le_normalizer hXnormN,
       ← Subgroup.inf_relIndex_right X (iHull15 V₀ U H), hXinf, Subgroup.relIndex_bot_left]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hI2 : IsPGroup 2 (iHull15 V₀ U H) :=
     c.hyp.sylow.isPGroup.to_le (c.hyp.iHull15_le_P c.cex)
   obtain ⟨k, hk⟩ := hI2.exists_card_eq
@@ -341,8 +343,8 @@ theorem Cfg1511.exists_xData {M V₀ V U S H P Q₀ : Subgroup G} {p : ℕ}
           _ = p * 1 := by ring
       exact mul_left_cancel₀ c.prime.ne_zero hp3
     exact c.prime.ne_one (Nat.dvd_one.mp (hp2 ▸ dvd_pow_self p (by norm_num : 2 ≠ 0)))
-  · haveI := hextI
-    haveI hExtX : CFSG.IsExtraspecial p ↥X := isExtraspecial_of_complement hXle hXinf hXsup
+  · have := hextI
+    have hExtX : CFSG.IsExtraspecial p ↥X := isExtraspecial_of_complement hXle hXinf hXsup
     have hXexp : Monoid.exponent ↥X = p :=
       (exponent_eq_of_complement hXle hXinf hXsup).trans hexpI
     exact hXheis hcardX hExtX hXexp
@@ -353,8 +355,10 @@ namespace XData15
 
 variable {M V₀ V U S H P Q₀ X : Subgroup G} {p : ℕ} {v : G}
 
+omit [Finite G] in
 theorem isPGroup (hX : XData15 V₀ U H Q₀ p X v) : IsPGroup p ↥X := hX.sylow.isPGroup
 
+omit [Finite G] in
 theorem le_kHull15 (hX : XData15 V₀ U H Q₀ p X v) : X ≤ kHull15 V₀ H := hX.sylow.le
 
 theorem le_H (c : Cfg1511 M V₀ V U S H P Q₀ p) (hX : XData15 V₀ U H Q₀ p X v) : X ≤ H :=

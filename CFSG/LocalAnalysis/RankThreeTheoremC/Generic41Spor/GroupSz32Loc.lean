@@ -19,7 +19,7 @@ theorem sz32_data :
       CFSG.AGLEmbedding.KFactProofs.Sz32Local.Sz32Data K (T : Subgroup K) := by
   intro K _ _ hK
   obtain ⟨-, hiso⟩ := hK
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hSz := CFSG.RankThree.PartOne.K159.SzAbs.szSylow_of_isoLie hiso
   have hmodel := CFSG.RankThree.PartOne.CTP.suzukiModel_of_isoLie 2 hiso
   obtain ⟨-, a, ha, F, _, _, hfa, hF, ⟨eF⟩⟩ := hmodel
@@ -55,7 +55,7 @@ theorem sz32_transOmega :
   have ha1 : a ≠ 1 := by
     rintro rfl
     simp at ha5
-  letI inst : MulAction N K := MulAction.compHom K ((MulAut.conj : K →* MulAut K).comp N.subtype)
+  let inst : MulAction N K := MulAction.compHom K ((MulAut.conj : K →* MulAut K).comp N.subtype)
   have hsmul : ∀ (n : N) (x : K), n • x = (n : K) * x * (n : K)⁻¹ := fun n x => rfl
   have hstab : MulAction.stabilizer N a = P.subgroupOf N := by
     ext n
@@ -79,7 +79,7 @@ theorem sz32_transOmega :
     rw [← MulAction.index_stabilizer N a, hstab, hidx]
   let Ω : Set K := {x | x ∈ P ∧ orderOf x = 5}
   have hΩcard : Ω.ncard = 4 := by
-    haveI : Fintype P := Fintype.ofFinite P
+    have : Fintype P := Fintype.ofFinite P
     have hcyc : IsCyclic P := D.isCyclic
     have hP25 : Fintype.card P = 25 := by rw [← Nat.card_eq_fintype_card]; exact hPcard
     have h1 := IsCyclic.card_orderOf_eq_totient (α := P) (d := 5) (by rw [hP25]; norm_num)

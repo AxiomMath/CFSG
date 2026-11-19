@@ -108,7 +108,7 @@ private theorem nat3_fixW_zpowers_inj {σ τ : Perm (Fin 3)} (hσ : σ * σ = 1)
   have hcard : Nat.card (fixW nat3 (Subgroup.zpowers σ)) = 2 := by
     have hidx : idx nat3 σ = 2 := by
       have h0 := idx_nat3 σ
-      rw [if_neg hσ1, if_pos (by simpa [pow_two] using hσ)] at h0
+      rw [ite_eq_right hσ1, ite_eq_left (by simpa [pow_two] using hσ)] at h0
       exact h0
     have hf := idx_mul_card nat3 σ
     rw [card_nat3, ← card_fixW_zpowers nat3 σ, hidx] at hf
@@ -138,7 +138,7 @@ theorem natQuot_of_isNat3Sec {L E Z : Subgroup G} (h : IsNat3Sec L Z E) (hZE : Z
   have hNat3 : IsNat3Sec L Z E := h
   have hmodel' : IsModelSec nat3 L Z E := hmodel
   obtain ⟨hZn, θ, β, hθs, hθk, hsd⟩ := hmodel
-  letI : (Z.subgroupOf E).Normal := hZn
+  let : (Z.subgroupOf E).Normal := hZn
   have hsec : IsSec L Z E := IsModelSec.isSec hmodel' hZE
   have hEZ : E ≤ Subgroup.normalizer (Z : Set G) := hEL.trans hsec.normL
   have hker : ∀ x : ↥L, θ x = 1 ↔ (x : G) ∈ E := by
@@ -178,7 +178,7 @@ theorem natQuot_of_isNat3Sec {L E Z : Subgroup G} (h : IsNat3Sec L Z E) (hZE : Z
     have hidx : (fixW nat3 B).index = 2 := by
       have h0 : idx nat3 (σ : Perm (Fin 3)) = 2 := by
         have h := idx_nat3 (σ : Perm (Fin 3))
-        rw [if_neg hσ1', if_pos (by simpa [pow_two] using hσsq)] at h
+        rw [ite_eq_right hσ1', ite_eq_left (by simpa [pow_two] using hσsq)] at h
         exact h
       rw [hBσ]
       simpa [idx] using h0
@@ -458,12 +458,12 @@ theorem natQuot_of_isNat3Sec {L E Z : Subgroup G} (h : IsNat3Sec L Z E) (hZE : Z
     exact X1512.coreMod_irreducible (Or.inl rfl) Y hY
 
 theorem card_commutator_zpowers_le_relIndex {H : Type*} [Group H] [Finite H] {E : Subgroup H}
-    (hEab : IsMulCommutative E) (hE2 : ∀ x ∈ E, x ^ 2 = 1) {a : H}
+    (hEab : IsMulCommutative E) (_hE2 : ∀ x ∈ E, x ^ 2 = 1) {a : H}
     (haN : a ∈ Subgroup.normalizer (E : Set H)) (ha2 : a ^ 2 ∈ E) :
     Nat.card ↥⁅E, (Subgroup.zpowers a : Subgroup H)⁆ ≤
       (E ⊓ Subgroup.centralizer ({a} : Set H)).relIndex E := by
   classical
-  letI : CommGroup ↥E :=
+  let : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with mul_comm := fun x y => hEab.is_comm.comm x y }
   let α : ↥E →* ↥E := Subgroup.normalizerMonoidHom E ⟨a, haN⟩
   let β : ↥E →* ↥E :=
@@ -566,7 +566,7 @@ theorem card_commutator_zpowers_le_relIndex {H : Type*} [Group H] [Finite H] {E 
     rfl
   exact (Subgroup.card_le_of_le hle).trans_eq hcard
 
-theorem le_normalizer_subgroupOf_of_le_normalizer {A H : Subgroup G} (hAH : A ≤ H)
+theorem le_normalizer_subgroupOf_of_le_normalizer {A H : Subgroup G} (_hAH : A ≤ H)
     (hH : H ≤ Subgroup.normalizer (A : Set G)) :
     ⊤ ≤ Subgroup.normalizer (A.subgroupOf H : Set ↥H) := by
   intro x _
@@ -611,7 +611,7 @@ theorem le_normalizer_of_le_normalizer_subgroupOf {A H : Subgroup G} (hAH : A �
     exact Subgroup.mem_subgroupOf.mp
       ((Subgroup.mem_normalizer_iff.mp (h (Subgroup.mem_top ⟨g, hg⟩)) ⟨a, haH⟩).mpr hprod)
 
-theorem relCent_subgroupOf {E Z A H : Subgroup G} (hEH : E ≤ H) (hZH : Z ≤ H)
+theorem relCent_subgroupOf {E Z A H : Subgroup G} (_hEH : E ≤ H) (_hZH : Z ≤ H)
     (hAH : A ≤ H) (hEZ : E ≤ Subgroup.normalizer (Z : Set G))
     (hEZH : E.subgroupOf H ≤ Subgroup.normalizer (Z.subgroupOf H : Set ↥H)) :
     (relCent E Z A).subgroupOf H =
@@ -783,7 +783,7 @@ theorem natQuot_of_baumann_one_top {H : Type} [Group H] [Finite H] {P : Subgroup
   have hmodel : IsModelSec nat3 (⊤ : Subgroup H) Z0 E := hinat
   have hmodel' : IsModelSec nat3 (⊤ : Subgroup H) Z0 E := hmodel
   obtain ⟨hZnθ, θ, β, hθs, hθk, hsd⟩ := hmodel
-  letI : (Z0.subgroupOf E).Normal := hZnθ
+  let : (Z0.subgroupOf E).Normal := hZnθ
   have hZ0le : Z0 ≤ E := inf_le_left
   have hsec : IsSec (⊤ : Subgroup H) Z0 E := IsModelSec.isSec hmodel' hZ0le
   have hZ0rel : Z0.relIndex E = 4 := by
@@ -1073,7 +1073,6 @@ theorem natQuot_of_baumann_one {G : Type} [Group G] {L P : Subgroup G} [Finite �
       simpa using congrArg Subtype.val (hx ⟨y, hy⟩ (Subgroup.mem_top _))
     · rintro ⟨-, hx⟩
       refine ⟨Subgroup.mem_top x, ?_⟩
-      change x ∈ Subgroup.centralizer (⊤ : Set ↥L)
       rw [Subgroup.mem_centralizer_iff]
       intro y _
       apply Subtype.ext

@@ -13,30 +13,36 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z : Subgroup G}
 
+omit [Finite G] in
 private theorem Z_le_Q (H : StrothHyp M Q Z) : Z ≤ Q := by
   rw [H.hZ]
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 private theorem Z_ne_bot (H : StrothHyp M Q Z) : Z ≠ ⊥ := by
   intro h
   have := H.q4
   rw [h, Subgroup.card_bot] at this
   omega
 
+omit [Finite G] in
 private theorem Q_ne_bot (H : StrothHyp M Q Z) : Q ≠ ⊥ := by
   intro h
   have hZQ := Z_le_Q H
   rw [h, le_bot_iff] at hZQ
   exact Z_ne_bot H hZQ
 
+omit [Finite G] in
 private theorem isPGroup_Q (H : StrothHyp M Q Z) : IsPGroup 2 Q := by
   rw [H.hQ]
   exact (inSubgroup_pCore_two M).1
 
+omit [Finite G] in
 private theorem inf_centralizer_eq (H : StrothHyp M Q Z) :
     Q ⊓ Subgroup.centralizer (Q : Set G) = Z :=
   (cen_eq Q).symm.trans H.hZ.symm
 
+omit [Finite G] in
 private theorem central_comm (H : StrothHyp M Q Z) {z : G} (hz : z ∈ Z) {y : G}
     (hy : y ∈ Q) : z * y = y * z := by
   have h : z ∈ Q ⊓ Subgroup.centralizer (Q : Set G) := by
@@ -44,11 +50,13 @@ private theorem central_comm (H : StrothHyp M Q Z) {z : G} (hz : z ∈ Z) {y : G
     exact hz
   exact (Subgroup.mem_centralizer_iff.mp h.2 y hy).symm
 
+omit [Finite G] in
 private theorem sq_eq_one_of_mem_Z (H : StrothHyp M Q Z) : ∀ z ∈ Z, z ^ 2 = 1 := by
   obtain ⟨n, k, -, hcp⟩ := H.cp
   exact sq_eq_one_of_cp hcp
 
 open CFSG.GH74.GLS.Bg.TwoGroups in
+omit [Finite G] in
 private theorem center_map_le_commutator {S E : Subgroup G} {R : Type} [CommRing R]
     (hES : E ≤ S) (e : ↥E ≃* UT3 R) :
     (Subgroup.center ↥E).map E.subtype ≤ ⁅S, S⁆ := by
@@ -70,6 +78,7 @@ private theorem center_map_le_commutator {S E : Subgroup G} {R : Type} [CommRing
   exact Subgroup.commutator_mem_commutator (hES (e.symm ⟨c, 0, 0⟩).2)
     (hES (e.symm ⟨0, 1, 0⟩).2)
 
+omit [Finite G] in
 private theorem Z_le_commutator (H : StrothHyp M Q Z) : Z ≤ ⁅Q, Q⁆ := by
   obtain ⟨n, k, -, hcp⟩ := H.cp
   obtain ⟨hk, D, hDQ, hDL, hDZ, -, -⟩ := hcp
@@ -77,6 +86,7 @@ private theorem Z_le_commutator (H : StrothHyp M Q Z) : Z ≤ ⁅Q, Q⁆ := by
   rw [← hDZ ⟨0, hk⟩]
   exact center_map_le_commutator (hDQ ⟨0, hk⟩) e
 
+omit [Finite G] in
 private theorem centralizes_Z (H : StrothHyp M Q Z) {x : G} (hxZ : ∀ y ∈ Q, ⁅x, y⁆ ∈ Z) :
     ∀ z ∈ Z, x * z = z * x := by
   have hZQ : Z ≤ Q := Z_le_Q H
@@ -121,21 +131,25 @@ private theorem centralizes_Z (H : StrothHyp M Q Z) {x : G} (hxZ : ∀ y ∈ Q, 
   intro z hz
   exact (Subgroup.mem_centralizer_singleton_iff.mp (hle hz)).symm
 
+omit [Finite G] in
 private theorem normalizer_eq_of_max {P : Subgroup G} (hmax : IsMaximalTwoLocal M)
     (hMP : M ≤ Subgroup.normalizer (P : Set G)) (hP : P ≠ ⊥) (hP2 : IsPGroup 2 P) :
     Subgroup.normalizer (P : Set G) = M := by
   by_contra hne
   exact hmax.2 _ (lt_of_le_of_ne hMP (Ne.symm hne)) ⟨P, hP, hP2, rfl⟩
 
+omit [Finite G] in
 theorem StrothHyp.Q_normal (H : StrothHyp M Q Z) :
     Q ≤ M ∧ M ≤ Subgroup.normalizer (Q : Set G) := by
   rw [H.hQ]
   exact ⟨(inSubgroup_pCore_two M).2.1, (inSubgroup_pCore_two M).2.2⟩
 
+omit [Finite G] in
 theorem StrothHyp.Z_normal (H : StrothHyp M Q Z) :
     Z ≤ Q ∧ M ≤ Subgroup.normalizer (Z : Set G) :=
   ⟨Z_le_Q H, H.maxAb.prop.2.1⟩
 
+omit [Finite G] in
 theorem StrothHyp.normalizer_Z (H : StrothHyp M Q Z) :
     Subgroup.normalizer (Z : Set G) = M ∧ Subgroup.normalizer (Q : Set G) = M :=
   ⟨normalizer_eq_of_max H.maxLocal H.Z_normal.2 (Z_ne_bot H) ((isPGroup_Q H).to_le (Z_le_Q H)),

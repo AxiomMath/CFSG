@@ -35,7 +35,7 @@ theorem s16h_sl28_seven_kbar_rank_two
     ∃ E : Subgroup (MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)),
       E ≤ kBar D.M ⊥ V h.hyp151.isElemAbelian L ∧ IsElemAbelian 7 E ∧
       Nat.card ↥E = 7 ^ 2 := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hrank := s16h_sl28_seven_kbar_pRank_two D S hσ hJP h hs2 ht ht2 ht1 htr hW hcomp
     hthin hZ hbad hrow hZ4 h7
   exact CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := 7)

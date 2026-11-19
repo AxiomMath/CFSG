@@ -31,7 +31,7 @@ theorem fixes {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     rw [apply_eq]
     exact Iff.symm (Subgroup.mem_normalizer_iff_map_conj_eq)
   let Es : I := ⟨E, hE⟩
-  letI : MulAction (twoCoreCommutator T B) I := MulAction.compHom I ((act (p := p) hP ρ).comp (twoCoreCommutator T B).subtype)
+  let : MulAction (twoCoreCommutator T B) I := MulAction.compHom I ((act (p := p) hP ρ).comp (twoCoreCommutator T B).subtype)
   have hsmul : ∀ (s : twoCoreCommutator T B) (D : I), s • D = act (p := p) hP ρ s.1 D := fun _ _ => rfl
   let σ : Representation (ZMod 2) (twoCoreCommutator T B) V := ρ.comp (twoCoreCommutator T B).subtype
   have hmap : ∀ (s : twoCoreCommutator T B) (D : I), (U D).map (σ s) = U (s • D) := by

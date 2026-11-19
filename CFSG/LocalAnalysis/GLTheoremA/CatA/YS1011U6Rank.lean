@@ -79,8 +79,8 @@ theorem u6_two_le_of_cover (π : K →* X) (hπ : Function.Surjective π) (hk : 
     (hEb : CFSG.Open.IsElemAbelian 3 Eb) {j : ℕ} (hj : 2 ≤ j) (hEbc : Nat.card Eb = 3 ^ j)
     (hEbN : Eb ≤ Subgroup.normalizer (Pb : Set X)) :
     2 ≤ CFSG.Assembly.RankThreeEven.localRank 3 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 hPb2
   have ha1 : 1 ≤ a := by
     have h1 := (Subgroup.one_lt_card_iff_ne_bot Pb).2 hPb

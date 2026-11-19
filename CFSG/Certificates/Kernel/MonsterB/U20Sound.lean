@@ -192,7 +192,7 @@ theorem combRows_eq {rows : Array ℕ} (hR : ∀ j < 400, u20RecRows[j]! = unpac
     (s : ℕ) : combRows s = unpackR 20 (selXor 400 rows s) :=
   combRows_go hR s 400 le_rfl
 
-theorem eRows_eq {c : ℕ} (hc : c < 400) : eRows c = unpackR 20 (2 ^ c) := by
+theorem eRows_eq {c : ℕ} (_hc : c < 400) : eRows c = unpackR 20 (2 ^ c) := by
   apply Array.ext
   · simp [eRows, size_unpackR]
   · intro i h1 h2

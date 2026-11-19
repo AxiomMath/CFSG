@@ -22,11 +22,13 @@ variable [Finite G] {M Q Z B : Subgroup G} {K : Type} [Field K]
   [Finite K] [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} {ψ : M₀.E ≃ₗ[K] Cube K}
   {φ : Lgen M (LB M Q B) →* (Cube K ≃ₗ[K] Cube K)} {z : G}
 
+omit [Finite K] in
 theorem cube_neg_eq_self (v : Cube K) : -v = v := by
   have h2 : (2 : K) • v = 0 := by rw [CharTwo.two_eq_zero, zero_smul]
   rw [two_smul] at h2
   exact neg_eq_of_add_eq_zero_left h2
 
+omit [Finite K] in
 theorem concl_Q_left (Dt : E3LDat M Q Z B K γ M₀ ψ φ z) {x y : G} (hxc : IsConj z x)
     (hxQ : x ∈ Q) (hyc : IsConj z y) (hyM : y ∈ M) (hyQ : y ∉ Q) :
     (orderOf (x * y) = 2 ∨ orderOf (x * y) = 4 ∨ Odd (orderOf (x * y))) ∧

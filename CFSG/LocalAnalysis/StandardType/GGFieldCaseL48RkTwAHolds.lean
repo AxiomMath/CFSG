@@ -124,7 +124,7 @@ theorem ggTwA_scalarSubgroup_card_le {K : Type} [Field K] [Finite K] {n d p : �
         (LargeEvenScalars (Fin d) K).subgroupOf (unitarySU 2 n K d)) :
         Subgroup ↥(unitarySU 2 n K d)) ≤ p := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set Z : Subgroup ↥(unitarySU 2 n K d) :=
     (CFSG.RankThree.PartOne.KFU.torusSU p d K).subgroupOf (unitarySU 2 n K d) ⊓
       (LargeEvenScalars (Fin d) K).subgroupOf (unitarySU 2 n K d) with hZ
@@ -144,8 +144,7 @@ theorem ggTwA_scalarSubgroup_card_le {K : Type} [Field K] [Finite K] {n d p : �
         Matrix (Fin d) (Fin d) K) = Matrix.diagonal (fun _ => (cc : K)) := by
       ext i j
       by_cases hij : i = j <;>
-        simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply,
-          hij]
+        simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
     have hmat2 : ((z.1.1 : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) =
         Matrix.diagonal (fun _ => (cc : K)) := by rw [← hcc, hmat]
     have hmat3 : ((z.1.1 : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) =
@@ -193,7 +192,7 @@ private theorem ggTwA_ker_le_scalars {K : Type} [Field K] [Finite K] {n d : ℕ}
   intro i j
   rw [hc]
   by_cases hij : i = j <;>
-    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply, hij]
+    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
 
 theorem ggTwA_torus_pow {K : Type} [Field K] {n d p : ℕ}
     (X : ↥(unitarySU 2 n K d)) (hX : (X : GL (Fin d) K) ∈
@@ -227,7 +226,7 @@ theorem ggTwA_mem_scalars {K : Type} [Field K] [Finite K] {n d p : ℕ}
   intro i j
   rw [hc]
   by_cases hij : i = j <;>
-    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply, hij]
+    simp [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, hij]
 
 private theorem ggL48TwA_core {K : Type} [Field K] [Finite K] {n d p : ℕ}
     {M : Type} [Group M] [Finite M] {L' E : Subgroup M}
@@ -243,7 +242,7 @@ private theorem ggL48TwA_core {K : Type} [Field K] [Finite K] {n d p : ℕ}
     (hEcard : p ^ (d - 2) ≤ Nat.card E) :
     p ^ (d - 1) ≤ Nat.card E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKd : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n K :=
     TableBU.unitaryFieldData_of_card hK hn
   have hEel : IsElemAbelian p E := hpos.2.1
@@ -459,7 +458,7 @@ theorem ggL48TwATorusLift_holds :
   intro p lab hp hlab htag h6 hpd hpq
   have h := largeEvenLabelAll_torusLift_twA hlab htag hp hpq
   have hrank : ggUnitaryTorusRank p (lab.rank + 1) = lab.rank - 2 := by
-    rw [ggUnitaryTorusRank, if_pos hpd]
+    rw [ggUnitaryTorusRank, ite_eq_left hpd]
     omega
   simpa [hrank] using h
 

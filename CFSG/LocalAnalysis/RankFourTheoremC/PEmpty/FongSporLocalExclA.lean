@@ -71,7 +71,7 @@ theorem false_of_Co1
   obtain ⟨e⟩ := hL
   obtain ⟨f⟩ := CFSG.Sporadic.Bridge.Co1.nonempty_mulEquiv
   have hg : ↥L ≃* CFSG.Blueprint.NativeSporadic.Co1 := e.trans f.symm
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Co1 := Finite.of_equiv ↥L hg.toEquiv
+  have : Finite CFSG.Blueprint.NativeSporadic.Co1 := Finite.of_equiv ↥L hg.toEquiv
   have hT : CFSG.Assembly.RankThreeEven.localRank 3 ↥L =
       CFSG.Assembly.RankThreeEven.localRank 3 CFSG.Blueprint.NativeSporadic.Co1 :=
     @CFSG.RankThree.PartTwo.Census.localRank_eq_of_mulEquiv ↥L CFSG.Blueprint.NativeSporadic.Co1

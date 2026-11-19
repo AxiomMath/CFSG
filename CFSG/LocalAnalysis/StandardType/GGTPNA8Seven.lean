@@ -49,7 +49,7 @@ private theorem tpa8_seven_dvd_card_sl {K : Type} [Field K] [Fintype K] (n : ℕ
     (hn : 2 ≤ n) (hn9 : n ≤ 9) (hq : Fintype.card K = 2 ∨ Fintype.card K = 8)
     (hgood : 3 ≤ n ∨ Fintype.card K = 8) :
     7 ∣ Nat.card (Matrix.SpecialLinearGroup (Fin n) K) := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   rw [Matrix.card_SL_field n]
   rcases hq with hq | hq
   · rw [hq, show (2 - 1) = 1 by norm_num, Nat.div_one]
@@ -67,9 +67,9 @@ private theorem tpa8_block_finrank_general {P : Type} [CommGroup P] {V : Type} [
     (j : Fin fr.r) (hm : fr.m j ≠ 0) :
     Module.finrank (ZMod 2) (fr.E j) = 1 ∨ Module.finrank (ZMod 2) (fr.E j) = 3 := by
   let E := fr.E j
-  haveI : Finite E := fr.instFinite j
-  letI : Fintype E := Fintype.ofFinite E
-  haveI : CharP E 2 := charP_of_injective_algebraMap
+  have : Finite E := fr.instFinite j
+  let : Fintype E := Fintype.ofFinite E
+  have : CharP E 2 := charP_of_injective_algebraMap
     (FaithfulSMul.algebraMap_injective (ZMod 2) E) 2
   obtain ⟨a⟩ : Nonempty (Fin (fr.m j)) := Fin.pos_iff_nonempty.mp (Nat.pos_of_ne_zero hm)
   let b : Fin (fr.m j) → E := fun _ => 1
@@ -141,12 +141,12 @@ private theorem tpa8_block_finrank_general {P : Type} [CommGroup P] {V : Type} [
     ext x
     change (σ ^ Module.finrank (ZMod 2) E) x = x
     rw [hσpow (Module.finrank (ZMod 2) E) x]
-    haveI : Module.Finite (ZMod 2) E := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) E := Module.Finite.of_finite
     have hcard : Nat.card E = 2 ^ Module.finrank (ZMod 2) E := by
       rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := E), Nat.card_zmod]
-    letI : Fintype E := Fintype.ofFinite E
+    let : Fintype E := Fintype.ofFinite E
     have hpow : x ^ Nat.card E = x := by
-      simpa [Nat.card_eq_fintype_card] using FiniteField.pow_card x
+      simp [Nat.card_eq_fintype_card]
     rw [← hcard]
     exact hpow
   have hσm : σ ^ (Nat.gcd 3 (Module.finrank (ZMod 2) E)) = 1 := by
@@ -173,7 +173,7 @@ private theorem tpa8_block_finrank_general {P : Type} [CommGroup P] {V : Type} [
       have hc := congrArg
         (fun q : Polynomial E => q.coeff (2 ^ Nat.gcd 3 (Module.finrank (ZMod 2) E))) h
       simp only [p, Polynomial.coeff_sub, Polynomial.coeff_X_pow_self, Polynomial.coeff_X,
-        if_neg (show ¬ (1 = 2 ^ Nat.gcd 3 (Module.finrank (ZMod 2) E)) by omega),
+        ite_eq_right (show ¬ (1 = 2 ^ Nat.gcd 3 (Module.finrank (ZMod 2) E)) by omega),
         Polynomial.coeff_zero] at hc
       norm_num at hc
     have hsub : (Finset.univ : Finset E).val ⊆ p.roots := by
@@ -198,14 +198,14 @@ private theorem tpa8_block_finrank_general {P : Type} [CommGroup P] {V : Type} [
     rw [Finset.card_univ, ← Nat.card_eq_fintype_card] at h
     exact h.trans hpdeg
   have hdle : Module.finrank (ZMod 2) E ≤ Nat.gcd 3 (Module.finrank (ZMod 2) E) := by
-    haveI : Finite E := fr.instFinite j
+    have : Finite E := fr.instFinite j
     have hcard : Nat.card E = 2 ^ Module.finrank (ZMod 2) E := by
-      haveI : Module.Finite (ZMod 2) E := Module.Finite.of_finite
+      have : Module.Finite (ZMod 2) E := Module.Finite.of_finite
       rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := E), Nat.card_zmod]
     rw [hcard] at hcardm
     exact (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp hcardm
   have hdvd : Module.finrank (ZMod 2) E ∣ 3 := by
-    haveI : Module.Finite (ZMod 2) E := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) E := Module.Finite.of_finite
     have hpos : 0 < Module.finrank (ZMod 2) E := Module.finrank_pos
     have h2 : Nat.gcd 3 (Module.finrank (ZMod 2) E) = Module.finrank (ZMod 2) E :=
       le_antisymm (Nat.gcd_le_right 3 hpos) hdle
@@ -230,7 +230,7 @@ private theorem tpa8_dim_sum_general {F : Type} [Field F] [Finite F] {P : Type} 
             Nat.card F ^ (fr.m j * Module.finrank F (fr.E j)) := by
             apply Finset.prod_congr rfl
             intro j _
-            haveI : Module.Finite F (fr.E j) := Module.Finite.of_finite
+            have : Module.Finite F (fr.E j) := Module.Finite.of_finite
             rw [Nat.card_fun, Module.natCard_eq_pow_finrank (K := F) (V := fr.E j), ← pow_mul]
             congr 1
             rw [Nat.card_fin, mul_comm]
@@ -321,15 +321,15 @@ private theorem tpa8_frame_all_one {P : Type} [CommGroup P] {V : Type} [AddCommG
   funext j
   rw [fr.act p v j]
   by_cases hj : fr.m j = 0
-  · haveI : IsEmpty (Fin (fr.m j)) := by rw [hj]; infer_instance
+  · have : IsEmpty (Fin (fr.m j)) := by rw [hj]; infer_instance
     exact Subsingleton.elim _ _
-  · haveI : Module.Finite (ZMod 2) (fr.E j) := Module.Finite.of_finite
+  · have : Module.Finite (ZMod 2) (fr.E j) := Module.Finite.of_finite
     have hcard : Nat.card (fr.E j) = 2 := by
       rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := fr.E j), h1 j hj, Nat.card_zmod]
       norm_num
     have hunits : Nat.card (fr.E j)ˣ = 1 := by
       simp [Nat.card_units, hcard]
-    haveI : Subsingleton (fr.E j)ˣ := (Nat.card_eq_one_iff_unique.mp hunits).1
+    have : Subsingleton (fr.E j)ˣ := (Nat.card_eq_one_iff_unique.mp hunits).1
     have hχ : fr.χ j p = 1 := Subsingleton.elim _ _
     rw [hχ]
     simp
@@ -345,11 +345,9 @@ private theorem tpa8_hcase_arith {m f : ℕ} {E : Type} [Field E] [Fintype E]
   rcases hf with rfl | rfl
   · interval_cases m
     all_goals simp [Fin.prod_univ_succ] at hdiv ⊢
-    all_goals norm_num at hdiv ⊢
   · have hm3 : m ≤ 3 := by omega
     interval_cases m
     all_goals simp [Fin.prod_univ_succ] at hdiv ⊢
-    all_goals norm_num at hdiv ⊢
 
 private theorem tpa8_center_block_mem_centralizer {F : Type} [Field F] {P : Type} [CommGroup P]
     {V : Type} [AddCommGroup V] [Module F V] {ρ : P →* (V ≃ₗ[F] V)}
@@ -451,7 +449,7 @@ theorem ggTablePA8SevenKnown_holds : GGTablePA8SevenKnown := by
           tpa8_psi (tpa8_psi.symm b * u * (tpa8_psi.symm b)⁻¹)
         rw [map_mul, map_mul, map_inv, MulEquiv.apply_symm_apply])
       le_top hDab hDodd hJ'
-  letI : CommGroup P := instP
+  let : CommGroup P := instP
   have hx7 : x ^ 7 = 1 := by
     have := pow_orderOf_eq_one x
     rwa [hxord] at this
@@ -481,7 +479,7 @@ theorem ggTablePA8SevenKnown_holds : GGTablePA8SevenKnown := by
     rw [hrange] at hq
     obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hq
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul]
-    simp [zpow_natCast, hsymm7]
+    simp [hsymm7]
   have hρ7 : ∀ p : P, StarFour.groupRep η p ^ 7 = 1 := by
     intro p
     have hp : (η p) ^ 7 = 1 := hηexp (η p) (MonoidHom.mem_range.mpr ⟨p, rfl⟩)
@@ -497,9 +495,9 @@ theorem ggTablePA8SevenKnown_holds : GGTablePA8SevenKnown := by
     intro j hj
     have hm : fr.m j ≠ 0 := by have := hj.1; omega
     have hf := hfield j hm
-    haveI : Fintype (fr.E j) := Fintype.ofFinite (fr.E j)
+    have : Fintype (fr.E j) := Fintype.ofFinite (fr.E j)
     have hcardE : Nat.card (fr.E j) = 2 ^ Module.finrank (ZMod 2) (fr.E j) := by
-      haveI : Module.Finite (ZMod 2) (fr.E j) := Module.Finite.of_finite
+      have : Module.Finite (ZMod 2) (fr.E j) := Module.Finite.of_finite
       rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := fr.E j), Nat.card_zmod]
     have hq : Fintype.card (fr.E j) = 2 ∨ Fintype.card (fr.E j) = 8 := by
       rw [← Nat.card_eq_fintype_card, hcardE]
@@ -522,7 +520,7 @@ theorem ggTablePA8SevenKnown_holds : GGTablePA8SevenKnown := by
           (fun k _ => Nat.zero_le _) (Finset.mem_univ j)
       rw [hdim] at h1
       have h2 : 1 ≤ Module.finrank (ZMod 2) (fr.E j) := by
-        haveI : Module.Finite (ZMod 2) (fr.E j) := Module.Finite.of_finite
+        have : Module.Finite (ZMod 2) (fr.E j) := Module.Finite.of_finite
         exact Module.finrank_pos
       have : fr.m j * 1 ≤ fr.m j * Module.finrank (ZMod 2) (fr.E j) :=
         Nat.mul_le_mul_left _ h2
@@ -574,7 +572,7 @@ theorem ggTablePA8SevenKnown_holds : GGTablePA8SevenKnown := by
           (le_of_eq (hJj.trans hJψ))
       · exact (Subgroup.map_le_map_iff_of_injective tpa8_psi.injective).mp
           (le_of_eq (hJj.trans hJψ).symm)
-    haveI : Nontrivial ↥(fr.slOnBlock j) :=
+    have : Nontrivial ↥(fr.slOnBlock j) :=
       CFSG.LocalCores.isQuasisimple_nontrivial (StarFour.SemiFrame.isQuasisimple_slOnBlock fr hj)
     obtain ⟨g, hg1⟩ := exists_ne (1 : ↥(fr.slOnBlock j))
     have hgj : g.1 ∈ fr.slOnBlock j := g.2
@@ -632,7 +630,7 @@ theorem ggTablePA8SevenKnown_holds : GGTablePA8SevenKnown := by
       rw [hfi] at hmf'
       omega
   have hcardEi : Nat.card (fr.E i) = 2 ^ Module.finrank (ZMod 2) (fr.E i) := by
-    haveI : Module.Finite (ZMod 2) (fr.E i) := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) (fr.E i) := Module.Finite.of_finite
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := fr.E i), Nat.card_zmod]
   have hdiv : 7 ^ 2 * (Nat.card (fr.E i) - 1) ∣
       Nat.card (Matrix.GeneralLinearGroup (Fin (fr.m i)) (fr.E i)) := by
@@ -665,7 +663,7 @@ theorem ggTablePA8SevenKnown_holds : GGTablePA8SevenKnown := by
       rw [hy]
       exact (congrArg Subtype.val (hEab.1.is_comm.comm ⟨e, he⟩ ⟨x, hxE⟩)).symm
     have hEcard7 : Nat.card E = 7 ^ 3 := by
-      haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
       have hEp : IsPGroup 7 ↥E := by
         rw [isPGroup_iff_orderOf_dvd_pow]
         intro e
@@ -779,16 +777,16 @@ theorem ggTablePA8SevenKnown_holds : GGTablePA8SevenKnown := by
         ψh ((Subgroup.inclusion hE'le e').1) * ψh z
       simpa only [map_mul] using
         congrArg ψh ((Subgroup.mem_centralizer_iff.mp hmem) z hz)
-    haveI : Finite ↥E' := Finite.of_injective (fun e : E' => (⟨ψh e, e.2⟩ : E))
+    have : Finite ↥E' := Finite.of_injective (fun e : E' => (⟨ψh e, e.2⟩ : E))
       (by intro a b h; exact Subtype.ext (tpa8_psi.injective (Subtype.ext_iff.mp h)))
-    haveI : Finite (Matrix.GeneralLinearGroup (Fin 9) (ZMod 2)) := inferInstance
-    haveI : Finite ↥(E ⊓ Subgroup.centralizer (J : Set
+    have : Finite (Matrix.GeneralLinearGroup (Fin 9) (ZMod 2)) := inferInstance
+    have : Finite ↥(E ⊓ Subgroup.centralizer (J : Set
         (Matrix.GeneralLinearGroup (Fin 9) (ZMod 2)))) := Subtype.finite
     have hle' : Subgroup.comap ψh (E ⊓ Subgroup.centralizer (J : Set
         (Matrix.GeneralLinearGroup (Fin 9) (ZMod 2)))) ≤ E' := by
       intro e he
       exact (Subgroup.mem_comap.mp he).1
-    haveI : Finite ↥(Subgroup.comap ψh (E ⊓ Subgroup.centralizer (J : Set
+    have : Finite ↥(Subgroup.comap ψh (E ⊓ Subgroup.centralizer (J : Set
         (Matrix.GeneralLinearGroup (Fin 9) (ZMod 2))))) :=
       Finite.of_injective (Subgroup.inclusion hle') (Subgroup.inclusion_injective hle')
     have hker_card_le : Nat.card ψ'.ker ≤ 7 := by
@@ -862,7 +860,7 @@ theorem ggTablePA8SevenKnown_holds : GGTablePA8SevenKnown := by
     ring
   have hcase : (fr.m i = 6 ∧ Module.finrank (ZMod 2) (fr.E i) = 1) ∨
       (fr.m i = 3 ∧ Module.finrank (ZMod 2) (fr.E i) = 3) := by
-    letI : Fintype (fr.E i) := Fintype.ofFinite _
+    let : Fintype (fr.E i) := Fintype.ofFinite _
     have hEcard : Fintype.card (fr.E i) = 2 ^ Module.finrank (ZMod 2) (fr.E i) := by
       rw [← Nat.card_eq_fintype_card]; exact hcardEi
     have hdiv' : 7 ^ 2 * (Fintype.card (fr.E i) - 1) ∣

@@ -28,7 +28,7 @@ theorem ordBC_eq_504_iff {n q f : ℕ} (hq : q = 2 ^ f) : ordBC n q = 504 ↔ n 
   obtain ⟨h1, h2, h3, h4, h5⟩ := LeviBlock.ordBC_two_part hq (e := 3) (m := 63) (by norm_num)
     (by norm_num) (h.trans (by norm_num))
   subst hq
-  interval_cases n <;> interval_cases f <;> first | omega | (revert h; unfold ordBC; decide)
+  interval_cases n <;> interval_cases f <;> first | omega
 
 theorem ordD_ne_504 {n q f : ℕ} (hq : q = 2 ^ f) : ordD n q ≠ 504 := by
   intro h

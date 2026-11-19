@@ -64,7 +64,7 @@ theorem not_dvd_card_scalars_statedOmega_quadMinus {K : Type} [Field K] [Finite 
       (w := Pi.single (.inr (.inr 0)) 1) ?_ ?_ ha)
   · intro a v
     rw [← coe_quadMinus 4 K b c, QuadraticMap.map_smul, smul_eq_mul, sq]
-  · simp [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, Pi.single_apply]
+  · simp [StatedQuadMinus]
 
 theorem not_dvd_card_scalars_statedSL {n : ℕ} {K : Type} [Field K] [Finite K] {p : ℕ}
     (hp : p.Prime) (hpn : ¬ p ∣ n) :
@@ -77,7 +77,7 @@ theorem not_dvd_card_scalars_statedSL {n : ℕ} {K : Type} [Field K] [Finite K] 
 
 theorem isCyclic_scalars_subgroupOf {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
     [Finite K] (M : Subgroup (GL ι K)) : IsCyclic ((StatedScalars ι K).subgroupOf M) := by
-  haveI : IsCyclic (StatedScalars ι K) :=
+  have : IsCyclic (StatedScalars ι K) :=
     isCyclic_of_surjective (Matrix.GeneralLinearGroup.scalar ι : Kˣ →* GL ι K).rangeRestrict
       (MonoidHom.rangeRestrict_surjective _)
   refine isCyclic_of_injective
@@ -99,8 +99,8 @@ theorem two_ne_zero_of_charP {K : Type} [Field K] {r : ℕ} [CharP K r] (hr : r.
 
 private theorem charP_of_card_eq_pow {K : Type} [Field K] [Finite K] {r m : ℕ} (hr : r.Prime)
     (hK : Nat.card K = r ^ m) : CharP K r := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI := Fintype.ofFinite K
+  have : Fact r.Prime := ⟨hr⟩
+  have := Fintype.ofFinite K
   exact charP_of_card_eq_prime_pow (f := m) (by rw [← Nat.card_eq_fintype_card, hK])
 
 private theorem not_three_dvd_pow {r f : ℕ} (hr : r.Prime) (hr3 : r ≠ 3) : ¬ 3 ∣ r ^ f := fun h3 =>

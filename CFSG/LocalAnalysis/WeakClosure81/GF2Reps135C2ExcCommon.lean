@@ -19,6 +19,7 @@ open CFSG.Quasithin.B42Disp
 
 variable {W : Type} [CommGroup W] [Finite W] {Y L : Subgroup (MulAut W)} {t : MulAut W}
 
+omit [Finite W] in
 theorem w135c2_mem_normalizer_of_ctx (hctx : Is135Context Y L) (htY : t ∈ Y)
     (ht2 : orderOf t = 2) : t ∈ Subgroup.normalizer (L : Set (MulAut W)) := by
   have hLY : L ≤ Y := hctx.2.2.1
@@ -41,6 +42,7 @@ theorem w135c2_mem_normalizer_of_ctx (hctx : Is135Context Y L) (htY : t ∈ Y)
       _ = h := by rw [htt, one_mul, mul_one]
   rwa [e] at h''
 
+omit [Finite W] in
 theorem w135c2_card_range_eq_index (g : MulAut W) :
     Nat.card (Set.range fun v : W => g v * v⁻¹) = (fixV (Subgroup.zpowers g)).index := by
   rw [← CFSG.Quasithin.ker_commHom g, Subgroup.index_ker]

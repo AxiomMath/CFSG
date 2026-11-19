@@ -97,22 +97,22 @@ private theorem mem_bstar_of_conj_eq {G : Type} [Group G] {p : ℕ} {Bs X : Subg
     eq_one_of_mem_centralizer_of_center_eq_bot hZX (X.pow_mem hxX p) hxbpC
   exact hSC x hcomm hxbp1
 
-private theorem cartanMatrix_E7_transpose : (CartanMatrix.E₇).transpose = CartanMatrix.E₇ := by
+private theorem cartanMatrix_E7_transpose : ((CartanMatrix.E 7)).transpose = (CartanMatrix.E 7) := by
   decide +kernel
 
 private theorem cartanMatrix_E7_symm (i j : Fin Tag.E7.rank) :
-    CartanMatrix.E₇ i j = CartanMatrix.E₇ j i := by
+    (CartanMatrix.E 7) i j = (CartanMatrix.E 7) j i := by
   conv_lhs => rw [← cartanMatrix_E7_transpose]
   rfl
 
-private theorem cartan_E7_eq : Tag.cartan .E7 = CartanMatrix.E₇ := by
+private theorem cartan_E7_eq : Tag.cartan .E7 = (CartanMatrix.E 7) := by
   rw [show Tag.cartan .E7 = Tag.cartanE 7 from rfl, CFSG.LieType.Chevalley.cartanE_eq 7]
 
-private theorem symmetrizedCartan_E7_eq : Tag.symmetrizedCartan .E7 = CartanMatrix.E₇ := by
+private theorem symmetrizedCartan_E7_eq : Tag.symmetrizedCartan .E7 = (CartanMatrix.E 7) := by
   rw [show Tag.symmetrizedCartan .E7 = Tag.cartan .E7 from by decide +kernel, cartan_E7_eq]
 
 private theorem frameCoord_single (p : ℕ) (j i : Fin Tag.E7.rank) :
-    ExcFrames.frameCoord .E7 p (Pi.single j 1) i = ((CartanMatrix.E₇ i j : ℤ) : ZMod p) := by
+    ExcFrames.frameCoord .E7 p (Pi.single j 1) i = (((CartanMatrix.E 7) i j : ℤ) : ZMod p) := by
   rw [ExcFrames.frameCoord, symmetrizedCartan_E7_eq]
   rw [Finset.sum_eq_single j]
   · simp
@@ -161,7 +161,7 @@ private theorem sum_single (n : ℕ) {p : ℕ} (c : Fin n → ZMod p) :
   · simp
   · intro b _ hbi
     have h0 : (Pi.single b (1 : ZMod p) : Fin n → ZMod p) i = 0 := by
-      rw [Pi.single_apply, if_neg (Ne.symm hbi)]
+      rw [Pi.single_apply, ite_eq_right (Ne.symm hbi)]
     rw [Pi.smul_apply, h0, smul_zero]
   · intro h
     exact absurd (Finset.mem_univ i) h
@@ -655,14 +655,14 @@ theorem e7Levi_datum
       ι₀ (Multiplicative.ofAdd (TableBExc.torusAct .E7 p (simple .E7 k) s)))
     {m : ℕ} (wt : GGTorusTorWit m 7 (adjointGroup .E7 K)
       (E.map (MulAut.conj : adjointGroup .E7 K →* MulAut (adjointGroup .E7 K))))
-    (hwn : ∀ k, wt.n k = n k) (hw : wt.Holds CartanMatrix.E₇ CoxeterMatrix.E₇) :
+    (hwn : ∀ k, wt.n k = n k) (hw : wt.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇) :
     ∃ (V : Type) (_ : AddCommGroup V) (_ : Module (ZMod p) V) (ι : Additive ↥Bs ≃+ V)
       (φ : Fin 7 → MulAut ↥Bs) (h : Fin 7 → V) (α : Fin 7 → Module.Dual (ZMod p) V)
       (f : CoxeterMatrix.E₇.Group ≃* ↥(ggAutomizer X Bs))
       (κ : WeylGroup .E7 ≃* CoxeterMatrix.E₇.Group),
       (∀ i v, ggLin (p := p) ι (φ i) v = v - α i v • h i) ∧
       (∀ i, GGIsReflection p (φ i)) ∧
-      (∀ i j, α i (h j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p)) ∧
+      (∀ i j, α i (h j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p)) ∧
       (∀ i, (f (CoxeterMatrix.E₇.simple i) : MulAut ↥Bs) = φ i) ∧
       ggAutomizer X Bs = Subgroup.closure (Set.range φ) ∧
       (∀ i, κ (simple .E7 i) = CoxeterMatrix.E₇.simple i) ∧
@@ -687,9 +687,9 @@ theorem e7Levi_datum
   let w'' : GGTorusTorWit m 7 ↥X
       ((E.map (MulAut.conj : adjointGroup .E7 K →* MulAut (adjointGroup .E7 K))).map
         (MulAut.congr e.symm).toMonoidHom) := wt.transport e.symm
-  have hw'' : w''.Holds CartanMatrix.E₇ CoxeterMatrix.E₇ := wt.holds_transport e.symm hw
+  have hw'' : w''.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇ := wt.holds_transport e.symm hw
   let w' : GGTorusTorWit m 7 ↥X ((ggGamma X hN).range) := hA' ▸ w''
-  have hw' : w'.Holds CartanMatrix.E₇ CoxeterMatrix.E₇ := holds_of_eq_subgroup hA'.symm w'' hw''
+  have hw' : w'.Holds (CartanMatrix.E 7) CoxeterMatrix.E₇ := holds_of_eq_subgroup hA'.symm w'' hw''
   have hwn' : ∀ k, w'.n k = e.symm (n k) := by
     intro k
     have h1 : w'.n k = w''.n k := n_of_eq_subgroup hA'.symm w'' k
@@ -835,16 +835,16 @@ theorem e7Levi_datum
       rw [ofMul_pow, ← Nat.cast_smul_eq_nsmul (ZMod p), ZMod.natCast_zmod_val]
     rw [hsm, ofMul_mul, ofMul_inv]
     abel
-  have hpair : ∀ i j, α i (hh j) = ((CartanMatrix.E₇ i j : ℤ) : ZMod p) := by
+  have hpair : ∀ i j, α i (hh j) = (((CartanMatrix.E 7) i j : ℤ) : ZMod p) := by
     intro i j
     have h1 : coord (Additive.toMul (Additive.ofMul (bk j))) = Pi.single j 1 := by
       rw [toMul_ofMul]
       exact hcoord_bk j
     dsimp only [hh]
     rw [hα i (Additive.ofMul (bk j)), toMul_ofMul, h1, frameCoord_single]
-  have hdiag : ∀ i : Fin Tag.E7.rank, ((CartanMatrix.E₇ i i : ℤ) : ZMod p) = 2 := by
+  have hdiag : ∀ i : Fin Tag.E7.rank, (((CartanMatrix.E 7) i i : ℤ) : ZMod p) = 2 := by
     intro i
-    have h : CartanMatrix.E₇ i i = 2 := by fin_cases i <;> rfl
+    have h : (CartanMatrix.E 7) i i = 2 := by fin_cases i <;> rfl
     rw [h]
     norm_num
   have hrefl : ∀ i, GGIsReflection p (φ i) := by

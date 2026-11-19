@@ -80,13 +80,13 @@ theorem centralizerGenerationThree_of_kfact3W (hS : Setting G)
       rw [← Subgroup.subgroupOf_normalizer_eq hDH]
       exact hPD hx
     exact (Subgroup.map_mono h1).trans (Subgroup.le_normalizer_map π)
-  have hDHp : IsPGroup 3 (D.subgroupOf H) := (P.isPGroup'.to_le hDP).comap_subtype
+  have hDHp : IsPGroup 3 (D.subgroupOf H) := (P.isPGroup.to_le hDP).comap_subtype
   have hDcard : Nat.card ((D.subgroupOf H).map π) = 3 ^ 3 := by
     rw [CFSG.AGLEmbedding.card_map_mk_of_isPGroup hprime O hO hDHp,
       Nat.card_congr (subgroupOfEquivOfLe hDH).toEquiv]
     exact hext.card_eq_of_not_isMulCommutative hprime hodd hD
   have hEH : E ≤ H := hEP.trans hPH
-  have hEHp : IsPGroup 3 (E.subgroupOf H) := (P.isPGroup'.to_le hEP).comap_subtype
+  have hEHp : IsPGroup 3 (E.subgroupOf H) := (P.isPGroup.to_le hEP).comap_subtype
   have hEbP : (E.subgroupOf H).map π ≤ (Pbar : Subgroup (H ⧸ O)) := by
     rw [hPbar]
     exact Subgroup.map_mono (fun x hx => hEP hx)

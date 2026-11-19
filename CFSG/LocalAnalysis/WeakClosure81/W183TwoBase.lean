@@ -25,6 +25,7 @@ structure TwoCompBase (Y T L₁ L₂ : Subgroup (LGL 2 V)) : Prop where
   swap : ∃ x ∈ T, cj x L₁ = L₂
   gen : ∀ y ∈ Y, ∃ l ∈ L₁ ⊔ L₂, ∃ t ∈ T, y = l * t
 
+omit [Finite V] in
 theorem w183two_perm_cj_self_iff (h : TwoCompBase Y T L₁ L₂) {y : LGL 2 V} (hy : y ∈ Y) :
     cj y L₁ = L₁ ↔ cj y L₂ = L₂ := by
   constructor
@@ -37,12 +38,14 @@ theorem w183two_perm_cj_self_iff (h : TwoCompBase Y T L₁ L₂) {y : LGL 2 V} (
     · exact h1
     · exact absurd (hyL.symm.trans h2) h.ne.symm
 
+omit [Finite V] in
 theorem w183two_perm_cj_swap (h : TwoCompBase Y T L₁ L₂) {y : LGL 2 V} (hy : y ∈ Y)
     (hyL : cj y L₁ = L₂) : cj y L₂ = L₁ := by
   rcases h.perm y hy with ⟨h1, -⟩ | ⟨-, h2⟩
   · exact absurd (h1 ▸ hyL) h.ne
   · exact h2
 
+omit [Finite V] in
 theorem w183two_cj_centralizer (x : LGL 2 V) (A : Subgroup (LGL 2 V)) :
     cj x (Subgroup.centralizer (A : Set (LGL 2 V))) =
       Subgroup.centralizer (cj x A : Set (LGL 2 V)) := by
@@ -75,6 +78,7 @@ theorem w183two_cj_centralizer (x : LGL 2 V) (A : Subgroup (LGL 2 V)) :
     · change x * (x⁻¹ * y * x) * x⁻¹ = y
       group
 
+omit [Finite V] in
 theorem w183two_le_normalizer_of_comm {A B : Subgroup (LGL 2 V)}
     (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     A ≤ Subgroup.normalizer (B : Set (LGL 2 V)) := by
@@ -83,6 +87,7 @@ theorem w183two_le_normalizer_of_comm {A B : Subgroup (LGL 2 V)}
   rw [h a ha b hb, mul_assoc, mul_inv_cancel, mul_one]
   exact hb
 
+omit [Finite V] in
 theorem TwoCompBase.mem_normalizer_of_mem_centralizer₂ (h : TwoCompBase Y T L₁ L₂) {y : LGL 2 V}
     (hy : y ∈ Y ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V))) :
     y ∈ Subgroup.normalizer (L₁ : Set (LGL 2 V)) := by
@@ -94,6 +99,7 @@ theorem TwoCompBase.mem_normalizer_of_mem_centralizer₂ (h : TwoCompBase Y T L�
     have hcj₂ : cj y L₂ = L₂ := Subgroup.mem_normalizer_iff_map_conj_eq.mp hyN₂
     exact h.ne (by rw [← h2.2, hcj₂])
 
+omit [Finite V] in
 theorem TwoCompBase.mem_normalizer_of_mem_centralizer₁ (h : TwoCompBase Y T L₁ L₂) {y : LGL 2 V}
     (hy : y ∈ Y ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V))) :
     y ∈ Subgroup.normalizer (L₂ : Set (LGL 2 V)) := by
@@ -126,6 +132,7 @@ theorem w183two_exists_mul_of_mem_sup {G : Type*} [Group G] {A B : Subgroup G}
     calc a⁻¹ * b⁻¹ = (b * a)⁻¹ := (mul_inv_rev b a).symm
       _ = (a * b)⁻¹ := by rw [hcomm a ha b hb]
 
+omit [Finite V] in
 theorem w183two_fixSub_sup (A B : Subgroup (LGL 2 V)) :
     fixSub (A ⊔ B) = fixSub A ⊓ fixSub B := by
   refine le_antisymm ?_ ?_
@@ -149,6 +156,7 @@ theorem w183two_fixSub_sup (A B : Subgroup (LGL 2 V)) :
       sup_le (fun a ha => hv.1 a ha) (fun b hb => hv.2 b hb)
     exact fun g hg => hle hg
 
+omit [Finite V] in
 theorem TwoCompBase.mem_normalizer_iff (h : TwoCompBase Y T L₁ L₂) {y : LGL 2 V} (hy : y ∈ Y) :
     y ∈ Subgroup.normalizer (L₁ : Set (LGL 2 V)) ↔
       y ∈ Subgroup.normalizer (L₂ : Set (LGL 2 V)) := by
@@ -164,6 +172,7 @@ theorem TwoCompBase.mem_normalizer_iff (h : TwoCompBase Y T L₁ L₂) {y : LGL 
     · exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr h1
     · exact absurd (h2.symm.trans h1) (Ne.symm h.ne)
 
+omit [Finite V] in
 theorem TwoCompBase.cj_X (h : TwoCompBase Y T L₁ L₂) (hT : T ≤ Y) {x : LGL 2 V} (hx : x ∈ T)
     (hxL : cj x L₁ = L₂) :
     cj x (Y ⊓ Subgroup.centralizer (L₂ : Set (LGL 2 V))) =
@@ -231,6 +240,7 @@ theorem w183two_isSylowIn_inf_X₁ (hT : IsSylowIn 2 T Y) (h : TwoCompBase Y T L
     rw [inf_assoc, inf_eq_right.2 hX₁N]
   rwa [hEq] at hSylX₁
 
+omit [Finite V] in
 theorem w183two_exists_type_one {i : ℕ} (hc : Assumption131 Y Γ VA i) (hT : T ≤ Y)
     (h : TwoCompBase Y T L₁ L₂)
     (hone : ∀ D ∈ Γ, D ≤ Subgroup.centralizer (L₁ : Set (LGL 2 V)) ∨
@@ -264,7 +274,7 @@ theorem w183two_exists_type_one {i : ℕ} (hc : Assumption131 Y Γ VA i) (hT : T
 theorem w183two_two_fixSub_eq_bot (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ)
     (hL : TwoCompBase Y T L₁ L₂) : fixSub (L₁ ⊔ L₂) = ⊥ := by
   by_contra hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hinv : ∀ t ∈ T, ∀ w ∈ fixSub (L₁ ⊔ L₂), t w ∈ fixSub (L₁ ⊔ L₂) := by
     intro t ht w hw l hl
     have htY : t ∈ Y := hc.sylow.le ht
@@ -296,6 +306,7 @@ theorem w183two_two_fixSub_eq_bot (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ)
   have hlw : l w = w := hwW l hl
   exact hyw (by rw [LinearEquiv.mul_apply, htw, hlw])
 
+omit [Finite V] in
 theorem w183two_two_top_eq (hc : Br1Base Y Γ VA T 𝒢 Zs m i₀ δ) (hL : TwoCompBase Y T L₁ L₂) :
     Zs ⊔ commSpace L₁ ⊤ ⊔ commSpace L₂ ⊤ = ⊤ := by
   refine le_antisymm le_top ?_

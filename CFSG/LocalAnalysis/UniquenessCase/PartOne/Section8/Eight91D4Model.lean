@@ -428,7 +428,7 @@ theorem r891SL3Two_R891X_of_central_sylow_of_two_le
       centralizer ({x} : Set X) := by
     rw [hZx, Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
   have hres : R891X (⊤ : Subgroup X) (ZOf P) n = R := by
-    rw [R891X, if_neg (by omega), top_inf_eq, hcent]
+    rw [R891X, ite_eq_right (by omega), top_inf_eq, hcent]
     exact derInf8_eq_of_perfect hRC hRperfect hcomm
   rwa [hres]
 

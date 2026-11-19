@@ -21,7 +21,7 @@ private def IsPerm3Prod (Y : Type) [Group Y] : Prop :=
 theorem lf110_1_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (hOut : (innerAut (L ⧸ center L)).index = 2) (s : Setting3 G L) {g : G} (hg2 : g ^ 2 = 1)
     (hg : ActsAs L g s.fr'.σ) : LF110_1 s g := by
-  haveI := isPerfect_of_hrSetting (L := L) hS
+  have := isPerfect_of_hrSetting (L := L) hS
   have h110 := s.facts.2.2.2.2.2.2.2.2.2
   have hgN : g ∈ normalizer (L : Set G) := mem_normalizer_of_actsAs L hg
   have hAL : s.fr.A ≤ L := (s3_A_le_S s).trans (s3_S_le_L s)
@@ -60,9 +60,9 @@ theorem lf110_1_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
   exact h110.1.1
 
 theorem lf110_4_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
-    (hOut : (innerAut (L ⧸ center L)).index = 2) (s : Setting3 G L) {g : G} (hg2 : g ^ 2 = 1)
+    (_hOut : (innerAut (L ⧸ center L)).index = 2) (s : Setting3 G L) {g : G} (_hg2 : g ^ 2 = 1)
     (hg : ActsAs L g s.fr'.σ) : LF110_4 s g := by
-  haveI := isPerfect_of_hrSetting (L := L) hS
+  have := isPerfect_of_hrSetting (L := L) hS
   have h110 := s.facts.2.2.2.2.2.2.2.2.2
   have hFL : s.fr.F ≤ L := (s3_F_le_A s).trans ((s3_A_le_S s).trans (s3_S_le_L s))
   have hF2 : IsPGroup 2 ↥s.fr.F := s3_isPGroup_of_le s ((s3_F_le_A s).trans (s3_A_le_S s))
@@ -71,9 +71,9 @@ theorem lf110_4_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
   exact h110.2.1
 
 theorem lf110_5_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
-    (hOut : (innerAut (L ⧸ center L)).index = 2) (s : Setting3 G L) {g : G} (hg2 : g ^ 2 = 1)
+    (_hOut : (innerAut (L ⧸ center L)).index = 2) (s : Setting3 G L) {g : G} (_hg2 : g ^ 2 = 1)
     (hg : ActsAs L g s.fr'.σ) : LF110_5 s g := by
-  haveI := isPerfect_of_hrSetting (L := L) hS
+  have := isPerfect_of_hrSetting (L := L) hS
   have h110 := s.facts.2.2.2.2.2.2.2.2.2
   have hgN : g ∈ normalizer (L : Set G) := mem_normalizer_of_actsAs L hg
   have hFL : s.fr.F ≤ L := (s3_F_le_A s).trans ((s3_A_le_S s).trans (s3_S_le_L s))

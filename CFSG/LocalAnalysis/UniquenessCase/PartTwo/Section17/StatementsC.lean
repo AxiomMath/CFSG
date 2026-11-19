@@ -158,7 +158,7 @@ structure Ctx17_40 (D : Data G) (V₀ V L : Subgroup G) (n : ℕ) : Prop where
         ∀ E : Subgroup G, E ≤ X → IsElemAbelian r E → Nat.card E = r ^ 2 →
           E ∈ CFSG.LocalAnalysis.RankThreeUC.uniqueSet D.M
 
-@[expose] def P17_42_1 (D : Data G) (X : Subgroup G) : Prop :=
+@[expose] def P17_42_1 (_D : Data G) (X : Subgroup G) : Prop :=
   F08.Thin8 X ∨ (∃ n : ℕ, IsU3 (Bar2 X) n) ∨ IsL3 (Bar2 X) 2
 
 @[expose] def P17_42_2 (D : Data G) (L X : Subgroup G) (p : ℕ) : Prop :=
@@ -195,13 +195,13 @@ structure Ctx17_42 (D : Data G) (V₀ V L X : Subgroup G) (p : ℕ)
     (D.M ⊓ normalizer ((D.T ⊓ X : Set G))) Gamma
   Dc_eq : Dc = ⨆ x ∈ Gamma, CFSG.Quasithin.conjSubgroup C x
 
-@[expose] def R17_33_2At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_33_2At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ (L : Subgroup G) (n : ℕ), L ∈ calC D.M → IsSU3 (Bar2 L) n → IsPowTwo n
 
 @[expose] def R17_33_2 (D : Data G) : Prop :=
   ∀ (V₀ V : Subgroup G) (_hV : Hyp125 D V₀ V), R17_33_2At D V₀ V
 
-@[expose] def R17_33_3At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_33_3At (D : Data G) (V₀ _V : Subgroup G) : Prop :=
   ∀ (L : Subgroup G) (n : ℕ), L ∈ calC D.M → IsSU3 (Bar2 L) n → 1 < mSub V₀
 
 @[expose] def R17_34_1At (D : Data G) (V₀ V : Subgroup G) : Prop :=
@@ -267,7 +267,7 @@ structure Ctx17_42 (D : Data G) (V₀ V L X : Subgroup G) (p : ℕ)
   ∀ (L : Subgroup G) (n : ℕ) (_c : Ctx17_40 D V₀ V L n),
     (8 : ℕ∞) ≤ rMV D.M V
 
-@[expose] def R17_42At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_42At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ (L : Subgroup G) (p : ℕ), L ∈ calC D.M → p ∈ D.sig →
     Concl17_42 D L (conjClosure D.M L) p
 

@@ -15,7 +15,7 @@ variable {G : Type*} [Group G]
 
 theorem eq_one_of_mem_of_isPGroup_of_odd {P N : Subgroup G} (hP : IsPGroup 2 P)
     (hN : Odd (Nat.card N)) {x : G} (hxP : x ∈ P) (hxN : x ∈ N) : x = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := hP ⟨x, hxP⟩
   have h1 : orderOf x ∣ 2 ^ k :=
     orderOf_dvd_of_pow_eq_one (by simpa using congrArg Subtype.val hk)
@@ -81,6 +81,7 @@ theorem mem_of_mk_mem_bar {P Q : Subgroup G} (hPQ : P ≤ Q) (hQ : IsPGroup 2 Q)
   have e' : p = x := congrArg Subtype.val e
   rwa [← e']
 
+omit [Finite G] in
 theorem mk_mem_bar {P : Subgroup G} {x : G} (hxH : x ∈ H) (hxP : x ∈ P) :
     (QuotientGroup.mk ⟨x, hxH⟩ : Bar H) ∈ bar H P :=
   ⟨⟨x, hxH⟩, hxP, rfl⟩
@@ -100,27 +101,32 @@ theorem card_bar {P : Subgroup G} (hPH : P ≤ H) (hP : IsPGroup 2 P) :
   obtain ⟨e⟩ := nonempty_mulEquiv_bar hPH hP
   exact (Nat.card_congr e.toEquiv).symm
 
+omit [Finite G] in
 theorem isPGroup_bar {P : Subgroup G} (hP : IsPGroup 2 P) : IsPGroup 2 (bar H P) := by
   have h : IsPGroup 2 (P.subgroupOf H) := hP.comap_subtype
   exact h.map _
 
+omit [Finite G] in
 theorem bar_sup {P Q : Subgroup G} (hPH : P ≤ H) (hQH : Q ≤ H) :
     bar H (P ⊔ Q) = bar H P ⊔ bar H Q := by
   rw [bar, bar, bar, subgroupOf_sup hPH hQH, Subgroup.map_sup]
 
+omit [Finite G] in
 theorem bar_mono {P Q : Subgroup G} (h : P ≤ Q) : bar H P ≤ bar H Q :=
   map_mono fun _ hx => h hx
 
+omit [Finite G] in
 theorem bar_bot : bar H (⊥ : Subgroup G) = ⊥ := by
   rw [bar, bot_subgroupOf, Subgroup.map_bot]
 
 theorem bar_inf_of_isPGroup {P Q R : Subgroup G} (hPR : P ≤ R) (hQR : Q ≤ R) (hR : IsPGroup 2 R)
-    (hRH : R ≤ H) : bar H (P ⊓ Q) = bar H P ⊓ bar H Q := by
+    (_hRH : R ≤ H) : bar H (P ⊓ Q) = bar H P ⊓ bar H Q := by
   refine le_antisymm (le_inf (bar_mono inf_le_left) (bar_mono inf_le_right)) ?_
   rintro _ ⟨⟨⟨p, hpH⟩, hp, rfl⟩, hq⟩
   have hpP : p ∈ P := hp
   exact mk_mem_bar hpH ⟨hpP, mem_of_mk_mem_bar hQR hR hpH (hPR hpP) hq⟩
 
+omit [Finite G] in
 theorem bar_le_centralizer {P Q : Subgroup G} (h : Q ≤ centralizer (P : Set G)) :
     bar H Q ≤ centralizer (bar H P : Set (Bar H)) := by
   rintro _ ⟨⟨q, hqH⟩, hq, rfl⟩
@@ -157,13 +163,14 @@ theorem IsE16.bar {E : Subgroup G} (hE : IsE16 E) (hEH : E ≤ H) : IsE16 (bar H
 
 theorem isSylowOf_bar {T K : Subgroup G} (hKH : K ≤ H) (hT : IsSylowOf 2 T K) :
     IsSylowOf 2 (bar H T) (bar H K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT' : IsSylowOf 2 (T.subgroupOf H) (K.subgroupOf H) := by
     rw [← isSylowOf_map_subtype_iff H, map_subgroupOf_eq_of_le (hT.le.trans hKH),
       map_subgroupOf_eq_of_le hKH]
     exact hT
   exact isSylowOf_map_hom hT' _
 
+omit [Finite G] in
 theorem bar_self : bar H H = ⊤ := by
   rw [bar, subgroupOf_self, Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)]
 
@@ -209,7 +216,7 @@ theorem separate_of_mk_isConj {H P : Subgroup G} (hPH : P ≤ H) (hPS : P ≤ �
     (hx : x ∈ P) (hy : y ∈ P) (hx2 : orderOf x = 2)
     (hc : IsConj (QuotientGroup.mk ⟨x, hPH hx⟩ : Bar H) (QuotientGroup.mk ⟨y, hPH hy⟩)) :
     (x ∈ 𝔖.S₁ ↔ y ∈ 𝔖.S₁) ∧ (x ∈ 𝔖.S₂ ↔ y ∈ 𝔖.S₂) := by
-  have hP : IsPGroup 2 P := 𝔖.S.isPGroup'.to_le hPS
+  have hP : IsPGroup 2 P := 𝔖.S.isPGroup.to_le hPS
   have hxx : x * x = 1 := by
     have h := pow_orderOf_eq_one x
     rwa [hx2, pow_two] at h

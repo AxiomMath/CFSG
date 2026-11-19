@@ -32,7 +32,7 @@ theorem needsFive_of_quot {G : Type} [Group G] [Finite G] {R F : Subgroup G} {ξ
       Subgroup.closure (X : Set G) ⊔ Subgroup.zpowers ξ ≠ R := by
   classical
   intro X hXR hX4 hcl
-  haveI : (F.subgroupOf R).Normal := ⟨fun n hn g => by
+  have : (F.subgroupOf R).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have hc : (g : G) * (n : G) = (n : G) * (g : G) := hFc _ hn _ g.2
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
@@ -91,7 +91,7 @@ theorem needsFive_of_quot {G : Type} [Group G] [Finite G] {R F : Subgroup G} {ξ
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (F.subgroupOf R)
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hFR).toEquiv, hcard] at h1
     exact Nat.eq_of_mul_eq_mul_right hFpos h1.symm
-  letI : Fintype (↥R ⧸ F.subgroupOf R) := Fintype.ofFinite _
+  let : Fintype (↥R ⧸ F.subgroupOf R) := Fintype.ofFinite _
   have hsub : (Finset.univ : Finset (↥R ⧸ F.subgroupOf R)) ⊆ S := fun q _ => hall' q
   have hle := Finset.card_le_card hsub
   rw [Finset.card_univ, ← Nat.card_eq_fintype_card, hQcard] at hle

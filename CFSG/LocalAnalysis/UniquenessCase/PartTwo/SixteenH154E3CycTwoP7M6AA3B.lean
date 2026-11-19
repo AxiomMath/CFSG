@@ -15,18 +15,18 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 variable {G : Type} [Group G] [Finite G]
 
 theorem s16h_e3_CycTwoP7M6A_pRank_three_le_one
-    (D : Data G) (S : s16h_Std D) (hr3 : CFSG.Open.evenRank G = 3) (hσ : D.sig = D.sig1)
+    (D : Data G) (_S : s16h_Std D) (_hr3 : CFSG.Open.evenRank G = 3) (_hσ : D.sig = D.sig1)
     {V₀ V L : Subgroup G} (hV : IsElemAbelian 2 V) (h : Setting16 D V₀ V L)
     (hc : Conc4_136 D V₀ V hV L)
     {p : ℕ} (hp : p.Prime) (hLp : IsCyclicOrd ↥(lBar V₀ V hV L) p)
-    (hχ : ¬ ∀ n ∈ Mbar D.M V₀ V hV,
+    (_hχ : ¬ ∀ n ∈ Mbar D.M V₀ V hV,
       n ∈ normalizer ((lBar V₀ V hV L : Subgroup _) : Set _) →
         ∀ l ∈ lBar V₀ V hV L, n * l = l * n)
-    (hs2 : s15 D.M V₀ V hV L = 2)
-    (hres : ∀ q ∈ D.sig, q = p ∨
+    (_hs2 : s15 D.M V₀ V hV L = 2)
+    (_hres : ∀ q ∈ D.sig, q = p ∨
       (p = 7 ∧ rk ↥(wTil V₀ V hV L) = 6 ∧ q = 3))
     (hp7 : p = 7) (hm : rk ↥(wTil V₀ V hV L) = 6)
-    (hbad : ¬ ∀ w ∈ wSub V₀ V hV L, w ≠ 1 →
+    (_hbad : ¬ ∀ w ∈ wSub V₀ V hV L, w ≠ 1 →
       UniqueMax D.M (D.M ⊓ centralizer ({w} : Set G))) :
     CFSG.pRank 3 ↥(autSub (Mbar D.M V₀ V hV ⊓
       normalizer ((lBar V₀ V hV L : Subgroup _) : Set _)) (wTil V₀ V hV L)) ≤ 1 := by
@@ -43,8 +43,8 @@ theorem s16h_e3_CycTwoP7M6A_pRank_three_le_one
     rw [← hLbdef] at h1
     rw [h1, hp7]
   have hoddLb : Odd (Nat.card ↥Lb) := by rw [hLbcard]; exact hodd7
-  haveI : IsCyclic ↥Lb := hLp.1
-  letI : CommGroup ↥Lb := IsCyclic.commGroup
+  have : IsCyclic ↥Lb := hLp.1
+  let : CommGroup ↥Lb := IsCyclic.commGroup
   have hLstab : Lb ≤ stabSub W := by
     intro g hg
     rw [mem_stabSub]
@@ -90,7 +90,7 @@ theorem s16h_e3_CycTwoP7M6A_pRank_three_le_one
     have hcent : Nat.card ↥(Lb ⊓ centSub W) = 1 := by rw [hLbCentBot, Subgroup.card_bot]
     rw [hcent, mul_one, hLbcard] at hcard
     exact hcard
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥Lb)
   have hgcard : orderOf g = 7 := (orderOf_eq_card_of_forall_mem_zpowers hg).trans hLbcard
   set l : MulAut (Vtil V₀ V hV) := (g : MulAut (Vtil V₀ V hV)) with hldef

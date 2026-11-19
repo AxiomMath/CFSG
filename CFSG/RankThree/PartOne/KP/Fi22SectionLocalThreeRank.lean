@@ -15,7 +15,7 @@ theorem four_le_twoLocalPrimeRank_three_of_section_fi22
     {G : Type} [Group G] [Finite G] (H : Subgroup G) (K : Subgroup H) [K.Normal]
     (e : (↥H ⧸ K) ≃* Carrier .Fi22) : 4 ≤ CFSG.Open.twoLocalPrimeRank 3 G := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hlt
   have hle : CFSG.Open.twoLocalPrimeRank 3 G ≤ 3 := by omega
   let q : H →* CFSG.Sporadic.Fi22.J :=

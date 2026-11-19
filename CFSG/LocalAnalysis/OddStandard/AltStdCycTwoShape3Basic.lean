@@ -21,6 +21,7 @@ theorem z_not_mem_L (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) (d : C
   rw [h1, orderOf_one] at this
   omega
 
+omit [Finite G] in
 theorem sign_rho_eq_neg_one (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) {c : G}
     (hcN : c ∈ normalizer (L : Set G)) (hc : c ∉ L ⊔ centralizer (L : Set G)) :
     sign (rho θ hn ⟨c, hcN⟩) = -1 := by
@@ -28,11 +29,13 @@ theorem sign_rho_eq_neg_one (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n
   · exact absurd (mem_sup_of_rho_mem θ hn hcN (mem_alternatingGroup.2 h)) hc
   · exact h
 
+omit [Finite G] in
 theorem sign_rho_eq_one (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) {c : G}
     (hcN : c ∈ normalizer (L : Set G)) (hc : c ∈ L ⊔ centralizer (L : Set G)) :
     sign (rho θ hn ⟨c, hcN⟩) = 1 :=
   mem_alternatingGroup.1 ((mem_evenAct_iff θ hn hcN).1 (sup_le_evenAct θ hn hc))
 
+omit [Finite G] in
 theorem inv_mul_mem_sup (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) {u c : G}
     (huN : u ∈ normalizer (L : Set G)) (hcN : c ∈ normalizer (L : Set G))
     (hu : u ∉ L ⊔ centralizer (L : Set G)) (hc : c ∉ L ⊔ centralizer (L : Set G)) :
@@ -46,6 +49,7 @@ theorem inv_mul_mem_sup (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) {u
   rw [sign_rho_eq_neg_one θ hn huN hu, sign_rho_eq_neg_one θ hn hcN hc]
   decide
 
+omit [Finite G] in
 theorem conj_mem_sup (θ : L ≃* alternatingGroup (Fin n)) (hn : 8 ≤ n) {c x : G}
     (hcN : c ∈ normalizer (L : Set G)) (hx : x ∈ L ⊔ centralizer (L : Set G)) :
     c * x * c⁻¹ ∈ L ⊔ centralizer (L : Set G) := by
@@ -123,7 +127,7 @@ theorem exists_sq_eq_mul (hS : StandardSetting G L) (θ : L ≃* alternatingGrou
     have h1 : (⟨v⁻¹ * r, mul_mem (inv_mem hvC) hr⟩ : C) = (c * ⟨u, hu⟩ * c⁻¹)⁻¹ * ⟨r, hr⟩ := rfl
     rw [h1]
     exact mul_mem (inv_mem hcu) hrT
-  obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.1 T.isPGroup' ⟨_, hvrT⟩
+  obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.1 T.isPGroup ⟨_, hvrT⟩
   have hvrj : (v⁻¹ * r) ^ 2 ^ j = 1 := by
     have h1 := pow_orderOf_eq_one (⟨_, hvrT⟩ : (T : Subgroup C))
     rw [hj] at h1

@@ -29,11 +29,11 @@ theorem sl2W_conj_spCompanion (h2 : (2 : F) = 0) (t : F) :
 theorem spPlaneZetaCompanion_conj_sl2W (hp : p.Prime) (h2 : (2 : F) = 0) (t : F)
     (ht : spCompanion t ^ p = 1) (a : Multiplicative (ZMod p)) :
     sl2W * spPlaneZetaCompanion t ht a * sl2W⁻¹ = spPlaneZetaCompanion t ht a⁻¹ := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   rw [map_inv, spPlaneZetaCompanion, CFSG.StandardType.TableBSymp.zmodPowHom_apply ht a,
     ← conj_pow, sl2W_conj_spCompanion h2 t, inv_pow]
 
-theorem spCompanion_pow_eq_one (hp : p.Prime) {t : F}
+theorem spCompanion_pow_eq_one (_hp : p.Prime) {t : F}
     (hgd : (X ^ 2 + C t * X + 1 : F[X]) ∣ cyclotomic p F) : spCompanion t ^ p = 1 := by
   let M : Matrix (Fin 2) (Fin 2) F := (spCompanion t : SpecialLinearGroup (Fin 2) F)
   have hM : M = !![0, -1; 1, -t] := coe_spCompanion t
@@ -43,7 +43,7 @@ theorem spCompanion_pow_eq_one (hp : p.Prime) {t : F}
     rw [hquad, hM]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [pow_two, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+      simp [pow_two]
   have hdiv : (X ^ 2 + C t * X + 1 : F[X]) ∣ X ^ p - 1 :=
     hgd.trans (Polynomial.cyclotomic.dvd_X_pow_sub_one p F)
   have hp1 : aeval M (X ^ p - 1 : F[X]) = 0 :=
@@ -68,7 +68,7 @@ theorem exists_quadratic_cyclotomic_factor [Finite F] (hp : p.Prime) (hp2 : p �
     exact Nat.sub_pos_of_lt hp.one_lt
   obtain ⟨g, hgmonic, hgirr, hgdvd⟩ :=
     Polynomial.exists_monic_irreducible_factor (cyclotomic p F) hcyclo_notunit
-  haveI : Fact (Irreducible g) := ⟨hgirr⟩
+  have : Fact (Irreducible g) := ⟨hgirr⟩
   have hdeg : g.natDegree = 2 := SpNS.natDegree_eq_two hp hp2 hpF hgdvd hpq
   have hnorm : Algebra.norm F (AdjoinRoot.root g) = 1 :=
     SpNS.norm_root_eq_one hp hp2 hpF hgdvd hpq
@@ -100,7 +100,7 @@ theorem spPlaneConj_companion [Finite F] (h2 : (2 : F) = 0) (hp : p.Prime) (hp2 
   obtain ⟨c, hc⟩ := exists_conj_range_planeTorus_of_frame t ht E u hind hform hact
   refine ⟨c, ?_⟩
   let R := (spPlaneTorus n (spPlaneZetaCompanion t ht)).range
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hR_le : Nat.card R ≤ p ^ n := by
     let D := Fin n → Multiplicative (ZMod p)
     have hcardD : Nat.card D = p ^ n := by

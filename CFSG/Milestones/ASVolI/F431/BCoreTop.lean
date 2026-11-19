@@ -18,7 +18,7 @@ theorem burnsideF4m_lieCoreInput_U :
       burnsideF4m_Core1 Gp M₁ ∧ burnsideF4m_Core2 κ Gp M₂ ∧
         pCoreOf 2 M₂ = pCoreOf 2 (Gp ⊓ M₂) := by
   intro κ f E _ Gp M₁ M₂ hyp hf hκ _
-  haveI := hyp.finite
+  have := hyp.finite
   rcases hκ with rfl | rfl
   · exact ⟨(burnsideF4m_core12_U4 hyp hf).1, (burnsideF4m_core12_U4 hyp hf).2,
       burnsideF4m_U4_pCore hyp hf⟩

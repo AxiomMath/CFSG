@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G] {Dat : Data G} (m : Mz614 Dat)
 
 theorem c625_of_k332' (hK : UCK.K332') (h69 : R6_9 Dat)
     (h623 : m.C623) (hr : 3 < m.r) : m.C625 := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have h5 : 5 ≤ m.r := by
     by_contra h
     have h4 : m.r = 4 := by omega

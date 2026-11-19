@@ -88,7 +88,7 @@ theorem twelveSixKbarSingle_of (h35r : KFactThreeFiveRankOne)
   let S : Set (Subgroup G) := {Y | IsPComponentIn p Y H ∧ ¬ Y ≤ M}
   have hkS : kSub p M H = sSup S := by
     unfold kSub
-    rw [if_neg hA]
+    rw [ite_eq_right hA]
   obtain ⟨E, hEQ, hE, hEc, hΓ⟩ := hc.ctx.exists_E_sq
   have hC := hc.ctx.hypCGen hEQ hE hEc hΓ
   have h2 : S.ncard ≤ 2 :=

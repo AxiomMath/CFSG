@@ -14,6 +14,7 @@ open Matrix CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial
 
 variable {K : Type} [Field K] [Finite K] {n d p : ℕ}
 
+omit [Finite K] in
 theorem torus_le_block {L' : Type} [Group L'] {φ : ↥(unitarySU 2 n K d) →* L'}
     {S : Finset (Fin d)} {E : Subgroup L'}
     (hdesc : ∀ e ∈ E, ∃ (g : ↥(unitarySU 2 n K d)) (τ : Fin d → Kˣ), φ g = e ∧

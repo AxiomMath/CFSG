@@ -82,10 +82,10 @@ theorem ggTorusTorData_of_blockModel {M p r : ℕ} [Fact p.Prime] (hp2 : p ≠ 2
     rw [Subgroup.mem_bot, ← ofAdd_toAdd a, (ZMod.val_eq_zero _).mp h0, ofAdd_zero]
   have hι : Function.Injective ι := hψ.comp fun f g h => funext fun i => hz (congrFun h i)
   have hzpow : ∀ x : μ, x ^ p = 1 → ∃ a, z a = x := by
-    haveI : NeZero M := ⟨fun h => by subst h; exact (by decide : ¬ Odd 0) hM⟩
-    haveI : Finite μ := Finite.of_equiv _ l.toEquiv.symm
-    haveI : IsCyclic μ := isCyclic_of_surjective l.symm.toMonoidHom l.symm.surjective
-    letI : Fintype μ := Fintype.ofFinite μ
+    have : NeZero M := ⟨fun h => by subst h; exact (by decide : ¬ Odd 0) hM⟩
+    have : Finite μ := Finite.of_equiv _ l.toEquiv.symm
+    have : IsCyclic μ := isCyclic_of_surjective l.symm.toMonoidHom l.symm.surjective
+    let : Fintype μ := Fintype.ofFinite μ
     have hfin : IsOfFinOrder ζ := isOfFinOrder_of_finite ζ
     intro x hx
     have hxz : x ∈ Subgroup.zpowers ζ := by

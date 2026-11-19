@@ -13,7 +13,7 @@ open CFSG.Open CFSG.QuasithinUnique
 
 private theorem bk6_iso_card_three {K : Type} [Group K] (h : Nat.card K = 3) :
     Nonempty (K ≃* Multiplicative (ZMod 3)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact ⟨mulEquivOfPrimeCardEq h (by rw [Nat.card_eq_fintype_card]; rfl)⟩
 
 private theorem bk6_odd_of_psu {S : Type} [Group S] (h : IsPSU 3 3 1 S) :

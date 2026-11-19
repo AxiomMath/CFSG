@@ -17,14 +17,17 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [Finite V]
 noncomputable def rootRefl (v : V) (hv : B v v = 2) : V ≃ₗ[ZMod 3] V :=
   Module.reflection (x := v) (f := B v) hv
 
+omit [Finite V] in
 theorem rootRefl_apply (v : V) (hv : B v v = 2) (u : V) :
     rootRefl (B := B) v hv u = u - B v u • v :=
   Module.reflection_apply u hv
 
+omit [Finite V] in
 theorem rootRefl_involutive (v : V) (hv : B v v = 2) (u : V) :
     rootRefl (B := B) v hv (rootRefl (B := B) v hv u) = u :=
   Module.involutive_reflection hv u
 
+omit [Finite V] in
 theorem rootRefl_neg (v : V) (hv : B v v = 2) :
     rootRefl (B := B) (-v) (by
       rw [LinearMap.BilinForm.neg_left, LinearMap.BilinForm.neg_right, neg_neg]; exact hv) =
@@ -32,7 +35,7 @@ theorem rootRefl_neg (v : V) (hv : B v v = 2) :
   apply LinearEquiv.ext
   intro u
   rw [rootRefl_apply, rootRefl_apply]
-  simp only [LinearMap.BilinForm.neg_left, neg_smul, neg_neg]
+  simp only [LinearMap.BilinForm.neg_left, neg_smul]
   module
 
 theorem rootRefl_isometry (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMod 3))
@@ -134,6 +137,7 @@ variable {G : Type} [Group G] {Bs : Subgroup G}
 noncomputable def SOf (ι : Additive ↥Bs ≃+ V) (A : Subgroup (MulAut ↥Bs)) : Set V :=
   {v | ∃ hv : B v v = 2, rootRefl (B := B) v hv ∈ A.map (ggLin (p := 3) ι)}
 
+omit [Finite V] in
 theorem mem_SOf_iff {ι : Additive ↥Bs ≃+ V} {A : Subgroup (MulAut ↥Bs)} {v : V} :
     v ∈ SOf (B := B) ι A ↔ ∃ hv : B v v = 2,
       rootRefl (B := B) v hv ∈ A.map (ggLin (p := 3) ι) := Iff.rfl

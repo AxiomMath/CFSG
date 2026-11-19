@@ -142,8 +142,8 @@ include h hKU in
 theorem Data.Hyp.Nn_le_centralizer_Pp :
     Data.Nn h hKU hf ≤ centralizer (Data.Pp h hKU hf : Set G) :=
   commutator_le_centralizer_of_stable (N := Data.N₃ h hKU hf) (P := Data.Pp h hKU hf)
-    (I := d.Y ⊓ d.tc K₀) (fun i hi i' hi' => h.Y_comm hi.1 hi'.1)
-    (fun g hg i hi => h.comm_N₃_I₁ hKU hf hg hi) (h.N₃_le_normalizer_Pp hKU hf)
+    (I := d.Y ⊓ d.tc K₀) (fun _i hi _i' hi' => h.Y_comm hi.1 hi'.1)
+    (fun _g hg _i hi => h.comm_N₃_I₁ hKU hf hg hi) (h.N₃_le_normalizer_Pp hKU hf)
     (h.stable_N₃_Pp hKU hf)
 
 include h hKU in

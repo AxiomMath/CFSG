@@ -42,7 +42,7 @@ variable {E : Type*} [Field E] [Finite E] [CharP E 2] {W : Type*} [AddCommGroup 
 theorem oddPCoreInClosure_generalLinearGroup_two_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hE : Nat.card E = 2) (hm : Module.finrank E W = 2) :
     OddPCoreInClosure p (LinearMap.GeneralLinearGroup E W) := by
-  haveI : Finite (LinearMap.GeneralLinearGroup E W) := finite_generalLinearGroup'
+  have : Finite (LinearMap.GeneralLinearGroup E W) := finite_generalLinearGroup'
   have h6 := natCard_generalLinearGroup_two_two (W := W) hE hm
   by_cases hp6 : p ∣ 6
   ·
@@ -75,7 +75,7 @@ theorem oddPCoreInClosure_generalLinearGroup_two_two {p : ℕ} (hp : p.Prime) (h
 
 theorem oddPCoreInClosure_generalLinearGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     OddPCoreInClosure p (LinearMap.GeneralLinearGroup E W) := by
-  haveI : Finite (LinearMap.GeneralLinearGroup E W) := finite_generalLinearGroup'
+  have : Finite (LinearMap.GeneralLinearGroup E W) := finite_generalLinearGroup'
   by_cases hm : 2 ≤ Module.finrank E W
   · by_cases hexc : Module.finrank E W = 2 ∧ Nat.card E = 2
     · exact oddPCoreInClosure_generalLinearGroup_two_two hp hp2 hexc.2 hexc.1
@@ -85,7 +85,7 @@ theorem oddPCoreInClosure_generalLinearGroup {p : ℕ} (hp : p.Prime) (hp2 : p �
         · exact Or.inl h3
         · right
           have hE2 : Nat.card E ≠ 2 := fun h => hexc ⟨by omega, h⟩
-          haveI : Fintype E := Fintype.ofFinite E
+          have : Fintype E := Fintype.ofFinite E
           obtain ⟨n, -, hn⟩ := FiniteField.card E 2
           have hcard : Fintype.card E = 2 ^ (n : ℕ) := hn
           have hn2 : 2 ≤ (n : ℕ) := by
@@ -112,7 +112,7 @@ theorem oddPCoreInClosure_generalLinearGroup {p : ℕ} (hp : p.Prime) (hp2 : p �
         exact Subtype.ext this
       ·
         intro hpG
-        haveI : Fact p.Prime := ⟨hp⟩
+        have : Fact p.Prime := ⟨hp⟩
         obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := LinearMap.GeneralLinearGroup E W) p
           hpG
         by_cases hdet : Units.map (LinearMap.det : Module.End E W →* E) g = 1

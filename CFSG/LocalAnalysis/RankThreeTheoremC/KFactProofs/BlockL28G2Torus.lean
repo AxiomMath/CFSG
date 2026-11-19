@@ -39,8 +39,7 @@ theorem gtwo_sq_eq_one_of_torusHom_eq_one
   have h1 := torusElt_single (R := F) i t (Sum.inr ⟨Pi.single i 1, isRoot_single .G2 i⟩)
   have hsum : ∑ j, Tag.cartan .G2 i j *
       labelWt .G2 (Sum.inr ⟨Pi.single i 1, isRoot_single .G2 i⟩ : Label .G2) j = 2 := by
-    simp only [labelWt, Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq,
-      Finset.mem_univ, if_true]
+    simp only [labelWt, Pi.single_apply, mul_ite, mul_one, mul_zero]
     fin_cases i <;> rfl
   rw [hsum] at h1
   have h2 : (torusElt .G2 F i t : Module.End F (RootModule .G2 F)) = 1 :=

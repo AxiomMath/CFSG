@@ -19,11 +19,13 @@ section StdTransport
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem subgroupOf_inf' (H A B : Subgroup G) :
     (A ⊓ B).subgroupOf H = A.subgroupOf H ⊓ B.subgroupOf H := by
   ext x
   simp [Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem subgroupOf_centralizer {H K : Subgroup G} (hKH : K ≤ H) :
     (Subgroup.centralizer (K : Set G)).subgroupOf H =
       Subgroup.centralizer ((K.subgroupOf H : Subgroup ↥H) : Set ↥H) := by
@@ -37,17 +39,20 @@ theorem subgroupOf_centralizer {H K : Subgroup G} (hKH : K ≤ H) :
     have := h ⟨k, hKH hk⟩ (Subgroup.mem_subgroupOf.2 hk)
     simpa using congrArg Subtype.val this
 
+omit [Finite G] in
 theorem subgroupOf_inf_centralizer' {H L D : Subgroup G} (hDH : D ≤ H) :
     (L ⊓ Subgroup.centralizer (D : Set G)).subgroupOf H =
       L.subgroupOf H ⊓ Subgroup.centralizer ((D.subgroupOf H : Subgroup ↥H) : Set ↥H) := by
   rw [subgroupOf_inf', subgroupOf_centralizer hDH]
 
+omit [Finite G] in
 theorem isComponentOf_subgroupOf {H Y K : Subgroup G} (hYH : Y ≤ H) (h : IsComponentOf K Y) :
     IsComponentOf (K.subgroupOf H) (Y.subgroupOf H) := by
   obtain ⟨hKY, hsn, hq⟩ := h
   exact ⟨Subgroup.subgroupOf_mono H hKY, (I2015.isSubnormal_subgroupOf_iff hKY hYH).1 hsn,
     hq.of_mulEquiv (Subgroup.subgroupOfEquivOfLe (hKY.trans hYH))⟩
 
+omit [Finite G] in
 theorem isComponentOf_map_subtype {H : Subgroup G} {Y J : Subgroup ↥H} (h : IsComponentOf J Y) :
     IsComponentOf (J.map H.subtype) (Y.map H.subtype) :=
   I142N.isComponentOf_map H.subtype (fun g hg => by
@@ -55,6 +60,7 @@ theorem isComponentOf_map_subtype {H : Subgroup G} {Y J : Subgroup ↥H} (h : Is
     rw [this]
     exact Subgroup.one_mem _) h
 
+omit [Finite G] in
 theorem glaStdSubPre_subgroupOf {p : ℕ} {H B L D K : Subgroup G} {x : G} (hxH : x ∈ H) (hBH : B ≤ H)
     (hLH : L ≤ H) (h : GLAStdSubPre p B x L D K) :
     GLAStdSubPre p (B.subgroupOf H) (⟨x, hxH⟩ : ↥H) (L.subgroupOf H) (D.subgroupOf H) (K.subgroupOf H) := by
@@ -92,7 +98,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem i265StdAt_of_fact (hF : FactS) (p : ℕ) : I265StdAt G p := by
   classical
   intro B x L D K hp hp2 hS h4 hq hchev hKx hinn hpre
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hBel, hBcard, -, -, -⟩ : IsElemAbelian p B ∧ Nat.card ↥B = p ^ GLATwoLocalRank p G ∧
       ∃ U : Subgroup G, U ≠ ⊥ ∧ IsPGroup 2 U ∧ B ≤ Subgroup.normalizer (U : Set G) := IsSStarMax.bmax hS
   have hess := IsSStarMax.essential hS

@@ -220,8 +220,8 @@ theorem exists_noncomm_in_sylow_of_isPGroup {G : Type*} [Group G] [Finite G] {H 
     (hH : IsPGroup 3 H) {x y : G} (hx : x ∈ H) (hy : y ∈ H) (hx3 : x ^ 3 = 1) (hy3 : y ^ 3 = 1)
     (hxy : x * y ≠ y * x) (S : Sylow 3 G) :
     ∃ x' ∈ (S : Subgroup G), ∃ y' ∈ (S : Subgroup G), x' ^ 3 = 1 ∧ y' ^ 3 = 1 ∧ x' * y' ≠ y' * x' := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Sylow 3 G) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Sylow 3 G) :=
     Finite.of_injective (fun P : Sylow 3 G => ((P : Subgroup G) : Set G))
       (fun P Q h => Sylow.ext (SetLike.coe_injective h))
   obtain ⟨Q, hHQ⟩ := hH.exists_le_sylow

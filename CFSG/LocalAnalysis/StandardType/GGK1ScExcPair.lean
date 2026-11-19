@@ -23,39 +23,39 @@ theorem largeEvenLabelAll_centerPrime_excPair
     have hp3 : p ≠ 3 := fun h3 => hc ⟨Or.inl rfl, h3⟩
     dsimp only [LargeEvenLabelAll, LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
     obtain ⟨K, hField, hFinite, hK, hQ'⟩ := hQ
-    letI : Field K := hField
-    letI : Finite K := hFinite
-    haveI : CharP K 2 := charP_two_of_card hK
+    let : Field K := hField
+    let : Finite K := hFinite
+    have : CharP K 2 := charP_two_of_card hK
     exact ⟨K, hField, hFinite, hK, hQ', ExcSplitL.ggCenterPrime_recipe_E6 hp hp2 hp3⟩
   ·
     have hp3 : p ≠ 3 := fun h3 => hc ⟨Or.inr rfl, h3⟩
     dsimp only [LargeEvenLabelAll, LargeEvenRawDatum, LargeEvenRecipeTwisted] at hQ ⊢
     obtain ⟨K, hField, hFinite, hK, hQ'⟩ := hQ
-    letI : Field K := hField
-    letI : Finite K := hFinite
+    let : Field K := hField
+    let : Finite K := hFinite
     exact ⟨K, hField, hFinite, hK, hQ',
       TwE6Delta.ggCenterPrime_twE6 hlab.1 hK hp hp2 hp3⟩
   ·
     dsimp only [LargeEvenLabelAll, LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
     obtain ⟨K, hField, hFinite, hK, hQ'⟩ := hQ
-    letI : Field K := hField
-    letI : Finite K := hFinite
-    haveI : CharP K 2 := charP_two_of_card hK
+    let : Field K := hField
+    let : Finite K := hFinite
+    have : CharP K 2 := charP_two_of_card hK
     exact ⟨K, hField, hFinite, hK, hQ',
       ExcSplitL.ggCenterPrime_recipe_E7 hlab.1 hK hp hp2⟩
   ·
     dsimp only [LargeEvenLabelAll, LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
     obtain ⟨K, hField, hFinite, hK, hQ'⟩ := hQ
-    letI : Field K := hField
-    letI : Finite K := hFinite
-    haveI : CharP K 2 := charP_two_of_card hK
+    let : Field K := hField
+    let : Finite K := hFinite
+    have : CharP K 2 := charP_two_of_card hK
     exact ⟨K, hField, hFinite, hK, hQ', ExcSplitL.ggCenterPrime_recipe_E8 hp hp2⟩
   ·
     dsimp only [LargeEvenLabelAll, LargeEvenRawDatum, LargeEvenRecipeChevalley] at hQ ⊢
     obtain ⟨K, hField, hFinite, hK, hQ'⟩ := hQ
-    letI : Field K := hField
-    letI : Finite K := hFinite
-    haveI : CharP K 2 := charP_two_of_card hK
+    let : Field K := hField
+    let : Finite K := hFinite
+    have : CharP K 2 := charP_two_of_card hK
     exact ⟨K, hField, hFinite, hK, hQ', ExcSplitL.ggCenterPrime_recipe_F4 hp hp2⟩
 
 theorem ggK0Schur_excPair :

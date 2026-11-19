@@ -90,18 +90,22 @@ variable [CharP K 2]
 
 @[expose] def PhiS (S : Finset (Tt K)) (e : Gp K) : Gp K := PhiL S.toList e
 
+omit [CharP K 2] in
 theorem PhiL_nil (e : Gp K) : PhiL ([] : List (Tt K)) e = 1 := rfl
 
+omit [CharP K 2] in
 theorem PhiL_cons (t : Tt K) (L : List (Tt K)) (e : Gp K) :
     PhiL (t :: L) e = (tau t * e * (tau t)⁻¹) * PhiL L e := by
   simp [PhiL]
 
+omit [CharP K 2] in
 theorem PhiL_mem_URge (hR : Closed R) {h : ℕ} {e : Gp K} (he : e ∈ URge K R h) (L : List (Tt K)) :
     PhiL L e ∈ URge K R h := by
   induction L with
   | nil => exact Subgroup.one_mem _
   | cons t L ih => rw [PhiL_cons]; exact Subgroup.mul_mem _ (conj_tau_mem_URge hR t he) ih
 
+omit [CharP K 2] in
 theorem PhiL_mem {E : Subgroup (Gp K)} (hE : IsStab R E) {e : Gp K} (he : e ∈ E) (L : List (Tt K)) :
     PhiL L e ∈ E := by
   induction L with
@@ -222,13 +226,13 @@ theorem E_le_Rn (hf : ∀ γ ∈ R, f γ = 0 ∨ f γ = 1) (hR : Closed R)
   have hS0 : ∀ α ∈ R, InA hR E α → ∑ t ∈ S, ((chi α t : Kˣ) : K) = 0 := by
     intro α hα hInA
     have := hS ⟨α, hα⟩
-    rwa [if_pos hInA] at this
+    rwa [ite_eq_left hInA] at this
   have hS1 : ∀ β ∈ Rp f R, ∑ t ∈ S, ((chi β t : Kˣ) : K) = 1 := by
     intro β hβ
     obtain ⟨hβR, hβ0⟩ := Finset.mem_filter.1 hβ
     have hnot : ¬ InA hR E β := fun h => by have := hA β h; omega
     have := hS ⟨β, hβR⟩
-    rwa [if_neg hnot] at this
+    rwa [ite_eq_right hnot] at this
   have hnil : ∀ e ∈ E, (PhiS S)^[H] e = 1 := by
     intro e he
     have h1 := PhiS_iter_mem hR hE S hS0 he H

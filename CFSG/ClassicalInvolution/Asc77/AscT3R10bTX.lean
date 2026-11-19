@@ -70,7 +70,7 @@ theorem Std20.r10b_TX (d : Std20 p f K K' J S R R' W V z t) (c8 : Concl20_8 S K'
   have tw : Twin20 (CoreAssembly.conjClass K) K K' z (S : Subgroup G) V :=
     ⟨d.hyp.conjInvariant, d.viol.hzK, d.twins, d.ne, d.hSz, d.hV, d.hVS, hV2⟩
   set T : Subgroup G := (S : Subgroup G) ⊓ Subgroup.normalizer (K : Set G) with hT
-  have hT2 : IsPGroup 2 ↥T := S.isPGroup'.to_le inf_le_left
+  have hT2 : IsPGroup 2 ↥T := S.isPGroup.to_le inf_le_left
   have hTN : T ≤ Subgroup.normalizer (K : Set G) := inf_le_right
   have hRT : R ≤ T := le_inf d.hRS (d.hR.1.trans Subgroup.le_normalizer)
   have hVT : V ≤ T := le_inf d.hVS (d.hVW.trans d.late_W_le_N_K)
@@ -81,7 +81,7 @@ theorem Std20.r10b_TX (d : Std20 p f K K' J S R R' W V z t) (c8 : Concl20_8 S K'
     sup_le (sup_le (d.hR.1.trans le_sec20X_left) (d.hR'.1.trans le_sec20X_right)) tw.hVX
   have hgT : g ∈ T := ⟨hg, mem_normalizer_iff_conjSub_eq.mpr hgK⟩
   have hgN : g ∈ Subgroup.normalizer (K : Set G) := hTN hgT
-  obtain ⟨n, hn⟩ := S.isPGroup' ⟨g, hg⟩
+  obtain ⟨n, hn⟩ := S.isPGroup ⟨g, hg⟩
   have hgn : g ^ 2 ^ n = 1 := by simpa using congrArg Subtype.val hn
   have h1 : (psi hKop K eK v g) ^ 2 ^ n = 1 := by
     rw [← psi_pow hρv hgN, hgn, psi_one]

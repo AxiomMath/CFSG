@@ -70,7 +70,7 @@ theorem dg_zero : dg ω 0 = 1 := by
 @[expose] noncomputable def dgHom (h3 : ω ^ 3 = 1) : Multiplicative (Fin 5 → ZMod 3) →* GL (Fin 5) U52Field where
   toFun x := dg ω (Multiplicative.toAdd x)
   map_one' := dg_zero
-  map_mul' x y := dg_mul h3 _ _
+  map_mul' _x _y := dg_mul h3 _ _
 
 theorem dg_zpow (h3 : ω ^ 3 = 1) (β : Fin 5 → ZMod 3) (k : ℤ) :
     dg ω β ^ k = dg ω (k • β) := by

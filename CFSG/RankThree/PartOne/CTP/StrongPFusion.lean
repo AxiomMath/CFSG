@@ -40,7 +40,7 @@ theorem IsStronglyPEmbedded.false_of_fusion_generation [Fact p.Prime]
     (hΓ : ∀ g ∈ Γ, ∃ e ∈ E, e ≠ 1 ∧ g * e * g⁻¹ ∈ E) : False := by
   obtain ⟨P', hEP'⟩ := hEp.exists_le_sylow
   have hP' : IsSylowOf p (P' : Subgroup H) ⊤ :=
-    ⟨le_top, P'.isPGroup', by simpa [Subgroup.relIndex_top_right] using P'.not_dvd_index⟩
+    ⟨le_top, P'.isPGroup, by simpa [Subgroup.relIndex_top_right] using P'.not_dvd_index⟩
   obtain ⟨c, hc⟩ := hY.exists_conj_ge hP'
   have hY' : IsStronglyPEmbedded p (conjSub c Y) := hY.conj c
   have hEY : E ≤ conjSub c Y := hEP'.trans hc

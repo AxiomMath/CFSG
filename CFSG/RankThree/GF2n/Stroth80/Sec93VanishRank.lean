@@ -13,7 +13,7 @@ theorem rank_le_one_of_nonsingular_image
     {K V : Type*} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module K V]
     [Module.Finite K V]
     (B : LinearMap.BilinForm K V) (Q : V → K)
-    (hQsmul : ∀ (a : K) (v : V), Q (a • v) = a ^ 2 * Q v)
+    (_hQsmul : ∀ (a : K) (v : V), Q (a • v) = a ^ 2 * Q v)
     (hQadd : ∀ v w : V, Q (v + w) = Q v + Q w + B v w)
     (hB : ∀ v : V, B v v = 0)
     (g : V →ₗ[K] V) (hgQ : ∀ v : V, Q (g v) = Q v) (hg2 : ∀ v : V, g (g v) = v)

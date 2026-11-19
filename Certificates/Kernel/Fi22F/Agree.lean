@@ -19,10 +19,10 @@ theorem presLetter_eq_letV {m : ℕ} (rels : Set (FreeGroup (Fin m))) {c : ℕ} 
   obtain ⟨i, rfl | rfl⟩ : ∃ i, c = 2 * i ∨ c = 2 * i + 1 := ⟨c / 2, by omega⟩
   · have hi : i < m := by omega
     have h := presLetter_even rels ⟨i, hi⟩
-    rw [h, letV, if_neg h255, if_pos (by omega), show 2 * i / 2 = i by omega, pgen_lt rels hi]
+    rw [h, letV, ite_eq_right h255, ite_eq_left (by omega), show 2 * i / 2 = i by omega, pgen_lt rels hi]
   · have hi : i < m := by omega
     have h := presLetter_odd rels ⟨i, hi⟩
-    rw [h, letV, if_neg h255, if_neg (by omega), show (2 * i + 1) / 2 = i by omega,
+    rw [h, letV, ite_eq_right h255, ite_eq_right (by omega), show (2 * i + 1) / 2 = i by omega,
       pgen_lt rels hi]
 
 theorem gW_lt (n : ℕ) (c : List (Fin 6)) : ∀ y ∈ gW n c, y < 4 := by

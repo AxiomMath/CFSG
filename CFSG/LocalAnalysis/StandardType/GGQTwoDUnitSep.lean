@@ -73,16 +73,16 @@ theorem ggQTwoDUnit_exists_sep3 {K : Type} [Field K] [Finite K] [CharP K 2] {f n
       · intro k hk l hl
         have hkj : k ≠ j := fun h => hjT (h ▸ hk)
         have hlj : l ≠ j := fun h => hjT (h ▸ hl)
-        simp only [if_pos hk, if_pos hl, Pi.single_eq_of_ne hkj,
+        simp only [ite_eq_left hk, ite_eq_left hl, Pi.single_eq_of_ne hkj,
           Pi.single_eq_of_ne hlj, add_zero]
       · rw [Finset.sum_add_distrib, qtwoDU2_sum_indicator T, hT, qtwoDU2_sum_single]
         omega
       · have hvi : (fun k => (if k ∈ T then 1 else 0) +
             Pi.single (M := fun _ => ℕ) j (p - 3) k) i = 1 := by
-          simp only [if_pos hi, Pi.single_eq_of_ne hij, add_zero]
+          simp only [ite_eq_left hi, Pi.single_eq_of_ne hij, add_zero]
         have hvj : (fun k => (if k ∈ T then 1 else 0) +
             Pi.single (M := fun _ => ℕ) j (p - 3) k) j = p - 3 := by
-          simp only [if_neg hjT, Pi.single_eq_same, zero_add]
+          simp only [ite_eq_right hjT, Pi.single_eq_same, zero_add]
         rw [hvi, hvj]
         exact Ne.symm (qtwoDU2_mod_sub_three_ne_one hp2)
     · by_cases hj : j ∈ T
@@ -91,17 +91,17 @@ theorem ggQTwoDUnit_exists_sep3 {K : Type} [Field K] [Finite K] [CharP K 2] {f n
         · intro k hk l hl
           have hki : k ≠ i := fun h => hi (h ▸ hk)
           have hli : l ≠ i := fun h => hi (h ▸ hl)
-          simp only [if_pos hk, if_pos hl, Pi.single_eq_of_ne hki,
+          simp only [ite_eq_left hk, ite_eq_left hl, Pi.single_eq_of_ne hki,
             Pi.single_eq_of_ne hli, add_zero]
         · rw [Finset.sum_add_distrib, qtwoDU2_sum_indicator T, hT, qtwoDU2_sum_single]
           omega
         · have hvi : (fun k => (if k ∈ T then 1 else 0) +
               Pi.single (M := fun _ => ℕ) i (p - 3) k) i = p - 3 := by
-            simp only [if_neg hi, Pi.single_eq_same, zero_add]
+            simp only [ite_eq_right hi, Pi.single_eq_same, zero_add]
           have hvj : (fun k => (if k ∈ T then 1 else 0) +
               Pi.single (M := fun _ => ℕ) i (p - 3) k) j = 1 := by
             have hji : j ≠ i := fun h => hi (h ▸ hj)
-            simp only [if_pos hj, Pi.single_eq_of_ne hji, add_zero]
+            simp only [ite_eq_left hj, Pi.single_eq_of_ne hji, add_zero]
           rw [hvi, hvj]
           exact qtwoDU2_mod_sub_three_ne_one hp2
       · refine ⟨fun k => Pi.single (M := fun _ => ℕ) i 1 k +
@@ -205,13 +205,13 @@ theorem ggQTwoDUnit_pow_mem_coordBlockSU {K : Type} [Field K] [Finite K] [CharP 
   rw [hcoe]
   by_cases hij' : i = j
   · subst hij'
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have hiT : i ∉ T := by
       rcases hij with h | h
       · exact h
       · exact h
     rw [hp_diag i hiT, hdiag i hiT]
-  · rw [if_neg hij']
+  · rw [ite_eq_right hij']
     have hnot : ¬ (i ∈ T ∧ j ∈ T) := by
       rintro ⟨hiT, hjT⟩
       rcases hij with h | h

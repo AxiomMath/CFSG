@@ -108,6 +108,7 @@ section Tof
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem normalizer_tof (M : Subgroup G) (a : G) {k : G} (hkM : k ∈ M) (hka : k ∈ Cg a) :
     k ∈ Subgroup.normalizer ((Tof p M a : Subgroup G) : Set G) :=
   CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 _
@@ -147,7 +148,7 @@ end Core
 
 @[expose] def BlockLayer : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {a : G}
-    (h : Cex121 G m p B M E A a), ¬ Tof p M a ≤ CFSG.Open.pCoreOf 2 M →
+    (_h : Cex121 G m p B M E A a), ¬ Tof p M a ≤ CFSG.Open.pCoreOf 2 M →
       ∀ e ∈ E ⊓ A, e ≠ 1 →
         Tof p M a ⊓ Cg e ≤ CFSG.Open.pCoreOf 2 (Cg e) ⊔
           ⨆ (J : Subgroup G) (_ : J ≤ alphaOf p M ∧ IsSubnormal J (Cg e)),
@@ -211,7 +212,7 @@ variable {G : Type} [Group G] [Finite G] {m p : ℕ}
 
 @[expose] def BlockIII : Prop :=
   ∀ {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Subgroup G} {a : G}
-    (h : Cex121 G m p B M E A a) {F : Subgroup G} (_hF : IsEkIn p 2 A F),
+    (_h : Cex121 G m p B M E A a) {F : Subgroup G} (_hF : IsEkIn p 2 A F),
     ¬ Tof p M a ≤ CFSG.Open.pCoreOf 2 M →
       Tof p M a ⊓ Subgroup.centralizer (A : Set G) ≤
         (Tof p M a ⊓ Subgroup.centralizer (A : Set G) ⊓ CFSG.Open.pCoreOf 2 M) ⊔

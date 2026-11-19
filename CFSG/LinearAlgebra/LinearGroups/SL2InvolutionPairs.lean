@@ -66,7 +66,7 @@ theorem lower_form_of_involution_pair {B : SL(2, F)}
         !![1, b; 0, 1] * !![1, 1; 0, 1]
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [Matrix.SpecialLinearGroup.coe_mul, sl2Upper, Matrix.mul_apply,
+        simp [Matrix.mul_apply,
           Fin.sum_univ_two, add_comm]
     have hX2 : (sl2Upper (1 : F) * B) ^ 2 = 1 := by
       rw [hcomm.mul_pow, upper_sq, hB2, one_mul]
@@ -110,8 +110,6 @@ theorem lower_form_of_involution_pair {B : SL(2, F)}
     | linear_combination (a * a) * h2
     | linear_combination -(a * a) * h2
     | linear_combination a * h2
-    | linear_combination -a * h2
-    | ring
 
 theorem exists_conj_involution_pair
     (hsq : ∀ a : F, ∃ b : F, b * b = a)
@@ -123,7 +121,7 @@ theorem exists_conj_involution_pair
   have hUne : sl2Upper (1 : F) ≠ 1 := by
     intro h
     have hh := congrArg (fun X : SL(2, F) => (X : Matrix (Fin 2) (Fin 2) F) 0 1) h
-    simpa [sl2Upper] using hh
+    simp [sl2Upper] at hh
   obtain ⟨g, hg⟩ := CFSG.ProperTwoGeneratedCore.UnitaryPairIndex.SL2.sl2_involutions_conj
     CharTwo.two_eq_zero hsq (by simpa only [pow_two] using hA2) hAne hU2 hUne
   let e : MulAut (SL(2, F)) := MulAut.conj g⁻¹
@@ -143,7 +141,7 @@ theorem exists_conj_involution_pair
       !![1, t; 0, 1] * !![1, 1; 0, 1]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.SpecialLinearGroup.coe_mul, sl2Upper, Matrix.mul_apply,
+      simp [Matrix.mul_apply,
         Fin.sum_univ_two, add_comm]
   refine ⟨g * sl2Upper t, ?_, ?_⟩
   · calc
@@ -183,11 +181,11 @@ theorem exists_corrector_of_normalizes_range
   have hUne : sl2Upper (1 : F) ≠ 1 := by
     intro h
     have hh := congrArg (fun X : SL(2, F) => (X : Matrix (Fin 2) (Fin 2) F) 0 1) h
-    simpa [sl2Upper] using hh
+    simp [sl2Upper] at hh
   have hVne : sl2Lower (1 : F) ≠ sl2Upper 1 := by
     intro h
     have hh := congrArg (fun X : SL(2, F) => (X : Matrix (Fin 2) (Fin 2) F) 0 1) h
-    simpa [sl2Lower, sl2Upper] using hh
+    simp [sl2Lower, sl2Upper] at hh
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
   have hV2 : sl2Lower (1 : F) ^ 2 = 1 := by
     apply Subtype.ext

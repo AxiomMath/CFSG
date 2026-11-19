@@ -66,7 +66,7 @@ theorem langFullFieldAt_holds
     : LangFullFieldAt := by
   intro τ hτ K _ _ _
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hf⟩ := FiniteField.card K 2
   have hk : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
   have hZ : Subgroup.center (adjointGroup τ K) = ⊥ := center_adjointGroup_eq_bot

@@ -48,12 +48,12 @@ theorem iv_sqE_ne_zero (hm : 2 ≤ m) (x : Fin 3 → ℤ) (i j l : Bool) (hlj : 
   have e2 : (2 : ℤ) ^ (m' + 2 + 1) = 8 * 2 ^ m' := by ring
   have e3 : (2 : ℤ) ^ (m' + 1) = 2 * 2 ^ m' := by ring
   cases i <;> cases j <;> cases l <;> simp only [Bool.and_true, Bool.and_false,
-      Bool.true_eq_false, Bool.false_eq_true] at hlj <;>
-    simp only [twist_ff _ hwuv hwt, twist_ft _ hwuv hwt, twist_tf _ hwuv hwt,
+      Bool.true_eq_false] at hlj <;>
+    simp only [twist_ff _, twist_ft _ hwt, twist_tf _ hwuv,
       twist_tt _ hwuv hwt, SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte,
       Bool.and_false, Bool.and_true, AddMonoidHom.comp_apply, AddMonoidHom.id_apply, t100_φuv,
       t100_φt, t100_φu, ← Torus.ofInt_add, ← Torus.ofInt_sub, torusDiag_ofInt, add_zero,
-      zero_add, map_zero, t100_ofInt_eq_zero_iff] at h0 <;>
+      t100_ofInt_eq_zero_iff] at h0 <;>
     obtain ⟨d0, d1, d2⟩ := h0 <;>
     simp only [Pi.add_apply, Pi.sub_apply, Matrix.cons_val_zero, Matrix.cons_val_one,
       Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons, e0, e1, e2, e3] at d0 d1 d2 <;>
@@ -208,7 +208,7 @@ theorem iv_h9 :
       Subgroup.zpowers e) ⊓ Subgroup.centralizer {(dD.c : G) ^ 2 ^ (m - 1)} →
         IsMulCommutative X → Nat.card X = Nat.card D → X = D := by
   have hm1 : 1 ≤ m := by omega
-  haveI : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
   have hpow : (2 : ℤ) ^ m = 2 * 2 ^ (m - 1) := by
     rw [← pow_succ']
     congr 1

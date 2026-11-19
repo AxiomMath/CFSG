@@ -18,12 +18,14 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c1_G47_conj_zpowers_fix {z h c : G} (hh : h ∈ centralizer ({z} : Set G))
     (hc : c ∈ Subgroup.zpowers z) : h * c * h⁻¹ = c := by
   obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.1 hc
   have hzh : Commute z h := (Subgroup.mem_centralizer_iff.1 hh) z (Set.mem_singleton z)
   exact mul_inv_eq_iff_eq_mul.2 (hzh.zpow_left m).eq.symm
 
+omit [Finite G] in
 theorem s16c1_G47_conj_zpowers {z h : G} (hh : h ∈ centralizer ({z} : Set G)) :
     conjSubgroup (Subgroup.zpowers z) h = Subgroup.zpowers z := by
   ext y
@@ -70,6 +72,7 @@ theorem s16c1_G47_irr_card (D : Data G) (hkit : OmegaKit) (h41 : R16_41 D)
     hc.2.1).2.1 _ hz1 h960 _ hstab
   rwa [s16c1_card_imgTil_bot hV hNV] at hIrr
 
+omit [Finite G] in
 theorem s16c1_G47_conj_comm_UQ {V : Subgroup G} {z g : G} (hgH : g ∈ centralizer ({z} : Set G))
     (hgV : g ∈ normalizer (V : Set G)) :
     conjSubgroup (⁅uOne V z, pCoreOf 2 (centralizer ({z} : Set G))⁆ ⊔ Subgroup.zpowers z) g =
@@ -100,7 +103,7 @@ theorem s16c1_G47_comm_UQ (D : Data G) (hkit : OmegaKit) (h41 : R16_41 D) {V L :
   have hMV : D.M ≤ normalizer (V : Set G) := hS.setting.hyp151.hyp125.pairFacts.le_normalizer
   have hP : pCoreOf 2 (centralizer ({x.val} : Set G)) ≤ normalizer (V : Set G) :=
     (s16c1_pCoreOf_le_M D ctx.sylow).trans hMV
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ2 : IsPGroup 2 (pCoreOf 2 (centralizer ({x.val} : Set G))) :=
     IsPGroup.map (CFSG.pCore_isPGroup (p := 2) (G := ↥(centralizer ({x.val} : Set G))))
       (centralizer ({x.val} : Set G)).subtype
@@ -150,6 +153,7 @@ theorem s16c1_G47_comm_UQ (D : Data G) (hkit : OmegaKit) (h41 : R16_41 D) {V L :
     Subgroup.eq_of_le_of_card_ge le_sup_right (by rw [hcardz, hcard2])
   exact le_sup_left.trans hEq.ge
 
+omit [Finite G] in
 theorem s16c1_G47_comm_EQ {V : Subgroup G} {z : G}
     (hUQ : ⁅uOne V z, pCoreOf 2 (centralizer ({z} : Set G))⁆ ≤ Subgroup.zpowers z) :
     ∀ r ∈ pCoreOf 2 (centralizer ({z} : Set G)), ∀ e ∈ eOne V z,
@@ -197,6 +201,7 @@ theorem s16c1_G47_comm_EQ {V : Subgroup G} {z : G}
   intro r hr e he
   exact (hEK he).2 r hr
 
+omit [Finite G] in
 theorem s16c1_G47_d_mem {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V) (hz : z ∈ V)
     (hP : pCoreOf 2 (centralizer ({z} : Set G)) ≤ normalizer (V : Set G)) {w e : G} (hw : w ∈ V)
     (he : e ∈ eOne V z) (hsq : e ^ 2 ∈ Subgroup.zpowers z) : w * e * w⁻¹ * e ∈ uOne V z := by
@@ -209,6 +214,7 @@ theorem s16c1_G47_d_mem {V : Subgroup G} {z : G} (hV : IsElemAbelian 2 V) (hz : 
   rw [e1]
   exact (uOne V z).mul_mem h1 h2
 
+omit [Finite G] in
 theorem s16c1_G47_comm_V_of_w {V : Subgroup G} {z : G}
     (hEE : ⁅eOne V z, eOne V z⁆ ≤ Subgroup.zpowers z) {w : G}
     (hwH : w ∈ centralizer ({z} : Set G)) (hVw : ∀ v ∈ V, v ∈ uOne V z ∨ w⁻¹ * v ∈ uOne V z)
@@ -244,7 +250,7 @@ theorem s16c1_G47_cent_le_B {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbe
     rw [h120] at h
     rw [← h]
     exact Dvd.dvd.mul_right (by norm_num) _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d, hd⟩ := exists_prime_orderOf_dvd_card' (G := ↥(xInf L x.val)) 3 h3X
   have hd3 : orderOf (d : G) = 3 := by rw [Subgroup.orderOf_coe]; exact hd
   intro c hc
@@ -262,7 +268,7 @@ theorem s16c1_G47_cent_le_B {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbe
   exact s16c1_G47_star_normalizer_le hQM hsp hXH hXM d.2 hd3
     (Subgroup.centralizer_le_normalizer _ hcent)
 
-theorem s16c1_G47_mem_of_mk_mem {Γ : Type} [Group Γ] {E U Z : Subgroup Γ} (hUE : U ≤ E)
+theorem s16c1_G47_mem_of_mk_mem {Γ : Type} [Group Γ] {E U Z : Subgroup Γ} (_hUE : U ≤ E)
     (hZU : Z ≤ U) [(Z.subgroupOf E).Normal] {e : ↥E}
     (he : (QuotientGroup.mk e : ↥E ⧸ Z.subgroupOf E) ∈
       (U.subgroupOf E).map (QuotientGroup.mk' (Z.subgroupOf E))) : (e : Γ) ∈ U := by

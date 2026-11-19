@@ -23,7 +23,7 @@ theorem leviV_map_conj {g : V ≃ₗ[K] V} (hg : g ∈ TauCeti.QuadraticMap.orth
   rw [leviV, leviV, MonoidHom.map_closure]
   congr 1
   ext x
-  simp only [Set.mem_image, Set.mem_union, Set.mem_setOf_eq, MulEquiv.coe_toMonoidHom,
+  simp only [Set.mem_image, Set.mem_union, Set.mem_ofPred_eq, MulEquiv.coe_toMonoidHom,
     MulAut.conj_apply]
   constructor
   · rintro ⟨y, (⟨c, rfl⟩ | ⟨c, rfl⟩), rfl⟩

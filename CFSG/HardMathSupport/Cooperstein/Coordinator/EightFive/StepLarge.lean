@@ -167,7 +167,7 @@ theorem step_large (hV : ∀ v : V, v ^ 2 = 1) (hψ : Function.Injective ψ)
           norm_num at h16
           omega
     omega
-  have hQ : IsPGroup 2 (largeQ ψ ι R') := isPGroup_largeQ hψ R'.isPGroup'
+  have hQ : IsPGroup 2 (largeQ ψ ι R') := isPGroup_largeQ hψ R'.isPGroup
   have hker : ∀ k : ↥(largeK ψ ι R'), largeKappa ψ ι R' k = 1 →
       ∀ w ∈ fixV (largeQ ψ ι R'), (k : MulAut V) w = w := fun k hk w hw =>
     largeKappa_eq_one_fix hk hw

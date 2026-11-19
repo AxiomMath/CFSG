@@ -87,9 +87,9 @@ theorem om_get {i : ℕ} (hi : i < 100) : zasOmVec[i]! = cond (omB i) 1 0 := by
     simp only [omB, List.mem_cons, List.not_mem_nil, or_false, Bool.or_eq_true, Nat.beq_eq,
       or_assoc]
   by_cases h : omB i = true
-  · rw [if_pos (e.2 h), h]
+  · rw [ite_eq_left (e.2 h), h]
     rfl
-  · rw [if_neg (fun h' => h (e.1 h')), Bool.eq_false_iff.2 h]
+  · rw [ite_eq_right (fun h' => h (e.1 h')), Bool.eq_false_iff.2 h]
     rfl
 
 theorem om_one {i : ℕ} (hi : i < 100) : (zasOmVec[i]! = 1) ↔ omB i = true := by

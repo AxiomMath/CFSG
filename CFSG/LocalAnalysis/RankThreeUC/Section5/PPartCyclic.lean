@@ -18,9 +18,9 @@ theorem exists_fixed_coset {p : ℕ} (hp : p.Prime) {P X D : Subgroup G}
     (hXne : X ≠ P) (hD : IsPGroup p D) (hDN : D ≤ Subgroup.normalizer (P : Set G))
     (hDX : ∀ d ∈ D, ∀ x ∈ X, d * x = x * d) :
     ∃ y ∈ P, y ∉ X ∧ ∀ d ∈ D, d * y * d⁻¹ * y⁻¹ ∈ X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set X' : Subgroup P := X.subgroupOf P with hX'
-  haveI : X'.Normal := ⟨fun n hn g => by
+  have : X'.Normal := ⟨fun n hn g => by
     have h1 : (n : G) ∈ X := hn
     show ((g * n * g⁻¹ : P) : G) ∈ X
     have : (g : G) * n * (g : G)⁻¹ = n := by
@@ -43,7 +43,7 @@ theorem exists_fixed_coset {p : ℕ} (hp : p.Prime) {P X D : Subgroup G}
   let ψ : D → (P ⧸ X') →* (P ⧸ X') := fun d => QuotientGroup.map X' X' (φ d) (hφX d)
   have hψ : ∀ d : D, ∀ y : P, ψ d (y : P ⧸ X') = ((φ d y : P) : P ⧸ X') :=
     fun d y => rfl
-  letI : MulAction D (P ⧸ X') :=
+  let : MulAction D (P ⧸ X') :=
     { smul := fun d q => ψ d q
       one_smul := by
         intro q
@@ -84,7 +84,7 @@ theorem exists_fixed_coset {p : ℕ} (hp : p.Prime) {P X D : Subgroup G}
     Nat.card_pos_iff.2 ⟨⟨⟨1, hone⟩⟩, inferInstance⟩
   have hgt : 1 < Nat.card (MulAction.fixedPoints D (P ⧸ X')) :=
     lt_of_lt_of_le hp.one_lt (Nat.le_of_dvd hpos hfixdvd)
-  haveI : Nontrivial (MulAction.fixedPoints D (P ⧸ X')) := Finite.one_lt_card_iff_nontrivial.1 hgt
+  have : Nontrivial (MulAction.fixedPoints D (P ⧸ X')) := Finite.one_lt_card_iff_nontrivial.1 hgt
   obtain ⟨⟨q, hq⟩, hq1⟩ := exists_ne (⟨1, hone⟩ : MulAction.fixedPoints D (P ⧸ X'))
   have hq1' : q ≠ 1 := fun h => hq1 (Subtype.ext h)
   induction q using QuotientGroup.induction_on with
@@ -112,12 +112,14 @@ theorem exists_fixed_coset {p : ℕ} (hp : p.Prime) {P X D : Subgroup G}
 private theorem open_pCore_eq (p : ℕ) (X : Type) [Group X] :
     CFSG.Open.pCore p X = CFSG.pCore p X := rfl
 
+omit [Finite G] in
 private theorem pCoreOf_isPGroup (p : ℕ) (H : Subgroup G) :
     IsPGroup p (CFSG.Open.pCoreOf p H : Subgroup G) := by
   unfold CFSG.Open.pCoreOf
   rw [open_pCore_eq]
   exact (CFSG.pCore_isPGroup (p := p) (G := H)).map H.subtype
 
+omit [Finite G] in
 private theorem pCoreOf_le (p : ℕ) (H : Subgroup G) : CFSG.Open.pCoreOf p H ≤ H := by
   intro x hx
   unfold CFSG.Open.pCoreOf at hx
@@ -173,8 +175,8 @@ theorem actor_primeCore_isCyclic {p : ℕ} {P T B : Subgroup G} {e : ℕ}
     (fun d hd x hx => by
       have hd' : d ∈ (twoCoreCommutator T B ⊔ B : Subgroup G) := (le_sup_right : B ≤ twoCoreCommutator T B ⊔ B) (hDB hd)
       exact (hX hd' x hx).symm)
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsCyclic (centerP P) := isCyclic_of_prime_card hZcard
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsCyclic (centerP P) := isCyclic_of_prime_card hZcard
   refine CFSG.GroupTheory.CyclicSubgroup.isCyclic_of_faithful_central_commutator
     (CFSG.Open.pCoreOf p B) (centerP P) y ?_ hy ?_
   · intro d hd

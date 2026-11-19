@@ -25,6 +25,7 @@ public theorem isReflection_omPlusRefl (y : OmPlusIdx 4) :
     exact ⟨OrthExcEven.sgnTransp_sq hij.ne,
       OrthExcEven.card_fix_sgnTransp (p := 3) (k := 4) (by norm_num) (by norm_num) hij.ne⟩
 
+omit [Finite G] in
 public theorem NLqMap_mem_normalizer (Bs L : Subgroup G)
     (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4) (l : ↥(NL L Bs)) :
     NLqMap Bs L θ l ∈
@@ -60,6 +61,7 @@ variable {G : Type} [Group G] [Finite G]
 variable {K : Type} [Field K] [Finite K]
 
 
+omit [Finite G] in
 private theorem isSignedPerm_of_mem_range_conjC
     {Bs L : Subgroup G} {θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4}
     {Θ : (Fin 4 → Multiplicative (ZMod 3)) ≃* ↥(Ebar Bs L θ)}
@@ -109,6 +111,7 @@ private theorem sgnAut_mul_mem_of_forall_omPlusRefl_mem
     rw [mul_assoc, mul_inv_cancel, mul_one, sgnAut_mul_comm j i] at h3
     exact h3
 
+omit [Finite G] [Finite K] in
 private theorem sgnAut_not_mem_range_conjC
     {Bs L : Subgroup G} {θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4}
     {Θ : (Fin 4 → Multiplicative (ZMod 3)) ≃* ↥(Ebar Bs L θ)}
@@ -205,6 +208,7 @@ private theorem card_eq_192_of_maps_same_kernel
     h1.trans h2.symm
   rw [Nat.eq_of_mul_eq_mul_left hpos heq, hcardH]
 
+omit [Finite K] in
 private theorem exists_lift_mem_NL_conjC_eq_omPlusRefl
     {Bs L : Subgroup G} {x : G} {θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4}
     {Θ : (Fin 4 → Multiplicative (ZMod 3)) ≃* ↥(Ebar Bs L θ)}
@@ -269,6 +273,7 @@ private theorem card_ggAutomizer_eq_192_of_card_range_conjC
     (Subgroup.card_map_of_injective (MulAut.congr ΘE).injective).symm
   rw [hcardmap, ← hmap, hH]
 
+omit [Finite K] in
 private theorem ggAutomizer_eq_closure_reflections
     {Bs L : Subgroup G} {x : G} {θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4}
     {Θ : (Fin 4 → Multiplicative (ZMod 3)) ≃* ↥(Ebar Bs L θ)}

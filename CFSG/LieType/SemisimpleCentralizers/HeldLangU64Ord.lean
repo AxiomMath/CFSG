@@ -18,7 +18,7 @@ theorem odd_card_subgroupOf_scalars {K : Type} [Field K] [Finite K] {q d : ℕ} 
     (hq : Even q) (hq0 : q ≠ 0) (H : Subgroup (GL (Fin d) K)) :
     Odd (Nat.card ((StatedScalars (Fin d) K).subgroupOf H)) := by
   by_contra hodd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : 2 ∣ Nat.card ((StatedScalars (Fin d) K).subgroupOf H) :=
     even_iff_two_dvd.1 (Nat.not_odd_iff_even.1 hodd)
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 2 h2
@@ -44,7 +44,7 @@ theorem odd_card_subgroupOf_scalars {K : Type} [Field K] [Finite K] {q d : ℕ} 
 theorem padicValNat_card_statedSU {K : Type} [Field K] [Finite K] {a d : ℕ} (ha : 1 ≤ a) (hd : 1 ≤ d)
     (hK : Nat.card K = (2 ^ a) ^ 2) :
     padicValNat 2 (Nat.card (StatedSU d (2 ^ a) K)) = a * (d * (d - 1) / 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdata : UnitaryFieldData 2 a K := ⟨Nat.prime_two, ha, by rw [hK, ← pow_mul, Nat.mul_comm]⟩
   have h := card_statedSU_int hdata hd
   set N := d * (d - 1) / 2 with hN
@@ -94,7 +94,7 @@ theorem padicValNat_card_statedSU {K : Type} [Field K] [Finite K] {a d : ℕ} (h
 theorem padicValNat_card_psu {K : Type} [Field K] [Finite K] {a d : ℕ} (ha : 1 ≤ a) (hd : 1 ≤ d)
     (hK : Nat.card K = (2 ^ a) ^ 2) :
     padicValNat 2 (Nat.card (StatedProj (StatedSU d (2 ^ a) K))) = a * (d * (d - 1) / 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup
     ((StatedScalars (Fin d) K).subgroupOf (StatedSU d (2 ^ a) K))
   have hodd := odd_card_subgroupOf_scalars hK (q := 2 ^ a) (d := d)

@@ -101,14 +101,14 @@ theorem s16c1G_span6 {g : V₀ ≃ₗ[ZMod 2] V₀} (hz : g s16c1G_zN = s16c1G_z
 
 theorem s16c1G_isSym_stab_zN : IsSym ↥(MulAction.stabilizer (Ω₀ true) s16c1G_zN) 6 := by
   classical
-  haveI : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
+  have : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
   have hφ : (LinearMap.proj 4 : V₀ →ₗ[ZMod 2] ZMod 2) s16c1G_zN = 1 := by decide
   have hz0 : s16c1G_zN ≠ 0 := by decide
   let ρ := s16c1G_pairAct (Ω₀ true) s16c1G_zN (LinearMap.proj 4) hφ s16c1G_P6
     (s16c1G_P6_add) (fun g hg hz x hx => s16c1G_P6_map hg hz hx)
-  haveI : Finite {x : V₀ // s16c1G_P6 x ∧ (LinearMap.proj 4 : V₀ →ₗ[ZMod 2] ZMod 2) x = 0} :=
+  have : Finite {x : V₀ // s16c1G_P6 x ∧ (LinearMap.proj 4 : V₀ →ₗ[ZMod 2] ZMod 2) x = 0} :=
     Subtype.finite
-  letI := Fintype.ofFinite
+  let := Fintype.ofFinite
     {x : V₀ // s16c1G_P6 x ∧ (LinearMap.proj 4 : V₀ →ₗ[ZMod 2] ZMod 2) x = 0}
   refine s16c1G_isSym_of_faithful (Y := {x : V₀ // s16c1G_P6 x ∧
     (LinearMap.proj 4 : V₀ →ₗ[ZMod 2] ZMod 2) x = 0}) ?_ ρ ?_ ?_

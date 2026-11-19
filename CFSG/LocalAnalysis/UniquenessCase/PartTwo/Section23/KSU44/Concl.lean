@@ -34,7 +34,7 @@ theorem Concl.map_mulEquiv {X Y : Type} [Group X] [Group Y] [Finite X] [Finite Y
   change Concl (S.map f) (P.map f) (F.map f)
   obtain ⟨E, hEab, hE9, hnorm, hEF, h3, ⟨k, hk, e, he, hne⟩, w, hw, hinv⟩ := h
   refine ⟨E.map f, ?_, ?_, ?_, ?_, ?_, ?_, f w, ?_, ?_⟩
-  · haveI := hEab.1
+  · have := hEab.1
     refine ⟨inferInstance, fun x hx => ?_⟩
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
     rw [← map_pow, hEab.2 y hy, map_one]

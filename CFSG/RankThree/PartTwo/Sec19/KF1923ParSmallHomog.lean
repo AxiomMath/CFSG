@@ -18,12 +18,14 @@ variable {X : Type} [Group X] [Finite X]
 
 @[expose] def ksmS (w z : X) : Set X := {z, z⁻¹, w * z * w⁻¹, (w * z * w⁻¹)⁻¹}
 
+omit [Finite X] in
 theorem ksm_conj_inv (w z : X) : w * z⁻¹ * w⁻¹ = (w * z * w⁻¹)⁻¹ := by group
 
+omit [Finite X] in
 theorem ksm_card_centralizer_mul_orbit (N : Subgroup X) (x : X) :
     Nat.card ↥(N ⊓ Subgroup.centralizer ({x} : Set X)) * Nat.card ↥(ksmOrbit N x) =
       Nat.card N := by
-  letI : MulAction N X := MulAction.compHom X ((MulAut.conj : X →* MulAut X).comp N.subtype)
+  let : MulAction N X := MulAction.compHom X ((MulAut.conj : X →* MulAut X).comp N.subtype)
   have hsmul : ∀ (n : N) (a : X), n • a = (n : X) * a * (n : X)⁻¹ := fun n a => rfl
   have horb : MulAction.orbit N x = ksmOrbit N x := by
     ext g
@@ -67,6 +69,7 @@ theorem ksm_card_centralizer_mul_orbit (N : Subgroup X) (x : X) :
   rw [h1, h2]
   exact h3
 
+omit [Finite X] in
 theorem ksm_orbit_eq_of_mem {N : Subgroup X} {z g : X} (hg : g ∈ ksmOrbit N z) :
     ksmOrbit N g = ksmOrbit N z := by
   obtain ⟨m, hm, rfl⟩ := hg
@@ -77,19 +80,22 @@ theorem ksm_orbit_eq_of_mem {N : Subgroup X} {z g : X} (hg : g ∈ ksmOrbit N z)
   · rintro ⟨n, hn, rfl⟩
     exact ⟨n * m⁻¹, N.mul_mem hn (N.inv_mem hm), by group⟩
 
+omit [Finite X] in
 theorem ksm_orbit_subset_T {N E : Subgroup X} (hNE : N ≤ Subgroup.normalizer (E : Set X))
     {z : X} (hz : z ∈ E) (hz1 : z ≠ 1) : ksmOrbit N z ⊆ ksmT E := by
   rintro g ⟨n, hn, rfl⟩
-  refine Set.mem_diff_of_mem ((Subgroup.mem_normalizer_iff.1 (hNE hn) z).1 hz) ?_
+  refine Set.mem_sdiff_of_mem ((Subgroup.mem_normalizer_iff.1 (hNE hn) z).1 hz) ?_
   intro h
   apply hz1
   have h1 : n * z * n⁻¹ = 1 := Set.mem_singleton_iff.1 h
   calc z = n⁻¹ * (n * z * n⁻¹) * n := by group
     _ = 1 := by rw [h1]; group
 
+omit [Finite X] in
 theorem ksm_mem_T {E : Subgroup X} {g : X} (hg : g ∈ E) (hg1 : g ≠ 1) : g ∈ ksmT E :=
-  Set.mem_diff_of_mem hg (fun h => hg1 (Set.mem_singleton_iff.1 h))
+  Set.mem_sdiff_of_mem hg (fun h => hg1 (Set.mem_singleton_iff.1 h))
 
+omit [Finite X] in
 theorem ksm_ne_inv_of_three {z : X} (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) : z ≠ z⁻¹ := by
   intro h
   apply hz1
@@ -100,16 +106,19 @@ theorem ksm_ne_inv_of_three {z : X} (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) : z ≠ z�
   calc z = z ^ 3 * (z ^ 2)⁻¹ := by group
     _ = 1 := by rw [hz3, h2]; simp
 
+omit [Finite X] in
 theorem ksm_sig_mem {N E : Subgroup X} (hNE : N ≤ Subgroup.normalizer (E : Set X)) {w : X}
     (hwN : w ∈ N) {z : X} (hz : z ∈ E) : w * z * w⁻¹ ∈ E :=
   (Subgroup.mem_normalizer_iff.1 (hNE hwN) z).1 hz
 
+omit [Finite X] in
 theorem ksm_sig_ne_one {w z : X} (hz1 : z ≠ 1) : w * z * w⁻¹ ≠ 1 := by
   intro h
   apply hz1
   calc z = w⁻¹ * (w * z * w⁻¹) * w := by group
     _ = 1 := by rw [h]; group
 
+omit [Finite X] in
 theorem ksm_sig2 {E : Subgroup X} {w : X} (hw2 : ∀ e ∈ E, w ^ 2 * e * (w ^ 2)⁻¹ = e⁻¹)
     {u : X} (hu : u ∈ E) : w * (w * u * w⁻¹) * w⁻¹ = u⁻¹ := by
   have h1 : w * (w * u * w⁻¹) * w⁻¹ = w ^ 2 * u * (w ^ 2)⁻¹ := by
@@ -117,6 +126,7 @@ theorem ksm_sig2 {E : Subgroup X} {w : X} (hw2 : ∀ e ∈ E, w ^ 2 * e * (w ^ 2
   rw [h1]
   exact hw2 u hu
 
+omit [Finite X] in
 theorem ksmS_subset_orbit {N E : Subgroup X} {w z : X} (hwN : w ∈ N)
     (hw2 : ∀ e ∈ E, w ^ 2 * e * (w ^ 2)⁻¹ = e⁻¹) (hz : z ∈ E) :
     ksmS w z ⊆ ksmOrbit N z := by
@@ -133,6 +143,7 @@ theorem ksmS_subset_orbit {N E : Subgroup X} {w z : X} (hwN : w ∈ N)
       _ = w * z⁻¹ * w⁻¹ := by rw [hw2 z hz]
       _ = (w * z * w⁻¹)⁻¹ := ksm_conj_inv w z
 
+omit [Finite X] in
 theorem ksmS_subset_T {N E : Subgroup X} (hNE : N ≤ Subgroup.normalizer (E : Set X)) {w z : X}
     (hwN : w ∈ N) (hz : z ∈ E) (hz1 : z ≠ 1) : ksmS w z ⊆ ksmT E := by
   have hσ : w * z * w⁻¹ ∈ E := (Subgroup.mem_normalizer_iff.1 (hNE hwN) z).1 hz
@@ -195,6 +206,7 @@ theorem ksm_card_S {N E : Subgroup X} (hNE : N ≤ Subgroup.normalizer (E : Set 
   exact ksmS_ncard (hE3.2 z hz) hz1 (hE3.2 _ (ksm_sig_mem hNE hwN hz)) (ksm_sig_ne_one hz1)
     (ksm_sig2 hw2 hz)
 
+omit [Finite X] in
 theorem ksmS_closed {w z y : X} (hsig2 : w * (w * z * w⁻¹) * w⁻¹ = z⁻¹)
     (hy : y ∈ ksmS w z) : ksmS w y = ksmS w z := by
   unfold ksmS at hy ⊢
@@ -213,12 +225,13 @@ theorem ksmS_closed {w z y : X} (hsig2 : w * (w * z * w⁻¹) * w⁻¹ = z⁻¹)
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff, inv_inv, ksm_conj_inv, hsig2]
     tauto
 
+omit [Finite X] in
 theorem ksmT_ncard (E : Subgroup X) (hE9 : Nat.card E = 9) : (ksmT E).ncard = 8 := by
   have hE : (E : Set X).ncard = 9 := by
     rw [← Nat.card_coe_set_eq]
     exact hE9
   unfold ksmT
-  rw [Set.ncard_diff_singleton_of_mem E.one_mem, hE]
+  rw [Set.ncard_sdiff_singleton_of_mem E.one_mem, hE]
 
 theorem ksm_orbit_cases {N E : Subgroup X} (hNE : N ≤ Subgroup.normalizer (E : Set X)) {w : X}
     (hwN : w ∈ N) (hE9 : Nat.card E = 9) (hz3E : ∀ e ∈ E, e ^ 3 = 1)
@@ -287,7 +300,7 @@ theorem ksm_homog (N E : Subgroup X) (hNE : N ≤ Subgroup.normalizer (E : Set X
   have hA := ksm_card_centralizer_mul_orbit N x
   have hB := ksm_card_centralizer_mul_orbit N y
   have hpos : 0 < Nat.card ↥(ksmOrbit N y) := by
-    haveI : Nonempty ↥(ksmOrbit N y) := ⟨⟨y, ⟨1, N.one_mem, by simp⟩⟩⟩
+    have : Nonempty ↥(ksmOrbit N y) := ⟨⟨y, ⟨1, N.one_mem, by simp⟩⟩⟩
     exact Nat.card_pos
   rw [hOrbEq] at hA
   exact Nat.eq_of_mul_eq_mul_right hpos (hA.trans hB.symm)
@@ -300,7 +313,7 @@ theorem ksm_noSq_of_K21 (hK : CFSG.LocalAnalysis.RankThreeUC.S15.K21dGeomAt X)
   obtain ⟨m, hm, hw⟩ := ksm_two_part y
   have hwP : y ^ m ∈ P := pow_mem hyP m
   obtain ⟨U, S, hU, hwU, hSsolv, hUS, hES⟩ := ksm_reduction hP hDH hDO hwP hw
-  haveI := hSsolv
+  have := hSsolv
   have hsurj : ∀ d ∈ D, ∃ x : X, MulAut.conj x = d := fun d hd => by
     obtain ⟨z, -, hz⟩ := Subgroup.mem_map.1 (hDH hd)
     exact ⟨z, hz⟩

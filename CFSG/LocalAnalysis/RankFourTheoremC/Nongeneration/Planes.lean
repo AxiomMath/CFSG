@@ -65,7 +65,7 @@ theorem exists_noncomm_center_quotient {G : Type*} [Group G] (hperf : commutator
     have hb : b ∈ (⊥ : Subgroup G) := hbot ▸ Subgroup.mem_top b
     rw [Subgroup.mem_bot] at ha hb
     rw [ha, hb]
-  haveI : Subsingleton (G ⧸ center G) := by
+  have : Subsingleton (G ⧸ center G) := by
     refine ⟨fun a b => ?_⟩
     obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
     obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -76,7 +76,7 @@ theorem isCyclic_sylow_of_pRank_le_one {K : Type*} [Group K] [Finite K] {p : ℕ
     (hp2 : p ≠ 2) (h : Open.pRank p (⊤ : Subgroup K) ≤ 1) (T : Sylow p K) :
     IsCyclic (T : Subgroup K) := by
   by_contra hnc
-  haveI : Fact (IsPGroup p (T : Subgroup K)) := ⟨T.isPGroup'⟩
+  have : Fact (IsPGroup p (T : Subgroup K)) := ⟨T.isPGroup⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a hp2 hnc
   have hel : IsElemAbelian p S :=
     (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian p S).1 hSel

@@ -17,8 +17,8 @@ theorem eq_one_of_pow_seven_eq_one_of_fixed_singular {V : Type}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (h7 : g ^ 7 = 1) {v : V} (hv : v ≠ 0)
     (hQv : Q v = 0) (hgv : g v = v) : g = 1 := by
   classical
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hfin : Module.finrank (ZMod 2) V = 8 := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := V)
     rw [hV, Nat.card_zmod] at h

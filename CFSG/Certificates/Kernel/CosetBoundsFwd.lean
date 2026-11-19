@@ -17,7 +17,7 @@ theorem fwd_inv_closed {G : Type*} [Group G] {H : Subgroup G} {rp : ℕ → G} {
     ∀ x < N, ∃ y < N, rel H (rp x * g⁻¹) (rp y) := by
   obtain ⟨σ, hσ⟩ : ∃ σ : ℕ → ℕ, ∀ x < N, σ x < N ∧ rel H (rp x * g) (rp (σ x)) :=
     ⟨fun x => if h : x < N then Classical.choose (hcl x h) else 0, fun x hx => by
-      simp only [dif_pos hx]
+      simp only [dite_eq_left hx]
       exact Classical.choose_spec (hcl x hx)⟩
   intro x hx
   have hit : ∀ k, σ^[k] x < N ∧ rel H (rp x * g ^ k) (rp (σ^[k] x)) := by

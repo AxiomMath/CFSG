@@ -22,15 +22,15 @@ variable {W : Type} [CommGroup W]
 
 private theorem s16h_nontrivial_of_isQuasisimple {X : Type} [Group X]
     (h : CFSG.Open.IsQuasisimple X) : Nontrivial X := by
-  haveI : Nontrivial (X ⧸ Subgroup.center X) := h.2.toNontrivial
+  have : Nontrivial (X ⧸ Subgroup.center X) := h.2.toNontrivial
   exact (QuotientGroup.mk'_surjective (Subgroup.center X)).nontrivial
 
 private theorem s16h_not_isMulCommutative_of_isQuasisimple {X : Type} [Group X]
     (hX : CFSG.Open.IsQuasisimple X) : ¬ IsMulCommutative X := by
   intro h
-  haveI := h
+  have := h
   have hc : Subgroup.center X = ⊤ := Subgroup.center_eq_top
-  haveI : Subsingleton (X ⧸ Subgroup.center X) := by
+  have : Subsingleton (X ⧸ Subgroup.center X) := by
     rw [hc]
     exact QuotientGroup.subsingleton_quotient_top
   obtain ⟨a, b, hab⟩ := hX.2.exists_pair_ne
@@ -102,7 +102,7 @@ private lemma s16h_isometry_quadPlus_one_class {K : Type} [Field K]
   have hquad : ∀ v : Fin 1 ⊕ Fin 1 → K,
       StatedQuadPlus 1 K v = v (Sum.inl 0) * v (Sum.inr 0) := by
     intro v
-    simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_one]
+    simp [StatedQuadPlus]
   set p := (g : Matrix (Fin 1 ⊕ Fin 1) (Fin 1 ⊕ Fin 1) K) (Sum.inl 0) (Sum.inl 0) with hp
   set q := (g : Matrix (Fin 1 ⊕ Fin 1) (Fin 1 ⊕ Fin 1) K) (Sum.inl 0) (Sum.inr 0) with hq
   set r := (g : Matrix (Fin 1 ⊕ Fin 1) (Fin 1 ⊕ Fin 1) K) (Sum.inr 0) (Sum.inl 0) with hr
@@ -121,7 +121,7 @@ private lemma s16h_isometry_quadPlus_one_class {K : Type} [Field K]
     rw [hquad, hquad] at h
     simp only [Matrix.mulVec_add, Matrix.mulVec_single_one, Pi.add_apply, Matrix.col_apply,
       Pi.single_eq_same, Pi.single_eq_of_ne (by simp : (Sum.inl 0 : Fin 1 ⊕ Fin 1) ≠ Sum.inr 0),
-      add_zero, mul_one, zero_mul, hp, hq, hr, hs] at h
+      add_zero] at h
     simpa using h
   have h3' : p * s + q * r = 1 := by
     have e : (p + q) * (r + s) = p * s + q * r + (p * r + q * s) := by ring
@@ -203,7 +203,7 @@ private theorem s16h_isMulCommutative_statedOmega_quadPlus_le_one {K : Type} [Fi
     {m : ℕ} (hm : m ≤ 1) : IsMulCommutative ↥(StatedOmega (StatedQuadPlus m K)) := by
   rcases Nat.le_one_iff_eq_zero_or_eq_one.1 hm with h0 | h1
   · rw [h0]
-    haveI : Subsingleton (GL (Fin 0 ⊕ Fin 0) K) :=
+    have : Subsingleton (GL (Fin 0 ⊕ Fin 0) K) :=
       Subsingleton.units_of_isUnit fun a _ => Subsingleton.elim a 1
     exact IsMulCommutative.of_comm fun x y => Subsingleton.elim _ _
   · rw [h1]
@@ -212,7 +212,7 @@ private theorem s16h_isMulCommutative_statedOmega_quadPlus_le_one {K : Type} [Fi
 private theorem s16h_isMulCommutative_statedProj_quadPlus_le_one {K : Type} [Field K]
     {m : ℕ} (hm : m ≤ 1) :
     IsMulCommutative (StatedProj (StatedOmega (StatedQuadPlus m K))) := by
-  haveI hΩ : IsMulCommutative ↥(StatedOmega (StatedQuadPlus m K)) :=
+  have hΩ : IsMulCommutative ↥(StatedOmega (StatedQuadPlus m K)) :=
     s16h_isMulCommutative_statedOmega_quadPlus_le_one hm
   refine IsMulCommutative.of_comm fun x y => ?_
   obtain ⟨x', rfl⟩ := QuotientGroup.mk'_surjective _ x
@@ -222,7 +222,7 @@ private theorem s16h_isMulCommutative_statedProj_quadPlus_le_one {K : Type} [Fie
 private theorem s16h_false_of_isOmegaPlus_le_one {X : Type} [Group X]
     (hq : CFSG.Open.IsQuasisimple X) {K : Type} [Field K] {m : ℕ} (hm : m ≤ 1)
     (e : X ≃* StatedProj (StatedOmega (StatedQuadPlus m K))) : False := by
-  haveI : IsMulCommutative (StatedProj (StatedOmega (StatedQuadPlus m K))) :=
+  have : IsMulCommutative (StatedProj (StatedOmega (StatedQuadPlus m K))) :=
     s16h_isMulCommutative_statedProj_quadPlus_le_one hm
   refine s16h_not_isMulCommutative_of_isQuasisimple hq ?_
   exact IsMulCommutative.of_comm fun x y => e.injective (by
@@ -232,9 +232,9 @@ private theorem s16h_false_of_isOmegaPlus_le_one {X : Type} [Group X]
 private theorem s16h_not_isSolvable_of_isQuasisimple {Q : Type} [Group Q]
     (hq : CFSG.Open.IsQuasisimple Q) : ¬ Group.IsSolvable Q := by
   intro hs
-  haveI := hs
-  haveI : Nontrivial (Q ⧸ Subgroup.center Q) := hq.2.toNontrivial
-  haveI : Nontrivial Q := (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
+  have := hs
+  have : Nontrivial (Q ⧸ Subgroup.center Q) := hq.2.toNontrivial
+  have : Nontrivial Q := (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
   have h := Group.IsSolvable.commutator_lt_top_of_nontrivial Q
   rw [hq.1] at h
   exact lt_irrefl _ h
@@ -242,7 +242,7 @@ private theorem s16h_not_isSolvable_of_isQuasisimple {Q : Type} [Group Q]
 private theorem s16h_card_GL_fin_le_six {K : Type} [Field K] [Fintype K]
     (hK : Fintype.card K = 2) {d : ℕ} (hd : d ≤ 2) : Nat.card (GL (Fin d) K) < 60 := by
   rw [Matrix.card_GL_field]
-  interval_cases d <;> simp_all <;> norm_num
+  interval_cases d <;> simp_all
 
 private theorem s16h_card_GL_le_six {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
     [Fintype K] (hK : Fintype.card K = 2) (hι : Fintype.card ι ≤ 2) :
@@ -256,7 +256,7 @@ private theorem s16h_card_GL_le_six {ι : Type} [Fintype ι] [DecidableEq ι] {K
 private theorem s16h_isSolvable_GL_of_card_le_two {ι : Type} [Fintype ι] [DecidableEq ι]
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) (hι : Fintype.card ι ≤ 2) :
     Group.IsSolvable (GL ι K) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
   exact CFSG.GroupTheory.groups_order_below_sixty_solvable (s16h_card_GL_le_six hK' hι)
 
@@ -277,7 +277,7 @@ private theorem s16h_isSolvable_orthGroup_quadPlus_two {K : Type} [Field K] [Fin
   have hcard : Nat.card ↥(orthGroup (StatedQuadPlus 2 K)) = 2 ^ 3 * 3 ^ 2 := by
     rw [card_orthGroup_quadPlus_two, hK]
     norm_num
-  haveI : Fintype ↥(orthGroup (StatedQuadPlus 2 K)) := Fintype.ofFinite _
+  have : Fintype ↥(orthGroup (StatedQuadPlus 2 K)) := Fintype.ofFinite _
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
     Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card, hcard])
 
@@ -301,11 +301,11 @@ theorem s16h_H5_isOmegaPlus_class [Finite W] {A L : Subgroup (MulAut W)} {t : Mu
   classical
   have hcopy : IsOmegaPlus ↥L n a := h
   obtain ⟨hEven, K, hF, hFin, hKcard, ⟨e⟩⟩ := hcopy
-  letI := hF
-  letI := hFin
+  let := hF
+  let := hFin
   have hq : CFSG.Open.IsQuasisimple ↥L := hc.comp.2.2
-  haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
-  haveI : Nontrivial ↥L := s16h_nontrivial_of_isQuasisimple hq
+  have : Group.IsPerfect ↥L := ⟨hq.1⟩
+  have : Nontrivial ↥L := s16h_nontrivial_of_isQuasisimple hq
   by_cases hm1 : n / 2 ≤ 1
   · exact s16h_false_of_isOmegaPlus_le_one hq hm1 e
   · have hm2 : 2 ≤ n / 2 := by omega
@@ -320,10 +320,10 @@ theorem s16h_H5_isOmegaPlus_class [Finite W] {A L : Subgroup (MulAut W)} {t : Mu
       have hK2 : Nat.card K = 2 := by rw [ha1] at hKcard; simpa using hKcard
       rcases Nat.lt_or_ge (n / 2) 3 with hm3 | hm3
       · have hm_eq : n / 2 = 2 := by omega
-        haveI : Group.IsSolvable (StatedProj (StatedOmega (StatedQuadPlus (n / 2) K))) := by
+        have : Group.IsSolvable (StatedProj (StatedOmega (StatedQuadPlus (n / 2) K))) := by
           rw [hm_eq]
           exact s16h_isSolvable_statedProj_statedOmega_quadPlus_two hK2
-        haveI : Group.IsSolvable ↥L := s16h_isSolvable_of_mulEquiv e
+        have : Group.IsSolvable ↥L := s16h_isSolvable_of_mulEquiv e
         exact (Group.IsPerfect.not_isSolvable ↥L) inferInstance
       · rcases Nat.lt_or_ge (n / 2) 4 with hm4 | hm4
         · have hm_eq3 : n / 2 = 3 := by omega
@@ -339,8 +339,8 @@ theorem s16h_H5_isOmegaPlus_class [Finite W] {A L : Subgroup (MulAut W)} {t : Mu
             rw [s16h_pRank_eq_top_of_mulEquiv e8]
             exact CFSG.Quasithin.A3Facts.two_le_pRank_alternating (n := 8) (by norm_num)
           exact s16h_false_of_two_le_pRank hc h2
-        · haveI : CharP K 2 := by
-            haveI : Fintype K := Fintype.ofFinite K
+        · have : CharP K 2 := by
+            have : Fintype K := Fintype.ofFinite K
             exact charP_of_card_eq_prime_pow (p := 2) (f := a) (by
               rw [← Nat.card_eq_fintype_card]; exact hKcard)
           have h2 : 2 ≤ CFSG.Open.pRank 3 L := by
@@ -349,8 +349,8 @@ theorem s16h_H5_isOmegaPlus_class [Finite W] {A L : Subgroup (MulAut W)} {t : Mu
               (CFSG.SectionRank.ClassicalEven.omegaPlus_three_le_pRank_three
                 (K := K) (n := n / 2) hm4)
           exact s16h_false_of_two_le_pRank hc h2
-    · haveI : Fintype K := Fintype.ofFinite K
-      haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := a) (by
+    · have : Fintype K := Fintype.ofFinite K
+      have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := a) (by
         rw [← Nat.card_eq_fintype_card]; exact hKcard)
       have h4 : 4 ≤ Fintype.card K := by
         rw [← Nat.card_eq_fintype_card, hKcard]

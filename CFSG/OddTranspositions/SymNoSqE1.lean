@@ -62,7 +62,7 @@ theorem pCore_two_perm_eq_bot_of_three_or_five_le {k : ℕ} (hk : k = 3 ∨ 5 �
     rw [Subgroup.mem_bot]
     by_contra hne
     obtain ⟨τ, h1, h3⟩ := key σ (by simpa using hne)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hnorm : (CFSG.pCore 2 (Equiv.Perm (Fin 3))).Normal := CFSG.pCore_normal
     have hP : IsPGroup 2 (CFSG.pCore 2 (Equiv.Perm (Fin 3))) := CFSG.pCore_isPGroup
     have hconj : τ * σ * τ⁻¹ ∈ CFSG.pCore 2 (Equiv.Perm (Fin 3)) :=
@@ -81,7 +81,7 @@ theorem pCore_two_perm_eq_bot_of_three_or_five_le {k : ℕ} (hk : k = 3 ∨ 5 �
     exact h1 (orderOf_eq_one_iff.mp hone)
   ·
     by_contra h
-    haveI : (CFSG.pCore 2 (Equiv.Perm (Fin k))).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore 2 (Equiv.Perm (Fin k))).Normal := CFSG.pCore_normal
     have hnt : Nontrivial (CFSG.pCore 2 (Equiv.Perm (Fin k))) :=
       (Subgroup.nontrivial_iff_ne_bot _).mpr h
     have hcard : 5 ≤ Nat.card (Fin k) := by
@@ -177,7 +177,7 @@ theorem noSqE1_of_map_mulEquiv {G H : Type} [Group G] [Group H]
     rw [hD, ← map_cenGen φ D d, Subgroup.map_map]
     simp
   have hcenter : (Subgroup.center H).map φ.symm.toMonoidHom = Subgroup.center G := by
-    simpa using Subgroup.map_center_eq (φ.symm : H ≃* G)
+    simp
   have hright : (Subgroup.zpowers (φ d) ⊔ Subgroup.center H).map φ.symm.toMonoidHom =
       Subgroup.zpowers d ⊔ Subgroup.center G := by
     rw [Subgroup.map_sup, MonoidHom.map_zpowers, hcenter]
@@ -344,7 +344,7 @@ theorem pCore_cenGen_swap_le {m : ℕ} (hm : m = 5 ∨ 7 ≤ m) {a b : Fin m} (h
         have hnp : ¬ p b := by simp [p]
         simpa using Equiv.Perm.ofSubtype_apply_of_not_mem σ hnp
     · exact Equiv.ext fun z => Subtype.ext (by
-        simp [f, Equiv.Perm.subtypePerm_apply])
+        simp [f])
   have hker : f.ker = Subgroup.zpowers dK := by
     ext x
     rw [MonoidHom.mem_ker]
@@ -398,7 +398,7 @@ theorem noSqE1_isSwap_perm {m : ℕ} (hm : m = 5 ∨ 7 ≤ m) :
 
 theorem noSqE1_of_pair_perm_of_ne_six
     {G : Type} [Group G] [Finite G] {D : Set G}
-    (hP : Pair G D) (hZ : Subgroup.center G = ⊥)
+    (_hP : Pair G D) (_hZ : Subgroup.center G = ⊥)
     {m : ℕ} (hm : m = 5 ∨ 7 ≤ m)
     (φ : G ≃* Equiv.Perm (Fin m)) (hφ : ∀ g, g ∈ D ↔ (φ g).IsSwap) :
     CFSG.RankThree.GF2n.Tim79a.NoSqE1 D := by

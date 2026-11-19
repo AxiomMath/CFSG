@@ -121,7 +121,7 @@ theorem normal_form (ζ μ : F) (hζ : ζ ^ 2 + ζ + 1 = 0) (hζ1 : ζ ≠ 1) (h
     rfl
   have hcol : ∀ (X : Matrix (Fin 3) (Fin 3) F) (i j : Fin 3),
       (X * B) i j = (X *ᵥ (![v, w2, w3] j)) i := fun X i j => rfl
-  refine ⟨B, θ, Matrix.linearIndependent_cols_iff_isUnit.1 (by rw [hBcol]; exact hli), hθ0, ?_, ?_⟩
+  refine ⟨B, θ, Matrix.linearIndependent_col_iff_isUnit.1 (by rw [hBcol]; exact hli), hθ0, ?_, ?_⟩
   · ext i j
     rw [hcol, Matrix.mul_diagonal]
     fin_cases j

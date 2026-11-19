@@ -13,7 +13,7 @@ theorem kaL2_exists_B_coord {F : Type} [Field F] (a b c d x y : F) (hd : a * d -
       !![x, a * x + b * y; y, c * x + d * y] * !![0, -1; 1, a + d] := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two] <;>
-    first | ring1 | linear_combination (-x) * hd | linear_combination (-y) * hd
+    first | linear_combination (-x) * hd | linear_combination (-y) * hd
 
 theorem kaL2_exists_B {F : Type} [Field F] (M : Matrix (Fin 2) (Fin 2) F) (hdet : M.det = 1)
     (hns : ∀ s : F, M ≠ s • (1 : Matrix (Fin 2) (Fin 2) F)) :

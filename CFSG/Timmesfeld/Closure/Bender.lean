@@ -107,9 +107,9 @@ theorem commute_of_mem_sylow [Finite X] (Q : Sylow 2 X)
     exact absurd hu (by decide)
   have hQnt : Nontrivial (Q : Subgroup X) :=
     ⟨⟨⟨u, huQ⟩, 1, fun h => hu1 (congrArg Subtype.val h)⟩⟩
-  have hZnt : Nontrivial (Subgroup.center (Q : Subgroup X)) := Q.isPGroup'.center_nontrivial
+  have hZnt : Nontrivial (Subgroup.center (Q : Subgroup X)) := Q.isPGroup.center_nontrivial
   have hZ2 : IsPGroup 2 (Subgroup.center (Q : Subgroup X)) :=
-    Q.isPGroup'.to_subgroup (Subgroup.center _)
+    Q.isPGroup.to_subgroup (Subgroup.center _)
   have hZdvd : 2 ∣ Nat.card (Subgroup.center (Q : Subgroup X)) := by
     have := Fact.mk Nat.prime_two
     obtain ⟨n, hn⟩ := hZ2.exists_card_eq
@@ -154,9 +154,9 @@ theorem commute_of_mem_sylow [Finite X] (Q : Sylow 2 X)
     calc h * w * h⁻¹ * (h * z' * h⁻¹) = h * (w * z') * h⁻¹ := by group
       _ = h * (z' * w) * h⁻¹ := by rw [e]
       _ = h * z' * h⁻¹ * (h * w * h⁻¹) := by group
-  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup'.map _
+  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup.map _
   have hsup : IsPGroup 2 ↥((Q : Subgroup X) ⊔ Q') :=
-    IsPGroup.to_sup_of_normal_left' Q.isPGroup' hQ'2 hQ'M
+    IsPGroup.to_sup_of_normal_left' Q.isPGroup hQ'2 hQ'M
   have heq : (Q : Subgroup X) ⊔ Q' = Q := Q.maximal_isPGroup.eq_of_ge hsup le_sup_left
   have hQ'le : Q' ≤ Q := heq ▸ le_sup_right
   have hcard : Nat.card Q' = Nat.card (Q : Subgroup X) :=

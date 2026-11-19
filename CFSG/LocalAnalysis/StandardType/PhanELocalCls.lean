@@ -38,7 +38,7 @@ theorem rho_surjective : Function.Surjective (rho (K := K)) := by
   refine ⟨fun j : Fin 4 => if h : 2 ≤ j.val then u ⟨j.val - 2, by omega⟩ else 0, ?_⟩
   funext i
   rw [rho_apply]
-  rw [dif_pos (show 2 ≤ (⟨i.val + 2, by omega⟩ : Fin 4).val by rw [Fin.val_mk]; omega)]
+  rw [dite_eq_left (show 2 ≤ (⟨i.val + 2, by omega⟩ : Fin 4).val by rw [Fin.val_mk]; omega)]
   exact congrArg u (Fin.ext (by simp))
 
 structure ClsData (K : Type) [Field K] where

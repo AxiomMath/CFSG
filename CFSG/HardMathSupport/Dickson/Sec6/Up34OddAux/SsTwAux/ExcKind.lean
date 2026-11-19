@@ -63,9 +63,9 @@ theorem ssexc_not_L34_exc {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] (S : L
       Subgroup.center ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
   classical
   obtain ⟨r, e, hr, hchar, hr5, he, hqe⟩ := ssexc_char_ge_five S h2
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
-  haveI : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
+  have : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
     ssTw_finite_rationalComponent S i
   obtain ⟨hnin, hA | ⟨hr4, hc24, -⟩⟩ := exc_kind hk
   · obtain ⟨V, hV, h8⟩ := ssTw_pgroup_e6class S Nat.prime_three S.natCast_ne_zero hT hTp h1 i

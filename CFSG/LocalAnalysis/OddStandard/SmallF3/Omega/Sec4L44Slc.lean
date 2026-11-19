@@ -12,7 +12,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G]
 
-theorem sec4_slc_decomp [Finite G] {t : G} {L S : Subgroup G} (hL : IsOmega7Group L)
+theorem sec4_slc_decomp [Finite G] {t : G} {L S : Subgroup G} (_hL : IsOmega7Group L)
     (hLt : L ≤ centralizer ({t} : Set G))
     (hN : ∀ c ∈ centralizer ({t} : Set G), c ∈ normalizer (L : Set G))
     (hS : IsSylow2Of S (centralizer ({t} : Set G))) {x : G} (hx : x ∈ SLC S L) :
@@ -31,7 +31,7 @@ theorem sec4_slc_decomp [Finite G] {t : G} {L S : Subgroup G} (hL : IsOmega7Grou
   have hP : IsSylow2Of P L := sec4_isSylow2Of_inf hLt hN hS
   obtain ⟨T, hT⟩ := IsSylow2Of.exists_sylow hP
   let q : ↥L →* ↥L ⧸ Subgroup.center ↥L := QuotientGroup.mk' (Subgroup.center ↥L)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let TQ : Sylow 2 (↥L ⧸ Subgroup.center ↥L) :=
     Sylow.mapSurjective (f := q) (QuotientGroup.mk'_surjective (Subgroup.center ↥L)) T
   have hTQ : (TQ : Subgroup (↥L ⧸ Subgroup.center ↥L)) = (T : Subgroup ↥L).map q := rfl
@@ -86,7 +86,7 @@ theorem sec4_elemAbelian_slc [Finite G] {t : G} {L S B : Subgroup G} (hL : IsOme
       IsCyclic (P : Subgroup (centralizer (L : Set G))))
     (hB : IsMaxElemAbelianIn (S ⊓ L) B) (hBu : ∀ B' : Subgroup G, IsMaxElemAbelianIn (S ⊓ L) B' →
       B' = B) (hBc : Nat.card B = 2 ^ 6) (ht : orderOf t = 2)
-    (htC : t ∈ centralizer (L : Set G)) (htL : t ∉ L) {E : Subgroup G} (hE : E ≤ SLC S L)
+    (htC : t ∈ centralizer (L : Set G)) (_htL : t ∉ L) {E : Subgroup G} (hE : E ≤ SLC S L)
     (hEa : CFSG.Open.IsElemAbelian 2 E) :
     Nat.card E ≤ 2 ^ 7 ∧ (Nat.card E = 2 ^ 7 → E = B ⊔ zpowers t) := by
   let C := centralizer (L : Set G)

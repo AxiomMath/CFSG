@@ -22,7 +22,7 @@ theorem i141f_g2_noCube {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S : Type} [Gro
     cases d with
     | G2 q =>
       have hq : q.p = 2 := hi
-      haveI : Finite (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.G2 q, hv⟩).Group :=
+      have : Finite (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.G2 q, hv⟩).Group :=
         Finite.of_equiv S e.toEquiv
       have hEm : IsElemAbelian p (E.map e.toMonoidHom) := isElemAbelian_map e.toMonoidHom hE
       have hcard : Nat.card (E.map e.toMonoidHom) = Nat.card E :=

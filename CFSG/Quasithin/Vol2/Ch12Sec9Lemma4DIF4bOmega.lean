@@ -75,7 +75,7 @@ theorem omega_sing_transitive (q : W → ZMod 2) (B : LinearMap.BilinForm (ZMod 
     (hq : ∀ v w, q (v + w) = q v + q w + B v w)
     (hB : ∀ v : W, (∀ w, B v w = 0) → v = 0)
     (hcount : Nat.card {v : W // v ≠ 0 ∧ q v = 0} = 35)
-    (Ω : Subgroup (W ≃ₗ[ZMod 2] W)) (hΩ : Ω ≤ orthogonalSubgroupOf q)
+    (Ω : Subgroup (W ≃ₗ[ZMod 2] W)) (_hΩ : Ω ≤ orthogonalSubgroupOf q)
     (hrel : Ω.relIndex (orthogonalSubgroupOf q) = 2) :
     ∀ v w : W, v ≠ 0 → w ≠ 0 → q v = 0 → q w = 0 → ∃ γ ∈ Ω, γ v = w := by
   intro v w hv hw hqv hqw
@@ -91,7 +91,7 @@ theorem omega_sing_transitive (q : W → ZMod 2) (B : LinearMap.BilinForm (ZMod 
     rw [MulAction.index_stabilizer, orbit_eq_sing q le_rfl hv hqv htransG, hcount']
   have hA : ∃ g ∈ orthogonalSubgroupOf q, g v = v ∧ g ∉ Ω := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hle : MulAction.stabilizer (orthogonalSubgroupOf q) v ≤ Ω.subgroupOf (orthogonalSubgroupOf q) := by
       intro g hg
       rw [Subgroup.mem_subgroupOf]
@@ -103,7 +103,7 @@ theorem omega_sing_transitive (q : W → ZMod 2) (B : LinearMap.BilinForm (ZMod 
   obtain ⟨g, hgG, hgv, hgΩ⟩ := hA
   set Ω' : Subgroup (orthogonalSubgroupOf q) := Ω.subgroupOf (orthogonalSubgroupOf q) with hΩ'
   have hΩ'2 : Ω'.index = 2 := hrel
-  haveI : Ω'.Normal := Subgroup.normal_of_index_eq_two hΩ'2
+  have : Ω'.Normal := Subgroup.normal_of_index_eq_two hΩ'2
   let γ' : orthogonalSubgroupOf q := ⟨γ0, hγ0G⟩
   let g' : orthogonalSubgroupOf q := ⟨g, hgG⟩
   have hγ'ne : γ' ∉ Ω' := fun h => hγ0Ω ((Subgroup.mem_subgroupOf).1 h)

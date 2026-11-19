@@ -52,7 +52,7 @@ theorem mem_range_incl (a : CycExt D) : a ∈ (CycExt.incl D).range ↔ a.d = fa
     subst h
     exact ⟨k, rfl⟩
 
-theorem incl_injective : Function.Injective (CycExt.incl D) := fun a b h =>
+theorem incl_injective : Function.Injective (CycExt.incl D) := fun _a _b h =>
   congrArg CycExt.k h
 
 end CycExt

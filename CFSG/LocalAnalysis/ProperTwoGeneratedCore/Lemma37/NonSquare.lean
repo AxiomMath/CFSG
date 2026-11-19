@@ -42,7 +42,7 @@ theorem exists_mk_eq_of_orderOf_sq_eq_two {S : Sylow 2 G} {z : G} {y : EscapingQ
   obtain ⟨x, hxS, rfl⟩ := Subgroup.mem_map.mp hy
   have hxS' : (x : G) ∈ (S : Subgroup G) := Subgroup.mem_subgroupOf.mp hxS
   refine ⟨x, hxS', rfl, orderOf_eq_prime ?_ fun h => ?_⟩
-  · refine escapingMk_injOn_twoGroup S.isPGroup' ?_ (S : Subgroup G).one_mem ?_
+  · refine escapingMk_injOn_twoGroup S.isPGroup ?_ (S : Subgroup G).one_mem ?_
     · simpa only [Subgroup.coe_pow] using
         (S : Subgroup G).pow_mem ((S : Subgroup G).pow_mem hxS' 2) 2
     · have h4 := pow_orderOf_eq_one (escapingMk z x ^ 2)
@@ -65,7 +65,7 @@ theorem coreSetting_false_of_normal_component_mem
   have hSbar : (Sbar : Subgroup (EscapingQuotient z)) = escapingSylowImage S z := by
     rw [Sylow.coe_mapSurjective, Sylow.coe_subtype]
   have hSJ : (Sbar : Subgroup (EscapingQuotient z)) ≤ J :=
-    le_of_normal_of_odd_index hodd Sbar.isPGroup'
+    le_of_normal_of_odd_index hodd Sbar.isPGroup
   set Q : Sylow 2 J := Sbar.subtype hSJ with hQdef
   have hQmem : ∀ q : J, q ∈ (Q : Subgroup J) ↔
       (q : EscapingQuotient z) ∈ escapingSylowImage S z := by

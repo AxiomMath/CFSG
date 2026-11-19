@@ -45,7 +45,7 @@ theorem pairOrder_conj (g p q : G) : pairOrder (g * p * g⁻¹) (g * q * g⁻¹)
   · intro x; ext; simp [mul_assoc]
   · intro y; ext; simp [mul_assoc]
 
-theorem pairOrder_mul_right {p q : G} (hpq : p * q = q * p) :
+theorem pairOrder_mul_right {p q : G} (_hpq : p * q = q * p) :
     pairOrder p (p * q) = pairOrder p q := by
   rw [pairOrder, pairOrder]
   have h : centralizer ({p} : Set G) ⊓ centralizer ({p * q} : Set G) =
@@ -133,23 +133,23 @@ theorem CentData.card_inf_centralizer (hC : CentData z ι) (σ : Perm (Fin 10)) 
     rintro ⟨b, s⟩ ⟨b', s'⟩ h
     simp only [f, Subtype.mk.injEq] at h
     cases b <;> cases b'
-    · simp only [cond_false, one_mul] at h
+    · simp only [Bool.cond_false, one_mul] at h
       exact Prod.ext rfl (Subtype.ext (hC.inj h))
     · exfalso
-      simp only [cond_false, cond_true, one_mul] at h
+      simp only [Bool.cond_false, _root_.Bool.cond_true, one_mul] at h
       refine hC.ne_z (s * (s')⁻¹) ?_
       have hz : z = ι (s : Perm (Fin 10)) * (ι (s' : Perm (Fin 10)))⁻¹ := by
         rw [h]; group
       rw [hz]
       simp only [map_mul, Subgroup.coe_inv, map_inv]
     · exfalso
-      simp only [cond_false, cond_true, one_mul] at h
+      simp only [Bool.cond_false, _root_.Bool.cond_true, one_mul] at h
       refine hC.ne_z (s' * s⁻¹) ?_
       have hz : z = ι (s' : Perm (Fin 10)) * (ι (s : Perm (Fin 10)))⁻¹ := by
         rw [← h]; group
       rw [hz]
       simp only [map_mul, Subgroup.coe_inv, map_inv]
-    · simp only [cond_true] at h
+    · simp only [_root_.Bool.cond_true] at h
       exact Prod.ext rfl (Subtype.ext (hC.inj (mul_left_cancel h)))
   have hf_surj : Function.Surjective f := by
     rintro ⟨g, hg⟩
@@ -173,11 +173,11 @@ theorem CentData.card_inf_centralizer (hC : CentData z ι) (σ : Perm (Fin 10)) 
     rcases hσ' with h | h
     · refine ⟨(false, ⟨σ', mem_centralizer_singleton_iff.2 hcomm⟩), ?_⟩
       apply Subtype.ext
-      simp only [f, cond_false, one_mul]
+      simp only [f, Bool.cond_false, one_mul]
       exact h.symm
     · refine ⟨(true, ⟨σ', mem_centralizer_singleton_iff.2 hcomm⟩), ?_⟩
       apply Subtype.ext
-      simp only [f, cond_true]
+      simp only [f, _root_.Bool.cond_true]
       exact h.symm
   let e := Equiv.ofBijective f ⟨hf_inj, hf_surj⟩
   rw [← Nat.card_congr e, Nat.card_prod, Nat.card_eq_fintype_card, Fintype.card_bool]
@@ -295,7 +295,7 @@ theorem range_restrict_centralizer [Finite G] {d : G}
 
 theorem SymSec.card_inf_centralizer [Finite G] {d : G}
     {π : ↥(centralizer ({d} : Set G)) →* Perm (Fin 10)} (hS : SymSec d π)
-    {κ : ↥(centralizer ({d} : Set G)) →* ℤˣ} (hκ : κ (selfC d) = -1) (hd2 : d * d = 1)
+    {κ : ↥(centralizer ({d} : Set G)) →* ℤˣ} (hκ : κ (selfC d) = -1) (_hd2 : d * d = 1)
     (hd1 : d ≠ 1) (f : ↥(centralizer ({d} : Set G))) :
     Nat.card ↥(centralizer ({d} : Set G) ⊓ centralizer ({(f : G)} : Set G)) =
       2 * Nat.card ↥(centralizer ({π f} : Set (Perm (Fin 10)))) := by

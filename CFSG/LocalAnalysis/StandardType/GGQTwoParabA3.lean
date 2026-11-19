@@ -410,7 +410,7 @@ private theorem ggQ2xA3c_simpleRefl_inv (D : GGQ2Lin 3) (k : D.ι) :
   rw [GGQ2Lin.simpleRefl, Module.reflection_inv]
 
 private theorem ggQ2xA3c_gen (D : GGQ2Lin 3) (f : Fin 3 ≃ {k // k ≠ D.a})
-    (hf : ∀ i j, (D.cartan (f i).1 (f j).1 : ZMod 3) = ggQ2xA3_C i j) (i : Fin 3) :
+    (_hf : ∀ i j, (D.cartan (f i).1 (f j).1 : ZMod 3) = ggQ2xA3_C i j) (i : Fin 3) :
     ggQ2xA3c_Pform D f (D.simpleRefl (f i).1) (ggQ2xA3_S i) := by
   intro v
   rw [GGQ2Lin.simpleRefl, Module.reflection_apply, sub_eq_add_neg]
@@ -425,7 +425,7 @@ private theorem ggQ2xA3c_gen (D : GGQ2Lin 3) (f : Fin 3 ≃ {k // k ≠ D.a})
 private theorem ggQ2xA3c_Pform_one (D : GGQ2Lin 3) (f : Fin 3 ≃ {k // k ≠ D.a}) :
     ggQ2xA3c_Pform D f 1 1 := by
   intro v
-  simp [ggQ2xA3c_Pform]
+  simp
 
 private theorem ggQ2xA3c_pi_Pform (D : GGQ2Lin 3) (f : Fin 3 ≃ {k // k ≠ D.a})
     (hf : ∀ i j, (D.cartan (f i).1 (f j).1 : ZMod 3) = ggQ2xA3_C i j)

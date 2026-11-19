@@ -102,15 +102,15 @@ private theorem famV_frameKB {K : Type} [Field K] {ζ : Kˣ} (hζ : ζ ^ 3 = 1)
   simp only [famV, torV, TableBExc.E6Three.zetaVec, listVec]
   rw [hget, vecList_getD]
   rw [CFSG.RankThree.CentralCover.zmodPowHom_apply]
-  simp [ZMod.val_natCast, ZMod.val_lt]
+  simp
 
 private theorem familyStabilizer_frame_eq {K : Type} [Field K] {ζ : Kˣ}
-    (hζo : orderOf ζ = 3) (hζ : ζ ^ 3 = 1) :
+    (_hζo : orderOf ζ = 3) (hζ : ζ ^ 3 = 1) :
     familyStabilizer (fun s : Fin Tag.F4.rank → ZMod 3 =>
         TableBExc.E6Three.zetaVec ζ hζ (twE6ThreeFrame s)) =
       familyStabilizer (famV (τ := .E6) ζ frameKB) := by
   ext w
-  simp only [familyStabilizer, Set.mem_setOf_eq]
+  simp only [familyStabilizer, Set.mem_ofPred_eq]
   constructor
   · intro h j
     rw [famV_frameKB hζ j]
@@ -125,7 +125,7 @@ private theorem familyStabilizer_frame_eq {K : Type} [Field K] {ζ : Kˣ}
     exact h1
 
 private theorem familyKernel_frame_eq {K : Type} [Field K] {ζ : Kˣ}
-    (hζo : orderOf ζ = 3) (hζ : ζ ^ 3 = 1) :
+    (_hζo : orderOf ζ = 3) (hζ : ζ ^ 3 = 1) :
     familyKernel (fun s : Fin Tag.F4.rank → ZMod 3 =>
         TableBExc.E6Three.zetaVec ζ hζ (twE6ThreeFrame s)) =
       familyKernel (famV (τ := .E6) ζ frameKB) := by

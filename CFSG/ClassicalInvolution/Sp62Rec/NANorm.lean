@@ -79,8 +79,8 @@ theorem exists_conj_nu {A X : Subgroup G} (hAE : IsE64 A)
       (T : Subgroup G) ≤ X' ∧ A ≤ X' ∧
       (A.subgroupOf X').map ν'.toMonoidHom = A0.subgroupOf N0 ∧
       ((T : Subgroup G).subgroupOf X').map ν'.toMonoidHom = S0.subgroupOf N0 := by
-  haveI : Finite ↥N0 := Nat.finite_of_card_ne_zero (by rw [hN0]; norm_num)
-  haveI : Finite (Sylow 2 G) :=
+  have : Finite ↥N0 := Nat.finite_of_card_ne_zero (by rw [hN0]; norm_num)
+  have : Finite (Sylow 2 G) :=
     Finite.of_injective (fun P : Sylow 2 G => (P : Set G)) SetLike.coe_injective
   have hbound : ∀ H : Subgroup G, IsPGroup 2 H → Nat.card H ≤ 512 := by
     intro H hH
@@ -98,7 +98,7 @@ theorem exists_conj_nu {A X : Subgroup G} (hAE : IsE64 A)
     · rw [Subgroup.card_map_of_injective (Subgroup.subtype_injective X), hK]
   have hQ2 : IsPGroup 2 Q := IsPGroup.of_card hQcard
   have hQN : Q ≤ Subgroup.normalizer (A : Set G) := hQX.trans hXN
-  have hA2 : IsPGroup 2 (A : Subgroup G) := IsPGroup.to_le T.isPGroup' hAT
+  have hA2 : IsPGroup 2 (A : Subgroup G) := IsPGroup.to_le T.isPGroup hAT
   have hAQ : A ≤ Q := by
     have h2 : IsPGroup 2 (Q ⊔ A : Subgroup G) := hQ2.to_sup_of_normal_right' hA2 hQN
     have h3 : Nat.card (Q ⊔ A : Subgroup G) ≤ Nat.card Q := by
@@ -180,7 +180,7 @@ theorem exists_conj_nu {A X : Subgroup G} (hAE : IsE64 A)
     have h := Subgroup.card_mul_index (S0.subgroupOf N0)
     rw [hS0card, hN0] at h
     omega
-  haveI : Finite (Sylow 2 ↥N0) :=
+  have : Finite (Sylow 2 ↥N0) :=
     Finite.of_injective (fun P : Sylow 2 ↥N0 => (P : Set ↥N0)) SetLike.coe_injective
   obtain ⟨m, hm⟩ := MulAction.exists_smul_eq ↥N0 (hP1.toSylow hi1) (hP2.toSylow hi2)
   have hmP : (((T : Subgroup G).subgroupOf X').map ν₁.toMonoidHom).map
@@ -196,6 +196,7 @@ theorem exists_conj_nu {A X : Subgroup G} (hAE : IsE64 A)
   · rw [hν'eq, ← Subgroup.map_map]
     exact hmP
 
+omit [Finite G] in
 theorem agree_on_center {X' Ce : Subgroup G} (θ : ↥Ce ≃* ↥Hhat)
     (hTCe : (T : Subgroup G) ≤ Ce)
     (hθT : ((T : Subgroup G).subgroupOf Ce).map θ.toMonoidHom = S0.subgroupOf Hhat)

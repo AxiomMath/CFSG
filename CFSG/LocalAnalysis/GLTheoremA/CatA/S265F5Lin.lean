@@ -21,7 +21,7 @@ theorem card_le_mul_card_inf_linear {ℓ f n p : ℕ} (hℓ : ℓ.Prime) (hf : 1
   classical
   obtain ⟨-, -, -, -, -, hnorm, -, -⟩ :=
     CFSG.RankThree.LinearDescent.higher_linear_prime_semilinear_field_descent hℓ hf hn hK
-  haveI := hnorm
+  have := hnorm
   let π : MulAut (projectiveSL n k) →* MulAut (projectiveSL n k) ⧸ linearAutGroup n k :=
     QuotientGroup.mk' (linearAutGroup n k)
   let φ : B →* MulAut (projectiveSL n k) ⧸ linearAutGroup n k := π.comp B.subtype
@@ -32,12 +32,12 @@ theorem card_le_mul_card_inf_linear {ℓ f n p : ℕ} (hℓ : ℓ.Prime) (hf : 1
       exact QuotientGroup.eq_one_iff _
     rw [h1, ← Subgroup.inf_subgroupOf_left]
     exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_left).toEquiv
-  haveI : IsCyclic (k ≃+* k) := by
+  have : IsCyclic (k ≃+* k) := by
     obtain ⟨σ₀, -, -, htop, -⟩ :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_automorphism_fixed_field_cardinality hℓ hf hK
     exact isCyclic_iff_exists_zpowers_eq_top.mpr ⟨σ₀, htop⟩
   let ψ : (k ≃+* k) →* MulAut (projectiveSL n k) ⧸ linearAutGroup n k := π.comp (fieldAut n k)
-  haveI : IsCyclic ψ.range := isCyclic_of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
+  have : IsCyclic ψ.range := isCyclic_of_surjective ψ.rangeRestrict ψ.rangeRestrict_surjective
   have hle : φ.range ≤ ψ.range := by
     rintro _ ⟨b, rfl⟩
     have hb : (b : MulAut (projectiveSL n k)) ∈ semilinearAutGroup n k :=
@@ -48,7 +48,7 @@ theorem card_le_mul_card_inf_linear {ℓ f n p : ℕ} (hℓ : ℓ.Prime) (hf : 1
     have hA1 : π (LinearFlag.conjAut n k A) = 1 :=
       (QuotientGroup.eq_one_iff _).2 (mem_linearAutGroup_iff.2 ⟨A, rfl⟩)
     rw [hAτ, map_mul, hA1, one_mul]
-  haveI : IsCyclic φ.range := Subgroup.isCyclic_of_le hle
+  have : IsCyclic φ.range := Subgroup.isCyclic_of_le hle
   have hrange : Nat.card φ.range ∣ p := by
     rw [← IsCyclic.exponent_eq_card]
     refine Monoid.exponent_dvd_of_forall_pow_eq_one fun x => ?_
@@ -68,7 +68,7 @@ theorem glaPLayer_ne_bot_of_fieldAut_conjAut_prime [CharP k 2] {p : ℕ} (hp : p
     {t : projectiveSL p k} (ht : orderOf t = 2) (hfix : LinearFlag.conjAut p k M t = t) :
     GLAPLayer p (fixSubgroup (fieldAut p k σ) ⊓ fixSubgroup (LinearFlag.conjAut p k M)) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set k₀ := semilinearFixedSubfield σ with hk₀def
   have hσk₀ : ∀ c ∈ k₀, σ c = c := fun c hc => RingHom.mem_eqLocusField.mp hc
   have htr := (LinearFlag.standard_automorphism_transport (K := k) (n := p)).2.2.1
@@ -184,7 +184,7 @@ theorem glaPLayer_ne_bot_of_field_linear_prime [CharP k 2] {p e : ℕ} (hp : p.P
     {t : projectiveSL p k} (ht : orderOf t = 2) (hct : c t = t) :
     GLAPLayer p (fixSubgroup x ⊓ fixSubgroup c) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3 : 3 ≤ p := by
     have := hp.two_le
     omega
@@ -246,8 +246,8 @@ theorem exists_layer_of_linear_model_prime {T : Type} [Group T] [Finite T] [Char
     (hEt : ∀ c ∈ Eb, c t = t) :
     ∃ c ∈ Eb, c ∉ Subgroup.zpowers β ∧ GLAPLayer p (fixSubgroup β ⊓ fixSubgroup c) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (MulAut (projectiveSL p k)) :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (MulAut (projectiveSL p k)) :=
     Finite.of_injective (fun (g : MulAut (projectiveSL p k)) (w : projectiveSL p k) => g w)
       (fun g h hgh => MulEquiv.ext (congrFun hgh))
   have hp3 : 3 ≤ p := by

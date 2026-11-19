@@ -68,7 +68,7 @@ theorem dich_eq_one_of_sq_mem (h : I21.CRel t u x) {A : Subgroup G} (hA : A.Norm
 theorem dich_order_five [Finite G] (hc : I21.CRel t u x)
     (hC : centralizer ({t} : Set G) = closure {t, u, x}) {L : Subgroup G}
     (hcard : Nat.card ↥(L ⊓ centralizer ({t} : Set G)) = 10) : x ≠ 1 ∧ x ∈ L := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥(L ⊓ centralizer ({t} : Set G))) 5
     (by rw [hcard]; norm_num)
   have hgL : (g : G) ∈ L := (mem_inf.mp g.2).1
@@ -101,7 +101,7 @@ theorem dich_sq_mem [Finite G] (hc : I21.CRel t u x)
     (hC : centralizer ({t} : Set G) = closure {t, u, x}) {L : Subgroup G} (hL : L.Normal)
     (htL : t ∉ L) (hcard : Nat.card ↥(L ⊓ centralizer ({t} : Set G)) = 10) (hxL : x ∈ L)
     {h : G} (hh : h * t * h⁻¹ = t * u ^ 2) : u ^ 2 ∈ L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e, he⟩ := exists_prime_orderOf_dvd_card' (G := ↥(L ⊓ centralizer ({t} : Set G))) 2
     (by rw [hcard]; norm_num)
   have heL : (e : G) ∈ L := (mem_inf.mp e.2).1
@@ -150,12 +150,12 @@ theorem sec622_bar_precise {G : Type} [Group G] [Finite G] {t u x : G} (h : Sec6
       exact Or.inl (sec622_constrained hs hQn hQ2 hCQ)
     · push Not at hcon
       have hN := h.exists_normal_index_two S hRS hSR
-      have hfus := (sec622_two_two_fusion h S.isPGroup' hRS hSR).2
+      have hfus := (sec622_two_two_fusion h S.isPGroup hRS hSR).2
       rcases sec622_three_one h hcon hN hfus with
         hT | ⟨L, hLn, hLs, hnonab, hcent, hzL, -, htL, htzL⟩
       · exact Or.inl hT
       · right
-        haveI := hLs
+        have := hLs
         have htL' : t ∉ L := by simpa using htL 1
         have ht2 : t ^ 2 = 1 := hs.t_sq
         obtain ⟨M, hM, hMt, hMC, hbranch⟩ := sec622_branch_data h hLn htL' hzL htzL

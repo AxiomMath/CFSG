@@ -37,7 +37,7 @@ include hF
 theorem fusSec3 {x : G} (hx : x ∈ S19B.sec19BPrime K S W L) :
     FusSec3 K z (Subgroup.centralizer ({x} : Set G)) := by
   have hxS : x ∈ (S : Subgroup G) := hx.1.1.1
-  have hx2 : IsPGroup 2 (Subgroup.zpowers x) := S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxS)
+  have hx2 : IsPGroup 2 (Subgroup.zpowers x) := S.isPGroup.to_le (Subgroup.zpowers_le.mpr hxS)
   have hxK : x ∈ centralizerModOdd ⊤ K := hF.CK hxS hx.1.1.2
   have hzx : z ∈ Subgroup.centralizer ({x} : Set G) :=
     Subgroup.mem_centralizer_singleton_iff.mpr
@@ -144,7 +144,7 @@ theorem exists_conj_of_mem_S3 {x : G} (hx : x ∈ S19B.sec19BPrime K S W L)
     exact hI.ne_one (mul_left_cancel (a := t) (by rw [mul_one]; exact h'.symm))
   obtain ⟨-, -, -, -, -, -, hcyc, -, h4⟩ := Sec6Gen.exists_data_of_mem_USet hΩ hF.UKW
   obtain ⟨u, huU, huu⟩ := exists_mul_self_eq_of_isCyclic hI inf_le_left hcyc
-    (S.isPGroup'.to_le (inf_le_right.trans hd.hWS)) h4
+    (S.isPGroup.to_le (inf_le_right.trans hd.hWS)) h4
   have hzU : IsUniqueInvolution (K ⊓ W) z :=
     ⟨⟨hI.mem, hzW⟩, hI.ne_one, hI.sq, fun y hy hy2 => hI.unique y hy.1 hy2⟩
   have hsK : (s : G) ∈ Subgroup.normalizer (K : Set G) :=

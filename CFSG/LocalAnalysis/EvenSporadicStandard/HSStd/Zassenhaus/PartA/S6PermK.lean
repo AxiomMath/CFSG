@@ -99,27 +99,23 @@ theorem powE {σ : Perm (Fin 5)} {k : ℕ} (h : σ ^ k = 1) :
 theorem swK_eq (i j : Fin 5) : swK i j = enc (Equiv.swap i j) := by
   unfold swK enc
   refine encF_congr fun k hk => ?_
-  try dsimp only
-  rw [dif_pos hk, Equiv.swap_apply_def]
+  rw [dite_eq_left hk, Equiv.swap_apply_def]
   by_cases h1 : (⟨k, hk⟩ : Fin 5) = i
   · have e1 : Nat.beq k i = true := by
       rw [Nat.beq_eq]
       exact congrArg Fin.val h1
-    rw [if_pos h1, e1]
-    try rfl
+    rw [ite_eq_left h1, e1]
   · have e1 : Nat.beq k i = false :=
       Bool.eq_false_iff.2 fun e => h1 (Fin.ext (Nat.eq_of_beq_eq_true e))
-    rw [if_neg h1, e1]
+    rw [ite_eq_right h1, e1]
     by_cases h2 : (⟨k, hk⟩ : Fin 5) = j
     · have e2 : Nat.beq k j = true := by
         rw [Nat.beq_eq]
         exact congrArg Fin.val h2
-      rw [if_pos h2, e2]
-      try rfl
+      rw [ite_eq_left h2, e2]
     · have e2 : Nat.beq k j = false :=
         Bool.eq_false_iff.2 fun e => h2 (Fin.ext (Nat.eq_of_beq_eq_true e))
-      rw [if_neg h2, e2]
-      try rfl
+      rw [ite_eq_right h2, e2]
 
 theorem factA (i j : Fin 5) (hij : i ≠ j) (ρ a : Perm (Fin 5)) (h3 : ρ ^ 3 = 1) (h1 : ρ ≠ 1)
     (hc : ρ * Equiv.swap i j = Equiv.swap i j * ρ) (ha : a * Equiv.swap i j = Equiv.swap i j * a) :

@@ -75,7 +75,7 @@ private theorem kdc_isSubnormal_top {T : Type} [Group T] [IsSimpleGroup T] {H K 
     rcases ih hK with hM | hM
     · exact Or.inl (le_bot_iff.1 (hM ▸ hle))
     · subst hM
-      haveI : H.Normal :=
+      have : H.Normal :=
         ⟨fun n hn' g => (Subgroup.normal_subgroupOf_iff le_top).1 hn n g hn' (Subgroup.mem_top g)⟩
       exact IsSimpleGroup.eq_bot_or_eq_top_of_normal H
 
@@ -148,7 +148,7 @@ private theorem kdc_noP_lie_inner {p : ℕ} (hp : p.Prime) (hC : KDCharP p) {S :
     (d : TauCeti.ValidLieTypeIndex) (hd : d.1.characteristic = p)
     (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) (α : MulAut S) (hα : α ^ p = 1) (hα1 : α ≠ 1)
     (hin : α ∈ inner S) (L : Subgroup S) (hL : GLAPComponent p (fixSubgroup α) L) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨u, rfl⟩ := (show α ∈ (MulAut.conj : S →* MulAut S).range from hin)
   have hup : u ^ p = 1 := by
     have h1 : MulAut.conj (u ^ p) = 1 := by
@@ -191,7 +191,7 @@ private theorem kdc_unique_lie {p : ℕ} (hp : p.Prime) (hU : KDOutChevUnique p)
     (e : S ≃* (TauCeti.CFSGIndex.lie d).Group) (α : MulAut S) (hα : α ^ p = 1) (hα1 : α ≠ 1)
     (hout : α ∉ inner S) (I J : Subgroup S) (hI : GLAPComponent p (fixSubgroup α) I)
     (hJ : GLAPComponent p (fixSubgroup α) J) : I = J := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hβp : MulAut.congr e α ^ p = 1 := by
     rw [← map_pow, hα, map_one]
   have hβ1 : MulAut.congr e α ≠ 1 := kdc_congr_ne_one e hα1
@@ -211,7 +211,7 @@ private theorem kdc_unique_lie {p : ℕ} (hp : p.Prime) (hU : KDOutChevUnique p)
   exact Subgroup.map_injective (f := e.toMonoidHom) e.injective
     (hU d hd _ hord hβout _ _ hI' hJ')
 
-theorem kdChevInner_of {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hC : KDCharP p)
+theorem kdChevInner_of {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (hC : KDCharP p)
     (hA : KDAmbSolv p) : KDChevInner p := by
   intro S _ _ hS hnc hcat α hα hα1 hin
   refine kdc_layer_eq_bot fun L hL => ?_
@@ -219,7 +219,7 @@ theorem kdChevInner_of {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hC : KDCharP p)
   · exact kdc_noP_lie_inner hp hC hnc d hd e α hα hα1 hin L hL
   · exact kdc_noP_amb hp hA i hi e α hα hα1 L hL
 
-theorem kdChevUnique_of {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hC : KDCharP p)
+theorem kdChevUnique_of {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) (hC : KDCharP p)
     (hU : KDOutChevUnique p) (hA : KDAmbSolv p) : KDChevUnique p := by
   intro S _ _ hS hnc hcat α hα I J hI hJ
   by_cases hα1 : α = 1

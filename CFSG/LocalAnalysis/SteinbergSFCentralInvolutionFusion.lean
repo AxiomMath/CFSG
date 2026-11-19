@@ -591,7 +591,7 @@ theorem exists_conj_mem_C [Finite G] [Finite K] [CharP K 2] (hS : Setup L K n φ
   have hRGC : RG ≤ C := map_subtype_le _
   have htRG : t ∈ RG :=
     ⟨⟨t, hS.T_le_C hS.t_mem⟩, hQR (mem_subgroupOf.mpr (mem_sup_right hS.t_mem)), rfl⟩
-  obtain ⟨S, hRS⟩ := (R.isPGroup'.map C.subtype).exists_le_sylow
+  obtain ⟨S, hRS⟩ := (R.isPGroup.map C.subtype).exists_le_sylow
   have hleR : R ≤ (S : Subgroup G).subgroupOf C :=
     fun x hx => mem_subgroupOf.mpr (hRS ⟨x, hx, rfl⟩)
   have hSC : (S : Subgroup G).subgroupOf C = R :=
@@ -605,7 +605,7 @@ theorem exists_conj_mem_C [Finite G] [Finite K] [CharP K 2] (hS : Setup L K n φ
       refine le_antisymm hRS fun x hx => ?_
       have : (⟨x, hx⟩ : (S : Subgroup G)) ∈ RG.subgroupOf S := htop ▸ mem_top _
       exact this
-    have := S.isPGroup'.isNilpotent
+    have := S.isPGroup.isNilpotent
     obtain ⟨m, hm, hmR⟩ := IsConcreteLE.exists_of_lt
       (Group.normalizerCondition_of_isNilpotent _ hlt)
     have h1 : (m : G)⁻¹ * t * m ∈ RG := by
@@ -1019,7 +1019,7 @@ theorem mem_conj_normalizer [Finite G] [Finite K] [CharP K 2]
   obtain ⟨R, hQR⟩ := (hS.Q_two.of_equiv (subgroupOfEquivOfLe hS.Q_le_C).symm).exists_le_sylow
   set RG := (R : Subgroup C).map C.subtype with hRG
   have hRGC : RG ≤ C := map_subtype_le _
-  have hRG2 : IsPGroup 2 RG := R.isPGroup'.map _
+  have hRG2 : IsPGroup 2 RG := R.isPGroup.map _
   have hQRG : Q ≤ RG := fun q hq => ⟨⟨q, hS.Q_le_C hq⟩, hQR (mem_subgroupOf.mpr hq), rfl⟩
   set X := (RG ⊓ centralizer ({s} : Set G)).map (MulAut.conj h₀).toMonoidHom with hX
   have hXC : X ≤ C := by
@@ -1412,7 +1412,7 @@ theorem setup_of_standard {G : Type} [Group G] [Finite G] {L : Subgroup G}
     t_mem := ⟨t, htT, rfl⟩
     order_t := ht2
     T_cyclic := isCyclic_of_surjective _ (MonoidHom.subgroupMap_surjective _ _)
-    T_two := T.isPGroup'.map _
+    T_two := T.isPGroup.map _
     cent_inf := hCT
     L_le := hLC
     cent_le :=

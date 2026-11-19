@@ -49,7 +49,7 @@ theorem d2SporadicSq_iff (s : TauCeti.SporadicName) (p : ℕ) :
     have hmem : p ∈ (d2SporadicOrder s).primeFactors :=
       Nat.mem_primeFactors.2 ⟨hp, (dvd_pow_self p two_ne_zero).trans h, hN⟩
     clear hN
-    cases s <;> first | exact absurd rfl hs | skip
+    cases s <;> try exact absurd rfl hs
     all_goals
       norm_num [d2SporadicOrder, Nat.primeFactors, Nat.primeFactorsList] at hmem
       rcases hmem with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl

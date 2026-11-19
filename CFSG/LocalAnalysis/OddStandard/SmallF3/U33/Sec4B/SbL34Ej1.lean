@@ -11,7 +11,7 @@ theorem exists_conj_mem_zpowers {G : Type*} [Group G] [Finite G] (M : Subgroup G
     (ha3 : orderOf a = 3) (hb3 : orderOf b = 3) :
     ∃ m ∈ M, m * a * m⁻¹ ∈ Subgroup.zpowers b := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let a' : ↥M := ⟨a, ha⟩
   let b' : ↥M := ⟨b, hb⟩
   have ha3' : orderOf a' = 3 := by rw [← ha3]; exact Subgroup.orderOf_mk a ha

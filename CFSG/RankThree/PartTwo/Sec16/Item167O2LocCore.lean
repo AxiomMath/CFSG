@@ -76,6 +76,7 @@ theorem commutator_le_normalizer_of_mem_thetaComponentsIn {M E V J : Subgroup G}
     exact (Subgroup.mem_iInf.mp hx) ⟨J, hJ⟩
   exact hcomm.trans hKJ
 
+omit [Finite G] in
 theorem le_normalizer_of_eq_delta {N J Y₀ : Subgroup G}
     (hQJ : ∀ Q : Subgroup G, Q ≤ Subgroup.normalizer (N : Set G) →
       A ≤ Subgroup.normalizer (Q : Set G) → Nat.Coprime (Nat.card Q) 3 →
@@ -118,7 +119,7 @@ theorem le_of_mem_scriptY0_of_le {Y₀ J P : Subgroup G} (hY₀ : Y₀ ∈ scrip
       (le_inf hYJ (Subgroup.le_normalizer)).trans
         Subgroup.inf_normalizer_le_normalizer_inf
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).mpr hinf
-  haveI : M.Normal := hMnorm
+  have : M.Normal := hMnorm
   have hmemM : ∀ x : Y, x ∈ M ↔ (x : G) ∈ J := by
     intro x
     change x ∈ (J ⊓ Y₀).subgroupOf Y₀ ↔ (x : G) ∈ J
@@ -143,7 +144,7 @@ theorem le_of_mem_scriptY0_of_le {Y₀ J P : Subgroup G} (hY₀ : Y₀ ∈ scrip
         exact (hmemM x).mpr (hPJ hx)
       have hPqcenter : P'.map π ≤ Subgroup.center (Y ⧸ W) :=
         (Subgroup.map_mono hP'M).trans h
-      haveI : Group.IsPerfect P' := hP'perf
+      have : Group.IsPerfect P' := hP'perf
       have hδ : ∀ x : P', (π.comp P'.subtype) x ∈ Subgroup.center (Y ⧸ W) :=
         fun x => hPqcenter (Subgroup.mem_map_of_mem π x.2)
       have hδ1 : π.comp P'.subtype = 1 :=
@@ -156,7 +157,7 @@ theorem le_of_mem_scriptY0_of_le {Y₀ J P : Subgroup G} (hY₀ : Y₀ ∈ scrip
         exact (QuotientGroup.ker_mk' W) ▸ (MonoidHom.mem_ker.mpr hx1)
       have hWp : IsPGroup 2 W := CFSG.pCore_isPGroup
       have hP'p : IsPGroup 2 P' := hWp.to_le hP'W
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hP'card : Nat.card P' = 1 :=
         CFSG.RankThree.PartTwo.Sec15.Proof152Gen.card_eq_one_of_isPerfect_of_isPGroup
           hP'perf hP'p
@@ -238,7 +239,7 @@ theorem exists_thetaComponent
     rintro rfl
     have h3 : Nat.card (Subgroup.zpowers (1 : G)) = 3 :=
       (zpowers_mem_omegaA_iff.mp h.zpowers_mem_omegaA).2.1
-    simpa using h3
+    simp at h3
   have hLc : L ∈ thetaComponentsAt 3 c := h.mem_lA.1
   have hLC : L ≤ Subgroup.centralizer ({c} : Set G) :=
     Sec6.le_centralizer_of_mem_thetaComponentsAt hLc

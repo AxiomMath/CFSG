@@ -19,12 +19,14 @@ variable [Finite G] [CharP K 2]
 @[expose] noncomputable def thetaF (M₀ : Tim79.QuadModel Q Z K γ) (x : G) (c : M₀.E) : K :=
   γ ⁅(M₀.π_surj c).choose, x⁆
 
+omit [CharP K 2] in
 theorem thetaF_pi (hs : Sit M Q Z X x) {q : G} (hq : q ∈ Q) :
     thetaF M₀ x (M₀.π q) = γ ⁅q, x⁆ := by
   obtain ⟨hQ', hπ'⟩ := (M₀.π_surj (M₀.π q)).choose_spec
   unfold thetaF
   rw [comm_eq_of_pi_eq hs hQ' hq hπ']
 
+omit [CharP K 2] in
 theorem thetaF_add (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X x) (Tx : XAct M₀ x)
     {c₁ c₂ : M₀.E} (h₁ : c₁ ∈ Cs Tx) (h₂ : c₂ ∈ Cs Tx) :
     thetaF M₀ x (c₁ + c₂) = thetaF M₀ x c₁ + thetaF M₀ x c₂ := by
@@ -36,11 +38,13 @@ theorem thetaF_add (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X x) (Tx
     thetaF_pi (M₀ := M₀) hs (Q.mul_mem hq₁ hq₂), comm_mul hs hq₁ hz₂, hD.reg.add _ hz₂ _ hz₁]
   exact add_comm _ _
 
+omit [CharP K 2] in
 theorem thetaF_zero (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X x) :
     thetaF M₀ x (0 : M₀.E) = 0 := by
   rw [← Tim79.QuadModel.pi_one M₀, thetaF_pi (M₀ := M₀) hs Q.one_mem, commutatorElement_one_left,
     hD.reg.one]
 
+omit [CharP K 2] in
 theorem thetaF_sub (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X x) (Tx : XAct M₀ x)
     {a b : M₀.E} (ha : a ∈ Cs Tx) (hb : b ∈ Cs Tx) :
     thetaF M₀ x (a - b) = thetaF M₀ x a - thetaF M₀ x b := by
@@ -55,6 +59,7 @@ theorem thetaF_eq_zero_of_mem_Rs (hD : GlobalModelData M Q Z γ M₀) (hs : Sit 
   rw [thetaF_pi (M₀ := M₀) hs hy, (gamma_comm_of_mem_Rs hD hs Tx hy hr).2]
   exact hQf _ hr
 
+omit [CharP K 2] in
 theorem exists_twist (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X x) (Tx : XAct M₀ x)
     {u : G} (hu : u ∈ H0 M Z) (hux : ⁅u, x⁆ ∈ Q) :
     ∃ q₁ ∈ Q, ∀ w ∈ Q, M₀.π w ∈ Cs Tx →
@@ -95,7 +100,8 @@ theorem exists_twist (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X x) (
     ← thetaF_pi (M₀ := M₀) hs hw]
   exact add_comm _ _
 
-theorem exists_linear_conj (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X x) {u : G}
+omit [Finite G] [CharP K 2] in
+theorem exists_linear_conj (hD : GlobalModelData M Q Z γ M₀) (_hs : Sit M Q Z X x) {u : G}
     (hu : u ∈ H0 M Z) :
     ∃ T : M₀.E ≃ₗ[K] M₀.E, ∀ w ∈ Q, M₀.π (u * w * u⁻¹) = T (M₀.π w) := by
   obtain ⟨huM, huC⟩ := Subgroup.mem_inf.mp hu
@@ -185,6 +191,7 @@ end Coinv
 section Coinv2
 variable [Finite G] [CharP K 2]
 
+omit [Finite G] [CharP K 2] in
 theorem exists_isom_conj (hD : GlobalModelData M Q Z γ M₀) {u : G} (hu : u ∈ H0 M Z) :
     ∃ T : M₀.E ≃ₗ[K] M₀.E, (∀ w ∈ Q, M₀.π (u * w * u⁻¹) = T (M₀.π w)) ∧
       ∀ e f, M₀.B (T e) (T f) = M₀.B e f := by
@@ -196,6 +203,7 @@ theorem exists_isom_conj (hD : GlobalModelData M Q Z γ M₀) {u : G} (hu : u �
   obtain ⟨T, hT, -, hB⟩ := hD.linear_of_centralizes huM hc
   exact ⟨T, hT, hB⟩
 
+omit [Finite G] [CharP K 2] in
 private theorem pi_conj_mem_Q_T8 {c y : G} (hc : c ∈ Q) (hy : y ∈ Q) :
     M₀.π (c * y * c⁻¹) = M₀.π y := by
   have hcy : ⁅c, y⁆ ∈ Q := by
@@ -206,6 +214,7 @@ private theorem pi_conj_mem_Q_T8 {c y : G} (hc : c ∈ Q) (hy : y ∈ Q) :
     group
   rw [e, M₀.π_mul _ hcy _ hy, (M₀.π_ker _ hcy).mpr (M₀.comm_mem c hc y hy), zero_add]
 
+omit [CharP K 2] [Finite G] in
 theorem conj_T_comm (hs : Sit M Q Z X x) (Tx : XAct M₀ x) {u : G} (hu : u ∈ M)
     (hux : ⁅u, x⁆ ∈ Q) {T' : M₀.E ≃ₗ[K] M₀.E}
     (hT' : ∀ w ∈ Q, M₀.π (u * w * u⁻¹) = T' (M₀.π w)) (e : M₀.E) :
@@ -224,6 +233,7 @@ theorem conj_T_comm (hs : Sit M Q Z X x) (Tx : XAct M₀ x) {u : G} (hu : u ∈ 
   rw [hL, hR, key]
   exact (pi_conj_mem_Q_T8 (M₀ := M₀) hux hxuw).symm
 
+omit [CharP K 2] in
 theorem Phi_add (hs : Sit M Q Z X x) (Tx : XAct M₀ x) (e f : M₀.E) :
     M₀.B (Tx.T (e + f)) (e + f) = M₀.B (Tx.T e) e + M₀.B (Tx.T f) f := by
   have h1 := B_T_right hs Tx f e
@@ -254,11 +264,13 @@ theorem qf_zero_of_coinv (hD : GlobalModelData M Q Z γ M₀) (hs : Sit M Q Z X 
   rw [Qf_sub hs Tx e, ← hΦ]
   exact hker (hcov e)
 
+omit [Finite G] in
 private theorem conj_H0_fix' {c : G} (hc : c ∈ H0 M Z) {w : G} (hw : w ∈ Z) :
     c * w * c⁻¹ = w := by
   have h1 : w * c = c * w := Subgroup.mem_centralizer_iff.mp (Subgroup.mem_inf.mp hc).2 w hw
   rw [← h1, mul_inv_cancel_right]
 
+omit [CharP K 2] [Finite G] in
 private theorem pi_conj_H0_eq' (hs : Sit M Q Z X x) {c : G} (hc : c ∈ H0 M Z) {d y : G}
     (hdQ : d ∈ Q) (hyQ : y ∈ Q) (h : M₀.π d = M₀.π y) :
     M₀.π (c * d * c⁻¹) = M₀.π (c * y * c⁻¹) := by

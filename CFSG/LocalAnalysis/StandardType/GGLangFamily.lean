@@ -207,8 +207,8 @@ private theorem commute_rootSpan_orbitRoots
 private theorem rho_mem_kernelRoots_pi
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ} (S : LangSetup τ L p₀)
     {ι : Type} {a : ι → Fin τ.rank → Lˣ} (hT : ∀ u, rootDiagUnit τ (a u) ∈ S.D.torus) :
-    ∀ γ ∈ kernelRoots (Pi.monoidHom fun u => rootCharHom (a u)),
-      S.ρ γ ∈ kernelRoots (Pi.monoidHom fun u => rootCharHom (a u)) := by
+    ∀ γ ∈ kernelRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)),
+      S.ρ γ ∈ kernelRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) := by
   rintro γ ⟨hγ, h⟩
   refine ⟨(S.frob.isRoot_iff γ).2 hγ, funext fun u => ?_⟩
   have h' : rootChar (a u) γ = 1 := congrFun h u
@@ -261,10 +261,10 @@ private theorem famKernel_torusTuples_famGroup
     {τ : Tag} {L : Type} [Field L] {ι : Type} (a : ι → Fin τ.rank → Lˣ)
     (hd : ∀ u, rootDiagUnit τ (a u) ∈ adjointGroup τ L) :
     CFSG.RankThree.PartOne.KE8F.famKernel (LayerExc.torusTuples (famGroup a hd)) =
-      kernelRoots (Pi.monoidHom fun u => rootCharHom (a u)) := by
+      kernelRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) := by
   ext α
   change (IsRoot τ α ∧ ∀ b ∈ LayerExc.torusTuples (famGroup a hd), rootChar b α = 1) ↔
-    (IsRoot τ α ∧ (Pi.monoidHom fun u => rootCharHom (a u)) (Multiplicative.ofAdd α) = 1)
+    (IsRoot τ α ∧ (_root_.MonoidHom.pi fun u => rootCharHom (a u)) (Multiplicative.ofAdd α) = 1)
   constructor
   · rintro ⟨hroot, hfam⟩
     refine ⟨hroot, ?_⟩
@@ -307,7 +307,7 @@ private theorem exists_ggDer_famStabilizerSubgroup_le_reflection_of_pow
   have hμ : Set.Finite {x : L | x ^ p = 1} := by
     simpa [Polynomial.IsRoot, Polynomial.eval_sub, Polynomial.eval_pow, Polynomial.eval_X,
       Polynomial.eval_one, sub_eq_zero] using
-      (Polynomial.finite_setOf_isRoot (p := (Polynomial.X ^ p - 1 : Polynomial L)) hpoly)
+      (Polynomial.finite_setOfPred_isRoot (p := (Polynomial.X ^ p - 1 : Polynomial L)) hpoly)
   have hμ' : Set.Finite {x : Lˣ | (x : L) ^ p = 1} :=
     Set.Finite.of_injOn (f := fun x : Lˣ => (x : L))
       (fun _ hx => hx) (fun a _ b _ h => Units.ext h) hμ
@@ -343,7 +343,7 @@ private theorem perfect_le_rootSpan_kernelRoots_pi
     {P : Subgroup (ModGL τ L)}
     (hP : P ≤ S.Γ ⊓ Subgroup.centralizer (Set.range fun u => rootDiagUnit τ (a u)))
     (hperf : ⁅P, P⁆ = P) :
-    P ≤ rootSpan τ L (kernelRoots (Pi.monoidHom fun u => rootCharHom (a u))) := by
+    P ≤ rootSpan τ L (kernelRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u))) := by
   have hd : ∀ u, rootDiagUnit τ (a u) ∈ adjointGroup τ L := fun u =>
     CFSG.RankThree.PartOne.KE.twistedTorusOf_le_adjointGroup S.D.n S.D.Φ (hT u)
   have hF := pow_eq_one_of_mem_torusTuples_famGroup a hap hd
@@ -365,7 +365,7 @@ private theorem perfect_le_rootSpan_kernelRoots_pi
   calc P = LayerFacts.ggDer P (k + 1) := (LayerFacts.ggDer_of_perfect hperf (k + 1)).symm
     _ ≤ LayerFacts.ggDer ((Subgroup.centralizer (famGroup a hd : Set ↥(adjointGroup τ L))).map
           (adjointGroup τ L).subtype) (k + 1) := LayerFacts.ggDer_mono hPX (k + 1)
-    _ ≤ rootSpan τ L (kernelRoots (Pi.monoidHom fun u => rootCharHom (a u))) := hder
+    _ ≤ rootSpan τ L (kernelRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u))) := hder
 
 private theorem fam_subnormal_subgroupOf_of_open {G : Type*} [Group G] {X U : Subgroup G}
     (hUX : U ≤ X) (h : CFSG.Open.IsSubnormal U X) : (U.subgroupOf X).IsSubnormal :=
@@ -407,13 +407,13 @@ theorem commute_rootSpan_inf_Γ_of_ne
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] {p₀ : ℕ} (S : LangSetup τ L p₀)
     {ι : Type} {a : ι → Fin τ.rank → Lˣ}
     (hT : ∀ u, rootDiagUnit τ (a u) ∈ S.D.torus)
-    {O O' : Set.range (rationalRootsM S.ρ (Pi.monoidHom fun u => rootCharHom (a u)))}
+    {O O' : Set.range (rationalRootsM S.ρ (_root_.MonoidHom.pi fun u => rootCharHom (a u)))}
     (hne : O ≠ O') :
     ∀ x ∈ rootSpan τ L O.1 ⊓ S.Γ, ∀ y ∈ rootSpan τ L O'.1 ⊓ S.Γ, Commute x y := by
   obtain ⟨_, i, rfl⟩ := O
   obtain ⟨_, j, rfl⟩ := O'
-  have hker : ∀ γ ∈ kernelRoots (Pi.monoidHom fun u => rootCharHom (a u)),
-      S.ρ γ ∈ kernelRoots (Pi.monoidHom fun u => rootCharHom (a u)) :=
+  have hker : ∀ γ ∈ kernelRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)),
+      S.ρ γ ∈ kernelRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) :=
     rho_mem_kernelRoots_pi S hT
   have hform : ∀ γ δ, iform (S.ρ γ) (S.ρ δ) = iform γ δ := S.frob.iform_eq
   intro x hx y hy
@@ -427,11 +427,11 @@ theorem perfect_le_iSup_commutator_rationalSpanM
     {P : Subgroup (ModGL τ L)}
     (hP : P ≤ S.Γ ⊓ Subgroup.centralizer (Set.range fun u => rootDiagUnit τ (a u)))
     (hperf : ⁅P, P⁆ = P) :
-    P ≤ ⨆ O : Set.range (rationalRootsM S.ρ (Pi.monoidHom fun u => rootCharHom (a u))),
+    P ≤ ⨆ O : Set.range (rationalRootsM S.ρ (_root_.MonoidHom.pi fun u => rootCharHom (a u))),
       ⁅rootSpan τ L O.1 ⊓ S.Γ, rootSpan τ L O.1 ⊓ S.Γ⁆ := by
   classical
   set χ : Multiplicative (Fin τ.rank → ℤ) →* (ι → Lˣ) :=
-    Pi.monoidHom fun u => rootCharHom (a u) with hχ
+    _root_.MonoidHom.pi fun u => rootCharHom (a u) with hχ
   have hker : ∀ γ ∈ kernelRoots χ, S.ρ γ ∈ kernelRoots χ := rho_mem_kernelRoots_pi S hT
   have hform : ∀ γ δ, iform (S.ρ γ) (S.ρ δ) = iform γ δ := S.frob.iform_eq
   have hΓle : S.Γ ≤ S.D.model := Subgroup.commutator_le_self S.D.model
@@ -439,9 +439,9 @@ theorem perfect_le_iSup_commutator_rationalSpanM
   have hKU : P ≤ rootSpan τ L (kernelRoots χ) :=
     perfect_le_rootSpan_kernelRoots_pi S hp a hT hap hP hperf
   have hfin : (kernelRoots χ).Finite := (finite_setOf_isRoot τ).subset fun α h => h.1
-  haveI : Finite (kernelRoots χ) := hfin.to_subtype
-  haveI : Finite (KernelComponent χ) := inferInstance
-  haveI : Finite (Set.range (rationalRootsM S.ρ χ)) := (Set.finite_range _).to_subtype
+  have : Finite (kernelRoots χ) := hfin.to_subtype
+  have : Finite (KernelComponent χ) := inferInstance
+  have : Finite (Set.range (rationalRootsM S.ρ χ)) := (Set.finite_range _).to_subtype
   let A : Set.range (rationalRootsM S.ρ χ) → Subgroup (ModGL τ L) := fun O => rootSpan τ L O.1
   have hc : ∀ O O', O ≠ O' → ∀ x ∈ A O, ∀ y ∈ A O', Commute x y := by
     rintro ⟨_, i, rfl⟩ ⟨_, j, rfl⟩ hne
@@ -484,14 +484,14 @@ theorem langFamilyComponentsInRootSpan
         (∀ u, rootDiagUnit τ (a u) ∈ S.D.torus) → (∀ u j, a u j ^ p = 1) →
         ∀ K : Subgroup (ModGL τ L),
           IsComponentOf K (S.Γ ⊓ Subgroup.centralizer (Set.range fun u => rootDiagUnit τ (a u))) →
-          ∃ i : KernelComponent (Pi.monoidHom fun u => rootCharHom (a u)),
+          ∃ i : KernelComponent (_root_.MonoidHom.pi fun u => rootCharHom (a u)),
             K ≤ rootSpan τ L {γ | ∃ (k : ℕ) (δ : Fin τ.rank → ℤ),
-              δ ∈ componentRoots (Pi.monoidHom fun u => rootCharHom (a u)) i ∧
+              δ ∈ componentRoots (_root_.MonoidHom.pi fun u => rootCharHom (a u)) i ∧
                 γ = (S.ρ : (Fin τ.rank → ℤ) → (Fin τ.rank → ℤ))^[k] δ} := by
   classical
   intro τ L _ _ p₀ p S _ hp _ _ ι a hT hap K hK
   set χ : Multiplicative (Fin τ.rank → ℤ) →* (ι → Lˣ) :=
-    Pi.monoidHom fun u => rootCharHom (a u) with hχ
+    _root_.MonoidHom.pi fun u => rootCharHom (a u) with hχ
   have hker : ∀ γ ∈ kernelRoots χ, S.ρ γ ∈ kernelRoots χ := rho_mem_kernelRoots_pi S hT
   have hform : ∀ γ δ, iform (S.ρ γ) (S.ρ δ) = iform γ δ := S.frob.iform_eq
   have hΓle : S.Γ ≤ S.D.model := Subgroup.commutator_le_self S.D.model
@@ -501,9 +501,9 @@ theorem langFamilyComponentsInRootSpan
   have hKU : K ≤ rootSpan τ L (kernelRoots χ) :=
     perfect_le_rootSpan_kernelRoots_pi S hp a hT hap hK.1 hKperf
   have hfin : (kernelRoots χ).Finite := (finite_setOf_isRoot τ).subset fun α h => h.1
-  haveI : Finite (kernelRoots χ) := hfin.to_subtype
-  haveI : Finite (KernelComponent χ) := inferInstance
-  haveI : Finite (Set.range (orbitRoots S.ρ χ)) := (Set.finite_range _).to_subtype
+  have : Finite (kernelRoots χ) := hfin.to_subtype
+  have : Finite (KernelComponent χ) := inferInstance
+  have : Finite (Set.range (orbitRoots S.ρ χ)) := (Set.finite_range _).to_subtype
   let A : Set.range (orbitRoots S.ρ χ) → Subgroup (ModGL τ L) := fun O => rootSpan τ L O.1
   have hc : ∀ O O', O ≠ O' → ∀ x ∈ A O, ∀ y ∈ A O', Commute x y := by
     rintro ⟨_, i, rfl⟩ ⟨_, j, rfl⟩ hne
@@ -544,8 +544,8 @@ theorem langFamilyComponentsInRootSpan
   have hP'X : P' ≤ S.Γ ⊓ Subgroup.centralizer (Set.range fun u => rootDiagUnit τ (a u)) :=
     iSup_le fun O => le_inf inf_le_right (inf_le_left.trans (hcent O))
   have hKP' : K ≤ P' := h2
-  haveI : Finite S.D.model := S.finite
-  haveI : Finite ↥P' := Finite.of_injective
+  have : Finite S.D.model := S.finite
+  have : Finite ↥P' := Finite.of_injective
     (Subgroup.inclusion (((hP'X.trans inf_le_left).trans hΓle) : P' ≤ S.D.model))
     (Subgroup.inclusion_injective _)
   have hKcomp : IsComponentOf K P' := ⟨hKP', isSubnormal_of_le_of_le' hK.2.1 hKP' hP'X, hK.2.2⟩

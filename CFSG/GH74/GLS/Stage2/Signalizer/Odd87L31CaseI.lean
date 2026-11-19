@@ -86,7 +86,7 @@ theorem l31_exists_dihedral_ge {X₀ A : Subgroup G}
     ∃ D : Subgroup G, A ≤ D ∧ D ≤ X₀ ∧ IsPGroup 2 ↥D ∧ IsDihedral ↥D := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, ⟨Q, rfl⟩, hAT⟩ := l31_exists_sylow_ge hAX hA
-  refine ⟨_, hAT, map_subtype_le _, Q.isPGroup'.map X₀.subtype, ?_⟩
+  refine ⟨_, hAT, map_subtype_le _, Q.isPGroup.map X₀.subtype, ?_⟩
   exact l31_isDihedral_of_equiv
     (Subgroup.equivMapOfInjective (Q : Subgroup ↥X₀) X₀.subtype X₀.subtype_injective).symm (hF Q)
 
@@ -143,12 +143,12 @@ theorem l31_inf_eq_bot
     exact (QuotientGroup.mk_surjective (s := center (↥J₀ ⧸ N))).nontrivial
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥J₀) := inferInstance
   set PG : Subgroup G := (P : Subgroup ↥J₀).map J₀.subtype with hPG
-  have hPG2 : IsPGroup 2 ↥PG := P.isPGroup'.map J₀.subtype
+  have hPG2 : IsPGroup 2 ↥PG := P.isPGroup.map J₀.subtype
   have hPGJ : PG ≤ J₀ := Subgroup.map_subtype_le _
   have ePG : ↥(P : Subgroup ↥J₀) ≃* ↥PG :=
     Subgroup.equivMapOfInjective _ J₀.subtype J₀.subtype_injective
   have hπ : Function.Surjective (QuotientGroup.mk' N) := QuotientGroup.mk'_surjective N
-  obtain ⟨eP⟩ := l31_equiv_map_quotient N hNodd P.isPGroup'
+  obtain ⟨eP⟩ := l31_equiv_map_quotient N hNodd P.isPGroup
   have hPnc : ¬ IsCyclic ↥(P : Subgroup ↥J₀) := by
     intro hc
     have : IsCyclic ↥((P.mapSurjective hπ : Sylow 2 (↥J₀ ⧸ N)) : Subgroup (↥J₀ ⧸ N)) := by
@@ -166,7 +166,7 @@ theorem l31_inf_eq_bot
     l31_isDihedral_of_equiv (eP.symm.trans ePG) hPGdih
   have hcenter : Odd (Nat.card ↥(center (↥J₀ ⧸ N))) := by
     obtain ⟨n, hn, ⟨e⟩⟩ := l31_dihTwo_of_isDihedral hP'dih
-      (P.isPGroup'.map (QuotientGroup.mk' N))
+      (P.isPGroup.map (QuotientGroup.mk' N))
     exact odd_card_center_of_quasisimple_dihedral
       ⟨hperf.commutator_eq_top, hsimp⟩ ⟨P.mapSurjective hπ, n, hn, ⟨e⟩⟩
   have hPGne : PG ≠ ⊥ := fun h => hPGnc (by rw [h]; infer_instance)

@@ -17,12 +17,15 @@ section Embedding
 
 variable {F : Type} [Field F] (μ : F) [Fact (¬ IsSquare μ)]
 
+omit [Fact ¬IsSquare μ] in
 theorem a2l_finite_quadAlg [Finite F] : Finite (QuadraticAlgebra F μ 0) :=
   Finite.of_equiv _ (QuadraticAlgebra.equivProd μ 0).symm
 
+omit [Fact ¬IsSquare μ] in
 theorem a2l_card_quadAlg : Nat.card (QuadraticAlgebra F μ 0) = Nat.card F * Nat.card F := by
   rw [Nat.card_congr (QuadraticAlgebra.equivProd μ 0), Nat.card_prod]
 
+omit [Fact ¬IsSquare μ] in
 theorem a2l_phiSL_injective : Function.Injective (phiSL μ) := fun A B h => by
   refine Subtype.ext (phiM_injective μ ?_)
   have := congrArg (mat 2 F) h
@@ -36,9 +39,9 @@ end Embedding
 theorem a2l_centralDatum_psp43 {K : Type} [Group K] [Finite K] (hq : IsQuasisimple K)
     (h2 : IsPGroup 2 ↥(center K)) (hZ : center K ≠ ⊥)
     (hm : LieModel (K ⧸ center K) .PSp 2 3 1) : HypA2.CentralDatum K := by
-  haveI : Group.IsPerfect K := hq.1
+  have : Group.IsPerfect K := hq.1
   obtain ⟨-, F, _, _, hcard, ⟨e⟩⟩ := hm.statedClassicalModel (by decide)
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hF : Fintype.card F = 3 := by rw [← Nat.card_eq_fintype_card, hcard]; norm_num
   have hk : ringChar F ≠ 2 := a2l_ringChar_ne_two (by rw [hF]; decide)
   have hN : Nat.card ((StatedScalars (Fin 2 ⊕ Fin 2) F).subgroupOf (StatedSp 2 F)) < 2 * 2 := by
@@ -46,10 +49,10 @@ theorem a2l_centralDatum_psp43 {K : Type} [Group K] [Finite K] (hq : IsQuasisimp
     norm_num
   obtain ⟨ψ⟩ := a2l_nonempty_equiv_of_cover (a2l_splits_statedSp hk 2) h2 _ e hN
     (a2l_two_le_card_center h2 hZ)
-  haveI : Fact (¬ IsSquare (-1 : F)) :=
+  have : Fact (¬ IsSquare (-1 : F)) :=
     ⟨fun h => FiniteField.isSquare_neg_one_iff.1 h (by rw [hF])⟩
-  haveI := a2l_finite_quadAlg (-1 : F)
-  haveI := Fintype.ofFinite (QuadraticAlgebra F (-1) 0)
+  have := a2l_finite_quadAlg (-1 : F)
+  have := Fintype.ofFinite (QuadraticAlgebra F (-1) 0)
   have hE : Fintype.card (QuadraticAlgebra F (-1) 0) = 9 := by
     rw [← Nat.card_eq_fintype_card, a2l_card_quadAlg, hcard]
     norm_num

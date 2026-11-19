@@ -22,12 +22,12 @@ noncomputable def l05nKXconj {p N : ℕ} {V : Type} [AddCommGroup V]
     simp [LinearMap.comp_apply]
   map_mul' f g := by
     ext w
-    simp [LinearMap.comp_apply, LinearEquiv.mul_apply]
+    simp [LinearMap.comp_apply]
 
 lemma l05nKXconj_apply {p N : ℕ} {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] (θ : V ≃ₗ[ZMod p] GGTWE p N) (g : V ≃ₗ[ZMod p] V) (v : V) :
     l05nKXconj θ g (θ v) = θ (g v) := by
-  simp [l05nKXconj, LinearMap.comp_apply]
+  simp [l05nKXconj]
 
 lemma l05nKXconj_injective {p N : ℕ} {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] (θ : V ≃ₗ[ZMod p] GGTWE p N) :

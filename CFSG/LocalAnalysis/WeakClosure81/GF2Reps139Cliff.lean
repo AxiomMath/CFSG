@@ -19,6 +19,7 @@ private def w1369_Complemented (P : Subgroup (MulAut W)) : Prop :=
   ∀ B : Subgroup W, StableUnder P B →
     ∃ C : Subgroup W, StableUnder P C ∧ B ⊔ C = ⊤ ∧ B ⊓ C = ⊥
 
+omit [Finite W] in
 private theorem w1369_stableUnder_sup {P : Subgroup (MulAut W)} {A B : Subgroup W}
     (hA : StableUnder P A) (hB : StableUnder P B) : StableUnder P (A ⊔ B) := by
   intro x hx w hw
@@ -26,11 +27,13 @@ private theorem w1369_stableUnder_sup {P : Subgroup (MulAut W)} {A B : Subgroup 
   rw [map_mul]
   exact Subgroup.mul_mem_sup (hA x hx y hy) (hB x hx z hz)
 
+omit [Finite W] in
 private theorem w1369_stableUnder_inf {P : Subgroup (MulAut W)} {A B : Subgroup W}
     (hA : StableUnder P A) (hB : StableUnder P B) : StableUnder P (A ⊓ B) := by
   intro x hx w hw
   exact ⟨hA x hx w hw.1, hB x hx w hw.2⟩
 
+omit [Finite W] in
 private theorem w1369_stableUnder_iSup {ι : Sort*} {P : Subgroup (MulAut W)}
     {U : ι → Subgroup W} (hU : ∀ i, StableUnder P (U i)) : StableUnder P (⨆ i, U i) := by
   intro x hx w hw
@@ -50,18 +53,21 @@ private def w1369_MinStable (P : Subgroup (MulAut W)) (S : Subgroup W) : Prop :=
 private noncomputable def w1369_minStableJoin (P : Subgroup (MulAut W)) : Subgroup W :=
   ⨆ (S : {T : Subgroup W // w1369_MinStable P T}), (S : Subgroup W)
 
+omit [Finite W] in
 private theorem w1369_minStableJoin_stable (P : Subgroup (MulAut W)) :
     StableUnder P (w1369_minStableJoin P) := by
   unfold w1369_minStableJoin
   exact w1369_stableUnder_iSup
     (fun S : {T : Subgroup W // w1369_MinStable P T} => S.2.1)
 
+omit [Finite W] in
 private theorem w1369_le_minStableJoin {P : Subgroup (MulAut W)} {S : Subgroup W}
     (hS : w1369_MinStable P S) : S ≤ w1369_minStableJoin P := by
   unfold w1369_minStableJoin
   exact le_iSup (fun T : {T : Subgroup W // w1369_MinStable P T} => (T : Subgroup W))
     ⟨S, hS⟩
 
+omit [Finite W] in
 private theorem w1369_minStableJoin_le {P : Subgroup (MulAut W)} {V : Subgroup W}
     (hV : ∀ S : Subgroup W, w1369_MinStable P S → S ≤ V) : w1369_minStableJoin P ≤ V := by
   unfold w1369_minStableJoin
@@ -79,7 +85,7 @@ private theorem w1369_minStableJoin_eq_top_of_complemented {P : Subgroup (MulAut
     rw [hQbot, sup_bot_eq] at hsup
     rw [hsup] at hlt
     exact lt_irrefl _ hlt
-  haveI : Fintype (Subgroup W) := Fintype.ofFinite _
+  have : Fintype (Subgroup W) := Fintype.ofFinite _
   obtain ⟨S, hSmin⟩ := exists_minimal_of_wellFoundedLT
     (fun T : Subgroup W => StableUnder P T ∧ T ≤ Q ∧ T ≠ ⊥) ⟨Q, hQstab, le_rfl, hQne⟩
   have hSstab : StableUnder P S := hSmin.1.1
@@ -100,7 +106,7 @@ private theorem w1369_minStableJoin_eq_top_of_complemented {P : Subgroup (MulAut
 private theorem w1369_complemented_of_minStableJoin_eq_top {P : Subgroup (MulAut W)}
     (hP : w1369_minStableJoin P = ⊤) : w1369_Complemented P := by
   intro B hB
-  haveI : Fintype (Subgroup W) := Fintype.ofFinite _
+  have : Fintype (Subgroup W) := Fintype.ofFinite _
   obtain ⟨C, hCmax⟩ := exists_maximal_of_wellFoundedGT
     (fun C : Subgroup W => StableUnder P C ∧ B ⊓ C = ⊥)
     ⟨⊥, (fun x hx w hw => by
@@ -158,7 +164,7 @@ private theorem w1369_minStable_le_minStableJoin_of_normal {N M : Subgroup (MulA
     {S : Subgroup W} (hS : w1369_MinStable M S) :
     S ≤ w1369_minStableJoin N := by
   have hNS : StableUnder N S := fun n hn s hs => hS.1 n (hNM hn) s hs
-  haveI : Fintype (Subgroup W) := Fintype.ofFinite _
+  have : Fintype (Subgroup W) := Fintype.ofFinite _
   obtain ⟨T, hTmin⟩ := exists_minimal_of_wellFoundedLT
     (fun T : Subgroup W => StableUnder N T ∧ T ≤ S ∧ T ≠ ⊥)
     ⟨S, hNS, le_rfl, hS.2.1⟩
@@ -291,8 +297,9 @@ private theorem w1369_complemented_of_subnormal {H G : Subgroup (MulAut W)}
   | refl H => exact id
   | step hHM hN hMK ih => exact fun hM => w1369_complemented_of_normal hHM hN (ih hM)
 
+omit [Finite W] in
 private theorem w1369_sup_subgroupOf_normal {A B X G : Subgroup (MulAut W)}
-    (hAB : A ≤ B) (hBG : B ≤ G) (hXG : X ≤ G)
+    (hAB : A ≤ B) (hBG : B ≤ G) (_hXG : X ≤ G)
     (hnA : (A.subgroupOf B).Normal)
     (hnX : ∀ g ∈ G, ∀ x ∈ X, g * x * g⁻¹ ∈ X) :
     ((A ⊔ X).subgroupOf (B ⊔ X)).Normal := by
@@ -315,6 +322,7 @@ private theorem w1369_sup_subgroupOf_normal {A B X G : Subgroup (MulAut W)}
     rw [Subgroup.map_sup, hA, hX]
   · exact le_trans le_sup_right Subgroup.le_normalizer
 
+omit [Finite W] in
 private theorem w1369_isSubnormal_sup {K G X : Subgroup (MulAut W)}
     (h : CFSG.Open.IsSubnormal K G) (hXG : X ≤ G)
     (hnX : ∀ g ∈ G, ∀ x ∈ X, g * x * g⁻¹ ∈ X) :
@@ -333,6 +341,7 @@ private theorem w1369_isSubnormal_sup {K G X : Subgroup (MulAut W)}
       h
   simpa [sup_eq_left.mpr hXG] using hmain (le_refl G)
 
+omit [Finite W] in
 private theorem w1369_complemented_of_irr {P : Subgroup (MulAut W)}
     (hirr : ∀ Z : Subgroup W, StableUnder P Z → Z = ⊥ ∨ Z = ⊤) :
     w1369_Complemented P := by
@@ -346,7 +355,7 @@ private theorem w1369_complemented_of_irr {P : Subgroup (MulAut W)}
       rw [hw]
       simp), by simp, by simp⟩
 
-theorem Std139.complete_reducibility_KX (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n)
+theorem Std139.complete_reducibility_KX (_hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n)
     {K : Subgroup (MulAut W)} (hK : IsComponentOf K G) {B : Subgroup W}
     (hBK : StableUnder K B) (hBX : StableUnder X B) :
     ∃ C : Subgroup W, StableUnder K C ∧ StableUnder X C ∧ B ⊔ C = ⊤ ∧ B ⊓ C = ⊥ := by

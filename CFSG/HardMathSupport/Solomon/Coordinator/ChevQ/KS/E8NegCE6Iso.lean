@@ -48,7 +48,7 @@ theorem range_e6IsogenyFixed_theta2 (hf : 1 ≤ f) :
     haveI : Finite (K2 L ℓ f) := finite_frobeniusFixedField (by omega)
     (Isogeny.e6IsogenyFixed (theta2 L ℓ f)).range =
       graphFixedRootGroup TwistTag.E6 (K2 L ℓ f) (theta2 L ℓ f) := by
-  haveI : Finite (K2 L ℓ f) := finite_frobeniusFixedField (by omega)
+  have : Finite (K2 L ℓ f) := finite_frobeniusFixedField (by omega)
   rw [Isogeny.range_e6IsogenyFixed (theta2 L ℓ f) theta2_theta2 (four_le_card_K2 hf)]
   exact (finite_fixed_root_group_perfect TwistTag.E6 (Fact.out : ℓ.Prime) hf (K2 L ℓ f)
     (card_K2_eq_pow_order hf) (theta2 L ℓ f) theta2_eq_pow).2.2.1
@@ -57,7 +57,7 @@ theorem exists_surj_stdLayer (hf : 1 ≤ f) {n₁ : ModGL τ L} (hstd : StdTwist
     ∃ ρ : stdLayer τ ℓ f n₁ →* graphFixedRootGroup TwistTag.E6 (K2 L ℓ f) (theta2 L ℓ f),
       Function.Surjective ρ ∧ ∀ z ∈ ρ.ker, ∀ u, z * u = u * z := by
   classical
-  haveI : Finite (K2 L ℓ f) := finite_frobeniusFixedField (by omega)
+  have : Finite (K2 L ℓ f) := finite_frobeniusFixedField (by omega)
   have hrange := range_e6IsogenyFixed_theta2 (L := L) (ℓ := ℓ) hf
   have hP1 := hstd.stdLayer_eq_range_of_rho (ℓ := ℓ) (f := f) rfl
   set ι : TwistedE6.fixedGroup (K2 L ℓ f) (theta2 L ℓ f) ≃* stdLayer τ ℓ f n₁ :=
@@ -135,7 +135,7 @@ theorem nonempty_layer_quotient_equiv_cat (hf : 1 ≤ f) {n : ModGL τ L}
     (hv : (TauCeti.LieTypeIndex.twistedE6 q).Valid) :
     Nonempty (P ⧸ Subgroup.center P ≃* Cat ⟨.twistedE6 q, hv⟩) := by
   classical
-  haveI : Finite (K2 L ℓ f) := finite_frobeniusFixedField (by omega)
+  have : Finite (K2 L ℓ f) := finite_frobeniusFixedField (by omega)
   have hP' : P = subsystemGroup τ L (e6Set τ) ⊓
       twistedFixedPoints n (Units.map (entrywiseHom (iterateFrobenius L ℓ f))) := by
     rw [hP, subsystemGroup_eq_rootSpan, e6Nodes_eq_e6Set]

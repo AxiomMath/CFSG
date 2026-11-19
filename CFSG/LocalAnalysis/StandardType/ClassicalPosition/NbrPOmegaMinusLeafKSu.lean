@@ -49,15 +49,15 @@ include hR hR0 hKne
 
 theorem nbrpmmx_K_su
     (hcase : e_J = ε ∧ 2 ≤ blockDegree (AdS f S) e_J ∧ blockDegree (AdS f S) e_J < 4)
-    (m'J : ℕ) (βJ : Fin (ggU .PSU m'J f).D.rank → ℤ) (hrankJ : rk f e_J = 2 * m'J) :
+    (m'J : ℕ) (_βJ : Fin (ggU .PSU m'J f).D.rank → ℤ) (hrankJ : rk f e_J = 2 * m'J) :
     (∃ (m'K : ℕ) (βK : Fin (ggU .PSU m'K f).D.rank → ℤ), m'J < m'K ∧
       βK ∈ (ggU .PSU m'K f).D.roots ∧ GGLongRoot (ggU .PSU m'K f).D βK ∧
       GGRootVia (ggU .PSU m'K f) K R βK) ∨ OrthOut f K R m'J := by
   have hψ : ψ.ker ≤ Subgroup.center (UK n f) := hH.2.1
   have hf : 1 ≤ f := (hH.2.2.1).admissible.2.1
   obtain ⟨S', K', R', ε', e', hSe, hKd, hEd, he', he'ε', hsplit', hJK', htie, hR'map, hR'J',
-    hgeo, hdeg⟩ := nbrpmmx_K_setup n f hn ψ p G₀ B₁ D J L x hH S J' ε e_J hB hF hE heJ e heD K
-      hKG₀ hKcomp hJK R Rm hR hR0 hKne
+    hgeo, hdeg⟩ := nbrpmmx_K_setup n f hn ψ p G₀ B₁ D J L x hH S J' ε hB hF hE e heD K
+      hKG₀ hKcomp hJK R Rm hR hR0
   obtain ⟨hSU', hS', hodd', hK'comp, hK'map⟩ := hKd
   obtain ⟨hε', hK'ε'⟩ := hEd
   obtain ⟨hSU, hS, hodd, hJ'comp, hJ'map⟩ := hB

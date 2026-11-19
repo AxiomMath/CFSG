@@ -23,6 +23,7 @@ section Scalar
 
 variable {L : Type} [Field L] [CharP L 2]
 
+omit [CharP L 2] in
 theorem scalarWord_eq_zetaVec (ζ : Lˣ) (hζ : ζ ^ 3 = 1) :
     (scalarWord ζ : ModGL .E7 L) = rootDiagUnit .E7 (zetaVec ζ hζ scalarVec) := by
   rw [scalarWord_val ζ hζ]
@@ -32,6 +33,7 @@ theorem scalarWord_eq_zetaVec (ζ : Lˣ) (hζ : ζ ^ 3 = 1) :
   change ζ ^ CFSG.LieType.Chevalley.E7Three.Weyl.scalarExp j = ζ ^ (scalarVec j).val
   fin_cases j <;> rfl
 
+omit [CharP L 2] in
 theorem scalarWord_mem_of_triAct {ζ : Lˣ} (hζ : ζ ^ 3 = 1) {F : Subgroup (ModGL .E7 L)}
     {x : Fin Tag.E7.rank → ZMod 3} (hx : rootDiagUnit .E7 (zetaVec ζ hζ x) ∈ F)
     {ω : List (Fin Tag.E7.rank)} (hω : triAct ω scalarVec = x) :

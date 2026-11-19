@@ -92,6 +92,7 @@ namespace YData
 
 variable {G : Type} [Group G] [Finite G] {z : G} (Y : YData z)
 
+omit [Finite G] in
 theorem mem_XN_iff (x : G) : x ∈ Y.XN ↔ x ∈ Y.lift X0W := by
   rw [Y.mem_lift]
   constructor
@@ -133,10 +134,12 @@ theorem mem_XN_iff (x : G) : x ∈ Y.XN ↔ x ∈ Y.lift X0W := by
       have := key _ _ hinv _ ha
       rwa [show x⁻¹ * (x * a * x⁻¹) * x⁻¹⁻¹ = a by group] at this
 
+omit [Finite G] in
 theorem XN_eq : Y.XN = Y.lift X0W := by
   ext x
   exact Y.mem_XN_iff x
 
+omit [Finite G] in
 theorem card_XN : Nat.card Y.XN = 1536 := by
   rw [Y.XN_eq, Y.card_lift X0W_le_Wsub, card_X0W]
 
@@ -209,15 +212,18 @@ section Std
 variable (hstd : Y.coord (conjSet Y.NA z) = scOrb 0 ∪ scOrb 6)
 include hstd
 
+omit [Finite G] in
 theorem mem_conj_z_iff (c : SC) : Y.σA c ∈ conjSet Y.NA z ↔ c ∈ scOrb 0 ∪ scOrb 6 := by
   rw [← hstd, Y.mem_coord]
 
+omit [Finite G] in
 theorem card_NA : Nat.card Y.NA = 10752 := by
   have e := ncard_conjSet_mul Y.NA z
   rw [← Y.card_coord (conjSet_normalizer_subset Y.z_mem_A), hstd, card_Omega] at e
   have e' : 7 * Nat.card Y.XN = Nat.card Y.NA := e
   rw [← e', Y.card_XN]
 
+omit [Finite G] in
 theorem cc_bW_mem {n : G} (hn : n ∈ Y.NA) (i : Fin 7) : Y.cc n (bW i) ∈ scOrb 0 ∪ scOrb 6 := by
   rw [← Y.mem_conj_z_iff hstd, Y.σA_cc hn]
   exact conj_mem_conjSet ((Y.mem_conj_z_iff hstd _).mpr ((mem_Omega_iff _).mpr ⟨i, rfl⟩)) hn
@@ -225,14 +231,17 @@ theorem cc_bW_mem {n : G} (hn : n ∈ Y.NA) (i : Fin 7) : Y.cc n (bW i) ∈ scOr
 omit hstd in
 @[expose] noncomputable def pf (n : G) (i : Fin 7) : Fin 7 := bIdx (Y.cc n (bW i))
 
+omit [Finite G] in
 theorem bW_pf {n : G} (hn : n ∈ Y.NA) (i : Fin 7) : bW (Y.pf n i) = Y.cc n (bW i) :=
   bW_bIdx (Y.cc_bW_mem hstd hn i)
 
+omit [Finite G] in
 theorem pf_mul {n m : G} (hn : n ∈ Y.NA) (hm : m ∈ Y.NA) (i : Fin 7) :
     Y.pf (n * m) i = Y.pf n (Y.pf m i) := by
   apply bW_injective
   rw [Y.bW_pf hstd (Y.NA.mul_mem hn hm), Y.cc_mul hn hm, ← Y.bW_pf hstd hm, Y.bW_pf hstd hn]
 
+omit [Finite G] in
 theorem pf_one (i : Fin 7) : Y.pf 1 i = i := by
   apply bW_injective
   rw [Y.bW_pf hstd Y.NA.one_mem, Y.cc_one]
@@ -252,35 +261,43 @@ theorem pf_one (i : Fin 7) : Y.pf 1 i = i := by
   map_one' := Equiv.ext fun i => Y.pf_one hstd i
   map_mul' n m := Equiv.ext fun i => Y.pf_mul hstd n.2 m.2 i
 
+omit [Finite G] in
 theorem permHom_apply (n : ↥Y.NA) (i : Fin 7) : Y.permHom hstd n i = Y.pf n i := rfl
 
+omit [Finite G] in
 theorem bW_permHom (n : ↥Y.NA) (i : Fin 7) : bW (Y.permHom hstd n i) = Y.cc n (bW i) :=
   Y.bW_pf hstd n.2 i
 
-omit hstd in
+omit hstd [Finite G] in
 theorem cc_of {g : Wr 6} (hg : g ∈ Wsub) {f : SC → SC} (hf : ∀ x, g * cSp x * g⁻¹ = cSp (f x))
     (c : SC) : Y.cc (Y.ι ⟨g, hg⟩) c = f c := by
   rw [cc, Y.conj_σA_of hg hf, Y.coordOf_σA]
 
-omit hstd in
+omit hstd [Finite G] in
 theorem cc_of_mem_A {a : G} (ha : a ∈ Y.A) (c : SC) : Y.cc a c = c := by
   rw [cc, Y.A_comm ha (Y.σA_mem_A c), mul_assoc, mul_inv_cancel, mul_one, Y.coordOf_σA]
 
+omit hstd [Finite G] in
 theorem pf_of_mem_A {a : G} (ha : a ∈ Y.A) (i : Fin 7) : Y.pf a i = i := by
   rw [pf, Y.cc_of_mem_A ha, bIdx_bW]
 
 omit hstd in
+omit [Finite G] in
 theorem ιMu_mem : Y.ι ⟨wMu, wMu_mem_Wsub⟩ ∈ Y.NA := Y.gens_mem_normalizer.1
 
 omit hstd in
+omit [Finite G] in
 theorem ιMu'_mem : Y.ι ⟨wMu', wMu'_mem_Wsub⟩ ∈ Y.NA := Y.gens_mem_normalizer.2.1
 
 omit hstd in
+omit [Finite G] in
 theorem ιTau_mem : Y.ι ⟨wTau, wTau_mem_Wsub⟩ ∈ Y.NA := Y.gens_mem_normalizer.2.2.1
 
 omit hstd in
+omit [Finite G] in
 theorem ιXi_mem : Y.ι ⟨wXi, wXi_mem_Wsub⟩ ∈ Y.NA := Y.gens_mem_normalizer.2.2.2
 
+omit [Finite G] in
 theorem permHom_gens :
     Y.permHom hstd ⟨_, Y.ιMu_mem⟩ = s7Mu ∧ Y.permHom hstd ⟨_, Y.ιMu'_mem⟩ = s7Mu' ∧
       Y.permHom hstd ⟨_, Y.ιTau_mem⟩ = s7Tau ∧ Y.permHom hstd ⟨_, Y.ιXi_mem⟩ = s7Xi := by
@@ -295,6 +312,7 @@ theorem permHom_gens :
 @[expose] noncomputable def KL (c : Perm (Fin 7)) : Subgroup G :=
   ((Lc c).comap (Y.permHom hstd)).map Y.NA.subtype
 
+omit [Finite G] in
 theorem mem_KL {c : Perm (Fin 7)} {g : G} (hg : g ∈ Y.NA) :
     g ∈ Y.KL hstd c ↔ Y.permHom hstd ⟨g, hg⟩ ∈ Lc c := by
   constructor
@@ -304,11 +322,13 @@ theorem mem_KL {c : Perm (Fin 7)} {g : G} (hg : g ∈ Y.NA) :
     exact ⟨⟨g, hg⟩, h, rfl⟩
 
 omit hstd in
+omit [Finite G] in
 theorem A_le_NA : Y.A ≤ Y.NA := Subgroup.le_normalizer
 
 @[expose] noncomputable def KW (c : Perm (Fin 7)) : Subgroup (Wr 6) :=
   ((Y.KL hstd c).comap Y.ι).map Wsub.subtype
 
+omit [Finite G] in
 theorem mem_KW {c : Perm (Fin 7)} {w : Wr 6} :
     w ∈ Y.KW hstd c ↔ ∃ hw : w ∈ Wsub, Y.ι ⟨w, hw⟩ ∈ Y.KL hstd c := by
   constructor
@@ -317,6 +337,7 @@ theorem mem_KW {c : Perm (Fin 7)} {w : Wr 6} :
   · rintro ⟨hw, h⟩
     exact ⟨⟨w, hw⟩, h, rfl⟩
 
+omit [Finite G] in
 theorem permHom_mem_of_mem_XN {c : Perm (Fin 7)} (hc : c = s7c1 ∨ c = s7c2) (n : ↥Y.NA)
     (hn : (n : G) ∈ Subgroup.centralizer ({z} : Set G)) : Y.permHom hstd n ∈ Lc c := by
   have hgens : s7Mu ∈ Lc c ∧ s7Mu' ∈ Lc c ∧ s7Tau ∈ Lc c ∧ s7Xi ∈ Lc c := by
@@ -329,7 +350,7 @@ theorem permHom_mem_of_mem_XN {c : Perm (Fin 7)} (hc : c = s7c1 ∨ c = s7c2) (n
     refine (Y.mem_KW hstd).mpr ⟨SW_le_Wsub (cSp_mem_SW x), ?_⟩
     have ha : Y.ι ⟨cSp x, SW_le_Wsub (cSp_mem_SW x)⟩ ∈ Y.A := Y.ι_mem_lift (cSp_mem_SW x)
     refine (Y.mem_KL hstd (Y.A_le_NA ha)).mpr ?_
-    have h1 : Y.permHom hstd ⟨_, Y.A_le_NA ha⟩ = 1 := Equiv.ext fun i => Y.pf_of_mem_A hstd ha i
+    have h1 : Y.permHom hstd ⟨_, Y.A_le_NA ha⟩ = 1 := Equiv.ext fun i => Y.pf_of_mem_A ha i
     rw [h1]
     exact (Lc c).one_mem
   have hMu : wMu ∈ Y.KW hstd c :=
@@ -357,6 +378,7 @@ theorem permHom_mem_of_mem_XN {c : Perm (Fin 7)} (hc : c = s7c1 ∨ c = s7c2) (n
   rw [Subtype.coe_eta, Y.ι_ϑ] at hK
   exact (Y.mem_KL hstd n.2).mp hK
 
+omit [Finite G] in
 theorem permHom_zero_iff (n : ↥Y.NA) :
     Y.permHom hstd n 0 = 0 ↔ (n : G) ∈ Subgroup.centralizer ({z} : Set G) := by
   have hz0 : Y.σA (bW 0) = z := by rw [bW_zero, sc012_eq, Y.σA_one_zero]
@@ -375,6 +397,7 @@ theorem permHom_zero_iff (n : ↥Y.NA) :
 @[expose] noncomputable def lettersN (n : ↥Y.NA) : Fin 5 → ↥Y.NA :=
   ![⟨_, Y.ιMu_mem⟩, ⟨_, Y.ιMu'_mem⟩, ⟨_, Y.ιTau_mem⟩, ⟨_, Y.ιXi_mem⟩, n]
 
+omit [Finite G] in
 theorem letters_eq (n : ↥Y.NA) :
     (fun a => Y.permHom hstd (Y.lettersN n a)) = s7Letters (Y.permHom hstd n) := by
   obtain ⟨p1, p2, p3, p4⟩ := Y.permHom_gens hstd
@@ -382,6 +405,7 @@ theorem letters_eq (n : ↥Y.NA) :
   fin_cases a
   exacts [p1, p2, p3, p4, rfl]
 
+omit [Finite G] in
 theorem permHom_mem_union (n : ↥Y.NA) :
     Y.permHom hstd n ∈ Lc s7c1 ∨ Y.permHom hstd n ∈ Lc s7c2 := by
   by_cases h0 : Y.permHom hstd n 0 = 0
@@ -398,6 +422,7 @@ theorem permHom_mem_union (n : ↥Y.NA) :
       rw [Y.card_NA hstd] at h5
       norm_num at h5
 
+omit [Finite G] in
 theorem exists_perm_l32 :
     ∃ c : Perm (Fin 7), (c = s7c1 ∨ c = s7c2) ∧ ∀ n : ↥Y.NA, Y.permHom hstd n ∈ Lc c := by
   by_cases h1 : ∀ n, Y.permHom hstd n ∈ Lc s7c1

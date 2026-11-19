@@ -16,8 +16,8 @@ theorem a6grp_normal_dichotomy {L : Subgroup (Y ⧸ O)} [L.Normal] [IsSimpleGrou
     {N : Subgroup Y} [N.Normal] (hN : N ≤ L.comap (QuotientGroup.mk' O)) :
     N ≤ O ∨ N ⊔ O = L.comap (QuotientGroup.mk' O) := by
   have hsurj : Function.Surjective (QuotientGroup.mk' O) := QuotientGroup.mk'_surjective O
-  haveI : (N.map (QuotientGroup.mk' O)).Normal := Subgroup.Normal.map inferInstance _ hsurj
-  haveI : ((N.map (QuotientGroup.mk' O)).subgroupOf L).Normal :=
+  have : (N.map (QuotientGroup.mk' O)).Normal := Subgroup.Normal.map inferInstance _ hsurj
+  have : ((N.map (QuotientGroup.mk' O)).subgroupOf L).Normal :=
     Subgroup.Normal.subgroupOf inferInstance L
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
     ((N.map (QuotientGroup.mk' O)).subgroupOf L) with h | h
@@ -48,14 +48,14 @@ theorem a6grp_oddCore_le_center {L : Subgroup (Y ⧸ O)} [L.Normal] [IsSimpleGro
     (habel : ∀ a ∈ O, ∀ b ∈ O, a * b = b * a) (hzc : ∀ o ∈ O, z * o = o * z) :
     ∀ j ∈ L.comap (QuotientGroup.mk' O), ∀ o ∈ O, j * o = o * j := by
   set J := L.comap (QuotientGroup.mk' O) with hJ
-  haveI : J.Normal := Subgroup.Normal.comap inferInstance _
+  have : J.Normal := Subgroup.Normal.comap inferInstance _
   have hOJ : O ≤ J := fun o ho => by
     show (QuotientGroup.mk o : Y ⧸ O) ∈ L
     rw [(QuotientGroup.eq_one_iff o).mpr ho]
     exact one_mem L
   let C : Subgroup Y := centralizer (O : Set Y) ⊓ J
-  haveI : (centralizer (O : Set Y)).Normal := Subgroup.normal_centralizer
-  haveI : C.Normal := inferInstance
+  have : (centralizer (O : Set Y)).Normal := Subgroup.normal_centralizer
+  have : C.Normal := inferInstance
   have hzC : z ∈ C := ⟨mem_centralizer_iff.mpr fun o ho => (hzc o ho).symm, hzJ⟩
   rcases a6grp_normal_dichotomy O (inf_le_right : C ≤ J) with h | h
   · exact absurd (h hzC) hzO
@@ -93,6 +93,7 @@ theorem a6grp_equiv_of_inf_eq_bot {L : Subgroup (Y ⧸ O)} {N : Subgroup Y}
     exact ⟨⟨n, hn⟩, Subtype.ext hnl⟩
   exact ⟨MulEquiv.ofBijective f ⟨hinj, hsurj⟩⟩
 
+omit [O.Normal] in
 theorem a6grp_mem_of_sq {J N : Subgroup Y} [N.Normal] (hJ : N ⊔ O = J) (hbot : N ⊓ O = ⊥)
     (hodd : Odd (Nat.card O)) (hc : ∀ j ∈ J, ∀ o ∈ O, j * o = o * j) {z : Y} (hzJ : z ∈ J)
     (hz2 : z * z = 1) : z ∈ N := by
@@ -125,7 +126,7 @@ theorem a6grp_J0_perfect {L : Subgroup (Y ⧸ O)} [L.Normal] [IsSimpleGroup L] [
       Group.IsPerfect (normalClosure ({x} : Set Y)) := by
   set J := L.comap (QuotientGroup.mk' O) with hJ
   set ψ := QuotientGroup.mk' O with hψ
-  haveI : J.Normal := Subgroup.Normal.comap inferInstance ψ
+  have : J.Normal := Subgroup.Normal.comap inferInstance ψ
   set J₀ := normalClosure ({x} : Set Y) with hJ₀
   have hJ₀J : J₀ ≤ J := normalClosure_le_normal (by simpa using hxJ)
   have hxJ₀ : x ∈ J₀ := subset_normalClosure (Set.mem_singleton x)
@@ -136,7 +137,7 @@ theorem a6grp_J0_perfect {L : Subgroup (Y ⧸ O)} [L.Normal] [IsSimpleGroup L] [
   refine ⟨hJ₀O, ?_⟩
   have hmapJ₀ : J₀.map ψ = L := a6grp_map_eq O hJ₀O
   let D : Subgroup Y := ⁅J₀, J₀⁆
-  haveI hDn : D.Normal := Subgroup.commutator_normal J₀ J₀
+  have hDn : D.Normal := Subgroup.commutator_normal J₀ J₀
   have hDJ₀ : D ≤ J₀ := Subgroup.commutator_le_right J₀ J₀
   have hDO : D ⊔ O = J := by
     have h1 : D.map ψ = L := by
@@ -179,8 +180,8 @@ section PGroups
 
 theorem a6grp_comm_of_pGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Q : Type*} [Group Q]
     (hQ : IsPGroup p Q) (hdvd : Nat.card Q ∣ 360) : ∀ a b : Q, a * b = b * a := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (fun h => by rw [h] at hdvd; omega)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite Q := Nat.finite_of_card_ne_zero (fun h => by rw [h] at hdvd; omega)
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hQ
   have hk2 : k ≤ 2 := by
     by_contra hlt
@@ -191,11 +192,11 @@ theorem a6grp_comm_of_pGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Q : Type*
       by_contra hgt
       have : 8 ^ 3 ≤ p ^ 3 := Nat.pow_le_pow_left (by omega) 3
       omega
-    interval_cases p <;> first | omega | (exfalso; revert hp; decide) | skip
+    interval_cases p <;> first | omega
   interval_cases k
-  · haveI : Subsingleton Q := (Nat.card_eq_one_iff_unique.mp (by simpa using hk)).1
+  · have : Subsingleton Q := (Nat.card_eq_one_iff_unique.mp (by simpa using hk)).1
     exact fun a b => Subsingleton.elim _ _
-  · haveI : IsCyclic Q := isCyclic_of_prime_card (by simpa using hk)
+  · have : IsCyclic Q := isCyclic_of_prime_card (by simpa using hk)
     exact fun a b => (IsCyclic.isMulCommutative (α := Q)).is_comm.comm a b
   · exact fun a b =>
       (IsPGroup.isMulCommutative_of_card_eq_prime_sq hk).is_comm.comm a b

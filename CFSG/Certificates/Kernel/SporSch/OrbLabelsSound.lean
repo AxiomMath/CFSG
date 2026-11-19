@@ -95,14 +95,14 @@ theorem kStep_yes {c x k : ℕ} {b : Array ℕ × Array ℕ}
     (hc : (decide (ga gens k x < n) && b.1[ga gens k x]! == n) = true) :
     kStep n gens c x k b = ForInStep.yield (b.1.set! (ga gens k x) c, b.2.push (ga gens k x)) := by
   simp only [kStep, ga] at hc ⊢
-  rw [if_pos hc]
+  rw [ite_eq_left hc]
   rfl
 
 theorem kStep_no {c x k : ℕ} {b : Array ℕ × Array ℕ}
     (hc : ¬ (decide (ga gens k x < n) && b.1[ga gens k x]! == n) = true) :
     kStep n gens c x k b = ForInStep.yield (b.1, b.2) := by
   simp only [kStep, ga] at hc ⊢
-  rw [if_neg hc]
+  rw [ite_eq_right hc]
   rfl
 
 theorem qStep_yes {c t : ℕ} {b : Array ℕ × Array ℕ × ℕ} (hb : b.2.2 < b.2.1.size) :
@@ -111,13 +111,13 @@ theorem qStep_yes {c t : ℕ} {b : Array ℕ × Array ℕ × ℕ} (hb : b.2.2 < 
         (forIn (m := Id) [:gens.size] (b.1, b.2.1) (kStep n gens c b.2.1[b.2.2]!)).2,
         b.2.2 + 1) := by
   simp only [qStep]
-  rw [if_pos hb]
+  rw [ite_eq_left hb]
   rfl
 
 theorem qStep_no {c t : ℕ} {b : Array ℕ × Array ℕ × ℕ} (hb : ¬ b.2.2 < b.2.1.size) :
     qStep n gens c t b = ForInStep.yield (b.1, b.2.1, b.2.2) := by
   simp only [qStep]
-  rw [if_neg hb]
+  rw [ite_eq_right hb]
   rfl
 
 theorem oStep_yes {s : ℕ} {b : Array ℕ × Array ℕ} (hb : (b.1[s]! == n) = true) :
@@ -125,13 +125,13 @@ theorem oStep_yes {s : ℕ} {b : Array ℕ × Array ℕ} (hb : (b.1[s]! == n) = 
       ((forIn (m := Id) [:n] (b.1.set! s b.2.size, #[s], 0) (qStep n gens b.2.size)).1,
         b.2.push s) := by
   simp only [oStep]
-  rw [if_pos hb]
+  rw [ite_eq_left hb]
   rfl
 
 theorem oStep_no {s : ℕ} {b : Array ℕ × Array ℕ} (hb : ¬ (b.1[s]! == n) = true) :
     oStep n gens s b = ForInStep.yield (b.1, b.2) := by
   simp only [oStep]
-  rw [if_neg hb]
+  rw [ite_eq_right hb]
   rfl
 
 section Spec
@@ -159,7 +159,7 @@ theorem k_spec {c s x : ℕ} {lab0 : Array ℕ} (hcn : c ≠ n)
     obtain ⟨hy, hyn⟩ := hc
     have hLy : L (ga gens k x) = c := (hcl x hx k hk hy).trans hLx
     have hyq : ga gens k x ∉ b.2 := fun hm => by
-      rw [hlab _ hy, if_pos hm] at hyn
+      rw [hlab _ hy, ite_eq_left hm] at hyn
       exact hcn hyn
     refine ⟨by rw [size_set!', hsz], fun y hm => ?_, nodup_push hnd hyq,
       Array.mem_push.2 (Or.inl hs), fun z hz => ?_, by rw [Array.size_push]; omega,
@@ -169,11 +169,11 @@ theorem k_spec {c s x : ℕ} {lab0 : Array ℕ} (hcn : c ≠ n)
       · exact ⟨hy, hLy⟩
     · rw [get_set _ _ (by rw [hsz]; exact hz), hlab z hz]
       by_cases hzy : z = ga gens k x
-      · rw [if_pos hzy, if_pos (Array.mem_push.2 (Or.inr hzy))]
-      · rw [if_neg hzy]
+      · rw [ite_eq_left hzy, ite_eq_left (Array.mem_push.2 (Or.inr hzy))]
+      · rw [ite_eq_right hzy]
         by_cases hzq : z ∈ b.2
-        · rw [if_pos hzq, if_pos (Array.mem_push.2 (Or.inl hzq))]
-        · rw [if_neg hzq, if_neg (fun h => (Array.mem_push.1 h).elim hzq hzy)]
+        · rw [ite_eq_left hzq, ite_eq_left (Array.mem_push.2 (Or.inl hzq))]
+        · rw [ite_eq_right hzq, ite_eq_right (fun h => (Array.mem_push.1 h).elim hzq hzy)]
     · rw [get!_push_lt _ _ (by omega), hpreq i hi]
     · rcases Nat.lt_succ_iff_lt_or_eq.1 hk' with hk' | rfl
       · exact Array.mem_push.2 (Or.inl (himg k' hk' hk'n))
@@ -185,7 +185,7 @@ theorem k_spec {c s x : ℕ} {lab0 : Array ℕ} (hcn : c ≠ n)
       apply hc
       rw [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
       refine ⟨hk'n, ?_⟩
-      rw [hlab _ hk'n, if_neg hm]
+      rw [hlab _ hk'n, ite_eq_right hm]
       exact h0 _ hk'n ((hcl x hx k' hk hk'n).trans hLx)
 
 def QInv (n : ℕ) (gens : Array (Array ℕ)) (L : ℕ → ℕ) (c s : ℕ) (lab0 : Array ℕ) (t : ℕ)
@@ -242,8 +242,8 @@ theorem bfs_spec {c s : ℕ} {lab : Array ℕ} (hcn : c ≠ n) (hsn : s < n) (hL
     by simp, by simp, fun z hz => by
       rw [get_set _ _ (by rw [hsize]; exact hz)]
       by_cases hzs : z = s
-      · rw [if_pos hzs, if_pos (by rw [hzs]; simp)]
-      · rw [if_neg hzs, if_neg (by simpa using hzs)],
+      · rw [ite_eq_left hzs, ite_eq_left (by rw [hzs]; simp)]
+      · rw [ite_eq_right hzs, ite_eq_right (by simpa using hzs)],
     by simp, fun i hi => absurd hi (Nat.not_lt_zero _), Or.inl le_rfl⟩
   generalize forIn (m := Id) [:n] (lab.set! s c, #[s], 0) (qStep n gens c) = r at hQ ⊢
   obtain ⟨hsz, hcls, hnd, hs, hlab, hh, hclo, hprog⟩ := hQ
@@ -274,8 +274,8 @@ theorem bfs_spec {c s : ℕ} {lab : Array ℕ} (hcn : c ≠ n) (hsn : s < n) (hL
   refine ⟨hsz, fun z hz => ?_⟩
   rw [hlab z hz]
   by_cases hLz : L z = c
-  · rw [if_pos (hall _ z hz (Nat.lt_succ_self _) hLz), if_pos hLz]
-  · rw [if_neg (fun hm => hLz (hcls z hm).2), if_neg hLz]
+  · rw [ite_eq_left (hall _ z hz (Nat.lt_succ_self _) hLz), ite_eq_left hLz]
+  · rw [ite_eq_right (fun hm => hLz (hcls z hm).2), ite_eq_right hLz]
 
 def OInv (n : ℕ) (L R : ℕ → ℕ) (m s : ℕ) (st : Array ℕ × Array ℕ) : Prop :=
   st.1.size = n ∧ st.2.size ≤ m ∧ (∀ c < m, R c < s ↔ c < st.2.size) ∧
@@ -296,11 +296,11 @@ theorem orbLabels_eq_of (hm : m ≤ n) (hL : ∀ x < n, L x < m)
     · exact absurd e.symm (Nat.ne_of_lt (hRmono c' c h hc))
   have hO := forIn_range_yield (OInv n L R m) (oStep n gens) n (Array.replicate n n, #[])
     (fun s b hs hI => ?_) ⟨by simp, by simp, fun c _ => by simp, fun x hx => by
-      rw [if_neg (Nat.not_lt_zero _), getElem!_pos _ x (by simpa using hx)]
+      rw [ite_eq_right (Nat.not_lt_zero _), getElem!_pos _ x (by simpa using hx)]
       simp⟩
   · obtain ⟨hsz, -, -, hlab⟩ := hO
     refine ⟨hsz, fun x hx => ?_⟩
-    rw [hlab x hx, if_pos (lt_of_le_of_lt (hRmin x hx) hx)]
+    rw [hlab x hx, ite_eq_left (lt_of_le_of_lt (hRmin x hx) hx)]
   · obtain ⟨hsz, hrm, hroots, hlab⟩ := hI
     have hLs := hL s hs
     have hLsn : L s ≠ n := Nat.ne_of_lt (lt_of_lt_of_le hLs hm)
@@ -310,7 +310,7 @@ theorem orbLabels_eq_of (hm : m ≤ n) (hL : ∀ x < n, L x < m)
       rw [beq_iff_eq, hlab s hs] at hb'
       have hRs : R (L s) = s := by
         by_cases h : R (L s) < s
-        · rw [if_pos h] at hb'
+        · rw [ite_eq_left h] at hb'
           exact absurd hb' hLsn
         · exact le_antisymm (hRmin s hs) (not_lt.1 h)
       have hc : b.2.size = L s := by
@@ -325,7 +325,7 @@ theorem orbLabels_eq_of (hm : m ≤ n) (hL : ∀ x < n, L x < m)
       have hB := bfs_spec (c := L s) (s := s) (lab := b.1) (P := P) (K := K) (D := D) (L := L)
         hLsn hs rfl hsz hcl
         (fun x hx hxs hLx => htree x hx (by rw [hLx, hRs]; exact hxs))
-        (fun z hz hLz => by rw [hlab z hz, hLz, hRs, if_neg (lt_irrefl _)])
+        (fun z hz hLz => by rw [hlab z hz, hLz, hRs, ite_eq_right (lt_irrefl _)])
       rw [← hc] at hB
       obtain ⟨hsz', hlab'⟩ := hB
       refine ⟨hsz', by rw [Array.size_push]; omega, fun c hcm => ?_, fun x hx => ?_⟩
@@ -343,16 +343,16 @@ theorem orbLabels_eq_of (hm : m ≤ n) (hL : ∀ x < n, L x < m)
             exact Nat.lt_succ_self s
       · rw [hlab' x hx, hlab x hx, hc]
         by_cases hLx : L x = L s
-        · rw [if_pos hLx, if_pos (by rw [hLx, hRs]; exact Nat.lt_succ_self s), hLx]
-        · rw [if_neg hLx]
+        · rw [ite_eq_left hLx, ite_eq_left (by rw [hLx, hRs]; exact Nat.lt_succ_self s), hLx]
+        · rw [ite_eq_right hLx]
           have hne : R (L x) ≠ s := fun e => hLx (hRinj _ _ (hL x hx) hLs (by rw [e, hRs]))
           by_cases h : R (L x) < s
-          · rw [if_pos h, if_pos (Nat.lt_succ_of_lt h)]
-          · rw [if_neg h, if_neg (by omega)]
+          · rw [ite_eq_left h, ite_eq_left (Nat.lt_succ_of_lt h)]
+          · rw [ite_eq_right h, ite_eq_right (by omega)]
     · refine ⟨_, oStep_no hb, hsz, hrm, fun c hcm => ?_, fun x hx => ?_⟩
       · have hne : R c ≠ s := fun e => by
           apply hb
-          rw [beq_iff_eq, hlab s hs, ← e, (hR c hcm).2, if_neg (lt_irrefl _)]
+          rw [beq_iff_eq, hlab s hs, ← e, (hR c hcm).2, ite_eq_right (lt_irrefl _)]
         rw [← hroots c hcm]
         omega
       · rw [hlab x hx]
@@ -360,10 +360,10 @@ theorem orbLabels_eq_of (hm : m ≤ n) (hL : ∀ x < n, L x < m)
           apply hb
           have hRL := (hR (L x) (hL x hx)).2
           rw [e] at hRL
-          rw [beq_iff_eq, hlab s hs, hRL, e, if_neg (lt_irrefl _)]
+          rw [beq_iff_eq, hlab s hs, hRL, e, ite_eq_right (lt_irrefl _)]
         by_cases h : R (L x) < s
-        · rw [if_pos h, if_pos (Nat.lt_succ_of_lt h)]
-        · rw [if_neg h, if_neg (by omega)]
+        · rw [ite_eq_left h, ite_eq_left (Nat.lt_succ_of_lt h)]
+        · rw [ite_eq_right h, ite_eq_right (by omega)]
 
 end Spec
 
@@ -377,8 +377,7 @@ theorem orbLabels_of_K {m kG : ℕ} {g : ℕ → ℕ → ℕ} {L R P K D : ℕ �
   have hpt' : ∀ x < n, _ := fun x hx => by
     have := CFSG.KS.allN_spec hpt x hx
     unfold ptK at this
-    simp only [Bool.and_eq_true, Bool.or_eq_true, Nat.blt_eq, Nat.ble_eq, Nat.beq_eq,
-      Bool.not_eq_true'] at this
+    simp only [Bool.and_eq_true, Bool.or_eq_true, Nat.blt_eq, Nat.ble_eq, Nat.beq_eq] at this
     exact this
   have hrt' : ∀ c < m, _ := fun c hc => by
     have := CFSG.KS.allN_spec hrt c hc

@@ -398,7 +398,7 @@ end A5Data18
 
 namespace A5Pair18
 
-theorem fixV_eq_bot (c : A5Pair18 D V₀ V L K) (hV₀ : V₀ = ⊥) (h61 : UC6.R6_1 D)
+theorem fixV_eq_bot (c : A5Pair18 D V₀ V L K) (hV₀ : V₀ = ⊥) (_h61 : UC6.R6_1 D)
     (hU : UniqueMax D.M (L ⊔ F12.Wi 1 D.T V))
     (hW1 : ⁅E3.wClos V 1 D.T, V⁆ = ⊥)
     (hnum : ¬ centralizer (E3.cClos V 2 D.T : Set G) ≤ D.M) :
@@ -823,7 +823,7 @@ end A5Pair18
       SumOfNat (fun H U Z => NatOmegaPlus H U Z 4 2)
         (barSub ⊥ V hV L ⊔ barSub ⊥ V hV K) ⊤ ⊥ 2
 
-@[expose] def CaseThree18 (D : Data G) (V L K : Subgroup G) (hV : IsElemAbelian 2 V) : Prop :=
+@[expose] def CaseThree18 (_D : Data G) (V L K : Subgroup G) (hV : IsElemAbelian 2 V) : Prop :=
   IsOmegaPlus ↥(barSub ⊥ V hV L ⊔ barSub ⊥ V hV K) 4 2 ∧
     NatOmegaPlus (barSub ⊥ V hV L ⊔ barSub ⊥ V hV K) ⊤ ⊥ 4 2
 

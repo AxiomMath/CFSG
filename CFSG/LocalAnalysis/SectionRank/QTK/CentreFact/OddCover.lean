@@ -13,13 +13,13 @@ theorem exists_perfect_odd_central_cover {Y T : Type} [Group Y] [Finite Y] [Grou
     ∃ (E : Type) (_ : Group E) (_ : Finite E) (_ : Group.IsPerfect E) (π : E →* T),
       Function.Surjective π ∧ π.ker ≤ center E ∧ Odd (Nat.card π.ker) ∧
         ∃ a : ℕ, Nat.card (center Y) = 2 ^ a * Nat.card π.ker := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite T := Finite.of_equiv _ e.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite T := Finite.of_equiv _ e.toEquiv
   obtain ⟨P⟩ : Nonempty (Sylow 2 (center Y)) := inferInstance
   obtain ⟨a, ha⟩ : ∃ a : ℕ, a = (Nat.card (center Y)).factorization 2 := ⟨_, rfl⟩
   set P₂ : Subgroup Y := (P : Subgroup (center Y)).map (center Y).subtype with hP₂def
   have hP₂ : P₂ ≤ center Y := Subgroup.map_subtype_le _
-  haveI : P₂.Normal := Subgroup.normal_of_le_center hP₂
+  have : P₂.Normal := Subgroup.normal_of_le_center hP₂
   have hcardP : Nat.card P₂ = 2 ^ a := by
     rw [ha, hP₂def, Subgroup.card_subtype]
     exact Sylow.card_eq_multiplicity P
@@ -75,7 +75,7 @@ theorem not_dvd_card_center_of_odd_cover_trivial {Y T : Type} [Group Y] [Finite 
     (h : ∀ (E : Type) [Group E] [Finite E] [Group.IsPerfect E] (π : E →* T),
       Function.Surjective π → π.ker ≤ center E → Odd (Nat.card π.ker) → π.ker = ⊥) :
     ¬ r ∣ Nat.card (center Y) := by
-  haveI : Group.IsPerfect Y := hY.1
+  have : Group.IsPerfect Y := hY.1
   obtain ⟨E, _, _, _, π, hπ, hC, hodd, a, ha⟩ := exists_perfect_odd_central_cover e
   rw [h E π hπ hC hodd, Subgroup.card_bot, mul_one] at ha
   intro hrZ

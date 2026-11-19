@@ -24,7 +24,7 @@ theorem lt_dMinDeg_of_nParam_of
   suffices h : n + 2 ≤ PartTwo.dMinDeg ↥L by omega
   apply le_dMinDeg
   intro d f hf
-  have hnot : ¬ IsSolvable T := not_isSolvable_of_isSimpleGroup hT.nonab
+  have hnot : ¬ Group.IsSolvable T := not_isSolvable_of_isSimpleGroup hT.nonab
   have hTL' : IsSec T ↥L :=
     isSec_trans hTL (isSec_of_surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥L))
       (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥L)))

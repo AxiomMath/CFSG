@@ -247,7 +247,7 @@ theorem exists_two_indep {L : Type} [Field L] (q : ℕ) (hq : 2 ≤ q) (e : L) (
   have h1 := congrArg (fun p => Polynomial.coeff p q) hp
   simp only [Polynomial.coeff_sub, Polynomial.coeff_X_pow_self, Polynomial.coeff_C_mul_X,
     Polynomial.coeff_zero] at h1
-  rw [if_neg (by omega)] at h1
+  rw [ite_eq_right (by omega)] at h1
   simp at h1
 
 end CFSG.HardMathSupport.Foote.Coordinator.TwistedFrame.IrredF4Aux

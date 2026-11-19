@@ -92,15 +92,12 @@ theorem rckSP4_matrix4_eq_one (h2 : (2 : K) = 0)
     have a2 := e2e 2 0
     have a3 := e2e 2 1
     have a4 := e3e 0 1
-    simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_02,
-      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_12, rckSP4_C1_13, rckSP4_C1_20,
+    simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_20,
       rckSP4_C1_21, rckSP4_C1_22, rckSP4_C1_23, rckSP4_C1_30, rckSP4_C1_31, rckSP4_C1_32,
-      rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_02, rckSP4_C2_03, rckSP4_C2_10,
-      rckSP4_C2_11, rckSP4_C2_12, rckSP4_C2_13, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
-      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C2_32, rckSP4_C2_33, rckSP4_C3_00,
-      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_10, rckSP4_C3_11, rckSP4_C3_12,
-      rckSP4_C3_13, rckSP4_C3_20, rckSP4_C3_21, rckSP4_C3_22, rckSP4_C3_23, rckSP4_C3_30,
-      rckSP4_C3_31, rckSP4_C3_32, rckSP4_C3_33, mul_zero, mul_one, zero_mul, one_mul, add_zero,
+      rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_10,
+      rckSP4_C2_11, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
+      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C3_00,
+      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_11, rckSP4_C3_21, rckSP4_C3_31, mul_zero, mul_one, zero_mul, one_mul, add_zero,
       zero_add] at a0 a1 a2 a3 a4
     linear_combination a0 + a1 + a2 + a3 + a4
       + ((M 0 0) + (M 0 1) + (M 1 0) + (M 1 1) - (M 2 2) - (M 2 3) + (M 3 1) - (M 3 2)
@@ -110,29 +107,17 @@ theorem rckSP4_matrix4_eq_one (h2 : (2 : K) = 0)
     have a1 := e1e 3 0
     have a2 := e1e 3 1
     have a3 := e2e 2 0
-    simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_02,
-      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_12, rckSP4_C1_13, rckSP4_C1_20,
+    simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_20,
       rckSP4_C1_21, rckSP4_C1_22, rckSP4_C1_23, rckSP4_C1_30, rckSP4_C1_31, rckSP4_C1_32,
-      rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_02, rckSP4_C2_03, rckSP4_C2_10,
-      rckSP4_C2_11, rckSP4_C2_12, rckSP4_C2_13, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
-      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C2_32, rckSP4_C2_33, rckSP4_C3_00,
-      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_10, rckSP4_C3_11, rckSP4_C3_12,
-      rckSP4_C3_13, rckSP4_C3_20, rckSP4_C3_21, rckSP4_C3_22, rckSP4_C3_23, rckSP4_C3_30,
-      rckSP4_C3_31, rckSP4_C3_32, rckSP4_C3_33, mul_zero, mul_one, zero_mul, one_mul, add_zero,
+      rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_10,
+      rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
+      rckSP4_C2_23, rckSP4_C2_30, mul_zero, mul_one, zero_mul, one_mul, add_zero,
       zero_add] at a0 a1 a2 a3
     linear_combination a0 + a1 + a2 + a3
       + ((M 0 0) + (M 0 1) + (M 1 0) + (M 1 1) - (M 2 2) - (M 2 3) - (M 3 2) - (M 3 3)) * h2
   have r02 : M 0 2 = 0 := by
     have a0 := e2e 0 1
-    simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_02,
-      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_12, rckSP4_C1_13, rckSP4_C1_20,
-      rckSP4_C1_21, rckSP4_C1_22, rckSP4_C1_23, rckSP4_C1_30, rckSP4_C1_31, rckSP4_C1_32,
-      rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_02, rckSP4_C2_03, rckSP4_C2_10,
-      rckSP4_C2_11, rckSP4_C2_12, rckSP4_C2_13, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
-      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C2_32, rckSP4_C2_33, rckSP4_C3_00,
-      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_10, rckSP4_C3_11, rckSP4_C3_12,
-      rckSP4_C3_13, rckSP4_C3_20, rckSP4_C3_21, rckSP4_C3_22, rckSP4_C3_23, rckSP4_C3_30,
-      rckSP4_C3_31, rckSP4_C3_32, rckSP4_C3_33, mul_zero, mul_one, zero_mul, one_mul, add_zero,
+    simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_02, rckSP4_C2_03, rckSP4_C2_11, rckSP4_C2_21, rckSP4_C2_31, mul_zero, mul_one, zero_mul, one_mul, add_zero,
       zero_add] at a0
     linear_combination a0
   have r03 : M 0 3 = M 3 2 := by
@@ -142,15 +127,11 @@ theorem rckSP4_matrix4_eq_one (h2 : (2 : K) = 0)
     have a3 := e2e 0 0
     have a4 := e2e 0 1
     have a5 := e2e 2 0
-    simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_02,
-      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_12, rckSP4_C1_13, rckSP4_C1_20,
+    simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_20,
       rckSP4_C1_21, rckSP4_C1_22, rckSP4_C1_23, rckSP4_C1_30, rckSP4_C1_31, rckSP4_C1_32,
       rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_02, rckSP4_C2_03, rckSP4_C2_10,
-      rckSP4_C2_11, rckSP4_C2_12, rckSP4_C2_13, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
-      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C2_32, rckSP4_C2_33, rckSP4_C3_00,
-      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_10, rckSP4_C3_11, rckSP4_C3_12,
-      rckSP4_C3_13, rckSP4_C3_20, rckSP4_C3_21, rckSP4_C3_22, rckSP4_C3_23, rckSP4_C3_30,
-      rckSP4_C3_31, rckSP4_C3_32, rckSP4_C3_33, mul_zero, mul_one, zero_mul, one_mul, add_zero,
+      rckSP4_C2_11, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
+      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, mul_zero, mul_one, zero_mul, one_mul, add_zero,
       zero_add] at a0 a1 a2 a3 a4 a5
     linear_combination a0 + a1 + a2 + a3 + a4 + a5
       + ((M 0 0) - (M 0 2) + (M 1 0) + (M 1 1) - (M 2 2) - (M 2 3) - (M 3 2) - (M 3 3)) * h2
@@ -163,14 +144,11 @@ theorem rckSP4_matrix4_eq_one (h2 : (2 : K) = 0)
     have a5 := e2e 0 1
     have a6 := e2e 2 0
     simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_02,
-      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_12, rckSP4_C1_13, rckSP4_C1_20,
+      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_20,
       rckSP4_C1_21, rckSP4_C1_22, rckSP4_C1_23, rckSP4_C1_30, rckSP4_C1_31, rckSP4_C1_32,
       rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_02, rckSP4_C2_03, rckSP4_C2_10,
-      rckSP4_C2_11, rckSP4_C2_12, rckSP4_C2_13, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
-      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C2_32, rckSP4_C2_33, rckSP4_C3_00,
-      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_10, rckSP4_C3_11, rckSP4_C3_12,
-      rckSP4_C3_13, rckSP4_C3_20, rckSP4_C3_21, rckSP4_C3_22, rckSP4_C3_23, rckSP4_C3_30,
-      rckSP4_C3_31, rckSP4_C3_32, rckSP4_C3_33, mul_zero, mul_one, zero_mul, one_mul, add_zero,
+      rckSP4_C2_11, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
+      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, mul_zero, mul_one, zero_mul, one_mul, add_zero,
       zero_add] at a0 a1 a2 a3 a4 a5 a6
     linear_combination a0 + a1 + a2 + a3 + a4 + a5 + a6
       + ((M 0 0) - (M 0 2) - (M 0 3) + 2*(M 1 0) + (M 1 1) - (M 2 2) - (M 2 3) - (M 3 2)
@@ -184,14 +162,12 @@ theorem rckSP4_matrix4_eq_one (h2 : (2 : K) = 0)
     have a5 := e2e 2 1
     have a6 := e3e 0 1
     simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_02,
-      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_12, rckSP4_C1_13, rckSP4_C1_20,
+      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_20,
       rckSP4_C1_21, rckSP4_C1_22, rckSP4_C1_23, rckSP4_C1_30, rckSP4_C1_31, rckSP4_C1_32,
       rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_02, rckSP4_C2_03, rckSP4_C2_10,
-      rckSP4_C2_11, rckSP4_C2_12, rckSP4_C2_13, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
-      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C2_32, rckSP4_C2_33, rckSP4_C3_00,
-      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_10, rckSP4_C3_11, rckSP4_C3_12,
-      rckSP4_C3_13, rckSP4_C3_20, rckSP4_C3_21, rckSP4_C3_22, rckSP4_C3_23, rckSP4_C3_30,
-      rckSP4_C3_31, rckSP4_C3_32, rckSP4_C3_33, mul_zero, mul_one, zero_mul, one_mul, add_zero,
+      rckSP4_C2_11, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
+      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C3_00,
+      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_11, rckSP4_C3_21, rckSP4_C3_31, mul_zero, mul_one, zero_mul, one_mul, add_zero,
       zero_add] at a0 a1 a2 a3 a4 a5 a6
     linear_combination a0 + a1 + a2 + a3 + a4 + a5 + a6
       + (- (M 0 2) - (M 0 3) + (M 1 0) + 2*(M 1 1) - (M 2 2) - (M 2 3) + (M 3 1) - (M 3 3)) * h2
@@ -204,14 +180,11 @@ theorem rckSP4_matrix4_eq_one (h2 : (2 : K) = 0)
     have a5 := e2e 0 1
     have a6 := e2e 2 0
     simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_02,
-      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_12, rckSP4_C1_13, rckSP4_C1_20,
+      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_12, rckSP4_C1_20,
       rckSP4_C1_21, rckSP4_C1_22, rckSP4_C1_23, rckSP4_C1_30, rckSP4_C1_31, rckSP4_C1_32,
       rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_02, rckSP4_C2_03, rckSP4_C2_10,
-      rckSP4_C2_11, rckSP4_C2_12, rckSP4_C2_13, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
-      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C2_32, rckSP4_C2_33, rckSP4_C3_00,
-      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_10, rckSP4_C3_11, rckSP4_C3_12,
-      rckSP4_C3_13, rckSP4_C3_20, rckSP4_C3_21, rckSP4_C3_22, rckSP4_C3_23, rckSP4_C3_30,
-      rckSP4_C3_31, rckSP4_C3_32, rckSP4_C3_33, mul_zero, mul_one, zero_mul, one_mul, add_zero,
+      rckSP4_C2_11, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
+      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, mul_zero, mul_one, zero_mul, one_mul, add_zero,
       zero_add] at a0 a1 a2 a3 a4 a5 a6
     linear_combination a0 + a1 + a2 + a3 + a4 + a5 + a6
       + ((M 0 0) - (M 0 2) - (M 0 3) + (M 1 0) + (M 1 1) + (M 1 2) - (M 2 2) - (M 2 3)
@@ -219,14 +192,7 @@ theorem rckSP4_matrix4_eq_one (h2 : (2 : K) = 0)
   have r13 : M 1 3 = 0 := by
     have a0 := e1e 0 3
     simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_02,
-      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_12, rckSP4_C1_13, rckSP4_C1_20,
-      rckSP4_C1_21, rckSP4_C1_22, rckSP4_C1_23, rckSP4_C1_30, rckSP4_C1_31, rckSP4_C1_32,
-      rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_02, rckSP4_C2_03, rckSP4_C2_10,
-      rckSP4_C2_11, rckSP4_C2_12, rckSP4_C2_13, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
-      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C2_32, rckSP4_C2_33, rckSP4_C3_00,
-      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_10, rckSP4_C3_11, rckSP4_C3_12,
-      rckSP4_C3_13, rckSP4_C3_20, rckSP4_C3_21, rckSP4_C3_22, rckSP4_C3_23, rckSP4_C3_30,
-      rckSP4_C3_31, rckSP4_C3_32, rckSP4_C3_33, mul_zero, mul_one, zero_mul, one_mul, add_zero,
+      rckSP4_C1_03, rckSP4_C1_13, rckSP4_C1_23, rckSP4_C1_33, mul_zero, mul_one, zero_mul, one_mul, add_zero,
       zero_add] at a0
     linear_combination a0 + ((M 1 3)) * h2
   have r20 : M 2 0 = 0 := by
@@ -238,14 +204,11 @@ theorem rckSP4_matrix4_eq_one (h2 : (2 : K) = 0)
     have a5 := e2e 2 1
     have a6 := e3e 0 1
     simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_02,
-      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_12, rckSP4_C1_13, rckSP4_C1_20,
-      rckSP4_C1_21, rckSP4_C1_22, rckSP4_C1_23, rckSP4_C1_30, rckSP4_C1_31, rckSP4_C1_32,
-      rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_02, rckSP4_C2_03, rckSP4_C2_10,
-      rckSP4_C2_11, rckSP4_C2_12, rckSP4_C2_13, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
-      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C2_32, rckSP4_C2_33, rckSP4_C3_00,
-      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_10, rckSP4_C3_11, rckSP4_C3_12,
-      rckSP4_C3_13, rckSP4_C3_20, rckSP4_C3_21, rckSP4_C3_22, rckSP4_C3_23, rckSP4_C3_30,
-      rckSP4_C3_31, rckSP4_C3_32, rckSP4_C3_33, mul_zero, mul_one, zero_mul, one_mul, add_zero,
+      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_20,
+      rckSP4_C1_21, rckSP4_C1_22, rckSP4_C1_23, rckSP4_C1_30, rckSP4_C1_31, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_02, rckSP4_C2_03, rckSP4_C2_10,
+      rckSP4_C2_11, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
+      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C3_00,
+      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_11, rckSP4_C3_21, rckSP4_C3_31, mul_zero, mul_one, zero_mul, one_mul, add_zero,
       zero_add] at a0 a1 a2 a3 a4 a5 a6
     linear_combination a0 + a1 + a2 + a3 + a4 + a5 + a6
       + (- (M 0 2) - (M 0 3) + (M 1 0) + (M 1 1) - (M 2 2) - (M 2 3) + (M 3 1)) * h2
@@ -260,14 +223,13 @@ theorem rckSP4_matrix4_eq_one (h2 : (2 : K) = 0)
     have a7 := e3e 0 0
     have a8 := e3e 0 1
     simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_02,
-      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_12, rckSP4_C1_13, rckSP4_C1_20,
+      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_20,
       rckSP4_C1_21, rckSP4_C1_22, rckSP4_C1_23, rckSP4_C1_30, rckSP4_C1_31, rckSP4_C1_32,
       rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_02, rckSP4_C2_03, rckSP4_C2_10,
-      rckSP4_C2_11, rckSP4_C2_12, rckSP4_C2_13, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
-      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C2_32, rckSP4_C2_33, rckSP4_C3_00,
-      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_10, rckSP4_C3_11, rckSP4_C3_12,
-      rckSP4_C3_13, rckSP4_C3_20, rckSP4_C3_21, rckSP4_C3_22, rckSP4_C3_23, rckSP4_C3_30,
-      rckSP4_C3_31, rckSP4_C3_32, rckSP4_C3_33, mul_zero, mul_one, zero_mul, one_mul, add_zero,
+      rckSP4_C2_11, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
+      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C3_00,
+      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_10, rckSP4_C3_11, rckSP4_C3_20, rckSP4_C3_21, rckSP4_C3_30,
+      rckSP4_C3_31, mul_zero, mul_one, zero_mul, one_mul, add_zero,
       zero_add] at a0 a1 a2 a3 a4 a5 a6 a7 a8
     linear_combination a0 + a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8
       + (- (M 0 2) - (M 0 3) + (M 1 0) + 2*(M 1 1) + (M 2 1) - (M 2 2) - (M 2 3) + (M 3 1)
@@ -279,14 +241,11 @@ theorem rckSP4_matrix4_eq_one (h2 : (2 : K) = 0)
     have a3 := e2e 0 0
     have a4 := e2e 2 0
     simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_02,
-      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_12, rckSP4_C1_13, rckSP4_C1_20,
+      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_20,
       rckSP4_C1_21, rckSP4_C1_22, rckSP4_C1_23, rckSP4_C1_30, rckSP4_C1_31, rckSP4_C1_32,
       rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_02, rckSP4_C2_03, rckSP4_C2_10,
-      rckSP4_C2_11, rckSP4_C2_12, rckSP4_C2_13, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
-      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C2_32, rckSP4_C2_33, rckSP4_C3_00,
-      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_10, rckSP4_C3_11, rckSP4_C3_12,
-      rckSP4_C3_13, rckSP4_C3_20, rckSP4_C3_21, rckSP4_C3_22, rckSP4_C3_23, rckSP4_C3_30,
-      rckSP4_C3_31, rckSP4_C3_32, rckSP4_C3_33, mul_zero, mul_one, zero_mul, one_mul, add_zero,
+      rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
+      rckSP4_C2_23, rckSP4_C2_30, mul_zero, mul_one, zero_mul, one_mul, add_zero,
       zero_add] at a0 a1 a2 a3 a4
     linear_combination a0 + a1 + a2 + a3 + a4
       + (- (M 0 2) - (M 0 3) + (M 1 0) + (M 1 1) - (M 2 3) - (M 3 2) - (M 3 3)) * h2
@@ -300,14 +259,11 @@ theorem rckSP4_matrix4_eq_one (h2 : (2 : K) = 0)
     have a6 := e2e 0 1
     have a7 := e2e 2 0
     simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_02,
-      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_12, rckSP4_C1_13, rckSP4_C1_20,
+      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_20,
       rckSP4_C1_21, rckSP4_C1_22, rckSP4_C1_23, rckSP4_C1_30, rckSP4_C1_31, rckSP4_C1_32,
       rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_02, rckSP4_C2_03, rckSP4_C2_10,
-      rckSP4_C2_11, rckSP4_C2_12, rckSP4_C2_13, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
-      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C2_32, rckSP4_C2_33, rckSP4_C3_00,
-      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_10, rckSP4_C3_11, rckSP4_C3_12,
-      rckSP4_C3_13, rckSP4_C3_20, rckSP4_C3_21, rckSP4_C3_22, rckSP4_C3_23, rckSP4_C3_30,
-      rckSP4_C3_31, rckSP4_C3_32, rckSP4_C3_33, mul_zero, mul_one, zero_mul, one_mul, add_zero,
+      rckSP4_C2_11, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
+      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, mul_zero, mul_one, zero_mul, one_mul, add_zero,
       zero_add] at a0 a1 a2 a3 a4 a5 a6 a7
     linear_combination a0 + a1 + a2 + a3 + a4 + a5 + a6 + a7
       + ((M 0 0) - (M 0 2) - (M 0 3) + 2*(M 1 0) + (M 1 1) - (M 2 2) - (M 2 3) - (M 3 2)
@@ -318,29 +274,20 @@ theorem rckSP4_matrix4_eq_one (h2 : (2 : K) = 0)
     have a2 := e1e 3 1
     have a3 := e2e 2 0
     have a4 := e3e 0 0
-    simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_02,
-      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_12, rckSP4_C1_13, rckSP4_C1_20,
+    simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_20,
       rckSP4_C1_21, rckSP4_C1_22, rckSP4_C1_23, rckSP4_C1_30, rckSP4_C1_31, rckSP4_C1_32,
-      rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_02, rckSP4_C2_03, rckSP4_C2_10,
-      rckSP4_C2_11, rckSP4_C2_12, rckSP4_C2_13, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
-      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C2_32, rckSP4_C2_33, rckSP4_C3_00,
-      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_10, rckSP4_C3_11, rckSP4_C3_12,
-      rckSP4_C3_13, rckSP4_C3_20, rckSP4_C3_21, rckSP4_C3_22, rckSP4_C3_23, rckSP4_C3_30,
-      rckSP4_C3_31, rckSP4_C3_32, rckSP4_C3_33, mul_zero, mul_one, zero_mul, one_mul, add_zero,
+      rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_10,
+      rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
+      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C3_00,
+      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_10, rckSP4_C3_20, rckSP4_C3_30,
+      mul_zero, mul_one, zero_mul, one_mul, add_zero,
       zero_add] at a0 a1 a2 a3 a4
     linear_combination a0 + a1 + a2 + a3 + a4
       + ((M 0 0) + (M 1 0) + (M 1 1) - (M 2 2) - (M 2 3) + (M 3 0) - (M 3 2) - (M 3 3)) * h2
   have r31 : M 3 1 = 0 := by
     have a0 := e3e 0 1
-    simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C1_00, rckSP4_C1_01, rckSP4_C1_02,
-      rckSP4_C1_03, rckSP4_C1_10, rckSP4_C1_11, rckSP4_C1_12, rckSP4_C1_13, rckSP4_C1_20,
-      rckSP4_C1_21, rckSP4_C1_22, rckSP4_C1_23, rckSP4_C1_30, rckSP4_C1_31, rckSP4_C1_32,
-      rckSP4_C1_33, rckSP4_C2_00, rckSP4_C2_01, rckSP4_C2_02, rckSP4_C2_03, rckSP4_C2_10,
-      rckSP4_C2_11, rckSP4_C2_12, rckSP4_C2_13, rckSP4_C2_20, rckSP4_C2_21, rckSP4_C2_22,
-      rckSP4_C2_23, rckSP4_C2_30, rckSP4_C2_31, rckSP4_C2_32, rckSP4_C2_33, rckSP4_C3_00,
-      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_10, rckSP4_C3_11, rckSP4_C3_12,
-      rckSP4_C3_13, rckSP4_C3_20, rckSP4_C3_21, rckSP4_C3_22, rckSP4_C3_23, rckSP4_C3_30,
-      rckSP4_C3_31, rckSP4_C3_32, rckSP4_C3_33, mul_zero, mul_one, zero_mul, one_mul, add_zero,
+    simp only [Matrix.mul_apply, Fin.sum_univ_four, rckSP4_C3_00,
+      rckSP4_C3_01, rckSP4_C3_02, rckSP4_C3_03, rckSP4_C3_11, rckSP4_C3_21, rckSP4_C3_31, mul_zero, mul_one, zero_mul, one_mul, add_zero,
       zero_add] at a0
     linear_combination a0 + ((M 3 1)) * h2
   have hb2 : M 3 2 * M 3 2 = 0 := by
@@ -352,7 +299,7 @@ theorem rckSP4_matrix4_eq_one (h2 : (2 : K) = 0)
   have ha2 : M 3 3 * M 3 3 = 1 := by
     have h := Matrix.ext_iff.mpr hM 0 0
     simp [Matrix.mul_apply, Fin.sum_univ_four] at h
-    simp only [r00, r01, r02, r03, r10, r11, r20, r30] at h
+    simp only [r00, r01, r02, r03, r10, r20, r30] at h
     linear_combination h - 3 * hb2 - (M 3 2 * M 3 3) * h2
   have ha1 : M 3 3 = 1 := by
     have h : (M 3 3 - 1) * (M 3 3 - 1) = 0 := by
@@ -361,7 +308,7 @@ theorem rckSP4_matrix4_eq_one (h2 : (2 : K) = 0)
   simp only [hb0, ha1] at r00 r01 r02 r03 r10 r11 r12 r13 r20 r21 r22 r23 r30 r31
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.one_apply, hb0, ha1, r00, r01, r02, r03, r10, r11, r12, r13, r20, r21,
+    simp [hb0, ha1, r00, r01, r02, r03, r10, r11, r12, r13, r20, r21,
       r22, r23, r30, r31]
 
 end CFSG.StandardType.RCKFlag

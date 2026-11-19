@@ -29,14 +29,14 @@ theorem s16jp_commSub_stable {L : Subgroup (MulAut W)} {Y : Subgroup W}
     refine Subgroup.subset_closure ⟨l * x * l⁻¹, L.mul_mem (L.mul_mem hl hx) (L.inv_mem hl),
       l w, hY l hl w hw, ?_⟩
     simp [MulAut.mul_apply]
-  | one => simpa using (commSub Y L).one_mem
+  | one => simp
   | mul a b ha hb iha ihb => simpa [map_mul] using (commSub Y L).mul_mem iha ihb
   | inv a ha ih => simpa [map_inv] using (commSub Y L).inv_mem ih
 
 theorem s16jp_commSub_commSub {L : Subgroup (MulAut W)} (hperf : Group.IsPerfect ↥L)
     {Y : Subgroup W} (hY : ∀ l ∈ L, ∀ y ∈ Y, l y ∈ Y) :
     commSub (commSub Y L) L = commSub Y L := by
-  haveI : Group.IsPerfect ↥L := hperf
+  have : Group.IsPerfect ↥L := hperf
   apply le_antisymm
   · exact commSub_le_of_invariant fun l hl r hr => s16jp_commSub_stable hY l hl r hr
   · refine (Subgroup.closure_le (commSub (commSub Y L) L)).mpr ?_

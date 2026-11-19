@@ -102,7 +102,7 @@ private theorem not_two_dvd_index_levi_L3B2b {G : Type} [Group G] [Finite G] {N 
     intro c hc x hx
     rw [hCdef] at hc
     exact conj_mem_leviOfL3_L3B2b N z c x hc hx
-  haveI hKcN : ((leviOfL3 N z).subgroupOf C).Normal :=
+  have hKcN : ((leviOfL3 N z).subgroupOf C).Normal :=
     (Subgroup.normal_subgroupOf_iff hKC).mpr (fun h k hh hk => hKnorm k hk h hh)
   have hSc2 : IsPGroup 2 ↥(S.subgroupOf C) := isPGroup_subgroupOf_L3B2b hS.2.1
   have hSC_idx : ¬ 2 ∣ (S.subgroupOf C).index := by
@@ -169,7 +169,7 @@ theorem false_of_L3FusFacts_five {G : Type} [Group G] [Finite G] {N : Subgroup G
     · have h3 : y = z := h2
       rw [h3, hz2] at hy5
       norm_num at hy5
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hσy5 : σ ⟨y, hyn⟩ ^ 5 = 1 := by
     have h5 : (⟨y, hyn⟩ : ↥(Subgroup.normalizer (leviOfL3 N z : Set G))) ^ 5 = 1 :=
       Subtype.ext (by simpa using hy5')

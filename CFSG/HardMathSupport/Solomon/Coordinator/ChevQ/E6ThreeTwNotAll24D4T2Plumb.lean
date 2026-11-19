@@ -190,7 +190,7 @@ theorem d4t2pl_langSetup_conj_of_toral_datum {τ : Tag} {L : Type} [Field L] [Is
     have : u = D.g0 * (D.g0⁻¹ * u * D.g0) * D.g0⁻¹ := by group
     rw [this, h]
     group
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hqpow : IsPrimePow D.q ∧ ((D.q : ℕ) : L) = 0 := by
     rw [hDq]
     exact ⟨hℓ.isPrimePow.pow (by omega), (CharP.cast_eq_zero_iff L ℓ _).2
@@ -243,16 +243,16 @@ theorem d4t2pl_langSetup_iota_of_inndiag_twE6 {ℓ f : ℕ} (hℓ : ℓ.Prime) (
         (baseChangeGL (algebraMap K (AlgebraicClosure K)) x :
           ModGL Tag.E6 (AlgebraicClosure K)) * S.D.g0 ∈ S.D.model) := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK0 : Nat.card K ≠ 0 := by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero)
-  haveI : Finite K := Nat.finite_of_card_ne_zero hK0
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
+  have : Finite K := Nat.finite_of_card_ne_zero hK0
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   set L := AlgebraicClosure K with hLdef
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   set ι₁ : K →+* L := algebraMap K L with hι₁
   have hFr : ∀ c : L, iterateFrobenius L ℓ f c = c ^ (ℓ ^ f) := fun c =>
     iterateFrobenius_def ℓ f c
@@ -316,7 +316,7 @@ theorem d4t2pl_nonempty_lineLangIota (K : Type) [Field K] [Finite K] (σ : K ≃
     (h : twistedE6InndiagGL K σ) (hh1 : h ≠ 1) (hh3 : h ^ 3 = 1) :
     Nonempty (TwE6LineLangIota K σ q h) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨hp, f, hf, hqf⟩ := prime_ringChar_and_eq_pow_of_card_sq K q hKq hq2
   have hK' : Nat.card K = (ringChar K ^ f) ^ 2 := by rw [← hqf]; exact hKq
   have hσ' : ∀ c, σ c = c ^ (ringChar K ^ f) := by intro c; rw [← hqf]; exact hσ c
@@ -332,8 +332,8 @@ theorem d4t2pl_nonempty_lineLangIota (K : Type) [Field K] [Finite K] (σ : K ≃
       (twistedE6InndiagConj_apply h) hh3' hh1'
   have hL3 : ((3 : ℕ) : AlgebraicClosure K) ≠ 0 :=
     natCast_ne_zero_algebraicClosure_of_ne hp Nat.prime_three hK' hpℓ
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI hchar : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP K (ringChar K) := ringChar.charP K
+  have hchar : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   exact ⟨{
     e := f, he := hf, hqe := hqf, hℓ := hp, hK' := hK', hσ' := hσ', hL3 := hL3, hchar := hchar,

@@ -13,11 +13,11 @@ open CFSG.Quasithin Subgroup CFSG.Timmesfeld
 
 variable {V : Type*} [CommGroup V] [Finite V]
 
-theorem forall_mem_of_relIndex_eq_two_pow {U₁ U₂ : Subgroup V} (h21 : U₂ ≤ U₁) {y : MulAut V}
+theorem forall_mem_of_relIndex_eq_two_pow {U₁ U₂ : Subgroup V} (_h21 : U₂ ≤ U₁) {y : MulAut V}
     (hy1 : y ∈ stabSub U₁) (hy2 : y ∈ stabSub U₂) {n p e : ℕ} (hp : IsPrimitivePrimeDivisor p n)
     (hn : 0 < n) (hy : y ^ p ^ e = 1) (hidx : U₂.relIndex U₁ = 2 ^ n)
     (hnt : ¬ ∀ w ∈ U₁, y w * w⁻¹ ∈ U₂) : ∀ w ∈ U₁, y w * w⁻¹ ∈ U₂ → w ∈ U₂ := by
-  haveI : Fact p.Prime := ⟨hp.prime⟩
+  have : Fact p.Prime := ⟨hp.prime⟩
   set N := U₂.subgroupOf U₁ with hN
   set eU := resHom U₁ ⟨y, hy1⟩ with heU
   have he : N.map (eU : ↥U₁ →* ↥U₁) = N := by
@@ -151,6 +151,7 @@ theorem dimOn_le_dimOn_add_of_relIndex_le {A A₀ : Subgroup (MulAut V)} (hA : I
   rw [relIndex_eq_two_pow hA] at h3
   exact (Nat.pow_le_pow_iff_right (by norm_num)).mp h3
 
+omit [Finite V] in
 theorem inf_oTwo_le_quotTriv_of_sup {S M A L : Subgroup (MulAut V)} {Z₀ U : Subgroup V}
     (hOS : (oTwo ↥L).map L.subtype ≤ S) (hSZ : S ≤ stabSub Z₀) (hMZ : M ≤ stabSub Z₀)
     (hq : IsQuadratic A) (hZA : Z₀ ≤ fixV A) (hAL : A ≤ L)
@@ -204,7 +205,7 @@ theorem false_of_szCore (hV : ∀ v : V, v ^ 2 = 1) {S M A L : Subgroup (MulAut 
     {p e : ℕ} (hp : IsPrimitivePrimeDivisor p (4 * m)) {y : MulAut V} (hyL : y ∈ L)
     (hy : y ^ p ^ e = 1) (hyfpf : ∀ w ∈ U, y w * w⁻¹ ∈ U ⊓ fixV L → w ∈ U ⊓ fixV L) :
     False := by
-  haveI : Fact p.Prime := ⟨hp.prime⟩
+  have : Fact p.Prime := ⟨hp.prime⟩
   have hp2 : p ≠ 2 := hp.ne_two (by omega)
   have hSZ : S ≤ stabSub Z₀ := hSM.trans hMZ
   have hCU : U ⊓ fixV L ≤ U := inf_le_left
@@ -330,7 +331,7 @@ theorem exists_pow_eq_one_not_mem {G : Type*} [Group G] [Finite G] {L : Subgroup
     (hK : Nat.card K = 2 ^ (2 * a + 1)) (e : ↥L ⧸ R ≃* CFSG.Blueprint.suzukiGroup a K) {p : ℕ}
     (hp : IsPrimitivePrimeDivisor p (4 * (2 * a + 1))) :
     ∃ y ∈ L, ∃ t : ℕ, y ^ p ^ t = 1 ∧ y ∉ R.map L.subtype := by
-  haveI : Fact p.Prime := ⟨hp.prime⟩
+  have : Fact p.Prime := ⟨hp.prime⟩
   have hcard : Nat.card (↥L ⧸ R) =
       ((2 ^ (2 * a + 1)) ^ 2 + 1) * (2 ^ (2 * a + 1)) ^ 2 * (2 ^ (2 * a + 1) - 1) := by
     rw [Nat.card_congr e.toEquiv, Nat.card_congr

@@ -25,16 +25,16 @@ theorem r95_u3_char_seven_of_le_centralizer {F : Type} [Field F]
     (hE : HasL32Quot E) : p = 7 := by
   classical
   obtain ⟨Qm, hQm, π, hπ, hm⟩ := hE
-  letI : Group Qm := hQm
+  let : Group Qm := hQm
   obtain ⟨hQmsimple, hQmcard⟩ :=
     CFSG.Quasithin.H13.U3.GC137.SQ.simple_card_of_lieModel_psl_three_two hm
-  haveI : IsSimpleGroup Qm := hQmsimple
+  have : IsSimpleGroup Qm := hQmsimple
   have hnotcomm : ¬ IsMulCommutative Qm := fun hc => by
-    haveI : IsMulCommutative Qm := hc
+    have : IsMulCommutative Qm := hc
     have hp := (Group.is_simple_iff_prime_card (α := Qm)).mp hQmsimple
     rw [hQmcard] at hp
     norm_num at hp
-  haveI : Group.IsPerfect Qm :=
+  have : Group.IsPerfect Qm :=
     TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hnotcomm
   let L : Subgroup (SU (unitaryInvolution F p f) 3) := (embSU (unitaryInvolution F p f)).range
   let φ : ↥E →* F := (r95_midHom hF hp2).comp (Subgroup.inclusion hEz)

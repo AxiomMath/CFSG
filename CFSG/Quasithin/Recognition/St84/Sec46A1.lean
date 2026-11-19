@@ -53,7 +53,7 @@ theorem caseA_card (X : Setup Γ G) (A : X.CaseA) :
       _ = (2 ^ X.n 0 * 2 ^ X.n 1) ^ 3 := by norm_num
       _ = 2 ^ (3 * X.n 0 + 3 * X.n 1) := hpow
   have hQ0 : Nat.card (X.Q 0) = 2 ^ (2 * X.n 0 + 3 * X.n 1) := by
-    haveI : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi 0)
+    have : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi 0)
     have hrel : (X.Q 0).relIndex X.S = 2 ^ X.n 0 := by
       rw [← X.edgeSylow_zero, X.relIndex_Q_edgeSylow 0]
     have hle : X.Q 0 ≤ X.S := by
@@ -67,7 +67,7 @@ theorem caseA_card (X : Setup Γ G) (A : X.CaseA) :
     congr 1
     ring
   have hQ1 : Nat.card (X.Q 1) = 2 ^ (2 * X.n 1 + 3 * X.n 0) := by
-    haveI : Finite ↥(X.Q 1) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi 1)
+    have : Finite ↥(X.Q 1) := finite_of_le_stabilizer X.hyp (X.Q_le_Gi 1)
     have hrel : (X.Q 1).relIndex X.S = 2 ^ X.n 1 := by
       rw [← X.edgeSylow_zero]
       exact X.relIndex_Q_succ_edgeSylow 0
@@ -244,7 +244,7 @@ private theorem caseA_relIndex_relCent_S_le (X : Setup Γ G) (A : X.CaseA)
   have hpos := X.caseA_pos A
   have hnneg : X.n (-1) = X.n 1 := by
     rw [show (-1 : ℤ) = 1 + 2 * (-1) by norm_num, X.n_add]
-  haveI : Finite ↥(X.Z 1) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi 1)
+  have : Finite ↥(X.Z 1) := finite_of_le_stabilizer X.hyp (X.Z_le_Gi 1)
   have hBrel : X.Z 1 ⊓ X.Q (-1) ≤
       relCent (X.Z 1) (centerOf (X.L 1)) X.S := by
     intro x hx
@@ -387,7 +387,7 @@ private theorem caseA_card_R (X : Setup Γ G) (A : X.CaseA)
       (centerOf (X.L 1)) (⁅X.Z (-1), X.Z 1⁆ : Subgroup G) hRnormZL
       (disjoint_iff.mpr (by rw [inf_comm, h3a.2.1]))]
     rw [mul_comm]
-  haveI : Finite ↥(centerOf (X.L 1)) :=
+  have : Finite ↥(centerOf (X.L 1)) :=
     finite_of_le_stabilizer X.hyp (H := centerOf (X.L 1))
       ((X.centerOf_L_le_Z H.char 1).trans (X.Z_le_Gi 1))
   have hrel := Subgroup.relIndex_mul_card
@@ -407,7 +407,7 @@ private theorem caseA_R_eq_pCoreOf (X : Setup Γ G) (A : X.CaseA)
   have hQgcard : Nat.card (pCoreOf 2 (X.arcStab (-3) ((-3) + (6 : ℤ)))) = 2 ^ X.n 1 := by
     have h := (X.pCoreOf_arcStab_r H (-3) hQgne).1
     rwa [show (-3 : ℤ) = 1 + 2 * (-2) by norm_num, X.n_add (-2) 1] at h
-  haveI : Finite ↥(pCoreOf 2 (X.arcStab (-3) 3)) :=
+  have : Finite ↥(pCoreOf 2 (X.arcStab (-3) 3)) :=
     finite_of_le_stabilizer X.hyp (H := pCoreOf 2 (X.arcStab (-3) 3))
       ((CFSG.LieType.BorelTits.pCoreOf_le 2 _).trans
         (X.arcStab_le_Gi_left (by norm_num : (-3 : ℤ) < 3)))
@@ -421,9 +421,9 @@ theorem caseA_3b (X : Setup Γ G) (A : X.CaseA) :
       ⁅X.Z (-1), X.Z 1⁆ = pCoreOf 2 (X.arcStab (-3) 3) := by
   have H := A.hyp
   have h3a := X.caseA_3a A
-  haveI : Finite ↥(X.Gi 1) := X.hyp.finite_stab (X.vert 1)
-  haveI : Finite ↥(X.L 1) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 1)
-  haveI : Finite ↥(X.Z 1) := finite_of_le_stabilizer X.hyp (H := X.Z 1) (X.Z_le_Gi 1)
+  have : Finite ↥(X.Gi 1) := X.hyp.finite_stab (X.vert 1)
+  have : Finite ↥(X.L 1) := finite_of_le_stabilizer X.hyp (X.L_le_Gi 1)
+  have : Finite ↥(X.Z 1) := finite_of_le_stabilizer X.hyp (H := X.Z 1) (X.Z_le_Gi 1)
   have hNloc := X.hyp.isLocL2_oTwoPrime (X.vert 1)
   have hQeq : pCoreOf 2 (X.L 1) = X.Q 1 := hNloc.pCoreOf_eq
   have hZQ : X.Z 1 ≤ Subgroup.centralizer (X.Q 1 : Set G) :=

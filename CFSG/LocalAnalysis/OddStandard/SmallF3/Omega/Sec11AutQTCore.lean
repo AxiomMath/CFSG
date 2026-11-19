@@ -48,8 +48,8 @@ private theorem aqt_pow4_of_pow_two_pow (y : SL23) (n : ℕ) (h : y ^ 2 ^ n = 1)
 theorem aqt_twoCore_eq {K : Subgroup G} {Ψ : SL23 × SL23 →* G} (hrange : Ψ.range = K)
     (hker : ∀ A B : SL23, Ψ (A, B) = 1 ↔ (A = 1 ∧ B = 1) ∨ (A = -1 ∧ B = -1)) :
     twoCoreIn K = (sl23Q8.prod sl23Q8).map Ψ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := sl23Q8_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := sl23Q8_normal
   have hQtN : (sl23Q8.prod sl23Q8).Normal := inferInstance
   have hPK : (sl23Q8.prod sl23Q8).map Ψ ≤ K := by
     rw [← hrange]

@@ -244,7 +244,7 @@ theorem ggQ2UnitDvdProd_surjective {d : ℕ} {K : Type} [Field K] [Finite K]
   let σ : Fin d → Kˣ := fun k => if k = (⟨1, by omega⟩ : Fin d) then c else 1
   have hσ0 : σ ⟨0, by omega⟩ = 1 := by
     show (if (⟨0, by omega⟩ : Fin d) = ⟨1, by omega⟩ then c else 1) = 1
-    rw [if_neg]
+    rw [ite_eq_right]
     exact Fin.ext_iff.not.mpr (by norm_num)
   refine ⟨⟨σ, hσ0⟩, ?_⟩
   change (∏ k, (σ : Fin d → Kˣ) k) = c

@@ -321,7 +321,7 @@ theorem not_inf_le_ballStab_of_center {T : Subgroup G} (hyp : AmalgamHyp G₀ G�
   have hdB1 : k₃⁻¹ * k₂⁻¹ * (a * b * a⁻¹ * b⁻¹) ∈ ballStab 1 μ₁ :=
     hA (mem_inf.mpr ⟨mem_inf.mpr ⟨hdδ, pCoreOf_inf_ballStab_le hμ₂ (mem_inf.mpr ⟨hdδ, hdB2⟩)⟩,
       mem_inf.mpr ⟨hdδ, pCoreOf_inf_ballStab_le hμ₃ (mem_inf.mpr ⟨hdδ, hdB3⟩)⟩⟩)
-  obtain ⟨t, htQ, htB⟩ := SetLike.not_le_iff_exists.mp hQ
+  obtain ⟨t, htQ, htB⟩ := IsConcreteLE.not_le_iff_exists.mp hQ
   have htδ : t ∈ stab δ := pCoreOf_stab_le_stab hyp hμ₁ htQ
   have htμ₁ : t ∈ stab μ₁ := pCoreOf_le 2 _ htQ
   obtain ⟨t₀, rfl⟩ : ∃ t₀ : ↥G₀, (t₀ : G) = t := ⟨⟨t, CosetGeom.stab_le δ htδ⟩, rfl⟩
@@ -524,7 +524,7 @@ theorem false_of_pCoreOf_inf_center {T : Subgroup G} (hyp : AmalgamHyp G₀ G₁
     apply hgg'
     have hfix : (g⁻¹ * g') • p₁ = p₁ := by rw [mul_smul, ← he, inv_smul_smul]
     exact hfixp (g⁻¹ * g') (mul_mem (inv_mem hg) hg') hfix
-  obtain ⟨h, hhA, hhB⟩ := SetLike.not_le_iff_exists.mp
+  obtain ⟨h, hhA, hhB⟩ := IsConcreteLE.not_le_iff_exists.mp
     (not_inf_le_ballStab_of_center hyp hδ3 hμ₁ hμ₂ hμ₃ h₂₁ h₃₁ h₂₃ hQ hR1 hR2₃₂ hR2₂₃ hR3 hR4)
   have hh : h ∈ pCoreOf 2 (stab δ) := (mem_inf.mp (mem_inf.mp hhA).1).1
   have hh₂ : h ∈ pCoreOf 2 (stab μ₂) := (mem_inf.mp (mem_inf.mp hhA).1).2

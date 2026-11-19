@@ -147,17 +147,16 @@ theorem chain : ∀ l < 23,
     intro hl
     rcases Nat.eq_zero_or_pos l with rfl | hpos
     · have hw : wVal xG (nA 0) = 1 := rfl
-      rw [xBn, nodeProd_zero, nK, if_pos rfl, Xn_zero, hw, map_one, one_mul, one_mul, inv_one]
+      rw [xBn, nodeProd_zero, nK, ite_eq_left rfl, Xn_zero, hw, map_one, one_mul, one_mul, inv_one]
       exact (Hh hsw).one_mem
     · have hp := nodeParent_lt l hl hpos
       have hP := ih _ hp (hp.trans hl)
       obtain ⟨hk0, ha0⟩ := tr_start l hl hpos
       have hi : l - 1 < 22 := by omega
       have htr := tr_fact (tr_all (l - 1) hi)
-      unfold CFSG.KD.B4AT.trChk at htr
       rw [hk0, ha0, Nat.sub_add_cancel hpos] at htr
-      have hK : CFSG.KD.B4AT.K1.getD (l - 1) 0 = nK l := by rw [nK, if_neg (by omega)]
-      have hA : CFSG.KD.B4AT.A1.getD (l - 1) 0 = nA l := by rw [nA, if_neg (by omega)]
+      have hK : CFSG.KD.B4AT.K1.getD (l - 1) 0 = nK l := by rw [nK, ite_eq_right (by omega)]
+      have hA : CFSG.KD.B4AT.A1.getD (l - 1) 0 = nA l := by rw [nA, ite_eq_right (by omega)]
       rw [hK, hA] at htr
       have hx : SemidirectProduct.inl (xBn l) = SemidirectProduct.inl (xBn (nodeParent l)) *
           evalWord (trGen xG (u hsw)) (CFSG.KD.B4AT.trWord l) := by

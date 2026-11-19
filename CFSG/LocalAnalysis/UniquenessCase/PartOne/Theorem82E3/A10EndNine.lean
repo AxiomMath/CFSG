@@ -25,18 +25,19 @@ variable {c : Ctx82E3 D}
 private theorem isSylowOf_top_of_isSylowOf_M (F : A10Frame c) (hF : A10Facts F)
     {P' : Subgroup G} (hP' : CFSG.ABGLocalTools.IsSylowOf 3 P' D.M) :
     CFSG.ABGLocalTools.IsSylowOf 3 P' ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPGtop : CFSG.ABGLocalTools.IsSylowOf 3 F.P ⊤ := isSylowOf_top F hF.normalizer_A
   refine CFSG.ABGLocalTools.isSylowOf_of_card (P := P') (K := ⊤) le_top ?_
   calc Nat.card P' = 3 ^ (Nat.card D.M).factorization 3 := hP'.card_eq
     _ = Nat.card F.P := F.sylow.card_eq.symm
     _ = 3 ^ (Nat.card (⊤ : Subgroup G)).factorization 3 := hPGtop.card_eq
 
+omit [Finite G] in
 private theorem centralizer_ne_top (hs : IsSimpleGroup G) (hnab : ∃ a b : G, a * b ≠ b * a)
     {B : Subgroup G} (hB : B ≠ ⊥) : Subgroup.centralizer (B : Set G) ≠ ⊤ := by
   intro htop
   have hcenter : Subgroup.center G = ⊥ := by
-    haveI : IsSimpleGroup G := hs
+    have : IsSimpleGroup G := hs
     refine TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative (G := G) ?_
     rw [isMulCommutative_iff]
     rintro h
@@ -93,7 +94,7 @@ private theorem exists_sylow_quotient_zwr {H P' : Subgroup G} (hP'leH : P' ≤ H
     (hPG : CFSG.ABGLocalTools.IsSylowOf 3 P' ⊤) (e : ↥P' ≃* UC326.ZWr 1) :
     ∃ S : Sylow 3 (↥H ⧸ CFSG.pPrimeCore 3 ↥H),
       Nonempty (↥(S : Subgroup (↥H ⧸ CFSG.pPrimeCore 3 ↥H)) ≃* UC326.ZWr 1) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hOnotdvd : ¬ 3 ∣ Nat.card ↥(CFSG.pPrimeCore 3 ↥H) :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp
       (CFSG.pPrimeCore_coprime_card (p := 3) (G := ↥H))

@@ -161,16 +161,19 @@ section Derive
 
 variable {H : Subgroup G} {K : Subgroup (H ⧸ primeComplementCore (G := H) 3)} [K.Normal]
 
+omit [Finite G] in
 theorem map_ker_agl81PiHat : (agl81PiHat H K).ker.map H.subtype = d1PlusCore 3 H K := by
   unfold agl81PiHat d1PlusCore
   rw [← MonoidHom.comap_ker, MonoidHom.ker_rangeRestrict,
     CFSG.Sporadic.Recognition.LyonsSims.ker_conjNormal_eq_centralizer K]
 
+omit [Finite G] in
 theorem mem_d1PlusCore_of_mem_ker {x : H} (hx : x ∈ (agl81PiHat H K).ker) :
     (x : G) ∈ d1PlusCore 3 H K := by
   rw [← map_ker_agl81PiHat]
   exact ⟨x, hx, rfl⟩
 
+omit [Finite G] [K.Normal] in
 theorem eq_one_of_mem_d1PlusCore {Q' : Subgroup G} (hQ' : IsPGroup 3 Q')
     (hX : ¬ 3 ∣ Nat.card (d1PlusCore 3 H K)) {x : G} (hxQ : x ∈ Q')
     (hxX : x ∈ d1PlusCore 3 H K) : x = 1 := by
@@ -181,6 +184,7 @@ theorem eq_one_of_mem_d1PlusCore {Q' : Subgroup G} (hQ' : IsPGroup 3 Q')
   · rwa [pow_zero, orderOf_eq_one_iff] at hk
   · exact absurd ((dvd_pow_self 3 hk0.ne').trans (hk ▸ hdvd)) hX
 
+omit [Finite G] in
 theorem card_map_agl81PiHat_or {A : Subgroup G} (hAH : A ≤ H) (hA3 : Nat.card A = 3) :
     Nat.card ((A.subgroupOf H).map (agl81PiHat H K)) = 3 ∨ A ≤ d1PlusCore 3 H K := by
   have hcA : Nat.card (A.subgroupOf H) = 3 := by
@@ -198,7 +202,7 @@ theorem card_map_agl81PiHat_or {A : Subgroup G} (hAH : A ≤ H) (hA3 : Nat.card 
 theorem inf_eq_bot_of_card_three {A₁ A₂ : Subgroup G} (h1 : Nat.card A₁ = 3)
     (h2 : Nat.card A₂ = 3) (hne : A₁ ≠ A₂) {b : G} (hb1 : b ∈ A₁) (hb2 : b ∈ A₂) : b = 1 := by
   by_contra hb
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hob : orderOf b = 3 := by
     have hd : orderOf b ∣ 3 := by
       rw [← h1, ← Subgroup.orderOf_mk b hb1]
@@ -215,7 +219,7 @@ theorem inf_eq_bot_of_card_three {A₁ A₂ : Subgroup G} (h1 : Nat.card A₁ = 
 
 theorem exists_orderOf_three_of_card {A : Subgroup G} (h : Nat.card A = 3) :
     ∃ a ∈ A, orderOf a = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := A) 3 (by rw [h])
   exact ⟨a, a.2, by rw [← Subgroup.orderOf_coe] at ha; exact ha⟩
 
@@ -224,8 +228,8 @@ end Derive
 theorem agl81TenNineOneThreeWCQCfg_of_ai (hAi : AGL81TenNineOneThreeAiCfg G) :
     AGL81TenNineOneThreeWCQCfg G := by
   intro hS P M H Q K hd L hL he hYL hKn
-  haveI := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q', hQ'Y, hQQ', A₁, A₂, h1L, h2L, h1c, h2c, hne, hw1, hw2⟩ :=
     hAi hS P M H Q K hd L hL he hYL
   rw [inf_eq_left.mpr hYL] at hw1 hw2

@@ -50,7 +50,7 @@ theorem str86_b2_commute_conj
       exact hkA
     · rw [hpH]
       intro hωQ
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨j, hj⟩ := (pCoreOf_isPGroup 2 (P2 L1 L2 S)) ⟨ω, hωQ⟩
       have hj' : ω ^ 2 ^ j = 1 := by simpa using congrArg Subtype.val hj
       have hdvd : 3 ∣ 2 ^ j := by
@@ -73,8 +73,8 @@ theorem str86ZNotLeNonab_holds :
   intro G _ _ L1 L2 S hF hSB h1 hB2 h2 hZI hZ
   classical
   obtain ⟨k, hk, F, hFld, hFin, hFc, hU3⟩ := h1
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   obtain ⟨n, hL2⟩ := h2
   have hn : 2 ≤ n := CFSG.Quasithin.F112R.two_le_of_isL2Quot_of_vBig hF.1.h2.listed hB2 hL2
   have hL1P1 : L1 ≤ P1 L1 L2 S := le_sup_left

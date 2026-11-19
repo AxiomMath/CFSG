@@ -56,6 +56,7 @@ private lemma ffK0_mem_monoD {σ : Equiv.Perm (Fin 6)} (hσ : σ ∈ ffK0) : σ 
   · exact ffInvolutions_mem_monoD.2.1
   · exact ffInvolutions_mem_monoD.2.2.1
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffU2_mul_self {fr : NFrame Q (Fin 6) c} {σ : Equiv.Perm (Fin 6)}
     (hσ : σ ∈ ffK0) {J : Finset (Fin 6)} (hJ : J ∈ ffF0) :
     (fr.permOrth σ * fr.signChange J) * (fr.permOrth σ * fr.signChange J) = 1 := by
@@ -64,6 +65,7 @@ private lemma ffU2_mul_self {fr : NFrame Q (Fin 6) c} {σ : Equiv.Perm (Fin 6)}
   rw [ffMono_mul, h2, hinv, ffK0_map_ffF0 hσ hJ, symmDiff_self, Finset.bot_eq_empty,
     fr.permOrth_one, fr.signChange_empty, mul_one]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma ffMono_inv_mul (fr : NFrame Q (Fin 6) c) (σ : Equiv.Perm (Fin 6))
     (J : Finset (Fin 6)) :
     (fr.permOrth σ * fr.signChange J)⁻¹ =
@@ -163,19 +165,23 @@ private lemma hE4_symmDiff_mem {J K : Finset (Fin 6)} (hJ : J ∈ hE4) (hK : K �
       exact hσ
     · exact hFH_map_hE4 hσ hJ
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_hU2_iff (fr : NFrame Q (Fin 6) c) {g : OGroup Q} :
     g ∈ hU2 fr ↔ ∃ σ ∈ ffK0, ∃ J ∈ ffF0, g = fr.permOrth σ * fr.signChange J :=
   Iff.rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_hD1_iff (fr : NFrame Q (Fin 6) c) {g : OGroup Q} :
     g ∈ hD1 fr ↔ ∃ σ ∈ monoD, g = fr.permOrth σ :=
   Iff.rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_hD2_iff (fr : NFrame Q (Fin 6) c) {g : OGroup Q} :
     g ∈ hD2 fr ↔ ∃ σ ∈ ({1, hF} : Finset (Equiv.Perm (Fin 6))), ∃ J ∈ hE4,
       g = fr.permOrth σ * fr.signChange J :=
   Iff.rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem piOrth_mem_hU2 (fr : NFrame Q (Fin 6) c) : piOrth Q ∈ hU2 fr := by
   refine ⟨1, ?_, Finset.univ, ?_, ?_⟩
   · decide
@@ -203,6 +209,7 @@ theorem hD2_le_ffP0 (hQ : Q.Nondegenerate) (fr : NFrame Q (Fin 6) c) :
   · exact (mem_ffP0_iff hQ fr).mpr
       ⟨hF, hF_mem_monoD, J, hE4_even hJ, rfl⟩
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem hU2_card (fr : NFrame Q (Fin 6) c) : Nat.card (hU2 fr) = 32 := by
   let F : ↥(ffK0 ×ˢ ffF0) → hU2 fr := fun x =>
     ⟨fr.permOrth x.1.1 * fr.signChange x.1.2,
@@ -225,6 +232,7 @@ theorem hU2_card (fr : NFrame Q (Fin 6) c) : Nat.card (hU2 fr) = 32 := by
   rw [← Nat.card_congr (Equiv.ofBijective F hbij)]
   exact hcard
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem hU2_comm (fr : NFrame Q (Fin 6) c) {a b : OGroup Q} (ha : a ∈ hU2 fr) (hb : b ∈ hU2 fr) :
     a * b = b * a := by
   obtain ⟨σ, hσ, J, hJ, rfl⟩ := ha
@@ -236,6 +244,7 @@ theorem hU2_comm (fr : NFrame Q (Fin 6) c) {a b : OGroup Q} (ha : a ∈ hU2 fr) 
     exact symmDiff_comm J K
   rw [ffMono_mul, ffMono_mul, ffK0_comm hσ hτ, hA]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem hU2_mul_self (fr : NFrame Q (Fin 6) c) {a : OGroup Q} (ha : a ∈ hU2 fr) :
     a * a = 1 := by
   obtain ⟨σ, hσ, J, hJ, rfl⟩ := ha

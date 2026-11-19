@@ -281,7 +281,7 @@ theorem burnsideF45_isCoatom_comap {X : Type} [Group X] (φ : X →* E) (hφ : F
     rw [← hφ hyx]
     exact hy
 
-theorem burnsideF45_comap_normalizer {X : Type} [Group X] (φ : X →* E) (hφ : Function.Injective φ)
+theorem burnsideF45_comap_normalizer {X : Type} [Group X] (φ : X →* E) (_hφ : Function.Injective φ)
     {H S : Subgroup E} (hH : φ.range = H) (hSH : S ≤ H) :
     Subgroup.normalizer ((S.comap φ : Subgroup X) : Set X) =
       (H ⊓ Subgroup.normalizer (S : Set E)).comap φ := by
@@ -323,8 +323,8 @@ theorem burnsideF45_conj_parabolics [Finite E] (hp : p.Prime)
     ∃ (g : X) (b : Bool), ∀ y : X,
       (((θ₀ (g⁻¹ * y * g) : ↥Gp) : E) ∈ M₁ ↔ y ∈ P D b) ∧
       (((θ₀ (g⁻¹ * y * g) : ↥Gp) : E) ∈ M₂ ↔ y ∈ P D (!b)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite X := Finite.of_injective _ θ₀.injective
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite X := Finite.of_injective _ θ₀.injective
   let φ : X →* E := Gp.subtype.comp θ₀.toMonoidHom
   have hφ : Function.Injective φ := Gp.subtype_injective.comp θ₀.injective
   have hH : φ.range = Gp := by
@@ -352,7 +352,7 @@ theorem burnsideF45_conj_parabolics [Finite E] (hp : p.Prime)
         (MulAut.conj g).toMonoidHom y := fun _ => rfl
     ext x
     have h2 := SetLike.ext_iff.mp h1 x
-    simp only [Subgroup.mem_map, e0] at h2 ⊢
+    simp only [Subgroup.mem_map] at h2 ⊢
     simpa [T₁, T₂] using h2
   have hgB : ((Gp ⊓ (M₁ ⊓ M₂)).comap φ).map (MulAut.conj g).toMonoidHom = D.B := by
     rw [← hB', Subgroup.map_equiv_normalizer_eq, hgS, normalizer_U_eq_B]
@@ -411,8 +411,8 @@ theorem burnsideF45_facts45L_of_system (hyp : HypF_4_4 κ p f Gp M₁ M₂) (hp 
     (MB : ∀ i : Bool, F45.ModelBase (Γ D) n (v D i)
       (pCoreOf p (MulAction.stabilizer X (v D i)))) :
     (burnsideF45_setting hyp hp hm).Facts45L := by
-  haveI : Finite E := hyp.finite
-  haveI : Finite X := Finite.of_injective _ θ₀.injective
+  have : Finite E := hyp.finite
+  have : Finite X := Finite.of_injective _ θ₀.injective
   obtain ⟨g, b, hgb⟩ := burnsideF45_conj_parabolics hp hP θ₀ D hU
   subst hn
   let θ : X ≃* ↥Gp := (MulAut.conj g).symm.trans θ₀

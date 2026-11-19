@@ -118,7 +118,7 @@ theorem d4ThreeGraphPlanes_of_odd_even (ho : D4ThreeGraphPlanesOdd) (he : D4Thre
 theorem d4ThreeGraphPlanesOdd_of_pair (h : D4GraphPairGen) : D4ThreeGraphPlanesOdd := by
   intro K _ _ hK5 E hE hc hout hG
   classical
-  haveI : CFSG.IsElementaryAbelian 3 ↥E := hE
+  have : CFSG.IsElementaryAbelian 3 ↥E := hE
   have hZ : Subgroup.center ↥(adjointGroup Tag.D4 K) = ⊥ := center_adjointGroup_eq_bot
   have hinj : Function.Injective (MulAut.conj : ↥(adjointGroup Tag.D4 K) →*
       MulAut ↥(adjointGroup Tag.D4 K)) := by

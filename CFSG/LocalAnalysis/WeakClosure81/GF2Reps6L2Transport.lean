@@ -281,7 +281,7 @@ theorem L2AutFacts.of_mulEquiv {X X' : Type*} [Group X] [Group X'] (h : L2AutFac
         intro x
         exact hE x
       have htop : e.toMonoidHom.range = ⊤ := by
-        simpa using MulEquiv.range_eq_top e
+        simp
       rw [hcomp, MonoidHom.range_comp, htop, Subgroup.map_top]
     have houter := L2OuterFacts.map h.outer E
     rwa [hrange] at houter

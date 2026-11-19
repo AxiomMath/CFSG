@@ -541,7 +541,7 @@ private theorem heisSp4_injective [NeZero (2 : K)] : Function.Injective (heisSp4
   · exact mul_left_cancel₀ (NeZero.ne 2) hc
 
 private def heisStatedSp (m : ℕ) : Heis K →* StatedSp (3 + m) K :=
-  ((levi2 (3 + m)).comp (heisGL m)).codRestrict _ fun x => levi2_mem_statedSp _
+  ((levi2 (3 + m)).comp (heisGL m)).codRestrict _ fun _x => levi2_mem_statedSp _
 
 theorem hasS2019SpecialQ_statedSp [Finite K] {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) [CharP K q]
     {n : ℕ} (hn : 2 ≤ n) : HasS2019SpecialQ q (Nat.card K) (StatedProj (StatedSp n K)) := by
@@ -549,7 +549,7 @@ theorem hasS2019SpecialQ_statedSp [Finite K] {q : ℕ} (hq : q.Prime) (hq2 : q �
     intro h
     have := (CharP.cast_eq_zero_iff K q 2).1 (by exact_mod_cast h)
     exact hq2 ((Nat.prime_dvd_prime_iff_eq hq Nat.prime_two).1 this)
-  haveI : NeZero (2 : K) := ⟨h2⟩
+  have : NeZero (2 : K) := ⟨h2⟩
   rcases Nat.lt_or_ge n 3 with hn3 | hn3
   · obtain rfl : n = 2 := by omega
     refine hasS2019SpecialQ_statedProj (isS2019SpecialQ_heis hq hq2) heisSp4
@@ -573,7 +573,7 @@ theorem hasS2019SpecialQ_statedOmega_plus [Finite K] {q : ℕ} (hq : q.Prime) (h
     (hQ : ∀ v, Q v = ∑ i, v (Sum.inl i) * v (Sum.inr i)) :
     HasS2019SpecialQ q (Nat.card K) (StatedProj (StatedOmega Q)) := by
   obtain ⟨m, rfl⟩ := Nat.exists_eq_add_of_le hk
-  haveI : Group.IsPerfect (SpecialLinearGroup (Fin 3) K) :=
+  have : Group.IsPerfect (SpecialLinearGroup (Fin 3) K) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_of_three_le le_rfl
   set ψ : SpecialLinearGroup (Fin 3) K →* GL (Fin (3 + m) ⊕ Fin (3 + m)) K :=
     (levi2 (3 + m)).comp (slGL m) with hψ
@@ -599,7 +599,7 @@ theorem hasS2019SpecialQ_statedOmega_tail [Finite K] {q : ℕ} (hq : q.Prime) (h
       Q' fun t => v (Sum.inr (Sum.inr t))) :
     HasS2019SpecialQ q (Nat.card K) (StatedProj (StatedOmega Q)) := by
   obtain ⟨m, rfl⟩ := Nat.exists_eq_add_of_le hk
-  haveI : Group.IsPerfect (SpecialLinearGroup (Fin 3) K) :=
+  have : Group.IsPerfect (SpecialLinearGroup (Fin 3) K) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_of_three_le le_rfl
   set ψ : SpecialLinearGroup (Fin 3) K →* GL (Fin (3 + m) ⊕ (Fin (3 + m) ⊕ T)) K :=
     (levi3 T (3 + m)).comp (slGL m) with hψ
@@ -629,7 +629,7 @@ theorem hasS2019SpecialQ_of_statedClassicalModel {Y : Type} [Group Y] {t : State
   cases t with
   | PSL =>
     obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hmod
-    haveI := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
+    have := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
     rw [← hK]
     exact (hasS2019SpecialQ_statedSL hp hp2 (hn rfl)).of_mulEquiv e.symm
   | PSU =>
@@ -639,24 +639,24 @@ theorem hasS2019SpecialQ_of_statedClassicalModel {Y : Type} [Group Y] {t : State
     exact (hasS2019SpecialQ_statedSU h hp2 hadm.1).of_mulEquiv e.symm
   | PSp =>
     obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hmod
-    haveI := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
+    have := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
     rw [← hK]
     exact (hasS2019SpecialQ_statedSp hp hp2 hadm.1).of_mulEquiv e.symm
   | POmegaOdd =>
     obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hmod
-    haveI := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
+    have := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
     rw [← hK]
     exact (hasS2019SpecialQ_statedOmega_tail hp hp2 hadm.1 (StatedQuadOdd n K)
       (fun w => w () ^ 2) fun v => rfl).of_mulEquiv e.symm
   | POmegaPlus =>
     obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hmod
-    haveI := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
+    have := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
     rw [← hK]
     exact (hasS2019SpecialQ_statedOmega_plus hp hp2 (by have : 4 ≤ n := hadm; omega)
       (StatedQuadPlus n K) fun v => rfl).of_mulEquiv e.symm
   | POmegaMinus =>
     obtain ⟨K, _, _, hK, b, c, -, ⟨e⟩⟩ := hmod
-    haveI := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
+    have := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hp hf hK
     rw [← hK]
     exact (hasS2019SpecialQ_statedOmega_tail hp hp2 (by have : 4 ≤ n := hadm; omega)
       (StatedQuadMinus n K b c) (fun w => w 0 ^ 2 + b * w 0 * w 1 + c * w 1 ^ 2)

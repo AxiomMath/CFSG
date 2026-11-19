@@ -32,6 +32,7 @@ structure uc22p20jSplitUnit (p : ℕ) (B N U : Subgroup X) : Prop where
 
 variable {B N U : Subgroup X} [(cartan B N).Normal] {p : ℕ}
 
+omit [(cartan B N).Normal] in
 theorem uc22p20jSplitUnit.exists_unit_mul (hS : uc22p20jSplitUnit p B N U) {b : X} (hb : b ∈ B) :
     ∃ u ∈ U, ∃ h ∈ B ⊓ N, b = u * h := by
   obtain ⟨h, hh, u, hu, he⟩ := hS.hBU b⁻¹ (B.inv_mem hb)
@@ -65,7 +66,7 @@ theorem uc22p20jSplitUnit.exists_monomial (hS : uc22p20jSplitUnit p B N U) {Y : 
 variable {S : Set (WeylGroup B N)}
 
 theorem uc22p20j_pel_conj {g u : X} {p k : ℕ} (h : u ^ (p ^ k) = 1) : (g⁻¹ * u * g) ^ (p ^ k) = 1 := by
-  rw [show g⁻¹ * u * g = (MulAut.conj g⁻¹) u by simp [MulAut.conj_apply], ← map_pow, h, map_one]
+  rw [show g⁻¹ * u * g = (MulAut.conj g⁻¹) u by simp, ← map_pow, h, map_one]
 
 theorem uc22p20jSplitUnit.exists_unit_conj_not_mem (hbn : IsBNPair B N S)
     (hS : uc22p20jSplitUnit p B N U) {s : WeylGroup B N} (hs : s ∈ S) {sn : N}
@@ -270,7 +271,7 @@ theorem uc22p20j_mem_sup_of_le_normalizer {N K : Subgroup X} (hK : K ≤ normali
     refine ⟨k⁻¹ * n⁻¹ * k⁻¹⁻¹, ?_, k⁻¹, K.inv_mem hk, by group⟩
     exact (Subgroup.mem_normalizer_iff.1 (hK (K.inv_mem hk)) n⁻¹).1 (N.inv_mem hn)
 
-theorem uc22p20j_N2J_conj (hS : uc22p20jSplitUnit p B N U) {J : Set (WeylGroup B N)} {b : X} (hb : b ∈ B) :
+theorem uc22p20j_N2J_conj (_hS : uc22p20jSplitUnit p B N U) {J : Set (WeylGroup B N)} {b : X} (hb : b ∈ B) :
     ∀ x ∈ uc22p20jN2J B N U J, b * x * b⁻¹ ∈ uc22p20jN2J B N U J := by
   have hBP : ∀ s : WeylGroup B N, b ∈ parabolic B N {s} := fun s =>
     Subgroup.subset_closure (le_parabolic_one _ hb)
@@ -282,7 +283,7 @@ theorem uc22p20j_N2J_conj (hS : uc22p20jSplitUnit p B N U) {J : Set (WeylGroup B
     simp [MulAut.conj_apply, mul_assoc]
   simpa [MulAut.conj_apply] using this hx
 
-theorem uc22p20jSplitUnit.U_le_N2J (hS : uc22p20jSplitUnit p B N U) {J : Set (WeylGroup B N)} (hJ : J.Nonempty) :
+theorem uc22p20jSplitUnit.U_le_N2J (_hS : uc22p20jSplitUnit p B N U) {J : Set (WeylGroup B N)} (hJ : J.Nonempty) :
     U ≤ uc22p20jN2J B N U J := by
   intro u hu
   obtain ⟨s, hs⟩ := hJ
@@ -364,7 +365,7 @@ theorem uc22p20j_sandwich_abstract [Finite X] (hbn : IsBNPair B N S) (hS : uc22p
     have := uc22p20j_N2J_conj hS (B.inv_mem hb) _ hx
     simpa [mul_assoc] using this
   have hPnorm : P ≤ normalizer (N₂ : Set X) := hPle.trans (sup_le Subgroup.le_normalizer hBnorm)
-  haveI : (N₂.subgroupOf P).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNP).2 hPnorm
+  have : (N₂.subgroupOf P).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNP).2 hPnorm
   have hsolv : Group.IsSolvable (P ⧸ N₂.subgroupOf P) := by
     let ψ : B →* P ⧸ N₂.subgroupOf P := (QuotientGroup.mk' (N₂.subgroupOf P)).comp (Subgroup.inclusion hBP)
     have hψ : Function.Surjective ψ := by
@@ -380,8 +381,8 @@ theorem uc22p20j_sandwich_abstract [Finite X] (hbn : IsBNPair B N S) (hS : uc22p
       rw [this]
       have := uc22p20j_N2J_conj hS (B.inv_mem hk) n hn
       simpa [mul_assoc] using this
-    haveI := hBsolv
-    exact solvable_of_surjective hψ
+    have := hBsolv
+    exact Group.isSolvable_of_surjective hψ
   exact (inSubgroup_perfectResidual_le_of_isSolvable hNP hsolv).trans hN₂Y
 
 theorem uc22p20j_parabolic_empty_le : parabolic B N (∅ : Set (WeylGroup B N)) ≤ B := by
@@ -441,7 +442,7 @@ theorem uc22p20j_exists_splitUnit {B N : Subgroup Z} [(cartan B N).Normal]
     (hBN : CFSG.ASVolI.ChIJK.IsSplitBNPair 2 B N) :
     ∃ U : Sylow 2 Z, normalizer ((U : Subgroup Z) : Set Z) = B ∧
       uc22p20jSplitUnit 2 B N (U : Subgroup Z) ∧ Group.IsSolvable B := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨U₀, hUB, hUn, hUp, hUi, hUN, hUH, hsat⟩ := hBN.split
   obtain ⟨U, hUnorm⟩ := CFSG.ASVolI.ChIJK.IsSplitBNPair.exists_sylow_normalizer Nat.prime_two hBN
   let Us : Sylow 2 Z := hUp.toSylow hUi
@@ -475,7 +476,7 @@ theorem uc22p20j_exists_splitUnit {B N : Subgroup Z} [(cartan B N).Normal]
       have hxB : x ∈ B := by
         rw [← hUnorm]; exact Subgroup.le_normalizer hx
       refine hpel x hxB ?_
-      obtain ⟨k, hk⟩ := U.isPGroup' ⟨x, hx⟩
+      obtain ⟨k, hk⟩ := U.isPGroup ⟨x, hx⟩
       exact ⟨k, by simpa using congrArg Subtype.val hk⟩
     have hc1 := Sylow.card_eq_multiplicity U
     have hc2 := Sylow.card_eq_multiplicity Us
@@ -495,12 +496,12 @@ theorem uc22p20j_exists_splitUnit {B N : Subgroup Z} [(cartan B N).Normal]
     · intro g hg
       have := uc22p20j_mem_normalizer_of_conj_le hg
       rwa [← hUU₀, hUnorm] at this
-  · haveI : (U₀.subgroupOf B).Normal := hUn
-    haveI : Group.IsSolvable (U₀.subgroupOf B) := by
+  · have : (U₀.subgroupOf B).Normal := hUn
+    have : Group.IsSolvable (U₀.subgroupOf B) := by
       have hP : IsPGroup 2 (U₀.subgroupOf B) := hUp.comap_subtype (K := B)
-      haveI : Group.IsNilpotent (U₀.subgroupOf B) := hP.isNilpotent
+      have : Group.IsNilpotent (U₀.subgroupOf B) := hP.isNilpotent
       infer_instance
-    haveI : Group.IsSolvable (B ⧸ U₀.subgroupOf B) := by
+    have : Group.IsSolvable (B ⧸ U₀.subgroupOf B) := by
       refine CFSG.FeitThompson.isSolvable_of_odd_natCard _ ?_
       rw [← Subgroup.index_eq_card]
       exact (Nat.odd_iff.2 (by omega : (U₀.subgroupOf B).index % 2 = 1))
@@ -512,7 +513,7 @@ theorem uc22p20j_sandwich_of_isSplitBNPair {B N : Subgroup Z}
     (hY : (U₁ : Subgroup Z) ≤ Y) :
     ∃ P : Subgroup Z, normalizer ((U₁ : Subgroup Z) : Set Z) ≤ P ∧ Y ≤ P ∧
       Hinf P ≤ Y := by
-  haveI : (cartan B N).Normal := hBN.normal_inter
+  have : (cartan B N).Normal := hBN.normal_inter
   obtain ⟨U, hUnorm, hSU, hsolv⟩ := uc22p20j_exists_splitUnit hBN
   obtain ⟨S, hbn⟩ := CFSG.ASVolI.ChIJK.burnsideI2BN_exists_isBNPair
     (CFSG.ASVolI.ChIJK.burnsideI2BN_toPre hBN)
@@ -520,7 +521,7 @@ theorem uc22p20j_sandwich_of_isSplitBNPair {B N : Subgroup Z}
   have hmem : ∀ x : Z, x ∈ (U₁ : Subgroup Z) ↔ g⁻¹ * x * g ∈ (U : Subgroup Z) := by
     intro x
     rw [← hg, Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-    simp [MulAut.conj_apply, mul_assoc]
+    simp [mul_assoc]
   let Y' : Subgroup Z := Y.comap (MulAut.conj g).toMonoidHom
   have hUY' : (U : Subgroup Z) ≤ Y' := by
     intro u hu
@@ -532,7 +533,7 @@ theorem uc22p20j_sandwich_of_isSplitBNPair {B N : Subgroup Z}
   obtain ⟨P', hBP', hYP', hP'⟩ := uc22p20j_sandwich_abstract hbn hSU hsolv hUY'
   let P : Subgroup Z := P'.comap (MulAut.conj g⁻¹).toMonoidHom
   have hPmem : ∀ x : Z, x ∈ P ↔ g⁻¹ * x * g ∈ P' := by
-    intro x; show (MulAut.conj g⁻¹) x ∈ P' ↔ _; simp [MulAut.conj_apply]
+    intro x; show (MulAut.conj g⁻¹) x ∈ P' ↔ _; simp
   refine ⟨P, ?_, ?_, ?_⟩
   · intro x hx
     rw [hPmem]
@@ -556,7 +557,7 @@ theorem uc22p20j_sandwich_of_isSplitBNPair {B N : Subgroup Z}
     have hQ'perf : ⁅Q', Q'⁆ = Q' := by
       rw [hQ', ← Subgroup.map_commutator, hQperf]
     have hconj : ∀ x : Z, (MulAut.conj g⁻¹).toMonoidHom x = g⁻¹ * x * g := by
-      intro x; simp [MulAut.conj_apply]
+      intro x; simp
     have hQ'P' : Q' ≤ P' := by
       rintro _ ⟨x, hx, rfl⟩
       rw [hconj]

@@ -37,12 +37,12 @@ variable (U : Submodule (ZMod 2) (Wv v0))
 
 include hU
 
-@[expose] def restrictU (k : Kstab v0) : Module.End (ZMod 2) U :=
+def restrictU (k : Kstab v0) : Module.End (ZMod 2) U :=
   (wAct v0 k).restrict fun w hw => hU k w hw
 
 theorem restrictU_apply (k : Kstab v0) (w : U) : (restrictU U hU k w : Wv v0) = wAct v0 k w := rfl
 
-@[expose] def rhoU : Kstab v0 →* LinearMap.GeneralLinearGroup (ZMod 2) U :=
+def rhoU : Kstab v0 →* LinearMap.GeneralLinearGroup (ZMod 2) U :=
   MonoidHom.mk' (fun k => ⟨restrictU U hU k⁻¹, restrictU U hU k,
       LinearMap.ext fun w => Subtype.ext (wAct_inv_apply k w),
       LinearMap.ext fun w => Subtype.ext (by
@@ -52,13 +52,13 @@ theorem restrictU_apply (k : Kstab v0) (w : U) : (restrictU U hU k w : Wv v0) = 
       change wAct v0 (k * k')⁻¹ w = wAct v0 k⁻¹ (wAct v0 k'⁻¹ w)
       rw [mul_inv_rev, wAct_mul, Module.End.mul_apply]))
 
-@[expose] def restrictQ (k : Kstab v0) : Module.End (ZMod 2) (Wv v0 ⧸ U) :=
+def restrictQ (k : Kstab v0) : Module.End (ZMod 2) (Wv v0 ⧸ U) :=
   U.mapQ U (wAct v0 k) fun w hw => hU k w hw
 
 theorem restrictQ_mk (k : Kstab v0) (w : Wv v0) :
     restrictQ U hU k (Submodule.Quotient.mk w) = Submodule.Quotient.mk (wAct v0 k w) := rfl
 
-@[expose] def rhoQ : Kstab v0 →* LinearMap.GeneralLinearGroup (ZMod 2) (Wv v0 ⧸ U) :=
+def rhoQ : Kstab v0 →* LinearMap.GeneralLinearGroup (ZMod 2) (Wv v0 ⧸ U) :=
   MonoidHom.mk' (fun k => ⟨restrictQ U hU k⁻¹, restrictQ U hU k,
       LinearMap.ext fun w => by
         induction w using Submodule.Quotient.induction_on with

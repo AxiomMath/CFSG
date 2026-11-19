@@ -61,7 +61,7 @@ theorem sum_ite_eq_countP (p : ℕ → Prop) [DecidablePred p] (l : List ℕ) :
     (l.map (fun i => if p i then 0 else 1)).sum = l.countP (fun i => !decide (p i)) := by
   induction l with
   | nil => rfl
-  | cons x l ih => by_cases h : p x <;> simp [h, ih, List.countP_cons] <;> omega
+  | cons x l ih => by_cases h : p x <;> simp [h, ih]; omega
 
 theorem suppT_tab {n : ℕ} (σ : Perm (Fin n)) : suppT n (tab σ) = σ.support.card := by
   have h1 : σ.support.card = ∑ i ∈ Finset.range n, if (tab σ).getD i 0 = i then 0 else 1 := by

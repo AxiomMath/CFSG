@@ -17,7 +17,7 @@ theorem exists_central_of_secA (hy : StepHyp T T₁) (hA : secA T T₁ ≠ ⊥) 
   obtain ⟨S, hTS⟩ := (isPGroup_two_of_isElemAbelian hy.pair.wc.1).exists_le_sylow
   have hSN : (S : Subgroup G) ≤ Subgroup.normalizer (T : Set G) := fun s hs =>
     mem_normalizer_of_conjSubgroup_eq
-      (eq_of_conj_le_pGroup hy.pair.wc S.isPGroup' hTS (conjSubgroup_le_of_le_of_mem hTS hs))
+      (eq_of_conj_le_pGroup hy.pair.wc S.isPGroup hTS (conjSubgroup_le_of_le_of_mem hTS hs))
   have hAS : secA T T₁ ≤ (S : Subgroup G) := secA_le_left.trans hTS
   have hAn : ((secA T T₁).subgroupOf (S : Subgroup G)).Normal := by
     refine ⟨fun n hn g => ?_⟩
@@ -25,7 +25,7 @@ theorem exists_central_of_secA (hy : StepHyp T T₁) (hA : secA T T₁ ≠ ⊥) 
     have h : (g : G) * (n : G) * (g : G)⁻¹ ∈ conjSubgroup (g : G) (secA T T₁) :=
       ⟨n, hn, by simp [MulAut.conj_apply]⟩
     rwa [conjSubgroup_secA (hSN g.2)] at h
-  have hnil : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent ↥(S : Subgroup G) := S.isPGroup.isNilpotent
   obtain ⟨⟨a, ha⟩, ha1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hA
   have hbot : (secA T T₁).subgroupOf (S : Subgroup G) ≠ ⊥ :=
     Subgroup.ne_bot_iff_exists_ne_one.2

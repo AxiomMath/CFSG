@@ -15,8 +15,8 @@ theorem exists_isElemAbelian_card_nine_of_quotient_twoGroup {G : Type*} [Group G
     (hF : IsElemAbelian 3 F) (hcard : Nat.card F = 3 ^ 2)
     (hZ : F ⊓ Subgroup.center (G ⧸ A) = ⊥) :
     ∃ E : Subgroup G, IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 2 ∧ E ⊓ Subgroup.center G = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA3 : ¬ 3 ∣ Nat.card A := by
     obtain ⟨k, hk⟩ := hA.exists_card_eq
     rw [hk]

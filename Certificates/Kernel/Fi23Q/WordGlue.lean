@@ -90,7 +90,7 @@ theorem t2_isConj_d :
 
 theorem regE_img {r : ℕ} (hr : r < 10) :
     regE r = CFSG.Sporadic.Bridge.Fi23.img r :=
-  if_pos hr
+  ite_eq_left hr
 
 theorem t3R_ok {c : ℕ} (hc : c < 4) : ∀ r ∈ CFSG.KD.Fi23Q.t3R c, RegOK r := by
   intro r hr

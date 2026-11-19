@@ -27,7 +27,7 @@ theorem isSylowOf_starImg_top (h : NineSettingGen G M p Q H E k)
 theorem normalizer_starImg_le (h : NineSettingGen G M p Q H E k) {S : Subgroup G} (hSH : S ≤ H)
     (hS : IsPGroup p S) (hN : normalizer (S : Set G) ≤ M) :
     normalizer (starImg p H S : Set (StarGroup p H)) ≤ starImg p H M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let O : Subgroup ↥H := primeComplementCore (G := ↥H) p
   let π : ↥H →* StarGroup p H := QuotientGroup.mk' O
   let S' : Subgroup ↥H := S.subgroupOf H
@@ -158,16 +158,16 @@ theorem not_dvd_index_compNormalizer (h : NineSettingGen G M p Q H E k)
     (hQ : CFSG.ABGLocalTools.IsSylowOf p Q H)
     (hQN : starImg p H Q ≤ compNormalizer (StarGroup p H)) :
     ¬ p ∣ (compNormalizer (StarGroup p H)).index := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   exact not_dvd_index_of_isSylowOf_le (h.isSylowOf_starImg_top hQ) hQN
 
 theorem isPClosedMod_component_of_three_le (h713 : SevenOneThree)
-    (h : NineSettingGen G M p Q H E 2) (hH2 : H ∈ H2Fam M Q) (hp : p ∉ sigmaM G M)
+    (h : NineSettingGen G M p Q H E 2) (_hH2 : H ∈ H2Fam M Q) (_hp : p ∉ sigmaM G M)
     (h3 : CFSG.Open.pRank 3 (⊤ : Subgroup (StarGroup p H)) ≤ 3)
     {C : Subgroup (StarGroup p H)} (hC : CFSG.IsComponent C) :
     IsPClosedMod p ((C ⊔ centralizer (C : Set (StarGroup p H))).subgroupOf
       (normalizer (C : Set (StarGroup p H)))) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let N : Subgroup (StarGroup p H) := normalizer (C : Set (StarGroup p H))
   have hKN : CFSG.Open.IsKGroup ↥N := h.isKGroup_star.subgroup N
   have hcomp : CFSG.IsComponent (C.subgroupOf N) :=
@@ -190,12 +190,12 @@ theorem isPClosedMod_component_of_three_le (h713 : SevenOneThree)
   exact hres
 
 theorem isPClosedMod_component_of_mp_le_two (h713 : SevenOneThree)
-    (h : NineSettingGen G M p Q H E 2) (hH2 : H ∈ H2Fam M Q) (hp : p ∉ sigmaM G M)
+    (h : NineSettingGen G M p Q H E 2) (_hH2 : H ∈ H2Fam M Q) (_hp : p ∉ sigmaM G M)
     (h2 : CFSG.Open.pRank p (⊤ : Subgroup (StarGroup p H)) ≤ 2)
     {C : Subgroup (StarGroup p H)} (hC : CFSG.IsComponent C) :
     IsPClosedMod p ((C ⊔ centralizer (C : Set (StarGroup p H))).subgroupOf
       (normalizer (C : Set (StarGroup p H)))) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let N : Subgroup (StarGroup p H) := normalizer (C : Set (StarGroup p H))
   have hKN : CFSG.Open.IsKGroup ↥N := h.isKGroup_star.subgroup N
   have hcomp : CFSG.IsComponent (C.subgroupOf N) :=
@@ -220,22 +220,22 @@ theorem isPClosedMod_component_of_mp_le_two (h713 : SevenOneThree)
 section Certified
 
 theorem isPClosedMod_component_of_pRank3_le_one (h : NineSettingGen G M p Q H E 2)
-    (hH2 : H ∈ H2Fam M Q) (hp : p ∉ sigmaM G M) (hp5 : 5 ≤ p)
+    (_hH2 : H ∈ H2Fam M Q) (_hp : p ∉ sigmaM G M) (hp5 : 5 ≤ p)
     {C : Subgroup (StarGroup p H)} (hC : CFSG.IsComponent C)
     (h3C : CFSG.Open.pRank 3 C ≤ 1) :
     IsPClosedMod p ((C ⊔ centralizer (C : Set (StarGroup p H))).subgroupOf
       (normalizer (C : Set (StarGroup p H)))) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   exact CFSG.LocalAnalysis.RankThreeUC.AGL81COutRankOne.isPClosedMod_component_of_pRank3_le_one
     hp5 h.isKGroup_star hC h3C
 
 theorem isPClosedMod_component_of_normalizer_pRank3_le_three (h713 : SevenOneThree)
-    (h : NineSettingGen G M p Q H E 2) (hH2 : H ∈ H2Fam M Q) (hp : p ∉ sigmaM G M)
+    (h : NineSettingGen G M p Q H E 2) (_hH2 : H ∈ H2Fam M Q) (_hp : p ∉ sigmaM G M)
     {C : Subgroup (StarGroup p H)} (hC : CFSG.IsComponent C)
     (h3N : CFSG.Open.pRank 3 (⊤ : Subgroup (normalizer (C : Set (StarGroup p H)))) ≤ 3) :
     IsPClosedMod p ((C ⊔ centralizer (C : Set (StarGroup p H))).subgroupOf
       (normalizer (C : Set (StarGroup p H)))) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   let N : Subgroup (StarGroup p H) := normalizer (C : Set (StarGroup p H))
   have hKN : CFSG.Open.IsKGroup ↥N := h.isKGroup_star.subgroup N
   have hcomp : CFSG.IsComponent (C.subgroupOf N) :=
@@ -259,7 +259,7 @@ theorem isPClosedMod_component (h713 : SevenOneThree) (hI : NineTenInputs)
     {C : Subgroup (StarGroup p H)} (hC : CFSG.IsComponent C) :
     IsPClosedMod p ((C ⊔ centralizer (C : Set (StarGroup p H))).subgroupOf
       (normalizer (C : Set (StarGroup p H)))) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   by_cases h3 : CFSG.Open.pRank 3 (⊤ : Subgroup (StarGroup p H)) ≤ 3
   · exact isPClosedMod_component_of_three_le h713 h hH2 hp h3 hC
   · by_cases h2 : CFSG.Open.pRank p (⊤ : Subgroup (StarGroup p H)) ≤ 2
@@ -287,7 +287,7 @@ theorem isPClosedMod_layer_sup_centralizer (h713 : SevenOneThree) (hI : NineTenI
     (hN : ¬ p ∣ (compNormalizer (StarGroup p H)).index) :
     IsPClosedMod p (CFSG.layer (StarGroup p H) ⊔
       centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H))) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   exact CFSG.LocalAnalysis.RankThreeUC.AGL81C.isPClosedMod_layer_sup_centralizer
     (fun C hC => h.isPClosedMod_component h713 hI hH2 hp hC) hN
 
@@ -298,18 +298,18 @@ theorem le_inf_sup_starImg (h713 : SevenOneThree) (hI : NineTenInputs)
     (hSM : normalizer (S : Set (StarGroup p H)) ≤ starImg p H M) :
     B ≤ (B ⊓ (CFSG.layer (StarGroup p H) ⊔
       centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H)))) ⊔ starImg p H M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   set U : Subgroup (StarGroup p H) := CFSG.layer (StarGroup p H) ⊔
     centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H)) with hUdef
   have hpc : IsPClosedMod p U := by
     rw [hUdef]
     exact h.isPClosedMod_layer_sup_centralizer h713 hI hH2 hp hN
-  haveI hLc : (CFSG.layer (StarGroup p H)).Characteristic :=
+  have hLc : (CFSG.layer (StarGroup p H)).Characteristic :=
     CFSG.LocalCores.layer_characteristic
-  haveI hLn : (CFSG.layer (StarGroup p H)).Normal := inferInstance
-  haveI hCn : (centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H))).Normal :=
+  have hLn : (CFSG.layer (StarGroup p H)).Normal := inferInstance
+  have hCn : (centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H))).Normal :=
     inferInstance
-  haveI hUn : U.Normal := by rw [hUdef]; infer_instance
+  have hUn : U.Normal := by rw [hUdef]; infer_instance
   have hU' : IsPClosedMod p ((B ⊓ U).subgroupOf B) := by
     rw [Subgroup.inf_subgroupOf_left]
     exact IsPClosedMod.comap hpc B.subtype
@@ -324,19 +324,19 @@ theorem le_inf_sup_starImg_of_le (h713 : SevenOneThree) (hI : NineTenInputs)
     (hSM : normalizer (S : Set (StarGroup p H)) ≤ starImg p H M) :
     B ≤ (B ⊓ (CFSG.layer (StarGroup p H) ⊔
       centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H)))) ⊔ starImg p H M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   set U : Subgroup (StarGroup p H) := CFSG.layer (StarGroup p H) ⊔
     centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H)) with hUdef
   have hU'N : IsPClosedMod p (U.subgroupOf (compNormalizer (StarGroup p H))) := by
     rw [hUdef]
     exact isPClosedMod_layer_sup_centralizer_subgroupOf
       (fun C hC => h.isPClosedMod_component h713 hI hH2 hp hC)
-  haveI hLc : (CFSG.layer (StarGroup p H)).Characteristic :=
+  have hLc : (CFSG.layer (StarGroup p H)).Characteristic :=
     CFSG.LocalCores.layer_characteristic
-  haveI hLn : (CFSG.layer (StarGroup p H)).Normal := inferInstance
-  haveI hCn : (centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H))).Normal :=
+  have hLn : (CFSG.layer (StarGroup p H)).Normal := inferInstance
+  have hCn : (centralizer (CFSG.layer (StarGroup p H) : Set (StarGroup p H))).Normal :=
     inferInstance
-  haveI hUn : U.Normal := by rw [hUdef]; infer_instance
+  have hUn : U.Normal := by rw [hUdef]; infer_instance
   have hU' : IsPClosedMod p ((B ⊓ U).subgroupOf B) := by
     rw [Subgroup.inf_subgroupOf_left,
       ← Subgroup.comap_inclusion_subgroupOf hB U]
@@ -365,7 +365,7 @@ section CertifiedNineTenFivePClosed
 
 theorem nineTenFivePClosed_of_nineTenPClosed (hI : NineTenInputs) : NineTenFivePClosed := by
   intro G _ _ M Q H E h hH2 hp C hC
-  haveI : Fact (Nat.Prime 5) := ⟨h.prime⟩
+  have : Fact (Nat.Prime 5) := ⟨h.prime⟩
   by_cases h3C : CFSG.Open.pRank 3 C ≤ 1
   · exact NineSettingGen.isPClosedMod_component_of_pRank3_le_one h hH2 hp le_rfl hC h3C
   · exact hI.nineTenPClosed G M Q H E 5 h hH2 hp (by norm_num) C hC (by omega)

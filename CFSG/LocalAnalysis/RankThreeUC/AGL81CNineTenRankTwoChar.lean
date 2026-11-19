@@ -18,43 +18,46 @@ open CFSG.PreuniquenessRankFour.Helpers
 
 variable {X : Type} [Group X] [Finite X] {p : ℕ}
 
+omit [Finite X] in
 theorem closure_orderOf_normal (p : ℕ) : (closure {x : X | orderOf x = p}).Normal := by
   refine ⟨fun n hn g => ?_⟩
   refine Subgroup.closure_induction (k := {x : X | orderOf x = p})
     (p := fun x _ => g * x * g⁻¹ ∈ closure {x : X | orderOf x = p})
     (fun x hx => ?_) ?_ (fun x y _ _ ihx ihy => ?_) (fun x _ ihx => ?_) hn
-  · rw [Set.mem_setOf_eq] at hx
+  · rw [Set.mem_ofPred_eq] at hx
     refine Subgroup.subset_closure ?_
-    rw [Set.mem_setOf_eq]
+    rw [Set.mem_ofPred_eq]
     have hconj : SemiconjBy g x (g * x * g⁻¹) := by
       show g * x = (g * x * g⁻¹) * g
       group
     rw [← SemiconjBy.orderOf_eq g hconj]
     exact hx
-  · simpa using Subgroup.one_mem (closure {x : X | orderOf x = p})
+  · simp
   · rw [show g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) by group]
     exact Subgroup.mul_mem _ ihx ihy
   · rw [show g * x⁻¹ * g⁻¹ = (g * x * g⁻¹)⁻¹ by group]
     exact Subgroup.inv_mem _ ihx
 
+omit [Finite X] in
 theorem closure_orderOf_subtype_eq_top (p : ℕ) :
     closure {x : ↥(closure {x : X | orderOf x = p}) | orderOf x = p} = ⊤ := by
   have h : ((↑) : ↥(closure {x : X | orderOf x = p}) → X) ⁻¹'
       {x : X | orderOf x = p} =
       {x : ↥(closure {x : X | orderOf x = p}) | orderOf x = p} := by
     ext x
-    simp only [Set.mem_preimage, Set.mem_setOf_eq]
+    simp only [Set.mem_preimage, Set.mem_ofPred_eq]
     rw [Subgroup.orderOf_coe]
   rw [← h]
   exact Subgroup.closure_closure_coe_preimage
 
-theorem isPGroup_of_isCyclic_pCore (hp : p.Prime)
+omit [Finite X] in
+theorem isPGroup_of_isCyclic_pCore (_hp : p.Prime)
     (hgen : closure {x : X | orderOf x = p} = ⊤)
     (hX : centralizer (CFSG.pCore p X : Set X) ≤ CFSG.pCore p X)
     (hcyc : IsCyclic ↥(CFSG.pCore p X)) : IsPGroup p X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨_hp⟩
   let P : Subgroup X := CFSG.pCore p X
-  haveI hPnorm : P.Normal := CFSG.pCore_normal (p := p) (G := X)
+  have hPnorm : P.Normal := CFSG.pCore_normal (p := p) (G := X)
   have hmem_norm : ∀ g : X, g ∈ Subgroup.normalizer (P : Set X) := by
     intro g
     rw [Subgroup.normalizer_eq_top]
@@ -86,10 +89,10 @@ theorem isPGroup_of_isCyclic_pCore (hp : p.Prime)
     refine Subgroup.closure_induction (k := {x : X | orderOf x = p})
       (p := fun x _ => x ^ p ∈ P) (fun y hy => ?_) ?_
       (fun y z _ _ ihy ihz => ?_) (fun y _ ihy => ?_) hx
-    · rw [Set.mem_setOf_eq] at hy
+    · rw [Set.mem_ofPred_eq] at hy
       rw [← hy, pow_orderOf_eq_one]
       exact P.one_mem
-    · simpa using P.one_mem
+    · simp
     · have hiy : QuotientGroup.mk' P (y ^ p) = 1 := (QuotientGroup.eq_one_iff _).mpr ihy
       have hiz : QuotientGroup.mk' P (z ^ p) = 1 := (QuotientGroup.eq_one_iff _).mpr ihz
       have h2 : QuotientGroup.mk' P ((y * z) ^ p) =
@@ -115,10 +118,10 @@ theorem two_le_pRank_pCore_of_not_isPGroup (hp : p.Prime) (hp2 : p ≠ 2)
     (hgen : closure {x : X | orderOf x = p} = ⊤)
     (hX : centralizer (CFSG.pCore p X : Set X) ≤ CFSG.pCore p X)
     (hnp : ¬ IsPGroup p X) : 2 ≤ CFSG.Open.pRank p (CFSG.pCore p X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnc : ¬ IsCyclic ↥(CFSG.pCore p X) := fun hcyc =>
     hnp (isPGroup_of_isCyclic_pCore hp hgen hX hcyc)
-  haveI : Fact (IsPGroup p ↥(CFSG.pCore p X)) := ⟨CFSG.pCore_isPGroup⟩
+  have : Fact (IsPGroup p ↥(CFSG.pCore p X)) := ⟨CFSG.pCore_isPGroup⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a (R := ↥(CFSG.pCore p X)) hp2 hnc
   have hSab : CFSG.Open.IsElemAbelian p (S.map (CFSG.pCore p X).subtype) :=
     (CFSG.Open.isElemAbelian_iff_isElementaryAbelian).mpr
@@ -137,7 +140,7 @@ theorem exists_characteristic_elemAbelian_of_not_isSymplecticType {P : Type} [Gr
   rw [CFSG.RankThree.PartTwo.IsSymplecticType] at hS
   push Not at hS
   obtain ⟨B, hBc, hBab, hBnc⟩ := hS
-  haveI : B.Characteristic := hBc
+  have : B.Characteristic := hBc
   obtain ⟨A, hAc, -, hAe, hA2⟩ :=
     noncyclic_characteristic_abelian_pGroup_has_characteristic_elementary
       p hp hP B hBab hBnc
@@ -145,7 +148,7 @@ theorem exists_characteristic_elemAbelian_of_not_isSymplecticType {P : Type} [Gr
     (CFSG.SectionRank.pRank_mono hp.one_lt (le_top : A ≤ (⊤ : Subgroup P))).trans hrk
   have hArank : CFSG.Open.pRank p A = 2 := le_antisymm hArank_le hA2
   have hAp : IsPGroup p A := hP.to_subgroup A
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hAp
   have hn_le : n ≤ 2 := by
     have h := CFSG.SectionRank.le_pRank hp.one_lt (le_refl A) hAe hn
@@ -163,11 +166,11 @@ theorem exists_normal_elemAbelian_of_sixSixOne (h661 : SixSixOneRank) (hp : p.Pr
     (hrk : CFSG.Open.pRank p (⊤ : Subgroup X) ≤ 2)
     (hV : ¬ IsPGroup p ↥(closure {x : X | orderOf x = p})) :
     ∃ A : Subgroup X, A.Normal ∧ CFSG.Open.IsElemAbelian p A ∧ Nat.card A = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   let V : Subgroup X := closure {x : X | orderOf x = p}
   have hVn : V.Normal := closure_orderOf_normal (X := X) p
-  haveI : V.Normal := hVn
+  have : V.Normal := hVn
   have hgen : closure {x : ↥V | orderOf x = p} = ⊤ := closure_orderOf_subtype_eq_top (X := X) p
   have hCV : centralizer (CFSG.pCore p ↥V : Set ↥V) ≤ CFSG.pCore p ↥V :=
     CFSG.RankThreeCoreUniqueness.Helpers.normal_subgroup_self_centralizing_pCore p hp hX V hVn
@@ -195,10 +198,10 @@ theorem exists_normal_elemAbelian_of_sixSixOne (h661 : SixSixOneRank) (hp : p.Pr
   obtain ⟨A₀, hA₀c, hA₀e, hA₀card⟩ :=
     exists_characteristic_elemAbelian_of_not_isSymplecticType hp CFSG.pCore_isPGroup hrkP hns
   let Psub : Subgroup ↥V := CFSG.pCore p ↥V
-  haveI hPsub_char : Psub.Characteristic := CFSG.pCore_characteristic (p := p) (G := ↥V)
-  haveI hA₀_char : A₀.Characteristic := hA₀c
+  have hPsub_char : Psub.Characteristic := CFSG.pCore_characteristic (p := p) (G := ↥V)
+  have hA₀_char : A₀.Characteristic := hA₀c
   let A₁ : Subgroup ↥V := A₀.map Psub.subtype
-  haveI hA₁_char : A₁.Characteristic := inferInstance
+  have hA₁_char : A₁.Characteristic := inferInstance
   have hA₁e : CFSG.Open.IsElemAbelian p A₁ :=
     CFSG.SectionRank.isElemAbelian_map hA₀e Psub.subtype
   have hA₁card : Nat.card A₁ = p ^ 2 := by

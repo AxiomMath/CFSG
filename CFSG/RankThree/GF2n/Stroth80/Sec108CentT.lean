@@ -20,6 +20,7 @@ variable {𝓜 : Type} [Group 𝓜] [Finite 𝓜] {K : Type} [Field K] [Finite K
 private noncomputable def Tsigma (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) : K ≃+* K :=
   Classical.choose (hC.T_semilinear g)
 
+omit [Finite 𝓜] in
 private theorem T_smul (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) (c : K)
     (v : Fin 3 → K) : T g (c • v) = Tsigma hC g c • T g v :=
   (Classical.choose_spec (hC.T_semilinear g)) c v
@@ -35,9 +36,11 @@ private def q3 (w : Fin 2 → K) : Fin 3 → K
 
 private def p3 (v : Fin 3 → K) : Fin 2 → K := fun i => v i.succ
 
+omit [Finite K] [CharP K 2] in
 private theorem q3_succ (w : Fin 2 → K) (i : Fin 2) : q3 w i.succ = w i := by
   fin_cases i <;> rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem q3_zero : q3 (0 : Fin 2 → K) = 0 := by
   funext i
   fin_cases i <;> rfl
@@ -51,12 +54,14 @@ private noncomputable def Tblock (T : ↥(NLY L Y) →* AddMonoid.End (Fin 3 →
     (g : ↥(NLY L Y)) : Matrix (Fin 2) (Fin 2) K :=
   fun i j => Tmat T g i.succ j.succ
 
+omit [Finite K] [CharP K 2] in
 private theorem split_vec (v : Fin 3 → K) :
     v = v 0 • (Pi.single 0 (1 : K) : Fin 3 → K) + q3 (p3 v) := by
   funext i
   fin_cases i <;> simp [q3, p3]
 
-private theorem T_q3 (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) (σ : K ≃+* K)
+omit [Finite 𝓜] in
+private theorem T_q3 (_hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) (σ : K ≃+* K)
     (hσ : ∀ (c : K) (v : Fin 3 → K), T g (c • v) = σ c • T g v) (w : Fin 2 → K) :
     T g (q3 w) = (∑ j : Fin 2, Tmat T g 0 j.succ * σ (w j)) •
         (Pi.single 0 (1 : K) : Fin 3 → K) +
@@ -72,22 +77,26 @@ private theorem T_q3 (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) (σ : K
   rw [h1]
   funext i
   fin_cases i <;>
-    simp [Tblock, Tmat, q3, Matrix.mulVec, Fin.sum_univ_two, Finset.sum_apply, mul_comm]
+    simp [Tblock, Tmat, q3, Fin.sum_univ_two, Finset.sum_apply, mul_comm]
 
-private theorem T_mul_inv (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) :
+omit [Finite 𝓜] in
+private theorem T_mul_inv (_hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) :
     T g * T g⁻¹ = 1 := by
   rw [← map_mul, mul_inv_cancel, map_one]
 
-private theorem T_inv_mul (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) :
+omit [Finite 𝓜] in
+private theorem T_inv_mul (_hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) :
     T g⁻¹ * T g = 1 := by
   rw [← map_mul, inv_mul_cancel, map_one]
 
+omit [Finite 𝓜] in
 private theorem T_leftInverse (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) :
     Function.LeftInverse (T g⁻¹) (T g) := by
   intro x
   have h := congrArg (fun f : AddMonoid.End (Fin 3 → K) => (⇑f) x) (T_inv_mul hC g)
   simpa [AddMonoid.End.coe_mul, AddMonoid.End.coe_one] using h
 
+omit [Finite 𝓜] in
 private theorem T_injective (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) :
     Function.Injective (T g) := by
   intro a b hab
@@ -95,6 +104,7 @@ private theorem T_injective (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) 
     _ = T g⁻¹ (T g b) := by rw [hab]
     _ = b := T_leftInverse hC g b
 
+omit [Finite 𝓜] in
 private theorem T_surjective (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) :
     Function.Surjective (T g) := by
   intro x
@@ -102,6 +112,7 @@ private theorem T_surjective (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y))
   have h := congrArg (fun f : AddMonoid.End (Fin 3 → K) => (⇑f) x) (T_mul_inv hC g)
   simpa [AddMonoid.End.coe_mul, AddMonoid.End.coe_one] using h
 
+omit [Finite 𝓜] in
 private theorem Tmat_col_zero (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) :
     Tmat T g 1 0 = 0 ∧ Tmat T g 2 0 = 0 := by
   obtain ⟨c, hc⟩ := hC.T_line g
@@ -109,6 +120,7 @@ private theorem Tmat_col_zero (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)
   · simpa [Tmat, e₀, Pi.single_apply] using congrFun hc (1 : Fin 3)
   · simpa [Tmat, e₀, Pi.single_apply] using congrFun hc (2 : Fin 3)
 
+omit [Finite 𝓜] in
 private theorem T_e0 (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) :
     T g (e₀ K) = Tmat T g 0 0 • e₀ K := by
   obtain ⟨c, hc⟩ := hC.T_line g
@@ -118,10 +130,12 @@ private theorem T_e0 (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) :
 private def mkN (L Y : Subgroup 𝓜) : ↥(NLY L Y) →* GG L :=
   (mkG L).comp (Subgroup.inclusion (inf_le_left : NLY L Y ≤ NL L))
 
+omit [Finite 𝓜] in
 private theorem mkN_apply (L Y : Subgroup 𝓜) (g : ↥(NLY L Y)) :
     mkN L Y g = mkG L ⟨(g : 𝓜), g.2.1⟩ := rfl
 
-private theorem conj_mem_L (hC : Levi108 K L R N Y ρ μ T) {g₀ r : ↥(NL L)}
+omit [Finite 𝓜] in
+private theorem conj_mem_L (_hC : Levi108 K L R N Y ρ μ T) {g₀ r : ↥(NL L)}
     (hcomm : mkG L g₀ * mkG L r = mkG L r * mkG L g₀) :
     ((g₀ * r * g₀⁻¹ * r⁻¹ : ↥(NL L)) : 𝓜) ∈ L := by
   have hker : mkG L (g₀ * r * g₀⁻¹ * r⁻¹) = 1 := by
@@ -130,6 +144,7 @@ private theorem conj_mem_L (hC : Levi108 K L R N Y ρ μ T) {g₀ r : ↥(NL L)}
   have hx : (g₀ * r * g₀⁻¹ * r⁻¹ : ↥(NL L)) ∈ (mkG L).ker := MonoidHom.mem_ker.mpr hker
   rwa [QuotientGroup.ker_mk'] at hx
 
+omit [Finite 𝓜] in
 private theorem T_conj_eq (hC : Levi108 K L R N Y ρ μ T) {g r x : ↥(NLY L Y)}
     (h : T (g * r * g⁻¹ * r⁻¹) = T x) : T g * T r = T x * T r * T g := by
   have h1 : T g * T r * T g⁻¹ * T r⁻¹ = T x := by
@@ -143,6 +158,7 @@ private theorem T_conj_eq (hC : Levi108 K L R N Y ρ μ T) {g r x : ↥(NLY L Y)
     simpa [mul_assoc, T_inv_mul hC g] using this
   exact h3
 
+omit [Finite K] [CharP K 2] in
 private theorem mulVec_q3 (M : Matrix (Fin 3) (Fin 3) K) (A : Matrix (Fin 2) (Fin 2) K)
     (h10 : M 1 0 = 0) (h20 : M 2 0 = 0)
     (hblock : ∀ i j : Fin 2, M i.succ j.succ = A i j) (w : Fin 2 → K) :
@@ -153,9 +169,9 @@ private theorem mulVec_q3 (M : Matrix (Fin 3) (Fin 3) K) (A : Matrix (Fin 2) (Fi
   have h22 : M 2 2 = A 1 1 := by simpa using hblock 1 1
   funext i
   fin_cases i <;>
-    simp [e₀, q3, Matrix.mulVec, Fin.sum_univ_three, Fin.sum_univ_two, Pi.single_apply,
-      h10, h20, h11, h12, h21, h22, Finset.sum_apply, dotProduct]
+    simp [e₀, q3, Matrix.mulVec, Fin.sum_univ_three, Fin.sum_univ_two, h10, h20, h11, h12, h21, h22, dotProduct]
 
+omit [Finite K] [CharP K 2] in
 private theorem mulVec_q3_add (M : Matrix (Fin 3) (Fin 3) K) (A : Matrix (Fin 2) (Fin 2) K)
     (h00 : M 0 0 = 1) (h10 : M 1 0 = 0) (h20 : M 2 0 = 0)
     (hblock : ∀ i j : Fin 2, M i.succ j.succ = A i j) (c : K) (w : Fin 2 → K) :
@@ -163,10 +179,11 @@ private theorem mulVec_q3_add (M : Matrix (Fin 3) (Fin 3) K) (A : Matrix (Fin 2)
       (c * M 0 0 + ∑ j : Fin 2, M 0 j.succ * w j) • e₀ K + q3 (A *ᵥ w) := by
   have hcol : M *ᵥ e₀ K = e₀ K := by
     funext i
-    fin_cases i <;> simp [e₀, Matrix.mulVec, Fin.sum_univ_three, Pi.single_apply, h00, h10, h20]
+    fin_cases i <;> simp [e₀, Matrix.mulVec, h00, h10, h20]
   rw [Matrix.mulVec_add, Matrix.mulVec_smul, hcol, mulVec_q3 M A h10 h20 hblock w, ← add_assoc,
     ← add_smul, h00, mul_one]
 
+omit [Finite K] [CharP K 2] in
 private theorem transvection_q3 (u : Fin 3 → K) (hu0 : u 0 = 0) (c : K) (v : Fin 2 → K) :
     (1 + Matrix.vecMulVec (e₀ K) u : Matrix (Fin 3) (Fin 3) K) *ᵥ (c • e₀ K + q3 v) =
       (c + ∑ j : Fin 2, u j.succ * v j) • e₀ K + q3 v := by
@@ -176,6 +193,7 @@ private theorem transvection_q3 (u : Fin 3 → K) (hu0 : u 0 = 0) (c : K) (v : F
       Matrix.one_apply, Matrix.vecMulVec, Pi.single_apply, hu0, dotProduct]
   ring
 
+omit [Finite 𝓜] in
 private theorem p3_T (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y))
     (σ : K ≃+* K) (hσ : ∀ (c : K) (v : Fin 3 → K), T g (c • v) = σ c • T g v)
     (c : K) (v : Fin 2 → K) :
@@ -184,12 +202,13 @@ private theorem p3_T (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y))
   have hzero : p3 (σ c • (Tmat T g 0 0 • e₀ K) + T g (q3 v)) =
       p3 (T g (q3 v)) := by
     funext i
-    simp [p3, e₀, Pi.smul_apply, Pi.add_apply, Pi.single_apply]
+    simp [p3, e₀, Pi.smul_apply, Pi.add_apply]
   rw [hzero, T_q3 hC g σ hσ v]
   funext i
-  simp only [p3, Pi.add_apply, Pi.smul_apply, q3_succ, e₀, Pi.single_apply, Fin.succ_ne_zero,
-    if_false, smul_zero, zero_add]
+  simp only [p3, Pi.add_apply, Pi.smul_apply, q3_succ, Pi.single_apply, Fin.succ_ne_zero,
+    ite_false, smul_zero, zero_add]
 
+omit [Finite 𝓜] in
 private theorem p3_transvection (hC : Levi108 K L R N Y ρ μ T) {x : ↥(NLY L Y)}
     (hxL : (x : 𝓜) ∈ L) (c : K) (v : Fin 2 → K) :
     p3 (T x (c • e₀ K + q3 v)) = v := by
@@ -197,7 +216,7 @@ private theorem p3_transvection (hC : Levi108 K L R N Y ρ μ T) {x : ↥(NLY L 
   have hxR : (x : 𝓜) ∈ R := hC.L_le_R hxL
   rw [hC.T_rho x hxR, hu, transvection_q3 u hu0 c v]
   funext i
-  simp [p3, q3_succ, e₀, Pi.smul_apply, Pi.add_apply, Pi.single_apply]
+  simp [p3, q3_succ, e₀, Pi.smul_apply, Pi.add_apply]
 
 private theorem block_vec (hC : Levi108 K L R N Y ρ μ T) {g : ↥(NLY L Y)} {g₀ : ↥(NL L)}
     (hg₀ : (g : 𝓜) = (g₀ : 𝓜))
@@ -256,7 +275,7 @@ private theorem block_vec' (hC : Levi108 K L R N Y ρ μ T) {g : ↥(NLY L Y)} {
         ((A.1 *ᵥ (fun k => (Tsigma hC g).symm (v k))) j)) =
       Matrix.of (fun i j => Tsigma hC g (A.1 i j)) *ᵥ v := by
     funext j
-    simp [Matrix.mulVec, Matrix.of_apply, map_sum, map_mul, Finset.sum_apply]
+    simp [Matrix.mulVec, Matrix.of_apply, map_mul]
   have h2 : (fun j => Tsigma hC g ((fun k => (Tsigma hC g).symm (v k)) j)) = v := by
     funext j
     exact (Tsigma hC g).apply_symm_apply (v j)
@@ -280,7 +299,7 @@ private theorem Tsigma_eq_one (hC : Levi108 K L R N Y ρ μ T) {g : ↥(NLY L Y)
   have hσ : Tsigma hC g ≠ 1 := fun h1 => hne fun c => by rw [h1]; rfl
   let Φ : (Fin 2 → K) →+ (Fin 2 → K) :=
     { toFun := fun v => Tblock T g *ᵥ fun j => Tsigma hC g (v j)
-      map_zero' := by simp [Matrix.mulVec]
+      map_zero' := by simp
       map_add' := fun a b => by rw [← Matrix.mulVec_add]; congr 1; funext j; simp }
   have hΦσ : ∀ (c : K) (v : Fin 2 → K), Φ (c • v) = Tsigma hC g c • Φ v := by
     intro c v
@@ -314,7 +333,7 @@ private theorem Tsigma_eq_one (hC : Levi108 K L R N Y ρ μ T) {g : ↥(NLY L Y)
   obtain ⟨c, hc⟩ := hrange v
   have h1 : (Pi.single 1 (1 : K) : Fin 3 → K) = c • e₀ K := by rw [← hv, hc]
   have := congrFun h1 (1 : Fin 3)
-  simp [e₀, Pi.single_apply] at this
+  simp [e₀] at this
 
 private theorem Tblock_eq_scalar (hC : Levi108 K L R N Y ρ μ T) {g : ↥(NLY L Y)}
     {g₀ : ↥(NL L)} (hg₀ : (g : 𝓜) = (g₀ : 𝓜))
@@ -328,11 +347,13 @@ private theorem Tblock_eq_scalar (hC : Levi108 K L R N Y ρ μ T) {g : ↥(NLY L
   have h := block_comm hC hg₀ hcent A
   rwa [hσA] at h
 
+omit [Finite 𝓜] in
 private theorem mkG_eq_one_of_mem {x : ↥(NL L)} (hx : (x : 𝓜) ∈ L) : mkG L x = 1 := by
   have h : x ∈ (mkG L).ker := by
     rwa [QuotientGroup.ker_mk', Subgroup.mem_subgroupOf]
   exact MonoidHom.mem_ker.mp h
 
+omit [Finite 𝓜] in
 private theorem L_le_NLY (hC : Levi108 K L R N Y ρ μ T) : L ≤ NLY L Y := by
   have hLc : L ≤ Subgroup.centralizer (Y : Set 𝓜) := by
     intro l hl
@@ -342,7 +363,8 @@ private theorem L_le_NLY (hC : Levi108 K L R N Y ρ μ T) : L ≤ NLY L Y := by
       (hC.L_le_R hl)).symm
   exact le_inf Subgroup.le_normalizer (hLc.trans (Subgroup.centralizer_le_normalizer (Y : Set 𝓜)))
 
-private theorem Tmat_mulVec_of_linear (hC : Levi108 K L R N Y ρ μ T) {x : ↥(NLY L Y)}
+omit [Finite 𝓜] in
+private theorem Tmat_mulVec_of_linear (_hC : Levi108 K L R N Y ρ μ T) {x : ↥(NLY L Y)}
     (hx : ∀ (c : K) (v : Fin 3 → K), T x (c • v) = c • T x v) (v : Fin 3 → K) :
     T x v = Tmat T x *ᵥ v := by
   have hv : v = ∑ j : Fin 3, v j • (Pi.single j (1 : K) : Fin 3 → K) := by
@@ -357,6 +379,7 @@ private theorem Tmat_mulVec_of_linear (hC : Levi108 K L R N Y ρ μ T) {x : ↥(
   ext i
   simp [Tmat, Matrix.mulVec, dotProduct, Finset.sum_apply, mul_comm]
 
+omit [Finite 𝓜] in
 private theorem Tmat_mul (hC : Levi108 K L R N Y ρ μ T) {x y : ↥(NLY L Y)}
     (hx : ∀ (c : K) (v : Fin 3 → K), T x (c • v) = c • T x v)
     (hy : ∀ (c : K) (v : Fin 3 → K), T y (c • v) = c • T y v) :
@@ -375,6 +398,7 @@ private theorem Tmat_mul (hC : Levi108 K L R N Y ρ μ T) {x y : ↥(NLY L Y)}
         rw [Matrix.mulVec_single_one]
         rfl
 
+omit [Finite 𝓜] in
 private theorem ker_mkN (L Y : Subgroup 𝓜) :
     (mkN L Y).ker = L.subgroupOf (NLY L Y) := by
   ext x
@@ -390,14 +414,16 @@ private theorem ker_mkN (L Y : Subgroup 𝓜) :
       from rfl]
     exact mkG_eq_one_of_mem (by simpa using h)
 
+omit [Finite 𝓜] in
 private theorem Tmat_zero_zero_ne_zero (hC : Levi108 K L R N Y ρ μ T)
     (g : ↥(NLY L Y)) : Tmat T g 0 0 ≠ 0 := by
   intro h0
   have h1 : T g (e₀ K) = T g 0 := by rw [T_e0 hC g, h0, zero_smul, map_zero]
   have h2 : e₀ K = 0 := T_injective hC g h1
   have := congrFun h2 0
-  simpa [e₀] using this
+  simp [e₀] at this
 
+omit [Finite 𝓜] in
 private theorem Tmat_mul_transvection_diag (hC : Levi108 K L R N Y ρ μ T)
     {g l' : ↥(NLY L Y)} {α : K}
     (hg_lin : ∀ (c : K) (v : Fin 3 → K), T g (c • v) = c • T g v)
@@ -422,7 +448,7 @@ private theorem Tmat_mul_transvection_diag (hC : Levi108 K L R N Y ρ μ T)
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.add_apply, Matrix.one_apply,
-      Matrix.vecMulVec, Matrix.diagonal_apply, e₀, Pi.single_apply, u3, h11, h12, h21, h22,
+      Matrix.vecMulVec, e₀, Pi.single_apply, u3, h11, h12, h21, h22,
       hg0, hg2]
   all_goals try field_simp [hβ]
   all_goals try ring
@@ -476,11 +502,13 @@ private theorem exists_diag (hC : Levi108 K L R N Y ρ μ T) {k : GG L} (hk : k 
     show T g (T l' (c • v)) = c • T g (T l' v)
     rw [hl_lin, hg_lin]
 
+omit [Finite 𝓜] in
 private theorem T_apply_inv_apply (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y))
     (v : Fin 3 → K) : T g (T g⁻¹ v) = v := by
   have h := congrArg (fun f : (Fin 3 → K) →+ (Fin 3 → K) => f v) (T_mul_inv hC g)
   exact h
 
+omit [Finite 𝓜] in
 private theorem Tsigma_unique (hC : Levi108 K L R N Y ρ μ T) {g : ↥(NLY L Y)}
     {σ : K ≃+* K} (hσ : ∀ (c : K) (v : Fin 3 → K), T g (c • v) = σ c • T g v) :
     σ = Tsigma hC g := by
@@ -494,6 +522,7 @@ private theorem Tsigma_unique (hC : Levi108 K L R N Y ρ μ T) {g : ↥(NLY L Y)
   have := congrFun h3 0
   simpa [e₀, Pi.smul_apply] using this
 
+omit [Finite 𝓜] in
 private theorem Tsigma_mul (hC : Levi108 K L R N Y ρ μ T) (a b : ↥(NLY L Y)) :
     Tsigma hC (a * b) = Tsigma hC a * Tsigma hC b := by
   refine (Tsigma_unique hC (g := a * b) (σ := Tsigma hC a * Tsigma hC b) ?_).symm
@@ -503,6 +532,7 @@ private theorem Tsigma_mul (hC : Levi108 K L R N Y ρ μ T) (a b : ↥(NLY L Y))
   rw [T_smul hC b c v, T_smul hC a ((Tsigma hC b) c) (T b v)]
   rfl
 
+omit [Finite 𝓜] in
 private theorem Tsigma_one (hC : Levi108 K L R N Y ρ μ T) : Tsigma hC 1 = 1 := by
   refine (Tsigma_unique hC (g := 1) (σ := 1) ?_).symm
   intro c v
@@ -515,22 +545,26 @@ private noncomputable def Tsig (hC : Levi108 K L R N Y ρ μ T) :
   map_one' := Tsigma_one hC
   map_mul' := Tsigma_mul hC
 
+omit [Finite 𝓜] in
 private theorem Tsig_apply (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y)) :
     Tsig hC g = Tsigma hC g := rfl
 
+omit [Finite 𝓜] in
 private theorem T_linear_of_tsig (hC : Levi108 K L R N Y ρ μ T) {g : ↥(NLY L Y)}
     (hg : Tsig hC g = 1) : ∀ (c : K) (v : Fin 3 → K), T g (c • v) = c • T g v := by
   intro c v
   rw [T_smul hC g c v, show Tsigma hC g = 1 from hg]
   rfl
 
-private theorem Tmat_one (hC : Levi108 K L R N Y ρ μ T) :
+omit [Finite 𝓜] in
+private theorem Tmat_one (_hC : Levi108 K L R N Y ρ μ T) :
     Tmat T (1 : ↥(NLY L Y)) = 1 := by
   ext i j
   show T 1 (Pi.single j (1 : K)) i = (1 : Matrix (Fin 3) (Fin 3) K) i j
   rw [map_one]
   simp [Pi.single_apply, Matrix.one_apply]
 
+omit [Finite 𝓜] in
 private theorem Tmat_det_ne_zero (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L Y))
     (hg : Tsig hC g = 1) : (Tmat T g).det ≠ 0 := by
   have hg' : Tsig hC g⁻¹ = 1 := by rw [map_inv, hg, inv_one]
@@ -543,6 +577,7 @@ private theorem Tmat_det_ne_zero (hC : Levi108 K L R N Y ρ μ T) (g : ↥(NLY L
   rw [h0, zero_mul] at hdet
   exact zero_ne_one hdet
 
+omit [Finite 𝓜] in
 private theorem beta_mul (hC : Levi108 K L R N Y ρ μ T) {a b : ↥(NLY L Y)}
     (ha : Tsig hC a = 1) (hb : Tsig hC b = 1) :
     Tmat T (a * b) 0 0 = Tmat T a 0 0 * Tmat T b 0 0 := by
@@ -621,11 +656,13 @@ private theorem commutator_sup_sup_le {G : Type} [Group G] {P D : Subgroup G}
   rw [Subgroup.map_commutator, e1, e2] at h3
   exact h3
 
-private theorem Nfrak_le_range (hC : Levi108 K L R N Y ρ μ T) :
+omit [Finite 𝓜] in
+private theorem Nfrak_le_range (_hC : Levi108 K L R N Y ρ μ T) :
     Nfrak L Y ≤ (mkN L Y).range := by
   rintro x ⟨g, hg, rfl⟩
   exact ⟨⟨(g : 𝓜), g.2, Subgroup.mem_subgroupOf.mp hg⟩, rfl⟩
 
+omit [Finite 𝓜] in
 private theorem comap_mkN_le_ker_Tsig (hC : Levi108 K L R N Y ρ μ T)
     {J : Subgroup (GG L)} (hJ : J ≤ Nfrak L Y) (hJp : ⁅J, J⁆ = J) :
     J.comap (mkN L Y) ≤ (Tsig hC).ker := by
@@ -662,6 +699,7 @@ private theorem comap_mkN_le_ker_Tsig (hC : Levi108 K L R N Y ρ μ T)
   rw [ker_mkN] at hgc
   exact sup_le hcomm hL hgc
 
+omit [Finite 𝓜] in
 private theorem good_commutator (hC : Levi108 K L R N Y ρ μ T) {J : Subgroup (GG L)}
     (hker : J.comap (mkN L Y) ≤ (Tsig hC).ker) :
     ⁅J.comap (mkN L Y), J.comap (mkN L Y)⁆ ≤
@@ -689,6 +727,7 @@ private theorem good_commutator (hC : Levi108 K L R N Y ρ μ T) {J : Subgroup (
     rw [h1, map_commutatorElement]
     exact commutatorElement_eq_one_iff_mul_comm.mpr (mul_comm _ _)
 
+omit [Finite 𝓜] in
 private theorem Tmat_of_mem_L (hC : Levi108 K L R N Y ρ μ T) {l : ↥(NLY L Y)}
     (hl : (l : 𝓜) ∈ L) :
     ∃ u : Fin 3 → K, u 0 = 0 ∧ Tmat T l = 1 + Matrix.vecMulVec (e₀ K) u ∧
@@ -698,15 +737,16 @@ private theorem Tmat_of_mem_L (hC : Levi108 K L R N Y ρ μ T) {l : ↥(NLY L Y)
   have hmat : Tmat T l = 1 + Matrix.vecMulVec (e₀ K) u := by
     ext i j
     rw [show Tmat T l i j = T l (Pi.single j (1 : K)) i from rfl, hC.T_rho l hlR, hu]
-    simp [Matrix.mulVec_single_one, Matrix.col_apply]
+    simp [Matrix.col_apply]
   refine ⟨u, hu0, hmat, ?_, ?_⟩
   · rw [hmat]
-    simp [Matrix.add_apply, Matrix.one_apply, Matrix.vecMulVec, e₀, Pi.single_apply, hu0]
+    simp [Matrix.add_apply, Matrix.vecMulVec, e₀, Pi.single_apply, hu0]
   · ext i j
     rw [show Tblock T l i j = Tmat T l i.succ j.succ from rfl, hmat]
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.add_apply, Matrix.one_apply, Matrix.vecMulVec, e₀, Pi.single_apply]
+      simp [Matrix.add_apply, Matrix.vecMulVec, e₀, Pi.single_apply]
 
+omit [Finite 𝓜] in
 private theorem good_L (hC : Levi108 K L R N Y ρ μ T) :
     L.subgroupOf (NLY L Y) ≤
       (Tsig hC).ker ⊓
@@ -746,6 +786,7 @@ private theorem good_L (hC : Levi108 K L R N Y ρ μ T) :
     rw [hdet, hl00, hblk, Matrix.det_one, mul_one]
   exact ⟨hlker, Subgroup.mem_map.mpr ⟨⟨l, hlker⟩, ⟨hβ, hd⟩, rfl⟩⟩
 
+omit [Finite 𝓜] in
 private theorem comap_mkN_le_good (hC : Levi108 K L R N Y ρ μ T)
     {J : Subgroup (GG L)} (hJ : J ≤ Nfrak L Y) (hJp : ⁅J, J⁆ = J) :
     J.comap (mkN L Y) ≤
@@ -771,7 +812,8 @@ private theorem comap_mkN_le_good (hC : Levi108 K L R N Y ρ μ T)
   rw [ker_mkN] at hgc
   exact sup_le (good_commutator hC hker) (good_L hC) hgc
 
-private theorem T_pow_linear (hC : Levi108 K L R N Y ρ μ T) {x : ↥(NLY L Y)}
+omit [Finite 𝓜] in
+private theorem T_pow_linear (_hC : Levi108 K L R N Y ρ μ T) {x : ↥(NLY L Y)}
     (hx_lin : ∀ (c : K) (v : Fin 3 → K), T x (c • v) = c • T x v) :
     ∀ (m : ℕ) (c : K) (v : Fin 3 → K), (T x ^ m) (c • v) = c • (T x ^ m) v := by
   intro m
@@ -783,6 +825,7 @@ private theorem T_pow_linear (hC : Levi108 K L R N Y ρ μ T) {x : ↥(NLY L Y)}
     show (T x ^ m) ((T x) (c • v)) = c • (T x ^ m) ((T x) v)
     rw [hx_lin c v, ih c ((T x) v)]
 
+omit [Finite 𝓜] in
 private theorem T_pow_eigen (hC : Levi108 K L R N Y ρ μ T) {x : ↥(NLY L Y)} {β α : K}
     (hx_lin : ∀ (c : K) (v : Fin 3 → K), T x (c • v) = c • T x v)
     (hx_diag : Tmat T x = Matrix.diagonal (fun i : Fin 3 => if i = 0 then β else α)) :
@@ -793,13 +836,13 @@ private theorem T_pow_eigen (hC : Levi108 K L R N Y ρ μ T) {x : ↥(NLY L Y)} 
     rw [Tmat_mulVec_of_linear hC hx_lin, hx_diag]
     funext i
     fin_cases i <;>
-      simp [Matrix.mulVec, Matrix.diagonal_apply, e₀, Pi.single_apply, Fin.sum_univ_three]
+      simp [Matrix.mulVec, Matrix.diagonal_apply, e₀]
   have heig1 : T x (Pi.single 1 (1 : K) : Fin 3 → K) =
       α • (Pi.single 1 (1 : K) : Fin 3 → K) := by
     rw [Tmat_mulVec_of_linear hC hx_lin, hx_diag]
     funext i
     fin_cases i <;>
-      simp [Matrix.mulVec, Matrix.diagonal_apply, e₀, Pi.single_apply, Fin.sum_univ_three]
+      simp [Matrix.mulVec, Matrix.diagonal_apply]
   have hlin := T_pow_linear hC hx_lin
   constructor
   · intro m
@@ -817,6 +860,7 @@ private theorem T_pow_eigen (hC : Levi108 K L R N Y ρ μ T) {x : ↥(NLY L Y)} 
       show (T x ^ m) ((T x) (Pi.single 1 (1 : K))) = α ^ (m + 1) • Pi.single 1 (1 : K)
       rw [heig1, hlin m α (Pi.single 1 (1 : K)), ih, smul_smul, pow_succ, mul_comm]
 
+omit [Finite 𝓜] in
 private theorem T_fixes_of_mem_L (hC : Levi108 K L R N Y ρ μ T) {z : ↥(NLY L Y)}
     (hz : (z : 𝓜) ∈ L) :
     T z (e₀ K) = e₀ K ∧ (T z (Pi.single 1 (1 : K) : Fin 3 → K)) 1 = 1 := by
@@ -825,17 +869,18 @@ private theorem T_fixes_of_mem_L (hC : Levi108 K L R N Y ρ μ T) {z : ↥(NLY L
   have hρ : (ρ ⟨(z : 𝓜), hzR⟩ : Matrix (Fin 3) (Fin 3) K) = Tmat T z := by
     ext i j
     rw [show Tmat T z i j = T z (Pi.single j (1 : K)) i from rfl, hC.T_rho z hzR]
-    simp [Matrix.mulVec_single_one, Matrix.col_apply]
+    simp [Matrix.col_apply]
   constructor
   · rw [hC.T_rho z hzR, hρ, hmat]
     funext i
     fin_cases i <;>
       simp [Matrix.mulVec, Matrix.add_apply, Matrix.one_apply, Matrix.vecMulVec, e₀,
-        Pi.single_apply, Fin.sum_univ_three, hu0]
+        Pi.single_apply, hu0]
   · rw [hC.T_rho z hzR, hρ, hmat]
     simp [Matrix.mulVec, Matrix.add_apply, Matrix.one_apply, Matrix.vecMulVec, e₀,
-      Pi.single_apply, Fin.sum_univ_three]
+      Pi.single_apply]
 
+omit [Finite 𝓜] in
 private theorem T_eq_one_of_diag (hC : Levi108 K L R N Y ρ μ T) {x : ↥(NLY L Y)} {β α : K}
     (hx_lin : ∀ (c : K) (v : Fin 3 → K), T x (c • v) = c • T x v)
     (hx_diag : Tmat T x = Matrix.diagonal (fun i : Fin 3 => if i = 0 then β else α))
@@ -844,11 +889,12 @@ private theorem T_eq_one_of_diag (hC : Levi108 K L R N Y ρ μ T) {x : ↥(NLY L
     rw [hx_diag]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.diagonal_apply, Matrix.one_apply, hβ1, hα1]
+      simp [hβ1, hα1]
   refine AddMonoidHom.ext fun v => ?_
   change (T x : (Fin 3 → K) →+ (Fin 3 → K)) v = v
   rw [Tmat_mulVec_of_linear hC hx_lin v, hTmat1, Matrix.one_mulVec]
 
+omit [Finite 𝓜] in
 private theorem T_pow_mem_N (hC : Levi108 K L R N Y ρ μ T) {x : ↥(NLY L Y)} (n : ℕ)
     (hxL : ((x ^ 2 ^ n : ↥(NLY L Y)) : 𝓜) ∈ L) (hTx : T x = 1) :
     ((x ^ 2 ^ n : ↥(NLY L Y)) : 𝓜) ∈ N := by
@@ -871,7 +917,8 @@ private theorem T_pow_mem_N (hC : Levi108 K L R N Y ρ μ T) {x : ↥(NLY L Y)} 
   rw [hC.ker_rho] at hmem
   exact Subgroup.mem_subgroupOf.mp hmem
 
-private theorem mem_Yhat_of_mem_N (hC : Levi108 K L R N Y ρ μ T) {x : ↥(NLY L Y)} {k : GG L}
+omit [Finite 𝓜] in
+private theorem mem_Yhat_of_mem_N (_hC : Levi108 K L R N Y ρ μ T) {x : ↥(NLY L Y)} {k : GG L}
     (hx_k : mkN L Y x = k) (hxN : (x : 𝓜) ∈ N) : k ∈ Yhat L N := by
   rw [← hx_k, mkN_apply]
   exact Subgroup.mem_map.mpr ⟨⟨(x : 𝓜), x.2.1⟩, Subgroup.mem_subgroupOf.mpr hxN, rfl⟩
@@ -975,13 +1022,13 @@ private theorem exists_P0_preimage (hC : Levi108 K L R N Y ρ μ T) {y : ↥((Ts
   exact ⟨r₀, hrP0', hTrm⟩
 
 private theorem mkN_mem_sup_of_good (hC : Levi108 K L R N Y ρ μ T) {g : ↥(NLY L Y)}
-    (hgker : g ∈ (Tsig hC).ker)
+    (_hgker : g ∈ (Tsig hC).ker)
     (hgood : g ∈ (Tsig hC).ker ⊓
       (((betaHom hC).ker ⊓ (detHom hC).ker).map ((Tsig hC).ker).subtype)) :
     mkN L Y g ∈ P0frak L R ⊔ T.ker.map (mkN L Y) := by
   obtain ⟨y, hy, hyg⟩ := Subgroup.mem_map.mp hgood.2
   rw [← hyg]
-  clear hgker hgood hyg
+  clear _hgker hgood hyg
   have hyβ : Tmat T y.1 0 0 = 1 := by
     have h : betaHom hC y = 1 := hy.1
     have h' := congrArg (fun u : Kˣ => (u : K)) h

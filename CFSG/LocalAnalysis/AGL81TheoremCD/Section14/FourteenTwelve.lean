@@ -51,6 +51,7 @@ noncomputable def actPerm {K : Subgroup G} (e : threeStar K ≃* alternatingGrou
         (by norm_num))).symm.toMonoidHom.comp
     ((MulAut.congr e).toMonoidHom.comp (actStar K))
 
+omit [Finite G] in
 theorem conjNormal_actPerm {K : Subgroup G} (e : threeStar K ≃* alternatingGroup (Fin 11))
     (n : ↥(Subgroup.normalizer (K : Set G))) :
     MulAut.conjNormal (H := alternatingGroup (Fin 11)) (actPerm e n) =
@@ -69,6 +70,7 @@ private theorem conjNormal_coe_eq_conj (q : alternatingGroup (Fin 11)) :
   ext z
   rfl
 
+omit [Finite G] in
 theorem actPerm_of_mem {K : Subgroup G} (e : threeStar K ≃* alternatingGroup (Fin 11))
     (n : ↥(Subgroup.normalizer (K : Set G))) (hn : (n : G) ∈ K) :
     actPerm e n = ((e (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K) ⟨(n : G), hn⟩) :
@@ -97,6 +99,7 @@ theorem actPerm_of_mem {K : Subgroup G} (e : threeStar K ≃* alternatingGroup (
   rw [hstar, hcongr]
   exact (conjNormal_coe_eq_conj (e q)).symm
 
+omit [Finite G] in
 theorem actStar_eq_one_of_actPerm_eq_one {K : Subgroup G}
     (e : threeStar K ≃* alternatingGroup (Fin 11)) {n : ↥(Subgroup.normalizer (K : Set G))}
     (h : actPerm e n = 1) : actStar K n = 1 := by
@@ -109,12 +112,13 @@ theorem actStar_eq_one_of_actPerm_eq_one {K : Subgroup G}
     exact hcongr
   exact (MulAut.congr e).injective h1
 
+omit [Finite G] in
 theorem actStar_eq_one_of_forall_commutator_mem {J : Subgroup G}
     (n : ↥(Subgroup.normalizer (J : Set G)))
     (h : ∀ x ∈ J, ⁅x, (n : G)⁆ ∈ (CFSG.pPrimeCore 3 ↥J).map J.subtype) :
     actStar J n = 1 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup G := (CFSG.pPrimeCore 3 ↥J).map J.subtype
   have hsubeq : O.subgroupOf J = CFSG.pPrimeCore 3 ↥J := by
     change ((CFSG.pPrimeCore 3 ↥J).map J.subtype).comap J.subtype = _
@@ -135,6 +139,7 @@ theorem actStar_eq_one_of_forall_commutator_mem {J : Subgroup G}
     simpa using h1
   simpa using hinv
 
+omit [Finite G] in
 theorem map_actPerm_subgroupOf_eq_twoSet {K M : Subgroup G}
     (e : threeStar K ≃* alternatingGroup (Fin 11)) {i j : Fin 11}
     (hI : ((((K ⊓ M).subgroupOf K).map
@@ -252,12 +257,13 @@ theorem S14Choice.exists_char_normal_T {M H E Q : Subgroup G}
       (h.noXBlock_of_le hK hX hKX hXH h2X)
   exact ⟨C, hCne, hCT, hCchar, hKX.trans hKC⟩
 
+omit [Finite G] in
 theorem actPerm_eq_one_or_swap {K M R : Subgroup G}
     (e : threeStar K ≃* alternatingGroup (Fin 11)) {i j : Fin 11} (hij : i ≠ j)
     (hI : (((K ⊓ M).subgroupOf K).map
         (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K))).map e.toMonoidHom = a11TwoSetStab i j)
     (hR2 : IsPGroup 2 R) (hRinv : K ⊓ M ≤ Subgroup.normalizer (R : Set G))
-    (hRK : R ≤ Subgroup.normalizer (K : Set G))
+    (_hRK : R ≤ Subgroup.normalizer (K : Set G))
     {n : ↥(Subgroup.normalizer (K : Set G))} (hn : (n : G) ∈ R) :
     actPerm e n = 1 ∨ actPerm e n = Equiv.swap i j := by
   classical
@@ -349,6 +355,7 @@ theorem actPerm_eq_one_or_swap {K M R : Subgroup G}
     group
   exact eq_one_or_eq_swap_of_forall_conjNormal_eq hij hσcentral
 
+omit [Finite G] in
 theorem IsMaxInvariantTwoIn.le_of_isPGroup {A R H P : Subgroup G}
     (hR : IsMaxInvariantTwoIn A R H) (hP2 : IsPGroup 2 P) (hPH : P ≤ H)
     (hRP : R ≤ Subgroup.normalizer (P : Set G)) (hAP : A ≤ Subgroup.normalizer (P : Set G)) :
@@ -363,7 +370,7 @@ theorem IsMaxInvariantTwoIn.le_of_isPGroup {A R H P : Subgroup G}
   exact le_sup_right.trans (le_of_eq hsup)
 
 theorem S14Choice.pCoreOf_two_le_of_isMaxInvariantTwoIn {M H E Q J R : Subgroup G}
-    (h : S14Choice G M H E Q J) (hR : IsMaxInvariantTwoIn (kSub 3 M H ⊓ M) R H) :
+    (_h : S14Choice G M H E Q J) (hR : IsMaxInvariantTwoIn (kSub 3 M H ⊓ M) R H) :
     pCoreOf 2 H ≤ R := by
   classical
   let A : Subgroup G := kSub 3 M H ⊓ M
@@ -380,7 +387,7 @@ theorem S14Choice.pCoreOf_two_kSub_eq_caseTwo {M H E Q : Subgroup G}
     (h : S14Choice G M H E Q (kSub 3 M H)) (h2 : CaseTwo M H) :
     pCoreOf 2 (kSub 3 M H) = (CFSG.pPrimeCore 3 ↥(kSub 3 M H)).map (kSub 3 M H).subtype := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   have hq : CFSG.IsQuasisimple (↥K ⧸ CFSG.pCore 2 ↥K) := h.J_comp.2.2.1
   have hA11 : Nonempty (↥K ⧸ CFSG.pPrimeCore 3 ↥K ≃* alternatingGroup (Fin 11)) := by
@@ -392,7 +399,7 @@ theorem S14Choice.pCoreOf_two_kSub_eq_caseTwo {M H E Q : Subgroup G}
 theorem S14Choice.pCoreOf_two_kSub_le {M H E Q J : Subgroup G} (h : S14Choice G M H E Q J)
     (hK : KNormalAt M) : pCoreOf 2 (kSub 3 M H) ≤ pCoreOf 2 H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K : Subgroup G := kSub 3 M H
   have hKleH : K ≤ H := kSub_le 3 M H
   have hKH : H ≤ Subgroup.normalizer (K : Set G) := hK 3 E H h.hypCGen
@@ -414,7 +421,7 @@ theorem actPermSup_ker_eq {K R : Subgroup G} (e : threeStar K ≃* alternatingGr
     (hO : pCoreOf 2 K = (CFSG.pPrimeCore 3 ↥K).map K.subtype) :
     (actPermSup e hRK).ker = (pCoreOf 2 (K ⊔ R)).subgroupOf (K ⊔ R) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X : Subgroup G := K ⊔ R
   let φ : ↥X →* Equiv.Perm (Fin 11) := actPermSup e hRK
   have hbij := CFSG.GroupTheory.AutAlternating.aut_alternatingGroup_bijective_conj 11
@@ -558,6 +565,7 @@ theorem actPermSup_ker_eq {K R : Subgroup G} (e : threeStar K ≃* alternatingGr
       ⟨(y : G), hyn⟩ from Subtype.ext rfl]
     exact hperm
 
+omit [Finite G] in
 theorem actPermSup_surjective {K R : Subgroup G} (e : threeStar K ≃* alternatingGroup (Fin 11))
     (hRK : R ≤ Subgroup.normalizer (K : Set G)) {i j : Fin 11} (hij : i ≠ j)
     {r : G} (hr : r ∈ R) (hτ : actPerm e ⟨r, hRK hr⟩ = Equiv.swap i j) :
@@ -595,6 +603,7 @@ theorem actPermSup_surjective {K R : Subgroup G} (e : threeStar K ≃* alternati
     rw [map_mul, hu, hτm]
     group
 
+omit [Finite G] in
 theorem map_actPermSup_normalizer_eq {K R : Subgroup G}
     (e : threeStar K ≃* alternatingGroup (Fin 11)) (hRK : R ≤ Subgroup.normalizer (K : Set G))
     {i j : Fin 11} (hij : i ≠ j)

@@ -42,8 +42,8 @@ theorem ordA_ne_alt7 {n f : ℕ} (hn : 2 ≤ n) (hf : 1 ≤ f)
 theorem ordTwistedA_ne_alt7 {n f : ℕ} (hn : 3 ≤ n) (hf : 1 ≤ f)
     (h : f * ((n - 1) * n / 2) ≤ 3) : CFSG.Open.ordTwistedA (n - 1) (2 ^ f) ≠ 2520 := by
   have hn3 : n ≤ 3 := le_three_of_tri_le (le_three_of_mul_le hf h)
-  interval_cases n <;> norm_num at h <;> have hf3 : f ≤ 3 := by omega
-  all_goals interval_cases f <;> first | omega | decide +kernel
+  interval_cases n; norm_num at h; have hf3 : f ≤ 3 := by omega
+  all_goals interval_cases f; first | omega | decide +kernel
 
 theorem bc_false {n f : ℕ} (hn : 2 ≤ n) (hf : 1 ≤ f) (h : f * (n * n) ≤ 3) : False := by
   have h1 : 2 * 2 ≤ n * n := Nat.mul_le_mul hn hn

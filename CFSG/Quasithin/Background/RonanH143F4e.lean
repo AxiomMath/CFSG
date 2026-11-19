@@ -116,7 +116,7 @@ theorem ker_psiA' :
     simpa using h
 
 theorem NQ_le_closure : NQ ≤ Subgroup.closure ((NQ : Set P24) ∪ {g1Perm, a2Perm}) :=
-  fun x hx => Subgroup.subset_closure (Or.inl hx)
+  fun _x hx => Subgroup.subset_closure (Or.inl hx)
 
 theorem g1_mem_closure : g1Perm ∈ Subgroup.closure ((NQ : Set P24) ∪ {g1Perm, a2Perm}) :=
   Subgroup.subset_closure (Or.inr (by simp))
@@ -240,8 +240,8 @@ theorem NQ_le_ker_piA :
 theorem ker_piA :
     (piA).ker = NQ.subgroupOf Asgn := by
   apply le_antisymm _ NQ_le_ker_piA
-  haveI : (piA).ker.Normal := MonoidHom.normal_ker piA
-  haveI : ((piA).ker.map psiA').Normal := Subgroup.Normal.map this psiA' psiA'_surjective
+  have : (piA).ker.Normal := MonoidHom.normal_ker piA
+  have : ((piA).ker.map psiA').Normal := Subgroup.Normal.map this psiA' psiA'_surjective
   rcases alternatingGroup.normal_subgroup_eq_bot_or_eq_top (α := Fin 5) (by simp)
     (N := (piA).ker.map psiA') with hb | ht
   · intro c hc

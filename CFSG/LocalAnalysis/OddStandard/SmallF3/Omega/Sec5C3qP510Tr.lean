@@ -35,6 +35,7 @@ private lemma sec5p510_weight_four_eq (v : Fin 6 → ZMod 2) (hv : vecWeight v =
   revert v
   decide +kernel
 
+omit [Finite G] in
 private lemma sec5p510_conj_mem_conjClassIn {x m : G}
     (hx : x ∈ conjClassIn (normalizer (A : Set G)) t)
     (hm : m ∈ normalizer (A : Set G)) :
@@ -72,7 +73,7 @@ private theorem sec5p510_W1_two_trans_aux (h : Sec510Ctx G t L S z r ρ B A φ)
     intro hij
     exact hxy' (by rw [hij])
   have h2 : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin 6)) (Fin 6) 2 := by
-    haveI h4 : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin 6)) (Fin 6) 4 := by
+    have h4 : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin 6)) (Fin 6) 4 := by
       simpa [Nat.card_fin] using alternatingGroup.isMultiplyPretransitive (α := Fin 6)
     exact MulAction.isMultiplyPretransitive_of_le (m := 2) (n := 4) (by norm_num) (by norm_num)
   obtain ⟨σ, hσi, hσj⟩ := (MulAction.is_two_pretransitive_iff.mp h2) hij hij'

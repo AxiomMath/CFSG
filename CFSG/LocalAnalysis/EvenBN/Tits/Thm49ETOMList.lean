@@ -29,7 +29,7 @@ theorem tau_mem_GammaH : tauH ∈ GammaH := by
   simp only [GammaH, Am, Subgroup.mem_inf, Subgroup.mem_prod, Subgroup.mem_centralizer_iff,
     Set.mem_singleton_iff, forall_eq]
   refine ⟨⟨Subgroup.mem_top _, ?_⟩, ?_⟩
-  · simpa [tauH] using (one_mem titsA)
+  · simp [tauH]
   · exact Prod.ext (by simp [tauH, inA]) (by simp [tauH, inA])
 
 end CFSG.LocalAnalysis.EvenBN.Tits.Thm49E

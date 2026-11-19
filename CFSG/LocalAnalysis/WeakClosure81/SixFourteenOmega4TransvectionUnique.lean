@@ -50,7 +50,7 @@ lemma eq_scalar_of_mul_right_eq_id {A B : M₄} (hAB : A * B = 1)
   rw [← hα, Matrix.scalar_apply, Matrix.smul_one_eq_diagonal]
 
 lemma pow_four_eq_one {c : F₄} (hc : c ≠ 0) (h : c ^ 4 = 1) : c = 1 := by
-  letI : Fintype F₄ := Fintype.ofFinite F₄
+  let : Fintype F₄ := Fintype.ofFinite F₄
   have h3 : c ^ 3 = 1 := by
     have h' := FiniteField.pow_card_sub_one_eq_one c hc
     have hcard : Fintype.card F₄ = 4 := by
@@ -140,7 +140,7 @@ lemma preserve_form_constraints
   exact ⟨hc1, hA1, hB1⟩
 
 lemma transpose_form_constraints
-    (A B : M₄) (c : F₄) (hc : c ≠ 0) (hA : Matrix.det A = 1) (hB : Matrix.det B = 1)
+    (A B : M₄) (c : F₄) (_hc : c ≠ 0) (hA : Matrix.det A = 1) (hB : Matrix.det B = 1)
     (h : ∀ X : M₄, c ^ 2 • ((A * B) * X * Matrix.transpose (B * A)) = X) :
     c = 1 ∧ B = A⁻¹ := by
   let A' : M₄ := c ^ 2 • (A * B)
@@ -532,7 +532,7 @@ lemma exists_P_eq_rho_trn {t : MulAut (VM F₄)}
     apply eq_of_addMap
     intro X
     rw [hB' X, hc1, one_smul, hBinv]
-    simp [A, B, addMap_mul, addMap_rho, addMap_trn]
+    simp [A, addMap_mul, addMap_rho, addMap_trn]
 
 lemma coe_mul_coe_inv (P : SL₂ F₄) :
     (P : M₄) * ((P⁻¹ : SL₂ F₄) : M₄) = 1 := by

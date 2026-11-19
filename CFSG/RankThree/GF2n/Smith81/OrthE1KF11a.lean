@@ -33,10 +33,12 @@ lemma mat_neg_eq {ι : Type} [Fintype ι] [DecidableEq ι] (X : Matrix ι ι K) 
     -X = X :=
   (eq_neg_of_add_eq_zero_left (mat_add_self X)).symm
 
+omit [CharP K 2] in
 lemma dot_transpose_left {ι : Type} [Fintype ι] [DecidableEq ι] (H : Matrix ι ι K)
     (v X : ι → K) : (H *ᵥ v) ⬝ᵥ X = v ⬝ᵥ (Matrix.transpose H *ᵥ X) := by
   rw [dotProduct_comm, Matrix.dotProduct_mulVec, ← Matrix.mulVec_transpose, dotProduct_comm]
 
+omit [CharP K 2] in
 lemma dot_alt (v : Fin 2 ⊕ Fin 2 → K) :
     v ⬝ᵥ (Matrix.fromBlocks 0 1 (-1) 0 *ᵥ v) = 0 := by
   simp [dotProduct, Matrix.mulVec, Fintype.sum_sum_type, Matrix.fromBlocks]
@@ -103,7 +105,7 @@ lemma core_iso [Finite K] (Q T : Matrix ι ι K) (hQ : Matrix.transpose Q = Q)
     intro h
     rw [h, finrank_top, hfin] at hSfin
     omega
-  obtain ⟨w2, -, hw2S⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr hSne)
+  obtain ⟨w2, -, hw2S⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hSne)
   have hw2L : w2 ∉ L := fun h => hw2S (Submodule.mem_sup_left h)
   obtain ⟨x0, hx0q, hx0L⟩ : ∃ x0 : ι → K, x0 ⬝ᵥ (Q *ᵥ x0) = 0 ∧ Q *ᵥ x0 ≠ 0 := by
     by_cases hb : w2 ⬝ᵥ (Q *ᵥ w2) = 0
@@ -195,7 +197,7 @@ lemma core_iso [Finite K] (Q T : Matrix ι ι K) (hQ : Matrix.transpose Q = Q)
         α * β' + β * α' + β * β' * (y ⬝ᵥ (Q *ᵥ y)) := by
     intro α β α' β' l l' hl hl'
     simp only [Matrix.mulVec_add, Matrix.mulVec_smul, add_dotProduct, dotProduct_add,
-      smul_dotProduct, dotProduct_smul, hl', Matrix.mulVec_zero, dotProduct_zero, add_zero,
+      smul_dotProduct, dotProduct_smul, hl', add_zero,
       smul_eq_mul, hx0q, hxy, hyx, hradL l hl x0, hradL l hl y]
     ring
   have hc : y ⬝ᵥ (Q *ᵥ y) ≠ 0 := by

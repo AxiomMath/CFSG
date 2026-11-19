@@ -33,7 +33,7 @@ private theorem perfectInLayer_of_normal_commutator_quasisimple {S : Type*} [Gro
     calc P = ⁅P, P⁆ := hP.symm
       _ ≤ ⁅J, J⁆ := Subgroup.commutator_mono hPJ hPJ
   have hDJ : ⁅J, J⁆ ≤ J := Subgroup.commutator_le_self J
-  haveI : (⁅J, J⁆.subgroupOf J).Normal :=
+  have : (⁅J, J⁆.subgroupOf J).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (Subgroup.normalizer_commutator_ge_left J J)
   exact hPD.trans
     (le_sSup (isComponentOf_of_normal_normal hDJ hJC inferInstance inferInstance hDq))
@@ -185,7 +185,7 @@ private theorem perfectInLayer_entrywiseAdjointAut_G2_two (σ : K ≃+* K)
     refine isQuasisimple_of_isSimpleGroup e.symm.isSimpleGroup ?_
     obtain ⟨x, y, hxy⟩ := hDnc
     exact ⟨e x, e y, fun h => hxy (e.injective (by simpa using h))⟩
-  haveI := hJn
+  have := hJn
   exact perfectInLayer_of_normal_commutator_quasisimple hJC hsol hDq
 
 private theorem perfectInLayer_entrywiseAdjointAut (τ : Tag) (σ : K ≃+* K) :
@@ -227,7 +227,7 @@ private theorem exists_conj_eq_entrywiseAdjointAut (τ : Tag) {p : ℕ} (hp : p.
     intro h
     rw [hαdef, MulAut.mul_apply, MulAut.conj_apply, Subgroup.coe_mul, Subgroup.coe_mul,
       Subgroup.coe_inv, coe_exactNormalAut, exactQ_zero]
-    simp only [w, mul_inv_rev, one_mul, inv_one, mul_one]
+    simp only [w, mul_inv_rev, inv_one, mul_one]
     group
   let ιC : adjointGroup τ K → inndiagGroup τ K := fun h => ⟨h, adjointGroup_le_inndiagGroup h.2⟩
   obtain ⟨X, hXdef⟩ : ∃ X : MulAut (inndiagGroup τ K),

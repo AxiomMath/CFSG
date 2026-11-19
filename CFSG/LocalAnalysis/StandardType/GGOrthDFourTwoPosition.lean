@@ -34,20 +34,20 @@ theorem eq_bot_of_full_of_card_two {F : Type*} [Field F] [Finite F] (hF : Nat.ca
     (hT : IsPGroup 2 ↥T) (hN : ∀ e ∈ E, ∀ t ∈ T, e * t * e⁻¹ ∈ T)
     (hcard : 3 ^ (finrank F V / 2) ≤ Nat.card E) : T = ⊥ := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime (by rw [Fintype.card_eq_nat_card, hF])
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime (by rw [Fintype.card_eq_nat_card, hF])
   let φ : ZMod 2 →+* F := ZMod.castHom (dvd_refl 2) F
   have hφ : Function.Bijective φ := by
     refine (Fintype.bijective_iff_injective_and_card φ).mpr ⟨φ.injective, ?_⟩
     rw [ZMod.card, Fintype.card_eq_nat_card, hF]
   let e : ZMod 2 ≃+* F := RingEquiv.ofBijective φ hφ
   have he : ∀ c, e.symm (φ c) = c := fun c => e.symm_apply_apply c
-  letI : Module (ZMod 2) V := Module.compHom V φ
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+  let : Module (ZMod 2) V := Module.compHom V φ
+  have : Finite V := Module.finite_of_finite F
+  have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have hfin : finrank (ZMod 2) V = finrank F V := by
-    haveI : Fintype V := Fintype.ofFinite V
+    have : Fintype V := Fintype.ofFinite V
     have h1 : 2 ^ finrank (ZMod 2) V = Nat.card V := FiniteField.pow_finrank_eq_natCard 2 V
     have h2 : Fintype.card V = Fintype.card F ^ finrank F V := Module.card_eq_pow_finrank
     rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, hF] at h2
@@ -102,7 +102,7 @@ theorem exists_full_quadratic_image_of_D4two_marking {G : Type} [Group G] [Finit
     (hN : Bs ≤ Subgroup.normalizer (L : Set G)) (hact : ∃ b : ↥Bs, ggGamma L hN b ≠ 1) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (_ : CharP F 2)
       (V : Type) (_ : AddCommGroup V) (_ : Module F V) (_ : FiniteDimensional F V) (_ : Nontrivial V)
-      (Q : QuadraticForm F V) (hQ : Q.polarBilin.Nondegenerate)
+      (Q : QuadraticForm F V) (_hQ : Q.polarBilin.Nondegenerate)
       (σ : (↥L ⧸ Subgroup.center ↥L) ≃* ↥(orthDerived Q))
       (ρ : Bs →* (↥L ⧸ Subgroup.center ↥L)),
       Nat.card F = 2 ∧ finrank F V = 2 * 4 ∧
@@ -111,23 +111,23 @@ theorem exists_full_quadratic_image_of_D4two_marking {G : Type} [Group G] [Finit
       ∀ (b : ↥Bs) (z : ↥L), (QuotientGroup.mk (ggGamma L hN b z) : ↥L ⧸ Subgroup.center ↥L) =
         ρ b * QuotientGroup.mk z * (ρ b)⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmarkK : GGInnerDiagOn Bs L :=
     largeEvenMarking_mono (fun _ _ _ _ _ _ hP => hP.2) hmark
   have hperf : commutator ↥L = ⊤ := hmark.1
   obtain ⟨lab, hΛ, hhas, R, hRgrp, I, F', θ, hPm⟩ := largeEvenMarking_exists_hasLabel hmark
   obtain ⟨⟨⟨htagD, -, -, hpd⟩, hn1, hr4⟩, -, -⟩ := hPm
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
-  obtain ⟨F, hField, hFinite, hChar, V, hAdd, hMod, hFinDim, hNontrivial, Q, hQ, eQ, ρ,
+  obtain ⟨F, hField, hFinite, hChar, V, hAdd, hMod, hFinDim, hNontrivial, Q, _hQ, eQ, ρ,
     hcard, -, hT, hdim, hplus, himage, hcompat0⟩ :=
     OrthKExactTwo.exists_quadratic_image_of_orthogonal_marking hRig hp2 hmarkK hBs hSC
       hΛ hhas (Or.inl htagD) hr4.ge
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
-  letI : AddCommGroup V := hAdd
-  letI : Module F V := hMod
-  letI : FiniteDimensional F V := hFinDim
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
+  let : AddCommGroup V := hAdd
+  let : Module F V := hMod
+  let : FiniteDimensional F V := hFinDim
   have hcard2 : Nat.card F = 2 := by rw [hcard, hn1, pow_one]
   have hdim8 : Module.finrank F V = 2 * 4 := by rw [hdim, hr4]
   have hpq : 3 ∣ Nat.card F + 1 := by rw [hcard2]
@@ -137,7 +137,7 @@ theorem exists_full_quadratic_image_of_D4two_marking {G : Type} [Group G] [Finit
     apply eQ.injective
     rw [hcompat0 b z, MulAut.conj_apply, map_mul, map_mul, map_inv]
   let σ : (↥L ⧸ Subgroup.center ↥L) ≃* ↥(orthDerived Q) :=
-    eQ.trans (CFSG.RankThree.PartOne.KFR4.orthDerivedEquivProj hQ).symm
+    eQ.trans (CFSG.RankThree.PartOne.KFR4.orthDerivedEquivProj _hQ).symm
   let EQ : Subgroup ↥(orthDerived Q) := ρ.range.map σ.toMonoidHom
   let A : Subgroup (V ≃ₗ[F] V) := EQ.map (orthDerived Q).subtype
   have hEimage : IsElemAbelian 3 EQ ∧
@@ -199,11 +199,11 @@ theorem exists_full_quadratic_image_of_D4two_marking {G : Type} [Group G] [Finit
     calc ggGamma L hN b z = z * (z⁻¹ * ggGamma L hN b z) := by group
       _ = z := by rw [h2, mul_one]
   obtain ⟨r, τ, hτ, hτr, -, -, -, -⟩ :=
-    exists_torus (K := F) (V := V) hp2 (Or.inr hpq) hQ hT hAΩ hApow hAcomm hmax hne
-  have hchar := charSum_top_modEq_one_of_witt hQ (r := 4) (by norm_num) hdim8 hpq
+    exists_torus (K := F) (V := V) hp2 (Or.inr hpq) _hQ hT hAΩ hApow hAcomm hmax hne
+  have hchar := charSum_top_modEq_one_of_witt _hQ (r := 4) (by norm_num) hdim8 hpq
     (Or.inl ⟨hplus.mpr htagD, even_two_mul 2⟩)
   have hr : Module.finrank F V = 2 * r :=
-    finrank_eq_two_mul_of_charSum hp2 (Or.inr hpq) hQ hT hAΩ hApow hAcomm hmax hne hτ hτr hchar
+    finrank_eq_two_mul_of_charSum hp2 (Or.inr hpq) _hQ hT hAΩ hApow hAcomm hmax hne hτ hτr hchar
   have hcardA : Nat.card A = 3 ^ 4 := by
     rw [← hτr, ← Nat.card_congr (MonoidHom.ofInjective hτ).toEquiv,
       Nat.card_fun, Nat.card_congr Multiplicative.toAdd, Nat.card_zmod, Nat.card_fin]
@@ -213,7 +213,7 @@ theorem exists_full_quadratic_image_of_D4two_marking {G : Type} [Group G] [Finit
     rw [← hcardA]
     exact (Subgroup.card_map_of_injective (orthDerived Q).subtype_injective).symm
   exact ⟨F, hField, hFinite, hChar, V, hAdd, hMod, hFinDim, hNontrivial,
-    Q, hQ, σ, ρ, hcard2, hdim8, hEimage.1, hcardE, hconjq⟩
+    Q, _hQ, σ, ρ, hcard2, hdim8, hEimage.1, hcardE, hconjq⟩
 
 theorem card_range_ggGamma_of_D4two_marking {G : Type} [Group G] [Finite G]
     {Bs L : Subgroup G} (hRig : GGLabelRigidInput) (hBs : IsElemAbelian 3 Bs)
@@ -225,12 +225,12 @@ theorem card_range_ggGamma_of_D4two_marking {G : Type} [Group G] [Finite G]
   obtain ⟨F, hField, hFinite, hChar, V, hAdd, hMod, hFinDim, hNontrivial, Q, hQ, σ, ρ,
       -, -, -, hcard, hconj⟩ :=
     exists_full_quadratic_image_of_D4two_marking hRig hBs hSC hmark hN hact
-  letI : Field F := hField
-  letI : Finite F := hFinite
-  letI : CharP F 2 := hChar
-  letI : AddCommGroup V := hAdd
-  letI : Module F V := hMod
-  letI : FiniteDimensional F V := hFinDim
+  let : Field F := hField
+  let : Finite F := hFinite
+  let : CharP F 2 := hChar
+  let : AddCommGroup V := hAdd
+  let : Module F V := hMod
+  let : FiniteDimensional F V := hFinDim
   have hmarkK : GGInnerDiagOn Bs L :=
     largeEvenMarking_mono (fun _ _ _ _ _ _ hP => hP.2) hmark
   have hZq := center_quotient_eq_bot_of_innerDiagOn hmarkK
@@ -346,7 +346,7 @@ private theorem card_eq_three_pow_of_orthTwo {p : ℕ} [Fact p.Prime] {F : Type}
     (hApow : ∀ a ∈ A, a ^ p = 1) (hAcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a)
     (hmax : ∀ g ∈ orthDerived Q, g ^ p = 1 → (∀ c ∈ A, g * c = c * g) → g ∈ A)
     (hne : ∃ b ∈ A, b ≠ 1) {lab : LargeEvenLabel}
-    (hrow : ggRowP_EOmP p lab ∨ ggRowP_EOmM p lab) (hn1 : lab.n = 1)
+    (hrow : ggRowP_EOmP p lab ∨ ggRowP_EOmM p lab) (_hn1 : lab.n = 1)
     (hdim : finrank F V = 2 * lab.rank) (hcard2 : Nat.card F = 2)
     (hplus : CFSG.GroupTheory.WeirSylow.IsPlusType Q ↔ lab.tag = .D) :
     Nat.card A = 3 ^ lab.rank := by
@@ -449,8 +449,8 @@ private theorem eq_bot_of_orthQuotImage {G : Type} [Group G] {F : Type} [Field F
   have hrefl : (QuadraticMap.polarBilin Q).IsRefl := fun x y h => by
     rw [QuadraticMap.polarBilin_apply_apply] at h ⊢
     rwa [QuadraticMap.polar_comm]
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) :=
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) :=
     Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V)) DFunLike.coe_injective
   exact eq_bot_of_full_of_card_two hcard2 (QuadraticMap.polarBilin Q) hQ hrefl
     (by rw [hdim]; exact even_two_mul lab.rank) ρ₁ hρ₁inj hρ₁
@@ -495,9 +495,9 @@ theorem le_centralizer_of_isPGroup_two_orthTwo {G : Type} [Group G] [Finite G] {
     hcard, -, hT, hdim, hplus, himage, hcompat0⟩ :=
     OrthKExactTwo.exists_quadratic_image_of_orthogonal_marking hRig hp2 hmarkK hBs hSC
       hΛ hhas htag hrank
-  letI : Field F := hField; letI : Finite F := hFinite; letI : CharP F 2 := hChar
-  letI : AddCommGroup V := hAdd; letI : Module F V := hMod
-  letI : FiniteDimensional F V := hFinDim
+  let : Field F := hField; let : Finite F := hFinite; let : CharP F 2 := hChar
+  let : AddCommGroup V := hAdd; let : Module F V := hMod
+  let : FiniteDimensional F V := hFinDim
   have hcard2 : Nat.card F = 2 := by rw [hcard, hn1, pow_one]
   have hpq : 3 ∣ Nat.card F + 1 := by rw [hcard2]
   have hconjq : ∀ (b : ↥Bs) (z : ↥L), (QuotientGroup.mk (ggGamma L hN b z) :

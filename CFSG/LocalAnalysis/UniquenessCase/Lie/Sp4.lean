@@ -76,7 +76,7 @@ variable (K) in
     fin_cases i <;> simp
   map_mul' s t := by
     ext i
-    fin_cases i <;> simp [mul_inv, mul_mul_mul_comm] <;> ring
+    fin_cases i <;> simp [mul_mul_mul_comm]; ring
 
 theorem uc22pwI2_sp4_tau_torus [CharP K 2] (t : Fin 2 → Kˣ) :
     CFSG.QuasithinUnique.Lin2.Five.tauSp (torusHom t) = torusHom (uc22pwI2Rho K t) := by
@@ -85,14 +85,14 @@ theorem uc22pwI2_sp4_tau_torus [CharP K 2] (t : Fin 2 → Kˣ) :
   ext r c
   fin_cases r <;> fin_cases c <;>
     simp [CFSG.QuasithinUnique.Lin2.Five.tauMat_apply, CFSG.QuasithinUnique.Lin2.Five.tauPair,
-      diagonal_apply, uc22pwI2Rho] <;> ring
+      uc22pwI2Rho]; ring
 
 theorem uc22pwI2_sp4_field_torus (σ : K ≃+* K) (t : Fin 2 → Kˣ) :
     fieldSp 2 K σ (torusHom t) = torusHom (fun i => Units.map (σ : K →* K) (t i)) := by
   apply statedSp_ext
   rw [coe_fieldSp, coe_torusHom, coe_torusHom]
   ext r c
-  fin_cases r <;> fin_cases c <;> simp [Matrix.diagonal_apply]
+  fin_cases r <;> fin_cases c <;> simp
 
 variable (K) in
 @[expose] def uc22pwI2WeylGL : GL (Fin 2 ⊕ Fin 2) K where
@@ -126,7 +126,7 @@ theorem uc22pwI2_weyl_inv_torus (t : Fin 2 → Kˣ) :
     ← map_inv, coe_torusHom, coe_torusHom]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two, Matrix.diagonal_apply]
+    simp [Matrix.mul_apply, Matrix.diagonal_apply]
 
 theorem uc22pwI2_weyl_not_mem_stabilizer_one :
     uc22pwI2Weyl K ∉ stabilizer 2 K (flag 2 K 1) := by

@@ -334,7 +334,6 @@ theorem le_sup_span_anisotropicPairs (hS : ∀ e₀, ¬S ≤ R ⊔ Submodule.spa
             RingHom.id_apply, huu, hvv, huv, hvu]
           rw [mul_zero, add_zero, zero_add, mul_one, mul_one]
           first
-          | exact hθ
           | exact hθ'
         · simp only [map_add, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
             RingHom.id_apply, huu, hvv, huv, hvu, hσ]
@@ -354,7 +353,6 @@ theorem le_sup_span_anisotropicPairs (hS : ∀ e₀, ¬S ≤ R ⊔ Submodule.spa
             RingHom.id_apply, huu, hvv, huv, hvu]
           rw [mul_zero, add_zero, zero_add, mul_one, mul_one]
           first
-          | exact hθ
           | exact hθ'
         · simp only [map_add, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
             RingHom.id_apply, huu, hvv, huv, hvu, hσ]

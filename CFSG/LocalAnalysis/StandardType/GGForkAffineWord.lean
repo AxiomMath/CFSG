@@ -92,6 +92,7 @@ private lemma sum_ggStepCoroot_eq (D : GGReflDatum p ι X) (k : N) (d : N → �
         rw [Finset.sum_ite_eq' Finset.univ k]
         simp
 
+omit [DecidableEq N] in
 private lemma root_apply_coroot_eq (D : GGReflDatum p ι X) (k : N) (c : N → ℤ)
     (f : Module.Dual (ZMod p) V) (hf : f = ∑ i, (c i : ZMod p) • D.root i) :
     f (D.coroot k) = ((∑ i, c i * X i k : ℤ) : ZMod p) := by
@@ -101,6 +102,7 @@ private lemma root_apply_coroot_eq (D : GGReflDatum p ι X) (k : N) (c : N → �
   rw [Int.cast_sum]
   exact Finset.sum_congr rfl fun i _ => by rw [Int.cast_mul]
 
+omit [DecidableEq N] in
 private lemma coroot_apply_root_eq (D : GGReflDatum p ι X) (k : N) (d : N → ℤ)
     (x : V) (hx : x = ∑ i, (d i : ZMod p) • D.coroot i) :
     D.root k x = ((∑ i, X k i * d i : ℤ) : ZMod p) := by

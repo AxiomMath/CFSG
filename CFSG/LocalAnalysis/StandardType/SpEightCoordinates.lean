@@ -96,7 +96,7 @@ theorem Jm_mulVec (v : Vec) :
   rw [fromBlocks_mulVec]
   ext (i | i)
   · simp [Matrix.zero_mulVec, Matrix.one_mulVec]
-  · simp only [Sum.elim_inr, Pi.add_apply, Matrix.zero_mulVec, Pi.zero_apply, zero_add,
+  · simp only [Sum.elim_inr, Matrix.zero_mulVec, zero_add,
       show (-1 : Matrix (Fin 4) (Fin 4) (ZMod 2)) = 1 from CharTwo.neg_eq 1,
       Matrix.one_mulVec, Function.comp_apply, add_zero]
 
@@ -106,11 +106,11 @@ theorem omega_coord (u v : Vec) :
   simp only [Sum.elim_inl, Sum.elim_inr]
 
 theorem omega_single_inl (k : Fin 4) (w : Vec) : omega (Pi.single (.inl k) 1) w = w (.inr k) := by
-  rw [omega_coord, Fintype.sum_eq_single k (fun j hj => by simp [Pi.single_apply, hj])]
+  rw [omega_coord, Fintype.sum_eq_single k (fun j hj => by simp [hj])]
   simp
 
 theorem omega_single_inr (k : Fin 4) (w : Vec) : omega (Pi.single (.inr k) 1) w = w (.inl k) := by
-  rw [omega_coord, Fintype.sum_eq_single k (fun j hj => by simp [Pi.single_apply, hj])]
+  rw [omega_coord, Fintype.sum_eq_single k (fun j hj => by simp [hj])]
   simp
 
 theorem omega_add_left (u u' v : Vec) : omega (u + u') v = omega u v + omega u' v := by
@@ -138,10 +138,10 @@ theorem eq_zero_of_omega_eq_zero {v : Vec} (h : ∀ u, omega v u = 0) : v = 0 :=
   funext i
   rcases i with k | k
   · have h1 := h (Pi.single (.inr k) 1)
-    rw [omega_coord, Fintype.sum_eq_single k (fun j hj => by simp [Pi.single_apply, hj])] at h1
+    rw [omega_coord, Fintype.sum_eq_single k (fun j hj => by simp [hj])] at h1
     simpa using h1
   · have h1 := h (Pi.single (.inl k) 1)
-    rw [omega_coord, Fintype.sum_eq_single k (fun j hj => by simp [Pi.single_apply, hj])] at h1
+    rw [omega_coord, Fintype.sum_eq_single k (fun j hj => by simp [hj])] at h1
     simpa using h1
 
 theorem omega_eq_sum (u v : Vec) :
@@ -149,7 +149,7 @@ theorem omega_eq_sum (u v : Vec) :
   omega_coord u v
 
 theorem Q0_eq_sum (v : Vec) : Q0 v = ∑ k : Fin 4, v (.inl k) * v (.inr k) := by
-  simp only [Q0, StatedQuadPlus, CFSG.MatrixModel.plusQuadCore]
+  simp only [Q0, StatedQuadPlus]
 
 theorem Q0_add (u v : Vec) : Q0 (u + v) = Q0 u + Q0 v + omega u v := by
   have hR : Q0 u + Q0 v + omega u v =

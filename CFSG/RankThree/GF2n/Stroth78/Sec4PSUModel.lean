@@ -106,19 +106,19 @@ theorem not_isSymplecticType_DU (hm : 3 ≤ m) : ¬ IsSymplecticType (DU m) := b
   have hne : ∀ {j : Fin m} {t : K}, i₀ ≠ j → (Pi.single i₀ 1 + Pi.single j t : Fin m → K) ≠ 0 :=
     fun {j t} hj h => by
       have := congrFun h i₀
-      simp [Pi.single_apply, hj.symm] at this
+      simp [hj.symm] at this
   have hvd0 : vd ≠ 0 := hne h01
   have hve0 : ve ≠ 0 := hne h02
   have hvf0 : vf ≠ 0 := hne h01
   have hde : herm frob vd ve = 1 := by
     rw [herm_single_add_single_left]
-    simp [ve, Pi.single_apply, h01.symm, h12, h02]
+    simp [ve, h01.symm, h12, h02]
   have hfd : herm frob vf vd = 1 + frob ω := by
     rw [herm_single_add_single_left]
-    simp [vd, Pi.single_apply, h01.symm, h01]
+    simp [vd, h01.symm, h01]
   have hfe : herm frob vf ve = 1 := by
     rw [herm_single_add_single_left]
-    simp [ve, Pi.single_apply, h01.symm, h12, h02]
+    simp [ve, h01.symm, h12, h02]
   set u : Fin m → K := tvU vd • ve
   have hu : u = ve + vd := by
     simp only [u]

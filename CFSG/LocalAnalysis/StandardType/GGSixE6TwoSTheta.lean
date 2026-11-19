@@ -84,11 +84,11 @@ section Model
 
 theorem orderOf_xr (β : Fin CFSG.Blueprint.Chevalley.Tag.E6.rank → ℤ) :
     orderOf (xr β) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine orderOf_eq_prime ?_ ?_
   · rw [pow_two]
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_one, xr, Subtype.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_one, xr]
     rw [← CFSG.Blueprint.Chevalley.pinnedX_add,
       show (1 : CFSG.StandardType.GGHalf.F2) + 1 = 0 from by
         rw [← two_mul, CFSG.StandardType.GGHalf.gf2_two, zero_mul],
@@ -192,7 +192,7 @@ section STheta
 
 theorem sTheta_eq_zpowers_sup :
     sTheta = Subgroup.zpowers zE ⊔ Subgroup.zpowers (xr (highRoot .E6)) := by
-  haveI : Finite EC := finite_EC
+  have : Finite EC := finite_EC
   have hle : Subgroup.zpowers zE ⊔ Subgroup.zpowers (xr (highRoot .E6)) ≤ sTheta :=
     sup_le (Subgroup.zpowers_le.mpr zE_mem_sTheta)
       (Subgroup.zpowers_le.mpr xr_highRoot_mem_sTheta)
@@ -282,8 +282,8 @@ theorem commute_of_mem_sTheta_of_mem_lE {x y : EC} (hx : x ∈ sTheta) (hy : y �
 
 theorem mem_sTheta_of_commute_lE {x : EC} (hx : ∀ y ∈ lE, x * y = y * x)
     (hco : Nat.Coprime (orderOf x) 31) : x ∈ sTheta := by
-  haveI : Finite EC := finite_EC
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Finite EC := finite_EC
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   have hlE31 : 31 ∣ Nat.card ↥lE := by rw [card_lE]; exact thirtyOne_dvd_ordA
   obtain ⟨y₂, hy₂⟩ := exists_prime_orderOf_dvd_card' 31 hlE31
   let t : EC := y₂
@@ -309,8 +309,8 @@ theorem card_lE_eq_card_specialLinearGroup :
       Nat.card ↥lE := by
     rw [Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv, hrange]
   rw [← h1]
-  haveI : Fintype CFSG.StandardType.GGHalf.F2 := Fintype.ofFinite _
-  haveI : Fintype (ZMod 2) := Fintype.ofFinite _
+  have : Fintype CFSG.StandardType.GGHalf.F2 := Fintype.ofFinite _
+  have : Fintype (ZMod 2) := Fintype.ofFinite _
   have hF2 : Fintype.card CFSG.StandardType.GGHalf.F2 = 2 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 1 (by norm_num), pow_one]
   have hZ2 : Fintype.card (ZMod 2) = 2 := ZMod.card 2
@@ -319,7 +319,7 @@ theorem card_lE_eq_card_specialLinearGroup :
 
 theorem eq_lE_of_le_of_perfect {M : Subgroup EC} (hM : M ≤ Subgroup.zpowers zE ⊔ lE)
     (hperf : commutator ↥M = ⊤) (hcard : Nat.card ↥M = Nat.card ↥lE) : M = lE := by
-  haveI : Finite EC := finite_EC
+  have : Finite EC := finite_EC
   have hMZ : M ≤ Subgroup.centralizer ({zE} : Set EC) := by
     rw [centralizer_zE.1]
     exact hM
@@ -337,12 +337,12 @@ theorem eq_lE_of_le_of_perfect {M : Subgroup EC} (hM : M ≤ Subgroup.zpowers zE
   have hsup : (lE.subgroupOf Z) ⊔ (Subgroup.zpowers zE).subgroupOf Z = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hlE_le_Z hzp_le_Z, Subgroup.subgroupOf_eq_top]
     simpa [sup_comm] using (le_of_eq hZ)
-  haveI : (lE.subgroupOf Z).Normal := hNnormal
-  haveI : IsMulCommutative (Subgroup.zpowers zE) := Subgroup.zpowers_isMulCommutative zE
+  have : (lE.subgroupOf Z).Normal := hNnormal
+  have : IsMulCommutative (Subgroup.zpowers zE) := Subgroup.zpowers_isMulCommutative zE
   have hHcomm : IsMulCommutative ((Subgroup.zpowers zE).subgroupOf Z) :=
     Subgroup.subgroupOf_isMulCommutative Z (Subgroup.zpowers zE)
   have hcommZ : _root_.commutator ↥Z ≤ lE.subgroupOf Z := by
-    haveI : IsMulCommutative ((Subgroup.zpowers zE).subgroupOf Z) := hHcomm
+    have : IsMulCommutative ((Subgroup.zpowers zE).subgroupOf Z) := hHcomm
     exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
   have hcommZ' : ⁅Z, Z⁆ ≤ lE := by
     have hmap : (_root_.commutator ↥Z).map Z.subtype ≤ (lE.subgroupOf Z).map Z.subtype :=

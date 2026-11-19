@@ -27,6 +27,7 @@ theorem smul_mem_fixV_sig (hK : Nat.card K = (2 ^ n) ^ 2) {c : Fq n K}
   intro i j
   rw [h, Matrix.smul_apply, smul_eq_mul, map_mul, bar_scalF, hv i j]
 
+omit [Finite K] in
 theorem smul_mem_bot {c : K} {v w : HMod n K} (hv : v ∈ (⊥ : Subgroup (HMod n K)))
     (h : mat w = c • mat v) : w ∈ (⊥ : Subgroup (HMod n K)) := by
   rw [Subgroup.mem_bot] at hv ⊢
@@ -96,7 +97,7 @@ theorem sigAltMat_smul_eq (c : Fq n K) (p q : Fq n K × Fq n K × Fq n K)
   have h01 := congrFun (congrFun h 0) 1
   have h02 := congrFun (congrFun h 0) 2
   have h12 := congrFun (congrFun h 1) 2
-  simp [sigAltMat, scalF_apply] at h01 h02 h12
+  simp [sigAltMat] at h01 h02 h12
   have e1 : q1 = c * p1 := Subtype.ext (by simpa using h01)
   have e2 : q2 = c * p2 := Subtype.ext (by simpa using h02)
   have e3 : q3 = c * p3 := Subtype.ext (by simpa using h12)
@@ -109,11 +110,9 @@ theorem sigAltMat_smul_eq (c : Fq n K) (p q : Fq n K × Fq n K × Fq n K)
     (![((commVEquiv hn hK).symm u).1, ((commVEquiv hn hK).symm u).2.1,
       ((commVEquiv hn hK).symm u).2.2] : Fin 3 → Fq n K)
   map_one' := by
-    try dsimp only
     rw [ofAdd_eq_one, vec3_triple_eq_zero_iff]
     exact (Equiv.symm_apply_eq _).2 (commVEquiv_zero hn hK).symm
   map_mul' u v := by
-    try dsimp only
     rw [← ofAdd_add, commVEquiv_symm_mul]
     congr 1
     funext i
@@ -133,13 +132,11 @@ theorem commCoord_apply (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
       ⟨mat u.1 1 1, mem_frobFixed_of_bar ((mem_fixV_sig hK).1 u.2 1 1)⟩,
       ⟨mat u.1 2 2, mem_frobFixed_of_bar ((mem_fixV_sig hK).1 u.2 2 2)⟩] : Fin 3 → Fq n K)
   map_one' := by
-    try dsimp only
     rw [ofAdd_eq_one]
     funext i
     apply Subtype.ext
     fin_cases i <;> simp [mat_one]
   map_mul' u v := by
-    try dsimp only
     rw [← ofAdd_add]
     congr 1
     funext i
@@ -222,13 +219,11 @@ theorem bar_fixed_of_trace (X : HMod n K)
       ⟨mat u.1 0 2 + bar n (mat u.1 0 2), trace_mem_Fq hK _⟩,
       ⟨mat u.1 1 2 + bar n (mat u.1 1 2), trace_mem_Fq hK _⟩] : Fin 3 → Fq n K)
   map_one' := by
-    try dsimp only
     rw [ofAdd_eq_one]
     funext i
     apply Subtype.ext
     fin_cases i <;> simp [mat_one]
   map_mul' u v := by
-    try dsimp only
     rw [← ofAdd_add]
     congr 1
     funext i
@@ -315,7 +310,7 @@ theorem sec_fix (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
     rw [fixDiag_apply, fixDiag_apply, toAdd_ofAdd, toAdd_ofAdd]
     funext i
     apply Subtype.ext
-    fin_cases i <;> simp [hw, scalF_apply]
+    fin_cases i <;> simp [hw]
 
 theorem sec_top (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
     ∃ β : ↥(⊤ : Subgroup (HMod n K)) →* Multiplicative (Fin 3 → Fq n K),
@@ -356,6 +351,6 @@ theorem sec_top (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
       fun i j => by rw [h, Matrix.smul_apply, smul_eq_mul]
     funext i
     apply Subtype.ext
-    fin_cases i <;> simp [hw, map_mul, bar_val_fq, scalF_apply, mul_add]
+    fin_cases i <;> simp [hw, map_mul, bar_val_fq, mul_add]
 
 end CFSG.Quasithin.RonanH44

@@ -26,18 +26,19 @@ section GLBlocks
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem orthMinus_three_le_of_pow_eq_one {f k : ℕ} (hK : Nat.card K = 2 ^ f) {p : ℕ} (hp : p.Prime)
     (h5 : 5 ≤ p) (hpq : ¬ p ∣ Nat.card K ^ 2 - 1) {x : GL (Fin k) K} (hx : x ^ p = 1)
     (hx1 : x ≠ 1) : 3 ≤ k := by
   by_contra hk
   push Not at hk
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf x = p := orderOf_eq_prime hx hx1
   have hdvd : p ∣ Nat.card (GL (Fin k) K) := hord ▸ orderOf_dvd_natCard x
   rw [LinearFlag.card_GL_eq] at hdvd
   rcases (Nat.Prime.dvd_mul hp).1 hdvd with h1 | h1
   · exact orthMinus_not_dvd_card_of_two_pow hK hp (by omega) (hp.dvd_of_dvd_pow h1)
-  · obtain ⟨j, hj, hpj⟩ := (Prime.dvd_finset_prod_iff hp.prime _).1 h1
+  · obtain ⟨j, hj, hpj⟩ := (Prime.dvd_finsetProd_iff hp.prime _).1 h1
     rw [Finset.mem_Icc] at hj
     have hj2 : j ∣ 2 := by
       have : j = 1 ∨ j = 2 := by omega
@@ -62,6 +63,7 @@ section Res
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
 
+omit [CharP K 2] in
 theorem orthMinus_card_orthogonalGroup_tail_zero (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     Nat.card ↥(TauCeti.QuadraticMap.orthogonalGroup (quadTail 0 (minusTailForm K b c))) =
       2 * (Nat.card K + 1) := by
@@ -72,7 +74,7 @@ theorem orthMinus_card_orthogonalGroup_tail_zero (hirr : ∀ s : K, s ^ 2 + b * 
   rw [← hψ] at hO
   have h0 : Finset.Icc 1 0 = (∅ : Finset ℕ) := by simp
   rw [h0, Finset.prod_empty] at hO
-  simp only [zero_mul, pow_zero, mul_one, zero_add, pow_one] at hO
+  simp only [pow_zero, mul_one, zero_add, pow_one] at hO
   exact_mod_cast hO
 
 theorem orthMinus_res_block_data {f m : ℕ} (hK : Nat.card K = 2 ^ f)
@@ -84,9 +86,9 @@ theorem orthMinus_res_block_data {f m : ℕ} (hK : Nat.card K = 2 ^ f)
       ¬ p ∣ Nat.card (Subgroup.center ↥(orthResDer K b c m)) ∧
       p ∣ Nat.card (↥(orthResDer K b c m) ⧸ Subgroup.center ↥(orthResDer K b c m)) ∧
       3 ∣ Nat.card (↥(orthResDer K b c m) ⧸ Subgroup.center ↥(orthResDer K b c m)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf x = p := orderOf_eq_prime hx hx1
-  haveI : Finite (((Fin m ⊕ Fin m → K) × (Fin 2 → K)) ≃ₗ[K]
+  have : Finite (((Fin m ⊕ Fin m → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin m ⊕ Fin m → K) × (Fin 2 → K))) := finite_orthLinearEquiv
   rcases Nat.eq_zero_or_pos m with rfl | hm
   · exfalso
@@ -104,7 +106,7 @@ theorem orthMinus_res_block_data {f m : ℕ} (hK : Nat.card K = 2 ^ f)
         norm_num at this
       · exact h
     obtain ⟨hsimple, hna, hcard⟩ := orthResDer_facts hK hm hirr
-    haveI := hsimple
+    have := hsimple
     obtain ⟨hq, hZ⟩ := orthMinus_isQuasisimple_of_simple hna
     have hxΩ := orthMinus_mem_orthResDer_of_pow_eq_one hK hm hirr hp (by omega) hx
     let x' : ↥(orthResDer K b c m) := ⟨x, hxΩ⟩
@@ -143,7 +145,7 @@ theorem orthMinus_orthParab_hblk {f : ℕ} (hd : OrthCuts r d) (hK : Nat.card K 
         Subgroup.center ↥(orthLeviBlock K r d b c j)) ∧
       3 ∣ Nat.card (↥(orthLeviBlock K r d b c j) ⧸
         Subgroup.center ↥(orthLeviBlock K r d b c j)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf g = p := orderOf_eq_prime hg hg1
   have hβ : orthLeviHom b c hd g ≠ 1 := by
     intro h

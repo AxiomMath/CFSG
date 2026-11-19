@@ -40,7 +40,7 @@ theorem s16t_rk_vtil_le_gen (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgroup 
       imgTil V₀ V hV (conjSubgroup (wSub V₀ V hV L) (m : G))
     rw [← s15_Infra_wSub_conjSubgroup V₀ V L hV (hMs m.2)]
     exact (imgTil_preTil V₀ V hV (wTil V₀ V hV (conjSubgroup L (m : G)))).symm
-  haveI : Fintype ↥(Set.range K) := (Set.finite_range K).fintype
+  have : Fintype ↥(Set.range K) := (Set.finite_range K).fintype
   have hsup : (⨆ b : ↥(Set.range K), commSub ⊤ (b : Subgroup (MulAut (Vtil V₀ V hV)))) = ⊤ := by
     rw [iSup_range' (fun b : Subgroup (MulAut (Vtil V₀ V hV)) => commSub ⊤ b) K]
     exact hspan
@@ -76,7 +76,7 @@ theorem s16t_false_of_case153_3_gen (D : Data G) (h1217 : R1217 D) {V₀ V L : S
     False := by
   obtain ⟨hcard, hrk⟩ := r1613g_case153_3_summary D hc.conc h
   obtain ⟨hE, hrk8, -⟩ := r1613g_case168_eight_of_card_three D hcard hrk hc.concl168
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hLp : IsPGroup 3 ↥(lBar V₀ V hV L) :=
     IsPGroup.of_card (n := 1) (by rw [pow_one]; exact hcard)
   have hLE : lBar V₀ V hV L ≤ fstarBar D.M V₀ V hV :=

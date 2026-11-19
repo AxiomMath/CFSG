@@ -11,14 +11,16 @@ open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem fstar_le_group (H : Subgroup G) : Fstar H ≤ H := by
   unfold Fstar
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem conj_mem_fstar {H : Subgroup G} {x f : G} (hx : x ∈ H) (hf : f ∈ Fstar H) :
     x * f * x⁻¹ ∈ Fstar H := by
   set F : Subgroup ↥H := CFSG.generalizedFitting ↥H with hF
-  haveI hFn : F.Normal := (CFSG.LocalCores.generalized_fitting_characteristic (G := ↥H)).2
+  have hFn : F.Normal := (CFSG.LocalCores.generalized_fitting_characteristic (G := ↥H)).2
   have hFstar : Fstar H = F.map H.subtype := by
     unfold Fstar
     rw [CFSG.Adapters.genFittingFStar_eq_foundations]

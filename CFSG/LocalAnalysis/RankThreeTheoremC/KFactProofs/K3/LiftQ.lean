@@ -15,9 +15,9 @@ theorem k3_triData {H : Type} [Group H] [Finite H] (hH : primeComplementCore (G 
     (S : Sylow 3 H) (hSW : Nonempty ((S : Subgroup H) ≃* W3)) {L : Subgroup H}
     (hL : IsComponentOf L ⊤) (hnot : ¬ (S : Subgroup H) ≤ Subgroup.normalizer (L : Set H)) :
     ∃ (g : H) (L₂ L₃ : Subgroup H), g ∈ (S : Subgroup H) ∧ TriData L L₂ L₃ g := by
-  obtain ⟨g, hgS, hgL⟩ := SetLike.not_le_iff_exists.mp hnot
+  obtain ⟨g, hgS, hgL⟩ := IsConcreteLE.not_le_iff_exists.mp hnot
   have hg3 : ∃ n : ℕ, g ^ 3 ^ n = 1 := by
-    obtain ⟨n, hn⟩ := S.isPGroup' (⟨g, hgS⟩ : (S : Subgroup H))
+    obtain ⟨n, hn⟩ := S.isPGroup (⟨g, hgS⟩ : (S : Subgroup H))
     exact ⟨n, congrArg Subtype.val hn⟩
   obtain ⟨hne12, hne13, hne23⟩ := conj_three_distinct hg3 hgL
   have hc2 : IsComponentOf (L.map (MulAut.conj g).toMonoidHom) ⊤ := isComponentOf_map_conj hL g
@@ -64,7 +64,7 @@ theorem k3LiftQ_holds : K3LiftQ := by
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.K2.primeComplementCore_bar (G := X)
   obtain ⟨g, L₂, L₃, hgS, hT⟩ := k3_triData hH S hSW hLc hnot
   have hg3 : ∃ n : ℕ, g ^ 3 ^ n = 1 := by
-    obtain ⟨n, hn⟩ := S.isPGroup' (⟨g, hgS⟩ : (S : Subgroup (Bar X)))
+    obtain ⟨n, hn⟩ := S.isPGroup (⟨g, hgS⟩ : (S : Subgroup (Bar X)))
     exact ⟨n, congrArg Subtype.val hn⟩
   have hker : ¬ 3 ∣ Nat.card (barMk X).ker := by
     rw [QuotientGroup.ker_mk']

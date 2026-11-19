@@ -182,8 +182,8 @@ theorem card_fixed_eq_of_specialLinear_two {K : Type} [Field K] [Finite K]
       = Nat.card (LinearMap.ker φ) := Nat.card_congr e
     _ = Nat.card (Submodule.span K {v}) := by rw [hker]
     _ = Nat.card K := by
-        letI : Fintype K := Fintype.ofFinite K
-        letI : Fintype (Submodule.span K {v}) := Fintype.ofFinite _
+        let : Fintype K := Fintype.ofFinite K
+        let : Fintype (Submodule.span K {v}) := Fintype.ofFinite _
         rw [Nat.card_eq_fintype_card (α := Submodule.span K {v}),
           Nat.card_eq_fintype_card (α := K),
           Module.card_eq_pow_finrank (K := K) (V := Submodule.span K {v}),
@@ -200,8 +200,8 @@ private theorem exists_coordinates {H : Subgroup (MulAut V)} {n : ℕ}
           ((A h : Matrix (Fin 2) (Fin 2) K) *ᵥ Multiplicative.toAdd (e w)) := by
   classical
   obtain ⟨K, hKfield, hKfin, hKcard, π, hreal⟩ := hH
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain ⟨E, hE⟩ := G64.RealizesVia.exists_secEquiv (D := FFModel.nat (StatedSL 2 K)) rfl hreal
   let e : V ≃* Multiplicative (Fin 2 → K) :=
     E.trans (Subgroup.topEquiv : ↥(FFModel.nat (StatedSL 2 K)).sec ≃*
@@ -252,8 +252,8 @@ theorem BinaryNaturalSL.card_fixed_eq {H : Subgroup (MulAut V)} {n : ℕ}
     Nat.card {v : V // s v = v} = 2 ^ n := by
   classical
   obtain ⟨K, hKfield, hKfin, hKcard, e, A, hAdet, hAne, hact⟩ := exists_coordinates hH
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   let sH : H := ⟨s, hs⟩
   have hsH1 : sH ≠ 1 := fun h => hs1 (congrArg Subtype.val h)
   let As : Matrix.SpecialLinearGroup (Fin 2) K := A sH
@@ -471,8 +471,8 @@ theorem BinaryNaturalSL.fixed_mul_inv {H : Subgroup (MulAut V)} {n : ℕ}
     ∀ v : V, s (f v * v⁻¹) = f v * v⁻¹ := by
   classical
   obtain ⟨K, hKfield, hKfin, hKcard, e, A, hAdet, hAne, hact⟩ := exists_coordinates hH
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   let sH : H := ⟨s, hs⟩
   let s'H : H := ⟨f * s * f⁻¹, hfs⟩
   have hsH1 : sH ≠ 1 := fun h => hs1 (congrArg Subtype.val h)
@@ -755,7 +755,7 @@ private theorem conjugate_transvection_mulVec {K : Type} [Field K]
     (hFapply : ∀ x, F x =
       Multiplicative.toAdd (e (f (e.symm (Multiplicative.ofAdd x)))))
     (hF_vec : ∀ x, F x = x + lamS (φ x) • w0)
-    (hφw0 : φ w0 = 0) (hφw1 : φ w1 = 1)
+    (_hφw0 : φ w0 = 0) (hφw1 : φ w1 = 1)
     (hfix_line : ∀ c : K, F (c • w0) = c • w0)
     (hgH : g ∈ H) (hg : g = f * (bH : MulAut V) * f⁻¹) :
     ∀ c : K, (A ⟨g, hgH⟩ : Matrix (Fin 2) (Fin 2) K) *ᵥ (c • w1) =
@@ -838,8 +838,8 @@ theorem BinaryNaturalSL.mem_of_normalizes {H : Subgroup (MulAut V)} {n : ℕ}
   classical
   obtain ⟨K, hKfield, hKfin, hKcard, e, A, hAdet, hAne, hact⟩ :=
     exists_coordinates hH
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hA_inj : Function.Injective A := by
     intro h1 h2 h
     apply Subtype.ext
@@ -849,8 +849,8 @@ theorem BinaryNaturalSL.mem_of_normalizes {H : Subgroup (MulAut V)} {n : ℕ}
   have hcardH : Nat.card H = Nat.card (Matrix.SpecialLinearGroup (Fin 2) K) := by
     obtain ⟨K', hK'field, hK'fin, hK'card, ⟨eH⟩⟩ :=
       BinaryNaturalSL.exists_equiv hH
-    letI : Field K' := hK'field
-    letI : Finite K' := hK'fin
+    let : Field K' := hK'field
+    let : Finite K' := hK'fin
     calc Nat.card H = Nat.card (StatedSL 2 K') := (Nat.card_congr eH.toEquiv).symm
       _ = Nat.card (Matrix.SpecialLinearGroup (Fin 2) K') :=
         (Nat.card_congr (specialLinearGroupEquivStatedSL 2 K').toEquiv).symm

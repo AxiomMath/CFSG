@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem m6e8_three_le_card_of_pairwise {α : Type} [Finite α] {a b c : α}
     (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) : 3 ≤ Nat.card α := by
   classical
-  haveI : Fintype α := Fintype.ofFinite α
+  have : Fintype α := Fintype.ofFinite α
   have hcard : ({a, b, c} : Finset α).card = 3 :=
     Finset.card_eq_three.2 ⟨a, b, c, hab, hac, hbc, rfl⟩
   calc 3 = ({a, b, c} : Finset α).card := hcard.symm
@@ -31,7 +31,7 @@ private theorem m6e8_commHom_range_card_le_two {R : Subgroup G} {s : G}
       Nat.card ↥φ.range ≤ 2 := by
   have hconj : ∀ x : ↥R, s * (x : G) * s⁻¹ ∈ R := fun x =>
     (Subgroup.mem_normalizer_iff.1 hsN (x : G)).1 x.2
-  haveI hcommI : IsMulCommutative ↥R :=
+  have hcommI : IsMulCommutative ↥R :=
     IsMulCommutative.of_comm (fun a b => Subtype.ext (hcomm a a.2 b b.2))
   let conjHom : ↥R →* ↥R :=
     MonoidHom.mk' (fun x => ⟨s * (x : G) * s⁻¹, hconj x⟩)
@@ -126,7 +126,7 @@ theorem m6e8_exists_centralizing {T : Subgroup G} {y r : G} (hT : IsPGroup 2 T) 
   have hR8' : Nat.card ↥R = 8 := hR8
   have hRT' : R ≠ T := hRT
   have hRcomm : ∀ x ∈ R, ∀ z ∈ R, x * z = z * x := by
-    haveI : IsMulCommutative ↥R := hRab.1
+    have : IsMulCommutative ↥R := hRab.1
     intro x hx z hz
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : ↥R) (⟨z, hz⟩ : ↥R))
   have hRexp : ∀ x ∈ R, x ^ 2 = 1 := fun x hx => hRab.2 x hx

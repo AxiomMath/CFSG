@@ -17,8 +17,8 @@ open CFSG.ComponentClassification.AschbacherToolkit.Bender
 theorem autControlAt_top_of_isPSU_cs5 {G : Type} [Group G] [Finite G] {n : ℕ} (hn : 2 ≤ n)
     (hG : IsPSU 3 2 n G) (T : Sylow 2 G) : AutControlAt (T : Subgroup G) := by
   obtain ⟨e⟩ := exists_mulEquiv_psu3_proj_cs5 hn hG
-  haveI := psuK_charP_cs5 n
-  haveI := finite_psu_cs5 (binaryQuadraticHermitian n (by omega))
+  have := psuK_charP_cs5 n
+  have := finite_psu_cs5 (binaryQuadraticHermitian n (by omega))
   have hKcard : Nat.card (PsuKCS5 n) = (2 ^ n) ^ 2 := psuK_card_cs5 n (by omega)
   have hfixed : Nat.card {x : PsuKCS5 n // (binaryQuadraticHermitian n (by omega)).conj x = x} =
       2 ^ n := quadraticBinaryFrobenius_fixed_card n (by omega)

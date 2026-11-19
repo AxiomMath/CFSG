@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L E T : Subgr
   {S K : Subgroup G}
 
 theorem Frame611.inf_L_le_sec11K (F : Frame611 G A c L E T d) : A ⊓ L ≤ Sec11.sec11K L d := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro x hx
   obtain ⟨φ⟩ := F.iso_L
   obtain ⟨hdN, hQ, -⟩ := Sec6.Hering611.fieldCent_facts_two φ F.d_field F.d_pow_three

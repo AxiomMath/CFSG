@@ -62,7 +62,7 @@ theorem mem_semilinearAutGroup_of_apply_eq (hK : Nat.card K = 4)
     {θ : MulAut (projectiveSL 4 K)} {y : projectiveSL 4 K} (hy : orderOf y = 7) (h : θ y = y) :
     θ ∈ semilinearAutGroup 4 K := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   by_contra hθ
   obtain ⟨A, σ, ε, hε, hθeq⟩ :=
     (automorphism_generation (K := K) (n := 4) (by norm_num)).2 θ

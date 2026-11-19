@@ -89,7 +89,7 @@ theorem fixGeomP_conj {p : ℕ} {R : Type} [Group R] {J : Subgroup (MulAut R)} {
     { toFun := fun g => ⟨u⁻¹ (g : R), (mem_ggFixDer_conj x u (g : R)).1 g.2⟩
       invFun := fun k => ⟨u (k : R), by
         rw [mem_ggFixDer_conj]
-        simpa using k.2⟩
+        simp⟩
       left_inv := fun g => Subtype.ext (by simp)
       right_inv := fun k => Subtype.ext (by simp)
       map_mul' := fun g k => Subtype.ext (by simp) }
@@ -103,7 +103,7 @@ theorem fixGeomP_conj {p : ℕ} {R : Type} [Group R] {J : Subgroup (MulAut R)} {
   have hpow : ∀ φ : MulAut R, φ ^ p = 1 → (u⁻¹ * φ * u) ^ p = 1 := by
     intro φ hφ
     have : (u⁻¹ * φ * u) ^ p = u⁻¹ * φ ^ p * u := by
-      rw [show u⁻¹ * φ * u = (MulAut.conj u⁻¹) φ by simp [MulAut.conj_apply], ← map_pow,
+      rw [show u⁻¹ * φ * u = (MulAut.conj u⁻¹) φ by simp, ← map_pow,
         MulAut.conj_apply, inv_inv]
     rw [this, hφ]
     group
@@ -156,7 +156,7 @@ theorem fixAlt_conj {p : ℕ} {R : Type} [Group R] {J : Subgroup (MulAut R)} {x 
       obtain ⟨φ', hφ', rfl⟩ := Subgroup.mem_map.1 hφ
       obtain ⟨hφ'J, hφ'x⟩ := hEx φ' hφ'
       have hφe : (MulAut.conj u⁻¹).toMonoidHom φ' = u⁻¹ * φ' * u := by
-        simp [MulAut.conj_apply]
+        simp
       rw [hφe]
       refine ⟨J.mul_mem (J.mul_mem (J.inv_mem hu) hφ'J) hu, ?_⟩
       calc u⁻¹ * φ' * u * x = u⁻¹ * (φ' * (u * x * u⁻¹)) * u := by group

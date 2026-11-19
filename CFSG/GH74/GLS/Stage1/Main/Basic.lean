@@ -22,7 +22,7 @@ theorem sylow_top_of_central {z : G} {S : Subgroup G} (hz : IsCentralInvolution 
     Subgroup.mem_centralizer_singleton_iff.mpr (hzc s hs)
   have hS'G : CFSG.ABGLocalTools.IsSylowOf 2 (S' : Subgroup G) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, S'.isPGroup', ?_⟩
+    refine ⟨le_top, S'.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact S'.not_dvd_index
   have hS'C := hS'G.of_le hS'le le_top
@@ -68,7 +68,7 @@ theorem zcen_of_classical {z : G} {S : Subgroup G} (hcl : IsStronglyClassicalInv
   have hS₀C : CFSG.ABGLocalTools.IsSylowOf 2 (S₀ : Subgroup G) (centralizer ({z} : Set G)) := by
     have hS₀G : CFSG.ABGLocalTools.IsSylowOf 2 (S₀ : Subgroup G) ⊤ := by
       rw [CFSG.ABGLocalTools.isSylowOf_iff]
-      refine ⟨le_top, S₀.isPGroup', ?_⟩
+      refine ⟨le_top, S₀.isPGroup, ?_⟩
       rw [Subgroup.relIndex_top_right]
       exact S₀.not_dvd_index
     exact hS₀G.of_le hS₀le le_top

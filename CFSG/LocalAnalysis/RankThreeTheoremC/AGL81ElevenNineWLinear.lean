@@ -51,6 +51,7 @@ theorem blockOKP_linBlockSL {p : ℕ} [OddPrime p] (a : Fin n) (h : linBlockSL K
   · exact blockOK_gl_slP _ (two_le_of_isQuasisimple_specialLinear
       (isQuasisimple_of_mulEquiv (slEquivToGLRange (K := K) (linBlockLen n I a)).symm hq))
 
+omit [Finite K] [CharP K 2] in
 theorem conj_mem_linBlockSL (a : Fin n) (g : GL (Fin (linBlockLen n I a)) K)
     {s : GL (Fin (linBlockLen n I a)) K} (hs : s ∈ linBlockSL K n I a) :
     g * s * g⁻¹ ∈ linBlockSL K n I a := by
@@ -60,6 +61,7 @@ theorem conj_mem_linBlockSL (a : Fin n) (g : GL (Fin (linBlockLen n I a)) K)
     infer_instance
   exact hN.conj_mem s hs g
 
+omit [Finite K] [CharP K 2] in
 theorem eq_one_of_mem_map_mulSingle (hI : ∀ i ∈ I, 1 ≤ i ∧ i < n) (hIne : I.Nonempty)
     (x : ↥(flagStabilizer n K I))
     (hx : (x : SpecialLinearGroup (Fin n) K) ∈ Subgroup.center (SpecialLinearGroup (Fin n) K))
@@ -173,10 +175,10 @@ theorem fieldIndexOnPW_linear (p : ℕ) [OddPrime p]
     (hGA : GriessAllModelsStatement) :
     FieldIndexOnPW p (IsLieOf IdxA) := by
   intro Y _ _ L P hCP hA hLn hrank h3 hrk a ha3 haN hout
-  haveI := hLn
+  have := hLn
   obtain ⟨n, f, ρ, e, I, hn, hf, hρs, hker, hcompat, hI, hIne, -, hcomap⟩ :=
     ToralCensus.exists_cover_comap_eq_flagStabilizer hGA hCP hA
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
+  have : CharP (GaloisField 2 f) 2 := inferInstance
   have hD : PCentral p
       ((linearAutGroup n (GaloisField 2 f)).comap (MulAut.congr e).toMonoidHom) :=
     pCentral_comap_of_mulEquiv (MulAut.congr e) (linear_pCentralP p hn)

@@ -44,11 +44,11 @@ theorem toVecD_xorAux (d : ℕ) (arr : Array ℕ) (m : ℕ) :
       Finset.sum_congr rfl fun j _ => by rw [show i + 1 + j = i + (j + 1) by omega]
     rw [xorAux, ih, Finset.sum_range_succ', hS]
     by_cases h : m.testBit i
-    · rw [if_pos h, toVecD_xor]
-      simp only [Nat.add_zero, if_pos h]
+    · rw [ite_eq_left h, toVecD_xor]
+      simp only [Nat.add_zero, ite_eq_left h]
       abel
-    · rw [if_neg h]
-      simp only [Nat.add_zero, if_neg h, add_zero]
+    · rw [ite_eq_right h]
+      simp only [ite_eq_right h, add_zero]
 
 theorem toVecD_xorE (d : ℕ) (arr : Array ℕ) (m : ℕ) :
     toVecD d (xorE arr m) =
@@ -93,7 +93,7 @@ theorem sixAction_sixPt_colsE (c : locC) {t : Array ℕ}
     {col : Fin 6 → ℕ}
     (hvec : ∀ k : Fin 6, toVecD 22 (sixImage t (k : ℕ)) =
       ∑ j : Fin 6, toVecD 6 (col k) j • sixVec j)
-    {p : ℕ} (hp : p < 63) (hpos : 0 < co2NineXorF col (p + 1))
+    {p : ℕ} (_hp : p < 63) (hpos : 0 < co2NineXorF col (p + 1))
     (hlt : co2NineXorF col (p + 1) < 64) :
     sixAction c (sixPt p) = sixPt (co2NineXorF col (p + 1) - 1) := by
   have hright : sixBasis.equivFun (sixPt (co2NineXorF col (p + 1) - 1)) =
@@ -107,9 +107,8 @@ theorem sixAction_sixPt_colsE (c : locC) {t : Array ℕ}
   rw [← LinearMap.toMatrix_mulVec_repr (v₁ := sixBasis) (v₂ := sixBasis)
     (f := (sixAction c : V6 →ₗ[ZMod 2] V6)) (x := sixPt p),
     toMatrix_sixAction_colsE c ht hvec]
-  simp only [sixPt, Module.Basis.equivFun_apply, LinearEquiv.apply_symm_apply]
+  simp only [sixPt]
   rw [toVecD_xorF]
-  congr 1
   ext j
   simp only [Matrix.mulVec, dotProduct, Finset.sum_apply, Matrix.of_apply, toVecD_apply]
   refine Finset.sum_congr rfl fun i _ => ?_

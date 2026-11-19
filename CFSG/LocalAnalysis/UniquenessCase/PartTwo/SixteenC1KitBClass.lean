@@ -299,7 +299,7 @@ private theorem s16c1b_codeElem_spec {A : Subgroup (V₀ ≃ₗ[ZMod 2] V₀)} {
     (h : ∃ g ∈ A, Coded g c) :
     s16c1b_codeElem A c ∈ A ∧ Coded (s16c1b_codeElem A c) c := by
   unfold s16c1b_codeElem
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact Classical.choose_spec h
 
 private noncomputable def s16c1b_greedy (A : Subgroup (V₀ ≃ₗ[ZMod 2] V₀)) :
@@ -347,7 +347,7 @@ private theorem s16c1b_greedy_spec (A : Subgroup (V₀ ≃ₗ[ZMod 2] V₀))
         fun d hd e he => hbound d hd e (List.mem_cons_of_mem _ he)
       have hres := ih cs gs hL' hL0' hsort' hreach hforall hgsA hcsA hbound'
       dsimp only [s16c1b_greedyOK]
-      rw [hgreedy, if_pos hc]
+      rw [hgreedy, ite_eq_left hc]
       refine ⟨hres.1, hres.2.1, hres.2.2.1, ?_, hres.2.2.2.2.1, hres.2.2.2.2.2⟩
       intro e he
       rcases List.mem_cons.mp he with hec | he
@@ -367,8 +367,7 @@ private theorem s16c1b_greedy_spec (A : Subgroup (V₀ ≃ₗ[ZMod 2] V₀))
         exact hcmem (by rw [(hgcc.eq_iff coded_one).mp h1]; exact s16c1b_one_mem_spanC cs)
       have hext : s16c1b_extOK cs c = true := by
         rw [s16c1b_extOK]
-        simp only [Bool.and_eq_true_iff, List.all_eq_true, decide_eq_true_eq,
-          List.contains_iff_mem]
+        simp only [Bool.and_eq_true_iff, List.all_eq_true, decide_eq_true_eq]
         refine ⟨⟨?_, ?_⟩, ?_⟩
         · intro d hd
           have hle : d ≤ c := hbound d hd c List.mem_cons_self
@@ -405,7 +404,7 @@ private theorem s16c1b_greedy_spec (A : Subgroup (V₀ ≃ₗ[ZMod 2] V₀))
       have hres := ih (c :: cs) (s16c1b_codeElem A c :: gs) hL' hL0' hsort' hreach'
         hforall' hgsA' hcsA' hbound'
       dsimp only [s16c1b_greedyOK]
-      rw [hgreedy, if_neg hc]
+      rw [hgreedy, ite_eq_right hc]
       refine ⟨hres.1, hres.2.1, hres.2.2.1, ?_, ?_, ?_⟩
       · intro e he
         rcases List.mem_cons.mp he with hec | he
@@ -500,9 +499,8 @@ private theorem s16c1b_par_succ (m I k : ℕ) :
   unfold s16c1b_par
   rw [List.range_succ, List.filter_append, List.length_append, List.filter_singleton]
   cases hc : (I &&& m).testBit k
-  · simp only [hc, Bool.cond_false, List.length_nil, Nat.add_zero, Bool.xor_false]
-  · simp only [hc, Bool.cond_true, List.length_cons, List.length_nil, Nat.add_zero,
-      Bool.xor_true]
+  · simp only [Bool.cond_false, List.length_nil, Nat.add_zero, Bool.xor_false]
+  · simp only [Bool.cond_true, List.length_cons, List.length_nil, Bool.xor_true]
     rw [s16c1b_mod_two_succ]
 
 private theorem s16c1b_par_xor (m I J k : ℕ) :
@@ -523,9 +521,9 @@ private theorem s16c1b_foldl_and_testBit (L : List ℕ) (p : ℕ → Bool) (f : 
   | cons I L ih =>
     rw [List.foldl_cons]
     cases hp : p I
-    · rw [if_neg (by decide), ih acc]
+    · rw [ite_eq_right (by decide), ih acc]
       simp [List.all_cons, hp]
-    · rw [if_pos (by decide), ih (acc &&& f I)]
+    · rw [ite_eq_left (by decide), ih (acc &&& f I)]
       simp [List.all_cons, hp, Nat.testBit_and, Bool.and_assoc]
 
 private theorem s16c1b_maskOver_testBit (xs : List ℕ) (p : ℕ → Bool) (w : ℕ) :
@@ -544,9 +542,9 @@ private theorem s16c1b_foldl_or_testBit (L : List ℕ) (p : ℕ → Bool) (g : �
   | cons I L ih =>
     rw [List.foldl_cons]
     cases hp : p I
-    · rw [if_neg (by decide), ih acc]
+    · rw [ite_eq_right (by decide), ih acc]
       simp [List.any_cons, hp]
-    · rw [if_pos (by decide), ih (acc ||| g I)]
+    · rw [ite_eq_left (by decide), ih (acc ||| g I)]
       simp [List.any_cons, hp, Nat.testBit_or, Bool.or_assoc]
 
 private theorem s16c1b_one_shiftl_testBit (I w : ℕ) :
@@ -619,7 +617,7 @@ private theorem s16c1b_fixM_of_mem {c : ℕ} (hc : c ∈ s16c1b_S0.filter isInv)
   have hqeq : q = (c, s16c1b_fixMask c) := by rw [hxq', hx1]
   cases hc1 : (c == one)
   · unfold s16c1b_fixM
-    simp only [hc1, Bool.cond_false, Bool.false_eq_true, if_false]
+    simp only [hc1, Bool.false_eq_true, ite_false]
     rw [hq, hqeq]
     rfl
   · exact absurd (beq_iff_eq.mp hc1) (by
@@ -673,13 +671,13 @@ private theorem s16c1b_testBit_two_mul_zero (I : ℕ) : (2 * I).testBit 0 = fals
 private theorem s16c1b_testBit_two_mul_one_zero (I : ℕ) : (2 * I + 1).testBit 0 = true := by
   change (2 ^ 1 * I + 1).testBit 0 = true
   rw [Nat.testBit_two_pow_mul_add I (show (1:ℕ) < 2^1 by norm_num),
-    if_pos (by omega : (0:ℕ) < 1), Nat.testBit_one_zero]
+    ite_eq_left (by omega : (0:ℕ) < 1), Nat.testBit_one_zero]
 
 private theorem s16c1b_testBit_two_mul_one_succ (I j : ℕ) :
     (2 * I + 1).testBit (j + 1) = I.testBit j := by
   change (2 ^ 1 * I + 1).testBit (j + 1) = I.testBit j
   rw [Nat.testBit_two_pow_mul_add I (show (1:ℕ) < 2^1 by norm_num),
-    if_neg (by omega : ¬ (j + 1) < 1), Nat.add_sub_cancel_right]
+    ite_eq_right (by omega : ¬ (j + 1) < 1), Nat.add_sub_cancel_right]
 
 private theorem s16c1b_shiftr_two_mul (I : ℕ) : (2 * I) >>> 1 = I := by
   apply Nat.eq_of_testBit_eq
@@ -701,9 +699,9 @@ private theorem s16c1b_foldl_prodSub_lt (L : List ℕ) (xs : List ℕ) (I acc : 
   | cons i L ih =>
     rw [List.foldl_cons]
     by_cases hb : I.testBit i = true
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       exact ih (mul acc (xs.getD i 0)) (mul_lt acc _)
-    · rw [if_neg hb]
+    · rw [ite_eq_right hb]
       exact ih acc hacc
 
 private theorem s16c1b_prodSub_lt (xs : List ℕ) (I : ℕ) : s16c1b_prodSub xs I < 2 ^ 36 := by
@@ -719,10 +717,10 @@ private theorem s16c1b_foldl_mul_left (L : List ℕ) (b : ℕ → Bool) (e : ℕ
   | cons j L ih =>
     rw [List.foldl_cons, List.foldl_cons]
     by_cases hb : b j = true
-    · rw [if_pos hb, if_pos hb]
+    · rw [ite_eq_left hb, ite_eq_left hb]
       rw [ih (mul x (e j)) (mul_lt x (e j)), ih (mul one (e j)) (mul_lt one (e j))]
       rw [s16c1b_one_mul (he j), s16c1b_mul_assoc]
-    · rw [if_neg hb, if_neg hb]
+    · rw [ite_eq_right hb, ite_eq_right hb]
       rw [ih x hx]
 
 private theorem s16c1b_prodSub_cons (x : ℕ) (xs : List ℕ) (I : ℕ) (hx : x < 2 ^ 36)
@@ -743,10 +741,10 @@ private theorem s16c1b_prodSub_cons (x : ℕ) (xs : List ℕ) (I : ℕ) (hx : x 
     simp only [List.getD_cons_succ, Nat.testBit_shiftRight, Nat.add_comm]
   rw [hinner]
   by_cases hb : I.testBit 0 = true
-  · rw [if_pos hb, if_pos hb]
+  · rw [ite_eq_left hb, ite_eq_left hb]
     exact s16c1b_foldl_mul_left (List.range xs.length) (fun j => (I >>> 1).testBit j)
       (fun j => xs.getD j 0) hxs x hx
-  · rw [if_neg hb, if_neg hb]
+  · rw [ite_eq_right hb, ite_eq_right hb]
 
 private theorem s16c1b_prodSub_nil (I : ℕ) : s16c1b_prodSub [] I = one := by
   unfold s16c1b_prodSub
@@ -764,7 +762,7 @@ private theorem s16c1b_prodSub_mem_spanC {xs : List ℕ} (h : s16c1b_Reach xs) :
     have hxlt : x < 2 ^ 36 := s16c1b_mem_S0_lt (List.mem_filter.mp hx).1
     rw [s16c1b_prodSub_cons x xs I hxlt (s16c1b_prodSub_bound hreach)]
     by_cases hb : I.testBit 0 = true
-    · rw [if_pos hb]
+    · rw [ite_eq_left hb]
       have hcomm : (xs.all fun y => comm x y) = true :=
         (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp hext).1).2
       have hcx : mul x (s16c1b_prodSub xs (I >>> 1)) =
@@ -774,7 +772,7 @@ private theorem s16c1b_prodSub_mem_spanC {xs : List ℕ} (h : s16c1b_Reach xs) :
           (s16c1b_prodSub xs (I >>> 1)) (ih (I >>> 1))
       rw [hcx]
       exact List.mem_append_right _ (List.mem_map.mpr ⟨s16c1b_prodSub xs (I >>> 1), ih _, rfl⟩)
-    · rw [if_neg hb]
+    · rw [ite_eq_right hb]
       exact List.mem_append_left _ (ih (I >>> 1))
 
 private theorem s16c1b_comm_prodSub {xs : List ℕ} (h : s16c1b_Reach xs) {x : ℕ}
@@ -820,11 +818,10 @@ private theorem s16c1b_prodSub_mul {xs : List ℕ} (h : s16c1b_Reach xs) :
       s16c1b_prodSub_cons x xs (I ^^^ J) hxlt hxsb, s16c1b_shiftr_xor, Nat.testBit_xor,
       ← ih (I >>> 1) (J >>> 1)]
     cases hI : I.testBit 0 <;> cases hJ : J.testBit 0 <;>
-      simp only [Bool.false_xor, Bool.xor_false, Bool.true_xor, Bool.xor_true, Bool.not_true,
+      simp only [Bool.xor_false, Bool.xor_true, Bool.not_true,
         Bool.not_false, Bool.false_eq_true, reduceIte]
     all_goals
       first
-      | rfl
       | rw [s16c1b_mul_xx_yy hxinv (hcommP (J >>> 1))
           (by rw [ih (I >>> 1) (J >>> 1)]; exact hcommP ((I >>> 1) ^^^ (J >>> 1)))]
       | rw [s16c1b_mul_mul_x_eq (hcommP (J >>> 1))
@@ -849,7 +846,7 @@ private theorem s16c1b_prodSub_surj {xs : List ℕ} (h : s16c1b_Reach xs) :
       · rw [show (x :: xs).length = xs.length + 1 by simp, Nat.pow_succ']
         exact Nat.mul_lt_mul_of_pos_left hI'lt (by norm_num)
       · rw [s16c1b_prodSub_cons x xs (2 * I') hxlt hxsb,
-          if_neg (by rw [s16c1b_testBit_two_mul_zero]; decide), s16c1b_shiftr_two_mul, hI'eq]
+          ite_eq_right (by rw [s16c1b_testBit_two_mul_zero]; decide), s16c1b_shiftr_two_mul, hI'eq]
     · obtain ⟨c', hc', rfl⟩ := List.mem_map.mp hc
       obtain ⟨I', hI'lt, hI'eq⟩ := ih c' hc'
       have hxcomm : mul x c' = mul c' x := by
@@ -863,7 +860,7 @@ private theorem s16c1b_prodSub_surj {xs : List ℕ} (h : s16c1b_Reach xs) :
           Nat.mul_lt_mul_of_pos_left hI'lt (by norm_num)
         omega
       · rw [s16c1b_prodSub_cons x xs (2 * I' + 1) hxlt hxsb,
-          if_pos (s16c1b_testBit_two_mul_one_zero I'), s16c1b_shiftr_two_mul_one, hI'eq, hxcomm]
+          ite_eq_left (s16c1b_testBit_two_mul_one_zero I'), s16c1b_shiftr_two_mul_one, hI'eq, hxcomm]
 
 
 private theorem s16c1b_prodSub_zero (xs : List ℕ) : s16c1b_prodSub xs 0 = one := by
@@ -874,7 +871,7 @@ private theorem s16c1b_prodSub_zero (xs : List ℕ) : s16c1b_prodSub xs 0 = one 
     induction L with
     | nil => rw [List.foldl_nil]
     | cons i L ih =>
-      rw [List.foldl_cons, if_neg (by rw [Nat.zero_testBit]; decide), ih]
+      rw [List.foldl_cons, ite_eq_right (by rw [Nat.zero_testBit]; decide), ih]
   unfold s16c1b_prodSub
   exact h (List.range xs.length)
 
@@ -1043,7 +1040,6 @@ theorem s16c1b_a2Prop_of_fix {A : Subgroup (V₀ ≃ₗ[ZMod 2] V₀)} {xs : Lis
                 Subgroup.subset_closure ⟨I ^^^ I0,
                   List.mem_range.mpr (Nat.xor_lt_two_pow hIlt hI0lt), hI', rfl⟩
               have heq : gI I = gI (I ^^^ I0) * gI I0 := by
-                change gI I = gI (I ^^^ I0) * gI I0
                 rw [hgI_mul I I0, mul_assoc, hgI_inv I0, mul_one]
               rw [heq]
               exact Or.inr ⟨gI (I ^^^ I0), hmem, gI I0, rfl, rfl⟩
@@ -1123,13 +1119,11 @@ theorem s16c1b_classify {A : Subgroup (MulAut (Multiplicative V₀))}
       have hac : s16c1b_κ a ∈ A := (Subgroup.mem_inf.mp ha).1
       have hbc : s16c1b_κ b ∈ A := (Subgroup.mem_inf.mp hb).1
       apply s16c1b_κ_injective
-      change s16c1b_κ (a * b) = s16c1b_κ (b * a)
       rw [map_mul, map_mul]
       exact hA.2.2.1.1 (s16c1b_κ a) hac (s16c1b_κ b) hbc
     · intro a ha
       have hac : s16c1b_κ a ∈ A := (Subgroup.mem_inf.mp ha).1
       apply s16c1b_κ_injective
-      change s16c1b_κ (a ^ 2) = s16c1b_κ 1
       rw [map_pow, map_one]
       exact hA.2.2.1.2 (s16c1b_κ a) hac
   have hfix : ∀ B : Subgroup (V₀ ≃ₗ[ZMod 2] V₀), B ≤ A' → E3.mQuot A' B < 2 →

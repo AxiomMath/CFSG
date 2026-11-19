@@ -62,7 +62,7 @@ section Star
 
 variable {Γ : Type} [Group Γ]
 
-theorem star_conjSub {M I W : Subgroup Γ} {g : Γ} (hg : g ∈ I) (hW : W ≤ I) :
+theorem star_conjSub {M I W : Subgroup Γ} {g : Γ} (hg : g ∈ I) (_hW : W ≤ I) :
     E2.star M I (B6.conjSub g W) =
       (E2.star M I W).map (MulAut.conj (E2P.starMap M I ⟨g, hg⟩)).toMonoidHom := by
   ext w

@@ -944,7 +944,7 @@ private theorem k329q2_full_of_minpoly {L : Type} [Field L] {n m : ℕ}
       have hzero : aeval s (minpoly L s) * Pmat s bb F h = 0 := by
         rw [minpoly.aeval L s, zero_mul]
       have hdvd : h ∣ minpoly L s :=
-        (aeval_mul_Pmat_iff H.hirr H.hmon H.hprod H.hsm H.hab hh hPf (minpoly L s)).mp hzero
+        (aeval_mul_Pmat_iff H.hirr H.hprod H.hsm hh hPf (minpoly L s)).mp hzero
       rw [hmin] at hdvd
       exact hne (Polynomial.eq_of_monic_of_associated (H.hmon h hh) (H.hmon g.1 hgF)
         ((H.hirr h hh).associated_of_dvd (H.hirr g.1 hgF) hdvd))
@@ -1137,7 +1137,7 @@ private theorem k329q2_component_factor_data {Q n : ℕ} {L : Type} [Field L] [F
   have hPf : Pmat (s : Matrix (Fin n) (Fin n) L) bb F (e.symm k).1.1 ≠ 0 :=
     (mem_Fset.mp (e.symm k).1.2).2
   have hdvd : (e.symm k).1.1 ∣ (X ^ 3 - C c) := by
-    rw [← (aeval_mul_Pmat_iff H.hirr H.hmon H.hprod H.hsm H.hab hfF hPf (X ^ 3 - C c))]
+    rw [← (aeval_mul_Pmat_iff H.hirr H.hprod H.hsm hfF hPf (X ^ 3 - C c))]
     rw [map_sub, map_pow, Polynomial.aeval_X, Polynomial.aeval_C,
       Algebra.algebraMap_eq_smul_one, hs3, sub_self, zero_mul]
   rcases hty k with ⟨a, hFld, hFin, ρE, hρE, hcard', hτQ', hdet, hiso'⟩ | ⟨b, hFld, hFin, hiso'⟩
@@ -1432,7 +1432,7 @@ private theorem k329u3f_q_two (n r e : ℕ) (hadm : StatedLieAdmissible .PSU n r
         rw [AdjoinRoot.minpoly_powerBasis_gen_of_monic (K := K) (f := f) hmonf
               (Fact.out : Irreducible f).ne_zero, hf_eq,
           Polynomial.coeff_sub, Polynomial.coeff_X_pow, Polynomial.coeff_C]
-        simp only [Nat.reduceEqDiff, if_true, if_false, zero_sub]
+        simp only [Nat.reduceEqDiff, ite_true, ite_false, zero_sub]
         have : CharP K 2 := hUF.charP
         rw [CharTwo.neg_eq]
       rw [hcoeff,
@@ -3014,7 +3014,7 @@ private theorem k329u5d_pair {K F V : Type} [Field K] [Finite K] [Field F] [Fini
   · have : (⟨i, by omega⟩ : Fin (Module.finrank F V)) ≠ ⟨j, by omega⟩ := by
       intro hh
       exact hij (Fin.ext (Fin.mk.inj hh))
-    rw [if_neg this] at h1
+    rw [ite_eq_right this] at h1
     simp [h1, hij]
 
 open Polynomial in
@@ -3110,10 +3110,10 @@ private theorem k329u5d_trace_table {K F : Type} [Field K] [Finite K] [Field F] 
   · subst hkl
     have h1 : r ^ (512 * (k : ℕ) + k) = 1 := by
       rw [show 512 * (k : ℕ) + k = 27 * (19 * k) by ring, pow_mul, hr27, one_pow]
-    rw [h1, if_pos rfl, ← map_one (algebraMap K F), Algebra.trace_algebraMap, hfr]
+    rw [h1, ite_eq_left rfl, ← map_one (algebraMap K F), Algebra.trace_algebraMap, hfr]
     simp only [nsmul_eq_mul, Nat.cast_ofNat, mul_one]
     linear_combination h2
-  · rw [if_neg hkl]
+  · rw [ite_eq_right hkl]
     apply hoff
     have hkl' : (k : ℕ) ≠ l := fun h => hkl (Fin.ext h)
     have hk := k.2
@@ -3242,7 +3242,7 @@ private theorem k329u5d_orbits_of_module {n : ℕ} {K : Type} [Field K] [Finite 
   show hfm τ (M ^ (k : ℕ) *ᵥ e i) (M ^ (l : ℕ) *ᵥ e j) = _
   rw [h1]
   by_cases hij : i = j
-  · rw [if_pos hij, k329u5d_trace_table hK hfr lam hlam9 hlam3 (AdjoinRoot.root f) hroot3 hU.bar
+  · rw [ite_eq_left hij, k329u5d_trace_table hK hfr lam hlam9 hlam3 (AdjoinRoot.root f) hroot3 hU.bar
       (fun x => hU.bar_apply x) k l]
     simp [hij]
   · simp [hij]

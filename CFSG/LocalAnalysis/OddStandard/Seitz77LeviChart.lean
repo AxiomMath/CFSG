@@ -74,7 +74,7 @@ theorem exists_chart_of_hom_proj {q : A →* LinearFlag.projectiveSL 3 F4}
     rw [Subgroup.orderOf_mk] at this
     exact hodd.of_dvd_nat this
   have h2elt : ∀ x ∈ (V₀ : Subgroup A), ∃ m, orderOf x = 2 ^ m := fun x hx => by
-    obtain ⟨m, hm⟩ := IsPGroup.iff_orderOf.mp V₀.isPGroup' ⟨x, hx⟩
+    obtain ⟨m, hm⟩ := IsPGroup.iff_orderOf.mp V₀.isPGroup ⟨x, hx⟩
     exact ⟨m, by rwa [Subgroup.orderOf_mk] at hm⟩
   have hinj₀ : Function.Injective (q.comp (V₀ : Subgroup A).subtype) := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
@@ -236,9 +236,9 @@ theorem exists_chart_lifts_of_hom {q : A →* LinearFlag.projectiveSL 3 F4}
     rw [← hr]
     exact ⟨u, rfl⟩
   refine ⟨ι, h, hι, hr, hn, ho, hact, fun γ => ?_, fun γ => ?_⟩
-  · obtain ⟨l, hl⟩ := exists_lift_conj hq hker hodd V.isPGroup' hmem hg (eLow32 γ)
+  · obtain ⟨l, hl⟩ := exists_lift_conj hq hker hodd V.isPGroup hmem hg (eLow32 γ)
     exact ⟨l, fun a c => hl _ _ (eLow32_mul_unipU γ a c)⟩
-  · obtain ⟨l, hl⟩ := exists_lift_conj hq hker hodd V.isPGroup' hmem hg (eLow21 γ)
+  · obtain ⟨l, hl⟩ := exists_lift_conj hq hker hodd V.isPGroup hmem hg (eLow21 γ)
     exact ⟨l, fun b c => hl _ _ (eLow21_mul_unipU γ b c)⟩
 
 theorem exists_chart_lifts (hZ : Odd (Nat.card (center A)))

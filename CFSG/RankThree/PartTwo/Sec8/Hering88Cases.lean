@@ -76,8 +76,8 @@ end Cases
       (∃ (A₀ : Subgroup G) (d' : G) (n' : ℕ), P G Y x A₀ d' n') →
       ∃ d ∈ Subgroup.closure ({c, b} : Set G), d ∉ Subgroup.zpowers x ∧ Good88 Y x d
 
-@[expose] def KF88StepDCaseTwo : Prop := KF88StepDOn fun G _ _ => Case83Two
+@[expose] def KF88StepDCaseTwo : Prop := KF88StepDOn fun _G _ _ => Case83Two
 
-@[expose] def KF88StepDCaseFive : Prop := KF88StepDOn fun G _ _ => Case83Five
+@[expose] def KF88StepDCaseFive : Prop := KF88StepDOn fun _G _ _ => Case83Five
 
 end CFSG.RankThree.PartTwo.Sec8

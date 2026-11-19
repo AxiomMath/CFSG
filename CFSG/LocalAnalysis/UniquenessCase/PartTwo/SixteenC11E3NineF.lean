@@ -49,7 +49,7 @@ theorem s1611e3_nine_abstract_faith {A : Type} [Group A] [Finite A]
     (hQ : IsL3 Q 1) (e : ↥F ≃* Multiplicative (ZMod 7) × Q × Q)
     (hself : ∀ x ∈ X, (∀ f ∈ F, x * f = f * x) → x ∈ F)
     (hLF : L ≤ F) (hL'F : L' ≤ F) (hL3 : IsL3 ↥L 1) (hL'3 : IsL3 ↥L' 1)
-    (hcomm : ∀ a ∈ L, ∀ b ∈ L', a * b = b * a) (hne : L ≠ L')
+    (hcomm : ∀ a ∈ L, ∀ b ∈ L', a * b = b * a) (_hne : L ≠ L')
     {x : A} (hxX : x ∈ X) (hx2 : x * x = 1)
     (hxL : ∀ a ∈ L, x * a = a * x) (hxL' : ∀ b ∈ L', x * b = b * x)
     (hxZ : ∀ z : ↥F, z ∈ Subgroup.center ↥F → x * (z : A) = (z : A) * x) :
@@ -105,7 +105,7 @@ theorem s1611e3_nine_abstract_faith {A : Type} [Group A] [Finite A]
       hLcard, hL'card]
   have hmapFcomm : (_root_.commutator ↥F).map F.subtype = ⁅F, F⁆ := by
     rw [_root_.commutator, Subgroup.map_commutator]
-    congr 1 <;> exact hmapF.symm
+    congr 1
   have hcenterinf : Subgroup.center ↥F ⊓ _root_.commutator ↥F = ⊥ := by
     refine (Subgroup.map_eq_bot_iff_of_injective
       (Subgroup.center ↥F ⊓ _root_.commutator ↥F) (f := e.toMonoidHom) e.injective).1 ?_

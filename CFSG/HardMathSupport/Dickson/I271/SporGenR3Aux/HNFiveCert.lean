@@ -59,7 +59,7 @@ theorem hnMovedIn_g3J6 [Finite JH]
     (hord : Nat.card ↥(Subgroup.centralizer ({g3J ^ 6} : Set JH)) ∣ 2 ^ 14 * 3 * 5 ^ 6) :
     HNMovedIn (Subgroup.centralizer ({g3J ^ 6} : Set JH)) := by
   obtain ⟨h30, h6, h10, hcomm, hncomm, hqA, hsA⟩ := hn5_facts
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hso : orderOf (g3J ^ 10) = 3 := orderOf_eq_prime (by rw [← pow_mul]; exact h30) h10
   have hsC : g3J ^ 10 ∈ Subgroup.centralizer ({g3J ^ 6} : Set JH) := by
     rw [Subgroup.mem_centralizer_singleton_iff, ← pow_add, ← pow_add, add_comm]

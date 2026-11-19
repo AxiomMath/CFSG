@@ -25,16 +25,18 @@ private theorem str83G4_c23_sup_le_centralizer_z1
   rw [str83G4_c23_sup_left_eq_sup_q1 hfr]
   exact hfr.2.2.2.2.2
 
+omit [Finite G] in
 private theorem str83G4_c23_isNormalIn_q1
-    {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a) :
+    {L1 L2 S : Subgroup G} {a : ℕ} (_hfr : Str83G4Frame L1 L2 S a) :
     IsNormalIn (L1 ⊔ S) (Q1 L1 L2 S) (Q1 L1 L2 S) := by
   have hHleP1 : L1 ⊔ S ≤ P1 L1 L2 S := sup_left_le_p1 L1 L2 S
   exact ⟨le_rfl, fun g hg x hx =>
     (Subgroup.mem_normalizer_iff.mp
       (le_normalizer_pCoreOf 2 (P1 L1 L2 S) (hHleP1 hg)) x).mp hx⟩
 
+omit [Finite G] in
 private theorem str83G4_c23_isNormalIn_z1
-    {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a) :
+    {L1 L2 S : Subgroup G} {a : ℕ} (_hfr : Str83G4Frame L1 L2 S a) :
     IsNormalIn (L1 ⊔ S) (Q1 L1 L2 S) (Z1 L1 L2 S) := by
   have hZ1Q1 : Z1 L1 L2 S ≤ Q1 L1 L2 S := A4.omegaOneCenterOf_le (Q1 L1 L2 S)
   have hHleP1 : L1 ⊔ S ≤ P1 L1 L2 S := sup_left_le_p1 L1 L2 S
@@ -53,7 +55,7 @@ private theorem str83G4_c23_isNormalIn_x
 
 private theorem str83G4_c23_commutator_x_oTwo_le_z1
     {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a)
-    (d : Str83G4Data L1 L2 S) (hX : IsElemAbelian 2 (str83X L1 L2 S))
+    (_d : Str83G4Data L1 L2 S) (hX : IsElemAbelian 2 (str83X L1 L2 S))
     (hY : twoResidual (L1 ⊔ S) ≤
       centralizerMod (str83Y L1 L2 S) (L1 ⊔ S) (Q1 L1 L2 S)) :
     ⁅str83X L1 L2 S, oTwoUpper (L1 ⊔ S)⁆ ≤ Z1 L1 L2 S := by

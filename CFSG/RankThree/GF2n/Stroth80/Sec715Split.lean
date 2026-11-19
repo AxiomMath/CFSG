@@ -54,7 +54,7 @@ theorem sec715Spl_sq_smul (hsec : SecHyp R P I) (hκ : IsSecMod R P I Mm κ) (x 
   exact sec715Spl_smul_eq hsec hκ _ z (hx z z.2)
 
 theorem sec715Spl_full (hsec : SecHyp R P I) (hκ : IsSecMod R P I Mm κ) {L V₀ : Subgroup G}
-    (x : ↥R) (hI : I ≤ V₀)
+    (x : ↥R) (_hI : I ≤ V₀)
     (hfull : ∀ a ∈ P ⊓ L, ∃ z ∈ P, ⁅(x : G), z⁆ * a⁻¹ ∈ V₀) :
     ∀ a ∈ secSub κ (P ⊓ L), ∃ m : Mm,
       a - (x • m - m) ∈ secSub κ V₀ := by
@@ -93,7 +93,7 @@ theorem sec715Spl_card [Finite ↥P] (hκ : IsSecMod R P I Mm κ) {A V₀ : Subg
     (hV₀A : V₀ ≤ A) (hAP : A ≤ P) (hcard : Nat.card ↥A ^ 2 = Nat.card ↥V₀ * Nat.card ↥P) :
     Nat.card ↥(secSub κ A) ^ 2 = Nat.card Mm * Nat.card ↥(secSub κ V₀) := by
   have hIP : I ≤ P := hIV₀.trans (hV₀A.trans hAP)
-  haveI : Finite ↥I :=
+  have : Finite ↥I :=
     Finite.of_injective (Subgroup.inclusion hIP) (Subgroup.inclusion_injective hIP)
   have hpos : 0 < Nat.card ↥I := Nat.card_pos
   have h1 := natCard_secSub_mul hIP hκ (hIV₀.trans hV₀A) hAP
@@ -158,7 +158,7 @@ theorem sec715Split_of_comm (hComm : Sec715ZNCommStatement) (h51 : Stroth51State
         rcases hx with hx | hx
         · exact ⟨(Subgroup.mem_inf.mp hx).1, hc.sq_mem_Q_of_mem_LB (Subgroup.mem_inf.mp hx).2⟩
         · exact ⟨(Subgroup.mem_inf.mp hx).1, hsqA x (Subgroup.mem_inf.mp hx).2⟩
-      | one => exact ⟨Zn.one_mem, by simpa using Q.one_mem⟩
+      | one => exact ⟨Zn.one_mem, by simp⟩
       | mul x y _ _ ihx ihy =>
         refine ⟨Zn.mul_mem ihx.1 ihy.1, ?_⟩
         have hxM : x ∈ M := hRM (hCNR (hZnN ihx.1))
@@ -177,7 +177,7 @@ theorem sec715Split_of_comm (hComm : Sec715ZNCommStatement) (h51 : Stroth51State
   have hcomm : ∀ x ∈ Zn, ∀ y ∈ Zn, ⁅x, y⁆ ∈ Q := fun x hx y hy => hZn.comm_mem hx (hZnN hy)
   have hsec : SecHyp (Rt M (LB M Q B) t) Zn Q := ⟨hQZn, hcomm, hsq, hZnn, hQn⟩
   obtain ⟨Mq, iM, iA, κ, hκ⟩ := exists_sectionModule hsec
-  haveI : Finite Mq := hκ.finite
+  have : Finite Mq := hκ.finite
   have hQZ0 : Q ≤ Z0 := hZ0.Q_le (hc.Q_le_Rt ht) hQn
   have hLR : LB M Q B ≤ Rt M (LB M Q B) t := le_Rt (M := M) (LB M Q B) ht
   have hL2R : LB M Q (conjSubgroup r B) ≤ Rt M (LB M Q B) t := le_sup_right.trans hr.gen.ge

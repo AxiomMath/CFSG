@@ -60,7 +60,7 @@ theorem ggWeylLaw_twE6W0 {p f : ℕ} (hp : 3 ≤ p) (hpf : p ∣ 2 ^ f + 1)
     omega
   have hε : eps p f = -1 := by
     unfold eps
-    rw [if_neg hndvd]
+    rw [ite_eq_right hndvd]
   have hcongr : permLattice ((finCongr (rank_eq_langTag f ht)).permCongr
       (1 : Equiv.Perm (Fin ((ggU (absTag .twistedE6) 6 f).D.rank)))) u = u := by
     rw [show (1 : Equiv.Perm (Fin ((ggU (absTag .twistedE6) 6 f).D.rank))) = Equiv.refl _ from

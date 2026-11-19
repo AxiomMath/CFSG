@@ -30,11 +30,11 @@ section TwoKernel
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem exists_elemAb9_of_two_kernel (P Y : Subgroup G) (hY : IsPGroup 2 Y) (hYP : Y ≤ P)
+theorem exists_elemAb9_of_two_kernel (P Y : Subgroup G) (hY : IsPGroup 2 Y) (_hYP : Y ≤ P)
     (hcomm : ∀ p ∈ P, ∀ q ∈ P, p * q * p⁻¹ * q⁻¹ ∈ Y)
     (hcube : ∀ p ∈ P, p ^ 3 ∈ Y) (hcard : Nat.card P = 9 * Nat.card Y) :
     ∃ F : Subgroup G, F ≤ P ∧ IsElemAbelian 3 F ∧ Nat.card F = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S, hS⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥P) 3 (n := 2)
     ⟨Nat.card Y, by rw [hcard]; norm_num⟩
   set F : Subgroup G := S.map P.subtype with hFdef
@@ -161,11 +161,11 @@ end Comap
 section Psi
 
 theorem exists_elemAb9_of_cube {A : Type} [Group A] [Finite A] (r : A) (hr3 : orderOf r = 3)
-    (hrc : ∀ a : A, a * r = r * a) (B : Subgroup A) (hrB : r ∈ B) (hB : Nat.card B = 27)
+    (hrc : ∀ a : A, a * r = r * a) (B : Subgroup A) (_hrB : r ∈ B) (hB : Nat.card B = 27)
     (hcube : ∀ b ∈ B, b ^ 3 ∈ Subgroup.zpowers r)
     (hcomm : ∀ b ∈ B, ∀ c ∈ B, b * c * b⁻¹ * c⁻¹ ∈ Subgroup.zpowers r) :
     ∃ F : Subgroup A, IsElemAbelian 3 F ∧ Nat.card F = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard_z : Nat.card (Subgroup.zpowers r) = 3 := by rw [Nat.card_zpowers, hr3]
   have hzcen : ∀ n ∈ Subgroup.zpowers r, ∀ a : A, a * n = n * a := by
     intro n hn a
@@ -182,7 +182,7 @@ theorem exists_elemAb9_of_cube {A : Type} [Group A] [Finite A] (r : A) (hr3 : or
       rw [hzcen n hn g, mul_inv_cancel_right]
     rw [hgn]
     exact hn
-  haveI := hnorm
+  have := hnorm
   let φ : B →* A :=
     { toFun := fun b => (b : A) ^ 3
       map_one' := by simp
@@ -238,7 +238,7 @@ theorem exists_elemAb9_of_cube {A : Type} [Group A] [Finite A] (r : A) (hr3 : or
     exact (hzcen n hn m).symm
   set P : Subgroup A := Subgroup.zpowers r with hPdef
   set Q : Subgroup A := Subgroup.zpowers w with hQdef
-  haveI : P.Normal := hnorm
+  have : P.Normal := hnorm
   have hPc : IsMulCommutative ↥P := by
     refine ⟨⟨fun a b => Subtype.ext ?_⟩⟩
     obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.mp a.2
@@ -254,7 +254,7 @@ theorem exists_elemAb9_of_cube {A : Type} [Group A] [Finite A] (r : A) (hr3 : or
     rw [← hi, ← hj]
     exact (Commute.zpow_zpow_self w i j).eq
   have hPQ : ∀ p ∈ P, ∀ q ∈ Q, p * q = q * p := fun p hp q _ => (hzcen p hp q).symm
-  haveI hFc : IsMulCommutative ↥(P ⊔ Q) := isMulCommutative_sup_of_commute hPc hQc hPQ
+  have hFc : IsMulCommutative ↥(P ⊔ Q) := isMulCommutative_sup_of_commute hPc hQc hPQ
   have hPQint : ∀ x ∈ P, x ∈ Q → x = 1 := by
     intro x hxP hxQ
     by_contra hx1
@@ -332,7 +332,7 @@ theorem exists_elemAb9_of_central_kernel (V : Type) [Group V] [Finite V]
     ∀ (m : ℕ) (A : Type) [Group A] [Finite A] (f : A →* V), Nat.card A = m →
       Function.Surjective f → (∀ z ∈ f.ker, ∀ a : A, a * z = z * a) → IsPGroup 3 f.ker →
       ∃ F : Subgroup A, IsElemAbelian 3 F ∧ Nat.card F = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro m
   induction m using Nat.strong_induction_on with
   | _ m ih =>
@@ -365,7 +365,7 @@ theorem exists_elemAb9_of_central_kernel (V : Type) [Group V] [Finite V]
       rw [Subgroup.orderOf_coe, hx]
     have hrc : ∀ a : A, a * r = r * a := fun a => hcen r hrK a
     have hzN : Subgroup.zpowers r ≤ f.ker := Subgroup.zpowers_le.mpr hrK
-    haveI := normal_zpowers_of_central r hrc
+    have := normal_zpowers_of_central r hrc
     let f' : A ⧸ Subgroup.zpowers r →* V := QuotientGroup.lift (Subgroup.zpowers r) f hzN
     have hf'mk : ∀ a : A, f' (a : A ⧸ Subgroup.zpowers r) = f a := fun a => rfl
     have hf'surj : Function.Surjective f' := by

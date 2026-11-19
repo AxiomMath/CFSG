@@ -26,8 +26,8 @@ theorem not_hasStronglyEmbedded_of_normalizers {L : Type} [Group L] [Finite L]
   obtain ⟨F₀, F₁, hF0R, hF1R, hF0e, hF04, hF1ne, htop⟩ := h R
   have hF0M : F₀ ≤ M := hF0R.trans hRM
   have hF1M : F₁ ≤ M := hF1R.trans hRM
-  have hF02 : IsPGroup 2 F₀ := R.isPGroup'.to_le hF0R
-  have hF12 : IsPGroup 2 F₁ := R.isPGroup'.to_le hF1R
+  have hF02 : IsPGroup 2 F₀ := R.isPGroup.to_le hF0R
+  have hF12 : IsPGroup 2 F₁ := R.isPGroup.to_le hF1R
   have hF0ne : F₀ ≠ ⊥ := by
     intro hbot
     rw [hbot, Subgroup.card_bot] at hF04

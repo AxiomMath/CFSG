@@ -95,7 +95,7 @@ private lemma l05nPB_word_J {news : List GGDepANPair} (hnews : ∀ q ∈ news, G
 
 private lemma l05nPB_orbit_involution (gens : Set (Module.End (ZMod 3) (GGDepAE 3 6)))
     (z : GGDepAE 3 6)
-    (hfix : ∀ s ∈ ggDepELPZFixRefl gens z, s * s = 1) :
+    (_hfix : ∀ s ∈ ggDepELPZFixRefl gens z, s * s = 1) :
     ∀ t ∈ ggDepELPZOrbit gens z, t * t = 1 := by
   intro t ht
   rcases ht with ⟨r, hrJ, g, hg, g', hg', hgg', rfl⟩
@@ -149,7 +149,7 @@ theorem ggDepELPZTest_sound {news : List GGDepANPair} (hnews : ∀ q ∈ news, G
     have hle : 3 ≤ w.c0 := Nat.le_of_dvd hc0 hdvd
     omega
   · rw [GGDepELPZBad]
-    haveI : Fintype (Module.End (ZMod 3) (GGDepAE 3 6)) :=
+    have : Fintype (Module.End (ZMod 3) (GGDepAE 3 6)) :=
       Fintype.ofInjective
         (fun f : Module.End (ZMod 3) (GGDepAE 3 6) => (f : GGDepAE 3 6 → GGDepAE 3 6))
         (fun f g h => LinearMap.ext (fun x => congrFun h x))
@@ -183,7 +183,7 @@ theorem ggDepELPZTest_sound {news : List GGDepANPair} (hnews : ∀ q ∈ news, G
           Submonoid.closure ((fun i : {i : Fin 6 // GGDepED4In i} => ggDepELrefl i.1) ''
             Set.univ) := by
         have hgen : ggDepELNGen news e.1 = (ggDepELNH e.1, ggDepELNA e.1) := by
-          rw [ggDepELNGen, if_pos he1lt]
+          rw [ggDepELNGen, ite_eq_left he1lt]
         rw [hgen]
         refine Submonoid.subset_closure ⟨⟨⟨e.1, he1lt⟩, (ggDepELNInJ_iff ⟨e.1, he1lt⟩).mp heJ⟩,
           Set.mem_univ _, ?_⟩
@@ -198,7 +198,7 @@ theorem ggDepELPZTest_sound {news : List GGDepANPair} (hnews : ∀ q ∈ news, G
         have hgJ : ggDepELNInJ g = true := heJw g hg
         have hglt : g < 6 := ggDepELNInJ_lt hgJ
         have hgen : ggDepELNGen news g = (ggDepELNH g, ggDepELNA g) := by
-          rw [ggDepELNGen, if_pos hglt]
+          rw [ggDepELNGen, ite_eq_left hglt]
         rw [hgen]
         refine Submonoid.subset_closure ⟨⟨⟨g, hglt⟩, (ggDepELNInJ_iff ⟨g, hglt⟩).mp hgJ⟩,
           Set.mem_univ _, ?_⟩
@@ -398,7 +398,7 @@ theorem ggDepELPZTest_sound {news : List GGDepANPair} (hnews : ∀ q ∈ news, G
           (z1 : Module.End (ZMod 3) (GGDepAE 3 6)) := congrArg Subtype.val hval
       apply hlin_a_ne
       simpa [z0, z1] using hcoe
-    haveI : Nontrivial {g : ↥M // ∀ h : ↥M, g * h = h * g} := ⟨z0, z1, hz01⟩
+    have : Nontrivial {g : ↥M // ∀ h : ↥M, g * h = h * g} := ⟨z0, z1, hz01⟩
     have h2 : 1 < ggDepELCentreCard M := by
       rw [ggDepELCentreCard]
       exact Finite.one_lt_card

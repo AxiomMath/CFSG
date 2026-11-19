@@ -20,7 +20,7 @@ theorem omegaOrthRank2Solvable_holds : OmegaOrthRank2Solvable CFSG.AGLEmbedding.
   have h4 : Module.finrank (ZMod 2) ↥(fixV t) = 4 := by
     have := finrank_fixV ht3 ht1
     omega
-  haveI := isSolvable_omegaGroup_plus_four (fixQ t) (fixQ_nondegenerate ht3 ht1) h4
+  have := isSolvable_omegaGroup_plus_four (fixQ t) (fixQ_nondegenerate ht3 ht1) h4
     (ncard_fixQ_of_mult_two ht3 ht1 htΩ hm)
   exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
 

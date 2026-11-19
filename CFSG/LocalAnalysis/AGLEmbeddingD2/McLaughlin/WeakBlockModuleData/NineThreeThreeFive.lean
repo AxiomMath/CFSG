@@ -14,6 +14,7 @@ section Group
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem blockU_conj_mem {L : Subgroup G} {ℓ : G} (hℓ : ℓ ∈ L) {u : G} (hu : u ∈ blockU L) :
     ℓ * u * ℓ⁻¹ ∈ blockU L := by
   have hQ : ∀ x ∈ blockQ L, ℓ * x * ℓ⁻¹ ∈ blockQ L := fun x hx =>
@@ -28,7 +29,7 @@ theorem blockU_conj_mem {L : Subgroup G} {ℓ : G} (hℓ : ℓ ∈ L) {u : G} (h
       L.mul_mem (L.mul_mem hℓ hb) (L.inv_mem hℓ), ?_⟩
     simp only [commutatorElement_def]
     group
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul a b _ _ ha hb =>
     have : ℓ * (a * b) * ℓ⁻¹ = (ℓ * a * ℓ⁻¹) * (ℓ * b * ℓ⁻¹) := by group
     rw [this]
@@ -48,7 +49,7 @@ theorem isAlt5_or_lin2 {L : Subgroup G} (hshort : IsShort2 L) (hperf : ⁅L, L�
     apply Subgroup.map_injective L.subtype_injective
     rw [commutator_def, Subgroup.map_commutator, ← MonoidHom.range_eq_map, Subgroup.range_subtype,
       hperf]
-  letI actU : MulDistribMulAction ↥L ↥(blockU L) :=
+  let actU : MulDistribMulAction ↥L ↥(blockU L) :=
     { smul := fun ℓ u => ⟨(ℓ : G) * u * (ℓ : G)⁻¹, blockU_conj_mem ℓ.2 u.2⟩
       one_smul := fun u => Subtype.ext (by
         show ((1 : ↥L) : G) * u * ((1 : ↥L) : G)⁻¹ = u
@@ -145,7 +146,7 @@ theorem isAlt5_or_lin2 {L : Subgroup G} (hshort : IsShort2 L) (hperf : ⁅L, L�
     apply hZne
     rw [eq_top_iff]
     intro u _
-    haveI : IsMulCommutative ↥Z := ⟨⟨fun a b => Subtype.ext (hcomm a b)⟩⟩
+    have : IsMulCommutative ↥Z := ⟨⟨fun a b => Subtype.ext (hcomm a b)⟩⟩
     let c : ↥L →* ↥Z :=
       { toFun := fun ℓ => ⟨ℓ • u * u⁻¹, hcon ℓ u⟩
         map_one' := by apply Subtype.ext; simp

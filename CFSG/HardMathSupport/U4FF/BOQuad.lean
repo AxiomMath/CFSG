@@ -57,7 +57,7 @@ theorem eq_zero_or_one_of_card_two {F : Type} [Field F] [Finite F] (h : Nat.card
   classical
   by_contra hc
   push Not at hc
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have h3 : ({0, 1, c} : Finset F).card = 3 := by
     rw [Finset.card_eq_three]
     exact ⟨0, 1, c, zero_ne_one, hc.1.symm, hc.2.symm, rfl⟩
@@ -106,7 +106,7 @@ theorem partBO_quadratic {n : ℕ} (hn : 1 ≤ n) (hF : Nat.card F = 2 ^ n)
           ((g' : GL OIdx F) : Matrix OIdx OIdx F) *ᵥ (a x)) :
     Nat.card B * Nat.card {x : OIdx → F // ∀ a ∈ B, a x = x} ≤ 2 * Nat.card (OIdx → F) := by
   classical
-  haveI : Nonempty OIdx := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nonempty OIdx := ⟨Sum.inr (Sum.inr 0)⟩
   have hsemi : ∀ a ∈ B, ∃ θ : F →+* F, ∀ (c : F) (x : OIdx → F), a (c • x) = θ c • a x :=
     fun a ha => bo_exists_semilinear_omega hirr (h2 a ha) (hN a ha)
   have hcomm : ∀ a ∈ B, ∀ b ∈ B, a + b = b + a := fun a ha b hb => AddEquiv.ext fun x => by

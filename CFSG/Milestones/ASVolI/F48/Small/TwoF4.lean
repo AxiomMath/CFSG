@@ -31,13 +31,13 @@ theorem burnsideF48s_twoF4_chart {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E
           ((θ x : ↥(twoF4H ⊔ twoF4N)) : Equiv.Perm (Fin 1755)) ∈ twoF4N) ∧
         ∀ x : ↥(M₁ ⊔ M₂), (x : E) ∈ M₂ ↔
           ((θ x : ↥(twoF4H ⊔ twoF4N)) : Equiv.Perm (Fin 1755)) ∈ twoF4H) := by
-  haveI := hyp.normal
+  have := hyp.normal
   obtain ⟨a, K, fK, finK, charK, hscope, hfa, marking, h1, h2⟩ := burnsideF4gF4Two_chart_F4tw hyp
   have ha : a = 0 := by omega
   subst ha
-  letI := fK
-  haveI := finK
-  haveI : CharP K F4.prime := charK
+  let := fK
+  have := finK
+  have : CharP K F4.prime := charK
   have hK' : Nat.card K = 2 ^ (2 * 0 + 1) := hscope
   have hK : Nat.card K = 2 := by simpa using hK'
   have hcen : Subgroup.center ↥(reeGroup K 0) = ⊥ := by
@@ -110,7 +110,7 @@ theorem burnsideF48s_small_F4tw_two (h45 : F_4_5) (h46 : F_4_6) {p f : ℕ} {E :
       have : 2 ^ 3 ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) h3
       omega
   subst hf1
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have hext := burnsideF48s_isLieExtGroup_E ChF.nativeChartCompatibility hyp
   obtain ⟨hGp, θ, hθ⟩ := burnsideF48s_twoF4_chart hyp.toHypF_4_4g
   subst hGp
@@ -120,7 +120,7 @@ theorem burnsideF48s_small_F4tw_two (h45 : F_4_5) (h46 : F_4_6) {p f : ℕ} {E :
   intro Y _ β hβ hs
   have h13 := (burnside_as_F_4_13_of h45 h46 .F4tw 2 1 E ⊤ M₁ M₂ hyp Y β hβ hs).2
   rw [card_G0] at h13
-  haveI : Finite Y := Nat.finite_of_card_ne_zero (by rw [h13]; exact Nat.card_pos.ne')
+  have : Finite Y := Nat.finite_of_card_ne_zero (by rw [h13]; exact Nat.card_pos.ne')
   exact burnsideF48s_qe_of_match_or burnsideF48s_twoF4_match θ hθ β hβ hs
 
 end Main

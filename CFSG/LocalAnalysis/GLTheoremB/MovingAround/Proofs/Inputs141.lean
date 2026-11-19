@@ -56,7 +56,7 @@ theorem isPGroup_center_of_core_bot {X : Type} [Group X] [Finite X] (h : GLAPPri
 theorem glaPPrimeCore_eq_bot_of_center {Y : Type} [Group Y] [Finite Y] {K : Subgroup Y}
     (hKq : CFSG.Open.IsQuasisimple ↥K) (hZ : IsPGroup 3 ↥(Subgroup.center ↥K))
     (h3 : 3 ∣ Nat.card ↥K) : GLAPPrimeCore 3 ↥K = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime 3 (Nat.card ↥(GLAPPrimeCore 3 ↥K)) := CFSG.pPrimeCore_coprime_card
   by_cases htop : GLAPPrimeCore 3 ↥K = ⊤
   · exfalso
@@ -140,11 +140,13 @@ section Family
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pairwise_comm_of {𝒞 : Set (Subgroup G)}
     (hcomm : ∀ X ∈ 𝒞, ∀ X' ∈ 𝒞, X ≠ X' → ∀ x ∈ X, ∀ y ∈ X', x * y = y * x) :
     Pairwise fun (i j : ↥𝒞) => ∀ x y : G, x ∈ (i : Subgroup G) → y ∈ (j : Subgroup G) → Commute x y :=
   fun i j hij x y hx hy => hcomm i.1 i.2 j.1 j.2 (fun h => hij (Subtype.ext h)) x hx y hy
 
+omit [Finite G] in
 theorem noncommPiCoprod_conj {ι : Type} [Fintype ι] {H : ι → Subgroup G}
     (hc : Pairwise fun i j => ∀ x y : G, x ∈ H i → y ∈ H j → Commute x y) (f : ∀ i, H i) (i : ι)
     {y : G} (hy : y ∈ H i) :
@@ -161,6 +163,7 @@ theorem noncommPiCoprod_conj {ι : Type} [Fintype ι] {H : ι → Subgroup G}
     Subgroup.noncommPiCoprod_mulSingle] at h2
   simpa using h2
 
+omit [Finite G] in
 theorem noncommPiCoprod_range_eq {𝒞 : Set (Subgroup G)} [Fintype ↥𝒞]
     (hc : Pairwise fun (i j : ↥𝒞) => ∀ x y : G, x ∈ (i : Subgroup G) → y ∈ (j : Subgroup G) → Commute x y) :
     (Subgroup.noncommPiCoprod (H := fun i : ↥𝒞 => (i : Subgroup G)) hc).range = sSup 𝒞 := by
@@ -172,7 +175,7 @@ theorem exists_pow_three_eq_one_of_mem_center {𝒞 : Set (Subgroup G)}
     (hw : w ∈ sSup 𝒞 ⊓ Subgroup.centralizer ((sSup 𝒞 : Subgroup G) : Set G)) :
     ∃ a : ℕ, w ^ (3 ^ a) = 1 := by
   classical
-  letI : Fintype ↥𝒞 := Fintype.ofFinite _
+  let : Fintype ↥𝒞 := Fintype.ofFinite _
   have hc := pairwise_comm_of hcomm
   have hwr : w ∈ (Subgroup.noncommPiCoprod (H := fun i : ↥𝒞 => (i : Subgroup G)) hc).range := by
     rw [noncommPiCoprod_range_eq hc]
@@ -208,6 +211,7 @@ theorem exists_pow_three_eq_one_of_mem_center {𝒞 : Set (Subgroup G)}
     simpa using orderOf_dvd_iff_pow_eq_one.1 h1
   rw [← map_pow, hf, map_one]
 
+omit [Finite G] in
 theorem sSup_le_normalizer_of_comm {𝒞 : Set (Subgroup G)}
     (hcomm : ∀ X ∈ 𝒞, ∀ X' ∈ 𝒞, X ≠ X' → ∀ x ∈ X, ∀ y ∈ X', x * y = y * x)
     {X : Subgroup G} (hX : X ∈ 𝒞) : sSup 𝒞 ≤ Subgroup.normalizer (X : Set G) := by
@@ -218,6 +222,7 @@ theorem sSup_le_normalizer_of_comm {𝒞 : Set (Subgroup G)}
   · intro y hy
     exact Input183.normalizer_of_commute fun x hx => hcomm X' hX' X hX h y hy x hx
 
+omit [Finite G] in
 theorem isComponentOf_sSup_of_comm {𝒞 : Set (Subgroup G)} (hq : ∀ X ∈ 𝒞, CFSG.Open.IsQuasisimple ↥X)
     (hcomm : ∀ X ∈ 𝒞, ∀ X' ∈ 𝒞, X ≠ X' → ∀ x ∈ X, ∀ y ∈ X', x * y = y * x)
     {X : Subgroup G} (hX : X ∈ 𝒞) : IsComponentOf X (sSup 𝒞) := by
@@ -225,6 +230,7 @@ theorem isComponentOf_sSup_of_comm {𝒞 : Set (Subgroup G)} (hq : ∀ X ∈ �
   exact ⟨hle, IsSubnormal.step hle ((Subgroup.normal_subgroupOf_iff_le_normalizer hle).2
     (sSup_le_normalizer_of_comm hcomm hX)) (IsSubnormal.refl _), hq X hX⟩
 
+omit [Finite G] in
 theorem mem_normalizer_sSup {𝒞 : Set (Subgroup G)} {b : G} (hb : ∀ X ∈ 𝒞, GLBConj b X ∈ 𝒞)
     (hb' : ∀ X ∈ 𝒞, GLBConj b⁻¹ X ∈ 𝒞) :
     b ∈ Subgroup.normalizer ((sSup 𝒞 : Subgroup G) : Set G) := by
@@ -241,12 +247,14 @@ theorem mem_normalizer_sSup {𝒞 : Set (Subgroup G)} {b : G} (hb : ∀ X ∈ �
     rw [← e]
     exact gLBConj_mono b (le_sSup (hb' X hX))
 
+omit [Finite G] in
 theorem commutator_eq_self_of_isQuasisimple {H : Subgroup G} (h : CFSG.Open.IsQuasisimple ↥H) :
     ⁅H, H⁆ = H := by
   have h1 : (commutator ↥H).map H.subtype = ⁅H, H⁆ := by
     rw [commutator_def, Subgroup.map_commutator, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
   rw [← h1, h.1, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
 
+omit [Finite G] in
 theorem mem_centBar_of_mem_centralizer {J : Subgroup G} {c : G}
     (hc : c ∈ Subgroup.centralizer (J : Set G)) : c ∈ centBar 3 ⊤ J := by
   rw [Claims1245b.mem_centBar_forall_iff]
@@ -257,6 +265,7 @@ theorem mem_centBar_of_mem_centralizer {J : Subgroup G} {c : G}
   rw [e]
   exact Subgroup.one_mem _
 
+omit [Finite G] in
 theorem conj_mem_centralizer_of_normalizer {L : Subgroup G} {g c : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) (hc : c ∈ Subgroup.centralizer (L : Set G)) :
     g * c * g⁻¹ ∈ Subgroup.centralizer (L : Set G) := by
@@ -280,6 +289,7 @@ theorem oprod_three {H : Type} [Group H] (f : ℕ → H) : Input183.oprod 3 f = 
   have h1 : Input183.oprod 1 f = Input183.oprod 0 f * f 0 := Input183.oprod_succ 0 f
   rw [h3, h2, h1, Input183.oprod_zero, one_mul]
 
+omit [Finite G] in
 theorem diagSub_ker_le_center {X : Subgroup G} {s : G}
     (hc : ∀ j k, j < 3 → k < 3 → j ≠ k → ∀ x ∈ Input183.orbA s X j, ∀ y ∈ Input183.orbA s X k,
       x * y = y * x) :
@@ -306,6 +316,7 @@ theorem diagSub_ker_le_center {X : Subgroup G} {s : G}
   rw [hxe]
   exact ((c1.mul_right c2).inv_right).eq
 
+omit [Finite G] in
 theorem isQuasisimple_diagSub_range {X : Subgroup G} (hXq : CFSG.Open.IsQuasisimple ↥X) {s : G}
     (hc : ∀ j k, j < 3 → k < 3 → j ≠ k → ∀ x ∈ Input183.orbA s X j, ∀ y ∈ Input183.orbA s X k,
       x * y = y * x) :
@@ -314,6 +325,7 @@ theorem isQuasisimple_diagSub_range {X : Subgroup G} (hXq : CFSG.Open.IsQuasisim
     (QuotientGroup.quotientKerEquivRange _)
     (CFSG.ComponentClassification.Quasisimple.central_quotient hXq _ (diagSub_ker_le_center hc))
 
+omit [Finite G] in
 theorem isKGroup_diagSub_range {X : Subgroup G} (hXK : CFSG.Open.IsKGroup ↥X) {s : G}
     (hc : ∀ j k, j < 3 → k < 3 → j ≠ k → ∀ x ∈ Input183.orbA s X j, ∀ y ∈ Input183.orbA s X k,
       x * y = y * x) :
@@ -322,6 +334,7 @@ theorem isKGroup_diagSub_range {X : Subgroup G} (hXK : CFSG.Open.IsKGroup ↥X) 
     (CFSG.KCore.KGroupNonab.quotient isoInvariant_isCatalogGroup hXK _)
     (QuotientGroup.quotientKerEquivRange _).symm
 
+omit [Finite G] in
 theorem isPGroup_center_diagSub_range {X : Subgroup G} (hXq : CFSG.Open.IsQuasisimple ↥X)
     (hZ : IsPGroup 3 ↥(Subgroup.center ↥X)) {s : G}
     (hc : ∀ j k, j < 3 → k < 3 → j ≠ k → ∀ x ∈ Input183.orbA s X j, ∀ y ∈ Input183.orbA s X k,
@@ -346,6 +359,7 @@ theorem isPGroup_center_diagSub_range {X : Subgroup G} (hXq : CFSG.Open.IsQuasis
   simp only [SubgroupClass.coe_pow, OneMemClass.coe_one]
   rw [← map_pow, hx1, map_one]
 
+omit [Finite G] in
 theorem gLBConj_diagSub_range {X : Subgroup G} {s b : G} (hbs : b * s = s * b)
     (hc : ∀ j k, j < 3 → k < 3 → j ≠ k → ∀ x ∈ Input183.orbA s X j, ∀ y ∈ Input183.orbA s X k,
       x * y = y * x)
@@ -372,7 +386,7 @@ theorem gLBConj_diagSub_range {X : Subgroup G} {s b : G} (hbs : b * s = s * b)
   · rintro ⟨x, hx⟩
     have hx' : b⁻¹ * (x : G) * b ∈ GLBConj b X := by
       rw [mem_gLBConj]
-      simpa [mul_assoc] using x.2
+      simp [mul_assoc]
     refine ⟨⟨b⁻¹ * x * b, hx'⟩, ?_⟩
     rw [Inputs183eqv.diagSub_apply]
     show Input183.oprod 3 (fun j => s ^ j * (b⁻¹ * (x : G) * b) * (s ^ j)⁻¹) = y
@@ -421,7 +435,7 @@ theorem diag_data {𝒞 : Set (Subgroup G)} {s : G} (hs : orderOf s = 3)
   let Dg : Subgroup G → Subgroup G := fun X =>
     if h : X ∈ 𝒞 then (Inputs183eqv.diagSub s 3 X (hAcomm_of X h)).range else ⊥
   have hDg : ∀ X (hX : X ∈ 𝒞), Dg X = (Inputs183eqv.diagSub s 3 X (hAcomm_of X hX)).range :=
-    fun X hX => dif_pos hX
+    fun X hX => dite_eq_left hX
   have hdiag_fixed : ∀ X (hX : X ∈ 𝒞) (x : ↥X),
       s * Inputs183eqv.diagSub s 3 X (hAcomm_of X hX) x * s⁻¹ =
         Inputs183eqv.diagSub s 3 X (hAcomm_of X hX) x :=
@@ -482,6 +496,7 @@ structure IsConfig (𝒞 : Set (Subgroup G)) (B : Subgroup G) : Prop where
   stab : ∀ X ∈ 𝒞, ∀ b ∈ B, GLBConj b X ∈ 𝒞
   trans : ∀ X ∈ 𝒞, ∀ X' ∈ 𝒞, ∃ b ∈ B, GLBConj b X = X'
 
+omit [Finite G] in
 theorem IsConfig.mem_normalizer {𝒞 : Set (Subgroup G)} {B : Subgroup G} (hC : IsConfig 𝒞 B) {b : G}
     (hb : b ∈ B) : b ∈ Subgroup.normalizer ((sSup 𝒞 : Subgroup G) : Set G) :=
   mem_normalizer_sSup (fun X hX => hC.stab X hX b hb) (fun X hX => hC.stab X hX b⁻¹ (B.inv_mem hb))
@@ -557,7 +572,7 @@ theorem config_step {𝒞 : Set (Subgroup G)} {B J : Subgroup G} {k : G} (hC : I
     ∃ 𝒞' : Set (Subgroup G), Nat.card ↥(sSup 𝒞') < Nat.card ↥(sSup 𝒞) ∧ sSup 𝒞' ≤ sSup 𝒞 ∧
       IsConfig 𝒞' B ∧ GLAPComponent 3 (sSup 𝒞' ⊓ Subgroup.centralizer (B : Set G)) J ∧ k ∈ sSup 𝒞' := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : (3 : ℕ).Prime := Nat.prime_three
   set L : Subgroup G := sSup 𝒞 with hL
   set ZL : Subgroup G := L ⊓ Subgroup.centralizer (L : Set G) with hZL
@@ -701,7 +716,7 @@ theorem exists_config (hSch : CFSG.ComponentClassification.CatalogueRelativeB.Ca
       k ∈ sSup 𝒞 ∧ k ∈ Subgroup.centralizer (B : Set Y) ∧ IsPGroup 2 ↥(Subgroup.zpowers k) ∧
       k⁻¹ * v ∈ Subgroup.centralizer ((sSup 𝒞 : Subgroup Y) : Set Y) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp3 : (3 : ℕ).Prime := Nat.prime_three
   have hTK : CFSG.Open.IsKGroup ↥(⊤ : Subgroup Y) :=
     CFSG.KCore.KGroupNonab.of_mulEquiv isoInvariant_isCatalogGroup hYK Subgroup.topEquiv
@@ -739,7 +754,7 @@ theorem exists_config (hSch : CFSG.ComponentClassification.CatalogueRelativeB.Ca
     exact h1
   have hJc : GLAPComponent 3 (M ⊓ Subgroup.centralizer (B : Set Y)) J :=
     glaPComponent_of_le hp3 hJ (le_inf hJM hJ.1) inf_le_right
-  letI : Fintype ↥𝒞 := Fintype.ofFinite _
+  let : Fintype ↥𝒞 := Fintype.ofFinite _
   have hcP := pairwise_comm_of hcomm
   have hl : ∀ i : ↥𝒞, ∃ l ∈ (i : Subgroup Y),
       l⁻¹ * v ∈ Subgroup.centralizer ((i : Subgroup Y) : Set Y) :=

@@ -52,9 +52,9 @@ theorem isRat_heartElt {L' : Type} [Group L'] {φ' : SpecialLinearGroup (Fin d) 
   beta_reduce
   rw [rootT_eq_zpow hab, rootT_eq_zpow hab, zpow_sub₀ hζ0, div_eq_mul_inv]
 
-theorem zmod_eq_zero_of_zpow {p : ℕ} (hp : p.Prime) (hζ : IsPrimitiveRoot ζ p) {N : ℤ}
+theorem zmod_eq_zero_of_zpow {p : ℕ} (_hp : p.Prime) (hζ : IsPrimitiveRoot ζ p) {N : ℤ}
     (h : ζ ^ N = 1) : ((N : ℤ) : ZMod p) = 0 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨_hp.ne_zero⟩
   exact (ZMod.intCast_zmod_eq_zero_iff_dvd N p).mpr ((hζ.zpow_eq_one_iff_dvd N).mp h)
 
 end Field
@@ -64,6 +64,7 @@ section Main
 variable {d p : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2] {L' : Type} [Group L']
   {φ' : SpecialLinearGroup (Fin d) K →* L'}
 
+omit [Finite K] [CharP K 2] in
 theorem ratio_identity (hφker : ∀ g, φ' g = 1 → g ∈ scalars d K) {A : Subgroup (MulAut L')}
     {α : MulAut L'} (hαN : ∀ b ∈ A, α * b * α⁻¹ ∈ A) {π : Equiv.Perm (Fin d)} {e : ℕ}
     (hRA : RatAct φ' A α π e) {E : MulAut L'} (hE : E ∈ A) {r : Fin d → Fin d → K}
@@ -81,6 +82,7 @@ theorem ratio_identity (hφker : ∀ g, φ' g = 1 → g ∈ scalars d K) {A : Su
   beta_reduce at h5
   exact h5
 
+omit [Finite K] [CharP K 2] in
 theorem pairVec_identity (hp : p.Prime) (hφker : ∀ g, φ' g = 1 → g ∈ scalars d K)
     {A : Subgroup (MulAut L')} {α : MulAut L'} (hαN : ∀ b ∈ A, α * b * α⁻¹ ∈ A)
     {π : Equiv.Perm (Fin d)} {e : ℕ} (hRA : RatAct φ' A α π e) {ζ : K}
@@ -98,6 +100,7 @@ theorem pairVec_identity (hp : p.Prime) (hφker : ∀ g, φ' g = 1 → g ∈ sca
   simp only [← pairVec_eq_cast] at h2
   linear_combination h2
 
+omit [Finite K] [CharP K 2] in
 theorem pairVec_identity_pow (hp : p.Prime) (hφker : ∀ g, φ' g = 1 → g ∈ scalars d K)
     {A : Subgroup (MulAut L')} {α : MulAut L'} {π : Equiv.Perm (Fin d)} {e : ℕ}
     (hRAp : RatAct φ' A (α ^ p) (π ^ p) (e ^ p)) {ζ : K} (hζ : IsPrimitiveRoot ζ p)
@@ -121,7 +124,7 @@ theorem noTransvectionSCr_PSL (hp : p.Prime) (hpK : p ∣ Nat.card K - 1) (hd : 
   classical
   intro L' _ _ ψ hψ hker hperf A hA hAI hr h3 hsc α hα hT
   obtain ⟨φα, hφα⟩ := hα
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hp2 : p ≠ 2 := LinUnitL.prime_ne_two_of_dvd_card_sub_one hpK
   obtain ⟨A₀, φ', hφ's, hφker, hcompat, hdiag⟩ :=
     exists_model_compat hp hpK hd hψ hker hperf hA hAI hr h3

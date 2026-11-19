@@ -523,9 +523,9 @@ theorem XData.mem_normalizer_of_five (hF : Fintype.card F = 2 ^ n) (hn : Odd n)
     rcases hcard hX.cw le_rfl hcw_tor with h | h | h
     · exact absurd h hcw1
     · rcases hcard Fix hFixcw hFix_tor with h' | h' | h' <;> rw [h, h'] at hmod ⊢ <;>
-        first | rfl | omega
+        omega
     · rcases hcard Fix hFixcw hFix_tor with h' | h' | h' <;> rw [h, h'] at hmod ⊢ <;>
-        first | rfl | omega
+        omega
   set v₁ := d.β.symm (Multiplicative.ofAdd (Pi.single 1 (1 : F))) with hv₁
   have hfix : conjW Q hyQ (hX.vcolHom hF (Multiplicative.ofAdd 1)) =
       hX.vcolHom hF (Multiplicative.ofAdd 1) := by

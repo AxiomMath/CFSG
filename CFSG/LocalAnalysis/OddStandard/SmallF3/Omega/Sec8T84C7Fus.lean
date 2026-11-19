@@ -43,8 +43,8 @@ theorem bad_case_false (F : Sec8T84Base) (h89 : Asc82Lemma89) (hA5 : Sec8T84Fact
     obtain ⟨φ⟩ := B89.Abar_equiv_A6 F hE
     rw [Nat.card_congr φ.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     decide
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(B89.Abar hE) := Nat.finite_of_card_ne_zero (by rw [hA360]; norm_num)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(B89.Abar hE) := Nat.finite_of_card_ne_zero (by rw [hA360]; norm_num)
   obtain ⟨a', ha'ord⟩ :=
     exists_prime_orderOf_dvd_card' (G := ↥(B89.Abar hE)) 2 (by rw [hA360]; norm_num)
   have ha₀ : (a' : MulAut ↥E) ∈ B89.Abar hE := a'.2

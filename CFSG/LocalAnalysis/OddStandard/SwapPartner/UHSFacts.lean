@@ -78,7 +78,7 @@ theorem hsFacts_holds :
           _ = n * y := by rw [h']
       exact hny hcomm
     have hσord : orderOf σ = 2 := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact orderOf_eq_prime (by rw [pow_two]; exact hσ2) hσ1
     have hmapfixed : (fixedSubgroup σ).map N.subtype = N ⊓ centralizer ({y} : Set Y) := by
       ext x
@@ -129,7 +129,7 @@ theorem hsFacts_holds :
           exact hnn_center
         have hn1 : n ≠ 1 := fun h => hσ1' (by rw [h, map_one])
         have hn2 : orderOf n = 2 := by
-          haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+          have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
           exact orderOf_eq_prime (by rw [pow_two]; exact hnn) hn1
         have hfixeq : fixedSubgroup (MulAut.conj n) = centralizer ({n} : Set ↥N) := by
           ext g

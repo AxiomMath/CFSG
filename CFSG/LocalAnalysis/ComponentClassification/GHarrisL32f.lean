@@ -35,7 +35,7 @@ theorem isSylowOf_X :
 theorem not_conj_x_a3a4 :
     ¬ ∃ g : G, g⁻¹ * D.x * g = D.a3a4 := by
   rintro ⟨g, hg⟩
-  obtain ⟨g₁, -, hC⟩ := exists_conj_extremal D.S.isPGroup' D.isSylowOf_X hg
+  obtain ⟨g₁, -, hC⟩ := exists_conj_extremal D.S.isPGroup D.isSylowOf_X hg
   set K := ((D.S : Subgroup G) ⊓ centralizer ({D.a3a4} : Set G)).map
     (MulAut.conj g₁⁻¹).toMonoidHom
   have hKX : K ≤ D.X := by

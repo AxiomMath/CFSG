@@ -306,7 +306,7 @@ theorem coordinate_sylow_overgroups (i : Fˣ) (hi : orderOf i = 4) (s t w : Stat
   refine ⟨hS, ?_, hcard, hAcard, hBcard, pointStab_sup_frameStab_eq_top hF, ?_, ?_, ?_, ?_,
     ⟨frobSU_mul_self hF, ?_⟩, map_frobSU_closure hF i hi s t w hs ht hw, ?_, ?_⟩
   · refine CFSG.QuasithinUnique.isSylowTwoOf_iff.mpr ⟨le_top, ?_, ?_⟩
-    · rw [← hP]; exact P.isPGroup'
+    · rw [← hP]; exact P.isPGroup
     · rw [← hP, CFSG.QuasithinUnique.twoPart, Subgroup.card_top]
       exact P.card_eq_multiplicity
   · intro h

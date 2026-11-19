@@ -246,7 +246,7 @@ theorem overEight_of_fieldSize_eq_eight {d : TauCeti.LieTypeIndex} (h : fieldSiz
   rcases d with ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | q | q | q | q | q | q | q | m | m | m | _ <;>
     simp only [fieldSize] at h
   all_goals first
-    | simpa [overEight] using h
+    | simp [overEight] at h ⊢; all_goals exact h
     | exact absurd ⟨m, rfl⟩ hS
     | (exfalso
        have h' : 3 ^ (2 * m + 1) = 2 ^ 3 := by norm_num at h ⊢; exact h
@@ -258,7 +258,6 @@ theorem overEight_of_fieldSize_eq_eight {d : TauCeti.LieTypeIndex} (h : fieldSiz
          omega
        subst hm
        simp [overEight])
-    | omega
 
 theorem k2Lie_three_of_card_eight {d : TauCeti.LieTypeIndex} {q : TauCeti.PrimePower}
     (hd : d = .A 1 q ∨ d = .twistedA 2 q) (hq : q.card = 8) : k2Lie 3 d := by
@@ -307,7 +306,7 @@ theorem eight_le_of_twistedA_two (d : TauCeti.ValidLieTypeIndex) {n : ℕ}
     exact absurd (hstd.2 rfl) (by rw [hq]; norm_num)
   by_contra hlt
   have hn8 : n < 8 := by omega
-  interval_cases n <;> simp_all [k2Lie, hq2]
+  interval_cases n <;> simp_all [k2Lie]
 
 theorem isTrialityD4Big_of_trialityD4 {d : TauCeti.LieTypeIndex} {q : TauCeti.PrimePower}
     (hd : d = .trialityD4 q) (h2 : ¬ ov2Idx d) (h3 : d.characteristic ≠ 3) :
@@ -338,7 +337,6 @@ theorem not_multIdx_three_of_ov2Idx {d : TauCeti.LieTypeIndex} (h : ov2Idx d)
   rcases d with ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | q | q | q | q | q | q | q | m | m | m | _ <;>
     simp only [ov2Idx, fieldSize, multIdx] at h hm
   all_goals first
-    | exact hm
     | exact hU ⟨_, _, rfl, hm.1⟩
     | exact hE ⟨_, rfl⟩
     | (rw [h] at hm; norm_num at hm)
@@ -348,10 +346,8 @@ theorem not_multIdx_three_of_overEight {d : TauCeti.LieTypeIndex} (h : overEight
     (hE : ¬ ∃ q : TauCeti.PrimePower, d = .twistedE6 q) : ¬ multIdx 3 d := by
   intro hm
   rcases d with ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | q | q | q | q | q | q | q | m | m | m | _ <;>
-    simp only [overEight, fieldSize, multIdx] at h hm
+    simp only [overEight, multIdx] at h hm
   all_goals first
-    | exact hm
-    | exact h
     | exact hU ⟨_, _, rfl, hm.1⟩
     | exact hE ⟨_, rfl⟩
     | (rw [h] at hm; norm_num at hm)
@@ -378,7 +374,6 @@ theorem lpEpsIdx_of_multIdx_three {d : TauCeti.LieTypeIndex} (h : multIdx 3 d)
     omega
   · have h5 : 5 ≤ 3 := hlow 5 ⟨rfl, h.2, rfl⟩
     omega
-  all_goals exact h
 
 theorem not_multIdx_field_of_overEight (d : TauCeti.ValidLieTypeIndex) (h : overEight d.1)
     (hk : ¬ k2Lie 3 d.1) (hf : ∀ k, i5FieldBound d.1 k → k + 1 ≤ 4) :
@@ -520,7 +515,6 @@ theorem k2Lie_five_of_compRel (d : TauCeti.ValidLieTypeIndex) {e : TauCeti.LieTy
     · rcases d with ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | q | q | q | q | q | q | q | m | m | m | _ <;>
         simp only [suzRee, fieldSize] at hsuz hfield <;>
         simp at hsuz
-      all_goals try exact hsuz
       · simp [k2Lie]
         norm_num at hfield
         have hm1 : 1 ≤ m := by
@@ -554,7 +548,6 @@ theorem k2Lie_five_of_compRel (d : TauCeti.ValidLieTypeIndex) {e : TauCeti.LieTy
     · rcases d with ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | q | q | q | q | q | q | q | m | m | m | _ <;>
         simp only [suzRee, fieldSize] at hsuz hfield <;>
         simp at hsuz
-      all_goals try exact hsuz
       · simp [k2Lie]
         have hm1 : 1 ≤ m := by
           have hrange := ((TauCeti.LieTypeIndex.valid_iff
@@ -731,7 +724,6 @@ theorem overEight_of_subRel {d : TauCeti.LieTypeIndex} (e : TauCeti.ValidLieType
     subst hk
     rcases e with ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | ⟨n, q⟩ | q | q | q | q | q | q | q | m | m | m | _ <;>
       simp only [sameShape] at hs
-    all_goals try exact hs
     simp only [fieldSize] at he
     have hm1 : 1 ≤ m := by
       have hrange := ((TauCeti.LieTypeIndex.valid_iff

@@ -50,7 +50,7 @@ private theorem ggPhanOrb_exists_le_of_comm {G : Type} [Group G] {L : Subgroup G
   have hTi_normal : ∀ i, (T i).Normal := fun i =>
     (Subgroup.normal_subgroupOf_iff_le_normalizer (hSL i)).2 (hLnorm i)
   have hnormal : ∀ i, T i ≤ Subgroup.center ↥L ∨ T i = ⊤ := fun i => by
-    haveI := hTi_normal i
+    have := hTi_normal i
     exact ggPhanOrbAux_quasisimple_normal_le_center_or_eq_top hL (T i)
   have hnot : ∀ i, T i ≠ ⊤ := by
     intro i hi
@@ -67,8 +67,8 @@ private theorem ggPhanOrb_exists_le_of_comm {G : Type} [Group G] {L : Subgroup G
     rw [Subgroup.map_top, Subgroup.range_subtype]
     exact hgen
   have hcenter : Subgroup.center ↥L = ⊤ := top_le_iff.mp (hunion.symm ▸ hle)
-  haveI : Subsingleton (↥L ⧸ Subgroup.center ↥L) := QuotientGroup.subsingleton_iff.mpr hcenter
-  haveI : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hL.2.toNontrivial
+  have : Subsingleton (↥L ⧸ Subgroup.center ↥L) := QuotientGroup.subsingleton_iff.mpr hcenter
+  have : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hL.2.toNontrivial
   obtain ⟨a, b, hab⟩ := exists_pair_ne (↥L ⧸ Subgroup.center ↥L)
   exact hab (Subsingleton.elim a b)
 

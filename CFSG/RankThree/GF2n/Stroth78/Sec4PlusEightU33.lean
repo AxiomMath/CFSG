@@ -75,9 +75,9 @@ theorem not_lieModel_psu33_of_card_ZQ_eq_four
     ¬ CFSG.Blueprint.LieModel ↥(Xsub S a) .PSU 3 3 1 := by
   intro hX
   classical
-  letI := modAbF S
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
-  haveI hXn : (Xsub S a).Normal := Xsub_normal S a
+  let := modAbF S
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have hXn : (Xsub S a).Normal := Xsub_normal S a
   have hX' : CFSG.Open.StatedClassicalModel ↥(Xsub S a) .PSU 3 3 1 :=
     hX.statedClassicalModel (by decide)
   have hZX : Subgroup.center ↥(Xsub S a) = ⊥ := center_Xsub_eq_bot_of_threeFourPlus S h h217 h34
@@ -102,7 +102,7 @@ theorem not_lieModel_psu33_of_card_ZQ_eq_four
       ⟨⟨⟨fun x y => Subtype.ext (hEcomm x x.2 y y.2)⟩⟩, fun x hx => by
         rw [pow_two]
         exact hE x hx⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hp : IsPGroup 2 E := fun x => ⟨1, Subtype.ext (by simpa using hEel.2 x x.2)⟩
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hp
     have hk2 := CFSG.SectionRank.le_pRank Nat.one_lt_two le_top hEel hk
@@ -130,7 +130,7 @@ theorem not_lieModel_psu33_of_card_ZQ_eq_four
       (Subgroup.card_dvd_of_le (inf_le_right : Lbar S a ⊓ C ≤ C)).trans hC6
     have h3 : ¬ 3 ∣ Nat.card ↥(Lbar S a ⊓ C) := by
       intro h3
-      haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+      have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Lbar S a ⊓ C)) 3 h3
       have hx2 : x * x = 1 := Subtype.ext (hA x (Subgroup.mem_inf.mp x.2).1)
       have hdv : orderOf x ∣ 2 := orderOf_dvd_of_pow_eq_one (by rw [pow_two]; exact hx2)
@@ -202,8 +202,8 @@ theorem not_lieModel_psu33_of_card_ZQ_eq_four
   have hCcard : Nat.card ↥C = 6 := by
     rw [Nat.card_congr eC.toEquiv, Nat.card_eq_fintype_card, Fintype.card_perm, Fintype.card_fin]
     rfl
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨ρ', hρ'⟩ := exists_prime_orderOf_dvd_card' (G := ↥C) 3 (by rw [hCcard]; norm_num)
   obtain ⟨σ', hσ'⟩ :=
     exists_prime_orderOf_dvd_card' (G := ↥(Xsub S a)) 7 (by rw [hcardX]; norm_num)

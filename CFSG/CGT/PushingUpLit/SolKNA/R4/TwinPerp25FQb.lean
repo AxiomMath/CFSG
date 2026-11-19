@@ -45,7 +45,7 @@ namespace CFSG.CGT.PushingUpLit.SolKNA.R4.C2516
 theorem exists_multHom {G : Type*} [Group G] {x : G} {m : ℕ} (hm : orderOf x = m) (hm0 : 0 < m)
     (H : Subgroup G) (hH : ∀ h ∈ H, h * x * h⁻¹ ∈ Subgroup.zpowers x) :
     ∃ α : H →* (ZMod m)ˣ, ∀ h : H, (h : G) * x * (h : G)⁻¹ = x ^ ((α h : ZMod m).val) := by
-  haveI : NeZero m := ⟨hm0.ne'⟩
+  have : NeZero m := ⟨hm0.ne'⟩
   have hinj : ∀ p q : ℕ, x ^ p = x ^ q → (p : ZMod m) = (q : ZMod m) := by
     intro p q hpq
     rw [pow_eq_pow_iff_modEq, hm] at hpq
@@ -82,7 +82,7 @@ theorem exists_multHom {G : Type*} [Group G] {x : G} {m : ℕ} (hm : orderOf x =
   exact ⟨φ.toHomUnits, fun h => he h⟩
 
 theorem exists_extHom {Y : Type*} [Group Y] {A : Type*} [CommGroup A] {P N : Subgroup Y}
-    (hNP : N ≤ P) {t' : Y} (ht'P : t' ∈ P) (ht'2 : t' * t' = 1) (ht'N : t' ∉ N)
+    (_hNP : N ≤ P) {t' : Y} (_ht'P : t' ∈ P) (ht'2 : t' * t' = 1) (ht'N : t' ∉ N)
     (hcov : ∀ g ∈ P, g ∈ N ∨ t' * g ∈ N) (hconj : ∀ g ∈ N, t' * g * t'⁻¹ ∈ N)
     (ψ : ↥N →* A)
     (hinv : ∀ (g : Y) (hg : g ∈ N) (hg' : t' * g * t'⁻¹ ∈ N),
@@ -95,9 +95,9 @@ theorem exists_extHom {Y : Type*} [Group Y] {A : Type*} [CommGroup A] {P N : Sub
     ⟨fun g => if hg : g ∈ N then ψ ⟨g, hg⟩ else if hg' : t' * g ∈ N then ψ ⟨t' * g, hg'⟩ else 1,
       fun g => rfl⟩
   have hFN : ∀ g : Y, ∀ hg : g ∈ N, F g = ψ ⟨g, hg⟩ := fun g hg => by
-    rw [hF, dif_pos hg]
+    rw [hF, dite_eq_left hg]
   have hFnN : ∀ g : Y, ∀ hg : g ∉ N, ∀ hg' : t' * g ∈ N, F g = ψ ⟨t' * g, hg'⟩ :=
-    fun g hg hg' => by rw [hF, dif_neg hg, dif_pos hg']
+    fun g hg hg' => by rw [hF, dite_eq_right hg, dite_eq_left hg']
   have hnN : ∀ g : Y, g ∈ N → t' * g ∉ N := by
     intro g hg htg
     apply ht'N
@@ -157,7 +157,7 @@ theorem exists_extHom {Y : Type*} [Group Y] {A : Type*} [CommGroup A] {P N : Sub
   · intro g _ hg
     exact hFnN g (fun hgN => hnN g hgN hg) hg
 
-theorem exists_conj_of_inv_odd {G : Type*} [Group G] {s o : G} (hs : s * s = 1)
+theorem exists_conj_of_inv_odd {G : Type*} [Group G] {s o : G} (_hs : s * s = 1)
     (ho : Odd (orderOf o)) (hso : s * o * s⁻¹ = o⁻¹) :
     ∃ w ∈ Subgroup.zpowers o, o * s = w * s * w⁻¹ := by
   obtain ⟨k, hk⟩ := ho

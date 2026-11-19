@@ -88,14 +88,14 @@ private theorem lre6bsa_lieAdm_markTag {lab : LargeEvenLabel} (hl : LargeEvenInL
     obtain ⟨-, -, hodd, h3⟩ := hl
     rw [Nat.odd_iff] at hodd
     simp [hodd, h3]
-  all_goals first | rfl | (split_ifs <;> rfl)
+  all_goals (split_ifs <;> rfl)
 
 private theorem lre6bsa_labOrd_eq_lieOrd_of_markTag_mem {lab : LargeEvenLabel}
     (ht : markTag lab ∈ searchTags) :
     labOrd lab = lieOrd (markTag lab) (markRank lab) (markChar lab ^ markDeg lab) := by
   obtain ⟨t, l, n⟩ := lab
   cases t <;> simp only [labOrd, markTag, markRank, markChar, markDeg]
-  all_goals first | rfl |
+  all_goals first |
     (exact absurd ht (by simp only [markTag, searchTags]; decide))
 
 theorem ordBM_search_label {N : ℕ} (hN : N ≠ 0) {C : StatedLieTag → ℕ → ℕ → ℕ → Bool}
@@ -121,7 +121,7 @@ theorem ordBM_search_label {N : ℕ} (hN : N ≠ 0) {C : StatedLieTag → ℕ �
 
 private theorem lre6bsb_factorization_of {N p k m : ℕ} (hN : N = p ^ k * m)
     (hm : ¬ p ∣ m) (hp : p.Prime) : N.factorization p = k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hm0 : m ≠ 0 := by rintro rfl; exact hm (dvd_zero p)
   rw [hN, Nat.factorization_def (p ^ k * m) hp,
     padicValNat.mul (pow_ne_zero k hp.ne_zero) hm0,

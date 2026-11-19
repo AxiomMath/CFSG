@@ -90,7 +90,7 @@ private theorem fittingSubgroupOf_isNilpotent_local
     {G : Type u} [Group G] [Finite G] (H : Subgroup G) :
     Group.IsNilpotent (↥(fittingSubgroupOf H)) := by
   change Group.IsNilpotent (↥((fittingSubgroup (↥H)).map H.subtype))
-  haveI : Group.IsNilpotent (fittingSubgroup (↥H)) := by infer_instance
+  have : Group.IsNilpotent (fittingSubgroup (↥H)) := by infer_instance
   exact Group.nilpotent_of_mulEquiv
     (Subgroup.equivMapOfInjective (fittingSubgroup (↥H)) H.subtype H.subtype_injective)
 
@@ -103,16 +103,16 @@ private theorem pGammaL2_fittingSubgroup_eq_bot_of_contains_psl
     (hPSL : pGammaL2PSLRange K ≤ A) :
     fittingSubgroupOf A = ⊥ := by
   classical
-  letI : Finite (PGL2 K) :=
+  let : Finite (PGL2 K) :=
     Finite.of_surjective Matrix.ProjGenLinGroup.mk
       Matrix.ProjGenLinGroup.mk_surjective
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Finite (K ≃+* K) :=
+  let : Fintype K := Fintype.ofFinite K
+  let : Finite (K ≃+* K) :=
     Finite.of_injective (fun e : K ≃+* K => (e : K → K)) (by
       intro e f hef
       ext x
       exact congrFun hef x)
-  letI : Finite (PGammaL2 K) :=
+  let : Finite (PGammaL2 K) :=
     Finite.of_injective
       (fun x : PGammaL2 K => (x.left, x.right)) (by
         intro x y hxy
@@ -120,7 +120,7 @@ private theorem pGammaL2_fittingSubgroup_eq_bot_of_contains_psl
           (congrArg Prod.fst hxy) (congrArg Prod.snd hxy))
   let F : Subgroup (PGammaL2 K) := fittingSubgroupOf A
   let L : Subgroup (PGammaL2 K) := pGammaL2PSLRange K
-  letI : L.Normal := pGammaL2PSLRange_normal K hK hcard
+  let : L.Normal := pGammaL2PSLRange_normal K hK hcard
   have hFnormA : IsNormalIn F A := fittingSubgroupOf_isNormalIn_local A
   have hFnil : Group.IsNilpotent (↥F) := fittingSubgroupOf_isNilpotent_local A
   have hFleA : F ≤ A := hFnormA.1
@@ -132,7 +132,7 @@ private theorem pGammaL2_fittingSubgroup_eq_bot_of_contains_psl
       have hK0leF : K0 ≤ F := inf_le_left
       have hK0leL : K0 ≤ L := inf_le_right
       have hK0nil : Group.IsNilpotent (↥K0) := by
-        haveI : Group.IsNilpotent (↥F) := hFnil
+        have : Group.IsNilpotent (↥F) := hFnil
         exact Group.nilpotent_of_mulEquiv (G := K0.subgroupOf F) (G' := ↥K0)
           (Subgroup.subgroupOfEquivOfLe hK0leF)
       have hK0normL : IsNormalIn K0 L := by
@@ -141,14 +141,14 @@ private theorem pGammaL2_fittingSubgroup_eq_bot_of_contains_psl
         refine Subgroup.mem_inf.mpr ⟨?_, ?_⟩
         · exact hFnormA.2 l (hPSL hl) y hy.1
         · exact L.mul_mem (L.mul_mem hl hy.2) (L.inv_mem hl)
-      letI : (K0.subgroupOf L).Normal :=
+      let : (K0.subgroupOf L).Normal :=
         Subgroup.normal_subgroupOf_of_le_normalizer (H := L) (N := K0)
           (le_normalizer_of_isNormalIn_local hK0normL)
       have hcard4 : 4 ≤ Nat.card K := by omega
-      letI : IsSimpleGroup (PSL2 K) :=
+      let : IsSimpleGroup (PSL2 K) :=
         Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hcard4
       let eL : PSL2 K ≃* L := pGammaL2PSLRangeEquiv K
-      letI : IsSimpleGroup L :=
+      let : IsSimpleGroup L :=
         (MulEquiv.isSimpleGroup_congr eL).mp
           (Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hcard4)
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (K0.subgroupOf L) with
@@ -168,15 +168,15 @@ private theorem pGammaL2_fittingSubgroup_eq_bot_of_contains_psl
             trivial
           have hyK0 : y ∈ K0 := Subgroup.mem_subgroupOf.mp hyK0'
           exact hyK0.1
-        haveI : Group.IsNilpotent (↥L) := by
-          haveI : Group.IsNilpotent (↥F) := hFnil
+        have : Group.IsNilpotent (↥L) := by
+          have : Group.IsNilpotent (↥F) := hFnil
           exact Group.nilpotent_of_mulEquiv (G := L.subgroupOf F) (G' := ↥L)
             (Subgroup.subgroupOfEquivOfLe hLleF)
         have hLnilPSL : Group.IsNilpotent (PSL2 K) :=
           Group.nilpotent_of_mulEquiv (G := ↥L) (G' := PSL2 K) eL.symm
         have hPSLne : ¬ Group.IsNilpotent (PSL2 K) := by
           intro hnil
-          letI : Group.IsNilpotent (PSL2 K) := hnil
+          let : Group.IsNilpotent (PSL2 K) := hnil
           have hne : Subgroup.center (PSL2 K) ≠ ⊥ :=
             Group.IsNilpotent.center_ne_bot (PSL2 K)
           exact hne (psl2_center_eq_bot K)
@@ -225,16 +225,16 @@ public theorem pGammaL2_normal_nilpotent_odd_subgroup_fieldProjection_trivial
     (hNnil : Group.IsNilpotent N) :
     N ≤ pGammaL2LinearKernel K A ∧ N ≤ (pGammaL2PSLRange K).subgroupOf A := by
   classical
-  letI : Finite (PGL2 K) :=
+  let : Finite (PGL2 K) :=
     Finite.of_surjective Matrix.ProjGenLinGroup.mk
       Matrix.ProjGenLinGroup.mk_surjective
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Finite (K ≃+* K) :=
+  let : Fintype K := Fintype.ofFinite K
+  let : Finite (K ≃+* K) :=
     Finite.of_injective (fun e : K ≃+* K => (e : K → K)) (by
       intro e f hef
       ext x
       exact congrFun hef x)
-  letI : Finite (PGammaL2 K) :=
+  let : Finite (PGammaL2 K) :=
     Finite.of_injective
       (fun x : PGammaL2 K => (x.left, x.right)) (by
         intro x y hxy
@@ -253,7 +253,7 @@ public theorem pGammaL2_normal_nilpotent_odd_subgroup_fieldProjection_trivial
     exact (inferInstance : N.Normal).conj_mem n hn ⟨a, ha⟩
   have hN'nil : Group.IsNilpotent (↥N') := by
     let e : N ≃* N' := Subgroup.equivMapOfInjective N A.subtype A.subtype_injective
-    haveI : Group.IsNilpotent N := hNnil
+    have : Group.IsNilpotent N := hNnil
     exact Group.nilpotent_of_mulEquiv (G := N) (G' := N') e
   -- a normal nilpotent subgroup of `A` lies in `F(A)`
   have hN'leF : N' ≤ fittingSubgroupOf A := by
@@ -262,7 +262,7 @@ public theorem pGammaL2_normal_nilpotent_odd_subgroup_fieldProjection_trivial
       Subgroup.normal_subgroupOf_of_le_normalizer (H := A) (N := N')
         (le_normalizer_of_isNormalIn_local hN'normal)
     have hN''nil : Group.IsNilpotent N'' := by
-      haveI : Group.IsNilpotent N' := hN'nil
+      have : Group.IsNilpotent N' := hN'nil
       exact Group.nilpotent_of_mulEquiv (G := N') (G' := N'')
         (Subgroup.subgroupOfEquivOfLe hN'leA).symm
     have hle : N'' ≤ fittingSubgroup (↥A) := le_sSup ⟨hN''normal, hN''nil⟩

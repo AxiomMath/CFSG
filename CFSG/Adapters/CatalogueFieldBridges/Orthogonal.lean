@@ -28,11 +28,11 @@ theorem exists_mulEquiv_catalogue_pomegaOdd {n ℓ s : ℕ} {k : Type} [Field k]
     Nonempty (matrixProjectiveDerived (coordinateQuadOdd n k) ≃*
       (TauCeti.CFSGIndex.lie ⟨.B n ⟨ℓ, s, hℓ, hpos⟩, hv₀⟩).Group) := by
   obtain ⟨-, K₁, hfield, hfinite, hK₁, ⟨θ⟩⟩ := hSCk
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   let Fd := ↥(ValidLieTypeIndex.fixedField ⟨.B n ⟨ℓ, s, hℓ, hpos⟩, hv₀⟩)
   have hFd : Finite Fd := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
-  letI := hFd
+  let := hFd
   have hK₁' : Nat.card K₁ = ValidLieTypeIndex.fieldOrder ⟨.B n ⟨ℓ, s, hℓ, hpos⟩, hv₀⟩ := by
     have hc : ValidLieTypeIndex.characteristic ⟨.B n ⟨ℓ, s, hℓ, hpos⟩, hv₀⟩ =
         (⟨ℓ, s, hℓ, hpos⟩ : TauCeti.PrimePower).p :=
@@ -51,17 +51,17 @@ theorem exists_mulEquiv_catalogue_pomegaOdd {n ℓ s : ℕ} {k : Type} [Field k]
 
 theorem exists_mulEquiv_catalogue_pomegaPlus {n ℓ s : ℕ} {k : Type} [Field k] [Finite k]
     (hℓ : ℓ.Prime) (hpos : 0 < s)
-    (hv₀ : (TauCeti.LieTypeIndex.D n ⟨ℓ, s, hℓ, hpos⟩).Valid) (hn4 : 4 ≤ n)
+    (hv₀ : (TauCeti.LieTypeIndex.D n ⟨ℓ, s, hℓ, hpos⟩).Valid) (_hn4 : 4 ≤ n)
     (hSCk : StatedClassicalModel (matrixProjectiveDerived (coordinateQuadPlus n k))
       .POmegaPlus n ℓ s) :
     Nonempty (matrixProjectiveDerived (coordinateQuadPlus n k) ≃*
       (TauCeti.CFSGIndex.lie ⟨.D n ⟨ℓ, s, hℓ, hpos⟩, hv₀⟩).Group) := by
   obtain ⟨-, K₁, hfield, hfinite, hK₁, ⟨θ⟩⟩ := hSCk
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   let Fd := ↥(ValidLieTypeIndex.fixedField ⟨.D n ⟨ℓ, s, hℓ, hpos⟩, hv₀⟩)
   have hFd : Finite Fd := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
-  letI := hFd
+  let := hFd
   have hK₁' : Nat.card K₁ = ValidLieTypeIndex.fieldOrder ⟨.D n ⟨ℓ, s, hℓ, hpos⟩, hv₀⟩ := by
     have hc : ValidLieTypeIndex.characteristic ⟨.D n ⟨ℓ, s, hℓ, hpos⟩, hv₀⟩ =
         (⟨ℓ, s, hℓ, hpos⟩ : TauCeti.PrimePower).p :=
@@ -79,19 +79,19 @@ theorem exists_mulEquiv_catalogue_pomegaPlus {n ℓ s : ℕ} {k : Type} [Field k
     (SpinD.typeDGroupEquivStatedProj_of_valid n ⟨ℓ, s, hℓ, hpos⟩ hv₀).symm)⟩
 
 theorem exists_mulEquiv_catalogue_pomegaMinus {n ℓ s : ℕ} {k : Type} [Field k] [Finite k]
-    (hn : 1 ≤ n) {b c : k} (hirr : ∀ t : k, t ^ 2 + b * t + c ≠ 0)
+    (hn : 1 ≤ n) {b c : k} (_hirr : ∀ t : k, t ^ 2 + b * t + c ≠ 0)
     (hℓ : ℓ.Prime) (hpos : 0 < s)
-    (hv₀ : (TauCeti.LieTypeIndex.twistedD n ⟨ℓ, s, hℓ, hpos⟩).Valid) (hn4 : 4 ≤ n)
+    (hv₀ : (TauCeti.LieTypeIndex.twistedD n ⟨ℓ, s, hℓ, hpos⟩).Valid) (_hn4 : 4 ≤ n)
     (hSCk : StatedClassicalModel (matrixProjectiveDerived (coordinateQuadMinus n k hn b c))
       .POmegaMinus n ℓ s) :
     Nonempty (matrixProjectiveDerived (coordinateQuadMinus n k hn b c) ≃*
       (TauCeti.CFSGIndex.lie ⟨.twistedD n ⟨ℓ, s, hℓ, hpos⟩, hv₀⟩).Group) := by
   obtain ⟨-, K₁, hfield, hfinite, hK₁, b₁, c₁, hirr₁, ⟨θ⟩⟩ := hSCk
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   let Fd := ↥(ValidLieTypeIndex.fixedField ⟨.twistedD n ⟨ℓ, s, hℓ, hpos⟩, hv₀⟩)
   have hFd : Finite Fd := CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
-  letI := hFd
+  let := hFd
   have hK₁' : Nat.card K₁ = ValidLieTypeIndex.fieldOrder ⟨.twistedD n ⟨ℓ, s, hℓ, hpos⟩, hv₀⟩ := by
     have hc : ValidLieTypeIndex.characteristic ⟨.twistedD n ⟨ℓ, s, hℓ, hpos⟩, hv₀⟩ =
         (⟨ℓ, s, hℓ, hpos⟩ : TauCeti.PrimePower).p :=

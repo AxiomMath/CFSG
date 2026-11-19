@@ -62,8 +62,7 @@ theorem cover : coverCheck () = true := by
   simp (disch := hr_disch) only [syl_eq, planeData, List.map_cons, List.map_nil, List.all_cons,
     List.all_nil, List.any_cons, List.any_nil, Bool.and_true, Bool.or_false, aArr_G, isPairE,
     oneE, cubeE, commE, memE, powsE, planeE, List.flatMap_cons, List.flatMap_nil, List.append_nil,
-    List.cons_append, List.nil_append, List.filter_map, List.all_map, List.any_map,
-    Function.comp_def, compA_G, eqA_G, idA_G]
+    List.cons_append, List.nil_append, List.filter_map, List.all_map, Function.comp_def, compA_G, eqA_G, idA_G]
   quickRfl
 
 theorem gen : genCheck () = true := by
@@ -72,7 +71,7 @@ theorem gen : genCheck () = true := by
   simp (disch := hr_disch) only [wordArr_listA, gen_get]
   simp (disch := hr_disch) only [cenZ, cenV, slp, List.getD_cons_zero, List.getD_cons_succ,
     List.cons_append, List.nil_append, List.map_cons, List.map_nil, List.all_cons, List.all_nil,
-    Bool.and_true, aArr_G, commE, compA_G, eqA_G, invCand_G, isInvA_G, idA_G]
+    Bool.and_true, aArr_G, commE, compA_G, eqA_G, invCand_G, isInvA_G]
   quickRfl
 
 end CertificateChecks.KernelTitsW.P188009

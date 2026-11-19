@@ -223,6 +223,7 @@ theorem R3Hyp.τ_ker_inv [Finite Γ] (he : matOf e τW = tM16) : ∀ g ∈ π.ke
 theorem R3Hyp.odd_card_ker [Finite Γ] (he : matOf e τW = tM16) : Odd (Nat.card π.ker) :=
   odd_card_of_fixedPoints τ h.ττ (fun _ hg => h.τ_mem_ker he hg) (fun g hg hτ => h.Kr g hg hτ)
 
+omit h in
 theorem R3Hyp.matOf_mul (g g' : Γ) : matOf e (π (g * g')) = matOf e (π g) * matOf e (π g') := by
   rw [map_mul, YamadaPar.matOf_mul]
 
@@ -232,8 +233,8 @@ theorem R3Hyp.eq_of_matOf {d d' : Γ} (hd : d ∈ D) (hd' : d' ∈ D)
   have h1 : π (d⁻¹ * d') = 1 := by
     apply matOf_injective e
     have h2 : matOf e (π d⁻¹) * matOf e (π d) = 1 := by
-      rw [← R3Hyp.matOf_mul h, inv_mul_cancel, map_one, matOf_one]
-    rw [R3Hyp.matOf_mul h, matOf_one, ← hdd, h2]
+      rw [← R3Hyp.matOf_mul, inv_mul_cancel, map_one, matOf_one]
+    rw [R3Hyp.matOf_mul, matOf_one, ← hdd, h2]
   have h3 := h.Dinj _ hmem h1
   calc d = d * (d⁻¹ * d') := by rw [h3, mul_one]
     _ = d' := by group
@@ -243,7 +244,7 @@ theorem R3Hyp.D_mul_self {z : ℕ} (hDe : ∀ d ∈ D, ∃ ψ ∈ psiZ z, matOf 
   obtain ⟨ψ, -, hψ⟩ := hDe d hd
   have h1 : π (d * d) = 1 := by
     apply matOf_injective e
-    rw [R3Hyp.matOf_mul h, hψ, one_add_embedM_sq, matOf_one]
+    rw [R3Hyp.matOf_mul, hψ, one_add_embedM_sq, matOf_one]
   exact h.Dinj _ (D.mul_mem hd hd) h1
 
 theorem R3Hyp.eSU_mem_centralizer [Finite Γ] (he : matOf e τW = tM16) {z : ℕ}
@@ -294,7 +295,7 @@ theorem R3Hyp.D_le_centralizer [Finite Γ]
   have hPadd : ∀ x y, P x → P y → P (x + y) := by
     rintro x y ⟨d, hd, hdC, hdx⟩ ⟨d', hd', hd'C, hd'y⟩
     refine ⟨d * d', D.mul_mem hd hd', C.mul_mem hdC hd'C, ?_⟩
-    rw [R3Hyp.matOf_mul h, hdx, hd'y, one_add_embedM_mul]
+    rw [R3Hyp.matOf_mul, hdx, hd'y, one_add_embedM_mul]
   have hPsum : ∀ l : List Mat8, (∀ x ∈ l, P x) → P l.sum := by
     intro l hl
     induction l with
@@ -322,7 +323,7 @@ theorem R3Hyp.D_le_centralizer [Finite Γ]
           1 + embedM (n0M j * ψ * n1M j) := by
         rw [mul_add, mul_one, add_mul, ← rhoM_mul, (wordCheck_spec.2 j hj).2.2, rhoM_one,
           rhoM_nu_embedM j hj]
-      rw [R3Hyp.matOf_mul h, R3Hyp.matOf_mul h, R3Hyp.matOf_mul h, hν, hνi, hdd, hdψ, hconj,
+      rw [R3Hyp.matOf_mul, R3Hyp.matOf_mul, R3Hyp.matOf_mul, hν, hνi, hdd, hdψ, hconj,
         one_add_embedM_mul]
   have hbasis : ∀ c : Fin 8, P (candBlock z c) := by
     intro c

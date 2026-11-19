@@ -29,7 +29,7 @@ theorem tmOut_B_even (d : TauCeti.ValidLieTypeIndex) (n : ℕ) (q : TauCeti.Prim
       exact hout
     have hn2 : ¬ (n = 2 ∧ q.p = 2) := by omega
     have ht : tmLieOut (.B n q) = q.exponent * Nat.gcd 2 (q.p ^ q.exponent - 1) := by
-      rw [tmLieOut.eq_3, if_neg hn2]
+      rw [tmLieOut.eq_3, ite_eq_right hn2]
       simp only [TauCeti.PrimePower.card_def, Nat.mul_one]
       ring
     rw [ht]

@@ -126,9 +126,9 @@ private theorem s16k_cent_fixes_nat_section (hK : Nat.card K = 2)
       simpa using this
     exact hg_u₀ h3
   have ha1 : a = 1 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hcardK : Fintype.card K = 2 := by rw [← Nat.card_eq_fintype_card]; exact hK
-    haveI : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.1
+    have : Subsingleton Kˣ := Fintype.card_le_one_iff_subsingleton.1
       (by rw [Fintype.card_units, hcardK])
     have h1 : (Units.mk0 a ha_ne : Kˣ) = 1 := Subsingleton.elim _ _
     simpa using congrArg (fun u : Kˣ => (u : K)) h1
@@ -151,7 +151,7 @@ private theorem s16k_cent_fixes_nat_section (hK : Nat.card K = 2)
 end CentNatSection
 
 
-private theorem s16k_mem_fixV_map_iff (h : S16gRowCtx D V₀ V L hV)
+private theorem s16k_mem_fixV_map_iff (_h : S16gRowCtx D V₀ V L hV)
     {c : MulAut (Vtil V₀ V hV)} (hcL : ∀ l ∈ lBar V₀ V hV L, c * l = l * c)
     (z : Vtil V₀ V hV) :
     c z ∈ fixV (lBar V₀ V hV L) ↔ z ∈ fixV (lBar V₀ V hV L) := by
@@ -221,8 +221,7 @@ private theorem s16k_equivVia_of_swap (h : S16gRowCtx D V₀ V L hV)
       rw [← he₁]
       exact MulEquiv.symm_apply_apply e₁ (QuotientGroup.mk u)
     have hmk : q (QuotientGroup.mk u) = QuotientGroup.mk (cI u) := by
-      simpa [q] using
-        (QuotientGroup.congr_mk (G' := β₁.ker) (H' := β₂.ker) cI hkerI' u)
+      simp [q]
     calc A (β₁ u) = e₂ (q (e₁.symm (β₁ u))) := rfl
       _ = e₂ (q (QuotientGroup.mk u)) := by rw [hsymm]
       _ = e₂ (QuotientGroup.mk (cI u)) := by rw [hmk]

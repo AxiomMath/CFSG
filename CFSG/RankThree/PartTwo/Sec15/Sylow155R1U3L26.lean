@@ -15,8 +15,8 @@ theorem map_eq_bot_of_commutator_eq_self_of_isSolvable {P R : Type*} [Group P] [
     (φ : P →* R) {K : Subgroup P} (hK : ⁅K, K⁆ = K) (hs : Group.IsSolvable ↥(K.map φ)) :
     K.map φ = ⊥ := by
   by_contra h
-  haveI : Nontrivial ↥(K.map φ) := (Subgroup.nontrivial_iff_ne_bot _).mpr h
-  haveI : Group.IsPerfect ↥(K.map φ) :=
+  have : Nontrivial ↥(K.map φ) := (Subgroup.nontrivial_iff_ne_bot _).mpr h
+  have : Group.IsPerfect ↥(K.map φ) :=
     Subgroup.isPerfect_iff.mpr (by rw [← Subgroup.map_commutator, hK])
   exact Group.IsPerfect.not_isSolvable _ hs
 
@@ -76,9 +76,9 @@ theorem false_of_frattini_section_of_cover_cent {P Q : Type*} [Group P] [Finite 
     rw [Subgroup.map_commutator, hPi'map]
     exact hPi
   set Θ' : Subgroup ↥N := Θ.subgroupOf N with hΘ'def
-  haveI hΘ'n : Θ'.Normal := Subgroup.Normal.subgroupOf inferInstance N
+  have hΘ'n : Θ'.Normal := Subgroup.Normal.subgroupOf inferInstance N
   set D : Subgroup ↥N := β.ker ⊔ Θ' with hDdef
-  haveI : D.Normal := Subgroup.sup_normal β.ker Θ'
+  have : D.Normal := Subgroup.sup_normal β.ker Θ'
   have hrgrp : IsPGroup r ↥(Pi'.map (QuotientGroup.mk' D)) := by
     rintro ⟨_, x, hx, rfl⟩
     have hxS : ρ x ∈ S := by
@@ -104,7 +104,7 @@ theorem false_of_frattini_section_of_cover_cent {P Q : Type*} [Group P] [Finite 
     refine Subgroup.mem_sup_right (Subgroup.mem_subgroupOf.mpr ?_)
     rw [Subgroup.coe_pow]
     exact hn
-  haveI : Group.IsNilpotent ↥(Pi'.map (QuotientGroup.mk' D)) := hrgrp.isNilpotent
+  have : Group.IsNilpotent ↥(Pi'.map (QuotientGroup.mk' D)) := hrgrp.isNilpotent
   have hPiD : Pi' ≤ D := by
     have h := map_eq_bot_of_commutator_eq_self_of_isSolvable (QuotientGroup.mk' D) hPi'
       inferInstance
@@ -140,8 +140,8 @@ theorem false_of_frattini_section_of_cover_cent {P Q : Type*} [Group P] [Finite 
     rw [map_mul, map_mul, map_inv, hyt]
     change ρ x * (t : Q) * (ρ x)⁻¹ = (s : Q) * t * (s : Q)⁻¹
     rw [hxs]
-  haveI : Group.IsPerfect ↥Pi := Subgroup.isPerfect_iff.mpr hPi
-  haveI := hTn
+  have : Group.IsPerfect ↥Pi := Subgroup.isPerfect_iff.mpr hPi
+  have := hTn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (T.subgroupOf S) with hT | hT
   ·
     have hT1 : ∀ y : ↥Pi, βP y = 1 → ρ y = 1 := by
@@ -180,7 +180,7 @@ theorem false_of_frattini_section_of_cover_cent {P Q : Type*} [Group P] [Finite 
   ·
     have hST : S ≤ T := Subgroup.subgroupOf_eq_top.mp hT
     set Kn : Subgroup ↥Pi := (ρ.comp Pi.subtype).ker with hKn
-    haveI : Group.IsNilpotent ↥Kn := hnil
+    have : Group.IsNilpotent ↥Kn := hnil
     have hrange : βP.range ≤ Kn.map βP := by
       rintro _ ⟨x, rfl⟩
       have hxT : ρ x ∈ T := by
@@ -192,15 +192,15 @@ theorem false_of_frattini_section_of_cover_cent {P Q : Type*} [Group P] [Finite 
       · rw [MonoidHom.mem_ker, map_mul, map_inv, hyx]
         exact inv_mul_cancel _
       · rw [map_mul, map_inv, (MonoidHom.mem_ker).mp hy, inv_one, one_mul]
-    haveI : Group.IsSolvable ↥(Kn.map βP) :=
-      solvable_of_surjective (βP.subgroupMap_surjective Kn)
-    haveI : Group.IsSolvable ↥βP.range :=
-      solvable_of_solvable_injective (Subgroup.inclusion_injective hrange)
-    haveI : Group.IsPerfect ↥βP.range :=
+    have : Group.IsSolvable ↥(Kn.map βP) :=
+      Group.isSolvable_of_surjective (βP.subgroupMap_surjective Kn)
+    have : Group.IsSolvable ↥βP.range :=
+      Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hrange)
+    have : Group.IsPerfect ↥βP.range :=
       Group.IsPerfect.ofSurjective (f := βP.rangeRestrict) βP.rangeRestrict_surjective
     obtain ⟨x, hx, s, hs, hxs⟩ := hact
     have hne : βP ⟨x, hx⟩ ≠ 1 := fun h => hxs ((hβ1 ⟨x, hPS hx⟩).mp h s hs)
-    haveI : Nontrivial ↥βP.range :=
+    have : Nontrivial ↥βP.range :=
       ⟨⟨⟨βP ⟨x, hx⟩, ⟨x, hx⟩, rfl⟩, 1, fun h => hne (congrArg Subtype.val h)⟩⟩
     exact Group.IsPerfect.not_isSolvable ↥βP.range inferInstance
 
@@ -212,12 +212,12 @@ theorem false_of_frattini_section_u34 {G : Type} [Group G] [Finite G] {Q : Type*
     (hB : Group.IsSolvable B) (hcent : ∀ x ∈ Subgroup.centralizer {j}, ρ x ∈ B)
     {Θ : Subgroup P} [Θ.Normal] (hΘ : Nat.Coprime (Nat.card Θ) 3)
     (hker : ∀ k ∈ ρ.ker, ∃ n : ℕ, k ^ 3 ^ n ∈ Θ) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI := isPerfect_projSL_two_even (le_refl 2)
-  haveI := isSimpleGroup_projSL (le_refl 2)
-  haveI := isPerfect_projSU_three_four
-  haveI : IsSimpleGroup ↥S := MulEquiv.isSimpleGroup eS
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have := isPerfect_projSL_two_even (le_refl 2)
+  have := isSimpleGroup_projSL (le_refl 2)
+  have := isPerfect_projSU_three_four
+  have : IsSimpleGroup ↥S := MulEquiv.isSimpleGroup eS
   have hS : ⁅S, S⁆ = S := Subgroup.isPerfect_iff.mp
     (Group.IsPerfect.ofSurjective (f := eS.symm.toMonoidHom) eS.symm.surjective)
   have hI : ⁅I, I⁆ = I := Subgroup.isPerfect_iff.mp
@@ -230,11 +230,11 @@ theorem false_of_frattini_section_u34 {G : Type} [Group G] [Finite G] {Q : Type*
   refine false_of_frattini_section_of_cover_cent ρ hj hS h3 hSj hSI hIρ hI hB hcent hΘ hker ?_
   intro SK Pi hSK hPiN hPiI hPi hnil x hx s hs
   by_contra hxs
-  haveI : Group.IsPerfect ↥Pi := Subgroup.isPerfect_iff.mpr hPi
+  have : Group.IsPerfect ↥Pi := Subgroup.isPerfect_iff.mpr hPi
   set σ : Pi →* Q := ρ.comp Pi.subtype with hσ
   have hrange : σ.range = I := by
     rw [hσ, MonoidHom.range_comp, Subgroup.range_subtype, hPiI]
-  haveI : Group.IsNilpotent ↥σ.ker := hnil
+  have : Group.IsNilpotent ↥σ.ker := hnil
   exact false_of_perfect_cover_act_u34 hlocP (N := σ.ker) inferInstance
     ((QuotientGroup.quotientKerEquivRange σ).trans ((MulEquiv.subgroupCongr hrange).trans eI))
     hSK hPiN ⟨x, hx, s, hs, hxs⟩

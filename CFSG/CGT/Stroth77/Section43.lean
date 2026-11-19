@@ -10,6 +10,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace Stroth42
 
+omit [Finite G] in
 theorem pow_eq_of_sq_eq {c e : G} {m : ℕ} (hm : 2 ≤ m) (hoc : orderOf c = 2 ^ m)
     (he : e * e = c⁻¹ * c ^ 2 ^ (m - 1)) : e ^ 2 ^ m = c ^ 2 ^ (m - 1) := by
   have hc : c ^ 2 ^ m = 1 := by rw [← hoc]; exact pow_orderOf_eq_one c
@@ -23,6 +24,7 @@ theorem pow_eq_of_sq_eq {c e : G} {m : ℕ} (hm : 2 ≤ m) (hoc : orderOf c = 2 
   rw [h0, he, (Commute.inv_left ((Commute.refl c).pow_right _)).mul_pow, inv_pow, ← pow_mul, h1,
     mul_one, h2]
 
+omit [Finite G] in
 theorem pow_mul_self_eq_one {c : G} {m : ℕ} (hm : 1 ≤ m) (hoc : orderOf c = 2 ^ m) :
     c ^ 2 ^ (m - 1) * c ^ 2 ^ (m - 1) = 1 ∧ c ^ 2 ^ (m - 1) ≠ 1 := by
   refine ⟨?_, pow_ne_one_of_lt_orderOf (by positivity) (by
@@ -63,7 +65,7 @@ theorem StrothFrame.IsD.false_of_t100_ii {F : StrothFrame G} {D : Subgroup G} {m
       Subgroup.zpowers e) ⊓ Subgroup.centralizer {(dD.c : G) ^ 2 ^ (m - 1)} →
         IsMulCommutative X → Nat.card X = Nat.card D → X = D) :
     False := by
-  haveI := F.simple
+  have := F.simple
   set P := Subgroup.closure {dD.uv, dD.t, dD.u} with hP
   set z := (dD.c : G) ^ 2 ^ (m - 1) with hz
   have hPN : P ≤ Subgroup.normalizer (D : Set G) := by

@@ -57,7 +57,7 @@ theorem leviSurj_of_blocks_gen {X : Type} [Group X] [Finite X] {P : Subgroup X} 
       CFSG.Open.IsQuasisimple ↥(S j) ∧ ¬ p ∣ Nat.card (Subgroup.center ↥(S j))) :
     ∃ j₀ : ι, (∃ u ∈ S j₀, orderOf u = p) ∧
       LeviSurj p P z (↥(S j₀) ⧸ Subgroup.center ↥(S j₀)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨j₀, u₀, hu₀S, hu₀ord⟩ : ∃ j₀ : ι, ∃ u ∈ S j₀, orderOf u = p := by
     have hz0ord : orderOf (⟨z, hzP⟩ : ↥P) = p := by rw [Subgroup.orderOf_mk, hz]
     have hz0ne : β ⟨z, hzP⟩ ≠ 1 := by
@@ -98,8 +98,8 @@ theorem leviSurj_of_blocks_gen {X : Type} [Group X] [Finite X] {P : Subgroup X} 
   obtain ⟨T, hT⟩ : ∃ T : ∀ j, Subgroup (G j), ∀ j,
       T j = if ⁅S j, S j⁆ = S j then S j else ⊥ :=
     ⟨fun j => if ⁅S j, S j⁆ = S j then S j else ⊥, fun j => rfl⟩
-  have hTperf : ∀ j, ⁅S j, S j⁆ = S j → T j = S j := fun j h => by rw [hT j, if_pos h]
-  have hTbot : ∀ j, ¬ ⁅S j, S j⁆ = S j → T j = ⊥ := fun j h => by rw [hT j, if_neg h]
+  have hTperf : ∀ j, ⁅S j, S j⁆ = S j → T j = S j := fun j h => by rw [hT j, ite_eq_left h]
+  have hTbot : ∀ j, ¬ ⁅S j, S j⁆ = S j → T j = ⊥ := fun j h => by rw [hT j, ite_eq_right h]
   have hTS : ∀ j, T j ≤ S j := by
     intro j
     by_cases h : ⁅S j, S j⁆ = S j
@@ -182,7 +182,7 @@ theorem leviSurj_of_blocks_gen {X : Type} [Group X] [Finite X] {P : Subgroup X} 
       have h1 := ((hperf j).resolve_left h).2 (x j) hxj hxjp
       rw [hTbot j h, h1]
       exact Subgroup.one_mem _
-  haveI hNnorm : ((Subgroup.pi Set.univ T).subgroupOf β.range).Normal := ⟨fun n hn g => by
+  have hNnorm : ((Subgroup.pi Set.univ T).subgroupOf β.range).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
     exact hNconj _ g.2 _ hn⟩

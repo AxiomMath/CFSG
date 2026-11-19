@@ -39,7 +39,6 @@ theorem wbIota_injective : Function.Injective (wbIota (F := F)) := by
   have hc1 : (c : F) = 1 := by
     first
     | exact e22.symm
-    | exact e22
   rw [hc1] at e00 e11
   apply Subtype.ext
   ext i j
@@ -129,27 +128,38 @@ theorem wbDelta_cross (hq : Nat.card F = 4) (κ : F) (k k' : (wbIota (F := F)).r
     rw [Units.val_mul] at h
     linear_combination h⟩
 
+omit [Finite F] [CharP F 2] in
 theorem wbX_00 (a : F) : (wbX a).1 0 0 = 1 := rfl
+omit [Finite F] [CharP F 2] in
 theorem wbX_01 (a : F) : (wbX a).1 0 1 = a := rfl
+omit [Finite F] [CharP F 2] in
 theorem wbX_10 (a : F) : (wbX a).1 1 0 = 0 := rfl
+omit [Finite F] [CharP F 2] in
 theorem wbX_11 (a : F) : (wbX a).1 1 1 = 1 := rfl
 
+omit [Finite F] [CharP F 2] in
 theorem wbT_00 (hq : Nat.card F = 4) (t₁ t₂ : Fˣ) :
     (wbT hq t₁ t₂).1 0 0 = (t₁ : F) ^ 2 * (t₂ : F) := rfl
+omit [Finite F] [CharP F 2] in
 theorem wbT_01 (hq : Nat.card F = 4) (t₁ t₂ : Fˣ) : (wbT hq t₁ t₂).1 0 1 = 0 := rfl
+omit [Finite F] [CharP F 2] in
 theorem wbT_10 (hq : Nat.card F = 4) (t₁ t₂ : Fˣ) : (wbT hq t₁ t₂).1 1 0 = 0 := rfl
+omit [Finite F] [CharP F 2] in
 theorem wbT_11 (hq : Nat.card F = 4) (t₁ t₂ : Fˣ) :
     (wbT hq t₁ t₂).1 1 1 = (t₁ : F) * (t₂ : F) ^ 2 := rfl
 
+omit [Finite F] [CharP F 2] in
 theorem units_cube (hq : Nat.card F = 4) (t : Fˣ) : t ^ 3 = 1 := by
   apply Units.ext
   rw [Units.val_pow_eq_pow_val, Units.val_one]
   exact cube_units hq t
 
+omit [Finite F] [CharP F 2] in
 theorem wbK_wbX (a : F) : wbK (wbX a) = xP a := by
   unfold wbK xP
   rfl
 
+omit [Finite F] [CharP F 2] in
 theorem wbEmb_wbT (hq : Nat.card F = 4) (t₁ t₂ : Fˣ) :
     wbEmb (wbT hq t₁ t₂) =
       scalarElement (t₁ * t₂) (units_cube hq (t₁ * t₂)) * dMat t₁ t₂ := by
@@ -159,15 +169,16 @@ theorem wbEmb_wbT (hq : Nat.card F = 4) (t₁ t₂ : Fˣ) :
   have h2 : (t₂ : F) ≠ 0 := t₂.ne_zero
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [wbEmb, wbEmbMat, wbT, coe_dMat, Matrix.scalar_apply, Matrix.diagonal_mul,
-      Matrix.diagonal_apply, h1, h2, Units.val_mul]
+    simp [wbEmb, wbEmbMat, wbT, coe_dMat, Matrix.scalar_apply, Units.val_mul]
   all_goals field_simp
 
+omit [Finite F] [CharP F 2] in
 theorem wbK_wbT (hq : Nat.card F = 4) (t₁ t₂ : Fˣ) :
     wbK (wbT hq t₁ t₂) = proj 3 F (dMat t₁ t₂) := by
   unfold wbK
   rw [wbEmb_wbT hq t₁ t₂, map_mul, proj_eq_one_iff.mpr (scalarElement_mem_scalars _ _), one_mul]
 
+omit [Finite F] [CharP F 2] in
 theorem uElt_eq_wbV (a β c : F) : uElt a β c = wbV (c, β) * xP a := by
   unfold uElt wbV xP yP wP
   simp only [← map_mul]
@@ -175,12 +186,14 @@ theorem uElt_eq_wbV (a β c : F) : uElt a β c = wbV (c, β) * xP a := by
   apply Subtype.ext
   change xM a * yM β * wM (c - a * β) = yM β * wM c * xM a
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [xM, yM, wM, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [xM, yM, wM, Matrix.mul_apply, Fin.sum_univ_three]
 
+omit [Finite F] [CharP F 2] in
 theorem uElt_mul_dMat (hq : Nat.card F = 4) (a β c : F) (t₁ t₂ : Fˣ) :
     uElt a β c * proj 3 F (dMat t₁ t₂) = wbV (c, β) * wbK (wbX a * wbT hq t₁ t₂) := by
   rw [wbK_mul, wbK_wbX, wbK_wbT, uElt_eq_wbV, mul_assoc]
 
+omit [Finite F] [CharP F 2] in
 theorem wbD_wbX_wbT (hq : Nat.card F = 4) (κ a : F) (t₁ t₂ : Fˣ) :
     wbD κ (wbX a * wbT hq t₁ t₂) = (κ * a ^ 2, 0) := by
   have hef : ((t₁ : F) ^ 2 * (t₂ : F)) * ((t₁ : F) * (t₂ : F) ^ 2) = 1 := by

@@ -32,7 +32,7 @@ private theorem a11rm_tvAt_eq (l : Fin 4) (a b : Fin 12)
         fun he => a11rm_swapBlocks_ne hab (Fin.ext (by simpa [a11rm_f9] using congrArg Fin.val he)))
       (1 : F2) := by
   unfold tvAt tv9
-  rw [dif_pos ⟨a11rm_swapBlocks_val_lt l a ha, a11rm_swapBlocks_val_lt l b hb, a11rm_swapBlocks_ne hab⟩]
+  rw [dite_eq_left ⟨a11rm_swapBlocks_val_lt l a ha, a11rm_swapBlocks_val_lt l b hb, a11rm_swapBlocks_ne hab⟩]
   rfl
 
 private theorem a11rm_trAt_eq (l : Fin 4) (a b : Fin 12)
@@ -41,7 +41,7 @@ private theorem a11rm_trAt_eq (l : Fin 4) (a b : Fin 12)
       (a11rm_f9 (swapBlocks l a) (a11rm_swapBlocks_val_lt l a ha))
       (a11rm_f9 (swapBlocks l b) (a11rm_swapBlocks_val_lt l b hb))) := by
   unfold trAt
-  rw [dif_pos ⟨a11rm_swapBlocks_val_lt l a ha, a11rm_swapBlocks_val_lt l b hb, hab⟩]
+  rw [dite_eq_left ⟨a11rm_swapBlocks_val_lt l a ha, a11rm_swapBlocks_val_lt l b hb, hab⟩]
   rfl
 
 private theorem a11rm_tv_mul_tv_mul_tv (i j : Fin 9) (hij : i ≠ j) :
@@ -163,7 +163,7 @@ private theorem a11rm_braid_pow (a b c : Fin 9) (hab : a ≠ b) (hac : a ≠ c) 
     _ = Equiv.swap b c * Equiv.swap b c := by rw [h1, h2]
     _ = 1 := Equiv.swap_mul_self b c
 
-private theorem a11rm_commute_swap (a b c d : Fin 9) (hab : a ≠ b) (hcd : c ≠ d)
+private theorem a11rm_commute_swap (a b c d : Fin 9) (hab : a ≠ b) (_hcd : c ≠ d)
     (hac : a ≠ c) (had : a ≠ d) (hbc : b ≠ c) (hbd : b ≠ d) :
     Equiv.swap a b * Equiv.swap c d = Equiv.swap c d * Equiv.swap a b := by
   ext x; simp only [Equiv.Perm.mul_apply, Equiv.swap_apply_def]; grind
@@ -185,13 +185,13 @@ private theorem a11rm_pairExp_pow (i j k n : Fin 9) (hij : i ≠ j) (hkn : k ≠
     (Equiv.swap i j * Equiv.swap k n) ^ a11rm_pairExp i j k n = 1 := by
   rw [a11rm_pairExp]
   by_cases h1 : (i = k ∧ j = n) ∨ (i = n ∧ j = k)
-  · rw [if_pos h1]
+  · rw [ite_eq_left h1]
     rcases h1 with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩
     · rw [Equiv.swap_mul_self]; simp
     · rw [Equiv.swap_comm i j, Equiv.swap_mul_self]; simp
-  · rw [if_neg h1]
+  · rw [ite_eq_right h1]
     by_cases h2 : i = k ∨ i = n ∨ j = k ∨ j = n
-    · rw [if_pos h2]
+    · rw [ite_eq_left h2]
       rcases h2 with h | h | h | h
       · subst k
         have hjn : j ≠ n := fun hjn => h1 (Or.inl ⟨rfl, hjn⟩)
@@ -206,7 +206,7 @@ private theorem a11rm_pairExp_pow (i j k n : Fin 9) (hij : i ≠ j) (hkn : k ≠
       · subst n
         have hik : i ≠ k := fun hik => h1 (Or.inl ⟨hik, rfl⟩)
         simpa [Equiv.swap_comm] using a11rm_braid_pow j i k hij.symm hkn.symm hik
-    · rw [if_neg h2]
+    · rw [ite_eq_right h2]
       have hik : i ≠ k := fun h => h2 (Or.inl h)
       have hin : i ≠ n := fun h => h2 (Or.inr (Or.inl h))
       have hjk : j ≠ k := fun h => h2 (Or.inr (Or.inr (Or.inl h)))
@@ -389,15 +389,15 @@ private theorem a11rm_rhoEval_aux {G : Type} [Group G] (Φ : Fin 4 → SL 9 →*
 private theorem a11rm_trAt_comm (l : Fin 4) (a b : Fin 12) : trAt l a b = trAt l b a := by
   unfold trAt
   by_cases h : (swapBlocks l a).val < 9 ∧ (swapBlocks l b).val < 9 ∧ a ≠ b
-  · rw [dif_pos h]
+  · rw [dite_eq_left h]
     have h' : (swapBlocks l b).val < 9 ∧ (swapBlocks l a).val < 9 ∧ b ≠ a :=
       ⟨h.2.1, h.1, h.2.2.symm⟩
-    rw [dif_pos h']
+    rw [dite_eq_left h']
     exact congrArg (permSL 8) (Equiv.swap_comm _ _)
-  · rw [dif_neg h]
+  · rw [dite_eq_right h]
     have h' : ¬ ((swapBlocks l b).val < 9 ∧ (swapBlocks l a).val < 9 ∧ b ≠ a) :=
       fun hh => h ⟨hh.2.1, hh.1, hh.2.2.symm⟩
-    rw [dif_neg h']
+    rw [dite_eq_right h']
 
 theorem a11RhoMkInput_holds : ∀ (G : Type) [Group G] (Φ : Fin 4 → SL 9 →* G), Coherent Φ → ∃ ρ : Equiv.Perm (Fin 12) →* G, RhoEval Φ ρ := by
   intro G _ Φ hΦ

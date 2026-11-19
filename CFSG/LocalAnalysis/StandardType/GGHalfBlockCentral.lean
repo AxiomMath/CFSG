@@ -21,7 +21,7 @@ theorem center_eq_bot (N : ℕ) : Subgroup.center (SpecialLinearGroup (Fin N) F2
     · subst N
       ext i j
       exact Fin.elim0 i
-    · haveI : Subsingleton F2ˣ := by
+    · have : Subsingleton F2ˣ := by
         have h2 : Nat.card F2 = 2 := GaloisField.card 2 1 (by omega)
         exact (Nat.card_eq_one_iff_unique.mp (by rw [Nat.card_units, h2])).1
       have hr0 : r ≠ 0 := by
@@ -87,7 +87,7 @@ theorem mem_zpowers_omegaBlock_of_commute_lower {m : ℕ}
       exact ⟨s, rfl⟩
     exact commute_omegaBlock_slOn (k := ⟨0, by omega⟩)
       (by constructor <;>
-        (simp only [Set.mem_setOf_eq, Fin.val_castSucc, Fin.val_succ]; omega)) hx
+        (simp only [Set.mem_ofPred_eq, Fin.val_castSucc, Fin.val_succ]; omega)) hx
   have hacomm : ∀ s : SpecialLinearGroup (Fin (m + 1)) F2,
       a * slLower2Hom m s = slLower2Hom m s * a := by
     intro s

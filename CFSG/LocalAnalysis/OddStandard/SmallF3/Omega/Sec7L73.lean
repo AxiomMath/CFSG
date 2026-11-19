@@ -17,7 +17,7 @@ theorem asc82Lemma73_of (h36 : Asc82Lemma36) (h37 : Asc82Lemma37) (hP : Asc82Tab
   have hnorm := conjugate_eq_self_of_lemma36 h36 hS
   have hz2 : orderOf z = 2 := hctx.pocket.1
   have hs2 : orderOf (g⁻¹ * z * g) = 2 := by
-    rw [show g⁻¹ * z * g = (MulAut.conj g⁻¹) z by simp [MulAut.conj_apply]]
+    rw [show g⁻¹ * z * g = (MulAut.conj g⁻¹) z by simp]
     rw [MulEquiv.orderOf_eq, hz2]
   have hsN : g⁻¹ * z * g ∈ normalizer (L : Set G) := by
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]

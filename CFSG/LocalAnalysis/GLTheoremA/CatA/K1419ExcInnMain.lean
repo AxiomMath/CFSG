@@ -41,7 +41,7 @@ theorem char2L3U3_inner_of_big (hF : L3U3Facts) {τ : Tag}
         (componentRoots (rootCharHom a) i).ncard = compRank (componentRoots (rootCharHom a) i) *
           (compRank (componentRoots (rootCharHom a) i) + 1)
     · exact l3u3_inn_typeA_false hF hT hap hk h14 hA hL
-    · haveI := finite_rationalComponent S a i
+    · have := finite_rationalComponent S a i
       exact (hF.order _ hL).not_27_dvd (hbig L p₀ S a hT hap h1 i hk h14 hA hq)
 
 end Main

@@ -65,7 +65,7 @@ theorem ggKGTn_w0_smul
     simp [Pi.single_apply]
   conv_lhs => rw [hdecomp, Finset.smul_sum]
   ext j
-  simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Pi.neg_apply, permLattice,
+  simp only [Finset.sum_apply, Pi.neg_apply, permLattice,
     Function.comp_apply]
   rw [Finset.sum_eq_single (TwistTag.E6.perm.symm j)]
   · rw
@@ -115,10 +115,10 @@ theorem ggKGTn_normalizer_weyl
   let L := AlgebraicClosure K
   let nv : ModGL TwistTag.E6.tag L :=
     canonicalRep (coxeterSystem TwistTag.E6.tag) L F.v
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2 * n)
     (by rw [Fintype.card_eq_nat_card, hK, ← pow_mul, mul_comm])
-  haveI : CharP L 2 :=
+  have : CharP L 2 :=
     charP_of_injective_algebraMap (algebraMap K L).injective 2
   let y : ModGL TwistTag.E6.tag L :=
     F.g0⁻¹ * baseChangeGL (algebraMap K L) (x : ModGL TwistTag.E6.tag K) * F.g0

@@ -56,7 +56,7 @@ theorem perfect_action_inner_of_catalog (X : Type) [Group X] [Finite X] [IsSimpl
     P ≤ (MulAut.conj : X →* MulAut X).range := by
   have hsolv : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) :=
     CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds X hnonab hcat
-  haveI : Group.IsPerfect P := Group.isPerfect_def.mpr hP
+  have : Group.IsPerfect P := Group.isPerfect_def.mpr hP
   intro x hx
   obtain ⟨g, hg⟩ := CFSG.ComponentClassification.OuterAutomorphisms.perfect_action_inner
     P.subtype (⟨x, hx⟩ : P)
@@ -66,7 +66,7 @@ theorem outSolvableUnitarySix_holds : OutSolvableUnitarySixStatement := by
   intro q hq X _ _ hX P hP
   obtain ⟨f, hf, rfl⟩ := hq
   have hmodel := statedClassicalModel_psu_six hf hX
-  haveI hsimp : IsSimpleGroup X :=
+  have hsimp : IsSimpleGroup X :=
     (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity X 6 2 f hmodel).2
   exact perfect_action_inner_of_catalog X (exists_noncomm_of_psu_six_model hmodel)
     (CFSG.ClassicalModels.statedClassicalModel_PSU_inCatalog X 6 2 f hmodel) P hP
@@ -76,15 +76,15 @@ theorem outSolvableAlpha_of_rankTwo (h : OutSolvableRankTwoStatement) :
   intro X _ _ hX hnonab P hP
   rcases hX with hG2 | hU3 | hD4 | hJ2
   · exact h X (Or.inl hG2) hnonab P hP
-  · haveI hsimp : IsSimpleGroup X :=
+  · have hsimp : IsSimpleGroup X :=
       (CFSG.ClassicalGroups.Unitary.fam_PSU_simplicity X 3 3 1 hU3).2
     exact perfect_action_inner_of_catalog X hnonab
       (CFSG.ClassicalModels.statedClassicalModel_PSU_inCatalog X 3 3 1 hU3) P hP
   · exact h X (Or.inr hD4) hnonab P hP
   · obtain ⟨φ⟩ := hJ2
-    haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
+    have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
       CFSG.Sporadic.J2.isSimpleGroup_J2
-    haveI hsimp : IsSimpleGroup X := φ.isSimpleGroup
+    have hsimp : IsSimpleGroup X := φ.isSimpleGroup
     exact perfect_action_inner_of_catalog X hnonab (sporadicBridge_J2 X ⟨φ⟩) P hP
 
 end Certs

@@ -42,7 +42,7 @@ theorem eq_top_of_sixteen_dvd {R : Subgroup X} {S : Sylow 2 R} {z : X} (hd : Tig
     have := Nat.mul_dvd_mul h16F h2
     rwa [(genFittingFStar X).card_mul_index] at this)
   refine TA3.TightDatum.eq_top_of_normal_le hd hgen hn fun s hs => ?_
-  have hS2 : IsPGroup 2 ((S : Subgroup R).map R.subtype) := S.isPGroup'.map R.subtype
+  have hS2 : IsPGroup 2 ((S : Subgroup R).map R.subtype) := S.isPGroup.map R.subtype
   obtain ⟨k, hk⟩ := hS2 ⟨s, hs⟩
   have hsk : s ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hsk)

@@ -40,11 +40,11 @@ theorem c0_exists_plane {ℓ f : ℕ} [Fact ℓ.Prime] (hf : 1 ≤ f) (K : Type)
     (hd : r ∣ CFSG.RankThree.PartOne.K128.phiNat m (ℓ ^ f)) :
     ∃ E : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom),
       CFSG.Open.IsElemAbelian r E ∧ Nat.card E = r ^ 2 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hS := CFSG.RankThree.PartOne.K128.sylowShape_D4 hf K hK σ hσ
     (by omega : m = 1 ∨ m = 2 ∨ m = 3 ∨ m = 6) hr hr5 hd
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow r (graphFixedRootGroup TwistTag.D4 K σ.toRingHom)))
-  obtain ⟨φ⟩ := hS (P.toSubgroup) P.isPGroup' P.not_dvd_index
+  obtain ⟨φ⟩ := hS (P.toSubgroup) P.isPGroup P.not_dvd_index
   have hne : CFSG.RankThree.PartOne.K128.phiNat m (ℓ ^ f) ≠ 0 := by
     have hq : 1 ≤ ℓ ^ f := Nat.one_le_pow _ _ (Fact.out : ℓ.Prime).pos
     have hq2 : ℓ ^ f ≤ (ℓ ^ f) ^ 2 := Nat.le_self_pow (by norm_num) _
@@ -116,11 +116,11 @@ theorem c0_planeGen_of_extSeit (hgold : CFSG.Goldschmidt.TopStatement) (q : Prim
     Subgroup.closure {k : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) |
       ∃ x ∈ E, x ≠ 1 ∧ k * x = x * k} = ⊤ := by
   obtain ⟨e⟩ := c0_iso_cat_trialityD4 q hv K hK σ hσ
-  haveI : Finite (Cat ⟨.trialityD4 q, hv⟩) := (finite_isSimpleGroup_cat_trialityD4 hv).1
-  haveI : IsSimpleGroup (Cat ⟨.trialityD4 q, hv⟩) := (finite_isSimpleGroup_cat_trialityD4 hv).2
-  haveI : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
+  have : Finite (Cat ⟨.trialityD4 q, hv⟩) := (finite_isSimpleGroup_cat_trialityD4 hv).1
+  have : IsSimpleGroup (Cat ⟨.trialityD4 q, hv⟩) := (finite_isSimpleGroup_cat_trialityD4 hv).2
+  have : Finite (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     Finite.of_equiv _ e.toEquiv.symm
-  haveI : IsSimpleGroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
+  have : IsSimpleGroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) :=
     MulEquiv.isSimpleGroup e
   obtain ⟨-, -, hcomm, hcent⟩ :=
     CFSG.HardMathSupport.Foote.Coordinator.TwistedFrame.TwCardAux.d4_group_facts q.prime_p
@@ -212,7 +212,7 @@ theorem c0_planeGen_of_extSeit (hgold : CFSG.Goldschmidt.TopStatement) (q : Prim
 theorem dvd_phiNat_of_orderOf {p e Q : ℕ} (hp : p.Prime) (he : e = 3 ∨ e = 6)
     (h : orderOf ((Q : ℕ) : ZMod p) = e) :
     p ∣ CFSG.RankThree.PartOne.K128.phiNat e Q := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hQ2 : Q ≤ Q ^ 2 := Nat.le_self_pow (by norm_num) Q
   rcases he with rfl | rfl
   · have h3 : ((Q : ℕ) : ZMod p) ^ 3 = 1 := by
@@ -332,7 +332,7 @@ theorem graphFixed_normalize {K : Type} [Field K] [Finite K] {Q : ℕ} (hK : Nat
       Nonempty (graphFixedRootGroup TwistTag.D4 K σ.toRingHom ≃*
         graphFixedRootGroup TwistTag.D4 K σ'.toRingHom) := by
   have hq3 : ∀ c : K, c ^ (Q ^ 3) = c := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     intro c
     rw [← hK, Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
@@ -360,9 +360,9 @@ theorem e8Twelve_frame_isos {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [Fact 
           graphFixedRootGroup TwistTag.D4 K₂ σ₂.toRingHom)) := by
   have hℓ : ℓ.Prime := Fact.out
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
-  haveI : CharP D.L ℓ := charP_langLevi D hℓ hk
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : CharP D.L ℓ := charP_langLevi D hℓ hk
   have hFr : D.Fr = iterateFrobenius D.L ℓ f :=
     RingHom.ext fun c => by rw [D.hFr, hk, iterateFrobenius_def]
   set n : ModGL Tag.E8 D.L := canonicalRep (coxeterSystem Tag.E8) D.L w with hn
@@ -390,8 +390,8 @@ theorem e8Twelve_frame_isos {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [Fact 
     (Or.inr (Or.inl rfl)) (Or.inr (Or.inr rfl)) n hnm hact₂
     (fixedRootGroup D (parabolicRoots Tag.E8 (d4Nodes Tag.E8))) hP₂
   obtain ⟨hfin₂, hcard₂, hcomm₂, hcent₂⟩ := d4_group_facts hℓ hf K₂ hK₂ σ₂ hσ₂
-  haveI := hfin₂
-  haveI : Group.IsPerfect ↥(graphFixedRootGroup TwistTag.D4 K₂ σ₂.toRingHom) :=
+  have := hfin₂
+  have : Group.IsPerfect ↥(graphFixedRootGroup TwistTag.D4 K₂ σ₂.toRingHom) :=
     Group.isPerfect_def.2 hcomm₂
   obtain ⟨x₂⟩ := frame_equiv_of_equiv D _ hrat e₂
   have hP₁ : fixedRootGroup D ((fun γ => e8v1 • γ) '' parabolicRoots Tag.E8 (d4Nodes Tag.E8)) =
@@ -416,19 +416,19 @@ theorem e8Twelve_frame_isos {K : Type} [Field K] [Finite K] {ℓ f : ℕ} [Fact 
     (Or.inr (Or.inl rfl)) (Or.inr (Or.inr rfl)) n hnm hcert₁
     (fixedRootGroup D ((fun γ => e8v1 • γ) '' parabolicRoots Tag.E8 (d4Nodes Tag.E8))) hP₁
   obtain ⟨hfin₁, hcard₁, hcomm₁, hcent₁⟩ := d4_group_facts hℓ hf K₁ hK₁ σ₁ hσ₁
-  haveI := hfin₁
-  haveI : Group.IsPerfect ↥(graphFixedRootGroup TwistTag.D4 K₁ σ₁.toRingHom) :=
+  have := hfin₁
+  have : Group.IsPerfect ↥(graphFixedRootGroup TwistTag.D4 K₁ σ₁.toRingHom) :=
     Group.isPerfect_def.2 hcomm₁
   obtain ⟨x₁⟩ := frame_equiv_of_equiv D _ hrat e₁
   obtain ⟨σ₁', hσ₁', ⟨g₁⟩⟩ := graphFixed_normalize hK₁ σ₁ hσ₁
   obtain ⟨σ₂', hσ₂', ⟨g₂⟩⟩ := graphFixed_normalize hK₂ σ₂ hσ₂
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K₁ σ₁'.toRingHom) :=
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K₁ σ₁'.toRingHom) :=
     Finite.of_equiv _ g₁.toEquiv
-  haveI : Group.IsPerfect ↥(graphFixedRootGroup TwistTag.D4 K₁ σ₁'.toRingHom) :=
+  have : Group.IsPerfect ↥(graphFixedRootGroup TwistTag.D4 K₁ σ₁'.toRingHom) :=
     Group.IsPerfect.ofSurjective (f := g₁.toMonoidHom) g₁.surjective
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K₂ σ₂'.toRingHom) :=
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K₂ σ₂'.toRingHom) :=
     Finite.of_equiv _ g₂.toEquiv
-  haveI : Group.IsPerfect ↥(graphFixedRootGroup TwistTag.D4 K₂ σ₂'.toRingHom) :=
+  have : Group.IsPerfect ↥(graphFixedRootGroup TwistTag.D4 K₂ σ₂'.toRingHom) :=
     Group.IsPerfect.ofSurjective (f := g₂.toMonoidHom) g₂.surjective
   obtain ⟨x₁'⟩ :=
     frame_equiv_of_equiv D ((fun γ => e8v1 • γ) '' parabolicRoots Tag.E8 (d4Nodes Tag.E8))
@@ -466,7 +466,7 @@ open CFSG.HardMathSupport.Foote.Coordinator.TwistedFrame
 variable {τ : Tag} {K : Type} [Field K]
 
 theorem isElemAbelian_map_inj {G H : Type*} [Group G] [Group H] {p : ℕ} {E : Subgroup G}
-    (f : G →* H) (hf : Function.Injective f) (hE : IsElemAbelian p E) :
+    (f : G →* H) (_hf : Function.Injective f) (hE : IsElemAbelian p E) :
     IsElemAbelian p (E.map f) := by
   refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => ?_⟩
   · obtain ⟨a, ha, hxa⟩ := Subgroup.mem_map.1 x.2
@@ -558,12 +558,12 @@ theorem normSolv_restrict {X : Subgroup (ModGL τ K)} (hXa : X ≤ adjointGroup 
       exact ⟨y, ⟨hyH, hy⟩, hyx⟩
   have hsP : Group.IsSolvable ↥(H.map (adjointGroup τ K).subtype ⊓ X) := by
     rw [← hmap]
-    haveI := hs
+    have := hs
     exact Group.isSolvable_of_surjective (f := (Subgroup.equivMapOfInjective _ _ hinj).toMonoidHom)
       (Subgroup.equivMapOfInjective _ _ hinj).surjective
   have hPs : Group.IsSolvable ↥(H.map (adjointGroup τ K).subtype) :=
     hN _ hPadj hPN hsP
-  haveI := hPs
+  have := hPs
   exact Group.isSolvable_of_surjective
     (f := (Subgroup.equivMapOfInjective H _ hinj).symm.toMonoidHom)
     (Subgroup.equivMapOfInjective H _ hinj).symm.surjective
@@ -645,7 +645,7 @@ open CFSG.HardMathSupport.Foote.Coordinator.TwistedFrame
 open CFSG.HardMathSupport.Foote.Coordinator.TwistedFrame.TwCardAux
 
 theorem frameDatumIn_adjoint {K : Type} [Field K] {X₁ X₂ : Subgroup (ModGL TwClass.e8Twelve.tag K)}
-    {p o : ℕ} (hp : p.Prime)
+    {p o : ℕ} (_hp : p.Prime)
     (h₁ : X₁ ≤ adjointGroup TwClass.e8Twelve.tag K) (h₂ : X₂ ≤ adjointGroup TwClass.e8Twelve.tag K)
     (hc : ∀ a ∈ X₁, ∀ b ∈ X₂, a * b = b * a)
     (hcl : TwFrameClosing TwClass.e8Twelve.tag K (X₁ ⊔ X₂))
@@ -738,7 +738,7 @@ theorem e8FrameData_of (q : PrimePower) (hv : (LieTypeIndex.E8 q).Valid) {p e : 
     (he : orderOf ((q.card : ℕ) : ZMod p) = e) : E8FrameData q hv p := by
   obtain ⟨K, _, _, hK, -, ⟨e8⟩⟩ :=
     exists_catEquiv_adjointGroup CFSG.TauCetiBridge.Even.chevalleyBridgesAll.e8 q hv
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hk : Nat.card K = q.p ^ q.exponent := hK.trans (PrimePower.card_def q)
   obtain ⟨D⟩ := exists_langLevi TwClass.e8Twelve.tag K TwClass.e8Twelve.w
     (TwClass.w_theta TwClass.e8Twelve)
@@ -806,10 +806,10 @@ theorem e8FrameData_of (q : PrimePower) (hv : (LieTypeIndex.E8 q).Valid) {p e : 
   exact hC
 
 theorem e8FrameFactors_three : E8FrameFactors 3 :=
-  fun q hv p hp hp7 hpq he => e8FrameData_of q hv hp hp7 hpq (Or.inl rfl) he
+  fun q hv _p hp hp7 hpq he => e8FrameData_of q hv hp hp7 hpq (Or.inl rfl) he
 
 theorem e8FrameFactors_six : E8FrameFactors 6 :=
-  fun q hv p hp hp7 hpq he => e8FrameData_of q hv hp hp7 hpq (Or.inr rfl) he
+  fun q hv _p hp hp7 hpq he => e8FrameData_of q hv hp hp7 hpq (Or.inr rfl) he
 
 end Assembly
 

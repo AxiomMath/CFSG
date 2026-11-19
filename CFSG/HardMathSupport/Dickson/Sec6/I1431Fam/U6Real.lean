@@ -128,10 +128,10 @@ theorem y1431_lieRest_u6Real (hO : CFSG.ComponentClassification.CatLeaf.LieOrder
   intro Y _ _ Â ξ J q c t n p f hadm ht hF hm q0 hq0 hqq
   obtain ⟨rfl, rfl, rfl, hf⟩ := hF
   obtain ⟨K, _, h, ⟨e0⟩⟩ := exists_psu_model hadm hm
-  haveI := h.finite
-  haveI : Finite (GL (Fin 6) K) :=
+  have := h.finite
+  have : Finite (GL (Fin 6) K) :=
     Finite.of_injective (fun g : GL (Fin 6) K => (g : Matrix (Fin 6) (Fin 6) K)) Units.val_injective
-  haveI : Finite (primeFormP h (idGram K 6)) := inferInstance
+  have : Finite (primeFormP h (idGram K 6)) := inferInstance
   have cS := c.descend e0
   have hA : ∀ a ∈ Â.map (descendHom e0),
       ∃ B : primeFormUnitary h (idGram K 6), primeFormConjHom h (idGram K 6) B = a := by

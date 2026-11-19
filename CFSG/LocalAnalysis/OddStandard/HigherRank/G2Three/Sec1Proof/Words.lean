@@ -85,8 +85,9 @@ theorem decPc_gsP : decPc (gsP ()) = gsW := by
   show decPc (mkPc true one14 one14) = wanti 1 1
   rw [decPc_mkPc_true length_one14 length_one14, dec14_one14]
 
+omit [Finite G] in
 theorem rho_inv_eq (ρ : G →* Wm) {x : G} {A B : Wm} (hx : ρ x = A) (h1 : A * B = 1)
-    (h2 : B * A = 1) : ρ x⁻¹ = B := by
+    (_h2 : B * A = 1) : ρ x⁻¹ = B := by
   calc ρ x⁻¹ = ρ x⁻¹ * 1 := (mul_one _).symm
     _ = ρ x⁻¹ * (A * B) := by rw [← h1]
     _ = (ρ x⁻¹ * ρ x) * B := by rw [← hx, ← mul_assoc]
@@ -96,13 +97,13 @@ theorem rho_inv_eq (ρ : G →* Wm) {x : G} {A B : Wm} (hx : ρ x = A) (h1 : A *
 theorem rho_mn0 (m : G23Model G) : m.ρ (mn0 m) = decPc (n0P ()) := by
   show m.ρ (m.gX0 * m.gY0 ^ 2 * m.gX0) =
     decPc (mulPc (mulPc (gx0P ()) (mulPc (gy0P ()) (gy0P ()))) (gx0P ()))
-  simp only [map_mul, map_pow, m.ρ_gX0, m.ρ_gY0, decPc_mulPc, decPc_gx0P, decPc_gy0P,
+  simp only [map_mul, m.ρ_gX0, m.ρ_gY0, decPc_mulPc, decPc_gx0P, decPc_gy0P,
     pow_two]
 
 theorem rho_mn1 (m : G23Model G) : m.ρ (mn1 m) = decPc (n1P ()) := by
   show m.ρ (m.gX1 * m.gY1 ^ 2 * m.gX1) =
     decPc (mulPc (mulPc (gx1P ()) (mulPc (gy1P ()) (gy1P ()))) (gx1P ()))
-  simp only [map_mul, map_pow, m.ρ_gX1, m.ρ_gY1, decPc_mulPc, decPc_gx1P, decPc_gy1P,
+  simp only [map_mul, m.ρ_gX1, m.ρ_gY1, decPc_mulPc, decPc_gx1P, decPc_gy1P,
     pow_two]
 
 private theorem wordsCheck_spec (h : wordsCheck () = true) :

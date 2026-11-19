@@ -15,7 +15,7 @@ theorem noHardRee : NoLowTwoRankSectionFor IsHardReeIndex := by
   rcases i with ⟨p, hp⟩ | ⟨n, hn⟩ | ⟨⟨li, hv⟩⟩ | ⟨s⟩
   · exact (hi : False).elim
   · exact (hi : False).elim
-  · cases li <;> first | exact (hi : False).elim | skip
+  · cases li <;> try exact (hi : False).elim
     rename_i m
     exact ⟨3, Nat.prime_three, by norm_num, rankFourCover_reeG2 m hv hi⟩
   · exact (hi : False).elim

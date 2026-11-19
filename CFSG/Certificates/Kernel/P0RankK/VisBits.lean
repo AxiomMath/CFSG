@@ -235,16 +235,16 @@ theorem ycRow_spec {YE NY m : ℕ} : ∀ (row : List ℕ) (v₀ : ℕ), ycRow YE
       simpa [Nat.add_assoc, Nat.add_comm 1 u] using this
 
 theorem ycRows_spec {YE NY : ℕ} : ∀ (rows : List (List ℕ)) (i₀ : ℕ), ycRows YE NY i₀ rows = true →
-    ∀ k (hk : k < rows.length), ∀ v < 32, ∃ j < NY,
+    ∀ k (_hk : k < rows.length), ∀ v < 32, ∃ j < NY,
       fld YE (32 * j) m32 = clo (fld YE (32 * (i₀ + k)) m32) v
-  | [], _, _, k, hk => absurd hk (by simp)
-  | row :: rows, i₀, h, k, hk => by
+  | [], _, _, k, _hk => absurd _hk (by simp)
+  | row :: rows, i₀, h, k, _hk => by
     simp only [ycRows, Bool.and_eq_true, Nat.beq_eq] at h
     rcases k with _ | k
     · intro v hv
       have := ycRow_spec row 0 h.1.2 v (by omega)
       exact ⟨_, this.1, by simpa using this.2⟩
-    · have := ycRows_spec rows (i₀ + 1) h.2 k (by simpa using hk)
+    · have := ycRows_spec rows (i₀ + 1) h.2 k (by simpa using _hk)
       simpa [Nat.add_assoc, Nat.add_comm 1 k] using this
 
 private theorem testBit_of_dyadic {x t : ℕ} (h1 : 2 ^ t ≤ x) (h2 : x < 2 ^ (t + 1)) :

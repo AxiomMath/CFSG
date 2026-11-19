@@ -49,7 +49,7 @@ theorem u9_exists_pSimple_equiv_centerQuot {A B : Type} [Group A] [Group B] [Fin
       ∀ a : A, ι (QuotientGroup.mk (QuotientGroup.mk a)) = QuotientGroup.mk (π a) := by
   have hne : GLAPPrimeCore p B ≠ ⊤ := by
     intro htop
-    haveI : Subsingleton (B ⧸ GLAPPrimeCore p B) := by
+    have : Subsingleton (B ⧸ GLAPPrimeCore p B) := by
       rw [htop]
       exact QuotientGroup.subsingleton_quotient_top
     exact not_subsingleton (B ⧸ GLAPPrimeCore p B) ‹_›
@@ -75,7 +75,7 @@ private theorem unitary_label_of_markTag {lab : GLALabel}
   case twA => rfl
   case D | twD =>
     simp only [CFSG.StandardType.markTag, CFSG.StandardType.markRank] at h1 h2
-    split_ifs at h1 h2 <;> first | omega | exact absurd h1 (by decide)
+    split_ifs at h1 h2; try first | omega
   all_goals simp [CFSG.StandardType.markTag, CFSG.StandardType.markRank,
     CFSG.StandardType.markChar] at h1 h2 h3 ⊢
 
@@ -150,7 +150,7 @@ theorem u9_innDiagOn_of_indAut_mem_innAutDerived
     unfold MI.indAut
     rw [← map_zpow]
     congr 1
-    exact Subtype.ext (by simp [zpow_neg, inv_zpow])
+    exact Subtype.ext (by simp [zpow_neg])
   rw [e']
   exact Subgroup.zpow_mem _ h k
 

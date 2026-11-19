@@ -46,13 +46,13 @@ theorem typeL34_of_steinerPlane
     rw [hψapply, he42id_map_permCongr, ← he]
     rw [mem_blockAut.1 (he42id_perm_mem_blockAut L₁ L₂ g) (B'.map e.symm.toEmbedding), he,
       he42id_map_symm_map]
-  haveI := hnorm
+  have := hnorm
   set ψ' : L →* ↥(blockAut PG24Lines) := ψ.codRestrict (blockAut PG24Lines) hψmem with hψ'
   set S := (rhoGL.comp slHom).range with hS
   have hNcard : Nat.card (↥(blockAut PG24Lines) ⧸ S.subgroupOf (blockAut PG24Lines)) = 6 := by
     rw [← Subgroup.index_eq_card]
     exact hrel
-  haveI : Group.IsSolvable (↥(blockAut PG24Lines) ⧸ S.subgroupOf (blockAut PG24Lines)) :=
+  have : Group.IsSolvable (↥(blockAut PG24Lines) ⧸ S.subgroupOf (blockAut PG24Lines)) :=
     he42id_isSolvable_of_card_six _ hNcard
   have hf := he42id_eq_one_of_perfect_of_solvable hperf
     ((QuotientGroup.mk' (S.subgroupOf (blockAut PG24Lines))).comp ψ')
@@ -69,7 +69,7 @@ theorem typeL34_of_steinerPlane
     ext g
     rw [MonoidHom.mem_ker, MonoidHom.mem_ker, ← hψker_iff g]
     exact ⟨fun h => congrArg Subtype.val h, fun h => Subtype.ext h⟩
-  haveI : Finite S := Nat.finite_of_card_ne_zero (by rw [hcardS]; norm_num)
+  have : Finite S := Nat.finite_of_card_ne_zero (by rw [hcardS]; norm_num)
   have hrange : ψS.range = ⊤ := by
     apply Subgroup.eq_top_of_card_eq
     rw [← Nat.card_congr (QuotientGroup.quotientKerEquivRange ψS).toEquiv, hψSker,

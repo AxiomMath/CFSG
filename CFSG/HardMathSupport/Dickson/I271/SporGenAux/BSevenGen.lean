@@ -154,7 +154,7 @@ theorem card_B_factorization_seven : (Nat.card NativeSporadic.B).factorization 7
     Nat.factorization_eq_zero_of_not_dvd (by norm_num)]
 
 theorem centGen_B_seven : CentGen 7 NativeSporadic.B := by
-  haveI : Finite NativeSporadic.B := finite_B
+  have : Finite NativeSporadic.B := finite_B
   obtain ⟨he, he1, hf, hef, hfe, htop⟩ := bSevenGen_facts
   exact centGen_of_data Nat.prime_seven card_B_factorization_seven htop he hf hef he1 hfe
     (Commute.self_pow sOne 10).eq (Commute.self_pow sTwo 10).eq

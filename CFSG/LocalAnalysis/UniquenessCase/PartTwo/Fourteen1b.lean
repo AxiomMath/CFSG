@@ -38,13 +38,13 @@ theorem coe_sup (h : Hyp141 D L₁ L₂ X) : ((L₁ ⊔ L₂ : Subgroup G) : Set
 
 theorem isSylowOf_inf_left (h : Hyp141 D L₁ L₂ X) :
     CFSG.ABGLocalTools.IsSylowOf 3 (X ⊓ L₁) L₁ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.ABGLocalTools.IsSylowOf.inf_of_le_normalizer h.sylow le_sup_left
     (sup_le Subgroup.le_normalizer (le_normalizer_left h))
 
 theorem isSylowOf_inf_right (h : Hyp141 D L₁ L₂ X) :
     CFSG.ABGLocalTools.IsSylowOf 3 (X ⊓ L₂) L₂ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.ABGLocalTools.IsSylowOf.inf_of_le_normalizer h.sylow le_sup_right
     (sup_le (le_normalizer_right h) Subgroup.le_normalizer)
 
@@ -55,8 +55,8 @@ theorem card_inf_right (h : Hyp141 D L₁ L₂ X) : Nat.card (X ⊓ L₂ : Subgr
   card_sylow_three_of_isL3_bar2 h.shape₂ (isSylowOf_inf_right h)
 
 theorem card_X (h : Hyp141 D L₁ L₂ X) : Nat.card X = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard := calC_card_sup_mul_card_inf h.mem₁ h.mem₂ h.ne
   have hb2 : IsPGroup 2 (L₁ ⊓ L₂ : Subgroup G) :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L₁).to_le ((inf_le_pCore h).trans inf_le_left)
@@ -94,8 +94,8 @@ theorem card_X (h : Hyp141 D L₁ L₂ X) : Nat.card X = 9 := by
   norm_num
 
 theorem disjoint_inf (h : Hyp141 D L₁ L₂ X) : Disjoint (X ⊓ L₁) (X ⊓ L₂) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdisj : Disjoint X (pCoreOf 2 L₁ : Subgroup G) :=
     IsPGroup.disjoint_of_ne 3 2 (by norm_num) X (pCoreOf 2 L₁) h.sylow.isPGroup
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L₁)
@@ -105,8 +105,8 @@ theorem disjoint_inf (h : Hyp141 D L₁ L₂ X) : Disjoint (X ⊓ L₁) (X ⊓ L
 theorem commute_inf (h : Hyp141 D L₁ L₂ X) :
     ∀ x ∈ X ⊓ L₁, ∀ y ∈ X ⊓ L₂, x * y = y * x := by
   intro x hx y hy
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hdisj : Disjoint X (pCoreOf 2 L₁ : Subgroup G) :=
     IsPGroup.disjoint_of_ne 3 2 (by norm_num) X (pCoreOf 2 L₁) h.sylow.isPGroup
       (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L₁)
@@ -129,7 +129,7 @@ theorem X_eq_sup (h : Hyp141 D L₁ L₂ X) : X = (X ⊓ L₁) ⊔ (X ⊓ L₂) 
   exact (Subgroup.eq_of_le_of_card_ge hle hge).symm
 
 theorem isElemAbelian_X (h : Hyp141 D L₁ L₂ X) : IsElemAbelian 3 X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card X = 3 ^ 2 := by rw [card_X h]; norm_num
   refine ⟨IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard, fun x hx => ?_⟩
   have hset := (CFSG.GroupTheory.card_sup_mul_card_inf_of_commute (X ⊓ L₁) (X ⊓ L₂)
@@ -160,8 +160,8 @@ theorem exists_mem_normalizer_of_mul_mem {L Q X : Subgroup G} {p : ℕ} (hp : p.
     (hXL : X ≤ L) (hX : IsPGroup p X) {n₀ : G} (hn₀ : n₀ ∈ L)
     (hnX : ∀ x ∈ X, n₀ * x * n₀⁻¹ ∈ X ⊔ Q) :
     ∃ n ∈ L ⊓ normalizer (X : Set G), n⁻¹ * n₀ ∈ Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXQ : X ⊓ Q = ⊥ := disjoint_iff.1 (IsPGroup.disjoint_of_ne p 2 hp2 X Q hX hQ)
   have hXnormQ : X ≤ normalizer (Q : Set G) := hXL.trans hLQ
   have hcarrier : (↑(X ⊔ Q) : Set G) = X * Q :=
@@ -245,7 +245,7 @@ variable {D : Data G} {L₁ L₂ X : Subgroup G}
 
 theorem pCoreOf_sup_le (h : Hyp141 D L₁ L₂ X) :
     pCoreOf 2 L₁ ⊔ pCoreOf 2 L₂ ≤ pCoreOf 2 (L₁ ⊔ L₂) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : pCoreOf 2 L₁ ≤ pCoreOf 2 (L₁ ⊔ L₂) :=
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
       ((CFSG.LieType.BorelTits.pCoreOf_le 2 L₁).trans le_sup_left)
@@ -264,8 +264,8 @@ theorem pCoreOf_sup_le (h : Hyp141 D L₁ L₂ X) :
 
 theorem exists_inverting_mod_pCore (h : Hyp141 D L₁ L₂ X) :
     ∃ n ∈ L₁, ∀ x ∈ X ⊓ L₁, n * x * n⁻¹ * x ∈ pCoreOf 2 L₁ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P : Subgroup G := X ⊓ L₁ with hP
   have hPcard : Nat.card P = 3 := card_inf_left h
   set π : ↥L₁ →* Bar2 L₁ := QuotientGroup.mk' (CFSG.pCore 2 ↥L₁) with hπ
@@ -318,8 +318,8 @@ theorem exists_inversion (h : Hyp141 D L₁ L₂ X) (s₁ s₂ : Bool) :
     ∃ n ∈ (L₁ ⊔ L₂) ⊓ normalizer (X : Set G),
       (∀ x ∈ X ⊓ L₁, n * x * n⁻¹ = if s₁ then x⁻¹ else x) ∧
       (∀ x ∈ X ⊓ L₂, n * x * n⁻¹ = if s₂ then x⁻¹ else x) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, haL₁, ha_inv⟩ := exists_inverting_mod_pCore h
   obtain ⟨b, hbL₂, hb_inv⟩ := exists_inverting_mod_pCore h.symm
   let n₁ : G := if s₁ then a else 1
@@ -545,6 +545,7 @@ end Hyp141
 
 section Units
 
+omit [Finite G] in
 theorem inU_iff_mem_uniqueSet {M X : Subgroup G} : UC6.InU M X ↔ X ∈ uniqueSet M := by
   constructor
   · rintro ⟨hXM, h⟩
@@ -560,6 +561,7 @@ theorem inU_iff_mem_uniqueSet {M X : Subgroup G} : UC6.InU M X ↔ X ∈ uniqueS
     have hres := h g⁻¹ hg'
     simpa [uniqueFourConj] using hres
 
+omit [Finite G] in
 theorem conj_mem_uniqueSet {M X : Subgroup G} (hX : X ∈ uniqueSet M) {m : G} (hm : m ∈ M) :
     X.map (MulAut.conj m).toMonoidHom ∈ uniqueSet M := by
   have hmM : M.map (MulAut.conj m).toMonoidHom = M :=

@@ -13,6 +13,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
   {M Q Z B X : Subgroup G} {n : ℕ} {V₁ V₂ : Subgroup G}
 
+omit [Finite G] in
 private theorem LinSetup.facts_card (hS : LinSetup M Q Z B n V₁ V₂) :
     Z ≤ V₁ ∧ V₁ ≤ Q ∧ Z ≤ V₂ ∧ V₂ ≤ Q ∧ V₁ ⊓ V₂ = Z ∧
       Lgen M (LB M Q B) ≤ Subgroup.normalizer (V₁ : Set G) ∧
@@ -74,7 +75,7 @@ theorem card_comm_sup_le_of_transv (hc : Ctx M Q Z B) (hS : LinSetup M Q Z B n V
   rw [← hsup]
   exact Subgroup.card_le_of_le (sup_le hcomm (hZP₁.trans le_sup_left))
 
-theorem card_Q_le_centralizer_mul (H : StrothHyp M Q Z) {y : G} (hyM : y ∈ M) (hy2 : y * y = 1) :
+theorem card_Q_le_centralizer_mul (_H : StrothHyp M Q Z) {y : G} (_hyM : y ∈ M) (_hy2 : y * y = 1) :
     Nat.card Q ≤ Nat.card ↥(Q ⊓ Subgroup.centralizer ({y} : Set G)) *
       Nat.card ↥(⁅Q, Subgroup.zpowers y⁆ ⊔ Z) := by
   set C : Subgroup G := Q ⊓ Subgroup.centralizer ({y} : Set G) with hC

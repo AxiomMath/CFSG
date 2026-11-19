@@ -14,12 +14,13 @@ variable {F : Type} [Field F] [Finite F]
 abbrev mat (g : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F := (g : Matrix (Fin 3) (Fin 3) F)
 
 theorem two_ne_zero_of_charP (hF : Nat.card F = 9) : (2 : F) ≠ 0 := by
-  haveI := charP_three hF
+  have := charP_three hF
   intro h
   have : ((2 : ℕ) : F) = 0 := by simpa using h
   have := (CharP.cast_eq_zero_iff F 3 2).mp this
   omega
 
+omit [Finite F] in
 theorem adj_eq_neg_of_sq_zero (σ : F →+* F) (X : Matrix (Fin 3) (Fin 3) F)
     (hX : adj σ X * X = 1) (hν2 : (X - 1) * (X - 1) = 0) : adj σ (X - 1) = -(X - 1) := by
   have h1 : X * (1 - (X - 1)) = 1 := by
@@ -32,6 +33,7 @@ theorem adj_eq_neg_of_sq_zero (σ : F →+* F) (X : Matrix (Fin 3) (Fin 3) F)
   rw [adj_sub, adj_one, h2]
   abel
 
+omit [Finite F] in
 theorem sq_sum_commute (a b : Matrix (Fin 3) (Fin 3) F) (hab : a * b = b * a) (ha : a * a = 0)
     (hb : b * b = 0) : (a + b + a * b) * (a + b + a * b) = (2 : F) • (a * b) := by
   have f1 : a * (a * b) = 0 := by rw [← mul_assoc, ha, zero_mul]
@@ -43,7 +45,7 @@ theorem sq_sum_commute (a b : Matrix (Fin 3) (Fin 3) F) (hab : a * b = b * a) (h
   rw [two_smul]
 
 theorem frob_frob (hF : Nat.card F = 9) (x : F) : frob hF (frob hF x) = x := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   rw [frob_apply, frob_apply, ← pow_mul]
   have := FiniteField.pow_card x
   rwa [← Nat.card_eq_fintype_card, hF] at this
@@ -53,18 +55,18 @@ theorem exists_regular_of_elemAbelian (hF : Nat.card F = 9) (Q : Subgroup ↥(SU
     (hQ9 : Nat.card Q = 9) :
     ∃ y ∈ Q, (mat (y : GL (Fin 3) F) - 1) ^ 2 ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
-  haveI := charP_three hF
+  push Not at hcon
+  have := charP_three hF
   set σ : F →+* F := frob hF with hσ
   obtain ⟨x, hxQ, hx1⟩ : ∃ x ∈ Q, x ≠ 1 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have : Q = ⊥ := (Subgroup.eq_bot_iff_forall Q).mpr h
     rw [this, Subgroup.card_bot] at hQ9
     omega
   obtain ⟨y, hyQ, hyx⟩ : ∃ y ∈ Q, y ∉ Subgroup.zpowers x := by
     by_contra h
-    push_neg at h
+    push Not at h
     have hle : Q ≤ Subgroup.zpowers x := h
     have h1 : Nat.card Q ≤ Nat.card (Subgroup.zpowers x) := Subgroup.card_le_of_le hle
     rw [Nat.card_zpowers] at h1
@@ -150,6 +152,6 @@ theorem exists_regular_of_elemAbelian (hF : Nat.card F = 9) (Q : Subgroup ↥(SU
       rw [h2, neg_smul, one_smul, ← sub_eq_add_neg]
     have hy2 : y = x ^ 2 := Subtype.ext (Units.ext this)
     rw [hy2]
-    exact Subgroup.zpow_mem _ (Subgroup.mem_zpowers x) 2 |> fun h => by simpa using h
+    exact Subgroup.zpow_mem _ (Subgroup.mem_zpowers x) 2 |> fun h => by simp
 
 end CFSG.AGLEmbeddingD2.Tits.MsideParabolicEscape.U33

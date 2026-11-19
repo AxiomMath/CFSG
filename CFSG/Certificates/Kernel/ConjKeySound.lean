@@ -42,13 +42,13 @@ theorem appF_succ (vm : ℕ → ℕ → ℕ) (GL : ℕ → ℕ) (fuel : ℕ) {c 
     appF vm GL (fuel + 1) c v = appF vm GL fuel (c / 8) (vm v (GL (c % 8 - 1))) := by
   change Bool.rec (motive := fun _ => Nat) (strictN (vm v (GL (Nat.sub (Nat.mod c 8) 1)))
     (fun u => appF vm GL fuel (Nat.div c 8) u)) v (Nat.beq c 0) = _
-  rw [beq_ne hc, strictN_eq] <;> rfl
+  rw [beq_ne hc, strictN_eq]; rfl
 
 theorem appI_succ (vm : ℕ → ℕ → ℕ) (GIL : ℕ → ℕ) (fuel : ℕ) {c : ℕ} (hc : c ≠ 0) (v : ℕ) :
     appI vm GIL (fuel + 1) c v = vm (appI vm GIL fuel (c / 8) v) (GIL (c % 8 - 1)) := by
   change Bool.rec (motive := fun _ => Nat) (strictN (appI vm GIL fuel (Nat.div c 8) v)
     (fun u => vm u (GIL (Nat.sub (Nat.mod c 8) 1)))) v (Nat.beq c 0) = _
-  rw [beq_ne hc, strictN_eq] <;> rfl
+  rw [beq_ne hc, strictN_eq]; rfl
 
 section Sound
 

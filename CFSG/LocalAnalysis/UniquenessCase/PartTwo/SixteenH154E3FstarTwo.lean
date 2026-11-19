@@ -23,7 +23,7 @@ private theorem s16h_e3_gw_of_open {Γ : Type*} [Group Γ] {A X : Subgroup Γ}
   · exact (CFSG.Adapters.isSubnormal_top_iff (A.subgroupOf X)).mp
       ((CFSG.Quasithin.isSubnormal_subgroupOf_top_iff hAX).mpr hsub)
   · refine ⟨?_, hcomm, hsimple⟩
-    haveI : Nontrivial (↥A ⧸ Subgroup.center ↥A) := hsimple.toNontrivial
+    have : Nontrivial (↥A ⧸ Subgroup.center ↥A) := hsimple.toNontrivial
     exact (QuotientGroup.mk'_surjective (Subgroup.center ↥A)).nontrivial
 
 private theorem s16h_e3_open_of_gw {Γ : Type*} [Group Γ] {A X : Subgroup Γ}
@@ -34,10 +34,10 @@ private theorem s16h_e3_open_of_gw {Γ : Type*} [Group Γ] {A X : Subgroup Γ}
     ((CFSG.Adapters.isSubnormal_top_iff (A.subgroupOf X)).mpr hsub), hcomm, hsimple⟩
 
 public theorem s16h_e3_solvable_centralizer {Γ : Type} [Group Γ] [Finite Γ]
-    {X A B Z : Subgroup Γ} (hA : IsComponentOf A X) (t : Γ) (htX : t ∈ X)
-    (hBt : B = A.map (MulAut.conj t).toMonoidHom)
-    (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
-    (hAc : ∀ a ∈ A, (∀ b ∈ A, a * b = b * a) → a = 1) (hZX : Z ≤ X)
+    {X A B Z : Subgroup Γ} (_hA : IsComponentOf A X) (t : Γ) (_htX : t ∈ X)
+    (_hBt : B = A.map (MulAut.conj t).toMonoidHom)
+    (_hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
+    (_hAc : ∀ a ∈ A, (∀ b ∈ A, a * b = b * a) → a = 1) (hZX : Z ≤ X)
     (hZ : Nat.card ↥Z = 3)
     (hZn : ∀ x ∈ X, Z.map (MulAut.conj x).toMonoidHom = Z)
     (hZc : ∀ z ∈ Z, ∀ a ∈ A ⊔ B, z * a = a * z)
@@ -70,12 +70,12 @@ public theorem s16h_e3_solvable_centralizer {Γ : Type} [Group Γ] [Finite Γ]
         Subgroup.mem_map.mpr ⟨(z : Γ), hz, rfl⟩
       rwa [hg] at hmem'
     simpa [MulAut.conj_apply] using hmem
-  haveI : (Z.subgroupOf K).Normal := hZnormK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic ↥Z := isCyclic_of_prime_card (p := 3) hZ
-  haveI : IsMulCommutative ↥Z := IsCyclic.isMulCommutative
-  haveI : Group.IsSolvable ↥Z := inferInstance
-  haveI : Group.IsSolvable ↥(Z.subgroupOf K) :=
+  have : (Z.subgroupOf K).Normal := hZnormK
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic ↥Z := isCyclic_of_prime_card (p := 3) hZ
+  have : IsMulCommutative ↥Z := IsCyclic.isMulCommutative
+  have : Group.IsSolvable ↥Z := inferInstance
+  have : Group.IsSolvable ↥(Z.subgroupOf K) :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hZK).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hZK).injective
@@ -110,17 +110,17 @@ public theorem s16h_e3_solvable_centralizer {Γ : Type} [Group Γ] [Finite Γ]
         _ = (r * q * r) * r := by group
         _ = q * r := by rw [h1]
     exact h2.symm
-  haveI : Group.IsSolvable (↥K ⧸ Z.subgroupOf K) := Group.isSolvable_of_comm hcommQ
+  have : Group.IsSolvable (↥K ⧸ Z.subgroupOf K) := Group.isSolvable_of_comm hcommQ
   exact Group.isSolvable_of_subgroup_quotient (Z.subgroupOf K)
 
 public theorem s16h_e3_nilpotent_le_center {Γ : Type} [Group Γ] [Finite Γ]
-    {X A B Z : Subgroup Γ} (hA : IsComponentOf A X) (t : Γ) (htX : t ∈ X)
-    (hBt : B = A.map (MulAut.conj t).toMonoidHom)
-    (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
-    (hAc : ∀ a ∈ A, (∀ b ∈ A, a * b = b * a) → a = 1) (hZX : Z ≤ X)
+    {X A B Z : Subgroup Γ} (_hA : IsComponentOf A X) (t : Γ) (_htX : t ∈ X)
+    (_hBt : B = A.map (MulAut.conj t).toMonoidHom)
+    (_hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
+    (_hAc : ∀ a ∈ A, (∀ b ∈ A, a * b = b * a) → a = 1) (hZX : Z ≤ X)
     (hZ : Nat.card ↥Z = 3)
-    (hZn : ∀ x ∈ X, Z.map (MulAut.conj x).toMonoidHom = Z)
-    (hZc : ∀ z ∈ Z, ∀ a ∈ A ⊔ B, z * a = a * z)
+    (_hZn : ∀ x ∈ X, Z.map (MulAut.conj x).toMonoidHom = Z)
+    (_hZc : ∀ z ∈ Z, ∀ a ∈ A ⊔ B, z * a = a * z)
     (hK : ∀ k ∈ X, (∀ a ∈ A ⊔ B, k * a = a * k) →
       k ∈ Z ∨ (k ^ 2 = 1 ∧ ∀ z ∈ Z, k * z * k⁻¹ = z⁻¹)) :
     ∀ N : Subgroup Γ, N ≤ X ⊓ Subgroup.centralizer ((A ⊔ B : Subgroup Γ) : Set Γ) →
@@ -139,7 +139,7 @@ public theorem s16h_e3_nilpotent_le_center {Γ : Type} [Group Γ] [Finite Γ]
       Subgroup.mem_map.mpr ⟨n, hn, by simp [MulAut.conj_apply]⟩
     rwa [h] at hmem
   by_contra hNZ
-  obtain ⟨k, hkN, hkZ⟩ := SetLike.not_le_iff_exists.mp hNZ
+  obtain ⟨k, hkN, hkZ⟩ := IsConcreteLE.not_le_iff_exists.mp hNZ
   have hkX : k ∈ X := hNX hkN
   have hkc : ∀ a ∈ A ⊔ B, k * a = a * k :=
     fun a ha => (Subgroup.mem_centralizer_iff.mp (hNc hkN) a ha).symm
@@ -148,9 +148,9 @@ public theorem s16h_e3_nilpotent_le_center {Γ : Type} [Group Γ] [Finite Γ]
     · exact absurd h hkZ
     · exact h
   have hk1 : k ≠ 1 := fun h => hkZ (h ▸ Z.one_mem)
-  haveI : Nontrivial ↥N :=
+  have : Nontrivial ↥N :=
     ⟨⟨k, hkN⟩, ⟨1, N.one_mem⟩, fun h => hk1 (Subtype.ext_iff.mp h)⟩
-  haveI : Group.IsNilpotent ↥N := hNnil
+  have : Group.IsNilpotent ↥N := hNnil
   have hcenter : ∃ c : ↥N, c ∈ Subgroup.center ↥N ∧ c ≠ 1 := by
     by_contra h
     apply Group.IsNilpotent.center_ne_bot ↥N
@@ -210,7 +210,7 @@ public theorem s16h_e3_nilpotent_le_center {Γ : Type} [Group Γ] [Finite Γ]
           ((Subgroup.mem_center_iff.mp hccent) ⟨z, hZN hz⟩)).symm
       have h1 : (c : Γ) * z * (c : Γ)⁻¹ = z := by rw [hcomm]; group
       exact h1.symm.trans (hcinv z hz)
-    haveI : Nontrivial ↥Z := by
+    have : Nontrivial ↥Z := by
       rw [Subgroup.nontrivial_iff_ne_bot]
       intro hbot
       have : Nat.card ↥Z = 1 := by rw [hbot]; simp
@@ -236,11 +236,11 @@ public theorem s16h_e3_fstar_eq_of_two_components {Γ : Type} [Group Γ] [Finite
     {X A B Z : Subgroup Γ} {p : ℕ} (hp : p.Prime)
     (hA : IsComponentOf A X) (t : Γ) (htX : t ∈ X)
     (hBt : B = A.map (MulAut.conj t).toMonoidHom)
-    (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
-    (hAc : ∀ a ∈ A, (∀ b ∈ A, a * b = b * a) → a = 1) (hZX : Z ≤ X)
+    (_hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
+    (_hAc : ∀ a ∈ A, (∀ b ∈ A, a * b = b * a) → a = 1) (hZX : Z ≤ X)
     (hZ : Nat.card ↥Z = p)
     (hZn : ∀ x ∈ X, Z.map (MulAut.conj x).toMonoidHom = Z)
-    (hZc : ∀ z ∈ Z, ∀ a ∈ A ⊔ B, z * a = a * z)
+    (_hZc : ∀ z ∈ Z, ∀ a ∈ A ⊔ B, z * a = a * z)
     (hKs : Group.IsSolvable ↥(X ⊓ Subgroup.centralizer ((A ⊔ B : Subgroup Γ) : Set Γ)))
     (hFit : ∀ N : Subgroup Γ, N ≤ X ⊓ Subgroup.centralizer ((A ⊔ B : Subgroup Γ) : Set Γ) →
       (∀ x ∈ X, N.map (MulAut.conj x).toMonoidHom = N) →
@@ -268,13 +268,13 @@ public theorem s16h_e3_fstar_eq_of_two_components {Γ : Type} [Group Γ] [Finite
           (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcB)))
     have hLK : L ≤ X ⊓ Subgroup.centralizer ((A ⊔ B : Subgroup Γ) : Set Γ) :=
       le_inf hL.1 hLcAB
-    haveI : Group.IsSolvable ↥(X ⊓ Subgroup.centralizer
+    have : Group.IsSolvable ↥(X ⊓ Subgroup.centralizer
         ((A ⊔ B : Subgroup Γ) : Set Γ)) := hKs
     have hLsolv : Group.IsSolvable ↥L :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hLK)
-    haveI : Group.IsPerfect ↥L := ⟨hLopen.2.2.1⟩
-    haveI : Nontrivial ↥L := by
-      haveI : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hLopen.2.2.2.toNontrivial
+    have : Group.IsPerfect ↥L := ⟨hLopen.2.2.1⟩
+    have : Nontrivial ↥L := by
+      have : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hLopen.2.2.2.toNontrivial
       exact (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
     exact absurd hLsolv (Group.IsPerfect.not_isSolvable ↥L)
   have hfit : CFSG.fittingSubgroupOf X = Z := by
@@ -304,9 +304,9 @@ public theorem s16h_e3_fstar_eq_of_two_components {Γ : Type} [Group Γ] [Finite
         have := Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcomm
         rwa [hlayer] at this
       exact hFit N (le_inf hNX hNc) hNconj hNnil
-    · haveI : Fact p.Prime := ⟨hp⟩
+    · have : Fact p.Prime := ⟨hp⟩
       have hZpg : IsPGroup p ↥Z := IsPGroup.of_card (n := 1) (by simpa using hZ)
-      haveI : Group.IsNilpotent ↥Z := hZpg.isNilpotent
+      have : Group.IsNilpotent ↥Z := hZpg.isNilpotent
       have hZnorm' : (Z.subgroupOf X).Normal := by
         refine ⟨fun z hz g => ?_⟩
         rw [Subgroup.mem_subgroupOf] at hz ⊢
@@ -398,7 +398,7 @@ private theorem s16h_e3_iso_of_fstar_eq {Γ : Type} [Group Γ] {X A B Z : Subgro
     (hZinf : Z ⊓ (A ⊔ B) = ⊥) (hZ : Nat.card ↥Z = p)
     (eB : ↥B ≃* ↥A) :
     Nonempty (↥(Fstar X) ≃* Multiplicative (ZMod p) × ↥A × ↥A) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [hF]
   have eZK : ↥(Z ⊔ (A ⊔ B)) ≃* ↥Z × ↥(A ⊔ B) :=
     s16h_e3_supProdEquiv hZc hZinf

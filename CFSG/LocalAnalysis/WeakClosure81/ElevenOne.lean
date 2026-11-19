@@ -15,6 +15,7 @@ open CFSG.QuasithinUnique.Lin2 (IsHallTwoPrimeOf ActsRegularlyOn nonIdentity)
 
 variable {G : Type} [Group G] [Finite G] {V : Subgroup G}
 
+omit [Finite G] in
 theorem autI_conjSubgroup (hV : IsElemAbelian 2 V) {g : G}
     (hg : g ∈ Subgroup.normalizer (V : Set G)) (X : Subgroup G) :
     autI hV (conjSubgroup X g) =
@@ -49,8 +50,9 @@ theorem autI_conjSubgroup (hV : IsElemAbelian 2 V) {g : G}
       group
 
 
+omit [Finite G] in
 theorem autI_le_of_forall_mem_mul_centralizer (hV : IsElemAbelian 2 V) {X X' : Subgroup G}
-    (hX' : X' ≤ Subgroup.normalizer (V : Set G))
+    (_hX' : X' ≤ Subgroup.normalizer (V : Set G))
     (h : ∀ x ∈ X', ∃ y ∈ X, x * y⁻¹ ∈ Subgroup.centralizer (V : Set G)) :
     autI hV X' ≤ autI hV X := by
   intro φ hφ
@@ -69,6 +71,7 @@ theorem autI_le_of_forall_mem_mul_centralizer (hV : IsElemAbelian 2 V) {X X' : S
   exact convI_mem_autI hV hy hyN
 
 
+omit [Finite G] in
 theorem autI_commute_of_commutator_eq_bot (hV : IsElemAbelian 2 V) {X X' : Subgroup G}
     (h : ⁅X, X'⁆ = ⊥) : ∀ a ∈ autI hV X, ∀ b ∈ autI hV X', a * b = b * a := by
   intro a ha b hb
@@ -106,7 +109,7 @@ theorem eleven_thirteen {M V Q U L X : Subgroup G}
     · exact absurd h hX
     · exact h
   have hnot := Asc81c.not_le_normalizer_of_frob21 h21 hnc hXY h3
-  obtain ⟨φ, hφY, hφN⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨φ, hφY, hφN⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   obtain ⟨gN, hgM, rfl⟩ := (mem_autI hV).1 (hdec.Y_le i₀ hφY)
   have hgNV : (gN : G) ∈ Subgroup.normalizer (V : Set G) := gN.2
   have hgY : ∀ a ∈ Y i₀, (Y i₀).map (MulAut.conj a).toMonoidHom = Y i₀ := fun a ha =>

@@ -16,6 +16,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem w16q_normalizer_le_normalizer_centralizer (V : Subgroup G) :
     normalizer (V : Set G) ≤ normalizer (centralizer (V : Set G) : Set G) :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer
@@ -68,11 +69,11 @@ theorem le_iSub16 (c : Cfg1616 M V₀ V U S H) : U ⊔ V₀ ≤ iSub16 V H := by
 theorem iSub16_eq (c : Cfg1616 M V₀ V U S H) : iSub16 V H = conjClosure (U ⊔ V₀) H := by
   rw [iSub16, Cex16.inf_pCoreOf_eq c.one c.five c.std c.cex c.min.fam16 c.not_le]
 
-theorem iSub16_le_conjClosure (c : Cfg1616 M V₀ V U S H) : iSub16 V H ≤ conjClosure V H :=
+theorem iSub16_le_conjClosure (_c : Cfg1616 M V₀ V U S H) : iSub16 V H ≤ conjClosure V H :=
   conjClosure_mono inf_le_left le_rfl
 
 theorem V_le_tSub16 (c : Cfg1616 M V₀ V U S H) : V ≤ tSub16 V₀ S :=
-  le_inf c.cex.V_le_S fun v hv => Subgroup.mem_centralizer_iff.2 fun w hw =>
+  le_inf c.cex.V_le_S fun _v hv => Subgroup.mem_centralizer_iff.2 fun _w hw =>
     (B2F.isElemAbelian_comm c.cex.hyp.h6.elemAbelian (c.cex.hyp.h6.le hw) hv)
 
 theorem iSub16_le_tSub16 (c : Cfg1616 M V₀ V U S H) : iSub16 V H ≤ tSub16 V₀ S := by
@@ -179,7 +180,7 @@ theorem le_normalizer_qSub16 (c : Cfg1616 M V₀ V U S H) :
   exact hgoal
 
 theorem iSub16_le_qSub16 (c : Cfg1616 M V₀ V U S H) : iSub16 V H ≤ qSub16 V₀ V S H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   show iSub16 V H ≤ pCoreOf 2 (conjClosure V H ⊔ tSub16 V₀ S)
   refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 ?_ ?_ ?_
   · exact c.iSub16_le_conjClosure.trans le_sup_left
@@ -188,7 +189,7 @@ theorem iSub16_le_qSub16 (c : Cfg1616 M V₀ V U S H) : iSub16 V H ≤ qSub16 V�
       (Cex16.iSub16_le_pCoreOf c.cex c.min.fam16)
 
 theorem qSub16_le_pCoreOf (c : Cfg1616 M V₀ V U S H) : qSub16 V₀ V S H ≤ pCoreOf 2 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   show pCoreOf 2 (conjClosure V H ⊔ tSub16 V₀ S) ≤ pCoreOf 2 H
   refine CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 ?_ ?_ ?_
   · exact (CFSG.LieType.BorelTits.pCoreOf_le 2 _).trans c.sup_le_H
@@ -253,6 +254,7 @@ private theorem w16q_le_of_isSylowIn_of_le {H S T : Subgroup G} (hS : IsSylowIn 
     exact hodd (hk ▸ dvd_pow_self 2 hk0)
   exact Subgroup.relIndex_eq_one.1 (by rw [hk, hk0, pow_zero])
 
+omit [Finite G] in
 private theorem w16q_conj_mem_sup_UV₀ (h : Cex16 M V₀ V U S) {R : Subgroup G}
     (hRC : R ≤ F11.CTilde M V₀ V) {r : G} (hr : r ∈ R) {x : G} (hx : x ∈ U ⊔ V₀) :
     r * x * r⁻¹ ∈ U ⊔ V₀ := by
@@ -273,7 +275,7 @@ private theorem w16q_conj_mem_sup_UV₀ (h : Cex16 M V₀ V U S) {R : Subgroup G
 theorem le_normalizer_tSub16 (h1 : W16One G) (hS : Std15 G) (h : Cex16 M V₀ V U S)
     {R : Subgroup G} (hR2 : IsPGroup 2 R) (hRC : R ≤ F11.CTilde M V₀ V) (hSR : S ≤ R) :
     R ≤ normalizer (tSub16 V₀ S : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSyl : IsSylowIn 2 S (centralizer (U : Set G)) := h.isSylowIn_centralizer h1 hS
   have hRUC : R ⊓ centralizer (U : Set G) ≤ S :=
     w16q_le_of_isSylowIn_of_le hSyl (le_inf hSR h.S_le_centralizer) inf_le_right
@@ -337,7 +339,7 @@ theorem le_normalizer_tSub16 (h1 : W16One G) (hS : Std15 G) (h : Cex16 M V₀ V 
 
 theorem isSylowIn_tSub16_inf (h : Cex16 M V₀ V U S) :
     IsSylowIn 2 (tSub16 V₀ S ⊓ centralizer (V : Set G)) (M ⊓ centralizer (V : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup G := M ⊓ centralizer (V : Set G) with hNdef
   have hNH : N ≤ M ⊓ centralizer (U : Set G) := by
     rw [hNdef]

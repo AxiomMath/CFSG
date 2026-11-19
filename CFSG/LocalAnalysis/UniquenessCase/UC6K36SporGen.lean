@@ -101,10 +101,10 @@ theorem eq_bot_of_forall_commute_eq_one {X : Type*} [Group X] [Finite X] {p : �
     {A N : Subgroup X} (hA : IsElemAbelian p A) (hcard : Nat.card A = p ^ 2) (hN : ¬ p ∣ Nat.card N)
     (hAN : A ≤ normalizer (N : Set X)) (h : ∀ a ∈ A, a ≠ 1 → ∀ x ∈ N, a * x = x * a → x = 1) : N = ⊥ := by
   classical
-  letI : MulDistribMulAction A N :=
+  let : MulDistribMulAction A N :=
     MulDistribMulAction.compHom N (N.normalizerMonoidHom.comp (Subgroup.inclusion hAN))
   have hact : ∀ (a : A) (x : N), ((a • x : N) : X) = (a : X) * (x : X) * (a : X)⁻¹ := fun _ _ => rfl
-  haveI : IsElementaryAbelian p A := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hA
+  have : IsElementaryAbelian p A := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hA
   have hgen := CFSG.SolvableHall.coprime_centralizer_generation (p := p) (A := A) (H := N)
     (by rw [hcard]) hN
   have hbot : ∀ a : A, a ≠ 1 → fixedPointSubgroup (Subgroup.zpowers a) N = ⊥ := by
@@ -130,7 +130,7 @@ theorem eq_bot_of_forall_commute_eq_one {X : Type*} [Group X] [Finite X] {p : �
 
 theorem not_dvd_card_of_isPGroup_two {X : Type*} [Group X] [Finite X] {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {N : Subgroup X} (hN : IsPGroup 2 N) : ¬ p ∣ Nat.card N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hN.exists_card_eq
   rw [hn]
   intro hd
@@ -140,8 +140,8 @@ theorem not_sporPlaneConf_of_planeGenOrExc {K : Type*} [Group K] [Finite K] [IsS
     (hZ : Subgroup.center K = ⊥) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hK : PlaneGenOrExc K p)
     {Ē R : Subgroup (MulAut K)} : ¬ SporPlaneConf K p Ē R := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rintro ⟨hE, hEc, hR2, hR1, hER, hfix⟩
   apply hR1
   rcases hK Ē hE hEc with hgen | ⟨hX1, hX2⟩
@@ -163,7 +163,7 @@ theorem not_sporPlaneConf_of_planeGenOrExc {K : Type*} [Group K] [Finite K] [IsS
           intro g
           obtain ⟨n, hn⟩ := hN2 ⟨g, h ▸ Subgroup.mem_top g⟩
           exact ⟨n, by simpa using congrArg Subtype.val hn⟩
-        haveI : Nontrivial K := IsSimpleGroup.toNontrivial
+        have : Nontrivial K := IsSimpleGroup.toNontrivial
         have hlt := hK2.bot_lt_center
         rw [hZ] at hlt
         exact lt_irrefl _ hlt
@@ -239,10 +239,11 @@ end Spor
 
 namespace Hyp36
 
-open Odd
+open _root_.CFSG.LocalAnalysis.UniquenessCase.UCK.Odd
 
 variable {G : Type} [Group G] [Finite G] {M E : Subgroup G} {p : ℕ}
 
+omit [Finite G] in
 theorem congr_actHom_of_mem (L : Subgroup G) [L.Normal] {K : Type*} [Group K]
     (φ : ↥L ⧸ Subgroup.center ↥L ≃* K) {m : G} (hm : m ∈ L) :
     MulAut.congr φ (actHom L m) = MulAut.conj (φ (QuotientGroup.mk ⟨m, hm⟩)) := by
@@ -261,8 +262,8 @@ theorem exists_sporPlaneConf (h : Hyp36 G M p E) {L : Subgroup G} [L.Normal] (hL
     (hne : ⁅L, pCoreOf 2 M⁆ ≠ ⊥) {K : Type*} [Group K] (φ : ↥L ⧸ Subgroup.center ↥L ≃* K) :
     ∃ Ē R : Subgroup (MulAut K), SporPlaneConf K p Ē R := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨h.prime⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLc : commutator ↥L = ⊤ := hL.1.1.commutator_eq_top
   by_cases hfaith : ∀ e ∈ E, e ≠ 1 → ∃ y ∈ L, e * y * e⁻¹ * y⁻¹ ∉ centerOf L
   swap
@@ -270,7 +271,7 @@ theorem exists_sporPlaneConf (h : Hyp36 G M p E) {L : Subgroup G} [L.Normal] (hL
     push Not at hfaith
     obtain ⟨e, he, he1, hall⟩ := hfaith
     have hcent := centralizes_of_forall_comm_mem L hLc hall
-    refine h.false_of_component_le hL hne fun y hy => ?_
+    refine CFSG.LocalAnalysis.UniquenessCase.UCK.Hyp36.false_of_component_le hL hne fun y hy => ?_
     exact h.centralizer_le_of_ne_one he he1
       (Subgroup.mem_centralizer_singleton_iff.2 (hcent y hy).symm)
   let Ψ : G →* MulAut K := (MulAut.congr φ).toMonoidHom.comp (actHom L)
@@ -352,9 +353,9 @@ theorem exists_sporPlaneConf (h : Hyp36 G M p E) {L : Subgroup G} [L.Normal] (hL
 theorem false_of_planeGen (h : Hyp36 G M p E) {L : Subgroup G} [L.Normal] (hL : CFSG.IsComponent L)
     (hne : ⁅L, pCoreOf 2 M⁆ ≠ ⊥) {K : Type*} [Group K] (φ : ↥L ⧸ Subgroup.center ↥L ≃* K)
     (hK : PlaneGenOrExc K p) : False := by
-  haveI : Finite K := Finite.of_equiv _ φ.toEquiv
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
-  haveI : IsSimpleGroup K := φ.symm.isSimpleGroup
+  have : Finite K := Finite.of_equiv _ φ.toEquiv
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
+  have : IsSimpleGroup K := φ.symm.isSimpleGroup
   have hZ : Subgroup.center K = ⊥ := by
     rcases (Subgroup.center K).normal_of_characteristic.eq_bot_or_eq_top with hc | hc
     · exact hc

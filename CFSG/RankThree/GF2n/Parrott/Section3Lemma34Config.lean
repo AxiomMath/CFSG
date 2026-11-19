@@ -155,7 +155,7 @@ private theorem exists_sylow_isT_of_e16_alt5
   obtain ⟨eP⟩ :=
     CFSG.GH74.PartII.nonempty_mulEquiv_sylSL3_4_of_e16_alt5 hπs hπel hk16 htr P
   let T₀ : Subgroup K := Subgroup.map B.subtype (P : Subgroup ↥B)
-  have hT₀p : IsPGroup 2 ↥T₀ := P.isPGroup'.map B.subtype
+  have hT₀p : IsPGroup 2 ↥T₀ := P.isPGroup.map B.subtype
   have hT₀idx : ¬ 2 ∣ T₀.index := by
     have h := Subgroup.index_map_of_injective (P : Subgroup ↥B) B.subtype_injective
     change ¬ 2 ∣ (Subgroup.map B.subtype (P : Subgroup ↥B)).index
@@ -329,7 +329,7 @@ private theorem config_centralizer_L_le {T : Sylow 2 K} {D F : Subgroup K}
       Nat.card_congr (MulEquiv.subgroupCongr (le_antisymm hle inf_le_left))
     rw [hD16, hcardZ] at hc
     omega
-  obtain ⟨x, hxD, hxZ⟩ := SetLike.not_le_iff_exists.mp hnotDleZ
+  obtain ⟨x, hxD, hxZ⟩ := IsConcreteLE.not_le_iff_exists.mp hnotDleZ
   have hCx : Subgroup.centralizer ({x} : Set K) ⊓ T = D :=
     config_centralizer_L hDT hDF x hxD hxZ
   intro c hc

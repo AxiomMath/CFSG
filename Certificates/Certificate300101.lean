@@ -32,7 +32,7 @@ private theorem uHat7S_eq_U0 : Certificates.uHat7S = U0 := by
   rw [Certificates.uHat7S, U0]
   congr 1
   ext g
-  simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_setOf_eq]
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_ofPred_eq]
   have hz : (eltC 477 : Matrix (Fin 2) (Fin 2) (ZMod 7)) = !![1, 5; 2, 1] := by
     rw [eltC_val (by decide +kernel), matC_477]
   have hs : (eltC 2059 : Matrix (Fin 2) (Fin 2) (ZMod 7)) = !![1, 0; 0, 6] := by

@@ -110,10 +110,10 @@ theorem s1_actP {z : ℤ} (hz : s1PL z) (y : Ω) : (s1ρP z • y).val = eL NWP 
   have hg := s1_genQ_act hl
   unfold s1ρP
   rcases Int.natAbs_eq z with e | e
-  · rw [if_neg (by omega)]
-    have ez : z = Int.ofNat (z.natAbs - 29 + 28 + 1) := by rw [Int.ofNat_eq_coe]; omega
+  · rw [ite_eq_right (by omega)]
+    have ez : z = Int.ofNat (z.natAbs - 29 + 28 + 1) := by rw [Int.ofNat_eq_natCast]; omega
     rw [s1_inv_act (lokP (by simp; omega)) hg y, ← ez]
-  · rw [if_pos (by omega), hg]
+  · rw [ite_eq_left (by omega), hg]
     congr 1
     rw [Int.negSucc_eq]
     omega
@@ -125,10 +125,10 @@ theorem s1_actO {z : ℤ} (hz : s1OL z) (y : Ω) : (s1ρO z • y).val = eL NWO 
   have hg := s1_objElt_act hl
   unfold s1ρO
   rcases Int.natAbs_eq z with e | e
-  · rw [if_neg (by omega)]
-    have ez : z = Int.ofNat (z.natAbs - 1 + 1) := by rw [Int.ofNat_eq_coe]; omega
+  · rw [ite_eq_right (by omega)]
+    have ez : z = Int.ofNat (z.natAbs - 1 + 1) := by rw [Int.ofNat_eq_natCast]; omega
     rw [s1_inv_act (lokO_reg (by omega)) hg y, ← ez]
-  · rw [if_pos (by omega), hg]
+  · rw [ite_eq_left (by omega), hg]
     congr 1
     rw [Int.negSucc_eq]
     omega
@@ -181,7 +181,7 @@ theorem s1_Zp_le : Zp ≤ Subgroup.closure {g | ∃ z ∈ k1Zp, s1ρP z = g} := 
   · simp [zpLetters] at hl
     rcases hl with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl <;> decide
   · unfold s1ρP
-    rw [if_pos (by omega)]
+    rw [ite_eq_left (by omega)]
     congr 1
 
 theorem s1_A1_le : A1gen ≤ Subgroup.closure {g | ∃ z ∈ k1A1, s1ρO z = g} := by
@@ -193,7 +193,7 @@ theorem s1_A1_le : A1gen ≤ Subgroup.closure {g | ∃ z ∈ k1A1, s1ρO z = g} 
   · simp [geomA1Letters] at hl
     rcases hl with rfl | rfl | rfl <;> decide
   · unfold s1ρO
-    rw [if_pos (by omega)]
+    rw [ite_eq_left (by omega)]
     congr 1
 
 end Letters
@@ -358,7 +358,7 @@ theorem s1_sem : ∃ y w : Ω, Stage1Sem y w := by
   have hrkH : ∀ i (hi : i < k1Hubs.length), rk (hp i hi) ≤ 2 * i := by
     intro i hi
     have hH : Hb (hp i hi) := ⟨i, hi, rfl⟩
-    have e : rk (hp i hi) = 2 * Nat.find hH := dif_pos hH
+    have e : rk (hp i hi) = 2 * Nat.find hH := dite_eq_left hH
     have := Nat.find_min' hH ⟨hi, rfl⟩
     omega
   have h0 : 0 < k1Hubs.length := by decide
@@ -378,7 +378,7 @@ theorem s1_sem : ∃ y w : Ω, Stage1Sem y w := by
     rw [memS_lor, Bool.or_eq_true] at hv
     by_cases hH : Hb v
     · obtain ⟨hi, hiv⟩ := Nat.find_spec hH
-      have hrk : rk v = 2 * Nat.find hH := dif_pos hH
+      have hrk : rk v = 2 * Nat.find hH := dite_eq_left hH
       revert hi hiv hrk
       generalize Nat.find hH = i
       intro hi hiv hrk
@@ -408,7 +408,7 @@ theorem s1_sem : ∃ y w : Ω, Stage1Sem y w := by
           exact absurd hz Bool.false_ne_true
         · obtain ⟨j, hj, rfl⟩ := List.mem_iff_getElem.1 he
           have hNb : Nb v := ⟨j, hj, hm⟩
-          have hrk : rk v = 2 * Nat.find hNb + 1 := (dif_neg hH).trans (dif_pos hNb)
+          have hrk : rk v = 2 * Nat.find hNb + 1 := (dite_eq_right hH).trans (dite_eq_left hNb)
           obtain ⟨hj', hjm⟩ := Nat.find_spec hNb
           obtain ⟨-, hpv⟩ := hN _ hj' v hjm
           refine Or.inr ⟨hp _ hj', hM _ hj', (Δ_adj_comm _ _).1 hpv, ?_⟩

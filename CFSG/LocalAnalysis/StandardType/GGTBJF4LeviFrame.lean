@@ -530,7 +530,7 @@ theorem ggTBJF4Levi_of_cover_frame
         s = rootReflection γ} := by
     congr 1
     ext s
-    simp only [Set.mem_image, Set.mem_setOf_eq]
+    simp only [Set.mem_image, Set.mem_ofPred_eq]
     exact ⟨fun ⟨γ, hγ, e⟩ => ⟨γ, hγ, e.symm⟩, fun ⟨γ, hγ, e⟩ => ⟨γ, hγ, e.symm⟩⟩
   have hpar : Subgroup.closure (rootReflection '' componentRoots (rootCharHom a) i) =
       Subgroup.closure ((fun j : Fin 4 => v₀ * simple .F4 j * v₀⁻¹) '' {j : Fin 4 | j ∉ S}) := by

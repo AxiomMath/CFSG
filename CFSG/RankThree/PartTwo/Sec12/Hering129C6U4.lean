@@ -37,7 +37,7 @@ theorem center_eq_bot_of_simple_of_isQuasisimple {S : Type} [Group S] (hS : IsSi
 
 theorem isSimpleGroup_projSL_two_gf2 {m : ℕ} (hm : 2 ≤ m) :
     IsSimpleGroup (projSL 2 (GaloisField 2 m)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card (GaloisField 2 m) = 2 ^ m := GaloisField.card 2 m (by omega)
   have h4 : 2 ^ 2 ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
   exact CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (GaloisField 2 m) le_rfl
@@ -60,15 +60,15 @@ theorem census_false_of_projSU_four_even (hD : Census129 c a I X f) {n : ℕ} (h
   set J := inSubgroup perfectResidual C with hJdef
   have hJs : IsSimpleGroup J := by
     rcases hJ with ⟨⟨eJ⟩⟩ | ⟨⟨eJ⟩⟩
-    · haveI := isSimpleGroup_projSL_two_gf2 hn2
+    · have := isSimpleGroup_projSL_two_gf2 hn2
       exact eJ.isSimpleGroup
-    · haveI := isSimpleGroup_projSL_two_gf2 (m := 2 * n) (by omega)
+    · have := isSimpleGroup_projSL_two_gf2 (m := 2 * n) (by omega)
       exact eJ.isSimpleGroup
   have hperf : ⁅I, I⁆ = I := Subgroup.isPerfect_iff.mp hD.isPerfect
   have hIJ : I ≤ J := le_inSubgroup_perfectResidual_of_isPerfect hD.le_centralizer hD.isPerfect
   have hJC : J ≤ C := Subgroup.map_subtype_le _
   have hc1 := c_ne_one hD
-  haveI := hJs
+  have := hJs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center J) with hZ | hZ
   · apply hc1
     have hcZ : (⟨c, hIJ hD.c_mem⟩ : J) ∈ Subgroup.center J := by
@@ -93,11 +93,11 @@ theorem census_false_of_projSU_four_even (hD : Census129 c a I X f) {n : ℕ} (h
 
 theorem census_false_of_projSU_four_odd (hD : Census129 c a I X f) {n : ℕ} (hn : 1 ≤ n)
     (ho : Odd n) (e : Q ≃* projSU 4 2 n) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hadm : CFSG.Assembly.LowTwoRank.StatedLieAdmissible .PSU 4 2 n :=
     ⟨Nat.prime_two, hn, by norm_num, by simp⟩
-  haveI := CFSG.PGLModel.isSimpleGroup_projSU_of_admissible hadm
-  haveI : IsSimpleGroup Q := e.isSimpleGroup
+  have := CFSG.PGLModel.isSimpleGroup_projSU_of_admissible hadm
+  have : IsSimpleGroup Q := e.isSimpleGroup
   have hZ : Subgroup.center Q = ⊥ := center_eq_bot_of_simple_of_isQuasisimple ‹_› hD.quasisimple
   have hK : Nat.card (GaloisField 2 (2 * n)) = (2 ^ n) ^ 2 := by
     rw [GaloisField.card 2 (2 * n) (by omega), ← pow_mul, mul_comm]
@@ -110,7 +110,7 @@ theorem census_false_of_projSU_four_odd (hD : Census129 c a I X f) {n : ℕ} (hn
   have hA9 : Nat.card A = 9 := census_card_abar hD
   have hAc : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := by
     intro x hx y hy
-    haveI := hAel.1
+    have := hAel.1
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : A) ⟨y, hy⟩)
   obtain ⟨ψ, hψ⟩ := CFSG.RankThree.PartOne.KFU.exists_diag_iso_le hn hK Nat.prime_three hpq hZ eS
     A (fun x hx => hAel.2 x hx) hAc
@@ -142,7 +142,7 @@ theorem census_false_of_projSU_four_odd (hD : Census129 c a I X f) {n : ℕ} (hn
   have htc : t ∈ Subgroup.centralizer (A : Set Q) := by
     rw [Subgroup.mem_centralizer_iff]
     intro d hd
-    haveI := hEel.1
+    have := hEel.1
     exact congrArg Subtype.val (mul_comm' (⟨d, hAE hd⟩ : E) ⟨t, htE⟩)
   have htX := hD.beta t htc ht3
   have htA' : t ∈ A := by

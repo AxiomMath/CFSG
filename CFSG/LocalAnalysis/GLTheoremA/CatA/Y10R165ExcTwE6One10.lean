@@ -78,7 +78,7 @@ private theorem te6Words_three_torusExp :
       Pi.single (1 : Fin Tag.E6.rank) (1 : ℤ) := by
   decide +kernel
 
-theorem e6Isogeny_te6SL2_three_HSL {f : ℕ} (hf : 1 ≤ f) {k : Type} [Field k]
+theorem e6Isogeny_te6SL2_three_HSL {f : ℕ} (_hf : 1 ≤ f) {k : Type} [Field k]
     [Algebra k (GaloisField 2 (2 * f))]
     (hj : ∀ x, frobQ 2 f (algebraMap k (GaloisField 2 (2 * f)) x) =
       algebraMap k (GaloisField 2 (2 * f)) x) (t : kˣ) :

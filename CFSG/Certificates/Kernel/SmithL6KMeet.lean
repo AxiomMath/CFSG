@@ -69,7 +69,7 @@ theorem sum_chi_forms {x : Nat} (hx : x < 64) :
   by_cases h0 : x = 0
   · subst h0
     simp [chi, form_zero]
-  · rw [if_neg h0]
+  · rw [ite_eq_right h0]
     obtain ⟨b, hb, hxb⟩ := exists_bit x hx h0
     have hb64 : 2 ^ b < 64 := Nat.lt_of_lt_of_le (Nat.pow_lt_pow_right (by omega) hb) (by omega)
     refine sum_flip (fun φ => φ ^^^ 2 ^ b) (fun φ hφ => ?_) (fun φ _ => ?_) (fun φ _ => ?_)
@@ -83,10 +83,10 @@ theorem sum_chi_forms {x : Nat} (hx : x < 64) :
 theorem sum_chi_vecs {A : Finset Nat} (hA : XorClosed A) {φ : Nat} (hφ : φ < 64) :
     ∑ x ∈ A, chi φ x = if φ ∈ annS A then (A.card : ℤ) else 0 := by
   by_cases h : ∀ x ∈ A, form φ x = false
-  · rw [if_pos (mem_annS.mpr ⟨hφ, h⟩)]
+  · rw [ite_eq_left (mem_annS.mpr ⟨hφ, h⟩)]
     rw [Finset.sum_congr rfl fun x hx => (by unfold chi; rw [h x hx]; rfl : chi φ x = 1)]
     simp
-  · rw [if_neg fun hm => h (mem_annS.mp hm).2]
+  · rw [ite_eq_right fun hm => h (mem_annS.mp hm).2]
     have h' : ∃ x0 ∈ A, form φ x0 = true := by
       by_cases hc : ∃ x0 ∈ A, form φ x0 = true
       · exact hc
@@ -130,7 +130,7 @@ theorem card_mul_annInter {A B : Finset Nat} (hA : XorClosed A) (hB : XorClosed 
         by_cases hab : a = b
         · subst hab
           simp
-        · rw [if_neg hab, if_neg fun h => hab (eq_of_xor_eq_zero h)]
+        · rw [ite_eq_right hab, ite_eq_right fun h => hab (eq_of_xor_eq_zero h)]
     rw [Finset.sum_congr rfl fun a ha => Finset.sum_congr rfl fun b hb => e a ha b hb]
     simp_rw [Finset.sum_ite_eq]
     rw [← Finset.sum_filter, Finset.sum_const, nsmul_eq_mul, Finset.filter_mem_eq_inter]
@@ -154,7 +154,7 @@ theorem foldl_or_testBit (g : Nat → Nat) (c : Nat → Bool) (l : List Nat) (S 
     rw [List.foldl_cons, ih, List.any_cons]
     cases hc : c d
     · simp
-    · rw [if_pos rfl, Nat.testBit_or, Nat.testBit_two_pow]
+    · rw [ite_eq_left rfl, Nat.testBit_or, Nat.testBit_two_pow]
       by_cases h : g d = x
       · simp [h]
       · have h' : (g d == x) = false := by simp [h]
@@ -167,7 +167,7 @@ theorem spanMask_testBit (a b c x : Nat) :
     (spanMask a b c).testBit x = (List.range 8).any fun d => comb a b c d == x := by
   unfold spanMask
   have e := foldl_or_testBit (comb a b c) (fun _ => true) (List.range 8) 0 x
-  simp only [if_true, Bool.true_and, Nat.zero_testBit, Bool.false_or] at e
+  simp only [ite_true, Bool.true_and, Nat.zero_testBit, Bool.false_or] at e
   exact e
 
 theorem mem_setM {M x : Nat} : x ∈ setM M ↔ x < 64 ∧ M.testBit x = true := by
@@ -309,10 +309,10 @@ theorem card_filter_range (p : Nat → Bool) (n : Nat) :
   | succ n ih =>
     rw [Finset.range_add_one, Finset.filter_insert, List.range_succ, List.countP_append, ← ih]
     by_cases h : p n = true
-    · rw [if_pos h, Finset.card_insert_of_notMem (fun hm => by
+    · rw [ite_eq_left h, Finset.card_insert_of_notMem (fun hm => by
         simp at hm)]
       simp [h]
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       simp [h]
 
 theorem getD_map_false {α : Type} (o : Option α) (P : α → Bool) :
@@ -330,7 +330,7 @@ theorem countMN_eq {M N : Nat} (horth : ∀ v < 64, ∀ φ < 64, M.testBit v = t
       (((setM M).erase 0) ×ˢ ((setM N).erase 0)).card := by
     refine Finset.card_nbij' (fun n => (n / 64, n % 64)) (fun p => 64 * p.1 + p.2) ?_ ?_ ?_ ?_
     · intro n hn
-      simp only [Finset.coe_filter, Set.mem_setOf_eq, Finset.mem_range] at hn
+      simp only [Finset.coe_filter, Set.mem_ofPred_eq, Finset.mem_range] at hn
       obtain ⟨hn, hq⟩ := hn
       split at hq
       · rename_i hc
@@ -342,10 +342,10 @@ theorem countMN_eq {M N : Nat} (horth : ∀ v < 64, ∀ φ < 64, M.testBit v = t
       simp only [Finset.coe_product, Set.mem_prod, Finset.mem_coe, Finset.mem_erase,
         mem_setM] at hp
       obtain ⟨⟨h1, h2, h3⟩, ⟨h4, h5, h6⟩⟩ := hp
-      simp only [Finset.coe_filter, Set.mem_setOf_eq, Finset.mem_range]
+      simp only [Finset.coe_filter, Set.mem_ofPred_eq, Finset.mem_range]
       have d1 : (64 * p.1 + p.2) / 64 = p.1 := by omega
       have d2 : (64 * p.1 + p.2) % 64 = p.2 := by omega
-      rw [d1, d2, if_pos ⟨h1, h4, horth _ h2 _ h5 h3 h6⟩]
+      rw [d1, d2, ite_eq_left ⟨h1, h4, horth _ h2 _ h5 h3 h6⟩]
       exact ⟨by omega, by simp [h3, h6]⟩
     · intro n _
       simp only

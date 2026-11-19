@@ -22,7 +22,7 @@ structure DIEnv (T L V V₁ V₂ K₁ : Subgroup G) (g : G) (D : HatModelU (u128
   hgN : g ∉ Subgroup.normalizer (V₁ : Set G)
   hK₁H : K₁ ≤ Subgroup.normalizer (V₁ : Set G)
   hK₁U : K₁ ≤ Subgroup.normalizer (u128 V V₁ : Set G)
-  hker : ∀ k : G, ∀ hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
+  hker : ∀ k : G, ∀ _hk : k ∈ K₁, ∀ hkN : k ∈ Subgroup.normalizer (u128 V V₁ : Set G),
     D.ρ ⟨k, hkN⟩ = 1 ↔ k ∈ pCoreOf 2 K₁
   himg : (D.img K₁).relIndex (D.img (Subgroup.normalizer (V₁ : Set G))) ≤ 2
   hTΩ : ∀ t ∈ T, ∀ htU : t ∈ Subgroup.normalizer (u128 V V₁ : Set G),
@@ -36,7 +36,7 @@ structure DIEnv (T L V V₁ V₂ K₁ : Subgroup G) (g : G) (D : HatModelU (u128
   hI16 : Nat.card I = 16
   kap : ↥(D.img K₁) ≃* (Additive ↥I ≃ₗ[ZMod 2] Additive ↥I)
   hact : ∀ x : G, ∀ (hxU : x ∈ Subgroup.normalizer (u128 V V₁ : Set G))
-    (hxI : x ∈ Subgroup.normalizer (I : Set G)) (hxH : x ∈ Subgroup.normalizer (V₁ : Set G))
+    (hxI : x ∈ Subgroup.normalizer (I : Set G)) (_hxH : x ∈ Subgroup.normalizer (V₁ : Set G))
     (hxΩ : D.ρ ⟨x, hxU⟩ ∈ D.img K₁),
     linAct (V := I) ⟨x, hxI⟩ = kap ⟨D.ρ ⟨x, hxU⟩, hxΩ⟩
   S : Submodule (ZMod 2) D.V
@@ -104,8 +104,9 @@ theorem y0_conj_mem {T L V V₁ V₂ : Subgroup G} (hcx : Cx1291 G T L V 4)
   have h := key g⁻¹ (Subgroup.inv_mem _ hgL) (Subgroup.inv_mem _ hgV₂) y₀ hy₀
   rwa [inv_inv] at h
 
-theorem comm_mem_of_relIndex_two {H K : Subgroup G} (hHK : H ≤ K) (h2 : H.relIndex K = 2)
-    {y : G} (hyK : ∀ x ∈ K, y * x * y⁻¹ ∈ K) (hyH : ∀ x ∈ H, y * x * y⁻¹ ∈ H)
+omit [Finite G] in
+theorem comm_mem_of_relIndex_two {H K : Subgroup G} (_hHK : H ≤ K) (h2 : H.relIndex K = 2)
+    {y : G} (hyK : ∀ x ∈ K, y * x * y⁻¹ ∈ K) (_hyH : ∀ x ∈ H, y * x * y⁻¹ ∈ H)
     (hyH' : ∀ x ∈ H, y⁻¹ * x * y ∈ H) {j : G} (hjK : j ∈ K) (hjH : j ∉ H) :
     y * j * y⁻¹ * j⁻¹ ∈ H := by
   obtain ⟨a, haK, ha⟩ := Subgroup.relIndex_eq_two_iff.1 h2

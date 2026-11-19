@@ -18,10 +18,12 @@ section Sylow
 
 variable {p : ℕ} [hp : Fact p.Prime] {P H : Subgroup G}
 
+omit [Finite G] in
 theorem isSylowOf_iff : IsSylowOf p P H ↔ P ≤ H ∧ IsPGroup p P ∧ ¬ p ∣ P.relIndex H := by
   unfold IsSylowOf
   rw [Nat.Prime.coprime_iff_not_dvd hp.out]
 
+omit [Finite G] in
 theorem exists_sylow_of_isSylowOf (h : IsSylowOf p P H) :
     ∃ Q : Sylow p H, (Q : Subgroup H).map H.subtype = P := by
   obtain ⟨hPH, hP, hco⟩ := h
@@ -29,7 +31,7 @@ theorem exists_sylow_of_isSylowOf (h : IsSylowOf p P H) :
     Subgroup.map_subgroupOf_eq_of_le hPH⟩
 
 theorem isSylowOf_map_sylow (Q : Sylow p H) : IsSylowOf p ((Q : Subgroup H).map H.subtype) H :=
-  ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, by
+  ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, by
     show Nat.Coprime p ((((Q : Subgroup H).map H.subtype).subgroupOf H).index)
     rw [show ((Q : Subgroup H).map H.subtype).subgroupOf H = Q from
       Subgroup.comap_map_eq_self_of_injective Subtype.coe_injective _]
@@ -44,6 +46,7 @@ theorem card_eq_of_isSylowOf {k m : ℕ} (h : IsSylowOf p P H) (hH : Nat.card H 
     Nat.Prime.factorization_pow hp.out, Finsupp.single_eq_same,
     Nat.factorization_eq_zero_of_not_dvd hm, add_zero]
 
+omit [Finite G] in
 theorem isSylowOf_of_card {k m : ℕ} (hPH : P ≤ H) (hP : IsPGroup p P)
     (hPc : Nat.card P = p ^ k) (hH : Nat.card H = p ^ k * m) (hm : ¬ p ∣ m) :
     IsSylowOf p P H := by
@@ -284,8 +287,8 @@ theorem two_pow_thirteen_le {G : Type} [Group G] [Finite G] {P : Subgroup G}
     (hτr : r * τ = τ * r) (hnc : ¬ ∀ u ∈ P, r * u = u * r) :
     2 ^ 13 ≤ Nat.card P := by
   classical
-  haveI : Fact (Nat.Prime 13) := ⟨by decide⟩
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Fact (Nat.Prime 13) := ⟨by decide⟩
+  have : Fintype P := Fintype.ofFinite P
   obtain ⟨a, ha⟩ : ∃ a : ℕ, Nat.card P = 2 ^ a := (IsPGroup.iff_card).mp hP
   obtain ⟨Q, hQdef⟩ : ∃ Q : Subgroup G, Q = P ⊓ Subgroup.centralizer {r} := ⟨_, rfl⟩
   have hQ : ∀ x : G, x ∈ Q ↔ x ∈ P ∧ r * x = x * r := by

@@ -42,7 +42,7 @@ local notation "ρ" => simpleRootSL2 Tag.D4 K
 theorem rho_mem_normalizer_iff (hK2 : ringChar K ≠ 2) (X : SL2 K) :
     ρ 2 X ∈ Subgroup.normalizer (Uk K 2 : Set (ModGL Tag.D4 K)) ↔
       (X : Matrix (Fin 2) (Fin 2) K) 1 0 = 0 := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   constructor
   · intro h
     have h1 : ρ 2 X * xUnit Tag.D4 K 2 1 * (ρ 2 X)⁻¹ ∈ Uk K 2 :=
@@ -88,7 +88,7 @@ theorem coe_X10 (a : Kˣ) (A e : SL2 K) :
   simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_inv, coe_dconj,
     Matrix.adjugate_fin_two, Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val',
     Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-    Matrix.head_cons, inv_inv]
+    inv_inv]
   ring
 
 theorem coe_det10 (e₀ e₁ : SL2 K) :
@@ -97,13 +97,12 @@ theorem coe_det10 (e₀ e₁ : SL2 K) :
         (e₁ : Matrix (Fin 2) (Fin 2) K) 0 0 * (e₀ : Matrix (Fin 2) (Fin 2) K) 1 0 := by
   simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_inv,
     Matrix.adjugate_fin_two, Matrix.mul_apply, Fin.sum_univ_two, Matrix.of_apply, Matrix.cons_val',
-    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one,
-    Matrix.head_cons]
+    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one]
   ring
 
 theorem rootDiagUnit_mem_normalizer_Uk (b : Fin Tag.D4.rank → Kˣ) (k : Fin Tag.D4.rank) :
     rootDiagUnit Tag.D4 b ∈ Subgroup.normalizer (Uk K k : Set (ModGL Tag.D4 K)) := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   refine mem_normalizer_of_forall_conj_mem (Uk K k) fun u hu => ?_
   obtain ⟨c, rfl⟩ := mem_Uk.1 hu
   rw [(root_diagonal_conjugation Tag.D4 K b).1 k c]
@@ -180,7 +179,7 @@ theorem bar_mem_normalizer (hJ : J = {2} ∨ J = ({0, 1, 3} : Set (Fin Tag.D4.ra
     (hxk : x ∈ Subgroup.normalizer (Uk K k : Set (ModGL Tag.D4 K))) :
     (semiDirect_levi (K := K) J).bar (phiG g a σ ε) x ∈
       Subgroup.normalizer (Uk K ((d4Rho ^ ε) k) : Set (ModGL Tag.D4 K)) := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   have hS := semiDirect_levi (K := K) J
   refine mem_normalizer_of_forall_conj_mem _ fun u hu => ?_
   obtain ⟨x₀, hx₀, rfl⟩ := bar_Uk_surj hJ hg hJρ hφP hφQ hφ3 hk u hu
@@ -203,7 +202,7 @@ theorem levi_key_two (hK2 : ringChar K ≠ 2) (hg : g ∈ borelGroup Tag.D4 K)
     (hy2 : y * y = 1) (hφy : phiG g a σ ε y = y) :
     ∃ s ∈ parabolicLevi Tag.D4 K ({2} : Set (Fin Tag.D4.rank)),
       s⁻¹ * y * s ∈ borelGroup Tag.D4 K ∧ s⁻¹ * phiG g a σ ε s ∈ borelGroup Tag.D4 K := by
-  haveI := finite_modGL (τ := Tag.D4) (K := K)
+  have := finite_modGL (τ := Tag.D4) (K := K)
   set J : Set (Fin Tag.D4.rank) := {2} with hJdef
   have hJ : J = {2} ∨ J = ({0, 1, 3} : Set (Fin Tag.D4.rank)) := Or.inl rfl
   have h2J : (2 : Fin Tag.D4.rank) ∈ J := rfl
@@ -300,7 +299,7 @@ theorem levi_key_two (hK2 : ringChar K ≠ 2) (hg : g ∈ borelGroup Tag.D4 K)
     refine ⟨1, one_mem _, key_of_split hJ hφP hy (one_mem _) (fun j hj => ?_) (fun j hj => ?_)⟩
     · have hj2 : j = 2 := hj
       subst hj2; simpa using hmN
-    · rw [hS.bar_one]; simpa using one_mem _
+    · rw [hS.bar_one]; simp
 
 end Key2
 

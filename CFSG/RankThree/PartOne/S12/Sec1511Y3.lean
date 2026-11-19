@@ -24,7 +24,7 @@ theorem exists_invariant_sylow [Finite G] {p q : ℕ} [Fact p.Prime] [Fact q.Pri
     obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow q ↥O))
     exact hOp (h.trans (Q.card_dvd_index.trans (Subgroup.index_dvd_card _)))
   obtain ⟨Q₀, hQ₀⟩ := hBp.nonempty_fixed_point_of_prime_not_dvd_card (Sylow q ↥O) hcard
-  refine ⟨(Q₀ : Subgroup ↥O).map O.subtype, ⟨Subgroup.map_subtype_le _, Q₀.isPGroup'.map _, ?_⟩, ?_⟩
+  refine ⟨(Q₀ : Subgroup ↥O).map O.subtype, ⟨Subgroup.map_subtype_le _, Q₀.isPGroup.map _, ?_⟩, ?_⟩
   · have hsub : ((Q₀ : Subgroup ↥O).map O.subtype).subgroupOf O = (Q₀ : Subgroup ↥O) :=
       Subgroup.comap_map_eq_self_of_injective O.subtype_injective _
     have : ((Q₀ : Subgroup ↥O).map O.subtype).relIndex O = (Q₀ : Subgroup ↥O).index := by

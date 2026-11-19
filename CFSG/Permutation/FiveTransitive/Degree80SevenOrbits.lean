@@ -83,7 +83,7 @@ theorem exterior_orbit_card_seven
     Nat.card (orbit (sylowImage X P s S) x) = 7 := by
   classical
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 7 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 7 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   obtain ⟨g,hg,hfix⟩ := Degree80SevenFiveLift.exists_normalizer_five
     P hcard h5 hnotAlt s hs S hS
   have hX : Nat.card X ≤ 80 := by rw [Nat.card_eq_fintype_card,hcard]

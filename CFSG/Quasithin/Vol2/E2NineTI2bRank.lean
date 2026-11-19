@@ -67,17 +67,17 @@ theorem card_barRad_le_card_barO2 {Q : Type} [Group Q] [Finite Q] (B : Subgroup 
   exact Nat.card_le_card_of_surjective (φ.subgroupMap _) (φ.subgroupMap_surjective _)
 
 theorem false_of_eOne_aux {Q : Type} [Group Q] [Finite Q] {B R N : Subgroup Q} [R.Normal]
-    (hNR : N ≤ R) (hBR : B ≤ R) (hRN : ∀ r ∈ R, ∃ j : ℕ, r ^ 2 ^ j ∈ N)
+    (_hNR : N ≤ R) (hBR : B ≤ R) (hRN : ∀ r ∈ R, ∃ j : ℕ, r ^ 2 ^ j ∈ N)
     (hNB : ∀ n ∈ N, ∀ b ∈ B, ⁅n, b⁆ ∈ CFSG.Open.pCore 2 Q) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (h0 : CFSG.Open.pCore p (Q ⧸ CFSG.Open.pCore 2 Q) ≠ ⊥)
     (h1 : CFSG.Open.pCore p (Q ⧸ CFSG.Open.pCore 2 Q) =
       ⁅CFSG.Open.pCore p (Q ⧸ CFSG.Open.pCore 2 Q), E1.barO2 Q B⁆) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set π := QuotientGroup.mk' (CFSG.Open.pCore 2 Q) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   set P := CFSG.Open.pCore p (Q ⧸ CFSG.Open.pCore 2 Q) with hP
-  haveI hPn : P.Normal := CFSG.LieType.BorelTits.pCore_normal p
-  haveI hRn : (R.map π).Normal := Subgroup.Normal.map ‹R.Normal› π hπs
+  have hPn : P.Normal := CFSG.LieType.BorelTits.pCore_normal p
+  have hRn : (R.map π).Normal := Subgroup.Normal.map ‹R.Normal› π hπs
   have hBbar : E1.barO2 Q B = B.map π := rfl
   have hPR : P ≤ R.map π := by
     calc P = ⁅P, E1.barO2 Q B⁆ := h1
@@ -117,7 +117,7 @@ theorem false_of_eOne_aux {Q : Type} [Group Q] [Finite Q] {B R N : Subgroup Q} [
   exact h0 (le_bot_iff.mp hP1)
 
 theorem not_eOne_of_star_le_pGroup (hmp : MinParabolic H T M) {K' A : Subgroup G} (hK'H : K' ≤ H)
-    (hAK' : A ≤ K') {g : G} (hg : g ∈ H) (hA : A ≤ conjSub g (pCoreOf 2 M))
+    (_hAK' : A ≤ K') {g : G} (hg : g ∈ H) (hA : A ≤ conjSub g (pCoreOf 2 M))
     {U : Subgroup (StarQuot M H)} (hU2 : IsPGroup 2 U)
     (hK'U : star M H K' ≤ Subgroup.normalizer (U : Set (StarQuot M H)))
     (hAU : star M H A ≤ U) : ¬ E1.EOne ↥K' (A.subgroupOf K') := by
@@ -126,7 +126,7 @@ theorem not_eOne_of_star_le_pGroup (hmp : MinParabolic H T M) {K' A : Subgroup G
   set ψ : ↥K' →* StarQuot M H := (E2P.starMap M H).comp (Subgroup.inclusion hK'H) with hψ
   have hψk : ∀ k : ↥K', ψ k ∈ star M H K' := fun k => starMap_mem_star (hK'H k.2) k.2
   set R : Subgroup ↥K' := U.comap ψ with hR
-  haveI hRn : R.Normal := ⟨fun r hr k => by
+  have hRn : R.Normal := ⟨fun r hr k => by
     show ψ (k * r * k⁻¹) ∈ U
     rw [map_mul, map_mul, map_inv]
     exact (Subgroup.mem_normalizer_iff.mp (hK'U (hψk k)) (ψ r)).mp hr⟩
@@ -160,6 +160,7 @@ theorem not_eOne_of_star_le_pGroup (hmp : MinParabolic H T M) {K' A : Subgroup G
     rw [Subgroup.mem_subgroupOf]
     simpa [commutatorElement_def] using hcomm
 
+omit [Finite G] in
 theorem le_solvRad_of_normalized {Y S : Subgroup G} (hSY : S ≤ Y) (hsol : Group.IsSolvable ↥S)
     (hN : Y ≤ Subgroup.normalizer (S : Set G)) : S ≤ (CFSG.solvableRadical ↥Y).map Y.subtype := by
   have hn : (S.subgroupOf Y).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hSY).mpr hN

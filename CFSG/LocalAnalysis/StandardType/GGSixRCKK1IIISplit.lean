@@ -25,7 +25,7 @@ private theorem rckIIISplit_tag {lab : LargeEvenLabel} (h : ggSixRCKLabelRow lab
     first
     | (simp; done)
     | exact absurd h (by decide)
-    | (split_ifs at h <;> first | exact absurd h (by decide) | (simp_all; done))
+    | (split_ifs at h)
 
 theorem rckRowK1_III_of_su
     (hcov : GGLieOddCover) (hSU : RCKRowK1IIISU) : RCKRowK1 .III RCKPosShort := by

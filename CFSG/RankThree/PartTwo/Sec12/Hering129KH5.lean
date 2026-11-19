@@ -55,6 +55,7 @@ noncomputable def psiAct [Yh.Normal] (hK : Sec4.PiField π p f K) (hq : Sec4.Mod
     (ProjGenLinGroup.mk : GL (Fin 3) K →* ProjGenLinGroup (Fin 3) K)
     (statedScalars_le_ker_mk K)).comp (Sec4.pglHomP hK hq A' hA')
 
+omit [Finite P] in
 theorem psiAct_apply [Yh.Normal] (hK : Sec4.PiField π p f K) (hq : Sec4.ModThree π (p ^ f))
     [Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) K))]
     (e : ↥Yh ≃* projImage (Sec4.slPi π 3 (p ^ f) K)) (A' : Subgroup P)
@@ -65,6 +66,7 @@ theorem psiAct_apply [Yh.Normal] (hK : Sec4.PiField π p f K) (hq : Sec4.ModThre
       StatedScalars (Fin 3) K) := Sec4.pglHomP_apply a hy
   rw [psiAct, MonoidHom.comp_apply, h1, QuotientGroup.lift_mk]
 
+omit [Finite P] in
 theorem psiAct_of_mem [Yh.Normal] (hK : Sec4.PiField π p f K) (hq : Sec4.ModThree π (p ^ f))
     [Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) K))]
     (e : ↥Yh ≃* projImage (Sec4.slPi π 3 (p ^ f) K)) (A' : Subgroup P)
@@ -78,6 +80,7 @@ theorem psiAct_of_mem [Yh.Normal] (hK : Sec4.PiField π p f K) (hq : Sec4.ModThr
   rw [psiAct_apply hK hq e A' hA' ⟨l, hlA⟩ hy]
   exact hsl
 
+omit [Finite P] in
 theorem psiAct_eq_one [Yh.Normal] (hK : Sec4.PiField π p f K) (hq : Sec4.ModThree π (p ^ f))
     [Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) K))]
     (e : ↥Yh ≃* projImage (Sec4.slPi π 3 (p ^ f) K)) (A' : Subgroup P)
@@ -87,6 +90,7 @@ theorem psiAct_eq_one [Yh.Normal] (hK : Sec4.PiField π p f K) (hq : Sec4.ModThr
   have h1 : Sec4.pglHomP hK hq A' hA' a = 1 := (Sec4.pglHomP_eq_one_iff a).mpr ha
   rw [psiAct, MonoidHom.comp_apply, h1, map_one]
 
+omit [Finite P] in
 theorem psiAct_conj [Yh.Normal] (hK : Sec4.PiField π p f K) (hq : Sec4.ModThree π (p ^ f))
     [Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) K))]
     (e : ↥Yh ≃* projImage (Sec4.slPi π 3 (p ^ f) K))
@@ -109,7 +113,7 @@ theorem nonempty_autIn_of_lift {G M : Type} [Group G] [Group M] {Y A : Subgroup 
     {F : Subgroup M} [Finite F] (hFL : F ≤ Lh) {Ft : Subgroup G}
     (hFt : ∀ {x : G}, x ∈ Ft ↔ ∃ hx : x ∈ Y, ((e ⟨x, hx⟩ : ↥Lh) : M) ∈ F) :
     Nonempty (Sec4.autIn A Ft ≃* Sec4.autIn R F) := by
-  haveI : Finite (F : Set M) := ‹Finite F›
+  have : Finite (F : Set M) := ‹Finite F›
   have hlift : ∀ z ∈ F, ∃ x : ↥Y, ((e x : ↥Lh) : M) = z ∧ (x : G) ∈ Ft := by
     intro z hz
     obtain ⟨x, hx⟩ := e.surjective ⟨z, hFL hz⟩
@@ -237,14 +241,14 @@ theorem nonempty_autIn_liftSub [Yh.Normal] (hD : HessData Yh Bh xh bh ch)
       have hq1 : p ^ f % 3 = 1 := hq
       omega
     | false =>
-      haveI : Group.IsSolvable (projImage (Sec4.slPi false 3 (p ^ f) K)) :=
+      have : Group.IsSolvable (projImage (Sec4.slPi false 3 (p ^ f) K)) :=
         Sec13.isSolvable_projImage_slPi_two hK h2
-      haveI : Group.IsSolvable ↥Yh :=
+      have : Group.IsSolvable ↥Yh :=
         Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
       exact Hering129KH2.not_isSolvable_of_hessData hD inferInstance
-  haveI : Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) K)) :=
+  have : Group.IsPerfect (projImage (Sec4.slPi π 3 (p ^ f) K)) :=
     Sec13.isPerfect_projImage_slPi hK hq2
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hFcard]; norm_num)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hFcard]; norm_num)
   obtain ⟨R, hR⟩ : ∃ R : Subgroup (ProjGenLinGroup (Fin 3) K),
       R = projImage (Sec4.slPi π 3 (p ^ f) K) ⊔ Subgroup.zpowers (ProjGenLinGroup.mk y) :=
     ⟨_, rfl⟩

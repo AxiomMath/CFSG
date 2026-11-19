@@ -69,15 +69,15 @@ theorem ggNbrLSideNoPSL3_twF4der
   have hφ'1 : MulAut.congr eD φ ≠ 1 := by
     intro h1
     exact hφ1 ((MulAut.congr eD).injective (h1.trans (map_one (MulAut.congr eD)).symm))
-  haveI hsolv : Group.IsSolvable ↥(fixSubgroup φ) :=
+  have hsolv : Group.IsSolvable ↥(fixSubgroup φ) :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.isSolvable_fixSubgroup_of_congr eD
       (CFSG.HardMathSupport.Solomon.Coordinator.LieComp.isSolvable_fixSubgroup_titsD
         CFSG.Sporadic.Schreier.Tits.titsD_center hφ'3 hφ'1)
-  haveI : Group.IsSolvable ↥J :=
+  have : Group.IsSolvable ↥J :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJ.1)
-  haveI : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
-  haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2.toNontrivial
-  haveI : Nontrivial ↥J := (QuotientGroup.mk_surjective (s := Subgroup.center ↥J)).nontrivial
+  have : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
+  have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2.toNontrivial
+  have : Nontrivial ↥J := (QuotientGroup.mk_surjective (s := Subgroup.center ↥J)).nontrivial
   exact Group.IsPerfect.not_isSolvable (↥J) inferInstance
 
 end CFSG.StandardType

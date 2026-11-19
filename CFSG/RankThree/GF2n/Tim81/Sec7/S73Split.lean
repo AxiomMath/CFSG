@@ -21,26 +21,30 @@ variable {G : Type} [Group G] [Finite G] {M V A B : Subgroup G} {h : G} {n f : �
 namespace Sec7
 
 theorem odd_card_oOf (M : Subgroup G) (h : G) : Odd (Nat.card (oOf M h)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [oOf, inSubgroup,
     Subgroup.card_map_of_injective (rOf M h).subtype_injective]
   exact Nat.coprime_two_left.mp
     (pPrimeCore_coprime_card (p := 2) (G := ↥(rOf M h)))
 
+omit [Finite G] in
 theorem rOf_le_normalizer_oOf (M : Subgroup G) (h : G) :
     rOf M h ≤ Subgroup.normalizer (oOf M h : Set G) :=
   CFSG.ABGLocalTools.le_normalizer_map_subtype (rOf M h) (pPrimeCore 2 ↥(rOf M h))
 
+omit [Finite G] in
 theorem rOf_le_normalizer_Op_p'p (M : Subgroup G) (h : G) :
     rOf M h ≤ Subgroup.normalizer (inSubgroup (Op_p'p 2) (rOf M h) : Set G) :=
   CFSG.ABGLocalTools.le_normalizer_map_subtype (rOf M h) (Op_p'p 2 ↥(rOf M h))
 
+omit [Finite G] in
 theorem oOf_le_Op_p'p (M : Subgroup G) (h : G) :
     oOf M h ≤ inSubgroup (Op_p'p 2) (rOf M h) := by
   simpa [oOf, inSubgroup] using
     (Subgroup.map_mono (f := (rOf M h).subtype)
       (CFSG.ABGLocalTools.pPrimeCore_le_Op_p'p (p := 2) (H := ↥(rOf M h))))
 
+omit [Finite G] in
 theorem exists_pow_mem_oOf {M : Subgroup G} {h : G} {u : G}
     (hu : u ∈ inSubgroup (Op_p'p 2) (rOf M h)) :
     ∃ k : ℕ, u ^ 2 ^ k ∈ oOf M h := by
@@ -52,6 +56,7 @@ theorem exists_pow_mem_oOf {M : Subgroup G} {h : G} {u : G}
     (K := pPrimeCore 2 ↥(rOf M h)) hk
   simpa [oOf, inSubgroup, Subgroup.coe_pow] using hmem
 
+omit [Finite G] in
 theorem le_Op_p'p_rOf_of_normal {M : Subgroup G} {h : G} {N : Subgroup G} (hNR : N ≤ rOf M h)
     (hN : rOf M h ≤ Subgroup.normalizer (N : Set G)) (h2 : IsPGroup 2 N) :
     N ≤ inSubgroup (Op_p'p 2) (rOf M h) := by
@@ -96,6 +101,7 @@ theorem V_le_p0 (hS : Sec6Hyp M V) (hD : L2Datum M V A B h) :
     exact (Subgroup.mem_centralizer_iff.mp hxAB v hv).symm
   exact le_inf hS.sec5.toRootHyp.toHyp.le_Pc hVc
 
+omit [Finite G] in
 theorem inf_cenOf_le_rOf (hD : L2Datum M V A B h) :
     M ⊓ cenOf (A ⊔ B) ≤ rOf M h :=
   le_inf inf_le_left (inf_le_right.trans
@@ -106,7 +112,7 @@ theorem p0_le_rOf (hS : Sec6Hyp M V) (hD : L2Datum M V A B h) :
   le_inf (inf_le_left.trans hS.sec5.toRootHyp.toHyp.Pc_le_M)
     (inf_le_right.trans (Subgroup.centralizer_le (Subgroup.zpowers_le.mpr hD.mem)))
 
-theorem r0_le_inf_cenOf (hS : Sec6Hyp M V) (hD : L2Datum M V A B h) :
+theorem r0_le_inf_cenOf (hS : Sec6Hyp M V) (_hD : L2Datum M V A B h) :
     r0Of M V (A ⊔ B) ≤ M ⊓ cenOf (A ⊔ B) := by
   unfold r0Of
   exact iSup₂_le fun C hC => le_inf (hS.sec5.le_M_of_mem_sigmaSet hC.1).1 hC.2
@@ -115,7 +121,7 @@ private theorem r0_le_rOf (hS : Sec6Hyp M V) (hD : L2Datum M V A B h) :
     r0Of M V (A ⊔ B) ≤ rOf M h :=
   (r0_le_inf_cenOf hS hD).trans (inf_cenOf_le_rOf hD)
 
-theorem rOf_le_normalizer_p0 (hS : Sec6Hyp M V) (hD : L2Datum M V A B h)
+theorem rOf_le_normalizer_p0 (hS : Sec6Hyp M V) (_hD : L2Datum M V A B h)
     (hS1 : p0Of M V (Subgroup.zpowers h) = p0Of M V (A ⊔ B)) :
     rOf M h ≤ Subgroup.normalizer (p0Of M V (A ⊔ B) : Set G) := by
   intro y hy
@@ -128,7 +134,7 @@ theorem rOf_le_normalizer_p0 (hS : Sec6Hyp M V) (hD : L2Datum M V A B h)
   rw [← hS1, p0Of]
   exact mem_normalizer_inf h1 h2
 
-theorem rOf_le_normalizer_r0 (hS : Sec6Hyp M V) (hD : L2Datum M V A B h)
+theorem rOf_le_normalizer_r0 (hS : Sec6Hyp M V) (_hD : L2Datum M V A B h)
     (hS6 : {C | C ∈ sigmaSet M V ∧ C ≤ cenOf (Subgroup.zpowers h)} =
       {C | C ∈ sigmaSet M V ∧ C ≤ cenOf (A ⊔ B)}) :
     rOf M h ≤ Subgroup.normalizer (r0Of M V (A ⊔ B) : Set G) := by
@@ -193,7 +199,8 @@ theorem rOf_le_normalizer_r0 (hS : Sec6Hyp M V) (hD : L2Datum M V A B h)
       _ ≤ conjSubgroup y (r0Of M V (A ⊔ B)) := conjSubgroup_mono hmap'
   exact mem_normalizer_iff_conjSubgroup_eq.mpr heq
 
-theorem r0_inf_Pc (hD : L2Datum M V A B h)
+omit [Finite G] in
+theorem r0_inf_Pc (_hD : L2Datum M V A B h)
     (hS7 : p0Of M V (A ⊔ B) ≤ r0Of M V (A ⊔ B)) :
     r0Of M V (A ⊔ B) ⊓ Pc M V = p0Of M V (A ⊔ B) := by
   refine le_antisymm ?_ (le_inf hS7 inf_le_left)
@@ -329,8 +336,8 @@ theorem Pc_eq_p0_sup (hS : Sec7Hyp M V n f) (hD : L2Datum M V A B h)
   have hE2 : IsPGroup 2 E :=
     (inSubgroup_pCore_two M).1.to_le (hEP.trans inf_le_left)
   have hEsolv : Group.IsSolvable ↥E := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Group.IsNilpotent ↥E := IsPGroup.isNilpotent (p := 2) hE2
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Group.IsNilpotent ↥E := IsPGroup.isNilpotent (p := 2) hE2
     exact IsNilpotent.to_isSolvable
   have hcop : Nat.Coprime (Nat.card ↥E) (Nat.card ↥(Subgroup.zpowers h)) := by
     obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq (p := 2) hE2

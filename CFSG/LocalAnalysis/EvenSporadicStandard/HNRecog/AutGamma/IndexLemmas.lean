@@ -33,8 +33,8 @@ theorem index_range_conj_congr {L M : Type*} [Group L] [Group M] (e : L ≃* M) 
 theorem index_le_two_of_centralizer_le {N : Type*} [Group N] [Finite N] (H : Subgroup N)
     [H.Normal] (hC : ∀ σ : N, (∀ h ∈ H, σ * h = h * σ) → σ ∈ H)
     (hOut : (MulAut.conj : H →* MulAut H).range.index ≤ 2) : H.index ≤ 2 := by
-  haveI : Finite H := inferInstance
-  haveI : Finite (MulAut H) :=
+  have : Finite H := inferInstance
+  have : Finite (MulAut H) :=
     Finite.of_injective (fun f : MulAut H => (f : H → H)) DFunLike.coe_injective
   let I : Subgroup (MulAut H) := (MulAut.conj : H →* MulAut H).range
   have hcomap : I.comap (MulAut.conjNormal : N →* MulAut H) = H := by
@@ -72,7 +72,7 @@ theorem index_le_two_of_sup_eq_top {K : Type*} [Group K] [Finite K] (A B : Subgr
     (hAB : A ⊔ B = ⊤) (hC : ∀ σ ∈ B, (∀ h ∈ A ⊓ B, σ * h = h * σ) → σ ∈ A) {L : Type*}
     [Group L] (e : L ≃* ↥(A.subgroupOf B))
     (hOut : (MulAut.conj : L →* MulAut L).range.index ≤ 2) : A.index ≤ 2 := by
-  haveI : Finite B := inferInstance
+  have : Finite B := inferInstance
   have hC' : ∀ σ : B, (∀ h ∈ A.subgroupOf B, σ * h = h * σ) → σ ∈ A.subgroupOf B := by
     intro σ hσ
     refine hC σ σ.2 fun h hh => ?_
@@ -92,7 +92,7 @@ theorem commutator_le_of_index_le_two {K : Type*} [Group K] [Finite K] (A : Subg
   · have hcard : Nat.card (K ⧸ A) = 2 := by
       rw [← Subgroup.index_eq_card]
       exact h2
-    haveI : IsMulCommutative (K ⧸ A) := by
+    have : IsMulCommutative (K ⧸ A) := by
       refine IsMulCommutative.of_comm fun x y => ?_
       have hsq : ∀ z : K ⧸ A, z * z = 1 := fun z => by
         have hz : orderOf z ∣ 2 := by

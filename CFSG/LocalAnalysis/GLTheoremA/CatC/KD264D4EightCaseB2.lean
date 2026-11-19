@@ -42,7 +42,7 @@ theorem pgu38SylowGens_size : pgu38SylowGens.size = 3 := by simp [pgu38SylowGens
   permOfArr 513 pgu38ClassReps[pgu38RepIdx[r]!]!
 
 theorem factorization_pgu38 : (16547328 : ℕ).factorization 3 = 5 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [Nat.factorization_def _ Nat.prime_three,
     show (16547328 : ℕ) = 3 ^ 5 * 68096 by norm_num,
     padicValNat.mul (by norm_num) (by norm_num), padicValNat.prime_pow,
@@ -115,7 +115,7 @@ theorem card_pgu38Perm_le : Nat.card pgu38Perm ≤ 3 * Nat.card X' := by
   classical
   set N := pgu38Perm with hNdef
   set Y : Subgroup N := X'.subgroupOf N with hYdef
-  haveI hYn : Y.Normal := by
+  have hYn : Y.Normal := by
     constructor
     intro y hy g
     rw [Subgroup.mem_subgroupOf] at hy ⊢
@@ -263,7 +263,7 @@ theorem exists_conj_pgu38ClassRep (hcard : Nat.card pgu38Perm = 16547328)
     {n : Equiv.Perm (Fin 513)} (hn : n ∈ pgu38Perm) (hn3 : n ^ 3 = 1) (hn1 : n ≠ 1) :
     ∃ a ∈ pgu38Perm, ∃ r < 5, a * n * a⁻¹ = pgu38ClassRep r := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set n' : pgu38Perm := ⟨n, hn⟩ with hn'def
   have hn'3 : n' ^ 3 = 1 := Subtype.ext (by simpa [hn'def] using hn3)
   have hn'1 : n' ≠ 1 := fun h => hn1 (congrArg Subtype.val h)
@@ -369,7 +369,7 @@ theorem commutator_mem_pgu38Perm {a b : Equiv.Perm (Fin 513)} (ha : a ∈ U38G) 
   classical
   set G := U38G with hGdef
   set Y : Subgroup G := pgu38Perm.subgroupOf G with hYdef
-  haveI hYn : Y.Normal := by
+  have hYn : Y.Normal := by
     constructor
     intro y hy g
     rw [Subgroup.mem_subgroupOf] at hy ⊢
@@ -430,11 +430,11 @@ theorem exists_inv_aut_pgu38_projImage_glPi {K : Type} [Field K] [Finite K]
       τ d = d⁻¹ ∧ d ^ 2 ∉ (CFSG.PGLModel.projImage (Sec4.slPi false 3 (2 ^ 3) K)).subgroupOf
         (CFSG.PGLModel.projImage (Sec4.glPi false 3 (2 ^ 3) K)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hPi : Sec4.PiField false 2 3 K := ⟨Nat.prime_two, by norm_num, by rw [hK]; rfl⟩
   have hU : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 3 K := hPi.unitary
-  haveI : CharP K 2 := hU.charP
+  have : CharP K 2 := hU.charP
   have hcardK : Fintype.card K = 64 := by rw [Fintype.card_eq_nat_card, hK]; norm_num
   set σ : K ≃+* K := iterateFrobeniusEquiv K 2 3 with hσ
   have hσa : ∀ x, σ x = x ^ 8 := fun x => by
@@ -595,7 +595,7 @@ theorem exists_pgu38Embed {C : Type} [Group C] [Finite C] {M : Subgroup C}
       (∀ x ∈ X', ∃ c, ((Φ c : U38G) : Equiv.Perm (Fin 513)) = x) ∧
       ∀ θ : MulAut C, ∃ γ : U38G, ∀ c, Φ (θ c) = γ * Φ c * γ⁻¹ := by
   classical
-  haveI := hdata.normal
+  have := hdata.normal
   obtain ⟨e₀⟩ := nonempty_equiv_X' hdata.model
   let ρ : U38G ≃* MulAut X' := MulEquiv.ofBijective rhoU38 (rhoU38_bijective (X := M) hdata.model)
   let κ : C →* MulAut M := MulAut.conjNormal

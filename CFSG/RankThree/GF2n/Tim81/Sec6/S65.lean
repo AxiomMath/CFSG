@@ -42,25 +42,29 @@ private theorem simple_KGen (hS : Sec6Hyp M V) (hF : KGen V = generalizedFitting
 private theorem center_KGen_eq_bot (hS : Sec6Hyp M V)
     (hF : KGen V = generalizedFitting G) : Subgroup.center ↥(KGen V) = ⊥ := by
   obtain ⟨hsimple, hnonab⟩ := simple_KGen hS hF
-  haveI := hsimple
+  have := hsimple
   refine TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative ?_
   obtain ⟨a, b, hab⟩ := hnonab
   intro hc
   exact hab ((isMulCommutative_iff.mp hc) a b)
 
+omit [Finite G] in
 private theorem DGen_conj_mem {x : ↥(KGen V)} (hx : x ∈ DGen V) (k : ↥(KGen V)) :
     k * x * k⁻¹ ∈ DGen V :=
   Tim78.mem_classD_conj hx (k : G)
 
+omit [Finite G] in
 private theorem isConj_of_odd {x y : ↥(KGen V)}
     (hx2 : x * x = 1) (hy2 : y * y = 1) (hodd : Odd (orderOf (x * y))) : IsConj x y := by
   obtain ⟨g, -, hg⟩ := CFSG.Timmesfeld.exists_conj_of_odd_orderOf_mul hx2 hy2 hodd
   exact isConj_iff.mpr ⟨g, hg⟩
 
+omit [Finite G] in
 private theorem DGen_ne_one {x : ↥(KGen V)} (hx : x ∈ DGen V) : x ≠ 1 := by
   intro h
   exact classD_ne_one hx (by simpa using congrArg Subtype.val h)
 
+omit [Finite G] in
 private theorem commute_of_class_compl (hodd : Timmesfeld.Bridge.Asc72.IsOddTransp
       (Tim78.classD V)) {d₀ : ↥(KGen V)} {D1 D2 : Set ↥(KGen V)}
     (hD1 : D1 = {z | IsConj d₀ z}) (hD2 : D2 = DGen V \ D1) (hD1sub : D1 ⊆ DGen V) :
@@ -83,6 +87,7 @@ private theorem commute_of_class_compl (hodd : Timmesfeld.Bridge.Asc72.IsOddTran
   have hd0a : IsConj d₀ a := by rw [hD1] at ha; exact ha
   exact hb.2 (by rw [hD1]; exact hd0a.trans hac)
 
+omit [Finite G] in
 private theorem class_compl_conj_invariant {d₀ : ↥(KGen V)} {D1 D2 : Set ↥(KGen V)}
     (hD1 : D1 = {z | IsConj d₀ z}) (hD2 : D2 = DGen V \ D1) :
     (∀ (k : ↥(KGen V)) {z : ↥(KGen V)}, z ∈ D1 → k * z * k⁻¹ ∈ D1) ∧
@@ -135,9 +140,9 @@ private theorem isConj_DGen (hS : Sec6Hyp M V) (hF : KGen V = generalizedFitting
     rw [hN2, ← CFSG.GroupTheory.normalClosure_eq_closure_of_conj_invariant
       (fun g x hx => hD2conj g hx)]
     exact Subgroup.normalClosure_normal
-  haveI := hN1normal
-  haveI := hN2normal
-  haveI hsimple : IsSimpleGroup ↥(KGen V) := (simple_KGen hS hF).1
+  have := hN1normal
+  have := hN2normal
+  have hsimple : IsSimpleGroup ↥(KGen V) := (simple_KGen hS hF).1
   have hN1top : N1 = ⊤ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top N1 with h | h
     · exfalso
@@ -193,12 +198,12 @@ private theorem setup_DGen (hS : Sec6Hyp M V) (hF : KGen V = generalizedFitting 
       exact DGen_conj_mem hd0 c⟩
   oddT := hodd.preimage (KGen V)
   gen := by
-    haveI hsimple : IsSimpleGroup ↥(KGen V) := (simple_KGen hS hF).1
+    have hsimple : IsSimpleGroup ↥(KGen V) := (simple_KGen hS hF).1
     have hnormal : (Subgroup.closure (DGen V)).Normal := by
       rw [← CFSG.GroupTheory.normalClosure_eq_closure_of_conj_invariant
         (fun g x hx => DGen_conj_mem hx g)]
       exact Subgroup.normalClosure_normal
-    haveI := hnormal
+    have := hnormal
     obtain ⟨d, hd, hd1⟩ := exists_DGen (M := M) hS
     have hne : Subgroup.closure (DGen V) ≠ ⊥ := by
       intro h
@@ -216,9 +221,9 @@ theorem IsL2Gen.exists_not_commute {A B : Subgroup G} (h : IsL2Gen A B) {e : G}
   have hne : A ≠ B := IsL2Gen.ne h
   have hcard : Nat.card B = Nat.card A := IsL2Gen.card_eq h
   obtain ⟨F, hField, hFin, hCharP, φ, -, hA, hB⟩ := h
-  letI := hField
-  letI := hFin
-  letI := hCharP
+  let := hField
+  let := hFin
+  let := hCharP
   set ψ : ↥(A ⊔ B) →* SL(2, F) := φ.toMonoidHom with hψ
   have hAψ : (A.subgroupOf (A ⊔ B)).map ψ = utri F := hA
   have hBψ : (B.subgroupOf (A ⊔ B)).map ψ = ltri F := hB
@@ -261,10 +266,12 @@ theorem IsL2Gen.exists_not_commute {A B : Subgroup G} (h : IsL2Gen A B) {e : G}
   have hBAeq : B = A := Subgroup.eq_of_le_of_card_ge hBA (by rw [hcard])
   exact hne hBAeq.symm
 
+omit [Finite G] in
 private theorem mem_omegaSet_iff {A : Subgroup G} :
     A ∈ omegaSet V ↔ ∃ g : G, A = conjSubgroup g V := by
   simp [omegaSet, Tim79a.omegaOf]
 
+omit [Finite G] in
 private theorem mem_DGen_of_mem {A : Subgroup G} (hA : A ∈ omegaSet V) {e : G}
     (he : e ∈ A) (he1 : e ≠ 1) (heK : e ∈ KGen V) : (⟨e, heK⟩ : ↥(KGen V)) ∈ DGen V := by
   obtain ⟨g, rfl⟩ := (mem_omegaSet_iff).mp hA
@@ -276,6 +283,7 @@ private theorem mem_DGen_of_mem {A : Subgroup G} (hA : A ∈ omegaSet V) {e : G}
       _ = 1 := by rw [h]; group
   exact ⟨g, g⁻¹ * e * g, hb, hb1, by group⟩
 
+omit [Finite G] in
 private theorem conj_inv_le_centralizer {g a : G}
     (hcomm : ∀ x ∈ conjSubgroup a V, ∀ y ∈ conjSubgroup g V, x * y = y * x) :
     conjSubgroup (g⁻¹ * a) V ≤ Subgroup.centralizer (V : Set G) := by
@@ -322,6 +330,7 @@ private theorem conj_inv_mem_sigmaSet (hS : Sec6Hyp M V)
     exact h1.symm
   · exact hsig
 
+omit [Finite G] in
 private theorem card_eq_of_mem_omegaSet {A : Subgroup G} (hA : A ∈ omegaSet V) :
     Nat.card A = Nat.card V := by
   obtain ⟨g, rfl⟩ := (mem_omegaSet_iff).mp hA
@@ -332,6 +341,7 @@ private theorem isPGroup_of_mem_omegaSet (hS : Sec6Hyp M V) {A : Subgroup G}
   obtain ⟨g, rfl⟩ := (mem_omegaSet_iff).mp hA
   exact hS.sec5.toRootHyp.toHyp.isPGroup_V.map _
 
+omit [Finite G] in
 private theorem le_KGen_of_mem_omegaSet {A : Subgroup G} (hA : A ∈ omegaSet V) :
     A ≤ KGen V := by
   obtain ⟨g, rfl⟩ := (mem_omegaSet_iff).mp hA
@@ -365,7 +375,7 @@ private theorem exists_triple (hS : Sec6Hyp M V) :
     have hc : Nat.card ↥(Subgroup.zpowers u) = Nat.card ↥(⊤ : Subgroup ↥V) := by rw [htop]
     rw [Nat.card_zpowers, huord, Subgroup.card_top] at hc
     omega
-  obtain ⟨v, -, hvnot⟩ := SetLike.exists_of_lt hproper
+  obtain ⟨v, -, hvnot⟩ := _root_.IsConcreteLE.exists_of_lt hproper
   have hv1 : v ≠ 1 := fun h => hvnot (h ▸ Subgroup.one_mem _)
   have hvu : u ≠ v := fun h => hvnot (h ▸ Subgroup.mem_zpowers _)
   have huv1 : u * v ≠ 1 := by
@@ -380,6 +390,7 @@ private theorem exists_triple (hS : Sec6Hyp M V) :
     exact Subtype.ext h'.symm
   exact ⟨u, v, hu1, hv1, hvu, huv1⟩
 
+omit [Finite G] in
 private theorem mem_omegaSet_of_mem_sigmaSet {U : Subgroup G} (hU : U ∈ sigmaSet M V) :
     U ∈ omegaSet V := by
   obtain ⟨g, rfl, -⟩ := hU
@@ -401,20 +412,21 @@ private theorem meetsSq_DGen (hS : Sec6Hyp M V) :
     simpa using congrArg Subtype.val hcomm.eq
   · exact huvD
 
+omit [Finite G] in
 private theorem radical_KGen_eq_bot (hKnonab : ∃ a b : ↥(KGen V), a * b ≠ b * a)
     [IsSimpleGroup ↥(KGen V)] :
     ∀ N : Subgroup ↥(KGen V), N.Normal → Group.IsSolvable N → N = ⊥ := by
   intro N hN hsol
-  haveI := hN
+  have := hN
   rcases Subgroup.Normal.eq_bot_or_eq_top N with h | h
   · exact h
   · exfalso
     have hnc : ¬ IsMulCommutative ↥(KGen V) := fun hc => by
       obtain ⟨a, b, hab⟩ := hKnonab
       exact hab ((isMulCommutative_iff.mp hc) a b)
-    haveI : Group.IsPerfect ↥(KGen V) :=
+    have : Group.IsPerfect ↥(KGen V) :=
       TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hnc
-    haveI : Group.IsSolvable ↥(⊤ : Subgroup ↥(KGen V)) := h ▸ hsol
+    have : Group.IsSolvable ↥(⊤ : Subgroup ↥(KGen V)) := h ▸ hsol
     refine Group.IsPerfect.not_isSolvable ↥(KGen V) ?_
     exact Group.isSolvable_of_surjective
       (f := (Subgroup.topEquiv : ↥(⊤ : Subgroup ↥(KGen V)) ≃* ↥(KGen V)).toMonoidHom)
@@ -483,7 +495,7 @@ private theorem false_of_bender_sylow (hS : Sec6Hyp M V) (h60 : Sec6.Stmt60 M V)
     intro a ha b hb
     have h := hcon ⟨a, Subgroup.mem_sup_left ha⟩ ⟨b, Subgroup.mem_sup_right hb⟩
     exact congrArg Subtype.val h
-  haveI : IsSimpleGroup ↥(U.subgroupOf (KGen V) ⊔ U'.subgroupOf (KGen V)) :=
+  have : IsSimpleGroup ↥(U.subgroupOf (KGen V) ⊔ U'.subgroupOf (KGen V)) :=
     hL2K.isSimpleGroup hcard4
   have hnc : ¬ IsMulCommutative ↥(U.subgroupOf (KGen V) ⊔ U'.subgroupOf (KGen V)) := by
     obtain ⟨a, b, hab⟩ := hnonabH
@@ -491,7 +503,7 @@ private theorem false_of_bender_sylow (hS : Sec6Hyp M V) (h60 : Sec6.Stmt60 M V)
     exact hab ((isMulCommutative_iff.mp hc) a b)
   obtain ⟨a, b, hab⟩ := hnonabH
   have ha1 : a ≠ 1 := fun h1 => hab (by rw [h1, one_mul, mul_one])
-  haveI : Nontrivial ↥(U.subgroupOf (KGen V) ⊔ U'.subgroupOf (KGen V)) := ⟨a, 1, ha1⟩
+  have : Nontrivial ↥(U.subgroupOf (KGen V) ⊔ U'.subgroupOf (KGen V)) := ⟨a, 1, ha1⟩
   have hZ := TauCeti.IsSimpleGroup.center_eq_bot_of_not_isMulCommutative hnc
   have hlt := h2.bot_lt_center (p := 2)
   rw [hZ] at hlt
@@ -503,7 +515,7 @@ private theorem false_of_disconnected (hB : Timmesfeld.Bridge.OddTranspBender)
     (hF : KGen V = generalizedFitting G)
     (hdisc : Connectivity.Disconnected (DGen V)) : False := by
   obtain ⟨hKsimple, hKnonab⟩ := simple_KGen hS hF
-  haveI := hKsimple
+  have := hKsimple
   have hrad := radical_KGen_eq_bot (V := V) hKnonab
   have hsq := meetsSq_DGen (M := M) hS
   exact false_of_bender_sylow hS h60 hodd
@@ -520,7 +532,7 @@ private theorem exists_common_neighbour (hS : Sec6Hyp M V)
   classical
   have hAle : ¬ A ≤ Subgroup.centralizer (B : Set G) := fun hle =>
     hcomm ((Subgroup.commutator_eq_bot_iff_le_centralizer).mpr hle)
-  obtain ⟨a, haA, haC⟩ := SetLike.not_le_iff_exists.mp hAle
+  obtain ⟨a, haA, haC⟩ := IsConcreteLE.not_le_iff_exists.mp hAle
   rw [Subgroup.mem_centralizer_iff] at haC
   push Not at haC
   obtain ⟨b, hbB, hab⟩ := haC

@@ -18,6 +18,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem c23ne_fibre_fixed {X V₀ : Subgroup G} {z v : G} (hX : X ≤ centralizer (V₀ : Set G))
     (hzX : ∀ g ∈ X, g * z = z * g) (hvz : v * z⁻¹ ∈ V₀) : ∀ g ∈ X, g * v = v * g := by
   intro g hg

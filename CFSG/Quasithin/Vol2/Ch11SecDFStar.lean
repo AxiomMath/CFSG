@@ -54,7 +54,7 @@ theorem odd_card_of_isNilpotent_of_normal {H : Type*} [Group H] [Finite H]
   have hPn : (P : Subgroup ↥N).Normal := q.mp hnil 2 inferInstance P
   have hPc : (P : Subgroup ↥N).Characteristic := Sylow.characteristic_of_normal P hPn
   have hmapn := normal_map_of_characteristic hN hPc
-  have hmap2 : IsPGroup 2 ((P : Subgroup ↥N).map N.subtype) := P.isPGroup'.map _
+  have hmap2 : IsPGroup 2 ((P : Subgroup ↥N).map N.subtype) := P.isPGroup.map _
   have hle : (P : Subgroup ↥N).map N.subtype ≤ CFSG.pCore 2 H :=
     (CFSG.LieType.BorelTits.le_pCore 2 hmapn hmap2).trans_eq (SecA.open_pCore_eq 2 H)
   rw [hO2, le_bot_iff, Subgroup.map_eq_bot_iff_of_injective _ N.subtype_injective] at hle

@@ -19,10 +19,10 @@ variable {F : Type} [Field F] {f m ε p : ℕ} {h : UnitaryFieldData 2 f F}
   fun i => if i ∈ Neg then -1 else 1
 
 theorem signVec_of_mem {Neg : Finset (Fin m)} {i : Fin m} (hi : i ∈ Neg) :
-    signVec (p := p) Neg i = -1 := if_pos hi
+    signVec (p := p) Neg i = -1 := ite_eq_left hi
 
 theorem signVec_of_not_mem {Neg : Finset (Fin m)} {i : Fin m} (hi : i ∉ Neg) :
-    signVec (p := p) Neg i = 1 := if_neg hi
+    signVec (p := p) Neg i = 1 := ite_eq_right hi
 
 theorem signVec_mul_self (Neg : Finset (Fin m)) (i : Fin m) :
     signVec (p := p) Neg i * signVec Neg i = 1 := by
@@ -91,18 +91,18 @@ theorem signWeyl_conj (hp : p.Prime) {ζ : F} (hζ : ζ ^ p = 1)
   rcases a with i | k | i
   · rw [weylPerm_swapSet_perm_inl]
     by_cases hi : i ∈ Neg
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       simp only [splitEntries, signVec_of_mem hi, neg_one_mul]
       exact (hypEntries_neg hp hζ (t i)).symm
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       simp only [splitEntries, signVec_of_not_mem hi, one_mul]
   · simp [splitEntries]
   · rw [weylPerm_swapSet_perm_inr_inr]
     by_cases hi : i ∈ Neg
-    · rw [if_pos hi]
+    · rw [ite_eq_left hi]
       simp only [splitEntries, signVec_of_mem hi, neg_one_mul]
       rw [hypEntries_neg hp hζ (t i), inv_inv]
-    · rw [if_neg hi]
+    · rw [ite_eq_right hi]
       simp only [splitEntries, signVec_of_not_mem hi, one_mul]
 
 
@@ -236,7 +236,7 @@ theorem leviSU_apply_ne_zero_splitEntries_eq_of_const
   · simp only [blk3_inr_inl_inr_inl, Matrix.one_apply] at hM
     by_cases hkl : k = l
     · rw [hkl]
-    · rw [if_neg hkl] at hM
+    · rw [ite_eq_right hkl] at hM
       exact absurd rfl hM
   · simp only [blk3_inr_inl_inr_inr, Matrix.zero_apply] at hM
     exact absurd rfl hM
@@ -475,7 +475,7 @@ theorem xBlock_apply_of_not_mem_pairBlock {S : Finset (Fin m)} {g : hypSU h m ε
   rw [mem_hypBlock.mp hgb _ _ hmem, Matrix.one_apply]
   by_cases h : i = j
   · subst h; simp
-  · rw [if_neg (by simp [h]), if_neg h]
+  · rw [ite_eq_right (by simp [h]), ite_eq_right h]
 
 theorem leviSU_eq_of_mem_xyStab_of_mem_pairBlock {S : Finset (Fin m)} {g : hypSU h m ε}
     (hxy : g ∈ xyStab h m ε) (hgb : g ∈ hypBlock h (pairCoords (ε := ε) S))
@@ -520,11 +520,11 @@ theorem coordBlockSL_eq_bot_of_card_le_one {S : Finset (Fin m)} (hS : S.card ≤
             rcases hx with rfl | rfl <;> assumption)
           rwa [Finset.card_pair hij] at hle
         omega
-      · rw [(mem_coordBlockSL_iff.mp hA) i j (Or.inr hsj), if_neg hij]
-    · rw [(mem_coordBlockSL_iff.mp hA) i j (Or.inl hsi), if_neg hij]
+      · rw [(mem_coordBlockSL_iff.mp hA) i j (Or.inr hsj), ite_eq_right hij]
+    · rw [(mem_coordBlockSL_iff.mp hA) i j (Or.inl hsi), ite_eq_right hij]
   have hdiag : ∀ i, i ∉ S → (A : Matrix (Fin m) (Fin m) F) i i = 1 := by
     intro i hi
-    rw [(mem_coordBlockSL_iff.mp hA) i i (Or.inl hi), if_pos rfl]
+    rw [(mem_coordBlockSL_iff.mp hA) i i (Or.inl hi), ite_eq_left rfl]
   have hAeq : (A : Matrix (Fin m) (Fin m) F) =
       diagonal (fun i => (A : Matrix (Fin m) (Fin m) F) i i) := by
     ext i j

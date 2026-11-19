@@ -181,6 +181,7 @@ theorem exists_not_commute_CJ_sigma1Nine (h : Tim79a.ParrottHyp z) :
   rw [h16, card_centerIn_J h] at h4
   omega
 
+omit [Finite G] in
 theorem inv_mul_mem_J_of_isConj_of_not_mem_P_H
     (huv : ∀ x : G, cosetJ (z := z) (uH D * vH D) x → orderOf x = 2 →
       ∀ g : G, g * z * g⁻¹ ≠ x)

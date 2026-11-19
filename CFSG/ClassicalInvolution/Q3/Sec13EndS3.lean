@@ -136,7 +136,7 @@ private theorem involution_mem_of_mem_dSet {W : Subgroup G} (hW : W ∈ WSet Ω)
   obtain ⟨-, -, -, h4, -⟩ := Q3CL.Thompson.inf_W_of_mem_D h.thmD.hyp hW hK hKΩ hKK
   exact (hz.mem_of_le inf_le_left ((h.thmD.two K hKΩ).to_le inf_le_left) (by omega)).2
 
-theorem twinSet_eq_of_muIsoS3 (h9 : Perp9 Ω) {W : Subgroup G} (hW : W ∈ WSet Ω)
+theorem twinSet_eq_of_muIsoS3 (_h9 : Perp9 Ω) {W : Subgroup G} (hW : W ∈ WSet Ω)
     (hS3 : MuIsoS3 Ω W) {K : Subgroup G} (hK : K ∈ DSet Ω W) : twinSet Ω K = {K} := by
   have hKΩ : K ∈ Ω := (h.mem_dSet_iff.mp hK).1
   obtain ⟨z, hz⟩ := Sec6Gen.exists_uniqueInvolution h.thmD.hyp hKΩ
@@ -160,7 +160,7 @@ theorem twinSet_eq_of_muIsoS3 (h9 : Perp9 Ω) {W : Subgroup G} (hW : W ∈ WSet 
     hKJ2.to_sup_of_normal_right' (Asc77.Thompson.isPGroup_of_mem_WSet hW) (sup_le hK.2 hJD.2)
   obtain ⟨S, hS⟩ := hKJW.exists_le_sylow
   obtain ⟨a, b, ha1, hb1, ha2, hb2, hab, habc⟩ :=
-    exists_commuting_invol_pair h.thmD.hyp hW hKΩ hK hJD hK2 hcomm S.isPGroup'
+    exists_commuting_invol_pair h.thmD.hyp hW hKΩ hK hJD hK2 hcomm S.isPGroup
       (le_sup_left.trans (le_sup_left.trans hS)) (le_sup_right.trans (le_sup_left.trans hS))
   obtain ⟨φ⟩ := hS3
   exact perm_fin3_not_commute (φ a) (φ b)
@@ -171,6 +171,7 @@ theorem twinSet_eq_of_muIsoS3 (h9 : Perp9 Ω) {W : Subgroup G} (hW : W ∈ WSet 
     (fun e => hab (φ.injective e))
     (by rw [← map_mul, ← map_mul, habc])
 
+omit [Finite G] in
 theorem twinSet_eq_of_twinSet_eq {K : Subgroup G} (hK : K ∈ Ω) (hV : twinSet Ω K = {K})
     {L : Subgroup G} (hL : L ∈ Ω) : twinSet Ω L = {L} := by
   obtain ⟨g, rfl⟩ := h.thmD.trans K hK L hL

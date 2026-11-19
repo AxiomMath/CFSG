@@ -121,10 +121,10 @@ theorem mem_sup_pCore_of_conj_eq [Finite E] [X.Normal] (T : Sylow 2 E)
       exact mul_mem h1 (inv_mem hr)
   have hRT : pCore 2 E ≤ (T : Subgroup E) := IsPGroup.le_sylow_of_normal pCore_isPGroup T
   have hTsyl : IsSylowOf 2 (T : Subgroup E) ⊤ :=
-    isSylowOf_iff.mpr ⟨le_top, T.isPGroup', by rw [relIndex_top_right]; exact T.not_dvd_index⟩
+    isSylowOf_iff.mpr ⟨le_top, T.isPGroup, by rw [relIndex_top_right]; exact T.not_dvd_index⟩
   have hS : ¬ 2 ∣ ((T : Subgroup E) ⊓ K).relIndex K :=
     (isSylowOf_iff.mp (hTsyl.inf_of_le_normalizer le_top (by rw [normalizer_eq_top]))).2.2
-  obtain ⟨a, ha⟩ := exists_index_eq_two_pow_of_sup_eq_top T.isPGroup' hXT
+  obtain ⟨a, ha⟩ := exists_index_eq_two_pow_of_sup_eq_top T.isPGroup hXT
   have hconj : ∀ y ∈ X ⊓ K, ∀ s ∈ (T : Subgroup E) ⊓ K, y * s * y⁻¹ ∈ (T : Subgroup E) ⊓ K := by
     intro y hy s hs
     obtain ⟨hyX, hyK⟩ := Subgroup.mem_inf.mp hy
@@ -151,7 +151,7 @@ theorem mem_sup_pCore_of_conj_eq [Finite E] [X.Normal] (T : Sylow 2 E)
     have hSn : (((T : Subgroup E) ⊓ K).subgroupOf K).Normal :=
       (normal_subgroupOf_iff_le_normalizer inf_le_right).mpr hKn
     have hSp : IsPGroup 2 (((T : Subgroup E) ⊓ K).subgroupOf K) :=
-      (T.isPGroup'.to_inf_left (K := K)).comap_subtype
+      (T.isPGroup.to_inf_left (K := K)).comap_subtype
     have h1 : ((T : Subgroup E) ⊓ K).subgroupOf K ≤ pCore 2 K := le_sSup ⟨hSn, hSp⟩
     intro s hs
     exact inSubgroup_pCore_le_pCore (X := K) 2
@@ -186,7 +186,7 @@ theorem mem_sup_pCore_of_conj_eq_frattini [Finite E] [X.Normal] (T : Sylow 2 E)
     refine mem_sup_pCore_of_conj_eq T hXT fun x => ?_
     have h := congrArg (fun σ : MulAut (X ⧸ pCore 2 X) => σ (x : X ⧸ pCore 2 X)) hm'
     exact h
-  obtain ⟨k, hk⟩ := exists_two_pow_mem_of_sup_eq_top T.isPGroup' hXT g
+  obtain ⟨k, hk⟩ := exists_two_pow_mem_of_sup_eq_top T.isPGroup hXT g
   exact CFSG.Walter.JT.mem_of_pow_mem_of_coprime h1 (mem_sup_left hk)
     (Nat.Coprime.pow m k ((Nat.coprime_primes hp Nat.prime_two).mpr hp2))
 
@@ -236,7 +236,7 @@ theorem coprime_residual_module_decomposition [Finite E] [X.Normal] {p : ℕ} (h
   obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow p X))
   set Xp := (S : Subgroup X).map X.subtype with hXp
   have hXpX : Xp ≤ X := map_subtype_le _
-  have hXpp : IsPGroup p Xp := S.isPGroup'.map X.subtype
+  have hXpp : IsPGroup p Xp := S.isPGroup.map X.subtype
   have hSθ : (S : Subgroup X).map (QuotientGroup.mk' (pCore 2 X)) = ⊤ := by
     have h := (S.mapSurjective (QuotientGroup.mk'_surjective (pCore 2 X))).maximal_isPGroup.eq_of_le
       (IsPGroup.to_subgroup hP ⊤) le_top
@@ -484,7 +484,7 @@ theorem irreducible_odd_residual_full_central_core_module_exact_kernel [Finite E
     · rw [← le_centralizer_iff, zpowers_le]
       exact hC ▸ hbC
   have hTX : (T : Subgroup E) ⊓ X ≤ q :=
-    hq ▸ le_inSubgroup_pCore_of_isPGroup hp hp2 hP T.isPGroup'
+    hq ▸ le_inSubgroup_pCore_of_isPGroup hp hp2 hP T.isPGroup
   have hTC : (T : Subgroup E) ⊓ C = R := by
     refine le_antisymm (fun t ht => ?_) (le_inf hRT hRC)
     obtain ⟨htT, htC⟩ := Subgroup.mem_inf.mp ht
@@ -585,12 +585,12 @@ theorem irreducible_odd_residual_full_central_core_module_exact_kernel [Finite E
     have hPVp' : IsPGroup p ((X.map ρ).subgroupOf ρ.range) := hPVp.comap_subtype
     have hΓ2 : ∀ γ : ρ.range, ∃ k : ℕ, γ ^ 2 ^ k ∈ (X.map ρ).subgroupOf ρ.range := by
       rintro ⟨_, g, rfl⟩
-      obtain ⟨k, hk⟩ := exists_two_pow_mem_of_sup_eq_top T.isPGroup' hXT g
+      obtain ⟨k, hk⟩ := exists_two_pow_mem_of_sup_eq_top T.isPGroup hXT g
       refine ⟨k, ?_⟩
       rw [mem_subgroupOf]
       exact ⟨g ^ 2 ^ k, hk, by simp [map_pow]⟩
     obtain ⟨j, hj⟩ : ∃ j : ℕ, ((X.map ρ).subgroupOf ρ.range).index = 2 ^ j := by
-      obtain ⟨a, ha⟩ := exists_index_eq_two_pow_of_sup_eq_top T.isPGroup' hXT
+      obtain ⟨a, ha⟩ := exists_index_eq_two_pow_of_sup_eq_top T.isPGroup hXT
       have h1 := index_map_dvd X ρ.rangeRestrict_surjective
       rw [hmapR, ha] at h1
       obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp h1

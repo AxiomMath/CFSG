@@ -95,6 +95,7 @@ theorem O2In_normalizer_R (c : Core3 E t z) :
       ⟨k, hJ_le_X hk⟩
   exact le_antisymm hO_le_R hR_le_O
 
+omit [Finite G] in
 theorem normalizer_R_le_Cz (c : Core3 E t z) : normalizer (Rg t z : Set G) ≤ Cz z := by
   intro g hg
   rw [mem_Cz]

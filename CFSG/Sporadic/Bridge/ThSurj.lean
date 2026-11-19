@@ -76,7 +76,6 @@ theorem imgMats_spec (k : ℕ) : rowsMatrix (imgMats[k]?.getD idRows) =
     ((imgGL k : GL (Fin 248) (ZMod 2)) : Matrix (Fin 248) (Fin 248) (ZMod 2)) := by
   by_cases hk : k < 8
   · rw [imgGL, dite_eq_left hk]
-    try rfl
   · have : imgMats[k]? = none := Array.getElem?_eq_none (by rw [bridgeFacts.size]; omega)
     rw [imgGL, dite_eq_right hk, this, Option.getD_none, rowsMatrix_idRows]
     try rfl

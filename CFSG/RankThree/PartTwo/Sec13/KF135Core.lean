@@ -12,6 +12,7 @@ open CFSG.RankThree.PartTwo.Sec13.F135Last
 
 variable {S : Type} [Group S] [Finite S]
 
+omit [Finite S] in
 theorem smul_subgroup_eq_map (φ : MulAut S) (T : Subgroup S) :
     φ • T = T.map φ.toMonoidHom := by
   ext y
@@ -27,7 +28,7 @@ namespace KF135Hyp
 variable {p : ℕ} {P : Subgroup (MulAut S)} {x u : MulAut S} {V : Subgroup (MulAut S)}
 
 theorem center_eq_bot (h : KF135Hyp S p P x u V) : Subgroup.center S = ⊥ := by
-  haveI := h.simple
+  have := h.simple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h0 | h0
   · exact h0
   · obtain ⟨a, b, hab⟩ := h.nonab
@@ -47,7 +48,7 @@ theorem conj_injective (h : KF135Hyp S p P x u V) :
 
 theorem sq_dvd_card (h : KF135Hyp S p P x u V) (hOut : KFactOutP) (hL : Sec4.Census.List42 S) :
     p ^ 2 ∣ Nat.card S := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hidx := hOut S h.simple h.nonab hL p h.prime h.seven_le P h.exponent
   set A := P ⊓ (MulAut.conj : S →* MulAut S).range with hA
   have h1 : Nat.card A * A.relIndex P = Nat.card P := by
@@ -78,7 +79,7 @@ theorem false_of_not_sq_dvd_card (h : KF135Hyp S p P x u V) (hOut : KFactOutP)
 
 theorem cube_dvd_card_of_le (h : KF135Hyp S p P x u V)
     (hle : P ≤ (MulAut.conj : S →* MulAut S).range) : p ^ 3 ∣ Nat.card S := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 h.pgroup
   have hk3 : 3 ≤ k := (Nat.pow_le_pow_iff_right h.prime.one_lt).1 (hk ▸ h.card)
   have hdvdP : p ^ 3 ∣ Nat.card P := hk ▸ pow_dvd_pow p hk3

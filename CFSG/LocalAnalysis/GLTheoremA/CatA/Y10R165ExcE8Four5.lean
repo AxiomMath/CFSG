@@ -97,7 +97,7 @@ theorem torusAct_d4d4W_sq {p : ℕ} [NeZero p] (x : Fin Tag.E8.rank → ZMod p) 
     TableBExc.torusAct .E8 p d4d4W (TableBExc.torusAct .E8 p d4d4W x) = -x := by
   rw [← TableBExc.torusAct_mul, TableBExc.torusAct, mul_smul, d4d4W_smul_smul]
   funext i
-  simp [TableBExc.redMod, TableBExc.liftMod, ZMod.natCast_zmod_val]
+  simp [TableBExc.redMod, TableBExc.liftMod]
 
 theorem dualHyp_d4d4W {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {lam : ZMod p}
     (hlam : lam * lam = -1) :
@@ -192,18 +192,18 @@ private theorem redMod_eigen_eq {p : ℕ} [NeZero p] (lam : ZMod p) (hlam : lam 
   rw [mul_add, ← mul_assoc, hlam]
   ring
 
-theorem d6Vec_mem_eig {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {lam : ZMod p}
+theorem d6Vec_mem_eig {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {lam : ZMod p}
     (hlam : lam * lam = -1) :
     d6Vec p lam ∈ NoOffRest.eigSp (NoOffRest.torusLin .E8 p d4d4W) lam := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   rw [NoOffRest.mem_eigSp, NoOffRest.torusLin_apply, d6Vec]
   rw [torusAct_redMod' d4d4W, d4d4W_smul_d6Vec_lattice]
   exact redMod_eigen_eq lam hlam d4d4WLambda d4d4WBase
 
-theorem d6zVec_mem_eig {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {lam : ZMod p}
+theorem d6zVec_mem_eig {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {lam : ZMod p}
     (hlam : lam * lam = -1) :
     d6zVec p lam ∈ NoOffRest.eigSp (NoOffRest.torusLin .E8 p d4d4W) lam := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   rw [NoOffRest.mem_eigSp, NoOffRest.torusLin_apply, d6zVec]
   rw [torusAct_redMod' d4d4W, d4d4W_smul_d6zVec_lattice]
   exact redMod_eigen_eq lam hlam d6zLambda d6zBase
@@ -283,7 +283,7 @@ theorem frameDiag_d6Vec {L : Type} [Field L] {p : ℕ} [Fact p.Prime]
     {ζ : Lˣ} (hζ : ζ ^ p = 1) (lam : ZMod p) :
     ExcFrames.frameDiag (τ := .E8) ζ hζ (d6Vec p lam) =
       rootDiagUnit .E8 (d6TorsionChar p ζ lam) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   rw [ExcFrames.frameDiag, d6Vec, ExcFrames.frameCoord_redMod, ← d6EigenCoeff_eq_mulVec]
   congr 1
   funext i
@@ -294,7 +294,7 @@ theorem frameDiag_d6zVec {L : Type} [Field L] {p : ℕ} [Fact p.Prime]
     {ζ : Lˣ} (hζ : ζ ^ p = 1) (lam : ZMod p) :
     ExcFrames.frameDiag (τ := .E8) ζ hζ (d6zVec p lam) =
       rootDiagUnit .E8 (d6zTorsionChar p ζ lam) := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   rw [ExcFrames.frameDiag, d6zVec, ExcFrames.frameCoord_redMod, ← d6zCoeff_eq_mulVec]
   congr 1
   funext i

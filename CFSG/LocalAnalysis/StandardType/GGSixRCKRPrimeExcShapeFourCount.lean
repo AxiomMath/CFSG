@@ -29,7 +29,7 @@ theorem rck_four_dvd_ncard {τ : Tag} {ρ : Equiv.Perm (Fin τ.rank → ℤ)}
     have h := hstab _ (hstab _ (hstab _ hx))
     rwa [hρ4 x hxr] at h
   let P : Equiv.Perm Ψ := ρ.subtypePerm fun x => (hiff x).symm
-  haveI : Fintype Ψ := hfin.fintype
+  have : Fintype Ψ := hfin.fintype
   have hP4 : P ^ 4 = 1 := by
     refine Equiv.ext fun x => Subtype.ext ?_
     have hxr := hΨ x x.2

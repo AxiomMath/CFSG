@@ -15,9 +15,9 @@ theorem BenderType.card_autCentralizer_rootCenter {n i e : ℕ}
       (2 ^ n) ^ i * (if i = 3 then 2 * (2 ^ n + 1) else 1) := by
   by_cases hi : i = 3
   · subst hi
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     exact CFSG.RankThree.PartTwo.Sec8.HeringU3n.bender_card_autCentralizer h S
-  · rw [if_neg hi, mul_one]
+  · rw [ite_eq_right hi, mul_one]
     have hinj : Function.Injective (MulAut.conj : K →* MulAut K) := by
       rw [injective_iff_map_eq_one]
       intro g hg

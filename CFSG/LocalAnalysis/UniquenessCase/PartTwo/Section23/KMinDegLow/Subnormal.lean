@@ -45,12 +45,12 @@ theorem barImage_ne_bot [Finite G] {L K : Subgroup G} (hK : K ∈ calC L) : barI
     rwa [Subgroup.map_subgroupOf_eq_of_le hsub.le] at hm
   have hperfK : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hperf
   have hntK : Nontrivial ↥K := by
-    letI : Nontrivial (Bar2 K ⧸ Subgroup.center (Bar2 K)) := hquasi.2.toNontrivial
+    let : Nontrivial (Bar2 K ⧸ Subgroup.center (Bar2 K)) := hquasi.2.toNontrivial
     have hntBar : Nontrivial (Bar2 K) :=
       (QuotientGroup.mk'_surjective (Subgroup.center (Bar2 K))).nontrivial
-    letI : Nontrivial (Bar2 K) := hntBar
+    let : Nontrivial (Bar2 K) := hntBar
     exact (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥K)).nontrivial
-  haveI : Nontrivial ↥K := hntK
+  have : Nontrivial ↥K := hntK
   exact Group.IsPerfect.not_isNilpotent ↥K hpK.isNilpotent
 
 theorem eq_bot_of_le_center {X : Type*} [Group X] {H : Subgroup X} (hH : H ≤ center X)
@@ -64,7 +64,7 @@ theorem eq_bot_of_le_center {X : Type*} [Group X] {H : Subgroup X} (hH : H ≤ c
 private theorem le_or_commutator_eq_bot_of_normal_isQuasisimple {X : Type*} [Group X]
     {K H : Subgroup X} (hK : K.Normal) (hq : CFSG.Open.IsQuasisimple ↥K)
     (hH : H.IsSubnormal) : K ≤ H ∨ ⁅K, H⁆ = ⊥ := by
-  haveI : K.Normal := hK
+  have : K.Normal := hK
   induction hH with
   | top => exact Or.inl le_top
   | step H M hHM hMK hHnorm ih =>
@@ -83,7 +83,7 @@ private theorem le_or_commutator_eq_bot_of_normal_isQuasisimple {X : Type*} [Gro
         intro x k hx hk
         refine ⟨K.mul_mem (K.mul_mem hk hx.1) (K.inv_mem hk), ?_⟩
         exact (Subgroup.normal_subgroupOf_iff hHM).mp hHnorm x k hx.2 (hKM hk)
-      haveI : ((K ⊓ H).subgroupOf K).Normal := hinf_norm
+      have : ((K ⊓ H).subgroupOf K).Normal := hinf_norm
       rcases GL83.I243.normal_le_center_or_eq_top hq ((K ⊓ H).subgroupOf K) with hcen | htop
       ·
         right
@@ -119,7 +119,7 @@ theorem le_center_or_eq_top_of_isSubnormal {X : Type*} [Group X]
     (hX : IsSimpleGroup X ∨ CFSG.Open.IsQuasisimple X) {H : Subgroup X}
     (hH : CFSG.Open.IsSubnormal H ⊤) : H ≤ center X ∨ H = ⊤ := by
   rcases hX with hsimple | hq
-  · letI : IsSimpleGroup X := hsimple
+  · let : IsSimpleGroup X := hsimple
     rcases hH.eq_bot_or_top with hbot | htop
     · exact Or.inl (hbot ▸ bot_le)
     · exact Or.inr htop
@@ -133,7 +133,7 @@ private theorem eq_left_or_eq_top_of_le_of_centralizes {X : Type*} [Group X]
     {K L H : Subgroup X} (hsup : K ⊔ L = ⊤)
     (hcomm : ∀ a ∈ K, ∀ b ∈ L, a * b = b * a)
     (hq : CFSG.Open.IsQuasisimple ↥K) (hKnorm : K.Normal) (hLnorm : L.Normal)
-    (hLH : L ≤ H) (hKH : ⁅K, H⁆ = ⊥) (hH : CFSG.Open.IsSubnormal H ⊤)
+    (hLH : L ≤ H) (_hKH : ⁅K, H⁆ = ⊥) (hH : CFSG.Open.IsSubnormal H ⊤)
     (hperf : ⁅H, H⁆ = H) : H = L ∨ H = ⊤ := by
   have hinf : CFSG.Open.IsSubnormal (K ⊓ H) K := by
     simpa [inf_comm] using hH.inf K
@@ -177,7 +177,7 @@ private theorem eq_left_or_eq_top_of_le_of_centralizes {X : Type*} [Group X]
       have hmono : ⁅H, H⁆ ≤ ⁅L ⊔ Subgroup.center X, L ⊔ Subgroup.center X⁆ :=
         Subgroup.commutator_mono hHle hHle
       refine hmono.trans ?_
-      haveI : (L ⊔ Subgroup.center X).Normal := Subgroup.sup_normal L (Subgroup.center X)
+      have : (L ⊔ Subgroup.center X).Normal := Subgroup.sup_normal L (Subgroup.center X)
       have hC₁ : ⁅Subgroup.center X, L⁆ = ⊥ :=
         Subgroup.commutator_eq_bot_iff_le_centralizer.mpr
           (Subgroup.center_le_centralizer (L : Set X))

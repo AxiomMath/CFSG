@@ -42,16 +42,16 @@ theorem le_centGen9_of_commutator_le {P X E D : Subgroup G} (hP2 : ¬ 2 ∣ Nat.
     (hD : Nat.card D = 3)
     (hgen : ∀ K : Subgroup G, (∀ x ∈ X, D.map (MulAut.conj x).toMonoidHom ≤ K) → X ≤ K)
     (hPP : ⁅P, P⁆ ≤ centGen9 P X E D) : P ≤ centGen9 P X E D := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set R := centGen9 P X E D with hR
   have hRP : R ≤ P := centGen9_le P X E D
   have hXR : X ≤ normalizer (R : Set G) := le_normalizer_centGen9 hXP hXE
   have hPR : commutator ↥P ≤ R.subgroupOf P :=
     map_le_iff_le_comap.1 ((map_subtype_commutator P).le.trans hPP)
-  haveI : (R.subgroupOf P).Normal := Subgroup.Normal.of_commutator_le _ hPR
-  haveI : IsMulCommutative (↥P ⧸ R.subgroupOf P) :=
+  have : (R.subgroupOf P).Normal := Subgroup.Normal.of_commutator_le _ hPR
+  have : IsMulCommutative (↥P ⧸ R.subgroupOf P) :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.2 hPR
-  letI : CommGroup (↥P ⧸ R.subgroupOf P) := IsMulCommutative.instCommGroup
+  let : CommGroup (↥P ⧸ R.subgroupOf P) := IsMulCommutative.instCommGroup
   set ρ := CFSG.GroupTheory.conjQuotHom hXP hXR with hρ
   have hcard : ∀ {p : ℕ}, ¬ p ∣ Nat.card P → ¬ p ∣ Nat.card R :=
     fun hp h => hp (h.trans (card_dvd_of_le hRP))
@@ -133,12 +133,12 @@ theorem le_centGen9 {P X E D : Subgroup G} (hP : Group.IsSolvable ↥P) (hP2 : �
       exact bot_le
     have hQQ := commutator_le_self Q
     have hlt : ⁅Q, Q⁆ < Q := by
-      haveI : Nontrivial ↥Q := (nontrivial_iff_ne_bot Q).2 hQ1
+      have : Nontrivial ↥Q := (nontrivial_iff_ne_bot Q).2 hQ1
       refine lt_of_le_of_ne hQQ fun heq => (Group.IsSolvable.commutator_lt_top_of_nontrivial
         ↥Q).ne (map_injective Q.subtype_injective ?_)
       rw [map_subtype_commutator, heq, ← MonoidHom.range_eq_map, range_subtype]
     have hle := ih _ (hn ▸ card_lt_of_lt hlt) ⁅Q, Q⁆ rfl
-      (solvable_of_solvable_injective (inclusion_injective hQQ))
+      (Group.isSolvable_of_isSolvable_injective (inclusion_injective hQQ))
       (fun h => hQ2 (h.trans (card_dvd_of_le hQQ))) (fun h => hQ3 (h.trans (card_dvd_of_le hQQ)))
       fun g hg => by
         rw [mem_normalizer_iff_map_conj_eq, map_commutator,

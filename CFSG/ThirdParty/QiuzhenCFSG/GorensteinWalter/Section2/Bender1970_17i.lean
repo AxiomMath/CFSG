@@ -35,7 +35,7 @@ universe u v
 /-- A subnormal `p`-subgroup of `B` lies in `O_p(B)`. -/
 private theorem le_qCoreOf_of_isSubnormal_isPGroup_local
     {G : Type u} [Group G] [Finite G]
-    (B S : Subgroup G) (p : ℕ) (hp : p.Prime)
+    (B S : Subgroup G) (p : ℕ) (_hp : p.Prime)
     (hSB : S ≤ B) (hS : (S.subgroupOf B).IsSubnormal) (hSp : IsPGroup p S) :
     S ≤ qCoreOf B p := by
   rcases (Subgroup.IsSubnormal.isSubnormal_iff (G := ↥B) (H := S.subgroupOf B)).1 hS with
@@ -255,7 +255,7 @@ private theorem isNormalIn_iSup_local
     · intro y hy
       rcases (Set.mem_iUnion).1 hy with ⟨i, hyi⟩
       exact (le_iSup (f := fun i : ι => X i) i) ((h i).2 b hb y⁻¹ ((X i).inv_mem hyi))
-    · simpa using (⨆ i : ι, X i).one_mem
+    · simp
     · intro y z _ _ hyP hzP
       simpa [mul_assoc, mul_left_comm, mul_right_comm] using (⨆ i : ι, X i).mul_mem hyP hzP
 
@@ -391,7 +391,7 @@ private theorem pResidualOf_fitting_eq_iSup_qCoreOf_of_ne_local
 `H/O^p(H)`. -/
 private theorem isPGroup_quotientMap_of_le_residual_local
     {G : Type u} [Group G] [Finite G]
-    {X H R : Subgroup G} (p : ℕ) (hp : p.Prime)
+    {X H R : Subgroup G} (p : ℕ) (_hp : p.Prime)
     (hHX : H ≤ X) (hRH : R ≤ H)
     (N : Subgroup (↥X)) [N.Normal]
     (hRN : ∀ r : G, ∀ hr : r ∈ R,
@@ -417,9 +417,7 @@ private theorem isPGroup_quotientMap_of_le_residual_local
       intro h
       exact Subgroup.mem_map.mpr ⟨Subgroup.inclusion hHX h,
         Subgroup.mem_subgroupOf.mpr h.2, by
-          simpa [φq, φ, π] using
-            (QuotientGroup.map_mk (N := R.subgroupOf H) (M := N) φ
-              (by intro r hr; exact hRN r (Subgroup.mem_subgroupOf.mp hr)) h).symm⟩
+          simp [φq, φ, π]⟩
     · intro hy
       rw [MonoidHom.mem_range]
       rcases (Subgroup.mem_map).1 hy with ⟨hX, hhX, rfl⟩
@@ -429,10 +427,7 @@ private theorem isPGroup_quotientMap_of_le_residual_local
         rfl
       refine ⟨QuotientGroup.mk' (R.subgroupOf H) ⟨hX.1,
         (Subgroup.mem_subgroupOf).mp hhX⟩, ?_⟩
-      simpa [φq, φ, π, hinc] using
-        (QuotientGroup.map_mk (N := R.subgroupOf H) (M := N) φ
-          (by intro r hr; exact hRN r (Subgroup.mem_subgroupOf.mp hr))
-          ⟨hX.1, (Subgroup.mem_subgroupOf).mp hhX⟩).symm
+      simp [φq, φ, π, hinc]
   have hsurj : Function.Surjective φq.rangeRestrict := φq.rangeRestrict_surjective
   have hφq : IsPGroup p φq.range := hQ.of_surjective φq.rangeRestrict hsurj
   rw [← hrange]
@@ -534,8 +529,8 @@ private theorem pResidualOf_sup_le_local
       have hYle : ∀ i : Fin 2, Y i ≤ X := by
         intro i
         fin_cases i
-        · simpa [Y, X] using (le_sup_left : F ≤ F ⊔ E)
-        · simpa [Y, X] using (le_sup_right : E ≤ F ⊔ E)
+        · simp [Y, X]
+        · simp [Y, X]
       have h := subgroupOf_iSup_of_le_local (H := Y) (N := X) hYle
       have hYsup : (⨆ i : Fin 2, Y i) = F ⊔ E := by
         apply le_antisymm
@@ -1053,7 +1048,7 @@ private theorem commutator_le_of_le_pPrimeCore_of_normalizes_local
         let : Fintype (↥N) := Fintype.ofFinite (↥N)
         simpa [Nat.card_eq_fintype_card] using (orderOf_dvd_card (G := ↥N) (x := gN))
       have hordN : orderOf gN = orderOf g := by
-        simpa [gN] using (orderOf_injective N.subtype N.subtype_injective gN)
+        simp [gN]
       simpa [gN, hordN] using hdvd
     have hcop : Nat.Coprime (orderOf g) (Nat.card (↥N)) := by
       rw [hord]
@@ -1318,7 +1313,7 @@ private theorem centralizes_of_normal_selfCentralizing_coprime_local
     exact (Subgroup.commutator_eq_bot_iff_le_centralizer).mpr hPK₁
   have h2 : ⁅⁅K₁, K⁆, P⁆ = ⊥ := by
     apply le_bot_iff.mp
-    exact (Subgroup.commutator_mono hK1K_le le_rfl).trans (by simpa [hK1P_bot])
+    exact (Subgroup.commutator_mono hK1K_le le_rfl).trans (by simp [hK1P_bot])
   have hKPK1_bot : ⁅⁅K, P⁆, K₁⁆ = ⊥ :=
     Subgroup.commutator_commutator_eq_bot_of_rotate (H₁ := K) (H₂ := P) (H₃ := K₁) h1 h2
   have hKP_le_K : ⁅K, P⁆ ≤ K := (Subgroup.le_normalizer_iff_commutator_le_left).1 hPK
@@ -1327,7 +1322,7 @@ private theorem centralizes_of_normal_selfCentralizing_coprime_local
   have hKP_le_K1 : ⁅K, P⁆ ≤ K₁ := (le_inf hKP_le_K hKP_cent).trans hself
   have hKPP_bot : ⁅⁅K, P⁆, P⁆ = ⊥ := by
     apply le_bot_iff.mp
-    exact (Subgroup.commutator_mono hKP_le_K1 le_rfl).trans (by simpa [hK1P_bot])
+    exact (Subgroup.commutator_mono hKP_le_K1 le_rfl).trans (by simp [hK1P_bot])
   let : P.Normalizes K := ⟨hPK⟩
   let : MulDistribMulAction (↥P) (↥K) :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer P K hPK
@@ -1357,7 +1352,7 @@ private theorem centralizes_of_normal_selfCentralizing_coprime_local
   have hcomm₂_bot : commutatorAction₂ (A := ↥P) (G := ↥K) = ⊥ := by
     apply (Subgroup.map_eq_bot_iff_of_injective
       (H := commutatorAction₂ (A := ↥P) (G := ↥K)) (f := K.subtype) K.subtype_injective).1
-    exact le_antisymm (hcomm₂_map_le.trans (by simpa [hKPP_bot])) bot_le
+    exact le_antisymm (hcomm₂_map_le.trans (by simp [hKPP_bot])) bot_le
   have htriv : ActsTrivially (A := ↥P) (G := ↥K) :=
     actsTrivially_of_commutatorAction₂_eq_bot_of_solvable_coprime
       (G := ↥K) (A := ↥P) hsolv hcop hcomm₂_bot
@@ -1368,8 +1363,7 @@ private theorem centralizes_of_normal_selfCentralizing_coprime_local
   let kK : ↥K := ⟨k, hk⟩
   have htrivK : a • kK = kK := htriv a kK
   have hsmulK : ↑(a • kK) = p * k * p⁻¹ := by
-    simpa [a, kK] using
-      (Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe P K (a := a) (k := kK))
+    simp [a, kK]
   have hconj : p * k * p⁻¹ = k :=
     hsmulK.trans (congrArg Subtype.val htrivK)
   calc
@@ -1524,7 +1518,7 @@ private theorem centralizes_of_subnormal_selfCentralizing_coprime_local
                 q * (x : G) * q⁻¹ = q * ((c * a * c⁻¹ : ↥K') : G) * q⁻¹ := by
                   rw [← hc]
                 _ = (q * (c : G) * q⁻¹) * (q * (a : G) * q⁻¹) * (q * (c : G)⁻¹ * q⁻¹) := by
-                  simp [Subgroup.coe_mul, Subgroup.coe_inv]
+                  simp [Subgroup.coe_mul]
                 _ = (q * (c : G) * q⁻¹) * (a : G) * (q * (c : G)⁻¹ * q⁻¹) := by rw [hhfix]
                 _ = (((c' : ↥K') * a * (c' : ↥K')⁻¹ : ↥K') : G) := by
                   simp [c', Subgroup.coe_mul]
@@ -1535,7 +1529,7 @@ private theorem centralizes_of_subnormal_selfCentralizing_coprime_local
                 (x := a) (c := c') (Group.subset_conjugatesOfSet ha)
             have hN0mem : (c' : ↥K') * a * (c' : ↥K')⁻¹ ∈ N0 :=
               Subgroup.conjugatesOfSet_subset_normalClosure hmem
-            exact Subgroup.mem_map.mpr ⟨(c' : ↥K') * a * (c' : ↥K')⁻¹, hN0mem, by simpa [hgen]⟩
+            exact Subgroup.mem_map.mpr ⟨(c' : ↥K') * a * (c' : ↥K')⁻¹, hN0mem, by simp [hgen]⟩
           · simp [N]
           · intro x y _hx _hy ihx ihy
             have hxy : q * ((x * y : ↥K') : G) * q⁻¹ =
@@ -1727,7 +1721,7 @@ private theorem pSubgroup_le_qCoreOf_of_nilpotent_local
   have hSnormal : (S : Subgroup (↥H)).Normal :=
     Group.IsNilpotent.sylow_normal (p := p) hHnil S
   have hK'leP : K' ≤ pCore p (↥H) :=
-    hKleS.trans (le_sSup ⟨hSnormal, S.isPGroup'⟩)
+    hKleS.trans (le_sSup ⟨hSnormal, S.isPGroup⟩)
   have hmap := Subgroup.map_mono (f := H.subtype) hK'leP
   have hK'eq : K'.map H.subtype = K := Subgroup.map_subgroupOf_eq_of_le hKH
   change K ≤ (pCore p (↥H)).map H.subtype
@@ -2108,8 +2102,7 @@ private theorem componentLayer_top_map_eq_componentLayerOf_local
     change sSup {E : Subgroup (↥B) | IsComponentOf E (⊤ : Subgroup (↥B))} ≤
       Subgroup.comap B.subtype (componentLayerOf B)
     refine sSup_le ?_
-    intro E hE
-    intro y hy
+    intro E hE y hy
     rw [Subgroup.mem_comap]
     exact le_sSup (s := {E' : Subgroup G | IsComponentOf E' B})
       (a := E.map B.subtype)
@@ -2119,8 +2112,7 @@ private theorem componentLayer_top_map_eq_componentLayerOf_local
       Subgroup.map B.subtype
         (sSup {E : Subgroup (↥B) | IsComponentOf E (⊤ : Subgroup (↥B))})
     refine sSup_le ?_
-    intro E hE
-    intro y hy
+    intro E hE y hy
     exact Subgroup.mem_map.mpr
       ⟨⟨y, hE.1 hy⟩,
         Subgroup.mem_sSup_of_mem
@@ -2729,8 +2721,7 @@ private theorem pResidualOf_S_centralizes_qCoreOf_B_local
     exact (pResidualOf_le S p).trans (le_normalizer_of_isNormalIn (qCoreOf_normal_in S p))
   have hcop : ∀ Q : Subgroup (↥K), Nat.Coprime p (Nat.card (↥Q)) →
       Centralizes (Q.map K.subtype) P := by
-    intro Q hQ
-    intro x hx
+    intro Q hQ x hx
     rcases (Subgroup.mem_map).1 hx with ⟨q, hq, rfl⟩
     have hxS : (q : G) ∈ S := (pResidualOf_le S p) q.2
     have hxord : Nat.Coprime p (orderOf (q : G)) := by
@@ -3070,7 +3061,7 @@ private theorem centralizer_normal_le_A
   · have hAtop : A = ⊤ := by
       apply le_antisymm le_top
       intro x hx
-      exact hNA (by simpa [htopN] using hx)
+      exact hNA (by simp [htopN])
     exact hA.1 hAtop
 
 /-- The center of `O_{p'}(F(A))` is contained in every subnormal
@@ -3258,8 +3249,8 @@ private theorem commutator_qCoreOf_B_pResidualOf_generalizedFitting_of_le_A_loca
     (hSF : S ≤ generalizedFittingSubgroupOf A)
     (hSsub : (S.subgroupOf (generalizedFittingSubgroupOf A)).IsSubnormal)
     (hCS : generalizedFittingSubgroupOf A ⊓ Subgroup.centralizer (S : Set G) ≤ S)
-    (hSB : S ≤ B)
-    (p : ℕ) (hp : p.Prime) (hpF : p ∈ primesOfOrder (fittingSubgroupOf A))
+    (_hSB : S ≤ B)
+    (p : ℕ) (hp : p.Prime) (_hpF : p ∈ primesOfOrder (fittingSubgroupOf A))
     (hRleA : qCoreOf B p ≤ A)
     (hcentKR : Centralizes (pResidualOf S p) (qCoreOf B p)) :
     ⁅qCoreOf B p, pResidualOf (generalizedFittingSubgroupOf A) p⁆ = ⊥ := by
@@ -3380,7 +3371,7 @@ public theorem bender1970_1_7_residual_commutator_assembly
     have hResCases : pResidualOf (generalizedFittingSubgroupOf A) p = ⊥ ∨
         pResidualOf (generalizedFittingSubgroupOf A) p ≠ ⊥ := Classical.em _
     rcases hResCases with hResBot | hResNe
-    · simpa [hResBot]
+    · simp [hResBot]
     · have hRleA : qCoreOf B p ≤ A := hRleA_if hResNe
       have hcentKR : Centralizes (pResidualOf S p) (qCoreOf B p) :=
         pResidualOf_S_centralizes_qCoreOf_B_local hsimple A hA S hSF hSsub hCS hSB p hp hpF

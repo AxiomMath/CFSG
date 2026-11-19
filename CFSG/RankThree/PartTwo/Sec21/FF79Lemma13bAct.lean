@@ -22,10 +22,10 @@ structure Coord (B : Subgroup G) where
   e_mul : ∀ x ∈ B, ∀ y ∈ B, e (x * y) = e x + e y
 
 theorem exists_coord [Finite G] {B : Subgroup G} (hB : IsElemAb 3 3 B) : Nonempty (Coord B) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsElementaryAbelian 3 ↥B := hB.1
-  haveI : Finite (Additive ↥B) := inferInstanceAs (Finite ↥B)
-  haveI : Module.Finite (ZMod 3) (Additive ↥B) := Module.Finite.of_finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsElementaryAbelian 3 ↥B := hB.1
+  have : Finite (Additive ↥B) := inferInstanceAs (Finite ↥B)
+  have : Module.Finite (ZMod 3) (Additive ↥B) := Module.Finite.of_finite
   have hrank : Module.finrank (ZMod 3) (Additive ↥B) = 3 := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := Additive ↥B)
     have h1 : Nat.card (Additive ↥B) = 3 ^ 3 := hB.2
@@ -84,7 +84,7 @@ theorem d_zero : c.d 0 = 1 := by
 
 theorem fAdd_apply {n : G} (u : Fin 3 → ZMod 3) : c.fAdd n u = c.e (n * c.d u * n⁻¹) := rfl
 
-theorem fAdd_zero {n : G} (hn : n ∈ Nor B) : c.fAdd n 0 = 0 := by
+theorem fAdd_zero {n : G} (_hn : n ∈ Nor B) : c.fAdd n 0 = 0 := by
   simp [fAdd_apply, c.d_zero, c.e_one]
 
 theorem fAdd_add {n : G} (hn : n ∈ Nor B) (u v : Fin 3 → ZMod 3) :
@@ -210,11 +210,11 @@ theorem d_smul (u : Fin 3 → ZMod 3) (a : ZMod 3) : c.d (a • u) = c.d u ^ a.v
 @[expose] def sub (H : Subgroup G) : Submodule (ZMod 3) (Fin 3 → ZMod 3) where
   carrier := {u | c.d u ∈ H}
   add_mem' := fun {u v} hu hv => by
-    simp only [Set.mem_setOf_eq, c.d_add] at hu hv ⊢
+    simp only [Set.mem_ofPred_eq, c.d_add] at hu hv ⊢
     exact H.mul_mem hu hv
   zero_mem' := by simp [c.d_zero]
   smul_mem' := fun a u hu => by
-    simp only [Set.mem_setOf_eq, c.d_smul] at hu ⊢
+    simp only [Set.mem_ofPred_eq, c.d_smul] at hu ⊢
     exact H.pow_mem hu _
 
 theorem natCard_sub {H : Subgroup G} (hH : H ≤ B) : Nat.card (c.sub H) = Nat.card H := by

@@ -107,7 +107,7 @@ private theorem three_pow_five_dvd_mulAut_threeStarImg (c : CaseOneCtx G M H E Q
   have hLbar_normal : (threeStarImg M L).Normal := by
     rw [threeStarImg]
     exact h8.L_normal.map _ (QuotientGroup.mk'_surjective _)
-  haveI : (threeStarImg M L).Normal := hLbar_normal
+  have : (threeStarImg M L).Normal := hLbar_normal
   let φ : threeStar M →* MulAut ↥(threeStarImg M L) := MulAut.conjNormal
   have hker_eq : φ.ker = Subgroup.centralizer (threeStarImg M L : Set (threeStar M)) :=
     CFSG.ProperTwoGeneratedCore.normal_conjugation_kernel_eq_centralizer (threeStarImg M L)
@@ -185,7 +185,7 @@ theorem not_isClassicalTwoOrG2 (c : CaseOneCtx G M H E Q J R T)
   have hLbar_normal : (threeStarImg M L).Normal := by
     rw [threeStarImg]
     exact h8.L_normal.map _ (QuotientGroup.mk'_surjective _)
-  haveI : IsSimpleGroup (threeStar L) := h8.simple
+  have : IsSimpleGroup (threeStar L) := h8.simple
   have hqStar : CFSG.IsQuasisimple (threeStar L) :=
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup h8.nonabelian).1
   have hqLbar : CFSG.IsQuasisimple ↥(threeStarImg M L) :=
@@ -222,7 +222,7 @@ theorem isKGroup_lHatQuot (c : CaseOneCtx G M H E Q J R T) {L : Subgroup G}
     CFSG.Open.IsKGroup (↥(L ⊔ T) ⧸ gnC (T.subgroupOf (L ⊔ T))) := by
   have hTM : T ≤ M := c.T_sylow.le.trans inf_le_right
   have hXM : L ⊔ T ≤ M := sup_le hLM hTM
-  haveI : IsSimpleGroup G := c.choice.cstar.simple
+  have : IsSimpleGroup G := c.choice.cstar.simple
   have hMtop : M ≠ ⊤ := CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top
     c.choice.cstar.nonab M c.choice.maxLocal.1
   have hXtop : L ⊔ T ≠ ⊤ := by
@@ -264,8 +264,8 @@ theorem commutator_gnImg_thompsonJ_eq_bot (X : Type) [Group X] [Finite X] (T : S
 
 private theorem lHat_perfect {M L : Subgroup G} (h8 : FourteenEightData M L) :
     Group.IsPerfect ↥L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup (threeStar L) := h8.simple
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup (threeStar L) := h8.simple
   let O : Subgroup ↥L := CFSG.pPrimeCore 3 ↥L
   let π : ↥L →* threeStar L := QuotientGroup.mk' O
   have hperfQ : Group.IsPerfect (threeStar L) :=
@@ -339,7 +339,7 @@ private theorem lHat_ker_le_core {M L T : Subgroup G} (h8 : FourteenEightData M 
 
 
 private theorem lHat_Nhat_normal_not_three {M L T : Subgroup G} (h8 : FourteenEightData M L)
-    (h9 : FourteenNineData M L T) (hTM : T ≤ M) :
+    (_h9 : FourteenNineData M L T) (hTM : T ≤ M) :
     (gnImg (T.subgroupOf (L ⊔ T))
         ((L ⊓ CFSG.inSubgroup (CFSG.pPrimeCore 3) M).subgroupOf (L ⊔ T))).Normal ∧
       ¬ 3 ∣ Nat.card ↥(gnImg (T.subgroupOf (L ⊔ T))
@@ -397,7 +397,7 @@ private theorem lHat_Nhat_le_center {M L T : Subgroup G} (h8 : FourteenEightData
   let Nhat : Subgroup (↥X ⧸ gnC T') :=
     gnImg T' ((L ⊓ CFSG.inSubgroup (CFSG.pPrimeCore 3) M).subgroupOf X)
   obtain ⟨hNhat_normal, h3Nhat⟩ := lHat_Nhat_normal_not_three h8 h9 hTM
-  haveI : Nhat.Normal := hNhat_normal
+  have : Nhat.Normal := hNhat_normal
   have hcomm := commutator_gnImg_thompsonJ_eq_bot X T' h9.charTwo h9.core_le hK
     h9.pCore_two Nhat h3Nhat
   rw [Subgroup.commutator_comm] at hcomm
@@ -417,6 +417,7 @@ private theorem lHat_Nhat_le_center {M L T : Subgroup G} (h8 : FourteenEightData
   simpa using (Subgroup.mem_centralizer_iff.mp (hLcomp l.2) (n : ↥X ⧸ gnC T')
     (Subgroup.mem_subgroupOf.mp hn)).symm
 
+omit [Finite G] in
 private theorem lHat_psi_of_quotient {L T : Subgroup G}
     (f : ↥L →* ↥(gnImg (T.subgroupOf (L ⊔ T)) (L.subgroupOf (L ⊔ T))))
     (hfsurj : Function.Surjective f)
@@ -556,13 +557,13 @@ private theorem lHat_psi_center {M L T : Subgroup G} (h8 : FourteenEightData M L
   obtain ⟨f, ψ, hfsurj, hψsurj, hψ_apply, hfl⟩ := lHat_map_to_star h8 h9
   have hperfLhat : Group.IsPerfect ↥(gnImg (T.subgroupOf (L ⊔ T))
       (L.subgroupOf (L ⊔ T))) := by
-    haveI : Group.IsPerfect ↥L := lHat_perfect h8
+    have : Group.IsPerfect ↥L := lHat_perfect h8
     exact Group.IsPerfect.ofSurjective (f := f) hfsurj
   have hψker_le_N := lHat_psi_ker_le_N h8 f ψ hfsurj hψ_apply hfl
   have hNcenter := lHat_Nhat_le_center h8 h9 hTM hK hLcomm
   have hψker_center : ψ.ker ≤ Subgroup.center ↥(gnImg (T.subgroupOf (L ⊔ T))
       (L.subgroupOf (L ⊔ T))) := hψker_le_N.trans hNcenter
-  haveI : IsSimpleGroup (threeStar L) := h8.simple
+  have : IsSimpleGroup (threeStar L) := h8.simple
   have hcenterStar : Subgroup.center (threeStar L) = ⊥ :=
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup h8.nonabelian).2
   have hcomap := CFSG.LocalCores.comap_center_eq_of_perfect hperfLhat ψ hψsurj hψker_center
@@ -589,7 +590,7 @@ theorem lHat_component (c : CaseOneCtx G M H E Q J R T) {L : Subgroup G}
     c.isKGroup_lHatQuot h8.L_le
   have hLcomm := lHat_commutator (T := T) h9
   obtain ⟨ψ, hψsurj, hperf, hcenter⟩ := lHat_psi_center h8 h9 hTM hK hLcomm
-  haveI : IsSimpleGroup (threeStar L) := h8.simple
+  have : IsSimpleGroup (threeStar L) := h8.simple
   have hqStar : CFSG.IsQuasisimple (threeStar L) :=
     (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup h8.nonabelian).1
   have hqNative : CFSG.IsQuasisimple ↥(gnImg (T.subgroupOf (L ⊔ T))
@@ -625,9 +626,9 @@ theorem ffConclusion_threeStar (c : CaseOneCtx G M H E Q J R T) {L : Subgroup G}
     CFSG.AGLEmbeddingD2.McLaughlin.OrdinaryProofs.exists_rep_offender_of_le
       ↥(L ⊔ T) (T.subgroupOf (L ⊔ T)) h9.charTwo h9.core_le
       (gnImg (T.subgroupOf (L ⊔ T)) (L.subgroupOf (L ⊔ T))) hLcomp hLJ
-  letI : AddCommGroup W := hWadd
-  letI : Module (ZMod 2) W := hWmod
-  letI : Finite W := hWfin
+  let : AddCommGroup W := hWadd
+  let : Module (ZMod 2) W := hWmod
+  let : Finite W := hWfin
   have hLhatne : gnImg (T.subgroupOf (L ⊔ T)) (L.subgroupOf (L ⊔ T)) ≠ ⊥ := by
     intro hbot
     apply h9.not_le_gnC

@@ -195,7 +195,7 @@ theorem s16h_nonthin_dichotomy_free
   obtain ⟨K, hK, hKbar⟩ := s16h_exists_cover D h127 h119 h.hyp151.hyp125 hcomp
   have hne : barSub V₀ V hV K ≠ ⊥ := by
     rw [hKbar]
-    haveI := hcomp.2.2.2
+    have := hcomp.2.2.2
     have hnt : Nontrivial ↥(lBar V₀ V hV L) :=
       (QuotientGroup.mk'_surjective (Subgroup.center ↥(lBar V₀ V hV L))).nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot _).mp hnt
@@ -210,7 +210,7 @@ theorem s16h_nonthin_dichotomy_free
     exact hAlt
   obtain ⟨hList, hAltCenter⟩ :=
     s16h_free_list880_and_alt_center_of_isAlt_cover D h.hyp151.hyp125 hK hne hn hAlt' hSchur
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 D.M
   have hJ2 : IsSpor (Bar2 K) .J2 := (h880 K hK hList hnot P hP).1
   have hcardJ2 : Nat.card (Bar2 K) = 604800 := by
@@ -219,7 +219,7 @@ theorem s16h_nonthin_dichotomy_free
     change Nat.card CFSG.Blueprint.NativeSporadic.J2 = 604800
     exact CFSG.RankThree.PartTwo.KFacts.KS14.card_nativeJ2
   obtain ⟨-, hOdd⟩ := s15_Three_bar2_facts hK
-  haveI : Nontrivial (Fin n) := by
+  have : Nontrivial (Fin n) := by
     rcases hn with rfl | rfl | rfl <;> infer_instance
   have hquot : Nat.card (Bar2 K ⧸ Subgroup.center (Bar2 K)) = Nat.factorial n / 2 := by
     obtain ⟨e⟩ := hAltCenter

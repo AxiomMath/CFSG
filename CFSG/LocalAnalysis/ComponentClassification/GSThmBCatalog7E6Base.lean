@@ -98,7 +98,7 @@ theorem exists_sylow_map {G H : Type*} [Group G] [Group H] [Finite G] (Φ : G �
   have hle : Q.map Φ.toMonoidHom ≤ M.map Φ.toMonoidHom := Subgroup.map_mono hQM
   have hp : IsPGroup p ((Q.map Φ.toMonoidHom).subgroupOf (M.map Φ.toMonoidHom)) := by
     have h1 : IsPGroup p Q := by
-      have := T.isPGroup'
+      have := T.isPGroup
       rw [hT] at this
       exact this.of_equiv (subgroupOfEquivOfLe hQM)
     exact (h1.map Φ.toMonoidHom).of_equiv (subgroupOfEquivOfLe hle).symm

@@ -56,6 +56,7 @@ private theorem D_le_H0 {Y : Subgroup G} {t : G} (hs : Sit M Q Z Y t) {D : Subgr
     (hD : D ≤ QB Y ⊓ M) : D ≤ H0 M Z :=
   hD.trans (Lx_le_H0 hs (smith_1_12 hs))
 
+omit [Finite G] in
 private theorem action_fix_of_centralizes {K : Type} [Field K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
@@ -92,7 +93,7 @@ theorem Good103.actionHom_fixes_img_Vt (hc : Ctx M Q Z B) {Y : Subgroup G} {t : 
     (fun x hx => D_fixes_Vt hc ht hs hDH0 hD hd x hx) v hv
 
 private theorem D_comm_tau (hc : Ctx M Q Z B) {Y : Subgroup G} {t : G}
-    (ht : Good103 M Q Z B t) (hs : Sit M Q Z Y t) {D : Subgroup G} (hDH0 : D ≤ H0 M Z)
+    (ht : Good103 M Q Z B t) (hs : Sit M Q Z Y t) {D : Subgroup G} (_hDH0 : D ≤ H0 M Z)
     (hD : D ≤ QB Y ⊓ M) {K : Type} [Field K] {γ : G → K}
     {M₀ : Tim79.QuadModel Q Z K γ} {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
@@ -133,6 +134,7 @@ private theorem pi_injOn_A {Y : Subgroup G} {t : G} (hs : Sit M Q Z Y t)
   rw [Z_inf_QB_eq_bot hs (smith_1_12 hs), Subgroup.mem_bot] at hmemZ
   exact mul_inv_eq_one.mp hmemZ
 
+omit [Finite G] in
 private theorem pi_comm_action (hc : Ctx M Q Z B) {K : Type} [Field K] [CharP K 2]
     {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
@@ -153,6 +155,7 @@ private theorem pi_comm_action (hc : Ctx M Q Z B) {K : Type} [Field K] [CharP K 
   rw [e, M₀.π_mul _ hx _ hx'd, hφπ ⟨d, hd⟩ _ (Q.inv_mem hx), M₀.pi_inv hx, map_neg, hneg,
     sub_eq_add_neg, hneg, LinearEquiv.coe_coe, add_comm]
 
+omit [Finite G] in
 private theorem pi_Ut_mem_range (hc : Ctx M Q Z B) {t : G} (ht : Good103 M Q Z B t)
     {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     (hM : GlobalModelData M Q Z γ M₀) (τ : M₀.E ≃ₗ[K] M₀.E)
@@ -328,6 +331,7 @@ private theorem card_commutators_le (h34 : Stroth34Statement) {hc : Ctx M Q Z B}
   have hle := Nat.card_le_card_of_injective F hF
   rwa [hM.card] at hle
 
+omit [Finite G] in
 private theorem D₀_fixes_tau_sub (hc : Ctx M Q Z B) {t : G} (ht : Good103 M Q Z B t)
     {D₀ : Subgroup G} (hD₀U : ∀ d ∈ D₀, ∀ x ∈ Ut Q Z t, x * d = d * x)
     {K : Type} [Field K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}

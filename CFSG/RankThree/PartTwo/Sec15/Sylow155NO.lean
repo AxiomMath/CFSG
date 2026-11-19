@@ -27,6 +27,7 @@ open CFSG CFSG.RankThree CFSG.RankThree.PartTwo CFSG.RankThree.PartTwo.Sec13
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem not_le_of_a5 {A M W : Subgroup G} [(ker148 A M).Normal] (hWM : W ≤ M)
     (hφ : Nonempty (↥(img148 A M W) ≃* alternatingGroup (Fin 5))) :
     ¬ W ≤ pPrimeCoreOf 3 M := by
@@ -70,9 +71,9 @@ private theorem inner_of_quot {A M C Y H : Subgroup G} (hA : A ∈ partTwoF G) (
   set π := QuotientGroup.mk' (θ.subgroupOf C) with hπ
   have hT₀C : T₀ ≤ C := hT₀.trans hHC
   have hθ3 : Nat.Coprime 3 (Nat.card θ) := coprime_card_pPrimeCoreOf 3 Y
-  have hAθ : A ⊓ θ = ⊥ := Subgroup.inf_eq_bot_of_coprime (by
+  have hAθ : A ⊓ θ = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by
     rw [hA27]
-    simpa using Nat.Coprime.pow_left 3 hθ3)
+    simpa using Nat.Coprime.pow_left 3 hθ3)))
   have hinj : Function.Injective (π.comp (A.subgroupOf C).subtype) := by
     rw [injective_iff_map_eq_one]
     intro a ha
@@ -225,7 +226,7 @@ theorem innerOn_of_a5
   have hYC : Yₑ ≤ C := sup_le (pPrimeCoreOf_le 3 C) hX'C
   have hθX' : inSubgroup (aschbacherSolvableCore 3) X' ≤ pPrimeCoreOf 3 C :=
     Proof15Res11.theta_le_pPrimeCoreOf hX'C hCY
-  haveI : ((pPrimeCoreOf 3 Yₑ).subgroupOf C).Normal :=
+  have : ((pPrimeCoreOf 3 Yₑ).subgroupOf C).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer
       (hCY.trans (normalizer_le_normalizer_pPrimeCoreOf 3 Yₑ))
   obtain ⟨J₁, J₂, hJsup, hJc, hJ3, hJ₁, hJ₂⟩ :=

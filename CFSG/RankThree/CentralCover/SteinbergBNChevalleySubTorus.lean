@@ -53,14 +53,14 @@ theorem subTorusExp_single {τ : Tag} (e : Fin d → Fin τ.rank) (he : Function
     rw [Finset.sum_eq_single i]
     · simp
     · intro k _ hk
-      rw [if_neg (fun h => hk (he h))]
+      rw [ite_eq_right (fun h => hk (he h))]
     · intro h
       exact absurd (Finset.mem_univ i) h
   · rw [Finset.sum_eq_zero, Pi.single_eq_of_ne (Ne.symm hj)]
     intro k _
     by_cases hk : e k = j
-    · rw [if_pos hk, Pi.single_eq_of_ne (fun hki => hj (by rw [← hki, hk]))]
-    · rw [if_neg hk]
+    · rw [ite_eq_left hk, Pi.single_eq_of_ne (fun hki => hj (by rw [← hki, hk]))]
+    · rw [ite_eq_right hk]
 
 theorem sum_mul_subTorusExp {τ : Tag} (e : Fin d → Fin τ.rank) (c : Fin τ.rank → ZMod p)
     (a : Fin d → ZMod p) :
@@ -77,7 +77,7 @@ theorem sum_mul_subTorusExp {τ : Tag} (e : Fin d → Fin τ.rank) (c : Fin τ.r
         rw [Finset.sum_eq_single (e k)]
         · simp
         · intro i _ hik
-          rw [if_neg (fun h => hik h.symm), mul_zero]
+          rw [ite_eq_right (fun h => hik h.symm), mul_zero]
         · intro h
           exact absurd (Finset.mem_univ (e k)) h
 
@@ -98,7 +98,7 @@ theorem chevSubTorus_apply
   rfl
 
 theorem chevSubTorus_injective
-    (e : Fin d → Fin τ.rank) (he : Function.Injective e) {ζ : Kˣ} (hζo : orderOf ζ = p)
+    (e : Fin d → Fin τ.rank) (_he : Function.Injective e) {ζ : Kˣ} (hζo : orderOf ζ = p)
     (hζ : ζ ^ p = 1) (hdet : IsUnit (((τ.cartan.submatrix e e).det : ℤ) : ZMod p)) :
     Function.Injective (chevSubTorus e ζ hζ) := by
   classical

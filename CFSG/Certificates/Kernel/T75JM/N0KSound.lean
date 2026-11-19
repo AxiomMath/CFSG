@@ -23,8 +23,8 @@ theorem sB_eq (y : Nat) (k : Nat → Bool) : strictB y k = k y := by cases y <;>
 theorem iteL (f : Int → Nat) (c z : Int) (r : Nat) :
     (if z = c then f c else r) = if z = c then f z else r := by
   by_cases h : z = c
-  · rw [if_pos h, if_pos h, h]
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_left h, ite_eq_left h, h]
+  · rw [ite_eq_right h, ite_eq_right h]
 
 theorem withL_eq (L : Int → Nat) (k : (Int → Nat) → Bool) : withL L k = k L := by
   unfold withL
@@ -197,7 +197,7 @@ theorem n0K_surj {L : Int → Nat} (hL : LetterRd L)
     ∃ a < 360, ∃ k < 16, g = n0 (a6W a ++ tw k) := by
   obtain ⟨hfin, hle⟩ := Certificates.certificate14984.2.2.1
   have hbij := (n0K_injective hL h1 hok).bijective_of_nat_card_le (by
-    simp only [Nat.card_prod, Nat.card_eq_fintype_card, Fintype.card_fin]
+    simp only [Nat.card_eq_fintype_card]
     exact hle.trans (by norm_num))
   obtain ⟨⟨a, k⟩, hak⟩ := hbij.2 g
   exact ⟨a, a.isLt, k, k.isLt, hak.symm⟩

@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 variable (hc : Ctx4Q t L S x₁ x₂ lam rho tau) (hs : IsSylSL34 (ctxQ t tau x₁ x₂ rho))
 include hc hs
 
+omit hc hs [Finite G] in
 theorem M_le_LO : ctxM t tau x₁ x₂ ≤ ctxLO t tau x₁ x₂ := by
   intro g hg
   rw [ctxLO, Subgroup.mem_normalizer_iff]
@@ -27,24 +28,26 @@ theorem M_le_LO : ctxM t tau x₁ x₂ ≤ ctxLO t tau x₁ x₂ := by
     have heq : g⁻¹ * (g * h * g⁻¹) * (g⁻¹)⁻¹ = h := by group
     rwa [heq] at h'⟩
 
+omit hs in
 private theorem lam_conj_zpow (i : ℤ) : lam * rho ^ i * lam⁻¹ = (rho ^ i)⁻¹ := by
   calc lam * rho ^ i * lam⁻¹ = (lam * rho * lam⁻¹) ^ i :=
         (conj_zpow (i := i) (a := lam) (b := rho)).symm
     _ = (rho⁻¹) ^ i := by rw [hc.lam_rho]
     _ = (rho ^ i)⁻¹ := inv_zpow rho i
 
+omit hs in
 private theorem lam_normalizes_zpowers_rho :
     zpowers lam ≤ Subgroup.normalizer ((zpowers rho : Subgroup G) : Set G) := by
   rw [Subgroup.zpowers_le]
   refine Subgroup.mem_normalizer_iff.mpr fun x => ⟨?_, ?_⟩
   · intro hx
     obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.mp hx
-    rw [← hi, lam_conj_zpow hc hs i]
+    rw [← hi, lam_conj_zpow hc i]
     exact inv_mem (Subgroup.mem_zpowers_iff.mpr ⟨i, rfl⟩)
   · intro hx
     have hx' : lam * (lam * x * lam⁻¹) * lam⁻¹ ∈ zpowers rho := by
       obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.mp hx
-      rw [← hi, lam_conj_zpow hc hs i]
+      rw [← hi, lam_conj_zpow hc i]
       exact inv_mem (Subgroup.mem_zpowers_iff.mpr ⟨i, rfl⟩)
     have hlinv : lam⁻¹ = lam := inv_eq_of_mul_eq_one_right (lam_mul_self hc)
     have heq : lam * (lam * x * lam⁻¹) * lam⁻¹ = x := by
@@ -53,6 +56,7 @@ private theorem lam_normalizes_zpowers_rho :
         _ = x := by rw [lam_mul_self hc]; group
     rwa [heq] at hx'
 
+omit hs in
 theorem rho_conj_inv_lam_types {k : G}
     (hk : k = lam ∨ k = rho * lam ∨ k = rho⁻¹ * lam) :
     rho * k * rho⁻¹ * k⁻¹ = rho ^ 2 := by
@@ -76,6 +80,7 @@ theorem rho_conj_inv_lam_types {k : G}
       _ = rho * rho := by rw [hconj_inv]
       _ = rho ^ 2 := by rw [pow_two]
 
+omit hs in
 private theorem rho_zpow_eq (i : ℤ) : rho ^ i = 1 ∨ rho ^ i = rho ∨ rho ^ i = rho⁻¹ := by
   have h3 : rho ^ 3 = 1 := by
     have := pow_orderOf_eq_one rho
@@ -99,6 +104,7 @@ private theorem rho_zpow_eq (i : ℤ) : rho ^ i = 1 ∨ rho ^ i = rho ∨ rho ^ 
   · right; left; rw [h]; simp
   · right; right; rw [h]; exact h2
 
+omit hs in
 private theorem lam_zpow_eq (j : ℤ) : lam ^ j = 1 ∨ lam ^ j = lam := by
   have hz : lam ^ j = lam ^ (j % 2) := by
     rw [← zpow_mod_orderOf lam j, hc.wreath.ord_lam]
@@ -108,9 +114,10 @@ private theorem lam_zpow_eq (j : ℤ) : lam ^ j = 1 ∨ lam ^ j = lam := by
   · left; rw [h]; simp
   · right; rw [h]; simp
 
+omit hs in
 private theorem rho_zpow_mul_lam_zpow_mem (i j : ℤ) :
     rho ^ i * lam ^ j ∈ ({1, rho, rho⁻¹, lam, rho * lam, rho⁻¹ * lam} : Set G) := by
-  rcases rho_zpow_eq hc hs i with h | h | h <;> rcases lam_zpow_eq hc hs j with h' | h' <;>
+  rcases rho_zpow_eq hc i with h | h | h <;> rcases lam_zpow_eq hc j with h' | h' <;>
     rw [h, h'] <;> simp [Set.mem_insert_iff, Set.mem_singleton_iff]
 
 theorem decomp_M {m : G} (hm : m ∈ ctxM t tau x₁ x₂) :
@@ -122,8 +129,8 @@ theorem decomp_M {m : G} (hm : m ∈ ctxM t tau x₁ x₂) :
     intro x hx
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
     rcases hx with rfl | rfl
-    · exact M_le_LO hc hs hc.rho_mem_M
-    · exact M_le_LO hc hs hc.lam_mem_M
+    · exact M_le_LO hc.rho_mem_M
+    · exact M_le_LO hc.lam_mem_M
   have hmO : m ∈ ctxO t tau x₁ x₂ ⊔ closure ({rho, lam} : Set G) := by
     rw [← hc.M_eq]; exact hm
   have hmul : m ∈ ((ctxO t tau x₁ x₂ : Subgroup G) : Set G) *
@@ -139,7 +146,7 @@ theorem decomp_M {m : G} (hm : m ∈ ctxM t tau x₁ x₂) :
   have hkmul : k ∈ ((zpowers rho : Subgroup G) : Set G) *
       ((zpowers lam : Subgroup G) : Set G) := by
     rw [← Subgroup.coe_mul_of_right_le_normalizer_left _ _
-      (lam_normalizes_zpowers_rho hc hs)]
+      (lam_normalizes_zpowers_rho hc)]
     exact hk'
   rw [Set.mem_mul] at hkmul
   obtain ⟨a, ha, b, hb, hab⟩ := hkmul
@@ -147,6 +154,6 @@ theorem decomp_M {m : G} (hm : m ∈ ctxM t tau x₁ x₂) :
   obtain ⟨j, hj⟩ := Subgroup.mem_zpowers_iff.mp hb
   refine ⟨o, ho, k, ?_, hok.symm⟩
   rw [← hab, ← hi, ← hj]
-  exact rho_zpow_mul_lam_zpow_mem hc hs i j
+  exact rho_zpow_mul_lam_zpow_mem hc i j
 
 end CFSG.OddStandard.SmallF3.HarrisU33.L34Z

@@ -41,7 +41,7 @@ noncomputable def ggKGEp_w0 (τ : Tag) : WeylGroup τ :=
 theorem ggKGEp_w0_smul_E6
     (i : Fin Tag.E6.rank) :
     ggKGEp_w0 .E6 • (Pi.single i 1 : Fin Tag.E6.rank → ℤ) = -Pi.single (ggKGEp_phi i) 1 := by
-  fin_cases i <;> (rw [ggKGEp_w0, wordProd_smul] <;> decide +kernel)
+  fin_cases i <;> (rw [ggKGEp_w0, wordProd_smul]; decide +kernel)
 
 theorem ggKGEp_w0_reversesSigns_E6 :
     ReversesSigns (ggKGEp_w0 .E6) := by
@@ -116,7 +116,7 @@ theorem ggKGEp_phi_fixed_of_mem_torus
   rw [ggKGEp_eq_w0_of_longest hlong, ggKGEp_weylTuple_w0_phi] at hwt
   obtain ⟨k, hk⟩ := hpq
   have hpos : 0 < Nat.card K := by
-    haveI : Nonempty K := ⟨0⟩
+    have : Nonempty K := ⟨0⟩
     exact Nat.card_pos
   have hq : Nat.card K = p * k - 1 := by omega
   have hpk : 1 ≤ p * k := by omega
@@ -182,7 +182,7 @@ noncomputable def ggKGEp_pi
     apply ggKGEl_conj_injective F
     dsimp only
     rw [ggKGEp_pick_spec, Subgroup.coe_one, ggKGEl_conj_one]
-    simp only [Pi.zero_apply, zpow_zero, Pi.one_apply]
+    simp only [Pi.zero_apply, zpow_zero]
     exact rootDiagUnit_one
   map_add' y y' := by
     change Additive.ofMul (ggKGEp_pick hp hp5 F hFr hΦ ζ hζ hlong hpq (y + y')) =
@@ -223,7 +223,7 @@ theorem ggKGEp_pi_surjective
     (hlong : ExcIsLongest Tag.E6 F.w) (hpq : p ∣ Nat.card K + 1) :
     Function.Surjective (ggKGEp_pi hp hp5 F hFr hΦ ζ hζ hlong hpq) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   intro e
   let Ψ : ↥E →* ModGL Tag.E6 (AlgebraicClosure K) :=
     { toFun := fun x => F.D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K))

@@ -35,10 +35,10 @@ theorem exists_isom_hypPair (hAlt : B.IsAlt) (b₀ : Module.Basis (Fin 2) K L) {
   have hba : B b a = -1 := by rw [← hAlt.neg_eq, hab]
   have hμr0 : ∀ v, b₀.repr (μ v) 0 = B v b := fun v => by
     rw [hμ]
-    simp [Finsupp.single_apply]
+    simp
   have hμr1 : ∀ v, b₀.repr (μ v) 1 = -B v a := fun v => by
     rw [hμ]
-    simp [Finsupp.single_apply]
+    simp
   have hBΨb : ∀ x, B (Ψ x) b = b₀.repr x 0 := fun x => by
     rw [hΨ]
     simp [hab, hbb]

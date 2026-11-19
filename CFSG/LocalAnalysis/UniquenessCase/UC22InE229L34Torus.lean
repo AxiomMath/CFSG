@@ -20,9 +20,9 @@ theorem uc22pwTorusSU3_holds :
   obtain ⟨-, hU3⟩ := hSU
   obtain ⟨-, K, hKf, hKfin, hK, ⟨e₁⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel hU3 (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two (n := 2 * n) (by rw [hK, ← pow_mul, mul_comm])
+  have : CharP K 2 := uc22pwlie_charP_two (n := 2 * n) (by rw [hK, ← pow_mul, mul_comm])
   have hn1 : 1 ≤ n := by omega
-  haveI : Finite (SU (unitaryInvolution K 2 n) 3) := inferInstance
+  have : Finite (SU (unitaryInvolution K 2 n) 3) := inferInstance
   let ρ : SU (unitaryInvolution K 2 n) 3 →* X ⧸ center X :=
     e₁.symm.toMonoidHom.comp ((QuotientGroup.mk' _).comp (equivStatedSU hK 3).toMonoidHom)
   have hρ : Function.Surjective ρ :=
@@ -47,7 +47,7 @@ theorem uc22pwTorusSU3_holds :
     (QuotientGroup.mk'_surjective _) (by rw [QuotientGroup.ker_mk']) ρ hρ hρc
   have hHc : Nat.card (uc22pwsu3H (unitaryInvolution K 2 n)) = (2 ^ n) ^ 2 - 1 :=
     card_levelTorus_three hK
-  haveI : IsCyclic (uc22pwsu3H (unitaryInvolution K 2 n)) := uc22pwsu3H_cyclic
+  have : IsCyclic (uc22pwsu3H (unitaryInvolution K 2 n)) := uc22pwsu3H_cyclic
   set H := uc22pwsu3H (unitaryInvolution K 2 n) with hH
   refine ⟨H.map α, isCyclic_of_surjective (α.subgroupMap H) (α.subgroupMap_surjective H), ?_, ?_⟩
   · refine Odd.of_dvd_nat ?_ (Subgroup.card_map_dvd H α)

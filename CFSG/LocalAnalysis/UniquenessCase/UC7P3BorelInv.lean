@@ -49,7 +49,7 @@ theorem centralizer_le_map_of_isPGroup {X : Type} [Group X] [Finite X] {p : ℕ}
     exact ⟨a, ⟨ha, mem_centralizer_singleton_iff.mpr (mul_inv_eq_iff_eq_mul.mp hfix).symm⟩, rfl⟩
   have hncA : ¬ IsCyclic ↥(A ⊓ centralizer ({t} : Set X)) := by
     intro hcyc
-    haveI : IsCyclic ↥((A ⊓ centralizer ({t} : Set X)).map (QuotientGroup.mk' N)) :=
+    have : IsCyclic ↥((A ⊓ centralizer ({t} : Set X)).map (QuotientGroup.mk' N)) :=
       isCyclic_of_surjective ((QuotientGroup.mk' N).subgroupMap _)
         ((QuotientGroup.mk' N).subgroupMap_surjective _)
     exact hnc (Subgroup.isCyclic_of_le hle)
@@ -64,7 +64,7 @@ theorem centralizer_le_of_not_isCyclic (k : Sec7Core4 G) {A : Subgroup G} (hAM :
     (hA : IsPGroup k.p A) {t : G} (ht : orderOf t = 2)
     (hnc : ¬ IsCyclic ↥(A ⊓ centralizer ({t} : Set G))) :
     centralizer ({t} : Set G) ≤ k.M := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   obtain ⟨E, hER, hEel, hEcard⟩ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p22u_exists_elemAbelian_sq k.prime k.odd
       (hA.to_le inf_le_left) hnc
@@ -90,7 +90,7 @@ theorem centralizer_le_of_isPGroup_of_not_isCyclic (k : Sec7Core4 G) {H : Subgro
       centralizer ({y} : Set (↥H ⧸ CFSG.pPrimeCore k.p ↥H)))) :
     centralizer ({y} : Set (↥H ⧸ CFSG.pPrimeCore k.p ↥H)) ≤
       ((H ⊓ k.M).subgroupOf H).map (QuotientGroup.mk' (CFSG.pPrimeCore k.p ↥H)) := by
-  haveI : Fact k.p.Prime := ⟨k.prime⟩
+  have : Fact k.p.Prime := ⟨k.prime⟩
   refine centralizer_le_map_of_isPGroup (CFSG.pPrimeCore k.p ↥H)
     (k.odd_card_pPrimeCore_of_not_le hH.not_le hH.two_le_pRank)
     ((k.prime.coprime_iff_not_dvd).mp (CFSG.pPrimeCore_coprime_card (p := k.p) (G := ↥H)))

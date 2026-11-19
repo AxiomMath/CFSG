@@ -64,7 +64,7 @@ theorem bV_sig_of_mem
   · rw [bV_comm, bV_sig_sW]
   · rw [map_add, LinearMap.add_apply, bV_comm, bV_sig_wFr, bV_comm, bV_sig_sW, add_zero]
 
-@[expose] def U4 :
+def U4 :
     Submodule (ZMod 2) (Wv v0) := Uplane ⊔ (ZMod 2) ∙ sig
 
 theorem sig_mem_U4 :
@@ -121,7 +121,7 @@ theorem natCard_U4 :
   rw [natCard_submodule, finrank_U4]
   rfl
 
-@[expose] def E4 :
+def E4 :
     Subgroup Dfull := EU U4
 
 theorem E3_le_E4 :
@@ -175,7 +175,7 @@ theorem natCard_E4 :
     Nat.card E4 = 16 := by
   rw [E4, natCard_EU, natCard_U4]
 
-@[expose] def cE3 : Set Dfull := {d | ∃ e ∈ E3, cQ * e = d}
+def cE3 : Set Dfull := {d | ∃ e ∈ E3, cQ * e = d}
 
 theorem mem_cE3_iff
     (d : Dfull) : d ∈ cE3 ↔ ∃ h : d ∈ Ehat, psiW ⟨d, h⟩ + sig ∈ Uplane := by
@@ -207,7 +207,7 @@ theorem mem_cE3_of_mem_E4
   · exact absurd ((mem_E3_iff d).2 ⟨h, h1⟩) hd'
   · exact (mem_cE3_iff d).2 ⟨h, h1⟩
 
-@[expose] def rest3 : Rest := ⟨3, by decide, by decide⟩
+def rest3 : Rest := ⟨3, by decide, by decide⟩
 
 theorem pairVec_02_add_23 : pairVec 0 2 0 + pairVec 2 3 0 = pairVec 0 3 0 := by
   decide +kernel
@@ -221,7 +221,7 @@ theorem pW_rest3 :
   rw [pairCls, pairCls, pairCls, ← Griess.classOf_add_of_mem (pairVec_mem (by decide) 0).1
     (pairVec_mem (by decide) 0).1, pairVec_02_add_23]
 
-@[expose] def Good
+def Good
     (k : Kstab v0) : Prop := wAct v0 k sig + sig ∈ Uplane
 
 theorem good_pW

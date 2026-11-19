@@ -17,8 +17,8 @@ theorem exists_permutes_lift (f : H →* Q) (hf : Function.Surjective f) {S : Su
     (hperm : (Ebar : Set Q) * (S.map f : Set Q) = (S.map f : Set Q) * Ebar) :
     ∃ E : Subgroup H, IsPGroup p E ∧ E.map f = Ebar ∧ Nonempty (↥E ≃* ↥Ebar) ∧
       (E : Set H) * S = S * E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite Q := Finite.of_surjective f hf
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite Q := Finite.of_surjective f hf
   have hS' : IsPGroup 2 (S.map f) := hS.map f
   have hker2 : IsPGroup 2 f.ker := hS.to_le hker
   set R : Subgroup H := Ebar.comap f with hR
@@ -29,7 +29,7 @@ theorem exists_permutes_lift (f : H →* Q) (hf : Function.Surjective f) {S : Su
     exact ⟨⟨h, hq⟩, Subtype.ext rfl⟩
   obtain ⟨Q₀⟩ : Nonempty (Sylow p R) := inferInstance
   let E : Subgroup H := (Q₀ : Subgroup R).map R.subtype
-  have hEp : IsPGroup p E := Q₀.isPGroup'.map R.subtype
+  have hEp : IsPGroup p E := Q₀.isPGroup.map R.subtype
   have htop : IsPGroup p (⊤ : Subgroup Ebar) :=
     hE.of_equiv (Subgroup.topEquiv (G := Ebar)).symm
   have hQmap : (Q₀ : Subgroup R).map g = ⊤ := by

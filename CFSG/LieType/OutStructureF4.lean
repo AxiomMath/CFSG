@@ -26,9 +26,9 @@ theorem exists_fieldPart_adjointGroup_F4
   by_cases hchar2 : p₀ = 2
   ·
     have hK2 : Nat.card K = 2 ^ f := by rw [← hchar2]; exact hK
-    haveI hchar : CharP K 2 :=
+    have hchar : CharP K 2 :=
       finite_field_prime_power_characteristic Nat.prime_two hf hK2
-    haveI : CharP K ReeTag.F4.prime := hchar
+    have : CharP K ReeTag.F4.prime := hchar
     let φ : MulAut (adjointGroup Tag.F4 K) := ReeTag.F4.finiteExceptionalAut K
     obtain ⟨hord, hNF, ⟨Θ, hΘform, -, hΘker⟩, -, -, -, -⟩ :=
       even_F4_exact_automorphism_normal_form hf K hK2
@@ -82,7 +82,7 @@ theorem exists_fieldPart_adjointGroup_F4
         (Or.inl rfl)
     have hΘker' : Θ.ker = CFSG.ComponentClassification.OuterAutomorphisms.inner
         (adjointGroup Tag.F4 K) := hΘker
-    haveI : IsCyclic (K ≃+* K) := (card_ringAut_and_isCyclic hp₀ K hK).2
+    have : IsCyclic (K ≃+* K) := (card_ringAut_and_isCyclic hp₀ K hK).2
     let E : (K ≃+* K) →* MulAut (adjointGroup Tag.F4 K) :=
       { toFun := fun σ => exactNormalAut Tag.F4 K 1 σ 0
         map_one' := exactNormalAut_one_one_zero
@@ -136,11 +136,11 @@ theorem i713ClauseFor_lie_F4
     (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.F4 q).Valid) :
     I713ClauseFor (TauCeti.CFSGIndex.lie ⟨.F4 q, hv⟩) := by
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.F4 q, hv⟩).Group :=
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.F4 q, hv⟩).Group :=
     Finite.of_equiv K eK.toEquiv
   have hm : ChevalleyExceptionalModel (TauCeti.CFSGIndex.lie ⟨.F4 q, hv⟩).Group .F4
       q.p q.exponent := by
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     have hcard : Nat.card (GaloisField q.p q.exponent) = q.p ^ q.exponent :=
       GaloisField.card q.p q.exponent q.exponent_pos.ne'
     have hqcard : Nat.card (GaloisField q.p q.exponent) = q.card :=
@@ -155,9 +155,9 @@ theorem i713ClauseFor_lie_F4
       exact ⟨GaloisField q.p q.exponent, inferInstance, inferInstance, hcard, ⟨e.symm⟩⟩
   obtain ⟨L, hLfield, hLfin, hLcard, ⟨eL⟩⟩ :=
     nonempty_mulEquiv_adjointGroup .F4 hm.2
-  letI := hLfield
-  letI := hLfin
-  haveI : Finite (adjointGroup Tag.F4 L) := Subtype.finite
+  let := hLfield
+  let := hLfin
+  have : Finite (adjointGroup Tag.F4 L) := Subtype.finite
   exact Or.inr (Or.inl (exists_fieldPart_of_mulEquiv (eK.trans eL)
     (exists_fieldPart_adjointGroup_F4 q.prime_p q.exponent_pos L hLcard hp)))
 

@@ -145,8 +145,8 @@ private theorem finrank_eq_add_finrank_inf_ker_sq_add [FiniteDimensional K V]
   exact h
 
 private theorem finrank_ker_sub_one_le_of_mul_cube [FiniteDimensional K V] (h2 : (2 : K) ≠ 0)
-    {s t x : Module.End K V} (hs : s * s = 1) (ht : t * t = 1) (hst : s * t = t * s)
-    (hx3 : x * x * x = 1) (hxs : x * s = t * x) (hxt : x * t = s * t * x) :
+    {s t x : Module.End K V} (hs : s * s = 1) (_ht : t * t = 1) (_hst : s * t = t * s)
+    (_hx3 : x * x * x = 1) (hxs : x * s = t * x) (hxt : x * t = s * t * x) :
     finrank K (LinearMap.ker (x - 1)) ≤ finrank K (LinearMap.ker (s - 1)) := by
   have hxs' : ∀ v : V, x (s v) = t (x v) := fun v => by
     have h := congrArg (fun f : Module.End K V => f v) hxs
@@ -197,7 +197,7 @@ private theorem finrank_ker_sub_one_le_of_mul_cube [FiniteDimensional K V] (h2 :
   omega
 
 private theorem injective_add_mul_sq (h2 : (2 : K) ≠ 0) {s t x : Module.End K V}
-    (hs : s * s = 1) (hxs : x * s = t * x) (hxt : x * t = s * t * x) :
+    (_hs : s * s = 1) (hxs : x * s = t * x) (hxt : x * t = s * t * x) :
     ∀ v : V, v ∈ LinearMap.ker (s - 1) ⊓ LinearMap.ker (t + 1) →
       (1 + x + x * x) v = 0 → v = 0 := by
   have hxs' : ∀ v : V, x (s v) = t (x v) := fun v => by
@@ -242,8 +242,8 @@ private theorem injective_add_mul_sq (h2 : (2 : K) ≠ 0) {s t x : Module.End K 
   exact (smul_eq_zero.mp hπ.symm).resolve_left h4
 
 private theorem finrank_inf_ker_add_one_le_of_mul_cube [FiniteDimensional K V]
-    (h2 : (2 : K) ≠ 0) {s t x : Module.End K V} (hs : s * s = 1) (ht : t * t = 1)
-    (hst : s * t = t * s) (hx3 : x * x * x = 1) (hxs : x * s = t * x)
+    (h2 : (2 : K) ≠ 0) {s t x : Module.End K V} (hs : s * s = 1) (_ht : t * t = 1)
+    (_hst : s * t = t * s) (hx3 : x * x * x = 1) (hxs : x * s = t * x)
     (hxt : x * t = s * t * x) :
     finrank K ↥(LinearMap.ker (s - 1) ⊓ LinearMap.ker (t + 1)) ≤
       finrank K (LinearMap.ker (x - 1)) := by
@@ -598,7 +598,7 @@ private theorem t1u1_ne_one : t1 * u1 ≠ 1 := by decide
 private theorem cycleType_eq_two_two {t : Equiv.Perm (Fin 6)} (ht : t ∈ alternatingGroup (Fin 6))
     (hsq : t * t = 1) (hne : t ≠ 1) : t.cycleType = {2, 2} := by
   have h2 : t ^ 2 = 1 := by rwa [pow_two]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcyc : t.cycleType = Multiset.replicate t.cycleType.card 2 :=
     Equiv.Perm.cycleType_of_pow_prime_eq_one h2
   have hpos : 0 < t.cycleType.card := by

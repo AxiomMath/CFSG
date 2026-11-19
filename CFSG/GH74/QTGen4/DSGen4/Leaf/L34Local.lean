@@ -16,8 +16,8 @@ open scoped commutatorElement
 theorem leafL34Local [DSLeaf LeafDSAA6] [DSLeaf LeafDSACaseIFrattini] [DSLeaf LeafDSACaseIStep4]
     [DSLeaf LeafDSACaseIOffender] [DSLeaf LeafSylowS] : LeafL34Local := by
   intro Mdl hMdl G _ _ L1 L2 S h c1 c2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite Mdl.Y := by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite Mdl.Y := by
     obtain ⟨_, F, hFF, hFfin, _, _, hiso⟩ := CFSG.Quasithin.H13.F431.L3.exists_equiv_projSL3 Mdl.lie
     obtain ⟨e⟩ := hiso
     exact Finite.of_equiv _ e.symm.toEquiv
@@ -61,7 +61,7 @@ theorem leafL34Local [DSLeaf LeafDSAA6] [DSLeaf LeafDSACaseIFrattini] [DSLeaf Le
   have hnt1 : ∃ l ∈ L1, ∃ e ∈ pCoreOf 2 L1, ⁅l, e⁆ ∉ (⊥ : Subgroup G) := by
     rw [hZ1] at c1
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply c1
     rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
     intro e he
@@ -73,7 +73,7 @@ theorem leafL34Local [DSLeaf LeafDSAA6] [DSLeaf LeafDSACaseIFrattini] [DSLeaf Le
   have hnt2 : ∃ l ∈ L2, ∃ e ∈ pCoreOf 2 L2, ⁅l, e⁆ ∉ (⊥ : Subgroup G) := by
     rw [hZ2] at c2
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply c2
     rw [Subgroup.commutator_eq_bot_iff_le_centralizer]
     intro e he

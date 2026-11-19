@@ -84,7 +84,7 @@ public theorem CFSG.section13_commutator_le_left_of_le_normalizer
   have hKnorm : (K.subgroupOf S).Normal := by
     simpa [S] using
       Subgroup.normal_subgroupOf_sup_of_le_normalizer (H := P) (N := K) hPnormK
-  haveI : (K.subgroupOf S).Normal := hKnorm
+  have : (K.subgroupOf S).Normal := hKnorm
   intro x hx
   have hxmap : x ∈ (⁅K.subgroupOf S, P.subgroupOf S⁆).map S.subtype := by
     rw [commutator_subgroupOf_map_eq S P K le_sup_left le_sup_right]
@@ -193,7 +193,7 @@ public theorem CFSG.section13_commutator_centralizerIn_eq_bot_of_coprime
     (hKcomm : IsMulCommutative K) :
     subgroupCentralizerIn ⁅K, P⁆ P = ⊥ := by
   classical
-  haveI : Subgroup.Normalizes P K := ⟨hPnormK⟩
+  have : Subgroup.Normalizes P K := ⟨hPnormK⟩
   let Cfix : Subgroup K := fixedPointSubgroup (↥P) (↥K)
   let Ccomm : Subgroup K := commutatorAction (A := ↥P) (G := ↥K)
   have hfixed_eq :
@@ -203,8 +203,8 @@ public theorem CFSG.section13_commutator_centralizerIn_eq_bot_of_coprime
   have hcomm_map : Ccomm.map K.subtype = ⁅K, P⁆ := by
     simpa [Ccomm] using
       commutatorAction_subgroup_conj_map_eq_commutator K P hPnormK
-  have hsolvK : IsSolvable K := by
-    exact isSolvable_of_comm fun x y => (hKcomm.is_comm).comm x y
+  have hsolvK : Group.IsSolvable K := by
+    exact _root_.Group.isSolvable_of_comm fun x y => (hKcomm.is_comm).comm x y
   have hcompl : IsCompl Cfix Ccomm := by
     simpa [Cfix, Ccomm] using
       (isCompl_fixedPointSubgroup_commutatorAction_of_solvable_coprime_of_isMulCommutative
@@ -252,7 +252,7 @@ public theorem CFSG.section13_pSubgroup_le_normal_hall_of_prime_mem
     (hAp : IsPGroup p.val A) :
     A ≤ H := by
   classical
-  letI : Fact p.val.Prime := ⟨p.property⟩
+  let : Fact p.val.Prime := ⟨p.property⟩
   rw [← QuotientGroup.ker_mk' H]
   rw [← Subgroup.map_eq_bot_iff (f := QuotientGroup.mk' H) (H := A)]
   by_contra hmap_ne_bot
@@ -436,7 +436,7 @@ public theorem CFSG.section13_global_sylow_of_inf_sylow_normalizer_le
     ∃ Sg : Sylow q.val G,
       (Sg : Subgroup G) = section10AmbientSylowSubgroup (M ⊓ Mstar) S := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   have hnormInf :
       Subgroup.normalizer
           (section8SubgroupInAmbient (S : Subgroup (M ⊓ Mstar : Subgroup G)) : Set G) ≤
@@ -532,7 +532,7 @@ private theorem CFSG.section13_ambient_sylow_isPiSubgroup_sigma_compl_of_not_sig
   have hSp : IsPGroup p.val (section10AmbientSylowSubgroup Mstar S) := by
     change IsPGroup p.val ((S : Subgroup Mstar).map Mstar.subtype)
     exact IsPGroup.map (p := p.val) (H := (S : Subgroup Mstar))
-      S.isPGroup' Mstar.subtype
+      S.isPGroup Mstar.subtype
   exact section13_isPiSubgroup_compl_of_isPGroup_not_mem hpσ hSp
 
 omit [Finite G] [IsMinCE G] in
@@ -604,7 +604,7 @@ public theorem CFSG.section13_isPiSubgroup_sup_of_le_normalizer
         (Subgroup.subgroupOfEquivOfLe (H := K) (K := S)
           (by simp [S])).toEquiv
     exact hKπ q (by simpa [hcard] using hq)
-  haveI : Ks.Normal := by
+  have : Ks.Normal := by
     simpa [S, Ks] using
       (Subgroup.normal_subgroupOf_sup_of_le_normalizer
         (H := H) (N := K) hHnormK)
@@ -719,20 +719,20 @@ private theorem CFSG.section13_primeRank_pos_of_mem_subgroupPrimeSet
     (hpR : p.val ∣ Nat.card R) :
     1 ≤ primeRank p.val R := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   let P : Sylow p.val R := Classical.choice (Sylow.nonempty (p := p.val) (G := R))
   have hP_ne_bot : (P : Subgroup R) ≠ ⊥ :=
     Sylow.ne_bot_of_dvd_card (G := R) P hpR
-  haveI : Nontrivial (P : Subgroup R) :=
+  have : Nontrivial (P : Subgroup R) :=
     (Subgroup.nontrivial_iff_ne_bot (H := (P : Subgroup R))).2 hP_ne_bot
   let ZP : Subgroup (P : Subgroup R) := Subgroup.center (P : Subgroup R)
   have hZP_nontrivial : Nontrivial ZP :=
-    IsPGroup.center_nontrivial (p := p.val) (G := (P : Subgroup R)) P.isPGroup'
+    IsPGroup.center_nontrivial (p := p.val) (G := (P : Subgroup R)) P.isPGroup
   have hZP_ne_bot : ZP ≠ ⊥ :=
     (Subgroup.nontrivial_iff_ne_bot (H := ZP)).1 hZP_nontrivial
   let Z : Subgroup R := ZP.map (P : Subgroup R).subtype
   have hZp : IsPGroup p.val Z := by
-    have hZPp : IsPGroup p.val ZP := P.isPGroup'.to_subgroup ZP
+    have hZPp : IsPGroup p.val ZP := P.isPGroup.to_subgroup ZP
     exact IsPGroup.map hZPp (P : Subgroup R).subtype
   have hZcomm : IsMulCommutative Z := by
     simpa [Z, ZP] using
@@ -744,7 +744,7 @@ private theorem CFSG.section13_primeRank_pos_of_mem_subgroupPrimeSet
       apply Subgroup.map_injective (P : Subgroup R).subtype_injective
       simpa [Z] using hZbot
     exact hZP_ne_bot hZP_bot
-  haveI : Nontrivial Z :=
+  have : Nontrivial Z :=
     (Subgroup.nontrivial_iff_ne_bot (H := Z)).2 hZ_ne_bot
   exact (section13_one_le_generatorRank_of_nontrivial (R := Z)).trans
     (section13_generatorRank_le_primeRank_of_subgroup (R := R) (q := p.val) hZp hZcomm)
@@ -756,7 +756,7 @@ private theorem CFSG.section13_sylow_inf_normal_ne_bot_of_prime_dvd_normal
     (hpD : p ∈ subgroupPrimeSet D) :
     (S : Subgroup R) ⊓ D ≠ ⊥ := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let QD : Sylow p.val D := Classical.choice (Sylow.nonempty (p := p.val) (G := D))
   have hQD_ne_bot : (QD : Subgroup D) ≠ ⊥ :=
     Sylow.ne_bot_of_dvd_card (G := D) QD hpD
@@ -767,7 +767,7 @@ private theorem CFSG.section13_sylow_inf_normal_ne_bot_of_prime_dvd_normal
       (Subgroup.map_eq_bot_iff_of_injective (H := (QD : Subgroup D)) (f := D.subtype)
         D.subtype_injective).1 (by simpa [Qmap] using hQmap_bot)
     exact hQD_ne_bot hQD_bot
-  have hQmap_p : IsPGroup p.val Qmap := IsPGroup.map QD.isPGroup' D.subtype
+  have hQmap_p : IsPGroup p.val Qmap := IsPGroup.map QD.isPGroup D.subtype
   obtain ⟨T, hQT⟩ := IsPGroup.exists_le_sylow (G := R) (p := p.val) hQmap_p
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq R T S
   rcases Subgroup.ne_bot_iff_exists_ne_one.mp hQmap_ne_bot with ⟨q, hq_ne⟩
@@ -805,7 +805,7 @@ private theorem CFSG.section13_sylow_le_derived_of_sigma_or_tau3
     (S : Sylow p.val M) :
     (S : Subgroup M) ≤ derivedSubgroup M := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rcases hp with hpσ | hpτ3
   · exact section10_sigma_sylow_le_derivedSubgroup (G := G) hM hpσ S
   · rcases (by simpa [section12Tau3Primes] using hpτ3) with
@@ -972,7 +972,7 @@ private theorem CFSG.lemma_13_1_b_core
   have hpq : p ≠ q :=
     section13_ne_of_sigma_and_tau2
       (G := G) hM hE hpE hqσ hpτ2
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   let Dg : Subgroup G := ambientDerivedSubgroup Mstar
   let YS : Sylow q.val Dg := Classical.choice (Sylow.nonempty (p := q.val) (G := Dg))
   let Y : Subgroup G := section10AmbientSylowSubgroup Dg YS
@@ -988,7 +988,7 @@ private theorem CFSG.lemma_13_1_b_core
   have hYq : IsPGroup q.val Y := by
     change IsPGroup q.val ((YS : Subgroup Dg).map Dg.subtype)
     exact IsPGroup.map (p := q.val) (H := (YS : Subgroup Dg))
-      YS.isPGroup' Dg.subtype
+      YS.isPGroup Dg.subtype
   have hYσ : IsPiSubgroup (G := G) (section10SigmaPrimes M) Y := by
     intro r hrY
     have hr_singleton : r ∈ ({q} : Set Nat.Primes) :=
@@ -1051,7 +1051,7 @@ private theorem CFSG.lemma_13_1_a_malpha_sylow_normalized
       p ∈ section10SigmaPrimes Mstar ∨ p ∈ section12Tau3Primes Mstar :=
     section13_sigma_or_tau3_of_not_tau12
       (G := G) hMstar hpMstar hpτ1star hpτ2star
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hSleD : (S : Subgroup Mstar) ≤ derivedSubgroup Mstar :=
     section13_sylow_le_derived_of_sigma_or_tau3 (G := G) hMstar hp_location S
   let D : Subgroup Mstar := derivedSubgroup Mstar
@@ -1107,7 +1107,7 @@ private theorem CFSG.lemma_13_1_a_malpha_sylow_normalized
         (G := G) (M := Mstar) hMstar X
     simpa [Dg, hXsub_eq] using h
   let L : Subgroup Mstar := section10MalphaSubgroup Mstar ⊔ (S : Subgroup Mstar)
-  haveI : L.Normal := by simpa [L] using hlocal_normal
+  have : L.Normal := by simpa [L] using hlocal_normal
   have hnorm :
       Mstar ≤ Subgroup.normalizer (L.map Mstar.subtype : Set G) :=
     section13_map_subtype_le_normalizer_of_normal Mstar L
@@ -1259,7 +1259,7 @@ private theorem CFSG.section13_prime_mem_ambientDerived_of_sigma_or_tau3
     (hp : p ∈ section10SigmaPrimes M ∨ p ∈ section12Tau3Primes M) :
     p ∈ subgroupPrimeSet (ambientDerivedSubgroup M) := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   let S : Sylow p.val M := Classical.choice (Sylow.nonempty (p := p.val) (G := M))
   have hS_ne : (S : Subgroup M) ≠ ⊥ :=
     Sylow.ne_bot_of_dvd_card (G := M) S hpM
@@ -1281,7 +1281,7 @@ private theorem CFSG.section13_prime_mem_ambientDerived_of_sigma_or_tau3
   have hSGp : IsPGroup p.val SG := by
     change IsPGroup p.val ((S : Subgroup M).map M.subtype)
     exact IsPGroup.map (p := p.val) (H := (S : Subgroup M))
-      S.isPGroup' M.subtype
+      S.isPGroup M.subtype
   exact section8_prime_mem_subgroupPrimeSet_of_nontrivial_pSubgroup
     (A := ambientDerivedSubgroup M) (B := SG.subgroupOf (ambientDerivedSubgroup M))
     (hBp := hSGp.of_equiv
@@ -1309,8 +1309,8 @@ private theorem CFSG.section13_prime_mem_derived_normalizer_of_not_betaG
         (subgroupNormalizerIn Mstar
           (section10AmbientSylowSubgroup (ambientDerivedSubgroup Mstar) Y : Set G))) := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   let Dg : Subgroup G := ambientDerivedSubgroup Mstar
   have hpDg : p ∈ subgroupPrimeSet Dg :=
     by simpa [Dg] using
@@ -1360,7 +1360,7 @@ private theorem CFSG.section13_prime_mem_derived_normalizer_of_not_betaG
   have hPGp : IsPGroup p.val PG := by
     change IsPGroup p.val ((P : Subgroup Dg).map Dg.subtype)
     exact IsPGroup.map (p := p.val) (H := (P : Subgroup Dg))
-      P.isPGroup' Dg.subtype
+      P.isPGroup Dg.subtype
   simpa [DU, Dg] using
     section8_prime_mem_subgroupPrimeSet_of_nontrivial_pSubgroup
       (A := DU) (B := PG.subgroupOf DU)
@@ -1395,7 +1395,7 @@ public theorem CFSG.lemma_13_1_c
   rcases section13_exists_sigma_prime_in_derived_of_commutator_ne_bot
       (G := G) hM hcomm with
     ⟨q, hqσ, hqD⟩
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   let Dg : Subgroup G := ambientDerivedSubgroup Mstar
   let YS : Sylow q.val Dg := Classical.choice (Sylow.nonempty (p := q.val) (G := Dg))
   let Y : Subgroup G := section10AmbientSylowSubgroup Dg YS
@@ -1414,7 +1414,7 @@ public theorem CFSG.lemma_13_1_c
   have hYq : IsPGroup q.val Y := by
     change IsPGroup q.val ((YS : Subgroup Dg).map Dg.subtype)
     exact IsPGroup.map (p := q.val) (H := (YS : Subgroup Dg))
-      YS.isPGroup' Dg.subtype
+      YS.isPGroup Dg.subtype
   have hYσ : IsPiSubgroup (G := G) (section10SigmaPrimes M) Y := by
     intro r hrY
     have hr_singleton : r ∈ ({q} : Set Nat.Primes) :=

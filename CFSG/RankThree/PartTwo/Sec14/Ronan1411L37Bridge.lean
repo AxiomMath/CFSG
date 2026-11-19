@@ -15,6 +15,7 @@ open CFSG.Assembly.RankThreeEven (projImage)
 
 variable {M : Type} [Group M] [Finite M] {Ybar Abar Xbar Rbar : Subgroup M} {abar : M}
 
+omit [Finite M] in
 theorem maximal_elemAbelian (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) :
     Maximal (fun B : Subgroup M => CFSG.Assembly.IsElemAbelian 3 B) Abar := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
@@ -41,6 +42,7 @@ theorem maximal_elemAbelian (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) :
     exact ha
   · exact mul_mem (hset.mem_A_of_three y hy hyC (orderOf_eq_prime hy3 hy1)) ha
 
+omit [Finite M] in
 theorem inf_centralizer_X (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) :
     Abar ⊓ Subgroup.centralizer (Xbar : Set M) = Subgroup.zpowers abar := by
   refine le_antisymm (fun e he => ?_) ?_
@@ -53,6 +55,7 @@ theorem inf_centralizer_X (hset : HJCoreSetting Ybar Abar Xbar Rbar abar) :
     refine Subgroup.mem_inf.mpr ⟨hset.mem_A, Subgroup.mem_centralizer_iff.mpr fun x hx => ?_⟩
     exact Subgroup.mem_centralizer_singleton_iff.mp (hset.le_centralizer_a (hset.le_Y hx))
 
+omit [Finite M] in
 theorem exists_model (hX : ∃ _ : Fact (Nat.Prime 7),
       Nonempty (↥Xbar ≃* CFSG.Assembly.RankThreeEven.projSL 3 (GaloisField 7 1))) :
     ∃ _ : Fact (Nat.Prime 7), IsoLThreePi ↥Xbar 7 1 ∧ IsSimpleGroup ↥Xbar ∧
@@ -60,7 +63,7 @@ theorem exists_model (hX : ∃ _ : Fact (Nat.Prime 7),
   obtain ⟨h7, ⟨φ⟩⟩ := hX
   refine ⟨h7, Or.inl ⟨by norm_num, ⟨φ⟩⟩, ?_, ⟨φ.trans (MulEquiv.subgroupCongr
     (projSL_eq_projImage (7 ^ 1) (GaloisField 7 1)))⟩⟩
-  haveI := Sec19.Step1914TriProof.isSimpleGroup_projSL_three_of_field (GaloisField 7 1)
+  have := Sec19.Step1914TriProof.isSimpleGroup_projSL_three_of_field (GaloisField 7 1)
   exact φ.isSimpleGroup
 
 end CFSG.RankThree.PartTwo.Sec14.Ronan1411L37

@@ -271,7 +271,7 @@ open CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 
 theorem gap129HessL3Deg_holds : Gap129HessL3Deg := by
   intro P _ _ Yh Bh xh bh ch hD p _ hp3 ⟨e⟩
-  haveI : Yh.Normal := hD.normal
+  have : Yh.Normal := hD.normal
   let e' : ↥Yh ≃* projectiveSL 3 (ZMod p) :=
     e.trans ((Hering129KH2b.projSLFieldEquiv
       (Hering129KH2b.galoisFieldZeroAlgEquiv p).toRingEquiv).trans

@@ -18,6 +18,7 @@ private theorem orderOf_two_zmod_nine : orderOf (2 : ZMod (3 ^ 2)) = 6 := by
   refine ⟨by decide, fun m hm hm0 => ?_⟩
   interval_cases m <;> decide
 
+omit [Finite F] in
 private theorem mem_fixSub_zpowers_of_apply_eq {g : LGL 2 F} {w : F} (h : g w = w) :
     w ∈ fixSub (Subgroup.zpowers g) := by
   intro a ha
@@ -29,6 +30,7 @@ private theorem mem_fixSub_zpowers_of_apply_eq {g : LGL 2 F} {w : F} (h : g w = 
   have := hle ha
   rwa [MulAction.mem_stabilizer_iff, LinearEquiv.smul_def] at this
 
+omit [Finite F] in
 private theorem map_mem_range_sub_id_of_conj {g y z : LGL 2 F}
     (hconj : ∀ v : F, g (y v) = z (g v))
     (hz : ∀ u : F, z u - u ∈ LinearMap.range ((y : F →ₗ[ZMod 2] F) - LinearMap.id))
@@ -42,6 +44,7 @@ private theorem map_mem_range_sub_id_of_conj {g y z : LGL 2 F}
   rw [h1]
   exact hz (g v)
 
+omit [Finite F] in
 private theorem avg_decomposition (x y : LGL 2 F) (hxy : x * y = y * x) (hy3 : y ^ 3 = 1) :
     (1 : Module.End (ZMod 2) F) =
       (1 + (y : Module.End (ZMod 2) F) + (y : Module.End (ZMod 2) F) ^ 2) +
@@ -82,6 +85,7 @@ private theorem avg_decomposition (x y : LGL 2 F) (hxy : x * y = y * x) (hy3 : y
   noncomm_ring
   simp only [h2, h5, add_zero]
 
+omit [Finite F] in
 private theorem avg_pointwise (x y : LGL 2 F) (hxy : x * y = y * x) (hy3 : y ^ 3 = 1)
     (w : F) :
     w = (w + y w + (y ^ 2) w) + (w + x w + (x ^ 2) w) +
@@ -90,9 +94,10 @@ private theorem avg_pointwise (x y : LGL 2 F) (hxy : x * y = y * x) (hy3 : y ^ 3
         (1 + (y : Module.End (ZMod 2) F) + (y : Module.End (ZMod 2) F) ^ 2) :
           Module.End (ZMod 2) F) w) := by
   have h := congrArg (fun f : Module.End (ZMod 2) F => f w) (avg_decomposition x y hxy hy3)
-  simp only [LinearMap.add_apply, LinearMap.id_apply, LinearEquiv.mul_apply] at h
+  simp only [LinearMap.add_apply] at h
   exact h
 
+omit [Finite F] in
 private theorem add_add_sq_eq_zero_of_fix_free {b : LGL 2 F} {M : Submodule (ZMod 2) F}
     (hb3 : b ^ 3 = 1) (hbM : ∀ w ∈ M, b w ∈ M)
     (hfix : ∀ w ∈ M, b w = w → w = 0) {w : F} (hw : w ∈ M) :
@@ -158,6 +163,7 @@ private theorem fixed_eq_bot_or_top {y s b : LGL 2 F} (hs : s ^ 3 = y) (hy3 : y 
         Module.finrank (ZMod 2) (commSub (Subgroup.zpowers y)) := by omega
     exact Submodule.eq_of_le_of_finrank_eq inf_le_left heq
 
+omit [Finite F] in
 private theorem fixfree_of_fixed_eq_bot {y b : LGL 2 F}
     (h : commSub (Subgroup.zpowers y) ⊓ fixSub (Subgroup.zpowers b) = ⊥) :
     ∀ w ∈ commSub (Subgroup.zpowers y), b w = w → w = 0 := by
@@ -167,12 +173,14 @@ private theorem fixfree_of_fixed_eq_bot {y b : LGL 2 F}
   rw [h] at this
   simpa using this
 
+omit [Finite F] in
 private theorem mul_pointwise {A B : LGL 2 F} {M : Submodule (ZMod 2) F}
     (hA : ∀ w ∈ M, A w = w) (hB : ∀ w ∈ M, B w = w) :
     ∀ w ∈ M, (A * B) w = w := by
   intro w hw
   rw [LinearEquiv.mul_apply, hB w hw, hA w hw]
 
+omit [Finite F] in
 private theorem inv_pointwise {A : LGL 2 F} {M : Submodule (ZMod 2) F}
     (hA : ∀ w ∈ M, A w = w) : ∀ w ∈ M, A⁻¹ w = w := by
   intro w hw

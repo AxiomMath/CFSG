@@ -52,7 +52,7 @@ theorem card_le_two_mul_inf_heart (V : AddSubgroup (permBar 8)) :
     intro a b hab
     simp only [f] at hab
     by_cases ha : (a : permBar 8) ∈ U <;> by_cases hb : (b : permBar 8) ∈ U <;>
-      simp only [ha, hb, dif_pos, dif_neg, not_false_eq_true, Prod.mk.injEq, Subtype.mk.injEq,
+      simp only [ha, hb, dite_eq_left, dite_eq_right, not_false_eq_true, Prod.mk.injEq, Subtype.mk.injEq,
         reduceCtorEq, and_false, and_true] at hab
     · exact Subtype.ext hab
     · exact Subtype.ext (add_right_cancel hab)
@@ -276,13 +276,13 @@ theorem barAct_swap_sub {n : ℕ} {a b : Fin n} (hab : a ≠ b) (v : permBar n) 
     simp only [Pi.sub_apply, vecPerm_apply, swap_inv]
     by_cases hka : k = a
     · subst hka
-      rw [swap_apply_left, if_pos (Or.inl rfl)]
+      rw [swap_apply_left, ite_eq_left (Or.inl rfl)]
     by_cases hkb : k = b
     · subst hkb
-      rw [swap_apply_right, if_pos (Or.inr rfl)]
+      rw [swap_apply_right, ite_eq_left (Or.inr rfl)]
       have : ∀ s t : ZMod 2, s - t = t - s := by decide
       exact this _ _
-    · rw [swap_apply_of_ne_of_ne hka hkb, sub_self, if_neg (by tauto)]
+    · rw [swap_apply_of_ne_of_ne hka hkb, sub_self, ite_eq_right (by tauto)]
   rcases zmod_two_cases' (z b - z a) with h | h
   · left
     have : vecPerm (swap a b) z - z = 0 := funext fun k => by
@@ -394,7 +394,7 @@ theorem centralizer_le_M_of_len_two (hR : Nat.card ↥(Rc X) ≤ 2)
         rw [e]
         exact Q.mul_mem (Q.inv_mem h') h
   set CQt : Subgroup G := Q ⊓ Subgroup.centralizer ({t'} : Set G) with hCQt
-  have hcons := H4b.twoConstrained_P C hR hx hx1
+  have hcons := H4b.twoConstrained_P C hx hx1
   have hCQtP : CQt ≤ P := by
     intro q hq
     obtain ⟨hqQ, hqc⟩ := Subgroup.mem_inf.1 hq
@@ -469,7 +469,7 @@ theorem centralizer_le_M_of_len_two (hR : Nat.card ↥(Rc X) ≤ 2)
         intro r₁ r₂ h
         simp only [f] at h
         by_cases h1 : ((r₁ : ↥Q) : G) ∈ Rc X <;> by_cases h2 : ((r₂ : ↥Q) : G) ∈ Rc X <;>
-          simp only [h1, h2, dif_pos, dif_neg, not_false_eq_true, Prod.mk.injEq,
+          simp only [h1, h2, dite_eq_left, dite_eq_right, not_false_eq_true, Prod.mk.injEq,
             Subtype.mk.injEq, reduceCtorEq, and_false, and_true] at h
         · exact Subtype.ext (Subtype.ext h)
         · exact Subtype.ext (Subtype.ext (mul_right_cancel h))

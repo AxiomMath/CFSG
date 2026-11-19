@@ -23,9 +23,9 @@ private theorem exists_embedding {Q : Type} [Group Q] [Finite Q] {K I₀ : Subgr
     ∃ ι : GM →* Q, Function.Injective ι ∧ ι.range = K ∧
       ∀ x, y * ι x * y⁻¹ = ι (xG 0 * x * (xG 0)⁻¹) := by
   obtain ⟨hKn, hq, -, -, hy3, hyC, -, -, -⟩ := hM
-  haveI := hKn
-  haveI : Group.IsPerfect ↥K := ⟨hq.1⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hKn
+  have : Group.IsPerfect ↥K := ⟨hq.1⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have eK : Subgroup.center ↥K ≃* Multiplicative (ZMod 3) := mulEquivOfPrimeCardEq h3
     (by rw [Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card])
   obtain ⟨i, hi, ⟨e⟩⟩ := hcat

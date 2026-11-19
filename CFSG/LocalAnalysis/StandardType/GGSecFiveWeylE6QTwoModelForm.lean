@@ -16,7 +16,7 @@ open Module CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
 
 theorem e6ModelForm_add_left (x x' y : Fin Tag.E6.rank → ZMod 3) :
     e6ModelForm (x + x') y = e6ModelForm x y + e6ModelForm x' y := by
-  simp [e6ModelForm, E6Dep.bil6, Matrix.mulVec_add, dotProduct_add]
+  simp [e6ModelForm, E6Dep.bil6, Matrix.mulVec_add]
 
 theorem e6ModelForm_add_right (x y y' : Fin Tag.E6.rank → ZMod 3) :
     e6ModelForm x (y + y') = e6ModelForm x y + e6ModelForm x y' := by

@@ -272,7 +272,7 @@ theorem isSimpleGroup_minusA5Perm : IsSimpleGroup minusA5Perm :=
 
 theorem nonempty_minusA5Perm_mulEquiv :
     Nonempty (minusA5Perm ≃* alternatingGroup (Fin 5)) := by
-  haveI : IsSimpleGroup minusA5Perm := isSimpleGroup_minusA5Perm
+  have : IsSimpleGroup minusA5Perm := isSimpleGroup_minusA5Perm
   exact CFSG.QuasithinUnique.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty
     (G := minusA5Perm) card_minusA5Perm
 

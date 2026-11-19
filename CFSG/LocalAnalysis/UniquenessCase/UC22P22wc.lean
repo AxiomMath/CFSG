@@ -20,11 +20,11 @@ theorem uc22p22wc_compShape_of_diag (D : Data G) {K : Subgroup G} (hK : K ∈ ca
   have hq : CFSG.Open.IsQuasisimple ↥Lb := hcomp.2.2
   have hne : Lb ≠ ⊥ := by
     intro h0
-    haveI : Nontrivial ↥Lb := CFSG.ComponentClassification.Quasisimple.nontrivial hq
+    have : Nontrivial ↥Lb := CFSG.ComponentClassification.Quasisimple.nontrivial hq
     exact (Subgroup.nontrivial_iff_ne_bot _).1 inferInstance h0
   obtain ⟨ψ, hψs, hψk, hψc⟩ := uc22p22wa_onto D hK hne
   have hKq : CFSG.Open.IsQuasisimple (Bar2 K) := hK.2.2
-  haveI : IsSimpleGroup (Bar2 K) := uc22p22r_lieModel_isSimple_classical (Or.inr (Or.inr (Or.inl rfl))) hsp
+  have : IsSimpleGroup (Bar2 K) := uc22p22r_lieModel_isSimple_classical (Or.inr (Or.inr (Or.inl rfl))) hsp
   have hψi : Function.Injective ψ := by
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff, ← P22w.center_eq_bot_of_isSimpleGroup hKq]
     exact hψk

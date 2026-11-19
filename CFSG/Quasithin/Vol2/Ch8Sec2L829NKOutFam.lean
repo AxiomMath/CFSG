@@ -22,7 +22,7 @@ theorem nk_l3_out (n : ℕ) (hn : 2 ≤ n) (X : Type) [Group X] (hX : IsPSL 3 2 
   let φ : X ≃* projectiveSL 3 K :=
     (e.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3 K).symm).trans
       (CFSG.LocalAnalysis.ComponentInitial.LinearCover.projectiveSpecialLinearEquivProjectiveSL 3 K)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hi : ¬ 2 ∣ S.index := by
     have := hS.2.2
     rwa [show (S.subgroupOf ⊤).index = S.index from Subgroup.relIndex_top_right S] at this
@@ -38,8 +38,8 @@ theorem nk_l3_out (n : ℕ) (hn : 2 ≤ n) (X : Type) [Group X] (hX : IsPSL 3 2 
 theorem nk_u3_out (n : ℕ) (hn : 2 ≤ n) (X : Type) [Group X] (hX : IsPSU 3 2 n X) :
     ∀ S : Subgroup X, IsSylowTwoOf S ⊤ → UOut X (Subgroup.normalizer (S : Set X)) := by
   intro S hS y _ hfix
-  haveI : Finite X := CFSG.LieType.Simplicity.finite_of_statedClassicalModel hX
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite X := CFSG.LieType.Simplicity.finite_of_statedClassicalModel hX
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hi : ¬ 2 ∣ S.index := by
     have := hS.2.2
     rwa [show (S.subgroupOf ⊤).index = S.index from Subgroup.relIndex_top_right S] at this

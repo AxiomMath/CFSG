@@ -37,7 +37,7 @@ theorem exists_cyclic_of_normalizer (hp2 : p ≠ 2) (P : Sylow p X)
       ∀ c ∈ Subgroup.normalizer ((P : Subgroup X) : Set X), x⁻¹ * (c⁻¹ * x * c) ∈ D := by
   classical
   set N := Subgroup.normalizer ((P : Subgroup X) : Set X) with hNdef
-  have hPp : IsPGroup p (P : Subgroup X) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup X) := P.isPGroup
   set P' : Subgroup N := (P : Subgroup X).subgroupOf N with hP'def
   have hP'n : P'.Normal := Subgroup.normal_in_normalizer
   have hP'card : Nat.card P' = Nat.card (P : Subgroup X) :=
@@ -133,7 +133,7 @@ theorem huppertMetacyclicTheorem : JT.HuppertMetacyclicTheorem := by
     hxD (hfocal ⟨hxP, by rw [CFSG.derivedSubgroup, derivedSeries_one]; exact h⟩)
   set m := (P : Subgroup X).index with hmdef
   have hm : ¬ p ∣ m := P.not_dvd_index
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
   refine ⟨(powMonoidHom m : Abelianization X →* Abelianization X).ker.comap Abelianization.of,
     Subgroup.Normal.comap inferInstance _, ?_, ?_⟩
   · intro htop

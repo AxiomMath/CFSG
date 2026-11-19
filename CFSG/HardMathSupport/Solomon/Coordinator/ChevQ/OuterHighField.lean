@@ -212,7 +212,7 @@ theorem seitzHyperGamma_eq_top_of_fieldAutData (hZ : Subgroup.center S = ⊥) {p
     (hp : p.Prime) (hF : FieldAutData S p) (hP : FixPlaneGen S p) {E : Subgroup (MulAut S)}
     (hE : IsElemAbelian p E) (hEc : Nat.card E = p ^ 3)
     (hout : ¬ E ≤ (MulAut.conj : S →* MulAut S).range) : seitzHyperGamma p E = ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hinj := SeitzHyperGoodInAux.conj_injective_of_center_bot hZ
   let ε : S ≃* (MulAut.conj : S →* MulAut S).range := MonoidHom.ofInjective hinj
   refine SeitzHyperGoodInAux.seitzHyperGamma_eq_top_of_hyperGen_inn hZ p ?_

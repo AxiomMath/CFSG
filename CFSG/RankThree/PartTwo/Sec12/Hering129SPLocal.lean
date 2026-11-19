@@ -26,7 +26,7 @@ variable {W : Type} [Group W] [Finite W]
 
 theorem center_eq_bot_of_simple_nonabelian {Q : Type} [Group Q] (hQs : IsSimpleGroup Q)
     (hQn : ∃ a b : Q, a * b ≠ b * a) : Subgroup.center Q = ⊥ := by
-  haveI := hQs
+  have := hQs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center Q) with h | h
   · exact h
   · exfalso
@@ -50,6 +50,7 @@ theorem card_eq_ker_mul {P Q : Type} [Group P] [Group Q] (ψ : P →* Q)
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup ψ.ker,
     Nat.card_congr (QuotientGroup.quotientKerEquivOfSurjective ψ hψ).toEquiv, mul_comm]
 
+omit [Finite W] in
 theorem false_of_threeA {C : Subgroup W} (hCq : CFSG.IsQuasisimple ↥C)
     (hCZ : Nat.card (Subgroup.center ↥C) = 3) {P : Subgroup W} (hP : P ≤ C)
     (hsub : (P.subgroupOf C).IsSubnormal) (hPp : Group.IsPerfect P) {Q : Type} [Group Q]
@@ -104,8 +105,8 @@ theorem false_of_threeA {C : Subgroup W} (hCq : CFSG.IsQuasisimple ↥C)
         have := Subgroup.mem_center_iff.mp ha ⟨b, hP b.2⟩
         exact congrArg Subtype.val this
       exact Subtype.ext h1.symm
-    haveI := hPp
-    haveI : IsMulCommutative P := ⟨⟨hPab⟩⟩
+    have := hPp
+    have : IsMulCommutative P := ⟨⟨hPab⟩⟩
     obtain ⟨a, b, hab⟩ := hQn
     obtain ⟨x, rfl⟩ := hψ a
     obtain ⟨y, rfl⟩ := hψ b
@@ -125,7 +126,7 @@ theorem spor_threeB {w : W} (hw : orderOf w = 3)
   have hg2 : Nat.gcd 2 (s - 1) ≤ 2 := Nat.le_of_dvd (by norm_num) (Nat.gcd_dvd_left _ _)
   have hs10 : s ≤ 10 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h1 : 11 * (11 ^ 2 - 1) ≤ s * (s ^ 2 - 1) :=
       Nat.mul_le_mul h (Nat.sub_le_sub_right (Nat.pow_le_pow_left h 2) 1)
     have h2 : s * (s ^ 2 - 1) ≤ 504 * 2 := by

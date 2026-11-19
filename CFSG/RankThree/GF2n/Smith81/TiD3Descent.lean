@@ -16,6 +16,7 @@ variable {k₀ : Type*} [Field k₀] {G : Type*} [Monoid G] {W : Type*} [AddComm
   [Module k₀ W] {ρ : Representation k₀ G W} [Fact ρ.IsIrreducible] [Finite W]
 
 set_option synthInstance.maxHeartbeats 400000 in
+omit [Fact ρ.IsIrreducible] [Finite W] in
 theorem algebraMap_smul_endRing (c : k₀) (w : W) :
     (algebraMap k₀ (EndRing ρ) c) • w = c • w := rfl
 
@@ -133,11 +134,11 @@ theorem exists_hyp_map {K F : Type} [Field K] [Fintype K] [CharP K 2] [Field F] 
       ∀ (g : SL(2, F)) (e : E), θ (ρ g e) = act (FiniteField.frobeniusAlgHom K F : F →+* F)
         ((D2.slMap σ g : SL(2, F)) : Mat2 F) (θ e) := by
   classical
-  haveI : CharP F 2 := charP_of_injective_algebraMap (algebraMap K F).injective 2
+  have : CharP F 2 := charP_of_injective_algebraMap (algebraMap K F).injective 2
   have hk0 : 0 < k := by omega
   have hn : 1 ≤ 3 * k := by omega
   have hF : Fintype.card F = 2 ^ (3 * k) := by rw [hcardF, hk, ← pow_mul, mul_comm]
-  haveI : Finite E := Module.finite_of_finite K
+  have : Finite E := Module.finite_of_finite K
   obtain ⟨f, J₀, hf1, hDk, hfn, hJ₀ne, hJ₀n, hshift₀, hdim₀⟩ :=
     kDescent (ρ := ρ) hk hn hF (algebraMap K F) hnt
   have hf3 : f ∣ 3 := Nat.dvd_of_mul_dvd_mul_left hk0 (by rw [mul_comm 3 k] at hfn; exact hfn)
@@ -148,7 +149,7 @@ theorem exists_hyp_map {K F : Type} [Field K] [Fintype K] [CharP K 2] [Field F] 
       rw [hdim, h3] at hdim₀
       omega
   subst hf
-  haveI : Finite (EndRing ρ) := finite_endRing ρ
+  have : Finite (EndRing ρ) := finite_endRing ρ
   have hDK : Nat.card (EndRing ρ) = Fintype.card K := by rw [hDk, mul_one, hk]
   have hbij : Function.Bijective (algebraMap K (EndRing ρ)) :=
     (algebraMap K (EndRing ρ)).injective.bijective_of_nat_card_le
@@ -160,7 +161,7 @@ theorem exists_hyp_map {K F : Type} [Field K] [Fintype K] [CharP K 2] [Field F] 
   have hιD : ∀ c : K, ιD (algebraMap K (EndRing ρ) c) = algebraMap K F c := fun c => by
     show algebraMap K F (γ (algebraMap K (EndRing ρ) c)) = _
     rw [hγ]
-  haveI : Module.Finite (EndRing ρ) E := Module.Finite.of_finite
+  have : Module.Finite (EndRing ρ) E := Module.Finite.of_finite
   let b := Module.finBasis (EndRing ρ) E
   have hm : Module.finrank (EndRing ρ) E = 8 := by
     have h1 := natCard_eq_pow_finrank (ρ := ρ)
@@ -180,7 +181,7 @@ theorem exists_hyp_map {K F : Type} [Field K] [Fintype K] [CharP K 2] [Field F] 
   obtain ⟨a, hak, hJa⟩ := eq_triple_of_shift hk0 hJn hshift hJcard
   obtain ⟨Ψ⟩ := exists_equiv_triple (F := F) (E := F) hk0 hJa
   let Φ' := Φ.trans Ψ
-  haveI : ExpChar F 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar F 2 := ExpChar.prime Nat.prime_two
   let σ : F ≃+* F := iterateFrobeniusEquiv F 2 a
   have hσ : ∀ x, σ x = x ^ 2 ^ a := fun x => iterateFrobeniusEquiv_def F 2 a x
   let τ : F →+* F := (FiniteField.frobeniusAlgHom K F : F →+* F)

@@ -89,7 +89,7 @@ theorem exists_prime_gt_three_dvd {n : ℕ} (h2 : 2 ≤ n) (h3 : n ≠ 3) :
       omega
     have hpowe := Nat.eq_prime_pow_of_unique_prime_dvd hpos hall
     set k := (2 ^ n + 1).primeFactorsList.length with hk
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hlte := padicValNat.pow_add_pow (p := 3) (x := 2) (y := 1) (by decide) (by decide)
       (by decide) ho
     have hv3 : padicValNat 3 (2 ^ n + 1) = k := by
@@ -132,7 +132,7 @@ theorem prime_ne_two_three_of_dvd {r s : ℕ} (hr : r.Prime) (hs : Odd s) (h : r
   omega
 
 theorem not_dvd_two_pow_sub_one_self {r : ℕ} (hr : r.Prime) : ¬ r ∣ 2 ^ r - 1 := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   intro h
   have h1 : ((2 ^ r - 1 : ℕ) : ZMod r) = 0 := (ZMod.natCast_eq_zero_iff _ _).2 h
   rw [Nat.cast_sub Nat.one_le_two_pow, Nat.cast_pow, Nat.cast_ofNat, Nat.cast_one,
@@ -141,7 +141,7 @@ theorem not_dvd_two_pow_sub_one_self {r : ℕ} (hr : r.Prime) : ¬ r ∣ 2 ^ r -
     have : (2 : ZMod r) - 1 = 0 := h1
     have h3 : (2 : ZMod r) = 1 + 1 := by norm_num
     rw [h3] at this
-    simpa using this
+    simp at this
   exact one_ne_zero h2
 
 theorem two_pow_add_one_dvd {r m : ℕ} (hr : Odd r) : 2 ^ m + 1 ∣ 2 ^ (r * m) + 1 := by

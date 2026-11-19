@@ -76,7 +76,6 @@ private theorem forceLT_go (k : List ℕ → Bool) : ∀ (l acc : List ℕ),
   | [], acc => by simp
   | x :: l, acc => by
     refine (CFSG.KS.PF.strictB_eqP x _).trans ?_
-    beta_reduce
     rw [forceLT_go k l (x :: acc)]
     simp
 
@@ -219,9 +218,9 @@ private theorem fld_mapFT {f : ℕ → ℕ} (hf : ∀ p < 2 ^ 11, f p < 2 ^ 11) 
 private theorem pg_mapFT {f : ℕ → ℕ} (hf : ∀ p < 2 ^ 11, f p < 2 ^ 11) (c : ℕ) {j : ℕ}
     (hj : j < 6) : pg 11 (mask 11) (mapFT 11 (mask 11) 6 f c) j = f (pg 11 (mask 11) c j) := by
   have h := CFSG.KS.PF.pg_of_fld (fld_mapFT hf c) (i := j) (by
-    rw [if_pos hj]
+    rw [ite_eq_left hj]
     exact hf _ (CFSG.KS.PF.pg_lt 11 c j))
-  rw [h, if_pos hj]
+  rw [h, ite_eq_left hj]
 
 private theorem mapFT_congr {f g : ℕ → ℕ} (hf : ∀ p < 2 ^ 11, f p < 2 ^ 11)
     (hg : ∀ p < 2 ^ 11, g p < 2 ^ 11) {c c' : ℕ}
@@ -230,9 +229,9 @@ private theorem mapFT_congr {f g : ℕ → ℕ} (hf : ∀ p < 2 ^ 11, f p < 2 ^ 
   CFSG.KS.PF.eq_of_fld (by norm_num) (fld_mapFT hf c)
     (CFSG.KS.PF.fld_congr (fld_mapFT hg c') fun j => by
       by_cases hj : j < 6
-      · rw [if_pos hj, if_pos hj]
+      · rw [ite_eq_left hj, ite_eq_left hj]
         exact (h j hj).symm
-      · rw [if_neg hj, if_neg hj])
+      · rw [ite_eq_right hj, ite_eq_right hj])
 
 private theorem baseTits_fix :
     mapFT 11 (mask 11) 6 (fun q => q) (baseTits 11) = baseTits 11 := by
@@ -303,7 +302,7 @@ private theorem treeV_zero (st : ℕ → ℕ → ℕ) (b : ℕ) (P : List ℕ) :
 
 private theorem treeV_succ (st : ℕ → ℕ → ℕ) (b : ℕ) (P : List ℕ) {v : ℕ}
     (h : getK P v 0 < v + 1) : treeV st b P (v + 1) = st (v + 1) (treeV st b P (getK P v 0)) := by
-  rw [treeV, dif_pos h]
+  rw [treeV, dite_eq_left h]
 
 end Base
 
@@ -399,10 +398,8 @@ theorem covT_sound (cs : List Char) (D : CT) (hp : parseT cs = some D) (P FL : L
     simp only [allBs_cons, allBs_nil, Bool.and_true, Bool.and_eq_true] at hA
     obtain ⟨-, hxwlen, hnv0, hlx, hpar, htree, hlenFL, hFL0, hforce⟩ := hA
     rw [forceLT_eq] at hforce
-    beta_reduce at hforce
     rw [forceLT_eq] at hforce
-    beta_reduce at hforce
-    simp only [allBs_cons, allBs_nil, Bool.and_true, Bool.and_eq_true] at hforce
+    simp only [Bool.and_eq_true] at hforce
     obtain ⟨hpermAll, hgood, hdist, hblk⟩ := hforce
     obtain ⟨hxw2, hwords, hletters, hpd⟩ := parseT_sound hp
     simp only [allBs_cons, allBs_nil, Bool.and_true, Bool.and_eq_true] at hB
@@ -444,7 +441,7 @@ theorem covT_sound (cs : List Char) (D : CT) (hp : parseT cs = some D) (P FL : L
           have hm := (CFSG.KC.LQT.Cov.Perm.allLtK_iff _ _).1
             ((CFSG.KC.LQT.Cov.Perm.allLtK_iff _ _).1 hmain (getK P (c - 1) 0) (by omega)) _ hi
           rw [CFSG.KS.PF.strictB_eqP] at hm
-          simp only [allBs_cons, allBs_nil, Bool.and_true, Bool.and_eq_true, Nat.add_eq,
+          simp only [Bool.and_eq_true, Nat.add_eq,
             Nat.mul_eq] at hm
           obtain ⟨-, -, he, -⟩ := hm
           rw [parTG_spec htree c hc0 (by omega), ih _ hpc (by omega)] at he
@@ -521,7 +518,7 @@ theorem covT_sound (cs : List Char) (D : CT) (hp : parseT cs = some D) (P FL : L
       · intro v hv i hi
         have hm := (CFSG.KC.LQT.Cov.Perm.allLtK_iff _ _).1 (hmain v hv) i hi
         rw [CFSG.KS.PF.strictB_eqP] at hm
-        simp only [allBs_cons, allBs_nil, Bool.and_true, Bool.and_eq_true] at hm
+        simp only [Bool.and_eq_true] at hm
         obtain ⟨ht, hb, he, hback⟩ := hm
         simp only [getRG_rowsG, Nat.add_eq, Nat.mul_eq] at ht hb hback
         rw [getRG_rowsG D.tgt] at he
@@ -607,7 +604,7 @@ theorem covT_sound (cs : List Char) (D : CT) (hp : parseT cs = some D) (P FL : L
       · simpa [CFSG.KC.LQT.Cov.Parse.lenK_length] using Nat.ble_eq.mp h32
       · intro j hj
         have hm := hall j (by simpa [CFSG.KC.LQT.Cov.Parse.lenK_length] using hj)
-        simp only [allBs_cons, allBs_nil, Bool.and_true, Bool.and_eq_true] at hm
+        simp only [Bool.and_eq_true] at hm
         obtain ⟨ha, hb, he⟩ := hm
         obtain ⟨hia, ha'⟩ := list_idx ha
         obtain ⟨hib, hb'⟩ := list_idx hb

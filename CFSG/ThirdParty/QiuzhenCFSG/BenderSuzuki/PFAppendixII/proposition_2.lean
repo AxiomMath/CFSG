@@ -105,8 +105,8 @@ public theorem rightInvariantAddSubgroup_card_lower_bound
             apply mul_left_cancel₀ hx0
             exact congrArg (fun z : U => (z : F)) hab
   have hcard := Nat.card_le_card_of_injective f hf
-  letI : Fintype A := Fintype.ofFinite A
-  letI : Fintype U := Fintype.ofFinite U
+  let : Fintype A := Fintype.ofFinite A
+  let : Fintype U := Fintype.ofFinite U
   simpa [Nat.card_eq_fintype_card] using hcard
 
 /-- Cardinality of an internal direct sum of finite additive subgroups. -/
@@ -181,7 +181,7 @@ public theorem rightNearField_addOrderOf_one_not_dvd_indexTwoSubgroup_card
   obtain ⟨n, hcardpow⟩ :=
     rightNearField_natCard_eq_addOrderOf_one_pow (F := F)
   have hFgt : 1 < Nat.card F := by
-    letI : Fintype F := Fintype.ofFinite F
+    let : Fintype F := Fintype.ofFinite F
     simpa [Nat.card_eq_fintype_card] using Fintype.one_lt_card (α := F)
   have hn : n ≠ 0 := by
     intro hn
@@ -215,9 +215,9 @@ private theorem proposition_2_appendixI_field_coordinates
           (Set.range (algebraMap (ZMod p) K) ∪
             Set.range (fun a : A => e (((a : A) : Fˣ) : F))) = ⊤ := by
   let p := addOrderOf (1 : F)
-  letI : Fact (Nat.Prime p) := ⟨rightNearField_addOrderOf_one_prime⟩
-  letI : Module (ZMod p) F := rightNearFieldZModModule F
-  letI : MulDistribMulAction A (Multiplicative F) := {
+  let : Fact (Nat.Prime p) := ⟨rightNearField_addOrderOf_one_prime⟩
+  let : Module (ZMod p) F := rightNearFieldZModModule F
+  let : MulDistribMulAction A (Multiplicative F) := {
     smul a x := Multiplicative.ofAdd (Multiplicative.toAdd x * ((a : A) : Fˣ))
     one_smul x := by
       change Multiplicative.toAdd x * (1 : F) = Multiplicative.toAdd x
@@ -239,14 +239,14 @@ private theorem proposition_2_appendixI_field_coordinates
     smul_one a := by
       change (0 : F) * ((a : A) : Fˣ) = 0
       exact zero_mul _ }
-  letI : FaithfulSMul A (Multiplicative F) := {
+  let : FaithfulSMul A (Multiplicative F) := {
     eq_of_smul_eq_smul h := by
       have h1 := h (Multiplicative.ofAdd (1 : F))
       change (1 : F) * ((_ : A) : Fˣ) = 1 * ((_ : A) : Fˣ) at h1
       apply Subtype.ext
       apply Units.ext
       simpa using h1 }
-  letI : IsElementaryAbelian p (Multiplicative F) :=
+  let : IsElementaryAbelian p (Multiplicative F) :=
     { toIsMulCommutative := { is_comm := ⟨mul_comm⟩ }
       exponent_dvd_p := by
         refine Monoid.exponent_dvd_iff_forall_pow_eq_one.2 ?_
@@ -255,9 +255,9 @@ private theorem proposition_2_appendixI_field_coordinates
         exact rightNearField_addOrderOf_one_nsmul_eq_zero
           (F := F) (Multiplicative.toAdd x) }
   let T : Subgroup A := ⊤
-  letI : T.Normal := inferInstance
-  letI : IsCyclic A := hA_cyclic
-  letI : IsCyclic T := inferInstance
+  let : T.Normal := inferInstance
+  let : IsCyclic A := hA_cyclic
+  let : IsCyclic T := inferInstance
   let rhoT := PFAppendixI.AppendixIRepresentationOfT
     (p := p) (E := Multiplicative F) T
   have hIrr : Representation.IsIrreducible rhoT := by
@@ -273,7 +273,7 @@ private theorem proposition_2_appendixI_field_coordinates
       right
       rw [hring]
       exact ⟨Fact.out, (Fact.out : Nat.Prime p).coprime_iff_not_dvd.mpr hnot⟩
-    letI : Module (MonoidAlgebra (ZMod p) T) (Additive (Multiplicative F)) :=
+    let : Module (MonoidAlgebra (ZMod p) T) (Additive (Multiplicative F)) :=
       rhoT.instModuleMonoidAlgebraAsModule
     have hsemi : IsSemisimpleModule
         (MonoidAlgebra (ZMod p) T) (Additive (Multiplicative F)) :=
@@ -376,16 +376,16 @@ private theorem proposition_2_appendixI_field_coordinates
       simpa [hinf] using congrArg Submodule.toAddSubgroup hSV.inf_eq_bot
     · simpa [Submodule.sup_toAddSubgroup] using
         congrArg Submodule.toAddSubgroup hSV.sup_eq_top
-  letI : Representation.IsIrreducible rhoT := hIrr
+  let : Representation.IsIrreducible rhoT := hIrr
   obtain ⟨n, hcard⟩ := rightNearField_natCard_eq_addOrderOf_one_pow (F := F)
   let K := PFAppendixI.AppendixIFpT (p := p) (E := Multiplicative F) T
   have hKisField : IsField K := Finite.isField_of_domain K
   obtain ⟨fieldInst, hfield⟩ :=
     PFAppendixI.peterfalvi_appendixI_proposition_2_a
       (p := p) (n := n) (U := A) (E := Multiplicative F) T hcard
-  letI : Field K := fieldInst
+  let : Field K := fieldInst
   obtain ⟨moduleInst, hmodule⟩ := hfield
-  letI : Module K (Additive (Multiplicative F)) := moduleInst
+  let : Module K (Additive (Multiplicative F)) := moduleInst
   have hKcard := hmodule.1
   have hsmul := hmodule.2.2
   let v1 : Additive (Multiplicative F) :=
@@ -396,8 +396,8 @@ private theorem proposition_2_appendixI_field_coordinates
     exact one_ne_zero h
   let eval : K →ₗ[K] Additive (Multiplicative F) :=
     LinearMap.toSpanSingleton K (Additive (Multiplicative F)) v1
-  letI : Fintype K := Fintype.ofFinite K
-  letI : Fintype (Additive (Multiplicative F)) :=
+  let : Fintype K := Fintype.ofFinite K
+  let : Fintype (Additive (Multiplicative F)) :=
     Fintype.ofFinite (Additive (Multiplicative F))
   have hcards : Fintype.card K = Fintype.card (Additive (Multiplicative F)) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
@@ -546,7 +546,7 @@ private theorem proposition_2_semilinear_coordinates
         Set.range (fun a : A => e (((a : A) : Fˣ) : F))) = ⊤) :
     ∃ σHom : (Fˣ)ᵐᵒᵖ →* (K ≃+* K), ∀ (x : F) (y : Fˣ),
       e (x * (y : F)) = σHom (MulOpposite.op y) (e x) * e (y : F) := by
-  letI : Module (ZMod p) F :=
+  let : Module (ZMod p) F :=
     AddCommGroup.zmodModule (n := p) (by
       intro x
       apply e.injective
@@ -667,7 +667,7 @@ private theorem finiteField_orderTwo_aut_coordinates
     ∃ m : ℕ, 0 < m ∧ Nat.card K = p ^ (2 * m) ∧
       (∀ x : K, τ x = x ^ (p ^ m)) ∧
       Nat.card {u : Kˣ // τ (u : K) = (u : K)} = p ^ (m : ℕ) - 1 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hτ_sq : τ ^ 2 = 1 := by
     rw [← hτ_order]
     exact pow_orderOf_eq_one τ
@@ -711,7 +711,7 @@ private theorem finiteField_orderTwo_aut_coordinates
       apply RingEquiv.ext
       intro x
       exact DFunLike.congr_fun (congrArg AlgEquiv.toRingEquiv h) x
-  letI : Fintype L := Fintype.ofFinite L
+  let : Fintype L := Fintype.ofFinite L
   let fr : Gal(K / L) :=
     FiniteField.frobeniusAlgEquivOfAlgebraic L K
   have hfr_order : orderOf fr = 2 := by
@@ -737,7 +737,7 @@ private theorem finiteField_orderTwo_aut_coordinates
     rw [hτfr]
     change x ^ Fintype.card L = x ^ Nat.card L
     rw [Nat.card_eq_fintype_card]
-  letI : CharP L p := by
+  let : CharP L p := by
     rw [← Algebra.charP_iff (ZMod p) L p]
     exact ZMod.charP p
   obtain ⟨m, _, hLcard⟩ := FiniteField.card L p
@@ -931,7 +931,7 @@ private theorem proposition_2_semilinear_kernel_cases
       intro hea
       apply Units.ne_zero a⁻¹
       apply e.injective
-      simpa [map_zero] using hea
+      simp at hea
     exact mul_right_cancel₀ hea_ne (hsemi_a.symm.trans hscalar_a)
   have hrel := Subgroup.relIndex_mul_index hAop_ker
   have hp : (Aop.relIndex σHom.ker * σHom.ker.index).Prime := by
@@ -1062,15 +1062,15 @@ private theorem proposition_2_center_card
           one_mem' := map_one τ
           add_mem' := by
             intro x y hx hy
-            simp only [Set.mem_setOf_eq] at hx hy ⊢
+            simp only [Set.mem_ofPred_eq] at hx hy ⊢
             rw [map_add, hx, hy]
           mul_mem' := by
             intro x y hx hy
-            simp only [Set.mem_setOf_eq] at hx hy ⊢
+            simp only [Set.mem_ofPred_eq] at hx hy ⊢
             rw [map_mul, hx, hy]
           neg_mem' := by
             intro x hx
-            simp only [Set.mem_setOf_eq] at hx ⊢
+            simp only [Set.mem_ofPred_eq] at hx ⊢
             rw [map_neg, hx] }
         have hSle :
             Set.range (algebraMap (ZMod p) K) ∪
@@ -1135,7 +1135,7 @@ private theorem proposition_2_center_card
   have hq0 : q ≠ 0 := pow_ne_zero m (Fact.out : Nat.Prime p).ne_zero
   have hqodd : Odd q :=
     ((Fact.out : Nat.Prime p).odd_of_ne_two hp_ne_two).pow
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hKcardF : Fintype.card K = q ^ 2 := by
     rw [Fintype.card_eq_nat_card, hKcard]
     simp [q, ← pow_mul, Nat.mul_comm]
@@ -1152,7 +1152,7 @@ private theorem proposition_2_center_card
       _ = (q - 1) * (2 * ((q + 1) / 2)) := by
         rw [Nat.mul_div_cancel' hqplus]
       _ = 2 * ((q - 1) * ((q + 1) / 2)) := by ring
-  letI : CharP K p := charP_of_injective_algebraMap' (ZMod p) p
+  let : CharP K p := charP_of_injective_algebraMap' (ZMod p) p
   have hchar : ringChar K ≠ 2 := by
     rw [ringChar.eq K p]
     exact hp_ne_two
@@ -1230,11 +1230,11 @@ public theorem proposition_2
   obtain ⟨p, _, K, commRingK, finiteK, algebraK, e, hKisField, hp,
     _, he1, hscalar, hclosure⟩ :=
     proposition_2_appendixI_field_coordinates A hA_cyclic hA_index
-  letI : CommRing K := commRingK
-  letI : Finite K := finiteK
-  letI : Algebra (ZMod p) K := algebraK
-  letI : Fact (Nat.Prime p) := ⟨hp⟩
-  letI : Field K := hKisField.toField
+  let : CommRing K := commRingK
+  let : Finite K := finiteK
+  let : Algebra (ZMod p) K := algebraK
+  let : Fact (Nat.Prime p) := ⟨hp⟩
+  let : Field K := hKisField.toField
   obtain ⟨σHom, hsemi⟩ :=
     proposition_2_semilinear_coordinates A hA_index e he1 hscalar hclosure
   rcases proposition_2_semilinear_kernel_cases

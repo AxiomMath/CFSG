@@ -140,7 +140,8 @@ section Conj
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {C H : Subgroup G}
 
-theorem l119_barX_gLBConj {g : G} (hg : g ∈ C) (hH : H ≤ C) :
+omit [Finite G] in
+theorem l119_barX_gLBConj {g : G} (hg : g ∈ C) (_hH : H ≤ C) :
     barX p C (GLBConj g H) =
       GLBConj (QuotientGroup.mk' (GLAPPrimeCore p ↥C) ⟨g, hg⟩) (barX p C H) := by
   ext z
@@ -185,9 +186,11 @@ section Family
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {C K : Subgroup G}
 
+omit [Finite G] in
 theorem l119_isComponent_barX (hK : GLAPComponent p C K) :
     IsComponentOf (barX p C K) ⊤ := hK.2.2.1
 
+omit [Finite G] in
 theorem l119_conj_component (hK : GLAPComponent p C K) (z : ↥C) :
     IsComponentOf (GLBConj (QuotientGroup.mk' (GLAPPrimeCore p ↥C) z) (barX p C K)) ⊤ :=
   isComponentOf_gLBConj (l119_isComponent_barX hK) _
@@ -201,6 +204,7 @@ theorem l119_conj_comm (hK : GLAPComponent p C K) {z z' : ↥C}
     x * y = y * x :=
   comp_comm (l119_conj_component hK z) (l119_conj_component hK z') hne hx hy
 
+omit [Finite G] in
 theorem l119_conj_trans (z z' : ↥C) :
     GLBConj (QuotientGroup.mk' (GLAPPrimeCore p ↥C) (z⁻¹ * z')) (GLBConj (QuotientGroup.mk' (GLAPPrimeCore p ↥C) z) (barX p C K)) =
       GLBConj (QuotientGroup.mk' (GLAPPrimeCore p ↥C) z') (barX p C K) := by
@@ -277,6 +281,7 @@ section Pieces
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem l119_isComponentOf_sSup {𝓛 : Set (Subgroup G)} (h𝓛 : ∀ X ∈ 𝓛, IsComponentOf X ⊤)
     (hc : ∀ X ∈ 𝓛, ∀ X' ∈ 𝓛, X ≠ X' → ∀ x ∈ X, ∀ y ∈ X', x * y = y * x)
     {X : Subgroup G} (hX : X ∈ 𝓛) : IsComponentOf X (sSup 𝓛) := by
@@ -401,7 +406,7 @@ theorem l119_barOf_centre_iso {p : ℕ} (hp : p.Prime) {P : Type} [Group P] [Fin
     Nonempty ((↥R ⧸ GLAPPrimeCore p ↥R) ⧸ Subgroup.center (↥R ⧸ GLAPPrimeCore p ↥R) ≃*
       (P ⧸ GLAPPrimeCore p P) ⧸ Subgroup.center (P ⧸ GLAPPrimeCore p P)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let φ₀ : P →* ↥R := f.codRestrict R (fun x => by
     rw [← hR]; exact MonoidHom.mem_range.2 ⟨x, rfl⟩)
   have hφ₀ : Function.Surjective φ₀ := by
@@ -439,7 +444,7 @@ theorem l119_barOf_centre_iso {p : ℕ} (hp : p.Prime) {P : Type} [Group P] [Fin
         obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective b
         congr 1
         exact Subsingleton.elim _ _⟩
-    haveI := hR'.2.toNontrivial
+    have := hR'.2.toNontrivial
     exact not_subsingleton _ hsub'
   have hWne : phib.ker ≠ ⊤ := by
     intro hW
@@ -464,6 +469,7 @@ section Lift
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem l119_range_eq {p : ℕ} {C P : Subgroup G} (hPC : P ≤ C) :
     ((QuotientGroup.mk' (GLAPPrimeCore p ↥C)).comp (Subgroup.inclusion hPC)).range = barX p C P := by
   ext q
@@ -484,7 +490,7 @@ theorem l119_layer_piece {p : ℕ} (hp : p.Prime) {C : Subgroup G} {b : G} (hbC 
       Nonempty ((↥Q ⧸ GLAPPrimeCore p ↥Q) ⧸ Subgroup.center (↥Q ⧸ GLAPPrimeCore p ↥Q) ≃*
         (↥P ⧸ GLAPPrimeCore p ↥P) ⧸ Subgroup.center (↥P ⧸ GLAPPrimeCore p ↥P)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsub : IsSubnormal (L ⊓ Subgroup.centralizer
       ({QuotientGroup.mk' (GLAPPrimeCore p ↥C) ⟨b, hbC⟩} : Set (↥C ⧸ GLAPPrimeCore p ↥C)))
       (Subgroup.centralizer ({QuotientGroup.mk' (GLAPPrimeCore p ↥C) ⟨b, hbC⟩} :
@@ -560,7 +566,7 @@ variable {G : Type} [Group G]
 
 theorem l119_eq_one_of_pow_of_mem_core {p : ℕ} (hp : p.Prime) [Finite G] {C : Subgroup G}
     {x : ↥C} (hx : x ^ p = 1) (hN : x ∈ GLAPPrimeCore p ↥C) : x = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : orderOf x ∣ p := orderOf_dvd_of_pow_eq_one hx
   have hN' : (⟨x, hN⟩ : ↥(GLAPPrimeCore p ↥C)) ∈ (⊤ : Subgroup ↥(GLAPPrimeCore p ↥C)) :=
     Subgroup.mem_top _
@@ -573,10 +579,10 @@ theorem l119_eq_one_of_pow_of_mem_core {p : ℕ} (hp : p.Prime) [Finite G] {C : 
   exact orderOf_eq_one_iff.1 (Nat.dvd_one.1 h3)
 
 theorem l119_pRank_image_ge {p : ℕ} (hp : p.Prime) [Finite G] {C S : Subgroup G} (hSC : S ≤ C)
-    (hS : IsElemAbelian p S) :
+    (_hS : IsElemAbelian p S) :
     CFSG.Open.pRank p S ≤ CFSG.Open.pRank p (((S.subgroupOf C).map (QuotientGroup.mk' (GLAPPrimeCore p ↥C))) :
       Subgroup (↥C ⧸ GLAPPrimeCore p ↥C)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E', hE'S, hE'el, hE'card⟩ := CFSG.SectionRank.exists_pRank hp.one_lt S
   let f : ↥E' →* (↥C ⧸ GLAPPrimeCore p ↥C) :=
     (QuotientGroup.mk' (GLAPPrimeCore p ↥C)).comp (Subgroup.inclusion (hE'S.trans hSC))
@@ -648,7 +654,7 @@ section NormBar
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem l119_mem_normalizer_of_bar {p : ℕ} (hp : p.Prime) {a : G} {K : Subgroup G}
+theorem l119_mem_normalizer_of_bar {p : ℕ} (_hp : p.Prime) {a : G} {K : Subgroup G}
     (hK : GLAPComponent p (Cg a) K) (z : ↥(Cg a))
     (hz : QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg a)) z ∈
       Subgroup.normalizer ((barX p (Cg a) K : Subgroup (↥(Cg a) ⧸ GLAPPrimeCore p ↥(Cg a))) :
@@ -692,6 +698,7 @@ section JStep
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem l119_isElemAbelian_of_le {p : ℕ} {S T : Subgroup G} (h : S ≤ T) (hT : IsElemAbelian p T) :
     IsElemAbelian p S := by
   have hcomm : ∀ a b : ↥S, a * b = b * a := by
@@ -701,6 +708,7 @@ theorem l119_isElemAbelian_of_le {p : ℕ} {S T : Subgroup G} (h : S ≤ T) (hT 
     exact Subtype.ext h2
   exact ⟨⟨⟨hcomm⟩⟩, fun x hx => hT.2 x (h hx)⟩
 
+omit [Finite G] in
 theorem l119_isElemAbelian_subgroupOf {p : ℕ} {S : Subgroup G} (hS : IsElemAbelian p S) (C : Subgroup G) :
     IsElemAbelian p (S.subgroupOf C) := by
   have hcomm : ∀ a b : ↥(S.subgroupOf C), a * b = b * a := by
@@ -721,6 +729,7 @@ section Faithful
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem l119_barAut_eq_conj {p : ℕ} {K : Subgroup G} (k : ↥K) :
     CFSG.HardMathSupport.Solomon.LocalBalance.barAut p K
         ⟨(k : G), Subgroup.le_normalizer k.2⟩ =
@@ -737,7 +746,7 @@ theorem l119_centralizes_of_barAut {p : ℕ} (hp : p.Prime) {a x : G} {K : Subgr
     ∀ q ∈ barX p (Cg a) K, QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg a)) ⟨x, hx⟩ * q =
       q * QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg a)) ⟨x, hx⟩ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro q hq
   obtain ⟨c, hc, rfl⟩ := hq
   have hcK : (c : G) ∈ K := Subgroup.mem_subgroupOf.1 hc
@@ -785,7 +794,7 @@ theorem l119_pRank_le_two_of_inj {p : ℕ} (hp : p.Prime) {T : Type} [Group T] [
     (hS : IsElemAbelian p S) (f : ↥S →* T) (hf : Function.Injective f)
     (hT : ∀ A : Subgroup T, IsElemAbelian p A → CFSG.Open.pRank p A ≤ 2) :
     CFSG.Open.pRank p S ≤ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E', hE'S, hE'el, hE'card⟩ := CFSG.SectionRank.exists_pRank hp.one_lt S
   let g : ↥E' →* T := f.comp (Subgroup.inclusion hE'S)
   have hg : Function.Injective g := hf.comp (Subgroup.inclusion_injective hE'S)
@@ -805,6 +814,7 @@ theorem l119_pRank_le_two_of_inj {p : ℕ} (hp : p.Prime) {T : Type} [Group T] [
   have h1 := CFSG.SectionRank.le_pRank_of_injective hp.one_lt hcomm' hpow' hE'card g hg hH
   exact le_trans h1 (hT _ (CFSG.SectionRank.isElemAbelian_map hS' f))
 
+omit [Finite G] in
 theorem l119_inducesInner_of_inner {p : ℕ} {x : G} {K : Subgroup G}
     (hxN : x ∈ Subgroup.normalizer (K : Set G))
     (hin : CFSG.HardMathSupport.Solomon.LocalBalance.barAut p K ⟨x, hxN⟩ ∈

@@ -70,14 +70,15 @@ variable {K : Type} [Field K] [Finite K]
 
 theorem a2lE0_typU (hC : HypA2.ChevOddInChev2) (hK : Nat.card K = 3) :
     TypU ↥(elementaryGroup (quadPlus 4 K)) := by
-  haveI : Finite ↥(elementaryGroup (quadPlus 4 K)) := by
-    haveI := a2l_finite_linearEquiv (K := K) (V := Fin 4 ⊕ Fin 4 → K)
+  have : Finite ↥(elementaryGroup (quadPlus 4 K)) := by
+    have := a2l_finite_linearEquiv (K := K) (V := Fin 4 ⊕ Fin 4 → K)
     infer_instance
   have hm := a2lE0_lieModel hK
   exact a2l_typU_of_not_inChev2 a2lE0_isQuasisimple (a2lE0_isPGroup_center hK)
     (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl hm)))))))))
     (a2l_not_inChev2_pOmegaPlus43 hC hm)
 
+omit [Finite K] in
 theorem a2l_mem_commutator_of_isPerfect {G V : Type} [Group G] [Group.IsPerfect G]
     [AddCommGroup V] [Module K V] {Q : QuadraticForm K V} (ψ : G →* (V ≃ₗ[K] V))
     (hψ : ∀ g, ψ g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (g : G) :
@@ -89,9 +90,10 @@ theorem a2l_mem_commutator_of_isPerfect {G V : Type} [Group G] [Group.IsPerfect 
   rw [commutator_def, Subgroup.map_commutator] at h1
   refine Subgroup.commutator_mono ?_ ?_ h1 <;> rintro _ ⟨y, -, rfl⟩ <;> exact hψ y
 
+omit [Finite K] in
 theorem a2lNineLevi_mem_elementary [Fintype K] (hF : Fintype.card K = 3)
     (g : SL(2, GaloisField 3 2)) : a2lNineLevi hF g ∈ elementaryGroup (quadPlus 4 K) := by
-  haveI := CFSG.RankThree.PartTwo.Census.isPerfect_sl2_nine
+  have := CFSG.RankThree.PartTwo.Census.isPerfect_sl2_nine
   rw [← commutator_orthogonalGroup_quadPlus (K := K) (n := 4) (by norm_num)]
   exact a2l_mem_commutator_of_isPerfect (a2lNineLevi hF) (a2lNineLevi_mem_orthogonalGroup hF) g
 
@@ -99,11 +101,11 @@ theorem a2lDatum_projElementary_of_summand_three (hC : HypA2.ChevOddInChev2)
     (hK : Nat.card K = 3) {V : Type} [AddCommGroup V] [Module K V] [Finite V]
     {Q : QuadraticForm K V} (S : A2lSummand (quadPlus 4 K) Q) {v : V} (hv0 : v ≠ 0)
     (hv : S.coords v = 0) : a2lDatum (ProjElementary Q) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hFc : Fintype.card K = 3 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have h2 : (2 : K) ≠ 0 :=
     CFSG.Semidihedral.OddFieldSL2.two_ne_zero_of_odd_card K (by rw [hK]; decide)
-  haveI := Fintype.ofFinite (GaloisField 3 2)
+  have := Fintype.ofFinite (GaloisField 3 2)
   have hF9 : Fintype.card (GaloisField 3 2) = 9 := by
     rw [← Nat.card_eq_fintype_card, CFSG.RankThree.PartTwo.Census.card_galoisField_three_two]
   exact a2lDatum_projElementary_of_summand h2 S hv0 hv (q₀ := 9) (by decide) (by norm_num) hF9

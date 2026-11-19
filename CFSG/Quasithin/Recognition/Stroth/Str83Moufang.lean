@@ -73,13 +73,13 @@ theorem str83Moufang_of_leaves (hT : Str83LocTrans9)
   have hK1 : ∀ t ∈ (f112K1 L1 L2 S).map (L1 ⊔ bigB L1 L2 S).subtype, ∀ l ∈ L1,
       l * t * l⁻¹ * t⁻¹ ∈ pCoreOf 2 L1 := by
     obtain ⟨e⟩ := hSz
-    haveI : IsSimpleGroup ↥(Sz a) :=
+    have : IsSimpleGroup ↥(Sz a) :=
       CFSG.SignalizerFunctorTheorem.McBride.SzModel.sz_isSimpleGroup ha
     exact f112_kernel_centralizes_of_isSimpleGroup hF e.isSimpleGroup
   have hK2 : ∀ t ∈ (f112K2 L1 L2 S).map (L2 ⊔ bigB L1 L2 S).subtype, ∀ l ∈ L2,
       l * t * l⁻¹ * t⁻¹ ∈ pCoreOf 2 L2 := by
     obtain ⟨e⟩ := hm
-    haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2)
+    have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2)
         (GaloisField 2 (2 * a + 1))) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by
         rw [GaloisField.card 2 (2 * a + 1) (by omega)]
@@ -93,8 +93,8 @@ theorem str86Moufang_of_leaves (hT : Str86LocTrans5)
     (hO : Str86Orders) : Str86Moufang := by
   intro G _ _ L1 L2 S hF hU3 hBig hL2
   obtain ⟨k, hk, F, hField, hFin, hFc, hU3'⟩ := hU3
-  letI : Field F := hField
-  haveI : Finite F := hFin
+  let : Field F := hField
+  have : Finite F := hFin
   have hU3 : VU3Big L1 := ⟨k, hk, F, hField, hFin, hFc, hU3'⟩
   obtain ⟨hm, hQ1, hQ2, hS⟩ := hO G L1 L2 S k F hF hk hFc hU3' hBig hL2
   have hv1 := f112_relIndex_left_u3 hF hk hFc hU3'
@@ -115,7 +115,7 @@ theorem str86Moufang_of_leaves (hT : Str86LocTrans5)
   have hK2 : ∀ t ∈ (f112K2 L1 L2 S).map (L2 ⊔ bigB L1 L2 S).subtype, ∀ l ∈ L2,
       l * t * l⁻¹ * t⁻¹ ∈ pCoreOf 2 L2 := by
     obtain ⟨e⟩ := hm
-    haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2)
+    have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2)
         (GaloisField 2 (2 * k))) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by
         rw [GaloisField.card 2 (2 * k) (by omega)]

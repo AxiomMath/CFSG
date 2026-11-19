@@ -139,9 +139,9 @@ private def psiImage (M : UModel A U Z L K) (H : Subgroup G) : AddSubgroup (UTil
     have h2 : M.ψ ⟨a⁻¹, U.inv_mem haU⟩ = (M.ψ ⟨a, haU⟩)⁻¹ := map_inv M.ψ ⟨a, haU⟩
     rw [h2, toAdd_inv]
 
-theorem exists_lineJ_psi_eq [Nontrivial K] (M : UModel A U Z L K) {w : Fin 2 → K} (hw : w ≠ 0)
+theorem exists_lineJ_psi_eq (M : UModel A U Z L K) {w : Fin 2 → K} (hw : w ≠ 0)
     (hLU : L ≤ Subgroup.normalizer (U : Set G)) {p : UTilde K} (hp : p ∈ lineAdd K w) :
-    ∃ (j : G) (hj : j ∈ M.lineJ w) (hjU : j ∈ U), Multiplicative.toAdd (M.ψ ⟨j, hjU⟩) = p := by
+    ∃ (j : G) (_hj : j ∈ M.lineJ w) (hjU : j ∈ U), Multiplicative.toAdd (M.ψ ⟨j, hjU⟩) = p := by
   have hle : lineAdd K w ≤ psiImage M (M.lineJ w) := by
     calc lineAdd K w
         = AddSubgroup.closure {x : UTilde K | ∃ (g : Matrix.SpecialLinearGroup (Fin 2) K)
@@ -180,7 +180,7 @@ theorem exists_lineJ_psi_eq [Nontrivial K] (M : UModel A U Z L K) {w : Fin 2 →
           toAdd_ofAdd, sub_eq_add_neg]
   exact hle hp
 
-theorem exists_lineJ_mul_mem_Z [Nontrivial K] (M : UModel A U Z L K) {w : Fin 2 → K} (hw : w ≠ 0)
+theorem exists_lineJ_mul_mem_Z (M : UModel A U Z L K) {w : Fin 2 → K} (hw : w ≠ 0)
     (hLU : L ≤ Subgroup.normalizer (U : Set G)) {u : G} (hu : u ∈ M.lineSub w) :
     ∃ j ∈ M.lineJ w, u * j⁻¹ ∈ Z := by
   obtain ⟨huU, hp⟩ := (mem_lineSub_iff M w).mp hu

@@ -23,6 +23,7 @@ section CaseOneTwo
 open CFSG.LocalAnalysis.GLTheoremB.Prop95Iv
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem omega_n_two (h : Setup28 W K S) (hR : Red28 W K S) (h1 : Hyp28One W K S) {a : X}
     {U₁ U₂ : Subgroup X} (hm : OmegaModel W K a U₁ U₂) :
     ∃ n : ℕ, 2 ≤ n ∧ OmegaAny W K a U₁ U₂ n := by
@@ -33,8 +34,8 @@ theorem omega_n_two (h : Setup28 W K S) (hR : Red28 W K S) (h1 : Hyp28One W K S)
   obtain rfl : n = 1 := by omega
   rcases hΩ with hp | hmi
   · obtain ⟨θ, t, hθs, hθW, -⟩ := hp
-    haveI := OmegaSmall.solvable_plus_two
-    haveI := OmegaSmall.nontrivial_plus_two
+    have := OmegaSmall.solvable_plus_two
+    have := OmegaSmall.nontrivial_plus_two
     exact not_subsingleton _
       (OmegaSmall.subsingleton_of_perfect_solvable (InducedAux.commutator_K h) θ hθs)
   · obtain ⟨θ, t, hθs, hθW, -⟩ := hmi
@@ -43,7 +44,8 @@ theorem omega_n_two (h : Setup28 W K S) (hR : Red28 W K S) (h1 : Hyp28One W K S)
       (e.surjective.comp hθs) fun k hk => ?_
     simp only [MonoidHom.comp_apply, hθW k hk, map_one]
 
-theorem alt_not_hyp1 (h : Setup28 W K S) (hR : Red28 W K S) (h1 : Hyp28One W K S) {a : X}
+omit [Finite X] in
+theorem alt_not_hyp1 (_h : Setup28 W K S) (hR : Red28 W K S) (h1 : Hyp28One W K S) {a : X}
     {U₁ U₂ : Subgroup X} (hm : AltModel W K a U₁ U₂) : False := by
   obtain ⟨m, θ, σ, hm5, hθs, hθW, -⟩ := hm
   exact OmegaAux.false_of_alt_quotient hR h1 hm5 θ hθs hθW
@@ -51,7 +53,7 @@ theorem alt_not_hyp1 (h : Setup28 W K S) (hR : Red28 W K S) (h1 : Hyp28One W K S
 theorem coatom_cent_plus (n : ℕ) (hn : 2 ≤ n) (t : GL (Fin (n + 1) ⊕ Fin (n + 1)) (ZMod 2))
     (ht : IsTransvection t) (hQt : ∀ x, StatedQuadPlus (n + 1) (ZMod 2)
       (Matrix.mulVec (t : Matrix _ _ (ZMod 2)) x) = StatedQuadPlus (n + 1) (ZMod 2) x)
-    (htn : t ∈ Subgroup.normalizer (StatedOmega (StatedQuadPlus (n + 1) (ZMod 2)) : Set _))
+    (_htn : t ∈ Subgroup.normalizer (StatedOmega (StatedQuadPlus (n + 1) (ZMod 2)) : Set _))
     (H : Subgroup (GL (Fin (n + 1) ⊕ Fin (n + 1)) (ZMod 2)))
     (hHΩ : H ≤ StatedOmega (StatedQuadPlus (n + 1) (ZMod 2)))
     (hHC : ∀ g ∈ StatedOmega (StatedQuadPlus (n + 1) (ZMod 2)), t * g * t⁻¹ = g → g ∈ H)
@@ -69,7 +71,7 @@ theorem coatom_cent_minus (n : ℕ) (hn : 2 ≤ n)
     (t : GL (Fin (n + 1 - 1) ⊕ Fin (n + 1 - 1) ⊕ Fin 2) (ZMod 2)) (ht : IsTransvection t)
     (hQt : ∀ x, StatedQuadMinus (n + 1) (ZMod 2) 1 1 (Matrix.mulVec (t : Matrix _ _ (ZMod 2)) x) =
       StatedQuadMinus (n + 1) (ZMod 2) 1 1 x)
-    (htn : t ∈ Subgroup.normalizer (StatedOmega (StatedQuadMinus (n + 1) (ZMod 2) 1 1) : Set _))
+    (_htn : t ∈ Subgroup.normalizer (StatedOmega (StatedQuadMinus (n + 1) (ZMod 2) 1 1) : Set _))
     (H : Subgroup (GL (Fin (n + 1 - 1) ⊕ Fin (n + 1 - 1) ⊕ Fin 2) (ZMod 2)))
     (hHΩ : H ≤ StatedOmega (StatedQuadMinus (n + 1) (ZMod 2) 1 1))
     (hHC : ∀ g ∈ StatedOmega (StatedQuadMinus (n + 1) (ZMod 2) 1 1), t * g * t⁻¹ = g → g ∈ H)
@@ -84,6 +86,7 @@ theorem coatom_cent_minus (n : ℕ) (hn : 2 ≤ n)
       (K := ZMod 2) (m := n + 1) (by omega))
     t v f hv hf hfv htx hQt H hHΩ hHC hH
 
+omit [Finite X] in
 theorem omega_final (h : Setup28 W K S) (hR : Red28 W K S) {U₁ U₂ : Subgroup X}
     (sf : SingleFactor K (vOf W K S) U₁ U₂)
     (hE : ∀ k ∈ K, ∀ w ∈ kerAct W K S, ⁅k, w⁆ ∈ vOf W K S)
@@ -128,6 +131,7 @@ theorem omega_three_minus (n : ℕ) (hn : 2 ≤ n) :
       (K := ZMod 2) (m := n + 1) (by omega))
     t v f hv hf hfv htx hQt
 
+omit [Finite X] in
 theorem centMax_of_omega_of_centre (h : Setup28 W K S) (hR : Red28 W K S) {a : X}
     {U₁ U₂ : Subgroup X} (hts : TransSection K (vOf W K S) U₁ U₂ a)
     (hZ : Subgroup.center ↥(bar W K) = ⊥) (haS : a ∈ S) (hna : a ∉ kerAct W K S)
@@ -140,6 +144,7 @@ theorem centMax_of_omega_of_centre (h : Setup28 W K S) (hR : Red28 W K S) {a : X
   · exact OmegaHeart.centMax_of_model _ (fun t ht hQ htn H hHΩ hHC hH =>
       coatom_cent_minus n hn t ht hQ htn H hHΩ hHC hH) h hR hts.toSingleFactor hZ haS hna hS2' hmi
 
+omit [Finite X] in
 theorem threeElt_of_omega_of_centre (h : Setup28 W K S) (hR : Red28 W K S) {a : X}
     {U₁ U₂ : Subgroup X} (hts : TransSection K (vOf W K S) U₁ U₂ a)
     (hZ : Subgroup.center ↥(bar W K) = ⊥) (haS : a ∈ S) {n : ℕ} (hn : 2 ≤ n)

@@ -111,7 +111,7 @@ theorem sq_eq_one (h : G36Hyp L A₀ T₀) {a : L} (ha : a ∈ A₀) : a ^ 2 = 1
 omit [Finite L] in
 theorem exists_pow_eq_one (_h : G36Hyp L A₀ T₀) {t : L} (ht : t ∈ (T₀ : Subgroup L)) :
     ∃ k : ℕ, t ^ 2 ^ k = 1 :=
-  exists_pow_two_pow_eq_one T₀.isPGroup' ht
+  exists_pow_two_pow_eq_one T₀.isPGroup ht
 
 omit [Finite L] in
 theorem mem_sylow_of_mk_mem (h : G36Hyp L A₀ T₀) {g : L} {k : ℕ} (hg : g ^ 2 ^ k = 1)

@@ -43,9 +43,9 @@ private lemma exists_mem_mul_zpow_of_card {H : Type*} [Group H] [Finite H]
     {x : H} (hxA : x ∈ A₁) :
     ∃ b ∈ B, ∃ j : ℕ, x = b * φ ^ j := by
   classical
-  letI : IsMulCommutative ↥A₁ := hcomm
+  let : IsMulCommutative ↥A₁ := hcomm
   let B' : Subgroup ↥A₁ := B.subgroupOf A₁
-  haveI : B'.Normal := Subgroup.normal_of_comm B'
+  have : B'.Normal := Subgroup.normal_of_isMulCommutative B'
   have hB'card : Nat.card ↥B' = 9 := by
     rw [← Subgroup.card_map_of_injective (Subgroup.subtype_injective A₁)]
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hBA]
@@ -113,7 +113,7 @@ theorem ggNbrG2Off_stdForm
         g2FieldHom K σ z = z ∧
         MulAut.conj x * α * (MulAut.conj x)⁻¹ = MulAut.conj z * g2FieldHom K σ ^ j := by
   classical
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   have hring : ringChar K = 2 := ringChar.eq K 2
   have hK3 : ringChar K ≠ 3 := by
     rw [hring]

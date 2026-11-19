@@ -38,8 +38,8 @@ theorem qUConcl_of_linear_prime {p : ℕ} {S B T : Subgroup Ω} {x b : Ω} (cfg 
   clear hrank
   subst d
   have hK : Nat.card K = 2 ^ (p * m) := hKcard
-  haveI : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hαL := S265F3.congr_not_mem_linearAutGroup hp3 A hσ e heu hu
   have hinv : chevAut p S ⟨b, hF.1⟩ = (indAut p S b hF.1)⁻¹ := by

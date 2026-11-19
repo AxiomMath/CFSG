@@ -43,14 +43,14 @@ section Ree
 variable {K : Type} [Field K] [Finite K] [CharP K F4.prime] {a : ℕ}
 
 instance instFiniteReeGamma : Finite ↥(F4.reeGamma K a) := by
-  haveI : Finite (ModGL F4.tag K) := finite_modGL (τ := F4.tag) (K := K)
+  have : Finite (ModGL F4.tag K) := finite_modGL (τ := F4.tag) (K := K)
   exact Subtype.finite
 
 theorem two_le_pRank_reeGamma_of_dvd_sub_one {ℓ : ℕ} (hℓ : ℓ.Prime)
     (hK : Nat.card K = 2 ^ (2 * a + 1)) (hd : ℓ ∣ Nat.card K - 1) :
     2 ≤ CFSG.Open.pRank ℓ (⊤ : Subgroup ↥(F4.reeGamma K a)) := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hK' : Nat.card K = F4.prime ^ (2 * a + 1) := hK
   have hdvd : ℓ ∣ Nat.card Kˣ := by rw [Nat.card_units]; exact hd
   obtain ⟨ζ, hζo⟩ := exists_prime_orderOf_dvd_card' ℓ hdvd
@@ -108,7 +108,7 @@ theorem dvd_card_reeLocalBlock (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)
     (hℓ : ℓ.Prime) (hd : ℓ ∣ Nat.card K - 1) (j : Fin F4.fixedOrbitCount) :
     ℓ ∣ Nat.card (F4.reeLocalBlock K a j) := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hdvd : ℓ ∣ Nat.card Kˣ := by rw [Nat.card_units]; exact hd
   obtain ⟨ζ, hζo⟩ := exists_prime_orderOf_dvd_card' ℓ hdvd
   have hord : ∀ x : Kˣ × Kˣ, orderOf (torusPair a x) = orderOf x := fun x =>
@@ -219,8 +219,8 @@ theorem leviAt_reeGamma (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1))
     set Y : Subgroup ↥(F4.reeGamma K a) := M.subgroupOf (F4.reeGamma K a)
     let eY : ↥Y ≃* ↥M := Subgroup.subgroupOfEquivOfLe hMΓ
     obtain ⟨hMsimple, x, y, hxy⟩ := isSimpleGroup_reeLocalBlock ha hK j
-    haveI : IsSimpleGroup ↥M := hMsimple
-    haveI : IsSimpleGroup ↥Y := eY.isSimpleGroup
+    have : IsSimpleGroup ↥M := hMsimple
+    have : IsSimpleGroup ↥Y := eY.isSimpleGroup
     have hnab : ∃ u v : ↥Y, u * v ≠ v * u := by
       refine ⟨eY.symm x, eY.symm y, fun h => hxy ?_⟩
       have := congrArg eY h

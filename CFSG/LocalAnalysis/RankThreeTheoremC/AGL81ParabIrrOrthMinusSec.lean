@@ -119,13 +119,13 @@ theorem forall_eq_one_of_irred_cyclic {A : Type} [Group A] [Finite A] {N B : Sub
     exact b.2
   have hNV : N ≤ Subgroup.normalizer (V : Set A) := by
     intro n hn
-    haveI : Finite ↥V := inferInstance
+    have : Finite ↥V := inferInstance
     refine Subgroup.mem_normalizer_fintype fun v hv => ?_
     obtain ⟨b, hb, rfl⟩ := hv
     have hnb : n * (b : A) * n⁻¹ ∈ B :=
       (Subgroup.mem_normalizer_iff.1 (hNB hn) b).1 b.2
     exact ⟨⟨_, hnb⟩, hθ n hn b hb hnb, rfl⟩
-  haveI := hθc
+  have := hθc
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := θ.range)
   obtain ⟨c, hc⟩ := g.2
   have hBle : B ≤ V ⊔ Subgroup.zpowers (c : A) := by

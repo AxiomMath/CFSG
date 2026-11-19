@@ -61,11 +61,11 @@ theorem pieceCaseDelta_holds : PieceCaseDelta := by
   have hPxX : CFSG.ABGLocalTools.IsSylowOf 3
       (((P : Subgroup G) ⊓ centralizer ({x} : Set G)).subgroupOf M)
       (centralizer ({x'} : Set ↥M)) := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have h1 : CFSG.ABGLocalTools.IsSylowOf 3 ((P : Subgroup G) ⊓ centralizer ({x} : Set G))
         (centralizer ({x} : Set G)) :=
       CFSG.ABGLocalTools.isSylowOf_iff.mpr
-        ⟨inf_le_right, P.isPGroup'.to_le inf_le_left, hx.sylow_centralizer⟩
+        ⟨inf_le_right, P.isPGroup.to_le inf_le_left, hx.sylow_centralizer⟩
     have h2 := h1.of_le (le_inf hPxM inf_le_right) inf_le_right
     rw [hCX, ← CFSG.ABGLocalTools.isSylowOf_map_subtype_iff M,
       Subgroup.map_subgroupOf_eq_of_le hPxM, Subgroup.map_subgroupOf_eq_of_le inf_le_left]

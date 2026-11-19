@@ -11,7 +11,7 @@ namespace CFSG.StandardType
 theorem ggSecFiveBSpCoordFrameInput_of_mp (hMp : GGInnerDiagMpInput) :
     GGSecFiveBSpCoordFrameInput := by
   intro G _ _ p hp hp2 r f hr hf hdvd B Bs X hBs hmark hX eta i0 hA
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ω, hωo⟩ : ∃ ω : (GaloisField 2 f)ˣ, orderOf ω = p :=
     exists_prime_orderOf_dvd_card' p (by
       rw [Nat.card_units, GaloisField.card 2 f (by omega)]

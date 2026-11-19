@@ -18,7 +18,7 @@ theorem unique_of_rank_two {M T X : Subgroup G} (hc : Context G M T) {p : ℕ}
   obtain ⟨q, P, -, -, hw⟩ := SourceSetting.IsInMSigma.exists hc.mSigma
   have hMmax : rankThreeIsMaxTwoLocal M := hw.maxLocal
   have hpp : p.Prime := (NonTISigmaPrimeRank.sigma_prime_rank hp).1
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   obtain ⟨E, hEX, hE, hcard⟩ := SectionRank.exists_pRank hpp.one_lt X
   have hpE : IsPGroup p E := by
     rw [IsPGroup.iff_card]

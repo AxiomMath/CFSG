@@ -146,8 +146,8 @@ theorem step209LCentral_core {A M L N : Subgroup G} {c : G} {T : Subgroup G}
     (hAL : A ≤ Subgroup.normalizer (L : Set G))
     (hLq : Nonempty (↥L ⧸ CFSG.pCore 2 ↥L ≃* CFSG.Assembly.RankThreeEven.projSL 3
       (GaloisField 2 2)))
-    (hLp : ⁅L, L⁆ = L) (hLM : ¬ L ≤ M) (hTN : T ≤ N)
-    (h7 : kTwenty M c ⊓ Subgroup.centralizer (zTwenty T : Set G) ≤ N)
+    (hLp : ⁅L, L⁆ = L) (hLM : ¬ L ≤ M) (_hTN : T ≤ N)
+    (_h7 : kTwenty M c ⊓ Subgroup.centralizer (zTwenty T : Set G) ≤ N)
     (h8 : IsBlock M (kTwenty M c) ∧ vTwenty M c T = CFSG.Open.pCoreOf 2 (kTwenty M c) ∧
       ∃ n : ℕ, Odd n ∧ IsNaturalL3Module (kTwenty M c) (vTwenty M c T) n)
     (hAut : ∀ n : ℕ, Odd n → IsNaturalL3Module (kTwenty M c) (vTwenty M c T) n →

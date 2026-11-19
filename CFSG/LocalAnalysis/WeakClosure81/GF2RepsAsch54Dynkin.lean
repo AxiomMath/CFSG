@@ -206,7 +206,7 @@ theorem asch5_4Dynkin_of_asch5_4 (h54 : Asch5_4) : Asch5_4Dynkin := by
   obtain ⟨hR, hJ⟩ := e111Reduced_normalClosure hrad hE hSb hESb
   obtain ⟨hEs, hEnab⟩ := isSimpleGroup_of_isComponent hrad hE
   have hHns : ¬ Group.IsSolvable ↥H := fun hs =>
-    not_isSolvable_of_isComponentModN hL (solvable_of_solvable_injective
+    not_isSolvable_of_isComponentModN hL (Group.isSolvable_of_isSolvable_injective
       (Subgroup.inclusion_injective hLH))
   have hYns : ¬ Group.IsSolvable (↥H ⧸ R) := fun _ =>
     hHns (Group.isSolvable_of_subgroup_quotient R)

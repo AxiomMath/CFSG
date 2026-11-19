@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem subsingleton_of_isPerfect_of_isSolvable {X : Type*} [Group X]
     (hperf : Group.IsPerfect X) (hsol : Group.IsSolvable X) : Subsingleton X := by
   obtain ⟨n, hn⟩ := hsol.solvable
-  haveI : Group.IsPerfect X := hperf
+  have : Group.IsPerfect X := hperf
   have htop : derivedSeries X n = ⊤ := Group.IsPerfect.derivedSeries_eq_top X n
   rw [htop] at hn
   refine ⟨fun a b => ?_⟩
@@ -32,12 +32,12 @@ private theorem subsingleton_of_isPerfect_of_isSolvable {X : Type*} [Group X]
 
 private theorem isPerfect_le_of_normal_isSolvable_quotient {X : Type*} [Group X] {H K : Subgroup X}
     (hK : K.Normal) (hperf : Group.IsPerfect H) (hsol : Group.IsSolvable (X ⧸ K)) : H ≤ K := by
-  haveI : Group.IsSolvable (X ⧸ K) := hsol
+  have : Group.IsSolvable (X ⧸ K) := hsol
   have hperf' : Group.IsPerfect (H.map (QuotientGroup.mk' K)) := hperf.map _
   have hsol' : Group.IsSolvable (H.map (QuotientGroup.mk' K)) :=
     Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.subtype (H.map (QuotientGroup.mk' K))) (Subgroup.subtype_injective _)
-  haveI : Subsingleton (H.map (QuotientGroup.mk' K)) :=
+  have : Subsingleton (H.map (QuotientGroup.mk' K)) :=
     subsingleton_of_isPerfect_of_isSolvable hperf' hsol'
   have hbot : H.map (QuotientGroup.mk' K) = ⊥ := by
     rw [Subgroup.eq_bot_iff_forall]
@@ -51,10 +51,10 @@ private theorem not_isSolvable_of_isQuasisimple {X : Type*} [Group X]
     (h : CFSG.IsQuasisimple X) : ¬ Group.IsSolvable X := by
   intro hs
   obtain ⟨hperf, hsimple, -⟩ := h
-  haveI : Group.IsPerfect X := hperf
-  haveI : Nontrivial (X ⧸ Subgroup.center X) := hsimple.toNontrivial
+  have : Group.IsPerfect X := hperf
+  have : Nontrivial (X ⧸ Subgroup.center X) := hsimple.toNontrivial
   have hsub : Subsingleton X := subsingleton_of_isPerfect_of_isSolvable inferInstance hs
-  haveI : Subsingleton X := hsub
+  have : Subsingleton X := hsub
   exact not_subsingleton (X ⧸ Subgroup.center X) inferInstance
 
 private theorem isQuasisimple_map_of_ker {A B X : Type*} [Group A] [Group B] [Group X]
@@ -89,10 +89,10 @@ private theorem exists_isComponent_le_of_normal {X : Type*} [Group X] [Finite X]
       rw [← hgen]
       exact CFSG.Adapters.centralizer_generalizedFitting_le_fittingSubgroup X
     exact le_bot_iff.mp (hle.trans (le_of_eq hfit))
-  haveI : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic (G := X)
+  have : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic (G := X)
   have hlayerN : (CFSG.layer X).Normal := inferInstance
-  haveI : N.Normal := hN
-  haveI : (CFSG.layer X).Normal := hlayerN
+  have : N.Normal := hN
+  have : (CFSG.layer X).Normal := hlayerN
   have hMnormal : (N ⊓ CFSG.layer X).Normal := inferInstance
   have hMne : N ⊓ CFSG.layer X ≠ ⊥ := by
     intro hbot
@@ -131,14 +131,14 @@ private theorem component_le_of_normal_of_sup_isPGroup {X : Type*} [Group X] [Fi
     rw [← hsup]
     exact sup_le_sup_right hLE T)
   have hEsolv : Group.IsSolvable (X ⧸ E) := by
-    haveI : Group.IsSolvable T := by
-      haveI : Group.IsNilpotent T := hT.isNilpotent
+    have : Group.IsSolvable T := by
+      have : Group.IsNilpotent T := hT.isNilpotent
       infer_instance
     let φ : T →* X ⧸ E := (QuotientGroup.mk' E).comp T.subtype
     have hφ : Function.Surjective φ := by
       intro y
       obtain ⟨x, rfl⟩ := QuotientGroup.mk'_surjective E y
-      haveI : E.Normal := hE_normal
+      have : E.Normal := hE_normal
       have hx : x ∈ E ⊔ T := hsupE ▸ Subgroup.mem_top x
       obtain ⟨e, he, t, ht, het⟩ := (Subgroup.mem_sup_of_normal_left (s := E) (t := T)).mp hx
       refine ⟨⟨t, ht⟩, ?_⟩
@@ -175,9 +175,9 @@ private theorem component_le_of_normal_of_sup_isPGroup {X : Type*} [Group X] [Fi
         have ha : (a : X) ∈ E := hKE a.2
         have hb : (b : X) ∈ Subgroup.centralizer (E : Set X) := hKC b.2
         exact Subtype.ext (Subgroup.mem_centralizer_iff.mp hb (a : X) ha)
-      haveI : IsMulCommutative K := isMulCommutative_iff.mpr hcommKK
-      haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
-      haveI : Group.IsPerfect K := hK.1.1
+      have : IsMulCommutative K := isMulCommutative_iff.mpr hcommKK
+      have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+      have : Group.IsPerfect K := hK.1.1
       exact not_subsingleton K inferInstance
     obtain ⟨g, hg⟩ := hex
     refine ⟨g, le_antisymm hg ?_⟩
@@ -190,9 +190,9 @@ private theorem component_le_of_normal_of_sup_isPGroup {X : Type*} [Group X] [Fi
         refine le_bot_iff.mp ?_
         calc ⁅K, K⁆ ≤ ⁅L.map (MulAut.conj g).toMonoidHom, K⁆ := Subgroup.commutator_mono hg le_rfl
           _ = ⊥ := h
-      haveI : Group.IsPerfect K := hK.1.1
+      have : Group.IsPerfect K := hK.1.1
       rw [Subgroup.commutator_eq_self] at hKK
-      haveI : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+      have : Nontrivial K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
       have hsub : Subsingleton K := by rw [hKK]; infer_instance
       exact not_subsingleton K hsub
   obtain ⟨g, hgK⟩ := hconj
@@ -228,15 +228,15 @@ theorem oInf_eq_kerMV {V H T : Subgroup G} (hT : IsSylowIn 2 T H)
   have hPT_lt : OInf H ⊔ T < H := by
     refine lt_of_le_of_ne (sup_le hPH hT.le) ?_
     intro heq
-    haveI hPTsolv : Group.IsSolvable ↥(OInf H ⊔ T) :=
+    have hPTsolv : Group.IsSolvable ↥(OInf H ⊔ T) :=
       CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p20a_isSolvable_sup H T hT.le hT.isPGroup
-    haveI : Group.IsSolvable ↥H := heq ▸ hPTsolv
+    have : Group.IsSolvable ↥H := heq ▸ hPTsolv
     obtain ⟨X, hXgrp, φ, hφsurj, hφker, hXq⟩ := hLcomp.2.2.2.2
-    letI : Group X := hXgrp
-    haveI : Group.IsSolvable ↥L :=
+    let : Group X := hXgrp
+    have : Group.IsSolvable ↥L :=
       Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hLH)
         (Subgroup.inclusion_injective hLH)
-    haveI : Group.IsSolvable X := Group.isSolvable_of_surjective hφsurj
+    have : Group.IsSolvable X := Group.isSolvable_of_surjective hφsurj
     exact not_isSolvable_of_isQuasisimple hXq inferInstance
   have hPM : OInf H ≤ normalizer (V : Set G) := by
     obtain ⟨Y, hY, hle⟩ :=
@@ -268,7 +268,7 @@ theorem oInf_eq_kerMV {V H T : Subgroup G} (hT : IsSylowIn 2 T H)
       exact le_of_eq (CFSG.Timmesfeld.Bridge.eq_bot_of_normal_isSolvable_quotient
         (H := A) hSn hSs)
     obtain ⟨X, hXgrp, φ, hφsurj, hφker, hXq⟩ := hLcomp.2.2.2.2
-    letI : Group X := hXgrp
+    let : Group X := hXgrp
     let ψ : ↥(L.subgroupOf H) →* X :=
       φ.comp (Subgroup.subgroupOfEquivOfLe hLH).toMonoidHom
     have hψ : Function.Surjective ψ :=

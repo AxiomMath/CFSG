@@ -31,7 +31,7 @@ private theorem card_generic_exceptional_PSU (d n : ℕ) :
     Nat.card_zmod]
 
 private theorem not_dvd_psu_orders {p d n : ℕ} (hp : p.Prime) (hd : ¬ p ∣ d)
-    (hpdvd : p ∣ 2 ^ n + 1) (hn1 : 1 ≤ n) (hd3 : 3 ≤ d) :
+    (hpdvd : p ∣ 2 ^ n + 1) (hn1 : 1 ≤ n) (_hd3 : 3 ≤ d) :
     ¬ p ∣ (genericOrders .PSU d 2 n).1 * (genericOrders .PSU d 2 n).2 *
       ((exceptionalOrders .PSU d 2 n).1 * (exceptionalOrders .PSU d 2 n).2) := by
   intro h

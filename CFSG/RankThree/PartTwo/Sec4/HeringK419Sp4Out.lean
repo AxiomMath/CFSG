@@ -15,7 +15,7 @@ open Item419Res3 HeringK419
 theorem k419AutThreeOuterSp4_holds : K419AutThreeOuterSp4 := by
   intro n hn β hβ3 hβ
   have hn0 : n ≠ 0 := by omega
-  haveI : Finite (GaloisField 2 n) := inferInstance
+  have : Finite (GaloisField 2 n) := inferInstance
   exact exists_two_subgroup_outer
     (CFSG.Adapters.RankTwoModelTransports.statedProjEquivMapMk (StatedSp 2 (GaloisField 2 n)))
     β hβ3 hβ

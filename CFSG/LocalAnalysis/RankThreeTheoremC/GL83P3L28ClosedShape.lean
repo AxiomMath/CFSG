@@ -82,7 +82,7 @@ theorem shapeMap_normalizer {A : Subgroup X₁} (hPA : P ≤ normalizer (A : Set
 
 theorem L28Shape.of_injective_hom [Finite X₂] (hφ : Function.Injective φ) (h : L28Shape 3 P) :
     L28Shape 3 φ.range := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hPc, Q₀, hQ₀P, hQ₀max, ⟨e⟩, ⟨C, hCP, hQC, hQCP⟩, ⟨A, B, hA, hB, hAB, hABQ, hPA, hPB⟩,
     hZ⟩ := h
   have hQ₀le : Q₀ ≤ P := hQ₀P.le

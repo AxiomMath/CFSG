@@ -78,6 +78,7 @@ abbrev piCenterQuot {R : Type} [Group R] (θ : ↥L ⧸ Subgroup.center ↥L ≃
 abbrev centralizerInL (d : G) : Subgroup ↥L :=
   (L ⊓ Subgroup.centralizer ({d} : Set G)).subgroupOf L
 
+omit [Finite G] in
 theorem mem_centralizerInL {d : G} {x : ↥L} :
     x ∈ centralizerInL (L := L) d ↔ d⁻¹ * (x : G) * d = x := by
   constructor

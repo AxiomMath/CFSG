@@ -16,7 +16,7 @@ variable {F : Type} [Field F] {n : ℕ}
 
 theorem projMk_swapSU_six_ne_one (hKd : UnitaryFieldData 2 n F) (hpq : 3 ∣ 2 ^ n + 1) :
     LargeEvenProjMk (unitarySU 2 n F 6) (swapSU hKd) ≠ 1 := by
-  haveI : Finite F := hKd.finite
+  have : Finite F := hKd.finite
   intro h
   obtain ⟨z, -, hz⟩ := exists_scalar_of_proj_eq_one hKd hpq h
   obtain ⟨ζ, hζo, -⟩ := exists_orderOf_eq_norm_one hKd Nat.prime_three hpq
@@ -24,7 +24,7 @@ theorem projMk_swapSU_six_ne_one (hKd : UnitaryFieldData 2 n F) (hpq : 3 ∣ 2 ^
     rintro rfl
     simp at hζo
   apply permGL_swap_not_mem_center (K := F) (d := 6) (i := 0) (j := 1)
-    (by simp [Fin.ext_iff]) hζ1
+    (by simp) hζ1
   have hw : (permGL (Equiv.swap (0 : Fin 6) 1) : GL (Fin 6) F) =
       GeneralLinearGroup.scalar (Fin 6) z := hz
   rw [hw, Subgroup.mem_center_iff]
@@ -36,7 +36,7 @@ theorem commute_swapSU_of_mem_torus (hKd : UnitaryFieldData 2 n F)
     (hE₀diag : ∀ e ∈ E₀, ∃ t : Fin 6 → Fˣ, (e : GL (Fin 6) F) = diagHom 6 t ∧ t 0 = t 1 ∧
       ∀ i, t i ^ 3 = 1) {s : ↥(unitarySU 2 n F 6)} (hs : s ∈ E₀) :
     Commute s (swapSU hKd) := by
-  haveI : Finite F := hKd.finite
+  have : Finite F := hKd.finite
   obtain ⟨t, hst, ht01, -⟩ := hE₀diag s hs
   apply Subtype.ext
   show (s : GL (Fin 6) F) * permGL (Equiv.swap (0 : Fin 6) 1) =
@@ -63,7 +63,7 @@ theorem exists_twoLocal_four_of_injective (hKd : UnitaryFieldData 2 n F) (hpq : 
     (φ : ↥(unitarySU 2 n F 6) →* P) (hφ : Function.Injective φ) (hφr : ∀ s, φ s ∈ ψ.range) :
     ∃ U E : Subgroup K, U ≠ ⊥ ∧ IsPGroup 2 U ∧ E ≤ Subgroup.normalizer (U : Set K) ∧
       CFSG.Open.IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 4 := by
-  haveI : Finite F := hKd.finite
+  have : Finite F := hKd.finite
   classical
   obtain ⟨E₀, hE₀ab, hE₀card, hE₀diag⟩ := exists_torusFour hKd hpq
   have hw1 : φ (swapSU hKd) ≠ 1 := by
@@ -93,7 +93,7 @@ theorem exists_twoLocal_three_of_quot (hKd : UnitaryFieldData 2 n F) (hpq : 3 �
     (hψ : Function.Surjective ψ) (h2 : IsPGroup 2 ψ.ker) :
     ∃ U E : Subgroup K, U ≠ ⊥ ∧ IsPGroup 2 U ∧ E ≤ Subgroup.normalizer (U : Set K) ∧
       CFSG.Open.IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 3 := by
-  haveI : Finite F := hKd.finite
+  have : Finite F := hKd.finite
   classical
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E₀, hE₀ab, hE₀card, hE₀diag⟩ := exists_torusFour hKd hpq

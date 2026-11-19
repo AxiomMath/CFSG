@@ -178,8 +178,8 @@ theorem exists_two_indep_fixed_unitary (hU : UnitaryFieldData ℓ f K) {p e n : 
       primeFormFieldHom hU (isPrimeFormGram_one' (n := n)) τ x₁ = x₁ ∧
       primeFormFieldHom hU (isPrimeFormGram_one' (n := n)) τ x₂ = x₂ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite K := hU.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite K := hU.finite
   have hfin : Finite (gramSU hU (1 : Matrix (Fin e) (Fin e) K)) := inferInstance
   obtain ⟨g, hg, hgτ⟩ := exists_fixed_orderOf_eq_prime
     (fldSU hU (isPrimeFormGram_one' (n := e)) τ)

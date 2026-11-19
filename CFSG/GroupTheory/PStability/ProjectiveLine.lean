@@ -275,7 +275,7 @@ private theorem card_eq_of_isElementaryAbelian {r : ℕ} [Fact r.Prime] (hpr : p
     obtain ⟨a, rfl⟩ := hπP x
     exact ⟨a, fun h1 => hx (hφ ((heq a).symm.trans (h1.trans φ.map_one.symm)))⟩
   have hrank := coprime_elementary_projective_rank_bound (Module.finrank_fin_fun K) p Fact.out
-    r Fact.out hpr.symm ρ P.isPGroup' hab hexp hnon
+    r Fact.out hpr.symm ρ P.isPGroup hab hexp hnon
   have hrange : (projectiveLinearAction.comp ρ).range = φ.range := by
     rw [show projectiveLinearAction.comp ρ = φ.comp πP from MonoidHom.ext heq,
       MonoidHom.range_comp, MonoidHom.range_eq_top.mpr hπP, Subgroup.map_top]

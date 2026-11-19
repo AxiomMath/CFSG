@@ -18,7 +18,7 @@ variable {G : Type} [Group G] {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
 variable {ρ : Representation (ZMod 2) G V} {A : Subgroup G}
 
 theorem mem_calP_iff : A ∈ calP ρ ↔ A ≠ ⊥ ∧ IsElemBestOffender ρ A := by
-  rw [calP, Set.mem_setOf_eq, IsElemBestOffender,
+  rw [calP, Set.mem_ofPred_eq, IsElemBestOffender,
     CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian]
 
 theorem isElementaryAbelian_of_mem_calP (hA : A ∈ calP ρ) : CFSG.IsElementaryAbelian 2 ↥A :=

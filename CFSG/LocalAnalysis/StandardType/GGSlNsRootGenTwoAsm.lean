@@ -131,7 +131,7 @@ private theorem cover_avoid_of_one_le
     intro x hx
     rw [MonoidHom.mem_ker] at hx
     exact hφc x (by rw [hx]; exact Subgroup.one_mem _)
-  haveI : Nonempty (PairIndex s ⊕ Fin s) := ⟨Sum.inr ⟨0, by omega⟩⟩
+  have : Nonempty (PairIndex s ⊕ Fin s) := ⟨Sum.inr ⟨0, by omega⟩⟩
   exact SuSplitRootGen.ggTorusRootGenAvoid_of_cover (p := 3)
     (H := SpecialLinearGroup (Fin n) K) (L' := L')
     (φ := φ) (τ := torusSL ε hC hCp) (A := A)
@@ -261,7 +261,7 @@ private theorem cover_avoid_of_eq_zero
     intro x hx
     rw [MonoidHom.mem_ker] at hx
     exact hφc x (by rw [hx]; exact Subgroup.one_mem _)
-  haveI : Nonempty (PairIndex s ⊕ PairIndex s) :=
+  have : Nonempty (PairIndex s ⊕ PairIndex s) :=
     ⟨Sum.inl ⟨(⟨0, by omega⟩, ⟨1, by omega⟩), by
       intro h
       have hv := congrArg Fin.val h
@@ -276,9 +276,9 @@ theorem ggTorusRootGenAvoidKG_projectiveSL_two {K : Type} [Field K] [Finite K] [
     GGTorusRootGenAvoidKG 3 r (projectiveSL d K) (Set.range (conjAut d K)) := by
   classical
   have hp : Nat.Prime 3 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
-  haveI : NeZero 3 := ⟨hp.ne_zero⟩
-  haveI : Nonempty K := ⟨0⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : NeZero 3 := ⟨hp.ne_zero⟩
+  have : Nonempty K := ⟨0⟩
   intro L' _ _ ψ hψ hker hperf A hA hAI _ h3 hsc
   have hp2 : 3 ≠ 2 := by norm_num
   have hpK : 3 ∣ Nat.card K + 1 := ⟨1, by rw [hK]⟩
@@ -293,7 +293,7 @@ theorem ggTorusRootGenAvoidKG_projectiveSL_two {K : Type} [Field K] [Finite K] [
     exact hp2 ((Nat.prime_dvd_prime_iff_eq hp Nat.prime_two).mp hdvd)
   have hpK0 : (3 : K) ≠ 0 := OrdPNS.natCast_ne_zero_of_charTwo hp hp2
   obtain ⟨g, hg, hgd⟩ := exists_irreducible_dvd_cyclotomic (K := K) hp
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hζ : AdjoinRoot.root g ^ 3 = 1 :=
     (CoordSL.root_isPrimitiveRoot hp hpK0 hgd).pow_eq_one
   have hC : (rootMat g).det = 1 := CoordSL.det_rootMat hp hpK' hpK0 hgd
@@ -326,7 +326,7 @@ theorem ggTorusRootGenAvoidKG_projectiveSL_two {K : Type} [Field K] [Finite K] [
       group
     have h2 : MulAut.conj (φ (torusSL ε hC hCp 1)) = 1 := by simp
     exact h1.trans h2.symm
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hkerp : ∀ z ∈ φ.ker, z ^ 3 = 1 → z = 1 := by
     intro z hz _hz3
     have hzZ : z ∈ Subgroup.center (SpecialLinearGroup (Fin d) K) :=
@@ -367,7 +367,7 @@ theorem ggTorusRootGenAvoidKG_linearNs_two {K : Type} [Field K] {d : ℕ} (hK : 
     GGTorusRootGenAvoidKG 3 r (LargeEvenProj (LargeEvenSLGroup (Fin d) K))
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin d) K)) Set.univ) := by
   have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
-  haveI : CharP K 2 := charP_two_of_card (m := 1) (by simpa using hK)
+  have : CharP K 2 := charP_two_of_card (m := 1) (by simpa using hK)
   exact ggTorusRootGenAvoidKG_of_mulEquiv (TypeA.recipeEquiv d K)
     (fun _ hφ => TypeA.congr_recipeEquiv_mem hφ)
     (SlNsRootGen.ggTorusRootGenAvoidKG_projectiveSL_two hK r)

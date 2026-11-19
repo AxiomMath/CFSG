@@ -14,6 +14,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem t5_component_le_layerCent {L : Subgroup G} {s : G} {J : Subgroup G}
     (hJ : IsComponentIn J (L ⊓ centralizer ({s} : Set G))) : J ≤ layerCent L s := by
   let H : Subgroup G := L ⊓ centralizer ({s} : Set G)

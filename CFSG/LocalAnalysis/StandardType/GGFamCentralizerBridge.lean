@@ -31,12 +31,12 @@ open CFSG.HardMathSupport.Timmesfeld.Torality
 theorem famKernel_eq_familyKernel (F : Set (Fin τ.rank → Kˣ)) :
     famKernel F = familyKernel (fun a : F => (a : Fin τ.rank → Kˣ)) := by
   ext α
-  simp only [famKernel, familyKernel, Set.mem_setOf_eq, Subtype.forall]
+  simp only [famKernel, familyKernel, Set.mem_ofPred_eq, Subtype.forall]
 
 theorem famStabilizer_eq_familyStabilizer (F : Set (Fin τ.rank → Kˣ)) :
     famStabilizer F = familyStabilizer (fun a : F => (a : Fin τ.rank → Kˣ)) := by
   ext w
-  simp only [famStabilizer, familyStabilizer, Set.mem_setOf_eq, Subtype.forall]
+  simp only [famStabilizer, familyStabilizer, Set.mem_ofPred_eq, Subtype.forall]
 
 theorem map_famCentralizer_eq_familyCentralizer (F : Set (Fin τ.rank → Kˣ)) :
     (famCentralizer F).map (adjointGroup τ K).subtype =

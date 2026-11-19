@@ -19,8 +19,8 @@ theorem stepCaseACard_holds : StepCaseACard := by
   intro hE9 hE27 Ω _ _ B x L hsetup D K hstd hcat hsimple hKcard hBle E hEea hECK hENL
     hECx hEcard T hTNL hTCx hT2 hBT hTBne
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcfg : S171.Cfg Ω 3 B x L := hsetup.cfg
   obtain ⟨hDleB, hDab, hDcard, hxD, hKdef, hKcomp, hDB⟩ := hstd
   have hKq : CFSG.Open.IsQuasisimple ↥K := hKcomp.2.2
@@ -138,7 +138,7 @@ theorem stepCaseACard_holds : StepCaseACard := by
       intro y hy
       obtain ⟨y0, hy0, rfl⟩ := hy
       exact y0.2.1
-    have hPmap_p : IsPGroup 3 Pmap := P.isPGroup'.map Y0.subtype
+    have hPmap_p : IsPGroup 3 Pmap := P.isPGroup.map Y0.subtype
     have hPmap_cyc : IsCyclic Pmap := hcfg.cyc Pmap hPmap_le hPmap_p
     let f : ↥(P : Subgroup ↥Y0) →* ↥Pmap :=
       { toFun := fun y => ⟨Y0.subtype y, ⟨y, y.2, rfl⟩⟩
@@ -186,7 +186,7 @@ theorem stepCaseACard_holds : StepCaseACard := by
     have hyHord : orderOf yH = 3 := by
       rw [← Subgroup.orderOf_coe]
       exact hyΩord
-    haveI : IsCyclic H := hHcyc
+    have : IsCyclic H := hHcyc
     have hyH_mem : yH ∈ Subgroup.zpowers xH :=
       CFSG.GroupTheory.SuzukiTwoGroup.mem_zpowers_of_orderOf_eq (by rw [hyHord, hxHord])
     have hyΩ_mem : (y : Ω) ∈ Subgroup.zpowers x := by
@@ -208,7 +208,7 @@ theorem stepCaseACard_holds : StepCaseACard := by
     (Y := ↥Y0) (p := 3) hcyc hcen
   obtain ⟨N0, hN0⟩ :=
     (CFSG.GroupTheory.hasNormalPComplement_iff_exists (G := ↥Y0) 3).mp hcomp
-  haveI : N0.Normal := hN0.1
+  have : N0.Normal := hN0.1
   obtain ⟨k0, hk0⟩ := hN0.2.2
   have hN0quot : IsPGroup 3 (↥Y0 ⧸ N0) :=
     IsPGroup.of_card (n := k0) (by rw [← Subgroup.index_eq_card]; exact hk0)
@@ -296,15 +296,15 @@ theorem stepCaseACard_holds : StepCaseACard := by
     exact CFSG.ABGLocalTools.mem_normalizer_inf (hF27_NCL hf) (hF27_NCx hf)
   have hN0char : N0.Characteristic :=
     CFSG.GroupTheory.FrobeniusNormalComplement.IsNormalPComplement.characteristic hN0
-  haveI : N0.Characteristic := hN0char
+  have : N0.Characteristic := hN0char
   have hF27_NΩ : E ⊔ A27' ≤ Subgroup.normalizer (NΩ : Set Ω) := by
     intro f hf
     exact CFSG.ABGLocalTools.mem_normalizer_map_subtype_of_characteristic
       (M := Y0) (C := N0) (hF27_NY0 hf)
   let : Subgroup.Normalizes (E ⊔ A27') NΩ := ⟨hF27_NΩ⟩
-  letI : MulDistribMulAction ↥(E ⊔ A27') NΩ :=
+  let : MulDistribMulAction ↥(E ⊔ A27') NΩ :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (E ⊔ A27') NΩ hF27_NΩ
-  haveI : Fact (IsPGroup 3 ↥(E ⊔ A27')) := ⟨hF27_3⟩
+  have : Fact (IsPGroup 3 ↥(E ⊔ A27')) := ⟨hF27_3⟩
   have hcopNΩ : Nat.Coprime 3 (Nat.card NΩ) := by
     have hcardNΩ : Nat.card NΩ = Nat.card N0 := by
       dsimp [NΩ]
@@ -315,7 +315,7 @@ theorem stepCaseACard_holds : StepCaseACard := by
     CFSG.exists_invariant_sylow_of_pgroup_operator_coprime
       (G := NΩ) (A := ↥(E ⊔ A27')) (r := 3) (p := 2) hcopNΩ
   let U : Subgroup Ω := (P : Subgroup NΩ).map NΩ.subtype
-  have hU2 : IsPGroup 2 U := P.isPGroup'.map NΩ.subtype
+  have hU2 : IsPGroup 2 U := P.isPGroup.map NΩ.subtype
   have hPne : (P : Subgroup NΩ) ≠ ⊥ := Sylow.ne_bot_of_dvd_card P h2dvdNΩ
   have hUne : U ≠ ⊥ := by
     intro hUbot
@@ -329,15 +329,13 @@ theorem stepCaseACard_holds : StepCaseACard := by
     constructor
     · rintro ⟨y, hy, rfl⟩
       refine ⟨(⟨f, hf⟩ : ↥(E ⊔ A27')) • y, (hPinv.invariant ⟨f, hf⟩ y).mp hy, ?_⟩
-      simpa using Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe
-        (↥(E ⊔ A27')) NΩ (⟨f, hf⟩ : ↥(E ⊔ A27')) y
+      simp
     · rintro ⟨y, hy, hyu⟩
       refine ⟨(⟨f, hf⟩ : ↥(E ⊔ A27'))⁻¹ • y, (hPinv.invariant ⟨f, hf⟩⁻¹ y).mp hy, ?_⟩
       calc
         (((⟨f, hf⟩ : ↥(E ⊔ A27'))⁻¹ • y : NΩ) : Ω)
             = f⁻¹ * (y : Ω) * (f⁻¹)⁻¹ := by
-              simpa using Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe
-                (↥(E ⊔ A27')) NΩ (⟨f, hf⟩ : ↥(E ⊔ A27'))⁻¹ y
+              simp
         _ = f⁻¹ * (f * u * f⁻¹) * f := by
               change f⁻¹ * (NΩ.subtype y) * (f⁻¹)⁻¹ = f⁻¹ * (f * u * f⁻¹) * f
               rw [hyu]

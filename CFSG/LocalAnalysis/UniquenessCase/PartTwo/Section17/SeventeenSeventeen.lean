@@ -28,12 +28,12 @@ theorem not_isSpor_He_of_isSpor_J2 :
     exact CFSG.RankThree.PartTwo.KFacts.KS14.card_nativeJ2
   omega
 
-private theorem exists_mem_gam_two_not_le_centralizer {D : Data G} {V₀ V : Subgroup G} (h : Hyp125 D V₀ V) (hV0 : V₀ = ⊥)
+private theorem exists_mem_gam_two_not_le_centralizer {D : Data G} {V₀ V : Subgroup G} (h : Hyp125 D V₀ V) (_hV0 : V₀ = ⊥)
     (hCi : ¬ centralizer (F12.Ci 2 D.T V : Set G) ≤ D.M) :
     ∃ A ∈ F12.Gam 2 D.T V, ¬ A ≤ centralizer (V : Set G) := by
   classical
   by_contra hall
-  push_neg at hall
+  push Not at hall
   have hWi : F12.Wi 2 D.T V ≤ centralizer (V : Set G) := by
     unfold F12.Wi
     exact iSup₂_le hall
@@ -53,13 +53,13 @@ private theorem not_le_conjSubgroup_of_mem_gam {D : Data G} {V₀ V : Subgroup G
     (h : Hyp125 D V₀ V) (hV0 : V₀ = ⊥)
     (h27 : F12.Wi 0 D.T V ≤ F11.CTilde D.M V₀ V ∧
       normalizer ((F12.Wi 0 D.T V : Subgroup G) : Set G) ≤ D.M)
-    {A : Subgroup G} (hA : A ∈ F12.Gam 2 D.T V)
+    {A : Subgroup G} (_hA : A ∈ F12.Gam 2 D.T V)
     (hAne : ¬ A ≤ Subgroup.centralizer (V : Set G)) {g : G}
     (hAg : A ≤ conjSubgroup V g) :
     ¬ V ≤ conjSubgroup D.M g := by
   classical
   intro hVMg
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVginvM : conjSubgroup V g⁻¹ ≤ D.M :=
     (CFSG.Quasithin.E3.conjSubgroup_le_iff_le_inv (A := V) (B := D.M) g⁻¹).2
       (by simpa using hVMg)
@@ -141,7 +141,7 @@ private theorem four_le_mQuot_of_mem_gam {D : Data G} {V₀ V : Subgroup G}
     CFSG.Quasithin.B2F.isPGroup_of_isElemAbelian
       ((CFSG.Open.IsElemAbelian.mono (E3.isElemAbelian_conjSubgroup h.pairFacts.elemAbelian g)) hAg)
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hmB : E3.mQuot (conjSubgroup V g) B ≤ 5 := by
     have hadd := E3.mQuot_add (V := conjSubgroup V g) (U := B) (U' := A) hBA hAg
     rw [hmA] at hadd
@@ -172,7 +172,7 @@ private theorem gammaOne_le_conj_of_mem_gam {D : Data G} {V₀ V : Subgroup G}
     (h : Hyp125 D V₀ V) (hV0 : V₀ = ⊥)
     (h30 : (6 : ℕ∞) ≤ rMV D.M V)
     {A : Subgroup G} (hA : A ∈ F12.Gam 2 D.T V)
-    (hAne : ¬ A ≤ Subgroup.centralizer (V : Set G)) {g : G}
+    (_hAne : ¬ A ≤ Subgroup.centralizer (V : Set G)) {g : G}
     (hAg : A ≤ conjSubgroup V g) (hmA : E3.mQuot (conjSubgroup V g) A = 2)
     (hmAB : E3.mQuot A (A ⊓ Subgroup.centralizer (V : Set G)) = 4) :
     gammaOneABarB D V₀ V A ≤ conjSubgroup D.M g := by
@@ -403,7 +403,7 @@ private theorem seventeen_seventeen_final_contradiction {D : Data G} {V₀ V L :
   have hVel := hV.isElemAbelian
   obtain ⟨hV0, hCi⟩ := h17_28 L c
   have h5sig : 5 ∈ D.sig := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 L
     have h22 := h17_22 L P (centerOf P) c hP rfl
     rcases h22 with hHe | ⟨-, hsig5, -⟩
@@ -429,7 +429,7 @@ private theorem seventeen_seventeen_final_contradiction {D : Data G} {V₀ V L :
   have hAel : IsElemAbelian 2 A :=
     CFSG.Open.IsElemAbelian.mono (E3.isElemAbelian_conjSubgroup hVel g) hAg
   have hLopp : L = Opp 3 D.M := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 3 L
     have h22 := h17_22 L P (centerOf P) c hP rfl
     rcases h22 with hHe | h

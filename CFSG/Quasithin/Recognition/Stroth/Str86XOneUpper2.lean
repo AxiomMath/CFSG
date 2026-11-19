@@ -17,6 +17,7 @@ private noncomputable def u3YM (L1 L2 S : Subgroup G) (l : G) : Subgroup (u3M L1
   ((QuotientGroup.mk' ((Z1 L1 L2 S).subgroupOf (u3X1 L1 L2 S))).comp
     ((conjSub l (u3Y L1 L2 S)).subgroupOf (u3X1 L1 L2 S)).subtype).range
 
+omit [Finite G] in
 private theorem mem_u3YM {L1 L2 S : Subgroup G} {l : G}
     (hYX : conjSub l (u3Y L1 L2 S) ≤ u3X1 L1 L2 S) {x : u3M L1 L2 S} :
     x ∈ u3YM L1 L2 S l ↔
@@ -29,6 +30,7 @@ private theorem mem_u3YM {L1 L2 S : Subgroup G} {l : G}
   · rintro ⟨y, hy, rfl⟩
     exact ⟨⟨⟨y, hYX hy⟩, hy⟩, rfl⟩
 
+omit [Finite G] in
 private theorem card_conjSub_eq (l : G) (A : Subgroup G) :
     Nat.card (conjSub l A) = Nat.card A := by
   rw [conjSub]
@@ -44,6 +46,7 @@ private theorem u3_omegaOneOf_smul {X : Type} [Group X] [Finite X]
     rfl
   rw [hcoe, ← CFSG.Quasithin.omegaOneOf_map_mulEquiv (MulAut.conj q)]
 
+omit [Finite G] in
 private theorem u3_conjSub_le_u3X1 {L1 L2 S : Subgroup G} {l : G} (hl : l ∈ L1) :
     conjSub l (u3Y L1 L2 S) ≤ u3X1 L1 L2 S := by
   have hlN : l ∈ Subgroup.normalizer (u3X1 L1 L2 S : Set G) :=
@@ -227,7 +230,7 @@ theorem str86_X1_upper_bound
     (hB2 : VBig L2) (h2 : VL2 L2)
     (hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
     (hZQ : ¬ Z2 L1 L2 S ≤ Q1 L1 L2 S)
-    (hL2 : IsL2Quot (2 * k) (oTwoQuot ↥L2)) (hZ2 : Nat.card (Z2 L1 L2 S) = (2 ^ k) ^ 4)
+    (_hL2 : IsL2Quot (2 * k) (oTwoQuot ↥L2)) (_hZ2 : Nat.card (Z2 L1 L2 S) = (2 ^ k) ^ 4)
     (hZ1 : Nat.card (Z1 L1 L2 S) = 2 ^ k)
     (hY : Nat.card ↥(Z2 L1 L2 S ⊓ Q1 L1 L2 S) = (2 ^ k) ^ 3)
     (hX1' : ⁅u3X1 L1 L2 S, u3X1 L1 L2 S⁆ = Z1 L1 L2 S)
@@ -284,7 +287,7 @@ theorem str86_X1_upper_bound
     exact hT2
   have hAq0 : A0 = A0.map (MulAut.conj (1 : Q)).toMonoidHom := by
     ext x
-    simp [MulAut.conj_apply]
+    simp
   have hAq1 : A1 = A0.map (MulAut.conj q1).toMonoidHom := by
     simpa [A1] using
       (congrArg (fun S => S.map (MulAut.conj q1).toMonoidHom) hA0).symm
@@ -445,7 +448,7 @@ theorem str86_X1_upper_bound
         rw [heq]
         exact Ssub.inv_mem ih
     exact hmain (x : G) hxmem
-  letI : CommGroup M := u3MCommGroup hX1'
+  let : CommGroup M := u3MCommGroup hX1'
   have hMcard : Nat.card M = Nat.card Ssub := by
     rw [hSsub_top, Subgroup.card_top]
   calc Nat.card M = Nat.card Ssub := hMcard

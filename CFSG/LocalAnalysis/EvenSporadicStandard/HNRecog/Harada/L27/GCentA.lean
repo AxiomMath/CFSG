@@ -23,13 +23,13 @@ private theorem rhoX_injective (h : Setting25 G t z z₁ ι zv R0 F) :
   have h2 : Function.Injective
       (Subgroup.subtype (TauCeti.QuadraticMap.orthogonalGroup (qW h))) :=
     Subgroup.subtype_injective _
-  simpa [rhoX] using h2.comp h1
+  simp [rhoX]
 
 theorem ker_vbar_eq_A0W (h : Setting25 G t z z₁ ι zv R0 F) (hn : n ∈ normalizer (ι.range : Set G))
     (hnz : n * z₁ * n⁻¹ = z) :
     LinearMap.ker (((rhoX h (vbar h hn) : Wsp h ≃ₗ[ZMod 2] Wsp h) : Wsp h →ₗ[ZMod 2] Wsp h) -
       LinearMap.id) = A0W h := by
-  haveI hfin : FiniteDimensional (ZMod 2) (Wsp h) := Module.Finite.of_finite
+  have hfin : FiniteDimensional (ZMod 2) (Wsp h) := Module.Finite.of_finite
   obtain ⟨e⟩ := Fbar_iso h hn hnz
   obtain ⟨x, hx⟩ := exists_orderOf_eq_five_a5
   let fbar : ↥(Fbar h n) := e.symm x

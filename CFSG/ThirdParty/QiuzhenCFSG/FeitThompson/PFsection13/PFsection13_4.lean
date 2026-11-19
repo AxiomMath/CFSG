@@ -118,7 +118,7 @@ private theorem theorem_13_4_supportedOn_subgroup_of_inducedFromLinear
   classical
   rcases hχ with ⟨_hHM, θ, _hθirr, _hθdeg, hχeq⟩
   rw [hχeq]
-  letI : (H.subgroupOf M).Normal := hHnormal
+  let : (H.subgroupOf M).Normal := hHnormal
   exact Section10.inducedCF_supportedOn_subgroup (H.subgroupOf M) θ
 
 private theorem theorem_13_4_difference_supportedOn_punctured
@@ -362,7 +362,7 @@ private theorem theorem_13_4_disjoint_conjugateClosures_of_sourceContext
       Tfam Sfam τT τS q p v u d c hsourceT with
     ⟨_hQMF, _hTypeT, _hTypeLargeT, _hVcomm, _hFrobT, hQelem, hQcard,
       _hvBound, _hcohT, _hbookT, _hAZeroT, _hnormT⟩
-  letI : IsMulCommutative Q := IsElementaryAbelian.toIsMulCommutative q
+  let : IsMulCommutative Q := IsElementaryAbelian.toIsMulCommutative q
   rcases hsource with
     ⟨_hcase, hTypePS, _hTypePT, hpCard, hqCard, _hC, hD, _hc, _hd,
       _hUcard, _hVcard, _hSfam, _hTfam, _hDadeS, _hDadeT,
@@ -679,7 +679,7 @@ private theorem theorem_13_4_dual_linear_induction_contradiction_source
       _hUcard, _hVcard, hSfamData, hTfamData, _hDadeS, _hDadeT,
       hnotationData, _hDadeDiff, _hZeroDegree, _hConjIndex,
       _hConjBeta, _hChoice, hmin, hFourSixS, hFourSixT⟩
-  letI : IsMinCE G := hmin
+  let : IsMinCE G := hmin
   rcases hnotationData with
     ⟨ω, η, μ, ν, μsum, νsum, δ, δ', σ, hnotation⟩
   have hsourceT :

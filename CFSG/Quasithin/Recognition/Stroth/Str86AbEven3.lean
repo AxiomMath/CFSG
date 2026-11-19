@@ -47,7 +47,7 @@ theorem str86_V2_not_le_pCoreOf_even_base {L1 L2 S : Subgroup G}
   obtain ⟨hE1a, hZ1b, -, -, hE1e, -, -, -⟩ := str86_critPath_e1 hE1 hI hP hb (by omega)
   have hQ1S : Q1 L1 L2 S ≤ S := F7.isSylowTwoOf_pCoreOf_le (f112_isSylowTwoOf_P1 hF.toW)
   rw [hl0, h0] at hE1a
-  obtain ⟨d, hdV, hdQ⟩ := SetLike.not_le_iff_exists.mp hE1a
+  obtain ⟨d, hdV, hdQ⟩ := IsConcreteLE.not_le_iff_exists.mp hE1a
   have hvb : vtype (lam (str86CritB L1 L2 S)) = false := hP.vtype_of_even hI le_rfl hb
   have hdQ1 : d ∈ Q1 L1 L2 S := by
     have h := hGL1 _ (lam 1) hvb (by
@@ -132,7 +132,7 @@ theorem str86_le_of_critB_even {L1 L2 S : Subgroup G}
           (lam (str86CritB L1 L2 S - 1)) (lam (str86CritB L1 L2 S - 2)) from hn).symm))
   have hidx := (str86_edge_facts hI hvb1 hn).2.2.2.2.2.2 X hXe hXS
   rw [hQ0] at hE1a
-  obtain ⟨t, htV, htQ⟩ := SetLike.not_le_iff_exists.mp hE1a
+  obtain ⟨t, htV, htQ⟩ := IsConcreteLE.not_le_iff_exists.mp hE1a
   have hvb : vtype (lam (str86CritB L1 L2 S)) = false := hP.vtype_of_even hI le_rfl hb
   have htQ1 : t ∈ Q1 L1 L2 S := by
     have h := hGL1 _ (lam 1) hvb (by
@@ -193,7 +193,7 @@ theorem str86_critB_not_even_ge_eight {L1 L2 S : Subgroup G}
     by_contra h
     exact hcon ⟨ν, hν, h⟩
   have hvν : vtype ν = false := str86_vtype_of_mem_nbrs hvμ hν
-  obtain ⟨t, htV, htQ⟩ := SetLike.not_le_iff_exists.mp hνQ
+  obtain ⟨t, htV, htQ⟩ := IsConcreteLE.not_le_iff_exists.mp hνQ
   have ht2 : t * t = 1 := by
     have htZ : t ∈ omegaOneCenterOf (pCoreOf 2 (stab ν)) := by
       rw [← hD41 _ hvν]

@@ -118,7 +118,7 @@ open CFSG.KC.Enum CFSG.KS CFSG.KC.TwoF4LieK
   bAnd(Nat.beq (layAt LAY 87) 8, allN (nat_lit 1755) (fun p => strictB (layAt LAY p) (fun l =>
     bIf(Nat.ble l 6, true, Nat.beq l 8))))
 
-@[expose] noncomputable def sigR (A : Nat → Nat) (ORD PR LB k : Nat) : Nat → Nat → Nat :=
+@[expose] noncomputable def sigR (A : Nat → Nat) (_ORD PR LB k : Nat) : Nat → Nat → Nat :=
   Nat.rec (motive := fun _ => Nat → Nat) (fun _ => k)
     (fun _ ih j => nIf(Nat.beq j 0, k,
       strictN (ih (fw (nat_lit 11) PR j)) (fun y => gp (A (fw (nat_lit 3) LB j)) y)))

@@ -76,6 +76,7 @@ theorem cd_inj {g h : Perm V6} (e : cd g = cd h) : g = h := by
 
 theorem pk_one : pkw 6 (1 : Perm (Fin 64)) = cOne := by decide +kernel
 
+set_option exponentiation.threshold 512 in
 theorem cd_one : cd 1 = cOne := pk_one
 
 theorem cd_t1 : cd (transv (ofN 12)) = cT1 := by decide +kernel

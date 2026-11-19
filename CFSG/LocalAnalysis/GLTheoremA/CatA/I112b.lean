@@ -30,7 +30,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem i112b_card_le_three_of_isL2
     {L : Subgroup G} (hL2 : IsLTwoOddPow (barOf 3 L))
     {W : Subgroup G} (hWL : W ≤ L) (hW : IsElemAbelian 3 W) : Nat.card W ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hL2' : IsL2TwoPowOdd (barOf 3 L) := isL2TwoPowOdd_of_isLTwoOddPow hL2
   obtain ⟨k, hk⟩ := exists_card_eq_pow_of_isElemAbelian Nat.prime_three hW
   have hWsub : Nat.card ↥(W.subgroupOf L) = 3 ^ k := by
@@ -70,7 +70,7 @@ private theorem i112b_card_le_nine_of_max
     (hmax : ∀ R : Subgroup G, R ≤ L → IsPGroup 3 ↥R →
       (∀ S : Subgroup G, S ≤ L → IsPGroup 3 ↥S → R ≤ S → S = R) → IsThreeOnePlusTwo R)
     {W : Subgroup G} (hWL : W ≤ L) (hW : IsElemAbelian 3 W) : Nat.card W ≤ 3 ^ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hW3 : IsPGroup 3 ↥W := fun g => ⟨1, by rw [pow_one]; exact Subtype.ext (hW.2 g.1 g.2)⟩
   obtain ⟨S, hSmem, hSmax⟩ := Set.Finite.exists_maximal
     (s := {S : Subgroup G | S ≤ L ∧ IsPGroup 3 ↥S ∧ W ≤ S}) (Set.toFinite _) ⟨W, hWL, hW3, le_rfl⟩
@@ -228,7 +228,7 @@ private theorem i112b_orderTwistedA2
   have hprod : ∏ i ∈ Finset.Icc 2 3, (if Even i then Q ^ i - 1 else Q ^ i + 1) =
       (Q ^ 2 - 1) * (Q ^ 3 + 1) := by
     rw [show Finset.Icc 2 3 = {2, 3} from by decide, Finset.prod_pair (by norm_num),
-      if_pos (by decide), if_neg (by decide)]
+      ite_eq_left (by decide), ite_eq_right (by decide)]
   unfold CFSG.Open.orderTwistedA
   simp only [show 2 * (2 + 1) / 2 = 3 from rfl, show 2 + 1 = 3 from rfl, hg, hprod]
 
@@ -308,7 +308,7 @@ private theorem i112b_L2_ne
     have hbig : 2 ^ 31 * 3 ≤ 2 ^ n * (4 ^ n - 1) := Nat.mul_le_mul h2 h3
     rw [h] at hbig
     rcases hN with rfl | rfl | rfl | rfl | rfl <;> norm_num at hbig
-  interval_cases n <;> first | omega | (rcases hN with rfl | rfl | rfl | rfl | rfl <;> norm_num at h)
+  interval_cases n <;> first | omega
 
 private theorem i112b_card_of_excIndex
     {S : Type} [Group S] [Finite S] (i : TauCeti.CFSGIndex)
@@ -456,7 +456,7 @@ private theorem i112b_L2_ne360
     have hbig : 2 ^ 31 * 3 ≤ 2 ^ n * (4 ^ n - 1) := Nat.mul_le_mul h2 h3
     rw [h] at hbig
     norm_num at hbig
-  interval_cases n <;> first | omega | norm_num at h
+  interval_cases n <;> first | omega
 
 private theorem i112b_L2_ne_list
     (n : ℕ) (hn : n % 2 = 1) (hn1 : 1 < n)
@@ -488,7 +488,7 @@ private theorem i112b_twoLocalRank_le_of_bound
     (hW : ∀ W U : Subgroup G, W ≤ X → IsElemAbelian 3 W → U ≤ X → U ≠ ⊥ → IsPGroup 2 U →
       W ≤ Subgroup.normalizer (U : Set G) → Nat.card W ≤ Nat.card B) :
     GLATwoLocalRank 3 ↥X ≤ CFSG.Open.pRank 3 B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨m, hm⟩ := exists_card_eq_pow_of_isElemAbelian Nat.prime_three hB
   have hBm : m ≤ CFSG.Open.pRank 3 B := CFSG.SectionRank.le_pRank (by norm_num) le_rfl hB hm
   refine le_trans ?_ hBm

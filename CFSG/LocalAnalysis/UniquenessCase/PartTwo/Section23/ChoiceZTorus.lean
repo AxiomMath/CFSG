@@ -32,7 +32,7 @@ theorem full (El : UC22pwtElem C h w₁ m a b α) : UC22pwtElem C h w₁ m 1 m �
     have hm : h ^ m = 1 := by
       rw [← El.ord]
       exact pow_orderOf_eq_one h
-    simpa [hm] using (U ⊓ A₁).one_mem
+    simp [hm]
   w_mem := El.w_mem
   w_sq := El.w_sq
   w_inv := El.w_inv
@@ -45,6 +45,7 @@ namespace UC22pwtPair
 
 variable {X : Type} [Group X] [Finite X] {h h' : X} {m a b : ℕ} {α : Set ℕ}
 
+omit [Finite X] in
 private theorem orderOf_pow_div (P : UC22pwtPair h h' m a b α) {p : ℕ} (hpm : p ∣ m) :
     orderOf (h ^ (m / p)) = p ∧ orderOf (h' ^ (m / p)) = p := by
   have hm0 : m ≠ 0 := by
@@ -64,7 +65,7 @@ private theorem not_isCyclic_pow_div (P : UC22pwtPair h h' m a b α) {p : ℕ} (
   let Q : Subgroup X := Subgroup.zpowers (h ^ (m / p)) ⊔ Subgroup.zpowers (h' ^ (m / p))
   have hxQ : h ^ (m / p) ∈ Q := Subgroup.mem_sup_left (Subgroup.mem_zpowers _)
   have hyQ : h' ^ (m / p) ∈ Q := Subgroup.mem_sup_right (Subgroup.mem_zpowers _)
-  haveI : IsCyclic ↥Q := hcyc
+  have : IsCyclic ↥Q := hcyc
   let Xq : Subgroup ↥Q := Subgroup.zpowers ⟨h ^ (m / p), hxQ⟩
   let Yq : Subgroup ↥Q := Subgroup.zpowers ⟨h' ^ (m / p), hyQ⟩
   have hXq : Nat.card Xq = p := by
@@ -162,7 +163,7 @@ theorem uc22pwt_core_full (hR1 : uc22pwCartanRankOne) {X : Type} [Group X] [Fini
     exact P.pow_m_of_mem_E hx
   · rw [P.piSet_E]
     ext p
-    simp only [etaSet, Set.mem_setOf_eq]
+    simp only [etaSet, Set.mem_ofPred_eq]
     exact ⟨fun hp => ⟨hp.1, (hpr p hp.1).1 hp.2⟩, fun hp => ⟨hp.1, (hpr p hp.1).2 hp.2⟩⟩
   · intro p hp hpd
     have hpE : p ∈ piSet (uc22pwtE h (ρ τ h) 1 m) := ⟨hp, hpd⟩

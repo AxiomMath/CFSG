@@ -43,7 +43,7 @@ private theorem CFSG.section12_inf_sylow_eq_sylow_of_normalizer_le
   let Namb : Subgroup G := Nloc.map TG.subtype
   have hTGp : IsPGroup q.val TG := by
     change IsPGroup q.val ((T : Subgroup M).map M.subtype)
-    exact IsPGroup.map T.isPGroup' M.subtype
+    exact IsPGroup.map T.isPGroup M.subtype
   have hNamb_p : IsPGroup q.val Namb := by
     have hNloc_p : IsPGroup q.val Nloc := hTGp.to_subgroup Nloc
     exact IsPGroup.map hNloc_p TG.subtype
@@ -141,7 +141,7 @@ public theorem CFSG.proposition_12_15_b
   have hPamb_p : IsPGroup q.val Pamb := by
     change IsPGroup q.val
       ((S : Subgroup (M ⊓ Mstar : Subgroup G)).map (M ⊓ Mstar : Subgroup G).subtype)
-    exact IsPGroup.map S.isPGroup' (M ⊓ Mstar : Subgroup G).subtype
+    exact IsPGroup.map S.isPGroup (M ⊓ Mstar : Subgroup G).subtype
   have hPamb_le_M : Pamb ≤ M := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, _hy, rfl⟩

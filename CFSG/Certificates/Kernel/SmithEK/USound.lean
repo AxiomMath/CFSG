@@ -265,7 +265,7 @@ theorem exists_comb (h : PlaneOK w y) (x : Fin 6 → F4) (hx : ∀ b, hermStd x 
     · rw [← hy' p d, ← hy' q d, e]
     · rw [← hw' p b, ← hw' q b, e]
   have hbij := (Fintype.bijective_iff_injective_and_card F).2
-    ⟨hinj, by simp [Fintype.card_prod, Fintype.card_fun, F4.card]⟩
+    ⟨hinj, by simp [Fintype.card_prod, F4.card]⟩
   obtain ⟨⟨c, d⟩, hp⟩ := hbij.2 x
   have hd : d = 0 := funext fun b => by
     have := hw' (c, d) b
@@ -447,7 +447,7 @@ theorem uaAp_eq {i : ℕ} (hi : i < 891) (h : PlaneOK (wv (wB i)) y) (a : ℕ) :
   | n + 1, hn, u, hu, hui => by
     simp only [uaAp, bitS]
     by_cases hb : a.testBit n = true
-    · rw [if_pos hb, if_pos hb]
+    · rw [ite_eq_left hb, ite_eq_left hb]
       have hk : n < 21 := by omega
       obtain ⟨hne, hiso⟩ := tv_ne_zero_iso (comb_iso h (alK n) (alK n)) hu hui
       have e1 : ap tvTabs[(uaPts[i]!)[n]!]! (ptIdx u) = ptIdx (u + hermStd u
@@ -460,7 +460,7 @@ theorem uaAp_eq {i : ℕ} (hi : i < 891) (h : PlaneOK (wv (wB i)) y) (a : ℕ) :
       unfold am
       rw [nmap_add, nmap_nmap h, nmap_addH]
       abel
-    · rw [if_neg hb, if_neg hb, add_zero]
+    · rw [ite_eq_right hb, ite_eq_right hb, add_zero]
       exact uaAp_eq hi h a n (by omega) u hu hui
 
 theorem uaAp_pt {i : ℕ} (hi : i < 891)
@@ -542,7 +542,7 @@ theorem planeOK_of {i : ℕ} (hi : i < 891)
       exact hS (funext fun a' => funext fun d => hc a' d)
     have hyd : y d ≠ 0 := fun e => by
       have := h.yw d d
-      rw [if_pos rfl, e, herm_zero_left] at this
+      rw [ite_eq_left rfl, e, herm_zero_left] at this
       exact zero_ne_one this
     have hydi := h.yy d d
     refine ⟨ptIdx (y d), ptIdx_lt ptsFacts hyd hydi, ?_⟩
@@ -554,7 +554,7 @@ theorem planeOK_of {i : ℕ} (hi : i < 891)
     rw [nmap_y h] at hce
     have e1 : hermStd (y d + comb (wv (wB i)) fun b => bitS a 9 b d) (wv (wB i) d) =
         hermStd (c • y d) (wv (wB i) d) := by rw [hce]
-    rw [hermStd_add_left, comb_w h, add_zero, hermStd_smul_left, h.yw, if_pos rfl,
+    rw [hermStd_add_left, comb_w h, add_zero, hermStd_smul_left, h.yw, ite_eq_left rfl,
       mul_one] at e1
     have e2 : y d + (comb (wv (wB i)) fun b => bitS a 9 b d) = y d + 0 := by
       rw [hce, ← e1, one_smul, add_zero]

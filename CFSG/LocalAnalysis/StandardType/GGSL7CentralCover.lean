@@ -37,7 +37,7 @@ theorem injective_of_surjective_projectiveSL_of_card_two {d : ℕ} {K : Type} [F
     (ψ : L' →* projectiveSL d K) (hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤) :
     Function.Injective ψ := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   obtain ⟨φ, hφsurj, hφ⟩ :=
     TypeA.exists_sl_cover (TypeA.slHasSections_of_five_le (K := K) hd) ψ hψ hker hperf
   rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]

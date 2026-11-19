@@ -21,7 +21,7 @@ private theorem feS_eq7 (i : Fin 7) : feS 7 i = sS (Cm 7 C7) i := by
   by_cases hq : q = i
   · subst hq
     simp [feS]
-  · simp [feS, hq, Pi.single_apply]
+  · simp [feS, hq]
 
 private theorem der_iff7 (r : FEMat 7) : FEConjDer 7 r ↔ ConjDer (sS (Cm 7 C7)) r := by
   constructor

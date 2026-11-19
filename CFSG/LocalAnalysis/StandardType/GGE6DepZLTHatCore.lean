@@ -170,8 +170,8 @@ theorem zl_hat_core {F E : Type} [Field F] [Finite F] [Field E] [Finite E] (ι :
       intro h
       rw [h, map_one] at hsc_s
       exact hzE_ne hsc_s.symm
-    haveI hFact3 : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-    haveI hFinF : Finite ↥(e6Data_valid.minGroup F) :=
+    have hFact3 : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have hFinF : Finite ↥(e6Data_valid.minGroup F) :=
       CFSG.LieType.Steinberg.CentralExt.FieldFour.finite_minGroup' (K := F) e6Data_valid
     have hkerF : (e6Isogeny F).ker = Subgroup.center ↥(e6Data_valid.minGroup F) :=
       CFSG.LieType.Steinberg.CentralExt.FieldFour.e6Isogeny_ker_eq_center (K := F)

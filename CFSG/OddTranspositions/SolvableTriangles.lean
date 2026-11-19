@@ -14,7 +14,7 @@ theorem not_firstKind (hN : IsNormalSet D) (hD : Asc72.IsOddTransp D)
     (hsolv : Group.IsSolvable G) {u w v : G} (h : Asc72.IsTriangle D u w v) :
     ¬ (Odd (orderOf (u * v * w)) ∧ 1 < orderOf (u * v * w)) := by
   rintro ⟨hodd, -⟩
-  haveI : Group.IsSolvable G := hsolv
+  have : Group.IsSolvable G := hsolv
   have huvD : u * v ∈ D := h.mul_mem_of_odd hD hN hodd
   have hnc : ¬ Commute w (u * v) := h.not_commute_mul hD
   let K : Subgroup G := Subgroup.closure ({u, w, v} : Set G)
@@ -85,7 +85,7 @@ theorem not_firstKind (hN : IsNormalSet D) (hD : Asc72.IsOddTransp D)
       rw [hx']
       exact hvC
   have htop : commutator K = ⊤ := le_antisymm le_top hle
-  haveI : Nontrivial K :=
+  have : Nontrivial K :=
     ⟨⟨⟨u, huK⟩, 1, fun h1 => hD.ne_one h.1 (congrArg Subtype.val h1)⟩⟩
   exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (G := K)).ne htop
 
@@ -93,7 +93,7 @@ theorem not_thirdKind (hN : IsNormalSet D) (hD : Asc72.IsOddTransp D)
     (hsolv : Group.IsSolvable G) {u w v : G} (h : Asc72.IsTriangle D u w v) :
     ¬ Asc72.IsThirdKind u w v := by
   rintro ⟨n, hn, hn1, hord⟩
-  haveI : Group.IsSolvable G := hsolv
+  have : Group.IsSolvable G := hsolv
   obtain ⟨hzz, hz1, hzu, hzv, hzw, -⟩ := h.third_kind hD hN hn hord
   let z : G := (u * v * w) ^ n
   let X : Subgroup G := Subgroup.closure ({u, w, v} : Set G)
@@ -130,7 +130,7 @@ theorem not_thirdKind (hN : IsNormalSet D) (hD : Asc72.IsOddTransp D)
         _ = zX := by rw [mul_assoc, mul_inv_cancel, mul_one]
     rw [← conj_zpow, hg]
     exact Subgroup.zpow_mem_zpowers zX k
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hmemN : ∀ d : X, d ∈ N → d = 1 ∨ d = zX := by
     intro d hd
     classical
@@ -282,7 +282,7 @@ theorem not_thirdKind (hN : IsNormalSet D) (hD : Asc72.IsOddTransp D)
 
 theorem triangle_secondKind_of_solvable {G : Type} [Group G] [Finite G] {D : Set G}
     (hN : IsNormalSet D) (hodd : Asc72.IsOddTransp D)
-    (hgen : Subgroup.closure D = ⊤) (hsolv : Group.IsSolvable G)
+    (_hgen : Subgroup.closure D = ⊤) (hsolv : Group.IsSolvable G)
     {u w v : G} (h : Asc72.IsTriangle D u w v) :
     orderOf (u * v * w) = 4 := by
   rcases h.orderOf_cases hodd hN with ⟨hoddord, h1⟩ | h4 | h3

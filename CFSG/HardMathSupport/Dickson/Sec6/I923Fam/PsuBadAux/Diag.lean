@@ -107,9 +107,9 @@ theorem mem_innAutDerived_of_diag {Y : Type} [Group Y] [Finite Y] (hY : CFSG.Ope
     (hD : descendTo e α ∈ primeFormD h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :
     α ∈ innAutDerived Y := by
   classical
-  haveI : Group.IsPerfect Y := ⟨hY.1⟩
-  haveI : Finite (Y ⧸ Subgroup.center Y) := inferInstance
-  haveI : Group.IsPerfect (Y ⧸ Subgroup.center Y) :=
+  have : Group.IsPerfect Y := ⟨hY.1⟩
+  have : Finite (Y ⧸ Subgroup.center Y) := inferInstance
+  have : Group.IsPerfect (Y ⧸ Subgroup.center Y) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center Y))
       (QuotientGroup.mk'_surjective _)
   set π : Y →* (Y ⧸ Subgroup.center Y) := QuotientGroup.mk' (Subgroup.center Y) with hπdef

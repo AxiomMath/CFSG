@@ -13,7 +13,7 @@ theorem sec_t120 {m : ℕ} (hm : 3 ≤ m) (v : Torus (StrothTypeIndex.t120 m hm)
     (hρ : ∃ z, 2 • z = (StrothTypeIndex.t120 m hm).action.φρ v - v) :
     (∃ z, 2 • z = v) ∨ (∃ z, 2 • z = v - gen (StrothTypeIndex.t120 m hm).k 0) := by
   have hk : ∀ i, 1 ≤ (StrothTypeIndex.t120 m hm).k i := by
-    intro i; fin_cases i <;> simp [StrothTypeIndex.k, Type120.k] <;> omega
+    intro i; fin_cases i <;> simp [StrothTypeIndex.k, Type120.k]; omega
   obtain ⟨x, y, z, rfl⟩ := torus_eq_zsmul_gens _ v
   have hR : (StrothTypeIndex.t120 m hm).action.φρ (x • gen _ 0 + y • gen _ 1 + z • gen _ 2) =
       (x - 2 * z) • gen _ 0 + (-z) • gen _ 1 + (y - z) • gen _ 2 := by
@@ -71,8 +71,7 @@ theorem par_uv_t320 (hm : 1 ≤ m) :
   have hG := GV_cast_two (n := m + 1) (by omega)
   ext a b
   fin_cases a <;> fin_cases b <;>
-  simp [parUV, Type320.uvM, Type320.uvA, Type320.tM, Type320.ρM, ofCols_apply, Matrix.mulVec,
-    dotProduct, Fin.sum_univ_three, hi, hF, hG] <;> decide
+  simp [parUV, Type320.uvM, Type320.uvA, Type320.tM, Type320.ρM, ofCols_apply, hi, hF, hG] <;> decide
 
 theorem par_t_t320 (hm : 1 ≤ m) :
     (Type320.tM ι φ γ).map (Int.cast : ℤ → ZMod 2) = parT := by
@@ -81,8 +80,7 @@ theorem par_t_t320 (hm : 1 ≤ m) :
   have hG := GV_cast_two (n := m + 1) (by omega)
   ext a b
   fin_cases a <;> fin_cases b <;>
-  simp [parT, Type320.tM, Type320.uvA, Type320.ρM, ofCols_apply, Matrix.mulVec, dotProduct,
-    Fin.sum_univ_three, hi, hF, hG] <;> decide
+  simp [parT, Type320.tM, Type320.uvA, Type320.ρM, ofCols_apply, hi, hF, hG] <;> decide
 
 theorem par_u_t320 (hm : 1 ≤ m) : (Type320.uM φ).map (Int.cast : ℤ → ZMod 2) = parU := by
   have hF := FV_cast_two (n := m + 1) (by omega)
@@ -92,7 +90,7 @@ theorem par_u_t320 (hm : 1 ≤ m) : (Type320.uM φ).map (Int.cast : ℤ → ZMod
 
 theorem par_ρ_t320 : Type320.ρM.map (Int.cast : ℤ → ZMod 2) = parR := by
   ext a b
-  fin_cases a <;> fin_cases b <;> simp [parR, Type320.ρM, ofCols_apply] <;> decide
+  fin_cases a <;> fin_cases b <;> simp [parR, Type320.ρM, ofCols_apply]; decide
 
 theorem profile2_t320 (h : 3 ≤ m + 1) :
     Profile2 (StrothTypeIndex.t320 (m + 1) h).k (StrothTypeIndex.t320 (m + 1) h).action.φuv
@@ -138,45 +136,44 @@ theorem twist2_t320 (h : 3 ≤ m + 1) :
     rw [matAct_gen_eq, matAct_gen_eq, h0, h1, h2]
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · refine matAct_gen_eq_add_tw _ _ 0 0 1 0 ?_ ?_ ?_ <;>
-      simp [hK, hK', t320_uv_eq, t330_uv_eq, Type320.uvM, Type330.uvM, ofCols_apply]
+      simp [hK', t320_uv_eq, t330_uv_eq, Type320.uvM, Type330.uvM, ofCols_apply]
   · exact e0 _ _ 1 (by simp [t320_uv_eq, t330_uv_eq, Type320.uvM, Type330.uvM, Type320.uvA,
       Type330.uvA, ofCols_apply]) (by simp [t320_uv_eq, t330_uv_eq, Type320.uvM, Type330.uvM,
       Type320.uvA, Type330.uvA, ofCols_apply]) (by simp [t320_uv_eq, t330_uv_eq, Type320.uvM,
       Type330.uvM, Type320.uvA, Type330.uvA, ofCols_apply])
   · refine matAct_gen_eq_of_dvd _ _ 2 ?_ ?_ ?_ <;>
-      simp only [hK, hK', t320_uv_eq, t330_uv_eq]
+      simp only [hK', t320_uv_eq, t330_uv_eq]
     · exact ⟨8 * ι * φ, by
         simp [Type320.uvM, Type330.uvM, Type320.uvA, Type330.uvA, Type320.tM, Type330.tM,
-          Type320.ρM, Type330.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          Type320.ρM, Type330.ρM, ofCols_apply]
         ring⟩
     · exact ⟨2 * ι * φ, by
         simp [Type320.uvM, Type330.uvM, Type320.uvA, Type330.uvA, Type320.tM, Type330.tM,
-          Type320.ρM, Type330.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          Type320.ρM, Type330.ρM, ofCols_apply]
         ring⟩
     · exact ⟨2 * ι * φ, by
         simp [Type320.uvM, Type330.uvM, Type320.uvA, Type330.uvA, Type320.tM, Type330.tM,
-          Type320.ρM, Type330.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three]
+          Type320.ρM, Type330.ρM, ofCols_apply]
         ring⟩
   · refine matAct_gen_eq_add_tw _ _ 0 0 0 1 ?_ ?_ ?_ <;>
-      simp [hK, hK', t320_t_eq, t330_t_eq, Type320.tM, Type330.tM, ofCols_apply]
+      simp [hK', t320_t_eq, t330_t_eq, Type320.tM, Type330.tM, ofCols_apply]
   · exact e0 _ _ 1 (by simp [t320_t_eq, t330_t_eq, Type320.tM, Type330.tM, ofCols_apply])
       (by simp [t320_t_eq, t330_t_eq, Type320.tM, Type330.tM, ofCols_apply])
       (by simp [t320_t_eq, t330_t_eq, Type320.tM, Type330.tM, ofCols_apply])
   · exact e0 _ _ 2 (by simp [t320_t_eq, t330_t_eq, Type320.tM, Type330.tM, Type320.uvA,
-      Type330.uvA, Type320.ρM, Type330.ρM, ofCols_apply, Matrix.mulVec, dotProduct,
-      Fin.sum_univ_three])
+      Type330.uvA, Type320.ρM, Type330.ρM, ofCols_apply])
       (by simp [t320_t_eq, t330_t_eq, Type320.tM, Type330.tM, Type320.uvA, Type330.uvA,
-        Type320.ρM, Type330.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three])
+        Type320.ρM, Type330.ρM, ofCols_apply])
       (by simp [t320_t_eq, t330_t_eq, Type320.tM, Type330.tM, Type320.uvA, Type330.uvA,
-        Type320.ρM, Type330.ρM, ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three])
+        Type320.ρM, Type330.ρM, ofCols_apply])
   · refine matAct_gen_eq_add_tw _ _ 0 1 0 0 ?_ ?_ ?_ <;>
-      simp [hK, hK', t320_u_eq, t330_u_eq, Type320.uM, Type330.uM, uMat, ofCols_apply] <;>
-      ring_nf <;> simp
+      simp [hK', t320_u_eq, t330_u_eq, Type320.uM, Type330.uM, uMat, ofCols_apply];
+      ring_nf; simp
   · exact e0 _ _ 1 (by simp [t320_u_eq, t330_u_eq, Type320.uM, Type330.uM, uMat, ofCols_apply])
       (by simp [t320_u_eq, t330_u_eq, Type320.uM, Type330.uM, uMat, ofCols_apply])
       (by simp [t320_u_eq, t330_u_eq, Type320.uM, Type330.uM, uMat, ofCols_apply])
   · refine matAct_gen_eq_of_dvd _ _ 2 ?_ ?_ ?_ <;>
-      simp only [hK, hK', t320_u_eq, t330_u_eq]
+      simp only [hK', t320_u_eq, t330_u_eq]
     · exact ⟨-4 * φ, by simp [Type320.uM, Type330.uM, uMat, ofCols_apply]; ring⟩
     · simp [Type320.uM, Type330.uM, uMat, ofCols_apply]
     · simp [Type320.uM, Type330.uM, uMat, ofCols_apply]
@@ -213,7 +210,7 @@ theorem restrict_t120_t320 (h : 3 ≤ m + 1) (hm : 3 ≤ m) :
     fin_cases a <;> fin_cases b <;>
     simp [diag2, Matrix.mul_diagonal, Matrix.diagonal_mul, Type320.uvM, Type320.uvA, Type320.tM,
       Type320.ρM, Type320.uM, Type120.uvM, Type120.uvA, Type120.tM, Type120.ρM, Type120.uM, uMat,
-      ofCols_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_three] <;> ring
+      ofCols_apply] <;> ring
 
 end Target
 

@@ -14,8 +14,10 @@ section PermFacts
 
 variable {α : Type*} [Fintype α] [DecidableEq α]
 
+omit [Fintype α] [DecidableEq α] in
 theorem perm_inv_apply_self (σ : Equiv.Perm α) (x : α) : σ⁻¹ (σ x) = x := σ.symm_apply_apply x
 
+omit [Fintype α] [DecidableEq α] in
 theorem perm_apply_inv_self (σ : Equiv.Perm α) (x : α) : σ (σ⁻¹ x) = x := σ.apply_symm_apply x
 
 theorem card_support_eq_two_mul {σ : Equiv.Perm α} (h2 : σ ^ 2 = 1) :
@@ -156,7 +158,7 @@ theorem eq_of_apply_eq (h : IsRootFour V) {m : Fin n} (hm : m ∈ movedOf V)
 theorem exists_apply_eq (h : IsRootFour V) {m : Fin n} (hm : m ∈ movedOf V) {y : Fin n}
     (hy : y ∈ movedOf V) : ∃ w ∈ V, (w : Equiv.Perm (Fin n)) m = y := by
   classical
-  haveI : Fintype ↥V := Fintype.ofFinite _
+  have : Fintype ↥V := Fintype.ofFinite _
   have hinj : Function.Injective
       (fun w : ↥V => ((w : ↥(alternatingGroup (Fin n))) : Equiv.Perm (Fin n)) m) :=
     fun a b hab => Subtype.ext (eq_of_apply_eq h hm a.2 b.2 hab)

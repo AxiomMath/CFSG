@@ -22,8 +22,8 @@ theorem eq_bot_of_normal_isSolvable_alt5_prod
     {N : Subgroup (alternatingGroup (Fin 5) × alternatingGroup (Fin 5))} [N.Normal]
     (hN : Group.IsSolvable ↥N) : N = ⊥ := by
   classical
-  haveI : Group.IsSolvable ↥N := hN
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : Group.IsSolvable ↥N := hN
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hAnot : ¬ Group.IsSolvable (alternatingGroup (Fin 5)) :=
     CFSG.Quasithin.H13.CTK.not_isSolvable_alt5
   let p1 : alternatingGroup (Fin 5) × alternatingGroup (Fin 5) →* alternatingGroup (Fin 5) :=
@@ -34,12 +34,12 @@ theorem eq_bot_of_normal_isSolvable_alt5_prod
   have hsurj2 : Function.Surjective p2 := fun y => ⟨(1, y), rfl⟩
   have hN1 : N ⊓ p1.ker = ⊥ := by
     by_contra hne
-    haveI hN1n : (N ⊓ p1.ker).Normal := inferInstance
-    haveI hN1solv : Group.IsSolvable ↥(N ⊓ p1.ker) :=
+    have hN1n : (N ⊓ p1.ker).Normal := inferInstance
+    have hN1solv : Group.IsSolvable ↥(N ⊓ p1.ker) :=
       Group.isSolvable_of_surjective
         (f := (Subgroup.subgroupOfEquivOfLe (inf_le_left : N ⊓ p1.ker ≤ N)).toMonoidHom)
         (Subgroup.subgroupOfEquivOfLe _).surjective
-    haveI hmapn : ((N ⊓ p1.ker).map p2).Normal := hN1n.map p2 hsurj2
+    have hmapn : ((N ⊓ p1.ker).map p2).Normal := hN1n.map p2 hsurj2
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((N ⊓ p1.ker).map p2) with h | h
     · exfalso
       apply hne
@@ -69,7 +69,7 @@ theorem eq_bot_of_normal_isSolvable_alt5_prod
     have hmem : x ∈ N ⊓ p1.ker := ⟨hx, hx1⟩
     rw [hN1] at hmem
     exact Subgroup.mem_bot.mp hmem
-  haveI : (N.map p1).Normal := (inferInstance : N.Normal).map p1 hsurj1
+  have : (N.map p1).Normal := (inferInstance : N.Normal).map p1 hsurj1
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map p1) with h | h
   · refine le_antisymm ?_ bot_le
     intro x hx
@@ -96,15 +96,15 @@ theorem cyclic_sylow_of_r7_8 (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V
     (hD'M : D' ≤ D.M) (hD'5 : IsPGroup 5 ↥D') (hD'nc : ¬ IsCyclic ↥D')
     (hD'exp : ∀ x ∈ D', x ^ 5 = 1) (hD'class : ⁅⁅D', D'⁆, D'⁆ = ⊥)
     (hnormal' : ((D' ⊔ CFSG.Open.pCoreOf 2 D.M).subgroupOf D.M).Normal)
-    (hYq : IsPGroup q ↥Y) (hYM : Y ≤ D.M) (hYne : Y ≠ ⊥)
+    (hYq : IsPGroup q ↥Y) (_hYM : Y ≤ D.M) (hYne : Y ≠ ⊥)
     (hD'Y : D' ≤ Subgroup.centralizer (Y : Set G))
     (hH : ¬ Subgroup.normalizer (Y : Set G) ≤ D.M) :
     ∃ S : Subgroup G,
         CFSG.ABGLocalTools.IsSylowOf 2 S (Subgroup.normalizer (Y : Set G) ⊓ D.M) ∧
           IsCyclic ↥S := by
   classical
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  letI : Fact q.Prime := ⟨hq⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact q.Prime := ⟨hq⟩
   let H : Subgroup G := Subgroup.normalizer (Y : Set G)
   have hD'H : D' ≤ H := hD'Y.trans (Subgroup.centralizer_le_normalizer (Y : Set G))
   have hD'le : D' ≤ H ⊓ D.M := le_inf hD'H hD'M
@@ -125,8 +125,8 @@ theorem cyclic_sylow_of_r7_8 (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V
         rw [← hYtop]
         exact hYq
       have hGq' : IsPGroup q G := hGq.of_equiv Subgroup.topEquiv
-      haveI : Group.IsNilpotent G := hGq'.isNilpotent
-      haveI : IsSimpleGroup G := D.standing.simple
+      have : Group.IsNilpotent G := hGq'.isNilpotent
+      have : IsSimpleGroup G := D.standing.simple
       obtain ⟨a, b, hab⟩ := D.standing.nonab
       exact hab (IsSimpleGroup.comm_iff_isSolvable.2 inferInstance a b)
   have hD'comm : IsMulCommutative ↥D' :=
@@ -150,8 +150,8 @@ theorem cyclic_sylow_of_r7_8 (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V
     have hPD' : P = D' := eq_of_r7_8_one D h72 h72u hSec hPsyl hD'P hD'nc hnormal'
       (by rwa [← hPD₀] at hirr)
     have hD₀D' : D₀ = D' := hPD₀.symm.trans hPD'
-    haveI : Fact (IsPGroup 5 ↥D') := ⟨hD'5⟩
-    haveI : IsElementaryAbelian 5 ↥D' :=
+    have : Fact (IsPGroup 5 ↥D') := ⟨hD'5⟩
+    have : IsElementaryAbelian 5 ↥D' :=
       (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 5 D').2 hD'el
     have hΦ : CFSG.inSubgroup frattini D' = ⊥ := by
       simp [CFSG.inSubgroup, CFSG.frattini_eq_bot_of_isElementaryAbelian (p := 5)]
@@ -217,18 +217,18 @@ theorem cyclic_sylow_of_r7_8 (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V
       intro x hx
       exact Subgroup.mem_subgroupOf.mpr (Subgroup.mem_sup_left (Subgroup.mem_subgroupOf.mp hx))
     let Nk : Subgroup ↥K := Subgroup.normalClosure (Dk : Set ↥K)
-    haveI hNkN : Nk.Normal := Subgroup.normalClosure_normal
+    have hNkN : Nk.Normal := Subgroup.normalClosure_normal
     have hDkNk : Dk ≤ Nk := Subgroup.le_normalClosure
     have hNk_le : Nk ≤ M₀.subgroupOf K :=
       Subgroup.normalClosure_le_normal (N := M₀.subgroupOf K) hDk_le
     have hOsolv : Group.IsSolvable ↥(CFSG.Open.pCoreOf 2 D.M) := by
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hO2 : IsPGroup 2 (CFSG.Open.pCoreOf 2 D.M) :=
         CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 D.M
-      haveI : Group.IsNilpotent ↥(CFSG.Open.pCoreOf 2 D.M) := hO2.isNilpotent
+      have : Group.IsNilpotent ↥(CFSG.Open.pCoreOf 2 D.M) := hO2.isNilpotent
       infer_instance
     have hD'solv : Group.IsSolvable ↥D' := by
-      haveI : Group.IsNilpotent ↥D' := hD'5.isNilpotent
+      have : Group.IsNilpotent ↥D' := hD'5.isNilpotent
       infer_instance
     have hD'O_norm : D' ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 D.M : Set G) :=
       hD'M.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 D.M)
@@ -236,7 +236,7 @@ theorem cyclic_sylow_of_r7_8 (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V
       CFSG.SignalizerFunctorTheorem.McBride.Near.Thm210.isSolvable_sup_of_le_normalizer
         (T := CFSG.Open.pCoreOf 2 D.M) (D := D') hD'O_norm hOsolv hD'solv
     have hM₀K_solv : Group.IsSolvable ↥(M₀.subgroupOf K) := by
-      haveI : Group.IsSolvable ↥M₀ := hM₀solv
+      have : Group.IsSolvable ↥M₀ := hM₀solv
       let φ : ↥(M₀.subgroupOf K) →* ↥M₀ :=
         { toFun := fun x => ⟨K.subtype x.1, Subgroup.mem_subgroupOf.mp x.2⟩
           map_one' := by ext; simp
@@ -247,16 +247,16 @@ theorem cyclic_sylow_of_r7_8 (D : Data G) {V₀ V : Subgroup G} (hV : Hyp125 D V
         change K.subtype a.1 = K.subtype b.1 at hval
         exact Subtype.ext (K.subtype_injective hval))
     have hNksolv : Group.IsSolvable ↥Nk := by
-      haveI : Group.IsSolvable ↥(M₀.subgroupOf K) := hM₀K_solv
+      have : Group.IsSolvable ↥(M₀.subgroupOf K) := hM₀K_solv
       exact Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hNk_le)
         (Subgroup.inclusion_injective hNk_le)
     have hNksolvMap : Group.IsSolvable ↥(Nk.map e.toMonoidHom) := by
-      haveI : Group.IsSolvable ↥Nk := hNksolv
+      have : Group.IsSolvable ↥Nk := hNksolv
       exact CFSG.LieType.SteinbergBR.isSolvable_map e.toMonoidHom Nk
     have hNkmapNormal : (Nk.map e.toMonoidHom).Normal :=
       hNkN.map e.toMonoidHom e.surjective
     have hNkmapBot : Nk.map e.toMonoidHom = ⊥ := by
-      haveI : (Nk.map e.toMonoidHom).Normal := hNkmapNormal
+      have : (Nk.map e.toMonoidHom).Normal := hNkmapNormal
       exact eq_bot_of_normal_isSolvable_alt5_prod hNksolvMap
     have hNkbot : Nk = ⊥ := by
       rw [eq_bot_iff]

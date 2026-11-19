@@ -61,7 +61,7 @@ public theorem firstCase_klein_restrictionFive_V_component
     (c : CentralizerSetup G)
     (hklein : IsKleinFour (pCore 2 c.Hhat))
     {y v u : G}
-    (hy : IsInvolution y) (hyH : y ∉ c.Hhat)
+    (_hy : IsInvolution y) (hyH : y ∉ c.Hhat)
     (hv : v ∈ twoCoreOf c.Hhat) (hvne : v ≠ 1)
     (hu : u ∈ c.U)
     (hcent : ∀ z : G, z ∈ twoCoreOf c.Hhat →

@@ -70,8 +70,8 @@ theorem gen3D4_holds : Gen3D4Statement := by
   have hk : Nat.card kf = 4 ^ 3 := by rw [hkf]; norm_num
   have hσ4 : ∀ c, σ c = c ^ 4 := fun c => by simpa using hσ c
   have hK6 : Nat.card kf = 2 ^ (2 * 3) := by rw [hkf, ← pow_mul]
-  haveI : CharP kf 2 := finite_field_prime_power_characteristic Nat.prime_two (by norm_num) hK6
-  haveI : Fintype kf := Fintype.ofFinite kf
+  have : CharP kf 2 := finite_field_prime_power_characteristic Nat.prime_two (by norm_num) hK6
+  have : Fintype kf := Fintype.ofFinite kf
   let e' : kf ≃+* GF64 := FiniteField.ringEquivOfCardEq (by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hk, GF64.card_eq]
     norm_num)

@@ -13,10 +13,12 @@ namespace OutLin
 
 variable {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
 
+omit [Finite F] in
 theorem eq_of_add_eq_zero_char_two {x y : F} (h : x + y = 0) : x = y := by
   have h2 : (2 : F) = 0 := CharP.cast_eq_zero F 2
   linear_combination h - y * h2
 
+omit [Finite F] in
 theorem RadHyp.e_coords {h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} (hh : RadHyp b c h) :
     gv h (fV F idx0) (Sum.inl idx0) = gv h (fV F idx0) (Sum.inr (Sum.inr 0)) ^ 2 +
         b * gv h (fV F idx0) (Sum.inr (Sum.inr 0)) * gv h (fV F idx0) (Sum.inr (Sum.inr 1)) +
@@ -33,13 +35,13 @@ theorem RadHyp.e_coords {h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} (hh :
       gv h (nVec F 1) (Sum.inl idx1) = b * gv h (fV F idx1) (Sum.inr (Sum.inr 0)) := by
   have hne01 : idx0 ≠ idx1 := by decide
   have f00 : gv h (fV F idx0) (Sum.inr (Sum.inl idx0)) = 1 := by
-    rw [hh.f_coord]; simp [Pi.single_apply]
+    rw [hh.f_coord]; simp
   have f01 : gv h (fV F idx0) (Sum.inr (Sum.inl idx1)) = 0 := by
-    rw [hh.f_coord]; simp [Pi.single_apply, hne01]
+    rw [hh.f_coord]; simp
   have f10 : gv h (fV F idx1) (Sum.inr (Sum.inl idx0)) = 0 := by
-    rw [hh.f_coord]; simp [Pi.single_apply, hne01]
+    rw [hh.f_coord]; simp
   have f11 : gv h (fV F idx1) (Sum.inr (Sum.inl idx1)) = 1 := by
-    rw [hh.f_coord]; simp [Pi.single_apply]
+    rw [hh.f_coord]; simp
   have m00 : gv h (nVec F 0) (Sum.inr (Sum.inl idx0)) = 0 := by
     rw [hh.f_coord, nVec_inr_inl]
   have m01 : gv h (nVec F 0) (Sum.inr (Sum.inl idx1)) = 0 := by
@@ -61,15 +63,15 @@ theorem RadHyp.e_coords {h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} (hh :
   have hQ1 : quadMinus 3 F b c (gv h (fV F idx1)) = 0 := by
     rw [hh.iso]; exact quadMinus_single_inr idx1
   have hP01 : polar (quadMinus 3 F b c) (gv h (fV F idx0)) (gv h (fV F idx1)) = 0 := by
-    rw [polar_gv hh.iso, polar_coords]; simp [Pi.single_apply, hne01]
+    rw [polar_gv hh.iso, polar_coords]; simp
   have hU0V0 : polar (quadMinus 3 F b c) (gv h (nVec F 0)) (gv h (fV F idx0)) = 0 := by
-    rw [polar_gv hh.iso, polar_coords]; simp [Pi.single_apply, hne01]
+    rw [polar_gv hh.iso, polar_coords]; simp
   have hU1V0 : polar (quadMinus 3 F b c) (gv h (nVec F 1)) (gv h (fV F idx0)) = 0 := by
-    rw [polar_gv hh.iso, polar_coords]; simp [Pi.single_apply, hne01]
+    rw [polar_gv hh.iso, polar_coords]; simp
   have hU0V1 : polar (quadMinus 3 F b c) (gv h (nVec F 0)) (gv h (fV F idx1)) = 0 := by
-    rw [polar_gv hh.iso, polar_coords]; simp [Pi.single_apply, hne01]
+    rw [polar_gv hh.iso, polar_coords]; simp
   have hU1V1 : polar (quadMinus 3 F b c) (gv h (nVec F 1)) (gv h (fV F idx1)) = 0 := by
-    rw [polar_gv hh.iso, polar_coords]; simp [Pi.single_apply, hne01]
+    rw [polar_gv hh.iso, polar_coords]; simp
   simp only [Q_coords, f00, f01] at hQ0
   simp only [Q_coords, f10, f11] at hQ1
   simp only [polar_coords, f00, f01, f10, f11] at hP01
@@ -83,6 +85,7 @@ theorem RadHyp.e_coords {h : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F} (hh :
     eq_of_add_eq_zero_char_two (by linear_combination hU0V1),
     eq_of_add_eq_zero_char_two (by linear_combination hU1V1)⟩
 
+omit [Finite F] in
 theorem RadHyp.ext_params {g g' : GL (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2) F}
     (hg : RadHyp b c g) (hg' : RadHyp b c g')
     (hm : ∀ (i : Fin (3 - 1)) (k : Fin 2),

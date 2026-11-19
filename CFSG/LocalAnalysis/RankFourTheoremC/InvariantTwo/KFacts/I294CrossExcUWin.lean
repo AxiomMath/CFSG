@@ -17,6 +17,7 @@ variable {ℓ f : ℕ} {K : Type} [Field K] {h : UnitaryFieldData ℓ f K} {V : 
   [Module K V] [FiniteDimensional K V] {B : V →ₛₗ[h.bar] V →ₗ[K] K} {u : Module.End K V}
   {p s : ℕ}
 
+omit [FiniteDimensional K V] in
 theorem HermOddData.perp_invariant (hd : HermOddData B u p s) (hp : 0 < p) {W : Submodule K V}
     (hW : ∀ x ∈ W, u x ∈ W) : ∀ z ∈ hermPerp B W, u z ∈ hermPerp B W := by
   intro z hz w hw
@@ -149,7 +150,7 @@ section Index
 
 variable {ℓ f : ℕ} {K : Type} [Field K] [Finite K]
 
-theorem crossExcU_pow_add_ne_zero {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
+theorem crossExcU_pow_add_ne_zero {p : ℕ} (_hp : p.Prime) (hp5 : 5 ≤ p)
     (hodd : Odd (unitaryOrder ℓ f p)) (i : ℕ) :
     ((ℓ ^ f : ℕ) : ZMod p) ^ i + (-1) ^ i ≠ 0 := by
   intro h0
@@ -193,7 +194,7 @@ theorem crossExcU_not_dvd_index_unitary (h : UnitaryFieldData ℓ f K) {p : ℕ}
       (Module.finBasis K V)).toMulEquiv).toEquiv
   have hGLcard := crossExcU_card_GL (K := K) m
   rcases Nat.eq_zero_or_pos m with hm0 | hm1
-  · have h1 : Nat.card (Module.End K V)ˣ = 1 := by rw [hGL, hm0]; simpa using hGLcard
+  · have h1 : Nat.card (Module.End K V)ˣ = 1 := by rw [hGL, hm0]; simp
     intro hd
     have := Subgroup.index_dvd_card (sesqUnitaryGroup B)
     rw [h1] at this
@@ -268,7 +269,7 @@ theorem crossExcU_not_dvd_index_unitary (h : UnitaryFieldData ℓ f K) {p : ℕ}
       Int.cast_neg, Int.cast_one] at h1
     have hQz : ((ℓ ^ f : ℕ) : ZMod p) ≠ 0 := fun h0 =>
       hpℓ (hp.dvd_of_dvd_pow ((ZMod.natCast_eq_zero_iff (ℓ ^ f) p).1 h0))
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     rcases mul_eq_zero.1 h1 with h2 | h2
     · exact pow_ne_zero a hQz h2
     · obtain ⟨i, -, hi⟩ := Finset.prod_eq_zero_iff.1 h2
@@ -283,7 +284,7 @@ variable {ℓ f : ℕ} {K : Type} [Field K] [Finite K]
 theorem crossExcU_bar_eq (h : UnitaryFieldData ℓ f K) {e : ℕ} (hodd : Odd e) (a : K) :
     a ^ (ℓ ^ (f * e)) = h.bar a := by
   obtain ⟨k, rfl⟩ := hodd
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hcard : Fintype.card K = ℓ ^ (2 * f) := by rw [← Nat.card_eq_fintype_card, h.card]
   have h1 : ℓ ^ (f * (2 * k + 1)) = ℓ ^ f * (Fintype.card K) ^ k := by
     rw [hcard, ← pow_mul, ← pow_add]
@@ -314,7 +315,7 @@ theorem crossExcU_rank_GU (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : p.Prime
     (huU : uV ∈ sesqUnitaryGroup B) (hup : uV ^ p = 1)
     (hdim : 4 * unitaryOrder ℓ f p ≤ Module.finrank K V) :
     4 ≤ CFSG.Open.pRank p (centralizer ({uV} : Set (Module.End K V)ˣ) ⊓ sesqUnitaryGroup B) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set e := unitaryOrder ℓ f p with he_def
   have he : 0 < e := unitaryOrder_pos hp hpℓ
   have hpK : ¬ p ∣ Nat.card K := by
@@ -343,7 +344,7 @@ theorem crossExcU_rank_GU (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : p.Prime
     ext x
     simp [hd.pow_eq]
   let uW : (Module.End K W)ˣ := Units.ofPowEqOne (u.restrict hW) p hyWp hp.ne_zero
-  have huW : uW ^ p = 1 := Units.ext (by simpa [uW] using hyWp)
+  have huW : uW ^ p = 1 := Units.ext (by simp [uW])
   have huWmem : uW ∈ sesqUnitaryGroup (B.domRestrict₁₂ W W) :=
     mem_sesqUnitaryGroup.2 fun x y => hd.isom x y
   let GU := sesqUnitaryGroup (B.domRestrict₁₂ W W)
@@ -357,11 +358,11 @@ theorem crossExcU_rank_GU (h : UnitaryFieldData ℓ f K) {p : ℕ} (hp : p.Prime
     rw [← hk, ← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hx₀, one_zpow]
   obtain ⟨P, hP⟩ := hzp.exists_le_sylow
   set S : Subgroup (Module.End K W)ˣ := (P : Subgroup GU).map GU.subtype with hS
-  have hSp : IsPGroup p S := P.isPGroup'.map _
+  have hSp : IsPGroup p S := P.isPGroup.map _
   have hne : Module.finrank K W / e < p := by
     rw [Nat.div_lt_iff_lt_mul he]
     nlinarith
-  haveI hSab : IsMulCommutative S :=
+  have hSab : IsMulCommutative S :=
     isMulCommutative_of_isPGroup_GL (hp.odd_of_ne_two (by omega)) hpK he hpe hne hSp
   have hSidx : ¬ p ∣ S.index := by
     rw [hS, Subgroup.index_map_subtype]

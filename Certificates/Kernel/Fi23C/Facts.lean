@@ -76,13 +76,13 @@ theorem ep_facts {x : Nat} (hx : x < 31671) :
   have h := allN_iff.1 ep_ok x hx
   rw [strictB_eq, bIf_eq] at h
   by_cases hm : P x < 3510
-  · rw [if_pos (Nat.blt_eq.mpr hm)] at h
+  · rw [ite_eq_left (Nat.blt_eq.mpr hm)] at h
     exact Or.inl ⟨hm, Nat.eq_of_beq_eq_true h⟩
-  · rw [if_neg (fun hb => hm (Nat.blt_eq.mp hb)), bAnd_eq, Bool.and_eq_true, bIf_eq] at h
+  · rw [ite_eq_right (fun hb => hm (Nat.blt_eq.mp hb)), bAnd_eq, Bool.and_eq_true, bIf_eq] at h
     refine Or.inr ⟨Nat.eq_of_beq_eq_true h.1, ?_⟩
     by_cases h0 : x = 0
     · exact Or.inl h0
-    · rw [if_neg (fun hb => h0 (Nat.eq_of_beq_eq_true hb))] at h
+    · rw [ite_eq_right (fun hb => h0 (Nat.eq_of_beq_eq_true hb))] at h
       right
       intro e
       rw [e, Nat.beq_refl] at h
@@ -326,13 +326,13 @@ theorem uF_succ (f k y : Nat) : uF G (f + 1) k y =
   by_cases h0 : k = 0
   · subst h0
     rfl
-  · rw [if_neg h0]
+  · rw [ite_eq_right h0]
     have e : Nat.beq k 0 = false := Bool.eq_false_iff.2 fun hb => h0 (Nat.eq_of_beq_eq_true hb)
     rw [e]
     by_cases hl : tb G 92 k = 1
-    · rw [if_pos hl, hl]
+    · rw [ite_eq_left hl, hl]
       rfl
-    · rw [if_neg hl]
+    · rw [ite_eq_right hl]
       have e2 : Nat.beq (tb G 92 k) 1 = false :=
         Bool.eq_false_iff.2 fun hb => hl (Nat.eq_of_beq_eq_true hb)
       rw [e2]
@@ -344,13 +344,13 @@ theorem uInvF_succ (f k x : Nat) : uInvF G (f + 1) k x =
   by_cases h0 : k = 0
   · subst h0
     rfl
-  · rw [if_neg h0]
+  · rw [ite_eq_right h0]
     have e : Nat.beq k 0 = false := Bool.eq_false_iff.2 fun hb => h0 (Nat.eq_of_beq_eq_true hb)
     rw [e]
     by_cases hl : tb G 92 k = 1
-    · rw [if_pos hl, hl]
+    · rw [ite_eq_left hl, hl]
       rfl
-    · rw [if_neg hl]
+    · rw [ite_eq_right hl]
       have e2 : Nat.beq (tb G 92 k) 1 = false :=
         Bool.eq_false_iff.2 fun hb => hl (Nat.eq_of_beq_eq_true hb)
       rw [e2]
@@ -395,7 +395,7 @@ theorem tree_facts : ORK 0 = GS 0 ∧
     rw [bAnd_eq, Bool.and_eq_true, bIf_eq] at h
     refine ⟨Nat.blt_eq.mp h.1, fun ht0 => ?_⟩
     have h' := h.2
-    rw [if_neg (fun hb => absurd (Nat.eq_of_beq_eq_true hb) (Nat.pos_iff_ne_zero.mp ht0))] at h'
+    rw [ite_eq_right (fun hb => absurd (Nat.eq_of_beq_eq_true hb) (Nat.pos_iff_ne_zero.mp ht0))] at h'
     simp only [strictB_eq, bAnd_eq, Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at h'
     exact h'
   · have h := allN_iff.1 h2 i hi

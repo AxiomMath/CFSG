@@ -40,12 +40,12 @@ theorem d4t2KernelRootUnip_holds :
         ∃ u ∈ S.Γ, u ≠ 1 ∧ u ^ l = 1 ∧ ∀ x ∈ A, x * u = u * x := by
   intro L _ _ p₀ S hS hAlg l f hl hf hq hl3 A hA γ hγ hkill
   classical
-  haveI : Fact l.Prime := ⟨hl⟩
+  have : Fact l.Prime := ⟨hl⟩
   have hl0 : ((l : ℕ) : L) = 0 := by
     have h := S.hqpow.2
     rw [hq, Nat.cast_pow] at h
     exact (pow_eq_zero_iff hf.ne').1 h
-  haveI : CharP L l := (CharP.charP_iff_prime_eq_zero hl).2 hl0
+  have : CharP L l := (CharP.charP_iff_prime_eq_zero hl).2 hl0
   have hdiag : ∀ x : A, ∃ b : Fin Tag.E6.rank → Lˣ,
       (x : ModGL Tag.E6 L) = rootDiagUnit .E6 b :=
     fun x => exists_rootDiagUnit_eq_of_mem_torusGroup (Subgroup.mem_inf.1 (hA x.2)).1

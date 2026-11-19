@@ -75,7 +75,7 @@ theorem card_A_le_of_class [Finite K] [Finite L'] (hM : Model φ) (hd : 3 ≤ d)
     (hT : ∀ a' ∈ A, ∀ τ : Fin d → Kˣ, ActsU φ a' τ → ∀ k ∈ T, τ k = τ s₀) :
     Nat.card A ≤ p * p ^ (S.card - T.card) := by
   classical
-  haveI : Finite (MulAut L') :=
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun f : MulAut L' => (f : L' → L')) DFunLike.coe_injective
   obtain ⟨ν, hν⟩ := exists_nu_actsU hM hd hdiag s₀
   have hlayer : LargeEvenLayer (ggFix a) = (blockSU S).map φ :=

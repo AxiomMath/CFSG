@@ -190,7 +190,7 @@ theorem local_eq_of_perp_five (c : FiveChart hC n) (hn : 5 ≤ n) {w u : G} {e :
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨z, hz0, hzu, hznorm, hP⟩ := exists_local_hyperplane c hn hw hwd hu
   have hz : c.b z z = 0 := by
-    rw [if_pos h5] at hznorm
+    rw [ite_eq_left h5] at hznorm
     exact hznorm
   have heu : c.b e (c.vec u) = 0 := by
     rw [c.hsym]
@@ -545,7 +545,7 @@ theorem isFiveHyperplane_five (hα : hC.alpha = {hC.d})
   obtain ⟨v₀, hv₀⟩ := hΓ
   obtain ⟨e, he0, hev₀, hnorm, hP⟩ := exists_local_hyperplane c hn hw hwd hv₀
   have he : c.b e e = 0 := by
-    rw [if_pos h5] at hnorm
+    rw [ite_eq_left h5] at hnorm
     exact hnorm
   have hΓe : ∀ x ∈ commSet D hC.d ∩ commSet D w, c.b (c.vec x) e = 0 :=
     perp_of_mem_five c hn hwd hv₀ he he0 hev₀ hP
@@ -556,7 +556,7 @@ theorem isFiveHyperplane_five (hα : hC.alpha = {hC.d})
       ∃ g ∈ Subgroup.closure (commSet D hC.d ∩ commSet D w), c.ActsAsEich e β g :=
     fun β hβe => exists_actsAsEich c hn hwd hv₀ he he0 hev₀ hPall hβe
   refine ⟨e, he0, ?_, ?_⟩
-  · rw [if_pos h5]
+  · rw [ite_eq_left h5]
     exact he
   · intro y hy
     constructor

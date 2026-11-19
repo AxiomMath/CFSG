@@ -14,7 +14,7 @@ section CentralSurjection
 
 variable {A B : Type*} [Group A] [Group B]
 
-theorem ggMem_center_of_map_mem_center (Φ : A →* B) (hΦ : Function.Surjective Φ)
+theorem ggMem_center_of_map_mem_center (Φ : A →* B) (_hΦ : Function.Surjective Φ)
     (hker : ∀ a : A, Φ a = 1 → a ∈ Subgroup.center A) (hA : commutator A = ⊤) {a : A}
     (ha : Φ a ∈ Subgroup.center B) : a ∈ Subgroup.center A := by
   have hcentral : ∀ x : A, ⁅a, x⁆ ∈ Subgroup.center A := by
@@ -73,7 +73,7 @@ theorem ggQuasisimple_of_central_surjective (Φ : A →* B) (hΦ : Function.Surj
     CFSG.Assembly.IsQuasisimple B := by
   have hperfA : commutator A = ⊤ := hA.1
   obtain ⟨e⟩ := ggCenterQuotEquiv Φ hΦ hker hperfA
-  haveI : IsSimpleGroup (A ⧸ Subgroup.center A) := hA.2
+  have : IsSimpleGroup (A ⧸ Subgroup.center A) := hA.2
   refine ⟨?_, e.symm.isSimpleGroup⟩
   have h1 : (commutator A).map Φ = commutator B := by
     rw [map_commutator_eq (G := A) Φ, MonoidHom.range_eq_top.mpr hΦ]
@@ -104,11 +104,11 @@ section SimpleQuotient
 theorem ggQuasisimple_centerQuot {D : Type*} [Group D] (hD : CFSG.Assembly.IsQuasisimple D) :
     IsSimpleGroup (D ⧸ Subgroup.center D) ∧
       ∃ a b : D ⧸ Subgroup.center D, a * b ≠ b * a := by
-  haveI : IsSimpleGroup (D ⧸ Subgroup.center D) := hD.2
+  have : IsSimpleGroup (D ⧸ Subgroup.center D) := hD.2
   refine ⟨hD.2, ?_⟩
   by_contra hcon
   push Not at hcon
-  haveI : IsMulCommutative (D ⧸ Subgroup.center D) := ⟨⟨fun a b => hcon a b⟩⟩
+  have : IsMulCommutative (D ⧸ Subgroup.center D) := ⟨⟨fun a b => hcon a b⟩⟩
   have hle : commutator D ≤ Subgroup.center D := by
     rw [commutator_def, Subgroup.commutator_le]
     intro x _ y _
@@ -136,13 +136,13 @@ theorem ggLargeEvenMarking_of_simple_quotient {S D : Type*} [Group S] [Group D]
   obtain ⟨hDq, hna⟩ := ggQuasisimple_centerQuot hD
   let ε : S ⧸ κ.ker ≃* D ⧸ Subgroup.center D :=
     QuotientGroup.quotientKerEquivOfSurjective κ hκ
-  haveI : IsSimpleGroup (D ⧸ Subgroup.center D) := hDq
-  haveI : IsSimpleGroup (S ⧸ κ.ker) := ε.isSimpleGroup
+  have : IsSimpleGroup (D ⧸ Subgroup.center D) := hDq
+  have : IsSimpleGroup (S ⧸ κ.ker) := ε.isSimpleGroup
   have hcenter : Subgroup.center (S ⧸ κ.ker) = ⊥ := by
     rcases Subgroup.Normal.eq_bot_or_eq_top (H := Subgroup.center (S ⧸ κ.ker)) with hbot | htop
     · exact hbot
     · exfalso
-      haveI : IsMulCommutative (S ⧸ κ.ker) := Subgroup.center_eq_top_iff.mp htop
+      have : IsMulCommutative (S ⧸ κ.ker) := Subgroup.center_eq_top_iff.mp htop
       obtain ⟨a, b, hab⟩ := hna
       refine hab ?_
       have h' := congrArg ε (mul_comm' (ε.symm a) (ε.symm b))
@@ -154,15 +154,15 @@ theorem ggLargeEvenMarking_of_simple_quotient {S D : Type*} [Group S] [Group D]
 theorem ggNormalPGroup_le_ker {S D' : Type*} [Group S] [Group D'] [Finite D'] (κ : S →* D')
     (hκ : Function.Surjective κ) (hD' : IsSimpleGroup D') (hnc : ∃ a b : D', a * b ≠ b * a)
     (T : Subgroup S) [T.Normal] (hT : IsPGroup 2 T) : T ≤ κ.ker := by
-  haveI : IsSimpleGroup D' := hD'
+  have : IsSimpleGroup D' := hD'
   have hmap : IsPGroup 2 (T.map κ) := hT.map κ
-  haveI hnormal : (T.map κ).Normal := Subgroup.Normal.map (H := T) inferInstance κ hκ
+  have hnormal : (T.map κ).Normal := Subgroup.Normal.map (H := T) inferInstance κ hκ
   rcases Subgroup.Normal.eq_bot_or_eq_top (H := T.map κ) with hbot | htop
   · exact (Subgroup.map_eq_bot_iff (H := T) (f := κ)).mp hbot
   · exfalso
     have htop2 : IsPGroup 2 (⊤ : Subgroup D') := htop ▸ hmap
     have hD'2 : IsPGroup 2 D' := htop2.of_equiv Subgroup.topEquiv
-    haveI hnil : Group.IsNilpotent D' := hD'2.isNilpotent
+    have hnil : Group.IsNilpotent D' := hD'2.isNilpotent
     have hsol : Group.IsSolvable D' := inferInstance
     obtain ⟨a, b, hab⟩ := hnc
     exact hab ((IsSimpleGroup.comm_iff_isSolvable).mpr hsol a b)
@@ -183,7 +183,7 @@ theorem ggExists_central_surj {W : Subgroup X} (π : ↥W →* W') {C₀ : Subgr
     rw [← hC]
     exact Subgroup.mem_map.mpr
       ⟨Subgroup.inclusion hC₀W a,
-        Subgroup.mem_subgroupOf.mpr (by simpa [Subgroup.coe_inclusion] using a.2), rfl⟩
+        Subgroup.mem_subgroupOf.mpr (by simp [Subgroup.coe_inclusion]), rfl⟩
   refine ⟨MonoidHom.codRestrict Ψ C hΨC, ?_, ?_⟩
   · intro c
     have hc : (c : W') ∈ (C₀.subgroupOf W).map π := by rw [hC]; exact c.2
@@ -234,7 +234,7 @@ theorem ggIsSimpleGroup_of_marking {G : Type*} [Group G] {G₀ : Subgroup G}
       exact congrArg Subtype.val hg'
     rw [hC] at hzc
     exact Subtype.ext (by simpa using Subgroup.mem_bot.mp hzc)
-  haveI : IsSimpleGroup R := hs
+  have : IsSimpleGroup R := hs
   let e : ↥G₀ ≃* R :=
     ((QuotientGroup.quotientBot.symm).trans
       (QuotientGroup.quotientMulEquivOfEq hcenter.symm)).trans θ
@@ -247,8 +247,8 @@ theorem ggIsElemAbelian_closure_pair {G : Type*} [Group G] {p : ℕ} {b e : G} (
     intro x hx y hy _
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy
     rcases hx with hx | hx <;> rcases hy with hy | hy <;> rw [hx, hy]
-    all_goals first | exact hbe | exact hbe.symm | exact Commute.refl b | exact Commute.refl e
-  haveI hcomm : IsMulCommutative ↥(Subgroup.closure ({b, e} : Set G)) :=
+    all_goals first | exact hbe | exact hbe.symm
+  have hcomm : IsMulCommutative ↥(Subgroup.closure ({b, e} : Set G)) :=
     Subgroup.isMulCommutative_closure hpair
   refine ⟨hcomm, ?_⟩
   intro x hx

@@ -10,6 +10,7 @@ open Subgroup Module
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem mem_fixedPoints_zpowers {g : V ≃ₗ[ZMod 2] V} {v : V} :
     v ∈ MulAction.fixedPoints (Subgroup.zpowers g) V ↔ g v = v := by
   constructor

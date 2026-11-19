@@ -35,6 +35,7 @@ theorem Sec10Hyp.exists_Rt_ne {hc : Ctx M Q Z B} {n : ℕ} (H : Sec10Hyp hc n) :
   rw [sq] at h3
   exact absurd hcard (not_le.mpr h3)
 
+omit [Finite G] in
 theorem Ctx.exists_kerX (hc : Ctx M Q Z B) (X : Subgroup G) :
     ∃ KX : Subgroup G, ∀ g, g ∈ KX ↔
       g ∈ M ⊓ Subgroup.normalizer (X : Set G) ∧ ∀ x ∈ X, ⁅x, g⁆ ∈ Z := by

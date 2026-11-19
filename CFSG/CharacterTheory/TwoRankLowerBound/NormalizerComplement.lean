@@ -59,7 +59,7 @@ theorem odd_normal_two_quotient_complement_sylow {G : Type*} [Group G] [Finite G
     (hodd : Odd (Nat.card kernel)) (hquotient : IsPGroup 2 (G ⧸ kernel)) :
     kernel.IsComplement' (sylow : Subgroup G) := by
   let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  obtain ⟨exponent, hcard⟩ := sylow.isPGroup'.exists_card_eq
+  obtain ⟨exponent, hcard⟩ := sylow.isPGroup.exists_card_eq
   have hdisjoint : Disjoint kernel (sylow : Subgroup G) := by
     apply Subgroup.disjoint_of_coprime_natCard
     rw [hcard]
@@ -101,7 +101,7 @@ theorem cyclic_sylow_centralizer_odd_normal_complement {G : Type*}
   have hkernelCard : Nat.card kernel = Nat.card localKernel :=
     Subgroup.card_map_of_injective centralizer.subtype_injective
   have hquotientKernel : IsPGroup 2 (G ⧸ kernel) := by
-    obtain ⟨localExponent, hlocalCard⟩ := localSylow.isPGroup'.exists_card_eq
+    obtain ⟨localExponent, hlocalCard⟩ := localSylow.isPGroup.exists_card_eq
     obtain ⟨quotientExponent, hquotientCard⟩ := hquotient.exists_card_eq
     apply IsPGroup.iff_card.mpr
     refine ⟨localExponent + quotientExponent, ?_⟩
@@ -126,7 +126,7 @@ theorem cyclic_two_section_normalizer_quotient_isPGroup {G : Type*}
         (Subgroup.normalizer (cyclicSection : Set G))) := by
   let : IsCyclic cyclicSection := hcyclic
   have htwo := cyclic_two_group_automorphisms_isPGroup cyclicSection
-    (sylow.isPGroup'.to_le hle)
+    (sylow.isPGroup.to_le hle)
   have hrange := htwo.to_subgroup cyclicSection.normalizerMonoidHom.range
   have hkernel := hrange.of_equiv
     (QuotientGroup.quotientKerEquivRange cyclicSection.normalizerMonoidHom).symm
@@ -177,7 +177,7 @@ theorem exists_cyclic_two_section_normalizer_complement {G : Type*}
       have hsubsingleton := (Nat.card_eq_one_iff_unique.mp hone).1
       obtain ⟨first, second, hnePair⟩ := exists_pair_ne cyclicSection
       exact hnePair (hsubsingleton.elim first second)
-    have htwo := sylow.isPGroup'.to_le hle
+    have htwo := sylow.isPGroup.to_le hle
     exact even_iff_two_dvd.mpr (htwo.card_eq_or_dvd.resolve_left hcardne)
   have hevenCentralizer : Even (Nat.card localCentralizer) := by
     have heven := even_iff_two_dvd.mpr

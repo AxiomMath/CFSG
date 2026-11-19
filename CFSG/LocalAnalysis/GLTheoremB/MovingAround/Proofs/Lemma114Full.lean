@@ -18,7 +18,7 @@ open scoped Pointwise
         Lemma114Layer.layerOf X ⊔ ⨆ (Q' : Subgroup X) (_ : IsSylowIn p (Lemma114Layer.layerOf X) Q'),
           GLAPPrimeCoreOf p (Subgroup.centralizer (Q' : Set X))
 
-theorem comm_of_neg {G : Type} [Group G] [Finite G] {p : ℕ} [hp : Fact p.Prime] {H M X : Subgroup G}
+theorem comm_of_neg {G : Type} [Group G] [Finite G] {p : ℕ} [_hp : Fact p.Prime] {H M X : Subgroup G}
     (hN : ∀ K : Subgroup G, GLAPComponent p H K →
       ⁅barX p H K, barX p H X⁆ ≠ ⊥ → barX p H K ≤ barX p H (M ⊓ H))
     (K : Subgroup (↥H ⧸ GLAPPrimeCore p ↥H)) (hK : IsComponentOf K ⊤)
@@ -54,14 +54,14 @@ theorem exists_sylow_layer_normalized {Y : Type} [Group Y] [Finite Y] {p : ℕ} 
       ∀ y ∈ T, ∀ x ∈ Q, y * x * y⁻¹ ∈ Q := by
   obtain ⟨S, hS⟩ := IsPGroup.exists_le_sylow hT
   have hS' : IsSylowIn p (⊤ : Subgroup Y) (S : Subgroup Y) :=
-    ⟨le_top, S.isPGroup', fun {R} _ hR hle => S.maximal_isPGroup.eq_of_ge hR hle⟩
+    ⟨le_top, S.isPGroup, fun {R} _ hR hle => S.maximal_isPGroup.eq_of_ge hR hle⟩
   have hNn : ∀ g ∈ (⊤ : Subgroup Y), ∀ x ∈ Lemma114Layer.layerOf Y,
       g * x * g⁻¹ ∈ Lemma114Layer.layerOf Y := by
     intro g _ x hx
-    haveI := Lemma114Layer.layerOf_normal (Y := Y)
+    have := Lemma114Layer.layerOf_normal (Y := Y)
     exact Subgroup.Normal.conj_mem inferInstance x hx g
   refine ⟨(S : Subgroup Y) ⊓ Lemma114Layer.layerOf Y, ⟨inf_le_right, ?_, ?_⟩, ?_⟩
-  · exact Lemma114Layer.isPGroup_of_le' S.isPGroup' inf_le_left
+  · exact Lemma114Layer.isPGroup_of_le' S.isPGroup inf_le_left
   · intro R hR hRp hle
     exact Lemma114Layer.sylow_inter_normal hS' le_top hNn R hR hRp hle
   · intro y hy x hx
@@ -69,7 +69,7 @@ theorem exists_sylow_layer_normalized {Y : Type} [Group Y] [Finite Y] {p : ℕ} 
     have hxS : x ∈ (S : Subgroup Y) := hx.1
     have hxL : x ∈ Lemma114Layer.layerOf Y := hx.2
     refine ⟨S.mul_mem (S.mul_mem hyS hxS) (S.inv_mem hyS), ?_⟩
-    haveI := Lemma114Layer.layerOf_normal (Y := Y)
+    have := Lemma114Layer.layerOf_normal (Y := Y)
     exact Subgroup.Normal.conj_mem inferInstance x hxL y
 
 theorem le_of_hyperplanes {Y : Type} [Group Y] [Finite Y] {p : ℕ} [hp : Fact p.Prime]
@@ -79,8 +79,8 @@ theorem le_of_hyperplanes {Y : Type} [Group Y] [Finite Y] {p : ℕ} [hp : Fact p
       ∀ z ∈ Z, (∀ b ∈ B, b * z = z * b) → z ∈ C0) :
     Z ≤ C0 := by
   classical
-  haveI : CFSG.IsElementaryAbelian p ↥Ebar := CFSG.Open.IsElemAbelian.isElementaryAbelian hEb
-  letI : MulDistribMulAction ↥Ebar ↥Z :=
+  have : CFSG.IsElementaryAbelian p ↥Ebar := CFSG.Open.IsElemAbelian.isElementaryAbelian hEb
+  let : MulDistribMulAction ↥Ebar ↥Z :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer Ebar Z hEZ
   have hnontriv : Nontrivial ↥Ebar := by
     obtain ⟨E₀, hE₀le, _, hE₀card⟩ := CFSG.SectionRank.exists_pRank hp.out.one_lt Ebar
@@ -153,7 +153,7 @@ theorem l114f_barX_mono {G : Type} [Group G] {p : ℕ} {C S T : Subgroup G} (h :
   obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 hy
   exact Subgroup.mem_map.2 ⟨x, Subgroup.mem_subgroupOf.2 (h (Subgroup.mem_subgroupOf.1 hx)), rfl⟩
 
-theorem l114f_isPGroup_zpowers {Y : Type} [Group Y] {p : ℕ} [hp : Fact p.Prime] {g : Y}
+theorem l114f_isPGroup_zpowers {Y : Type} [Group Y] {p : ℕ} [_hp : Fact p.Prime] {g : Y}
     (hg : g ^ p = 1) : IsPGroup p ↥(Subgroup.zpowers g) := by
   intro x
   refine ⟨1, Subtype.ext ?_⟩
@@ -256,7 +256,7 @@ theorem l114f_glaPPrimeCore_centralizer_glbConj {Y : Type} [Group Y] (p : ℕ) (
   rw [l114f_centralizer_glbConj, glaPPrimeCoreOf_gLBConj]
 
 theorem l114f_le_normalizer_glaPPrimeCore_centralizer {Y : Type} [Group Y] [Finite Y] {p : ℕ}
-    [hp : Fact p.Prime] {T Q S : Subgroup Y} (hQ : ∀ y ∈ T, ∀ x ∈ Q, y * x * y⁻¹ ∈ Q)
+    [_hp : Fact p.Prime] {T Q S : Subgroup Y} (hQ : ∀ y ∈ T, ∀ x ∈ Q, y * x * y⁻¹ ∈ Q)
     (hST : S ≤ T) :
     S ≤ Subgroup.normalizer (GLAPPrimeCoreOf p (Subgroup.centralizer (Q : Set Y)) : Set Y) := by
   have h1 : S ≤ Subgroup.normalizer ((Subgroup.centralizer (Q : Set Y) : Subgroup Y) : Set Y) := by
@@ -468,8 +468,8 @@ theorem clause_iii_of {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A : Sub
       ⁅barX p (Cg e) K, barX p (Cg e) (GLAPPrimeCoreOf p (Cg2 e a))⁆ ≠ ⊥ ∧
         ¬ Covers p (Cg e) (M ⊓ Cg e) K := by
   classical
-  haveI hp : Fact p.Prime := ⟨h.standing.prime⟩
-  haveI := h.standing.simple
+  have hp : Fact p.Prime := ⟨h.standing.prime⟩
+  have := h.standing.simple
   have hp2 : p ≠ 2 := (show p.Prime ∧ p ≠ 2 ∧ _ from h.standing.beta).2.1
   have hOM : GLAPPrimeCoreOf p (Cg e) ≤ M := (lemma114_i_ii h).1
   have hE : inD p M E := h.pair.1.1

@@ -168,7 +168,6 @@ theorem false_of_sp44_block (hSp : Sp44OrderThreeCent) {Y : Type} [Group Y] [Fin
       intro a ha b hb
       rcases ha with ha | ha | ha <;> rcases hb with hb | hb | hb <;> rw [ha, hb]
       all_goals first
-        | rfl
         | exact hsp' | exact hsp'.symm | exact hsq' | exact hsq'.symm
         | exact hpqc | exact hpqc.symm
     have hEcomm : IsMulCommutative E :=

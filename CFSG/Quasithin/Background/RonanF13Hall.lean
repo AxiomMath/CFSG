@@ -23,7 +23,7 @@ theorem relIndex_inf_eq_of_normal {Γ : Type u} [Group Γ] [Finite Γ] (N D : Su
     Subgroup.relIndex_mul_relIndex _ _ _ inf_le_left le_sup_left
   have h4 : N.relIndex D = (D ⊓ N).relIndex D := (Subgroup.inf_relIndex_left D N).symm
   have hc : (D ⊓ N).relIndex D ≠ 0 := by
-    haveI : Finite ↥D := inferInstance
+    have : Finite ↥D := inferInstance
     exact Subgroup.index_ne_zero_of_finite
   rw [h1, h4] at h2
   have h5 : (D ⊓ N).relIndex D * (D ⊓ N).relIndex N = (D ⊓ N).relIndex D * D.relIndex (D ⊔ N) := by
@@ -33,7 +33,7 @@ theorem relIndex_inf_eq_of_normal {Γ : Type u} [Group Γ] [Finite Γ] (N D : Su
 theorem relIndex_inf_dvd {N D B : Subgroup G} [Finite ↥B] (hNB : N ≤ B)
     (hBN : B ≤ Subgroup.normalizer (N : Set G)) :
     (D ⊓ N).relIndex N ∣ D.relIndex B := by
-  haveI : (N.subgroupOf B).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNB).mpr hBN
+  have : (N.subgroupOf B).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNB).mpr hBN
   have h1 := relIndex_inf_eq_of_normal (N.subgroupOf B) (D.subgroupOf B)
   have h2 : ((D.subgroupOf B) ⊓ (N.subgroupOf B)).relIndex (N.subgroupOf B) =
       (D ⊓ N).relIndex N := by
@@ -245,7 +245,7 @@ theorem hall_setup {L1 L2 S : Subgroup G} (h : F13Setup L1 L2 S) :
       D = (D ⊓ borelOf L1 S) ⊔ (D ⊓ borelOf L2 S) ∧
       borelOf L1 S ⊔ borelOf L2 S ⊔ S = S ⊔ (D ⊓ borelOf L1 S) ⊔ (D ⊓ borelOf L2 S) := by
   classical
-  haveI := h.fin_bigB
+  have := h.fin_bigB
   obtain ⟨D, hD⟩ := exists_hallTwoPrime (borelOf L1 S ⊔ borelOf L2 S ⊔ S) h.solvable
   have hB1B : borelOf L1 S ≤ borelOf L1 S ⊔ borelOf L2 S ⊔ S := le_sup_left.trans le_sup_left
   have hB2B : borelOf L2 S ≤ borelOf L1 S ⊔ borelOf L2 S ⊔ S := le_sup_right.trans le_sup_left

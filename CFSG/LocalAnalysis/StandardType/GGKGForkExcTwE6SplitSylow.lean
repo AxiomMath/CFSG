@@ -98,7 +98,7 @@ private lemma ggKGTz_eval (N : ℕ) :
     Polynomial.eval ((N : ℤ)) ((Polynomial.X - 1) ^ 4 * (Polynomial.X + 1) ^ 2) =
       (((N : ℤ) - 1) ^ 4) * (((N : ℤ) + 1) ^ 2) := by
   simp only [Polynomial.eval_mul, Polynomial.eval_pow, Polynomial.eval_sub, Polynomial.eval_add,
-    Polynomial.eval_X, Polynomial.eval_one, Polynomial.eval_C]
+    Polynomial.eval_X, Polynomial.eval_one]
 
 private lemma ggKGTz_natAbs_eval (N : ℕ) (hN : 1 ≤ N) :
     ((Polynomial.eval ((N : ℤ))
@@ -115,7 +115,7 @@ private lemma ggKGTz_natAbs_eval (N : ℕ) (hN : 1 ≤ N) :
 private lemma ggKGTz_factorization {N p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hN : 2 ≤ N)
     (hpq : p ∣ N - 1) :
     ((N - 1) ^ 4 * (N + 1) ^ 2).factorization p = 4 * padicValNat p (N - 1) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hNdvd : ¬ p ∣ N + 1 := by
     intro h
     have h2 : p ∣ (N + 1) - (N - 1) := Nat.dvd_sub h hpq
@@ -191,7 +191,7 @@ theorem twE6SCTorusInput_split
     (hK : Nat.card K = (2 ^ n) ^ 2) (hσ : ∀ c, σ c = c ^ (2 ^ n)) (hpq : p ∣ 2 ^ n - 1) :
     TwE6SCTorusInput K σ n p 4 := by
   intro E hE h3 h4 hsc
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hn0 : n ≠ 0 := by
     intro hn
     have h2 : 2 ≤ Nat.card K := by
@@ -240,7 +240,7 @@ theorem twE6SCTorusInput_split
       rw [show ((c * x * c⁻¹ : twistedE6RootGroup K σ) : ModGL TwistTag.E6.tag K) =
           (c : ModGL TwistTag.E6.tag K) * (x : ModGL TwistTag.E6.tag K) *
             (c⁻¹ : ModGL TwistTag.E6.tag K) by
-        simp [Subgroup.coe_mul, Subgroup.coe_inv]]
+        simp [Subgroup.coe_mul]]
       rw [Subgroup.coe_inv, map_mul, map_mul, map_inv]
       group
     rw [hconj]

@@ -29,7 +29,7 @@ private theorem s168e3_pCoreOf_isPGroup {A : Type*} [Group A] (p : ℕ) (H : Sub
 private theorem s168e3_center_ne_top {Q : Type*} [Group Q] (hQ : CFSG.Open.IsQuasisimple Q) :
     Subgroup.center Q ≠ ⊤ := by
   intro h
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
   obtain ⟨p, q, hpq⟩ := exists_pair_ne (Q ⧸ Subgroup.center Q)
   obtain ⟨p, rfl⟩ := QuotientGroup.mk_surjective p
   obtain ⟨q, rfl⟩ := QuotientGroup.mk_surjective q
@@ -78,7 +78,7 @@ private theorem s168e3_153_2_not_prime_power {m p : ℕ} (hm : m = 60 ∨ m = 16
   omega
 
 private theorem s168e3_153_2_not_quasisimple {A : Type*} [Group A] {L K₀ N : Subgroup A}
-    (hdir : IsDirectProdOfConj L K₀ N) (h2 : (conjSet K₀ N).ncard = 2)
+    (hdir : IsDirectProdOfConj L K₀ N) (_h2 : (conjSet K₀ N).ncard = 2)
     (hLcard : Nat.card ↥L = Nat.card ↥K₀ ^ 2)
     (hK0card : Nat.card ↥K₀ = 60 ∨ Nat.card ↥K₀ = 168)
     (hnab : ¬ ∀ a b : ↥K₀, a * b = b * a) :
@@ -102,11 +102,11 @@ private theorem s168e3_153_2_not_quasisimple {A : Type*} [Group A] {L K₀ N : S
     intro htop
     have h1 : Nat.card ↥(K₀.subgroupOf L) = Nat.card ↥L := by
       rw [htop, Nat.card_congr Subgroup.topEquiv.toEquiv]
-    have h2 : Nat.card ↥(K₀.subgroupOf L) = Nat.card ↥K₀ :=
+    have _h2 : Nat.card ↥(K₀.subgroupOf L) = Nat.card ↥K₀ :=
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hK0leL).toEquiv
-    rw [h2, hLcard] at h1
+    rw [_h2, hLcard] at h1
     rcases hK0card with h | h <;> rw [h] at h1 <;> norm_num at h1
-  haveI := hN
+  have := hN
   have hle := CFSG.ComponentClassification.Quasisimple.normal_le_center_of_ne_top
     hq (K₀.subgroupOf L) hne_top
   exact hnab fun a b => by
@@ -118,8 +118,8 @@ private theorem s168e3_153_2_not_quasisimple {A : Type*} [Group A] {L K₀ N : S
 theorem s168e3_natTensor_rk {H : Subgroup (MulAut W)} {U : Subgroup W} {d a : ℕ}
     (h : NatTensor H U ⊥ d a) : rk ↥U = d * d * a := by
   obtain ⟨K, hfield, hfinite, hcard, π, hπ⟩ := h
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   obtain ⟨-, -, -, -, -, -, -, β, hβs, hβk, -⟩ := hπ
   have hinj : Function.Injective β := by
     rw [injective_iff_map_eq_one]
@@ -159,7 +159,7 @@ theorem s168e3_153_2_tensor [Finite W] {A L K₀ : Subgroup (MulAut W)} {t : Mul
   obtain ⟨-, -, hcases⟩ := hW
   rcases hcases with h133 | hcomp2 | hcomp3 | hcomp4
   · obtain ⟨p', hp'prime, hLpcore, -⟩ := h133
-    haveI : Fact p'.Prime := ⟨hp'prime⟩
+    have : Fact p'.Prime := ⟨hp'prime⟩
     have hpgroup : IsPGroup p' ↥L := (s168e3_pCoreOf_isPGroup p' A).to_le hLpcore
     obtain ⟨n, hn⟩ := hpgroup.exists_card_eq
     exact (s168e3_153_2_not_prime_power hK0card hp'prime (by rw [← hLcard, hn])).elim

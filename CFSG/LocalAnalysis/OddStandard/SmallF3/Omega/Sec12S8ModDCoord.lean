@@ -85,7 +85,7 @@ theorem s8d_natIso {V1 X : Subgroup G} {φ : (Fin 5 → ZMod 2) → G} (hc : Sec
     · intro v hv
       exact hhσ v hv
   obtain ⟨e⟩ := hA5
-  haveI : Finite ↥X :=
+  have : Finite ↥X :=
     Finite.of_injective (e.toEquiv : ↥X → ↥(alternatingGroup (Fin 5))) e.toEquiv.injective
   have hbij : Function.Bijective f :=
     hsurj.bijective_of_nat_card_le (le_of_eq (Nat.card_congr e.toEquiv))

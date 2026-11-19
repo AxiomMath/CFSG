@@ -18,7 +18,7 @@ variable {K : Type} [Field K] [Finite K]
 private theorem s16k_card_le_pow_of_pRank {G : Type*} [Group G] [Finite G] {p : ℕ}
     (hp : p.Prime) {H F : Subgroup G} (hFH : F ≤ H) (hF : IsElemAbelian p F) {r : ℕ}
     (hr : Open.pRank p H ≤ r) : Nat.card F ≤ p ^ r := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hF.isPGroup.exists_card_eq
   rw [hk]
   exact Nat.pow_le_pow_right hp.pos ((CFSG.SectionRank.le_pRank hp.one_lt hFH hF hk).trans hr)
@@ -26,7 +26,7 @@ private theorem s16k_card_le_pow_of_pRank {G : Type*} [Group G] [Finite G] {p : 
 private instance s16k_finite_orthogonalGroup {ι : Type} [Fintype ι]
     (Q : QuadraticForm K (ι → K)) :
     Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := by
-  haveI : Finite ((ι → K) ≃ₗ[K] (ι → K)) :=
+  have : Finite ((ι → K) ≃ₗ[K] (ι → K)) :=
     Finite.of_injective (fun f : (ι → K) ≃ₗ[K] (ι → K) => (f : (ι → K) → (ι → K)))
       DFunLike.coe_injective
   infer_instance
@@ -74,7 +74,7 @@ private theorem s16k_pRank_orthMinus_le {b c : K}
       (¬ (p : ℤ) ∣ (Nat.card K : ℤ) ^ n - (-1) ∧
         Open.pRank p (⊤ : Subgroup (StatedSp (n - 1) K)) ≤ r)) :
     Open.pRank p (⊤ : Subgroup (TauCeti.QuadraticMap.orthogonalGroup (quadMinus n K b c))) ≤ r := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = Nat.card K := Nat.card_eq_fintype_card.symm
   have hp1 : Odd p := hp.out.odd_of_ne_two hp2
   have hdim : Module.finrank K (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) = 2 * n :=
@@ -84,7 +84,7 @@ private theorem s16k_pRank_orthMinus_le {b c : K}
   have hε : ((-1 : ℤ) = 1 ∧ IsPlusType (quadMinus n K b c)) ∨
       ((-1 : ℤ) = -1 ∧ IsMinusType (quadMinus n K b c)) :=
     Or.inr ⟨rfl, s16k_isMinusType_quadMinus hn hirr⟩
-  haveI : Finite ((Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) ≃ₗ[K]
+  have : Finite ((Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) ≃ₗ[K]
       (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K)) :=
     Finite.of_injective (fun f => (f : (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K) →
       (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K))) DFunLike.coe_injective
@@ -110,7 +110,7 @@ private theorem s16k_card_le_isometries {m : ℕ} {b c : K}
     (hr : Open.pRank p
       (⊤ : Subgroup (TauCeti.QuadraticMap.orthogonalGroup (quadMinus m K b c))) ≤ r) :
     Nat.card F ≤ p ^ r := by
-  haveI : Finite ((Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) ≃ₗ[K]
+  have : Finite ((Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) ≃ₗ[K]
       (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K)) :=
     Finite.of_equiv _ (toLinEquiv (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) K).toEquiv
   have hQ : ⇑(quadMinus m K b c) = StatedQuadMinus m K b c := coe_quadMinus m K b c
@@ -129,6 +129,7 @@ private theorem s16k_card_le_isometries {m : ℕ} {b c : K}
   rwa [Subgroup.card_map_of_injective
     (toLinEquiv (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) K).injective] at h
 
+omit [Finite K] in
 private theorem s16k_card_dvd_orthogonal {m : ℕ} {b c : K}
     {F : Subgroup (GL (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) K)}
     (hFQ : ∀ x ∈ F, ∀ v : Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K,
@@ -191,7 +192,7 @@ private theorem s16k_not_sq_dvd_8160 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
 theorem s16k_card_le_gl_of_dvd {ι : Type} [Fintype ι] [DecidableEq ι] {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hpK : p ∣ Nat.card K - 1) {F : Subgroup (GL ι K)} (hF : IsElemAbelian p F) :
     Nat.card F ≤ p ^ Fintype.card ι := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   have hpos : 0 < Nat.card K := Nat.card_pos
   have hnot : ¬ p ∣ Nat.card K := by
@@ -212,7 +213,7 @@ theorem s16k_card_le_gl_of_dvd {ι : Type} [Fintype ι] [DecidableEq ι] {p : �
 theorem s16k_card_le_sp_of_dvd {m : ℕ} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpK : p ∣ Nat.card K ^ 2 - 1) {F : Subgroup (GL (Fin m ⊕ Fin m) K)}
     (hFS : F ≤ StatedSp m K) (hF : IsElemAbelian p F) : Nat.card F ≤ p ^ m := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hodd : Odd p := hp.odd_of_ne_two hp2
   refine s16k_card_le_pow_of_pRank hp hFS hF ?_
   rw [CFSG.SectionRank.pRank_eq_pRank_top_subgroup, pRank_top_statedSp_eq_of_dvd hodd hpK m]
@@ -225,7 +226,7 @@ theorem s16k_card_le_orthMinus_two {b c : K} (hK : Nat.card K = 2 ∨ Nat.card K
       StatedQuadMinus m K b c ((x : Matrix _ _ K) *ᵥ v) = StatedQuadMinus m K b c v) :
     Nat.card F ≤ p := by
   subst hm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hF.isPGroup.exists_card_eq
   have hdvd := s16k_card_dvd_orthogonal (m := 2) (b := b) (c := c) (F := F) hFQ
   have hk1 : k ≤ 1 := by
@@ -272,7 +273,7 @@ theorem s16k_card_le_orthMinus_three_six {b c : K} (hirr : ∀ s : K, s ^ 2 + b 
       StatedQuadMinus m K b c ((x : Matrix _ _ K) *ᵥ v) = StatedQuadMinus m K b c v) :
     Nat.card F ≤ p ^ 3 := by
   subst hm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpKn : ¬ p ∣ Nat.card K :=
     s16k_not_dvd_of_dvd_sq_sub_one Nat.card_pos hpK hp.ne_one
   have h1' : ¬ (p : ℤ) ∣ (Nat.card K : ℤ) ^ 3 + (-1) := by
@@ -296,7 +297,7 @@ theorem s16k_card_le_orthMinus_three_four {b c : K} (hirr : ∀ s : K, s ^ 2 + b
       StatedQuadMinus m K b c ((x : Matrix _ _ K) *ᵥ v) = StatedQuadMinus m K b c v) :
     Nat.card F ≤ p ^ 2 := by
   subst hm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpKn : ¬ p ∣ Nat.card K :=
     s16k_not_dvd_of_dvd_sq_sub_one Nat.card_pos hpK hp.ne_one
   have h1' : ¬ (p : ℤ) ∣ (Nat.card K : ℤ) ^ 3 - (-1) := by

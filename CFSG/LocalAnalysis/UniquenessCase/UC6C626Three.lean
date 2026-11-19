@@ -21,7 +21,7 @@ theorem sup_zpowers_eq_top_of_lieModel_three {S : Type} [Group S] [Finite S] {r 
     (hx : (orderOf x).Prime) (hx2 : orderOf x ≠ 2) (hx3 : orderOf x ≠ r) : E ⊔ zpowers x = ⊤ := by
   classical
   subst hr3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨F, _, _, e, -, hFq⟩ :=
     CFSG.GH74.GLS.EvenSelP.exists_l2Field_of_lieModel' Nat.prime_three (by norm_num) hL
   let φ : S ≃* PSL(2, F) := CFSG.GH74.GLS.IVK.toPSL e
@@ -33,7 +33,7 @@ theorem sup_zpowers_eq_top_of_lieModel_three {S : Type} [Group S] [Finite S] {r 
     rw [hFq]
     exact (Nat.prime_three.odd_of_ne_two (by norm_num)).pow
   have h2 : (2 : F) ≠ 0 := CFSG.GH74.GLS.IVK.L2Borel.two_ne_zero_of_odd_card hodd
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨c, hc⟩ := exists_conj_eq_unipotent hFq W'
   have hNW' : Subgroup.normalizer ((W' : Subgroup (PSL(2, F))) : Set (PSL(2, F))) =
       (borel F).map (MulAut.conj c).toMonoidHom := by
@@ -66,7 +66,7 @@ theorem sup_zpowers_eq_top_of_lieModel_three {S : Type} [Group S] [Finite S] {r 
 theorem c626gen_of_lieModel_three (h619 : m.C619) (h620 : m.C620) (hr3 : m.r = 3)
     (hL : LieModel m.Lbar .PSL 2 m.r 2) : m.C626gen := by
   classical
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hEs := m.isSylowOf_Ebar_of_lieModel h620 hL
   have hcen : Subgroup.center m.Lbar = ⊥ := by
     obtain ⟨F, _, _, e, -, -⟩ := CFSG.GH74.GLS.EvenSelP.exists_l2Field_of_lieModel' m.hr m.d.odd hL

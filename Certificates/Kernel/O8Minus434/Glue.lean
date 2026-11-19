@@ -50,7 +50,7 @@ theorem linArr_eq {cols : List Nat} (h : linLtK NSM cols = true) :
     have := hb i.val hi
     rwa [Nat.blt_eq, fget_pg8] at this
   have hc : ∀ k, nsMap NSM NIM (linApply cols) k < 2 ^ 8 := fun k => fget_lt8 _ _
-  rw [← CFSG.KC.O8.PA.fget_eq_pg, linK, CFSG.KC.U62P.Snd.fget_orN hc, if_pos hi]
+  rw [← CFSG.KC.O8.PA.fget_eq_pg, linK, CFSG.KC.U62P.Snd.fget_orN hc, ite_eq_left hi]
   unfold nsMap
   rw [fget_pg8, fget_pg8, ns_bindM i.val hi, ni_bindM _ hl]
 

@@ -40,7 +40,7 @@ noncomputable def monoFun (M : Matrix (Fin 3) (Fin 3) K) : Fin 3 → Fin 3 := by
 theorem isMonomialWith_monoFun {M : Matrix (Fin 3) (Fin 3) K} (h : ∃ σ, IsMonomialWith M σ) :
     IsMonomialWith M (monoFun M) := by
   classical
-  rw [monoFun, dif_pos h]
+  rw [monoFun, dite_eq_left h]
   exact Classical.choose_spec h
 
 theorem monoFun_mul (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1) (P : GL (Fin 3) K) {x y : GL (Fin 3) K}

@@ -135,15 +135,15 @@ private theorem le_or_sup_eq {Q : Type*} [Group Q] (π : Γ →* Q) {T K : Subgr
     (hker : f.ker = K.subgroupOf T) {L : Subgroup Q} (hLS : L ≤ T.map π)
     (hLn : ∀ s ∈ T.map π, ∀ l ∈ L, s * l * s⁻¹ ∈ L) :
     L ≤ K.map π ∨ L ⊔ K.map π = T.map π := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   set L' : Subgroup ↥T := L.comap (π.comp T.subtype) with hL'
   have hmem : ∀ t : ↥T, t ∈ L' ↔ π t ∈ L := fun t => Iff.rfl
-  haveI hL'n : L'.Normal := ⟨fun a ha g => by
+  have hL'n : L'.Normal := ⟨fun a ha g => by
     rw [hmem] at ha ⊢
     have h1 : π g ∈ T.map π := ⟨g, g.2, rfl⟩
     have := hLn (π g) h1 (π a) ha
     simpa [map_mul, map_inv] using this⟩
-  haveI : (L'.map f).Normal := hL'n.map f hf
+  have : (L'.map f).Normal := hL'n.map f hf
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (L'.map f) with hb | ht
   · left
     have hle : L' ≤ f.ker := (Subgroup.map_eq_bot_iff _).1 hb
@@ -417,8 +417,8 @@ private theorem core_of_left {J₁ J₂ S N : Subgroup Q}
   have hmpos : 0 < m := Nat.pos_of_ne_zero fun h => by
     rw [h, mul_zero] at hm
     omega
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup (↥J₁ ⧸ Subgroup.center ↥J₁) := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (↥J₁ ⧸ Subgroup.center ↥J₁) := e.isSimpleGroup
   have hcardQ : Nat.card (↥J₁ ⧸ Subgroup.center ↥J₁) = 360 := by
     have h := (Subgroup.center ↥J₁).card_eq_card_quotient_mul_card_subgroup
     rw [h1080, hZc] at h

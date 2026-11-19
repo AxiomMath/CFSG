@@ -167,7 +167,7 @@ theorem center_eq_bot_of_isCyclic_sylow {G : Type*} [Group G] [Finite G]
 theorem isCyclic_sylow_three_of_not_dvd {S : Type*} [Group S] [Finite S]
     (h9 : ¬ 9 ∣ Nat.card S) (Q : Sylow 3 S) : IsCyclic Q := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp Q.isPGroup
   have hdvd : 3 ^ k ∣ Nat.card S := hk ▸ Subgroup.card_subgroup_dvd_card _
   have hk1 : k ≤ 1 := by
     by_contra h

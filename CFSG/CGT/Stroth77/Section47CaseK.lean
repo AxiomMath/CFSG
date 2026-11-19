@@ -26,7 +26,7 @@ theorem StrothFrame.IsD.false_of_t200_klein {F : StrothFrame G} {D : Subgroup G}
     (hS : (F.S : Subgroup G) = D ⊔ Subgroup.closure {dD.uv, dD.t, dD.u} ⊔
       Subgroup.closure {e, f}) :
     False := by
-  haveI := F.simple
+  have := F.simple
   set P := Subgroup.closure {dD.uv, dD.t, dD.u} with hP
   set U := D ⊔ P ⊔ Subgroup.zpowers f with hU
   set z := (dD.c : G) ^ 2 ^ (m - 1) with hz
@@ -58,7 +58,7 @@ theorem StrothFrame.IsD.false_of_t200_klein {F : StrothFrame G} {D : Subgroup G}
     h.t200_fusion.1 _ (Subgroup.subset_closure (by simp)) huv1
   have h6 : ∀ y ∈ U, y * dD.uv ∈ D → y * y = 1 → ¬ IsConj y z := fun y _ hy hyy hyz =>
     hza (hyz.symm.trans ((t200k_isConj_uv dD hp hrel_f y hy hyy).trans huva))
-  have hSp : IsPGroup 2 ↥(U ⊔ Subgroup.zpowers e) := hSU ▸ F.S.isPGroup'
+  have hSp : IsPGroup 2 ↥(U ⊔ Subgroup.zpowers e) := hSU ▸ F.S.isPGroup
   refine Stroth47.false_of_harada_count (Stroth42.frame_exists_mul_ne F) F.S hUS hUidx
     (le_sup_right.trans le_sup_left) heS heUn hxz hz2 hz1 dD.uv_mem dD.uv_sq h3'
     (fun y hy => t200k_h5 dD heN hfN hrel_e hrel_f hconj y (hSU ▸ hy)) h6

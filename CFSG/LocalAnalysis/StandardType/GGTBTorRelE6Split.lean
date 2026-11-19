@@ -18,7 +18,7 @@ open CFSG CFSG.Assembly CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Che
 
 
 theorem exists_aligned_LangFrame_E6_relative {K : Type} [Field K] [Finite K] [CharP K 2]
-    {n p r : ℕ} (hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n)
+    {n p r : ℕ} (_hn : 1 ≤ n) (hK : Nat.card K = 2 ^ n)
     (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) (hpq : p ∣ 2 ^ n + 1)
     {L : Type} [Group L] [Finite L] (ψ : L →* RecipeGroup .E6 K)
     (A : Subgroup (MulAut L))
@@ -88,7 +88,7 @@ theorem ggTorusTorW_recipe_E6_relative {K : Type} [Field K] [Finite K] [CharP K 
   obtain ⟨ψ0, Λ0, E, F, hψ0, hk0, hΛ0, hΛψ0, hAout, hlong⟩ :=
     exists_aligned_LangFrame_E6_relative hn hK hp hp2 hp3 hpq ψ A hA
   obtain ⟨hψ, hker, hperf, -, -, -, -, -⟩ := hA
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hp5 : 5 ≤ p := by
     have hp4 : p ≠ 4 := by rintro rfl; norm_num at hp
     have hpge := hp.two_le
@@ -115,7 +115,7 @@ theorem ggTorusTorW_recipe_E6_relative {K : Type} [Field K] [Finite K] [CharP K 
     (m := Nat.card K + 1) CartanMatrix.F₄ (by
       have hdet : CartanMatrix.F₄.det = 1 := by decide +kernel
       rw [hdet]
-      simpa using (isUnit_one : IsUnit (1 : ZMod (Nat.card K + 1))))
+      simp)
   let φ := E6RelativeLang.phi F hlong
   let S := E6RelativeLang.fullTorus F
   have hE : ∀ x, x ∈ E ↔ x ^ p = 1 ∧ x ∈ φ.range :=
@@ -149,7 +149,7 @@ theorem ggTorusTorW_label_E6_relative {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (
   intro Q hQ
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQK⟩ := hQ
-  letI : CharP K 2 := charP_two_of_card hK
+  let : CharP K 2 := charP_two_of_card hK
   refine ⟨K, i1, i2, hK, hQK, ?_⟩
   have hpminus : ¬ p ∣ 2 ^ n - 1 := by
     intro hd

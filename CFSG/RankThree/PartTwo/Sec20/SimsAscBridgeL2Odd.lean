@@ -34,7 +34,7 @@ theorem mk_mem_normalizer_rAlpha {u : ↥(yTwenty X c ⊔ CFSG.Open.pCoreOf 2 (k
   refine ⟨u * r * u⁻¹, Subgroup.mem_subgroupOf.mpr ?_, by simp only [map_mul, map_inv]⟩
   exact (Subgroup.mem_normalizer_iff.mp hu r).mp (Subgroup.mem_subgroupOf.mp hr)
 
-theorem kAlpha_inf_rAlpha_eq_bot_of_isSimpleGroup (hset : Setting204 G A M L N c T i j P)
+theorem kAlpha_inf_rAlpha_eq_bot_of_isSimpleGroup (_hset : Setting204 G A M L N c T i j P)
     (hKY : kTwenty M c ≤ yTwenty X c)
     [IsSimpleGroup ↥(kToYAlpha (T := T) hKY).range]
     (hnab : ∃ a b : ↥(kToYAlpha (T := T) hKY).range, a * b ≠ b * a) :
@@ -139,8 +139,8 @@ theorem step204AscL2Odd_holds : Step204AscL2Odd := by
     · exact hp3 rfl
     · exact absurd hp (by norm_num)
   obtain ⟨hs, hnab⟩ := isSimpleGroup_yAlpha hset hX hm
-  haveI := hs
-  haveI := yAlpha_normal hX
+  have := hs
+  have := yAlpha_normal hX
   have hinj := conjNormal_yAlpha_injective hX hnab
   have he2 := le_two_of_yAlpha_mulEquiv_L2 hset hX hnab hp5 he eY
   have hFcard : Nat.card (GaloisField p e) = p ^ e := GaloisField.card p e (by omega)
@@ -165,9 +165,9 @@ theorem step204AscL2Odd_holds : Step204AscL2Odd := by
     isSimpleGroup_and_card_of_surjective hF eL hKperf hK1 φ hφ hset.kType.symm
   have hKnab : ∃ a b : ↥ψ.range, a * b ≠ b * a := by
     obtain ⟨k, hk⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp hK1
-    haveI := hKperf
+    have := hKperf
     exact exists_mul_ne_mul_of_isPerfect (MonoidHom.id _) hk
-  haveI := hKs
+  have := hKs
   have hKR := kAlpha_inf_rAlpha_eq_bot_of_isSimpleGroup hset hKY hKnab
   have hcomm := commute_of_kAlpha_inf_rAlpha_eq_bot hset hKR
   have hfix := range_le_fixedSubgroup_of_commute hKY hcomm
@@ -177,7 +177,7 @@ theorem step204AscL2Odd_holds : Step204AscL2Odd := by
   have hD : rAlpha M X T c ⊓ yAlpha M X T c = ⊥ := by
     by_contra hne
     have hD2 : IsPGroup 2 ↥(rAlpha M X T c ⊓ yAlpha M X T c) := hR2.to_inf_left
-    haveI : Nontrivial ↥(rAlpha M X T c ⊓ yAlpha M X T c) :=
+    have : Nontrivial ↥(rAlpha M X T c ⊓ yAlpha M X T c) :=
       (Subgroup.nontrivial_iff_ne_bot _).mpr hne
     obtain ⟨n, hn, hcard⟩ := hD2.nontrivial_iff_card.mp inferInstance
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(rAlpha M X T c ⊓
@@ -229,7 +229,7 @@ theorem step204AscL2Odd_holds : Step204AscL2Odd := by
     rw [pow_one] at this
     omega
   have hR'card : Nat.card R' = 2 := by rw [hk, pow_one]
-  haveI : Nontrivial ↥R' := (Subgroup.nontrivial_iff_ne_bot _).mpr hR'1
+  have : Nontrivial ↥R' := (Subgroup.nontrivial_iff_ne_bot _).mpr hR'1
   obtain ⟨⟨u, huR'⟩, hu1⟩ := exists_ne (1 : ↥R')
   have hu2 : orderOf u = 2 := by
     have hdvd : orderOf (⟨u, huR'⟩ : ↥R') ∣ 2 := by

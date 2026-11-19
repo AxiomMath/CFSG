@@ -38,7 +38,7 @@ theorem implements_of_mod_center {K : Type} [Group K] {π : D.H →* K} {α : Mu
     {A : GL (Fin d) k} (hA : A ∈ D.A)
     (h : ∀ y : D.H, ((α (π y))⁻¹ * π (conjH A hA y)) ∈ Subgroup.center K) :
     Implements π α A := by
-  haveI hperf : Group.IsPerfect D.H := (Subgroup.isPerfect_iff (H := D.H)).mpr D.perf
+  have hperf : Group.IsPerfect D.H := (Subgroup.isPerfect_iff (H := D.H)).mpr D.perf
   let χ : D.H →* K :=
     { toFun := fun y => (α (π y))⁻¹ * π (conjH A hA y)
       map_one' := by simp
@@ -153,7 +153,7 @@ theorem ker_trivial_of_three (S : GSetting p q₀ d k D K ψ E) (hd : d = 3) :
       Finset.prod_const, Finset.card_univ, Fintype.card_fin, hd] at hdet
     exact Units.ext (by rw [Units.val_pow_eq_pow_val, hdet, Units.val_one])
   have hzprim : IsPrimitiveRoot z 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact IsPrimitiveRoot.iff_orderOf.mpr (orderOf_eq_prime hz3 hz1)
   have hcen : ∀ κ ∈ Subgroup.center K, κ = 1 := by
     intro κ hκ
@@ -374,7 +374,7 @@ theorem torusH123 (S : GSetting p q₀ d k D K ψ E) {S_I : Set (GL (Fin d) k)}
       have h2 := h1 i₀
       have h3 := h1 i₂
       rw [NbrLangTypeA.torusVec_apply] at h2 h3
-      simp only [if_true, h01, if_false, mul_one, Ne.symm h02, Ne.symm h12, one_mul] at h2 h3
+      simp only [ite_true, h01, ite_false, mul_one, Ne.symm h02, Ne.symm h12] at h2 h3
       exact hζp1 (h2.trans h3.symm)
     refine ⟨⟨S.π (T i₀ i₁ ζ hζpE), hTinS i₀ i₁, by rw [hpow1]; exact hnotcen⟩,
       S.π (T i₀ i₁ ζp hζpE'), S.π (T i₁ i₂ ζp hζpE'), ⟨_, hTinS i₀ i₁, (hpow1 i₀ i₁).symm⟩,
@@ -406,12 +406,12 @@ theorem torusH123 (S : GSetting p q₀ d k D K ψ E) {S_I : Set (GL (Fin d) k)}
         have h30 : i₃ ≠ i₀ := by simp [i₃, i₀, Fin.ext_iff]
         have h31 : i₃ ≠ i₁ := by simp [i₃, i₁, Fin.ext_iff]
         have h32 : i₃ ≠ i₂ := by simp [i₃, i₂, Fin.ext_iff]
-        simp only [h30, h31, h32, if_false, mul_one] at h1
+        simp only [h30, h31, h32, ite_false, mul_one] at h1
         exact h1.symm
     have hA := hconst' i₀
     have hB := hconst' i₂
     rw [hc1, Pi.mul_apply, NbrLangTypeA.torusVec_apply, NbrLangTypeA.torusVec_apply] at hA hB
-    simp only [if_true, h01, if_false, mul_one, h02, Ne.symm h02, Ne.symm h12, one_mul] at hA hB
+    simp only [ite_true, h01, ite_false, mul_one, h02, Ne.symm h02, Ne.symm h12, one_mul] at hA hB
     have hord : orderOf ζp = p := hζpord
     constructor
     · rw [← hord]; exact orderOf_dvd_of_pow_eq_one hA

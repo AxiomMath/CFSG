@@ -43,7 +43,7 @@ include H C
 theorem exists_hom_Mbar_of_nu (ν : NLbar S g →* Multiplicative (ZMod 2))
     (hν : ν ⟨t, CaseI25Transfer.mem_NLbar_of_mem_Lbar ht⟩ ≠ 1) :
     ∃ V : S.Mbar →* Multiplicative (ZMod 2), V (CaseI25Transfer.tM ht) ≠ 1 := by
-  haveI : Finite S.Mbar := inferInstance
+  have : Finite S.Mbar := inferInstance
   obtain ⟨P, hsyl, -, hPN⟩ := CaseI25Transfer.exists_sylow_data H C ht
   set N : Subgroup S.Mbar := (NLbar S g).subgroupOf S.Mbar with hNdef
   have hPle : P ≤ N := fun x hx => Subgroup.mem_subgroupOf.mpr ⟨x.2, hPN x hx⟩

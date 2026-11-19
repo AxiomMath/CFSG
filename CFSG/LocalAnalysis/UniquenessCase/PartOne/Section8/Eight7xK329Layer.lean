@@ -42,7 +42,7 @@ private theorem k329la_factor_isComponent {C : Type*} [Group C] {ι : Type*}
 theorem k329_solvable_normal_centralizes {C : Type} [Group C] [Finite C] {ι : Type} [Fintype ι]
     (Lf : ι → Subgroup C) (hq : ∀ i, CFSG.Open.IsQuasisimple ↥(Lf i))
     (hc : ∀ i j, i ≠ j → ⁅Lf i, Lf j⁆ = ⊥) (hLn : (⨆ i, Lf i).Normal)
-    (N : Subgroup C) [N.Normal] (hN : IsSolvable ↥N) :
+    (N : Subgroup C) [N.Normal] (hN : Group.IsSolvable ↥N) :
     ⁅N, ⨆ i, Lf i⁆ = ⊥ := by
   have hNs : N.IsSubnormal := (inferInstance : N.Normal).isSubnormal
   have hcent :=

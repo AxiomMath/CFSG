@@ -23,7 +23,7 @@ variable {H M : Type} [Group H] [Finite H] [Group M]
 private theorem fusionIsSylowIn_two_of_card {S P : Subgroup H} (hSP : S ≤ P)
     (hS : IsPGroup 2 S) {m : ℕ} (hm : ¬ 2 ∣ m) (hcard : Nat.card P = Nat.card S * m) :
     fusionIsSylowIn 2 S P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨hSP, hS, fun Q hQP hQ hSQ => ?_⟩
   obtain ⟨a, ha⟩ := hQ.exists_card_eq
   obtain ⟨b, hb⟩ := hS.exists_card_eq
@@ -37,6 +37,7 @@ private theorem fusionIsSylowIn_two_of_card {S P : Subgroup H} (hSP : S ≤ P)
     exact Nat.le_of_dvd (by positivity) h1
   exact (Subgroup.eq_of_le_of_card_ge hSQ h2).symm
 
+omit [Finite H] in
 private theorem mem_normalizer_of_map_conj_eq {S : Subgroup H} {g : H}
     (h : S.map (MulAut.conj g).toMonoidHom = S) : g ∈ Subgroup.normalizer (S : Set H) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -52,6 +53,7 @@ private theorem mem_normalizer_of_map_conj_eq {S : Subgroup H} {g : H}
     have : s = y := by simpa using hsy'
     exact this ▸ hs
 
+omit [Finite H] in
 private theorem map_conj_map_conj (S : Subgroup H) (a b : H) :
     (S.map (MulAut.conj b).toMonoidHom).map (MulAut.conj a).toMonoidHom =
       S.map (MulAut.conj (a * b)).toMonoidHom := by
@@ -67,7 +69,7 @@ theorem exists_mem_normalizer_centralizer_map_eq {p : ℕ} (hp : p.Prime) (hp2 :
     (hhD : ∀ d ∈ D, d * h = h * d)
     (hh : π h ∈ Subgroup.normalizer ((S.map π : Subgroup M) : Set M)) :
     ∃ g ∈ Subgroup.normalizer (S : Set H) ⊓ Subgroup.centralizer (D : Set H), π g = π h := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P : Subgroup H := (S.map π).comap π with hPdef
   set S' : Subgroup H := S.map (MulAut.conj h).toMonoidHom with hS'def
   have hSP : S ≤ P := Subgroup.le_comap_map π S
@@ -114,7 +116,7 @@ theorem exists_mem_normalizer_centralizer_map_eq {p : ℕ} (hp : p.Prime) (hp2 :
       rintro d hd _ ⟨s, hs, rfl⟩
       have hdh : d * h = h * d := hhD d hd
       refine ⟨d * s * d⁻¹, (Subgroup.mem_normalizer_iff.1 (hDS hd) s).1 hs, ?_⟩
-      simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
       calc h * (d * s * d⁻¹) * h⁻¹ = (h * d) * s * (h * d)⁻¹ := by group
         _ = (d * h) * s * (d * h)⁻¹ := by rw [hdh]
         _ = d * (h * s * h⁻¹) * d⁻¹ := by group

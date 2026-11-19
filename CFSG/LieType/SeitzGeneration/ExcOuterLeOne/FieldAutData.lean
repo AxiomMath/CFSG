@@ -245,13 +245,13 @@ theorem fieldAutData_F4_of_maximal (h : SubfieldMaximalLeOne .F4) {K : Type} [Fi
   fieldAutData_F4_of_maximalAt (K := K) hp hp5
     (fun σ hσ hdvd M hRM => h K σ p hp hp5 hpK hσ hle hdvd M hRM)
 
-theorem fieldAutData_E7_of_maximalAt {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
-    (hmax : ∀ σ : K ≃+* K, orderOf σ = p → p ∣ Nat.card ↥(subfieldGroup Tag.E7 σ) →
+theorem fieldAutData_E7_of_maximalAt {K : Type} [Field K] [Finite K] {_p : ℕ} (hp : _p.Prime) (hp5 : 5 ≤ _p)
+    (hmax : ∀ σ : K ≃+* K, orderOf σ = _p → _p ∣ Nat.card ↥(subfieldGroup Tag.E7 σ) →
       ∀ M : Subgroup ↥(adjointGroup Tag.E7 K),
         subfieldGroup Tag.E7 σ ≤ M → M = subfieldGroup Tag.E7 σ ∨ M = ⊤) :
-    FieldAutData (adjointGroup Tag.E7 K) p :=
+    FieldAutData (adjointGroup Tag.E7 K) _p :=
   fieldAutData_E_of_maximalAt (K := K) .E7 (Or.inr (Or.inl rfl))
-    (fun _ _ _ σ p hp hp3 hσp => entrywiseFixedGroup_E7_eq_of_pow σ hp hp3 hσp) hp hp5 hmax
+    (fun _ _ _ σ _p hp hp3 hσp => entrywiseFixedGroup_E7_eq_of_pow σ hp hp3 hσp) hp hp5 hmax
 
 theorem fieldAutData_E7_of_maximal (h : SubfieldMaximalLeOne .E7) {K : Type} [Field K] [Finite K]
     {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpK : p ≠ ringChar K)

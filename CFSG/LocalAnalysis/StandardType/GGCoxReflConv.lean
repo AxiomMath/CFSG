@@ -117,21 +117,21 @@ theorem ggCoxRefl_of_isReflection {G : Type} [Group G] [Finite G] {p : ℕ} (hp 
     (h3 : ∀ i j : ι, i ≠ j → M.M i j ≤ 3) (hnt : ∀ φ ∈ A, ¬ GGIsTransvection p φ)
     {r : MulAut ↥Bs} (hrA : r ∈ A) (hr : GGIsReflection p r) : r ∈ ggCoxRefl M e := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hfin : Finite ι := ggIsWeylMatrix_finite hpres.1
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fact p.Prime := ⟨hp⟩
+  have hfin : Finite ι := ggIsWeylMatrix_finite hpres.1
+  have : Fintype ι := Fintype.ofFinite ι
   obtain ⟨C, hC, hInt, hcox⟩ := ggWeylCartan hpres.1 h3
   subst hcox
-  letI : AddCommGroup (Additive ↥Bs) :=
+  let : AddCommGroup (Additive ↥Bs) :=
     { (inferInstance : AddGroup (Additive ↥Bs)) with
       add_comm := fun a b => by
         have h := hBs.1.is_comm.comm (Additive.toMul a) (Additive.toMul b)
         exact congrArg Additive.ofMul h }
-  letI : Module (ZMod p) (Additive ↥Bs) :=
+  let : Module (ZMod p) (Additive ↥Bs) :=
     AddCommGroup.zmodModule (n := p) fun a => by
       have h : (Additive.toMul a) ^ p = 1 := Subtype.ext (hBs.2 _ (Additive.toMul a).2)
       rw [← ofMul_toMul a, ← ofMul_pow, h, ofMul_one]
-  haveI : Finite (Additive ↥Bs) := inferInstanceAs (Finite ↥Bs)
+  have : Finite (Additive ↥Bs) := inferInstanceAs (Finite ↥Bs)
   exact ggCoxRefl_of_isReflection_aux (p := p) (Bs := Bs) (A := A) (ι := ι) (C := C) hodd hC
     hpres.1 h3 hInt hpres.2 hnt (AddEquiv.refl _) hrA hr
 

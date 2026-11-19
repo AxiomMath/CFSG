@@ -49,6 +49,7 @@ def cyclicPowersEquiv (v : G) :
     Multiplicative (ZMod (orderOf v)) →* G :=
   (Subgroup.zpowers v).subtype.comp (cyclicPowersEquiv v).toMonoidHom
 
+omit [Fintype G] in
 @[simp]
 theorem cyclicPowerHom_generator (v : G) :
     cyclicPowerHom v (Multiplicative.ofAdd 1) = v := by
@@ -117,6 +118,7 @@ private theorem componentIntegralRepresentation_commute_cyclicPower
     simpa [hy] using hwy
   exact hwy'.map (componentIntegralRepresentation D i)
 
+omit [Fintype G] in
 private theorem odd_orderOf_of_mem_odd_subgroup
     {H : Subgroup G} (N : Subgroup H) (hNodd : Odd (Nat.card N))
     (v : H) (hv : v ∈ N) :

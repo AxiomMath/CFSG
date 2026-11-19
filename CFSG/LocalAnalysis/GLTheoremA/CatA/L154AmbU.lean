@@ -76,8 +76,8 @@ theorem l154AmbU33_twistedA {d : TauCeti.LieTypeIndex} (hv : d.Valid)
 theorem l154_oddInner_unitaryPSU_three {K : Type} [Field K] (hU : UnitaryFieldData 3 1 K) :
     ∀ φ : MulAut (unitaryPSU hU 3), Odd (orderOf φ) → ∃ g : unitaryPSU hU 3, φ = MulAut.conj g := by
   intro φ hφ
-  haveI : Finite K := hU.finite
-  haveI : CharP K 3 := hU.charP
+  have : Finite K := hU.finite
+  have : CharP K 3 := hU.charP
   have two_ne : (2 : K) ≠ 0 := by
     intro h2
     have h2' : ((2 : ℕ) : K) = 0 := by exact_mod_cast h2

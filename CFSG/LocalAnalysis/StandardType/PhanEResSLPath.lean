@@ -139,37 +139,37 @@ private lemma hmbSL_pathRoot_rev {r m : ℕ} (e : Fin m → Fin r) (p q : Fin (m
   unfold pathRoot
   by_cases hpq : p < q
   · have hrev : q.rev < p.rev := by rwa [Fin.rev_lt_rev]
-    rw [if_pos hrev, if_pos hpq]
+    rw [ite_eq_left hrev, ite_eq_left hpq]
     rw [← Equiv.sum_comp (Fin.revPerm (n := m))]
     refine Finset.sum_congr rfl fun k _ => ?_
-    simp only [Fin.rev_rev, Fin.revPerm_apply]
+    simp only [Fin.revPerm_apply]
     by_cases h : q.rev.val ≤ k.rev.val ∧ k.rev.val < p.rev.val
     · have h2 : p.val ≤ k.val ∧ k.val < q.val := by
         simpa only [Fin.rev_rev] using (hmbSL_rev_interval m q p k.rev).mp h
-      rw [if_pos h, if_pos h2]
+      rw [ite_eq_left h, ite_eq_left h2]
     · have h2 : ¬ (p.val ≤ k.val ∧ k.val < q.val) := by
         intro hh
         have hh' : p.val ≤ (k.rev).rev.val ∧ (k.rev).rev.val < q.val := by
           simpa only [Fin.rev_rev] using hh
         exact h ((hmbSL_rev_interval m q p k.rev).mpr hh')
-      rw [if_neg h, if_neg h2]
+      rw [ite_eq_right h, ite_eq_right h2]
   · have hpq' : ¬ q.rev < p.rev := by
       rw [Fin.rev_lt_rev]
       exact hpq
-    rw [if_neg hpq', if_neg hpq, neg_inj]
+    rw [ite_eq_right hpq', ite_eq_right hpq, neg_inj]
     rw [← Equiv.sum_comp (Fin.revPerm (n := m))]
     refine Finset.sum_congr rfl fun k _ => ?_
-    simp only [Fin.rev_rev, Fin.revPerm_apply]
+    simp only [Fin.revPerm_apply]
     by_cases h : p.rev.val ≤ k.rev.val ∧ k.rev.val < q.rev.val
     · have h2 : q.val ≤ k.val ∧ k.val < p.val := by
         simpa only [Fin.rev_rev] using (hmbSL_rev_interval m p q k.rev).mp h
-      rw [if_pos h, if_pos h2]
+      rw [ite_eq_left h, ite_eq_left h2]
     · have h2 : ¬ (q.val ≤ k.val ∧ k.val < p.val) := by
         intro hh
         have hh' : q.val ≤ (k.rev).rev.val ∧ (k.rev).rev.val < p.val := by
           simpa only [Fin.rev_rev] using hh
         exact h ((hmbSL_rev_interval m p q k.rev).mpr hh')
-      rw [if_neg h, if_neg h2]
+      rw [ite_eq_right h, ite_eq_right h2]
 
 @[expose] noncomputable def reverse [CharP Fld 2] (L : SLPath M m) : SLPath M m where
   e k := L.e k.rev
@@ -177,16 +177,16 @@ private lemma hmbSL_pathRoot_rev {r m : ℕ} (e : Fin m → Fin r) (p q : Fin (m
   cartan k l := by
     rw [L.cartan]
     by_cases h : k = l
-    · rw [if_pos h, if_pos (by rw [h])]
+    · rw [ite_eq_left h, ite_eq_left (by rw [h])]
     · have hrev : k.rev ≠ l.rev := fun hh => h (Fin.rev_injective hh)
-      rw [if_neg h, if_neg hrev]
+      rw [ite_eq_right h, ite_eq_right hrev]
       by_cases hc : k.val + 1 = l.val ∨ l.val + 1 = k.val
       · have hc' : k.rev.val + 1 = l.rev.val ∨ l.rev.val + 1 = k.rev.val :=
           (hmbSL_rev_adj (k := k) (l := l)).mpr hc
-        rw [if_pos hc, if_pos hc']
+        rw [ite_eq_left hc, ite_eq_left hc']
       · have hc' : ¬ (k.rev.val + 1 = l.rev.val ∨ l.rev.val + 1 = k.rev.val) :=
           fun hh => hc ((hmbSL_rev_adj (k := k) (l := l)).mp hh)
-        rw [if_neg hc, if_neg hc']
+        rw [ite_eq_right hc, ite_eq_right hc']
   ε := L.ε.comp (hmbSL_rho (Fld := Fld) m)
   tv_eq p q hpq c := by
     rw [MonoidHom.comp_apply, hmbSL_rho_apply, hmbSL_conj_rev p q hpq c,
@@ -220,13 +220,13 @@ private lemma hmbSL_coxeter_eq_A {M : ChevModel2 D n H Fld} {m : ℕ} (L : SLPat
     (coxeterMatrix D.isFiniteType) (L.e k) (L.e l) = (CoxeterMatrix.A m) k l := by
   by_cases hkl : k = l
   · subst hkl
-    simp [hmbSL_A_apply, hmbSL_coxeter_apply, L.cartan k k]
+    simp
   · by_cases hadj : k.val + 1 = l.val ∨ l.val + 1 = k.val
     · have h2 : l.val + 1 = k.val ∨ k.val + 1 = l.val := Or.symm hadj
-      simp [hmbSL_A_apply, hmbSL_coxeter_apply, L.cartan k l, L.cartan l k, hkl,
+      simp [hmbSL_A_apply, L.cartan k l, L.cartan l k, hkl,
         Ne.symm hkl, hadj, h2]
     · have h2 : ¬ (l.val + 1 = k.val ∨ k.val + 1 = l.val) := fun h => hadj (Or.symm h)
-      simp [hmbSL_A_apply, hmbSL_coxeter_apply, L.cartan k l, L.cartan l k, hkl,
+      simp [hmbSL_A_apply, L.cartan k l, L.cartan l k, hkl,
         Ne.symm hkl, hadj, h2]
 
 private theorem hmbSL_pathLiftable {M : ChevModel2 D n H Fld} {m : ℕ} (L : SLPath M m) :
@@ -234,17 +234,17 @@ private theorem hmbSL_pathLiftable {M : ChevModel2 D n H Fld} {m : ℕ} (L : SLP
   intro k l
   by_cases hkl : k = l
   · subst hkl
-    rw [hmbSL_A_apply, if_pos rfl]
+    rw [hmbSL_A_apply, ite_eq_left rfl]
     exact (cs).simple_mul_simple_self (L.e k)
-  · rw [hmbSL_A_apply, if_neg hkl]
+  · rw [hmbSL_A_apply, ite_eq_right hkl]
     by_cases hadj : k.val + 1 = l.val ∨ l.val + 1 = k.val
     · have hM : (coxeterMatrix D.isFiniteType) (L.e k) (L.e l) = 3 := by
-        rw [hmbSL_coxeter_eq_A L k l, hmbSL_A_apply, if_neg hkl, if_pos hadj]
-      rw [if_pos hadj, ← hM]
+        rw [hmbSL_coxeter_eq_A L k l, hmbSL_A_apply, ite_eq_right hkl, ite_eq_left hadj]
+      rw [ite_eq_left hadj, ← hM]
       exact (cs).simple_mul_simple_pow (L.e k) (L.e l)
     · have hM : (coxeterMatrix D.isFiniteType) (L.e k) (L.e l) = 2 := by
-        rw [hmbSL_coxeter_eq_A L k l, hmbSL_A_apply, if_neg hkl, if_neg hadj]
-      rw [if_neg hadj, ← hM]
+        rw [hmbSL_coxeter_eq_A L k l, hmbSL_A_apply, ite_eq_right hkl, ite_eq_right hadj]
+      rw [ite_eq_right hadj, ← hM]
       exact (cs).simple_mul_simple_pow (L.e k) (L.e l)
 
 variable (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem

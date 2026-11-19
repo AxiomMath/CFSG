@@ -37,7 +37,7 @@ theorem spw_sylow_data {p : ℕ} [Fact p.Prime] {P : Sylow p G} {M : Subgroup G}
   obtain ⟨Tsyl, hTsyl⟩ := hSylJ.exists_sylow_eq_subgroupOf
   have hTinj : ∀ t ∈ (u3T P u J).subgroupOf J, ψ t = 1 → t = 1 := by
     rw [← hTsyl]
-    exact u3main_eq_one_of_ker ψ hkcop Tsyl.isPGroup'
+    exact u3main_eq_one_of_ker ψ hkcop Tsyl.isPGroup
   have hTsyl' : ((Tsyl.mapSurjective hψ : Sylow p Q) : Subgroup Q) =
       ((u3T P u J).subgroupOf J).map ψ := by
     rw [← hTsyl]
@@ -55,6 +55,7 @@ theorem spw_sylow_data {p : ℕ} [Fact p.Prime] {P : Sylow p G} {M : Subgroup G}
   rw [hTsyl', hmapcard]
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hTJ).toEquiv
 
+omit [Finite G] in
 private theorem spw_transfer {p : ℕ} {T J : Subgroup G} (hTJ : T ≤ J) {Q : Type} [Group Q]
     (ψ : ↥J →* Q) (Ts : Subgroup Q) (hTs : Ts = (T.subgroupOf J).map ψ)
     (hTinj : ∀ t ∈ T.subgroupOf J, ψ t = 1 → t = 1) :

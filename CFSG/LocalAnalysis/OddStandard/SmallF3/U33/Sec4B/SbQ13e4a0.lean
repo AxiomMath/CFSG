@@ -12,24 +12,27 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma subgroupOfNormal {P' N' : Subgroup G}
     (hN : ∀ p ∈ P', ∀ n ∈ N', p * n * p⁻¹ ∈ N') : (N'.subgroupOf P').Normal :=
   ⟨fun n hn p => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hN p.1 p.2 n.1 hn⟩
 
+omit [Finite G] in
 private lemma aux_inv_mul_mem {P' N' : Subgroup G}
     (hN : ∀ p ∈ P', ∀ n ∈ N', p * n * p⁻¹ ∈ N')
-    {a b : G} (ha : a ∈ P') (hb : b ∈ P') (h : a * b⁻¹ ∈ N') : a⁻¹ * b ∈ N' := by
+    {a b : G} (ha : a ∈ P') (_hb : b ∈ P') (h : a * b⁻¹ ∈ N') : a⁻¹ * b ∈ N' := by
   have h1 : a⁻¹ * (a * b⁻¹) * a ∈ N' := by
     simpa using hN a⁻¹ (P'.inv_mem ha) (a * b⁻¹) h
   have h2 : b⁻¹ * a ∈ N' := by simpa [mul_assoc] using h1
   have h3 : (b⁻¹ * a)⁻¹ ∈ N' := N'.inv_mem h2
   simpa [mul_inv_rev] using h3
 
+omit [Finite G] in
 private lemma aux_mul_inv_mem {P' N' : Subgroup G}
     (hN : ∀ p ∈ P', ∀ n ∈ N', p * n * p⁻¹ ∈ N')
-    {a b : G} (ha : a ∈ P') (hb : b ∈ P') (h : a⁻¹ * b ∈ N') : a * b⁻¹ ∈ N' := by
+    {a b : G} (_ha : a ∈ P') (hb : b ∈ P') (h : a⁻¹ * b ∈ N') : a * b⁻¹ ∈ N' := by
   have h1 : b * (a⁻¹ * b) * b⁻¹ ∈ N' := hN b hb (a⁻¹ * b) h
   have h2 : b * a⁻¹ ∈ N' := by simpa [mul_assoc] using h1
   have h3 : (b * a⁻¹)⁻¹ ∈ N' := N'.inv_mem h2
@@ -47,12 +50,14 @@ private noncomputable def homMod {K P' N' : Subgroup G} [hNq : (N'.subgroupOf P'
     exact aux_inv_mul_mem hN (hφ (k.1 * k'.1) (K.mul_mem k.2 k'.2))
       (P'.mul_mem (hφ k.1 k.2) (hφ k'.1 k'.2)) (hmul k.1 k.2 k'.1 k'.2))
 
+omit [Finite G] in
 private lemma homMod_apply {K P' N' : Subgroup G} [hNq : (N'.subgroupOf P').Normal] {φ : G → G}
     (hφ : ∀ k ∈ K, φ k ∈ P') (hN : ∀ p ∈ P', ∀ n ∈ N', p * n * p⁻¹ ∈ N')
     (hmul : ∀ k ∈ K, ∀ k' ∈ K, φ (k * k') * (φ k * φ k')⁻¹ ∈ N') (k : ↥K) :
     homMod hφ hN hmul k
       = (QuotientGroup.mk (⟨φ k.1, hφ k.1 k.2⟩ : ↥P') : ↥P' ⧸ N'.subgroupOf P') := rfl
 
+omit [Finite G] in
 private lemma homMod_ker_eq {K H P' N' : Subgroup G} [hNq : (N'.subgroupOf P').Normal]
     {φ : G → G}
     (hφ : ∀ k ∈ K, φ k ∈ P') (hN : ∀ p ∈ P', ∀ n ∈ N', p * n * p⁻¹ ∈ N')
@@ -64,6 +69,7 @@ private lemma homMod_ker_eq {K H P' N' : Subgroup G} [hNq : (N'.subgroupOf P').N
   rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
   exact hker k.1 k.2
 
+omit [Finite G] in
 private lemma homMod_range_eq_top {K P' N' : Subgroup G} [hNq : (N'.subgroupOf P').Normal]
     {φ : G → G}
     (hφ : ∀ k ∈ K, φ k ∈ P') (hN : ∀ p ∈ P', ∀ n ∈ N', p * n * p⁻¹ ∈ N')
@@ -114,7 +120,7 @@ theorem q13e_card_mul_le_of_hom_mod {K H P' N' : Subgroup G} {φ : G → G} (hHK
     (hmul : ∀ k ∈ K, ∀ k' ∈ K, φ (k * k') * (φ k * φ k')⁻¹ ∈ N')
     (hker : ∀ k ∈ K, φ k ∈ N' ↔ k ∈ H) :
     Nat.card K * Nat.card N' ≤ Nat.card P' * Nat.card H := by
-  haveI hNq : (N'.subgroupOf P').Normal := subgroupOfNormal hN
+  have hNq : (N'.subgroupOf P').Normal := subgroupOfNormal hN
   have hker_eq : (homMod hφ hN hmul).ker = H.subgroupOf K :=
     homMod_ker_eq hφ hN hmul hker
   have hcard_ker : Nat.card (homMod hφ hN hmul).ker = Nat.card H := by
@@ -139,12 +145,13 @@ theorem q13e_card_mul_le_of_hom_mod {K H P' N' : Subgroup G} {φ : G → G} (hHK
     _ ≤ (Nat.card (↥P' ⧸ N'.subgroupOf P') * Nat.card N') * Nat.card H :=
           Nat.mul_le_mul_right _ h1
 
+omit [Finite G] in
 theorem q13e_card_mul_eq_of_hom_mod {K H P' N' : Subgroup G} {φ : G → G} (hHK : H ≤ K)
     (hNP : N' ≤ P') (hN : ∀ p ∈ P', ∀ n ∈ N', p * n * p⁻¹ ∈ N') (hφ : ∀ k ∈ K, φ k ∈ P')
     (hmul : ∀ k ∈ K, ∀ k' ∈ K, φ (k * k') * (φ k * φ k')⁻¹ ∈ N') (hker : ∀ k ∈ K, φ k ∈ N' ↔ k ∈ H)
     (hsurj : ∀ p ∈ P', ∃ k ∈ K, φ k * p⁻¹ ∈ N') :
     Nat.card K * Nat.card N' = Nat.card P' * Nat.card H := by
-  haveI hNq : (N'.subgroupOf P').Normal := subgroupOfNormal hN
+  have hNq : (N'.subgroupOf P').Normal := subgroupOfNormal hN
   have hker_eq : (homMod hφ hN hmul).ker = H.subgroupOf K :=
     homMod_ker_eq hφ hN hmul hker
   have hcard_ker : Nat.card (homMod hφ hN hmul).ker = Nat.card H := by
@@ -169,7 +176,7 @@ theorem q13e_two_mul_card_mul_le_of_hom_mod {K H P' N' : Subgroup G} {φ : G →
     (hmul : ∀ k ∈ K, ∀ k' ∈ K, φ (k * k') * (φ k * φ k')⁻¹ ∈ N') (hker : ∀ k ∈ K, φ k ∈ N' ↔ k ∈ H)
     {c : G} (hc : c ∈ P') (hcK : ∀ k ∈ K, φ k * c⁻¹ ∉ N') :
     2 * (Nat.card K * Nat.card N') ≤ Nat.card P' * Nat.card H := by
-  haveI hNq : (N'.subgroupOf P').Normal := subgroupOfNormal hN
+  have hNq : (N'.subgroupOf P').Normal := subgroupOfNormal hN
   have hker_eq : (homMod hφ hN hmul).ker = H.subgroupOf K :=
     homMod_ker_eq hφ hN hmul hker
   have hcard_ker : Nat.card (homMod hφ hN hmul).ker = Nat.card H := by

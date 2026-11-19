@@ -153,9 +153,9 @@ section Main
 theorem l154ReeThreeRes_holds : L154ReeThreeRes := by
   intro a K _ _ _ ha hK s φ hs hφ3 hφout hφs hM
   classical
-  haveI : Finite (CFSG.Blueprint.Chevalley.ModGL ReeTag.F4.tag K) :=
+  have : Finite (CFSG.Blueprint.Chevalley.ModGL ReeTag.F4.tag K) :=
     CFSG.LieType.Chevalley.finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
   have hφ1 : φ ≠ 1 := fun h => hφout 1 (by rw [h, map_one])
   have hφin : ¬ CFSG.RankThree.PartTwo.KFacts.IsInnerAut φ := fun ⟨g, hg⟩ => hφout g hg.symm
   have hodd : Odd (2 * a + 1) := odd_two_mul_add_one a

@@ -49,7 +49,7 @@ theorem xPairs_map (i : Fin 3) : (xPairs i).map Prod.fst = a2XGens i := by
 
 theorem genSet_xPairs (i : Fin 3) : genSet (xPairs i) (xPairs_all i) = {zS, tauH i} := by
   ext g
-  simp only [genSet, xPairs, List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq,
+  simp only [genSet, xPairs, List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq,
     Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨cc, hm, rfl⟩
@@ -138,7 +138,7 @@ theorem le_card_of_tabGe (S : Set H6) (gens : List (List ℕ))
 section Orbit
 
 theorem exists_orbit_code {s : H6} (hs : orderOf s = 2) :
-    ∃ (i : Fin 4) (k : ℕ), ∃ hk : k < (orbTab i).size,
+    ∃ (i : Fin 4) (k : ℕ), ∃ _hk : k < (orbTab i).size,
       mat6 s = dec6 ((orbTab i).getD k []) ∧ canon6 ((orbTab i).getD k []) = true := by
   obtain ⟨i, g, hg⟩ := exists_conj_of_sylow_classes SH_isPGroup SH_index exists_conj_of_mem_SH hs
   have hconj : IsConj (tH i) s := isConj_iff.mpr ⟨g, hg.symm⟩
@@ -146,13 +146,13 @@ theorem exists_orbit_code {s : H6} (hs : orderOf s = 2) :
       Nat.card H6 := by
     rw [centralizer_tH_eq, card_XH, card_H6]
     fin_cases i <;> rfl
-  obtain ⟨k, hk⟩ := exists_eq_of_isConj (orbElt i) (orbElt_injective i) (orbElt_conj i) hcard hconj
+  obtain ⟨k, _hk⟩ := exists_eq_of_isConj (orbElt i) (orbElt_injective i) (orbElt_conj i) hcard hconj
   have hok := orbitsOK_parts i
   simp only [orbitOK, Bool.and_eq_true, beq_iff_eq] at hok
   obtain ⟨⟨hsize, -⟩, hcanon⟩ := hok
   have hk' : (k : ℕ) < (orbTab i).size := by rw [hsize]; exact k.2
   refine ⟨i, k, hk', ?_, allCheck_spec hcanon hk'⟩
-  rw [← hk, mat6_orbElt i hk']
+  rw [← _hk, mat6_orbElt i hk']
 
 end Orbit
 
@@ -197,7 +197,7 @@ theorem scan_sound {τ : H6} (h2 : τ * τ = 1) (h1 : τ ≠ 1) (h3 : (zS * τ) 
   have hS : mat6 '' ({zS, τ} : Set H6) = {y | ∃ c ∈ [a2Z7, t], dec6 c = y} := by
     ext y
     simp only [Set.image_insert_eq, Set.image_singleton, Set.mem_insert_iff,
-      Set.mem_singleton_iff, mat6_zS, hcode, Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil,
+      Set.mem_singleton_iff, mat6_zS, hcode, Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil,
       or_false, exists_eq_or_imp, exists_eq_left]
     exact or_congr eq_comm eq_comm
   have hle : ∀ n, tabGe n (capTab [a2Z7, t]) = true →

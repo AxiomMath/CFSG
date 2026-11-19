@@ -29,11 +29,11 @@ theorem KD264Y1KerB3Odd_holds : KD264Y1KerB3Odd := by
         LieTypeIndex.characteristic_B 3 q,
       show ValidLieTypeIndex.fieldExponent ⟨.B 3 q, hd1⟩ = q.exponent from
         LieTypeIndex.fieldExponent_B 3 q]
-  haveI : Finite ↥(ValidLieTypeIndex.fixedField ⟨.B 3 q, hd1⟩) :=
+  have : Finite ↥(ValidLieTypeIndex.fixedField ⟨.B 3 q, hd1⟩) :=
     CFSG.QuasithinUnique.SQTK.finite_validIndex_fixedField _
   have hchar : ringChar (ValidLieTypeIndex.fixedField ⟨.B 3 q, hd1⟩) = q.p :=
     CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq q.prime_p q.exponent_pos hq_card
-  haveI hcp : CharP ↥(ValidLieTypeIndex.fixedField ⟨.B 3 q, hd1⟩) q.p := by
+  have hcp : CharP ↥(ValidLieTypeIndex.fixedField ⟨.B 3 q, hd1⟩) q.p := by
     rw [← hchar]
     exact ringChar.charP _
   have h2K : (2 : ↥(ValidLieTypeIndex.fixedField ⟨.B 3 q, hd1⟩)) ≠ 0 := by

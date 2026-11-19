@@ -156,7 +156,7 @@ theorem exists_actor_fixed_normalizing_sq {Q R : Subgroup G} {y : G}
         have h1 : (a : G) * ((x * z : ↥NQ) : G) * (a : G)⁻¹ * ((x * z : ↥NQ) : G)⁻¹ =
             ((a : G) * (x : G) * (a : G)⁻¹ * (x : G)⁻¹) *
               ((x : G) * ((a : G) * (z : G) * (a : G)⁻¹ * (z : G)⁻¹) * (x : G)⁻¹) := by
-          simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+          simp only [Subgroup.coe_mul]
           group
         rw [h1]
         exact R.mul_mem hx' ((Subgroup.mem_normalizer_iff.mp hxN _).mp hz')
@@ -348,7 +348,7 @@ theorem card_R_eq_four_of_actorInvolution {Q R R0 : Subgroup G} {x t y : G}
       have : (⟨z, hR1U hz⟩ : ↥U) ∈ R1.subgroupOf U := hz
       rw [hbot, Subgroup.mem_bot] at this
       exact Subgroup.mem_bot.mpr (congrArg Subtype.val this)
-    haveI : Group.IsNilpotent ↥U := hUp.isNilpotent
+    have : Group.IsNilpotent ↥U := hUp.isNilpotent
     have hcent := Group.IsNilpotent.inf_center_ne_bot_of_normal hne1
     obtain ⟨v0, hv0, hv0ne⟩ := (Subgroup.bot_or_exists_ne_one _).resolve_left hcent
     have hv0R1 : (v0 : G) ∈ R1 := Subgroup.mem_subgroupOf.mp hv0.1

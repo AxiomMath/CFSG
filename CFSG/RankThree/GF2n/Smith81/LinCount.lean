@@ -31,7 +31,7 @@ private theorem comm_comm_eq_inv_sq {G : Type*} [Group G] {s u : G} (hs : s * s 
 
 theorem lin_card_le_of_fixed {G : Type*} [Group G] [Finite G] {V D S Z : Subgroup G}
     (hVab : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) (hV2 : ∀ v ∈ V, v * v = 1)
-    (hZD : Z ≤ D) (hDV : D ≤ V) (hDne : ∃ u ∈ V, u ∉ D)
+    (hZD : Z ≤ D) (_hDV : D ≤ V) (hDne : ∃ u ∈ V, u ∉ D)
     (hSN : ∀ s ∈ S, ∀ v ∈ V, s * v * s⁻¹ ∈ V) (hS2 : ∀ s ∈ S, s * s = 1)
     (hfix : ∀ s ∈ S, ∀ d ∈ D, s * d * s⁻¹ = d)
     (hker : ∀ s ∈ S, s ≠ 1 → ∀ v ∈ V, ⁅s, v⁆ ∈ Z → v ∈ D) :

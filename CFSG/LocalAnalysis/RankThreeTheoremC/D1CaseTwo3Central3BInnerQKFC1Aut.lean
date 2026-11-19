@@ -98,7 +98,7 @@ theorem sqInner_l34 {K : Type} [Group K] [Finite K]
   have hL := CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.isLThreeFour_of_index ⟨_, hv⟩
     ⟨2, 2, Nat.prime_two, by norm_num⟩ rfl ⟨rfl, rfl⟩ e
   obtain ⟨k, _, hk, ⟨φ⟩⟩ := CFSG.HardMathSupport.Solomon.Coordinator.exists_equiv_projectiveSL hL
-  haveI : Finite (projectiveSL 3 k) := Finite.of_equiv K φ
+  have : Finite (projectiveSL 3 k) := Finite.of_equiv K φ
   obtain ⟨S⟩ : Nonempty (Sylow 3 (projectiveSL 3 k)) := inferInstance
   have hE : SqInner (projectiveSL 3 k) S := by
     set S₀ : Sylow 3 (projectiveSL 3 k) := Sylow.ofCard (eZero k) (card_eZero_eq hk)

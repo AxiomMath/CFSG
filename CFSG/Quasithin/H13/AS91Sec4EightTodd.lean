@@ -55,13 +55,13 @@ theorem eq_one_or_zE_of_fix_T {x : ↥D.E} (hx : ∀ t ∈ D.T, t * (x : G) * t�
 
 theorem zE_mem_of_odd {S : Set ↥D.E} (hS : ∀ φ : ↥D.Mb, ∀ s ∈ S, (φ : MulAut ↥D.E) s ∈ S)
     (hodd : Odd S.ncard) (h1 : (1 : ↥D.E) ∉ S) : D.zE ∈ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTN : D.T ≤ normalizer (D.E : Set G) := D.T_le_G13.trans (D.G13_le_normalizer hOut hTw)
-  letI : MulAction ↥D.Mb ↥S :=
+  let : MulAction ↥D.Mb ↥S :=
     { smul := fun φ s => ⟨(φ : MulAut ↥D.E) s, hS φ s s.2⟩
       one_smul := fun _ => rfl
       mul_smul := fun _ _ _ => rfl }
-  letI : MulAction ↥D.T ↥S := MulAction.compHom ↥S (D.toMb.comp (Subgroup.inclusion hTN))
+  let : MulAction ↥D.T ↥S := MulAction.compHom ↥S (D.toMb.comp (Subgroup.inclusion hTN))
   have h2 : ¬ 2 ∣ Nat.card ↥S := by
     rw [Nat.card_coe_set_eq]
     exact fun hd => (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr hd)
@@ -85,18 +85,19 @@ variable
 include hOut hTw hHat hM
 
 theorem card_Mb : Nat.card ↥D.Mb = 244823040 := by
-  haveI := D.isSimpleGroup_Mb hOut hTw hHat
+  have := D.isSimpleGroup_Mb hOut hTw hHat
   obtain ⟨e⟩ := D.nonempty_mulEquiv_m24 hOut hTw hHat hM
   rw [Nat.card_congr e.toEquiv, CFSG.Sporadic.Mathieu.card_M24]
 
 omit hM in
+omit hOut hTw hHat in
 theorem stabilizer_zE : MulAction.stabilizer ↥D.Mb D.zE = D.Mz := by
   ext φ
   rfl
 
 theorem card_orbit_zE : Nat.card ↥(MulAction.orbit ↥D.Mb D.zE) = 1771 := by
   have h1 := Subgroup.card_mul_index (MulAction.stabilizer ↥D.Mb D.zE)
-  rw [MulAction.index_stabilizer, D.stabilizer_zE hOut hTw hHat, D.card_Mz hOut hTw hHat,
+  rw [MulAction.index_stabilizer, D.stabilizer_zE, D.card_Mz hOut hTw hHat,
     D.card_Mb hOut hTw hHat hM] at h1
   exact Nat.eq_of_mul_eq_mul_left (by norm_num : 0 < 138240)
     (h1.trans (by norm_num : (244823040 : ℕ) = 138240 * 1771))
@@ -149,7 +150,7 @@ theorem not_mathieuCode24 :
     ¬ @MathieuCode24 ↥D.E (commGroupOfElem (D.isElemAbelian_E hHat hOut hTw)) D.Mb ⊤ ⊥ := by
   intro hc
   have key : ∃ x : ↥D.E, x ≠ 1 ∧ Nat.card ↥(MulAction.orbit ↥D.Mb x) ∣ 759 := by
-    letI : CommGroup ↥D.E := commGroupOfElem (D.isElemAbelian_E hHat hOut hTw)
+    let : CommGroup ↥D.E := commGroupOfElem (D.isElemAbelian_E hHat hOut hTw)
     exact CFSG.EvenSporadicStandard.TwoFi22.DS81.Fi24Branch.exists_ne_one_card_orbit_dvd_of_mathieuCode24
       hc
   obtain ⟨x, hx1', hdvd'⟩ := key
@@ -177,7 +178,7 @@ theorem not_mathieuCode24 :
 theorem mathieuCocode24_E (hJ : MathieuSmallIrr24) :
     @MathieuCocode24 ↥D.E (commGroupOfElem (D.isElemAbelian_E hHat hOut hTw))
       (conjNormalizer D.E).range ⊤ ⊥ := by
-  haveI := D.isSimpleGroup_Mb hOut hTw hHat
+  have := D.isSimpleGroup_Mb hOut hTw hHat
   have hiso := D.nonempty_mulEquiv_m24 hOut hTw hHat hM
   have hW2 : ∀ w : ↥D.E, w * w = 1 := fun w => Subtype.ext (D.E_sq hHat hOut hTw w.2)
   rcases @hJ ↥D.E (commGroupOfElem (D.isElemAbelian_E hHat hOut hTw)) inferInstance hW2 D.Mb hiso

@@ -164,6 +164,7 @@ section CharP
 
 variable {k : Type} [Field k] {p : ℕ} [hp : Fact p.Prime] [CharP k p]
 
+omit hp in
 theorem natCast_ne_zero_of' {n : ℕ} (h : ¬ p ∣ n) : (n : k) ≠ 0 := by
   intro h0
   exact h ((CharP.cast_eq_zero_iff k p n).mp h0)

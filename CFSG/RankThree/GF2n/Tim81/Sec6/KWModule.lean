@@ -27,6 +27,7 @@ private noncomputable def secConjAut {K W : Subgroup G} {u : G}
     MulAut (↥K ⧸ W.subgroupOf K) :=
   CFSG.Quasithin.H.SecQ.conjW huK huW
 
+omit [Finite G] in
 private theorem secConjAut_mk {K W : Subgroup G} {u : G}
     [(W.subgroupOf K).Normal]
     (huK : u ∈ Subgroup.normalizer (K : Set G))
@@ -37,6 +38,7 @@ private theorem secConjAut_mk {K W : Subgroup G} {u : G}
   rw [secConjAut, CFSG.Quasithin.H.SecQ.conjW_mk]
   congr 1
 
+omit [Finite G] in
 private theorem secConjAdd_mk {K W H : Subgroup G} {u : G}
     [(W.subgroupOf K).Normal]
     (huK : u ∈ Subgroup.normalizer (K : Set G))
@@ -50,6 +52,7 @@ private theorem secConjAdd_mk {K W H : Subgroup G} {u : G}
       (Subgroup.mem_normalizer_iff.mp huK (n : G)).1 n.2⟩)
   rw [secConjAut_mk]
 
+omit [Finite G] in
 private theorem secConjAdd_sq {K W H : Subgroup G} {u : G}
     [(W.subgroupOf K).Normal]
     (huK : u ∈ Subgroup.normalizer (K : Set G))
@@ -58,15 +61,13 @@ private theorem secConjAdd_sq {K W H : Subgroup G} {u : G}
     MulEquiv.toAdditive (secConjAut huK huW)
       (MulEquiv.toAdditive (secConjAut huK huW) (SecMod.mk hs n)) = SecMod.mk hs n := by
   rw [secConjAdd_mk]
-  change MulEquiv.toAdditive (secConjAut huK huW)
-    (SecMod.mk hs ⟨u * (n : G) * u⁻¹,
-      (Subgroup.mem_normalizer_iff.mp huK (n : G)).1 n.2⟩) = SecMod.mk hs n
   rw [secConjAdd_mk]
   refine (QuotMod.mk_eq_mk_iff (N := K) (N₀ := W) _ _).2 ?_
   change (u * (u * (n : G) * u⁻¹) * u⁻¹)⁻¹ * (n : G) ∈ W
   have h := hs.comm (u * u) hu2 (n : G)⁻¹ (K.inv_mem n.2)
   simpa only [mul_inv_rev, inv_inv, mul_assoc] using h
 
+omit [Finite G] in
 private theorem secConjAdd_comm_repSec {K W H : Subgroup G} {u : G}
     [(W.subgroupOf K).Normal]
     (hs : QuotMod.Hyp H K W)
@@ -98,8 +99,7 @@ private theorem secConjAdd_comm_repSec {K W H : Subgroup G} {u : G}
   have hKK : ⁅K, K⁆ ≤ W :=
     Subgroup.commutator_le.mpr (fun x hx y hy => hs.comm x hx y hy)
   convert hKK hmem using 1
-  simp only [Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk,
-    div_eq_mul_inv, commutatorElement_def, Subgroup.normalizerMonoidHom_apply_apply_coe]
+  simp only [Subgroup.coe_mul, Subgroup.coe_inv, div_eq_mul_inv, commutatorElement_def, Subgroup.normalizerMonoidHom_apply_apply_coe]
   group
 
 private noncomputable def secFinOneEquiv (F : Type) [Field F] :
@@ -121,6 +121,7 @@ private noncomputable def moduleF {X Y : Type} [AddCommGroup X] [AddCommGroup Y]
     (e : X ≃+ Y) (T : X ≃+ X) : Y ≃+ Y :=
   (e.symm.trans T).trans e
 
+omit [Finite G] in
 private theorem module_k_eq_one {H K W : Subgroup G}
     (hs : QuotMod.Hyp H K W) [(W.subgroupOf K).Normal]
     [Module (ZMod 2) (SecMod hs)]
@@ -142,6 +143,7 @@ private theorem module_k_eq_one {H K W : Subgroup G}
   have := Nat.pow_right_injective hq1 h1
   omega
 
+omit [Finite G] in
 private theorem module_e_intertwines {H K W : Subgroup G}
     (hs : QuotMod.Hyp H K W) [(W.subgroupOf K).Normal]
     [Module (ZMod 2) (SecMod hs)]
@@ -166,6 +168,7 @@ private theorem module_e_intertwines {H K W : Subgroup G}
   rw [hvec]
   rfl
 
+omit [Finite G] in
 private theorem module_T_comm {H K W : Subgroup G}
     (hs : QuotMod.Hyp H K W) [(W.subgroupOf K).Normal]
     [Module (ZMod 2) (SecMod hs)]
@@ -188,6 +191,7 @@ private theorem module_T_comm {H K W : Subgroup G}
   simpa only [moduleT] using
     secConjAdd_comm_repSec hs hKsec hHK huK huW huKcomm ψ z' n
 
+omit [Finite G] in
 private theorem module_T_sq {H K W : Subgroup G}
     (hs : QuotMod.Hyp H K W) [(W.subgroupOf K).Normal]
     {u : G} (huK : u ∈ Subgroup.normalizer (K : Set G))
@@ -197,6 +201,7 @@ private theorem module_T_sq {H K W : Subgroup G}
   exact secConjAdd_sq huK huW hs hu2 n
 
 
+omit [Finite G] in
 private theorem module_scalar {H K W : Subgroup G}
     (hs : QuotMod.Hyp H K W) [(W.subgroupOf K).Normal]
     [Module (ZMod 2) (SecMod hs)]
@@ -248,6 +253,7 @@ private theorem module_scalar {H K W : Subgroup G}
       (natEndHom F g).comp f.toAddMonoidHom
     exact hf_comm g)
 
+omit [Finite G] in
 private theorem module_T_eq_refl {H K W : Subgroup G}
     (hs : QuotMod.Hyp H K W) [(W.subgroupOf K).Normal]
     {u : G} (huK : u ∈ Subgroup.normalizer (K : Set G))
@@ -331,6 +337,7 @@ private theorem module_section_card {H K W : Subgroup G}
   exact Nat.eq_of_mul_eq_mul_right hq4pos h3
 
 
+omit [Finite G] in
 private theorem module_mem_of_T_eq_refl {H K W : Subgroup G}
     (hs : QuotMod.Hyp H K W) [(W.subgroupOf K).Normal]
     {u : G} (huK : u ∈ Subgroup.normalizer (K : Set G))
@@ -353,6 +360,7 @@ private theorem module_mem_of_T_eq_refl {H K W : Subgroup G}
     simpa [SecMod.mk, QuotMod.mk, toMul_ofMul] using hTn'
   simpa [div_eq_mul_inv] using Subgroup.mem_subgroupOf.mp hmem
 
+omit [Finite G] in
 private theorem mul_self_eq_one_of_inv_mul_mem {W : Subgroup G} (hW : ∀ w ∈ W, w * w = 1)
     {t n : G} (ht : t ∈ Subgroup.centralizer (W : Set G)) (htt : t * t = 1)
     (hw : t⁻¹ * n ∈ W) : n * n = 1 := by
@@ -362,6 +370,7 @@ private theorem mul_self_eq_one_of_inv_mul_mem {W : Subgroup G} (hW : ∀ w ∈ 
     _ = (t * t) * (t⁻¹ * n * (t⁻¹ * n)) := by group
     _ = 1 := by rw [htt, hW _ hw, one_mul]
 
+omit [Finite G] in
 private theorem module_exists_conj_eq {H K W : Subgroup G} (hs : QuotMod.Hyp H K W)
     [(W.subgroupOf K).Normal] [Module (ZMod 2) (SecMod hs)]
     (hKsec : ∀ k ∈ kOf V H, ∀ n ∈ K, k * n * k⁻¹ * n⁻¹ ∈ W)
@@ -414,7 +423,7 @@ theorem Sec45Shape.commutator_mem_xOf_of_mul_self_mem
   let K := kOf V H
   let W := Tim79a.xOf V H
   let hs : QuotMod.Hyp H K W := hS.quotModHyp h
-  haveI hsN : (W.subgroupOf K).Normal := hs.normal
+  have hsN : (W.subgroupOf K).Normal := hs.normal
   have hW_le_K : W ≤ K := by
     dsimp [K, W, kOf]
     refine le_inf (Tim79a.xOf_le_H (h.toHyp.le_Pc.trans hS.Pc_le)) ?_
@@ -426,7 +435,7 @@ theorem Sec45Shape.commutator_mem_xOf_of_mul_self_mem
   let hsq : ∀ n ∈ K, n * n ∈ W := by
     intro n hn
     exact hw.sq_mem n hn
-  letI hmod : Module (ZMod 2) (SecMod hs) := SecMod.module hs hsq
+  let hmod : Module (ZMod 2) (SecMod hs) := SecMod.module hs hsq
   have hSum : Sec2.IsNatSumModule (repSec hs hs.comm SL(2, F) ψ) :=
     hw.natSum hs hmod
   obtain ⟨k, φ, hφ⟩ := hSum
@@ -464,11 +473,11 @@ theorem Sec45Shape.mem_xOf_of_mul_self_eq_one
   classical
   by_contra hkW
   have hs : QuotMod.Hyp H (kOf V H) (Tim79a.xOf V H) := hS.quotModHyp h
-  haveI hsN : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hs.normal
+  have hsN : ((Tim79a.xOf V H).subgroupOf (kOf V H)).Normal := hs.normal
   have hW_le_K : Tim79a.xOf V H ≤ kOf V H := h.xOf_le_kOf hS.Pc_le hS.le_pCore
   have hKWcard : Nat.card (SecMod hs) = Nat.card V ^ 4 :=
     module_section_card hs hW_le_K hcardK hcardW
-  letI hmod : Module (ZMod 2) (SecMod hs) := SecMod.module hs hw.sq_mem
+  let hmod : Module (ZMod 2) (SecMod hs) := SecMod.module hs hw.sq_mem
   obtain ⟨m, φ, hφ⟩ := hw.natSum hs hmod
   have hFcard : Nat.card F = Nat.card V ^ 2 := by
     rw [Nat.card_eq_fintype_card, hl, hw.card_V, ← pow_mul]

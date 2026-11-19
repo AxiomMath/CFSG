@@ -19,7 +19,7 @@ private lemma plqNorm_fst_lt {m : ℕ} {x : Fin m × Fin m × Bool} (h : x.1 ≠
   · have hle : x.2.1 ≤ x.1 := not_lt.1 hlt
     exact lt_of_le_of_ne hle (Ne.symm h)
 
-private lemma plqNorm_dTau {m : ℕ} (x : Fin m × Fin m × Bool) (h : x.1 ≠ x.2.1) :
+private lemma plqNorm_dTau {m : ℕ} (x : Fin m × Fin m × Bool) (_h : x.1 ≠ x.2.1) :
     dTau m (plqNorm x).2.2 (plqNorm x).1 (plqNorm x).2.1 = dTau m x.2.2 x.1 x.2.1 := by
   unfold plqNorm
   split_ifs with hlt
@@ -77,7 +77,7 @@ private lemma plqFrameImg_mem {m : ℕ} {z : Fin m} {hz : z.val = 0}
         g * dTau m ε a b * g⁻¹ = dTau m ε' a' b'}
     {x : Fin m × Fin m × Bool} (hx : x ∈ dPairsPos m) :
     plqFrameImg z hz g hg x ∈ dPairsFix m (g (dBasis m z)) := by
-  rw [plqFrameImg, dif_pos hx]
+  rw [plqFrameImg, dite_eq_left hx]
   exact (Classical.choose_spec (plqFrame_exists z hz g hg x hx)).1
 
 private lemma plqFrameImg_conj {m : ℕ} {z : Fin m} {hz : z.val = 0}
@@ -89,7 +89,7 @@ private lemma plqFrameImg_conj {m : ℕ} {z : Fin m} {hz : z.val = 0}
     g * dTau m x.2.2 x.1 x.2.1 * g⁻¹ =
       dTau m (plqFrameImg z hz g hg x).2.2 (plqFrameImg z hz g hg x).1
         (plqFrameImg z hz g hg x).2.1 := by
-  rw [plqFrameImg, dif_pos hx]
+  rw [plqFrameImg, dite_eq_left hx]
   exact (Classical.choose_spec (plqFrame_exists z hz g hg x hx)).2
 
 private lemma plqFrameImg_injOn {m : ℕ} {z : Fin m} {hz : z.val = 0}

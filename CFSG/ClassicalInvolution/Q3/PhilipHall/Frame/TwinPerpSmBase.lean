@@ -27,8 +27,8 @@ theorem uniqueInv_core (h : PerpHypS n Y R S t) :
   Inner.isUniqueInvolution_core h.core.datum
 
 theorem isSolvable_core (h : PerpHypS n Y R S t) : Group.IsSolvable ↥(tightCore R) := by
-  haveI := isSolvable_of_quotient_twoGroup h.core.datum.twoGroup
-  exact solvable_of_solvable_injective (Subgroup.inclusion_injective (tightCore_le R))
+  have := isSolvable_of_quotient_twoGroup h.core.datum.twoGroup
+  exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective (tightCore_le R))
 
 theorem isSubnormal_core (h : PerpHypS n Y R S t) :
     CFSG.Open.IsSubnormal (tightCore R) (Subgroup.centralizer ({t} : Set Y)) :=
@@ -85,7 +85,7 @@ theorem isPGroup_core_of_oddCore_eq_bot (h : PerpHypS n Y R S t)
       exact (QuotientGroup.eq_one_iff _).mp this
     have hodd : Odd (Nat.card (classicalInvolutionOddCore ↥R)) :=
       CFSG.ComponentClassification.OddCore.odd_card R
-    haveI : Finite (classicalInvolutionOddCore ↥R) := inferInstance
+    have : Finite (classicalInvolutionOddCore ↥R) := inferInstance
     have hle : Nat.card φ.ker ∣ Nat.card (classicalInvolutionOddCore ↥R) := by
       have : (φ.ker).map (Subgroup.inclusion (tightCore_le R)) ≤ classicalInvolutionOddCore ↥R := by
         rintro _ ⟨x, hx, rfl⟩
@@ -185,7 +185,7 @@ theorem conjSub_sigmaOf (h : PerpHypS n Y R S t) {c : Y}
   ext x
   rw [mem_conjSub_iff]
   unfold sigmaOf
-  simp only [Subgroup.mem_centralizer_iff, Set.mem_setOf_eq]
+  simp only [Subgroup.mem_centralizer_iff, Set.mem_ofPred_eq]
   constructor
   · rintro hx y ⟨J', hJ', hne, hy⟩
     have hJ'' : conjSub c⁻¹ J' ∈ twins R := conj_mem_twins h hJ' hc'
@@ -320,7 +320,7 @@ theorem longFundSetE3_of_two_twins (h : PerpHypS n Y R S t) (hK2 : IsPGroup 2 �
     unfold sigmaOf
     congr 1
     ext y
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe]
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe]
     constructor
     · rintro ⟨J, hJ, hJK, hy⟩
       rcases hV J hJ with h1 | h1
@@ -332,7 +332,7 @@ theorem longFundSetE3_of_two_twins (h : PerpHypS n Y R S t) (hK2 : IsPGroup 2 �
     unfold sigmaOf
     congr 1
     ext y
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe]
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe]
     constructor
     · rintro ⟨J, hJ, hJK, hy⟩
       rcases hV J hJ with h1 | h1

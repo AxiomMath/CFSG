@@ -20,7 +20,7 @@ private lemma l05nP2H_not_excl_of_S {r₀ p : ℕ} {lab : LargeEvenLabel}
   · rcases h.1 with h | h <;> rw [h] at hBC <;> exact absurd hBC (by decide)
 
 private lemma l05nP2H_ne_two_of_S {r₀ p : ℕ} {lab : LargeEvenLabel}
-    (hpp : p.Prime) (hlab : LargeEvenInLambda2 lab) (h : GGTWRowPred r₀ p lab) :
+    (_hpp : p.Prime) (hlab : LargeEvenInLambda2 lab) (h : GGTWRowPred r₀ p lab) :
     p ≠ 2 := by
   unfold GGTWRowPred at h
   intro h2
@@ -37,12 +37,12 @@ private lemma l05nP2H_split_of_S {r₀ p : ℕ} {lab : LargeEvenLabel}
   · left
     refine ⟨?_, ?_⟩
     · rw [hA]; simp [LargeEvenUntwisted]
-    · rwa [if_neg (by rw [hA]; decide)] at hdvdM
+    · rwa [ite_eq_right (by rw [hA]; decide)] at hdvdM
   · right; left
     refine ⟨?_, ?_, ?_⟩
     · rw [htwA]; simp [LargeEvenUntwisted]
     · rw [htwA]; decide
-    · rwa [if_pos (by rw [htwA]; decide)] at hdvdM
+    · rwa [ite_eq_left (by rw [htwA]; decide)] at hdvdM
 
 private lemma l05nP2H_not_twisted_of_S {r₀ p : ℕ} {lab : LargeEvenLabel}
     (h : GGTWRowPred r₀ p lab) : ¬ GGOutdiagTwistedLabel lab := by
@@ -53,7 +53,7 @@ private lemma l05nP2H_not_twisted_of_S {r₀ p : ℕ} {lab : LargeEvenLabel}
   · rcases h.1 with h | h <;> rw [h] at h2 <;> exact absurd h2 (by decide)
 
 theorem ggResXDatumA_compat_from
-    {r₀ : ℕ} (hr₀ : 4 ≤ r₀) (hRig : GGLabelRigidInput) (hT : GGTBTorAFrom r₀)
+    {r₀ : ℕ} (hr₀ : 4 ≤ r₀) (_hRig : GGLabelRigidInput) (hT : GGTBTorAFrom r₀)
     (hLift : GGTBTorLiftAFrom r₀) (hW : GGTBWNormLabelInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
@@ -103,8 +103,8 @@ theorem ggResXDatumA_compat_from
           ⟨l05nP2H_not_twisted_of_S hP.1, l05nP2H_split_of_S hP.1, hBBs.trans hP.2.1,
             fun b hb => hP.2.2 b (hBBs hb)⟩) h)
   obtain ⟨V, hVadd, hVmod, hι⟩ := exists_ggLinData (p := p) (G := G) (Bs := Bs) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
   obtain ⟨ι⟩ := hι
   have hxL : x ∈ Subgroup.centralizer (L : Set G) := by
     rw [Subgroup.mem_centralizer_iff]
@@ -148,7 +148,7 @@ theorem ggResXDatumA_compat_from
     Equiv.refl _, ggHLT_coxeter_reindex_refl _, ggHLT_weyl_A (by omega),
     ggIntCartan_A lab.rank, hlin, hrefl, hpair, ⟨e, he⟩, hcl, S, hN, hW', hM, hnc, ψ, hcompat, hA⟩
 
-theorem ggResXDatumA_compat_from_K {r₀ : ℕ} (hr₀ : 4 ≤ r₀) (hRig : GGLabelRigidInput)
+theorem ggResXDatumA_compat_from_K {r₀ : ℕ} (hr₀ : 4 ≤ r₀) (_hRig : GGLabelRigidInput)
     (hT : GGTBTorAFrom r₀) (hLift : GGTBTorLiftAFrom r₀) (hW : GGTBWNormLabelInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G} (hH : GGResHyp p B Bs x L D J y K)
@@ -189,8 +189,8 @@ theorem ggResXDatumA_compat_from_K {r₀ : ℕ} (hr₀ : 4 ≤ r₀) (hRig : GGL
   obtain ⟨w, hw⟩ := hTor
   have hp2 : p ≠ 2 := l05nP2H_ne_two_of_S hp hlab hP
   obtain ⟨V, hVadd, hVmod, hι⟩ := exists_ggLinData (p := p) (G := G) (Bs := Bs) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
   obtain ⟨ι⟩ := hι
   have hKy : K ≤ Subgroup.centralizer ({y} : Set G) := hH.2.2.2.2.1.1.2.2.2.1
   have hyK : y ∈ Subgroup.centralizer (K : Set G) := by

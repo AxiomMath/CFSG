@@ -157,7 +157,7 @@ theorem burnsideI2a_pRank_three_cover_alternating {n : ℕ} (hn6 : 6 ≤ n) (hn8
     {K : Type} [Group K] [Finite K] [Group.IsPerfect K]
     (π : K →* alternatingGroup (Fin n)) (hπ : Function.Surjective π)
     (hC : π.ker ≤ Subgroup.center K) : CFSG.pRank 3 K = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q₀, hQ₀⟩ := CFSG.SectionRank.exists_sylow_eq_sylowThreeAlt hn6 hn8
   obtain ⟨P, hP⟩ := Sylow.mapSurjective_surjective hπ 3 Q₀
   have hmap : (P : Subgroup K).map π = (Q₀ : Subgroup (alternatingGroup (Fin n))) := by
@@ -173,7 +173,7 @@ theorem burnsideI2a_pRank_three_cover_alternating {n : ℕ} (hn6 : 6 ≤ n) (hn8
   set A : Subgroup K := (C : Subgroup π.ker).map π.ker.subtype
   have hAZ : A ≤ Subgroup.center K := (Subgroup.map_subtype_le _).trans hC
   have hAP : A ≤ (P : Subgroup K) :=
-    CFSG.ShultStronglyClosedTI.central_pSubgroup_le_sylow P A hAZ (C.isPGroup'.map π.ker.subtype)
+    CFSG.ShultStronglyClosedTI.central_pSubgroup_le_sylow P A hAZ (C.isPGroup.map π.ker.subtype)
   have hker := CFSG.ShultStronglyClosedTI.central_kernel_sylow_restriction π hC C P
   have hder := CFSG.ShultStronglyClosedTI.central_kernel_sylow_restriction_le_derived π hC C P
   have hkercard :
@@ -186,7 +186,7 @@ theorem burnsideI2a_pRank_three_cover_alternating {n : ℕ} (hn6 : 6 ≤ n) (hn8
       Nat.card_congr (QuotientGroup.quotientKerEquivOfSurjective _
         (MonoidHom.subgroupMap_surjective π (P : Subgroup K))).toEquiv,
       Nat.card_congr (MulEquiv.subgroupCongr hmap).toEquiv, hQcard, hkercard]
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 C.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 C.isPGroup
   have hk1 : k ≤ 1 := by
     by_contra h
     push Not at h
@@ -232,7 +232,7 @@ theorem burnsideI2a_pRank_three_cover_alternating {n : ℕ} (hn6 : 6 ≤ n) (hn8
       have := orderOf_dvd_of_pow_eq_one hg3
       rw [hg, hQcard] at this
       omega
-    haveI : Fact (IsPGroup 3 ↥(P : Subgroup K)) := ⟨P.isPGroup'⟩
+    have : Fact (IsPGroup 3 ↥(P : Subgroup K)) := ⟨P.isPGroup⟩
     obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a (p := 3) (by norm_num) hnc
     have hSel' := (CFSG.SectionRank.isElementaryAbelian_iff_isElemAbelian 3 S).1 hSel
     have h2 := CFSG.SectionRank.le_pRank (by norm_num : 1 < 3)
@@ -255,7 +255,7 @@ theorem burnsideI2a_cover_equiv {S : Type} [Group S] [Finite S] [Group.IsPerfect
     (hπ₂ : Function.Surjective π₂) (hC₁ : π₁.ker ≤ Subgroup.center E₁)
     (hC₂ : π₂.ker ≤ Subgroup.center E₂) (hcard : Nat.card π₁.ker = Nat.card π₂.ker) :
     Nonempty (E₁ ≃* E₂) := by
-  haveI : Finite (CFSG.RankThree.PerfectCover.HopfCover S) := by
+  have : Finite (CFSG.RankThree.PerfectCover.HopfCover S) := by
     refine Nat.finite_of_card_ne_zero ?_
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup
         (CFSG.RankThree.PerfectCover.hopfMultiplier S),
@@ -263,7 +263,7 @@ theorem burnsideI2a_cover_equiv {S : Type} [Group S] [Finite S] [Group.IsPerfect
         (CFSG.RankThree.PerfectCover.hopfCoverMap S)
         CFSG.RankThree.PerfectCover.hopfCoverMap_surjective).toEquiv]
     exact Nat.mul_ne_zero Nat.card_pos.ne' Nat.card_pos.ne'
-  haveI := hM
+  have := hM
   set h₁ := CFSG.RankThree.PerfectCover.hopfLift π₁ hπ₁ hC₁
   set h₂ := CFSG.RankThree.PerfectCover.hopfLift π₂ hπ₂ hC₂
   have hs₁ : Function.Surjective h₁ :=
@@ -315,7 +315,7 @@ theorem burnsideI2a_cover_equiv {S : Type} [Group S] [Finite S] [Group.IsPerfect
 theorem burnsideI2a_isPerfect_sl2 {F : Type} [Field F] [Finite F] (h4 : 4 ≤ Nat.card F) :
     Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) F) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨a, -, ha⟩ : ∃ a ∈ (Finset.univ : Finset F), a ∉ ({0, 1, -1} : Finset F) :=
     Finset.exists_mem_notMem_of_card_lt_card (by
       rw [Finset.card_univ, ← Nat.card_eq_fintype_card]
@@ -372,8 +372,8 @@ theorem burnsideI2a_natCard_center_sl2 {F : Type} [Field F] (h2 : (2 : F) ≠ 0)
 theorem burnsideI2a_psl_five_alternating :
     Nonempty
       (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (ZMod 5) ≃* alternatingGroup (Fin 5)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (ZMod 5)) :=
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (ZMod 5)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by rw [Nat.card_zmod]; norm_num)
   have hSL : Nat.card (Matrix.SpecialLinearGroup (Fin 2) (ZMod 5)) = 120 := by
     rw [Matrix.card_SL_field (𝔽 := ZMod 5) 2, ZMod.card, Fin.prod_univ_two]
@@ -420,21 +420,21 @@ theorem burnsideI2a_I_2_2_one {K : Type} [Group K] [Finite K]
       (Nonempty (K ⧸ Subgroup.center K ≃* alternatingGroup (Fin 6)) →
         Nonempty (K ≃* Matrix.SpecialLinearGroup (Fin 2) (GaloisField 3 2))) := by
   intro h2
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   refine ⟨fun ⟨e⟩ => ?_, fun ⟨e⟩ => ?_⟩
   ·
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     obtain ⟨π, hπ, hker⟩ := burnsideI2a_cover_of_equiv e
     have hcard := burnsideI2a_card_center_eq_two (by norm_num) π hπ hker h2 hZ
     obtain ⟨ePSL⟩ := burnsideI2a_psl_five_alternating
     obtain ⟨π', hπ', hker', hcard'⟩ := burnsideI2a_sl2_cover (F := ZMod 5)
       (Ring.two_ne_zero (by rw [ZMod.ringChar_zmod_n]; norm_num)) ePSL
-    haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (ZMod 5)) :=
+    have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (ZMod 5)) :=
       burnsideI2a_isPerfect_sl2 (by rw [Nat.card_zmod]; norm_num)
-    haveI : Group.IsPerfect (alternatingGroup (Fin 5)) :=
+    have : Group.IsPerfect (alternatingGroup (Fin 5)) :=
       ⟨commutator_alternatingGroup_eq_top (by simp)⟩
     obtain ⟨hMcyc, hMcard⟩ := CFSG.Alternating.Multipliers.hopfMultiplier_alternatingGroup_five
-    haveI : Finite (CFSG.RankThree.PerfectCover.hopfMultiplier (alternatingGroup (Fin 5))) :=
+    have : Finite (CFSG.RankThree.PerfectCover.hopfMultiplier (alternatingGroup (Fin 5))) :=
       Nat.finite_of_card_ne_zero (by rw [hMcard]; norm_num)
     exact burnsideI2a_cover_equiv hMcyc π π' hπ hπ' hker.le hker' (hcard.trans hcard'.symm)
   ·
@@ -448,19 +448,19 @@ theorem burnsideI2a_I_2_2_one {K : Type} [Group K] [Finite K]
     have h2F : (2 : GaloisField 3 2) ≠ 0 :=
       Ring.two_ne_zero (by rw [ringChar.eq (GaloisField 3 2) 3]; norm_num)
     obtain ⟨π', hπ', hker', hcard'⟩ := burnsideI2a_sl2_cover (F := GaloisField 3 2) h2F ePSL
-    haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 3 2)) :=
+    have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 3 2)) :=
       burnsideI2a_isPerfect_sl2 (by rw [hF]; norm_num)
-    haveI : Group.IsPerfect (alternatingGroup (Fin 6)) :=
+    have : Group.IsPerfect (alternatingGroup (Fin 6)) :=
       ⟨commutator_alternatingGroup_eq_top (by simp)⟩
     obtain ⟨hMcyc, hMcard⟩ := CFSG.Alternating.Multipliers.hopfMultiplier_alternatingGroup_six
-    haveI : Finite (CFSG.RankThree.PerfectCover.hopfMultiplier (alternatingGroup (Fin 6))) :=
+    have : Finite (CFSG.RankThree.PerfectCover.hopfMultiplier (alternatingGroup (Fin 6))) :=
       Nat.finite_of_card_ne_zero (by rw [hMcard]; norm_num)
     exact burnsideI2a_cover_equiv hMcyc π π' hπ hπ' hker.le hker' (hcard.trans hcard'.symm)
 
 theorem burnsideI2a_I_2_2_two {K : Type} [Group K] [Finite K] (hK : CFSG.IsQuasisimple K) :
     (Nonempty (K ⧸ Subgroup.center K ≃* alternatingGroup (Fin 6)) ∨
         Nonempty (K ⧸ Subgroup.center K ≃* alternatingGroup (Fin 7))) → CFSG.pRank 3 K = 2 := by
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   rintro (he | he)
   · obtain ⟨e⟩ := he
     obtain ⟨π, hπ, hker⟩ := burnsideI2a_cover_of_equiv e
@@ -590,8 +590,8 @@ theorem burnsideI22P3_std
 theorem burnsideI22P3_frattini_center_iff {K : Type} [Group K] [Finite K]
     (hZ2 : IsPGroup 2 (Subgroup.center K)) :
     frattini ↥(Subgroup.center K) = ⊥ ↔ ∀ z ∈ Subgroup.center K, z * z = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥(Subgroup.center K)) := ⟨hZ2⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥(Subgroup.center K)) := ⟨hZ2⟩
   rw [CFSG.frattini_eq_bot_iff_isElementaryAbelian (p := 2)]
   constructor
   · intro h z hz
@@ -824,7 +824,7 @@ theorem burnsideI22P3_pCore_eq {K : Type} [Group K] [Finite K] {q : K →* Equiv
   have hVPk : Subgroup.comap q U ≤ (Pk : Subgroup K) := fun x hx => (hPk x).1 (hD.UT hx)
   apply le_antisymm
   ·
-    have hR := burnsideI22P3_pCoreOf_le hPkH Pk.isPGroup' Pk.not_dvd_index
+    have hR := burnsideI22P3_pCoreOf_le hPkH Pk.isPGroup Pk.not_dvd_index
     intro r hr
     have hN : (pCoreOf 2 (Subgroup.comap q P)).map q ≤ U := by
       refine hD.O2 _ ?_ ?_
@@ -848,7 +848,7 @@ theorem burnsideI22P3_pCore_eq {K : Type} [Group K] [Finite K] {q : K →* Equiv
       exact hD.Un _ g.2 _ hn
     have hNp : IsPGroup 2 ↥((Subgroup.comap q U).subgroupOf (Subgroup.comap q P)) := by
       intro n
-      obtain ⟨k, hk⟩ := Pk.isPGroup' ⟨n.1.1, hVPk n.2⟩
+      obtain ⟨k, hk⟩ := Pk.isPGroup ⟨n.1.1, hVPk n.2⟩
       refine ⟨k, Subtype.ext (Subtype.ext ?_)⟩
       have := congrArg (fun z : ↥(Pk : Subgroup K) => (z : K)) hk
       simpa using this
@@ -1268,8 +1268,8 @@ theorem burnsideI22P3_setup
 open CFSG.ASVolI.ChIJK in
 theorem burnsideI22P3_frattiniOf_eq_bot {K : Type} [Group K] [Finite K] {R : Subgroup K}
     (hc : ∀ x ∈ R, ∀ y ∈ R, x * y = y * x) (hs : ∀ x ∈ R, x * x = 1) : frattiniOf R = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥R) := ⟨fun x => ⟨1, Subtype.ext (by simpa [pow_two] using hs x x.2)⟩⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥R) := ⟨fun x => ⟨1, Subtype.ext (by simpa [pow_two] using hs x x.2)⟩⟩
   have hel : CFSG.IsElementaryAbelian 2 ↥R :=
     { is_comm := ⟨fun a b => Subtype.ext (hc a a.2 b b.2)⟩
       exponent_dvd_p := Monoid.exponent_dvd_iff_forall_pow_eq_one.2 fun x =>
@@ -1825,7 +1825,7 @@ theorem burnsideI22P46_perm5_normal (M : Subgroup (Equiv.Perm (Fin 5))) [M.Norma
 
 theorem burnsideI22P46_alt5_not_pGroup : ¬ IsPGroup 2 (alternatingGroup (Fin 5)) := by
   intro h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 h
   rw [Nat.card_eq_fintype_card, card_alternatingGroup] at hn
   simp at hn
@@ -1841,7 +1841,7 @@ theorem burnsideI22P46_irr {G : Type} [Group G] {V : Subgroup G}
   by_contra hcon
   push Not at hcon
   obtain ⟨hW0, hWV'⟩ := hcon
-  haveI : Finite G := Nat.finite_of_card_ne_zero (by rw [h.card_G]; norm_num)
+  have : Finite G := Nat.finite_of_card_ne_zero (by rw [h.card_G]; norm_num)
   have hdvd : Nat.card W ∣ 16 := h.card_V ▸ Subgroup.card_dvd_of_le hWV
   obtain ⟨k, hk, hkW⟩ := (Nat.dvd_prime_pow Nat.prime_two).1
     (show Nat.card W ∣ 2 ^ 4 by simpa using hdvd)
@@ -1867,7 +1867,7 @@ theorem burnsideI22P46_irr {G : Type} [Group G] {V : Subgroup G}
     rw [← this, h1]; group
   have hWfin : ((W : Set G) \ {1}).Finite := Set.toFinite _
   have hncard : ((W : Set G) \ {1}).ncard = Nat.card W - 1 := by
-    rw [Set.ncard_diff_singleton_of_mem (by simpa using W.one_mem)]
+    rw [Set.ncard_sdiff_singleton_of_mem (by simp)]
     rw [← Nat.card_coe_set_eq]
     rfl
   have hidx : ∀ x : G, x ∈ V → x ≠ 1 → 5 ≤ (Subgroup.centralizer {x}).index ∧
@@ -1963,8 +1963,8 @@ theorem burnsideI22P46_comm_V {G : Type} [Group G] {V : Subgroup G}
 theorem burnsideI22P46_qg {G : Type} [Group G] {V : Subgroup G} (h : burnsideI22P46_Datum G V)
     {T : Type} [Group T] (hT : IsPGroup 2 T) (g : G →* T) (hg : Function.Surjective g) :
     Nat.card T ≤ 2 := by
-  haveI : Finite G := Nat.finite_of_card_ne_zero (by rw [h.card_G]; norm_num)
-  haveI := h.normal
+  have : Finite G := Nat.finite_of_card_ne_zero (by rw [h.card_G]; norm_num)
+  have := h.normal
   obtain ⟨e⟩ := h.quot
   let σ : G →* Equiv.Perm (Fin 5) := e.toMonoidHom.comp (QuotientGroup.mk' V)
   have hσs : Function.Surjective σ := e.surjective.comp (QuotientGroup.mk'_surjective V)
@@ -1988,7 +1988,7 @@ theorem burnsideI22P46_qg {G : Type} [Group G] {V : Subgroup G} (h : burnsideI22
       calc n * v = (n * v * n⁻¹ * v⁻¹) * (v * n) := by group
         _ = v * n := by rw [h3, one_mul]
     let N5 : Subgroup (Equiv.Perm (Fin 5)) := N.map σ
-    haveI : N5.Normal := Subgroup.Normal.map inferInstance σ hσs
+    have : N5.Normal := Subgroup.Normal.map inferInstance σ hσs
     have hN5 : IsPGroup 2 (Equiv.Perm (Fin 5) ⧸ N5) := by
       let ψ : G →* Equiv.Perm (Fin 5) ⧸ N5 := (QuotientGroup.mk' N5).comp σ
       have hψk : N ≤ ψ.ker := fun n hn => by
@@ -2071,7 +2071,7 @@ theorem burnsideI22P46_core {J G : Type} [Group J] [Group G] {V : Subgroup G}
     intro y
     obtain ⟨x, rfl⟩ := hπs y
     rw [← map_mul, ← map_mul, (Subgroup.mem_center_iff.1 (hc hz) x)]
-  haveI : C.Normal := Subgroup.normal_of_le_center hCc
+  have : C.Normal := Subgroup.normal_of_le_center hCc
   have hθ : ∃ θ : G →* (J ⧸ N) ⧸ C, Function.Surjective θ := by
     let ψ0 : J →* (J ⧸ N) ⧸ C := (QuotientGroup.mk' C).comp π
     have hψ0k : ψ.ker ≤ ψ0.ker := fun z hz => by
@@ -2094,17 +2094,17 @@ theorem burnsideI22P46_core {J G : Type} [Group J] [Group G] {V : Subgroup G}
       QuotientGroup.mk'_surjective C
     exact IsPGroup.of_surjective hN _ this
   have hcard := burnsideI22P46_qg h hCP θ hθs
-  haveI : Finite G := Nat.finite_of_card_ne_zero (by rw [h.card_G]; norm_num)
-  haveI : Finite ((J ⧸ N) ⧸ C) := Finite.of_surjective θ hθs
-  haveI hcyc : IsCyclic ((J ⧸ N) ⧸ C) := by
+  have : Finite G := Nat.finite_of_card_ne_zero (by rw [h.card_G]; norm_num)
+  have : Finite ((J ⧸ N) ⧸ C) := Finite.of_surjective θ hθs
+  have hcyc : IsCyclic ((J ⧸ N) ⧸ C) := by
     rcases (show Nat.card ((J ⧸ N) ⧸ C) = 1 ∨ Nat.card ((J ⧸ N) ⧸ C) = 2 by
       have := Nat.card_pos (α := (J ⧸ N) ⧸ C)
       omega) with h1 | h2
-    · haveI : Subsingleton ((J ⧸ N) ⧸ C) := (Nat.card_eq_one_iff_unique.1 h1).1
+    · have : Subsingleton ((J ⧸ N) ⧸ C) := (Nat.card_eq_one_iff_unique.1 h1).1
       infer_instance
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       exact isCyclic_of_prime_card h2
-  letI : CommGroup (J ⧸ N) := commGroupOfCyclicCenterQuotient (QuotientGroup.mk' C)
+  let : CommGroup (J ⧸ N) := commGroupOfCyclicCenterQuotient (QuotientGroup.mk' C)
     (by rw [QuotientGroup.ker_mk']; exact hCc)
   have hab : IsMulCommutative (J ⧸ N) := ⟨⟨fun a b => mul_comm a b⟩⟩
   have hJN : commutator J ≤ N :=
@@ -2113,7 +2113,7 @@ theorem burnsideI22P46_core {J G : Type} [Group J] [Group G] {V : Subgroup G}
 
 theorem burnsideI22P46_mem_commutator_of_odd_index {G : Type} [Group G] [Finite G] {z : G}
     (hz : z ∈ Subgroup.center G) (hzc : z ∈ commutator G) (hz2 : IsPGroup 2 (Subgroup.zpowers z))
-    {H : Subgroup G} (hzH : z ∈ H) (hodd : Odd H.index) : z ∈ ⁅H, H⁆ := by
+    {H : Subgroup G} (_hzH : z ∈ H) (hodd : Odd H.index) : z ∈ ⁅H, H⁆ := by
   let ϕ : ↥H →* Abelianization ↥H := Abelianization.of
   have key : ∀ (k : ℕ) (g₀ : G), g₀⁻¹ * z ^ k * g₀ ∈ H → g₀⁻¹ * z ^ k * g₀ = z ^ k :=
     fun k g₀ _ => by
@@ -2129,7 +2129,7 @@ theorem burnsideI22P46_mem_commutator_of_odd_index {G : Type} [Group G] [Finite 
   have h5 := Subgroup.mem_map_of_mem H.subtype h4
   rw [Subgroup.map_subtype_commutator] at h5
   have hcop : Nat.Coprime H.index (orderOf z) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hz2
     rw [Nat.card_zpowers] at hn
     rw [hn]
@@ -2140,7 +2140,7 @@ theorem burnsideI22P46_mem_commutator_of_odd_index {G : Type} [Group G] [Finite 
 
 theorem burnsideI22P46_pcore_le {G : Type} [Group G] {V : Subgroup G}
     (h : burnsideI22P46_Datum G V) (M : Subgroup G) [M.Normal] (hM : IsPGroup 2 M) : M ≤ V := by
-  haveI := h.normal
+  have := h.normal
   obtain ⟨e⟩ := h.quot
   let σ : G →* Equiv.Perm (Fin 5) := e.toMonoidHom.comp (QuotientGroup.mk' V)
   have hσs : Function.Surjective σ := e.surjective.comp (QuotientGroup.mk'_surjective V)
@@ -2149,7 +2149,7 @@ theorem burnsideI22P46_pcore_le {G : Type} [Group G] {V : Subgroup G}
     simp only [σ, MonoidHom.mem_ker, MonoidHom.coe_comp, Function.comp_apply, MulEquiv.coe_toMonoidHom,
       QuotientGroup.mk'_apply]
     rw [map_eq_one_iff e e.injective, QuotientGroup.eq_one_iff]
-  haveI : (M.map σ).Normal := Subgroup.Normal.map inferInstance σ hσs
+  have : (M.map σ).Normal := Subgroup.Normal.map inferInstance σ hσs
   have hM5 : IsPGroup 2 (M.map σ) := by
     intro g
     obtain ⟨m, hm, hmg⟩ := g.2
@@ -2218,7 +2218,7 @@ theorem burnsideI22P46_datum
     have hv1' : (v : X) ≠ 1 := fun h => hv1 (Subtype.ext h)
     have hord : orderOf (v : X) = 2 := orderOf_eq_prime hsq hv1'
     have hc := burnsideI22P46_card_centralizer hX hord
-    haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [burnsideI22P46_card_M22 hX]; norm_num)
+    have : Finite X := Nat.finite_of_card_ne_zero (by rw [burnsideI22P46_card_M22 hX]; norm_num)
     rw [← hc]
     let f : Subgroup.centralizer ({v} : Set ↥Js) →
         Subgroup.centralizer ({(v : X)} : Set X) := fun g => ⟨(g.1 : X), by
@@ -2279,7 +2279,7 @@ theorem burnsideI22P46_part_6_a_one
   refine Subgroup.mem_map.2 ⟨⟨z, hzJ'⟩, ?_, rfl⟩
   rw [Subgroup.mem_sInf]
   rintro N ⟨hNn, n, hn⟩
-  haveI := hNn
+  have := hNn
   have hP : IsPGroup 2 (↥(preimageStar K Js) ⧸ N) :=
     IsPGroup.of_card (n := n) (by rw [← Subgroup.index_eq_card]; exact hn)
   exact burnsideI22P46_core hD ψ hψs hc hcomm N hP ((hkerψ ⟨z, hzJ'⟩).2 hz)
@@ -2325,8 +2325,8 @@ theorem burnsideI22P46_pcore_sq
   intro x hx
   obtain ⟨y, hy, rfl⟩ := hx
   show (y : K) * (y : K) = 1
-  haveI : (CFSG.pCore 2 ↥(preimageStar K Js)).Normal := CFSG.pCore_normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (CFSG.pCore 2 ↥(preimageStar K Js)).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMn : ((CFSG.pCore 2 ↥(preimageStar K Js)).map ψ).Normal :=
     Subgroup.Normal.map inferInstance ψ hψs
   have hM2 : IsPGroup 2 ((CFSG.pCore 2 ↥(preimageStar K Js)).map ψ) := by
@@ -2352,7 +2352,7 @@ open CFSG.ASVolI.ChIJK in
 theorem burnsideI22P46_frattiniOf_eq_bot {G : Type} [Group G] [Finite G] (R : Subgroup G)
     (hR : ∀ x ∈ R, x * x = 1) : frattiniOf R = ⊥ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 R) := ⟨fun x => ⟨1, by
+  have : Fact (IsPGroup 2 R) := ⟨fun x => ⟨1, by
     rw [pow_one, pow_two]; exact Subtype.ext (hR x x.2)⟩⟩
   have hcomm : ∀ a b : R, a * b = b * a := by
     intro a b
@@ -2366,7 +2366,7 @@ theorem burnsideI22P46_frattiniOf_eq_bot {G : Type} [Group G] [Finite G] (R : Su
     calc (a : G) * b = ((a : G) * b)⁻¹ := hab'.symm
       _ = (b : G)⁻¹ * (a : G)⁻¹ := mul_inv_rev _ _
       _ = (b : G) * a := by rw [ha', hb']
-  haveI : CFSG.IsElementaryAbelian 2 R :=
+  have : CFSG.IsElementaryAbelian 2 R :=
     { is_comm := ⟨hcomm⟩
       exponent_dvd_p := by
         refine Monoid.exponent_dvd_iff_forall_pow_eq_one.2 fun x => ?_
@@ -2406,7 +2406,7 @@ theorem burnsideI22P46_odd_mem_twoResidual {K : Type} [Group K] (C : Subgroup K)
   refine Subgroup.mem_map.2 ⟨⟨g, hg⟩, ?_, rfl⟩
   rw [Subgroup.mem_sInf]
   rintro N ⟨hNn, n, hn⟩
-  haveI := hNn
+  have := hNn
   have hP : IsPGroup 2 (↥C ⧸ N) := IsPGroup.of_card (n := n) (by rw [← Subgroup.index_eq_card]; exact hn)
   have hodd' : Odd (orderOf ((⟨g, hg⟩ : ↥C) : ↥C)) := by
     rw [Subgroup.orderOf_mk]; exact hodd
@@ -2478,7 +2478,7 @@ theorem burnsideI22P46_pCoreOf_le {K : Type} [Group K] (X : Subgroup K) : pCoreO
 theorem burnsideI22P46_le_of_normal {G : Type} [Group G] (C N S : Subgroup G)
     (hNC : N ≤ C) (hSC : S ≤ C) (hN2 : IsPGroup 2 N) (hS2 : IsPGroup 2 S)
     (hNn : ∀ c ∈ C, ∀ n ∈ N, c * n * c⁻¹ ∈ N) (hodd : ¬ 2 ∣ (S.subgroupOf C).index) : N ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN'n : (N.subgroupOf C).Normal := ⟨fun n hn g => by
     have := hNn g g.2 n hn
     exact this⟩
@@ -2529,7 +2529,7 @@ variable {K : Type} [Group K] {t y : K} {φ : K →* Equiv.Perm (Fin 22)}
 
 theorem burnsideI22P46_BData.orderOf_h (D : burnsideI22P46_BData t y φ S0 h a Al Ns) :
     orderOf h = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (by simpa [pow_succ] using D.h_cube) D.h_ne
 
 theorem burnsideI22P46_BData.h_not_mem (D : burnsideI22P46_BData t y φ S0 h a Al Ns) :
@@ -2882,7 +2882,7 @@ theorem burnsideI22P46_BData.uniqueSquare (D : burnsideI22P46_BData t y φ S0 h 
 theorem burnsideI22P46_BData.conj (D : burnsideI22P46_BData t y φ S0 h a Al Ns) (c : K) :
     burnsideI22P46_BData t (c * y * c⁻¹) (φ.comp (MulAut.conj c⁻¹).toMonoidHom) S0 h a Al Ns := by
   have hφ' : ∀ p : K, (φ.comp (MulAut.conj c⁻¹).toMonoidHom) p = φ (c⁻¹ * p * c) := by
-    intro p; simp [MulAut.conj_apply]
+    intro p; simp
   have hφ'y : (φ.comp (MulAut.conj c⁻¹).toMonoidHom) (c * y * c⁻¹) = φ y := by
     rw [hφ']; congr 1; group
   have hrange' : (φ.comp (MulAut.conj c⁻¹).toMonoidHom).range = φ.range := by
@@ -2942,7 +2942,7 @@ theorem burnsideI22P46_BData.conj (D : burnsideI22P46_BData t y φ S0 h a Al Ns)
 end BData
 
 theorem burnsideI22P46_comm_invol {K : Type} [Group K] {t : K} {M : Type} [Group M] {φ : K →* M}
-    (hker : ∀ x, φ x = 1 ↔ x = 1 ∨ x = t) (ht2 : t * t = 1) (htc : ∀ x : K, x * t = t * x)
+    (hker : ∀ x, φ x = 1 ↔ x = 1 ∨ x = t) (_ht2 : t * t = 1) (_htc : ∀ x : K, x * t = t * x)
     (hnsq : ∀ g : K, g * g ≠ t) {g y : K} (hg : g * g = 1) (hy : y * y = 1)
     (hφ : φ g * φ y = φ y * φ g) : g * y = y * g := by
   have hgi : g⁻¹ = g := inv_eq_of_mul_eq_one_right hg
@@ -3223,7 +3223,7 @@ theorem burnsideI22P46_part_6_b
     (hM : CFSG.Blueprint.NativeSporadic.IsSporadic (K ⧸ Subgroup.center K) .M22)
     (hc : Nat.card (Subgroup.center K) = 2) :
     ∀ u : K, u ∉ Subgroup.center K → u ^ 2 = 1 → UniqueSquareInCoset K u := by
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   obtain ⟨t, ht, ht1, ht2, htZ⟩ := burnsideI22P46_exists_of_card_two hc
   have hcov : IsM22Cover K t :=
     { orderOf_t := orderOf_eq_prime (by rw [sq]; exact ht2) ht1
@@ -3325,7 +3325,7 @@ theorem burnsideI22P46_pi_sig (v : ℕ) :
 theorem burnsideI22P46_sylow_conj {G : Type*} [Group G] [Finite G] (V S0 : Subgroup G)
     (hV : IsPGroup 2 V) (hS0 : IsPGroup 2 S0) (hodd : ¬ 2 ∣ S0.index) :
     ∃ g : G, ∀ v ∈ V, g * v * g⁻¹ ∈ S0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := hV.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G S (hS0.toSylow hodd)
   refine ⟨g, fun v hv => ?_⟩
@@ -3368,7 +3368,7 @@ theorem burnsideI22P46_preimage_nonabelian
     exact Subgroup.list_prod_mem _ fun y hy => by
       obtain ⟨i, -, rfl⟩ := List.mem_map.1 hy
       exact hxmem i
-  haveI : Finite ↥(NativeSporadic.M22) := inferInstance
+  have : Finite ↥(NativeSporadic.M22) := inferInstance
   have hVg : Nat.card (Vn.subgroupOf NativeSporadic.M22) = 16 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hVM).toEquiv]
     exact hcard
@@ -3398,7 +3398,7 @@ theorem burnsideI22P46_preimage_nonabelian
   have hpgg : burnsideI22P46_pi pg = g := by
     show ((m22Pi pg : NativeSporadic.M22) : Equiv.Perm (Fin 22)) = g
     rw [show m22Pi pg = gM from hpg]
-  haveI : Fintype ↥Vn := Fintype.ofFinite _
+  have : Fintype ↥Vn := Fintype.ofFinite _
   have hinj : Function.Injective (fun v : ↥Vn => g * (v : Equiv.Perm (Fin 22)) * g⁻¹) := by
     intro a b hab'
     apply Subtype.ext
@@ -3667,8 +3667,8 @@ theorem burnsideI22P46_pcore_mem_V {K : Type} [Group K] {Js : Subgroup (K ⧸ Su
     {V : Subgroup ↥Js} (hD : burnsideI22P46_Datum ↥Js V) (ψ : ↥(preimageStar K Js) →* ↥Js)
     (hψs : Function.Surjective ψ) {y : ↥(preimageStar K Js)} (hy : y ∈ CFSG.pCore 2 ↥(preimageStar K Js)) :
     ψ y ∈ V := by
-  haveI : (CFSG.pCore 2 ↥(preimageStar K Js)).Normal := CFSG.pCore_normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : (CFSG.pCore 2 ↥(preimageStar K Js)).Normal := CFSG.pCore_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMn : ((CFSG.pCore 2 ↥(preimageStar K Js)).map ψ).Normal :=
     Subgroup.Normal.map inferInstance ψ hψs
   have hM2 : IsPGroup 2 ((CFSG.pCore 2 ↥(preimageStar K Js)).map ψ) := by
@@ -4048,7 +4048,7 @@ theorem burnsideI22P46_part_6_a_three
     (hM : CFSG.Blueprint.NativeSporadic.IsSporadic (K ⧸ Subgroup.center K) .M22)
     (hc : Nat.card (Subgroup.center K) = 4) (Js : Subgroup (K ⧸ Subgroup.center K))
     (hJs : IsS5OverE16 Js) : IsZ4StarQ8Sq ↥(pCoreOf 2 (preimageStar K Js)) := by
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   have hMcard : Nat.card (K ⧸ Subgroup.center K) = 443520 := burnsideI22P46_card_M22 hM
   obtain ⟨V, hD, hV2⟩ := burnsideI22P46_datum hM hJs
   obtain ⟨e⟩ := hM
@@ -4217,8 +4217,8 @@ theorem burnsideI22P5_card_center_eq_two {K : Type} [Group K] [Finite K]
     (hK : CFSG.IsQuasisimple K) (hZ : Subgroup.center K ≠ ⊥)
     (hM : Nat.card (CFSG.RankThree.PerfectCover.hopfMultiplier (K ⧸ Subgroup.center K)) = 2) :
     Nat.card (Subgroup.center K) = 2 := by
-  haveI : Group.IsPerfect K := hK.1
-  haveI : Group.IsPerfect (K ⧸ Subgroup.center K) :=
+  have : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect (K ⧸ Subgroup.center K) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center K))
       (QuotientGroup.mk'_surjective _)
   have h := burnsideI22P5_card_ker_dvd (QuotientGroup.mk' (Subgroup.center K))
@@ -4315,8 +4315,8 @@ theorem burnsideI22P5_exists_ext {K : Type} [Group K] [Finite K] (α : K ≃* K)
   classical
   let A : Subgroup (MulAut K) := Subgroup.zpowers α
   let H := K ⋊[A.subtype] A
-  haveI : Finite A := inferInstance
-  haveI : Finite H := Finite.of_equiv _ (SemidirectProduct.equivProd (N := K) (G := A)
+  have : Finite A := inferInstance
+  have : Finite H := Finite.of_equiv _ (SemidirectProduct.equivProd (N := K) (G := A)
     (φ := A.subtype)).symm
   let L : Subgroup H := (SemidirectProduct.rightHom (N := K) (G := A) (φ := A.subtype)).ker
   let φ : K ≃* L := (MonoidHom.ofInjective (f := SemidirectProduct.inl (N := K) (G := A)
@@ -4401,11 +4401,11 @@ theorem burnsideI22P5_ext {K Q : Type} [Group K] [Finite K] [Group Q] (hK : CFSG
       Subgroup.centralizer (L : Set H) = Subgroup.zpowers ((φ t : L) : H) ∧
       ∀ k : K, π' (φ k) = π k := by
   obtain ⟨H, hG, hF, L, hN, φ, p, hpL, hp2, hpact, hcent⟩ := burnsideI22P5_exists_ext α hα hα1
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   refine ⟨H, hG, hF, L, hN, φ, p, π.comp φ.symm.toMonoidHom, hpL, hp2, hpact, ?_, ?_, ?_, ?_, ?_,
     ?_, ?_⟩
   ·
-    haveI : Group.IsPerfect L := Group.IsPerfect.ofSurjective (f := φ.toMonoidHom) φ.surjective
+    have : Group.IsPerfect L := Group.IsPerfect.ofSurjective (f := φ.toMonoidHom) φ.surjective
     refine ⟨Group.IsPerfect.commutator_eq_top, ?_⟩
     have hc : (Subgroup.center K).map φ.toMonoidHom = Subgroup.center L :=
       Subgroup.map_center_eq φ
@@ -4435,10 +4435,10 @@ theorem burnsideI22P5_ext {K Q : Type} [Group K] [Finite K] [Group Q] (hK : CFSG
     constructor
     · rintro ⟨z, hz, rfl⟩
       obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hz
-      exact Subgroup.mem_zpowers_iff.2 ⟨n, by simp [Subgroup.coe_zpow]⟩
+      exact Subgroup.mem_zpowers_iff.2 ⟨n, by simp⟩
     · intro hg
       obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hg
-      exact ⟨t ^ n, Subgroup.zpow_mem_zpowers t n, by simp [Subgroup.coe_zpow]⟩
+      exact ⟨t ^ n, Subgroup.zpow_mem_zpowers t n, by simp⟩
   · intro k
     simp
 
@@ -4476,7 +4476,7 @@ open CFSG.ASVolI.ChIJK in
 theorem burnsideI22P5_isTwoCentral_iff_card {G : Type} [Group G] [Finite G] (S : Sylow 2 G)
     {t : G} (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) :
     IsTwoCentralInvolution t ↔ Nat.card S ∣ Nat.card (Subgroup.centralizer ({t} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : Nat.card S = 2 ^ (Nat.card G).factorization 2 := Sylow.card_eq_multiplicity S
   constructor
   · rintro ⟨-, -, T, htT, hTc⟩
@@ -4738,7 +4738,7 @@ theorem burnsideI22P5_J2_lift
       MulEquiv.map_eq_one_iff, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   have hext : CFSG.ComponentClassification.CentralCover.IsCentralDoubleExt π t :=
     ⟨hπ, hZt ▸ Subgroup.mem_zpowers t, ht, hker⟩
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   obtain ⟨-, h11, h15⟩ := Lift.native_sylow_map_and_lift_orders (Group.IsPerfect.commutator_eq_top)
     hext
   exact ⟨t, ht, hZt, fun k => h11 k, fun k => h15 k⟩
@@ -4820,7 +4820,7 @@ theorem burnsideI22P5_J2_b2
       MulEquiv.map_eq_one_iff, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   obtain ⟨H, hG, hF, L, hN, φ, p, π', hpL, hp2, hpact, hLq, ht', hZL, hπ', hker', hCL, hπφ⟩ :=
     burnsideI22P5_ext hK ht hZt πK hπK hkerK α hα hα1
-  haveI : Finite H := hF
+  have : Finite H := hF
   have hkerZL : π'.ker = Subgroup.center L := by rw [hker', hZL]
   obtain ⟨-, hfix⟩ :=
     ctss_j2_actual_double_cover_external_conjugacy_and_exact_fixed_section hLq ht' hZL π' hπ'
@@ -5063,7 +5063,7 @@ theorem burnsideI22P5_M12_lift
     ext l
     simp only [π, MonoidHom.mem_ker, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
       MulEquiv.map_eq_one_iff, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   obtain ⟨-, h4, h0⟩ := m12_double_cover_involution_lift_orders
     (⟨Group.IsPerfect.commutator_eq_top, hK.2.1⟩ : CFSG.Assembly.IsQuasisimple K) ht hZt π hπ hker
   exact ⟨t, ht, hZt, fun k => h4 k, fun k => h0 k⟩
@@ -5144,7 +5144,7 @@ theorem burnsideI22P5_M12_b2
       MulEquiv.map_eq_one_iff, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   obtain ⟨H, hG, hF, L, hN, φ, p, π', hpL, hp2, hpact, hLq, ht', hZL, hπ', hker', hCL, hπφ⟩ :=
     burnsideI22P5_ext hK ht hZt πK hπK hkerK α hα hα1
-  haveI : Finite H := hF
+  have : Finite H := hF
   have hkerZL : π'.ker = Subgroup.center L := by rw [hker', hZL]
   obtain ⟨hkey, -⟩ := ctss_m12_central_double_cover_external_involution_conjugacy_frontier hLq ht'
     hZL ⟨CFSG.ComponentClassification.CentralCover.quotientEquivOfKerEqCenter π' hπ' hkerZL⟩ hCL
@@ -5180,8 +5180,8 @@ theorem burnsideI22P5_HS_isTwoCentral_iff
     (hY : CFSG.Blueprint.NativeSporadic.IsSporadic Y .HS) (y : Y) (hy : orderOf y = 2) :
     IsTwoCentralInvolution y ↔ Nat.card (Subgroup.centralizer ({y} : Set Y)) = 7680 := by
   have hcard := CFSG.EvenSporadicStandard.HSStd.Zassenhaus.card_eq_of_isSporadic_hs hY
-  haveI : Finite Y := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite Y := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hy2 : y ^ 2 = 1 := by rw [← hy]; exact pow_orderOf_eq_one y
   have hy1 : y ≠ 1 := by
     intro h
@@ -5209,7 +5209,7 @@ theorem burnsideI22P5_HS_strong
     (hK : CFSG.IsQuasisimple K) (hZ : Subgroup.center K ≠ ⊥)
     (h : CFSG.Blueprint.NativeSporadic.IsSporadic (K ⧸ Subgroup.center K) .HS) :
     ∀ k : K, IsTwoCentralInvolution (k : K ⧸ Subgroup.center K) → k ^ 2 = 1 := by
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   have hZ2 := CFSG.EvenSporadicStandard.HSStd.Zassenhaus.card_center_eq_two_of_ne_bot this h hZ
   intro k hk
   have hq2 : orderOf (k : K ⧸ Subgroup.center K) = 2 := orderOf_eq_prime hk.1 hk.2.1
@@ -5232,7 +5232,7 @@ theorem burnsideI22P5_HS_b1
     (hK : CFSG.IsQuasisimple K) (hZ : Subgroup.center K ≠ ⊥)
     (h : CFSG.Blueprint.NativeSporadic.IsSporadic (K ⧸ Subgroup.center K) .HS) :
     NonTwoCentralInvolutionsLiftToOrderFour K := by
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   have hZ2 := CFSG.EvenSporadicStandard.HSStd.Zassenhaus.card_center_eq_two_of_ne_bot this h hZ
   obtain ⟨t, ht, hZt⟩ := burnsideI22P5_exists_t hZ2
   obtain ⟨e⟩ := h
@@ -5353,7 +5353,7 @@ theorem burnsideI22P5_HS_b2
     (h : CFSG.Blueprint.NativeSporadic.IsSporadic (K ⧸ Subgroup.center K) .HS) :
     OuterInvolutionsInvertOrderFour K := by
   intro α hα hα1
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   have hZ2 := CFSG.EvenSporadicStandard.HSStd.Zassenhaus.card_center_eq_two_of_ne_bot this h hZ
   obtain ⟨t, ht, hZt⟩ := burnsideI22P5_exists_t hZ2
   have hstrong := burnsideI22P5_HS_strong hK hZ h
@@ -5407,7 +5407,7 @@ theorem burnsideI22P5_HS_b2
   have hρk : ((ρ (ĥ * (α ĥ)⁻¹) : hsP) : Equiv.Perm (Fin 3850)) = g₁ * hsT2 * g₁⁻¹ := by
     rw [map_mul, map_inv, hβ, hĥ, Subgroup.coe_mul, Subgroup.coe_inv, hxι]
     rw [← hcomm]
-    simp only [Subgroup.coe_mk]
+    simp only
     group
   have hsq := CFSG.ComponentClassification.GSThmB.CovHS.sq_lift
     (⟨Group.IsPerfect.commutator_eq_top, hK.2.1⟩ : CFSG.Assembly.IsQuasisimple K) ht hZt ρ hρ
@@ -5441,7 +5441,7 @@ open CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley.G2FieldFour
 theorem burnsideI22P5_G2_sylow
     {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4) :
     ∃ P : Sylow 2 (adjointGroup .G2 F), (P : Subgroup (adjointGroup .G2 F)) = posU F := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hUC : posUnipotent .G2 F ≤ adjointGroup .G2 F :=
     CFSG.GH74.GLS.IVK.Proofs2.Ivk47.posUnipotent_le_adjointGroup' .G2 F
   have hcardU : Nat.card (posUnipotent .G2 F) = Nat.card F ^ 6 := by
@@ -5467,7 +5467,7 @@ theorem burnsideI22P5_G2_isTwoCentral_iff
     {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4)
     (z : adjointGroup .G2 F) (hz : orderOf z = 2) :
     CFSG.ASVolI.ChIJK.IsTwoCentralInvolution z ↔ IsConj z (rootX rootC (1 : F)) := by
-  haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.charP_two_of_card_eq_four hF
+  have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.charP_two_of_card_eq_four hF
   obtain ⟨P, hP⟩ := burnsideI22P5_G2_sylow hF
   have hz2 : z ^ 2 = 1 := by rw [← hz]; exact pow_orderOf_eq_one z
   have hz1 : z ≠ 1 := by
@@ -5569,8 +5569,8 @@ theorem burnsideI22P5_G2_b1
     NonTwoCentralInvolutionsLiftToOrderFour K := by
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := burnsideI22P5_G2_data h
   have hZ2 := burnsideI22P5_G2_card_center hK hZ hF e
-  haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.charP_two_of_card_eq_four hF
-  haveI : Group.IsPerfect K := hK.1
+  have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.charP_two_of_card_eq_four hF
+  have : Group.IsPerfect K := hK.1
   intro t' ht2 ht1 hnc
   obtain ⟨k, rfl⟩ := QuotientGroup.mk_surjective t'
   have hz2 : orderOf (e (k : K ⧸ Subgroup.center K)) = 2 := by
@@ -5593,7 +5593,7 @@ theorem burnsideI22P5_G2_b1
 theorem burnsideI22P5_F4_omega {F : Type} [Field F] [Finite F] [CharP F 2] (hF : Nat.card F = 4) :
     ∃ ω : F, ω ≠ 0 ∧ ω ≠ 1 ∧ ω ^ 2 = 1 + ω := by
   classical
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hc : Fintype.card F = 4 := by rw [← Nat.card_eq_fintype_card]; exact hF
   have hlt : ({0, 1} : Finset F).card < (Finset.univ : Finset F).card := by
     rw [Finset.card_univ, hc]
@@ -5691,9 +5691,9 @@ theorem burnsideI22P5_G2_b2
   intro α hα hα1
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := burnsideI22P5_G2_data h
   have hZ2 := burnsideI22P5_G2_card_center hK hZ hF e
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.charP_two_of_card_eq_four hF
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   obtain ⟨t, ht, hZt⟩ := burnsideI22P5_exists_t hZ2
   have ht1 : t ≠ 1 := by
     intro h; rw [h, orderOf_one] at ht; exact absurd ht (by norm_num)
@@ -5827,8 +5827,8 @@ theorem burnsideI22P5_twoResidualIn_index {G : Type} [Group G] [Finite G] (H : S
     intro x hx y hy
     obtain ⟨hxn, a, ha⟩ := hx
     obtain ⟨hyn, b, hb⟩ := hy
-    haveI := hxn
-    haveI := hyn
+    have := hxn
+    have := hyn
     refine ⟨inferInstance, ?_⟩
     have hdvd : (x ⊓ y).index ∣ 2 ^ (a + b) := by
       rw [pow_add, ← ha, ← hb, Subgroup.index_inf]
@@ -5846,7 +5846,7 @@ theorem burnsideI22P5_odd_mem_twoResidualIn {G : Type} [Group G] [Finite G] (H :
     (x : H) (hx : Odd (orderOf x)) : x ∈ burnsideI22P5_twoResidualIn H := by
   rw [burnsideI22P5_twoResidualIn, Subgroup.mem_sInf]
   rintro N ⟨hN, n, hn⟩
-  haveI := hN
+  have := hN
   have h1 : orderOf (x : H ⧸ N) ∣ orderOf x := orderOf_map_dvd (QuotientGroup.mk' N) x
   have h2 : orderOf (x : H ⧸ N) ∣ 2 ^ n := by
     rw [← hn, Subgroup.index_eq_card]
@@ -5864,7 +5864,7 @@ theorem burnsideI22P5_odd_mem_twoResidualIn {G : Type} [Group G] [Finite G] (H :
 @[expose] def burnsideI22P5_conjEquiv {G : Type} [Group G] (H : Subgroup G) (g : G)
     (hg : ∀ h : G, h ∈ H ↔ g * h * g⁻¹ ∈ H) : H ≃* H where
   toFun x := ⟨g * x * g⁻¹, (hg x).1 x.2⟩
-  invFun x := ⟨g⁻¹ * x * g, (hg (g⁻¹ * x * g)).2 (by simpa [mul_assoc] using x.2)⟩
+  invFun x := ⟨g⁻¹ * x * g, (hg (g⁻¹ * x * g)).2 (by simp [mul_assoc])⟩
   left_inv x := by ext; simp [mul_assoc]
   right_inv x := by ext; simp [mul_assoc]
   map_mul' x y := by ext; simp [mul_assoc]
@@ -6062,7 +6062,7 @@ theorem burnsideI22P5_comap_isPGroup {K X : Type} [Group K] [Group X] (π : K �
 theorem burnsideI22P5_Q_le {K : Type} [Group K] [Finite K] (C T : Subgroup K) (hTC : T ≤ C)
     (hT2 : IsPGroup 2 T) (hTodd : ¬ 2 ∣ T.index) :
     pCoreOf 2 (CFSG.ASVolI.ChIJK.twoResidual C) ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N := CFSG.ASVolI.ChIJK.twoResidual C with hN
   set Q := pCoreOf 2 N with hQ
   have hNC : N ≤ C := burnsideI22P5_twoResidual_le C
@@ -6080,7 +6080,7 @@ theorem burnsideI22P5_Q_le {K : Type} [Group K] [Finite K] (C T : Subgroup K) (h
       (Subgroup.subgroupOfEquivOfLe hQC).toMonoidHom (MulEquiv.injective _)
   have hconj : ∀ c ∈ C, ∀ q ∈ Q, c * q * c⁻¹ ∈ Q :=
     burnsideI22P5_pCoreOf_conj_of_normal C N (burnsideI22P5_twoResidual_conj C)
-  haveI : (Q.subgroupOf C).Normal := ⟨fun x hx g => by
+  have : (Q.subgroupOf C).Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact hconj g g.2 x hx⟩
   have hle := hQp.le_sylow_of_normal P
@@ -6942,7 +6942,7 @@ theorem burnsideI22P5_M12_c
   classical
   obtain ⟨hZ2, ⟨e⟩⟩ := burnsideI22P5_M12_setup hK hZ h
   obtain ⟨t, ht, hZt, h4, h0⟩ := burnsideI22P5_M12_lift hK hZ2 e
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   let π : K →* NativeSporadic.M12 := e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K))
   have hπ : Function.Surjective π := e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : π.ker = Subgroup.zpowers t := by
@@ -7050,7 +7050,7 @@ theorem burnsideI22P5_J2c_check_parts :
           (elt k : Perm315) * wordPerm oddW5 = (elt (nth 0 oddC5i k) : Perm315))) ∧
     (∀ i, i < 128 → mulIdx i i = 4 → bitAt fRows i i = true) := by
   have h := Certificates.certificate7290
-  simp only [oddCheck, Bool.and_eq_true, Bool.not_eq_true', decide_eq_true_eq, allLt_iff] at h
+  simp only [oddCheck, Bool.and_eq_true, Bool.not_eq_true', allLt_iff] at h
   obtain ⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩ := h
   have rg3 : Rep 315 (wordArr oddW3) (wordPerm oddW3) := rep_wordArr oddW3
   have rg5 : Rep 315 (wordArr oddW5) (wordPerm oddW5) := rep_wordArr oddW5
@@ -7141,7 +7141,7 @@ open CFSG.ComponentClassification.J2Cover.Models CFSG.ComponentClassification.J2
 theorem burnsideI22P5_J2c_g5_order :
     orderOf burnsideI22P5_J2c_g5 = 5 := by
   obtain ⟨-, -, h3, h4, -⟩ := burnsideI22P5_J2c_check_parts
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   refine orderOf_eq_prime ?_ ?_
   · apply Subtype.ext
     show (wordPerm oddW5) ^ 5 = 1
@@ -7515,7 +7515,7 @@ theorem burnsideI22P5_J2c_fCoc_root
     refine elt_injective (mulIdx_spec (a := i) hi).1 (by norm_num) ?_
     rw [h1, hs]
   have h3 := burnsideI22P5_J2c_f_diag i hi h2
-  rw [fCoc, tbl_elt fRows hi hi, if_pos h3]
+  rw [fCoc, tbl_elt fRows hi hi, ite_eq_left h3]
 
 open CFSG.ComponentClassification.J2Cover.Models CFSG.ComponentClassification.J2Cover
   CFSG.ComponentClassification.CentralCover in
@@ -7627,7 +7627,7 @@ theorem burnsideI22P5_J2_c
   classical
   obtain ⟨hZ2, ⟨e⟩⟩ := burnsideI22P5_J2_setup hK hZ h
   obtain ⟨t, ht, hZt, h11, h15⟩ := burnsideI22P5_J2_lift hK hZ2 e
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   let π : K →* Models.P := e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K))
   have hπ : Function.Surjective π := e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : π.ker = Subgroup.zpowers t := by
@@ -7863,7 +7863,7 @@ theorem burnsideI22P5_HSc_map_Q
   rw [MonoidHom.map_closure]
   congr 1
   ext z
-  simp only [Set.mem_image, Set.mem_setOf_eq, List.mem_toArray]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, List.mem_toArray]
   constructor
   · rintro ⟨x, hx, rfl⟩
     obtain ⟨p, hp, rfl⟩ := List.mem_map.1 hx
@@ -7936,7 +7936,7 @@ theorem burnsideI22P5_HSc_g3_facts
     orderOf (burnsideI22P5_HSc_g3 M.toCoverMaps) = 3 ∧
       burnsideI22P5_HSc_g3 M.toCoverMaps * M.z1E = M.z1E * burnsideI22P5_HSc_g3 M.toCoverMaps := by
   obtain ⟨h1, h2, -, -, h5, -⟩ := burnsideI22P5_HSc_ok1_parts
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   exact ⟨orderOf_eq_prime (burnsideI22P5_HSc_pow3 M (burnsideI22P5_HSc_rep_g3 M.toCoverMaps) h1)
     (burnsideI22P5_HSc_ne_one M (burnsideI22P5_HSc_rep_g3 M.toCoverMaps) h2),
     burnsideI22P5_HSc_commute M (burnsideI22P5_HSc_rep_g3 M.toCoverMaps) M.rep_z1E h5⟩
@@ -7949,7 +7949,7 @@ theorem burnsideI22P5_HSc_g5_facts
     orderOf (burnsideI22P5_HSc_g5 M.toCoverMaps) = 5 ∧
       burnsideI22P5_HSc_g5 M.toCoverMaps * M.z1E = M.z1E * burnsideI22P5_HSc_g5 M.toCoverMaps := by
   obtain ⟨-, -, h3, h4, -, h6, -⟩ := burnsideI22P5_HSc_ok1_parts
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact ⟨orderOf_eq_prime (burnsideI22P5_HSc_pow5 M (burnsideI22P5_HSc_rep_g5 M.toCoverMaps) h3)
     (burnsideI22P5_HSc_ne_one M (burnsideI22P5_HSc_rep_g5 M.toCoverMaps) h4),
     burnsideI22P5_HSc_commute M (burnsideI22P5_HSc_rep_g5 M.toCoverMaps) M.rep_z1E h6⟩
@@ -8207,7 +8207,7 @@ theorem burnsideI22P5_HS_c_z1
     (hq : CFSG.Blueprint.NativeSporadic.IsSporadic (K ⧸ Subgroup.center K) .HS)
     (M : CoverModel K) : UniqueSquareInCoset K M.z1E := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ht : orderOf M.tE = 2 := orderOf_eq_prime M.tE_sq M.tE_ne_one
   have hZt : Subgroup.center K = Subgroup.zpowers M.tE := by
     ext x
@@ -8219,7 +8219,7 @@ theorem burnsideI22P5_HS_c_z1
     · intro hx
       exact burnsideI22P5_mem_zpowers_two ht hx
   have hker : M.π.ker = Subgroup.zpowers M.tE := by rw [M.ker_pi_eq, hZt]
-  haveI : Finite ↥CFSG.Sporadic.Schreier.hsP := Finite.of_surjective M.π M.π_surj
+  have : Finite ↥CFSG.Sporadic.Schreier.hsP := Finite.of_surjective M.π M.π_surj
   set S : Subgroup ↥CFSG.Sporadic.Schreier.hsP := M.T0.map M.π with hS
   have hmemT : ∀ y : K, M.π y ∈ S → y ∈ M.T0 := by
     intro y hy
@@ -8255,8 +8255,8 @@ theorem burnsideI22P5_HS_c_z1
   set g5 := burnsideI22P5_HSc_g5 M.toCoverMaps with hg5
   obtain ⟨hg3o, hg3c⟩ := burnsideI22P5_HSc_g3_facts M
   obtain ⟨hg5o, hg5c⟩ := burnsideI22P5_HSc_g5_facts M
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hπg3 : orderOf (M.π g3) = 3 :=
     burnsideI22P5_orderOf_map_prime M.π ht hker (by norm_num) hg3o
   have hπg5 : orderOf (M.π g5) = 5 :=
@@ -8364,7 +8364,7 @@ theorem burnsideI22P5_HS_c
     (hZ : Subgroup.center K ≠ ⊥)
     (h : CFSG.Blueprint.NativeSporadic.IsSporadic (K ⧸ Subgroup.center K) .HS) (u : K)
     (hu : u ∉ Subgroup.center K) (hu2 : u ^ 2 = 1) : UniqueSquareInCoset K u := by
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   have hZ2 := CFSG.EvenSporadicStandard.HSStd.Zassenhaus.card_center_eq_two_of_ne_bot this h hZ
   obtain ⟨M⟩ := exists_coverModel this hZ2 h
   have hu1 : u ≠ 1 := fun h1 => hu (h1 ▸ one_mem _)
@@ -8469,7 +8469,7 @@ section PartBurnsideI22P7
 theorem burnsideI22P7_setup
     {K : Type} [Group K] [Finite K] (hK : CFSG.IsQuasisimple K) (hZ : Subgroup.center K ≠ ⊥)
     (hRu : CFSG.Blueprint.NativeSporadic.IsSporadic (K ⧸ Subgroup.center K) .Ru) :
-    ∃ (e : (K ⧸ Subgroup.center K) ≃* CFSG.Sporadic.RuSchreier.ruP) (t : K),
+    ∃ (_e : (K ⧸ Subgroup.center K) ≃* CFSG.Sporadic.RuSchreier.ruP) (t : K),
       orderOf t = 2 ∧ Subgroup.center K = Subgroup.zpowers t := by
   obtain ⟨e₀⟩ := hRu
   have hperf : Group.IsPerfect K := hK.1
@@ -8485,7 +8485,7 @@ theorem burnsideI22P7_setup
   have h2 : Nat.card (Subgroup.center K) = 2 := by
     have : 1 < Nat.card (Subgroup.center K) := Finite.one_lt_card
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center K) 2 (by rw [h2])
   have ht : orderOf (z : K) = 2 := by rw [Subgroup.orderOf_coe]; exact hz
   have hle' : Subgroup.zpowers (z : K) ≤ Subgroup.center K :=
@@ -8497,7 +8497,7 @@ theorem burnsideI22P7_setup
 open CFSG.ASVolI.ChIJK in
 theorem burnsideI22P7_isTwoCentral_map {G H : Type} [Group G] [Finite G] [Group H] (φ : G ≃* H)
     {x : G} (h : IsTwoCentralInvolution x) : IsTwoCentralInvolution (φ x) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hx2, hx1, T, hxT, hc⟩ := h
   have hf : Function.Surjective (φ.toMonoidHom) := φ.surjective
   have hT : ((Sylow.mapSurjective hf T : Sylow 2 H) : Subgroup H) = (T : Subgroup G).map φ.toMonoidHom :=
@@ -8516,7 +8516,7 @@ open CFSG.ASVolI.ChIJK CFSG.Sporadic.RuSchreier in
 theorem burnsideI22P7_isTwoCentral_iff
     {s : ruP} :
     IsTwoCentralInvolution s ↔ (s ^ 2 = 1 ∧ s ≠ 1 ∧ (s : Equiv.Perm (Fin 4060)) ∈ ruZP) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have key : ∀ (T : Sylow 2 ruP) (g : ruP), g • T = ruSylow →
       ∀ x, x ∈ (T : Subgroup ruP) ↔ g * x * g⁻¹ ∈ (ruSylow : Subgroup ruP) := by
     intro T g hg x
@@ -8630,7 +8630,7 @@ theorem burnsideI22P7_orderOf_lift_B
   have ht1 : t ≠ 1 := by
     intro h; rw [h, orderOf_one] at ht; exact absurd ht (by norm_num)
   have ht2 : t ^ 2 = 1 := by rw [← ht]; exact pow_orderOf_eq_one t
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h4 : orderOf x = 2 ^ (1 + 1) :=
     orderOf_eq_prime_pow (p := 2) (n := 1) (by rw [pow_one, hsq]; exact ht1)
       (by rw [show 2 ^ (1 + 1) = 2 * 2 by norm_num, pow_mul, hsq, ht2])
@@ -8677,7 +8677,7 @@ theorem burnsideI22P7_clause_b
     (i : K ⧸ Subgroup.center K) (hi2 : i ^ 2 = 1) (hi1 : i ≠ 1) (hn : ¬ IsTwoCentralInvolution i) :
     (∃ k : K, orderOf k = 4 ∧ (k : K ⧸ Subgroup.center K) = i) ∧
       TwoCentralInvolutionsLift K ∧ 6 ≤ CFSG.pRank 2 K := by
-  haveI hperf : Group.IsPerfect K := hK.1
+  have hperf : Group.IsPerfect K := hK.1
   obtain ⟨e, t, ht, hZt⟩ := burnsideI22P7_setup hK hZ hRu
   obtain ⟨q, hq, hkerZ, hqe⟩ := burnsideI22P7_qMap e
   have hker : q.ker = Subgroup.zpowers t := hkerZ.trans hZt
@@ -8884,10 +8884,10 @@ theorem burnsideI22P7_wordG_eq_evalSigned {n : ℕ} (gens : List (Equiv.Perm (Fi
       CFSG.EvenSporadicStandard.TwoRu.HypOne.letterG]
     congr 1
     by_cases hl : 0 < l
-    · rw [if_pos hl, if_pos hl]
+    · rw [ite_eq_left hl, ite_eq_left hl]
       congr 2
       omega
-    · rw [if_neg hl, if_neg hl]
+    · rw [ite_eq_right hl, ite_eq_right hl]
       congr 3
       omega
 
@@ -9066,7 +9066,7 @@ theorem burnsideI22P7_split_Sz
   obtain ⟨θP, hθP0, hθP1⟩ := burnsideI22P7_szHom hP (burnsideI22P7_lift_eq_one wordProd_rels)
   have hinj : Function.Injective θP := by
     rw [← MonoidHom.ker_eq_bot_iff]
-    haveI := szB_simple
+    have := szB_simple
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal θP.ker with h | h
     · exact h
     · exfalso
@@ -9170,15 +9170,15 @@ theorem burnsideI22P7_nonabelian_of_card {S : Type*} [Group S] [Finite S] [IsSim
     (hc : ¬ (Nat.card S).Prime) : ∃ a b : S, a * b ≠ b * a := by
   by_contra h
   push Not at h
-  letI : CommGroup S := { ‹Group S› with mul_comm := h }
+  let : CommGroup S := { ‹Group S› with mul_comm := h }
   exact hc (IsSimpleGroup.prime_card (α := S))
 
 open CFSG.Sporadic.RuSchreier CFSG.EvenSporadicStandard.Induction.RuSz in
 theorem burnsideI22P7_comm_mem_K0
     {x y : Equiv.Perm (Fin 4060)} (hx : x ∈ ruL) (hy : y ∈ ruL) :
     x * y * x⁻¹ * y⁻¹ ∈ K0 := by
-  haveI := K0_normal
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := K0_normal
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card (↥ruL ⧸ K0.subgroupOf ruL) = 2 ^ 2 := by
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (K0.subgroupOf ruL)
     rw [card_ruL_eq, Nat.card_congr (Subgroup.subgroupOfEquivOfLe K0_le_L).toEquiv] at h1
@@ -9186,7 +9186,7 @@ theorem burnsideI22P7_comm_mem_K0
     have : Nat.card (↥ruL ⧸ K0.subgroupOf ruL) * Nat.card K0 = 4 * Nat.card K0 := h1.symm
     have := Nat.eq_of_mul_eq_mul_right hpos this
     omega
-  haveI := IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard
+  have := IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard
   have hc := IsMulCommutative.is_comm.comm (QuotientGroup.mk (⟨x, hx⟩ : ruL) :
     ↥ruL ⧸ K0.subgroupOf ruL) (QuotientGroup.mk (⟨y, hy⟩ : ruL))
   have h2 : QuotientGroup.mk ((⟨x, hx⟩ : ruL) * ⟨y, hy⟩ * ⟨x, hx⟩⁻¹ * ⟨y, hy⟩⁻¹) =
@@ -9237,7 +9237,7 @@ theorem burnsideI22P7_layer_centralizer_abs {G P : Type*} [Group G] [Group P] (�
     show σ (σ.symm (y : P)) = y
     rw [MulEquiv.apply_symm_apply]
   let e : N ≃* Q := MulEquiv.ofBijective f hbij
-  haveI hNs : IsSimpleGroup N := (MulEquiv.isSimpleGroup_congr e).2 inferInstance
+  have hNs : IsSimpleGroup N := (MulEquiv.isSimpleGroup_congr e).2 inferInstance
   have hnab' : ∃ a b : N, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnab
     exact ⟨e.symm a, e.symm b, fun h => hab (e.symm.injective (by
@@ -9257,9 +9257,9 @@ theorem burnsideI22P7_layer_centralizer
       (K0.subgroupOf ruP).comap σ.toMonoidHom := by
   have hK0P : K0 ≤ ruP := K0_le_L.trans ruL_le
   have e0 : K0.subgroupOf ruP ≃* K0 := Subgroup.subgroupOfEquivOfLe hK0P
-  haveI : IsSimpleGroup (K0.subgroupOf ruP) := (MulEquiv.isSimpleGroup_congr e0).2 K0_simple
-  haveI : Finite K0 := K0_finite
-  haveI : IsSimpleGroup K0 := K0_simple
+  have : IsSimpleGroup (K0.subgroupOf ruP) := (MulEquiv.isSimpleGroup_congr e0).2 K0_simple
+  have : Finite K0 := K0_finite
+  have : IsSimpleGroup K0 := K0_simple
   refine burnsideI22P7_layer_centralizer_abs σ i (L := ruL.subgroupOf ruP)
     (Q := K0.subgroupOf ruP) ?_ ?_ ?_ ?_ ?_ ?_
   · intro x hx
@@ -9296,7 +9296,7 @@ theorem burnsideI22P7_clause_a
     (i : K ⧸ Subgroup.center K) (hi2 : i ^ 2 = 1) (hi1 : i ≠ 1) (hn : ¬ IsTwoCentralInvolution i) :
     ∃ L : Subgroup K, L ≤ preimageLayerCentralizer K i ∧ L ⊓ Subgroup.center K = ⊥ ∧
       L ⊔ Subgroup.center K = preimageLayerCentralizer K i := by
-  haveI hperf : Group.IsPerfect K := hK.1
+  have hperf : Group.IsPerfect K := hK.1
   obtain ⟨e, t, ht, hZt⟩ := burnsideI22P7_setup hK hZ hRu
   obtain ⟨q, hq, hkerZ, hqe⟩ := burnsideI22P7_qMap e
   have hker : q.ker = Subgroup.zpowers t := hkerZ.trans hZt
@@ -9312,7 +9312,7 @@ theorem burnsideI22P7_clause_a
     · exact absurd ((burnsideI22P7_isTwoCentral_iff).2 ⟨hs2, hs1, hA⟩) hnc
   let σ : (K ⧸ Subgroup.center K) ≃* ruP := e.trans (MulAut.conj g⁻¹)
   have hσ : ∀ x, σ x = g⁻¹ * e x * g := fun x => by
-    simp [σ, MulAut.conj_apply]
+    simp [σ]
   have hσi : σ i = ruAEl := by rw [hσ, hg]; group
   have hlayer := burnsideI22P7_layer_centralizer σ i hσi
   have hpre : preimageLayerCentralizer K i =
@@ -9373,13 +9373,13 @@ theorem burnsideI22P7_clause_a
 
 theorem burnsideI22P7_twoResidual_eq {G : Type} [Group G] [Finite G] (H : Subgroup G) :
     CFSG.ASVolI.ChIJK.twoResidual H = CFSG.Quasithin.oTwoUpper H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   unfold CFSG.ASVolI.ChIJK.twoResidual
   apply le_antisymm
   · have hmem : (CFSG.Quasithin.oTwoUpper H).subgroupOf H ∈
         {N : Subgroup H | N.Normal ∧ ∃ n : ℕ, N.index = 2 ^ n} := by
       refine ⟨CFSG.Quasithin.H13.KGRu.oTwoUpper_normal H, ?_⟩
-      haveI := CFSG.Quasithin.H13.KGRu.oTwoUpper_normal H
+      have := CFSG.Quasithin.H13.KGRu.oTwoUpper_normal H
       have hp := CFSG.Quasithin.H13.KGRu.isPGroup_quot_oTwoUpper H
       obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hp
       exact ⟨n, by rw [Subgroup.index, hn]⟩
@@ -9404,15 +9404,15 @@ open CFSG.Sporadic.J4.QT CFSG.ASVolI.ChIJK in
 open scoped commutatorElement in
 theorem burnsideI22P7_frattini_eq {K : Type} [Group K] [Finite K] {Q : Subgroup K} (j f : ℕ → K)
     (hQ : Q = Subgroup.closure {x | ∃ k < 6, x = j k}) (hQ2 : IsPGroup 2 Q)
-    (hE : Elem f 6) (hfQ : ∀ i < 6, f i ∈ Q)
+    (_hE : Elem f 6) (hfQ : ∀ i < 6, f i ∈ Q)
     (hfΦ : ∀ i < 6, ∃ a < 6, ∃ b < 6,
       f i = j a * j b * (j a)⁻¹ * (j b)⁻¹ ∨ f i = j a * j a)
     (hconj : ∀ k < 6, ∀ i < 6, ∃ c < 64, j k * f i * (j k)⁻¹ = eta f 6 c)
     (hsq : ∀ a < 6, ∃ c < 64, j a * j a = eta f 6 c)
     (hcom : ∀ a < 6, ∀ b < 6, ∃ c < 64, j a * j b * (j a)⁻¹ * (j b)⁻¹ = eta f 6 c) :
     frattiniOf Q = Eg f 6 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 ↥Q) := ⟨hQ2⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 ↥Q) := ⟨hQ2⟩
   have hjQ : ∀ k < 6, j k ∈ Q := fun k hk => hQ ▸ Subgroup.subset_closure ⟨k, hk, rfl⟩
   have hF₀Q : Eg f 6 ≤ Q := (Subgroup.closure_le Q).2 (fun x ⟨i, hi, hx⟩ => hx ▸ hfQ i hi)
   have hmem : ∀ c < 64, eta f 6 c ∈ Eg f 6 := fun c _ => eta_mem_Eg 6 le_rfl c
@@ -9434,7 +9434,7 @@ theorem burnsideI22P7_frattini_eq {K : Type} [Group K] [Finite K] {Q : Subgroup 
   have hQN : Q ≤ Subgroup.normalizer (Eg f 6 : Set K) := by
     rw [hQ]
     exact (Subgroup.closure_le _).2 (fun x ⟨k, hk, hx⟩ => hx ▸ hjN k hk)
-  haveI hNn : ((Eg f 6).subgroupOf Q).Normal :=
+  have hNn : ((Eg f 6).subgroupOf Q).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hF₀Q).2 hQN
   set N := (Eg f 6).subgroupOf Q with hN
   set X : Set ↥Q := (((↑) : ↥Q → K) ⁻¹' {x | ∃ k < 6, x = j k}) with hX
@@ -9505,7 +9505,7 @@ theorem burnsideI22P7_Y_comm {K : Type} [Group K] [Finite K] {Q Y : Subgroup K} 
     (hy₂c : ∀ i < 6, y₂ * f i = f i * y₂)
     (hzh : y₁ * y₂ * y₁⁻¹ * y₂⁻¹ = zh) (hzh1 : zh ≠ 1) (hzhF : ∃ c < 64, zh = eta f 6 c) :
     ⁅Y, Y⁆ = Subgroup.zpowers zh ∧ Nat.card ↥⁅Y, Y⁆ = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hxor : ∀ i j : ℕ, i ^^^ j = 0 → i = j := fun i j h => by
     calc i = i ^^^ (i ^^^ j) := by rw [h, Nat.xor_zero]
       _ = j := by rw [← Nat.xor_assoc, Nat.xor_self, Nat.zero_xor]
@@ -9681,7 +9681,7 @@ theorem burnsideI22P7_Y_comm {K : Type} [Group K] [Finite K] {Q Y : Subgroup K} 
         _ = a⁻¹ * (a * zh) * a⁻¹ := by rw [ha]
         _ = zh * a⁻¹ := by group
   have hCH : Subgroup.zpowers zh ≤ H := Subgroup.zpowers_le.2 (hF₀H hzhE)
-  haveI hCn : ((Subgroup.zpowers zh).subgroupOf H).Normal := by
+  have hCn : ((Subgroup.zpowers zh).subgroupOf H).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hCH]
     intro c h hc hh
     obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hc
@@ -9740,7 +9740,7 @@ theorem burnsideI22P7_Y_comm {K : Type} [Group K] [Finite K] {Q Y : Subgroup K} 
 
 theorem burnsideI22P7_isPGroup_five {G : Type*} [Group G] {y : G} (hy5 : y ^ 5 = 1) (hy1 : y ≠ 1) :
     IsPGroup 5 (Subgroup.zpowers y) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   refine IsPGroup.of_card (n := 1) ?_
   rw [Nat.card_zpowers]
   have h1 : orderOf y ∣ 5 := orderOf_dvd_of_pow_eq_one hy5
@@ -9752,7 +9752,7 @@ theorem burnsideI22P7_isPGroup_five {G : Type*} [Group G] {y : G} (hy5 : y ^ 5 =
 theorem burnsideI22P7_invariant_ncard {y : Equiv.Perm (Fin 6)} (hy5 : y ^ 5 = 1)
     {S : Set (Fin 6)} (hS : ∀ s ∈ S, y s ∈ S) (hS' : ∀ s ∈ S, y⁻¹ s ∈ S) {a : Fin 6}
     (ha : a ∈ S) (hya : y a ≠ a) : 5 ≤ S.ncard := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set Z : Subgroup (Equiv.Perm (Fin 6)) := Subgroup.zpowers y with hZ
   have hZ5 : IsPGroup 5 Z := burnsideI22P7_isPGroup_five hy5 (fun h => hya (by rw [h]; rfl))
   have hinv : ∀ m : ℤ, ∀ s ∈ S, (y ^ m) s ∈ S := by
@@ -9799,8 +9799,8 @@ theorem burnsideI22P7_invariant_ncard {y : Equiv.Perm (Fin 6)} (hy5 : y ^ 5 = 1)
 theorem burnsideI22P7_perm_six_two_group {N : Subgroup (Equiv.Perm (Fin 6))} (hN : IsPGroup 2 N)
     {y : Equiv.Perm (Fin 6)} (hy5 : y ^ 5 = 1) (hy1 : y ≠ 1)
     (hyN : ∀ n ∈ N, y * n * y⁻¹ ∈ N) (hyN' : ∀ n ∈ N, y⁻¹ * n * y ∈ N) : N = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hZ5 := burnsideI22P7_isPGroup_five hy5 hy1
   set Fy : Set (Fin 6) := {x | y x = x} with hFy
   have hfixy : MulAction.fixedPoints (Subgroup.zpowers y) (Fin 6) = Fy := by
@@ -9936,9 +9936,9 @@ theorem burnsideI22P7_evalSigned_invW {G : Type*} [Group G] (gens : List G) :
       rw [evalSigned_cons, evalSigned_cons, evalSigned_nil, mul_one, mul_one, Int.natAbs_neg]
       by_cases hpos : 0 < l
       · have hn : ¬ 0 < -l := by omega
-        rw [if_pos hpos, if_neg hn]
+        rw [ite_eq_left hpos, ite_eq_right hn]
       · have hn : 0 < -l := by omega
-        rw [if_neg hpos, if_pos hn, inv_inv]
+        rw [ite_eq_right hpos, ite_eq_left hn, inv_inv]
     have h3 : evalSigned gens [l] * evalSigned gens w = evalSigned gens (l :: w) := by
       rw [evalSigned_cons gens l [], evalSigned_nil, mul_one, evalSigned_cons gens l w]
     rw [h1, evalSigned_append, burnsideI22P7_evalSigned_invW gens w hw', h2, ← mul_inv_rev, h3]
@@ -10125,11 +10125,11 @@ theorem burnsideI22P7_gg_mem {K : Type*} [Group K] (c0 c1 : K) {Q : Subgroup K}
       rw [h1, evalSigned_append]
       refine Q.mul_mem (ih (by omega)) ?_
       by_cases h : s.testBit m
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         have hm4 : m < 4 := by omega
         exact hQ _ (by interval_cases m <;> simp [gIdx])
-      · rw [if_neg h]
-        simpa [evalSigned] using Q.one_mem
+      · rw [ite_eq_right h]
+        simp [evalSigned]
   exact key 4 le_rfl
 
 open CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native CFSG.Sporadic.RuSchreier
@@ -10427,7 +10427,7 @@ theorem burnsideI22P7_cent_facts
 
 theorem burnsideI22P7_eq_one_of_pGroup_five {K : Type*} [Group K] {P : Subgroup K}
     (hP : IsPGroup 2 P) {x : K} (hx : x ∈ P) (h5 : x ^ 5 = 1) : x = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp hP ⟨x, hx⟩
   have hk' : orderOf x = 2 ^ k := (Subgroup.orderOf_coe (⟨x, hx⟩ : P)).trans hk
   have h1 : orderOf x ∣ 5 := orderOf_dvd_of_pow_eq_one h5
@@ -10517,7 +10517,7 @@ theorem burnsideI22P7_Q_card
     (htQ : t ∈ Subgroup.closure {x | ∃ k < 6, x = burnsideI22P7_jj c0 c1 k}) :
     Nat.card (Subgroup.closure {x | ∃ k < 6, x = burnsideI22P7_jj c0 c1 k}) = 4096 ∧
       IsPGroup 2 (Subgroup.closure {x | ∃ k < 6, x = burnsideI22P7_jj c0 c1 k}) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have heq : Subgroup.closure {x | ∃ k < 6, x = burnsideI22P7_jj c0 c1 k} =
       (ruJ.subgroupOf ruP).comap q := by
     ext x
@@ -10583,9 +10583,9 @@ theorem burnsideI22P7_terms_mem {K : Type} [Group K] {c0 c1 : K} {C : Subgroup K
     have hyx : evalSigned [c0, c1] (if x.2 then y5W else invW y5W) ∈
         CFSG.Quasithin.oTwoUpper C := by
       by_cases h : x.2
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         exact hy5X
-      · rw [if_neg h, burnsideI22P7_evalSigned_invW _ _ hnz5]
+      · rw [ite_eq_right h, burnsideI22P7_evalSigned_invW _ _ hnz5]
         exact Subgroup.inv_mem _ hy5X
     exact CFSG.Quasithin.conj_mem_oTwoUpper (Subgroup.le_normalizer hgx) hyx
 
@@ -10609,7 +10609,7 @@ theorem burnsideI22P7_core_eq
     (htQ : t ∈ Subgroup.closure {x | ∃ k < 6, x = burnsideI22P7_jj c0 c1 k}) :
     CFSG.Open.pCoreOf 2 (CFSG.Quasithin.oTwoUpper (Subgroup.centralizer ({c0 ^ 10} : Set K))) =
       Subgroup.closure {x | ∃ k < 6, x = burnsideI22P7_jj c0 c1 k} := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set zh : K := c0 ^ 10 with hzh
   set C : Subgroup K := Subgroup.centralizer ({zh} : Set K) with hC
   set Q : Subgroup K := Subgroup.closure {x | ∃ k < 6, x = burnsideI22P7_jj c0 c1 k} with hQ
@@ -10716,7 +10716,7 @@ theorem burnsideI22P7_model_of_facts
     Nat.card ↥⁅centralizerOfFrattiniOfCore K u, centralizerOfFrattiniOfCore K u⁆ = 2 ∧
       (⁅centralizerOfFrattiniOfCore K u, centralizerOfFrattiniOfCore K u⁆).map
         (QuotientGroup.mk' (Subgroup.center K)) = Subgroup.zpowers (u : K ⧸ Subgroup.center K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set zh : K := c0 ^ 10 with hzh
   have htc : t ∈ Subgroup.center K := hZ ▸ Subgroup.mem_zpowers t
   have htc' : ∀ x : K, x * t = t * x := Subgroup.mem_center_iff.1 htc
@@ -10814,7 +10814,7 @@ theorem burnsideI22P7_clause_c
         (⁅centralizerOfFrattiniOfCore K u, centralizerOfFrattiniOfCore K u⁆).map
           (QuotientGroup.mk' (Subgroup.center K)) = Subgroup.zpowers (u : K ⧸ Subgroup.center K) := by
   intro u hu hu2
-  haveI hperf : Group.IsPerfect K := hK.1
+  have hperf : Group.IsPerfect K := hK.1
   obtain ⟨e, t, ht, hZt⟩ := burnsideI22P7_setup hK hZ hRu
   obtain ⟨q, hq, hkerZ, hqe⟩ := burnsideI22P7_qMap e
   have hker : q.ker = Subgroup.zpowers t := hkerZ.trans hZt
@@ -10835,7 +10835,7 @@ theorem burnsideI22P7_clause_c
     set h' : ruP := ⟨h, hh⟩ with hh'
     have hqu : q u = h' * ruZ' * h'⁻¹ := Subtype.ext hs.symm
     obtain ⟨σ, hσ⟩ : ∃ σ : K →* ruP, ∀ x, σ x = h'⁻¹ * q x * h' :=
-      ⟨(MulAut.conj h'⁻¹).toMonoidHom.comp q, fun x => by simp [MulAut.conj_apply]⟩
+      ⟨(MulAut.conj h'⁻¹).toMonoidHom.comp q, fun x => by simp⟩
     have hσs : Function.Surjective σ := by
       intro y
       obtain ⟨x, hx⟩ := hq (h' * y * h'⁻¹)

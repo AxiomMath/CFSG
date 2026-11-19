@@ -14,9 +14,9 @@ open CFSG.BenderSuzuki.MatrixGroups
 
 theorem l3OvDickson_holds : L3OvDickson := by
   intro F _ _ f hF hfodd H hHperfect hHne
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 :=
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := f)
       (by rw [← Nat.card_eq_fintype_card]; exact hF)
   let φ : SL(2, F) ≃* PSL2MatrixGroup F :=
@@ -25,9 +25,9 @@ theorem l3OvDickson_holds : L3OvDickson := by
   let eH : H ≃* H' := Subgroup.equivMapOfInjective H φ.toMonoidHom φ.injective
   have hH'ns : ¬ Group.IsSolvable H' := by
     intro hs
-    haveI : Group.IsPerfect H := Subgroup.isPerfect_iff.mpr hHperfect
-    haveI : Nontrivial H := (Subgroup.nontrivial_iff_ne_bot H).mpr hHne
-    haveI := hs
+    have : Group.IsPerfect H := Subgroup.isPerfect_iff.mpr hHperfect
+    have : Nontrivial H := (Subgroup.nontrivial_iff_ne_bot H).mpr hHne
+    have := hs
     exact (Group.IsPerfect.not_isSolvable H)
       (Group.isSolvable_of_isSolvable_injective (f := eH.toMonoidHom) eH.injective)
   rcases CFSG.GH74.GLS.IVK.Proofs2.nonsolvable_cases (F := F) (p := 2) (f := f) hF H' hH'ns
@@ -58,7 +58,7 @@ theorem l3OvDickson_holds : L3OvDickson := by
     have hm1 : m ≠ 1 := by
       rintro rfl
       apply hH'ns
-      haveI : Fintype (PSL2MatrixGroup (GaloisField 2 1)) :=
+      have : Fintype (PSL2MatrixGroup (GaloisField 2 1)) :=
         Fintype.ofFinite (PSL2MatrixGroup (GaloisField 2 1))
       have h6 : Nat.card (PSL2MatrixGroup (GaloisField 2 1)) = 6 := by
         rw [CFSG.Walter.psl2_even_card (f := 1) one_ne_zero]
@@ -67,7 +67,7 @@ theorem l3OvDickson_holds : L3OvDickson := by
         CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow
           (p := 2) (q := 3) (a := 1) (b := 1) Nat.prime_two Nat.prime_three (by norm_num) (by
             rw [← Nat.card_eq_fintype_card, h6]; norm_num)
-      haveI := hpsl
+      have := hpsl
       exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
     have hm3 : 3 ≤ m := by
       obtain ⟨j, hj⟩ := hoddm

@@ -15,6 +15,7 @@ open Subgroup QuadraticMap
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem fixSp_piOrth_mul {t : OGroup Q} (htt : t * t = 1) : fixSp (piOrth Q * t) = commSp t := by
   ext v
   rw [mem_fixSp_iff, mem_commSp_iff htt]
@@ -39,6 +40,7 @@ theorem mem_layersInO_iff (hQ : Q.Nondegenerate) (zb : omegaProj hQ) {g : omegaG
 @[expose] def ReflOk (Q : QuadraticForm (ZMod 3) V) (H' : Subgroup (OGroup Q)) (u v : V) : Prop :=
   Q u ≠ 0 ∧ Q u = Q v ∧ ∀ (hu : Q u ≠ 0) (hv : Q v ≠ 0), reflOf Q u hu * reflOf Q v hv ∈ H'
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ReflOk.symm {H' : Subgroup (OGroup Q)} {u v : V} (h : ReflOk Q H' u v) :
     ReflOk Q H' v u := by
   obtain ⟨hu, huv, hmem⟩ := h
@@ -47,6 +49,7 @@ theorem ReflOk.symm {H' : Subgroup (OGroup Q)} {u v : V} (h : ReflOk Q H' u v) :
   have h1 := H'.inv_mem (hmem hu hv)
   rwa [mul_inv_rev, reflOf_inv, reflOf_inv] at h1
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ReflOk.trans {H' : Subgroup (OGroup Q)} {u v w : V} (h1 : ReflOk Q H' u v)
     (h2 : ReflOk Q H' v w) : ReflOk Q H' u w := by
   obtain ⟨hu, huv, hm1⟩ := h1

@@ -24,8 +24,8 @@ theorem ob5_case60 {G : Type} [Group G] [Finite G]
     (h60 : Nat.card θ.range = 60) :
     K = LU := by
   classical
-  haveI : Group.IsPerfect ↥LU := Subgroup.isPerfect_iff.mpr hLUperf
-  haveI : Group.IsPerfect (θ.comp (Subgroup.inclusion hLUK)).range :=
+  have : Group.IsPerfect ↥LU := Subgroup.isPerfect_iff.mpr hLUperf
+  have : Group.IsPerfect (θ.comp (Subgroup.inclusion hLUK)).range :=
     Group.IsPerfect.range (θ.comp (Subgroup.inclusion hLUK))
   have hD' := ob5_perfect_SL_card (θ.comp (Subgroup.inclusion hLUK)).range hψne
   have hle : (θ.comp (Subgroup.inclusion hLUK)).range ≤ θ.range := by

@@ -20,7 +20,7 @@ private theorem conj_vecElt_cycle {G : Type} [Group G] {z : Fin 3 → G}
   have hc' : ∀ x : G, c * x * c⁻¹ = MulAut.conj c x := fun x => rfl
   rw [hc', vecElt, map_mul, map_mul, map_pow, map_pow, map_pow, ← hc', ← hc', ← hc',
     hc0, hc1, hc2, vecElt]
-  simp only [Fin.isValue, Fin.reduceEq, if_true, if_false]
+  simp only [Fin.isValue, Fin.reduceEq, ite_true, ite_false]
   have h10 : z 1 ^ (v 0).val * z 0 ^ (v 2).val = z 0 ^ (v 2).val * z 1 ^ (v 0).val :=
     (Commute.pow_pow (show Commute (z 1) (z 0) from hc 1 0) _ _).eq
   have h12 : z 1 ^ (v 0).val * z 2 ^ (v 1).val = z 2 ^ (v 1).val * z 1 ^ (v 0).val :=

@@ -81,7 +81,7 @@ theorem classRoots_empty : classRoots a ∅ = ∅ := by
 theorem classRoots_insert [DecidableEq (KernelComponent (rootCharHom a))]
     (i : KernelComponent (rootCharHom a)) (s : Finset (KernelComponent (rootCharHom a))) :
     classRoots a (insert i s) = componentRoots (rootCharHom a) i ∪ classRoots a s := by
-  simp [classRoots, Finset.set_biUnion_insert]
+  simp [classRoots]
 
 theorem rootSpan_union (S₁ S₂ : Set (Fin Tag.E6.rank → ℤ)) :
     rootSpan Tag.E6 L (S₁ ∪ S₂) = rootSpan Tag.E6 L S₁ ⊔ rootSpan Tag.E6 L S₂ := by
@@ -169,9 +169,9 @@ theorem fixed_of_classPeel (hall : ∀ i : KernelComponent (rootCharHom a), Clas
             rationalComponent S.ρ S.Γ (rootCharHom a) i, x = t * r := by
   classical
   intro x hx hFx
-  haveI : Finite (KernelComponent (rootCharHom a)) :=
+  have : Finite (KernelComponent (rootCharHom a)) :=
     (root_character_kernel_orthogonal_central_product Tag.E6 L (rootCharHom a)).2.1
-  haveI := Fintype.ofFinite (KernelComponent (rootCharHom a))
+  have := Fintype.ofFinite (KernelComponent (rootCharHom a))
   have hker : classRoots a Finset.univ = kernelRoots (rootCharHom a) := by
     ext γ
     constructor

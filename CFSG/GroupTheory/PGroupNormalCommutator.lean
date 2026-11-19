@@ -27,7 +27,7 @@ theorem exists_le_normal_card_eq {p : ℕ} [Fact p.Prime] {S Y : Subgroup G} [Fi
   have hkm : k ≤ m := by
     have hle : p ^ k ≤ p ^ m := by rw [← hm, hYscard]; exact hk
     exact (Nat.pow_le_pow_iff_right (Fact.out : p.Prime).one_lt).1 hle
-  letI : Fact (IsPGroup p ↥S) := ⟨hS⟩
+  let : Fact (IsPGroup p ↥S) := ⟨hS⟩
   obtain ⟨K, hKN, hKY, hKcard⟩ :=
     CFSG.exists_normal_subgroup_card_pow_of_normal (p := p) (G := ↥S) (N := Ys)
       hYsN (k := m) hm k hkm
@@ -100,7 +100,7 @@ private theorem p_mul_card_commutator_le {p : ℕ} [Fact p.Prime] {P N : Subgrou
     (hP : IsPGroup p P) (hNP : N ≤ P)
     (hNn : ∀ s ∈ P, ∀ n ∈ N, s * n * s⁻¹ ∈ N) (hN : N ≠ ⊥) :
     p * Nat.card (⁅N, P⁆ : Subgroup G) ≤ Nat.card N := by
-  haveI : Finite N :=
+  have : Finite N :=
     Finite.of_injective (Subgroup.inclusion hNP) (Subgroup.inclusion_injective hNP)
   have hle : ⁅N, P⁆ ≤ N := by
     rw [Subgroup.commutator_le]
@@ -108,7 +108,7 @@ private theorem p_mul_card_commutator_le {p : ℕ} [Fact p.Prime] {P N : Subgrou
     have := N.mul_mem hn (hNn s hs n⁻¹ (N.inv_mem hn))
     simpa [commutatorElement_def, mul_assoc] using this
   have hne : ⁅N, P⁆ ≠ N := fun h => hN (eq_bot_of_commutator_eq hP hNP h)
-  haveI : Finite (⁅N, P⁆ : Subgroup G) :=
+  have : Finite (⁅N, P⁆ : Subgroup G) :=
     Finite.of_injective (Subgroup.inclusion (hle.trans hNP))
       (Subgroup.inclusion_injective (hle.trans hNP))
   obtain ⟨a, ha⟩ := (hP.to_le hNP).exists_card_eq
@@ -127,7 +127,7 @@ theorem iteratedCommutator_eq_one {p : ℕ} [Fact p.Prime] {S Y : Subgroup G} [F
     ∀ (k : ℕ), Nat.card Y ≤ p ^ k → ∀ {y : G}, y ∈ Y → ∀ s : ℕ → G,
       (∀ i, s i ∈ S) → iteratedCommutator y s k = 1
   | 0, hc, y, hy, _s, _hs => by
-    haveI : Finite Y :=
+    have : Finite Y :=
       Finite.of_injective (Subgroup.inclusion hYS) (Subgroup.inclusion_injective hYS)
     have hYbot : Y = ⊥ := Subgroup.eq_bot_of_card_le (H := Y) (by simpa using hc)
     rw [hYbot] at hy

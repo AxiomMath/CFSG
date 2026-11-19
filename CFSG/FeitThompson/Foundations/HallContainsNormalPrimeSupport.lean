@@ -95,7 +95,7 @@ theorem isHallSubgroup_bot_iff :
 theorem isHallSubgroup_sylow [Finite G] {p : ℕ} [Fact p.Prime] (P : Sylow p G) :
     IsHallSubgroup ({p} : Set ℕ) (P : Subgroup G) where
   natCard :=
-    isPiSubgroup_iff_isPiNumber.1 ((isPiSubgroup_singleton_iff Fact.out _).2 P.isPGroup')
+    isPiSubgroup_iff_isPiNumber.1 ((isPiSubgroup_singleton_iff Fact.out _).2 P.isPGroup)
   index := by
     intro q hq hq'
     rw [Set.mem_singleton_iff] at hq'

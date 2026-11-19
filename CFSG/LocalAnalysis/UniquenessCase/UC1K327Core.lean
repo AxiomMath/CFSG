@@ -159,7 +159,7 @@ theorem GLBCore_map_quotient_eq (p : ℕ) [Fact p.Prime] (O A : Subgroup G) [O.N
     ext N'
     constructor
     · rintro ⟨N, ⟨Q, hQA, hQr, rfl⟩, rfl⟩
-      haveI : Fact (IsPGroup p Q) := ⟨hA.to_le hQA⟩
+      have : Fact (IsPGroup p Q) := ⟨hA.to_le hQA⟩
       refine ⟨Q.map π, Subgroup.map_mono hQA, ?_, ?_⟩
       · rw [pRank_map_of_injOn π Q (hinj.mono hQA)]
         exact hQr
@@ -171,7 +171,7 @@ theorem GLBCore_map_quotient_eq (p : ℕ) [Fact p.Prime] (O A : Subgroup G) [O.N
       have hQr : 1 ≤ CFSG.Open.pRank p Q := by
         rw [← pRank_map_of_injOn π Q (hinj.mono hQA), hQmap]
         exact hQ'r
-      haveI : Fact (IsPGroup p Q) := ⟨hA.to_le hQA⟩
+      have : Fact (IsPGroup p Q) := ⟨hA.to_le hQA⟩
       refine ⟨Subgroup.normalizer (Q : Set G), ⟨Q, hQA, hQr, rfl⟩, ?_⟩
       rw [normalizer_map_quotient_eq p Q O hcop, hQmap]
   unfold CFSG.Open.GLBCore

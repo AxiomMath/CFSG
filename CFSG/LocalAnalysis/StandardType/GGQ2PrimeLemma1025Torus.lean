@@ -23,18 +23,18 @@ theorem lem1025_card_closure_pair {G : Type} [Group G] {Bs : Subgroup G}
     {m n : Fin 7} (hW : WeylCoords Bs A x κ m) (hnm : n ≠ m) (hBab : IsElemAbelian 3 Bs)
     (hzn : zn ∈ Bs) (hcn : ∀ j, κ j ⟨zn, hzn⟩ = if j = n then 1 else ω3) :
     Nat.card (closure ({x, x * zn⁻¹} : Set G)) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx := hW.x_mem
   have hb : x * zn⁻¹ ∈ Bs := Bs.mul_mem hx (Bs.inv_mem hzn)
   have hκa : ∀ j, κ j ⟨x, hx⟩ = if j = m then 1 else ω3 := hW.x_coord
   have hκb : κ m ⟨x * zn⁻¹, hb⟩ = ω3⁻¹ := by
     have : (⟨x * zn⁻¹, hb⟩ : Bs) = ⟨x, hx⟩ * ⟨zn, hzn⟩⁻¹ := rfl
-    rw [this, map_mul, map_inv, hκa, hcn, if_pos rfl, if_neg (Ne.symm hnm), one_mul]
+    rw [this, map_mul, map_inv, hκa, hcn, ite_eq_left rfl, ite_eq_right (Ne.symm hnm), one_mul]
   have hab : x * (x * zn⁻¹) = (x * zn⁻¹) * x := elemAbelian_comm' hBab hx hb
   have hord_a : orderOf x = 3 := by
     refine orderOf_eq_prime (hBab.2 x hx) fun h1 => ?_
     have := hκa n
-    rw [if_neg hnm] at this
+    rw [ite_eq_right hnm] at this
     have h2 : (⟨x, hx⟩ : Bs) = 1 := Subtype.ext h1
     rw [h2, map_one] at this
     exact one_ne_ω3 this
@@ -57,7 +57,7 @@ theorem lem1025_card_closure_pair {G : Type} [Group G] {Bs : Subgroup G}
     have hmem : x ^ i ∈ Bs := zpow_mem hx i
     have e1 : κ m ⟨x ^ i, hmem⟩ = 1 := by
       have : (⟨x ^ i, hmem⟩ : Bs) = (⟨x, hx⟩ : Bs) ^ i := Subtype.ext (by simp)
-      rw [this, map_zpow, hκa, if_pos rfl, one_zpow]
+      rw [this, map_zpow, hκa, ite_eq_left rfl, one_zpow]
     have e2 : κ m ⟨x ^ i, hmem⟩ = (ω3⁻¹) ^ j := by
       have : (⟨x ^ i, hmem⟩ : Bs) = (⟨x * zn⁻¹, hb⟩ : Bs) ^ j := Subtype.ext (by simp [hj])
       rw [this, map_zpow, hκb]
@@ -100,12 +100,12 @@ theorem lem1025_not_mem_closure {G : Type} [Group G] {Bs : Subgroup G}
   set E : Subgroup G := (MonoidHom.eqLocus (κ k) (κ p)).map Bs.subtype with hE
   have hxE : x ∈ E := ⟨⟨x, hx⟩, by
     show κ k ⟨x, hx⟩ = κ p ⟨x, hx⟩
-    rw [hW.x_coord, hW.x_coord, if_neg hkm, if_neg hpm], rfl⟩
+    rw [hW.x_coord, hW.x_coord, ite_eq_right hkm, ite_eq_right hpm], rfl⟩
   have hbE : x * zn⁻¹ ∈ E := ⟨⟨x * zn⁻¹, hb⟩, by
     show κ k ⟨x * zn⁻¹, hb⟩ = κ p ⟨x * zn⁻¹, hb⟩
     have : (⟨x * zn⁻¹, hb⟩ : Bs) = ⟨x, hx⟩ * ⟨zn, hzn⟩⁻¹ := rfl
-    rw [this, map_mul, map_mul, map_inv, map_inv, hW.x_coord, hW.x_coord, hcn, hcn, if_neg hkm,
-      if_neg hpm, if_neg hkn, if_neg hpn], rfl⟩
+    rw [this, map_mul, map_mul, map_inv, map_inv, hW.x_coord, hW.x_coord, hcn, hcn, ite_eq_right hkm,
+      ite_eq_right hpm, ite_eq_right hkn, ite_eq_right hpn], rfl⟩
   have hle : closure ({x, x * zn⁻¹} : Set G) ≤ E := by
     rw [closure_le]
     rintro _ (rfl | rfl)
@@ -116,7 +116,7 @@ theorem lem1025_not_mem_closure {G : Type} [Group G] {Bs : Subgroup G}
   have hy' : y = ⟨zk, hzk⟩ := Subtype.ext hyz
   rw [hy'] at hy
   have h : κ k ⟨zk, hzk⟩ = κ p ⟨zk, hzk⟩ := hy
-  rw [hck, hck, if_pos rfl, if_neg hpk] at h
+  rw [hck, hck, ite_eq_left rfl, ite_eq_right hpk] at h
   exact one_ne_ω3 h
 
 end CFSG.GGQ2Prime

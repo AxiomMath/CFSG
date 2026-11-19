@@ -17,7 +17,7 @@ public theorem CFSG.section12_exists_rankTwo_in_noncyclic_pSubgroup
     (hPp : IsPGroup p.val P) (hPnoncyc : ¬ IsCyclic P) :
     ∃ A : Subgroup G, A ∈ section12RankTwoElementaryAbelianIn p P := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hp_dvd_P : p.val ∣ Nat.card P := by
     rcases hPp.exists_card_eq with ⟨n, hn⟩
     cases n with
@@ -25,7 +25,7 @@ public theorem CFSG.section12_exists_rankTwo_in_noncyclic_pSubgroup
         have hcard_one : Nat.card P = 1 := by
           simpa using hn
         exact False.elim <| hPnoncyc <| by
-          letI : Subsingleton P := (Nat.card_eq_one_iff_unique.mp hcard_one).1
+          let : Subsingleton P := (Nat.card_eq_one_iff_unique.mp hcard_one).1
           exact isCyclic_of_subsingleton (α := P)
     | succ n =>
         rw [hn]
@@ -33,10 +33,10 @@ public theorem CFSG.section12_exists_rankTwo_in_noncyclic_pSubgroup
   have hp_dvd_G : p.val ∣ Nat.card G :=
     hp_dvd_P.trans (Subgroup.card_subgroup_dvd_card P)
   have hpodd : p.val ≠ 2 := Odd.ne_two_of_dvd_nat IsMinCE.odd_order hp_dvd_G
-  haveI : Fact (IsPGroup p.val P) := ⟨hPp⟩
+  have : Fact (IsPGroup p.val P) := ⟨hPp⟩
   obtain ⟨A₀, _hA₀norm, hA₀card, hA₀elem⟩ :=
     lemma_4_5_a (R := P) (p := p.val) hpodd hPnoncyc
-  haveI : IsElementaryAbelian p.val A₀ := hA₀elem
+  have : IsElementaryAbelian p.val A₀ := hA₀elem
   let A : Subgroup G := A₀.map P.subtype
   have hA_le_P : A ≤ P := by
     intro x hx
@@ -58,7 +58,7 @@ public theorem CFSG.section12_inf_msigma_eq_bot_of_pSubgroup_not_sigma
     (hAM : A ≤ M) (hAp : IsPGroup p.val A) :
     section10Msigma M ⊓ A = ⊥ := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   have hHall :
       IsHallSubgroup (section10SigmaPrimes M) (section10MsigmaSubgroup M) :=
     (theorem_10_2_b (M := M) hM).2
@@ -151,7 +151,7 @@ public theorem CFSG.section12_primeRank_E_ge_two_of_tau2
       (IsPGroup.map hAp (QuotientGroup.mk' (section10MsigmaSubgroup M)))
       eME.toMonoidHom
   have hAbar_comm : IsMulCommutative Abar := by
-    letI : IsMulCommutative A := hAcomm
+    let : IsMulCommutative A := hAcomm
     infer_instance
   have hgen_le_Abar : generatorRank A ≤ generatorRank Abar := by
     let eAbar : A ≃* Abar :=
@@ -204,8 +204,8 @@ public theorem CFSG.section12_normal_rankTwo_centralizes_of_ne
     (hAnorm : section10NormalIn A E) (hBnorm : section10NormalIn B E) :
     A ≤ Subgroup.centralizer (B : Set G) := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.2⟩
-  haveI : Fact q.val.Prime := ⟨q.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact q.val.Prime := ⟨q.2⟩
   have hAp : IsPGroup p.val (A.subgroupOf E) :=
     section12_rankTwo_subgroupOf_isPGroup hA
   have hBq : IsPGroup q.val (B.subgroupOf E) :=
@@ -214,8 +214,8 @@ public theorem CFSG.section12_normal_rankTwo_centralizes_of_ne
     IsPGroup.disjoint_of_ne p.val q.val (by
       intro hpqval
       exact hpq (Subtype.ext hpqval)) (A.subgroupOf E) (B.subgroupOf E) hAp hBq
-  haveI : (A.subgroupOf E).Normal := hAnorm.2
-  haveI : (B.subgroupOf E).Normal := hBnorm.2
+  have : (A.subgroupOf E).Normal := hAnorm.2
+  have : (B.subgroupOf E).Normal := hBnorm.2
   have hcomm_le_inf : ⁅A.subgroupOf E, B.subgroupOf E⁆ ≤ A.subgroupOf E ⊓ B.subgroupOf E :=
     Subgroup.commutator_le_inf (H₁ := A.subgroupOf E) (H₂ := B.subgroupOf E)
   intro a ha
@@ -250,13 +250,13 @@ public theorem CFSG.section12_sylow_contained_in_E_forces_abelian_sylow_pre
     {P : Sylow p.val G} (hP_le_E : (P : Subgroup G) ≤ E) :
     IsMulCommutative (P : Subgroup G) := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   have hA_M : A ∈ section12RankTwoElementaryAbelianIn p M :=
     section12_rankTwo_of_EData hE hA
   have hP_le_M : (P : Subgroup G) ≤ M := hP_le_E.trans hE.1.2.1
   let Psub : Subgroup M := (P : Subgroup G).subgroupOf M
   have hPsub_p : IsPGroup p.val Psub :=
-    P.isPGroup'.of_equiv
+    P.isPGroup.of_equiv
       (Subgroup.subgroupOfEquivOfLe (H := (P : Subgroup G)) (K := M) hP_le_M).symm
   have hp_not_dvd_Psub_index : ¬ p.val ∣ Psub.index := by
     have hmap_eq : Psub.map M.subtype = (P : Subgroup G) := by
@@ -305,10 +305,10 @@ public theorem CFSG.section12_rankTwoMaximal_subgroupOf_of_le_pre
     (hAmax : A ∈ maximalElementaryAbelianSubgroups p.val G) :
     A.subgroupOf S ∈ section10RankTwoMaximalElementaryAbelianSubgroups p S := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.property⟩
+  have : Fact p.val.Prime := ⟨p.property⟩
   rcases hArankTwo with ⟨hAcard, hAelem⟩
   rcases hAmax with ⟨_hAelem', hAmax'⟩
-  haveI : IsElementaryAbelian p.val A := hAelem
+  have : IsElementaryAbelian p.val A := hAelem
   have hAsub_card : Nat.card (A.subgroupOf S) = p.val ^ 2 := by
     simpa [hAcard] using
       natCard_subgroupOf_eq A S hAS
@@ -339,7 +339,7 @@ public theorem CFSG.section12_rankTwoMaximal_subgroupOf_of_le_pre
       let aS : A.subgroupOf S := ⟨⟨a, hAS ha⟩, ha⟩
       exact Subgroup.mem_map.mpr ⟨aS, hAB aS.2, rfl⟩
     have hBmap_elem : IsElementaryAbelian p.val Bmap := by
-      letI : IsElementaryAbelian p.val B := hBelem
+      let : IsElementaryAbelian p.val B := hBelem
       simpa [Bmap] using
         section12_isElementaryAbelian_map
           (R := S) (S := G) (p := p.val) (A := B) S.subtype
@@ -369,7 +369,7 @@ public theorem CFSG.theorem_12_7_a
     (hSylow : section12HasNonabelianSylowSubgroup p G) :
     section12Tau2Primes M = {p} := by
   classical
-  haveI : Fact p.val.Prime := ⟨p.2⟩
+  have : Fact p.val.Prime := ⟨p.2⟩
   ext q
   constructor
   · intro hq
@@ -415,7 +415,7 @@ public theorem CFSG.theorem_12_7_a
             A ∈ maximalElementaryAbelianSubgroups p.val G)
     have hBq : IsPGroup q.val B := by
       rcases section12_rankTwo_elementary hB with ⟨_hBcard, hBelem⟩
-      haveI : IsElementaryAbelian q.val B := hBelem
+      have : IsElementaryAbelian q.val B := hBelem
       exact IsElementaryAbelian.isPGroup q.val B
     have hBfam : B ∈ section7HFamily (⊤ : Subgroup G) A ({q} : Set Nat.Primes) := by
       refine ⟨le_top, ?_, ?_⟩
@@ -459,7 +459,7 @@ public theorem CFSG.theorem_12_7_a
     obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G P Pbad
     have hPbad_comm : IsMulCommutative (Pbad : Subgroup G) := by
       have hconj_comm : IsMulCommutative ((g • P : Sylow p.val G) : Subgroup G) := by
-        letI : IsMulCommutative (P : Subgroup G) := hPcomm
+        let : IsMulCommutative (P : Subgroup G) := hPcomm
         rw [Sylow.coe_subgroup_smul]
         exact Subgroup.map_isMulCommutative
           (f := (MulAut.conj g).toMonoidHom) (H := (P : Subgroup G))

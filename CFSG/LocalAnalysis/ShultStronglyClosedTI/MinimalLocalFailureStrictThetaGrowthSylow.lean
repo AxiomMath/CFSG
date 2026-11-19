@@ -48,7 +48,7 @@ theorem sylow_of_characteristic_normalizer
   let : Fact p.Prime := ⟨hp⟩
   let : (X.subgroupOf Q).Characteristic := hXchar
   let T := Subgroup.normalizer (X : Set G) ⊓ J
-  have hQp : IsPGroup p Q := hS ▸ S.isPGroup'.map T.subtype
+  have hQp : IsPGroup p Q := hS ▸ S.isPGroup.map T.subtype
   have hinternalp : IsPGroup p (Q.subgroupOf J) :=
     hQp.of_equiv (Subgroup.subgroupOfEquivOfLe hQJ).symm
   have hNQNX : Subgroup.normalizer (Q : Set G) ≤

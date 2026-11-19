@@ -57,7 +57,7 @@ theorem wcOn_of_surj_sylow [Fact p.Prime] {A : Type} [Group A] (M : Subgroup K) 
     (hf : Function.Surjective f) (hA : ∀ S : Sylow p A, ¬ IsMulCommutative (S : Subgroup A)) :
     WCOn p K := by
   obtain ⟨R⟩ : Nonempty (Sylow p M) := inferInstance
-  obtain ⟨S, hS⟩ := (R.isPGroup'.map M.subtype).exists_le_sylow
+  obtain ⟨S, hS⟩ := (R.isPGroup.map M.subtype).exists_le_sylow
   refine WCOn.of_sylow S fun hc => ?_
   exfalso
   have hcommR : ∀ a ∈ (R : Subgroup M), ∀ b ∈ (R : Subgroup M), a * b = b * a := by
@@ -77,7 +77,7 @@ theorem wcOn_of_surj_sylow [Fact p.Prime] {A : Type} [Group A] (M : Subgroup K) 
 
 theorem alt9_sylow_three_not_comm (S : Sylow 3 (alternatingGroup (Fin 9))) :
     ¬ IsMulCommutative (S : Subgroup (alternatingGroup (Fin 9))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3c : (Equiv.swap (0 : Fin 9) 1 * Equiv.swap 0 2).IsThreeCycle :=
     Equiv.Perm.isThreeCycle_swap_mul_swap_same (by decide) (by decide) (by decide)
   let y : alternatingGroup (Fin 9) :=

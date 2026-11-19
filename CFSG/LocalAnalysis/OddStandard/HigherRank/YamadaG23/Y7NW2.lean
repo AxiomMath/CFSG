@@ -10,15 +10,18 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three.Sec1
 
 variable {G : Type} [Group G] [Finite G] {t g : G} {P U S F : Subgroup G}
 
+omit [Finite G] in
 private lemma inv_mul_inv_comm {a b : G} (h : a * b = b * a) : a⁻¹ * b⁻¹ = b⁻¹ * a⁻¹ := by
   rw [← mul_inv_rev, ← mul_inv_rev, h]
 
+omit [Finite G] in
 private lemma mul_inv_comm {a b : G} (h : a * b = b * a) : b * a⁻¹ = a⁻¹ * b := by
   have hinv : a⁻¹ * b⁻¹ = b⁻¹ * a⁻¹ := inv_mul_inv_comm h
   calc b * a⁻¹ = (a⁻¹ * (a * b)) * a⁻¹ := by group
     _ = (a⁻¹ * (b * a)) * a⁻¹ := by rw [h]
     _ = a⁻¹ * b := by group
 
+omit [Finite G] in
 private lemma conj_conjSub_eq {t g v : G} (htg : t * g = g * t) :
     g * (t * v * t⁻¹) * g⁻¹ = t * (g * v * g⁻¹) * t⁻¹ := by
   calc g * (t * v * t⁻¹) * g⁻¹ = (g * t) * v * (t⁻¹ * g⁻¹) := by group
@@ -26,6 +29,7 @@ private lemma conj_conjSub_eq {t g v : G} (htg : t * g = g * t) :
     _ = (t * g) * v * (g⁻¹ * t⁻¹) := by rw [inv_mul_inv_comm htg]
     _ = t * (g * v * g⁻¹) * t⁻¹ := by group
 
+omit [Finite G] in
 private lemma conj_comm_zpowers {t g v : G} (htg : t * g = g * t) (hgv : g * v = v * g) :
     g * (t * v * t⁻¹) = (t * v * t⁻¹) * g := by
   have hgtinv : g * t⁻¹ = t⁻¹ * g := mul_inv_comm htg
@@ -37,6 +41,7 @@ private lemma conj_comm_zpowers {t g v : G} (htg : t * g = g * t) (hgv : g * v =
     _ = t * v * (t⁻¹ * g) := by rw [hgtinv]
     _ = (t * v * t⁻¹) * g := by group
 
+omit [Finite G] in
 private lemma Wr7.conj_mem_of_normalizes (h : Wr7 t P U) {g : G} (htg : t * g = g * t)
     (hgU : ∀ u ∈ U, g * u * g⁻¹ ∈ U) {x : G} (hx : x ∈ P) : g * x * g⁻¹ ∈ P := by
   obtain ⟨u, hu, v', hv', hxuv⟩ := h.decomp hx

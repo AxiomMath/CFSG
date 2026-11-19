@@ -64,7 +64,7 @@ public theorem secondCase_a7_base_involutions_card
     dsimp [T]
     rw [Subgroup.zpowers_eq_closure, Subgroup.centralizer_closure]
   have hqT : T.map q = Subgroup.zpowers (q tE) := by
-    simpa [T] using MonoidHom.map_zpowers q tE
+    simp [T]
   have hTqsingle : Subgroup.centralizer
       ((Subgroup.zpowers (q tE) : Subgroup (E ⧸ Z)) : Set (E ⧸ Z)) =
       Subgroup.centralizer ({q tE} : Set (E ⧸ Z)) := by
@@ -89,7 +89,7 @@ public theorem secondCase_a7_base_involutions_card
     subst y
     exact (Subgroup.mem_center_iff.mp hz) tE
   have hmapidx := Subgroup.index_map C q
-  have hker : q.ker = Z := by simpa [q] using QuotientGroup.ker_mk' Z
+  have hker : q.ker = Z := by simp [q]
   have hqrange : q.range = ⊤ := QuotientGroup.range_mk' Z
   have hCqidx : Cq.index = C.index := by
     have hmapidx' : Cq.index = (C ⊔ q.ker).index * q.range.index := by

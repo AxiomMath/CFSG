@@ -43,7 +43,6 @@ theorem lev_mem_rec {l : Nat} (hl : l < nb) {k : Nat} (hk : k < (lev n S base l)
     (P := fun k => (lev n S base l).pts[k]!) (Q := fun k => rpt w (mask w) (LR l) k)
     (F := fun j p => ((rawSteps n S base l)[j]!)[p]!) R.c_pos
     (by
-      change (lev n S base l).pts[0]! = rpt w (mask w) (LR l) 0
       rw [F.root, R.root, hb.2.2.2.2.2.2 l hl])
     (fun k hk hk0 => ⟨_, F.par_lt k hk hk0, _, F.lab_lt k hk hk0, F.edge k hk hk0⟩)
     (fun h hh' j hj => by

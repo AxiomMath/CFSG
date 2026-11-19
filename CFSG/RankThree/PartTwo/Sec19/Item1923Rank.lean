@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G] {A M N L K : Subgroup G} {c : G}
 private theorem exists_card_eq_pow_of_isElemAbelian {p : ℕ} (hp : p.Prime) {X : Type} [Group X]
     [Finite X] {E : Subgroup X} (hE : CFSG.Open.IsElemAbelian p E) :
     ∃ k : ℕ, Nat.card E = p ^ k := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hP : IsPGroup p E := fun x => ⟨1, Subtype.ext (by simpa using hE.2 x x.2)⟩
   exact hP.exists_card_eq
 

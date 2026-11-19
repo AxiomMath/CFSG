@@ -32,15 +32,15 @@ theorem exists_langSetup_of_inner_untw_of_prime {τ : Tag}
       Function.Injective ι ∧ ι.range = S.Γ ∧
       ∀ c, ι (β c) = rootDiagUnit τ a * ι c * (rootDiagUnit τ a)⁻¹ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   set ℓ := ringChar K with hℓdef
   have hqK : Nat.card K = ℓ ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
   have hf1 : 1 ≤ (f : ℕ) := f.pos
   set L := AlgebraicClosure K with hLdef
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective _
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective _
   set ι₁ : K →+* L := algebraMap K L with hι₁
   have hFr : ∀ c : L, iterateFrobenius L ℓ (f : ℕ) c = c ^ Nat.card K := fun c => by
     rw [hqK]

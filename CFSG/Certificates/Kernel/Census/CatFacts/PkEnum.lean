@@ -30,11 +30,11 @@ theorem pkp_codeV {n : Nat} (σ : Equiv.Perm (Fin n)) : pkp (codeV σ) = σ := b
   ext i
   have h1 : ∀ j < n, (if h : j < n then (σ ⟨j, h⟩ : Nat) else 0) < n := by
     intro j hj
-    rw [dif_pos hj]
+    rw [dite_eq_left hj]
     exact (σ _).2
   rw [pkp_apply]
   simp only [codeV]
-  rw [fd_pk h1 i.2, dif_pos i.2]
+  rw [fd_pk h1 i.2, dite_eq_left i.2]
 
 theorem strongV_map {n : Nat} (Q : RawSchreierDatum n) : Q.strong.toList = (strongV Q).map pkp := by
   rw [strongV, List.map_map]

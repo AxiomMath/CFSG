@@ -188,7 +188,7 @@ theorem exists_three_split {t : G} (e : Sett T M L t)
       (Subgroup.mem_sup_left (conjOf_mem_autOn (x := ⟨l, hlX⟩) e.hX hl))
   have hcard2 : Nat.card ↥(autOn (CFSG.conjugate L t) (vPlus L T)) = 168 :=
     CFSG.Quasithin.SBc11.card_of_isPSL_three_two (e.isPSL_autOn_L2 hPSL)
-  haveI : Finite ↥(autOn (CFSG.conjugate L t) (vPlus L T)) :=
+  have : Finite ↥(autOn (CFSG.conjugate L t) (vPlus L T)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard2]; norm_num)
   have hcyc : ∀ H' : Subgroup ↥(autOn (CFSG.conjugate L t) (vPlus L T)),
       IsPGroup 3 H' → IsCyclic H' :=

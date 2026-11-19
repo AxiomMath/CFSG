@@ -12,6 +12,7 @@ section Certs4
 
 variable {G : Type} [Group G] [Finite G] {d : Data G} {z₀ : G}
 
+omit [Finite G] in
 theorem p21_alpha_t_ne_one (h19 : Node19 d z₀) (h20 : Node20 d z₀) (ht : d.t ∈ Ig d) :
     alpha d d.t ≠ 1 := by
   intro h

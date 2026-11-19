@@ -24,23 +24,23 @@ theorem KF88StepDOn.odd
   fun G _ _ A c L a b X n hp Y hY hIJ x hx hxY ⟨A₀, d', n', _, hP⟩ =>
     h G A c L a b X n hp Y hY hIJ x hx hxY ⟨A₀, d', n', hP⟩
 
-@[expose] def KF88StepDCaseOneOdd : Prop := KF88StepDOnOdd fun G _ _ => Case83One
+@[expose] def KF88StepDCaseOneOdd : Prop := KF88StepDOnOdd fun _G _ _ => Case83One
 
-@[expose] def KF88StepDCaseThreeOdd : Prop := KF88StepDOnOdd fun G _ _ => Case83Three
+@[expose] def KF88StepDCaseThreeOdd : Prop := KF88StepDOnOdd fun _G _ _ => Case83Three
 
-@[expose] def KF88StepDCaseFourOdd : Prop := KF88StepDOnOdd fun G _ _ => Case83Four
+@[expose] def KF88StepDCaseFourOdd : Prop := KF88StepDOnOdd fun _G _ _ => Case83Four
 
-theorem kF88StepDData83_of_casesOdd (h1 : KF88StepDCaseOneOdd) (h2 : KF88StepDOnOdd fun G _ _ =>
+theorem kF88StepDData83_of_casesOdd (h1 : KF88StepDCaseOneOdd) (h2 : KF88StepDOnOdd fun _G _ _ =>
     Case83Two)
-    (h3 : KF88StepDCaseThreeOdd) (h4 : KF88StepDCaseFourOdd) (h5 : KF88StepDOnOdd fun G _ _ =>
+    (h3 : KF88StepDCaseThreeOdd) (h4 : KF88StepDCaseFourOdd) (h5 : KF88StepDOnOdd fun _G _ _ =>
         Case83Five) :
     KF88StepDData83 := by
-  intro G _ _ A c L a b X n h Y hY hIJ x hx hxY ⟨A₀, d', n', hD⟩
+  intro _G _ _ A c L a b X n h Y hY hIJ x hx hxY ⟨A₀, d', n', hD⟩
   rcases (cases83_iff Y x A₀ d' n').mp hD.cases with hc | hc | hc | hc | hc
-  · exact h1 G A c L a b X n h Y hY hIJ x hx hxY ⟨A₀, d', n', hD.odd, hc⟩
-  · exact h2 G A c L a b X n h Y hY hIJ x hx hxY ⟨A₀, d', n', hD.odd, hc⟩
-  · exact h3 G A c L a b X n h Y hY hIJ x hx hxY ⟨A₀, d', n', hD.odd, hc⟩
-  · exact h4 G A c L a b X n h Y hY hIJ x hx hxY ⟨A₀, d', n', hD.odd, hc⟩
-  · exact h5 G A c L a b X n h Y hY hIJ x hx hxY ⟨A₀, d', n', hD.odd, hc⟩
+  · exact h1 _G A c L a b X n h Y hY hIJ x hx hxY ⟨A₀, d', n', hD.odd, hc⟩
+  · exact h2 _G A c L a b X n h Y hY hIJ x hx hxY ⟨A₀, d', n', hD.odd, hc⟩
+  · exact h3 _G A c L a b X n h Y hY hIJ x hx hxY ⟨A₀, d', n', hD.odd, hc⟩
+  · exact h4 _G A c L a b X n h Y hY hIJ x hx hxY ⟨A₀, d', n', hD.odd, hc⟩
+  · exact h5 _G A c L a b X n h Y hY hIJ x hx hxY ⟨A₀, d', n', hD.odd, hc⟩
 
 end CFSG.RankThree.PartTwo.Sec8

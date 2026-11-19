@@ -148,8 +148,8 @@ private theorem resMat_slUpperBlockMat_three (A : Matrix (Fin 2) (Fin 2) F4) :
     simp [slUpperBlockMat_apply_eq', resMat_apply_fin' (n := 2), resMat_apply_fin' (n := 3),
       finProdFinEquiv_symm_apply (m := 2) (n := 2), finProdFinEquiv_symm_apply (m := 3) (n := 2),
       Fin.divNat, Fin.modNat,
-      castPred6_0, castPred6_1, castPred6_2, castPred6_3, castPred6_4,
-      castPred5_0, castPred5_1, castPred5_2, castPred5_3]
+      castPred6_2, castPred6_3, castPred6_4,
+      castPred5_2, castPred5_3]
 
 private theorem slLower2Hom_resSL (S : SpecialLinearGroup (Fin 2) F4) :
     slLower2Hom 3 (resSL 2 S) = resSL 3 (slLowerBlockHom 2 F4 S) := by
@@ -194,9 +194,9 @@ theorem exists_levi_perfect :
       (∃ g ∈ P, g ≠ 1 ∧ g ^ 3 = 1) ∧
       P.map (slLower2Hom 3) ≤ sl3four ∧ P.map (slUpper2Hom 3) ≤ sl3four := by
   refine ⟨(resSL 2).range, ?_, ?_, ?_, ?_⟩
-  · haveI : Group.IsPerfect (SpecialLinearGroup (Fin 2) F4) :=
+  · have : Group.IsPerfect (SpecialLinearGroup (Fin 2) F4) :=
       CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card F4 four_le_natCard_F4
-    haveI : Group.IsPerfect ↥(resSL 2).range := Group.IsPerfect.range (resSL 2)
+    have : Group.IsPerfect ↥(resSL 2).range := Group.IsPerfect.range (resSL 2)
     exact Subgroup.commutator_eq_self
   · refine ⟨resSL 2 f4OrderThree, MonoidHom.mem_range.mpr ⟨f4OrderThree, rfl⟩, ?_, ?_⟩
     · intro h

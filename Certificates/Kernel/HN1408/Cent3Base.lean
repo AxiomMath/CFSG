@@ -113,7 +113,7 @@ theorem t1K_parts {S T1 P1 : Nat → Nat} {j : Nat} (h : t1K S T1 P1 j = true) :
     exact fun e => by rw [e] at h'; simp at h'
   · have e0 : Nat.beq j 0 = false := Bool.eq_false_iff.2 fun h'' => h0 (Nat.eq_of_beq_eq_true h'')
     rw [e0] at h
-    simp only [strictB_app] at h
+    simp only at h
     obtain ⟨c, h⟩ := mkA h
     obtain ⟨d, f⟩ := mkA h
     exact ⟨_, _, Nat.blt_eq.mp c, Nat.blt_eq.mp d, Nat.eq_of_beq_eq_true f⟩
@@ -143,11 +143,11 @@ noncomputable def t1P (j : Nat) : Equiv.Perm (Fin 1408) :=
   if h : j < 36 then (t1_mem j h).choose else 1
 
 theorem t0P_spec {i : Nat} (hi : i < 40) : t0P i ∈ cC ∧ RepC (T0 i) (t0P i) := by
-  rw [t0P, dif_pos hi]
+  rw [t0P, dite_eq_left hi]
   exact (t0_mem i hi).choose_spec
 
 theorem t1P_spec {j : Nat} (hj : j < 36) : t1P j ∈ cC ∧ RepC (T1 j) (t1P j) := by
-  rw [t1P, dif_pos hj]
+  rw [t1P, dite_eq_left hj]
   exact (t1_mem j hj).choose_spec
 
 theorem t0P_zero {i : Nat} (hi : i < 40) : (t0P i ⟨0, by norm_num⟩).val = pt (T0 i) 0 :=

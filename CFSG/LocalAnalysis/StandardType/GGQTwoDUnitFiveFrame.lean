@@ -20,7 +20,7 @@ theorem qtwoDU5_frameCore_D4 (hRig : GGLabelRigidInput) {B Bs : Subgroup G} {x :
     ∃ Φ : OrthTorus.OrthFrameCore 3 Bs K, Nat.card Φ.F = 2 ∧ Φ.r = 4 ∧
       Subgroup.center ↥K = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hBs, -, -, -⟩ := hcfg.tableB_facts
   have hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs := hcfg.2.1.2.2.2
   have hmarkK : GGInnerDiagOn Bs K :=

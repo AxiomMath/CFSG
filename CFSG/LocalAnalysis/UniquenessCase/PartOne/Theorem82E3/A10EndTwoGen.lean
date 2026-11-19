@@ -58,7 +58,7 @@ private lemma pRank_top_eq_three_of_sylow_zwr {L : Type} [Group L] [Finite L]
     {P : Subgroup L} (hPsyl : CFSG.ABGLocalTools.IsSylowOf 3 P ⊤)
     (hPZ : Nonempty (↥P ≃* UC22.InS3.UC326.ZWr 1)) :
     CFSG.Open.pRank 3 (⊤ : Subgroup L) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 : CFSG.Open.pRank 3 P = CFSG.Open.pRank 3 (⊤ : Subgroup L) :=
     CFSG.LocalAnalysis.RankThreeTheoremC.pRank_eq_of_isSylowOf3 Nat.prime_three hPsyl
   obtain ⟨eP⟩ := hPZ
@@ -71,7 +71,7 @@ private lemma glbCore_eq_top_or_of_psp_three
     {L : Type} [Group L] [Finite L] (hL : IsSimpleGroup L)
     (hnc : ∃ a b : L, a * b ≠ b * a) {A : Subgroup L}
     (hA : CFSG.Open.IsElemAbelian 3 A) (hcard : Nat.card A = 27)
-    (h81 : 81 ∣ Nat.card L) (h243 : ¬ 243 ∣ Nat.card L) {p f : ℕ}
+    (_h81 : 81 ∣ Nat.card L) (h243 : ¬ 243 ∣ Nat.card L) {p f : ℕ}
     (hm : LieModel L .PSp 3 p f) (hp3 : p ≠ 3) :
     CFSG.Open.GLBCore 3 2 A = ⊤ ∨ LieModel L .PSp 3 2 1 := by
   by_cases hp2 : p = 2
@@ -86,7 +86,7 @@ private lemma glbCore_eq_top_of_pomegaMinus
     {L : Type} [Group L] [Finite L] (hL : IsSimpleGroup L)
     (hnc : ∃ a b : L, a * b ≠ b * a) {A : Subgroup L}
     (hA : CFSG.Open.IsElemAbelian 3 A) (hcard : Nat.card A = 27)
-    (h81 : 81 ∣ Nat.card L) {p f : ℕ} (hm : LieModel L .POmegaMinus 4 p f) (hp3 : p ≠ 3) :
+    (_h81 : 81 ∣ Nat.card L) {p f : ℕ} (hm : LieModel L .POmegaMinus 4 p f) (hp3 : p ≠ 3) :
     CFSG.Open.GLBCore 3 2 A = ⊤ := by
   by_cases hp2 : p = 2
   · have hm2 : LieModel L .POmegaMinus 4 2 f := by simpa [hp2] using hm
@@ -98,7 +98,7 @@ private lemma glbCore_eq_top_of_pomegaOdd
     {L : Type} [Group L] [Finite L] (hL : IsSimpleGroup L)
     (hnc : ∃ a b : L, a * b ≠ b * a) {A : Subgroup L}
     (hA : CFSG.Open.IsElemAbelian 3 A) (hcard : Nat.card A = 27)
-    (h81 : 81 ∣ Nat.card L) {p f : ℕ} (hm : LieModel L .POmegaOdd 3 p f) (hp3 : p ≠ 3) :
+    (_h81 : 81 ∣ Nat.card L) {p f : ℕ} (hm : LieModel L .POmegaOdd 3 p f) (hp3 : p ≠ 3) :
     CFSG.Open.GLBCore 3 2 A = ⊤ := by
   have hp2 : p ≠ 2 := by
     rcases hm.admissible with ⟨-, -, h⟩
@@ -110,7 +110,7 @@ private lemma glbCore_eq_top_of_psl_four
     {L : Type} [Group L] [Finite L] (hL : IsSimpleGroup L)
     (hnc : ∃ a b : L, a * b ≠ b * a) {A : Subgroup L}
     (hA : CFSG.Open.IsElemAbelian 3 A) (hcard : Nat.card A = 27)
-    (h81 : 81 ∣ Nat.card L) {p f : ℕ} (hm : LieModel L .PSL 4 p f) (hq : p ^ f % 3 = 1) :
+    (_h81 : 81 ∣ Nat.card L) {p f : ℕ} (hm : LieModel L .PSL 4 p f) (hq : p ^ f % 3 = 1) :
     CFSG.Open.GLBCore 3 2 A = ⊤ := by
   by_cases hp2 : p = 2
   · have hm2 : LieModel L .PSL 4 2 f := by simpa [hp2] using hm
@@ -127,7 +127,7 @@ private lemma glbCore_eq_top_of_psl_six_seven
     {L : Type} [Group L] [Finite L] (hL : IsSimpleGroup L)
     (hnc : ∃ a b : L, a * b ≠ b * a) {A : Subgroup L}
     (hA : CFSG.Open.IsElemAbelian 3 A) (hcard : Nat.card A = 27)
-    (h81 : 81 ∣ Nat.card L) {n p f : ℕ}
+    (_h81 : 81 ∣ Nat.card L) {n p f : ℕ}
     (hm : LieModel L .PSL n p f) (hn : n = 6 ∨ n = 7) (hq : p ^ f % 3 = 2) :
     CFSG.Open.GLBCore 3 2 A = ⊤ := by
   by_cases hp2 : p = 2
@@ -143,7 +143,7 @@ private lemma glbCore_eq_top_of_psu_four
     {L : Type} [Group L] [Finite L] (hL : IsSimpleGroup L)
     (hnc : ∃ a b : L, a * b ≠ b * a) {A : Subgroup L}
     (hA : CFSG.Open.IsElemAbelian 3 A) (hcard : Nat.card A = 27)
-    (h81 : 81 ∣ Nat.card L) (h243 : ¬ 243 ∣ Nat.card L) {p f : ℕ}
+    (_h81 : 81 ∣ Nat.card L) (h243 : ¬ 243 ∣ Nat.card L) {p f : ℕ}
     (hm : LieModel L .PSU 4 p f) (hq : p ^ f % 3 = 2) (hq2 : p ^ f ≠ 2) :
     CFSG.Open.GLBCore 3 2 A = ⊤ := by
   by_cases hp2 : p = 2
@@ -161,7 +161,7 @@ private lemma glbCore_eq_top_of_psu_six_seven
     {L : Type} [Group L] [Finite L] (hL : IsSimpleGroup L)
     (hnc : ∃ a b : L, a * b ≠ b * a) {A : Subgroup L}
     (hA : CFSG.Open.IsElemAbelian 3 A) (hcard : Nat.card A = 27)
-    (h81 : 81 ∣ Nat.card L) (h243 : ¬ 243 ∣ Nat.card L) {n p f : ℕ}
+    (_h81 : 81 ∣ Nat.card L) (h243 : ¬ 243 ∣ Nat.card L) {n p f : ℕ}
     (hm : LieModel L .PSU n p f) (hn : n = 6 ∨ n = 7) (hq : p ^ f % 3 = 1) :
     CFSG.Open.GLBCore 3 2 A = ⊤ := by
   by_cases hp2 : p = 2
@@ -305,11 +305,11 @@ theorem kFactE27TwoGen_of_k34odd (hK : Theorem82.K34odd) :
     KFactE27TwoGen := by
   intro L _ _ P A hKg hL hnc hPsyl hPZ hAP hA hcard
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hQ₀, hZ⟩ := CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hnc
   have hQ : CFSG.Open.IsQuasisimple L :=
     (CFSG.Foundations.SteinbergCA.quasisimple_iff L).2.2.1.mp hQ₀
-  haveI : IsSimpleGroup (L ⧸ Subgroup.center L) := hQ.2
+  have : IsSimpleGroup (L ⧸ Subgroup.center L) := hQ.2
   have hcat : CFSG.Open.IsCatalogGroup (L ⧸ Subgroup.center L) :=
     CFSG.Open.IsKGroup.isCatalogGroup_of_surjective hKg ⊤ (exists_noncomm_of_isQuasisimple hQ)
       ((QuotientGroup.mk' (Subgroup.center L)).comp (⊤ : Subgroup L).subtype)

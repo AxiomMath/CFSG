@@ -23,7 +23,7 @@ variable {n : ℕ} {K : Type} [Field K]
   map_mul' a b := by
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.toLin'_mul, Module.End.mul_eq_comp]
 
-theorem slRep_injective : Function.Injective (slRep n K) := fun a b h =>
+theorem slRep_injective : Function.Injective (slRep n K) := fun _a _b h =>
   Subtype.ext (Matrix.toLin'.injective h)
 
 theorem mem_Wsp_iff {N : Matrix (Fin n) (Fin n) K} {x : Fin n → K} :
@@ -64,7 +64,7 @@ theorem frame_projectiveSL [NeZero n] {p : ℕ} [Fact p.Prime] [CharP K p] [Fini
     (hn : 3 ≤ n) (y : projectiveSL n K) (hy : orderOf y = p) : Frame p y := by
   obtain ⟨N, hN, hN0, hy0⟩ := exists_nilpotent_of_orderOf_eq (p := p) y hy
   have hne : Nontrivial (Fin n → K) := by
-    haveI : Nonempty (Fin n) := ⟨⟨0, Nat.pos_of_neZero n⟩⟩
+    have : Nonempty (Fin n) := ⟨⟨0, Nat.pos_of_neZero n⟩⟩
     infer_instance
   refine ⟨modelGen n K N, modelT n K N, ?_, ?_, ?_, ?_, ?_⟩
   · intro q hq
@@ -111,8 +111,8 @@ theorem kdCharPAt_A (q : TauCeti.PrimePower) (r : ℕ) (hv : (TauCeti.LieTypeInd
     (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL r q hv).trans
       (LinearCover.projectiveSpecialLinearEquivProjectiveSL (r + 1) _)
   have hn : 3 ≤ r + 1 := by omega
-  haveI : NeZero (r + 1) := ⟨by omega⟩
-  haveI : NeZero q.exponent := ⟨q.exponent_pos.ne'⟩
+  have : NeZero (r + 1) := ⟨by omega⟩
+  have : NeZero q.exponent := ⟨q.exponent_pos.ne'⟩
   exact kdCharPAt_of_frame e (center_projectiveSL_eq_bot_of_simple (by omega) (Or.inl hn))
     fun y hy => frame_projectiveSL hp2 hn y hy
 

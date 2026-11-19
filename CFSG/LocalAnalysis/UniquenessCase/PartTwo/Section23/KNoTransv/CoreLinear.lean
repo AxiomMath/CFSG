@@ -22,8 +22,8 @@ variable {G : Type*} [Group G]
 
 private theorem finite_generalLinearGroup {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
     [Finite V] : Finite (LinearMap.GeneralLinearGroup (ZMod 2) V) :=
-  Finite.of_injective (fun f : LinearMap.GeneralLinearGroup (ZMod 2) V => (f : V → V))
-    fun f g h => Units.ext (LinearMap.ext fun x => congrFun h x)
+  Finite.of_injective (fun _f : LinearMap.GeneralLinearGroup (ZMod 2) V => (_f : V → V))
+    fun _f _g h => Units.ext (LinearMap.ext fun x => congrFun h x)
 
 private theorem mem_conjClosure_self (H : Subgroup G) (s : G) : s ∈ conjClosure H s :=
   Subgroup.subset_closure ⟨1, H.one_mem, by simp⟩
@@ -88,8 +88,8 @@ private theorem exists_pow_four_ne_one [Finite M] {H : Subgroup 𝔾} (hH : ⁅H
     (hH1 : H ≠ ⊥) : ∃ x ∈ H, x ^ 4 ≠ 1 := by
   by_contra h
   push Not at h
-  haveI : Finite 𝔾 := finite_generalLinearGroup
-  haveI : Nontrivial ↥H := (Subgroup.nontrivial_iff_ne_bot H).mpr hH1
+  have : Finite 𝔾 := finite_generalLinearGroup
+  have : Nontrivial ↥H := (Subgroup.nontrivial_iff_ne_bot H).mpr hH1
   have hP : IsPGroup 2 ↥H := by
     rw [isPGroup_iff_exists_orderOf_dvd_pow]
     refine ⟨2, fun g => ?_⟩
@@ -110,7 +110,7 @@ theorem exists_mcLaughlin_quotient_linear [Finite M] {H : Subgroup 𝔾} (hH : �
         UniquenessMaximal.IsMcLaughlinGroup W ∧ (c = 1 ∨ c = 2) ∧ Nat.card T * c = Nat.card W ∧
         ∀ n : ℕ, Nonempty (W ≃* Equiv.Perm (Fin n)) → c = 2 := by
   classical
-  haveI : Finite 𝔾 := finite_generalLinearGroup
+  have : Finite 𝔾 := finite_generalLinearGroup
   have hτ2 : τ * τ = 1 := by
     obtain ⟨φ, a, h, -, -, rfl⟩ := (isF2Transvection_iff τ).mp hτ
     exact tv_mul_self φ a h
@@ -126,13 +126,13 @@ theorem exists_mcLaughlin_quotient_linear [Finite M] {H : Subgroup 𝔾} (hH : �
   have hD4 : ∃ y ∈ D, y ^ 4 ≠ 1 := ⟨x, hHD hxH, hx4⟩
   obtain ⟨V, hVadd, hVmod, hVfin, ρ, hMcL, hker4⟩ :=
     exists_section hτ hτD hDgen hD4
-  letI := hVadd
-  letI := hVmod
-  letI := hVfin
+  let := hVadd
+  let := hVmod
+  let := hVfin
   let W := ↥ρ.range
-  letI : Group W := inferInstance
-  haveI : Finite (LinearMap.GeneralLinearGroup (ZMod 2) V) := finite_generalLinearGroup
-  letI : Finite W := inferInstance
+  let : Group W := inferInstance
+  have : Finite (LinearMap.GeneralLinearGroup (ZMod 2) V) := finite_generalLinearGroup
+  let : Finite W := inferInstance
   let T₀ : Subgroup W := (H.subgroupOf D).map ρ.rangeRestrict
   have hT₀n : T₀.Normal := hHnD.map ρ.rangeRestrict ρ.rangeRestrict_surjective
   have hsub : ⁅H.subgroupOf D, H.subgroupOf D⁆ = H.subgroupOf D := by

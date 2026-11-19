@@ -36,12 +36,15 @@ private def commQKP (hB : BorelDataP p P M x f W) (O Y : Subgroup G)
     have := (mem_normalizer_iff.mp (hQO (hB.QK.inv_mem hg)) _).mp (O.inv_mem (hgi i hi hi2))
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 private theorem x_mem_plane' (t₀ : GaloisField p n) : x ∈ plane x f t₀ :=
   Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
 
+omit [Finite G] in
 private theorem f_mem_plane' (t₀ : GaloisField p n) : f t₀ ∈ plane x f t₀ :=
   Subgroup.mem_sup_right (Subgroup.mem_zpowers (f t₀))
 
+omit [Finite G] in
 private theorem mem_zpowers_nat_of_pow_p {y z : G} (hy : y ^ p = 1) (hy1 : y ≠ 1)
     (hz : z ∈ zpowers y) : ∃ m : ℕ, z = y ^ m := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hz

@@ -71,7 +71,7 @@ theorem exists_index_two_involutions_central_of_quaternion_pair
         refine ⟨3, ?_⟩
         rw [show (3 : ℤ) = (2 : ℤ) + 1 by norm_num, zpow_add, zpow_one, hapow2]
     exact Subgroup.zpow_mem N hmem k
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   let b' : T ⧸ N := QuotientGroup.mk' N b
   have hQcard : Nat.card (T ⧸ N) = 4 := by
     rw [← Subgroup.index_eq_card N, hNindex]

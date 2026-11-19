@@ -31,7 +31,7 @@ section Certified
 
 theorem Hyp167.inf_conj_eSub_ne_bot_of_conj_ne_self (hI : NamedInputs15 G) (hS : Std15 G)
     (h152 : Thm152 G) (h1 : W16One G) (hX : Hyp167 M V₀ V U S H g X T) (hVO : V ≤ pCoreOf 2 H)
-    (hB : conjSubgroup V₀ g ≠ V₀) : conjSubgroup V₀ g ⊓ eSub V₀ X T ≠ ⊥ := by
+    (_hB : conjSubgroup V₀ g ≠ V₀) : conjSubgroup V₀ g ⊓ eSub V₀ X T ≠ ⊥ := by
   intro hBE
   have hAab : IsElemAbelian 2 (conjSubgroup V g) :=
     E3.isElemAbelian_conjSubgroup hX.cex.hyp.h6.elemAbelian g
@@ -47,7 +47,7 @@ theorem Hyp167.inf_conj_eSub_ne_bot_of_conj_ne_self (hI : NamedInputs15 G) (hS :
   have hn : 1 ≤ E3.mQuot V (U ⊔ V₀) := Cex16.one_le_n h152 hX.cex
   have hmV₀ : 1 ≤ mSub V₀ := by
     have hP : IsPGroup 2 V₀ := hX.cex.hyp.elemAbelian₀.isPGroup
-    haveI : Nontrivial ↥V₀ := (Subgroup.nontrivial_iff_ne_bot V₀).2 hX.cex.hyp.ne_bot
+    have : Nontrivial ↥V₀ := (Subgroup.nontrivial_iff_ne_bot V₀).2 hX.cex.hyp.ne_bot
     have h2 : 1 < Nat.card ↥V₀ := Finite.one_lt_card_iff_nontrivial.2 inferInstance
     rw [card_eq_two_pow_mSub hP] at h2
     by_contra hlt

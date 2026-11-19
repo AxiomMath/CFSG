@@ -46,7 +46,7 @@ private theorem sec12E_f_inv (F : Sec12Frame t L S) {p : G} (hp : p ∈ secCMB t
     simpa [sec12f] using hmul.symm
   exact eq_inv_of_mul_eq_one_right h1
 
-private theorem sec12E_phi_weight_two_mem (F : Sec12Frame t L S) {φ : (Fin 5 → ZMod 2) → G}
+private theorem sec12E_phi_weight_two_mem (_F : Sec12Frame t L S) {φ : (Fin 5 → ZMod 2) → G}
     (hML : secM t S L ⊓ L = L ⊓ normalizer (secB S L : Set G))
     (hperm : IsPermModuleVia IsEvenVec φ (secB S L)
       (L ⊓ normalizer (secB S L : Set G)) (alternatingGroup (Fin 5)))

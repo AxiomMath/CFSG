@@ -34,6 +34,7 @@ theorem memberUnique_comm_mem (hc : MinCex M V Q P H) {g : G} (hg : g ∈ H) {w 
     rw [h3]
     exact (wOf V H).mul_mem hw h2
 
+omit [Finite G] in
 theorem memberUnique_not_conj_le_wOf (hc : MinCex M V Q P H) {g : G} (hg : g ∈ H) :
     ¬ conjSubgroup g V ≤ wOf V H := by
   intro hle
@@ -48,7 +49,7 @@ theorem memberUnique_holds (hX : CXWStatement) : MemberUniqueStatement := by
   have hc : MinCex M V Q P H := hH.setup.mc.toMinCex
   obtain ⟨g, hg, rfl⟩ := hU
   obtain ⟨g', hg', rfl⟩ := hU'
-  obtain ⟨x, hxU', hxW⟩ := SetLike.not_le_iff_exists.mp (memberUnique_not_conj_le_wOf hc hg')
+  obtain ⟨x, hxU', hxW⟩ := IsConcreteLE.not_le_iff_exists.mp (memberUnique_not_conj_le_wOf hc hg')
   have hxU : x ∈ wOf V H ⊔ conjSubgroup g V := by
     rw [sup_comm]
     exact hle hxU'

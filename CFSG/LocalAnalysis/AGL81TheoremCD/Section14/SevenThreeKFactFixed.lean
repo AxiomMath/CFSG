@@ -15,13 +15,14 @@ open Module Polynomial LinearMap
 
 variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 
+omit [FiniteDimensional K V] in
 theorem finrank_ker_conj_sub_one (g h : V ≃ₗ[K] V) :
     Module.finrank K ↥(LinearMap.ker ((h * g * h⁻¹).toLinearMap - 1)) =
       Module.finrank K ↥(LinearMap.ker (g.toLinearMap - 1)) := by
   have hpoint : ∀ v : V,
       ((h * g * h⁻¹).toLinearMap - 1) (h v) = h (((g).toLinearMap - 1) v) := by
     intro v
-    simp [LinearEquiv.mul_apply]
+    simp
   have hmap : (LinearMap.ker (g.toLinearMap - 1)).map h.toLinearMap =
       LinearMap.ker ((h * g * h⁻¹).toLinearMap - 1) := by
     ext v
@@ -35,11 +36,12 @@ theorem finrank_ker_conj_sub_one (g h : V ≃ₗ[K] V) :
       change (g.toLinearMap - 1) (h⁻¹ v) = 0
       have hv0 : ((h * g * h⁻¹).toLinearMap - 1) v = 0 := LinearMap.mem_ker.mp hv
       have h2 : ((h * g * h⁻¹).toLinearMap - 1) v = h (((g).toLinearMap - 1) (h⁻¹ v)) := by
-        simpa using hpoint (h⁻¹ v)
+        simp
       rw [h2] at hv0
       exact h.injective (by rw [hv0, map_zero])
   rw [← hmap, LinearEquiv.finrank_map_eq]
 
+omit [FiniteDimensional K V] in
 private theorem ker_sq_sub_one_eq_ker_sub_one (T : Module.End K V) (hT : T ^ 3 = 1) :
     LinearMap.ker (T ^ 2 - 1) = LinearMap.ker (T - 1) := by
   apply le_antisymm
@@ -60,6 +62,7 @@ private theorem ker_sq_sub_one_eq_ker_sub_one (T : Module.End K V) (hT : T ^ 3 =
     show (T ^ 2) v - v = 0
     rw [pow_two, Module.End.mul_apply, h2, h2, sub_self]
 
+omit [FiniteDimensional K V] in
 private lemma ker_sq_mul_eq_ker_mul_sq {y z : V ≃ₗ[K] V} (hy : y ^ 3 = 1) (hz : z ^ 3 = 1)
     (hyz : Commute y z) :
     LinearMap.ker (y.toLinearMap ^ 2 * z.toLinearMap - 1) =
@@ -118,6 +121,7 @@ theorem finrank_add_three_mul_finrank_inf (hK : (3 : K) ≠ 0) {y z : V ≃ₗ[K
   rw [← h]
   rfl
 
+omit [FiniteDimensional K V] in
 private theorem eigen_conj_inv {g h : V ≃ₗ[K] V} (hgh : h * g * h⁻¹ = g⁻¹)
     {ν : K} (hν : ν ≠ 0) {v : V} (hv : g v = ν • v) :
     g (h v) = ν⁻¹ • h v := by
@@ -175,16 +179,19 @@ private lemma X_sub_C_mul_X_sub_C {ω : K} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1)
   rw [hfac, h1, h2]
   ring
 
+omit [FiniteDimensional K V] in
 private lemma ker_aeval_X_sub_C (G : Module.End K V) (a : K) :
     ((aeval G) (X - C a : K[X])).ker = LinearMap.ker (G - a • 1) := by
   congr 1
   simp [Algebra.algebraMap_eq_smul_one]
 
+omit [FiniteDimensional K V] in
 private lemma ker_aeval_sq_add_one (G : Module.End K V) :
     ((aeval G) (X ^ 2 + X + 1 : K[X])).ker = LinearMap.ker (G ^ 2 + G + 1) := by
   congr 1
-  simp [map_add, map_mul, map_pow, Algebra.algebraMap_eq_smul_one]
+  simp [map_add, map_pow]
 
+omit [FiniteDimensional K V] in
 private lemma sup_ker_sq_add_eq_eigenspaces {ω : K} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1)
     (G : Module.End K V) :
     LinearMap.ker (G ^ 2 + G + 1) =
@@ -197,6 +204,7 @@ private lemma sup_ker_sq_add_eq_eigenspaces {ω : K} (hω3 : ω ^ 3 = 1) (hω1 :
     ker_aeval_sq_add_one] at h
   exact h.symm
 
+omit [FiniteDimensional K V] in
 private lemma disjoint_ker_eigenspaces {ω : K} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1)
     (G : Module.End K V) :
     Disjoint (LinearMap.ker (G - ω • 1)) (LinearMap.ker (G - ω ^ 2 • 1)) := by
@@ -206,6 +214,7 @@ private lemma disjoint_ker_eigenspaces {ω : K} (hω3 : ω ^ 3 = 1) (hω1 : ω �
   have h := Polynomial.disjoint_ker_aeval_of_isCoprime G hcop
   rwa [ker_aeval_X_sub_C, ker_aeval_X_sub_C] at h
 
+omit [FiniteDimensional K V] in
 private lemma mem_ker_sub_smul {G : Module.End K V} {a : K} {x : V} :
     x ∈ LinearMap.ker (G - a • 1) ↔ G x = a • x := by
   rw [LinearMap.mem_ker, LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply,
@@ -256,7 +265,7 @@ private lemma finrank_eigenspaces_eq {g h : V ≃ₗ[K] V} (hgh : h * g * h⁻¹
   exact finrank_eq_of_mapsTo hAB hBA
 
 private theorem even_finrank_ker_sq_add_of_cube_root {ω : K} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1)
-    {g h : V ≃ₗ[K] V} (hg : g ^ 3 = 1) (hgh : h * g * h⁻¹ = g⁻¹) :
+    {g h : V ≃ₗ[K] V} (_hg : g ^ 3 = 1) (hgh : h * g * h⁻¹ = g⁻¹) :
     Even (finrank K ↥(LinearMap.ker (g.toLinearMap ^ 2 + g.toLinearMap + 1))) := by
   have hsup := sup_ker_sq_add_eq_eigenspaces hω3 hω1 g.toLinearMap
   have hdisj := disjoint_ker_eigenspaces hω3 hω1 g.toLinearMap
@@ -278,12 +287,12 @@ private theorem even_finrank_ker_sq_add_of_cube_root {ω : K} (hω3 : ω ^ 3 = 1
 private lemma three_not_dvd_card [Finite K] (hK : (3 : K) ≠ 0) :
     ¬ 3 ∣ Nat.card K := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hchar : ringChar K ≠ 3 := by
     intro h
     apply hK
     have hd : ringChar K ∣ 3 := by
-      simpa [h] using (dvd_refl 3 : (3 : ℕ) ∣ 3)
+      simp [h]
     exact (CharP.cast_eq_zero_iff K (ringChar K) 3).mpr hd
   obtain ⟨n, hpprime, hcard⟩ := FiniteField.card K (ringChar K)
   have hcard' : Nat.card K = (ringChar K) ^ (n : ℕ) := by
@@ -315,11 +324,13 @@ private lemma card_mod_three_eq_two [Finite K] (hK : (3 : K) ≠ 0)
     simpa [Nat.card_eq_fintype_card] using hdvd
   omega
 
+omit [FiniteDimensional K V] in
 private lemma mem_ker_sq_add {G : Module.End K V} {x : V} :
     x ∈ LinearMap.ker (G ^ 2 + G + 1) ↔ G (G x) + G x + x = 0 := by
   rw [LinearMap.mem_ker, LinearMap.add_apply, LinearMap.add_apply, Module.End.one_apply,
     pow_two, Module.End.mul_apply]
 
+omit [FiniteDimensional K V] in
 private lemma ker_sq_add_invariant (G : Module.End K V) {x : V}
     (hx : x ∈ LinearMap.ker (G ^ 2 + G + 1)) :
     G x ∈ LinearMap.ker (G ^ 2 + G + 1) := by
@@ -332,10 +343,10 @@ private lemma card_ker_sq_add_modEq_one [Finite K] (hK : (3 : K) ≠ 0)
     {G : Module.End K V} (hG : G ^ 3 = 1) :
     Nat.card ↥(LinearMap.ker (G ^ 2 + G + 1)) ≡ 1 [MOD 3] := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite V := Module.finite_of_finite K
+  have : Fintype V := Fintype.ofFinite V
   let W : Submodule K V := LinearMap.ker (G ^ 2 + G + 1)
   let f : Function.End W := fun w => ⟨G w.1, ker_sq_add_invariant G w.2⟩
   have hf3 : f ^ 3 = 1 := by
@@ -349,7 +360,7 @@ private lemma card_ker_sq_add_modEq_one [Finite K] (hK : (3 : K) ≠ 0)
     refine ⟨⟨⟨0, W.zero_mem⟩, ?_⟩, ?_⟩
     · rw [Function.mem_fixedPoints]
       apply Subtype.ext
-      simp [f]
+      simp
     · intro y
       apply Subtype.ext
       apply Subtype.ext
@@ -378,9 +389,9 @@ private theorem even_finrank_ker_sq_add_of_no_cube_root [Finite K]
     {G : Module.End K V} (hG : G ^ 3 = 1) :
     Even (finrank K ↥(LinearMap.ker (G ^ 2 + G + 1))) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Fintype V := Fintype.ofFinite V
+  have : Fintype K := Fintype.ofFinite K
+  have : Finite V := Module.finite_of_finite K
+  have : Fintype V := Fintype.ofFinite V
   have hqmod : Nat.card K % 3 = 2 := card_mod_three_eq_two hK hno
   set W : Submodule K V := LinearMap.ker (G ^ 2 + G + 1) with hW
   have hcong : Nat.card W ≡ 1 [MOD 3] := by
@@ -449,6 +460,7 @@ theorem finrank_add_three_mul_finrank_inf_map (hK : (3 : K) ≠ 0) {X : Type*} [
     show ρ y * ρ z ^ 2 = ρ (y * z ^ 2) by rw [map_mul, map_pow]] at h
   exact h
 
+omit [FiniteDimensional K V] in
 theorem finrank_ker_eq_of_isConj {X : Type*} [Group X] (ρ : X →* (V ≃ₗ[K] V)) {a b : X}
     (h : IsConj a b) :
     Module.finrank K ↥(LinearMap.ker ((ρ a).toLinearMap - 1)) =

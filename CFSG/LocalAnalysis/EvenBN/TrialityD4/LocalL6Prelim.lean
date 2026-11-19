@@ -65,6 +65,7 @@ theorem l6Hyps (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f)) (hlay : h.Laye
 
 section Normalizers
 
+omit [Finite G] in
 theorem coe_v_mul_self {q : ℕ} (d : TrialityD4Data L q) :
     ((d.v : L) : G) * ((d.v : L) : G) = 1 := by
   rw [← Subgroup.coe_mul, d.v_mul_self, OneMemClass.coe_one]
@@ -77,7 +78,7 @@ theorem normalizer_yamadaL₃_le_normalizer_yamadaW₂ (h : Setup G L f t)
 
 theorem normalizer_yamadaL₃_le_normalizer_yamadaW₃ (h : Setup G L f t)
     (d : TrialityD4Data L (2 ^ f)) (hlay : h.LayerHyp d) :
-    normalizer (yamadaL₃ d t : Set G) ≤ normalizer (yamadaW₃ d t : Set G) := fun g hg =>
+    normalizer (yamadaL₃ d t : Set G) ≤ normalizer (yamadaW₃ d t : Set G) := fun _g hg =>
   mem_normalizer_inf_D4 hg (mem_normalizer_centralizer_D4
     (h.normalizer_yamadaL₃_le_normalizer_yamadaW₂ d hlay hg))
 
@@ -94,7 +95,7 @@ theorem yamadaL₃_le_normalizer_yamadaY₂ (h : Setup G L f t) (d : TrialityD4D
       hy.h592 hy.h593 hy.h5101 hy.h5102 hg)
 
 theorem yamadaL₃_le_normalizer_yamadaM₃ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
-    (hlay : h.LayerHyp d) : yamadaL₃ d t ≤ normalizer (yamadaM₃ d t : Set G) := fun g hg =>
+    (hlay : h.LayerHyp d) : yamadaL₃ d t ≤ normalizer (yamadaM₃ d t : Set G) := fun _g hg =>
   mem_normalizer_inf_D4 (le_normalizer hg)
     (mem_normalizer_centralizer_D4 (h.yamadaL₃_le_normalizer_yamadaY₂ d hlay hg))
 
@@ -108,7 +109,7 @@ theorem centralizer_inf_normalizer_Y_le_normalizer_yamadaY₂_L6 (h : Setup G L 
 theorem centralizer_inf_normalizer_Y_le_normalizer_yamadaM₃ (h : Setup G L f t)
     (d : TrialityD4Data L (2 ^ f)) (hlay : h.LayerHyp d) :
     centralizer ({t} : Set G) ⊓ normalizer ((d.Y.map L.subtype : Subgroup G) : Set G) ≤
-      normalizer (yamadaM₃ d t : Set G) := fun g hg =>
+      normalizer (yamadaM₃ d t : Set G) := fun _g hg =>
   mem_normalizer_inf_D4 (h.centralizer_inf_normalizer_Y_le_normalizer_yamadaL₃ d hg)
     (mem_normalizer_centralizer_D4
       (h.centralizer_inf_normalizer_Y_le_normalizer_yamadaY₂_L6 d hlay hg))
@@ -130,7 +131,7 @@ theorem yamadaR₄_le_normalizer_yamadaY₂_L6 (h : Setup G L f t) (d : Triality
     hy.h5221
 
 theorem yamadaR₄_le_normalizer_yamadaM₃ (h : Setup G L f t) (d : TrialityD4Data L (2 ^ f))
-    (hlay : h.LayerHyp d) : yamadaR₄ d t ≤ normalizer (yamadaM₃ d t : Set G) := fun g hg =>
+    (hlay : h.LayerHyp d) : yamadaR₄ d t ≤ normalizer (yamadaM₃ d t : Set G) := fun _g hg =>
   mem_normalizer_inf_D4 (h.yamadaR₄_le_normalizer_yamadaL₃ d hlay hg)
     (mem_normalizer_centralizer_D4 (h.yamadaR₄_le_normalizer_yamadaY₂_L6 d hlay hg))
 
@@ -309,32 +310,39 @@ variable {q : ℕ}
     (fun _ hg y hy => (mem_normalizer_iff.1 (mem_inf.1 hg).2 y).1 hy) ⊓
     centralizer ((d.Y.map L.subtype : Subgroup G) : Set G)
 
+omit [Finite G] in
 theorem mem_normalizer_of_mem_yamadaT₆ {d : TrialityD4Data L q} {g : G}
     (hg : g ∈ yamadaT₆ d t) : g ∈ normalizer (yamadaL₃ d t : Set G) ⊓
       normalizer (yamadaM₃ d t : Set G) ⊓ normalizer (yamadaW₂ d t : Set G) ⊓
         normalizer (yamadaY₂ d t : Set G) :=
   (Common.mem_centralizerMod.1 (mem_inf.1 hg).1).1
 
+omit [Finite G] in
 theorem yamadaT₆_le_normalizer_yamadaL₃ (d : TrialityD4Data L q) (t : G) :
     yamadaT₆ d t ≤ normalizer (yamadaL₃ d t : Set G) := fun _ hg =>
   (mem_normalizer_of_mem_yamadaT₆ hg).1.1.1
 
+omit [Finite G] in
 theorem yamadaT₆_le_normalizer_yamadaM₃ (d : TrialityD4Data L q) (t : G) :
     yamadaT₆ d t ≤ normalizer (yamadaM₃ d t : Set G) := fun _ hg =>
   (mem_normalizer_of_mem_yamadaT₆ hg).1.1.2
 
+omit [Finite G] in
 theorem yamadaT₆_le_normalizer_yamadaW₂ (d : TrialityD4Data L q) (t : G) :
     yamadaT₆ d t ≤ normalizer (yamadaW₂ d t : Set G) := fun _ hg =>
   (mem_normalizer_of_mem_yamadaT₆ hg).1.2
 
+omit [Finite G] in
 theorem yamadaT₆_le_centralizer_Y (d : TrialityD4Data L q) (t : G) :
     yamadaT₆ d t ≤ centralizer ((d.Y.map L.subtype : Subgroup G) : Set G) := fun _ hg =>
   (mem_inf.1 hg).2
 
+omit [Finite G] in
 theorem commutator_mem_yamadaY₂_of_mem_yamadaT₆ {d : TrialityD4Data L q} {g w : G}
     (hg : g ∈ yamadaT₆ d t) (hw : w ∈ yamadaW₂ d t) : g * w * g⁻¹ * w⁻¹ ∈ yamadaY₂ d t :=
   (Common.mem_centralizerMod.1 (mem_inf.1 hg).1).2 w hw
 
+omit [Finite G] in
 theorem mem_yamadaT₆_of {d : TrialityD4Data L q} {g : G}
     (hL₃ : g ∈ normalizer (yamadaL₃ d t : Set G)) (hM₃ : g ∈ normalizer (yamadaM₃ d t : Set G))
     (hW₂ : g ∈ normalizer (yamadaW₂ d t : Set G)) (hY₂ : g ∈ normalizer (yamadaY₂ d t : Set G))

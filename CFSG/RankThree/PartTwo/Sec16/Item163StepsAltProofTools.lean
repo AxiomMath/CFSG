@@ -145,7 +145,7 @@ theorem exists_elemAbelian_lift {K : Subgroup G} {Q : Type*} [Group Q] [Finite Q
       have h := congrArg Subtype.val hs1
       exact h
     obtain ⟨m, hm⟩ := hker ⟨(s : ↥K), hk⟩
-    obtain ⟨n, hn⟩ := S₀.isPGroup' ⟨s, hs⟩
+    obtain ⟨n, hn⟩ := S₀.isPGroup ⟨s, hs⟩
     have h2 : s ^ 2 ^ m = 1 := by
       apply Subtype.ext
       have := congrArg Subtype.val hm

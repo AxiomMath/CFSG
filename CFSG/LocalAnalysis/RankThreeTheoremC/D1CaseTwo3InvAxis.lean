@@ -100,7 +100,7 @@ theorem D1CaseTwoData3.conj_axis_eq_inv
         (Subtype.ext (by simp [conj_pow, he3]))
       obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.mp h1
       exact Subgroup.mem_zpowers_iff.mpr ⟨i, by simpa using congrArg Subtype.val hi⟩
-    obtain ⟨k, hk⟩ := Rbar.isPGroup' ⟨r, hr⟩
+    obtain ⟨k, hk⟩ := Rbar.isPGroup ⟨r, hr⟩
     have hrk : r ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
     exact conj_eq_of_mem_zpowers_of_three_pow hrk he3 he1 hmem
   have heR : e ∈ (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) 3)) :=

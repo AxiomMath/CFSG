@@ -21,7 +21,7 @@ open Module Matrix CFSG.LargeExtraspecial.SL4Mod CFSG.LargeExtraspecial.SL4Mod.N
 @[expose] def l4Gen20 (r s : ℕ) : Matrix (Fin 20) (Fin 20) (ZMod 2) := refMat 20 (pkGen20 r s)
 
 theorem l4Gen20_eq (r : Fin 2) {s : ℕ} (hs : s < 6) : l4Gen20 r.val s = l4Mat20 r ⟨s, hs⟩ := by
-  simp only [l4Gen20, pkGen20, hs, if_true, l4Mat20]
+  simp only [l4Gen20, pkGen20, hs, ite_true, l4Mat20]
 
 @[expose] def l4Inner20X1 : Array (Array ℕ) :=
   #[

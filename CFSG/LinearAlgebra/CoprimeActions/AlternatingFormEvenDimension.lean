@@ -42,7 +42,7 @@ theorem exists_half_finrank {F V : Type*} [Field F] [AddCommGroup V] [Module F V
         intro s t h
         have h1 := congrArg (fun x => B x w) h
         have h2 := congrArg (fun x => B v x) h
-        simp [hvv, hww, hwv, ← hc] at h1 h2
+        simp [hvv, hww, ← hc] at h1 h2
         refine ⟨?_, ?_⟩
         · rcases h1 with h1 | h1
           · exact h1
@@ -60,7 +60,7 @@ theorem exists_half_finrank {F V : Type*} [Field F] [AddCommGroup V] [Module F V
           obtain ⟨a, b, hab⟩ := mem_span_pair.1 (by simpa [W, Set.range_comp, Matrix.range_cons] using x.2)
           have h1 := hx ⟨v, hvW⟩
           have h2 := hx ⟨w, hwW⟩
-          simp only [LinearMap.BilinForm.restrict_apply] at h1 h2
+          simp only at h1 h2
           rw [← hab] at h1 h2
           simp [hvv, hww, hwv] at h1 h2
           have ha : a = 0 := by

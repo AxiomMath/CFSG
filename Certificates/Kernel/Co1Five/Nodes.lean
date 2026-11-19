@@ -85,7 +85,7 @@ theorem nodeIn₀ : ∀ k < 20740, NodeIn GA TS k := by
 
 theorem matK_nodeS {k : Nat} (h : k < 20740) : matK (TS k) = matHom GA (nodeS k) := by
   unfold nodeS
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact (nodeIn₀ k h).choose_spec.2
 
 @[expose] noncomputable def QS : Subgroup ↥GA :=
@@ -129,7 +129,7 @@ theorem nodeIn : ∀ k < 21365, NodeIn GA TS k := by
 
 theorem matK_nodeG {k : Nat} (h : k < 21365) : matK (TS k) = matHom GA (nodeG k) := by
   unfold nodeG
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact (nodeIn k h).choose_spec.2
 
 theorem nodeG_eq {k : Nat} (hk : k < 21365) (g : ↥GA)
@@ -180,7 +180,7 @@ theorem termK_eq {t : Nat} (ht : t % 2 = 0 → t / 2 < 21365) :
   · refine epM_congr 5 _ (fun g hg => matK_nodeG ?_) _ 1
     rw [GL_eq] at hg
     have hi : t / 2 % 4 < 4 := Nat.mod_lt _ (by norm_num)
-    interval_cases (t / 2 % 4) <;> simp at hg <;> omega
+    interval_cases (t / 2 % 4) <;> simp at hg; omega
 
 theorem eqG {s t u w : Nat} (hq : [s, t, u, w] ∈ getLLL Q 0)
     (hb : ∀ x ∈ [s, t, u, w], x % 2 = 0 → x / 2 < 21365) :

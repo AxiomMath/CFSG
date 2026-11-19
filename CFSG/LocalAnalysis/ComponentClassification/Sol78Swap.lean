@@ -630,7 +630,7 @@ theorem swap_pump_up (hSchur : SolAltLit.SchurAlternatingMultiplierInput) {x y :
       exact dvd_trans h1 h2
     exact Nat.dvd_of_mul_dvd_mul_left (by norm_num) h3
   obtain ⟨S⟩ : Nonempty (Sylow 2 W) := inferInstance
-  refine ⟨(S : Subgroup W).map W.subtype, S.isPGroup'.map W.subtype,
+  refine ⟨(S : Subgroup W).map W.subtype, S.isPGroup.map W.subtype,
     (map_subtype_le _).trans hWK, ?_⟩
   rw [Subgroup.card_map_of_injective W.subtype_injective]
   have hS := S.pow_dvd_card_of_pow_dvd_card hWdvd

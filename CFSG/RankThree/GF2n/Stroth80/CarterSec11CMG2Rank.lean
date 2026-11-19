@@ -46,7 +46,7 @@ theorem six_le_of_card_adjointGroup_G2_dvd_card_GL {K : Type} [Field K] [Finite 
     intro h
     have h' : (p : ℤ) ∣ ((2 ^ x : ℕ) : ℤ) := by simpa using h
     exact hpq (Int.natCast_dvd_natCast.mp h')
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = 2 ^ x := by
     rw [Fintype.card_eq_nat_card, hK]
   have hGLformula := CFSG.GroupTheory.WeirSylow.natCard_GL_cast K d

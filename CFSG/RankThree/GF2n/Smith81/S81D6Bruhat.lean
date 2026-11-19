@@ -22,7 +22,7 @@ theorem presPiece_of_single {g : Module.End K (V K)}
   rw [hsum, map_sum]
   rw [mem_Piece_iff]
   intro b hb
-  rw [Finsupp.finset_sum_apply]
+  rw [_root_.Finsupp.finsetSum_apply]
   refine Finset.sum_eq_zero fun a ha => ?_
   rw [map_smul, Finsupp.smul_apply]
   have hai : pr a theta = i := by
@@ -44,7 +44,7 @@ theorem tor_mem_GG {t : ↥(e7Data_valid.minGroup K)} (ht : t ∈ Tor K) :
     rw [mem_Piece_iff]
     intro b hb
     have hne : a ≠ b := fun hab => hb (by rw [hab])
-    rw [Finsupp.smul_apply, Finsupp.single_apply, if_neg hne, smul_zero]
+    rw [Finsupp.smul_apply, Finsupp.single_apply, ite_eq_right hne, smul_zero]
   show PresPiece ((t : (Module.End K (V K))ˣ) : Module.End K (V K)) ∧
     PresPiece (((t : (Module.End K (V K))ˣ)⁻¹ : (Module.End K (V K))ˣ) : Module.End K (V K))
   exact ⟨key t ht, key t⁻¹ (inv_mem ht)⟩

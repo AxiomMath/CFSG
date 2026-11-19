@@ -11,12 +11,14 @@ open Subgroup
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 lemma exists_mul_eq_of_mem_sup {L C : Subgroup K} (hL : L.Normal) (hsup : L ⊔ C = ⊤)
     (x : K) : ∃ l ∈ L, ∃ c ∈ C, l * c = x := by
-  haveI : L.Normal := hL
+  have : L.Normal := hL
   have hx : x ∈ L ⊔ C := by rw [hsup]; exact Subgroup.mem_top x
   exact Subgroup.mem_sup_of_normal_left.mp hx
 
+omit [Finite K] in
 lemma eq_of_mul_eq_mul {L C : Subgroup K} (hLC : Disjoint L C) {l l' c c' : K}
     (hl : l ∈ L) (hl' : l' ∈ L) (hc : c ∈ C) (hc' : c' ∈ C) (h : l * c = l' * c') :
     l = l' ∧ c = c' := by
@@ -37,6 +39,7 @@ lemma eq_of_mul_eq_mul {L C : Subgroup K} (hLC : Disjoint L C) {l l' c c' : K}
     exact mul_left_cancel h
   exact ⟨hl_eq, hc_eq⟩
 
+omit [Finite K] in
 lemma sq_eq_one_and_commute_of_mul_mem {E L C : Subgroup K} (hE : GoodE E) (hL : L.Normal)
     (hsup : L ⊔ C = ⊤) (hLC : Disjoint L C)
     (hcomm : ∀ l ∈ L, ∀ c ∈ C, l * c = c * l) {l c : K} (hl : l ∈ L) (hc : c ∈ C)
@@ -263,8 +266,9 @@ lemma splitM1_le_normalizer (hP : P12Facts) (hK : SolomonA12HypK K) {E L C : Sub
     (normalizer_inf_left_le hP hK hE hL hsup hLC hcomm hl)
     (Subgroup.le_normalizer (H := E) hc.1)
 
+omit [Finite K] in
 lemma splitM1_normalized {E L C : Subgroup K} (hL : L.Normal) (hsup : L ⊔ C = ⊤)
-    (hLC : Disjoint L C) (hcomm : ∀ l ∈ L, ∀ c ∈ C, l * c = c * l) {g : K}
+    (_hLC : Disjoint L C) (hcomm : ∀ l ∈ L, ∀ c ∈ C, l * c = c * l) {g : K}
     (hg : g ∈ normalizer (E : Set K)) {m : K} (hm : m ∈ splitM1 E L C hcomm) :
     g * m * g⁻¹ ∈ splitM1 E L C hcomm := by
   obtain ⟨l, hl, c, hc, rfl⟩ := hm

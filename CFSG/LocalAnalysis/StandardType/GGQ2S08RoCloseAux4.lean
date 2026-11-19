@@ -55,7 +55,7 @@ theorem ggQ2s08r4_identity
      [Finite G] (hLB : GGLBalanceInput) (hP : GGStdSubPrimeInput)
     {B : Subgroup G} {D J : Subgroup G}
     (hS : GGQTwoSetting 3 B Bs x L D J) (hCav : 4 ∣ Nat.card ↥(ggAutomizer J Bs))
-    (M : GGQ2LDatum 3 Bs L x) {N : ℕ} (f : Fin N → M.V) (hf : GGQ2S08ROFrame M f)
+    (M : GGQ2LDatum 3 Bs L x) {N : ℕ} (f : Fin N → M.V) (_hf : GGQ2S08ROFrame M f)
     {g : G} {φ : MulAut ↥Bs} (hInd : GGQ2Ind Bs g φ)
     (hlin : ggLin (p := 3) M.model φ = 1) :
     g ∈ Subgroup.normalizer (ggG0 3 B x L D J : Set G) := by
@@ -171,10 +171,10 @@ theorem ggQ2s08r4_sign_L_le
     (hS : GGQTwoSetting 3 B Bs x L D J) (hCav : 4 ∣ Nat.card ↥(ggAutomizer J Bs))
     (M : GGQ2LDatum 3 Bs L x) {N : ℕ} (h2 : 2 ≤ N)
     (f : Fin N → M.V) (hf : GGQ2S08ROFrame M f) (Q : Fin N → Subgroup G)
-    (hQle : ∀ j, Q j ≤ L)
+    (_hQle : ∀ j, Q j ≤ L)
     (hQcomp : ∀ j, LargeEvenPComponent 3 (Subgroup.centralizer
       ({x, ((ggQ2s08r4_b M f j : ↥Bs) : G)} : Set G)) (Q j))
-    (hQnorm : ∀ j, Bs ≤ Subgroup.normalizer (Q j : Set G))
+    (_hQnorm : ∀ j, Bs ≤ Subgroup.normalizer (Q j : Set G))
     (hQa : ∀ j, 4 ∣ Nat.card ↥(ggAutomizer (Q j) Bs))
     (hQgen : ∀ i j, i ≠ j → Q i ⊔ Q j = L)
     (hD : ∀ T : M.V ≃ₗ[ZMod 3] M.V, GGQ2S08MonoEven f T →
@@ -275,7 +275,7 @@ theorem ggQ2s08r4_sign_L_le
             Subgroup.map_mono (le_ggG0_left 3 B x L D J)
         _ = ggG0 3 B x L D J := map_conj_eq_of_mem_normalizer hmG0
     exact habs.trans hLm_le
-  haveI : Nontrivial (Fin N) :=
+  have : Nontrivial (Fin N) :=
     ⟨⟨0, by omega⟩, ⟨1, by omega⟩, by simp⟩
   obtain ⟨j, hjk⟩ := exists_ne k
   have hgen : Q k ⊔ Q j = L := hQgen k j (Ne.symm hjk)

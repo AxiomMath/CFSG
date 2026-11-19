@@ -116,10 +116,10 @@ theorem sumM_eq (f : Nat → Nat) (g : Nat → Bool) (lab : Nat → Nat) (m N : 
     rw [sumM_succ, ih (by omega), hsplit, hlast]
 
 theorem memO_eq {P : W10} (hP : ∀ j < 1024, atW P j = ofCode j) (c : Nat) {x : Nat}
-    (hx : x < 1024) : memO P c x = (orbitOf (allL ()) (ofCode c)).contains (ofCode x) := by
+    (_hx : x < 1024) : memO P c x = (orbitOf (allL ()) (ofCode c)).contains (ofCode x) := by
   have key : (orbitOf (allL ()) (ofCode c)).contains (ofCode x) = true ↔
       ∃ g < 1024, ofCode g * ofCode c * (ofCode g)⁻¹ = ofCode x := by
-    rw [List.contains_iff, orbitOf, List.mem_dedup, allL, List.map_map, List.mem_map]
+    rw [_root_.List.contains_iff_mem, orbitOf, List.mem_dedup, allL, List.map_map, List.mem_map]
     simp only [List.mem_range, Function.comp_apply]
   have hbit : ∀ g < 1024, (difW (mulW (mulW P (BC c)) (invW P)) (BC x)).testBit g =
       !decide (ofCode g * ofCode c * (ofCode g)⁻¹ = ofCode x) := by
@@ -133,7 +133,7 @@ theorem memO_eq {P : W10} (hP : ∀ j < 1024, atW P j = ofCode j) (c : Nat) {x :
     simp only [not_forall] at hne
     obtain ⟨g, hg, hgb⟩ := hne
     rw [hbit g hg] at hgb
-    simp only [Bool.not_eq_true', Bool.not_eq_false', decide_eq_true_eq] at hgb
+    simp only [Bool.not_eq_true'] at hgb
     exact ⟨fun _ => ⟨g, hg, by simpa using hgb⟩, fun _ => rfl⟩
   · have he := (land_ALL_eq_iff _).1 (Nat.eq_of_beq_eq_true hb)
     simp only [Bool.not_true, Bool.false_eq_true, false_iff, not_exists, not_and]
@@ -307,10 +307,8 @@ theorem classesCommute_iff (i j : Nat) :
   · intro h x hx hxi hxl y hy hyi hyl
     first
     | exact h _ x hx hxi hxl rfl _ y hy hyi hyl rfl
-    | exact h x hx hxi hxl y hy hyi hyl
   · intro h
     first
-    | exact h
     | exact fun _ x hx hxi hxl e _ y hy hyi hyl e' => e ▸ e' ▸ h x hx hxi hxl y hy hyi hyl
 
 theorem cm_eq {P : W10} (hP : ∀ j < 1024, atW P j = ofCode j) (hK : ∀ i < 25, kchk P i = true)
@@ -381,7 +379,7 @@ theorem dfsM_spec {row : ℕ → ℕ} {Q : ℕ → Bool} {cm : ℕ → ℕ → B
       · subst hik
         simp
       · have hb : (i == k) = false := beq_eq_false_iff_ne.2 hik
-        simp [hb, hik, Ne.symm hik]
+        simp [hb, Ne.symm hik]
 
 theorem allQm_spec {m n : Nat} (h : allQm m n = true) :
     ∀ i < n, m.testBit i = true → tb QB i = true := by

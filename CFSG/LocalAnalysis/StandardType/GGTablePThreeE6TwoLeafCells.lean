@@ -66,7 +66,7 @@ theorem e6TwoLeaf_center_of_tableZ
   obtain ⟨θ, hLD⟩ := hRest
   obtain ⟨hfinC, hCperf, θC, κ, lift, hκsurj, hκker, hκmk, hκlift, hkg⟩ :=
     CFSG.StandardType.KGUniv.exists_universal_cover_lift hXc θ
-  haveI : Finite (CFSG.RankThree.PerfectCover.HopfCover R) := hfinC
+  have : Finite (CFSG.RankThree.PerfectCover.HopfCover R) := hfinC
   have hα3 : (lift δ) ^ 3 = 1 := by
     simpa using congrArg lift hδ3
   have hαne : lift δ ≠ 1 := by

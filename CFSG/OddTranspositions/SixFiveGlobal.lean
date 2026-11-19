@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem map_conj_eq_self {Q : Subgroup G} (hQ : Q.Normal) (g : G) :
     Q.map (MulAut.conj g).toMonoidHom = Q := by
   apply le_antisymm
@@ -26,17 +27,20 @@ theorem map_conj_eq_self {Q : Subgroup G} (hQ : Q.Normal) (g : G) :
     · change g * (g⁻¹ * x * g) * g⁻¹ = x
       group
 
+omit [Finite G] in
 theorem commutator_zpowers_le_of_normal {Q : Subgroup G} (hQ : Q.Normal) (u : G) :
     ⁅Q, Subgroup.zpowers u⁆ ≤ Q :=
   (Subgroup.le_normalizer_iff_commutator_le_left (H := Subgroup.zpowers u) (K := Q)).1
     (by rw [Subgroup.normalizer_eq_top (h := hQ)]; exact le_top)
 
+omit [Finite G] in
 theorem commutator_zpowers_conj {Q : Subgroup G} (hQ : Q.Normal) (u g : G) :
     ⁅Q, Subgroup.zpowers (g * u * g⁻¹)⁆ =
       (⁅Q, Subgroup.zpowers u⁆).map (MulAut.conj g).toMonoidHom := by
   rw [Subgroup.map_commutator, map_conj_eq_self hQ, MonoidHom.map_zpowers]
   rfl
 
+omit [Finite G] in
 theorem card_commutator_zpowers_eq_of_isConj {Q : Subgroup G} (hQ : Q.Normal) {u w : G}
     (h : IsConj u w) :
     Nat.card (⁅Q, Subgroup.zpowers u⁆ : Subgroup G) =
@@ -92,10 +96,10 @@ theorem sixFiveGlobal_of_inputs
   rw [hmain, hcardZ]
 
 theorem sixFiveGlobal 
-    (hcls : ∃ d₀ : G, D = {g | IsConj d₀ g}) (hodd : IsOddTransp D)
-    (hgen : Subgroup.closure D = ⊤) {Q : Subgroup G} (hQ : Q = CFSG.pCore 2 G)
-    {u w : G} (hu : u ∈ D) (hw : w ∈ D) (hnc : ¬ Commute u w)
-    (hgenQ : Q ⊔ Subgroup.closure ({u, w} : Set G) = ⊤)
+    (hcls : ∃ d₀ : G, D = {g | IsConj d₀ g}) (_hodd : IsOddTransp D)
+    (_hgen : Subgroup.closure D = ⊤) {Q : Subgroup G} (hQ : Q = CFSG.pCore 2 G)
+    {u w : G} (hu : u ∈ D) (hw : w ∈ D) (_hnc : ¬ Commute u w)
+    (_hgenQ : Q ⊔ Subgroup.closure ({u, w} : Set G) = ⊤)
     (hQF : Q ≤ ⁅Q, Subgroup.zpowers u⁆ ⊔ ⁅Q, Subgroup.zpowers w⁆)
     (hPR : ⁅Q, Subgroup.zpowers u⁆ ≤
       Subgroup.normalizer ((⁅Q, Subgroup.zpowers w⁆ : Subgroup G) : Set G))

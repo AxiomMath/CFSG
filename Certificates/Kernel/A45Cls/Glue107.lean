@@ -105,7 +105,7 @@ theorem closure_t0g : closure (t0g '' {k | k < 3}) = T0 := by
   rw [QT0, certificate_originalSubgroup]
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq, t0g, gensT0]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, t0g, gensT0]
   constructor
   · rintro ⟨k, hk, rfl⟩
     interval_cases k <;> simp
@@ -124,7 +124,7 @@ theorem closure_qg : closure (qg '' {k | k < 4}) = Q0 := by
   unfold Q0
   congr 1
   ext g
-  simp only [Set.mem_image, Set.mem_setOf_eq, qg, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, qg, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨k, hk, rfl⟩
     interval_cases k <;> simp
@@ -207,7 +207,7 @@ theorem prep_tP {c : ℕ → P45} (hc : ∀ i < 64, PRep 45 6 (TZ.T i) (c i)) {U
     have e2 : tPI 45 6 64 TZ.T t0If Ui p = TZ.T (t0If p) := by
       unfold tPI
       rw [hb]
-    rw [e1, e2, dT, if_pos h]
+    rw [e1, e2, dT, ite_eq_left h]
     refine ⟨hc p h, ?_⟩
     rw [← prep_t0I hc h]
     exact hc _ (t0I_lt p)
@@ -222,7 +222,7 @@ theorem prep_tP {c : ℕ → P45} (hc : ∀ i < 64, PRep 45 6 (TZ.T i) (c i)) {U
       unfold tPI
       rw [hb]
     have hq : p - 64 < 64 := by omega
-    rw [e1, e2, dT, if_neg h]
+    rw [e1, e2, dT, ite_eq_right h]
     refine ⟨prep_pcomp hn45 (hc _ hq) hu, ?_⟩
     rw [mul_inv_rev, ← prep_t0I hc hq]
     exact prep_pcomp hn45 hui (hc _ (t0I_lt _))
@@ -259,11 +259,11 @@ theorem dT_cover
     (hy : y ∈ T) : ∃ p < 128, dT c u p = y := by
   by_cases h : y ∈ T0
   · obtain ⟨i, hi, rfl⟩ := hall y h
-    exact ⟨i, by omega, by rw [dT, if_pos hi]⟩
+    exact ⟨i, by omega, by rw [dT, ite_eq_left hi]⟩
   · obtain ⟨a, ha, rfl⟩ :=
       CFSG.OddStandard.SmallF3.Omega.Mo107.exists_mul_over hT0 hTA hT2 hu hu0 hy h
     obtain ⟨i, hi, rfl⟩ := hall a ha
-    exact ⟨i + 64, by omega, by rw [dT, if_neg (by omega), Nat.add_sub_cancel]⟩
+    exact ⟨i + 64, by omega, by rw [dT, ite_eq_right (by omega), Nat.add_sub_cancel]⟩
 
 theorem model_at
     {T : Subgroup P45} (hT0 : T0 ≤ T) (hTA : T ≤ A) (hT2 : IsPGroup 2 T) {j : ℕ} (hj : j < 3)
@@ -297,7 +297,7 @@ theorem model_at
   have hyb : y2p j < 64 := witBounds.2.2.1 j hj
   set y2 := c0 (y2p j) * u with hy2_def
   have hy2 : PRep 45 6 (y2P j) y2 := prep_pcomp hn45 (hc0 _ hyb).1 hu
-  simp only [Bool.and_eq_true, Bool.not_eq_true', beq_iff_eq] at hy
+  simp only [Bool.and_eq_true, Bool.not_eq_true'] at hy
   obtain ⟨⟨hyinv, hyfix⟩, hyout⟩ := hy
   have hy2T0 : y2 ∉ T0 := by
     intro h
@@ -435,7 +435,7 @@ theorem model_at
         ∃ aw bw, (∀ ws ∈ aw, ∀ p ∈ ws, p < 128) ∧ bw.getD 1 0 < 16 ∧
           outX 45 6 64 TZ.T t0If BT BG (uP j) (uiP j) P aw bw = true := by
     intro X hXT _ hXs hX0
-    obtain ⟨x, hxX, hx0⟩ := SetLike.not_le_iff_exists.1 hX0
+    obtain ⟨x, hxX, hx0⟩ := IsConcreteLE.not_le_iff_exists.1 hX0
     exact ⟨x, hxX, hx0, houter x (hXT hxX) hx0 (hXs x hxX)⟩
   refine ⟨B2, y2, ⟨hle, hcomm, hsq, hcard, hnorm, ?_, hy2T0, ?_, hmemB, ?_, ?_⟩⟩
   · exact (hmemB y2).2 (Or.inr ⟨1, Q0.one_mem, by simp, by simp⟩)

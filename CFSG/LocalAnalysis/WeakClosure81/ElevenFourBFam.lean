@@ -38,18 +38,21 @@ theorem exists_isBHSFamily {K Q : Subgroup G} (hK : CharTwo K)
     CFSG.LocalAnalysis.RankThreeTheoremC.bhsLocalCStar_proved G K Q hK hQ hne
   exact ⟨𝒢, ⟨h1, h2, h3, h4, h5, h6, h7⟩⟩
 
+omit [Finite G] in
 theorem isBTBlock_of_le {K K' Q E : Subgroup G} (h : IsBTBlock K Q E) (hE : E ≤ K') :
     IsBTBlock K' Q E :=
   { h with le := hE }
 
+omit [Finite G] in
 theorem b114_ElevenFourBFam_conjSub_subgroupOf {K : Subgroup G} (g : ↥K) (E : Subgroup G) :
     A1b.conjSub g (E.subgroupOf K) = (A1b.conjSub (g : G) E).subgroupOf K := by
   ext x
   rw [A1b.mem_conjSub_iff, Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf, A1b.mem_conjSub_iff]
   exact Iff.rfl
 
+omit [Finite G] in
 theorem isSubnormal_subgroupOf_of_mem_family {K : Subgroup G} {𝒢 : Set (Subgroup G)}
-    (hle : ∀ E ∈ 𝒢, E ≤ K) (hinv : ∀ E ∈ 𝒢, ∀ g ∈ K, A1b.conjSub g E ∈ 𝒢)
+    (_hle : ∀ E ∈ 𝒢, E ≤ K) (hinv : ∀ E ∈ 𝒢, ∀ g ∈ K, A1b.conjSub g E ∈ 𝒢)
     (hcomm : ∀ E ∈ 𝒢, ∀ E' ∈ 𝒢, E ≠ E' → ∀ x ∈ E, ∀ y ∈ E', x * y = y * x)
     {E : Subgroup G} (hE : E ∈ 𝒢) : (E.subgroupOf K).IsSubnormal := by
   let 𝒢' : Set (Subgroup ↥K) := {F | ∃ E ∈ 𝒢, F = E.subgroupOf K}
@@ -75,6 +78,7 @@ theorem isSylowOf_inf_of_isSubnormal_rel {K Q E : Subgroup G} (hQ : IsSylowOf 2 
   exact (Glue.isSylowOf_subgroupOf_iff' (S := Q ⊓ E) (X := E) (K := K)
     (inf_le_left.trans hQ.1) hEK).mp h1
 
+omit [Finite G] in
 theorem b114_ElevenFourBFam_false_of_sl_normalizes {Q E : Subgroup G}
     (hS : IsSylowOf 2 (Q ⊓ E) E) {n : ℕ} (hE : IsNaturalSLTwoModule ↥E n)
     (hnorm : E ≤ Subgroup.normalizer ((Q ⊓ E : Subgroup G) : Set G)) : False := by
@@ -102,9 +106,11 @@ namespace IsBHSFamily
 
 variable {K Q : Subgroup G} {𝒢 : Set (Subgroup G)}
 
+omit [Finite G] in
 theorem le (h : IsBHSFamily K Q 𝒢) {E : Subgroup G} (hE : E ∈ 𝒢) : E ≤ K :=
   (h.isBlock E hE).le
 
+omit [Finite G] in
 theorem isSubnormal (h : IsBHSFamily K Q 𝒢) {E : Subgroup G} (hE : E ∈ 𝒢) :
     (E.subgroupOf K).IsSubnormal :=
   isSubnormal_subgroupOf_of_mem_family (fun _ hE' => h.le hE') h.conj_mem h.comm hE
@@ -139,6 +145,7 @@ theorem not_le_cStarIn (h : IsBHSFamily K Q 𝒢) (hQ : IsSylowOf 2 Q K) {E : Su
     rw [htop, Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)] at e
     exact Glue.false_of_alt_top hm hEalt e
 
+omit [Finite G] in
 theorem eq_of_le_of_le (h : IsBHSFamily K Q 𝒢) {E E' F : Subgroup G} (hE : E ∈ 𝒢)
     (hE' : E' ∈ 𝒢) (hFE : F ≤ E) (hFE' : F ≤ E')
     (hF : ¬ ∀ a ∈ F, ∀ b ∈ F, a * b = b * a) : E = E' := by

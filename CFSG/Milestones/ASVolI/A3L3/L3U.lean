@@ -42,7 +42,7 @@ theorem burnsideA315y_utMat_mul_inv (a b c : F) :
     burnsideA315y_utMat a b c * burnsideA315y_utMat (-a) (a * c - b) (-c) = 1 := by
   rw [burnsideA315y_utMat_mul]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [burnsideA315y_utMat] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [burnsideA315y_utMat]; ring
 
 variable (Γ : Subgroup (GL (Fin 3) F))
 
@@ -50,14 +50,14 @@ variable (Γ : Subgroup (GL (Fin 3) F))
   carrier := {g | burnsideA315y_IsUT ((g : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F)}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, Subgroup.coe_mul, Units.val_mul] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Subgroup.coe_mul, Units.val_mul] at ha hb ⊢
     rw [burnsideA315y_eq_utMat ha, burnsideA315y_eq_utMat hb, burnsideA315y_utMat_mul]
     exact burnsideA315y_utMat_isUT _ _ _
   one_mem' := by
     simp [burnsideA315y_IsUT]
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     have h1 := burnsideA315y_eq_utMat ha
     have hinv : (((a⁻¹ : ↥Γ) : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) =
         burnsideA315y_utMat (-((a : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) 0 1)
@@ -128,7 +128,7 @@ theorem burnsideA315y_l3_U1_ker {g : ↥(burnsideA315y_l3Model x y hxy two_ne).�
 theorem burnsideA315y_l3_card_Γ₁ {p : ℕ} [Fact p.Prime] (hF : Nat.card F = p) :
     Nat.card ↥(burnsideA315y_l3Model x y hxy two_ne).Γ₁ * (p - 1) =
       (p ^ 3 - 1) * (p ^ 3 - p) * (p ^ 3 - p ^ 2) := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hFc : Fintype.card F = p := by rw [← Nat.card_eq_fintype_card, hF]
   have := Subgroup.card_mul_index (burnsideA315y_l3Model x y hxy two_ne).Γ₁
   rw [burnsideA315y_l3_index_Γ₁, Nat.card_units, hF] at this
@@ -230,8 +230,7 @@ theorem burnsideA315y_l3_cartanU {p : ℕ} [Fact p.Prime] (hF : Nat.card F = p) 
       show burnsideA315y_IsUT (((d * u * d⁻¹ : ↥M.Γ) : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F)
       simp only [Subgroup.coe_mul, Units.val_mul]
       rw [hinv, ← hD, hDdiag, burnsideA315y_eq_utMat hu]
-      simp [burnsideA315y_IsUT, burnsideA315y_utMat, Matrix.mul_apply, Fin.sum_univ_three,
-        diagonal, ha, hw]
+      simp [burnsideA315y_IsUT, burnsideA315y_utMat, Matrix.mul_apply, diagonal, ha, hw]
     rintro _ ⟨d, hd, rfl⟩
     rw [Subgroup.mem_normalizer_iff]
     intro z

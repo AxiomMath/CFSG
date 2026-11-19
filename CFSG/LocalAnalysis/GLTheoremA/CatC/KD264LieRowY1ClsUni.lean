@@ -35,8 +35,8 @@ theorem statedSU_det_eq_one {m q : ℕ} {K : Type} [Field K] (g : GL (Fin m) K)
 theorem not_dvd_card_statedScalars_five {p f : ℕ} [Finite K] [CharP K p] [Fact p.Prime] :
     ¬ 3 ∣ Nat.card ((StatedScalars (Fin 5) K).subgroupOf (StatedSU 5 (p ^ f) K)) := by
   intro h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype ((StatedScalars (Fin 5) K).subgroupOf (StatedSU 5 (p ^ f) K)) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype ((StatedScalars (Fin 5) K).subgroupOf (StatedSU 5 (p ^ f) K)) :=
     Fintype.ofFinite _
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card 3 (by rwa [Nat.card_eq_fintype_card] at h)
   have hz3 : z ^ 3 = 1 := by rw [← hz]; exact pow_orderOf_eq_one z
@@ -81,14 +81,14 @@ theorem not_dvd_card_statedScalars_five {p f : ℕ} [Finite K] [CharP K p] [Fact
 theorem statedProj_pRank_ge_four_of_five (ℓ f : ℕ) [hℓ : Fact ℓ.Prime] (hdvd : 3 ∣ ℓ ^ f + 1) :
     4 ≤ CFSG.Open.pRank 3
       (⊤ : Subgroup (StatedProj (StatedSU 5 (ℓ ^ f) (GaloisField ℓ (2 * f))))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hf : 0 < f := by
     rcases Nat.eq_zero_or_pos f with h0 | h0
     · subst h0
       norm_num at hdvd
     · exact h0
-  haveI : Finite (GaloisField ℓ (2 * f)) := inferInstance
-  haveI : CharP (GaloisField ℓ (2 * f)) ℓ := inferInstance
+  have : Finite (GaloisField ℓ (2 * f)) := inferInstance
+  have : CharP (GaloisField ℓ (2 * f)) ℓ := inferInstance
   have hK : Nat.card (GaloisField ℓ (2 * f)) = (ℓ ^ f) ^ 2 := by
     rw [GaloisField.card ℓ (2 * f) (by omega), pow_mul]
     ring

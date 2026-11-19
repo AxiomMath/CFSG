@@ -49,6 +49,7 @@ variable [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω]
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [IsAlgClosed Ω] [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] [Finite X] in
 theorem etaG0_eq_conj_etaF4
     {f : ℕ} [Algebra (GaloisField 2 f) Ω]
     (ψ : adjointGroup Tag.F4 (GaloisField 2 f) →* X) (G0 : Subgroup X) (hG0 : ψ.range = G0)
@@ -67,6 +68,7 @@ theorem etaG0_eq_conj_etaF4
       ((psiEquiv ψ G0 hG0 hker hcenter).symm y) : ModGL Tag.F4 Ω) * g0) * g0⁻¹
   group
 
+omit [IsAlgClosed Ω] [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] [Finite X] in
 theorem iotaF4_injective_local
     {f : ℕ} [Algebra (GaloisField 2 f) Ω]
     (ψ : adjointGroup Tag.F4 (GaloisField 2 f) →* X) (G0 : Subgroup X) (hG0 : ψ.range = G0)
@@ -79,6 +81,7 @@ theorem iotaF4_injective_local
   rw [iotaF4_e, iotaF4_e] at hxy
   rw [jF4_injective hxy]
 
+omit [IsAlgClosed Ω] [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] [Finite X] in
 theorem etaF4_injective_local
     {f : ℕ} [Algebra (GaloisField 2 f) Ω]
     (ψ : adjointGroup Tag.F4 (GaloisField 2 f) →* X) (G0 : Subgroup X) (hG0 : ψ.range = G0)
@@ -97,6 +100,7 @@ theorem etaF4_injective_local
       _ = (i y : ModGL Tag.F4 Ω) := by group
   exact iotaF4_injective_local ψ G0 hG0 hker hcenter (Subtype.ext h1)
 
+omit [IsAlgClosed Ω] [CharP Ω 2] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem conjugatedRootRange_le_conj_rootSubgroup
     {k : Type} [Field k] [Algebra k Ω]
     (wD : ModGL Tag.F4 Ω) (α : Fin Tag.F4.rank → ℤ) (ε : Ωˣ) :
@@ -108,6 +112,7 @@ theorem conjugatedRootRange_le_conj_rootSubgroup
   exact Subgroup.mem_map.2 ⟨pinnedX Tag.F4 Ω α ((ε : Ω) * algebraMap k Ω t),
     Subgroup.subset_closure ⟨_, rfl⟩, rfl⟩
 
+omit [IsAlgClosed Ω] [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem f4_frob_conj_step_commute
     (f : ℕ) [Algebra (GaloisField 2 f) Ω] {Fr : Ω →+* Ω}
     (hFr : ∀ c, Fr c = c ^ Nat.card (GaloisField 2 f))
@@ -133,6 +138,7 @@ theorem f4_frob_conj_step_commute
         (langDatumF4 (K := GaloisField 2 f) (L := Ω) Fr hFr w hg0C hg0).n⁻¹ from rfl, hPhi]
   group
 
+omit [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem map_entrywiseFrobGL_rootSubgroup
     (f : ℕ) (hf : 1 ≤ f)
     (α : Fin Tag.F4.rank → ℤ) :
@@ -156,6 +162,7 @@ theorem map_entrywiseFrobGL_rootSubgroup
     refine ⟨pinnedX Tag.F4 Ω α d, Subgroup.subset_closure ⟨d, rfl⟩, ?_⟩
     rw [LangPosition.entrywiseFrobGL_pinnedX_no117 (τ := Tag.F4) (k := Ω) 2 f α d, hd]
 
+omit [Algebra (ZMod 2) Ω] [Algebra.IsAlgebraic (ZMod 2) Ω] in
 theorem f4_frob_stable_of_step_stable
     (f : ℕ) (hf : 1 ≤ f) [Algebra (GaloisField 2 f) Ω] {Fr : Ω →+* Ω}
     (hFr : ∀ c, Fr c = c ^ Nat.card (GaloisField 2 f))

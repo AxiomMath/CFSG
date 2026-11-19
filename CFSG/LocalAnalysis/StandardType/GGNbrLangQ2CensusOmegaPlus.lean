@@ -93,7 +93,7 @@ private theorem q2cOP_torusLift {p : ℕ} {lab : LargeEvenLabel}
   obtain ⟨t, l, n⟩ := lab
   dsimp only [LargeEvenLabel.tag, LargeEvenLabel.rank] at htag h4
   subst htag
-  simp only [LargeEvenRawDatum, if_neg (show ¬ l = 3 by omega)] at hQ ⊢
+  simp only [LargeEvenRawDatum, ite_eq_right (show ¬ l = 3 by omega)] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hQ'⟩ := hQ
   refine ⟨K, i1, i2, hK, hQ', ?_⟩
   intro h2n
@@ -104,7 +104,7 @@ private theorem q2cOP_torusLift {p : ℕ} {lab : LargeEvenLabel}
     · rcases h with h | h <;> cases h
     · have hn1' : n = 1 := hn1
       exact absurd hn1' (by omega)
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   have hpqK : p ∣ Nat.card K - 1 := by rw [hK]; exact hpq
   exact TableBSymp.ggTorusLift_omegaPlus (K := K) (m := l) hp hp2 hpqK (by omega)
 
@@ -115,14 +115,14 @@ private theorem q2cOP_natural_component
     (hconj : Function.Injective
       (MulAut.conj : LargeEvenProj (LargeEvenOmega Q) →*
         MulAut (LargeEvenProj (LargeEvenOmega Q))))
-    {p d m : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hm : 2 ≤ m)
+    {p d m : ℕ} (_hp : p.Prime) (_hp2 : p ≠ 2) (_hm : 2 ≤ m)
     (A : Subgroup (MulAut (LargeEvenProj (LargeEvenOmega Q))))
     (hA : IsElemAbelian p A)
     (hAI : ∀ a ∈ A, a ∈ LargeEvenInnSet (LargeEvenProj (LargeEvenOmega Q)))
     (u : MulAut (LargeEvenProj (LargeEvenOmega Q))) (hu : u ∈ A) (huo : orderOf u = p)
     (J : Subgroup (LargeEvenProj (LargeEvenOmega Q)))
     (hJ : CFSG.Open.IsComponentOf J (ggAutFixedSubgroup u))
-    (K' : Type) [Field K'] [Finite K'] (hK' : Nat.card K' = 2 ^ m)
+    (K' : Type) [Field K'] [Finite K'] (_hK' : Nat.card K' = 2 ^ m)
     (hne : Nonempty (↥J ⧸ Subgroup.center ↥J ≃*
       LargeEvenProj (LargeEvenSLGroup (Fin d) K'))) :
     ∃ (s : ↥(LargeEvenOmega ⇑Φ)) (C : Subgroup ↥(LargeEvenOmega ⇑Φ)),
@@ -193,11 +193,11 @@ theorem q2cOP_block_structure {p d m : ℕ} {lab : LargeEvenLabel}
   obtain ⟨tag, l, n⟩ := lab
   dsimp only [LargeEvenLabel.tag, LargeEvenLabel.rank] at htag h4
   subst htag
-  simp only [LargeEvenRawDatum, if_neg (show ¬ l = 3 by omega)] at hP₀ ⊢
+  simp only [LargeEvenRawDatum, ite_eq_right (show ¬ l = 3 by omega)] at hP₀ ⊢
   obtain ⟨K, iK, iFinK, hK, hP₀'⟩ := hP₀
   refine ⟨K, iK, iFinK, hK, hP₀', ?_⟩
   intro A hA hAI hbig h3 hlo hup u hu huo J hJ huniq hAJ K' iK' iFinK' hK' hne
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   have hd : 3 ≤ d := (Nat.pow_le_pow_iff_right hp.one_lt).mp (h3.trans hup)
   have hscal : (LargeEvenScalars (Fin l ⊕ Fin l) K).subgroupOf
       (LargeEvenOmega (LargeEvenQPlus K l)) = ⊥ :=
@@ -230,8 +230,8 @@ theorem q2cOP_block_structure {p d m : ℕ} {lab : LargeEvenLabel}
     obtain ⟨hcard, hdle⟩ := q2cOS_selected_block (Φ := TableBOrth.qPlusForm K l)
       (TableBOrth.nondegenerate_qPlusForm l) h8 hp hp2 hd hpd hpK hm hK'
       (fun W hW => TableBOrth.finrank_le_of_singular_qPlus W hW) s hs C hC hneC.some
-    haveI : Fintype K' := Fintype.ofFinite K'
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K' := Fintype.ofFinite K'
+    have : Fintype K := Fintype.ofFinite K
     have hcardFF : Fintype.card K' = Fintype.card K := by
       simpa [Nat.card_eq_fintype_card] using hcard
     let τ : K' ≃+* K := FiniteField.ringEquivOfCardEq hcardFF

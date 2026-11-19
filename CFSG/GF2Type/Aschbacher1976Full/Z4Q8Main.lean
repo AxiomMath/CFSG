@@ -14,7 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem centralizer_Fz_le {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2) {h : G}
+theorem centralizer_Fz_le {z : G} (_hZ : IsZ4Star z 1) (_hz : orderOf z = 2) {h : G}
     (hh : h ∈ Hz z) (hc : ∀ f ∈ Fz z, h * f = f * h) : h ∈ Fz z := by
   have hmem : (⟨h, hh⟩ : ↥(Hz z)) ∈
       Subgroup.centralizer ((generalizedFitting ↥(Hz z) : Subgroup ↥(Hz z)) : Set ↥(Hz z)) := by
@@ -56,8 +56,8 @@ theorem isSylow_of_T {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2) {T : Subgr
     ∀ S : Subgroup G, IsPGroup 2 ↥S → T ≤ S → S = T := by
   intro S hS hTS
   by_contra hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥S := hS.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥S := hS.isNilpotent
   have hzT : ∀ t ∈ T, z * t = t * z := fun t ht => (Subgroup.mem_centralizer_iff.mp (hTH ht)) z
     (Set.mem_singleton z)
   have hzF : z ∈ T := hFT ((mem_Zc_iff hZ hz).mp (z_mem_Zc hZ hz)).1
@@ -72,7 +72,7 @@ theorem isSylow_of_T {z : G} (hZ : IsZ4Star z 1) (hz : orderOf z = 2) {T : Subgr
       rw [htop]
       exact Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.mp hmem
-  obtain ⟨x, hxN, hxT⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent T' hT'top)
+  obtain ⟨x, hxN, hxT⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent T' hT'top)
   set g : G := (x : G) with hg
   have hgN : ∀ t ∈ T, g * t * g⁻¹ ∈ T := by
     intro t ht

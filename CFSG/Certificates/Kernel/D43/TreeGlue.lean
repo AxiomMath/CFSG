@@ -24,10 +24,10 @@ theorem dG_digW (γ : ℕ → G) (l : Fin 8 × Bool) :
   obtain ⟨k, b⟩ := l
   have hk := k.2
   cases b
-  · simp only [digW, Bool.false_eq_true, if_false, cond_false, dG]
-    rw [if_neg (by omega), if_pos ⟨by omega, by omega⟩, Nat.add_sub_cancel]
-  · simp only [digW, if_true, cond_true, dG]
-    rw [if_pos ⟨by omega, by omega⟩, Nat.add_sub_cancel]
+  · simp only [digW, Bool.false_eq_true, ite_false, Bool.cond_false, dG]
+    rw [ite_eq_right (by omega), ite_eq_left ⟨by omega, by omega⟩, Nat.add_sub_cancel]
+  · simp only [digW, ite_true, _root_.Bool.cond_true, dG]
+    rw [ite_eq_left ⟨by omega, by omega⟩, Nat.add_sub_cancel]
 
 theorem wG_encW (γ : ℕ → G) (w : List (Fin 8 × Bool)) :
     ∀ f, w.length ≤ f → wG γ f (encW w) = burnsideF48s_ev (fun k : Fin 8 => γ k) w := by
@@ -42,7 +42,7 @@ theorem wG_encW (γ : ℕ → G) (w : List (Fin 8 × Bool)) :
     have hd2 : digW l < 32 := by unfold digW; have := l.1.2; split <;> omega
     have e1 : (encW w * 32 + digW l) / 32 = encW w := by omega
     have e2 : (encW w * 32 + digW l) % 32 = digW l := by omega
-    rw [encW_append, wG, if_neg (by omega), e1, e2, ih f (by simp at hf; omega), dG_digW,
+    rw [encW_append, wG, ite_eq_right (by omega), e1, e2, ih f (by simp at hf; omega), dG_digW,
       burnsideF48s_ev_append]
     simp [burnsideF48s_ev]
 
@@ -72,6 +72,7 @@ theorem le_ncard_orbit_of_trees {F W R Q : ℕ → ℕ} {γ : ℕ → G} (hγ : 
         rw [Set.ncard_coe_finset, hcard]
     _ ≤ _ := Set.ncard_le_ncard hsub (Set.toFinite _)
 
+omit [MulAction G (Fin 26572)] in
 theorem maskGroup_eq {W : ℕ → ℕ} {γ : ℕ → G} {M : ℕ} (hM : M < 2 ^ 17) {S : Finset (Fin 17)}
     (hS : ∀ j : Fin 17, M.testBit j = true ↔ j ∈ S) {f : Fin 17 → G}
     (hf : ∀ j : Fin 17, lG γ W j = f j) :

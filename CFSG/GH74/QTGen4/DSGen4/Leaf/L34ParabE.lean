@@ -31,27 +31,27 @@ theorem card_normalizer_V2 {F : Type} [Field F] [Finite F] [CharP F 2] (hq : Nat
       ((CFSG.QuasithinUnique.Fin257.L3.V2 : Subgroup (projectiveSL 3 F)) :
         Set (projectiveSL 3 F))) = 960 :=
   parabE_card_of_core_index _ _ pCoreOf_normalizer_V2
-    (by rw [card_V2, hq] <;> norm_num) (natCard_oTwoQuot_normalizer_V2 hq)
+    (by rw [card_V2, hq]; norm_num) (natCard_oTwoQuot_normalizer_V2 hq)
 
 theorem card_normalizer_V1 {F : Type} [Field F] [Finite F] [CharP F 2] (hq : Nat.card F = 4) :
     Nat.card ↥(Subgroup.normalizer
       ((CFSG.QuasithinUnique.Fin257.L3.V1 : Subgroup (projectiveSL 3 F)) :
         Set (projectiveSL 3 F))) = 960 :=
   parabE_card_of_core_index _ _ pCoreOf_normalizer_V1
-    (by rw [card_V1, hq] <;> norm_num) (natCard_oTwoQuot_normalizer_V1 hq)
+    (by rw [card_V1, hq]; norm_num) (natCard_oTwoQuot_normalizer_V1 hq)
 
 theorem parabE_exists_conj_zpow {Y : Type} [Group Y] (N : Subgroup Y) (hN : Nat.card N = 960)
     {x d : Y} (hx : x ∈ N) (hxo : orderOf x = 3) (hd : d ∈ N) (hdo : orderOf d = 3) :
     ∃ g ∈ N, ∃ k : ℤ, x ^ k = g * d * g⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite N := Nat.finite_of_card_ne_zero (by omega)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite N := Nat.finite_of_card_ne_zero (by omega)
   have key : ∀ z : N, orderOf z = 3 → ∃ Q : Sylow 3 N, Subgroup.zpowers z = (Q : Subgroup N) := by
     intro z hz
     have hP : IsPGroup 3 (Subgroup.zpowers z) :=
       IsPGroup.iff_card.mpr ⟨1, by rw [Nat.card_zpowers, hz, pow_one]⟩
     obtain ⟨Q, hQ⟩ := IsPGroup.exists_le_sylow hP
     refine ⟨Q, Subgroup.eq_of_le_of_card_ge hQ ?_⟩
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp Q.isPGroup'
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp Q.isPGroup
     have hdvd : 3 ^ n ∣ 960 := by
       rw [← hn, ← hN]
       exact Subgroup.card_subgroup_dvd_card _
@@ -70,7 +70,7 @@ theorem parabE_exists_conj_zpow {Y : Type} [Group Y] (N : Subgroup Y) (hN : Nat.
     exact hdo
   obtain ⟨Qd, hQd⟩ := key ⟨d, hd⟩ hds
   obtain ⟨Qx, hQx⟩ := key ⟨x, hx⟩ hxs
-  haveI : Finite (Sylow 3 N) := Sylow.finite_of_finiteIndex Qd
+  have : Finite (Sylow 3 N) := Sylow.finite_of_finiteIndex Qd
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq N Qd Qx
   have hdQd : (⟨d, hd⟩ : N) ∈ (Qd : Subgroup N) := by
     rw [← hQd]
@@ -116,7 +116,7 @@ theorem parabE_natSec_of_centralizer {Y : Type} [Group Y] (V : Subgroup Y)
 theorem parabE_orderOf_dMat {F : Type} [Field F] [Finite F] [CharP F 2] (hq : Nat.card F = 4)
     {ω : Fˣ} (hω : ω ≠ 1) :
     orderOf (proj 3 F (CFSG.QuasithinUnique.Fin257.L3.dMat ω 1)) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply orderOf_eq_prime
   · rw [← map_pow, CFSG.QuasithinUnique.Fin257.L3.dMat_pow, unit_pow_three_of_card_four hq ω,
       one_pow, CFSG.QuasithinUnique.Fin257.L3.dMat_one, map_one]
@@ -132,7 +132,7 @@ theorem parabE_dMat_mem_normalizer_V2 {F : Type} [Field F] [Finite F] [CharP F 2
   have hQ : (CFSG.QuasithinUnique.Fin257.L3.dMat ω 1 : Matrix.SpecialLinearGroup (Fin 3) F) ∈
       CFSG.QuasithinUnique.Setup.X7a.Q3 F 1 := by
     rw [CFSG.Quasithin.H13.F431.L3.P3.mem_Q3_one_iff]
-    simp [CFSG.QuasithinUnique.Fin257.L3.coe_dMat, Matrix.diagonal_apply]
+    simp [CFSG.QuasithinUnique.Fin257.L3.coe_dMat]
   exact CFSG.Quasithin.H13.F431.L3.P3.projQ3_le_normalizer_V2 (Subgroup.mem_map_of_mem _ hQ)
 
 theorem parabE_dMat_mem_normalizer_V1 {F : Type} [Field F] [Finite F] [CharP F 2] (ω : Fˣ) :
@@ -143,7 +143,7 @@ theorem parabE_dMat_mem_normalizer_V1 {F : Type} [Field F] [Finite F] [CharP F 2
   have hQ : (CFSG.QuasithinUnique.Fin257.L3.dMat ω 1 : Matrix.SpecialLinearGroup (Fin 3) F) ∈
       CFSG.QuasithinUnique.Setup.X7a.Q3 F 0 := by
     rw [CFSG.Quasithin.H13.F431.L3.P3.mem_Q3_zero_iff]
-    simp [CFSG.QuasithinUnique.Fin257.L3.coe_dMat, Matrix.diagonal_apply]
+    simp [CFSG.QuasithinUnique.Fin257.L3.coe_dMat]
   exact CFSG.Quasithin.H13.F431.L3.P3.projQ3_le_normalizer_V1 (Subgroup.mem_map_of_mem _ hQ)
 
 theorem parabE_eq_one_of_commute_V2 {F : Type} [Field F] [CharP F 2] {ω : Fˣ} (hω : ω ≠ 1)

@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B K : Subgroup G}
 
 theorem le_sylow_of_two_group {X V Q : Subgroup G} (hV : IsSylowOf 2 V X) (hVQ : V ≤ Q)
     (hQX : Q ≤ X) (hQ2 : IsPGroup 2 Q) : Q ≤ V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, -, hkQ⟩ := FF79.L41.exists_conj_le_sylowOf_p hV hQX hQ2
   have hle : conjBy k Q ≤ V := by
     rintro _ ⟨y, hy, rfl⟩
@@ -23,15 +23,15 @@ theorem le_sylow_of_two_group {X V Q : Subgroup G} (hV : IsSylowOf 2 V X) (hVQ :
   exact (Subgroup.eq_of_le_of_card_ge hVQ hcard).ge
 
 theorem le_Op_nor {V : Subgroup G} (hV : IsPGroup 2 V) : V ≤ Op 2 (Nor V) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine FF79.L41.le_Op_of_normalized (fun y hy => FF79.L41.mem_nor_of_forall (fun z hz =>
     V.mul_mem (V.mul_mem hy hz) (V.inv_mem hy))) (fun g hg x hx => ?_) hV
   exact ((Subgroup.mem_set_normalizer_iff.mp hg) x).mp hx
 
 theorem tstar_cen_b (hA : A8Model L) (h : FF84Sec4 b L B K b₁ b₂)
     {V : Subgroup G} (hV : IsSylowOf 2 V (Opp 3 (Cen b))) : Op 2 (Nor V) ⊓ Cen b ≤ V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXL : Opp 3 (Cen b) ≤ CenS L := X_le_cenS_L h.hyp hA
   have hVL : ∀ l ∈ L, ∀ y ∈ V, l * y * l⁻¹ = y := by
     intro l hl y hy

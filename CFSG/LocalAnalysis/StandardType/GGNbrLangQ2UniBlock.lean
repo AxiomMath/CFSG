@@ -203,8 +203,8 @@ private theorem cuq2b_center_heldSU_eq_scalars {a mD : ℕ} {D : Type} [Field D]
       (StatedScalars (Fin a) D).subgroupOf (heldSU a D ρ hρ) := by
   have hcard : Nat.card D = (2 ^ mD) ^ 2 := by
     rw [hD.card, ← pow_mul, mul_comm]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP D 2 := hD.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP D 2 := hD.charP
   have hheld : heldSU a D ρ hρ = StatedSU a (2 ^ mD) D :=
     hct_heldSU_eq_statedSU hρpow
   rw [hheld]
@@ -497,12 +497,12 @@ theorem q2Uni_block {N m : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.card K
     have hm0 : m = 0 := Nat.eq_zero_of_not_pos h
     rw [hm0] at hK
     norm_num at hK
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have : 1 < Nat.card K := by rw [Nat.card_eq_fintype_card]; exact Fintype.one_lt_card
     omega
   have hUFD : UnitaryFieldData 2 m K :=
     CFSG.ComponentClassification.RankTwoClassical.unitaryFieldData_of_card hK hmpos
-  haveI : CharP K 2 := hUFD.charP
+  have : CharP K 2 := hUFD.charP
   have hord : (orderOf s : K) ≠ 0 := by
     intro h
     rw [CharP.cast_eq_zero_iff K 2] at h
@@ -524,14 +524,14 @@ theorem q2Uni_block {N m : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.card K
   choose! aa bb hab using hcop
   let Hp : PrimaryHyp τ (s : Matrix (Fin N) (Fin N) K) (orderOf s) F aa bb :=
     ⟨hτ, hm0, hirr, hmon, hprod, hsm, hs', hab⟩
-  haveI hKfact : ∀ f : ↥(Fset (s : Matrix (Fin N) (Fin N) K) bb F),
+  have hKfact : ∀ f : ↥(Fset (s : Matrix (Fin N) (Fin N) K) bb F),
       Fact (∀ x ∈ Vf (s : Matrix (Fin N) (Fin N) K) bb F f.1,
         aeval (s : Matrix (Fin N) (Fin N) K) f.1 *ᵥ x = 0) :=
     fun f => ⟨fun x hx => aeval_factor_mulVec_eq_zero Hp (mem_Fset.mp f.2).1 hx⟩
   let H0 : Subgroup (GL (Fin N) K) :=
     Subgroup.centralizer ({s} : Set (GL (Fin N) K)) ⊓ heldGU N K τ hτ
   let Hact : Activ Hp → Type := fun f => ↥(Bl Hp f.1)
-  haveI hHfin : ∀ f : Activ Hp, Finite (Hact f) := fun f => finite_Bl Hp f.1
+  have hHfin : ∀ f : Activ Hp, Finite (Hact f) := fun f => finite_Bl Hp f.1
   let Φ : ↥H0 ≃* (∀ f : Activ Hp, Hact f) :=
     (centralizerEquivGlin hτ s).trans (glinEquivBlocks Hp)
   let Ctop : Subgroup ↥H0 := C.subgroupOf H0
@@ -589,8 +589,8 @@ theorem q2Uni_block {N m : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.card K
       have h := adjM_piI Hp f0.1
       rw [hself] at h
       simpa using h
-    haveI : Fact (Irreducible f0.1.1) := ⟨hirr f0.1.1 hf0F⟩
-    haveI : Fact (∀ x ∈ Vf (s : Matrix (Fin N) (Fin N) K) bb F f0.1.1,
+    have : Fact (Irreducible f0.1.1) := ⟨hirr f0.1.1 hf0F⟩
+    have : Fact (∀ x ∈ Vf (s : Matrix (Fin N) (Fin N) K) bb F f0.1.1,
         aeval (s : Matrix (Fin N) (Fin N) K) f0.1.1 *ᵥ x = 0) :=
       ⟨fun x hx => aeval_factor_mulVec_eq_zero Hp hf0F hx⟩
     obtain ⟨a', ρE, hρE, _, hcardE, hτQ', ⟨φ0⟩⟩ :=
@@ -669,25 +669,25 @@ theorem q2Uni_block {N m : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.card K
       have hcardD4 : Nat.card D = (2 ^ 1) ^ 2 := by
         rw [hD.card, hmD1]
         norm_num
-      haveI : Group.IsSolvable ↥(StatedSU a' (2 ^ mD) D) := by
+      have : Group.IsSolvable ↥(StatedSU a' (2 ^ mD) D) := by
         rw [ha3, hmD1]
         exact CFSG.Quasithin.isSolvable_statedSU_one hcardD4
-      haveI : Group.IsSolvable ↥(heldSU a' D ρE hρE) := by
+      have : Group.IsSolvable ↥(heldSU a' D ρE hρE) := by
         rw [hSUeq]
         infer_instance
       have hsolvC : Group.IsSolvable ↥C :=
         Group.isSolvable_of_isSolvable_injective (f := eC.toMonoidHom) eC.injective
-      haveI : Nontrivial ↥C := by
-        haveI : Nontrivial (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2.toNontrivial
+      have : Nontrivial ↥C := by
+        have : Nontrivial (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2.toNontrivial
         have hne_top : Subgroup.center ↥C ≠ ⊤ := QuotientGroup.nontrivial_iff.mp inferInstance
         by_contra hsub
-        haveI : Subsingleton ↥C := not_nontrivial_iff_subsingleton.mp hsub
+        have : Subsingleton ↥C := not_nontrivial_iff_subsingleton.mp hsub
         exact hne_top (by
           ext x
           constructor
           · intro _; trivial
           · intro _; rw [Subgroup.mem_center_iff]; intro y; exact Subsingleton.elim _ _)
-      haveI : Group.IsPerfect ↥C := Group.isPerfect_def.mpr hC.2.2.1
+      have : Group.IsPerfect ↥C := Group.isPerfect_def.mpr hC.2.2.1
       exact (Group.IsPerfect.not_isSolvable _ hsolvC).elim
     have hcenter : Subgroup.center (heldSU a' D ρE hρE) =
         (StatedScalars (Fin a') D).subgroupOf (heldSU a' D ρE hρE) :=
@@ -914,15 +914,15 @@ theorem q2Uni_block {N m : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.card K
   ·
     have hrep : IsRep Hp f0.1 := f0.2.resolve_left hself
     have hBl : Bl Hp f0.1 = ⊤ := Bl_of_isRep Hp hrep
-    haveI : Fact (Irreducible f0.1.1) := ⟨hirr f0.1.1 hf0F⟩
-    haveI : Module.Finite K (AdjoinRoot f0.1.1) := (hmon f0.1.1 hf0F).finite_adjoinRoot
-    haveI : Finite (AdjoinRoot f0.1.1) :=
+    have : Fact (Irreducible f0.1.1) := ⟨hirr f0.1.1 hf0F⟩
+    have : Module.Finite K (AdjoinRoot f0.1.1) := (hmon f0.1.1 hf0F).finite_adjoinRoot
+    have : Finite (AdjoinRoot f0.1.1) :=
       Finite.of_equiv (Fin (Module.finrank K (AdjoinRoot f0.1.1)) → K)
         (Module.finBasis K (AdjoinRoot f0.1.1)).equivFun.toEquiv.symm
     let W := Vf (s : Matrix (Fin N) (Fin N) K) bb F f0.1.1
-    haveI : Module.Finite (AdjoinRoot f0.1.1) W :=
+    have : Module.Finite (AdjoinRoot f0.1.1) W :=
       Module.Finite.of_restrictScalars_finite K (AdjoinRoot f0.1.1) W
-    haveI : Module.Free (AdjoinRoot f0.1.1) W := Module.Free.of_divisionRing _ _
+    have : Module.Free (AdjoinRoot f0.1.1) W := Module.Free.of_divisionRing _ _
     let bdim := Module.finrank (AdjoinRoot f0.1.1) W
     let φGL : Hact f0 ≃* GL (Fin bdim) (AdjoinRoot f0.1.1) :=
       cuq2b_blockGL Hp hKfact f0.1 hBl
@@ -1016,12 +1016,12 @@ theorem q2Uni_blockType {N m : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.ca
     have hm0 : m = 0 := Nat.eq_zero_of_not_pos h
     rw [hm0] at hK
     norm_num at hK
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have : 1 < Nat.card K := by rw [Nat.card_eq_fintype_card]; exact Fintype.one_lt_card
     omega
   have hUFD : UnitaryFieldData 2 m K :=
     CFSG.ComponentClassification.RankTwoClassical.unitaryFieldData_of_card hK hmpos
-  haveI : CharP K 2 := hUFD.charP
+  have : CharP K 2 := hUFD.charP
   have hord : (orderOf s : K) ≠ 0 := by
     intro h
     rw [CharP.cast_eq_zero_iff K 2] at h
@@ -1043,14 +1043,14 @@ theorem q2Uni_blockType {N m : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.ca
   choose! aa bb hab using hcop
   let Hp : PrimaryHyp τ (s : Matrix (Fin N) (Fin N) K) (orderOf s) F aa bb :=
     ⟨hτ, hm0, hirr, hmon, hprod, hsm, hs', hab⟩
-  haveI hKfact : ∀ f : ↥(Fset (s : Matrix (Fin N) (Fin N) K) bb F),
+  have hKfact : ∀ f : ↥(Fset (s : Matrix (Fin N) (Fin N) K) bb F),
       Fact (∀ x ∈ Vf (s : Matrix (Fin N) (Fin N) K) bb F f.1,
         aeval (s : Matrix (Fin N) (Fin N) K) f.1 *ᵥ x = 0) :=
     fun f => ⟨fun x hx => aeval_factor_mulVec_eq_zero Hp (mem_Fset.mp f.2).1 hx⟩
   let H0 : Subgroup (GL (Fin N) K) :=
     Subgroup.centralizer ({s} : Set (GL (Fin N) K)) ⊓ heldGU N K τ hτ
   let Hact : Activ Hp → Type := fun f => ↥(Bl Hp f.1)
-  haveI hHfin : ∀ f : Activ Hp, Finite (Hact f) := fun f => finite_Bl Hp f.1
+  have hHfin : ∀ f : Activ Hp, Finite (Hact f) := fun f => finite_Bl Hp f.1
   let Φ : ↥H0 ≃* (∀ f : Activ Hp, Hact f) :=
     (centralizerEquivGlin hτ s).trans (glinEquivBlocks Hp)
   let Ctop : Subgroup ↥H0 := C.subgroupOf H0
@@ -1108,8 +1108,8 @@ theorem q2Uni_blockType {N m : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.ca
       have h := adjM_piI Hp f0.1
       rw [hself] at h
       simpa using h
-    haveI : Fact (Irreducible f0.1.1) := ⟨hirr f0.1.1 hf0F⟩
-    haveI : Fact (∀ x ∈ Vf (s : Matrix (Fin N) (Fin N) K) bb F f0.1.1,
+    have : Fact (Irreducible f0.1.1) := ⟨hirr f0.1.1 hf0F⟩
+    have : Fact (∀ x ∈ Vf (s : Matrix (Fin N) (Fin N) K) bb F f0.1.1,
         aeval (s : Matrix (Fin N) (Fin N) K) f0.1.1 *ᵥ x = 0) :=
       ⟨fun x hx => aeval_factor_mulVec_eq_zero Hp hf0F hx⟩
     obtain ⟨a', ρE, hρE, ha'def, hcardE, hτQ', ⟨φ0⟩⟩ :=
@@ -1188,25 +1188,25 @@ theorem q2Uni_blockType {N m : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.ca
       have hcardD4 : Nat.card D = (2 ^ 1) ^ 2 := by
         rw [hD.card, hmD1]
         norm_num
-      haveI : Group.IsSolvable ↥(StatedSU a' (2 ^ mD) D) := by
+      have : Group.IsSolvable ↥(StatedSU a' (2 ^ mD) D) := by
         rw [ha3, hmD1]
         exact CFSG.Quasithin.isSolvable_statedSU_one hcardD4
-      haveI : Group.IsSolvable ↥(heldSU a' D ρE hρE) := by
+      have : Group.IsSolvable ↥(heldSU a' D ρE hρE) := by
         rw [hSUeq]
         infer_instance
       have hsolvC : Group.IsSolvable ↥C :=
         Group.isSolvable_of_isSolvable_injective (f := eC.toMonoidHom) eC.injective
-      haveI : Nontrivial ↥C := by
-        haveI : Nontrivial (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2.toNontrivial
+      have : Nontrivial ↥C := by
+        have : Nontrivial (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2.toNontrivial
         have hne_top : Subgroup.center ↥C ≠ ⊤ := QuotientGroup.nontrivial_iff.mp inferInstance
         by_contra hsub
-        haveI : Subsingleton ↥C := not_nontrivial_iff_subsingleton.mp hsub
+        have : Subsingleton ↥C := not_nontrivial_iff_subsingleton.mp hsub
         exact hne_top (by
           ext x
           constructor
           · intro _; trivial
           · intro _; rw [Subgroup.mem_center_iff]; intro y; exact Subsingleton.elim _ _)
-      haveI : Group.IsPerfect ↥C := Group.isPerfect_def.mpr hC.2.2.1
+      have : Group.IsPerfect ↥C := Group.isPerfect_def.mpr hC.2.2.1
       exact (Group.IsPerfect.not_isSolvable _ hsolvC).elim
     have hcenter : Subgroup.center (heldSU a' D ρE hρE) =
         (StatedScalars (Fin a') D).subgroupOf (heldSU a' D ρE hρE) :=
@@ -1256,28 +1256,28 @@ theorem q2Uni_blockType {N m : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.ca
         norm_num
       obtain ⟨β, hβ⟩ := cuq2bt_injective_su2_su3 (K := D) (q := 2 ^ 1) (by norm_num)
       have hsolv2 : Group.IsSolvable ↥(StatedSU 2 (2 ^ 1) D) := by
-        haveI : Group.IsSolvable ↥(StatedSU 3 (2 ^ 1) D) :=
+        have : Group.IsSolvable ↥(StatedSU 3 (2 ^ 1) D) :=
           CFSG.Quasithin.isSolvable_statedSU_one hcardD4
         exact Group.isSolvable_of_isSolvable_injective (f := β) hβ
-      haveI : Group.IsSolvable ↥(StatedSU a' (2 ^ mD) D) := by
+      have : Group.IsSolvable ↥(StatedSU a' (2 ^ mD) D) := by
         rw [ha2', hmD1]
         exact hsolv2
-      haveI : Group.IsSolvable ↥(heldSU a' D ρE hρE) := by
+      have : Group.IsSolvable ↥(heldSU a' D ρE hρE) := by
         rw [hSUeq]
         infer_instance
       have hsolvC : Group.IsSolvable ↥C :=
         Group.isSolvable_of_isSolvable_injective (f := eC.toMonoidHom) eC.injective
-      haveI : Nontrivial ↥C := by
-        haveI : Nontrivial (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2.toNontrivial
+      have : Nontrivial ↥C := by
+        have : Nontrivial (↥C ⧸ Subgroup.center ↥C) := hC.2.2.2.toNontrivial
         have hne_top : Subgroup.center ↥C ≠ ⊤ := QuotientGroup.nontrivial_iff.mp inferInstance
         by_contra hsub
-        haveI : Subsingleton ↥C := not_nontrivial_iff_subsingleton.mp hsub
+        have : Subsingleton ↥C := not_nontrivial_iff_subsingleton.mp hsub
         exact hne_top (by
           ext x
           constructor
           · intro _; trivial
           · intro _; rw [Subgroup.mem_center_iff]; intro y; exact Subsingleton.elim _ _)
-      haveI : Group.IsPerfect ↥C := Group.isPerfect_def.mpr hC.2.2.1
+      have : Group.IsPerfect ↥C := Group.isPerfect_def.mpr hC.2.2.1
       exact (Group.IsPerfect.not_isSolvable _ hsolvC).elim
     exact Or.inl ⟨a', f0.1.1.natDegree, D, inferInstance, hD, hfdeg, ha2, hdimN, hne2, hne,
       ⟨ψ⟩⟩
@@ -1285,15 +1285,15 @@ theorem q2Uni_blockType {N m : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.ca
   ·
     have hrep : IsRep Hp f0.1 := f0.2.resolve_left hself
     have hBl : Bl Hp f0.1 = ⊤ := Bl_of_isRep Hp hrep
-    haveI : Fact (Irreducible f0.1.1) := ⟨hirr f0.1.1 hf0F⟩
-    haveI : Module.Finite K (AdjoinRoot f0.1.1) := (hmon f0.1.1 hf0F).finite_adjoinRoot
-    haveI : Finite (AdjoinRoot f0.1.1) :=
+    have : Fact (Irreducible f0.1.1) := ⟨hirr f0.1.1 hf0F⟩
+    have : Module.Finite K (AdjoinRoot f0.1.1) := (hmon f0.1.1 hf0F).finite_adjoinRoot
+    have : Finite (AdjoinRoot f0.1.1) :=
       Finite.of_equiv (Fin (Module.finrank K (AdjoinRoot f0.1.1)) → K)
         (Module.finBasis K (AdjoinRoot f0.1.1)).equivFun.toEquiv.symm
     let W := Vf (s : Matrix (Fin N) (Fin N) K) bb F f0.1.1
-    haveI : Module.Finite (AdjoinRoot f0.1.1) W :=
+    have : Module.Finite (AdjoinRoot f0.1.1) W :=
       Module.Finite.of_restrictScalars_finite K (AdjoinRoot f0.1.1) W
-    haveI : Module.Free (AdjoinRoot f0.1.1) W := Module.Free.of_divisionRing _ _
+    have : Module.Free (AdjoinRoot f0.1.1) W := Module.Free.of_divisionRing _ _
     let bdim := Module.finrank (AdjoinRoot f0.1.1) W
     let φGL : Hact f0 ≃* GL (Fin bdim) (AdjoinRoot f0.1.1) :=
       cuq2b_blockGL Hp hKfact f0.1 hBl

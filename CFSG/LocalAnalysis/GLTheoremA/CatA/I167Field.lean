@@ -13,12 +13,13 @@ open CFSG.LocalAnalysis.GLTheoremA CFSG.LocalAnalysis.GLTheoremA.S10
 
 variable {Ω : Type} [Group Ω] [Finite Ω] {p : ℕ}
 
+omit [Finite Ω] in
 theorem fld_nontrivial_of_fieldOn {X : Subgroup Ω} {x : Ω} (hF : FieldOn p x X) :
     Nontrivial (PSimple p X) := by
   obtain ⟨-, lab, -, R, _, I, F, θ, -, ⟨a, b, hab⟩, -⟩ :=
     CFSG.StandardType.Canonical.largeEvenMarking_exists hF.2
   by_contra hcon
-  haveI : Subsingleton (PQuot p X ⧸ Subgroup.center (PQuot p X)) := not_nontrivial_iff_subsingleton.1 hcon
+  have : Subsingleton (PQuot p X ⧸ Subgroup.center (PQuot p X)) := not_nontrivial_iff_subsingleton.1 hcon
   exact hab (θ.symm.injective (Subsingleton.elim _ _))
 
 section Case
@@ -26,7 +27,7 @@ section Case
 
 theorem type167_of_fieldOn {B X D J : Subgroup Ω} (hp : p.Prime) (hp2 : p ≠ 2) (hB : IsElemAbelian p B)
     (hX : CFSG.Open.IsQuasisimple ↥X) (hchev : IsChevSimple 2 (PSimple p X))
-    (hBN : B ≤ Subgroup.normalizer (X : Set Ω))
+    (_hBN : B ≤ Subgroup.normalizer (X : Set Ω))
     (hrank : GLATwoLocalRank p ↥(X ⊔ B) ≤ CFSG.Open.pRank p B)
     (hSC : ∀ g ∈ X ⊔ B, g ∈ Subgroup.centralizer (B : Set Ω) → orderOf g = p → g ∈ B)
     (hcard : Nat.card ↥(B ⊓ cs X) = p) (hD : IsE2 p B D) (hJ : GLAPComponent p (X ⊓ cs D) J)

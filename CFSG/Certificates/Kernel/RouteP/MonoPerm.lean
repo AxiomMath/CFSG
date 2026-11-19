@@ -22,14 +22,14 @@ open Classical in
 theorem gT_apply {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {j : Nat} (h : LOK NW KA KB (Int.ofNat (j + 1)))
     (x : Pt) : (gT NW KA KB j x).val = eL NW KA KB (Int.negSucc j) x.val := by
   unfold gT
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   rfl
 
 theorem gT_inv_apply {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {j : Nat}
     (h : LOK NW KA KB (Int.ofNat (j + 1))) (x : Pt) :
     ((gT NW KA KB j)⁻¹ x).val = eL NW KA KB (Int.ofNat (j + 1)) x.val := by
   unfold gT
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   rfl
 
 theorem wordG_apply {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} (ρ : ℤ → Perm Pt) (c : ℤ → ℤ) :

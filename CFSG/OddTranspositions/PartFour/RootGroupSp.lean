@@ -224,8 +224,8 @@ private theorem rootGroupSp_four {c : F} (hc : c ≠ 0) (hk : 2 ≤ k) :
     (commute_spTransvection_iff hc hc).mpr (spForm_single_inl_inl i₁ i₀),
     (commute_spTransvection_iff hc hc).mpr (by
       rw [spForm_single_inl_left]
-      simp [f₀, Pi.single_apply, hi.symm]),
-    (commute_spTransvection_iff hc hc).mpr (by rw [spForm_single_inr_inl, if_neg hi.symm]),
+      simp [f₀, hi.symm]),
+    (commute_spTransvection_iff hc hc).mpr (by rw [spForm_single_inr_inl, ite_eq_right hi.symm]),
     (commute_spTransvection_iff hc hc).mpr (by
       rw [spForm_single_inr_left]
       simp [f₀])⟩
@@ -316,10 +316,10 @@ theorem exists_subgroup_eq_insert_Vmem_of_isSymplecticTransvection {X : Type} [G
     {x : X} (hx : x ∈ {y | IsConj s y}) :
     ∃ R : Subgroup X, (R : Set X) = insert 1 (Vmem {y | IsConj s y} x) := by
   obtain ⟨k, rfl, F, hF, hFfin, hFcard, e, he⟩ := hs
-  haveI : Finite F := hFfin
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
+  have : Finite F := hFfin
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
   let ψ : X ≃* X ⧸ Subgroup.center X :=
     (QuotientGroup.quotientBot (G := X)).symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)
@@ -340,10 +340,10 @@ theorem two_le_ncard_Vmem_of_isSymplecticTransvection {X : Type} [Group X]
     (hs : IsSymplecticTransvection X m f s) {x : X} (hx : x ∈ {y | IsConj s y}) :
     2 ≤ (Vmem {y | IsConj s y} x).ncard := by
   obtain ⟨k, rfl, F, hF, hFfin, hFcard, e, he⟩ := hs
-  haveI : Finite F := hFfin
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
+  have : Finite F := hFfin
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
   let ψ : X ≃* X ⧸ Subgroup.center X :=
     (QuotientGroup.quotientBot (G := X)).symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)
@@ -371,10 +371,10 @@ theorem exists_four_of_isSymplecticTransvection {X : Type} [Group X]
         Commute v t ∧ Commute v u ∧ Commute w t ∧ Commute w u := by
   obtain ⟨k', hk', F, hF, hFfin, hFcard, e, he⟩ := hs
   obtain rfl : k' = k := by omega
-  haveI : Finite F := hFfin
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
+  have : Finite F := hFfin
+  have : Fintype F := Fintype.ofFinite F
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := f)
     (by rw [← Nat.card_eq_fintype_card]; exact hFcard)
   let ψ : X ≃* X ⧸ Subgroup.center X :=
     (QuotientGroup.quotientBot (G := X)).symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)

@@ -29,9 +29,9 @@ include h
 
 theorem Fnorm_inner (hM : OuterMFacts E S z t) {α : G} (hα : AlphaSpec S z t α) {f : G}
     (hf : f ∈ Fsub h hα) (hfN : f ∈ normalizer (E : Set G)) :
-    ∃ e' ∈ E, ∀ x ∈ E, f * x * f⁻¹ = e' * x * e'⁻¹ :=
+    ∃ e' ∈ E, ∀ _x ∈ E, f * _x * f⁻¹ = e' * _x * e'⁻¹ :=
   central_aut_inner h.t_sq h.t_ne h.t_mem_E h.oe.econfig.comm h.oe.econfig.center h.wf.card_E
-    hM.gen_four hfN (fun x hx => h.Fnorm_acts_on_E hα hf
+    hM.gen_four hfN (fun _x hx => h.Fnorm_acts_on_E hα hf
       (fun e he => (mem_normalizer_iff.1 hfN e).1 he) hx)
 
 theorem CFz_eq (hM : OuterMFacts E S z t) {α : G} (hα : AlphaSpec S z t α) :

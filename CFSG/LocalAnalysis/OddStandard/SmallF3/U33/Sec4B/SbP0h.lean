@@ -221,7 +221,7 @@ theorem p0_cent_trho (hc : Ctx4 t L S x₁ x₂ lam rho tau) :
     · exact ht_rho.symm
     · exact htau_rho.symm
     · exact absurd rfl hab
-  haveI : IsMulCommutative (closure ({t, tau, rho} : Set G)) :=
+  have : IsMulCommutative (closure ({t, tau, rho} : Set G)) :=
     Subgroup.isMulCommutative_closure hpair
   have hleM : closure ({t, tau, rho} : Set G) ≤ ctxM t tau x₁ x₂ := by
     rw [Subgroup.closure_le]

@@ -165,7 +165,7 @@ theorem action_core {H S U L : Subgroup G} (hSC : StrongClosureComponent H S U L
     rw [hRbar']
     exact Subgroup.map_mono hU'R'
   have hSbar : IsSylowTwoOf (Rbar : Subgroup (N ⧸ C)) ⊤ :=
-    ⟨le_top, Rbar.isPGroup', by
+    ⟨le_top, Rbar.isPGroup, by
       have h : ((Rbar : Subgroup (N ⧸ C)).subgroupOf ⊤).index =
           (Rbar : Subgroup (N ⧸ C)).index := Subgroup.relIndex_top_right _
       rw [h]

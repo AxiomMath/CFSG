@@ -181,7 +181,7 @@ theorem tree_of_orbOK {NW : Nat → Nat → Nat} {KA KB : Nat → Nat} {letters 
     · rw [← hap l hl' N hN']
       exact hP N hN l hl'
     · unfold eL
-      rw [if_neg hN']
+      rw [ite_eq_right hN']
       exact hN
   refine ⟨treeBFS_size hn hr hF hO1 hO2 hO3 hO4 ?_, treeOK_treeBFS hn hr hF hlv, fun x hx => ?_⟩
   · rw [← hcnt]

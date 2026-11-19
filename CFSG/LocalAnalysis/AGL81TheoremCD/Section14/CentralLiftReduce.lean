@@ -24,7 +24,7 @@ theorem kFactCentralLift_of_quotient
     KFactCentralLift := by
   intro q p hq hq2 hp hp2 hpq X _ _ K hK hlist hodd hqZ hpZ b hbN hbord hbC K₁ hK₁ hZK₁
     hSyl hle
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let Z : Subgroup ↥K := Subgroup.center ↥K
   obtain ⟨S, hS, hSN⟩ := hSyl
   obtain ⟨Q, hQmap⟩ := hS
@@ -46,7 +46,7 @@ theorem kFactCentralLift_of_quotient
       (((Q : Subgroup ↥K).map (QuotientGroup.mk' Z)) : Set (↥K ⧸ Z)) ≤
       (K₁.subgroupOf K).map (QuotientGroup.mk' Z) := by
     rw [← CFSG.LocalAnalysis.RankThreeTheoremC.map_mk_normalizer_eq Z hq
-      (hq.coprime_iff_not_dvd.mpr hqZ) Q.isPGroup']
+      (hq.coprime_iff_not_dvd.mpr hqZ) Q.isPGroup]
     exact Subgroup.map_mono hNQ
   have hSbar : Subgroup.normalizer
       (((Q.mapSurjective (QuotientGroup.mk'_surjective Z) : Sylow q (↥K ⧸ Z)) :

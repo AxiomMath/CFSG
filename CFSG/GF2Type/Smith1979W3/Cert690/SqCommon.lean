@@ -92,8 +92,8 @@ private theorem candValOne_eq_some_iff {IT : Array (Array ℕ)} {theta : Array �
     candValOne IT theta = some v ↔ ∃ e, findInn IT theta = some e ∧ e < 128 ∧ v = qmulN e e := by
   unfold candValOne
   cases h : findInn IT theta with
-  | none => simp [h]
-  | some e => by_cases he : e < 128 <;> simp [h, he, eq_comm]
+  | none => simp
+  | some e => by_cases he : e < 128 <;> simp [he, eq_comm]
 
 private theorem candVal_eq_some_iff {IT : Array (Array ℕ)} {theta psi tp itp : Array ℕ}
     {s v : ℕ} :
@@ -101,8 +101,8 @@ private theorem candVal_eq_some_iff {IT : Array (Array ℕ)} {theta psi tp itp :
       e < 128 ∧ v = qmulN (qmulN (psi[s]!) (tp[e]!)) e := by
   unfold candVal
   cases h : findInn IT (compTab theta itp) with
-  | none => simp [h]
-  | some e => by_cases he : e < 128 <;> simp [h, he, eq_comm]
+  | none => simp
+  | some e => by_cases he : e < 128 <;> simp [he, eq_comm]
 
 theorem IsSquareData.candValOne_eq (h : IsSquareData K σ) {θ : Q0 ≃* Q0} {v : ℕ}
     (hv : candValOne (innTabs ()) (tabOf θ) = some v) : v = enc (σ θ) := by

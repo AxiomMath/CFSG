@@ -17,17 +17,17 @@ private theorem le_normalizer_inf_self {H L : Subgroup G}
   refine Subgroup.mem_normalizer_iff.mpr fun x => ?_
   have h1 := Subgroup.mem_normalizer_iff.mp (Subgroup.le_normalizer hh) x
   have h2 := Subgroup.mem_normalizer_iff.mp (hHL hh) x
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr h1 h2
 
 theorem rank_one_dichotomy [Finite G] {P K A S : Subgroup G} {Ω : Set V} {u : V}
     (hu : u ∈ Ω) (hPΩ : ∀ g ∈ P, ∀ w ∈ Ω, g • w ∈ Ω)
     (hS2 : IsPGroup 2 S) (hSn : P ⊓ MulAction.stabilizer G u ≤ Subgroup.normalizer (S : Set G))
     (hAS : A ≤ S) (hKP : K ≤ Subgroup.normalizer (P : Set G)) (hAK : A ≤ K) (hAP : A ≤ P)
-    (hAu : ∀ a ∈ A, a • u = u)
+    (_hAu : ∀ a ∈ A, a • u = u)
     (htr : ∀ w ∈ Ω, ∀ w' ∈ Ω, w ≠ u → w' ≠ u → ∃ a ∈ A, a • w = w') :
     A ≤ pCoreOf 2 K ∨ ∀ w ∈ Ω, ∀ w' ∈ Ω, ∃ x ∈ K ⊓ P, x • w = w' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hfix : ∀ x ∈ K ⊓ P, x • u = u
   · left
     have hJS : K ⊓ P ≤ Subgroup.normalizer (S : Set G) := by

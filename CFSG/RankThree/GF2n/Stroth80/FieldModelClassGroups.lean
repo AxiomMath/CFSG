@@ -15,6 +15,7 @@ section ClassGroups
 
 variable {K : Type} [Field K]
 
+omit [Finite G] in
 theorem conj_mem_classGroup' {τ : G} (hV : τ ∈ Subgroup.normalizer (V : Set G))
     (hQ : τ ∈ Subgroup.normalizer (Q : Set G)) {γ : G → K} {x : G}
     (hx : x ∈ classGroup V Q γ) :
@@ -27,7 +28,7 @@ theorem conj_mem_classGroup' {τ : G} (hV : τ ∈ Subgroup.normalizer (V : Set 
       refine le_classGroup_of_mem (conj_mem_classOf hV hQ hU) ?_
       exact mem_conjSubgroup.mpr
         (by rw [show τ⁻¹ * (τ * x * τ⁻¹) * τ = x by group]; exact hxU)
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have := Subgroup.mul_mem _ hx hy
     rwa [show τ * (x * y) * τ⁻¹ = τ * x * τ⁻¹ * (τ * y * τ⁻¹) by group]
@@ -35,10 +36,12 @@ theorem conj_mem_classGroup' {τ : G} (hV : τ ∈ Subgroup.normalizer (V : Set 
     have := Subgroup.inv_mem _ hx
     rwa [show τ * x⁻¹ * τ⁻¹ = (τ * x * τ⁻¹)⁻¹ by group]
 
+omit [Finite G] in
 theorem classGroup_congr {γ γ' : G → K} (h : classOf V Q γ = classOf V Q γ') :
     classGroup V Q γ = classGroup V Q γ' := by
   simp only [classGroup, h]
 
+omit [Finite G] in
 theorem commute_of_closure' {S T : Set G} (h : ∀ x ∈ S, ∀ y ∈ T, x * y = y * x) :
     ∀ x ∈ Subgroup.closure S, ∀ y ∈ Subgroup.closure T, x * y = y * x := by
   have h1 : ∀ x ∈ S, ∀ y ∈ Subgroup.closure T, x * y = y * x := by
@@ -102,7 +105,7 @@ noncomputable def liftPoly (m : (ZMod 2)[X]) : ℕ[X] :=
   ∑ i ∈ Finset.range (m.natDegree + 1), monomial i (m.coeff i).val
 
 theorem coeff_liftPoly (m : (ZMod 2)[X]) (i : ℕ) : (liftPoly m).coeff i = (m.coeff i).val := by
-  simp only [liftPoly, finset_sum_coeff, coeff_monomial, Finset.sum_ite_eq', Finset.mem_range]
+  simp only [liftPoly, finsetSum_coeff, coeff_monomial, Finset.sum_ite_eq', Finset.mem_range]
   split_ifs with h
   · rfl
   · have : m.natDegree < i := by omega
@@ -146,12 +149,14 @@ theorem exists_nat_poly {n : ℕ} (hn : n ≠ 0) (b : GaloisField 2 n) :
       _ = algebraMap (ZMod 2) (GaloisField 2 n) (m.coeff i) := by
           rw [ZMod.natCast_zmod_val]
 
+omit [Finite G] in
 theorem addmap_one {K : Type} [Field K] {V : Subgroup G} {f : G → K}
     (hadd : ∀ x ∈ V, ∀ y ∈ V, f (x * y) = f x + f y) : f 1 = 0 := by
   have := hadd 1 V.one_mem 1 V.one_mem
   rw [mul_one] at this
   exact left_eq_add.mp this
 
+omit [Finite G] in
 theorem addmap_pow {K : Type} [Field K] {V : Subgroup G} {f : G → K}
     (hadd : ∀ x ∈ V, ∀ y ∈ V, f (x * y) = f x + f y) {x : G} (hx : x ∈ V) (k : ℕ) :
     f (x ^ k) = k • f x := by
@@ -159,6 +164,7 @@ theorem addmap_pow {K : Type} [Field K] {V : Subgroup G} {f : G → K}
   | zero => simp [addmap_one hadd]
   | succ k ih => rw [pow_succ, hadd _ (Subgroup.pow_mem _ hx _) _ hx, ih, succ_nsmul]
 
+omit [Finite G] in
 theorem addmap_prod_range {K : Type} [Field K] {V : Subgroup G} {f : G → K}
     (hadd : ∀ x ∈ V, ∀ y ∈ V, f (x * y) = f x + f y) (ws : ℕ → G) (hws : ∀ i, ws i ∈ V)
     (c : ℕ → ℕ) (m : ℕ) :
@@ -176,6 +182,7 @@ theorem addmap_prod_range {K : Type} [Field K] {V : Subgroup G} {f : G → K}
     rw [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one,
       hadd _ hpre _ (Subgroup.pow_mem _ (hws m) _), addmap_pow hadd (hws m)]
 
+omit [Finite G] in
 theorem poly_transfer {K : Type} [Field K] {V : Subgroup G} {f₁ f₂ : G → K} {τ : G} {α β : K}
     (hτV : ∀ v ∈ V, τ * v * τ⁻¹ ∈ V)
     (h₁add : ∀ x ∈ V, ∀ y ∈ V, f₁ (x * y) = f₁ x + f₁ y)
@@ -243,6 +250,7 @@ end PolyLemmas
 
 section NatRel
 
+omit [Finite G] in
 theorem natData_transfer {g : G} {n : ℕ} (N : NatData V Q g n)
     (D : MulData V (conjSubgroup g V) Q (GaloisField 2 n)) {τ : G}
     (hτH : τ ∈ Q ⊔ conjSubgroup g Q) (hτV : τ ∈ Subgroup.normalizer (V : Set G))
@@ -263,7 +271,7 @@ theorem natData_transfer {g : G} {n : ℕ} (N : NatData V Q g n)
     if h : v ∈ V ⊔ conjSubgroup g V then Multiplicative.toAdd (N.ψ ⟨v, h⟩) 0 else 0
   have hc : ∀ v (hv : v ∈ V), c v = Multiplicative.toAdd (N.ψ ⟨v, hVW hv⟩) 0 := by
     intro v hv
-    simp only [c, dif_pos (hVW hv)]
+    simp only [c, dite_eq_left (hVW hv)]
   have hτV' : ∀ v ∈ V, τ * v * τ⁻¹ ∈ V := fun v hv => (mem_iff_conj_of_normalizer hτV v).mp hv
   have hcadd : ∀ x ∈ V, ∀ y ∈ V, c (x * y) = c x + c y := by
     intro x hx y hy

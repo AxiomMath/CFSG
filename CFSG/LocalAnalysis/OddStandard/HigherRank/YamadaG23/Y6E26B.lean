@@ -35,8 +35,8 @@ theorem y6e_card_map_mul_card_ker {Γ : Type} [Group Γ] {V C K : Subgroup Γ} {
 theorem y6e_card_sup_mul_inf {Γ : Type} [Group Γ] [Finite Γ] {H N : Subgroup Γ}
     (hHN : H ≤ normalizer (N : Set Γ)) :
     Nat.card ↥(H ⊔ N) * Nat.card ↥(H ⊓ N) = Nat.card ↥H * Nat.card ↥N := by
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hHN
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hHN
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hHN
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hHN
   have e := QuotientGroup.quotientInfEquivProdNormalizerQuotient H N hHN
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (N.subgroupOf (H ⊔ N))
   have h2 := Subgroup.card_eq_card_quotient_mul_card_subgroup (N.subgroupOf H)
@@ -82,9 +82,9 @@ theorem y6e_false_of_G23Type {Γ : Type} [Group Γ] [Finite Γ] {V N B W : Subgr
     (hcB : 4 * Nat.card ↥N ≤ Nat.card ↥B) (hcW : 4 * Nat.card ↥N ≤ Nat.card ↥W)
     {Q : Type} [Group Q] (hQ : HRG23 Q) (S' : Sylow 2 Q) (h3 : CFSG.pRank 2 ↥S' = 3)
     (hsec : SecProp V N (fun Y _ _ _ => Sec2.IsG23Type Y)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hn, hG⟩ := hsec
-  haveI := hn
+  have := hn
   obtain ⟨φ⟩ := hG Q hQ S'
   let ι : ↥V →* ↥V ⧸ N.subgroupOf V := QuotientGroup.mk' (N.subgroupOf V)
   let B' : Subgroup (↥V ⧸ N.subgroupOf V) := (B.subgroupOf V).map ι
@@ -176,7 +176,7 @@ theorem y6e_pRank_sylow_quotient {G : Type} [Group G] [Finite G] {L S : Subgroup
     (hS : IsSylowIn 2 L S) (hZ : Subgroup.center ↥L = ⊥)
     (hr : CFSG.pRank 2 ↥S = 3) (S' : Sylow 2 (↥L ⧸ Subgroup.center ↥L)) :
     CFSG.pRank 2 ↥S' = 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let π : ↥L →* ↥L ⧸ Subgroup.center ↥L := QuotientGroup.mk' (Subgroup.center ↥L)
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hinj : Function.Injective π := by
@@ -216,7 +216,7 @@ theorem y6e_sqone_mem_of_card {G : Type} [Group G] [Finite G] {M F : Subgroup G}
   have hTcard : T.ncard = 8 := by
     have h1 : T = e ⁻¹' {x : Fin 3 → Multiplicative (ZMod 4) | x ^ 2 = 1} := by
       ext z
-      simp only [T, Set.mem_setOf_eq, Set.mem_preimage]
+      simp only [T, Set.mem_ofPred_eq, Set.mem_preimage]
       rw [← map_pow, e.map_eq_one_iff]
     rw [h1, Set.ncard_preimage_of_injective_subset_range e.injective
       (fun x _ => ⟨e.symm x, e.apply_symm_apply x⟩)]

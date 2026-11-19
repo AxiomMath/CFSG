@@ -40,12 +40,12 @@ private theorem map_subgroupOf_eq_of_normal {M H : Type} [Group M] [Group H] {X 
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
     refine Subgroup.mem_map.mpr ⟨⟨n, hn⟩ * y * ⟨n, hn⟩⁻¹, hB.conj_mem y hy ⟨n, hn⟩, ?_⟩
     rfl
-  haveI : Finite (((A.subgroupOf X).map ψ).map N.subtype) :=
+  have : Finite (((A.subgroupOf X).map ψ).map N.subtype) :=
     Nat.finite_of_card_ne_zero (by rw [hQcard]; norm_num)
   have hQ2 : IsPGroup 2 (((A.subgroupOf X).map ψ).map N.subtype) :=
     IsPGroup.iff_card.mpr ⟨6, hQcard.trans (by norm_num)⟩
   have hle := hA0N _ hQN hQnorm hQ2
-  haveI : Finite A0' := Nat.finite_of_card_ne_zero (by rw [hA0]; norm_num)
+  have : Finite A0' := Nat.finite_of_card_ne_zero (by rw [hA0]; norm_num)
   have hQeq : ((A.subgroupOf X).map ψ).map N.subtype = A0' :=
     Subgroup.eq_of_le_of_card_ge hle (le_of_eq (by rw [hA0, hQcard]))
   have key := Subgroup.comap_map_eq_self_of_injective N.subtype_injective
@@ -77,7 +77,7 @@ theorem E8ZPkg.exists_nu (P : E8ZPkg z e E B T A X)
   obtain ⟨Q, hQX, hQ2, hQcard⟩ : ∃ Q : Subgroup G, Q ≤ X ∧ IsPGroup 2 Q ∧ Nat.card Q = 512 :=
     ⟨K₂.map X.subtype, Subgroup.map_subtype_le _,
       (IsPGroup.iff_card.mpr ⟨9, hK₂⟩ : IsPGroup 2 K₂).map X.subtype,
-      (by rw [Subgroup.card_map_of_injective X.subtype_injective, hK₂] <;> norm_num)⟩
+      (by rw [Subgroup.card_map_of_injective X.subtype_injective, hK₂]; norm_num)⟩
   have hQA : Q = Q ⊔ A := by
     have hsup : IsPGroup 2 (Q ⊔ A : Subgroup G) :=
       IsPGroup.to_sup_of_normal_right' hQ2 hA2 (hQX.trans P.X_le)

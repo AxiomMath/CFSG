@@ -79,7 +79,7 @@ theorem exists_simple_normal_of_isMinNormalOver {H X : Subgroup G} (hX : IsMinNo
   obtain ⟨simple, hsimpleMin, hsimpleGroup, hnonab, _⟩ :=
     minimal_normal_subgroup_contains_normal_simple_with_nonab_of_centerless
       (X.subgroupOf H) hminimal
-  haveI : IsSimpleGroup ↥simple := hsimpleGroup
+  have : IsSimpleGroup ↥simple := hsimpleGroup
   let e : ↥(X.subgroupOf H) ≃* ↥X := Subgroup.subgroupOfEquivOfLe hXH
   let S₀ : Subgroup ↥X := simple.map e.toMonoidHom
   let S : Subgroup G := S₀.map X.subtype
@@ -106,7 +106,7 @@ theorem inf_ne_bot_of_odd_relIndex {H M X S : Subgroup G} (hMH : M ≤ H)
     (hodd : Odd (M.relIndex H)) (hXH : X ≤ H) (hX : (X.subgroupOf H).Normal) (hSX : S ≤ X)
     (hS : (S.subgroupOf X).Normal) (hsimple : IsSimpleGroup ↥S)
     (hnab : ¬ ∀ x ∈ S, ∀ y ∈ S, x * y = y * x) : S ⊓ M ≠ ⊥ := by
-  haveI : IsSimpleGroup ↥S := hsimple
+  have : IsSimpleGroup ↥S := hsimple
   obtain ⟨P, hP⟩ := CFSG.ABGLocalTools.exists_isSylowOf 2 M
   have hPModd : Odd (P.relIndex M) := by
     rw [← Nat.not_even_iff_odd, even_iff_two_dvd]

@@ -12,7 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 theorem asch1413_normalizes {Q : Type} [Group Q] [Finite Q] {V : Type}
     [CommGroup V] [Finite V] (hV : ∀ v : V, v ^ 2 = 1) {ρ : Q →* MulAut V}
     (hρ : Function.Injective ρ) {G₀ X A : Subgroup Q} (hX : IsComponentOf X G₀) {z : Q}
-    (hz2 : orderOf z = 2) (hzX : z ∈ X) (hZX : ∀ x ∈ X, (∀ y ∈ X, x * y = y * x) ↔ x ∈ zpowers z)
+    (_hz2 : orderOf z = 2) (_hzX : z ∈ X) (_hZX : ∀ x ∈ X, (∀ y ∈ X, x * y = y * x) ↔ x ∈ zpowers z)
     (hAG : A ≤ G₀) (hA : Nat.card A = 4) (hAe : IsElemAbelian 2 A) (hq : IsQuadraticOn ρ A)
     (hAC : A ⊓ centralizer (X : Set Q) = ⊥) {p : ℕ} (hp : p.Prime) (hp5 : 5 < p)
     (hmod : F6.IsL2 p 1 (↥X ⧸ Subgroup.center ↥X)) :
@@ -23,7 +23,7 @@ theorem asch1413_normalizes {Q : Type} [Group Q] [Finite Q] {V : Type}
     exact Subgroup.one_mem _
   · have ha2 : a ^ 2 = 1 := hAe.2 a ha
     let Q' := ↥G₀
-    haveI : Finite Q' := Subtype.finite
+    have : Finite Q' := Subtype.finite
     let ρ' : Q' →* MulAut V := ρ.comp G₀.subtype
     have hρ' : Function.Injective ρ' := fun x y h => G₀.subtype_injective (hρ h)
     let X' : Subgroup Q' := X.subgroupOf G₀

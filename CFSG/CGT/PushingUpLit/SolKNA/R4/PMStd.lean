@@ -93,9 +93,10 @@ variable {G : Type} [Group G] [Finite G] {r : ℕ}
 
 private theorem pmStd_natCard_quat {T : Type*} [Group T] {n : ℕ} (hn : 0 < n)
     (e : T ≃* QuaternionGroup n) : Nat.card T = 4 * n := by
-  haveI : NeZero n := ⟨hn.ne'⟩
+  have : NeZero n := ⟨hn.ne'⟩
   rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]
 
+omit [Finite G] in
 private theorem pmStd_relIndex_two (hr : 4 ≤ r) {D S : Subgroup G} (hDS : D ≤ S)
     (hS : Nat.card ↥S = 4 * 2 ^ (r - 2)) (hD : Nat.card ↥D = 2 ^ (r - 1)) :
     D.relIndex S = 2 := by

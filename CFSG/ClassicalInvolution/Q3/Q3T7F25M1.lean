@@ -123,7 +123,7 @@ theorem l6_8 : L6_8 := by
   obtain ⟨K, hK, hUK⟩ := hΩ.exists_member_of_mem_USet hU
   obtain ⟨V₀, hV₀, hV₀K⟩ := exists_mem_of_mem_etaSet hΩ hηS' hK ⟨hU, hUS⟩ hUK
   have hV₀U : V₀ ∈ USet Ω := (hS₁.1 hV₀).1
-  have hT : IsPGroup 2 ↥(U ⊔ V₀) := S.isPGroup'.to_le (sup_le hUS (hηS V₀ hV₀))
+  have hT : IsPGroup 2 ↥(U ⊔ V₀) := S.isPGroup.to_le (sup_le hUS (hηS V₀ hV₀))
   have hdich := hΩ.eq_or_sup_mem_RSet hK hU hV₀U hUK hV₀K hT
   have hlie : ∀ V : Subgroup G, (U = V ∨ U ⊔ V ∈ RSet Ω) → V ≤ K := by
     intro V h
@@ -413,7 +413,7 @@ theorem tf4_of_index_two {K K' W : Subgroup G} {S : Sylow 2 G}
   have hRS : R ≤ (S : Subgroup G) := hyp.hR.2.2
   have hR'S : R' ≤ (S : Subgroup G) := hyp.hR'.2.2
   have hc : Commutes R R' := hΩ.commutes_of_twin_of_isPGroup hK hK' hKK'.symm hz hz' hRsyl.1
-    hR'syl.1 (S.isPGroup'.to_le (sup_le hRS hR'S))
+    hR'syl.1 (S.isPGroup.to_le (sup_le hRS hR'S))
   have hquat : IsQuatSub R := hΩ.isQuatSub_of_mem_RSet hyp.hR.1
   obtain ⟨a, b, haR, hbR, hclos, hbab, k, hk⟩ := exists_gens_of_isQuatSub hquat
   have hR8 : 8 ≤ Nat.card ↥R := hquat.eight_le
@@ -523,7 +523,7 @@ theorem tf4_of_index_four {K K' W : Subgroup G} {S : Sylow 2 G}
   have hRS : R ≤ (S : Subgroup G) := hyp.hR.2.2
   have hR'S : R' ≤ (S : Subgroup G) := hyp.hR'.2.2
   have hc : Commutes R R' := hΩ.commutes_of_twin_of_isPGroup hK hK' hKK'.symm hz hz' hRsyl.1
-    hR'syl.1 (S.isPGroup'.to_le (sup_le hRS hR'S))
+    hR'syl.1 (S.isPGroup.to_le (sup_le hRS hR'S))
   obtain ⟨g, hg'⟩ := hg
   have ht2 : t' * t' = 1 := by
     rw [← hg']

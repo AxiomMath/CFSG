@@ -589,7 +589,7 @@ theorem exists_conj_weyl_eq_zpowers_cE6
     (hnw : weylQuotientHom .E6 L ⟨n,hEM hnE⟩ = a)
     (u : WeylGroup .E6) (hua : u * a = cE6 * u) :
     ∃ m ∈ adjointGroup .E6 L,
-      ∃ hM : E.map (MulAut.conj m).toMonoidHom ≤ monomialSubgroup .E6 L,
+      ∃ _hM : E.map (MulAut.conj m).toMonoidHom ≤ monomialSubgroup .E6 L,
         ((E.map (MulAut.conj m).toMonoidHom).subgroupOf (monomialSubgroup .E6 L)).map
           (weylQuotientHom .E6 L) = Subgroup.zpowers cE6 := by
   classical
@@ -599,21 +599,21 @@ theorem exists_conj_weyl_eq_zpowers_cE6
   have hm : m ∈ monomialSubgroup .E6 L := canonicalRep_mem_monomialSubgroup L u
   have hMG : m ∈ adjointGroup .E6 L :=
     canonicalRep_mem_adjointGroup (cs := coxeterSystem .E6) L u
-  have hM : E0 ≤ monomialSubgroup .E6 L := by
+  have _hM : E0 ≤ monomialSubgroup .E6 L := by
     rintro x ⟨y,hy,rfl⟩
     exact mul_mem (mul_mem hm (hEM hy)) (inv_mem hm)
   have hπ (x : ModGL .E6 L) (hx : x ∈ E) :
-      weylQuotientHom .E6 L ⟨f x,hM (Subgroup.mem_map_of_mem f hx)⟩ =
+      weylQuotientHom .E6 L ⟨f x,_hM (Subgroup.mem_map_of_mem f hx)⟩ =
         u * weylQuotientHom .E6 L ⟨x,hEM hx⟩ * u⁻¹ := by
     change weylQuotientHom .E6 L
       ((⟨m,hm⟩ : monomialSubgroup .E6 L) * ⟨x,hEM hx⟩ * (⟨m,hm⟩ : monomialSubgroup .E6 L)⁻¹) = _
     rw [map_mul,map_mul,map_inv,weylQuotientHom_eq (mapsRootLines_canonicalRep u)]
   have huac : u * a * u⁻¹ = cE6 := by rw [hua,mul_inv_cancel_right]
-  refine ⟨m,hMG,hM,?_⟩
+  refine ⟨m,hMG,_hM,?_⟩
   apply le_antisymm
   · rintro w ⟨x,hx,rfl⟩
     obtain ⟨y,hy,heq⟩ := Subgroup.mem_map.mp (Subgroup.mem_subgroupOf.mp hx)
-    have hxval : x = ⟨f y,hM (Subgroup.mem_map_of_mem f hy)⟩ := Subtype.ext heq.symm
+    have hxval : x = ⟨f y,_hM (Subgroup.mem_map_of_mem f hy)⟩ := Subtype.ext heq.symm
     rw [hxval,hπ y hy]
     obtain ⟨k,hk⟩ := Subgroup.mem_zpowers_iff.mp ((hEA _).mpr ⟨y,hy,rfl⟩)
     rw [← hk]
@@ -622,11 +622,11 @@ theorem exists_conj_weyl_eq_zpowers_cE6
     rw [hp,huac]
     exact Subgroup.mem_zpowers_iff.mpr ⟨k,rfl⟩
   · apply Subgroup.zpowers_le.mpr
-    let nc : monomialSubgroup .E6 L := ⟨f n,hM (Subgroup.mem_map_of_mem f hnE)⟩
+    let nc : monomialSubgroup .E6 L := ⟨f n,_hM (Subgroup.mem_map_of_mem f hnE)⟩
     have hnsub : nc ∈ E0.subgroupOf (monomialSubgroup .E6 L) :=
       Subgroup.mem_subgroupOf.mpr (Subgroup.mem_map_of_mem f hnE)
     have hnc := Subgroup.mem_map_of_mem (weylQuotientHom .E6 L) hnsub
-    have hnπ : weylQuotientHom .E6 L ⟨f n,hM (Subgroup.mem_map_of_mem f hnE)⟩ = cE6 := by
+    have hnπ : weylQuotientHom .E6 L ⟨f n,_hM (Subgroup.mem_map_of_mem f hnE)⟩ = cE6 := by
       rw [hπ n hnE,hnw,huac]
     rw [← hnπ]
     exact hnc

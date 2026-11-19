@@ -23,7 +23,7 @@ theorem quotCenterAut_conj {H : Type} [Group H] (a : H) :
   refine QuotientGroup.induction_on q ?_
   intro b
   rw [quotCenterAut_apply_mk, MulAut.conj_apply]
-  simp [map_mul, map_inv]
+  simp
 
 theorem nonempty_aCandidate_of_surjective {K : Type} [Group K] [Finite K]
     (hKq : IsQuasisimple K) {U : Type} [CommGroup U] [Finite U] (hU : ∀ u : U, u ^ 2 = 1)

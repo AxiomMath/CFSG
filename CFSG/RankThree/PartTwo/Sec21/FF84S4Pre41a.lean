@@ -36,12 +36,12 @@ theorem pSolv3_of_le_hom {X Y : Type} [Group X] [Group Y] [Finite X] (f : X →*
 theorem coprime_lift {D₀ Q : Subgroup G} (hQD : Q ≤ D₀) (hQ : IsPGroup 3 Q) {x : G} (hx : x ∈ D₀)
     (hh : ∀ q ∈ Q, q⁻¹ * x⁻¹ * q * x ∈ Opp 3 D₀) :
     ∃ o ∈ Opp 3 D₀, x * o⁻¹ ∈ Subgroup.centralizer (Q : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO : ∀ y ∈ pPrimeCore 3 ↥D₀, ¬ 3 ∣ orderOf y := fun y hy => by
     have hdvd : orderOf y ∣ Nat.card (pPrimeCore 3 ↥D₀) := Subgroup.orderOf_dvd_natCard _ hy
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1
       (Nat.Coprime.coprime_dvd_right hdvd (CFSG.pPrimeCore_coprime_card (p := 3)))
-  haveI : (pPrimeCore 3 ↥D₀).Normal := CFSG.pPrimeCore_normal
+  have : (pPrimeCore 3 ↥D₀).Normal := CFSG.pPrimeCore_normal
   obtain ⟨o, ho, hc⟩ :=
     CFSG.LocalAnalysis.GLTheoremB.MovingAround.Lemma114Layer.cz_centralizer (p := 3)
       (O := pPrimeCore 3 ↥D₀) (Q := Q.subgroupOf D₀) hO hQ.comap_subtype
@@ -85,12 +85,12 @@ theorem J₁_psolv (h : FF84Sec4 b L B K b₁ b₂) (hA : A8Model L)
     (hn₁ : ∀ g ∈ D₀, ∀ x ∈ J₁, g * x * g⁻¹ ∈ J₁) (hn₂ : ∀ g ∈ D₀, ∀ x ∈ J₂, g * x * g⁻¹ ∈ J₂)
     (hP₂J₂ : Subgroup.zpowers b₂ ≤ J₂) (hJO : J₁ ⊓ J₂ ≤ Opp 3 D₀) :
     IsPSolvable 3 ↥J₁ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hb₂ : IsPGroup 3 (Subgroup.zpowers b₂) :=
     isPGroup_zpowers (p := 3) (k := 1) (by simpa using pow3_of_mem h (mem_b₂ h))
   have hlift := J₁_cen_lift hb₂ hJ₁ hJ₂ hn₁ hn₂ hP₂J₂ hJO
   set O' := pPrimeCore 3 ↥D₀ with hO'
-  haveI : O'.Normal := CFSG.pPrimeCore_normal
+  have : O'.Normal := CFSG.pPrimeCore_normal
   set f : ↥D₀ →* ↥D₀ ⧸ O' := QuotientGroup.mk' O' with hf
   set C' : Subgroup ↥D₀ := (D₀ ⊓ Cen b₂).subgroupOf D₀ with hC'
   have hC'solv : IsPSolvable 3 ↥C' := by

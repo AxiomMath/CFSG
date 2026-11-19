@@ -54,7 +54,7 @@ theorem pt_centralizer {G : Type} [Group G] [Finite G] (A : Subgroup G) (z t₁ 
     · rw [Set.mem_singleton_iff] at hh
       subst hh
       exact h2.symm
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hord : orderOf z = 5 := orderOf_eq_prime hz5 hz1
   have hzH : z ∈ H := hmemH z hzA hzt₁.symm hzt₂.symm
   have hle : Subgroup.zpowers z ≤ H := Subgroup.zpowers_le.2 hzH
@@ -176,7 +176,7 @@ theorem fiveC_data :
     · exact ⟨hmem hn4 ((rs2.mul rt2).mul rs2i), hmem hn8 ((rs2i.mul rt2).mul rs2)⟩
   · exact (card_centralizer_le_of_powBound rz hb1).trans hcnt1
   · exact cardC.ge
-  · haveI : Finite GL24 := inferInstance
+  · have : Finite GL24 := inferInstance
     exact pt_centralizer GA (kG ext 88) (kG ext 89) (kG ext 90) hz (kG_mem ext 88) hz5' hz1' ht1z
       ht2z hbd
 
@@ -189,7 +189,7 @@ theorem tabCo1_fiveC (x : ↥GA) (hx : MRep repZ (x : GL24)) :
     PConstrainedShape 5 (Subgroup.centralizer ({x} : Set ↥GA)) := by
   obtain ⟨z, t₁, t₂, s₁, s₂, hz, -, ht₁, ht₂, hs₁, hs₂, hzt₁, hzt₂, hzs₁, hzs₂, hR, hnorm, hbd, hC,
     hcent⟩ := fiveC_data
-  haveI : Finite ↥GA := finite_GA
+  have : Finite ↥GA := finite_GA
   have hxz : (x : GL24) = z := hx.eq hz
   refine pConstrainedShape_of_map_injective GA.subtype GA.subtype_injective ?_
   rw [map_centralizer_subtype' GA x]

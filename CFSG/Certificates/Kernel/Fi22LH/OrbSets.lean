@@ -239,6 +239,7 @@ theorem orbDec_tbl (Q : Nat → Nat) : (orbDec Q).tbl =
     (List.range 14080).foldl (fun t k => t.insert (bitsOfNat (sb (Q k))) k) ∅ := by
   simp only [orbDec]
 
+set_option exponentiation.threshold 3520 in
 theorem sb_lt_3520 (q : Nat) : sb q < 2 ^ 3520 :=
   Nat.lt_of_lt_of_le (sb_lt q) (Nat.pow_le_pow_right (by decide) (by decide))
 
@@ -250,7 +251,7 @@ theorem find_orbDec_of (hinj : ∀ i < 14080, ∀ j < 14080, sb (Q i) = sb (Q j)
       (bitsOfNat_inj (sb_lt_3520 _) (sb_lt_3520 _) e)) hk]
   rfl
 
-theorem find_orbDec_none (hinj : ∀ i < 14080, ∀ j < 14080, sb (Q i) = sb (Q j) → i = j)
+theorem find_orbDec_none (_hinj : ∀ i < 14080, ∀ j < 14080, sb (Q i) = sb (Q j) → i = j)
     {B : Bits} (hB : ∀ k < 14080, B ≠ bitsOfNat (sb (Q k))) : (orbDec Q).find B = 14080 := by
   unfold LHOrb.find
   rw [Std.HashMap.get?_eq_getElem?, orbDec_tbl,

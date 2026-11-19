@@ -17,16 +17,16 @@ open scoped commutatorElement Pointwise
 
 theorem ffChiefSp4_section {W : Type} [CommGroup W] [Finite W]
     (hW : ∀ w : W, w ^ 2 = 1) {Y L : Subgroup (MulAut W)} {n : ℕ}
-    (hL : IsComponentOf L Y) (hn : 1 < n) (hSp : IsSp4 ↥L n) (hA : ∃ A ∈ Pset Y, ⁅A, L⁆ ≠ ⊥) :
+    (hL : IsComponentOf L Y) (_hn : 1 < n) (hSp : IsSp4 ↥L n) (hA : ∃ A ∈ Pset Y, ⁅A, L⁆ ≠ ⊥) :
     IsIrrOn L (commV L) (commV L ⊓ fixV L) ∧
       BinaryNaturalSp4 L (commV L) (commV L ⊓ fixV L) n := by
   classical
-  letI : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
+  let : Module (ZMod 2) (Additive W) := CFSG.RankThree.FFModules.moduleOfSq hW
   have hLY : L ≤ Y := hL.1
   obtain ⟨hρ, hcomp', A', hA'cal, hA'L⟩ := ffSetup hL hA
   have hSp' : IsSp4 ↥(L.subgroupOf Y) n :=
     LieModel.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hLY).symm hSp
-  haveI : IsSimpleGroup ↥(L.subgroupOf Y) := UC22.K148.isSimpleGroup_of_isSp4 hSp'
+  have : IsSimpleGroup ↥(L.subgroupOf Y) := UC22.K148.isSimpleGroup_of_isSp4 hSp'
   obtain ⟨hn2, K, _, _, _, hK, ⟨e⟩⟩ := UC22.K148.exists_antiSp_of_isSp4 hSp'
   obtain ⟨B, m, -, hBe, hBN, hm1, hm, hUinv, hXinv, hCB, hirr, hnt, hcost⟩ :=
     ffUnique_of_factorBound hρ hcomp' hA'cal hA'L (sp4_factorBound hn2 hK e)

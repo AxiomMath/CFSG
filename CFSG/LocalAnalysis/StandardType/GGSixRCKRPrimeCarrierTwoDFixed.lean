@@ -155,7 +155,7 @@ theorem rckTwoD_exists_cover_of_datum_field
           (rootSL2 τ L (b ⟨k.val, by omega⟩)).comp (Matrix.SpecialLinearGroup.map
             ((frobeniusFixedField L 2 D.e).subtype.comp κ.toRingHom)) := by
   classical
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have he : 0 < D.e := D.one_le_e
   let a0 : Fin m := ⟨m - 2, by omega⟩
   let a1 : Fin m := ⟨m - 1, by omega⟩
@@ -202,7 +202,7 @@ theorem rckTwoD_exists_cover_of_datum_field
     have hOf := CompsPTwoDDatum.thetaOrbit_of_swap hswap01 hswap10
     have hOf' := CompsPTwoDDatum.thetaOrbit_of_swap hswap10 hswap01
     by_cases h : GenFixedRootDatum.orbitRoot (thetaOrbit D.θ (b a0)) = b a0
-    · simpa only [b', w, if_pos h, Equiv.Perm.one_apply] using h
+    · simpa only [b', w, ite_eq_left h, Equiv.Perm.one_apply] using h
     · have hmem : GenFixedRootDatum.orbitRoot (thetaOrbit D.θ (b a0)) ∈
           thetaOrbit D.θ (b a0) :=
         lexLeast_mem (by rw [hOf]; exact Set.toFinite _) ⟨_, self_mem_thetaOrbit _ _⟩
@@ -215,23 +215,23 @@ theorem rckTwoD_exists_cover_of_datum_field
         rcases hmem' with hfirst | hlast
         · exact False.elim (h hfirst)
         · exact hlast
-      simp only [b', w, if_neg h, Equiv.swap_apply_left]
+      simp only [b', w, ite_eq_right h, Equiv.swap_apply_left]
       rw [hOf', Set.pair_comm, ← hOf]
       exact hlast
   obtain ⟨ρ, Φ, hρ, hρinj, hcomm, hfr, hΦ0, hΦ1, hΦ2, hC⟩ :=
     exists_chain_of_datum_core hτ D hm b' (fun j => hroot _) (hbinj.comp w.injective)
       (fun j k => by rw [hG, hwG]) hsimple' hfix' hswap01' hswap10' horb'
       (fun j k hjk => hframe _ _ (by rw [hwG]; exact hjk))
-  haveI : Finite ↥(frobeniusFixedField L 2 D.e) := Nat.finite_of_card_ne_zero (by
+  have : Finite ↥(frobeniusFixedField L 2 D.e) := Nat.finite_of_card_ne_zero (by
     rw [card_frobeniusFixedField he]
     exact (pow_pos Nat.prime_two.pos _).ne')
   have hF : Nat.card F = 2 ^ D.e :=
     (Nat.card_congr κ.toEquiv).trans (card_frobeniusFixedField he)
-  letI : Algebra F ↥(frobeniusFixedField L 2 (D.e * 2)) :=
+  let : Algebra F ↥(frobeniusFixedField L 2 (D.e * 2)) :=
     ((algebraMap ↥(frobeniusFixedField L 2 D.e) ↥(frobeniusFixedField L 2 (D.e * 2))).comp
       κ.toRingHom).toAlgebra
   obtain ⟨KD⟩ := rckTwoD_kleinData_fixedField he κ bb cc hirr
-  haveI := fact_shortField hirr
+  have := fact_shortField hirr
   let κSL : SL(2, F) →* SL(2, ↥(frobeniusFixedField L 2 D.e)) :=
     Matrix.SpecialLinearGroup.map κ.toRingHom
   have hκsurj : Function.Surjective κSL := by

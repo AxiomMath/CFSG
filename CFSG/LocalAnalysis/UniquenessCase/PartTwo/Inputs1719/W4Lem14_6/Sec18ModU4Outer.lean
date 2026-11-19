@@ -49,7 +49,7 @@ theorem two_mul_le_mParam_of_naturalSU4
     (hU4 : IsU4 ↥S n) (hirr : IsIrrOn S ⊤ ⊥) (hnat : NaturalSU4 n S) :
     2 * n ≤ E3.mParam N := by
   classical
-  haveI : Fact (∀ s : U, s * s = 1) := ⟨fun s => by rw [← pow_two]; exact hU2 s⟩
+  have : Fact (∀ s : U, s * s = 1) := ⟨fun s => by rw [← pow_two]; exact hU2 s⟩
   have hevS : Even (Nat.card ↥S) := Thm14_5.even_card_of_isU4 hU4
   have hevN : Even (Nat.card N) := by
     rw [even_iff_two_dvd] at hevS ⊢
@@ -69,7 +69,7 @@ theorem k146ModU4_of_inputs (hdich : CFSG.HardMathSupport.U4FF.U4RankDichotomy)
     (hO : K146ModU4Omega6) (hout : K146ModU4Outer) : K146ModU4 := by
   intro U _ _ hU2 N S n hSN hSnormal hU4 hn hirr hm
   classical
-  haveI : Fact (∀ s : U, s * s = 1) := ⟨fun s => by rw [← pow_two]; exact hU2 s⟩
+  have : Fact (∀ s : U, s * s = 1) := ⟨fun s => by rw [← pow_two]; exact hU2 s⟩
   have hn1 : 1 ≤ n := le_of_lt hn
   have hU4G : CFSG.LocalAnalysis.RankThreeUC.IsU4Group n S := isU4Group_of_isU4 hU4
   have hirrG : CFSG.LocalAnalysis.RankThreeUC.IsIrrOn S := fun J hJ =>

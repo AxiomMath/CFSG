@@ -13,8 +13,9 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G] {V H E J : Subgroup G}
 
+omit [Finite G] in
 private theorem seven_eleven_bar_sq_eq_one (h : Hyp73 V H E J) {X : Type} [Group X]
-    {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) J φ)
+    {φ : ↥(kSub V H E) →* X} (_hφ : IsBarMap (kSub V H E) J φ)
     {k : ↥(kSub V H E)} (hk : (k : G) ∈ dSet V H E) : (φ k) ^ 2 = 1 := by
   obtain ⟨U, hU, hkU, -⟩ := mem_dSet.mp hk
   have hUab : IsElemAbelian 2 U := isElemAbelian_of_mem_omegaSet h.elemAbelian hU
@@ -304,6 +305,7 @@ private theorem seven_eleven_bar_odd_pair (h : Hyp73 V H E J)
       exact h2.symm
     exact Or.inl (orderOf_dvd_of_pow_eq_one (seven_eleven_bar_mul_sq_eq_one hcommX hk2 hl2))
 
+omit [Finite G] in
 theorem conj_mem_dSet (h : Hyp73 V H E J) {u x : G} (hu : u ∈ dSet V H E) (hx : x ∈ H) :
     x * u * x⁻¹ ∈ dSet V H E := by
   obtain ⟨U, hU, huU, huO⟩ := mem_dSet.mp hu
@@ -320,6 +322,7 @@ theorem conj_mem_dSet (h : Hyp73 V H E J) {u x : G} (hu : u ∈ dSet V H E) (hx 
       simpa only [inv_inv] using (hnorm (x * u * x⁻¹)).mp hmem
     rwa [show x⁻¹ * (x * u * x⁻¹) * x = u by group] at hthis
 
+omit [Finite G] in
 theorem barSet_dSet_eq (h : Hyp73 V H E J)
     (htr : ∀ U ∈ omegaSet V H E, ∃ k ∈ kSub V H E, U = conjSubgroup V k) {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) J φ) :
@@ -404,7 +407,7 @@ theorem barSet_dSet_eq (h : Hyp73 V H E J)
 theorem isRootInvolutionSet_barSet (h : Hyp73 V H E J) {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) J φ) :
     CFSG.Timmesfeld.IsRootInvolutionSet (barSet (kSub V H E) φ (dSet V H E)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨?_, ?_, ?_⟩
   · intro x hx
     obtain ⟨k, hkS, rfl⟩ := mem_barSet.mp hx
@@ -425,7 +428,7 @@ theorem isOddTransp_barSet (h : Hyp73 V H E J)
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) J φ)
     (hS : Nat.card (barSub (kSub V H E) φ V) = 2) :
     CFSG.Timmesfeld.Bridge.Asc72.IsOddTransp (barSet (kSub V H E) φ (dSet V H E)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨?_, ?_⟩
   · intro x hx
     obtain ⟨k, hkS, rfl⟩ := mem_barSet.mp hx
@@ -475,6 +478,7 @@ theorem exists_conj_of_isConj_barSet (h : Hyp73 V H E J) (hJK : J ≤ kSub V H E
   simp only [v']
   group
 
+omit [Finite G] in
 theorem barSet_dSet_eq_setOf_isConj (h : Hyp73 V H E J)
     (htr : ∀ U ∈ omegaSet V H E, ∃ k ∈ kSub V H E, U = conjSubgroup V k) {X : Type} [Group X]
     {φ : ↥(kSub V H E) →* X} (hφ : IsBarMap (kSub V H E) J φ)

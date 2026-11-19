@@ -165,7 +165,7 @@ theorem not_aEmpty_of_u2Witness (hp2 : p ≠ 2) (hq : 5 ≤ p ^ f) (hΩ : HypOme
       (natCard_member hΩ hJ).symm
     have hP''card : Nat.card P'' = 2 ^ (Nat.card J).factorization 2 := by
       rw [Sylow.card_eq_multiplicity, hcard]
-    have hR₀2 : IsPGroup 2 R₀ := P''.isPGroup'.map _
+    have hR₀2 : IsPGroup 2 R₀ := P''.isPGroup.map _
     have hQ₀2 : IsPGroup 2 (R₀.subgroupOf J) := hR₀2.comap_subtype
     have hQ₀card : Nat.card (R₀.subgroupOf J) = Nat.card P'' := by
       rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hR₀J).toEquiv]

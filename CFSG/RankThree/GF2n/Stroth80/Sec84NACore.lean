@@ -21,11 +21,11 @@ theorem naActConj_apply_apply (g : Γ) (c : Module.End K X) (x : X) :
 theorem naActConj_mul (g h : Γ) (c : Module.End K X) :
     naActConj K (g * h) c = naActConj K g (naActConj K h c) := by
   ext x
-  simp [naActConj_apply_apply, mul_smul, mul_inv_rev]
+  simp [mul_smul, mul_inv_rev]
 
 theorem naActConj_one (c : Module.End K X) : naActConj K (1 : Γ) c = c := by
   ext x
-  simp [naActConj_apply_apply]
+  simp
 
 end Conj
 
@@ -37,6 +37,7 @@ variable {K : Type} [Field K] [Finite K] {Γ : Type} [Group Γ]
   {X : Type} [AddCommGroup X] [Module K X] [Module.Finite K X] [DistribMulAction Γ X]
   [SMulCommClass Γ K X]
 
+omit [Finite N] in
 theorem naOperators_comm [Nontrivial N]
     (ω : X →ₗ[K] X →ₗ[K] K) (hω_nd : ∀ x, (∀ y, ω x y = 0) → x = 0)
     (hω_symm : ∀ x y, ω x y = ω y x)
@@ -51,7 +52,7 @@ theorem naOperators_comm [Nontrivial N]
       (∀ g : Γ, (∀ x : X, g • x = x) → h g = 1) → h = 1) :
     ∀ (g : Γ) (n : N) (u : U), a (g • n) u = g • a n u := by
   classical
-  haveI : Finite X := Module.finite_of_finite K
+  have : Finite X := Module.finite_of_finite K
   let τ₀ : N →+ X :=
     { toFun := fun n => a n u₀, map_zero' := by simp, map_add' := fun n n' => by simp }
   let τ : N ≃+ X := AddEquiv.ofBijective τ₀ hτ
@@ -103,7 +104,7 @@ theorem naOperators_comm [Nontrivial N]
     simp only [Module.End.mul_apply, hBapp]
     exact hBcomm u' u x
   let 𝒞 : Subalgebra K (Module.End K X) := Algebra.adjoin K (Set.range B)
-  letI : CommRing 𝒞 := by
+  let : CommRing 𝒞 := by
     haveI : IsMulCommutative 𝒞 := Algebra.isMulCommutative_adjoin K hBcommute
     open scoped IsMulCommutative in exact inferInstance
   have hBmem : ∀ u, B u ∈ 𝒞 := fun u => Algebra.subset_adjoin ⟨u, rfl⟩
@@ -147,10 +148,10 @@ theorem naOperators_comm [Nontrivial N]
     rw [AlgEquiv.mul_apply]
     show ((σe (g * h) c : ↥𝒞) : Module.End K X) = ((σe g (σe h c) : ↥𝒞) : Module.End K X)
     rw [hσe, hσe, hσe, naActConj_mul]))
-  haveI : Nontrivial X := τ.toEquiv.symm.nontrivial
-  haveI : Finite (Module.End K X) :=
+  have : Nontrivial X := τ.toEquiv.symm.nontrivial
+  have : Finite (Module.End K X) :=
     Finite.of_injective (fun f : Module.End K X => (f : X → X)) DFunLike.coe_injective
-  haveI : Finite ↥𝒞 := inferInstance
+  have : Finite ↥𝒞 := inferInstance
   let ρ : Γ →* (X ≃ₗ[K] X) := DistribMulAction.toModuleAut K X
   have hcomp : ∀ (g : Γ) (c : ↥𝒞) (x : X), ρ g (c • x) = σ g c • ρ g x := by
     intro g c x
@@ -214,6 +215,7 @@ theorem naOperators_comm [Nontrivial N]
   show g • a (τ.symm (τ n)) u = g • a n u
   rw [AddEquiv.symm_apply_apply]
 
+omit [Finite N] [SMulCommClass Γ K X] in
 theorem na_tau_bijective [Nontrivial N]
     (a : N →+ (U →ₗ[K] X)) (ha : ∀ (g : Γ) n u, a (g • n) (g • u) = g • a n u)
     (V₀ : Submodule K U) (hV₀ : ∀ n, ∀ u ∈ V₀, a n u = 0)
@@ -224,7 +226,7 @@ theorem na_tau_bijective [Nontrivial N]
       (∀ (g : Γ) n u, f (g • n) (g • u) = g • f n u) → Function.Injective f → False) :
     Function.Bijective (fun n : N => a n u₀) := by
   classical
-  haveI : Finite X := Module.finite_of_finite K
+  have : Finite X := Module.finite_of_finite K
   let τ₀ : N →+ X :=
     { toFun := fun n => a n u₀, map_zero' := by simp, map_add' := fun n n' => by simp }
   have hτg : ∀ (g : Γ) (n : N), τ₀ (g • n) = g • τ₀ n := fun g n => by
@@ -262,6 +264,7 @@ theorem na_tau_bijective [Nontrivial N]
   have hinj : Function.Injective τ₀ := (AddMonoidHom.ker_eq_bot_iff τ₀).mp hker
   exact Function.Injective.bijective_of_nat_card_le hinj hcard.ge
 
+omit [Finite K] [Finite N] [Module.Finite K X] [SMulCommClass Γ K X] in
 theorem na_split [Nontrivial N] [SMulCommClass Γ K U]
     (a : N →+ (U →ₗ[K] X)) (ha : ∀ (g : Γ) n u, a (g • n) (g • u) = g • a n u)
     (hcomm : ∀ (g : Γ) n u, a (g • n) u = g • a n u)

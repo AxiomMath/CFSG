@@ -20,9 +20,9 @@ open CFSG.Assembly CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Universa
 open CFSG.Open (IsElemAbelian)
 open TableBExc.E6Three
 
-private theorem e6tw_fixCard_one {p : ℕ} (hp : p.Prime) (R : ℕ) :
+private theorem e6tw_fixCard_one {p : ℕ} (_hp : p.Prime) (R : ℕ) :
     GGFixCard p (1 : Equiv.Perm (Fin R)) = p ^ R := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨_hp.ne_zero⟩
   unfold GGFixCard
   have h : Nat.card {z : Fin R → ZMod p // ∀ i, z ((1 : Equiv.Perm (Fin R)) i) = z i} =
       Nat.card (Fin R → ZMod p) :=
@@ -58,10 +58,10 @@ private theorem e6tw_bridge
       (∀ c : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)),
         ∃ κ ∈ (ggPsiU .twistedE6 n f).range, Φ κ = MulAut.conj c) := by
   have hf : 1 ≤ f := hadm.1.2.1
-  haveI : Finite (ggU .twistedE6 n f).K :=
+  have : Finite (ggU .twistedE6 n f).K :=
     ggU_finite_exc (Or.inr (Or.inr (Or.inr (Or.inr rfl)))) hadm
-  haveI : Finite (GGAutU .twistedE6 n f) := GGSFCore.finite_ggAutU
-  haveI hN : ((ggPsiU .twistedE6 n f).range).Normal :=
+  have : Finite (GGAutU .twistedE6 n f) := GGSFCore.finite_ggAutU
+  have hN : ((ggPsiU .twistedE6 n f).range).Normal :=
     GGSFCore.normal_range_ggPsiU .twistedE6 n f
   obtain ⟨-, hker, -, hcent⟩ := ggKnownSetting_autU hadm
   obtain ⟨π, hπ, hkerπ, -, hπval⟩ := LayerSixE.exists_model_twistedE6 hf
@@ -154,11 +154,11 @@ theorem twE6CI_exists_outer_commuting_of_card
         MulAut ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)).range ∧
       ∀ y ∈ Y, z * y = y * z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure K) := inferInstance
+  have : IsAlgClosed (AlgebraicClosure K) := inferInstance
   set Ω := AlgebraicClosure K
   set Fr : Ω →+* Ω := iterateFrobenius Ω 2 n with hFrdef
   have hFr : ∀ c, Fr c = c ^ 2 ^ n := fun c => iterateFrobenius_def 2 n c
@@ -168,7 +168,7 @@ theorem twE6CI_exists_outer_commuting_of_card
   have hL : E6ThreeModel.IsLang Fr g := ⟨hg, hgn⟩
   obtain ⟨D, hD⟩ := E6ThreeModel.exists_tFrame hn hK σ hσ Fr hFr h3 hL hζ hζo
   have hnot := E6ThreeModel.langTorus_not_le_cgrp hn hK σ hσ Fr hFr h3 hL hζ hζo hD
-  push_neg at hnot
+  push Not at hnot
   obtain ⟨x, hx, hxC⟩ := hnot
   obtain ⟨b, hb, rfl⟩ := TwistedDiag.mem_thetaTorus.1 hx
   have hxR : g * rootDiagUnit Tag.E6 b * g⁻¹ ∈ TwistedDiag.Rgrp Ω Fr := by
@@ -257,7 +257,7 @@ theorem ggKGInndiagCId_twistedE6_three
     (hE.map Φ) (hS E hdiag) (hc6 E hcE) (hE'.map Φ) (hS E' hdiag') (hc6 E' hcE')
   obtain ⟨z, hz, hzn, hzc⟩ := twE6CI_exists_outer_commuting_of_card hf hcard (frobQEquiv hf)
     (frobQ_apply 2 f) h3 (hE'.map Φ) (hS E' hdiag') (hc6 E' hcE')
-  haveI : (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)) →*
+  have : (MulAut.conj : ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f)) →*
       MulAut ↥(graphFixedRootGroup TwistTag.E6 (GaloisField 2 (2 * f)) (frobQ 2 f))).range.Normal :=
     RootCentExc.normal_range_mulAutConj
   have hle := NoOffTwE6Three.twInndiagAut_le_sup_zpowers hf (hrange ▸ hz) hzn

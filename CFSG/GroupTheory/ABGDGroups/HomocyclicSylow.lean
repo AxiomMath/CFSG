@@ -67,7 +67,7 @@ theorem not_isComponent_of_homocyclic_sylow {K : Type} [Group K] [Finite K]
     Subtype.ext (Subtype.ext (homocyclic_mul_comm e _ _ ((hPmem _).mp a.2) ((hPmem _).mp b.2)))
   have h2L : 2 ∣ Nat.card L := even_iff_two_dvd.mp (Walter.even_card_of_isSimpleGroup hnonab)
   have h2P : 2 ∣ Nat.card (P : Subgroup L) :=
-    P.isPGroup'.card_eq_or_dvd.resolve_left fun h =>
+    P.isPGroup.card_eq_or_dvd.resolve_left fun h =>
       P.ne_bot_of_dvd_card h2L (Subgroup.card_eq_one.mp h)
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := (P : Subgroup L)) 2 h2P
   have hzZ : z ∈ Subgroup.center (P : Subgroup L) :=
@@ -101,7 +101,7 @@ theorem not_isComponent_of_homocyclic_sylow {K : Type} [Group K] [Finite K]
     intro c hcU hcC
     by_contra hc1
     set W := (U : Subgroup K) ⊓ Subgroup.centralizer (L : Set K)
-    have hWp : IsPGroup 2 W := U.isPGroup'.to_le inf_le_left
+    have hWp : IsPGroup 2 W := U.isPGroup.to_le inf_le_left
     have : Nontrivial W := ⟨⟨⟨c, hcU, hcC⟩, 1, fun h => hc1 (congrArg Subtype.val h)⟩⟩
     have h2W : 2 ∣ Nat.card W := hWp.card_eq_or_dvd.resolve_left Finite.one_lt_card.ne'
     obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := W) 2 h2W
@@ -125,7 +125,7 @@ theorem not_isComponent_of_homocyclic_sylow {K : Type} [Group K] [Finite K]
       calc x * (k⁻¹ * u) = k⁻¹ * (k * x * k⁻¹) * u := by group
         _ = k⁻¹ * (u * x * u⁻¹) * u := by rw [hk x hx]
         _ = k⁻¹ * u * x := by group
-    obtain ⟨a, ha⟩ := (IsPGroup.iff_orderOf.mp U.isPGroup') ⟨u, hu⟩
+    obtain ⟨a, ha⟩ := (IsPGroup.iff_orderOf.mp U.isPGroup) ⟨u, hu⟩
     have hupow : u ^ (2 ^ a) = 1 := by
       have h := pow_orderOf_eq_one (⟨u, hu⟩ : (U : Subgroup K))
       rw [ha] at h
@@ -263,7 +263,7 @@ theorem homocyclic_sylow_oddCore_sup_index
   set π := QuotientGroup.mk' (oddCore K) with hπdef
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hcop : Nat.Coprime (Nat.card (U : Subgroup K)) (Nat.card (oddCore K)) := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp U.isPGroup'
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp U.isPGroup
     have h2 : Nat.Coprime 2 (Nat.card (oddCore K)) := by
       rw [oddCore_eq_piCore K, ← pPrimeCore_eq_piCore K 2]
       exact pPrimeCore_coprime_card

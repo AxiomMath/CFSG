@@ -84,15 +84,17 @@ theorem cb_add' (x y : ZMod 3) : (cb (x + y) : K) = cb x * ca y + cd x * cb y :=
 
 theorem cd_add (x y : ZMod 3) : (cd (x + y) : K) = cb x * cb y + cd x * cd y := by
   rcases zmod3_cases x with rfl | rfl | rfl <;> rcases zmod3_cases y with rfl | rfl | rfl <;>
-    simp +decide [ca, cb, cd, one_add_one_eq_zero]
+    simp +decide [cb, cd, one_add_one_eq_zero]
 
 theorem det_eq (x : ZMod 3) : (ca x * cd x - cb x * cb x : K) = 1 := by
   rcases zmod3_cases x with rfl | rfl | rfl <;>
     simp +decide [ca, cb, cd, CharTwo.sub_eq_add]
 
+omit [CharP K 2] in
 theorem cb_eq_zero {x : ZMod 3} (h : (cb x : K) = 0) : x = 0 := by
   rcases zmod3_cases x with rfl | rfl | rfl <;> simp +decide [cb] at h ⊢
 
+omit [CharP K 2] in
 theorem map_c (τ : K ≃+* K) (x : ZMod 3) :
     τ (ca x) = ca x ∧ τ (cb x) = cb x ∧ τ (cd x) = cd x := by
   rcases zmod3_cases x with rfl | rfl | rfl <;> simp +decide [ca, cb, cd]
@@ -108,16 +110,17 @@ theorem spE_mul (v w : Fin 3 → ZMod 3) : (spE v : Matrix _ _ K) * spE w = spE 
   funext i
   rw [← cb_add', ← cb_add]
 
+omit [CharP K 2] in
 theorem spE_zero : (spE 0 : Matrix _ _ K) = 1 := by
   simp +decide [spE, ca, cb, cd, ← fromBlocks_one]
 
 theorem spE_mem (v : Fin 3 → ZMod 3) :
     (spE v : Matrix _ _ K)ᵀ * fromBlocks 0 1 (-1) 0 * spE v = fromBlocks 0 1 (-1) 0 := by
   simp only [spE, fromBlocks_transpose, diagonal_transpose, fromBlocks_multiply,
-    diagonal_mul_diagonal, Matrix.zero_mul, Matrix.mul_zero, Matrix.one_mul, Matrix.mul_one,
+    diagonal_mul_diagonal, Matrix.mul_zero, Matrix.mul_one,
     Matrix.neg_mul, Matrix.mul_neg, zero_add, add_zero]
   congr 1 <;> ext i j <;> by_cases h : i = j <;>
-    simp [diagonal_apply, Matrix.one_apply, h, mul_comm]
+    simp [Matrix.one_apply, h, mul_comm]
   · linear_combination (det_eq (K := K) (v j))
   · linear_combination -(det_eq (K := K) (v j))
 
@@ -190,7 +193,7 @@ theorem exists_rankFour_sp {X : Type} [Group X] [Finite X] {K : Type} [Field K] 
     rw [h1, map_mul, map_inv, Ψ.symm_apply_apply, spInner_eq_conj, hΨinv]
     exact H.mul_mem (H.inv_mem (hinn ⟨_, rfl⟩)) hαH
   obtain ⟨k, hk⟩ := hα
-  haveI := inner_normal P
+  have := inner_normal P
   have hφk : φ ^ 3 ^ k = 1 := by
     by_contra hne
     apply hnot _ hne
@@ -267,9 +270,9 @@ theorem kFactOuterThreeRankFour_of_rest (h : KFactOuterThreeRankFourRest) :
   obtain ⟨_, K, _, _, hK, ⟨e'⟩⟩ :=
     CFSG.RankThree.PartTwo.Census.statedClassicalModel_typeB_even 3 q hv hp le_rfl e
   rw [hp] at hK
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   obtain ⟨α, hαH, hαk, hαn⟩ := hα
   exact LieClAut.exists_rankFour_sp e' hc hinn hαH hαk hαn
 

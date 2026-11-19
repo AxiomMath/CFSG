@@ -34,6 +34,7 @@ noncomputable def actU {Vp H : Subgroup G} (hF : HypF91 T V L (fsuV1 T V) Vp H) 
   exact HypF91.tilde_le_normalizer (B := H) (V₁ := fsuV1 T V) (Vp := Vp) (H := H) (le_refl H)
     (secMk_mem_secImg (A := NV T V) (B := fsuV1 T V) (x := ⟨(h : G), hF.H_normalizes_V₁ h.2⟩) h.2)
 
+omit [Finite G] in
 theorem coe_actU {Vp H : Subgroup G} (hF : HypF91 T V L (fsuV1 T V) Vp H) (h : H)
     (x : ↥(UT T V Vp H)) :
     ((actU hF h x : ↥(UT T V Vp H)) : QV T V) =
@@ -59,6 +60,7 @@ theorem actU_eq_one_of_pCore {Vp H : Subgroup G} (hF : HypF91 T V L (fsuV1 T V) 
   rw [hc, mul_inv_cancel_right]
   rfl
 
+omit [Finite G] in
 theorem fsuV1_le_pCore {Vp H : Subgroup G} (hF : HypF91 T V L (fsuV1 T V) Vp H)
     (hV1H : fsuV1 T V ≤ H) : fsuV1 T V ≤ pCoreOf 2 H := by
   refine L32HatC3.le_pCoreOf_of_two hV1H (hF.H_normalizes_V₁) fun y hy => ⟨1, ?_⟩
@@ -119,6 +121,7 @@ theorem actU_comm_X {S : Setting4 G T L V} {H K : Subgroup G}
     rfl
   exact h2.symm.trans h1
 
+omit [Finite G] in
 theorem exists_rhoPi {K : Subgroup G} {Z : Type*} [Group Z] (π : ↥K →* SL3.S)
     (hπ : Function.Surjective π) (σ : ↥K →* Z) (hσ : ∀ k : ↥K, π k = 1 → σ k = 1) :
     ∃ ρ : SL3.S →* Z, ∀ k : ↥K, ρ (π k) = σ k := by

@@ -29,8 +29,8 @@ theorem uc22p2214_borel_of_elt_faith (D : Data G)
       Nonempty (Y ≃* (↥(mbarImage D.M c.V K) ⧸ center ↥(mbarImage D.M c.V K))) ∧
       ∃ S : Subgroup Y, CFSG.ABGLocalTools.IsSylowOf 2 S ⊤ ∧
         r ∣ Nat.card ↥(normalizer (S : Set Y)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
   have ha1 : a ≠ 1 := by
     rintro rfl
     rw [orderOf_one] at hao
@@ -130,7 +130,7 @@ theorem uc22p2214_main_faith (D : Data G) (Ch : Choice2011 G)
     hKV hshape hfix hfaith ha hr hao hrn hr5
   have hr2 : r ≠ 2 := by omega
   rcases hcl with ⟨hsp, -⟩ | ⟨hsu, -⟩ | ⟨hL | hSz, -⟩
-  · haveI := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hsp
+  · have := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hsp
     obtain ⟨e'⟩ := uc22p2214_quotCenter_of_simple hq
     exact hprim (uc22p2214_borel_prime_Sp4
       (CFSG.Blueprint.LieModel.of_mulEquiv (e'.trans e.symm) hsp) hS hr hr2 hrN)
@@ -139,11 +139,11 @@ theorem uc22p2214_main_faith (D : Data G) (Ch : Choice2011 G)
     · exact hprim h1
     · exact uc22p2214_false_of_sp D Ch h1930 c hr
         (h846 K hKC n (uc22p22a_shape_su3 D c hKC hsu) r hr (by omega) h1) ha hao
-  · haveI := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL
+  · have := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL
     obtain ⟨e'⟩ := uc22p2214_quotCenter_of_simple hq
     exact hprim (uc22p2214_borel_prime_L2
       (CFSG.Blueprint.LieModel.of_mulEquiv (e'.trans e.symm) hL) hS hr hr2 hrN)
-  · haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
+  · have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
     obtain ⟨e'⟩ := uc22p2214_quotCenter_of_simple hq
     exact hprim (uc22p2214_borel_prime_Sz
       (CFSG.Blueprint.LieModel.of_mulEquiv (e'.trans e.symm) hSz) hS hr hr2 hrN)

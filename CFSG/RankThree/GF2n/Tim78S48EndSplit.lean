@@ -40,7 +40,7 @@ include E H
 
 variable {b' : G} {L₀ : Subgroup G}
 
-omit H in
+omit H [Finite G] in
 theorem card_C_split (S : CSplit B C L₀) : Nat.card C = Nat.card B * Nat.card L₀ := by
   have hnorm : B ≤ Subgroup.normalizer (L₀ : Set G) := le_normalizer_of_comm fun x hx y hy =>
     E.comm_L (E.B_le_L hx) (E.C_le_L (S.le_C hy))
@@ -117,7 +117,7 @@ theorem Theta_eq_one_iff (hb' : b' ∈ conjSubgroup g B) (hb'1 : b' ≠ 1) (S : 
   · intro h
     refine E.mem_C_of_comm_mem_B H hb' hb'1 y.2 ?_
     rw [hΘ y, h]
-    simpa using (kp y).2
+    simp
   · intro h
     have h1 : ⁅b', (y : G)⁆ = 1 := commutatorElement_eq_one_iff_mul_comm.mpr
       (E.C_cent _ h b' hb').symm
@@ -143,7 +143,8 @@ theorem Theta_surjective (hb' : b' ∈ conjSubgroup g B) (hb'1 : b' ≠ 1) (S : 
   have : l ∈ Θ.range := by rw [hr]; trivial
   exact this
 
-theorem Theta_conj (hb' : b' ∈ conjSubgroup g B) (S : CSplit B C L₀)
+omit E H [Finite G] in
+theorem Theta_conj (_hb' : b' ∈ conjSubgroup g B) (S : CSplit B C L₀)
     (hΘ : ∀ y : ↥P, ⁅b', (y : G)⁆ = (kp y : G) * (Θ y : G)) {x : G} (hxb' : x * b' = b' * x)
     (hxB : ∀ β ∈ B, x * β = β * x) (hxL₀ : x ∈ Subgroup.normalizer (L₀ : Set G))
     {y y₁ : ↥P} (hy₁ : (y₁ : G) = x * y * x⁻¹) :

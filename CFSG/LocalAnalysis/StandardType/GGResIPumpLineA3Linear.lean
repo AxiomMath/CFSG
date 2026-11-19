@@ -106,9 +106,9 @@ theorem exists_four_eigenspace_of_component_A3
       hm_eq, hj_eq, heJ, h1, h2, h3, h4, h5, h6, h8, h9, hf, hker⟩ :=
     linShape_setup (K := K) (N := 6) (inferInstance : CharP K 2) (by norm_num)
       (Or.inl (by rw [hKcard]; exact hn3)) hJ hd hd3
-  letI : Field E := hEfield
-  letI : Finite E := hEfinite
-  letI : CharP E 2 := hEchar
+  let : Field E := hEfield
+  let : Finite E := hEfinite
+  let : CharP E 2 := hEchar
   have hperfSL : commutator (Matrix.SpecialLinearGroup (Fin m) E) = ⊤ :=
     (isPerfect_specialLinearGroup m E h1 h2).commutator_eq_top
   obtain ⟨e1⟩ :=
@@ -123,8 +123,8 @@ theorem exists_four_eigenspace_of_component_A3
   dsimp only [LargeEvenRawDatum] at hlabel
   unfold LargeEvenRecipeLinear at hlabel
   obtain ⟨F, hFfield, hFfinite, hFcard, ⟨eF⟩⟩ := hlabel
-  letI : Field F := hFfield
-  letI : Finite F := hFfinite
+  let : Field F := hFfield
+  let : Finite F := hFfinite
   have hcard_m : Nat.card (J ⧸ Subgroup.center J) =
       Nat.card (projectiveSL m E) :=
     Nat.card_congr ePSL.toEquiv
@@ -181,7 +181,7 @@ theorem exists_four_eigenspace_of_component_A3
     rw [hj1] at hjA
     interval_cases m <;> norm_num at hjA
     rfl
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
   have hmon : h.Monic := monic_of_mem_primaryFactors hh
   have hdeg1 : h.natDegree = 1 := by
     rw [← hj_eq]
@@ -240,8 +240,8 @@ theorem largeEvenLabelAll_A5_notDvdSCJ (n : ℕ) (hn : 1 ≤ n) (hp : 3 ∣ 2 ^ 
     (LargeEvenProj U) (LargeEvenMatConjImage (LargeEvenProjMk U) Set.univ) 4 27
   intro L' _ _ ψ hψ hker hperf A hA hAI _h3 _hle _hsc hcomp
   classical
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card hKcard
-  haveI hUnormal : U.Normal := by
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card hKcard
+  have hUnormal : U.Normal := by
     dsimp only [U]
     rw [largeEvenSLGroup_eq_statedSL, CFSG.Open.StatedAPI.statedSL_eq_ker_det]
     infer_instance

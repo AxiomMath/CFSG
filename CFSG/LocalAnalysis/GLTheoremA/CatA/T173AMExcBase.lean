@@ -16,7 +16,7 @@ theorem uexc_commutator_self {Ω : Type*} [Group Ω] {S : Subgroup Ω} (h : comm
 
 theorem uexc_pCore_two_le_center {G : Type*} [Group G] [Finite G]
     (hq : CFSG.Open.IsQuasisimple G) : CFSG.pCore 2 G ≤ Subgroup.center G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases CFSG.ComponentClassification.Quasisimple.normal_le_center_or_eq_top hq
     (CFSG.pCore 2 G) with h | htop
   · exact h
@@ -25,8 +25,8 @@ theorem uexc_pCore_two_le_center {G : Type*} [Group G] [Finite G]
       have := CFSG.pCore_isPGroup (p := 2) (G := G)
       rw [htop] at this
       exact this.of_equiv Subgroup.topEquiv
-    haveI : Group.IsNilpotent G := h2.isNilpotent
-    haveI : Nontrivial G := CFSG.ComponentClassification.Quasisimple.nontrivial hq
+    have : Group.IsNilpotent G := h2.isNilpotent
+    have : Nontrivial G := CFSG.ComponentClassification.Quasisimple.nontrivial hq
     have hlt := Group.IsSolvable.commutator_lt_top_of_nontrivial G
     rw [hq.1] at hlt
     exact lt_irrefl _ hlt
@@ -39,9 +39,9 @@ private theorem le_pCore_two {G : Type*} [Group G] {N : Subgroup G} (hN : N.Norm
 theorem uexc_odd_center_of_ker {G H : Type*} [Group G] [Finite G] [Group H]
     (hq : CFSG.Open.IsQuasisimple G) (f : G →* H) (hf : Function.Surjective f)
     (hker : f.ker = CFSG.pCore 2 G) : Odd (Nat.card (Subgroup.center H)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite H := Finite.of_surjective f hf
-  haveI : Group.IsPerfect G := ⟨hq.1⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite H := Finite.of_surjective f hf
+  have : Group.IsPerfect G := ⟨hq.1⟩
   rw [Nat.odd_iff]
   by_contra hne
   have h2 : 2 ∣ Nat.card (Subgroup.center H) := by omega
@@ -65,7 +65,7 @@ theorem uexc_odd_center_of_ker {G H : Type*} [Group G] [Finite G] [Group H]
   have hgpow : g ^ (2 ^ (n + 1)) = 1 := by
     have := congrArg Subtype.val hn
     simpa [pow_succ', pow_mul] using this
-  haveI hzn : (Subgroup.zpowers g).Normal := by
+  have hzn : (Subgroup.zpowers g).Normal := by
     refine ⟨fun m hm x => ?_⟩
     have hmc : m ∈ Subgroup.center G := Subgroup.zpowers_le.2 hgc hm
     have : x * m * x⁻¹ = m := by
@@ -139,7 +139,7 @@ theorem uexc_theta_bar {Ω Ω' : Type*} [Group Ω] [Group Ω'] (π : Ω →* Ω'
     {R : Type*} [Group R] (θ : ↥S ⧸ Subgroup.center ↥S ≃* R) :
     ∃ θ' : ↥(S.map π) ⧸ Subgroup.center ↥(S.map π) ≃* R,
       ∀ s : ↥S, θ' (QuotientGroup.mk (π.subgroupMap S s)) = θ (QuotientGroup.mk s) := by
-  haveI : Group.IsPerfect ↥S := ⟨hperf⟩
+  have : Group.IsPerfect ↥S := ⟨hperf⟩
   have hfs : Function.Surjective (π.subgroupMap S) := π.subgroupMap_surjective S
   have hfker : (π.subgroupMap S).ker ≤ Subgroup.center ↥S := by
     intro g hg

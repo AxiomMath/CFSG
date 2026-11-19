@@ -61,8 +61,7 @@ theorem elK_y : h.elK h.elY = h.elY := by
 
 theorem elD_sq : (MulAut.conj (h.elX * h.elY) * h.elK) ^ 2 = 1 := by
   apply M.ι_injective
-  simp only [map_pow, map_mul, map_one, h.ι_conj, h.ι_elK, h.e_elX, h.e_elY,
-    Subgroup.coe_mul]
+  simp only [map_pow, map_mul, map_one, h.ι_conj, h.ι_elK, h.e_elX, h.e_elY]
   exact model_relations.2.2.2.2.2.2.2
 
 theorem elD_outer : ¬ ∃ a : L, ∀ u : L, (MulAut.conj (h.elX * h.elY) * h.elK) u = a * u * a⁻¹ := by
@@ -117,8 +116,7 @@ theorem elG2_w : h.elG2 (h.elX ^ 2 * h.elY) = h.elX ^ 4 * (h.elX ^ 2 * h.elY) :=
 theorem elG2_zk : h.elG2 * (MulAut.conj (h.elX ^ 4) * h.elK) * h.elG2⁻¹ =
     MulAut.conj (h.elX ^ 4) * h.elK := by
   apply M.ι_injective
-  simp only [map_mul, map_inv, h.ι_conj, h.ι_elG2, h.ι_elK, map_pow, h.e_elX,
-    Subgroup.coe_pow]
+  simp only [map_mul, map_inv, h.ι_conj, h.ι_elG2, h.ι_elK, map_pow, h.e_elX]
   simpa only [modelZ] using model_three_two.2.2.2
 
 end IsL33Model

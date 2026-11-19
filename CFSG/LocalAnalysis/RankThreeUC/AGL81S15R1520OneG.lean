@@ -18,8 +18,8 @@ theorem not_dvd_card_generalizedFitting {Y : Type} [Group Y] [Finite Y] {p q : �
     (hp : p.Prime) (hq : q.Prime) (hpq : p ≠ q) (hO : CFSG.pPrimeCore p Y = ⊥)
     (hK : ∀ K : Subgroup Y, CFSG.IsComponent K → ¬ q ∣ Nat.card K) :
     ¬ q ∣ Nat.card (CFSG.generalizedFitting Y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hF : CFSG.fittingSubgroup Y ≤ CFSG.pPrimeCore q Y := by
     rw [CFSG.Fitting_eq_pcore Y p hO]
     refine le_pPrimeCore_of_isSubnormal_p (CFSG.pCore_normal (p := p) (G := Y)).isSubnormal ?_
@@ -41,7 +41,7 @@ theorem generalizedFitting_cases_of_pRank_le_one {Y : Type} [Group Y] [Finite Y]
     (CFSG.generalizedFitting Y = CFSG.pCore p Y ∧ IsCyclic (CFSG.pCore p Y)) ∨
       (CFSG.pCore p Y = ⊥ ∧ ∃ K : Subgroup Y, CFSG.IsComponent K ∧
         CFSG.generalizedFitting Y = K ∧ Subgroup.center K = ⊥) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hFs : CFSG.generalizedFitting Y = CFSG.pCore p Y ⊔ CFSG.layer Y := by
     rw [CFSG.generalizedFitting.eq_sup, CFSG.Fitting_eq_pcore Y p hO]
   have hcyc2 : ∀ x y : Y, x ∈ CFSG.generalizedFitting Y → y ∈ CFSG.generalizedFitting Y →
@@ -71,7 +71,7 @@ theorem generalizedFitting_cases_of_pRank_le_one {Y : Type} [Group Y] [Finite Y]
       exact (CFSG.SectionRank.pRank_mono hp.one_lt (hKF hK)).trans hr
     obtain ⟨S⟩ : Nonempty (Sylow p K) := inferInstance
     have hS : IsCyclic (S : Subgroup K) :=
-      CFSG.RankThree.PartOne.isCyclic_of_pRank_le_one hp hp2 le_top S.isPGroup' hrK
+      CFSG.RankThree.PartOne.isCyclic_of_pRank_le_one hp hp2 le_top S.isPGroup hrK
     have hpZ : ¬ p ∣ Nat.card (Subgroup.center K) := by
       intro hdvd
       obtain ⟨⟨z, hzZ⟩, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center K) p hdvd

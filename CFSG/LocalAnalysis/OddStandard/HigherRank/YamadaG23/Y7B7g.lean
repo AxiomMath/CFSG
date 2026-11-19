@@ -148,7 +148,7 @@ theorem y7b_X0_le_X7 (c : Ctx7 G L) (hb : B5Std c) : y7bX0 c.s ≤ X7 c.s := by
   intro u hu
   exact hx.2.2 u (y7b_BM_le_W c hb hu)
 
-theorem y7b_X0_normal (c : Ctx7 G L) (hb : B5Std c) :
+theorem y7b_X0_normal (c : Ctx7 G L) (_hb : B5Std c) :
     ∀ x ∈ y7bX c.s, ∀ a ∈ y7bX0 c.s, x * a * x⁻¹ ∈ y7bX0 c.s := by
   intro x hx a ha
   have hxW : x ∈ normalizer (y7bW c.s : Set G) := hx.1

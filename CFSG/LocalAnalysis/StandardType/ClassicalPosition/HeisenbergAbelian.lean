@@ -38,11 +38,11 @@ theorem index_le_of_commute {F V G : Type} [Field F] [IsAlgClosed F] [AddCommGro
       ((scalarAut F V).comap φ).index ≤ p ^ (Module.finrank F V - 1) := by
   classical
   obtain ⟨T, hT, W, χ, hne, hind, htop, hact⟩ := exists_joint_eigen hp φ hpow hc
-  haveI : Fintype T := Fintype.ofFinite T
+  have : Fintype T := Fintype.ofFinite T
   have hp0 : p ≠ 0 := by
     rintro rfl
     exact hp (Nat.cast_zero)
-  haveI : NeZero p := ⟨hp0⟩
+  have : NeZero p := ⟨hp0⟩
   have hchi_ne : ∀ t (g : G), χ t g ≠ 0 := by
     intro t g hg
     obtain ⟨w, hw, hw0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot (hne t)
@@ -146,7 +146,7 @@ theorem index_le_of_commute {F V G : Type} [Field F] [IsAlgClosed F] [AddCommGro
     have hμcard : Nat.card μ ≤ p := by
       change Nat.card (rootsOfUnity p F) ≤ p
       exact card_rootsOfUnity F p
-    haveI : Fintype μ := Fintype.ofFinite μ
+    have : Fintype μ := Fintype.ofFinite μ
     have hρ_at_t₀ : ∀ f : ρ.range, f.1 t₀ = 1 := by
       intro f
       obtain ⟨g, hg⟩ := MonoidHom.mem_range.mp f.2
@@ -172,7 +172,7 @@ theorem index_le_of_commute {F V G : Type} [Field F] [IsAlgClosed F] [AddCommGro
       rw [Nat.card_eq_fintype_card]
       have h := Fintype.card_subtype_compl (fun t : T => t = t₀)
       rw [Fintype.card_subtype_eq t₀] at h
-      simpa using h
+      simp
     have hcard_bound : Nat.card ρ.range ≤ p ^ (Fintype.card T - 1) := by
       calc Nat.card ρ.range ≤ Nat.card ({t : T // t ≠ t₀} → μ) :=
             Nat.card_le_card_of_injective σ hσinj
@@ -180,7 +180,7 @@ theorem index_le_of_commute {F V G : Type} [Field F] [IsAlgClosed F] [AddCommGro
         _ ≤ p ^ Nat.card {t : T // t ≠ t₀} := Nat.pow_le_pow_left hμcard _
         _ = p ^ (Fintype.card T - 1) := by rw [hcard_ne]
     have hdim : Fintype.card T ≤ Module.finrank F V := by
-      haveI : Fintype {t : T // W t ≠ ⊥} := Fintype.ofFinite _
+      have : Fintype {t : T // W t ≠ ⊥} := Fintype.ofFinite _
       have hle := hind.subtype_ne_bot_le_finrank
       have hcard : Fintype.card {t : T // W t ≠ ⊥} = Fintype.card T :=
         Fintype.card_congr (Equiv.subtypeUnivEquiv hne)
@@ -193,9 +193,9 @@ theorem index_le_of_commute {F V G : Type} [Field F] [IsAlgClosed F] [AddCommGro
         _ ≤ p ^ (Module.finrank F V - 1) :=
             Nat.pow_le_pow_right (Nat.pos_of_ne_zero hp0) (Nat.sub_le_sub_right hdim 1)
   ·
-    haveI : IsEmpty T := not_nonempty_iff.mp hTne
+    have : IsEmpty T := not_nonempty_iff.mp hTne
     have hbot : (⊤ : Submodule F V) = ⊥ := by rw [← htop, iSup_of_empty]
-    haveI : Subsingleton V := ⟨fun a b => by
+    have : Subsingleton V := ⟨fun a b => by
       have ha : a = 0 := by
         have : a ∈ (⊥ : Submodule F V) := by rw [← hbot]; exact Submodule.mem_top
         simpa using this

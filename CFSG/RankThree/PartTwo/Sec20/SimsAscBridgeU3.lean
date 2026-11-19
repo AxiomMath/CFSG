@@ -46,7 +46,7 @@ theorem rAlpha_inf_yAlpha_eq_bot_of_U3 {A M L N : Subgroup G} {c : G} {T : Subgr
   have hRb2 : IsPGroup 2 Rb := (hR2.comap_subtype (K := YR)).map π
   let ψ : ↥K →* ↥Yb := (π.comp (Subgroup.inclusion hKYR)).codRestrict Yb
     fun k => ⟨Subgroup.inclusion hKYR k, hKY k.2, rfl⟩
-  haveI : Group.IsPerfect ↥K := isPerfect_of_mem_oTwoComponentsIn hset.mem_oTwoComponentsIn
+  have : Group.IsPerfect ↥K := isPerfect_of_mem_oTwoComponentsIn hset.mem_oTwoComponentsIn
   set D := Rb.subgroupOf Yb with hDdef
   have hD2 : IsPGroup 2 D := hRb2.comap_subtype
   have hKR : K ≤ Subgroup.normalizer (R : Set G) :=

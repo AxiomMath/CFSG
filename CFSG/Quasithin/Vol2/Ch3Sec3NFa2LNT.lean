@@ -23,7 +23,7 @@ private theorem sq_dvd_prod_aux {ι : Type} [DecidableEq ι] {p : ℕ} (hp : p.P
     rw [Finset.prod_insert ha] at h
     by_cases hpa : p ∣ f a
     · by_cases hps : p ∣ ∏ i ∈ s, f i
-      · obtain ⟨i, hi, hpi⟩ := (Prime.dvd_finset_prod_iff hp.prime f).1 hps
+      · obtain ⟨i, hi, hpi⟩ := (Prime.dvd_finsetProd_iff hp.prime f).1 hps
         exact Or.inr ⟨a, Finset.mem_insert_self a s, i, Finset.mem_insert_of_mem hi,
           fun hai => ha (by rw [hai]; exact hi), hpa, hpi⟩
       · have hcop : Nat.Coprime (p ^ 2) (∏ i ∈ s, f i) :=
@@ -154,7 +154,7 @@ theorem nfa2_two_factor_dim (q : ℕ) (hq : q.Prime) (h24 : q % 24 = 11 ∨ q % 
     rcases hsimKb.eq_bot_or_eq_top_of_normal (Subgroup.center Kb) with h | h
     · exact h
     · exfalso
-      haveI : IsMulCommutative Kb := Subgroup.center_eq_top_iff.1 h
+      have : IsMulCommutative Kb := Subgroup.center_eq_top_iff.1 h
       have hp : (Nat.card Kb).Prime := (Group.is_simple_iff_prime_card (α := Kb)).1 hsimKb
       rw [hNcard] at hp
       exact Nat.not_prime_mul (by omega) (by omega) hp

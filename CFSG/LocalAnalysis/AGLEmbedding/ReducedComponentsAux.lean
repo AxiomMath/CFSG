@@ -56,7 +56,7 @@ theorem isPGroup_automizer_of_forall_orderOf_eq_mem_center {K : Type*} [Group K]
     obtain ⟨S⟩ : Nonempty (Sylow q N) := inferInstance
     apply (S.mapSurjective (QuotientGroup.mk'_surjective C)).ne_bot_of_dvd_card hdvd
     rw [Sylow.coe_mapSurjective, Subgroup.map_eq_bot_iff, QuotientGroup.ker_mk']
-    obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp (S.isPGroup'.map N.subtype)
+    obtain ⟨a, ha⟩ := IsPGroup.iff_card.mp (S.isPGroup.map N.subtype)
     obtain ⟨b, hb⟩ := IsPGroup.iff_card.mp hQ
     have hcent := coprime_le_centralizer_of_forall_pow_eq_one hp2 hQ
       (L := (S : Subgroup N).map N.subtype)

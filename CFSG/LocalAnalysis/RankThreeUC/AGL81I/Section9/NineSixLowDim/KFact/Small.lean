@@ -58,7 +58,7 @@ theorem noElemSq_alt_seven {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) :
   intro h
   have : p ^ 2 ≤ Nat.factorial 7 := Nat.le_of_dvd (by decide) h
   have : p ≤ 71 := by rw [show Nat.factorial 7 = 5040 by decide] at this; nlinarith
-  interval_cases p <;> first | omega | (revert hp h; norm_num [Nat.factorial])
+  interval_cases p <;> (revert hp h; norm_num [Nat.factorial])
 
 theorem noElemSq_gl_three_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     NoElemSq p (GL (Fin 3) (ZMod 2)) := by

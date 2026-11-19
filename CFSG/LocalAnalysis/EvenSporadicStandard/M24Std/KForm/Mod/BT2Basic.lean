@@ -100,7 +100,7 @@ theorem isCharacteristicP_two_centralizer_of_two_radical {F M : Type*} [Group F]
       rw [map_mul, map_mul]
       exact mem_centralizer_singleton_iff.mp hrc
     exact ⟨⟨u, hu⟩, rfl, by rw [hU, mem_comap]; exact hr⟩
-  haveI := hUn
+  have := hUn
   refine isCharacteristicP_two_of_two_radical U hUp fun x hx => ?_
   have hxc : ψ x ∈ centralizer (R : Set M) := by
     rw [mem_centralizer_iff]

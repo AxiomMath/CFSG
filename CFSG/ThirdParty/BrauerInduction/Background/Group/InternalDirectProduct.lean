@@ -64,7 +64,7 @@ by
     have hp_mem : (p1 : G) * (p2 : G)⁻¹ ∈ P :=
       P.mul_mem p1.property (P.inv_mem p2.property)
     have hC1 : (c1 : G)⁻¹ * (c2 : G) = 1 := by
-      haveI hinter: (c1 : G)⁻¹ * (c2 : G) ∈ C ⊓ P := by
+      have hinter: (c1 : G)⁻¹ * (c2 : G) ∈ C ⊓ P := by
         simp only [mem_inf, hc_mem, true_and]
         rw [hrel]
         exact mem_carrier.mp hp_mem

@@ -62,7 +62,7 @@ private theorem card_center_inf_of_isStandardSubgroup
   have hbar : (Tbar : Subgroup (↥J ⧸ center ↥J)) = (P : Subgroup ↥J).map π :=
     Sylow.coe_mapSurjective _ P
   have hNodd : ¬ 2 ∣ Nat.card (Subgroup.center ↥J) := hZ.not_two_dvd_nat
-  have hPp : IsPGroup 2 (P : Subgroup ↥J) := P.isPGroup'
+  have hPp : IsPGroup 2 (P : Subgroup ↥J) := P.isPGroup
   have hcardmap : Nat.card (center ↥((P : Subgroup ↥J).map π)) =
       Nat.card (center ↥(P : Subgroup ↥J)) :=
     CFSG.GroupTheory.card_center_map_mk_of_isPGroup (p := 2) (N := Subgroup.center ↥J) hNodd hPp
@@ -284,7 +284,7 @@ theorem eq_or_eq_or_eq_of_mem_center_of_sylow_fix {J : Subgroup G}
       intro x hx
       exact hfcent x hx
     set U : Subgroup (↥J ⧸ center ↥J) := (Tbar : Subgroup _) ⊔ Subgroup.zpowers f with hU
-    have hUp : IsPGroup 2 U := Tbar.isPGroup'.to_sup_of_normal_right' hfp hcent
+    have hUp : IsPGroup 2 U := Tbar.isPGroup.to_sup_of_normal_right' hfp hcent
     have heq : U = (Tbar : Subgroup (↥J ⧸ center ↥J)) := Tbar.maximal_isPGroup.eq_of_ge hUp le_sup_left
     exact heq ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers f)
   have hf_center :
@@ -710,7 +710,7 @@ theorem false_of_shear_of_card_four {J : Subgroup G} (hst : IsStandardSubgroup J
       intro y hy
       exact hfcent y hy
     set U : Subgroup (↥J ⧸ center ↥J) := (Tbar : Subgroup _) ⊔ Subgroup.zpowers f with hU
-    have hUp : IsPGroup 2 U := Tbar.isPGroup'.to_sup_of_normal_right' hfp hcent
+    have hUp : IsPGroup 2 U := Tbar.isPGroup.to_sup_of_normal_right' hfp hcent
     have heq : U = (Tbar : Subgroup (↥J ⧸ center ↥J)) := Tbar.maximal_isPGroup.eq_of_ge hUp le_sup_left
     exact heq ▸ Subgroup.mem_sup_right (Subgroup.mem_zpowers f)
   have hf_sq_one : f * f = 1 :=

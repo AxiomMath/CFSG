@@ -15,12 +15,14 @@ open scoped commutatorElement
 
 variable {p : ℕ} {G : Type} [Group G] [Finite G] {D : Subgroup G}
 
+omit [Finite G] in
 theorem conj_toMonoidHom_comp_subtype (H : Subgroup G) [H.Normal] (g : G) :
     (MulAut.conj g).toMonoidHom.comp H.subtype =
       H.subtype.comp (MulAut.conjNormal g : MulAut ↥H).toMonoidHom := by
   ext y
   simp [MulAut.conj_apply, MulAut.conjNormal_apply]
 
+omit [Finite G] in
 theorem commSub_conjNormal_normal (H : Subgroup G) [H.Normal] (d : G) :
     (K22p.commSub (MulAut.conjNormal d : MulAut ↥H)).Normal := by
   refine ⟨fun x hx m => ?_⟩
@@ -40,7 +42,7 @@ theorem commSub_conjNormal_normal (H : Subgroup G) [H.Normal] (d : G) :
         group
       rw [hid]
       exact mul_mem hgen₁ (inv_mem hgen₂)
-  | one => simpa using (K22p.commSub (MulAut.conjNormal d : MulAut ↥H)).one_mem
+  | one => simp
   | mul x y _ _ ihx ihy =>
       have heq : m * (x * y) * m⁻¹ = (m * x * m⁻¹) * (m * y * m⁻¹) := by group
       rw [heq]
@@ -50,6 +52,7 @@ theorem commSub_conjNormal_normal (H : Subgroup G) [H.Normal] (d : G) :
       rw [heq]
       exact inv_mem ih
 
+omit [Finite G] in
 theorem map_subtype_conjNormal_invariant (H : Subgroup G) [H.Normal] (d : G)
     (Q : Subgroup ↥H) (hQ : Q.map (MulAut.conjNormal d : MulAut ↥H).toMonoidHom = Q) :
     (Q.map H.subtype).map (MulAut.conj d).toMonoidHom = Q.map H.subtype := by
@@ -61,7 +64,6 @@ theorem fixesSylow_of_not_dvd (H : Subgroup G) (σ : MulAut ↥H) {q : ℕ} [Fac
   unfold K22p.FixesSylow
   refine ⟨Q, ?_⟩
   have hQcard : Nat.card ↥(Q : Subgroup ↥H) = 1 := by
-    change Nat.card Q = 1
     rw [Sylow.card_eq_multiplicity Q, Nat.factorization_eq_zero_of_not_dvd hnotdvd, pow_zero]
   have hQbot : (Q : Subgroup ↥H) = ⊥ := Subgroup.eq_bot_of_card_eq (Q : Subgroup ↥H) hQcard
   intro x hx
@@ -72,19 +74,20 @@ theorem fixesSylow_of_not_dvd (H : Subgroup G) (σ : MulAut ↥H) {q : ℕ} [Fac
 
 theorem not_dvd_card_pPrimeCore_three :
     ¬ 3 ∣ Nat.card ↥(CFSG.pPrimeCore 3 G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp
     (CFSG.pPrimeCore_coprime_card (p := 3) (G := G))
 
+omit [Finite G] in
 theorem conjNormal_pow_three (H : Subgroup G) [H.Normal] {d : G} (hd : d ^ 3 = 1) :
     (MulAut.conjNormal d : MulAut ↥H) ^ 3 = 1 := by
-  change (MulAut.conjNormal (H := H) d) ^ 3 = 1
   rw [← map_pow, hd, map_one]
 
+omit [Finite G] in
 theorem exists_zpowers_card_three_conjNormal (H : Subgroup G) [H.Normal] (hD : Nat.card D = 3) :
     ∃ d : G, Subgroup.zpowers d = D ∧ d ^ 3 = 1 ∧
       (MulAut.conjNormal d : MulAut ↥H) ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d, hd⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top D).mp
     (isCyclic_of_prime_card (p := 3) hD)
   have hd3 : d ^ 3 = 1 := by
@@ -114,14 +117,14 @@ theorem fixesSylow_conjNormal_of_dvd_card (h : Base45 p G D) (H : Subgroup G) [H
     (hnotdvd : ¬ 3 ∣ Nat.card ↥H) {d : G} (hd : Subgroup.zpowers d = D) {q : ℕ}
     (hq : q.Prime) (hq2 : q ≠ 2) (hqp : q ≠ p) (hqdiv : q ∣ Nat.card ↥H) :
     K22p.FixesSylow (MulAut.conjNormal d : MulAut ↥H) q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hq3 : q ≠ 3 := fun hq3 => hnotdvd (hq3 ▸ hqdiv)
   have hD3 : IsPGroup 3 ↥D := IsPGroup.of_card (n := 1) (by rw [h.card_three]; norm_num)
   obtain ⟨Q, hQinv⟩ :=
     CFSG.OrderReductions.InvariantSylow.exists_invariant_sylow_of_coprime
       3 q hD3 hnotdvd ((MulAut.conjNormal (H := H)).comp D.subtype)
   let Q' : Subgroup G := (Q : Subgroup ↥H).map H.subtype
-  have hQ'q : IsPGroup q Q' := Q.isPGroup'.map H.subtype
+  have hQ'q : IsPGroup q Q' := Q.isPGroup.map H.subtype
   have hDnorm : D ≤ Subgroup.normalizer (Q' : Set G) := by
     intro d' hd'
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
@@ -152,7 +155,7 @@ theorem fixesSylow_conjNormal_of_dvd_card (h : Base45 p G D) (H : Subgroup G) [H
 theorem fixesSylow_conjNormal_pPrimeCore (h : Base45 p G D) {d : G}
     (hd : Subgroup.zpowers d = D) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) (hqp : q ≠ p) :
     K22p.FixesSylow (MulAut.conjNormal d : MulAut ↥(CFSG.pPrimeCore 3 G)) q := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   by_cases hqdiv : q ∣ Nat.card ↥(CFSG.pPrimeCore 3 G)
   · exact fixesSylow_conjNormal_of_dvd_card h (CFSG.pPrimeCore 3 G)
       not_dvd_card_pPrimeCore_three hd hq hq2 hqp hqdiv
@@ -199,6 +202,7 @@ theorem conj_le_primeSetCore (H : Subgroup G) [H.Normal] {d : G} (hd : Subgroup.
           rw [Subgroup.map_map, Subgroup.map_map, conj_toMonoidHom_comp_subtype]
     _ ≤ (CFSG.primeSetCore ({2, p} : Set ℕ) ↥H).map H.subtype := Subgroup.map_mono hαnorm
 
+omit [Finite G] in
 theorem kof_le_primeSetCore (hgen : Subgroup.normalClosure (D : Set G) = ⊤)
     (hconj_le : ∀ g : G, (⁅CFSG.pPrimeCore 3 G, D⁆).map (MulAut.conj g).toMonoidHom ≤
       (CFSG.primeSetCore ({2, p} : Set ℕ) ↥(CFSG.pPrimeCore 3 G)).map
@@ -220,7 +224,7 @@ theorem uc45_K22p_of (hAbs : K22p.K22pAbs) (hSz1 : SimpleThreePrimeIsSz)
     (hSz2 : SzOrder3Aut) (h : Base45 p G D) :
     ∀ q : ℕ, q.Prime → q ∣ Nat.card ↥(Kof G) → q = 2 ∨ q = p := by
   let H : Subgroup G := CFSG.pPrimeCore 3 G
-  haveI : H.Normal := CFSG.pPrimeCore_normal
+  have : H.Normal := CFSG.pPrimeCore_normal
   have hnotdvd : ¬ 3 ∣ Nat.card ↥H := not_dvd_card_pPrimeCore_three
   obtain ⟨d, hd, _, hσ3⟩ := exists_zpowers_card_three_conjNormal H h.card_three
   have hfix : ∀ q : ℕ, q.Prime → q ≠ 2 → q ≠ p →

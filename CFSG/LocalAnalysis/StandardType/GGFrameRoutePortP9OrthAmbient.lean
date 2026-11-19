@@ -449,7 +449,7 @@ theorem native_orth_torus_action_data (hQ : GoodQ Q₀) (hind : OmegaTwoAutInduc
       exact bstar_eq_zpowers_sup_inf_of_native_orth hQ hind e hBs hN hker hBstar
     have hgBs : g ∈ Subgroup.normalizer (Bs : Set G) := by
       rw [hsplit]
-      exact (Subgroup.normalizer_inf_normalizer_le_normalizer_sup
+      exact (Subgroup.inf_normalizer_le_normalizer_sup
         (Subgroup.zpowers z) T.range) ⟨hgZ, hgE⟩
     exact ⟨g, ⟨hgBs, hgc⟩, hgT⟩
 

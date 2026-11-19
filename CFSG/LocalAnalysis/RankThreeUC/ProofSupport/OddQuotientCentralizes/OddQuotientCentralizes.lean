@@ -13,6 +13,7 @@ open Subgroup CFSG.LocalAnalysis.RankThreeUC
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizes {M X V₀ V : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hX : IsPGroup p X) (hV₀V : V₀ ≤ V) (hV : ∀ v ∈ V, v ^ 2 = 1)
     (h0 : X ≤ centralizer (V₀ : Set G)) (hq : X ≤ centralizerOnQuotient M V₀ V) :
@@ -53,7 +54,7 @@ theorem centralizes {M X V₀ V : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p 
         _ = v * g ^ 2 := by rw [this]
     exact e2.symm
   intro g hg
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := hX.exists_orderOf_eq_pow (⟨g, hg⟩ : X)
   have hk' : orderOf g = p ^ k := by
     rw [← hk]; exact (orderOf_injective X.subtype Subtype.val_injective ⟨g, hg⟩)

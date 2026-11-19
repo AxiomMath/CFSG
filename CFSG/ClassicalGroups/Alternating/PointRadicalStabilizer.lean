@@ -55,7 +55,7 @@ private theorem mem_orth_span_iff (hB : B.IsAlt) {u x : V} :
     show B (a • u) x = 0
     rw [map_smul, LinearMap.smul_apply, h, smul_zero]
 
-theorem app_mem_perp_of_mem_pointStabilizer (hB : B.IsAlt) {u : V} (hu : u ≠ 0) {s : Gsp B}
+theorem app_mem_perp_of_mem_pointStabilizer (_hB : B.IsAlt) {u : V} (hu : u ≠ 0) {s : Gsp B}
     (hs : s ∈ pointStabilizer B u) {x : V} (hx : B x u = 0) : B (s.app x) u = 0 := by
   obtain ⟨c, hc⟩ := hs
   have hc0 := Gsp.ne_zero_of_app_eq_smul hu hc
@@ -108,7 +108,7 @@ theorem eq_span_or_eq_perp [FiniteDimensional K V] (hB : B.IsAlt) (hBn : B.Nonde
 theorem Lsp_eq_pCoreOf_pointStabilizer [FiniteDimensional K V] [Finite K] [CharP K 2]
     (hB : B.IsAlt) (hBn : B.Nondegenerate) {u : V} (hu : u ≠ 0) :
     Lsp B hB u = pCoreOf 2 (pointStabilizer B u) := by
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   have hfix : ∀ g ∈ Lsp B hB u, g.app u = u := fun g hg =>
     apply_self_of_mem_pointRadical hB (mem_Lsp.mp hg)
   refine eq_pCoreOf_of_section (isLinearAction_Gsp B) (L := Submodule.span K {u})

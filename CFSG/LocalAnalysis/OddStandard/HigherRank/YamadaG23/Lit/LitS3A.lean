@@ -18,10 +18,10 @@ theorem lit_two_mem_of_normal [Finite Γ] {A C : Subgroup Γ} (hAC : A ≤ C)
     (hnorm : ∀ c ∈ C, ∀ a ∈ A, c * a * c⁻¹ ∈ A) (hA : IsPGroup 2 A)
     (hidx : ¬ 2 ∣ A.relIndex C) {c : Γ} (hc : c ∈ C) {k : ℕ} (hk : c ^ 2 ^ k = 1) :
     c ∈ A := by
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
   let A' : Subgroup ↥C := A.subgroupOf C
   have hA' : IsPGroup 2 A' := hA.of_equiv (Subgroup.subgroupOfEquivOfLe hAC).symm
-  haveI hA'norm : A'.Normal := ⟨fun n hn g => by
+  have hA'norm : A'.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have h := hnorm (g : Γ) g.2 (n : Γ) hn
     simpa only [Subgroup.coe_mul, Subgroup.coe_inv] using h⟩
@@ -40,7 +40,7 @@ theorem lit_two_mem_of_normal [Finite Γ] {A C : Subgroup Γ} (hAC : A ≤ C)
   have hA'leQ : A' ≤ (Q : Subgroup ↥C) := IsPGroup.le_sylow_of_normal hA' Q
   have hQeq : (Q : Subgroup ↥C) = A' := by
     have h : (Q : Subgroup ↥C) ≤ (S : Subgroup ↥C) :=
-      S.maximal_isPGroup.2 Q.isPGroup' (by rw [hScoeeq]; exact hA'leQ)
+      S.maximal_isPGroup.2 Q.isPGroup (by rw [hScoeeq]; exact hA'leQ)
     rw [hScoeeq] at h
     exact le_antisymm h hA'leQ
   have hcQ : c' ∈ (Q : Subgroup ↥C) := hQ (Subgroup.mem_zpowers c')

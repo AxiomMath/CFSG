@@ -53,7 +53,7 @@ theorem false_of_relIndex_eq_two [Finite G] (hperf : Group.IsPerfect G) (S : Syl
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hindex : Nat.Coprime 2 (S : Subgroup G).index :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_two).mpr S.not_dvd_index
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨g, hgS⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨g, hgS⟩
   exact not_mem_commutator_of_relIndex_eq_two hindex hKS hK hgS hgK
     ⟨k, by simpa using congrArg Subtype.val hk⟩ hcond
     (by rw [hperf.commutator_eq_top]; exact Subgroup.mem_top g)

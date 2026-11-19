@@ -32,7 +32,7 @@ theorem largeEvenLabelAll_noLine_e6_two {p : ℕ} {lab : LargeEvenLabel}
   · exact largeEvenLabelAll_noLine_e6_two_seven_or hlab ⟨htag, hn1⟩
 
 theorem ggNbrInnerWeylOn_e6Two : GGNbrInnerWeylOn GGNbrWeylE6TwoLabel :=
-  ggNbrInnerWeylOn_of_labels fun p lab hp hp2 hlab ⟨hpow, ht, hn1, hp37⟩ =>
+  ggNbrInnerWeylOn_of_labels fun _p _lab hp hp2 hlab ⟨hpow, ht, hn1, hp37⟩ =>
     largeEvenLabelAll_weylInnerKLevel_of_noLine_or
       (largeEvenLabelAll_pow_mem_powMem hp hp2 hlab hpow)
       (largeEvenLabelAll_noLine_e6_two hlab ⟨ht, hn1, hp37⟩)

@@ -17,7 +17,7 @@ theorem exists_sylow_normalized_of_isPGroup {C : Type*} [Group C] [Finite C] {p 
     (hP : IsPGroup p P) (hcop : Nat.Coprime p (Nat.card N)) :
     ∃ S : Sylow ℓ N, P ≤ Subgroup.normalizer ((S : Subgroup N).map N.subtype : Set C) := by
   classical
-  letI : MulAction P (Sylow ℓ N) :=
+  let : MulAction P (Sylow ℓ N) :=
     MulAction.compHom (Sylow ℓ N) ((MulAut.conjNormal (H := N)).comp P.subtype)
   have hnd : ¬ p ∣ Nat.card (Sylow ℓ N) := by
     intro h
@@ -38,7 +38,7 @@ theorem exists_sylow_normalized_of_isPGroup {C : Type*} [Group C] [Finite C] {p 
   refine g2Sub_mem_normalizer fun r hr => ?_
   obtain ⟨s, hs, rfl⟩ := hr
   refine ⟨MulAut.conjNormal (H := N) g s, hSub s hs, ?_⟩
-  simp [MulAut.conjNormal_val]
+  simp
 
 end Group
 
@@ -103,11 +103,11 @@ theorem odd_card_of_normal_of_big_p_part {K : Type} [Field K] [Finite K] [CharP 
   classical
   by_contra hodd
   have h2 : 2 ∣ Nat.card N := (Nat.not_odd_iff_even.1 hodd).two_dvd
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow p C) := inferInstance
   obtain ⟨S, hS⟩ := exists_sylow_normalized_of_isPGroup (ℓ := 2) N (P : Subgroup C)
-    P.isPGroup' hcop
+    P.isPGroup hcop
   have hSne : (S : Subgroup N) ≠ ⊥ := by
     intro h
     have h1 : Nat.card (S : Subgroup N) = 1 := by rw [h]; simp
@@ -121,7 +121,7 @@ theorem odd_card_of_normal_of_big_p_part {K : Type} [Field K] [Finite K] [CharP 
   have hR2 : IsPGroup 2 R := by
     intro x
     obtain ⟨_, ⟨s, hs, rfl⟩, hx⟩ := x.2
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
     refine ⟨k, ?_⟩
     have hk' : s ^ 2 ^ k = 1 := congrArg Subtype.val hk
     apply Subtype.ext

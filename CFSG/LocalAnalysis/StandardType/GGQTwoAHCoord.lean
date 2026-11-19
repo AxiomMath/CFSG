@@ -73,20 +73,20 @@ private lemma ggQ2_AH_prefixSum_single {m : ℕ} (i j : Fin m) (c : ZMod 3) :
     ggQ2_AH_prefixSum m i (Pi.single j c : GGBCV m) = if j ≤ i then c else 0 := by
   simp only [ggQ2_AH_prefixSum, LinearMap.sum_apply, LinearMap.proj_apply]
   by_cases h : j ≤ i
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     rw [Finset.sum_eq_single j]
     · simp
     · intro b _ hb
       have hne : j ≠ b := fun hbj => hb hbj.symm
-      simp [Pi.single_apply, hne]
+      simp [hne]
     · intro hj
       exact absurd (Finset.mem_filter.mpr ⟨Finset.mem_univ j, h⟩) hj
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     apply Finset.sum_eq_zero
     intro b hb
     have hb' : b ≤ i := (Finset.mem_filter.mp hb).2
     have hne : j ≠ b := by intro hbj; exact h (hbj ▸ hb')
-    simp [Pi.single_apply, hne]
+    simp [hne]
 
 private lemma ggQ2_AH_fin_eq_nat {n : ℕ} {i j : Fin n} : i = j ↔ (i : ℕ) = (j : ℕ) :=
   Fin.ext_iff
@@ -128,18 +128,18 @@ private lemma ggQ2_AH_prefixSum_root (n : ℕ) (i j : Fin n) :
   simp only [ggQ2_AH_fin_le, ggQ2_AH_fin_succ_le, ggQ2_AH_fin_eq_nat]
   by_cases hij : (i : ℕ) = (j : ℕ)
   · have h : ¬ ((j : ℕ) + 1 ≤ (i : ℕ)) := by omega
-    rw [if_pos (le_of_eq hij.symm), if_neg h, if_pos hij]
+    rw [ite_eq_left (le_of_eq hij.symm), ite_eq_right h, ite_eq_left hij]
     decide
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     rcases lt_trichotomy (i : ℕ) (j : ℕ) with h | h | h
     · have h1 : ¬ ((j : ℕ) ≤ (i : ℕ)) := by omega
       have h2 : ¬ ((j : ℕ) + 1 ≤ (i : ℕ)) := by omega
-      rw [if_neg h1, if_neg h2]
+      rw [ite_eq_right h1, ite_eq_right h2]
       decide
     · exact absurd h hij
     · have h1 : (j : ℕ) ≤ (i : ℕ) := by omega
       have h2 : (j : ℕ) + 1 ≤ (i : ℕ) := by omega
-      rw [if_pos h1, if_pos h2]
+      rw [ite_eq_left h1, ite_eq_left h2]
       decide
 
 private lemma ggQ2_AH_prefix_det_ne_zero (n : ℕ) :
@@ -188,7 +188,7 @@ private noncomputable def ggQ2_AH_rootBasis (n : ℕ) (hn : 1 ≤ n) :
 
 private lemma ggQ2_AH_rootBasis_coe (n : ℕ) (hn : 1 ≤ n) :
     ⇑(ggQ2_AH_rootBasis n hn) = fun i => ⟨ggQ2_AH_root n i, ggQ2_AH_root_mem n i⟩ := by
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   exact coe_basisOfLinearIndependentOfCardEqFinrank _ _
 
 lemma ggQ2_AH_coxeter_apply {D : GGQ2Lin 3} {n : ℕ} (e : Fin n ≃ D.ι)
@@ -226,7 +226,7 @@ lemma ggQ2_AH_single_dot {m : ℕ} (a b : Fin m) :
   rw [dotProduct_single]
   by_cases h : a = b
   · subst h; simp
-  · simp [Pi.single_apply, h, Ne.symm h]
+  · simp [h, Ne.symm h]
 
 lemma ggQ2_AH_dot_root_root (n : ℕ) (i j : Fin n) :
     ggQ2_AH_root n i ⬝ᵥ ggQ2_AH_root n j =
@@ -234,24 +234,23 @@ lemma ggQ2_AH_dot_root_root (n : ℕ) (i j : Fin n) :
         else if (i : ℕ) + 1 = (j : ℕ) ∨ (j : ℕ) + 1 = (i : ℕ) then -1 else 0) := by
   rw [ggQ2_AH_root, ggQ2_AH_root, sub_dotProduct, dotProduct_sub, dotProduct_sub,
     ggQ2_AH_single_dot, ggQ2_AH_single_dot, ggQ2_AH_single_dot, ggQ2_AH_single_dot]
-  simp only [ggQ2_AH_fin_cast_eq, ggQ2_AH_fin_cast_eq_succ, ggQ2_AH_fin_succ_eq_cast,
-    ggQ2_AH_fin_succ_eq_succ, ggQ2_AH_fin_eq_nat]
+  simp only [ggQ2_AH_fin_eq_nat]
   by_cases hij : (i : ℕ) = (j : ℕ)
-  · rw [if_pos hij, if_neg (by omega : ¬ (i : ℕ) = (j : ℕ) + 1),
-      if_neg (by omega : ¬ (i : ℕ) + 1 = (j : ℕ)),
-      if_pos (by omega : (i : ℕ) + 1 = (j : ℕ) + 1), if_pos hij]
+  · rw [ite_eq_left hij, ite_eq_right (by omega : ¬ (i : ℕ) = (j : ℕ) + 1),
+      ite_eq_right (by omega : ¬ (i : ℕ) + 1 = (j : ℕ)),
+      ite_eq_left (by omega : (i : ℕ) + 1 = (j : ℕ) + 1), ite_eq_left hij]
     decide
   · by_cases hB : (i : ℕ) + 1 = (j : ℕ)
-    · rw [if_neg hij, if_neg (by omega : ¬ (i : ℕ) = (j : ℕ) + 1), if_pos hB,
-        if_neg (by omega : ¬ (i : ℕ) + 1 = (j : ℕ) + 1), if_neg hij, if_pos (Or.inl hB)]
+    · rw [ite_eq_right hij, ite_eq_right (by omega : ¬ (i : ℕ) = (j : ℕ) + 1), ite_eq_left hB,
+        ite_eq_right (by omega : ¬ (i : ℕ) + 1 = (j : ℕ) + 1), ite_eq_right hij, ite_eq_left (Or.inl hB)]
       decide
     · by_cases hC : (j : ℕ) + 1 = (i : ℕ)
-      · rw [if_neg hij, if_pos hC.symm, if_neg (by omega : ¬ (i : ℕ) + 1 = (j : ℕ)),
-          if_neg (by omega : ¬ (i : ℕ) + 1 = (j : ℕ) + 1), if_neg hij, if_pos (Or.inr hC)]
+      · rw [ite_eq_right hij, ite_eq_left hC.symm, ite_eq_right (by omega : ¬ (i : ℕ) + 1 = (j : ℕ)),
+          ite_eq_right (by omega : ¬ (i : ℕ) + 1 = (j : ℕ) + 1), ite_eq_right hij, ite_eq_left (Or.inr hC)]
         decide
-      · rw [if_neg hij, if_neg (by omega : ¬ (i : ℕ) = (j : ℕ) + 1), if_neg hB,
-          if_neg (by omega : ¬ (i : ℕ) + 1 = (j : ℕ) + 1), if_neg hij,
-          if_neg (by omega : ¬ ((i : ℕ) + 1 = (j : ℕ) ∨ (j : ℕ) + 1 = (i : ℕ)))]
+      · rw [ite_eq_right hij, ite_eq_right (by omega : ¬ (i : ℕ) = (j : ℕ) + 1), ite_eq_right hB,
+          ite_eq_right (by omega : ¬ (i : ℕ) + 1 = (j : ℕ) + 1), ite_eq_right hij,
+          ite_eq_right (by omega : ¬ ((i : ℕ) + 1 = (j : ℕ) ∨ (j : ℕ) + 1 = (i : ℕ)))]
         decide
 
 lemma ggQ2_AH_dot_root_cartan {D : GGQ2Lin 3} {n : ℕ} (e : Fin n ≃ D.ι)
@@ -260,18 +259,18 @@ lemma ggQ2_AH_dot_root_cartan {D : GGQ2Lin 3} {n : ℕ} (e : Fin n ≃ D.ι)
   rw [ggQ2_AH_dot_root_root]
   by_cases hij : i = j
   · subst hij
-    rw [if_pos rfl, D.isCartan.1 (e i)]
+    rw [ite_eq_left rfl, D.isCartan.1 (e i)]
     norm_num
-  · rw [if_neg hij]
+  · rw [ite_eq_right hij]
     by_cases hlab : (i : ℕ) + 1 = (j : ℕ) ∨ (j : ℕ) + 1 = (i : ℕ)
-    · rw [if_pos hlab]
+    · rw [ite_eq_left hlab]
       have hA2 : (CoxeterMatrix.A n) i j = 3 := by
-        rw [ggQ2_A_label, if_neg hij, if_pos hlab]
+        rw [ggQ2_A_label, ite_eq_right hij, ite_eq_left hlab]
       have hc := ggQ2_AH_cartan_of_label3 e hA hij hA2
       rw [hc]; decide
-    · rw [if_neg hlab]
+    · rw [ite_eq_right hlab]
       have hA2 : (CoxeterMatrix.A n) i j = 2 := by
-        rw [ggQ2_A_label, if_neg hij, if_neg hlab]
+        rw [ggQ2_A_label, ite_eq_right hij, ite_eq_right hlab]
       have hc := ggQ2_AH_cartan_of_label2 e hA hij hA2
       rw [hc]; decide
 
@@ -287,7 +286,7 @@ theorem ggQ2_AH_coord (D : GGQ2Lin 3) (hbas : D.Basis) {n : ℕ} (hn1 : 1 ≤ n)
       (∀ i v, D.root (e i) v =
         ∑ j : Fin (n + 1), ggQ2_AH_root n i j * (τ v : GGBCV (n + 1)) j) := by
   classical
-  haveI : Nonempty D.ι := ⟨e ⟨0, by omega⟩⟩
+  have : Nonempty D.ι := ⟨e ⟨0, by omega⟩⟩
   let b0 : Basis D.ι (ZMod 3) D.V := basisOfLinearIndependentOfCardEqFinrank hbas.1 hbas.2
   have hb0 : ⇑b0 = D.coroot := coe_basisOfLinearIndependentOfCardEqFinrank hbas.1 hbas.2
   let b : Basis (Fin n) (ZMod 3) D.V := b0.reindex e.symm

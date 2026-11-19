@@ -75,6 +75,7 @@ theorem weylElt_mul_uElt_mul_weylElt_mem_antiUnipotent_iff (i : Axis) (a b c d :
       · fin_cases i <;> fin_cases j <;> simp_all
       · fin_cases i <;> simp
 
+omit [Finite K] in
 theorem antiUnipotent_inf_map_conj_weylElt (i : Axis) :
     antiUnipotent K ⊓ (antiUnipotent K).map (MulAut.conj (weylElt K i)).toMonoidHom =
       rootA K i := by

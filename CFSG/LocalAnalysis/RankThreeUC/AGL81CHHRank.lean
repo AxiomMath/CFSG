@@ -11,7 +11,7 @@ open scoped commutatorElement
 
 private theorem isPGroup_three_of_pow_three {G : Type*} [Group G] {H : Subgroup G}
     (hexp : ∀ x ∈ H, x ^ 3 = 1) : IsPGroup 3 ↥H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [IsPGroup.iff_orderOf]
   intro x
   have hx : ((x : H) : G) ^ 3 = 1 := hexp (x : G) x.2
@@ -40,7 +40,7 @@ theorem three_le_pRank_of_exponent_three {K : Type*} [Group K] [Finite K] {Q : S
     (hexp : ∀ x ∈ Q, x ^ 3 = 1) (hclass : ⁅Q, Q⁆ ≤ centralizer (Q : Set K))
     (hindex : 3 ^ 3 ≤ (centralizer (Q : Set K)).relIndex Q) :
     3 ≤ CFSG.Open.pRank 3 Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Z : Subgroup K := Q ⊓ centralizer (Q : Set K)
   have hZle : Z ≤ Q := inf_le_left
   have hZcent : Z ≤ centralizer (Q : Set K) := inf_le_right
@@ -63,11 +63,11 @@ theorem three_le_pRank_of_exponent_three {K : Type*} [Group K] [Finite K] {Q : S
           Nat.mul_le_mul (Nat.one_le_iff_ne_zero.mpr (Nat.card_pos.ne')) hZrI
   have hZpow : ∃ j, Nat.card Z = 3 ^ j :=
     (isPGroup_three_of_pow_three (fun z hz => hexp z (hZle hz))).exists_card_eq
-  haveI : Nontrivial ↥Q :=
+  have : Nontrivial ↥Q :=
     (Subgroup.nontrivial_iff_ne_bot Q).mpr (fun hbot => by
       rw [hbot, Subgroup.card_bot] at hQ27
       omega)
-  haveI : Nontrivial (Subgroup.center ↥Q) :=
+  have : Nontrivial (Subgroup.center ↥Q) :=
     (isPGroup_three_of_pow_three hexp).center_nontrivial
   have hcenter_map : (Subgroup.center ↥Q).map Q.subtype = Z := by
     ext x

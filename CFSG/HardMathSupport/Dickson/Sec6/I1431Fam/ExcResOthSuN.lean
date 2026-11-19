@@ -35,7 +35,7 @@ theorem excOth_rootDiagUnit_pow_eq_one {τ : Tag} {L : Type} [Field L] {p : ℕ}
 section SuN
 
 
-theorem excTLKind_suN {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) :
+theorem excTLKind_suN {τ : Tag} (_hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) :
     ExcTLKind .suN τ := by
   intro L _ _ p₀ S a hT ha3 h1 i hk hQS q hq10 hq
   classical
@@ -62,13 +62,13 @@ theorem excTLKind_suN {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ �
   obtain ⟨r, e, hr, hchar, he, hq'⟩ := exists_char_pow S
   obtain ⟨σQ, hσc, f, hf1, hfker, hf2⟩ :=
     ssexc_suN_exists_hom S hT i hν hψ hΨ π hπ hr hchar he hq'
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   have hes : 0 < e * s := Nat.mul_pos he hs0
   obtain ⟨hfin, hqsC, hcard⟩ := stdUnitary_fixSubgroup (ν := ν) hr hes σQ hσc hν
-  haveI := hfin
-  haveI : Finite ↥f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
-  haveI : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+  have := hfin
+  have : Finite ↥f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
+  have : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
     Finite.of_injective (Subgroup.inclusion hf1) (Subgroup.inclusion_injective hf1)
   by_cases hne : (ν, r ^ (e * s)) = (3, 2)
   ·
@@ -98,10 +98,10 @@ theorem excTLKind_suN {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7 ∨ �
     have hqC := (excres_isTypeL2_of_central_surjection hCperf g hgsurj hgker).1 hq
     obtain ⟨F, hFcard, ⟨e'⟩⟩ := ssexc_suN_exists_equiv hr hes σQ hσc hν
     have hqS := p6_isTypeL2_of_equiv e'.symm hqC
-    haveI : Finite F := Nat.finite_of_card_ne_zero (by
+    have : Finite F := Nat.finite_of_card_ne_zero (by
       rw [hFcard]
       exact (pow_pos (pow_pos hr.pos _) 2).ne')
-    haveI : CharP F r := charP_of_card_sq hFcard
+    have : CharP F r := charP_of_card_sq hFcard
     have hSU : SUid (unitaryInvolution F r (e * s)) ν = StatedSU ν (r ^ (e * s)) F :=
       SUid_eq_statedSU hFcard ν
     have hqS' := p6_isTypeL2_of_equiv (MulEquiv.subgroupCongr hSU.symm) hqS

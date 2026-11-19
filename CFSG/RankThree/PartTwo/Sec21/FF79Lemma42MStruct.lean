@@ -41,7 +41,7 @@ variable [Finite G] {β e f : G} {H Λ Δ X : Subgroup G} (S : M42Sit β e f H �
 include S
 
 theorem coprimeX : Nat.Coprime 3 (Nat.card X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have := m42_Opp_coprime 3 (Cen e ⊓ Cen β)
   rwa [S.Xe] at this
 
@@ -61,10 +61,10 @@ theorem Δ_le : Δ ≤ H ⊓ Cen f := by
   have := m42_Lay_le (H ⊓ Cen f)
   rwa [← S.Δdef] at this
 
-theorem Λ_le_Y : Λ ≤ Cen e ⊓ Cen β := fun x hx =>
+theorem Λ_le_Y : Λ ≤ Cen e ⊓ Cen β := fun _x hx =>
   ⟨(S.Λ_le hx).2, S.cenβ (S.Λ_le hx).1⟩
 
-theorem Δ_le_Y : Δ ≤ Cen f ⊓ Cen β := fun x hx =>
+theorem Δ_le_Y : Δ ≤ Cen f ⊓ Cen β := fun _x hx =>
   ⟨(S.Δ_le hx).2, S.cenβ (S.Δ_le hx).1⟩
 
 theorem norm_H {g : G} (hg : g ∈ Cen β) : ∀ m, m ∈ H ↔ g * m * g⁻¹ ∈ H := by
@@ -108,7 +108,7 @@ theorem not_dvd_X : ¬ 3 ∣ Nat.card X := fun h => by
   omega
 
 theorem comm_ΛX : ∀ l ∈ Λ, ∀ x ∈ X, l * x = x * l := by
-  haveI : IsSimpleGroup ↥Λ := S.Λiso.simple
+  have : IsSimpleGroup ↥Λ := S.Λiso.simple
   refine m42_comm_of_normal (Y := Cen e ⊓ Cen β) S.Λ_le_Y S.X_le_e
     (fun y hy s hs => S.Λ_conj hy hs) (fun y hy n hn => S.Xe_conj hy hn) ?_
   intro h
@@ -117,7 +117,7 @@ theorem comm_ΛX : ∀ l ∈ Λ, ∀ x ∈ X, l * x = x * l := by
     rwa [S.ord_f] at this)
 
 theorem comm_ΔX : ∀ d ∈ Δ, ∀ x ∈ X, d * x = x * d := by
-  haveI : IsSimpleGroup ↥Δ := S.Δiso.simple
+  have : IsSimpleGroup ↥Δ := S.Δiso.simple
   refine m42_comm_of_normal (Y := Cen f ⊓ Cen β) S.Δ_le_Y S.X_le_f
     (fun y hy s hs => S.Δ_conj hy hs) (fun y hy n hn => S.Xf_conj hy hn) ?_
   intro h
@@ -126,7 +126,7 @@ theorem comm_ΔX : ∀ d ∈ Δ, ∀ x ∈ X, d * x = x * d := by
     rwa [S.ord_e] at this)
 
 theorem H0_cen_le_X {z : G} (hz : z ∈ Opp 3 H) (hzf : z ∈ Cen f) : z ∈ X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : Opp 3 H ⊓ Cen f ≤ Opp 3 (Cen f ⊓ Cen β) := by
     refine m42_le_Opp (p := 3) (fun n hn => ⟨hn.2, S.cenβ (m42_Opp_le 3 H hn.1)⟩) ?_ ?_
     · intro h hh n hn
@@ -139,7 +139,7 @@ theorem H0_cen_le_X {z : G} (hz : z ∈ Opp 3 H) (hzf : z ∈ Cen f) : z ∈ X :
   exact hN ⟨hz, hzf⟩
 
 theorem H0_le_cenΛ (hN : FF79LemmaN) : Opp 3 H ≤ CenS Λ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine hN G (Opp 3 H) Λ f (S.kgn _ (m42_Opp_le 3 H)) S.Λiso ?_ (m42_Opp_coprime 3 H)
     S.f_Λ S.ord_f ?_
   · intro l hl
@@ -148,7 +148,7 @@ theorem H0_le_cenΛ (hN : FF79LemmaN) : Opp 3 H ≤ CenS Λ := by
     have hzX : z ∈ X := S.H0_cen_le_X hz.1 hz.2
     exact m42_mem_cenS fun l hl => S.comm_ΛX l hl z hzX
 
-theorem H0_le_X (hN : FF79LemmaN) : Opp 3 H ≤ X := fun z hz =>
+theorem H0_le_X (hN : FF79LemmaN) : Opp 3 H ≤ X := fun _z hz =>
   S.H0_cen_le_X hz (m42_mem_cen (m42_cenS_comm (S.H0_le_cenΛ hN hz) S.f_Λ))
 
 theorem comm_Δ_H0 (hN : FF79LemmaN) : ∀ d ∈ Δ, ∀ z ∈ Opp 3 H, d * z = z * d :=

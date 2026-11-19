@@ -20,7 +20,7 @@ theorem mem_centralizer_of_isCyclic {A : Subgroup X} (hA : IsCyclic A) (hAp : Is
     g ∈ centralizer (A : Set X) := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb =>
-    congrArg Subtype.val (hA.commutative.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
+    congrArg Subtype.val (hA.isMulCommutative.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hconjA : ∀ a ∈ A, g * a * g⁻¹ ∈ A := fun a ha => (mem_normalizer_iff.mp hgA a).mp ha
   rw [mem_centralizer_iff]
   intro a ha
@@ -92,7 +92,7 @@ theorem centralizer_isPGroup_isCyclic {T : Sylow 3 X} {X₀ : Subgroup X} {x : X
     intro hKC
     have hctop : center K = ⊤ := eq_top_iff.mpr fun k _ =>
       mem_center_iff.mpr fun g => Subtype.ext (mem_centralizer_iff.mp (hKC k.2) g g.2)
-    haveI := hK.2.2.2
+    have := hK.2.2.2
     obtain ⟨q, hq⟩ := exists_ne (1 : K ⧸ center K)
     obtain ⟨k, rfl⟩ := QuotientGroup.mk_surjective q
     exact hq ((QuotientGroup.eq_one_iff k).mpr (hctop ▸ mem_top k))
@@ -116,7 +116,7 @@ theorem centralizer_isPGroup_isCyclic {T : Sylow 3 X} {X₀ : Subgroup X} {x : X
   have hp : IsPGroup 3 C := by
     refine IsPGroup.of_card (n := (Nat.card C).primeFactorsList.length) ?_
     refine Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' fun {q} hq hqd => ?_
-    haveI : Fact q.Prime := ⟨hq⟩
+    have : Fact q.Prime := ⟨hq⟩
     by_contra hq3
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := C) q hqd
     have hcop : Nat.Coprime 3 (orderOf (g : X)) := by
@@ -146,10 +146,12 @@ theorem centralizer_isPGroup_isCyclic {T : Sylow 3 X} {X₀ : Subgroup X} {x : X
     exact hq3 ((Nat.prime_dvd_prime_iff_eq hq Nat.prime_three).mp (hq.dvd_of_dvd_pow hdvd))
   exact ⟨hp, hred.isCyclic_of_le_centralizer hK hKX₀ hp le_rfl⟩
 
+omit [Finite X] in
 theorem conjNormal_apply_coe {K : Subgroup X} [K.Normal] (y : X) (k : K) :
     ((MulAut.conjNormal y k : K) : X) = y * k * y⁻¹ :=
   MulAut.conjNormal_apply y k
 
+omit [Finite X] in
 theorem mul_inv_mem_centralizer {K : Subgroup X} [K.Normal] {y : X} {t : K}
     (h : (MulAut.conjNormal y : MulAut K) = MulAut.conj t) :
     y * (t : X)⁻¹ ∈ centralizer (K : Set X) := by
@@ -164,6 +166,7 @@ theorem mul_inv_mem_centralizer {K : Subgroup X} [K.Normal] {y : X} {t : K}
   calc k * (y * (t : X)⁻¹) = y * ((t : X)⁻¹ * k * t) * y⁻¹ * (y * (t : X)⁻¹) := by rw [h1]
     _ = y * (t : X)⁻¹ * k := by group
 
+omit [Finite X] in
 theorem exists_sq {K B : Subgroup X} [K.Normal] (hBK : B ≤ K)
     (hsq : ∀ f : MulAut K, (∀ b : K, (b : X) ∈ B → f b = b) →
       ∃ t : K, (t : X) ∈ B ∧ f ^ 2 = MulAut.conj t)

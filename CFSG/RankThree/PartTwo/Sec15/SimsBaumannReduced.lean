@@ -21,7 +21,7 @@ private theorem sbred_oResidual_normal (Y : Type*) [Group Y] : (oResidual 2 Y).N
     change Nat.Coprime (orderOf (g * y * g⁻¹)) 2
     rw [h]
     exact hy
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ ihx ihy => simpa [mul_assoc] using Subgroup.mul_mem _ ihx ihy
   | inv x _ ih => simpa [mul_assoc] using Subgroup.inv_mem _ ih
 
@@ -88,9 +88,9 @@ private theorem sbred_mem_of_pow {Y : Type*} [Group Y] (N : Subgroup Y) [N.Norma
 private theorem sbred_odd_of_centralizer {Y : Type*} [Group Y] [Finite Y]
     (hY : CFSG.pCore 2 Y = ⊥) {c : Y}
     (hc : c ∈ Subgroup.centralizer (oResidual 2 Y : Set Y)) : Nat.Coprime (orderOf c) 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hLn : (oResidual 2 Y).Normal := sbred_oResidual_normal Y
-  haveI hCn : (Subgroup.centralizer (oResidual 2 Y : Set Y)).Normal :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hLn : (oResidual 2 Y).Normal := sbred_oResidual_normal Y
+  have hCn : (Subgroup.centralizer (oResidual 2 Y : Set Y)).Normal :=
     sbred_centralizer_normal (oResidual 2 Y)
   set C := Subgroup.centralizer (oResidual 2 Y : Set Y)
   have hp : IsPGroup 2 (Y ⧸ oResidual 2 Y) := by
@@ -98,7 +98,7 @@ private theorem sbred_odd_of_centralizer {Y : Type*} [Group Y] [Finite Y]
     obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective g
     obtain ⟨a, ha⟩ := sbred_exists_pow_mem y
     exact ⟨a, by rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]; exact ha⟩
-  haveI : Group.IsNilpotent (Y ⧸ oResidual 2 Y) := hp.isNilpotent
+  have : Group.IsNilpotent (Y ⧸ oResidual 2 Y) := hp.isNilpotent
   let f : C →* Y ⧸ oResidual 2 Y := (QuotientGroup.mk' (oResidual 2 Y)).comp C.subtype
   have hker : f.ker ≤ Subgroup.center C := by
     intro x hx
@@ -108,7 +108,7 @@ private theorem sbred_odd_of_centralizer {Y : Type*} [Group Y] [Finite Y]
     rw [Subgroup.mem_center_iff]
     intro g
     exact Subtype.ext ((Subgroup.mem_centralizer_iff.mp g.2) x hxL).symm
-  haveI : Group.IsNilpotent C := Subgroup.isNilpotent_of_ker_le_center f hker
+  have : Group.IsNilpotent C := Subgroup.isNilpotent_of_ker_le_center f hker
   by_contra hodd
   have h2 : 2 ∣ orderOf c := by
     rw [Nat.coprime_two_right, Nat.not_odd_iff_even, even_iff_two_dvd] at hodd
@@ -146,7 +146,7 @@ private theorem sbred_omegaOneCenterOf_normal {Y : Type*} [Group Y] (R : Subgrou
       calc (g * y * g⁻¹) ^ 2 = g * y ^ 2 * g⁻¹ := conj_pow
         _ = 1 := by rw [hy.2]; group
     exact Subgroup.subset_closure ⟨⟨hR.conj_mem y hy.1.1 g, hc⟩, hsq⟩
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ ihx ihy => simpa [mul_assoc] using Subgroup.mul_mem _ ihx ihy
   | inv x _ ih => simpa [mul_assoc] using Subgroup.inv_mem _ ih
 
@@ -171,12 +171,12 @@ private theorem sbred_isElemAbelian {Y : Type*} [Group Y] (R : Subgroup Y) :
 theorem isTwoReducedIn_W315 (hq : CFSG.IsQuasisimple ↥(oResidual 2 (X ⧸ CFSG.pCore 2 X)))
     (hWL : ⁅W315 X, oResidual 2 X⁆ ≠ ⊥) :
     CFSG.Quasithin.IsTwoReducedIn ⊤ (W315 X) := by
-  haveI hWn : (W315 X).Normal := sbred_omegaOneCenterOf_normal (CFSG.pCore 2 X)
+  have hWn : (W315 X).Normal := sbred_omegaOneCenterOf_normal (CFSG.pCore 2 X)
   refine ⟨le_top, (Subgroup.normalizer_eq_top_iff.mpr hWn).ge,
     sbred_isElemAbelian (CFSG.pCore 2 X), ?_⟩
   intro D _ hDN hD
   have hDn : D.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp hDN)
-  haveI hCWn : (Subgroup.centralizer (W315 X : Set X)).Normal := sbred_centralizer_normal _
+  have hCWn : (Subgroup.centralizer (W315 X : Set X)).Normal := sbred_centralizer_normal _
   have hQC : CFSG.pCore 2 X ≤ Subgroup.centralizer (W315 X : Set X) := by
     intro q hq'
     rw [Subgroup.mem_centralizer_iff]

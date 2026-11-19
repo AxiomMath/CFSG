@@ -82,9 +82,10 @@ theorem normalizer_unipotentRadical_eq (a : Ω) :
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem sylow_eq_unipotentRadical (P : Sylow 2 G) :
     ∃ a : Ω, (P : Subgroup G) = unipotentRadical G a := by
-  have hP : IsPGroup 2 (P : Subgroup G) := P.isPGroup'
+  have hP : IsPGroup 2 (P : Subgroup G) := P.isPGroup
   obtain ⟨a, ha⟩ := fixSet_nonempty_of_odd hodd hP
   have hPa : ∀ g ∈ (P : Subgroup G), g • a = a := fun g hg => ha g hg
   refine ⟨a, ?_⟩
@@ -121,6 +122,7 @@ theorem sylow_eq_unipotentRadical (P : Sylow 2 G) :
   rw [eq_inv_of_mul_eq_one_right hx1]
   exact (unipotentRadical G a).inv_mem u.2
 
+omit [Finite G] in
 theorem isTorusQuot_of_sharp : IsTorusQuot G := by
   have key : ∀ P : Sylow 2 G, ∃ a : Ω, ∀ g : G,
       g ∈ Subgroup.normalizer ((P : Subgroup G) : Set G) ↔ g • a = a := by
@@ -142,7 +144,7 @@ end Sharp
 
 theorem isTorusQuot_of_mulEquiv {K F : Type*} [Group K] [Finite K] [Field F] [Finite F]
     [CharP F 2] (e : K ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) F) : IsTorusQuot K := by
-  letI : MulAction K (ℙ F (Fin 2 → F)) := MulAction.compHom _ e.toMonoidHom
+  let : MulAction K (ℙ F (Fin 2 → F)) := MulAction.compHom _ e.toMonoidHom
   have hsmul : ∀ (k : K) (ω : ℙ F (Fin 2 → F)), k • ω = e k • ω := fun _ _ => rfl
   have hS : IsSharplyThreeTransitive K (ℙ F (Fin 2 → F)) :=
     (PSL2Natural.isSharplyThreeTransitive F).of_equivariant e.symm (Equiv.refl _)

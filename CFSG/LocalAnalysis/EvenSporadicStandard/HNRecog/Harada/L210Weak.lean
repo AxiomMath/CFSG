@@ -12,6 +12,7 @@ open Subgroup CFSG.Open
 
 variable {X : Type} [Group X] [Finite X] {A : Subgroup X}
 
+omit [Finite X] in
 private theorem card_conj (h : L210Hyp A) (g : X) :
     Nat.card (A.map (MulAut.conj g).toMonoidHom) = 2 ^ 8 := by
   rw [Subgroup.card_map_of_injective (MulAut.conj g).injective, h.card]
@@ -41,7 +42,7 @@ theorem L210_eq_of_elemAbelian_card (h : L210Hyp A) {E : Subgroup X} (hE : IsEle
     le_trans (Subgroup.card_le_of_le hFle) hCi
   have hDgt : 8 < Nat.card D := by
     by_contra hnot
-    push_neg at hnot
+    push Not at hnot
     have hbound : Nat.card D * Nat.card ↥(E ⊓ A) ≤ 8 * 16 := Nat.mul_le_mul hnot hFcard
     rw [hEc] at hcardD
     norm_num at hcardD hbound

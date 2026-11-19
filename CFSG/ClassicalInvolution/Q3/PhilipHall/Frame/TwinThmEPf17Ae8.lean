@@ -28,7 +28,7 @@ theorem exists_even_perm_comp {n : ℕ} (hn : 6 ≤ n) (ι κ : Fin 4 ↪ Fin n)
   have hσ₀ι : ∀ i, σ₀ (ι i) = κ i := by
     intro i
     rw [hσ₀, Equiv.extendSubtype_apply_of_mem e _ (Set.mem_range_self i)]
-    simp [e, toEquivRange_symm_apply, toEquivRange_apply]
+    simp [e]
   by_cases hs : Equiv.Perm.sign σ₀ = 1
   · exact ⟨σ₀, hs, hσ₀ι⟩
   ·

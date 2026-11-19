@@ -52,7 +52,7 @@ theorem isShapeTwoTwoTimesA8_of_hom {G : Type*} [Group G] (X V S : Subgroup G)
     have h : (⟨x.1, hSX hxS⟩ : ↥X) = ⟨x.1, hVX hxV⟩ := Subtype.ext rfl
     rw [h]
     exact hVker x.1 hxV
-  haveI : Finite ↥X := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
+  have : Finite ↥X := Nat.finite_of_card_ne_zero (by rw [hX]; norm_num)
   have hcardmul : Nat.card ↥V' * Nat.card ↥S' = Nat.card ↥X := by
     rw [hV'card, hS'card, hX]
   have hsup : V' ⊔ S' = ⊤ :=
@@ -73,7 +73,7 @@ theorem isShapeTwoTwoTimesA8_of_hom {G : Type*} [Group G] (X V S : Subgroup G)
   have hψinj : Function.Injective ψ :=
     (MonoidHom.injective_codRestrict (φ.comp S'.subtype) φ.range
       (fun x => (MonoidHom.mem_range (f := φ)).mpr ⟨S'.subtype x, rfl⟩)).mpr hinj_comp
-  haveI : Finite ↥φ.range := Nat.finite_of_card_ne_zero (by rw [hrange]; norm_num)
+  have : Finite ↥φ.range := Nat.finite_of_card_ne_zero (by rw [hrange]; norm_num)
   have hcardψ : Nat.card ↥S' = Nat.card ↥φ.range := by rw [hS'card, hrange]
   have hψbij : Function.Bijective ψ :=
     (Nat.bijective_iff_injective_and_card ψ).mpr ⟨hψinj, hcardψ⟩

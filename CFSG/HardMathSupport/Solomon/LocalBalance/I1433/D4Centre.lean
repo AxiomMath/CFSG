@@ -45,7 +45,7 @@ theorem noThreeCover_omegaPlus_four
     (F : Type) [Field F] [Finite F] :
     LieComp.NoThreeCover (StatedProj (StatedOmega (StatedQuadPlus 4 F))) := by
   intro Y _ _ hY ⟨e⟩ h3
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨p, f, hp, hf, hFc⟩ : ∃ p f : ℕ, p.Prime ∧ 1 ≤ f ∧ Nat.card F = p ^ f := by
     obtain ⟨n, -, hn⟩ := FiniteField.card F (ringChar F)
     exact ⟨ringChar F, n, CharP.char_is_prime F _, n.pos, by rw [Nat.card_eq_fintype_card, hn]⟩
@@ -62,7 +62,7 @@ theorem noThreeCover_omegaPlus_four
       obtain ⟨rfl, rfl⟩ := (Nat.Prime.pow_eq_iff Nat.prime_two).1 h2
       exact GriessClassical.pomegaPlus_four_two_row ⟨hmod.1, Or.inl hmod⟩
   obtain ⟨k, hk⟩ := card_table_plus_four p f
-  haveI : Finite (generic .POmegaPlus 4 p f × exceptional .POmegaPlus 4 p f) :=
+  have : Finite (generic .POmegaPlus 4 p f × exceptional .POmegaPlus 4 p f) :=
     Nat.finite_of_card_ne_zero (by rw [hk]; exact pow_ne_zero _ (by norm_num))
   let π : Y →* StatedProj (StatedOmega (StatedQuadPlus 4 F)) :=
     e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center Y))

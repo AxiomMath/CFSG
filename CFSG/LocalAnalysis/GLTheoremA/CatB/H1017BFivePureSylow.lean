@@ -42,7 +42,7 @@ private theorem exists_conj_mem_of_conj [Finite G] {t t₀ c y₀ : G} (hct : c 
     {F : Subgroup G} (hFt : F ≤ centralizer ({t} : Set G))
     (hF : Nat.card F = 5 ^ (Nat.card (centralizer ({t₀} : Set G))).factorization 5)
     (hy₀ : y₀ ^ 5 = 1) (hc : y₀ * t₀ = t₀ * y₀) : ∃ g : G, g * y₀ * g⁻¹ ∈ F := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hF' : F.map (MulAut.conj c).toMonoidHom ≤ centralizer ({t₀} : Set G) := by
     rintro _ ⟨f, hf, rfl⟩
     have hft : f * t = t * f := mem_centralizer_singleton_iff.1 (hFt hf)
@@ -75,7 +75,7 @@ theorem exists_fiveA_mem_of_witness_B (hT3 : BabyTableIII) {k : Fin 4} (hk : k �
     {t : NativeSporadic.B} (ht : BabyInv k t) {F : Subgroup NativeSporadic.B}
     (hFt : F ≤ centralizer ({t} : Set NativeSporadic.B)) (hF : Nat.card F = 5 ^ 2) :
     ∃ y ∈ F, orderOf y = 5 ∧ Matrix.rank (CFSG.Monster.B.bMat y - 1) = 3480 := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
   obtain ⟨c, hct⟩ := isConj_iff.1 (hT3.2 k t t₀ ht ht₀)
   obtain ⟨g, hg⟩ := exists_conj_mem_of_conj hct hFt
     (by rw [hF, ht₀.2, factorization_five_babyCentOrder hk])
@@ -89,8 +89,8 @@ theorem exists_fiveA_mem_of_babyInv_zero_B
     {F : Subgroup NativeSporadic.B} (hFt : F ≤ centralizer ({t} : Set NativeSporadic.B))
     (hF : Nat.card F = 5 ^ 2) :
     ∃ y ∈ F, orderOf y = 5 ∧ Matrix.rank (CFSG.Monster.B.bMat y - 1) = 3480 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have P := bSevenElem_parts
   exact exists_fiveA_mem_of_witness_B CFSG.Monster.Existence.babyTableIII (by decide)
     (babyInv_zero_of_rank_1860 (orderOf_eq_prime P.alpha_sq P.alpha_ne) P.alpha_rank)
@@ -102,9 +102,9 @@ theorem exists_fiveA_mem_of_babyInv_three_B
     {F : Subgroup NativeSporadic.B} (hFt : F ≤ centralizer ({t} : Set NativeSporadic.B))
     (hF : Nat.card F = 5 ^ 2) :
     ∃ y ∈ F, orderOf y = 5 ∧ Matrix.rank (CFSG.Monster.B.bMat y - 1) = 3480 := by
-  haveI : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Finite NativeSporadic.B := CFSG.Monster.B.Pinned.finite_B
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have P := bSevenElem_parts
   have hα : BabyInv 0 alphaB :=
     babyInv_zero_of_rank_1860 (orderOf_eq_prime P.alpha_sq P.alpha_ne) P.alpha_rank

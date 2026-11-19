@@ -22,6 +22,7 @@ private noncomputable def caFAut_pre {k : ℕ} {Y : Subgroup G}
       rcases (MonoidHom.mem_range).mp hmem with ⟨x, hx⟩
       exact (MonoidHom.mem_range).mpr ⟨x, by rw [hx]⟩⟩
 
+omit [Finite G] in
 private theorem caFAut_pre_spec {k : ℕ} {Y : Subgroup G}
     {φ : ↥Y ≃* GL (BlkIdx 1 (k + 2)) (ZMod 2)} (g : ↥(lStar φ)) :
     embGL k (caFAut_pre φ g) =
@@ -36,6 +37,7 @@ private noncomputable def caFAut_inv {k : ℕ} {Y : Subgroup G}
     exact Subgroup.mem_map.mpr ⟨φ.symm (embGL k x),
       Subgroup.mem_map.mpr ⟨embGL k x, MonoidHom.mem_range.mpr ⟨x, rfl⟩, rfl⟩, rfl⟩⟩
 
+omit [Finite G] in
 private theorem caFAut_pre_inv {k : ℕ} {Y : Subgroup G}
     {φ : ↥Y ≃* GL (BlkIdx 1 (k + 2)) (ZMod 2)} (x : GL (BlkIdx 1 k) (ZMod 2)) :
     caFAut_pre φ (caFAut_inv φ x) = x := by
@@ -71,6 +73,7 @@ private noncomputable def caFAut_psi {k : ℕ} {Y : Subgroup G}
     · intro x
       exact ⟨caFAut_inv φ x, caFAut_pre_inv (φ := φ) x⟩)
 
+omit [Finite G] in
 private theorem caFAut_psi_apply {k : ℕ} {Y : Subgroup G}
     {φ : ↥Y ≃* GL (BlkIdx 1 (k + 2)) (ZMod 2)} (g : ↥(lStar φ)) :
     embGL k (caFAut_psi φ g) =
@@ -99,6 +102,7 @@ private theorem caFAut_psi_t (hS : CentASetting (k + 2) Y L R b t φ) :
       ⟨t, hS.t_mem⟩ := Subtype.ext rfl
   rw [h, hS.φ_t]
 
+omit [Finite G] in
 private theorem caFAut_mem_uStar_iff {k : ℕ} {Y : Subgroup G}
     {φ : ↥Y ≃* GL (BlkIdx 1 (k + 2)) (ZMod 2)} (g : ↥(lStar φ)) :
     g.1 ∈ uStar φ ↔ caFAut_psi φ g ∈ uSub 1 k := by
@@ -152,6 +156,7 @@ private noncomputable def caFAut_conjOn {k : ℕ} {Y : Subgroup G}
     simp only [Subgroup.coe_mul]
     group)
 
+omit [Finite G] in
 private theorem caFAut_conjOn_coe {k : ℕ} {Y : Subgroup G}
     {φ : ↥Y ≃* GL (BlkIdx 1 (k + 2)) (ZMod 2)} (x : G)
     (hx : x ∈ Subgroup.normalizer (lStar φ : Set G)) (g : ↥(lStar φ)) :
@@ -163,6 +168,7 @@ private noncomputable def caFAut_alpha {k : ℕ} {Y : Subgroup G}
     MulAut (GL (BlkIdx 1 k) (ZMod 2)) :=
   ((caFAut_psi φ).symm.trans (caFAut_conjOn x hx)).trans (caFAut_psi φ)
 
+omit [Finite G] in
 private theorem caFAut_alpha_psi {k : ℕ} {Y : Subgroup G}
     {φ : ↥Y ≃* GL (BlkIdx 1 (k + 2)) (ZMod 2)} (x : G)
     (hx : x ∈ Subgroup.normalizer (lStar φ : Set G)) (g : ↥(lStar φ)) :

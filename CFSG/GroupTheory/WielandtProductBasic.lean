@@ -20,7 +20,7 @@ theorem sylowOf_le : sylowOf A p ≤ A := by
   exact y.2
 
 theorem isPGroup_sylowOf : IsPGroup p (sylowOf A p) :=
-  (Classical.arbitrary (Sylow p A)).isPGroup'.map A.subtype
+  (Classical.arbitrary (Sylow p A)).isPGroup.map A.subtype
 
 theorem isPGroup_zpowers_of_pow_eq_one [Fact p.Prime] {x : G} {k : ℕ} (hk : x ^ p ^ k = 1) :
     IsPGroup p (zpowers x) := by

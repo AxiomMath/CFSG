@@ -107,7 +107,7 @@ theorem prime_dvd_of_dvd_div {q N F g r : ℕ} (hr : r.Prime) (hrq : ¬ r ∣ q)
 
 theorem prime_le_of_dvd_prod {s : Finset ℕ} {f : ℕ → ℕ} {B r : ℕ} (hr : r.Prime)
     (hf : ∀ i ∈ s, 0 < f i ∧ f i ≤ B) (h : r ∣ ∏ i ∈ s, f i) : r ≤ B := by
-  obtain ⟨i, hi, hdvd⟩ := (Prime.dvd_finset_prod_iff hr.prime _).1 h
+  obtain ⟨i, hi, hdvd⟩ := (Prime.dvd_finsetProd_iff hr.prime _).1 h
   exact (Nat.le_of_dvd (hf i hi).1 hdvd).trans (hf i hi).2
 
 theorem not_dvd_two_pow {r e : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) : ¬ r ∣ 2 ^ e := by
@@ -646,7 +646,7 @@ theorem shapeI1_avoids {S : Type} [Group S]
   rcases h with ⟨hc, hrk⟩ | ⟨n, hn, ⟨e⟩⟩
   · exact avoids_of_classical hG2 hc hrk
   · have hn6 : 6 ≤ n := by rcases hn with h | ⟨h, -⟩ <;> omega
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_fin]
     exact avoids_alt hn6
 
@@ -664,7 +664,7 @@ theorem KListI1_of_G2
     exact card_psl_three_three
   · intro r hr hr5 hr7 hne
     obtain ⟨e⟩ := hne
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     apply hav.2 r hr hr5 hr7
     rw [Nat.card_congr e.toEquiv]
     exact card_psl_two r

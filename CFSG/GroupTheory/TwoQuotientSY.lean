@@ -10,6 +10,7 @@ open scoped Pointwise
 
 variable {H : Type*} [Group H] [Finite H] {K S : Subgroup H}
 
+omit [Finite H] in
 theorem twoQuotientSY_pow_eq_one {n : ℕ}
     (h : ∀ s ∈ S, s ^ n ∈ Subgroup.centralizer (K : Set H))
     [hC : (twoQuotientC K S).Normal] :

@@ -26,7 +26,7 @@ private theorem exists_b0_caseI {D : Data G} {Ch : Choice2011 G}
     (hE : UC22P20gExcFacts) (h207 : S20_7 D) (h52 : S23_5_2 D Ch)
     (h53 : S23_5_3 D Ch) (h215 : S21_5 D Ch) (h1930 : H1930 D)
     (c : Ctx23L D Ch) {K : Subgroup G} (hK : K ∈ calC D.M) :
-    ∃ (b : G) (hb : b ∈ c.B0) (hbN : b ∈ Subgroup.normalizer (K : Set G)),
+    ∃ (b : G) (_hb : b ∈ c.B0) (_hbN : b ∈ Subgroup.normalizer (K : Set G)),
       Odd (orderOf b) ∧ b ∉ Subgroup.centralizer (D.Z : Set G) := by
   classical
   obtain ⟨hm2, hP1⟩ := c.exists_mem_B0_not_mem_centralizer_Z hE h207 h52 h53 h1930
@@ -75,7 +75,7 @@ private theorem exists_sylow_caseI {D : Data G} {Ch : Choice2011 G}
   have hP3 := Ctx23L.inducedQuotInfAut_mem_sylow (D := D) (Ch := Ch) hBor h215 h1930
     c hK hZ hshapeP3 hb hbN
   let SK : Subgroup (barInfCenterQuot K) := ((D.T ⊓ K).subgroupOf K).map (piBarInf K)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hSKp, hSKidx⟩ := CFSG.ABGLocalTools.isSylowOf_iff.mp
     (isSylowOf_map_piBarInf (D := D) (K := K) hK)
   let S : Sylow 2 (barInfCenterQuot K) := hSKp.toSylow (by simpa using hSKidx)

@@ -53,7 +53,7 @@ theorem exists_S5_M (hC : GorensteinHaradaThmCInput) (hOM : pPrimeCore 2 ↥D.M 
   · ext m
     rw [MonoidHom.mem_ker, MonoidHom.comp_apply, ← MonoidHom.mem_ker, hker,
       D.piM_mem_toMb_E_iff hOM, mem_subgroupOf]
-  · refine pCoreOf_eq_of hEM ⟨fun e he g => ?_⟩ (D.S.isPGroup'.to_le D.E_le_S)
+  · refine pCoreOf_eq_of hEM ⟨fun e he g => ?_⟩ (D.S.isPGroup.to_le D.E_le_S)
       fun K hK hK2 => fun k hk => ?_
     · rw [mem_subgroupOf] at he ⊢
       have h := D.conj_mem_E_of_OM hC hOM (inv_mem g.2) he
@@ -103,7 +103,7 @@ theorem hsTwo (hC : GorensteinHaradaThmCInput) (hOM : pPrimeCore 2 ↥D.M = ⊥)
   have hQN : D.Q ≤ normalizer (D.V : Set G) :=
     D.centralizer_V_eq_Q hC hOM ▸ centralizer_le_normalizer D.V
   have hpQ : CFSG.Open.pCoreOf 2 (normalizer (D.V : Set G)) = D.Q := by
-    refine pCoreOf_eq_of hQN (hker ▸ θ.normal_ker) (D.S.isPGroup'.to_le D.Q_le_S)
+    refine pCoreOf_eq_of hQN (hker ▸ θ.normal_ker) (D.S.isPGroup.to_le D.Q_le_S)
       fun K hK hK2 => ?_
     have hKn : (K.map θ).Normal := hK.map θ hθ
     rcases isSimpleGroup_GL32_gh.eq_bot_or_eq_top_of_normal (K.map θ) with hb | ht

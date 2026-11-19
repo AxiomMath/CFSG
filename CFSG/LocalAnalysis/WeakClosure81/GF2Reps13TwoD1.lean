@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W] {t : MulAut W} {P : Subgroup (MulAut W)}
 
+omit [Finite W] in
 private theorem w16g_zpow_apply_eq {a : MulAut W} {u : W} (h : a u = u) (m : ℤ) :
     (a ^ m) u = u := by
   have h1 : a ∈ MulAction.stabilizer (MulAut W) u := by
@@ -23,6 +24,7 @@ private theorem w16g_zpow_apply_eq {a : MulAut W} {u : W} (h : a u = u) (m : ℤ
   have h2 := (MulAction.stabilizer (MulAut W) u).zpow_mem h1 m
   rwa [MulAction.mem_stabilizer_iff, MulAut.smul_def] at h2
 
+omit [Finite W] in
 private theorem w16g_le_stabSub_of_stable {X : Subgroup (MulAut W)} {U : Subgroup W}
     (h : StableUnder X U) : X ≤ stabSub U := by
   intro x hx
@@ -33,6 +35,7 @@ private theorem w16g_le_stabSub_of_stable {X : Subgroup (MulAut W)} {U : Subgrou
     rwa [show x⁻¹ (x u) = u by
       rw [← MulAut.mul_apply, inv_mul_cancel, MulAut.one_apply]] at h1, h x hx u⟩
 
+omit [Finite W] in
 private theorem w16g_stableUnder_sup {X Y : Subgroup (MulAut W)} {U : Subgroup W}
     (hX : StableUnder X U) (hY : StableUnder Y U) : StableUnder (X ⊔ Y) U := by
   intro g hg u hu
@@ -40,6 +43,7 @@ private theorem w16g_stableUnder_sup {X Y : Subgroup (MulAut W)} {U : Subgroup W
     sup_le (w16g_le_stabSub_of_stable hX) (w16g_le_stabSub_of_stable hY) hg
   exact (mem_stabSub.mp hsup u).2 hu
 
+omit [Finite W] in
 private theorem w16g_stableUnder_fixV_of_comm {Y : Subgroup (MulAut W)} {z : MulAut W}
     (h : ∀ y ∈ Y, y * z = z * y) : StableUnder Y (fixV (Subgroup.zpowers z)) := by
   intro y hy u hu
@@ -53,6 +57,7 @@ private theorem w16g_stableUnder_fixV_of_comm {Y : Subgroup (MulAut W)} {z : Mul
     _ = y (a u) := rfl
     _ = y u := by rw [hu a ha]
 
+omit [Finite W] in
 private theorem w16g_commSub_map_conj (X : Subgroup (MulAut W)) (φ : MulAut W) :
     commSub ⊤ (X.map (MulAut.conj φ).toMonoidHom) = (commSub ⊤ X).map φ.toMonoidHom := by
   unfold commSub
@@ -67,6 +72,7 @@ private theorem w16g_commSub_map_conj (X : Subgroup (MulAut W)) (φ : MulAut W) 
     refine ⟨φ * x * φ⁻¹, ⟨x, hx, rfl⟩, φ w, Subgroup.mem_top _, ?_⟩
     simp [MulAut.mul_apply]
 
+omit [Finite W] in
 private theorem w16g_stableUnder_commSub_of_comm {Y : Subgroup (MulAut W)} {z : MulAut W}
     (h : ∀ y ∈ Y, y * z = z * y) : StableUnder Y (commSub ⊤ (Subgroup.zpowers z)) := by
   intro y hy u hu
@@ -87,8 +93,8 @@ theorem w16h_central_center (h : Cfg132 t P) (hind : NoDecomp132 t P)
       (∀ u : W, z u = u → u = 1) ∧ rk ↥(commSub ⊤ (Subgroup.zpowers t)) = 2 := by
   classical
   have hW := h.hW
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).mpr h.hne
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Nontrivial ↥P := (Subgroup.nontrivial_iff_ne_bot P).mpr h.hne
   obtain ⟨n, hn⟩ := h.hP.exists_card_eq
   have hnpos : 0 < n := by
     rcases Nat.eq_zero_or_pos n with h0 | hpos
@@ -438,15 +444,15 @@ private theorem w16g_exists_inverted (h : Cfg132 t P)
       apply Subtype.ext
       simpa using Subgroup.mem_centralizer_iff.mp (hzcent x hx) g.1 g.2
   let Z2 : Subgroup (MulAut W) := (Subgroup.upperCentralSeries ↥P 2).map P.subtype
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥P := Subtype.finite
-  haveI : Group.IsNilpotent ↥P := IsPGroup.isNilpotent h.hP
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥P := Subtype.finite
+  have : Group.IsNilpotent ↥P := IsPGroup.isNilpotent h.hP
   have hstrict : Subgroup.upperCentralSeries ↥P 1 < Subgroup.upperCentralSeries ↥P 2 := by
     refine lt_of_le_of_ne (Subgroup.upperCentralSeries_mono ↥P (by norm_num)) ?_
     intro heq
     have htop := Subgroup.upperCentralSeries.eq_top (G := ↥P) (a := 1) (b := 2) (by norm_num) heq
     rw [Subgroup.upperCentralSeries_one] at htop
-    haveI : IsMulCommutative ↥P := Subgroup.center_eq_top_iff.mp htop
+    have : IsMulCommutative ↥P := Subgroup.center_eq_top_iff.mp htop
     obtain ⟨a, b, hab⟩ := hnab
     exact hab ((IsMulCommutative.is_comm (M := ↥P)).comm a b)
   have hZc_le : Zc ≤ Z2 :=
@@ -713,6 +719,7 @@ private theorem w16g_exists_K (h : Cfg132 t P)
     exact orderOf_dvd_iff_pow_eq_one.mp h3dvd
   exact ⟨x, hxP, hxZ, hx3, hxconj, j, hj⟩
 
+omit [Finite W] in
 private theorem w16g_fixV_map_conj (D : Subgroup (MulAut W)) (φ : MulAut W) :
     fixV (D.map (MulAut.conj φ).toMonoidHom) = (fixV D).map φ.toMonoidHom := by
   ext v
@@ -728,6 +735,7 @@ private theorem w16g_fixV_map_conj (D : Subgroup (MulAut W)) (φ : MulAut W) :
     obtain ⟨d, hd, rfl⟩ := Subgroup.mem_map.mp hx
     simp [MulAut.conj_apply, MulAut.mul_apply, hw d hd]
 
+omit [Finite W] in
 private theorem w16g_map_fixV_zpowers (d φ : MulAut W) :
     (fixV (Subgroup.zpowers d)).map φ.toMonoidHom = fixV (Subgroup.zpowers (φ * d * φ⁻¹)) := by
   rw [← w16g_fixV_map_conj (Subgroup.zpowers d) φ]
@@ -777,7 +785,7 @@ theorem w16h_central_decomp (h : Cfg132 t P)
     rw [Subgroup.mem_bot]
     exact hfix u ((mem_fixV.mp hu) z (Subgroup.mem_zpowers z))
   have hcommz : commSub ⊤ (Subgroup.zpowers z) = ⊤ := by
-    haveI : Finite (Subgroup.zpowers z) :=
+    have : Finite (Subgroup.zpowers z) :=
       Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hz3]; norm_num)
     have hodd : Odd (Nat.card (Subgroup.zpowers z)) := by
       rw [Nat.card_zpowers, hz3]; norm_num

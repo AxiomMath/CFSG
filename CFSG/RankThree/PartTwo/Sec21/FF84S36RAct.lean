@@ -14,7 +14,7 @@ section Act
 
 variable {G : Type} [Group G] (T N : Subgroup G)
 
-theorem actQ_aux (hN : (N.subgroupOf T).Normal) {x : G} (hx : x ∈ Subgroup.normalizer (T : Set G))
+theorem actQ_aux (_hN : (N.subgroupOf T).Normal) {x : G} (hx : x ∈ Subgroup.normalizer (T : Set G))
     (hc : ∀ n ∈ N, x * n = n * x) :
     (N.subgroupOf T).map ((T.normalizerMonoidHom ⟨x, hx⟩ : MulAut T) : T →* T) =
       N.subgroupOf T := by
@@ -45,7 +45,7 @@ theorem actQ_mk (hN : (N.subgroupOf T).Normal) {x : G}
     (hx : x ∈ Subgroup.normalizer (T : Set G)) (hc : ∀ n ∈ N, x * n = n * x) (u : T) :
     actQ T N hN hx hc (QuotientGroup.mk u) =
       QuotientGroup.mk ((T.normalizerMonoidHom ⟨x, hx⟩ : MulAut T) u) := by
-  haveI := hN
+  have := hN
   unfold actQ
   exact QuotientGroup.congr_mk _ _ _ _ _
 
@@ -54,7 +54,7 @@ noncomputable def actHom (hN : (N.subgroupOf T).Normal) (X : Subgroup G)
     ↥X →* MulAut (T ⧸ N.subgroupOf T) where
   toFun x := actQ T N hN (hX x.2) (hc x x.2)
   map_one' := by
-    haveI := hN
+    have := hN
     apply MulEquiv.ext
     intro v
     induction v using QuotientGroup.induction_on with
@@ -64,7 +64,7 @@ noncomputable def actHom (hN : (N.subgroupOf T).Normal) (X : Subgroup G)
       apply Subtype.ext
       simp
   map_mul' := by
-    haveI := hN
+    have := hN
     intro x y
     apply MulEquiv.ext
     intro v
@@ -90,7 +90,7 @@ theorem actHom_eq_one_iff (hN : (N.subgroupOf T).Normal) (X : Subgroup G)
     (hX : X ≤ Subgroup.normalizer (T : Set G)) (hc : ∀ x ∈ X, ∀ n ∈ N, x * n = n * x)
     (x : X) :
     actHom T N hN X hX hc x = 1 ↔ ∀ u ∈ T, ∃ n ∈ N, (x : G) * u * (x : G)⁻¹ = u * n := by
-  haveI := hN
+  have := hN
   constructor
   · intro h u hu
     have h1 := actHom_mk T N hN X hX hc x ⟨u, hu⟩

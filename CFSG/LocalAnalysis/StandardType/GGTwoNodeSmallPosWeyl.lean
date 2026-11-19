@@ -157,14 +157,14 @@ theorem verifyWPos_sound {P : Pt}
       rcases hp with hp | hp
       · exact absurd (Fin.ext hp) hij
       · rw [hk0] at hp
-        rw [if_pos rfl] at hp
+        rw [ite_eq_left rfl] at hp
         by_cases hadj : i.val + 1 = j.val ∨ j.val + 1 = i.val
         · have h1 : (P.dotv (pww2_cb P c i).2 (pww2_cb P c j).1 *
               P.dotv (pww2_cb P c j).2 (pww2_cb P c i).1) % P.p = 1 := by
             have hh := hp
-            rw [if_pos hadj] at hh
+            rw [ite_eq_left hadj] at hh
             simpa only [beq_iff_eq, pww2_cb, pww2_S] using hh
-          rw [pww2_A_M P.D i j hij, if_pos (by tauto)]
+          rw [pww2_A_M P.D i j hij, ite_eq_left (by tauto)]
           rw [hσi i, hσi j]
           have hprod : β i (cc j) * β j (cc i) = 1 := by
             rw [hbij i j, hbji i j, ← Nat.cast_mul,
@@ -174,10 +174,10 @@ theorem verifyWPos_sound {P : Pt}
         · have h0 : P.dotv (pww2_cb P c i).2 (pww2_cb P c j).1 = 0 ∧
               P.dotv (pww2_cb P c j).2 (pww2_cb P c i).1 = 0 := by
             have hh := hp
-            rw [if_neg hadj] at hh
+            rw [ite_eq_right hadj] at hh
             simpa only [Bool.and_eq_true, beq_iff_eq, pww2_cb, pww2_S] using hh
           rw [pww2_A_M P.D i j hij,
-            if_neg (by tauto : ¬ ((j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ)))]
+            ite_eq_right (by tauto : ¬ ((j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ)))]
           rw [hσi i, hσi j]
           have hfy : β i (cc j) = 0 := by rw [hbij i j, h0.1, Nat.cast_zero]
           have hgx : β j (cc i) = 0 := by rw [hbji i j, h0.2, Nat.cast_zero]
@@ -185,11 +185,11 @@ theorem verifyWPos_sound {P : Pt}
     have hcard : Nat.card (CoxeterMatrix.A P.D).Group ≤ Nat.card P.group := by
       rw [pws_card_coxeterA]
       rw [hk0] at hO
-      rw [if_pos rfl] at hO
+      rw [ite_eq_left rfl] at hO
       have hlt := verifyO_sound (P := P) hwf hO
       have hpos : 0 < natFact (P.D + 1) := by rw [natFact_eq]; exact Nat.factorial_pos _
       omega
-    haveI : Finite (CoxeterMatrix.A P.D).Group := pws_finite_coxeterA P.D
+    have : Finite (CoxeterMatrix.A P.D).Group := pws_finite_coxeterA P.D
     exact pws_linWeyl_of_simple_system (CoxeterMatrix.A P.D)
       (pws_ggIsWeylMatrix_A P.D hD1) P.group σ hσR cc β hσ hβc hrel hgen hcard
   ·
@@ -201,15 +201,15 @@ theorem verifyWPos_sound {P : Pt}
       rcases hp with hp | hp
       · exact absurd (Fin.ext hp) hij
       · rw [hk1] at hp
-        rw [if_neg (by decide : ¬ ((1:ℕ) = 0)), if_pos rfl] at hp
+        rw [ite_eq_right (by decide : ¬ ((1:ℕ) = 0)), ite_eq_left rfl] at hp
         by_cases hdb : (i.val = P.D - 1 ∧ j.val = P.D - 2) ∨
             (j.val = P.D - 1 ∧ i.val = P.D - 2)
         · have h2 : (P.dotv (pww2_cb P c i).2 (pww2_cb P c j).1 *
               P.dotv (pww2_cb P c j).2 (pww2_cb P c i).1) % P.p = 2 := by
             have hh := hp
-            rw [if_pos hdb] at hh
+            rw [ite_eq_left hdb] at hh
             simpa only [beq_iff_eq, pww2_cb, pww2_S] using hh
-          rw [pww2_B_M P.D i j hij, if_pos (by tauto)]
+          rw [pww2_B_M P.D i j hij, ite_eq_left (by tauto)]
           rw [hσi i, hσi j]
           have hprod : β i (cc j) * β j (cc i) = 2 := by
             rw [hbij i j, hbji i j, ← Nat.cast_mul,
@@ -217,17 +217,17 @@ theorem verifyWPos_sound {P : Pt}
                 P.dotv (pww2_cb P c j).2 (pww2_cb P c i).1) P.p, h2]
             norm_num
           exact CFSG.StandardType.reflection_mul_reflection_pow_four (hβc i) (hβc j) hprod
-        · rw [if_neg (by tauto)] at hp
+        · rw [ite_eq_right (by tauto)] at hp
           by_cases hadj : i.val + 1 = j.val ∨ j.val + 1 = i.val
           · have h1 : (P.dotv (pww2_cb P c i).2 (pww2_cb P c j).1 *
                 P.dotv (pww2_cb P c j).2 (pww2_cb P c i).1) % P.p = 1 := by
               have hh := hp
-              rw [if_pos (by tauto)] at hh
+              rw [ite_eq_left (by tauto)] at hh
               simpa only [beq_iff_eq, pww2_cb, pww2_S] using hh
             rw [pww2_B_M P.D i j hij,
-              if_neg (by tauto : ¬ (((i : ℕ) = P.D - 1 ∧ (j : ℕ) = P.D - 2) ∨
+              ite_eq_right (by tauto : ¬ (((i : ℕ) = P.D - 1 ∧ (j : ℕ) = P.D - 2) ∨
                 ((j : ℕ) = P.D - 1 ∧ (i : ℕ) = P.D - 2))),
-              if_pos (by tauto)]
+              ite_eq_left (by tauto)]
             rw [hσi i, hσi j]
             have hprod : β i (cc j) * β j (cc i) = 1 := by
               rw [hbij i j, hbji i j, ← Nat.cast_mul,
@@ -237,12 +237,12 @@ theorem verifyWPos_sound {P : Pt}
           · have h0 : P.dotv (pww2_cb P c i).2 (pww2_cb P c j).1 = 0 ∧
                 P.dotv (pww2_cb P c j).2 (pww2_cb P c i).1 = 0 := by
               have hh := hp
-              rw [if_neg (by tauto)] at hh
+              rw [ite_eq_right (by tauto)] at hh
               simpa only [Bool.and_eq_true, beq_iff_eq, pww2_cb, pww2_S] using hh
             rw [pww2_B_M P.D i j hij,
-              if_neg (by tauto : ¬ (((i : ℕ) = P.D - 1 ∧ (j : ℕ) = P.D - 2) ∨
+              ite_eq_right (by tauto : ¬ (((i : ℕ) = P.D - 1 ∧ (j : ℕ) = P.D - 2) ∨
                 ((j : ℕ) = P.D - 1 ∧ (i : ℕ) = P.D - 2))),
-              if_neg (by tauto : ¬ ((j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ)))]
+              ite_eq_right (by tauto : ¬ ((j : ℕ) + 1 = (i : ℕ) ∨ (i : ℕ) + 1 = (j : ℕ)))]
             rw [hσi i, hσi j]
             have hfy : β i (cc j) = 0 := by rw [hbij i j, h0.1, Nat.cast_zero]
             have hgx : β j (cc i) = 0 := by rw [hbji i j, h0.2, Nat.cast_zero]
@@ -250,11 +250,11 @@ theorem verifyWPos_sound {P : Pt}
     have hcard : Nat.card (CoxeterMatrix.B P.D).Group ≤ Nat.card P.group := by
       rw [pws_card_coxeterB P.D hD2]
       rw [hk1] at hO
-      rw [if_neg (by decide : ¬ ((1:ℕ) = 0)), if_pos rfl] at hO
+      rw [ite_eq_right (by decide : ¬ ((1:ℕ) = 0)), ite_eq_left rfl] at hO
       have hlt := verifyO_sound (P := P) hwf hO
       have hpos : 0 < 2 ^ P.D * natFact P.D := by rw [natFact_eq]; positivity
       omega
-    haveI : Finite (CoxeterMatrix.B P.D).Group := pws_finite_coxeterB P.D hD2
+    have : Finite (CoxeterMatrix.B P.D).Group := pws_finite_coxeterB P.D hD2
     exact pws_linWeyl_of_simple_system (CoxeterMatrix.B P.D)
       (pws_ggIsWeylMatrix_B P.D hD2) P.group σ hσR cc β hσ hβc hrel hgen hcard
   ·
@@ -266,8 +266,8 @@ theorem verifyWPos_sound {P : Pt}
       rcases hp with hp | hp
       · exact absurd (Fin.ext hp) hij
       · rw [hk2] at hp
-        rw [if_neg (by decide : ¬ ((2:ℕ) = 0)),
-          if_neg (by decide : ¬ ((2:ℕ) = 1)), if_pos rfl] at hp
+        rw [ite_eq_right (by decide : ¬ ((2:ℕ) = 0)),
+          ite_eq_right (by decide : ¬ ((2:ℕ) = 1)), ite_eq_left rfl] at hp
         by_cases hadj : ((i.val + 1 = j.val ∧ j.val + 2 < P.D) ∨
             (j.val + 1 = i.val ∧ i.val + 2 < P.D) ∨
             (i.val + 3 = P.D ∧ (j.val + 2 = P.D ∨ j.val + 1 = P.D)) ∨
@@ -275,10 +275,10 @@ theorem verifyWPos_sound {P : Pt}
         · have h1 : (P.dotv (pww2_cb P c i).2 (pww2_cb P c j).1 *
               P.dotv (pww2_cb P c j).2 (pww2_cb P c i).1) % P.p = 1 := by
             have hh := hp
-            rw [if_pos hadj] at hh
+            rw [ite_eq_left hadj] at hh
             simpa only [beq_iff_eq, pww2_cb, pww2_S] using hh
-          rw [CFSG.StandardType.ggCoxeterMatrixD_apply, if_neg hij,
-            if_neg (pww2_cartanD_ne_of P.D hD4 i j hij (by simpa using hadj))]
+          rw [CFSG.StandardType.ggCoxeterMatrixD_apply, ite_eq_right hij,
+            ite_eq_right (pww2_cartanD_ne_of P.D hD4 i j hij (by simpa using hadj))]
           rw [hσi i, hσi j]
           have hprod : β i (cc j) * β j (cc i) = 1 := by
             rw [hbij i j, hbji i j, ← Nat.cast_mul,
@@ -288,10 +288,10 @@ theorem verifyWPos_sound {P : Pt}
         · have h0 : P.dotv (pww2_cb P c i).2 (pww2_cb P c j).1 = 0 ∧
               P.dotv (pww2_cb P c j).2 (pww2_cb P c i).1 = 0 := by
             have hh := hp
-            rw [if_neg hadj] at hh
+            rw [ite_eq_right hadj] at hh
             simpa only [Bool.and_eq_true, beq_iff_eq, pww2_cb, pww2_S] using hh
-          rw [CFSG.StandardType.ggCoxeterMatrixD_apply, if_neg hij,
-            if_pos (pww2_cartanD_eq_of_not P.D hD4 i j hij (by simpa using hadj))]
+          rw [CFSG.StandardType.ggCoxeterMatrixD_apply, ite_eq_right hij,
+            ite_eq_left (pww2_cartanD_eq_of_not P.D hD4 i j hij (by simpa using hadj))]
           rw [hσi i, hσi j]
           have hfy : β i (cc j) = 0 := by rw [hbij i j, h0.1, Nat.cast_zero]
           have hgx : β j (cc i) = 0 := by rw [hbji i j, h0.2, Nat.cast_zero]
@@ -299,19 +299,19 @@ theorem verifyWPos_sound {P : Pt}
     have hcard : Nat.card (CFSG.StandardType.ggCoxeterMatrixD P.D).Group ≤ Nat.card P.group := by
       rw [pws_card_coxeterD P.D hD4]
       rw [hk2] at hO
-      rw [if_neg (by decide : ¬ ((2:ℕ) = 0)),
-        if_neg (by decide : ¬ ((2:ℕ) = 1)), if_pos rfl] at hO
+      rw [ite_eq_right (by decide : ¬ ((2:ℕ) = 0)),
+        ite_eq_right (by decide : ¬ ((2:ℕ) = 1)), ite_eq_left rfl] at hO
       have hlt := verifyO_sound (P := P) hwf hO
       have hpos : 0 < 2 ^ (P.D - 1) * natFact P.D := by rw [natFact_eq]; positivity
       omega
-    haveI : Finite (CFSG.StandardType.ggCoxeterMatrixD P.D).Group := pws_finite_coxeterD P.D hD4
+    have : Finite (CFSG.StandardType.ggCoxeterMatrixD P.D).Group := pws_finite_coxeterD P.D hD4
     exact pws_linWeyl_of_simple_system (CFSG.StandardType.ggCoxeterMatrixD P.D)
       (pws_ggIsWeylMatrix_D P.D hD4) P.group σ hσR cc β hσ hβc hrel hgen hcard
   ·
     have hD7 : P.D = 7 := by omega
-    simp only [hD7, hk3, if_neg (by decide : ¬ ((3:ℕ) = 0)),
-      if_neg (by decide : ¬ ((3:ℕ) = 1)),
-      if_neg (by decide : ¬ ((3:ℕ) = 2))] at hp8
+    simp only [hD7, hk3, ite_eq_right (by decide : ¬ ((3:ℕ) = 0)),
+      ite_eq_right (by decide : ¬ ((3:ℕ) = 1)),
+      ite_eq_right (by decide : ¬ ((3:ℕ) = 2))] at hp8
     set σ' : Fin 7 → P.V ≃ₗ[ZMod P.p] P.V := fun i => σ (Fin.cast hD7.symm i) with hσ'def
     set cc' : Fin 7 → P.V := fun i => cc (Fin.cast hD7.symm i) with hcc'def
     set β' : Fin 7 → Module.Dual (ZMod P.p) P.V := fun i => β (Fin.cast hD7.symm i) with hβ'def
@@ -366,9 +366,9 @@ theorem verifyWPos_sound {P : Pt}
               P.dotv (pww2_cb P c (Fin.cast hD7.symm j)).2
                 (pww2_cb P c (Fin.cast hD7.symm i)).1) % P.p = 1 := by
             have hh := hp
-            rw [if_pos hadj] at hh
+            rw [ite_eq_left hadj] at hh
             simpa only [beq_iff_eq, pww2_cb, pww2_S, Fin.cast] using hh
-          rw [pww2_e7M_eq i j hij, if_pos hadj]
+          rw [pww2_e7M_eq i j hij, ite_eq_left hadj]
           rw [hσi' i, hσi' j]
           have hprod : β' i (cc' j) * β' j (cc' i) = 1 := by
             rw [hbij' i j, hbji' i j, ← Nat.cast_mul,
@@ -382,9 +382,9 @@ theorem verifyWPos_sound {P : Pt}
               P.dotv (pww2_cb P c (Fin.cast hD7.symm j)).2
                 (pww2_cb P c (Fin.cast hD7.symm i)).1 = 0 := by
             have hh := hp
-            rw [if_neg hadj] at hh
+            rw [ite_eq_right hadj] at hh
             simpa only [Bool.and_eq_true, beq_iff_eq, pww2_cb, pww2_S, Fin.cast] using hh
-          rw [pww2_e7M_eq i j hij, if_neg hadj]
+          rw [pww2_e7M_eq i j hij, ite_eq_right hadj]
           rw [hσi' i, hσi' j]
           have hfy : β' i (cc' j) = 0 := by rw [hbij' i j, h0.1, Nat.cast_zero]
           have hgx : β' j (cc' i) = 0 := by rw [hbji' i j, h0.2, Nat.cast_zero]
@@ -392,12 +392,12 @@ theorem verifyWPos_sound {P : Pt}
     have hcard : Nat.card (CoxeterMatrix.E₇).Group ≤ Nat.card P.group := by
       rw [pws_card_coxeterE7]
       rw [hk3] at hO
-      rw [if_neg (by decide : ¬ ((3:ℕ) = 0)),
-        if_neg (by decide : ¬ ((3:ℕ) = 1)),
-        if_neg (by decide : ¬ ((3:ℕ) = 2))] at hO
+      rw [ite_eq_right (by decide : ¬ ((3:ℕ) = 0)),
+        ite_eq_right (by decide : ¬ ((3:ℕ) = 1)),
+        ite_eq_right (by decide : ¬ ((3:ℕ) = 2))] at hO
       have hlt := verifyO_sound (P := P) hwf hO
       omega
-    haveI : Finite (CoxeterMatrix.E₇).Group := pws_finite_coxeterE7
+    have : Finite (CoxeterMatrix.E₇).Group := pws_finite_coxeterE7
     exact pws_linWeyl_of_simple_system (CoxeterMatrix.E₇)
       pws_ggIsWeylMatrix_E7 P.group σ' hσR' cc' β' hσ' hβc' hrel' hgen' hcard
 

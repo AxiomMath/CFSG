@@ -144,7 +144,6 @@ theorem preserves_or_compl_of_cent_zBar (w : Wr n) (β : Finset (Fin n)) (hβ : 
     have := h1 (w.perm p)
     simp only [Equiv.symm_apply_apply, hmem] at this
     by_cases hp : p ∈ β <;> by_cases hq : w.perm p ∈ β <;> simp [hp, hq] at this ⊢
-    all_goals first | exact absurd this (by decide) | skip
 
 theorem perm_eq_one_of_cent_zBar (hn : 5 ≤ n) (w : Wr n)
     (h : ∀ (β : Finset (Fin n)) (hβ : β.card = 4),

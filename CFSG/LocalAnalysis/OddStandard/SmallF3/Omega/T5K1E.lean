@@ -18,11 +18,13 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {hQ : Q.Nondegenerate}
 
+omit [Finite G] in
 theorem t5_layerCent_le_inf (L : Subgroup G) (s : G) :
     layerCent L s ≤ L ⊓ centralizer ({s} : Set G) := by
   unfold layerCent CFSG.inSubgroup
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem t5_k1_comm {φ : ↥L →* omegaGroup hQ} {s : G} {τ : OGroup Q}
     (hact : CoverAct L φ s (orthToSim Q τ)) {g : G} (hgL : g ∈ L) (hgs : s * g = g * s) :
     τ * ((φ ⟨g, hgL⟩ : omegaGroup hQ) : OGroup Q) =
@@ -31,6 +33,7 @@ theorem t5_k1_comm {φ : ↥L →* omegaGroup hQ} {s : G} {τ : OGroup Q}
   rw [simAct_orthToSim] at h
   exact mul_inv_eq_iff_eq_mul.mp h
 
+omit [Finite G] in
 theorem t5_k1_layer_fix {φ : ↥L →* omegaGroup hQ} (hφ : IsCoverMap L φ) {s : G} {τ : OGroup Q}
     (hty : invType τ = (4, -1)) (hact : CoverAct L φ s (orthToSim Q τ)) {g : G}
     (hg : g ∈ layerCent L s) (hgL : g ∈ L) :
@@ -58,7 +61,7 @@ theorem t5_k1_layer_fix {φ : ↥L →* omegaGroup hQ} (hφ : IsCoverMap L φ) {
     have hcommv' : (τ : V ≃ₗ[ZMod 3] V) * (ρ a : V ≃ₗ[ZMod 3] V) =
         (ρ a : V ≃ₗ[ZMod 3] V) * (τ : V ≃ₗ[ZMod 3] V) := by
       have h := congrArg (fun e : OGroup Q => (e : V ≃ₗ[ZMod 3] V)) hcommv
-      simp only [Subgroup.coe_mul, ρ, MonoidHom.comp_apply, Subgroup.subtype_apply] at h
+      simp only [Subgroup.coe_mul] at h
       exact h
     rw [mem_fixSp_iff]
     calc (τ : V ≃ₗ[ZMod 3] V) (ρ a w)

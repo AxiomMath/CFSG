@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem exists_cex15 {M V₀ V : Subgroup G} (hyp : Hyp15 M V₀ V)
     (hm : 1 < mBar M V₀ V hyp.h6.elemAbelian) (hr : rMV M V ≤ (mSub V₀ : ℕ∞)) :
     ∃ U S : Subgroup G, Cex15 M V₀ V U S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   classical
   have hne : ∃ U : Subgroup G, U ≤ V ∧ ¬ centralizer (U : Set G) ≤ M := by
     by_contra hcon
@@ -24,7 +24,7 @@ theorem exists_cex15 {M V₀ V : Subgroup G} (hyp : Hyp15 M V₀ V)
       unfold rMV
       exact iInf_eq_top.2 fun U => iInf_eq_top.2 fun hU => absurd ⟨U, hU.1, hU.2⟩ hcon
     rw [htop] at hr
-    exact absurd (top_le_iff.1 hr) (ENat.coe_ne_top _)
+    exact absurd (top_le_iff.1 hr) (ENat.natCast_ne_top _)
   let P : ℕ → Prop := fun n =>
     ∃ U : Subgroup G, U ≤ V ∧ ¬ centralizer (U : Set G) ≤ M ∧ E3.mQuot V U = n
   have hP : ∃ n, P n := by
@@ -45,6 +45,7 @@ theorem exists_cex15 {M V₀ V : Subgroup G} (hyp : Hyp15 M V₀ V)
     (bot_le : (⊥ : Subgroup G) ≤ M ⊓ centralizer (U : Set G)) IsPGroup.of_bot
   exact ⟨U, S, ⟨hyp, hm, hUV, hUC, hmq, hr, hS⟩⟩
 
+omit [Finite G] in
 private theorem toQuot_injective {V₀ V U : Subgroup G} (hV₀V : V₀ ≤ V) (hinf : U ⊓ V₀ = ⊥) :
     Function.Injective
       fun x : V₀ => (QuotientGroup.mk (⟨x.1, hV₀V x.2⟩ : V) : V ⧸ U.subgroupOf V) := by
@@ -113,8 +114,9 @@ theorem ne_bot (h : Cex15 M V₀ V U S) : U ≠ ⊥ := by
   rw [hU, bot_sup_eq] at h1
   exact h.hyp.h6.ne_top h.hyp.ne_bot h1
 
+omit [Finite G] in
 theorem V_le_S (h : Cex15 M V₀ V U S) : V ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hH := h.hyp
   have hVc : V ≤ centralizer (U : Set G) := fun v hv => by
     rw [Subgroup.mem_centralizer_iff]

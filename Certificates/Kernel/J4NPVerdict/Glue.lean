@@ -125,8 +125,8 @@ theorem vjg_gE_of_le {m : Nat} (hm : 32 ≤ m) : gE m = 1 := by
   have hk : kWords.getD (m - 28) [] = [] :=
     List.getD_eq_default _ _ (by simp [kWords]; omega)
   unfold gE genWord
-  rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg (by omega), if_neg (by omega),
-    if_neg (by omega), if_neg (by omega), hk]
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega),
+    ite_eq_right (by omega), ite_eq_right (by omega), hk]
   rfl
 
 theorem vjg_ge (i : Nat) : VjRep (getN one vjT.ge i) (gE i) := by
@@ -194,7 +194,7 @@ theorem vjg_w (i : Nat) :
     exact ⟨h2, vjRep_inv hK h2 hc' hm'⟩
   · have e : m4gen i = 1 := by
       unfold m4gen
-      rw [if_neg (by omega), if_neg (by omega)]
+      rw [ite_eq_right (by omega), ite_eq_right (by omega)]
     rw [e, inv_one, vjg_getN_ge (by change 2 ≤ i; omega), vjg_getN_ge (by change 2 ≤ i; omega)]
     exact ⟨vjRep_one hK, vjRep_one hK⟩
 

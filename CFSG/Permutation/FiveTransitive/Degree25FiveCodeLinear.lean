@@ -13,7 +13,7 @@ namespace FiveTransitive.Degree25
 
 open FiveTransitive.Degree24
 
-@[expose] abbrev StandardFiveParameters := Fin 3 → ZMod 5
+abbrev StandardFiveParameters := Fin 3 → ZMod 5
 
 private abbrev standardFiveWeightClass (k : ℕ) :=
   {v : StandardFiveParameters //
@@ -82,7 +82,7 @@ theorem standardFiveCode_weight_preserving_order_ne_five
     orderOf g ≠ 5 := by
   classical
   intro horder
-  letI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hgpow : g ^ 5 = 1 := by
     simpa only [horder] using pow_orderOf_eq_one g
   let N :

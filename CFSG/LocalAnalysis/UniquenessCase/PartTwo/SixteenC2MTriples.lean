@@ -13,12 +13,12 @@ namespace CFSG.LocalAnalysis.UniquenessCase.PartTwo
   carrier := {t | ∏ i, t i = 1}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, Pi.mul_apply, Finset.prod_mul_distrib] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Pi.mul_apply, Finset.prod_mul_distrib] at ha hb ⊢
     rw [ha, hb, mul_one]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq, Pi.inv_apply, Finset.prod_inv_distrib] at ha ⊢
+    simp only [Set.mem_ofPred_eq, Pi.inv_apply, Finset.prod_inv_distrib] at ha ⊢
     rw [ha, inv_one]
 
 theorem s16c2m_mem_Triples_iff {N : Type} [CommGroup N] (t : Fin 3 → N) :

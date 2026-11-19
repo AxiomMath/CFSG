@@ -18,6 +18,7 @@ namespace Track
 
 variable {L1 L2 S : Subgroup G} (t : Track L1 L2 S)
 
+omit [Finite G] in
 private theorem oddZ_K_le_normalizer_S {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     t.K ≤ normalizer (S : Set G) :=
   ((le_sup_right : t.K ≤ S ⊔ t.K).trans t.sup_K_eq_bigB.le).trans hfr.hN
@@ -26,7 +27,7 @@ private theorem oddZ_not_S_le_Qv_zero {a f : ℕ}
     (hfr : Frame L1 L2 S a f) : ¬ S ≤ t.Qv 0 := by
   intro hSle
   have h9 := (t.relIndex_Qv_pCoreOf hfr 0).2
-  rw [zero_add, t.pCoreOf_Gw_zero_one hfr, if_pos (by decide),
+  rw [zero_add, t.pCoreOf_Gw_zero_one hfr, ite_eq_left (by decide),
     Subgroup.relIndex_eq_one.mpr hSle] at h9
   have h4 : 4 ≤ (2 ^ (2 * a + 1)) ^ 2 := by
     calc 4 = 2 ^ 2 := by norm_num
@@ -38,7 +39,7 @@ private theorem oddZ_not_S_le_Qv_one {a f : ℕ}
     (hfr : Frame L1 L2 S a f) : ¬ S ≤ t.Qv 1 := by
   intro hSle
   have h := (t.relIndex_Qv_pCoreOf hfr 1).1
-  rw [sub_self, t.pCoreOf_Gw_zero_one hfr, if_neg (by decide),
+  rw [sub_self, t.pCoreOf_Gw_zero_one hfr, ite_eq_right (by decide),
     Subgroup.relIndex_eq_one.mpr hSle] at h
   have h4 : 4 ≤ 2 ^ f := by
     calc 4 = 2 ^ 2 := by norm_num

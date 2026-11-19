@@ -75,6 +75,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L Y₀ : Subgroup G}
 
+omit [Finite G] in
 private lemma commutator_zpowers_le_of_div_mem_centralizer {Q : Subgroup G} {a b : G}
     (hcomm : Commute a b) (hbN : b ∈ Subgroup.normalizer (Q : Set G))
     (hab : a / b ∈ Subgroup.centralizer (Q : Set G)) :
@@ -92,6 +93,7 @@ private lemma commutator_zpowers_le_of_div_mem_centralizer {Q : Subgroup G} {a b
   rw [KStep166.commutatorElement_eq_of_div_mem_centralizer hbNn hdiv hq]
   exact Subgroup.commutator_mem_commutator hq (Subgroup.zpow_mem_zpowers b n)
 
+omit [Finite G] in
 private lemma commutator_zpowers_eq_of_mul_mem_centralizer {Q : Subgroup G} {c d : G} {k : ℕ}
     (hd3 : d ^ 3 = 1) (hd1 : d ≠ 1) (hcd : Commute c d)
     (hcQ : c ∈ Subgroup.normalizer (Q : Set G))
@@ -154,8 +156,8 @@ private theorem inf_centralizer_le_centralizer_of_cd_of_kcdA5
   have hbA : c * d ^ k ∈ A := A.mul_mem hcA (A.pow_mem hdA k)
   have hbmem : c * d ^ k ∈ ({c * d, c * d ^ 2} : Set G) := by
     rcases hk with rfl | rfl
-    · simpa using Set.mem_insert (c * d) ({c * d ^ 2} : Set G)
-    · simpa using Set.mem_insert_of_mem (c * d) (Set.mem_singleton (c * d ^ 2))
+    · simp
+    · simp
   obtain ⟨X, hX, hΔ, hXL, hA6⟩ :=
     exists_thetaComponent_at_cd h hJ h143 h134 h48 h1514 hMeets hdA hd1 hdc hk
   have hΩ : omegaA A = {Subgroup.zpowers c} :=
@@ -312,7 +314,7 @@ private theorem inf_centralizer_le_centralizer_of_cd_of_kcdA5
           hb1 (top_le_iff.mp (htop ▸ hXC))
       have hS4 : SectionFourHyp ↥X := hD13.toTheoremFourHyp.sectionFourHyp hXtop
       have hperf : Group.IsPerfect ↥X := Sec6.isPerfect_of_mem_thetaComponentsAt hX
-      haveI : Group.IsPerfect ↥X := hperf
+      have : Group.IsPerfect ↥X := hperf
       have hO2' : CFSG.pCore 2 ↥X ≠ ⊥ := by
         intro hbot
         exact hO2 (by rw [CFSG.Open.pCoreOf, hbot, Subgroup.map_bot])

@@ -21,7 +21,7 @@ theorem blkX_spec {b : Nat} (h : blkX CF G D W N b = true) :
     (andK (recT CF G N (Nat.add (Nat.mul 64 b) i)) (cenK CF G D W (Nat.add (Nat.mul 64 b) i))))
     64 h i hi
   have hb : Nat.blt (Nat.add (Nat.mul 64 b) i) N = true := blt_iff.2 hN
-  rw [implK_eq, hb, if_pos rfl, andK_eq, Bool.and_eq_true] at this
+  rw [implK_eq, hb, ite_eq_left rfl, andK_eq, Bool.and_eq_true] at this
   exact this
 
 theorem blkX_ok {nb : Nat} (hN : N ≤ 64 * nb) (h : ∀ b < nb, blkX CF G D W N b = true) :

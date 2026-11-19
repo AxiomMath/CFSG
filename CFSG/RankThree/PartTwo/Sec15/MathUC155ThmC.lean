@@ -12,7 +12,7 @@ open Subgroup
 open scoped Pointwise
 
 theorem exists_inner_of_conj_eq {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
-    (N R : Subgroup G) (hRN : R ≤ N) (hRn : ∀ n ∈ N, ∀ r ∈ R, n * r * n⁻¹ ∈ R)
+    (N R : Subgroup G) (_hRN : R ≤ N) (hRn : ∀ n ∈ N, ∀ r ∈ R, n * r * n⁻¹ ∈ R)
     (hR : IsPGroup p R) (hSyl : ¬ p ∣ (R.subgroupOf N).index)
     (j k : G) (hj : IsPGroup p (zpowers j)) (hk : k ∈ N)
     (hjk : ∀ r ∈ R, j * r * j⁻¹ = k * r * k⁻¹) :
@@ -73,12 +73,12 @@ theorem exists_inner_of_conj_eq {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact
     let θN : N := ⟨θ, hθN⟩
     let R' : Subgroup N := R.subgroupOf N
     have hR' : IsPGroup p R' := hR.comap_subtype
-    haveI hnorm : R'.Normal := ⟨fun x hx g => by
+    have hnorm : R'.Normal := ⟨fun x hx g => by
       show (g * x * g⁻¹ : N).1 ∈ R
       exact hRn g.1 g.2 x.1 hx⟩
     let S : Sylow p N := hR'.toSylow hSyl
-    haveI hSn : S.Normal := hnorm
-    haveI := Sylow.unique_of_normal S hSn
+    have hSn : S.Normal := hnorm
+    have := Sylow.unique_of_normal S hSn
     have hzp : IsPGroup p (zpowers θN) := by
       have hord : orderOf θN = orderOf θ := Subgroup.orderOf_mk _ _
       refine IsPGroup.of_card (n := (orderOf k).factorization p) ?_
@@ -246,7 +246,7 @@ theorem lemma438_centralizer_le_zpowers {G : Type*} [Group G] [Finite G] {p : �
   exact mul_mem ((zpowers_le.2 hθp) hz) (zpow_mem (mem_zpowers _) i)
 
 theorem lemma438_card_le {G : Type*} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
-    (K Θ R P : Subgroup G) (hΘK : Θ ≤ K) (hΘn : ∀ k ∈ K, ∀ x ∈ Θ, k * x * k⁻¹ ∈ Θ)
+    (K Θ R P : Subgroup G) (_hΘK : Θ ≤ K) (hΘn : ∀ k ∈ K, ∀ x ∈ Θ, k * x * k⁻¹ ∈ Θ)
     (hRΘ : R ≤ Θ) (hR : IsPGroup p R)
     (hRmax : ∀ X : Subgroup G, X ≤ Θ → IsPGroup p X → R ≤ X → X = R)
     (hPK : P ≤ K) (hPp : IsPGroup p P)

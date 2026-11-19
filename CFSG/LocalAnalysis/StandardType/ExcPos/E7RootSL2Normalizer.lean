@@ -27,8 +27,8 @@ private theorem domainImage_of_connected
     {H : Subgroup (WithConv (A →ₐ[k] k))}
     (h : IsConnectedAlgebraicSubgroup k H) :
     SeminaireExp3.IsDomainImage k (subgroupPoints H) := by
-  letI := h.finiteType
-  letI := h.isDomain
+  let := h.finiteType
+  let := h.isDomain
   refine ⟨A ⧸ subgroupIdeal H, inferInstance, inferInstance, inferInstance,
     inferInstance, Ideal.Quotient.mkₐ k (subgroupIdeal H), ?_⟩
   rw [SeminaireExp3.range_comp_mkₐ, h.pointsZero_eq]
@@ -79,14 +79,14 @@ theorem e7_commute_pinnedX_of_commute_one
     CFSG.StandardType.LieCore.M6c.exists_finite_subfield_lift_adjoint
       ({g} : Finset (ModGL .E7 Omega)) (by simpa using hg)
       (ZMod 2) (algebraMap (ZMod 2) Omega)
-  letI := hF
-  letI := hFfin
-  haveI : CharP F 2 := RingHom.charP iota iota.injective 2
-  letI : Algebra F Omega := iota.toAlgebra
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
-  haveI : IsScalarTower (ZMod 2) F Omega :=
+  let := hF
+  let := hFfin
+  have : CharP F 2 := RingHom.charP iota iota.injective 2
+  let : Algebra F Omega := iota.toAlgebra
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
+  have : IsScalarTower (ZMod 2) F Omega :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : Algebra.IsAlgebraic F Omega :=
+  have : Algebra.IsAlgebraic F Omega :=
     Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := F)
   obtain ⟨gF, hgF, hfg⟩ := hLift g (by simp)
   let theta := e7MinEquivAdjoint F
@@ -239,7 +239,7 @@ theorem exists_fixed_conj_of_connected_normalizer
     (hConj : A.map (MulAut.conj g).toMonoidHom = B) :
     ∃ u ∈ H, frobTwistGL tau Omega 2 q Q u = u ∧
       A.map (MulAut.conj u).toMonoidHom = B := by
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let F := frobTwistGL tau Omega 2 q Q
   have hFN : ∀ x ∈ H ⊓ Subgroup.normalizer (A : Set _), F x ∈
       H ⊓ Subgroup.normalizer (A : Set _) := by

@@ -27,7 +27,7 @@ theorem col_eq_of_mulVec {A : Matrix (Fin (w + 2)) (Fin (w + 2)) F4} {μ : F4}
   simp only [Matrix.mulVec, dotProduct, Pi.smul_apply, smul_eq_mul] at h
   rw [Fin.sum_univ_add, Fin.sum_univ_two] at h
   simp only [e0_val_zero_of_castAdd, e0_natAdd_zero, e0_natAdd_one, mul_zero, mul_one,
-    Finset.sum_const_zero, zero_add, add_zero] at h
+    Finset.sum_const_zero, zero_add] at h
   exact char2_eq_of_add_eq_zero h
 
 theorem row_eq_of_vecMul {B : Matrix (Fin (w + 2)) (Fin (w + 2)) F4} {μ : F4}
@@ -36,8 +36,7 @@ theorem row_eq_of_vecMul {B : Matrix (Fin (w + 2)) (Fin (w + 2)) F4} {μ : F4}
   have h := congrFun hμ (Wc w j)
   simp only [Matrix.vecMul, dotProduct, Pi.smul_apply, smul_eq_mul] at h
   rw [Fin.sum_univ_add, Fin.sum_univ_two] at h
-  simp only [e0_val_zero_of_castAdd, e0_natAdd_zero, e0_natAdd_one, mul_zero, mul_one,
-    Finset.sum_const_zero, zero_add, add_zero, zero_mul, one_mul] at h
+  simp only [e0_val_zero_of_castAdd, e0_natAdd_zero, e0_natAdd_one, mul_zero, Finset.sum_const_zero, zero_add, zero_mul, one_mul] at h
   exact char2_eq_of_add_eq_zero h
 
 theorem rhoM_mul {A B : Matrix (Fin (w + 2)) (Fin (w + 2)) F4}

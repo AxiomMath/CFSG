@@ -36,7 +36,7 @@ theorem sec47_gen_psl2 {L : Type} [Group L] [Finite L] {f : ℕ} (hf : 2 ≤ f)
     Subgroup.closure ({x : L | x * x = 1 ∧ Commute x a} ∪ {g}) = ⊤ := by
   classical
   obtain ⟨e⟩ := hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf0 : f ≠ 0 := by omega
   have ha1 : a ≠ 1 := by
     rintro rfl
@@ -93,7 +93,7 @@ theorem sec47_gen_sz {L : Type}
     Subgroup.closure ({x : L | x * x = 1 ∧ Commute x a} ∪ {g}) = ⊤ := by
   classical
   obtain ⟨e⟩ := hL
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 (2 * k + 1)) = 2 ^ (2 * k + 1) :=
     GaloisField.card 2 (2 * k + 1) (by omega)
   let e2 := e.trans

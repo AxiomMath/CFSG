@@ -19,7 +19,7 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
     simp [Matrix.map_one σ (map_zero σ) (map_one σ)]
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [Units.val_mul, Matrix.map_mul, Matrix.transpose_mul]
     calc (((b : Matrix ι ι K).map σ)ᵀ * ((a : Matrix ι ι K).map σ)ᵀ) * J *
           ((a : Matrix ι ι K) * (b : Matrix ι ι K))
@@ -29,7 +29,7 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
       _ = J := by rw [ha, hb]
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     have h1 : (((a⁻¹ : GL ι K) : Matrix ι ι K).map σ)ᵀ * ((a : Matrix ι ι K).map σ)ᵀ = 1 := by
       rw [← Matrix.transpose_mul, ← Matrix.map_mul, ← Units.val_mul, mul_inv_cancel,
         Units.val_one, Matrix.map_one σ (map_zero σ) (map_one σ), Matrix.transpose_one]
@@ -68,6 +68,7 @@ theorem one_add_form {σ : K →+* K} {J X : Matrix ι ι K} (hX : (X.map σ)ᵀ
     _ = (2 : K) • J := by
       rw [hX, ← h3, add_neg_cancel, add_zero, two_smul]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem map_smul_ring (σ : K →+* K) (c : K) (M : Matrix ι ι K) :
     (c • M).map σ = σ c • M.map σ := by
   ext i j
@@ -157,7 +158,7 @@ theorem scalar_pow_four_of_det (hcard : Fintype.card ι = 4) {H₀ : Subgroup (G
   have h2 : ((Matrix.GeneralLinearGroup.scalar ι c : GL ι K) : Matrix ι ι K).det =
       (c : K) ^ Fintype.card ι := by
     have := congrArg Units.val (Matrix.GeneralLinearGroup.det_scalar (n := ι) c)
-    simpa using this
+    simp
   rw [h2, hcard] at h1
   exact Units.ext (by simpa using h1)
 
@@ -241,12 +242,13 @@ theorem kxSection_sl (h2 : (2 : K) ≠ 0) {A : Type} [Group A] {L S : Subgroup A
   apply Units.ext
   simpa using det_W h2 (Fintype.card_fin 4) (hdet x hx) hxx hw
 
+omit [Finite K] in
 theorem symplectic_scalar (c : Kˣ)
     (hc : Matrix.GeneralLinearGroup.scalar (Fin 2 ⊕ Fin 2) c ∈ formGroup (RingHom.id K)
       (Matrix.fromBlocks 0 1 (-1) 0 : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K)) : c ^ 4 = 1 := by
   rw [mem_formGroup] at hc
   have h := congrFun (congrFun hc (Sum.inl 0)) (Sum.inr 0)
-  simp [Matrix.mul_apply, Matrix.fromBlocks, Fintype.sum_sum_type, Matrix.diagonal_apply] at h
+  simp [Matrix.mul_apply, Matrix.fromBlocks, Matrix.diagonal_apply] at h
   apply Units.ext
   rw [Units.val_pow_eq_pow_val, Units.val_one]
   calc (c : K) ^ 4 = ((c : K) * c) * ((c : K) * c) := by ring
@@ -265,18 +267,18 @@ theorem kxSection_sp (h2 : (2 : K) ≠ 0) {A : Type} [Group A] {L S : Subgroup A
   exact formGroup_W h2 (by simp) hx hu hxx hw
 
 
-theorem kxSection_su {p f : ℕ} (hpp : p.Prime) (hp2 : p ≠ 2) (hf : f ≠ 0)
+theorem kxSection_su {p f : ℕ} (hpp : p.Prime) (hp2 : p ≠ 2) (_hf : f ≠ 0)
     (hK : Nat.card K = (p ^ f) ^ 2) {A : Type} [Group A] {L S : Subgroup A}
     (e : ↥L ≃* StatedProj (StatedSU 4 (p ^ f) K)) {z : A} {r : ℕ} (hr : r.Prime) (hr5 : 5 ≤ r)
     (hzp : orderOf z = r) (hzL : z ∈ L) (hSL : S ≤ L) (hS2 : IsPGroup 2 S) (hS1 : S ≠ ⊥)
     (hzS : z ∈ normalizer (S : Set A)) (hcomm : ⁅S, zpowers z⁆ = S) :
     KxSection z (normalizer (S : Set A) ⊓ L) 3 := by
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = p ^ (2 * f) := by
     rw [← Nat.card_eq_fintype_card, hK, ← pow_mul, mul_comm]
-  haveI : CharP K p := charP_of_card_eq_prime_pow hcard
-  haveI : ExpChar K p := ExpChar.prime hpp
+  have : CharP K p := charP_of_card_eq_prime_pow hcard
+  have : ExpChar K p := ExpChar.prime hpp
   have h2 : (2 : K) ≠ 0 := by
     intro h
     have h' : ((2 : ℕ) : K) = 0 := by exact_mod_cast h

@@ -47,10 +47,10 @@ theorem kf7_u3_case {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hshape : CFSG.Blueprint.LieModel ↥L .PSU 3 p n)
     (hN : CFSG.RankThree.PartOne.IsStronglyPEmbedded p N) :
     Group.IsSolvable ↥N := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K : Subgroup X := genFittingFStar X with hKdef
   obtain ⟨hKs, -, hKn, -, -⟩ := kf7_setup hp hp2 hO hLN hKL hN
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   have hLsimple : IsSimpleGroup ↥L :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hshape
   have hKLeqL : K = L := eq_of_le_of_normal_of_isSimpleGroup hKL hKs hLsimple

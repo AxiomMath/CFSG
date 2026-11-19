@@ -28,9 +28,10 @@ theorem mem_nodeL {kg gs ts : List ℕ} {m e : ℕ} (hN : nodeChk M kg m gs ts e
   · rw [testBit_idM h]; exact List.mem_cons_self
   · exact List.mem_cons_of_mem _ h
 
+omit [Finite G] in
 theorem phi_gens (hκ : MCod K M κ) {Q : Subgroup G} (hQK : Q ≤ K) {m : ℕ}
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ m.testBit n = true) {pg pr : List ℕ}
-    (hlen : pg.length = pr.length)
+    (_hlen : pg.length = pr.length)
     (hgen : allL (List.range pg.length) (fun i => m.testBit (pr.getD i 0 % 4096) &&
       m.testBit (pr.getD i 0 >>> 12) && Nat.beq (phiGen M (pr.getD i 0)) (pg.getD i 0)) = true) :
     ∀ g ∈ pg, ∃ r ∈ Phi' Q, κ r = g := by
@@ -45,11 +46,12 @@ theorem phi_gens (hκ : MCod K M κ) {Q : Subgroup G} (hQK : Q ≤ K) {m : ℕ}
   cases hab : Nat.beq (pr.getD i 0 % 4096) (pr.getD i 0 >>> 12) with
   | true =>
     refine ⟨qa ^ 2, sq_mem_Phi' hqa, ?_⟩
-    rw [cond_true, pow_two, hκ.mul _ (hQK hqa) _ (hQK hqa), hqaκ]
+    rw [_root_.Bool.cond_true, pow_two, hκ.mul _ (hQK hqa) _ (hQK hqa), hqaκ]
   | false =>
     refine ⟨qa * qb * qa⁻¹ * qb⁻¹, comm_mem_Phi' hqa hqb, ?_⟩
-    rw [cond_false, MCod.comm hκ (hQK hqa) (hQK hqb), hqaκ, hqbκ]
+    rw [Bool.cond_false, MCod.comm hκ (hQK hqa) (hQK hqb), hqaκ, hqbκ]
 
+omit [Finite G] in
 theorem fr_sound (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e : ℕ}
     (hN : nodeChk M kg m gs ts e = true) {Q : Subgroup G} (hQK : Q ≤ K)
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ m.testBit n = true) {p TP d : ℕ} {pg pr pt ws : List ℕ}
@@ -143,6 +145,7 @@ theorem fr_sound (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e : ℕ}
   · rintro ⟨r, hr, rfl⟩
     exact ((hx r (Phi'_le Q hr)).2.1).1 ((hker r (Phi'_le Q hr)).2 hr)
 
+omit [Finite G] in
 theorem lab_sound (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e : ℕ}
     (hN : nodeChk M kg m gs ts e = true) {Q : Subgroup G} (hQK : Q ≤ K)
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ m.testBit n = true) {p TP d : ℕ} {pg pr pt ws : List ℕ}
@@ -158,11 +161,11 @@ theorem lab_sound (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e : ℕ}
   rw [h, labK]
   refine ⟨fun h0 => ?_, fun h1 => ?_, fun h0 h1 => ?_⟩
   · have : Nat.beq typ 0 = true := by rw [h0]; rfl
-    rw [this, cond_true, Nat.beq_eq]
+    rw [this, _root_.Bool.cond_true, Nat.beq_eq]
     exact ⟨fun e => hκ.inj x hxK z hzK e, fun e => by rw [e]⟩
   · have a : Nat.beq typ 0 = false := by rw [h1]; rfl
     have b : Nat.beq typ 1 = true := by rw [h1]; rfl
-    rw [a, b, cond_false, cond_true, Bool.not_eq_true', ← hκ.mul x hxK x hxK, ← hκ.one]
+    rw [a, b, Bool.cond_false, _root_.Bool.cond_true, Bool.not_eq_true', ← hκ.mul x hxK x hxK, ← hκ.one]
     constructor
     · intro hne heq
       rw [heq, Nat.beq_refl] at hne
@@ -173,7 +176,7 @@ theorem lab_sound (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e : ℕ}
       | true => exact absurd (hκ.inj _ (K.mul_mem hxK hxK) _ K.one_mem (Nat.eq_of_beq_eq_true hb)) hne
   · have a : Nat.beq typ 0 = false := beq_false_nat h0
     have b : Nat.beq typ 1 = false := beq_false_nat h1
-    rw [a, b, cond_false, cond_false, allL_iff]
+    rw [a, b, Bool.cond_false, Bool.cond_false, allL_iff]
     have hPK : Phi' Q ≤ K := (Phi'_le Q).trans hQK
     constructor
     · intro hall n hn

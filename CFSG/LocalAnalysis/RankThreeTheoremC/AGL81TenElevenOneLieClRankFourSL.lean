@@ -60,7 +60,7 @@ theorem exists_rankFour_psl {X K A : Type} [Group X] [Finite X] [Field K] [Finit
     have h1 : fieldAut m K φ = (conjAut m K B)⁻¹ * Ψ α := by rw [hBφ]; group
     rw [h1, map_mul, map_inv, Ψ.symm_apply_apply]
     exact H.mul_mem (H.inv_mem (hinn (hinnΨ' _ (hconjA B)))) hαH
-  haveI := inner_normal P
+  have := inner_normal P
   have hφk : φ ^ 3 ^ k = 1 := by
     by_contra hne
     apply hnot _ hne
@@ -108,6 +108,7 @@ namespace SpE27
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem spE_map (τ : K ≃+* K) (v : Fin 3 → ZMod 3) : (spE v : Matrix _ _ K).map τ = spE v := by
   have h1 := fun x => (map_c τ x).1
   have h2 := fun x => (map_c τ x).2.1
@@ -143,7 +144,7 @@ theorem projSlE6_injective : Function.Injective ((proj 6 K).comp (slE6 (K := K))
       change (spE v.toAdd).submatrix e6.symm e6.symm (e6 (Sum.inl i)) (e6 (Sum.inr i)) = _
       simp [spE]
     rw [← h1, hc]
-    simp [scalar_apply, diagonal_apply_ne _ hne]
+    simp [scalar_apply]
   exact Multiplicative.toAdd.injective (funext fun i => cb_eq_zero (h0 i))
 
 theorem map_slE6 (τ : K ≃+* K) (v : Multiplicative (Fin 3 → ZMod 3)) :
@@ -191,9 +192,9 @@ theorem kFactOuterThreeRankFourRest_of_sl (h : KFactOuterThreeRankFourRestSL) :
   have hodd : Odd q.exponent := hl
   obtain ⟨_, K, _, _, hK, ⟨e'⟩⟩ := CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv_typeA hv e
   rw [hp] at hK
-  haveI := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hcop : (Nat.card Kˣ).Coprime 6 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_units, ← Nat.card_eq_fintype_card, hK]
     have h3 : 2 ^ q.exponent % 3 = 2 := by

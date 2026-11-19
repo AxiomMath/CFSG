@@ -173,7 +173,7 @@ theorem conj_commutator_left {G : Type*} [Group G] (a b : G) (ha : a * a = 1) (h
     _ = b * a * b * a := by rw [ha', hb']
     _ = ⁅a, b⁆⁻¹ := by
         rw [commutatorElement_def]
-        simp only [mul_inv_rev, inv_inv, ha', hb']
+        simp only [mul_inv_rev, ha', hb']
         group
 
 theorem conj_commutator_right {G : Type*} [Group G] (a b : G) (ha : a * a = 1) (hb : b * b = 1) :
@@ -187,7 +187,7 @@ theorem conj_commutator_right {G : Type*} [Group G] (a b : G) (ha : a * a = 1) (
     _ = b * a * b * a⁻¹ := by rw [← mul_inv_rev, hb, inv_one, mul_one]
     _ = ⁅a, b⁆⁻¹ := by
         rw [commutatorElement_def]
-        simp only [mul_inv_rev, inv_inv, ha', hb']
+        simp only [mul_inv_rev, ha', hb']
         group
 
 private theorem le_normalizer_of_commute' {K : Type*} [Group K] {A B : Subgroup K}
@@ -275,7 +275,7 @@ theorem exists_involution_lifting {Γ : Type} [Group Γ] (V : Subgroup Γ) [V.No
   have hαfac : (⟨(g * (μ : Γ)) ^ 2, hαmem⟩ : ↥V)
       = MulAut.conjNormal g μ * ⟨g ^ 2, hVg⟩ * μ := by
     ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_pow, MulAut.conjNormal_apply, pow_two]
+    simp only [Subgroup.coe_mul, MulAut.conjNormal_apply, pow_two]
     group
   have hαsqV : (⟨(g * (μ : Γ)) ^ 2, hαmem⟩ : ↥V) = 1 := by
     refine θ.injective ?_
@@ -311,7 +311,7 @@ theorem correction_value (m : G6.coreMod 5) :
     _ = aMod (bMod m * m) * (bMod m * m) := by rw [map_mul]; ac_rfl
 
 theorem commutator_socle_fixed {Γ : Type} [Group Γ] (V : Subgroup Γ) [V.Normal]
-    (η : Γ →* Equiv.Perm (Fin 5)) (hk : η.ker = V) (θ : ↥V ≃* ↥(G6.coreMod 5))
+    (η : Γ →* Equiv.Perm (Fin 5)) (_hk : η.ker = V) (θ : ↥V ≃* ↥(G6.coreMod 5))
     (hθ : ∀ (g : Γ) (v : ↥V), θ (MulAut.conjNormal g v) = G6.coreAct 5 (η g) (θ v))
     {α₀ β₀ : Γ} (hηα₀ : η α₀ = sigOne) (hηβ₀ : η β₀ = sigTwo)
     (hc_mem : ⁅α₀, β₀⁆ ∈ V) (hα₀mul : α₀ * α₀ = 1) (hβ₀mul : β₀ * β₀ = 1) :
@@ -355,7 +355,7 @@ theorem correction_involution {Γ : Type} [Group Γ] (V : Subgroup Γ) [V.Normal
   have hαfac : (⟨(α₀ * (τ : Γ)) ^ 2, hαmem⟩ : ↥V)
       = MulAut.conjNormal α₀ τ * ⟨α₀ ^ 2, hα₀memV⟩ * τ := by
     ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_pow, MulAut.conjNormal_apply, pow_two]
+    simp only [Subgroup.coe_mul, MulAut.conjNormal_apply, pow_two]
     group
   have hαsqV : (⟨(α₀ * (τ : Γ)) ^ 2, hαmem⟩ : ↥V) = 1 := by
     refine θ.injective ?_
@@ -471,7 +471,7 @@ theorem map_closure_eq_v4 {Γ : Type} [Group Γ] {η : Γ →* Equiv.Perm (Fin 5
   rw [MonoidHom.map_closure, Set.image_pair, hηα, hηβ₀, closure_sigOne_sigTwo]
 
 theorem complement_pair_le {Γ : Type} [Group Γ] (V : Subgroup Γ) [V.Normal]
-    (η : Γ →* Equiv.Perm (Fin 5)) (hk : η.ker = V)
+    (η : Γ →* Equiv.Perm (Fin 5)) (_hk : η.ker = V)
     {α β₀ : Γ} (hηα : η α = sigOne) (hηβ₀ : η β₀ = sigTwo) :
     Subgroup.closure ({α, β₀} : Set Γ) ≤ V4.comap η := by
   rw [Subgroup.closure_le]
@@ -527,7 +527,7 @@ theorem exists_complement_of_delta5 {Γ : Type} [Group Γ] [Finite Γ] (V : Subg
   classical
   have hVcomm : ∀ a b : ↥V, a * b = b * a := fun a b =>
     θ.injective (by rw [map_mul, map_mul, mul_comm])
-  haveI : IsMulCommutative ↥V := ⟨⟨hVcomm⟩⟩
+  have : IsMulCommutative ↥V := ⟨⟨hVcomm⟩⟩
   have hVp : IsPGroup 2 ↥V := isPGroup_of_coreMod_iso V θ
   obtain ⟨hV4p, hindex⟩ := sylow_comap_v4 V η hk hr θ
   let P : Sylow 2 Γ := hV4p.toSylow (by rw [hindex]; decide)

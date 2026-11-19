@@ -11,6 +11,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem smul_centralizer (a : MulAut G) (s : Set G) :
     a • Subgroup.centralizer s = Subgroup.centralizer (a • s) := by
   apply le_antisymm
@@ -32,6 +33,7 @@ theorem smul_centralizer (a : MulAut G) (s : Set G) :
     have h'' := (Subgroup.pointwise_smul_le_pointwise_smul_iff (a := a)).mpr h
     simpa [smul_smul] using h''
 
+omit [Finite G] in
 theorem inf_centralizer_eq_bot_of_sup_eq {V E E' Q S M L : Subgroup G}
     (hQV : Q ≤ Subgroup.centralizer (V : Set G))
     (hES : E ⊔ Q = S) (hE'S : E' ⊔ Q = M)
@@ -158,7 +160,7 @@ theorem str86_card_z2_le_sq
   have hcase := str86_caseI_basics hF hSB h1 hB2 hVL2 hZI
   have hZ2bot : Z2 L1 L2 S ⊓ Subgroup.centralizer
       ((L2 ⊔ Q2 L1 L2 S : Subgroup G) : Set G) = ⊥ := hcase.2.2.1
-  obtain ⟨g, hgL1, hgborel⟩ := SetLike.exists_of_lt (F1.lt_borelOf hR)
+  obtain ⟨g, hgL1, hgborel⟩ := _root_.IsConcreteLE.exists_of_lt (F1.lt_borelOf hR)
   have hgB : g ∉ bigB L1 L2 S := by
     intro h
     apply hgborel
@@ -175,7 +177,7 @@ theorem str86_card_z2_le_sq
       have hBbig : borelOf L2 S ≤ bigB L1 L2 S :=
         (le_sup_right : borelOf L2 S ≤ borelOf L1 S ⊔ borelOf L2 S).trans le_sup_left
       exact Subgroup.mem_inf.mpr ⟨(Subgroup.mem_inf.mp hx).1, hSB (hBbig hx)⟩
-  obtain ⟨h, hhL2, hhborel⟩ := SetLike.exists_of_lt (F1.lt_borelOf hR.symm)
+  obtain ⟨h, hhL2, hhborel⟩ := _root_.IsConcreteLE.exists_of_lt (F1.lt_borelOf hR.symm)
   have hhN : h ∉ Subgroup.normalizer (S : Set G) := by
     intro hN
     apply hhborel

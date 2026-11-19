@@ -145,9 +145,9 @@ theorem eight_solutions {y : SL5}
         (y : Matrix (Fin 2) (Fin 2) (ZMod 5)) 1 0 = 1 := by
     have := y.2
     rwa [Matrix.det_fin_two] at this
-  simp only [ne_eq, h_ext, Matrix.SpecialLinearGroup.coe_pow, Matrix.SpecialLinearGroup.coe_mul,
+  simp only [ne_eq, h_ext, Matrix.SpecialLinearGroup.coe_mul,
     Matrix.SpecialLinearGroup.coe_neg, Matrix.SpecialLinearGroup.coe_one,
-    Matrix.mul_apply, Fin.sum_univ_two, pow_succ, pow_two, pow_zero, pow_one] at h1 h2 h3 h4 ⊢
+    Matrix.mul_apply, Fin.sum_univ_two, pow_succ, pow_zero] at h1 h2 h3 h4 ⊢
   simp [hM_val, hcM_val, hc1M_val, hc2M_val, ht2_val, ht3_val] at h1 h2 h3 h4 ⊢
   generalize (y : Matrix (Fin 2) (Fin 2) (ZMod 5)) 0 0 = a at *
   generalize (y : Matrix (Fin 2) (Fin 2) (ZMod 5)) 0 1 = b at *

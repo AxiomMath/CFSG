@@ -448,7 +448,7 @@ theorem exists_rootChar_ne_one (ha1 : rootDiagUnit τ a ≠ 1) :
     have h1 := h (Pi.single j 1) (isRoot_single τ j)
     have e : rootChar a (Pi.single j 1) = a j := by
       unfold rootChar
-      rw [Finset.prod_eq_single j (fun k _ hk => by simp [Pi.single_apply, hk])
+      rw [Finset.prod_eq_single j (fun k _ hk => by simp [hk])
         (fun hj => absurd (Finset.mem_univ j) hj)]
       simp
     rw [e] at h1

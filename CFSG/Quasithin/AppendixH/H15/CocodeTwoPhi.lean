@@ -49,11 +49,11 @@ private theorem toAdd_eY_oSet_o {o : Fin 8 → Fin 24} (ho : Function.Injective 
       have hqp : q = p := ho hqo
       subst hqp
       exact (Finset.mem_filter.mp hq).2 hp
-    rw [if_neg hnot, hp]
+    rw [ite_eq_right hnot, hp]
   · have hmem : o p ∈ oSet o x := by
       rw [oSet]
       exact Finset.mem_image.mpr ⟨p, Finset.mem_filter.mpr ⟨Finset.mem_univ _, hp⟩, rfl⟩
-    rw [if_pos hmem]
+    rw [ite_eq_left hmem]
     rcases h13_zmod2_cases (evVec (Multiplicative.toAdd x) p) with h0 | h1
     · exact absurd h0 hp
     · exact h1.symm
@@ -66,7 +66,7 @@ private theorem toAdd_eY_oSet_notMem {o : Fin 8 → Fin 24}
     intro h
     obtain ⟨p, hp, hpo⟩ := Finset.mem_image.mp h
     exact hi p hpo
-  rw [if_neg hnot]
+  rw [ite_eq_right hnot]
 
 private theorem eY_oSet_mul {o : Fin 8 → Fin 24} (ho : Function.Injective o)
     (x y : Multiplicative (Fin 6 → ZMod 2)) :
@@ -105,7 +105,7 @@ private theorem eY_oSet_mem_coreMod {o : Fin 8 → Fin 24} (ho : Function.Inject
     symm
     apply Finset.sum_subset (Finset.subset_univ _)
     intro i _ hi
-    rw [toAdd_eY, if_neg (fun hmem => by
+    rw [toAdd_eY, ite_eq_right (fun hmem => by
       obtain ⟨p, hp, hpo⟩ := Finset.mem_image.mp hmem
       exact hi (Finset.mem_image.mpr ⟨p, Finset.mem_univ p, hpo⟩))]
   rw [hsub, Finset.sum_image (fun p _ q _ h => ho h)]
@@ -127,15 +127,15 @@ private theorem eY_oSet_eq_of_ne {o : Fin 8 → Fin 24} (ho : Function.Injective
         have hqp : q = p := ho hq
         subst hqp
         exact hqne hp
-      rw [if_neg hnotmem, hp]
+      rw [ite_eq_right hnotmem, hp]
     · have hmem : o p ∈ T := (hT (o p)).2 ⟨p, rfl, hp⟩
-      rw [if_pos hmem]
+      rw [ite_eq_left hmem]
       rcases h13_zmod2_cases (evVec (Multiplicative.toAdd x) p) with h0 | h1
       · exact absurd h0 hp
       · exact h1
   · push Not at hi
     rw [toAdd_eY_oSet_notMem x hi, toAdd_eY,
-      if_neg (fun hmem => by
+      ite_eq_right (fun hmem => by
         obtain ⟨q, hq, _⟩ := (hT i).1 hmem
         exact hi q hq)]
 
@@ -143,7 +143,7 @@ private theorem eY_mul_eq (X Y : Finset (Fin 24)) : eY X * eY Y = eY (symmDiff X
   apply Multiplicative.toAdd.injective
   funext i
   simp only [toAdd_mul, Pi.add_apply, toAdd_eY, Finset.mem_symmDiff]
-  by_cases hx : i ∈ X <;> by_cases hy : i ∈ Y <;> simp [hx, hy] <;> decide
+  by_cases hx : i ∈ X <;> by_cases hy : i ∈ Y <;> simp [hx, hy]; decide
 
 private theorem golayC_le_ker : golayC ≤ (mathModel false d a b Γ).ker := by
   show golayC ≤ (if d = 22 then golayC ⊔ Subgroup.zpowers (pairVec a b) else golayC)
@@ -220,7 +220,7 @@ theorem equivariant (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) {g : ↥Γ} {
           rw [toAdd_mul, Pi.add_apply, inv24_eq, he_coord q]
           have hfq : Multiplicative.toAdd (eY (oSet P.o (evActHom σ x))) (P.o q) =
               evVec (Multiplicative.toAdd x) (σ.symm q) := by
-            simpa [hf_coord q, hcase]
+            simp [hf_coord q, hcase]
           rw [hfq]
           exact CharTwo.add_self_eq_zero _
         · push Not at hi
@@ -242,12 +242,12 @@ theorem equivariant (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) {g : ↥Γ} {
         · obtain ⟨q, rfl⟩ := hi
           have hfq : Multiplicative.toAdd (eY (oSet P.o (evActHom σ x))) (P.o q) =
               evVec (Multiplicative.toAdd x) (σ.symm q) + 1 := by
-            simpa [hf_coord q, hcase]
-          rw [he_coord q, hfq, toAdd_eY, if_pos ((P.o_mem (P.o q)).2 ⟨q, rfl⟩),
+            simp [hf_coord q, hcase]
+          rw [he_coord q, hfq, toAdd_eY, ite_eq_left ((P.o_mem (P.o q)).2 ⟨q, rfl⟩),
             ← add_assoc, CharTwo.add_self_eq_zero, zero_add]
         · push Not at hi
           simp only [he_zero i hi, hf_zero i hi, zero_add, toAdd_eY,
-            if_neg (fun hmem => by
+            ite_eq_right (fun hmem => by
               obtain ⟨q, hq⟩ := (P.o_mem i).1 hmem
               exact hi q hq)]
       rw [hE]
@@ -272,7 +272,7 @@ theorem isVecOf_pair (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) {p q : Fin 8
       ((if t = p ∨ t = q then (1 : ZMod 2) else 0) + 1 ≠ 0 ↔ t ≠ p ∧ t ≠ q) := by
     intro t
     by_cases ht2 : t = p ∨ t = q
-    · rw [if_pos ht2]
+    · rw [ite_eq_left ht2]
       constructor
       · intro h
         exact absurd (by decide : (1 : ZMod 2) + 1 = 0) h
@@ -280,7 +280,7 @@ theorem isVecOf_pair (hM : MCtx false d a b O Tr S B T₀ Γ ρ β) {p q : Fin 8
         rcases ht2 with h | h
         · exact absurd h hp
         · exact absurd h hq
-    · rw [if_neg ht2]
+    · rw [ite_eq_right ht2]
       constructor
       · intro _
         exact not_or.mp ht2

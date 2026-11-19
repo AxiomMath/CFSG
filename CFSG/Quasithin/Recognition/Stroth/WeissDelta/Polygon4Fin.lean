@@ -14,8 +14,7 @@ open CFSG.Open CFSG.Quasithin CFSG.Quasithin.Stroth CFSG.Geometry.GeneralizedPol
 namespace CFSG.Quasithin.Stroth.WeissDelta
 
 theorem weiss80Polygon4Fin : Weiss80Polygon4Fin := by
-  intro X _ _ P1 P2 k m F _ _ hk hm hF _hmk hU3 hL2 hV1 hV2
-  intro Y _ _ c hc hM hW hg
+  intro X _ _ P1 P2 k m F _ _ hk hm hF _hmk hU3 hL2 hV1 hV2 Y _ _ c hc hM hW hg
   have hv1 : 3 ≤ (P1 ⊓ P2).relIndex P1 := by
     obtain ⟨e, he, hrel⟩ := hV1
     rw [hrel]
@@ -40,13 +39,13 @@ theorem weiss80Polygon4Fin : Weiss80Polygon4Fin := by
     hGP, hT, hadj, hMΔ, hstab1, hstab2, hE⟩ :=
     exists_delta_of_goodPathSystem (n := 4) (by norm_num) c hc hM hW hg hv1 hv2
       (fun _ p => IsGoodPath c.G0 p) hG
-  letI : Fintype V := hVfin
-  letI : DecidableRel Δ.Adj := hΔdec
-  letI : Group D := hDgrp
-  letI : Finite D := hDfin
-  letI : MulAction D V := hDmul
-  letI : FaithfulSMul D V := hDfaith
-  letI : GraphAction D Δ := hDGA
+  let : Fintype V := hVfin
+  let : DecidableRel Δ.Adj := hΔdec
+  let : Group D := hDgrp
+  let : Finite D := hDfin
+  let : MulAction D V := hDmul
+  let : FaithfulSMul D V := hDfaith
+  let : GraphAction D Δ := hDGA
   obtain ⟨hdu, hdv⟩ :=
     degree_eq_of_isWeissEmbedding (n := 4) (by norm_num) c hc hM hGP hT hMΔ hE hV1 hV2
   exact ⟨V, hVfin, Δ, hΔdec, D, hDgrp, hDfin, hDmul, hDfaith, hDGA, u, v, ψ₁, ψ₂, ι,

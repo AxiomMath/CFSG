@@ -32,7 +32,7 @@ theorem exists_mulEquiv_eq_map_omMinusTorus {K : Type} [Field K] [Finite K] [Cha
         StatedOmega (StatedQuadMinus (m + 1) K b c),
       E = (omMinusTorus b c hζ).range.map α.toMonoidHom := by
   classical
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   let Q : (Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K) → K :=
     StatedQuadMinus (m + 1) K b c
   let O : Subgroup (GL (Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2) K) :=
@@ -103,7 +103,7 @@ theorem exists_mulEquiv_eq_map_omMinusTorus {K : Type} [Field K] [Finite K] [Cha
     have h := Subgroup.normal_subgroupOf_commutator_sup (H₁ := O) (H₂ := O)
     rw [sup_idem] at h
     rwa [show Ω = ⁅O, O⁆ from rfl]
-  haveI : (Ω.subgroupOf O).Normal := hNormal
+  have : (Ω.subgroupOf O).Normal := hNormal
   let gO : O := ⟨g, hgO⟩
   let β : Ω ≃* Ω :=
     (Subgroup.subgroupOfEquivOfLe hΩO).symm.trans

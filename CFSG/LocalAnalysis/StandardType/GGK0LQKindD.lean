@@ -52,6 +52,7 @@ private theorem lqKindD_k0pPow_length (a : List ℕ) (n : ℕ) :
   rw [show k0pPow a n = k0pPow.go a n (k0pId a.length) from rfl, lqKindD_k0pPow_go]
   simp [k0pId]
 
+omit [CharP Omega 2] in
 private theorem lqKindD_rho_iterate (A : K0LangMark Omega lab p R I phi) (n : ℕ)
     (i : Fin A.row.diagram.marks.length) :
     (fun j => A.row.rho.getD j 0)^[n] i.val = (A.row.nodePerm^[n] i).val := by
@@ -60,12 +61,14 @@ private theorem lqKindD_rho_iterate (A : K0LangMark Omega lab p R I phi) (n : �
   | succ n ih =>
       rw [Function.iterate_succ_apply', ih, A.row.rho_apply, Function.iterate_succ_apply']
 
+omit [CharP Omega 2] in
 private theorem lqKindD_k0pPow_getD_nodePerm (A : K0LangMark Omega lab p R I phi) (n : ℕ)
     (i : Fin A.row.diagram.marks.length) :
     (k0pPow A.row.rho n).getD i.val 0 = (A.row.nodePerm^[n] i).val := by
   rw [lqKindD_k0pPow_getD A.row.rho n (by rw [A.row.rho_length]; exact i.isLt)]
   exact lqKindD_rho_iterate A n i
 
+omit [CharP Omega 2] in
 private theorem lqKindD_frob_nodes_iterate (A : K0LangMark Omega lab p R I phi) (n : ℕ)
     (i : Fin A.row.diagram.marks.length) :
     ((A.setup.ρ : (Fin A.tau.rank → ℤ) → (Fin A.tau.rank → ℤ))^[n])
@@ -107,6 +110,7 @@ private theorem lqKindD_orbit_image {τ : Tag} {L : Type} [Field L] [IsAlgClosed
     rw [h0]
     simp
 
+omit [CharP Omega 2] in
 private theorem lqKindD_rho_iterate_frobLinear (A : K0LangMark Omega lab p R I phi) (n : ℕ)
     {γ : Fin A.tau.rank → ℤ} (hγ : IsRoot A.tau γ) :
     ((A.setup.ρ : (Fin A.tau.rank → ℤ) → (Fin A.tau.rank → ℤ))^[n]) γ =
@@ -165,19 +169,23 @@ private lemma lqKindD_marks_length (T : GGKacType) :
     (k0DiagOf T).marks.length = (absTag T).rank + 1 := by
   cases T <;> rfl
 
+omit [CharP Omega 2] in
 private lemma lqKindD_marks_length_A (A : K0LangMark Omega lab p R I phi) :
     A.row.diagram.marks.length = A.tau.rank + 1 := by
   rw [← A.tau_eq]
   exact lqKindD_marks_length A.row.T
 
+omit [CharP Omega 2] in
 private lemma lqKindD_lt_marks (A : K0LangMark Omega lab p R I phi) {x : ℕ}
     (h : x < A.tau.rank + 1) : x < A.row.diagram.marks.length := by
   rw [show A.row.diagram.marks.length = A.tau.rank + 1 from lqKindD_marks_length_A A]
   exact h
+omit [CharP Omega 2] in
 private theorem lqKindD_p_pos (A : K0LangMark Omega lab p R I phi) : 0 < p := by
   obtain ⟨N⟩ := k0Normal_nonempty A
   exact N.zero_lt
 
+omit [CharP Omega 2] in
 private theorem lqKindD_nodes_proper (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) :
     ∃ i < (k0DiagOf A.row.T).marks.length, i ∉ lqNodes A P j := by
@@ -205,6 +213,7 @@ private lemma lqKindD_sum_subtype {M : Type*} [AddCommMonoid M] (c : List ℕ) (
       right_inv := fun x => by ext; rfl }
   exact Fintype.sum_equiv e (fun x => f x.1) (fun x => f x.1) (fun x => rfl)
 
+omit [CharP Omega 2] in
 private theorem lqKindD_nodeSpan_relation (A : K0LangMark Omega lab p R I phi)
     (P : K0Positions A) (j : Fin A.row.D.orbits.length)
     {w : Fin A.row.diagram.marks.length}
@@ -247,7 +256,7 @@ private theorem lqKindD_nodeSpan_relation (A : K0LangMark Omega lab p R I phi)
       funext i
       rw [Finset.sum_apply]
       by_cases hi : i.val ∈ c
-      · rw [dif_pos hi]
+      · rw [dite_eq_left hi]
         have hsingle : ∀ x : {x // x ∈ c}, x ≠ ⟨i.val, hi⟩ →
             ((- f x) • (Pi.single ⟨x.1, hxlt x.1 x.2⟩ 1 :
               Fin A.row.diagram.marks.length → ℤ)) i = 0 := by
@@ -259,7 +268,7 @@ private theorem lqKindD_nodeSpan_relation (A : K0LangMark Omega lab p R I phi)
         rw [Finset.sum_eq_single (⟨i.val, hi⟩ : {x // x ∈ c}) (fun x _ hx => hsingle x hx)]
         · rw [Pi.smul_apply, Pi.single_eq_same, smul_eq_mul]; ring
         · intro h; exact absurd (Finset.mem_univ _) h
-      · rw [dif_neg hi]
+      · rw [dite_eq_right hi]
         have hzero : ∀ x : {x // x ∈ c},
             ((- f x) • (Pi.single ⟨x.1, hxlt x.1 x.2⟩ 1 :
               Fin A.row.diagram.marks.length → ℤ)) i = 0 := by
@@ -332,6 +341,7 @@ private theorem lqKindD_nodeSpan_relation (A : K0LangMark Omega lab p R I phi)
     rw [hk0] at hk1
     omega
 
+omit [CharP Omega 2] in
 private theorem lqKindD_node_mem_span (A : K0LangMark Omega lab p R I phi)
     (P : K0Positions A) (j : Fin A.row.D.orbits.length)
     (hgap : (lqNodes A P j).length + 1 = A.row.diagram.marks.length →
@@ -380,6 +390,7 @@ private theorem lqKindD_node_mem_span (A : K0LangMark Omega lab p R I phi)
       have hm1' : A.row.diagram.marks.getD w.val 0 = 1 := by exact_mod_cast hm1
       omega
 
+omit [CharP Omega 2] in
 private theorem lqKindD_maps_c (A : K0LangMark Omega lab p R I phi)
     (P : K0Positions A) (j : Fin A.row.D.orbits.length)
     (hgap : (lqNodes A P j).length + 1 = A.row.diagram.marks.length →
@@ -434,6 +445,7 @@ private theorem lqKindD_maps_c (A : K0LangMark Omega lab p R I phi)
     exact h.2
   exact lqKindD_node_mem_span A P j hgap hsp
 
+omit [CharP Omega 2] in
 private theorem lqKindD_cone (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length)
     (hmem : lqNodes A P j ∈ k0Comps (k0DiagOf A.row.T)
@@ -785,7 +797,7 @@ private theorem lqKindD_autOrder_eq_one (c rk : List ℕ)
   rw [show k0AutOrder c rk = k0AutOrder.go c rk 1 rk (c.length + 1) from rfl]
   rw [show c.length + 1 = Nat.succ c.length from rfl]
   simp only [k0AutOrder.go]
-  rw [if_pos hall]
+  rw [ite_eq_left hall]
 
 private theorem lqKindD_autOrder_eq_two (c rk : List ℕ) (h1 : 1 ≤ c.length)
     (hmove : ∃ i ∈ c, rk.getD i 0 ≠ i)
@@ -803,9 +815,9 @@ private theorem lqKindD_autOrder_eq_two (c rk : List ℕ) (h1 : 1 ≤ c.length)
   rw [show k0AutOrder c rk = k0AutOrder.go c rk 1 rk (c.length + 1) from rfl]
   rw [show c.length + 1 = Nat.succ (Nat.succ (c.length - 1)) from by omega]
   simp only [k0AutOrder.go]
-  rw [if_neg (by simpa using hnot), if_pos hall]
+  rw [ite_eq_right (by simpa using hnot), ite_eq_left hall]
 
-private def lqKindD_mvec (r : ℕ) (hr : 0 < r) (q : Equiv.Perm (Fin r)) : Fin r → ℤ :=
+private def lqKindD_mvec (r : ℕ) (_hr : 0 < r) (q : Equiv.Perm (Fin r)) : Fin r → ℤ :=
   if h4 : r = 4 then
     (if (q ⟨2, by omega⟩).val = 3 then fun i => ([-1, -2, -2, -1] : List ℤ).getD i.val 0
     else fun i => ([-2, -2, -1, -1] : List ℤ).getD i.val 0)
@@ -886,7 +898,7 @@ private theorem lqKindD_cube_four (q : Equiv.Perm (Fin 4))
   decide +kernel
 
 private theorem lqKindD_shape_notF4 (T : GGKacType) (c : List ℕ)
-    (hD : (k0CompType (k0DiagOf T) c).1 = .D) (h4 : 4 ≤ c.length)
+    (hD : (k0CompType (k0DiagOf T) c).1 = .D) (_h4 : 4 ≤ c.length)
     (hc : c ∈ lqKindD_shapes T) : T ≠ .F4 := by
   rintro rfl
   simp [lqKindD_shapes] at hc
@@ -1020,7 +1032,7 @@ private theorem lqKindD_k0pMul_length (a b : List ℕ) : (k0pMul a b).length = b
 private theorem lqKindD_swapLeaf_mul (r : ℕ) (hr : 2 ≤ r) :
     lqKindD_swapLeaf r * lqKindD_swapLeaf r = 1 := by
   ext x
-  rw [lqKindD_swapLeaf, dif_pos hr]
+  rw [lqKindD_swapLeaf, dite_eq_left hr]
   simp only [Equiv.Perm.mul_apply, Equiv.Perm.one_apply]
   rcases eq_or_ne x ⟨r - 2, by omega⟩ with hx | hx
   · subst hx
@@ -1037,7 +1049,7 @@ private theorem lqKindD_swapLeaf_ne_one (r : ℕ) (hr : 3 ≤ r) :
     lqKindD_swapLeaf r ≠ 1 := by
   intro h
   have h2 : 2 ≤ r := by omega
-  rw [lqKindD_swapLeaf, dif_pos h2] at h
+  rw [lqKindD_swapLeaf, dite_eq_left h2] at h
   have ha : Equiv.swap (⟨r - 2, by omega⟩ : Fin r) ⟨r - 1, by omega⟩
       (⟨r - 2, by omega⟩ : Fin r) = ⟨r - 1, by omega⟩ := Equiv.swap_apply_left _ _
   rw [h] at ha
@@ -1276,7 +1288,7 @@ private theorem lqKindD_inner_of_node_fix {r : ℕ} {τ : Tag} {ψ : Set (Fin τ
   rw [hσφ γ hγ, hfix γ (hψspan γ hγ)]
   simp
 
-private theorem lqKindD_inner_neg_even {τ : Tag} {r : ℕ} (hr0 : 0 < r) (h4 : 4 ≤ r)
+private theorem lqKindD_inner_neg_even {τ : Tag} {r : ℕ} (hr0 : 0 < r) (_h4 : 4 ≤ r)
     {ψ : Set (Fin τ.rank → ℤ)} {α : Fin r → (Fin τ.rank → ℤ)}
     (hψeq : ∀ v, v ∈ ψ ↔ IsRoot τ v ∧ v ∈ Submodule.span ℤ (Set.range α))
     (hroot : ∀ i, IsRoot τ (α i))
@@ -1427,6 +1439,7 @@ private theorem lqKindD_inner_neg_odd {τ : Tag} {r : ℕ}
     refine ⟨w, hclosure_sub hw, fun γ hγ => ?_⟩
     rw [hσφ γ hγ, ← hwφ γ (hψspan γ hγ)]
 
+omit [CharP Omega 2] in
 theorem lq_kind_D (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     (j : Fin A.row.D.orbits.length) (h4 : 4 ≤ (lqNodes A P j).length)
     (hD : (k0CompType (k0DiagOf A.row.T) (lqNodes A P j)).1 = .D)
@@ -1729,7 +1742,7 @@ theorem lq_kind_D (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
       v ∈ Submodule.span ℤ (Set.range (fun i : Fin c.length => α (e i))) := by
     intro v
     rw [hψeq]
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     rw [hrange]
   have hind_e : LinearIndependent ℚ (fun i : Fin c.length =>
       fun k => ((α (e i) k : ℤ) : ℚ)) :=
@@ -1990,7 +2003,7 @@ theorem lq_kind_D (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
         fun _ => hinner_two_s (hqq_of_o2 ho2)
       have hexc := hexc_false h2s
       unfold twistKind
-      rw [hslen, if_neg hnot, if_neg hexc, if_pos htwoD]
+      rw [hslen, ite_eq_right hnot, ite_eq_right hexc, ite_eq_left htwoD]
     ·
       intro htw3
       have ho3 : o = 3 := by
@@ -2066,7 +2079,7 @@ theorem lq_kind_D (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
         · rw [hcard, hr4]
       refine ⟨hr4, ?_⟩
       unfold twistKind
-      rw [hslen, if_neg hnot, if_pos hexc]
+      rw [hslen, ite_eq_right hnot, ite_eq_left hexc]
   ·
     have hodd : c.length % 2 = 1 := by
       have := Nat.mod_two_eq_zero_or_one c.length
@@ -2109,11 +2122,11 @@ theorem lq_kind_D (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
     have hlq12 : lqTw A P j = 1 ∨ lqTw A P j = 2 := by
       rw [htw_o]
       by_cases hcorr : A.row.d = 2 ∧ s % 2 = 1
-      · rw [if_pos hcorr]
+      · rw [ite_eq_left hcorr]
         rcases ho12 with h | h
         · right; rw [h]; norm_num
         · left; rw [h]; norm_num
-      · rw [if_neg hcorr]
+      · rw [ite_eq_right hcorr]
         rcases ho12 with h | h
         · left; exact h
         · right; exact h
@@ -2123,7 +2136,7 @@ theorem lq_kind_D (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
       rw [hslen]
       rw [htw_o] at htw1
       by_cases hcorr : A.row.d = 2 ∧ s % 2 = 1
-      · rw [if_pos hcorr] at htw1
+      · rw [ite_eq_left hcorr] at htw1
         have ho2 : o = 2 := by
           rcases ho12 with h | h
           · exfalso
@@ -2135,7 +2148,7 @@ theorem lq_kind_D (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
           · rw [ho_of_q1 h1] at ho2; omega
           · exact hsw
         have helm1 : el = -1 := by
-          rw [hel_d, hcorr.1, if_neg (by norm_num : ¬ (2 : ℕ) = 1)]
+          rw [hel_d, hcorr.1, ite_eq_right (by norm_num : ¬ (2 : ℕ) = 1)]
           exact (Nat.odd_iff.mpr hcorr.2).neg_one_pow
         refine lqKindD_inner_neg_odd hψeq_e hroots_e hmat' hind_e hcone_e
           (lqKindD_swapLeaf c.length) (fun q' hq' => ?_) hnotInnerNeg _ φ hφρ ?_
@@ -2143,7 +2156,7 @@ theorem lq_kind_D (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
         · intro i
           rw [hφ_apply i, helm1, hqsw]
           simp
-      · rw [if_neg hcorr] at htw1
+      · rw [ite_eq_right hcorr] at htw1
         have ho1 : o = 1 := by
           rcases ho12 with h | h
           · exact h
@@ -2152,8 +2165,8 @@ theorem lq_kind_D (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
         have hel1 : el = 1 := by
           rw [hel_d]
           by_cases hd : A.row.d = 1
-          · rw [if_pos hd, one_pow]
-          · rw [if_neg hd]
+          · rw [ite_eq_left hd, one_pow]
+          · rw [ite_eq_right hd]
             have hd2 : A.row.d = 2 := by
               rcases hd12 with h1 | h2
               · exact absurd h1 hd
@@ -2177,7 +2190,7 @@ theorem lq_kind_D (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
       intro htw2
       rw [htw_o] at htw2
       by_cases hcorr : A.row.d = 2 ∧ s % 2 = 1
-      · rw [if_pos hcorr] at htw2
+      · rw [ite_eq_left hcorr] at htw2
         have ho1 : o = 1 := by
           rcases ho12 with h | h
           · exact h
@@ -2186,7 +2199,7 @@ theorem lq_kind_D (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
             norm_num at htw2
         have hq1 : q = 1 := hq_of_rk1 (lqKindD_autOrder_one_fix c rk (by rw [← ho]; exact ho1))
         have helm1 : el = -1 := by
-          rw [hel_d, hcorr.1, if_neg (by norm_num : ¬ (2 : ℕ) = 1)]
+          rw [hel_d, hcorr.1, ite_eq_right (by norm_num : ¬ (2 : ℕ) = 1)]
           exact (Nat.odd_iff.mpr hcorr.2).neg_one_pow
         have hnot : ¬ twistInner ψ ((A.setup.ρ : (Fin A.tau.rank → ℤ) → _)^[s]) := by
           refine (lqKindD_twistInner_congr
@@ -2202,8 +2215,8 @@ theorem lq_kind_D (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
           fun hr4 => absurd hr4 (by omega)
         have hexc := hexc_false h2s
         unfold twistKind
-        rw [hslen, if_neg hnot, if_neg hexc, if_pos htwoD]
-      · rw [if_neg hcorr] at htw2
+        rw [hslen, ite_eq_right hnot, ite_eq_right hexc, ite_eq_left htwoD]
+      · rw [ite_eq_right hcorr] at htw2
         have ho2 : o = 2 := htw2
         have hqsw : q = lqKindD_swapLeaf c.length := by
           rcases hqcases with h1 | hsw
@@ -2212,8 +2225,8 @@ theorem lq_kind_D (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
         have hel1 : el = 1 := by
           rw [hel_d]
           by_cases hd : A.row.d = 1
-          · rw [if_pos hd, one_pow]
-          · rw [if_neg hd]
+          · rw [ite_eq_left hd, one_pow]
+          · rw [ite_eq_right hd]
             have hd2 : A.row.d = 2 := by
               rcases hd12 with h1 | h2
               · exact absurd h1 hd
@@ -2234,7 +2247,7 @@ theorem lq_kind_D (A : K0LangMark Omega lab p R I phi) (P : K0Positions A)
           fun hr4 => absurd hr4 (by omega)
         have hexc := hexc_false h2s
         unfold twistKind
-        rw [hslen, if_neg hnot, if_neg hexc, if_pos htwoD]
+        rw [hslen, ite_eq_right hnot, ite_eq_right hexc, ite_eq_left htwoD]
     ·
       intro htw3
       rcases hlq12 with h | h <;> omega

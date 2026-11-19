@@ -144,16 +144,16 @@ theorem mdl_rq1C (h : MHyp E q1 q2 M1 M2 r1 r2) {c : Nat} (hc : c < 2187) :
   rw [key]
   interval_cases i
   · have hb : w + 243 * (1 + 3 * j) < 2187 := by omega
-    rw [if_neg (by norm_num)]
+    rw [ite_eq_right (by norm_num)]
     have e : w + 243 * (0 + 3 * j + 1) = w + 243 * (1 + 3 * j) := by ring
     rw [e, mdl_enc hwl (by norm_num)]
     exact ⟨rfl, hb⟩
   · have hb : w + 243 * (2 + 3 * j) < 2187 := by omega
-    rw [if_neg (by norm_num)]
+    rw [ite_eq_right (by norm_num)]
     have e : w + 243 * (1 + 3 * j + 1) = w + 243 * (2 + 3 * j) := by ring
     rw [e, mdl_enc hwl (by norm_num)]
     exact ⟨rfl, hb⟩
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     have e : add5 w r1 + 729 * j = add5 w r1 + 243 * (0 + 3 * j) := by ring
     have hb : add5 w r1 + 243 * (0 + 3 * j) < 2187 := by have := add5_lt w r1; omega
     rw [e, mdl_enc (add5_lt _ _) (by norm_num), h.add w r1, pow_zero, mul_one, ← h.p1]
@@ -166,13 +166,13 @@ theorem mdl_rq2C (h : MHyp E q1 q2 M1 M2 r1 r2) {c : Nat} (hc : c < 2187) :
   have hb2 : ∀ j' < 3, v + 243 * (i + 3 * j') < 2187 := fun j' hj' => by omega
   interval_cases j
   · have hb := hb2 (0 + 1) (by norm_num)
-    rw [if_neg (by norm_num), mdl_enc hv hi]
+    rw [ite_eq_right (by norm_num), mdl_enc hv hi]
     exact ⟨rfl, hb⟩
   · have hb := hb2 (1 + 1) (by norm_num)
-    rw [if_neg (by norm_num), mdl_enc hv hi]
+    rw [ite_eq_right (by norm_num), mdl_enc hv hi]
     exact ⟨rfl, hb⟩
   · have hb := hb2 0 (by norm_num)
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have e : v + 243 * i = v + 243 * (i + 3 * 0) := by ring
     rw [e, mdl_enc hv hi, h.p2, pow_zero, mul_one]
     exact ⟨rfl, hb⟩

@@ -20,7 +20,7 @@ theorem seitz27_su4_of_inner {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldDat
     (hinner : ∀ E : Subgroup (primeFormP h (idGram K 4)), IsElemAbelian 3 E → Nat.card E = 27 →
       HyperGen 3 (⊤ : Subgroup (primeFormP h (idGram K 4))) E) :
     Seitz27 (primeFormP h (idGram K 4)) := by
-  haveI := h.finite
+  have := h.finite
   have hg : ¬ 3 ∣ Nat.gcd 4 (2 ^ f + 1) := by
     intro hd
     have : 3 ∣ 4 := hd.trans (Nat.gcd_dvd_left _ _)

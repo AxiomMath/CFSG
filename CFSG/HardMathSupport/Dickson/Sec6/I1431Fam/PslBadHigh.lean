@@ -38,7 +38,7 @@ theorem y1431_noCfg_pslBadHigh (hGA : GriessAllModelsStatement) : Y1431NoCfgAt F
     by_contra h
     exact hnc ((Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2
       (fun h3 => h (h3.trans (Nat.gcd_dvd_right _ _))))
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ : ∃ ζ : Kˣ, orderOf ζ = 3 :=
     exists_prime_orderOf_dvd_card' 3 (by rw [Nat.card_units]; exact h3)
   exact rkY_false_psl c.rank hn6 hζ ρ qY hρ (fun y hy => (hqe y).2 hy)

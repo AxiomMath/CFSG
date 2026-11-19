@@ -324,7 +324,7 @@ theorem k_A7Permuting_holds :
       refine a7_normalizer_zpowers_card_of_commutes_involution u (eK zK) hu ?_ ?_
       · rw [MulEquiv.orderOf_eq, hzKord]
       · have h := congrArg eK hzKcomm
-        simp only [map_mul, u] at h
+        simp only [map_mul] at h
         exact h.symm
     let NK : Subgroup Y := (Subgroup.normalizer (QK : Set ↥K)).map K.subtype
     have hNKK : NK ≤ K := by

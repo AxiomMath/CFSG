@@ -106,7 +106,7 @@ private theorem exists_pCoreIn_ne_bot_aux [CharP k p] (hp : p.Prime) :
     · exact Subgroup.map_mono hQH
     · exact normal_subgroupOf_map D.subtype hQH le_rfl
     · rwa [Ne, Subgroup.map_eq_bot_iff_of_injective _ D.subtype_injective]
-    · exact (Q.isPGroup').map _
+    · exact (Q.isPGroup).map _
     · exact (Subgroup.map_subtype_le _).trans hDSL
   have hcomm : ∀ x ∈ normalizer (((Q : Subgroup ↥D) : Subgroup ↥D) : Set ↥D),
       ∀ y ∈ (Q : Subgroup ↥D), x * y = y * x := by

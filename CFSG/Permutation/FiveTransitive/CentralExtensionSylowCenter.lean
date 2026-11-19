@@ -52,7 +52,7 @@ theorem center_cases
     obtain ⟨z, rfl⟩ := hphisur y
     simpa only [map_mul] using congrArg phi (hx z)
   have hkernel (y : P) (hy : f y = 1) : (y : G) ∈ Q := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup' y
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P.isPGroup y
     apply CentralExtensionUniqueSquare.mem_of_two_element_mem_kernel f Q hodd y k _ hy
     have hp : y ^ (2 ^ k) = 1 := by rw [← hk]; exact pow_orderOf_eq_one y
     exact congrArg Subtype.val hp

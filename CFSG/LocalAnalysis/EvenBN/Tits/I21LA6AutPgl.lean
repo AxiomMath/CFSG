@@ -157,7 +157,7 @@ theorem pglP_iso {Y : Type*} [Group Y] [Finite Y] (J : Subgroup Y) [J.Normal] {t
     ∃ (F : Type) (_ : Field F) (_ : Finite F), Nat.card F = 9 ∧
       Nonempty (↥(J ⊔ zpowers t) ≃* PGL(2, F)) := by
   obtain ⟨-, hC, F, hFld, hFin, q, hq, hqF, e, g, -, hconj⟩ := hpgl
-  haveI : Finite F := Finite.of_fintype F
+  have : Finite F := Finite.of_fintype F
   have hqF' : Nat.card F = q ^ 2 := by rw [Nat.card_eq_fintype_card, hqF]
   have h360 : Nat.card (PSL2 F) = 360 := by
     rw [← hcard]
@@ -213,7 +213,7 @@ theorem pglP_card_sylow {G : Type*} [Group G] [Finite G] (hG : Nat.card G = 720)
 
 theorem pglP_sylow_dihedral {F : Type} [Field F] [Finite F] (hF : Nat.card F = 9)
     (S : Sylow 2 (PGL2 F)) : Nonempty (↥S ≃* DihedralGroup 8) := by
-  haveI := pglP_finite F
+  have := pglP_finite F
   have hodd : IsOddPrimePower (Nat.card F) :=
     ⟨3, 2, Nat.prime_three, ⟨1, rfl⟩, by norm_num, by rw [hF]; norm_num⟩
   obtain ⟨m, -, ⟨ψ⟩⟩ := pgl2_odd_hasDihedralSylowTwo_model F hodd S
@@ -227,7 +227,7 @@ theorem pglP_sylow_dihedral {F : Type} [Field F] [Finite F] (hF : Nat.card F = 9
 
 theorem pglP_exists_orderOf_eight {F : Type} [Field F] [Finite F] (hF : Nat.card F = 9) :
     ∃ x : PGL2 F, orderOf x = 8 := by
-  haveI := pglP_finite F
+  have := pglP_finite F
   obtain ⟨ψ⟩ := pglP_sylow_dihedral hF (Classical.choice inferInstance)
   refine ⟨(ψ.symm (DihedralGroup.r 1) : PGL2 F), ?_⟩
   rw [Subgroup.orderOf_coe, MulEquiv.orderOf_eq, DihedralGroup.orderOf_r_one]
@@ -235,7 +235,7 @@ theorem pglP_exists_orderOf_eight {F : Type} [Field F] [Finite F] (hF : Nat.card
 theorem pglP_dihedral_of_le {Y : Type*} [Group Y] {P : Subgroup Y} {F : Type} [Field F]
     [Finite F] (hF : Nat.card F = 9) (Φ : ↥P ≃* PGL(2, F)) {D : Subgroup Y} (hDP : D ≤ P)
     (hD : Nat.card D = 16) : Nonempty (↥D ≃* DihedralGroup 8) := by
-  haveI := pglP_finite F
+  have := pglP_finite F
   let D' : Subgroup (PGL2 F) := (D.subgroupOf P).map Φ.toMonoidHom
   have hD' : Nat.card D' = 16 := by
     rw [card_map_of_injective Φ.injective, ← hD]

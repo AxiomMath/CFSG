@@ -29,7 +29,7 @@ theorem inf_centralizer_cClos_eq_bot_of_lt (D : Data G) {W : Subgroup G} (hW : I
   have hWT : W ≤ D.T := hsyl.le_of_normal Subgroup.le_normalizer hWnorm hWp
   have hWW : W ≤ E3.wClos W i D.T := E3.le_wClos_of_mQuot_le_self hW.2.2.2 hWT le_rfl
     (k := i) (by rw [E3.mQuot_self]; exact Nat.zero_le _) hi
-  obtain ⟨g, hgN, hgM⟩ := SetLike.not_le_iff_exists.1 h1
+  obtain ⟨g, hgN, hgM⟩ := IsConcreteLE.not_le_iff_exists.1 h1
   have hW1g : conjSubgroup (E3.wClos W i D.T) g = E3.wClos W i D.T :=
     conjSubgroup_eq_iff_mem_normalizer.2 hgN
   have hW1T : E3.wClos W i D.T ≤ D.T := E3.wClos_le i D.T

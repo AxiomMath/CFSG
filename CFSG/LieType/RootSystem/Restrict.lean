@@ -16,15 +16,18 @@ variable {I : Type} [Fintype I] [DecidableEq I] {C : Type} [Fintype C] [Decidabl
 variable {e : C → I} (he : Function.Injective e)
 
 include he in
+omit [Fintype I] [DecidableEq I] [Fintype C] [DecidableEq C] in
 theorem ext_apply (γ : C → ℤ) (i : C) : ext e γ (e i) = γ i :=
   he.extend_apply γ 0 i
 
+omit [Fintype I] [DecidableEq I] [Fintype C] [DecidableEq C] in
 theorem ext_apply_of_notMem_range (γ : C → ℤ) {k : I} (hk : k ∉ Set.range e) :
     ext e γ k = 0 := by
   rw [ext, Function.extend_apply' _ _ _ hk]
   rfl
 
 include he in
+omit [Fintype I] [DecidableEq I] [Fintype C] [DecidableEq C] in
 theorem ext_injective : Function.Injective (ext e) := by
   intro γ δ h
   funext i
@@ -32,6 +35,7 @@ theorem ext_injective : Function.Injective (ext e) := by
   rwa [ext_apply he, ext_apply he] at this
 
 include he in
+omit [Fintype I] [DecidableEq C] in
 theorem ext_add (γ δ : C → ℤ) : ext e (γ + δ) = ext e γ + ext e δ := by
   funext k
   by_cases hk : k ∈ Set.range e
@@ -40,6 +44,7 @@ theorem ext_add (γ δ : C → ℤ) : ext e (γ + δ) = ext e γ + ext e δ := b
   · simp [ext_apply_of_notMem_range _ hk]
 
 include he in
+omit [Fintype I] [DecidableEq C] in
 theorem ext_sub (γ δ : C → ℤ) : ext e (γ - δ) = ext e γ - ext e δ := by
   funext k
   by_cases hk : k ∈ Set.range e
@@ -48,6 +53,7 @@ theorem ext_sub (γ δ : C → ℤ) : ext e (γ - δ) = ext e γ - ext e δ := b
   · simp [ext_apply_of_notMem_range _ hk]
 
 include he in
+omit [Fintype I] [DecidableEq C] in
 theorem ext_smul (a : ℤ) (γ : C → ℤ) : ext e (a • γ) = a • ext e γ := by
   funext k
   by_cases hk : k ∈ Set.range e
@@ -56,17 +62,19 @@ theorem ext_smul (a : ℤ) (γ : C → ℤ) : ext e (a • γ) = a • ext e γ 
   · simp [ext_apply_of_notMem_range _ hk]
 
 include he in
+omit [Fintype I] in
 theorem ext_single (i : C) : ext e (Pi.single i 1) = Pi.single (e i) 1 := by
   funext k
   by_cases hk : k ∈ Set.range e
   · obtain ⟨j, rfl⟩ := hk
     rw [ext_apply he, Pi.single_apply, Pi.single_apply]
     simp only [he.eq_iff]
-  · rw [ext_apply_of_notMem_range _ hk, Pi.single_apply, if_neg]
+  · rw [ext_apply_of_notMem_range _ hk, Pi.single_apply, ite_eq_right]
     rintro rfl
     exact hk ⟨i, rfl⟩
 
 include he in
+omit [DecidableEq I] [DecidableEq C] in
 theorem sum_ext (γ : C → ℤ) : ∑ k, ext e γ k = ∑ i, γ i :=
   (Fintype.sum_of_injective e he γ (ext e γ) (fun _ hk => ext_apply_of_notMem_range γ hk)
     fun i => (ext_apply he γ i).symm).symm
@@ -145,6 +153,7 @@ theorem ext_mem_roots_iff (γ : C → ℤ) :
       exact Or.inl ⟨w', e k, by rw [← ext_single he, ← hw']⟩
     · exact (Set.notMem_empty k hk).elim
 
+omit [DecidableEq I] [DecidableEq C] [Fintype I] [Fintype C] in
 theorem coxeterMatrix_submatrix_apply (i j : C) :
     coxeterMatrix (hA.submatrix he) i j = coxeterMatrix hA (e i) (e j) := by
   simp only [coxeterMatrix, TauCeti.coxeterMatrixOfCartanMatrix_apply, Matrix.submatrix_apply]

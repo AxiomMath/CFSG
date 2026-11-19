@@ -40,7 +40,7 @@ theorem s16nt_row_l34 {W : Type} [CommGroup W] [Finite W] (hW2 : ∀ w : W, w ^ 
     3 * rk ↥(commSub ⊤ L ⊓ fixV L) ≤ rk ↥(commSub ⊤ L) := by
   classical
   have hirr' := hirr
-  rw [irrSet, Set.mem_setOf_eq] at hirr'
+  rw [irrSet, Set.mem_ofPred_eq] at hirr'
   obtain ⟨hcommU, hIirr⟩ := hirr'
   have hHU : L ≤ stabSub (commSub ⊤ L) :=
     CFSG.Quasithin.le_stabSub_of_forall_mem hIirr.2.1
@@ -76,9 +76,9 @@ theorem s16nt_row_l34 {W : Type} [CommGroup W] [Finite W] (hW2 : ∀ w : W, w ^ 
   have hmodel : BinaryNineTensor HU ⊤ (fixV HU) 1 :=
     binaryNineTensor_of_l34_quotient_rank_nine hWU hHUisLn hcommHU hirrHU hdimHU
   obtain ⟨K, hKfield, hKfin, hKchar, hKcard, hReal⟩ := hmodel
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   have hK : Nat.card K = 4 := by simpa using hKcard
   have hgoal : 3 * rk ↥(fixV HU) ≤ rk ↥(⊤ : Subgroup ↥(commSub ⊤ L)) :=
     s16nt_goal_of_model (D := FFModel.twistTensor 1 (StatedSL 3 K)) (c := 3) (d := 9)

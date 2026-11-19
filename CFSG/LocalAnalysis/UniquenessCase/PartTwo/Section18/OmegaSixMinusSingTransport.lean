@@ -89,7 +89,7 @@ theorem SingConcl.map_mulEquiv {G G' : Type} [Group G] [Finite G] [Group G'] [Fi
     refine ⟨B.map e.toMonoidHom, P₃.map e.toMonoidHom, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
     · rw [Subgroup.card_map_of_injective (K := B) e.injective, hBcard]
     · exact Subgroup.map_mono hBP
-    · haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    · have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
       refine CFSG.ABGLocalTools.isSylowOf_of_card (P := P₃.map e.toMonoidHom)
         (K := ⊤) le_top ?_
       rw [Subgroup.card_map_of_injective (K := P₃) e.injective, hSyl.card_eq,

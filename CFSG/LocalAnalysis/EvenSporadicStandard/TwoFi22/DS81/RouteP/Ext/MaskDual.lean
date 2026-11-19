@@ -36,14 +36,14 @@ private theorem ite_testBit_zero_eq_cast (n : ℕ) :
 private theorem bp_ite_zero (m : ℕ) (p : Prop) [Decidable p] (c : ℕ) :
     bp m (if p then c else 0) = if p then bp m c else 0 := by
   by_cases hp : p
-  · rw [if_pos hp, if_pos hp]
-  · rw [if_neg hp, if_neg hp, bp_zero_right]
+  · rw [ite_eq_left hp, ite_eq_left hp]
+  · rw [ite_eq_right hp, ite_eq_right hp, bp_zero_right]
 
 private theorem mul_ite_one (a : ZMod 2) (p : Prop) [Decidable p] :
     a * (if p then (1 : ZMod 2) else 0) = if p then a else 0 := by
   by_cases hp : p
-  · rw [if_pos hp, if_pos hp, mul_one]
-  · rw [if_neg hp, if_neg hp, mul_zero]
+  · rw [ite_eq_left hp, ite_eq_left hp, mul_one]
+  · rw [ite_eq_right hp, ite_eq_right hp, mul_zero]
 
 private theorem testBit_dualAct_zero (c : ℕ) (cs : List ℕ) (m : ℕ) :
     (dualAct (c :: cs) m).testBit 0 = decide (popc 11 (m &&& c) % 2 = 1) := by
@@ -110,11 +110,11 @@ theorem sum_bp_regroup {α : Type*} (L : List α) (key val : α → ℕ) (f : �
       intro κ
       by_cases h : key x = κ
       · have hb : (key x == κ) = true := by simpa [beq_iff_eq] using h
-        rw [List.filter_cons, if_pos hb, if_pos h, List.map_cons, xorMasks, bp_xor_left]
+        rw [List.filter_cons, ite_eq_left hb, ite_eq_left h, List.map_cons, xorMasks, bp_xor_left]
         exact add_comm _ _
       · have hb : ¬ ((key x == κ) = true) := by
           simp only [beq_iff_eq]; exact h
-        rw [List.filter_cons, if_neg hb, if_neg h, add_zero]
+        rw [List.filter_cons, ite_eq_right hb, ite_eq_right h, add_zero]
     rw [Finset.sum_congr rfl (fun κ _ => hterm κ), Finset.sum_add_distrib,
       Finset.sum_ite_eq_of_mem _ _ _
         (Finset.mem_range.mpr (hk x List.mem_cons_self))]

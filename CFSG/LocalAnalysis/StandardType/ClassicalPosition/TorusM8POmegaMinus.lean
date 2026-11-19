@@ -92,13 +92,13 @@ private lemma torM8M_mem_span_pair (n : ℕ) {F : Type} [Field F] {b c : F}
     simp [Q, B, Spin.map_spinAction, Spin.Twisted.quadMinus_minusVec]
   have huw : QuadraticMap.polar Q (B (Spin.Twisted.minusVec n j t))
       (B (Spin.Twisted.minusVec n i s)) = 0 := by
-    simp [Q, B, Spin.polar_spinAction, Spin.Twisted.polar_minusVec_minusVec, hij.symm]
+    simp [Q, B, Spin.Twisted.polar_minusVec_minusVec, hij.symm]
   have hyu : QuadraticMap.polar Q (B (Spin.Twisted.minusVec n j (!t)))
       (B (Spin.Twisted.minusVec n j t)) = 1 := by
-    simp [Q, B, Spin.polar_spinAction, Spin.Twisted.polar_minusVec_minusVec]
+    simp [Q, B, Spin.Twisted.polar_minusVec_minusVec]
   have hyw : QuadraticMap.polar Q (B (Spin.Twisted.minusVec n j (!t)))
       (B (Spin.Twisted.minusVec n i s)) = 0 := by
-    simp [Q, B, Spin.polar_spinAction, Spin.Twisted.polar_minusVec_minusVec, hij.symm]
+    simp [Q, B, Spin.Twisted.polar_minusVec_minusVec, hij.symm]
   have hu0' : Q (Spin.Twisted.minusVec n j t) = 0 := by
     simp [Q, Spin.Twisted.quadMinus_minusVec]
   have hw0' : Q (Spin.Twisted.minusVec n i s) = 0 := by
@@ -120,8 +120,7 @@ private lemma torM8M_mem_span_pair (n : ℕ) {F : Type} [Field F] {b c : F}
   have hQaw : Q (a • Spin.Twisted.minusVec n i s) = 0 := by
     rw [QuadraticMap.map_smul, hw0']
     simp
-  simp only [hyu, hyw, hw0, hQaw, one_smul, zero_mul, add_zero, zero_add, mul_one,
-    smul_eq_mul] at hEqEval
+  simp only [hyu, hyw, hw0, hQaw, one_smul, zero_mul, add_zero, mul_one] at hEqEval
   have hEqEval' := hEqEval
   simp only [zero_smul, sub_eq_add_neg, add_assoc] at hEqEval'
   have hcancel : B (Spin.Twisted.minusVec n i s) =

@@ -49,9 +49,9 @@ theorem init_rel : RegRel (unpack 8330 14) (fun p => cn p = true) R0 heGSInit :=
   rw [e1]
   simp only [e2]
   by_cases h5 : i < 5
-  · simp only [if_pos h5]
+  · simp only [ite_eq_left h5]
     exact ⟨by rw [k1.1, k2.1], k1.2, k2.2⟩
-  · simp only [if_neg h5]
+  · simp only [ite_eq_right h5]
     refine ⟨?_, cnpc (cnpc cg k1.2) cgi, cnpc (cnpc cg k2.2) cgi⟩
     rw [hgi, gTab, k1.1, k2.1, cmp cg k1.2, cmp (cnpc cg k1.2) cgi, cmp cg k2.2,
       cmp (cnpc cg k2.2) cgi]

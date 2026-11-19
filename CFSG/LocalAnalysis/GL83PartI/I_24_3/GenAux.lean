@@ -58,7 +58,7 @@ theorem sum_pow_modEq {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {u : ℕ} (hu : u
 
 theorem modEq_one_of_pow_modEq_one {p : ℕ} (hp : p.Prime) {u : ℕ} (h : u ^ p ≡ 1 [MOD p]) :
     u ≡ 1 [MOD p] := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rw [← ZMod.natCast_eq_natCast_iff] at h ⊢
   push_cast at h ⊢
   rwa [ZMod.pow_card] at h
@@ -91,7 +91,7 @@ theorem pow_eq_one_of_sq_pow_eq_one (hp : p.Prime) (hp2 : p ≠ 2) (ht : t ^ p =
     (hzp : orderOf z = p) (hΩ : ∀ c : Z, c ^ p = 1 → c ∈ Subgroup.zpowers z) {y : Z}
     (hy : y ^ p ^ 2 = 1) (hN : ∏ i ∈ range p, (t ^ i) y = 1) : y ^ p = 1 := by
   by_contra hne
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hord : orderOf y = p ^ 2 := orderOf_eq_prime_pow (n := 1) (by simpa using hne) hy
   have hyp : y ^ p ∈ Subgroup.zpowers z := hΩ _ (by rw [← pow_mul, ← sq]; exact hy)
   have hordp : orderOf (y ^ p) = p :=

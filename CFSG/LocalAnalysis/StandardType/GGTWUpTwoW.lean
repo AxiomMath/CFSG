@@ -37,7 +37,7 @@ theorem ggTWUp_false_twoW {G : Type} [Group G] [Finite G] {p N : ℕ} [Fact p.Pr
     {CK : Matrix ({i : Λ // i ≠ b₁ ∧ i ≠ b₂} ⊕ Λa) ({i : Λ // i ≠ b₁ ∧ i ≠ b₂} ⊕ Λa) ℤ}
     {V : Type} [AddCommGroup V] [Module (ZMod p) V] {ι : Additive ↥Bs ≃+ V} {e : Fin (N - 1) ≃ Λ}
     {φ : Λ ⊕ Λa → MulAut ↥Bs} {h : Λ ⊕ Λa → V} {α : Λ ⊕ Λa → Module.Dual (ZMod p) V} {xV : V}
-    (hb : b₁ ≠ b₂) (hcard : Nat.card Λa = 2)
+    (_hb : b₁ ≠ b₂) (hcard : Nat.card Λa = 2)
     (hJpos : ∀ i : Fin (N - 1), ggTWInJ N pos i.val ↔ (e i ≠ b₁ ∧ e i ≠ b₂))
     (hWMK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
     (hform : ∀ o w, ggLin (p := p) ι (φ o) w = w - α o w • h o)
@@ -49,7 +49,7 @@ theorem ggTWUp_false_twoW {G : Type} [Group G] [Finite G] {p N : ℕ} [Fact p.Pr
       ¬ (Module.finrank (ZMod p) (ggLinMove g) = 1 ∧ ∀ w, g (g w - w) = g w - w))
     (hex : ∃ a : Λa, α (Sum.inr a) xV ≠ 0) : False := by
   classical
-  haveI : FiniteDimensional (ZMod p) V :=
+  have : FiniteDimensional (ZMod p) V :=
     FiniteDimensional.of_finrank_pos (by rw [hdim]; rcases hN with h | h | h | h | h <;> omega)
   let eJ : {c : Fin (N - 1) // ggTWInJ N pos c.val} ≃ {i : Λ // i ≠ b₁ ∧ i ≠ b₂} :=
     { toFun := fun c => ⟨e c.1, (hJpos c.1).1 c.2⟩
@@ -71,7 +71,7 @@ theorem ggTWUp_false_twoW {G : Type} [Group G] [Finite G] {p N : ℕ} [Fact p.Pr
         ((CartanMatrix.A (N - 1) i.1 j.1 : ℤ) : ZMod p) := by
     intro i j
     have h1 := hpairK (Sum.inl (eJ i)) (Sum.inl (eJ j))
-    simp only [Sum.map_inl, id_eq] at h1
+    simp only [Sum.map_inl] at h1
     have h2 := hF.pair i.1 j.1
     have hval : CK' (Sum.inl i) (Sum.inl j) = CK (Sum.inl (eJ i)) (Sum.inl (eJ j)) := by
       simp [CK', ee, Matrix.submatrix_apply]
@@ -101,7 +101,7 @@ theorem ggTWUp_false_twoW {G : Type} [Group G] [Finite G] {p N : ℕ} [Fact p.Pr
         · exact Or.inr (Or.inr (Or.inl ⟨h1, h2, h3⟩))
         · exact Or.inr (Or.inr (Or.inr ⟨h1, h2, h3⟩))
       have hij' : i.1 ≠ j.1 := fun h => hij (Subtype.ext h)
-      have hb : CartanMatrix.A (N - 1) i.1 j.1 = 0 ∨
+      have _hb : CartanMatrix.A (N - 1) i.1 j.1 = 0 ∨
           CartanMatrix.A (N - 1) i.1 j.1 = -1 := by
         rcases l05nDP4_cartanA_mem (N - 1) i.1 j.1 with h2 | hm1 | h0
         · exact absurd (l05nDP4_cartanA_eq_two h2) hij'
@@ -111,7 +111,7 @@ theorem ggTWUp_false_twoW {G : Type} [Group G] [Finite G] {p N : ℕ} [Fact p.Pr
       have h2c : ((CK' (Sum.inl j) (Sum.inl i) : ℤ) : ZMod p) =
           ((CartanMatrix.A (N - 1) i.1 j.1 : ℤ) : ZMod p) := by
         rw [hcast j i, CFSG.ClassicalInvolution.ModelFacts.cartanA_symm (N - 1) j.1 i.1]
-      exact (ggTW_cast_cartan_pair hp hpair hb h1c h2c).1
+      exact (ggTW_cast_cartan_pair hp hpair _hb h1c h2c).1
   have hvalJ : ∀ (c : Fin (N - 1)) (hc : ggTWInJ N pos c.val), (eJ ⟨c, hc⟩).1 = e c :=
     fun c hc => rfl
   obtain ⟨a, hwa⟩ := hex
@@ -258,8 +258,8 @@ theorem ggTWUp_false_twoW {G : Type} [Group G] [Finite G] {p N : ℕ} [Fact p.Pr
             simp only [αa', LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul]
           rw [hgoal, hpk_a, ← hck_a, hzeroc.1, hpk_b, ← hck_b, hrowc.1]
           by_cases hcc : c = c0
-          · rw [if_pos hcc, if_pos hcc]; push_cast; ring
-          · rw [if_neg hcc, if_neg hcc]; ring
+          · rw [ite_eq_left hcc, ite_eq_left hcc]; push_cast; ring
+          · rw [ite_eq_right hcc, ite_eq_right hcc]; ring
         · have hpk_a := hpairK (Sum.inl (eJ ⟨c, hc⟩)) (Sum.inr a)
           simp only [Sum.map_inr, Sum.map_inl, id_eq, hvalJ c hc] at hpk_a
           have hck_a : CK' (Sum.inl ⟨c, hc⟩) (Sum.inr a) =
@@ -276,8 +276,8 @@ theorem ggTWUp_false_twoW {G : Type} [Group G] [Finite G] {p N : ℕ} [Fact p.Pr
             simp only [ha', map_sub, map_smul, smul_eq_mul]
           rw [hgoal, hpk_a, ← hck_a, hzeroc.2, hpk_b, ← hck_b, hrowc.2]
           by_cases hcc : c = c0
-          · rw [if_pos hcc, if_pos hcc]; push_cast; ring
-          · rw [if_neg hcc, if_neg hcc]; ring
+          · rw [ite_eq_left hcc, ite_eq_left hcc]; push_cast; ring
+          · rw [ite_eq_right hcc, ite_eq_right hcc]; ring
       have hsub : ∀ x, x ∈ Set.range (fun i : Fin (N - 1) => ggLin (p := p) ι (φ (Sum.inl (e i)))) ∪ {ra} →
           x ∈ Subgroup.closure (Set.range (fun o : Λ ⊕ Λa => ggLin (p := p) ι (φ o))) := by
         rintro x (hx | hx)
@@ -285,7 +285,7 @@ theorem ggTWUp_false_twoW {G : Type} [Group G] [Finite G] {p N : ℕ} [Fact p.Pr
           exact Subgroup.subset_closure ⟨Sum.inl (e i), rfl⟩
         · rw [Set.mem_singleton_iff] at hx
           rw [hx]
-          have hb : ggLin (p := p) ι (φ (Sum.inr b)) ∈
+          have _hb : ggLin (p := p) ι (φ (Sum.inr b)) ∈
               Subgroup.closure (Set.range (fun o : Λ ⊕ Λa => ggLin (p := p) ι (φ o))) :=
             Subgroup.subset_closure ⟨Sum.inr b, rfl⟩
           have ha : ggLin (p := p) ι (φ (Sum.inr a)) ∈
@@ -295,7 +295,7 @@ theorem ggTWUp_false_twoW {G : Type} [Group G] [Finite G] {p N : ℕ} [Fact p.Pr
               ggLin (p := p) ι (φ (Sum.inr b)) := by
             simp [ra, map_mul]
           rw [hra_eq]
-          exact Subgroup.mul_mem _ (Subgroup.mul_mem _ hb ha) hb
+          exact Subgroup.mul_mem _ (Subgroup.mul_mem _ _hb ha) _hb
       have hntB : ∀ g ∈ Subgroup.closure (Set.range (fun i : Fin (N - 1) =>
             ggLin (p := p) ι (φ (Sum.inl (e i)))) ∪ {ra}),
           ¬ (Module.finrank (ZMod p) (ggLinMove g) = 1 ∧ ∀ w, g (g w - w) = g w - w) :=

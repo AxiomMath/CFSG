@@ -24,15 +24,15 @@ theorem s16h_e3_CycTwoSetFrame_exists
     ∃ l ψ : MulAut (Vtil V₀ V hV), lBar V₀ V hV L = Subgroup.zpowers l ∧
       s16h_CycFrameG q n (Mbar D.M V₀ V hV) ψ l (wTil V₀ V hV L) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   set W : Subgroup (Vtil V₀ V hV) := wTil V₀ V hV L with hWdef
   set Lb : Subgroup (MulAut (Vtil V₀ V hV)) := lBar V₀ V hV L with hLbdef
   set Mb : Subgroup (MulAut (Vtil V₀ V hV)) := Mbar D.M V₀ V hV with hMbdef
   have hsq : ∀ w : Vtil V₀ V hV, w ^ 2 = 1 := s15_Infra_vtil_sq_eq_one V₀ V hV
   have hWsq : ∀ w : W, w ^ 2 = 1 := fun w => Subtype.ext (hsq (w : Vtil V₀ V hV))
   have hLbcard : Nat.card ↥Lb = q := by rw [hLbdef]; exact hLp.2
-  haveI : IsCyclic ↥Lb := hLp.1
-  letI : CommGroup ↥Lb := IsCyclic.commGroup
+  have : IsCyclic ↥Lb := hLp.1
+  let : CommGroup ↥Lb := IsCyclic.commGroup
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥Lb)
   set l : MulAut (Vtil V₀ V hV) := (g : MulAut (Vtil V₀ V hV)) with hldef
   have hlmem : l ∈ Lb := g.2

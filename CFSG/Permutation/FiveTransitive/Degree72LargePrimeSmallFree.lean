@@ -41,7 +41,7 @@ theorem not_dvd_five_fixer
   let _ : Fintype F := Fintype.ofFinite _
   let rho := toPermHom N F
   let J := rho.range
-  have hQ : IsPGroup p Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup p Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hF := Degree72LargePrimeCases.fixed_card_cases p hp (Or.inr hcases) P hcard h5 hnotAlt s hs S hS
   have hAlt := Degree72LargePrimeAlternating.alternating_image p hp (Or.inr hcases) P hcard h5 hnotAlt s hs S hS
   obtain ⟨q,hq,hql,hqp,hqpred,hqF⟩ : ∃ q : ℕ, q.Prime ∧ 7 ≤ q ∧ p.Coprime q ∧

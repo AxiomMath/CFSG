@@ -72,14 +72,14 @@ theorem u33_no_comm_three_seven
 theorem isSolvable_centralizer_u33
     {g : U33G} (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1) :
     Group.IsSolvable ↥(Subgroup.centralizer ({g} : Set U33G)) := by
-  haveI : Finite U33G := Nat.finite_of_card_ne_zero (by rw [card_u33Pres]; norm_num)
+  have : Finite U33G := Nat.finite_of_card_ne_zero (by rw [card_u33Pres]; norm_num)
   set C := Subgroup.centralizer ({g} : Set U33G) with hC
   have hdvd : Nat.card C ∣ 6048 := by
     rw [← card_u33Pres]
     exact Subgroup.card_subgroup_dvd_card C
   have h7 : ¬ 7 ∣ Nat.card C := by
     intro h7
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := C) 7 h7
     have ht7 : (t : U33G) ^ 7 = 1 := by
       have := pow_orderOf_eq_one t
@@ -123,8 +123,8 @@ theorem isSolvable_centralizer_of_commutator {Q : Type*} [Group Q] {g : Q} (hg :
   let f : C₁ →* C :=
     ((commutator Q).subtype.comp C₁.subtype).codRestrict C fun x => hmem x
   let φ : C →* Abelianization Q := Abelianization.of.comp C.subtype
-  haveI : Group.IsSolvable (Abelianization Q) := inferInstance
-  refine solvable_of_ker_le_range f φ ?_
+  have : Group.IsSolvable (Abelianization Q) := inferInstance
+  refine Group.isSolvable_of_ker_le_range f φ ?_
   intro x hx
   have hxD : (x : Q) ∈ commutator Q := by
     rw [← Abelianization.ker_of]
@@ -146,7 +146,7 @@ theorem g2TwoCentThreeSolvable_holds :
   let F : ↥(commutator ↥(adjointGroup .G2 K)) ≃* U33G := F₀
   have hidx : (commutator ↥(adjointGroup .G2 K)).index = 2 :=
     Item8KFacts2Proof.index_commutator_g2_two hK
-  haveI : (commutator ↥(adjointGroup .G2 K)).Normal := Subgroup.commutator_normal ⊤ ⊤
+  have : (commutator ↥(adjointGroup .G2 K)).Normal := Subgroup.commutator_normal ⊤ ⊤
   have hgD : g ∈ commutator ↥(adjointGroup .G2 K) :=
     Item8KFacts2Proof.mem_of_pow_three_of_not_dvd_index (by rw [hidx]; omega) hg3
   refine isSolvable_centralizer_of_commutator hgD ?_
@@ -157,7 +157,7 @@ theorem g2TwoCentThreeSolvable_holds :
     rw [this, map_one]
   have hu1 : F g' ≠ 1 := fun h =>
     hg1 (congrArg Subtype.val (F.injective (h.trans (map_one F).symm)))
-  haveI hs := isSolvable_centralizer_u33 hu3 hu1
+  have hs := isSolvable_centralizer_u33 hu3 hu1
   let f : ↥(Subgroup.centralizer ({g'} : Set (commutator ↥(adjointGroup .G2 K)))) →*
       ↥(Subgroup.centralizer ({F g'} : Set U33G)) :=
     (F.toMonoidHom.comp (Subgroup.centralizer ({g'} : Set _)).subtype).codRestrict _ fun x => by

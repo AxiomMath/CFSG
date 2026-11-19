@@ -17,13 +17,14 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem comm_sq_of_mem_elemFamilyIn_two {A T : Subgroup G} (hA : A ∈ elemFamilyIn 2 T) :
     A ≤ T ∧ (∀ a a' : ↥A, a * a' = a' * a) ∧ ∀ a : ↥A, a * a = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hAT, hel, -⟩ := mem_elemFamilyIn.1 hA
-  haveI := hel
+  have := hel
   refine ⟨hAT, fun a a' => mul_comm' a a', fun a => ?_⟩
   have h := elemPow_eq_one_of_isElementaryAbelian (p := 2) (A := A) (a : G) a.2
   exact Subtype.ext (by simpa [pow_two] using h)
 
+omit [Finite G] in
 private theorem b15_DichAct_relIndex_sup {A B : Subgroup G}
     (h : B ≤ normalizer (A : Set G)) : B.relIndex (A ⊔ B) = B.relIndex A := by
   unfold Subgroup.relIndex Subgroup.index
@@ -68,7 +69,7 @@ private def b15_DichAct_conjAut {X : Subgroup G} {v : G} (hv : v ∈ normalizer 
 private theorem b15_DichAct_aut_inv {p : ℕ} [Fact p.Prime] {N : Type*} [Group N] [Finite N]
     (hcard : Nat.card N = p) (hp2 : p ≠ 2) (σ : MulAut N) (hσσ : σ * σ = 1) (hσ : σ ≠ 1) :
     ∀ y : N, σ y = y⁻¹ := by
-  haveI : IsCyclic N := isCyclic_of_prime_card hcard
+  have : IsCyclic N := isCyclic_of_prime_card hcard
   let τ : MulAut N :=
     { toFun := fun y => y⁻¹
       invFun := fun y => y⁻¹
@@ -111,6 +112,7 @@ private noncomputable def b15_DichAct_conjQuot [(I.subgroupOf Q).Normal]
   QuotientGroup.map (I.subgroupOf Q) (I.subgroupOf Q) (b15_DichAct_conjOn hBQ b) (fun x hx =>
     Subgroup.mem_comap.2 (Subgroup.mem_subgroupOf.2 (hBI b b.2 x (Subgroup.mem_subgroupOf.1 hx))))
 
+omit [Finite G] in
 private theorem b15_DichAct_conjQuot_mul [(I.subgroupOf Q).Normal]
     (hBQ : ∀ b ∈ B, ∀ q ∈ Q, b * q * b⁻¹ ∈ Q) (hBI : ∀ b ∈ B, ∀ i ∈ I, b * i * b⁻¹ ∈ I)
     (b b' : B) (y : Q ⧸ I.subgroupOf Q) :
@@ -124,6 +126,7 @@ private theorem b15_DichAct_conjQuot_mul [(I.subgroupOf Q).Normal]
     ext
     simp [b15_DichAct_conjOn, mul_assoc]
 
+omit [Finite G] in
 private theorem b15_DichAct_conjQuot_one [(I.subgroupOf Q).Normal]
     (hBQ : ∀ b ∈ B, ∀ q ∈ Q, b * q * b⁻¹ ∈ Q) (hBI : ∀ b ∈ B, ∀ i ∈ I, b * i * b⁻¹ ∈ I)
     (y : Q ⧸ I.subgroupOf Q) : b15_DichAct_conjQuot hBQ hBI 1 y = y := by
@@ -134,6 +137,7 @@ private theorem b15_DichAct_conjQuot_one [(I.subgroupOf Q).Normal]
     ext
     simp [b15_DichAct_conjOn]
 
+omit [Finite G] in
 private theorem b15_DichAct_exists_action [(I.subgroupOf Q).Normal]
     (hBQ : ∀ b ∈ B, ∀ q ∈ Q, b * q * b⁻¹ ∈ Q) (hBI : ∀ b ∈ B, ∀ i ∈ I, b * i * b⁻¹ ∈ I) :
     ∃ ρ : B →* MulAut (Q ⧸ I.subgroupOf Q), ∀ (b : B) (q : Q),
@@ -168,7 +172,7 @@ theorem isPGroup_two_tSub15 (c : Cfg1511 M V₀ V U S H P Q₀ p) :
 theorem qSub15_le_centralizer_iHull15
     (c : Cfg1511 M V₀ V U S H P Q₀ p) (hX : XData15 V₀ U H Q₀ p X v) :
     qSub15 M V₀ V U H P ≤ centralizer (iHull15 V₀ U H : Set G) := by
-  haveI : IsMulCommutative (iHull15 V₀ U H) := c.isElemAbelian_iHull15.1
+  have : IsMulCommutative (iHull15 V₀ U H) := c.isElemAbelian_iHull15.1
   rw [c.qSub15_eq_sup hX]
   refine sup_le (Subgroup.le_centralizer (iHull15 V₀ U H)) ?_
   exact (cSub15_le_centralizer M V₀ V U H P).trans
@@ -218,7 +222,7 @@ theorem card_quot_eq_card_X [((iHull15 V₀ U H).subgroupOf Q₀).Normal]
 
 theorem card_X_eq_p_or_pow_three (c : Cfg1511 M V₀ V U S H P Q₀ p)
     (hX : XData15 V₀ U H Q₀ p X v) : Nat.card ↥X = p ∨ Nat.card ↥X = p ^ 3 := by
-  haveI : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := c.normal_subgroupOf
+  have : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := c.normal_subgroupOf
   have h : (iHull15 V₀ U H).relIndex Q₀ = Nat.card ↥X := by
     rw [Subgroup.relIndex, Subgroup.index_eq_card]
     exact c.card_quot_eq_card_X hX
@@ -299,7 +303,7 @@ theorem center_eq_zpowers_mk [((iHull15 V₀ U H).subgroupOf Q₀).Normal]
     Subgroup.center (↥Q₀ ⧸ (iHull15 V₀ U H).subgroupOf Q₀) =
       Subgroup.zpowers (QuotientGroup.mk (⟨z, hX.le hzX⟩ : ↥Q₀) :
         ↥Q₀ ⧸ (iHull15 V₀ U H).subgroupOf Q₀) := by
-  haveI := c.isExtraspecial_quot hX hcard
+  have := c.isExtraspecial_quot hX hcard
   obtain ⟨φ, hφ, hφx⟩ := c.exists_equiv_quot hX
   have hmem := c.mk_mem_center_quot hX hzX hzc
   have hne : (QuotientGroup.mk (⟨z, hX.le hzX⟩ : ↥Q₀) :
@@ -311,7 +315,7 @@ theorem center_eq_zpowers_mk [((iHull15 V₀ U H).subgroupOf Q₀).Normal]
   have hle : Subgroup.zpowers (QuotientGroup.mk (⟨z, hX.le hzX⟩ : ↥Q₀) :
       ↥Q₀ ⧸ (iHull15 V₀ U H).subgroupOf Q₀) ≤
       Subgroup.center (↥Q₀ ⧸ (iHull15 V₀ U H).subgroupOf Q₀) := (Subgroup.zpowers_le).2 hmem
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   have hZcard : Nat.card (Subgroup.center (↥Q₀ ⧸ (iHull15 V₀ U H).subgroupOf Q₀)) = p :=
     CFSG.IsExtraspecial.center_order_p p _
   have hdvd : Nat.card (Subgroup.zpowers (QuotientGroup.mk (⟨z, hX.le hzX⟩ : ↥Q₀) :
@@ -331,7 +335,7 @@ theorem exists_generator_inv (c : Cfg1511 M V₀ V U S H P Q₀ p) (hX : XData15
     (hcard : Nat.card ↥X = p) :
     ∃ x ∈ X, x ≠ 1 ∧ x ^ p = 1 ∧ v * x * v⁻¹ = x⁻¹ ∧
       iHull15 V₀ U H ⊓ centralizer ({x} : Set G) = ⊥ := by
-  haveI : Fact p.Prime := ⟨c.prime⟩
+  have : Fact p.Prime := ⟨c.prime⟩
   have hvv : v * v = 1 := XData15.mul_self c hX
   let σ : MulAut ↥X := b15_DichAct_conjAut hX.normalizes hvv
   have hσy : ∀ y : ↥X, (σ y : G) = v * y * v⁻¹ := fun y => rfl
@@ -362,7 +366,7 @@ theorem exists_generator_inv (c : Cfg1511 M V₀ V U S H P Q₀ p) (hX : XData15
     rw [hcard] at h1
     exact (Fact.out : p.Prime).one_lt.ne' h1
   have hinv : ∀ y : ↥X, σ y = y⁻¹ := b15_DichAct_aut_inv hcard c.p_ne_two σ hσσ hσ1
-  haveI : IsCyclic ↥X := isCyclic_of_prime_card hcard
+  have : IsCyclic ↥X := isCyclic_of_prime_card hcard
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥X)
   have hg1 : g ≠ 1 := by
     intro h
@@ -389,7 +393,7 @@ theorem exists_generator_inv (c : Cfg1511 M V₀ V U S H P Q₀ p) (hX : XData15
 
 theorem card_kHull15_eq (c : Cfg1511 M V₀ V U S H P Q₀ p) (hX : XData15 V₀ U H Q₀ p X v) :
     Nat.card ↥(kHull15 V₀ H) = 2 * Nat.card ↥X * Nat.card ↥(iHull15 V₀ U H) := by
-  haveI : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := c.normal_subgroupOf
+  have : ((iHull15 V₀ U H).subgroupOf Q₀).Normal := c.normal_subgroupOf
   have h1 := Subgroup.relIndex_mul_card Q₀ (kHull15 V₀ H)
   rw [inf_eq_left.2 c.odd.le_kHull, c.relIndex_Q₀_kHull15] at h1
   have h2 := Subgroup.relIndex_mul_card (iHull15 V₀ U H) Q₀
@@ -405,7 +409,7 @@ theorem card_mul_card_inf_qSub15_le
     (hA : A ∈ elemFamilyIn 2 (tSub15 M V₀ V U P)) :
     Nat.card ↥(iHull15 V₀ U H) * Nat.card ↥(A ⊓ qSub15 M V₀ V U H P) ≤
       Nat.card ↥A * Nat.card ↥(iHull15 V₀ U H ⊓ centralizer (A : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hAT, hAcomm, -⟩ := comm_sq_of_mem_elemFamilyIn_two hA
   obtain ⟨-, hAel, hAcard⟩ := mem_elemFamilyIn.1 hA
   have hAe : IsElemAbelian 2 A := isElemAbelian_iff_isElementaryAbelian.2 hAel

@@ -55,7 +55,7 @@ theorem card_centralizer_of_support {σ : Equiv.Perm (Fin 36)} {r k : ℕ} (hr :
     rintro rfl
     simp at hk
   rw [Equiv.Perm.nat_card_centralizer, hn, hnk, Multiset.sum_replicate, smul_eq_mul, hk,
-    Multiset.prod_replicate, Multiset.toFinset_replicate, if_neg hk0, Finset.prod_singleton,
+    Multiset.prod_replicate, Multiset.toFinset_replicate, ite_eq_right hk0, Finset.prod_singleton,
     Multiset.count_replicate_self, Fintype.card_fin]
   simp
 

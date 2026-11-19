@@ -58,7 +58,7 @@ theorem rhoZ_Lbar_eq_self_of_forall_Rbar (S : Setting z E F) {a : G} {w : ℕ}
   intro x hx
   rw [hcent]
   revert x
-  rw [← SetLike.le_def]
+  rw [← _root_.IsConcreteLE.le_iff]
   apply sup_le
   · intro q hq
     rw [Subgroup.mem_centralizer_singleton_iff]

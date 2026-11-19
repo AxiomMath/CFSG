@@ -25,7 +25,7 @@ theorem uc22p22r_op_omega_eq_range [Finite F] [CharP F 2] (h4 : 4 ≤ Nat.card F
   apply le_antisymm
   · have hidx : ((jProd (F := F)).range.subgroupOf
         (CFSG.LieType.BorelTits.orthGroup (StatedQuadPlus 2 F))).index = 2 := relIndex_jProd_range
-    haveI hN : ((jProd (F := F)).range.subgroupOf
+    have hN : ((jProd (F := F)).range.subgroupOf
         (CFSG.LieType.BorelTits.orthGroup (StatedQuadPlus 2 F))).Normal :=
       Subgroup.normal_of_index_eq_two hidx
     refine Subgroup.commutator_le.mpr fun x hx y hy => ?_
@@ -43,8 +43,8 @@ theorem uc22p22r_op_act_u1 [CharP F 2] (t : F) (v : Fin 2 ⊕ Fin 2 → F) :
   rw [jProd_apply, map_one, mul_one, coe_j1, j1Mat_entries]
   ext i
   rcases i with i | i <;> fin_cases i <;>
-    simp [Matrix.fromBlocks_mulVec, uMat_coe, Matrix.mulVec, dotProduct, Fin.sum_univ_two,
-      Pi.single_apply, CharTwo.neg_eq] <;> ring
+    simp [uMat_coe, Matrix.mulVec, dotProduct, Fin.sum_univ_two,
+      CharTwo.neg_eq]; ring
 
 theorem uc22p22r_op_act_l1 [CharP F 2] (t : F) (v : Fin 2 ⊕ Fin 2 → F) :
     ((jProd (uc22p22r_op_low t, 1) : GL (Fin 2 ⊕ Fin 2) F) :
@@ -53,8 +53,8 @@ theorem uc22p22r_op_act_l1 [CharP F 2] (t : F) (v : Fin 2 ⊕ Fin 2 → F) :
   rw [jProd_apply, map_one, mul_one, coe_j1, j1Mat_entries]
   ext i
   rcases i with i | i <;> fin_cases i <;>
-    simp [uc22p22r_op_low, Matrix.fromBlocks_mulVec, Matrix.mulVec, dotProduct, Fin.sum_univ_two,
-      Pi.single_apply, CharTwo.neg_eq] <;> ring
+    simp [uc22p22r_op_low, Matrix.mulVec, dotProduct, Fin.sum_univ_two,
+      CharTwo.neg_eq]; ring
 
 theorem uc22p22r_op_act_u2 [CharP F 2] (t : F) (v : Fin 2 ⊕ Fin 2 → F) :
     ((jProd (1, uMat t) : GL (Fin 2 ⊕ Fin 2) F) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) F) *ᵥ v =
@@ -63,7 +63,7 @@ theorem uc22p22r_op_act_u2 [CharP F 2] (t : F) (v : Fin 2 ⊕ Fin 2 → F) :
   ext i
   rcases i with i | i <;> fin_cases i <;>
     simp [uMat_coe, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Fin.sum_univ_two,
-      Pi.single_apply, CharTwo.neg_eq, tauPerm_symm, tauPerm, Equiv.swap_apply_of_ne_of_ne] <;> ring
+      CharTwo.neg_eq, tauPerm, Equiv.swap_apply_of_ne_of_ne]
 
 theorem uc22p22r_op_act_l2 [CharP F 2] (t : F) (v : Fin 2 ⊕ Fin 2 → F) :
     ((jProd (1, uc22p22r_op_low t) : GL (Fin 2 ⊕ Fin 2) F) :
@@ -73,7 +73,7 @@ theorem uc22p22r_op_act_l2 [CharP F 2] (t : F) (v : Fin 2 ⊕ Fin 2 → F) :
   ext i
   rcases i with i | i <;> fin_cases i <;>
     simp [uc22p22r_op_low, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Fin.sum_univ_two,
-      Pi.single_apply, CharTwo.neg_eq, tauPerm_symm, tauPerm, Equiv.swap_apply_of_ne_of_ne] <;> ring
+      CharTwo.neg_eq, tauPerm, Equiv.swap_apply_of_ne_of_ne] <;> ring
 
 theorem uc22p22r_op_comm_smul [CharP F 2] (T : (Fin 2 ⊕ Fin 2 → F) →+ (Fin 2 ⊕ Fin 2 → F))
     (hT : ∀ (g : Matrix.SpecialLinearGroup (Fin 2) F × Matrix.SpecialLinearGroup (Fin 2) F)
@@ -172,7 +172,7 @@ theorem uc22p22r_op_fix_iff [CharP F 2] (w : Fin 2 ⊕ Fin 2 → F) :
     have e1 := congrFun h1 (Sum.inl 0)
     have e2 := congrFun h1 (Sum.inr 1)
     have e3 := congrFun h3 (Sum.inl 0)
-    simp [Pi.single_apply] at e1 e2 e3
+    simp at e1 e2 e3
     exact ⟨e1, e2, e3⟩
   · rintro ⟨hb, hc, hd⟩ s t
     have hst : ((uMat s, uMat t) : Matrix.SpecialLinearGroup (Fin 2) F ×
@@ -188,12 +188,12 @@ theorem uc22p22r_op_card_line :
   classical
   refine Nat.card_congr
     { toFun := fun w => w.1 (Sum.inl 0)
-      invFun := fun s => ⟨Pi.single (Sum.inl 0) s, by simp [Pi.single_apply]⟩
+      invFun := fun s => ⟨Pi.single (Sum.inl 0) s, by simp⟩
       left_inv := fun w => ?_
       right_inv := fun s => by simp }
   obtain ⟨w, hb, hc, hd⟩ := w
   refine Subtype.ext (funext fun i => ?_)
-  rcases i with i | i <;> fin_cases i <;> simp [Pi.single_apply, hb, hc, hd]
+  rcases i with i | i <;> fin_cases i <;> simp [hb, hc, hd]
 
 end Model
 
@@ -244,6 +244,7 @@ section Module
 variable {H : Type} [Group H] [Finite H] {Vmod : Type} [AddCommGroup Vmod]
   [Module (ZMod 2) Vmod] [Finite Vmod] (ρ : Representation (ZMod 2) H Vmod)
 
+omit [Finite H] [Finite Vmod] in
 theorem uc22p22r_op_model {X : Subgroup H} {n : ℕ} (hn : 2 ≤ n) (hO : NatOmegaPlus4 ρ X ⊤ ⊥ n) :
     ∃ (F : Type) (_ : Field F) (_ : Finite F) (_ : CharP F 2), Nat.card F = 2 ^ n ∧
       ∃ (ψ : Vmod ≃+ (Fin 2 ⊕ Fin 2 → F))
@@ -251,7 +252,7 @@ theorem uc22p22r_op_model {X : Subgroup H} {n : ℕ} (hn : 2 ≤ n) (hO : NatOme
         ∀ (x : ↥X) (v : Vmod), ψ (ρ (x : H) v) =
           ((jProd (e x) : GL (Fin 2 ⊕ Fin 2) F) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) F) *ᵥ ψ v := by
   obtain ⟨F, hF1, hF2, hFcard, -, -, -, φ, ψ, -, hker, hsurj, hψ⟩ := hO
-  haveI : CharP F 2 := uc22p22d_charP_two (by omega) hFcard
+  have : CharP F 2 := uc22p22d_charP_two (by omega) hFcard
   have h4 : 4 ≤ Nat.card F := by
     rw [hFcard]
     calc 4 = 2 ^ 2 := by norm_num
@@ -276,6 +277,7 @@ theorem uc22p22r_op_model {X : Subgroup H} {n : ℕ} (hn : 2 ≤ n) (hO : NatOme
   rw [h1]
   exact hψ x v trivial
 
+omit [Finite H] [Finite Vmod] in
 theorem uc22p22r_op_scalar {X : Subgroup H} {F : Type} [Field F] [CharP F 2]
     (ψ : Vmod ≃+ (Fin 2 ⊕ Fin 2 → F))
     (e : ↥X ≃* (Matrix.SpecialLinearGroup (Fin 2) F × Matrix.SpecialLinearGroup (Fin 2) F))
@@ -297,6 +299,7 @@ theorem uc22p22r_op_scalar {X : Subgroup H} {F : Type} [Field F] [CharP F 2]
     rw [hTapp, hTapp, h1, hcx, hψ]
   exact ⟨μ, fun v => by simpa [hTapp] using hμ (ψ v)⟩
 
+omit [Finite Vmod] in
 theorem uc22p22r_op_pow_eq_one (hfaith : Function.Injective ρ) {X : Subgroup H} {n : ℕ} {F : Type}
     [Field F] [Finite F] [CharP F 2] (hFcard : Nat.card F = 2 ^ n) (ψ : Vmod ≃+ (Fin 2 ⊕ Fin 2 → F))
     (e : ↥X ≃* (Matrix.SpecialLinearGroup (Fin 2) F × Matrix.SpecialLinearGroup (Fin 2) F))
@@ -317,7 +320,7 @@ theorem uc22p22r_op_pow_eq_one (hfaith : Function.Injective ρ) {X : Subgroup H}
     rw [pow_orderOf_eq_one, map_one, Module.End.one_apply, h0, zero_pow (orderOf_pos c).ne',
       zero_smul, ψ.apply_symm_apply] at h
     simpa using congrFun h (Sum.inl 0)
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hμ1 : μ ^ (2 ^ n - 1) = 1 := by
     have := FiniteField.pow_card_sub_one_eq_one μ hμ0
     rwa [← Nat.card_eq_fintype_card, hFcard] at this
@@ -326,6 +329,7 @@ theorem uc22p22r_op_pow_eq_one (hfaith : Function.Injective ρ) {X : Subgroup H}
   refine LinearMap.ext fun v => ψ.injective ?_
   rw [hpow, hμ1, one_smul, Module.End.one_apply]
 
+omit [Finite H] [Finite Vmod] in
 theorem uc22p22r_op_card_fix {X K S : Subgroup H} {F : Type} [Field F] [Finite F] [CharP F 2]
     (ψ : Vmod ≃+ (Fin 2 ⊕ Fin 2 → F))
     (e : ↥X ≃* (Matrix.SpecialLinearGroup (Fin 2) F × Matrix.SpecialLinearGroup (Fin 2) F))
@@ -381,7 +385,7 @@ theorem uc22p22r_op_card_fix {X K S : Subgroup H} {F : Type} [Field F] [Finite F
     constructor
     · rintro ⟨-, hv⟩ s t
       have h1 := congrArg ψ (hv _ ⟨e.symm _, ⟨_, hmemQ s t, rfl⟩, rfl⟩)
-      simp only [Subgroup.coe_subtype, MulEquiv.coe_toMonoidHom] at h1
+      simp only [Subgroup.coe_subtype] at h1
       rw [hact, hconj] at h1
       nth_rw 2 [← h1]
       rw [(uc22p22r_op_mulVec_inv g _).1]
@@ -412,6 +416,7 @@ theorem uc22p22r_op_card_fix {X K S : Subgroup H} {F : Type} [Field F] [Finite F
           rw [ψ.apply_symm_apply, (uc22p22r_op_mulVec_inv g _).1]) }
   rw [hcard, uc22p22r_op_card_line]
 
+omit [Finite Vmod] in
 theorem uc22p22r_F1_omegaPlus (hfaith : Function.Injective ρ) {X : Subgroup H} {n p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hpn : (2 : ℤ) ^ n ≡ -1 [ZMOD (p : ℤ)]) (hn : 3 ≤ n) (hO : NatOmegaPlus4 ρ X ⊤ ⊥ n)
     {c : H} (hc : c ∈ Subgroup.centralizer (X : Set H)) {k : ℕ} (hck : c ^ (p ^ k) = 1) : c = 1 := by
@@ -421,6 +426,7 @@ theorem uc22p22r_F1_omegaPlus (hfaith : Function.Injective ρ) {X : Subgroup H} 
   have h := (pow_gcd_eq_one (a := c)).2 ⟨hck, uc22p22r_op_pow_eq_one ρ hfaith hFcard ψ e hψ hc⟩
   rwa [hcop.gcd_eq_one, pow_one] at h
 
+omit [Finite Vmod] in
 theorem uc22p22r_F2_omegaPlus (hfaith : Function.Injective ρ) {X : Subgroup H} {n p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) (hpn : (2 : ℤ) ^ n ≡ -1 [ZMOD (p : ℤ)]) (hn : 3 ≤ n) (hO : NatOmegaPlus4 ρ X ⊤ ⊥ n)
     {S : Subgroup H} (hS : CFSG.ABGLocalTools.IsSylowOf 2 S (X ⊔ Subgroup.centralizer (X : Set H))) :

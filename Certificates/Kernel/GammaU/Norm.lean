@@ -108,7 +108,7 @@ theorem letN_spec {g : Nat} (_ : g < 3) : letN (2 * g) = look NLG g ∧ letN (2 
   have d1 : Nat.div (2 * g + 1) 2 = g := by
     change (2 * g + 1) / 2 = g
     omega
-  rw [h0, h1, cond_true, cond_false, d0, d1]
+  rw [h0, h1, _root_.Bool.cond_true, Bool.cond_false, d0, d1]
   exact ⟨rfl, rfl⟩
 
 theorem nl_all {e : Nat} (he : e < 6) : nl e = true := by
@@ -217,7 +217,7 @@ theorem letN_spec {g : Nat} (_ : g < 3) : letN (2 * g) = look NLG g ∧ letN (2 
   have d1 : Nat.div (2 * g + 1) 2 = g := by
     change (2 * g + 1) / 2 = g
     omega
-  rw [h0, h1, cond_true, cond_false, d0, d1]
+  rw [h0, h1, _root_.Bool.cond_true, Bool.cond_false, d0, d1]
   exact ⟨rfl, rfl⟩
 
 theorem nl_all {e : Nat} (he : e < 6) : nl e = true := by

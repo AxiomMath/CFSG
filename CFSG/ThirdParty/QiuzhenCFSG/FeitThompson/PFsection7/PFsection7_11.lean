@@ -58,7 +58,7 @@ private theorem theorem_7_11_one_lt_relIndex_of_frobenius
     (hfrob : frobeniusWithKernel L H) :
     1 < H.relIndex L := by
   rcases hfrob with ⟨_hHL, hHnorm, R, hcomp, _hHne, hRne, _hfixed⟩
-  haveI : (H.subgroupOf L).Normal := hHnorm
+  have : (H.subgroupOf L).Normal := hHnorm
   have hindex : (H.subgroupOf L).index = Nat.card R :=
     hcomp.symm.index_eq_card
   have hRcard : 1 < Nat.card R :=
@@ -71,7 +71,7 @@ public theorem theorem_7_11_two_mul_relIndex_le_card_sub_one
     (hodd : Odd (Nat.card G)) (hfrob : frobeniusWithKernel L H) :
     2 * H.relIndex L ≤ Nat.card H - 1 := by
   rcases hfrob with ⟨hHL, hHnorm, R, hcomp, hHne, _hRne, hcent⟩
-  haveI : (H.subgroupOf L).Normal := hHnorm
+  have : (H.subgroupOf L).Normal := hHnorm
   have hindex : H.relIndex L = Nat.card R := by
     rw [Subgroup.relIndex, hcomp.symm.index_eq_card]
   have hHsubcard : Nat.card (H.subgroupOf L) = Nat.card H :=

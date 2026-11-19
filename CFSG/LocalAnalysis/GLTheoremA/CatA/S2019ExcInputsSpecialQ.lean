@@ -132,9 +132,9 @@ theorem isExtraspecialPGroup_quotient_of_commutator_surjective {p : ℕ} (hp : p
     (hH : IsPGroup p H) (hexp : ∀ x : H, x ^ p = 1)
     (hcomm : commutator H = Subgroup.center H)
     (hsurj : ∀ x : H, x ∉ Subgroup.center H → ∀ z ∈ Subgroup.center H, ∃ y : H, ⁅x, y⁆ = z)
-    (Z : Subgroup H) [Z.Normal] (hZ : Z ≤ Subgroup.center H)
+    (Z : Subgroup H) [Z.Normal] (_hZ : Z ≤ Subgroup.center H)
     (hidx : Z.relIndex (Subgroup.center H) = p) : CFSG.IsExtraspecialPGroup p (H ⧸ Z) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set π := QuotientGroup.mk' Z with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective Z
   have hcen : Subgroup.center (H ⧸ Z) = (Subgroup.center H).map π := by
@@ -197,7 +197,7 @@ theorem isS2019SpecialQ_heis {F : Type} [Field F] [Finite F] {q : ℕ} (hq : q.P
     [CharP F q] : IsS2019SpecialQ q (Nat.card F) (Heis F) := by
   have hexp : ∀ x : Heis F, x ^ q = 1 := Heis.pow_prime_eq_one hq hq2
   have hpg : IsPGroup q (Heis F) := fun x => ⟨1, by rw [pow_one]; exact hexp x⟩
-  haveI : Finite (Heis F) := Finite.of_equiv _ Heis.equivProd.symm
+  have : Finite (Heis F) := Finite.of_equiv _ Heis.equivProd.symm
   refine ⟨hpg, hexp, Heis.card_eq, Heis.card_center, fun Z _ hZ hidx => ?_⟩
   refine isExtraspecialPGroup_quotient_of_commutator_surjective hq hpg hexp
     (by rw [_root_.commutator_def]; exact Heis.commutator_eq_center) ?_ Z hZ hidx

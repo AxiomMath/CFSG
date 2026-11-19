@@ -166,7 +166,7 @@ theorem le_glaTwoLocalRank_of_torus [Finite Ω] [S.Normal] {p : ℕ} (hp : p.Pri
     (hB₂X : ∀ y ∈ B₂, ∀ x : ↥H, (x : GL (Fin n) K) ∈ X → y * φ x = φ x * y)
     (hB₂t : ∀ y ∈ B₂, y * φ ⟨t, htH⟩ = φ ⟨t, htH⟩ * y) :
     r + s ≤ GLATwoLocalRank p Ω := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hφH : ∀ k : ↥H, φ k ∈ S := fun k => hφS ▸ ⟨k, rfl⟩
   have hker : ∀ k : ↥H, φ k = 1 → (k : GL (Fin n) K) ∈ StatedScalars (Fin n) K := fun k hk => by
     have : k ∈ ((barMk S).comp φ).ker := by
@@ -239,7 +239,7 @@ theorem le_glaTwoLocalRank_of_torus [Finite Ω] [S.Normal] {p : ℕ} (hp : p.Pri
     rw [this, map_one]
   have hT : Subgroup.zpowers u ≠ ⊥ := fun h => hu1 (Subgroup.zpowers_eq_bot.1 h)
   have hT2 : IsPGroup 2 (Subgroup.zpowers u) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     refine IsPGroup.of_card (n := 1) ?_
     rw [Nat.card_zpowers, pow_one]
     exact orderOf_eq_prime hu2 hu1
@@ -286,7 +286,7 @@ open CFSG.SectionRank.OddCover
 
 theorem ringEquiv_apply_eq_self_of_pow_eq_one {L : Type*} [Field L] {p : ℕ} (hp : p.Prime)
     {σ : L ≃+* L} (hσ : σ ^ p = 1) {ζ : L} (hζ : ζ ^ p = 1) : σ ζ = ζ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases h1 : ζ = 1
   · rw [h1, map_one]
   have hord : orderOf ζ = p := orderOf_eq_prime hζ h1
@@ -342,8 +342,8 @@ theorem torusVec_injective (m p : ℕ) : Function.Injective (torusVec m p L) := 
 
 theorem card_diagTorus [Finite L] {p : ℕ} (hp : p.Prime) (hpL : p ∣ Nat.card Lˣ) (m : ℕ) :
     Nat.card (diagTorus m p L) = p ^ m := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' p hpL
   have hprim : IsPrimitiveRoot (ζ : L) p :=
     IsPrimitiveRoot.coe_units_iff.2 (IsPrimitiveRoot.iff_orderOf.2 hζ)
@@ -364,10 +364,10 @@ theorem torusVec_pow (m p : ℕ) (e : Fin m → ↥(rootsOfUnity p L)) (i : Fin 
 theorem torusVec_prod (m p : ℕ) (e : Fin m → ↥(rootsOfUnity p L)) :
     ∏ i, torusVec m p L e i = 1 := by
   rw [Fin.prod_univ_castSucc, Fin.prod_univ_castSucc]
-  simp only [torusVec, MonoidHom.coe_mk, OneHom.coe_mk, Fin.coe_castSucc, Fin.val_last]
+  simp only [torusVec, MonoidHom.coe_mk, OneHom.coe_mk, Fin.val_castSucc, Fin.val_last]
   have h1 : ∀ i : Fin m, ((i : ℕ) : ℕ) < m := fun i => i.isLt
-  simp only [Fin.is_lt, dite_true, lt_irrefl, dite_false, if_true, show ¬ (m + 1 < m) by omega,
-    show m + 1 ≠ m by omega, if_false, mul_one]
+  simp only [Fin.is_lt, dite_true, lt_irrefl, dite_false, ite_true, show ¬ (m + 1 < m) by omega,
+    show m + 1 ≠ m by omega, ite_false, mul_one]
   rw [mul_inv_cancel]
 
 theorem diagTorus_le_det_one {m p : ℕ} {x : GL (Fin (m + 2)) L} (hx : x ∈ diagTorus m p L) :
@@ -408,7 +408,7 @@ theorem diagInvol_det (m : ℕ) :
   simp only [Fin.val_zero, Fin.val_succ, Fin.succ_zero_eq_one, Fin.val_one]
   have h : ∀ i : Fin m, ¬ ((i.succ.succ : Fin (m + 2)) : ℕ) < 2 := fun i => by
     simp [Fin.val_succ]
-  simp [h]
+  simp
 
 theorem diagInvol_not_mem (m : ℕ) (h2 : (2 : L) ≠ 0) (hm : 1 ≤ m) :
     diagInvol m L ∉ Subgroup.center (GL (Fin (m + 2)) L) := by
@@ -439,7 +439,7 @@ theorem diagTorus_inf_center {m p : ℕ} :
   simp only [MonoidHom.comp_apply, coe_diagHom, Matrix.diagonal_apply_eq,
     GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] at hlast
   simp only [torusVec, MonoidHom.coe_mk, OneHom.coe_mk, Fin.val_last,
-    show ¬ (m + 1 < m) by omega, show m + 1 ≠ m by omega, dite_false, if_false,
+    show ¬ (m + 1 < m) by omega, show m + 1 ≠ m by omega, dite_false, ite_false,
     Units.val_one] at hlast
   have hc1 : c = 1 := Units.ext hlast.symm
   rw [hc, hc1, map_one]

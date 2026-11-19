@@ -61,7 +61,7 @@ theorem exists_sylow_quotient {Y : Type} [Group Y] [Finite Y] (K : Subgroup Y) [
         IsMulCommutative (Omega1 (TQ : Subgroup (↥K ⧸ Subgroup.center ↥K)))) := by
   have hT : CFSG.ABGLocalTools.IsSylowOf 2 (T : Subgroup Y) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, T.isPGroup', by rw [Subgroup.relIndex_top_right]; exact T.not_dvd_index⟩
+    exact ⟨le_top, T.isPGroup, by rw [Subgroup.relIndex_top_right]; exact T.not_dvd_index⟩
   obtain ⟨S, hS⟩ := hT.inf_of_le_normalizer (N := K) le_top
     (by rw [Subgroup.normalizer_eq_top])
   have hπinj : Function.Injective (QuotientGroup.mk' (Subgroup.center ↥K)) := by

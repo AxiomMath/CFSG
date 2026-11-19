@@ -85,7 +85,7 @@ private theorem sum_nonKernel_eq_sum_fixed
   apply Finset.sum_congr rfl
   intro g _
   by_cases hnot : g ∉ kernelSet G X
-  · rw [if_pos hnot]
+  · rw [ite_eq_left hnot]
     obtain ⟨hg, x, hx⟩ := not_mem_kernelSet_iff g |>.mp hnot
     rw [Finset.sum_eq_single x]
     · simp [hg, hx]
@@ -95,7 +95,7 @@ private theorem sum_nonKernel_eq_sum_fixed
         exact hyx (hfrob g hg y x hgy hx)
       simp [hy]
     · simp
-  · rw [if_neg hnot]
+  · rw [ite_eq_right hnot]
     have hmem : g ∈ kernelSet G X := Classical.not_not.mp hnot
     rcases hmem with rfl | hfree
     · simp
@@ -332,7 +332,7 @@ private theorem sum_twoSided_nonKernel
   intro g _
   by_cases hg : (g : G) = 1
   · simp [hg]
-  · rw [if_pos hg, if_pos hg, mul_assoc]
+  · rw [ite_eq_left hg, ite_eq_left hg, mul_assoc]
     apply congrArg ((Fintype.card X : ℂ) * ·)
     rw [Finset.mul_sum]
 
@@ -370,7 +370,7 @@ private theorem four_trace_quantities
       (Fintype.card H : ℂ)⁻¹ *
           ∑ h : H, twoSidedAverage e h h = nH ∧
       (Fintype.card H : ℂ)⁻¹ *
-          ∑ h : H, ∑ x : G, e.coeff h = nL ∧
+          ∑ h : H, ∑ _x : G, e.coeff h = nL ∧
       (Fintype.card (H × H) : ℂ)⁻¹ *
           ∑ p : H × H, twoSidedAverage e p.1 p.2 = nHH := by
   classical
@@ -481,10 +481,6 @@ private theorem first_kernel_term_eq_trace_difference
   change _ * (∑ g : G, if g ∈ kernelSet G X then F g else 0) - _ =
     _ * (∑ g : G, F g) - _
   rw [hpartG, hpartH', hone]
-  change _ = _ - _ *
-    ((Fintype.card G : ℂ) * e.coeff 1 +
-      ∑ h : MulAction.stabilizer G x₀,
-        if (h : G) ≠ 1 then F h else 0)
   have hcount' :
       (∑ g : G, if g ∉ kernelSet G X then F g else 0) =
         (Fintype.card X : ℂ) *
@@ -513,8 +509,7 @@ private theorem sum_ite_neg
           intro i _
           by_cases hi : P i <;> simp [hi]
     _ = -(∑ i : ι, if P i then F i else 0) := by
-      simpa using (Finset.sum_neg_distrib
-        (s := Finset.univ) (fun i : ι => if P i then F i else 0))
+      simp
 
 private theorem sum_ite_swap
     {ι κ R : Type*} [Fintype ι] [Fintype κ] [AddCommMonoid R]
@@ -529,11 +524,11 @@ private theorem sum_ite_swap
           apply Finset.sum_congr rfl
           intro i _
           by_cases hi : P i
-          · rw [if_pos hi]
+          · rw [ite_eq_left hi]
             apply Finset.sum_congr rfl
             intro k _
             by_cases hk : Q k <;> simp [hi, hk]
-          · rw [if_neg hi]
+          · rw [ite_eq_right hi]
             symm
             apply Finset.sum_eq_zero
             intro k _
@@ -544,11 +539,11 @@ private theorem sum_ite_swap
           apply Finset.sum_congr rfl
           intro k _
           by_cases hk : Q k
-          · rw [if_pos hk]
+          · rw [ite_eq_left hk]
             apply Finset.sum_congr rfl
             intro i _
             by_cases hi : P i <;> simp [hi, hk]
-          · rw [if_neg hk]
+          · rw [ite_eq_right hk]
             apply Finset.sum_eq_zero
             intro i _
             simp [hk]
@@ -657,7 +652,7 @@ private theorem sum_kernel_twoSidedAverage
   apply Finset.sum_congr rfl
   intro a _
   by_cases ha : a ∈ kernelSet G X
-  · rw [if_pos ha, if_pos ha]
+  · rw [ite_eq_left ha, ite_eq_left ha]
     simp only [twoSidedAverage]
     have hswap :
         (∑ b : G, if b ∈ kernelSet G X then
@@ -764,7 +759,7 @@ private theorem second_trace_combination_eq_cross
     intro h _
     by_cases hh : (h : G) = 1
     · simp [hh]
-    · rw [if_pos hh, if_pos hh]
+    · rw [ite_eq_left hh, ite_eq_left hh]
       simp [F, E, twoSidedAverage, nsmul_eq_mul]
   have hinv :
       (∑ h : H, if (h : G) ≠ 1 then E h⁻¹ else 0) =
@@ -996,8 +991,7 @@ private theorem frobeniusQ_uniformCentralElement
     calc
       (∑ g : G, if g ∈ kernelSet G X then (1 : ℂ) else 0) =
           ((kernelFinset G X).card : ℂ) := by
-            simpa [kernelFinset] using (Finset.sum_boole (R := ℂ)
-              (fun g : G => g ∈ kernelSet G X) Finset.univ)
+            simp [kernelFinset]
       _ = Fintype.card X := by rw [hcardK]
   have hG0 : (Fintype.card G : ℂ) ≠ 0 := by
     exact_mod_cast (ne_of_gt (Fintype.card_pos_iff.mpr ⟨1⟩))
@@ -1090,9 +1084,7 @@ private theorem conjugacySum_mem_center
   have hcoeff (z : G) : (conjugacySum a).coeff z =
       ∑ x : G, (MonoidAlgebra.single (x * a * x⁻¹) 1 :
         MonoidAlgebra ℂ G).coeff z := by
-    simpa [conjugacySum] using (Finsupp.finset_sum_apply Finset.univ
-      (fun x : G => (MonoidAlgebra.single (x * a * x⁻¹) 1 :
-        MonoidAlgebra ℂ G)) z)
+    simp [conjugacySum]
   rw [hcoeff, hcoeff]
   change (∑ x : G,
       (MonoidAlgebra.single (x * a * x⁻¹) 1 : MonoidAlgebra ℂ G).coeff
@@ -1100,7 +1092,7 @@ private theorem conjugacySum_mem_center
   rw [← hs]
   apply Finset.sum_congr rfl
   intro x _
-  simp only [F, MonoidAlgebra.coeff_single_apply]
+  simp only [F, MonoidAlgebra.coeff_single, Finsupp.single_apply]
   change (if x * a * x⁻¹ = y * g * y⁻¹ then 1 else 0) =
     if (y⁻¹ * x) * a * (y⁻¹ * x)⁻¹ = g then 1 else 0
   have hiff : x * a * x⁻¹ = y * g * y⁻¹ ↔
@@ -1135,14 +1127,11 @@ private theorem basis_elem_twoSidedAverage_identity
   have hsum_apply (z : G) :
       (∑ x : G, e * MonoidAlgebra.single (x * a * x⁻¹) 1).coeff z =
         ∑ x : G, (e * MonoidAlgebra.single (x * a * x⁻¹) 1).coeff z := by
-    simpa using (Finsupp.finset_sum_apply Finset.univ
-      (fun x : G => e * MonoidAlgebra.single (x * a * x⁻¹) 1) z)
+    simp
   have hone : (e * c).coeff 1 =
       (Fintype.card G : ℂ) * star (e.coeff a) := by
     simp only [c, conjugacySum, Finset.mul_sum]
     rw [hsum_apply]
-    change (∑ x : G,
-      (e * MonoidAlgebra.single (x * a * x⁻¹) 1).coeff 1) = _
     simp only [MonoidAlgebra.coeff_mul_single_apply, one_mul]
     have hc (x : G) :
         e.coeff (x * a * x⁻¹)⁻¹ = star (e.coeff a) := by
@@ -1157,12 +1146,9 @@ private theorem basis_elem_twoSidedAverage_identity
   have ha : (e * c).coeff a = twoSidedAverage e a a := by
     simp only [c, conjugacySum, Finset.mul_sum, twoSidedAverage]
     rw [hsum_apply]
-    change (∑ x : G,
-      (e * MonoidAlgebra.single (x * a * x⁻¹) 1).coeff a) = _
     simp only [MonoidAlgebra.coeff_mul_single_apply]
     congr 1
     funext x
-    congr 2
     simp [mul_assoc]
   have hd_one := congrArg (fun z : MonoidAlgebra ℂ G => z.coeff 1) hec
   have hd_a := congrArg (fun z : MonoidAlgebra ℂ G => z.coeff a) hec
@@ -1201,15 +1187,14 @@ def kernelAlgebra
       (∑ u : G, f u).coeff g = (∑ u : G, (f u).coeff) g :=
         congrArg (fun z : G →₀ ℂ => z g) h
       _ = ∑ u : G, (f u).coeff g := by
-        simpa using (Finsupp.finset_sum_apply Finset.univ
-          (fun u : G => (f u).coeff) g)
+        simp
   rw [show (∑ u : G, if u ∈ kernelSet G X then
       (MonoidAlgebra.single u 1 : MonoidAlgebra ℂ G) else 0).coeff g =
     ∑ u : G, (if u ∈ kernelSet G X then
       MonoidAlgebra.single u 1 else 0 : MonoidAlgebra ℂ G).coeff g by
-        simpa [f] using hs]
+        simp]
   by_cases hg : g ∈ kernelSet G X
-  · rw [if_pos hg]
+  · rw [ite_eq_left hg]
     rw [Finset.sum_eq_single g]
     · simp [hg]
     · intro u _ hug
@@ -1217,7 +1202,7 @@ def kernelAlgebra
       · simp [hu, hug]
       · simp [hu]
     · simp
-  · rw [if_neg hg]
+  · rw [ite_eq_right hg]
     apply Finset.sum_eq_zero
     intro u _
     by_cases hu : u ∈ kernelSet G X
@@ -1349,17 +1334,17 @@ private theorem basis_elem_kernel_pair_identity
         intro a _
         by_cases ha : a ∈ kernelSet G X
         · have hi := (kernelSet_inv a).mpr ha
-          rw [if_pos ha]
+          rw [ite_eq_left ha]
           change star (e.coeff a) =
             (if a⁻¹ ∈ kernelSet G X then e.coeff a⁻¹ else 0)
-          rw [if_pos hi, hstar_coeff]
+          rw [ite_eq_left hi, hstar_coeff]
         · have hi : a⁻¹ ∉ kernelSet G X := by
             intro hmem
             exact ha ((kernelSet_inv a).mp hmem)
-          rw [if_neg ha]
+          rw [ite_eq_right ha]
           change star 0 =
             (if a⁻¹ ∈ kernelSet G X then e.coeff a⁻¹ else 0)
-          rw [if_neg hi, star_zero]
+          rw [ite_eq_right hi, star_zero]
       _ = ∑ a : G, F a := hs
       _ = S := rfl
   change e.coeff 1 * B = S * star S
@@ -1394,7 +1379,7 @@ private theorem coeff_one_mul_frobeniusQ_basis_elem
     apply Finset.sum_congr rfl
     intro a _
     by_cases ha : a ∈ kernelSet G X
-    · simp only [if_pos ha]
+    · simp only [ite_eq_left ha]
       exact basis_elem_twoSidedAverage_identity b i a
     · simp [ha]
   have hB : e.coeff 1 * B = S * star S := by
@@ -1733,11 +1718,11 @@ private theorem coeff_one_mul_eq_zero_of_constant_kernel
         intro a _
         by_cases ha : a ∈ kernelSet G X
         · have hi := (kernelSet_inv a).mpr ha
-          simp only [F, if_pos ha, if_pos hi]
+          simp only [F, ite_eq_left ha, ite_eq_left hi]
         · have hi : a⁻¹ ∉ kernelSet G X := by
             intro h
             exact ha ((kernelSet_inv a).mp h)
-          simp only [F, if_neg ha, if_neg hi]
+          simp only [F, ite_eq_right ha, ite_eq_right hi]
       _ = ∑ a : G, F a := hs
       _ = ∑ a ∈ kernelFinset G X, e.coeff a := by
         simp only [F, kernelFinset, Finset.sum_filter]
@@ -1751,11 +1736,11 @@ private theorem coeff_one_mul_eq_zero_of_constant_kernel
       apply Finset.sum_congr rfl
       intro a _
       by_cases ha : a ∈ kernelSet G X
-      · rw [if_pos ha, hz a ha]
+      · rw [ite_eq_left ha, hz a ha]
       · have hi : a⁻¹ ∉ kernelSet G X := by
           intro h
           exact ha ((kernelSet_inv a).mp h)
-        rw [if_neg ha, hesupp a⁻¹ hi, mul_zero, mul_zero]
+        rw [ite_eq_right ha, hesupp a⁻¹ hi, mul_zero, mul_zero]
     _ = z.coeff 1 *
         ∑ a : G, if a ∈ kernelSet G X then e.coeff a⁻¹ else 0 := by
       rw [Finset.mul_sum]
@@ -1806,8 +1791,7 @@ private theorem square_coeff_constant_on_kernel
   have hcoeff (g : G) : (z * z).coeff g =
       ∑ i : Fin b.n, (c i * c i) * (b.elem i).coeff g := by
     rw [hzz]
-    simpa using (Finsupp.finset_sum_apply Finset.univ
-      (fun i : Fin b.n => (c i * c i) • b.elem i) g)
+    simp
   intro a d ha hd
   rw [hcoeff, hcoeff]
   apply Finset.sum_congr rfl
@@ -1866,7 +1850,7 @@ private theorem kernelSet_mul
   have hone : (1 : G) ∈ kernelSet G X := Or.inl rfl
   have hz : ∀ g : G, g ∈ kernelSet G X → z.coeff g = z.coeff 1 := by
     intro g hg
-    simp only [z, kernelAlgebra_coeff, if_pos hg, if_pos hone]
+    simp only [z, kernelAlgebra_coeff, ite_eq_left hg, ite_eq_left hone]
   have hsquare := square_coeff_constant_on_kernel
     htrans hfrob x₀ cb z kernelAlgebra_mem_center hz d 1 hd hone
   let K := kernelFinset G X
@@ -1905,7 +1889,7 @@ theorem frobenius_kernel_isNormal
     [MulAction G X] [FaithfulSMul G X]
     (hcard : 2 ≤ Fintype.card X)
     (htrans : ∀ x y : X, ∃ g : G, g • x = y)
-    (hstab : ∀ x : X, MulAction.stabilizer G x ≠ ⊥)
+    (_hstab : ∀ x : X, MulAction.stabilizer G x ≠ ⊥)
     (hfrob : ∀ g : G, g ≠ 1 → ∀ x y : X,
       g • x = x → g • y = y → x = y) :
     ∃ N : Subgroup G, N.Normal ∧
@@ -1932,7 +1916,7 @@ theorem frobenius_kernel_isNormal
   change kernelSet G X = {1} ∪ {g : G | ∀ x : X, g • x ≠ x}
   ext g
   simp only [mem_kernelSet, Set.mem_union, Set.mem_singleton_iff,
-    Set.mem_setOf_eq]
+    Set.mem_ofPred_eq]
 
 end
 

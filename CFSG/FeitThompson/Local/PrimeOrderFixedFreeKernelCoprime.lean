@@ -42,7 +42,7 @@ theorem natCard_toConjActSubgroup (R : Subgroup G) :
 theorem fixedPoints_toConjActSubgroup [H.Normal] :
     fixedPoints (toConjActSubgroup R) H = {x : H | (x : G) ∈ centralizer (R : Set G)} := by
   ext x
-  simp only [Set.mem_eq_mem, mem_fixedPoints, Set.mem_ofPred_eq, mem_centralizer_iff,
+  simp only [mem_fixedPoints, Set.mem_ofPred_eq, mem_centralizer_iff,
     SetLike.mem_coe]
   constructor
   · intro hx r hr
@@ -86,7 +86,7 @@ theorem not_dvd_natCard_of_inf_centralizer_eq_bot [H.Normal] [Finite H] (hp : p.
 
 theorem zpowers_eq_of_natCard_eq_prime (hp : p.Prime) (hR : Nat.card R = p) {r : G} (hr : r ∈ R)
     (hr1 : r ≠ 1) : zpowers r = R := by
-  haveI : Finite R := Nat.finite_of_card_ne_zero (by rw [hR]; exact hp.ne_zero)
+  have : Finite R := Nat.finite_of_card_ne_zero (by rw [hR]; exact hp.ne_zero)
   refine le_antisymm (zpowers_le.mpr hr) fun b hb => ?_
   have hcard : Nat.card (Subgroup.zpowers (⟨r, hr⟩ : R)) = Nat.card R := by
     have hdvd : Nat.card (Subgroup.zpowers (⟨r, hr⟩ : R)) ∣ Nat.card R :=

@@ -234,11 +234,11 @@ private theorem matAut_of_mem_Sone {g : SL(6, ZMod 2)} (hg : g ∈ Sone) :
   · subst hi
     rw [matAut_x_row_zero]
     by_cases hj : j = 0
-    · subst hj; rw [if_pos rfl]; exact h00
+    · subst hj; rw [ite_eq_left rfl]; exact h00
     · by_cases hj5 : j = 5
       · subst hj5
-        rw [if_neg (by decide : (5 : Fin 6) ≠ 0), if_pos rfl]
-      · rw [if_neg hj, if_neg hj5, matAut_succIdx_predIdx hj hj5]
+        rw [ite_eq_right (by decide : (5 : Fin 6) ≠ 0), ite_eq_left rfl]
+      · rw [ite_eq_right hj, ite_eq_right hj5, matAut_succIdx_predIdx hj hj5]
   · rw [matAut_x_row_ne hi, hrest i j hi]
 
 private theorem matAut_of_mem_Ssix {g : SL(6, ZMod 2)} (hg : g ∈ Ssix) :
@@ -250,11 +250,11 @@ private theorem matAut_of_mem_Ssix {g : SL(6, ZMod 2)} (hg : g ∈ Ssix) :
   · subst hj5
     rw [matAut_y_col_five]
     by_cases hi : i = 0
-    · subst hi; rw [if_pos rfl]
+    · subst hi; rw [ite_eq_left rfl]
     · by_cases hi5 : i = 5
       · subst hi5
-        rw [if_neg (by decide : (5 : Fin 6) ≠ 0), if_pos rfl]; exact h55
-      · rw [if_neg hi, if_neg hi5, matAut_succIdx_predIdx hi hi5]
+        rw [ite_eq_right (by decide : (5 : Fin 6) ≠ 0), ite_eq_left rfl]; exact h55
+      · rw [ite_eq_right hi, ite_eq_right hi5, matAut_succIdx_predIdx hi hi5]
   · rw [matAut_y_col_ne _ _ _ hj5, hrest i j hj5]
 
 private theorem matAut_vec_expand (M N : Matrix (Fin 4) (Fin 4) (ZMod 2)) (w : Fin 4 → ZMod 2)
@@ -293,8 +293,7 @@ private theorem matAut_x_mul_G (N : Matrix (Fin 4) (Fin 4) (ZMod 2)) (w w' : Fin
   fin_cases i <;> fin_cases j <;>
     simp only [Matrix.mul_apply, Fin.sum_univ_six] <;>
     simp [matAut_x_row_zero, matAut_x_row_ne, matAut_G_row0, matAut_G_row1, matAut_G_row2,
-      matAut_G_row3, matAut_G_row4, matAut_G_row5, matAut_predIdx, matAut_add_self,
-      matAut_add_self_eight] <;>
+      matAut_G_row3, matAut_G_row4, matAut_G_row5, matAut_predIdx, matAut_add_self] <;>
     try ring
 
 private theorem matAut_y_mul_G (N : Matrix (Fin 4) (Fin 4) (ZMod 2)) (w w' : Fin 4 → ZMod 2)
@@ -306,7 +305,7 @@ private theorem matAut_y_mul_G (N : Matrix (Fin 4) (Fin 4) (ZMod 2)) (w w' : Fin
     simp only [Matrix.mul_apply, Fin.sum_univ_six] <;>
     simp [matAut_y_col_five, matAut_y_col_ne, matAut_G_row0, matAut_G_row1, matAut_G_row2,
       matAut_G_row3, matAut_G_row4, matAut_G_row5, matAut_predIdx, Pi.single_apply,
-      matAut_sum_single, matAut_add_self] <;>
+      matAut_sum_single] <;>
     try ring
 
 private theorem matAut_t_mul_G (N : Matrix (Fin 4) (Fin 4) (ZMod 2)) (w w' : Fin 4 → ZMod 2) :
@@ -316,7 +315,7 @@ private theorem matAut_t_mul_G (N : Matrix (Fin 4) (Fin 4) (ZMod 2)) (w w' : Fin
   fin_cases i <;> fin_cases j <;>
     simp only [Matrix.mul_apply, Fin.sum_univ_six] <;>
     simp [matAut_x_row_zero, matAut_x_row_ne, matAut_G_row0, matAut_G_row1, matAut_G_row2,
-      matAut_G_row3, matAut_G_row4, matAut_G_row5, matAut_predIdx, matAut_add_self]
+      matAut_G_row3, matAut_G_row4, matAut_G_row5, matAut_predIdx]
 
 private def matAut_t : SL(6, ZMod 2) := CFSG.Holt.SL6.stdTransvection
 
@@ -369,7 +368,7 @@ private theorem matAut_fix_t1 (α : ↥Sgrp →* ↥Sgrp) (hα : Function.Inject
 private theorem matAut_elem_coe (i j : Fin 6) (hij : i ≠ j) :
     ((elem i j : SL(6, ZMod 2)) : Matrix (Fin 6) (Fin 6) (ZMod 2)) =
       1 + Matrix.single i j 1 := by
-  rw [elem, dif_neg hij, Matrix.SpecialLinearGroup.transvection_coe]
+  rw [elem, dite_eq_right hij, Matrix.SpecialLinearGroup.transvection_coe]
 
 private theorem matAut_elem_coe_zero_succ (k : Fin 4) :
     ((elem 0 (matAut_succIdx k) : SL(6, ZMod 2)) : Matrix (Fin 6) (Fin 6) (ZMod 2)) =
@@ -399,7 +398,7 @@ private theorem matAut_mat_mul_same (i : Fin 6) (hi0 : i ≠ 0) :
       Matrix.single (0 : Fin 6) (5 : Fin 6) 1 = 0 := by
     rw [Matrix.single_mul_single_of_ne (h := hi0)]
   simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one, hAB, hBA, hBE,
-    hAE, Matrix.mul_zero, Matrix.zero_mul] <;> try abel
+    hAE, Matrix.zero_mul]; try abel
 
 private theorem matAut_mat_mul_diff (i j : Fin 6) (hij : i ≠ j) :
     (1 + Matrix.single (0 : Fin 6) i (1 : ZMod 2)) *
@@ -410,8 +409,7 @@ private theorem matAut_mat_mul_diff (i j : Fin 6) (hij : i ≠ j) :
     rw [Matrix.single_mul_single_of_ne (h := hij)]
   have hBA : Matrix.single j (5 : Fin 6) (1 : ZMod 2) * Matrix.single (0 : Fin 6) i 1 = 0 := by
     rw [Matrix.single_mul_single_of_ne (h := (by decide : (5 : Fin 6) ≠ 0))]
-  simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one, hAB, hBA,
-    Matrix.mul_zero, Matrix.zero_mul] <;> try abel
+  simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one, hAB, hBA]; try abel
 
 private theorem matAut_elem_comm (k l : Fin 4) :
     elem 0 (matAut_succIdx k) * elem (matAut_succIdx l) 5 =
@@ -419,12 +417,11 @@ private theorem matAut_elem_comm (k l : Fin 4) :
         (if k = l then matAut_t else 1) := by
   by_cases hkl : k = l
   · subst hkl
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     apply Subtype.ext
-    simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one,
-      matAut_elem_coe_zero_succ, matAut_elem_coe_succ_five, matAut_t_coe]
+    simp only [Matrix.SpecialLinearGroup.coe_mul, matAut_elem_coe_zero_succ, matAut_elem_coe_succ_five, matAut_t_coe]
     exact matAut_mat_mul_same _ (matAut_succIdx_ne_zero k)
-  · rw [if_neg hkl]
+  · rw [ite_eq_right hkl]
     apply Subtype.ext
     simp only [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one,
       Matrix.mul_one, matAut_elem_coe_zero_succ, matAut_elem_coe_succ_five]
@@ -436,7 +433,6 @@ private theorem matAut_X_mul_Y (N M : Matrix (Fin 4) (Fin 4) (ZMod 2)) (w w' : F
       w' l + M k 0 * N 0 l + M k 1 * N 1 l + M k 2 * N 2 l + M k 3 * N 3 l + w k := by
   rw [Matrix.mul_apply, Fin.sum_univ_six]
   simp [matAut_x, matAut_y, matAut_predIdx]
-  try ring
 
 private theorem matAut_Y_mul_X (N M : Matrix (Fin 4) (Fin 4) (ZMod 2)) (w w' : Fin 4 → ZMod 2)
     (k l : Fin 4) :
@@ -471,11 +467,11 @@ private theorem matAut_MN_one (X Y : Fin 4 → SL(6, ZMod 2))
   split_ifs at h with hkl
   · rw [matAut_t_coe, matAut_mul_t_zero_five, matAut_Y_mul_X N M w w' k l,
       matAut_Y_mul_X_zero N M w w' k l] at h
-    rw [if_pos hkl]
+    rw [ite_eq_left hkl]
     linear_combination h
   · simp only [Matrix.SpecialLinearGroup.coe_one, Matrix.mul_one] at h
     rw [matAut_Y_mul_X N M w w' k l] at h
-    rw [if_neg hkl]
+    rw [ite_eq_right hkl]
     linear_combination h
 
 private theorem matAut_conj_of_gens (α : ↥Sgrp →* ↥Sgrp) (G : SL(6, ZMod 2))
@@ -531,7 +527,7 @@ private theorem matAut_elem_zero_succ_eq (k : Fin 4) :
       zero_add, Matrix.single_apply, Pi.single_apply]
     by_cases hlk : l = k
     · subst hlk; simp
-    · rw [if_neg (fun h => hlk (matAut_succIdx_inj h.2).symm), if_neg hlk]
+    · rw [ite_eq_right (fun h => hlk (matAut_succIdx_inj h.2).symm), ite_eq_right hlk]
   · rw [Matrix.add_apply, Matrix.one_apply_ne (by decide),
       Matrix.single_apply_of_col_ne 0 0 (matAut_succIdx_ne_five k) 1, add_zero]
 
@@ -547,7 +543,7 @@ private theorem matAut_elem_succ_five_eq (k : Fin 4) :
       Matrix.single_apply, Pi.single_apply]
     by_cases hlk : l = k
     · subst hlk; simp
-    · rw [if_neg (fun h => hlk (matAut_succIdx_inj h.1).symm), if_neg hlk]
+    · rw [ite_eq_right (fun h => hlk (matAut_succIdx_inj h.1).symm), ite_eq_right hlk]
 
 private theorem matAut_t_eq :
     (matAut_t : Matrix (Fin 6) (Fin 6) (ZMod 2)) = matAut_x 0 1 := by

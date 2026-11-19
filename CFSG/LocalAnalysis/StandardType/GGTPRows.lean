@@ -51,7 +51,7 @@ theorem ggTPLabelIso_jLabel {lab₁ lab₂ : LargeEvenLabel} (h : GGLabelIso (gg
     ggTPJLabel lab₁ = lab₂ := by
   unfold ggTPJLabel at *
   by_cases hE : lab₁.tag = LargeEvenLieTag.E6
-  · rw [if_pos hE] at h ⊢
+  · rw [ite_eq_left hE] at h ⊢
     unfold GGLabelIso at h
     rcases h with h | h | h | h | h | h | h | h
     · exact h
@@ -62,7 +62,7 @@ theorem ggTPLabelIso_jLabel {lab₁ lab₂ : LargeEvenLabel} (h : GGLabelIso (gg
     · rcases h with ⟨h1, -⟩; simp at h1
     · rcases h with ⟨h1, -⟩; simp at h1
     · rcases h with ⟨-, h1⟩; simp at h1
-  · rw [if_neg hE] at h ⊢
+  · rw [ite_eq_right hE] at h ⊢
     unfold GGLabelIso at h
     rcases h with h | h | h | h | h | h | h | h
     · exact h

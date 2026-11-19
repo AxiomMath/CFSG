@@ -167,7 +167,7 @@ theorem isoCorr_of_le_T_sub (hc : h.SecCond y) {S' : Subgroup ↥(h.secSubImg y)
     rw [inf_right_comm]
   have hTP : (h.secImage y h.T).subgroupOf (h.secSubImg y) ≤
       h.subS y ⊓ coreActionKernel (h.subJ y) := by
-    rw [hc.subS_inf_coreActionKernel]
+    rw [CFSG.ComponentClassification.GSThmB.Hyp52.SecCond.subS_inf_coreActionKernel]
     intro z hz
     exact mem_subgroupOf.mpr (secImage_mono (inf_le_right : h.T ≤ h.P) (mem_subgroupOf.mp hz))
   exact hc.isoCorr_subBar E (hET.trans hTP) (Or.inl hlt)

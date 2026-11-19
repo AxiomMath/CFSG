@@ -91,7 +91,7 @@ theorem exists_U42_of_U52_torus {G : Type} [Group G] {X T : Subgroup G}
       _ ≤ _ := Set.ncard_le_ncard hsub ((Set.toFinite _).image _)
       _ ≤ _ := Set.ncard_image_le (Set.toFinite _)
   obtain ⟨I, hI4, l, ν, hlν, hv⟩ := exists_two_valued_of_stabilizer_card hK hd3 hprod hd1 h24'
-  have hdI : ∀ i ∈ I, d i = l := fun i hi => by rw [hv i, if_pos hi]
+  have hdI : ∀ i ∈ I, d i = l := fun i hi => by rw [hv i, ite_eq_left hi]
   set ι : unitarySU 2 1 K 5 →* G := X.subtype.comp ψ.toMonoidHom with hι
   have hι_inj : Function.Injective ι := Subtype.val_injective.comp ψ.injective
   refine ⟨(unitaryBlock hU I).map ι, ?_, ?_⟩

@@ -22,6 +22,7 @@ variable {G : Type} [Group G]
 
 variable [Finite G] {t : G} {L S : Subgroup G} {z r : G} {B A K₁ K₂ : Subgroup G} {h : G}
 
+omit [Finite G] in
 private theorem s888_mul_comm_of_commutator_mem_zpowers {o q z : G} (hz2 : z * z = 1)
     (hoz : o * z = z * o) (hodd : Odd (orderOf o))
     (hc : o * q * o⁻¹ * q⁻¹ ∈ zpowers z) : q * o = o * q := by

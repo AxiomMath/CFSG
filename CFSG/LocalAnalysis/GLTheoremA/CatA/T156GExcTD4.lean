@@ -98,8 +98,8 @@ theorem geomBody_td4 (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) {n : ℕ} (h
       .trialityD4 2 (n / p) :=
     ⟨⟨Nat.prime_two, hm, rfl⟩, twistedChevalleyModel_largeEven .D4 hk₀⟩
   obtain ⟨hs₀, hna₀⟩ := Y10GField.triD4_model_simple hchev₀
-  haveI := hS
-  haveI := hs₀
+  have := hS
+  have := hs₀
   have hZ := center_eq_bot_of_simple_noncomm hna
   have hfix : FP.fixSub f = ggFixSub f := Subgroup.ext fun _ => Iff.rfl
   obtain ⟨θ₀, hθ₀⟩ := ggFixGeom_of_inn hna₀ hZ

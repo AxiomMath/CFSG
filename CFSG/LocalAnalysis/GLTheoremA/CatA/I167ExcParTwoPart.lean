@@ -170,7 +170,7 @@ private theorem g1_twoPart_inner {τ : Tag} {L : Type} [Field L] [IsAlgClosed L]
     (finite_setOf_isRoot τ).subset fun β hβ => hΨ.isRoot β hβ
   have hs1 := componentOrbitLength_eq_one hfin hst
   obtain ⟨σ, hfinK, hcardσ, f, hf1, hker, hf2⟩ := exists_inner_cover S hT i hinner
-  haveI := hfinK
+  have := hfinK
   rw [hs1, pow_one, hq] at hcardσ
   have he : 1 ≤ e := by
     rcases Nat.eq_zero_or_pos e with rfl | h
@@ -204,7 +204,7 @@ private theorem g1_ringChar_eq_two {τ : Tag} {L : Type} [Field L] [IsAlgClosed 
     have h := S.hqpow.2
     rw [hq, Nat.cast_pow] at h
     exact (pow_eq_zero_iff he).1 h
-  haveI := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2
+  have := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2
   exact ringChar.eq L 2
 
 private theorem g1_typeA_model
@@ -238,7 +238,7 @@ private theorem g1_typeA_model
     have hcard : (frameRoots σ).ncard = ν * (ν - 1) := by
       have hinj : Set.InjOn (fun q : Fin ν × Fin ν => σ q.1 q.2) {q | q.1 ≠ q.2} := by
         rintro ⟨x, y⟩ hxy ⟨u, v⟩ huv h
-        simp only [Set.mem_setOf_eq] at hxy huv
+        simp only [Set.mem_ofPred_eq] at hxy huv
         obtain ⟨rfl, rfl⟩ := hψ.eq_of_eq hκ hnorm hxy huv h
         rfl
       have himg : frameRoots σ = (fun q : Fin ν × Fin ν => σ q.1 q.2) '' {q | q.1 ≠ q.2} := by
@@ -252,7 +252,7 @@ private theorem g1_typeA_model
       have hoff : ({q : Fin ν × Fin ν | q.1 ≠ q.2} : Set (Fin ν × Fin ν)) =
           ↑(Finset.univ.offDiag : Finset (Fin ν × Fin ν)) := by
         ext q
-        simp [Finset.mem_offDiag]
+        simp
       rw [hoff, Set.ncard_coe_finset, Finset.offDiag_card, Finset.card_univ, Fintype.card_fin,
         Nat.mul_sub_left_distrib, mul_one]
     have hνr : ν = compRank (componentRoots (rootCharHom a) i) + 1 := by
@@ -299,7 +299,7 @@ private theorem g1_twoPart_typeA
     {τ : Tag} {L : Type} [Field L] [IsAlgClosed L]
     {p₀ p : ℕ} (S : LangSetup τ L p₀) (hp : p.Prime) {a : Fin τ.rank → Lˣ}
     (hT : rootDiagUnit τ a ∈ S.D.torus) (hap : ∀ j, a j ^ p = 1) (h1 : rootDiagUnit τ a ≠ 1)
-    (i : KernelComponent (rootCharHom a)) {e : ℕ} (hq : S.D.q = 2 ^ e) (hq4 : 4 ≤ S.D.q)
+    (i : KernelComponent (rootCharHom a)) {e : ℕ} (hq : S.D.q = 2 ^ e) (_hq4 : 4 ≤ S.D.q)
     (hst : ∀ γ ∈ componentRoots (rootCharHom a) i, S.ρ γ ∈ componentRoots (rootCharHom a) i)
     (hA : 1 ≤ compRank (componentRoots (rootCharHom a) i) ∧
       (componentRoots (rootCharHom a) i).ncard = compRank (componentRoots (rootCharHom a) i) *
@@ -384,8 +384,8 @@ private theorem g1_dClassTwisted {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ 
   classical
   obtain ⟨r, e, m, hr, hchar, hm5, z, ε, D, hq, he, hDe, hRC, hDs, hCart, hfix, hswap⟩ :=
     CompsPTwoDExport.exists_twoD_export S hτ hTor i hkind h5
-  haveI := hr
-  haveI := hchar
+  have := hr
+  have := hchar
   have hrc : ringChar L = r := ringChar.eq L r
   have hQ' : Q r (r ^ e) := by
     have h := hQ
@@ -419,8 +419,8 @@ private theorem g1_dClassTwisted {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ 
       exact (ε.symm j).2
     · intro hβ
       exact ⟨ε ⟨β, hβ⟩, by simp⟩
-  have hsw := hswap ⟨m - 2, by omega⟩ ⟨m - 1, by omega⟩ (by simp only [Fin.val_mk]; omega)
-    (by simp only [Fin.val_mk]; omega)
+  have hsw := hswap ⟨m - 2, by omega⟩ ⟨m - 1, by omega⟩ (by simp only; omega)
+    (by simp only; omega)
   have hlie := lieModel_orbitGroup_of_datum_four hτ D (by omega) hR
     (fun j : Fin m => (ε.symm j : Fin τ.rank → ℤ)) hbroot hbinj hG (hDs.trans hrange.symm) hfix
     hsw.1 hsw.2
@@ -462,7 +462,7 @@ private theorem g1_twoD_model {p : ℕ} (hp : p.Prime) {τ : Tag}
   have hTp := rootDiagUnit_pow_eq_one_of_forall hap
   have hkind : twistKind S.ρ (rootCharHom a) i = .twoD := by
     unfold twistKind
-    rw [if_neg hout, if_neg, if_pos ⟨by omega, hn⟩]
+    rw [ite_eq_right hout, ite_eq_right, ite_eq_left ⟨by omega, hn⟩]
     rintro (⟨h6, h72⟩ | ⟨h4', -, -⟩)
     · rw [hn, h6] at h72
       omega

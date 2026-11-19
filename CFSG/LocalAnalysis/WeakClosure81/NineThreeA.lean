@@ -12,16 +12,19 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ} {g x : G}
 
+omit [Finite G] in
 private theorem nineThree_sq_mul {y₁ y₂ : G} (hc : y₁ * y₂ = y₂ * y₁) (h1 : y₁ ^ 2 = 1)
     (h2 : y₂ ^ 2 = 1) : (y₁ * y₂) ^ 2 = 1 := by
   calc (y₁ * y₂) ^ 2 = y₁ ^ 2 * y₂ ^ 2 := Commute.mul_pow hc 2
     _ = 1 := by rw [h1, h2, one_mul]
 
+omit [Finite G] in
 private theorem nineThree_conjSubgroup_iSup {ι : Sort*} (B : ι → Subgroup G) (g : G) :
     conjSubgroup (⨆ i, B i) g = ⨆ i, conjSubgroup (B i) g := by
   simp only [CFSG.Quasithin.conjSubgroup]
   exact Subgroup.map_iSup _ _
 
+omit [Finite G] in
 private theorem nineThree_conjSubgroup_eq_self {N : Subgroup G} {y : G}
     (hy : y ∈ normalizer (N : Set G)) : conjSubgroup N y = N := by
   ext z
@@ -78,8 +81,8 @@ theorem card_nineOmegaIn (h : Nine3Core V T A K S X p) :
     ∃ n : ℕ, Nat.card ↥(nineOmegaIn V K S) = 2 ^ n ∧
       Nat.card ↥(nineDelta V S) = 2 ^ n + 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI act : MulAction ↥(pCoreOf 2 K) (Subgroup G) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let act : MulAction ↥(pCoreOf 2 K) (Subgroup G) :=
     { smul := fun r B => conjSubgroup B (r : G)⁻¹
       one_smul := fun B => by
         show conjSubgroup B ((1 : ↥(pCoreOf 2 K)) : G)⁻¹ = B
@@ -158,10 +161,12 @@ theorem nineZ_eq_iSup (h : Nine3Core V T A K S X p) :
   · refine iSup₂_le fun r hr => ?_
     exact le_iSup₂_of_le (conjSubgroup A r) ((h.mem_nineOmegaIn_iff).mpr ⟨r, hr, rfl⟩) le_rfl
 
+omit [Finite G] in
 theorem conjSubgroup_pCoreOf (K : Subgroup G) {y : G} (hy : y ∈ K) :
     conjSubgroup (pCoreOf 2 K) y = pCoreOf 2 K :=
   nineThree_conjSubgroup_eq_self (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 K hy)
 
+omit [Finite G] in
 theorem mem_pCoreOf_conj_iff (K : Subgroup G) {y : G} (hy : y ∈ K) {r : G} :
     r ∈ pCoreOf 2 K ↔ y * r * y⁻¹ ∈ pCoreOf 2 K := by
   rw [← mem_conjSubgroup_iff, conjSubgroup_pCoreOf K hy]
@@ -193,6 +198,7 @@ theorem nineD_eq (h : Nine3Core V T A K S X p) (hx : x ∈ X) :
     rw [CFSG.Quasithin.conjSubgroup_conjSubgroup, inv_mul_cancel, CFSG.Quasithin.conjSubgroup_one]
   rw [h1, h.nineDp_eq hx, E3.conjSubgroup_inf, conjSubgroup_pCoreOf K hxK]
 
+omit [Finite G] in
 theorem nineD_le_pCoreOf : nineD K A x ≤ pCoreOf 2 K :=
   inf_le_right
 

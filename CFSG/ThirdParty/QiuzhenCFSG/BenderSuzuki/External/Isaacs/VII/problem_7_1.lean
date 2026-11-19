@@ -61,16 +61,16 @@ private theorem problem71ConjPair_card_eq
     (N H : Subgroup G) (hcomp : N.IsComplement' H) :
     Nat.card (N × {h : H // h ≠ 1}) = Nat.card {g : G // g ∉ N} := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
-  letI : Fintype N := Fintype.ofFinite N
-  letI : Fintype H := Fintype.ofFinite H
-  letI : Fintype {h : H // h ≠ 1} := Fintype.ofFinite _
-  letI : Fintype {g : G // g ∉ N} := Fintype.ofFinite _
+  let : Fintype G := Fintype.ofFinite G
+  let : Fintype N := Fintype.ofFinite N
+  let : Fintype H := Fintype.ofFinite H
+  let : Fintype {h : H // h ≠ 1} := Fintype.ofFinite _
+  let : Fintype {g : G // g ∉ N} := Fintype.ofFinite _
   rw [Nat.card_prod]
   simp only [Nat.card_eq_fintype_card]
   rw [Fintype.card_subtype_compl (fun h : H => h = 1)]
   rw [Fintype.card_subtype_compl (fun g : G => g ∈ N)]
-  have hc := hcomp.card_mul
+  have hc := hcomp.card_mul_card
   simp only [Nat.card_eq_fintype_card] at hc
   simp at hc ⊢
   calc

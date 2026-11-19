@@ -95,7 +95,7 @@ theorem glbCore_two_le_of_escape {p : ℕ} {P : Sylow p G} {M H R : Subgroup G}
     (he : D1Escape p P M H R) {E : Subgroup G} (hEM : E ≤ M) (hE : IsElemAbelian p E)
     (hEc : Nat.card E = p ^ 3) : GLBCore p 2 E ≤ M := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEp : IsPGroup p E := IsPGroup.of_card hEc
   obtain ⟨m, hm, hEP⟩ := exists_conj_le he.sylow_le hEp hEM
   have hW := weakCore_conj_le hp he.weakCore_le hm
@@ -117,7 +117,7 @@ theorem exists_isStdE_of_isAGLQ {p : ℕ} {P : Sylow p G} {M H R : Subgroup G}
   · obtain ⟨E₀, hE₀Q, hE₀, hE₀c⟩ := pRank_attained p hp Q
     have h3' : 3 ≤ Open.pRank p Q := by rwa [CFSG.SectionRank.pRank_coe_eq_openPRank] at h3
     have hdvd : p ^ 3 ∣ Nat.card E₀ := hE₀c ▸ pow_dvd_pow p h3'
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨F, hF⟩ := Sylow.exists_subgroup_card_pow_prime p hdvd
     refine ⟨3, F.map E₀.subtype, Or.inr rfl, (Subgroup.map_subtype_le F).trans hE₀Q,
       IsElemAbelian.mono hE₀ (Subgroup.map_subtype_le F), ?_, ?_⟩
@@ -132,6 +132,7 @@ theorem isComponentOf_top_of_isComponent' {X : Type*} [Group X] {L : Subgroup X}
   ⟨le_top, (CFSG.Adapters.isSubnormal_top_iff L).mpr hL.2,
     ⟨hL.1.1.commutator_eq_top, hL.1.2.1⟩⟩
 
+omit [Finite G] in
 theorem kStar_le_d1KBar {p : ℕ} [Fact p.Prime] {M H : Subgroup G}
     (hJ : ¬ AGL81C.pLayerIn p H ≤ M)
     (hcore : (primeComplementCore (G := H) p).map H.subtype ≤ M) :
@@ -160,7 +161,7 @@ theorem kStar_le_d1KBar {p : ℕ} [Fact p.Prime] {M H : Subgroup G}
     sSup_le fun Y ⟨hY, hYM⟩ y hy =>
       ⟨⟨y, hY.1 hy⟩, key Y hY hYM ⟨⟨y, hY.1 hy⟩, hy, rfl⟩, rfl⟩
   unfold AGL81C.kStar AGL81C.kSub
-  rw [if_neg hJ]
+  rw [ite_eq_right hJ]
   rintro _ ⟨x, hx, rfl⟩
   obtain ⟨x', hx', hxx⟩ := hS (Subgroup.mem_subgroupOf.mp hx)
   have : x' = x := Subtype.ext hxx
@@ -193,7 +194,7 @@ theorem d1KBar_le_kStar {p : ℕ} {M H : Subgroup G} (hJ : ¬ AGL81C.pLayerIn p 
     exact ⟨y, ⟨y.2, hle ⟨y, hy, rfl⟩⟩, rfl⟩
   have hYK : Y ≤ AGL81C.kSub p M H := by
     unfold AGL81C.kSub
-    rw [if_neg hJ]
+    rw [ite_eq_right hJ]
     exact le_sSup ⟨hYin, hYM⟩
   rw [← hYL']
   rintro _ ⟨y, hy, rfl⟩
@@ -205,6 +206,7 @@ theorem kStar_eq_d1KBar {p : ℕ} [Fact p.Prime] {M H : Subgroup G}
     AGL81C.kStar p M H = d1KBar p M H :=
   le_antisymm (kStar_le_d1KBar hJ hcore) (d1KBar_le_kStar hJ)
 
+omit [Finite G] in
 theorem sSup_invTwoSubgroups_le_xSub {p : ℕ} [Fact p.Prime] {M H Q : Subgroup G}
     (hJ : ¬ AGL81C.pLayerIn p H ≤ M)
     (hcore : (primeComplementCore (G := H) p).map H.subtype ≤ M)

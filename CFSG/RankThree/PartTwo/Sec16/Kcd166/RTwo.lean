@@ -9,7 +9,7 @@ namespace CFSG.RankThree.PartTwo.Sec16.Kcd166
 open scoped commutatorElement
 
 private theorem exists_maximal_normal_not_le {X : Type*} [Group X] [Finite X]
-    {D U : Subgroup X} (hUD : U ≤ D) (hUne : U ≠ ⊥) :
+    {D U : Subgroup X} (_hUD : U ≤ D) (hUne : U ≠ ⊥) :
     ∃ N : Subgroup X, N.Normal ∧ N ≤ D ∧ ¬ U ≤ N ∧
       ∀ K : Subgroup X, K.Normal → N < K → K ≤ D → U ≤ K := by
   classical
@@ -51,7 +51,7 @@ private theorem isMinimalNormal_map_quotient {X : Type*} [Group X]
   have hNle : N ≤ K.comap π := by
     intro n hn
     have h1 : π n = 1 := (QuotientGroup.eq_one_iff (N := N) (x := n)).mpr hn
-    simpa [Subgroup.mem_comap, h1] using K.one_mem
+    simp [Subgroup.mem_comap, h1]
   have hKcM : K.comap π ≤ M := by
     have h := Subgroup.comap_mono (f := π) hKMq
     rw [hMq, Subgroup.comap_map_eq, QuotientGroup.ker_mk',
@@ -90,8 +90,8 @@ private theorem pow_mem_of_minimal_normal_quotient {X : Type*} [Group X] [Finite
     (IsPGroup.card_eq_or_dvd (p := p) (G := Uq) hUqP).resolve_left hcardUq
   have hdiv : p ∣ Nat.card Mq := dvd_trans hp_dvd_Uq (Subgroup.card_dvd_of_le hUqMq)
   obtain ⟨q, hq, hqEA⟩ := minimalNormal_solvable_exists_isElementaryAbelian Mq
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : IsElementaryAbelian q (↥Mq) := hqEA
+  have : Fact q.Prime := ⟨hq⟩
+  have : IsElementaryAbelian q (↥Mq) := hqEA
   obtain ⟨r, hcardMq⟩ := (IsElementaryAbelian.isPGroup q (↥Mq)).exists_card_eq
   have hpq : p = q := by
     refine Nat.prime_eq_prime_of_dvd_pow (m := r) Fact.out hq ?_
@@ -114,17 +114,17 @@ private theorem chief_factor_abelian_and_exponent {X : Type*} [Group X] [Finite 
     (hUp : IsPGroup p U) (hUM : U ≤ M) (hUN : ¬ U ≤ N) :
     (∀ x ∈ M, ∀ y ∈ M, ⁅x, y⁆ ∈ N) ∧ (∀ x ∈ M, x ^ p ∈ N) := by
   classical
-  haveI : N.Normal := hNn
-  haveI : M.Normal := hMn
-  haveI : Group.IsSolvable (↥D) := hDs
+  have : N.Normal := hNn
+  have : M.Normal := hMn
+  have : Group.IsSolvable (↥D) := hDs
   let π : X →* X ⧸ N := QuotientGroup.mk' N
   let Mq : Subgroup (X ⧸ N) := M.map π
-  haveI : Mq.Normal := hMn.map π (QuotientGroup.mk'_surjective N)
-  haveI : IsMinimalNormal Mq := isMinimalNormal_map_quotient hNM hChief Mq rfl
+  have : Mq.Normal := hMn.map π (QuotientGroup.mk'_surjective N)
+  have : IsMinimalNormal Mq := isMinimalNormal_map_quotient hNM hChief Mq rfl
   have hMsolv : Group.IsSolvable (↥M) :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hMD)
       (Subgroup.inclusion_injective hMD)
-  haveI : Group.IsSolvable (↥M) := hMsolv
+  have : Group.IsSolvable (↥M) := hMsolv
   let φ : M →* Mq :=
     { toFun := fun x => ⟨π x, Subgroup.mem_map_of_mem π x.2⟩
       map_one' := by ext; simp
@@ -133,8 +133,8 @@ private theorem chief_factor_abelian_and_exponent {X : Type*} [Group X] [Finite 
     intro y
     obtain ⟨m, hm, hmy⟩ := Subgroup.mem_map.mp y.2
     exact ⟨⟨m, hm⟩, Subtype.ext hmy⟩
-  haveI : Group.IsSolvable (↥Mq) := Group.isSolvable_of_surjective hφsurj
-  haveI : IsMulCommutative (↥Mq) := minimalNormal_solvable_isMulCommutative Mq
+  have : Group.IsSolvable (↥Mq) := Group.isSolvable_of_surjective hφsurj
+  have : IsMulCommutative (↥Mq) := minimalNormal_solvable_isMulCommutative Mq
   have hcomm : ∀ x ∈ M, ∀ y ∈ M, ⁅x, y⁆ ∈ N := by
     intro x hx y hy
     have hxy :
@@ -154,7 +154,7 @@ private theorem chief_factor_abelian_and_exponent {X : Type*} [Group X] [Finite 
 
 private theorem commutator_zpow_mem_of_mem {X : Type*} [Group X] {N : Subgroup X}
     (hN : N.Normal) {u d : X} (h : ⁅u, d⁆ ∈ N) (k : ℤ) : ⁅u, d ^ k⁆ ∈ N := by
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   let π : X →* X ⧸ N := QuotientGroup.mk' N
   have hcomm : Commute (π u) (π d) := by
     rw [← commutatorElement_eq_one_iff_commute, ← map_commutatorElement]

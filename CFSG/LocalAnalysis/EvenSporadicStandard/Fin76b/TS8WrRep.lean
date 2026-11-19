@@ -13,7 +13,7 @@ open CFSG.QuasithinUnique.A6Facts Equiv Subgroup
   if h : c0 i ∈ Core.p0Lit then Classical.choose (exists_P0_of_code h) else 1
 
 theorem e0_spec {i : Nat} (h : c0 i ∈ Core.p0Lit) : e0 i ∈ P0 ∧ code (e0 i) = c0 i := by
-  have hi : e0 i = Classical.choose (exists_P0_of_code h) := dif_pos h
+  have hi : e0 i = Classical.choose (exists_P0_of_code h) := dite_eq_left h
   rw [hi]
   exact Classical.choose_spec (exists_P0_of_code h)
 
@@ -75,8 +75,8 @@ theorem mtab_get {a b : Nat} (ha : a < 32) (hb : b < 32) :
   have e1 : (a * 32 + b) / 32 = a := by omega
   have e2 : (a * 32 + b) % 32 = b := by omega
   unfold mtab
-  rw [Array.getD_eq_getD_getElem?, Array.getElem?_ofFn, dif_pos hk]
-  simp only [Option.getD_some, Fin.val_mk, e1, e2]
+  rw [Array.getD_eq_getD_getElem?, Array.getElem?_ofFn, dite_eq_left hk]
+  simp only [Option.getD_some, e1, e2]
 
 @[expose] def Valid (x : Nat × Nat × Bool) : Prop := x.1 < 32 ∧ x.2.1 < 32
 
@@ -102,7 +102,7 @@ theorem rep_one (hcid : Core.cid ∈ Core.p0Lit) (hci : c0 i0 = Core.cid) : rep 
   have h0 : e0 i0 = 1 := by
     apply code_injective
     rw [code_e0 (i0_lt hcid), hci, code_one]
-  simp [rep, oneI, h0, sumCongr_one_one]
+  simp [rep, oneI, h0]
 
 theorem rep_mulI (hcl : ∀ a < 32, ∀ b < 32, Core.cmul (c0 a) (c0 b) ∈ Core.p0Lit)
     {x y : Nat × Nat × Bool} (hx : Valid x) (hy : Valid y) :
@@ -114,17 +114,17 @@ theorem rep_mulI (hcl : ∀ a < 32, ∀ b < 32, Core.cmul (c0 a) (c0 b) ∈ Core
   cases e <;> cases f
   · rw [mulI_false, mtab_get ha hc, mtab_get hb hd, rep_mk, rep_mk, rep_mk,
       e0_mul hcl ha hc, e0_mul hcl hb hd]
-    simp only [if_false, Bool.false_eq_true, mul_one, ← mul_assoc, Equiv.Perm.sumCongr_mul]
+    simp only [ite_false, Bool.false_eq_true, mul_one, Equiv.Perm.sumCongr_mul]
   · rw [mulI_false, mtab_get ha hc, mtab_get hb hd, rep_mk, rep_mk, rep_mk,
       e0_mul hcl ha hc, e0_mul hcl hb hd]
-    simp only [if_false, if_true, Bool.false_eq_true, mul_one, ← mul_assoc, Equiv.Perm.sumCongr_mul]
+    simp only [ite_false, ite_true, Bool.false_eq_true, mul_one, ← mul_assoc, Equiv.Perm.sumCongr_mul]
   · rw [mulI_true, mtab_get ha hd, mtab_get hb hc, rep_mk, rep_mk, rep_mk,
       e0_mul hcl ha hd, e0_mul hcl hb hc]
-    simp only [if_false, if_true, Bool.false_eq_true, mul_one, Bool.not_true, Bool.not_false]
+    simp only [ite_false, ite_true, Bool.false_eq_true, mul_one, Bool.not_false]
     rw [sumCongr_sw_sumCongr]
   · rw [mulI_true, mtab_get ha hd, mtab_get hb hc, rep_mk, rep_mk, rep_mk,
       e0_mul hcl ha hd, e0_mul hcl hb hc]
-    simp only [if_true, Bool.false_eq_true, Bool.not_true, if_false, mul_one]
+    simp only [ite_true, Bool.false_eq_true, Bool.not_true, ite_false, mul_one]
     rw [← mul_assoc, sumCongr_sw_sumCongr, mul_assoc, sw_mul_sw, mul_one]
 
 theorem rep_inj {x y : Nat × Nat × Bool} (hx : Valid x) (hy : Valid y) (h : rep x = rep y) :
@@ -135,23 +135,23 @@ theorem rep_inj {x y : Nat × Nat × Bool} (hx : Valid x) (hy : Valid y) (h : re
   obtain ⟨hc, hd⟩ := hy
   cases e <;> cases f
   · rw [rep_mk, rep_mk] at h
-    simp only [if_false, Bool.false_eq_true, mul_one] at h
+    simp only [ite_false, Bool.false_eq_true, mul_one] at h
     obtain ⟨h1, h2⟩ := sumCongr_inj h
     obtain rfl := e0_inj ha hc h1
     obtain rfl := e0_inj hb hd h2
     rfl
   · exfalso
     rw [rep_mk, rep_mk] at h
-    simp only [if_false, if_true, Bool.false_eq_true, mul_one] at h
+    simp only [ite_false, ite_true, Bool.false_eq_true, mul_one] at h
     have := congrArg (fun g : Pt => g (Sum.inl 0)) h
     simp [sw] at this
   · exfalso
     rw [rep_mk, rep_mk] at h
-    simp only [if_false, if_true, Bool.false_eq_true, mul_one] at h
+    simp only [ite_false, ite_true, Bool.false_eq_true, mul_one] at h
     have := congrArg (fun g : Pt => g (Sum.inl 0)) h
     simp [sw] at this
   · rw [rep_mk, rep_mk] at h
-    simp only [if_true] at h
+    simp only [ite_true] at h
     obtain ⟨h1, h2⟩ := sumCongr_inj (mul_right_cancel h)
     obtain rfl := e0_inj ha hc h1
     obtain rfl := e0_inj hb hd h2

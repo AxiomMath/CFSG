@@ -22,7 +22,7 @@ theorem exists_move_of_card_automizer {B : Subgroup S}
     (hA : 12 < Nat.card (CFSG.RankThree.Asc83Table.Automizer B))
     {s : S} (hs : s ∈ B) (hs1 : s ≠ 1) :
     ∃ n ∈ Subgroup.normalizer (B : Set S), n ∉ Subgroup.normalizer (Subgroup.zpowers s : Set S) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   push Not at hcon
   have hs3 : s ^ 3 = 1 := hB.2 s hs
@@ -79,11 +79,11 @@ theorem exists_move_of_card_automizer {B : Subgroup S}
     intro x hx
     exact (Subgroup.zpowers_le.mpr hs) hx
   have hXc : X.ncard = 2 := by
-    rw [hX, Set.ncard_diff_singleton_of_mem (Subgroup.one_mem _), ← Nat.card_coe_set_eq]
+    rw [hX, Set.ncard_sdiff_singleton_of_mem (Subgroup.one_mem _), ← Nat.card_coe_set_eq]
     change Nat.card (Subgroup.zpowers s) - 1 = 2
     rw [hord]
   have hYc : Y.ncard = 6 := by
-    rw [hY, Set.ncard_diff hzB, ← Nat.card_coe_set_eq, ← Nat.card_coe_set_eq]
+    rw [hY, Set.ncard_sdiff hzB, ← Nat.card_coe_set_eq, ← Nat.card_coe_set_eq]
     change Nat.card B - Nat.card (Subgroup.zpowers s) = 6
     rw [hB9, hord]
   have hmemX : ∀ n : Subgroup.normalizer (B : Set S), ((ψ n ⟨s, hs⟩ : B) : S) ∈ X := by
@@ -196,7 +196,7 @@ theorem automizer_m23_all {L : Type} [Group L] (e : L ≃* Blueprint.NativeSpora
 theorem rankTwo_spor_m23 : RankTwoData (Spor .M23) := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.M23.nonempty_mulEquiv
   have b' : Blueprint.NativeSporadic.M23 ≃* Spor .M23 := b
-  haveI : Finite (Spor .M23) := Finite.of_equiv _ b'.toEquiv
+  have : Finite (Spor .M23) := Finite.of_equiv _ b'.toEquiv
   have hrank : CFSG.pRank 3 (Spor .M23) = 2 :=
     (CFSG.RankThree.Asc83Table.e9_transport CFSG.RankThree.Asc83Table.M23.E
       CFSG.RankThree.Asc83Table.M23.factorization_card b'.symm).2.1
@@ -233,9 +233,9 @@ theorem automizer_hs_all {L : Type} [Group L] (e : L ≃* Blueprint.NativeSporad
 theorem rankTwo_spor_hs : RankTwoData (Spor .HS) := by
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.HS.nonempty_mulEquiv
   have b' : Blueprint.NativeSporadic.HS ≃* Spor .HS := b
-  haveI : Finite (Blueprint.NativeSporadic.HS) := Nat.finite_of_card_ne_zero (by
+  have : Finite (Blueprint.NativeSporadic.HS) := Nat.finite_of_card_ne_zero (by
     rw [CFSG.Sporadic.HS.card_HS]; norm_num)
-  haveI : Finite (Spor .HS) := Finite.of_equiv _ b'.toEquiv
+  have : Finite (Spor .HS) := Finite.of_equiv _ b'.toEquiv
   have hrank : CFSG.pRank 3 (Spor .HS) = 2 :=
     (CFSG.RankThree.Asc83Table.e9_transport CFSG.RankThree.Asc83Table.HS.E
       CFSG.RankThree.Asc83Table.HS.factorization_card b'.symm).2.1
@@ -268,7 +268,7 @@ theorem rowOf427_m23
   have b' : Blueprint.NativeSporadic.M23 ≃* Spor .M23 := b
   have hcard : Nat.card (Spor .M23) = 10200960 := by
     rw [← Nat.card_congr b'.toEquiv, CFSG.Sporadic.Schreier.m23_card]
-  haveI : Finite (Spor .M23) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Spor .M23) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   refine rowOf427_of_e9Move ?_ rankTwo_spor_m23
     (fun S _ _ ⟨e⟩ => e9Move_of_sd16 (automizer_m23_all (e.trans b'.symm)))
     (by rw [hcard]; norm_num)
@@ -288,7 +288,7 @@ theorem rowOf427_hs
   have b' : Blueprint.NativeSporadic.HS ≃* Spor .HS := b
   have hcard : Nat.card (Spor .HS) = 44352000 := by
     rw [← Nat.card_congr b'.toEquiv, CFSG.Sporadic.HS.card_HS]
-  haveI : Finite (Spor .HS) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Spor .HS) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   refine rowOf427_of_e9Move ?_ rankTwo_spor_hs
     (fun S _ _ ⟨e⟩ => e9Move_of_sd16 (automizer_hs_all (e.trans b'.symm)))
     (by rw [hcard]; norm_num)

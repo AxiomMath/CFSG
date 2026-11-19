@@ -77,7 +77,7 @@ theorem i1416TwoSporS_of_residual
   all_goals refine row_of_factors hOut hbr hOrd (by decide) (by decide) (fun x hx h2 he => ?_) p
   all_goals simp only [sporFactors, List.mem_cons, List.not_mem_nil, or_false] at hx
   all_goals rcases hx with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
-  all_goals first | exact absurd rfl h2 | (exfalso; omega) | skip
+  all_goals try first | exact absurd rfl h2 | (exfalso; omega)
   case M11 => exact row_M11_three hOut
   case M12 => exact row_M12_three hOut
   case M22 => exact row_M22_three hOut

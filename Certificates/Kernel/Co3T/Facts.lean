@@ -383,7 +383,7 @@ theorem hypCheck_eq : hypCheck () = true := by
     have h := hc l hl
     unfold coordK at h
     simp only [Bool.and_eq_true, Nat.blt_eq] at h
-    simp only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq]
+    simp only [decide_eq_true_eq]
     refine ⟨h.1.1, ?_⟩
     rw [E_get h.1.1, getU (p := GJ j) (i := 0) (by norm_num),
       getU (p := DE (CK (7 * j + l))) (pp_lt hp (by norm_num)), getU (p := GJ j) (i := l) (by omega)]
@@ -396,7 +396,7 @@ theorem hypCheck_eq : hypCheck () = true := by
     · right
       rw [anyLt_iff]
       by_contra hn
-      push_neg at hn
+      push Not at hn
       have : allN 121 (fun j => !(allN 7 fun l => Nat.beq (dot3K m (CK (7 * j + l))) 0)) = true := by
         rw [Orb.allN_iff]
         intro j hj
@@ -444,7 +444,7 @@ theorem fusCheck_eq : fusCheck () = true := by
     rw [qPts_get ha, conj_unpack' hw (pQT ha) pT, anyLt_iff]
     have pc := pcj (pQT ha) pT
     by_cases hb12 : FB k < 12
-    · rw [if_pos hb12] at hx
+    · rw [ite_eq_left hb12] at hx
       refine ⟨FB k, hb12, ?_⟩
       rw [Bool.or_eq_true]
       left
@@ -453,7 +453,7 @@ theorem fusCheck_eq : fusCheck () = true := by
       unfold cj cm at e hx
       rw [e]
       exact hx
-    · rw [if_neg hb12] at hx
+    · rw [ite_eq_right hb12] at hx
       refine ⟨FB k - 12, by omega, ?_⟩
       have pl := pP (k := 12 + (FB k - 12)) (by omega)
       rw [Bool.or_eq_true]
@@ -482,7 +482,7 @@ theorem transCheck_eq : transCheck () = true := by
   simp only [Bool.true_and]
   split
   · rename_i hd
-    rw [if_pos hd] at hz
+    rw [ite_eq_left hd] at hz
     simp only [Bool.and_eq_true, Nat.blt_eq] at hz
     unfold inD
     rw [anyLt_iff]
@@ -493,7 +493,7 @@ theorem transCheck_eq : transCheck () = true := by
     rw [e]
     exact hz.2
   · rename_i hd
-    rw [if_neg hd] at hz
+    rw [ite_eq_right hd] at hz
     have p9 := pP (k := 9) (by norm_num)
     rw [cu p9 p9]
     have e1 := eqU pc p9
@@ -558,7 +558,7 @@ theorem card_filter_cntN (f : Nat → Bool) :
     rw [← card_filter_cntN f N]
     cases hf : f N
     · simp
-    · rw [if_pos rfl, Finset.card_insert_of_notMem (by simp)]
+    · rw [ite_eq_left rfl, Finset.card_insert_of_notMem (by simp)]
       rfl
 
 theorem commA_eq {A B : Nat} (hA : permB 276 9 A = true) (hB : permB 276 9 B = true) :

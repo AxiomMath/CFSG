@@ -42,7 +42,7 @@ end OddCentralCover
 theorem mem_pCore_two_of_nilpotent_normal {A : Type} [Group A] [Finite A] (N : Subgroup A)
     [hN : N.Normal] (hnil : Group.IsNilpotent ↥N) {x : A} (hx : x ∈ N) {k : ℕ}
     (hxk : x ^ (2 ^ k) = 1) : x ∈ CFSG.pCore 2 A := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let x' : ↥N := ⟨x, hx⟩
   have hord : orderOf x' ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one (Subtype.ext hxk)
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hord

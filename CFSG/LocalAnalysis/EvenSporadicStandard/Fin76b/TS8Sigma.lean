@@ -56,7 +56,7 @@ theorem conj_max_cent {G : Type} [Group G] {E : Subgroup G} {n : G}
     have heq := hmax _ hR₀2 hR₀E hSle
     intro r hr
     rw [hmem]
-    have : n⁻¹ * r * n ∈ R.map (MulAut.conj n⁻¹).toMonoidHom := ⟨r, hr, by simp [MulAut.conj_apply]⟩
+    have : n⁻¹ * r * n ∈ R.map (MulAut.conj n⁻¹).toMonoidHom := ⟨r, hr, by simp⟩
     rw [heq] at this
     exact this
 
@@ -210,7 +210,7 @@ theorem cent_z_normU :
   · exact fun m hm => ⟨h.normHE_le_normU hm, hm.2⟩
 
 
-theorem t_comm_S' : ∀ s ∈ S, s * t = t * s := fun s hs =>
+theorem t_comm_S' : ∀ _s ∈ S, _s * t = t * _s := fun _s hs =>
   (mem_centralizer_iff.1 (h.SC hs) t h.outerE.econfig.t_mem).symm
 
 theorem z_alpha_z {α : G} (hα : AlphaSpec S z t α) : z * α * z = α * t := by

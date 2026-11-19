@@ -14,7 +14,7 @@ theorem exists_sylow_eq {I : Type} [Group I] [Finite I] (T₁ : Subgroup I) (hT�
     (hmax : ∀ P : Subgroup I, IsPGroup 2 P → T₁ ≤ P → P = T₁) :
     ∃ T : Sylow 2 I, (T : Subgroup I) = T₁ := by
   obtain ⟨T, hT⟩ := hT₁.exists_le_sylow
-  exact ⟨T, hmax _ T.isPGroup' hT⟩
+  exact ⟨T, hmax _ T.isPGroup hT⟩
 
 theorem conjNormal_top_injective {I : Type} [Group I] {F : Type} [Field F] [Finite F]
     (e : ↥(⊤ : Subgroup I) ≃* IVK.L2 F) :

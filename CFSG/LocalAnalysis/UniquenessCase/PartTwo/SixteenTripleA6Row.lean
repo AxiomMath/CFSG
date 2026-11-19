@@ -31,9 +31,9 @@ theorem exists_orderOf_eq_three_fix_of_tripleA6Six
   have hlen' : Nat.card (H13.Orbit.orbitIn H w) = 18 ∨
       Nat.card (H13.Orbit.orbitIn H w) = 45 := by
     simpa using hlen w hw
-  letI : Fintype ↥H := Fintype.ofFinite _
-  letI : Fintype (MulAction.orbit ↥H w) := Fintype.ofFinite _
-  letI : Fintype (MulAction.stabilizer ↥H w) := Fintype.ofFinite _
+  let : Fintype ↥H := Fintype.ofFinite _
+  let : Fintype (MulAction.orbit ↥H w) := Fintype.ofFinite _
+  let : Fintype (MulAction.stabilizer ↥H w) := Fintype.ofFinite _
   have horb := MulAction.card_orbit_mul_card_stabilizer_eq_card_group ↥H w
   have horb' : Nat.card (MulAction.orbit ↥H w) *
       Nat.card (MulAction.stabilizer ↥H w) = Nat.card ↥H := by
@@ -58,7 +58,7 @@ theorem exists_orderOf_eq_three_fix_of_tripleA6Six
     rcases hstab with h60 | h24
     · rw [h60]; norm_num
     · rw [h24]; norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 3 h3dvd
   have hxH3 : orderOf (x : ↥H) = 3 := by
     rw [orderOf_submonoid x]

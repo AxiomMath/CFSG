@@ -67,13 +67,13 @@ theorem stdSub_of_model {G : Type} [Group G] [Finite G] {K : Subgroup G}
     have hx : π (x : ↥K) ∈ EM := hWEmap ▸ Subgroup.mem_map_of_mem π x.2
     have hy : π (y : ↥K) ∈ EM := hWEmap ▸ Subgroup.mem_map_of_mem π y.2
     have hc := congrArg Subtype.val (hEel.1.is_comm.comm ⟨π x, hx⟩ ⟨π y, hy⟩)
-    simp only [Function.comp_apply, Subgroup.coe_subtype, map_mul]
+    simp only [map_mul]
     exact hc
   have hWEexp : ∀ x : WE, x ^ 3 = 1 := by
     intro x
     apply hWEinj
     have hx : π (x : ↥K) ∈ EM := hWEmap ▸ Subgroup.mem_map_of_mem π x.2
-    simp only [Function.comp_apply, Subgroup.coe_subtype, map_pow, map_one]
+    simp only [map_pow, map_one]
     exact hEel.2 _ hx
   have hF'WE : WE ⊓ FM.comap π ≤ WE := inf_le_left
   have hF'π : (WE ⊓ FM.comap π).map π = FM := by
@@ -194,7 +194,7 @@ theorem stdSub_of_model {G : Type} [Group G] [Finite G] {K : Subgroup G}
     unfold GLAPPrimeCoreOf at h
     rwa [Subgroup.card_map_of_injective K.subtype_injective] at h
   have hsimpleM : IsSimpleGroup M := by
-    haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2
+    have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2
     exact e.symm.isSimpleGroup
   have hnotN : ¬ (TM.comap π).map K.subtype ≤ GLAPPrimeCoreOf 3 K := by
     intro hle
@@ -221,7 +221,7 @@ theorem stdSub_of_model {G : Type} [Group G] [Finite G] {K : Subgroup G}
       rw [ht1, one_mul, mul_one]
     · have hg1 : gM ≠ 1 := fun h1 => hgF (h1 ▸ one_mem FM)
       have hg3' : gM ^ 3 = 1 := hEel.2 gM hgE
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       have hord : orderOf gM = 3 := orderOf_eq_prime hg3' hg1
       have hgmem : gM ∈ (GLAPPrimeCore 3 ↥K).map π := by
         rw [h]
@@ -301,18 +301,18 @@ theorem pb_mul {n : ℕ} {R : Type} [CommRing R] (P Q : Fin n → Matrix (Fin 2)
       intro z
       rw [pb_apply, pb_apply, ← hxy]
       by_cases h : plOf x = plOf z
-      · simp [h, eq_comm]
+      · simp [h]
       · simp [h, eq_comm]
     simp only [key]
     rw [sum_plane (plOf x) (fun s => P (plOf x) (ixOf x) s * Q (plOf x) s (ixOf y)),
-      pb_apply, if_pos hxy]
+      pb_apply, ite_eq_left hxy]
     simp [Matrix.mul_apply, Fin.sum_univ_two]
   · have key : ∀ z : Fin n ⊕ Fin n, pb P x z * pb Q z y = 0 := by
       intro z
       rw [pb_apply, pb_apply]
       by_cases h1 : plOf x = plOf z <;> by_cases h2 : plOf z = plOf y <;> simp_all
     simp only [key, Finset.sum_const_zero]
-    rw [pb_apply, if_neg hxy]
+    rw [pb_apply, ite_eq_right hxy]
 
 theorem pb_one {n : ℕ} {R : Type} [CommRing R] :
     pb (fun _ : Fin n => (1 : Matrix (Fin 2) (Fin 2) R)) = 1 := by

@@ -27,6 +27,7 @@ theorem sec9f_equiv_E16 {B : Subgroup G} (hB : IsElemAb2 B 4) : Nonempty (↥B �
     4 hB.2
   exact ⟨e.trans (MulEquiv.piMultiplicative (fun _ : Fin 4 => ZMod 2))⟩
 
+omit [Finite G] in
 theorem sec9f_rho {X B : Subgroup G} (hX : X ≤ normalizer (B : Set G)) :
     ∃ ρ : ↥X →* MulAut ↥B, ρ.ker = (X ⊓ centralizer (B : Set G)).subgroupOf X ∧
       ρ.range = autIn X B := by

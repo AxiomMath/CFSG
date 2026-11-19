@@ -28,10 +28,10 @@ theorem lemmaN_of_bases (hA : NBaseAb) (hN : NBaseNab) {G : Type} [Group G] [Fin
   by_cases hmin : NLeast Q L
   · by_cases hab : ∀ x ∈ Q, ∀ y ∈ Q, x * y = y * x
     · exact hA G Q L b h hab hmin
-    · push_neg at hab
+    · push Not at hab
       exact hN G Q L b h hab hmin
   · unfold NLeast at hmin
-    push_neg at hmin
+    push Not at hmin
     obtain ⟨R, hRQ, hRQn, hRLn, hR1, hRne⟩ := hmin
     have hRlt : Nat.card R < Nat.card Q :=
       Subgroup.card_lt_of_lt (lt_of_le_of_ne hRQ hRne)

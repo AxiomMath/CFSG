@@ -37,7 +37,7 @@ private theorem y31_psl_card : Nat.card Y31PSL = 504 := by
   norm_num
 
 private theorem y31_psl_mulAut_not_solvable : ¬ Group.IsSolvable (MulAut Y31PSL) := by
-  haveI : IsSimpleGroup Y31PSL := by
+  have : IsSimpleGroup Y31PSL := by
     change IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 2 3))
     refine Matrix.ProjectiveSpecialLinearGroup.rank_two_simple ?_
     rw [GaloisField.card 2 3 (by norm_num)]
@@ -45,7 +45,7 @@ private theorem y31_psl_mulAut_not_solvable : ¬ Group.IsSolvable (MulAut Y31PSL
   refine CFSG.EvenSporadicStandard.TwoFi22.DS81.Fi24Branch.MulAutSimple.not_isSolvable ?_
   by_contra h
   push Not at h
-  haveI : IsMulCommutative Y31PSL := IsMulCommutative.of_comm h
+  have : IsMulCommutative Y31PSL := IsMulCommutative.of_comm h
   have hprime : (Nat.card Y31PSL).Prime :=
     (Group.is_simple_iff_prime_card (α := Y31PSL)).mp inferInstance
   rw [y31_psl_card] at hprime
@@ -57,7 +57,7 @@ private theorem y31_psl_mulAut_not_solvable : ¬ Group.IsSolvable (MulAut Y31PSL
 theorem s3_centEl_not_solvable (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     {t'' : G} (ht : ActsAs L t'' s.fr'.σ) (ht2 : t'' ^ 2 = 1) :
     ¬ Group.IsSolvable ↥(centEl L t'') := by
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   have htN : t'' ∈ normalizer (L : Set G) := mem_normalizer_of_actsAs L ht
   have hX : centEl L t'' ≤ normalizer (L : Set G) :=
     inf_le_left.trans Subgroup.le_normalizer
@@ -154,10 +154,10 @@ theorem s3_centEl_not_solvable (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(cent
     have hφy : φ ⟨y, hyX⟩ = iA := actsAs_unique L (jOn_actsAs L hX ⟨y, hyX⟩) hyacts
     exact ⟨⟨y, hyX⟩, Subtype.ext hφy⟩
   intro hsolv
-  haveI := hsolv
+  have := hsolv
   have hC : Group.IsSolvable ↥(centEl (innerAut (L ⧸ center L)) s.fr'.σ) :=
     Group.isSolvable_of_surjective (f := φ') hφ'surj
-  haveI := hC
+  have := hC
   obtain ⟨e⟩ := s.facts.2.2.2.2.2.2.1.1
   have hA : Group.IsSolvable (MulAut Y31PSL) :=
     Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective

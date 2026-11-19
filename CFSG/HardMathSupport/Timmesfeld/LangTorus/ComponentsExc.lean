@@ -46,12 +46,12 @@ theorem exists_kacT_of_pos {N : ℕ} (hN : 0 < N) (hNL : (N : L) ≠ 0) {K : Kac
       ∀ i : KernelComponent (rootCharHom a), ∃ x, K.IsZ N μ x ∧
         componentRoots (rootCharHom a) i = (fun α => v • α) '' K.rootsOf (K.comp N μ x) := by
   have : NeZero (N : L) := ⟨hNL⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L N
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L N
   have hu : IsUnit ζ := hζ.isUnit hN.ne'
   exact K.exists_smul_rootsOf hK hN (ζ := hu.unit) (by simpa using hζ) a
     (pow_eq_one_of_rootDiagUnit_pow hTN)
 
-theorem LangSetup.exists_kacT_of_prime {p₀ : ℕ} (S : LangSetup τ L p₀) (hp : p.Prime)
+theorem LangSetup.exists_kacT_of_prime {p₀ : ℕ} (_S : LangSetup τ L p₀) (hp : p.Prime)
     (hpL : (p : L) ≠ 0) {K : KacData τ} (hK : K.Facts)
     {a : Fin τ.rank → Lˣ} (hTp : rootDiagUnit τ a ^ p = 1) :
     ∃ (v : WeylGroup τ) (μ : Fin τ.rank → ℤ), K.IsNormal p μ ∧
@@ -101,7 +101,7 @@ theorem exists_pinnedT_of_pos {N : ℕ} (hN : 0 < N) (hNL : (N : L) ≠ 0) {K : 
   · rw [hi, compRank_image, compRank_rootsOf K hK hCp]
   · rw [hi, ncard_image_smul, ncard_rootsOf K hK hCp]
 
-theorem LangSetup.exists_pinnedT_of_prime {p₀ : ℕ} (S : LangSetup τ L p₀) (hp : p.Prime)
+theorem LangSetup.exists_pinnedT_of_prime {p₀ : ℕ} (_S : LangSetup τ L p₀) (hp : p.Prime)
     (hpL : (p : L) ≠ 0) {K : KacData τ} (hK : K.Facts)
     {a : Fin τ.rank → Lˣ} (hTp : rootDiagUnit τ a ^ p = 1) :
     ∃ (v : WeylGroup τ) (μ : Fin τ.rank → ℤ),
@@ -290,7 +290,7 @@ section Standard
 variable {τ : Tag} {L : Type}
   [Field L] [IsAlgClosed L] {p : ℕ}
 
-theorem LangSetup.e6_pinnedT_of_pos {p₀ N : ℕ} (S : LangSetup τ L p₀) (hN : 0 < N)
+theorem LangSetup.e6_pinnedT_of_pos {p₀ N : ℕ} (_S : LangSetup τ L p₀) (hN : 0 < N)
     (hNL : (N : L) ≠ 0) {K : KacData τ} (hK : K.Facts)
     {E6C : Finset (Option (Fin τ.rank))}
     (hpin : ∀ C : Finset (Option (Fin τ.rank)), C.card = 6 → kacCount τ K.θ C = 72 → C = E6C)

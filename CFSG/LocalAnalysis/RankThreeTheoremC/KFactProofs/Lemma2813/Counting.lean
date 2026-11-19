@@ -30,15 +30,18 @@ section FL6b
 
 variable {M : Type} [AddCommGroup M] [Finite M] [DistribMulAction GL32 M]
 
+omit [Finite M] in
 private theorem cnt_Ncnt_def (k : ℕ) :
     Ncnt M k = Nat.card {w : M // w ≠ 0 ∧ (Pset M w).card = k} := rfl
 
 open Classical in
+omit [Finite M] in
 theorem cnt_Ncnt_eq [Fintype M] (k : ℕ) :
     Ncnt M k = (Finset.univ.filter (fun w : M => w ≠ 0 ∧ (Pset M w).card = k)).card := by
   rw [cnt_Ncnt_def, Nat.card_eq_fintype_card, Fintype.card_subtype]
 
 open Classical in
+omit [Finite M] [DistribMulAction GL32 M] in
 theorem cnt_card_filter_nonzero [Fintype M] (B : AddSubgroup M) :
     ((Finset.univ.filter (fun w : M => w ≠ 0)).filter (fun w => w ∈ B)).card + 1 =
       Nat.card B := by
@@ -53,6 +56,7 @@ theorem cnt_card_filter_nonzero [Fintype M] (B : AddSubgroup M) :
   simp
 
 open Classical in
+omit [Finite M] in
 theorem cnt_Pset_eq (w : M) :
     Pset M w =
       (Finset.univ.filter (fun x : V3 => x ≠ 0)).filter (fun x => w ∈ fixSub M (Spt x)) := by
@@ -60,6 +64,7 @@ theorem cnt_Pset_eq (w : M) :
   simp [mem_Pset]
 
 open Classical in
+omit [Finite M] in
 theorem cnt_sum_fun [Fintype M] (hM0 : ∀ m : M, (∀ g : GL32, g • m = m) → m = 0) (f : ℕ → ℕ)
     (h0 : f 0 = 0) :
     ∑ w ∈ Finset.univ.filter (fun w : M => w ≠ 0), f (Pset M w).card =
@@ -81,7 +86,7 @@ theorem cnt_sum_fun [Fintype M] (hM0 : ∀ m : M, (∀ g : GL32, g • m = m) �
 theorem Ncnt_points (hM0 : ∀ m : M, (∀ g : GL32, g • m = m) → m = 0) {p₀ : V3} (hp₀ : p₀ ≠ 0) :
     Ncnt M 1 + 3 * Ncnt M 3 + 7 = 7 * Nat.card (fixSub M (Spt p₀)) := by
   classical
-  haveI : Fintype M := Fintype.ofFinite M
+  have : Fintype M := Fintype.ofFinite M
   have hsum : ∑ w ∈ Finset.univ.filter (fun w : M => w ≠ 0), (Pset M w).card =
       1 * Ncnt M 1 + 3 * Ncnt M 3 := cnt_sum_fun hM0 (fun k => k) rfl
   have hdc : ∑ w ∈ Finset.univ.filter (fun w : M => w ≠ 0), (Pset M w).card =
@@ -105,6 +110,7 @@ theorem Ncnt_points (hM0 : ∀ m : M, (∀ g : GL32, g • m = m) → m = 0) {p�
   omega
 
 open Classical in
+omit [Finite M] in
 theorem cnt_offDiag_Pset (w : M) :
     (Pset M w).offDiag =
       (Finset.univ.filter (fun x : V3 => x ≠ 0)).offDiag.filter
@@ -115,6 +121,7 @@ theorem cnt_offDiag_Pset (w : M) :
   tauto
 
 open Classical in
+omit [Finite M] in
 theorem cnt_sum_offDiag [Fintype M] (hM0 : ∀ m : M, (∀ g : GL32, g • m = m) → m = 0) :
     ∑ w ∈ Finset.univ.filter (fun w : M => w ≠ 0), (Pset M w).offDiag.card =
       6 * Ncnt M 3 := by
@@ -126,6 +133,7 @@ theorem cnt_sum_offDiag [Fintype M] (hM0 : ∀ m : M, (∀ g : GL32, g • m = m
   omega
 
 open Classical in
+omit [Finite M] in
 theorem cnt_pairs_dc [Fintype M] :
     ∑ w ∈ Finset.univ.filter (fun w : M => w ≠ 0), (Pset M w).offDiag.card =
       ∑ xy ∈ (Finset.univ.filter (fun x : V3 => x ≠ 0)).offDiag,
@@ -140,7 +148,7 @@ theorem Ncnt_pairs (hM0 : ∀ m : M, (∀ g : GL32, g • m = m) → m = 0) {p q
     (hq : q ≠ 0) (hpq : p ≠ q) :
     Ncnt M 3 + 7 = 7 * Nat.card (fixSub M (Spt p ⊔ Spt q)) := by
   classical
-  haveI : Fintype M := Fintype.ofFinite M
+  have : Fintype M := Fintype.ofFinite M
   have hsum := cnt_sum_offDiag hM0
   have hdc := cnt_pairs_dc (M := M)
   have hcard : ∑ xy ∈ (Finset.univ.filter (fun x : V3 => x ≠ 0)).offDiag,

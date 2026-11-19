@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem exists_normal_two_subgroup_of_central (L : Subgroup G) (hLn : L.Normal) :
     ∃ P : Subgroup G, P.Normal ∧ IsPGroup 2 P ∧
       ∀ z : G, z ∈ L → (∀ l ∈ L, z * l = l * z) → (∃ n : ℕ, z ^ 2 ^ n = 1) → z ∈ P := by

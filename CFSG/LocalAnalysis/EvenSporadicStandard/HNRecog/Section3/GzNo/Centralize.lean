@@ -105,7 +105,7 @@ theorem gzNo_centralize {G : Type} [Group G] [Finite G] {a z : G} (h : IsF5Type 
   have hc4 : 4 ≤ c := by
     have h16 : (4 : ℕ) ^ 2 ≤ c ^ 2 := by simpa using hSsq
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hc3 : c ≤ 3 := by omega
     have hle : c ^ 2 ≤ 3 ^ 2 := pow_le_pow_left' hc3 2
     norm_num at h16 hle

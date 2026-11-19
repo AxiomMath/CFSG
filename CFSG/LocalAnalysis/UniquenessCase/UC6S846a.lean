@@ -79,13 +79,13 @@ theorem exists_lift_pGroup {H K : Type*} [Group H] [Group K] [Finite H] (f : H �
     (Qb : Subgroup K) (hQb : IsPGroup q Qb) :
     ∃ Q : Subgroup H, IsPGroup q Q ∧ Q.map f = Qb ∧ Disjoint Q f.ker := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Finite K := Finite.of_surjective f hf
+  have : Fact q.Prime := ⟨hq⟩
+  have : Finite K := Finite.of_surjective f hf
   obtain ⟨S', hS'⟩ := hQb.exists_le_sylow
   obtain ⟨S, hS⟩ := Sylow.mapSurjective_surjective hf q S'
   have hSmap : (S : Subgroup H).map f = (S' : Subgroup K) := by
     rw [← hS, Sylow.coe_mapSurjective]
-  refine ⟨(S : Subgroup H) ⊓ Qb.comap f, S.isPGroup'.to_le inf_le_left, ?_, ?_⟩
+  refine ⟨(S : Subgroup H) ⊓ Qb.comap f, S.isPGroup.to_le inf_le_left, ?_, ?_⟩
   · ext y
     constructor
     · rintro ⟨x, hx, rfl⟩
@@ -97,7 +97,7 @@ theorem exists_lift_pGroup {H K : Type*} [Group H] [Group K] [Finite H] (f : H �
   · rw [Subgroup.disjoint_def]
     intro x hxQ hxker
     have hxS : x ∈ (S : Subgroup H) := hxQ.1
-    obtain ⟨a, ha⟩ := S.isPGroup' ⟨x, hxS⟩
+    obtain ⟨a, ha⟩ := S.isPGroup ⟨x, hxS⟩
     obtain ⟨b, hb⟩ := hker ⟨x, hxker⟩
     have ha' : x ^ q ^ a = 1 := by simpa using ha
     have hb' : x ^ 2 ^ b = 1 := by simpa using hb
@@ -114,7 +114,7 @@ theorem exists_fixed_in_coset {G : Type*} [Group G] [Finite G] {ℓ : ℕ} (hℓ
     (hE : IsPGroup ℓ E) (hcommB : ∀ e ∈ E, ∀ b ∈ B, e * b * e⁻¹ * b⁻¹ ∈ O) (b : G) (hb : b ∈ B) :
     ∃ c ∈ B, c ∈ Subgroup.centralizer (E : Set G) ∧ c * b⁻¹ ∈ O := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   let α : Type _ := {c : G // c ∈ B ∧ c * b⁻¹ ∈ O}
   have hmem : ∀ e : E, ∀ c : α, (e : G) * c.1 * (e : G)⁻¹ ∈ B ∧
       ((e : G) * c.1 * (e : G)⁻¹) * b⁻¹ ∈ O := by
@@ -125,7 +125,7 @@ theorem exists_fixed_in_coset {G : Type*} [Group G] [Finite G] {ℓ : ℕ} (hℓ
     rw [h1]
     refine O.mul_mem ?_ (hcommB e e.2 b hb)
     exact (Subgroup.mem_normalizer_iff.1 (hEO e.2) (c.1 * b⁻¹)).1 c.2.2
-  letI : MulAction E α :=
+  let : MulAction E α :=
     { smul := fun e c => ⟨(e : G) * c.1 * (e : G)⁻¹, hmem e c⟩
       one_smul := fun c => Subtype.ext (by
         change ((1 : E) : G) * c.1 * ((1 : E) : G)⁻¹ = c.1
@@ -162,7 +162,7 @@ theorem exists_sylow_copy {Bg : Type*} [Group Bg] [Finite Bg] {p : ℕ} (hp : p.
     (hAO : Ab ⊔ Ob = ⊤) (hCO : ∀ b : Bg, ∃ c ∈ Cb, c * b⁻¹ ∈ Ob) :
     ∃ S : Subgroup Bg, S ≤ Cb ∧ Nonempty (↥S ≃* ↥Ab) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let π : Bg →* Bg ⧸ Ob := QuotientGroup.mk' Ob
   have hcop : ∀ x : Bg, x ∈ Ob → (∃ k, x ^ p ^ k = 1) → x = 1 := by
     intro x hxO ⟨a, ha⟩
@@ -217,7 +217,7 @@ theorem exists_sylow_copy {Bg : Type*} [Group Bg] [Finite Bg] {p : ℕ} (hp : p.
     rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
     intro x hx
     have hxO : ((x : ↥Cb) : Bg) ∈ Ob := (QuotientGroup.eq_one_iff ((x : ↥Cb) : Bg)).1 hx
-    obtain ⟨k, hk⟩ := S₀.isPGroup' x
+    obtain ⟨k, hk⟩ := S₀.isPGroup x
     have hk' : ((x : ↥Cb) : Bg) ^ p ^ k = 1 := by
       have := congrArg (fun z : ↥(S₀ : Subgroup ↥Cb) => ((z : ↥Cb) : Bg)) hk
       simpa using this
@@ -302,7 +302,7 @@ theorem exists_centralizing_copy {G : Type*} [Group G] [Finite G] {ℓ p : ℕ} 
     obtain ⟨c, hcB, hcc, hcb⟩ :=
       exists_fixed_in_coset hℓ hℓ2 O B E hO hOB hEO hEB hE hcommB b b.2
     exact ⟨⟨c, hcB⟩, Subgroup.mem_subgroupOf.2 ⟨hcB, hcc⟩, Subgroup.mem_subgroupOf.2 hcb⟩
-  haveI := hNormOB
+  have := hNormOB
   have hOpg : IsPGroup 2 (O.subgroupOf B) := hO.of_equiv (Subgroup.subgroupOfEquivOfLe hOB).symm
   have hApg : IsPGroup p (A.subgroupOf B) := hA.of_equiv (Subgroup.subgroupOfEquivOfLe hAB).symm
   have hAO' : A.subgroupOf B ⊔ O.subgroupOf B = ⊤ := by

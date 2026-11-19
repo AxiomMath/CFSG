@@ -46,8 +46,8 @@ private theorem field_descent_E6 {F : Type} [Field F] [Finite F] {ℓ f : ℕ} (
     (hmem : x ∉ e6Inndiag F) :
     ∃ d : ℕ, f = 3 * d ∧
       Nat.card (fixedSubgroup x) ∣ lieOrderNumerator .E6 0 (ℓ ^ d) := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP F ℓ := finite_field_prime_power_characteristic hℓ hf hFcard
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP F ℓ := finite_field_prime_power_characteristic hℓ hf hFcard
   obtain ⟨σ, hσ3, h3f, ψ, hψ⟩ :=
     exists_conj_entrywise_of_not_mem_e6Inndiag hℓ hf F hFcard Nat.prime_three
       (by norm_num) hx3 hmem
@@ -66,8 +66,8 @@ private theorem false_of_not_inner_E6 (hLie : LieOrderFormulasInput) {K : Type} 
   obtain ⟨hℓ, hf, hn⟩ := id hadm
   subst hn
   obtain ⟨F, hF, hFin, θ, hFcard⟩ := exists_field_model_E6 hmodel
-  letI := hF
-  letI := hFin
+  let := hF
+  let := hFin
   have h3q : 3 ∣ Nat.card F - 1 := by
     rw [hFcard]
     exact h3.trans (Nat.gcd_dvd_right 3 (ℓ ^ f - 1))

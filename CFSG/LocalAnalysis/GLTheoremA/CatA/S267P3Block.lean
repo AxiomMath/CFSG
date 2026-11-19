@@ -194,7 +194,7 @@ theorem mem_blkRange_iff {g : SpecialLinearGroup (Fin 2 ⊕ ι) F} :
         (g : Matrix (Fin 2 ⊕ ι) (Fin 2 ⊕ ι) F).toBlocks₂₁ = 0 := by
   constructor
   · rintro ⟨Y, rfl⟩
-    simp [blkRange, coe_blk]
+    simp [coe_blk]
   · rintro ⟨h1, h2, h3⟩
     have hdet : (g : Matrix (Fin 2 ⊕ ι) (Fin 2 ⊕ ι) F).toBlocks₂₂.det = 1 := by
       have := g.2

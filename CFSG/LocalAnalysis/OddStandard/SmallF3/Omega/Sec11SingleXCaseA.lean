@@ -25,7 +25,7 @@ theorem caseA_sigma {s σ : G} (hsR : s ∈ R) (ha : a ∈ R) (hσ : σ = a * s 
     apply Subtype.ext
     show σ = ↑(⟨a, ha⟩ * ⟨s, hsR⟩ * (⟨a, ha⟩ : ↥R)⁻¹)
     rw [hσ]
-    simp [Subgroup.coe_mul, Subgroup.coe_inv]
+    simp [Subgroup.coe_mul]
   have hρσ : ρ ⟨σ, hσR⟩ = ρ ⟨a, ha⟩ * ρ ⟨s, hsR⟩ * (ρ ⟨a, ha⟩)⁻¹ := by
     rw [hσ_eq, map_mul, map_mul, map_inv]
   have hαinv : (ρ ⟨a, ha⟩)⁻¹ = ρ ⟨a, ha⟩ :=
@@ -89,11 +89,12 @@ theorem caseA_sq_mem_D {s σ : G} (hsR : s ∈ R) (hs2 : s * s = 1) (ha : a ∈ 
     simp only [map_mul]
   have hy : ((⟨s, hsR⟩ * ⟨σ, hσR⟩ * (⟨s, hsR⟩ * ⟨σ, hσR⟩) : ↥R) : G) =
       s * σ * (s * σ) := by
-    simp [Subgroup.coe_mul]
+    simp
   rw [← hy]
   exact c.mem_D (⟨s, hsR⟩ * ⟨σ, hσR⟩ * (⟨s, hsR⟩ * ⟨σ, hσR⟩))
     (by rw [hxx]; exact hprod)
 
+omit [Finite G] in
 theorem caseA_star1 {h s σ : G} (hh : h ∈ centralizer ({z} : Set G)) (hs : s = h⁻¹ * t * h)
     (hσR : σ ∈ R) (hσ2 : σ * σ = 1) :
     σ * s * σ * s = s * (σ * s * σ) → σ * s * σ = s ∨ σ * s * σ = s * z := by
@@ -148,7 +149,7 @@ theorem caseA_star2 {h s σ b : G} (hh : h ∈ centralizer ({z} : Set G)) (hs : 
   have hdconj' : ρ ⟨d⁻¹ * σ * d, hmem⟩ = ρ ⟨σ, hσR⟩ := by
     have hel : (⟨d⁻¹ * σ * d, hmem⟩ : ↥R)
         = (⟨d, hd.2⟩ : ↥R)⁻¹ * ⟨σ, hσR⟩ * ⟨d, hd.2⟩ :=
-      Subtype.ext (by simp [Subgroup.coe_mul, Subgroup.coe_inv])
+      Subtype.ext (by simp [Subgroup.coe_mul])
     rw [hel, hdconj]
   have hszR : s * z ∈ R := R.mul_mem hsR c.z_D.2
   have hsz_rho : ρ ⟨s * z, hszR⟩ = ρ ⟨s, hsR⟩ := by
@@ -173,7 +174,7 @@ theorem caseA_star2 {h s σ b : G} (hh : h ∈ centralizer ({z} : Set G)) (hs : 
     calc s * b * s⁻¹ = ((ρ ⟨s, hsR⟩ b' : ↥(K1 ⊔ K2)) : G) := hψb.symm
       _ = (b' : G) := congrArg (fun y : ↥(K1 ⊔ K2) => (y : G)) h1
       _ = b := by rw [hb'def]
-  exact hsb (by simpa [hsb_eq] using (Subgroup.one_mem (zpowers z)))
+  exact hsb (by simp [hsb_eq])
 
 theorem caseA {h s b : G} (hh : h ∈ centralizer ({z} : Set G)) (hs : s = h⁻¹ * t * h)
     (hsR : s ∈ R) (hb : b ∈ twoCoreIn K1) (hsb : s * b * s⁻¹ * b⁻¹ ∉ zpowers z)

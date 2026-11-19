@@ -20,7 +20,7 @@ theorem coe_blockScalar_eq_diagonal (S : Finset (Fin d)) (ζ : Kˣ) :
   rw [UnitaryThreeP.coe_blockScalar]
   ext i j
   by_cases hi : i ∈ S <;> by_cases hj : j ∈ S <;> by_cases hij : i = j
-  all_goals simp_all [TableBUE.blockExt, diagonal_apply, Matrix.one_apply]
+  all_goals simp_all [TableBUE.blockExt, Matrix.one_apply]
 
 end UnitaryFourP
 
@@ -403,9 +403,9 @@ theorem ggTorusWNormSC_unitary_four_prime {K : Type} [Field K] [Finite K]
           have h0 := hent m₀
           have h1 := hent i₀
           have h2 := hent j₀
-          rw [if_neg hm₁, if_neg hm₂, one_mul] at h0
-          rw [if_pos (hbC i₀), if_neg hi₀j, mul_one, ← h0] at h1
-          rw [if_neg hj₀i, if_pos (hbC j₀), one_mul, ← h0] at h2
+          rw [ite_eq_right hm₁, ite_eq_right hm₂, one_mul] at h0
+          rw [ite_eq_left (hbC i₀), ite_eq_right hi₀j, mul_one, ← h0] at h1
+          rw [ite_eq_right hj₀i, ite_eq_left (hbC j₀), one_mul, ← h0] at h2
           exact ⟨(hζ.pow_eq_one_iff_dvd i).mp (Units.ext h1),
             (hζ.pow_eq_one_iff_dvd k).mp (Units.ext h2)⟩
         exact QuotMove.false_of_two_shears hc hp hp5 hψ hker hperf hA hAI' hbound (x₀ := M₂)
@@ -449,11 +449,11 @@ theorem ggTorusWNormSC_unitary_four_prime {K : Type} [Field K] [Finite K]
               (bU : K) * (if j ∈ cls i₀ then ((ζ ^ e : Kˣ) : K) else 1) := by
             intro j
             by_cases hj : j ∈ cls i₀
-            · rw [if_pos hj, (hmemC i₀ j).mp hj _ hyG hyp, he, Units.val_mul,
+            · rw [ite_eq_left hj, (hmemC i₀ j).mp hj _ hyG hyp, he, Units.val_mul,
                 Units.val_inv_eq_inv_val, haU, hbU, Units.val_mk0, Units.val_mk0,
                 mul_comm (wt i₀ (y : GL (Fin d) K)), ← mul_assoc, mul_inv_cancel₀ hb0, one_mul]
             · have hj2 : j ∈ cls j₀ := h3cls j hj
-              rw [if_neg hj, mul_one, (hmemC j₀ j).mp hj2 _ hyG hyp, hbU, Units.val_mk0]
+              rw [ite_eq_right hj, mul_one, (hmemC j₀ j).mp hj2 _ hyG hyp, hbU, Units.val_mk0]
           have hconj : (P : GL (Fin d) K)⁻¹ * y * P = (P : GL (Fin d) K)⁻¹ *
               (GeneralLinearGroup.scalar (Fin d) bU * (δ₁ : GL (Fin d) K) ^ e) * P := by
             have hR : (P : GL (Fin d) K)⁻¹ * (GeneralLinearGroup.scalar (Fin d) bU *

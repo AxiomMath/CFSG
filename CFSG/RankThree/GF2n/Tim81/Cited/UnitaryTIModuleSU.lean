@@ -58,6 +58,7 @@ theorem isPGroup_transvGroup (hσ : ∀ c, σ (σ c) = c) {v : Fin n → F} (hv 
   rw [pow_one, sq]
   exact Subtype.ext (mul_self_eq_one_of_mem_transvGroup hσ hv x.2)
 
+omit [CharP F 2] in
 theorem exists_ne_zero_of_mem_transvGroup (hσ : ∀ c, σ (σ c) = c) {v : Fin n → F}
     (hv : uForm σ v v = 0) {x : SU σ n} (hx : x ∈ transvGroup σ n v) (hx1 : x ≠ 1) :
     ∃ c : F, c ≠ 0 ∧ c + σ c = 0 ∧ ∀ u, suMat σ n x *ᵥ u = u + (c * uForm σ v u) • v := by
@@ -80,7 +81,7 @@ theorem exists_mem_transvGroup_ne_one (hσ : ∀ c, σ (σ c) = c) {v : Fin n �
   exact mul_ne_zero hi hj h
 
 theorem exists_mem_sup_conjSub_eq (hσ : ∀ c, σ (σ c) = c) {a z : Fin n → F}
-    (haa : uForm σ a a = 0) (hzz : uForm σ z z = 0) (haz : uForm σ a z = 1)
+    (haa : uForm σ a a = 0) (_hzz : uForm σ z z = 0) (haz : uForm σ a z = 1)
     {Ta Tz : Subgroup (SU σ n)} (hTa : IsUTransGroup σ a Ta) (hTz : IsUTransGroup σ z Tz) :
     ∃ w ∈ Ta ⊔ Tz, conjSub Ta w = Tz := by
   have h1 : (1 : F) + σ 1 = 0 := by rw [map_one]; exact CharTwo.add_self_eq_zero 1

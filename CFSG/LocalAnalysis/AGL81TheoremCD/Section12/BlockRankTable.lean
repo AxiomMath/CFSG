@@ -70,7 +70,7 @@ theorem pRank_barM_add_one_le_of_mem_weakBlockSet
     (hdL : ¬ d ∣ Nat.card (L ⊓ H : Subgroup G)) :
     CFSG.Open.pRank d (barM M L) + 1 ≤ max 2 (CFSG.Open.pRank 3 (barM M L)) ∧
       ¬ d ∣ Nat.card (Subgroup.center ↥(barM M L)) := by
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   have hphase : CFSG.AGLEmbedding.TwoLocalPhaseThree M H := h.twoLocalPhaseThree
   have hMtop : M ≠ ⊤ := twoLocal_ne_top h.cstar.nonab M h.maxLocal.1
   have hK : CFSG.Open.IsKGroup ↥M :=
@@ -94,11 +94,11 @@ theorem pRank_barM_add_one_le_of_mem_weakBlockSet
     exact pRank_barM_add_one_le_of_mulEquiv_alternating hL.component.2.2 e hd hd5
   · obtain ⟨-, n, he, -⟩ := h6
     obtain ⟨e⟩ := he
-    haveI : Group.IsPerfect ↥(barM M L) := ⟨hL.component.2.2.1⟩
-    haveI : Group.IsPerfect (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) :=
+    have : Group.IsPerfect ↥(barM M L) := ⟨hL.component.2.2.1⟩
+    have : Group.IsPerfect (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center ↥(barM M L)))
         (QuotientGroup.mk'_surjective _)
-    haveI : Nontrivial (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) :=
+    have : Nontrivial (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) :=
       hL.component.2.2.2.toNontrivial
     have hn : 5 ≤ 2 * n :=
       CFSG.AGLEmbedding.BlockCyc.five_le_of_perfect_mulEquiv_alternatingGroup e

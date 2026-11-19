@@ -302,6 +302,7 @@ variable {G : Type} [Group G] [Finite G] {z : G}
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 variable (D : QuotientData (z := z) hN)
 
+omit [Finite G] in
 theorem noZ4Q8InCHutQuot :
     NoZ4Q8InCHutQuot (z := z) (D := D) := by
   unfold NoZ4Q8InCHutQuot CHutQuot

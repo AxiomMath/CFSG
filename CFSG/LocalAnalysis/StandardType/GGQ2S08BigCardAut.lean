@@ -62,7 +62,7 @@ theorem ggQ2s08_card_automizer_le {G : Type} [Group G] [Finite G] {Bs L : Subgro
   have hfin : Finite M.coxeter.Group := by
     rw [← coxeterMatrix_eq_of_ggIntCartan hFT M.isCartan]
     exact CFSG.LieType.RootSystem.finite_group hFT
-  haveI := hfin
+  have := hfin
   have hcard : Nat.card ↥(ggAutomizer L Bs) ≤ Nat.card M.coxeter.Group := by
     rw [← hrange]
     exact Nat.card_le_card_of_surjective Φ.rangeRestrict Φ.rangeRestrict_surjective

@@ -26,7 +26,7 @@ variable {G : Type} [Group G]
         _ = g * b * g⁻¹ * b⁻¹ := by group
     rw [h1, h2]
     exact Y.mul_mem haY hbY
-  one_mem' := ⟨Ξ.one_mem, by simpa using Y.one_mem⟩
+  one_mem' := ⟨Ξ.one_mem, by simp⟩
   inv_mem' := by
     rintro a ⟨haΞ, haY⟩
     refine ⟨Ξ.inv_mem haΞ, ?_⟩

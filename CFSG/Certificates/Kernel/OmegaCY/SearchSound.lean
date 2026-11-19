@@ -27,7 +27,7 @@ theorem ss_anyR {n : ℕ} {f : ℕ → Bool} (h : anyR n f = true) : ∃ i < n, 
     have h' : (if f n = true then true else anyR n f) = true := (ss_bIf _ _ _).symm.trans h
     by_cases hf : f n = true
     · exact ⟨n, by omega, hf⟩
-    · rw [if_neg hf] at h'
+    · rw [ite_eq_right hf] at h'
       obtain ⟨i, hi, h⟩ := ih h'
       exact ⟨i, by omega, h⟩
 
@@ -123,7 +123,7 @@ theorem ss_level {tab c : Nat} (hc : c < 2 ^ 49)
           ssG tab d (m + 1) (c % 2 ^ (7 * (m + 1))), true) = true := by
         rw [← ss_step c m, ← hcv]
         exact hv'
-      rw [ss_bIf, if_pos (hst m hm7)] at hv''
+      rw [ss_bIf, ite_eq_left (hst m hm7)] at hv''
       exact ih (m + 1) (by omega) hv''
 
 public section

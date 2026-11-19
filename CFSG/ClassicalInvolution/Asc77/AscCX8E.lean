@@ -257,7 +257,7 @@ theorem exists_badCompl_of_bad {G : Type} [Group G] [Finite G] [IsSimpleGroup G]
     intro hlt
     have hb2 : b * b = 1 := by
       have h2 : IsPGroup 2 (Subgroup.zpowers b) :=
-        S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hbA.1)
+        S.isPGroup.to_le (Subgroup.zpowers_le.mpr hbA.1)
       obtain ⟨n, hn⟩ := h2.exists_card_eq
       rw [Nat.card_zpowers] at hn hlt
       have hn1 : n ≤ 1 := by

@@ -101,7 +101,7 @@ theorem cc_not_conj12 (h : Cz) : h * cR 1 * h⁻¹ ≠ cR 2 := by
     have hq := QI_ok eh heh
     simp only [Bool.and_eq_true, Nat.blt_eq, Nat.beq_eq] at hq
     have hy' := O1_conj (g := qElt eh) (repK_qElt' heh) (QK_lt' hq.1) hq.2 (l := eh)
-      (by omega) (by rw [o1G, if_pos heh]) (by rw [o1GI, if_pos heh]) y hy
+      (by omega) (by rw [o1G, ite_eq_left heh]) (by rw [o1GI, ite_eq_left heh]) y hy
     have hc : sElt nh ∈ centS0 (sElt 26805) := by
       refine ⟨sElt_mem_S0 nh, ?_⟩
       have h2 := congrArg piC e
@@ -119,8 +119,8 @@ theorem cc_not_conj12 (h : Cz) : h * cR 1 * h⁻¹ ≠ cR 2 := by
         at hgi
       refine O1_conj (G := C26805GRt l) (by rw [(hm.2 l hl).1]; exact repK_sElt _) (hgi l hl).2
         (hgi l hl).1 (l := l + 512) (by omega) ?_ ?_
-      · rw [o1G, if_neg (by omega), Nat.add_sub_cancel]
-      · rw [o1GI, if_neg (by omega), Nat.add_sub_cancel]
+      · rw [o1G, ite_eq_right (by omega), Nat.add_sub_cancel]
+      · rw [o1GI, ite_eq_right (by omega), Nat.add_sub_cancel]
     have h3 := conj_closure (S := O1set) (pts_finite (N := 16) (P := O1t)
       (fun _ _ _ h h' => repK_fun h h')) hcl _ hgen _ hy'
     rw [cElt]

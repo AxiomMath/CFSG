@@ -172,7 +172,7 @@ theorem goodCent_c022 (ζ : K) (hζ : IsPrimitiveRoot ζ 3) : GoodCent (c022 ζ 
       (Subgroup.centralizer ({c022 ζ hζ} : Set SU4)).subtype_injective
     rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hIC]
     exact glaPComponent_perfect hI
-  haveI : IsSimpleGroup ↥W0 := isSimpleGroup_W0
+  have : IsSimpleGroup ↥W0 := isSimpleGroup_W0
   have hIKA : I ≤ KA ζ hζ := by
     intro x hx
     have hmem : (⟨x, hIC hx⟩ : ↥(Subgroup.centralizer ({c022 ζ hζ} : Set SU4))) ∈
@@ -217,7 +217,7 @@ theorem goodCent_c022 (ζ : K) (hζ : IsPrimitiveRoot ζ 3) : GoodCent (c022 ζ 
       rw [Subgroup.mem_bot]
       exact h2
     · let e : ↥I ≃* ↥W0 := (MonoidHom.ofInjective hρinj).trans (MulEquiv.subgroupCongr h)
-      haveI : IsSimpleGroup ↥I := e.isSimpleGroup
+      have : IsSimpleGroup ↥I := e.isSimpleGroup
       have hnc : ¬ IsMulCommutative ↥I := not_isMulCommutative_of_mulEquiv e not_isMulCommutative_W0
       have h3 : 3 ∣ Nat.card ↥I := by
         rw [Nat.card_congr e.toEquiv]
@@ -227,9 +227,9 @@ theorem goodCent_c022 (ζ : K) (hζ : IsPrimitiveRoot ζ 3) : GoodCent (c022 ζ 
         CFSG.LocalAnalysis.GLTheoremA.kLevel_congr 3 e]
       exact kLevel_W0_le_two
   ·
-    push_neg at hW
+    push Not at hW
     obtain ⟨x0, hx0I, hx0W, hx0ne⟩ := hW
-    haveI : IsSimpleGroup ↥W1 := W1equivW0.isSimpleGroup
+    have : IsSimpleGroup ↥W1 := W1equivW0.isSimpleGroup
     have hW1sub := hI.2.1.inf_of_le (W1_le_centralizer_c022 ζ hζ)
     have hW1I : W1 ≤ I := by
       rcases CFSG.Open.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hW1sub inferInstance with h' | h'

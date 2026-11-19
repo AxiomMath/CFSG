@@ -17,7 +17,7 @@ theorem uc22s21rs2_hyp2120_of {D : Data G} {Ch : Choice2011 G} (c : Ctx21 D Ch)
       ¬ ∃ n : ℕ, Odd n ∧ (IsSp4 (Bar2 L) n ∨ IsSU3 (Bar2 L) n))
     (h0 : ∀ p ∈ D.sig, CFSG.Open.pRank p (barPreimage D.M (centE D.M)) = 0) : Hyp2120 D c := by
   refine ⟨h1, h2, fun p hp => ?_, fun p hp h => ?_⟩
-  · haveI := Fact.mk (D.sig_prime p hp).1
+  · have := Fact.mk (D.sig_prime p hp).1
     refine ⟨⊥, CFSG.ABGLocalTools.isSylowOf_of_card bot_le ?_, bot_le⟩
     rw [Subgroup.card_bot, Nat.factorization_eq_zero_of_not_dvd
       (CFSG.GroupTheory.not_dvd_card_of_pRank_eq_zero (D.sig_prime p hp).1 (h0 p hp)), pow_zero]

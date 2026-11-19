@@ -57,9 +57,9 @@ theorem ggQ2_absorb {G : Type} [Group G] [Finite G] (hLB : GGLBalanceInput) {p :
   classical
   obtain ⟨hcfg, -, -, hNoTr, -⟩ := hHyp
   obtain ⟨hI, hBs, -⟩ := hcfg
-  haveI : IsSimpleGroup G := hI.1
+  have : IsSimpleGroup G := hI.1
   have hp : p.Prime := hI.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBsabel : IsElemAbelian p Bs := hBs.2.1
   have hcomm : ∀ a ∈ Bs, ∀ b ∈ Bs, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hBsabel.1.is_comm.comm (⟨a, ha⟩ : ↥Bs) ⟨b, hb⟩)
@@ -256,7 +256,6 @@ theorem ggQ2_absorb {G : Type} [Group G] [Finite G] (hLB : GGLBalanceInput) {p :
       obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.mp hy
       rw [← hk, map_zpow, hφwn]
     have htrans : GGIsTransvection p φ := ⟨hcard, fun b => by
-      change φ (b⁻¹ * φ b) = b⁻¹ * φ b
       have h1 : φ (δ b) = δ b := hfixmem (δ b) (hrange_le_Pw ⟨b, rfl⟩)
       exact h1⟩
     exact hNoTr φ hφA htrans

@@ -890,7 +890,7 @@ theorem DChamber.elt_pointEmb_succ (hσ : IsUnitaryInvolution σ) (e : DChamber 
   change (pointFrame hσ e d.toFlipFrame).elt i.succ = _
   rw [FlipFrame.elt]
   by_cases hlast : i.succ = Fin.last (r + 1)
-  · rw [if_pos hlast]
+  · rw [ite_eq_left hlast]
     have hi : i = Fin.last r := by
       have hv := congrArg Fin.val hlast
       rw [Fin.val_succ, Fin.val_last] at hv
@@ -907,9 +907,9 @@ theorem DChamber.elt_pointEmb_succ (hσ : IsUnitaryInvolution σ) (e : DChamber 
       (d.toFlipFrame.sub (r + 1)).map
         ((e.pointIso hσ).toLinearMap.comp (shiftEmb (K := K) (r + 1)))
     rw [Submodule.map_comp]
-  · rw [if_neg hlast]
+  · rw [ite_eq_right hlast]
     by_cases halt : (i.succ : ℕ) + 1 = r + 1
-    · rw [if_pos halt]
+    · rw [ite_eq_left halt]
       have hi : (i : ℕ) + 1 = r := by
         have hv := Fin.val_succ i
         omega
@@ -921,7 +921,7 @@ theorem DChamber.elt_pointEmb_succ (hσ : IsUnitaryInvolution σ) (e : DChamber 
         (d.toFlipFrame.alt).map
           ((e.pointIso hσ).toLinearMap.comp (shiftEmb (K := K) (r + 1)))
       rw [Submodule.map_comp]
-    · rw [if_neg halt]
+    · rw [ite_eq_right halt]
       have hsub : (i.succ : ℕ) + 1 = (i : ℕ) + 1 + 1 := by rw [Fin.val_succ]
       rw [hsub]
       have hi_lt : (i : ℕ) < r + 1 := i.is_lt

@@ -88,7 +88,7 @@ theorem N30 : S_N30 := by
       fun z hz => Subgroup.subset_closure ⟨sylowCenter_le _ hz, hZ2 z hz⟩
   obtain ⟨a, ha⟩ : ∃ a : A, orderOf a = 2 := by
     refine exists_prime_orderOf_dvd_card' 2 ?_
-    rcases (S.isPGroup'.to_le hAS).card_eq_or_dvd with h | h
+    rcases (S.isPGroup.to_le hAS).card_eq_or_dvd with h | h
     · exact absurd (Subgroup.card_eq_one.mp h) hA1
     · exact h
   have ha' : orderOf (a : G) = 2 := by rwa [Subgroup.orderOf_coe]

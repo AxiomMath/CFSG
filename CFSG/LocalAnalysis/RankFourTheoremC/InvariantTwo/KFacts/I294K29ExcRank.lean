@@ -11,6 +11,7 @@ open CFSG.Open Subgroup
 
 variable {G G' : Type*} [Group G] [Finite G] [Group G'] [Finite G'] {p : ℕ}
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_pow_eq_one {y : G} (hy : y ^ p = 1) : IsPGroup p (zpowers y) := by
   rintro ⟨g, hg⟩
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hg
@@ -24,14 +25,14 @@ theorem exists_conj_sylow_between (hp : p.Prime) (ι : G →* G') (hι : Functio
     (P : Sylow p G) :
     ∃ g : G', A ≤ ((P : Subgroup G).map ((MulAut.conj g).toMonoidHom.comp ι)) ∧
       ((P : Subgroup G).map ((MulAut.conj g).toMonoidHom.comp ι)) ≤ R := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  have hQp : IsPGroup p ((P : Subgroup G).map ι) := P.isPGroup'.map ι
+  have : Fact p.Prime := ⟨hp⟩
+  have hQp : IsPGroup p ((P : Subgroup G).map ι) := P.isPGroup.map ι
   have hQi : ¬ p ∣ ((P : Subgroup G).map ι).index := by
     rw [(P : Subgroup G).index_map_of_injective hι]
     exact fun h => (hp.dvd_mul.1 h).elim P.not_dvd_index hidx
   obtain ⟨S⟩ : Nonempty (Sylow p R) := inferInstance
   set S' : Subgroup G' := (S : Subgroup R).map R.subtype with hS'
-  have hS'p : IsPGroup p S' := S.isPGroup'.map R.subtype
+  have hS'p : IsPGroup p S' := S.isPGroup.map R.subtype
   have hS'i : ¬ p ∣ S'.index := by
     rw [hS', Subgroup.index_map_subtype]
     exact fun h => (hp.dvd_mul.1 h).elim S.not_dvd_index hRidx
@@ -43,7 +44,7 @@ theorem exists_conj_sylow_between (hp : p.Prime) (ι : G →* G') (hι : Functio
     rfl
   refine ⟨g, ?_, ?_⟩
   · rw [← Subgroup.map_map, hconj]
-    haveI : (A.subgroupOf R).Normal := by
+    have : (A.subgroupOf R).Normal := by
       refine ⟨fun a ha r => ?_⟩
       rw [Subgroup.mem_subgroupOf] at ha ⊢
       have h1 := (Subgroup.mem_normalizer_iff.1 (hRN r.2) a).1 ha
@@ -60,7 +61,7 @@ theorem three_le_pRank_centralizer_of_overgroup (hp : p.Prime) (ι : G →* G')
     (hRN : R ≤ normalizer (A : Set G')) (hRidx : ¬ p ∣ R.index) (hA : IsElemAbelian p A)
     {n : ℕ} (hAc : Nat.card A = p ^ n) (hn : p + 1 ≤ n) {y : G} (hy : y ^ p = 1) :
     3 ≤ CFSG.Open.pRank p (centralizer ({y} : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, hyP⟩ := (isPGroup_zpowers_of_pow_eq_one hy).exists_le_sylow
   have hyP' : y ∈ (P : Subgroup G) := hyP (mem_zpowers y)
   have hAp : IsPGroup p A := fun a => ⟨1, Subtype.ext (by simpa using hA.2 a a.2)⟩
@@ -103,7 +104,7 @@ theorem le_pRank_of_overgroup (hp : p.Prime) (ι : G →* G') (hι : Function.In
     (hidx : ¬ p ∣ ι.range.index) {R A : Subgroup G'} (hAR : A ≤ R)
     (hRN : R ≤ normalizer (A : Set G')) (hRidx : ¬ p ∣ R.index) (hA : IsElemAbelian p A)
     {n : ℕ} (hAc : Nat.card A = p ^ n) : n ≤ CFSG.Open.pRank p (⊤ : Subgroup G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P⟩ : Nonempty (Sylow p G) := inferInstance
   have hAp : IsPGroup p A := fun a => ⟨1, Subtype.ext (by simpa using hA.2 a a.2)⟩
   obtain ⟨g, hAS, -⟩ := exists_conj_sylow_between hp ι hι hidx hAR hRN hRidx hAp P

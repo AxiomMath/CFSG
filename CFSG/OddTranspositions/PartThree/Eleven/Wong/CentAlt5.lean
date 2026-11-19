@@ -62,12 +62,13 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] (D : SplitData G)
 
+omit [Finite G] in
 theorem map_characteristic_le_normalizer_X {K0 : Subgroup D.X} (hK0 : K0.Normal)
     {L0 : Subgroup K0} (hL0 : L0.Characteristic) :
     D.X ≤ normalizer (L0.map (D.X.subtype.comp K0.subtype) : Set G) := by
   intro x hx
   rw [mem_normalizer_iff_map_conj_eq]
-  haveI : K0.Normal := hK0
+  have : K0.Normal := hK0
   have hmap : L0.map (MulAut.conjNormal (⟨x, hx⟩ : D.X)).toMonoidHom = L0 :=
     characteristic_iff_map_eq.mp hL0 (MulAut.conjNormal (⟨x, hx⟩ : D.X))
   have h1 : L0.map ((D.X.subtype.comp K0.subtype).comp
@@ -89,8 +90,8 @@ theorem map_characteristic_le_normalizer_X {K0 : Subgroup D.X} (hK0 : K0.Normal)
   exact h1
 
 theorem characteristic_kernel_eq_diagonal {K0 : Subgroup D.X} (hK0 : K0.Normal)
-    (hidx : K0.index = 2) (hK0T : K0.map D.X.subtype ⊓ D.T = D.M) {L0 : Subgroup K0}
-    (hL0 : L0.Characteristic) (hL0idx : L0.index = 4)
+    (_hidx : K0.index = 2) (_hK0T : K0.map D.X.subtype ⊓ D.T = D.M) {L0 : Subgroup K0}
+    (hL0 : L0.Characteristic) (_hL0idx : L0.index = 4)
     (hL0T : L0.map (D.X.subtype.comp K0.subtype) ⊓ D.T = D.J)
     (hAL : D.A ≤ L0.map (D.X.subtype.comp K0.subtype)) :
     L0.map (D.X.subtype.comp K0.subtype) = D.A := by
@@ -111,7 +112,7 @@ theorem characteristic_kernel_eq_diagonal {K0 : Subgroup D.X} (hK0 : K0.Normal)
     rw [heq]
     have hburn : (D.T.subgroupOf D.X).relIndex (L.subgroupOf D.X) ∣
         (D.T.subgroupOf D.X).index := by
-      haveI : (L.subgroupOf D.X).Normal := hLnormX
+      have : (L.subgroupOf D.X).Normal := hLnormX
       have h1 := Subgroup.relIndex_mul_relIndex
         ((D.T.subgroupOf D.X) ⊓ (L.subgroupOf D.X)) (D.T.subgroupOf D.X)
         ((D.T.subgroupOf D.X) ⊔ (L.subgroupOf D.X)) inf_le_left le_sup_left
@@ -201,7 +202,7 @@ theorem characteristic_kernel_eq_diagonal {K0 : Subgroup D.X} (hK0 : K0.Normal)
           have hord : orderOf u' = 2 := orderOf_eq_prime (by rw [pow_two]; exact hu'2) hu'1
           rw [hord]; norm_num)
       obtain ⟨Q, hQle⟩ := hgen.exists_le_sylow
-      haveI : Finite (Sylow 2 L) := Sylow.finite_of_finiteIndex Q
+      have : Finite (Sylow 2 L) := Sylow.finite_of_finiteIndex Q
       obtain ⟨g, hg⟩ := MulAction.exists_smul_eq L Q hSylJ
       have hmem : (g * u' * g⁻¹ : L) ∈ D.J.subgroupOf L := by
         have h1 : (g * u' * g⁻¹ : L) ∈ (hSylJ : Subgroup L) := by

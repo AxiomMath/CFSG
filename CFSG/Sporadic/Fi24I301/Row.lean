@@ -21,8 +21,8 @@ open CFSG.Sporadic.Fi24 (J)
 
 theorem glaPLayer_eq_bot_of_le {X : Subgroup J}
     (hX : X ≤ Subgroup.centralizer ({dJ} : Set J) ⊓ fi24C) : GLAPLayer 3 X = ⊥ := by
-  haveI := isSolvable_centralizer_dJ_inf card_fi24P_inf_centralizer_psi
-  haveI : Group.IsSolvable ↥X :=
+  have := isSolvable_centralizer_dJ_inf card_fi24P_inf_centralizer_psi
+  have : Group.IsSolvable ↥X :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hX)
   exact glaPLayer_eq_bot_of_isSolvable Nat.prime_three
 

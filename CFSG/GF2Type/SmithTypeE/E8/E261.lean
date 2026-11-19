@@ -23,6 +23,7 @@ open CFSG.LargeExtraspecial.S14.SME (mem_Qa_iff mem_Qa_symm)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem commute_conj_inv_E8 (g : G) {x y : G} (h : Commute x y) :
     Commute (g⁻¹ * x * g) (g⁻¹ * y * g) := by
   simpa using (commute_conj_iff_E8 g⁻¹ x y).2 h
@@ -39,7 +40,7 @@ theorem exists_conj_eq_mul_of_mem_Qa (hE : SmithE8E23a) [IsSimpleGroup G] (S : S
   have ha' : IsConj S.z (h⁻¹ * a * h) := ha.trans (isConj_iff.mpr ⟨h⁻¹, by group⟩)
   have htu' : orderOf ((h⁻¹ * t * h) * (h⁻¹ * u * h)) = 3 := by
     rw [show (h⁻¹ * t * h) * (h⁻¹ * u * h) = MulAut.conj h⁻¹ (t * u) by
-      simp [MulAut.conj_apply]; group, MulEquiv.orderOf_eq]
+      simp; group, MulEquiv.orderOf_eq]
     exact htu
   have haz : h⁻¹ * a * h ≠ S.z := fun e => hab (by
     calc a = h * (h⁻¹ * a * h) * h⁻¹ := by group
@@ -107,9 +108,9 @@ theorem mem_K_of_lift (hF : E23FourFacts8) (h33 : SmithE8E33) (h34a : SmithE8E34
 
 theorem card_eq_two_of_isPGroup_E8 {K : Type} [Group K] [Finite K] [IsSimpleGroup K]
     (hp : IsPGroup 2 K) : Nat.card K = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent K := hp.isNilpotent
-  letI : CommGroup K := instCommGroupOfIsSimpleGroupOfIsNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent K := hp.isNilpotent
+  let : CommGroup K := instCommGroupOfIsSimpleGroupOfIsNilpotent
   have hpr : (Nat.card K).Prime := IsSimpleGroup.prime_card
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2)).mp hp
   rw [hn] at hpr ⊢
@@ -209,7 +210,7 @@ theorem nonempty_mulEquiv_Mbar_of_card_centralizer (S : Setting G)
     intro g hg
     obtain ⟨a, ha⟩ := hfs ⟨g, Subgroup.mem_centralizer_singleton_iff.mpr hg⟩
     exact ⟨⟨a, (mem_inf.mp a.2).1⟩, congrArg Subtype.val ha⟩
-  haveI : IsSimpleGroup ι.range := (MonoidHom.ofInjective hιinj).symm.isSimpleGroup
+  have : IsSimpleGroup ι.range := (MonoidHom.ofInjective hιinj).symm.isSimpleGroup
   have h2' : 2 < Nat.card ι.range := by
     rw [← Nat.card_congr (MonoidHom.ofInjective hιinj).toEquiv]
     exact h2
@@ -270,7 +271,7 @@ theorem exists_N_std (hE : SmithE8E23a) (h33 : SmithE8E33) (h34a : SmithE8E34a)
   obtain ⟨f, hf⟩ : ∃ f : G →* G, f = (MulAut.conj g⁻¹).toMonoidHom := ⟨_, rfl⟩
   have hfinj : Function.Injective f := by rw [hf]; exact (MulAut.conj g⁻¹).injective
   have hfapp : ∀ a : G, f a = g⁻¹ * a * g := fun a => by
-    simp [hf, MulAut.conj_apply]
+    simp [hf]
   have hK'M : K.map f ≤ S.M := by
     rintro _ ⟨k, hk, rfl⟩
     rw [hfapp, mem_centralizer_singleton_iff]
@@ -280,7 +281,7 @@ theorem exists_N_std (hE : SmithE8E23a) (h33 : SmithE8E33) (h34a : SmithE8E34a)
     calc g⁻¹ * k * g * S.z = g⁻¹ * (k * (g * S.z * g⁻¹)) * g := by group
       _ = g⁻¹ * ((g * S.z * g⁻¹) * k) * g := by rw [hkt]
       _ = S.z * (g⁻¹ * k * g) := by group
-  haveI : IsSimpleGroup (K.map f) := (Subgroup.equivMapOfInjective K f hfinj).symm.isSimpleGroup
+  have : IsSimpleGroup (K.map f) := (Subgroup.equivMapOfInjective K f hfinj).symm.isSimpleGroup
   have hxK : g⁻¹ * S.z * g ∈ K.map f := ⟨S.z, hzK, hfapp _⟩
   have hx : IsConj S.z (g⁻¹ * S.z * g) := isConj_iff.mpr ⟨g⁻¹, by group⟩
   have hxQ : g⁻¹ * S.z * g ∉ S.QG := fun h => htQ (by

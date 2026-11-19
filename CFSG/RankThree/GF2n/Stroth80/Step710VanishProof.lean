@@ -57,7 +57,7 @@ theorem step710Vanish_generic (h34 : Stroth34Statement) (hRoot : Stroth310RootSt
   obtain ⟨v, hv, hxv⟩ := hcon
   obtain ⟨φ, hφ, hker, hact⟩ := hnat
   obtain ⟨hnorm, hn, ψ, hψ⟩ := hact
-  haveI := hn
+  have := hn
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htZ0 : t ∈ Z0 := IsCentrePre.mem_of_mem_LB (hc := hc) ht hZ0
   obtain ⟨T, hT2, hfam, hTk⟩ := exists_vanish_family h34 h310chi hZc hZV hZcard hc hs hZ0 hK hX
@@ -94,8 +94,8 @@ theorem step710Vanish_plus (h34 : Stroth34Statement) (hRoot : Stroth310RootState
     (hΓ : ∀ z ∈ Z0, ∀ y ∈ conjSubgroup g Z0, ⁅z, y⁆ ∈ Q) :
     ∀ v ∈ Vt M (LB M Q B) B Z t, ⁅g * t * g⁻¹, v⁆ ∈ Z := by
   obtain ⟨K, fK, finK, hK, hnat⟩ := hP
-  haveI : CharP K 2 := sec7ctr_charP hc hK
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : CharP K 2 := sec7ctr_charP hc hK
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   have hK4 : 4 ≤ Nat.card K := hK ▸ hc.hyp.q4
   have hnatSO : SpNat hc t ∨ OmegaNat hc t := Or.inr ⟨K, fK, finK, hK, Or.inl ⟨m, hm3, hnat⟩⟩
   have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
@@ -125,8 +125,8 @@ theorem step710Vanish_minus (h34 : Stroth34Statement) (hRoot : Stroth310RootStat
     ∀ v ∈ Vt M (LB M Q B) B Z t, ⁅g * t * g⁻¹, v⁆ ∈ Z := by
   obtain ⟨K, fK, finK, hK, b, c, hirr, hnat⟩ := hP
   have hm2 : 2 ≤ m := by omega
-  haveI : CharP K 2 := sec7ctr_charP hc hK
-  haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : CharP K 2 := sec7ctr_charP hc hK
+  have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
   have hK4 : 4 ≤ Nat.card K := hK ▸ hc.hyp.q4
   have hnatSO : SpNat hc t ∨ OmegaNat hc t :=
     Or.inr ⟨K, fK, finK, hK, Or.inr ⟨m, b, c, hm2, hirr, hnat⟩⟩

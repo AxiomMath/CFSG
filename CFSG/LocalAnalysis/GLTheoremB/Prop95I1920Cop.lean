@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem inv_mul_mem_normalizer_of_map_conj_eq {K : Subgroup X} {a b : X}
     (h : K.map (MulAut.conj a).toMonoidHom = K.map (MulAut.conj b).toMonoidHom) :
     a⁻¹ * b ∈ Subgroup.normalizer (K : Set X) := by
@@ -36,6 +37,7 @@ theorem inv_mul_mem_normalizer_of_map_conj_eq {K : Subgroup X} {a b : X}
   have e : (b⁻¹ * a) * (a⁻¹ * b * x * (a⁻¹ * b)⁻¹) * (b⁻¹ * a)⁻¹ = x := by group
   rwa [e] at h2
 
+omit [Finite X] in
 theorem pow_mul_not_mem_normalizer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Subgroup X} {d t : X}
     (hd : d ^ p = 1) (hdK : d ∉ Subgroup.normalizer (K : Set X)) (hdt : t * d = d * t) {e : ℕ}
     (ht2 : t ^ (2 ^ e) = 1) (htK : t ∉ Subgroup.normalizer (K : Set X)) (m : ℕ) :
@@ -94,7 +96,7 @@ theorem pCoreOf_le_normalizer_of_not_mem_normalizer {p : ℕ} (hp : p.Prime) (hp
     {K : Subgroup X} (hK : IsComponentOf K ⊤) {d : X} (hd : d ^ p = 1)
     (hdK : d ∉ Subgroup.normalizer (K : Set X)) :
     pCoreOf 2 (Subgroup.centralizer ({d} : Set X)) ≤ Subgroup.normalizer (K : Set X) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T₀ := pCoreOf 2 (Subgroup.centralizer ({d} : Set X)) with hT₀
   intro t ht
   by_contra htK
@@ -181,7 +183,7 @@ theorem pCoreOf_le_normalizer_of_not_mem_normalizer {p : ℕ} (hp : p.Prime) (hp
         exact this.symm
       exact hlist.eq
     exact commute_of_diagProd_commute hp hK hd hdK hxn hk hw
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.2.2.2
   have hnab := (isQuasisimple_of_comp hK).2.2
   refine CFSG.LocalAnalysis.GLTheoremB.Prop95Parts.NonAb.not_isPGroup_two hnab ?_
   intro g

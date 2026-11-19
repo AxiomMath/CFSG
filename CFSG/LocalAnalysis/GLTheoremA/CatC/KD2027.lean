@@ -33,7 +33,7 @@ theorem SL3Faithful.of_injective {P Q : Type*} [Group P] [Group Q] (f : P →* Q
 theorem derived_comm_of_gl2 {K : Type*} [Field K] {P : Type*} [Group P] [Finite P]
     (hP : IsPGroup 2 P) (ψ : P →* GL (Fin 2) K) (hψ : Function.Injective ψ) :
     ∀ x ∈ commutator P, ∀ y ∈ commutator P, x * y = y * x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hcomm : ∀ a b : P, a * b = b * a
   · have hbot : commutator P = ⊥ := by
       rw [eq_bot_iff, commutator, Subgroup.commutator_le]
@@ -53,7 +53,7 @@ theorem derived_comm_of_gl2 {K : Type*} [Field K] {P : Type*} [Group P] [Finite 
         (QuotientGroup.eq_one_iff a).1 (Subsingleton.elim _ _)
       exact ((Subgroup.mem_center_iff.1 ha) b).symm
     have hQ : IsPGroup 2 (P ⧸ Subgroup.center P) := hP.to_quotient _
-    haveI := hQ.center_nontrivial
+    have := hQ.center_nontrivial
     obtain ⟨⟨q, hq⟩, hq1⟩ := exists_ne (1 : Subgroup.center (P ⧸ Subgroup.center P))
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
     have hq1' : (x : P ⧸ Subgroup.center P) ≠ 1 := fun h => hq1 (Subtype.ext h)
@@ -73,7 +73,7 @@ theorem derived_comm_of_gl2 {K : Type*} [Field K] {P : Type*} [Group P] [Finite 
       apply hψ
       apply Units.ext
       rw [map_mul, map_mul, Units.val_mul, Units.val_mul, hc]
-      simp [Matrix.smul_mul, Matrix.mul_smul]
+      simp
     have hN : ∀ g h : P, g * x = x * g → h * x = x * h → g * h = h * g := by
       intro g h hg hh
       apply hψ
@@ -107,12 +107,12 @@ theorem derived_comm_of_gl2 {K : Type*} [Field K] {P : Type*} [Group P] [Finite 
 
 theorem derived_comm_of_sl3 {P : Type*} [Group P] [Finite P] (hP : IsPGroup 2 P)
     (h : SL3Faithful P) : ∀ x ∈ commutator P, ∀ y ∈ commutator P, x * y = y * x := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_cases hsub : Subsingleton P
   · intro x _ y _
     exact Subsingleton.elim _ _
   · have hnt : Nontrivial P := not_subsingleton_iff_nontrivial.1 hsub
-    haveI := hP.center_nontrivial
+    have := hP.center_nontrivial
     have h2dvd : 2 ∣ Nat.card (Subgroup.center P) := by
       rcases (hP.to_subgroup (Subgroup.center P)).card_eq_or_dvd with h1 | h1
       · exact absurd h1 (Finite.one_lt_card (α := Subgroup.center P)).ne'
@@ -313,14 +313,14 @@ theorem map_subtype_commutator {Γ : Type*} [Group Γ] (T : Subgroup Γ) :
 theorem exists_section {G S : Type*} [Group G] [Finite G] [Group S] (π : G →* S)
     (hπ : Function.Surjective π) (hker : ∀ g ∈ π.ker, g ^ 3 = 1) (T₀ : Subgroup S)
     (hT₀ : IsPGroup 2 T₀) : ∃ ι : T₀ →* G, ∀ t : T₀, π (ι t) = (t : S) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set M : Subgroup G := T₀.comap π with hM
   let πM : M →* T₀ := (π.comp M.subtype).codRestrict T₀ (fun x => x.2)
   have hπM : Function.Surjective πM := by
     intro t
     obtain ⟨g, hg⟩ := hπ t
     exact ⟨⟨g, by rw [hM, Subgroup.mem_comap, hg]; exact t.2⟩, Subtype.ext hg⟩
-  haveI : Finite M := inferInstance
+  have : Finite M := inferInstance
   obtain ⟨Q₀⟩ := (Sylow.nonempty : Nonempty (Sylow 2 T₀))
   obtain ⟨Q, hQ⟩ := Sylow.mapSurjective_surjective hπM 2 Q₀
   have hQ₀ : (Q₀ : Subgroup T₀) = ⊤ :=
@@ -352,9 +352,9 @@ theorem exists_section {G S : Type*} [Group G] [Finite G] [Group S] (π : G →*
   exact congrArg Subtype.val h1
 
 theorem kd2027_abs {Γ : Type*} [Group Γ] [Finite Γ] (A T : Subgroup Γ) (hA : IsPGroup 3 A)
-    (hT : IsPGroup 2 T) (hN : A ≤ Subgroup.normalizer (T : Set Γ)) (hAT : ⁅A, T⁆ = T)
+    (hT : IsPGroup 2 T) (hN : A ≤ Subgroup.normalizer (T : Set Γ)) (_hAT : ⁅A, T⁆ = T)
     (hF : SL3Faithful T) : ⁅A, ⁅T, T⁆⁆ = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnorm : ∀ a ∈ A, ∀ t : Γ, t ∈ T ↔ a * t * a⁻¹ ∈ T := fun a ha =>
     Subgroup.mem_normalizer_iff.1 (hN ha)
   have hnorm' : ∀ a ∈ A, ∀ t : Γ, t ∈ T → a * t * a⁻¹ ∈ T := fun a ha t ht =>
@@ -473,7 +473,7 @@ theorem kd2027_abs {Γ : Type*} [Group Γ] [Finite Γ] (A T : Subgroup Γ) (hA :
       _ = (v * w) * w := by rw [← hcvw]
       _ = v * (w * w) := by group
       _ = v := by rw [hww, mul_one]
-  haveI hnil : Group.IsNilpotent T := IsPGroup.isNilpotent hT
+  have hnil : Group.IsNilpotent T := IsPGroup.isNilpotent hT
   have hΩnormal : (Ω.subgroupOf T).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hΩT]
     intro x t hx ht

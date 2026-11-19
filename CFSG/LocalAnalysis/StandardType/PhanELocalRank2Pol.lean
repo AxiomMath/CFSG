@@ -13,6 +13,7 @@ open CFSG.Monster.B.Geometry Module
 
 variable (K : Type) [Field K] [Finite K] (f : ℕ) [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem plpo_exists_span_eq_of_finrank_one {U : Submodule K (Fin 3 → K)}
     (hU : finrank K U = 1) : ∃ v : Fin 3 → K, v ≠ 0 ∧ U = Submodule.span K {v} := by
   have hne : U ≠ ⊥ := by
@@ -22,6 +23,7 @@ private theorem plpo_exists_span_eq_of_finrank_one {U : Submodule K (Fin 3 → K
   obtain ⟨v, hvU, hv0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hne
   exact ⟨v, hv0, eq_span_singleton_of_mem_of_finrank_eq_one hU hvU hv0⟩
 
+omit [Finite K] [CharP K 2] in
 private theorem plpo_finrank_sup_eq_two_of_ne {p q : Submodule K (Fin 3 → K)}
     (hp : finrank K p = 1) (hq : finrank K q = 1) (hne : p ≠ q) :
     finrank K ↥(p ⊔ q) = 2 := by
@@ -58,7 +60,7 @@ private theorem plpo_hermLin_smul_add_self (hK : Nat.card K = (2 ^ f) ^ 2)
   have huw : hermLin K f 3 0 3 u w = 1 := by
     rw [herm_symm (K := K) (f := f) hK w u, hwu, map_one]
   simp only [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right,
-    hww, hwu, huw, mul_zero, mul_one, zero_add, add_zero]
+    hww, hwu, huw, mul_zero, mul_one, zero_add]
   ring
 
 theorem a2pol_connected (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f) :

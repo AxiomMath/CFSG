@@ -20,7 +20,7 @@ theorem w85g_map_eq_natCast_finrank_commSpace {Q : QuadraticForm K V}
     (hu : ∀ x : V, (polar Q x u) ^ 2 = Q (g x - x)) :
     Q u = (finrank K (commSpace g) : K) := by
   classical
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   obtain ⟨X, hX⟩ := (fixSpace g).exists_isCompl
   have hX' : IsCompl X (fixSpace g) := hX.symm
   have hdim : finrank K X = finrank K (commSpace g) := finrank_compl_eq hX'

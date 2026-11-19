@@ -100,6 +100,7 @@ open CFSG.RankThree.OrthogonalInvolutions (omegaGroup)
 variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 private theorem p9uOAut_le_normalizer :
     TauCeti.QuadraticMap.orthogonalGroup Q ≤
       Subgroup.normalizer (orthDerived Q : Set (V ≃ₗ[K] V)) := by
@@ -117,6 +118,7 @@ private noncomputable def p9uOAut_kappa :
     TauCeti.QuadraticMap.orthogonalGroup Q →* MulAut ↥(orthDerived Q) :=
   (orthDerived Q).normalizerMonoidHom.comp (Subgroup.inclusion p9uOAut_le_normalizer)
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 private theorem p9uOAut_kappa_apply_val (g : TauCeti.QuadraticMap.orthogonalGroup Q)
     (x : orthDerived Q) :
     ((p9uOAut_kappa (Q := Q) g x : orthDerived Q) : V ≃ₗ[K] V) =
@@ -124,6 +126,7 @@ private theorem p9uOAut_kappa_apply_val (g : TauCeti.QuadraticMap.orthogonalGrou
   Subgroup.normalizerMonoidHom_apply_apply_coe (orthDerived Q)
     (Subgroup.inclusion p9uOAut_le_normalizer g) x
 
+omit [CharP K 2] in
 private theorem p9uOAut_kappa_eq_one (hK : Nat.card K = 2)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (h5 : 5 ≤ Module.finrank K V)
     {g : TauCeti.QuadraticMap.orthogonalGroup Q} (hg : p9uOAut_kappa (Q := Q) g = 1) :
@@ -134,6 +137,7 @@ private theorem p9uOAut_kappa_eq_one (hK : Nat.card K = 2)
   rw [p9uOAut_kappa_apply_val] at hy
   simpa using hy
 
+omit [CharP K 2] in
 private theorem p9uOAut_kappa_injective (hK : Nat.card K = 2)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (h5 : 5 ≤ Module.finrank K V) :
     Function.Injective (p9uOAut_kappa (Q := Q)) := by
@@ -158,11 +162,11 @@ theorem qtwoDL1_orthAut_of_equiv {K V : Type} [Field K] [Finite K] [CharP K 2] [
         ((α y : ↥(orthDerived Q)) : V ≃ₗ[K] V) = g * (y : V ≃ₗ[K] V) * g⁻¹) ∧
     omegaGroup Q hQ = orthDerived Q := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-  haveI : Fintype ↥(orthDerived Q) := Fintype.ofFinite _
-  haveI : Fintype (MulAut ↥(orthDerived Q)) :=
+  have : Fintype ↥(orthDerived Q) := Fintype.ofFinite _
+  have : Fintype (MulAut ↥(orthDerived Q)) :=
     Fintype.ofInjective
       (fun f : MulAut ↥(orthDerived Q) => (f : ↥(orthDerived Q) → ↥(orthDerived Q)))
       fun f g h => MulEquiv.ext (congrFun h)

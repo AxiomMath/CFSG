@@ -57,8 +57,8 @@ private theorem r920im_prime_eq_three_or_seven (c : R920Cfg D L D₃ A) {p : ℕ
 theorem I9_le_M (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) (hK46 : UCK.K46Semireg)
     (c : R920Cfg D L D₃ A) {Y H S : Subgroup G} (h97 : Hyp97 D Y H D₃ S) (hY : Opp 3 Y = L)
     (hSH : CFSG.ABGLocalTools.IsSylowOf 2 S H) : I9 H ≤ D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hIM
   have hHt : H ≠ ⊤ := ne_top_of_hyp97 D h97
   obtain ⟨⟨hY9, hH9, hD₃X, -⟩, -, -, hSY⟩ := h97
@@ -105,7 +105,7 @@ theorem I9_le_M (hSch : CFSG.AGLEmbedding.KFactCatalogSchreier) (hK46 : UCK.K46S
   · by_cases hr7 : r = 7
     · exact false_of_chief_factor_seven D.maxLocal (c.A_le.trans hLY) c.A_card c.A_mem
         (hr7 ▸ hUW) hUMleW
-    · haveI : Fact r.Prime := ⟨hr⟩
+    · have : Fact r.Prime := ⟨hr⟩
       have hW3 : ¬ 3 ∣ Nat.card W := fun h =>
         hI3 (h.trans (Subgroup.card_dvd_of_le (hUW.1.le.trans hUle)))
       have hU7 : ¬ 7 ∣ Nat.card U :=

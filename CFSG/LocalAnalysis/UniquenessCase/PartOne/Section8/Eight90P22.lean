@@ -301,7 +301,7 @@ theorem r890p22_pRank_quotient_le_one {H : Type} [Group H] [Finite H] {p : ℕ} 
   obtain ⟨P, hEP⟩ := hEp.exists_le_sylow
   obtain ⟨S, hS⟩ := Sylow.mapSurjective_surjective (QuotientGroup.mk'_surjective N) p P
   have hScyc : IsCyclic (S : Subgroup H) :=
-    CFSG.all_pSubgroups_isCyclic_of_pRank_le_one hp hp2 h S le_top S.isPGroup'
+    CFSG.all_pSubgroups_isCyclic_of_pRank_le_one hp hp2 h S le_top S.isPGroup
   have hPmap : (P : Subgroup (H ⧸ N)) = (S : Subgroup H).map (QuotientGroup.mk' N) := by
     rw [← hS, Sylow.coe_mapSurjective]
   have : IsCyclic ((S : Subgroup H).map (QuotientGroup.mk' N)) :=
@@ -335,7 +335,7 @@ theorem r890p22_unique_sz_component (hCat : PartTwo.Inputs1719.K_CatalogueThreeP
     have hJsn : J.IsSubnormal := CFSG.Open.IsSubnormal.mathlib hJ.2.1 Subgroup.IsSubnormal.top
     have h3J : 3 ∉ piSet (⊤ : Subgroup ↥J) := by
       intro h
-      simp only [piSet, Set.mem_setOf_eq] at h
+      simp only [piSet, Set.mem_ofPred_eq] at h
       obtain ⟨-, hdvd⟩ := h
       rw [Subgroup.card_top] at hdvd
       exact h3 (hdvd.trans (Subgroup.card_subgroup_dvd_card J))

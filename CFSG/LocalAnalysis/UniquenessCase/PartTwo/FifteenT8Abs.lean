@@ -58,7 +58,7 @@ private lemma t8_exists_pow_eq_of_card_four [Finite W] {S : Subgroup W} {c : Mul
   have hfinj : Function.Injective f := by
     intro i j hij
     fin_cases i <;> fin_cases j <;>
-      simp_all [f, h1t, h1ct, h1c2t, htct, ht2, ht3, Ne.symm]
+      simp_all [f, Ne.symm]
   have hrange_card : (Set.range f).ncard = 4 := by
     rw [Set.ncard_range_of_injective hfinj, Nat.card_fin]
   have hsub : Set.range f ⊆ (S : Set W) := by
@@ -78,7 +78,7 @@ private lemma t8_exists_pow_eq_of_card_four [Finite W] {S : Subgroup W} {c : Mul
   · exact ⟨2, by rw [← hi]; simp [f, pow_two, MulAut.mul_apply]⟩
 
 private lemma t8_commSub_zpowers_fix_bot [Finite W] (hW : ∀ w : W, w * w = 1)
-    {Y : Subgroup W} {c : MulAut W} (hc3 : c ^ 3 = 1) (hcY : ∀ y ∈ Y, c y ∈ Y) :
+    {Y : Subgroup W} {c : MulAut W} (hc3 : c ^ 3 = 1) (_hcY : ∀ y ∈ Y, c y ∈ Y) :
     fixV (Subgroup.zpowers c) ⊓ commSub Y (Subgroup.zpowers c) = ⊥ := by
   have hc3v : ∀ v : W, c (c (c v)) = v := by
     intro v
@@ -217,7 +217,7 @@ private lemma t8_commSub_zpowers_map {Y : Subgroup W} {c τ : MulAut W}
     exact (commSub Y (Subgroup.zpowers c)).inv_mem hu
 
 private lemma t8_conj_mem_sup_map {Y : Subgroup W} {b τ c : MulAut W} (hτ2 : τ * τ = 1)
-    (hc : c = b * τ * b⁻¹ * τ⁻¹) (hbY : ∀ y ∈ Y, b y ∈ Y) (hbYinv : ∀ y ∈ Y, b⁻¹ y ∈ Y)
+    (hc : c = b * τ * b⁻¹ * τ⁻¹) (_hbY : ∀ y ∈ Y, b y ∈ Y) (hbYinv : ∀ y ∈ Y, b⁻¹ y ∈ Y)
     (hτY : ∀ y ∈ Y, τ y ∈ Y) :
     ∀ y ∈ Y, c y * y⁻¹ ∈ commSub Y (Subgroup.zpowers τ) ⊔
       (commSub Y (Subgroup.zpowers τ)).map b.toMonoidHom := by
@@ -303,7 +303,7 @@ theorem s15_T8_comm_card [Finite W] (hW : ∀ w : W, w * w = 1) {Y : Subgroup W}
     (hτB : ∀ c ∈ B, τ * c * τ⁻¹ ∈ B) (hrk : rk ↥(commSub Y (Subgroup.zpowers τ)) ≤ 1) :
     Nat.card B ≤ 3 * Nat.card ↥(B ⊓ Subgroup.centralizer ({τ} : Set (MulAut W))) := by
   classical
-  haveI : IsMulCommutative B := hBc
+  have : IsMulCommutative B := hBc
   have hττ : ∀ y : W, τ (τ y) = y := by
     intro y
     have := congrArg (fun φ : MulAut W => φ y) hτ2
@@ -788,8 +788,8 @@ theorem s15_T8_fix_count [Finite W] {Mb : Subgroup (MulAut W)} {B : Fin 4 → Su
   have hAle : ∀ j, A j ≤ B j := by
     intro j
     by_cases hj : j ∈ J
-    · simp only [A, if_pos hj]; exact inf_le_left
-    · simp only [A, if_neg hj]; exact le_rfl
+    · simp only [A, ite_eq_left hj]; exact inf_le_left
+    · simp only [A, ite_eq_right hj]; exact le_rfl
   have hAcomm : Pairwise fun i j => ∀ x y : MulAut W, x ∈ A i → y ∈ A j → Commute x y := by
     intro i j hij x y hx hy
     exact hB.commute i j hij x (hAle i hx) y (hAle j hy)
@@ -797,7 +797,7 @@ theorem s15_T8_fix_count [Finite W] {Mb : Subgroup (MulAut W)} {B : Fin 4 → Su
     rw [iSupIndep_def]
     intro j
     rw [disjoint_iff]
-    simpa only [Set.mem_setOf_eq] using hB.indep j
+    simpa only [Set.mem_ofPred_eq] using hB.indep j
   have hindA : iSupIndep A := hindB.mono hAle
   have hu_stab : ∀ i ∈ J, u ∈ stabSub (Y i) := by
     intro i hi
@@ -817,7 +817,7 @@ theorem s15_T8_fix_count [Finite W] {Mb : Subgroup (MulAut W)} {B : Fin 4 → Su
       · subst i
         have hcu : c ∈ Subgroup.centralizer ({u} : Set (MulAut W)) := by
           have hh : c ∈ B j ⊓ Subgroup.centralizer ({u} : Set (MulAut W)) := by
-            simpa only [A, if_pos hi] using hc
+            simpa only [A, ite_eq_left hi] using hc
           exact hh.2
         have hcu' : c * u * c⁻¹ = u := by
           have hcomm : u * c = c * u := hcu u (by simp)
@@ -864,7 +864,7 @@ theorem s15_T8_fix_count [Finite W] {Mb : Subgroup (MulAut W)} {B : Fin 4 → Su
     · have hc := s15_T8_comm_card hB.sq (hB.comm j) (hB.cube j) (hB.stab j) (hB.faith j)
           hA.sq (hA.stab j) (hA.norm j) (hA.transv j hj)
       have hAj : A j = B j ⊓ Subgroup.centralizer ({u} : Set (MulAut W)) := by
-        simp only [A, if_pos hj]
+        simp only [A, ite_eq_left hj]
       rw [hAj]
       have h3r : Nat.card (B j) = 3 ^ r := hB.card j
       have hthis : 3 ^ r = 3 * 3 ^ (r - 1) := by
@@ -874,11 +874,11 @@ theorem s15_T8_fix_count [Finite W] {Mb : Subgroup (MulAut W)} {B : Fin 4 → Su
           _ = 3 * 3 ^ (r - 1) := by ring
       rw [h3r, hthis] at hc
       exact Nat.le_of_mul_le_mul_left hc (by norm_num)
-    · have hAj : A j = B j := by simp only [A, if_neg hj]
+    · have hAj : A j = B j := by simp only [A, ite_eq_right hj]
       rw [hAj, hB.card j]
       exact Nat.pow_le_pow_right (by norm_num) (Nat.sub_le r 1)
   have hAj0 : Nat.card (A j₀) = 3 ^ r := by
-    have hAj : A j₀ = B j₀ := by simp only [A, if_neg hj₀]
+    have hAj : A j₀ = B j₀ := by simp only [A, ite_eq_right hj₀]
     rw [hAj, hB.card j₀]
   have hprod_bound : 3 ^ (4 * r - 3) ≤ ∏ j : Fin 4, Nat.card (A j) := by
     have hP : (3 ^ (r - 1)) ^ 3 ≤ ∏ j ∈ Finset.univ.erase j₀, Nat.card (A j) := by

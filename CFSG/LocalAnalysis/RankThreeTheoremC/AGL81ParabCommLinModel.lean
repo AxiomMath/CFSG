@@ -91,7 +91,7 @@ theorem block_relation {A : GL (Fin n) K} {σ : K ≃+* K} {α : MulAut (project
           (x : Matrix (Fin n) (Fin n) K)) * (A : Matrix (Fin n) (Fin n) K) := by rw [h6]
       _ = (c : K) • (((u : SpecialLinearGroup (Fin n) K) : Matrix (Fin n) (Fin n) K) *
           (x : Matrix (Fin n) (Fin n) K) * (A : Matrix (Fin n) (Fin n) K)) := by
-          simp only [Matrix.mul_smul, Matrix.smul_mul, mul_one, smul_mul_assoc]
+          simp only [Matrix.mul_smul, mul_one, smul_mul_assoc]
   have hU : BlockPat I ((u : SpecialLinearGroup (Fin n) K) : Matrix (Fin n) (Fin n) K) :=
     blockPat_of_mem_flagStabilizer u.2
   have hX : BlockPat I (x : Matrix (Fin n) (Fin n) K) := blockPat_of_mem_flagStabilizer hxQ
@@ -184,6 +184,7 @@ theorem eq_inv_smul_one_of_mul {m : ℕ} (hm : 1 ≤ m) {r : K} {B' : Matrix (Fi
   calc B' = r⁻¹ • (r • B') := by rw [smul_smul, inv_mul_cancel₀ hr, one_smul]
     _ = r⁻¹ • 1 := by rw [h1]
 
+omit [Field K] in
 theorem matrix_eq_of_eq_zero {m : ℕ} (hm : m = 0) (M N : Matrix (Fin m) (Fin m) K) : M = N := by
   subst hm
   exact Subsingleton.elim _ _
@@ -220,7 +221,7 @@ theorem blkAt_commutator {A₁ A₂ : GL (Fin n) K}
           (r₁⁻¹ • 1) * (r₂⁻¹ • 1))
         = (r₁ * r₂ * r₁⁻¹ * r₂⁻¹) • (1 : Matrix (Fin (linBlockLen n I a))
             (Fin (linBlockLen n I a)) K) := by
-          simp only [Matrix.smul_mul, Matrix.mul_smul, smul_smul, mul_one]
+          simp only [Matrix.mul_smul, smul_smul, mul_one]
           congr 1
           ring
       _ = 1 := by rw [h3, one_smul]

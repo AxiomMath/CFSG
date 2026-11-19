@@ -87,7 +87,7 @@ theorem exists_conj_rootKernel_e8T3XColumn_eq_e6Nodes {p : ℕ} (hp : p.Prime) (
       (fun γ => u • γ) '' rootKernel (e8T3XColumn ε (q : ZMod p)) =
         parabolicRoots Tag.E8 (e6Nodes Tag.E8) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : (q : ZMod p) ^ 2 + (ε : ZMod p) * (q : ZMod p) + 1 = 0 := by
     have h : (((q : ℤ) ^ 2 + ε * (q : ℤ) + 1 : ℤ) : ZMod p) = 0 := by
       rw [ZMod.intCast_zmod_eq_zero_iff_dvd]

@@ -1337,7 +1337,7 @@ public theorem CFSG.theorem_3_5_coprime_card_of_prime_complement
       simpa [hsmulPinv, inv_smul_smul] using this
   have hP_ne_bot : (P : Subgroup ↥K) ≠ ⊥ := by
     exact P.ne_bot_of_dvd_card hpdvdK
-  have hPp : IsPGroup p' ↥(P : Subgroup ↥K) := P.isPGroup'
+  have hPp : IsPGroup p' ↥(P : Subgroup ↥K) := P.isPGroup
   have hpP_dvd : p' ∣ Nat.card ↥(P : Subgroup ↥K) := by
     rcases hPp.card_eq_or_dvd with h1 | h2
     · exact False.elim (hP_ne_bot ((Subgroup.eq_bot_iff_card (H := (P : Subgroup ↥K))).2 h1))

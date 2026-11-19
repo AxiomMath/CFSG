@@ -53,10 +53,10 @@ private theorem card_le_two_of_cover [Finite G] {V W : Subgroup G} {g1 : G} (hg1
   · intro g hg
     rcases h g hg with hgW | hgW
     · refine ⟨0, ?_⟩
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       simpa using hgW
     · refine ⟨1, ?_⟩
-      rw [if_neg (show (1 : Fin 2) ≠ 0 by decide)]
+      rw [ite_eq_right (show (1 : Fin 2) ≠ 0 by decide)]
       simpa using hgW
 
 theorem sec11_type_cases [Finite G] {V W : Subgroup G} {a x : G} (hx2 : x * x = 1)
@@ -100,39 +100,39 @@ theorem sec11_type_cases [Finite G] {V W : Subgroup G} {a x : G} (hx2 : x * x = 
         rcases hcov g hg with hgW | ⟨w, hw, hgw⟩
         · refine ⟨0, ?_⟩
           dsimp only [r4]
-          rw [if_pos rfl]
+          rw [ite_eq_left rfl]
           simpa using hgW
         · rcases hgw with h | h | h
           · have hP : ∃ g ∈ V, ∃ w ∈ W, g = a * w := ⟨g, hg, w, hw, h⟩
             obtain ⟨-, w0, hw0, hw0eq⟩ := hP.choose_spec
             have hga : ga = a * w0 := by
-              dsimp only [ga]; rw [dif_pos hP]; exact hw0eq
+              dsimp only [ga]; rw [dite_eq_left hP]; exact hw0eq
             refine ⟨1, ?_⟩
             dsimp only [r4]
-            rw [if_neg (show (1 : Fin 4) ≠ 0 by decide), if_pos rfl]
+            rw [ite_eq_right (show (1 : Fin 4) ≠ 0 by decide), ite_eq_left rfl]
             have he : (a * w0)⁻¹ * (a * w) = w0⁻¹ * w := by group
             rw [hga, h, he]
             exact W.mul_mem (W.inv_mem hw0) hw
           · have hP : ∃ g ∈ V, ∃ w ∈ W, g = x * w := ⟨g, hg, w, hw, h⟩
             obtain ⟨-, w0, hw0, hw0eq⟩ := hP.choose_spec
             have hgx : gx = x * w0 := by
-              dsimp only [gx]; rw [dif_pos hP]; exact hw0eq
+              dsimp only [gx]; rw [dite_eq_left hP]; exact hw0eq
             refine ⟨2, ?_⟩
             dsimp only [r4]
-            rw [if_neg (show (2 : Fin 4) ≠ 0 by decide),
-              if_neg (show (2 : Fin 4) ≠ 1 by decide), if_pos rfl]
+            rw [ite_eq_right (show (2 : Fin 4) ≠ 0 by decide),
+              ite_eq_right (show (2 : Fin 4) ≠ 1 by decide), ite_eq_left rfl]
             have he : (x * w0)⁻¹ * (x * w) = w0⁻¹ * w := by group
             rw [hgx, h, he]
             exact W.mul_mem (W.inv_mem hw0) hw
           · have hP : ∃ g ∈ V, ∃ w ∈ W, g = a * x * w := ⟨g, hg, w, hw, h⟩
             obtain ⟨-, w0, hw0, hw0eq⟩ := hP.choose_spec
             have hgax : gax = a * x * w0 := by
-              dsimp only [gax]; rw [dif_pos hP]; exact hw0eq
+              dsimp only [gax]; rw [dite_eq_left hP]; exact hw0eq
             refine ⟨3, ?_⟩
             dsimp only [r4]
-            rw [if_neg (show (3 : Fin 4) ≠ 0 by decide),
-              if_neg (show (3 : Fin 4) ≠ 1 by decide),
-              if_neg (show (3 : Fin 4) ≠ 2 by decide)]
+            rw [ite_eq_right (show (3 : Fin 4) ≠ 0 by decide),
+              ite_eq_right (show (3 : Fin 4) ≠ 1 by decide),
+              ite_eq_right (show (3 : Fin 4) ≠ 2 by decide)]
             have he : (a * x * w0)⁻¹ * (a * x * w) = w0⁻¹ * w := by group
             rw [hgax, h, he]
             exact W.mul_mem (W.inv_mem hw0) hw

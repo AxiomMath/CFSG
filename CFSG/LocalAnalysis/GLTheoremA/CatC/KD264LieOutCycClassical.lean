@@ -39,8 +39,8 @@ theorem outPNice_statedClassicalModel_PSp {p n r m : ℕ} {X : Type} [Group X]
 
 theorem outCycAt_adjointD4_three {K : Type} [Field K] [Finite K] :
     OutCycAt 3 (adjointGroup Tag.D4 K) := by
-  haveI : IsCyclic (RingAut K) := CFSG.LieType.Chevalley.ringAut_isCyclic
-  haveI : Finite (adjointGroup Tag.D4 K) := by
+  have : IsCyclic (RingAut K) := CFSG.LieType.Chevalley.ringAut_isCyclic
+  have : Finite (adjointGroup Tag.D4 K) := by
     have : Finite (ModGL Tag.D4 K) := finite_modGL
     exact Subtype.finite
   refine outCycAt_of_cyclic (p := 3) Nat.prime_three
@@ -76,22 +76,22 @@ theorem outCycAt_adjointD4_three {K : Type} [Field K] [Finite K] :
 theorem outCycAt_pomegaPlus_four_three {ℓ f : ℕ} {G : Type} [Group G]
     (h : StatedClassicalModel G .POmegaPlus 4 ℓ f) : OutCycAt 3 G := by
   obtain ⟨-, K, hfield, hfinite, -, ⟨eG⟩⟩ := h
-  letI := hfield
-  letI := hfinite
+  let := hfield
+  let := hfinite
   obtain ⟨eC⟩ :=
     CFSG.HardMathSupport.Lang.Coordinator.D4Bridge.nonempty_statedProj_equiv_adjointGroup
       (F := K)
   exact outCycAt_of_mulEquiv (eG.trans eC).symm (outCycAt_adjointD4_three (K := K))
 
 theorem outCycAt_trialityD4 (q : TauCeti.PrimePower)
-    (hv : (TauCeti.LieTypeIndex.trialityD4 q).Valid) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
+    (hv : (TauCeti.LieTypeIndex.trialityD4 q).Valid) {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) :
     OutCycAt p (TauCeti.CFSGIndex.lie ⟨TauCeti.LieTypeIndex.trialityD4 q, hv⟩).Group := by
   obtain ⟨K, hfield, hfinite, σ, hK, hσ, -, ⟨eB⟩⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_catEquiv_trialityD4 q hv
-  letI := hfield
-  letI := hfinite
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
-  haveI : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
+  let := hfield
+  let := hfinite
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := Subtype.finite
   have hCE : ChevalleyExceptionalModel ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)
       .trialityD4 q.p q.exponent :=
     CFSG.HardMathSupport.Dickson.Sec6.chevalleyExceptionalModel_trialityD4_of_equiv
@@ -111,14 +111,14 @@ theorem lieOutCyc_classicalBCD :
     have hm := CFSG.Models.lieModel_B n q hd (MulEquiv.refl _)
     rcases hm with hm | hm
     · obtain ⟨hadm, hSC | ⟨h0, -⟩⟩ := hm
-      · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.B n q, hd⟩).Group :=
+      · have : Finite (TauCeti.CFSGIndex.lie ⟨.B n q, hd⟩).Group :=
           CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
         exact outCycAt_of_outPChain hp
           ((outPNice_statedClassicalModel_PSp hp hp2 hadm.2.2.1 hSC).toChain)
       · have h2n : 2 ≤ n := hadm.2.2.1
         omega
     · obtain ⟨hadm, hSC | ⟨h0, -⟩⟩ := hm
-      · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.B n q, hd⟩).Group :=
+      · have : Finite (TauCeti.CFSGIndex.lie ⟨.B n q, hd⟩).Group :=
           CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
         exact outCycAt_of_outPChain hp
           ((CFSG.HardMathSupport.Timmesfeld.Tables.T1b.outPNice_POmegaOdd_all hp hp2 hSC).toChain)
@@ -127,7 +127,7 @@ theorem lieOutCyc_classicalBCD :
   | C n q =>
     have hm := CFSG.Models.lieModel_C n q hd (MulEquiv.refl _)
     obtain ⟨hadm, hSC | ⟨h0, -⟩⟩ := hm
-    · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.C n q, hd⟩).Group :=
+    · have : Finite (TauCeti.CFSGIndex.lie ⟨.C n q, hd⟩).Group :=
         CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
       exact outCycAt_of_outPChain hp
         ((outPNice_statedClassicalModel_PSp hp hp2 hadm.2.2.1 hSC).toChain)
@@ -136,7 +136,7 @@ theorem lieOutCyc_classicalBCD :
   | D n q =>
     have hm := CFSG.Models.lieModel_D n q hd (MulEquiv.refl _)
     obtain ⟨hadm, hSC | ⟨h0, -⟩⟩ := hm
-    · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.D n q, hd⟩).Group :=
+    · have : Finite (TauCeti.CFSGIndex.lie ⟨.D n q, hd⟩).Group :=
         CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
       by_cases hn : n = 4
       · obtain rfl : n = 4 := hn
@@ -158,7 +158,7 @@ theorem lieOutCyc_classicalBCD :
   | twistedD n q =>
     have hm := CFSG.Models.lieModel_twistedD n q hd (MulEquiv.refl _)
     obtain ⟨hadm, hSC | ⟨h0, -⟩⟩ := hm
-    · haveI : Finite (TauCeti.CFSGIndex.lie ⟨.twistedD n q, hd⟩).Group :=
+    · have : Finite (TauCeti.CFSGIndex.lie ⟨.twistedD n q, hd⟩).Group :=
         CFSG.LieType.Simplicity.finite_of_statedClassicalModel hSC
       exact outCycAt_of_outPChain hp
         ((CFSG.HardMathSupport.Timmesfeld.Tables.T1b.outPNice_POmegaMinus_all hp hp2 hSC).toChain)

@@ -22,6 +22,7 @@ namespace NsQuot
 variable {G : Type} [Group G] [Finite G] {Q : Type} [Group Q] {X Bs B : Subgroup G}
   {f : ↥(Subgroup.normalizer (X : Set G)) →* Q}
 
+omit [Finite G] in
 private lemma fL_normalizerMonoidHom_ukr
     (hD : Datum 3 (Subgroup.normalizer (X : Set G)) f X Bs (twoCentral X))
     (h₀ : ↥Bs) (l : ↥X) :

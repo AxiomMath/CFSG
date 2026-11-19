@@ -17,7 +17,7 @@ theorem s3_exists_invol_inter (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(cente
     (ht : ActsAs L (y * s.t * y⁻¹) s.fr'.σ) :
     ∃ u : G, u ∈ L ∧ y⁻¹ * u * y ∈ L ∧ orderOf u = 2 ∧
       u * (y * s.t * y⁻¹) = (y * s.t * y⁻¹) * u := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have ht2 : (y * s.t * y⁻¹) ^ 2 = 1 := by
     rw [conj_pow, ← s.t_order, pow_orderOf_eq_one]
     simp

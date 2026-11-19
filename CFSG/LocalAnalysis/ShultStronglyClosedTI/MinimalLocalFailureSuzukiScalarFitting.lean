@@ -51,7 +51,7 @@ theorem pCore_le_of_not_dvd_index {p : ℕ} [Fact p.Prime] {L : Subgroup A}
     rintro (h1 | h1)
     · exact P₀.not_dvd_index h1
     · exact hL h1
-  have := CFSG.fitting_pCore_le_sylow ((P₀.isPGroup'.map L.subtype).toSylow hP)
+  have := CFSG.fitting_pCore_le_sylow ((P₀.isPGroup.map L.subtype).toSylow hP)
   rw [IsPGroup.toSylow_coe] at this
   exact this.trans (Subgroup.map_subtype_le _)
 

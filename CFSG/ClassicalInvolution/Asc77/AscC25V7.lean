@@ -30,7 +30,7 @@ theorem exists_ff_of_pure_mixed (h11 : C25_11 p f) (hyp : Hyp25 p f Ω K K' W S 
   have hz2 : z * z = 1 := h.hz.sq
   have ht'inv : t'⁻¹ = t' := h.ht'inv
   have hci : c⁻¹ = c := inv_eq_of_mul_eq_one_right hc2
-  have hV2 : IsPGroup 2 ↥(T7F2.Nsub S R) := S.isPGroup'.to_le inf_le_left
+  have hV2 : IsPGroup 2 ↥(T7F2.Nsub S R) := S.isPGroup.to_le inf_le_left
   have hcN : c ∈ T7F2.Nsub S R :=
     h.mem_N_of_conj_R' hcS (mem_normalizer_iff_conjSub_eq.mp hFc.1)
   obtain ⟨b, hb⟩ : ∃ b : G, b = t' * c * t'⁻¹ := ⟨_, rfl⟩
@@ -158,7 +158,7 @@ theorem exists_ff_of_inner (h11 : C25_11 p f) (hyp : Hyp25 p f Ω K K' W S R R' 
     ∃ e ∈ (S : Subgroup G), e * e = 1 ∧ IsFAut R e ∧ IsFAut R' e := by
   obtain ⟨r, hrR, hrc⟩ := hin
   obtain ⟨t', h⟩ := T7T.exists_hyp25T hyp
-  have hV2 : IsPGroup 2 ↥(T7F2.Nsub S R) := S.isPGroup'.to_le inf_le_left
+  have hV2 : IsPGroup 2 ↥(T7F2.Nsub S R) := S.isPGroup.to_le inf_le_left
   have haN : a ∈ T7F2.Nsub S R :=
     h.mem_N_of_conj_R' haS (mem_normalizer_iff_conjSub_eq.mp hF'.1)
   have hrN : r⁻¹ ∈ T7F2.Nsub S R := (T7F2.Nsub S R).inv_mem (h.R_le_N hrR)

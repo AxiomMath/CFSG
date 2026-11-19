@@ -33,7 +33,7 @@ theorem exists_base_pair_of_nineChoice (h : BHSLocalCStar) (hchar : CFSG.Assembl
     have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have : (pCore 2 ↥H).Normal := pCore_normal
     exact (oTwoIn_le_pCore hsub).trans (IsPGroup.le_sylow_of_normal pCore_isPGroup T')
-  obtain ⟨hJn, hJc⟩ := commutator_thompsonJ_eq hblock hX T'.isPGroup' hWT
+  obtain ⟨hJn, hJc⟩ := commutator_thompsonJ_eq hblock hX T'.isPGroup hWT
   have hjS : jIn S = I :=
     (hc.sylow_jIn H S hHchar (hc.I_le_S.trans hSH) hc.not_le hc.sylow hc.I_le_S).1
   have hI : (CFSG.Quasithin.thompsonJ (T' : Subgroup ↥H)).map H.subtype = I := by

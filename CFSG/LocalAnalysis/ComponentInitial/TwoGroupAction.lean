@@ -210,7 +210,7 @@ theorem two_group_action_sylow_center_embedding_or_centralizing_residual [Finite
   set R := (P : Subgroup U).map U.subtype
   have hRU : R ≤ U := Subgroup.map_subtype_le _
   have hRA : R ≤ A := hRU.trans hUA
-  have hR2 : IsPGroup 2 R := P.isPGroup'.map U.subtype
+  have hR2 : IsPGroup 2 R := P.isPGroup.map U.subtype
   have hTR : ⁅T, R⁆ = ⊥ := by
     refine commutator_eq_bot_of_le_coprime hR2 hTP ?_
       ((Subgroup.commutator_mono le_rfl hRU).trans hcomm)
@@ -221,7 +221,7 @@ theorem two_group_action_sylow_center_embedding_or_centralizing_residual [Finite
     (sup_le (hRA.trans (Subgroup.le_normalizer)) hTA)
   set S := (Q : Subgroup A).map A.subtype
   have hSA : S ≤ A := Subgroup.map_subtype_le _
-  have hS2 : IsPGroup 2 S := Q.isPGroup'.map A.subtype
+  have hS2 : IsPGroup 2 S := Q.isPGroup.map A.subtype
   have hTS : T ≤ normalizer (S : Set F) := le_sup_right.trans hRTQ
   have hRS : R ≤ S := by
     have h2 : IsPGroup 2 (S ⊔ R : Subgroup F) :=

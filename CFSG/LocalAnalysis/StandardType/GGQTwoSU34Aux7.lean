@@ -30,6 +30,7 @@ theorem qTwoS34_isQuasisimple_coordBlockSU (hK : Nat.card K = 4) {N : ℕ} {J : 
         omega)
   exact CFSG.IsQuasisimple.of_mulEquiv (e.trans e2) hunit
 
+omit [Finite K] in
 theorem qTwoS34_center_unitarySU_card (hdata : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 K) {n : ℕ} (hn : n = 4) :
     Nat.card ↥(Subgroup.center ↥(CFSG.ClassicalGroups.UnitaryFlag.unitarySU 2 1 K n)) ≤ 3 := by
   subst hn
@@ -75,7 +76,7 @@ theorem qTwoS34_card_le_of_ne_top {S : Type} [Group S] [Finite S]
   classical
   let φ := MulAction.toPermHom S (S ⧸ Y)
   have hker : φ.ker = Y.normalCore := (Subgroup.normalCore_eq_ker Y).symm
-  haveI : φ.ker.Normal := MonoidHom.normal_ker φ
+  have : φ.ker.Normal := MonoidHom.normal_ker φ
   have hkerne : φ.ker ≠ ⊤ := by
     intro htop
     apply hY
@@ -98,7 +99,7 @@ theorem qTwoS34_card_le_of_ne_top {S : Type} [Group S] [Finite S]
     exact Nat.mul_le_mul h3 hkercard
   have hk : 8 ≤ Nat.card (S ⧸ Y) := by
     by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have h7 : (Nat.card (S ⧸ Y)).factorial ≤ (7 : ℕ).factorial :=
       Nat.factorial_le (by omega)
     have h5040 : (7 : ℕ).factorial = 5040 := by decide

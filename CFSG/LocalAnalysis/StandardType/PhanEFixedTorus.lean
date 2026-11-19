@@ -23,10 +23,11 @@ variable (hct : IsCTGroupDatum (coxeterMatrix D.isFiniteType).toCoxeterSystem
   (hsq : ∀ i, n i * n i = 1)
 
 include hext hw₀ hsq in
+omit hext in
 theorem stdTau_stdTau (g : K) :
     stdTau F (nrep hct w₀) (stdTau F (nrep hct w₀) g) = g := by
   have h : F.φ (nrep hct w₀) = (nrep hct w₀)⁻¹ :=
-    (inv_eq_of_mul_eq_one_right (nrep_mul_phi_self hct F hext hw₀ hsq)).symm
+    (inv_eq_of_mul_eq_one_right (nrep_mul_phi_self hct F hw₀ hsq)).symm
   simp only [stdTau_apply, map_mul, map_inv, F.invol, h]
   group
 
@@ -37,6 +38,7 @@ theorem map_phi_borel : (borel D H).map F.φ = borel D H := by
   exact ⟨F.φ b, (F.mem_borel_iff b).2 hb, F.invol b⟩
 
 include hext hw₀ hsq in
+omit hext hsq in
 theorem borel_inf_map_conj (hBU : BruhatExtras D H) :
     borel D H ⊓ (borel D H).map (MulAut.conj (nrep hct w₀)).toMonoidHom = ⨆ i, H i := by
   let n₀ := nrep hct w₀
@@ -90,6 +92,7 @@ theorem borel_inf_map_conj (hBU : BruhatExtras D H) :
       group
 
 include hext hw₀ hsq in
+omit hext hsq in
 theorem borel_inf_map_stdTau (hBU : BruhatExtras D H) :
     borel D H ⊓ (borel D H).map (stdTau F (nrep hct w₀)) = ⨆ i, H i := by
   have hcomp : (borel D H).map (stdTau F (nrep hct w₀)) =
@@ -97,7 +100,7 @@ theorem borel_inf_map_stdTau (hBU : BruhatExtras D H) :
     rw [show stdTau F (nrep hct w₀) =
       (MulAut.conj (nrep hct w₀)).toMonoidHom.comp F.φ from rfl, Subgroup.map_map]
   rw [hcomp, map_phi_borel F]
-  exact borel_inf_map_conj hct hext hw₀ hsq hBU
+  exact borel_inf_map_conj hct hw₀ hBU
 
 private theorem hmbTor_units_map_inv_eq_iff {Fld : Type} [Field Fld] (θ : Fld →+* Fld)
     (a : Fldˣ) : (Units.map θ.toMonoidHom a)⁻¹ = a ↔ θ (a : Fld) * a = 1 := by
@@ -149,6 +152,7 @@ theorem torus_lang {n₀ : K} (L : StdLevi F n₀) {s : K} (hs : s ∈ ⨆ i, H 
     simpa only [Pi.mul_apply, Pi.inv_apply, inv_inv] using hunit.symm
 
 include hext hw₀ hsq in
+omit hsq in
 theorem borel_inf_stdFix (hBU : BruhatExtras D H) (L : StdLevi F (nrep hct w₀)) :
     borel D H ⊓ stdFix F (nrep hct w₀) = ⨆ i, (H i ⊓ stdFix F (nrep hct w₀)) := by
   refine le_antisymm ?_ (le_inf ?_ ?_)
@@ -158,7 +162,7 @@ theorem borel_inf_stdFix (hBU : BruhatExtras D H) (L : StdLevi F (nrep hct w₀)
     have hgmap : g ∈ (borel D H).map (stdTau F (nrep hct w₀)) :=
       Subgroup.mem_map.2 ⟨g, hgB, hgτ⟩
     have hgT : g ∈ ⨆ i, H i := by
-      rw [← borel_inf_map_stdTau hct F hext hw₀ hsq hBU]
+      rw [← borel_inf_map_stdTau hct F hw₀ hBU]
       exact Subgroup.mem_inf.2 ⟨hgB, hgmap⟩
     obtain ⟨a, ha⟩ := MonoidHom.mem_range.1 (by rw [L.range_torusMap hext]; exact hgT)
     have hτa : stdTau F (nrep hct w₀) (L.torusMap hext a) = L.torusMap hext a := by

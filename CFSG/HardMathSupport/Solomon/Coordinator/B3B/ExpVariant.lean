@@ -121,7 +121,7 @@ theorem relIndex_dvd_card_mulAut_exp [Finite G] (w : G) (Q L : Subgroup G) (S : 
       simp only [χ, MonoidHom.mem_ker, MonoidHom.comp_apply]
       rw [← MonoidHom.mem_ker, mem_ker_normalizerToMulAut]
       exact ⟨fun h => ⟨x.2, h⟩, fun h => h.2⟩
-    haveI : Finite (MulAut J) :=
+    have : Finite (MulAut J) :=
       Finite.of_injective (fun φ : MulAut J => (φ : J → J)) DFunLike.coe_injective
     refine (Subgroup.relIndex_dvd_of_le_left Q hKw).trans ?_
     rw [Subgroup.relIndex, ← hker, Subgroup.index_ker]
@@ -131,14 +131,14 @@ theorem relIndex_dvd_card_mulAut_exp [Finite G] (w : G) (Q L : Subgroup G) (S : 
       rw [← Subgroup.le_centralizer_iff]
       rw [← hKQ]
       exact inf_le_right
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 3 J))
     have hcard : Nat.card ((P : Subgroup J).map J.subtype) = 3 ^ (Nat.card J).factorization 3 := by
       rw [Subgroup.card_map_of_injective J.subtype_injective, Sylow.card_eq_multiplicity]
     have hf : 2 ≤ (Nat.card J).factorization 3 :=
       (Nat.prime_three.pow_dvd_iff_le_factorization Nat.card_pos.ne').1 (by simpa using h9 J hJ)
     have hle := hCQ ((P : Subgroup J).map J.subtype)
-      ((Subgroup.map_subtype_le _).trans hJC) (P.isPGroup'.map J.subtype)
+      ((Subgroup.map_subtype_le _).trans hJC) (P.isPGroup.map J.subtype)
     rw [hcard] at hle
     have : 3 ^ 2 ≤ 3 ^ (Nat.card J).factorization 3 := Nat.pow_le_pow_right (by norm_num) hf
     omega

@@ -78,7 +78,7 @@ theorem card_traceKer (σ : K ≃+* K) (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1)
       simp only [map_sub, hσ3c]
       ring
   have hmul := AddSubgroup.card_ker_mul_card_range f
-  haveI : Nonempty {c : K // σ c = c} := ⟨⟨0, map_zero σ⟩⟩
+  have : Nonempty {c : K // σ c = c} := ⟨⟨0, map_zero σ⟩⟩
   have hqpos : 0 < q := Nat.card_pos
   rw [hker, hK] at hmul
   rw [hrange]
@@ -176,9 +176,9 @@ theorem layer_bound (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1)
     intro O
     unfold coordPred orbitWeight
     by_cases hc : O.1.card = 1
-    · simp only [hc, if_true, pow_one]
+    · simp only [hc, ite_true, pow_one]
       exact hq.symm
-    · simp only [hc, if_false]
+    · simp only [hc, ite_false]
       exact card_traceKer σ hσ3 hσ1 hK
   rw [hbox] at hle
   refine hle.trans (le_of_eq ?_)

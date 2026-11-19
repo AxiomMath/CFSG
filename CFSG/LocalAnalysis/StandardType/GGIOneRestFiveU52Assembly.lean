@@ -28,7 +28,7 @@ theorem commutator_mul_central {Y : Type*} [Group Y] {a b z w : Y} (hz : z ∈ S
   rw [h3, h4]
 
 theorem surjective_of_cover {K : Type} [Field K] [Finite K] {L' : Type} [Group L']
-    {ψ : L' →* UnitaryR K 1 5} (hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')
+    {ψ : L' →* UnitaryR K 1 5} (_hψ : Function.Surjective ψ) (hker : ψ.ker ≤ Subgroup.center L')
     (hperf : commutator L' = ⊤) {φ₀ : ↥(unitarySU 2 1 K 5) →* L'}
     (hφ₀ : ∀ s, ψ (φ₀ s) = LargeEvenProjMk (unitarySU 2 1 K 5) s) :
     Function.Surjective φ₀ := by

@@ -29,7 +29,7 @@ theorem exists_conjugate_sylow_containing_local
       (S : Subgroup (stabilizer G b)).map (stabilizer G b).subtype ⊓
         Subgroup.normalizer (Q:Set G) := by
   have hPA : IsPGroup p ((P : Subgroup (stabilizer G a)).map (stabilizer G a).subtype) :=
-    P.isPGroup'.map (stabilizer G a).subtype
+    P.isPGroup.map (stabilizer G a).subtype
   have hQ : IsPGroup p Q := hPA.of_injective (Subgroup.inclusion hQP.le)
     (Subgroup.inclusion_injective hQP.le)
   have hstab : Nat.card (stabilizer G a)=Nat.card (stabilizer G b) := by

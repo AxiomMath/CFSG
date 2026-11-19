@@ -18,7 +18,7 @@ theorem oddLieType_of_unbalanced {G : Type} [Group G] [Finite G] {L : Subgroup G
     (hQ : SmallF3LieQuotient (L ⧸ center L))
     (hub : ∃ z : G, orderOf z = 2 ∧ CFSG.oddCore (centralizer ({z} : Set G)) ≠ ⊥) :
     OddLieType G := by
-  haveI : IsSimpleGroup G := hS.simple
+  have : IsSimpleGroup G := hS.simple
   have htop : CFSG.ComponentClassification.GeneralizedFitting.subgroup G = ⊤ :=
     (CFSG.ComponentClassification.SmallLocal.simple_generalized_fitting_self_local G
       hS.nonab).2.2.2.2

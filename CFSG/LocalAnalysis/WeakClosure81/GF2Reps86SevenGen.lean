@@ -35,7 +35,7 @@ private theorem alternatingGroup_le_closure_of_words_two {x1 x2 x3 : Perm (Fin 7
     repeat' first | assumption | apply Subgroup.pow_mem | apply Subgroup.mul_mem
   have m5 : altThreeCyclePerm (2 : Fin 5) ∈ Subgroup.closure {x1, x2, x3} := by
     rw [← Subgroup.inv_mem_iff, ← h5]
-    repeat' first | assumption | apply Subgroup.pow_mem | apply Subgroup.mul_mem
+    repeat' first | assumption | apply Subgroup.mul_mem
   have m6 : altThreeCyclePerm (3 : Fin 5) ∈ Subgroup.closure {x1, x2, x3} := by
     rw [← Subgroup.inv_mem_iff, ← h6]
     repeat' first | assumption | apply Subgroup.pow_mem | apply Subgroup.mul_mem

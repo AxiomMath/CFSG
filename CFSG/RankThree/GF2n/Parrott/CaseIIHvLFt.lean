@@ -148,6 +148,7 @@ theorem z_mem_commutator_centralizer_of_four {G : Type*} [Group G] {z y j₁ j�
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem IsSpinCoord.z_mem_commutator_centralizer_of_fixed {ψ : ↥(H z) →* A45} {κ : G → V}
     (hκ : IsSpinCoord ψ κ) (hzz : z * z = 1) {y : G} (hy : y ∈ H z) {u₁ u₂ u₃ u₄ : V}
     (hu₁ : ((rhoA (ψ ⟨y, hy⟩) : GL8) : Mat8) *ᵥ u₁ = u₁)
@@ -175,12 +176,12 @@ theorem IsSpinCoord.z_mem_commutator_centralizer_of_fixed {ψ : ↥(H z) →* A4
   have hne : ∀ j ∈ J z, ∀ k ∈ J z, b (κ j) (κ k) ≠ 0 → j * k * j⁻¹ * k⁻¹ = z := by
     intro j hj k hk hb
     have h := hκ.comm j hj k hk
-    rw [if_neg hb] at h
+    rw [ite_eq_right hb] at h
     exact h
   have hcomm : ∀ j ∈ J z, ∀ k ∈ J z, b (κ j) (κ k) = 0 → j * k = k * j := by
     intro j hj k hk hb
     have h := hκ.comm j hj k hk
-    rw [if_pos hb] at h
+    rw [ite_eq_left hb] at h
     calc j * k = (j * k * j⁻¹ * k⁻¹) * (k * j) := by group
       _ = k * j := by rw [h, one_mul]
   exact z_mem_commutator_centralizer_of_four hzz (hz j₁ hj₁) (hz j₂ hj₂) (hz j₃ hj₃)

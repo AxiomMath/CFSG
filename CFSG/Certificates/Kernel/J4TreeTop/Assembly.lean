@@ -23,7 +23,7 @@ open CFSG.Quasithin.J4Loc (omegaZ)
     (∃ n ∈ Hj, burnsideJ4NP_treeTest (burnsideJ4NP_encJ (n * x * n⁻¹)) = false) ∨
       ∃ y ∈ ys, ∃ n ∈ Hj, n ∈ Subgroup.normalizer (A : Set J) ∧ ∃ a ∈ A, n * x * n⁻¹ = y * a
 
-theorem two_max_of_odd_index {G : Type*} [Group G] [Finite G] {K P : Subgroup G} (hPK : P ≤ K)
+theorem two_max_of_odd_index {G : Type*} [Group G] [Finite G] {K P : Subgroup G} (_hPK : P ≤ K)
     {m : ℕ} (hK : Nat.card K = Nat.card P * m) (hm : m % 2 = 1) :
     ∀ Q : Subgroup G, Q ≤ K → IsPGroup 2 ↥Q → P ≤ Q → Q = P := by
   intro Q hQK hQ2 hPQ

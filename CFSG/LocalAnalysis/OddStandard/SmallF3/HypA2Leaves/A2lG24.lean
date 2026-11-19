@@ -90,7 +90,7 @@ theorem a2l_three_le_pRank_of_g2 {K F : Type} [Group K] [Finite K] [Field F]
 
 theorem a2l_three_le_pRank_g2 {Y : Type} [Group Y] [Finite Y] (hY : CFSG.IsQuasisimple Y)
     (hc : center Y ≠ ⊥) (hL : LieModel (Y ⧸ center Y) .G2 0 2 2) : 3 ≤ CFSG.pRank 2 Y := by
-  haveI : Group.IsPerfect Y := hY.1
+  have : Group.IsPerfect Y := hY.1
   obtain ⟨F, _, hF, ⟨e⟩⟩ := a2l_g2_model hL
   exact a2l_three_le_pRank_of_g2 (a2l_card_center_g2 hc hF e) hF e
 

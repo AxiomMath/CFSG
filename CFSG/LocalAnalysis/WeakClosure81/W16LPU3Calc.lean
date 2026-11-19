@@ -110,12 +110,10 @@ theorem w16l_PG_conj_not_centralizes (u w : F) (hu : NO h u) (hw : NO h w)
   have e01 := congrFun (congrFun hmat 0) 1
   simp only [Subgroup.coe_mul, Units.val_mul, coe_tvG, coe_diagG,
     Matrix.mul_apply, Fin.sum_univ_three, tvM_apply, a₀, Matrix.diagonal_apply,
-    map_one, map_zero, add_self_eq_zero_of_h h 1, mul_one, one_mul, mul_zero, zero_mul,
-    add_zero, zero_add] at e01
+    one_mul] at e01
   have hwu : w = u := by
     first
     | simpa using e01
-    | simpa using e01.symm
   have h3' : u ^ 3 = 1 := by
     have h := hdet
     rw [hwu] at h

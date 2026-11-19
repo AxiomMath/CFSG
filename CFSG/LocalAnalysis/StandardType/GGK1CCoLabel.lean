@@ -43,9 +43,9 @@ private theorem ggK1CLb_neZero_r {r : ℕ} {K : Type} [Field K] {H : Subgroup (S
   rcases Nat.eq_zero_or_pos r with hr | hr
   · exfalso
     subst hr
-    haveI : Subsingleton (StatedSp 0 K) := inferInstance
-    haveI : Subsingleton ↥H := inferInstance
-    haveI : Nontrivial ↥H := CFSG.LocalCores.isQuasisimple_nontrivial hq
+    have : Subsingleton (StatedSp 0 K) := inferInstance
+    have : Subsingleton ↥H := inferInstance
+    have : Nontrivial ↥H := CFSG.LocalCores.isQuasisimple_nontrivial hq
     obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial ↥H).exists_pair_ne
     exact hab (Subsingleton.elim a b)
   · exact ⟨hr.ne'⟩
@@ -69,10 +69,10 @@ private theorem ggK1CLb_sp_label {nf r s : ℕ} {K : Type} [Field K] [Finite K]
     (hq : CFSG.IsQuasisimple ↥H) (hm : Nonempty (↥H ≃* StatedSp s K)) :
     GGHasLabel (⟨.C, s, nf⟩ : LargeEvenLabel)
       (H.map (proj r K) ⧸ Subgroup.center (H.map (proj r K))) := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (R := K) (p := 2) (f := nf)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (R := K) (p := 2) (f := nf)
     (by rw [← Nat.card_eq_fintype_card]; exact hK)
-  haveI : NeZero r := ggK1CLb_neZero_r hq
+  have : NeZero r := ggK1CLb_neZero_r hq
   obtain ⟨eModel⟩ := hm
   have eQuotH := ggK1CLb_map_quot_center_equiv (proj r K) (ggK1CLb_proj_injective) H
   have eQuotModel := ggK1CLb_quot_center_equiv eModel
@@ -95,14 +95,14 @@ private theorem ggK1CLb_qs_hasOrbit (nf : ℕ) (k : ggK1CCo_Kind) :
       | zero => rfl
       | succ m =>
           cases m with
-          | zero => simp [ggK1CCo_kindOrbit, ggK1CCo_Kind.hasOrbit] at h
+          | zero => simp [ggK1CCo_kindOrbit] at h
           | succ m => rfl
   | su m =>
       cases m with
       | zero => rfl
       | succ m =>
           cases m with
-          | zero => simp [ggK1CCo_kindOrbit, ggK1CCo_Kind.hasOrbit] at h
+          | zero => simp [ggK1CCo_kindOrbit] at h
           | succ m => rfl
 
 theorem ggK1CCo_kind_label {nf r : ℕ} {K : Type} [Field K] [Finite K]
@@ -112,10 +112,10 @@ theorem ggK1CCo_kind_label {nf r : ℕ} {K : Type} [Field K] [Finite K]
     GGHasLabel (ggK1CCo_kindOrbit nf kind).lab
       (H.map (proj r K) ⧸ Subgroup.center (H.map (proj r K))) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (R := K) (p := 2) (f := nf)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (R := K) (p := 2) (f := nf)
     (by rw [← Nat.card_eq_fintype_card]; exact hK)
-  haveI : NeZero r := ggK1CLb_neZero_r hq
+  have : NeZero r := ggK1CLb_neZero_r hq
   cases kind with
   | sp s =>
     by_cases hs1 : s = 1
@@ -155,10 +155,10 @@ theorem ggK1CCo_kind_label {nf r : ℕ} {K : Type} [Field K] [Finite K]
           rw [← largeEvenSpGroup_eq_statedSp]; exact eSp
         obtain ⟨⟨eA6⟩, -⟩ :=
           CFSG.RankThree.PartOne.derived_alt_index_of_mulEquiv_sympFour eSp'
-        haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
+        have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) :=
           alternatingGroup.isSimpleGroup (by simp)
-        haveI : IsSimpleGroup ↥(commutator (StatedSp 2 K)) := eA6.isSimpleGroup
-        haveI : Group.IsPerfect ↥(commutator (StatedSp 2 K)) := hq_comm.1
+        have : IsSimpleGroup ↥(commutator (StatedSp 2 K)) := eA6.isSimpleGroup
+        have : Group.IsPerfect ↥(commutator (StatedSp 2 K)) := hq_comm.1
         have hcen : Subgroup.center ↥(commutator (StatedSp 2 K)) = ⊥ := by
           rcases (inferInstance :
             (Subgroup.center ↥(commutator (StatedSp 2 K))).Normal).eq_bot_or_eq_top with h | h
@@ -175,9 +175,9 @@ theorem ggK1CCo_kind_label {nf r : ℕ} {K : Type} [Field K] [Finite K]
         exact CFSG.LocalAnalysis.GLTheoremA.Y10GSympLabel.ggHasLabel_b2der e
       ·
         have hm' : Nonempty (↥H ≃* StatedSp s K) := by
-          simpa only [ggK1CCo_Kind.Model, if_neg hs1, if_neg hcorner] using hm
+          simpa only [ggK1CCo_Kind.Model, ite_eq_right hs1, ite_eq_right hcorner] using hm
         have hlab : (ggK1CCo_kindOrbit nf (ggK1CCo_Kind.sp s)).lab = ⟨.C, s, nf⟩ := by
-          simp only [ggK1CCo_kindOrbit, if_neg hs1, if_neg hcorner]
+          simp only [ggK1CCo_kindOrbit, ite_eq_right hs1, ite_eq_right hcorner]
         rw [hlab]
         exact ggK1CLb_sp_label hK H hq hm'
   | sl m =>
@@ -186,13 +186,13 @@ theorem ggK1CCo_kind_label {nf r : ℕ} {K : Type} [Field K] [Finite K]
     ·
       exfalso
       have hm01 : m = 0 ∨ m = 1 := by omega
-      haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin m) K) := by
+      have : Subsingleton (Matrix.SpecialLinearGroup (Fin m) K) := by
         rcases hm01 with rfl | rfl
         · exact Matrix.SpecialLinearGroup.subsingleton_of_subsingleton
         · exact Matrix.SpecialLinearGroup.subsingleton_of_subsingleton
-      haveI : Subsingleton ↥H :=
+      have : Subsingleton ↥H :=
         ⟨fun x y => eH.injective (Subsingleton.elim (eH x) (eH y))⟩
-      haveI : Subsingleton (↥H ⧸ Subgroup.center ↥H) := inferInstance
+      have : Subsingleton (↥H ⧸ Subgroup.center ↥H) := inferInstance
       obtain ⟨-, -, a, b, hab⟩ := hq
       exact hab (Subsingleton.elim _ _)
     · have hlabel : (ggK1CCo_kindOrbit nf (ggK1CCo_Kind.sl m)).lab =
@@ -217,8 +217,8 @@ theorem ggK1CCo_kind_label {nf r : ℕ} {K : Type} [Field K] [Finite K]
       exact ⟨e⟩
   | su m =>
     obtain ⟨E, hF, hFin, hEcard, ⟨eH⟩⟩ := hm
-    letI : Field E := hF
-    letI : Fintype E := hFin
+    let : Field E := hF
+    let : Fintype E := hFin
     have hEcard' : Nat.card E = (2 ^ nf) ^ 2 := by
       rw [Nat.card_eq_fintype_card, hEcard, hK]
     obtain ⟨τ, hτm, hτ⟩ :=
@@ -231,7 +231,7 @@ theorem ggK1CCo_kind_label {nf r : ℕ} {K : Type} [Field K] [Finite K]
         (a := a) (Q := Nat.card K) hτK
     have hSLsub : ∀ m ≤ 1, Subsingleton ↥(StatedSL m E) := by
       intro m hm
-      haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin m) E) := by
+      have : Subsingleton (Matrix.SpecialLinearGroup (Fin m) E) := by
         rcases (by omega : m = 0 ∨ m = 1) with rfl | rfl
         · exact Matrix.SpecialLinearGroup.subsingleton_of_subsingleton
         · exact Matrix.SpecialLinearGroup.subsingleton_of_subsingleton
@@ -240,24 +240,24 @@ theorem ggK1CCo_kind_label {nf r : ℕ} {K : Type} [Field K] [Finite K]
           (Subsingleton.elim _ _)⟩
     have hSUsub : ∀ m ≤ 1, Subsingleton ↥(StatedSU m (Nat.card K) E) := by
       intro m hm
-      haveI := hSLsub m hm
+      have := hSLsub m hm
       exact ⟨fun a b => Subgroup.inclusion_injective
         (CFSG.Open.StatedAPI.statedSU_le_statedSL m (Nat.card K) E)
         (Subsingleton.elim _ _)⟩
     rcases lt_or_ge m 3 with hm3 | hm3
     · interval_cases m
       · exfalso
-        haveI : Subsingleton ↥(StatedSU 0 (Nat.card K) E) := hSUsub 0 (by omega)
-        haveI : Subsingleton ↥H :=
+        have : Subsingleton ↥(StatedSU 0 (Nat.card K) E) := hSUsub 0 (by omega)
+        have : Subsingleton ↥H :=
           ⟨fun a b => eH.injective (Subsingleton.elim (eH a) (eH b))⟩
-        haveI : Subsingleton (↥H ⧸ Subgroup.center ↥H) := inferInstance
+        have : Subsingleton (↥H ⧸ Subgroup.center ↥H) := inferInstance
         obtain ⟨-, -, a, b, hab⟩ := hq
         exact hab (Subsingleton.elim _ _)
       · exfalso
-        haveI : Subsingleton ↥(StatedSU 1 (Nat.card K) E) := hSUsub 1 (by omega)
-        haveI : Subsingleton ↥H :=
+        have : Subsingleton ↥(StatedSU 1 (Nat.card K) E) := hSUsub 1 (by omega)
+        have : Subsingleton ↥H :=
           ⟨fun a b => eH.injective (Subsingleton.elim (eH a) (eH b))⟩
-        haveI : Subsingleton (↥H ⧸ Subgroup.center ↥H) := inferInstance
+        have : Subsingleton (↥H ⧸ Subgroup.center ↥H) := inferInstance
         obtain ⟨-, -, a, b, hab⟩ := hq
         exact hab (Subsingleton.elim _ _)
       · have hlab : (ggK1CCo_kindOrbit nf (ggK1CCo_Kind.su 2)).lab = ⟨.A, 1, nf⟩ := by
@@ -287,8 +287,8 @@ theorem ggK1CCo_kind_label {nf r : ℕ} {K : Type} [Field K] [Finite K]
           τ hτ hτ2 hE4
         rw [hStatedSU 3] at hsolv
         have eQuot := ggK1CLb_quot_center_equiv eH
-        haveI : IsSimpleGroup (↥H ⧸ Subgroup.center ↥H) := hq.2.1
-        haveI : Group.IsSolvable (↥H ⧸ Subgroup.center ↥H) :=
+        have : IsSimpleGroup (↥H ⧸ Subgroup.center ↥H) := hq.2.1
+        have : Group.IsSolvable (↥H ⧸ Subgroup.center ↥H) :=
           Group.isSolvable_of_surjective (f := eQuot.symm.toMonoidHom) eQuot.symm.surjective
         exact (CFSG.LocalAnalysis.GLTheoremA.Y10GInnUni.not_isSolvable_quot_center (J := ↥H))
           inferInstance
@@ -322,7 +322,7 @@ theorem ggK1CCo_family_of_blocks {p nf d r : ℕ} {K : Type} [Field K] [Finite K
     (hK : Nat.card K = 2 ^ nf) :
     Nonempty (ggK1CCo_Family p nf d r K x m) := by
   classical
-  letI : Fintype B.ι := B.fintype
+  let : Fintype B.ι := B.fintype
   let L := ggK1CCo_expectedKindList p nf d m
   let O := (ggMultDatumC p nf d m).orbits
   have hO : (L.filter (fun k => ggK1CCo_Kind.hasOrbit k)).map (ggK1CCo_kindOrbit nf) = O :=

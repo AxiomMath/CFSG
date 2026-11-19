@@ -49,6 +49,7 @@ theorem burnsideSp4H_card_le_card_map_mul {A V Z : Subgroup G} {α : ↥A →* M
       _ = _ := by ring
   exact Nat.le_of_mul_le_mul_left key hZ
 
+omit [Finite G] in
 theorem burnsideSp4H_exists_vec_eq_of_card [Finite F] {A V Z : Subgroup G}
     {α : ↥A →* MSP.Sp4 F} (c : MSP.NatCoord A V Z α) {H : Subgroup G}
     {S : Submodule F (MSP.V4 F)} (hHS : ∀ u : ↥V, (u : G) ∈ H → c.vec u ∈ S)

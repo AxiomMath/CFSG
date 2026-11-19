@@ -17,7 +17,7 @@ theorem closure_four_eq_sup {Q : Type*} [Group Q] (U V G : Q) :
   have hset : {x | x ∈ [U, V, G⁻¹ * U * G, G⁻¹ * V * G]}
       = ({U, V} : Set Q) ∪ (MulAut.conj G⁻¹) '' ({U, V} : Set Q) := by
     ext x
-    simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false, Set.mem_union,
+    simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false, Set.mem_union,
       Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_image, MulAut.conj_apply, inv_inv]
     constructor
     · rintro (rfl | rfl | rfl | rfl)
@@ -41,10 +41,10 @@ theorem rep_append {n : ℕ} {b c : Array Tab} {L M : List (Equiv.Perm (Fin n))}
     ∀ j, TabRep ((b ++ c).getD j (idTab n)) ((L ++ M).getD j 1) := by
   intro j
   rcases lt_or_ge j b.size with hj | hj
-  · rw [Array.getD_eq_getD_getElem?, Array.getElem?_append, if_pos hj,
+  · rw [Array.getD_eq_getD_getElem?, Array.getElem?_append, ite_eq_left hj,
       List.getD_append L M 1 j (by omega), ← Array.getD_eq_getD_getElem?]
     exact hb j
-  · rw [Array.getD_eq_getD_getElem?, Array.getElem?_append, if_neg (by omega),
+  · rw [Array.getD_eq_getD_getElem?, Array.getElem?_append, ite_eq_right (by omega),
       List.getD_append_right L M 1 j (by omega), ← Array.getD_eq_getD_getElem?, hlen]
     exact hc (j - L.length)
 
@@ -85,7 +85,7 @@ theorem mcl_le_closure_of_words
     mcl275P ≤ Subgroup.closure {g | g ∈ L} := by
   rw [← mclP_closure_eq, Subgroup.closure_le]
   intro x hx
-  simp only [Set.mem_setOf_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
+  simp only [Set.mem_ofPred_eq, List.mem_cons, List.not_mem_nil, or_false] at hx
   rcases hx with rfl | rfl
   · exact mem_closure_of_wordIn hgs h mcl_tab_a ha
   · exact mem_closure_of_wordIn hgs h mcl_tab_b hb
@@ -106,7 +106,7 @@ theorem rep_pairGens {u v r : Tab} {U V G : Equiv.Perm (Fin 275)} (hu : TabRep u
       have hge : ¬ j < (#[u, v, conjBy r u, conjBy r v] : Array Tab).size := by
         simp
         omega
-      rw [Array.getD_eq_getD_getElem?, Array.getD_getElem?, dif_neg hge]
+      rw [Array.getD_eq_getD_getElem?, Array.getD_getElem?, dite_eq_right hge]
     have h2 : ([U, V, G⁻¹ * U * G, G⁻¹ * V * G].getD j 1) = 1 := by
       have hge : [U, V, G⁻¹ * U * G, G⁻¹ * V * G].length ≤ j := by
         simp
@@ -133,7 +133,7 @@ theorem rep_blockGens {b : Array Tab} {L : List (Equiv.Perm (Fin 275))}
       have hge : ¬ j < (b.map (conjBy h)).size := by
         rw [Array.size_map]
         omega
-      rw [Array.getD_eq_getD_getElem?, Array.getD_getElem?, dif_neg hge]
+      rw [Array.getD_eq_getD_getElem?, Array.getD_getElem?, dite_eq_right hge]
     have hL' : (L.map fun x => H⁻¹ * x * H).getD j 1 = 1 := by
       have hge : (L.map fun x => H⁻¹ * x * H).length ≤ j := by
         rw [List.length_map]

@@ -32,7 +32,7 @@ theorem zmod_two_mul_eq_zero_iff {k : ℕ} (hk : 1 ≤ k) (x : ZMod (2 ^ k)) :
     rw [show (2 ^ 0 : ℕ) = 1 from rfl, h2z, zero_mul]
     exact ⟨fun _ => hx x, fun _ => rfl⟩
   ·
-    haveI : NeZero (2 ^ (t + 1)) := ⟨by positivity⟩
+    have : NeZero (2 ^ (t + 1)) := ⟨by positivity⟩
     constructor
     · intro h
       have hv : (2 * x).val = 0 := by rw [h]; exact ZMod.val_zero
@@ -78,26 +78,32 @@ variable {B : Subgroup S} {τ : StrothTypeIndex}
 @[expose] noncomputable def ec (D : StrothTypeData B τ) (x : B) : Torus τ.k :=
   D.e (Additive.ofMul x)
 
+omit [Finite S] in
 theorem ec_injective (D : StrothTypeData B τ) : Function.Injective D.ec := by
   intro x y h
   exact Additive.ofMul.injective (D.e.injective h)
 
+omit [Finite S] in
 @[simp]
 theorem ec_mul (D : StrothTypeData B τ) (x y : B) : D.ec (x * y) = D.ec x + D.ec y := by
   simp [ec, ofMul_mul, map_add]
 
+omit [Finite S] in
 @[simp]
 theorem ec_one (D : StrothTypeData B τ) : D.ec 1 = 0 := by
   simp [ec]
 
+omit [Finite S] in
 @[simp]
 theorem ec_inv (D : StrothTypeData B τ) (x : B) : D.ec x⁻¹ = -D.ec x := by
   simp [ec, ofMul_inv]
 
+omit [Finite S] in
 @[simp]
 theorem ec_zpow (D : StrothTypeData B τ) (x : B) (n : ℤ) : D.ec (x ^ n) = n • D.ec x := by
   simp [ec, ofMul_zpow]
 
+omit [Finite S] in
 theorem ec_eq_zero_iff (D : StrothTypeData B τ) {x : B} : D.ec x = 0 ↔ x = 1 := by
   constructor
   · intro h
@@ -106,14 +112,17 @@ theorem ec_eq_zero_iff (D : StrothTypeData B τ) {x : B} : D.ec x = 0 ↔ x = 1 
   · rintro rfl
     exact D.ec_one
 
+omit [Finite S] in
 @[simp]
 theorem ec_c (D : StrothTypeData B τ) : D.ec D.c = Torus.c := by
   simp [ec, StrothTypeData.c, Torus.c]
 
+omit [Finite S] in
 @[simp]
 theorem ec_a (D : StrothTypeData B τ) : D.ec D.a = Torus.a := by
   simp [ec, StrothTypeData.a, Torus.a]
 
+omit [Finite S] in
 @[simp]
 theorem ec_b (D : StrothTypeData B τ) : D.ec D.b = Torus.b := by
   simp [ec, StrothTypeData.b, Torus.b]
@@ -128,70 +137,82 @@ theorem matAct_zsmul_gens {k : Fin 3 → ℕ} (M : IntMat) (hM : Compat k M) (i 
   rw [map_add, map_add, map_zsmul, map_zsmul, map_zsmul, matAct_gen_eq, matAct_gen_eq,
     matAct_gen_eq]
   funext t
-  fin_cases t <;> simp [gen, Pi.single_apply, zsmul_eq_mul, add_mul, mul_add] <;> ring
+  fin_cases t <;> simp [gen, zsmul_eq_mul, add_mul] <;> ring
 
 
+omit [Finite S] in
 theorem conjBy_val {H : Subgroup S} {g : S} (hg : g ∈ Subgroup.normalizer H) (x : H) :
     (conjBy hg x : S) = g⁻¹ * (x : S) * g := rfl
 
+omit [Finite S] in
 theorem conjBy_mul {H : Subgroup S} {g : S} (hg : g ∈ Subgroup.normalizer H) (x y : H) :
     conjBy hg (x * y) = conjBy hg x * conjBy hg y := by
   apply Subtype.ext
   simp only [conjBy_val, Subgroup.coe_mul]
   group
 
+omit [Finite S] in
 theorem conjBy_one {H : Subgroup S} {g : S} (hg : g ∈ Subgroup.normalizer H) :
     conjBy hg (1 : H) = 1 := by
   apply Subtype.ext
   simp only [conjBy_val, Subgroup.coe_one]
   group
 
+omit [Finite S] in
 theorem conjBy_inclusion {g : S} (hBC : B ≤ C) (hgC : g ∈ Subgroup.normalizer C)
     (hgB : g ∈ Subgroup.normalizer B) (x : B) :
     conjBy hgC (Subgroup.inclusion hBC x) = Subgroup.inclusion hBC (conjBy hgB x) := by
   apply Subtype.ext
   rfl
 
-noncomputable abbrev Φuv (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
+noncomputable abbrev Φuv (_D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     Torus (StrothTypeIndex.t100 m).k →+ Torus (StrothTypeIndex.t100 m).k :=
   (StrothTypeIndex.action (StrothTypeIndex.t100 m)).φuv
 
-noncomputable abbrev Φt (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
+noncomputable abbrev Φt (_D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     Torus (StrothTypeIndex.t100 m).k →+ Torus (StrothTypeIndex.t100 m).k :=
   (StrothTypeIndex.action (StrothTypeIndex.t100 m)).φt
 
-noncomputable abbrev Φu (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
+noncomputable abbrev Φu (_D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     Torus (StrothTypeIndex.t100 m).k →+ Torus (StrothTypeIndex.t100 m).k :=
   (StrothTypeIndex.action (StrothTypeIndex.t100 m)).φu
 
-noncomputable abbrev Φρ (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
+noncomputable abbrev Φρ (_D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     Torus (StrothTypeIndex.t100 m).k →+ Torus (StrothTypeIndex.t100 m).k :=
   (StrothTypeIndex.action (StrothTypeIndex.t100 m)).φρ
 
+omit [Finite S] in
 theorem Φuv_eq (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     Φuv D = matAct (Type100.k m) Type100.uvM (Type100.compat_uv m) := rfl
 
+omit [Finite S] in
 theorem Φt_eq (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     Φt D = matAct (Type100.k m) Type100.tM (Type100.compat_t m) := rfl
 
+omit [Finite S] in
 theorem Φu_eq (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     Φu D = matAct (Type100.k m) Type100.uM (Type100.compat_u m) := rfl
 
+omit [Finite S] in
 theorem Φρ_eq (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     Φρ D = matAct (Type100.k m) Type100.ρM (Type100.compat_rho m) := rfl
 
+omit [Finite S] in
 theorem ec_conj_u (D : StrothTypeData B (StrothTypeIndex.t100 m)) (x : B) :
     D.ec (conjBy D.u_mem x) = Φu D (D.ec x) :=
   D.u_conj x
 
+omit [Finite S] in
 theorem ec_conj_t (D : StrothTypeData B (StrothTypeIndex.t100 m)) (x : B) :
     D.ec (conjBy D.t_mem x) = Φt D (D.ec x) :=
   D.t_conj x
 
+omit [Finite S] in
 theorem ec_conj_ρ (D : StrothTypeData B (StrothTypeIndex.t100 m)) (x : B) :
     D.ec (conjBy D.ρ_mem x) = Φρ D (D.ec x) :=
   D.ρ_conj x
 
+omit [Finite S] in
 theorem ec_conj_uv (D : StrothTypeData B (StrothTypeIndex.t100 m)) (x : B) :
     D.ec (conjBy D.uv_mem x) = Φuv D (D.ec x) :=
   D.uv_conj x
@@ -264,11 +285,13 @@ theorem mul_comm_C (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ 
     (x y : C) : x * y = y * x :=
   comm_of_le_centralizer D hBC hC hrel x y
 
+omit [Finite S] in
 theorem dC_sq (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C) {d : S}
     (hdC : d ∈ C) (hd2 : d * d = (D.c : S)) :
     (⟨d, hdC⟩ : C) * ⟨d, hdC⟩ = Subgroup.inclusion hBC D.c :=
   Subtype.ext hd2
 
+omit [Finite S] in
 theorem conj_dC_mul {g : S} (hBC : B ≤ C) {d : S} (hdC : d ∈ C)
     (hgC : g ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B) {b : B}
     (hb : conjBy hgC (⟨d, hdC⟩ : C) = ⟨d, hdC⟩ * Subgroup.inclusion hBC b) (β : B) :
@@ -283,7 +306,7 @@ theorem sq_rel (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
     {b β : B} (hb : conjBy hgC (⟨d, hdC⟩ : C) = ⟨d, hdC⟩ * Subgroup.inclusion hBC b)
     (hβ : conjBy hgB D.c = D.c * β) :
     (2 : ℤ) • D.ec b = D.ec β := by
-  letI : CommGroup C :=
+  let : CommGroup C :=
     { (inferInstance : Group C) with mul_comm := fun x y => mul_comm_C D hBC hC hrel x y }
   have hsq : (⟨d, hdC⟩ : C) * ⟨d, hdC⟩ * Subgroup.inclusion hBC (b * b) =
       Subgroup.inclusion hBC (conjBy hgB D.c) := by
@@ -307,6 +330,7 @@ theorem sq_rel (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
   rw [two_zsmul]
   exact add_left_cancel h1
 
+omit [Finite S] in
 theorem inv_rel (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
     {d : S} (hdC : d ∈ C) {g : S}
     (hgC : g ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B) {b : B}
@@ -333,6 +357,7 @@ theorem inv_rel (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
   rw [D.ec_mul, D.ec_one, hφ] at h5
   exact h5
 
+omit [Finite S] in
 theorem inv_rel_three (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
     {d : S} (hdC : d ∈ C) {g : S}
     (hgC : g ∈ Subgroup.normalizer C) (hgB : g ∈ Subgroup.normalizer B) {b : B}
@@ -364,6 +389,7 @@ theorem inv_rel_three (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B �
   simp only [D.ec_mul, D.ec_one, hφ] at h5
   simpa [add_assoc] using h5
 
+omit [Finite S] in
 theorem rel_uv_comm_u (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
     {d : S} (hdC : d ∈ C)
     (hLu : D.u ∈ Subgroup.normalizer C) (hLuv : D.uv ∈ Subgroup.normalizer C)
@@ -394,6 +420,7 @@ theorem rel_uv_comm_u (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B �
   have h5 := congrArg D.ec h3
   simpa [D.ec_mul, ec_conj_u, ec_conj_uv] using h5
 
+omit [Finite S] in
 theorem rel_uv_rho (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
     {d : S} (hdC : d ∈ C)
     (hLt : D.t ∈ Subgroup.normalizer C) (hLr : D.ρ ∈ Subgroup.normalizer C)
@@ -425,6 +452,7 @@ theorem rel_uv_rho (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ 
   have h5 := congrArg D.ec h3
   simpa [D.ec_mul, ec_conj_t, ec_conj_ρ] using h5
 
+omit [Finite S] in
 theorem rel_u_rho (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B ≤ C)
     {d : S} (hdC : d ∈ C)
     (hLu : D.u ∈ Subgroup.normalizer C) (hLr : D.ρ ∈ Subgroup.normalizer C)
@@ -480,15 +508,19 @@ noncomputable abbrev Φu0 (m : ℕ) : Torus (Type100.k m) →+ Torus (Type100.k 
 noncomputable abbrev Φρ0 (m : ℕ) : Torus (Type100.k m) →+ Torus (Type100.k m) :=
   matAct (Type100.k m) Type100.ρM (Type100.compat_rho m)
 
+omit [Finite S] in
 theorem Φuv_eq_zero (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     Φuv D = Φuv0 m := rfl
 
+omit [Finite S] in
 theorem Φt_eq_zero (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     Φt D = Φt0 m := rfl
 
+omit [Finite S] in
 theorem Φu_eq_zero (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     Φu D = Φu0 m := rfl
 
+omit [Finite S] in
 theorem Φρ_eq_zero (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     Φρ D = Φρ0 m := rfl
 
@@ -541,21 +573,21 @@ theorem gens_coord_two {k : Fin 3 → ℕ} {i j l i' j' l' : ℤ}
 
 theorem gens_apply_zero {k : Fin 3 → ℕ} (a b c : ℤ) :
     (a • gen k 0 + b • gen k 1 + c • gen k 2 : Torus k) 0 = (a : ZMod (2 ^ k 0)) := by
-  simp [gen, Pi.single_apply, zsmul_eq_mul]
+  simp [gen, zsmul_eq_mul]
 
 theorem gens_apply_one {k : Fin 3 → ℕ} (a b c : ℤ) :
     (a • gen k 0 + b • gen k 1 + c • gen k 2 : Torus k) 1 = (b : ZMod (2 ^ k 1)) := by
-  simp [gen, Pi.single_apply, zsmul_eq_mul]
+  simp [gen, zsmul_eq_mul]
 
 theorem gens_apply_two {k : Fin 3 → ℕ} (a b c : ℤ) :
     (a • gen k 0 + b • gen k 1 + c • gen k 2 : Torus k) 2 = (c : ZMod (2 ^ k 2)) := by
-  simp [gen, Pi.single_apply, zsmul_eq_mul]
+  simp [gen, zsmul_eq_mul]
 
 theorem k100_zero (m : ℕ) : Type100.k m 0 = m := by
   simp only [Type100.k, Matrix.cons_val_zero]
 
 theorem k100_one (m : ℕ) : Type100.k m 1 = m + 1 := by
-  simp only [Type100.k, Matrix.cons_val_one, Matrix.cons_val_zero, Matrix.head_cons]
+  simp only [Type100.k, Matrix.cons_val_one, Matrix.cons_val_zero]
 
 theorem k100_two (m : ℕ) : Type100.k m 2 = m + 1 := by
   simp only [Type100.k, Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
@@ -599,7 +631,7 @@ theorem form_bu {m : ℕ} (hm : 1 ≤ m) {x : Torus (Type100.k m)}
     have h11 : Type100.uM 1 1 = 0 := by decide
     have h12 : Type100.uM 1 2 = 1 := by decide
     rw [h10, h11, h12] at h
-    simp only [zero_mul, mul_one, one_mul, add_zero, zero_add] at h
+    simp only [zero_mul, one_mul, add_zero, zero_add] at h
     have h' := gens_coord_one_of_eq_zero h
     rw [k100_one] at h'
     rw [Int.cast_add] at h'
@@ -707,21 +739,25 @@ noncomputable def wUV (D : StrothTypeData B (StrothTypeIndex.t100 m)) (hBC : B �
     (hL : D.L ≤ Subgroup.normalizer C) : Torus (StrothTypeIndex.t100 m).k :=
   D.ec (bUV D hBC hrel hdC hdB hL)
 
+omit [Finite S] in
 theorem t100_u_c' (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     D.ec (conjBy D.u_mem D.c) = Torus.c := by
   show D.e (Additive.ofMul (conjBy D.u_mem D.c)) = Torus.c
   simpa only [one_zsmul] using D.t100_u_c
 
+omit [Finite S] in
 theorem t100_t_c' (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     D.ec (conjBy D.t_mem D.c) = Torus.c + (2 : ℤ) • Torus.a := by
   show D.e (Additive.ofMul (conjBy D.t_mem D.c)) = Torus.c + (2 : ℤ) • Torus.a
   simpa only [one_zsmul] using D.t100_t_c
 
+omit [Finite S] in
 theorem t100_rho_c' (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     D.ec (conjBy D.ρ_mem D.c) = Torus.c := by
   show D.e (Additive.ofMul (conjBy D.ρ_mem D.c)) = Torus.c
   simpa only [one_zsmul] using D.t100_rho_c
 
+omit [Finite S] in
 theorem t100_uv_c' (D : StrothTypeData B (StrothTypeIndex.t100 m)) :
     D.ec (conjBy D.uv_mem D.c) =
       (-3 : ℤ) • Torus.c + (-2 : ℤ) • Torus.a + (-2 : ℤ) • Torus.b := by
@@ -1072,6 +1108,7 @@ theorem form_br {m : ℕ} (hm : 1 ≤ m) {z : Torus (Type100.k m)}
   · rw [k100_two, h3q]
     exact hθ
 
+omit [Finite S] in
 theorem Φρ_three (D : StrothTypeData B (StrothTypeIndex.t100 m))
     (x : Torus (StrothTypeIndex.t100 m).k) : Φρ D (Φρ D (Φρ D x)) = x := by
   have h := (StrothTypeIndex.action (StrothTypeIndex.t100 m)).rels.rho_cube

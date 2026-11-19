@@ -13,6 +13,7 @@ variable {K : Type} [Field K]
 @[expose] def TrOne {p f : ℕ} (h : UnitaryFieldData p f K) : Set (Matrix (Fin 2) (Fin 2) K) :=
   {X | (X.map h.bar)ᵀ * X = 1 ∧ X.det = 1 ∧ X.trace = 1}
 
+omit [Field K] in
 theorem eta_fin_two' (X : Matrix (Fin 2) (Fin 2) K) : X = !![X 0 0, X 0 1; X 1 0, X 1 1] := by
   ext i j
   fin_cases i <;> fin_cases j <;> rfl
@@ -95,7 +96,7 @@ theorem not_three_dvd_card_trOne [Finite K] [CharP K 2] (h : UnitaryFieldData 2 
       rw [hD, diagonal_mul_diagonal, diagonal_mul_diagonal, ← diagonal_one]
       congr 1
       funext i
-      fin_cases i <;> simp [← pow_succ, ← pow_succ', hε3]
+      fin_cases i <;> simp
       · rw [← pow_two, ← pow_succ', hε3]
     have hD'eq : D' = D * D := by
       calc D' = D' * (D * (D * D)) := by rw [hD3, Matrix.mul_one]
@@ -141,7 +142,7 @@ theorem not_three_dvd_card_trOne [Finite K] [CharP K 2] (h : UnitaryFieldData 2 
       have h01 := congrFun (congrFun hcomm 0) 1
       have h10 := congrFun (congrFun hcomm 1) 0
       rw [hD, Matrix.diagonal_mul, Matrix.mul_diagonal] at h01 h10
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons, one_mul,
+      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, one_mul,
         mul_one] at h01 h10
       have hb : (X : Matrix (Fin 2) (Fin 2) K) 0 1 = 0 := by
         have : (X : Matrix (Fin 2) (Fin 2) K) 0 1 * (ε - 1) = 0 := by linear_combination -h01
@@ -177,7 +178,7 @@ theorem not_three_dvd_card_trOne [Finite K] [CharP K 2] (h : UnitaryFieldData 2 
         rw [hD, hD']
         ext i j
         fin_cases i <;> fin_cases j <;>
-          simp [Matrix.mul_apply, Fin.sum_univ_two, ← pow_succ, ← pow_succ', hε3]
+          simp [Matrix.mul_apply, Fin.sum_univ_two, ← pow_succ', hε3]
       · apply Subtype.ext
         change D * !![ε ^ 2, 0; 0, (ε ^ 2) ^ 2] * D' = !![ε ^ 2, 0; 0, (ε ^ 2) ^ 2]
         rw [hD, hD']

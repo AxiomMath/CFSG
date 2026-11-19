@@ -21,7 +21,7 @@ theorem s16t3_sl_model {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) {n 
   rw [StatedAPI.statedSL_eq_top_of_card_two hK n]
   exact le_top
 
-theorem s16t3_exists_parab_sl (h : ThreeNat A L T) {n : ℕ} (hn : 4 ≤ n) (hsl : IsSLn ↥L n 1)
+theorem s16t3_exists_parab_sl (h : ThreeNat A L T) {n : ℕ} (hn : 4 ≤ n) (_hsl : IsSLn ↥L n 1)
     {I : Subgroup W} (hTI : StableUnder T I)
     (hnat : SumOfNat (fun H U Z => BinaryNaturalSL H U Z n 1) L I (I ⊓ fixV L) 1) :
     ∃ P : Subgroup (MulAut W), P ≤ L ∧ (∀ t ∈ T, ∀ x ∈ P, t * x * t⁻¹ ∈ P) ∧ T ⊓ L ≤ P ∧

@@ -71,6 +71,7 @@ private theorem card_Wt_QB_mul_le (hc : Ctx M Q Z B) {X : Subgroup G} (hBX : B �
     rwa [← (Ctx.QB_eq hc hg).2, ← hg] at h
   exact StrothHyp.card_Wt_mul_card_le hH hXQB hBX
 
+omit [Finite G] in
 private theorem card_sup_mul_card_inf_AP (hc : Ctx M Q Z B) (Y : Subgroup G) :
     Nat.card ↥(Q ⊓ QB B ⊔ (QB B ⊓ QB Y ⊓ M)) *
         Nat.card ↥(Q ⊓ QB B ⊓ (QB B ⊓ QB Y ⊓ M)) =
@@ -91,7 +92,7 @@ private theorem inf_centralizer_le_Wt (hc : Ctx M Q Z B) (Y : Subgroup G) :
   refine Subgroup.mem_inf.mpr ⟨hcA.2, ?_⟩
   have hAcent : Q ⊓ QB B ≤ Subgroup.centralizer (Subgroup.zpowers c : Set G) := by
     intro a ha
-    haveI : IsMulCommutative ↥(Q ⊓ QB B) := hc.inf_QB_elemAbelian.1
+    have : IsMulCommutative ↥(Q ⊓ QB B) := hc.inf_QB_elemAbelian.1
     have hcomm : Commute a c :=
       setLike_mul_comm (s := (Q ⊓ QB B : Subgroup G)) ha hcA
     refine Subgroup.mem_centralizer_iff.mpr fun x hx => ?_
@@ -304,14 +305,14 @@ private def tauSubOneHom (M₀ : Tim79.QuadModel Q Z K γ) (T : M₀.E ≃ₗ[K]
     rw [Subgroup.coe_mul, M₀.π_mul x x.2 y y.2, map_add]
     rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem ker_tauSubOneHom (hc : Ctx M Q Z B) {t : G} (htM : t ∈ M)
-    (R : Tim79.GammaReg Q Z γ) {T : M₀.E ≃ₗ[K] M₀.E}
+    (_R : Tim79.GammaReg Q Z γ) {T : M₀.E ≃ₗ[K] M₀.E}
     (htQ : ∀ x ∈ Q, t * x * t⁻¹ ∈ Q)
     (hTπ : ∀ x ∈ Q, M₀.π (t * x * t⁻¹) = T (M₀.π x)) :
     (tauSubOneHom M₀ T).ker = (Q1 hc t).subgroupOf Q := by
   ext x
-  simp only [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, tauSubOneHom, MonoidHom.coe_mk,
-    MonoidHom.coe_coe]
+  simp only [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, tauSubOneHom, MonoidHom.coe_mk]
   rw [hc.mem_Q1_iff htM]
   constructor
   · intro h1
@@ -329,6 +330,7 @@ private theorem ker_tauSubOneHom (hc : Ctx M Q Z B) {t : G} (htM : t ∈ M)
     rw [h2]
     rfl
 
+omit [Finite G] [CharP K 2] [Finite K] in
 private theorem card_range_tauSubOneHom (R : Tim79.GammaReg Q Z γ) {T : M₀.E ≃ₗ[K] M₀.E}
     {t : G} (htQ : ∀ x ∈ Q, t * x * t⁻¹ ∈ Q) (htQ' : ∀ x ∈ Q, t⁻¹ * x * t ∈ Q)
     (hTπ : ∀ x ∈ Q, M₀.π (t * x * t⁻¹) = T (M₀.π x)) :
@@ -353,6 +355,8 @@ private theorem card_range_tauSubOneHom (R : Tim79.GammaReg Q Z γ) {T : M₀.E 
     show Multiplicative.ofAdd (((T : M₀.E →ₗ[K] M₀.E) - 1) (M₀.π x)) = Multiplicative.ofAdd v.1
     rw [hxe, he]
 
+omit [CharP K 2] in
+omit [Finite K] in
 theorem Ctx.card_Q_eq_card_Q1_mul_img_Ut (hc : Ctx M Q Z B) {t : G} (htM : t ∈ M)
     (R : Tim79.GammaReg Q Z γ) (T : M₀.E ≃ₗ[K] M₀.E)
     (htQ : ∀ x ∈ Q, t * x * t⁻¹ ∈ Q) (htQ' : ∀ x ∈ Q, t⁻¹ * x * t ∈ Q)
@@ -415,7 +419,7 @@ theorem card_Wt_centralizer_le (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) 
       Nat.card Z * Nat.card ↥(Ut Q Z t) := by
   set Cc : Subgroup G := Q ⊓ Subgroup.centralizer ({t} : Set G)
   obtain ⟨K, hK, hfin, hch, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  haveI := hfin
+  have := hfin
   obtain ⟨φ, hφπ, -, -⟩ := exists_actionHom_H0 hc.hyp hD
   let τ := φ ⟨t, hc.LB_le_H0 ht⟩
   have htM : t ∈ M := hc.LB_le_M ht
@@ -477,12 +481,14 @@ theorem Ut_le_Wt_centralizer (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) :
     exact Subgroup.mem_centralizer_iff.mpr fun c hcv =>
       (Z_central hc.hyp hz (hCQ hcv)).symm
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem comp_self_eq_id {T : M₀.E ≃ₗ[K] M₀.E} (hT2 : T ^ 2 = 1) :
     (T : M₀.E →ₗ[K] M₀.E) ∘ₗ (T : M₀.E →ₗ[K] M₀.E) = LinearMap.id := by
   ext x
   have h := congrArg (fun g : M₀.E ≃ₗ[K] M₀.E => g x) hT2
   simpa [pow_two, LinearMap.comp_apply] using h
 
+omit [Finite K] [CharP K 2] in
 private theorem card_range_tauSubOne (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B)
     (φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E))
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
@@ -524,9 +530,9 @@ private theorem card_img_Tt_mul_card_img_Ut_le (hc : Ctx M Q Z B) {t : G}
   let S : Subgroup G := Wt Q Cc
   let D : Subgroup G := Tt Q Z Cc t
   let τ : M₀.E ≃ₗ[K] M₀.E := φ ⟨t, hc.LB_le_H0 ht⟩
-  haveI : Finite M₀.E := Module.finite_of_finite K
-  haveI : Finite ↥(M₀.img S) := Finite.of_injective (Subtype.val) Subtype.val_injective
-  haveI : Finite ↥(M₀.img (Ut Q Z t)) :=
+  have : Finite M₀.E := Module.finite_of_finite K
+  have : Finite ↥(M₀.img S) := Finite.of_injective (Subtype.val) Subtype.val_injective
+  have : Finite ↥(M₀.img (Ut Q Z t)) :=
     Finite.of_injective (Subtype.val) Subtype.val_injective
   let f : ↥(M₀.img S) →+ M₀.E :=
     { toFun := fun v => ((τ : M₀.E →ₗ[K] M₀.E) - 1) v.1
@@ -564,8 +570,8 @@ theorem Ctx.card_Tt_centralizer_le (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q
   set S : Subgroup G := Wt Q Cc
   set D : Subgroup G := Tt Q Z Cc t
   obtain ⟨K, hK, hfin, hch, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  haveI := hfin
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have := hfin
+  have : Finite M₀.E := Module.finite_of_finite K
   obtain ⟨φ, hφπ, hφQ, -⟩ := exists_actionHom_H0 hc.hyp hD
   have htM : t ∈ M := hc.LB_le_M ht
   have hSU : Nat.card ↥S ≤ Nat.card Z * Nat.card ↥(Ut Q Z t) := card_Wt_centralizer_le hc ht
@@ -587,6 +593,7 @@ theorem Ctx.card_Tt_centralizer_le (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q
     _ ≤ Nat.card Z * Nat.card Z := Nat.mul_le_mul_left _ hDimg
     _ = Nat.card Z ^ 2 := by ring
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem sub_one_sub_comm {T S : M₀.E →ₗ[K] M₀.E} (hcomm : ∀ e, T (S e) = S (T e))
     (u : M₀.E) : (T - 1) u - S ((T - 1) u) = (T - 1) (u - S u) := by
   have h1 : (T - 1) u = T u - u := rfl
@@ -598,6 +605,7 @@ private theorem sub_one_sub_comm {T S : M₀.E →ₗ[K] M₀.E} (hcomm : ∀ e,
   simp only [sub_eq_add_neg, neg_add_rev, neg_neg]
   abel
 
+omit [Finite G] [Finite K] [CharP K 2] in
 private theorem pi_commutator_eq {t y : G} {φ : ↥(H0 M Z) →* (M₀.E ≃ₗ[K] M₀.E)}
     (hφπ : ∀ (m : H0 M Z) (x : G), x ∈ Q → M₀.π ((m : G) * x * (m : G)⁻¹) = φ m (M₀.π x))
     {x w : G} {u : M₀.E} (htH : t ∈ H0 M Z) (hyH : y ∈ H0 M Z)
@@ -622,7 +630,7 @@ private theorem comm_Tt_CN_le_Tt (h34 : Stroth34Statement) (h311a : Stroth311aSt
   let Cc : Subgroup G := Q ⊓ Subgroup.centralizer ({t} : Set G)
   let D : Subgroup G := Tt Q Z Cc t
   obtain ⟨K, hK, hfin, hch, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  haveI := hfin
+  have := hfin
   obtain ⟨φ, hφπ, hφQ, -⟩ := exists_actionHom_H0 hc.hyp hD
   let tH : ↥(H0 M Z) := ⟨t, hc.LB_le_H0 ht.1.mem_LB⟩
   have hT2 : φ tH ^ 2 = 1 := hc.actionHom_sq_eq_one φ hφQ ht.1.mem_LB
@@ -657,7 +665,7 @@ private theorem Rt_normalizes_Tt (hc : Ctx M Q Z B) {t : G} (ht : Good103 M Q Z 
   let V : Subgroup G := Vt M (LB M Q B) B Z t
   let T : Subgroup G := Tt Q Z V t
   obtain ⟨K, hK, hfin, hch, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  haveI := hfin
+  have := hfin
   obtain ⟨φ, hφπ, hφQ, hφiso⟩ := exists_actionHom_H0 hc.hyp hD
   let tH : ↥(H0 M Z) := ⟨t, hc.LB_le_H0 ht.1.mem_LB⟩
   have hT2 : φ tH ^ 2 = 1 := hc.actionHom_sq_eq_one φ hφQ ht.1.mem_LB

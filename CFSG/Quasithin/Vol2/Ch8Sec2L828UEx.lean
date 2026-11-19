@@ -61,10 +61,11 @@ theorem ob5rho_mul' (c : S828Ctx T L I H h k)
   (congrArg (ob5rho c) (Subtype.ext (Subgroup.coe_mul _ ⟨a, ha⟩ ⟨b, hb⟩).symm)).trans
     (map_mul _ _ _)
 
+omit [Finite G] in
 theorem ob5dd_of_mem' {I : Subgroup G} (f : ↥I →* DihedralGroup 5) {g : G} (hg : g ∈ I) :
     ob5dd f g = f ⟨g, hg⟩ := by
   unfold ob5dd
-  exact dif_pos hg
+  exact dite_eq_left hg
 
 theorem ob5_not_4080 (c : S828Ctx T L I H h k)
     [PtActCentralAbelian (pCoreOf 2 (ch82I (fsuV T I) h)) (ch82U (fsuV T I) h)]
@@ -93,12 +94,12 @@ theorem ob5_not_4080 (c : S828Ctx T L I H h k)
     False := by
   classical
   have hQ1 : ∀ q : ↥K, q ∈ CFSG.pCore 2 ↥K → θ q = 1 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI hN0 : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal (p := 2) (G := ↥K)
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have hN0 : (CFSG.pCore 2 ↥K).Normal := CFSG.pCore_normal (p := 2) (G := ↥K)
     have hN : ((CFSG.pCore 2 ↥K).map θ).Normal := Subgroup.Normal.map hN0 θ hsurj
     have hP : IsPGroup 2 ((CFSG.pCore 2 ↥K).map θ) :=
       (CFSG.pCore_isPGroup (p := 2) (G := ↥K)).map θ
-    haveI := hN
+    have := hN
     have hbot := ob5_normal_two_SL ((CFSG.pCore 2 ↥K).map θ) hP
     intro q hq
     have hmem : θ q ∈ (CFSG.pCore 2 ↥K).map θ := Subgroup.mem_map_of_mem θ hq

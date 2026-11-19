@@ -53,7 +53,7 @@ theorem exists_lift_pGroup {S G : Type*} [Group S] [Group G] [Finite S] {p : ℕ
   set M : Subgroup S := P.comap π with hM
   obtain ⟨Q₀⟩ : Nonempty (Sylow p M) := inferInstance
   set Q : Subgroup S := (Q₀ : Subgroup M).map M.subtype with hQ
-  have hQp : IsPGroup p Q := Q₀.isPGroup'.map M.subtype
+  have hQp : IsPGroup p Q := Q₀.isPGroup.map M.subtype
   have hf : Function.Surjective ((π.comp M.subtype).codRestrict P fun x => x.2) := by
     intro y
     obtain ⟨x, hx⟩ := hπ y

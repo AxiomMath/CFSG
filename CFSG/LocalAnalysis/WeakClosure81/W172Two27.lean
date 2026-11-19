@@ -13,26 +13,30 @@ open scoped commutatorElement
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 private lemma w172_lcs_one (S : Subgroup Γ) :
     S.lowerCentralSeries 1 = (⁅S, S⁆ : Subgroup Γ) := by
   rw [show (1 : ℕ) = 0 + 1 from rfl, Subgroup.lowerCentralSeries_succ,
     Subgroup.lowerCentralSeries_zero]
 
+omit [Finite Γ] in
 private lemma w172_lcs_two (S : Subgroup Γ) :
     S.lowerCentralSeries 2 = (⁅⁅S, S⁆, S⁆ : Subgroup Γ) := by
   rw [show (2 : ℕ) = 1 + 1 from rfl, Subgroup.lowerCentralSeries_succ, w172_lcs_one]
 
 private lemma w172_odd_card_of_isPGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {H : Subgroup Γ} (hH : IsPGroup p H) : Odd (Nat.card H) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hH
   rw [hn]
   exact (hp.odd_of_ne_two hp2).pow
 
+omit [Finite Γ] in
 private lemma w172_conj_mul (p q x : Γ) :
     (p * q) * x * (p * q)⁻¹ = p * (q * x * q⁻¹) * p⁻¹ := by
   group
 
+omit [Finite Γ] in
 private lemma w172_conj_mem_commutator {H K : Subgroup Γ} {g : Γ}
     (hH : ∀ x ∈ H, g * x * g⁻¹ ∈ H) (hK : ∀ x ∈ K, g * x * g⁻¹ ∈ K) :
     ∀ z ∈ (⁅H, K⁆ : Subgroup Γ), g * z * g⁻¹ ∈ ⁅H, K⁆ := by
@@ -53,10 +57,12 @@ private lemma w172_conj_mem_commutator {H K : Subgroup Γ} {g : Γ}
       rw [h]
       exact (⁅H, K⁆).inv_mem ihu
 
+omit [Finite Γ] in
 private lemma w172_conj_mem_g3 {S : Subgroup Γ} {g x : Γ} (hx : x ∈ S)
     (hm : g ∈ S.lowerCentralSeries 2) : x * g * x⁻¹ ∈ S.lowerCentralSeries 2 :=
   (Subgroup.mem_set_normalizer_iff.mp (S.self_le_normalizer_lowerCentralSeries 2 hx) g).mp hm
 
+omit [Finite Γ] in
 private lemma w172_inv_left_commutator_mem {S : Subgroup Γ} {x y : Γ}
     (hx : x ∈ S) (hy : y ∈ S) :
     ⁅x⁻¹, y⁆ * ⁅x, y⁆ ∈ S.lowerCentralSeries 2 := by
@@ -74,6 +80,7 @@ private lemma w172_inv_left_commutator_mem {S : Subgroup Γ} {x y : Γ}
   rw [heq]
   simpa only [inv_inv] using hconj
 
+omit [Finite Γ] in
 private lemma w172_inv_right_commutator_mem {S : Subgroup Γ} {x y : Γ}
     (hx : x ∈ S) (hy : y ∈ S) :
     ⁅x, y⁻¹⁆ * ⁅x, y⁆ ∈ S.lowerCentralSeries 2 := by
@@ -91,6 +98,7 @@ private lemma w172_inv_right_commutator_mem {S : Subgroup Γ} {x y : Γ}
   rw [heq]
   simpa only [inv_inv] using hconj
 
+omit [Finite Γ] in
 private lemma w172_inv_inv_commutator_mem {S : Subgroup Γ} {x y : Γ}
     (hx : x ∈ S) (hy : y ∈ S) :
     ⁅x⁻¹, y⁻¹⁆ * ⁅x, y⁆⁻¹ ∈ S.lowerCentralSeries 2 := by
@@ -110,6 +118,7 @@ private lemma w172_inv_inv_commutator_mem {S : Subgroup Γ} {x y : Γ}
     group
   rwa [heq]
 
+omit [Finite Γ] in
 private lemma w172_commutator_le_of_mem {S N : Subgroup Γ} {x y : Γ}
     (hgen : S = Subgroup.closure ({x, y} : Set Γ))
     (hN : ∀ s ∈ S, ∀ n ∈ N, s * n * s⁻¹ ∈ N)
@@ -189,6 +198,7 @@ private lemma w172_commutator_le_of_mem {S N : Subgroup Γ} {x y : Γ}
   intro u hu v hv
   exact (hS_T hu).2 v hv
 
+omit [Finite Γ] in
 private lemma w172_mem_normalizer_inf_centralizer {S : Subgroup Γ} {g x : Γ}
     (hxN : ∀ z ∈ S.lowerCentralSeries 2, x * z * x⁻¹ ∈ S.lowerCentralSeries 2)
     (hxNi : ∀ z ∈ S.lowerCentralSeries 2, x⁻¹ * z * x ∈ S.lowerCentralSeries 2)
@@ -216,7 +226,7 @@ private lemma w172_mem_normalizer_inf_centralizer {S : Subgroup Γ} {g x : Γ}
 
 theorem w172_two27 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Subgroup Γ} (hX : IsPGroup p X)
     {e f : Γ} (he : e ^ 2 = 1) (hf : f ^ 2 = 1) (hef : e ≠ f) (hcomm : e * f = f * e)
-    (heX : ∀ x ∈ X, e * x * e⁻¹ ∈ X) (hfX : ∀ x ∈ X, f * x * f⁻¹ ∈ X)
+    (_heX : ∀ x ∈ X, e * x * e⁻¹ ∈ X) (_hfX : ∀ x ∈ X, f * x * f⁻¹ ∈ X)
     (hno : ∀ u ∈ X, e * u * e⁻¹ = u⁻¹ → f * u * f⁻¹ = u⁻¹ → u = 1)
     {a b : Γ} (ha : a ∈ X) (hb : b ∈ X) (hae : e * a * e⁻¹ = a⁻¹) (haf : f * a * f⁻¹ = a)
     (hbe : e * b * e⁻¹ = b) (hbf : f * b * f⁻¹ = b⁻¹) : a * b = b * a := by
@@ -236,7 +246,7 @@ theorem w172_two27 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Subgroup Γ} (h
     | one => exact X.one_mem
     | mul u v _ _ ihu ihv => exact X.mul_mem ihu ihv
     | inv u _ ihu => exact X.inv_mem ihu
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hYp : IsPGroup p Y :=
     hX.of_injective (Subgroup.inclusion hYX) (Subgroup.inclusion_injective hYX)
   have hYnil : Group.IsNilpotent Y := IsPGroup.isNilpotent hYp
@@ -347,7 +357,7 @@ theorem w172_two27 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Subgroup Γ} (h
       rwa [← mul_assoc, he_mul, one_mul, mul_one] at h2
     rw [hfe]
   have hord : orderOf (e * f) = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime hef2 hef_ne
   have hγ3X : Y.lowerCentralSeries 2 ≤ X :=
     (Subgroup.lowerCentralSeries_le_self Y 2).trans hYX

@@ -22,11 +22,11 @@ theorem Gen.mat_mulVec (g : Gen) (v : Coords 8) : g.mat *ᵥ v = g.act v := by
   cases g with
   | sw i j => simp [Gen.mat, spMat_mulVec, Gen.act, Equiv.symm_swap]
   | ng i j =>
-    simp only [Gen.mat, spMat_mulVec, Equiv.Perm.one_symm, Equiv.Perm.one_apply, sgnOn,
+    simp only [Gen.mat, spMat_mulVec, ← Equiv.Perm.inv_def 1, inv_one, Equiv.Perm.one_apply, sgnOn,
       Finset.mem_insert, Finset.mem_singleton, Gen.act]
     split_ifs <;> ring
   | t1 =>
-    simp only [Gen.mat, spMat_mulVec, Equiv.Perm.one_symm, Equiv.Perm.one_apply, sgnOn,
+    simp only [Gen.mat, spMat_mulVec, ← Equiv.Perm.inv_def 1, inv_one, Equiv.Perm.one_apply, sgnOn,
       Finset.mem_singleton, Gen.act]
     split_ifs <;> ring
 
@@ -118,7 +118,7 @@ theorem eq_smul_e1_of_t1 {w : Coords 8} (hw : Gen.t1.act w = -w) : w = w 1 • P
   · subst hk
     simp
   · have h := congrFun hw k
-    simp only [Gen.act, if_neg hk, Pi.neg_apply] at h
+    simp only [Gen.act, ite_eq_right hk, Pi.neg_apply] at h
     have : w k = 0 := by
       have h' : -w k = w k := h.symm
       exact eq_zero_of_neg_eq_self h'
@@ -181,7 +181,7 @@ theorem supp_of_spMat_rankOne {σ : Equiv.Perm (Fin 8)} {s : Fin 8 → ZMod 3} {
     have hi := congrFun hc i
     rw [spMat_mulVec, Pi.sub_apply, Pi.smul_apply, smul_eq_mul] at hi
     have h1 : σ.symm i ≠ j := fun e => hik (by rw [← e, Equiv.apply_symm_apply])
-    simp only [Pi.single_apply, h1, hij, if_false, mul_zero, sub_zero] at hi
+    simp only [Pi.single_apply, h1, hij, ite_false, mul_zero, sub_zero] at hi
     exact (mul_eq_zero.mp hi.symm).resolve_left hc0
 
 local notation:max "↑ₘ" g:max => ((g : GL (Fin 8) (ZMod 3)) : Matrix (Fin 8) (Fin 8) (ZMod 3))

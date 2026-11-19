@@ -15,8 +15,8 @@ open CFSG.EvenSporadicStandard.Solomon78
 theorem fi22Quot_exists_ne_comm {Q : Type} [Group Q] (hs : IsSimpleGroup Q)
     (hc : Nat.card Q = 64561751654400) : ∃ a b : Q, a * b ≠ b * a := by
   by_contra h
-  push_neg at h
-  letI : CommGroup Q := { ‹Group Q› with mul_comm := h }
+  push Not at h
+  let : CommGroup Q := { ‹Group Q› with mul_comm := h }
   have hp : (Nat.card Q).Prime := CommGroup.is_simple_iff_prime_card.1 hs
   rw [hc] at hp
   have h2 := hp.eq_one_or_self_of_dvd 2 (by norm_num)

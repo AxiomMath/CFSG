@@ -32,8 +32,8 @@ theorem exists_conj_of_pow_three {ψ : MulAut (primeFormP h (idGram K 6))} (hψ3
   have hn : 3 ≤ 6 := by norm_num
   have hne : ¬(6 = 3 ∧ ℓ ^ f = 2) := fun hh => by omega
   have hfin := h.finite
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_two h hq
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_two h hq
   have hK4 : Fintype.card K = 4 := by
     rw [← Nat.card_eq_fintype_card]
     exact card_eq_four h hq
@@ -46,6 +46,7 @@ theorem exists_conj_of_pow_three {ψ : MulAut (primeFormP h (idGram K 6))} (hψ3
   exact hD
 
 include hq in
+omit hq in
 theorem scalar_of_conj_pow_three {M : primeFormUnitary h (idGram K 6)}
     (hM3 : primeFormConjHom h (idGram K 6) M ^ 3 = 1) :
     ∃ c₀ : Kˣ, (M : GL (Fin 6) K) ^ 3 = GeneralLinearGroup.scalar (Fin 6) c₀ := by
@@ -163,9 +164,9 @@ theorem noL2Layer_psu_sixTwo (hO : LieOrderFormulasInput) (h2 : UnitaryFieldData
   have hfin := h2.finite
   have hGL : Finite (GL (Fin 6) K) :=
     Finite.of_injective (fun g : GL (Fin 6) K => (g : Matrix (Fin 6) (Fin 6) K)) Units.val_injective
-  haveI : Finite (primeFormP h2 (idGram K 6)) := inferInstance
+  have : Finite (primeFormP h2 (idGram K 6)) := inferInstance
   obtain ⟨M, rfl⟩ := exists_conj_of_pow_three h2 hq hψ3
-  obtain ⟨c₀, hM3⟩ := scalar_of_conj_pow_three h2 hq hψ3
+  obtain ⟨c₀, hM3⟩ := scalar_of_conj_pow_three h2 hψ3
   have hMs := not_scalar_of_not_inner h2 hq hψ
   intro A hA r hr hT
   have hAle : A ≤ fixSubgroup (primeFormConjHom h2 (idGram K 6) M) := hA.1
@@ -176,7 +177,7 @@ theorem noL2Layer_psu_sixTwo (hO : LieOrderFormulasInput) (h2 : UnitaryFieldData
     eleven_dvd_of_typeL2 hr hT hdvd
   have h11A : 11 ∣ Nat.card A :=
     h11.trans ((Subgroup.card_quotient_dvd_card _).trans (Subgroup.card_quotient_dvd_card _))
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := ↥A) 11 h11A
   have hg : orderOf (a : primeFormP h2 (idGram K 6)) = 11 := by
     rw [Subgroup.orderOf_coe]

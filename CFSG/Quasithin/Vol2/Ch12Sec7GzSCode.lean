@@ -36,19 +36,23 @@ variable {G : Type} [Group G] [Finite G] {V : Subgroup G} [IsMulCommutative ↥V
 @[expose] noncomputable def cj (C : Coding ↥V) (g : Subgroup.normalizer (V : Set G)) : B6 :=
   C.cB (conjAct V g)
 
+omit [Finite G] [IsMulCommutative ↥V] in
 theorem conjAct_val (g : Subgroup.normalizer (V : Set G)) (x : ↥V) :
     ((conjAct V g x : ↥V) : G) = (g : G) * (x : G) * (g : G)⁻¹ := rfl
 
+omit [Finite G] in
 theorem cd_conj (C : Coding ↥V) (g : Subgroup.normalizer (V : Set G)) (x : ↥V) :
     C.cd (conjAct V g x) = (cj C g).app (C.cd x) :=
   C.cd_apply _ _
 
+omit [Finite G] in
 theorem isInv_cB (C : Coding ↥V) {a : MulAut ↥V} (h2 : a * a = 1) (h1 : a ≠ 1) :
     isInv (C.cB a) = true := by
   rw [isInv_iff]
   refine ⟨?_, fun h => h1 ((C.cB_eq_one).1 h)⟩
   rw [← C.cB_mul, h2, C.cB_one]
 
+omit [Finite G] in
 theorem card_orbitIn_eq_orbitSize {H : Subgroup (MulAut ↥V)} {C : Coding ↥V}
     (hC : IdentL C H) (v : ↥V) :
     Nat.card (Orbit.orbitIn H v) = orbitSize gm6 (C.cd v) := by
@@ -69,6 +73,7 @@ theorem card_orbitIn_eq_orbitSize {H : Subgroup (MulAut ↥V)} {C : Coding ↥V}
     rw [Set.ncard_image_of_injective _ C.cd_injective, Nat.card_coe_set_eq]
   rw [h1, hset, Set.ncard_coe_finset, orbitSize_eq]
 
+omit [Finite G] in
 theorem orbitSize_gm6_zero {H : Subgroup (MulAut ↥V)} {C : Coding ↥V} (hC : IdentL C H) :
     orbitSize gm6 0 = 1 := by
   have h := card_orbitIn_eq_orbitSize hC (1 : ↥V)
@@ -85,6 +90,7 @@ theorem orbitSize_gm6_zero {H : Subgroup (MulAut ↥V)} {C : Coding ↥V} (hC : 
       exact ⟨1, H.one_mem, map_one _⟩
   rw [hs, Nat.card_unique]
 
+omit [Finite G] in
 theorem mem_of_fix {K : Subgroup ↥V} (hK : Nat.card K = 16) {C : Coding ↥V} {A : MulAut ↥V}
     (hfix : ∀ x ∈ K, A x = x) (hlen : (fixList (C.cB A)).length ≤ 16) :
     ∀ x : ↥V, A x = x → x ∈ K := by

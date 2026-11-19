@@ -118,7 +118,7 @@ theorem false_row9_core {S Lb L1b : Subgroup Hb} (hS : IsSylowTwoOf S ⊤) (hN :
     rw [Matrix.SpecialLinearGroup.coe_pow, Matrix.SpecialLinearGroup.coe_one]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [pow_two, Matrix.mul_apply, Fin.sum_univ_two, z'] <;> decide
+      simp [pow_two, Matrix.mul_apply, Fin.sum_univ_two, z']
   have hz'ne : z' ≠ 1 := by
     intro h
     have := congrArg (fun g : Matrix.SpecialLinearGroup (Fin 2) (ZMod 7) =>
@@ -131,7 +131,7 @@ theorem false_row9_core {S Lb L1b : Subgroup Hb} (hS : IsSylowTwoOf S ⊤) (hN :
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, z'] <;> ring
+      simp [Matrix.mul_apply, Fin.sum_univ_two, z']
   let zB : ↥B' := e.symm z'
   have hzBsq : zB ^ 2 = 1 := by rw [← map_pow, hz'sq, map_one]
   have hzBne : zB ≠ 1 := fun h => hz'ne (by simpa [zB] using congrArg e h)

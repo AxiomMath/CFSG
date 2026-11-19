@@ -52,6 +52,7 @@ variable {H E : Subgroup G} (Mo : ModDataE H E)
 
 end Defs
 
+omit [Finite G] in
 theorem hatGamma_transitive {H E : Subgroup G} (Mo : ModDataE H E) (V : Subgroup G)
     (hV : V ≤ H) :
     ∀ A ∈ hatGamma Mo V, ∀ B ∈ hatGamma Mo V, ∃ g ∈ Mo.img H, B = cj g A := by
@@ -71,6 +72,7 @@ theorem hatGamma_transitive {H E : Subgroup G} (Mo : ModDataE H E) (V : Subgroup
   congr 1
   group
 
+omit [Finite G] in
 theorem kHatOf_hatGamma_eq {H E : Subgroup G} (Mo : ModDataE H E) (V : Subgroup G)
     (hV : V ≤ H) : kHatOf (hatGamma Mo V) = Mo.img (conjClosure V H) := by
   have hclH : conjClosure V H ≤ H :=

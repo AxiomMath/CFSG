@@ -54,7 +54,7 @@ theorem compatible_of_isSpecialFamily (hn : 2 ≤ n) {J J₁ η : G}
     have := hsp.mem (Subgroup.subset_closure (Set.mem_insert _ _))
     rw [h, Subgroup.mem_bot] at this
     exact cfg.ne_one this
-  rw [cfg.apply_eq_of_isSpecial hlam hψ S.isPGroup' hS1 hsp g]
+  rw [cfg.apply_eq_of_isSpecial hlam hψ S.isPGroup hS1 hsp g]
   obtain ⟨z, hz, y, hzy⟩ := exists_center_mul_oddCore S e hn g
   rw [hθt g z y hz hzy]
   have hzS : z ∈ (S : Subgroup G) := modelCenter_le_sylow S e hz

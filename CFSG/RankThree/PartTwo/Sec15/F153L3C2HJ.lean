@@ -53,7 +53,7 @@ theorem exists_noncomm_of_mulEquiv {H K : Type*} [Group H] [Group K] (e : H ≃*
 theorem nonempty_centerQuotient_equiv_of_simple' {Q T : Type*} [Group Q] [Group T]
     (hq : CFSG.IsQuasisimple Q) (hT : IsSimpleGroup T) (e : Q ≃* T) :
     Nonempty (Q ⧸ Subgroup.center Q ≃* T) := by
-  haveI := hT
+  have := hT
   have hQs : IsSimpleGroup Q := e.isSimpleGroup
   have hnab : ∃ a b : Q, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hq.2.2
@@ -111,7 +111,7 @@ theorem isEmpty_mulEquiv_prod_of_quasi {X H₁ H₂ : Type*} [Group X] [Group H�
 theorem exists_noncomm_alternatingGroup {n : ℕ} (hn : 4 ≤ n) :
     ∃ a b : alternatingGroup (Fin n), a * b ≠ b * a := by
   by_contra hc
-  push_neg at hc
+  push Not at hc
   have hcomm : IsMulCommutative (alternatingGroup (Fin n)) := ⟨⟨fun a b => hc a b⟩⟩
   have h3 := alternatingGroup.isMulCommutative_iff_card_le_three.mp hcomm
   simp only [Nat.card_eq_fintype_card, Fintype.card_fin] at h3
@@ -165,8 +165,8 @@ theorem quasi_quotient_of_central_ker {Q Q' : Type*} [Group Q] [Group Q']
     (hq : CFSG.IsQuasisimple Q) (φ : Q →* Q') (hφ : Function.Surjective φ)
     (hker : φ.ker ≤ Subgroup.center Q) :
     CFSG.IsQuasisimple Q' ∧ Nonempty (Q' ⧸ Subgroup.center Q' ≃* Q ⧸ Subgroup.center Q) := by
-  haveI : Group.IsPerfect Q := hq.1
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hq.2.1
+  have : Group.IsPerfect Q := hq.1
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hq.2.1
   have hcenterQ : Subgroup.center (Q ⧸ Subgroup.center Q) = ⊥ :=
     CFSG.RankThree.PartTwo.Sec15.center_eq_bot_of_isSimpleGroup hq.2.1 hq.2.2
   have hkey : ∀ x : Q, φ x ∈ Subgroup.center Q' → x ∈ Subgroup.center Q := by
@@ -390,14 +390,14 @@ theorem false_of_img148_l3char2 {A : Subgroup G} {LB : Subgroup G → Subgroup G
       Subgroup.center ↥(img148 A Y (deltaZero A LB Y)) ≃* T) := hXT
   set X := img148 A Y (deltaZero A LB Y) with hX
   obtain ⟨hNA5, hNA6, hNA7, hNA10, hNON, hNJ2, hNL37⟩ := hList T f hf hT
-  have hS5 : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have hS5 : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hS7 : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
   have hS10 : IsSimpleGroup (alternatingGroup (Fin 10)) :=
     alternatingGroup.isSimpleGroup (by simp)
   have hSJ2 : IsSimpleGroup CFSG.Blueprint.NativeSporadic.J2 :=
     CFSG.Sporadic.J2.isSimpleGroup_J2
   have hnab5 : ∃ a b : alternatingGroup (Fin 5), a * b ≠ b * a := hj_nonabelian_alt5
-  haveI : Nontrivial CFSG.Blueprint.NativeSporadic.J2 := hSJ2.toNontrivial
+  have : Nontrivial CFSG.Blueprint.NativeSporadic.J2 := hSJ2.toNontrivial
   have hnabJ2 := hj_nonab_of_center_bot (H := CFSG.Blueprint.NativeSporadic.J2)
     (KFacts.KS14.center_nativeJ2_eq_bot Sec4.Sporadic.rank3II_4_15)
   have hXnab : ∃ a b : ↥X, a * b ≠ b * a := by

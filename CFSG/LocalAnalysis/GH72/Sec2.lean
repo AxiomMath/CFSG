@@ -119,7 +119,7 @@ theorem exists_fixed_mem_coset {O : Subgroup G} (hO : Odd (Nat.card O)) {t k : G
     ∃ o ∈ O, t * (k * o) * t⁻¹ = k * o := by
   classical
   have : Finite O := OddInversion.finite_of_odd_card hO
-  letI : Fintype O := Fintype.ofFinite O
+  let : Fintype O := Fintype.ofFinite O
   have htinv : t⁻¹ = t := inv_eq_of_mul_eq_one_right ht
   have hOt : ∀ o ∈ O, t * o * t⁻¹ ∈ O := fun o ho => (mem_normalizer_iff.mp htO o).mp ho
   have hmem : ∀ o ∈ O, k⁻¹ * (t * (k * o) * t⁻¹) ∈ O := by
@@ -165,6 +165,7 @@ theorem le_sup_of_isSylowOf_of_relIndex {p : ℕ} [Fact p.Prime] {T L H : Subgro
   rw [hj0, pow_zero, relIndex_eq_one] at hj
   exact hj.trans (sup_le_sup_left inf_le_left T)
 
+omit [Finite G] in
 theorem relIndex_dvd_of_le_normalizer' {H L J : Subgroup G} (hL : L ≤ normalizer (H : Set G))
     (hLJ : L ≤ J) (hHJ : H ≤ J) : H.relIndex L ∣ H.relIndex J := by
   rw [← ABGTheoremB.relIndex_sup_right_of_le_normalizer hL]
@@ -178,7 +179,7 @@ variable {A₀ : Type*} [Group A₀] {X : Subgroup A₀}
 
 theorem mul_self_eq_one_of_isKleinFour (hX : IsKleinFour X) {x : A₀} (hx : x ∈ X) :
     x * x = 1 := by
-  haveI := hX
+  have := hX
   exact congrArg Subtype.val (IsKleinFour.mul_self (⟨x, hx⟩ : X))
 
 theorem orderOf_eq_two_of_isKleinFour (hX : IsKleinFour X) {x : A₀} (hx : x ∈ X)
@@ -190,8 +191,8 @@ theorem exists_mem_not_mem_zpowers_of_isKleinFour (hX : IsKleinFour X) {x : A₀
   classical
   by_contra h
   push Not at h
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hX.card_four]; norm_num)
-  letI := Fintype.ofFinite X
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hX.card_four]; norm_num)
+  let := Fintype.ofFinite X
   have hsub : (Finset.univ : Finset X) ⊆ {1, ⟨x, hx⟩} := by
     intro z _
     rcases eq_one_or_eq_of_mem_zpowers (orderOf_eq_two_of_isKleinFour hX hx hx1) (h z z.2) with
@@ -206,7 +207,7 @@ theorem exists_mem_not_mem_zpowers_of_isKleinFour (hX : IsKleinFour X) {x : A₀
 theorem eq_or_eq_mul_of_not_mem_zpowers (hX : IsKleinFour X) {x x' z : A₀} (hx : x ∈ X)
     (hx1 : x ≠ 1) (hx' : x' ∈ X) (hx'z : x' ∉ zpowers x) (hz : z ∈ X) (hzz : z ∉ zpowers x) :
     z = x' ∨ z = x * x' := by
-  haveI := hX
+  have := hX
   by_contra h
   push Not at h
   have hx'1 : x' ≠ 1 := fun h1 => hx'z (h1 ▸ one_mem _)
@@ -262,12 +263,12 @@ theorem le_normalizer_Kxy (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) {x y : A₀} (hx 
 
 theorem mul_comm' (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (a b : A₀) : a * b = b * a := by
   have hX : ∀ x ∈ X₀, ∀ x' ∈ X₀, x * x' = x' * x := by
-    haveI := hyp.kleinX
+    have := hyp.kleinX
     intro x hx x' hx'
     have h := (IsKleinFour.isMulCommutative (G := X₀)).is_comm.comm ⟨x, hx⟩ ⟨x', hx'⟩
     exact congrArg Subtype.val h
   have hY : ∀ y ∈ Y₀, ∀ y' ∈ Y₀, y * y' = y' * y := by
-    haveI := hyp.kleinY
+    have := hyp.kleinY
     intro y hy y' hy'
     have h := (IsKleinFour.isMulCommutative (G := Y₀)).is_comm.comm ⟨y, hy⟩ ⟨y', hy'⟩
     exact congrArg Subtype.val h
@@ -447,7 +448,7 @@ private theorem πH_mem_normalizer_imgH {S : Subgroup G} {g : normalizer (H : Se
   have hg' : g ∈ normalizer ((S.subgroupOf (normalizer (H : Set G)) : Subgroup _) : Set _) := by
     rw [mem_normalizer_iff]
     intro h
-    simp only [SetLike.mem_coe, mem_subgroupOf, Subgroup.coe_mul, InvMemClass.coe_inv]
+    simp only [mem_subgroupOf, Subgroup.coe_mul, InvMemClass.coe_inv]
     exact mem_normalizer_iff.mp hg h
   unfold imgH
   exact le_normalizer_map (πH H) (mem_map_of_mem _ hg')
@@ -576,6 +577,7 @@ private theorem range_le_normalizer_preH (hHA : ι.range ≤ normalizer (H : Set
 
 variable [Finite G]
 
+omit [Finite G] in
 private theorem lift_commute (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
     (hHA : ι.range ≤ normalizer (H : Set G)) {S : Subgroup G} (as : List A₀)
     (hS : ∀ a ∈ as, ι a ∈ normalizer (S : Set G)) {z : QH H} (hz : z ∈ imgH H S)
@@ -610,6 +612,7 @@ private theorem lift_commute (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K
   · intro a ha
     exact hcomm (ι a) (List.mem_map.mpr ⟨a, ha, rfl⟩)
 
+omit [Finite G] in
 private theorem lift_inv (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
     (hHA : ι.range ≤ normalizer (H : Set G)) {S : Subgroup G} {b : A₀}
     (hbS : ι b ∈ normalizer (S : Set G)) {g : normalizer (H : Set G)} (hgS : (g : G) ∈ S)
@@ -628,10 +631,12 @@ private theorem lift_inv (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
   exact ⟨g * ⟨o, le_normalizer hoH⟩, mul_mem hgS hoS,
     by rw [map_mul, πH_eq_one (g := ⟨o, le_normalizer hoH⟩) hoH, mul_one], hinv⟩
 
+omit [Finite G] in
 private theorem mem_C_ιH {g : normalizer (H : Set G)} {hHA : ι.range ≤ normalizer (H : Set G)}
     {a : A₀} (h : (g : G) * ι a = ι a * g) : πH H g ∈ C (ιH H hHA a) :=
   mem_centralizer_singleton_iff.mpr (πH_commute_of_commute (t := ⟨ι a, hHA ⟨a, rfl⟩⟩) h)
 
+omit [Finite G] in
 private theorem ιH_injective (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
     (hHA : ι.range ≤ normalizer (H : Set G)) : Function.Injective (ιH H hHA) := by
   intro a b hab
@@ -649,6 +654,7 @@ private theorem ιH_injective (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ 
   rw [inv_mul_eq_one] at h3
   exact h3
 
+omit [Finite G] in
 private theorem quot_le (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHA : ι.range ≤ normalizer (H : Set G))
     {x y : A₀} (hx : x ∈ X₀) (hx1 : x ≠ 1) (hy : y ∈ Y₀) (hy1 : y ≠ 1) :
     imgH H (Kxy x y) ≤ imgH H K ⊓ C (ιH H hHA x) ⊓ C (ιH H hHA y) := by
@@ -658,6 +664,7 @@ private theorem quot_le (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHA : ι.range ≤
   exact ⟨⟨πH_mem_imgH hgK, mem_C_ιH (mem_centralizer_singleton_iff.mp hgx)⟩,
     mem_C_ιH (mem_centralizer_singleton_iff.mp hgy)⟩
 
+omit [Finite G] in
 private theorem quot_normal (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
     (hHA : ι.range ≤ normalizer (H : Set G)) {x y : A₀} (hx : x ∈ X₀) (hx1 : x ≠ 1)
     (hy : y ∈ Y₀) (hy1 : y ≠ 1) :
@@ -675,6 +682,7 @@ private theorem quot_normal (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
     ⟨⟨hgK, mem_centralizer_singleton_iff.mpr (hgc x (by simp))⟩,
       mem_centralizer_singleton_iff.mpr (hgc y (by simp))⟩)
 
+omit [Finite G] in
 private theorem quot_a (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
     (hHA : ι.range ≤ normalizer (H : Set G)) {x x' y y' : A₀} (hx : x ∈ X₀) (hx1 : x ≠ 1)
     (hx' : x' ∈ X₀) (hx'1 : x' ≠ 1) (hy : y ∈ Y₀) (hy1 : y ≠ 1) (hy' : y' ∈ Y₀) (hy'1 : y' ≠ 1) :
@@ -699,6 +707,7 @@ private theorem quot_a (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
         exact mem_centralizer_singleton_iff.mp hzc)
     exact πH_mem_imgH (ha.2 ⟨hg, mem_centralizer_singleton_iff.mpr (hgc y' (by simp))⟩)
 
+omit [Finite G] in
 private theorem quot_b (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
     (hHA : ι.range ≤ normalizer (H : Set G)) :
     ∀ x ∈ X₀, x ≠ 1 → ∀ y ∈ Y₀, y ≠ 1 → ∀ u ∈ imgH H K ⊓ C (ιH H hHA x) ⊓ C (ιH H hHA y),
@@ -746,6 +755,7 @@ private theorem quot_b (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
         _ = (g : G)⁻¹ := hginv
     exact inverts_of_isKleinFour hyp.kleinY ι hy hy1 hy' hy'z (conj_eq_of_mem_C hgS.2) hy'u
 
+omit [Finite G] in
 private theorem quot_c_aux (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
     (hHA : ι.range ≤ normalizer (H : Set G)) {a b : A₀} {Z₀ : Subgroup A₀}
     (hZ : IsKleinFour Z₀) (hb : b ∈ Z₀) (hb1 : b ≠ 1) {u : QH H}
@@ -795,6 +805,7 @@ private theorem quot_c_aux (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
   exact ⟨g, hgS, hgπ,
     inverts_of_isKleinFour hZ ι hb hb1 hb' hb'z (conj_eq_of_mem_C hgS.2) hginv⟩
 
+omit [Finite G] in
 private theorem quot_c (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
     (hHA : ι.range ≤ normalizer (H : Set G)) :
     ∀ x ∈ X₀, x ≠ 1 → ∀ y ∈ Y₀, y ≠ 1 →
@@ -831,8 +842,8 @@ private theorem quot_d (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
       ∀ Q ≤ P, (ιH H hHA).range ≤ normalizer (Q : Set (QH H)) →
         IsKxyGen X₀ Y₀ (fun x y => imgH H (Kxy x y)) Q := by
   intro p P hp hPp hPK hPA hPgen Q hQP hQA
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (QH H) := finite_QH
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (QH H) := finite_QH
   have hKJ := le_normalizer_of_normal hHK hHn
   have hA := hyp.isPGroup_range
   set M : Subgroup G := K ⊓ preH H P with hMdef
@@ -939,7 +950,7 @@ private theorem quot_d (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
 
 private theorem quot_hyp (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
     (hHn : (H.subgroupOf K).Normal) (hHA : ι.range ≤ normalizer (H : Set G)) :
-    Prop22Hyp X₀ Y₀ (ιH H hHA) (imgH H K) fun x y => imgH H (Kxy x y) where
+    Prop22Hyp X₀ Y₀ (ιH H hHA) (imgH H K) fun _x _y => imgH H (Kxy _x _y) where
   kleinX := hyp.kleinX
   kleinY := hyp.kleinY
   inf_eq := hyp.inf_eq
@@ -948,13 +959,13 @@ private theorem quot_hyp (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) (hHK : H ≤ K)
   inj := ιH_injective hyp hHK hHA
   odd := hyp.odd.of_dvd_nat (card_imgH_dvd (le_normalizer_of_normal hHK hHn))
   normalizes := ιH_range_le_normalizer_imgH hHA hyp.normalizes
-  le := fun x hx hx1 y hy hy1 => quot_le hyp hHA hx hx1 hy hy1
-  normal := fun x hx hx1 y hy hy1 => quot_normal hyp hHK hHA hx hx1 hy hy1
-  inv := fun x hx hx1 y hy hy1 => ιH_range_le_normalizer_imgH hHA (hyp.inv x hx hx1 y hy hy1)
-  gen := (imgH_mono hyp.gen).trans (imgH_xySupOf_le fun x hx hx1 y hy hy1 =>
-    (hyp.le x hx hx1 y hy hy1).trans (inf_le_left.trans (inf_le_left.trans
+  le := fun _x hx hx1 _y hy hy1 => quot_le hyp hHA hx hx1 hy hy1
+  normal := fun _x hx hx1 _y hy hy1 => quot_normal hyp hHK hHA hx hx1 hy hy1
+  inv := fun _x hx hx1 _y hy hy1 => ιH_range_le_normalizer_imgH hHA (hyp.inv _x hx hx1 _y hy hy1)
+  gen := (imgH_mono hyp.gen).trans (imgH_xySupOf_le fun _x hx hx1 _y hy hy1 =>
+    (hyp.le _x hx hx1 _y hy hy1).trans (inf_le_left.trans (inf_le_left.trans
       (le_normalizer_of_normal hHK hHn))))
-  a := fun x hx hx1 x' hx' hx'1 y hy hy1 y' hy' hy'1 =>
+  a := fun _x hx hx1 _x' hx' hx'1 _y hy hy1 _y' hy' hy'1 =>
     quot_a hyp hHK hHA hx hx1 hx' hx'1 hy hy1 hy' hy'1
   b := quot_b hyp hHK hHA
   c := quot_c hyp hHK hHA
@@ -975,7 +986,7 @@ theorem le_xySupOf_sup {G : Type u} [Group G] [Finite G] {ι : A₀ →* G} {K :
     (hHA : ι.range ≤ normalizer (H : Set G)) {F : Subgroup G} (hFK : F ≤ K)
     (hFA : ι.range ≤ normalizer (F : Set G)) :
     F ≤ xySupOf X₀ Y₀ (fun x y => (F ⊔ H) ⊓ Kxy x y) ⊔ H := by
-  haveI : Finite (QH H) := finite_QH
+  have : Finite (QH H) := finite_QH
   have hKJ := le_normalizer_of_normal hHK hHn
   have hconc := ih (QH H) (ιH H hHA) (imgH H K) _ (quot_hyp hyp hHK hHn hHA)
     (card_imgH_lt hH1 hHK hKJ)
@@ -998,8 +1009,8 @@ theorem isKxyGen_of_coprime (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) {H : Subgroup G
     (hFp : IsPGroup p F) (hFK : F ≤ K) (hFA : ι.range ≤ normalizer (F : Set G))
     (hQ : F ≤ xySupOf X₀ Y₀ (fun x y => (F ⊔ H) ⊓ Kxy x y) ⊔ H) :
     IsKxyGen X₀ Y₀ Kxy F := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hKH := le_normalizer_of_normal hHK hHn
   have hFH : F ≤ normalizer (H : Set G) := hFK.trans hKH
   have hA := hyp.isPGroup_range
@@ -1114,6 +1125,7 @@ theorem isKxyGen_of_coprime (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) {H : Subgroup G
   rw [hh1, mul_one]
   exact hw
 
+omit [Finite G] in
 theorem isKxyGen_of_isKxyGen (hyp : Prop22Hyp X₀ Y₀ ι K Kxy) {H : Subgroup G} {p : ℕ}
     (hp : p.Prime) (hHp : IsPGroup p H) (hHK : H ≤ K) (hHn : (H.subgroupOf K).Normal)
     (hHA : ι.range ≤ normalizer (H : Set G)) (hHgen : IsKxyGen X₀ Y₀ Kxy H) {F : Subgroup G}
@@ -1145,7 +1157,7 @@ theorem isKxyGen_of_forall_sylow {F : Subgroup G}
   set W : Subgroup G := xySupOf X₀ Y₀ fun x y => F ⊓ Kxy x y with hW
   have hrel : (W ⊓ F).relIndex F = 1 := by
     refine Nat.eq_one_iff_not_exists_prime_dvd.mpr fun p hp hdvd => ?_
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨P, hP, hPgen⟩ := h p hp
     have hPW : P ≤ W ⊓ F :=
       le_inf (hPgen.trans (xySupOf_mono fun _ _ _ _ _ _ => inf_le_inf_right _ hP.le)) hP.le
@@ -1179,7 +1191,7 @@ theorem prop22Concl_of_step {A₀ : Type*} [Group A₀] {X₀ Y₀ : Subgroup A�
         hstep G ι K Kxy hyp (fun p hp hK => hpow ⟨p, hp, hK⟩) IH
       intro F hFK hFA
       refine isKxyGen_of_forall_sylow fun p hp => ?_
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       obtain ⟨P, hP, hPA⟩ := ABGTheoremB.exists_isSylowOf_normalized_of_odd hp
         hyp.isPGroup_range hFA (hyp.odd.of_dvd_nat (card_dvd_of_le hFK))
       refine ⟨P, hP, ?_⟩

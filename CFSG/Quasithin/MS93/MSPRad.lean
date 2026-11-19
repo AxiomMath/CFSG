@@ -95,7 +95,7 @@ theorem exists_sylow_sylS [Finite F] [CharP F 2] :
 theorem isPGroup_sylS [Finite F] [CharP F 2] : IsPGroup 2 (sylS F) := by
   obtain ⟨T, hT⟩ := exists_sylow_sylS (F := F)
   rw [← hT]
-  exact T.isPGroup'
+  exact T.isPGroup
 
 theorem sylS_le_borel : sylS F ≤ borel F := unipotent_le_borelSubgroup
 

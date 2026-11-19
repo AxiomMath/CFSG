@@ -127,7 +127,7 @@ theorem four_le_and_eq_three {W : Type*} [Group W] [Finite W]
     (hcomm : ∀ a b : W, a * b = b * a) (hpow : ∀ a : W, a ^ 2 = 1) {n : ℕ}
     (hcard : Nat.card W = 2 ^ n) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hdvd : p ^ 2 ∣ Nat.card (MulAut W)) : 4 ≤ n ∧ (n ≤ 4 → n = 4 ∧ p = 3) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary (p := 2) hcomm hpow hcard
   rw [CFSG.SectionRank.Ccomm.card_mulAut_eq_card_GL e, CFSG.SectionRank.Ccomm.card_GL_zmod] at hdvd
   have hp3 : 3 ≤ p := by
@@ -139,7 +139,7 @@ theorem four_le_and_eq_three {W : Type*} [Group W] [Finite W]
     interval_cases n
     · simp at hdvd
       omega
-    · simp [Fin.prod_univ_succ] at hdvd
+    · simp at hdvd
       omega
     · simp [Fin.prod_univ_succ] at hdvd
       have := Nat.le_of_dvd (by norm_num) hdvd
@@ -181,12 +181,12 @@ theorem sq_dvd_card_mulAut {p : ℕ} (hp : p.Prime) {M V : Subgroup G}
     (hMV : M ≤ normalizer (V : Set G))
     (h : 1 < F12.pRankMod p M (centralizer (V : Set G))) :
     p ^ 2 ∣ Nat.card (MulAut V) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hN : ((centralizer (V : Set G)).subgroupOf M).Normal := kerAct_normal M V hMV
+  have : Fact p.Prime := ⟨hp⟩
+  have hN : ((centralizer (V : Set G)).subgroupOf M).Normal := kerAct_normal M V hMV
   have hr : 1 < CFSG.Open.pRank p
       (⊤ : Subgroup (↥M ⧸ (centralizer (V : Set G)).subgroupOf M)) := by
     unfold F12.pRankMod at h
-    rwa [dif_pos hN] at h
+    rwa [dite_eq_left hN] at h
   obtain ⟨E, -, -, hEcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt
     (⊤ : Subgroup (↥M ⧸ (centralizer (V : Set G)).subgroupOf M))
   have hker : (uc22br4_conjAut M V hMV).ker = (centralizer (V : Set G)).subgroupOf M := by
@@ -257,7 +257,7 @@ private theorem frattini_quot {H : Type*} [Group H] [Finite H] {p q : ℕ} [Fact
     rw [Sylow.coe_mapSurjective] at h1
     obtain ⟨x, hx, hxq⟩ := h1
     exact ⟨(x : H), ⟨x, hx, rfl⟩, congrArg Subtype.val hxq⟩
-  refine ⟨X, X₀.isPGroup'.map W.subtype, ?_, fun x hx => (hXW hx).1⟩
+  refine ⟨X, X₀.isPGroup.map W.subtype, ?_, fun x hx => (hXW hx).1⟩
   intro hXc
   apply hnc
   let g : ↥X →* ↥Q := (π.comp X.subtype).codRestrict Q (fun x => (hXW x.2).2)
@@ -272,13 +272,13 @@ theorem exists_noncyclic_le_normalizer {p : ℕ} (hp : p.Prime) {M V S : Subgrou
     (hS : CFSG.ABGLocalTools.IsSylowOf 2 S (M ⊓ centralizer (V : Set G)))
     (h : 1 < F12.pRankMod p M (centralizer (V : Set G))) :
     ∃ X : Subgroup G, X ≤ M ∧ IsPGroup p X ∧ ¬ IsCyclic X ∧ X ≤ normalizer (S : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hN : ((centralizer (V : Set G)).subgroupOf M).Normal := kerAct_normal M V hMV
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hN : ((centralizer (V : Set G)).subgroupOf M).Normal := kerAct_normal M V hMV
   have hr : 1 < CFSG.Open.pRank p
       (⊤ : Subgroup (↥M ⧸ (centralizer (V : Set G)).subgroupOf M)) := by
     unfold F12.pRankMod at h
-    rwa [dif_pos hN] at h
+    rwa [dite_eq_left hN] at h
   obtain ⟨E, -, hE, hEcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt
     (⊤ : Subgroup (↥M ⧸ (centralizer (V : Set G)).subgroupOf M))
   have hEp : IsPGroup p E := uc22p22e_isPGroup_of_elem hE
@@ -315,7 +315,7 @@ theorem exists_noncyclic_le_normalizer {p : ℕ} (hp : p.Prime) {M V S : Subgrou
 theorem pCoreOf_ne_bot_of_normal (hchar : IsCharTwoType G) {W X : Subgroup G} (hW : W ≠ ⊥)
     (hW2 : IsPGroup 2 W) (hX : X ≠ ⊥) (hXW : X ≤ normalizer (W : Set G))
     (hWX : normalizer (W : Set G) ≤ normalizer (X : Set G)) : pCoreOf 2 X ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hO
   have hON : pCoreOf 2 (normalizer (W : Set G)) ≤ normalizer (W : Set G) :=
     CFSG.LieType.BorelTits.pCoreOf_le 2 _

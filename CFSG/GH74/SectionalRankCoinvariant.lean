@@ -61,7 +61,7 @@ theorem exists_finset_closure_eq_top_of_coinvariant {P : Type*} [Group P] [Finit
     (hC : Nat.card ↥(A ⊓ centralizer {t}) ≤ 2 ^ k) :
     ∃ s : Finset P, s.card ≤ m + k ∧ closure (s : Set P) = ⊤ := by
   classical
-  haveI : Fact (IsPGroup 2 P) := ⟨hP⟩
+  have : Fact (IsPGroup 2 P) := ⟨hP⟩
   obtain ⟨s, hsm, hsA⟩ := hs
   have hconj : ∀ a ∈ A, t * a * t⁻¹ ∈ A := fun a ha => ‹A.Normal›.conj_mem a ha t
   let φ : A →* A :=
@@ -142,7 +142,7 @@ theorem exists_finset_closure_eq_of_coinvariant {X P : Type*} [Group X] [Finite 
     if h : p ∈ Q.map φ then ⟨Classical.choose (mem_map.1 h), (Classical.choose_spec
       (mem_map.1 h)).1⟩ else 1
   have hlift : ∀ p ∈ Q.map φ, ψ (lift p) = p := fun p hp => by
-    simp only [hψ, lift, dif_pos hp, MonoidHom.comp_apply, coe_subtype]
+    simp only [hψ, lift, dite_eq_left hp, MonoidHom.comp_apply, coe_subtype]
     exact (Classical.choose_spec (mem_map.1 hp)).2
   have hsmap : ∀ p ∈ s, p ∈ Q.map φ := fun p hp => hsQ ▸ subset_closure hp
   have himage : ψ '' ((s.image lift : Finset Q) : Set Q) = s := by

@@ -14,6 +14,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem ReprData.naturalRep_of_basis {hc : Ctx M Q Z B} {t : G} {K : Type} [Field K] [Finite K]
     [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     {hS : ∀ (c : K) (e : M₀.E), e ∈ M₀.img (Vt M (LB M Q B) B Z t) →

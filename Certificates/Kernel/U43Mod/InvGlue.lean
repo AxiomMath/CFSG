@@ -132,11 +132,11 @@ theorem hG_H : ∀ l < 12, ∀ q (hq : q < 820), GkH l q = (psi (sF hGensG l)⁻
   obtain ⟨j, ⟨rfl, h1, h2⟩ | ⟨rfl, h1, h2⟩⟩ := half_cases (l := l)
   · have hj : j < 6 := by omega
     unfold GkH GrH sF
-    rw [if_pos h1, h2, xor_one_even hj]
+    rw [ite_eq_left h1, h2, xor_one_even hj]
     exact ⟨(LT_eq hj q hq).2, (LT_eq hj q hq).1⟩
   · have hj : j < 6 := by omega
     unfold GkH GrH sF
-    rw [if_neg (by omega), h2, xor_one_odd hj, inv_inv, map_inv]
+    rw [ite_eq_right (by omega), h2, xor_one_odd hj, inv_inv, map_inv]
     exact ⟨(LT_eq hj q hq).1, by rw [← map_inv]; exact (LT_eq hj q hq).2⟩
 
 theorem hElt_eq (k : ℕ) : hElt k = treeG 1 (mulStepG hGensG) hPar hLab 12 fuel k := by
@@ -200,7 +200,6 @@ theorem hclosed_fact : closedOK hTab hTbl 1152 (2 * hGens.length) (mulStep hGens
   · obtain ⟨h1, h2⟩ := key_clos (by norm_num) (fun k hk => (hFacts k hk).1)
       (fun l hl q hq => (hG_H l hl q hq).1) hsep kHclos k hk l hl
     refine ⟨h1, ?_⟩
-    change psi (hElt _) = psi (hElt k) * psi (sF hGensG l)
     rw [h2, map_mul]
 
 theorem hinj : ∀ i < 1152, ∀ j < 1152, hElt i = hElt j → i = j :=
@@ -261,9 +260,9 @@ theorem hG_P : ∀ l < 6, ∀ q (hq : q < 820), GkP l q = (psi (sF pGensG l)⁻�
   unfold GkP GrP sF
   rw [e1, e2, pGensG_get hj]
   rcases Nat.mod_two_eq_zero_or_one l with h | h
-  · rw [h, if_pos rfl]
+  · rw [h, ite_eq_left rfl]
     exact ⟨(EH_eq hi q hq).2, (EH_eq hi q hq).1⟩
-  · rw [h, if_neg (by omega), inv_inv]
+  · rw [h, ite_eq_right (by omega), inv_inv]
     exact ⟨(EH_eq hi q hq).1, by rw [map_inv]; rw [← map_inv]; exact (EH_eq hi q hq).2⟩
 
 theorem pElt_eq (k : ℕ) : pElt k = treeG 1 (mulStepG pGensG) pPar pLab 6 fuel k := by
@@ -304,7 +303,6 @@ theorem pclosed_fact : closedOK pTab pTbl 128 (2 * pGens.length) (mulStep pGens)
   · obtain ⟨h1, h2⟩ := key_clos (by norm_num) (fun k hk => (pFacts k hk).1)
       (fun l hl q hq => (hG_P l hl q hq).1) hsep kPclos k hk l hl
     refine ⟨h1, ?_⟩
-    change psi (pElt _) = psi (pElt k) * psi (sF pGensG l)
     rw [h2, map_mul]
 
 theorem pdist_fact : distinctOK pTab 128 = true :=

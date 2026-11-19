@@ -38,7 +38,7 @@ theorem mul_ne_one_of_ne_comm {G : Type*} [Group G] {x y : G} (hx : x * x = 1)
 
 
 theorem sq_D : ∀ x ∈ {x : J | IsConj d x}, x * x = 1 := fun x hx => by
-  rw [Set.mem_setOf_eq] at hx
+  rw [Set.mem_ofPred_eq] at hx
   have h := pow_orderOf_eq_one x
   rw [orderOf_of_isConj hx, pow_two] at h
   exact h

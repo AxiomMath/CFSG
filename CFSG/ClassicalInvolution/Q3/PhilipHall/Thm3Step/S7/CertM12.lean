@@ -71,10 +71,10 @@ theorem mem_czL_of_mem_sylow {s : NativeSporadic.M12} (hs : s ∈ sylowM12) : s 
 
 theorem sylow_isPGroup : IsPGroup 2 sylowM12 := by
   rw [sylowM12, ← ComponentClassification.M12Cover.coe_sylow]
-  exact (ComponentClassification.M12Cover.sylow).isPGroup'
+  exact (ComponentClassification.M12Cover.sylow).isPGroup
 
 theorem sylow_not_dvd_index : ¬ 2 ∣ sylowM12.index := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [sylowM12, ← ComponentClassification.M12Cover.coe_sylow]
   exact (ComponentClassification.M12Cover.sylow).not_dvd_index
 
@@ -174,7 +174,7 @@ theorem aStar_vStar {Y : Type} [Group Y] [Finite Y] (θ : Y ≃* NativeSporadic.
     refine q8InCheck_sound h1 h2 q8_spec.2 hT fun t ht => ?_
     exact mem_czL_of_mem_normalizer h1 hz1 (hT1 ht)
   · intro e he
-    rw [Set.mem_setOf_eq, List.mem_singleton] at he
+    rw [Set.mem_ofPred_eq, List.mem_singleton] at he
     rw [he]
     exact edgeB_sound h1 h2 hedge
   · rw [eq_top_iff, ← closure_pair_eq_top m12_eq (Subgroup.subset_closure (Set.mem_insert _ _))

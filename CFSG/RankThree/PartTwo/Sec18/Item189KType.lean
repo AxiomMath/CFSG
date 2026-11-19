@@ -67,7 +67,7 @@ theorem central_normal_eq_bot {X : Type} [Group X] [Finite X] (N : Subgroup X) [
     refine ⟨⟨x, hxT⟩, Subtype.ext ?_⟩
     show QuotientGroup.mk' N x = (r : X ⧸ N)
     rw [QuotientGroup.mk'_apply, hx]
-  letI hcommR : CommGroup ↥R :=
+  let hcommR : CommGroup ↥R :=
     { (inferInstance : Group ↥R) with
       mul_comm := fun a b =>
         Subtype.ext ((Subgroup.mem_center_iff.mp (hRc a.2) (b : X ⧸ N)).symm) }
@@ -134,7 +134,7 @@ theorem center_eq_bot_of_quasisimple_pPrime {Y : Type} [Group Y] [Finite Y]
 
 theorem isSimpleGroup_of_quasisimple_centerless {Q : Type} [Group Q]
     (hQ : CFSG.IsQuasisimple Q) (hz : Subgroup.center Q = ⊥) : IsSimpleGroup Q := by
-  haveI := CFSG.LocalCores.isQuasisimple_nontrivial hQ
+  have := CFSG.LocalCores.isQuasisimple_nontrivial hQ
   refine ⟨fun H _ => ?_⟩
   rcases CFSG.LocalCores.quasisimple_normal_subgroups hQ (N := H) inferInstance with h | h
   · exact Or.inr h

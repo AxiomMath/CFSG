@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G]
 
 private theorem res1340_pCore_quot_eq_bot {H : Type*} [Group H] [Finite H] (N : Subgroup H)
     [N.Normal] (hN : N = CFSG.pCore 2 H) : CFSG.pCore 2 (H ⧸ N) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   subst hN
   exact Sec18.pCore_quotient_pCore_eq_bot 2
 
@@ -35,9 +35,9 @@ theorem eq_of_competing_of_le
     (hQE9 : Res1QE9 Q) (hn : Claim153Normal A (lB A)) {M' : Subgroup G}
     (hC' : Ctx155 A X K Y M' T) (hstep3 : deltaZero A (lB A) M' ≤ L ⊔ pPrimeCoreOf 3 M') :
     M' = M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := τ.isPerfect_l
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := τ.isPerfect_l
   set O' := pPrimeCoreOf 3 M' with hO'
   set P₀ := CFSG.Open.pCoreOf 2 O' with hP₀
   have hN : n155 A K ≤ Subgroup.normalizer (K : Set G) :=
@@ -55,7 +55,7 @@ theorem eq_of_competing_of_le
   have hP₀X : P₀ ≤ Subgroup.normalizer (X : Set G) :=
     τ.le_normalizer_of_competing hbot h1444 hN hC' hP₀2
       (hP₀O.trans (Sec14.pPrimeCoreOf_le 3 M')) (hAYM'.trans hM'P)
-  haveI : (P₀.subgroupOf O').Normal :=
+  have : (P₀.subgroupOf O').Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hP₀O).mpr hOP
   have hO3 : ¬ 3 ∣ Nat.card O' :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp (coprime_card_pPrimeCoreOf 3 M')
@@ -67,7 +67,7 @@ theorem eq_of_competing_of_le
   have hrank : ∀ p : ℕ, p.Prime → 5 ≤ p →
       CFSG.Open.pRank p (⊤ : Subgroup (↥O' ⧸ P₀.subgroupOf O')) ≤ 2 := by
     intro p hp hp5
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hNp : ¬ p ∣ Nat.card (P₀.subgroupOf O') := by
       intro hdvd
       obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp

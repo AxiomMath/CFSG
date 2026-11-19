@@ -107,8 +107,8 @@ theorem eq_one_of_not_five_dvd {K : Type*} [Group K] [Finite K] [Group.IsPerfect
 
 theorem exists_pow_five_pow_eq_one {K : Type*} [Group K] [Finite K] {H : Type*} [Group H]
     (f : K →* H) (h5 : 5 ∣ Nat.card f.range) : ∃ k : K, f k ≠ 1 ∧ ∃ a : ℕ, k ^ (5 ^ a) = 1 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Finite f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' 5 h5
   obtain ⟨k₀, hk₀⟩ := f.rangeRestrict_surjective y
   obtain ⟨a, m, hm5, hm⟩ := Nat.exists_eq_pow_mul_and_not_dvd (orderOf_pos k₀).ne' 5 (by norm_num)
@@ -138,7 +138,6 @@ theorem eq_one_of_isCyclic {K : Type*} [Group K] [Group.IsPerfect K] {E : Type*}
   obtain ⟨n, hn⟩ := MonoidHom.map_cyclic (κ b).toMonoidHom
   ext g
   rw [MulAut.mul_apply, MulAut.mul_apply]
-  change κ a (κ b g) = κ b (κ a g)
   have hm' : ∀ g, κ a g = g ^ m := hm
   have hn' : ∀ g, κ b g = g ^ n := hn
   rw [hn', hm', hm', hn', ← zpow_mul, ← zpow_mul, mul_comm]
@@ -198,13 +197,13 @@ private def quotAct {K Y : Type*} [Group K] [Group Y] (ρ : K →* MulAut Y) (X 
 variable {E : Type*} [Group E] [Finite E]
 
 theorem eq_bot_or_eq_top_of_invariant {K : Type*} [Group K] [Group.IsPerfect K]
-    (hEc : ∀ a b : E, a * b = b * a) (hE5 : ∀ a : E, a ^ 5 = 1) (hE25 : Nat.card E = 25)
+    (hEc : ∀ a b : E, a * b = b * a) (_hE5 : ∀ a : E, a ^ 5 = 1) (hE25 : Nat.card E = 25)
     (κ : K →* MulAut E) (hκ : κ ≠ 1)
     (X : Subgroup E) (hX : ∀ k : K, ∀ x ∈ X, κ k x ∈ X) : X = ⊥ ∨ X = ⊤ := by
   by_contra hcon
   rw [not_or] at hcon
   obtain ⟨hbot, htop⟩ := hcon
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hcardX : Nat.card X = 5 := by
     have hdvd : Nat.card X ∣ 5 ^ 2 := by
       have := Subgroup.card_subgroup_dvd_card X
@@ -214,13 +213,13 @@ theorem eq_bot_or_eq_top_of_invariant {K : Type*} [Group K] [Group.IsPerfect K]
     · exact absurd (Subgroup.eq_bot_of_card_eq X (by simpa using hXi)) hbot
     · simpa using hXi
     · exact absurd ((Subgroup.card_eq_iff_eq_top X).1 (by rw [hXi, hE25]; norm_num)) htop
-  haveI : X.Normal := ⟨fun n hn g => by rw [hEc g n, mul_inv_cancel_right]; exact hn⟩
+  have : X.Normal := ⟨fun n hn g => by rw [hEc g n, mul_inv_cancel_right]; exact hn⟩
   have hcardQ : Nat.card (E ⧸ X) = 5 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup X
     rw [hE25, hcardX] at h
     omega
-  haveI : IsCyclic X := isCyclic_of_prime_card hcardX
-  haveI : IsCyclic (E ⧸ X) := isCyclic_of_prime_card hcardQ
+  have : IsCyclic X := isCyclic_of_prime_card hcardX
+  have : IsCyclic (E ⧸ X) := isCyclic_of_prime_card hcardQ
   have h1 := eq_one_of_isCyclic (restrictAct κ X hX)
   have h2 := eq_one_of_isCyclic (quotAct κ X hX)
   have hfix : ∀ k : K, ∀ x ∈ X, κ k x = x := fun k x hx =>
@@ -243,8 +242,8 @@ theorem eq_bot_or_eq_top_of_invariant {K : Type*} [Group K] [Group.IsPerfect K]
 
 private theorem not_five_dvd_card_mulAut {P : Type*} [Group P] [Finite P] (hP : IsPGroup 2 P)
     (h8 : Nat.card P ∣ 8) : ¬ 5 ∣ Nat.card (MulAut P) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (IsPGroup 2 P) := ⟨hP⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (IsPGroup 2 P) := ⟨hP⟩
   have hel : CFSG.IsElementaryAbelian 2 (P ⧸ frattini P) :=
     CFSG.isElementaryAbelian_quotient_frattini
   obtain ⟨n, hn⟩ := (hP.to_quotient (frattini P)).exists_card_eq
@@ -277,14 +276,14 @@ private theorem card_dvd_eight {K : Type*} [Group K] [Finite K] [Group.IsPerfect
     (κ : K →* MulAut E) (hκ : κ ≠ 1)
     (N₀ : Subgroup (MulAut E)) (hN₀2 : IsPGroup 2 N₀) (hN₀K : N₀ ≤ κ.range)
     (hN₀n : ∀ k : K, ∀ n ∈ N₀, κ k * n * (κ k)⁻¹ ∈ N₀) : Nat.card N₀ ∣ 8 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h480 : Nat.card (MulAut E) = 480 := by
     obtain ⟨e⟩ := SectionRank.Ccomm.nonempty_mulEquiv_of_elementary hEc hE5 (n := 2)
       (by rw [hE25]; norm_num)
     rw [SectionRank.Ccomm.card_mulAut_eq_card_GL e, SectionRank.Ccomm.card_GL_zmod]
     decide
   let N' : Subgroup κ.range := N₀.subgroupOf κ.range
-  haveI : N'.Normal := ⟨fun n hn g => by
+  have : N'.Normal := ⟨fun n hn g => by
     obtain ⟨k, hk⟩ := g.2
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simp only [Subgroup.coe_mul, Subgroup.coe_inv]
@@ -298,7 +297,7 @@ private theorem card_dvd_eight {K : Type*} [Group K] [Finite K] [Group.IsPerfect
       rintro _ ⟨k, rfl⟩
       have := DFunLike.congr_fun h k
       simpa [φ, N', QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf] using this
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact eq_one_of_isPGroup_range κ (hN₀2.to_le hle)
   have h60 : 60 ∣ Nat.card (κ.range ⧸ N') :=
     (sixty_dvd_card_range hK φ hφ).trans (Subgroup.card_subgroup_dvd_card _)
@@ -323,7 +322,7 @@ theorem eq_one_or_eq_inv_of_comm {K : Type*} [Group K] [Finite K] [Group.IsPerfe
     (hN₀n : ∀ k : K, ∀ n ∈ N₀, κ k * n * (κ k)⁻¹ ∈ N₀)
     (t : MulAut E) (ht : t * t = 1) (htK : ∀ k : K, t * κ k * t⁻¹ * (κ k)⁻¹ ∈ N₀) :
     t = 1 ∨ ∀ v : E, t v = v⁻¹ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hψ : restrictAct ((MulAut.conj : MulAut E →* MulAut (MulAut E)).comp κ) N₀
       (fun k n hn => hN₀n k n hn) = 1 :=
     eq_one_of_not_five_dvd hK (not_five_dvd_card_mulAut hN₀2
@@ -352,11 +351,11 @@ theorem eq_one_or_eq_inv_of_comm {K : Type*} [Group K] [Finite K] [Group.IsPerfe
   let X : Subgroup E :=
     { carrier := {v | t v = v}
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [map_mul, ha, hb]
       one_mem' := map_one t
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [map_inv, ha] }
   have hXinv : ∀ k : K, ∀ x ∈ X, κ k x ∈ X := by
     intro k x hx

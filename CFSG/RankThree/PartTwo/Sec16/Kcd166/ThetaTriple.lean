@@ -57,7 +57,7 @@ private theorem theta_lB_eq_pCore_two (h : Sec17Std G A c L Y₀)
     aschbacherSolvableCore 3 ↥(lB A (Subgroup.closure {c, d})) =
       CFSG.pCore 2 ↥(lB A (Subgroup.closure {c, d})) := by
   set J := lB A (Subgroup.closure {c, d}) with hJdef
-  haveI : Group.IsPerfect ↥J := by
+  have : Group.IsPerfect ↥J := by
     rw [hJdef]
     exact isPerfect_lB h hJ hdA hd1 hdc
   have htc := isTripleCover_lB_closure h hJ hdA hd1 hdc
@@ -65,7 +65,7 @@ private theorem theta_lB_eq_pCore_two (h : Sec17Std G A c L Y₀)
   obtain ⟨-, -, hθ3, -, -, -, hθO⟩ :=
     solvable_prime_complement_core_characterization (H := ↥J) Nat.prime_three
   set Q := CFSG.pCore 2 ↥J with hQ
-  haveI : Q.Normal := CFSG.pCore_normal
+  have : Q.Normal := CFSG.pCore_normal
   have hO2θ : Q ≤ aschbacherSolvableCore 3 ↥J :=
     hθO 2 Nat.prime_two (by norm_num)
   have hθn : (aschbacherSolvableCore 3 ↥J).Normal :=
@@ -87,6 +87,7 @@ private noncomputable def quotHom {J X : Subgroup G} (hJX : J ≤ X) :
     ↥J →* (↥X ⧸ aschbacherSolvableCore 3 ↥X) :=
   (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥X)).comp (Subgroup.inclusion hJX)
 
+omit [Finite G] in
 private theorem subgroupOf_sup_theta_eq_top {J X : Subgroup G} (hJX : J ≤ X)
     (hX : X = J ⊔ inSubgroup (aschbacherSolvableCore 3) X) :
     J.subgroupOf X ⊔ aschbacherSolvableCore 3 ↥X = ⊤ := by
@@ -97,6 +98,7 @@ private theorem subgroupOf_sup_theta_eq_top {J X : Subgroup G} (hJX : J ≤ X)
     exact hX.symm
   rw [Subgroup.map_sup, h1, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
 
+omit [Finite G] in
 private theorem quotHom_surjective {J X : Subgroup G} (hJX : J ≤ X)
     (hX : X = J ⊔ inSubgroup (aschbacherSolvableCore 3) X) :
     Function.Surjective (quotHom hJX) := by

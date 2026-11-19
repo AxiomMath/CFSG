@@ -427,7 +427,7 @@ private theorem orbE_sp {n w m om ng H OM OD N k : Nat} {L : Nat → Nat}
   · obtain ⟨hc, he⟩ := SB.band (SB.allN_sp h3 j hj)
     exact ⟨_, SB.bltT hc, SB.beqT he⟩
 
-theorem orbK_sound {n w m om ng H OM OD N : Nat} {L : Nat → Nat} (hom : om = 2 ^ n - 1) (hN : 0 < N)
+theorem orbK_sound {n w m om ng H OM OD N : Nat} {L : Nat → Nat} (_hom : om = 2 ^ n - 1) (hN : 0 < N)
     (hL : ∀ j < ng, PermN n w m (L (2 * j))) (h : orbK n w m om L ng H OM OD N = true) :
     (∀ k < N, ∃ g ∈ gen n w m L ng, ⇑g '' mset n H = mset n (lane n om OM k)) ∧
     (∀ g ∈ gen n w m L ng, ∃ k < N, ⇑g '' mset n H = mset n (lane n om OM k)) ∧
@@ -480,7 +480,7 @@ private theorem subE_sp {n w m om nlab R OM OD N k : Nat} {LM : Nat → Nat}
     obtain ⟨hdp, he⟩ := SB.band h7
     exact ⟨_, SB.bltT hp, _, SB.bltT hl, SB.beqT hc, SB.beqT hdp, SB.beqT he⟩
 
-theorem subK_sound {n w m om nlab R CN H OM OD N : Nat} {LM : Nat → Nat} (hom : om = 2 ^ n - 1)
+theorem subK_sound {n w m om nlab R CN H OM OD N : Nat} {LM : Nat → Nat} (_hom : om = 2 ^ n - 1)
     (hLM : ∀ j < 3, PermN n w m (LM (2 * j))) (h : subK n w m om LM nlab R CN H OM OD N = true) :
     (∀ j < 3, ⇑(pp n w m (LM (2 * j))) '' mset n H = mset n H) ∧
     (∀ k < N, subLab OD k < nlab ∧ ∃ g ∈ gen n w m LM 3,

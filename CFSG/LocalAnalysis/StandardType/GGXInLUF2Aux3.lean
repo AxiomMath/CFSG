@@ -40,7 +40,7 @@ theorem lup8f_f2_exists_lift {H : Type*} [Group H] [Finite H] {p : ℕ} [Fact p.
   refine ⟨a, ⟨haL, haN⟩, hal, fun e he => ?_⟩
   have hbot : E ⊓ N = ⊥ := by
     obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp hEp
-    exact Subgroup.inf_eq_bot_of_coprime (by rw [hm]; exact hNp.pow_left m)
+    exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [hm]; exact hNp.pow_left m)))
   have hd : e * a * e⁻¹ * a⁻¹ ∈ E := by
     have h := E.mul_mem he ((Subgroup.mem_normalizer_iff.mp haN e⁻¹).mp (E.inv_mem he))
     simpa [mul_assoc] using h

@@ -266,7 +266,7 @@ private theorem exists_le_mulEquiv_of_le_map [Finite G] {L X O : Subgroup G} {Γ
       have := congrArg Subtype.val h1
       exact this
     rw [hker, Subgroup.mem_subgroupOf] at hk
-    obtain ⟨k, hk2⟩ := P.isPGroup' ⟨w, hw⟩
+    obtain ⟨k, hk2⟩ := P.isPGroup ⟨w, hw⟩
     have hk2' : (((w : L) : G)) ^ (2 ^ k) = 1 := by
       have := congrArg (fun z : (P : Subgroup W) => (((z : W) : L) : G)) hk2
       simpa using this
@@ -288,7 +288,7 @@ private theorem exists_le_mulEquiv_of_le_map [Finite G] {L X O : Subgroup G} {Γ
     (MulEquiv.ofBijective φP ⟨hinj, hsurj⟩)⟩⟩
   · rintro _ ⟨w, rfl⟩
     exact (w : W).2.1
-  · exact P.isPGroup'.of_equiv (MonoidHom.ofInjective hι)
+  · exact P.isPGroup.of_equiv (MonoidHom.ofInjective hι)
 
 private theorem exists_conj_le_sylow_inf [Finite G] {X Q : Subgroup G} (S : Sylow 2 G)
     (hSX : (S : Subgroup G) ≤ Subgroup.normalizer (X : Set G)) (hQX : Q ≤ X)
@@ -297,7 +297,7 @@ private theorem exists_conj_le_sylow_inf [Finite G] {X Q : Subgroup G} (S : Sylo
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSK : IsSylowOf 2 (S : Subgroup G) (X ⊔ (S : Subgroup G)) := by
     rw [isSylowOf_iff]
-    refine ⟨le_sup_right, S.isPGroup', fun hdvd => S.not_dvd_index ?_⟩
+    refine ⟨le_sup_right, S.isPGroup, fun hdvd => S.not_dvd_index ?_⟩
     rw [← Subgroup.relIndex_mul_index (le_sup_right : (S : Subgroup G) ≤ X ⊔ S)]
     exact hdvd.mul_right _
   have hSX' : IsSylowOf 2 ((S : Subgroup G) ⊓ X) X :=
@@ -841,7 +841,7 @@ private theorem mem_centralizer_sylow (hL : LayerHyp N O L S x x₂ ψ p f) {y :
     le_normalizer_centralizer_sup hr hR hL.O_le_N hL.N_le_normalizer_O hL.x_central
       (hL.S_le_N hL.x₂_mem) hRx₂
   have hHS : ¬ H ≤ O ⊔ centerOf (S : Subgroup G) := fun h =>
-    hL.x₂_notMem_center (mem_of_mem_sup_of_isPGroup hL.odd_O S.isPGroup' inf_le_left
+    hL.x₂_notMem_center (mem_of_mem_sup_of_isPGroup hL.odd_O S.isPGroup inf_le_left
       ((inf_le_left.trans hL.S_le_N).trans hL.N_le_normalizer_O) hL.x₂_mem
       (h (Subgroup.mem_sup_left (Subgroup.mem_sup_right
         (Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _)))))))
@@ -851,7 +851,7 @@ private theorem mem_centralizer_sylow (hL : LayerHyp N O L S x x₂ ψ p f) {y :
       (hSR.trans (normalizer_le_normalizer_centralizer R))).trans
       Subgroup.inf_normalizer_le_normalizer_inf
   have hPS : T ⊔ centerOf (S : Subgroup G) ≤ S := sup_le hTS inf_le_left
-  have hP2 : IsPGroup 2 (T ⊔ centerOf (S : Subgroup G) : Subgroup G) := S.isPGroup'.to_le hPS
+  have hP2 : IsPGroup 2 (T ⊔ centerOf (S : Subgroup G) : Subgroup G) := S.isPGroup.to_le hPS
   have hPA : T ⊔ centerOf (S : Subgroup G) ≤ Subgroup.normalizer ((K₀ ⊔ O : Subgroup G) : Set G) :=
     hPS.trans ((le_inf hSK₀ (hL.S_le_N.trans hL.N_le_normalizer_O)).trans
       (normalizer_inf_normalizer_le_normalizer_sup _ _))
@@ -906,7 +906,7 @@ theorem not_le_of_quaternion (hL : LayerHyp N O L S x x₂ ψ p f)
   have hOy : O ≤ Subgroup.centralizer ({y} : Set G) := by
     apply le_of_forall_isSylowOf_le
     intro r hr
-    obtain ⟨R, hR, hSR⟩ := exists_isSylowOf_normalized_of_odd hr S.isPGroup'
+    obtain ⟨R, hR, hSR⟩ := exists_isSylowOf_normalized_of_odd hr S.isPGroup
       (hL.S_le_N.trans hL.N_le_normalizer_O) hL.odd_O
     refine ⟨R, hR, fun z hz => ?_⟩
     have hyR := hL.mem_centralizer_sylow hy hr hR hSR (hdich r hr R hR hSR)
@@ -918,7 +918,7 @@ theorem not_le_of_quaternion (hL : LayerHyp N O L S x x₂ ψ p f)
     rw [Subgroup.mem_centralizer_iff]
     intro z hz
     exact Subgroup.mem_centralizer_singleton_iff.mp (hOy hz)
-  exact hyZ (mem_of_mem_sup_of_isPGroup hL.odd_O S.isPGroup' inf_le_left
+  exact hyZ (mem_of_mem_sup_of_isPGroup hL.odd_O S.isPGroup inf_le_left
     ((inf_le_left.trans hL.S_le_N).trans hL.N_le_normalizer_O) hyS (hle hyC))
 
 end LayerHyp
@@ -999,7 +999,7 @@ private theorem mem_C_iff (g : G) : g ∈ σ.C ↔ σ.x * g = g * σ.x ∧ σ.x�
 
 theorem inverted_of_totallyInverted (hσ : σ.IsValid) {r : ℕ} (hr : r.Prime)
     (_hdiv : r ∣ Nat.card σ.ON) (hti : σ.TotallyInverted r) : σ.Inverted r := by
-  have hT2 : IsPGroup 2 σ.T := σ.S.isPGroup'.to_le (σ.T_le_S hσ)
+  have hT2 : IsPGroup 2 σ.T := σ.S.isPGroup.to_le (σ.T_le_S hσ)
   obtain ⟨R, hR, hTR⟩ := exists_isSylowOf_normalized_of_odd hr hT2
     ((σ.T_le_N hσ).trans σ.N_le_normalizer_ON) σ.odd_card_ON
   refine ⟨R, hR, hTR, ?_⟩
@@ -1035,7 +1035,7 @@ theorem sylow_centralized_or_inverted_of_prime (hσ : σ.IsValid) {r : ℕ} (hr 
     (h : r ∣ Nat.card σ.ON → σ.Centralized r ∨ σ.Inverted r) {R : Subgroup G}
     (hR : IsSylowOf r R σ.ON) (hTR : σ.T ≤ Subgroup.normalizer (R : Set G)) :
     R ≤ Subgroup.centralizer ({σ.x₂} : Set G) ∨ ∀ y ∈ R, σ.x₂ * y * σ.x₂⁻¹ = y⁻¹ := by
-  have hT2 : IsPGroup 2 σ.T := σ.S.isPGroup'.to_le (σ.T_le_S hσ)
+  have hT2 : IsPGroup 2 σ.T := σ.S.isPGroup.to_le (σ.T_le_S hσ)
   have hTON : σ.T ≤ Subgroup.normalizer (σ.ON : Set G) :=
     (σ.T_le_N hσ).trans σ.N_le_normalizer_ON
   by_cases hdiv : r ∣ Nat.card σ.ON

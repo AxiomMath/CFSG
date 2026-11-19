@@ -12,8 +12,8 @@ namespace CFSG.StandardType
 open CFSG CFSG.Assembly
 
 noncomputable def ggQ2s08x1p_pick {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : G}
-    {L D J : Subgroup G} (hS : GGQTwoSetting 3 B Bs x L D J)
-    (hBsN : Bs ≤ Subgroup.normalizer (L : Set G)) (M : GGQ2LDatum 3 Bs L x) (i : M.Λ) : G :=
+    {L D J : Subgroup G} (_hS : GGQTwoSetting 3 B Bs x L D J)
+    (_hBsN : Bs ≤ Subgroup.normalizer (L : Set G)) (M : GGQ2LDatum 3 Bs L x) (i : M.Λ) : G :=
   Classical.choose (mem_ggAutomizer_iff.mp (by
     rw [M.automizer_L]
     exact Subgroup.subset_closure ⟨i, rfl⟩))
@@ -75,7 +75,7 @@ theorem ggQ2s08x1p_psi_mem {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {
 
 theorem ggQ2s08x1p_simple_x {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} (hS : GGQTwoSetting 3 B Bs x L D J)
-    (hBsN : Bs ≤ Subgroup.normalizer (L : Set G)) (M : GGQ2LDatum 3 Bs L x) (i : M.Λ) :
+    (_hBsN : Bs ≤ Subgroup.normalizer (L : Set G)) (M : GGQ2LDatum 3 Bs L x) (i : M.Λ) :
     M.simple i ⟨x, M.hx⟩ = ⟨x, M.hx⟩ := by
   obtain ⟨-, -, -, hLx, -⟩ := hS.1.1.tableB_facts
   have hmem : M.simple i ∈ ggAutomizer L Bs := by
@@ -167,7 +167,7 @@ theorem ggQ2s08x1p_descent {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {
         ∀ v, (∀ i, α i v = 0) → v = 0) ∧
       (∀ i, φ i = ggQ2s08x1p_psi hS hBsN M i) := by
   obtain ⟨hp, hBs, -, hLx, -⟩ := hS.1.1.tableB_facts
-  haveI : Fact (Nat.Prime 3) := Fact.mk hp
+  have : Fact (Nat.Prime 3) := Fact.mk hp
   have hSS : LargeEvenSStar 3 B x L := hS.1.1.1.2.2.2.2.2.2.1
   have hker : ∀ b : ↥Bs, ggGamma L hBsN b = 1 ↔
       b ∈ Subgroup.zpowers (⟨x, M.hx⟩ : ↥Bs) := by
@@ -200,8 +200,8 @@ theorem ggQ2s08x1p_descent {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {
       (fun i => ggQ2s08x1p_root_xV hS hBsN M i)
       (ggQ2s08x1p_psi hS hBsN M)
       (fun i b => ggQ2s08x1p_psi_compat hS hBsN M i b)
-  letI : AddCommGroup VA := instA
-  letI : Module (ZMod 3) VA := instM
+  let : AddCommGroup VA := instA
+  let : Module (ZMod 3) VA := instM
   have hqker' : LinearMap.ker q = Submodule.span (ZMod 3) {M.xV} := hqker
   let e : VA ≃ₗ[ZMod 3] (M.V ⧸ Submodule.span (ZMod 3) {M.xV}) :=
     (LinearMap.quotKerEquivOfSurjective q hsurj).symm.trans

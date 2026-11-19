@@ -109,6 +109,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMo
   classical
   exact Finset.univ.filter fun K => Even K.card ∧ fr.signChange K ∈ U
 
+ omit [FiniteDimensional (ZMod 3) V] in
  theorem mem_ffFU_iff {fr : NFrame Q (Fin 6) c} {U : Subgroup (OGroup Q)}
     {K : Finset (Fin 6)} : K ∈ ffFU fr U ↔ Even K.card ∧ fr.signChange K ∈ U := by
   classical

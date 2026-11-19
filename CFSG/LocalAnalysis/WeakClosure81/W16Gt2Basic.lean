@@ -54,9 +54,11 @@ theorem conjClosure_le_R (h1 : W16One G) (hS : Std15 G) (c : Cfg1620 M V₀ V U 
     conjClosure (U ⊔ V₀) H ≤ R :=
   (c.cex.conjClosure_le_S h1 hS c.S_le c.mem).trans c.S_le
 
+omit [Finite G] in
 theorem V_le_R (c : Cfg1620 M V₀ V U S R H g B) : V ≤ R :=
   c.cex.V_le_S.trans c.S_le
 
+omit [Finite G] in
 theorem comm_V_R_le (c : Cfg1620 M V₀ V U S R H g B) : ⁅V, R⁆ ≤ V₀ := by
   rw [Subgroup.commutator_le]
   intro v hv r hr
@@ -82,10 +84,12 @@ theorem comm_conj_conjClosure_le (h1 : W16One G) (hS : Std15 G)
   rw [key]
   exact hcomm
 
+omit [Finite G] in
 theorem L_le_centralizer (c : Cfg1620 M V₀ V U S R H g B) :
     V ⊔ conjSubgroup V g ≤ centralizer (U : Set G) :=
   sup_le c.cex.V_le_centralizer (c.cex.conj_le_centralizer c.g_mem.2)
 
+omit [Finite G] in
 theorem L_le_conjClosure (c : Cfg1620 M V₀ V U S R H g B) :
     V ⊔ conjSubgroup V g ≤ conjClosure V H :=
   sup_le (le_conjClosure V H) (conjSubgroup_le_conjClosure_of_mem c.g_mem.1 le_rfl)

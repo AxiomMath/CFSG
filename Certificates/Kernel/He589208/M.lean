@@ -41,7 +41,7 @@ open CFSG.QuasithinUnique.K1.SporadicPerm (slpTabsA)
 
 @[expose] def w1 : List (List Nat) := ((vData.drop 1).headD ([], 0)).1
 
-@[expose] noncomputable def K : DcK where
+@[expose] noncomputable def K : DcKData where
   n := 8330
   B := B
   ab := ab

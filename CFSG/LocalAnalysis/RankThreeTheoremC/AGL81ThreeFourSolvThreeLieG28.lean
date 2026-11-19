@@ -21,27 +21,27 @@ open SolvNone
 
 private theorem isSolvable_of_symThree_solvG28 {I₀ : Type} [Group I₀] [Finite I₀]
     (hb : IsSymThreeOrSUThreeTwo (I₀ ⧸ CFSG.pCore 2 I₀)) : Group.IsSolvable I₀ := by
-  haveI hQ : Group.IsSolvable (I₀ ⧸ CFSG.pCore 2 I₀) := by
+  have hQ : Group.IsSolvable (I₀ ⧸ CFSG.pCore 2 I₀) := by
     rcases hb with ⟨⟨f⟩⟩ | ⟨L, _, _, hL, ⟨f⟩⟩
-    · haveI : Group.IsSolvable (Equiv.Perm (Fin 3)) :=
+    · have : Group.IsSolvable (Equiv.Perm (Fin 3)) :=
         CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow (a := 1) (b := 1)
           Nat.prime_two Nat.prime_three (by norm_num)
           (by rw [Fintype.card_perm, Fintype.card_fin]; rfl)
       exact Group.isSolvable_of_isSolvable_injective (f := f.toMonoidHom) f.injective
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-      haveI : CharP L 2 := CFSG.Quasithin.B42G2Id.charP_two_of_card (f := 2) (by rw [hL]; norm_num)
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : CharP L 2 := CFSG.Quasithin.B42G2Id.charP_two_of_card (f := 2) (by rw [hL]; norm_num)
       have hc := CFSG.SectionRank.OddCover.card_statedSU_three (K := L) (p := 2) (f := 1)
         (by rw [hL]; norm_num)
       rw [pow_one] at hc
-      haveI : Finite ↥(StatedSU 3 2 L) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-      haveI := Fintype.ofFinite ↥(StatedSU 3 2 L)
-      haveI : Group.IsSolvable ↥(StatedSU 3 2 L) :=
+      have : Finite ↥(StatedSU 3 2 L) := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+      have := Fintype.ofFinite ↥(StatedSU 3 2 L)
+      have : Group.IsSolvable ↥(StatedSU 3 2 L) :=
         CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow (a := 3) (b := 3)
           Nat.prime_two Nat.prime_three (by norm_num)
           (by rw [← Nat.card_eq_fintype_card, hc]; norm_num)
       exact Group.isSolvable_of_isSolvable_injective (f := f.toMonoidHom) f.injective
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Group.IsNilpotent ↥(CFSG.pCore 2 I₀) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsNilpotent ↥(CFSG.pCore 2 I₀) :=
     (CFSG.pCore_isPGroup : IsPGroup 2 ↥(CFSG.pCore 2 I₀)).isNilpotent
   exact Group.isSolvable_of_subgroup_quotient (CFSG.pCore 2 I₀)
 
@@ -49,7 +49,7 @@ private theorem exists_mul_of_two_pow_solvG28 {Y : Type} [Group Y] {K : Subgroup
     (hidx : (MulAut.conj : ↥K →* MulAut ↥K).range.index = 3) {y : Y} {k : ℕ}
     (hy : y ^ 2 ^ k = 1) : ∃ g ∈ K, ∃ c ∈ centralizer (K : Set Y), y = g * c := by
   set θ : Y →* MulAut ↥K := MulAut.conjNormal with hθ
-  haveI : (MulAut.conj : ↥K →* MulAut ↥K).range.Normal :=
+  have : (MulAut.conj : ↥K →* MulAut ↥K).range.Normal :=
     CFSG.GH74.Uniqueness.Bender.normal_range_conj ↥K
   have hmem : θ y ∈ (MulAut.conj : ↥K →* MulAut ↥K).range := by
     rw [← QuotientGroup.eq_one_iff]
@@ -93,7 +93,7 @@ theorem threeFourSolvThreeNoneAt_g28 (q : TauCeti.PrimePower) (d : TauCeti.Valid
   refine ThreeFourSolvThreeNoneAt.of_mulEquiv e₂.symm ?_
   intro Y _ _ K Y₀ E R I₀ _ _ σ hKn hKX hZ _ _ _ hcomp hER hE hEc hcore _ _ _ hσs hb _ _
   classical
-  haveI := hKn
+  have := hKn
   obtain ⟨e⟩ := hKX
   set C := centralizer (K : Set Y) with hCdef
   obtain ⟨ε, hε⟩ := exists_equiv_gElt_mem_g28 M hF8 e R hER hE (by rw [hEc]; norm_num) hcore
@@ -107,12 +107,12 @@ theorem threeFourSolvThreeNoneAt_g28 (q : TauCeti.PrimePower) (d : TauCeti.Valid
       exact (ε.symm x).2
     · intro hy
       exact ⟨ε ⟨y, hy⟩, hιK ⟨y, hy⟩⟩
-  haveI : Finite (adjointGroup .G2 F) := Finite.of_injective ι hι
+  have : Finite (adjointGroup .G2 F) := Finite.of_injective ι hι
   have hKY : ¬ K ≤ Y₀ := by
-    haveI := isSimpleGroup_X_g28 hF8
+    have := isSimpleGroup_X_g28 hF8
     obtain ⟨a, b, hab⟩ := exists_ne_comm_X_g28 hF8
-    haveI : IsSimpleGroup ↥K := e.isSimpleGroup
-    haveI : Group.IsPerfect ↥K :=
+    have : IsSimpleGroup ↥K := e.isSimpleGroup
+    have : Group.IsPerfect ↥K :=
       ⟨CFSG.ComponentClassification.Helpers.commutator_eq_top ↥K ⟨e.symm a, e.symm b, fun h =>
         hab (by simpa only [map_mul, MulEquiv.apply_symm_apply] using congrArg e h)⟩⟩
     exact hcomp K ⟨le_top, IsSubnormal.step le_top inferInstance (IsSubnormal.refl ⊤),
@@ -204,7 +204,7 @@ theorem threeFourSolvThreeNoneAt_g28 (q : TauCeti.PrimePower) (d : TauCeti.Valid
       rw [hVperf] at h3
       rw [Subgroup.commutator_comm]
       exact h3
-  haveI := isSolvable_of_symThree_solvG28 hb
+  have := isSolvable_of_symThree_solvG28 hb
   have hDV : ⁅σ.range, V⁆ = ⊥ := by
     rcases le_or_commutator_eq_bot_of_isSubnormal hVY₀ hVprop hσs with hVD | h
     · exfalso

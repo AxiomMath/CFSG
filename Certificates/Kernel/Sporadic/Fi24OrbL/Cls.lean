@@ -110,13 +110,13 @@ theorem tree_elt : ∀ k (hk : k < 306936), ∃ u : J, u • root = (⟨k, hk⟩
 
 @[expose] def conv (z : ℤ) : ℕ := if 0 < z then 2 * (z.natAbs - 1) else 2 * (z.natAbs - 1) + 1
 
-theorem genLetterG_eq {z : ℤ} (hz : z ≠ 0) : genLetterG z = pairG gs (conv z) := by
+theorem genLetterG_eq {z : ℤ} (_hz : z ≠ 0) : genLetterG z = pairG gs (conv z) := by
   unfold genLetterG conv pairG
   by_cases h : 0 < z
-  · rw [if_pos h, if_pos h, if_pos (by omega)]
+  · rw [ite_eq_left h, ite_eq_left h, ite_eq_left (by omega)]
     congr 1
     omega
-  · rw [if_neg h, if_neg h, if_neg (by omega)]
+  · rw [ite_eq_right h, ite_eq_right h, ite_eq_right (by omega)]
     congr 2
     omega
 

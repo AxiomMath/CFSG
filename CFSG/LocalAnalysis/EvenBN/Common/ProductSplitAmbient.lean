@@ -242,7 +242,7 @@ theorem exists_perfect_commuting_factor_of_ambient [Finite G]
   have htZ : t ∈ normalizer (Z : Set G) := mem_normalizer_inf_centralizer htX htN
   have hZF' : Z ≤ F := hZF
   set Z' : Subgroup N := Z.subgroupOf N with hZ'def
-  haveI hZ'n : Z'.Normal := (normal_subgroupOf_iff_le_normalizer hZN).2 hNZ
+  have hZ'n : Z'.Normal := (normal_subgroupOf_iff_le_normalizer hZN).2 hNZ
   set π : N →* N ⧸ Z' := QuotientGroup.mk' Z' with hπdef
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective Z'
   have hπker : π.ker = Z' := QuotientGroup.ker_mk' Z'
@@ -327,8 +327,8 @@ theorem exists_perfect_commuting_factor_of_ambient [Finite G]
     (map_mono hVtN).trans (map_conj_eq_of_mem_normalizer (le_normalizer hrN)).le
   have hFrN : F.map (MulAut.conj r).toMonoidHom ≤ N :=
     (map_mono hFN).trans (map_conj_eq_of_mem_normalizer (le_normalizer hrN)).le
-  haveI hXn : ((X.subgroupOf N).map π).Normal := map_subgroupOf_normal π hπ hNX hXN
-  haveI hΛn : ((Λ.subgroupOf N).map π).Normal := map_subgroupOf_normal π hπ hNΛ hΛN
+  have hXn : ((X.subgroupOf N).map π).Normal := map_subgroupOf_normal π hπ hNX hXN
+  have hΛn : ((Λ.subgroupOf N).map π).Normal := map_subgroupOf_normal π hπ hNΛ hΛN
   have hσX : ((X.subgroupOf N).map π).map σ.toMonoidHom = (X.subgroupOf N).map π := by
     rw [himg_t X hXN, map_conj_eq_of_mem_normalizer htX]
   have hσΛ : ((Λ.subgroupOf N).map π).map σ.toMonoidHom =
@@ -435,8 +435,8 @@ theorem exists_perfect_commuting_factor_of_ambient [Finite G]
       rw [h]; exact hcF
     exact Nat.le_of_mul_le_mul_right this hZpos
   have hEhat : IsElementaryAbelian 2 ((E.subgroupOf N).map π) := by
-    haveI := hE
-    haveI := IsElementaryAbelian.subgroupOf (p := 2) (H := E) (K := N) hEN
+    have := hE
+    have := IsElementaryAbelian.subgroupOf (p := 2) (H := E) (K := N) hEN
     exact IsElementaryAbelian.map π
   obtain ⟨Ph, hPhn, hPh, hPhΛ, hPhX, hPhσ, hPhmax⟩ := exists_perfect_commuting_factor hK hm
     (X := (X.subgroupOf N).map π) (Λ := (Λ.subgroupOf N).map π)

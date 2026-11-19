@@ -88,7 +88,7 @@ private theorem not_three_dvd_of_isSL3EpsOver {Y : Type} [Group Y] {q : ℕ}
   · intro h3q
     obtain ⟨p, f, hp, rfl⟩ : ∃ p f : ℕ, p.Prime ∧ q = p ^ f := by
       obtain ⟨p, hp⟩ := CharP.exists F
-      letI : Fintype F := Fintype.ofFinite F
+      let : Fintype F := Fintype.ofFinite F
       obtain ⟨n, hpp, hn0⟩ := FiniteField.card F p
       have hn : Nat.card F = p ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hn0
       have hqd : q ∣ p ^ (n : ℕ) := by
@@ -96,7 +96,7 @@ private theorem not_three_dvd_of_isSL3EpsOver {Y : Type} [Group Y] {q : ℕ}
         exact Dvd.intro_left q (sq q).symm
       obtain ⟨f, -, hf⟩ := (Nat.dvd_prime_pow hpp).1 hqd
       exact ⟨p, f, hpp, hf⟩
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hq2 : (3, p ^ f) ≠ (3, 2) := fun hh => by
       have : p ^ f = 2 := (Prod.mk.inj hh).2
       omega
@@ -128,7 +128,7 @@ private theorem isD4Type_of_isD4Over {Y : Type} [Group Y] {q : ℕ} (h : IsD4Ove
     exact (Subgroup.map_center_eq e).trans hZ
   let e' : Y ⧸ Subgroup.center Y ≃* StatedProj (StatedOmega (StatedQuadPlus 4 F)) :=
     ((QuotientGroup.quotientMulEquivOfEq hZY).trans QuotientGroup.quotientBot).trans e
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨n, hp, hn0⟩ := FiniteField.card F (ringChar F)
   have hn : Nat.card F = (ringChar F) ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hn0
   refine ⟨ringChar F, n, ?_, ⟨⟨hp, n.pos, le_refl 4⟩, F, hF, hfin, hn, ⟨e'⟩⟩⟩

@@ -61,6 +61,7 @@ section Normalizer
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_mem_of_mem_normalizer {H : Subgroup G} {g x : G}
     (hg : g ∈ Subgroup.normalizer (H : Set G)) (hx : x ∈ H) : g * x * g⁻¹ ∈ H :=
   (Subgroup.mem_normalizer_iff.mp hg x).mp hx

@@ -40,7 +40,6 @@ private theorem ddMat_mul_uMat (x y : kˣ) (a b c d : k) :
   ext i j
   fin_cases i <;> fin_cases j <;> simp [ddMat, uMat, Matrix.mul_apply, Fin.sum_univ_four]
   all_goals first
-    | ring1
     | linear_combination (-((x : k) * a)) * hy
     | linear_combination (-((x : k) * b)) * hy
     | linear_combination (-((x : k) * c)) * hx
@@ -52,6 +51,7 @@ private theorem ddMat_mul_uMat (x y : kˣ) (a b c d : k) :
 @[expose] noncomputable def dd (x y : kˣ) : antiSp k :=
   ⟨⟨ddMat x y, ddMat x⁻¹ y⁻¹, ddMat_mul_inv x y, ddMat_inv_mul x y⟩, ddMat_mem x y⟩
 
+omit [CharP k 2] in
 theorem glMat_dd (x y : kˣ) : glMat ((dd x y : antiSp k) : GL (Fin 4) k) = ddMat x y := rfl
 
 theorem dd_conj_uElt (x y : kˣ) (a b c d : k) :
@@ -62,6 +62,7 @@ theorem dd_conj_uElt (x y : kˣ) (a b c d : k) :
   apply antiSp_ext
   exact ddMat_mul_uMat x y a b c d
 
+omit [CharP k 2] in
 private theorem dd_inv (x y : kˣ) : (dd x y)⁻¹ = dd x⁻¹ y⁻¹ :=
   antiSp_ext rfl
 
@@ -107,7 +108,7 @@ omit [CharP k 2] in
 private theorem exists_ne_zero_ne_one_sp4 [Finite k] (hk : 4 ≤ Nat.card k) :
     ∃ t : k, t ≠ 0 ∧ t ≠ 1 := by
   classical
-  haveI := Fintype.ofFinite k
+  have := Fintype.ofFinite k
   have hcard : ({0, 1} : Finset k).card < (Finset.univ : Finset k).card := by
     have h1 : ({0, 1} : Finset k).card ≤ 2 := Finset.card_le_two
     rw [Finset.card_univ, ← Nat.card_eq_fintype_card]

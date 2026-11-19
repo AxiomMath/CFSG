@@ -38,7 +38,7 @@ private theorem s16sm_B_alt : s16sm_form.IsAlt := by
       simp
     · have h1 : gramJ j l = -gramJ l j := by
         rw [s16sm_gramJ_symm, CharTwo.neg_eq]
-      rw [h1, if_neg (not_lt.mpr h.le), if_pos h]
+      rw [h1, ite_eq_right (not_lt.mpr h.le), ite_eq_left h]
       simp
   rw [Matrix.toBilin'_apply', hN, Matrix.sub_mulVec, dotProduct_sub, Matrix.mulVec_transpose,
     dotProduct_comm v (Matrix.vecMul v U), ← Matrix.dotProduct_mulVec, sub_self]
@@ -117,7 +117,7 @@ theorem s16sm_ker_le_one_nat {M : Type} [AddCommGroup M] [Module (ZMod 2) M] [Fi
     (hZ : ∀ g m, q m = 0 → ρ g m = m)
     (hperf : ∀ ψ : M →ₗ[ZMod 2] ZMod 2, (∀ g m, ψ (ρ g m) = ψ m) → ψ = 0) :
     Module.finrank (ZMod 2) (LinearMap.ker q) ≤ 1 := by
-  haveI : Finite (bilinIsometryGroup s16sm_form) :=
+  have : Finite (bilinIsometryGroup s16sm_form) :=
     Finite.of_injective s16sm_equiv.symm.toMonoidHom s16sm_equiv.symm.injective
   let ρ' : Representation (ZMod 2) (bilinIsometryGroup s16sm_form) M :=
     ρ.comp s16sm_equiv.symm.toMonoidHom

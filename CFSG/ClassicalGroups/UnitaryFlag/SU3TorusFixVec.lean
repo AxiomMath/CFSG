@@ -57,7 +57,7 @@ theorem norm_eq_one_of_mulVec_eq_smul {K : Type} [Field K] {n : ℕ}
       stdHermForm_smul_smul h b v v
   have hscale : stdHermForm h 3 (μ • v) (μ • v) =
       h.norm μ * stdHermForm h 3 v v := by
-    simp only [map_smulₛₗ, map_smul, LinearMap.smul_apply, smul_eq_mul,
+    simp only [map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul,
       RingHom.id_apply, UnitaryFieldData.norm]
     ring
   have hscale_eq : h.norm μ * stdHermForm h 3 v v = stdHermForm h 3 v v := by
@@ -71,7 +71,7 @@ theorem norm_eq_one_of_mulVec_eq_smul {K : Type} [Field K] {n : ℕ}
 theorem eq_one_of_pow_sub_one_and_norm_eq_one {K : Type} [Field K] {n : ℕ}
     (h : UnitaryFieldData 2 n K) {μ : K}
     (hpow : μ ^ (2 ^ n - 1) = 1) (hnorm : h.norm μ = 1) : μ = 1 := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hμ_bar : h.bar μ * μ = 1 := by
     rw [mul_comm]
     simpa [UnitaryFieldData.norm] using hnorm
@@ -107,7 +107,7 @@ theorem torus_fixes_of_eigenvector {K : Type} [Field K] {n : ℕ}
         ∃ c : K, w = c • v) :
     ∀ b ∈ T, ((b : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K).mulVec v = v := by
   classical
-  haveI : IsMulCommutative T := hTc
+  have : IsMulCommutative T := hTc
   have hv0 : v ≠ 0 := by
     rintro rfl
     exact hvv (by simp)
@@ -162,8 +162,8 @@ theorem exists_fixVec_isL2_of_torus {K : Type} [Field K] [Finite K] {n : ℕ}
   have hcard_gt : 1 < Nat.card T := by
     rw [hT]
     omega
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Nontrivial T := Finite.one_lt_card_iff_nontrivial.mp hcard_gt
+  have : Finite T := Nat.finite_of_card_ne_zero (by omega)
+  have : Nontrivial T := Finite.one_lt_card_iff_nontrivial.mp hcard_gt
   obtain ⟨aT, haT⟩ := exists_ne (1 : T)
   have ha_ne : (aT : StatedSU 3 (2 ^ n) K) ≠ 1 := by
     intro h1

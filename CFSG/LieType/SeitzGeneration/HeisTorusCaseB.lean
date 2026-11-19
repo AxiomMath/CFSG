@@ -61,13 +61,13 @@ theorem caseB_sparse_zero_of_not_mem [NeZero p] {z₁ m₁ m₂ : Fin p} (hz₁ 
   have e4 : finRotate p (finRotate p a) ≠ z₁ :=
     fun h => ha1 (hρ ((hρ (h.trans hz₁.symm)).trans hm₁.symm))
   refine ⟨?_, ?_⟩
-  · rw [caseB_sparse_apply, if_neg ha0, if_neg e1, if_neg e2]
+  · rw [caseB_sparse_apply, ite_eq_right ha0, ite_eq_right e1, ite_eq_right e2]
     simp
-  · rw [caseB_sparse_apply, if_neg haz, if_neg e3, if_neg e4]
+  · rw [caseB_sparse_apply, ite_eq_right haz, ite_eq_right e3, ite_eq_right e4]
     simp
 
 theorem caseB_torus_mem {K : Subgroup (SpecialLinearGroup (Fin p) F)} (hK : ContainsDiagTorus K)
-    {l : F} (hl : l ≠ 0) {x m : Fin p} (hxm : x ≠ m) :
+    {l : F} (hl : l ≠ 0) {x m : Fin p} (_hxm : x ≠ m) :
     ∃ g ∈ K, (g : Matrix (Fin p) (Fin p) F) =
       diagonal (fun i => (if i = x then l else 1) * (if i = m then l⁻¹ else 1)) := by
   have hdet : (diagonal fun i : Fin p =>
@@ -133,9 +133,9 @@ theorem caseB_inv_not_vanish [NeZero p] {E : Matrix (Fin p) (Fin p) F}
   have r0 := hrec 0 0
   have r2 := hrec 0 z₂
   have r3 := hrec 0 m₁
-  rw [hz₁, hz₂, if_pos rfl] at r0
-  rw [hz₁, hz₂, if_neg (Ne.symm hz₂0)] at r2
-  rw [hz₁, hz₂, if_neg (Ne.symm hm₁0)] at r3
+  rw [hz₁, hz₂, ite_eq_left rfl] at r0
+  rw [hz₁, hz₂, ite_eq_right (Ne.symm hz₂0)] at r2
+  rw [hz₁, hz₂, ite_eq_right (Ne.symm hm₁0)] at r3
   have : (1 : F) = 0 := by
     linear_combination (-1 : F) * r0 + r3 + r2 + e10 + e20 - e22 - e11 - e2m - e1m' - h3 - h1 - h2
   exact one_ne_zero this
@@ -186,7 +186,7 @@ theorem exists_range_mem_caseB [Fact p.Prime] (hp : 7 ≤ p) [CharP F 2] {ζ : F
     ∃ x ∈ K, ∃ I : Finset (Fin p),
       (∀ a b, a ∉ I → ((x : Matrix (Fin p) (Fin p) F) - 1) a b = 0) ∧ 2 ≤ Iᶜ.card ∧
       ∃ j ∉ I, ((x : Matrix (Fin p) (Fin p) F) - 1) *ᵥ Pi.single j 1 ≠ 0 := by
-  haveI : NeZero p := ⟨by omega⟩
+  have : NeZero p := ⟨by omega⟩
   have hζ0 : ζ ≠ 0 := hζ.ne_zero (by omega)
   have hζ1 : ζ ≠ 1 := hζ.ne_one (by omega)
   obtain ⟨z₁, z₂, m₁, m₂, m₃, hz₁, hz₂, hm₃, hm₂, hm₁, hz₁0, hz₂0, hm₁0, hz₂I, hm₃I, hz₂m₃⟩ :=
@@ -239,7 +239,7 @@ theorem exists_range_mem_caseB [Fact p.Prime] (hp : 7 ≤ p) [CharP F 2] {ζ : F
     calc 2 = ({z₂, m₃} : Finset (Fin p)).card := (Finset.card_pair hz₂m₃).symm
       _ ≤ _ := Finset.card_le_card hsub
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hcol : ∀ j, ((dl : Matrix (Fin p) (Fin p) F) * (sl : Matrix (Fin p) (Fin p) F) * E - 1) *ᵥ
         Pi.single j 1 = 0 → E 0 j = 0 ∧ E z₁ j = 0 := by
       intro j hj
@@ -311,7 +311,7 @@ theorem caseB_isolate_of_range (hp : 5 ≤ p) {l : F} (hl0 : l ≠ 0) (hl1 : l �
       exact hab (by rw [hzI b hb, inv_one, sub_self, mul_zero])
   obtain ⟨a₀, ha₀⟩ : ∃ a₀, ((x : Matrix (Fin p) (Fin p) F) - 1) a₀ j ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     apply hjne
     ext a
     simpa using h a

@@ -55,6 +55,7 @@ theorem comp_isSylowOf_inf (hP : IsSylowOf 3 P ⊤) {L : Subgroup G}
   CFSG.GH74.GLS.Stage2.Final.Thm6.I414.isSylowOf_inf_of_isSubnormal hP
     (CFSG.Goldschmidt.G310.isSubnormal_of_isComponentOf hL)
 
+omit [Finite G] in
 theorem comp_isCatalogGroup (hK : CFSG.Open.IsKGroup G) {L : Subgroup G}
     (hL : CFSG.Open.IsComponentOf L ⊤) :
     CFSG.Open.IsCatalogGroup (↥L ⧸ Subgroup.center ↥L) :=
@@ -65,9 +66,9 @@ theorem comp_sylow_not_commutative {L T : Subgroup G} (hq : CFSG.Open.IsQuasisim
     (h3 : IsPGroup 3 (Subgroup.center ↥L)) (hz : Subgroup.center ↥L ≠ ⊥)
     (hT : IsSylowOf 3 T L) : ¬ IsMulCommutative ↥T := by
   intro hcomm
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ : ∃ Q : Sylow 3 ↥L, (Q : Subgroup ↥L).map L.subtype = T := hT
-  haveI hQc : IsMulCommutative (Q : Subgroup ↥L) := by
+  have hQc : IsMulCommutative (Q : Subgroup ↥L) := by
     refine ⟨⟨fun x y => ?_⟩⟩
     have hx : L.subtype (x : ↥L) ∈ T := hQ ▸ Subgroup.mem_map_of_mem L.subtype x.2
     have hy : L.subtype (y : ↥L) ∈ T := hQ ▸ Subgroup.mem_map_of_mem L.subtype y.2
@@ -91,7 +92,7 @@ theorem exists_elemAbelian_nine {T : Subgroup G} (hT : IsPGroup 3 ↥T)
     (fun hc => hnc (@IsCyclic.isMulCommutative _ _ hc))
 
 theorem pRank_top_le_three (h : Hyp326 G n P) : CFSG.Open.pRank 3 (⊤ : Subgroup G) ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ew⟩ := h.wr
   have hsyl : ¬ 3 ∣ P.index := by
     have h3 := ((CFSG.ABGLocalTools.isSylowOf_iff (p := 3) (P := P) (K := ⊤)).1 h.sylow).2.2

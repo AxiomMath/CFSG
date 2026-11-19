@@ -314,7 +314,7 @@ theorem false_of_klein_four_centralizing_a {u v : G} (hu : u ^ 2 = 1) (hv : v ^ 
   set TG : Subgroup G := (T : Subgroup ↥Ca).map Ca.subtype with hTG
   have hTGcard : Nat.card TG = 8 := by
     rw [hTG, Subgroup.card_map_of_injective Ca.subtype_injective]; exact hT8
-  have hTG2 : IsPGroup 2 TG := T.isPGroup'.map Ca.subtype
+  have hTG2 : IsPGroup 2 TG := T.isPGroup.map Ca.subtype
   have hTGa : ∀ t ∈ TG, t * (c.a : G) = (c.a : G) * t := by
     rintro _ ⟨t, -, rfl⟩
     exact Subgroup.mem_centralizer_singleton_iff.mp t.2
@@ -641,7 +641,7 @@ theorem two_dvd_card_ocl_a
   have hTGa : ∀ t ∈ TG, t * (c.a : G) = (c.a : G) * t := by
     rintro _ ⟨t, -, rfl⟩
     exact Subgroup.mem_centralizer_singleton_iff.mp t.2.2
-  have hTG2 : IsPGroup 2 TG := T.isPGroup'.map _
+  have hTG2 : IsPGroup 2 TG := T.isPGroup.map _
   have hTGcard : Nat.card TG = 2 ^ (Nat.card Ca').factorization 2 := by
     rw [hTG, Subgroup.card_map_of_injective Ca'.subtype_injective, T.card_eq_multiplicity]
   have hdvd8 : Nat.card TG ∣ 8 := by
@@ -745,7 +745,7 @@ theorem exists_sylow_three_NG
   have hW₁card : Nat.card W₁ = 3 ^ 6 := by
     rw [hW₁, Subgroup.card_map_of_injective Ca'.subtype_injective, W₀.card_eq_multiplicity, hf3]
   have hW₁NG : W₁ ≤ c.NG := (Subgroup.map_subtype_le _).trans hCa'NG
-  have hW₁p : IsPGroup 3 W₁ := W₀.isPGroup'.map _
+  have hW₁p : IsPGroup 3 W₁ := W₀.isPGroup.map _
   have hW₁' : IsPGroup 3 (W₁.subgroupOf c.NG) :=
     hW₁p.of_equiv (Subgroup.subgroupOfEquivOfLe hW₁NG).symm
   obtain ⟨W₂, hW₂⟩ := hW₁'.exists_le_sylow
@@ -758,7 +758,7 @@ theorem exists_sylow_three_NG
     intro y hy
     exact ⟨⟨y, hW₁NG hy⟩, hW₂ (Subgroup.mem_subgroupOf.mpr hy), rfl⟩
   have hWeq : W₁ = W := Subgroup.eq_of_le_of_card_ge hWle (by rw [hWcard, hW₁card])
-  refine ⟨W, W₂.isPGroup'.map _, hWcard, ?_, Subgroup.map_subtype_le _, ?_, ?_⟩
+  refine ⟨W, W₂.isPGroup.map _, hWcard, ?_, Subgroup.map_subtype_le _, ?_, ?_⟩
   ·
     have hOn : (c.OG.subgroupOf c.NG).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer c.OG_le_NG).mpr (le_refl _)

@@ -27,7 +27,7 @@ private theorem eight_dvd_sq_sub_one_L3B2a {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤
   have hodd : p % 2 = 1 := Nat.odd_iff.mp (hp.odd_of_ne_two (by omega))
   have h8 : p ^ 2 % 8 = 1 := by
     have hr : p % 8 = 1 ∨ p % 8 = 3 ∨ p % 8 = 5 ∨ p % 8 = 7 := by omega
-    rcases hr with hr | hr | hr | hr <;> rw [Nat.pow_mod, hr] <;> norm_num
+    rcases hr with hr | hr | hr | hr <;> rw [Nat.pow_mod, hr]
   have hpos : 0 < p ^ 2 := by positivity
   generalize p ^ 2 = q at h8 hpos ⊢
   omega
@@ -102,9 +102,9 @@ theorem exists_involution_of_sylow_normalizes {G : Type} [Group G] [Finite G] {N
     (hSc : ¬ S ≤ Subgroup.centralizer ({y} : Set G)) :
     ∃ z ∈ S, orderOf z = 2 ∧ Commute z y ∧ (∀ s ∈ S, Commute s z) ∧ y ∈ leviOfL3 N z := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS2 : IsPGroup 2 ↥S := hS.2.1
-  haveI : Group.IsNilpotent ↥S := IsPGroup.isNilpotent hS2
+  have : Group.IsNilpotent ↥S := IsPGroup.isNilpotent hS2
   let φ : ↥S →* MulAut (Subgroup.zpowers y) :=
     (Subgroup.normalizerMonoidHom (Subgroup.zpowers y)).comp (Subgroup.inclusion hSy)
   have hidx : φ.ker.index ≤ 4 := by
@@ -167,7 +167,7 @@ theorem exists_involution_of_sylow_normalizes {G : Type} [Group G] [Finite G] {N
   have hzc : ∀ s ∈ S, Commute s ((w : ↥S) : G) := by
     intro s hs
     exact congrArg Subtype.val (Subgroup.mem_center_iff.mp hwc ⟨s, hs⟩)
-  obtain ⟨s, hsS, hsnc⟩ := SetLike.not_le_iff_exists.mp hSc
+  obtain ⟨s, hsS, hsnc⟩ := IsConcreteLE.not_le_iff_exists.mp hSc
   have hsY : s * y * s⁻¹ ∈ Subgroup.zpowers y :=
     (Subgroup.mem_normalizer_iff.mp (hSy hsS) y).mp (Subgroup.mem_zpowers y)
   have hcY : s * y * s⁻¹ * y⁻¹ ∈ Subgroup.zpowers y :=

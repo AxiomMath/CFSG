@@ -31,8 +31,8 @@ private lemma he42s7_orderOf_two {Γ : Type} [Group Γ] {x : Γ} (hx2 : x * x = 
 
 private lemma he42s7_not_solvable_alt5 : ¬ Group.IsSolvable ↥(alternatingGroup (Fin 5)) := by
   have h5 : 5 ≤ Nat.card (Fin 5) := by simp
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup h5
-  haveI : Group.IsPerfect ↥(alternatingGroup (Fin 5)) :=
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup h5
+  have : Group.IsPerfect ↥(alternatingGroup (Fin 5)) :=
     Subgroup.isPerfect_iff.2 (commutator_alternatingGroup_eq_self h5)
   exact Group.IsPerfect.not_isSolvable _
 
@@ -180,7 +180,7 @@ theorem HeSetup.centralizer_le_L
   let eH : (↥S.L ⧸ Subgroup.center ↥S.L) ≃* ↥H :=
     he42s7_quot_mulEquiv φ hφsurj (Subgroup.center ↥S.L) hφker
   have hsimple : IsSimpleGroup ↥H := by
-    haveI := CFSG.Quasithin.A94.He42SE.typeL34_isSimpleGroup hmain.2
+    have := CFSG.Quasithin.A94.He42SE.typeL34_isSimpleGroup hmain.2
     exact eH.symm.isSimpleGroup
   have hcls : ∀ j ∈ H, j * j = 1 → j ≠ 1 → ∃ h ∈ H, h * i * h⁻¹ = j := by
     intro j hjH hj2 hj1
@@ -287,7 +287,7 @@ theorem HeSetup.centralizer_le_L
     rw [Subgroup.mem_normalizer_iff]
     intro x
     have hx := hn (x : G)
-    simp only [SetLike.mem_coe, Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
+    simp only [Subgroup.mem_subgroupOf, Subgroup.coe_mul, Subgroup.coe_inv]
     exact hx
   have hWU : W ≤ normalizer (U : Set (↥M ⧸ S.B.subgroupOf M)) := by
     rw [hWdef, hUdef]

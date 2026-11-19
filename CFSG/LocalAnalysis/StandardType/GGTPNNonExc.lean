@@ -130,9 +130,9 @@ theorem ggNonExc_core
     {X : Type} [Group X] [Finite X] {p n : ℕ} {A Ab : Subgroup (MulAut X)} {σ : MulAut X}
     {J : Subgroup X} (hp : p.Prime) (hp2 : p ≠ 2)
     (hd : GGTPNDatumB p n (fun _ _ => True) A Ab σ J) {labJ labX : LargeEvenLabel}
-    (hΛJ : LargeEvenInLambda2 labJ) (hΛX : LargeEvenInLambda2 labX)
+    (_hΛJ : LargeEvenInLambda2 labJ) (hΛX : LargeEvenInLambda2 labX)
     (hnotcl : ¬ GGTPNClTag labX.tag) (hnotex : ¬ GGTPNExcTag labX.tag)
-    (hhJ : GGHasLabel labJ (↥J ⧸ Subgroup.center ↥J))
+    (_hhJ : GGHasLabel labJ (↥J ⧸ Subgroup.center ↥J))
     (hhX : GGHasLabel labX (X ⧸ Subgroup.center X)) : False := by
   obtain ⟨t, r, nn⟩ := labX
   have htag : t = .triD4 ∨ t = .G2 ∨ t = .twB2 ∨ t = .twF4 ∨ t = .B2der ∨ t = .G2der ∨

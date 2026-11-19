@@ -20,7 +20,7 @@ private theorem scalar_transpose_mul_formJ_mul (c : Kˣ) :
         Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K) =
       ((c ^ 2 : Kˣ) : K) • formJ r K := by
   rw [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, ← Matrix.smul_one_eq_diagonal]
-  simp [Matrix.smul_mul, Matrix.mul_smul, smul_smul, sq]
+  simp [smul_smul, sq]
 
 private def scalarGsp (c : Kˣ) : gsp r K :=
   ⟨GeneralLinearGroup.scalar (Fin r ⊕ Fin r) c, c ^ 2, scalar_transpose_mul_formJ_mul c⟩

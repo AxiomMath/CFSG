@@ -34,7 +34,7 @@ theorem six_seven_two_zero_mul_center_le_of_isL3Kind {X : Type} [Group X] [Finit
   rcases h with hSL | ⟨W, hW, hWSL, ⟨f⟩⟩
   · obtain ⟨hZ3, hbig⟩ := sl3Eps_facts hSL
     omega
-  · haveI := isPerfect_of_sl3EpsOfChar hWSL
+  · have := isPerfect_of_sl3EpsOfChar hWSL
     have hc : Nat.card ↥(Subgroup.center X) = 1 := by
       rw [Nat.card_congr (Subgroup.centerCongr f).toEquiv,
         Group.IsPerfect.center_quotient_center_eq_bot W, Subgroup.card_bot]

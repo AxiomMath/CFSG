@@ -75,7 +75,7 @@ theorem isSolvable_centralizer_of_fusionBenderBorel {B : Type*} [Group B] [Finit
     rw [← hTDN]
     exact le_sup_right
   have hNs : Group.IsSolvable (normalizer ((T : Subgroup B) : Set B)) :=
-    isSolvable_of_sup_cyclic T.isPGroup' hTN hDN normal_in_normalizer hDc hTDN
+    isSolvable_of_sup_cyclic T.isPGroup hTN hDN normal_in_normalizer hDc hTDN
   exact Group.isSolvable_of_isSolvable_injective
     (Subgroup.inclusion_injective (centralizer_le_of_stronglyEmbedded hSE hx hxN))
 

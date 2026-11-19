@@ -24,8 +24,8 @@ theorem hinner_sp4 {K : Type} [Field K] [Finite K] {f : ℕ} (hf : 4 ≤ f)
       HyperGen 3 (⊤ : Subgroup (StatedProj (StatedSp 2 K))) E := by
   intro E hE hc
   exfalso
-  haveI : CharP K 2 := charP_two_of_card hK
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 2 := charP_two_of_card hK
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hinj : Function.Injective (proj 2 K) := proj_injective_sp hK (by omega) (by omega)
   have hker : ¬ 3 ∣ Nat.card (proj 2 K).ker := by
     have h1 : (proj 2 K).ker = ⊥ := (MonoidHom.ker_eq_bot_iff _).2 hinj
@@ -44,7 +44,7 @@ theorem hinner_sp4 {K : Type} [Field K] [Finite K] {f : ℕ} (hf : 4 ≤ f)
 
 theorem seitz27_sp4 {K : Type} [Field K] [Finite K] {f : ℕ} (hf : 4 ≤ f)
     (hK : Nat.card K = 2 ^ f) : Seitz27 (StatedProj (StatedSp 2 K)) := by
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   have hZ : Subgroup.center (StatedProj (StatedSp 2 K)) = ⊥ :=
     center_statedProj_statedSp_eq_bot (by omega)
   have hF : FieldAutData (StatedProj (StatedSp 2 K)) 3 := by

@@ -41,8 +41,8 @@ theorem goldschmidtYoshidaCount_holds :
   have hVcomm : IsMulCommutative V := hVe.1
   have huN : u ∈ Subgroup.normalizer (V : Set Y) := hV.le_normalizer huP
   have hu2 : u ^ 2 = 1 := sq_eq_one_of_mem_conjugate (V := V) hVe.2 k huk
-  haveI : IsMulCommutative V := hVcomm
-  haveI hV'c : IsMulCommutative (CFSG.conjugate V k) := by
+  have : IsMulCommutative V := hVcomm
+  have hV'c : IsMulCommutative (CFSG.conjugate V k) := by
     rw [CFSG.conjugate]; infer_instance
   have hV₀C : V₀ ≤ V ⊓ centralizer ({u} : Set Y) := by
     intro x hx

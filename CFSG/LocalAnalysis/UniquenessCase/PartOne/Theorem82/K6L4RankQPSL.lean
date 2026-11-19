@@ -20,10 +20,10 @@ theorem transvection_commute_diagonal {K : Type} [Field K] {i j : Fin 4} {d : Fi
   rw [Matrix.transvection, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply] at h
   by_cases hab : a = b
   · rw [hab]
-  · rw [if_neg hab, zero_add] at h
+  · rw [ite_eq_right hab, zero_add] at h
     by_cases hij' : i = a ∧ j = b
     · rw [← hij'.1, hd, ← hij'.2]
-    · rw [if_neg hij'] at h
+    · rw [ite_eq_right hij'] at h
       exact absurd rfl h
 
 theorem exists_statedSL_rootGroup {K : Type} [Field K] {i j : Fin 4} (hij : i ≠ j) :
@@ -61,8 +61,8 @@ theorem le_pRank_centralizer_stdDiagHomH_sl {K : Type} [Field K] [Finite K] {r f
     (hS : ∀ v ∈ S, Multiplicative.toAdd v i = Multiplicative.toAdd v j) :
     f ≤ CFSG.Open.pRank r (Subgroup.centralizer (stdDiagHomH ζ hD '' S)) := by
   obtain ⟨φ, hφinj, hφd⟩ := exists_statedSL_rootGroup (K := K) hij
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP K r := CFSG.SectionRank.ClassicalOdd.charP_of_card (p := r) (f := f) hK
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP K r := CFSG.SectionRank.ClassicalOdd.charP_of_card (p := r) (f := f) hK
   refine le_pRank_centralizer_of_diag_commuting (K := K) (H := StatedSL 4 K)
     (p := r) (k := f) hr.one_lt (A := Multiplicative K) (fun a b => mul_comm a b)
     (fun a : Multiplicative K =>
@@ -84,7 +84,7 @@ theorem diagUnit_mem_statedSL {K : Type} [Field K] (x y : Kˣ) :
       Matrix (Fin 4) (Fin 4) K) =
       Matrix.diagonal (fun k => (![x, x⁻¹, y, y⁻¹] k : K)) from rfl, Matrix.det_diagonal,
     Fin.prod_univ_four]
-  simp [Units.val_mul]
+  simp
 
 theorem two_le_pRank_centralizer_stdDiagHomH_univ_sl {K : Type} [Field K] [Finite K] {p : ℕ}
     (hp : p.Prime) (hpK : p ∣ Nat.card K - 1) (ζ : CubeRoot K) (hD : D₀ ζ ≤ StatedSL 4 K) :

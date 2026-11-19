@@ -16,7 +16,7 @@ variable {n r ε p : ℕ} {K : Type} [Field K]
 private theorem splitEntries_add {ζ : K} (hp : p.Prime) (hpow : ζ ^ p = 1)
     (t t' : Fin r → ZMod p) :
     splitEntries (ε := ε) ζ (t + t') = splitEntries ζ t * splitEntries ζ t' := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   funext x
   rcases x with i | k | i
   · simp only [splitEntries, Pi.add_apply, Pi.mul_apply, ZMod.val_add]
@@ -29,7 +29,7 @@ theorem exists_isSplitTorus (h : UnitaryFieldData 2 n K) (hp : p.Prime) {ζ : K}
     (hbar : h.bar ζ = ζ) :
     ∃ τ : Multiplicative (Fin r → ZMod p) →* hypSU h r ε, IsSplitTorus h ζ τ := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hbar_pow : ∀ m : ℕ, h.bar (ζ ^ m) = ζ ^ m := fun m => by rw [map_pow, hbar]
   have hζ0 : ζ ≠ 0 := by
     intro h0
@@ -110,10 +110,10 @@ private theorem weylPerm_swapSet_singleton_eq_self_of_notMem {m : Fin r} {b : Hy
     (hb : b ∉ lineCoords (ε := ε) m) : weylPerm (ε := ε) (swapSet {m}) b = b := by
   rcases b with i | k | i
   · have hi : i ≠ m := fun h => hb (by simp [lineCoords, h])
-    rw [weylPerm_swapSet_singleton_inl, if_neg hi]
+    rw [weylPerm_swapSet_singleton_inl, ite_eq_right hi]
   · exact weylPerm_inr_inl _ _
   · have hi : i ≠ m := fun h => hb (by simp [lineCoords, h])
-    rw [weylPerm_swapSet_singleton_inr_inr, if_neg hi]
+    rw [weylPerm_swapSet_singleton_inr_inr, ite_eq_right hi]
 
 private theorem weylPerm_swapSet_singleton_mem_of_mem {m : Fin r} {b : HypIndex r ε}
     (hb : b ∈ lineCoords (ε := ε) m) :
@@ -169,7 +169,7 @@ private theorem coe_pairWeyl (h : UnitaryFieldData 2 n K) (i j : Fin r) :
   · rw [CFSG.RankThree.CentralLiftU.swapIdx_inl]
     simp only [Sum.inl.injEq, blk3_inl_inl]
     rw [hP]
-    simp [Equiv.apply_eq_iff_eq_symm_apply, Equiv.symm_swap]
+    simp [← _root_.Equiv.eq_symm_apply, Equiv.symm_swap]
   · rw [CFSG.RankThree.CentralLiftU.swapIdx_z]
     simp [blk3_inl_inr_inl]
   · rw [CFSG.RankThree.CentralLiftU.swapIdx_inr]
@@ -187,7 +187,7 @@ private theorem coe_pairWeyl (h : UnitaryFieldData 2 n K) (i j : Fin r) :
   · rw [CFSG.RankThree.CentralLiftU.swapIdx_inr]
     simp only [Sum.inr.injEq, blk3_inr_inr_inr_inr]
     rw [hP]
-    simp [Equiv.apply_eq_iff_eq_symm_apply, Equiv.symm_swap]
+    simp [← _root_.Equiv.eq_symm_apply, Equiv.symm_swap]
 
 private theorem pairWeyl_eq_leviSU (h : UnitaryFieldData 2 n K) (i j : Fin r) [CharP K 2] :
     leviSU h ε (CFSG.StandardType.TypeA.permSL (Equiv.swap i j)) = pairWeyl h ε i j := by
@@ -217,7 +217,7 @@ private theorem pairWeyl_eq_leviSU (h : UnitaryFieldData 2 n K) (i j : Fin r) [C
 
 theorem pairWeyl_mem_pairBlock (h : UnitaryFieldData 2 n K) (i j : Fin r) :
     pairWeyl h ε i j ∈ pairBlock h ε i j := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have hmem : CFSG.StandardType.TypeA.permSL (Equiv.swap i j) ∈
       CFSG.RankThree.CALinearPlane.coordBlockSL K ({i, j} : Finset (Fin r)) :=
     CFSG.StandardType.TypeA.permSL_mem_coordBlockSL
@@ -229,7 +229,7 @@ theorem lineWeyl_conj (h : UnitaryFieldData 2 n K) (hp : p.Prime) {ζ : K} (hζ 
     (t : Fin r → ZMod p) :
     lineWeyl h ε m * τ (ofAdd t) * (lineWeyl h ε m)⁻¹ =
       τ (ofAdd (SlNsRootGen.negMap m t)) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hW : (((lineWeyl h ε m : hypSU h r ε) : GL (HypIndex r ε) K) :
       Matrix (HypIndex r ε) (HypIndex r ε) K) = weylMat h 1 (swapSet {m}) :=
     coe_weylElt h (one_mem_traceZero h) one_ne_zero (swapSet_mem_hypWeyl {m})
@@ -250,17 +250,17 @@ theorem lineWeyl_conj (h : UnitaryFieldData 2 n K) (hp : p.Prime) {ζ : K} (hζ 
   rcases a with i | k | i
   · by_cases hi : i = m
     · subst hi
-      rw [weylPerm_swapSet_singleton_inl, if_pos rfl]
-      simp [splitEntries, SlNsRootGen.negMap, Function.update_apply, hypEntries_neg hp hζ]
-    · rw [weylPerm_swapSet_singleton_inl, if_neg hi]
-      simp [splitEntries, SlNsRootGen.negMap, Function.update_apply, hi]
+      rw [weylPerm_swapSet_singleton_inl, ite_eq_left rfl]
+      simp [splitEntries, SlNsRootGen.negMap, hypEntries_neg hp hζ]
+    · rw [weylPerm_swapSet_singleton_inl, ite_eq_right hi]
+      simp [splitEntries, SlNsRootGen.negMap, hi]
   · simp [splitEntries]
   · by_cases hi : i = m
     · subst hi
-      rw [weylPerm_swapSet_singleton_inr_inr, if_pos rfl]
-      simp [splitEntries, SlNsRootGen.negMap, Function.update_apply, hypEntries_neg hp hζ]
-    · rw [weylPerm_swapSet_singleton_inr_inr, if_neg hi]
-      simp [splitEntries, SlNsRootGen.negMap, Function.update_apply, hi]
+      rw [weylPerm_swapSet_singleton_inr_inr, ite_eq_left rfl]
+      simp [splitEntries, SlNsRootGen.negMap, hypEntries_neg hp hζ]
+    · rw [weylPerm_swapSet_singleton_inr_inr, ite_eq_right hi]
+      simp [splitEntries, SlNsRootGen.negMap, hi]
 
 theorem pairWeyl_conj (h : UnitaryFieldData 2 n K) {ζ : K}
     {τ : Multiplicative (Fin r → ZMod p) →* hypSU h r ε} (hτ : IsSplitTorus h ζ τ) (i j : Fin r)

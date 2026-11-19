@@ -17,6 +17,7 @@ section Decomp
 variable {K Y : Type} [Group K] [Group Y] [Finite K] [Finite Y] {D : UniversalRootDatum K}
   {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {π : K →* Y} {M : ℕ}
 
+omit [Finite K] [Finite Y] in
 theorem exists_radical_decomp (h : BorelQuotient D n H π M) {J : Subgroup Y}
     (hBJ : (borel D H).map π ≤ J) (N : Set (Fin D.rank))
     (hJeq : J = (borel D H).map π ⊔ ⨆ i ∈ N, (rankOne D.rootGroup i).map π)

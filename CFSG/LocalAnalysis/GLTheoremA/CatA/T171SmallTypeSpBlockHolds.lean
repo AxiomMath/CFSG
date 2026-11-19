@@ -22,7 +22,7 @@ open scoped commutatorElement
 variable {n : ℕ}
 
 private theorem fixSp_eq_orthogonal_comSp
-    (hB : (CFSG.LargeExtraspecial.DW.spB n (ZMod 2)).IsAlt)
+    (_hB : (CFSG.LargeExtraspecial.DW.spB n (ZMod 2)).IsAlt)
     (hBn : (CFSG.LargeExtraspecial.DW.spB n (ZMod 2)).Nondegenerate)
     {y : SpV n ≃ₗ[ZMod 2] SpV n}
     (hy : y ∈ linIsometryGroup (CFSG.LargeExtraspecial.DW.spB n (ZMod 2)))
@@ -66,8 +66,8 @@ private theorem restrict_comSp_nondegenerate
     hcompl
 
 private theorem finrank_comSp_eq_two
-    (hB : (CFSG.LargeExtraspecial.DW.spB n (ZMod 2)).IsAlt)
-    (hBn : (CFSG.LargeExtraspecial.DW.spB n (ZMod 2)).Nondegenerate)
+    (_hB : (CFSG.LargeExtraspecial.DW.spB n (ZMod 2)).IsAlt)
+    (_hBn : (CFSG.LargeExtraspecial.DW.spB n (ZMod 2)).Nondegenerate)
     (A : Subgroup (SpV n ≃ₗ[ZMod 2] SpV n)) [Fintype A] [Fintype (SpNonzeroBlock A)]
     (hAe : IsElemAbelian 3 A) (D0 : SpNonzeroBlock A)
     (hD0 : Module.finrank (ZMod 2) (blockSpace A D0.1.1) = 2)
@@ -116,9 +116,9 @@ theorem spOneBlock_holds : SpOneBlock := by
   let A : Subgroup (SpV n ≃ₗ[ZMod 2] SpV n) := Bb.map (linHom n)
   have hB : B.IsAlt := fun x => CFSG.LargeExtraspecial.DW.spB_self x
   have hBn : B.Nondegenerate := CFSG.LocalAnalysis.GLTheoremA.CatB.spB_nondegenerate n
-  haveI : Finite (SpV n ≃ₗ[ZMod 2] SpV n) := CFSG.LargeExtraspecial.O62.finite_linearEquiv
-  haveI : Fintype A := Fintype.ofFinite _
-  haveI : Fintype (SpNonzeroBlock A) := Fintype.ofFinite _
+  have : Finite (SpV n ≃ₗ[ZMod 2] SpV n) := CFSG.LargeExtraspecial.O62.finite_linearEquiv
+  have : Fintype A := Fintype.ofFinite _
+  have : Fintype (SpNonzeroBlock A) := Fintype.ofFinite _
   have hAe : IsElemAbelian 3 A := h.elem.map (linHom n)
   obtain ⟨D0, hD0, hcardblocks⟩ := exists_plane_block_of_smallModel hn4 hn5 Bb h
   obtain ⟨T, hT2, hTne, hTnorm⟩ := h.twoLocal

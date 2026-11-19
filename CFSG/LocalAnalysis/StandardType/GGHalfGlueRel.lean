@@ -58,12 +58,13 @@ theorem s0_u : sZero φ₁ * uElt φ₂ * (sZero φ₁)⁻¹ = uElt φ₂ := by
   refine weylRep_conj_omegaBlock_of_fixed (n := m + 1 + 1)
     (⟨0, by omega⟩ : Fin (m + 1 + 1)) (⟨2, by omega⟩ : Fin (m + 1 + 1)) ?_ ?_
   · apply Equiv.swap_apply_of_ne_of_ne
-    · apply Fin.ne_of_val_ne; simp only [Fin.val_castSucc, Fin.val_mk]; omega
-    · apply Fin.ne_of_val_ne; simp only [Fin.val_castSucc, Fin.val_succ, Fin.val_mk]; omega
+    · apply Fin.ne_of_val_ne; simp only [Fin.val_castSucc]; omega
+    · apply Fin.ne_of_val_ne; simp only [Fin.val_castSucc, Fin.val_succ]; omega
   · apply Equiv.swap_apply_of_ne_of_ne
-    · apply Fin.ne_of_val_ne; simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_mk]; omega
-    · apply Fin.ne_of_val_ne; simp only [Fin.val_succ, Fin.val_mk]; omega
+    · apply Fin.ne_of_val_ne; simp only [Fin.val_succ, Fin.val_castSucc]; omega
+    · apply Fin.ne_of_val_ne; simp only [Fin.val_succ]; omega
 
+omit [Finite G] h in
 theorem s0_v : sZero φ₁ * vElt φ₁ * (sZero φ₁)⁻¹ = (vElt φ₁)⁻¹ := by
   rw [sZero, vElt, map_conj, ← map_inv]
   congr 1
@@ -88,7 +89,7 @@ theorem g_v : gElt φ₁ * vElt φ₁ * (gElt φ₁)⁻¹ = uElt φ₂ := by
     have hy2 : ((⟨2, by omega⟩ : Fin (m + 1 + 1)).castSucc : Fin (m + 1 + 1 + 1)) =
         (2 : Fin (m + 1 + 1 + 1)) := by
       apply Fin.ext
-      simp only [Fin.val_castSucc, Fin.val_mk, fin_two_val]
+      simp only [Fin.val_castSucc, fin_two_val]
     have hv0 : (0 : Fin (m + 1 + 1 + 1)).val = 0 := Fin.val_zero _
     have hv1 : (1 : Fin (m + 1 + 1 + 1)).val = 1 := Fin.val_one _
     have hv3 : (3 : Fin (m + 1 + 1 + 1)).val = 3 := fin_three_val m (by omega)
@@ -103,7 +104,7 @@ theorem g_v : gElt φ₁ * vElt φ₁ * (gElt φ₁)⁻¹ = uElt φ₂ := by
     have hy3 : ((⟨2, by omega⟩ : Fin (m + 1 + 1)).succ : Fin (m + 1 + 1 + 1)) =
         (3 : Fin (m + 1 + 1 + 1)) := by
       apply Fin.ext
-      simp only [Fin.val_succ, Fin.val_mk, fin_three_val m (by omega)]
+      simp only [Fin.val_succ, fin_three_val m (by omega)]
     have hv0 : (0 : Fin (m + 1 + 1 + 1)).val = 0 := Fin.val_zero _
     have hv2 : (2 : Fin (m + 1 + 1 + 1)).val = 2 := fin_two_val m
     have hv3 : (3 : Fin (m + 1 + 1 + 1)).val = 3 := fin_three_val m (by omega)
@@ -123,7 +124,7 @@ theorem g_u : gElt φ₁ * uElt φ₂ * (gElt φ₁)⁻¹ = vElt φ₁ := by
   · have hx2 : ((⟨2, by omega⟩ : Fin (m + 1 + 1)).castSucc : Fin (m + 1 + 1 + 1)) =
         (2 : Fin (m + 1 + 1 + 1)) := by
       apply Fin.ext
-      simp only [Fin.val_castSucc, Fin.val_mk, fin_two_val]
+      simp only [Fin.val_castSucc, fin_two_val]
     have hy0 : ((⟨0, by omega⟩ : Fin (m + 1 + 1)).castSucc : Fin (m + 1 + 1 + 1)) =
         (0 : Fin (m + 1 + 1 + 1)) := rfl
     have hv0 : (0 : Fin (m + 1 + 1 + 1)).val = 0 := Fin.val_zero _
@@ -139,7 +140,7 @@ theorem g_u : gElt φ₁ * uElt φ₂ * (gElt φ₁)⁻¹ = vElt φ₁ := by
   · have hx3 : ((⟨2, by omega⟩ : Fin (m + 1 + 1)).succ : Fin (m + 1 + 1 + 1)) =
         (3 : Fin (m + 1 + 1 + 1)) := by
       apply Fin.ext
-      simp only [Fin.val_succ, Fin.val_mk, fin_three_val m (by omega)]
+      simp only [Fin.val_succ, fin_three_val m (by omega)]
     have hy1 : ((⟨0, by omega⟩ : Fin (m + 1 + 1)).succ : Fin (m + 1 + 1 + 1)) =
         (1 : Fin (m + 1 + 1 + 1)) := rfl
     have hv0 : (0 : Fin (m + 1 + 1 + 1)).val = 0 := Fin.val_zero _
@@ -167,12 +168,13 @@ theorem sk_u : endT₂ φ₂ * uElt φ₂ * (endT₂ φ₂)⁻¹ = uElt φ₂ :=
   refine weylRep_conj_omegaBlock_of_fixed (n := m + 1 + 1)
     (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)) (⟨0, by omega⟩ : Fin (m + 1 + 1)) ?_ ?_
   · apply Equiv.swap_apply_of_ne_of_ne
-    · apply Fin.ne_of_val_ne; simp only [Fin.val_castSucc, Fin.val_mk]; omega
-    · apply Fin.ne_of_val_ne; simp only [Fin.val_castSucc, Fin.val_succ, Fin.val_mk]; omega
+    · apply Fin.ne_of_val_ne; simp only [Fin.val_castSucc]; omega
+    · apply Fin.ne_of_val_ne; simp only [Fin.val_castSucc, Fin.val_succ]; omega
   · apply Equiv.swap_apply_of_ne_of_ne
-    · apply Fin.ne_of_val_ne; simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_mk]; omega
-    · apply Fin.ne_of_val_ne; simp only [Fin.val_succ, Fin.val_mk]; omega
+    · apply Fin.ne_of_val_ne; simp only [Fin.val_succ, Fin.val_castSucc]; omega
+    · apply Fin.ne_of_val_ne; simp only [Fin.val_succ]; omega
 
+omit [Finite G] h in
 theorem sk_w : endT₂ φ₂ * wElt φ₂ * (endT₂ φ₂)⁻¹ = (wElt φ₂)⁻¹ := by
   rw [endT₂, wElt, map_conj, ← map_inv]
   congr 1
@@ -198,7 +200,7 @@ theorem h_u : hElt φ₂ * uElt φ₂ * (hElt φ₂)⁻¹ = wElt φ₂ := by
     have hlast : (Fin.last (m + 1)).castSucc =
         ((⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).castSucc : Fin (m + 1 + 1 + 1)) := by
       apply Fin.ext
-      simp only [Fin.val_castSucc, Fin.val_last, Fin.val_mk]
+      simp only [Fin.val_castSucc, Fin.val_last]
     have hv0 : (0 : Fin (m + 1 + 1 + 1)).val = 0 := Fin.val_zero _
     have hv1 : (1 : Fin (m + 1 + 1 + 1)).val = 1 := Fin.val_one _
     rw [tauPerm, Equiv.Perm.mul_apply, hx0]
@@ -213,7 +215,7 @@ theorem h_u : hElt φ₂ * uElt φ₂ * (hElt φ₂)⁻¹ = wElt φ₂ := by
     have hlast : (Fin.last (m + 1 + 1) : Fin (m + 1 + 1 + 1)) =
         ((⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).succ : Fin (m + 1 + 1 + 1)) := by
       apply Fin.ext
-      simp only [Fin.val_last, Fin.val_succ, Fin.val_mk]
+      simp only [Fin.val_last, Fin.val_succ]
     have hv0 : (0 : Fin (m + 1 + 1 + 1)).val = 0 := Fin.val_zero _
     have hv1 : (1 : Fin (m + 1 + 1 + 1)).val = 1 := Fin.val_one _
     rw [tauPerm, Equiv.Perm.mul_apply, hx1]
@@ -234,7 +236,7 @@ theorem h_w : hElt φ₂ * wElt φ₂ * (hElt φ₂)⁻¹ = uElt φ₂ := by
   · have hkc : ((⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).castSucc : Fin (m + 1 + 1 + 1)) =
         (Fin.last (m + 1)).castSucc := by
       apply Fin.ext
-      simp only [Fin.val_castSucc, Fin.val_mk, Fin.val_castSucc, Fin.val_last]
+      simp only [Fin.val_castSucc, Fin.val_castSucc, Fin.val_last]
     have hy0 : ((⟨0, by omega⟩ : Fin (m + 1 + 1)).castSucc : Fin (m + 1 + 1 + 1)) =
         (0 : Fin (m + 1 + 1 + 1)) := rfl
     have hv0 : (0 : Fin (m + 1 + 1 + 1)).val = 0 := Fin.val_zero _
@@ -249,7 +251,7 @@ theorem h_w : hElt φ₂ * wElt φ₂ * (hElt φ₂)⁻¹ = uElt φ₂ := by
   · have hks : ((⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).succ : Fin (m + 1 + 1 + 1)) =
         (Fin.last (m + 1 + 1) : Fin (m + 1 + 1 + 1)) := by
       apply Fin.ext
-      simp only [Fin.val_succ, Fin.val_mk, Fin.val_last]
+      simp only [Fin.val_succ, Fin.val_last]
     have hy1 : ((⟨0, by omega⟩ : Fin (m + 1 + 1)).succ : Fin (m + 1 + 1 + 1)) =
         (1 : Fin (m + 1 + 1 + 1)) := rfl
     have hv0 : (0 : Fin (m + 1 + 1 + 1)).val = 0 := Fin.val_zero _
@@ -277,7 +279,7 @@ theorem zSet_fix : ∀ z ∈ zSet φ₁,
       φ₂ (omegaBlock (m + 1 + 1) (⟨k.val - 2, by omega⟩ : Fin (m + 1 + 1))) := by
     have hk_eq : k = (⟨k.val - 2, by omega⟩ : Fin m).succ.succ := by
       apply Fin.ext
-      simp only [Fin.val_succ, Fin.val_mk]
+      simp only [Fin.val_succ]
       omega
     have h1 : omegaBlock (m + 1 + 1) k =
         omegaBlock (m + 1 + 1) ((⟨k.val - 2, by omega⟩ : Fin m).succ.succ) :=
@@ -296,21 +298,21 @@ theorem zSet_fix : ∀ z ∈ zSet φ₁,
     refine weylRep_conj_omegaBlock_of_fixed (n := m + 1 + 1)
       (⟨0, by omega⟩ : Fin (m + 1 + 1)) k ?_ ?_
     · apply Equiv.swap_apply_of_ne_of_ne
-      · apply Fin.ne_of_val_ne; simp only [Fin.val_castSucc, Fin.val_mk]; omega
-      · apply Fin.ne_of_val_ne; simp only [Fin.val_castSucc, Fin.val_succ, Fin.val_mk]; omega
+      · apply Fin.ne_of_val_ne; simp only [Fin.val_castSucc]; omega
+      · apply Fin.ne_of_val_ne; simp only [Fin.val_castSucc, Fin.val_succ]; omega
     · apply Equiv.swap_apply_of_ne_of_ne
-      · apply Fin.ne_of_val_ne; simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_mk]; omega
-      · apply Fin.ne_of_val_ne; simp only [Fin.val_succ, Fin.val_mk]; omega
+      · apply Fin.ne_of_val_ne; simp only [Fin.val_succ, Fin.val_castSucc]; omega
+      · apply Fin.ne_of_val_ne; simp only [Fin.val_succ]; omega
   · rw [gElt, map_conj]
     rw [h.coords.inj₁.eq_iff]
     refine slPerm_conj_omegaBlock (n := m + 1 + 1) (π := sigmaPerm m) (k := k) (k' := k) ?_ ?_
     · rw [sigmaPerm, Equiv.Perm.mul_apply]
       rw [Equiv.swap_apply_of_ne_of_ne (a := (1 : Fin (m + 1 + 1 + 1))) (b := 3) (x := k.castSucc)
-            (Fin.ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_mk, hv1]; omega))
-            (Fin.ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_mk, hv3]; omega))]
+            (Fin.ne_of_val_ne (by simp only [Fin.val_castSucc, hv1]; omega))
+            (Fin.ne_of_val_ne (by simp only [Fin.val_castSucc, hv3]; omega))]
       exact Equiv.swap_apply_of_ne_of_ne (a := (0 : Fin (m + 1 + 1 + 1))) (b := 2) (x := k.castSucc)
-        (Fin.ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_mk, hv0]; omega))
-        (Fin.ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_mk, hv2]; omega))
+        (Fin.ne_of_val_ne (by simp only [Fin.val_castSucc, hv0]; omega))
+        (Fin.ne_of_val_ne (by simp only [Fin.val_castSucc, hv2]; omega))
     · rw [sigmaPerm, Equiv.Perm.mul_apply]
       rw [Equiv.swap_apply_of_ne_of_ne (a := (1 : Fin (m + 1 + 1 + 1))) (b := 3) (x := k.succ)
             (Fin.ne_of_val_ne (by rw [Fin.val_succ, Fin.val_mk, hv1]; omega))
@@ -324,11 +326,11 @@ theorem zSet_fix : ∀ z ∈ zSet φ₁,
       (⟨m + 1, by omega⟩ : Fin (m + 1 + 1))
       (⟨k.val - 2, by omega⟩ : Fin (m + 1 + 1)) ?_ ?_
     · apply Equiv.swap_apply_of_ne_of_ne
-      · apply Fin.ne_of_val_ne; simp only [Fin.val_castSucc, Fin.val_mk]; omega
-      · apply Fin.ne_of_val_ne; simp only [Fin.val_castSucc, Fin.val_succ, Fin.val_mk]; omega
+      · apply Fin.ne_of_val_ne; simp only [Fin.val_castSucc]; omega
+      · apply Fin.ne_of_val_ne; simp only [Fin.val_castSucc, Fin.val_succ]; omega
     · apply Equiv.swap_apply_of_ne_of_ne
-      · apply Fin.ne_of_val_ne; simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_mk]; omega
-      · apply Fin.ne_of_val_ne; simp only [Fin.val_succ, Fin.val_mk]; omega
+      · apply Fin.ne_of_val_ne; simp only [Fin.val_succ, Fin.val_castSucc]; omega
+      · apply Fin.ne_of_val_ne; simp only [Fin.val_succ]; omega
   · rw [hz2, hElt, map_conj]
     rw [h.coords.inj₂.eq_iff]
     refine slPerm_conj_omegaBlock (n := m + 1 + 1) (π := tauPerm m)
@@ -337,23 +339,23 @@ theorem zSet_fix : ∀ z ∈ zSet φ₁,
     · rw [tauPerm, Equiv.Perm.mul_apply]
       rw [Equiv.swap_apply_of_ne_of_ne (a := Fin.last (m + 1 + 1)) (b := (1 : Fin (m + 1 + 1 + 1)))
             (x := (⟨k.val - 2, by omega⟩ : Fin (m + 1 + 1)).castSucc)
-            (Fin.ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_mk, Fin.val_last]; omega))
-            (Fin.ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_mk, Fin.val_one]; omega))]
+            (Fin.ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_last]; omega))
+            (Fin.ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_one]; omega))]
       exact Equiv.swap_apply_of_ne_of_ne
         (a := (Fin.last (m + 1)).castSucc) (b := (0 : Fin (m + 1 + 1 + 1)))
         (x := (⟨k.val - 2, by omega⟩ : Fin (m + 1 + 1)).castSucc)
-        (Fin.ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_mk, Fin.val_castSucc, Fin.val_last]; omega))
-        (Fin.ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_mk, Fin.val_zero]; omega))
+        (Fin.ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_castSucc, Fin.val_last]; omega))
+        (Fin.ne_of_val_ne (by simp only [Fin.val_castSucc, Fin.val_zero]; omega))
     · rw [tauPerm, Equiv.Perm.mul_apply]
       rw [Equiv.swap_apply_of_ne_of_ne (a := Fin.last (m + 1 + 1)) (b := (1 : Fin (m + 1 + 1 + 1)))
             (x := (⟨k.val - 2, by omega⟩ : Fin (m + 1 + 1)).succ)
-            (Fin.ne_of_val_ne (by simp only [Fin.val_succ, Fin.val_mk, Fin.val_last]; omega))
-            (Fin.ne_of_val_ne (by simp only [Fin.val_succ, Fin.val_mk, Fin.val_one]; omega))]
+            (Fin.ne_of_val_ne (by simp only [Fin.val_succ, Fin.val_last]; omega))
+            (Fin.ne_of_val_ne (by simp only [Fin.val_succ, Fin.val_one]; omega))]
       exact Equiv.swap_apply_of_ne_of_ne
         (a := (Fin.last (m + 1)).castSucc) (b := (0 : Fin (m + 1 + 1 + 1)))
         (x := (⟨k.val - 2, by omega⟩ : Fin (m + 1 + 1)).succ)
-        (Fin.ne_of_val_ne (by simp only [Fin.val_succ, Fin.val_mk, Fin.val_castSucc, Fin.val_last]; omega))
-        (Fin.ne_of_val_ne (by simp only [Fin.val_succ, Fin.val_mk, Fin.val_zero]; omega))
+        (Fin.ne_of_val_ne (by simp only [Fin.val_succ, Fin.val_castSucc, Fin.val_last]; omega))
+        (Fin.ne_of_val_ne (by simp only [Fin.val_succ, Fin.val_zero]; omega))
 
 end GGHalfCtx
 

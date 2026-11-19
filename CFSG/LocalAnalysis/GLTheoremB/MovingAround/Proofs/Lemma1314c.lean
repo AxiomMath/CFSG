@@ -117,6 +117,7 @@ section Normalizer
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem gLBConj_iSup_le_of_mem_normalizer {S I : Subgroup G} {u : G}
     (hS : u ∈ Subgroup.normalizer (S : Set G)) (hI : u ∈ Subgroup.normalizer (I : Set G)) :
     GLBConj u (⨆ h ∈ S, GLBConj h I) ≤ ⨆ h ∈ S, GLBConj h I := by
@@ -136,6 +137,7 @@ theorem gLBConj_iSup_le_of_mem_normalizer {S I : Subgroup G} {u : G}
   rw [e]
   exact le_iSup₂_of_le (u⁻¹ * h * u) hh' le_rfl
 
+omit [Finite G] in
 theorem mem_normalizer_iSup_conj {S I : Subgroup G} {u : G}
     (hS : u ∈ Subgroup.normalizer (S : Set G)) (hI : u ∈ Subgroup.normalizer (I : Set G)) :
     u ∈ Subgroup.normalizer ((⨆ h ∈ S, GLBConj h I : Subgroup G) : Set G) := by
@@ -146,6 +148,7 @@ theorem mem_normalizer_iSup_conj {S I : Subgroup G} {u : G}
   have h2 := gLBConj_mono u h1
   rwa [gLBConj_gLBConj_inv] at h2
 
+omit [Finite G] in
 theorem mem_normalizer_LOf {p : ℕ} {L0 : Subgroup G} {d b u : G} (hu : u ∈ Cg d)
     (hI : u ∈ Subgroup.normalizer (Lemma1314.L0bOf p L0 b : Set G)) :
     u ∈ Subgroup.normalizer (Lemma1314.LOf p L0 d b : Set G) :=
@@ -153,6 +156,7 @@ theorem mem_normalizer_LOf {p : ℕ} {L0 : Subgroup G} {d b u : G} (hu : u ∈ C
     (CFSG.HardMathSupport.Solomon.UniquenessMaximal.Sec7.mem_normalizer_glaPLayer
       (Subgroup.le_normalizer hu)) hI
 
+omit [Finite G] in
 theorem mem_normalizer_L0bOf_of_mem {p : ℕ} {L0 : Subgroup G} {b x : G} (hx : x ∈ L0)
     (hxb : x * b = b * x) :
     x ∈ Subgroup.normalizer (Lemma1314.L0bOf p L0 b : Set G) := by
@@ -160,6 +164,7 @@ theorem mem_normalizer_L0bOf_of_mem {p : ℕ} {L0 : Subgroup G} {b x : G} (hx : 
   refine mem_normalizer_inf (Subgroup.le_normalizer hx) (Subgroup.le_normalizer ?_)
   exact Subgroup.mem_centralizer_singleton_iff.2 hxb
 
+omit [Finite G] in
 theorem mem_normalizer_L0bOf_self {p : ℕ} {L0 : Subgroup G} {b : G} :
     b ∈ Subgroup.normalizer (Lemma1314.L0bOf p L0 b : Set G) := by
   refine CFSG.HardMathSupport.Solomon.UniquenessMaximal.Sec7.mem_normalizer_glaPLayer ?_
@@ -182,6 +187,7 @@ theorem mem_normalizer_L0bOf_self {p : ℕ} {L0 : Subgroup G} {b : G} :
         _ = y := by group
     rwa [h2] at hy
 
+omit [Finite G] in
 theorem mem_core_iff {p : ℕ} {L : Subgroup G} {y : G} :
     y ∈ GLAPPrimeCoreOf p L ↔ ∃ h : y ∈ L, (⟨y, h⟩ : ↥L) ∈ GLAPPrimeCore p ↥L := by
   unfold GLAPPrimeCoreOf
@@ -271,7 +277,7 @@ theorem closure_pair_eq_of_card {p : ℕ} (hp : p.Prime) {B U : Subgroup G}
     (hU : CFSG.HardMathSupport.Solomon.Coordinator.IsEkIn p 2 B U) {x b : G} (hxU : x ∈ U)
     (hbU : b ∈ U) (hx1 : x ≠ 1) (hbx : b ∉ Subgroup.zpowers x) :
     Subgroup.closure ({x, b} : Set G) = U := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hUel : IsElemAbelian p U := hU.2.1
   have hcard : Nat.card U = p ^ 2 := hU.2.2
   have hxp : x ^ p = 1 := hUel.2 x hxU
@@ -315,6 +321,7 @@ section Conn
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem comm_mem_core_of_mem_centBar {p : ℕ} {X I : Subgroup G} {c l : G}
     (hc : c ∈ centBar p X I) (hl : l ∈ I) : c * l * c⁻¹ * l⁻¹ ∈ GLAPPrimeCoreOf p I := by
   obtain ⟨hcK, -⟩ := Subgroup.mem_inf.1 hc
@@ -346,6 +353,7 @@ theorem comm_of_mem_centBar {p : ℕ} (hp : p.Prime) {R I : Subgroup G} (hRp : I
   calc c * l = (c * l * c⁻¹ * l⁻¹) * (l * c) := by group
     _ = l * c := by rw [h3, one_mul]
 
+omit [Finite G] in
 theorem isElemAbelian_zpowers_of_pow {p : ℕ} {x : G} (hx : x ^ p = 1) :
     IsElemAbelian p (Subgroup.zpowers x) := by
   refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, fun y hy => ?_⟩
@@ -370,6 +378,7 @@ theorem isEkIn_sup_zpowers {p k : ℕ} (hp : p.Prime) {X W : Subgroup G} {z : G}
     exact ((show Commute w z from hcomm w hw).zpow_right i).eq.symm
   · rw [CFSG.RankThree.PartOne.Planes.card_sup_zpowers hp W hzp hzW hcomm, hW.2.2, pow_succ]
 
+omit [Finite G] in
 theorem sup_zpowers_le_centralizer {W₁ W₂ : Subgroup G} {z : G}
     (h12 : W₁ ≤ Subgroup.centralizer (W₂ : Set G)) (hz1 : ∀ w ∈ W₁, w * z = z * w)
     (hz2 : ∀ w ∈ W₂, w * z = z * w) :
@@ -399,7 +408,7 @@ theorem isKConnected_of_part_i {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : 
   have hS : GLStanding G m p := h.standing
   have hp : p.Prime := hS.prime
   have hp2 : p ≠ 2 := hS.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   obtain ⟨hRdec, hRbot, hRrk⟩ := hi
   set I : Subgroup G := Iof p M D with hIdef
@@ -430,7 +439,7 @@ theorem isKConnected_of_part_i {m p : ℕ} {B M E A D T R L0 : Subgroup G} {d : 
     rw [hbot, le_bot_iff] at hE1
     rw [hE1, Subgroup.card_bot] at hE1c
     exact hp.one_lt.ne hE1c
-  haveI : Nontrivial ↥(R ⊓ I) := (Subgroup.nontrivial_iff_ne_bot _).2 hRIne
+  have : Nontrivial ↥(R ⊓ I) := (Subgroup.nontrivial_iff_ne_bot _).2 hRIne
   have hZnt : Nontrivial ↥(Subgroup.center ↥(R ⊓ I)) := hRIp.center_nontrivial
   have hZp : IsPGroup p ↥(Subgroup.center ↥(R ⊓ I)) := hRIp.to_subgroup _
   obtain ⟨n0, hn0, hn0c⟩ := hZp.nontrivial_iff_card.1 hZnt

@@ -11,6 +11,7 @@ open CFSG.Assembly.LowTwoRank
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem card_le_four_of_realizes {L D : Subgroup (MulAut W)} (hDL : D ≤ L) {M : FFModel}
     (hM : M.Faithful) {U Z : Subgroup W} {π : M.Gam →* ↥L} (hr : M.RealizesVia L U Z π)
     (hX : ∀ E : Subgroup M.Gam, (∀ x ∈ E, x ^ 2 = 1) → Nat.card E ≤ 4)

@@ -190,7 +190,7 @@ theorem planeGen_unitaryPSU_eight_of_not_le
   have hQ : 2 ^ 3 % 3 = 2 := by norm_num
   have hq : 2 < 2 ^ 3 := by norm_num
   have h3 := three_ne_zero_of_unitaryFieldData h hQ
-  obtain ⟨φ, hφE, hφN⟩ := SetLike.not_le_iff_exists.1 hnot
+  obtain ⟨φ, hφE, hφN⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   obtain ⟨y, hyE, hyN, hy1⟩ := exists_ne_one_inf_psuConj_range h3 hq hE hc hnot
   obtain ⟨σ, -, H, hφH⟩ := unitary_order_three_field_descent hq φ (hE.2 φ hφE) hφN
   obtain ⟨B, hB⟩ := hyN

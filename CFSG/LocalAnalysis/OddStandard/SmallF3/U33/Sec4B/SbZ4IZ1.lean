@@ -18,7 +18,7 @@ variable {Q Y V V' B K : Subgroup H} {ρ t τ l : H}
 
 theorem t_ne_one (h : ZEData Q Y V V' B K ρ t τ l) : t ≠ 1 := by
   intro ht
-  exact h.t_not_mem_K (by simpa [ht] using K.one_mem)
+  exact h.t_not_mem_K (by simp [ht])
 
 private theorem orderOf_t (h : ZEData Q Y V V' B K ρ t τ l) : orderOf t = 2 :=
   orderOf_eq_prime (p := 2) (by rw [pow_two]; exact h.t_sq) (t_ne_one h)
@@ -152,7 +152,7 @@ theorem comm_t_mem_Y_iff (h : ZEData Q Y V V' B K ρ t τ l) {x : H} (hx : x ∈
             group
         _ = b * t * y * t⁻¹ * y⁻¹ * b⁻¹ := by rw [h.B_cent_t b hb]
         _ = b * ⁅t, y⁆ * b⁻¹ := by
-            simp only [commutatorElement_def, mul_inv_rev]
+            simp only [commutatorElement_def]
             group
     have hy1 : ⁅t, y⁆ ∈ Y := by
       rw [commutatorElement_def]

@@ -23,10 +23,10 @@ theorem a3_e3_full {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z : 
     (hv : (LieTypeIndex.A 3 q).Valid)
     (e : Nonempty (↥K ≃* ValidLieTypeIndex.Group ⟨.A 3 q, hv⟩)) : E3Concl K₀ B z p := by
   obtain ⟨e⟩ := e
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hchar : ringChar (GaloisField q.p q.exponent) = 2 :=
     (ringChar.eq (GaloisField q.p q.exponent) q.p).trans hq2
-  haveI : CharP (GaloisField q.p q.exponent) 2 := ringChar.of_eq hchar
+  have : CharP (GaloisField q.p q.exponent) 2 := ringChar.of_eq hchar
   have hf : 1 ≤ q.exponent := q.exponent_pos
   have hvv := (LieTypeIndex.valid_iff _).1 hv
   have hne2 : q.card ≠ 2 := by

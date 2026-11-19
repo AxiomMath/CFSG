@@ -26,8 +26,8 @@ private theorem s888_odd_card_oddCore {H : Type*} [Group H] [Finite H] :
 private theorem s888_oddCore_ne_top_of_twoU43 {G : Type} [Group G] [Finite G] {I : Subgroup G}
     (h : IsTwoU43 (↥I ⧸ CFSG.oddCore ↥I)) : CFSG.oddCore ↥I ≠ ⊤ := by
   intro htop
-  haveI : Subsingleton (↥I ⧸ CFSG.oddCore ↥I) := (QuotientGroup.subsingleton_iff).mpr htop
-  haveI : Finite (↥I ⧸ CFSG.oddCore ↥I) := inferInstance
+  have : Subsingleton (↥I ⧸ CFSG.oddCore ↥I) := (QuotientGroup.subsingleton_iff).mpr htop
+  have : Finite (↥I ⧸ CFSG.oddCore ↥I) := inferInstance
   have h1 : Nat.card (Subgroup.center (↥I ⧸ CFSG.oddCore ↥I)) ≤ 1 :=
     Finite.card_le_one_iff_subsingleton.mpr inferInstance
   have h2 : Nat.card (Subgroup.center (↥I ⧸ CFSG.oddCore ↥I)) = 2 := h.1

@@ -140,9 +140,9 @@ theorem n24_closure_AB :
   have hb : n24B ∈ Subgroup.closure ({n24A, n24B} : Set (GL (Fin 3) (ZMod 2))) :=
     Subgroup.subset_closure (by simp)
   have hab := Subgroup.mul_mem _ ha hb
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have o2 : orderOf n24A = 2 := orderOf_eq_prime (by rw [pow_two]; exact n24A_sq) (by decide)
   have o3 : orderOf n24B = 3 := orderOf_eq_prime n24B_cube (by decide)
   have o7 : orderOf (n24A * n24B) = 7 := orderOf_eq_prime n24AB_pow7 (by decide)

@@ -103,10 +103,10 @@ theorem Z2SetR.mem_omegaNbr_J_of_isSylow2In (hs : Z2SetR r n R S t J u R₀ T₀
     (hL : L ∈ CoreAssembly.conjClass (tightCore R)) (hLJ : L ≠ J) {W : Subgroup Y}
     (hW : IsSylow2In W L) (hWu : W ≤ Subgroup.centralizer ({u} : Set Y)) :
     L ∈ omegaNbr (CoreAssembly.conjClass (tightCore R)) J :=
-  ⟨hL, hLJ, W, mem_RSet_of_isSylow2In hL hW, hW.1, fun x hx =>
+  ⟨hL, hLJ, W, mem_RSet_of_isSylow2In hL hW, hW.1, fun _x hx =>
     (TightLargeHypR.typeRFam hs.large).tight J hs.hJ.1 u hs.hu (hWu hx)⟩
 
-theorem Z2SetR.le_linkLayerAt_of_le (hs : Z2SetR r n R S t J u R₀ T₀ P) {L : Subgroup Y}
+theorem Z2SetR.le_linkLayerAt_of_le (_hs : Z2SetR r n R S t J u R₀ T₀ P) {L : Subgroup Y}
     (hL : L ∈ omegaNbr (CoreAssembly.conjClass (tightCore R)) J) {W : Subgroup Y}
     (hW2 : IsPGroup 2 ↥W) (hWL : W ≤ L) (hWu : W ≤ Subgroup.centralizer ({u} : Set Y)) :
     W ≤ linkLayerAt (CoreAssembly.conjClass (tightCore R)) J u :=

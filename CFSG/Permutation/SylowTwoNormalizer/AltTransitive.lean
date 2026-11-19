@@ -17,6 +17,7 @@ theorem eq_two_pow_pred_of_two_mul_eq_two_pow {n x : ℕ} (hn : 1 ≤ n)
   rw [hn', pow_succ, mul_comm (2 ^ (n - 1)) 2] at h
   exact Nat.eq_of_mul_eq_mul_left (by norm_num) h
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem restr_inf_stabilizer (R : Subgroup (Perm Ω)) (s : Set Ω) :
     restr R s = restr (R ⊓ stabilizer (Perm Ω) s) s := by
   simp only [restr]
@@ -30,8 +31,8 @@ theorem eq_one_of_mem_normalizer_of_isPretransitive (h8 : 8 ≤ Nat.card Ω)
     (hRi : ¬ 2 ∣ R.relIndex (alternatingGroup Ω)) (htr : MulAction.IsPretransitive R Ω)
     {σ : Perm Ω} (hσ : Odd (orderOf σ)) (hσR : σ ∈ normalizer (R : Set (Perm Ω))) : σ = 1 := by
   classical
-  haveI : MulAction.IsPretransitive R Ω := htr
-  haveI : Nonempty Ω := (Nat.card_pos_iff.mp (by omega : 0 < Nat.card Ω)).1
+  have : MulAction.IsPretransitive R Ω := htr
+  have : Nonempty Ω := (Nat.card_pos_iff.mp (by omega : 0 < Nat.card Ω)).1
   have hdvd : Nat.card Ω ∣ Nat.card R := TauCeti.natCard_dvd_natCard_of_isPretransitive R
   obtain ⟨a, -, hn⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (hdvd.trans (card_dvd_of_isPGroup hR))
   have h8a : 8 ≤ 2 ^ a := by rw [← hn]; exact h8
@@ -79,8 +80,8 @@ theorem eq_one_of_mem_normalizer_of_isPretransitive (h8 : 8 ≤ Nat.card Ω)
   have hBcpow : Nat.card ↥Bᶜ = 2 ^ (a - 1) := by
     rw [Nat.card_coe_set_eq, Set.ncard_compl, ← Nat.card_coe_set_eq, hBpow, hn]
     exact Nat.two_pow_sub_two_pow_pred (by omega : 0 < a)
-  haveI : Fintype ↥B := Fintype.ofFinite ↥B
-  haveI : Fintype ↥Bᶜ := Fintype.ofFinite ↥Bᶜ
+  have : Fintype ↥B := Fintype.ofFinite ↥B
+  have : Fintype ↥Bᶜ := Fintype.ofFinite ↥Bᶜ
   have hpdata : ∃ p ≤ 2 ^ (a - 1) - 1, Nat.card (restr R₀ B) = 2 ^ p := by
     have hdvd : Nat.card (restr R₀ B) ∣ 2 ^ padicValNat 2 (Nat.card ↥B).factorial :=
       card_dvd_of_isPGroup (Ω := ↥B) (isPGroup_restr hR₀ B)

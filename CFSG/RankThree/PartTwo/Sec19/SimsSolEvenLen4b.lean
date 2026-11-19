@@ -74,7 +74,7 @@ theorem uvec_mem_barSub {J : Finset (Fin n)} {a b : Fin n} (ha : a ∈ J) (hb : 
   refine ⟨Pi.single a 1 + Pi.single b 1, fun i hi => ?_, rfl⟩
   have h1 : i ≠ a := fun h => hi (h ▸ ha)
   have h2 : i ≠ b := fun h => hi (h ▸ hb)
-  simp [Pi.single_apply, h1, h2]
+  simp [h1, h2]
 
 theorem eq_of_uvec_eq {x y a b : Fin 10} (hxy : x ≠ y) (hab : a ≠ b) (h : uvec x y = uvec a b) :
     x = a ∨ x = b := by
@@ -291,6 +291,7 @@ abbrev centerP (x : G) : Subgroup G :=
   CFSG.Open.pCoreOf 2 (CGOf x) ⊓
     Subgroup.centralizer ((CFSG.Open.pCoreOf 2 (CGOf x) : Subgroup G) : Set G)
 
+omit [Finite G] in
 theorem mem_normalizer_centerP {x k : G} (hk : k ∈ CGOf x) :
     k ∈ Subgroup.normalizer ((centerP x : Subgroup G) : Set G) := by
   have hP : ∀ k ∈ CGOf x, ∀ p ∈ CFSG.Open.pCoreOf 2 (CGOf x),
@@ -335,6 +336,7 @@ theorem sup_inf_le_TOf :
   exact Subgroup.mem_inf.2 ⟨sup_norm hk hz.1, Subgroup.mul_mem _ (Subgroup.mul_mem _ hk.1
     hz.2) (M.inv_mem hk.1)⟩
 
+omit hR in
 theorem twoConstrained_P (hx1 : x ≠ 1) :
     CGOf x ⊓ Subgroup.centralizer ((CFSG.Open.pCoreOf 2 (CGOf x) : Subgroup G) : Set G) ≤
       CFSG.Open.pCoreOf 2 (CGOf x) := by
@@ -348,7 +350,7 @@ theorem not_P_le_Q (hx1 : x ≠ 1) (hKM : ¬ CGOf x ≤ M) :
   intro hPQ
   apply hKM
   have hQK : CFSG.Open.pCoreOf 2 M ≤ CGOf x := Q_le_CGOf C hR hx
-  have hcons := twoConstrained_P C hR hx hx1
+  have hcons := twoConstrained_P C hx hx1
   have hQP : CFSG.Open.pCoreOf 2 M ≤ CFSG.Open.pCoreOf 2 (CGOf x) := by
     intro q hq
     apply hcons
@@ -387,7 +389,7 @@ theorem x_ne_one : x ≠ 1 := by
   norm_num at h2
 
 omit hR in
-theorem theta_normalized_of_normalized {U : Subgroup G} (hUM : U ≤ M)
+theorem theta_normalized_of_normalized {U : Subgroup G} (_hUM : U ≤ M)
     (hUn : ∀ k ∈ CMOf M x, ∀ u ∈ U, k * u * k⁻¹ ∈ U) {S : Finset (Fin 10)}
     (hS : S = I ∨ S = Iᶜ) :
     ∀ τ ∈ altOn S, ∀ σ ∈ (U.subgroupOf M).map C.θ, τ * σ * τ⁻¹ ∈ (U.subgroupOf M).map C.θ := by
@@ -577,7 +579,7 @@ theorem rc_eq_bot (hKM : ¬ CGOf x ≤ M) : Rc X = ⊥ := by
     rw [C.S.R_eq_inf] at h
     exact (Subgroup.mem_inf.1 h).1
   have hr0K : r0 ∈ CGOf x := Q_le_CGOf C hR hx hr0Q
-  have hcons := twoConstrained_P C hR hx hx1
+  have hcons := twoConstrained_P C hx hx1
   have hr0cent : ∀ p ∈ CFSG.Open.pCoreOf 2 (CGOf x), p * r0 = r0 * p := by
     intro p hp
     have h1 := C.R_central hR p (hPM hp) r0 hr0
@@ -632,7 +634,7 @@ theorem DeltaJ_le_centerP (hKM : ¬ CGOf x ≤ M) (hrbot : Rc X = ⊥) {J : Fins
   have hPM : CFSG.Open.pCoreOf 2 (CGOf x) ≤ M := hPT.trans (TOf_le_M M _)
   have hθP := theta_P_eq D hR hx hI hπ hKM
   have hF := klein4_fourGroup hI
-  have hcons := twoConstrained_P C hR hx hx1
+  have hcons := twoConstrained_P C hx hx1
   intro g hg
   obtain ⟨hgQ, -⟩ := (mem_DeltaJ D).1 hg
   have hgK : g ∈ CGOf x := Q_le_CGOf C hR hx hgQ
@@ -666,7 +668,7 @@ theorem pCore_centralizer_centerP_eq (hKM : ¬ CGOf x ≤ M) (hrbot : Rc X = ⊥
   have hx1 : x ≠ 1 := x_ne_one D hx hI hπ
   have hsup := sup_eq_TOf D hR hx hI hπ hKM
   have hCEM := centralizer_centerP_le_M D hR hx hI hπ hKM hrbot
-  have hcons := twoConstrained_P C hR hx hx1
+  have hcons := twoConstrained_P C hx hx1
   have hEQ : centerP x ≤ CFSG.Open.pCoreOf 2 M := fun z hz =>
     center_P_le_Q D hR hx hI hπ hKM hz.1 (fun p hp => Subgroup.mem_centralizer_iff.1 hz.2 p hp)
   have hxE : x ∈ centerP x := by
@@ -727,6 +729,7 @@ section Fusion
 
 variable {G : Type} [Group G] [Finite G] {M X : Subgroup G}
 
+omit [Finite G] in
 theorem CGOf_conj (g x : G) : CGOf (g * x * g⁻¹) = conjSubgroup g (CGOf x) := by
   ext z
   rw [mem_conjSubgroup]
@@ -741,6 +744,7 @@ theorem CGOf_conj (g x : G) : CGOf (g * x * g⁻¹) = conjSubgroup g (CGOf x) :=
     calc z * (g * x * g⁻¹) * z⁻¹ = g * ((g⁻¹ * z * g) * x * (g⁻¹ * z * g)⁻¹) * g⁻¹ := by group
       _ = g * x * g⁻¹ := by rw [h]
 
+omit [Finite G] in
 theorem conj_pCoreOf_le (g : G) (H : Subgroup G) :
     conjSubgroup g (CFSG.Open.pCoreOf 2 H) ≤ CFSG.Open.pCoreOf 2 (conjSubgroup g H) := by
   refine le_pCoreOf_of_normalized (Subgroup.map_mono (pCoreOf_le_self H)) (fun k hk u hu => ?_)
@@ -800,7 +804,7 @@ variable {n : ℕ} (C : Cfg G M X n)
 theorem card_M_eq_orbit_mul (v : permBar n) :
     Nat.card ↥M = Set.ncard {u : permBar n | ∃ m : ↥M, barAct (C.θ m) v = u} *
       Nat.card ↥(barStab C v) := by
-  letI : MulAction ↥M (permBar n) := MulAction.compHom (permBar n) ((barPerm n).comp C.θ)
+  let : MulAction ↥M (permBar n) := MulAction.compHom (permBar n) ((barPerm n).comp C.θ)
   have hstab : MulAction.stabilizer ↥M v = barStab C v := by
     ext m
     rw [MulAction.mem_stabilizer_iff]
@@ -855,6 +859,7 @@ theorem card_M_eq_two {v : permBar 10} (hv : barLen v = 2) :
 
 end CfgLemmasTen
 
+omit [Finite G] in
 theorem comm_mul_of_central {m m' y ra rb : G} (hra : ra = m * y * m⁻¹ * y⁻¹)
     (hrb : rb = m' * y * m'⁻¹ * y⁻¹) (hc1 : m * rb * m⁻¹ = rb) (hcomm : rb * ra = ra * rb) :
     m * m' * y * (m * m')⁻¹ * y⁻¹ = ra * rb := by

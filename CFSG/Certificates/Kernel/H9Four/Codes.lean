@@ -176,14 +176,14 @@ theorem pkMat_mul4 (a b : ℕ) : pkMat 4 (mul4 a b) = pkMat 4 a * pkMat 4 b := p
 
 theorem testBit_tr4 (a : ℕ) {i j : ℕ} (hi : i < 4) (hj : j < 4) :
     (tr4 a).testBit (4 * i + j) = a.testBit (4 * j + i) := by
-  simp only [tr4, letN_eq, land_eq, lor_eq, xor_eq, shiftLeft_eq, shiftRight_eq]
+  simp only [tr4, letN_eq, land_eq, xor_eq, shiftLeft_eq, shiftRight_eq]
   have c1 : ∀ n, Nat.testBit 2570 n = decide (2570 / 2 ^ n % 2 = 1) :=
     fun _ => Nat.testBit_eq_decide_div_mod_eq
   have c2 : ∀ n, Nat.testBit 204 n = decide (204 / 2 ^ n % 2 = 1) :=
     fun _ => Nat.testBit_eq_decide_div_mod_eq
   interval_cases i <;> interval_cases j <;>
     simp only [Nat.testBit_xor, Nat.testBit_and, Nat.testBit_shiftLeft, Nat.testBit_shiftRight] <;>
-    simp [c1, c2, Bool.xor_assoc, Bool.xor_comm, Bool.xor_left_comm, Bool.and_xor_distrib_right]
+    simp [c1, c2, Bool.xor_comm, Bool.xor_left_comm]
 
 theorem pkMat_tr4 (a : ℕ) : pkMat 4 (tr4 a) = (pkMat 4 a).transpose := by
   ext i j
@@ -320,7 +320,7 @@ theorem fb_mkE {a ai b : ℕ} (ha : a < 2 ^ 16) (hai : ai < 2 ^ 16) (hb : b < 2)
     Nat.testBit_lt_two_pow (lt_of_lt_of_le hai (Nat.pow_le_pow_right (by norm_num) (by omega)))]
   rcases lt_two hb with rfl | rfl
   · simp
-  · cases n <;> simp [Nat.testBit_one_eq_true_iff_self_eq_zero]
+  · cases n <;> simp
 
 theorem fa_lt (t : ℕ) : fa t < 2 ^ 16 := lt_of_le_of_lt Nat.and_le_right (by norm_num)
 

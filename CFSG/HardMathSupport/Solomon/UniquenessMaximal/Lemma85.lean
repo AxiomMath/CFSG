@@ -60,7 +60,7 @@ theorem lemma85 (i33 : Input33_4) (hS : GLStanding G m p) {B M₀ : Subgroup G}
     CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 Subgroup.le_normalizer le_rfl hQ2
   have hQeq : Q = pCoreOf 2 (Subgroup.normalizer (Q : Set G)) :=
     (hQmax _ hQZ hZR hZ2).symm
-  have hPp : IsPGroup 2 (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup 2 (P : Subgroup G) := P.isPGroup
   obtain ⟨hUP, hPU, hUplane, hU4⟩ := hU
   have hUcard : Nat.card U = 4 := by rw [hUplane.2]; norm_num
   have hUne : U ≠ ⊥ := by

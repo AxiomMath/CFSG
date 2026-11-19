@@ -24,9 +24,9 @@ variable {G : Type} [Group G] [Finite G]
 theorem eq_bot_of_le_simple {Q : Type*} [Group Q] [Finite Q] {Z N : Subgroup Q}
     (hs : IsSimpleGroup ↥Z) (hNZ : N ≤ Z) (hZN : Z ≤ Subgroup.normalizer (N : Set Q))
     (h3Z : 3 ∣ Nat.card Z) (h3N : ¬ 3 ∣ Nat.card N) : N = ⊥ := by
-  haveI : (N.subgroupOf Z).Normal :=
+  have : (N.subgroupOf Z).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNZ).mpr hZN
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf Z) with h | h
   · rw [Subgroup.subgroupOf_eq_bot] at h
     exact h.eq_bot_of_le hNZ
@@ -108,7 +108,7 @@ theorem exists_point_of_a5_centPre148
             (centPre148 A Y J ⊓ Subgroup.normalizer (Subgroup.zpowers c₁ : Set G)) := by
   intro hJc h3Jα hZ5
   let := ker148_normal hY.2
-  letI := ker148_normal (le_normalizer_centPre148 (J := J) hY.2 hAJ)
+  let := ker148_normal (le_normalizer_centPre148 (J := J) hY.2 hAJ)
   have hne : img148 A Y J ≠ ⊥ := fun h0 => by
     rw [h0, Subgroup.card_bot] at h3Jα
     omega
@@ -293,8 +293,8 @@ theorem step148HJHJCent4_of_cent5
     img148_deltaZero_centPre148_le.trans inf_le_right
   obtain ⟨ψ5⟩ := hZ5
   have hZs : IsSimpleGroup ↥(img148 A Y (deltaZero A (lB A) (centPre148 A Y J))) := by
-    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) :=
-      alternatingGroup.isSimpleGroup_five
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) :=
+      (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
     exact MulEquiv.isSimpleGroup ψ5
   have h3Z : 3 ∣ Nat.card ↥(img148 A Y (deltaZero A (lB A) (centPre148 A Y J))) := by
     rw [Nat.card_congr ψ5.toEquiv, KFacts.KS14.card_alternatingGroup_five_seven_ten.1]

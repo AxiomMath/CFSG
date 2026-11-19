@@ -464,7 +464,7 @@ theorem kRow_wit {p : ℕ} {U : Type} [AddCommGroup U] [Module (ZMod p) U] {A : 
   let H : Subgroup (owEm_GL n) := Subgroup.closure {g | ∃ s < S.length, g = gu s}
   have hguv : ∀ s < S.length, (gu s : Mat n) = toM n (S.getD s []) := fun s hs => by simp [gu, hs, owEm_unit]
   have hgu : ∀ s < S.length, gu s ∈ H ∧ (gu s)⁻¹ = gu s := fun s hs =>
-    ⟨Subgroup.subset_closure ⟨s, hs, rfl⟩, by simp only [gu, hs, dif_pos, owEm_unit_inv]⟩
+    ⟨Subgroup.subset_closure ⟨s, hs, rfl⟩, by simp only [gu, hs, dite_eq_left, owEm_unit_inv]⟩
   have htab' : ∀ i < V.length, ∀ s < S.length, (tab.getD i []).getD s 0 < V.length ∧
       (gu s : Mat n) * Lm n V i * (gu s : Mat n) = Lm n V ((tab.getD i []).getD s 0) := by
     intro i hi s hs
@@ -577,7 +577,7 @@ theorem kRow_wit {p : ℕ} {U : Type} [AddCommGroup U] [Module (ZMod p) U] {A : 
 
 theorem toM_toN {n : ℕ} (A : M13 n) : toM n (toN A) = A.val := by
   ext i j
-  simp [toM_apply, toN, List.getD_eq_getElem?_getD, ZMod.natCast_zmod_val]
+  simp [toM_apply, toN, List.getD_eq_getElem?_getD]
 
 theorem kCovN_sound {n : ℕ} {S G : List NMat} {V : List KPair} {cov : List ℕ} (h : kCovN n S G V cov = true) :
     S = G ∧ ∀ j < S.length, ∃ i < V.length, Lm n V i = toM n (S.getD j []) := by
@@ -596,13 +596,13 @@ theorem kCovK_sound {n : ℕ} {S : List NMat} {roots V : List KPair} {cov sidx :
 
 theorem ninv_cast (x : ℕ) : ((ninv x : ℕ) : ZMod 13) = ((x : ℕ) : ZMod 13)⁻¹ := by
   have key : ∀ y : Fin 13, ((ninv y : ℕ) : ZMod 13) = ((y : ℕ) : ZMod 13)⁻¹ := by decide +kernel
-  have h1 : ninv x = ninv (x % 13) := by simp [ninv, Nat.mod_mod]
+  have h1 : ninv x = ninv (x % 13) := by simp [ninv]
   rw [h1, key ⟨x % 13, Nat.mod_lt _ (by norm_num)⟩, ZMod.natCast_mod]
 
 theorem vecN_pairN (w : (Fin 6 → ZMod 13) × (Fin 6 → ZMod 13)) :
     vecN 6 (pairN w).1 = w.1 ∧ vecN 6 (pairN w).2 = w.2 := by
   refine ⟨funext fun i => ?_, funext fun i => ?_⟩ <;> fin_cases i <;>
-    simp [vecN, pairN, List.getD_eq_getElem?_getD, ZMod.natCast_zmod_val]
+    simp [vecN, pairN, List.getD_eq_getElem?_getD]
 
 theorem rootP_spec (w : (Fin 6 → ZMod 13) × (Fin 6 → ZMod 13)) :
     toM 6 (mat 6 (rootP (pairN w))) = herRefl w.1 w.2 := by

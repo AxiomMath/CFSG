@@ -41,21 +41,21 @@ theorem ff_natCard_projSim_mul (hQ : Q.Nondegenerate) (h0 : 0 < Module.finrank (
 theorem ff_natCard_projSim_five (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 5) : Nat.card (ProjSim Q) = 51840 := by
   have h := ff_natCard_projSim_mul hQ (by rw [hdim]; norm_num)
-  rw [natCard_oGroup_five hQ hdim, if_neg (by rw [hdim]; decide)] at h
+  rw [natCard_oGroup_five hQ hdim, ite_eq_right (by rw [hdim]; decide)] at h
   omega
 
 theorem ff_natCard_projSim_six_plus (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) (hs : quadSign Q = 1) :
     Nat.card (ProjSim Q) = 24261120 := by
   have h := ff_natCard_projSim_mul hQ (by rw [hdim]; norm_num)
-  rw [natCard_oGroup_six_plus hQ hdim hs, if_pos (by rw [hdim]; decide)] at h
+  rw [natCard_oGroup_six_plus hQ hdim hs, ite_eq_left (by rw [hdim]; decide)] at h
   omega
 
 theorem ff_natCard_projSim_six_minus (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) (hs : quadSign Q = -1) :
     Nat.card (ProjSim Q) = 26127360 := by
   have h := ff_natCard_projSim_mul hQ (by rw [hdim]; norm_num)
-  rw [natCard_oGroup_six_minus hQ hdim hs, if_pos (by rw [hdim]; decide)] at h
+  rw [natCard_oGroup_six_minus hQ hdim hs, ite_eq_left (by rw [hdim]; decide)] at h
   omega
 
 theorem ff_piOrth_not_mem_omegaGroup_six_plus (hQ : Q.Nondegenerate)
@@ -83,7 +83,7 @@ theorem ff_natCard_omegaProj_six_plus (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) (hs : quadSign Q = 1) :
     Nat.card (omegaProj hQ) = 6065280 := by
   have h := card_omegaProj_mul hQ (by rw [hdim]; norm_num)
-  rw [if_neg (ff_piOrth_not_mem_omegaGroup_six_plus hQ hdim hs), mul_one,
+  rw [ite_eq_right (ff_piOrth_not_mem_omegaGroup_six_plus hQ hdim hs), mul_one,
     natCard_omegaGroup_six_plus hQ hdim hs] at h
   exact h
 
@@ -91,7 +91,7 @@ theorem ff_natCard_omegaProj_six_minus (hQ : Q.Nondegenerate)
     (hdim : Module.finrank (ZMod 3) V = 6) (hs : quadSign Q = -1) :
     Nat.card (omegaProj hQ) = 3265920 := by
   have h := card_omegaProj_mul hQ (by rw [hdim]; norm_num)
-  rw [if_pos (ff_piOrth_mem_omegaGroup_six_minus hQ hdim hs),
+  rw [ite_eq_left (ff_piOrth_mem_omegaGroup_six_minus hQ hdim hs),
     natCard_omegaGroup_six_minus hQ hdim hs] at h
   omega
 

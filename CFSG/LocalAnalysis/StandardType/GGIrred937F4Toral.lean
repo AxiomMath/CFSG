@@ -89,12 +89,12 @@ private lemma modMat_weylMatrix_eq_neg_one_F4
   rw [Pi.smul_apply, Pi.single_apply] at h
   rw [h, Matrix.neg_apply, Matrix.one_apply]
   by_cases hij : i = j
-  · rw [if_pos hij.symm, if_pos hij]; ring
-  · rw [if_neg (fun hji => hij hji.symm), if_neg hij]; ring
+  · rw [ite_eq_left hij.symm, ite_eq_left hij]; ring
+  · rw [ite_eq_right (fun hji => hij hji.symm), ite_eq_right hij]; ring
 
 private lemma eq_one_of_modMat_weylMatrix_eq_one_F4
     {w : WeylGroup Tag.F4} (h : modMat 3 (weylMatrix w) = 1) : w = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine RankThree.Chevalley.F4_eq_one_of_smul_modEq (p := 3) (by norm_num) fun v i => ?_
   have hM : ∀ j, ((weylMatrix w i j : ℤ) : ZMod 3) = if i = j then 1 else 0 := by
     intro j
@@ -121,7 +121,7 @@ theorem exists_langFrame_F4
     (hSC : ∀ x ∈ Subgroup.centralizer (E : Set (adjointGroup Tag.F4 K)), x ^ 3 = 1 → x ∈ E) :
     LangFrameData .F4 3 K E:= by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   have hpK : ¬ 3 ∣ Nat.card K := by
     intro h
@@ -301,7 +301,7 @@ theorem exists_langFrame_F4
       g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K))
         (((1 : E) : adjointGroup Tag.F4 K) : ModGL Tag.F4 K) * g0
     rw [frameDiag_zero]
-    simp only [Subgroup.coe_one, map_one, inv_one, mul_one]
+    simp only [Subgroup.coe_one, map_one, mul_one]
     group
   have e0_mul : ∀ a b : Multiplicative (Fin Tag.F4.rank → ZMod 3), e0 (a * b) = e0 a * e0 b := by
     intro a b
@@ -409,7 +409,7 @@ theorem exists_realization_F4
           ι₀ (Multiplicative.ofAdd (TableBExc.torusAct Tag.F4 3 (simple Tag.F4 i) s)) := by
   classical
   obtain ⟨w, Fr, g0, ζ, hζ, ι₀, hFr, hg0C, hg0, hcent, _hζo, hι₀, hrange, hbase⟩ := hF
-  haveI hCharL : CharP (AlgebraicClosure K) 2 :=
+  have hCharL : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have hFr_bij : Function.Bijective Fr :=
     frobenius_bijective (k := K) (L := AlgebraicClosure K) Fr hFr

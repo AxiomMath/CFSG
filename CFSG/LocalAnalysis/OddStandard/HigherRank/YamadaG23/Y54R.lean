@@ -90,7 +90,7 @@ theorem y54_M3_relIndex (c : Ctx5 G L) (hH : F33Hyp c.s c.e) :
     c.s.fr.F.relIndex (M3 c.s) = 8 := by
   obtain ⟨hn, hbody⟩ := y54_secProp c hH
   obtain ⟨φ, -⟩ := hbody
-  haveI := hn
+  have := hn
   calc c.s.fr.F.relIndex (M3 c.s)
       = Nat.card (↥(M3 c.s) ⧸ (c.s.fr.F).subgroupOf (M3 c.s)) := rfl
     _ = Nat.card ↥c.s.fr.F := Nat.card_congr φ.toEquiv

@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 @[expose] def FiveTenDescent (H M : Subgroup G) (Ω : Set (Subgroup G)) : Prop :=
   ∃ (N T' : Subgroup G) (Ω' : Set (Subgroup G)), N < H ∧ FiveTenHyp N M T' Ω' ∧ Ω' ⊆ Ω
 
+omit [Finite G] in
 theorem FiveTenHyp.restrict {H N M S : Subgroup G} {Ω : Set (Subgroup G)}
     (hΩ : E1.IsInvColl H Ω) (hNH : N ≤ H) (hS : IsSylowIn 2 S N)
     (hSM : H ⊓ normalizer (E1.weakClosure S Ω : Set G) ≤ M) (hNM : ¬ N ≤ M) :
@@ -22,6 +23,7 @@ theorem FiveTenHyp.restrict {H N M S : Subgroup G} {Ω : Set (Subgroup G)}
   rw [weakClosure_restrict hS.le]
   exact (inf_le_inf_right _ hNH).trans hSM
 
+omit [Finite G] in
 theorem FiveTenDescent.of_restrict {H N M S : Subgroup G} {Ω : Set (Subgroup G)}
     (hΩ : E1.IsInvColl H Ω) (hNH : N < H) (hS : IsSylowIn 2 S N)
     (hSM : H ⊓ normalizer (E1.weakClosure S Ω : Set G) ≤ M) (hNM : ¬ N ≤ M) :
@@ -29,6 +31,7 @@ theorem FiveTenDescent.of_restrict {H N M S : Subgroup G} {Ω : Set (Subgroup G)
   ⟨N, S, {B | B ∈ Ω ∧ B ≤ N}, hNH, FiveTenHyp.restrict hΩ hNH.le hS hSM hNM,
     fun _ hB => hB.1⟩
 
+omit [Finite G] in
 theorem FiveTenConc.of_le {H N M : Subgroup G} {Ω Ω' : Set (Subgroup G)} (hNH : N ≤ H)
     (hΩ : Ω' ⊆ Ω) (hker : kerMOf M H = ⊥) (h : FiveTenConc N M Ω') : FiveTenConc H M Ω := by
   obtain ⟨A, hA, hAM, H', hH'N, hAH', hk, hAk, hmax⟩ := h

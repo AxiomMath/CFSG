@@ -63,7 +63,7 @@ theorem E9Solv.of_mulEquiv {S T : Type} [Group S] [Group T] (hT : E9Solv T) (e :
     rw [Subgroup.card_map_of_injective hinj, hcard]
   have hs := hT _ hE' hcard'
   rw [i269Fix_map] at hs
-  haveI := hs
+  have := hs
   exact isSolvable_of_mulEquiv' (Subgroup.equivMapOfInjective (i269Fix E) e.toMonoidHom e.injective)
 
 end Transport
@@ -92,7 +92,7 @@ theorem isSolvable_of_factor {A B C : Type} [Group A] [Group B] [Group C] (f : A
 theorem not_isSolvable_quasisimple_mod_center (Q : Type) [Group Q]
     (hQ : CFSG.Open.IsQuasisimple Q) : ¬ Group.IsSolvable (Q ⧸ Subgroup.center Q) := by
   intro hsol
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
   have hcomm : ∀ a b : Q ⧸ Subgroup.center Q, a * b = b * a :=
     (IsSimpleGroup.comm_iff_isSolvable).2 hsol
   have hbot : commutator (Q ⧸ Subgroup.center Q) = ⊥ := by
@@ -126,6 +126,7 @@ section Reduction
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem chevAut_fix_chevQuotHom {L D : Subgroup G} (hDN : D ≤ Subgroup.normalizer (L : Set G))
     {d : G} (hd : d ∈ D) {x : G} (hx : x ∈ L) (hxC : x ∈ Subgroup.centralizer (D : Set G)) :
     chevAut 3 L ⟨d, hDN hd⟩ (chevQuotHom 3 L ⟨x, hx⟩) = chevQuotHom 3 L ⟨x, hx⟩ := by
@@ -137,6 +138,7 @@ theorem chevAut_fix_chevQuotHom {L D : Subgroup G} (hDN : D ≤ Subgroup.normali
   show d * x * d⁻¹ = x
   rw [hc, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite G] in
 theorem commutator_mem_of_chevQuotHom_eq_one {L : Subgroup G} {x : G} (hx : x ∈ L)
     (h1 : chevQuotHom 3 L ⟨x, hx⟩ = 1) {y : G} (hy : y ∈ L) :
     (y * x)⁻¹ * (x * y) ∈ GLAPPrimeCoreOf 3 L := by
@@ -151,6 +153,7 @@ theorem commutator_mem_of_chevQuotHom_eq_one {L : Subgroup G} {x : G} (hx : x �
     exact hcomm
   exact (pQuot_mk_eq_mk_iff _ _).1 key
 
+omit [Finite G] in
 theorem mk_eq_of_mem_glaPPrimeCoreOf {Y : Subgroup G} {u v : G} (hu : u ∈ Y) (hv : v ∈ Y)
     (h : u⁻¹ * v ∈ GLAPPrimeCoreOf 3 Y) :
     (QuotientGroup.mk (⟨u, hu⟩ : ↥Y) : ↥Y ⧸ GLAPPrimeCore 3 ↥Y) = QuotientGroup.mk ⟨v, hv⟩ := by
@@ -202,7 +205,7 @@ theorem layer_eq_bot_of_E9 {X L D : Subgroup G} (hL : GLAPComponent 3 X L)
       have h3 : d ^ 3 = 1 := Subtype.ext (by simpa using hD.2 d.1 d.2)
       rw [h3, map_one]
   have hsolv : Group.IsSolvable ↥(i269Fix φ.range) := hE φ.range hEel hEcard
-  haveI := hsolv
+  have := hsolv
   set Y : Subgroup G := L ⊓ Subgroup.centralizer (D : Set G) with hYdef
   have hYL : Y ≤ L := inf_le_left
   have hYC : ∀ y ∈ Y, y ∈ Subgroup.centralizer (D : Set G) := fun y hy => (Subgroup.mem_inf.1 hy).2
@@ -257,7 +260,7 @@ theorem layer_eq_bot_of_E9 {X L D : Subgroup G} (hL : GLAPComponent 3 X L)
       obtain ⟨d, rfl⟩ := MonoidHom.mem_range.1 hα
       rw [hφ]
       exact chevAut_fix_chevQuotHom hDN d.2 (hJL x.2) (hYC x.1 (hJY x.2))
-    haveI : Group.IsSolvable ↥πJ.range := isSolvable_of_le_isSolvable hrange
+    have : Group.IsSolvable ↥πJ.range := isSolvable_of_le_isSolvable hrange
     exact not_isSolvable_quasisimple_mod_center _ hQq (isSolvable_of_factor πJ F hFsurj hkerF)
   show sSup {J : Subgroup G | GLAPComponent 3 Y J} = ⊥
   exact sSup_eq_bot.2 fun J hJ => absurd hJ (key J)

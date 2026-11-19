@@ -21,7 +21,7 @@ theorem conj_mem_opp_self {p : ℕ} {Y : Subgroup G} {w : G} (hw : w ∈ Y) {x :
     refine Subgroup.subset_closure ⟨Y.mul_mem (Y.mul_mem hw hx.1) (Y.inv_mem hw), ?_⟩
     obtain ⟨k, hk⟩ := hx.2
     exact ⟨k, by rw [← hk]; exact MulEquiv.orderOf_eq (MulAut.conj w) x⟩
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     rw [show w * (x * y) * w⁻¹ = (w * x * w⁻¹) * (w * y * w⁻¹) by group]
     exact Subgroup.mul_mem _ hx hy

@@ -36,7 +36,7 @@ theorem isL2TwoPowOdd_of_catalog_A1 {T : Type} [Group T] (q : TauCeti.PrimePower
     have : (2 : ℕ) ^ k = 2 ^ 3 := by rw [hc]; norm_num
     exact Nat.pow_right_injective (le_refl 2) this
   subst hk3
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ⟨3, by decide, by norm_num,
     ⟨e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 1 ⟨2, 3, hp, hk⟩ hv)⟩⟩
 
@@ -139,7 +139,7 @@ theorem compOK_three_of_card_dvd_7560
     (hk : Nat.card (Subgroup.centralizer ({k} : Set Q)) ∣ 7560) : CompOK 3 k := by
   intro I hI
   obtain ⟨hs, hnab⟩ := KDSpor.pSimple_simple_nonab Nat.prime_three hI
-  haveI := hs
+  have := hs
   have h3 : 3 * Nat.card (PSimple 3 I) ∣ 7560 :=
     (prime_mul_card_pSimple_dvd_cent Nat.prime_three hk3 hI.1).trans hk
   exact typeOK_three_of_card_dvd_2520 hb hnab
@@ -204,6 +204,6 @@ theorem row_He_three
     rw [← map_centralizer_subtype CFSG.Sporadic.HeldB.heP x,
       Subgroup.card_map_of_injective CFSG.Sporadic.HeldB.heP.subtype_injective]
   rw [hcc]
-  rcases he3_card x.2 hx3 with h | h <;> rw [h] <;> norm_num
+  rcases he3_card x.2 hx3 with h | h <;> rw [h]; norm_num
 
 end CFSG.LocalAnalysis.GLTheoremA.I1416Rows

@@ -20,7 +20,7 @@ variable {G : Type} [Group G] [Finite G]
 omit [Finite G] in
 theorem isSylow2In_map_sylow {P : Subgroup G} (Q : Sylow 2 ↥P) :
     IsSylow2In (Q.map P.subtype) P := by
-  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, fun V' hV'P hV'2 hle => ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, fun V' hV'P hV'2 hle => ?_⟩
   have hQV : (Q : Subgroup ↥P) ≤ V'.subgroupOf P := by
     intro x hx
     exact hle ⟨x, hx, rfl⟩

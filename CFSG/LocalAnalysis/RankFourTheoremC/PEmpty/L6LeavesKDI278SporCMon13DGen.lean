@@ -17,7 +17,7 @@ theorem exists_conj_mem_of_elemAbelian_sq {G : Type*} [Group G] [Finite G] {S₀
     (hcS : c ∈ S₀) (hcc : ∀ s ∈ S₀, c * s = s * c)
     {R : Subgroup G} (hR : CFSG.Open.IsElemAbelian 13 R) (hR2 : Nat.card R = 13 ^ 2) :
     ∃ g : G, g * c * g⁻¹ ∈ R := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   obtain ⟨Q, hRQ⟩ := IsPGroup.exists_le_sylow hR.isPGroup
   let T₀ : Sylow 13 G :=
     { toSubgroup := S₀
@@ -101,10 +101,10 @@ theorem card_modEq_one_of_fixed {Γ : Type*} [Group Γ] [Finite Γ] {Y : Subgrou
     (hd : orderOf d = 13) (hdY : ∀ y ∈ Y, d * y * d⁻¹ ∈ Y)
     (hfix : ∀ y ∈ Y, d * y = y * d → y = 1) :
     Nat.card Y ≡ 1 [MOD 13] := by
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   have hdN : d ∈ normalizer (Y : Set Γ) := mem_normalizer_of_orderOf_thirteen hd hdY
   have hN : zpowers d ≤ normalizer (Y : Set Γ) := Subgroup.zpowers_le.2 hdN
-  letI act : MulAction (zpowers d) Y :=
+  let act : MulAction (zpowers d) Y :=
     { smul := fun k y => ⟨(k : Γ) * (y : Γ) * (k : Γ)⁻¹,
         (mem_normalizer_iff.1 (hN k.2) y).1 y.2⟩
       one_smul := fun y => Subtype.ext (by

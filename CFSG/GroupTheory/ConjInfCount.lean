@@ -76,7 +76,7 @@ theorem exists_inf_conjSubgroup_eq_bot_of_card {R Λ : Subgroup G}
   have hle : Nat.card R ≤ Nat.card ({x : Λ // x ≠ 1} × {y : Λ // y ≠ 1}) :=
     Nat.card_le_card_of_injective f hinj
   have hcardne : Nat.card {x : Λ // x ≠ 1} = Nat.card Λ - 1 := by
-    haveI : Fintype Λ := Fintype.ofFinite Λ
+    have : Fintype Λ := Fintype.ofFinite Λ
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card,
       Fintype.card_subtype_compl (fun x : Λ => x = 1)]
     have h1 : Fintype.card {x : Λ // x = 1} = 1 :=

@@ -155,7 +155,7 @@ private theorem mem_orbitList_iff {i : ExcRaw.Root 1} {δ : Fin Tag.E6.rank → 
 private theorem e6SplitCodeRoots_eq_biUnion (c : Finset (ExcRaw.Root 1)) :
     e6SplitCodeRoots c = (c.biUnion fun i => (orbitList i).toFinset : Finset _) := by
   ext δ
-  simp only [e6SplitCodeRoots, Set.mem_setOf_eq, Finset.mem_coe, Finset.mem_biUnion,
+  simp only [e6SplitCodeRoots, Set.mem_ofPred_eq, Finset.mem_coe, Finset.mem_biUnion,
     List.mem_toFinset, mem_orbitList_iff]
 
 private theorem disjoint_orbitList_toFinset {i j : ExcRaw.Root 1} (hij : i ≠ j) :
@@ -202,8 +202,8 @@ theorem ncard_e6SplitCodeRoots (c : Finset (ExcRaw.Root 1)) :
       unfold ExcRaw.longCount
       rw [Finset.filter_insert]
       by_cases hp : ExcRaw.tabFix1.getD a.val false = true
-      · rw [if_pos hp, if_pos hp, Finset.card_insert_of_notMem (by simp [ha])]
-      · rw [if_neg hp, if_neg hp]
+      · rw [ite_eq_left hp, ite_eq_left hp, Finset.card_insert_of_notMem (by simp [ha])]
+      · rw [ite_eq_right hp, ite_eq_right hp]
         simp
     have hcs : (insert a s).card = s.card + 1 := Finset.card_insert_of_notMem ha
     have hLS : ExcRaw.longCount 1 s ≤ s.card := Finset.card_filter_le _ _
@@ -271,10 +271,10 @@ private theorem allLt_eq {n : ℕ} {f : (i : ℕ) → i < n → Bool} :
   constructor
   · intro h i hi
     have := h i (List.mem_range.mpr hi)
-    simpa [dif_pos hi] using this
+    simpa [dite_eq_left hi] using this
   · intro h i hi
     rw [List.mem_range] at hi
-    simp [dif_pos hi, h i hi]
+    simp [dite_eq_left hi, h i hi]
 
 private theorem anyLt_eq {n : ℕ} {f : (i : ℕ) → i < n → Bool} :
     anyLt n f = true ↔ ∃ (i : ℕ) (hi : i < n), f i hi = true := by
@@ -282,9 +282,9 @@ private theorem anyLt_eq {n : ℕ} {f : (i : ℕ) → i < n → Bool} :
   constructor
   · rintro ⟨i, hi, h⟩
     rw [List.mem_range] at hi
-    exact ⟨i, hi, by simpa [dif_pos hi] using h⟩
+    exact ⟨i, hi, by simpa [dite_eq_left hi] using h⟩
   · rintro ⟨i, hi, h⟩
-    exact ⟨i, List.mem_range.mpr hi, by simp [dif_pos hi, h]⟩
+    exact ⟨i, List.mem_range.mpr hi, by simp [dite_eq_left hi, h]⟩
 
 private def kerOK : Bool :=
   allLt 24 fun i hi =>
@@ -364,13 +364,13 @@ private theorem foldl_mask_testBit (l : List ℕ) (p : ℕ → Bool) (acc j : �
   | cons a l ih =>
     rw [List.foldl_cons, ih]
     by_cases hp : p a = true
-    · rw [if_pos hp, Nat.testBit_lor, Nat.one_shiftLeft, Nat.testBit_two_pow]
+    · rw [ite_eq_left hp, Nat.testBit_lor, Nat.one_shiftLeft, Nat.testBit_two_pow]
       by_cases hja : j = a
       · subst hja
         simp [hp]
       · have haj : a ≠ j := fun h => hja h.symm
         simp [hja, haj, List.mem_cons]
-    · rw [if_neg hp]
+    · rw [ite_eq_right hp]
       by_cases hja : j = a
       · subst hja
         simp [hp]
@@ -380,9 +380,9 @@ private theorem clMaskN_testBit (M t : ℕ) :
     (clMaskN M).testBit t = true ↔ t < 24 ∧ M &&& e6SplitKerTab.getD t 0 = M := by
   rw [clMaskN, foldl_mask_testBit, Nat.zero_testBit, Bool.false_or]
   by_cases ht : t < 24
-  · rw [if_pos (List.mem_range.mpr ht), beq_iff_eq]
+  · rw [ite_eq_left (List.mem_range.mpr ht), beq_iff_eq]
     exact ⟨fun h => ⟨ht, h⟩, fun h => h.2⟩
-  · rw [if_neg (fun h => ht (List.mem_range.mp h))]
+  · rw [ite_eq_right (fun h => ht (List.mem_range.mp h))]
     simp [ht]
 
 private theorem land_eq_iff_testBit {M N : ℕ} :
@@ -863,7 +863,7 @@ private theorem mem_rootsN_iff {n : ℕ} {δ : Fin Tag.E6.rank → ℤ} :
     rw [rootsN, List.mem_flatMap] at h
     obtain ⟨i, hi, hδ⟩ := h
     rw [List.mem_range] at hi
-    rw [dif_pos hi] at hδ
+    rw [dite_eq_left hi] at hδ
     by_cases hn : n.testBit i = true
     · refine ⟨rootOf i hi, ?_, ?_⟩
       · rw [ExcRaw.mem_ofMask]
@@ -873,7 +873,7 @@ private theorem mem_rootsN_iff {n : ℕ} {δ : Fin Tag.E6.rank → ℤ} :
   · rintro ⟨i, hi, hδ⟩
     rw [rootsN, List.mem_flatMap]
     refine ⟨i.val, List.mem_range.mpr (rootVal_lt i), ?_⟩
-    rw [dif_pos (rootVal_lt i)]
+    rw [dite_eq_left (rootVal_lt i)]
     have hi' : n.testBit i = true := by simpa [ExcRaw.mem_ofMask] using hi
     simpa [rootOf, hi'] using hδ
 
@@ -912,7 +912,7 @@ private theorem sum_E6_fin {M : Type*} [AddCommMonoid M] (g : Fin Tag.E6.rank �
   rw [show (∑ i : Fin Tag.E6.rank, g i) =
       ∑ i : Fin Tag.E6.rank, (if hn : i.val < Tag.E6.rank then g ⟨i.val, hn⟩ else 0) from by
     refine Finset.sum_congr rfl fun i _ => ?_
-    rw [dif_pos i.isLt]]
+    rw [dite_eq_left i.isLt]]
   rw [h]
   simp [Tag.rank]
   rfl
@@ -937,7 +937,7 @@ theorem iform_eq_iformE6 (x y : Fin Tag.E6.rank → ℤ) :
       (xF 2 * yF 3 + xF 3 * yF 2) - (xF 3 * yF 4 + xF 4 * yF 3) -
       (xF 4 * yF 5 + xF 5 * yF 4)
   simp only [sum_E6_fin]
-  simp [xF, yF, cF, cartanE6, Tag.rank, dif_pos]
+  simp [xF, yF, cF, cartanE6, Tag.rank, dite_eq_left]
   ring
 
 private theorem iform_e6SplitRoot_self (i : ExcRaw.Root 1) :
@@ -1058,19 +1058,19 @@ private theorem innerB_mem {n : ℕ} {b : Fin Tag.E6.rank → ℤ} (hb : b ∈ i
       refine ih _ ?_ b hb
       intro c hc
       by_cases ha : a < 24
-      · rw [dif_pos ha] at hc
+      · rw [dite_eq_left ha] at hc
         by_cases hcond : (n.testBit a && ExcRaw.tabFix1.getD a false &&
             B.all (fun b => iformE6 (e6SplitRoot (rootOf a ha)) b == 0)) = true
-        · rw [dif_pos hcond, List.mem_append] at hc
+        · rw [dite_eq_left hcond, List.mem_append] at hc
           rcases hc with hc | hc
           · exact hB c hc
           · rw [List.mem_singleton] at hc
             subst hc
             refine ⟨rootOf a ha, ?_, rfl⟩
             exact (Bool.and_eq_true_iff.mp (Bool.and_eq_true_iff.mp hcond).1).1
-        · rw [dif_neg hcond] at hc
+        · rw [dite_eq_right hcond] at hc
           exact hB c hc
-      · rw [dif_neg ha] at hc
+      · rw [dite_eq_right ha] at hc
         exact hB c hc
   exact hfold (List.range 24) [] (by simp) b hb
 

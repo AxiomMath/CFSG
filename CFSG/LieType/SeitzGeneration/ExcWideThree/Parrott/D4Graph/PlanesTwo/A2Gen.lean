@@ -12,6 +12,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.RankThree.PartOne.CTP
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem wordG_flatten_mem {M : Subgroup ↥(adjointGroup Tag.D4 K)} (ws : List (List ℕ))
     (h : ∀ v ∈ ws, wordG K v ∈ M) : wordG K ws.flatten ∈ M := by
   induction ws with
@@ -44,6 +45,7 @@ theorem eq_top_of_chains (hK : Nat.card K = 2) {x cs cd : List ℕ} (hx : Letter
     (key cs _ hcs (by decide) hcsM h3) (key cd _ hcd (by decide) hcdM hx2)
     (key cd _ hcd (by decide) hcdM hy2)
 
+omit [Finite K] in
 theorem quadSet_mems {x : ↥(adjointGroup Tag.D4 K)} {β : MulAut ↥(adjointGroup Tag.D4 K)} :
     (∀ g ∈ Subgroup.centralizer ({x} : Set ↥(adjointGroup Tag.D4 K)),
       g ∈ Subgroup.closure (quadSet x β)) ∧
@@ -55,6 +57,7 @@ theorem quadSet_mems {x : ↥(adjointGroup Tag.D4 K)} {β : MulAut ↥(adjointGr
     fun _ hg => Subgroup.subset_closure (Or.inl (Or.inr hg)),
     fun _ hg => Subgroup.subset_closure (Or.inr hg)⟩
 
+omit [Finite K] in
 theorem closure_quadSet_y₀ :
     Subgroup.closure (quadSet (wordG K y0W) (gammaP K (uSL 1 * vSL 1))) = ⊤ := by
   have hγ : (MulAut.conj (wordG K y0W))⁻¹ * gammaP K (uSL 1 * vSL 1) = d4Graph K 1 := by
@@ -87,7 +90,7 @@ theorem closure_quadSet_d (hK : Nat.card K = 2) :
     (cs := [[0, 19, 21, 3, 13, 4], [8, 20, 15], [5, 3, 12, 9, 1], [2], [5, 3, 12, 9, 1],
       [15, 20], [5, 3, 12, 9, 1]].flatten) (cd := []) (by decide) (by decide) (by decide) hC
     (wordG_flatten_mem _ (by
-      simp only [List.forall_mem_cons, List.forall_mem_nil, and_true]
+      simp only [List.forall_mem_cons]
       exact ⟨n1, n2, n3, n4, n3, n5, n3, fun _ h => absurd h List.not_mem_nil⟩))
     (by rw [wordG_nil]; exact Subgroup.one_mem _)
     (by decide +kernel) (by decide +kernel) (by decide +kernel) (by decide +kernel)
@@ -116,10 +119,10 @@ theorem closure_quadSet_ry₀ (hK : Nat.card K = 2) :
     (cs := [[19, 6, 15, 2, 8, 11], [14, 20, 9, 2, 7, 16], [5, 3, 12, 9, 1]].flatten)
     (cd := [[23, 5, 18, 2, 1, 8], [2, 8]].flatten) (by decide) (by decide) (by decide) hC
     (wordG_flatten_mem _ (by
-      simp only [List.forall_mem_cons, List.forall_mem_nil, and_true]
+      simp only [List.forall_mem_cons]
       exact ⟨n1, n2, n3, fun _ h => absurd h List.not_mem_nil⟩))
     (wordG_flatten_mem _ (by
-      simp only [List.forall_mem_cons, List.forall_mem_nil, and_true]
+      simp only [List.forall_mem_cons]
       exact ⟨n4, n5, fun _ h => absurd h List.not_mem_nil⟩))
     (by decide +kernel) (by decide +kernel) (by decide +kernel) (by decide +kernel)
     (by decide +kernel)
@@ -147,10 +150,10 @@ theorem closure_quadSet_ry₀sq (hK : Nat.card K = 2) :
     (cs := [[4, 16, 17, 10, 14], [13, 4, 6, 2, 12, 18], [5, 3, 12, 9, 1]].flatten)
     (cd := [[2, 22, 14, 12, 8, 10], [2, 8]].flatten) (by decide) (by decide) (by decide) hC
     (wordG_flatten_mem _ (by
-      simp only [List.forall_mem_cons, List.forall_mem_nil, and_true]
+      simp only [List.forall_mem_cons]
       exact ⟨n1, n2, n3, fun _ h => absurd h List.not_mem_nil⟩))
     (wordG_flatten_mem _ (by
-      simp only [List.forall_mem_cons, List.forall_mem_nil, and_true]
+      simp only [List.forall_mem_cons]
       exact ⟨n4, n5, fun _ h => absurd h List.not_mem_nil⟩))
     (by decide +kernel) (by decide +kernel) (by decide +kernel) (by decide +kernel)
     (by decide +kernel)

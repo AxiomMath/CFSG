@@ -56,7 +56,7 @@ private lemma diagonal_mul_single_mul_diagonal_inv {n : ℕ} (d : Fin n → F)
   by_cases ha : a = i <;> by_cases hb : b = j <;> simp_all
 
 private lemma diagonal_conj_transvection {n : ℕ} (d : Fin n → F) (hd : ∀ k, d k ≠ 0)
-    {i j : Fin n} (hij : i ≠ j) (c : F) :
+    {i j : Fin n} (_hij : i ≠ j) (c : F) :
     Matrix.diagonal d * Matrix.transvection i j c * Matrix.diagonal (fun k => (d k)⁻¹) =
       Matrix.transvection i j (d i * (d j)⁻¹ * c) := by
   have h1 : Matrix.diagonal d * Matrix.diagonal (fun k => (d k)⁻¹) = 1 := by
@@ -108,7 +108,6 @@ private def block01 : Matrix.SpecialLinearGroup (Fin 2) F →*
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_three,
         Fin.sum_univ_two]
-    all_goals ring
 
 private lemma block01_uSL (c : F) :
     block01 (uSL c) = CFSG.Timmesfeld.tv (n := 3) 0 1 c := by
@@ -167,7 +166,6 @@ private def block12 : Matrix.SpecialLinearGroup (Fin 2) F →*
     fin_cases i <;> fin_cases j <;>
       simp [Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Fin.sum_univ_three,
         Fin.sum_univ_two]
-    all_goals ring
 
 private lemma block12_uSL (c : F) :
     block12 (uSL c) = CFSG.Timmesfeld.tv (n := 3) 1 2 c := by
@@ -208,7 +206,7 @@ private lemma sl3_conjDiag_hom {i j : Fin TwistTag.E6.tag.rank}
       ι.comp (slConjugation 3 F (diagGL d hd)).toMonoidHom := by
   refine MonoidHom.eq_of_eqOn_dense (CFSG.Timmesfeld.closure_tv_three (F := F)) ?_
   intro g hg
-  simp only [Set.mem_union, Set.mem_setOf_eq] at hg
+  simp only [Set.mem_union, Set.mem_ofPred_eq] at hg
   rcases hg with ((⟨c, rfl⟩ | ⟨c, rfl⟩) | ⟨c, rfl⟩) | ⟨c, rfl⟩
   · simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     rw [(hι c).1, (root_diagonal_conjugation TwistTag.E6.tag F b).1 i c,
@@ -246,13 +244,13 @@ theorem exists_diag_conj_sl3 {i j : Fin TwistTag.E6.tag.rank}
   have hd : ∀ k : Fin 3, d k ≠ 0 := by
     intro k
     fin_cases k
-    · simpa [d] using (b i).ne_zero
-    · simpa [d] using one_ne_zero
-    · simpa [d] using inv_ne_zero (b j).ne_zero
+    · simp [d]
+    · simp [d]
+    · simp [d]
   refine ⟨diagGL d hd, ?_, ?_⟩
   · intro a a' haa'
     change Matrix.diagonal d a a' = 0
-    rw [Matrix.diagonal_apply, if_neg haa']
+    rw [Matrix.diagonal_apply, ite_eq_right haa']
   · have hφψ := sl3_conjDiag_hom ι hι b d hd (by simp [d]) (by simp [d]) (by simp [d])
     intro g
     exact DFunLike.congr_fun hφψ g
@@ -270,12 +268,12 @@ theorem exists_diag_conj_sl2 {k : Fin TwistTag.E6.tag.rank}
   have hd : ∀ m : Fin 2, d m ≠ 0 := by
     intro m
     fin_cases m
-    · simpa [d] using (b k).ne_zero
-    · simpa [d] using one_ne_zero
+    · simp [d]
+    · simp [d]
   refine ⟨diagGL d hd, ?_, ?_⟩
   · intro a a' haa'
     change Matrix.diagonal d a a' = 0
-    rw [Matrix.diagonal_apply, if_neg haa']
+    rw [Matrix.diagonal_apply, ite_eq_right haa']
   · intro g
     let φ : Matrix.SpecialLinearGroup (Fin 2) F →* ModGL TwistTag.E6.tag F :=
       (MulAut.conj (rootDiagUnit TwistTag.E6.tag b)).toMonoidHom.comp ι
@@ -369,7 +367,7 @@ theorem mem_range_rootDiagUnitHom_of_diag_sl3 {i j : Fin TwistTag.E6.tag.rank}
   let c : F := (h : Matrix (Fin 3) (Fin 3) F) 2 2
   have hdiag : (h : Matrix (Fin 3) (Fin 3) F) = Matrix.diagonal ![a, b, c] := by
     ext p q
-    fin_cases p <;> fin_cases q <;> simp [Matrix.diagonal_apply, a, b, c, hh]
+    fin_cases p <;> fin_cases q <;> simp [a, b, c, hh]
   have habc : a * b * c = 1 := by
     have hdet := h.2
     rw [hdiag, Matrix.det_diagonal, Fin.prod_univ_three] at hdet

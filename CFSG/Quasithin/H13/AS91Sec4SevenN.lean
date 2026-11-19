@@ -18,6 +18,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_sup_mul_card_inf_of_le_normalizer {H N : Subgroup G}
     (hHN : H ≤ normalizer (N : Set G)) :
     Nat.card (H ⊔ N : Subgroup G) * Nat.card (H ⊓ N : Subgroup G) = Nat.card H * Nat.card N := by
@@ -32,6 +33,7 @@ theorem card_sup_mul_card_inf_of_le_normalizer {H N : Subgroup G}
   rw [h1, h2]
   ring
 
+omit [Finite G] in
 theorem exists_mul_of_mem_sup {N H : Subgroup G} (hHN : H ≤ normalizer (N : Set G)) {x : G}
     (hx : x ∈ N ⊔ H) : ∃ n ∈ N, ∃ y ∈ H, n * y = x := by
   have hx' : x ∈ ((N ⊔ H : Subgroup G) : Set G) := hx
@@ -125,7 +127,7 @@ theorem Zinf_le_E1 : Zinf (h := h) g₁ s₀ ≤ D.E1 := fun x hx => by
   obtain ⟨hxQ, hxZ⟩ := (D.mem_Zinf_iff hOut hTw hg₁ hs₀).mp hx
   exact ⟨hxQ, Two.mem_W1_of_inZ hxZ⟩
 
-theorem E_le_S : D.E ≤ centralizer (Zinf (h := h) g₁ s₀ : Set G) := fun x hx =>
+theorem E_le_S : D.E ≤ centralizer (Zinf (h := h) g₁ s₀ : Set G) := fun _x hx =>
   mem_centralizer_iff.mpr fun y hy => (D.mem_E.mp hx) y (D.Zinf_le_E1 hOut hTw hg₁ hs₀ hy)
 
 omit
@@ -153,7 +155,7 @@ theorem conj_mem_E_of_K (hHat : HatM22SmallModules) {k : G} (hk : k ∈ Kgrp (h 
     rw [← map_mul, ← map_mul, D.E_comm hOut hTw hHat ha hb]
   have hcard : Nat.card (D.E.map (MulAut.conj k).toMonoidHom) = 2 ^ 11 := by
     rw [Subgroup.card_map_of_injective (MulAut.conj k).injective, D.card_E hOut hTw]
-  have hE1 := (D.card_le_of_comm hOut hTw hAT hAc).2 hcard
+  have hE1 := (D.card_le_of_comm hAT hAc).2 hcard
   exact D.mem_E.mpr fun y hy => hAc y (hE1 hy) _ ⟨e, he, rfl⟩
 
 theorem K_le_normalizer_E (hHat : HatM22SmallModules) :
@@ -264,7 +266,7 @@ theorem relIndex_G12 (hHat : HatM22SmallModules) :
   have hR' : centralizer (Zinf (h := h) g₁ s₀ : Set G) ⊓ D.G13 ⊓ Kgrp (h := h) g₁ s₀ =
       D.Bgrp g₁ s₀ :=
     le_antisymm (by rw [← hR]; exact inf_le_inf_right _ inf_le_left)
-      (le_inf (le_inf (D.Bgrp_le_centralizer hOut hTw hg₁ hs₀) D.Bgrp_le_G13)
+      (le_inf (le_inf (D.Bgrp_le_centralizer) D.Bgrp_le_G13)
         (D.Bgrp_le_Kgrp hOut hTw hg₁ hs₀))
   have c1 := card_sup_mul_card_inf_of_le_normalizer hSK
   rw [sup_comm, ← (D.K_facts hOut hTw hg₁ hs₀).1, hR] at c1

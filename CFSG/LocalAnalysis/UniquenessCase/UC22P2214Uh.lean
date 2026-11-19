@@ -26,8 +26,8 @@ theorem uc22p2214_six_faith (D : Data G) (Ch : Choice2011 G)
     (hfaith : ∀ b ∈ c.B0, b ≠ 1 →
       ∃ K' ∈ conjSetOf D.M K, ∃ k ∈ K', b * k * b⁻¹ * k⁻¹ ∉ centralizer (c.V : Set G)) :
     c.n ≤ n := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [hc6]
   by_contra hlt
   push Not at hlt
@@ -46,7 +46,7 @@ theorem uc22p2214_six_faith (D : Data G) (Ch : Choice2011 G)
     hKV hshape hfix hfaith ha₇ (by norm_num) ha₇o (by omega) (by norm_num)
   have h7n : 7 ∣ 2 ^ n - 1 := by
     rcases hcl with ⟨hsp, -⟩ | ⟨hsu, hmod⟩ | ⟨hL | hSz, -⟩
-    · haveI := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hsp
+    · have := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hsp
       obtain ⟨e'⟩ := uc22p2214_quotCenter_of_simple hq
       exact uc22p2214_borel_prime_Sp4
         (CFSG.Blueprint.LieModel.of_mulEquiv (e'.trans e.symm) hsp) hS (by norm_num)
@@ -55,12 +55,12 @@ theorem uc22p2214_six_faith (D : Data G) (Ch : Choice2011 G)
       have h2 := uc22p22a_two_le_of_isU3 hsu.2
       have h6 : n % 6 = 1 := hmod
       omega
-    · haveI := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL
+    · have := CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL
       obtain ⟨e'⟩ := uc22p2214_quotCenter_of_simple hq
       exact uc22p2214_borel_prime_L2
         (CFSG.Blueprint.LieModel.of_mulEquiv (e'.trans e.symm) hL) hS (by norm_num)
         (by norm_num) h7N
-    · haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
+    · have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz
       obtain ⟨e'⟩ := uc22p2214_quotCenter_of_simple hq
       exact uc22p2214_borel_prime_Sz
         (CFSG.Blueprint.LieModel.of_mulEquiv (e'.trans e.symm) hSz) hS (by norm_num)
@@ -162,7 +162,7 @@ theorem uc22p2214_six_faith (D : Data G) (Ch : Choice2011 G)
   have hcompi := uc22br4_isComponentOf_mbarImage D.M c.V Ki c.hVM hO2 hKiC hKiV
   have hfixi := hfix Ki hKi
   have hSzi : IsSz (↥(mbarImage D.M c.V Ki) ⧸ center ↥(mbarImage D.M c.V Ki)) 3 := by
-    haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz8
+    have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hSz8
     obtain ⟨e₁⟩ := uc22p2214_quotCenter_of_simple hq
     obtain ⟨g, hg, rfl⟩ := hKi
     obtain ⟨e₂⟩ := uc22p2214_quotCenter_conj D.M c.V K hg

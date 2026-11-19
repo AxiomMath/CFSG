@@ -15,7 +15,7 @@ theorem eq_bot_or_isSolvable_quotient_of_equiv {A B : Type*} [Group A] [Group B]
     (h : ∀ (N : Subgroup A) [N.Normal], N = ⊥ ∨ Group.IsSolvable (A ⧸ N)) :
     ∀ (N : Subgroup B) [N.Normal], N = ⊥ ∨ Group.IsSolvable (B ⧸ N) := by
   intro N hN
-  haveI : (N.comap e.toMonoidHom).Normal := hN.comap e.toMonoidHom
+  have : (N.comap e.toMonoidHom).Normal := hN.comap e.toMonoidHom
   have hmap : (N.comap e.toMonoidHom).map e.toMonoidHom = N :=
     Subgroup.map_comap_eq_self_of_surjective e.surjective N
   rcases h (N.comap e.toMonoidHom) with hb | hs
@@ -74,7 +74,7 @@ theorem eq_bot_or_isSolvable_of_two_cells {G : Type*} [Group G] (B U : Subgroup 
   by_cases hAB : A ≤ B
   · exact Or.inl (le_bot_iff.mp (hK ▸ Subgroup.normal_le_normalCore.mpr hAB))
   · right
-    obtain ⟨a, haA, haB⟩ := SetLike.not_le_iff_exists.mp hAB
+    obtain ⟨a, haA, haB⟩ := IsConcreteLE.not_le_iff_exists.mp hAB
     have hfac := exists_mul_eq_of_two_cells B U hUB c₀ hcell A haA haB
     have hsurj : Function.Surjective ((QuotientGroup.mk' A).comp B.subtype) := by
       intro q
@@ -85,7 +85,7 @@ theorem eq_bot_or_isSolvable_of_two_cells {G : Type*} [Group G] (B U : Subgroup 
       rw [QuotientGroup.eq]
       have := (inferInstance : A.Normal).conj_mem x hx y⁻¹
       simpa [mul_assoc] using this
-    haveI := hBsolv
+    have := hBsolv
     exact Group.isSolvable_of_surjective hsurj
 
 theorem eq_bot_or_isSolvable_foldFix_of_polarity {X : Type*} [Group X] [Finite X]
@@ -121,11 +121,11 @@ theorem eq_bot_or_isSolvable_foldFix_of_polarity {X : Type*} [Group X] [Finite X
     refine (hmemU k).2 (hKC k ((hmemB k).1 hk) (mem_foldFix.1 k.2) fun u hu huf => ?_)
     exact congrArg Subtype.val (hcomm ⟨u, huf⟩ ((hmemU _).2 hu))
   have hBsolv' : Group.IsSolvable ↥(D.B.subgroupOf (foldFix θ)) := by
-    haveI := hBsolv
+    have := hBsolv
     let f : ↥(D.B.subgroupOf (foldFix θ)) →* ↥D.B :=
       ((foldFix θ).subtype.comp (D.B.subgroupOf (foldFix θ)).subtype).codRestrict D.B
         fun g => (hmemB g.1).1 g.2
-    exact solvable_of_solvable_injective (f := f) fun a b hab =>
+    exact Group.isSolvable_of_isSolvable_injective (f := f) fun a b hab =>
       Subtype.ext (Subtype.ext (congrArg (fun z : ↥D.B => (z : X)) hab))
   exact eq_bot_or_isSolvable_of_two_cells (D.B.subgroupOf (foldFix θ))
     (D.U.subgroupOf (foldFix θ)) hUB hUnorm c hcell hmeet hKC' hBsolv' A

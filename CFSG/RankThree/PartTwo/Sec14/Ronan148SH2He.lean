@@ -25,7 +25,7 @@ variable {S G' : Type} [Group S] [Group G']
 theorem GoodA6.of_map [Finite S] (f : S →* G') (hf : Function.Injective f) {C : Subgroup S}
     (h : GoodA6 (C.map f)) : GoodA6 C := by
   intro K hKC hKq hKs hT
-  haveI : Group.IsPerfect K := hKq.1
+  have : Group.IsPerfect K := hKq.1
   have eK : K ≃* K.map f := K.equivMapOfInjective f hf
   have hKq' : IsQuasisimple (K.map f) := CFSG.LocalCores.isQuasisimple_of_mulEquiv eK hKq
   refine h (K.map f) (Subgroup.map_mono hKC) hKq' ?_
@@ -37,7 +37,7 @@ theorem GoodA6.of_map [Finite S] (f : S →* G') (hf : Function.Injective f) {C 
   have hmap := hKs.map hsurj
   have heq : (K.subgroupOf C).map (eC : C →* C.map f) = (K.map f).subgroupOf (C.map f) := by
     ext ⟨y, hy⟩
-    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, MonoidHom.coe_coe]
+    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, _root_.MonoidHom.coe_ofClass]
     constructor
     · rintro ⟨x, hxK, hxy⟩
       refine ⟨x, hxK, ?_⟩

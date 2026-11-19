@@ -408,7 +408,7 @@ theorem inter_map_conj_eq_of_far (r : ResM24T c) (hI : Sec7Inputs) (hJ : HypJ4 G
         simp only [not_exists, not_and] at hne
         have : {b | c.OnP b c.pi0 ∧ c.Delta.Adj c.x0 b} = ∅ := by
           ext b
-          simp only [Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false, not_and]
+          simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false, not_and]
           exact hne b
         rw [this, Set.ncard_empty] at h60
         exact absurd h60 (by norm_num)
@@ -470,7 +470,7 @@ theorem inter_map_conj_of_isConj_z (r : ResM24T c) (hI : Sec7Inputs) (hJ : HypJ4
     group
   have hwmem : m⁻¹ * w * m ∈ c.E ⊓ c.E.map (MulAut.conj g').toMonoidHom := by
     rw [← hconj]
-    exact ⟨w, hw, by simp [MulAut.conj_apply]⟩
+    exact ⟨w, hw, by simp⟩
   have hEg'H : c.E.map (MulAut.conj g').toMonoidHom ≤ c.G3 := by
     intro x hx
     rw [Loc49.G3, H, Subgroup.mem_centralizer_iff]
@@ -481,7 +481,7 @@ theorem inter_map_conj_of_isConj_z (r : ResM24T c) (hI : Sec7Inputs) (hJ : HypJ4
     obtain ⟨a, ha, rfl⟩ := hzE
     obtain ⟨b, hb, rfl⟩ := hx
     have hab : a * b = b * a := congrArg Subtype.val (c.E_elem.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-    simp only [MonoidHom.coe_coe, MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     calc g' * a * g'⁻¹ * (g' * b * g'⁻¹) = g' * (a * b) * g'⁻¹ := by group
       _ = g' * (b * a) * g'⁻¹ := by rw [hab]
       _ = g' * b * g'⁻¹ * (g' * a * g'⁻¹) := by group

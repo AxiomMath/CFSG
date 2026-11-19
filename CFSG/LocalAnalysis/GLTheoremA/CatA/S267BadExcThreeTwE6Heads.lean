@@ -56,9 +56,9 @@ theorem card_le_three_pow_six_twistedE6_of_mod_one (hS : S.Normal) (hperf : ⁅S
     (hf : 1 ≤ f) (hQ3 : ℓ ^ f % 3 = 1)
     (eX : ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) ≃* PSimple 3 S) :
     Nat.card B ≤ 3 ^ (4 + 2) := by
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Subtype.finite
-  haveI := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite ↥(twistedE6RootGroup K (unitaryInvolution K ℓ f)) := Subtype.finite
+  have := CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic K
   have hℓ : ℓ.Prime := Fact.out
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, hZ0, -⟩ :=
     twisted_E6_all_characteristic_exact_automorphism_normal_form hℓ hf K hK
@@ -80,13 +80,13 @@ theorem concA_badExcCore_twistedE6_three_of_mod_one_of_outer (houter : TwE6Outer
   subst hp3
   rw [TauCeti.LieTypeIndex.characteristic_twistedE6] at hchar
   subst hchar
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   obtain ⟨K, _, σ, hK, hσ, ⟨ec⟩⟩ := exists_catEquiv_twistedE6 Q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero 2 (pow_ne_zero _ Q.prime_p.ne_zero))
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K Q.p := charP_of_card_eq_prime_pow (f := Q.exponent * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K Q.p := charP_of_card_eq_prime_pow (f := Q.exponent * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   have hσ' : σ = unitaryInvolution K Q.p Q.exponent :=
     RingEquiv.ext fun c => (hσ c).trans (unitaryInvolution_apply K Q.p Q.exponent c).symm

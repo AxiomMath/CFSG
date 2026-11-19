@@ -535,7 +535,7 @@ theorem jr_normalizer_facts
           exact mem_normalizer_of_mem_centralizer hwC
         have hQp : IsPGroup 2 (Sg ⊔ Subgroup.zpowers (w : L) : Subgroup L) := by
           rw [sup_comm]
-          exact hwp.to_sup_of_normal_right' S.isPGroup' hwN'
+          exact hwp.to_sup_of_normal_right' S.isPGroup hwN'
         have heq : Sg ⊔ Subgroup.zpowers (w : L) = Sg :=
           S.maximal_isPGroup.eq_of_ge hQp le_sup_left
         exact heq ▸ (le_sup_right (a := Sg) (Subgroup.mem_zpowers (w : L)))

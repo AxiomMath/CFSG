@@ -18,15 +18,18 @@ variable {S : Type} [CommGroup S] {ι : Type} [Fintype ι] [DecidableEq ι] {F :
   right_inv x := by simp
   map_add' x y := by simp only [ofAdd_add, map_mul, toAdd_mul]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem boAdd_apply (ψ : S ≃* Multiplicative (ι → F)) (g : MulAut S) (x : ι → F) :
     boAdd ψ g x = Multiplicative.toAdd (ψ (g (ψ.symm (Multiplicative.ofAdd x)))) :=
   rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem boAdd_toAdd (ψ : S ≃* Multiplicative (ι → F)) (g : MulAut S) (s : S) :
     boAdd ψ g (Multiplicative.toAdd (ψ s)) = Multiplicative.toAdd (ψ (g s)) := by
   rw [boAdd_apply]
   simp
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem boAdd_mul (ψ : S ≃* Multiplicative (ι → F)) (g h : MulAut S) :
     boAdd ψ (g * h) = boAdd ψ g + boAdd ψ h :=
   AddEquiv.ext fun x => by
@@ -34,16 +37,19 @@ theorem boAdd_mul (ψ : S ≃* Multiplicative (ι → F)) (g h : MulAut S) :
     rw [boAdd_apply ψ h x, boAdd_toAdd]
     exact boAdd_apply ψ (g * h) x
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem boAdd_one (ψ : S ≃* Multiplicative (ι → F)) : boAdd ψ 1 = 0 :=
   AddEquiv.ext fun x => by
     show boAdd ψ 1 x = x
     rw [boAdd_apply]
     simp
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem boAdd_inv (ψ : S ≃* Multiplicative (ι → F)) (g : MulAut S) :
     boAdd ψ g⁻¹ = -boAdd ψ g :=
   AddEquiv.ext fun _ => rfl
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem boAdd_injective (ψ : S ≃* Multiplicative (ι → F)) :
     Function.Injective (boAdd ψ) := by
   intro g h hgh
@@ -63,6 +69,7 @@ theorem boAdd_injective (ψ : S ≃* Multiplicative (ι → F)) :
     rintro _ ⟨g, hg, rfl⟩
     exact ⟨g⁻¹, Q.inv_mem hg, boAdd_inv ψ g⟩
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem boSub_card (ψ : S ≃* Multiplicative (ι → F)) (Q : Subgroup (MulAut S)) :
     Nat.card (boSub ψ Q) = Nat.card Q := by
   refine Nat.card_congr (Equiv.ofBijective
@@ -72,6 +79,7 @@ theorem boSub_card (ψ : S ≃* Multiplicative (ι → F)) (Q : Subgroup (MulAut
   · rintro ⟨a, g, hg, rfl⟩
     exact ⟨⟨g, hg⟩, rfl⟩
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem bo_fix_iff (ψ : S ≃* Multiplicative (ι → F)) (Q : Subgroup (MulAut S))
     (x : ι → F) :
     (∀ a ∈ boSub ψ Q, a x = x) ↔ ψ.symm (Multiplicative.ofAdd x) ∈ fixV Q := by
@@ -90,6 +98,7 @@ theorem bo_fix_iff (ψ : S ≃* Multiplicative (ι → F)) (Q : Subgroup (MulAut
     rw [boAdd_apply, hgs]
     simp
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem bo_add_self (ψ : S ≃* Multiplicative (ι → F)) {Q : Subgroup (MulAut S)}
     (hQ : IsElemAbelian2 Q) : ∀ a ∈ boSub ψ Q, a + a = 0 := by
   rintro _ ⟨g, hg, rfl⟩
@@ -98,11 +107,13 @@ theorem bo_add_self (ψ : S ≃* Multiplicative (ι → F)) {Q : Subgroup (MulAu
     exact hQ.2 g hg
   rw [← boAdd_mul ψ g g, hgg, boAdd_one]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem bo_comm (ψ : S ≃* Multiplicative (ι → F)) {Q : Subgroup (MulAut S)}
     (hQ : IsElemAbelian2 Q) : ∀ a ∈ boSub ψ Q, ∀ b ∈ boSub ψ Q, a + b = b + a := by
   rintro _ ⟨g, hg, rfl⟩ _ ⟨h, hh, rfl⟩
   rw [← boAdd_mul ψ g h, ← boAdd_mul ψ h g, hQ.1 g hg h hh]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem bo_quad (ψ : S ≃* Multiplicative (ι → F)) {Q : Subgroup (MulAut S)}
     (hQq : IsQuadratic Q) :
     ∀ a ∈ boSub ψ Q, ∀ b ∈ boSub ψ Q, ∀ x : ι → F,
@@ -153,12 +164,14 @@ theorem bo_normalizes {G : Subgroup (GL ι F)} {L A : Subgroup (MulAut S)}
     simp
   rw [← e1, boAdd_toAdd, boAdd_toAdd, ← e2, e3]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem bo_card_fix (ψ : S ≃* Multiplicative (ι → F)) (Q : Subgroup (MulAut S)) :
     Nat.card {x : ι → F // ∀ a ∈ boSub ψ Q, a x = x} = Nat.card (fixV Q) := by
   let e : (ι → F) ≃ S := (Multiplicative.ofAdd : (ι → F) ≃ Multiplicative (ι → F)).trans
     ψ.symm.toEquiv
   exact Nat.card_congr (Equiv.subtypeEquiv e fun x => bo_fix_iff ψ Q x)
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem bo_card_space (ψ : S ≃* Multiplicative (ι → F)) : Nat.card (ι → F) = Nat.card S :=
   Nat.card_congr ((Multiplicative.ofAdd : (ι → F) ≃ Multiplicative (ι → F)).trans
     ψ.symm.toEquiv)

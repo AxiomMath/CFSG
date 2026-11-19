@@ -40,8 +40,8 @@ theorem w135c2_psu_outer
     apply Additive.toMul.injective
     show (Additive.toMul a) ^ 2 = 1
     exact hW _
-  letI : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule hW2
-  haveI : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
+  let : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule hW2
+  have : Module.Finite (ZMod 2) (Additive W) := Module.Finite.of_finite
   have hQ : IsQuasisimple ↥L := hctx.2.2.2.2.1
   have hIrr : IsIrrOn L ⊤ ⊥ := hctx.2.2.2.2.2
   obtain ⟨hn3, hf1, hq, K, hKfield, hKfin, hKchar, hKcard, φ, hφs, hker, hodd⟩ :=

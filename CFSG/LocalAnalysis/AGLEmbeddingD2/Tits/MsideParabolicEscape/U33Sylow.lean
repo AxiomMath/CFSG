@@ -43,11 +43,11 @@ namespace CFSG.AGLEmbeddingD2.Tits.MsideParabolicEscape.U33
 
 theorem false_of_small_centralizers {M : Type} [Group M] [Finite M] (Qm : Subgroup M)
     (hQ9 : Nat.card Qm = 9) (hQc : ∀ x ∈ Qm, ∀ y ∈ Qm, x * y = y * x)
-    (hQ3 : ∀ x ∈ Qm, x ^ 3 = 1) (hM : Nat.card M = 6048)
+    (_hQ3 : ∀ x ∈ Qm, x ^ 3 = 1) (hM : Nat.card M = 6048)
     (hC : ∀ x ∈ Qm, x ≠ 1 → Nat.card (Subgroup.centralizer ({x} : Set M)) ≤ 9) : False := by
   have hQp : IsPGroup 3 Qm := IsPGroup.of_card (n := 2) (by rw [hQ9]; norm_num)
   obtain ⟨S, hQS⟩ := hQp.exists_le_sylow
-  have hSp : IsPGroup 3 (S : Subgroup M) := S.isPGroup'
+  have hSp : IsPGroup 3 (S : Subgroup M) := S.isPGroup
   have hS27 : Nat.card (S : Subgroup M) = 27 := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp hSp
     have hidx := S.not_dvd_index
@@ -60,10 +60,10 @@ theorem false_of_small_centralizers {M : Type} [Group M] [Finite M] (Qm : Subgro
       have : 3 ^ n ≤ 3 ^ n * (S : Subgroup M).index := Nat.le_mul_of_pos_right _ hi
       omega
     rw [hn]
-    interval_cases n <;> first | omega | (exfalso; apply hidx; omega)
-  haveI : Nontrivial (S : Subgroup M) :=
+    interval_cases n <;> first | omega
+  have : Nontrivial (S : Subgroup M) :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hS27]; norm_num)
-  haveI := hSp.center_nontrivial
+  have := hSp.center_nontrivial
   obtain ⟨⟨z, hzc⟩, hz1⟩ := exists_ne (1 : Subgroup.center (S : Subgroup M))
   have hzS : (z : M) ∈ (S : Subgroup M) := z.2
   have hzne : (z : M) ≠ 1 := by

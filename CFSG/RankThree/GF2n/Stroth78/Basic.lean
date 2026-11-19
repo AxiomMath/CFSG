@@ -54,25 +54,31 @@ instance instNormalZQ (z : G) : ((ZQ z).subgroupOf (Q z)).Normal := by
 theorem Setting.ofHyp (h : StrothHyp z E F) : Setting z E F :=
   ⟨h, fStar_subgroupOf_normal (H z)⟩
 
+omit [Finite G] in
 theorem z_mem_H (z : G) : z ∈ H z := by
   rw [H, Subgroup.mem_centralizer_iff]
   intro y hy
   rw [Set.mem_singleton_iff.mp hy]
 
-theorem Q_le_H (S : Setting z E F) : Q z ≤ H z :=
+omit [Finite G] in
+theorem Q_le_H (_S : Setting z E F) : Q z ≤ H z :=
   fStar_le (H z)
 
+omit [Finite G] in
 theorem Q_eq_sup (S : Setting z E F) : Q z = E ⊔ F :=
   S.hyp.sup_eq.symm
 
+omit [Finite G] in
 theorem E_le_Q (S : Setting z E F) : E ≤ Q z := by
   rw [Q_eq_sup S]
   exact le_sup_left
 
+omit [Finite G] in
 theorem F_le_Q (S : Setting z E F) : F ≤ Q z := by
   rw [Q_eq_sup S]
   exact le_sup_right
 
+omit [Finite G] in
 theorem z_mem_Q (S : Setting z E F) : z ∈ Q z := by
   have hzF : z ∈ F := Subgroup.commutator_le_self F S.hyp.mem_derived
   exact F_le_Q S hzF
@@ -130,6 +136,7 @@ theorem Q_deriv_eq (S : Setting z E F) : ⁅Q z, Q z⁆ = Subgroup.zpowers z := 
   · rw [← F_deriv_eq_zpowers S]
     exact Subgroup.commutator_mono (F_le_Q S) (F_le_Q S)
 
+omit [Finite G] in
 theorem Q_isPGroup (S : Setting z E F) : IsPGroup 2 (Q z) := by
   have hE : IsPGroup 2 E := fun x =>
     ⟨1, Subtype.ext (by simpa using S.hyp.elemAbelian.2 (x : G) x.2)⟩
@@ -166,6 +173,7 @@ theorem z_mem_ZQ (S : Setting z E F) : z ∈ ZQ z := by
     _ = (z * e) * f := by rw [hze]
     _ = z * (e * f) := by group
 
+omit [Finite G] in
 theorem E_le_ZQ (S : Setting z E F) : E ≤ ZQ z := by
   intro e0 he0
   have hEab : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a :=
@@ -216,6 +224,7 @@ theorem ZQ_eq (S : Setting z E F) : ZQ z = E ⊔ Subgroup.zpowers z := by
     exact Subgroup.mul_mem_sup he hfz
   · exact sup_le (E_le_ZQ S) (Subgroup.zpowers_le.mpr (z_mem_ZQ S))
 
+omit [Finite G] in
 theorem card_sup_of_comm {A B : Subgroup G} (hcomm : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
     (hinf : A ⊓ B = ⊥) : Nat.card (A ⊔ B : Subgroup G) = Nat.card A * Nat.card B := by
   let toSup : A × B → ↥(A ⊔ B) := fun p =>
@@ -233,6 +242,7 @@ theorem card_sup_of_comm {A B : Subgroup G} (hcomm : ∀ a ∈ A, ∀ b ∈ B, a
       Nat.card_congr (Equiv.ofBijective toSup ⟨hinj, hsurj⟩).symm
     _ = Nat.card A * Nat.card B := Nat.card_prod A B
 
+omit [Finite G] in
 theorem Q_card (S : Setting z E F) : Nat.card (Q z) = Nat.card E * Nat.card F := by
   rw [Q_eq_sup S]
   exact card_sup_of_comm (fun a ha b hb => (S.hyp.commute a ha b hb).eq) S.hyp.inf_eq_bot
@@ -354,7 +364,7 @@ theorem Qbar_sq_eq_one (S : Setting z E F) (x : Qbar z) : x * x = 1 := by
   rw [QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
   simpa [sq] using sq_mem_ZQ S x'.2
 
-abbrev QbarOf (S : Setting z E F) : Type := Qbar z
+abbrev QbarOf (_S : Setting z E F) : Type := Qbar z
 
 instance instCommGroupQbarOf (S : Setting z E F) : CommGroup (QbarOf S) :=
   letI : IsMulCommutative (Qbar z) := Qbar_isMulCommutative S

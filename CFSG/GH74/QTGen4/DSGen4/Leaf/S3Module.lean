@@ -140,7 +140,7 @@ theorem leafS3Module : LeafS3Module := by
     rfl
   have hT_not : ∃ t ∈ T, t ∉ pCoreOf 2 L := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hT.2.2
     have hle : T.subgroupOf L ≤ pCore 2 ↥L := by
       intro x hx

@@ -22,7 +22,7 @@ theorem btSl_spec {n w m d kw km k cnt base lo len : Nat} {G K R POS : Nat → N
   have e : Nat.add lo (i - lo) = i := by
     change lo + (i - lo) = i
     omega
-  rw [e, if_pos (Nat.blt_eq.mpr hi)] at h'
+  rw [e, ite_eq_left (Nat.blt_eq.mpr hi)] at h'
   exact h'
 
 theorem btMov_spec {w d g x y : Nat} (h : btMov w (mask w) d g x y = true) :
@@ -56,17 +56,17 @@ theorem ptFacts {n w d kw km k cnt base i : Nat} {G K R POS : Nat → Nat}
   · have e := Nat.beq_eq.mp hc.1
     change btKey kw km K i >>> (w * d) = 0 at e
     rwa [Nat.mul_comm] at e
-  · rw [CFSG.KS.Raw.Orb.bIf_eq, if_pos (Nat.blt_eq.mpr hi)] at hs
+  · rw [CFSG.KS.Raw.Orb.bIf_eq, ite_eq_left (Nat.blt_eq.mpr hi)] at hs
     exact Nat.blt_eq.mp hs
-  · rw [CFSG.KS.Raw.Orb.bIf_eq, if_pos (Nat.beq_eq.mpr h0)] at ht
+  · rw [CFSG.KS.Raw.Orb.bIf_eq, ite_eq_left (Nat.beq_eq.mpr h0)] at ht
     exact Nat.beq_eq.mp ht
   · have h0' : Nat.beq (btDep (btRec R i)) (nat_lit 0) = false := by
       cases e : Nat.beq (btDep (btRec R i)) (nat_lit 0)
       · rfl
       · exact absurd (Nat.beq_eq.mp e) h0
-    rw [CFSG.KS.Raw.Orb.bIf_eq, h0', if_neg Bool.false_ne_true, CFSG.KS.Raw.Orb.strictB_eq,
+    rw [CFSG.KS.Raw.Orb.bIf_eq, h0', ite_eq_right Bool.false_ne_true, CFSG.KS.Raw.Orb.strictB_eq,
       CFSG.KS.Raw.Orb.strictB_eq] at ht
-    simp only [CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true] at ht
+    simp only [Bool.and_eq_true] at ht
     obtain ⟨h1, h2, h3, h4⟩ := ht
     exact ⟨Nat.blt_eq.mp h1, Nat.blt_eq.mp h2, Nat.beq_eq.mp h3, btMov_spec h4⟩
   · have h1 := CFSG.KS.Raw.Orb.allN_iff.1 hcl j hj

@@ -171,7 +171,7 @@ theorem exists_full_conj_centralized [Finite G] {L : Subgroup G}
   set S₀ : Subgroup G := (S : Subgroup (Subgroup.centralizer (L : Set G))).map
     (Subgroup.centralizer (L : Set G)).subtype with hS₀def
   have hS₀C : S₀ ≤ (Subgroup.centralizer (L : Set G)) := Subgroup.map_subtype_le _
-  have hS₀ : IsPGroup 2 S₀ := S.isPGroup'.map _
+  have hS₀ : IsPGroup 2 S₀ := S.isPGroup.map _
   have hS₀card : Nat.card S₀ = Nat.card S :=
     Subgroup.card_map_of_injective
       (Subgroup.subtype_injective (Subgroup.centralizer (L : Set G)))

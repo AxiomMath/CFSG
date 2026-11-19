@@ -21,7 +21,7 @@ theorem conjSub_eq_of_forall_mem {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
   have hle : CFSG.Quasithin.G11.conjSub k Z ≤ Z := by
     rintro _ ⟨z, hz, rfl⟩
     exact h z hz
-  haveI : FiniteDimensional (ZMod 2) ↥Z := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) ↥Z := Module.Finite.of_finite
   exact Submodule.eq_of_le_of_finrank_eq hle (LinearEquiv.finrank_map_eq k Z)
 
 theorem mem_iff_forall_of_isMaxSubgroupIn {Γ V : Type} [Group Γ] [AddCommGroup V]

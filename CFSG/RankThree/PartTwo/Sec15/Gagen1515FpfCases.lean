@@ -37,7 +37,7 @@ theorem not_case467
     omega
   · rintro ⟨a₁, a₂, L₁, L₂, J₁, J₂, p₁, f₁, e₁, p₂, f₂, e₂, hp₁, hp₂,
       ha₁Ω, ha₂Ω, hL₁, hL₂, -, -, -, -, -, -, -, -, -, -, -, hIso₁, hIso₂⟩
-    haveI : Fact p₁.Prime := hp₁
+    have : Fact p₁.Prime := hp₁
     obtain ⟨φJ⟩ := Wales154.quot_j2_of_allPointsHJ h.conf.sec15R.toSec14Std hHJ ha₁Ω hL₁
     exact Sec17.PropU.not_isoLThreePi_of_equiv_J2 ⟨φJ⟩ p₁ (f₁ * e₁) hIso₁
 
@@ -53,7 +53,7 @@ theorem not_case5
     allPointsHJ_of_j2 h134 h48 h.conf.sec15R.toSec14Std h.conf.j2
   rintro ⟨c', hc'A, L', n, m, hc', hL', -, -, -, -, -, -, hε, -, -⟩
   obtain ⟨φJ⟩ := Wales154.quot_j2_of_allPointsHJ h.conf.sec15R.toSec14Std hHJ hc' hL'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact Sec17.PropU.not_isLThreeEpsAt_of_equiv_J2 ⟨φJ⟩ 2 (n * m) hε
 
 end Cert148

@@ -17,6 +17,7 @@ variable {α : Type} [Group α] [DecidableEq α]
 theorem commB_iff (g x : α) : commB g x = true ↔ g ∈ centralizer ({x} : Set α) := by
   rw [mem_centralizer_singleton_iff, commB, beq_iff_eq]
 
+omit [DecidableEq α] in
 theorem natCard_subgroup {L : List α} (hL : ∀ x, x ∈ L) (hnd : L.Nodup) (H : Subgroup α)
     (p : α → Bool) (h : ∀ x, x ∈ H ↔ p x = true) : Nat.card H = (L.filter p).length := by
   have e : Nat.card H = Nat.card {x : α // p x = true} :=
@@ -29,6 +30,7 @@ theorem natCard_centralizer {L : List α} (hL : ∀ x, x ∈ L) (hnd : L.Nodup) 
     Nat.card (centralizer ({x} : Set α)) = (L.filter fun g => commB g x).length :=
   natCard_subgroup hL hnd _ _ fun g => (commB_iff g x).symm
 
+omit [DecidableEq α] in
 theorem natCard_centralizer_conj (g r : α) :
     Nat.card (centralizer ({g * r * g⁻¹} : Set α)) = Nat.card (centralizer ({r} : Set α)) := by
   refine Nat.card_congr ⟨fun y => ⟨g⁻¹ * y * g, ?_⟩, fun y => ⟨g * y * g⁻¹, ?_⟩, fun y => ?_,

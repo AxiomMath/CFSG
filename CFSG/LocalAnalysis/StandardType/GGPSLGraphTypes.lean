@@ -117,7 +117,7 @@ private lemma pslBT_isometry_of_perfect {n : ℕ} {K : Type} [Field K] [Finite K
   have hX_mul : ∀ a b : ↥Y, X (a * b) = X a * X b := fun a b => rfl
   have hne : ∀ a b : ↥Y, X a * X b ≠ 0 := by
     intro a b h0
-    haveI : Nonempty (Fin n) := ⟨⟨0, by have := S.three_le; omega⟩⟩
+    have : Nonempty (Fin n) := ⟨⟨0, by have := S.three_le; omega⟩⟩
     have hdet : (X a * X b).det = 1 := by
       rw [Matrix.det_mul, Matrix.SpecialLinearGroup.det_coe,
         Matrix.SpecialLinearGroup.det_coe, mul_one]
@@ -148,7 +148,7 @@ private lemma pslBT_isometry_of_perfect {n : ℕ} {K : Type} [Field K] [Finite K
         have h1 : d 1 * d 1 = d 1 * 1 := by simpa using h.symm
         exact mul_left_cancel h1
       map_mul' := hdhom }
-  haveI : Group.IsPerfect ↥Y := hY
+  have : Group.IsPerfect ↥Y := hY
   have hf : f = 1 := pslBTg1_hom_trivial_of_perfect f
   have hdx1 : d x = 1 := by
     have := congrArg (fun g : ↥Y →* Kˣ => g x) hf
@@ -168,7 +168,7 @@ private lemma pslBTg1_pslAlg_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n)
     rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
     rw [Set.mem_singleton_iff] at hs hs'
     rw [hs, hs']
-  haveI : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommS
+  have : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommS
   intro a ha b hb
   have h := mul_comm' (⟨a, ha⟩ : pslAlg B) (⟨b, hb⟩ : pslAlg B)
   simpa only [Subalgebra.coe_mul] using congrArg Subtype.val h
@@ -272,7 +272,7 @@ private lemma pslBT_III_eq_one_of_isometry {n : ℕ} {K : Type} [Field K] [Finit
   have hXe : X * e = e * X := hcommA e heA
   have hGdet : IsUnit X.det := by
     have h1 : X.det = 1 := by
-      simpa [X] using Matrix.SpecialLinearGroup.det_coe (x : SpecialLinearGroup (Fin n) K)
+      simp [X]
     rw [h1]
     exact isUnit_one
   have hXiso : Xᵀ * G * X = G := by
@@ -384,7 +384,7 @@ private lemma pslBTg2_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n) K) :
     rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
     rw [Set.mem_singleton_iff] at hs hs'
     rw [hs, hs']
-  haveI : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommP
+  have : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommP
   intro a ha b hb
   have h := congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : pslAlg B) (⟨b, hb⟩ : pslAlg B))
   simpa only [Subalgebra.coe_mul] using h
@@ -682,8 +682,8 @@ private lemma pslBTg3_gl_solvable_one {F V : Type} [Field F] [AddCommGroup V] [M
 private lemma pslBTg3_gl_solvable_two {F V : Type} [Field F] [Finite F] [AddCommGroup V]
     [Module F V] [FiniteDimensional F V] [Fintype V] (h : Module.finrank F V = 2)
     (hc : Nat.card F = 2) : Group.IsSolvable (V ≃ₗ[F] V) := by
-  letI : Fintype F := Fintype.ofFinite F
-  letI : Module.Free F V := Module.Free.of_divisionRing F V
+  let : Fintype F := Fintype.ofFinite F
+  let : Module.Free F V := Module.Free.of_divisionRing F V
   have hcardV : Fintype.card V = 4 := by
     let b := Module.finBasis F V
     have hb : Fintype.card V = Fintype.card (Fin (Module.finrank F V) → F) :=
@@ -703,9 +703,9 @@ private lemma pslBTg3_gl_solvable_two {F V : Type} [Field F] [Finite F] [AddComm
     have h2 : (act a : V → V) = (act b : V → V) :=
       congrArg (fun e : Equiv.Perm V => (e : V → V)) hab
     simpa [act] using congrFun h2 v
-  haveI : Group.IsSolvable (Equiv.Perm V) :=
+  have : Group.IsSolvable (Equiv.Perm V) :=
     Equiv.Perm.isSolvable (α := V) (by rw [Nat.card_eq_fintype_card, hcardV])
-  exact solvable_of_solvable_injective hactinj
+  exact Group.isSolvable_of_isSolvable_injective hactinj
 
 private lemma pslBTg3_hom_trivial_of_perfect {G A : Type} [Group G] [CommGroup A]
     [Group.IsPerfect G] (f : G →* A) : f = 1 := by
@@ -726,7 +726,7 @@ private lemma pslBTg3_perfect {F : Type} [Field F] [Finite F] [CharP F 2]
   · exact Or.inl hk3
   · right
     have hk2 : k = 2 := by omega
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have hcard_ne : Nat.card F ≠ 2 := fun h => hnot ⟨hk2, h⟩
     have h2 : 2 ≤ Nat.card F := by
       have := Fintype.one_lt_card (α := F)
@@ -758,16 +758,16 @@ private lemma pslBTg3_SL_embed {n : ℕ} {K : Type} [Field K] [Finite K] [CharP 
           Function.Injective φ) := by
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψ, -, -, hdim, hcard, -, hrank, hpos, hψinj,
     -, hψfix, -, hψB⟩ := exists_blockEmbed S.odd rfl ((hP.1 e).1 he)
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Module F (LinearMap.range e.mulVecLin) := hM
-  letI : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Module F (LinearMap.range e.mulVecLin) := hM
+  let : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
   refine ⟨F, hFld, hFin, hChar, Module.finrank F (LinearMap.range e.mulVecLin), hcard, ?_, hpos,
     ?_⟩
   · rw [hrank, hdim]
   · intro hperf
-    haveI : Module.Finite K (LinearMap.range e.mulVecLin) := Module.Finite.of_finite
-    haveI : Module.Finite F (LinearMap.range e.mulVecLin) :=
+    have : Module.Finite K (LinearMap.range e.mulVecLin) := Module.Finite.of_finite
+    have : Module.Finite F (LinearMap.range e.mulVecLin) :=
       Module.Finite.of_restrictScalars_finite K F (LinearMap.range e.mulVecLin)
     let b : Module.Basis (Fin (Module.finrank F (LinearMap.range e.mulVecLin))) F
         (LinearMap.range e.mulVecLin) := Module.finBasis F (LinearMap.range e.mulVecLin)
@@ -797,7 +797,7 @@ private lemma pslBTg3_SL_embed {n : ℕ} {K : Type} [Field K] [Finite K] [CharP 
         map_mul' := fun e f => by
           apply LinearEquiv.ext
           intro w
-          simp [LinearEquiv.trans_apply, map_mul] }
+          simp [LinearEquiv.trans_apply] }
     let iota : Matrix.SpecialLinearGroup
         (Fin (Module.finrank F (LinearMap.range e.mulVecLin))) F →*
         (LinearMap.range e.mulVecLin ≃ₗ[F] LinearMap.range e.mulVecLin) :=
@@ -805,7 +805,7 @@ private lemma pslBTg3_SL_embed {n : ℕ} {K : Type} [Field K] [Finite K] [CharP 
     have hIo : Function.Injective iota := conjC.injective.comp hIotaBar
     let A : Matrix.SpecialLinearGroup (Fin (Module.finrank F (LinearMap.range e.mulVecLin))) F →*
         GL (Fin n) K := ψ.comp iota
-    haveI : Group.IsPerfect
+    have : Group.IsPerfect
         (Matrix.SpecialLinearGroup (Fin (Module.finrank F (LinearMap.range e.mulVecLin))) F) :=
       hperf
     have htriv : (Matrix.GeneralLinearGroup.det.comp A) = 1 :=
@@ -863,17 +863,17 @@ private lemma pslBTg3_small_solvable {n : ℕ} {K : Type} [Field K] [Finite K] [
     Group.IsSolvable ↥(pslBlock B e) := by
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψ, hπ, hker, hdim, hcard, hact,
     hrank, hpos, hψinj, hψw, hψfix, hψe, hψB⟩ := exists_blockEmbed S.odd rfl ((hP.1 e).1 he)
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Module F (LinearMap.range e.mulVecLin) := hM
-  letI : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
-  letI : Finite F := hFin
-  letI : CharP F 2 := hChar
-  haveI : Module.Finite K F := Module.Finite.of_finite
-  haveI : Module.Finite K (LinearMap.range e.mulVecLin) := Module.Finite.of_finite
-  haveI : Module.Finite F (LinearMap.range e.mulVecLin) :=
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Module F (LinearMap.range e.mulVecLin) := hM
+  let : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
+  let : Finite F := hFin
+  let : CharP F 2 := hChar
+  have : Module.Finite K F := Module.Finite.of_finite
+  have : Module.Finite K (LinearMap.range e.mulVecLin) := Module.Finite.of_finite
+  have : Module.Finite F (LinearMap.range e.mulVecLin) :=
     Module.Finite.of_restrictScalars_finite K F (LinearMap.range e.mulVecLin)
-  haveI : Fintype (LinearMap.range e.mulVecLin) := Fintype.ofFinite _
+  have : Fintype (LinearMap.range e.mulVecLin) := Fintype.ofFinite _
   have hdpos : 0 < Module.finrank K F := Module.finrank_pos
   have hk : Module.finrank F (LinearMap.range e.mulVecLin) = 1 ∨
       (Module.finrank F (LinearMap.range e.mulVecLin) = 2 ∧ Nat.card F = 2) := by
@@ -928,12 +928,12 @@ private lemma pslBTg3_small_solvable {n : ℕ} {K : Type} [Field K] [Finite K] [
             simpa [χ] using hg
       _ = SpecialLinearGroup.toGL (y : SpecialLinearGroup (Fin n) K) :=
             Classical.choose_spec (hφ y)
-  haveI : Group.IsSolvable
+  have : Group.IsSolvable
       (LinearMap.range e.mulVecLin ≃ₗ[F] LinearMap.range e.mulVecLin) := by
     rcases hk with h1 | ⟨h2, hc2⟩
     · exact pslBTg3_gl_solvable_one h1
     · exact pslBTg3_gl_solvable_two h2 hc2
-  exact solvable_of_solvable_injective hχinj
+  exact Group.isSolvable_of_isSolvable_injective hχinj
 
 private lemma pslBT_nonsolvable_params {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     {G : Matrix (Fin n) (Fin n) K} {B : GL (Fin n) K} (S : PSLGraphSetting n K G B)
@@ -947,9 +947,9 @@ private lemma pslBT_nonsolvable_params {n : ℕ} {K : Type} [Field K] [Finite K]
       ∃ φ : Matrix.SpecialLinearGroup (Fin k) F →* ↥(pslBlock B e), Function.Injective φ := by
   obtain ⟨F, hFld, hFin, hChar, k, hcard, hrank, hkpos, hφ⟩ :=
     pslBTg3_SL_embed S P hP e he
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  letI : CharP F 2 := hChar
+  let : Field F := hFld
+  let : Finite F := hFin
+  let : CharP F 2 := hChar
   have hk2 : 2 ≤ k := by
     by_contra h
     have hk1 : k = 1 := by omega
@@ -1121,12 +1121,12 @@ private lemma pslBTg4_copy_contra {n : ℕ} {K : Type} [Field K] [Finite K] [Cha
     (t : LinearMap.range e.mulVecLin ≃ₗ[F] LinearMap.range e.mulVecLin)
     (htdet : LinearMap.det (t : LinearMap.range e.mulVecLin →ₗ[F] LinearMap.range e.mulVecLin) = 1)
     (htnot : ¬ (∀ x y, H (t x) (t y) = H x y)) : False := by
-  haveI : Module.Finite K (LinearMap.range e.mulVecLin) := Module.Finite.of_finite
-  haveI : Module.Finite F (LinearMap.range e.mulVecLin) :=
+  have : Module.Finite K (LinearMap.range e.mulVecLin) := Module.Finite.of_finite
+  have : Module.Finite F (LinearMap.range e.mulVecLin) :=
     Module.Finite.of_restrictScalars_finite K F (LinearMap.range e.mulVecLin)
-  haveI : Module.Free F (LinearMap.range e.mulVecLin) :=
+  have : Module.Free F (LinearMap.range e.mulVecLin) :=
     Module.Free.of_divisionRing F (LinearMap.range e.mulVecLin)
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup
       (Fin (Module.finrank F (LinearMap.range e.mulVecLin))) F) := hperf
   let b : Module.Basis (Fin (Module.finrank F (LinearMap.range e.mulVecLin))) F
       (LinearMap.range e.mulVecLin) := Module.finBasis F (LinearMap.range e.mulVecLin)
@@ -1378,7 +1378,7 @@ private lemma pslBTg4_pslAlg_comm {n : ℕ} {K : Type} [Field K] (B : GL (Fin n)
     rintro a ⟨s, hs, rfl⟩ b ⟨s', hs', rfl⟩ _
     rw [Set.mem_singleton_iff] at hs hs'
     rw [hs, hs']
-  haveI : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommS
+  have : IsMulCommutative (pslAlg B) := Algebra.isMulCommutative_adjoin K hcommS
   intro a ha b hb
   have h := mul_comm' (⟨a, ha⟩ : pslAlg B) (⟨b, hb⟩ : pslAlg B)
   simpa only [Subalgebra.coe_mul] using congrArg Subtype.val h
@@ -1387,7 +1387,7 @@ private lemma pslBTg4_sl_perfect {F F' : Type} [Field F] [Finite F] [CharP F 2]
     (k : ℕ) (hk2 : 2 ≤ k)
     (hnot : ¬ (k = 2 ∧ Nat.card F' = 2)) (hcard : Nat.card F = Nat.card F') :
     Group.IsPerfect (Matrix.SpecialLinearGroup (Fin k) F) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   refine CFSG.LinearGroups.special_linear_isPerfect hk2 ?_
   by_cases hk3 : 3 ≤ k
   · exact Or.inl hk3
@@ -1456,23 +1456,23 @@ private lemma pslBT_II_perfect_eq_bot {n : ℕ} {K : Type} [Field K] [Finite K] 
     (e : Matrix (Fin n) (Fin n) K) (he : e ∈ P) (hII : pslTypeII G B e)
     (Y : Subgroup ↥(pslBlock B e)) (hY : Group.IsPerfect ↥Y) : Y = ⊥ := by
   by_contra hYne
-  haveI : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hYne
-  haveI : Group.IsPerfect ↥Y := hY
+  have : Nontrivial ↥Y := (Subgroup.nontrivial_iff_ne_bot Y).mpr hYne
+  have : Group.IsPerfect ↥Y := hY
   have hns : ¬ Group.IsSolvable ↥(pslBlock B e) := by
     intro hsol
-    letI : Group.IsSolvable ↥(pslBlock B e) := hsol
+    let : Group.IsSolvable ↥(pslBlock B e) := hsol
     exact Group.IsPerfect.not_isSolvable ↥Y
-      (solvable_of_solvable_injective (f := Subgroup.subtype Y) Subtype.coe_injective)
+      (Group.isSolvable_of_isSolvable_injective (f := Subgroup.subtype Y) Subtype.coe_injective)
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψ, hπ, hker, hdim, hcard, hact, hrank,
     hpos, hψinj, hψw, hψfix, hψe, hψB⟩ :=
     exists_blockEmbed S.odd rfl ((hP.1 e).mp he)
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Module F (LinearMap.range e.mulVecLin) := hM
-  letI : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Module.Finite K F := Module.Finite.of_finite
-  haveI : Algebra.IsSeparable K F := by infer_instance
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Module F (LinearMap.range e.mulVecLin) := hM
+  let : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
+  have : Fintype F := Fintype.ofFinite F
+  have : Module.Finite K F := Module.Finite.of_finite
+  have : Algebra.IsSeparable K F := by infer_instance
   have hee : e * e = e := IsIdempotentElem.eq ((hP.1 e).mp he).2.1
   have hstar : formAdj (RingHom.id K) G e = e := hII.1
   obtain ⟨τ, hττ, hτK, hτπ⟩ :=
@@ -1545,9 +1545,9 @@ private lemma pslBT_II_perfect_eq_bot {n : ℕ} {K : Type} [Field K] [Finite K] 
       (y : Fin n → K)
   obtain ⟨H, hHaddL, hHaddR, hHsmulL, hHsmulR, hHherm, hHnd, hHtrace⟩ :=
     pslBTg4_trace_form S hee hstar hπ hact τ hττ (fun c => hτK c) hτπ
-  haveI : Module.Finite F (LinearMap.range e.mulVecLin) :=
+  have : Module.Finite F (LinearMap.range e.mulVecLin) :=
     Module.Finite.of_restrictScalars_finite K F (LinearMap.range e.mulVecLin)
-  haveI : Nontrivial (LinearMap.range e.mulVecLin) :=
+  have : Nontrivial (LinearMap.range e.mulVecLin) :=
     Module.nontrivial_of_finrank_pos (R := F) (by rw [hkfin]; omega)
   obtain ⟨v0, hv0⟩ := exists_anisotropic_of_hermitian τ hτU.exists_ne H hHherm hHaddL hHsmulL
     hHaddR hHsmulR hHnd
@@ -1565,13 +1565,13 @@ private lemma pslBT_I_rank {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
   obtain ⟨F, hFld, hAlg, hFin, hChar, π, hM, hT, ψ, hπ, hker, hdim, hcard, hact, hrank,
     hpos, hψinj, hψw, hψfix, hψe, hψB⟩ :=
     exists_blockEmbed S.odd rfl ((hP.1 e).mp he)
-  letI : Field F := hFld
-  letI : Algebra K F := hAlg
-  letI : Module F (LinearMap.range e.mulVecLin) := hM
-  letI : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : Module.Finite K F := Module.Finite.of_finite
-  haveI : Algebra.IsSeparable K F := by infer_instance
+  let : Field F := hFld
+  let : Algebra K F := hAlg
+  let : Module F (LinearMap.range e.mulVecLin) := hM
+  let : IsScalarTower K F (LinearMap.range e.mulVecLin) := hT
+  have : Fintype F := Fintype.ofFinite F
+  have : Module.Finite K F := Module.Finite.of_finite
+  have : Algebra.IsSeparable K F := by infer_instance
   have hee : e * e = e := IsIdempotentElem.eq ((hP.1 e).mp he).2.1
   have hstar : formAdj (RingHom.id K) G e = e := hI.1
   obtain ⟨F', hFld', hFin', hChar', k, hcard', hrank', hk2, hnot, φ', hφ'inj⟩ :=
@@ -1627,7 +1627,7 @@ private lemma pslBT_I_rank {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
   obtain ⟨H, hHaddL, hHaddR, hHsmulL, hHsmulR, hHherm, hHnd, hHtrace⟩ :=
     pslBTg4_trace_form S hee hstar hπ hact (RingEquiv.refl F)
       (fun x => rfl) (fun c => rfl) hτπIr
-  haveI : Module.Finite F (LinearMap.range e.mulVecLin) :=
+  have : Module.Finite F (LinearMap.range e.mulVecLin) :=
     Module.Finite.of_restrictScalars_finite K F (LinearMap.range e.mulVecLin)
   have hk2fin : 2 ≤ Module.finrank F (LinearMap.range e.mulVecLin) := by
     rw [hkfin]
@@ -1659,10 +1659,10 @@ private lemma pslBT_I_card {n : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     4 ≤ Nat.card K ^ blockDegree (pslAlg B) e := by
   obtain ⟨F, hFld, hFin, hChar, k, hcard, hrank, hk2, hnot, φ, hφinj⟩ :=
     pslBT_nonsolvable_params S P hP e he hns
-  letI : Field F := hFld
-  letI : Finite F := hFin
-  letI : CharP F 2 := hChar
-  haveI : Fintype F := Fintype.ofFinite F
+  let : Field F := hFld
+  let : Finite F := hFin
+  let : CharP F 2 := hChar
+  have : Fintype F := Fintype.ofFinite F
   have hrankI := pslBT_I_rank S P hP e he hI hns
   have hF2 : 2 ≤ Nat.card F := by
     have h := Fintype.one_lt_card (α := F)

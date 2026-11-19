@@ -251,7 +251,7 @@ theorem item113_of_item111First (h97 : Sec9.Item97) (h112 : Item112) (h45 : Sec4
     exact Subgroup.map_subtype_le _
   have hR3 : IsPGroup 3 R := by
     rw [← hRs]
-    exact Rs.isPGroup'.map _
+    exact Rs.isPGroup.map _
   have hAR : A ≤ R := by
     set HW := Subgroup.normalizer (Subgroup.zpowers c : Set G) ⊓
       Subgroup.normalizer (A : Set G) with hHW

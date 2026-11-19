@@ -217,7 +217,7 @@ theorem four_point_sylow_inter_residual [IsSimpleGroup G] (hnonab : ∃ a b : G,
       Subgroup.card_map_of_injective (wreathModelHom_injective _ _)]
   have hle : Nat.card ((centralizerOddCoreSylow n hn S e : Subgroup _) ⊓
       centralizerResidualImage n hn S e : Subgroup _) ≤ 2 * 2 ^ n := by
-    obtain ⟨k, hk⟩ := ((centralizerOddCoreSylow n hn S e).isPGroup'.to_le
+    obtain ⟨k, hk⟩ := ((centralizerOddCoreSylow n hn S e).isPGroup.to_le
       (inf_le_left : (centralizerOddCoreSylow n hn S e : Subgroup _) ⊓
         centralizerResidualImage n hn S e ≤ _)).exists_card_eq
     have hdvd := Subgroup.card_dvd_of_le (inf_le_right : (centralizerOddCoreSylow n hn S e :

@@ -70,13 +70,13 @@ theorem exists_noncomm_SU4 : ∃ a b : SU4, a * b ≠ b * a := by
     intro x _
     exact Subgroup.mem_center_iff.2 fun g => h g x
   rw [center_SU4] at hc
-  haveI := isSimpleGroup_SU4
+  have := isSimpleGroup_SU4
   obtain ⟨x, hx⟩ := exists_ne (1 : SU4)
   have : x ∈ (⊥ : Subgroup SU4) := by rw [hc]; exact Subgroup.mem_top x
   exact hx (Subgroup.mem_bot.1 this)
 
 theorem isSimpleGroup_RU : IsSimpleGroup RU := by
-  haveI := isSimpleGroup_SU4
+  have := isSimpleGroup_SU4
   exact toR.symm.isSimpleGroup
 
 theorem exists_noncomm_RU : ∃ a b : RU, a * b ≠ b * a := by
@@ -89,7 +89,7 @@ theorem mem_GUSet (x : SU4) : ((x : GL (Fin 4) K)) ∈ LargeEvenGUSet (Fin (3 + 
   rw [one_smul]
   convert this using 2
   ext i j
-  simp [conjTr, σ4, CFSG.LieType.BorelTits.unitaryInvolution_apply, iterateFrobenius_def]
+  simp [conjTr, σ4, iterateFrobenius_def]
 
 theorem proj_eq_rMk (h₁ : ↥(LargeEvenSUGroup (Fin (3 + 1)) K (2 ^ 3))) :
     LargeEvenProjMk (LargeEvenSUGroup (Fin (3 + 1)) K (2 ^ 3)) h₁ =

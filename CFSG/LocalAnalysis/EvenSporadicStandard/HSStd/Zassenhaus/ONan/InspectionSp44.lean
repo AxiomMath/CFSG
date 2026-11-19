@@ -29,7 +29,7 @@ theorem isCyclic_outer_of_lieModel_psp_two_two_two {N : Type} [Group N]
 
 theorem exists_subgroup_card_nine_of_card_eq_360 {N : Type} [Group N] [Finite N]
     (H : Subgroup N) (hH : Nat.card H = 360) : ∃ P : Subgroup N, P ≤ H ∧ Nat.card P = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨P', hP'⟩ :=
     Sylow.exists_subgroup_card_pow_prime (G := H) 3 (n := 2) (by rw [hH]; norm_num)
   exact ⟨P'.map H.subtype, Subgroup.map_subtype_le P', by
@@ -63,7 +63,7 @@ theorem false_of_outer_involution_psp_two_two_two {Y : Type} [Group Y] [Finite Y
 
 theorem inspectionArm_psp_two_two_two : InspectionArm fun N _ => LieModel N .PSp 2 2 2 := by
   intro Y _ _ N hN hC hQ P _ _ _ _ hw
-  haveI := hN
+  have := hN
   exfalso
   have hZ : center ↥N = ⊥ := center_eq_bot_of_lieModel_psp_two_two_two hQ
   have hidx : N.index ≤ 4 :=

@@ -17,15 +17,18 @@ noncomputable def perpOf (Z E : Subgroup G) : Subgroup G :=
     (CFSG.Open.pCoreOf 2 E) inf_le_right
     (inf_le_right.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 E))
 
+omit [Finite G] in
 theorem mem_perpOf_iff {Z E : Subgroup G} {z : G} :
     z ∈ perpOf Z E ↔ z ∈ Z ∧ z ∈ Subgroup.normalizer (E : Set G) ∧
       ∀ e ∈ E, z * e * z⁻¹ * e⁻¹ ∈ CFSG.Open.pCoreOf 2 E := by
   rw [perpOf, Sec11.mem_sectionCentralizerSubgroup]
-  simp only [Late.sectionCentralizer, Set.mem_setOf_eq, Subgroup.mem_inf, and_assoc]
+  simp only [Late.sectionCentralizer, Set.mem_ofPred_eq, Subgroup.mem_inf, and_assoc]
 
+omit [Finite G] in
 theorem perpOf_le (Z E : Subgroup G) : perpOf Z E ≤ Z := fun _ hz =>
   (mem_perpOf_iff.mp hz).1
 
+omit [Finite G] in
 theorem commutator_mem_pCoreOf {Z E : Subgroup G} {z e : G} (hz : z ∈ perpOf Z E) (he : e ∈ E) :
     e * z * e⁻¹ * z⁻¹ ∈ CFSG.Open.pCoreOf 2 E := by
   have h := (mem_perpOf_iff.mp hz).2.2 e he
@@ -33,6 +36,7 @@ theorem commutator_mem_pCoreOf {Z E : Subgroup G} {z e : G} (hz : z ∈ perpOf Z
   rw [← hinv]
   exact (CFSG.Open.pCoreOf 2 E).inv_mem h
 
+omit [Finite G] in
 private theorem conj_mem_perpOf {Z E : Subgroup G} {g z : G}
     (hgZ : g ∈ Subgroup.normalizer (Z : Set G))
     (hgE : g ∈ Subgroup.normalizer (E : Set G))
@@ -58,6 +62,7 @@ private theorem conj_mem_perpOf {Z E : Subgroup G} {g z : G}
     rw [heq]
     exact h2
 
+omit [Finite G] in
 theorem mem_normalizer_perpOf {Z E : Subgroup G} {g : G}
     (hgZ : g ∈ Subgroup.normalizer (Z : Set G))
     (hgE : g ∈ Subgroup.normalizer (E : Set G)) :
@@ -73,13 +78,15 @@ theorem mem_normalizer_perpOf {Z E : Subgroup G} {g : G}
     have heq : g⁻¹ * (g * z * g⁻¹) * (g⁻¹)⁻¹ = z := by group
     rwa [heq] at h
 
+omit [Finite G] in
 theorem le_normalizer_perpOf {Z E : Subgroup G}
     (hZE : Z ≤ Subgroup.normalizer (E : Set G)) :
     Z ≤ Subgroup.normalizer (perpOf Z E : Set G) := fun _ hz =>
   mem_normalizer_perpOf (Subgroup.le_normalizer hz) (hZE hz)
 
+omit [Finite G] in
 theorem pCoreOf_le_perpOf {Z E : Subgroup G} (hEZ : E ≤ Z)
-    (hZE : Z ≤ Subgroup.normalizer (E : Set G)) :
+    (_hZE : Z ≤ Subgroup.normalizer (E : Set G)) :
     CFSG.Open.pCoreOf 2 E ≤ perpOf Z E := by
   intro z hz
   have hzE : z ∈ E := (CFSG.LieType.BorelTits.pCoreOf_le 2 E) hz
@@ -129,7 +136,7 @@ theorem pCoreOf_two_le_perpOf {Z E : Subgroup G} (hEZ : E ≤ Z)
 theorem isSolvable_perpOf {Z E : Subgroup G} (h3 : ¬ 3 ∣ Nat.card Z)
     (hZE : Z ≤ Subgroup.normalizer (E : Set G))
     (hE : ∀ J ∈ thetaComponentsIn Z, J ≤ E) : Group.IsSolvable ↥(perpOf Z E) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hns
   let H : Subgroup G := perpOf Z E
   have h3H : ¬ 3 ∣ Nat.card ↥H := by
@@ -153,7 +160,7 @@ theorem isSolvable_perpOf {Z E : Subgroup G} (h3 : ¬ 3 ∣ Nat.card Z)
   have hKZ : K ∈ thetaComponentsIn Z :=
     Sec15.Proof1423.mem_thetaComponentsIn_of_isSubnormal hKH (perpOf_le Z E) hHnormal.isSubnormal
   have hKle : K ≤ E := hE K hKZ
-  haveI : Group.IsPerfect ↥K := isPerfect_of_mem_thetaComponentsIn hKZ
+  have : Group.IsPerfect ↥K := isPerfect_of_mem_thetaComponentsIn hKZ
   have hKcore : K ≤ CFSG.Open.pCoreOf 2 E := by
     have hcomm : ⁅K, K⁆ ≤ CFSG.Open.pCoreOf 2 E := by
       calc ⁅K, K⁆ ≤ ⁅H, E⁆ := Subgroup.commutator_mono (le_of_mem_thetaComponentsIn hKH) hKle
@@ -167,11 +174,11 @@ theorem isSolvable_perpOf {Z E : Subgroup G} (h3 : ¬ 3 ∣ Nat.card Z)
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 E).to_le hKcore
   have hKq : IsQuasisimple (K ⧸ aschbacherSolvableCore 3 K) :=
     Sec15.Proof1423.isQuasisimple_of_mem_thetaComponentsIn1423 hKZ
-  haveI : Nontrivial ↥K := by
-    haveI : Nontrivial (K ⧸ aschbacherSolvableCore 3 K) :=
+  have : Nontrivial ↥K := by
+    have : Nontrivial (K ⧸ aschbacherSolvableCore 3 K) :=
       LocalCores.isQuasisimple_nontrivial hKq
     exact (QuotientGroup.mk'_surjective (N := aschbacherSolvableCore 3 K)).nontrivial
-  haveI : Group.IsNilpotent ↥K := hK2.isNilpotent
+  have : Group.IsNilpotent ↥K := hK2.isNilpotent
   exact Group.IsPerfect.not_isSolvable ↥K inferInstance
 
 theorem pCoreOf_le_of_sylow {Z E S : Subgroup G} (hEZ : E ≤ Z)
@@ -179,14 +186,14 @@ theorem pCoreOf_le_of_sylow {Z E S : Subgroup G} (hEZ : E ≤ Z)
     (hSle : S ≤ perpOf Z E) (hS : IsPGroup 2 S)
     (hSyl : ¬ 2 ∣ S.relIndex (perpOf Z E)) :
     CFSG.Open.pCoreOf 2 E ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H : Subgroup G := perpOf Z E
   have hSH : S ≤ H := hSle
   have hNH : CFSG.Open.pCoreOf 2 E ≤ H := pCoreOf_le_perpOf hEZ hZE
   have hHnorm : H ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 E : Set G) :=
     (perpOf_le Z E).trans
       (hZE.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 E))
-  haveI hNnormal : ((CFSG.Open.pCoreOf 2 E).subgroupOf H).Normal :=
+  have hNnormal : ((CFSG.Open.pCoreOf 2 E).subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNH).mpr hHnorm
   have hNp : IsPGroup 2 ((CFSG.Open.pCoreOf 2 E).subgroupOf H) :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 E).comap_subtype
@@ -204,13 +211,13 @@ theorem pCoreOf_two_le_of_sylow {Z E S : Subgroup G} (hEZ : E ≤ Z)
     (hSle : S ≤ perpOf Z E) (hS : IsPGroup 2 S)
     (hSyl : ¬ 2 ∣ S.relIndex (perpOf Z E)) :
     CFSG.Open.pCoreOf 2 Z ≤ S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let H : Subgroup G := perpOf Z E
   have hSH : S ≤ H := hSle
   have hNH : CFSG.Open.pCoreOf 2 Z ≤ H := pCoreOf_two_le_perpOf hEZ hZE
   have hHnorm : H ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 Z : Set G) :=
     (perpOf_le Z E).trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 Z)
-  haveI hNnormal : ((CFSG.Open.pCoreOf 2 Z).subgroupOf H).Normal :=
+  have hNnormal : ((CFSG.Open.pCoreOf 2 Z).subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNH).mpr hHnorm
   have hNp : IsPGroup 2 ((CFSG.Open.pCoreOf 2 Z).subgroupOf H) :=
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 Z).comap_subtype

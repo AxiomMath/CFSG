@@ -36,16 +36,16 @@ private theorem ggK1D2_univ_subtype_unit_map {γ : Type*} (c : Prop) [Decidable 
     (Finset.univ : Finset (Subtype (fun _ : Unit => c))).val.map f =
       if h : c then {f ⟨(), h⟩} else 0 := by
   by_cases h : c
-  · haveI : Subsingleton (Subtype (fun _ : Unit => c)) := inferInstance
+  · have : Subsingleton (Subtype (fun _ : Unit => c)) := inferInstance
     rw [← Finset.singleton_eq_univ (⟨(), h⟩ : Subtype (fun _ : Unit => c))]
     simp [h]
-  · haveI : IsEmpty (Subtype (fun _ : Unit => c)) := ⟨fun x => h x.2⟩
+  · have : IsEmpty (Subtype (fun _ : Unit => c)) := ⟨fun x => h x.2⟩
     rw [Finset.univ_eq_empty]
     simp [h]
 
 private theorem ggK1D2_charP_two {K : Type} [Field K] [Finite K] {nf : ℕ}
     (hK : Nat.card K = 2 ^ nf) : CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   exact charP_of_card_eq_prime_pow (p := 2) (f := nf)
     (by rw [← Nat.card_eq_fintype_card]; exact hK)
 
@@ -66,7 +66,7 @@ private theorem ggK1D2_prime_ne_two {p nf : ℕ} (hnf : 1 ≤ nf)
 
 private theorem ggK1D2_prime_cast_ne_zero {K : Type} [Field K] [Finite K] {p nf : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) (hK : Nat.card K = 2 ^ nf) : (p : K) ≠ 0 := by
-  haveI : CharP K 2 := ggK1D2_charP_two hK
+  have : CharP K 2 := ggK1D2_charP_two hK
   intro h
   rw [CharP.cast_eq_zero_iff K 2 p] at h
   exact hp2 ((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp h).symm
@@ -75,8 +75,8 @@ private theorem ggK1D2_primaryMultiplicity_pos {K V : Type} [Field K] [AddCommGr
     [Module K V] [FiniteDimensional K V] {x : Module.End K V}
     (hsq : Squarefree (minpoly K x)) {h : K[X]} (hh : h ∈ primaryFactors x) :
     0 < primaryMultiplicity x h := by
-  haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
-  haveI : Nontrivial (primaryComponent x h) :=
+  have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+  have : Nontrivial (primaryComponent x h) :=
     Submodule.nontrivial_iff_ne_bot.mpr (primaryComponent_ne_bot hsq hh)
   exact Module.finrank_pos
 
@@ -84,7 +84,7 @@ private theorem ggK1D2_squarefree_spEnd {p nf r : ℕ} {K : Type} [Field K] [Fin
     {x : ↥(StatedSp r K)} (hp : p.Prime) (hnf : 1 ≤ nf)
     (hdvd : p ∣ 2 ^ nf - 1 ∨ p ∣ 2 ^ nf + 1) (hK : Nat.card K = 2 ^ nf)
     (hx : x ^ p = 1) : Squarefree (minpoly K (spEnd x)) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hpK : (p : K) ≠ 0 :=
     ggK1D2_prime_cast_ne_zero hp (ggK1D2_prime_ne_two hnf hdvd) hK
   exact (altPrimaryData_spLin hpK hx).squarefree
@@ -105,7 +105,7 @@ private theorem ggK1D2_headD_ne_zero_of_mem_X1 {p nf r : ℕ} {K : Type} [Field 
   intro h0
   have hcomp : primaryComponent (spEnd x) (X - 1) ≠ ⊥ :=
     primaryComponent_ne_bot hSq hmem
-  haveI : Nontrivial (primaryComponent (spEnd x) (X - 1)) :=
+  have : Nontrivial (primaryComponent (spEnd x) (X - 1)) :=
     Submodule.nontrivial_iff_ne_bot.mpr hcomp
   have hpos : 0 < Module.finrank K (primaryComponent (spEnd x) (X - 1)) :=
     Module.finrank_pos
@@ -236,7 +236,7 @@ theorem ggK1CBl_witness_d2 {p nf r : ℕ} {K : Type} [Field K] [Finite K]
     ∀ i : ggK1CBl_Id2 K x m,
       ggK1CBl_KindWitness nf K (ggK1CBl_kind2 x m i) (ggK1CBl_A2 x m i) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hSq : Squarefree (minpoly K (spEnd x)) := ggK1D2_squarefree_spEnd hp hnf hdvd hK hx
   have hrank := ggK1CBl_rank_d2 hdvd hK hm hblocks
   have hmemT : ∀ h : K[X], h ∈ ggK1CSelfDualFactors x ↔
@@ -265,8 +265,8 @@ theorem ggK1CBl_witness_d2 {p nf r : ℕ} {K : Type} [Field K] [Finite K]
       have : h.1.natDegree = 2 * d := by simpa using hd
       omega
     have hmul : nf * d = nf := by rw [hd1, Nat.mul_one]
-    haveI : Finite (AdjoinRoot h.1) := hE.finite
-    haveI : Fintype (AdjoinRoot h.1) := Fintype.ofFinite _
+    have : Finite (AdjoinRoot h.1) := hE.finite
+    have : Fintype (AdjoinRoot h.1) := Fintype.ofFinite _
     unfold ggK1CBl_KindWitness
     rw [← hmul]
     refine ⟨?_, AdjoinRoot (h' : K[X]), inferInstance, inferInstance, hE,
@@ -332,9 +332,9 @@ theorem ggK1CBl_kind_multiset_d2 {p nf r : ℕ} {K : Type} [Field K]
       (f := fun _ => ggK1CCo_Kind.sp (m.headD 0))]
     by_cases h0 : m.headD 0 = 0
     · have hc : ¬ (m.headD 0 ≠ 0) := fun h => h h0
-      rw [dif_neg hc, if_pos h0, Multiset.coe_nil]
+      rw [dite_eq_right hc, ite_eq_left h0, Multiset.coe_nil]
     · have hc : m.headD 0 ≠ 0 := h0
-      rw [dif_pos hc, if_neg h0, Multiset.coe_singleton]
+      rw [dite_eq_left hc, ite_eq_right h0, Multiset.coe_singleton]
   change (Finset.univ : Finset ↥(ggK1CSelfDualFactors x)).val.map
         (fun h => ggK1CCo_Kind.su (primaryMultiplicity (spEnd x) h.1)) +
       (Finset.univ : Finset (Subtype (fun _ : Unit => m.headD 0 ≠ 0))).val.map

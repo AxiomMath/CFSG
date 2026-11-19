@@ -84,7 +84,7 @@ theorem fixed_sq {X : Subgroup (GL (Fin 3) (ZMod p))} {g : GL (Fin 3) (ZMod p)} 
     {n m : ℕ} (hm : 0 < m) (hnm : n = 4 * m) (horder : orderOf g = n) {z : Fin 3 → ZMod p}
     (hfr : ∀ y ∈ X, y ≠ 1 → ∀ v : Fin 3 → ZMod p,
       (y : Matrix (Fin 3) (Fin 3) (ZMod p)) *ᵥ v = v → ∃ c : ZMod p, v = c • z)
-    {Z : Submodule (ZMod p) (Fin 3 → ZMod p)} (hzZ : z ∈ Z) (hZz : ∀ w ∈ Z, ∃ c : ZMod p, w = c • z)
+    {Z : Submodule (ZMod p) (Fin 3 → ZMod p)} (hzZ : z ∈ Z) (_hZz : ∀ w ∈ Z, ∃ c : ZMod p, w = c • z)
     (hXZ : ∀ y ∈ X, ∀ w ∈ Z, (y : Matrix (Fin 3) (Fin 3) (ZMod p)) *ᵥ w = w) :
     orderOf (g ^ m) = 4 ∧ (g ^ m) ^ 4 = 1 ∧ g ^ m ∈ X ∧
       {v : Fin 3 → ZMod p | (((g ^ m) ^ 2 : GL (Fin 3) (ZMod p)) :

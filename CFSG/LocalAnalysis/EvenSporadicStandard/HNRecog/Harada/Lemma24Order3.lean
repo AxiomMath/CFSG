@@ -18,7 +18,7 @@ theorem Induces.pow {x : G} {g : Equiv.Perm V6} (hx : Induces ι x g) (n : ℕ) 
     rw [pow_succ, pow_succ]
     exact ih.mul hx
 
-theorem exists_order_three_induces (hι : Function.Injective ι)
+theorem exists_order_three_induces (_hι : Function.Injective ι)
     (hC : centralizer (ι.range : Set G) ≤ ι.range) (hind : inducedGroup ι = OmegaPlus) :
     ∃ a : G, a ^ 3 = 1 ∧ Induces ι a w3 := by
   have hw3 : w3 ∈ inducedGroup ι := by

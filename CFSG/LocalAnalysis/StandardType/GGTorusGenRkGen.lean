@@ -50,14 +50,14 @@ private theorem pairElem_pow_eq_one {K : Type} [Field K] {n d : ℕ}
     show TypeA.ggPairVec a b μ m ^ N = 1
     rw [TypeA.ggPairVec_apply, mul_pow]
     by_cases h1 : m = a
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       by_cases h2 : m = b
-      · rw [if_pos h2]; simp [hμN, inv_pow]
-      · rw [if_neg h2]; simp [hμN, inv_pow]
-    · rw [if_neg h1]
+      · rw [ite_eq_left h2]; simp [hμN, inv_pow]
+      · rw [ite_eq_right h2]; simp [hμN]
+    · rw [ite_eq_right h1]
       by_cases h2 : m = b
-      · rw [if_pos h2]; simp [hμN, inv_pow]
-      · rw [if_neg h2]; simp [hμN, inv_pow]]
+      · rw [ite_eq_left h2]; simp [hμN, inv_pow]
+      · rw [ite_eq_right h2]; simp]
   exact Matrix.diagonal_one
 
 private theorem pairElem_mem_blockSU {K : Type} [Field K] {n d : ℕ}
@@ -69,16 +69,16 @@ private theorem pairElem_mem_blockSU {K : Type} [Field K] {n d : ℕ}
   rw [Matrix.diagonal_apply, Matrix.one_apply]
   by_cases h : i = j
   · subst h
-    rw [if_pos rfl, if_pos rfl, TypeA.ggPairVec_apply]
+    rw [ite_eq_left rfl, ite_eq_left rfl, TypeA.ggPairVec_apply]
     have hia : i ≠ a := by
       rintro rfl
       exact hij.elim (fun hi => hi ha) (fun hj => hj ha)
     have hib : i ≠ b := by
       rintro rfl
       exact hij.elim (fun hi => hi hb) (fun hj => hj hb)
-    rw [if_neg hia, if_neg hib]
+    rw [ite_eq_right hia, ite_eq_right hib]
     simp
-  · rw [if_neg h, if_neg h]
+  · rw [ite_eq_right h, ite_eq_right h]
 
 private theorem conj_pairElem {K : Type} [Field K] {n d : ℕ}
     (hK : UnitaryFieldData 2 n K) (σ : Equiv.Perm (Fin d)) (a b : Fin d) (μ : K)

@@ -121,7 +121,7 @@ theorem s_hs : ∀ i < M12S.cnt, hsortPtK 24 5 (mask 5) M12S.cnt M12S.T M12S.HS 
 theorem s_cl : ∀ c < M12S.cnt * (4 + 4), findPtK M12S.cnt M12S.T
     (prodQK 24 5 (mask 5) (4 + 4) M12S.T (bothK 4 M12S.GI M12SI)) M12Cl c = true :=
   fun c hc => slK_spec sCl c (Nat.zero_le _) (by change c < Nat.mul M12S.cnt 8; omega)
-    (by change c < Nat.mul M12S.cnt 8; omega)
+    (by omega)
 
 theorem evEnum_of {n cp sz : Nat} {gs : List Table}
     (h1 : CFSG.Sporadic.SmallOddCore.enumOK n cp sz gs = true)

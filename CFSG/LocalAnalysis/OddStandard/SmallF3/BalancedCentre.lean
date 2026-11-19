@@ -59,7 +59,7 @@ theorem oddCore_eq_bot_of_balanced (hS : StandardSetting G L)
   obtain ⟨-, hLT, hLn, -, -⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.standard_involution_centralizer_normality
       hS.standard ht ht2
-  haveI : (L.subgroupOf (Subgroup.centralizer ({t} : Set G))).Normal := hLn
+  have : (L.subgroupOf (Subgroup.centralizer ({t} : Set G))).Normal := hLn
   have hOK : CFSG.oddCore ↥(L.subgroupOf (Subgroup.centralizer ({t} : Set G))) = ⊥ :=
     oddCore_eq_bot_of_normal_local (hbal t ht2)
       (L.subgroupOf (Subgroup.centralizer ({t} : Set G)))
@@ -72,7 +72,7 @@ theorem isPGroup_two_center_of_balanced (hS : StandardSetting G L)
   have huniq : ∀ {d : ℕ}, Nat.Prime d → d ∣ Nat.card (center L) → d = 2 := by
     intro d hd hdvd
     by_contra hd2
-    haveI : Fact d.Prime := ⟨hd⟩
+    have : Fact d.Prime := ⟨hd⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := center L) d hdvd
     have hodd : Odd (Nat.card (Subgroup.zpowers (x : ↥L))) := by
       rw [Nat.card_zpowers, Subgroup.orderOf_coe, hx]
@@ -85,7 +85,7 @@ theorem isPGroup_two_center_of_balanced (hS : StandardSetting G L)
     have hx1' : x = 1 := Subtype.ext hx1
     have hd1 : d = 1 := by rw [← hx, hx1', orderOf_one]
     exact hd.ne_one hd1
-  haveI : Nonempty ↥(center L) := ⟨1⟩
+  have : Nonempty ↥(center L) := ⟨1⟩
   exact IsPGroup.of_card (Nat.eq_prime_pow_of_unique_prime_dvd Nat.card_pos.ne' huniq)
 
 theorem center_eq_bot_or_even_card (hS : StandardSetting G L)

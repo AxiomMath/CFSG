@@ -16,7 +16,7 @@ variable {H V N : Subgroup X}
 
 theorem maximal_local (h : TIConfig H V N) {D : Subgroup X} (hDH : D ≤ H) (hD1 : D ≠ ⊥)
     (hDp : IsPGroup 2 D) (hKD : NormIn H V ≤ NormIn H D) : NormIn H D ≤ NormIn H V := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNY : N ≤ NormIn H D := fun n hn => hKD (h.N_le hn)
   have hND : N ≤ normalizer (D : Set X) := fun n hn => (mem_NormIn.1 (hNY hn)).2
   have hDNp : IsPGroup 2 (D ⊔ N : Subgroup X) :=

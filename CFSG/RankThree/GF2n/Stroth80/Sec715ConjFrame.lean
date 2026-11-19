@@ -29,6 +29,7 @@ namespace Sec715Frame
 variable {K E X : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensional K E] [Group X]
   {φ : X →* (E ≃ₗ[K] E)} {V L Nb Rb : Subgroup X} {Tt : X → Submodule K E}
 
+omit [FiniteDimensional K E] in
 theorem map_opm_eq (F : Sec715Frame φ V L Nb Rb Tt) {g : X}
     (hcomm : ∀ a ∈ V, ∀ b ∈ V, a * (g * b * g⁻¹) = (g * b * g⁻¹) * a) {a b : X} (ha : a ∈ V)
     (ha1 : a ≠ 1) (hb : b ∈ V) (hb1 : b ≠ 1) :
@@ -41,6 +42,7 @@ theorem map_opm_eq (F : Sec715Frame φ V L Nb Rb Tt) {g : X}
     LinearMap.ext fun x => (opm_comm_of_comm (by rw [← map_mul, ← map_mul, hcomm a ha b hb]) x).symm
   rw [← h1, ← h2, ← LinearMap.range_comp, ← LinearMap.range_comp, hc]
 
+omit [FiniteDimensional K E] in
 theorem conj_mem_Nb (F : Sec715Frame φ V L Nb Rb Tt) {g : X}
     (hcomm : ∀ a ∈ V, ∀ b ∈ V, a * (g * b * g⁻¹) = (g * b * g⁻¹) * a)
     (hR : ∀ b ∈ V, g * b * g⁻¹ ∈ Rb) {b₀ : X} (hb₀ : b₀ ∈ V) (hb₀1 : b₀ ≠ 1)
@@ -48,7 +50,7 @@ theorem conj_mem_Nb (F : Sec715Frame φ V L Nb Rb Tt) {g : X}
   intro b hb
   by_cases hb1 : b = 1
   · subst hb1
-    simpa using Nb.one_mem
+    simp
   have h0 : (Tt 1).map (opm (φ (g * b₀ * g⁻¹))) = ⊥ := by
     refine (Submodule.eq_bot_iff _).mpr fun w hw => ?_
     obtain ⟨u, hu, rfl⟩ := Submodule.mem_map.mp hw
@@ -61,17 +63,20 @@ theorem conj_mem_Nb (F : Sec715Frame φ V L Nb Rb Tt) {g : X}
   rw [hsame, Submodule.mem_bot, opm_apply, sub_eq_zero] at hmem
   exact hmem
 
+omit [FiniteDimensional K E] in
 theorem comm_conj_of_le_L (F : Sec715Frame φ V L Nb Rb Tt) {h : X}
     (hL : ∀ a ∈ V, h * a * h⁻¹ ∈ L) :
     ∀ a ∈ V, ∀ b ∈ V, a * (h * b * h⁻¹) = (h * b * h⁻¹) * a := fun a ha b hb =>
   F.L_comm a (F.V_le_L ha) _ (hL b hb)
 
+omit [FiniteDimensional K E] in
 theorem eq_one_of_conj_mem_Nb (F : Sec715Frame φ V L Nb Rb Tt) {h : X}
     (hL : ∀ a ∈ V, h * a * h⁻¹ ∈ L) (hout : ¬ ∀ a ∈ V, h * a * h⁻¹ ∈ Nb) {b : X} (hb : b ∈ V)
     (hbN : h * b * h⁻¹ ∈ Nb) : b = 1 := by
   by_contra hb1
   exact hout (F.conj_mem_Nb (F.comm_conj_of_le_L hL) (fun a ha => F.L_le_Rb (hL a ha)) hb hb1 hbN)
 
+omit [FiniteDimensional K E] in
 theorem exists_conj_le_Nb (F : Sec715Frame φ V L Nb Rb Tt) {h : X}
     (hL : ∀ a ∈ V, h * a * h⁻¹ ∈ L) (hout : ¬ ∀ a ∈ V, h * a * h⁻¹ ∈ Nb) {n : X} (hn : n ∈ Nb)
     (hnc : ¬ ∀ a ∈ V, n * (h * a * h⁻¹) = (h * a * h⁻¹) * n) {b₀ : X} (hb₀ : b₀ ∈ V)

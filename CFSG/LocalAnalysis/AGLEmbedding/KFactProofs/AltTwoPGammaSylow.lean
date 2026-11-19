@@ -138,7 +138,7 @@ theorem kFactAltTwoPGammaSylow : KFactAltTwoPGammaSylow := by
   have hT₀Kp : IsPGroup p (T₀.map φ₀) := hT₀p.map φ₀
   obtain ⟨T', hT'⟩ := hT₀Kp.exists_le_sylow
   have hT'c : Nat.card (T' : Subgroup K) ≤ p * p := by
-    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T'.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T'.isPGroup
     have hdvd : p ^ k ∣ Nat.card K := hk ▸ Subgroup.card_subgroup_dvd_card _
     rw [Nat.card_congr e.toEquiv] at hdvd
     have h2 := two_mul_card_alternatingGroup_fin (n := 2 * p) (by omega)

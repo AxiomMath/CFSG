@@ -35,6 +35,7 @@ private theorem isSwap_pairSwap (k : Fin 5) : (CFSG.Permutation.FivePairs.pairSw
   have h2 : 2 * (k : ℕ) = 2 * (k : ℕ) + 1 := congrArg Fin.val h
   omega
 
+omit [Finite X] in
 private theorem map_baum_le_pairGroup {T : Subgroup X} {θ : X →* Equiv.Perm (Fin 11)}
     (hT2 : IsPGroup 2 T)
     {S : Set (Equiv.Perm (Fin 11))} (hS : ∀ t ∈ S, t.IsSwap)
@@ -54,6 +55,7 @@ private theorem map_baum_le_pairGroup {T : Subgroup X} {θ : X →* Equiv.Perm (
       (hS t ht) (isSwap_pairSwap k)
   exact CFSG.Permutation.FivePairs.swap_mem_pairGroup_of_commute (hS t ht) hcomm
 
+omit [Finite X] in
 private theorem exists_conj_pairGroup_le_map {T : Subgroup X}
     (hT : IsSylowTwoOf T ⊤) {θ : X →* Equiv.Perm (Fin 11)}
     (hθ : Function.Surjective θ) (hθker : θ.ker = CFSG.Open.pCoreOf 2 (⊤ : Subgroup X))
@@ -64,7 +66,7 @@ private theorem exists_conj_pairGroup_le_map {T : Subgroup X}
       CFSG.Permutation.FivePairs.pairGroup ≤ T.map θ' ∧
       (CFSG.Quasithin.baum T).map θ' ≤ CFSG.Permutation.FivePairs.pairGroup := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQT : CFSG.Open.pCoreOf 2 (⊤ : Subgroup X) ≤ T := hT.pCoreOf_le
   have hT2 : IsPGroup 2 T := hT.2.1
   have hidx : ¬ 2 ∣ (T.map θ).index := by
@@ -105,12 +107,13 @@ private theorem exists_conj_pairGroup_le_map {T : Subgroup X}
       obtain ⟨s, hs, rfl⟩ := ht
       exact CFSG.RankThree.PartOne.FIS.PermFacts.isSwap_conj (hS s hs) σ) hpair_le hbaum'
 
+omit [Finite X] in
 private theorem sup_eq_top_of_isSylowTwoOf {L T : Subgroup X}
     {φ : X →* Equiv.Perm (Fin 11)} (hφ : Function.Surjective φ)
     (hker : φ.ker = CFSG.Open.pCoreOf 2 (⊤ : Subgroup X))
     (hL : L.map φ = alternatingGroup (Fin 11)) (hT : IsSylowTwoOf T ⊤) : L ⊔ T = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQT : CFSG.Open.pCoreOf 2 (⊤ : Subgroup X) ≤ T := hT.pCoreOf_le
   have hidx : ¬ 2 ∣ (T.map φ).index := by
     rw [Subgroup.index_map_eq T hφ (by rw [hker]; exact hQT)]
@@ -135,6 +138,7 @@ private theorem sup_eq_top_of_isSylowTwoOf {L T : Subgroup X}
     sup_eq_left.mpr (by rw [hker]; exact hQT.trans le_sup_right)] at hcomap
   exact hcomap.symm
 
+omit [Finite X] in
 private theorem exists_char_normal_of_le_centerOf {C₁ T R₀ : Subgroup X}
     {θ' : X →* Equiv.Perm (Fin 11)} {H : Fin 5 → Subgroup X}
     (hθ' : Function.Surjective θ')
@@ -272,7 +276,7 @@ private theorem exists_s11_conj_setup
     rwa [hCeq] at h2
   obtain ⟨A, hA, hAT, hAW, hoff⟩ :=
     exists_offender_of_not_thompsonJ_le (R := T) (W := gnV T) hW hWle hJ'
-  haveI hWn : (gnV T).Normal := normal_gnV T
+  have hWn : (gnV T).Normal := normal_gnV T
   have hnat : NaturalSectionOn (gnV T) L ⊤ 11 :=
     naturalSectionOn_top_of_offender (W := gnV T) (L := L) (A := A) (n := 11)
       hW hWn hLn (by norm_num) φ (hker.trans hCeq.symm) hL hA hAW hoff
@@ -359,8 +363,8 @@ private theorem exists_char_normal_of_s11_offender
       (CFSG.Permutation.FivePairs.pairParabolic_not_le_normalizer k)
   have hHchar : ∀ k, CFSG.QuasithinUnique.CharTwo (H k) := fun k =>
     CFSG.QuasithinUnique.CharTwo.of_pCoreOf_le hC le_top (hQR₀H k)
-  have hkerSolv : IsSolvable ↥θ'.ker := by
-    haveI : Group.IsNilpotent ↥θ'.ker := hθ'ker2.isNilpotent
+  have hkerSolv : Group.IsSolvable ↥θ'.ker := by
+    have : Group.IsNilpotent ↥θ'.ker := hθ'ker2.isNilpotent
     exact IsNilpotent.to_isSolvable
   have hHperf : ∀ k, perfectCore (H k) = ⊥ := fun k =>
     perfectCore_comap_eq_bot θ' hkerSolv
@@ -396,7 +400,7 @@ theorem exists_char_normal_of_s11_sylow
     (hnoX : ¬ CFSG.AGLEmbedding.InClassXBlock L) :
     ∃ C : Subgroup X, C ≠ ⊥ ∧ C ≤ T ∧ (C.subgroupOf T).Characteristic ∧ C.Normal := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Subgroup X := CFSG.Open.pCoreOf 2 (⊤ : Subgroup X)
   have hQT : Q ≤ T := hT.pCoreOf_le
   have hT2 : IsPGroup 2 T := hT.2.1

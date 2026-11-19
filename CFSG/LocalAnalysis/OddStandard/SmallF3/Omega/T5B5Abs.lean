@@ -55,7 +55,7 @@ theorem t5_b5_lift {G H : Type} [Group G] [Finite G] [Group H] {L : Subgroup G}
     (φ : ↥L →* H) (hφ : OddCentralCover φ) {r : G} (hr2 : r * r = 1)
     (hrN : r ∈ normalizer (L : Set G)) (α : MulAut H)
     (hα : ∀ l l' : ↥L, (l' : G) = r * l * r⁻¹ → φ l' = α (φ l))
-    {t : G} (htL : t ∈ L) (ht2 : orderOf t = 2) (htz : (⟨t, htL⟩ : ↥L) ∈ center ↥L)
+    {t : G} (htL : t ∈ L) (ht2 : orderOf t = 2) (_htz : (⟨t, htL⟩ : ↥L) ∈ center ↥L)
     (K Bb : Subgroup H) (hKP : K ≤ fixSub α)
     (hKn : ∀ p ∈ fixSub α, ∀ k ∈ K, p * k * p⁻¹ ∈ K) (hKq : CFSG.IsQuasisimple ↥K)
     (hBP : Bb ≤ fixSub α) (hB : IsElemAb2 Bb 5) (hπB : φ ⟨t, htL⟩ ∈ Bb)
@@ -79,8 +79,8 @@ theorem t5_b5_lift {G H : Type} [Group G] [Finite G] [Group H] {L : Subgroup G}
     rw [coe_fixHom (ρ := φ) (σ := σ) (α := α) hφσ ((fixConjEquiv L hr2 hrN).symm c)]
     exact congrArg φ (Subtype.ext rfl)
   let Bb' : Subgroup ↥(fixSub α) := Bb.subgroupOf (fixSub α)
-  haveI : IsMulCommutative Bb := hB.1.1
-  haveI : IsMulCommutative Bb' := inferInstance
+  have : IsMulCommutative Bb := hB.1.1
+  have : IsMulCommutative Bb' := inferInstance
   have hcardBb' : Nat.card Bb' = Nat.card Bb :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hBP).toEquiv
   let Bhat : Subgroup ↥C :=

@@ -40,7 +40,7 @@ theorem Lam_eq_empty_of_ge {j : ℕ} (hj : ¬ j < (CertL minus).Llist.size) :
   constructor
   · rintro ⟨i, hiA, -, -⟩
     rw [Array.getElem!_eq_getD, Array.getD_eq_getD_getElem?, Array.getD_getElem?,
-      dif_neg hj] at hiA
+      dite_eq_right hj] at hiA
     have hdef : (default : Array ℕ) = #[] := rfl
     rw [hdef] at hiA
     simp at hiA
@@ -98,7 +98,7 @@ noncomputable def l2OK_wit (h : l2OK (CertD minus) minus (b0Of minus) (CertL min
   simp only [Bool.and_eq_true, List.all_eq_true, beq_iff_eq, decide_eq_true_eq] at h'
   obtain ⟨_, hall⟩ := h'
   have hkall := hall k (List.mem_range.mpr hk)
-  simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, or_assoc, and_assoc] at hkall
+  simp only [and_assoc] at hkall
   obtain ⟨hj, hc, hact, hsize, hzero, hbase, hany0, hanyi⟩ := hkall
   rw [Array.contains_iff_mem] at hzero
   rw [Array.all_eq_true] at hbase
@@ -124,11 +124,11 @@ noncomputable def l2OK_wit (h : l2OK (CertD minus) minus (b0Of minus) (CertL min
     · right
       simpa [conjIdxOf, array_getElem!_eq_getElem hx] using ht
   · obtain ⟨x, hx, hval⟩ := hany0
-    simp only [Bool.and_eq_true, Bool.or_eq_true, beq_iff_eq, decide_eq_true_eq] at hval
+    simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq] at hval
     refine ⟨x, hx, ?_⟩
     simpa [conjIdxOf, array_getElem!_eq_getElem hx] using hval.2
   · obtain ⟨x, hx, hval⟩ := hanyi
-    simp only [Bool.and_eq_true, Bool.or_eq_true, beq_iff_eq, decide_eq_true_eq] at hval
+    simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq] at hval
     refine ⟨x, hx, ?_⟩
     simpa [conjIdxOf, array_getElem!_eq_getElem hx] using hval.2
 
@@ -137,7 +137,7 @@ theorem lOK_mem_lt {b : ℕ} {L : Array ℕ}
     i < (CertD minus).O.size := by
   have h' := h
   unfold lOK at h'
-  simp only [Bool.and_eq_true, List.all_eq_true, Array.all_eq_true, beq_iff_eq,
+  simp only [Bool.and_eq_true, Array.all_eq_true, beq_iff_eq,
     decide_eq_true_eq] at h'
   obtain ⟨⟨⟨⟨⟨_, _⟩, _⟩, hall⟩, _⟩, _⟩ := h'
   obtain ⟨p, hp, hpi⟩ := exists_pos_of_mem hi
@@ -150,7 +150,7 @@ theorem lOK_nodup {b : ℕ} {L : Array ℕ}
     (h : lOK (CertD minus) minus b L = true) : L.toList.Nodup := by
   have h' := h
   unfold lOK at h'
-  simp only [Bool.and_eq_true, List.all_eq_true, Array.all_eq_true, beq_iff_eq,
+  simp only [Bool.and_eq_true, Array.all_eq_true, beq_iff_eq,
     decide_eq_true_eq] at h'
   obtain ⟨⟨⟨⟨⟨_, _⟩, hhash⟩, _⟩, _⟩, _⟩ := h'
   exact nodup_toList_of_hashSetOfArray_size hhash
@@ -159,7 +159,7 @@ theorem lOK_zero_mem {b : ℕ} {L : Array ℕ}
     (h : lOK (CertD minus) minus b L = true) : 0 ∈ L := by
   have h' := h
   unfold lOK at h'
-  simp only [Bool.and_eq_true, List.all_eq_true, Array.all_eq_true, beq_iff_eq,
+  simp only [Bool.and_eq_true, Array.all_eq_true, beq_iff_eq,
     decide_eq_true_eq] at h'
   obtain ⟨⟨⟨⟨⟨_, hcont⟩, _⟩, _⟩, _⟩, _⟩ := h'
   rw [Array.contains_iff_mem] at hcont
@@ -220,7 +220,7 @@ private theorem l2_mem_image_of_mem_pair {t : V₀ ≃ₗ[ZMod 2] V₀}
     (hD : GrpFacts minus (CertD minus)) {j c i : ℕ}
     (hL : lOK (CertD minus) minus (b0Of minus) ((CertL minus).Llist[j]!) = true)
     (hc : c < (CertD minus).O.size) (hix : hD.elt i = t)
-    (hzero' : ∃ x, x < ((CertL minus).Llist[j]!).size ∧
+    (_hzero' : ∃ x, x < ((CertL minus).Llist[j]!).size ∧
       conjIdxOf (CertD minus) c (((CertL minus).Llist[j]!)[x]!) = 0)
     (hi' : ∃ x, x < ((CertL minus).Llist[j]!).size ∧
       conjIdxOf (CertD minus) c (((CertL minus).Llist[j]!)[x]!) = i) :
@@ -294,12 +294,10 @@ noncomputable def l3OK_wit (h : l3OK (CertD minus) (b0Of minus) (CertL minus).Ll
     L3Wit minus ((CertL minus).l3tasks[k]!).1 ((CertL minus).l3tasks[k]!).2 := by
   have h' := h
   unfold l3OK at h'
-  simp only [Bool.and_eq_true, List.all_eq_true, beq_iff_eq, decide_eq_true_eq,
-    Bool.or_eq_true] at h'
+  simp only [Bool.and_eq_true, List.all_eq_true, beq_iff_eq, decide_eq_true_eq] at h'
   obtain ⟨_, hall⟩ := h'
   have hkall := hall k (List.mem_range.mpr hk)
-  simp only [Bool.and_eq_true, beq_iff_eq, decide_eq_true_eq, Bool.or_eq_true,
-    Array.all_eq_true, and_assoc] at hkall
+  simp only [beq_iff_eq, decide_eq_true_eq, Array.all_eq_true, and_assoc] at hkall
   obtain ⟨jlt, ult, kklt, clt, hactu, hinv, hnotmem, hcommL, hactc, hUsize, hUall,
     hUhash, hVsize, hVall, hVcover⟩ := hkall
   refine
@@ -431,7 +429,7 @@ private theorem l3TaskValid_of_stabO (hD : GrpFacts minus (CertD minus)) {j iu :
     simpa [array_getElem!_eq_getElem hx] using hcommCode x hx
   unfold l3TaskValid
   simp only [hj, hiu, hactu, hinv, hallcomm, hcontainsFalse, decide_true, Bool.true_and,
-    beq_iff_eq, beq_self_eq_true, Bool.not_false]
+    beq_self_eq_true, Bool.not_false]
 
 private theorem exists_l3_wit_of_task (hfacts : CensusBaseFacts minus) {j iu : ℕ}
     (hj : j < (CertL minus).Llist.size) (hiu : iu < (CertD minus).O.size)
@@ -448,7 +446,7 @@ private theorem exists_l3_wit_of_task (hfacts : CensusBaseFacts minus) {j iu : �
   simp only [List.all_eq_true] at hcomplete
   have hjall := hcomplete j (List.mem_range.mpr hj)
   have hiuall := hjall iu (List.mem_range.mpr hiu)
-  simp only [hvalid, if_true] at hiuall
+  simp only [hvalid, ite_true] at hiuall
   rw [Array.contains_iff_mem] at hiuall
   obtain ⟨k, hk, htask⟩ := exists_pos_of_mem hiuall
   let w := l3OK_wit hfacts.l3OK hk
@@ -461,8 +459,8 @@ private theorem exists_l3_wit_of_task (hfacts : CensusBaseFacts minus) {j iu : �
 
 private theorem l3_mem_Lam_of_mem_image (hD : GrpFacts minus (CertD minus)) {j iu kk c : ℕ}
     {u : V₀ ≃ₗ[ZMod 2] V₀}
-    (hL : lOK (CertD minus) minus (b0Of minus) ((CertL minus).Llist[j]!) = true)
-    (hK : lOK (CertD minus) minus (b0Of minus) ((CertL minus).Llist[kk]!) = true)
+    (_hL : lOK (CertD minus) minus (b0Of minus) ((CertL minus).Llist[j]!) = true)
+    (_hK : lOK (CertD minus) minus (b0Of minus) ((CertL minus).Llist[kk]!) = true)
     (hc : c < (CertD minus).O.size) (hiu : iu < (CertD minus).O.size)
     (hVall : ∀ y, y ∈ l3V minus c (l3U minus ((CertL minus).Llist[j]!) iu) →
       y ∈ (CertL minus).Llist[kk]!)
@@ -566,7 +564,7 @@ theorem conjSub_eq_image {G : Type*} [Group G] (L : Subgroup G) (c : G) :
 
 theorem mem_candidatesOf_iff {A : Array (Array ℕ)} {j : ℕ} :
     j ∈ candidatesOf minus A ↔ j < A.size ∧ (A[j]!).size ≥ minCandSize minus := by
-  simp [candidatesOf, Array.mem_toList_iff, List.mem_toArray, List.mem_filter, List.mem_range]
+  simp [candidatesOf, List.mem_toArray, List.mem_filter, List.mem_range]
 
 theorem natCard_Lam (hD : GrpFacts minus (CertD minus)) {b : ℕ} {j : ℕ}
     (hL : lOK (CertD minus) minus b ((CertL minus).Llist[j]!) = true) :
@@ -642,8 +640,8 @@ theorem censusBase_L_reduce (hb : censusBase minus () = true)
     intro x hx
     rw [mem_stabO_iff]
     exact ⟨hH (hc.1 hx), hc.2.1 x hx⟩
-  haveI : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
-  haveI : Finite L := Subtype.finite
+  have : Finite (V₀ ≃ₗ[ZMod 2] V₀) := finite_linearEquiv
+  have : Finite L := Subtype.finite
   obtain ⟨t, htL, htA⟩ := ht
   have htA2 : t ∈ a2Set minus := ⟨hC htL, htA⟩
   have hinv : ∀ y ∈ L, y * y = 1 := hc.2.2.1

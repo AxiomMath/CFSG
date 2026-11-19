@@ -19,8 +19,8 @@ theorem false_of_fixed_involution {E : Type*} [Group E] [Finite E]
   classical
   obtain ⟨y, hyM, -⟩ :=
     CFSG.LargeExtraspecial.GLR.exists_extremal_conj_mem_of_sq_eq (G := E) hE
-      (T := (P : Subgroup E)) (U := M) P.isPGroup' P.not_dvd_index hMP hM hpP hpM hp2
-      (by simp) (fun x _ => by simpa using M.one_mem)
+      (T := (P : Subgroup E)) (U := M) P.isPGroup P.not_dvd_index hMP hM hpP hpM hp2
+      (by simp) (fun x _ => by simp)
   have hweak : ∀ g : E, CFSG.conjugate (P : Subgroup E) g ≤ (P : Subgroup E) →
       CFSG.conjugate (P : Subgroup E) g = (P : Subgroup E) := by
     intro g hg

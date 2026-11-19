@@ -82,7 +82,7 @@ theorem y63_tg (D : Y63Chk.Data) (hT : D.TabSpec)
     show ((ψ (CFSG.Certificates.CosetEnumeration.evalWord gen (D.W y.val))).unop c0).1 = y.val
     rw [CFSG.CosetTable.act_evalWord_step (gen := gen) ψ hψ (D.W y.val) (hWlt y.val y.lt) c0]
     exact (hW y.val y.lt).2
-  haveI hfinPi : Finite (PresentedGroup S) := by
+  have hfinPi : Finite (PresentedGroup S) := by
     change Finite (PresentedGroup
       {r : FreeGroup (Fin 5) | r ∈ (y2l_ws26 2 false).map FreeGroup.mk})
     rw [← y2l_rels26_eq 2 false]
@@ -95,7 +95,7 @@ theorem y63_tg (D : Y63Chk.Data) (hT : D.TabSpec)
   have he : Function.Bijective e :=
     hsurj.bijective_of_nat_card_le (by rw [Y63TG.card]; exact hcard)
   let E : PresentedGroup S ≃ Y63TG := Equiv.ofBijective e he
-  letI : Group Y63TG := Equiv.group E.symm
+  let : Group Y63TG := Equiv.group E.symm
   let f : PresentedGroup S ≃* Y63TG := (Equiv.mulEquiv E.symm).symm
   have hf : ∀ g : PresentedGroup S, f g = E g := fun g => rfl
   refine ⟨inferInstance, f, ?_, ?_, ?_, ?_⟩
@@ -172,12 +172,12 @@ theorem y63_isPres26_pi : IsPres26 2 false (PresentedGroup (rels26 2 false))
   exact Function.bijective_id
 
 theorem y63_equiv_P [Group Y63TG] (f : PresentedGroup (rels26 2 false) ≃* Y63TG)
-    (h26HS : Lemma26HS) (hfin : Finite TauCeti.SporadicName.HS.Group) {P : Type} [Group P]
+    (h26HS : Lemma26HS) (_hfin : Finite TauCeti.SporadicName.HS.Group) {P : Type} [Group P]
     (hP : IsHSType P) : Nonempty (P ≃* Y63TG) := by
   have hPi : IsHSType (PresentedGroup (rels26 2 false)) :=
     h26HS (PresentedGroup (rels26 2 false)) (PresentedGroup.of 0) (PresentedGroup.of 1)
       (PresentedGroup.of 2) (PresentedGroup.of 3) (PresentedGroup.of 4) y63_isPres26_pi
-  letI := hfin
+  let := _hfin
   obtain ⟨S⟩ := (Sylow.nonempty : Nonempty (Sylow 2 TauCeti.SporadicName.HS.Group))
   obtain ⟨eP⟩ := hP S
   obtain ⟨ePi⟩ := hPi S

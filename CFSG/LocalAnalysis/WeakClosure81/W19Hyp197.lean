@@ -31,11 +31,13 @@ variable {G : Type} [Group G] [Finite G]
     rw [eq]
     exact (Subgroup.mem_normalizer_iff.1 (Subgroup.inv_mem _ hm.2.1) _).1 (F.inv_mem (hm.2.2 e he))
 
+omit [Finite G] in
 theorem mem_centralizerQuot {H E F : Subgroup G} {h : G} :
     h ∈ centralizerQuot H E F ↔
       h ∈ H ∧ h ∈ normalizer (F : Set G) ∧ ∀ e ∈ E, ⁅h, e⁆ ∈ F :=
   Iff.rfl
 
+omit [Finite G] in
 theorem centralizerQuot_le (H E F : Subgroup G) : centralizerQuot H E F ≤ H := fun _ h => h.1
 
 @[expose] def eB (E F B : Subgroup G) : Subgroup G :=
@@ -43,13 +45,16 @@ theorem centralizerQuot_le (H E F : Subgroup G) : centralizerQuot H E F ≤ H :=
 
 @[expose] def commEB (E F B : Subgroup G) : Subgroup G := ⁅eB E F B, B⁆
 
+omit [Finite G] in
 theorem eB_le (E F B : Subgroup G) : eB E F B ≤ E :=
   (Subgroup.closure_le E).2 fun _ h => h.1
 
+omit [Finite G] in
 theorem mem_eB_of {E F B : Subgroup G} {e : G} (he : e ∈ E) (h : ∀ b ∈ B, ⁅e, b⁆ ∈ F) :
     e ∈ eB E F B :=
   Subgroup.subset_closure ⟨he, h⟩
 
+omit [Finite G] in
 theorem mem_eB_iff {E F B : Subgroup G} (hFE : F ≤ E) (hE : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x)
     {e : G} : e ∈ eB E F B ↔ e ∈ E ∧ ∀ b ∈ B, ⁅e, b⁆ ∈ F := by
   refine ⟨fun h => ?_, fun h => mem_eB_of h.1 h.2⟩
@@ -81,6 +86,7 @@ theorem mem_eB_iff {E F B : Subgroup G} (hFE : F ≤ E) (hE : ∀ x ∈ E, ∀ y
         exact F.inv_mem (hx.2 b hb) }
   exact (Subgroup.closure_le S).2 (fun _ h => h) h
 
+omit [Finite G] in
 theorem eB_eq_of_forall {E F B : Subgroup G} (h : ∀ e ∈ E, ∀ b ∈ B, ⁅e, b⁆ ∈ F) :
     eB E F B = E :=
   le_antisymm (eB_le E F B) fun _ he => mem_eB_of he (h _ he)

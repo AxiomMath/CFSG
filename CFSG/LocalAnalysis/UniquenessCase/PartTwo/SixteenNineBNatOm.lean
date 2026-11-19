@@ -30,10 +30,9 @@ private theorem s16n9b_upper_cube {ω : K} (hω : ω ^ 2 + ω + 1 = 0) (c : K) :
   have hc : ω * c + (ω + 1) * c + c = 0 := by linear_combination (ω * c + c) * h2
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, pow_succ, hω2, hω3, hω4, hω5, hω6, hωadd, h2, h3,
-      h1, hc]
+    simp [Matrix.mul_apply, Fin.sum_univ_two, pow_succ, hω2]
   all_goals ring_nf
-  all_goals simp [hω2, hω3, hω4, hω5, hω6, hωadd, h2, h3, h1, hc]
+  all_goals simp [hω2, hω3, h3, h1, hc]
 
 private theorem s16n9b_diag_cube {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
     (!![ω, 0; 0, ω ^ 2] : Matrix (Fin 2) (Fin 2) K) ^ 3 = 1 := by
@@ -42,9 +41,9 @@ private theorem s16n9b_diag_cube {ω : K} (hω : ω ^ 2 + ω + 1 = 0) :
   have hω6 : ω ^ 6 = 1 := by rw [show (6 : ℕ) = 3 + 3 by norm_num, pow_add, hω3, one_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, pow_succ, hω3, hω6, h2]
+    simp [Matrix.mul_apply, Fin.sum_univ_two, pow_succ]
   all_goals ring_nf
-  all_goals simp [hω3, hω6, h2]
+  all_goals simp [hω3, hω6]
 
 private theorem s16n9b_exists_sl2_eigen {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
     {a : Fin 2 → K} (ha : a ≠ 0) :
@@ -63,7 +62,7 @@ private theorem s16n9b_exists_sl2_eigen {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
       intro h
       apply ha
       funext i
-      fin_cases i <;> simpa [h, ha1]
+      fin_cases i <;> simp [h, ha1]
     have hdet : (!![ω, 0; 0, ω ^ 2] : Matrix (Fin 2) (Fin 2) K).det = 1 := by
       rw [Matrix.det_fin_two]
       norm_num
@@ -73,9 +72,7 @@ private theorem s16n9b_exists_sl2_eigen {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
       funext i
       fin_cases i <;>
         rw [Matrix.mulVec_apply_eq_sum, Fin.sum_univ_two] <;>
-        simp [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_succ,
-          Matrix.cons_val_one, Fin.zero_eta, Fin.mk_one, Pi.smul_apply, Pi.one_apply,
-          smul_eq_mul, ha1]
+        simp [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Fin.zero_eta, Fin.mk_one, Pi.smul_apply, smul_eq_mul, ha1]
     refine ⟨E, ?_, ?_, ?_⟩
     · apply Subtype.ext
       rw [Matrix.SpecialLinearGroup.coe_pow, Matrix.SpecialLinearGroup.coe_one]
@@ -98,15 +95,11 @@ private theorem s16n9b_exists_sl2_eigen {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
       funext i
       fin_cases i
       · rw [Matrix.mulVec_apply_eq_sum, Fin.sum_univ_two]
-        simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_succ,
-          Matrix.cons_val_one, Fin.zero_eta, Fin.mk_one, Pi.smul_apply, Pi.one_apply,
-          smul_eq_mul]
+        simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Fin.zero_eta, Pi.smul_apply, smul_eq_mul]
         rw [div_mul_cancel₀ (a 0) ha1ne]
         linear_combination (a 0) * hω2 + (a 0) * h2
       · rw [Matrix.mulVec_apply_eq_sum, Fin.sum_univ_two]
-        simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_succ,
-          Matrix.cons_val_one, Fin.zero_eta, Fin.mk_one, Pi.smul_apply, Pi.one_apply,
-          smul_eq_mul]
+        simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Fin.mk_one, Pi.smul_apply, smul_eq_mul]
         ring
     refine ⟨E, ?_, ?_, ?_⟩
     · apply Subtype.ext
@@ -143,7 +136,7 @@ private theorem s16n9b_sl2_std : ∃ t : Matrix.SpecialLinearGroup (Fin 2) K, t 
     intro h
     have h01 := congrArg (fun g : Matrix.SpecialLinearGroup (Fin 2) K =>
       (g : Matrix (Fin 2) (Fin 2) K) 0 1) h
-    exact (one_ne_zero : (1 : K) ≠ 0) (by simpa [t] using h01)
+    exact (one_ne_zero : (1 : K) ≠ 0) (by simp [t] at h01)
   exact ⟨t, ht3, ht1⟩
 
 private theorem s16n9b_sl2_pair_fix {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
@@ -151,7 +144,7 @@ private theorem s16n9b_sl2_pair_fix {ω : K} (hω : ω ^ 2 + ω + 1 = 0)
     ∃ z : Matrix.SpecialLinearGroup (Fin 2) K × Matrix.SpecialLinearGroup (Fin 2) K,
       orderOf z = 3 ∧ (z.1 : Matrix (Fin 2) (Fin 2) K) * X *
         ((z.2⁻¹ : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) = X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hdet : X.det = 0
   · obtain ⟨a, b, ha, hb, hXab⟩ :=
       CFSG.RankThree.GF2n.Smith81.exists_vecMulVec_of_det_eq_zero hX hdet
@@ -392,12 +385,12 @@ theorem s16n9b_natOmegaPlus_fix {W : Type} [CommGroup W] {H : Subgroup (MulAut W
     (hN : NatOmegaPlus H (⊤ : Subgroup W) ⊥ 4 2) {w : W} (hw : w ≠ 1) :
     ∃ ψ ∈ H, orderOf ψ = 3 ∧ ψ w = w := by
   obtain ⟨-, K, hKf, hKfin, hKcard, hR⟩ := hN
-  letI := hKf
-  letI := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let := hKf
+  let := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard4 : Nat.card K = 4 := by rw [hKcard]; norm_num
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2)
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hKcard])
   refine s16n9b_transfer (Γ := StatedOmega (StatedQuadPlus (4 / 2) K)) hR ?_ hw
   intro v hv

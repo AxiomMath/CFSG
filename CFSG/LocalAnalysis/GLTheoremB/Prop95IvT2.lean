@@ -50,12 +50,12 @@ theorem t2_perfect_aut_apply_eq {A : Type*} [Group A] (hperf : commutator A = �
   let F : Subgroup A :=
     { carrier := {x | θ x = x}
       mul_mem' := fun {x y} hx hy => by
-        simp only [Set.mem_setOf_eq] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq] at hx hy ⊢
         rw [map_mul, hx, hy]
       one_mem' := by
-        simp only [Set.mem_setOf_eq, map_one]
+        simp only [Set.mem_ofPred_eq, map_one]
       inv_mem' := fun {x} hx => by
-        simp only [Set.mem_setOf_eq] at hx ⊢
+        simp only [Set.mem_ofPred_eq] at hx ⊢
         rw [map_inv, hx] }
   have key : ∀ x y : A, ⁅x, y⁆ ∈ F := by
     intro x y
@@ -132,7 +132,8 @@ theorem t2_tl_perfect (h : IvSetting m p M D L) : commutator ↥(tl M L) = ⊤ :
   (isComponentOf_tl (prime_of_standing h.standing) (ne_two_of_standing h.standing) h.hyp h.hL h.hn
     h.hnc h.hQ).2.2.1
 
-theorem t2_tl_le_normalizer {W : Subgroup G} (hWM : W ≤ M)
+omit [Finite G] in
+theorem t2_tl_le_normalizer {W : Subgroup G} (_hWM : W ≤ M)
     (hWN : W ≤ Subgroup.normalizer (L : Set G)) :
     tl M W ≤ Subgroup.normalizer ((tl M L : Subgroup (Mt M)) : Set (Mt M)) := by
   have h1 : W.subgroupOf M ≤ Subgroup.normalizer ((L.subgroupOf M : Subgroup ↥M) : Set ↥M) := by
@@ -269,6 +270,7 @@ theorem t2_ind_equiv_bar (h : IvSetting m p M D L) (P : Subgroup (Mt M))
   exact (QuotientGroup.quotientKerEquivRange Φ).symm.trans
     ((QuotientGroup.quotientMulEquivOfEq hker).trans (QuotientGroup.quotientKerEquivRange Ψ))
 
+omit [Finite G] in
 theorem t2_indCA_mem {W : Subgroup G} {n : Mt M} (hnW : n ∈ tl M W)
     (hn : n ∈ Subgroup.normalizer ((tl M L : Subgroup (Mt M)) : Set (Mt M))) :
     (tl M L).normalizerMonoidHom ⟨n, hn⟩ ∈ inducedAutGroup (tl M W) (tl M L) :=

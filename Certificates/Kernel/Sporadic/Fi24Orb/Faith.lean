@@ -88,10 +88,10 @@ noncomputable def Ker : Subgroup Jc where
   carrier := {h | ∀ i : Fin N, h • i = i}
   one_mem' := fun i => one_smul _ i
   mul_mem' := fun {a b} ha hb i => by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [mul_smul, hb, ha]
   inv_mem' := fun {a} ha i => by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     conv_lhs => rw [← ha i]
     exact inv_smul_smul a i
 
@@ -103,7 +103,7 @@ instance Ker_normal : Ker.Normal where
     intro i
     rw [mul_smul, mul_smul, hn, smul_inv_smul]
 
-theorem Ker_le : Ker ≤ M0 := fun h hh => (mem_Ker.1 hh) 0
+theorem Ker_le : Ker ≤ M0 := fun _h hh => (mem_Ker.1 hh) 0
 
 theorem x5_not_Ker : xJ 5 ∉ Ker := by
   intro h
@@ -262,7 +262,7 @@ theorem closure_aJ_bJ : Subgroup.closure ({aJ, bJ} : Set Jc) = ⊤ := by
   convert h using 2
   ext x
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_preimage, Subgroup.coe_subtype,
-    Set.mem_setOf_eq]
+    Set.mem_ofPred_eq]
   constructor
   · rintro (rfl | rfl)
     · exact Or.inl uA_val

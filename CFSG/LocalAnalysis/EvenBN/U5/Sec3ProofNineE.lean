@@ -22,7 +22,7 @@ variable {G : Type} [Group G] [Finite G] {f : ℕ} {K : Type} [Field K]
   {h : UnitaryFieldData 2 f K} {d : Data G h}
 
 theorem Hyp.sec39e_I₁_le_normalizer_B₆ (hGMS : GMSK.GMSUnitarySharpKRankOneStatement)
-    (hd : d.Hyp) : d.I₁ ≤ normalizer (d.B₆ : Set G) := fun i hi =>
+    (hd : d.Hyp) : d.I₁ ≤ normalizer (d.B₆ : Set G) := fun _i hi =>
   d.normalizer_le_normalizer_B₆ (hd.normalizer_B₁_le_normalizer_FB₃ hGMS
     (hd.I_le_normalizer_B₁ (d.I₁_le_I hi)).1)
 
@@ -31,15 +31,15 @@ theorem Hyp.sec39e_D_le_B₆ (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd 
   Subgroup.le_normalizer_iff_commutator_le_left.1 (hd.sec39e_I₁_le_normalizer_B₆ hGMS)
 
 theorem Hyp.sec39e_I₁_le_normalizer_F (hGMS : GMSK.GMSUnitarySharpKRankOneStatement)
-    (hd : d.Hyp) : d.I₁ ≤ normalizer (d.F : Set G) := fun i hi =>
+    (hd : d.Hyp) : d.I₁ ≤ normalizer (d.F : Set G) := fun _i hi =>
   hd.normalizer_FB₃_le_normalizer_F hGMS (hd.normalizer_B₁_le_normalizer_FB₃ hGMS
     (hd.I_le_normalizer_B₁ (d.I₁_le_I hi)).1)
 
 theorem Hyp.sec39e_I₁_le_normalizer_A₃ (hd : d.Hyp) : d.I₁ ≤ normalizer (d.A₃ : Set G) :=
-  fun i hi => hd.normalizer_B₁_le_normalizer_A₃ (hd.I_le_normalizer_B₁ (d.I₁_le_I hi)).1
+  fun _i hi => hd.normalizer_B₁_le_normalizer_A₃ (hd.I_le_normalizer_B₁ (d.I₁_le_I hi)).1
 
 theorem Hyp.sec39e_I₁_le_normalizer_A₁ (hd : d.Hyp) : d.I₁ ≤ normalizer (d.A₁ : Set G) :=
-  fun i hi => hd.normalizer_B₁_le_normalizer_A₁ (hd.I_le_normalizer_B₁ (d.I₁_le_I hi)).1
+  fun _i hi => hd.normalizer_B₁_le_normalizer_A₁ (hd.I_le_normalizer_B₁ (d.I₁_le_I hi)).1
 
 theorem sec39e_eq_bot_of_odd {X : Subgroup G} (h2 : IsPGroup 2 X) (ho : Odd (Nat.card X)) :
     X = ⊥ := by
@@ -243,15 +243,18 @@ theorem sec39e_know (hp : d.CaseHyp) (k : d.Know92) :
     (fun x hx => ⟨⟨x, hPL hx⟩, hQ hx, rfl⟩)
   exact ⟨h2.2.2.2.1, h2.2.2.2.2⟩
 
+omit [Finite G] in
 theorem sec39e_F_le_D (hZ : CFSG.centerIn d.D = d.F) : d.F ≤ d.D := by
   rw [← hZ]
   exact inf_le_left
 
+omit [Finite G] in
 theorem sec39e_comm_F (hZ : CFSG.centerIn d.D = d.F) {x y : G} (hx : x ∈ d.F) (hy : y ∈ d.D) :
     y * x = x * y := by
   have hx' : x ∈ CFSG.centerIn d.D := by rw [hZ]; exact hx
   exact mem_centralizer_iff.1 (mem_inf.1 hx').2 y hy
 
+omit [Finite G] in
 theorem sec39e_elemAbMod_D (hZ : CFSG.centerIn d.D = d.F) (hS : ∀ x ∈ d.D, x * x ∈ d.F) :
     ElemAbMod d.F d.D := by
   refine ⟨hS, fun x hx y hy => ?_⟩
@@ -329,7 +332,7 @@ theorem Hyp.sec39e_mem_FB₃_of_tD (hGMS : GMSK.GMSUnitarySharpKRankOneStatement
   have hcomm : x₁ * ((d.t * x₁) * (d.t * x₁))⁻¹ = ((d.t * x₁) * (d.t * x₁))⁻¹ * x₁ :=
     sec39e_comm_F hZ (inv_mem hsq) hx₁
   have e3 : (x₁ * d.t)⁻¹ * (d.t * x₁) = x₁ * ((d.t * x₁) * (d.t * x₁))⁻¹ * x₁ := by
-    simp only [mul_inv_rev, hd.t_inv', inv_inv]
+    simp only [mul_inv_rev, hd.t_inv']
     group
   have hx₁FB : x₁ ∈ d.F ⊔ d.B₃ := by
     refine hd.mem_FB₃_of_mem_B₆ hGMS hx₁B ?_
@@ -344,7 +347,7 @@ theorem Hyp.sec39e_le_or_le (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd :
   · exact Or.inl hYD
   · right
     have hF := sec39e_F_le_D hZ
-    obtain ⟨y, hyY, hyD⟩ := SetLike.not_le_iff_exists.1 hYD
+    obtain ⟨y, hyY, hyD⟩ := IsConcreteLE.not_le_iff_exists.1 hYD
     obtain ⟨x₀, hx₀, rfl⟩ : ∃ x₀ ∈ d.D, y = d.t * x₀ := by
       rcases hd.sec39e_B₆_eq hGMS hF (hYB hyY) with h | h
       · exact absurd h hyD
@@ -359,7 +362,7 @@ theorem Hyp.sec39e_not_FB₃_le_D (hGMS : GMSK.GMSUnitarySharpKRankOneStatement)
   fun h => hd.sec39e_t_not_mem_D hGMS hZ hS (h d.t_mem_FB₃)
 
 theorem Hyp.sec39e_not_D_le_FB₃ (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp)
-    (hZ : CFSG.centerIn d.D = d.F) (hS : ∀ x ∈ d.D, x * x ∈ d.F) : ¬ d.D ≤ d.F ⊔ d.B₃ :=
+    (hZ : CFSG.centerIn d.D = d.F) (_hS : ∀ x ∈ d.D, x * x ∈ d.F) : ¬ d.D ≤ d.F ⊔ d.B₃ :=
   fun h => hd.sec39e_not_B₆_le hGMS fun s hs => by
     rcases hd.sec39e_B₆_eq hGMS (sec39e_F_le_D hZ) hs with h1 | ⟨x, hx, rfl⟩
     · exact h h1
@@ -388,6 +391,7 @@ theorem Hyp.sec39e_maximal (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : 
       · exact h
       · exact absurd (hle.trans h) (hd.sec39e_not_D_le_FB₃ hGMS hZ hS)
 
+omit [Finite G] in
 theorem sec39e_mem_of_comm_mem {A : Subgroup G} {s s' : G} (hs : s ∈ normalizer (A : Set G))
     (hs' : s' ∈ normalizer (A : Set G)) (h : s * s' * s⁻¹ * s'⁻¹ ∈ A) :
     (s * s')⁻¹ * (s' * s) ∈ A := by
@@ -398,6 +402,7 @@ theorem sec39e_mem_of_comm_mem {A : Subgroup G} {s s' : G} (hs : s ∈ normalize
   have := proj_eq_proj_iff.1 h2
   simpa using this
 
+omit [Finite G] in
 theorem sec39e_comm_cancel {A : Subgroup G} {x w t s : G}
     (hx : x ∈ normalizer (A : Set G)) (hw : w ∈ normalizer (A : Set G))
     (ht : t ∈ normalizer (A : Set G)) (hs : s ∈ normalizer (A : Set G)) (hxwt : x = w * t)
@@ -575,6 +580,7 @@ theorem Hyp.sec39e_normalizer_le_F (hGMS : GMSK.GMSUnitarySharpKRankOneStatement
     rw [e]
     exact hd.sec39e_center_le_F hGMS h2
 
+omit [Finite G] in
 theorem sec39e_conj_pred {B F : Subgroup G} {g : G} (hg : g ∈ normalizer (B : Set G))
     (hgF : g ∈ normalizer (F : Set G)) {Y : Subgroup G}
     (hY : F ≤ Y ∧ Y ≤ B ∧ ElemAbMod F Y) :

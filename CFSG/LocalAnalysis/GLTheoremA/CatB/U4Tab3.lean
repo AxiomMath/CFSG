@@ -17,7 +17,7 @@ theorem normalizerMonoidHom_val (K : Subgroup G) (γ : ↥(Subgroup.normalizer (
 theorem exists_fixed_fibre [Finite G] (K : Subgroup G) (u : G) (hu : u ∈ Subgroup.normalizer (K : Set G))
     (hu3 : u ^ 3 = 1) (q : ↥K ⧸ GLAPPrimeCore 3 ↥K) (hq : barAut 3 K ⟨u, hu⟩ q = q) :
     ∃ y : ↥K, (QuotientGroup.mk y : ↥K ⧸ GLAPPrimeCore 3 ↥K) = q ∧ u * (y : G) = (y : G) * u := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   set γ : ↥(Subgroup.normalizer (K : Set G)) := ⟨u, hu⟩ with hγ
   let c : Equiv.Perm ↥K := (K.normalizerMonoidHom γ).toEquiv
   let p : ↥K → Prop := fun x => (QuotientGroup.mk x : ↥K ⧸ GLAPPrimeCore 3 ↥K) = q
@@ -117,7 +117,7 @@ theorem map_comap_inf_centralizer_eq [Finite G] {K : Subgroup G} {u : G}
 
 theorem pQuot_equiv_of_le [Finite G] {K J : Subgroup G} (hJK : J ≤ K) :
     Nonempty (PQuot 3 J ≃* PQuot 3 (J.comap K.subtype)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let e : ↥J ≃* ↥(J.comap K.subtype) := (Subgroup.subgroupOfEquivOfLe hJK).symm
   have h : (GLAPPrimeCore 3 ↥J).map e.toMonoidHom = GLAPPrimeCore 3 ↥(J.comap K.subtype) :=
     pPrimeCore_map_iso 3 e
@@ -127,7 +127,7 @@ theorem u4Hyp_of_component [Finite G] {K : Subgroup G} {u : G}
     (hu : u ∈ Subgroup.normalizer (K : Set G)) (hu3 : u ^ 3 = 1) {J : Subgroup G}
     (hJ : GLAPComponent 3 (K ⊓ S9.cx u) J) (hcat : catalogIs (PSimple 3 J) S9.isU4two) :
     U4Hyp (barAut 3 K ⟨u, hu⟩) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hJK : J ≤ K := le_trans hJ.1 inf_le_left
   have hJsub : CFSG.Open.IsSubnormal J (K ⊓ S9.cx u) := hJ.2.1
   have hsub : CFSG.Open.IsSubnormal (J.comap K.subtype) ((K ⊓ S9.cx u).comap K.subtype) :=

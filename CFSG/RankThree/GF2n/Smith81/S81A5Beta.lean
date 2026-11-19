@@ -54,7 +54,7 @@ theorem beta_cubeBasis_ne_zero_of_disjoint {I J : Set.powersetCard (Fin 6) 3}
 @[expose] def cmpl (I : Set.powersetCard (Fin 6) 3) : Set.powersetCard (Fin 6) 3 :=
   ⟨Finset.univ \ I.val, by
     show (Finset.univ \ I.val).card = 3
-    rw [Finset.card_univ_diff, Fintype.card_fin, I.prop]⟩
+    rw [Finset.card_univ_sdiff, Fintype.card_fin, I.prop]⟩
 
 theorem disjoint_cmpl (I : Set.powersetCard (Fin 6) 3) : Disjoint I.val (cmpl I).val := by
   show Disjoint I.val (Finset.univ \ I.val)

@@ -36,7 +36,7 @@ open CFSG.KC.Ord CFSG.KC.Loop
 @[expose] noncomputable def vecRow (r : Nat) : Nat :=
   Nat.shiftLeft (vecOf (Nat.mod (Nat.add r 1) 2187)) (Nat.mul 42 r)
 
-@[expose] noncomputable def contribK (AV La Ha L31 CMa TL T31 T32 T63 R1 N st : Nat) : Nat :=
+@[expose] noncomputable def contribK (AV La Ha L31 CMa _TL T31 T32 T63 R1 N st : Nat) : Nat :=
   strictN (redP 6 La Ha 3 3 (mulU 6 42 7 CMa RM AV N)) fun Y =>
   strictN (Nat.land (Nat.add Y L31) Ha) fun F1 =>
   strictN (Nat.land (Nat.mul (Nat.shiftRight F1 5) LV7) T63) fun E =>

@@ -91,10 +91,7 @@ theorem nodupB_iff (L : List ℕ) : nodupB L = true ↔ L.Nodup := by
   | nil => simp [nodupB]
   | cons a t ih =>
     first
-      | (simp [nodupB, ih]; done)
-      | (show (!t.contains a && nodupB t) = true ↔ _
-         rw [Bool.and_eq_true, ih, List.nodup_cons]
-         simp [List.contains_eq_mem])
+      | (simp [nodupB, ih])
 
 @[expose] def decSet (L : List ℕ) : Finset V := (L.map decV).toFinset
 
@@ -137,8 +134,7 @@ theorem permOf_size (f : ℕ → ℕ) : (permOf f).size = 2187 := by
 theorem permOf_get (f : ℕ → ℕ) {c : ℕ} (hc : c < 2187) : (permOf f)[c]! = f c := by
   have h : c < (permOf f).size := by rw [permOf_size]; exact hc
   first
-    | (simp [permOf, hc]; done)
-    | (rw [getElem!_pos (permOf f) c h]; simp [permOf]; done)
+    | (simp [permOf, hc])
 
 theorem reflTab_get (u : ℕ) {c : ℕ} (hc : c < 2187) :
     (reflTab u)[c]! = encV (rxV (decV u) (decV c)) := by
@@ -162,8 +158,7 @@ theorem genTabs_get (T : Tables) {k : ℕ} (hk : k < T.genU.size) {c : ℕ} (hc 
   have e : (genTabs T)[k]! = compTab (reflTab T.genU[k]!) (reflTab T.genW[k]!) := by
     have hk' : k < (genTabs T).size := by rw [genTabs_size]; exact hk
     first
-      | (simp [genTabs, hk]; done)
-      | (rw [getElem!_pos (genTabs T) k hk']; simp [genTabs]; done)
+      | (simp [genTabs, hk])
   rw [e, compRefl_get _ _ hc]
 
 theorem hTabs_size : (hTabs ()).size = 6 := by
@@ -174,8 +169,7 @@ theorem hTabs_get {j : ℕ} (hj : j < 6) {c : ℕ} (hc : c < 2187) :
   have e : (hTabs ())[j]! = compTab (reflTab 1) (reflTab (3 ^ (j + 1))) := by
     have hj' : j < (hTabs ()).size := by rw [hTabs_size]; exact hj
     first
-      | (simp [hTabs, hj]; done)
-      | (rw [getElem!_pos (hTabs ()) j hj']; simp [hTabs]; done)
+      | (simp [hTabs, hj])
   rw [e, compRefl_get _ _ hc]
 
 structure TableSem (T : Tables) (G H : Array (Array ℕ)) : Prop where
@@ -187,8 +181,8 @@ structure TableSem (T : Tables) (G H : Array (Array ℕ)) : Prop where
 
 theorem tableSem_gen (T : Tables) : TableSem T (genTabs T) (hTabs ()) where
   gsize := genTabs_size T
-  gget k hk c hc := genTabs_get T hk hc
-  hget j hj c hc := hTabs_get hj hc
+  gget _k hk _c hc := genTabs_get T hk hc
+  hget _j hj _c hc := hTabs_get hj hc
 
 structure VerifyFacts (T : Tables) (G H : Array (Array ℕ)) (P : Array (List ℕ)) : Prop where
   roots_lt : ∀ c ∈ T.roots, c < 2187

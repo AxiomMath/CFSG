@@ -143,7 +143,7 @@ theorem card_elemAbelian_le_four_of_normalized (h : J2CentFacts X t E)
   by_cases hAE : A ≤ E
   · exact h'.card_ea_le A hAE hAe
   exfalso
-  obtain ⟨c, hcA, hcE⟩ := SetLike.not_le_iff_exists.1 hAE
+  obtain ⟨c, hcA, hcE⟩ := IsConcreteLE.not_le_iff_exists.1 hAE
   have hcC := hA hcA
   have hc2 : c * c = 1 := by rw [← pow_two]; exact hAe.2 c hcA
   have htt := mul_self_eq_one_of_j2CentFacts h

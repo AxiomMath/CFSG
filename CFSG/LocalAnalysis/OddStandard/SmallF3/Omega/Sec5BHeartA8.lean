@@ -17,6 +17,7 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G] {t : G} {L : Subgroup G} {z r : G} {A : Subgroup G}
   {φ : (Fin 6 → ZMod 2) → G}
 
+omit [Group G] in
 private lemma sec5b_mem_wclass_iff {φ : (Fin 6 → ZMod 2) → G}
     (hinj : Function.Injective φ) (v : Fin 6 → ZMod 2) (k : ℕ) :
     φ v ∈ wclass φ k ↔ vecWeight v = k := by

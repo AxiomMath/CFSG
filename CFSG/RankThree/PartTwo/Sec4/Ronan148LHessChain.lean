@@ -88,7 +88,7 @@ theorem eq_pow_of_mem_zpowers_of_sq {w z : G} {j : ℕ} (hw : orderOf w = 2 ^ (j
   · rw [pow_succ, pow_mul, ht2, one_pow, one_mul]
 
 theorem eq_layer_of_invariant (U : Subgroup G) (hU : ∀ a ∈ U, ∀ b ∈ U, a * b = b * a)
-    (hU2 : IsPGroup 2 U) {c : G} (hcU : ∀ u ∈ U, c * u * c⁻¹ ∈ U)
+    (hU2 : IsPGroup 2 U) {c : G} (_hcU : ∀ u ∈ U, c * u * c⁻¹ ∈ U)
     (hfix : ∀ u ∈ U, c * u * c⁻¹ = u → u = 1) (hΩ : Nat.card (layer U hU 1) ≤ 4)
     {W : Subgroup G} (hWU : W ≤ U) (hWc : ∀ w ∈ W, c * w * c⁻¹ ∈ W) :
     ∃ j : ℕ, W = layer U hU j := by

@@ -63,8 +63,8 @@ theorem bitZ_selX (R PHV : ℕ) {i : ℕ} (hi : i < 30) :
         rw [testBit_mask30, Nat.testBit_shiftRight]
         simp [hi]
       by_cases hR : R.testBit n = true
-      · simp only [hR, if_true, Nat.mul_eq, one_mul]
-        simp only [bitZ, hR, hf, if_true, one_mul]
+      · simp only [hR, ite_true, Nat.mul_eq, one_mul]
+        simp only [bitZ, hR, hf, ite_true, one_mul]
       · simp [hR, bitZ]
   exact key 10
 
@@ -167,7 +167,7 @@ theorem matWordK_aux (w : List ℕ) : ∀ acc : List ℕ, acc.length = 12 →
         cases hb : Nat.beq j 0
         · rfl
         · exact absurd (beq_true hb) hj
-      rw [this, Mj, colsJ, if_neg hj]
+      rw [this, Mj, colsJ, ite_eq_right hj]
 
 theorem matOfCols_id12 : matOfCols id12 = 1 := by
   decide +kernel
@@ -207,7 +207,7 @@ theorem matWordInvK_aux (w : List ℕ) : ∀ acc : List ℕ,
         cases hb : Nat.beq j 0
         · rfl
         · exact absurd (beq_true hb) hj
-      rw [this, invColsJ, if_neg hj, matOfCols_matMulK (by decide), matOfCols_mulColsMat]
+      rw [this, invColsJ, ite_eq_right hj, matOfCols_matMulK (by decide), matOfCols_mulColsMat]
 
 theorem bitZ_fieldAt (V h t : ℕ) (ht : t < 384) : bitZ (fieldAt V h) t = bitZ V (384 * h + t) := by
   simp only [bitZ, testBit_fieldAt, decide_eq_true ht, Bool.and_true]
@@ -216,6 +216,7 @@ theorem bv_hv (HP j x t : ℕ) (c : Fin 12) :
     bv (hv HP j x t) c = bitZ (rowAt HP x) (384 * t + (32 * c + j)) := by
   simp only [bv, hv, bitZ, testBit_hvR, decide_eq_true c.isLt, Bool.true_and]
 
+set_option exponentiation.threshold 384 in
 theorem fieldAt_lt (V h : ℕ) : fieldAt V h < 2 ^ 384 := by
   change (V >>> (384 * h)) &&& ((1 <<< 384) - 1) < 2 ^ 384
   rw [Nat.one_shiftLeft]
@@ -276,6 +277,7 @@ theorem covK_parts {IND DEPA : List ℕ} {BR : ℕ} (h : covK IND DEPA BR = true
   obtain ⟨h1, h2, h3, h4⟩ := h
   exact ⟨beq_true h1, beq_true h2, beq_true h3, covWalk h4⟩
 
+set_option exponentiation.threshold 384 in
 theorem testBit_L0 (q : ℕ) : (repN * spread 4095).testBit q =
     (decide (q / 384 < 128) && decide (q % 384 % 32 = 0 ∧ q % 384 / 32 < 12)) := by
   have hl : spread 4095 < 2 ^ 384 :=
@@ -288,6 +290,7 @@ theorem testBit_L0 (q : ℕ) : (repN * spread 4095).testBit q =
   · rw [decide_eq_false h]
     simp
 
+set_option exponentiation.threshold 384 in
 theorem bitZ_and_L0dep {dep Q t r j : ℕ} (hdep : dep < 2 ^ 30) (hjd : dep.testBit j = true)
     (ht : t < 128) (hr : r < 12) (hj : j < 30) :
     bitZ (Q &&& repN * spread 4095 * dep) (384 * t + (32 * r + j)) =
@@ -307,6 +310,7 @@ theorem bitZ_and_L0dep {dep Q t r j : ℕ} (hdep : dep < 2 ^ 30) (hjd : dep.test
     show (4095 : ℕ) = 2 ^ 12 - 1 by norm_num, Nat.testBit_two_pow_sub_one, decide_eq_true hr]
   simp
 
+set_option exponentiation.threshold 384 in
 theorem bitZ_permF (V T o : ℕ) {t s : ℕ} (ht : t < 128) (hs : s < 384) :
     bitZ (permF V T o) (384 * t + s) = bitZ V (384 * pg 7 127 T (o + t) + s) := by
   have key : ∀ n q, (Nat.rec (motive := fun _ => Nat) 0 (fun h ih => Nat.lor ih (Nat.shiftLeft
@@ -366,16 +370,16 @@ theorem bitZ_mixOne (A Q q : ℕ) :
       rw [bitZ_xor, ih, Finset.sum_range_succ, fld1_eq, CFSG.KS.PK.nIf_eq]
       congr 1
       by_cases hA : A.testBit n = true
-      · have hb : Nat.beq (if A.testBit n = true then 1 else 0) 1 = true := by rw [if_pos hA]; rfl
-        rw [if_pos hb]
+      · have hb : Nat.beq (if A.testBit n = true then 1 else 0) 1 = true := by rw [ite_eq_left hA]; rfl
+        rw [ite_eq_left hb]
         change bitZ ((Q >>> n) &&& repN * spread 4095) q = _
         unfold bitZ
-        rw [Nat.testBit_and, Nat.testBit_shiftRight, if_pos hA, one_mul]
+        rw [Nat.testBit_and, Nat.testBit_shiftRight, ite_eq_left hA, one_mul]
         cases (repN * spread 4095).testBit q <;> simp
-      · have hb : Nat.beq (if A.testBit n = true then 1 else 0) 1 = false := by rw [if_neg hA]; rfl
-        rw [if_neg (by rw [hb]; decide)]
+      · have hb : Nat.beq (if A.testBit n = true then 1 else 0) 1 = false := by rw [ite_eq_right hA]; rfl
+        rw [ite_eq_right (by rw [hb]; decide)]
         unfold bitZ
-        rw [if_neg hA, zero_mul]
+        rw [ite_eq_right hA, zero_mul]
         simp
   exact key 30
 
@@ -399,26 +403,26 @@ theorem bitZ_mixK (DEPA : List ℕ) (Q : ℕ) {t r j : ℕ} (ht : t < 128) (hr :
           bitZ Q (384 * t + (32 * r + i)) by
       rw [hB, add_comm]
     by_cases hej : e % 32 = j
-    · rw [if_pos (by omega)]
+    · rw [ite_eq_left (by omega)]
       refine Finset.sum_congr rfl fun i _ => ?_
       have hq : 384 * t + (32 * r + j) - e % 32 = 384 * t + 32 * r := by omega
-      rw [hq, testBit_L0, if_pos hej]
+      rw [hq, testBit_L0, ite_eq_left hej]
       have h1 : (384 * t + 32 * r) / 384 < 128 := by omega
       have h2 : (384 * t + 32 * r) % 384 % 32 = 0 ∧ (384 * t + 32 * r) % 384 / 32 < 12 := by omega
-      rw [decide_eq_true h1, decide_eq_true h2, Bool.and_true, if_pos rfl,
+      rw [decide_eq_true h1, decide_eq_true h2, Bool.and_true, ite_eq_left rfl,
         show i + (384 * t + 32 * r) = 384 * t + (32 * r + i) by omega]
     · have hz : ∑ i ∈ Finset.range 30, (if e % 32 = j then bitZ (e / 32) i else 0) *
           bitZ Q (384 * t + (32 * r + i)) = 0 :=
-        Finset.sum_eq_zero fun i _ => by rw [if_neg hej, zero_mul]
+        Finset.sum_eq_zero fun i _ => by rw [ite_eq_right hej, zero_mul]
       rw [hz]
       by_cases hle : e % 32 ≤ 384 * t + (32 * r + j)
-      · rw [if_pos hle]
+      · rw [ite_eq_left hle]
         refine Finset.sum_eq_zero fun i _ => ?_
         rw [testBit_L0]
         have : ¬ ((384 * t + (32 * r + j) - e % 32) % 384 % 32 = 0 ∧
             (384 * t + (32 * r + j) - e % 32) % 384 / 32 < 12) := by omega
-        rw [decide_eq_false this, Bool.and_false, if_neg Bool.false_ne_true, mul_zero]
-      · rw [if_neg hle]
+        rw [decide_eq_false this, Bool.and_false, ite_eq_right Bool.false_ne_true, mul_zero]
+      · rw [ite_eq_right hle]
 
 theorem coc_num
     {HP LMP MTP GP PP : ℕ} {SP : List (List ℕ)}
@@ -631,7 +635,7 @@ theorem cellSum_congr {n : ℕ} {f g : ℕ → ℕ → ZMod 2} (h : ∀ a < n, �
   exact flatMap_congr' fun a ha => List.map_congr_left fun b hb =>
     h a (List.mem_range.1 ha) b (List.mem_range.1 hb)
 
-@[expose] noncomputable def muAt (CQ PHI : List (List ℕ)) (NL : List ℕ) (l m a b : ℕ) : ℕ :=
+@[expose] noncomputable def muAt (_CQ PHI : List (List ℕ)) (NL : List ℕ) (l m a b : ℕ) : ℕ :=
   (getL 0 (getL [] PHI l) a / 2 ^ (12 * (getL 0 NL l * b + m))) % 4096
 
 theorem phiL_cellsAt (CQ PHI : List (List ℕ)) (NL : List ℕ) (l m : ℕ) (F : ↥S → ↥S → V12) :
@@ -673,7 +677,7 @@ theorem mvP_aux (Y v : ℕ) : ∀ n, bv (Nat.rec (motive := fun _ => Nat) 0
     congr 1
     have e : Nat.land (Nat.shiftRight Y (12 * n)) 4095 = Y / 2 ^ (12 * n) % 4096 := fld4095 Y _
     by_cases hv : v.testBit n = true
-    · simp only [hv, if_true, Nat.mul_eq, Nat.one_mul]
+    · simp only [hv, ite_true, Nat.mul_eq, Nat.one_mul]
       exact congrArg bv e
     · simp [hv, bv_zero]
 
@@ -758,7 +762,7 @@ theorem matOfCols_unpackM_mulMP (Y R : ℕ) :
   have e := congrFun (bv_mvP Y (R / 2 ^ (12 * (c : ℕ)) % 4096)) r
   simp only [matOfCols, Matrix.of_apply, Matrix.mul_apply] at e ⊢
   rw [unpackM_getD _ c.isLt, hf, e]
-  simp only [Matrix.mulVec, dotProduct, matOfCols, Matrix.of_apply, unpackM_getD _ c.isLt]
+  simp only [Matrix.mulVec, dotProduct, Matrix.of_apply, unpackM_getD _ c.isLt]
 
 theorem rsK_spec {RS : List ℕ} {GP PP LMP : ℕ} (hrs : rsK RS GP PP aCols bCols yWords = true)
     (hd : dataK GP PP LMP genT parT lT = true) :
@@ -778,7 +782,7 @@ theorem rsK_spec {RS : List ℕ} {GP PP LMP : ℕ} (hrs : rsK RS GP PP aCols bCo
   rw [CFSG.KS.PK.strictB_eq] at hk'
   have h1 := CFSG.KS.PK.allN_iff.1 hk' (x - 1) (by omega)
   have hx1 : Nat.succ (x - 1) = x := by omega
-  rw [CFSG.KS.PK.bIf_eq, hx1, hg x hx, if_pos (Nat.beq_refl _), hp x hx] at h1
+  rw [CFSG.KS.PK.bIf_eq, hx1, hg x hx, ite_eq_left (Nat.beq_refl _), hp x hx] at h1
   rw [beq_true h1, matOfCols_unpackM_mulMP, unpack_pack_Y (gen x) (gen_lt x),
     (matOfCols_matWordK _).2, yCols, nth_eq_getD, getL_eq]
 
@@ -862,14 +866,14 @@ theorem bitZ_contrib (μ D : ℕ) {i : ℕ} (hi : i < 30) :
       rw [bitZ_xor, ih, Finset.sum_range_succ, CFSG.KS.PK.nIf_eq, fld1_eq]
       congr 1
       by_cases hμ : μ.testBit n = true
-      · rw [if_pos (by rw [if_pos hμ]; rfl)]
+      · rw [ite_eq_left (by rw [ite_eq_left hμ]; rfl)]
         unfold bitZ
-        rw [if_pos hμ, one_mul]
+        rw [ite_eq_left hμ, one_mul]
         change (if ((D >>> (32 * n)) &&& 1073741823).testBit i = true then (1 : ZMod 2) else 0) = _
         rw [testBit_mask30, Nat.testBit_shiftRight, decide_eq_true hi, Bool.and_true]
-      · rw [if_neg (by rw [if_neg hμ]; decide)]
+      · rw [ite_eq_right (by rw [ite_eq_right hμ]; decide)]
         unfold bitZ
-        rw [if_neg hμ, zero_mul]
+        rw [ite_eq_right hμ, zero_mul]
         simp
   exact key 12
 
@@ -878,8 +882,8 @@ theorem bitZ_shl32 {X : ℕ} (hX : X < 2 ^ 30) (s F i : ℕ) (hi : i < 30) :
   rw [bitZ_shl]
   by_cases hF : F = s
   · subst hF
-    rw [if_pos (by omega), if_pos rfl, show 32 * F + i - 32 * F = i by omega]
-  · rw [if_neg hF]
+    rw [ite_eq_left (by omega), ite_eq_left rfl, show 32 * F + i - 32 * F = i by omega]
+  · rw [ite_eq_right hF]
     split
     · unfold bitZ
       rw [Nat.testBit_eq_false_of_lt (lt_of_lt_of_le hX (Nat.pow_le_pow_right (by norm_num)
@@ -1025,8 +1029,8 @@ theorem psi_num {HP : ℕ} {NL : List ℕ} {CQ PHI SPG RGI : List (List ℕ)} {P
       have e := beq_true (CFSG.KS.PK.allN_iff.1 h c (by rw [hSPG l hl] at hc; exact hc))
       rwa [getL_eq 0 (getL [] SPG l) c, getL_eq 0 (getL [] RGI l) c] at e
     refine Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => ?_
-    rw [Finset.sum_eq_single m (fun m' _ hne => if_neg (by omega))
-      (fun h => absurd (Finset.mem_range.2 hm) h), if_pos rfl, bitZ_contrib _ _ hi, dotL_apply,
+    rw [Finset.sum_eq_single m (fun m' _ hne => ite_eq_right (by omega))
+      (fun h => absurd (Finset.mem_range.2 hm) h), ite_eq_left rfl, bitZ_contrib _ _ hi, dotL_apply,
       ← Fin.sum_univ_eq_sum_range]
     refine Finset.sum_congr rfl fun r _ => ?_
     have hr := r.isLt
@@ -1045,7 +1049,7 @@ theorem psi_num {HP : ℕ} {NL : List ℕ} {CQ PHI SPG RGI : List (List ℕ)} {P
     rw [h2]
   · rw [bitZ_phiAcc _ _ _ _ _ _ _ hi]
     refine Finset.sum_eq_zero fun a _ => Finset.sum_eq_zero fun b _ =>
-      Finset.sum_eq_zero fun m' hm' => if_neg fun h => hne ?_
+      Finset.sum_eq_zero fun m' hm' => ite_eq_right fun h => hne ?_
     exact (offL_inj NL hm (Finset.mem_range.1 hm') h).symm
 
 theorem psi_sound {HP : ℕ} {NL : List ℕ} {CQ PHI SPG RGI CW : List (List ℕ)} {PHV : ℕ}
@@ -1072,8 +1076,8 @@ theorem bitZ_shl12 {X : ℕ} (hX : X < 2 ^ 12) (G F r : ℕ) (hr : r < 12) :
   rw [bitZ_shl]
   by_cases hF : F = G
   · subst hF
-    rw [if_pos (by omega), if_pos rfl, show 12 * F + r - 12 * F = r by omega]
-  · rw [if_neg hF]
+    rw [ite_eq_left (by omega), ite_eq_left rfl, show 12 * F + r - 12 * F = r by omega]
+  · rw [ite_eq_right hF]
     split
     · unfold bitZ
       rw [Nat.testBit_eq_false_of_lt (lt_of_lt_of_le hX (Nat.pow_le_pow_right (by norm_num)
@@ -1188,7 +1192,7 @@ theorem bitZ_uCell (MTP n o Mu b s R t F : ℕ) {r : ℕ} (hr : r < 12) :
   exact key n
 
 theorem bitZ_uAcc (MTP : ℕ) (RS : List ℕ) (CQ PHI : List (List ℕ)) (NL : List ℕ) (l F : ℕ) {r : ℕ}
-    (hr : r < 12) : bitZ (uAcc MTP RS CQ PHI NL l) (12 * F + r) =
+    (_hr : r < 12) : bitZ (uAcc MTP RS CQ PHI NL l) (12 * F + r) =
       ∑ a ∈ Finset.range (getL [] CQ l).length, ∑ b ∈ Finset.range (getL [] CQ l).length,
         bitZ (uCell MTP (getL 0 NL l) (offL NL l) (getL 0 (getL [] PHI l) a) b
           ((getL [] CQ l).getD a 0 % 128) (getL 0 RS ((getL [] CQ l).getD a 0 % 128))
@@ -1241,7 +1245,7 @@ theorem phi_num {MTP GP PP LMP : ℕ} {RS NL : List ℕ} {CQ PHI : List (List �
         have h2 : ¬ 128 * (offL NL l + m) + q = 128 * (offL NL l + m') + pg 7 127 MTP (128 * s + t) := by
           rw [hmt']; omega
         have h3 : ¬ 128 * (offL NL l + m) + q = 128 * (offL NL l + m') + s := by omega
-        rw [if_neg h1, if_neg h2, if_neg h3, add_zero, add_zero]
+        rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3, add_zero, add_zero]
       · intro h
         exact absurd (Finset.mem_range.2 hm) h
     have hR : ∑ q ∈ Finset.range 128, ∑ r : Fin 12, β q r *
@@ -1251,7 +1255,7 @@ theorem phi_num {MTP GP PP LMP : ℕ} {RS NL : List ℕ} {CQ PHI : List (List �
       rw [Finset.sum_comm]
       refine Finset.sum_congr rfl fun r _ => ?_
       simp only [mul_add, mul_ite, mul_zero, Finset.sum_add_distrib, Finset.sum_ite_eq',
-        Finset.mem_range, if_pos ht', if_pos hst, if_pos hs']
+        Finset.mem_range, ite_eq_left ht', ite_eq_left hst, ite_eq_left hs']
     have hM : ∑ r : Fin 12, bitZ μ r * ((matOfCols (unpackM R)).mulVec (β t)) r =
         ∑ r : Fin 12, β t r * bitZ (rT R μ) r := by
       simp only [Matrix.mulVec, dotProduct, matOfCols, Matrix.of_apply, Finset.mul_sum]
@@ -1378,7 +1382,7 @@ theorem evalV_unitF (u : ℕ → ZMod 2) {k x : ℕ} (hk : k < 3) (hx : x < 128)
   simp only [testBit_unitF r.isLt, decide_eq_true_eq]
   rw [Finset.sum_ite_eq']
   have : 12 * (128 * k + x) + (r : ℕ) ∈ Finset.range 4608 := Finset.mem_range.2 (by omega)
-  rw [if_pos this]
+  rw [ite_eq_left this]
 
 theorem initK_spec {GP PP LMP : ℕ} (hd : dataK GP PP LMP genT parT lT = true) :
     ∀ β < 4608, (initK GP PP h2Free).testBit (12 * β) = true →
@@ -1438,6 +1442,7 @@ theorem testBit_gOnes (n : ℕ) : ∀ b, (gOnes n).testBit b = decide (b % 12 = 
       simp only [decide_eq_true_eq]
       omega
 
+set_option exponentiation.threshold 55296 in
 theorem oN_eq : oN = gOnes 4608 := by
   change ((1 <<< 55296) - 1) / 4095 = _
   rw [Nat.one_shiftLeft, ← gOnes_mul 4608, Nat.add_sub_cancel, Nat.mul_div_cancel _ (by norm_num)]
@@ -1498,10 +1503,10 @@ theorem formVal_colMul (u : ℕ → ZMod 2) {col : ℕ} (hcol : col < 4096) (v c
     cases v.testBit (12 * β + c) <;> simp
   unfold formVal
   by_cases hc : col.testBit r = true
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     refine Finset.sum_congr rfl fun β hβ => ?_
     rw [hbit β (Finset.mem_range.1 hβ), hc, Bool.and_true]
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     refine Finset.sum_eq_zero fun β hβ => ?_
     rw [hbit β (Finset.mem_range.1 hβ)]
     simp [hc]
@@ -1681,16 +1686,16 @@ theorem stepOK_inv {MB : List (List ℕ)} {u : ℕ → ZMod 2}
       have := hbit piv
       rw [decide_eq_true rfl, Bool.and_eq_true] at this
       exact this.1
-    rw [if_pos hpb, Finset.sum_eq_zero, zero_add]
+    rw [ite_eq_left hpb, Finset.sum_eq_zero, zero_add]
     intro β hβ
     obtain ⟨hne, hβ'⟩ := Finset.mem_erase.1 hβ
     by_cases hmb : m.testBit (12 * β + 0) = true
-    · rw [if_pos hmb]
+    · rw [ite_eq_left hmb]
       have := hbit β
       rw [decide_eq_false hne, Nat.add_zero] at *
       rw [hmb, Bool.true_and, Bool.not_eq_false'] at this
       exact hK β (Finset.mem_range.1 hβ') this
-    · rw [if_neg hmb]
+    · rw [ite_eq_right hmb]
   rw [← hs, h0]
 
 theorem echL_inv {MB : List (List ℕ)} {u : ℕ → ZMod 2}
@@ -1750,7 +1755,7 @@ theorem ech_num {YC CKB MB : List (List ℕ)} {ST : List (List (List ℕ))} {KS 
 @[expose] noncomputable def valG (g : ↥S → ↥S → V12) (β : ℕ) : ZMod 2 :=
   g (yS (β / 1536)) (elt (β / 12 % 128)) ⟨β % 12, Nat.mod_lt _ (by norm_num)⟩
 
-theorem valG_bitIdx (g : ↥S → ↥S → V12) {k u r : ℕ} (hk : k < 3) (hu : u < 128) (hr : r < 12) :
+theorem valG_bitIdx (g : ↥S → ↥S → V12) {k u r : ℕ} (_hk : k < 3) (hu : u < 128) (hr : r < 12) :
     valG g (12 * (128 * k + u) + r) = g (yS k) (elt u) ⟨r, hr⟩ := by
   have h1 : (12 * (128 * k + u) + r) / 1536 = k := by omega
   have h2 : (12 * (128 * k + u) + r) / 12 % 128 = u := by omega

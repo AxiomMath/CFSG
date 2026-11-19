@@ -72,7 +72,7 @@ theorem sec710_normal_two [Finite G] (h36 : Asc82Lemma36) (hP : Asc82Tab6P)
     (hF : Asc82AutFacts) (hP7 : Asc82Tab7P) (h78 : Asc82Lemma78) (h710b : Asc82Lemma710b)
     (h710c : Asc82Lemma710c) {t : G} {L S : Subgroup G} {z g : G} {B : Subgroup G}
     (hc : Sec7Choice G t L S z g B) {N₀ : Subgroup G} (hN₀M : N₀ ≤ MSub S B)
-    (hN₀ : (N₀.subgroupOf (MSub S B)).Normal) (hC : centralizer (ASub S B : Set G) ≤ N₀)
+    (hN₀ : (N₀.subgroupOf (MSub S B)).Normal) (_hC : centralizer (ASub S B : Set G) ≤ N₀)
     (hk : ∃ k : ℕ, (centralizer (ASub S B : Set G)).relIndex N₀ = 2 ^ k) :
     N₀ ≤ centralizer (B : Set G) := by
   obtain ⟨ρ, hker, hsurj⟩ :=
@@ -124,7 +124,7 @@ theorem sec710_normal_two [Finite G] (h36 : Asc82Lemma36) (hP : Asc82Tab6P)
       rfl
     rw [hsub, map_mul, map_mul, map_inv, hm.2]
   ⟩
-  haveI : Q.Normal := hQnorm
+  have : Q.Normal := hQnorm
   have hQbot : Q = ⊥ := sec710_perm5_normal_two_eq_bot Q hQp
   intro x hxN
   have hfx1 : f ⟨x, hxN⟩ = 1 := by

@@ -17,7 +17,7 @@ theorem orthIdent_holds : OrthIdent := by
     by_contra hlt
     push Not at hlt
     apply hplus
-    haveI : FiniteDimensional K W := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
+    have : FiniteDimensional K W := Module.finite_of_finrank_pos (by rw [hdim]; norm_num)
     let b := Module.finBasis K U
     have h2 : 2 ≤ Module.finrank K U := hlt
     let i₀ : Fin (Module.finrank K U) := ⟨0, by omega⟩

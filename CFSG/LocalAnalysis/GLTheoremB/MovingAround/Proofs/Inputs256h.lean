@@ -186,7 +186,7 @@ theorem noA5On_of_comp {P : TauCeti.ValidLieTypeIndex → Prop}
         ∀ β : MulAut S, β ^ 3 = 1 → β ≠ 1 → PerfectInLayer β)
     (h : NoA5CompOn P) : Inputs256d.NoA5On P := by
   intro S _ _ hs hnc _ d hd2 hP he β hβ J hJ hJ5
-  haveI := hs
+  have := hs
   have hl : PerfectInLayer β := by
     by_cases hβ1 : β = 1
     · subst hβ1
@@ -329,7 +329,7 @@ theorem sp_a5_false {K : Type} [Field K] [Finite K] {s : ℕ} (hs : 2 ≤ s)
   have h4 : Nat.card K ^ 4 ∣ 120 :=
     (pow_dvd_pow _ (by nlinarith : 4 ≤ s ^ 2)).trans h120
   have hK2 : 2 ≤ Nat.card K := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
   have hle : Nat.card K ^ 4 ≤ 120 := Nat.le_of_dvd (by norm_num) h4
@@ -371,7 +371,7 @@ theorem A5Good.of_mulEquiv {G H : Type} [Group G] [Group H] (e : G ≃* H) (h : 
         (MulEquiv.subgroupCongr hmap)
     exact ⟨CFSG.LocalCores.isQuasisimple_of_mulEquiv e'.symm hq, not_a5_of_mulEquiv e'.symm hno⟩
   · right
-    haveI := hs
+    have := hs
     exact Group.isSolvable_of_surjective (f := e.symm.toMonoidHom) e.symm.surjective
 
 theorem a5Good_of_commutator_eq {H : Type} [Group H] (N : Subgroup H) (hN : commutator H = N)
@@ -414,10 +414,10 @@ theorem not_a5_of_a5Good {X : Type} [Group X] (A : Subgroup X) (h : A5Good ↥A)
       refine Subgroup.commutator_le.mpr fun a ha b hb => ?_
       rw [commutatorElement_def]
       exact A.mul_mem (A.mul_mem (A.mul_mem ha hb) (A.inv_mem ha)) (A.inv_mem hb)
-    haveI : Group.IsSolvable ↥⁅A, A⁆ := Group.isSolvable_of_isSolvable_injective
+    have : Group.IsSolvable ↥⁅A, A⁆ := Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion hle) (Subgroup.inclusion_injective _)
-    haveI : Group.IsPerfect ↥⁅A, A⁆ := hq.1
-    haveI : Nontrivial ↥⁅A, A⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hq
+    have : Group.IsPerfect ↥⁅A, A⁆ := hq.1
+    have : Nontrivial ↥⁅A, A⁆ := CFSG.LocalCores.isQuasisimple_nontrivial hq
     exact Group.IsPerfect.not_isSolvable _ ‹_›
 
 end Good
@@ -469,7 +469,7 @@ theorem a5Good_sesqUnitaryGroup {ℓ g : ℕ} {E : Type} [Field E] (hE : Unitary
     (hq : 8 ≤ ℓ ^ g) {W : Type} [AddCommGroup W] [Module E W] [FiniteDimensional E W]
     {Hf : W →ₛₗ[hE.bar] W →ₗ[E] E} (hHf : Hf.IsSymm) (hHfl : Hf.SeparatingLeft) :
     A5Good ↥(sesqUnitaryGroup Hf) := by
-  haveI := hE.finite
+  have := hE.finite
   by_cases hm : 2 ≤ Module.finrank E W
   · obtain ⟨-, -, -, -, hker, -⟩ :=
       CFSG.LinearGroups.unitary_full_group_order hE hHf hHfl rfl (by omega)
@@ -488,12 +488,12 @@ theorem a5Good_sesqUnitaryGroup {ℓ g : ℕ} {E : Type} [Field E] (hE : Unitary
       exact InputsL33c.commutator_eq_ker_of_perfect (CFSG.LinearGroups.unitaryDet Hf)
         (by rw [hker]; exact hNq.1)
     refine a5Good_of_commutator_eq _ hcomm hNq fun hL => ?_
-    haveI : Fact ℓ.Prime := ⟨hE.prime⟩
+    have : Fact ℓ.Prime := ⟨hE.prime⟩
     rcases Nat.lt_or_ge (Module.finrank E W) 3 with h2 | h3
     · have hV : Module.finrank E W = 2 := by omega
       obtain ⟨φ⟩ :=
         CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hV
-      haveI : Finite ↥hE.fixedField := inferInstance
+      have : Finite ↥hE.fixedField := inferInstance
       have hcardF : Nat.card ↥hE.fixedField = ℓ ^ g := hE.card_fixedField
       exact not_a5_of_equiv_sl_two (by rw [hcardF]; exact hq) (eN.trans φ).symm hL
     · obtain ⟨b, hb⟩ := hE.exists_orthonormal_basis hHf hHfl
@@ -523,15 +523,15 @@ open CFSG.RankThree.PartOne.KCOrthogonal (reciprocalPolynomial)
 
 variable {r : ℕ} {K : Type} [Field K]
 
-theorem a5Good_spSupported_of_factor [Finite K] {ℓ f p : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f)
+theorem a5Good_spSupported_of_factor [Finite K] {ℓ f p : ℕ} (hℓ : ℓ.Prime) (_hf : 1 ≤ f)
     (hK : Nat.card K = ℓ ^ f) (hK8 : 8 ≤ Nat.card K) {x : StatedSp r K}
     {a : StatedProj (StatedSp r K)} (hsq : Squarefree (minpoly K (spEnd x)))
     (blocks : SpPrimaryBlocks ℓ f p x a) (h : primaryFactors (spEnd x)) :
     A5Good ↥(spSupported x {(h : K[X]), reciprocalPolynomial (h : K[X])}) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hcardK : Fintype.card K = ℓ ^ f := by rw [Fintype.card_eq_nat_card, hK]
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) hcardK
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) hcardK
   have hdeg : 1 ≤ (h : K[X]).natDegree :=
     Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors h.2)
   by_cases hself : reciprocalPolynomial (h : K[X]) = h
@@ -561,7 +561,7 @@ theorem a5Good_spSupported_of_factor [Finite K] {ℓ f p : ℕ} (hℓ : ℓ.Prim
       exact A5Good.of_mulEquiv φ (a5Good_sesqUnitaryGroup hE hq hHf hHfl)
   · have hP := blocks.paired h (fun e => hself e.symm)
     obtain ⟨φ⟩ := hP.matrixFactor
-    haveI : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
+    have : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
     have h8 : 8 ≤ Nat.card (AdjoinRoot (h : K[X])) := by
       rw [hP.card_field, ← hK]
       exact hK8.trans (Nat.le_self_pow (by omega) _)
@@ -573,11 +573,11 @@ theorem noA5_conj_sp [Finite K] {ℓ f p : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f
     (hK' : IsComponentOf K' (fixSubgroup (MulAut.conj (SymplecticFlag.proj r K x)))) :
     ¬ Nonempty ((↥K' ⧸ Subgroup.center ↥K') ≃* alternatingGroup (Fin 5)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have := Fintype.ofFinite K
   have hcardK : Fintype.card K = ℓ ^ f := by rw [Fintype.card_eq_nat_card, hK]
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) hcardK
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (f := f) hcardK
   have hZc : (SymplecticFlag.proj r K).ker ≤ Subgroup.center (StatedSp r K) := by
     rw [SymplecticHigher.ker_proj]
     exact SymplecticHigher.spScalars_le_center
@@ -609,7 +609,7 @@ theorem noA5_conj_sp [Finite K] {ℓ f p : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f
         rw [CharP.cast_eq_zero_iff K ℓ] at h
         exact hpℓ ((Nat.prime_dvd_prime_iff_eq hℓ hp).mp h).symm
       have hsq := (altPrimaryData_spLin hpK hx).squarefree
-      haveI : Finite (reciprocalOrbits (spEnd x)) :=
+      have : Finite (reciprocalOrbits (spEnd x)) :=
         (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
       obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
       refine ⟨reciprocalOrbits (spEnd x), inferInstance,
@@ -618,7 +618,7 @@ theorem noA5_conj_sp [Finite K] {ℓ f p : ℕ} (hℓ : ℓ.Prime) (hf : 1 ≤ f
         hjoin, ?_⟩
       rintro ⟨O, h, hh, rfl⟩
       exact a5Good_spSupported_of_factor hℓ hf hK hK8 hsq blocks ⟨h, hh⟩
-  haveI := hι
+  have := hι
   obtain ⟨i, hq, rfl⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.components_conj_of_orbit_family
       (SymplecticFlag.proj r K) SymplecticHigher.proj_surjective hZc x A hc hjoin
@@ -660,11 +660,11 @@ theorem noA5_fieldAut_sp {r : ℕ} (hr : 2 ≤ r) {K : Type} [Field K] [Finite K
     obtain ⟨g, hg, hgk⟩ := hcover K' hK'
     refine not_a5_of_surj hfd.perfect g hg hgk ?_
     rintro ⟨eA⟩
-    haveI : IsSimpleGroup ↥(commutator CFSG.ComponentClassification.PresentationLocal.sympFour) :=
+    have : IsSimpleGroup ↥(commutator CFSG.ComponentClassification.PresentationLocal.sympFour) :=
       CFSG.ComponentClassification.PresentationLocal.isSimpleGroup_commutator_sympFour
-    haveI : IsSimpleGroup ↥(commutator ↥(StatedSp 2 (descentField σ))) :=
+    have : IsSimpleGroup ↥(commutator ↥(StatedSp 2 (descentField σ))) :=
       (CFSG.HardMathSupport.Solomon.Coordinator.LieComp.commutatorSpFourEquiv hk2).isSimpleGroup
-    haveI : Group.IsPerfect ↥(commutator ↥(StatedSp 2 (descentField σ))) := ⟨hfd.perfect⟩
+    have : Group.IsPerfect ↥(commutator ↥(StatedSp 2 (descentField σ))) := ⟨hfd.perfect⟩
     have hZ : Subgroup.center ↥(commutator ↥(StatedSp 2 (descentField σ))) = ⊥ := by
       rcases (inferInstance : (Subgroup.center
           ↥(commutator ↥(StatedSp 2 (descentField σ)))).Normal).eq_bot_or_eq_top with h | h
@@ -704,10 +704,10 @@ theorem noA5_psp {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
     (hK : IsComponentOf K (fixSubgroup α)) :
     ¬ Nonempty ((↥K ⧸ Subgroup.center ↥K) ≃* alternatingGroup (Fin 5)) := by
   obtain ⟨⟨hℓ, hf, hr, -⟩, k, _, _, hk, ⟨e'⟩⟩ := hm
-  haveI : Finite (StatedProj (StatedSp r k)) := Finite.of_equiv S e'.toEquiv
+  have : Finite (StatedProj (StatedSp r k)) := Finite.of_equiv S e'.toEquiv
   have hβ' : MulAut.congr e' α ^ 3 = 1 := by rw [← map_pow, hα, map_one]
   have hO := CFSG.RankThree.PartOne.KCSpComm.spOuter (K := k) hℓ hf hr hk
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hodd : Odd (orderOf (MulAut.congr e' α)) :=
     (by decide : Odd 3).of_dvd_nat (orderOf_dvd_of_pow_eq_one hβ')
   have hE : MulAut.congr e' α ∈ spSemilinearAutGroup r k :=
@@ -758,7 +758,7 @@ theorem noA5Comp_symplectic_big :
       ∃ r q, d.1 = TauCeti.LieTypeIndex.C r q) ∧ d.1.characteristic = 2 ∧
       Inputs256c.defField d.1 ≠ 2 ∧ Inputs256c.defField d.1 ≠ 4 := by
   intro S _ _ hs hna d hP he β hβ K hK
-  haveI := hs
+  have := hs
   obtain ⟨hBC, hd2, hf2, hf4⟩ := hP
   obtain ⟨⟨d, hv⟩, rfl⟩ : ∃ d' : TauCeti.ValidLieTypeIndex, d' = d := ⟨d, rfl⟩
   obtain ⟨e⟩ := he
@@ -815,7 +815,7 @@ theorem eq_two_and_eq_one_of_pow_eq_two {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1
 
 theorem isSolvable_of_card_two_three {G : Type*} [Group G] [Finite G] {a b : ℕ}
     (h : Nat.card G = 2 ^ a * 3 ^ b) : Group.IsSolvable G := by
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
     Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card]; exact h)
 
@@ -835,14 +835,14 @@ theorem a5Good_statedSp_two [Finite K] (hK : Nat.card K = 2) {s : ℕ} (hs : 1 �
     have hc : Nat.card (Matrix.SpecialLinearGroup (Fin 2) K) = 2 ^ 1 * 3 ^ 1 := by
       rw [CFSG.OrderReductions.LinearOrders.card_specialLinear K 2 (by norm_num), hK]
       decide
-    haveI := isSolvable_of_card_two_three hc
+    have := isSolvable_of_card_two_three hc
     exact Group.isSolvable_of_surjective
       (f := (CFSG.ClassicalInvolution.Models.SymplecticPairs.longBlockEquivOne K).toMonoidHom)
       (CFSG.ClassicalInvolution.Models.SymplecticPairs.longBlockEquivOne K).surjective
   · left
-    haveI : IsSimpleGroup ↥(commutator CFSG.ComponentClassification.PresentationLocal.sympFour) :=
+    have : IsSimpleGroup ↥(commutator CFSG.ComponentClassification.PresentationLocal.sympFour) :=
       CFSG.ComponentClassification.PresentationLocal.isSimpleGroup_commutator_sympFour
-    haveI : IsSimpleGroup ↥(commutator ↥(StatedSp 2 K)) :=
+    have : IsSimpleGroup ↥(commutator ↥(StatedSp 2 K)) :=
       (CFSG.HardMathSupport.Solomon.Coordinator.LieComp.commutatorSpFourEquiv hK).isSimpleGroup
     have h360 := card_commutator_statedSp_two_two hK
     have hnc : ∃ a b : ↥(commutator ↥(StatedSp 2 K)), a * b ≠ b * a :=
@@ -858,8 +858,8 @@ theorem a5Good_sesqUnitaryGroup_two {ℓ g : ℕ} {E : Type} [Field E] (hE : Uni
     (hq : ℓ ^ g = 2) {W : Type} [AddCommGroup W] [Module E W] [FiniteDimensional E W]
     {Hf : W →ₛₗ[hE.bar] W →ₗ[E] E} (hHf : Hf.IsSymm) (hHfl : Hf.SeparatingLeft) :
     A5Good ↥(sesqUnitaryGroup Hf) := by
-  haveI := hE.finite
-  haveI : Finite W := Module.finite_of_finite E
+  have := hE.finite
+  have : Finite W := Module.finite_of_finite E
   by_cases hm : 4 ≤ Module.finrank E W
   · obtain ⟨-, -, -, -, hker, -⟩ :=
       CFSG.LinearGroups.unitary_full_group_order hE hHf hHfl rfl (by omega)
@@ -878,7 +878,7 @@ theorem a5Good_sesqUnitaryGroup_two {ℓ g : ℕ} {E : Type} [Field E] (hE : Uni
       exact InputsL33c.commutator_eq_ker_of_perfect (CFSG.LinearGroups.unitaryDet Hf)
         (by rw [hker]; exact hNq.1)
     refine a5Good_of_commutator_eq _ hcomm hNq fun hL => ?_
-    haveI : Fact ℓ.Prime := ⟨hE.prime⟩
+    have : Fact ℓ.Prime := ⟨hE.prime⟩
     obtain ⟨b, hb⟩ := hE.exists_orthonormal_basis hHf hHfl
     obtain ⟨φ⟩ := CFSG.RankThree.CentralLift.nonempty_sesqSpecialUnitaryGroup_mulEquiv_gramSU hE b
       (G := (1 : Matrix (Fin (Module.finrank E W)) (Fin (Module.finrank E W)) E))
@@ -919,7 +919,7 @@ theorem a5Good_spSupported_of_factor_two [Finite K] (hK : Nat.card K = 2) {x : S
     (hx : x ^ 3 = 1) {a : StatedProj (StatedSp r K)} (blocks : SpPrimaryBlocks 2 1 3 x a)
     (h : primaryFactors (spEnd x)) :
     A5Good ↥(spSupported x {(h : K[X]), reciprocalPolynomial (h : K[X])}) := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hmin : minpoly K (spEnd x) ∣ X ^ 3 - C 1 := by
     refine minpoly.dvd K _ ?_
     rw [map_sub, map_pow, aeval_X, aeval_C, map_one, spEnd_pow hx, sub_self]
@@ -941,7 +941,7 @@ theorem a5Good_spSupported_of_factor_two [Finite K] (hK : Nat.card K = 2) {x : S
       obtain ⟨φ, -⟩ := blocks.fixedFactor hm
       have hsq : Squarefree (minpoly K (spEnd x)) := by
         have hpK : ((3 : ℕ) : K) ≠ 0 := by
-          haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 1)
+          have : CharP K 2 := charP_of_card_eq_prime_pow (f := 1)
             (by rw [Fintype.card_eq_nat_card, hK]; norm_num)
           intro h3
           rw [CharP.cast_eq_zero_iff K 2] at h3
@@ -983,10 +983,10 @@ theorem noA5_conj_sp_two [Finite K] (hK : Nat.card K = 2) (hr : 3 ≤ r) (x : St
     (hK' : IsComponentOf K' (fixSubgroup (MulAut.conj (SymplecticFlag.proj r K x)))) :
     ¬ Nonempty ((↥K' ⧸ Subgroup.center ↥K') ≃* alternatingGroup (Fin 5)) := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hcardK : Fintype.card K = 2 ^ 1 := by rw [Fintype.card_eq_nat_card, hK]; norm_num
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 1) hcardK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 1) hcardK
   have hZc : (SymplecticFlag.proj r K).ker ≤ Subgroup.center (StatedSp r K) := by
     rw [SymplecticHigher.ker_proj]
     exact SymplecticHigher.spScalars_le_center
@@ -1001,7 +1001,7 @@ theorem noA5_conj_sp_two [Finite K] (hK : Nat.card K = 2) (hr : 3 ≤ r) (x : St
       ext g
       simp [Subgroup.mem_centralizer_iff]
     · have blocks := CFSG.HardMathSupport.Timmesfeld.CrossChar.spBlocks_three_two hK hr hx hx1
-      haveI : Finite (reciprocalOrbits (spEnd x)) :=
+      have : Finite (reciprocalOrbits (spEnd x)) :=
         (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
       obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
       refine ⟨reciprocalOrbits (spEnd x), inferInstance,
@@ -1010,7 +1010,7 @@ theorem noA5_conj_sp_two [Finite K] (hK : Nat.card K = 2) (hr : 3 ≤ r) (x : St
         hjoin, ?_⟩
       rintro ⟨O, h, hh, rfl⟩
       exact a5Good_spSupported_of_factor_two hK hx blocks ⟨h, hh⟩
-  haveI := hι
+  have := hι
   obtain ⟨i, hq, rfl⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.components_conj_of_orbit_family
       (SymplecticFlag.proj r K) SymplecticHigher.proj_surjective hZc x A hc hjoin
@@ -1032,7 +1032,7 @@ theorem noA5_psp_two {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
     ¬ Nonempty ((↥K₀ ⧸ Subgroup.center ↥K₀) ≃* alternatingGroup (Fin 5)) := by
   obtain ⟨-, k, _, _, hk, ⟨e'⟩⟩ := hm
   have hk2 : Nat.card k = 2 := by rw [hk, h2]
-  haveI : Finite (StatedProj (StatedSp r k)) := Finite.of_equiv S e'.toEquiv
+  have : Finite (StatedProj (StatedSp r k)) := Finite.of_equiv S e'.toEquiv
   obtain ⟨x, hx⟩ :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.exists_spInnerLift_eq hk2 hr3 (MulAut.congr e' α)
   have hZ : Subgroup.center (StatedProj (StatedSp r k)) = ⊥ := by
@@ -1049,7 +1049,7 @@ theorem noA5Comp_symplectic_two :
     NoA5CompOn fun d => (∃ r q, d.1 = TauCeti.LieTypeIndex.B r q) ∧
       Inputs256c.defField d.1 = 2 := by
   intro S _ _ hs hna d hP he β hβ K₀ hK₀
-  haveI := hs
+  have := hs
   obtain ⟨⟨r, q, hdq⟩, hf2⟩ := hP
   obtain ⟨⟨d, hv⟩, rfl⟩ : ∃ d' : TauCeti.ValidLieTypeIndex, d' = d := ⟨d, rfl⟩
   obtain ⟨e⟩ := he
@@ -1139,10 +1139,10 @@ theorem good_block_a5_two (hq : ℓ ^ f = 2) (H : UnitaryPrimaryData hK.bar B x)
     {T : Type} [Group T] (g : ↥(specialBlock B x (a : K[X])) →* T) (hg : Function.Surjective g)
     (hker : g.ker ≤ Subgroup.center _)
     (hL : Nonempty ((T ⧸ Subgroup.center T) ≃* alternatingGroup (Fin 5))) : False := by
-  haveI := hK.finite
+  have := hK.finite
   have hd : 1 ≤ (a : K[X]).natDegree :=
     Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors a.2)
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
   have hm2 : 2 ≤ primaryMultiplicity (x : Module.End K V) (a : K[X]) := ha.1
   have hadvd : (a : K[X]) ∣ X ^ 3 - C c := (mem_primaryFactors.1 a.2).2.2.trans hmin
   have hK4 : Nat.card K = 4 := by
@@ -1159,7 +1159,7 @@ theorem good_block_a5_two (hq : ℓ ^ f = 2) (H : UnitaryPrimaryData hK.bar B x)
         exact this
       obtain ⟨e2⟩ :=
         CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hV
-      haveI : Finite hE.fixedField := inferInstance
+      have : Finite hE.fixedField := inferInstance
       have hcardF : Nat.card hE.fixedField = 2 ^ (a : K[X]).natDegree := by
         rw [hE.card_fixedField, hpow]
       have hφ := InputsL33.ker_comp_mulEquiv_le_center (e.trans e2).symm g hker
@@ -1228,7 +1228,7 @@ theorem unitary_inner_a5_two (hq : ℓ ^ f = 2)
     (hT : CFSG.Open.IsComponentOf T (fixSubgroup (primeFormConjHom h (idGram K n) A)))
     (hL : Nonempty ((↥T ⧸ Subgroup.center ↥T) ≃* alternatingGroup (Fin 5))) : False := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hq2 : 2 ≤ ℓ ^ f := by rw [hq]
   have hℓ := (eq_two_and_eq_one_of_pow_eq_two h.prime h.one_le hq).1
   have H := primaryData_toLin' h A.2 Nat.prime_three (by omega) hA
@@ -1248,7 +1248,7 @@ theorem unitary_inner_a5_two (hq : ℓ ^ f = 2)
     ((Subgroup.equivMapOfInjective F (toLinSU h n) toLinSU_injective).trans
       (MulEquiv.subgroupCongr hFmap)).symm
   let π := QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n)
-  haveI : Finite ↥F := inferInstance
+  have : Finite ↥F := inferInstance
   subst ha
   refine good_block_a5_two hq H c.ne_zero hmin a.1 a.2 ((π.subgroupMap F).comp ε.toMonoidHom)
     ((MonoidHom.subgroupMap_surjective π F).comp ε.surjective) (fun u hu => ?_) hL
@@ -1379,6 +1379,7 @@ theorem not_a5_top {G : Type} [Group G] {L : Subgroup G} (hL : L = ⊤)
 variable {K : Type} [Field K] [Fintype K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
+omit [Fintype K] [FiniteDimensional K V] in
 private theorem not_a5_of_phi {L : Subgroup ↥(orthDerived Q)} (hL : CFSG.IsQuasisimple ↥L)
     {S : Type} [Group S] (hSq : CFSG.IsQuasisimple S)
     (hS : ¬ Nonempty ((S ⧸ Subgroup.center S) ≃* alternatingGroup (Fin 5)))
@@ -1404,7 +1405,7 @@ theorem large_noA5 (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
   obtain ⟨-, hcenter, hZ2, -, -, hsq, -⟩ :=
     CFSG.RankThree.Classical.orthogonal_high_Witt_derived_quotient_and_odd_lifts hQ
       ⟨T, hT3, hT⟩
-  haveI := OmegaAux.finite_orthDerived Q
+  have := OmegaAux.finite_orthDerived Q
   set O := TauCeti.QuadraticMap.orthogonalGroup Q with hO
   have h60 : Nat.card (↥(orthDerived Q) ⧸ Subgroup.center ↥(orthDerived Q)) = 60 := by
     rw [Nat.card_congr e.toEquiv, Claims1110h.card_alt_five]
@@ -1424,8 +1425,8 @@ theorem large_noA5 (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
     exact ⟨⟨(g : V ≃ₗ[K] V) ^ 2, hsq g g.2⟩, Subtype.ext rfl⟩
   have hp2 : IsPGroup 2 (↥O ⧸ commutator ↥O) :=
     CFSG.LocalAnalysis.ComponentInitial.isPGroup_two_of_forall_sq_mem hsq'
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥O := by
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥O := by
     have : Finite V := Module.finite_of_finite K
     have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
       fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
@@ -1494,7 +1495,7 @@ theorem large_noA5 (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
   · have hm3 : 3 ≤ m := by omega
     have h2 : ringChar K ≠ 2 := by
       intro h
-      haveI : CharP K 2 := ringChar.of_eq h
+      have : CharP K 2 := ringChar.of_eq h
       have hev := CFSG.ComponentClassification.UnbalancedCatalog.even_finrank_of_charTwo Q hQ
       rw [hm] at hev
       exact (Nat.not_even_iff_odd.2 ⟨m, rfl⟩) hev
@@ -1556,6 +1557,7 @@ theorem noA5_four_split (hK8 : 8 ≤ Nat.card K)
     rw [OmegaAux.A.range_comp_symm]
     exact h.symm
 
+omit [Fintype K] [FiniteDimensional K V] in
 theorem not_a5_of_orthDerived_equiv {S : Type} [Group S] (e : S ≃* ↥(orthDerived Q))
     (hSq : CFSG.IsQuasisimple S) (hS : ¬ Nonempty ((S ⧸ Subgroup.center S) ≃* alternatingGroup (Fin 5)))
     (L : Subgroup ↥(orthDerived Q)) (hLn : L.Normal) (hL : CFSG.IsQuasisimple ↥L) :
@@ -1612,9 +1614,9 @@ theorem noA5_six_nonsplit [CharP K 2] (hQ : (QuadraticMap.polarBilin Q).Nondegen
   obtain ⟨E, _, _, D, ψ, hψ⟩ :=
     CFSG.RankThree.PartOne.KCOrthogonal.exists_evenMinus_model Q hQ (n := 3) (by norm_num)
       (by omega) hts
-  haveI : CharP E 2 := CFSG.RankThree.PartOne.KCOrthogonal.charP_two_of_algebra (K := K)
-  haveI := D.finite_E
-  haveI : Fintype E := Fintype.ofFinite E
+  have : CharP E 2 := CFSG.RankThree.PartOne.KCOrthogonal.charP_two_of_algebra (K := K)
+  have := D.finite_E
+  have : Fintype E := Fintype.ofFinite E
   let e1 : Q.IsometryEquiv (CFSG.RankThree.PartOne.KCOrthogonal.evenNormTailForm D.N 2) :=
     { toLinearEquiv := ψ
       map_app' := fun w => hψ w }
@@ -1690,18 +1692,18 @@ theorem omega_a5_two [CharP K 2] (hK2 : Nat.card K = 2)
       have h' : Nat.card ↥(TauCeti.QuadraticMap.orthogonalGroup Q) = 72 := by exact_mod_cast this
       rw [h']
       norm_num
-    haveI : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := by
+    have : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := by
       have : Finite V := Module.finite_of_finite K
       have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
         fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
       infer_instance
-    haveI := isSolvable_of_card_two_three h72
-    haveI : Group.IsSolvable ↥(orthDerived Q) :=
+    have := isSolvable_of_card_two_three h72
+    have : Group.IsSolvable ↥(orthDerived Q) :=
       Group.isSolvable_of_isSolvable_injective (OmegaAux.ιO_injective Q)
-    haveI : Group.IsSolvable ↥L :=
+    have : Group.IsSolvable ↥L :=
       Group.isSolvable_of_isSolvable_injective L.subtype_injective
-    haveI : Group.IsPerfect ↥L := hL.1
-    haveI : Nontrivial ↥L := CFSG.LocalCores.isQuasisimple_nontrivial hL
+    have : Group.IsPerfect ↥L := hL.1
+    have : Nontrivial ↥L := CFSG.LocalCores.isQuasisimple_nontrivial hL
     exact Group.IsPerfect.not_isSolvable _ ‹_›
   · exfalso
     by_cases hT : ∃ T : Submodule K V, Module.finrank K T = 3 ∧ ∀ x ∈ T, Q x = 0
@@ -1764,7 +1766,7 @@ theorem orthA5_specialBlock_paired {p : ℕ} {K : Type} [Field K] [Finite K]
     (hh : h ∈ primaryFactors x.toLinearMap)
     (hne : h ≠ reciprocalPolynomial h) (hq : CFSG.IsQuasisimple ↥(specialBlock Q x h)) :
     OrthA5 ↥(specialBlock Q x h) := by
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
   have hm : 2 ≤ primaryMultiplicity x.toLinearMap h := by
     by_contra hlt
     have hpos := hx.primaryMultiplicity_pos hh
@@ -1826,9 +1828,9 @@ theorem orthA5_specialBlock_selfDual {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K
   let e₁ : ↥(specialBlock Q x h) ≃* ↥(sesqSpecialUnitaryGroup B) :=
     (MonoidHom.ofInjective (hx.specialBlockGL_injective hh)).trans
       (MulEquiv.subgroupCongr hrange)
-  haveI := hU.finite
-  haveI : Fact ℓ.Prime := ⟨hU.prime⟩
-  haveI := hU.charP
+  have := hU.finite
+  have : Fact ℓ.Prime := ⟨hU.prime⟩
+  have := hU.charP
   have hE : Nat.card (AdjoinRoot h) = (ℓ ^ (f * d)) ^ 2 := by
     rw [hU.card, ← pow_mul, mul_comm]
   have hd1 : 1 ≤ d := by
@@ -1885,7 +1887,7 @@ theorem orthA5_fixedFactor {p : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2]
     (hFle : F ≤ supportedFixedDerived Q x)
     (hFn : (F.subgroupOf (supportedFixedDerived Q x)).Normal) : OrthA5 ↥F := by
   have hQW := hx.polarBilin_fixed_nondegenerate
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let e := supportedFixedDerivedEquiv hx
   let A : Subgroup ↥(supportedFixedDerived Q x) := F.subgroupOf (supportedFixedDerived Q x)
   let L : Subgroup ↥(orthDerived (Q.comp (fixedSpace x).subtype)) := A.map e.toMonoidHom
@@ -1994,7 +1996,7 @@ theorem orthA5_component {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Type} [Fi
       (fun hlist => by
         rw [← fixedLayerImage_of_listed hlist]
         exact le_sup_right)
-    haveI := hS₀sol
+    have := hS₀sol
     exact perfect_le_of_le_sup_solvable hENN hS₀N hENn hcomm hPN (Subgroup.isPerfect_iff.1 ⟨hP⟩)
   let Fm : ι₁ ⊕ Fin n → Subgroup (ProjOrthDerived Q) := Sum.elim S C
   have hFm : ∀ i, CFSG.Open.IsComponentOf (Fm i) N := by
@@ -2009,7 +2011,7 @@ theorem orthA5_component {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Type} [Fi
     (fun P hPN hP => hiSup ▸ hperf P hPN hP) hJ
   rcases i with ⟨⟨h, hh⟩, hne, hq⟩ | i
   · have hh' : h ∈ primaryFactors xe.toLinearMap := hRep.1 hh
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh'⟩
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh'⟩
     refine OrthA5.map_projective (hspecΩ ⟨⟨h, hh⟩, hne, hq⟩) ?_
     by_cases hself : h = reciprocalPolynomial h
     · exact orthA5_specialBlock_selfDual hp hp2 hK8 hx hh' hne hself hq
@@ -2061,7 +2063,7 @@ theorem noA5_conj_omega {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {t : StatedLieT
       (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup (MulAut.conj a))) :
     ¬ Nonempty ((↥J ⧸ Subgroup.center ↥J) ≃* alternatingGroup (Fin 5)) := by
   obtain ⟨K, _, _, V, _, _, _, Q, hQ, hT, hring, hcard, ⟨e⟩⟩ := exists_projOrth_model_card ht hG
-  haveI : CharP K 2 := hring ▸ ringChar.charP K
+  have : CharP K 2 := hring ▸ ringChar.charP K
   have hK8 : 8 ≤ Nat.card K := by rw [hcard]; exact hf8
   have hfix : CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup
       (MulAut.congr e (MulAut.conj a)) =
@@ -2115,7 +2117,7 @@ theorem orthA5_specialBlock_paired_two {K : Type} [Field K] [Finite K]
     (hh : h ∈ primaryFactors x.toLinearMap)
     (hne : h ≠ reciprocalPolynomial h) (hq : CFSG.IsQuasisimple ↥(specialBlock Q x h)) :
     OrthA5 ↥(specialBlock Q x h) := by
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
   have hm : 2 ≤ primaryMultiplicity x.toLinearMap h := by
     by_contra hlt
     have hpos := hx.primaryMultiplicity_pos hh
@@ -2192,9 +2194,9 @@ theorem orthA5_specialBlock_selfDual_two {K : Type} [Field K] [Finite K] (hK2 : 
   let e₁ : ↥(specialBlock Q x h) ≃* ↥(sesqSpecialUnitaryGroup B) :=
     (MonoidHom.ofInjective (hx.specialBlockGL_injective hh)).trans
       (MulEquiv.subgroupCongr hrange)
-  haveI := hU.finite
-  haveI : Fact ℓ.Prime := ⟨hU.prime⟩
-  haveI := hU.charP
+  have := hU.finite
+  have : Fact ℓ.Prime := ⟨hU.prime⟩
+  have := hU.charP
   have hE : Nat.card (AdjoinRoot h) = (ℓ ^ (f * d)) ^ 2 := by
     rw [hU.card, ← pow_mul, mul_comm]
   have hd1 : d = 1 := by
@@ -2226,7 +2228,7 @@ theorem orthA5_specialBlock_selfDual_two {K : Type} [Field K] [Finite K] (hK2 : 
       exact this
     obtain ⟨φ⟩ := CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hU hBsymm
       hBl hm2
-    haveI : Finite ↥hU.fixedField := inferInstance
+    have : Finite ↥hU.fixedField := inferInstance
     have hcardF : Nat.card ↥hU.fixedField = 2 := by rw [hU.card_fixedField, hqd]
     have h45 := (Claims1110h.sl_a5 le_rfl (e₁.trans φ).symm.toMonoidHom (e₁.trans φ).symm.surjective
       (InputsL33c.ker_mulEquiv_le_center _) hL).2
@@ -2258,7 +2260,7 @@ theorem orthA5_fixedFactor_two {p : ℕ} {K : Type} [Field K] [Finite K] [CharP 
     OrthA5 ↥F ∨ (finrank K (fixedSpace x) = 4 ∧
       ¬ ∃ S : Submodule K (fixedSpace x), finrank K S = 2 ∧ ∀ v ∈ S, Q (v : V) = 0) := by
   have hQW := hx.polarBilin_fixed_nondegenerate
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   let e := supportedFixedDerivedEquiv hx
   let A : Subgroup ↥(supportedFixedDerived Q x) := F.subgroupOf (supportedFixedDerived Q x)
   let L : Subgroup ↥(orthDerived (Q.comp (fixedSpace x).subtype)) := A.map e.toMonoidHom
@@ -2375,7 +2377,7 @@ theorem orthA5_component_two {K : Type} [Field K]
       (fun hlist => by
         rw [← fixedLayerImage_of_listed hlist]
         exact le_sup_right)
-    haveI := hS₀sol
+    have := hS₀sol
     exact perfect_le_of_le_sup_solvable hENN hS₀N hENn hcomm hPN (Subgroup.isPerfect_iff.1 ⟨hP⟩)
   let Fm : ι₁ ⊕ Fin n → Subgroup (ProjOrthDerived Q) := Sum.elim S C
   have hFm : ∀ i, CFSG.Open.IsComponentOf (Fm i) N := by
@@ -2391,7 +2393,7 @@ theorem orthA5_component_two {K : Type} [Field K]
   rcases i with ⟨⟨h, hh⟩, hne, hq⟩ | i
   · left
     have hh' : h ∈ primaryFactors xe.toLinearMap := hRep.1 hh
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh'⟩
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh'⟩
     refine OrthA5.map_projective (hspecΩ ⟨⟨h, hh⟩, hne, hq⟩) ?_
     by_cases hself : h = reciprocalPolynomial h
     · exact orthA5_specialBlock_selfDual_two hK2 hx hh' hne hself hq
@@ -2576,7 +2578,7 @@ theorem noA5_omega_outer {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {t : StatedLie
   have hL1 := Claims1110h.a5Center_map e hL
   rw [hJeq] at hL1
   have : Finite k := Finite.of_injective (algebraMap k K) (algebraMap k K).injective
-  letI : Fintype k := Fintype.ofFinite k
+  let : Fintype k := Fintype.ofFinite k
   exact not_a5_of_surj hqT.1.commutator_eq_top π hπ hπk
     (not_a5_top rfl (large_noA5 S.hnd₀ (by rw [Module.finrank_fin_fun]; exact hd))) hL1
 
@@ -2608,7 +2610,7 @@ theorem noA5Comp_orthogonal_big (hD4 : NoA5D4Outer) :
       ∃ r q, d.1 = TauCeti.LieTypeIndex.twistedD r q) ∧ d.1.characteristic = 2 ∧
       Inputs256c.defField d.1 ≠ 2 ∧ Inputs256c.defField d.1 ≠ 4 := by
   intro S _ _ hs hna d hP he β hβ K hK
-  haveI := hs
+  have := hs
   obtain ⟨hD, hd2, hf2, hf4⟩ := hP
   obtain ⟨⟨d, hv⟩, rfl⟩ : ∃ d' : TauCeti.ValidLieTypeIndex, d' = d := ⟨d, rfl⟩
   obtain ⟨e⟩ := he

@@ -37,7 +37,7 @@ theorem mem_centralizer_of_mem_inf_sec19Y (hd : Sec19Data p f K z S W) {x : G}
       (Subgroup.mem_normalizer_iff.mp (le_normalizer_inf hd hxS) r).mp hr
     exact Subgroup.mul_mem _ h3 (Subgroup.inv_mem _ hr)
   have h4 : ⁅x, r⁆ = 1 := eq_one_of_isPGroup_of_mem_odd (oddCoreOf_odd_natCard K) h1
-    ((S.isPGroup'.to_le inf_le_left).to_le (Subgroup.zpowers_le.mpr h2))
+    ((S.isPGroup.to_le inf_le_left).to_le (Subgroup.zpowers_le.mpr h2))
   rw [commutatorElement_def] at h4
   calc r * x = (x * r * x⁻¹ * r⁻¹)⁻¹ * (x * r) := by group
     _ = x * r := by rw [h4, inv_one, one_mul]
@@ -53,7 +53,7 @@ theorem inf_sec19Y_eq (hd : Sec19Data p f K z S W) :
     have hΩ := hypOmegaMod_of_tightD hd.tight
     refine AscL62.centSylow hd.tight.branch.odd hd.tight.branch.five hΩ (K := K)
       (R := (S : Subgroup G) ⊓ K) (V := Subgroup.zpowers x) (CoreAssembly.mem_conjClass_self K)
-      (isSylow2In_inf hd) ((S.isPGroup'.to_le hd.hWS).to_le (Subgroup.zpowers_le.mpr hxW)) ?_ ?_
+      (isSylow2In_inf hd) ((S.isPGroup.to_le hd.hWS).to_le (Subgroup.zpowers_le.mpr hxW)) ?_ ?_
       l hl x (Subgroup.mem_zpowers x)
     · intro y hy
       exact mem_normalizer_iff_conjSub_eq.mp

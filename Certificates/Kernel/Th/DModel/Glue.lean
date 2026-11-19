@@ -178,7 +178,7 @@ theorem tc_ok : tConjCheck () = true := by
   by_cases h4 : j.val = 4
   · have e4 : (j.val == 4) = true := by simp [h4]
     have e4' : Nat.beq j.val 4 = true := by rw [h4]; rfl
-    rw [if_pos e4, a, a5, c, c5, compU b b5, compU (cpc b b5) d, beqU (cpc (cpc b b5) d) d5]
+    rw [ite_eq_left e4, a, a5, c, c5, compU b b5, compU (cpc b b5) d, beqU (cpc (cpc b b5) d) d5]
     rw [e4'] at h
     exact h
   · have e4 : ¬ (j.val == 4) = true := by simpa using h4
@@ -186,7 +186,7 @@ theorem tc_ok : tConjCheck () = true := by
       cases hb : Nat.beq j.val 4
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true hb) h4
-    rw [if_neg e4, a, a5, c, compU b b5, compU (cpc b b5) d, beqU (cpc (cpc b b5) d) b5]
+    rw [ite_eq_right e4, a, a5, c, compU b b5, compU (cpc b b5) d, beqU (cpc (cpc b b5) d) b5]
     rw [e4'] at h
     exact h
 
@@ -268,7 +268,7 @@ theorem tgt_eq (i : Nat) : targetTab (letInv ()) i = unpack 51 6 (tgtK i) ∧ Cn
       cases hb : Nat.beq i 0
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true hb) h0
-    rw [if_neg (by simpa using h0), e0]
+    rw [ite_eq_right (by simpa using h0), e0]
     by_cases h1 : i = 1
     · subst h1
       exact ⟨a5, b5⟩
@@ -276,7 +276,7 @@ theorem tgt_eq (i : Nat) : targetTab (letInv ()) i = unpack 51 6 (tgtK i) ∧ Cn
         cases hb : Nat.beq i 1
         · rfl
         · exact absurd (Nat.eq_of_beq_eq_true hb) h1
-      rw [if_neg (by simpa using h1), e1]
+      rw [ite_eq_right (by simpa using h1), e1]
       exact ⟨c5, d5⟩
 
 theorem kerProd_eq {X : Nat} (hX : Cn X) : ∀ Ls : List (List (Fin 6 × Bool) × Nat),
@@ -297,13 +297,13 @@ theorem kerProd_eq {X : Nat} (hX : Cn X) : ∀ Ls : List (List (Fin 6 × Bool) �
         Cn (Bool.rec (motive := fun _ => Nat) X (pc X X) (Nat.beq ck.2 2)) := by
       by_cases h2 : ck.2 = 2
       · have e : Nat.beq ck.2 2 = true := by rw [h2]; rfl
-        rw [if_pos (by simp [h2]), e]
+        rw [ite_eq_left (by simp [h2]), e]
         exact ⟨compU hX hX, cpc hX hX⟩
       · have e : Nat.beq ck.2 2 = false := by
           cases hb : Nat.beq ck.2 2
           · rfl
           · exact absurd (Nat.eq_of_beq_eq_true hb) h2
-        rw [if_neg (by simpa using h2), e]
+        rw [ite_eq_right (by simpa using h2), e]
         exact ⟨rfl, hX⟩
     obtain ⟨w1, w2⟩ := wL ck.1
     obtain ⟨v1, v2⟩ := wL (FreeGroup.invRev ck.1)

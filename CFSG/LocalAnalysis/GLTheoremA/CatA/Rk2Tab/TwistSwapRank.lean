@@ -22,7 +22,7 @@ private theorem eq_one_of_pow_eq_one_of_mem_central {H : Type*} [Group H] [Finit
 private theorem commute_of_pow_eq_one_of_central {H : Type*} [Group H] [Finite H] {p : ℕ}
     (hp : p.Prime) {K : Subgroup H} (hKc : ∀ k ∈ K, ∀ x : H, Commute k x)
     (hKp : ¬ p ∣ Nat.card K) (hcomm : ∀ x y : H, x * y * x⁻¹ * y⁻¹ ∈ K)
-    {x y : H} (hx : x ^ p = 1) (hy : y ^ p = 1) : Commute x y := by
+    {x y : H} (hx : x ^ p = 1) (_hy : y ^ p = 1) : Commute x y := by
   set c : H := y * x * y⁻¹ * x⁻¹ with hc
   have hcK : c ∈ K := hcomm y x
   have hconj : (y * x * y⁻¹) ^ p = 1 := by
@@ -146,7 +146,7 @@ private theorem ker_central_of_apply_eq_mul {G : Type*} [Group G] {X Y : Subgrou
   · exact (hXY z.2 hz2X w.2 w.2.2).eq
 
 private theorem card_ker_dvd_inf_of_apply_eq_mul {G : Type*} [Group G] {X Y : Subgroup G}
-    (hXY : ∀ x ∈ X, ∀ y ∈ Y, Commute x y) (Φ : ↥X × ↥Y →* G)
+    (_hXY : ∀ x ∈ X, ∀ y ∈ Y, Commute x y) (Φ : ↥X × ↥Y →* G)
     (hΦ : ∀ z : ↥X × ↥Y, Φ z = (z.1 : G) * (z.2 : G)) :
     Nat.card Φ.ker ∣ Nat.card ↥(X ⊓ Y) := by
   let f : Φ.ker →* ↥(X ⊓ Y) :=

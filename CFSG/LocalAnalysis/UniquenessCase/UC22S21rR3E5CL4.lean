@@ -33,7 +33,7 @@ theorem uc22r3e5c_model_beta {a : ℕ} {K : Type} [Field K] [Finite K]
         β ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner (suzukiGroup a K) ∧
         α = MulAut.conj t * β * (MulAut.conj t)⁻¹ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, hUt, hCt⟩ := uc22r3e5c_exists_conj_pair_sylow ha hK U C hC hcard
   let γ : MulAut (suzukiGroup a K) := MulAut.conj t
   let β : MulAut (suzukiGroup a K) := γ⁻¹ * α * γ
@@ -161,7 +161,7 @@ theorem uc22r3e5c_torusExp_of_order_three_suzuki {a : ℕ} {K : Type} [Field K] 
     (hαC : C.map α.toMonoidHom = C) :
     ∃ j ∈ ({1, 2} : Finset ℕ), ∀ c ∈ C, α c = c ^ ((2 ^ k) ^ j) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, β, -, hCt, hβU, hβT, hβ3, hβni, hαeq⟩ :=
     uc22r3e5c_model_beta ha hK α hα3 hαni U C hC hcard hαU hαC
   obtain ⟨j, hjmem, x, hxT, hβx⟩ :=
@@ -182,8 +182,8 @@ theorem uc22r3e5c_torusExp_of_order_three {S : Type} [Group S]
   obtain ⟨-, -, a, ha, K, _, _, hn, hcardK, ⟨ε⟩⟩ := LieModel.suzukiModel hSz
   subst hn
   have hK : Nat.card K = 2 ^ (2 * a + 1) := hcardK
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
-  haveI : ExpChar K 2 := ExpChar.prime Nat.prime_two
+  have : CharP K 2 := uc22pwlie_charP_two hK
+  have : ExpChar K 2 := ExpChar.prime Nat.prime_two
   let α' : MulAut (suzukiGroup a K) := MulAut.congr ε α
   have hα' : ∀ x : S, α' (ε x) = ε (α x) := by
     intro x

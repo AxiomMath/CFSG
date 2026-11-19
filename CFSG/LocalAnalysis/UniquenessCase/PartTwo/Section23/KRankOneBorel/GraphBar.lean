@@ -14,8 +14,8 @@ open CFSG.Blueprint (LieModel)
 theorem lieModel_quot_center_of_isSp4 {Y : Type} [Group Y] [Finite Y] {n : ℕ}
     (hY : IsSp4 Y n) (hperf : _root_.commutator Y = ⊤) :
     LieModel (Y ⧸ center Y) .PSp 2 2 n := by
-  haveI : Group.IsPerfect Y := ⟨hperf⟩
-  haveI : IsSimpleGroup Y :=
+  have : Group.IsPerfect Y := ⟨hperf⟩
+  have : IsSimpleGroup Y :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hY
   have hnc : ¬ IsMulCommutative Y := Group.IsPerfect.not_isMulCommutative Y
   exact CFSG.Blueprint.LieModel.quotient_center
@@ -23,6 +23,7 @@ theorem lieModel_quot_center_of_isSp4 {Y : Type} [Group Y] [Finite Y] {n : ℕ}
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem graph_map_eq {L J : Subgroup G} {t : G} (htJ : t ∈ normalizer (J : Set G))
     (htL : t ∈ normalizer (L : Set G)) {θ : MulAut (Bar2 L ⧸ center (Bar2 L))}
     (hθ : InducedQuot L t θ) :

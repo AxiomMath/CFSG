@@ -39,8 +39,8 @@ theorem u42_omega_field_false {K : Type} [Field K] [Finite K] {d f : ℕ} (hf : 
   have hsim : ∀ x, Q (τ₀ x) = (μ : K) * σ (Q x) := multiplier_spec Q g
   have hsquare : ∀ x, τ₀ (τ₀ x) = (c : K) • x := coordinateSemilinearMap_sq_apply g.val c hσ2 hc
   have hex := exists_ne_zero_of_polarBilin_nondegenerate Q hQ hd0
-  haveI : Finite (matrixProjectiveDerived Q) := by
-    haveI := u42_finite_orthogonalGroup Q
+  have : Finite (matrixProjectiveDerived Q) := by
+    have := u42_finite_orthogonalGroup Q
     exact Finite.of_equiv _ (projectiveEquiv Q hex).symm.toEquiv
   obtain ⟨J', hJ'⟩ := U42Hyp.of_intertwining (projectiveEquiv Q hex) _ _
     (projectiveEquiv_conjugation Q hex g) hJ

@@ -81,7 +81,7 @@ theorem kFactJStarElimReeLie_of (hSch : KFactCatalogSchreier) (hRee : KFactReeOr
     have hZ : Subgroup.center L = ⊥ := center_bot_of_simple_nonab hnc₀
     obtain ⟨U, D, D₀, hDU, ⟨f⟩, hcard⟩ := hdata.exists_inner_copy hZ hLa
     have hD3 : ∀ x ∈ D, x ^ 3 = 1 := by
-      have hDp : IsPGroup 3 D := U.isPGroup'.to_le hDU
+      have hDp : IsPGroup 3 D := U.isPGroup.to_le hDU
       have hD0p : IsPGroup 3 D₀ := hDp.of_equiv f.symm
       obtain ⟨Q, hQ⟩ := hD0p.exists_le_sylow
       have hexp := (hKU2 L 3 d (by norm_num) hUd ⟨e⟩ Q).2.2.1

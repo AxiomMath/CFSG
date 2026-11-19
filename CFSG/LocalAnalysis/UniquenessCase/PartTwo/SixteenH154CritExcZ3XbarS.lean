@@ -53,7 +53,7 @@ theorem s16h_z3_exists_swap_mem_sylow {X : Type*} [Group X] [Finite X]
       refine ⟨?_, hbL⟩
       rcases hperm b hb with h | h
       · exact absurd h.1 hbL
-      · simpa only [← Subgroup.map_conj_map_conj L b x, h.1, hxswap.2]
+      · simp only [← Subgroup.map_conj_map_conj L b x, h.1, hxswap.2]
   obtain ⟨σ, hσT, hσA₀⟩ : ∃ σ ∈ T, σ ∉ A ⊓ Subgroup.normalizer (L : Set X) := by
     by_contra hcon
     have hle : T ≤ A ⊓ Subgroup.normalizer (L : Set X) := by

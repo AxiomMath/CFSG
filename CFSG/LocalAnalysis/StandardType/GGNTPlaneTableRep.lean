@@ -116,7 +116,7 @@ private theorem n1d2_cartanForm_reflect (i : Fin Tag.E6.rank) (u v : Fin Tag.E6.
     · rw [Pi.single_eq_same, Tag.cartan_self]
       ring
     · intro j _ hj
-      simp [Pi.single_apply, hj]
+      simp [hj]
     · intro h
       exact absurd (Finset.mem_univ i) h
   rw [hu, hv]

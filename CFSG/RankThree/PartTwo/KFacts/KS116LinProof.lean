@@ -63,7 +63,7 @@ private theorem noDoubleComponentGL_of_comm (r : ℕ) [Fact r.Prime] (hr5 : 5 �
     rw [← ofMul_pow, hexp w]
     rfl
   have instMod : Module (ZMod r) (Additive W) := AddCommGroup.zmodModule hpow
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   have h2 : (2 : ZMod r) ≠ 0 := by
     intro h
     have h' : ((2 : ℕ) : ZMod r) = 0 := by exact_mod_cast h
@@ -94,9 +94,9 @@ private theorem noDoubleComponentGL_of_comm (r : ℕ) [Fact r.Prime] (hr5 : 5 �
     have hc := finrank_span_finset_le_card (R := ZMod r) S
     rw [Set.finrank, hspan, finrank_top] at hc
     exact hc.trans hS3
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
-  haveI : Module.Finite (ZMod r) (Additive W) := inferInstance
+  have : Module.Finite (ZMod r) (Additive W) := inferInstance
   obtain ⟨ρ, hρ⟩ : ∃ ρ : Representation (ZMod r) Γ (Additive W),
       ∀ (g : Γ) (w : W), ρ g (Additive.ofMul w) = Additive.ofMul ((g : MulAut W) w) := by
     let L : Γ → (Additive W →ₗ[ZMod r] Additive W) := fun g =>
@@ -109,9 +109,9 @@ private theorem noDoubleComponentGL_of_comm (r : ℕ) [Fact r.Prime] (hr5 : 5 �
     have h1 := LinearMap.congr_fun hg (Additive.ofMul w)
     rw [hρ, Module.End.one_apply] at h1
     exact congrArg Additive.toMul h1
-  haveI hTn' : (T.subgroupOf Γ).Normal :=
+  have hTn' : (T.subgroupOf Γ).Normal :=
     (Subgroup.normal_subgroupOf_iff hTΓ).2 fun h k hh hk => hTn k hk h hh
-  haveI hsolv' : Group.IsSolvable (T.subgroupOf Γ) :=
+  have hsolv' : Group.IsSolvable (T.subgroupOf Γ) :=
     Group.isSolvable_of_isSolvable_injective (f := (Subgroup.subgroupOfEquivOfLe hTΓ).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hTΓ).injective
   have h3' : ¬ 3 ∣ Nat.card (T.subgroupOf Γ) := by

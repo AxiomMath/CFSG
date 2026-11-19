@@ -20,6 +20,7 @@ variable {Ω : Set (Subgroup G)} {K J : Subgroup G} {t : G} {S : Sylow 2 G}
   (c : StarCex Ω K J t S)
 include c
 
+omit [Finite G] in
 private theorem t_mem_sylow (S' : Sylow 2 G) : t ∈ (S' : Subgroup G) :=
   CFSG.pCore_isPGroup.le_sylow_of_normal S' c.t_mem_pCore
 
@@ -51,7 +52,7 @@ theorem false_of_pair (hE4 : ∀ W ∈ WSet Ω, ¬ MuIsoE4 Ω W)
   obtain ⟨η, hη, hηS, hinv⟩ := c.exists_eta
   set W : Subgroup G := ⨆ V ∈ η, V
   have hW : W ∈ WSet Ω := ⟨η, hη, rfl⟩
-  have hSN := c.le_normalizer_of_invariant hinv
+  have hSN := CFSG.ClassicalInvolution.Q3.Sec13.StarCex.le_normalizer_of_invariant hinv
   have hKD : K ∈ DSet Ω W := c.hyp.mem_dSet_iff.mpr ⟨c.hK, c.hKS.trans hSN⟩
   have hconn : DbarConnected Ω W := c.hyp.dbarConnected_of_move hW (hSN c.t_mem) c.t_mul_t
     fun R hR => c.conjSub_ne (c.hyp.mem_dstarComp_of_mem_dSet hW hKD hR)
@@ -60,7 +61,7 @@ theorem false_of_pair (hE4 : ∀ W ∈ WSet Ω, ¬ MuIsoE4 Ω W)
     exact Q3T8.Asc77.thompsonGraphAll G Ω c.hyp.partIHyp c.hK hne hW hconn
   have hK'Ω : conjSub t K ∈ Ω := hΩ.conjInvariant t K c.hK
   have hK'S : conjSub t K ≤ (S : Subgroup G) := c.conjSub_le c.hKS
-  have hK'K : conjSub t K ≠ K := c.conjSub_ne (c.hyp.mem_dstarComp_self c.hK)
+  have hK'K : conjSub t K ≠ K := c.conjSub_ne (CFSG.ClassicalInvolution.Q3.Sec13.StarHyp.mem_dstarComp_self c.hK)
   have hstep : ∀ M N : Subgroup G, (M = K ∨ M = conjSub t K) → N ∈ Ω →
       Disconnected.dAdj Ω M N → N = K ∨ N = conjSub t K := by
     intro M N hM hN hMN

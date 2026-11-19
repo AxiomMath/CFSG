@@ -88,7 +88,7 @@ theorem certBasis_isUnit :
 
 theorem certBasis_linearIndependent :
     LinearIndependent (ZMod 2) fun t : Fin 24 => certVec (certBasisIdx.getD t 0) := by
-  have h := Matrix.linearIndependent_rows_iff_isUnit.2 certBasis_isUnit
+  have h := Matrix.linearIndependent_row_iff_isUnit.2 certBasis_isUnit
   have e : (rowsMatrix 24 (certBasisRows certVecs)).row =
       fun t : Fin 24 => certVec (certBasisIdx.getD t 0) :=
     funext rowsMatrix_certBasisRows_row

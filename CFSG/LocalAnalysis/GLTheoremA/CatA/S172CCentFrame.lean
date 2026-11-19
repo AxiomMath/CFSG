@@ -89,11 +89,12 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {V : Type} [AddCommGroup V]
   [FiniteDimensional F V] {Q : QuadraticForm F V} {p : ℕ} {m : ℕ} {U : Fin m → Submodule F V}
   {e : Fin m → ↥(orthDerived Q)} {Bb : Subgroup ↥(orthDerived Q)}
 
+omit [CharP F 2] in
 theorem IsPlaneFrame.exists_pow_apply_eq (hF : IsPlaneFrame Q p U e Bb) {d : ↥(orthDerived Q)}
     (hd : d ∈ Bb) (j : Fin m) :
     ∃ k : ℕ, ∀ x ∈ U j, (d : V ≃ₗ[F] V) x = ((e j : V ≃ₗ[F] V) ^ k) x := by
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hp0 : 0 < p := hF.orderOf_eq j ▸ orderOf_pos (e j)
   have hpow : ∀ (k : ℕ), ∀ x ∈ U j, ((e j : V ≃ₗ[F] V) ^ k) x ∈ U j := by
@@ -140,6 +141,7 @@ theorem IsPlaneFrame.exists_pow_apply_eq (hF : IsPlaneFrame Q p U e Bb) {d : ↥
     rw [this, pow_mul, hep, one_pow]
     rfl
 
+omit [CharP F 2] in
 theorem IsPlaneFrame.apply_eq_or_eq_zero (hF : IsPlaneFrame Q p U e Bb) (hp : p.Prime)
     {d : ↥(orthDerived Q)} (hd : d ∈ Bb) (j : Fin m) :
     (∀ x ∈ U j, (d : V ≃ₗ[F] V) x = x) ∨
@@ -178,10 +180,12 @@ theorem IsPlaneFrame.apply_eq_or_eq_zero (hF : IsPlaneFrame Q p U e Bb) (hp : p.
     rw [hkm, hρ] at hfix
     exact hF.eq_zero_of_apply_eq j x hx hfix
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem IsPlaneSystem.biSup_le_polarPerp (hF : IsPlaneSystem Q U) {a : Fin m} {s : Finset (Fin m)}
     (ha : a ∉ s) : (⨆ j ∈ s, U j) ≤ polarPerp Q (U a) :=
   iSup₂_le fun j hj _ hx => mem_polarPerp_iff.2 fun _ hy => hF.perp a j (fun h => ha (h ▸ hj)) _ hy _ hx
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsPlaneSystem.nondeg_biSup_aux1 {A B : Submodule F V}
     (hA : (QuadraticMap.polarBilin (Q.comp A.subtype)).Nondegenerate)
     (hB : (QuadraticMap.polarBilin (Q.comp B.subtype)).Nondegenerate)
@@ -217,6 +221,7 @@ private theorem IsPlaneSystem.nondeg_biSup_aux1 {A B : Submodule F V}
   rw [← huv, hu0, hv0, add_zero]
   rfl
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem IsPlaneSystem.nondeg_biSup (hF : IsPlaneSystem Q U) (s : Finset (Fin m)) :
     (QuadraticMap.polarBilin (Q.comp (⨆ j ∈ s, U j).subtype)).Nondegenerate := by
   induction s using Finset.induction_on with
@@ -229,10 +234,12 @@ theorem IsPlaneSystem.nondeg_biSup (hF : IsPlaneSystem Q U) (s : Finset (Fin m))
     rw [Finset.iSup_insert]
     exact IsPlaneSystem.nondeg_biSup_aux1 (Q := Q) (hF.nondeg a) ih (hF.biSup_le_polarPerp ha)
 
+omit [Finite F] [CharP F 2] in
 theorem IsPlaneSystem.disjoint_biSup (hF : IsPlaneSystem Q U) {a : Fin m} {s : Finset (Fin m)}
     (ha : a ∉ s) : Disjoint (U a) (⨆ j ∈ s, U j) :=
   (isCompl_polarPerp (hF.nondeg a)).disjoint.mono_right (hF.biSup_le_polarPerp ha)
 
+omit [Finite F] [CharP F 2] in
 theorem IsPlaneSystem.finrank_biSup (hF : IsPlaneSystem Q U) (s : Finset (Fin m)) :
     Module.finrank F (⨆ j ∈ s, U j : Submodule F V) = 2 * s.card := by
   induction s using Finset.induction_on with
@@ -243,11 +250,13 @@ theorem IsPlaneSystem.finrank_biSup (hF : IsPlaneSystem Q U) (s : Finset (Fin m)
     rw [disjoint_iff.1 (hF.disjoint_biSup ha), finrank_bot, add_zero, ih, hF.finrank_eq a] at h
     omega
 
+omit [Finite F] [CharP F 2] in
 theorem IsPlaneSystem.isCompl_iSup (hF : IsPlaneSystem Q U) :
     IsCompl (⨆ j, U j) (polarPerp Q (⨆ j, U j)) := by
   have h := isCompl_polarPerp (hF.nondeg_biSup Finset.univ)
   simpa using h
 
+omit [Finite F] [CharP F 2] in
 theorem IsPlaneSystem.eq_one_of_apply_eq (hF : IsPlaneSystem Q U) {d : V ≃ₗ[F] V}
     (h : ∀ j, ∀ x ∈ U j, d x = x) (hperp : ∀ x ∈ polarPerp Q (⨆ j, U j), d x = x) : d = 1 := by
   have hall : ∀ x ∈ (⨆ j, U j), d x = x := by
@@ -264,6 +273,7 @@ theorem IsPlaneSystem.eq_one_of_apply_eq (hF : IsPlaneSystem Q U) {d : V ≃ₗ[
   rw [map_add, hall a ha, hperp z hz]
   rfl
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem IsPlaneFrame.apply_eq_of_mem_polarPerp_iSup (hF : IsPlaneFrame Q p U e Bb)
     {d : ↥(orthDerived Q)} (hd : d ∈ Bb) {x : V} (hx : x ∈ polarPerp Q (⨆ j, U j)) :
     (d : V ≃ₗ[F] V) x = x := by
@@ -281,16 +291,18 @@ theorem IsPlaneFrame.apply_eq_of_mem_polarPerp_iSup (hF : IsPlaneFrame Q p U e B
     show ((a : V ≃ₗ[F] V)⁻¹) x = x
     exact (LinearEquiv.symm_apply_eq _).2 ha.symm
 
+omit [Finite F] [CharP F 2] in
 theorem IsPlaneFrame.eq_one_of_forall_apply_eq (hF : IsPlaneFrame Q p U e Bb) {d : ↥(orthDerived Q)}
     (hd : d ∈ Bb) (h : ∀ j, ∀ x ∈ U j, (d : V ≃ₗ[F] V) x = x) : d = 1 :=
   Subtype.ext (hF.toIsPlaneSystem.eq_one_of_apply_eq h fun _ hx =>
     hF.apply_eq_of_mem_polarPerp_iSup hd hx)
 
+omit [CharP F 2] in
 theorem IsPlaneFrame.apply_eq_of_mem_zpowers (hF : IsPlaneFrame Q p U e Bb) (hp : p.Prime)
     {d : ↥(orthDerived Q)} (hd : d ∈ Bb) {j : Fin m} (hj : e j ∈ Subgroup.zpowers d) :
     ∀ i, i ≠ j → ∀ x ∈ U i, (d : V ≃ₗ[F] V) x = x := by
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun f : V ≃ₗ[F] V => (f : V → V))
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun f : V ≃ₗ[F] V => (f : V → V))
     fun f g h => LinearEquiv.ext (congrFun h)
   have hdp : d ^ p = 1 := hF.isElemAbelian.2 d hd
   have hd_ne : d ≠ 1 := by
@@ -325,6 +337,7 @@ theorem IsPlaneFrame.apply_eq_of_mem_zpowers (hF : IsPlaneFrame Q p U e Bb) (hp 
   exact (MulAction.mem_stabilizer_iff).1
     ((Subgroup.zpowers_le (H := MulAction.stabilizer (V ≃ₗ[F] V) x)).2 hstab hmem)
 
+omit [Finite F] [CharP F 2] in
 theorem IsPlaneFrame.fixedSpace_eq_polarPerp (hF : IsPlaneFrame Q p U e Bb) (j : Fin m) :
     fixedSpace (e j : V ≃ₗ[F] V) = polarPerp Q (U j) := by
   refine le_antisymm (fun x hx => ?_) (fun x hx => mem_fixedSpace.2 (hF.apply_of_perp j x hx))
@@ -338,6 +351,7 @@ theorem IsPlaneFrame.fixedSpace_eq_polarPerp (hF : IsPlaneFrame Q p U e Bb) (j :
   rw [hF.eq_zero_of_apply_eq j u hu hu', zero_add]
   exact hw
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem fixedSpace_eq_of_mem_zpowers_aux1 {x y : V ≃ₗ[F] V}
     (hy : y ∈ Subgroup.zpowers x) : fixedSpace x ≤ fixedSpace y := by
   intro v hv
@@ -348,12 +362,13 @@ private theorem fixedSpace_eq_of_mem_zpowers_aux1 {x y : V ≃ₗ[F] V}
     (Subgroup.zpowers_le (H := MulAction.stabilizer (V ≃ₗ[F] V) v)).2 hst hy
   rwa [MulAction.mem_stabilizer_iff, LinearEquiv.smul_def] at hy'
 
+omit [CharP F 2] in
 theorem fixedSpace_eq_of_mem_zpowers {x y : V ≃ₗ[F] V} (hp : p.Prime) (hxp : orderOf x = p)
     (hy : y ∈ Subgroup.zpowers x) (hy1 : y ≠ 1) : fixedSpace y = fixedSpace x := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine le_antisymm ?_ (fixedSpace_eq_of_mem_zpowers_aux1 hy)
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hyp : y ^ p = 1 := by
     obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 hy
@@ -372,10 +387,12 @@ theorem fixedSpace_eq_of_mem_zpowers {x y : V ≃ₗ[F] V} (hp : p.Prime) (hxp :
     exact Subgroup.mem_zpowers x
   exact fixedSpace_eq_of_mem_zpowers_aux1 hxmem
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem IsPlaneFrame.mem (hF : IsPlaneFrame Q p U e Bb) (j : Fin m) : e j ∈ Bb := by
   rw [← hF.closure_eq]
   exact Subgroup.subset_closure ⟨j, rfl⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsPlaneFrame.mem_zpowers_of_apply_eq_aux1 (hF : IsPlaneFrame Q p U e Bb)
     (j : Fin m) : ∀ n : ℕ, ∀ x ∈ U j, ((e j : V ≃ₗ[F] V) ^ n) x ∈ U j := by
   intro n
@@ -386,6 +403,7 @@ private theorem IsPlaneFrame.mem_zpowers_of_apply_eq_aux1 (hF : IsPlaneFrame Q p
     rw [pow_succ, LinearEquiv.mul_apply]
     exact ih _ (hF.maps_to j x hx)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem IsPlaneFrame.mem_zpowers_of_apply_eq_aux2 (hF : IsPlaneFrame Q p U e Bb)
     (j : Fin m) : (e j : V ≃ₗ[F] V) ^ p = 1 := by
   have := congrArg (fun z : ↥(orthDerived Q) => (z : V ≃ₗ[F] V))
@@ -400,12 +418,13 @@ private theorem mem_zpowers_of_apply_eq_aux3 (hp : 0 < p) (k : ℕ) :
     _ = (p - 1 + 1) * k := (Nat.add_mul (p - 1) 1 k).symm
     _ = p * k := by rw [Nat.sub_add_cancel hp1]
 
+omit [CharP F 2] in
 theorem IsPlaneFrame.mem_zpowers_of_apply_eq (hF : IsPlaneFrame Q p U e Bb) {b : ↥(orthDerived Q)}
     (hb : b ∈ Bb) (j : Fin m)
     (h : ∀ i, i ≠ j → ∀ x ∈ U i, (b : V ≃ₗ[F] V) x = x) : b ∈ Subgroup.zpowers (e j) := by
   obtain ⟨k, hk⟩ := hF.exists_pow_apply_eq hb j
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hp0 : 0 < p := hF.orderOf_eq j ▸ orderOf_pos (e j)
   have hep : (e j : V ≃ₗ[F] V) ^ p = 1 := hF.mem_zpowers_of_apply_eq_aux2 j
@@ -416,7 +435,7 @@ theorem IsPlaneFrame.mem_zpowers_of_apply_eq (hF : IsPlaneFrame Q p U e Bb) {b :
     exact mem_zpowers_of_apply_eq_aux3 hp0 k
   have hcoe : ((b * e j ^ K : ↥(orthDerived Q)) : V ≃ₗ[F] V)
       = (b : V ≃ₗ[F] V) * ((e j : V ≃ₗ[F] V) ^ K) := by
-    simp [Subgroup.coe_mul, Subgroup.coe_pow]
+    simp [Subgroup.coe_mul]
   have hb'one : b * e j ^ K = 1 := by
     refine hF.eq_one_of_forall_apply_eq (Bb.mul_mem hb (pow_mem (hF.mem j) K)) ?_
     intro i x hx
@@ -441,14 +460,15 @@ theorem IsPlaneFrame.mem_zpowers_of_apply_eq (hF : IsPlaneFrame Q p U e Bb) {b :
     exact (zpow_neg (e j) (K : ℤ)).symm
   exact Subgroup.mem_zpowers_iff.2 ⟨-(K : ℤ), hb_eq.symm⟩
 
+omit [CharP F 2] in
 theorem IsPlaneFrame.exists_mul_zpow_apply (hF : IsPlaneFrame Q p U e Bb) {d : ↥(orthDerived Q)}
     (hd : d ∈ Bb) (j : Fin m) :
     ∃ k : ℤ, (∀ v ∈ U j, ((d * e j ^ k : ↥(orthDerived Q)) : V ≃ₗ[F] V) v = v) ∧
       ∀ i, i ≠ j → ∀ v ∈ U i,
         ((d * e j ^ k : ↥(orthDerived Q)) : V ≃ₗ[F] V) v = (d : V ≃ₗ[F] V) v := by
   obtain ⟨k₀, hk₀⟩ := hF.exists_pow_apply_eq hd j
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (V ≃ₗ[F] V) := Finite.of_injective (fun e : V ≃ₗ[F] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hp0 : 0 < p := hF.orderOf_eq j ▸ orderOf_pos (e j)
   have hep : (e j : V ≃ₗ[F] V) ^ p = 1 := hF.mem_zpowers_of_apply_eq_aux2 j
@@ -459,7 +479,7 @@ theorem IsPlaneFrame.exists_mul_zpow_apply (hF : IsPlaneFrame Q p U e Bb) {d : �
     exact mem_zpowers_of_apply_eq_aux3 hp0 k₀
   have hcoe : ((d * e j ^ (K : ℤ) : ↥(orthDerived Q)) : V ≃ₗ[F] V)
       = (d : V ≃ₗ[F] V) * ((e j : V ≃ₗ[F] V) ^ K) := by
-    simp [Subgroup.coe_mul, Subgroup.coe_zpow, Subgroup.coe_pow, zpow_natCast]
+    simp [Subgroup.coe_mul, zpow_natCast]
   refine ⟨(K : ℤ), ?_, ?_⟩
   · intro v hv
     rw [hcoe, LinearEquiv.mul_apply, hk₀ _ (hpow K v hv), ← LinearEquiv.mul_apply,

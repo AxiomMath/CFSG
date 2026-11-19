@@ -18,9 +18,9 @@ theorem spMat_injective {σ σ' : Equiv.Perm (Fin 8)} {s s' : Fin 8 → ZMod 3} 
     have e := congrFun (congrFun h (σ j)) j
     simp only [spMat_apply] at e
     by_cases hj : σ j = σ' j
-    · rw [if_pos hj] at e
+    · rw [ite_eq_left hj] at e
       exact ⟨hj, e⟩
-    · rw [if_neg hj] at e
+    · rw [ite_eq_right hj] at e
       exfalso
       rcases hs j with h1 | h1 <;> rw [h1] at e <;> exact absurd e (by decide)
   exact ⟨Equiv.ext fun j => (key j).1, funext fun j => (key j).2⟩
@@ -229,7 +229,7 @@ theorem ncard_orb1_eq_sum (h : CoreHyp X) : (orb1 X).ncard = ∑ n : Fin 16, bit
   refine Finset.sum_congr rfl fun n _ => ?_
   unfold bit
   by_cases hc : cand n ∈ orb1 X
-  · rw [if_pos hc, one_mul, ← card_cls n]
+  · rw [ite_eq_left hc, one_mul, ← card_cls n]
     congr 1
     ext v
     simp only [hS, Finset.mem_filter, Finset.mem_univ, true_and]
@@ -238,7 +238,7 @@ theorem ncard_orb1_eq_sum (h : CoreHyp X) : (orb1 X).ncard = ∑ n : Fin 16, bit
       exact ⟨orb1_zero h hv, hn⟩
     · rintro ⟨h0, hn⟩
       exact ⟨(mem_orb1_iff h v).mpr ⟨h0, hn ▸ hc⟩, hn⟩
-  · rw [if_neg hc, zero_mul, Finset.card_eq_zero]
+  · rw [ite_eq_right hc, zero_mul, Finset.card_eq_zero]
     ext v
     simp only [hS, Finset.mem_filter, Finset.mem_univ, true_and, Finset.notMem_empty, iff_false,
       not_and]
@@ -247,7 +247,7 @@ theorem ncard_orb1_eq_sum (h : CoreHyp X) : (orb1 X).ncard = ∑ n : Fin 16, bit
 
 theorem bit_zero : bit X 0 = 0 := by
   unfold bit
-  rw [if_neg]
+  rw [ite_eq_right]
   rintro ⟨x, -, hx⟩
   rw [cand_zero] at hx
   have e := congrFun (mulVec_inv_mulVec x (Pi.single 1 1)) 1
@@ -256,11 +256,11 @@ theorem bit_zero : bit X 0 = 0 := by
 
 theorem bit_eight : bit X 8 = 1 := by
   unfold bit
-  rw [if_pos (by rw [cand_eight]; exact e1_mem_orb1)]
+  rw [ite_eq_left (by rw [cand_eight]; exact e1_mem_orb1)]
 
 theorem bit_small (h : CoreHyp X) (n : Fin 16) (h3 : 3 ≤ n.val) (h7 : n.val ≤ 7) : bit X n = 0 := by
   unfold bit
-  rw [if_neg]
+  rw [ite_eq_right]
   intro hc
   have h1 : cand n 1 = 0 := cand_one_zero n h7
   exact cand_not_supp_two n h3 h7 (supp_two_of_mem_orb1 h hc h1)

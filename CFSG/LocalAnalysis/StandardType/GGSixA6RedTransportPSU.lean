@@ -42,7 +42,7 @@ private theorem psut_pow_scalar_odd
     (hs : CFSG.StandardType.ClassicalPosition.IsGLLift
       (Unitary.SU (unitaryInvolution E 2 f) n).subtype ψ s d) :
     Odd (orderOf s) := by
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hsp : CFSG.StandardType.ClassicalPosition.IsGLLift
       (Unitary.SU (unitaryInvolution E 2 f) n).subtype ψ (s ^ p) 1 := by
     have h := hs.pow p
@@ -144,7 +144,7 @@ private theorem psut_lifts_odd
   have hoddPmem : ∀ g ∈ Subgroup.closure S₀, Odd (orderOf g) := fun g hg => hoddS₀ g (hcl g hg)
   rcases Nat.even_or_odd (Nat.card (Subgroup.closure S₀)) with he | ho
   · exfalso
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := ↥(Subgroup.closure S₀)) 2
       (even_iff_two_dvd.1 he)
     have hg2 : orderOf g = 2 := hg

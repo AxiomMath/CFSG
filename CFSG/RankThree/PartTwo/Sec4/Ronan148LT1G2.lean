@@ -23,6 +23,7 @@ section Group
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem eq_bot_of_le_quasisimple {Y N C : Subgroup G} (hYN : Y ≤ N) (hNC : N ≤ C)
     (hsub : (Y.subgroupOf C).IsSubnormal) (hN : CFSG.IsQuasisimple ↥N) (h3N : 3 ∣ Nat.card N)
     (hp : Group.IsPerfect ↥Y) (h3 : ¬ 3 ∣ Nat.card Y) : Y = ⊥ := by
@@ -57,6 +58,7 @@ theorem eq_bot_of_le_quasisimple {Y N C : Subgroup G} (hYN : Y ≤ N) (hNC : N �
       exact congrArg Subtype.val (hcomm ⟨y, hy⟩ ⟨x, hx⟩)
     rwa [hYY] at hbot
 
+omit [Finite G] in
 theorem le_of_commutators_mem {Y N C : Subgroup G} (hYC : Y ≤ C) (hp : Group.IsPerfect ↥Y)
     (hcomm : ∀ x ∈ C, ∀ y ∈ C, x * y * x⁻¹ * y⁻¹ ∈ N) : Y ≤ N := by
   rw [← commutator_self_eq_of_isPerfect hp, Subgroup.commutator_le]
@@ -127,7 +129,7 @@ theorem noSz_centralizer_of_conj {S : Type} [Group S] [Finite S] (g z : S)
   have heq : (Y.subgroupOf C).map (eC : ↥C →* ↥(C.map (φ : S →* S))) =
       (Y.map (φ : S →* S)).subgroupOf (C.map (φ : S →* S)) := by
     ext ⟨x, hx⟩
-    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, MonoidHom.coe_coe]
+    simp only [Subgroup.mem_map, Subgroup.mem_subgroupOf, _root_.MonoidHom.coe_ofClass]
     constructor
     · rintro ⟨y, hyY, hyx⟩
       refine ⟨y, hyY, ?_⟩
@@ -152,7 +154,7 @@ section G2Two
 
 
 theorem three_dvd_card_g2_two {k : Type} [Field k] [Finite k] {m : ℕ} (hk : Nat.card k = 2 ^ m)
-    (hm : 1 ≤ m) : 3 ∣ Nat.card (adjointGroup Tag.G2 k) := by
+    (_hm : 1 ≤ m) : 3 ∣ Nat.card (adjointGroup Tag.G2 k) := by
   rw [CFSG.Timmesfeld.ExceptionalOrders.card_adjointGroup_G2, hk]
   unfold CFSG.Open.ordG2
   refine Dvd.dvd.mul_left ?_ _
@@ -180,14 +182,14 @@ theorem eq_bot_of_le_g2Two {G : Type} [Group G] [Finite G] {k : Type} [Field k] 
       have h2 : Nat.card Y ∣ 3 ^ 3 * (2 ^ 6 * 7 ^ 1) := by norm_num; exact h1
       exact hcop.dvd_of_dvd_mul_left h2
     have hpf := RonanK429H.primeFactors_card_le_two_of_dvd Nat.prime_two (by norm_num) hdvd
-    haveI := hp
-    haveI := RonanK429H.subsingleton_of_isPerfect_of_card_primeFactors hpf
+    have := hp
+    have := RonanK429H.subsingleton_of_isPerfect_of_card_primeFactors hpf
     exact Subgroup.eq_bot_of_subsingleton Y
   · have hk3 : 3 ≤ Nat.card k := by
       rw [hk]
       calc 3 ≤ 2 ^ 2 := by norm_num
         _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm2
-    haveI hS : IsSimpleGroup (adjointGroup .G2 k) :=
+    have hS : IsSimpleGroup (adjointGroup .G2 k) :=
       isSimpleGroup_adjointGroup_of_perfect .G2 k
         (CFSG.LieType.Steinberg.Adjoint.isPerfect_g2_of_three_le_card k hk3)
     have hCs : IsSimpleGroup C := eC.isSimpleGroup
@@ -299,7 +301,7 @@ theorem g2Two_noSz {F : Type} [Field F] [Finite F] {n : ℕ} (hF : Nat.card F = 
 theorem isSolvable_outer_g2Two {F : Type} [Field F] [Finite F] {n : ℕ} (hF : Nat.card F = 2 ^ n)
     (hn : 2 ≤ n) : Group.IsSolvable (Outer (adjointGroup Tag.G2 F)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP F 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by omega) hF
   have h4 : 4 ≤ Nat.card F := by
     rw [hF]
@@ -314,7 +316,7 @@ theorem isSolvable_outer_g2Two {F : Type} [Field F] [Finite F] {n : ℕ} (hF : N
   let φ : Outer (adjointGroup Tag.G2 F) ≃* (F ≃+* F) :=
     (QuotientGroup.quotientMulEquivOfEq hker.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective Θ hsurj)
-  haveI : IsCyclic (F ≃+* F) :=
+  have : IsCyclic (F ≃+* F) :=
     CFSG.ComponentClassification.CatalogueSchreierLinearTwo.fieldAut_isCyclic F
   exact Group.isSolvable_of_comm fun a b => φ.injective (by
     rw [map_mul, map_mul]
@@ -338,7 +340,7 @@ theorem kT1_seven_G2 (q : PrimePower) (hq2 : q.p = 2) (hq : (LieTypeIndex.G2 q).
   let τ : S ≃* adjointGroup Tag.G2 K := e.trans eK
   have hOut : Group.IsSolvable (Outer S) := by
     have := isSolvable_outer_g2Two hKn hn
-    exact solvable_of_surjective (f := (equivalence τ).symm.toMonoidHom)
+    exact Group.isSolvable_of_surjective (f := (equivalence τ).symm.toMonoidHom)
       (equivalence τ).symm.surjective
   refine row143_of_inner_kgroup hs hna
     (fun P _ hPp _ => le_inner_of_perfect_outSolvable hOut P hPp)

@@ -120,7 +120,7 @@ public theorem
         rcases hScases bS with hb | hb
         · have hbG : b = 1 := congrArg Subtype.val hb
           apply Subtype.ext
-          simpa [hxb, hbG]
+          simp [hxb, hbG]
         · have hbG : b = h.s := congrArg Subtype.val hb
           apply Subtype.ext
           simpa [hxb, hbG, pow_two] using h.s_involution.2
@@ -222,7 +222,6 @@ public theorem
         _ = Nat.card h.H := by rw [h.H_eq_centralizer]
         _ = 4 := hHcard
     exact (Subgroup.eq_of_le_of_card_ge hHleC (by
-      change Nat.card (Subgroup.centralizer ({a} : Set G)) ≤ Nat.card h.H
       rw [show Nat.card (Subgroup.centralizer ({a} : Set G)) = 4 by
         simpa [Ca] using hCcard, hHcard])).symm
   have hconjMemN : ∀ {a g : G}, a ∈ h.H → IsInvolution a →
@@ -333,7 +332,7 @@ public theorem
   have hUcard : U.ncard = 3 := by
     have hset : U = Set.univ \ {1} := by ext x; simp [U]
     rw [hset, Set.ncard_sdiff_singleton_of_mem (Set.mem_univ (1 : HN))]
-    simpa [hHNcard]
+    simp
   let St : Subgroup N :=
     MulAction.stabilizer N tHN
   have hSt : St = HN := by

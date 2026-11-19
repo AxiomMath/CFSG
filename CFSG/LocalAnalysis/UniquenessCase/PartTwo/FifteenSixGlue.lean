@@ -57,6 +57,7 @@ theorem s15_Six_adm_mul {D : Data G} {V : Subgroup G} (hN : D.M ≤ normalizer (
     rw [h5]
     exact D.M.mul_mem (D.M.mul_mem (D.M.inv_mem hy) h4) hy
 
+omit [Finite G] in
 theorem s15_Six_comm_mem_inf {M V : Subgroup G} (hM : M ≤ normalizer (V : Set G)) {g : G}
     (hg : V ≤ conjSubgroup M g) (hA : conjSubgroup V g ≤ M) {w b : G} (hw : w ∈ V)
     (hb : b ∈ conjSubgroup V g) : b * w * b⁻¹ * w⁻¹ ∈ V ⊓ conjSubgroup V g := by
@@ -118,6 +119,7 @@ theorem s15_Six_inf_conj_eq_bot (D : Data G) {V₀ V L : Subgroup G} (h : Hyp154
   exact inf_conjSubgroup_eq_bot_of_uniqueMax D.maxLocal h2 h2
     (fun w hw hw1 => h.unique₁ w hw hw1) (fun w hw hw1 => h.unique₁ w hw hw1) hg
 
+omit [Finite G] in
 theorem s15_Six_mem_sup_of_commute {S T : Subgroup G} (h : ∀ x ∈ S, ∀ y ∈ T, x * y = y * x)
     {u : G} (hu : u ∈ S ⊔ T) : ∃ x ∈ S, ∃ y ∈ T, u = x * y := by
   let P : Subgroup G :=
@@ -161,6 +163,7 @@ theorem s15_Six_mem_sup_of_commute {S T : Subgroup G} (h : ∀ x ∈ S, ∀ y �
     rw [this]
     exact h1
 
+omit [Finite G] in
 theorem s15_Six_comm_of_normalizers {E F : Subgroup G} (h : E ⊓ F = ⊥) {b w : G}
     (hb : b ∈ F ⊓ normalizer (E : Set G)) (hw : w ∈ E ⊓ normalizer (F : Set G)) :
     b * w * b⁻¹ * w⁻¹ = 1 := by
@@ -196,10 +199,11 @@ theorem s15_Six_normalizes_of_comm {E F : Subgroup G} {c : ℕ}
   have h7 := E3.mQuot_mono (V := F) hle
   omega
 
+omit [Finite G] in
 theorem s15_Six_exists_not_mem {W H₁ H₂ : Subgroup G} (h1 : ¬ W ≤ H₁) (h2 : ¬ W ≤ H₂) :
     ∃ w ∈ W, w ∉ H₁ ∧ w ∉ H₂ := by
-  obtain ⟨a, haW, haH₁⟩ := SetLike.not_le_iff_exists.1 h1
-  obtain ⟨b, hbW, hbH₂⟩ := SetLike.not_le_iff_exists.1 h2
+  obtain ⟨a, haW, haH₁⟩ := IsConcreteLE.not_le_iff_exists.1 h1
+  obtain ⟨b, hbW, hbH₂⟩ := IsConcreteLE.not_le_iff_exists.1 h2
   by_cases ha₂ : a ∈ H₂
   · by_cases hb₁ : b ∈ H₁
     · refine ⟨a * b, W.mul_mem haW hbW, fun hab => haH₁ ?_, fun hab => hbH₂ ?_⟩
@@ -210,6 +214,7 @@ theorem s15_Six_exists_not_mem {W H₁ H₂ : Subgroup G} (h1 : ¬ W ≤ H₁) (
     · exact ⟨b, hbW, hb₁, hbH₂⟩
   · exact ⟨a, haW, haH₁, ha₂⟩
 
+omit [Finite G] in
 theorem s15_Six_conj_le_normalizer_iff (A X : Subgroup G) (g : G) :
     conjSubgroup A g ≤ normalizer (X : Set G) ↔ A ≤ normalizer (conjSubgroup X g⁻¹ : Set G) := by
   rw [← E3.conjSubgroup_normalizer, ← E3.conjSubgroup_le_conjSubgroup_iff g⁻¹,

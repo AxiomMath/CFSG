@@ -43,10 +43,10 @@ private theorem firstCase_card_sigma_partition
         cases z with
         | inl q =>
           dsimp
-          rw [dif_pos q.1.2]
+          rw [dite_eq_left q.1.2]
         | inr q =>
           dsimp
-          rw [dif_neg (by exact q.1.2)]
+          rw [dite_eq_right (by exact q.1.2)]
       right_inv := by
         intro q
         by_cases h : p q.1 <;> simp [h, A1, A0, Q1, Q0] }
@@ -421,7 +421,7 @@ public theorem firstCase_klein_fixed_V_involution_card_one
               rw [hct]
             _ = c.t * (c.t * tp) := by group
             _ = c.t * w := by rfl
-            _ = c.t := by simpa [h]
+            _ = c.t := by simp [h]
         exact this
       have hwI : IsInvolution w := by
         refine ⟨hwne, ?_⟩
@@ -554,7 +554,6 @@ public theorem firstCase_klein_commuting_fiber_card
     intro z
     apply Subtype.ext
     dsimp [fInv, f]
-    change g * (g⁻¹ * (z : G) * g) * g⁻¹ = (z : G)
     group
   exact Nat.card_congr (Equiv.ofBijective f ⟨
     (fun a b h => by

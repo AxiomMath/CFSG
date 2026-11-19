@@ -36,17 +36,21 @@ variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F} {K : Type} [Field K] 
   left_inv w := T.symm_apply_apply (show E3UWspace σ e from w)
   right_inv w := T.apply_symm_apply (show E3UWspace σ e from w)
 
+omit [CharP F 2] in
 theorem toWform_mul (T₁ T₂ : E3UWspace σ e ≃ₗ[K] E3UWspace σ e) :
     toWform e (T₁ * T₂) = toWform e T₁ * toWform e T₂ := rfl
 
+omit [CharP F 2] in
 theorem toWform_one : toWform e (1 : E3UWspace σ e ≃ₗ[K] E3UWspace σ e) = 1 := rfl
 
+omit [CharP F 2] in
 theorem toWform_pow (T : E3UWspace σ e ≃ₗ[K] E3UWspace σ e) (n : ℕ) :
     toWform e (T ^ n) = toWform e T ^ n := by
   induction n with
   | zero => rfl
   | succ n ih => rw [pow_succ, pow_succ, toWform_mul, ih]
 
+omit [CharP F 2] in
 theorem toWform_injective : Function.Injective (toWform (σ := σ) e) := by
   intro T T' h
   refine LinearEquiv.ext fun w => ?_

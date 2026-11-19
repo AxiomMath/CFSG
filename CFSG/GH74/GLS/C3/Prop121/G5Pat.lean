@@ -24,7 +24,7 @@ theorem pattern_map {G : Type} [Group G] [Finite G]
       IsSylowOf 2 (T : Subgroup X) ⊤ := by
     intro X _ _ T
     rw [isSylowOf_iff]
-    refine ⟨le_top, T.isPGroup', ?_⟩
+    refine ⟨le_top, T.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact T.not_dvd_index
   obtain ⟨k, -, hk⟩ := IsSylowOf.exists_mem_conj (hSylow S₁) hS

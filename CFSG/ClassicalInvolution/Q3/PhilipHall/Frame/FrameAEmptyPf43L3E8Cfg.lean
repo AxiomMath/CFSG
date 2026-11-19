@@ -48,7 +48,7 @@ private theorem secQuot_equiv_of_sup {A X : Type} [Group A] [Group X] [Finite X]
     (ι : A →* X) (hι : Function.Injective ι) (N : Subgroup X) [N.Normal]
     (hN : Odd (Nat.card N)) (hsup : ι.range ⊔ N = ⊤) :
     Nonempty ((A ⧸ classicalInvolutionOddCore A) ≃* (X ⧸ classicalInvolutionOddCore X)) := by
-  haveI : Finite A := Finite.of_injective ι hι
+  have : Finite A := Finite.of_injective ι hι
   have hNO : N ≤ classicalInvolutionOddCore X := le_oddCore_of_odd hN
   let ψ : A →* X ⧸ classicalInvolutionOddCore X :=
     (QuotientGroup.mk' (classicalInvolutionOddCore X)).comp ι
@@ -123,7 +123,7 @@ private theorem secQuot_equiv_of_sup {A X : Type} [Group A] [Group X] [Finite X]
 private theorem isL3E8_of_mulEquiv {X Y : Type} [Group X] [Group Y] (e : X ≃* Y) (h : IsL3E8 X) :
     IsL3E8 Y := by
   obtain ⟨E, hEn, hEab, hcard, ⟨q⟩⟩ := h
-  haveI : (E.map e.toMonoidHom).Normal := hEn.map _ e.surjective
+  have : (E.map e.toMonoidHom).Normal := hEn.map _ e.surjective
   have hEab' : IsElemAbelian 2 (E.map e.toMonoidHom) := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, fun y hy => ?_⟩
     · rcases a with ⟨_, x₁, hx₁, rfl⟩
@@ -195,14 +195,14 @@ private theorem q8_image {Ht R : Subgroup T} (hRHt : R ≤ Ht) (hR : IsPGroup 2 
       rw [this]
       rfl
 
-private theorem K_le_firstFactor (K : Subgroup T) : K ≤ firstFactor K := fun x hx =>
+private theorem K_le_firstFactor (K : Subgroup T) : K ≤ firstFactor K := fun _x hx =>
   (le_sup_left : omegaGen (aStar (CoreAssembly.conjClass K) K) ≤ firstFactor K)
     (le_omegaGen (Relation.ReflTransGen.refl :
       K ∈ aStar (CoreAssembly.conjClass K) K) hx)
 
 variable {K : Subgroup T} {z : T} {J : Subgroup T} {zJ : T}
 
-private theorem J_le_firstFactor (hs : FrameStd K z J zJ) : J ≤ firstFactor K := fun x hx =>
+private theorem J_le_firstFactor (hs : FrameStd K z J zJ) : J ≤ firstFactor K := fun _x hx =>
   (le_sup_left : omegaGen (aStar (CoreAssembly.conjClass K) K) ≤ firstFactor K)
     (le_omegaGen (Relation.ReflTransGen.single ⟨hs.viol.mem, Or.inl ⟨z, zJ, hs.viol⟩⟩ :
       J ∈ aStar (CoreAssembly.conjClass K) K) hx)
@@ -290,9 +290,9 @@ private theorem F_comm {X : Type} [Group X] {F : Subgroup X} (hF : IsElemAbelian
 
 private theorem pCore_eq_of_faithful {X : Type} [Group X] {F : Subgroup X}
     (h : FaithfulL3E8 X F) : CFSG.pCore 2 X = F := by
-  haveI := h.normal
+  have := h.normal
   obtain ⟨e⟩ := h.quotient
-  haveI : IsSimpleGroup L3Two := isSimpleGroup_l3Two
+  have : IsSimpleGroup L3Two := isSimpleGroup_l3Two
   let f : X →* L3Two := e.toMonoidHom.comp (QuotientGroup.mk' F)
   have hfs : Function.Surjective f := e.surjective.comp (QuotientGroup.mk'_surjective F)
   have hfker : ∀ x : X, f x = 1 ↔ x ∈ F := fun x => by
@@ -301,7 +301,7 @@ private theorem pCore_eq_of_faithful {X : Type} [Group X] {F : Subgroup X}
     exact QuotientGroup.eq_one_iff x
   apply le_antisymm
   · have hP2 : IsPGroup 2 (CFSG.pCore 2 X) := CFSG.pCore_isPGroup
-    haveI hPn : ((CFSG.pCore 2 X).map f).Normal :=
+    have hPn : ((CFSG.pCore 2 X).map f).Normal :=
       (CFSG.pCore_normal (p := 2) (G := X)).map f hfs
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((CFSG.pCore 2 X).map f) with h0 | h0
     · intro x hx
@@ -417,7 +417,7 @@ theorem l3e8_isL3E8_ht (hs : L3E8Std K z J zJ H) :
   have hHs : firstFactor K ≤ sigmaGen K := firstFactor_le_sigmaGen hΩ
   have hnorm : firstFactor K ≤ Subgroup.normalizer (oddCoreOf (sigmaGen K) : Set T) := fun x hx =>
     mem_normalizer_oddCoreOf_of_mem_normalizer (Subgroup.le_normalizer (hHs hx))
-  haveI : ((oddCoreOf (sigmaGen K)).subgroupOf (firstFactor K)).Normal :=
+  have : ((oddCoreOf (sigmaGen K)).subgroupOf (firstFactor K)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNle).mpr hnorm
   have hodd : Odd (Nat.card ((oddCoreOf (sigmaGen K)).subgroupOf (firstFactor K))) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNle).toEquiv]

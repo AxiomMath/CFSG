@@ -33,7 +33,7 @@ private theorem l05nK2_check_two (d : DepELData) (h : ggDepELCheck d = true) (c 
   have hne' : (c.val != c'.val) = true := by
     rw [bne_iff_ne]
     exact fun hh => hne (Fin.ext hh)
-  rw [if_pos hne'] at hpair
+  rw [ite_eq_left hne'] at hpair
   cases hlook : d.two.lookup (c.val, c'.val) with
   | none => rw [hlook] at hpair; simp at hpair
   | some wits =>
@@ -69,9 +69,9 @@ private theorem l05nK2_cases2_extract (c c' : ℕ) (wits : List GGDepANWit)
   simp only [ggDepELCases2] at h
   have e1 := List.all_eq_true.mp h lh1 hlh1
   have e2 := List.all_eq_true.mp e1 la1 hla1
-  rw [if_pos (beq_iff_eq.mpr hd1)] at e2
+  rw [ite_eq_left (beq_iff_eq.mpr hd1)] at e2
   have e3 := List.all_eq_true.mp e2 lh2 hlh2
-  rw [if_pos (beq_iff_eq.mpr hd2)] at e3
+  rw [ite_eq_left (beq_iff_eq.mpr hd2)] at e3
   have e4 := List.all_eq_true.mp e3 la2 hla2
   have hor : (ggDepANDot 3 la1 ggDepELNX != 0 || ggDepANDot 3 la2 ggDepELNX != 0) = true := by
     rw [Bool.or_eq_true_iff]
@@ -82,7 +82,7 @@ private theorem l05nK2_cases2_extract (c c' : ℕ) (wits : List GGDepANWit)
         (ggDepANDot 3 la1 ggDepELNZ * ggDepANDot 3 la2 ggDepELNX) % 3) = true := by
     rw [Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true]
     exact ⟨⟨⟨beq_iff_eq.mpr hd3, beq_iff_eq.mpr hd4⟩, hor⟩, beq_iff_eq.mpr hdet⟩
-  rw [if_pos hcond] at e4
+  rw [ite_eq_left hcond] at e4
   cases hfind : exc.find? (fun e => ggTWLVecEq 3 e.1.1 lh1 && ggTWLVecEq 3 e.1.2.1 la1 &&
       ggTWLVecEq 3 e.1.2.2.1 lh2 && ggTWLVecEq 3 e.1.2.2.2 la2) with
   | none => rw [hfind] at e4; exact Or.inl (List.any_eq_true.mp e4)

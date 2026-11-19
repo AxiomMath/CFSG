@@ -15,7 +15,7 @@ namespace CFSG.LocalAnalysis.RankFourTheoremC.PPointFrobenius
 variable {J : Type} [Group J] [Finite J]
 
 theorem exists_abelian_of_hyperplane_action {D : Type} [Group D] [Finite D] {p q n : ℕ}
-    [Fact p.Prime] [Fact q.Prime] (hpq : p ≠ q) (hn : 2 ≤ n)
+    [Fact p.Prime] [Fact q.Prime] (hpq : p ≠ q) (_hn : 2 ≤ n)
     (hcl : ∀ a b : D, ⁅a, b⁆ ∈ Subgroup.center D)
     [IsElementaryAbelian q (D ⧸ Subgroup.center D)] [IsElementaryAbelian q (Subgroup.center D)]
     [MulDistribMulAction J D] [MulDistribMulAction J (D ⧸ Subgroup.center D)]

@@ -112,7 +112,7 @@ theorem irgOm2_card_sl2_shortField
     [Fact (∀ r : K, r ^ 2 ≠ -c + b * r)] :
     Nat.card (Matrix.SpecialLinearGroup (Fin 2) (ShortField b c)) =
       Nat.card K ^ 2 * (Nat.card K ^ 4 - 1) := by
-  haveI : Finite (ShortField b c) := finite_shortField (K := K) (b := b) (c := c)
+  have : Finite (ShortField b c) := finite_shortField (K := K) (b := b) (c := c)
   rw [CFSG.RankThree.PartOne.KCOrthogonal.card_sl2, irgOm2_card_shortField]
   ring_nf
 
@@ -257,9 +257,9 @@ theorem irgOm2_rankOne_eq_top
   have hLdef : L = (shortPosHom 2 hirr 0).range ⊔ (shortNegHom 2 hirr 0).range := by
     change rankOne (minusRootGroup 2 hirr) 0 = _
     exact rankOne_minusRootGroup_of_not_lt 2 hirr (k := 0) (by decide)
-  haveI : Finite (spinGroup (quadMinus 2 K b c)) :=
+  have : Finite (spinGroup (quadMinus 2 K b c)) :=
     GGOppRadOmega.finite_spinGroup_quadMinus hirr
-  haveI : Finite ↥L := Finite.of_injective (Subtype.val) Subtype.val_injective
+  have : Finite ↥L := Finite.of_injective (Subtype.val) Subtype.val_injective
   have hinj : Function.Injective (spinAction Q) := by
     rw [← MonoidHom.ker_eq_bot_iff, ← ker_spinMatrix,
       ker_spinMatrix_quadMinus_eq_bot hirr CharTwo.two_eq_zero]

@@ -57,9 +57,9 @@ theorem pb_flat_getD {j : ℕ} (hj : j < 75735) :
   have e : 2048 * (j / 2048) + j % 2048 = j := Nat.div_add_mod j 2048
   refine ⟨?_, ?_, hk⟩
   · rw [← flatten_getD_chunk #[] 2048 J.pbC (fun c hc' => by
-      rw [(pbC_chunk_length (by omega)).1, if_pos (by omega)]) _ _ (by omega) hk, e]
+      rw [(pbC_chunk_length (by omega)).1, ite_eq_left (by omega)]) _ _ (by omega) hk, e]
   · rw [← flatten_getD_chunk #[] 2048 J.ppC (fun c hc' => by
-      rw [(pbC_chunk_length (by omega)).2, (pbC_chunk_length (by omega)).1, if_pos (by omega)])
+      rw [(pbC_chunk_length (by omega)).2, (pbC_chunk_length (by omega)).1, ite_eq_left (by omega)])
       _ _ (by omega) (by rw [(pbC_chunk_length hc).2]; exact hk), e]
 
 theorem pb_size {j : ℕ} (hj : j < 75735) :
@@ -83,7 +83,7 @@ theorem length_filter_eq_sum (p : ℕ → Bool) : ∀ l : List ℕ,
   | [] => rfl
   | a :: l => by
     rw [List.filter_cons, List.map_cons, List.sum_cons, ← length_filter_eq_sum p l]
-    cases p a <;> simp <;> omega
+    cases p a <;> simp; omega
 
 theorem zipWith_eq_map_range {f : Array ℕ → Array ℕ → ℕ} {L1 L2 : List (Array ℕ)} {N : ℕ}
     (h1 : L1.length = N) (h2 : L2.length = N) :
@@ -265,7 +265,7 @@ theorem chkKcMeet_of_pinned (hpb : ∀ i < 75735, pbArr[i]! = J.pbC.flatten.getD
       unfold meetCnt
       rw [hpb 0 (by norm_num), hpb j hj', hpp j hj']
       exact meet_le hj' h0
-    simp [h0, h]
+    simp [h]
 
 theorem chkSpanW_of_pinned (hwt : ∀ j (hj : j < J.wtC.flatten.length), wt j = J.wtC.flatten[j]) :
     chkSpanW = true := by

@@ -76,7 +76,7 @@ theorem exists_ctx1912 (h1730 : Sec17.Item1730) (h195 : Item195) (h131 : Item131
   obtain ⟨P, hAP⟩ := hA3.exists_le_sylow
   obtain ⟨g, hg⟩ := exists_map_conj_le_sylow hE3 P
   have hEeq := map_subtype_map_conj_subgroupOf hE₀C g
-  have hPG : IsPGroup 3 ((P : Subgroup C).map C.subtype) := P.isPGroup'.map _
+  have hPG : IsPGroup 3 ((P : Subgroup C).map C.subtype) := P.isPGroup.map _
   have hEP : E₀.map (MulAut.conj (g : G)).toMonoidHom ≤ (P : Subgroup C).map C.subtype := by
     rw [← hEeq]
     exact Subgroup.map_mono hg

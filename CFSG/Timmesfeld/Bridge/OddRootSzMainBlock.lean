@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G] {D : Set G} {d e : G} {E : Set G} {n : 
 @[expose] def viewE (D : Set G) (c : G) : Set G :=
   {u | u ∈ D ∧ Commute u c ∧ u ∉ rootSet D c}
 
+omit [Finite G] in
 theorem viewE_conj (hN : Connectivity.IsNormalSet D) (g c : G) :
     viewE D (g * c * g⁻¹) = (fun x => g * x * g⁻¹) '' viewE D c := by
   have hD : (MulAut.conj g) '' D = D := by
@@ -77,6 +78,7 @@ theorem SzCfg.disjoint (c : SzCfg G D d E e n) : Disjoint (rootSet D d) E := by
   intro u hu huE
   exact (rootSet_subset_normSet_diff c hu).2 huE
 
+omit [Finite G] in
 theorem SzCfg.commute_of_mem_rootSet_d (c : SzCfg G D d E e n) {u x : G}
     (hu : u ∈ rootSet D d) (hx : x ∈ Subgroup.closure E) : Commute u x := by
   have hcommE : ∀ y ∈ E, Commute u y := by
@@ -89,6 +91,7 @@ theorem SzCfg.commute_of_mem_rootSet_d (c : SzCfg G D d E e n) {u x : G}
     exact Subgroup.mem_centralizer_singleton_iff.mpr (hcommE y hy).symm
   exact (Subgroup.mem_centralizer_singleton_iff.mp (hcen hx)).symm
 
+omit [Finite G] in
 private theorem reach_of_mem_of_szCfg (c : SzCfg G D d E e n) :
     ∀ a ∈ D, ∀ b ∈ D, Reach D a b := by
   intro a ha b hb
@@ -103,6 +106,7 @@ private theorem isBlock_normSet_diff_of_szCfg (c : SzCfg G D d E e n) :
     MulAction.IsBlock (ConjAct G) (normSet D E \ E) :=
   (isMaxBlock_normSet_diff_of_szCfg c).2.2.2.1
 
+omit [Finite G] in
 private theorem commutingSet_diff_normSet_eq (c : SzCfg G D d E e n) :
     {x : G | x ∈ D ∧ Commute d x} \ (normSet D E \ E) = E := by
   ext x
@@ -147,7 +151,7 @@ private theorem conj_normSet_diff_subset (c : SzCfg G D d E e n) {k : G}
   have heB : e ∈ B := ⟨d, hdF, hk⟩
   have hsmul : (ConjAct.toConjAct k • F : Set G) = B := by
     ext y
-    simp only [OddLocal.conjSet, Set.mem_image, Set.mem_smul_set, ConjAct.toConjAct_smul]
+    simp only [Set.mem_smul_set, ConjAct.toConjAct_smul]
     rfl
   have hBblock : MulAction.IsBlock (ConjAct G) B := by
     rw [← hsmul]

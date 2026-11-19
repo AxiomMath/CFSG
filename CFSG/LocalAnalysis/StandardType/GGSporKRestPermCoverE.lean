@@ -15,7 +15,7 @@ theorem sporKRest_cover_of_permModelE {K : Type} [Group K] [Finite K] {n : ℕ}
     (hab : Subgroup.closure ({a, b} : Set K) = ⊤) {p : ℕ} (hp : p.Prime) (sylowOrder : ℕ)
     (hord : sylowOrder = p ^ (Nat.card K).factorization p) (d : PermCover.DataE)
     (hcheck : PermCover.checkE p (φ a) (φ b) sylowOrder d = true) : SporKRestCover p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hspec := PermCover.checkE_sound hcheck
   unfold PermCover.specE at hspec
   obtain ⟨h1, h2, h3, h4, h5, h6, h7, h8⟩ := hspec

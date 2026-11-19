@@ -205,7 +205,7 @@ public theorem mem_normal_of_pow_card_eq_one_of_isZGroup
     have hcard_dvd : Nat.card C ∣ Nat.card (C ⊓ N : Subgroup A) := by
       rw [Nat.dvd_iff_prime_pow_dvd_dvd]
       intro p k hp hpkC
-      letI : Fact p.Prime := ⟨hp⟩
+      let : Fact p.Prime := ⟨hp⟩
       let S : Sylow p C := default
       let R : Sylow p N := default
       obtain ⟨PC, hPC⟩ := S.exists_comap_subtype_eq
@@ -258,7 +258,7 @@ public theorem mem_normal_of_pow_card_eq_one_of_isZGroup
         exact pow_dvd_pow p
           ((Nat.factorization_le_iff_dvd Nat.card_pos.ne' Nat.card_pos.ne').2
             hC_dvd_N p)
-      letI : Fintype PC := Fintype.ofFinite PC
+      let : Fintype PC := Fintype.ofFinite PC
       have hroot_card_le :
           {y : (PC : Subgroup A) | y ^ Nat.card R = 1}.ncard ≤ Nat.card R := by
         rw [Set.ncard_eq_toFinset_card']

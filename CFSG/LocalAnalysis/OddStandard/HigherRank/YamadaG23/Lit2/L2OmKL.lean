@@ -21,7 +21,7 @@ theorem l2_om_kl {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V]
         TauCeti.QuadraticMap.orthogonalGroup Q⁆,
       33 ≤ D.card ∧ ∀ d ∈ D, d * d = 1 ∧ ∀ i, y i * d = d * y i := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let O : Subgroup (V ≃ₗ[K] V) := TauCeti.QuadraticMap.orthogonalGroup Q
   let Ω : Subgroup (V ≃ₗ[K] V) := ⁅O, O⁆
   have hΩle : Ω ≤ O := Subgroup.commutator_le_self O
@@ -63,9 +63,9 @@ theorem l2_om_kl {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V]
     rw [hgw J k, hgw J' k] at hk
     by_cases hJ : k ∈ J <;> by_cases hJ' : k ∈ J'
     · simp [hJ, hJ']
-    · rw [if_pos hJ, if_neg hJ'] at hk
+    · rw [ite_eq_left hJ, ite_eq_right hJ'] at hk
       exact (hneg k hk).elim
-    · rw [if_neg hJ, if_pos hJ'] at hk
+    · rw [ite_eq_right hJ, ite_eq_left hJ'] at hk
       exact (hneg k hk.symm).elim
     · simp [hJ, hJ']
   let F : Finset (Finset (Fin 8)) :=

@@ -69,6 +69,7 @@ theorem lifts_commute_of_commute_u (h : UnitaryFieldData ℓ f K) (hn : 3 ≤ n)
 
 variable [Finite K] [Fact ℓ.Prime] [CharP K ℓ]
 
+omit [Finite K] in
 theorem heis_fixed_five_eq_one_u (h : UnitaryFieldData ℓ f K) (h5 : ℓ = 5)
     {E : Subgroup (MulAut (primeFormP h (idGram K 3)))} (hE : IsElemAbelian 3 E)
     (hc : Nat.card E = 3 ^ 2) (hD : E ≤ primeFormD h (idGram K 3))
@@ -150,7 +151,7 @@ theorem heis_fixed_five_eq_one_u (h : UnitaryFieldData ℓ f K) (h5 : ℓ = 5)
       conv_lhs => rw [hk']
       group
     rw [← Units.val_mul, ← Units.val_mul, h1]
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   set Nm : Matrix (Fin 3) (Fin 3) K := (kG : Matrix (Fin 3) (Fin 3) K) - 1 with hNm
   have hN5 : Nm ^ 5 = 0 := by
     rw [hNm, sub_pow_char_of_commute (R := Matrix (Fin 3) (Fin 3) K) (p := 5)
@@ -187,8 +188,8 @@ theorem uniGenFiveNonCpfUnitary_holds :
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA m q hv
       (MulEquiv.refl (Cat ⟨.twistedA m q, hv⟩))
   have h : UnitaryFieldData q.p q.exponent F := ⟨hℓ, hf, by rw [hKF, ← pow_mul, mul_comm]⟩
-  haveI : Finite F := h.finite
-  haveI : CharP F q.p := h.charP
+  have : Finite F := h.finite
+  have : CharP F q.p := h.charP
   have hn1 : 1 ≤ m + 1 := by omega
   set e : Cat ⟨.twistedA m q, hv⟩ ≃* primeFormP h (idGram F (m + 1)) :=
     eT.trans (BalanceLp.statedProjEquivPrimeFormP h hn1) with he
@@ -228,8 +229,8 @@ theorem thm4RestUnitary_holds : Inputs256e.Thm4RestUnitary := by
   intro G _ _ p q hp hp2 hq hq2 hqp a K E A hK hmod hA0C hA0el hA0r hN hF hIii
   obtain ⟨m, Q, hv, hQq, hncpf, ⟨θ⟩⟩ := hmod
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   subst hQq
   set A0 := E ⊓ A with hA0
   set N : Subgroup G := Subgroup.normalizer (K : Set G) with hNdef
@@ -237,8 +238,8 @@ theorem thm4RestUnitary_holds : Inputs256e.Thm4RestUnitary := by
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA m Q hv
       (MulEquiv.refl (Cat ⟨.twistedA m Q, hv⟩))
   have h : UnitaryFieldData Q.p Q.exponent F := ⟨hℓ, hf, by rw [hKF, ← pow_mul, mul_comm]⟩
-  haveI : Finite F := h.finite
-  haveI : CharP F Q.p := h.charP
+  have : Finite F := h.finite
+  have : CharP F Q.p := h.charP
   have hn1 : 1 ≤ m + 1 := by omega
   let e : Cat ⟨.twistedA m Q, hv⟩ ≃* primeFormP h (idGram F (m + 1)) :=
     eT.trans (BalanceLp.statedProjEquivPrimeFormP h hn1)
@@ -461,7 +462,7 @@ theorem thm4RestUnitary_holds : Inputs256e.Thm4RestUnitary := by
     have hprim : IsPrimitiveRoot u p := by
       rw [← orderOf_eq_prime hup hu1]
       exact IsPrimitiveRoot.orderOf u
-    haveI : NeZero p := ⟨hp.ne_zero⟩
+    have : NeZero p := ⟨hp.ne_zero⟩
     obtain ⟨t, htp, hut⟩ := hprim.eq_pow_of_pow_eq_one hvp
     set i := p - t with hi
     set W : primeFormUnitary h (idGram F (m + 1)) := Y ^ i * Z with hW

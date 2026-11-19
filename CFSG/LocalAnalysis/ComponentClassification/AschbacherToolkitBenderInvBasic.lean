@@ -147,7 +147,7 @@ theorem mem_of_mem_normalizer {T : Sylow 2 G} {s : G}
     (hs : s ∈ Subgroup.normalizer ((T : Subgroup G) : Set G)) {S : Sylow 2 G}
     (hsS : s ∈ (S : Subgroup G)) : s ∈ (T : Subgroup G) := by
   have hp : IsPGroup 2 (Subgroup.zpowers s) :=
-    S.isPGroup'.to_le ((Subgroup.zpowers_le).mpr hsS)
+    S.isPGroup.to_le ((Subgroup.zpowers_le).mpr hsS)
   have h := hp.inf_normalizer_sylow T
   have hmem : s ∈ Subgroup.zpowers s ⊓ Subgroup.normalizer (T : Set G) :=
     ⟨Subgroup.mem_zpowers s, hs⟩
@@ -168,7 +168,7 @@ theorem eq_of_smul_eq_self (hSE : ∀ S : Sylow 2 G,
     (hT : ∀ x : G, α x = x → x ∈ Subgroup.normalizer ((T : Subgroup G) : Set G))
     {S : Sylow 2 G} (hS : α • S = S) (hS1 : (S : Subgroup G) ≠ ⊥) : S = T := by
   obtain ⟨s, hsS, hs1, hαs⟩ :=
-    exists_fixed_of_sq_eq_one α hα S.isPGroup' hS1 fun s hs => apply_mem_of_smul_eq hS hs
+    exists_fixed_of_sq_eq_one α hα S.isPGroup hS1 fun s hs => apply_mem_of_smul_eq hS hs
   have hsT : s ∈ (T : Subgroup G) := mem_of_mem_normalizer (hT s hαs) hsS
   by_contra hne
   exact hs1 (Omega.eq_one_of_mem_of_mem (hSE S) (Ne.symm hne) hsS hsT)

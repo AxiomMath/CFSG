@@ -150,7 +150,7 @@ theorem pgl2_comm_dm_neg_one (h2 : (2 : K) ≠ 0) {A : PGL2 K}
     refine mk_eq_mk_of_smul hd0 ?_
     rw [hMe, coe_dm]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [hb0, hc0] <;> field_simp
+    fin_cases i <;> fin_cases j <;> simp [hb0, hc0]; field_simp
   · by_cases hum : (u : K) = -1
     ·
       have ha0' : a = 0 := by
@@ -170,7 +170,7 @@ theorem pgl2_comm_dm_neg_one (h2 : (2 : K) ≠ 0) {A : PGL2 K}
       refine mk_eq_mk_of_smul hc0 ?_
       rw [hMe, Units.val_mul, coe_dm, coe_wm]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [ha0', hd0', Matrix.mul_apply, Fin.sum_univ_two] <;>
+      fin_cases i <;> fin_cases j <;> simp [ha0', hd0'];
         field_simp
     · exfalso
       have h1 : (u : K) - 1 ≠ 0 := fun h => hu1 (by linear_combination h)
@@ -223,9 +223,9 @@ theorem exists_decomp (h2 : (2 : K) ≠ 0) {g : PGammaL2 K} (hg : g * tor (-1) =
       rw [hAe, map_mul, map_pow, tor_apply, wref, mul_assoc]
 
 instance finite_pgammaL2 [Finite K] : Finite (PGammaL2 K) := by
-  haveI : Finite (PGL2 K) := Finite.of_surjective
+  have : Finite (PGL2 K) := Finite.of_surjective
     (Matrix.ProjGenLinGroup.mk : GL (Fin 2) K → PGL2 K) Matrix.ProjGenLinGroup.mk_surjective
-  haveI : Finite (K ≃+* K) :=
+  have : Finite (K ≃+* K) :=
     Finite.of_injective (fun σ : K ≃+* K => (σ : K → K)) DFunLike.coe_injective
   exact Finite.of_equiv (PGL2 K × (K ≃+* K)) SemidirectProduct.equivProd.symm
 

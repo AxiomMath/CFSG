@@ -94,12 +94,12 @@ theorem diagR_sound {r : Nat} :
   unfold diagR
   rw [hr i j, diagonal_apply]
   by_cases hi : i.val < r
-  · rw [dif_pos ⟨hi, by omega⟩, if_pos hi]
+  · rw [dite_eq_left ⟨hi, by omega⟩, ite_eq_left hi]
     change ordMat 5 133 13 1729 ONE _ j = _
     rw [h2, one_apply]
     have e : (⟨0 + i.val, by omega⟩ : Fin 133) = i := Fin.ext (by simp)
     rw [e]
-  · rw [dif_neg (fun h => hi h.1), if_neg hi]
+  · rw [dite_eq_right (fun h => hi h.1), ite_eq_right hi]
     simp
 
 theorem rank_diagR {r : Nat} (hr : r ≤ 133) : (OM (diagR ONE r)).rank = r := by

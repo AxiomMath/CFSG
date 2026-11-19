@@ -26,11 +26,11 @@ namespace N588
 theorem isCyclic_of_forall_pow_eq_one_mem {P : Type} [Group P] [Finite P] {p : ℕ}
     [hp : Fact p.Prime] (hp2 : p ≠ 2) (hP : IsPGroup p P) {Z₀ : Subgroup P}
     (hZ₀ : Nat.card Z₀ = p) (h : ∀ x : P, x ^ p = 1 → x ∈ Z₀) : IsCyclic P := by
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
+  have : Fact (IsPGroup p P) := ⟨hP⟩
   by_contra hnc
   obtain ⟨S, -, hS, hSel⟩ := CFSG.lemma_4_5_a (p := p) hp2 hnc
   have hSZ : S ≤ Z₀ := by
-    haveI := hSel
+    have := hSel
     intro x hx
     exact h x (CFSG.elemPow_eq_one_of_isElementaryAbelian x hx)
   have h1 := Subgroup.card_le_of_le hSZ
@@ -59,7 +59,7 @@ variable {G : Type} [Group G] [Finite G] (m : Mz614 G)
 
 theorem Z_le_H : m.Z ≤ m.H := fun z hz =>
   mem_centralizer_iff.2 fun y hy => by
-    haveI : IsCyclic m.Z := isCyclic_of_prime_card (hp := ⟨m.hr⟩) m.card_Z
+    have : IsCyclic m.Z := isCyclic_of_prime_card (hp := ⟨m.hr⟩) m.card_Z
     have := (IsCyclic.commGroup (α := m.Z)).mul_comm ⟨z, hz⟩ ⟨y, hy⟩
     exact congrArg Subtype.val this.symm
 
@@ -67,7 +67,7 @@ theorem A_le_H : m.A ≤ m.H := sup_le m.Z_le_H m.hZ.E_le_centralizer
 
 theorem H_eq_sup_of {W : Subgroup G} (hWH : W ≤ m.H) (hHW : m.H ≤ normalizer (W : Set G))
     {t : G} (htW : t ∈ W) (htA : t ∈ m.A) (htZ : t ∉ m.Z) : m.H = W ⊔ (m.H ⊓ m.M) := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hel := m.isElemAbelian_A
   have htr : t ^ m.r = 1 := hel.2 t htA
   have ht1 : t ≠ 1 := fun h => htZ (h ▸ m.Z.one_mem)

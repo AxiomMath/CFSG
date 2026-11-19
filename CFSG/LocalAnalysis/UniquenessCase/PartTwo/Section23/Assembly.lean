@@ -517,8 +517,8 @@ theorem exists_ctx23L_of_s23Inputs (D : Data G) (Ch : Choice2011 G) (h1930 : H19
   obtain ⟨H, hHmem⟩ := hH
   obtain ⟨L₁, hL₁⟩ := uc22main1_calLOf_nonempty D I.s20_4 h1930 hHmem
   obtain ⟨c21, hL0L1⟩ := uc22main1_ctx21 D Ch h1930 I.s20_10 I.choice hL₁.1
-  haveI : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
-  haveI : WellFoundedLT (Subgroup G) := Finite.to_wellFoundedLT
+  have : Finite (Subgroup G) := Finite.of_injective _ SetLike.coe_injective
+  have : WellFoundedLT (Subgroup G) := Finite.to_wellFoundedLT
   obtain ⟨L, hL0L, hLmax⟩ := Finite.exists_le_maximal
     (p := fun L : Subgroup G => L ∈ calL D.T D.M) (a := c21.L0) c21.hL0.prop
   let c21' : Ctx21 D Ch := { c21 with B := c21.B0, hB := c21.hB0, hle := le_rfl }

@@ -91,7 +91,7 @@ theorem forall_characteristic_isMulCommutative_isCyclic_of_mulEquiv {P Q : Type*
       _ = A.map ((e : P →* Q).comp ((e.trans (ψ.trans e.symm) : P ≃* P))) := by
             congr 1
             ext x
-            simp [MulEquiv.trans_apply]
+            simp
       _ = (A.map ((e.trans (ψ.trans e.symm) : P ≃* P))).map (e : P →* Q) := by
             rw [Subgroup.map_map]
       _ = A.map (e : P →* Q) := by rw [hφ]
@@ -101,7 +101,7 @@ theorem forall_characteristic_isMulCommutative_isCyclic_of_mulEquiv {P Q : Type*
 theorem isCyclic_of_characteristic_of_extraspecial_card_eight {P : Type*} [Group P]
     (hP : IsExtraspecialPGroup 2 P) (hcard : Nat.card P = 8) :
     ∀ A : Subgroup P, A.Characteristic → IsMulCommutative A → IsCyclic A := by
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite P := Nat.finite_of_card_ne_zero (by omega)
   rcases ComponentClassification.WalterSchur.dihedral_or_quaternion_of_card_eq_eight hcard
       (Shape.nonabelian_of_extraspecial hP) with hD | hQ
   · obtain ⟨e⟩ := hD
@@ -135,7 +135,7 @@ theorem lieModel_psl_two_seven_or_alternating_six_of_centralizer {G : Type} [Gro
   have hSC : CFSG.Assembly.LowTwoRank.StatedClassicalModel G .PSL 2 p f :=
     hLie.statedClassicalModel (by decide)
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨φ⟩⟩ := hSC
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hodd : Odd p := hp.odd_of_ne_two hp2
   let e2 : G ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) K :=
     φ.trans (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 2 K).symm

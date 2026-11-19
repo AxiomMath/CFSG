@@ -217,7 +217,6 @@ theorem Config.false_of_mulEquiv_alternating {n : ℕ} (e : X ≃* alternatingGr
         Matrix.cons_val_one, Matrix.cons_val_two, Matrix.cons_val_three, Matrix.head_cons,
         Matrix.tail_cons] at hij ⊢ <;>
       first
-        | rfl
         | exact absurd hij d1 | exact absurd hij d2 | exact absurd hij d3
         | exact absurd hij d4 | exact absurd hij d5 | exact absurd hij d6
         | exact absurd hij.symm d1 | exact absurd hij.symm d2 | exact absurd hij.symm d3

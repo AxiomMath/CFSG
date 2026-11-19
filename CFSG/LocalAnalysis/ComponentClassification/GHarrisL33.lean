@@ -57,7 +57,7 @@ theorem not_conj_x_a_and_al :
     ¬ ((∃ g : G, g⁻¹ * D.x * g = D.a) ∧ ∃ g : G, g⁻¹ * D.x * g = D.al) := by
   classical
   rintro ⟨⟨h₁, hh₁⟩, ⟨h₂, hh₂⟩⟩
-  obtain ⟨g, -, hC⟩ := exists_conj_extremal D.S.isPGroup' D.isSylowOf_X hh₁
+  obtain ⟨g, -, hC⟩ := exists_conj_extremal D.S.isPGroup D.isSylowOf_X hh₁
   have hpre : ∀ s : SE, s * SE.invRep 7 = SE.invRep 7 * s →
       ∃ s' : SE, D.toG s' = g⁻¹ * D.toG s * g ∧ s' * SE.gen 6 = SE.gen 6 * s' := by
     intro s hs

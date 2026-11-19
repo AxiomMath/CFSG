@@ -40,7 +40,7 @@ theorem card_xorSub (S : Finset (Fin 32)) (h0 : (0 : Fin 32) ∈ S)
   have hset : ((xorSub S h0 hS : Subgroup P24) : Set P24) =
       ((S.image nq2Perm : Finset P24) : Set P24) := by
     ext g
-    simp only [SetLike.mem_coe, mem_xorSub_iff, Finset.mem_coe, Finset.mem_image]
+    simp only [SetLike.mem_coe, mem_xorSub_iff, Finset.mem_image]
     exact ⟨fun ⟨u, hu, e⟩ => ⟨u, hu, e.symm⟩, fun ⟨u, hu, e⟩ => ⟨u, hu, e.symm⟩⟩
   rw [← SetLike.coe_sort_coe, hset, Nat.card_coe_set_eq, Set.ncard_coe_finset,
     Finset.card_image_of_injective S nq2Perm_injective]

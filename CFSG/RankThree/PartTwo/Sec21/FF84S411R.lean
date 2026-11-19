@@ -70,10 +70,10 @@ theorem two_subgroup_P2_trivial (hPair : HypOmPair) (X : Subgroup OmG) (hXP : X 
   obtain ⟨eA0⟩ := hPair qMinus_sig0 qMinus_tau0 qMinus_sig0_add_tau0 tau0_ne_zero
   have eA : ↥P2 ≃* alternatingGroup (Fin 5) := eA0
   let X' : Subgroup ↥P2 := X.subgroupOf P2
-  haveI hX'n : X'.Normal := ⟨fun n hn g => by
+  have hX'n : X'.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hnorm g g.2 n hn⟩
-  haveI : (X'.map eA.toMonoidHom).Normal := Subgroup.Normal.map hX'n _ eA.surjective
+  have : (X'.map eA.toMonoidHom).Normal := Subgroup.Normal.map hX'n _ eA.surjective
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (X'.map eA.toMonoidHom) with h | h
   · rw [Subgroup.eq_bot_iff_forall]
     intro x hx
@@ -83,7 +83,7 @@ theorem two_subgroup_P2_trivial (hPair : HypOmPair) (X : Subgroup OmG) (hXP : X 
     have h3 : (⟨x, hXP hx⟩ : ↥P2) = 1 := eA.injective (h2.trans (map_one eA).symm)
     exact congrArg Subtype.val h3
   · exfalso
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hP : IsPGroup 2 (alternatingGroup (Fin 5)) := by
       intro a
       have ha : a ∈ X'.map eA.toMonoidHom := by rw [h]; exact Subgroup.mem_top a
@@ -103,6 +103,7 @@ theorem two_subgroup_P2_trivial (hPair : HypOmPair) (X : Subgroup OmG) (hXP : X 
     have := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3
     omega
 
+omit [Finite G] in
 theorem psi_two_el (n : ↥(Nor S)) {K : Subgroup G} (hn : (n : G) ∈ Op 2 K) :
     ∃ k : ℕ, n ^ (2 ^ k) = 1 := by
   obtain ⟨k, hk⟩ := S3.Op_isPGroup 2 K ⟨(n : G), hn⟩
@@ -110,6 +111,7 @@ theorem psi_two_el (n : ↥(Nor S)) {K : Subgroup G} (hn : (n : G) ∈ Op 2 K) :
   have := congrArg Subtype.val hk
   simpa using this
 
+omit [Finite G] in
 theorem mem_M_of_cen {s t : G} {x : G} (hxs : x ∈ Cen s) (hxt : x ∈ Cen t) :
     x ∈ CenS (Subgroup.closure ({s, t} : Set G)) := by
   rw [cenS_pair, Subgroup.mem_centralizer_iff]
@@ -170,7 +172,7 @@ theorem Ctx411.cenT_le_S (C : Ctx411 S e ψ s t b) {x : G} (hxT : x ∈ Op 2 (Ce
 theorem Ctx411.not_R_le_Cen (C : Ctx411 S e ψ s t b) :
     ¬ ∀ x ∈ S ⊓ Op 2 (Cen (t : G)), x ∈ Cen b := by
   intro hall
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hsord : orderOf (s : G) = 2 := by
     have h : (s : G) ^ 2 = 1 := by
       have := congrArg Subtype.val (sq_S e s)

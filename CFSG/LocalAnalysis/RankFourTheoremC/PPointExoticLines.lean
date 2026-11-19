@@ -130,7 +130,7 @@ theorem exists_central_of_not_mem_zpowers_of_facts [Fact p.Prime] (hp2 : p ≠ 2
   set O : Subgroup C := primeComplementCore (G := C) p with hO
   set Q : Subgroup G := (P : Subgroup G) ⊓ C with hQ
   have hReq' : (R : Subgroup (RedCent p x)) = (Q.subgroupOf C).map (QuotientGroup.mk' O) := hReq
-  have hQp : IsPGroup p Q := P.isPGroup'.to_inf_left
+  have hQp : IsPGroup p Q := P.isPGroup.to_inf_left
   have hQ' : IsPGroup p (Q.subgroupOf C) := hQp.comap_subtype
   have hOc : p.Coprime (Nat.card O) := primeComplementCore_coprime p
   have hyR : y ∈ (Q.subgroupOf C).map (QuotientGroup.mk' O) := hReq' ▸ hyRK.1
@@ -161,7 +161,7 @@ theorem commutator_le_primeCore_of_facts [Fact p.Prime] {R : Sylow p (RedCent p 
     (hF : p.Coprime (Nat.card F)) (hEF : E ≤ normalizer (F : Set G)) :
     ⁅F, E⁆ ≤ GLBPrimeCore p (centralizer ({x} : Set G)) := by
   have hp : p.Prime := Fact.out
-  haveI := hfacts.red.normal
+  have := hfacts.red.normal
   set C : Subgroup G := centralizer ({x} : Set G) with hC
   set O : Subgroup C := primeComplementCore (G := C) p with hO
   set ρ := QuotientGroup.mk' O with hρ

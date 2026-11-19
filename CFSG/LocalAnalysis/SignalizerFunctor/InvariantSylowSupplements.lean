@@ -26,7 +26,7 @@ theorem sylow_supplement_lift (prime : ℕ) (prime_prime : prime.Prime)
     exact prime_prime.not_dvd_mul sylow.not_dvd_index
       (prime_prime.coprime_iff_not_dvd.mp (normal_coprime.of_dvd_right
         (supplement_index_dvd_normal_card normal supplement whole)))
-  have pgroup : IsPGroup prime embedded := sylow.isPGroup'.map supplement.subtype
+  have pgroup : IsPGroup prime embedded := sylow.isPGroup.map supplement.subtype
   exact ⟨pgroup.toSylow index_not_dvd, IsPGroup.toSylow_coe _ _⟩
 
 omit [Finite GroupType] in

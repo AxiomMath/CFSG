@@ -9,8 +9,8 @@ namespace CFSG.RankThree.PartTwo.Sec4.RonanK432
 
 theorem card_center_eq_three_of_card_27 {P : Type} [Group P] (hP : Nat.card P = 27)
     (hna : ∃ a b : P, a * b ≠ b * a) : Nat.card (Subgroup.center P) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
   obtain ⟨k, hk0, hk⟩ := IsPGroup.card_center_eq_prime_pow (p := 3) (n := 3)
     (by rw [hP]; norm_num) (by norm_num)
   have hdvd : Nat.card (Subgroup.center P) ∣ 27 := hP ▸ Subgroup.card_subgroup_dvd_card _
@@ -30,7 +30,7 @@ theorem card_center_eq_three_of_card_27 {P : Type} [Group P] (hP : Nat.card P = 
       rw [hk, hP] at h1
       rw [← Subgroup.index_eq_card]
       omega
-    haveI : IsCyclic (P ⧸ Subgroup.center P) := isCyclic_of_prime_card hq
+    have : IsCyclic (P ⧸ Subgroup.center P) := isCyclic_of_prime_card hq
     exact hab ((isMulCommutative_of_isCyclic_quotient_center_self P).is_comm.comm a b)
   · exfalso
     have htop : Subgroup.center P = ⊤ :=
@@ -41,8 +41,8 @@ theorem card_center_eq_three_of_card_27 {P : Type} [Group P] (hP : Nat.card P = 
 theorem exists_commutator_data {P : Type} [Group P] (hP : Nat.card P = 27)
     (hna : ∃ a b : P, a * b ≠ b * a) (x y : P) :
     ∃ c : P, (∀ g : P, g * c = c * g) ∧ c ^ 3 = 1 ∧ y * x = x * y * c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
   have hZ := card_center_eq_three_of_card_27 hP hna
   have hq : Nat.card (P ⧸ Subgroup.center P) = 3 ^ 2 := by
     have h1 := Subgroup.card_mul_index (Subgroup.center P)
@@ -105,7 +105,7 @@ theorem pow_three_mem_center_of_card_27 {P : Type} [Group P] (hP : Nat.card P = 
 theorem card_pow_three_eq_one_of_card_27 {P : Type} [Group P] (hP : Nat.card P = 27)
     (hna : ∃ a b : P, a * b ≠ b * a) :
     Nat.card {x : P // x ^ 3 = 1} = 9 ∨ Nat.card {x : P // x ^ 3 = 1} = 27 := by
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hP]; norm_num)
   let φ : P →* P := MonoidHom.mk' (fun x => x ^ 3) (mul_pow_three_of_card_27 hP hna)
   have hker : Nat.card φ.ker = Nat.card {x : P // x ^ 3 = 1} :=
     Nat.card_congr (Equiv.subtypeEquivRight fun x => MonoidHom.mem_ker)

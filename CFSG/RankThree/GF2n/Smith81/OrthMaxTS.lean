@@ -179,10 +179,12 @@ private noncomputable def prodPolar (Q : QuadraticForm K V) : LinearMap.BilinFor
   (polarBilin Q).compl₁₂ (LinearMap.fst K V V) (LinearMap.snd K V V) +
     ((polarBilin Q).compl₁₂ (LinearMap.fst K V V) (LinearMap.snd K V V)).flip
 
+omit [FiniteDimensional K V] in
 private theorem prodPolar_apply (p p' : V × V) :
     prodPolar Q p p' = polar Q p.1 p'.2 + polar Q p'.1 p.2 := by
   simp [prodPolar]
 
+omit [FiniteDimensional K V] in
 private theorem prodPolar_nondegenerate (hnd : ∀ v, (∀ w, polar Q v w = 0) → v = 0) :
     (prodPolar Q).Nondegenerate := by
   have hl : ∀ v, (∀ w, polar Q w v = 0) → v = 0 := fun v h =>
@@ -255,7 +257,7 @@ theorem card_le_of_sub_one_mem_span (hnd : ∀ v, (∀ w, polar Q v w = 0) → v
       rw [map_add, step w₀ hw₀'] at h2
       exact add_right_cancel h2
     · exact step a ha
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card, ← Finset.card_univ]
   refine Finset.card_le_card_of_injOn (fun t => t.1) (fun _ _ => Finset.mem_univ _) ?_
   intro t₁ ht₁ t₂ ht₂ h
@@ -317,7 +319,7 @@ theorem card_le_sq_of_fix_pair (hnd : ∀ v, (∀ w, polar Q v w = 0) → v = 0)
     have hNdim : Module.finrank K N = 2 := by
       have h := finrank_span_eq_card hli
       have hr : Set.range ![u, b] = {u, b} := by
-        ext x; simp [Fin.exists_fin_two, or_comm]
+        ext x; simp [or_comm]
       rw [hr, Fintype.card_fin] at h
       exact h
     have hle : N ≤ LinearMap.BilinForm.orthogonal (polarBilin Q) N := by
@@ -399,7 +401,7 @@ theorem card_le_sq_of_fix_pair (hnd : ∀ v, (∀ w, polar Q v w = 0) → v = 0)
     refine ⟨?_, ?_⟩
     · rw [hβ, ← hα, hoc]; abel
     · rw [hβ, hβ', ← hα', hod]; abel
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hcard : Γ.card ≤ (Finset.univ : Finset (K × K)).card := by
     refine Finset.card_le_card_of_injOn
       (fun t => (polar Q (t.2 c) d, polar Q (t.2 d) d)) (fun _ _ => Finset.mem_univ _) ?_

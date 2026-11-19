@@ -71,7 +71,7 @@ theorem isSylowOf_inf_isPCompIn49 {G : Type} [Group G] [Finite G] {z : G} {S L :
   have hSA : CFSG.ABGLocalTools.IsSylowOf 2 (S.subgroupOf (Cz z)) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
     refine ⟨le_top, ?_, ?_⟩
-    · rw [← hQ]; exact Q.isPGroup'
+    · rw [← hQ]; exact Q.isPGroup
     · rw [Subgroup.relIndex_top_right, ← hQ]; exact Q.not_dvd_index
   obtain ⟨Kc, -, hsub, -, -⟩ := hL.2
   have h1 := isSylowOf_inf_subnormal49 hSA hsub

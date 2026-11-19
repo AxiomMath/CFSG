@@ -83,13 +83,13 @@ private theorem ggPA5_baseChange_normalForm
 
 private theorem ggPA5_false_of_isComponentOf_of_solvable {G : Type} [Group G] {X L : Subgroup G}
     (hX : Group.IsSolvable ↥X) (hL : CFSG.Assembly.IsComponentOf L X) : False := by
-  haveI : Group.IsSolvable ↥X := hX
+  have : Group.IsSolvable ↥X := hX
   have hLsol : Group.IsSolvable ↥L :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hL.1)
       (Subgroup.inclusion_injective hL.1)
-  haveI : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
-  haveI := hL.2.2.2
-  haveI : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
+  have : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
+  have := hL.2.2.2
+  have : Nontrivial ↥L := (QuotientGroup.mk'_surjective (Subgroup.center ↥L)).nontrivial
   exact Group.IsPerfect.not_isSolvable ↥L hLsol
 
 theorem ggFieldOuterInvModel_adjointGroup
@@ -159,7 +159,7 @@ theorem ggFieldOuterInvModel_adjointGroup
       refine Subtype.ext ?_
       exact hinj (congrArg (fun z : ↥(adjointGroup τ (AlgebraicClosure K) ⊓
         Subgroup.centralizer {rootDiagUnit τ a}) => (z : ModGL τ (AlgebraicClosure K))) hxy)
-    haveI : Group.IsSolvable
+    have : Group.IsSolvable
         ↥(adjointGroup τ (AlgebraicClosure K) ⊓ Subgroup.centralizer {rootDiagUnit τ a}) := hsol
     have hCXsol : Group.IsSolvable ↥(Subgroup.centralizer {b}) :=
       Group.isSolvable_of_isSolvable_injective hf'inj

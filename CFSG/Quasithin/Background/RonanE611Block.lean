@@ -41,6 +41,7 @@ theorem subgroupOf_normalizer_eq {L S : Subgroup G} (hSL : S ≤ L) :
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem relIndex_normalizer_of_lin2 {L S : Subgroup G} {n : ℕ} (hlin : IsLin2Type L n)
     (hS : IsSylowTwoOf S L) :
     (L ⊓ Subgroup.normalizer (S : Set G)).relIndex L = 2 ^ n + 1 := by

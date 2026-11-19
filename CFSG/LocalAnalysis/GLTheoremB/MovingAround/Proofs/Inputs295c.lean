@@ -102,7 +102,7 @@ theorem exists_pGroup_sup_zpowers {X : Type} [Group X] [Finite X] {x : X} (hx3 :
     (hxQ : x ∉ Q) {k : ℕ} (hk : Nat.card Q = 3 ^ k) :
     Q ⊔ Subgroup.zpowers x ≤ Subgroup.centralizer ({x} : Set X) ∧
       IsPGroup 3 ↥(Q ⊔ Subgroup.zpowers x) ∧ 3 ^ (k + 1) ≤ Nat.card ↥(Q ⊔ Subgroup.zpowers x) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hxC : x ∈ Subgroup.centralizer ({x} : Set X) :=
     Subgroup.mem_centralizer_singleton_iff.2 rfl
   have hxp : IsPGroup 3 ↥(Subgroup.zpowers x) := IsPGroup.of_card (n := 1) (by
@@ -133,7 +133,7 @@ theorem false_of_outerExcl295 {X : Type} [Group X] [Finite X] {L : Subgroup X} [
     (hrk3 : CFSG.Open.pRank 3 (Subgroup.centralizer ({x} : Set X)) = 3)
     (hsolv : CFSG.HallHigman.IsPSolvable 3 ↥(Subgroup.centralizer ({x} : Set X))) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   unfold OuterExcl295 at h
   rw [fixSubgroup_conjNormal] at h
   have himg : ∀ P : Subgroup ↥L,
@@ -212,14 +212,14 @@ theorem false_of_at {X : Type} [Group X] [Finite X] {L : Subgroup X} (hLn : L.No
     (hsolv : CFSG.HallHigman.IsPSolvable 3 ↥(Subgroup.centralizer ({x} : Set X)))
     (hO : Outer295At d) (hI : Inner295At d) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hLn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hLn
   have hZ : Subgroup.center ↥L = ⊥ := Inputs295.center_eq_bot_of_cent hC
   obtain ⟨e⟩ := he
   let eQ : ↥L ≃* (↥L ⧸ Subgroup.center ↥L) :=
     QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ.symm)
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2
-  haveI hs : IsSimpleGroup ↥L := eQ.isSimpleGroup
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hq.2
+  have hs : IsSimpleGroup ↥L := eQ.isSimpleGroup
   have hnab : ∃ a b : ↥L, a * b ≠ b * a :=
     CFSG.CGT.PushingUpLit.BHS5.exists_noncomm_of_isQuasisimple hq
   have hchevL : ¬ IsChevOfChar 3 ↥L := fun ⟨d', hd', ⟨f⟩⟩ => hchev ⟨d', hd', ⟨eQ.symm.trans f⟩⟩
@@ -292,7 +292,7 @@ theorem at_of_pRank_mulAut_le {d : TauCeti.ValidLieTypeIndex}
 theorem pRank_le_two_of_noE27 {G : Type} [Group G] [Finite G]
     (h : ∀ E : Subgroup G, CFSG.Open.IsElemAbelian 3 E → Nat.card E ≠ 27) :
     CFSG.Open.pRank 3 (⊤ : Subgroup G) ≤ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.SectionRank.pRank_le (p := 3) (by norm_num) fun E _ hE => ?_
   have hEp : IsPGroup 3 E := fun g => ⟨1, Subtype.ext (by simpa using hE.2 g g.2)⟩
   obtain ⟨k, hk⟩ := hEp.exists_card_eq
@@ -368,7 +368,7 @@ theorem inner295At_D4 (hD4 : CFSG.HardMathSupport.Solomon.LocalBalance.Lemma27Ns
     (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.D 4 q).Valid) :
     Inner295At ⟨.D 4 q, hv⟩ := by
   intro K _ _ hs hnab ⟨e⟩ hK hchev _ x hx
-  haveI := hs
+  have := hs
   have hch : q.p ≠ 3 := by
     have := characteristic_ne_three e hchev
     simpa using this

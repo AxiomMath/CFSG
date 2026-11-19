@@ -38,7 +38,7 @@ theorem i264At_of_K {G : Type} [Group G] [Finite G] {p : ℕ} (h : KD264K p) : I
   have hLM : L ≤ M := le_sup_left
   have hBM : B ≤ M := le_sup_right
   have hMN : M ≤ Subgroup.normalizer (L : Set G) := sup_le Subgroup.le_normalizer hBN
-  haveI hLn : (L.subgroupOf M).Normal :=
+  have hLn : (L.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLM).2 hMN
   have hsn : IsSubnormal L M := IsSubnormal.step hLM hLn (IsSubnormal.refl M)
   have hOL : GLAPPrimeCoreOf p M ≤ L := ys03_glaPPrimeCoreOf_sup_le hp hBp hBN
@@ -117,7 +117,7 @@ theorem i264At_of_K {G : Type} [Group G] [Finite G] {p : ℕ} (h : KD264K p) : I
     eK.symm.surjective.comp (QuotientGroup.mk'_surjective _)
   have hKGroup : CFSG.Open.IsKGroup ↥(barX p M L) := hKG.of_surjective φ hφ
   have hKhat : CFSG.Open.IsCatalogGroup (↥(barX p M L) ⧸ Subgroup.center ↥(barX p M L)) := by
-    haveI : IsSimpleGroup (↥(barX p M L) ⧸ Subgroup.center ↥(barX p M L)) := hKq.2
+    have : IsSimpleGroup (↥(barX p M L) ⧸ Subgroup.center ↥(barX p M L)) := hKq.2
     let ψ : ↥L →* ↥(barX p M L) ⧸ Subgroup.center ↥(barX p M L) :=
       (QuotientGroup.mk' (Subgroup.center ↥(barX p M L))).comp φ
     have hψ : Function.Surjective ψ :=

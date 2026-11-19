@@ -22,6 +22,7 @@ private def w16g_pos {X : Subgroup (MulAut W)} (u₁ u₂ c d : s13IsoComps X) :
     Fin 4 → s13IsoComps X :=
   ![u₁, u₂, c, d]
 
+omit [Finite W] in
 private theorem w16g_supp_zpow_coord_iff {X : Subgroup (MulAut W)}
     {lam : s13IsoComps X → Additive ↥X →+ ZMod 3} (hl : IsCoord X 3 lam)
     (z : ↥X) (U : s13IsoComps X) :
@@ -29,7 +30,7 @@ private theorem w16g_supp_zpow_coord_iff {X : Subgroup (MulAut W)}
       lam U (Additive.ofMul z) ≠ 0 := by
   have h1 : (U : Subgroup W) ∈ s13Supp X (Subgroup.zpowers (z : MulAut W)) ↔
       commSub (U : Subgroup W) (Subgroup.zpowers (z : MulAut W)) ≠ ⊥ := by
-    simp only [s13Supp, Set.mem_setOf_eq, U.2, true_and]
+    simp only [s13Supp, Set.mem_ofPred_eq, U.2, true_and]
   rw [h1]
   exact (coord_ne_zero_iff hl z U).symm
 

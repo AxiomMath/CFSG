@@ -108,9 +108,9 @@ theorem tab6_base_ncard (hP : Nat.card ↥P1408 = 177408000) :
     exact (invClasses_classSpec hP).2.1.class_ncard
   have hset : tab6Base pA pZ (pA * pZ) = {c | IsConj (pA * pZ) c} \ {pA * pZ} := by
     ext c
-    simp only [tab6Base, Set.mem_setOf_eq, Set.mem_diff, Set.mem_singleton_iff]
+    simp only [tab6Base, Set.mem_ofPred_eq, Set.mem_sdiff, Set.mem_singleton_iff]
   have hmem : pA * pZ ∈ {c : ↥P1408 | IsConj (pA * pZ) c} := IsConj.refl _
-  rw [hset, Set.ncard_diff_singleton_of_mem hmem, hcl]
+  rw [hset, Set.ncard_sdiff_singleton_of_mem hmem, hcl]
 
 private theorem tab6_ord : orderOf pA = 2 ∧ orderOf pZ = 2 ∧ orderOf pB = 2 ∧ orderOf pZ₁ = 2 := by
   obtain ⟨hA, hZ, hB, hZ₁, -⟩ := twoHSBasic_spec

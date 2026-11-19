@@ -16,7 +16,7 @@ theorem fS_26 : fS sE 26 = zE := by
   have e : dg 26 0 = 2 ∧ dg 26 1 = 2 ∧ dg 26 2 = 2 ∧ dg 26 3 = 0 := by decide
   rw [fS, e.1, e.2.1, e.2.2.1, e.2.2.2, sE4, pow_zero, mul_one, pow_two, pow_two, pow_two]
 
-theorem trgE_0 : trgE 0 = rAE := if_pos rfl
+theorem trgE_0 : trgE 0 = rAE := ite_eq_left rfl
 
 theorem trgE_1 : trgE 1 = rBE := by simp [trgE]
 

@@ -133,7 +133,7 @@ theorem map_member (hl : HeLat J) {α : MulAut J} (hα : hl.S.map α.toMonoidHom
 
 omit [Finite J] in
 theorem map_of_below (hl : HeLat J) {α : MulAut J} (hα : hl.S.map α.toMonoidHom = hl.S)
-    {a b c a' b' c' : ℕ} (ha : a < 11) (hb' : b' < 11) (hc' : c' < 11) (ha' : a' < 11)
+    {a b c a' b' c' : ℕ} (ha : a < 11) (hb' : b' < 11) (hc' : c' < 11) (_ha' : a' < 11)
     (hab : hl.Y a ≤ hl.Y b) (hac : hl.Y a ≤ hl.Y c)
     (hbα : (hl.Y b).map α.toMonoidHom = hl.Y b') (hcα : (hl.Y c).map α.toMonoidHom = hl.Y c')
     (htab : ∀ j < 11, heIdx j = heIdx a → b' ∈ heIncl[j]! → c' ∈ heIncl[j]! → j = a') :

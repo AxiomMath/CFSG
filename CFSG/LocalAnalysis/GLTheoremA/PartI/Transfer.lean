@@ -19,7 +19,7 @@ theorem exists_mem_ker_mul_commute {p : ℕ} (hp : p.Prime) (π : A →* Q)
     (hN : ¬ p ∣ Nat.card π.ker) {y : A} (hy : IsPGroup p (Subgroup.zpowers y)) {k : A}
     (hk : π k * π y = π y * π k) : ∃ n ∈ π.ker, k * n * y = y * (k * n) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcomm : ∀ g ∈ Subgroup.zpowers y, π k * π g = π g * π k := by
     intro g hg
     obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.1 hg
@@ -31,7 +31,7 @@ theorem exists_mem_ker_mul_commute {p : ℕ} (hp : p.Prime) (π : A →* Q)
     have h1 : π g * π k * (π g)⁻¹ = π k := by
       rw [← hcomm g hg, mul_inv_cancel_right]
     rw [map_mul, map_mul, map_mul, map_mul, map_inv, map_inv, ho, mul_one, h1, inv_mul_cancel]
-  letI act : MulAction (Subgroup.zpowers y) π.ker :=
+  let act : MulAction (Subgroup.zpowers y) π.ker :=
     { smul := fun g o => ⟨k⁻¹ * ((g : A) * (k * (o : A)) * (g : A)⁻¹), hmem g g.2 o o.2⟩
       one_smul := fun o => Subtype.ext (show k⁻¹ * (((1 : Subgroup.zpowers y) : A) * (k * (o : A)) *
           ((1 : Subgroup.zpowers y) : A)⁻¹) = (o : A) by simp)
@@ -117,11 +117,13 @@ theorem glaPComponent_subgroupOf (hp : p.Prime) {H X K : Subgroup G} (hXH : X �
     exact (Subgroup.comap_map_eq_self_of_injective H.subtype_injective K₀).symm
   rwa [← hK₀eq]
 
+omit [Finite G] in
 theorem nonempty_pQuot_equiv_subgroupOf (p : ℕ) {H K : Subgroup G} (hKH : K ≤ H) :
     Nonempty (PQuot p (K.subgroupOf H) ≃* PQuot p K) :=
   ⟨QuotientGroup.congr _ _ (Subgroup.subgroupOfEquivOfLe hKH)
     (glaPPrimeCore_map_iso p (Subgroup.subgroupOfEquivOfLe hKH))⟩
 
+omit [Finite G] in
 theorem map_subtype_glaPPrimeCoreOf_subgroupOf (p : ℕ) {H K : Subgroup G} (hKH : K ≤ H) :
     (GLAPPrimeCoreOf p (K.subgroupOf H)).map H.subtype = GLAPPrimeCoreOf p K := by
   have h := glaPPrimeCore_map_iso p (Subgroup.subgroupOfEquivOfLe hKH)
@@ -129,6 +131,7 @@ theorem map_subtype_glaPPrimeCoreOf_subgroupOf (p : ℕ) {H K : Subgroup G} (hKH
   rw [Subgroup.map_map, ← h, Subgroup.map_map]
   rfl
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_pow_eq_one {y : G} (h : y ^ p = 1) :
     IsPGroup p (Subgroup.zpowers y) := by
   intro g
@@ -145,6 +148,7 @@ theorem isPGroup_zpowers_mk {H : Subgroup G} {y : G} (hyH : y ∈ H)
   refine IsPGroup.of_card_dvd_pow (n := n) ?_
   rwa [Nat.card_zpowers, Subgroup.orderOf_mk, ← Nat.card_zpowers]
 
+omit [Finite G] in
 theorem subgroupOf_inf_centralizer {H K : Subgroup G} {y : G} (hyH : y ∈ H) :
     (K ⊓ Subgroup.centralizer ({y} : Set G)).subgroupOf H =
       K.subgroupOf H ⊓ Subgroup.centralizer ({(⟨y, hyH⟩ : ↥H)} : Set ↥H) := by
@@ -169,9 +173,9 @@ theorem exists_pQuot_transfer (hp : p.Prime) {K : Subgroup G} {y : G}
   set K₀ : Subgroup ↥H := K.subgroupOf H
   have hHK : H ≤ Subgroup.normalizer (K : Set G) :=
     sup_le Subgroup.le_normalizer (Subgroup.zpowers_le.2 hyK)
-  haveI hK₀n : K₀.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHK
+  have hK₀n : K₀.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).2 hHK
   set N₀ : Subgroup ↥H := GLAPPrimeCoreOf p K₀
-  haveI hN₀n : N₀.Normal := by
+  have hN₀n : N₀.Normal := by
     have h := normalizer_le_normalizer_glaPPrimeCoreOf p K₀
     rw [Subgroup.normalizer_eq_top_iff.2 hK₀n, top_le_iff] at h
     exact Subgroup.normalizer_eq_top_iff.1 h

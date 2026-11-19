@@ -62,7 +62,7 @@ theorem range_pow_eq_one {G' : Type*} [Group G'] {q : ℕ} {x y : G'} (hxy : x *
 theorem not_isCyclic_range {G' : Type*} [Group G'] {q : ℕ} (hq : q.Prime) {x y : G'}
     (hxy : x * y = y * x) (hxq : x ^ q = 1) (hyq : y ^ q = 1)
     (hind : ∀ i j : ℕ, x ^ i * y ^ j = 1 → q ∣ i ∧ q ∣ j) : ¬ IsCyclic ↥(pairHom hxy).range := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   intro hcyc
   have hinj := pairHom_injective hxy hq.pos hxq hyq hind
   have hx1 : x ≠ 1 := fun h => by
@@ -88,7 +88,7 @@ theorem two_le_pRank_of_lift {G G' : Type*} [Group G] [Finite G] [Group G'] {q :
     (hxy : x * y = y * x) (hind : ∀ i j : ℕ, x ^ i * y ^ j = 1 → q ∣ i ∧ q ∣ j) :
     2 ≤ CFSG.Open.pRank q 𝒢 := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   by_contra hlt
   have hr : CFSG.Open.pRank q 𝒢 ≤ 1 := by omega
   set E : Subgroup G' := (pairHom hxy).range with hE
@@ -115,7 +115,7 @@ theorem two_le_pRank_of_lift {G G' : Type*} [Group G] [Finite G] [Group G'] {q :
     rw [← Sylow.coe_mapSurjective hgNsurj S₁]
     exact hS₂
   set S : Subgroup G := (S₁ : Subgroup ↥N).map N.subtype with hS
-  have hSp : IsPGroup q S := S₁.isPGroup'.map N.subtype
+  have hSp : IsPGroup q S := S₁.isPGroup.map N.subtype
   have hSle : S ≤ 𝒢 := (Subgroup.map_subtype_le _).trans inf_le_left
   have hr' : CFSG.pRank q ↥𝒢 ≤ 1 := by
     rw [CFSG.SectionRank.pRank_coe_eq_openPRank]

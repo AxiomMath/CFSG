@@ -71,7 +71,7 @@ theorem eq_top_of_E {N : Subgroup SL3} [N.Normal] (h01 : ∀ c, st3 0 1 c ∈ N)
     rwa [st3_comm (by decide) (by decide) (by decide), mul_one] at this
   refine eq_top_of_st3 fun a b hab c => ?_
   fin_cases a <;> fin_cases b
-  all_goals first | exact absurd rfl hab | skip
+  all_goals try exact absurd rfl hab
   · exact h01 c
   · exact h02 c
   · exact h10 c

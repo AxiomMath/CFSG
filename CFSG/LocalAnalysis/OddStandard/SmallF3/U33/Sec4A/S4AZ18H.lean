@@ -13,17 +13,17 @@ namespace CFSG.OddStandard.SmallF3.HarrisU33.S4A
 theorem z18_exp4_aut {Y : Type} [Group Y] [Finite Y] (hcomm : ∀ a b : Y, a * b = b * a)
     (hY2 : ∀ y : Y, y * y = 1) (hcard : Nat.card Y = 16) (σ : MulAut Y)
     (hσ : ∃ k : ℕ, σ ^ (2 ^ k) = 1) : σ ^ 4 = 1 := by
-  letI : CommGroup Y := { ‹Group Y› with mul_comm := hcomm }
+  let : CommGroup Y := { ‹Group Y› with mul_comm := hcomm }
   obtain ⟨k, hk⟩ := hσ
   let V := Additive Y
   have h2 : ∀ x : V, (2 : ℕ) • x = 0 := fun x => by
     apply Additive.toMul.injective
     rw [two_nsmul, toMul_add, toMul_zero]
     exact hY2 _
-  letI : Module (ZMod 2) V := AddCommGroup.zmodModule (n := 2) h2
+  let : Module (ZMod 2) V := AddCommGroup.zmodModule (n := 2) h2
   have hVcard : Nat.card V = 16 := by
     rw [Nat.card_congr Additive.toMul, hcard]
-  haveI : Nontrivial V :=
+  have : Nontrivial V :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hVcard]; norm_num)
   let f : Module.End (ZMod 2) V :=
     AddMonoidHom.toZModLinearMap 2 (MulEquiv.toAdditive σ).toAddMonoidHom
@@ -41,8 +41,8 @@ theorem z18_exp4_aut {Y : Type} [Group Y] [Finite Y] (hcomm : ∀ a b : Y, a * b
     have h := hpow (2 ^ k) x.toMul
     rw [hk] at h
     simpa using h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP (Module.End (ZMod 2) V) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP (Module.End (ZMod 2) V) 2 :=
     CharP.of_ringHom_of_ne_zero (algebraMap (ZMod 2) (Module.End (ZMod 2) V)) 2 (by norm_num)
   let N : Module.End (ZMod 2) V := f - 1
   have hNnil : IsNilpotent N := by

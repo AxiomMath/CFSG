@@ -74,7 +74,7 @@ theorem genSpec_of (h : checkGen W P = true) : GenSpec W P := by
   · rw [← lenK_eq]
     exact Nat.eq_of_beq_eq_true h25
   · have := CFSG.KS.Raw.Orb.allN_iff.1 h27 i hi
-    simp only [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true] at this
+    simp only [CFSG.KS.Raw.Orb.strictB_eq, Bool.and_eq_true] at this
     rw [← nthK_eq, ← nthW_eq, ← nthK_eq]
     exact ⟨Nat.blt_eq.mp this.1, Nat.eq_of_beq_eq_true this.2⟩
 
@@ -162,13 +162,13 @@ theorem tprepBase (hW : TOOK W P Q)
   rw [CFSG.KS.Raw.Orb.nIf_eq, CFSG.KS.Raw.Orb.nIf_eq]
   rcases b with _ | _ | _ | b
   · simpa using tprepZ hW
-  · simp only [if_neg (show ¬ (Nat.beq 1 0 = true) by decide), Nat.beq_refl, if_true,
-      if_neg (show (1 : Nat) ≠ 0 by decide)]
+  · simp only [ite_eq_right (show ¬ (Nat.beq 1 0 = true) by decide), Nat.beq_refl, ite_true,
+      ite_eq_right (show (1 : Nat) ≠ 0 by decide)]
     rw [G.zp]
     exact prep_wd (tprepF hW) (tprepFI hW) G.lzp
-  · simp only [if_neg (show ¬ (Nat.beq 2 0 = true) by decide),
-      if_neg (show ¬ (Nat.beq 2 1 = true) by decide), if_neg (show (2 : Nat) ≠ 0 by decide),
-      if_neg (show (2 : Nat) ≠ 1 by decide)]
+  · simp only [ite_eq_right (show ¬ (Nat.beq 2 0 = true) by decide),
+      ite_eq_right (show ¬ (Nat.beq 2 1 = true) by decide), ite_eq_right (show (2 : Nat) ≠ 0 by decide),
+      ite_eq_right (show (2 : Nat) ≠ 1 by decide)]
     rw [G.l1, ← e1_inv_eq hW]
     exact prep_pmul (prep_pmul (prep_wd (tprepD hW) (tprepDI hW) G.le1) (tprepZ hW))
       (prep_wd (tprepD hW) (tprepDI hW) G.le1i)
@@ -188,7 +188,7 @@ theorem lamK_eq (hW : TOOK W P Q)
   by_cases h0 : i = 0
   · subst h0
     simp
-  · rw [if_neg (by rw [Nat.beq_eq]; exact h0), if_neg h0, nthK_eq, nthW_eq,
+  · rw [ite_eq_right (by rw [Nat.beq_eq]; exact h0), ite_eq_right h0, nthK_eq, nthW_eq,
       show Nat.sub i 1 = i - 1 from rfl]
     have hl := lw_letters hW (i := i - 1) (by omega)
     have hb := (G.labels (i - 1) (by omega)).1
@@ -280,7 +280,7 @@ theorem labD_spec (hW : TOOK W P Q)
       rw [← hD0]; exact (baseD W _ 0).2⟩
     exact this.symm
   · unfold lamG labD
-    rw [if_neg (by omega), hDz]
+    rw [ite_eq_right (by omega), hDz]
     exact hgc
 
 end Gen
@@ -409,7 +409,7 @@ theorem tabSpec_of (h : checkTab W P = true) : TabSpec W P := by
       (CFSG.KS.Raw.Orb.allN_iff.1 (CFSG.KS.Raw.Orb.allN_iff.1 h6 p hp) q hq)⟩
   have := CFSG.KS.Raw.Orb.allN_iff.1 (CFSG.KS.Raw.Orb.allN_iff.1 h3 i hi) j hj
   intro e
-  rw [CFSG.KS.Raw.Orb.bIf_eq, if_pos (by rw [Nat.beq_eq]; exact e)] at this
+  rw [CFSG.KS.Raw.Orb.bIf_eq, ite_eq_left (by rw [Nat.beq_eq]; exact e)] at this
   exact Bool.noConfusion this
 
 theorem lamK_lt (hW : TOOK W P Q)
@@ -429,7 +429,7 @@ theorem tg_keysK (hW : TOOK W P Q)
     rw [Nat.shiftLeft_eq]
     have : (2 : Nat) ^ 22 = 2048 * 2 ^ 11 := by norm_num
     have : (2 : Nat) ^ 11 = 2048 := by norm_num
-    nlinarith) i, if_pos hi]
+    nlinarith) i, ite_eq_left hi]
 
 theorem lamG_inj (hW : TOOK W P Q)
     {i j : Nat} (hi : i < 92) (hj : j < 92) (e : lamG W i = lamG W j) : i = j := by
@@ -472,21 +472,21 @@ theorem mE_mt (LF : LabFacts)
   rw [CFSG.KS.Raw.Orb.nIf_eq]
   by_cases h0 : i = 0
   · subst h0
-    rw [if_pos (Nat.beq_refl 0)]
+    rw [ite_eq_left (Nat.beq_refl 0)]
     refine ⟨hm, ?_⟩
     rw [mE_zero, htc, mul_assoc, htt, mul_one]
-  rw [if_neg (by rw [Nat.beq_eq]; exact h0), CFSG.KS.Raw.Orb.nIf_eq]
+  rw [ite_eq_right (by rw [Nat.beq_eq]; exact h0), CFSG.KS.Raw.Orb.nIf_eq]
   obtain ⟨-, -, hii⟩ := lamG_facts LF hW hi
   by_cases hm0 : m = 0
   · subst hm0
-    rw [if_pos (Nat.beq_refl 0)]
+    rw [ite_eq_left (Nat.beq_refl 0)]
     refine ⟨by norm_num, ?_⟩
     rw [mE_zero]
     unfold mE
     refine Prod.ext ?_ ?_
     · simp [tauH, inA]
     · simp [tauH, inA, hii]
-  rw [if_neg (by rw [Nat.beq_eq]; exact hm0), nthK_eq, show Nat.sub m 1 = m - 1 from rfl]
+  rw [ite_eq_right (by rw [Nat.beq_eq]; exact hm0), nthK_eq, show Nat.sub m 1 = m - 1 from rfl]
   have hy := fz_getD_lt hW (k := m - 1) (by omega)
   obtain ⟨hDm, hDm0, hlm⟩ := labD_spec hW (i := m) (by omega) hm
   obtain ⟨hDi, -, hcz, -⟩ : lamG W i ∈ titsD ∧ True ∧ lamG W i * titsZ = titsZ * lamG W i ∧ True :=
@@ -541,14 +541,14 @@ theorem pt_eq (hW : TOOK W P Q)
   unfold ptOK at this
   rw [CFSG.KS.Raw.Orb.bIf_eq] at this
   by_cases hlt : ptK W p q < 92
-  · rw [if_pos (Nat.blt_eq.mpr hlt), Nat.beq_eq, hk] at this
+  · rw [ite_eq_left (Nat.blt_eq.mpr hlt), Nat.beq_eq, hk] at this
     by_contra hne
     rcases Nat.lt_or_gt_of_ne hne with h1 | h1
     · exact T.keys w hw _ h1 this.symm
     · exact T.keys _ hlt w h1 this
-  · rw [if_neg (by rw [Nat.blt_eq]; exact hlt)] at this
+  · rw [ite_eq_right (by rw [Nat.blt_eq]; exact hlt)] at this
     have := CFSG.KS.Raw.Orb.allN_iff.1 this w hw
-    rw [CFSG.KS.Raw.Orb.bIf_eq, if_pos (by rw [Nat.beq_eq]; exact hk.symm)] at this
+    rw [CFSG.KS.Raw.Orb.bIf_eq, ite_eq_left (by rw [Nat.beq_eq]; exact hk.symm)] at this
     exact absurd this Bool.false_ne_true
 
 structure StepsSpec (W : TOW) (P : MPerms) : Prop where
@@ -581,14 +581,14 @@ theorem stepsSpec_of (h : checkSteps W P = true) : StepsSpec W P := by
     exact Nat.eq_of_beq_eq_true h7
   · intro l hl l' hl' e
     have := CFSG.KS.Raw.Orb.allN_iff.1 (CFSG.KS.Raw.Orb.allN_iff.1 h10 l hl) l' hl'
-    rw [CFSG.KS.Raw.Orb.bIf_eq, if_pos (by rw [Nat.beq_eq]; exact e)] at this
+    rw [CFSG.KS.Raw.Orb.bIf_eq, ite_eq_left (by rw [Nat.beq_eq]; exact e)] at this
     exact Bool.noConfusion this
   · intro x hx l hl
     have := CFSG.KS.Raw.Orb.allN_iff.1 ((allK_iff _ _).1 h12 x hx) l hl
     exact (maskL_iff _ _).1 this
   · intro r hr
     have := (allK_iff _ _).1 h13 r hr
-    simp only [CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true] at this
+    simp only [Bool.and_eq_true] at this
     obtain ⟨a1, a2, a3, a4⟩ := this
     exact ⟨Nat.blt_eq.mp a1, (maskL_iff _ _).1 a2, (maskL_iff _ _).1 a3,
       fun x hx => Nat.eq_of_beq_eq_true (CFSG.KS.Raw.Orb.allN_iff.1 a4 x hx)⟩
@@ -597,7 +597,7 @@ theorem stepsSpec_of (h : checkSteps W P = true) : StepsSpec W P := by
     rw [CFSG.KS.Raw.Orb.bIf_eq] at this
     by_cases hb : bitK (maskL (covK W)) y = true
     · exact Or.inl ((maskL_iff _ _).1 hb)
-    · rw [if_neg hb, memK_iff, mapFy_eq] at this
+    · rw [ite_eq_right hb, memK_iff, mapFy_eq] at this
       exact Or.inr this
 
 end M
@@ -611,15 +611,15 @@ variable {W : TOW} {P : MPerms} {Q : KPerms}
     else if j = 2 then inA (lamG W W.a * lamG W W.b) else tauH
 
 noncomputable def kap (W : TOW) (c : Nat) : Cm :=
-  if h : parK W c < c then kap W (parK W c) * RgK W (genK W c) else 1
+  if _h : parK W c < c then kap W (parK W c) * RgK W (genK W c) else 1
 termination_by c
-decreasing_by exact h
+decreasing_by exact _h
 
 theorem kap_of_lt {c : Nat} (h : parK W c < c) : kap W c = kap W (parK W c) * RgK W (genK W c) := by
-  rw [kap, dif_pos h]
+  rw [kap, dite_eq_left h]
 
 theorem kap_zero : kap W 0 = 1 := by
-  rw [kap, dif_neg (Nat.not_lt_zero _)]
+  rw [kap, dite_eq_right (Nat.not_lt_zero _)]
 
 @[expose] noncomputable def bitOf (x : Cm) : Nat := if x.1 = 1 then 0 else 1
 
@@ -680,9 +680,9 @@ theorem anyCl_iff (W : TOW) (d t : Nat) : ∀ l : List Nat,
       true ↔ _
     rw [CFSG.KS.Raw.Orb.bIf_eq]
     by_cases h : mulF W 16 c d = mulF W 16 d t
-    · rw [if_pos (by rw [Nat.beq_eq]; exact h)]
+    · rw [ite_eq_left (by rw [Nat.beq_eq]; exact h)]
       exact ⟨fun _ => ⟨c, List.mem_cons_self, h⟩, fun _ => rfl⟩
-    · rw [if_neg (by rw [Nat.beq_eq]; exact h), ih]
+    · rw [ite_eq_right (by rw [Nat.beq_eq]; exact h), ih]
       constructor
       · rintro ⟨c', hc', e⟩
         exact ⟨c', List.mem_cons_of_mem _ hc', e⟩
@@ -717,7 +717,7 @@ theorem kSpec_of (h : checkK W P Q = true) : KSpec W P Q := by
     fun d hd => (anyCl_iff W d W.t0 W.cl0).1 (CFSG.KS.Raw.Orb.allN_iff.1 h27 d hd),
     fun d hd => (anyCl_iff W d W.t1 W.cl1).1 (CFSG.KS.Raw.Orb.allN_iff.1 h28 d hd)⟩
   have := CFSG.KS.Raw.Orb.allN_iff.1 h20 c hc
-  simp only [CFSG.KS.Raw.Orb.bIf_eq, CFSG.KS.Raw.Orb.bAnd_eq, Nat.beq_eq, hc0, if_false,
+  simp only [CFSG.KS.Raw.Orb.bIf_eq, Nat.beq_eq, hc0, ite_false,
     Bool.and_eq_true, Nat.blt_eq] at this
   exact ⟨this.1, this.2.1, this.2.2⟩
 
@@ -736,17 +736,17 @@ theorem rgK_spec (hW : TOOK W P Q)
     rw [K.h2]; exact prep_wd (tprepF hW) (tprepFI hW) K.lh2
   rcases j with _ | _ | _ | _ | j
   · refine ⟨by simp [RgK, bitOf, bitR, inA]; rfl, fun x => ?_⟩
-    simp only [KPerms.R, pick4, RgK, inA, if_true]
+    simp only [KPerms.R, pick4, RgK, inA, ite_true]
     exact ap_eq hh1 x
   · refine ⟨by simp [RgK, bitOf, bitR, inA]; rfl, fun x => ?_⟩
     simp only [KPerms.R, pick4, RgK, inA]
     simp only [CFSG.KS.Raw.Orb.nIf_eq, Nat.beq_eq]
-    simp only [show (1 : Nat) ≠ 0 by decide, if_false, if_true]
+    simp only [show (1 : Nat) ≠ 0 by decide, ite_false, ite_true]
     exact ap_eq hh2 x
   · refine ⟨by simp [RgK, bitOf, bitR, inA]; rfl, fun x => ?_⟩
     simp only [KPerms.R, pick4, RgK, inA]
     simp only [CFSG.KS.Raw.Orb.nIf_eq, Nat.beq_eq]
-    simp only [show (2 : Nat) ≠ 0 by decide, show (2 : Nat) ≠ 1 by decide, if_false, if_true]
+    simp only [show (2 : Nat) ≠ 0 by decide, show (2 : Nat) ≠ 1 by decide, ite_false, ite_true]
     rw [K.lbb x x.2, lamK_eq hW K.b x, K.la _ (lamG W W.b x).2,
       lamK_eq hW K.a ⟨_, (lamG W W.b x).2⟩, Equiv.Perm.mul_apply]
   · refine ⟨by simp [RgK, bitOf, bitR, tauH], fun x => ?_⟩
@@ -783,17 +783,17 @@ theorem fuel_spec (hW : TOOK W P Q) :
       have hr' : reachF W k (parK W c) = true := by
         change Bool.rec (motive := fun _ => Bool) (reachF W k (parK W c)) true (Nat.beq c 0) = true
           at hr
-        rwa [CFSG.KS.Raw.Orb.bIf_eq, if_neg (by rw [Nat.beq_eq]; exact h0)] at hr
+        rwa [CFSG.KS.Raw.Orb.bIf_eq, ite_eq_right (by rw [Nat.beq_eq]; exact h0)] at hr
       obtain ⟨ih1, ih2⟩ := ih (parK W c) (lt_trans hp hc) hr'
       obtain ⟨hb, hR⟩ := rgK_spec hW hg
       rw [kap_of_lt hp]
       refine ⟨?_, fun x => ?_⟩
       · change Bool.rec (motive := fun _ => Nat) (Nat.xor (bitF W k (parK W c)) (bitR (genK W c)))
           0 (Nat.beq c 0) = _
-        rw [CFSG.KS.Raw.Orb.nIf_eq, if_neg (by rw [Nat.beq_eq]; exact h0), ih1, ← hb, bitOf_mul]
+        rw [CFSG.KS.Raw.Orb.nIf_eq, ite_eq_right (by rw [Nat.beq_eq]; exact h0), ih1, ← hb, bitOf_mul]
       · change Bool.rec (motive := fun _ => Nat) (kptF W Q.R k (parK W c) (Q.R (genK W c) x))
           x (Nat.beq c 0) = _
-        rw [CFSG.KS.Raw.Orb.nIf_eq, if_neg (by rw [Nat.beq_eq]; exact h0), hR x,
+        rw [CFSG.KS.Raw.Orb.nIf_eq, ite_eq_right (by rw [Nat.beq_eq]; exact h0), hR x,
           show (((RgK W (genK W c)).2 x : Fin 1755) : Nat) = ((⟨_, ((RgK W (genK W c)).2 x).2⟩ :
             Fin 1755) : Nat) from rfl, ih2]
         rfl
@@ -835,7 +835,7 @@ theorem inA_mem_KH {q : Equiv.Perm (Fin 1755)} (hq : q ∈ titsA)
 theorem tauH_mem_KH : tauH ∈ KH zpHat := by
   simp only [KH, GammaH, Am, Subgroup.mem_inf, Subgroup.mem_prod, Subgroup.mem_centralizer_iff,
     Set.mem_singleton_iff, forall_eq]
-  refine ⟨⟨⟨Subgroup.mem_top _, by simpa [tauH] using one_mem titsA⟩, ?_⟩, ?_⟩
+  refine ⟨⟨⟨Subgroup.mem_top _, by simp [tauH]⟩, ?_⟩, ?_⟩
   · refine Prod.ext ?_ ?_ <;> simp [inA, tauH, mul_comm]
   · refine Prod.ext ?_ ?_ <;> simp [inA, tauH, mul_comm]
 
@@ -850,13 +850,13 @@ theorem rgK_mem (LF : LabFacts)
   have hh2 : PR Q.h2 (wordIn 4 titsGen h2Word) := by
     rw [K.h2]; exact prep_wd (tprepF hW) (tprepFI hW) K.lh2
   rcases j with _ | _ | _ | _ | j
-  · simp only [RgK, if_true]
+  · simp only [RgK, ite_true]
     exact inA_mem_KH (wordIn_mem_titsA' _) (mul_eq_of hh1 hZ hZ hh1 K.h1Z)
       (mul_eq_of hh1 hzp hzp hh1 K.h1zp)
-  · simp only [RgK, show (1 : Nat) ≠ 0 by decide, if_false, if_true]
+  · simp only [RgK, show (1 : Nat) ≠ 0 by decide, ite_false, ite_true]
     exact inA_mem_KH (wordIn_mem_titsA' _) (mul_eq_of hh2 hZ hZ hh2 K.h2Z)
       (mul_eq_of hh2 hzp hzp hh2 K.h2zp)
-  · simp only [RgK, show (2 : Nat) ≠ 0 by decide, show (2 : Nat) ≠ 1 by decide, if_false, if_true]
+  · simp only [RgK, show (2 : Nat) ≠ 0 by decide, show (2 : Nat) ≠ 1 by decide, ite_false, ite_true]
     have hla : PR Q.la (lamG W W.a) := fun x => by
       change ap Q.la x = _
       rw [K.la x x.2, lamK_eq hW K.a x]
@@ -868,7 +868,7 @@ theorem rgK_mem (LF : LabFacts)
       mul_mem (titsD_le_titsA (lamG_facts LF hW K.a).1) (titsD_le_titsA (lamG_facts LF hW K.b).1)
     exact inA_mem_KH hA (mul_eq_of hab hZ hZ hab K.abZ) (mul_eq_of hab hzp hzp hab K.abzp)
   · simp only [RgK, show (3 : Nat) ≠ 0 by decide, show (3 : Nat) ≠ 1 by decide,
-      show (3 : Nat) ≠ 2 by decide, if_false]
+      show (3 : Nat) ≠ 2 by decide, ite_false]
     exact tauH_mem_KH
   · omega
 
@@ -898,7 +898,7 @@ theorem card_KH_le' (hcard : Nat.card ↥(titsA ⊓ centralizer ({titsZ} : Set (
     obtain ⟨⟨⟨-, h1⟩, h2⟩, h3⟩ := hx
     have e2 := congrArg Prod.snd h2
     have e3 := congrArg Prod.snd h3
-    simp only [inA, tauH, Prod.snd_mul, one_mul, mul_one] at e2 e3
+    simp only [inA, tauH, Prod.snd_mul, one_mul] at e2 e3
     simp only [Subgroup.mem_inf, Subgroup.mem_centralizer_iff, Set.mem_singleton_iff, forall_eq]
     exact ⟨⟨h1, e2⟩, e3⟩
   have hinj : Function.Injective (fun x : ↥(KH zpHat) =>
@@ -985,7 +985,7 @@ theorem conj_y0_mem_KH (hF6 : F6Facts zpHat y0Hat) {x : Cm} (hx : x ∈ KH zpHat
   obtain ⟨⟨⟨h0, h1⟩, h2⟩, h3⟩ := hx
   have e2 := congrArg Prod.snd h2
   have e3 := congrArg Prod.snd h3
-  simp only [inA, tauH, Prod.snd_mul, one_mul, mul_one] at e2 e3
+  simp only [inA, tauH, Prod.snd_mul, one_mul] at e2 e3
   have hy0z : titsZ = y0Hat * zpHat * y0Hat⁻¹ := hF6.y0_zp.symm
   have hy0zp : zpHat = y0Hat * titsZ * y0Hat⁻¹ := hF6.y0_z.symm
   refine ⟨⟨⟨Subgroup.mem_top _, ?_⟩, ?_⟩, ?_⟩
@@ -993,14 +993,14 @@ theorem conj_y0_mem_KH (hF6 : F6Facts zpHat y0Hat) {x : Cm} (hx : x ∈ KH zpHat
     exact mul_mem (mul_mem hF6.y0_mem h1) (inv_mem hF6.y0_mem)
   · refine Prod.ext ?_ ?_
     · simp [inA, mul_comm]
-    · simp only [inA, Prod.snd_mul, Prod.snd_inv, one_mul, mul_one]
+    · simp only [inA, Prod.snd_mul, Prod.snd_inv]
       calc titsZ * (y0Hat * x.2 * y0Hat⁻¹) = y0Hat * (zpHat * x.2) * y0Hat⁻¹ := by
             rw [hy0z]; group
         _ = y0Hat * (x.2 * zpHat) * y0Hat⁻¹ := by rw [e3]
         _ = y0Hat * x.2 * y0Hat⁻¹ * titsZ := by rw [hy0z]; group
   · refine Prod.ext ?_ ?_
     · simp [inA, tauH, mul_comm]
-    · simp only [inA, tauH, Prod.snd_mul, Prod.snd_inv, one_mul, mul_one]
+    · simp only [inA, tauH, Prod.snd_mul, Prod.snd_inv, one_mul]
       calc zpHat * (y0Hat * x.2 * y0Hat⁻¹) = y0Hat * (titsZ * x.2) * y0Hat⁻¹ := by
             rw [hy0zp]; group
         _ = y0Hat * (x.2 * titsZ) * y0Hat⁻¹ := by rw [e2]
@@ -1069,12 +1069,12 @@ theorem kap_mulF (LF : LabFacts)
       have hr' : reachF W k (parK W b) = true := by
         change Bool.rec (motive := fun _ => Bool) (reachF W k (parK W b)) true (Nat.beq b 0) = true
           at hr
-        rwa [CFSG.KS.Raw.Orb.bIf_eq, if_neg (by rw [Nat.beq_eq]; exact h0)] at hr
+        rwa [CFSG.KS.Raw.Orb.bIf_eq, ite_eq_right (by rw [Nat.beq_eq]; exact h0)] at hr
       obtain ⟨ih1, ih2⟩ := ih a (parK W b) ha (lt_trans hp hb) hr'
       have e : mulF W (k + 1) a b = tg 9 W.T (4 * mulF W k a (parK W b) + genK W b) := by
         change Bool.rec (motive := fun _ => Nat) (tg 9 W.T (Nat.add (Nat.mul 4
           (mulF W k a (parK W b))) (genK W b))) a (Nat.beq b 0) = _
-        rw [CFSG.KS.Raw.Orb.nIf_eq, if_neg (by rw [Nat.beq_eq]; exact h0)]
+        rw [CFSG.KS.Raw.Orb.nIf_eq, ite_eq_right (by rw [Nat.beq_eq]; exact h0)]
         rfl
       obtain ⟨t1, t2⟩ := kap_T LF hW hcard ih1 hg
       rw [e]
@@ -1109,13 +1109,13 @@ theorem kap_homF (LF : LabFacts)
       have hr' : reachF W k (parK W c) = true := by
         change Bool.rec (motive := fun _ => Bool) (reachF W k (parK W c)) true (Nat.beq c 0) = true
           at hr
-        rwa [CFSG.KS.Raw.Orb.bIf_eq, if_neg (by rw [Nat.beq_eq]; exact h0)] at hr
+        rwa [CFSG.KS.Raw.Orb.bIf_eq, ite_eq_right (by rw [Nat.beq_eq]; exact h0)] at hr
       obtain ⟨ih1, ih2⟩ := ih (parK W c) (lt_trans hp hc) hr'
       obtain ⟨t1, t2⟩ := hthr (genK W c) hg
       have e : homF W thr (k + 1) c = mulF W 16 (homF W thr k (parK W c)) (thr (genK W c)) := by
         change Bool.rec (motive := fun _ => Nat) (mulF W 16 (homF W thr k (parK W c))
           (thr (genK W c))) 0 (Nat.beq c 0) = _
-        rw [CFSG.KS.Raw.Orb.nIf_eq, if_neg (by rw [Nat.beq_eq]; exact h0)]
+        rw [CFSG.KS.Raw.Orb.nIf_eq, ite_eq_right (by rw [Nat.beq_eq]; exact h0)]
       obtain ⟨m1, m2⟩ := kap_mulF LF hW hcard 16 _ _ ih1 t1 (reach_all K t1)
       rw [e]
       refine ⟨m1, ?_⟩
@@ -1150,9 +1150,9 @@ theorem kaOK_spec {FZ : Nat} : ∀ (l : List Nat) (c0 : Nat), kaOK W FZ Q l c0 =
     rcases i with _ | i
     · simp only [Nat.add_zero, List.getD_cons_zero]
       refine ⟨fun h0 => ?_, fun h0 => ?_⟩
-      · rw [if_pos (by rw [Nat.beq_eq]; exact h0)] at h1
+      · rw [ite_eq_left (by rw [Nat.beq_eq]; exact h0)] at h1
         exact Nat.eq_of_beq_eq_true h1
-      · rw [if_neg (by rw [Nat.beq_eq]; exact h0)] at h1
+      · rw [ite_eq_right (by rw [Nat.beq_eq]; exact h0)] at h1
         exact Nat.eq_of_beq_eq_true h1
     · have := kaOK_spec l (Nat.succ c0) h2 i (by simpa using hi)
       simp only [List.getD_cons_succ]
@@ -1182,10 +1182,10 @@ theorem rowR_spec (LF : LabFacts)
       · exact tg_lt 7 _ _) hm, CFSG.KS.Raw.Orb.nIf_eq]
     by_cases hm0 : m = 0
     · subst hm0
-      rw [if_pos (Nat.beq_refl 0), mE_zero]
+      rw [ite_eq_left (Nat.beq_refl 0), mE_zero]
       refine ⟨by norm_num, ?_⟩
       rw [← htc, mul_assoc, mul_inv_cancel, mul_one]
-    · rw [if_neg (by rw [Nat.beq_eq]; exact hm0), nthK_eq, show Nat.sub m 1 = m - 1 from rfl]
+    · rw [ite_eq_right (by rw [Nat.beq_eq]; exact hm0), nthK_eq, show Nat.sub m 1 = m - 1 from rfl]
       have hy := fz_getD_lt hW (k := m - 1) (by omega)
       obtain ⟨hDm, hDm0, hlm⟩ := labD_spec hW (i := m) (by omega) hm
       obtain ⟨hgD, hg0, hgc⟩ := conj_conj_titsZ hA hz h0 hDm
@@ -1245,11 +1245,11 @@ theorem rowR_spec (LF : LabFacts)
       unfold mE
       refine Prod.ext ?_ ?_
       · simp [tauH, inA]
-      · simp only [tauH, inA, Prod.snd_inv, Prod.snd_mul, inv_one, one_mul]
+      · simp only [tauH, inA, Prod.snd_inv, Prod.snd_mul, one_mul]
         exact inv_eq_of_mul_eq_one_right hii
     have hR : RgK W 2 = mE W W.a * mE W W.b := by
-      simp only [RgK, show (2 : Nat) ≠ 0 by decide, show (2 : Nat) ≠ 1 by decide, if_false,
-        if_true, mE]
+      simp only [RgK, show (2 : Nat) ≠ 0 by decide, show (2 : Nat) ≠ 1 by decide, ite_false,
+        ite_true, mE]
       refine Prod.ext ?_ ?_
       · simp [tauH, inA]
       · simp [tauH, inA]
@@ -1335,8 +1335,7 @@ theorem stage1_inv (hW : TOOK W P Q) {π : Nat → Nat}
     have hv : mtK W (iaK W i3 i4 (fl r)) (tg 7 p (fx r)) = π (fy r) := by
       rw [hia _ hl', hpx, ← hπmt _ (ig_lt hW _ hl') _ hx92, hmt']
     refine stage1_inv hW hπmt hia rs _ _ hrest (fun t ht => ?_) y ?_
-    · change t < 92 ∧ tg 7 (tsetK 7 p (fy r) (mtK W (iaK W i3 i4 (fl r)) (tg 7 p (fx r)))) t = π t
-      have hb : mtK W (iaK W i3 i4 (fl r)) (tg 7 p (fx r)) < 2 ^ 7 := tg_lt 7 _ _
+    · have hb : mtK W (iaK W i3 i4 (fl r)) (tg 7 p (fx r)) < 2 ^ 7 := tg_lt 7 _ _
       rw [tg_tsetK hb]
       rcases (bitK_setK _ _ _).1 ht with ht | rfl
       · obtain ⟨h1, h2⟩ := hS t ht
@@ -1345,7 +1344,7 @@ theorem stage1_inv (hW : TOOK W P Q) {π : Nat → Nat}
         · subst h
           exact hv
         · exact h2
-      · exact ⟨hyl', by rw [if_pos rfl, hv]⟩
+      · exact ⟨hyl', by rw [ite_eq_left rfl, hv]⟩
     · rcases hy with hy | hy
       · exact Or.inl ((bitK_setK _ _ _).2 (Or.inl hy))
       · rw [List.map_cons, List.mem_cons] at hy
@@ -1399,7 +1398,7 @@ theorem p0_spec (hW : TOOK W P Q) {i3 i4 : Nat} (hia : ∀ l < 5, iaK W i3 i4 l 
     by_cases h : l = k
     · subst h
       simp
-    · rw [if_neg (fun e => S.igd k (by omega) l (by omega) e.symm)]
+    · rw [ite_eq_right (fun e => S.igd k (by omega) l (by omega) e.symm)]
       exact p0_spec hW hia k (by omega) l (by omega)
 
 theorem rootMask_iff (W : TOW) (y : Nat) :
@@ -1433,7 +1432,7 @@ theorem scan6_spec {Q6 c5 sab : Nat} : ∀ (l : List Nat) (c0 : Nat), scan6 W Q6
     intro hr
     rcases i with _ | i
     · simp only [List.getD_cons_zero] at hr
-      rw [if_pos (by rw [Nat.beq_eq]; exact hr)] at h1
+      rw [ite_eq_left (by rw [Nat.beq_eq]; exact hr)] at h1
       simpa using h1
     · simp only [List.getD_cons_succ] at hr
       rw [show c0 + (i + 1) = Nat.succ c0 + i by omega]
@@ -1450,7 +1449,7 @@ theorem scan5_spec {Q5 Q6 sab : Nat} : ∀ (l : List Nat) (c0 : Nat), scan5 W Q5
     intro hr
     rcases i with _ | i
     · simp only [List.getD_cons_zero] at hr
-      rw [if_pos (by rw [Nat.beq_eq]; exact hr)] at h1
+      rw [ite_eq_left (by rw [Nat.beq_eq]; exact hr)] at h1
       simpa using h1
     · simp only [List.getD_cons_succ] at hr
       rw [show c0 + (i + 1) = Nat.succ c0 + i by omega]
@@ -1469,9 +1468,9 @@ theorem pairK_spec {i3 i4 : Nat} (h : pairK W i3 i4 = true)
         (tg 7 (stage2F W W.psteps (stage1F W i3 i4 W.steps (p0K W i3 i4))) W.b) - 1) W.KA 0 =
       true := by
   unfold pairK at h
-  rw [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bIf_eq, if_pos h1, CFSG.KS.Raw.Orb.strictB_eq,
-    CFSG.KS.Raw.Orb.bIf_eq, CFSG.KS.Raw.Orb.bAnd_eq, if_pos h2, CFSG.KS.Raw.Orb.strictB_eq,
-    CFSG.KS.Raw.Orb.bIf_eq, if_neg (by rw [Nat.beq_eq]; exact h3), CFSG.KS.Raw.Orb.strictB_eq,
+  rw [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bIf_eq, ite_eq_left h1, CFSG.KS.Raw.Orb.strictB_eq,
+    CFSG.KS.Raw.Orb.bIf_eq, CFSG.KS.Raw.Orb.bAnd_eq, ite_eq_left h2, CFSG.KS.Raw.Orb.strictB_eq,
+    CFSG.KS.Raw.Orb.bIf_eq, ite_eq_right (by rw [Nat.beq_eq]; exact h3), CFSG.KS.Raw.Orb.strictB_eq,
     CFSG.KS.Raw.Orb.strictB_eq] at h
   exact h
 
@@ -1630,7 +1629,7 @@ theorem toHat_of_k (LF : LabFacts)
     rw [hmE, hs.mul _ (mul_mem tau_mem_GammaH (hmG _ hx92)) _ (hmG _ hl92),
       hs.mul _ tau_mem_GammaH _ (hmG _ hx92), h0, hπs _ hx92, hπs _ hl92] at e
     have e2 := congrArg Prod.snd e
-    simp only [mE, tauH, inA, Prod.snd_mul, one_mul, mul_one] at e2
+    simp only [mE, tauH, inA, Prod.snd_mul, one_mul] at e2
     exact pt_eq hW (hπlt _ hx92) (hπlt _ hl92) (hπlt _ hy) (by rw [← e2, mul_assoc])
   have hst2 := stage2_inv hpt (fun r hr => ⟨(S.ps r hr).2.1, (S.ps r hr).2.2.1⟩) W.psteps
     (fun r hr => hr) [] _ (fun y hy => by
@@ -1661,7 +1660,7 @@ theorem toHat_of_k (LF : LabFacts)
       intro x hx
       rw [CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true, CFSG.KS.Raw.Orb.allN_iff]
       refine ⟨by rw [hpall x hx]; exact Nat.blt_eq.mpr (hπlt x hx), fun y hy => ?_⟩
-      rw [CFSG.KS.Raw.Orb.bIf_eq, if_neg]
+      rw [CFSG.KS.Raw.Orb.bIf_eq, ite_eq_right]
       rw [Nat.beq_eq, hpall x hx, hpall y (by omega)]
       intro e
       have := hπinj x hx y (by omega) e
@@ -1671,8 +1670,8 @@ theorem toHat_of_k (LF : LabFacts)
   obtain ⟨c5, hc5, hk5⟩ := kap_complete LF hW hcard (hsK _ (rgK_mem LF hW (j := 0) (by norm_num)))
   obtain ⟨c6, hc6, hk6⟩ := kap_complete LF hW hcard (hsK _ (rgK_mem LF hW (j := 1) (by norm_num)))
   have hR2 : RgK W 2 = mE W W.a * mE W W.b := by
-    simp only [RgK, show (2 : Nat) ≠ 0 by decide, show (2 : Nat) ≠ 1 by decide, if_false,
-      if_true, mE]
+    simp only [RgK, show (2 : Nat) ≠ 0 by decide, show (2 : Nat) ≠ 1 by decide, ite_false,
+      ite_true, mE]
     refine Prod.ext ?_ ?_
     · simp [tauH, inA]
     · simp [tauH, inA]

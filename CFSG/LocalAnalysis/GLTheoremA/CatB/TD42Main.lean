@@ -137,7 +137,7 @@ theorem trace_ne_of_commute_is3A
     exact hy'D
   have hzcard : Nat.card (Subgroup.zpowers y') = 7 ^ (Nat.card D).factorization 7 := by
     rw [Nat.card_zpowers, hy'7, hDcard, factorization_seven, pow_one]
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨h, hhD, hmem⟩ := CFSG.RankThree.PartTwo.KFacts.K426.exists_conj_mem_of_card hzle hzcard hyD hy7
   obtain ⟨k, hk⟩ := Subgroup.mem_zpowers_iff.1 hmem
   have hy0k : y0 ^ k = y0 ^ (k % 7).toNat := by

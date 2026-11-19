@@ -172,10 +172,12 @@ theorem le_of_normal_of_isSimple_19 {J S N : Subgroup G} (hJs : IsSimpleGroup (B
     rw [← hAJ']
     exact inf_le_left
 
+omit [Finite G] in
 theorem barImage_sup_eq_top_19 (L K : Subgroup G) :
     UC22.barImage (L ⊔ K) L ⊔ UC22.barImage (L ⊔ K) K = ⊤ := by
   rw [← s13_barImage_sup (M := L ⊔ K) le_sup_left le_sup_right, s13_barImage_self]
 
+omit [Finite G] in
 theorem isSimpleGroup_barImage_19 {M L : Subgroup G} (hL : L ∈ calC M)
     (h : IsSimpleGroup (Bar2 L)) : IsSimpleGroup ↥(UC22.barImage M L) := by
   obtain ⟨e⟩ := s13_bar_equiv hL

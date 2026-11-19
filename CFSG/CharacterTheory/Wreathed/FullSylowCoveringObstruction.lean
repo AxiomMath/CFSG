@@ -362,7 +362,7 @@ theorem covering_subgroupVAction_range [Finite G]
     have hVK := (modelV_le_sylow S e).trans hSK
     have hVN := (modelV_le_sylow S e).trans (sylow_le_involutionCentralizer n hn S e)
     have hV : IsPGroup 2 (modelV S e) :=
-      S.isPGroup'.of_injective (Subgroup.inclusion (modelV_le_sylow S e))
+      S.isPGroup.of_injective (Subgroup.inclusion (modelV_le_sylow S e))
         (Subgroup.inclusion_injective _)
     obtain ⟨b, hb, hact⟩ := covering_action_inside_overgroup
       (involutionCentralizer n S e) K (modelV S e) (centralizerOddCore n S e)
@@ -857,7 +857,7 @@ theorem nonfactorization_of_full_base_action [Finite G]
     ((q.map_isConj (original_x_isConj_x2_of_sym3 n hn S e hbase)).eq_of_left_mem_center
       hxcentral)
   have hinj := odd_quotient_injective_on_two_subgroup (CFSG.oddCore G) (S : Subgroup G)
-    (CFSG.ComponentClassification.OddCore.odd_card G) S.isPGroup'
+    (CFSG.ComponentClassification.OddCore.odd_card G) S.isPGroup
   have hxyactual : x = y := congrArg Subtype.val
     (hinj (show (q.comp (S : Subgroup G).subtype) (e.symm (Original.x (2 ^ n))) =
       (q.comp (S : Subgroup G).subtype) (e.symm (Original.x2 (2 ^ n))) from hxy))

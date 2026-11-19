@@ -43,10 +43,10 @@ theorem heisG2_sylow_data
       ((∃ α : MulAut X, α ∉ Inn X ∧ α ^ p = 1) →
         Nat.card {x : S // x ^ p = 1} ≤ p ∨
           ∀ x ∈ (S : Subgroup X), x ^ p = 1 → ∃ y ∈ (S : Subgroup X), y ^ p = x) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K 2 :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hm hK
-  haveI : Finite (adjointGroup .G2 K) := Finite.of_equiv X eK.toEquiv
+  have : Finite (adjointGroup .G2 K) := Finite.of_equiv X eK.toEquiv
   have hpK : ¬ p ∣ Nat.card K := by
     rw [hK]
     exact crossExc_not_dvd_pow_of_ne hp Nat.prime_two (by omega)
@@ -56,13 +56,13 @@ theorem heisG2_sylow_data
         (CFSG.LocalAnalysis.RankFourTheoremC.crossExc_not_dvd_card_weylGroup_G2 hp hp5) hpK R) S
   intro S
   have habS : ∀ x ∈ (S : Subgroup X), ∀ y ∈ (S : Subgroup X), x * y = y * x := fun x hx y hy => by
-    haveI := hab S
+    have := hab S
     exact congrArg Subtype.val (mul_comm' (⟨x, hx⟩ : (S : Subgroup X)) ⟨y, hy⟩)
   refine ⟨habS, fun hout => ?_⟩
   by_cases hd : p ∣ Nat.card K ^ 2 - 1
   ·
     have hshX := SylowShape.of_mulEquiv eK (sylowShape_G2 K hp hp5 hK hm hd)
-    obtain ⟨e'⟩ := hshX (S : Subgroup X) S.isPGroup' S.not_dvd_index
+    obtain ⟨e'⟩ := hshX (S : Subgroup X) S.isPGroup S.not_dvd_index
     have h2 : 2 ≤ (Nat.card K ^ 2 - 1).factorization p := by
       obtain ⟨m₀, hm₀⟩ := hfield hout
       have hm₀pos : 1 ≤ m₀ := by

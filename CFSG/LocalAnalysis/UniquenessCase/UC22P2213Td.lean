@@ -29,7 +29,7 @@ theorem uc22p2213t_two_le_pRank {X K K' L : Subgroup G} (hK : K ∈ calC X) (hK'
     (hne : K ≠ K') (hKL : K ≤ L) (hK'L : K' ≤ L) (hLX : L ≤ X) {r : ℕ} (hr : r.Prime)
     (hr2 : r ≠ 2) (hrK : r ∣ (center (Bar2 K)).index) (hrK' : r ∣ (center (Bar2 K')).index) :
     2 ≤ CFSG.Open.pRank r L := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨eA, -⟩ := uc22p22l_barImage_equiv hK
   obtain ⟨eB, -⟩ := uc22p22l_barImage_equiv hK'
   obtain ⟨SA⟩ := (inferInstance : Nonempty (Sylow r ↥(barImage X K)))
@@ -47,9 +47,9 @@ theorem uc22p2213t_exists_not_le_centralizer (D : Data G) (Ch : Choice2011 G) (h
     (hA : IsL2 A n ∨ IsU3 A n) (hB : IsL2 B n) :
     ∃ K ∈ calC D.M, ¬ K ≤ centralizer (c.V : Set G) ∧ (IsU3 (Bar2 K) n ∨ IsL2 (Bar2 K) n) := by
   obtain ⟨hpr, hp2⟩ := D.sig_prime p hp
-  haveI : Finite (A × B) := Finite.of_injective e.toEquiv.symm e.toEquiv.symm.injective
-  haveI : Finite A := Finite.prod_left B
-  haveI : Finite B := Finite.prod_right A
+  have : Finite (A × B) := Finite.of_injective e.toEquiv.symm e.toEquiv.symm.injective
+  have : Finite A := Finite.prod_left B
+  have : Finite B := Finite.prod_right A
   have hsq : p ∣ (2 ^ n) ^ 2 - 1 := by
     rw [show (2 ^ n) ^ 2 - 1 = (2 ^ n + 1) * (2 ^ n - 1) by
       rw [← Nat.sq_sub_sq, one_pow]]
@@ -69,9 +69,9 @@ theorem uc22p2213t_exists_not_le_centralizer (D : Data G) (Ch : Choice2011 G) (h
         refine (hpr.dvd_mul.1 h3).resolve_right fun h3' => hp3 ?_
         exact (Nat.prime_dvd_prime_iff_eq hpr Nat.prime_three).1
           (h3'.trans (Nat.gcd_dvd_left 3 _))
-  haveI hAs : IsSimpleGroup A := hA.elim CFSG.Blueprint.LieModel.isSimpleGroup_psl_two
+  have hAs : IsSimpleGroup A := hA.elim CFSG.Blueprint.LieModel.isSimpleGroup_psl_two
     CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_PSU3
-  haveI hBs : IsSimpleGroup B := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hB
+  have hBs : IsSimpleGroup B := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hB
   have hAab : ¬ ∀ x y : A, x * y = y * x := by
     intro h
     obtain ⟨a, b, hab⟩ := hA.elim CFSG.ComponentClassification.HarrisLit.nonabelian_of_lieModel_psl2
@@ -82,8 +82,8 @@ theorem uc22p2213t_exists_not_le_centralizer (D : Data G) (Ch : Choice2011 G) (h
     obtain ⟨a, b, hab⟩ := CFSG.ComponentClassification.HarrisLit.nonabelian_of_lieModel_psl2 hB
     exact hab (h a b)
   obtain ⟨KA, KB, hKA, hKB, ⟨eA⟩, ⟨eB⟩, hne⟩ := exists_two_calC_of_bar2_hinf_prod hAab hBab e
-  haveI : IsSimpleGroup (Bar2 KA) := eA.isSimpleGroup
-  haveI : IsSimpleGroup (Bar2 KB) := eB.isSimpleGroup
+  have : IsSimpleGroup (Bar2 KA) := eA.isSimpleGroup
+  have : IsSimpleGroup (Bar2 KB) := eB.isSimpleGroup
   have hiA : p ∣ (center (Bar2 KA)).index := by
     rw [P22w.center_eq_bot_of_isSimpleGroup hKA.2.2, index_bot, Nat.card_congr eA.toEquiv]
     exact hpA

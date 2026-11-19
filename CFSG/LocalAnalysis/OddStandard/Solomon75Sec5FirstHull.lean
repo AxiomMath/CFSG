@@ -17,6 +17,7 @@ open scoped commutatorElement
 variable {X : Type} [Group X] [Finite X] {n : ℕ} {z : X}
   {S : Sylow 2 ↥(normalizer ((zpowers z : Subgroup X) : Set X))}
 
+omit [Finite X] in
 private theorem odd_card_sup_of_le_normalizer' {H N : Subgroup X}
     (hHN : H ≤ normalizer (N : Set X)) (hH : Odd (Nat.card H)) (hN : Odd (Nat.card N)) :
     Odd (Nat.card (H ⊔ N : Subgroup X)) := by
@@ -28,6 +29,7 @@ private theorem odd_card_sup_of_le_normalizer' {H N : Subgroup X}
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe (le_sup_right : N ≤ H ⊔ N)).toEquiv]
   exact (Odd.of_dvd_nat hH (Subgroup.card_quotient_dvd_card _)).mul hN
 
+omit [Finite X] in
 private theorem card_sup_mul_card_inf {H N : Subgroup X} (hHN : H ≤ normalizer (N : Set X)) :
     Nat.card (H ⊔ N : Subgroup X) * Nat.card (H ⊓ N : Subgroup X) =
       Nat.card H * Nat.card N := by
@@ -102,6 +104,7 @@ private theorem oddCoreOf_K0_le {O : Subgroup X}
   rw [core_K0_eq]
   exact inf_le_right.trans hOc
 
+omit [Finite X] in
 private theorem comm_conj_mem {O : Subgroup X} {a w o : X} (ha : a ∈ normalizer (O : Set X))
     (hw : w ∈ normalizer (O : Set X)) (ho : o ∈ O) (hc : ⁅a, w⁆ ∈ O) :
     ⁅a, o * w * o⁻¹⁆ ∈ O := by
@@ -150,7 +153,7 @@ private theorem comm_oddCore_of_comm_hull {O A : Subgroup X} (hodd : Odd (Nat.ca
     exact inf_le_oddCoreOf_of_normalizes hodd (fun k hk => hCO (K0_le n _ hk)) ⟨hcomm a ha, hK⟩
   exact (normalizes_of_comm hA (Subgroup.le_normalizer hvC) hnC).2
 
-theorem oddHull_sup_core (h : Sec5Data X n z (zpowers z) S) {O : Subgroup X}
+theorem oddHull_sup_core (_h : Sec5Data X n z (zpowers z) S) {O : Subgroup X}
     (hO : OddHull X n z O) :
     OddHull X n z (O ⊔ oddCoreOf (centralizer ({z} : Set X))) := by
   obtain ⟨hodd, hCO, hcomp⟩ := hO
@@ -202,7 +205,7 @@ theorem cen_le_of_oddHull (h : Sec5Data X n z (zpowers z) S) (hne : TwoComps X n
   exact (cen_eq_oddCoreOf_sup_of_comm h hA hw2 hwC hcomm).le.trans
     (sup_le hN (inf_le_left.trans le_sup_right))
 
-theorem pPrimeCoreOf_hull_K0 (h : Sec5Data X n z (zpowers z) S) {O : Subgroup X}
+theorem pPrimeCoreOf_hull_K0 (_h : Sec5Data X n z (zpowers z) S) {O : Subgroup X}
     (hO : OddHull X n z O) (hOc : oddCoreOf (centralizer ({z} : Set X)) ≤ O) :
     pPrimeCoreOf 2 (O ⊔ K0 X n (centralizer ({z} : Set X))) = O := by
   obtain ⟨hodd, hCO, -⟩ := hO
@@ -342,7 +345,7 @@ theorem mem_of_conj_cen_le_hull (h : Sec5Data X n z (zpowers z) S) (hne : TwoCom
     sup_le Subgroup.le_normalizer hCO
   obtain ⟨A₁, -, hA₁, -, -⟩ := hne
   obtain ⟨w, hwdef⟩ : ∃ w : X, w = k⁻¹ * z * k := ⟨_, rfl⟩
-  have hφw : (MulAut.conj k⁻¹) z = w := by rw [hwdef]; simp [MulAut.conj_apply]
+  have hφw : (MulAut.conj k⁻¹) z = w := by rw [hwdef]; simp
   have hw2 : orderOf w = 2 := by
     rw [← hφw, MulEquiv.orderOf_eq]
     exact hz2
@@ -505,7 +508,7 @@ theorem hull_hyp_ii (h : Sec5Data X n z (zpowers z) S) (hne : TwoComps X n z)
       _ = y * u := by rw [hu]; group
   have huC : u ∈ centralizer ({z} : Set X) :=
     Subgroup.mem_centralizer_singleton_iff.2 (hucomm z hzQ)
-  have hφu : (MulAut.conj g'⁻¹) z = u := by rw [hu]; simp [MulAut.conj_apply]
+  have hφu : (MulAut.conj g'⁻¹) z = u := by rw [hu]; simp
   have hu2 : orderOf u = 2 := by
     rw [← hφu, MulEquiv.orderOf_eq]
     exact hz2
@@ -726,6 +729,7 @@ private theorem eq_of_le_sup_odd {H A A' O : Subgroup X} (hA : Sec5Comp X n H A)
   rw [e]
   exact A'.mul_mem ha (A'.mul_mem (A'.mul_mem hb (A'.inv_mem ha)) (A'.inv_mem hb))
 
+omit [Finite X] in
 private theorem isQuasisimple_bar_of {H A D : Subgroup X} (hA : Sec5Comp X n H A) (hAD : A ≤ D)
     (h1 : pPrimeCoreOf 2 A ≤ pPrimeCoreOf 2 D) (h2 : A ⊓ pPrimeCoreOf 2 D ≤ pPrimeCoreOf 2 A) :
     CFSG.Open.IsQuasisimple ↥(bar D A) := by

@@ -73,7 +73,7 @@ theorem u3Syl_of_griess (hgr : CFSG.Open.GriessAllModelsStatement) : U3Syl := by
   · obtain ⟨E, hES, hE, hEc, -⟩ := u3SylOmega_of_griess hgr X n hX q hq hq3 hqn S hSq hSidx
     exact ⟨E, hES, hE, hEc⟩
   rintro α ⟨k, hαk⟩ hαS s hs hsq
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hn2 : 2 ≤ n := u3Range X n hX
   have hZ : ¬ q ∣ Nat.card (center X) := fun h =>
     absurd (Nat.le_of_dvd (by norm_num) (h.trans (u3Center_of_griess hgr X n hX))) (by omega)
@@ -86,7 +86,7 @@ theorem u3Syl_of_griess (hgr : CFSG.Open.GriessAllModelsStatement) : U3Syl := by
   have hKU : UnitaryFieldData 2 n K := ⟨Nat.prime_two, by omega, by rw [hK, ← pow_mul, mul_comm]⟩
   obtain ⟨k', hk'⟩ : ∃ k', 2 ^ n = k' + 1 :=
     ⟨2 ^ n - 1, (Nat.sub_add_cancel Nat.one_le_two_pow).symm⟩
-  haveI : Finite (primeFormP hU (1 : Matrix (Fin 3) (Fin 3) (GaloisField 2 (2 * n)))) :=
+  have : Finite (primeFormP hU (1 : Matrix (Fin 3) (Fin 3) (GaloisField 2 (2 * n)))) :=
     Finite.of_equiv _ φ.toEquiv
   have hcard : Nat.card (primeFormP hU (1 : Matrix (Fin 3) (Fin 3) (GaloisField 2 (2 * n)))) *
       Nat.gcd 3 (k' + 2) = (k' + 1) ^ 3 * (k' * (k' + 2)) * ((k' + 2) * (k' ^ 2 + k' + 1)) := by

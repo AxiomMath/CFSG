@@ -108,7 +108,7 @@ theorem gmat_comm (a a' : Kˣ) (A A' : SL2 K) (h : dconj a'⁻¹ A * A' = dconj 
   have e11 := congrArg (fun X : SL2 K => (X : Matrix (Fin 2) (Fin 2) K) 1 1) h
   simp only [Matrix.SpecialLinearGroup.coe_mul, coe_dconj, Matrix.mul_apply, Fin.sum_univ_two,
     Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.empty_val',
-    Matrix.cons_val_fin_one, Matrix.head_cons, inv_inv, Units.val_inv_eq_inv_val] at e00 e01 e10 e11
+    Matrix.cons_val_fin_one, inv_inv, Units.val_inv_eq_inv_val] at e00 e01 e10 e11
   have ha : (a : K) ≠ 0 := a.ne_zero
   have ha' : (a' : K) ≠ 0 := a'.ne_zero
   field_simp at e00 e01 e10 e11

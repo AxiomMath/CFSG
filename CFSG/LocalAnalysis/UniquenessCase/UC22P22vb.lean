@@ -122,7 +122,7 @@ private theorem uc22p22vb_normal {T B : Subgroup G} (hT : IsPGroup 2 T)
   have hsolv : Group.IsSolvable G :=
     CFSG.GroupTheory.WielandtProduct.wielandt_coprime_product B T inferInstance hT.isNilpotent
       hcop hBT
-  haveI : Group.IsSolvable (G ⧸ R) := inferInstance
+  have : Group.IsSolvable (G ⧸ R) := inferInstance
   let π : G →* G ⧸ R := QuotientGroup.mk' R
   set Fq : Subgroup (G ⧸ R) := CFSG.fittingSubgroup (G ⧸ R)
   have hFodd : Odd (Nat.card Fq) := uc22p22vb_fitting_odd uc22p22vb_pCore_quotient
@@ -137,7 +137,7 @@ private theorem uc22p22vb_normal {T B : Subgroup G} (hT : IsPGroup 2 T)
     rw [h2, hk] at h1
     exact h1
   have hFB : Fq ≤ Bb := by
-    haveI : Fq.Normal := CFSG.fittingSubgroup_normal
+    have : Fq.Normal := CFSG.fittingSubgroup_normal
     set S : Subgroup (G ⧸ R) := Fq ⊔ Bb
     have hBS : Bb ≤ S := le_sup_right
     have h1 : Fq.relIndex S = Fq.relIndex Bb := Subgroup.relIndex_sup_left Bb Fq
@@ -177,7 +177,7 @@ private theorem uc22p22vb_conj {T B : Subgroup G} (hT : IsPGroup 2 T)
     ∀ t ∈ T, ∃ r ∈ CFSG.pCore 2 G, ∃ n ∈ T ⊓ Subgroup.normalizer (B : Set G), t = r * n := by
   intro t ht
   set R : Subgroup G := CFSG.pCore 2 G
-  haveI : (R ⊔ B).Normal := uc22p22vb_normal hT hBab hBodd hBT
+  have : (R ⊔ B).Normal := uc22p22vb_normal hT hBab hBodd hBT
   have hRT : R ≤ T := uc22p22vb_pCore_le hT hBodd hBT
   have hRp : IsPGroup 2 R := CFSG.pCore_isPGroup
   set Y : Subgroup G := B.map (MulAut.conj t) with hY
@@ -233,7 +233,7 @@ private theorem uc22p22vb_comm_decomp {B : Subgroup G} (hBodd : Odd (Nat.card B)
   set R : Subgroup G := CFSG.pCore 2 G
   have hRp : IsPGroup 2 R := CFSG.pCore_isPGroup
   have hsolv : Group.IsSolvable ↥R := by
-    haveI := hRp.isNilpotent
+    have := hRp.isNilpotent
     infer_instance
   obtain ⟨a, ha⟩ := hRp.exists_card_eq
   have hcop : Nat.Coprime (Nat.card B) (Nat.card R) :=

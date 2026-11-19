@@ -20,7 +20,7 @@ theorem outTowerAt_twistedE6RootGroup {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 �
     OutTowerAt (twistedE6RootGroup K σ) p := by
   obtain ⟨-, -, -, -, -, -, -, -, ⟨Θ, -, -, hΘker, -, -, -⟩, -⟩ :=
     twisted_E6_all_characteristic_exact_automorphism_normal_form hℓ hf K hK σ hσ
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have hinn : (twistedE6Inn K σ).Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal _
   have hcyc : IsCyclic (K ≃+* K) :=

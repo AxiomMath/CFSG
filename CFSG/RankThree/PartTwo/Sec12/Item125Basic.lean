@@ -104,7 +104,7 @@ theorem exists_two_subgroup_of_centralizes {L D : Subgroup G} (hD : IsPGroup 3 D
   obtain ⟨S, hSD, hS0⟩ :=
     CFSG.SignalizerFunctor.Helpers.normalized_subgroup_invariant_sylow_nontrivial
       3 2 Nat.prime_three Nat.prime_two D Y' hD3 hDY hcop h2
-  exact ⟨_, hS0, S.isPGroup'.map Y'.subtype, hSD⟩
+  exact ⟨_, hS0, S.isPGroup.map Y'.subtype, hSD⟩
 
 omit [Finite G] in
 theorem inf_zpowers_eq_bot_of_not_mem {D : Subgroup G} {w : G} (hw3 : orderOf w = 3)

@@ -21,7 +21,7 @@ theorem noTwoComponentsPlane_holds : NoTwoComponentsPlane := by
   intro p X _ _ P x z hpl hmulti
   obtain ⟨L, K, hL, hLp, hK, hKL⟩ := hmulti
   have hp := hpl.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 := hpl.five_le
   have hp2 : p ≠ 2 := by omega
   have hβs := N3.betaStructure_E3

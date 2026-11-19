@@ -204,7 +204,7 @@ private theorem exists_pair_of_not_scalar (M : Matrix (Fin 4) (Fin 4) F)
   classical
   have hex : ∃ v : Fin 4 → F, LinearIndependent F ![v, M *ᵥ v] := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨a, ha⟩ := LinearMap.exists_eq_smul_id_of_forall_notLinearIndependent
       (f := Matrix.toLin' M) (fun v => by rw [Matrix.toLin'_apply]; exact hcon v)
     have : Matrix.toLin' M = Matrix.toLin' (a • (1 : Matrix (Fin 4) (Fin 4) F)) := by
@@ -285,13 +285,13 @@ theorem centralSquareFour_statedSL4 {F : Type} [Field F] [Finite F] (h2 : (2 : F
       Units.val_mul] at this
     rw [← this, Matrix.smul_one_eq_diagonal]
   have hneg : (-1 : GL (Fin 4) F) ∈ StatedSL 4 F :=
-    CFSG.Open.StatedAPI.mem_statedSL_of_det (by simp [Matrix.det_neg] <;> norm_num)
+    CFSG.Open.StatedAPI.mem_statedSL_of_det (by simp [Matrix.det_neg]; norm_num)
   by_cases hs : ∃ d : F, ((x : GL (Fin 4) F) : Matrix (Fin 4) (Fin 4) F) = d • 1
   · obtain ⟨d, hd⟩ := hs
     refine exists_klein_of_involution h2 _ hneg x diag4 diag4_sq diag4_trace ?_ ?_
     · exact CFSG.Open.StatedAPI.mem_statedSL_of_det diag4_det
     · rw [hd, Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_one, Matrix.one_mul]
-  · push_neg at hs
+  · push Not at hs
     obtain ⟨U, hUU, hdet, htr, hUM⟩ := sl4_core _ (c : F) hMM hs
     exact exists_klein_of_involution h2 _ hneg x U hUU htr
       (CFSG.Open.StatedAPI.mem_statedSL_of_det hdet) hUM
@@ -365,7 +365,7 @@ private theorem herm_nondeg (bar : K →+* K) {x : Fin 4 → K} (hx : x ≠ 0) :
     ∃ y, herm bar x y ≠ 0 := by
   obtain ⟨i, hi⟩ : ∃ i, x i ≠ 0 := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hx (funext h)
   refine ⟨Pi.single i 1, ?_⟩
   simp only [herm, dotProduct_single, mul_one]
@@ -501,7 +501,7 @@ private theorem su4_pair (bar : K →+* K) (hbb : ∀ x, bar (bar x) = x) {e₀ 
 private theorem exists_vec_ne (M : Matrix (Fin 4) (Fin 4) K) (d : K) (h : M ≠ d • 1) :
     ∃ x : Fin 4 → K, M *ᵥ x - d • x ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   apply h
   apply Matrix.ext_of_mulVec_single
   intro j
@@ -513,7 +513,7 @@ private theorem su4_iso (bar : K →+* K) (hbb : ∀ x, bar (bar x) = x) (h2 : (
     (hν : bar ν * ν = 1) (hMν : M * M = (ν * ν) • 1) (hns : M ≠ (-ν) • 1) :
     ∃ a : Fin 4 → K, M *ᵥ a = ν • a ∧ herm bar a a ≠ 0 := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hν0 : ν ≠ 0 := by
     rintro rfl
     simp at hν
@@ -669,7 +669,7 @@ private theorem neg_one_star {K : Type} [Field K] (bar : K →+* K) :
   ext i j
   by_cases h : i = j
   · subst h; simp [uniDescAdj]
-  · simp [uniDescAdj, Matrix.one_apply, h, Ne.symm h]
+  · simp [uniDescAdj, h, Ne.symm h]
 
 theorem centralSquareFour_statedSU4 {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {K : Type}
     [Field K] [Finite K] [CharP K p] (hK : Nat.card K = (p ^ f) ^ 2) :
@@ -717,7 +717,7 @@ theorem centralSquareFour_statedSU4 {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {
     have hl0 : l ≠ 0 := by
       rintro rfl
       simp at hl
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hchar : ringChar K ≠ 2 := by rw [ringChar.eq K p]; exact hp2
     rw [FiniteField.isSquare_iff hchar hl0]
     have hcard : Fintype.card K = (p ^ f) ^ 2 := by rw [← Nat.card_eq_fintype_card, hK]
@@ -732,7 +732,7 @@ theorem centralSquareFour_statedSU4 {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {
       omega
     rw [hcard, hdiv, pow_mul', hl', one_pow]
   have hneg : (-1 : GL (Fin 4) K) ∈ StatedSU 4 (p ^ f) K := by
-    refine (hmem _).2 ⟨by simp [Matrix.det_neg] <;> norm_num, ?_⟩
+    refine (hmem _).2 ⟨by simp [Matrix.det_neg]; norm_num, ?_⟩
     simp only [Units.val_neg, Units.val_one]
     rw [neg_one_star]
     simp
@@ -744,7 +744,7 @@ theorem centralSquareFour_statedSU4 {p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {
       rw [diag4_star]
       exact diag4_sq
     · rw [hd, Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_one, Matrix.one_mul]
-  · push_neg at hs
+  · push Not at hs
     obtain ⟨e₀, e₁, h0, h1, h01, hcomm⟩ := su4_geom hU.bar hbb h2 hsq hMstar hMM hs
     obtain ⟨U, hUU, hdet, htr, hUM, hUstar⟩ := su4_pair hU.bar hbb h0 h1 h01 hcomm
     exact exists_klein_of_involution h2 _ hneg x U hUU htr ((hmem _).2 ⟨hdet, hUstar⟩) hUM

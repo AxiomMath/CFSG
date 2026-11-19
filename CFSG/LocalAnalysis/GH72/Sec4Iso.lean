@@ -205,7 +205,7 @@ theorem exists_isIsolatedIn_mem {H A : Subgroup G} (hAH : A ≤ H) (hAS : A ≤ 
     rwa [mem_normalizer_iff_map_conj_eq'.1 (le_normalizer hcH)] at h
   set t := c * t₀ * c⁻¹ with htdef
   have htS : t ∈ (𝔖.S : Subgroup G) := (mem_inf.1 hct).1
-  have hS2 : IsPGroup 2 (𝔖.S : Subgroup G) := 𝔖.S.isPGroup'
+  have hS2 : IsPGroup 2 (𝔖.S : Subgroup G) := 𝔖.S.isPGroup
   have hcomm : ∀ a ∈ A, a * t = t * a := by
     intro a ha
     have h1 := ht.conj_mul_inv_mem_O (hAH ha)

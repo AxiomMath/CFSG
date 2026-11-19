@@ -38,7 +38,7 @@ theorem commutator_eq_of_perfect_of_relIndex_le_three {G : Type*} [Group G] {I M
   have hfin : Finite (↥M ⧸ I') := Subgroup.finite_quotient_of_finiteIndex
   have hcard : Nat.card (↥M ⧸ I') ≤ 3 := hI'idx
   let φ := MulAction.toPermHom ↥M (↥M ⧸ I')
-  haveI : Group.IsSolvable (Equiv.Perm (↥M ⧸ I')) := Equiv.Perm.isSolvable (by omega)
+  have : Group.IsSolvable (Equiv.Perm (↥M ⧸ I')) := Equiv.Perm.isSolvable (by omega)
   have hH : I'.map φ = ⊥ := by
     by_contra hne
     have := Group.IsSolvable.commutator_lt_of_ne_bot hne
@@ -179,8 +179,8 @@ theorem exists_langSetup_of_sylow {τ : Tag} {L : Type} [Field L] [IsAlgClosed L
       (∃ S₀ : Sylow p S.Γ, (S₀ : Subgroup S.Γ) ≤ S.D.torus.subgroupOf S.Γ) ∧
       Nonempty (C ≃* S.Γ) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hfm := hd.finite_model
+  have : Fact p.Prime := ⟨hp⟩
+  have hfm := hd.finite_model
   obtain ⟨ρ, hρ⟩ := hF τ L D
   have hcomm := D.isMulCommutative_torus
   have hcomm' : IsMulCommutative ↥(D.torus ⊓ D.Γ) :=
@@ -197,12 +197,12 @@ theorem exists_sylow_Γ_of_conj {τ : Tag} {L : Type} [Field L] {D : LangDatum �
     (hS : ∀ x ∈ (S : Subgroup C), D.g0⁻¹ * ι x * D.g0 ∈ D.torus) :
     ∃ S₀ : Sylow p D.Γ, (S₀ : Subgroup D.Γ) ≤ D.torus.subgroupOf D.Γ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hfm := hd.finite_model
-  haveI : Finite D.Γ :=
+  have : Fact p.Prime := ⟨hp⟩
+  have hfm := hd.finite_model
+  have : Finite D.Γ :=
     Finite.of_injective (Subgroup.inclusion hd.Γ_le_model) (Subgroup.inclusion_injective _)
   let e : C ≃* D.Γ := hd.mulEquiv hι
-  haveI : Finite C := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite C := Finite.of_equiv _ e.symm.toEquiv
   have he : ∀ x : C, ((e x : D.Γ) : ModGL τ L) = D.g0⁻¹ * ι x * D.g0 := fun x => by
     change (MulAut.conj D.g0⁻¹) (ι x) = _
     rw [MulAut.conj_apply, inv_inv]
@@ -227,17 +227,17 @@ theorem exists_langSetup_of_descent_sub {τ : Tag} {L : Type} [Field L] [IsAlgCl
       (∃ S₀ : Sylow p S.Γ, (S₀ : Subgroup S.Γ) ≤ S.D.torus.subgroupOf S.Γ) ∧
       Nonempty (C ≃* S.Γ) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hfm := hd.finite_model
+  have : Fact p.Prime := ⟨hp⟩
+  have hfm := hd.finite_model
   have hTM := D.torus_le_model
-  haveI hTfin : Finite D.torus :=
+  have hTfin : Finite D.torus :=
     Finite.of_injective (Subgroup.inclusion hTM) (Subgroup.inclusion_injective hTM)
   have hΓfin : Finite D.Γ :=
     Finite.of_injective (Subgroup.inclusion hd.Γ_le_model) (Subgroup.inclusion_injective _)
   obtain ⟨H, hHT, hCH⟩ := hord
   have hord' : (Nat.card C).factorization p ≤ (Nat.card D.torus).factorization p := by
     refine hCH.trans ?_
-    haveI : Finite H :=
+    have : Finite H :=
       Finite.of_injective (Subgroup.inclusion hHT) (Subgroup.inclusion_injective hHT)
     have hdvd : Nat.card H ∣ Nat.card D.torus := Subgroup.card_dvd_of_le hHT
     exact (Nat.factorization_le_iff_dvd Nat.card_pos.ne' Nat.card_pos.ne').2 hdvd p
@@ -245,7 +245,7 @@ theorem exists_langSetup_of_descent_sub {τ : Tag} {L : Type} [Field L] [IsAlgCl
   obtain ⟨P0⟩ : Nonempty (Sylow p D.torus) := inferInstance
   set P1 : Subgroup (ModGL τ L) := (P0 : Subgroup D.torus).map D.torus.subtype with hP1
   have hP1T : P1 ≤ D.torus := Subgroup.map_subtype_le _
-  have hP1p : IsPGroup p P1 := P0.isPGroup'.map _
+  have hP1p : IsPGroup p P1 := P0.isPGroup.map _
   have hP1Γ : P1 ≤ D.Γ := hd.pgroup_le_Γ P1 (hP1T.trans hTM) hP1p
   have hP1card : Nat.card P1 = p ^ (Nat.card D.torus).factorization p := by
     rw [hP1, Subgroup.card_map_of_injective D.torus.subtype_injective, Sylow.card_eq_multiplicity]

@@ -116,17 +116,21 @@ variable [Finite K] {L : Type} [Group L] {ρ : SL(2, K) →* L}
     (g : Matrix (Fin 2) (Fin 2) K) = (l : K) • (1 : Matrix (Fin 2) (Fin 2) K))
 
 include hker in
+omit [Finite K] in
 theorem card_sl2RootX : Nat.card (sl2RootX ρ) = Nat.card K :=
   Nat.card_range_of_injective (sl2Upper_injective hker)
 
 include hker in
+omit [Finite K] in
 theorem card_sl2RootY : Nat.card (sl2RootY ρ) = Nat.card K :=
   Nat.card_range_of_injective (sl2Lower_injective hker)
 
+omit [Finite K] in
 theorem sl2RootX_le_range : sl2RootX ρ ≤ ρ.range := by
   rintro _ ⟨c, rfl⟩
   exact ⟨sl2Upper K c, rfl⟩
 
+omit [Finite K] in
 theorem sl2RootY_le_range : sl2RootY ρ ≤ ρ.range := by
   rintro _ ⟨c, rfl⟩
   exact ⟨sl2Lower K c, rfl⟩
@@ -164,12 +168,13 @@ include hker in
 theorem exists_conj_of_card_range [Finite L] {S S' : Subgroup L} (hS : S ≤ ρ.range)
     (hS' : S' ≤ ρ.range) (hc : Nat.card S = Nat.card K) (hc' : Nat.card S' = Nat.card K) :
     ∃ w ∈ ρ.range, S.map (MulAut.conj w).toMonoidHom = S' := by
-  haveI : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
+  have : Fact (ringChar K).Prime := ⟨CharP.char_is_prime K _⟩
   obtain ⟨m, hm, hpm⟩ := exists_card_range hker
   obtain ⟨n, hn⟩ := exists_pow_card (K := K)
   exact exists_conj_of_card hn hm hpm hS hS' hc hc'
 
 include hker in
+omit [Finite K] in
 theorem exists_conj_upper {w : L} (hw : w ∈ ρ.range)
     (h : sl2RootX ρ ⊓ (sl2RootY ρ).map (MulAut.conj w).toMonoidHom = ⊥) :
     ∃ u ∈ sl2RootX ρ, (sl2RootY ρ).map (MulAut.conj w).toMonoidHom =
@@ -210,6 +215,7 @@ theorem exists_conj_upper {w : L} (hw : w ∈ ρ.range)
       exact h
 
 include hker in
+omit [Finite K] in
 theorem sl2RootX_inf_sl2RootY : sl2RootX ρ ⊓ sl2RootY ρ = ⊥ := by
   refine eq_bot_iff.2 fun x hx => ?_
   obtain ⟨⟨c, hcx⟩, ⟨d, hdy⟩⟩ := hx
@@ -278,7 +284,7 @@ theorem coe_conj_upper_mul (w : SL(2, K)) (c m : K) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [Matrix.SpecialLinearGroup.coe_inv, Matrix.adjugate_fin_two, Matrix.mul_apply,
-      Fin.sum_univ_two] <;> first | ring1 | linear_combination hdet | linear_combination (-m) * hdet | linear_combination m * hdet
+      Fin.sum_univ_two] <;> first | ring1 | linear_combination hdet | linear_combination (-m) * hdet
 
 
 section Square
@@ -287,6 +293,7 @@ variable [Finite K] {L : Type} [Group L] {ρ : SL(2, K) →* L}
   (hker : ∀ g : SL(2, K), ρ g = 1 → ∃ l : Kˣ, l ^ 2 = 1 ∧
     (g : Matrix (Fin 2) (Fin 2) K) = (l : K) • (1 : Matrix (Fin 2) (Fin 2) K))
 
+omit [Finite K] in
 theorem entry_conj_upper_mul (w : SL(2, K)) (c m : K) :
     (((w * sl2Upper K c * w⁻¹ * sl2Upper K (-m) : SL(2, K)) : Matrix (Fin 2) (Fin 2) K) 1 0 =
       -(c * (w : Matrix (Fin 2) (Fin 2) K) 1 0 ^ 2)) ∧
@@ -299,6 +306,7 @@ theorem entry_conj_upper_mul (w : SL(2, K)) (c m : K) :
   exact ⟨rfl, rfl, rfl⟩
 
 include hker in
+omit [Finite K] in
 theorem exists_sq_of_conj_upper {e : L} (he : e ∈ ρ.range) {μ : K → K}
     (h : ∀ c, e * ρ (sl2Upper K c) * e⁻¹ = ρ (sl2Upper K (μ c))) :
     ∃ p : Kˣ, ∀ c, μ c = (p : K) ^ 2 * c := by

@@ -21,7 +21,7 @@ theorem n4_plane63E3_of_plane65E3 {A : Type} [Group A] [Finite A] {p : ℕ} {P :
     ∃ (hxX : x ∈ X) (hzX : z ∈ X),
       N3.Plane63E3 p ↥X (P.subtype hpl.sylow_le) ⟨x, hxX⟩ ⟨z, hzX⟩ := by
   have hprime := hpl.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hPX := hpl.sylow_le
   have hBP : zpowers x ⊔ zpowers z ≤ (P : Subgroup A) := hpl.plane.isIsolatedPlane.1
   have hxX : x ∈ X := hPX (hBP (Subgroup.mem_sup_left (mem_zpowers x)))
@@ -72,7 +72,7 @@ theorem kFactP65SingleAt_of_single (hW : KFactSingleW) (hβ : NoTwoComponentsPla
   intro A _ _ P X x z hpl _ _ hU W hWX hWcop hBW
   obtain ⟨hxX, hzX, hpl'⟩ := n4_plane63E3_of_plane65E3 hpl
   have hprime := hpl.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hPX := hpl.sylow_le
   have huniq : ∃ L : Subgroup (↥X ⧸ primeComplementCore (G := ↥X) p), IsComponentOf L ⊤ ∧
       ∀ K : Subgroup (↥X ⧸ primeComplementCore (G := ↥X) p), IsComponentOf K ⊤ → K = L := by

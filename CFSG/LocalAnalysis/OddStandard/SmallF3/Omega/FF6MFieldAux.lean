@@ -13,6 +13,7 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 theorem ff6m_sq_of_orderOf_eq_two {x : G} (hx : orderOf x = 2) : x * x = 1 := by
   rw [← pow_two, ← hx]
   exact pow_orderOf_eq_one x
@@ -83,6 +84,7 @@ theorem ff6m_xTwoCore_of (h : IsOm6M L) {hQ : Q.Nondegenerate}
   obtain ⟨ρ, hρ⟩ := ff6m_cover_of_model h hdim hs hs2
   exact ff6m_cover_X_eq_pCore hρ hX
 
+omit [Finite G] in
 theorem ff6m_not_centralizer (h : IsOm6M L) {hQ : Q.Nondegenerate}
     (hdim : Module.finrank (ZMod 3) V = 6) {e : ↥L ⧸ Subgroup.center ↥L ≃* omegaProj hQ}
     {s : G} {x : ProjSim Q} (hs : InducesViaP L (Subgroup.center ↥L) hQ e s x) (hx : x ≠ 1) :

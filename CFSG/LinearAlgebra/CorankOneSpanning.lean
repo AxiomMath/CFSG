@@ -130,9 +130,9 @@ theorem corank_one_two_sided_spanning_full_algebra (hd : 2 ≤ d)
   have hAcol : A.col = fun i => Xs i *ᵥ v := funext fun _ => funext fun _ => rfl
   have hRrow : R.row = fun j => u ᵥ* Ys j := funext fun _ => funext fun _ => rfl
   have hAu : IsUnit A.det := (Matrix.isUnit_iff_isUnit_det A).1
-    (Matrix.linearIndependent_cols_iff_isUnit.1 (by rw [hAcol]; exact hXv))
+    (Matrix.linearIndependent_col_iff_isUnit.1 (by rw [hAcol]; exact hXv))
   have hRu : IsUnit R.det := (Matrix.isUnit_iff_isUnit_det R).1
-    (Matrix.linearIndependent_rows_iff_isUnit.1 (by rw [hRrow]; exact hYu))
+    (Matrix.linearIndependent_row_iff_isUnit.1 (by rw [hRrow]; exact hYu))
   have hsingle : ∀ (i j : Fin d) (c : k),
       A * Matrix.single i j c * R = c • vecMulVec (Xs i *ᵥ v) (u ᵥ* Ys j) := by
     intro i j c

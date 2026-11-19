@@ -65,7 +65,7 @@ theorem exists_abelian_of_model [Finite Y] {E : Subgroup Y} [E.Normal] (S : Sylo
     exact absurd hA₀i (by norm_num)
   have hZ₀bot : Z₀ ≠ ⊥ := by
     have : Nontrivial ↥(P₀ : Subgroup K) := (nontrivial_iff_ne_bot _).mpr hP₀bot
-    have := P₀.isPGroup'.center_nontrivial
+    have := P₀.isPGroup.center_nontrivial
     obtain ⟨z, hz1⟩ := exists_ne (1 : center ↥(P₀ : Subgroup K))
     intro hbot
     have hzZ : ((z : ↥P₀) : K) ∈ Z₀ := by

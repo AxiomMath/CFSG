@@ -12,7 +12,7 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G]
 
 private theorem sec11_isElemAbelianMod_zpowers_of_sq {z u : G} (hu2 : u * u = 1)
-    (huz : u * z = z * u) : IsElemAbelianMod z (zpowers u) := by
+    (_huz : u * z = z * u) : IsElemAbelianMod z (zpowers u) := by
   have hu2z : u ^ (2 : ℤ) = 1 := by rw [zpow_two]; exact hu2
   intro a ha b hb
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp ha

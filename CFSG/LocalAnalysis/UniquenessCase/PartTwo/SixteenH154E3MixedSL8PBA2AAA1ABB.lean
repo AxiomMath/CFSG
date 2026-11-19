@@ -36,7 +36,7 @@ theorem s16h_sl28_seven_kbar_ker_pRank_le_one
     (h7 : 7 ∈ D.sig) :
     CFSG.Open.pRank 7 (kBar D.M ⊥ V h.hyp151.isElemAbelian L ⊓
       centSub (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))) ≤ 1 := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   let K : Subgroup (MulAut (Vtil ⊥ V h.hyp151.isElemAbelian)) :=
     kBar D.M ⊥ V h.hyp151.isElemAbelian L ⊓
       centSub (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))

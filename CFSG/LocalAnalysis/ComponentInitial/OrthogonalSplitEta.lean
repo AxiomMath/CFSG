@@ -588,10 +588,9 @@ theorem commute_etaLin_inl_inl_inl_inr {i j : Fin r} (hij : i ≠ j)
   have hij' : Sum.inl i ≠ (Sum.inl j : Fin r ⊕ Fin r) := fun h => hij (Sum.inl_injective h)
   have hij'' : Sum.inr i ≠ (Sum.inr j : Fin r ⊕ Fin r) := fun h => hij (Sum.inr_injective h)
   fin_cases p <;> fin_cases q <;> fin_cases p' <;> fin_cases q' <;>
-    first
+    try first
     | exact absurd rfl hpq
     | exact absurd rfl hpq'
-    | skip
   · rw [etaLin_of_upper _ (coe_transvection_zero_one hpq c),
       etaLin_of_upper _ (coe_transvection_zero_one hpq' c')]
     exact rootGroup_commute (eichler_single_mem_rootGroup (by simp [hij.symm]) _)

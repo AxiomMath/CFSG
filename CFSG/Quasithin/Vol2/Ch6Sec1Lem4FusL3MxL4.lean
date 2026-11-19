@@ -88,7 +88,7 @@ theorem factB_std_statedSL {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Pri
       v = 1 ∨ ∃ A : ↥(StatedSL 3 F), (A : GL (Fin 3) F) = negDiag3 F ∧ v = ψ A := by
   intro v hv2 hvA
   have h2 : (2 : F) ≠ 0 := two_ne_zero_factB_std hp hp5 hF
-  haveI : Group.IsPerfect SL(3, F) :=
+  have : Group.IsPerfect SL(3, F) :=
     CFSG.ClassicalModels.specialLinear_isPerfect_of_three_le (by norm_num)
   set ι : SL(3, F) ≃* ↥(StatedSL 3 F) :=
     CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 3 F with hι
@@ -142,7 +142,7 @@ theorem factB_std_statedSL {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Pri
       rw [hιmat, coe_negDiag3]
       ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [CFSG.ClassicalInvolution.ModelFacts.Orth15.ChainL.xN, Matrix.diagonal_apply]
+        simp [CFSG.ClassicalInvolution.ModelFacts.Orth15.ChainL.xN]
     · calc v = v * (ψ' CFSG.ClassicalInvolution.ModelFacts.Orth15.ChainL.xN *
             ψ' CFSG.ClassicalInvolution.ModelFacts.Orth15.ChainL.xN) := by rw [hψxx, mul_one]
         _ = (v * ψ' CFSG.ClassicalInvolution.ModelFacts.Orth15.ChainL.xN) *

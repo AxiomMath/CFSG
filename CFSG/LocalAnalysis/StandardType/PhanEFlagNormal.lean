@@ -44,16 +44,16 @@ theorem exists_normalForm_flagPsi (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n 
     by_cases hp : pol.getD b false = true
     · have hEb : E b = Classical.choose (exists_blockEquiv_pol hK hd pol hb hp hM hinv) := by
         dsimp only [E]
-        rw [dif_pos hb, dif_pos hp]
+        rw [dite_eq_left hb, dite_eq_left hp]
       rw [hEb] at hblock
-      rw [if_pos hp]
+      rw [ite_eq_left hp]
       exact Classical.choose_spec (exists_blockEquiv_pol hK hd pol hb hp hM hinv) e he hblock
     · have hEb : E b = Classical.choose (exists_blockEquiv_coll hK hd pol hb
           (Bool.eq_false_iff.mpr hp) hM hinv) := by
         dsimp only [E]
-        rw [dif_pos hb, dif_neg hp]
+        rw [dite_eq_left hb, dite_eq_right hp]
       rw [hEb] at hblock
-      rw [if_neg hp]
+      rw [ite_eq_right hp]
       exact Classical.choose_spec (exists_blockEquiv_coll hK hd pol hb
         (Bool.eq_false_iff.mpr hp) hM hinv) e he hblock
   obtain ⟨e, he, hblock⟩ := exists_blockDiag hd E
@@ -69,15 +69,15 @@ theorem exists_normalForm_flagPsi (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut n 
     flagPsi_E hK hd pol hx hb hs]
   rw [psiSub, psiSub]
   by_cases hp : pol.getD b false = true
-  · rw [if_pos hp, if_pos hp]
+  · rw [ite_eq_left hp, ite_eq_left hp]
     have hg := hgood b hb e he (hblock b hb)
-    rw [if_pos hp] at hg
+    rw [ite_eq_left hp] at hg
     rw [hyE (d.getD b 0 + (blockSize d b - s))]
     exact hg _ (refSet_E_mem_interval hd hx hb (Nat.sub_le (blockSize d b) s)).1
       (refSet_E_mem_interval hd hx hb (Nat.sub_le (blockSize d b) s)).2
-  · rw [if_neg hp, if_neg hp]
+  · rw [ite_eq_right hp, ite_eq_right hp]
     have hg := hgood b hb e he (hblock b hb)
-    rw [if_neg hp] at hg
+    rw [ite_eq_right hp] at hg
     rw [hyE (d.getD b 0 + s)]
     exact hg _ (refSet_E_mem_interval hd hx hb hs).1
       (refSet_E_mem_interval hd hx hb hs).2

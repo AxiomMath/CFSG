@@ -9,7 +9,7 @@ public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
 public import Mathlib.Combinatorics.Enumerative.DyckWord
 public import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Data.NNRat.Floor
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Mathlib.Geometry.Euclidean.Volume.Basic
@@ -150,7 +150,7 @@ theorem reflLin_single_eq (ρ : Root) (k : Fin 3) :
     reflLin p ρ (Pi.single k 1) = ((ρ.sgn k : ℤ) : ZMod p) • Pi.single (ρ.perm k) 1 := by
   rw [reflLin_single]
   cases ρ <;> fin_cases k <;> (funext j; fin_cases j <;> simp [Root.vecp, Root.corp, Root.vec,
-    Root.cor, Root.perm, Root.sgn, Equiv.swap_apply_def] <;> norm_num)
+    Root.cor, Root.perm, Root.sgn, Equiv.swap_apply_def]; try norm_num)
 
 instance [NeZero p] : Finite (Vec p ≃ₗ[ZMod p] Vec p) :=
   Finite.of_injective (fun g : Vec p ≃ₗ[ZMod p] Vec p => (g : Vec p → Vec p))

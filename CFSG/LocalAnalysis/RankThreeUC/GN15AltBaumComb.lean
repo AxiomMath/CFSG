@@ -37,7 +37,7 @@ theorem evenWeightPerm_altBaumY (hn : Odd n) (σ : Perm (Fin n)) (x : Fin n) :
   by_cases h : i = σ x
   · subst h; simp
   · have : σ⁻¹ i ≠ x := fun h' => h (by rw [← h']; simp)
-    rw [if_neg h, if_neg this]
+    rw [ite_eq_right h, ite_eq_right this]
 
 theorem altBaumY_ne_zero (hn : Odd n) (h2 : 2 ≤ n) (x : Fin n) : altBaumY hn x ≠ 0 := by
   intro h
@@ -86,14 +86,14 @@ theorem sum_val_smul_altBaumY (hn : Odd n) (v : evenWeight n) :
       ZMod.natCast_zmod_val]
   rw [h1]
   rw [← Finset.add_sum_erase _ _ (Finset.mem_univ i)]
-  simp only [if_true, mul_zero, zero_add]
+  simp only [ite_true, mul_zero, zero_add]
   have h2 : ∑ x ∈ Finset.univ.erase i, (v : Fin n → ZMod 2) x =
       ∑ x : Fin n, (v : Fin n → ZMod 2) x - (v : Fin n → ZMod 2) i :=
     Finset.sum_erase_eq_sub (Finset.mem_univ i)
   have h3 : ∑ x ∈ Finset.univ.erase i, (v : Fin n → ZMod 2) x * (if i = x then 0 else 1) =
       ∑ x ∈ Finset.univ.erase i, (v : Fin n → ZMod 2) x :=
     Finset.sum_congr rfl (fun x hx => by
-      rw [if_neg (Finset.ne_of_mem_erase hx |>.symm), mul_one])
+      rw [ite_eq_right (Finset.ne_of_mem_erase hx |>.symm), mul_one])
   rw [h3, h2, hsum]
   have : ∀ z : ZMod 2, 0 - z = z := by decide
   exact this _
@@ -149,15 +149,15 @@ theorem eq_zero_or_eq_altBaumY_of_fixed (hn : Odd n) (h4 : 4 ≤ n) {x₀ : Fin 
       if i = x₀ then (v : Fin n → ZMod 2) x₀ else l := by
     intro i
     by_cases hi : i = x₀
-    · rw [if_pos hi, hi]
-    · rw [if_neg hi]; exact hconst i i₁ hi hi₁
+    · rw [ite_eq_left hi, hi]
+    · rw [ite_eq_right hi]; exact hconst i i₁ hi hi₁
   have hsum : ∑ i : Fin n, (v : Fin n → ZMod 2) i = 0 := AddMonoidHom.mem_ker.1 v.2
   have hx0 : (v : Fin n → ZMod 2) x₀ = 0 := by
     rw [← Finset.add_sum_erase _ _ (Finset.mem_univ x₀)] at hsum
     have : ∑ i ∈ Finset.univ.erase x₀, (v : Fin n → ZMod 2) i =
         ∑ i ∈ Finset.univ.erase x₀, l :=
       Finset.sum_congr rfl fun i hi => by
-        rw [hv i, if_neg (Finset.ne_of_mem_erase hi)]
+        rw [hv i, ite_eq_right (Finset.ne_of_mem_erase hi)]
     rw [this, Finset.sum_const, Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ,
       Fintype.card_fin, nsmul_eq_mul] at hsum
     have heven : ((n - 1 : ℕ) : ZMod 2) = 0 := by
@@ -174,15 +174,15 @@ theorem eq_zero_or_eq_altBaumY_of_fixed (hn : Odd n) (h4 : 4 ≤ n) {x₀ : Fin 
     funext i
     rw [hv i]
     by_cases hi : i = x₀
-    · rw [if_pos hi, hx0]; rfl
-    · rw [if_neg hi, h0]; rfl
+    · rw [ite_eq_left hi, hx0]; rfl
+    · rw [ite_eq_right hi, h0]; rfl
   · right
     apply Subtype.ext
     funext i
     rw [hv i, altBaumY_apply]
     by_cases hi : i = x₀
-    · rw [if_pos hi, if_pos hi, hx0]
-    · rw [if_neg hi, if_neg hi, h1]
+    · rw [ite_eq_left hi, ite_eq_left hi, hx0]
+    · rw [ite_eq_right hi, ite_eq_right hi, h1]
 
 end Vectors
 

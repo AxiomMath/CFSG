@@ -159,7 +159,7 @@ theorem not_five_dvd_typeC (h : UnitaryFieldData 2 f K) (hf : Odd f) {ω : Kˣ} 
   have hp : Nat.Prime 5 := by norm_num
   rcases (Nat.Prime.dvd_mul hp).mp h5' with h5'' | h5'' <;> exact (not_five_dvd_orders hf).2 h5''
 
-theorem not_five_dvd_of_diag (h : UnitaryFieldData 2 f K) (hf : Odd f) (h3 : 3 ∣ 2 ^ f + 1)
+theorem not_five_dvd_of_diag (h : UnitaryFieldData 2 f K) (hf : Odd f) (_h3 : 3 ∣ 2 ^ f + 1)
     {v : Fin 4 → Kˣ} (hv3 : ∀ i, v i ^ 3 = 1) (hvp : ∏ i, v i = 1) (hv1 : v ≠ 1)
     {J : Subgroup (GL (Fin 4) K)}
     (hJC : J ≤ unitarySU 2 f K 4 ⊓ Subgroup.centralizer {diagU v}) (hJ : Group.IsPerfect J) :

@@ -138,7 +138,7 @@ theorem e2q_map_perfectCore_eq_layer {Q : Type} [Group Q] [Finite Q]
     (hA : CFSG.Open.pCore 2 (Q ⧸ oInftyE Q) = ⊤) :
     (perfectCore (⊤ : Subgroup Q)).map (QuotientGroup.mk' (CFSG.solvableRadical Q)) =
       CFSG.layer (Q ⧸ CFSG.solvableRadical Q) := by
-  haveI : (CFSG.layer (Q ⧸ CFSG.solvableRadical Q)).Normal := by
+  have : (CFSG.layer (Q ⧸ CFSG.solvableRadical Q)).Normal := by
     have := CFSG.LocalCores.layer_characteristic (G := Q ⧸ CFSG.solvableRadical Q)
     infer_instance
   have hpow : ∀ z : Q ⧸ oInftyE Q, ∃ k : ℕ, z ^ 2 ^ k = 1 := by
@@ -180,7 +180,7 @@ theorem e2_isSimpleGroup_of_component {X : Type} [Group X] [Finite X]
     have h1 := solvRad_le_solvRad_of_subnormal (subnormal_of_mem_cComp hK')
     rw [← A3.solvableRadical_eq_solvRad_top, hX] at h1
     exact le_bot_iff.mp h1
-  haveI : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+  have : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
   refine ⟨fun T hT => ?_⟩
   rcases normal_eq_top_or_map_le_solvRad hK' T with h | h
   · exact Or.inr h
@@ -282,7 +282,7 @@ theorem e2Mem_simple (Q : Type) [Group Q] [Finite Q] {K : Subgroup (Q ⧸ CFSG.s
       simp [map_mul, map_inv]
     rw [← e]
     exact Subgroup.mem_map_of_mem _ hsm
-  haveI := hN'n
+  have := hN'n
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       ((N.map (QuotientGroup.mk' (CFSG.solvableRadical Q))).subgroupOf K) with hbot | htop
   · left
@@ -552,7 +552,7 @@ theorem e2q_secData {Q : Type} [Group Q] [Finite Q] {Mq τ : Subgroup Q}
   · exact sec_le_normalizer_of_conj fun x _ y hy => hYn x y hy
   · exact sec_le_normalizer_of_conj fun x _ h hh => e2_conj_mem_perfectCore x hh
   · exact sec_le_normalizer_of_conj fun m _ y hy => hYn m y hy
-  · haveI : Group.IsSolvable (CFSG.solvableRadical Q) := A3.solvableRadical_isSolvable
+  · have : Group.IsSolvable (CFSG.solvableRadical Q) := A3.solvableRadical_isSolvable
     exact Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion (inf_le_right : perfectCore (⊤ : Subgroup Q) ⊓
         CFSG.solvableRadical Q ≤ CFSG.solvableRadical Q))
@@ -586,12 +586,14 @@ section GLevel
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem e2_sylow_subgroupOf_top {P S' : Subgroup G} (h : IsSylowIn 2 S' P) :
     IsSylowIn 2 (S'.subgroupOf P) ⊤ := by
   refine ⟨le_top, h.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe h.le).symm, ?_⟩
   rw [Subgroup.relIndex_top_right]
   exact h.not_dvd_relIndex
 
+omit [Finite G] in
 theorem e2_top_map_subtype {P : Subgroup G} : (⊤ : Subgroup P).map P.subtype = P := by
   rw [← MonoidHom.range_eq_map, Subgroup.range_subtype]
 

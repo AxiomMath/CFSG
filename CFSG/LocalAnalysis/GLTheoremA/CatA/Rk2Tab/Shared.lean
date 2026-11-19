@@ -71,6 +71,6 @@ theorem rk2Ord_seven_one_eq_three : rk2Ord 7 1 = 3 :=
 
 theorem pRank_le_of_sylowTorusDatum {G : Type} [Group G] [Finite G] {p m : ℕ}
     (h : SylowTorus G p m) (hp : p.Prime) : CFSG.Open.pRank p (⊤ : Subgroup G) ≤ m :=
-  CFSG.SectionRank.pRank_le hp.one_lt fun E _ hE => h.rank_le hp hE
+  CFSG.SectionRank.pRank_le hp.one_lt fun _E _ hE => h.rank_le hp hE
 
 end CFSG.LocalAnalysis.GLTheoremA

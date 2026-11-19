@@ -60,7 +60,7 @@ theorem l34g_level1 [Finite G] (hNF : Asc82FactNoncentralFixed) (hKA : Asc82Fact
       v * y = y * v ∧ v ∈ fstarLayer y ⊔ zpowers y ∧ ∀ c ∈ centralizer (X : Set G), v ≠ y * c := by
     rcases l34g_choose_v hyC (e := e) with h | h
     · exact ⟨e, he, hex, hey, Subgroup.mem_sup_left heE, h⟩
-    · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       refine ⟨e * y, ?_, (hex'.mul_left hyx).eq, (hey'.mul_left (Commute.refl y)).eq,
         Subgroup.mul_mem _ (Subgroup.mem_sup_left heE)
           (Subgroup.mem_sup_right (Subgroup.mem_zpowers y)), h⟩

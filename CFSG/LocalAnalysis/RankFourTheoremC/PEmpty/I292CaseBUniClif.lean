@@ -129,7 +129,7 @@ theorem bar_herm_self (u : Fin p → K) : h.bar (herm h u u) = herm h u u := by
 
 theorem col_apply (B : GL (Fin p) K) (i j : Fin p) :
     col B j i = (B : Matrix (Fin p) (Fin p) K) i j := by
-  simp [col, Matrix.mulVec_single_one]
+  simp [col]
 
 theorem mulVec_conj_eq {B g X : GL (Fin p) K} (hX : B⁻¹ * g * B = X) (v : Fin p → K) :
     (g : Matrix (Fin p) (Fin p) K) *ᵥ ((B : Matrix (Fin p) (Fin p) K) *ᵥ v) =
@@ -147,7 +147,7 @@ theorem mulVec_single_smul (M : Matrix (Fin p) (Fin p) K) (j : Fin p) (c : K) :
   rw [← Matrix.mulVec_smul]
   congr 1
   ext i
-  by_cases hi : i = j <;> simp [Pi.single_apply, hi]
+  by_cases hi : i = j <;> simp [hi]
 
 theorem mulVec_col_diag {B g : GL (Fin p) K} {d : Fin p → Kˣ}
     (hd : B⁻¹ * g * B = diagGL p K d) (j : Fin p) :
@@ -200,7 +200,7 @@ theorem exists_unitary_diag_basis [Finite K] (hp : p.Prime) (hp2 : p ≠ 2)
       B' ∈ primeFormUnitary h ((1 : GL (Fin p) K) : Matrix (Fin p) (Fin p) K) ∧
         DiagData Th ŷ B' := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set σ : Equiv.Perm (Fin p) := finRotate p with hσ
   have hp2' : 2 ≤ p := hp.two_le
   have hcyc : σ.IsCycle := isCycle_finRotate_of_le hp2'
@@ -304,9 +304,9 @@ theorem exists_unitary_diag_basis [Finite K] (hp : p.Prime) (hp2 : p ≠ 2)
     rw [h1, hΓij, hu']
     by_cases hij : i = j
     · subst hij
-      rw [if_pos rfl, hconst i i0]
+      rw [ite_eq_left rfl, hconst i i0]
       exact inv_mul_cancel₀ ha0
-    · rw [if_neg hij, hoff i j hij, mul_zero]
+    · rw [ite_eq_right hij, hoff i j hij, mul_zero]
   · refine ⟨⟨δ, ?_⟩, fun g hg => ?_, fun i j hij => ?_⟩
     · rw [conj_scalar_mul]
       exact hrot

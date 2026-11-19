@@ -114,7 +114,7 @@ theorem prop_2_5 :
   set D := commutator G
   have hDn : D.Normal := inferInstance
   have hSD : (fr.S : Subgroup G) ≤ D := fun x hx => by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp fr.S.isPGroup') ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp fr.S.isPGroup) ⟨x, hx⟩
     rw [Subgroup.orderOf_mk] at hk
     exact mem_of_odd_index' hDn hodd hk
   obtain ⟨y, hyD, t, htT, hyt⟩ := fr.exists_conj_J_of_commutator hidx hq
@@ -134,7 +134,7 @@ theorem prop_2_5 :
   obtain ⟨L, hLD, hLn, hLodd, -, ⟨K'', hK''L, hJK'', hCL, ⟨eK''⟩⟩, h8⟩ :=
     m.case2_ofSubgroup hM hJD m.orderOf_J hKD m.le_centralizer hKn m.p m.f m.p_ne_two m.f_pos
       m.iso hc
-  have hSL : (fr.S : Subgroup G) ≤ L := le_of_odd_relIndex hLn hLodd hSD fr.S.isPGroup'
+  have hSL : (fr.S : Subgroup G) ≤ L := le_of_odd_relIndex hLn hLodd hSD fr.S.isPGroup
   have hKL : m.K ≤ L := by
     have := PSL2Sub.isSimpleGroup m.iso m.f_pos hq
     have hn : (L.subgroupOf m.K).Normal := by
@@ -180,7 +180,7 @@ theorem prop_2_5 :
     set I := Subgroup.normalClosure ((fr.S : Subgroup G) : Set G)
     have hIL : I ≤ L := (Subgroup.closure_le L).mpr fun x hx => by
       obtain ⟨s, hs, hsx⟩ := Group.mem_conjugatesOfSet_iff.mp hx
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp fr.S.isPGroup') ⟨s, hs⟩
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp fr.S.isPGroup) ⟨s, hs⟩
       rw [Subgroup.orderOf_mk] at hk
       have hxo : orderOf x = 2 ^ k := by rw [← hsx.orderOf_eq, hk]
       exact mem_of_odd_relIndex hLn hLodd (mem_of_odd_index' hDn hodd hxo) hxo

@@ -164,7 +164,7 @@ private theorem exists_F_gen {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2)
       (∀ N : Subgroup ↥(e6Data_valid.minGroup F), (∀ i, ρ i c ∈ N) → G ≤ N) ∧
       IsElemAbelian q G ∧ Nat.card G = q ^ 3 := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨c, hc⟩ := exists_orderOf_eq_of_dvd_card_sl2 (F := F) hq hq2 hdiv
   have hcp : c ^ q = 1 := by rw [← hc]; exact pow_orderOf_eq_one c
   have hc1 : c ≠ 1 := by
@@ -220,7 +220,7 @@ private theorem e6TwoFData_body :
   intro F _ _ _ q hq hq2 hdiv
   obtain ⟨c, ρ, G, hc, hρinj, hρcomm, _hρcen, hρmem, hGle, hGel, hGcard⟩ :=
     exists_F_gen (F := F) hq hq2 hdiv
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hroot : ∀ i : Fin 3, IsRoot .E6 (e6TwoOrtho3 i) := fun i =>
     CFSG.LieType.Chevalley.RootOps.isRootB_iff.mp (e6TwoOrtho3_check.1 i)
   let L : Subgroup ↥(e6Data_valid.minGroup F) :=

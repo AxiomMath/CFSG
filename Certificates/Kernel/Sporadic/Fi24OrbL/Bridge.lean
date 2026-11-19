@@ -74,7 +74,7 @@ theorem xor_one_even (j : ℕ) : (2 * j) ^^^ 1 = 2 * j + 1 := by
   rw [Nat.testBit_xor]
   rcases i with _ | i
   · simp [Nat.testBit_zero]
-  · simp [Nat.testBit_succ, Nat.mul_add_div (by norm_num : 0 < 2), Nat.mul_div_cancel_left]
+  · simp [Nat.testBit_succ, Nat.mul_add_div (by norm_num : 0 < 2)]
 
 theorem xor_one_odd (j : ℕ) : (2 * j + 1) ^^^ 1 = 2 * j := by
   have := congrArg (· ^^^ 1) (xor_one_even j)

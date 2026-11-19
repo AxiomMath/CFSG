@@ -15,7 +15,7 @@ variable {K : Type} [Field K]
   ((T⁻¹ * g * T : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) i i
 
 theorem diag_entry_mul {M N : Matrix (Fin 6) (Fin 6) K}
-    (hM : ∀ i j, i ≠ j → M i j = 0) (hN : ∀ i j, i ≠ j → N i j = 0) (i : Fin 6) :
+    (hM : ∀ i j, i ≠ j → M i j = 0) (_hN : ∀ i j, i ≠ j → N i j = 0) (i : Fin 6) :
     (M * N) i i = M i i * N i i := by
   rw [Matrix.mul_apply, Finset.sum_eq_single i]
   · intro k _ hk

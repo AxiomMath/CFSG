@@ -47,7 +47,7 @@ theorem hess_abstract {G : Type} [Group G] {Lh F : Subgroup G} {x₁ x₂ n₁ w
       rw [hF', Nat.card_zpowers]
       exact Nat.le_of_dvd (by norm_num) (orderOf_dvd_of_pow_eq_one h2)
     omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf x₁ = 3 := orderOf_eq_prime h1 hx₁ne
   have hconj : ∀ i j : ℤ, w * (x₁ ^ i * x₂ ^ j) * w⁻¹ = x₁ ^ (i + e * j) * x₂ ^ j := by
     intro i j

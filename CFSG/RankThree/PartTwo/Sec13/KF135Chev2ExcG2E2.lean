@@ -15,7 +15,7 @@ open CFSG.RankThree.PartTwo.Sec13.KF135Proof CFSG.LieType.SeitzGeneration
 theorem two_le_factorization_sq_pow {p q₀ : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hq : 2 ≤ q₀)
     (hpq : ¬ p ∣ q₀) (h : p ∣ (q₀ ^ p) ^ 2 - 1) : 2 ≤ ((q₀ ^ p) ^ 2 - 1).factorization p := by
   have h1 := CFSG.RankThree.PartOne.K128.dvd_sq_sub_one_of_dvd_pow hp hp2 hq hpq h
-  rw [CFSG.RankThree.PartOne.K128.factorization_sq_pow hp hp2 hq hpq, if_pos h1]
+  rw [CFSG.RankThree.PartOne.K128.factorization_sq_pow hp hp2 hq hpq, ite_eq_left h1]
   have h2 : 1 ≤ (q₀ ^ 2 - 1).factorization p := by
     have hne : q₀ ^ 2 - 1 ≠ 0 := by
       have : 4 ≤ q₀ ^ 2 := by nlinarith

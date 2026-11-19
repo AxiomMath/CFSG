@@ -65,15 +65,15 @@ theorem ent_mkT {m : Nat} {f : Nat → Nat} (hf : ∀ j < m, f j < 2048) {i : Na
     rw [CFSG.KC.Fi24FixS.sumBelow_eq _ _ _ (hiOf_ok m)]
     refine sum_congr rfl fun j hj => ?_
     have hj' : j < m := mem_range.1 hj
-    simp only [g, hj', if_true]
+    simp only [g, hj', ite_true]
     change f j <<< (j * 11) = _
     rw [Nat.shiftLeft_eq, pow_mul', show (2 : Nat) ^ 11 = 2048 by norm_num]
   rw [e, ent_eq, show (2 : Nat) ^ (11 * i) = 2048 ^ i by rw [pow_mul]; norm_num,
     (digits_sum g hg m).2 i hi]
-  simp only [g, hi, if_true]
+  simp only [g, hi, ite_true]
 
 theorem ent_cmpT {m A B : Nat} {i : Nat} (hi : i < m) : ent (cmpT m A B) i = ent A (ent B i) :=
-  ent_mkT (fun j _ => ent_lt A _) hi
+  ent_mkT (fun _j _ => ent_lt A _) hi
 
 theorem ent_idT {m i : Nat} (hm : m ≤ 2048) (hi : i < m) : ent (idT m) i = i :=
   ent_mkT (fun j hj => by omega) hi
@@ -184,7 +184,7 @@ private theorem tka_testBit_sum_pow (p : Nat → Nat) :
       rw [Nat.mul_one, Nat.add_comm]
     rw [e, Nat.testBit_two_pow_mul_add 1 hlt x]
     by_cases hx : x < p m
-    · rw [if_pos hx, ih]
+    · rw [ite_eq_left hx, ih]
       constructor
       · rintro ⟨i, hi, hpi⟩
         exact ⟨i, by omega, hpi⟩
@@ -193,7 +193,7 @@ private theorem tka_testBit_sum_pow (p : Nat → Nat) :
         · exact ⟨i, hi', hpi⟩
         · rw [hie] at hpi
           omega
-    · rw [if_neg hx]
+    · rw [ite_eq_right hx]
       have h1 : (1 : Nat).testBit (x - p m) = decide (x - p m = 0) := by
         rw [show (1 : Nat) = 2 ^ 0 by norm_num, Nat.testBit_two_pow]
         simp [eq_comm]
@@ -518,7 +518,7 @@ private theorem tkd_foldA_testBit (B : Nat) (g : List Nat → Nat) (p : Nat) :
       hg W List.mem_cons_self]
     rfl
 
-theorem k2OK_spec_ (hV : VN NW NT) {m F : Nat} (hm : m ≤ 2048)
+theorem k2OK_spec_ (hV : VN NW NT) {m F : Nat} (_hm : m ≤ 2048)
     (hinc : ∀ i j, i < j → j < m → pt F i < pt F j) {xt : List (List Nat)} {C : List (Nat × Nat)}
     (hxt : ∀ W ∈ xt, ∀ i < m, cP NW NT (invC W) (pt F i) < 306936)
     (h : k2OK NW NT m F xt C = true) :
@@ -600,7 +600,7 @@ private noncomputable def tke_pk (m : Nat) : List Nat → Nat → Nat :=
 private theorem tke_zero_mul (n : Nat) : Nat.mul 0 n = 0 := Nat.zero_mul n
 
 private theorem tke_shiftLeft_zero (n : Nat) : Nat.shiftLeft n 0 = n := by
-  simpa using (Nat.shiftLeft_zero (n := n))
+  simp
 
 private theorem tke_pk_shift {m : Nat} (ts : List Nat) (k : Nat) :
     tke_pk m ts k = tke_pk m ts 0 <<< (k * (m * 11)) := by
@@ -688,7 +688,7 @@ private theorem tke_mkT_lt {m : Nat} {f : Nat → Nat} (hf : ∀ j < m, f j < 20
     rw [CFSG.KC.Fi24FixS.sumBelow_eq _ _ _ (hiOf_ok m)]
     refine sum_congr rfl fun j hj => ?_
     have hj' : j < m := mem_range.1 hj
-    simp only [g, hj', if_true]
+    simp only [g, hj', ite_true]
     change f j <<< (j * 11) = _
     rw [Nat.shiftLeft_eq, pow_mul', show (2 : Nat) ^ 11 = 2048 by norm_num]
   rw [e, show (2 : Nat) ^ (m * 11) = 2048 ^ m by rw [pow_mul']; norm_num]
@@ -804,7 +804,7 @@ private theorem tke_ent_nIf (c : Bool) (a b j : Nat) :
   cases c <;> rfl
 
 private theorem tke_land_one (e : Nat) : Nat.land e 1 = e % 2 := by
-  simpa using (Nat.and_one_is_mod e)
+  simp
 
 private theorem tke_ent_nIf_beq (e : Nat) (a b j : Nat) :
     ent (nIf(Nat.beq (Nat.land e 1) 0, a, b)) j =
@@ -814,14 +814,14 @@ private theorem tke_ent_nIf_beq (e : Nat) (a b j : Nat) :
   · have hc : Nat.beq (Nat.land e 1) 0 = true := by
       rw [Nat.beq_eq, tke_land_one]
       exact he
-    rw [hc, if_pos he]
+    rw [hc, ite_eq_left he]
   · have hc : Nat.beq (Nat.land e 1) 0 = false := by
       cases hb : Nat.beq (Nat.land e 1) 0 with
       | false => rfl
       | true =>
         rw [Nat.beq_eq, tke_land_one] at hb
         exact absurd hb he
-    rw [hc, if_neg he]
+    rw [hc, ite_eq_right he]
 
 private theorem tke_sF_lt {m : Nat} {L : List Nat}
     (hL : ∀ l, ∀ j < m, ent (nthL 0 L l) j < m) (gw : List (List Nat)) (v : List Nat) :
@@ -834,9 +834,9 @@ private theorem tke_sF_lt {m : Nat} {L : List Nat}
     rw [show sF L gw (e :: v) i =
         (if e % 2 = 0 then gF L gw (e / 2) else gFI L gw (e / 2)) (sF L gw v i) from rfl]
     by_cases he : e % 2 = 0
-    · rw [if_pos he]
+    · rw [ite_eq_left he]
       exact wF_lt hL (nthL [] gw (e / 2)) h1
-    · rw [if_neg he]
+    · rw [ite_eq_right he]
       exact wF_lt hL ((nthL [] gw (e / 2)).reverse) h1
 
 private theorem tke_sT_eq {m : Nat} (hm : m ≤ 2048) {L : List Nat}
@@ -867,8 +867,8 @@ private theorem tke_sT_eq {m : Nat} (hm : m ≤ 2048) {L : List Nat}
       show sF L gw (e :: v) i =
         (if e % 2 = 0 then gF L gw (e / 2) else gFI L gw (e / 2)) (sF L gw v i) from rfl]
     by_cases he : e % 2 = 0
-    · rw [if_pos he, if_pos he, hG (e / 2) hv2 _ hlt]
-    · rw [if_neg he, if_neg he, hGI (e / 2) hv2 _ hlt]
+    · rw [ite_eq_left he, ite_eq_left he, hG (e / 2) hv2 _ hlt]
+    · rw [ite_eq_right he, ite_eq_right he, hGI (e / 2) hv2 _ hlt]
 
 theorem nmChk_spec {m : Nat} (hm : m ≤ 2048) {L : List Nat}
     (hL : ∀ l, ∀ j < m, ent (nthL 0 L l) j < m) {gw : List (List Nat)} {nw : List (List (List Nat))}
@@ -924,14 +924,14 @@ private theorem tke_ent_cmpT_apply {m : Nat} {A B : Nat} {f g : Nat → Nat} {x 
     ent (cmpT m A B) x = f (g x) := by
   rw [ent_cmpT hx, hA (ent B x) (by rw [hB x hx]; exact hgx), hB x hx]
 
-private theorem tke_ent_cmpT_gFG {m : Nat} (hm : m ≤ 2048) {L : List Nat}
+private theorem tke_ent_cmpT_gFG {m : Nat} (_hm : m ≤ 2048) {L : List Nat}
     (hL : ∀ l, ∀ j < m, ent (nthL 0 L l) j < m) {gw : List (List Nat)} {G : Nat}
     (hG : ∀ k, k < gw.length → ∀ y < m, ent (gAt m G k) y = gF L gw k y) {i j x : Nat}
     (hi : i < gw.length) (hj : j < gw.length) (hx : x < m) :
     ent (cmpT m (gAt m G i) (gAt m G j)) x = gF L gw i (gF L gw j x) :=
   tke_ent_cmpT_apply hx (wF_lt hL (nthL [] gw j) hx) (hG i hi) (hG j hj)
 
-private theorem tke_ent_cmpT_gFI {m : Nat} (hm : m ≤ 2048) {L : List Nat}
+private theorem tke_ent_cmpT_gFI {m : Nat} (_hm : m ≤ 2048) {L : List Nat}
     (hL : ∀ l, ∀ j < m, ent (nthL 0 L l) j < m) {gw : List (List Nat)} {GI : Nat}
     (hGI : ∀ k, k < gw.length → ∀ y < m, ent (gAt m GI k) y = gFI L gw k y) {i j x : Nat}
     (hi : i < gw.length) (hj : j < gw.length) (hx : x < m) :
@@ -1059,7 +1059,7 @@ theorem c2Chk_spec_ {m : Nat} (hm : m ≤ 2048) {L : List Nat}
       rw [hleft, hright] at e
       exact e
 
-theorem gtOK_spec (hV : VN NW NT) {F : Nat} {C : List (Nat × Nat)} {gt : List (List Nat)}
+theorem gtOK_spec (_hV : VN NW NT) {F : Nat} {C : List (Nat × Nat)} {gt : List (List Nat)}
     (h : gtOK NW NT F C gt = true) :
     gt.length + 1 = C.length ∧ ∀ k < gt.length,
       cP NW NT (nthL [] gt k) 0 = 0 ∧ cP NW NT (nthL [] gt k) (pt F (nthP C (k + 1)).1) = 305530 := by

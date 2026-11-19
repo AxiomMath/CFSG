@@ -46,7 +46,7 @@ variable [Finite K] [Fact p.Prime] [CharP K p]
 theorem bar_eq (c : K) : h.bar c = unitaryInvolution K p f c := by
   rw [h.bar_apply, unitaryInvolution_apply]
 
-theorem isIso_of_mem_uU (hbb : ∀ x, unitaryInvolution K p f (unitaryInvolution K p f x) = x)
+theorem isIso_of_mem_uU (_hbb : ∀ x, unitaryInvolution K p f (unitaryInvolution K p f x) = x)
     {A : GL (Fin n) K} (hA : A ∈ uU h n) : IsIso (unitaryInvolution K p f) A := by
   have := (mem_uU h).1 hA
   unfold IsIso conjTr

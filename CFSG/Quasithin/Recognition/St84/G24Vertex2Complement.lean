@@ -313,7 +313,7 @@ private theorem closure_psi_eq_top [Finite G] {H : Subgroup G} {a b : G}
     (ha1 : a ≠ 1) (hb1 : b ≠ 1) (ha2 : a ^ 2 = 1) (hb3 : b ^ 3 = 1)
     (hab5 : (a * b) ^ 5 = 1) (hab1 : a * b ≠ 1) :
     Subgroup.closure ({ψ aH, ψ bH} : Set Alt5) = ⊤ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have haH2 : aH ^ 2 = 1 := by
     apply Subtype.ext
     simpa [Subgroup.coe_pow, haH] using ha2
@@ -400,7 +400,7 @@ theorem G24Vertex2.closure_ab_eq_A_inf_L2 [Finite G]
     (hab1 : a * b ≠ 1) :
     Subgroup.closure ({a, b} : Set G) = A ⊓ L2 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let Q2 : Subgroup G := dsQ L2 L1 S
   have hR : Hyp111R L1 L2 S := Hyp111R.of_hyp111 rankOneListedFacts hF.1
   have hQ2eq : pCoreOf 2 L2 = Q2 := G24LocalData.pCoreOf_eq_dsQ_right hR hD.le_right

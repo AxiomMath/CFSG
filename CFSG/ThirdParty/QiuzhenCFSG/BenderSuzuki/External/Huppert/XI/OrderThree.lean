@@ -74,7 +74,7 @@ public theorem huppert_XI_2_2_subgroup_order_three_unique
     intro W hW
     have hWnontrivial : Nontrivial W :=
       Finite.one_lt_card_iff_nontrivial.mp (by omega)
-    letI : Nontrivial W := hWnontrivial
+    let : Nontrivial W := hWnontrivial
     obtain ⟨d, hdne⟩ := exists_ne (1 : W)
     have hdorderW : orderOf d = 3 := by
       have hdvd : orderOf d ∣ 3 := by

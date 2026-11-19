@@ -137,14 +137,14 @@ private theorem iform_root {zs : List ℕ} {c : ℕ} (h : e6KerEntryOK zs c = tr
   rw [gramT]
   rcases lt_trichotomy k l with hkl | rfl | hkl
   · have := (e6KerEntryOK_spec h).2 k l hkl hl
-    rw [h1, if_neg hkl.ne, Nat.min_eq_left hkl.le, Nat.max_eq_right hkl.le]
+    rw [h1, ite_eq_right hkl.ne, Nat.min_eq_left hkl.le, Nat.max_eq_right hkl.le]
     split_ifs at this ⊢ <;> omega
   · have : 2 * e6DotNat (root c k) (root c k) = e6EdgeNat (root c k) (root c k) + 2 :=
       (e6PosRootCoords_facts _ (e6KerTableIdx_lt c k)).2.1
-    rw [h1, if_pos rfl]
+    rw [h1, ite_eq_left rfl]
     omega
   · have := (e6KerEntryOK_spec h).2 l k hkl hk
-    rw [h2, if_neg hkl.ne', Nat.min_eq_right hkl.le, Nat.max_eq_left hkl.le]
+    rw [h2, ite_eq_right hkl.ne', Nat.min_eq_right hkl.le, Nat.max_eq_left hkl.le]
     split_ifs at this ⊢ <;> omega
 
 private theorem iform_add_left' {τ : Tag} (x x' y : Fin τ.rank → ℤ) :
@@ -197,13 +197,13 @@ theorem exists_roots_of_not_dvd_three_E6 (e : Fin Tag.E6.rank → ℤ) (he : ∃
     dvd_of_e6DotNat (e6PosRootCoords_facts _ (e6KerTableIdx_lt c m)).1
       ((e6KerEntryOK_spec hc).1 m hm)
   by_cases ht : c % 5 = 4
-  · have hn (k : Fin 4) : (k : ℕ) < e6KerTypeSize (c % 5) := k.isLt.trans_eq (if_pos ht).symm
+  · have hn (k : Fin 4) : (k : ℕ) < e6KerTypeSize (c % 5) := k.isLt.trans_eq (ite_eq_left ht).symm
     refine .inr ⟨fun k => vecN (root c k), fun k => isRoot_e6PosRootCoords (e6KerTableIdx_lt c k),
       fun k => hdvd k (hn k), fun k l hkl => ?_⟩
     show iform (vecN (root c k)) (vecN (root c l)) = 0
-    rw [iform_root hc (hn k) (hn l), gramT, if_neg (Fin.val_ne_of_ne hkl), ht]
+    rw [iform_root hc (hn k) (hn l), gramT, ite_eq_right (Fin.val_ne_of_ne hkl), ht]
     rfl
-  · have hn (k : Fin 5) : (k : ℕ) < e6KerTypeSize (c % 5) := k.isLt.trans_eq (if_neg ht).symm
+  · have hn (k : Fin 5) : (k : ℕ) < e6KerTypeSize (c % 5) := k.isLt.trans_eq (ite_eq_right ht).symm
     exact .inl ⟨fun k => vecN (root c k), fun k => isRoot_e6PosRootCoords (e6KerTableIdx_lt c k),
       fun k => hdvd k (hn k), linIndep_of_gram (by omega) fun k l => iform_root hc (hn k) (hn l)⟩
 

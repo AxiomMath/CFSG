@@ -63,11 +63,9 @@ theorem kGrp17_sound (GT : List (List Nat)) (DPR : List Nat) (LIN DM DO u0 : Nat
   obtain ⟨hlen, h⟩ := P117.andB_iff.1 h
   obtain ⟨hclo, h⟩ := P117.andB_iff.1 h
   rw [SC.neStrictB_eq] at h
-  beta_reduce at h
   have hz := (S17.sZipAll_iff _ U K).1 h l hl
   unfold kGrpOne at hz
   rw [SC.neStrictB_eq, SC.neStrictB_eq] at hz
-  beta_reduce at hz
   obtain ⟨hC, hz⟩ := P117.andB_iff.1 hz
   obtain ⟨hN, hz⟩ := P117.andB_iff.1 hz
   obtain ⟨hK, hz⟩ := P117.andB_iff.1 hz

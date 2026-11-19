@@ -140,7 +140,7 @@ theorem oPrimeResidual_eq_sup (T : Sylow 2 H) (K : Subgroup H) [K.Normal]
       Subgroup.subset_closure ⟨1, by simpa [pow_two] using hx2⟩
     have hPO : (T : Subgroup H) ⊓ K ≤ GLS.oPrimeResidual 2 H := by
       intro p hp
-      have hpT : IsPGroup 2 (T : Subgroup H) := T.isPGroup'
+      have hpT : IsPGroup 2 (T : Subgroup H) := T.isPGroup
       obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.1 hpT) ⟨p, hp.1⟩
       refine Subgroup.subset_closure ⟨j, ?_⟩
       have : (⟨p, hp.1⟩ : (T : Subgroup H)) ^ (2 ^ j) = 1 := by

@@ -32,6 +32,7 @@ private theorem z_mem_centerIn_of_le_H (hz : orderOf z = 2) {K T : Subgroup G} (
   intro s hs
   exact Subgroup.mem_centralizer_singleton_iff.mp (hK (hT.le hs))
 
+omit [Finite G] in
 private theorem z_mem_centerIn_of_isSylowOf (h : Tim79a.ParrottHyp z) {σ : G}
     (hσH : σ ∈ H z) {T : Subgroup G}
     (hT : IsSylowOf 2 T (H z ⊓ Subgroup.centralizer ({σ} : Set G))) :
@@ -52,6 +53,7 @@ private lemma z_mem_centerIn_of_isSylowOf_normalizer (h : Tim79a.ParrottHyp z) {
   exact z_mem_centerIn_of_le_H h.1 inf_le_left
     (Subgroup.mem_inf.mpr ⟨z_mem_H, hzN⟩) hS₀
 
+omit [Finite G] in
 private lemma normalizer_inf_normalizer_zpowers_le_H {σ₁ : G} {S₀ : Subgroup G}
     (hzZ : z ∈ centerIn S₀)
     (hZS₀ : ∀ e ∈ centerIn S₀, IsConj z e → e = z) :

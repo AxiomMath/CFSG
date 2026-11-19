@@ -165,6 +165,7 @@ section
 
 variable [Finite X]
 
+omit [Finite X] in
 private theorem img_inf_lT_eq (c : SevenCtx0 T L) :
     c.img (T ⊓ lT T L) = ((gnImg T T ⊓ L).subgroupOf L).map
       ((alternatingGroup (Fin 7)).subtype.comp c.eL.toMonoidHom) := by
@@ -366,11 +367,11 @@ private theorem wP_sup_ker {Rs : Subgroup (X ⧸ gnC T)} {P Q : Subgroup (Perm (
   exact Rs.mul_mem hwR hr
 
 private theorem wP_sup_img {Rs : Subgroup (X ⧸ gnC T)} {Q P : Subgroup (Perm (Fin 7))}
-    (hRL : Rs ≤ nLs T L) (hWL : c.wP P ≤ nLs T L) (hHL : c.wP P ⊔ Rs ≤ nLs T L)
+    (hRL : Rs ≤ nLs T L) (hWL : c.wP P ≤ nLs T L) (_hHL : c.wP P ⊔ Rs ≤ nLs T L)
     (hQ : c.imgS Rs = Q) (hQP : Q ≤ P)
     (hRQ : ∀ r (hr : r ∈ Rs), c.θs ⟨r, hRL hr⟩ ∈ Q)
     (hodd : P ≤ alternatingGroup (Fin 7) ∨ ∃ q ∈ Q, q ∉ alternatingGroup (Fin 7))
-    (hQL : ∀ σ ∈ Q ⊓ alternatingGroup (Fin 7), ∃ (y : X ⧸ gnC T) (hy : y ∈ Rs ⊓ L),
+    (_hQL : ∀ σ ∈ Q ⊓ alternatingGroup (Fin 7), ∃ (y : X ⧸ gnC T) (hy : y ∈ Rs ⊓ L),
       c.θs ⟨y, hRL hy.1⟩ = σ)
     (hdecomp : ∀ h ∈ c.wP P ⊔ Rs, ∃ w ∈ c.wP P, ∃ r ∈ Rs, h = w * r) :
     c.imgS (c.wP P ⊔ Rs) = P := by
@@ -425,7 +426,7 @@ private structure WPMap (c : SevenCtx0 T L) (H Rs : Subgroup (X ⧸ gnC T))
   hsurjR : ∀ q, q ∈ Q → ∃ x, x ∈ Rs.subgroupOf H ∧ f x = q
 
 private noncomputable def wP_sup_map {Rs : Subgroup (X ⧸ gnC T)} {Q P : Subgroup (Perm (Fin 7))}
-    (hRL : Rs ≤ nLs T L) (hHL : c.wP P ⊔ Rs ≤ nLs T L)
+    (_hRL : Rs ≤ nLs T L) (hHL : c.wP P ⊔ Rs ≤ nLs T L)
     (hQ : c.imgS Rs = Q) (himg : c.imgS (c.wP P ⊔ Rs) = P)
     (hker : ∀ (h : X ⧸ gnC T) (hh : h ∈ c.wP P ⊔ Rs),
       c.θs ⟨h, hHL hh⟩ = 1 → h ∈ Rs) :
@@ -563,7 +564,7 @@ private theorem wP_sup_comap {Rs : Subgroup (X ⧸ gnC T)} {Q P Pm : Subgroup (P
     rw [hfx]
     exact Pm.mul_mem hfw (hQm hfr)
 
-private noncomputable def wP_sup_mapM {Rs : Subgroup (X ⧸ gnC T)} {Q P Pm : Subgroup (Perm (Fin 7))}
+private theorem wP_sup_mapM {Rs : Subgroup (X ⧸ gnC T)} {Q P Pm : Subgroup (Perm (Fin 7))}
     (hHL : c.wP P ⊔ Rs ≤ nLs T L)
     (md : WPMap c (c.wP P ⊔ Rs) Rs hHL P Q) (hmin : MinParabolic P Q Pm)
     (hcomap : Pm.comap md.f = (c.wP Pm ⊔ Rs).subgroupOf (c.wP P ⊔ Rs)) :
@@ -634,7 +635,7 @@ private structure WPG (H Rs : Subgroup (X ⧸ gnC T)) (P Q : Subgroup (Perm (Fin
 
 private noncomputable def wP_sup_g {Rs : Subgroup (X ⧸ gnC T)} {Q P : Subgroup (Perm (Fin 7))}
     (hHL : c.wP P ⊔ Rs ≤ nLs T L)
-    (md : WPMap c (c.wP P ⊔ Rs) Rs hHL P Q) (hQP : Q ≤ P) :
+    (md : WPMap c (c.wP P ⊔ Rs) Rs hHL P Q) (_hQP : Q ≤ P) :
     WPG (c.wP P ⊔ Rs) Rs P Q := by
   have hfP : ∀ x : ↥(c.wP P ⊔ Rs), md.f x ∈ P := md.hmemTop
   let g : ↥(c.wP P ⊔ Rs) →* ↥P := md.f.codRestrict P hfP

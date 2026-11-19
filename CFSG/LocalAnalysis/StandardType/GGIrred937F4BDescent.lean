@@ -102,7 +102,6 @@ theorem langEmbedding_mem_of_mem_ggFix
   · rw [toralCentralizer, Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff]
     refine ⟨hyG, ?_⟩
     first
-      | exact hcomm
       | exact hcomm.symm
   · rw [mem_langFixed]
     rw [map_mul, map_mul, map_inv, hfix, hFrg]

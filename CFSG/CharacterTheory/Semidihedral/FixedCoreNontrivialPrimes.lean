@@ -139,7 +139,7 @@ theorem brauer_local_side {G : Type} [Group G] [Fintype G] {n : ℕ} (hn : 4 ≤
     (principalFiniteComplexRepresentation_isIrreducible (C t))
   rw [principalFiniteComplexRepresentation_character] at hlocalPrincipal
   have htt : t * t = 1 := by rw [← pow_two, ← ht2, pow_orderOf_eq_one]
-  obtain ⟨k, hk⟩ := Q.isPGroup'.exists_orderOf_dvd_pow (⟨w, hwQ⟩ : (Q : Subgroup (C t)))
+  obtain ⟨k, hk⟩ := Q.isPGroup.exists_orderOf_dvd_pow (⟨w, hwQ⟩ : (Q : Subgroup (C t)))
   have hu : orderOf (w : G) ∣ ℓ ^ k := by
     rw [Subgroup.orderOf_coe, ← Subgroup.orderOf_mk w hwQ]
     exact hk
@@ -311,7 +311,7 @@ theorem trivial_fixed_core_primes_aux
   set wC : C t := ⟨(w : G), hwC⟩ with hwCdef
   have hwC1 : wC ≠ 1 := fun h => hw1' (congrArg Subtype.val h)
   have hwodd : Odd (orderOf wC) := by
-    obtain ⟨k, hk⟩ := Q.isPGroup'.exists_orderOf_dvd_pow (⟨wC, hwQ⟩ : (Q : Subgroup (C t)))
+    obtain ⟨k, hk⟩ := Q.isPGroup.exists_orderOf_dvd_pow (⟨wC, hwQ⟩ : (Q : Subgroup (C t)))
     rw [← Subgroup.orderOf_mk wC hwQ]
     exact Odd.of_dvd_nat ((hℓ.eq_two_or_odd'.resolve_left hℓ2).pow) hk
   have htreg : ¬ ℓ ∣ orderOf t := by

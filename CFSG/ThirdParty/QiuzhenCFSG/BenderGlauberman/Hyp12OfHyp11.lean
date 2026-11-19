@@ -48,7 +48,7 @@ private lemma U_normal_in_H (c : Hyp11 G) {h u : G} (hh : h ∈ c.H) (hu : u ∈
   have huU : u ∈ (pPrimeCore 2 c.H).map c.H.subtype := by
     simpa [Hyp11.U, oddCoreOf] using hu
   have huH : u ∈ c.H :=
-    SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
+    _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
   have hchar : (pPrimeCore 2 c.H).Characteristic :=
     pPrimeCore_characteristic (p := 2) (G := c.H)
   have hcomap : (pPrimeCore 2 c.H) ≤ (pPrimeCore 2 c.H).comap

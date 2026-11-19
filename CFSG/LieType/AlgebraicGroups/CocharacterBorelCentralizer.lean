@@ -180,21 +180,21 @@ theorem weightProj_basePointsRepresentation_of_mem_unipotent (l : M →ₐc[k] L
     rw [hp, ← LaurentPolynomial.single_eq_C_mul_T, AddMonoidAlgebra.coeff_single,
       Finsupp.single_apply]
     by_cases hn : n = m - m'
-    · rw [if_pos hn, if_pos hn.symm]
-    · rw [if_neg hn, if_neg (Ne.symm hn)]
+    · rw [ite_eq_left hn, ite_eq_left hn.symm]
+    · rw [ite_eq_right hn, ite_eq_right (Ne.symm hn)]
   by_cases hmm : m = m'
   · subst hmm
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     have h0 := CFSG.ThirdParty.TauCeti.Cocharacter.limit_apply_eq_coeff_conjugate l ⟨u, hpar⟩ F
-    rw [hlim, hcoeff, if_pos (by omega)] at h0
+    rw [hlim, hcoeff, ite_eq_left (by omega)] at h0
     change c = θ ω
     rw [← h0, show (1 : WithConv (M →ₐ[k] k)) = 1 from rfl,
       TauCeti.Comodule.apply_matrixCoefficient, map_one, Module.End.one_apply]
     simp only [φ, LinearMap.comp_apply, weightProj_of_mem l hω]
-  · rw [if_neg hmm, map_zero]
+  · rw [ite_eq_right hmm, map_zero]
     have h0 := (CFSG.ThirdParty.TauCeti.Cocharacter.mem_parabolic_iff_forall_coeff_conjugate_eq_zero
       l).mp hpar F (m - m') (by omega)
-    rw [hcoeff, if_pos rfl] at h0
+    rw [hcoeff, ite_eq_left rfl] at h0
     exact h0
 
 end Unipotent
@@ -334,7 +334,7 @@ theorem mem_quotientPointsSubgroup_of_commute_pointsHom_of_sup
     intro g m hm
     refine (Module.forall_dual_apply_eq_zero_iff k _).mp fun θ => ?_
     refine hvanish θ m hm.le (fun u hu => ?_) g
-    rw [weightProj_basePointsRepresentation_of_mem_unipotent l hω hu hm.le, if_neg hm.ne,
+    rw [weightProj_basePointsRepresentation_of_mem_unipotent l hω hu hm.le, ite_eq_right hm.ne,
       map_zero]
   have hat : ∀ g : WithConv (M →ₐ[k] k),
       weightProj W l (Multiplicative.ofAdd m') (basePointsRepresentation (H := M) W g ω) ∈
@@ -344,7 +344,7 @@ theorem mem_quotientPointsSubgroup_of_commute_pointsHom_of_sup
     obtain ⟨θ, hθ, hθω⟩ := Submodule.exists_le_ker_of_notMem hnot
     apply hθ
     refine hvanish θ m' le_rfl (fun u hu => ?_) g
-    rw [weightProj_basePointsRepresentation_of_mem_unipotent l hω hu le_rfl, if_pos rfl]
+    rw [weightProj_basePointsRepresentation_of_mem_unipotent l hω hu le_rfl, ite_eq_left rfl]
     exact LinearMap.mem_ker.mp (hθω (Submodule.mem_span_singleton_self ω))
   set v := basePointsRepresentation (H := M) W z ω
   have hvW : v ∈ weightSpace W l (Multiplicative.ofAdd m') :=

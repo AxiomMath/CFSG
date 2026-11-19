@@ -57,7 +57,7 @@ private theorem dvd_relIndex_inf_normalizer_of_not_isSylowTwoOf {G : Type} [Grou
     2 ∣ H.relIndex (N ⊓ normalizer (H : Set G)) := by
   obtain ⟨T, hHT⟩ := hH.exists_le_sylow
   have hSTop : IsSylowTwoOf (T : Subgroup G) ⊤ :=
-    ⟨le_top, T.isPGroup',
+    ⟨le_top, T.isPGroup,
       fun h => T.not_dvd_index (Subgroup.relIndex_top_right (T : Subgroup G) ▸ h)⟩
   have hTNsyl : IsSylowTwoOf (N ⊓ T) N :=
     CFSG.isSylowTwoOf_inf_of_normal hSTop le_top (by rw [Subgroup.normalizer_eq_top])
@@ -127,7 +127,7 @@ private theorem exists_sylow_not_isGomiParabolicSwap_map_mk' {G : Type} [Group G
   obtain ⟨S, hS⟩ := hswap (htypes.imp (fun h => h.of_mulEquiv e) (fun h => h.of_mulEquiv e))
   refine ⟨S.mapSurjective (QuotientGroup.mk'_surjective Z), fun hh => hS ?_⟩
   rw [Sylow.coe_mapSurjective] at hh
-  exact IsGomiParabolicSwap.of_map_mk' hZodd hZZ hZL hperf S.isPGroup' hh
+  exact IsGomiParabolicSwap.of_map_mk' hZodd hZZ hZL hperf S.isPGroup hh
 
 private theorem not_exception_map_mk' {G : Type} [Group G] [Finite G] {L Z : Subgroup G} [Z.Normal]
     (hquasi : CFSG.IsQuasisimple ↥L) (hLZ : Z.subgroupOf L = center ↥L)

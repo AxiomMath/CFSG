@@ -21,7 +21,7 @@ private lemma tw_card_conj_class_eq (σ : Perm (Fin 8)) {k : ℕ} (hk : k ≠ 0)
       Nat.factorial 8 / (Nat.factorial (8 - k * 2) * 2 ^ k * Nat.factorial k) := by
   rw [Equiv.Perm.card_isConj_eq, hcyc]
   simp only [Fintype.card_fin, Multiset.sum_replicate, smul_eq_mul, Multiset.prod_replicate,
-    Multiset.toFinset_replicate, if_neg hk, Finset.prod_singleton,
+    Multiset.toFinset_replicate, ite_eq_right hk, Finset.prod_singleton,
     Multiset.count_replicate_self]
 
 theorem isConj_abType22_of_card_eq {x : alternatingGroup (Fin 8)} (hx : x * x = 1)

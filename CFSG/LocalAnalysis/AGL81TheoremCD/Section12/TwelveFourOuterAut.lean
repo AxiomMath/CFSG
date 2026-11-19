@@ -83,7 +83,7 @@ theorem pRank_outer_quot_center_le_one
     exact hX
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow d (X ⧸ Subgroup.center X)))
   refine hOut (X ⧸ Subgroup.center X) hq.2 hnab hcat d hd hd2 T ?_
-  refine CFSG.isCyclic_of_pRank_le_one hd hd2 T.isPGroup' ?_
+  refine CFSG.isCyclic_of_pRank_le_one hd hd2 T.isPGroup ?_
   rw [← CFSG.SectionRank.pRank_eq_pRank_top_subgroup (T : Subgroup (X ⧸ Subgroup.center X))]
   exact (CFSG.SectionRank.pRank_mono hd.one_lt le_top).trans hrank
 

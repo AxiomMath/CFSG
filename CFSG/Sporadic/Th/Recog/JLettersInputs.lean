@@ -158,19 +158,19 @@ open CFSG.GH74.QTGen4.Recog.G23
 
 theorem rowsLArr_get (i : Fin 6) :
     ((rowsLArr ())[i.val]?).getD idRows = rowsL i := by
-  simp [rowsLArr, rowsL, Array.getElem?_ofFn, i.isLt]
+  simp [rowsLArr, rowsL, i.isLt]
 
 theorem rowsLInvArr_get (i : Fin 6) :
     ((rowsLInvArr ())[i.val]?).getD idRows = rowsLInv i := by
-  simp [rowsLInvArr, rowsLInv, Array.getElem?_ofFn, i.isLt]
+  simp [rowsLInvArr, rowsLInv, i.isLt]
 
 theorem rowsHswArr_get (i : Fin 8) :
     ((rowsHswArr ())[i.val]?).getD idRows = rowsHsw i := by
-  simp [rowsHswArr, Array.getElem?_ofFn, i.isLt]
+  simp [rowsHswArr, i.isLt]
 
 theorem rowsHswInvArr_get (i : Fin 8) :
     ((rowsHswInvArr ())[i.val]?).getD idRows = rowsHswInv i := by
-  simp [rowsHswInvArr, Array.getElem?_ofFn, i.isLt]
+  simp [rowsHswInvArr, i.isLt]
 
 @[expose] def checkWJ2 (_ : Unit := ()) : Bool := eqRows (rowsHsw 2) (rowsWJ 2)
 @[expose] def checkWJ3 (_ : Unit := ()) : Bool := eqRows (rowsHsw 3) (rowsWJ 3)

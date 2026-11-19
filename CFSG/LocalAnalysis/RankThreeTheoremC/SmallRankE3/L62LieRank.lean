@@ -141,8 +141,8 @@ theorem l62_two_le_pRank_statedProj_su (n : ℕ) (hn : 5 ≤ n) {p f : ℕ} (hp 
     2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (StatedProj (StatedSU n (p ^ f) K))) := by
   have hUF : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData p f K :=
     ⟨hp, hf, by rw [hK, ← pow_mul, mul_comm]⟩
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K p := hUF.charP
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K p := hUF.charP
   have h4 : 0 + 4 ≤ n := by omega
   let θ : CFSG.ClassicalInvolution.Phan.Su K p f n →* StatedProj (StatedSU n (p ^ f) K) :=
     (QuotientGroup.mk' ((StatedScalars (Fin n) K).subgroupOf (StatedSU n (p ^ f) K))).comp

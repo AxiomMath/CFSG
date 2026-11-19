@@ -157,7 +157,7 @@ private theorem idCom_core {K : Type} [Field K] [Finite K] {N p : ℕ} [Fact p.P
     (hs' : IsGLLift j ψ s' b') : Commute s s' := by
   rw [commute_iff_eq]
   by_contra hnc
-  haveI : Nonempty (Fin N) := ⟨⟨0, hN⟩⟩
+  have : Nonempty (Fin N) := ⟨⟨0, hN⟩⟩
   let E : Subgroup (GL (Fin N) K) :=
     { carrier := {s | ∃ b ∈ B₁, IsGLLift j ψ s b}
       one_mem' := by exact ⟨1, B₁.one_mem, idCom_lift_one j ψ⟩
@@ -326,7 +326,7 @@ theorem isGLLift_commute_PSL (m f : ℕ) {X : Type} [Group X]
     (hs : IsGLLift Matrix.SpecialLinearGroup.toGL ψ s b)
     (hs' : IsGLLift Matrix.SpecialLinearGroup.toGL ψ s' b') :
     Commute s s' := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hcomm, hpow⟩ := hab
   have hB₁pow : ∀ b ∈ B₁, b ^ p = 1 := hpow
   have hB₁comm : ∀ b ∈ B₁, ∀ b' ∈ B₁, b * b' = b' * b := by
@@ -401,7 +401,7 @@ theorem isGLLift_commute_PSU {F : Type} [Field F] [Finite F] [CharP F 2] {f : �
     (hs' : IsGLLift (Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution F 2 f) n).subtype ψ s' b')
     :
     Commute s s' := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hcomm, hpow⟩ := hab
   have hB₁pow : ∀ b ∈ B₁, b ^ p = 1 := hpow
   have hB₁comm : ∀ b ∈ B₁, ∀ b' ∈ B₁, b * b' = b' * b := by
@@ -437,7 +437,7 @@ theorem isGLLift_commute_PSU {F : Type} [Field F] [Finite F] [CharP F 2] {f : �
       B₁ ⊓ Subgroup.centralizer (ψ.range : Set X) = ⊥ ∧ p ^ (n - 3) ≤ Nat.card B₁ := by
     intro b hb b' hb' s s' hs hs' ζ hζ hζpow hrel
     apply hHN
-    haveI : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
+    have : Nonempty (Fin n) := ⟨⟨0, by omega⟩⟩
     let σ : F ≃+* F := CFSG.LieType.BorelTits.unitaryInvolution F 2 f
     obtain ⟨s₀, hs₀unit, hs₀⟩ := exists_isGLLift_PSU hc n hn ψ hψ (hB₁N hb) (hB₁ b hb)
     obtain ⟨s₀', hs₀'unit, hs₀'⟩ := exists_isGLLift_PSU hc n hn ψ hψ (hB₁N hb') (hB₁ b' hb')

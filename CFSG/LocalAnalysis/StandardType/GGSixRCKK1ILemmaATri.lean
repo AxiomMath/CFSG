@@ -21,7 +21,7 @@ open CFSG.StandardType.RCKSmall (RCKSmallTag)
 private theorem rckK1Ilat_map_conj_one {K : Type*} [Group K] (H : Subgroup K) :
     H.map (MulAut.conj (1 : K)).toMonoidHom = H := by
   ext y
-  simp [MulAut.conj_apply]
+  simp
 
 private theorem rckK1Ilat_map_conj_mul {K : Type*} [Group K] (H : Subgroup K) (a b : K) :
     H.map (MulAut.conj (a * b)).toMonoidHom =
@@ -66,12 +66,12 @@ theorem rckK1I_lemmaA_triD4
   let D := (triD4Universal F σ).D
   let K := (triD4Universal F σ).K
   have hperfK : commutator K = ⊤ := by
-    haveI : Group.IsPerfect K := by
+    have : Group.IsPerfect K := by
       change Group.IsPerfect (CFSG.LieType.Steinberg.TwistedD4.twistedGroup σ)
       exact CFSG.LieType.Steinberg.TwistedD4.twistedGroup_isPerfect_of_card (q := 2 ^ g)
         (Nat.le_self_pow (by have := hF.1; omega) 2) hF.2.1 hF.2.2
     exact Group.IsPerfect.commutator_eq_top
-  haveI : Group.IsPerfect K := ⟨hperfK⟩
+  have : Group.IsPerfect K := ⟨hperfK⟩
   have hperfX : Group.IsPerfect X := Group.IsPerfect.ofSurjective hψ
   have hcommX : commutator X = ⊤ := hperfX.commutator_eq_top
   have hnabX : ¬ IsMulCommutative X := by
@@ -117,8 +117,8 @@ theorem rckK1I_lemmaA_triD4
     (hIRG X ⊤ (((D.rootGroup β).map ψ).map α.toMonoidHom)
       (((D.rootGroup (-β)).map ψ).map α.toMonoidHom) hQtop hZoddTop hposα).2
       F σ g ψ hF (MonoidHom.range_eq_top_of_surjective ψ hψ) hker
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hchar : CharP F 2 := CFSG.StandardType.RCKC1.charP_two_of_triField hF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hchar : CharP F 2 := CFSG.StandardType.RCKC1.charP_two_of_triField hF
   have hrootP : ∀ δ ∈ D.roots, IsPGroup 2 (D.rootGroup δ) := by
     intro δ hδ
     exact isPGroup_twistedD4_rootGroup (K := F) σ (sigma_three_of_card hF.2.1 hF.2.2)

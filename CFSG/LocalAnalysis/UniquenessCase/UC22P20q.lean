@@ -84,13 +84,13 @@ theorem uc22p20q_shapeOne_of_noOddMult {X : Type} [Group X] {t : StatedLieTag} {
         true_or, or_true]
     · obtain ⟨rfl, -⟩ := hadm'
       simp only [IsSz, IsL2, IsL3, IsU3, IsU4, IsG2, Is3D4, IsSp4, IsSL3, IsSU3, IsOmega8m, hM,
-        true_or, or_true]
+        true_or]
     · simp only [IsSz, IsL2, IsL3, IsU3, IsU4, IsG2, Is3D4, IsSp4, IsSL3, IsSU3, IsOmega8m, hM,
         true_or, or_true]
     · simp only [IsSz, IsL2, IsL3, IsU3, IsU4, IsG2, Is3D4, IsSp4, IsSL3, IsSU3, IsOmega8m, hM,
         true_or, or_true]
     · simp only [IsSz, IsL2, IsL3, IsU3, IsU4, IsG2, Is3D4, IsSp4, IsSL3, IsSU3, IsOmega8m, hM,
-        true_or, or_true]
+        or_true]
   · omega
   · omega
 

@@ -18,6 +18,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V]
   [FiniteDimensional K V] {Q : QuadraticForm K V}
 
 open scoped commutatorElement in
+omit [Finite K] [CharP K 2] in
 theorem conj_mem_orthDerived' {W : Type} [AddCommGroup W] [Module K W] {R : QuadraticForm K W}
     {g x : W ≃ₗ[K] W} (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup R) (hx : x ∈ orthDerived R) :
     g * x * g⁻¹ ∈ orthDerived R := by

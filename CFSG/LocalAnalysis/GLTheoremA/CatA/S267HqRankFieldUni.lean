@@ -32,7 +32,7 @@ private theorem lt_of_primitive {p ℓ m : ℕ} (hp : p.Prime) (hℓ : ℓ.Prime
     (hprim : ∀ k : ℕ, 0 < k → k < m → ¬ ℓ ∣ p ^ k - 1) : m < ℓ := by
   by_contra hle
   push Not at hle
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have ha : (p : ZMod ℓ) ≠ 0 := by
     rw [Ne, ZMod.natCast_eq_zero_iff]
     exact fun h => hℓp ((Nat.prime_dvd_prime_iff_eq hℓ hp).1 h)
@@ -101,7 +101,7 @@ theorem six_le_pRank_of_surj_PSU4
   have : CharP K p := h.charP
   have hp := h.prime
   have hK : Nat.card K = (p ^ f) ^ 2 := h.card_eq_sq
-  haveI : IsSimpleGroup (StatedProj (StatedSU 4 (p ^ f) K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSU 4 (p ^ f) K)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K p f hK 4 (by norm_num)
       (fun h' => by simp only [Prod.mk.injEq] at h'; omega)
   have hq4 : 4 ≤ p ^ f := by
@@ -199,7 +199,7 @@ theorem six_le_twoLocalRank_twistedA_field
   have hcp : (TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA n Q, hv⟩).Prime := by
     rw [hc]
     exact Q.prime_p
-  haveI : Fact (TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA n Q, hv⟩).Prime := ⟨hcp⟩
+  have : Fact (TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA n Q, hv⟩).Prime := ⟨hcp⟩
   have hf1 : 1 ≤ TauCeti.ValidLieTypeIndex.fieldExponent ⟨.twistedA n Q, hv⟩ := by omega
   have h : UnitaryFieldData (TauCeti.ValidLieTypeIndex.characteristic ⟨.twistedA n Q, hv⟩)
       (TauCeti.ValidLieTypeIndex.fieldExponent ⟨.twistedA n Q, hv⟩)

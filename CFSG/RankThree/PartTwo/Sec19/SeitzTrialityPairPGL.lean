@@ -48,7 +48,7 @@ theorem pgl_not_scalar {g : GL (Fin 3) F} (h : ProjGenLinGroup.mk g ≠ 1) (μ :
   intro hμ
   have hμ0 : μ ≠ 0 := by
     rintro rfl
-    have h0 : (g : Matrix (Fin 3) (Fin 3) F) = 0 := by simpa using hμ
+    have h0 : (g : Matrix (Fin 3) (Fin 3) F) = 0 := by simp at hμ
     have := g.isUnit
     rw [h0] at this
     exact (not_isUnit_zero (M₀ := Matrix (Fin 3) (Fin 3) F)) this

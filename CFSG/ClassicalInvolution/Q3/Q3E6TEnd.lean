@@ -48,7 +48,7 @@ theorem phanChain3U_five_or_obstruction (h3 : OddThreeFreeInput) {K : Subgroup G
       Commutes β (nd.j (5 - 1)) → (∀ a, 1 ≤ a → a ≤ 5 - 3 → Commutes β (nd.j a)) →
       Commutes β (nd.j (5 - 2))
   · exact Or.inl (c.phanChain3U_of_end nd (by norm_num) noCover_su4_three hend)
-  · push_neg at hend
+  · push Not at hend
     obtain ⟨β, hβ, wβ, hwβ, hnK, hpK, hn0, hp0, hlast, hmid, hnot⟩ := hend
     exact Or.inr ⟨c, nd, β, hβ, ⟨wβ, hwβ⟩, hnK, hpK, hn0, hp0, hlast, hmid, hnot⟩
 

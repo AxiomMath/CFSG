@@ -11,6 +11,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16g_preBarSub_mono {M V₀ V : Subgroup G} {hV : IsElemAbelian 2 V}
     {Xbar Ybar : Subgroup (MulAut (Vtil V₀ V hV))} (h : Xbar ≤ Ybar) :
     preBarSub M V₀ V hV Xbar ≤ preBarSub M V₀ V hV Ybar := by
@@ -55,7 +56,7 @@ theorem s16g_exists_cover (D : Data G) (hS : S16gStd D) {V₀ V L : Subgroup G}
     rw [hXdef, barSub_preBarSub]
     exact inf_eq_left.2 (barSub_mono V₀ V hV hset.hyp151.le)
   let inst₀ : ((F11.CTilde D.M V₀ V).subgroupOf D.M).Normal := s15_Three_cTilde_normal hV hMs
-  haveI := inst₀
+  have := inst₀
   have hlayerim : rankThreeLayer (F11.barImage11 D.M V₀ V X) = F11.barImage11 D.M V₀ V X :=
     s16g_layer_barImage hset hX_le hbarX hq
   obtain ⟨Y, hY, -⟩ :=

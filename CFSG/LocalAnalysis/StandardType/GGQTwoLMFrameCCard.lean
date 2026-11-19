@@ -14,7 +14,7 @@ private def qTwoLMFrameC_card_sumZeroEquiv (m p : ℕ) :
   invFun g := ⟨Fin.lastCases (Multiplicative.ofAdd (-∑ i : Fin m, Multiplicative.toAdd (g i)))
     (fun i => g i), by
       rw [mem_sumZero, Fin.sum_univ_castSucc]
-      simp [Fin.lastCases_castSucc, Fin.lastCases_last, Finset.sum_neg_distrib]⟩
+      simp [Fin.lastCases_castSucc, Fin.lastCases_last]⟩
   left_inv g := by
     refine Subtype.ext (funext fun i => ?_)
     have h : ∑ i : Fin (m + 1),
@@ -60,18 +60,21 @@ section Frame
 variable {G : Type} [Group G] [Finite G] {Bs L : Subgroup G} {x : G} {m : ℕ}
   {V VT : Type} [Group V] [Group VT]
 
+omit [Finite G] in
 theorem qTwoLMFrameC_card_T (F : QTwoFrame m V VT Bs L x) (hVT : IsAugModel m VT F.permVT) :
     Nat.card ↥(Bs ⊓ L) = 3 ^ (m - 1) := by
   obtain ⟨e, -⟩ := hVT.ex
   rw [← Nat.card_congr F.thetaT.toEquiv, ← Nat.card_congr e.toEquiv]
   exact qTwoLMFrameC_card_sumZero m
 
+omit [Finite G] in
 theorem qTwoLMFrameC_card_W (F : QTwoFrame m V VT Bs L x) (hV : IsAugModel m V F.permV) :
     Nat.card ↥(ggGamma L F.hN).range = 3 ^ (m - 1) := by
   obtain ⟨e, -⟩ := hV.ex
   rw [← Nat.card_congr F.theta.toEquiv, ← Nat.card_congr e.toEquiv]
   exact qTwoLMFrameC_card_sumZero m
 
+omit [Finite G] in
 theorem qTwoLMFrameC_card_Bs (F : QTwoFrame m V VT Bs L x) (hm : 1 ≤ m)
     (hV : IsAugModel m V F.permV) : Nat.card ↥Bs = 3 ^ m := by
   have hker : (ggGamma L F.hN).ker = (Subgroup.zpowers x).subgroupOf Bs := by

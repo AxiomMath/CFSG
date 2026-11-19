@@ -20,7 +20,7 @@ theorem Hyp167.commutator_kerMOf_le_centralizer_eSub (h1 : W16One G) (hS : Std15
     (h152 : Thm152 G) (hV₀ : V₀ ≤ pCoreOf 2 H) (hX : Hyp167 M V₀ V U S H g X T)
     (hBE : conjSubgroup V₀ g ⊓ eSub V₀ X T = ⊥) :
     ⁅conjSubgroup V g, kerMOf M X⁆ ≤ centralizer (eSub V₀ X T : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let E : Subgroup G := eSub V₀ X T
   let A : Subgroup G := conjSubgroup V g
   let K : Subgroup G := kerMOf M X
@@ -107,7 +107,7 @@ theorem Hyp167.commutator_kerMOf_le_centralizer_eSub (h1 : W16One G) (hS : Std15
       omega
     have hmSub : 1 ≤ mSub V₀ := by
       have hP : IsPGroup 2 V₀ := hX.cex.hyp.elemAbelian₀.isPGroup
-      haveI : Nontrivial ↥V₀ := (Subgroup.nontrivial_iff_ne_bot V₀).2 hX.cex.hyp.ne_bot
+      have : Nontrivial ↥V₀ := (Subgroup.nontrivial_iff_ne_bot V₀).2 hX.cex.hyp.ne_bot
       have h2 : 1 < Nat.card ↥V₀ := Finite.one_lt_card_iff_nontrivial.2 inferInstance
       rw [card_eq_two_pow_mSub hP] at h2
       by_contra hlt

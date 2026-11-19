@@ -87,7 +87,7 @@ theorem exists_central_involution_of_even {S : Sylow 2 H} {L : Subgroup H} [L.No
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSsyl : IsSylowOf 2 (S : Subgroup H) ⊤ := by
     rw [isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, S.isPGroup', S.not_dvd_index⟩
+    exact ⟨le_top, S.isPGroup, S.not_dvd_index⟩
   have hSL : IsSylowOf 2 ((S : Subgroup H) ⊓ L) L :=
     hSsyl.inf_of_le_normalizer le_top (by rw [Subgroup.normalizer_eq_top])
   have hSLne : (S : Subgroup H) ⊓ L ≠ ⊥ := by
@@ -109,10 +109,10 @@ theorem exists_central_involution_of_even {S : Sylow 2 H} {L : Subgroup H} [L.No
     have : (⟨x, hxS⟩ : S) ∈ SL := hxL
     rw [hbot, Subgroup.mem_bot] at this
     exact (Subgroup.mem_bot).mpr (congrArg Subtype.val this)
-  have hnil : Group.IsNilpotent S := S.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent S := S.isPGroup.isNilpotent
   have hW := Group.IsNilpotent.inf_center_ne_bot_of_normal hSLne'
   set W : Subgroup S := SL ⊓ center S with hWdef
-  have hWp : IsPGroup 2 W := S.isPGroup'.to_subgroup W
+  have hWp : IsPGroup 2 W := S.isPGroup.to_subgroup W
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hWp
   have hn0 : n ≠ 0 := by
     rintro rfl
@@ -229,7 +229,7 @@ theorem le_solvableRadical_of_sylow_inf_le {L : Subgroup H} [hLn : L.Normal] (S 
   have hRs : Group.IsSolvable (solvableRadical H) := solvableRadical_isSolvable
   have hSsyl : IsSylowOf 2 (S : Subgroup H) ⊤ := by
     rw [isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, S.isPGroup', S.not_dvd_index⟩
+    exact ⟨le_top, S.isPGroup, S.not_dvd_index⟩
   have hSL' : IsSylowOf 2 ((S : Subgroup H) ⊓ L) L :=
     hSsyl.inf_of_le_normalizer le_top (by rw [Subgroup.normalizer_eq_top])
   have hodd : ¬ 2 ∣ (solvableRadical H).relIndex L := by
@@ -325,14 +325,14 @@ theorem pConstrainedWithin_criteria_of_solvableRadical_eq (hp : p ≠ 2) (S : Sy
   set S₀ : Subgroup H := (S : Subgroup H) ⊓ L with hS₀def
   have hS₀Q : S₀ ≤ centralizer (Q : Set H) := fun s hs =>
     mem_centralizer_of_mem_sup_of_coprime hM₀cop hQp hs.2 (hSQ hs.1)
-  have hS₀p : IsPGroup 2 S₀ := S.isPGroup'.to_le inf_le_left
+  have hS₀p : IsPGroup 2 S₀ := S.isPGroup.to_le inf_le_left
   have hS₀P : S₀ ≤ centralizer (P : Set H) := by
     apply (two_group_centralizes_sylow_iff (K := O) (S := S₀) hOodd hS₀p
       (fun s _ => hnorm O s) hP (fun s hs => hSP hs.1)).mpr
     exact hS₀Q
   have hSsyl : IsSylowOf 2 (S : Subgroup H) ⊤ := by
     rw [isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, S.isPGroup', S.not_dvd_index⟩
+    exact ⟨le_top, S.isPGroup, S.not_dvd_index⟩
   have hS₀L : IsSylowOf 2 S₀ L :=
     hSsyl.inf_of_le_normalizer le_top (by rw [Subgroup.normalizer_eq_top])
   have hCPCQ : centralizer (P : Set H) ≤ centralizer (Q : Set H) :=
@@ -427,10 +427,10 @@ theorem pConstrainedWithin_criteria_of_solvableRadical_eq (hp : p ≠ 2) (S : Sy
         hE ▸ hCQO x hx (hLO (le_sup_left (a := centralizer (Q : Set H)) hx))
       exact ⟨hEO, isPConstrained_of_centralizer_le (hE ▸ hQsyl) hCQ⟩
   have hZS : Z ≤ S := Subgroup.map_subtype_le _
-  have hZp : IsPGroup 2 Z := S.isPGroup'.to_le hZS
+  have hZp : IsPGroup 2 Z := S.isPGroup.to_le hZS
   have hSR : (S : Subgroup H) ⊓ solvableRadical H = Z := by
     rw [hrad]
-    exact two_subgroup_inf_sup_eq S.isPGroup' hOodd hZS
+    exact two_subgroup_inf_sup_eq S.isPGroup hOodd hZS
   have hOR : O ≤ solvableRadical H := hrad ▸ le_sup_left
   have hZR : Z ≤ solvableRadical H := hrad ▸ le_sup_right
   have hQE : Op_p'p p H ≤ solvableRadical H → IsSylowOf p Q (Op_p'p p H) := by

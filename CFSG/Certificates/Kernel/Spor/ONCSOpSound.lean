@@ -107,7 +107,7 @@ theorem sopInv_push {VI : Nat → Nat} {R : List Nat} {ok ok' : Bool} {Gs : Arra
     exact H.2 (hok h') r hr
   · have e1 : (R ++ [x]).getD R.length 0 = x := by simp [List.getD_eq_getElem?_getD]
     have e2 : (Gs.push y).getD R.length 1 = y := by
-      simp [Array.getD_eq_getD_getElem?, Array.getElem?_push, H.1]
+      simp [Array.getD_eq_getD_getElem?, H.1]
     rw [e1, e2]
     exact hx h'
 
@@ -123,9 +123,9 @@ theorem letV_reps {VI : Nat → Nat} {R : List Nat} {Gs : Array G}
       intro e
       rw [e] at hrec
       exact absurd hrec (by decide)
-    rw [if_neg Bool.false_ne_true]
+    rw [ite_eq_right Bool.false_ne_true]
     exact (H2 i hl).2 hv
-  · rw [if_pos rfl]
+  · rw [ite_eq_left rfl]
     exact (H2 i hl).1
 
 theorem wordS_reps {VI : Nat → Nat} {R : List Nat} {Gs : Array G}

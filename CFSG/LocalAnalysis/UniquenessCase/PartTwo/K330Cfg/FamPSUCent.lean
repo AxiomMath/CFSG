@@ -18,9 +18,9 @@ theorem cent_PSU (n : ℕ) (hn : n = 4 ∨ n = 5) {J : Type} [Group J] [Finite J
     (h7 : ¬ 7 ∣ (p ^ f) ^ 2 - 1) : NoSevenCent J := by
   obtain ⟨⟨hprime, -, -⟩, K, hKfield, hKfin, hKcard, ⟨ψ⟩⟩ :=
     e.statedClassicalModel_of_ne_zero (by omega)
-  haveI : Fact p.Prime := ⟨hprime⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K p := charP_of_card_eq_prime_pow (f := 2 * f)
+  have : Fact p.Prime := ⟨hprime⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K p := charP_of_card_eq_prime_pow (f := 2 * f)
     (by rw [← Nat.card_eq_fintype_card, hKcard, ← pow_mul, mul_comm])
   have h7p : ¬ 7 ∣ p ^ f := by
     intro h

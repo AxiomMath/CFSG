@@ -86,7 +86,7 @@ theorem commute_of_pow_three_of_commutator_mem_ker {G : Type*} [Group G] [Finite
     have hle : E ⊔ Subgroup.zpowers z ⊔ Subgroup.zpowers x ≤ P :=
       sup_le (sup_le (hEJ.trans hJP) (Subgroup.zpowers_le.mpr hzP)) (Subgroup.zpowers_le.mpr hx)
     have h4 := CFSG.SectionRank.le_pRank (k := 4) (by norm_num) hle hF'el
-      (by rw [hF'card, hFcard, hEcard] <;> norm_num)
+      (by rw [hF'card, hFcard, hEcard]; norm_num)
     omega
   exact hxy (hFw y hy hy3 x hxF).eq
 

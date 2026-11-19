@@ -85,8 +85,8 @@ theorem exists_finite_extension_with_roots {E : Type} [Field E] [Finite E] (h3 :
     have := congrArg (Polynomial.eval 0) h0
     simp [h] at this
   have hfne : f ≠ 0 := mul_ne_zero hg0 hh0
-  haveI : Module.Finite E f.SplittingField := inferInstance
-  haveI : Finite f.SplittingField := Module.finite_of_finite E
+  have : Module.Finite E f.SplittingField := inferInstance
+  have : Finite f.SplittingField := Module.finite_of_finite E
   refine ⟨f.SplittingField, inferInstance, inferInstance,
     algebraMap E f.SplittingField, ?_⟩
   set φ : E →+* f.SplittingField := algebraMap E f.SplittingField with hφ
@@ -158,7 +158,7 @@ theorem exists_blockDiagonalization {ι : Type} [Fintype ι] [DecidableEq ι] {E
       simpa [RingHom.mapMatrix_apply, hBm] using this
     rw [← h2, h1]
     ext i j
-    by_cases hij : i = j <;> simp [Matrix.one_apply, hij]
+    by_cases hij : i = j <;> simp [hij]
   set B' : Matrix ι ι E' := γ⁻¹ • Bm with hB'
   have hB'3 : B' ^ 3 = 1 := by
     rw [hB', _root_.smul_pow, hBm3, smul_smul, ← hγ, ← mul_pow, inv_mul_cancel₀ hγ0, one_pow,
@@ -175,7 +175,7 @@ theorem exists_blockDiagonalization {ι : Type} [Fintype ι] [DecidableEq ι] {E
   have hTB : Tm * Bm * Ti = diagonal μ := by
     rw [hBmB', Matrix.mul_smul, Matrix.smul_mul, hTd, hμ]
     ext i j
-    by_cases hij : i = j <;> simp [Matrix.diagonal_apply, hij]
+    by_cases hij : i = j <;> simp [hij]
   set ρ' : K →* GL ι E' := (Matrix.GeneralLinearGroup.map φ).comp ρ with hρ'
   set M : K →* Matrix ι ι E' :=
     (Units.coeHom (Matrix ι ι E')).comp ((MulAut.conj T).toMonoidHom.comp ρ')
@@ -324,7 +324,7 @@ theorem exists_blockDiagonalization {ι : Type} [Fintype ι] [DecidableEq ι] {E
     rw [hMk, hρ'k, hz]
     have hmap : (z • (1 : Matrix ι ι E)).map φ = φ z • (1 : Matrix ι ι E') := by
       ext i j
-      by_cases hij : i = j <;> simp [Matrix.one_apply, hij]
+      by_cases hij : i = j <;> simp [hij]
     rw [hmap, Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_one, hTTi]
 
 end CFSG.RankThree.PartTwo.Sec4.HeringOF

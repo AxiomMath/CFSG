@@ -14,15 +14,17 @@ section Facts
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem r5g_Y_le_cM {p : ℕ} (hp : p.Prime) {Y : Subgroup G} (hY : Nat.card Y = p) : Y ≤ cM Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsCyclic Y := isCyclic_of_prime_card hY
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsCyclic Y := isCyclic_of_prime_card hY
   intro y hy
   rw [Subgroup.mem_centralizer_iff]
   intro h hh
   exact congrArg Subtype.val
     ((IsMulCommutative.is_comm (M := Y)).comm (⟨h, hh⟩ : Y) (⟨y, hy⟩ : Y))
 
+omit [Finite G] in
 theorem r5g_Y_sub {p : ℕ} (hp : p.Prime) {Y : Subgroup G} (hY : Nat.card Y = p) :
     Nat.card (Y.subgroupOf (cM Y)) = p ∧ Y.subgroupOf (cM Y) ≤ Subgroup.center (cM Y) := by
   have hYM := r5g_Y_le_cM hp hY
@@ -59,6 +61,7 @@ theorem r5g_map_normalizer {M : Type*} [Group M] (R : Subgroup M) [R.Normal] (E 
           show ((x : M ⧸ R))⁻¹ * ((x : M ⧸ R) * h * (x : M ⧸ R)⁻¹) * (x : M ⧸ R) = h
           group
 
+omit [Finite G] in
 theorem r5g_subgroupOf_normalizer (M U : Subgroup G) {f : M}
     (hf : (f : G) ∈ Subgroup.normalizer (U : Set G)) :
     f ∈ Subgroup.normalizer ((U.subgroupOf M : Subgroup M) : Set M) := by
@@ -67,6 +70,7 @@ theorem r5g_subgroupOf_normalizer (M U : Subgroup G) {f : M}
   rw [Subgroup.mem_subgroupOf, Subgroup.mem_subgroupOf]
   exact Subgroup.mem_normalizer_iff.mp hf (h : G)
 
+omit [Finite G] in
 theorem r5g_cM_ne_top (hs : IsSimpleGroup G) (hn : ∃ a b : G, a * b ≠ b * a) {Y : Subgroup G}
     (hY : Y ≠ ⊥) : cM Y ≠ ⊤ := by
   intro htop

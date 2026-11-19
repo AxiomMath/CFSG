@@ -119,7 +119,7 @@ theorem mem_flatten_getD {chs : List (List ℕ)} {e : ℕ} (h : e ∈ chs.flatte
 
 theorem iset_entries (n g0 g1 g2 g3 : ℕ) (S : List ℕ) (r X : ℕ) (Els : List (List ℕ))
     (chs hss : List (List ℕ)) (hin : isetIn S chs.flatten = true)
-    (hlen : chs.length = hss.length)
+    (_hlen : chs.length = hss.length)
     (hch : ∀ j < chs.length, isetChunk n g0 g1 g2 g3 S r X Els chs.flatten (chs.getD j [])
       (hss.getD j []) = true) :
     (∀ s ∈ S, Nat.shiftLeft s 5 ∈ chs.flatten) ∧

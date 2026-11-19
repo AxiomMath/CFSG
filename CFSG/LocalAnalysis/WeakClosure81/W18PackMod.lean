@@ -33,12 +33,15 @@ variable {J E : Subgroup G} (M : ModDataE J E)
     · rw [one_smul]
       exact ⟨e, he, rfl⟩
 
+omit [Finite G] in
 theorem mem_sp {S : Subgroup G} {w : M.W} : w ∈ M.sp S ↔ ∃ e ∈ S ⊓ E, M.ι e = w := Iff.rfl
 
+omit [Finite G] in
 theorem sp_mono {S S' : Subgroup G} (h : S ≤ S') : M.sp S ≤ M.sp S' := by
   rintro w ⟨e, he, rfl⟩
   exact ⟨e, ⟨h he.1, he.2⟩, rfl⟩
 
+omit [Finite G] in
 theorem sp_eq_bot_iff {S : Subgroup G} : M.sp S = ⊥ ↔ S ⊓ E = ⊥ := by
   constructor
   · intro h
@@ -55,6 +58,7 @@ theorem sp_eq_bot_iff {S : Subgroup G} : M.sp S = ⊥ ↔ S ⊓ E = ⊥ := by
       simpa using this
     rw [he1, M.ι_one]
 
+omit [Finite G] in
 theorem sp_inf (S S' : Subgroup G) : M.sp (S ⊓ S') = M.sp S ⊓ M.sp S' := by
   ext w
   constructor
@@ -64,6 +68,7 @@ theorem sp_inf (S S' : Subgroup G) : M.sp (S ⊓ S') = M.sp S ⊓ M.sp S' := by
     have hee' : e = e' := M.ι_injOn he.2 he'.2 he'e.symm
     exact ⟨e, ⟨⟨he.1, hee' ▸ he'.1⟩, he.2⟩, rfl⟩
 
+omit [Finite G] in
 theorem fixSub_img {B : Subgroup G} (hB : B ≤ J) :
     fixSub (M.img B) = M.sp (Subgroup.centralizer (B : Set G)) := by
   ext w
@@ -90,6 +95,7 @@ theorem fixSub_img {B : Subgroup G} (hB : B ≤ J) :
     rw [hc]
     group
 
+omit [Finite G] in
 theorem commSpace_img_sp_le {A X S : Subgroup G} (hA : A ≤ J) (h : ⁅X ⊓ E, A⁆ ≤ S) :
     commSpace (M.img A) (M.sp X) ≤ M.sp S := by
   refine Submodule.span_le.2 ?_
@@ -109,6 +115,7 @@ theorem commSpace_img_sp_le {A X S : Subgroup G} (hA : A ≤ J) (h : ⁅X ⊓ E,
   rw [← M.ι_commutator j.2 he.2]
   exact ⟨⁅(j : G), e⁆, ⟨h hmem, hEcomm⟩, rfl⟩
 
+omit [Finite G] in
 theorem commSpace_commSub_img_eq_bot {A : Subgroup G} (hA : A ≤ J) (h : ⁅⁅E, A⁆, A⁆ = ⊥) :
     commSpace (M.img A) (commSub (M.img A)) = ⊥ := by
   have hle : commSub (M.img A) ≤ M.sp ⁅E, A⁆ := by
@@ -138,6 +145,7 @@ theorem commSpace_commSub_img_eq_bot {A : Subgroup G} (hA : A ≤ J) (h : ⁅⁅
     _ ≤ M.sp (⊥ : Subgroup G) := h2
     _ = ⊥ := hbot
 
+omit [Finite G] in
 theorem conjSub_sp (X : Subgroup G) (j : ↥J) :
     conjSub (M.ρ j) (M.sp X) = M.sp (conjSubgroup X (j : G)⁻¹) := by
   ext w
@@ -165,6 +173,7 @@ theorem conjSub_sp (X : Subgroup G) (j : ↥J) :
     congr 1
     group
 
+omit [Finite G] in
 theorem exists_preimage {A : Subgroup G} (hA : A ≤ J) {B' : Subgroup (LGL 2 M.W)}
     (hB : B' ≤ M.img A) :
     ∃ B : Subgroup G, B ≤ A ∧ A ⊓ Subgroup.centralizer (E : Set G) ≤ B ∧ M.img B = B' := by
@@ -221,11 +230,13 @@ theorem mOf_img {A B : Subgroup G} (hA : A ≤ J) (hAab : IsElemAbelian 2 A) (hB
   change Nat.log 2 ((M.img B).relIndex (M.img A)) = E3.mQuot A B
   rw [hrel, E3.relIndex_eq_two_pow hAab.isPGroup B, Nat.log_pow (show 1 < 2 by norm_num)]
 
+omit [Finite G] in
 theorem isElemAbelian_img {S : Subgroup G} (hS : IsElemAbelian 2 S) :
     IsElemAbelian 2 (M.img S) := by
   unfold img
   exact (hS.subgroupOf J).map M.ρ
 
+omit [Finite G] in
 private theorem isSylowIn_img {T : Subgroup G} (hT : IsSylowIn 2 T J) :
     IsSylowIn 2 (M.img T) (M.img J) := by
   have hrelidx : (M.img T).relIndex (M.img J) = ((T.subgroupOf J) ⊔ M.ρ.ker).index := by
@@ -239,6 +250,7 @@ private theorem isSylowIn_img {T : Subgroup G} (hT : IsSylowIn 2 T J) :
   rw [hrelidx]
   exact fun h => hT.not_dvd_relIndex (h.trans hdvd)
 
+omit [Finite G] in
 private theorem fixes_conjClosure (x : LGL 2 M.W) (Z : Subgroup G) (hZE : Z ≤ E)
     (hgen : E ≤ CFSG.Quasithin.conjClosure Z J)
     (h : ∀ y ∈ J, ∀ z ∈ Z, x (M.ι (y * z * y⁻¹)) = M.ι (y * z * y⁻¹)) :
@@ -259,11 +271,12 @@ private theorem fixes_conjClosure (x : LGL 2 M.W) (Z : Subgroup G) (hZE : Z ≤ 
     (fun g _ hg => ⟨E.inv_mem hg.1, by rw [M.ι_inv hg.1, map_neg, hg.2]⟩)
     hmem).2
 
+omit [Finite G] in
 theorem pCoreOf_img_eq_bot {T Z : Subgroup G} (hT : IsSylowIn 2 T J)
     (hZE : Z ≤ E) (hZ : T ≤ Subgroup.centralizer (Z : Set G))
     (hgen : E ≤ CFSG.Quasithin.conjClosure Z J) :
     pCoreOf 2 (M.img J) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set X := pCoreOf 2 (M.img J) with hX
   have hXJ : X ≤ M.img J := CFSG.LieType.BorelTits.pCoreOf_le 2 (M.img J)
   have hXpg : IsPGroup 2 X := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (M.img J)

@@ -16,14 +16,17 @@ variable {k : Fin 3 → ℕ} (E : Torus k ≃+ Additive C)
     Torus k →+ Torus k :=
   E.symm.toAddMonoidHom.comp ((conjAddHom hg).comp E.toAddMonoidHom)
 
+omit [Finite S] in
 theorem conjTorusIdx4_apply {g : S} (hg : g ∈ Subgroup.normalizer C) (x : Torus k) :
     conjTorusIdx4 E hg x = E.symm (Additive.ofMul (conjBy hg (Additive.toMul (E x)))) := rfl
 
+omit [Finite S] in
 theorem conjTorusIdx4_apply_symm {g : S} (hg : g ∈ Subgroup.normalizer C) (y : C) :
     conjTorusIdx4 E hg (E.symm (Additive.ofMul y)) = E.symm (Additive.ofMul (conjBy hg y)) := by
   rw [conjTorusIdx4_apply, AddEquiv.apply_symm_apply]
   rfl
 
+omit [Finite S] in
 theorem conjTorusIdx4_mul {g h : S} (hg : g ∈ Subgroup.normalizer C)
     (hh : h ∈ Subgroup.normalizer C) :
     conjTorusIdx4 E (Subgroup.mul_mem _ hg hh) = (conjTorusIdx4 E hh).comp (conjTorusIdx4 E hg) :=
@@ -33,12 +36,14 @@ theorem conjTorusIdx4_mul {g h : S} (hg : g ∈ Subgroup.normalizer C)
   congr 2
   exact DFunLike.congr_fun (conjByHom_mul g h hg hh) (Additive.toMul (E x))
 
+omit [Finite S] in
 theorem conjTorusIdx4_congr {g g' : S} (hg : g ∈ Subgroup.normalizer C)
     (hg' : g' ∈ Subgroup.normalizer C) (h : g = g') :
     conjTorusIdx4 E hg = conjTorusIdx4 E hg' := by
   subst h
   rfl
 
+omit [Finite S] in
 theorem conjTorusIdx4_one :
     conjTorusIdx4 E (Subgroup.one_mem _ : (1 : S) ∈ Subgroup.normalizer C) =
       AddMonoidHom.id (Torus k) := by
@@ -46,6 +51,7 @@ theorem conjTorusIdx4_one :
   rw [conjTorusIdx4_apply]
   simp [conjBy]
 
+omit [Finite S] in
 theorem conjTorusIdx4_rels {τ : StrothTypeIndex} (D : StrothTypeData B τ)
     (hL : D.L ≤ Subgroup.normalizer C) :
     SigmaFourRels (conjTorusIdx4 E (hL D.uv_mem_L)) (conjTorusIdx4 E (hL D.t_mem_L))
@@ -88,13 +94,14 @@ theorem conjTorusIdx4_rels {τ : StrothTypeIndex} (D : StrothTypeData B τ)
 
 end Transport
 
+omit [Finite S] in
 theorem exists_torusEquiv_Idx4 {k : Fin 3 → ℕ} (hcomm : ∀ x y : C, x * y = y * x)
     (x : Fin 3 → C) (hx : ∀ i, x i ^ (2 ^ k i) = 1)
     (hgen : Subgroup.closure (Set.range x) = ⊤)
     (hcard : Nat.card (Torus k) = Nat.card C) :
     ∃ E : Torus k ≃+ Additive C, ∀ i, E (gen k i) = Additive.ofMul (x i) := by
   classical
-  letI : CommGroup C := { mul_comm := hcomm }
+  let : CommGroup C := { mul_comm := hcomm }
   let y : (i : Fin 3) → Additive C := fun i => Additive.ofMul (x i)
   have hy : ∀ i, (2 ^ k i) • y i = 0 := by
     intro i

@@ -43,7 +43,7 @@ theorem nonabelian_R_of_fix (hD : Foote5AutData 𝕊 Lin) {β : MulAut 𝕊} (h�
     congr 1
     exact Subtype.ext (hab' _ hr₁ _ hr₂)
   set I := (h.Rbar ε : Subgroup 𝕊).map (MulAut.conj : 𝕊 →* MulAut 𝕊) with hI
-  have hI2 : IsPGroup 2 I := (h.Rbar ε).isPGroup'.map _
+  have hI2 : IsPGroup 2 I := (h.Rbar ε).isPGroup.map _
   have hβC : β ∈ centralizer (I : Set (MulAut 𝕊)) := by
     rw [mem_centralizer_iff]
     rintro _ ⟨ρ, hρ, rfl⟩

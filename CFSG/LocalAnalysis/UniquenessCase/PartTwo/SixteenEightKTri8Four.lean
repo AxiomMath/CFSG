@@ -37,7 +37,7 @@ private theorem s16k_exists_two_comm {V : Type} [CommGroup V]
     (hI : ∀ h : ↥H, ∀ u ∈ I, (h : MulAut V) u ∈ I)
     {g : ↥(StatedOmega (StatedQuadPlus 4 K))} {t : MulAut V} (ht : t ∈ H)
     (hgt : (π g : ↥H) = ⟨t, ht⟩)
-    {u₁ u₂ : Fin 4 ⊕ Fin 4 → K} (hu₁ : u₁ ≠ 0) (hu₂ : u₂ ≠ 0) (hu₁₂ : u₁ ≠ u₂)
+    {u₁ u₂ : Fin 4 ⊕ Fin 4 → K} (_hu₁ : u₁ ≠ 0) (_hu₂ : u₂ ≠ 0) (_hu₁₂ : u₁ ≠ u₂)
     {v₁ v₂ : Fin 4 ⊕ Fin 4 → K}
     (hv₁ : u₁ = ((g : Matrix.GeneralLinearGroup (Fin 4 ⊕ Fin 4) K) :
       Matrix (Fin 4 ⊕ Fin 4) (Fin 4 ⊕ Fin 4) K).mulVec v₁ - v₁)
@@ -86,7 +86,7 @@ private theorem s16k_two_le_rk_map_closure {V : Type} [CommGroup V] [Finite V]
     (hu₁ : u₁ ≠ 0) (hu₂ : u₂ ≠ 0) (hu₁₂ : u₁ ≠ u₂) :
     2 ≤ rk ↥(Subgroup.map (QuotientGroup.mk' Z)
       (Subgroup.closure ({(c₁ : V), (c₂ : V)} : Set V))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set α : V ⧸ Z := (QuotientGroup.mk' Z) (c₁ : V) with hαdef
   set β : V ⧸ Z := (QuotientGroup.mk' Z) (c₂ : V) with hβdef
   have hα2 : α ^ 2 = 1 := by
@@ -175,7 +175,7 @@ private theorem s16k_two_le_rk_map_closure {V : Type} [CommGroup V] [Finite V]
   calc 2 = rk ↥P := hrkP.symm
     _ ≤ rk ↥Xb := rk_mono hPle
 
-theorem s16k_tri8_rank_four (h : S16gRowCtx D V₀ V L hV)
+theorem s16k_tri8_rank_four (_h : S16gRowCtx D V₀ V L hV)
     (hc : S16kTri8Cfg D V₀ V L hV I₁ I₂ π₁ π₂) {t : MulAut (Vtil V₀ V hV)}
     (htL : t ∈ lBar V₀ V hV L) (ht1 : t ≠ 1) :
     4 ≤ rk ↥(commSub ⊤ (Subgroup.zpowers t)) := by
@@ -230,7 +230,7 @@ theorem s16k_tri8_rank_four (h : S16gRowCtx D V₀ V L hV)
   set X₂ : Subgroup (Vtil V₀ V hV) :=
     Subgroup.closure ({(c₃ : Vtil V₀ V hV), (c₄ : Vtil V₀ V hV)} : Set (Vtil V₀ V hV))
     with hX₂
-  haveI hZN : Z.Normal := Subgroup.normal_of_comm Z
+  have hZN : Z.Normal := normal_of_isMulCommutative Z
   set Xb₁ : Subgroup (Vtil V₀ V hV ⧸ Z) := X₁.map (QuotientGroup.mk' Z) with hXb₁
   set Xb₂ : Subgroup (Vtil V₀ V hV ⧸ Z) := X₂.map (QuotientGroup.mk' Z) with hXb₂
   have hX₁I₁ : X₁ ≤ I₁ := by

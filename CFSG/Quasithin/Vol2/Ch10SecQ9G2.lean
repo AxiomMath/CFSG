@@ -72,7 +72,7 @@ theorem mem_fsuM_of_coprime_three (hK : LocalSQTK G) (h331 : Stmt3_3_1)
     simp only [← map_mul]
     congr 1
     exact Subtype.ext (by simp [hwy])
-  obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp P3.isPGroup') ⟨z, hzP3⟩
+  obtain ⟨j, hj⟩ := (IsPGroup.iff_orderOf.mp P3.isPGroup) ⟨z, hzP3⟩
   rw [Subgroup.orderOf_mk] at hj
   have hcop' : (orderOf wN).Coprime (orderOf z⁻¹) := by
     rw [orderOf_inv, hj, hwN, Subgroup.orderOf_mk]

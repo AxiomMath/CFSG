@@ -26,7 +26,7 @@ theorem not_three_dvd_card_outer_of_shapeL33
     {K : Type} [Group K] [Finite K]
     (h : CFSG.GH74.E2.ShapeL33 K) :
     ¬ 3 ∣ Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer K) := by
-  haveI : IsSimpleGroup K := (CFSG.GH74.E2.ShapeL33.facts h).1
+  have : IsSimpleGroup K := (CFSG.GH74.E2.ShapeL33.facts h).1
   refine CFSG.Quasithin.H13.S126C.not_three_dvd_card_outer_of_le ?_ ?_
   · exact CFSG.GH74.E2.center_eq_bot_of_simple_of_not_prime
       (CFSG.GH74.E2.ShapeL33.facts h).2.2

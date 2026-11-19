@@ -20,7 +20,7 @@ section LocalRankHolds
 theorem ggTwE6LocalRankInput_holds : GGTwE6LocalRankInput := by
   intro n hn h3 K _ _ hK _ X _ _ hX θ
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let ψ : X →* TwE6Delta.RecipeR K n :=
     θ.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))
   have hψs : Function.Surjective ψ :=
@@ -41,8 +41,8 @@ theorem ggTwE6LocalRankInput_holds : GGTwE6LocalRankInput := by
     show ψ z = 1
     rw [show ψ z = θ (QuotientGroup.mk z) from rfl, hz1, map_one]
   obtain ⟨q, hq, hqk⟩ := TwE6Delta.exists_sc_surjection hn hK
-  haveI : Finite (twistedE6Group 2 n) := by
-    haveI : Finite (Module.End (GaloisField 2 (2 * n))
+  have : Finite (twistedE6Group 2 n) := by
+    have : Finite (Module.End (GaloisField 2 (2 * n))
         (Fin e6Data.d →₀ GaloisField 2 (2 * n))) :=
       Module.finite_of_finite (GaloisField 2 (2 * n))
     infer_instance

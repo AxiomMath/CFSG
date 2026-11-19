@@ -129,7 +129,7 @@ theorem Holds.of_normal_of_coprime_index [Finite Γ] {p : ℕ} [Fact p.Prime] [Y
     rw [hbot, Subgroup.mem_bot] at this
     exact Subtype.ext this
   obtain ⟨S, P, hP, hN, hcore, -, hS⟩ := h V' hV'ne (hVp.map _)
-  have hSY : (S : Subgroup Γ) ≤ Y := le_of_isPGroup_of_coprime_index hY S.isPGroup'
+  have hSY : (S : Subgroup Γ) ≤ Y := le_of_isPGroup_of_coprime_index hY S.isPGroup
   let S₀ : Sylow p Y := S.subtype hSY
   have hS₀ : (S₀ : Subgroup Y).map Y.subtype = S := by
     rw [Sylow.coe_subtype, Subgroup.map_subgroupOf_eq_of_le hSY]
@@ -186,7 +186,7 @@ theorem conclusion_of_normal_of_index_eq [Finite Γ] {p : ℕ} [Fact p.Prime] [Y
     rw [eq_top_iff, ← hsup]
     exact sup_le hSP hYP
   set T := (S : Subgroup Γ).subgroupOf Y with hT
-  have hTp : IsPGroup p T := S.isPGroup'.comap_subtype
+  have hTp : IsPGroup p T := S.isPGroup.comap_subtype
   have hTidx : T.index = (S : Subgroup Γ).index := by
     have h1 := Subgroup.relIndex_mul_index (inf_le_right : (S : Subgroup Γ) ⊓ Y ≤ Y)
     have h2 := Subgroup.relIndex_mul_index (inf_le_left : (S : Subgroup Γ) ⊓ Y ≤ S)
@@ -248,7 +248,7 @@ theorem conclusion_of_normal_of_isPGroup_quotient [Finite Γ] {p : ℕ} [Fact p.
     rw [eq_top_iff, ← hsup]
     exact sup_le hSP hYP
   set T := (S : Subgroup Γ).subgroupOf Y with hT
-  have hTp : IsPGroup p T := S.isPGroup'.comap_subtype
+  have hTp : IsPGroup p T := S.isPGroup.comap_subtype
   have hTidx : T.index = (S : Subgroup Γ).index := by
     have h1 := Subgroup.relIndex_mul_index (inf_le_right : (S : Subgroup Γ) ⊓ Y ≤ Y)
     have h2 := Subgroup.relIndex_mul_index (inf_le_left : (S : Subgroup Γ) ⊓ Y ≤ S)

@@ -324,7 +324,7 @@ private def epsU (v : ReflVec) : (ZMod 3)ˣ := Units.mk0 (qV v.1) v.2
 
 private theorem toO_rOVq (v : ReflVec) :
     toO (rOVq v) = @TauCeti.QuadraticMap.reflectionOrthogonal _ _ _ _ _ QV v.1 (invQV v) := by
-  letI := invQV v
+  let := invQV v
   apply Subtype.ext
   rw [TauCeti.QuadraticMap.coe_reflectionOrthogonal]
   change toLinEquiv (Fin 6) (ZMod 3) (reflOf v) = _
@@ -339,16 +339,16 @@ private theorem unitOfInvertible_QV (v : ReflVec) :
 
 private theorem Φ'_rOVq (v : ReflVec) :
     Φ' (rOVq v) = (-1, TauCeti.squareClassHom (epsU v)) := by
-  letI := invQV v
+  let := invQV v
   rw [Φ', MonoidHom.comp_apply, toO_rOVq,
     CFSG.ClassicalInvolution.detSpinorNorm_reflectionOrthogonal, unitOfInvertible_QV]
 
 private theorem epsU_eq (v : ReflVec) : epsU v = if qV v.1 = -1 then -1 else 1 := by
   by_cases h : qV v.1 = -1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     apply Units.ext
     simp [epsU, h]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     apply Units.ext
     have h3 : ∀ a : ZMod 3, a ≠ 0 → a ≠ -1 → a = 1 := by decide
     have h1 : qV v.1 = 1 := h3 _ v.2 h
@@ -401,9 +401,9 @@ theorem refl6_mul_refl6_mem_MDot (z w : V6) (hz : qV z ≠ 0) (hw : qV w ≠ 0) 
   · simpa [reflOf] using key
   · by_cases h' : qV z = -1
     · have h'' : qV w = -1 := h ▸ h'
-      simp [List.countP_cons, h', h'']
+      simp [h', h'']
     · have h'' : qV w ≠ -1 := h ▸ h'
-      simp [List.countP_cons, h', h'']
+      simp [h', h'']
 
 theorem exists_mem_MDot_mulVec_eq {a b : V6} (ha : a ≠ 0) (hb : b ≠ 0) (hab : qV a = qV b) :
     ∃ g ∈ MDot, (g : Matrix (Fin 6) (Fin 6) (ZMod 3)) *ᵥ a = b := by
@@ -423,7 +423,7 @@ theorem refl6_xvec_mulVec (i : Fin 6) (x : V6) :
       Function.update x i (-x i) := by
   rw [refl6_mulVec]
   fin_cases i <;> ext j <;> fin_cases j <;>
-    simp [xvec, qV, bil_coord, Function.update_apply, Pi.single_apply] <;> ring
+    simp [xvec, qV, bil_coord] <;> ring
 
 private def coordRefl : List ReflVec :=
   [⟨xvec 0, qV_xvec_ne_zero 0⟩, ⟨xvec 1, qV_xvec_ne_zero 1⟩, ⟨xvec 2, qV_xvec_ne_zero 2⟩,
@@ -437,7 +437,7 @@ private theorem prod_coordRefl : (coordRefl.map reflOf).prod = -1 := by
     Units.val_mul, ← Matrix.mulVec_mulVec, reflOf, refl6_xvec_mulVec, Units.val_neg,
     Units.val_one, Matrix.neg_mulVec, Matrix.one_mulVec]
   funext j
-  fin_cases j <;> simp [Function.update_apply]
+  fin_cases j <;> simp
 
 theorem neg_one_not_mem_MDot : (-1 : GL6) ∉ MDot := by
   intro h

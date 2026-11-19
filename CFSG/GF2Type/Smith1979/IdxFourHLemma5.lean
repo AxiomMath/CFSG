@@ -41,7 +41,7 @@ theorem no_conj_z_class_mem (hTI : CFSG.LargeExtraspecial.WeaklyClosedTITransiti
       (by simpa using hs'.2)
     have hN' : s ∈ normalizer (S.Lbar h : Set S.O) := by simpa using hN
     exact (mem_normalizer_iff.mp hN' p).mp hp
-  haveI := S.isElementaryAbelian_Lbar hQ
+  have := S.isElementaryAbelian_Lbar hQ
   exact hL5 _ hW hw0 (S.Lbar h) hle hnorm (CFSG.IsElementaryAbelian.isPGroup 2 _)
     (by rw [C.card_Lbar, hw])
 

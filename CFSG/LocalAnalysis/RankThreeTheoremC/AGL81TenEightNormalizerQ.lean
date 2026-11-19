@@ -56,7 +56,7 @@ theorem exists_isAGLQ_le_normalizer {p : ℕ} {P : Sylow p G} {M H₁ R₁ Q J :
     (hS : Setting G) (he : D1Escape p P M H₁ R₁) (hQ : IsAGLQ p M Q)
     (hJ : IsTwoPrimeComponent M J) (h3 : 3 ∣ Nat.card J) :
     ∃ B : Subgroup G, IsAGLQ p M B ∧ B ≤ normalizer (J : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : p.Prime := he.prime
   have hp2 : p ≠ 2 := he.ne_two
   obtain ⟨e, heJ, he3, hnc⟩ := exists_noncentral_of_two_component hJ h3

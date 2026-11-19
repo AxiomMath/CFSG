@@ -18,14 +18,16 @@ namespace S36
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ b₃ t₀ : G}
 
+omit [Finite G] in
 theorem t₀_comm (ht₀L : t₀ ∈ CenS L) {l : G} (hl : l ∈ L) : l * t₀ = t₀ * l :=
   Subgroup.mem_centralizer_iff.mp ht₀L l hl
 
+omit [Finite G] in
 theorem t₀_mul_self (ht₀ : orderOf t₀ = 2) : t₀ * t₀ = 1 := by
   rw [← pow_two, ← ht₀]; exact pow_orderOf_eq_one t₀
 
 theorem zpowers_normal_of_le_cen {U : Subgroup G} (hU : U ≤ Cen t₀) :
-    ∀ u ∈ U, ∀ w ∈ Subgroup.zpowers t₀, u * w * u⁻¹ ∈ Subgroup.zpowers t₀ := fun u hu w hw =>
+    ∀ _u ∈ U, ∀ w ∈ Subgroup.zpowers t₀, _u * w * _u⁻¹ ∈ Subgroup.zpowers t₀ := fun _u hu w hw =>
   (Subgroup.mem_normalizer_iff.mp
     (mem_nor_zpowers (Subgroup.mem_centralizer_singleton_iff.mp (hU hu))) w).mp hw
 
@@ -141,9 +143,9 @@ theorem case13 (hKF : KF_Sp6RefS) (hB : FF81Basis b L B b₁ b₂ b₃)
     have hw : hypW i = 1 ∨ hypW i = 2 ∨ hypW i = 3 := by
       have := (by decide : ∀ j : Fin 13, hypW j = 1 ∨ hypW j = 2 ∨ hypW j = 3) i; exact this
     rcases hw with h | h | h
-    · rw [h1 i h, card_zpowers_t₀ ht₀, if_neg (by omega)]
-    · rw [h2' i h, card_zpowers_t₀ ht₀, if_neg (by omega)]
-    · rw [h3 i h, if_pos h]; norm_num
+    · rw [h1 i h, card_zpowers_t₀ ht₀, ite_eq_right (by omega)]
+    · rw [h2' i h, card_zpowers_t₀ ht₀, ite_eq_right (by omega)]
+    · rw [h3 i h, ite_eq_left h]; norm_num
   have hTB2 : Nat.card ↥(T ⊓ CenS (Subgroup.closure {b₁, b₂, b₃})) = 2 := by
     rw [hTB, card_zpowers_t₀ ht₀]
   obtain ⟨S₂, hS₂p, hS₂8, hS₂C, hS₂N⟩ := ((local_bound hKF hB hbad ht₀ ht₀L ht₀b 4).2.1 rfl).2.2
@@ -247,7 +249,7 @@ theorem case13 (hKF : KF_Sp6RefS) (hB : FF81Basis b L B b₁ b₂ b₃)
     intro X hXT ht₀X i hi
     refine le_antisymm ?_ ?_
     · have := Subgroup.card_le_of_le (inf_le_inf_right (CenS (hyp b₁ b₂ b₃ i)) hXT)
-      rw [hcT i, if_neg hi] at this; exact this
+      rw [hcT i, ite_eq_right hi] at this; exact this
     · rw [← card_zpowers_t₀ ht₀]
       exact Subgroup.card_le_of_le (zpowers_le_inf_cenS ht₀L ht₀X ((hyp_le i).trans hB.B₁_le))
   have hBX : ∀ X : Subgroup G, X ≤ T → t₀ ∈ X →
@@ -263,7 +265,7 @@ theorem case13 (hKF : KF_Sp6RefS) (hB : FF81Basis b L B b₁ b₂ b₃)
       Nat.card ↥(X ⊓ CenS (hyp b₁ b₂ b₃ i)) ≤ 8 := by
     intro X hXT i hi
     have := Subgroup.card_le_of_le (inf_le_inf_right (CenS (hyp b₁ b₂ b₃ i)) hXT)
-    rwa [hcT i, if_pos hi] at this
+    rwa [hcT i, ite_eq_left hi] at this
   have hQW := card_cen_mul_pow_three hB hQN hQc hQs (x := y) (by decide)
   rw [inf_eq_left.mpr (inf_le_left.trans inf_le_right : Q ≤ Cen (ε3 b₁ b₂ b₃ y)),
     hBX Q hQT ht₀Q, hy, filter_y, Finset.prod_insert (by decide), Finset.prod_insert (by decide),
@@ -359,7 +361,7 @@ theorem case13 (hKF : KF_Sp6RefS) (hB : FF81Basis b L B b₁ b₂ b₃)
       · exact hT1112.1
       · exact hT1112.2
     · have hz : T ⊓ CenS (hyp b₁ b₂ b₃ i) = Subgroup.zpowers t₀ :=
-        eq_zpowers_of_card ht₀ ⟨ht₀T, t₀_mem_cenS_hyp hB ht₀L i⟩ (by rw [hcT i, if_neg hi])
+        eq_zpowers_of_card ht₀ ⟨ht₀T, t₀_mem_cenS_hyp hB ht₀L i⟩ (by rw [hcT i, ite_eq_right hi])
       rw [hz]
       exact Subgroup.zpowers_le.mpr ht₀S'
   have hXN : Subgroup.closure {b₁, b₂, b₃} ≤ Nor (T ⊓ CenS S₂) := fun β hβ =>

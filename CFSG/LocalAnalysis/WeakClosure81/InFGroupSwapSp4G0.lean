@@ -15,7 +15,7 @@ variable {Q : Type} [Group Q] [Finite Q] {L T P₀ P₁ : Subgroup Q} {n : ℕ}
 private theorem isMaxParabolicOver_map_conj (h : Setting L T P₀ P₁ n w) {x : Q} (hx : x ∈ T)
     {P : Subgroup Q} (hP : IsMaxParabolicOver L (T ⊓ L) P) :
     IsMaxParabolicOver L (T ⊓ L) (P.map (MulAut.conj x).toMonoidHom) := by
-  haveI hLnorm : L.Normal := h.normal
+  have hLnorm : L.Normal := h.normal
   set f : Q →* Q := (MulAut.conj x).toMonoidHom
   have hf : Function.Injective f := (MulAut.conj x).injective
   have hLmap : L.map f = L := Subgroup.Normal.map_conj_eq L x
@@ -151,7 +151,7 @@ theorem perfectCore_sup_perfectCore (h : Setting L T P₀ P₁ n w) :
 
 theorem eq_top_or_le_normalizer (h : Setting L T P₀ P₁ n w) {Y : Subgroup Q} (hTY : T ≤ Y) :
     Y = ⊤ ∨ Y ≤ normalizer ((T ⊓ L : Subgroup Q) : Set Q) := by
-  haveI hLnorm : L.Normal := h.normal
+  have hLnorm : L.Normal := h.normal
   by_cases hLY : L ≤ Y
   · left
     rw [eq_top_iff]

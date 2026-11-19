@@ -41,7 +41,7 @@ open CFSG.RankThree.PartTwo.Sec4.Item434SmallTwoIII
     countP (fun t => commutes6 t lsSig && commutes6 t (zCode 2) && commutes6 t lsX2p)
       (closureT ((centGens 4).map Prod.fst)) == 6
 
-@[expose] def rhoImg (p₁ p₂ p₃ a₁ a₂ a₃ i : ℕ) : ℕ :=
+@[expose] def rhoImg (p₁ p₂ _p₃ a₁ a₂ a₃ i : ℕ) : ℕ :=
   if i % 3 == p₁ then 2 + 3 * ((i / 3 + a₁ + 1) % 2)
   else if i % 3 == p₂ then 0 + 3 * ((i / 3 + a₂ + 1) % 2)
   else 1 + 3 * ((i / 3 + a₃ + 1) % 2)

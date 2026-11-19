@@ -595,7 +595,7 @@ theorem solvable_unique_maximal_bridge [Finite G] {H T MH : Subgroup G} (hT : Is
   set π := QuotientGroup.mk' (CFSG.pCore 2 ↥H) with hπ
   have hπker : π.ker = CFSG.pCore 2 ↥H := QuotientGroup.ker_mk' _
   have hQ2 : IsPGroup 2 ↥(CFSG.pCore 2 ↥H) := CFSG.pCore_isPGroup
-  have hS2 : IsPGroup 2 ↥((T' : Subgroup ↥H).map π) := T'.isPGroup'.map π
+  have hS2 : IsPGroup 2 ↥((T' : Subgroup ↥H).map π) := T'.isPGroup.map π
   refine ⟨fun L hLMH hHL A hAL hA2 => ?_, ?_⟩
   ·
     have hLH : L ≤ H := hLMH.trans hMHH
@@ -881,7 +881,7 @@ theorem le_centralizer_of_irreducible [Finite G] {H I D : Subgroup G}
   · exfalso
     obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 2 ↥D))
     have hS₂D : (S : Subgroup ↥D).map D.subtype ≤ D := Subgroup.map_subtype_le _
-    have hS₂2 : IsPGroup 2 ↥((S : Subgroup ↥D).map D.subtype) := S.isPGroup'.map _
+    have hS₂2 : IsPGroup 2 ↥((S : Subgroup ↥D).map D.subtype) := S.isPGroup.map _
     have hS₂idx : ¬ 2 ∣ ((S : Subgroup ↥D).map D.subtype).relIndex D := by
       have e : (((S : Subgroup ↥D).map D.subtype).subgroupOf D) = (S : Subgroup ↥D) := by
         ext x

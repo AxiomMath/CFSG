@@ -16,7 +16,7 @@ variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P T D F : Subgroup Y} {x : Y
 
 private theorem exists_zpow_of_mem_zOf (h : Case2Data p P T D F x) {w : Y} (hw : w ∈ zOf T)
     (hw1 : w ≠ 1) : ∀ s ∈ zOf T, ∃ m : ℤ, w ^ m = s := by
-  haveI := h.fact
+  have := h.fact
   intro s hs
   have h1 : (⟨w, hw⟩ : zOf T) ≠ 1 := fun e => hw1 (congrArg Subtype.val e)
   have := mem_zpowers_of_prime_card h.zOf_card (g' := (⟨s, hs⟩ : zOf T)) h1
@@ -24,18 +24,20 @@ private theorem exists_zpow_of_mem_zOf (h : Case2Data p P T D F x) {w : Y} (hw :
   exact ⟨m, by simpa using congrArg Subtype.val hm⟩
 
 private theorem exists_ne_one_zOf (h : Case2Data p P T D F x) : ∃ t ∈ zOf T, t ≠ 1 := by
-  haveI := h.fact
+  have := h.fact
   have hc : 1 < Nat.card (zOf T) := by rw [h.zOf_card]; exact h.prime.one_lt
-  haveI : Finite (zOf T) := inferInstance
-  haveI : Nontrivial (zOf T) := Finite.one_lt_card_iff_nontrivial.mp hc
+  have : Finite (zOf T) := inferInstance
+  have : Nontrivial (zOf T) := Finite.one_lt_card_iff_nontrivial.mp hc
   obtain ⟨⟨t, ht⟩, ht1⟩ := exists_ne (1 : zOf T)
   exact ⟨t, ht, fun e => ht1 (Subtype.ext e)⟩
 
+omit [Finite Y] in
 private theorem mem_map_conj_iff (L : Subgroup Y) (g y : Y) :
     y ∈ L.map (MulAut.conj g).toMonoidHom ↔ g⁻¹ * y * g ∈ L := by
   rw [Subgroup.mem_map_equiv]
   simp [MulAut.conj_symm_apply]
 
+omit [Finite Y] in
 private theorem center_map_conj_ne_bot {L : Subgroup Y} (g : Y) (hc : center L ≠ ⊥) :
     center (L.map (MulAut.conj g).toMonoidHom) ≠ ⊥ := by
   obtain ⟨⟨⟨a, haL⟩, hac⟩, ha1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hc
@@ -63,13 +65,13 @@ private theorem center_map_conj_ne_bot {L : Subgroup Y} (g : Y) (hc : center L �
 theorem exists_central_line (h : Case2Data p P T D F x) {L : Subgroup Y} (hL : IsComponentOf L ⊤) :
     ∃ t ∈ zOf T, ∃ j : ℕ, t * x ^ j ∈ L ∧ t * x ^ j ≠ 1 := by
   classical
-  haveI := h.fact
+  have := h.fact
   have hPn := h.P_le_normalizer hL
   have hpg : IsPGroup p P := by
     obtain ⟨S, hS⟩ := h.sylow
     rw [← hS]
-    exact S.isPGroup'
-  haveI : Group.IsNilpotent P := hpg.isNilpotent
+    exact S.isPGroup
+  have : Group.IsNilpotent P := hpg.isNilpotent
   obtain ⟨t0, ht0, ht0o, -⟩ := h.exists_mem_P_inf hL
   have hnorm : ((P ⊓ L).subgroupOf P).Normal := by
     refine ⟨fun n hn g => ?_⟩
@@ -116,7 +118,7 @@ theorem exists_central_line (h : Case2Data p P T D F x) {L : Subgroup Y} (hL : I
 theorem exists_stabilizer (h : Case2Data p P T D F x) {L : Subgroup Y} (hL : IsComponentOf L ⊤) :
     ∃ g ∈ F, g ∈ normalizer (L : Set Y) ∧ ∃ z ∈ zOf T, g * z * g⁻¹ ≠ z := by
   classical
-  haveI := h.fact
+  have := h.fact
   have hp5 : 5 ≤ p := h.five
   obtain ⟨t₀, ht₀, ht₀1⟩ := h.exists_ne_one_zOf
   have hex : ∀ i : Fin 4, ∃ f ∈ F, f * t₀ * f⁻¹ = t₀ ^ (i.val + 1) := fun i =>
@@ -189,7 +191,7 @@ theorem exists_stabilizer (h : Case2Data p P T D F x) {L : Subgroup Y} (hL : IsC
 theorem F_mem_normalizer (h : Case2Data p P T D F x) {L : Subgroup Y} (hL : IsComponentOf L ⊤)
     {f : Y} (hf : f ∈ F) : f ∈ normalizer (L : Set Y) := by
   classical
-  haveI := h.fact
+  have := h.fact
   by_contra hfN
   set L' : Subgroup Y := L.map (MulAut.conj f).toMonoidHom with hL'def
   have hL' : IsComponentOf L' ⊤ :=

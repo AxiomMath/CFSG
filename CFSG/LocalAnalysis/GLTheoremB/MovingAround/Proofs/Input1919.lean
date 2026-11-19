@@ -29,11 +29,11 @@ variable {K S : Type} [Group K] [Group S]
 @[expose] def fibre (π : K →* S) (τ : MulAut S) : Subgroup (K × K) where
   carrier := {x | τ (π x.1) = π x.2}
   mul_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq, Prod.fst_mul, Prod.snd_mul, map_mul] at *
+    simp only [Set.mem_ofPred_eq, Prod.fst_mul, Prod.snd_mul, map_mul] at *
     rw [ha, hb]
   one_mem' := by simp
   inv_mem' {a} ha := by
-    simp only [Set.mem_setOf_eq, Prod.fst_inv, Prod.snd_inv, map_inv] at *
+    simp only [Set.mem_ofPred_eq, Prod.fst_inv, Prod.snd_inv, map_inv] at *
     rw [ha]
 
 theorem mem_fibre {π : K →* S} {τ : MulAut S} {x : K × K} :
@@ -76,7 +76,7 @@ theorem exists_lift (hK : commutator K = ⊤) (π : K →* S) (hπ : Function.Su
     rw [Subgroup.mem_center_iff] at hz hz' ⊢
     intro g
     exact Prod.ext (hz g.1) (hz' g.2)
-  haveI : C.Normal := Subgroup.normal_of_le_center hCcen
+  have : C.Normal := Subgroup.normal_of_le_center hCcen
   have hP1 : P.map (MonoidHom.fst K K) = ⊤ := by
     refine eq_top_iff.2 fun k _ => ?_
     obtain ⟨k', hk'⟩ := hπ (τ (π k))
@@ -120,7 +120,7 @@ theorem exists_lift (hK : commutator K = ⊤) (π : K →* S) (hπ : Function.Su
         obtain ⟨b₀, hb₀, d, hd, rfl⟩ := hb
         rw [commutatorElement_mul_central (hCcen hc) (hCcen hd)]
         exact Subgroup.commutator_mem_commutator ha₀ hb₀
-  haveI : Group.IsPerfect ↥P' := by
+  have : Group.IsPerfect ↥P' := by
     rw [Group.isPerfect_def]
     apply Subgroup.map_injective P'.subtype_injective
     rw [Subgroup.map_subtype_commutator, hperf, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
@@ -203,8 +203,8 @@ theorem autQ_surjective (hK : commutator K = ⊤)
     (hgcd : Nat.gcd (Nat.card (hopfMultiplier (K ⧸ Subgroup.center K)))
       (Nat.card (Subgroup.center K) ^ 2) ∣ Nat.card (Subgroup.center K)) :
     Function.Surjective (Lemma123.autQ K) := by
-  haveI : Group.IsPerfect K := Group.isPerfect_def.2 hK
-  haveI : Group.IsPerfect (K ⧸ Subgroup.center K) :=
+  have : Group.IsPerfect K := Group.isPerfect_def.2 hK
+  have : Group.IsPerfect (K ⧸ Subgroup.center K) :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective (Subgroup.center K))
   intro τ
   obtain ⟨α, hα⟩ := exists_lift hK (QuotientGroup.mk' (Subgroup.center K))
@@ -255,8 +255,8 @@ variable {K : Type} [Group K] [Finite K]
 
 theorem card_center_dvd_hopf (hK : commutator K = ⊤) :
     Nat.card (Subgroup.center K) ∣ Nat.card (hopfMultiplier (K ⧸ Subgroup.center K)) := by
-  haveI : Group.IsPerfect K := Group.isPerfect_def.2 hK
-  haveI : Group.IsPerfect (K ⧸ Subgroup.center K) :=
+  have : Group.IsPerfect K := Group.isPerfect_def.2 hK
+  have : Group.IsPerfect (K ⧸ Subgroup.center K) :=
     Group.IsPerfect.ofSurjective (QuotientGroup.mk'_surjective (Subgroup.center K))
   have h := card_ker_dvd_hopf (QuotientGroup.mk' (Subgroup.center K))
     (QuotientGroup.mk'_surjective _) (by rw [QuotientGroup.ker_mk'])
@@ -283,7 +283,7 @@ theorem center_eq_bot_alt_two {p n : ℕ} (hq : CFSG.Open.IsQuasisimple K) (hp :
   have hK : commutator K = ⊤ := hq.1
   rcases Nat.lt_or_ge n 8 with h8 | h8
   · refine SchurFacts.center_eq_bot_of_not_sq_dvd hp hK hO ?_
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     rw [Nat.card_congr θ.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
       Fintype.card_fin]
     have hpn : p ≤ n := by
@@ -343,7 +343,7 @@ theorem not_balanced_of_inv {p : ℕ} (hp : p.Prime) (hZ : Subgroup.center X = �
     (hC : ∀ z : X, z * x = x * z → t z = z) : ¬ IsLocallyOTwoBalancedWrtP p 1 X := by
   classical
   have hinj := conj_injective_of_center hZ
-  haveI := innerAut_normal (X := X)
+  have := innerAut_normal (X := X)
   set d : MulAut X := MulAut.conj x with hd
   have hdo : orderOf d = p := by rw [hd, orderOf_injective _ hinj x]; exact hx
   set T : Subgroup (MulAut X) := Subgroup.zpowers t with hT
@@ -431,7 +431,7 @@ theorem not_balanced_projectiveSL_three_four {k : Type} [Field k] (hk : Nat.card
 theorem not_balanced_L34_core
     {K : Type} [Group K] [Finite K] (hq : CFSG.Open.IsQuasisimple K) (hO : GLAPPrimeCore 3 K = ⊥)
     (hL : IsLThreeFour (K ⧸ Subgroup.center K)) : ¬ IsLocallyOTwoBalancedWrtP 3 1 K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK : commutator K = ⊤ := hq.1
   obtain ⟨F, hF, hFfin, hF4, ⟨e⟩⟩ := hL
   have hM : Nat.card (hopfMultiplier (K ⧸ Subgroup.center K)) = 48 := by
@@ -451,7 +451,7 @@ theorem not_balanced_L34_core
   refine not_balanced_of_autQ_surjective hK (autQ_surjective hK hgcd) ?_
   obtain ⟨k, _, hk, ⟨φ⟩⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.exists_equiv_projectiveSL ⟨F, hF, hFfin, hF4, ⟨e⟩⟩
-  haveI := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.finite_of_card_eq_four hk
+  have := CFSG.LocalAnalysis.ComponentInitial.LinearFieldFour.finite_of_card_eq_four hk
   rw [Inputs123a.isLocallyOTwoBalancedWrtP_congr φ]
   exact not_balanced_projectiveSL_three_four hk
 
@@ -483,14 +483,14 @@ theorem eq_smul_of_proj_eq {A B : SpecialLinearGroup (Fin 2) F} (h : proj 2 F A 
 
 theorem diag_conj_fin_two (a b c d : F) :
     !![(1 : F), 0; 0, -1] * !![a, b; c, d] * !![(1 : F), 0; 0, -1] = !![a, -b; -c, d] := by
-  simp [Matrix.mul_fin_two]
+  simp
 
 theorem not_balanced_projectiveSL_two_seven (hF : Nat.card F = 7) :
     ¬ IsLocallyOTwoBalancedWrtP 3 1 (projectiveSL 2 F) := by
   classical
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
   have h7 : (7 : F) = 0 := by
-    haveI := Fintype.ofFinite F
+    have := Fintype.ofFinite F
     have h := FiniteField.cast_card_eq_zero F
     rw [Fintype.card_eq_nat_card, hF] at h
     exact_mod_cast h
@@ -619,7 +619,7 @@ theorem not_balanced_L27_core (hq : CFSG.Open.IsQuasisimple K) (hO : GLAPPrimeCo
   have hZ : Subgroup.center K = ⊥ := SchurFacts.center_eq_bot_of_not_sq_dvd Nat.prime_three hq.1 hO
     (by rw [Prop1116Design.card_statedProj_two_seven hL]; norm_num)
   obtain ⟨F, _, hF, ⟨φ⟩⟩ := exists_equiv_projectiveSL_two hL
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
   rw [Inputs123a.isLocallyOTwoBalancedWrtP_congr ((equivQuotCenter hZ).trans φ)]
   exact not_balanced_projectiveSL_two_seven hF
 
@@ -628,7 +628,7 @@ theorem not_balanced_L27
     (hL : IsLpType 2 7 (K ⧸ Subgroup.center K)) : ¬ IsLocallyOTwoBalancedWrtP 3 1 K := by
   have hK : commutator K = ⊤ := hq.1
   obtain ⟨F, hFf, hFfin, hF, ⟨e⟩⟩ := hL
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hM : Nat.card (hopfMultiplier (K ⧸ Subgroup.center K)) = 2 := by
     obtain ⟨-, ⟨g⟩⟩ := CFSG.LieType.Steinberg.CentralExt.SLClosed.psl_two_hopfMultiplier_of_mulEquiv
       (k := F) (by rw [Fintype.card_eq_nat_card, hF]; norm_num)
@@ -641,7 +641,7 @@ theorem not_balanced_L27
   refine not_balanced_of_autQ_surjective hK
     (autQ_surjective hK (gcd_dvd_of_two_or_six (Or.inl hM) (card_center_dvd_hopf hK))) ?_
   obtain ⟨F', _, hF', ⟨φ⟩⟩ := exists_equiv_projectiveSL_two ⟨F, hFf, hFfin, hF, ⟨e⟩⟩
-  haveI : Finite F' := Nat.finite_of_card_ne_zero (by rw [hF']; norm_num)
+  have : Finite F' := Nat.finite_of_card_ne_zero (by rw [hF']; norm_num)
   rw [Inputs123a.isLocallyOTwoBalancedWrtP_congr φ]
   exact not_balanced_projectiveSL_two_seven hF'
 
@@ -659,11 +659,11 @@ theorem isometry_of_mem_isometryCore {Q : (J → ZMod 2) → ZMod 2} {g : GL J (
   let S : Subgroup (GL J (ZMod 2)) :=
     { carrier := {g | ∀ v, Q ((g : Matrix J J (ZMod 2)) *ᵥ v) = Q v}
       mul_mem' := fun {a b} ha hb v => by
-        simp only [Set.mem_setOf_eq] at *
+        simp only [Set.mem_ofPred_eq] at *
         rw [Units.val_mul, ← mulVec_mulVec, ha, hb]
       one_mem' := fun v => by simp
       inv_mem' := fun {a} ha v => by
-        simp only [Set.mem_setOf_eq] at *
+        simp only [Set.mem_ofPred_eq] at *
         have := ha (((a⁻¹ : GL J (ZMod 2)) : Matrix J J (ZMod 2)) *ᵥ v)
         rw [mulVec_mulVec, Units.mul_inv, one_mulVec] at this
         exact this.symm }
@@ -678,23 +678,28 @@ theorem gl_ext_mulVec {g g' : GL J (ZMod 2)}
 @[expose] noncomputable def swapLin (ja jb : J) : (J → ZMod 2) →ₗ[ZMod 2] (J → ZMod 2) :=
   LinearMap.funLeft (ZMod 2) (ZMod 2) (Equiv.swap ja jb)
 
+omit [Fintype J] in
 theorem swapLin_apply (ja jb : J) (v : J → ZMod 2) (j : J) :
     swapLin ja jb v j = v (Equiv.swap ja jb j) := rfl
 
+omit [Fintype J] in
 theorem swapLin_swapLin (ja jb : J) (v : J → ZMod 2) : swapLin ja jb (swapLin ja jb v) = v := by
   ext j
   simp [swapLin_apply, Equiv.swap_apply_self]
 
+omit [Fintype J] in
 theorem swapLin_single_left (ja jb : J) (c : ZMod 2) :
     swapLin ja jb (Pi.single ja c) = Pi.single jb c := by
   ext j
   simp only [swapLin_apply, Pi.single_apply, Equiv.swap_apply_eq_iff, Equiv.swap_apply_left]
 
+omit [Fintype J] in
 theorem swapLin_single_right (ja jb : J) (c : ZMod 2) :
     swapLin ja jb (Pi.single jb c) = Pi.single ja c := by
   ext j
   simp only [swapLin_apply, Pi.single_apply, Equiv.swap_apply_eq_iff, Equiv.swap_apply_right]
 
+omit [Fintype J] in
 theorem swapLin_of_vanish {ja jb : J} {y : J → ZMod 2} (ha : y ja = 0) (hb : y jb = 0) :
     swapLin ja jb y = y := by
   ext j
@@ -734,7 +739,7 @@ theorem conj_mem_commutator {G : Type*} [Group G] {I : Subgroup G} {g ω : G} (h
     (hω : ω ∈ ⁅I, I⁆) : g * ω * g⁻¹ ∈ ⁅I, I⁆ := by
   rw [← Subgroup.map_subtype_commutator] at hω ⊢
   obtain ⟨ω', hω', rfl⟩ := hω
-  haveI : (_root_.commutator ↥I).Normal := inferInstance
+  have : (_root_.commutator ↥I).Normal := inferInstance
   exact ⟨⟨g, hg⟩ * ω' * ⟨g, hg⟩⁻¹, this.conj_mem ω' hω' ⟨g, hg⟩, by simp⟩
 
 @[expose] noncomputable def conjOmega {G : Type*} [Group G] {I : Subgroup G} {g : G} (hg : g ∈ I) :
@@ -803,7 +808,7 @@ theorem commute_swap_of_commute (h : HypExt E R P) {Q' : (J → ZMod 2) → ZMod
     rw [hP] at hy
     have ha := congrFun hy ja
     have hb := congrFun hy jb
-    simp [Pi.single_apply, hab, hab.symm] at ha hb
+    simp [hab, hab.symm] at ha hb
     exact ⟨ha, hb⟩
   set a : J → ZMod 2 := Pi.single ja 1 with ha
   set b : J → ZMod 2 := Pi.single jb 1 with hb
@@ -821,10 +826,10 @@ theorem commute_swap_of_commute (h : HypExt E R P) {Q' : (J → ZMod 2) → ZMod
     exact this.symm
   have hQa : (M *ᵥ a) ja * (M *ᵥ a) jb = 0 := by
     rw [← hQP, ← hPa, hMP, hPa, hz, ← hPa, hQP]
-    simp [a, Pi.single_apply, hab.symm]
+    simp [a, hab.symm]
   have hQb : (M *ᵥ b) ja * (M *ᵥ b) jb = 0 := by
     rw [← hQP, ← hPb, hMP, hPb, hz, ← hPb, hQP]
-    simp [b, Pi.single_apply, hab]
+    simp [b, hab]
   have hMinj : Function.Injective (fun v => M *ᵥ v) := by
     intro v v' hvv'
     have h1 := congrArg (fun y => ((z⁻¹ : GL J (ZMod 2)) : Matrix J J (ZMod 2)) *ᵥ y) hvv'
@@ -844,7 +849,7 @@ theorem commute_swap_of_commute (h : HypExt E R P) {Q' : (J → ZMod 2) → ZMod
     rintro ⟨h1, h2⟩
     have : M *ᵥ a = M *ᵥ b := by rw [hMa, hMb, h1, h2]
     have := congrFun (hMinj this) ja
-    simp [a, b, Pi.single_apply, hab] at this
+    simp [a, b, hab] at this
   have hcases : ∀ c₁ d₁ c₂ d₂ : ZMod 2, c₁ * d₁ = 0 → c₂ * d₂ = 0 → ¬ (c₁ = 0 ∧ d₁ = 0) →
       ¬ (c₂ = 0 ∧ d₂ = 0) → ¬ (c₁ = c₂ ∧ d₁ = d₂) → c₁ = d₂ ∧ d₁ = c₂ := by decide
   obtain ⟨hc, hd⟩ := hcases _ _ _ _ hQa hQb hMa0 hMb0 hMab
@@ -894,7 +899,7 @@ theorem not_balanced_omega_ext (h : HypExt E R P) {Q : (I → ZMod 2) → ZMod 2
     rw [hP] at hy
     have ha := congrFun hy ja
     have hb := congrFun hy jb
-    simp [Pi.single_apply, hab, hab.symm] at ha hb
+    simp [hab, hab.symm] at ha hb
     exact ⟨ha, hb⟩
   have hEva : ∀ w, E w ja = 0 ∧ E w jb = 0 := fun w => hvan _ (h.PE w)
   have hPt : ∀ v, P (swapLin ja jb v) = swapLin ja jb (P v) := by
@@ -977,9 +982,11 @@ variable {J : Type} [Fintype J] [DecidableEq J]
     (J → ZMod 2) →ₗ[ZMod 2] (J → ZMod 2) :=
   LinearMap.id + c.smulRight w
 
+omit [Fintype J] [DecidableEq J] in
 theorem transvLin_apply (c : (J → ZMod 2) →ₗ[ZMod 2] ZMod 2) (w v : J → ZMod 2) :
     transvLin c w v = v + c v • w := rfl
 
+omit [Fintype J] [DecidableEq J] in
 theorem transvLin_transvLin {c : (J → ZMod 2) →ₗ[ZMod 2] ZMod 2} {w : J → ZMod 2} (hcw : c w = 0)
     (v : J → ZMod 2) : transvLin c w (transvLin c w v) = v := by
   rw [transvLin_apply, transvLin_apply, map_add, map_smul, hcw, smul_zero, add_zero, add_assoc,
@@ -1033,14 +1040,14 @@ theorem plusC_apply (m : ℕ) (v : Fin (m + 1 + 1) ⊕ Fin (m + 1 + 1) → ZMod 
     plusC m v = v (Sum.inr 0) + v (Sum.inl 1) + v (Sum.inr 1) := rfl
 
 theorem plusC_plusW (m : ℕ) : plusC m (plusW m) = 0 := by
-  simp [plusC_apply, plusW, Pi.single_apply]
+  simp [plusC_apply, plusW]
   decide
 
 theorem plus_split (m : ℕ) (v : Fin (m + 1 + 1) ⊕ Fin (m + 1 + 1) → ZMod 2) :
     StatedQuadPlus (m + 1 + 1) (ZMod 2) v = v (Sum.inl 0) * v (Sum.inr 0) +
       (v (Sum.inl 1) * v (Sum.inr 1) +
         ∑ i : Fin m, v (Sum.inl i.succ.succ) * v (Sum.inr i.succ.succ)) := by
-  simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_succ]
+  simp [StatedQuadPlus, Fin.sum_univ_succ]
 
 theorem plusW_succ_succ (m : ℕ) (i : Fin m) :
     plusW m (Sum.inl i.succ.succ) = 0 ∧ plusW m (Sum.inr i.succ.succ) = 0 := by
@@ -1048,7 +1055,7 @@ theorem plusW_succ_succ (m : ℕ) (i : Fin m) :
   have h1 : (i.succ.succ : Fin (m + 1 + 1)) ≠ 1 := by
     rw [← Fin.succ_zero_eq_one, Ne, Fin.succ_inj]
     exact Fin.succ_ne_zero _
-  simp [plusW, Pi.single_apply, h0, h1]
+  simp [plusW, h0, h1]
 
 theorem plus_transv_isometry (m : ℕ) (v : Fin (m + 1 + 1) ⊕ Fin (m + 1 + 1) → ZMod 2) :
     StatedQuadPlus (m + 1 + 1) (ZMod 2) (v + plusC m v • plusW m) =
@@ -1060,9 +1067,9 @@ theorem plus_transv_isometry (m : ℕ) (v : Fin (m + 1 + 1) ⊕ Fin (m + 1 + 1) 
     refine Finset.sum_congr rfl fun i _ => ?_
     simp [(plusW_succ_succ m i).1, (plusW_succ_succ m i).2]
   rw [htail]
-  have h10 : (1 : Fin (m + 1 + 1)) ≠ 0 := Fin.one_pos.ne'
+  have h10 : (1 : Fin (m + 1 + 1)) ≠ 0 := Fin.zero_lt_one.ne'
   simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, plusW, Pi.single_apply, Sum.inl.injEq,
-    Sum.inr.injEq, reduceCtorEq, if_true, if_false, h10, h10.symm, plusC_apply]
+    Sum.inr.injEq, reduceCtorEq, ite_true, ite_false, h10, h10.symm, plusC_apply]
   have key : ∀ a b d e : ZMod 2, (a + (b + d + e) * (1 + 0 + 0)) * (b + (b + d + e) * (0 + 0 + 0)) +
       (d + (b + d + e) * (0 + 1 + 0)) * (e + (b + d + e) * (0 + 0 + 1)) = a * b + d * e := by
     decide
@@ -1082,8 +1089,8 @@ theorem plus_witness (m : ℕ) :
       (Pi.single (Sum.inl 1) 1)).2
     rw [hc.eq] at h1
     have h3 := congrFun (h1.symm.trans h2) (Sum.inl 0)
-    have h10 : (1 : Fin (m + 1 + 1)) ≠ 0 := Fin.one_pos.ne'
-    simp [swapLin_apply, transvLin_apply, plusC_apply, plusW, Pi.single_apply, Equiv.swap_apply_def,
+    have h10 : (1 : Fin (m + 1 + 1)) ≠ 0 := Fin.zero_lt_one.ne'
+    simp [swapLin_apply, transvLin_apply, plusC_apply, plusW, Equiv.swap_apply_def,
       h10, h10.symm] at h3
     exact absurd h3 (by decide)
 
@@ -1100,14 +1107,14 @@ theorem minusC_apply (m : ℕ) (v : Fin (m + 1) ⊕ Fin (m + 1) ⊕ Fin 2 → ZM
     minusC m v = v (Sum.inr (Sum.inl 0)) + v (Sum.inr (Sum.inr 1)) := rfl
 
 theorem minusC_minusW (m : ℕ) : minusC m (minusW m) = 0 := by
-  simp [minusC_apply, minusW, Pi.single_apply]
+  simp [minusC_apply, minusW]
 
 theorem minus_split (m : ℕ) (v : Fin (m + 1) ⊕ Fin (m + 1) ⊕ Fin 2 → ZMod 2) :
     StatedQuadMinus (m + 1 + 1) (ZMod 2) 1 1 v = v (Sum.inl 0) * v (Sum.inr (Sum.inl 0)) +
       ∑ i : Fin m, v (Sum.inl i.succ) * v (Sum.inr (Sum.inl i.succ)) +
       v (Sum.inr (Sum.inr 0)) ^ 2 + 1 * v (Sum.inr (Sum.inr 0)) * v (Sum.inr (Sum.inr 1)) +
       1 * v (Sum.inr (Sum.inr 1)) ^ 2 := by
-  simp [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, Fin.sum_univ_succ]
+  simp [StatedQuadMinus, Fin.sum_univ_succ]
 
 theorem minus_transv_isometry (m : ℕ) (v : Fin (m + 1) ⊕ Fin (m + 1) ⊕ Fin 2 → ZMod 2) :
     StatedQuadMinus (m + 1 + 1) (ZMod 2) 1 1 (v + minusC m v • minusW m) =
@@ -1117,11 +1124,9 @@ theorem minus_transv_isometry (m : ℕ) (v : Fin (m + 1) ⊕ Fin (m + 1) ⊕ Fin
         (v + minusC m v • minusW m) (Sum.inr (Sum.inl i.succ)) =
       ∑ i : Fin m, v (Sum.inl i.succ) * v (Sum.inr (Sum.inl i.succ)) := by
     refine Finset.sum_congr rfl fun i _ => ?_
-    simp [minusW, Pi.single_apply, Fin.succ_ne_zero]
+    simp [minusW, Fin.succ_ne_zero]
   rw [htail]
-  simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, minusW, Pi.single_apply, Sum.inl.injEq,
-    Sum.inr.injEq, reduceCtorEq, if_true, if_false, minusC_apply, Fin.zero_eq_one_iff,
-    Fin.one_eq_zero_iff]
+  simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, minusW, Pi.single_apply, Sum.inr.injEq, reduceCtorEq, ite_true, ite_false, minusC_apply, Fin.one_eq_zero_iff]
   generalize ∑ i : Fin m, v (Sum.inl i.succ) * v (Sum.inr (Sum.inl i.succ)) = T
   have key : ∀ a b u w T : ZMod 2,
       (a + (b + w) * (1 + 0)) * (b + (b + w) * (0 + 0)) + T + (u + (b + w) * (0 + 1)) ^ 2 +
@@ -1146,8 +1151,7 @@ theorem minus_witness (m : ℕ) :
       (Pi.single (Sum.inr (Sum.inr 1)) 1)).2
     rw [hc.eq] at h1
     have h3 := congrFun (h1.symm.trans h2) (Sum.inl 0)
-    simp [swapLin_apply, transvLin_apply, minusC_apply, minusW, Pi.single_apply,
-      Equiv.swap_apply_def] at h3
+    simp [swapLin_apply, transvLin_apply, minusC_apply, minusW, Equiv.swap_apply_def] at h3
 
 @[expose] def extPlusE (n : ℕ) : (Fin n ⊕ Fin n → ZMod 2) →ₗ[ZMod 2] (Fin (n + 1) ⊕ Fin (n + 1) → ZMod 2) where
   toFun y := Sum.elim (Fin.cons 0 (fun i : Fin n => y (Sum.inl i)))
@@ -1189,8 +1193,8 @@ theorem extPlus_hQ (n : ℕ) (w : Fin n ⊕ Fin n → ZMod 2) (z : Fin (n + 1) �
     CFSG.Open.StatedQuadPlus (n + 1) (ZMod 2) (extPlusE n w + extPlusP n z) =
       CFSG.Open.StatedQuadPlus n (ZMod 2) w +
         CFSG.Open.StatedQuadPlus (n + 1) (ZMod 2) (extPlusP n z) := by
-  simp [CFSG.Open.StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, extPlusE, extPlusP,
-    Fin.sum_univ_succ, Pi.single_apply]
+  simp [CFSG.Open.StatedQuadPlus, extPlusE, extPlusP,
+    Fin.sum_univ_succ]
   ring
 
 @[expose] def extMinusE (m : ℕ) :
@@ -1245,29 +1249,29 @@ theorem extMinus_hQ (m : ℕ) (w : Fin m ⊕ Fin m ⊕ Fin 2 → ZMod 2)
     CFSG.Open.StatedQuadMinus (m + 1 + 1) (ZMod 2) 1 1 (extMinusE m w + extMinusP m z) =
       CFSG.Open.StatedQuadMinus (m + 1) (ZMod 2) 1 1 w +
         CFSG.Open.StatedQuadMinus (m + 1 + 1) (ZMod 2) 1 1 (extMinusP m z) := by
-  simp [CFSG.Open.StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, extMinusE, extMinusP,
-    Fin.sum_univ_succ, Pi.single_apply]
+  simp [CFSG.Open.StatedQuadMinus, extMinusE, extMinusP,
+    Fin.sum_univ_succ]
   ring
 
 theorem plusP_eq (m : ℕ) (z : Fin (m + 1 + 1) ⊕ Fin (m + 1 + 1) → ZMod 2) :
     extPlusP (m + 1) z = Pi.single (Sum.inl 0) (z (Sum.inl 0)) + Pi.single (Sum.inr 0) (z (Sum.inr 0)) := by
-  ext (j | j) <;> by_cases hj : j = 0 <;> simp [extPlusP, Pi.single_apply, hj]
+  ext (j | j) <;> by_cases hj : j = 0 <;> simp [extPlusP, hj]
 
 theorem plusQP (m : ℕ) (z : Fin (m + 1 + 1) ⊕ Fin (m + 1 + 1) → ZMod 2) :
     StatedQuadPlus (m + 1 + 1) (ZMod 2) (extPlusP (m + 1) z) = z (Sum.inl 0) * z (Sum.inr 0) := by
-  simp [StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, extPlusP, Fin.sum_univ_succ, Fin.succ_ne_zero]
+  simp [StatedQuadPlus, extPlusP]
 
 theorem minusP_eq (m : ℕ) (z : Fin (m + 1) ⊕ Fin (m + 1) ⊕ Fin 2 → ZMod 2) :
     extMinusP m z = Pi.single (Sum.inl 0) (z (Sum.inl 0)) +
       Pi.single (Sum.inr (Sum.inl 0)) (z (Sum.inr (Sum.inl 0))) := by
   ext (j | j | j)
-  · by_cases hj : j = 0 <;> simp [extMinusP, Pi.single_apply, hj]
-  · by_cases hj : j = 0 <;> simp [extMinusP, Pi.single_apply, hj]
-  · simp [extMinusP, Pi.single_apply]
+  · by_cases hj : j = 0 <;> simp [extMinusP, hj]
+  · by_cases hj : j = 0 <;> simp [extMinusP, hj]
+  · simp [extMinusP]
 
 theorem minusQP (m : ℕ) (z : Fin (m + 1) ⊕ Fin (m + 1) ⊕ Fin 2 → ZMod 2) :
     StatedQuadMinus (m + 1 + 1) (ZMod 2) 1 1 (extMinusP m z) = z (Sum.inl 0) * z (Sum.inr (Sum.inl 0)) := by
-  simp [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, extMinusP, Fin.sum_univ_succ, Fin.succ_ne_zero]
+  simp [StatedQuadMinus, extMinusP]
 
 theorem not_balanced_omega_plus {m p : ℕ} (hp : p.Prime) {A : GL (Fin (m + 1) ⊕ Fin (m + 1)) (ZMod 2)}
     (hA : A ∈ StatedOmega (StatedQuadPlus (m + 1) (ZMod 2))) (hAp : orderOf A = p)
@@ -1354,7 +1358,7 @@ theorem lemma118Sub_of_inputs' (h111 : Prop111Statement) (h112 : Prop112Statemen
   intro G _ _ m B M E A a K h n Q₁ Q₂ hn hpn hrn hT hr2 hq4
   by_contra hA
   apply h.notM
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hSec : Sec11 G m 3 B M E A := h.toCex117Base.toSec11
   obtain ⟨ha, ha1⟩ := h.ha
   have hK : GLAPComponent 3 (Cg a) K := h.hK
@@ -1569,7 +1573,7 @@ theorem no_bad' {p m : ℕ} {B M E A : Subgroup G} {a : G} {K : Subgroup G}
         ∀ q ∈ barX p (Cg a) K, QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg a)) z * q =
           q * QuotientGroup.mk' (GLAPPrimeCore p ↥(Cg a)) z) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rintro ⟨z₀, hz₀A, hz₀1, hbad⟩
   obtain ⟨hDDp, -⟩ := hSec.pair
   obtain ⟨-, hDp, hrA0⟩ := hDDp
@@ -1731,7 +1735,7 @@ theorem prop1117_of_inputs_fixed' (h112 : Prop112Statement) (h115 : Prop115State
     have hb := h.standing.beta
     unfold GLABeta at hb
     exact ⟨hb.1, hb.2.1⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp3le : 3 ≤ p := by have := hp.two_le; omega
   have h111 : Prop111Statement := prop111_of_prop112 h112
   by_cases hA1 : ∃ A1 : Subgroup G, inD p M A1 ∧ a ∈ A1

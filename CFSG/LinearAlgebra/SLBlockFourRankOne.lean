@@ -79,9 +79,9 @@ theorem exists_card_eq_sixtyFour_commute_of_finrank_range_eq_one (hF : ∀ a : F
       ext i j
       rw [Matrix.ofNat_apply]
       by_cases h : i = j
-      · rw [if_pos h]
+      · rw [ite_eq_left h]
         exact CharP.cast_eq_zero F 2
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         simp
     have h11 : (1 : Matrix ι ι F) + 1 = 0 := by
       have h := congrArg (fun x : Matrix ι ι F => x * 1) h2
@@ -161,7 +161,7 @@ theorem exists_card_eq_sixtyFour_commute_of_finrank_range_eq_one (hF : ∀ a : F
       · rintro ⟨w, rfl⟩
         exact ⟨NW w, ⟨w, rfl⟩, rfl⟩
     rw [← Submodule.finrank_map_subtype_eq W (LinearMap.range NW), hmap,
-      LinearMap.range_domRestrict_eq_range_iff.mpr hcodisj, hrank]
+      LinearMap.range_domRestrict, Submodule.map_eq_range_iff.mpr hcodisj, hrank]
   have hker : Module.finrank F (LinearMap.ker NW) = 3 := by
     have hrn := LinearMap.finrank_range_add_finrank_ker (f := NW)
     rw [hrange, hW] at hrn

@@ -94,17 +94,17 @@ theorem exists_mulAut_surjective_of_not_le_center {p : ℕ} (hp : p.Prime) [Grou
       ∃ (A : Subgroup (MulAut ↥V))
         (φ : ↥A →* (Y ⧸ CFSG.pPrimeCore p Y) ⧸ center (Y ⧸ CFSG.pPrimeCore p Y)),
         Function.Surjective φ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨q, hq_prime, hq_ne_two, hVnc⟩ :=
     exists_pCore_not_le_center (Y := Y) h2 hE hc
   have hq_gt_one : 1 < q := hq_prime.one_lt
   let X : Subgroup Y := CFSG.pPrimeCore p Y
-  haveI hXnorm : X.Normal := CFSG.pPrimeCore_normal (p := p) (G := Y)
+  have hXnorm : X.Normal := CFSG.pPrimeCore_normal (p := p) (G := Y)
   let V : Subgroup Y := (CFSG.pCore q ↥X).map X.subtype
   have hVX : V ≤ X := Subgroup.map_subtype_le (H := X) (CFSG.pCore q ↥X)
   have hVnc' : ¬ V ≤ center Y := hVnc
   have hVp : IsPGroup q ↥V := (CFSG.pCore_isPGroup (p := q) (G := ↥X)).map X.subtype
-  haveI hVnorm : V.Normal := inferInstance
+  have hVnorm : V.Normal := inferInstance
   have hq_ne_p : q ≠ p := by
     intro hqp
     have hVp' : IsPGroup p ↥V := hqp ▸ hVp

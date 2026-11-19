@@ -375,13 +375,13 @@ theorem not_two_dvd_index_normalizer
   have hU2 : IsPGroup 2 (U.subgroupOf N) := h.isPGroup_U.comap_subtype
   obtain ⟨P₀, hP₀⟩ := hU2.exists_le_sylow
   set P : Subgroup G := (P₀ : Subgroup N).map N.subtype with hPdef
-  have hP2 : IsPGroup 2 P := P₀.isPGroup'.map _
+  have hP2 : IsPGroup 2 P := P₀.isPGroup.map _
   have hUP : U ≤ P := fun x hx => ⟨⟨x, le_normalizer hx⟩, hP₀ (mem_subgroupOf.mpr hx), rfl⟩
   have hPN : P ≤ N := map_subtype_le _
   obtain ⟨S, hPS⟩ := hP2.exists_le_sylow
   have hSP : (S : Subgroup G) = P := by
     by_contra hne
-    obtain ⟨g, hgS, hgP, hgnP⟩ := SzC1.exists_mem_normalizer_of_lt S.isPGroup' hPS hne
+    obtain ⟨g, hgS, hgP, hgnP⟩ := SzC1.exists_mem_normalizer_of_lt S.isPGroup hPS hne
     have hg' : ∀ y : G, y * t * y⁻¹ ∈ U → g * (y * t * y⁻¹) * g⁻¹ ∈ U := by
       intro y hy
       have hP : g * (y * t * y⁻¹) * g⁻¹ ∈ P := (mem_normalizer_iff.mp hgP _).mp (hUP hy)
@@ -397,7 +397,7 @@ theorem not_two_dvd_index_normalizer
         simpa using hgU x hx
       simpa using inv_mem this
     set Q : Subgroup G := P ⊔ zpowers g with hQ
-    have hQ2 : IsPGroup 2 Q := S.isPGroup'.to_le (sup_le hPS (zpowers_le.mpr hgS))
+    have hQ2 : IsPGroup 2 Q := S.isPGroup.to_le (sup_le hPS (zpowers_le.mpr hgS))
     have hQN : Q ≤ N := sup_le hPN (zpowers_le.mpr hgN)
     have hQ2' : IsPGroup 2 (Q.subgroupOf N) := hQ2.comap_subtype
     have hPQ : (P₀ : Subgroup N) ≤ Q.subgroupOf N := fun x hx =>

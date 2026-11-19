@@ -334,7 +334,7 @@ theorem exists_E9_of_ctx19_1 (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L K :
       obtain ⟨n, hn⟩ := hS.isPGroup.exists_card_eq
       rw [hn]
       exact hcop.pow_left n
-    have hSinf : S ⊓ (Y ⊓ C) = ⊥ := Subgroup.inf_eq_bot_of_coprime hScop
+    have hSinf : S ⊓ (Y ⊓ C) = ⊥ := (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hScop))
     rw [eq_bot_iff]
     intro x hx
     have hx' : x ∈ S ⊓ (Y ⊓ C) := ⟨hx.1.1, hx.1.2, hx.2.2⟩
@@ -356,7 +356,7 @@ theorem exists_E9_of_ctx19_1 (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L K :
     exact Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcommRA
   have hzRcent : ∀ r ∈ R, z * r = r * z := by
     intro r hr
-    letI : CommGroup ↥R := hRcyc.commGroup
+    let : CommGroup ↥R := hRcyc.commGroup
     have hz' : (⟨z, hzR⟩ : ↥R) * (⟨r, hr⟩ : ↥R) = (⟨r, hr⟩ : ↥R) * ⟨z, hzR⟩ :=
       mul_comm _ _
     exact congrArg Subtype.val hz'

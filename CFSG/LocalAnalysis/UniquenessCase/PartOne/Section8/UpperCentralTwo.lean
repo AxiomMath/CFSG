@@ -10,6 +10,7 @@ open scoped commutatorElement
 
 variable {W : Type} [Group W] [Finite W] {Q X : Subgroup W}
 
+omit [Finite W] in
 theorem le_upperCentralSeries_two_of_commutator_le_center
     (hsup : Q ⊔ X = ⊤)
     (hXcomm : ∀ x ∈ X, ∀ x' ∈ X, x * x' = x' * x)

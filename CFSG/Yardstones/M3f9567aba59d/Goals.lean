@@ -217,14 +217,14 @@ theorem ggRemainderSecFiveTypeA_holds :
   have hCD : GGTypeACompatDiagBInput := ggTypeACompatDiagBInput_of_known ggInnerDiagMpInput_holds hLB
   have hRig : GGLabelRigidInput := ggLabelRigidInput_holds
   have hF : GGNbrFrameInput := ggNbrFrameInput_of_one ggNbrFrameInputOne_holds
-  have hTBwE : GGNbrTableBWeylInputOn fun p lab => lab.tag = .E6 ∧ p = 3 :=
+  have hTBwE : GGNbrTableBWeylInputOn fun _p lab => lab.tag = .E6 ∧ _p = 3 :=
     ggNbrTableBWeylInputOn_e6Three_holds
-  have hTBoE : GGNbrTableBOrderRestInputOn fun p lab => lab.tag = .E6 ∧ p = 3 :=
+  have hTBoE : GGNbrTableBOrderRestInputOn fun _p lab => lab.tag = .E6 ∧ _p = 3 :=
     ggNbrTableBOrderRestInputOn_e6Three_holds
   have hTBwR : GGNbrTableBWeylInputOn fun _ lab =>
       ¬ lab.tag = .A ∧ ¬ lab.tag = .B ∧ ¬ lab.tag = .C ∧ ¬ lab.tag = .D :=
-    ggNbrTableBWeylInputOn_exc_holds.of_cover hTBwE fun p lab h =>
-      (Classical.em (lab.tag = .E6 ∧ p = 3)).symm.imp
+    ggNbrTableBWeylInputOn_exc_holds.of_cover hTBwE fun _p lab h =>
+      (Classical.em (lab.tag = .E6 ∧ _p = 3)).symm.imp
         (fun hE => ⟨h.1, h.2.1, h.2.2.1, h.2.2.2, hE⟩) id
   have hTBwDR : GGNbrTableBWeylInputOn fun _ lab =>
       ¬ lab.tag = .A ∧ ¬ lab.tag = .B ∧ ¬ lab.tag = .C :=
@@ -236,15 +236,15 @@ theorem ggRemainderSecFiveTypeA_holds :
         (Classical.em (lab.tag = .B ∨ lab.tag = .C)).imp id
           fun hBC => ⟨h, fun hB => hBC (Or.inl hB), fun hC => hBC (Or.inr hC)⟩)
   have hTBoR : GGNbrTableBOrderRestInputOn fun _ lab => ¬ lab.tag = .C ∧ ¬ lab.tag = .D :=
-    ggNbrTableBOrderRestInputOn_exc_holds.of_cover hTBoE fun p lab h =>
-      (Classical.em (lab.tag = .E6 ∧ p = 3)).symm.imp (fun hE => ⟨h.1, h.2, hE⟩) id
+    ggNbrTableBOrderRestInputOn_exc_holds.of_cover hTBoE fun _p lab h =>
+      (Classical.em (lab.tag = .E6 ∧ _p = 3)).symm.imp (fun hE => ⟨h.1, h.2, hE⟩) id
   have hO : GGNbrTableBOrderRestInput :=
     ggNbrTableBOrderRestInput_of_on ggNbrTableBOrderRestInputOn_typeC_holds
       (ggNbrTableBOrderRestInputOn_typeD_holds.of_cover hTBoR fun _ lab h =>
         (Classical.em (lab.tag = .D)).imp id fun hD => ⟨h, hD⟩)
   have hC : GGNbrTableBCardInput := ggNbrTableBCardInput_holds
   And.intro
-    (fun G _ _ p B Bs x L D J n f y K h hTP y' K' hK' hout =>
+    (fun _G _ _ _p _B _Bs _x _L _D _J _n _f _y _K h hTP _y' _K' hK' hout =>
       ggTypeAReflOver_of_known hCD hLB hRig hTB hC hO hF h hTP hK' hout)
     (And.intro (ggTypeACrossLiftInput_of_known hCD hLB) ggNbrFrameInputOne_holds)
 

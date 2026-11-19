@@ -171,7 +171,7 @@ private theorem y4_C2_quot_elemab (c : Ctx4 s e)
     ht htc ha hb hc habc hall
 
 theorem y4_C2_comm (c : Ctx4 s e) : ∀ x ∈ s.C₂, ∀ y ∈ s.C₂, ⁅x, y⁆ ∈ s.fr.B := by
-  haveI hN := y4_B_subgroupOf_C2_normal c
+  have hN := y4_B_subgroupOf_C2_normal c
   have hmain := y4_C2_quot_elemab c
   intro x hx y hy
   let π : ↥s.C₂ →* (↥s.C₂ ⧸ (s.fr.B).subgroupOf s.C₂) :=

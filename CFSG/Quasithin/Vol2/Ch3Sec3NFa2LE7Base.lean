@@ -11,12 +11,14 @@ open CFSG.Open CFSG.Quasithin CFSG.LieType.BorelTits CFSG.QuasithinUnique
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem relIndex_sup_of_le_normalizer {B TC : Subgroup G}
     (hB : B ≤ Subgroup.normalizer (TC : Set G)) : TC.relIndex (B ⊔ TC) = TC.relIndex B := by
-  letI := Subgroup.normal_subgroupOf_of_le_normalizer hB
-  letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hB
+  let := Subgroup.normal_subgroupOf_of_le_normalizer hB
+  let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hB
   exact Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient B TC hB).toEquiv.symm
 
+omit [Finite G] in
 theorem mIdx_inf_eq_mIdx_sup {B TC : Subgroup G} (hB : B ≤ Subgroup.normalizer (TC : Set G)) :
     mIdx B (B ⊓ TC) = mIdx (B ⊔ TC) TC := by
   unfold mIdx

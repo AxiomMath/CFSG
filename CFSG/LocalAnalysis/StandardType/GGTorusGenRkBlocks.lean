@@ -44,7 +44,7 @@ private theorem blockRes_mul_of_blockDiag {d : ℕ} {K : Type} [Field K] {t : Fi
     {S : Finset (Fin d)}
     (hS : ∀ i ∈ S, ∀ j, t j = t i → j ∈ S)
     {A B : Matrix (Fin d) (Fin d) K}
-    (hA : ∀ i j, t i ≠ t j → A i j = 0) (hB : ∀ i j, t i ≠ t j → B i j = 0) :
+    (hA : ∀ i j, t i ≠ t j → A i j = 0) (_hB : ∀ i j, t i ≠ t j → B i j = 0) :
     TableBUE.blockRes S (A * B) = TableBUE.blockRes S A * TableBUE.blockRes S B := by
   ext a b
   simp only [TableBUE.blockRes, Matrix.mul_apply]
@@ -72,7 +72,7 @@ private theorem blockRes_inv_mul_eq_one {d : ℕ} {K : Type} [Field K] {t : Fin 
     (hAbd : ∀ i j, t i ≠ t j → A i j = 0)
     (hAinvbd : ∀ i j, t i ≠ t j → Ainv i j = 0)
     (hMbd : ∀ i j, t i ≠ t j → M i j = 0)
-    (hAAinv : A * Ainv = 1) (hAinvA : Ainv * A = 1)
+    (_hAAinv : A * Ainv = 1) (hAinvA : Ainv * A = 1)
     (hAblock : TableBUE.blockRes Kset A = TableBUE.blockRes Kset M) :
     TableBUE.blockRes Kset (Ainv * M) = 1 := by
   have hm2 : TableBUE.blockRes Kset Ainv * TableBUE.blockRes Kset A = 1 := by
@@ -87,12 +87,12 @@ private theorem blockRes_inv_mul_eq_one {d : ℕ} {K : Type} [Field K] {t : Fin 
 
 private theorem isBlockOn_sdiff_of_blockExt_inv_mul {d : ℕ} {K : Type} [Field K]
     {t : Fin d → K} {S Kset : Finset (Fin d)}
-    (hS : ∀ i ∈ S, ∀ j, t j = t i → j ∈ S)
-    (hKconst : ∀ i ∈ Kset, ∀ j ∈ Kset, t i = t j)
+    (_hS : ∀ i ∈ S, ∀ j, t j = t i → j ∈ S)
+    (_hKconst : ∀ i ∈ Kset, ∀ j ∈ Kset, t i = t j)
     (hKcls : ∀ i ∈ Kset, ∀ j, t j = t i → j ∈ Kset)
-    (hKS : Kset ⊆ S)
+    (_hKS : Kset ⊆ S)
     {A Ainv M : Matrix (Fin d) (Fin d) K}
-    (hA : TableBUE.IsBlockOn Kset A)
+    (_hA : TableBUE.IsBlockOn Kset A)
     (hAinv : TableBUE.IsBlockOn Kset Ainv)
     (hM : TableBUE.IsBlockOn S M)
     (hAbd : ∀ i j, t i ≠ t j → A i j = 0)

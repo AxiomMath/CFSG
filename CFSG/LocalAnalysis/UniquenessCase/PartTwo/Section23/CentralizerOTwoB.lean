@@ -26,11 +26,11 @@ theorem exists_odd_prime_pCore_bar2_not_isCyclic {M : Subgroup G}
     push Not at h
     have hZ : IsZGroup ↥(CFSG.fittingSubgroup (Bar2 M)) :=
       IsZGroup.mk fun p hp P => h p hp P
-    letI : IsZGroup ↥(CFSG.fittingSubgroup (Bar2 M)) := hZ
-    letI : Group.IsNilpotent ↥(CFSG.fittingSubgroup (Bar2 M)) :=
+    let : IsZGroup ↥(CFSG.fittingSubgroup (Bar2 M)) := hZ
+    let : Group.IsNilpotent ↥(CFSG.fittingSubgroup (Bar2 M)) :=
       CFSG.fittingSubgroup_nilpotent
     exact hF (inferInstance : IsCyclic ↥(CFSG.fittingSubgroup (Bar2 M)))
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hP'nc : ¬ IsCyclic ↥((P : Subgroup ↥(CFSG.fittingSubgroup (Bar2 M))).map
       (CFSG.fittingSubgroup (Bar2 M)).subtype) := by
     intro hcyc

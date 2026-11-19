@@ -25,7 +25,7 @@ private theorem isElementaryAbelian_of_comm_exp_two {G : Type*} [Group G]
       simpa using hZ2 (z : G) z.2) }
 
 private theorem quotient_elementaryAbelian {G : Type*} [Group G]
-    {Q Z : Subgroup G} (hZc : ∀ z ∈ Z, ∀ x ∈ Q, z * x = x * z)
+    {Q Z : Subgroup G} (_hZc : ∀ z ∈ Z, ∀ x ∈ Q, z * x = x * z)
     (hQ2 : ∀ x ∈ Q, x ^ 2 ∈ Z) [hWn : (Z.subgroupOf Q).Normal] :
     CFSG.IsElementaryAbelian 2 (↥Q ⧸ Z.subgroupOf Q) := by
   have hU2 : ∀ u : ↥Q ⧸ Z.subgroupOf Q, u ^ 2 = 1 := by
@@ -297,9 +297,9 @@ theorem exists_vertexIso_special [Finite G] [Finite G'] {Q R Z : Subgroup G}
           rw [QuotientGroup.mk_mul, QuotientGroup.mk_inv, hzφmk, inv_one, mul_one]
       _ = QuotientGroup.mk (θ v) := by rw [hθsub]
   · intro z
-    have hβZeq : θ ⟨z, hZQ z.2⟩ = β₀ ⟨z, hZQ z.2⟩ := hθZ _ (by simpa using z.2)
+    have hβZeq : θ ⟨z, hZQ z.2⟩ = β₀ ⟨z, hZQ z.2⟩ := hθZ _ (by simp)
     calc (θ ⟨z, hZQ z.2⟩ : G') = (β₀ ⟨z, hZQ z.2⟩ : G') := by rw [hβZeq]
-      _ = (g ⟨(z : G), z.2⟩ : G') := hβ₀Z ⟨z, hZQ z.2⟩ (by simpa using z.2)
+      _ = (g ⟨(z : G), z.2⟩ : G') := hβ₀Z ⟨z, hZQ z.2⟩ (by simp)
       _ = (g z : G') := rfl
 
 end CFSG.Quasithin.F112R.St84

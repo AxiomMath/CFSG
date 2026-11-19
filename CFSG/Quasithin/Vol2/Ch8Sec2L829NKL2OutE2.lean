@@ -12,6 +12,7 @@ section Standard
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem torSub_comm_tor_neg_one {U : Subgroup Fˣ} {x : PGL2 F} (hx : x ∈ torSub F U) :
     x * tor F (-1) = tor F (-1) * x := by
   obtain ⟨y, -, ε, rfl⟩ := mem_torSub.mp hx
@@ -54,7 +55,7 @@ theorem stdT_center_eq (hodd : IsOddPrimePower (Nat.card F)) (hsq : IsSquare (-1
     (hz1 : z₀ ≠ 1) (hcomm : ∀ s ∈ stdT F, s * z₀ = z₀ * s) {v : PSL2 F}
     (hv : v ∈ stdT F ⊓ centralizer ((stdT F : Subgroup (PSL2 F)) : Set (PSL2 F))) :
     v = 1 ∨ v = z₀ := by
-  haveI : Finite (PSL2 F) := inferInstance
+  have : Finite (PSL2 F) := inferInstance
   exact eq_one_or_eq_of_card_two_mem _ (stdT_center_card hodd hsq hq4 h8)
     (Subgroup.mem_inf.mpr ⟨hz₀, mem_centralizer_iff.mpr hcomm⟩) hz1 hv
 
@@ -104,12 +105,12 @@ theorem charP_of_card_sq {F : Type} [Field F] [Finite F] {p : ℕ} (hp : p.Prime
 
 theorem right_one_e2 {X : Type} [Group X] {p : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p)
     {F : Type} [Field F] [Finite F] (hF : Nat.card F = p ^ 2) [CharP F p]
-    (φ : X ≃* PSL2 F) (Q : Sylow 2 X) (hQ8 : 8 ≤ Nat.card Q) (y : MulAut X) (hy : y * y = 1)
+    (φ : X ≃* PSL2 F) (Q : Sylow 2 X) (hQ8 : 8 ≤ Nat.card Q) (y : MulAut X) (_hy : y * y = 1)
     (hfix : ∀ b ∈ centralizer (((Q : Subgroup X) ⊓ centralizer ((Q : Subgroup X) : Set X) :
       Subgroup X) : Set X), y b = b) :
     (autEquiv φ y).right = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite X := Finite.of_equiv _ φ.symm.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite X := Finite.of_equiv _ φ.symm.toEquiv
   have hp2 : p ≠ 2 := by omega
   have hodd : IsOddPrimePower (Nat.card F) := isOddPrimePower_of hp hp2 (by norm_num) hF
   have hq4 : Nat.card F % 4 = 1 := by

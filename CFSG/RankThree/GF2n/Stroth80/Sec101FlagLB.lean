@@ -19,11 +19,13 @@ variable {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel 
     Subgroup (M₀.E ≃ₗ[K] M₀.E) :=
   ((LB M Q C).subgroupOf (H0 M Z)).map Pk.φ
 
+omit [Finite G] in
 theorem GlobalModelAction.mem_lam (Pk : GlobalModelAction M Q Z K γ M₀) {C : Subgroup G}
     {T : M₀.E ≃ₗ[K] M₀.E} :
     T ∈ Pk.lam C ↔ ∃ m : ↥(H0 M Z), (m : G) ∈ LB M Q C ∧ Pk.φ m = T := by
   simp only [GlobalModelAction.lam, Subgroup.mem_map, Subgroup.mem_subgroupOf]
 
+omit [Finite G] in
 theorem GlobalModelAction.phi_mem_lam_iff (Pk : GlobalModelAction M Q Z K γ M₀)
     {C : Subgroup G} (m : ↥(H0 M Z)) :
     Pk.φ m ∈ Pk.lam C ↔ (m : G) ∈ LB M Q C := by
@@ -50,7 +52,7 @@ theorem GlobalModelAction.phi_mem_normalizer_iff (Pk : GlobalModelAction M Q Z K
     {C : Subgroup G} (hcC : Ctx M Q Z C) (m : ↥(H0 M Z)) :
     Pk.φ m ∈ Subgroup.normalizer (Pk.lam C : Set (M₀.E ≃ₗ[K] M₀.E)) ↔
       (m : G) ∈ Subgroup.normalizer (LB M Q C : Set G) := by
-  haveI : Finite (Pk.lam C) := Pk.finite_lam C
+  have : Finite (Pk.lam C) := Pk.finite_lam C
   constructor
   · intro hm
     refine Subgroup.mem_normalizer_fintype fun l hl => ?_
@@ -65,13 +67,15 @@ theorem GlobalModelAction.phi_mem_normalizer_iff (Pk : GlobalModelAction M Q Z K
     rw [← map_inv, ← map_mul, ← map_mul]
     exact (Pk.phi_mem_lam_iff _).mpr ((Subgroup.mem_normalizer_iff.mp hm _).mp hl)
 
+omit [Finite G] in
 theorem GlobalModelAction.phi_comm_iff (Pk : GlobalModelAction M Q Z K γ M₀)
     (s t : ↥(H0 M Z)) : Pk.φ s * Pk.φ t = Pk.φ t * Pk.φ s ↔ ⁅(s : G), (t : G)⁆ ∈ Q := by
   rw [← commutatorElement_eq_one_iff_mul_comm, ← map_commutatorElement, Pk.hφker]
   rfl
 
+omit [Finite G] in
 theorem GlobalModelAction.lam_inf_eq_bot (Pk : GlobalModelAction M Q Z K γ M₀)
-    {C D : Subgroup G} (hcC : Ctx M Q Z C) (hcD : Ctx M Q Z D)
+    {C D : Subgroup G} (_hcC : Ctx M Q Z C) (_hcD : Ctx M Q Z D)
     (h : LB M Q C ⊓ LB M Q D = Q) : Pk.lam C ⊓ Pk.lam D = ⊥ := by
   refine eq_bot_iff.mpr fun T hT => ?_
   obtain ⟨m, hm, rfl⟩ := Pk.mem_lam.mp hT.1

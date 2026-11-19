@@ -63,7 +63,7 @@ theorem exists_modular (hd : Sec19DataT p f K z S W L t V) {a : G} (haS : a ∈ 
   have huR : Subgroup.zpowers u ≤ (S : Subgroup G) ⊓ K := by
     rw [hu]
     exact fun x hx => ⟨hd.hWS hx.2, hx.1⟩
-  have hU2 : IsPGroup 2 (Subgroup.zpowers u) := S.isPGroup'.to_le (huR.trans inf_le_left)
+  have hU2 : IsPGroup 2 (Subgroup.zpowers u) := S.isPGroup.to_le (huR.trans inf_le_left)
   obtain ⟨n, hn⟩ := hU2.exists_card_eq
   have hn3 : 3 ≤ n := by
     by_contra h

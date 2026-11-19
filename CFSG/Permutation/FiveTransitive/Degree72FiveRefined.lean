@@ -22,7 +22,7 @@ theorem fixed_card_eq_twelve
   let _ : Fact (Nat.Prime 5) := ⟨by decide⟩
   rcases Degree72FiveFixedCases.five_fixed_card_cases P hcard h5 hnotAlt s hs S hS with hF | hF
   · let Q := sylowImage X P s S
-    have hQ : IsPGroup 5 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+    have hQ : IsPGroup 5 Q := S.isPGroup.map (fixingSubgroup P s).subtype
     have hcommon : Nat.card (fixedPoints Q X) = 7 := by
       rw [← FixedNormalizerAction.fixed_eq Q]
       exact hF

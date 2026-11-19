@@ -10,7 +10,7 @@ namespace CFSG.GroupTheory
 variable {G : Type*} [Group G]
 
 theorem exists_fixed_mod_of_odd_index {X A Z : Subgroup G}
-    (hA : ∀ a ∈ A, a * a = 1) (hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (hZA : Z ≤ A)
+    (hA : ∀ a ∈ A, a * a = 1) (hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a) (_hZA : Z ≤ A)
     (hXA : ∀ x ∈ X, ∀ a ∈ A, x * a * x⁻¹ ∈ A) (hXZ : ∀ x ∈ X, ∀ c ∈ Z, x * c * x⁻¹ ∈ Z)
     {u : G} (hu : ∀ x ∈ X, u⁻¹ * (x * u * x⁻¹) ∈ A) {S : Subgroup ↥X}
     (hS : ∀ s ∈ S, u⁻¹ * ((s : G) * u * (s : G)⁻¹) ∈ Z) (hodd : Odd S.index) :
@@ -19,7 +19,7 @@ theorem exists_fixed_mod_of_odd_index {X A Z : Subgroup G}
   let _ : CommGroup ↥A := { (inferInstance : Group ↥A) with
     mul_comm := fun a b => Subtype.ext (hAc _ a.2 _ b.2) }
   let Z' : Subgroup ↥A := Z.subgroupOf A
-  have hZ'n : Z'.Normal := Subgroup.normal_of_comm Z'
+  have hZ'n : Z'.Normal := Subgroup.normal_of_isMulCommutative Z'
   have hfin : S.FiniteIndex := ⟨by obtain ⟨k, hk⟩ := hodd; omega⟩
   have : Finite (↥X ⧸ S) := Subgroup.finite_quotient_of_finiteIndex
   let _ : Fintype (↥X ⧸ S) := Fintype.ofFinite _
@@ -74,7 +74,7 @@ theorem exists_fixed_mod_of_odd_index {X A Z : Subgroup G}
       rw [← QuotientGroup.mk_pow]
       have hb : b ^ 2 = 1 := by
         apply Subtype.ext
-        simp only [Subgroup.coe_pow, Subgroup.coe_one, pow_two]
+        simp only [Subgroup.coe_one, pow_two]
         exact hA _ b.2
       rw [hb, QuotientGroup.mk_one]
   set a : ↥A ⧸ Z' := ∏ q : ↥X ⧸ S, F q with ha

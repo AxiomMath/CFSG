@@ -28,7 +28,7 @@ private theorem le_left_of_le_sup_of_isPGroup {N E D : Subgroup G}
   have hNX : N ≤ X := le_sup_left
   have hDX : D ≤ X := hDE
   have hXN : X ≤ normalizer (N : Set G) := sup_le Subgroup.le_normalizer hNE
-  haveI : (N.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXN
+  have : (N.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXN
   let π : ↥X →* ↥X ⧸ N.subgroupOf X := QuotientGroup.mk' (N.subgroupOf X)
   have hDsub : Nat.card (D.subgroupOf X) = Nat.card D :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hDX).toEquiv
@@ -68,6 +68,7 @@ private theorem le_left_of_le_sup_of_isPGroup {N E D : Subgroup G}
   have hx : (⟨d, hDX hd⟩ : ↥X) ∈ D.subgroupOf X := hd
   exact Subgroup.mem_subgroupOf.mp (hDker hx)
 
+omit [Finite G] in
 private theorem exists_odd_orderOf_mem_oTwoRes {K : Subgroup G} (h : oTwoRes K ≠ ⊥) :
     ∃ g ∈ oTwoRes K, g ∈ K ∧ Odd (orderOf g) ∧ g ≠ 1 := by
   have hSne : ¬ {x : G | x ∈ K ∧ ∃ m : ℕ, Odd m ∧ x ^ m = 1} ⊆ {1} := by
@@ -82,7 +83,7 @@ private theorem exists_arcLMax_above {Y : Subgroup G}
     (hY : t.ArcL Y) (hY2 : IsPGroup 2 Y) :
     ∃ X : Subgroup G, t.ArcLMax X ∧ t.MX Y 1 ≤ t.MX X 1 := by
   classical
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G))
       (fun _ _ h => SetLike.coe_injective h)
   let s : Set (Subgroup G) :=
@@ -140,6 +141,7 @@ theorem arcLMax_QT {a f : ℕ} (hfr : Frame L1 L2 S a f)
   obtain ⟨X, hXmax, hYX⟩ := exists_arcLMax_above t hY hY2
   exact hYX.trans (MX_QT_eq_of_arcLMax t hfr hmax hL hXmax (hle.trans hYX))
 
+omit [Finite G] in
 private theorem le_normalizer_commutator {L Q Y : Subgroup G}
     (hQN : L ≤ normalizer (Q : Set G)) (hYN : L ≤ normalizer (Y : Set G)) :
     L ≤ normalizer ((⁅Q, Y⁆ : Subgroup G) : Set G) := by
@@ -177,6 +179,7 @@ private theorem commutator_QT_zpowers_eq_bot {y : G}
   rw [← hcomm]
   exact le_bot_iff.mp h3
 
+omit [Finite G] in
 private theorem commutator_EX_YX_le_QT {W : Subgroup G}
     (hWZ : W ⊔ centerOf (t.LX t.QT 1) = t.EX t.QT 1)
     (hWleQ : W ≤ t.QT) (hQTL : t.QT ≤ t.LX t.QT 1)

@@ -82,7 +82,7 @@ theorem exists_frame_of_component [Finite X] (ψ : SpecialLinearGroup F V →* X
     { (inferInstance : Group P) with
       mul_comm := fun a b =>
         Subtype.ext (Subtype.ext (hDab (a.1.1 : X) a.2 (b.1.1 : X) b.2)) }
-  letI : CommGroup P := inst
+  let : CommGroup P := inst
   let η : P →* SpecialLinearGroup F V := hat.comp (D.subgroupOf B₁).subtype
   let hat' : X → SpecialLinearGroup F V :=
     fun x => if h : x ∈ B₁ then hat ⟨x, h⟩ else 1
@@ -101,14 +101,14 @@ theorem exists_frame_of_component [Finite X] (ψ : SpecialLinearGroup F V →* X
     have hbB : b ∈ B₁ := hD hb
     have hhatb : hat' b = hat ⟨b, hbB⟩ := by
       change (if h : b ∈ B₁ then hat ⟨b, h⟩ else 1) = hat ⟨b, hbB⟩
-      rw [dif_pos hbB]
+      rw [dite_eq_left hbB]
     rw [hhatb]
     exact hhat ⟨b, hbB⟩ u
   have hset : hat' '' (D : Set X) =
       ((D.subgroupOf B₁).map hat : Set (SpecialLinearGroup F V)) := by
     refine image_eq_map_subgroupOf B₁ D hat hD hat' fun x hx => ?_
     change (if h : x ∈ B₁ then hat ⟨x, h⟩ else 1) = hat ⟨x, hD hx⟩
-    rw [dif_pos (hD hx)]
+    rw [dite_eq_left (hD hx)]
   have hcent : Subgroup.centralizer (hat' '' (D : Set X)) = repCentSL (groupRep η) := by
     rw [hset, ← hηrange]
     exact (repCentSL_groupRep η).symm

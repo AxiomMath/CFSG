@@ -30,14 +30,13 @@ private theorem ker_le_center {d n : ℕ} {K : Type} [Field K] {L' : Type} [Grou
   apply Units.ext
   rw [Subgroup.coe_mul, Subgroup.coe_mul, Units.val_mul, Units.val_mul, hc]
   first
-    | exact hcomm _
     | exact (hcomm _).symm
 
 private theorem isSolvable_blockSU_small {K : Type} [Field K] [Finite K] {d : ℕ}
     (h : UnitaryFieldData 2 1 K) {I : Finset (Fin d)} (h1 : 1 ≤ I.card)
     (h3 : I.card ≤ 3) :
     Group.IsSolvable ↥(TableBUE.blockSU (K := K) (n := 1) I) := by
-  haveI : Group.IsSolvable ↥(unitarySU 2 1 K I.card) :=
+  have : Group.IsSolvable ↥(unitarySU 2 1 K I.card) :=
     SmallU.isSolvable_unitarySU_small h h1 h3
   let e := TableBUE.blockSUEquiv (K := K) (n := 1) I h
   exact Group.isSolvable_of_isSolvable_injective (f := e.symm.toMonoidHom)
@@ -123,15 +122,15 @@ theorem ggTorusCompGenSC_psuFourTwo {K : Type} [Field K] [Finite K] (hK : Nat.ca
     rw [hQeq']
     exact isSolvable_blockSU_small hφ.field (by omega) (by omega)
   have hsolJ : Group.IsSolvable ↥J := by
-    haveI : Group.IsSolvable ↥Q := hsolQ
+    have : Group.IsSolvable ↥Q := hsolQ
     have hres := Group.isSolvable_of_surjective
       (f := (φ.comp Q.subtype).rangeRestrict)
       (MonoidHom.rangeRestrict_surjective _)
     rwa [MonoidHom.range_comp, Subgroup.range_subtype, hQmap] at hres
   have hperf : Group.IsPerfect ↥J := ⟨hJ.2.2.1⟩
-  haveI : Group.IsPerfect ↥J := hperf
-  haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2.toNontrivial
-  haveI : Nontrivial ↥J :=
+  have : Group.IsPerfect ↥J := hperf
+  have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2.toNontrivial
+  have : Nontrivial ↥J :=
     (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
   exact Group.IsPerfect.not_isSolvable ↥J hsolJ
 

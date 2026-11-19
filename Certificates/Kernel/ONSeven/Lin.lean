@@ -28,7 +28,7 @@ theorem lin_iter {F : Nat → Nat} (hF : L F) : ∀ e, L (iter F e)
 
 theorem getD_eq {α : Type} [Inhabited α] (a : Array α) {i : Nat} (d : α) (h : i < a.size) :
     a.getD i d = a[i]! := by
-  simp [Array.getD, getElem!_pos a i h, h]
+  simp [Array.getD, h]
 
 theorem pow_get {x : Array Nat} {F : Nat → Nat} (hF : L F) (hx : ∀ i < 245520, x[i]! = F i) :
     ∀ e, ∀ i < 245520, (onSevenPow x e)[i]! = iter F e i

@@ -40,6 +40,7 @@ theorem reach_DstarH_iff (hC : HypothesisC D) {x y : Halpha D hC.alpha} :
   exact CFSG.Timmesfeld.Bridge.OddLocal.reach_preimage_iff
     (fun x hx => Subgroup.subset_closure hx)
 
+omit [Finite G] in
 theorem isTriangle_DstarH (hC : HypothesisC D) {u w v : G}
     (hu : u ∈ DalphaStar D hC.alpha) (hw : w ∈ DalphaStar D hC.alpha)
     (hv : v ∈ DalphaStar D hC.alpha) (ht : IsTriangle D u w v) :

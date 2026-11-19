@@ -94,8 +94,8 @@ private theorem hdRo7SUKCoordAux_quotAut_injective (H : Type) [Group H]
 
 theorem hdRo7SUKCoordAux_jAction {G : Type} [Group G] [Finite G] {p : ℕ}
     {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {y : G} {K : Subgroup G}
-    (hH : GGResHyp p B Bs x L D J y K) (hRig : GGLabelRigidInput)
-    (hrow : GGResRowAt ggRowSUCorank2 p J K) :
+    (hH : GGResHyp p B Bs x L D J y K) (_hRig : GGLabelRigidInput)
+    (_hrow : GGResRowAt ggRowSUCorank2 p J K) :
     ∃ f : ↥Bs →* MulAut (↥J ⧸ Subgroup.center ↥J),
       f.ker = (Bs ⊓ Subgroup.centralizer (J : Set G)).subgroupOf Bs := by
   have hstdPre : LargeEvenStdSubPre p B x L D J := hH.1.2.2.1
@@ -168,8 +168,8 @@ theorem hdRo7SUKCoordAux_jImageCard {G : Type} [Group G] [Finite G] {p : ℕ}
       (fun R' _ _ _ => Nonempty (↥J ⧸ Subgroup.center ↥J ≃* R')) := by
     simpa only [GGHasLabel, LargeEvenRawDatum, hJtag] using hHasJ
   obtain ⟨K', hK'field, hK'fin, hK'card, hQ⟩ := hHasJ'
-  letI : Field K' := hK'field
-  letI : Finite K' := hK'fin
+  let : Field K' := hK'field
+  let : Finite K' := hK'fin
   rw [hJn] at hK'card hQ
   obtain ⟨θ⟩ := hQ
   let N := labJ.rank + 1

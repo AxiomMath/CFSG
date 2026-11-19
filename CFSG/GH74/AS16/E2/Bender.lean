@@ -255,7 +255,7 @@ theorem BenderTable.of_subtype {G : Type*} [Group G] (L : Subgroup G) (Q : Subgr
 theorem isSylowOf_top {G : Type*} [Group G] [Finite G] (T : Sylow 2 G) :
     CFSG.ABGLocalTools.IsSylowOf 2 (T : Subgroup G) ⊤ := by
   rw [CFSG.ABGLocalTools.isSylowOf_iff]
-  refine ⟨le_top, T.isPGroup', ?_⟩
+  refine ⟨le_top, T.isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right]
   exact T.not_dvd_index
 

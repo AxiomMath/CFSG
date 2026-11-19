@@ -23,7 +23,7 @@ theorem mem_zpowers_of_mem_center_of_cover (hKd : UnitaryFieldData 2 n F) (hpq :
     (hφs : ∀ k, ∃ s, φ s = ψ k) {z : K} (hzc : z ∈ Subgroup.center K) (hz3 : z ^ 3 = 1)
     (hz1 : z ≠ 1) {c : K} (hcc : c ∈ Subgroup.center K) (hc3 : c ^ 3 = 1) :
     c ∈ Subgroup.zpowers z := by
-  haveI : Finite F := hKd.finite
+  have : Finite F := hKd.finite
   have hcube1 : ∀ g ∈ ψ.ker, g ^ 3 = 1 → g = 1 := by
     intro g hg hg3
     obtain ⟨k, hk⟩ := h2 ⟨g, hg⟩
@@ -54,7 +54,7 @@ theorem mem_zpowers_of_mem_center_of_cover (hKd : UnitaryFieldData 2 n F) (hpq :
     have hsz1 : sz = 1 := Subtype.ext (by rw [hwz, map_one]; rfl)
     have hz : z ∈ ψ.ker := by rw [MonoidHom.mem_ker, ← hsz, hsz1, map_one]
     exact hcube1 z hz hz3
-  haveI : IsCyclic (⊤ : Subgroup Fˣ) := (Subgroup.topEquiv (G := Fˣ)).isCyclic.mpr inferInstance
+  have : IsCyclic (⊤ : Subgroup Fˣ) := (Subgroup.topEquiv (G := Fˣ)).isCyclic.mpr inferInstance
   have hmem : wc ∈ Subgroup.zpowers wz :=
     mem_zpowers_of_isCyclic_of_pow_three (S := (⊤ : Subgroup Fˣ)) inferInstance trivial trivial
       hwz3 hwz1 hwc3
@@ -80,7 +80,7 @@ theorem isCyclic_of_le_centralizer_of_cover (hKd : UnitaryFieldData 2 n F)
     (hφs : ∀ k, ∃ s, φ s = ψ k) {z : G} (hzK : z ∈ K) (hzc : ∀ k ∈ K, z * k = k * z)
     (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) :
     ∀ S : Subgroup G, S ≤ Subgroup.centralizer (K : Set G) → IsPGroup 3 S → IsCyclic S := by
-  haveI : Finite F := hKd.finite
+  have : Finite F := hKd.finite
   have := Fact.mk Nat.prime_three
   obtain ⟨U, E, hU, hU2, hEU, hE, hcard⟩ :=
     exists_twoLocal_four_of_injective hKd hpq ψ h2 φ hφ hφr
@@ -118,7 +118,7 @@ theorem card_eq_of_isCyclic_centralizer {G : Type} [Group G] [Finite G] {Bs K : 
     Subtype.ext (by simpa using hBs.2 c c.2.1)
   have hCp : IsPGroup 3 ↥(Bs ⊓ Subgroup.centralizer (K : Set G)) := fun c =>
     ⟨1, by simpa using hC3 c⟩
-  haveI := hcyc _ inf_le_right hCp
+  have := hcyc _ inf_le_right hCp
   have hcard : Nat.card ↥(Bs ⊓ Subgroup.centralizer (K : Set G)) ≤ 3 := by
     have hexp := Monoid.exponent_dvd_of_forall_pow_eq_one hC3
     rw [IsCyclic.exponent_eq_card] at hexp
@@ -145,7 +145,7 @@ theorem false_of_central_three_of_two_le
     (hrank : LargeEvenTwoLocalRank 3 G ≤ 4) {y : G} (hyBs : y ∈ Bs) (hy1 : y ≠ 1)
     (hyK : ∀ k ∈ K, y * k = k * y) {z : G} (hzK : z ∈ K) (hzc : ∀ k ∈ K, z * k = k * z)
     (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) : False := by
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; positivity)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; positivity)
   have hKd : UnitaryFieldData 2 n F := TableBU.unitaryFieldData_of_card hF (by omega)
   have hcov : LineU.UnitaryCoverAt n 6 F :=
     LineU.unitaryUniversalCover_holds n 6 F hF (by norm_num) (by
@@ -186,7 +186,7 @@ theorem false_of_central_three_of_eq_one
     (hrank : LargeEvenTwoLocalRank 3 G ≤ 4) {y : G} (hyBs : y ∈ Bs) (hy1 : y ≠ 1)
     (hyK : ∀ k ∈ K, y * k = k * y) {z : G} (hzK : z ∈ K) (hzc : ∀ k ∈ K, z * k = k * z)
     (hz3 : z ^ 3 = 1) (hz1 : z ≠ 1) : False := by
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; positivity)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF]; positivity)
   have hF4 : Nat.card F = 4 := by rw [hF]; norm_num
   have hKd : UnitaryFieldData 2 1 F := TableBU.unitaryFieldData_of_card hF le_rfl
   have hpq : 3 ∣ 2 ^ 1 + 1 := by norm_num

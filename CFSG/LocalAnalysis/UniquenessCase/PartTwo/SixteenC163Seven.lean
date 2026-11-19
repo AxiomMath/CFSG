@@ -116,7 +116,7 @@ theorem exists_perfect_cover_of_factors (D : Data G) (h127 : R127 D) (h119 : F11
       rintro _ ⟨y, hy, rfl⟩
       exact hYC ⟨y.2, (hf0ker y).1 hy⟩
     have := uc22p20a_isSolvable_oinf Y
-    exact solvable_of_solvable_injective (f := (Subgroup.inclusion hle).comp
+    exact Group.isSolvable_of_isSolvable_injective (f := (Subgroup.inclusion hle).comp
       (f0.ker.equivMapOfInjective Y.subtype Y.subtype_injective).toMonoidHom)
       ((Subgroup.inclusion_injective hle).comp (MulEquiv.injective _))
   have hR0 : CFSG.pCore 2 ↥Y ≤ f0.ker := by

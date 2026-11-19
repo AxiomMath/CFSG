@@ -19,7 +19,7 @@ theorem pCoreOf_le_of_isSylowOf_of_le {Y : Type*} [Group Y] [Finite Y]
   have hSL' : CFSG.ABGLocalTools.IsSylowOf p S L := hS.of_le hSL hLK
   obtain ⟨Q, hQ⟩ := hSL'.exists_sylow_eq_subgroupOf
   have hcore : CFSG.pCore p ↥L ≤ (Q : Subgroup ↥L) := by
-    haveI : (CFSG.pCore p ↥L).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore p ↥L).Normal := CFSG.pCore_normal
     exact CFSG.pCore_isPGroup.le_sylow_of_normal Q
   have hmap := Subgroup.map_mono (f := L.subtype) hcore
   rw [hQ, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hSL] at hmap
@@ -36,7 +36,7 @@ theorem conjAct_subgroup_smul_eq_map_conj {Y : Type*} [Group Y]
       MulAction.compHom (Subgroup Y)
         ((ConjAct.toConjAct : Y ≃* ConjAct Y).toMonoidHom.comp Y₀.subtype)
     y • J = J.map (MulAut.conj (y : Y)).toMonoidHom := by
-  letI : MulAction Y₀ (Subgroup Y) :=
+  let : MulAction Y₀ (Subgroup Y) :=
     MulAction.compHom (Subgroup Y)
       ((ConjAct.toConjAct : Y ≃* ConjAct Y).toMonoidHom.comp Y₀.subtype)
   rw [MulAction.compHom_smul_def]
@@ -49,7 +49,7 @@ theorem stabilizer_conj_eq_normalizer {Y : Type*} [Group Y] (Y₀ J : Subgroup Y
         ((ConjAct.toConjAct : Y ≃* ConjAct Y).toMonoidHom.comp Y₀.subtype)
     MulAction.stabilizer Y₀ J =
       (Subgroup.normalizer (J : Set Y) ⊓ Y₀).subgroupOf Y₀ := by
-  letI : MulAction Y₀ (Subgroup Y) :=
+  let : MulAction Y₀ (Subgroup Y) :=
     MulAction.compHom (Subgroup Y)
       ((ConjAct.toConjAct : Y ≃* ConjAct Y).toMonoidHom.comp Y₀.subtype)
   ext y
@@ -99,7 +99,7 @@ theorem index_normalizer_ge_three {Y : Type*} [Group Y] [Finite Y]
   let act : MulAction Y₀ (Subgroup Y) :=
     MulAction.compHom (Subgroup Y)
       ((ConjAct.toConjAct : Y ≃* ConjAct Y).toMonoidHom.comp Y₀.subtype)
-  letI := act
+  let := act
   have hstab_index : (MulAction.stabilizer Y₀ J).index =
       (MulAction.orbit Y₀ J).ncard :=
     @MulAction.index_stabilizer Y₀ (Subgroup Y) _ act J
@@ -171,16 +171,16 @@ theorem exists_three_elt_not_mem_normalizer {Y : Type} [Group Y] [Finite Y]
     (hSY : (S : Subgroup ↥K).map K.subtype ≤ Y₀)
     (hγ : ∀ A : Subgroup ↥K, A ≤ S → IsElemAbelian 3 A → Nat.card A = 27 →
       normalizer ((A.map K.subtype : Subgroup Y) : Set Y) ≤ Y₀)
-    (hJK : J ≤ K) (hJ3 : IsPGroup 3 J) (hJne : J ≠ ⊥) (hJsub : IsSubnormal J (K ⊓ Y₀))
+    (_hJK : J ≤ K) (hJ3 : IsPGroup 3 J) (hJne : J ≠ ⊥) (hJsub : IsSubnormal J (K ⊓ Y₀))
     (hdir : SolvThreeDirectCond Y₀ J)
     (htype : (∀ a ∈ J, ∀ b ∈ J, a * b = b * a) → Nat.card J = 3) :
     Nat.card J = 3 ∧ ∃ y ∈ Y₀, (∃ k : ℕ, y ^ 3 ^ k = 1) ∧ y ∉ normalizer (J : Set Y) ∧
       Nat.card ↥(J ⊔ J.map (MulAut.conj y).toMonoidHom ⊔
         J.map (MulAut.conj (y ^ 2)).toMonoidHom) = 27 := by
   classical
-  haveI : K.Normal := hKn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : K.Normal := hKn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨A, hAS, hAe, hA27, hδ1, hδ2⟩ := hK S
   let Abar : Subgroup Y := A.map K.subtype
   have hAbar_le_K : Abar ≤ K := Subgroup.map_subtype_le _
@@ -247,7 +247,7 @@ theorem exists_three_elt_not_mem_normalizer {Y : Type} [Group Y] [Finite Y]
     CFSG.AGLEmbedding.SubnormalCommute.le_pCoreOf_of_isSubnormal hJsub hJ3
   have hJ_le_Abar : J ≤ Abar := hJ_le_O.trans hcoreT
   have hJcomm : ∀ a ∈ J, ∀ b ∈ J, a * b = b * a := by
-    haveI : IsMulCommutative ↥Abar := hAbar_e.1
+    have : IsMulCommutative ↥Abar := hAbar_e.1
     intro a ha b hb
     exact congrArg Subtype.val
       (mul_comm' (⟨a, hJ_le_Abar ha⟩ : Abar) ⟨b, hJ_le_Abar hb⟩)
@@ -298,7 +298,7 @@ theorem exists_three_elt_not_mem_normalizer {Y : Type} [Group Y] [Finite Y]
   have hle3 : h ≤ 3 := by
     have hle : 3 ^ h ≤ 3 ^ 3 := Nat.le_of_dvd (by norm_num) hpow_dvd
     exact (pow_le_pow_iff_right₀ (by norm_num : 1 < 3)).mp (by simpa using hle)
-  haveI : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hJne
+  have : Nontrivial J := (Subgroup.nontrivial_iff_ne_bot J).mpr hJne
   obtain ⟨x, hxJ, hx1⟩ := Subgroup.exists_ne_one_of_nontrivial J
   have hxmap : x ∈ Abar := hJ_le_Abar hxJ
   obtain ⟨a, haA, hax⟩ := Subgroup.mem_map.mp hxmap
@@ -374,7 +374,7 @@ theorem exists_three_elt_not_mem_normalizer {Y : Type} [Group Y] [Finite Y]
   obtain ⟨y, hyP, hyH⟩ := Set.not_subset.mp (show ¬ (P : Set ↥Y₀) ⊆ (H : Set ↥Y₀) from hPnotle)
   have hyY₀ : (y : Y) ∈ Y₀ := y.2
   have hy3 : ∃ k : ℕ, (y : Y) ^ 3 ^ k = 1 := by
-    obtain ⟨k, hk⟩ := P.isPGroup' (⟨y, hyP⟩ : ↥(P : Subgroup ↥Y₀))
+    obtain ⟨k, hk⟩ := P.isPGroup (⟨y, hyP⟩ : ↥(P : Subgroup ↥Y₀))
     have hk' := congrArg (fun z : ↥(P : Subgroup ↥Y₀) => ((z : ↥Y₀) : Y)) hk
     exact ⟨k, by simpa using hk'⟩
   have hyN : (y : Y) ∉ Subgroup.normalizer (J : Set Y) := by
@@ -411,14 +411,14 @@ theorem exists_three_elt_not_mem_normalizer {Y : Type} [Group Y] [Finite Y]
       have hcomp2 : ((MulAut.conj ((y : Y)⁻¹)).toMonoidHom.comp
           (MulAut.conj (y : Y)).toMonoidHom) = MonoidHom.id Y := by
         ext z
-        simp [MulAut.conj_apply, pow_two, mul_assoc]
+        simp [MulAut.conj_apply, mul_assoc]
       rw [Subgroup.map_map, Subgroup.map_map, hcomp1, hcomp2, Subgroup.map_id] at h
       exact h
     exact hyN (Subgroup.mem_normalizer_iff_map_conj_eq.mpr hfix)
   let act : MulAction Y₀ (Subgroup Y) :=
     MulAction.compHom (Subgroup Y)
       ((ConjAct.toConjAct : Y ≃* ConjAct Y).toMonoidHom.comp Y₀.subtype)
-  letI := act
+  let := act
   have hstab : MulAction.stabilizer Y₀ J = H := by
     change MulAction.stabilizer Y₀ J =
       (Subgroup.normalizer (J : Set Y) ⊓ Y₀).subgroupOf Y₀

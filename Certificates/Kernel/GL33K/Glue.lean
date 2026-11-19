@@ -240,7 +240,7 @@ theorem case_spec' {i : ℕ} (hi : i < 13) {c : ℕ × ℕ × ℕ × ℕ × List
         (MulAut.conj (ofCode p)⁻¹).toMonoidHom (ofCode y) := by
       intro y hy
       rw [ofCode_conjK' gh' gh hy, hinv]
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
     rw [memG, sub2, MonoidHom.map_closure, Subgroup.closure_le]
     rintro _ ⟨y, hy, rfl⟩
     rcases hy with rfl | rfl

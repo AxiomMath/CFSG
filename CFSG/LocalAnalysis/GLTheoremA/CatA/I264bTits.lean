@@ -57,7 +57,7 @@ theorem rankBound_titsD_three :
   obtain ⟨P, hPE, hP9⟩ := exists_sub_card_pow (n := 2) Nat.prime_three hE
     (sq_le_card_of_lt Nat.prime_three hE hlt)
   have hW3 : ¬ 3 ∣ Nat.card T := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨j, hj⟩ := hT2.exists_card_eq
     rw [hj]
     intro hd
@@ -69,11 +69,11 @@ theorem rankBound_titsD_three :
 theorem kDescFam_tits (p : ℕ) : KDescFam p fTits := by
   intro hp hp2 Y _ _ K B h hc hcB
   obtain ⟨e⟩ := titsEquiv_of_catalog hc
-  haveI : Finite (↥K ⧸ Subgroup.center ↥K) := inferInstance
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := h.qs.2
+  have : Finite (↥K ⧸ Subgroup.center ↥K) := inferInstance
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := h.qs.2
   have hcardS : Nat.card (↥K ⧸ Subgroup.center ↥K) = 17971200 := by
     rw [Nat.card_congr e.toEquiv, card_titsD]
-  haveI : IsSimpleGroup titsD := e.symm.isSimpleGroup
+  have : IsSimpleGroup titsD := e.symm.isSimpleGroup
   have hZ : Subgroup.center titsD = ⊥ :=
     center_eq_bot_of_simple_nonprime (n := 17971200) (by rw [← Nat.card_congr e.toEquiv]; exact hcardS)
       (by norm_num)

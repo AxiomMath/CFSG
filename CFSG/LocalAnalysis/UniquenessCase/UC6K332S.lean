@@ -18,7 +18,7 @@ open CFSG.ASVolI.ChIJK (IsWeaklyClosedIn)
 
 theorem k332Cyc_of_k332S (h : K332S) : K332Cyc := by
   intro G _ _ hK S hS hrk Z hZS hZ3 hwc Q _ hQ φ hdisj
-  haveI : CommGroup Q := IsCyclic.commGroup
+  have : CommGroup Q := IsCyclic.commGroup
   exact h G hK S hS hrk Z hZS hZ3 hwc
     (Disjoint.mono_right (Abelianization.commutator_subset_ker φ) hdisj)
 

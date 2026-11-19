@@ -33,8 +33,8 @@ theorem noSig_of_structure {G : Type} [Group G] [Finite G]
       Y ≤ centralizer ({x} : Set G) → ¬ 13 ∣ Nat.card Y →
       R ≤ normalizer (Y : Set G) → Y = ⊥ := by
   intro R Y hR hR2 hxR hYH hY hRY
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
-  haveI hsQ : IsSimpleGroup ↥Q := isSimple_of_equiv_sl e
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have hsQ : IsSimpleGroup ↥Q := isSimple_of_equiv_sl e
   have hQcard : Nat.card ↥Q = 5616 := card_of_equiv_sl e
   have hnab : ∃ a b : ↥Q, a * b ≠ b * a := noncomm_of_equiv_sl e
   have hZ := M13Normal.eq_one_of_central hnab
@@ -101,7 +101,7 @@ theorem noSig_of_structure {G : Type} [Group G] [Finite G]
     omega
   have hQHs : Q ≤ H := hQC
   let Qh : Subgroup ↥H := Q.subgroupOf H
-  haveI hQhN : Qh.Normal := ⟨fun n hn g => by
+  have hQhN : Qh.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using hQH (g : G) g.2 _ hn⟩
   let φ : ↥H →* MulAut ↥Qh := MulAut.conjNormal
@@ -109,7 +109,7 @@ theorem noSig_of_structure {G : Type} [Group G] [Finite G]
     have e' : ↥Qh ≃* Matrix.SpecialLinearGroup (Fin 3) (ZMod 3) :=
       (Subgroup.subgroupOfEquivOfLe hQHs).trans e
     exact card_mulAut_of_equiv_sl e'
-  haveI : Finite (MulAut ↥Qh) := Nat.finite_of_card_ne_zero (by rw [hMA]; norm_num)
+  have : Finite (MulAut ↥Qh) := Nat.finite_of_card_ne_zero (by rw [hMA]; norm_num)
   let K₀ : Subgroup ↥H := φ.ker
   have hK₀C : ∀ h ∈ K₀, (h : G) ∈ centralizer (Q : Set G) := by
     intro h hh q hq

@@ -24,6 +24,7 @@ theorem S36_Ti_for {b t b₁ b₂ : G} {L B : Subgroup G} (hA9 : A9CentralizerSt
   · exact F6_Ti hA9 d h31 0
   · exact F6_Ti hA9 d h31 1
 
+omit [Finite G] in
 theorem S36_inter_zpowers {Q₁ Q₂ : Subgroup G} {t : G} (h₁ : ExtraspecialAt Q₁ t)
     (hc : ∀ x ∈ Q₁, ∀ y ∈ Q₂, x * y = y * x) {x : G} (hx1 : x ∈ Q₁) (hx2 : x ∈ Q₂) :
     x ∈ Subgroup.zpowers t := by
@@ -93,13 +94,13 @@ theorem S36_assemble {b t b₁ b₂ : G} {L B : Subgroup G} (hA9 : A9Centralizer
   have hr0 : r ≠ 0 := by
     rintro rfl
     apply hTne
-    exact (Subgroup.eq_of_le_of_card_ge hzT (by rw [hr, hord] <;> norm_num)).symm
+    exact (Subgroup.eq_of_le_of_card_ge hzT (by rw [hr, hord]; norm_num)).symm
   have hr1 : r ≠ 1 := by
     rintro rfl
     apply hne32
-    rw [hr] <;> norm_num
+    rw [hr]; norm_num
   have hr_eq : r = 2 := by omega
-  have hP : Nat.card ↥(Op 2 (Cen t)) = 512 := by rw [hr, hr_eq] <;> norm_num
+  have hP : Nat.card ↥(Op 2 (Cen t)) = 512 := by rw [hr, hr_eq]; norm_num
   rw [hP] at hcard
   have hz2 : Nat.card ↥((Op 2 (Cen t) ⊓ Cen b₁) ⊓ (Op 2 (Cen t) ⊓ Cen b₂)) = 2 := by
     omega
@@ -151,7 +152,7 @@ theorem S36_assemble {b t b₁ b₂ : G} {L B : Subgroup G} (hA9 : A9Centralizer
   have hAT : A₁ ⊔ A₂ ≤ Op 2 (Cen t) := sup_le (hA₁Q₁.trans hQ₁T) (hA₂Q₂.trans hQ₂T)
   unfold IsExtraspecialPlus
   refine ⟨hcentral, ?_, A₁ ⊔ A₂, hAT, hAel⟩
-  rw [hP] <;> norm_num
+  rw [hP]; norm_num
 
 theorem ff84_3_6_of_A9
     (hA9 : A9CentralizerStmt) (h33 : FF84_3_3) (h34 : FF84_3_4) :

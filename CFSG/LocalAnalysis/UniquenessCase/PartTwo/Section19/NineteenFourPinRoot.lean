@@ -76,7 +76,7 @@ theorem pin_one_U34_19 (D : Data G)
   have hZ : A ⊓ centerOf (E3.wClos V₀ 2 Q) ≠ ⊥ :=
     inf_centerOf_wClos_two_ne_bot_19 h.hyp.hyp125 hm hsp hN2 hHM hQH hHQ hQT hAH hAgamma hAM
       hAQ (by rw [hqH]; norm_num) hC2 hP5
-  obtain ⟨v, hvA, hvQ⟩ := SetLike.not_le_iff_exists.mp hAQ
+  obtain ⟨v, hvA, hvQ⟩ := IsConcreteLE.not_le_iff_exists.mp hAQ
   have hvv : v * v = 1 := by simpa [pow_two] using hAel.2 v hvA
   have hQn : Q ≤ Subgroup.normalizer ((D.T ⊓ L : Subgroup G) : Set G) := by
     intro q hq

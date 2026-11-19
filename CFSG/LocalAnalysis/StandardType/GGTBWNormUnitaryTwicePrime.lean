@@ -19,6 +19,7 @@ namespace UnitaryPhase
 
 variable {K : Type} [Field K] [Finite K] {n d : ℕ}
 
+omit [Finite K] in
 theorem scalar_inv_mul_pow_mem_primeFormUnitary (h : UnitaryFieldData 2 n K)
     (hpq : 3 ∣ 2 ^ n + 1) (hd : 0 < d) {y : GL (Fin d) K}
     (hy : y ∈ LargeEvenGUSet (Fin d) K (2 ^ n)) {l : Kˣ}

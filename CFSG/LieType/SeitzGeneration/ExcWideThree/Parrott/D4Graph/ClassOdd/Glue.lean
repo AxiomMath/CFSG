@@ -33,6 +33,7 @@ theorem normalForm_cube_eq_one (g : ↥(adjointGroup Tag.D4 K)) (a : Fin Tag.D4.
   rw [map_pow, map_one, map_mul, map_pow, D4Dual.graphType_baseChangeGL_d4P]
   exact h
 
+omit [Finite K] in
 theorem d4P_mul_eq_of_fixed {w : ↥(adjointGroup Tag.D4 K)} (hw : d4Graph K 1 w = w) :
     d4P K * (w : ModGL Tag.D4 K) = w * d4P K := by
   have e := congrArg Subtype.val hw
@@ -40,6 +41,7 @@ theorem d4P_mul_eq_of_fixed {w : ↥(adjointGroup Tag.D4 K)} (hw : d4Graph K 1 w
   calc d4P K * (w : ModGL Tag.D4 K) = (d4P K * w * (d4P K)⁻¹) * d4P K := by group
     _ = w * d4P K := by rw [e]
 
+omit [Finite K] in
 theorem conj_mul_d4P_inv {w : ↥(adjointGroup Tag.D4 K)} (hw : d4Graph K 1 w = w)
     (t : ModGL Tag.D4 K) :
     (w : ModGL Tag.D4 K) * (t * (d4P K)⁻¹) * (w : ModGL Tag.D4 K)⁻¹ =

@@ -81,7 +81,7 @@ theorem not_orderOf_two_le_five {p : ℕ} (hp : p.Prime) (h11 : 11 ≤ p) (h31 :
   intro hle
   obtain ⟨i, hpos, hi5, hone⟩ : ∃ i : ℕ, 0 < i ∧ i ≤ 5 ∧ (2 : ZMod p) ^ i = 1 := by
     refine ⟨orderOf (2 : ZMod p), ?_, hle, pow_orderOf_eq_one _⟩
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have h2 : (2 : ZMod p) ≠ 0 := by
       intro h
       have h' : ((2 : ℕ) : ZMod p) = 0 := by exact_mod_cast h

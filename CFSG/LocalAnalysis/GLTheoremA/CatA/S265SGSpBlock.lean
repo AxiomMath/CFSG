@@ -82,7 +82,7 @@ theorem SG.exists_sl2_commute_sp {F : Type} [Field F] [Finite F] [CharP F 2] {�
       rw [map_mul, mat_longBlock_eq_planeMat, mat_longBlock_eq_planeMat, planeMat_mul]
       congr 1
       funext l
-      fin_cases l <;> simp [hN₀, Function.update_apply]
+      fin_cases l <;> simp [hN₀]
     have h1 := hψ₀c (M ^ e) ((Commute.refl M).pow_left e) t
     rw [← hZ] at h1
     have hc1 := (Commute.of_map mat_injective h1).map (spEmbed (pairMap i j) hσ)

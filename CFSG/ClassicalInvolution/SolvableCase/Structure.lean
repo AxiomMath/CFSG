@@ -87,7 +87,7 @@ theorem natCard_le_forty_eight_of_normal_q8 {Y : Type*} [Group Y] [Finite Y] (hO
   have hC2 : Nat.card C ≤ 2 := by
     obtain ⟨P⟩ : Nonempty (Sylow 2 C) := inferInstance
     let P' : Subgroup Y := (P : Subgroup C).map C.subtype
-    have hP' : IsPGroup 2 P' := P.isPGroup'.map C.subtype
+    have hP' : IsPGroup 2 P' := P.isPGroup.map C.subtype
     obtain ⟨T, hPT⟩ := hP'.exists_le_sylow
     obtain ⟨eT⟩ := hT T
     have hQT : Q ≤ (T : Subgroup Y) := hQ2.le_sylow_of_normal T

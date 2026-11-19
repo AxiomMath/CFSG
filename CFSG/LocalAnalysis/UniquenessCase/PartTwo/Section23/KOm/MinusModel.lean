@@ -65,9 +65,9 @@ theorem exists_minusModel {W : Type} [CommGroup W] [Finite W] {H : Subgroup (Mul
   classical
   obtain ⟨K, hKfield, hKfin, hKchar, b, c, hKcard, hirr, e, hH, hT, hfixEq⟩ :=
     exists_minusCoords hF
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   obtain ⟨hn, -, -, hT2, hST, hTfix⟩ := hF
   have hHeq : H = (StatedOmega (StatedQuadMinus 2 K b c)).map (glPull e) :=
     (eq_map_glPull_iff e).mp hH

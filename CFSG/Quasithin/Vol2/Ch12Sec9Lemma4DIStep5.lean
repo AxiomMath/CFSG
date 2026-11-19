@@ -111,7 +111,7 @@ section Sylow
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem isSylow_T_img (h1222 : Stmt12_2_2) {T L V V₁ V₂ K₁ : Subgroup G}
+theorem isSylow_T_img (_h1222 : Stmt12_2_2) {T L V V₁ V₂ K₁ : Subgroup G}
     (hcx : Cx1291 G T L V 4) (hs : Setting1282One G T L V 4 V₁ V₂)
     (hK₁H : K₁ ≤ Subgroup.normalizer (V₁ : Set G))
     (D : HatModelU (u128 V V₁))

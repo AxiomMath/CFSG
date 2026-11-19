@@ -64,7 +64,7 @@ theorem fib_cc_eq {QK : ℕ → ℕ}
   unfold fcC
   rw [strictN_eq', strictN_eq']
   by_cases hs : s0Cond n nr nc comm = true
-  · rw [if_pos hs, strictN_eq', length_filter_range]
+  · rw [ite_eq_left hs, strictN_eq', length_filter_range]
     apply congrArg Finset.card
     apply Finset.filter_congr
     intro e he
@@ -79,7 +79,7 @@ theorem fib_cc_eq {QK : ℕ → ℕ}
     · simp
     · simp only [true_implies, Bool.not_true, Bool.false_or, Nat.beq_eq, ← hcm]
       exact and_comm
-  · rw [if_neg hs, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
+  · rw [ite_eq_right hs, Finset.card_eq_zero, Finset.filter_eq_empty_iff]
     intro e he hP
     apply hs
     obtain ⟨hcm, hsq⟩ := hP

@@ -31,7 +31,6 @@ private theorem rMV_indexSet_eq_singleton {D : Data G} {Ch : Choice2011 G} (c : 
     have htop : (⊤ : Subgroup G) ≤ D.M := by
       intro g _
       exact hC (by
-        change g ∈ Subgroup.centralizer ((⊥ : Subgroup G) : Set G)
         rw [Subgroup.mem_centralizer_iff]
         intro y hy
         simp at hy
@@ -51,7 +50,6 @@ theorem rMV_eq_rk_of_TI {D : Data G} {Ch : Choice2011 G} (c : Ctx23 D Ch) :
         have htop : (⊤ : Subgroup G) ≤ D.M := by
           intro g _
           exact hC (by
-            change g ∈ Subgroup.centralizer ((⊥ : Subgroup G) : Set G)
             rw [Subgroup.mem_centralizer_iff]
             intro y hy
             simp at hy
@@ -71,7 +69,7 @@ theorem rMV_eq_rk_of_TI {D : Data G} {Ch : Choice2011 G} (c : Ctx23 D Ch) :
     exact le_rfl
 
 private theorem commElt_ne_bot_of_not_centralizes {D : Data G} {t : G}
-    (hMU : D.M ≤ Subgroup.normalizer (D.U : Set G)) (ht : t ∈ D.M)
+    (_hMU : D.M ≤ Subgroup.normalizer (D.U : Set G)) (_ht : t ∈ D.M)
     (htU : ¬ D.U ≤ Subgroup.centralizer ({t} : Set G)) : commElt D.U t ≠ ⊥ := by
   obtain ⟨u, huU, htu⟩ := Set.not_subset.mp htU
   have hcomm1 : u⁻¹ * t⁻¹ * u * t ≠ 1 := by

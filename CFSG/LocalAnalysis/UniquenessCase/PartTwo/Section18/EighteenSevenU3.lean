@@ -15,11 +15,11 @@ private theorem imageBar2_isPGroup_quotient {X : Type} [Group X] [Finite X]
     (hT : IsPGroup 2 T) (hsup : K ⊔ T = H) :
     IsPGroup 2 (Bar2 H ⧸ S18.imageBar2 H K) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTH : T ≤ H := hsup ▸ le_sup_right
   have hCnormal : (S18.imageBar2 H K).Normal :=
     Subgroup.Normal.map hKn (S18.piBar2 H) (QuotientGroup.mk'_surjective _)
-  haveI : (S18.imageBar2 H K).Normal := hCnormal
+  have : (S18.imageBar2 H K).Normal := hCnormal
   have hTbar : IsPGroup 2 (S18.imageBar2 H T) := by
     have h1 : IsPGroup 2 (T.subgroupOf H) :=
       hT.of_equiv (Subgroup.subgroupOfEquivOfLe hTH).symm
@@ -32,7 +32,7 @@ private theorem imageBar2_isPGroup_quotient {X : Type} [Group X] [Finite X]
     rw [← h1, hsup]
     simp [S18.imageBar2, S18.piBar2, Subgroup.map_top_of_surjective _
       (QuotientGroup.mk'_surjective _)]
-  haveI : ((S18.imageBar2 H K).subgroupOf (⊤ : Subgroup (Bar2 H))).Normal :=
+  have : ((S18.imageBar2 H K).subgroupOf (⊤ : Subgroup (Bar2 H))).Normal :=
     hCnormal.subgroupOf ⊤
   have hquotTop : IsPGroup 2 ((⊤ : Subgroup (Bar2 H)) ⧸
       (S18.imageBar2 H K).subgroupOf ⊤) :=
@@ -52,11 +52,11 @@ private theorem odd_card_centralizer_of_two_quotient {Q : Type} [Group Q] [Finit
     (hO2 : CFSG.Open.pCoreOf 2 (⊤ : Subgroup Q) = ⊥) :
     Odd (Nat.card (Subgroup.centralizer (C : Set Q))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : C.Normal := hCn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : C.Normal := hCn
   let D := Subgroup.centralizer (C : Set Q)
   have hDn : D.Normal := Subgroup.normal_centralizer
-  haveI : D.Normal := hDn
+  have : D.Normal := hDn
   let f : ↥D →* Q ⧸ C := (QuotientGroup.mk' C).comp D.subtype
   have hker : f.ker ≤ Subgroup.center ↥D := by
     intro x hx
@@ -68,18 +68,18 @@ private theorem odd_card_centralizer_of_two_quotient {Q : Type} [Group Q] [Finit
       exact (QuotientGroup.eq_one_iff (x : Q)).mp hx1
     exact (Subgroup.mem_centralizer_iff.mp y.2 (x : Q) hxC).symm
   have hnil : Group.IsNilpotent ↥D := by
-    haveI : Group.IsNilpotent (Q ⧸ C) := hquot.isNilpotent
+    have : Group.IsNilpotent (Q ⧸ C) := hquot.isNilpotent
     exact Subgroup.isNilpotent_of_ker_le_center f hker
   have hbot_of_sylow : ∀ P : Sylow 2 ↥D,
       ((P : Subgroup ↥D).map D.subtype) = ⊥ := by
     intro P
     have hPchar : (P : Subgroup ↥D).Characteristic :=
       Sylow.characteristic_of_normal P (Group.IsNilpotent.sylow_normal hnil 2 P)
-    haveI : (P : Subgroup ↥D).Characteristic := hPchar
+    have : (P : Subgroup ↥D).Characteristic := hPchar
     have hPq_norm : ((P : Subgroup ↥D).map D.subtype).Normal :=
       ConjAct.normal_of_characteristic_of_normal
     have hPq_p : IsPGroup 2 ((P : Subgroup ↥D).map D.subtype) :=
-      P.isPGroup'.map D.subtype
+      P.isPGroup.map D.subtype
     have hPq_le : ((P : Subgroup ↥D).map D.subtype) ≤
         CFSG.Open.pCoreOf 2 (⊤ : Subgroup Q) := by
       refine CFSG.ClassicalGroups.PCoreSection.le_pCoreOf le_top ?_ hPq_p
@@ -108,8 +108,8 @@ private theorem centralizer_le_of_two_quotient {Q : Type} [Group Q] [Finite Q]
     (hDodd : Odd (Nat.card (Subgroup.centralizer (C : Set Q)))) :
     Subgroup.centralizer (C : Set Q) ≤ C := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : C.Normal := hCn
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : C.Normal := hCn
   intro d hd
   have hodd : Odd (orderOf d) :=
     hDodd.of_dvd_nat (Subgroup.orderOf_dvd_natCard _ hd)
@@ -143,7 +143,7 @@ theorem inFGroupU3Setting_imageBar2 {X : Type} [Group X] [Finite X] {K T H : Sub
     (hT : IsPGroup 2 T) (hsup : K ⊔ T = H) :
     WeakClosure81.InFGroupU3.Setting (S18.imageBar2 H K) n := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKN : H ≤ Subgroup.normalizer (K : Set X) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKH).mp hKn
   have hpCore : CFSG.Open.pCoreOf 2 K = K ⊓ CFSG.Open.pCoreOf 2 H :=
@@ -152,7 +152,7 @@ theorem inFGroupU3Setting_imageBar2 {X : Type} [Group X] [Finite X] {K T H : Sub
   let C : Subgroup Q := S18.imageBar2 H K
   have hCnormal : C.Normal :=
     Subgroup.Normal.map hKn (S18.piBar2 H) (QuotientGroup.mk'_surjective _)
-  haveI : C.Normal := hCnormal
+  have : C.Normal := hCnormal
   obtain ⟨e⟩ :=
     CFSG.RankThree.PartTwo.Sec18.Claim184LcProof.quotient_mulEquiv_map hKH
       (hpCore.le.trans inf_le_right)

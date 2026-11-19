@@ -36,7 +36,7 @@ theorem slpB_initKN_get {n i : Nat} (hi : 6 ≤ i) (hn : i < 2 * n) :
   simp only [List.getD_eq_getElem?_getD]
   rw [List.getElem?_append_right (by simp; omega), List.getElem?_replicate]
   simp only [List.length_cons, List.length_nil]
-  rw [if_pos (by omega)]
+  rw [ite_eq_left (by omega)]
   rfl
 
 theorem slpB_init_ok {n : Nat} (hn : 3 ≤ n) :
@@ -53,7 +53,7 @@ theorem slpB_init_ok {n : Nat} (hn : 3 ≤ n) :
     exact CertificateChecks.KernelSporSch.J4InvP.pA
   · subst h
     exact CertificateChecks.KernelSporSch.J4InvP.pB
-  · rw [if_neg (by omega), if_neg (by omega)]
+  · rw [ite_eq_right (by omega), ite_eq_right (by omega)]
     have h1 : regM (initKN one A A B Bi n) r = one := by
       unfold regM
       rw [slpB_getN]

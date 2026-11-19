@@ -20,7 +20,7 @@ private theorem exists_subtype_mul_of_mem_pCoreOf (S : Setting G M J m) (hE : Bl
   exact ⟨⟨a, ha⟩, w, hw, hxw⟩
 
 private theorem mul_eq_mul_of_mem (S : Setting G M J m) {a a' : ↥(blockU J)} {w w' : G}
-    (hw : w ∈ blockW J) (hw' : w' ∈ blockW J) :
+    (hw : w ∈ blockW J) (_hw' : w' ∈ blockW J) :
     ((a : G) * w) * ((a' : G) * w') = ((a * a' : ↥(blockU J)) : G) * (w * w') := by
   have hcomm : w * (a' : G) = (a' : G) * w := (commute_blockU_blockW S a'.2 hw).symm
   rw [Subgroup.coe_mul]
@@ -41,7 +41,7 @@ private theorem quadQ_vec_eq_one_of_conj_mem_of_mem_blockW (hE : EvenCase J m) {
       have hgz : g⁻¹ * z * g ∈ Subgroup.centralizer (J : Set G) := by
         rw [hg, ha1]
         simpa using CFSG.LieType.BorelTits.pCoreOf_le 2 _ hw'
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hzord : orderOf z = 2 := orderOf_eq_prime hz2 hz1
       have hginvM : g⁻¹ ∈ M :=
         CFSG.CGT.Hall82.mem_of_common_involution_of_isMaximalTwoLocal
@@ -116,8 +116,8 @@ private theorem quadQ_add_add_add_ne_one {a₁ a₂ a₃ : ↥(blockU J)}
     add_comm (S.vec a₃) (S.vec a₁), hvec13, h13] at hmain
   exact absurd hmain (by decide)
 
-private theorem mul_ne_one_and_quadQ_of_singular_pair (hZ : blockZ J = ⊥)
-    {u₁ u₂ : ↥(blockU J)} (h1 : S.vec u₁ ≠ 0) (h2 : S.vec u₂ ≠ 0)
+private theorem mul_ne_one_and_quadQ_of_singular_pair (_hZ : blockZ J = ⊥)
+    {u₁ u₂ : ↥(blockU J)} (_h1 : S.vec u₁ ≠ 0) (_h2 : S.vec u₂ ≠ 0)
     (h12 : S.vec u₁ ≠ S.vec u₂) (hq1 : quadQ m (S.vec u₁) = 0)
     (hq2 : quadQ m (S.vec u₂) = 0) (hp : polar (quadQ m) (S.vec u₁) (S.vec u₂) = 0) :
     u₁ * u₂ ≠ 1 ∧ quadQ m (S.vec (u₁ * u₂)) = 0 := by
@@ -211,7 +211,7 @@ theorem pCoreOf_centralizer_le_of_nonsingular (hE : EvenCase J m) {b : ↥(block
     (hb : quadQ m (S.vec b) = 1) {w : G} (hw : w ∈ blockW J) :
     pCoreOf 2 (Subgroup.centralizer ({(b : G) * w} : Set G)) ≤ M :=
   pCoreOf_centralizer_le_of_perp (S := S) hE.toBlockCase hb hw
-    (fun g hg => mem_of_conj_mem_of_perp (S := S) hE hb hg)
+    (fun _g hg => mem_of_conj_mem_of_perp (S := S) hE hb hg)
 
 private theorem mem_of_conj_mem_of_nonsingular_ne (hE : EvenCase J m) {b : ↥(blockU J)}
     (hb : quadQ m (S.vec b) = 1) {w : G} (hw : w ∈ blockW J) {z : G} (hz : z ∈ blockW J)

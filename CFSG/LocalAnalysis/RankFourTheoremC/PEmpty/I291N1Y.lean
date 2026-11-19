@@ -31,7 +31,7 @@ theorem two_le_pRank_three_of_single (hMult : KDMultP5) (hEx : KDR3Exclusion) (h
     (hL : IsComponentOf L ⊤) (hLu : ∀ K : Subgroup Y, IsComponentOf K ⊤ → K = L) :
     2 ≤ Open.pRank 3 (⊤ : Subgroup Y) := by
   have hprime := hcfg.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hp5 := hcfg.five_le
   have hLn : L.Normal := normal_of_unique hL hLu
   have hcat : CatalogSimpleSections Y := hcfg.catalog
@@ -63,7 +63,7 @@ theorem two_le_pRank_three_of_single (hMult : KDMultP5) (hEx : KDR3Exclusion) (h
       have hxord : orderOf x = p := orderOf_eq_prime hcfg.x_pow hx1
       obtain ⟨N, hNn, hNidx⟩ := hEx p hprime hp5 Y hcat hcore L hLn hsimp hnonab hC
         (by omega) h4 ⟨x, hxord, hx⟩
-      haveI := hNn
+      have := hNn
       have hN : N = ⊤ := hperf N (IsPGroup.of_card (n := 1) (by
         rw [pow_one, ← hNidx, Subgroup.index_eq_card]))
       rw [hN, Subgroup.index_top] at hNidx

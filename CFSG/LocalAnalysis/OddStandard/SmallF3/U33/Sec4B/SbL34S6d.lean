@@ -79,6 +79,7 @@ include hc hv
 theorem v_mem_LO : v ∈ ctxLO t tau x₁ x₂ :=
   normalizer_le_of_charIn hc.char_O hv.v_norm
 
+omit [Finite G] hc in
 theorem Sp_le_cent : ctxSp t tau x₁ x₂ lam v ≤ centralizer ({t * lam} : Set G) := by
   unfold ctxSp
   apply sup_le
@@ -90,6 +91,7 @@ theorem Sp_le_cent : ctxSp t tau x₁ x₂ lam v ≤ centralizer ({t * lam} : Se
     rw [hh]
     exact hv.v_cent_tl.symm
 
+omit [Finite G] hc in
 theorem Sp_isPGroup : IsPGroup 2 (ctxSp t tau x₁ x₂ lam v) := by
   refine hv.sylow.2.1.to_le ?_
   unfold ctxSp
@@ -127,6 +129,7 @@ theorem le_card_Sp : 2 ^ 7 ≤ Nat.card (ctxSp t tau x₁ x₂ lam v) := by
     _ = Nat.card C * k := by rw [mul_comm]
     _ = Nat.card (ctxSp t tau x₁ x₂ lam v) := hk.symm
 
+omit hv in
 theorem D_le_Sp {ω : G} (hω : ω = tau ∨ ω = t * tau) :
     ctxD ω x₁ x₂ ≤ ctxSp t tau x₁ x₂ lam v :=
   (D_le_CU hc hω).trans le_sup_left
@@ -134,7 +137,7 @@ theorem D_le_Sp {ω : G} (hω : ω = tau ∨ ω = t * tau) :
 theorem D_normal_Sp {ω : G} (hω : ω = tau ∨ ω = t * tau)
     (hn : NormalIn (ctxN ω x₁ x₂) (ctxLO t tau x₁ x₂)) :
     NormalIn (ctxD ω x₁ x₂) (ctxSp t tau x₁ x₂ lam v) := by
-  refine ⟨D_le_Sp hc hv hω, ?_⟩
+  refine ⟨D_le_Sp hc hω, ?_⟩
   have hUleM : ctxU t tau x₁ x₂ lam ≤ ctxM t tau x₁ x₂ := hc.U_sylow.1
   have hvLO : v ∈ ctxLO t tau x₁ x₂ := v_mem_LO hc hv
   have hsub : ctxSp t tau x₁ x₂ lam v ≤ normalizer (ctxD ω x₁ x₂ : Set G) := by

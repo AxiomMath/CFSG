@@ -45,7 +45,7 @@ private def e0 : Fin 2 → F := Pi.single 0 1
 private theorem mulVec_unitriangular_apply (t : F) (v : Fin 2 → F) :
     (!![1, t; 0, 1] : Matrix (Fin 2) (Fin 2) F).mulVec v = ![v 0 + t * v 1, v 1] := by
   funext i
-  fin_cases i <;> simp [vecHead, vecTail, Matrix.mulVec, Fin.sum_univ_two]
+  fin_cases i <;> simp [vecHead, vecTail, Matrix.mulVec]
 
 private theorem mem_upperU_iff {g : SL(2, F)} :
     g ∈ upperU (F := F) ↔ ∃ t : F, (g : Matrix (Fin 2) (Fin 2) F) = !![1, t; 0, 1] := by
@@ -69,7 +69,7 @@ private theorem mem_upperU_iff {g : SL(2, F)} :
     rw [Matrix.SpecialLinearGroup.smul_def, Matrix.smul_eq_mulVec, ht,
       mulVec_unitriangular_apply]
     funext i
-    fin_cases i <;> simp [e0]
+    fin_cases i <;> simp
 
 private def uOne : SL(2, F) := ⟨!![1, 1; 0, 1], by simp [Matrix.det_fin_two]⟩
 
@@ -81,7 +81,7 @@ private theorem uOne_mem : uOne (F := F) ∈ upperU (F := F) := mem_upperU_iff.m
 private theorem smul_e0_eq (A : SL(2, F)) : A • e0 (F := F) = ![A 0 0, A 1 0] := by
   rw [Matrix.SpecialLinearGroup.smul_def, Matrix.smul_eq_mulVec, e0]
   funext i
-  fin_cases i <;> simp [vecHead, vecTail, Matrix.mulVec, Fin.sum_univ_two]
+  fin_cases i <;> simp [Matrix.mulVec]
 
 private theorem upperU_smul_e0 (g : SL(2, F)) (hg : g ∈ upperU (F := F)) :
     g • e0 (F := F) = e0 :=
@@ -106,7 +106,7 @@ private theorem smul_eq_self_of_second_coord_zero {v : Fin 2 → F} {t : F} {A :
   rw [Matrix.SpecialLinearGroup.smul_def, Matrix.smul_eq_mulVec, hA,
     mulVec_unitriangular_apply]
   funext i
-  fin_cases i <;> simp [vecHead, vecTail, hv]
+  fin_cases i <;> simp [hv]
 
 private theorem second_coord_eq_zero_of_mulVec_fixed {v : Fin 2 → F}
     (h : (!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) F).mulVec v = v) : v 1 = 0 := by
@@ -158,7 +158,7 @@ private theorem exists_upperTriangular_of_smul_e0 {A : SL(2, F)} {c : F}
   have hdet' : c * (A : Matrix (Fin 2) (Fin 2) F) 1 1 = 1 := by simpa using hdet
   have hcne : c ≠ 0 := by
     rintro rfl
-    simpa using hdet'
+    simp at hdet'
   have hA11 : (A : Matrix (Fin 2) (Fin 2) F) 1 1 = c⁻¹ :=
     (inv_eq_of_mul_eq_one_right hdet').symm
   refine ⟨Units.mk0 c hcne, (A : Matrix (Fin 2) (Fin 2) F) 0 1, ?_⟩
@@ -166,7 +166,7 @@ private theorem exists_upperTriangular_of_smul_e0 {A : SL(2, F)} {c : F}
   have hνinv : (((Units.mk0 c hcne : Fˣ)⁻¹ : Fˣ) : F) = c⁻¹ := by
     rw [Units.val_inv_eq_inv_val, hν]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [hν, hνinv, h0, h1, hA11]
+  fin_cases i <;> fin_cases j <;> simp [hνinv, h0, h1, hA11]
 
 private theorem diag2_conj_mem_upperU (a : F) (ha : a ≠ 0) {X : SL(2, F)}
     (hX : X ∈ upperU (F := F)) :
@@ -184,7 +184,7 @@ private theorem diag2_conj_mem_upperU (a : F) (ha : a ≠ 0) {X : SL(2, F)}
     Matrix.SpecialLinearGroup.diag2_coe', Matrix.SpecialLinearGroup.diag2_coe']
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.mul_apply, Fin.sum_univ_two, ha] <;> ring
+    simp [Matrix.mul_apply, Fin.sum_univ_two, ha]; ring
 
 private theorem mulVec_conj (X A : SL(2, F)) (v : Fin 2 → F) :
     (X : Matrix (Fin 2) (Fin 2) F).mulVec ((A : Matrix (Fin 2) (Fin 2) F).mulVec v) =
@@ -449,7 +449,7 @@ theorem exists_normalized_lin2 {L S : Subgroup G} {f : ℕ} [Finite G]
       (X : Matrix (Fin 2) (Fin 2) F).mulVec (Multiplicative.toAdd (β₀ z))
     simp [evec, Matrix.SpecialLinearGroup.toLin'_apply, Matrix.toLin'_apply]
     funext i
-    fin_cases i <;> simp [Matrix.mulVec, Fin.sum_univ_two]
+    fin_cases i <;> simp [Matrix.mulVec]
   have hαS_le_U : (S.subgroupOf L).map α ≤ upperU (F := F) := by
     have hmap : (S.subgroupOf L).map α =
         ((S.subgroupOf L).map α₀).map (MulAut.conj X).toMonoidHom := by

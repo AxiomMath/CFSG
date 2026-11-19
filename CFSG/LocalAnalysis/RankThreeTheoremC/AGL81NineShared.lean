@@ -27,13 +27,15 @@ variable (G) in
     ∀ B N : Subgroup G, IsAGLQ p M B → B ≤ H → GLBIsMaxTwoLocal N → ¬ N ≤ M → B ≤ N →
       AGLCovers p H N (d1KBar p M H) → AGL81NineAt p M H N
 
+omit [Finite G] in
 theorem AGL81NineAt.hyp93At {M H N : Subgroup G} (h : AGL81NineAt p M H N) : Hyp93At p M N :=
   ⟨h.nineThree.factor, h.core_le⟩
 
+omit [Finite G] in
 theorem aglCovers_self (H : Subgroup G) (K : Subgroup (H ⧸ primeComplementCore (G := H) p)) :
     AGLCovers p H H K := by
   intro x _
   obtain ⟨y, rfl⟩ := QuotientGroup.mk'_surjective (primeComplementCore (G := H) p) x
-  exact ⟨y, by simp [Subgroup.mem_subgroupOf], rfl⟩
+  exact ⟨y, by simp, rfl⟩
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.Hyp111

@@ -109,7 +109,7 @@ private lemma rckRPht_det_toMatrix_conj {K W : Type} [Field K] [AddCommGroup W]
 private lemma rckRPht_one_le_of_card {F : Type*} [Field F] [Finite F] {f : ℕ}
     (h : Nat.card F = (2 ^ f) ^ 2) : 1 ≤ f := by
   classical
-  letI := Fintype.ofFinite F
+  let := Fintype.ofFinite F
   have h2 : 1 < Nat.card F := by
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
@@ -133,13 +133,13 @@ private lemma rckRPht_exists_tau {F₀ K : Type} [Field F₀] [Finite F₀] [Cha
     ∃ τ : F₀ ≃+* K,
       ∀ c, τ (CFSG.LieType.BorelTits.unitaryInvolution F₀ 2 f c) = σ (τ c) := by
   classical
-  letI := Fintype.ofFinite F₀
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite F₀
+  let := Fintype.ofFinite K
   have hf : 1 ≤ f := rckRPht_one_le_of_card hc
   let hF₀U : UnitaryFieldData 2 f F₀ := rckRPht_unitaryFieldData hc hf
   let hKU : UnitaryFieldData 2 f K := rckRPht_unitaryFieldData hK hf
-  haveI : CharP F₀ 2 := hF₀U.charP
-  haveI : CharP K 2 := hKU.charP
+  have : CharP F₀ 2 := hF₀U.charP
+  have : CharP K 2 := hKU.charP
   have hσeq : σ = CFSG.LieType.BorelTits.unitaryInvolution K 2 f :=
     AutPSU.eq_sigma_of_mul_self_eq_one hKU (by simpa [pow_two] using hσ2) hσ1
   let σ₀ : F₀ ≃+* F₀ := CFSG.LieType.BorelTits.unitaryInvolution F₀ 2 f
@@ -196,7 +196,7 @@ theorem exists_suModel_of_hermForm_explicit {F₀ K W : Type} [Field F₀] [Fini
   let m := Module.finrank K W
   have hf : 1 ≤ f := rckRPht_one_le_of_card hc
   have hKU : UnitaryFieldData 2 f K := rckRPht_unitaryFieldData hK hf
-  letI : CharP K 2 := hKU.charP
+  let : CharP K 2 := hKU.charP
   have hσeq : σ = CFSG.LieType.BorelTits.unitaryInvolution K 2 f :=
     AutPSU.eq_sigma_of_mul_self_eq_one hKU (by simpa [pow_two] using hσ2) hσ1
   obtain ⟨τ, hτ⟩ := rckRPht_exists_tau hc hK hσ2 hσ1
@@ -358,9 +358,7 @@ theorem exists_suModel_of_hermForm_explicit {F₀ K W : Type} [Field F₀] [Fini
     let M : Matrix (Fin m) (Fin m) K := LinearMap.toMatrix' fₗ
     have hMlin : Matrix.toLin' M = fₗ := by
       change Matrix.toLin' (LinearMap.toMatrix' fₗ) = fₗ
-      simpa [Matrix.toLin'_symm] using
-        (LinearEquiv.apply_symm_apply (Matrix.toLin' (R := K)
-          (n := Fin m) (m := Fin m)) fₗ)
+      simp
     have hMx : ∀ x : Fin m → K, M *ᵥ x = e (g (e.symm x)) := by
       intro x
       have h := DFunLike.congr_fun hMlin x

@@ -30,12 +30,12 @@ theorem natCard_specialOrthogonalWithin_five (F : FrameData Q) (hodd : Odd (Nat.
     (hQ : Q.polarBilin.Nondegenerate) (hdim : Module.finrank K V = 5) :
     Nat.card Q.specialOrthogonalWithin =
       Nat.card K ^ 4 * (Nat.card K ^ 2 - 1) * (Nat.card K ^ 4 - 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   have hq2 : 2 ≤ Nat.card K := by
     have := Finite.one_lt_card (α := K)
     omega
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hchar : ringChar K ≠ 2 := by
     intro hchar
     have hcard : Fintype.card K % 2 = 0 := FiniteField.even_card_of_char_two hchar
@@ -45,11 +45,11 @@ theorem natCard_specialOrthogonalWithin_five (F : FrameData Q) (hodd : Odd (Nat.
   have htwo : (2 : K) ≠ 0 := by
     intro hzero
     exact hchar (by
-      haveI : CharP K 2 := CFSG.GroupTheory.WeirSylow.charP_two_of_two_eq_zero hzero
+      have : CharP K 2 := CFSG.GroupTheory.WeirSylow.charP_two_of_two_eq_zero hzero
       exact ringChar.eq K 2)
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
-  haveI : NeZero (2 : K) := ⟨htwo⟩
-  letI : Invertible (2 : K) := invertibleOfNonzero htwo
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : NeZero (2 : K) := ⟨htwo⟩
+  let : Invertible (2 : K) := invertibleOfNonzero htwo
   have hQ' : Q.Nondegenerate := QuadraticMap.nondegenerate_polar_iff.mp hQ
   let e : Q.IsometryEquiv F.coordForm :=
     { F.coord with map_app' := fun v => by simp [FrameData.coordForm] }
@@ -175,6 +175,8 @@ private theorem natCard_specialOrthogonalWithin_five_two_part (F : FrameData Q)
     apply Subtype.ext
     simpa using (F.betaO_mul p.1 p.2 q.1 q.2).symm
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem betaSOHom_injective (F : FrameData Q) :
     Function.Injective (betaSOHom F) := by
   intro p q h
@@ -182,16 +184,21 @@ theorem betaSOHom_injective (F : FrameData Q) :
   simpa [betaSOHom] using congrArg (fun g : Q.specialOrthogonalWithin =>
     (g : V ≃ₗ[K] V)) h
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem betaSO_mul (F : FrameData Q) (d1 d2 e1 e2 : O2 K) :
     F.betaSO d1 d2 * F.betaSO e1 e2 = F.betaSO (d1 * e1) (d2 * e2) := by
   apply Subtype.ext
   exact F.betaO_mul d1 d2 e1 e2
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem betaSO_one_one (F : FrameData Q) :
     F.betaSO (1 : O2 K) 1 = 1 := by
   apply Subtype.ext
   exact F.betaO_one
 
+omit [Finite K] in
 theorem sSO_mul_self (F : FrameData Q) : F.sSO * F.sSO = 1 := by
   apply Subtype.ext
   exact F.sO_mul_self
@@ -199,10 +206,12 @@ theorem sSO_mul_self (F : FrameData Q) : F.sSO * F.sSO = 1 := by
 @[expose] def negOneO2 : O2 K :=
   ⟨(-1 : GL (Fin 2) K), SO2_le_O2 (neg_one_mem_SO2 (F := K))⟩
 
+omit [Finite K] in
 theorem negOneO2_mul_self : negOneO2 (K := K) * negOneO2 = 1 := by
   apply Subtype.ext
   simp [negOneO2]
 
+omit [Finite K] in
 theorem sSO_neg_one_one (F : FrameData Q) :
     F.betaSO negOneO2 1 = F.tSO := by
   apply Subtype.ext
@@ -213,9 +222,9 @@ theorem sSO_neg_one_one (F : FrameData Q) :
   change F.beta negOneO2 (1 : O2 K) (F.e i) = F.t (F.e i)
   fin_cases i <;>
     simp [F.beta_e_zero, F.beta_e_one, F.beta_e_two, F.beta_e_three, F.beta_e_four,
-      F.t_e, negOneO2, Matrix.det_fin_two] <;>
-    norm_num
+      F.t_e, negOneO2, Matrix.det_fin_two]
 
+omit [Finite K] in
 theorem sSO_neg_one_neg_one (F : FrameData Q) :
     F.betaSO negOneO2 negOneO2 = F.zSO := by
   apply Subtype.ext
@@ -226,21 +235,23 @@ theorem sSO_neg_one_neg_one (F : FrameData Q) :
   change F.beta negOneO2 negOneO2 (F.e i) = F.z (F.e i)
   fin_cases i <;>
     simp [F.beta_e_zero, F.beta_e_one, F.beta_e_two, F.beta_e_three, F.beta_e_four,
-      F.z_e, negOneO2, Matrix.det_fin_two] <;>
-    norm_num
+      F.z_e, negOneO2, Matrix.det_fin_two]
 
+omit [Finite K] in
 theorem sSO_one_neg_one (F : FrameData Q) :
     F.betaSO (1 : O2 K) negOneO2 = F.zSO * F.tSO := by
   have h := betaSO_mul F negOneO2 negOneO2 negOneO2 1
-  simp only [negOneO2_mul_self, one_mul, mul_one] at h
+  simp only [negOneO2_mul_self, mul_one] at h
   rw [sSO_neg_one_neg_one, sSO_neg_one_one] at h
   exact h.symm
 
+omit [Finite K] in
 theorem sSO_betaSO_conj (F : FrameData Q) (d1 d2 : O2 K) :
     F.sSO * F.betaSO d1 d2 * F.sSO⁻¹ = F.betaSO d2 d1 := by
   apply Subtype.ext
   exact F.sO_betaO_conj d1 d2
 
+omit [Finite K] in
 theorem sSO_ne_one (F : FrameData Q) : F.sSO ≠ 1 := by
   intro h
   have h0 : F.coord (F.s (F.e 0)) = F.coord (((1 : Q.specialOrthogonalWithin) :
@@ -250,12 +261,13 @@ theorem sSO_ne_one (F : FrameData Q) : F.sSO ≠ 1 := by
   rw [F.s_e] at h0
   simp only [FrameData.coord_e, OneMemClass.coe_one, LinearEquiv.coe_one, id_eq] at h0
   have h1 := congrFun h0 2
-  simpa using h1
+  simp at h1
 
 abbrev orthogonalDerived (Q : QuadraticForm K V) :
     Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q) :=
   commutator (TauCeti.QuadraticMap.orthogonalGroup Q)
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem mem_orthogonalDerived_of_subtype_mem
     {x : TauCeti.QuadraticMap.orthogonalGroup Q}
     (h : (x : V ≃ₗ[K] V) ∈ ⁅TauCeti.QuadraticMap.orthogonalGroup Q,
@@ -272,15 +284,22 @@ theorem mem_orthogonalDerived_of_subtype_mem
   have hyx' : y = x := Subtype.ext hyx
   simpa [hyx'] using hy
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem tO_mem_derived (F : FrameData Q) : F.tO ∈ orthogonalDerived Q :=
   mem_orthogonalDerived_of_subtype_mem F.t_mem_commutator
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem zO_mem_derived (F : FrameData Q) : F.zO ∈ orthogonalDerived Q :=
   mem_orthogonalDerived_of_subtype_mem F.z_mem_commutator
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem sO_mem_derived (F : FrameData Q) : F.sO ∈ orthogonalDerived Q :=
   mem_orthogonalDerived_of_subtype_mem F.s_mem_commutator
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem betaO_diag_mem_derived (F : FrameData Q) (d : O2 K) :
     F.betaO d d ∈ orthogonalDerived Q :=
   mem_orthogonalDerived_of_subtype_mem (F.betaO_diag_mem_commutator d)
@@ -299,11 +318,13 @@ theorem betaO_diag_mem_derived (F : FrameData Q) (d : O2 K) :
     Subgroup Q.specialOrthogonalWithin :=
   betaBase F D ⊔ swapSub F
 
+omit [Finite K] in
 theorem orderOf_sSO (F : FrameData Q) : orderOf F.sSO = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (p := 2) (by rw [pow_two]; exact sSO_mul_self F)
     (sSO_ne_one F)
 
+omit [Finite K] in
 theorem sSO_not_mem_betaBase (F : FrameData Q) (D : Subgroup (O2 K)) :
     F.sSO ∉ betaBase F D := by
   intro h
@@ -315,6 +336,8 @@ theorem sSO_not_mem_betaBase (F : FrameData Q) (D : Subgroup (O2 K)) :
   have h2 := congrFun h0 2
   simp at h2
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem betaBase_card (F : FrameData Q) (D : Subgroup (O2 K)) {r : ℕ}
     (hD : Nat.card D = 2 ^ (r + 1)) :
     Nat.card (betaBase F D) = 2 ^ (2 * r + 2) := by
@@ -329,9 +352,11 @@ theorem betaBase_card (F : FrameData Q) (D : Subgroup (O2 K)) {r : ℕ}
   congr 1
   ring
 
+omit [Finite K] in
 theorem swapSub_card (F : FrameData Q) : Nat.card (swapSub F) = 2 := by
   rw [swapSub, Nat.card_zpowers, orderOf_sSO F]
 
+omit [Finite K] in
 theorem swapSub_le_normalizer_betaBase (F : FrameData Q) (D : Subgroup (O2 K)) :
     swapSub F ≤ Subgroup.normalizer (betaBase F D : Set Q.specialOrthogonalWithin) := by
   rw [swapSub, Subgroup.zpowers_le, Subgroup.mem_normalizer_iff]
@@ -362,6 +387,7 @@ theorem swapSub_le_normalizer_betaBase (F : FrameData Q) (D : Subgroup (O2 K)) :
                 = (F.sSO * F.sSO) * h * (F.sSO * F.sSO) := by group
               _ = h := by rw [sSO_mul_self]; simp⟩
 
+omit [Finite K] in
 theorem disjoint_betaBase_swapSub (F : FrameData Q) (D : Subgroup (O2 K)) :
     Disjoint (betaBase F D) (swapSub F) := by
   rw [Subgroup.disjoint_def]
@@ -371,6 +397,7 @@ theorem disjoint_betaBase_swapSub (F : FrameData Q) (D : Subgroup (O2 K)) :
   · rfl
   · exact absurd hxB (sSO_not_mem_betaBase F D)
 
+omit [Finite K] in
 theorem wreathSub_card (F : FrameData Q) (D : Subgroup (O2 K)) {r : ℕ}
     (hD : Nat.card D = 2 ^ (r + 1)) :
     Nat.card (wreathSub F D) = 2 ^ (2 * r + 3) := by
@@ -382,13 +409,14 @@ theorem wreathSub_card (F : FrameData Q) (D : Subgroup (O2 K)) {r : ℕ}
     _ = 2 ^ ((2 * r + 2) + 1) := by rw [← pow_add]
     _ = 2 ^ (2 * r + 3) := by congr 1
 
+omit [Finite K] in
 theorem wreathSub_sylow (F : FrameData Q) (D : Subgroup (O2 K)) {r u : ℕ}
     (hD : Nat.card D = 2 ^ (r + 1))
     (hSOcard : Nat.card Q.specialOrthogonalWithin = 2 ^ (2 * r + 3) * u)
     (hodd_u : Odd u) :
     ∃ hS : Sylow 2 Q.specialOrthogonalWithin,
       (hS : Subgroup Q.specialOrthogonalWithin) = wreathSub F D := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Subgroup Q.specialOrthogonalWithin := wreathSub F D
   have hScard : Nat.card S = 2 ^ (2 * r + 3) := wreathSub_card F D hD
   have hSp : IsPGroup 2 ↥S := IsPGroup.of_card (n := 2 * r + 3) hScard
@@ -401,21 +429,26 @@ theorem wreathSub_sylow (F : FrameData Q) (D : Subgroup (O2 K)) {r u : ℕ}
   have hodd : ¬ 2 ∣ S.index := by rw [hSindex]; exact hodd_u.not_two_dvd_nat
   exact ⟨hSp.toSylow hodd, IsPGroup.toSylow_coe hSp hodd⟩
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem tO_mul_self (F : FrameData Q) : F.tO * F.tO = 1 := by
   apply Subtype.ext
   exact F.t_mul_self
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem zO_mul_self (F : FrameData Q) : F.zO * F.zO = 1 := by
   apply Subtype.ext
   exact F.z_mul_self
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem tO_ne_one (F : FrameData Q) : F.tO ≠ 1 := by
   intro h
   have h0 := congrArg (fun g : TauCeti.QuadraticMap.orthogonalGroup Q =>
     F.coord ((g : V ≃ₗ[K] V) (F.e 0))) h
   rw [F.t_e] at h0
-  simp only [FrameData.coord_e, OneMemClass.coe_one, LinearEquiv.coe_one, id_eq,
-    map_neg] at h0
+  simp only [FrameData.coord_e, OneMemClass.coe_one, LinearEquiv.coe_one, id_eq] at h0
   have h1 := congrFun h0 0
   simp at h1
   exact F.two_ne_zero (by
@@ -425,13 +458,14 @@ theorem tO_ne_one (F : FrameData Q) : F.tO ≠ 1 := by
     rw [htwo]
     exact hzero)
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem zO_ne_one (F : FrameData Q) : F.zO ≠ 1 := by
   intro h
   have h0 := congrArg (fun g : TauCeti.QuadraticMap.orthogonalGroup Q =>
     F.coord ((g : V ≃ₗ[K] V) (F.e 0))) h
   rw [F.z_e] at h0
-  simp only [FrameData.coord_e, OneMemClass.coe_one, LinearEquiv.coe_one, id_eq,
-    map_neg] at h0
+  simp only [FrameData.coord_e, OneMemClass.coe_one, LinearEquiv.coe_one, id_eq] at h0
   have h1 := congrFun h0 0
   simp at h1
   exact F.two_ne_zero (by
@@ -441,24 +475,28 @@ theorem zO_ne_one (F : FrameData Q) : F.zO ≠ 1 := by
     rw [htwo]
     exact hzero)
 
+omit [Finite K] in
 theorem negOneO2_commute (d : O2 K) : d * negOneO2 = negOneO2 * d := by
   apply Subtype.ext
   change (d : GL (Fin 2) K) * (-1 : GL (Fin 2) K) =
     (-1 : GL (Fin 2) K) * (d : GL (Fin 2) K)
   simp [mul_neg, neg_mul]
 
+omit [Finite K] in
 theorem betaO_negOneO2_one (F : FrameData Q) :
     F.betaO negOneO2 (1 : O2 K) = F.tO := by
   apply Subtype.ext
   exact congrArg (fun g : Q.specialOrthogonalWithin => (g : V ≃ₗ[K] V))
     (sSO_neg_one_one F)
 
+omit [Finite K] in
 theorem betaO_one_negOneO2 (F : FrameData Q) :
     F.betaO (1 : O2 K) negOneO2 = F.zO * F.tO := by
   apply Subtype.ext
   exact congrArg (fun g : Q.specialOrthogonalWithin => (g : V ≃ₗ[K] V))
     (sSO_one_neg_one F)
 
+omit [Finite K] in
 theorem betaO_commute_tO (F : FrameData Q) (d1 d2 : O2 K) :
     F.betaO d1 d2 * F.tO = F.tO * F.betaO d1 d2 := by
   calc F.betaO d1 d2 * F.tO
@@ -470,6 +508,7 @@ theorem betaO_commute_tO (F : FrameData Q) (d1 d2 : O2 K) :
     _ = F.betaO negOneO2 1 * F.betaO d1 d2 := (F.betaO_mul negOneO2 1 d1 d2).symm
     _ = F.tO * F.betaO d1 d2 := by rw [betaO_negOneO2_one]
 
+omit [Finite K] in
 theorem betaO_commute_zO (F : FrameData Q) (d1 d2 : O2 K) :
     F.betaO d1 d2 * F.zO = F.zO * F.betaO d1 d2 := by
   have hz : F.zO = F.betaO negOneO2 negOneO2 := by
@@ -486,6 +525,8 @@ theorem betaO_commute_zO (F : FrameData Q) (d1 d2 : O2 K) :
         (F.betaO_mul negOneO2 negOneO2 d1 d2).symm
     _ = F.zO * F.betaO d1 d2 := by rw [hz]
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem zO_commute_tO (F : FrameData Q) : F.zO * F.tO = F.tO * F.zO := by
   apply Subtype.ext
   apply LinearEquiv.toLinearMap_injective
@@ -498,14 +539,20 @@ theorem zO_commute_tO (F : FrameData Q) : F.zO * F.tO = F.tO * F.zO := by
     Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q) :=
   Subgroup.zpowers F.zO ⊔ Subgroup.zpowers F.tO
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem zO_order (F : FrameData Q) : orderOf F.zO = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (p := 2) (by rw [pow_two]; exact zO_mul_self F) (zO_ne_one F)
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem tO_order (F : FrameData Q) : orderOf F.tO = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime (p := 2) (by rw [pow_two]; exact tO_mul_self F) (tO_ne_one F)
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem zO_ne_tO (F : FrameData Q) : F.zO ≠ F.tO := by
   intro h
   have hz : F.z (F.e 2) = -F.e 2 := by rw [F.z_e]; norm_num
@@ -523,6 +570,8 @@ theorem zO_ne_tO (F : FrameData Q) : F.zO ≠ F.tO := by
     rw [htwo]
     exact hzero)
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem zpowers_tO_le_normalizer_zpowers_zO (F : FrameData Q) :
     Subgroup.zpowers F.tO ≤
       Subgroup.normalizer (Subgroup.zpowers F.zO : Set (TauCeti.QuadraticMap.orthogonalGroup Q)) := by
@@ -559,6 +608,8 @@ private theorem zpowers_tO_le_normalizer_zpowers_zO (F : FrameData Q) :
         _ = x := by rw [ht2]; simp
     rwa [heq] at h
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem mem_normalFour_iff (F : FrameData Q)
     (x : TauCeti.QuadraticMap.orthogonalGroup Q) :
     x ∈ normalFour F ↔ x = 1 ∨ x = F.zO ∨ x = F.tO ∨ x = F.zO * F.tO := by
@@ -594,6 +645,8 @@ theorem mem_normalFour_iff (F : FrameData Q)
             F.tO, Subgroup.mem_zpowers_iff.mpr ⟨1, by simp⟩, rfl⟩
   simpa [normalFour] using hmem
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem zpowers_zO_le_normalizer_zpowers_tO (F : FrameData Q) :
     Subgroup.zpowers F.zO ≤
       Subgroup.normalizer (Subgroup.zpowers F.tO : Set (TauCeti.QuadraticMap.orthogonalGroup Q)) := by
@@ -630,6 +683,8 @@ private theorem zpowers_zO_le_normalizer_zpowers_tO (F : FrameData Q) :
         _ = x := by rw [hz2]; simp
     rwa [heq] at h
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem disjoint_zpowers_zO_zpowers_tO (F : FrameData Q) :
     Disjoint (Subgroup.zpowers F.zO) (Subgroup.zpowers F.tO) := by
   rw [Subgroup.disjoint_def]
@@ -642,6 +697,8 @@ private theorem disjoint_zpowers_zO_zpowers_tO (F : FrameData Q) :
     · exfalso; exact (zO_ne_one F) (hxz.symm.trans hz1)
     · exfalso; exact (zO_ne_tO F) (hxz.symm.trans hzt)
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 theorem normalFour_card (F : FrameData Q) : Nat.card (normalFour F) = 4 := by
   rw [normalFour, sup_comm (Subgroup.zpowers F.zO) (Subgroup.zpowers F.tO),
     CFSG.GorensteinWalter.card_sup_eq_mul_of_disjoint_of_le_normalizer
@@ -661,12 +718,14 @@ theorem normalFour_card (F : FrameData Q) : Nat.card (normalFour F) = 4 := by
     Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q) :=
   betaBaseO F D ⊔ swapSubO F
 
+omit [Finite K] in
 theorem wreathSub_map_eq (F : FrameData Q) (D : Subgroup (O2 K)) :
     (wreathSub F D).map (Q.specialOrthogonalWithin).subtype = wreathO F D := by
   rw [wreathSub, wreathO, Subgroup.map_sup, betaBase, betaBaseO, swapSub, swapSubO,
     Subgroup.map_map, MonoidHom.map_zpowers]
   rfl
 
+omit [Finite K] in
 theorem betaO_conj_mem_normalFour (F : FrameData Q) (d1 d2 : O2 K)
     {x : TauCeti.QuadraticMap.orthogonalGroup Q} (hx : x ∈ normalFour F) :
     F.betaO d1 d2 * x * (F.betaO d1 d2)⁻¹ ∈ normalFour F := by
@@ -708,24 +767,28 @@ theorem betaBaseO_le_normalizer_normalFour (F : FrameData Q)
     rw [Subgroup.card_map_of_injective (MulAut.conj (F.betaO p.1 p.2)).injective]
   exact Subgroup.eq_of_le_of_card_ge hle hcard
 
+omit [Finite K] in
 theorem betaO_negOneO2_negOneO2 (F : FrameData Q) :
     F.betaO negOneO2 negOneO2 = F.zO := by
   apply Subtype.ext
   exact congrArg (fun g : Q.specialOrthogonalWithin => (g : V ≃ₗ[K] V))
     (sSO_neg_one_neg_one F)
 
+omit [Finite K] in
 theorem sO_conj_zO (F : FrameData Q) :
     F.sO * F.zO * F.sO⁻¹ = F.zO := by
   have hs : F.sO⁻¹ = F.sO := inv_eq_of_mul_eq_one_right F.sO_mul_self
   simpa [hs, betaO_negOneO2_negOneO2] using
     (F.sO_betaO_conj' negOneO2 negOneO2)
 
+omit [Finite K] in
 theorem sO_conj_tO (F : FrameData Q) :
     F.sO * F.tO * F.sO⁻¹ = F.zO * F.tO := by
   have hs : F.sO⁻¹ = F.sO := inv_eq_of_mul_eq_one_right F.sO_mul_self
   simpa [hs, betaO_negOneO2_one, betaO_one_negOneO2] using
     (F.sO_betaO_conj' negOneO2 1)
 
+omit [Finite K] in
 theorem sO_conj_zt (F : FrameData Q) :
     F.sO * (F.zO * F.tO) * F.sO⁻¹ = F.tO := by
   have hs : F.sO⁻¹ = F.sO := inv_eq_of_mul_eq_one_right F.sO_mul_self
@@ -744,6 +807,7 @@ theorem sO_conj_zt (F : FrameData Q) :
     _ = F.zO * (F.zO * F.tO) := by rw [hcz, hct]
     _ = F.tO := by rw [← mul_assoc, zO_mul_self]; simp
 
+omit [Finite K] in
 theorem sO_conj_mem_normalFour (F : FrameData Q)
     {x : TauCeti.QuadraticMap.orthogonalGroup Q} (hx : x ∈ normalFour F) :
     F.sO * x * F.sO⁻¹ ∈ normalFour F := by
@@ -781,50 +845,61 @@ theorem wreathO_le_normalizer_normalFour (F : FrameData Q) (D : Subgroup (O2 K))
   rw [wreathO]
   exact sup_le (betaBaseO_le_normalizer_normalFour F D) (swapSubO_le_normalizer_normalFour F)
 
+omit [Finite K] in
 theorem tSO_mul_self (F : FrameData Q) : F.tSO * F.tSO = 1 := by
   apply Subtype.ext
   exact tO_mul_self F
 
+omit [Finite K] in
 theorem zSO_mul_self (F : FrameData Q) : F.zSO * F.zSO = 1 := by
   apply Subtype.ext
   exact zO_mul_self F
 
+omit [Finite K] in
 theorem tSO_ne_one (F : FrameData Q) : F.tSO ≠ 1 := fun h =>
   tO_ne_one F (congrArg (fun g : Q.specialOrthogonalWithin => (g : TauCeti.QuadraticMap.orthogonalGroup Q)) h)
 
+omit [Finite K] in
 theorem zSO_ne_one (F : FrameData Q) : F.zSO ≠ 1 := fun h =>
   zO_ne_one F (congrArg (fun g : Q.specialOrthogonalWithin => (g : TauCeti.QuadraticMap.orthogonalGroup Q)) h)
 
+omit [Finite K] in
 theorem zSO_ne_tSO (F : FrameData Q) : F.zSO ≠ F.tSO := fun h =>
   zO_ne_tO F (congrArg (fun g : Q.specialOrthogonalWithin => (g : TauCeti.QuadraticMap.orthogonalGroup Q)) h)
 
+omit [Finite K] in
 theorem zSO_commute_tSO (F : FrameData Q) :
     F.zSO * F.tSO = F.tSO * F.zSO := by
   apply Subtype.ext
   exact zO_commute_tO F
 
+omit [Finite K] in
 theorem betaSO_commute_tSO (F : FrameData Q) (d1 d2 : O2 K) :
     F.betaSO d1 d2 * F.tSO = F.tSO * F.betaSO d1 d2 := by
   apply Subtype.ext
   exact betaO_commute_tO F d1 d2
 
+omit [Finite K] in
 theorem betaSO_commute_zSO (F : FrameData Q) (d1 d2 : O2 K) :
     F.betaSO d1 d2 * F.zSO = F.zSO * F.betaSO d1 d2 := by
   apply Subtype.ext
   exact betaO_commute_zO F d1 d2
 
+omit [Finite K] in
 theorem sSO_conj_tSO (F : FrameData Q) :
     F.sSO * F.tSO * F.sSO⁻¹ = F.zSO * F.tSO := by
   have hs : F.sSO⁻¹ = F.sSO := inv_eq_of_mul_eq_one_right (sSO_mul_self F)
   simpa [hs, sSO_neg_one_one, sSO_one_neg_one] using
     (sSO_betaSO_conj F negOneO2 1)
 
+omit [Finite K] in
 theorem sSO_conj_zSO (F : FrameData Q) :
     F.sSO * F.zSO * F.sSO⁻¹ = F.zSO := by
   have hs : F.sSO⁻¹ = F.sSO := inv_eq_of_mul_eq_one_right (sSO_mul_self F)
   simpa [hs, sSO_neg_one_neg_one] using
     (sSO_betaSO_conj F negOneO2 negOneO2)
 
+omit [Finite K] in
 theorem mem_center_planeD_iff (c : GL (Fin 2) K) (hc : c ∈ SO2 K)
     (hcenter_iff : ∀ y : planeSylow c,
       y ∈ Subgroup.center (planeSylow c) ↔
@@ -849,6 +924,7 @@ theorem mem_center_planeD_iff (c : GL (Fin 2) K) (hc : c ∈ SO2 K)
   rw [he] at hiff
   exact hiff
 
+omit [Finite K] in
 theorem wreathSub_le_centralizer_zSO (F : FrameData Q) (D : Subgroup (O2 K)) :
     wreathSub F D ≤ Subgroup.centralizer ({F.zSO} : Set Q.specialOrthogonalWithin) := by
   rw [wreathSub]
@@ -872,6 +948,7 @@ theorem wreathSub_le_centralizer_zSO (F : FrameData Q) (D : Subgroup (O2 K)) :
         _ = (F.sSO * F.zSO * F.sSO) * F.sSO := by group
         _ = F.zSO * F.sSO := by rw [h]
 
+omit [Finite K] in
 theorem center_of_subgroup_le_wreath (F : FrameData Q) (D : Subgroup (O2 K))
     (P : Subgroup Q.specialOrthogonalWithin)
     (hPle : P ≤ wreathSub F D) (ht : F.tSO ∈ P) (hz : F.zSO ∈ P) (hs : F.sSO ∈ P)
@@ -1030,7 +1107,7 @@ theorem exists_wreathData (F : FrameData Q) (hodd : Odd (Nat.card K))
     ∃ W : FiveDimensionalWreathData F,
       (∀ x : W.D, x ∈ Subgroup.center W.D ↔
         (x : GL (Fin 2) K) = 1 ∨ (x : GL (Fin 2) K) = -1) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hchar : ringChar K ≠ 2 := by
     intro hchar
     have hcard : Fintype.card K % 2 = 0 := FiniteField.even_card_of_char_two hchar
@@ -1040,7 +1117,7 @@ theorem exists_wreathData (F : FrameData Q) (hodd : Odd (Nat.card K))
   have htwo : (2 : K) ≠ 0 := by
     intro hzero
     exact hchar (by
-      haveI : CharP K 2 := CFSG.GroupTheory.WeirSylow.charP_two_of_two_eq_zero hzero
+      have : CharP K 2 := CFSG.GroupTheory.WeirSylow.charP_two_of_two_eq_zero hzero
       exact ringChar.eq K 2)
   obtain ⟨ε, hε, hq, m, n, h, hm, hn, hoddn, hh, hoddh⟩ :=
     CFSG.NumberTheory.exists_sign_mod_four_odd_cofactors (q := Nat.card K) hodd
@@ -1153,6 +1230,7 @@ private lemma map_center_eq_of_mulEquiv_commute
     · have h := hcomm (e.symm y)
       simpa using h
 
+omit [Finite K] in
 theorem center_wreathSub (F : FrameData Q) {D : Subgroup (O2 K)}
     (hnegD : negOneO2 ∈ D)
     (hDcenter : ∀ x : D, x ∈ Subgroup.center D ↔
@@ -1173,6 +1251,7 @@ theorem center_wreathSub (F : FrameData Q) {D : Subgroup (O2 K)}
     exact Subgroup.mem_sup_left (Subgroup.mem_map.mpr
       ⟨(d, d), ⟨d.property, d.property⟩, rfl⟩)
 
+omit [Finite K] in
 theorem normalFour_le_wreathO (F : FrameData Q) {D : Subgroup (O2 K)}
     (hnegD : negOneO2 ∈ D) : normalFour F ≤ wreathO F D := by
   rw [normalFour]
@@ -1189,7 +1268,7 @@ theorem normalFour_le_wreathO (F : FrameData Q) {D : Subgroup (O2 K)}
       ⟨(negOneO2, (1 : O2 K)), ⟨hnegD, Subgroup.one_mem D⟩, rfl⟩)
 
 theorem normalFour_subgroupOf_wreathO_normal (F : FrameData Q)
-    (D : Subgroup (O2 K)) (hnegD : negOneO2 ∈ D) :
+    (D : Subgroup (O2 K)) (_hnegD : negOneO2 ∈ D) :
     ((normalFour F).subgroupOf (wreathO F D)).Normal :=
   Subgroup.normal_subgroupOf_of_le_normalizer
     (wreathO_le_normalizer_normalFour F D)
@@ -1234,7 +1313,7 @@ public theorem fixed_frame_sylow (F : FrameData Q) (hodd : Odd (Nat.card K))
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
     have hp : IsPGroup 2 S := by
       rw [← hScoe']
-      exact hS.isPGroup'
+      exact hS.isPGroup
     have hidx : ¬ 2 ∣ S.index := by
       rw [← hScoe']
       exact hS.not_dvd_index
@@ -1243,7 +1322,7 @@ public theorem fixed_frame_sylow (F : FrameData Q) (hodd : Odd (Nat.card K))
     Subgroup.Normal.of_commutator_le (G := TauCeti.QuadraticMap.orthogonalGroup Q) hLG
   let GS : Subgroup Q.specialOrthogonalWithin := G.subgroupOf Q.specialOrthogonalWithin
   have hGSnormal : GS.Normal := hGnormal.subgroupOf Q.specialOrthogonalWithin
-  letI : GS.Normal := hGSnormal
+  let : GS.Normal := hGSnormal
   let PS : Subgroup Q.specialOrthogonalWithin := S ⊓ GS
   have hPS_sylowOf : CFSG.ABGLocalTools.IsSylowOf 2 PS GS :=
     hS_sylowOf.inf_of_le_normalizer (N := GS) le_top
@@ -1376,6 +1455,7 @@ public theorem fixed_frame_sylow (F : FrameData Q) (hodd : Odd (Nat.card K))
   exact ⟨W, T0, hP_intersect, hzP, htP, zO_order F, tO_order F, ht_not, hcenterT,
     hNle, normalFour_card F, hnormal⟩
 
+omit [Finite K] in
 theorem mem_wreathSub_iff (F : FrameData Q) (D : Subgroup (O2 K))
     (x : Q.specialOrthogonalWithin) :
     x ∈ wreathSub F D ↔
@@ -1398,6 +1478,8 @@ private def conjFrame (F : FrameData Q)
     exact F.last
   nondeg := F.nondeg
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem conjFrame_z (F : FrameData Q)
     (g : TauCeti.QuadraticMap.orthogonalGroup Q) :
     (conjFrame F g).z = (g : V ≃ₗ[K] V) * F.z * (g : V ≃ₗ[K] V)⁻¹ := by
@@ -1416,6 +1498,8 @@ private theorem conjFrame_z (F : FrameData Q)
   rw [hsymm, FrameData.z_e, he]
   by_cases hi : (i : ℕ) < 4 <;> simp [hi]
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem conjFrame_t (F : FrameData Q)
     (g : TauCeti.QuadraticMap.orthogonalGroup Q) :
     (conjFrame F g).t = (g : V ≃ₗ[K] V) * F.t * (g : V ≃ₗ[K] V)⁻¹ := by
@@ -1434,18 +1518,23 @@ private theorem conjFrame_t (F : FrameData Q)
   rw [hsymm, FrameData.t_e, he]
   by_cases hi : (i : ℕ) < 2 <;> simp [hi]
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem conjFrame_zO (F : FrameData Q)
     (g : TauCeti.QuadraticMap.orthogonalGroup Q) :
     (conjFrame F g).zO = g * F.zO * g⁻¹ := by
   apply Subtype.ext
   exact conjFrame_z F g
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem conjFrame_tO (F : FrameData Q)
     (g : TauCeti.QuadraticMap.orthogonalGroup Q) :
     (conjFrame F g).tO = g * F.tO * g⁻¹ := by
   apply Subtype.ext
   exact conjFrame_t F g
 
+omit [Finite K] [FiniteDimensional K V] in
 private lemma center_map_conj (G : Subgroup (TauCeti.QuadraticMap.orthogonalGroup Q))
     (g : G) (T0 T : Subgroup G)
     (hT : T = T0.map (MulAut.conj g).toMonoidHom) :
@@ -1477,6 +1566,8 @@ private lemma center_map_conj (G : Subgroup (TauCeti.QuadraticMap.orthogonalGrou
     · rw [← hsy]
       rfl
 
+omit [Finite K] in
+omit [FiniteDimensional K V] in
 private theorem normalFour_conjFrame (F : FrameData Q)
     (g : TauCeti.QuadraticMap.orthogonalGroup Q) :
     normalFour (conjFrame F g) =
@@ -1490,6 +1581,7 @@ private theorem normalFour_conjFrame (F : FrameData Q)
         (g : TauCeti.QuadraticMap.orthogonalGroup Q)⁻¹)
   rw [← conjFrame_zO F g, ← conjFrame_tO F g]
 
+omit [Finite K] [FiniteDimensional K V] in
 private lemma orderOf_conj_eq (g x : TauCeti.QuadraticMap.orthogonalGroup Q) :
     orderOf (g * x * g⁻¹) = orderOf x := by
   have h : SemiconjBy g x (g * x * g⁻¹) := by
@@ -1535,13 +1627,13 @@ public theorem exists_frame_sylow_normal_four
     refine Subgroup.mem_map.mpr ⟨F0.zO, hz0, ?_⟩
     show (MulAut.conj (g : TauCeti.QuadraticMap.orthogonalGroup Q)) F0.zO =
       (conjFrame F0 (g : TauCeti.QuadraticMap.orthogonalGroup Q)).zO
-    simpa [conjFrame_zO F0 (g : TauCeti.QuadraticMap.orthogonalGroup Q)]
+    simp [conjFrame_zO F0 (g : TauCeti.QuadraticMap.orthogonalGroup Q)]
   have htP : F.tO ∈ (T : Subgroup G).map G.subtype := by
     rw [hPconj]
     refine Subgroup.mem_map.mpr ⟨F0.tO, ht0, ?_⟩
     show (MulAut.conj (g : TauCeti.QuadraticMap.orthogonalGroup Q)) F0.tO =
       (conjFrame F0 (g : TauCeti.QuadraticMap.orthogonalGroup Q)).tO
-    simpa [conjFrame_tO F0 (g : TauCeti.QuadraticMap.orthogonalGroup Q)]
+    simp [conjFrame_tO F0 (g : TauCeti.QuadraticMap.orthogonalGroup Q)]
   have hzord : orderOf F.zO = 2 := by
     rw [show F.zO = (g : TauCeti.QuadraticMap.orthogonalGroup Q) * F0.zO *
       (g : TauCeti.QuadraticMap.orthogonalGroup Q)⁻¹ from conjFrame_zO F0 (g : _)]
@@ -1564,7 +1656,7 @@ public theorem exists_frame_sylow_normal_four
       rw [show (MulAut.conj (g : TauCeti.QuadraticMap.orthogonalGroup Q)).symm =
           MulAut.conj ((g : TauCeti.QuadraticMap.orthogonalGroup Q)⁻¹) by
         ext x
-        simp [MulAut.conj_apply]]
+        simp]
       rw [conjFrame_zO F0 (g : _), MulAut.conj_apply]
       group
     have hF0 : F0.tO ∈ Subgroup.zpowers F0.zO := by
@@ -1573,7 +1665,7 @@ public theorem exists_frame_sylow_normal_four
         rw [show (MulAut.conj (g : TauCeti.QuadraticMap.orthogonalGroup Q)).symm =
             MulAut.conj ((g : TauCeti.QuadraticMap.orthogonalGroup Q)⁻¹) by
           ext x
-          simp [MulAut.conj_apply]]
+          simp]
         rw [conjFrame_tO F0 (g : _), MulAut.conj_apply]
         group
       have hmem' : cg.symm F.tO ∈ Subgroup.zpowers F0.zO := by

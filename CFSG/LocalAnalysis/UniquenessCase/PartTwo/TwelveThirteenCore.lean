@@ -17,8 +17,8 @@ theorem exists_three_subgroup_bar {K : Type} [Group K] [Finite K] {X T : Subgrou
     ∃ P : Subgroup K, IsElemAbelian 3 P ∧ 9 ≤ Nat.card P ∧ Permutes P T ∧
       (10 ≤ n ∨ X ≠ ⊤ → 9 < Nat.card P ∨ IrrOn (normalizer (P : Set K) ⊓ T) P) := by
   obtain ⟨e⟩ := hX
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT2 : IsPGroup 2 T := hT.isPGroup
   have key : ∀ J : Subgroup K, T ≤ normalizer (J : Set K) →
       (∀ p : ℕ, p.Prime → p ∣ Nat.card J → p = 2 ∨ p = 3) →

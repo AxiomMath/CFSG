@@ -250,31 +250,31 @@ theorem exists_induced_dauts {G : Type} [Group G] {S : Subgroup G} {s z t : G}
   rcases hA with hA | hA <;> rcases hB with hB | hB | hB | hB
   · refine ⟨s ^ 0, pow_mem hS.hs 0, Dsub_ext_of_gens ψ A B hAval hBval (s ^ 0) ?_ ?_⟩
     · rw [conj_pow_s_mul_self, hA]
-    · rw [conj_pow_s_mul_z hz2 hzs hs8 0, hB] <;> norm_num
+    · rw [conj_pow_s_mul_z hz2 hzs hs8 0, hB]; norm_num
   · refine ⟨s ^ 1, pow_mem hS.hs 1, Dsub_ext_of_gens ψ A B hAval hBval (s ^ 1) ?_ ?_⟩
     · rw [conj_pow_s_mul_self, hA]
-    · rw [conj_pow_s_mul_z hz2 hzs hs8 1, hB] <;> norm_num
+    · rw [conj_pow_s_mul_z hz2 hzs hs8 1, hB]
   · refine ⟨s ^ 2, pow_mem hS.hs 2, Dsub_ext_of_gens ψ A B hAval hBval (s ^ 2) ?_ ?_⟩
     · rw [conj_pow_s_mul_self, hA]
-    · rw [conj_pow_s_mul_z hz2 hzs hs8 2, hB] <;> norm_num
+    · rw [conj_pow_s_mul_z hz2 hzs hs8 2, hB]
   · refine ⟨s ^ 3, pow_mem hS.hs 3, Dsub_ext_of_gens ψ A B hAval hBval (s ^ 3) ?_ ?_⟩
     · rw [conj_pow_s_mul_self, hA]
-    · rw [conj_pow_s_mul_z hz2 hzs hs8 3, hB] <;> norm_num
+    · rw [conj_pow_s_mul_z hz2 hzs hs8 3, hB]
   · refine ⟨z * s ^ 3, mul_mem hS.hzS (pow_mem hS.hs 3),
       Dsub_ext_of_gens ψ A B hAval hBval (z * s ^ 3) ?_ ?_⟩
     · rw [conj_z_pow_s hzs hs8 3, hA]
-    · rw [conj_z_pow_s_mul_z hz2 hzs hs8 3, hB, pow_eq_pow_mod _ hs8] <;> norm_num
+    · rw [conj_z_pow_s_mul_z hz2 hzs hs8 3, hB, pow_eq_pow_mod _ hs8]; norm_num
   · refine ⟨z * s ^ 2, mul_mem hS.hzS (pow_mem hS.hs 2),
       Dsub_ext_of_gens ψ A B hAval hBval (z * s ^ 2) ?_ ?_⟩
     · rw [conj_z_pow_s hzs hs8 2, hA]
-    · rw [conj_z_pow_s_mul_z hz2 hzs hs8 2, hB, pow_eq_pow_mod _ hs8] <;> norm_num
+    · rw [conj_z_pow_s_mul_z hz2 hzs hs8 2, hB, pow_eq_pow_mod _ hs8]
   · refine ⟨z * s ^ 1, mul_mem hS.hzS (pow_mem hS.hs 1),
       Dsub_ext_of_gens ψ A B hAval hBval (z * s ^ 1) ?_ ?_⟩
     · rw [conj_z_pow_s hzs hs8 1, hA]
-    · rw [conj_z_pow_s_mul_z hz2 hzs hs8 1, hB, pow_eq_pow_mod _ hs8] <;> norm_num
+    · rw [conj_z_pow_s_mul_z hz2 hzs hs8 1, hB, pow_eq_pow_mod _ hs8]
   · refine ⟨z * s ^ 0, mul_mem hS.hzS (pow_mem hS.hs 0),
       Dsub_ext_of_gens ψ A B hAval hBval (z * s ^ 0) ?_ ?_⟩
     · rw [conj_z_pow_s hzs hs8 0, hA]
-    · rw [conj_z_pow_s_mul_z hz2 hzs hs8 0, hB, pow_eq_pow_mod _ hs8] <;> norm_num
+    · rw [conj_z_pow_s_mul_z hz2 hzs hs8 0, hB, pow_eq_pow_mod _ hs8]
 
 end CFSG.EvenSporadicStandard.Fin76b

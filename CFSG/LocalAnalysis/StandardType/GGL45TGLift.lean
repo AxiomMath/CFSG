@@ -23,7 +23,7 @@ theorem semilinImpl_of_mod_center {π : D.H →* K} {α : MulAut K} {g : GL (Fin
     (hg : g ∈ D.A) {σ : k ≃+* k}
     (h : ∀ y : D.H, ((α (π y))⁻¹ * π (semiH g hg σ y)) ∈ Subgroup.center K) :
     SemilinImpl π α g σ := by
-  haveI hperf : Group.IsPerfect D.H := (Subgroup.isPerfect_iff (H := D.H)).mpr D.perf
+  have hperf : Group.IsPerfect D.H := (Subgroup.isPerfect_iff (H := D.H)).mpr D.perf
   let χ : D.H →* K :=
     { toFun := fun y => (α (π y))⁻¹ * π (semiH g hg σ y)
       map_one' := by simp

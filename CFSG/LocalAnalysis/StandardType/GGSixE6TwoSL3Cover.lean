@@ -40,9 +40,9 @@ theorem sl3_or_psl_of_quotient {X : Type} [Group X] [Finite X] (hperf : commutat
     CFSG.Blueprint.LieModel.statedClassicalModel hP (by decide)
   obtain ⟨F, hF, hFfin, hFcard, hor⟩ :=
     CFSG.Quasithin.H13.S126P31.exists_mulEquiv_psl_or_sl_of_quotient hperf hodd hP'
-  letI : Field F := hF
-  letI : Finite F := hFfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Field F := hF
+  let : Finite F := hFfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h4 : Nat.card F = 2 ^ 2 := by simpa using hFcard
   let e : F ≃+* F4 :=
     CFSG.ClassicalModels.finiteFieldEquivGaloisField F 2 2 (by norm_num) h4

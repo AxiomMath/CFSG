@@ -52,7 +52,7 @@ theorem dvd_of_pow_mul_pow_eq_one {G : Type*} [Group G] {p : ℕ} [hp : Fact p.P
       rintro y (rfl | rfl)
       · exact Subgroup.mem_zpowers _
       · exact hx₁mem))
-    haveI : Finite (Subgroup.zpowers x₀) :=
+    have : Finite (Subgroup.zpowers x₀) :=
       Nat.finite_of_card_ne_zero (by rw [Nat.card_zpowers, hord₀]; exact hp.out.ne_zero)
     have hc := Subgroup.card_le_of_le hle
     rw [hcard, Nat.card_zpowers, hord₀] at hc
@@ -75,8 +75,8 @@ theorem natCast_prime_ne_zero_of_not_dvd {K L : Type} [Field K] [Finite K] [Fiel
     rw [← map_natCast (algebraMap K L)] at h0
     exact (map_eq_zero_iff _ (algebraMap K L).injective).1 h0
   have hdvd : ringChar K ∣ p := (ringChar.spec K p).1 hK0
-  haveI := ringChar.charP K
-  haveI : Fintype K := Fintype.ofFinite K
+  have := ringChar.charP K
+  have : Fintype K := Fintype.ofFinite K
   have hne : ringChar K ≠ 0 := CharP.char_ne_zero_of_finite K (ringChar K)
   have hpK : (ringChar K).Prime :=
     (CharP.char_is_prime_or_zero K (ringChar K)).resolve_right hne
@@ -90,8 +90,8 @@ theorem exists_orderOf_eq_five_of_not_dvd {K : Type} [Field K] [Finite K]
     (h : ¬ 5 ∣ Nat.card K) : ∃ ω : (AlgebraicClosure K)ˣ, orderOf ω = 5 := by
   have hne : ((5 : ℕ) : AlgebraicClosure K) ≠ 0 :=
     natCast_prime_ne_zero_of_not_dvd Nat.prime_five h
-  haveI : NeZero ((5 : ℕ) : AlgebraicClosure K) := ⟨hne⟩
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (AlgebraicClosure K) 5
+  have : NeZero ((5 : ℕ) : AlgebraicClosure K) := ⟨hne⟩
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot (AlgebraicClosure K) 5
   have hζu : IsUnit ζ := hζ.isUnit (by norm_num)
   have hprim : IsPrimitiveRoot hζu.unit 5 :=
     IsPrimitiveRoot.coe_units_iff.1 (by rw [hζu.unit_spec]; exact hζ)
@@ -175,7 +175,7 @@ theorem exists_planeColumns {K : Type} [Field K] [Finite K] {ω : (AlgebraicClos
         rootDiagUnit Tag.E8 (fun l => ω ^ k₁ l) = diagMap D x₁ ∧
         ∀ α, IsRoot Tag.E8 α → charVal (fun i => ((k₀ i : ℕ) : ZMod 5)) α = 0 →
           charVal (fun i => ((k₁ i : ℕ) : ZMod 5)) α = 0 → False := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨x₀, hx₀, x₁, hx₁, hx₀1, -, hgen⟩ := exists_gens_of_plane (p := 5) hE₀p hE₀c
   have hcol : ∀ x ∈ E₀, ∃ k : Fin Tag.E8.rank → ℕ,
       rootDiagUnit Tag.E8 (fun l => ω ^ k l) = diagMap D x := by
@@ -217,7 +217,7 @@ theorem exists_eigenPair_of_langPlaneData {K : Type} [Field K] [Finite K]
     (hE₀p : ∀ x ∈ E₀, x ^ 5 = 1) (hE₀c : Nat.card E₀ = 5 ^ 2) (D : LangPlaneData Tag.E8 K E₀)
     (hreg : ∀ α, IsRoot Tag.E8 α → ¬ D.Kills α) :
     ∃ z₀ z₁ : Fin Tag.E8.rank → ZMod 5, EigenPair D.w ((Nat.card K : ℕ) : ZMod 5) z₀ z₁ := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨ω, hω⟩ := exists_orderOf_eq_five_of_not_dvd hpK
   obtain ⟨x₀, hx₀, x₁, hx₁, hx₀1, hgen, k₀, k₁, ha₀, ha₁, hreg'⟩ :=
     exists_planeColumns hω hE₀p hE₀c D hreg

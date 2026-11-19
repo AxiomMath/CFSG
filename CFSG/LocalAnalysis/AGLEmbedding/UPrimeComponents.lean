@@ -158,7 +158,7 @@ theorem uPrimeHyp_of_isCyclic {X : Type} [Group X] [Finite X] (hp : p.Prime) (R 
   refine uPrimeHyp_of_normalizer_le hp R fun L hL hLX₀ => ?_
   obtain ⟨hcyc, ⟨U₀, hU₀, hU₀p, hNU₀⟩, hk⟩ := hU L hL hLX₀
   exact ⟨fun U hUR hU1 => (inf_le_inf_left L (normalizer_le_normalizer_of_isCyclic hp hcyc
-    (R.isPGroup'.to_le inf_le_left) hU₀ hU₀p hUR hU1)).trans hNU₀, hk⟩
+    (R.isPGroup.to_le inf_le_left) hU₀ hU₀p hUR hU1)).trans hNU₀, hk⟩
 
 theorem ReducedNongeneration.uPrimeHyp_of_rankOne {X : Type} [Group X] [Finite X]
     {R : Sylow p X} {X₀ : Subgroup X} (h : ReducedNongeneration p X R X₀) {K : Subgroup X}
@@ -167,7 +167,7 @@ theorem ReducedNongeneration.uPrimeHyp_of_rankOne {X : Type} [Group X] [Finite X
     (hzc : z ∈ Subgroup.centralizer (K : Set X)) (hk : KFactUPrime p ↥K) : UPrimeHyp p X₀ :=
   uPrimeHyp_of_forall_ne_le h.prime R
     (fun _ hL hLK => h.le_of_ne_component hL hK hLK (two_le_pRank_of_isPGroup_not_isCyclic
-      h.prime h.ne_two (R.isPGroup'.to_le inf_le_left) hnc))
+      h.prime h.ne_two (R.isPGroup.to_le inf_le_left) hnc))
     (h.rankOne_principle hK hnc hzR hzK hzp hzc).1 hk
 
 section Config

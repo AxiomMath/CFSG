@@ -61,7 +61,7 @@ theorem qtwoDB41_blocks {m : ℕ} (hm : 6 ≤ m) {c : Fin m}
     have hG : Nat.card (Multiplicative (DVec m)) = 3 ^ m := by
       have : Nat.card (Multiplicative (DVec m)) = Nat.card (DVec m) := rfl
       rw [this]
-      simp [DVec, Nat.card_fun, Nat.card_zmod]
+      simp [DVec]
     have hp : 3 ^ m = 3 * 3 ^ (m - 1) := by
       conv_lhs => rw [show m = (m - 1) + 1 from by omega]
       rw [pow_succ']
@@ -159,7 +159,7 @@ theorem qtwoDB41_blocks {m : ℕ} (hm : 6 ≤ m) {c : Fin m}
     obtain ⟨k, hk⟩ := qtwoDB41_even_finrank_of_nondegenerate
       (qtwoDB41_polarBilin_isAlt (Q.restrict W)) hWnd
     exact ⟨k, by rw [hk, two_mul]⟩
-  letI : IsElementaryAbelian 3 (qtwoDB41_restrictHom τ.range hWstable).range := hBiso
+  let : IsElementaryAbelian 3 (qtwoDB41_restrictHom τ.range hWstable).range := hBiso
   obtain ⟨I, d, hI, ⟨hindep, hsup, horth⟩, hblocks, hsum, hinf, hrI, hIm, hI3, hm0, hr0,
       hplanes, hnorm, hAll, hmr⟩ :=
     binary_quadratic_three_action_canonical_kernel_blocks (Q.restrict W) hWnd hk
@@ -185,7 +185,7 @@ theorem qtwoDB41_blocks {m : ℕ} (hm : 6 ≤ m) {c : Fin m}
         omega
       have hV₀fin : Module.finrank (ZMod 2) V₀ = 0 := by omega
       have hV₀bot : V₀ = ⊥ := Submodule.finrank_eq_zero.mp hV₀fin
-      haveI : IsElementaryAbelian 3 τ.range := qtwoDB41_isElementaryAbelian_range τ
+      have : IsElementaryAbelian 3 τ.range := qtwoDB41_isElementaryAbelian_range τ
       have htype : CFSG.GroupTheory.WeirSylow.IsPlusType Q ↔ Even m :=
         qtwoDB41_fixedFree_type hQ τ.range hτO hEcard (hV₀ ▸ hV₀bot) hdim2
       exact hnot htype
@@ -195,7 +195,7 @@ theorem qtwoDB41_blocks {m : ℕ} (hm : 6 ≤ m) {c : Fin m}
   have hPlane : ∀ N ∈ I, ∀ (P : Fin (d N) → Submodule (ZMod 2) ↥W) (i : Fin (d N)),
       (⨆ j, P j = fixedSub N) → P i = fixedSub N := by
     intro N hN P i hsup
-    haveI : Subsingleton (Fin (d N)) := by rw [hd1 N hN]; infer_instance
+    have : Subsingleton (Fin (d N)) := by rw [hd1 N hN]; infer_instance
     refine le_antisymm ?_ ?_
     · rw [← hsup]; exact le_iSup P i
     · rw [← hsup]; exact iSup_le fun j => by rw [Subsingleton.elim j i]

@@ -24,10 +24,10 @@ theorem false_of_psl2_even {Y : Type} [Group Y] [Finite Y] (hlayer : goldschmidt
   have hp : p.Prime := by
     rcases hf with rfl | rfl | rfl <;> simp [p] <;> norm_num
   have hpf : p ∣ 2 ^ f - 1 := by
-    rcases hf with rfl | rfl | rfl <;> simp [p] <;> norm_num
+    rcases hf with rfl | rfl | rfl <;> simp [p]
   have hp57 : p = 5 ∨ p = 7 := by
     rcases hf with rfl | rfl | rfl <;> simp [p]
-  haveI : J.Normal := CFSG.GH74.GLS.Th2.P412.GoldY.component_normal hlayer hJ
+  have : J.Normal := CFSG.GH74.GLS.Th2.P412.GoldY.component_normal hlayer hJ
   obtain ⟨d, hdJ, hdJinf, hdp, u, hu, hne⟩ :=
     exists_p_element_of_component D (f := f) (p := p) hf2 hp hpf e
   have hdD : ∀ x ∈ (D : Subgroup Y), d * x * d⁻¹ ∈ (D : Subgroup Y) :=

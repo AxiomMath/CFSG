@@ -80,7 +80,7 @@ theorem coprime_kernel_lifts_pSubgroup
   have himageTop : Subgroup.map restrictedMap (sourceSylow : Subgroup preimageGroup) = ⊤ := by
     rw [← Sylow.coe_mapSurjective hrestrictedSurjective, hsourceSylow, htargetTop]
   let liftGroup := Subgroup.map preimageGroup.subtype (sourceSylow : Subgroup preimageGroup)
-  have hliftPGroup : IsPGroup prime liftGroup := sourceSylow.isPGroup'.map preimageGroup.subtype
+  have hliftPGroup : IsPGroup prime liftGroup := sourceSylow.isPGroup.map preimageGroup.subtype
   have himage : Subgroup.map homomorphism liftGroup = subgroup := by
     have hmapped := congrArg (Subgroup.map subgroup.subtype) himageTop
     rw [Subgroup.map_map, ← MonoidHom.range_eq_map, subgroup.subtype_range] at hmapped

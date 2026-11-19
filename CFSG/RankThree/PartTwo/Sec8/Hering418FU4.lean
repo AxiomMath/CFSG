@@ -40,7 +40,7 @@ theorem kF418ModelOn47_uFourSix_of_odd (hodd : U4OddInner) :
     by_contra h
     exact not_alt47 hk3 e (h47 b hbord ⟨hbN, h⟩)
   rcases Nat.even_or_odd k with he | ho
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hbound := bound_inner_of_pRank (Sec4.quotientCenterCongr e)
       (Sec4.HeringUnitary.pRank_projSU_four_le_two (p := 2) (by norm_num) hk
         (Sec21.two_pow_mod_three_of_even he))

@@ -260,7 +260,7 @@ private lemma k330cM23Ng2_moves_22 :
 theorem automizerBig_M23 {J : Type} [Group J] [Finite J]
     (e : IsSpor J .M23) : AutomizerBig J := by
   obtain ⟨e⟩ := e
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M23) := by
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M23) := by
     dsimp [CFSG.Blueprint.NativeSporadic.Carrier]
     infer_instance
   refine automizerBig_of_mulEquiv e ?_
@@ -290,7 +290,7 @@ theorem automizerBig_M23 {J : Type} [Group J] [Finite J]
     have e9 : (Fin 3 × Fin 3) ≃ ↥k330cM23X := Equiv.ofBijective f ⟨hf_inj, hf_surj⟩
     have hcard : Nat.card ↥k330cM23X = Nat.card (Fin 3 × Fin 3) := Nat.card_congr e9.symm
     rw [hcard]
-    simp [Nat.card_prod]
+    simp
   have hE : IsElemAbelian 3 k330cM23X := by
     refine ⟨?_, ?_⟩
     · refine Subgroup.isMulCommutative_closure
@@ -313,7 +313,7 @@ theorem automizerBig_M23 {J : Type} [Group J] [Finite J]
         rw [← pow_mul, Nat.mul_comm j 3, pow_mul, hB3, one_pow]
       rw [hAi, hBj, one_mul]
   have hS : IsSylowOf 3 k330cM23X ⊤ := by
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     refine CFSG.ABGLocalTools.isSylowOf_of_card le_top ?_
     rw [h9, Subgroup.card_top, CFSG.RankThree.PartTwo.Sec21.Item21LateProof.card_M23_eq,
       k330cFactorThree]

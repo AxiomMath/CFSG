@@ -64,7 +64,7 @@ theorem normal_cases_M
     (M ≤ piM.ker ∨ piM.ker ≤ M) ∧
       (Nat.card M = 64 ∨ Nat.card M = 3 * 64 ∨ Nat.card M = 1080 * 64 ∨
         Nat.card M = 2160 * 64) := by
-  haveI := normal_KM
+  have := normal_KM
   have hc : Nat.card piM.ker = 3 * Nat.card KM := by rw [card_ker_piM, card_KM]
   have h := card_normal_cases piM piM_surjective LM_perfect ker_le_LM map_LM_le KM_le_ker hc hKM
   rw [card_KM] at h
@@ -126,7 +126,7 @@ theorem conj_mem_img11_KSp
   obtain ⟨σ, rfl⟩ := mem_Sz_iff.1 hg
   rw [← map_rhoM_KM] at hk ⊢
   obtain ⟨κ, hκ, rfl⟩ := hk
-  haveI := normal_KM
+  have := normal_KM
   exact ⟨σ * κ * σ⁻¹, ‹KM.Normal›.conj_mem κ hκ σ, by rw [map_mul, map_mul, map_inv]⟩
 
 theorem normal_card_model
@@ -142,7 +142,7 @@ theorem normal_card_model
   have hcard : Nat.card (M.comap rhoM) = Nat.card M := by
     conv_rhs => rw [← h1]
     exact (Subgroup.card_map_of_injective rhoM_injective).symm
-  haveI : (M.comap rhoM).Normal := ⟨fun x hx g => by
+  have : (M.comap rhoM).Normal := ⟨fun x hx g => by
     show rhoM (g * x * g⁻¹) ∈ M
     rw [map_mul, map_mul, map_inv]
     exact hn _ (mem_Sz_iff.2 ⟨g, rfl⟩) _ hx⟩

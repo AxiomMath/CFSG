@@ -36,7 +36,7 @@ private def s16h_sl4_stabSub {W : Type*} [CommGroup W] (S : Subgroup W) : Subgro
     show S.map (a⁻¹).toMonoidHom = S
     have hcomp : (a⁻¹).toMonoidHom.comp a.toMonoidHom = MonoidHom.id W := by
       ext x
-      simpa using MulEquivClass.coe_symm_apply_apply a x
+      simp
     have hh := congrArg (fun T : Subgroup W => T.map (a⁻¹).toMonoidHom) ha
     rw [Subgroup.map_map, hcomp, Subgroup.map_id] at hh
     exact hh.symm
@@ -45,7 +45,7 @@ private lemma s16h_sl4_map_inv_eq_self {W : Type*} [CommGroup W] {S : Subgroup W
     {σ : MulAut W} (h : S.map σ.toMonoidHom = S) : S.map (σ⁻¹).toMonoidHom = S := by
   have hcomp : (σ⁻¹).toMonoidHom.comp σ.toMonoidHom = MonoidHom.id W := by
     ext x
-    simpa using MulEquivClass.coe_symm_apply_apply σ x
+    simp
   have hh := congrArg (fun T : Subgroup W => T.map (σ⁻¹).toMonoidHom) h
   rw [Subgroup.map_map, hcomp, Subgroup.map_id] at hh
   exact hh.symm

@@ -14,6 +14,7 @@ open CFSG.RankThree.PartTwo.Late
 
 variable {G : Type} [Group G] [Finite G] {A B X M : Subgroup G} {c : G}
 
+omit [Finite G] in
 private theorem le_normalizer_inf_sup {P Q R Y : Subgroup G}
     (hP : Y ≤ Subgroup.normalizer (P : Set G)) (hQ : Y ≤ Subgroup.normalizer (Q : Set G))
     (hR : Y ≤ Subgroup.normalizer (R : Set G)) :
@@ -24,7 +25,7 @@ private theorem le_normalizer_inf_sup {P Q R Y : Subgroup G}
 
 theorem K0Setting.inf_sup_theta_eq_bot (h46 : Sec4.Item4_6) (hC : Sec13.KS131CenterList46)
     (h45 : Sec4.Item4_5) (h : K0Setting G A B X M c) {K₀ : Subgroup G}
-    (hK₀ : K₀ ∈ thetaComponentsIn M) (h3 : 3 ∣ Nat.card K₀)
+    (hK₀ : K₀ ∈ thetaComponentsIn M) (_h3 : 3 ∣ Nat.card K₀)
     (hn : M ≤ Subgroup.normalizer (K₀ : Set G)) :
     B ⊓ (K₀ ⊔ inSubgroup (aschbacherSolvableCore 3) M) = ⊥ := by
   have hK₀M : K₀ ≤ M := le_of_mem_thetaComponentsIn hK₀
@@ -195,7 +196,7 @@ theorem eq_of_imM_eq_of_isPerfect {K K₀ : Subgroup G} (hK₀ : K₀ ∈ thetaC
   have hN : (K.subgroupOf K₀).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hKK₀).mpr (hK₀M.trans hKn)
   have hR : Group.IsSolvable ↥(K₀ ⊓ inSubgroup (aschbacherSolvableCore 3) M) := by
-    haveI := hθs
+    have := hθs
     exact Group.isSolvable_of_isSolvable_injective
       (f := Subgroup.inclusion
         (inf_le_right : K₀ ⊓ inSubgroup (aschbacherSolvableCore 3) M ≤

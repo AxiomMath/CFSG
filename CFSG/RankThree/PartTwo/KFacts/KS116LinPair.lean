@@ -62,7 +62,7 @@ theorem no_commuting_perfect_pair_aux {F : Type} [Field F] [Finite F] :
     have h' : (ρ a * ρ b) v = (ρ b * ρ a) v := by rw [hc a ha b hb]
     rwa [Module.End.mul_apply, Module.End.mul_apply] at h'
   have h2 : 2 ≤ Module.finrank F V := two_le_finrank_of_perfect_nontrivial ρ hA hA1
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := F) (by omega)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := F) (by omega)
   by_cases hcase1 : ∃ U : Submodule F V, (∀ h : H, U ≤ U.comap (ρ h)) ∧ U ≠ ⊥ ∧ U ≠ ⊤
   ·
     obtain ⟨U, hUinv, hU0, hUtop⟩ := hcase1

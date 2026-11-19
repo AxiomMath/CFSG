@@ -575,7 +575,7 @@ theorem j1_exists_involution_commuting {G : Type} [Group G] [Finite G]
     have hH : IsPGroup 3 (Subgroup.zpowers (z0 : G)) :=
       IsPGroup.of_card (n := 1) (by simp [Nat.card_zpowers, hz0G])
     exact ⟨hH.toSylow (hidx _ (by simp [Nat.card_zpowers, hz0G])), rfl⟩
-  haveI : Finite (Sylow 3 G) :=
+  have : Finite (Sylow 3 G) :=
     Finite.of_injective (fun P : Sylow 3 G => (P : Set G)) SetLike.coe_injective
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G P2 P1
   have hzP1 : z ∈ ((P1 : Sylow 3 G) : Subgroup G) := by
@@ -652,13 +652,13 @@ theorem exists_sylow_two_le_of_card {G : Type} [Group G] [Finite G]
   obtain ⟨H, hH⟩ : ∃ H : Subgroup G, H = (Q : Subgroup C).map C.subtype := ⟨_, rfl⟩
   have hHp : IsPGroup 2 H := by
     rw [hH]
-    exact (Sylow.isPGroup' Q).map C.subtype
+    exact (Sylow.isPGroup Q).map C.subtype
   have hHcard : Nat.card H = Nat.card (Q : Subgroup C) := by
     rw [hH]
     exact Subgroup.card_map_of_injective C.subtype_injective
   obtain ⟨T, hHT⟩ := IsPGroup.exists_le_sylow hHp
   have hTcard : Nat.card (T : Subgroup G) ≤ 8 := by
-    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp T.isPGroup'
+    obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp T.isPGroup
     have hdvd : Nat.card (T : Subgroup G) ∣ 175560 := by
       have h := Subgroup.card_subgroup_dvd_card (T : Subgroup G)
       rwa [hG] at h
@@ -682,8 +682,8 @@ theorem kFactJ1ClosureThree_holds :
   have hLc : Nat.card ↥L = 175560 := by
     rw [Nat.card_congr φ.toEquiv]
     exact CFSG.Sporadic.J1.card_J
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let zL : ↥L := ⟨z, hzL⟩
   have hzL3 : orderOf zL = 3 := by rw [Subgroup.orderOf_mk]; exact hz3
   have hcent : ∀ t : ↥L, orderOf t = 2 →
@@ -751,7 +751,7 @@ theorem kFactJ1ClosureThree_holds :
     exact hN ⟨hg, g.2⟩
   have hmod : H.index ≡ 1 [MOD 3] := index_modEq_one_of_normalizer_le P hH
   have hT' : CFSG.QuasithinUnique.IsSylowTwoOf (T : Subgroup ↥L) ⊤ :=
-    ⟨le_top, T.isPGroup', by
+    ⟨le_top, T.isPGroup, by
       have h : (((T : Subgroup ↥L).subgroupOf ⊤)).index = (T : Subgroup ↥L).index :=
         Subgroup.relIndex_top_right _
       rw [h]

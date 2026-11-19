@@ -170,10 +170,10 @@ private lemma eigenspace_orthogonal_of_unitary {K : Type} [Field K] [Finite K] [
     (hD : ∀ u v : Fin n → K,
       (CFSG.LieType.BorelTits.unitaryForm 2 f hKf n).β (D u) (D v) =
       (CFSG.LieType.BorelTits.unitaryForm 2 f hKf n).β u v)
-    {μ ν : K} (hμ3 : μ ^ 3 = 1) (hν3 : ν ^ 3 = 1) (hμν : μ ≠ ν) (hq3 : 3 ∣ 2 ^ f + 1)
+    {μ ν : K} (hμ3 : μ ^ 3 = 1) (_hν3 : ν ^ 3 = 1) (hμν : μ ≠ ν) (hq3 : 3 ∣ 2 ^ f + 1)
     {u v : Fin n → K} (hu : u ∈ D.eigenspace μ) (hv : v ∈ D.eigenspace ν) :
     (CFSG.LieType.BorelTits.unitaryForm 2 f hKf n).β u v = 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set F := CFSG.LieType.BorelTits.unitaryForm 2 f hKf n with hF
   rw [Module.End.mem_eigenspace_iff] at hu hv
   have h1 : F.β (D u) (D v) = F.β u v := hD u v
@@ -274,7 +274,7 @@ theorem uni5_kg7_on_R_holds :
   obtain ⟨f, hf1, hqpow⟩ := ToralCensus.exists_eq_two_pow_of_card_eq_sq hK
   subst hqpow
   have h : UnitaryFieldData 2 f K := ToralCensus.unitaryFieldData_of_card_eq_sq hK hf1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hodd : Odd f := (gffa2_three_dvd_pow_add_one_iff f).mp hq3
   have h5 : ¬ 5 ∣ 2 ^ f + 1 := by
     intro hdvd
@@ -494,7 +494,7 @@ theorem uni5_kg7_on_R_holds :
   let Eα : Submodule K (Fin 5 → K) := D.eigenspace α
   have hEα3 : Module.finrank K Eα = 3 := hαdim
   have hα0 : α ≠ 0 := by rintro rfl; norm_num at hα3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3card : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units, hK]
     have hsq : (2 ^ f) ^ 2 - 1 = (2 ^ f + 1) * (2 ^ f - 1) := by
@@ -810,7 +810,7 @@ theorem uni5_kg7_on_R_holds :
       have h1 : φ ∘ ((x : Matrix (Fin 5) (Fin 5) K) *ᵥ v) =
           (x : Matrix (Fin 5) (Fin 5) K).map φ *ᵥ (φ ∘ v) := by
         ext i
-        simp only [Function.comp_apply, Matrix.mulVec_apply, Matrix.map_apply, dotProduct]
+        simp only [Function.comp_apply, Matrix.mulVec_apply, dotProduct]
         rw [map_sum]
         apply Finset.sum_congr rfl
         intro j hj

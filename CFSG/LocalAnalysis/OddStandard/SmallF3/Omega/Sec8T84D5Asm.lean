@@ -85,7 +85,7 @@ theorem sec8t84d5_pt (F : Sec8T84Base) {G : Type} [Group G] [Finite G] {t : G} {
       rwa [hPt_sup] at h1
     have hPQ_le_N : (S ⊓ L) ⊔ oddCoreIn N ≤ N :=
       sup_le hPN (oddCoreIn_normal N).1
-    haveI hQnormN : ((oddCoreIn N).subgroupOf N).Normal := (oddCoreIn_normal N).2
+    have hQnormN : ((oddCoreIn N).subgroupOf N).Normal := (oddCoreIn_normal N).2
     have ht' : (⟨t, hPQ_le_N ht_sup⟩ : ↥N) ∈
         (S ⊓ L).subgroupOf N ⊔ (oddCoreIn N).subgroupOf N := by
       rw [← Subgroup.subgroupOf_sup hPN (oddCoreIn_normal N).1]

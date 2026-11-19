@@ -20,19 +20,19 @@ private def ompOrb_omHalfVec (n : ℕ) (h : Fin n) : Fin n → ℤ :=
 private theorem ompOrb_omHalfVec_eq_one {n : ℕ} {h a : Fin n} (_hspin : h.val + 2 = n)
     (ha : a.val + 1 ≠ n) : ompOrb_omHalfVec n h a = 1 := by
   unfold ompOrb_omHalfVec
-  rw [if_neg]
+  rw [ite_eq_right]
   rintro ⟨-, h⟩
   exact ha h
 
 private theorem ompOrb_omHalfVec_eq_neg_one {n : ℕ} {h a : Fin n} (hspin : h.val + 2 = n)
     (ha : a.val + 1 = n) : ompOrb_omHalfVec n h a = -1 := by
   unfold ompOrb_omHalfVec
-  rw [if_pos ⟨hspin, ha⟩]
+  rw [ite_eq_left ⟨hspin, ha⟩]
 
 private theorem ompOrb_omHalfVec_zero {n : ℕ} {h : Fin n} (hn : 1 < n) :
     ompOrb_omHalfVec n h ⟨0, by omega⟩ = 1 := by
   unfold ompOrb_omHalfVec
-  rw [if_neg]
+  rw [ite_eq_right]
   rintro ⟨-, h⟩
   simp only at h
   omega
@@ -63,12 +63,12 @@ private theorem ompOrb_stdReflD_omHalfVec_of_not_lt {n : ℕ} {h k : Fin n}
   rw [hkp]
   funext a
   by_cases hah : a = h
-  · rw [hah, if_pos (Or.inl hspin), Equiv.swap_apply_left,
+  · rw [hah, ite_eq_left (Or.inl hspin), Equiv.swap_apply_left,
       ompOrb_omHalfVec_eq_neg_one hspin (a := k) (by omega),
       ompOrb_omHalfVec_eq_one hspin (a := h) (by omega)]
     norm_num
   · by_cases hak : a = k
-    · rw [hak, if_pos (Or.inr (by omega)), Equiv.swap_apply_right,
+    · rw [hak, ite_eq_left (Or.inr (by omega)), Equiv.swap_apply_right,
         ompOrb_omHalfVec_eq_neg_one hspin (a := k) (by omega),
         ompOrb_omHalfVec_eq_one hspin (a := h) (by omega)]
       norm_num
@@ -76,7 +76,7 @@ private theorem ompOrb_stdReflD_omHalfVec_of_not_lt {n : ℕ} {h k : Fin n}
         rintro (h' | h')
         · exact hah (Fin.ext (by omega))
         · exact hak (Fin.ext (by omega))
-      rw [if_neg hiff, Equiv.swap_apply_of_ne_of_ne hah hak,
+      rw [ite_eq_right hiff, Equiv.swap_apply_of_ne_of_ne hah hak,
         ompOrb_omHalfVec_eq_one hspin (a := a) (by omega)]
       norm_num
 
@@ -86,7 +86,7 @@ private theorem ompOrb_stdReflD_omHalfVec_of_ne {n : ℕ} {h k : Fin n}
   have hone : ompOrb_omHalfVec n h = fun _ => 1 := by
     funext a
     unfold ompOrb_omHalfVec
-    rw [if_neg]
+    rw [ite_eq_right]
     rintro ⟨h', -⟩
     have := h.isLt
     omega
@@ -153,17 +153,17 @@ private theorem ompOrb_spSgnOn_injective {n : ℕ} :
 private theorem ompOrb_spSgnOn_of_not_mem {n : ℕ} {S : Finset (Fin n)} {a : Fin n} (h : a ∉ S) :
     spSgnOn S a = 1 := by
   unfold spSgnOn
-  rw [if_neg h]
+  rw [ite_eq_right h]
 
 private theorem ompOrb_spSgnOn_of_mem {n : ℕ} {S : Finset (Fin n)} {a : Fin n} (h : a ∈ S) :
     spSgnOn S a = -1 := by
   unfold spSgnOn
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 private theorem ompOrb_omHalfVec_one {n : ℕ} {h : Fin n} (hn : 3 ≤ n) :
     ompOrb_omHalfVec n h ⟨1, by omega⟩ = 1 := by
   unfold ompOrb_omHalfVec
-  rw [if_neg]
+  rw [ite_eq_right]
   rintro ⟨-, hh⟩
   simp only at hh
   omega

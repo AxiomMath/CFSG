@@ -119,6 +119,6 @@ theorem rootGroup_ext_le_leviC {γ : Fin m → ℤ} (hγ : ext e γ ∈ D.roots)
 include hct in
 theorem coe_nC (i : Fin m) : (nC D n e i : G) = n (e i) := by
   have h : n (e i) ∈ leviC D e := n_mem_leviC_of_mem_range hct ⟨i, rfl⟩
-  rw [nC, dif_pos h]
+  rw [nC, dite_eq_left h]
 
 end CFSG.LieType.TitsSimplicity.Levi

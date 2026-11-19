@@ -15,11 +15,13 @@ variable {X : Type} [Group X] [Finite X] {D : Set X}
 private def fixedFreeCount_CQ (Q : Subgroup X) (u : X) : Subgroup X :=
   Q ⊓ Subgroup.centralizer ({u} : Set X)
 
+omit [Finite X] in
 private lemma fixedFreeCount_mem_CQ {Q : Subgroup X} {u y : X} :
     y ∈ fixedFreeCount_CQ Q u ↔ y ∈ Q ∧ Commute y u := by
   rw [fixedFreeCount_CQ, Subgroup.mem_inf, Subgroup.mem_centralizer_singleton_iff]
   rfl
 
+omit [Finite X] in
 private lemma fixedFreeCount_ncard_conj_eq_relIndex (Q : Subgroup X) (u : X) :
     ((fun y => y * u * y⁻¹) '' (Q : Set X)).ncard =
       (Q ⊓ Subgroup.centralizer ({u} : Set X)).relIndex Q :=
@@ -61,7 +63,7 @@ private theorem fixedFreeCount_card_mul_card_inf_of_setMul {G : Type*} [Group G]
     (hmul : ∀ q ∈ Q, ∃ h ∈ H, ∃ k ∈ K, h * k = q) :
     Nat.card Q * Nat.card ↥(H ⊓ K) = Nat.card H * Nat.card K := by
   classical
-  letI : MulAction (H × K) G :=
+  let : MulAction (H × K) G :=
     { smul := fun p x => (p.1 : G) * x * (p.2 : G)⁻¹
       one_smul := by
         intro x
@@ -180,6 +182,7 @@ private theorem fixedFreeCount_card_Q_eq_centralizer_mul_sq (hS : Setup X D)
   rw [hSn] at h
   exact h
 
+omit [Finite X] in
 private theorem fixedFreeCount_conj_pow (hS : Setup X D) {a b : X} (ha : a ∈ D)
     (hb : b ∈ D) : ∀ j : ℕ, a * (a * b) ^ j * a = ((a * b) ^ j)⁻¹ := by
   have haxa : a * (a * b) * a = (a * b)⁻¹ := by
@@ -430,7 +433,7 @@ theorem orderOf_mul_dvd_sq_sub_one (hS : Setup X D) {Q : Subgroup X} [Q.Normal]
     rwa [hsub] at hdvdS
   have hodd : Odd (orderOf (a * b)) := hS.oddT.odd_of_not_commute ha hb hab
   have hCQ2 : IsPGroup 2 (fixedFreeCount_CQ Q (a * b)) := hQ.to_le inf_le_left
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq hCQ2
   have hcop : Nat.Coprime (orderOf (a * b)) (Nat.card (fixedFreeCount_CQ Q (a * b))) := by
     rw [hk]

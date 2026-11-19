@@ -9,7 +9,7 @@ namespace CFSG.LocalAnalysis.RankThreeUC.ProofSupport.CoprimeQuotientFaithfulnes
 
 open CFSG.LargeExtraspecial.RepresentationSupport.ExtraspecialOddQuotientAutFaithfulness
 
-theorem injective {E : Type*} [Group E] [Finite E] {p : ℕ} (hp : Nat.Prime p)
+theorem injective {E : Type*} [Group E] [Finite E] {p : ℕ} (_hp : Nat.Prime p)
     (hE : CFSG.IsExtraspecialPGroup p E) (hexp : Monoid.exponent E = p)
     (C : Subgroup (MulAut E)) (hC : Nat.Coprime (Nat.card C) p) :
     Function.Injective ((quotientHom E).comp C.subtype) := by

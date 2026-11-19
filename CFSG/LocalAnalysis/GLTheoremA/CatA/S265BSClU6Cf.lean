@@ -118,12 +118,12 @@ theorem exists_common_frame_six (h : UnitaryFieldData 2 1 K) {ω : K} (hω : ω 
     refine congrArg diagonal (funext fun k => ?_)
     have e1 : (![1, 1, 1, 1, ω, 1] : Fin 6 → K) (π k) = ξ₁ k := congrArg Prod.fst (hπ k)
     rw [← e1, hv₁]
-    exact if_congr (Equiv.apply_eq_iff_eq_symm_apply π) rfl rfl
+    exact if_congr ((Iff.symm (_root_.Equiv.eq_symm_apply π))) rfl rfl
   · rw [hξ₂]
     refine congrArg diagonal (funext fun k => ?_)
     have e2 : (![1, 1, 1, 1, 1, ω] : Fin 6 → K) (π k) = ξ₂ k := congrArg Prod.snd (hπ k)
     rw [← e2, hv₂]
-    exact if_congr (Equiv.apply_eq_iff_eq_symm_apply π) rfl rfl
+    exact if_congr ((Iff.symm (_root_.Equiv.eq_symm_apply π))) rfl rfl
 
 end CFSG.LocalAnalysis.GLTheoremA.S265.BSCl
 

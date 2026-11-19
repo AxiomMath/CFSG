@@ -31,6 +31,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 namespace HS9
 
+omit [Finite G] in
 theorem h352_of (hc : Ctx M Q Z B) (h35 : CQt Q Z (LB M Q B) = ((B ⊔ Z : Subgroup G) : Set G)) :
     ∀ m ∈ M, CQt Q Z (LB M Q (conjSubgroup m B)) =
       ((conjSubgroup m B ⊔ Z : Subgroup G) : Set G) := fun _ hm => hc.CQt_conj hm h35
@@ -63,6 +64,7 @@ theorem conj_LB_eq_of_forall_comm_mem_Z (hc : Ctx M Q Z B) {g : G} (hg : g ∈ M
   have key := hc.conj_LB_eq_of_conj_BZ hg M.one_mem hBZ
   rwa [conjSubgroup_one] at key
 
+omit [Finite G] in
 theorem Q_le_pCoreIn (hc : Ctx M Q Z B) {X : Subgroup G} (hQX : Q ≤ X) (hXM : X ≤ M) :
     Q ≤ inSubgroup (pCore 2) X := by
   have hQn : (Q.subgroupOf X).Normal :=
@@ -106,7 +108,7 @@ theorem Q1_le_Wt (hc : Ctx M Q Z B) {s : G} (hsH : s ∈ H0 M Z) {V : Subgroup G
   intro x hx
   exact ⟨hx.1, sec39_centralizer_symm h6 hx⟩
 
-theorem conjB_le_Wt_of_mem_F {hc : Ctx M Q Z B} {n : ℕ} {t : G} {Z0 B' F : Subgroup G}
+theorem conjB_le_Wt_of_mem_F {hc : Ctx M Q Z B} {_n : ℕ} {t : G} {Z0 B' F : Subgroup G}
     (hB'Q : B' ≤ Q) (hZ0L : Z0 ≤ LB M Q B)
     (hV : ∀ s ∈ Z0, s ∉ Q → ⁅Q, Subgroup.zpowers s⁆ ⊔ Z = Vt M (LB M Q B) B Z t)
     {s : G} (hsZ : s ∈ Z0) (hsQ : s ∉ Q) (hsF : s ∈ F)

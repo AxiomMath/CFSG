@@ -19,18 +19,18 @@ variable {D : Data G} {L D₃ Y H : Subgroup G}
 theorem opp_le_of_le_normalizer (S : SliceCore D L D₃ Y H) {E N : Subgroup G} (hEX : E ≤ Opp 3 Y)
     (hE3 : Nat.card E = 3) (hEN : E ≤ N) (hHN : H ≤ normalizer (N : Set G)) : Opp 3 Y ≤ N := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXH : Opp 3 Y ≤ H := (opp_le 3 Y).trans S.Y_le_H
   let N₀ : Subgroup ↥(Opp 3 Y) := N.subgroupOf (Opp 3 Y)
-  haveI hN₀ : N₀.Normal := ⟨fun n hn g => by
+  have hN₀ : N₀.Normal := ⟨fun n hn g => by
     have h1 := (Subgroup.mem_normalizer_iff.1 (hHN (hXH g.2)) (n : G)).1
       (Subgroup.mem_subgroupOf.1 hn)
     exact Subgroup.mem_subgroupOf.2 (by simpa using h1)⟩
   let π : ↥(Opp 3 Y) →* Bar2 (Opp 3 Y) := uc22p21cPi (Opp 3 Y)
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
-  haveI : (N₀.map π).Normal := hN₀.map π hπs
-  haveI := S.isSimpleGroup_bar2_opp
-  haveI : Nontrivial ↥E := Finite.one_lt_card_iff_nontrivial.1 (by rw [hE3]; norm_num)
+  have : (N₀.map π).Normal := hN₀.map π hπs
+  have := S.isSimpleGroup_bar2_opp
+  have : Nontrivial ↥E := Finite.one_lt_card_iff_nontrivial.1 (by rw [hE3]; norm_num)
   obtain ⟨e, he1⟩ := exists_ne (1 : ↥E)
   have he3 : (e : G) ^ 3 = 1 := by
     have h := pow_card_eq_one' (G := ↥E) (x := e)
@@ -92,12 +92,12 @@ theorem mem_calH9 (hK3 : StronglyEmbeddedThree) (hK : UCK.K332Cyc) (h82 : F08.R8
     (hSg : UC6S846.SigmaStd D) (h614 : UC6.R6_14 D) (h76 : F07.R76Sig D) (hKF7 : KF7Use D)
     (S : SliceCore D L D₃ Y H) : H ∈ F09.calH9 D Y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine ⟨S.Y_le_H, S.not_H_le_M, ?_⟩
   obtain ⟨E₀, hE₀X, hE₀3, -⟩ := S.exists_order_three_le_opp
   have hE₀L9 : E₀ ≤ F09.L9 Y H := fun x hx =>
     le_iSup (fun h : ↥H => (Opp 3 Y).map (MulAut.conj (h : G)).toMonoidHom) 1
-      (Subgroup.mem_map.2 ⟨x, hE₀X hx, by simp [MulAut.conj_apply]⟩)
+      (Subgroup.mem_map.2 ⟨x, hE₀X hx, by simp⟩)
   have hge : 1 ≤ CFSG.Open.pRank 3 (F09.L9 Y H) :=
     UC6S846.le_pRank' Nat.prime_three hE₀L9 (CFSG.GroupTheory.isElemAbelian_of_card_prime hE₀3)
       (k := 1) (by simpa using hE₀3)

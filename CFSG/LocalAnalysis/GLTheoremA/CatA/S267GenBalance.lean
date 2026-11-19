@@ -20,10 +20,12 @@ open scoped commutatorElement
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 private theorem map_conj_one (K : Subgroup Ω) : K.map (MulAut.conj (1 : Ω)).toMonoidHom = K := by
   ext x
   simp
 
+omit [Finite Ω] in
 private theorem map_conj_map_conj (K : Subgroup Ω) (a b : Ω) :
     (K.map (MulAut.conj a).toMonoidHom).map (MulAut.conj b).toMonoidHom =
       K.map (MulAut.conj (b * a)).toMonoidHom := by
@@ -32,11 +34,13 @@ private theorem map_conj_map_conj (K : Subgroup Ω) (a b : Ω) :
   ext x
   simp [mul_assoc]
 
+omit [Finite Ω] in
 private theorem map_conj_eq_of_mem_normalizer {K : Subgroup Ω} {a : Ω}
     (ha : a ∈ Subgroup.normalizer (K : Set Ω)) : K.map (MulAut.conj a).toMonoidHom = K := by
   have h := CFSG.LocalAnalysis.GLTheoremB.mem_normalizer_iff_gLBConj_eq.1 (Subgroup.inv_mem _ ha)
   simpa only [GLBConj, inv_inv] using h
 
+omit [Finite Ω] in
 private theorem glaPComponent_map_conj {p : ℕ} {X K : Subgroup Ω} (hK : GLAPComponent p X K)
     {g : Ω} (hg : g ∈ Subgroup.normalizer (X : Set Ω)) :
     GLAPComponent p X (K.map (MulAut.conj g).toMonoidHom) := by
@@ -44,6 +48,7 @@ private theorem glaPComponent_map_conj {p : ℕ} {X K : Subgroup Ω} (hK : GLAPC
   rw [CFSG.LocalAnalysis.GLTheoremB.mem_normalizer_iff_gLBConj_eq.1 (Subgroup.inv_mem _ hg)] at h
   simpa only [GLBConj, inv_inv] using h
 
+omit [Finite Ω] in
 private theorem conj_mem_closureIn {I H : Subgroup Ω} {g u : Ω} (hg : g ∈ H)
     (hu : u ∈ closureIn I H) : g * u * g⁻¹ ∈ closureIn I H := by
   have hle : closureIn I H ≤ (closureIn I H).comap (MulAut.conj g).toMonoidHom := by
@@ -52,6 +57,7 @@ private theorem conj_mem_closureIn {I H : Subgroup Ω} {g u : Ω} (hg : g ∈ H)
     exact le_iSup₂_of_le (g * a) (H.mul_mem hg ha) le_rfl
   exact hle hu
 
+omit [Finite Ω] in
 private theorem not_le_centralizer_self {K : Subgroup Ω} (hK : CFSG.Open.IsQuasisimple ↥K) :
     ¬ K ≤ Subgroup.centralizer (K : Set Ω) := by
   intro h
@@ -77,7 +83,7 @@ private theorem commutator_eq_bot_of_isComponentOf {X K₁ K₂ : Subgroup Ω}
 private theorem glaPPrimeCore_ne_top {p : ℕ} (hp : p.Prime) {X L : Subgroup Ω}
     (hL : GLAPComponent p X L) : GLAPPrimeCore p ↥L ≠ ⊤ := by
   intro htop
-  haveI := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial
+  have := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial
     (isQuasisimple_pQuot_of_glaPComponent hp hL)
   have hsub : Subsingleton (PQuot p L) := by
     show Subsingleton (↥L ⧸ GLAPPrimeCore p ↥L)
@@ -88,7 +94,7 @@ private theorem glaPPrimeCore_ne_top {p : ℕ} (hp : p.Prime) {X L : Subgroup Ω
 private theorem mem_centralizer_of_centMod {p : ℕ} (hp : p.Prime) {X L : Subgroup Ω}
     (hL : GLAPComponent p X L) (hq : CFSG.Open.IsQuasisimple ↥L) {g : Ω} (hc : CentMod p L g) :
     g ∈ Subgroup.centralizer (L : Set Ω) := by
-  haveI : Group.IsPerfect ↥L := ⟨hq.1⟩
+  have : Group.IsPerfect ↥L := ⟨hq.1⟩
   have hOZ : GLAPPrimeCore p ↥L ≤ Subgroup.center ↥L :=
     le_center_of_normal_of_isQuasisimple hq inferInstance (glaPPrimeCore_ne_top hp hL)
   let σ : ↥L →* ↥L := ((Subgroup.normalizerMonoidHom (H := L)) ⟨g, hc.1⟩).toMonoidHom
@@ -166,6 +172,7 @@ private theorem isComponentOf_of_glaPComponent {Q : TauCeti.LieTypeIndex → Pro
   exact ⟨hK.1, hK.2.1, CFSG.Open.IsQuasisimple.of_mulEquiv
     (Subgroup.equivMapOfInjective K₀ S.subtype S.subtype_injective).symm hK₀q⟩
 
+omit [Finite Ω] in
 private theorem commutator_mem_sup_inf {U V : Subgroup Ω} {d : Ω}
     (hUV : ∀ u ∈ U, ∀ v ∈ V, u * v = v * u) (hdU : ∀ u ∈ U, d * u * d⁻¹ ∈ U)
     (hdV : ∀ v ∈ V, d * v * d⁻¹ ∈ V) {x y : Ω}

@@ -22,7 +22,7 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremB CFSG.HardMathSupport.Solomon.LocalB
 theorem excChar3Export_of_outer (hQ : YS08.LieQ.LieQConstrainedInner 3)
     (hO : ExcChar3OuterExport) : ExcChar3Export := by
   intro S _ _ hs hna idx hF h3 he β hβ hβ1
-  haveI := hs
+  have := hs
   by_cases hin : ∃ t : S, MulAut.conj t = β
   · obtain ⟨t, rfl⟩ := hin
     obtain ⟨x, hx, hx3, hx1⟩ :=

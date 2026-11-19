@@ -48,7 +48,7 @@ theorem sum_shift_lt : ∀ (n : Nat) (b : Fin n → Nat), (∀ i, b i < 2) →
   | 0, b, _ => by simp
   | n + 1, b, hb => by
     rw [Fin.sum_univ_castSucc]
-    simp only [Fin.coe_castSucc, Fin.val_last]
+    simp only [Fin.val_castSucc, Fin.val_last]
     have ih := sum_shift_lt n (fun i => b i.castSucc) (fun i => hb _)
     have h2 := hb (Fin.last n)
     rw [Nat.shiftLeft_eq, pow_succ]

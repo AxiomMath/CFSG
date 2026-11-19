@@ -24,7 +24,7 @@ theorem isComponentOf_of_isL2_or_isSz {W : Type} [CommGroup W] [Finite W]
   refine ⟨hLY, CFSG.Open.IsSubnormal.step hLY hLn (CFSG.Open.IsSubnormal.refl Y), ?_⟩
   rcases hshape with h2 | hsz
   · exact CFSG.LocalAnalysis.UniquenessCase.UC22.NatParMax.isQuasisimple_of_isL2 h2
-  · haveI := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hsz
+  · have := CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_twistedB2 hsz
     exact CFSG.Quasithin.A3.isQuasisimple_iff_open.mp
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup
         (CFSG.LocalAnalysis.EvenBN.GMSK.exists_mul_ne_of_lieModel_twistedB2 hsz)).1

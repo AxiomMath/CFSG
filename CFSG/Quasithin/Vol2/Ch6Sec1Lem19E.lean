@@ -210,7 +210,7 @@ theorem exists_abelian_sylow_of_commute {E D : Type*} [Group E] [Finite E] [Grou
   have hmapB : B.map η = Subgroup.closure ({x, y} : Set D) := by
     rw [hB, MonoidHom.map_closure, Set.image_pair, hxx', hyy']
   have hPle : (P : Subgroup E).map η ≤ Subgroup.closure ({x, y} : Set D) :=
-    hS _ (P.isPGroup'.map η) (hmapB ▸ Subgroup.map_mono hP)
+    hS _ (P.isPGroup.map η) (hmapB ▸ Subgroup.map_mono hP)
   have hdecomp : ∀ w : E, w ∈ (P : Subgroup E) → ∃ β ∈ B, β⁻¹ * w ∈ Subgroup.center E := by
     intro w hw
     have hw' : η w ∈ B.map η := hmapB ▸ hPle ⟨w, hw, rfl⟩

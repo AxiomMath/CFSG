@@ -39,7 +39,7 @@ theorem e6FourMark_exists_adjointGroup {J : Type} [Group J] (hJ : E6FourMark J)
     · exact absurd h (by decide)
     · exact absurd h (by simp)
   obtain ⟨-, K, iF, iFin, hK, ⟨e⟩⟩ := hC
-  haveI : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := 2) hK
+  have : CharP K 2 := CFSG.StandardType.charP_two_of_card (m := 2) hK
   let eZ : AdjointQuotient Tag.E6 K ≃* ↥(adjointGroup Tag.E6 K) :=
     (QuotientGroup.quotientMulEquivOfEq (center_adjointGroup_eq_bot (τ := Tag.E6) (K := K))).trans
       QuotientGroup.quotientBot

@@ -166,18 +166,18 @@ private theorem tits_simple {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .tits) {
     subst hd
     exact CFSG.Sporadic.Schreier.Tits.titsModelEquiv A 2 1
       (CFSG.RankThree.PartOne.CTP.reeTitsModel_tits ⟨hv, ⟨e⟩⟩)
-  haveI : Finite A := Finite.of_equiv _ eD.symm.toEquiv
-  haveI : IsSimpleGroup CFSG.Sporadic.Schreier.Tits.titsD :=
+  have : Finite A := Finite.of_equiv _ eD.symm.toEquiv
+  have : IsSimpleGroup CFSG.Sporadic.Schreier.Tits.titsD :=
     CFSG.Sporadic.Schreier.Tits.titsD_simple
-  haveI hs : IsSimpleGroup A := eD.isSimpleGroup
+  have hs : IsSimpleGroup A := eD.isSimpleGroup
   have h25 : 5 ^ 2 ∣ Nat.card A := by
     rw [Nat.card_congr eD.toEquiv, CFSG.Sporadic.Schreier.Tits.card_titsD]
     norm_num
   refine ⟨inferInstance, hs, CFSG.AGLEmbedding.nonabelian_of_simple_of_sq_dvd Nat.prime_five h25,
     ?_⟩
   have hO : Nat.card (Outer A) = 2 := CFSG.AGLEmbeddingD2.card_outer_tits_of_mulEquiv d hd e
-  haveI : Finite (Outer A) := Nat.finite_of_card_ne_zero (by rw [hO]; norm_num)
-  haveI : Group.IsNilpotent (Outer A) :=
+  have : Finite (Outer A) := Nat.finite_of_card_ne_zero (by rw [hO]; norm_num)
+  have : Group.IsNilpotent (Outer A) :=
     (IsPGroup.of_card (p := 2) (n := 1) (by rw [hO]; norm_num)).isNilpotent
   infer_instance
 
@@ -186,8 +186,8 @@ theorem threeFourTwoNoneAt_tits {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .tit
   obtain ⟨-, hX1, hX2, hX3⟩ := tits_simple hd (MulEquiv.refl _)
   refine threeFourTwoNoneAt_of_inf hX1 hX2 hX3 ?_
   intro Y _ _ K Y₀ E R _ _ hKn hKX _ _ _ hER hE hEc hcore _ hKY
-  haveI := hKn
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have := hKn
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨e⟩ := hKX
   obtain ⟨-, hKs, hKnab, -⟩ := tits_simple hd e
   have hZK : center K = ⊥ := CFSG.ComponentClassification.Helpers.center_eq_bot K hKnab
@@ -210,7 +210,7 @@ theorem threeFourTwoNoneAt_tits {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .tit
     rw [← hT', Subgroup.card_map_of_injective K.subtype_injective]
     exact hcard
   have hTe : CFSG.Open.IsElemAbelian 5 T := by
-    haveI : IsMulCommutative (T' : Subgroup K) :=
+    have : IsMulCommutative (T' : Subgroup K) :=
       IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard
     rw [← hT']
     exact CFSG.SectionRank.isElemAbelian_map ⟨inferInstance, hexp⟩ K.subtype
@@ -236,7 +236,7 @@ theorem threeFourTwoNoneAt_tits {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .tit
         have h2 : 5 ^ 3 ≤ 5 ^ CFSG.Open.pRank 5 (R : Subgroup Y) :=
           Nat.pow_le_pow_right (by norm_num) h3
         omega
-      rw [if_neg h3] at hcore
+      rw [ite_eq_right h3] at hcore
       have hET : E = T :=
         Subgroup.eq_of_le_of_card_ge (hER.trans hRT.ge) (by rw [hTcard, hEc])
       have h1 : 1 ≤ CFSG.Open.pRank 5 E :=
@@ -245,7 +245,7 @@ theorem threeFourTwoNoneAt_tits {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .tit
       exact (le_sSup ⟨E, le_rfl, h1, rfl⟩ :
         normalizer (E : Set Y) ≤ CFSG.Open.GLBCore 5 1 E).trans hcore
     ·
-      obtain ⟨c, hcRC, hc5, -⟩ := exists_orderOf_eq_mem_center_of_le_sylow R.isPGroup'
+      obtain ⟨c, hcRC, hc5, -⟩ := exists_orderOf_eq_mem_center_of_le_sylow R.isPGroup
         inf_le_left (self_le_normalizer_inf_normal (N := C)) hRC
       have hcC : c ∈ C := (Subgroup.mem_inf.mp hcRC).2
       have hcR : c ∈ (R : Subgroup Y) := (Subgroup.mem_inf.mp hcRC).1
@@ -268,7 +268,7 @@ theorem threeFourTwoNoneAt_tits {d : TauCeti.ValidLieTypeIndex} (hd : d.1 = .tit
       have h3 : 3 ≤ CFSG.pRank 5 (R : Subgroup Y) := by
         rw [CFSG.SectionRank.pRank_coe_eq_openPRank]
         exact h3'
-      rw [if_pos h3] at hcore
+      rw [ite_eq_left h3] at hcore
       have h2T : 2 ≤ CFSG.Open.pRank 5 T :=
         CFSG.SectionRank.le_pRank (by norm_num) le_rfl hTe hTcard
       have h3T : 2 + 1 ≤ CFSG.Open.pRank 5 (T ⊔ ((R : Subgroup Y) ⊓ centralizer (T : Set Y))) :=

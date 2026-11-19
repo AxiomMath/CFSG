@@ -175,7 +175,7 @@ private theorem stHexWord (cs : List Char) (hd : ∀ ch ∈ cs, hexD ch.toNat < 
       rwa [e] at this
     have e1 : (cs.drop start).take (len + 1) =
         (cs.drop start).take len ++ [cs[start + len]] := by
-      rw [List.take_succ, List.getElem?_drop, List.getElem?_eq_getElem hlt]
+      rw [List.take_add_one, List.getElem?_drop, List.getElem?_eq_getElem hlt]
       rfl
     have e2 : ((cs.drop start).take len).length = len := by
       simp only [List.length_take, List.length_drop]; omega
@@ -259,7 +259,7 @@ theorem splitLines_ofList {pieces : List (List Char)} (hne : ∀ p ∈ pieces, p
       obtain ⟨p, hp, rfl⟩ := List.mem_map.1 hs
       simpa [stOfList_isEmpty] using hne p hp
   have h2 : ([[]].map String.ofList).filter (fun l => !l.isEmpty) = [] := by
-    simp [stOfList_isEmpty]
+    simp
   rw [h1, h2, List.append_nil]
 
 private theorem stParseMats {pieces : List (List Char)} (hne : ∀ p ∈ pieces, p ≠ [])

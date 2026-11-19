@@ -14,6 +14,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem inf_centralizer_eq_singleton_of_relIndex_two {B Y : Subgroup G} {b : G}
     (hbB : b ∈ B) (hbC : b ∉ Subgroup.centralizer (Y : Set G))
     (hrel : (B ⊓ Subgroup.centralizer (Y : Set G)).relIndex B = 2) :
@@ -48,7 +49,7 @@ theorem card_le_two_mul_card_inf_centralizer_of_commutator_le {B Y U : Subgroup 
   · have hYB : Y ≤ Subgroup.centralizer (B : Set G) := (Subgroup.le_centralizer_iff).1 hBC
     rw [inf_eq_left.2 hYB]
     omega
-  · obtain ⟨b, hbB, hbC⟩ := SetLike.not_le_iff_exists.1 hBC
+  · obtain ⟨b, hbB, hbC⟩ := IsConcreteLE.not_le_iff_exists.1 hBC
     have hHle : B ⊓ Subgroup.centralizer (Y : Set G) ≤ B := inf_le_left
     have hcard : Nat.card ↥B =
         (B ⊓ Subgroup.centralizer (Y : Set G)).relIndex B *

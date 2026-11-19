@@ -41,7 +41,7 @@ theorem ggFrameA4Input_of_twoClasses {ι : Type} {M : CoxeterMatrix ι} (hTBF : 
   have hc := hR.1
   have hBsE : IsElemAbelian 3 Bs := hR.1.2.1.2.1
   have hzBs : z ∈ Bs := hc.2.1.1 hzB
-  letI : CommGroup ↥Bs :=
+  let : CommGroup ↥Bs :=
     { (inferInstance : Group ↥Bs) with mul_comm := fun a b => hBsE.1.is_comm.comm a b }
   let z' : ↥Bs := ⟨z, hzBs⟩
   have hz'3 : z' ^ 3 = 1 := Subtype.ext (by rw [SubgroupClass.coe_pow]; exact hBsE.2 z hzBs)

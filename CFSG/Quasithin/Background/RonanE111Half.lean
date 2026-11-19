@@ -29,7 +29,7 @@ theorem half_two {X T J : Subgroup G} (hR : E111Reduced G X T) (hJ : IsComp X J)
   by_contra hcon
   have hfin : Finite (Subgroup G) :=
     Finite.of_injective (SetLike.coe : Subgroup G → Set G) SetLike.coe_injective
-  haveI : Fintype (Subgroup G) := Fintype.ofFinite _
+  have : Fintype (Subgroup G) := Fintype.ofFinite _
   have hSM₀ : S ≤ M₀ := le_inf le_sup_right hSW₀
   have hSN : S ≤ Subgroup.normalizer (J : Set G) := inf_le_right
   have hST : S ≤ T := inf_le_left

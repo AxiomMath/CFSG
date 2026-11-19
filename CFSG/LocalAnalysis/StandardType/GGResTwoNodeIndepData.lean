@@ -31,7 +31,7 @@ theorem ggIndep_data {p N : ℕ} [Fact p.Prime] (hp : p ≠ 2) (hN : 5 ≤ N) {V
   classical
   have hp2 : p ≠ 2 := by omega
   have hN5 : 5 ≤ N := by omega
-  haveI : NeZero (N - 1) := ⟨by omega⟩
+  have : NeZero (N - 1) := ⟨by omega⟩
   let H : Submodule (ZMod p) V := Submodule.span (ZMod p) (Set.range h)
   let U : Submodule (ZMod p) V := H ⊔ Submodule.span (ZMod p) ({ha} : Set V)
   have hhU : ∀ i, h i ∈ U := fun i =>
@@ -190,7 +190,7 @@ theorem ggIndep_data {p N : ℕ} [Fact p.Prime] (hp : p ≠ 2) (hN : 5 ≤ N) {V
     have hne : i ≠ j := by intro hh; have := congrArg Fin.val hh; omega
     have hAi : CartanMatrix.A (N - 1) i j = -1 := by
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg hne, if_pos (Or.inl hij)]
+      rw [ite_eq_right hne, ite_eq_left (Or.inl hij)]
     rw [hAi]; norm_num
   have hA_succ' : ∀ i j : Fin (N - 1), i.val + 1 = j.val →
       (CartanMatrix.A (N - 1) j i : ZMod p) = -1 := by
@@ -198,7 +198,7 @@ theorem ggIndep_data {p N : ℕ} [Fact p.Prime] (hp : p ≠ 2) (hN : 5 ≤ N) {V
     have hne : j ≠ i := by intro hh; have := congrArg Fin.val hh; omega
     have hAi : CartanMatrix.A (N - 1) j i = -1 := by
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg hne, if_pos (Or.inr hij)]
+      rw [ite_eq_right hne, ite_eq_left (Or.inr hij)]
     rw [hAi]; norm_num
   have hedge : ∀ i j : Fin (N - 1), i.val + 1 = j.val → R (some i) (some j) := by
     intro i j hij
@@ -242,7 +242,7 @@ theorem ggIndep_data {p N : ℕ} [Fact p.Prime] (hp : p ≠ 2) (hN : 5 ≤ N) {V
         (hrS c) hraS (hr c) hra (hαdiag c) hαa h0)
     · show αa (h c) ≠ 0
       exact hc
-  haveI : Std.Symm R := ⟨fun a b hh => ⟨hh.2, hh.1⟩⟩
+  have : Std.Symm R := ⟨fun a b hh => ⟨hh.2, hh.1⟩⟩
   have hsymm : ∀ {a b : Option (Fin (N - 1))},
       Relation.ReflTransGen R a b → Relation.ReflTransGen R b a :=
     fun h => Std.Symm.symm _ _ h

@@ -545,7 +545,7 @@ lemma topWt_pair_eq (a b x : Fin n) (hab : a < b) :
   rw [topWt]
   by_cases hxa : x < a
   · have hxb : x < b := lt_trans hxa hab
-    rw [if_pos hxa]
+    rw [ite_eq_left hxa]
     have hf : ({a, b} : Finset (Fin n)).filter (fun j => x < j) = {a, b} := by
       apply Finset.filter_true_of_mem
       intro j hj
@@ -555,9 +555,9 @@ lemma topWt_pair_eq (a b x : Fin n) (hab : a < b) :
       · exact hxb
     rw [hf, Finset.card_pair hab.ne]
     norm_num
-  · rw [if_neg hxa]
+  · rw [ite_eq_right hxa]
     by_cases hxb : x < b
-    · rw [if_pos hxb]
+    · rw [ite_eq_left hxb]
       have hf : ({a, b} : Finset (Fin n)).filter (fun j => x < j) = {b} := by
         ext j
         simp only [Finset.mem_filter, Finset.mem_insert, Finset.mem_singleton]
@@ -570,7 +570,7 @@ lemma topWt_pair_eq (a b x : Fin n) (hab : a < b) :
           exact ⟨Or.inr rfl, hxb⟩
       rw [hf, Finset.card_singleton]
       norm_num
-    · rw [if_neg hxb]
+    · rw [ite_eq_right hxb]
       have hf : ({a, b} : Finset (Fin n)).filter (fun j => x < j) = ∅ := by
         rw [Finset.filter_eq_empty_iff]
         intro j hj
@@ -825,7 +825,7 @@ lemma topWt_singleton (j a : Fin n) :
     topWt ({j} : Finset (Fin n)) a = (if a < j then 1 else 0 : ℤ) := by
   rw [topWt]
   by_cases h : a < j
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hf : ({j} : Finset (Fin n)).filter (fun k => a < k) = {j} := by
       apply Finset.filter_true_of_mem
       intro k hk
@@ -833,7 +833,7 @@ lemma topWt_singleton (j a : Fin n) :
       rwa [hk]
     rw [hf, Finset.card_singleton]
     norm_num
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hf : ({j} : Finset (Fin n)).filter (fun k => a < k) = ∅ := by
       rw [Finset.filter_eq_empty_iff]
       intro k hk

@@ -13,13 +13,16 @@ variable {K : Type*} [Field K] [CharP K 2] [PerfectRing K 2] {n : Type*} [Fintyp
 noncomputable def sqrtDiag (S : Matrix n n K) : n → K :=
   fun i => (frobeniusEquiv K 2).symm (S i i)
 
+omit [Fintype n] in
 theorem sqrtDiag_apply_sq (S : Matrix n n K) (i : n) : sqrtDiag S i ^ 2 = S i i := by
   simp [sqrtDiag]
 
+omit [Fintype n] in
 theorem sqrtDiag_add (S T : Matrix n n K) : sqrtDiag (S + T) = sqrtDiag S + sqrtDiag T := by
   funext i
   simp [sqrtDiag]
 
+omit [Fintype n] in
 theorem sqrtDiag_eq_zero_iff (S : Matrix n n K) : sqrtDiag S = 0 ↔ ∀ i, S i i = 0 := by
   constructor
   · intro h i

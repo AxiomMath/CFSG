@@ -394,7 +394,7 @@ private theorem inducesOmega1_of_core {n : ℕ} (hIH : IH n) (hZn : Nat.card Z <
   set Bh := induced B L with hBhdef
   have hBh2 : IsPGroup 2 Bh := by
     rintro ⟨_, b, hb, ℓ, rfl, h⟩
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨b, hBP hb⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨b, hBP hb⟩
     refine ⟨k, Subtype.ext ?_⟩
     have hbk : b ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have h1 := act_pow ℓ.2 h (2 ^ k)
@@ -772,6 +772,6 @@ theorem N16_of (h1 : S_N1) :
     have hsup : A.subgroupOf M ⊔ goldschmidtOddCore M = ⊤ := by
       have h2 := congrArg (Subgroup.comap (QuotientGroup.mk' (goldschmidtOddCore M))) hBtop
       rwa [Subgroup.comap_map_eq, QuotientGroup.ker_mk', Subgroup.comap_top] at h2
-    exact c4_of_sup_eq_top hAM hMnX (S.isPGroup'.to_le hAS) hsup
+    exact c4_of_sup_eq_top hAM hMnX (S.isPGroup.to_le hAS) hsup
 
 end CFSG.Goldschmidt

@@ -48,10 +48,10 @@ theorem ext_nu (hC : ExtCtx P X₀ Y N) (hsq : ∀ y ∈ Y, y ^ 2 ∈ P) {k : G}
   have hPleY : P ≤ Y := hC.P_le.trans hC.X₀_le
   have hMnorm : (P.subgroupOf Y).Normal :=
     (Subgroup.normal_subgroupOf_iff hPleY).mpr fun p y hp hy => hC.P_Y y hy p hp
-  letI : (P.subgroupOf Y).Normal := hMnorm
+  let : (P.subgroupOf Y).Normal := hMnorm
   let Q := ↥Y ⧸ (P.subgroupOf Y)
   let mk : ↥Y →* Q := QuotientGroup.mk' (P.subgroupOf Y)
-  haveI hQcomm : IsMulCommutative Q := by
+  have hQcomm : IsMulCommutative Q := by
     rw [Subgroup.Normal.quotient_commutative_iff_commutator_le, _root_.commutator_def,
       Subgroup.commutator_le]
     intro a _ b _

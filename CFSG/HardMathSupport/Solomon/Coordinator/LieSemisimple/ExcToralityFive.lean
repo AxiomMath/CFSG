@@ -47,10 +47,10 @@ theorem chainσ_eq_sum_Icc {m : ℕ} (β : Fin m → Fin τ.rank → ℤ) {a b :
     simp only [Finset.mem_Icc, Fin.le_iff_val_le_val]
     by_cases h1 : (c : ℕ) < a
     · have : (c : ℕ) < b := by omega
-      simp [h1, this] <;> omega
+      simp [h1, this]
     · by_cases h2 : (c : ℕ) < b
-      · simp [h1, h2] <;> omega
-      · simp [h1, h2] <;> omega
+      · simp [h1, h2]; omega
+      · simp [h1, h2]; omega
   rw [Finset.sum_congr rfl fun c _ => e c, ← Finset.sum_filter]
   congr 1
   ext c
@@ -461,12 +461,12 @@ theorem isAChain_e7FiveChain : IsAChain e7FiveChain where
   adj i j h := by
     rw [iform_e7FiveChain]
     have hij : i ≠ j := fun e => by subst e; omega
-    rw [if_neg hij, if_pos (Or.inl h.symm)]
+    rw [ite_eq_right hij, ite_eq_left (Or.inl h.symm)]
   orth i j h := by
     rw [iform_e7FiveChain]
     have hij : i ≠ j := fun e => by subst e; omega
     have h1 : ¬ ((i : ℕ) + 1 = j ∨ (j : ℕ) + 1 = i) := by omega
-    rw [if_neg hij, if_neg h1]
+    rw [ite_eq_right hij, ite_eq_right h1]
 
 theorem exists_weyl_chain_E7 {β : Fin 4 → Fin Tag.E7.rank → ℤ} (hβ : IsAChain β) :
     ∃ v : WeylGroup Tag.E7, ∀ k : Fin 4, v • e7FiveChain k = β k :=
@@ -624,12 +624,12 @@ theorem isAChain_e6FiveChain : IsAChain e6FiveChain where
   adj i j h := by
     rw [iform_e6FiveChain]
     have hij : i ≠ j := fun e => by subst e; omega
-    rw [if_neg hij, if_pos (Or.inl h.symm)]
+    rw [ite_eq_right hij, ite_eq_left (Or.inl h.symm)]
   orth i j h := by
     rw [iform_e6FiveChain]
     have hij : i ≠ j := fun e => by subst e; omega
     have h1 : ¬ ((i : ℕ) + 1 = j ∨ (j : ℕ) + 1 = i) := by omega
-    rw [if_neg hij, if_neg h1]
+    rw [ite_eq_right hij, ite_eq_right h1]
 
 theorem isAChain_e6FiveChainRev : IsAChain e6FiveChainRev where
   isRoot i := by
@@ -637,12 +637,12 @@ theorem isAChain_e6FiveChainRev : IsAChain e6FiveChainRev where
   adj i j h := by
     rw [iform_e6FiveChainRev]
     have hij : i ≠ j := fun e => by subst e; omega
-    rw [if_neg hij, if_pos (Or.inl h.symm)]
+    rw [ite_eq_right hij, ite_eq_left (Or.inl h.symm)]
   orth i j h := by
     rw [iform_e6FiveChainRev]
     have hij : i ≠ j := fun e => by subst e; omega
     have h1 : ¬ ((i : ℕ) + 1 = j ∨ (j : ℕ) + 1 = i) := by omega
-    rw [if_neg hij, if_neg h1]
+    rw [ite_eq_right hij, ite_eq_right h1]
 
 theorem exists_weyl_chain_E6 {β : Fin 4 → Fin Tag.E6.rank → ℤ} (hβ : IsAChain β) :
     (∃ v : WeylGroup Tag.E6, ∀ k : Fin 4, v • e6FiveChain k = β k) ∨

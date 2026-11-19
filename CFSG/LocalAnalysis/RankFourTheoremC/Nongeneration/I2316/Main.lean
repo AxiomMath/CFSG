@@ -16,7 +16,7 @@ theorem gl83I2316_of_families (h241 : GL83I241) (hOut : KFactSmallOutPPrime)
         d)) (hR : ∀ (p : ℕ) (d : TauCeti.ValidLieTypeIndex), IsReeGTwoIndex p d
         → PlanesGenerate p (CatGroup d)) : GL83I2316 := by
   intro K _ _ hs hnab hc p hp hp2 T hT hΓ E hE hEc hnot
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hAut : Open.pRank p (⊤ : Subgroup (MulAut K)) ≤ 2
   · by_cases hL34 : p = 3 ∧ IsLinThreeFour K
     · obtain ⟨hp3, hK⟩ := hL34

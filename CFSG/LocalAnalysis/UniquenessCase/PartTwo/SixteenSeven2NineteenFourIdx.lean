@@ -22,6 +22,7 @@ structure Four19 (E : Subgroup (MulAut W)) (𝒴 : Set (Subgroup W)) : Prop wher
 
 variable [Finite W]
 
+omit [Finite W] in
 theorem s16c167_four_faithful {E : Subgroup (MulAut W)} {𝒴 : Set (Subgroup W)}
     (F : Four19 E 𝒴) {e : MulAut W} (he : ∀ Y ∈ 𝒴, e ∈ centSub Y) : e = 1 := by
   have hle : sSup 𝒴 ≤ fixV (Subgroup.zpowers e) := by
@@ -34,6 +35,7 @@ theorem s16c167_four_faithful {E : Subgroup (MulAut W)} {𝒴 : Set (Subgroup W)
   have hw : w ∈ fixV (Subgroup.zpowers e) := hle trivial
   simpa using (mem_fixV_zpowers_iff_apply.mp hw)
 
+omit [Finite W] in
 private theorem s16c167_four_mem_stabSub_of_map_eq {Y : Subgroup W} {g : MulAut W}
     (h : Y.map g.toMonoidHom = Y) : g ∈ stabSub Y := by
   rw [mem_stabSub]
@@ -54,7 +56,7 @@ theorem s16c167_four_index_stab {E : Subgroup (MulAut W)} {𝒴 : Set (Subgroup 
   classical
   have hE2 : IsPGroup 2 ↥E :=
     isPGroup_two_of_sq_eq_one fun e => Subtype.ext (by simpa [pow_two] using F.sq_E e.1 e.2)
-  letI : MulAction ↥E ↥𝒴 :=
+  let : MulAction ↥E ↥𝒴 :=
     { smul := fun e Y₀ => ⟨Y₀.1.map e.1.toMonoidHom, F.perm e.1 e.2 Y₀.1 Y₀.2⟩
       one_smul := fun Y₀ => by
         apply Subtype.ext

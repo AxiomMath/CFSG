@@ -91,6 +91,7 @@ theorem isPGroup_gammaT (T : Submodule K (Fin m ⊕ Fin m → K)) : IsPGroup 2 (
   rw [pow_one, pow_two]
   exact Subtype.ext (gammaT_sq T g.2)
 
+omit [CharP K 2] in
 theorem conj_mem_gammaT {T : Submodule K (Fin m ⊕ Fin m → K)} {a g : StatedSp m K}
     (ha : ∀ t ∈ T, spEnd a t ∈ T) (ha' : ∀ t ∈ T, spEnd a⁻¹ t ∈ T) (hg : g ∈ gammaT T) :
     a * g * a⁻¹ ∈ gammaT T := by
@@ -104,6 +105,7 @@ theorem conj_mem_gammaT {T : Submodule K (Fin m ⊕ Fin m → K)} {a g : StatedS
   · rw [spEnd_mul, spEnd_mul, Module.End.mul_apply, Module.End.mul_apply, hg.2 _ (ha' t ht),
       spEnd_spEnd_inv']
 
+omit [CharP K 2] in
 theorem spTransvection_mem_gammaT {T : Submodule K (Fin m ⊕ Fin m → K)}
     (hT : ∀ u ∈ T, ∀ v ∈ T, spForm m K u v = 0) {w : Fin m ⊕ Fin m → K} (hw : w ∈ T) (c : K) :
     spTransvection w c ∈ gammaT T := by

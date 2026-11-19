@@ -70,7 +70,7 @@ theorem exists_good_involution (hd : Sec19Data p f K z S W) (h9 : p ^ f ≠ 9) {
     Subgroup.centralizer_le_normalizer _ (Subgroup.mem_centralizer_iff.mpr fun y hy =>
       Subgroup.mem_centralizer_singleton_iff.mp (hQKa hy).2)
   have hP2 : IsPGroup 2 ↥(Subgroup.zpowers a₀ ⊔ Q) :=
-    IsPGroup.to_sup_of_normal_right' (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr haS)) hQ2
+    IsPGroup.to_sup_of_normal_right' (S.isPGroup.to_le (Subgroup.zpowers_le.mpr haS)) hQ2
       (Subgroup.zpowers_le.mpr haN)
   have hPC : Subgroup.zpowers a₀ ⊔ Q ≤ Subgroup.centralizer ({z} : Set G) :=
     sup_le (Subgroup.zpowers_le.mpr (hd.hSz haS)) ((hQKa.trans inf_le_left).trans hKz)

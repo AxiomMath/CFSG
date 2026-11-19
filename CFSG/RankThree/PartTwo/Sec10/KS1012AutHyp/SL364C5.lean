@@ -21,7 +21,7 @@ theorem conc_of_not_linear {F : Subgroup (MulAut (CFSG.Open.StatedSL 3 K64))}
     CFSG.RankThree.PartTwo.Sec4.isElemAbelian_map _ hF
   have hf : slFieldSL K64 σ4 ∈ F.map (MulAut.conj ψ).toMonoidHom := by
     refine ⟨_, hH, ?_⟩
-    simp [hψ, MulAut.conj_apply, mul_assoc]
+    simp [hψ, mul_assoc]
   obtain ⟨e⟩ := exists_mulEquiv_fixedSub
   refine conc_of_fixedSub _ hF1 hf (fun F₀ hF₀ => ?_)
   refine conc_of_conc_map e.symm F₀ ?_

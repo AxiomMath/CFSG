@@ -14,29 +14,34 @@ open scoped commutatorElement
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w16g_stableUnder_bot {X : Subgroup (MulAut W)} :
     StableUnder X (⊥ : Subgroup W) := by
   intro x hx u hu
   rw [Subgroup.mem_bot] at hu ⊢
   rw [hu, map_one]
 
+omit [Finite W] in
 private theorem w16g_map_mul (U : Subgroup W) (g h : MulAut W) :
     (U.map g.toMonoidHom).map h.toMonoidHom = U.map (h * g).toMonoidHom := by
   rw [Subgroup.map_map]
   rfl
 
+omit [Finite W] in
 private theorem w16g_map_map_inv (U : Subgroup W) (g : MulAut W) :
     (U.map g.toMonoidHom).map (g⁻¹).toMonoidHom = U := by
   rw [w16g_map_mul, inv_mul_cancel]
   have hone : (1 : MulAut W).toMonoidHom = MonoidHom.id W := by ext x; rfl
   rw [hone, Subgroup.map_id]
 
+omit [Finite W] in
 private theorem w16g_map_map_inv' (U : Subgroup W) (g : MulAut W) :
     (U.map (g⁻¹).toMonoidHom).map g.toMonoidHom = U := by
   rw [w16g_map_mul, mul_inv_cancel]
   have hone : (1 : MulAut W).toMonoidHom = MonoidHom.id W := by ext x; rfl
   rw [hone, Subgroup.map_id]
 
+omit [Finite W] in
 private theorem w16g_isIrrOn_map_of_normalizes {X : Subgroup (MulAut W)} {g : MulAut W}
     (hg : ∀ x ∈ X, g * x * g⁻¹ ∈ X) (hg' : ∀ x ∈ X, g⁻¹ * x * g ∈ X)
     {U : Subgroup W} (hU : IsIrrOn X U ⊥) : IsIrrOn X (U.map g.toMonoidHom) ⊥ := by
@@ -64,6 +69,7 @@ private theorem w16g_isIrrOn_map_of_normalizes {X : Subgroup (MulAut W)} {g : Mu
       rw [h]
     rwa [w16g_map_map_inv'] at h'
 
+omit [Finite W] in
 private theorem w16g_secIsoOn_of_le {L N : Subgroup (MulAut W)} (hLN : L ≤ N)
     {A A₀ B B₀ : Subgroup W} (h : SecIsoOn N A A₀ B B₀) : SecIsoOn L A A₀ B B₀ := by
   obtain ⟨hA, hB, hSA, hSA₀, hSB, hSB₀, β, hβB, hβiff, hβsurj, hβeq⟩ := h
@@ -87,6 +93,7 @@ private theorem w16g_exists_isIrrOn_le {X : Subgroup (MulAut W)} {C A : Subgroup
     rw [← hJn] at hmin
     exact Subgroup.eq_of_le_of_card_ge hJ'J hmin
 
+omit [Finite W] in
 private theorem w16g_secIsoOn_symm {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (h : SecIsoOn X A ⊥ B ⊥) : SecIsoOn X B ⊥ A ⊥ := by
   classical
@@ -153,6 +160,7 @@ private theorem w16g_secIsoOn_symm {X : Subgroup (MulAut W)} {A B : Subgroup W}
       rw [hγ b', hγ b, h4, mul_inv_cancel]
     simpa using hgoal
 
+omit [Finite W] in
 private theorem w16g_exists_image_of_secIsoOn {X : Subgroup (MulAut W)} {A B : Subgroup W}
     (h : SecIsoOn X A ⊥ B ⊥) {V : Subgroup W} (hVA : V ≤ A) (hV : IsIrrOn X V ⊥) :
     ∃ V₀ : Subgroup W, V₀ ≤ B ∧ IsIrrOn X V₀ ⊥ ∧ SecIsoOn X V ⊥ V₀ ⊥ := by
@@ -249,7 +257,7 @@ theorem s13_sSupIndep_of_pairwise_not_iso (hW : ∀ w : W, w * w = 1) (N : Subgr
     (𝒮 : Set (Subgroup W)) (hirr : ∀ U ∈ 𝒮, IsIrrOn N U ⊥)
     (hniso : ∀ U ∈ 𝒮, ∀ U' ∈ 𝒮, U ≠ U' → ¬ SecIsoOn N U ⊥ U' ⊥) : sSupIndep 𝒮 := by
   classical
-  haveI : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
   rw [sSupIndep_iff]
   intro U
   rw [disjoint_iff]
@@ -275,10 +283,10 @@ theorem s13_sSupIndep_of_pairwise_not_iso (hW : ∀ w : W, w * w = 1) (N : Subgr
   exact hniso U.1 U.2 k.1.1 k.1.2 (fun h => k.2 (Subtype.ext h.symm)) hiso
 
 theorem sSupIndep_conjSubs_of_isotypic (hW : ∀ w : W, w * w = 1) (A N L : Subgroup (MulAut W))
-    (hNA : N ≤ A) (hNn : ∀ g ∈ A, ∀ x ∈ N, g * x * g⁻¹ ∈ N) (hLN : L ≤ N) (U : Subgroup W)
+    (_hNA : N ≤ A) (hNn : ∀ g ∈ A, ∀ x ∈ N, g * x * g⁻¹ ∈ N) (hLN : L ≤ N) (U : Subgroup W)
     (hirr : IsIrrOn N U ⊥) (hiso : IsEntireIsotypic L U) : sSupIndep (conjSubs A U) := by
   classical
-  haveI : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
   have hNinv : ∀ g ∈ A, ∀ x ∈ N, g⁻¹ * x * g ∈ N := by
     intro g hg x hx
     have h := hNn g⁻¹ (A.inv_mem hg) x hx

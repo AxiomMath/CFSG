@@ -97,7 +97,7 @@ theorem planeW_scalar_mem (h : UnitaryFieldData ℓ f K) {u : K} (hu0 : u ≠ 0)
     by_cases hij : i = j
     · subst hij
       simp
-    · simp [Matrix.one_apply, hij, Ne.symm hij]
+    · simp [hij, Ne.symm hij]
   rw [h1]
   simp only [idGram, Units.val_one, Matrix.mul_one, Matrix.smul_mul, Matrix.one_mul, smul_smul,
     hu, one_smul]
@@ -155,8 +155,8 @@ theorem eq_top_of_kernel_pair [Finite K] [Fact ℓ.Prime] [CharP K ℓ] (h : Uni
       HeisTensor.Cent H ((x ^ A * y ^ B : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :
     H = ⊤ := by
   classical
-  haveI := h.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := h.finite
+  have : Fact p.Prime := ⟨hp⟩
   have hn0 : 0 < n := by omega
   have hp2 : p ≠ 2 := by omega
   have hp1 : ¬ p ∣ 1 := fun hd => hp.one_lt.ne' (Nat.dvd_one.mp hd)
@@ -345,8 +345,8 @@ theorem eq_top_of_words [Finite K] [Fact ℓ.Prime] [CharP K ℓ] (h : UnitaryFi
       HeisTensor.Cent H ((x ^ a * y ^ b : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) :
     H = ⊤ := by
   classical
-  haveI := h.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := h.finite
+  have : Fact p.Prime := ⟨hp⟩
   have hn0 : 0 < n := by omega
   have hp2 : p ≠ 2 := by omega
   have hcp : c ^ p = 1 := pow_eq_one_of_smul_comm_p hn0 hα hx3 hc

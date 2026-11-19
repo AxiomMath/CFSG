@@ -158,13 +158,13 @@ theorem conj_sandwich (S : Matrix.GeneralLinearGroup (Fin 6) K) (c c' Ψ : Matri
           Matrix (Fin 6) (Fin 6) K) =
     c * ((S : Matrix (Fin 6) (Fin 6) K) * Ψ * ((S⁻¹ : Matrix.GeneralLinearGroup (Fin 6) K) :
       Matrix (Fin 6) (Fin 6) K)) * c' := by
-  simp only [Matrix.mul_assoc, Units.mul_inv_cancel_left, Units.inv_mul_cancel_left, Units.mul_inv,
+  simp only [Matrix.mul_assoc, Units.mul_inv_cancel_left, Units.mul_inv,
     Matrix.mul_one]
 
 theorem HS_normal [Finite K] [Fact (Irreducible (KA7.quad K))] (hnr : ∀ r : K, r ^ 2 + r + 1 ≠ 0)
     (S : Matrix.GeneralLinearGroup (Fin 6) K)
     (g t : Matrix.SpecialLinearGroup (Fin 6) K) (G T2 : Matrix (Fin 2) (Fin 2) K)
-    (eq1 : ((S⁻¹ : Matrix.GeneralLinearGroup (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *
+    (_eq1 : ((S⁻¹ : Matrix.GeneralLinearGroup (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *
       (g : Matrix (Fin 6) (Fin 6) K) * (S : Matrix (Fin 6) (Fin 6) K) = blk6 1 G)
     (eq2 : ((S⁻¹ : Matrix.GeneralLinearGroup (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *
       (t : Matrix (Fin 6) (Fin 6) K) * (S : Matrix (Fin 6) (Fin 6) K) = blk6 (D4 K) T2)
@@ -173,8 +173,8 @@ theorem HS_normal [Finite K] [Fact (Irreducible (KA7.quad K))] (hnr : ∀ r : K,
     (c : Matrix.SpecialLinearGroup (Fin 6) K) (hcg : Commute c g) (hct : Commute c t)
     (h : Matrix.SpecialLinearGroup (Fin 6) K) (hh : h ∈ HS K hnr S) :
     c * h * c⁻¹ ∈ HS K hnr S := by
-  haveI : Finite (AdjoinRoot (KA7.quad K)) := by
-    haveI : Module.Finite K (AdjoinRoot (KA7.quad K)) :=
+  have : Finite (AdjoinRoot (KA7.quad K)) := by
+    have : Module.Finite K (AdjoinRoot (KA7.quad K)) :=
       Polynomial.Monic.finite_adjoinRoot (quad_monic K)
     exact Module.finite_of_finite K
   obtain ⟨X, rfl⟩ := (mem_HS_iff K hnr S h).mp hh
@@ -397,7 +397,7 @@ theorem commute_of_pi6 (hnr : ∀ r : K, r ^ 2 + r + 1 ≠ 0) {x y : Matrix.Spec
     simp [mul_assoc]
   have hpow : (x * y * x⁻¹) ^ 3 = 1 := by
     have e : (x * y * x⁻¹) ^ 3 = x * y ^ 3 * x⁻¹ := by
-      simp only [pow_succ, pow_zero, one_mul, mul_assoc, mul_inv_cancel_left, inv_mul_cancel_left]
+      simp only [pow_succ, pow_zero, one_mul, mul_assoc, inv_mul_cancel_left]
     rw [e, hy]
     simp
   have h5 : c ^ 3 * y ^ 3 = 1 := by
@@ -424,11 +424,11 @@ theorem kerConcl_PSL6 (K : Type) [Field K] [Finite K] (hnr : ∀ r : K, r ^ 2 + 
     {E : Subgroup (Matrix.ProjectiveSpecialLinearGroup (Fin 6) K)}
     (hE : CFSG.Open.IsElemAbelian 3 E) (hc : Nat.card E = 27) :
     CFSG.LocalAnalysis.GLTheoremA.KD264LieA4.KerConcl E := by
-  haveI : Fact (Irreducible (KA7.quad K)) := ⟨KA7.quad_irreducible hnr⟩
+  have : Fact (Irreducible (KA7.quad K)) := ⟨KA7.quad_irreducible hnr⟩
   obtain ⟨P, hPE, hcomm, hpow, hcardP⟩ := lift_of_elemAbelian6 hnr hE hc
   subst hPE
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by rw [hcardP]; norm_num)
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Finite P := Nat.finite_of_card_ne_zero (by rw [hcardP]; norm_num)
+  have : Fintype P := Fintype.ofFinite P
   have hcard : Fintype.card P = 27 := by rw [← Nat.card_eq_fintype_card]; exact hcardP
   obtain ⟨g, t, hg1, htnot, S, G, T2, e1, e2, e3⟩ := bridge_frame K hnr P hcomm hpow hcard
   have hgt : (g : Matrix.SpecialLinearGroup (Fin 6) K) * (t : Matrix.SpecialLinearGroup (Fin 6) K) =

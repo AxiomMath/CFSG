@@ -186,7 +186,7 @@ variable {K : Type} [Field K]
 private theorem exists_ne_zero_one_of_four_le [Finite K] (hK : 4 ≤ Nat.card K) :
     ∃ c : K, c ≠ 0 ∧ c ≠ 1 := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hK' : 4 ≤ Fintype.card K := by rwa [Nat.card_eq_fintype_card] at hK
   have hcard : ({0, 1} : Finset K).card < Fintype.card K := by
     rw [Finset.card_pair (zero_ne_one (α := K))]
@@ -262,7 +262,7 @@ theorem mem_normalizer_of_fix_e1P [Finite K] [CharP K 2] (hK : 4 ≤ Nat.card K)
     have h := Subgroup.card_dvd_of_le (H := P) hPΓ
     rwa [CFSG.RankThree.GF2n.Smith81.Smith23E1.kfs_natCard_plus hK] at h
   obtain ⟨m, hm1, hqm⟩ := CFSG.RankThree.GF2n.Smith81.Smith23E1.kfs_card_eq_two_pow K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hP2.exists_card_eq
   have hPle : Nat.card ↥P ≤ Nat.card K ^ 2 := by
     have hodd : Odd ((Nat.card K ^ 2 - 1) ^ 2) := by

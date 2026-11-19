@@ -141,8 +141,8 @@ theorem lift_simple {p : ℕ} (hp : p.Prime) {K : Subgroup G} {e : G}
     (hA₀N : ∀ y ∈ fixedSub (barAut p K ⟨e, heN⟩), y ∈ Subgroup.normalizer (A₀ : Set (barOf p K)))
     (hsimpA : IsSimpleGroup ↥A₀) (hpdvd : p ∣ Nat.card ↥A₀) (hPiA : IsPiGroup p ↥A₀) :
     A₀ ≤ barX p K (Prop1116.Ke p K e) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hntA : Nontrivial ↥A₀ := hsimpA.toNontrivial
+  have : Fact p.Prime := ⟨hp⟩
+  have hntA : Nontrivial ↥A₀ := hsimpA.toNontrivial
   set C : Subgroup G := K ⊓ Subgroup.centralizer ({e} : Set G) with hC
   have hCK : C ≤ K := inf_le_left
   have hF : fixedSub (barAut p K ⟨e, heN⟩) = barX p K C := fixedSub_barAut_eq_p hp hep heN
@@ -257,7 +257,7 @@ theorem lift_simple {p : ℕ} (hp : p.Prime) {K : Subgroup G} {e : G}
     CFSG.SignalizerFunctorTheorem.TransportA.isQuasisimple_of_mulEquiv e₂ hPiA.1
   have hcomp : IsComponentOf K' (⊤ : Subgroup (↥C ⧸ NC)) := by
     refine ⟨le_top, ?_, hKq⟩
-    haveI : K'.Normal := hPnorm.map _ (QuotientGroup.mk'_surjective NC)
+    have : K'.Normal := hPnorm.map _ (QuotientGroup.mk'_surjective NC)
     exact IsSubnormal.step le_top (Subgroup.Normal.subgroupOf inferInstance _) (IsSubnormal.refl _)
   obtain ⟨J, hJ, hJK⟩ := exists_glaPComponent_barX_eq (p := p) C hcomp
   let φ : barOf p J ≃* ↥A₀ :=
@@ -337,6 +337,7 @@ theorem exists_inner_hom {p : ℕ} {D : Type*} [Group D] (hDp : ∀ d : D, d ^ p
 
 variable [Module.Finite (ZMod 2) V]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem piDataOf_elementaryGroup {p : ℕ} (h4 : 4 ≤ finrank (ZMod 2) V)
     (hPi : ∀ g ∈ TauCeti.QuadraticMap.orthogonalGroup Q, g ^ p = 1 →
       4 ≤ finrank (ZMod 2) (fixV (Subgroup.zpowers g)) → PiData p Q (fixV (Subgroup.zpowers g))) :
@@ -407,7 +408,7 @@ theorem top_le_of_plane {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     have hFtop : (⊤ : Subgroup Kb) ≤ fixedSub (β d) := fun x _ => hβ x
     obtain ⟨hs, hnc, hdvd, hΩ⟩ :=
       PiDataOf.of_mulEquiv (f.symm.trans Subgroup.topEquiv.symm) (piDataOf_elementaryGroup h4 hPi)
-    haveI := hs
+    have := hs
     exact hS d hd1 ⊤ hFtop (fun y _ => Subgroup.mem_normalizer_iff.2 fun h => by simp) hs hdvd
       (CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.isPiGroup_of_simple_data hp hnc hdvd hΩ)
   ·
@@ -448,7 +449,7 @@ theorem top_le_of_plane {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       have hmap : A₀.map F = J := Subgroup.map_comap_eq_self hJF
       let eA : ↥A₀ ≃* ↥J := (A₀.equivMapOfInjective F hFinj).trans (MulEquiv.subgroupCongr hmap)
       obtain ⟨hs, hnc, hdvd, hΩ⟩ := PiDataOf.of_mulEquiv eA.symm (hPi (ρ d) (hρO d) (hρp d) ha4)
-      haveI := hs
+      have := hs
       have hcommJ : ∀ z ∈ J, ρ d * z = z * ρ d :=
         commute_of_forall_apply_eq_orthJ (hρO d) (fun w hw => mem_fixSub_zpowers.mp hw)
       have hA₀F : A₀ ≤ fixedSub (β d) := by
@@ -564,7 +565,7 @@ theorem top_le_of_isOmegaTwo {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {ε : Bool
 theorem inputOmegaGen_of_piCenter (hPC : InputPiCenter) : Prop1116.InputOmegaGen := by
   intro G _ _ p hp hp2 X K B hK _ hBn hBel hBrk hΩ'
   obtain ⟨ε, n, hn, hΩ, hfp⟩ := hΩ'
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set H : Subgroup G := ⨆ (e : G) (_ : e ∈ B) (_ : e ≠ 1), Prop1116.Ke p K e with hH
   have hHK : H ≤ K := iSup_le fun e => iSup_le fun _ => iSup_le fun _ => Ke_le p K e
   have hKe_le : ∀ e ∈ B, e ≠ 1 → Prop1116.Ke p K e ≤ H := fun e he he1 =>
@@ -653,8 +654,8 @@ theorem two_le_pRank_inf_centralizer {X : Type} [Group X] [Finite X] {p : ℕ} (
     (hB : IsElemAbelian p B) (hBN : B ≤ Subgroup.normalizer (J : Set X))
     (hJp : ¬ p ^ 3 ∣ Nat.card ↥J) (hB4 : 4 ≤ CFSG.Open.pRank p B) :
     2 ≤ CFSG.Open.pRank p (B ⊓ Subgroup.centralizer (J : Set X)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite L := Finite.of_equiv ↥J e.toEquiv
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite L := Finite.of_equiv ↥J e.toEquiv
   let β : ↥B →* MulAut ↥J := J.normalizerMonoidHom.comp (Subgroup.inclusion hBN)
   have hDp : ∀ b : ↥B, b ^ p = 1 := fun b => Subtype.ext (by simpa using hB.2 b b.2)
   obtain ⟨Yh, hY⟩ := exists_inner_hom hDp e β hAut hcenter
@@ -748,9 +749,9 @@ theorem eq_gamma_of_isOmegaTwo {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p
     (hBN : B ≤ Subgroup.normalizer (J : Set X)) (hB4 : 4 ≤ CFSG.Open.pRank p B) :
     J = ⨆ (U : Subgroup X) (_ : U ≤ B) (_ : 2 ≤ CFSG.Open.pRank p U),
       J ⊓ Subgroup.normalizer (U : Set X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hsJ, hncJ, -, -⟩ := piDataOf_of_isOmegaTwo hp hp2 hn hfp hΩ
-  haveI := hsJ
+  have := hsJ
   have hZJ : Subgroup.center ↥J = ⊥ := center_eq_bot_of_simple_nonabelian hncJ
   rcases Nat.lt_or_ge n 3 with hn3 | hn3
   ·
@@ -777,12 +778,12 @@ theorem eq_gamma_of_isOmegaTwo {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p
     set A : Subgroup ↥N := B.subgroupOf N with hA
     let eK : ↥K ≃* ↥J := Subgroup.subgroupOfEquivOfLe hJN
     obtain ⟨hs, hnc, hdvd, hΩK⟩ := (piDataOf_of_isOmegaTwo hp hp2 hn hfp hΩ).of_mulEquiv eK.symm
-    haveI := hs
+    have := hs
     have hPiK : IsPiGroup p ↥K := isPiGroup_of_simple_data hp hnc hdvd hΩK
     have hZK : Subgroup.center ↥K = ⊥ := center_eq_bot_of_simple_nonabelian hnc
     let eZ : (↥K ⧸ Subgroup.center ↥K) ≃* ↥K :=
       (QuotientGroup.quotientMulEquivOfEq hZK).trans QuotientGroup.quotientBot
-    haveI hKn : K.Normal := Subgroup.normal_in_normalizer
+    have hKn : K.Normal := Subgroup.normal_in_normalizer
     have hcomp : IsComponentOf K ⊤ := by
       refine ⟨le_top, ?_, hPiK.1⟩
       exact IsSubnormal.step le_top (Subgroup.Normal.subgroupOf inferInstance _) (IsSubnormal.refl _)
@@ -882,7 +883,7 @@ theorem eq_gamma_of_sp_two {X : Type} [Group X] [Finite X] {p : ℕ} (hp : p.Pri
     (hB4 : 4 ≤ CFSG.Open.pRank p B) :
     J = ⨆ (U : Subgroup X) (_ : U ≤ B) (_ : 2 ≤ CFSG.Open.pRank p U),
       J ⊓ Subgroup.normalizer (U : Set X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨f⟩ := nonempty_commutator_statedSp_two_mulEquiv_alt
   let e' : ↥J ≃* ↥(alternatingGroup (Fin 6)) := e.trans f
   have hAut : ∀ σ : MulAut ↥(alternatingGroup (Fin 6)), σ ^ p = 1 →
@@ -982,7 +983,7 @@ theorem conj_maxEA_of_le_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {ε : Bool
     (hm₁ : ∀ F : Subgroup X, IsElemAbelian p F → Nat.card ↥F ≤ Nat.card ↥E₁)
     (hm₂ : ∀ F : Subgroup X, IsElemAbelian p F → Nat.card ↥F ≤ Nat.card ↥E₂) :
     ∃ x : X, E₂ = E₁.map (MulAut.conj x).toMonoidHom := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd := CFSG.HardMathSupport.Timmesfeld.OrthogonalGeneration.dvd_typeSign_of_hasFixedPointFreeOrder
     hp hp2 hn hfp
   have hc := card_eq_omegaOrd hp hp2 hn hfp hX
@@ -1061,6 +1062,7 @@ theorem reflect_not_mem_commutator (hnd : (polarBilin Q).Nondegenerate) {w : V} 
   rw [h3] at h2
   exact (by decide : ¬ Even 1) h2.2
 
+omit [Module.Finite (ZMod 2) V] in
 theorem commute_reflect {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     {w : V} (hw : Q w = 1) (hgw : g w = w) : g * reflect Q w = reflect Q w * g := by
   ext x
@@ -1097,8 +1099,8 @@ theorem conj_maxEA_of_isom {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {ε : Bool} 
     (hm₁ : ∀ F : Subgroup X, IsElemAbelian p F → Nat.card ↥F ≤ Nat.card ↥E₁)
     (hm₂ : ∀ F : Subgroup X, IsElemAbelian p F → Nat.card ↥F ≤ Nat.card ↥E₂) :
     ∃ x : X, E₂ = E₁.map (MulAut.conj x).toMonoidHom := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
+  have : Fact p.Prime := ⟨hp⟩
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 2) (by omega)
   set O : Subgroup (V ≃ₗ[ZMod 2] V) := TauCeti.QuadraticMap.orthogonalGroup Q with hO
   let F : X →* (V ≃ₗ[ZMod 2] V) := (elementaryGroup Q).subtype.comp f.toMonoidHom
   have hFinj : Function.Injective F := Subtype.val_injective.comp f.injective

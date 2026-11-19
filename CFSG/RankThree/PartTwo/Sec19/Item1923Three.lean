@@ -30,17 +30,17 @@ variable {G : Type} [Group G] [Finite G] {A M N L K : Subgroup G} {c : G}
 private theorem inSubgroup_perfectResidual_top_normal (X : Type) [Group X] [Finite X] :
     (inSubgroup perfectResidual (⊤ : Subgroup X)).Normal := by
   have hc := (CFSG.perfect_residual_characterization (G := ↥(⊤ : Subgroup X))).2.1
-  haveI := hc
+  have := hc
   have hn : (perfectResidual ↥(⊤ : Subgroup X)).Normal := inferInstance
   exact hn.map (Subgroup.topEquiv : (⊤ : Subgroup X) ≃* X).toMonoidHom (MulEquiv.surjective _)
 
 theorem normal_of_perfect_isSubnormal_of_pCore {X : Type} [Group X] [Finite X] {K Q : Subgroup X}
     (hK : Group.IsPerfect K) (hsn : K.IsSubnormal) (hQ : IsPGroup 2 Q) (hQn : Q.Normal)
     (hKQ : K ⊔ Q = ⊤) : K.Normal := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hK
-  haveI := hQn
-  haveI : Group.IsNilpotent Q := hQ.isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hK
+  have := hQn
+  have : Group.IsNilpotent Q := hQ.isNilpotent
   have hKp : ⁅K, K⁆ = K := Subgroup.commutator_eq_self
   have hRs : Group.IsSolvable Q := inferInstance
   have htop := CFSG.RankThree.PartTwo.Sec18.perfectResidual_eq_of_isSubnormal hRs hsn hKp hKQ
@@ -55,12 +55,13 @@ private theorem pCoreOf_eq_inf_of_mem {K : Subgroup G} (hK : K ∈ oTwoComponent
   exact CFSG.pCoreOf_eq_inf_pCoreOf_of_isSubnormal
     ((CFSG.Open.IsSubnormal.iff_subgroupOf hKM).mpr hsub)
 
+omit [Finite G] in
 private theorem perfect_of_mem_oTwoComponentsIn {K : Subgroup G} (hK : K ∈ oTwoComponentsIn M) :
     Group.IsPerfect K := by
   have hKM : K ≤ M := le_of_mem_oTwoComponentsIn hK
   have h2 := (mem_oTwoComponentsIn_iff.mp hK).2
   obtain ⟨hp, -, -⟩ := h2
-  haveI := hp
+  have := hp
   exact Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hKM).toMonoidHom)
     (MulEquiv.surjective _)
 
@@ -69,12 +70,13 @@ private theorem isSimpleGroup_of_isL3OddType {X : Type} [Group X] (hX : IsL3OddT
   obtain ⟨n, -, ⟨e⟩⟩ := hX
   have hP := CFSG.RankThree.PartOne.KCLinearSubfield.isSimpleGroup_projectiveSL
     (K := GaloisField 2 n) (n := 3) (by norm_num)
-  haveI := hP
+  have := hP
   have h3 := (CFSG.RankThree.PartOne.S15K.projSLEquivProjectiveSL 3
     (GaloisField 2 n)).isSimpleGroup
-  haveI := h3
+  have := h3
   exact e.isSimpleGroup
 
+omit [Finite G] in
 private theorem not_mem_of_isPGroup_two {P : Subgroup G} (hP : IsPGroup 2 P) {x : G}
     (hx : orderOf x = 3) : x ∉ P := by
   intro hxP
@@ -88,6 +90,7 @@ private theorem not_mem_of_isPGroup_two {P : Subgroup G} (hP : IsPGroup 2 P) {x 
   have h3 : (3 : ℕ) ∣ 2 := Nat.prime_three.dvd_of_dvd_pow h2
   norm_num at h3
 
+omit [Finite G] in
 private theorem normalClosureIn_conj_mem {M : Subgroup G} (c : G) {m : G} (hm : m ∈ M) {x : G}
     (hx : x ∈ normalClosureIn M c) : m * x * m⁻¹ ∈ normalClosureIn M c := by
   have hmap : (normalClosureIn M c).map (MulAut.conj m).toMonoidHom ≤ normalClosureIn M c := by
@@ -102,10 +105,10 @@ private theorem normalClosureIn_conj_mem {M : Subgroup G} (c : G) {m : G} (hm : 
 private theorem three_c_of_orderOf (hc : orderOf c = 3) (hK : K ∈ oTwoComponentsIn M)
     (hcK : c ∈ K) (hKM : M ≤ Subgroup.normalizer (K : Set G))
     (hL3 : IsL3OddType (K ⧸ CFSG.pCore 2 K)) : K = normalClosureIn M c := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKM' : K ≤ M := le_of_mem_oTwoComponentsIn hK
-  haveI := perfect_of_mem_oTwoComponentsIn hK
-  haveI := isSimpleGroup_of_isL3OddType hL3
+  have := perfect_of_mem_oTwoComponentsIn hK
+  have := isSimpleGroup_of_isL3OddType hL3
   have hRK : normalClosureIn M c ≤ K := by
     unfold normalClosureIn
     rw [Subgroup.closure_le]
@@ -117,8 +120,8 @@ private theorem three_c_of_orderOf (hc : orderOf c = 3) (hK : K ∈ oTwoComponen
     intro n hn g
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using normalClosureIn_conj_mem c (hKM' g.2) hn
-  haveI := hRn
-  haveI : (((normalClosureIn M c).subgroupOf K).map
+  have := hRn
+  have : (((normalClosureIn M c).subgroupOf K).map
       (QuotientGroup.mk' (CFSG.pCore 2 K))).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective _)
   have hcases := IsSimpleGroup.eq_bot_or_eq_top_of_normal
@@ -150,12 +153,13 @@ private theorem three_c_of_orderOf (hc : orderOf c = 3) (hK : K ∈ oTwoComponen
       exact mul_mem (Subgroup.mem_sup_left hrG) (Subgroup.mem_sup_right hoG)
   have hR : Group.IsSolvable (CFSG.Open.pCoreOf 2 K) := by
     have hP := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K
-    haveI : Group.IsNilpotent (CFSG.Open.pCoreOf 2 K) := hP.isNilpotent
+    have : Group.IsNilpotent (CFSG.Open.pCoreOf 2 K) := hP.isNilpotent
     exact inferInstance
   exact CFSG.RankThree.PartTwo.Sec18.eq_of_isPerfect_of_le_sup (P := K) (N := normalClosureIn M c)
     (R := CFSG.Open.pCoreOf 2 K) inferInstance hRK (CFSG.LieType.BorelTits.pCoreOf_le 2 K)
     hRn hR hPNR
 
+omit [Finite G] in
 private theorem mem_pCore_iff {H : Subgroup G} (x : H) :
     x ∈ CFSG.pCore 2 H ↔ (x : G) ∈ CFSG.Open.pCoreOf 2 H := by
   constructor
@@ -171,6 +175,7 @@ private theorem commute_iff_comm_eq_one {Q : Type} [Group Q] (a b : Q) :
     Commute a b ↔ a * b * a⁻¹ * b⁻¹ = 1 :=
   commutatorElement_eq_one_iff_commute.symm
 
+omit [Finite G] in
 private theorem commute_mk_iff {H : Subgroup G} [Fact (Nat.Prime 2)] (x y : H) :
     Commute (QuotientGroup.mk' (CFSG.pCore 2 H) x) (QuotientGroup.mk' (CFSG.pCore 2 H) y) ↔
       (x : G) * (y : G) * (x : G)⁻¹ * (y : G)⁻¹ ∈ CFSG.Open.pCoreOf 2 H := by
@@ -185,6 +190,7 @@ private theorem commute_mk_iff {H : Subgroup G} [Fact (Nat.Prime 2)] (x y : H) :
   rw [commute_iff_comm_eq_one, e]
   exact (QuotientGroup.eq_one_iff _).trans hcomm
 
+omit [Finite G] in
 private theorem mem_normalizer_of_map_conj_eq {K : Subgroup G} {g : G}
     (h : K.map (MulAut.conj g).toMonoidHom = K) : g ∈ Subgroup.normalizer (K : Set G) := by
   refine Subgroup.mem_normalizer_iff.mpr fun x => ⟨fun hx => ?_, fun hx => ?_⟩
@@ -223,7 +229,7 @@ private theorem mem_pCoreOf_of_comm_mod {K' : Subgroup G} (hK'c : K' ∈ oTwoCom
     (hcen : Subgroup.center (K' ⧸ CFSG.pCore 2 K') = ⊥) {k : G} (hk : k ∈ K')
     (hcomm : ∀ y ∈ K', k * y * k⁻¹ * y⁻¹ ∈ CFSG.Open.pCoreOf 2 M) :
     k ∈ CFSG.Open.pCoreOf 2 K' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hkc : (QuotientGroup.mk (⟨k, hk⟩ : K') : K' ⧸ CFSG.pCore 2 K') ∈
       Subgroup.center (K' ⧸ CFSG.pCore 2 K') := by
     rw [Subgroup.mem_center_iff]
@@ -250,8 +256,8 @@ private theorem false_of_E81 (h : Hyp1921 G A M N L) {K' : Subgroup G}
     (hK'c : K' ∈ oTwoComponentsIn M) {x : G} (hxK : x ∈ K') (hx3 : orderOf x = 3)
     (hA : ∀ a ∈ A, ∀ k ∈ K', a * k * a⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 M)
     (hcenK : Subgroup.center (K' ⧸ CFSG.pCore 2 K') = ⊥) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAM : A ≤ M := h.le_M
   have hKM : K' ≤ M := le_of_mem_oTwoComponentsIn hK'c
   have hxM : x ∈ M := hKM hxK
@@ -416,12 +422,12 @@ private theorem false_of_E81 (h : Hyp1921 G A M N L) {K' : Subgroup G}
   have h27 := h.card_le_of_isElemAbelian_quotient hEel
   omega
 
-private theorem false_of_E9 {Y : Type} [Group Y] [Finite Y] (hsimp : IsSimpleGroup Y)
+private theorem false_of_E9 {Y : Type} [Group Y] [Finite Y] (_hsimp : IsSimpleGroup Y)
     (hcen : Subgroup.center Y = ⊥) (hpR : CFSG.Open.pRank 3 (⊤ : Subgroup Y) ≤ 1)
     {P : Type} [Group P] [Finite P] (hPc : IsMulCommutative P) (hPe : ∀ p : P, p ^ 3 = 1)
     (hP9 : Nat.card P = 9) (φ : P →* MulAut Y) (hφi : Function.Injective φ)
     (hφin : ∀ p, φ p ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner Y) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hconj : Function.Injective (MulAut.conj : Y →* MulAut Y) := by
     intro a b hab
     have hz : b⁻¹ * a ∈ Subgroup.center Y := by
@@ -485,11 +491,12 @@ private theorem map_conj_eq_or_eq {K K' : Subgroup G} {m : G} (hS : Sec18Std G A
   · exact Or.inl h1
   · exact Or.inr h1
 
+omit [Finite G] in
 private theorem isL3OddType_of_conj {K : Subgroup G} (m : G)
     (hL3 : IsL3OddType (K ⧸ CFSG.pCore 2 K)) :
     IsL3OddType (K.map (MulAut.conj m).toMonoidHom ⧸
       CFSG.pCore 2 (K.map (MulAut.conj m).toMonoidHom)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn, ⟨e⟩⟩ := hL3
   let ι : K ≃* K.map (MulAut.conj m).toMonoidHom := MulEquiv.subgroupMap (MulAut.conj m) K
   let q : K ⧸ CFSG.pCore 2 K ≃*
@@ -498,10 +505,11 @@ private theorem isL3OddType_of_conj {K : Subgroup G} (m : G)
       ι (CFSG.pCore_map_iso 2 ι)
   exact ⟨n, hn, ⟨q.symm.trans e⟩⟩
 
+omit [Finite G] in
 private theorem comm_mem_of_barAut_eq_one {K' : Subgroup G} {b : G}
     (hb : b ∈ Subgroup.normalizer (K' : Set G)) (h1 : Sec3.Sims321.barAut K' ⟨b, hb⟩ = 1)
     {k : G} (hk : k ∈ K') : b * k * b⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 := congrArg (fun φ' : MulAut (K' ⧸ CFSG.pCore 2 K') =>
     φ' (QuotientGroup.mk (⟨k, hk⟩ : K'))) h1
   simp only [MulAut.one_apply] at h2
@@ -519,7 +527,7 @@ private theorem comm_mem_of_barAut_eq_one {K' : Subgroup G} {b : G}
 private theorem card_le_three_of_elemAbelian {Y : Type} [Group Y] [Finite Y]
     (hpR : CFSG.Open.pRank 3 (⊤ : Subgroup Y) ≤ 1) (E : Subgroup Y)
     (hE : CFSG.Assembly.IsElemAbelian 3 E) : Nat.card E ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 E := fun g => ⟨1, Subtype.ext (by
     simp only [pow_one, Subgroup.coe_pow, Subgroup.coe_one]
     exact hE.2 (g : Y) g.2)⟩
@@ -553,6 +561,7 @@ private theorem bezout_three_of_not_dvd {k : ℤ} (hk : ¬ (3 : ℤ) ∣ k) :
   · exact ⟨1, -(k / 3), by omega⟩
   · exact ⟨2, -(2 * (k / 3) + 1), by omega⟩
 
+omit [Finite G] in
 private theorem eq_zpow_of_zpow_ne_one {c : G} (hc3 : orderOf c = 3) (k : ℤ) (hne : c ^ k ≠ 1) :
     ∃ u : ℤ, c = (c ^ k) ^ u := by
   have hc3' : c ^ (3 : ℤ) = 1 := by
@@ -566,6 +575,7 @@ private theorem eq_zpow_of_zpow_ne_one {c : G} (hc3 : orderOf c = 3) (k : ℤ) (
     rw [← zpow_mul, ← zpow_mul, ← zpow_add, huv, zpow_one]
   exact ⟨u, e.trans (by rw [hc3', one_zpow, mul_one])⟩
 
+omit [Finite G] in
 private theorem zpow_eq_one_of_mem_of_not_mem {H : Subgroup G} {c : G} (hc3 : orderOf c = 3)
     (hcH : c ∉ H) (k : ℤ) (hk : c ^ k ∈ H) : c ^ k = 1 := by
   by_contra hne
@@ -574,6 +584,7 @@ private theorem zpow_eq_one_of_mem_of_not_mem {H : Subgroup G} {c : G} (hc3 : or
   rw [hu]
   exact H.zpow_mem hk u
 
+omit [Finite G] in
 private theorem mem_of_zpow_ne_one {H : Subgroup G} {c : G} (hc3 : orderOf c = 3) (k : ℤ)
     (hk : c ^ k ∈ H) (hne : c ^ k ≠ 1) : c ∈ H := by
   obtain ⟨u, hu⟩ := eq_zpow_of_zpow_ne_one hc3 k hne
@@ -582,8 +593,8 @@ private theorem mem_of_zpow_ne_one {H : Subgroup G} {c : G} (hc3 : orderOf c = 3
 
 private theorem inf_pCoreOf_eq_one_of_E27 (h : Hyp1921 G A M N L) {a : G} (ha : a ∈ A)
     (haO : a ∈ CFSG.Open.pCoreOf 2 M) : a = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hne
   exact not_mem_of_isPGroup_two (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M)
     (orderOf_eq_prime (h.isE27.1.2 a ha) hne) haO
@@ -591,8 +602,8 @@ private theorem inf_pCoreOf_eq_one_of_E27 (h : Hyp1921 G A M N L) {a : G} (ha : 
 private theorem card_inf_le_three (h : Hyp1921 G A M N L) (hKc : K ∈ oTwoComponentsIn M)
     (hL3 : IsL3OddType (K ⧸ CFSG.pCore 2 K)) {S : Subgroup G}
     (hSdef : S = K ⊔ CFSG.Open.pCoreOf 2 M) : Nat.card (A ⊓ S : Subgroup G) ≤ 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKM : K ≤ M := le_of_mem_oTwoComponentsIn hKc
   have hKS : K ≤ S := by rw [hSdef]; exact le_sup_left
   have hOS : CFSG.Open.pCoreOf 2 M ≤ S := by rw [hSdef]; exact le_sup_right
@@ -603,7 +614,7 @@ private theorem card_inf_le_three (h : Hyp1921 G A M N L) (hKc : K ∈ oTwoCompo
     rw [hSdef]
     exact Subgroup.coe_mul_of_left_le_normalizer_right K _
       (fun k hk => CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M (hKM hk))
-  haveI hOSn : ((CFSG.Open.pCoreOf 2 M).subgroupOf S).Normal := by
+  have hOSn : ((CFSG.Open.pCoreOf 2 M).subgroupOf S).Normal := by
     rw [hSdef]
     exact Subgroup.normal_subgroupOf_sup_of_le_normalizer
       (fun k hk => CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M (hKM hk))
@@ -690,8 +701,8 @@ private theorem false_of_E81_gen (h : Hyp1921 G A M N L) {x : G} (hxM : x ∈ M)
     (hx3 : orderOf x = 3)
     (hcomm : ∀ a ∈ A, a * x * a⁻¹ * x⁻¹ ∈ CFSG.Open.pCoreOf 2 M)
     (hinter : ∀ a ∈ A, ∀ j : ℤ, (x ^ j)⁻¹ * a ∈ CFSG.Open.pCoreOf 2 M → a = 1) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAM : A ≤ M := h.le_M
   have hAab : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (h.isE27.1.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
@@ -827,12 +838,13 @@ private theorem false_of_E81_gen (h : Hyp1921 G A M N L) {x : G} (hxM : x ∈ M)
   have h27 := h.card_le_of_isElemAbelian_quotient hEel
   omega
 
+omit [Finite G] in
 private theorem comm_mem_of_barAut_fix {K' : Subgroup G} {b : G}
     (hb : b ∈ Subgroup.normalizer (K' : Set G)) {z : G} (hz : z ∈ K')
     (h1 : Sec3.Sims321.barAut K' ⟨b, hb⟩ (QuotientGroup.mk' (CFSG.pCore 2 K') ⟨z, hz⟩) =
       QuotientGroup.mk' (CFSG.pCore 2 K') ⟨z, hz⟩) :
     b * z * b⁻¹ * z⁻¹ ∈ CFSG.Open.pCoreOf 2 K' := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : Sec3.Sims321.barAut K' ⟨b, hb⟩ (QuotientGroup.mk (⟨z, hz⟩ : K')) =
       QuotientGroup.mk (⟨z, hz⟩ : K') := h1
   rw [Sec3.Sims321.barAut_mk] at h2
@@ -851,7 +863,7 @@ private theorem exists_lift_fixed {K' : Subgroup G} (α : MulAut (K' ⧸ CFSG.pC
     ∃ z : G, ∃ hz : z ∈ K', orderOf z = 3 ∧
       α (QuotientGroup.mk' (CFSG.pCore 2 K') ⟨z, hz⟩) =
         QuotientGroup.mk' (CFSG.pCore 2 K') ⟨z, hz⟩ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, rfl⟩ := QuotientGroup.mk_surjective y
   have hdvd : 3 ∣ orderOf k := by
     have h1 := orderOf_map_dvd (QuotientGroup.mk' (CFSG.pCore 2 K')) k
@@ -891,7 +903,7 @@ private theorem inf_le_zpowers_of_irreducible (h : Hyp1921 G A M N L) (hF : Fact
     (hWD : ∀ w ∈ planeGroup A L c, ∀ d ∈ A ⊓ S, w * d * w⁻¹ ∈ A ⊓ S)
     (hWcomm : ∀ w ∈ planeGroup A L c, ∀ k : ℤ, w * c ^ k = c ^ k * w) :
     ∀ d ∈ A ⊓ S, d ∈ Subgroup.zpowers c := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcA : c ∈ A := (step1923_W h hF).mem
   have hcB : c ∉ A ⊓ L := (step1923_W h hF).not_mem
   have hc3 : orderOf c = 3 := hF.orderOf_c
@@ -915,7 +927,7 @@ private theorem inf_le_zpowers_of_irreducible (h : Hyp1921 G A M N L) (hF : Fact
             _ = (c ^ i * (a : G)) * (c ^ j * (b : G)) := by simp only [mul_assoc]
         rw [e]
         exact mul_mem hi hj
-      one_mem' := ⟨0, by simpa using (A ⊓ S).one_mem⟩
+      one_mem' := ⟨0, by simp⟩
       inv_mem' := by
         rintro a ⟨i, hi⟩
         refine ⟨-i, ?_⟩
@@ -1029,8 +1041,8 @@ private theorem false_of_inf_eq_bot (kf4 : KF4) (h : Hyp1921 G A M N L) (hF : Fa
     (hone : ∀ b ∈ A ⊓ L, ∀ k ∈ K, b * k * b⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K)
     {S : Subgroup G} (hSdef : S = K ⊔ CFSG.Open.pCoreOf 2 M)
     (hcN : c ∈ Subgroup.normalizer (K : Set G)) (hD1 : ∀ d ∈ A ⊓ S, d = 1) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcA : c ∈ A := (step1923_W h hF).mem
   have hc3 : orderOf c = 3 := hF.orderOf_c
   have hKM : K ≤ M := le_of_mem_oTwoComponentsIn hKc
@@ -1112,8 +1124,8 @@ theorem item1923_three_a (kf4 : KF4) (h : Hyp1921 G A M N L) (hF : Facts1922 G A
     (hK : K ∈ scriptJ M N) (h2 : scriptJ M N = {K}) (hL3 : IsL3OddType (K ⧸ CFSG.pCore 2 K))
     (hone : ∀ b ∈ A ⊓ L, ∀ k ∈ K, b * k * b⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K) :
     c ∈ K ∧ A ⊓ K = Subgroup.zpowers c := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hKc, hKN⟩ := hK
   have hKM : K ≤ M := le_of_mem_oTwoComponentsIn hKc
   have hAM : A ≤ M := h.le_M
@@ -1198,7 +1210,7 @@ theorem item1923_three_a (kf4 : KF4) (h : Hyp1921 G A M N L) (hF : Facts1922 G A
   have hcS : c ∈ S := by
     obtain ⟨d, hd, hd1⟩ : ∃ d ∈ A ⊓ S, d ≠ 1 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       exact false_of_inf_eq_bot kf4 h hF hKc hL3 hone hSdef hcN hcon
     obtain ⟨i, hi⟩ := Subgroup.mem_zpowers_iff.mp (hDzp d hd)
     have hdS : c ^ i ∈ S := by
@@ -1208,11 +1220,11 @@ theorem item1923_three_a (kf4 : KF4) (h : Hyp1921 G A M N L) (hF : Facts1922 G A
       rw [hi]
       exact hd1
     exact mem_of_zpow_ne_one hc3 i hdS hne
-  haveI hKperK : Group.IsPerfect K := perfect_of_mem_oTwoComponentsIn hKc
+  have hKperK : Group.IsPerfect K := perfect_of_mem_oTwoComponentsIn hKc
   have hKsubM : (K.subgroupOf M).IsSubnormal := by
     obtain ⟨-, hsub, -⟩ := (mem_oTwoComponentsIn_iff.mp hKc).2
     exact hsub
-  haveI hKperS : Group.IsPerfect (K.subgroupOf S) :=
+  have hKperS : Group.IsPerfect (K.subgroupOf S) :=
     Group.IsPerfect.ofSurjective (f := (Subgroup.subgroupOfEquivOfLe hKS).symm.toMonoidHom)
       (MulEquiv.surjective _)
   have hKsubS : (K.subgroupOf S).IsSubnormal := Sec18.isSubnormal_subgroupOf_of_le hKsubM hSM
@@ -1236,7 +1248,7 @@ theorem item1923_three_a (kf4 : KF4) (h : Hyp1921 G A M N L) (hF : Facts1922 G A
     rw [hks]
     exact mul_mem (Subgroup.mem_sup_left (Subgroup.mem_subgroupOf.mpr hk))
       (Subgroup.mem_sup_right (Subgroup.mem_subgroupOf.mpr hq))
-  haveI hKnorm : (K.subgroupOf S).Normal :=
+  have hKnorm : (K.subgroupOf S).Normal :=
     normal_of_perfect_isSubnormal_of_pCore hKperS hKsubS hQp hQn hKQtop
   have hcK : c ∈ K := by
     have hcS' : c ∈ (S : Set G) := hcS
@@ -1272,7 +1284,7 @@ theorem item1923_three_a (kf4 : KF4) (h : Hyp1921 G A M N L) (hF : Facts1922 G A
 theorem item1923_three_b (kf1 : KF1) (h : Hyp1921 G A M N L) (hF : Facts1922 G A M N L c)
     (hK : K ∈ scriptJ M N) (h2 : scriptJ M N = {K}) (hL3 : IsL3OddType (K ⧸ CFSG.pCore 2 K))
     (hone : ∀ b ∈ A ⊓ L, ∀ k ∈ K, b * k * b⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K)
-    (hcK : c ∈ K) (hAK : A ⊓ K = Subgroup.zpowers c) :
+    (hcK : c ∈ K) (_hAK : A ⊓ K = Subgroup.zpowers c) :
     M ≤ Subgroup.normalizer (K : Set G) := by
   obtain ⟨hKc, hKN⟩ := hK
   have hKM : K ≤ M := le_of_mem_oTwoComponentsIn hKc
@@ -1402,7 +1414,7 @@ theorem item1923_three_b (kf1 : KF1) (h : Hyp1921 G A M N L) (hF : Facts1922 G A
     fun _ => kf1.2.1 _ hInK' (Or.inl hL3')
   have hsimp' : IsSimpleGroup (K' ⧸ CFSG.pCore 2 K') := isSimpleGroup_of_isL3OddType hL3'
   have hcen' : Subgroup.center (K' ⧸ CFSG.pCore 2 K') = ⊥ := by
-    haveI := hsimp'
+    have := hsimp'
     exact center_eq_bot_of_simple_nonab (nonabelian_of_quotient_center hq'.2.2)
   rcases hirr φ.ker hclaim with hbot | htop
   ·
@@ -1484,7 +1496,7 @@ theorem item1923_three_b (kf1 : KF1) (h : Hyp1921 G A M N L) (hF : Facts1922 G A
       intro a ha k hk
       exact (hPa a (hAsub ha)).2 k hk
     have hxK : m * c * m⁻¹ ∈ K' := Subgroup.mem_map_of_mem _ hcK
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hx3 : orderOf (m * c * m⁻¹) = 3 := by
       have hc3' : c ^ 3 = 1 := by
         rw [← hc3]
@@ -1504,7 +1516,7 @@ theorem item1923_three_b (kf1 : KF1) (h : Hyp1921 G A M N L) (hF : Facts1922 G A
       exact orderOf_eq_prime hcube hne1
     exact false_of_E81 h hK'c hxK hx3 hAcomm hcen'
 
-theorem item1923_three_c (h : Hyp1921 G A M N L) (hF : Facts1922 G A M N L c)
+theorem item1923_three_c (_h : Hyp1921 G A M N L) (hF : Facts1922 G A M N L c)
     (hK : K ∈ scriptJ M N)
     (hcK : c ∈ K) (hKM : M ≤ Subgroup.normalizer (K : Set G))
     (hL3 : IsL3OddType (K ⧸ CFSG.pCore 2 K)) : K = normalClosureIn M c :=

@@ -101,7 +101,7 @@ public theorem CFSG.theorem_12_5_e
       simpa [section12Msigma_subgroupOf_eq] using
         section10MsigmaSubgroup_normal (M := Mstar)
     have hC_le_sigma_star : C ≤ section10Msigma Mstar := by
-      letI : ((section10Msigma Mstar).subgroupOf Mstar).Normal := hσstar_norm
+      let : ((section10Msigma Mstar).subgroupOf Mstar).Normal := hσstar_norm
       simpa [C] using
         section12_commutator_le_right_of_normal_subgroupOf_pre
           (M := Mstar) (N := section10Msigma Mstar) (K := K) (A := A)

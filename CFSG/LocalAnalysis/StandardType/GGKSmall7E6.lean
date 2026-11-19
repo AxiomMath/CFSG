@@ -34,10 +34,10 @@ theorem ggTwoNodeIndepAtL_e6_of_frame
   unfold GGE6IndepFrame at hL
   obtain ⟨Λ, hΛf, hΛd, M, C, V, hVadd, hVmod, ι, φ, h, α, e, hMeq, hC, hφ, hrefl, hpair,
     hAL, hfL, hind⟩ := hL
-  letI : Fintype Λ := hΛf
-  letI : DecidableEq Λ := hΛd
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod 3) V := hVmod
+  let : Fintype Λ := hΛf
+  let : DecidableEq Λ := hΛd
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod 3) V := hVmod
   have hx : x ∈ Bs := hH.1.tableB_facts.2.2.1
   exact ggTwoNodeIndepAtL_e6 hAll hOrb hFix hFixK rfl hH hx hBs e hMeq hC hφ hrefl hpair
     hfL.some hAL hind
@@ -51,11 +51,11 @@ theorem ggDepED4UpCfg_of_aligned_dep (hFix : GGTBFixInput) (hFixK : GGTBFixNbrIn
   obtain ⟨Λ, hΛf, hΛd, b₁, b₂, Λa, hΛaf, hΛad, ML, CL, MK, CK, V, hVadd, hVmod,
     ι, φ, h, α, e, hb1, hb2, hcardΛa, hML, hMLweyl, hCLcartan, hMKweyl, hCKcartan,
     hk2, hform, hrefl, hpairL, hpairK, hAL, hAK, hAJ⟩ := hA
-  letI : Fintype Λ := hΛf
-  letI : DecidableEq Λ := hΛd
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod 3) V := hVmod
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  let : Fintype Λ := hΛf
+  let : DecidableEq Λ := hΛd
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod 3) V := hVmod
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   have hx : x ∈ Bs := hH.1.tableB_facts.2.2.1
   let xV : V := ι (Additive.ofMul (⟨x, hx⟩ : ↥Bs))
@@ -130,7 +130,7 @@ theorem ggDepED4UpCfg_of_aligned_dep (hFix : GGTBFixInput) (hFixK : GGTBFixNbrIn
     have h := hframe.x_ker (e.symm i)
     simpa using h
   have hfinrank : Module.finrank (ZMod 3) V = 7 := by
-    haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+    have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
     have hVcard : Nat.card V = 3 ^ Module.finrank (ZMod 3) V := by
       have h := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := V)
       rwa [Nat.card_zmod] at h

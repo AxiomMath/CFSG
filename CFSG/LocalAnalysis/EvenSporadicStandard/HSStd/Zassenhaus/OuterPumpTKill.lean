@@ -44,7 +44,7 @@ theorem stdHyp_of_rank_one_of_comp (thm24_1 : Sol78Thm24_1Use) (hlie : Hyp.OddLi
   have hcyc : ∀ P : Sylow 2 (centralizer (M : Set G)),
       IsCyclic (P : Subgroup (centralizer (M : Set G))) := by
     intro P
-    rcases Hyp.isCyclic_or_genQuaternion_of_pRank_le_one P.isPGroup'
+    rcases Hyp.isCyclic_or_genQuaternion_of_pRank_le_one P.isPGroup
         (pRank_sylow_le_one_of_le_one hr P) with hc | hq
     · exact hc
     · exact (false_of_genQuaternion_of_comp thm24_1 hlie hnonab hHS hM P hq hcomp).elim

@@ -45,13 +45,13 @@ theorem nine3_bridge_three {G : Type} [Group G] {T₁ T₂ W : Subgroup G}
       (∀ i ∈ T₁, β i j = ((List.finRange 3).map fun k => if ε k then φ k i else 1).prod) →
         ε 1 = false ∧ ε 2 = false := by
   classical
-  letI : CommGroup ↥T₁ :=
+  let : CommGroup ↥T₁ :=
     { (inferInstance : Group ↥T₁) with
       mul_comm := fun a b => Subtype.ext (hT₁ a.1 a.2 b.1 b.2) }
-  letI : CommGroup ↥T₂ :=
+  let : CommGroup ↥T₂ :=
     { (inferInstance : Group ↥T₂) with
       mul_comm := fun a b => Subtype.ext (hT₂ a.1 a.2 b.1 b.2) }
-  letI : CommGroup ↥W :=
+  let : CommGroup ↥W :=
     { (inferInstance : Group ↥W) with
       mul_comm := fun a b => Subtype.ext (hW a.1 a.2 b.1 b.2) }
   let P' : Fin 3 → Subgroup ↥W := fun k => (P k).subgroupOf W

@@ -163,7 +163,7 @@ theorem card_commPrimaryPart [Finite G] (H : Subgroup G)
       exact ⟨⟨c, hc⟩, hle (Subgroup.mem_zpowers _), rfl⟩
     · rintro ⟨d, hd, rfl⟩
       refine ⟨d.2, ?_⟩
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp R.isPGroup') ⟨d, hd⟩
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp R.isPGroup) ⟨d, hd⟩
       refine ⟨k, ?_⟩
       rw [Subgroup.orderOf_mk] at hk
       rw [Subgroup.coe_subtype, Subgroup.orderOf_coe, hk]

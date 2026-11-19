@@ -45,7 +45,7 @@ private theorem run_spec (X : ℕ) (cs : List Char) : ∀ i, digLanesRun X cs i 
     rw [e, strictN_eq', nIf_eq', nIf_eq', bAnd_eq', bAnd_eq'] at hi ⊢
     by_cases h10 : ch = '\n'
     · have hb : Nat.beq ch.toNat 10 = true := by rw [h10]; rfl
-      rw [if_pos hb] at hi ⊢
+      rw [ite_eq_left hb] at hi ⊢
       have ef : (ch :: cs).filter (· ≠ '\n') = cs.filter (· ≠ '\n') := by
         rw [List.filter_cons_of_neg (by simp [h10])]
       rw [ef]
@@ -53,12 +53,12 @@ private theorem run_spec (X : ℕ) (cs : List Char) : ∀ i, digLanesRun X cs i 
     · have hb : ¬ Nat.beq ch.toNat 10 = true := by
         rw [Nat.beq_eq]
         exact fun e => h10 (Char.toNat_inj.1 e)
-      rw [if_neg hb] at hi ⊢
+      rw [ite_eq_right hb] at hi ⊢
       have ef : (ch :: cs).filter (· ≠ '\n') = ch :: cs.filter (· ≠ '\n') := by
         rw [List.filter_cons_of_pos (by simpa using h10)]
       by_cases hd : (Nat.ble 48 ch.toNat && (Nat.ble ch.toNat 57 &&
           Nat.beq (Nat.sub ch.toNat 48) (bEnt X (i / 111) (i % 111)))) = true
-      · rw [if_pos hd] at hi ⊢
+      · rw [ite_eq_left hd] at hi ⊢
         obtain ⟨h1, h2⟩ := ih (i + 1) hi
         rw [ef]
         simp only [Bool.and_eq_true, Nat.beq_eq] at hd
@@ -73,7 +73,7 @@ private theorem run_spec (X : ℕ) (cs : List Char) : ∀ i, digLanesRun X cs i 
           refine ⟨g1, ?_⟩
           rw [g2]
           congr 2 <;> omega
-      · rw [if_neg hd] at hi
+      · rw [ite_eq_right hd] at hi
         exact absurd rfl hi
 
 theorem digLanesK_sound {cs : List Char} {X n : ℕ} (hn : n < 2 ^ 20) (h : digLanesK cs X n = true) :

@@ -101,7 +101,7 @@ theorem ggTBJ_om_torusJNoncomm_nf
       n₁ ∈ J ∧ n₂ ∈ J ∧ GGTorusWeylElt p A n₁ ∧ GGTorusWeylElt p A n₂ ∧
       GGIsReflection p (ggConjAut A h₁) ∧ GGIsReflection p (ggConjAut A h₂) ∧
       ggConjAut A h₁ * ggConjAut A h₂ ≠ ggConjAut A h₂ * ggConjAut A h₁ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := SpNS.ne_two_of_dvd_card_add_one hpq
   obtain ⟨r', E, Δ, hE, σ, Θ, hψσ, hΘ, hWeyl, hnf⟩ :=
     ggTBJ_om_stdModel_nf hp hp2 hbc hm hme hpq ψ₀ A hA

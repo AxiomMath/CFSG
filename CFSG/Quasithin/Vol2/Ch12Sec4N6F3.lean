@@ -29,24 +29,29 @@ namespace Cyc
 variable {c : Ctx T L V E z v} {g : G} (hg : c.Cyc g)
 include hg
 
+omit [Finite G] [IsMulCommutative ↥V] hg in
 theorem conj_mem_CE {h k : G} (hh : h ∈ Subgroup.normalizer (E : Set G))
     (hk : k ∈ Subgroup.centralizer (E : Set G)) : h * k * h⁻¹ ∈ Subgroup.centralizer (E : Set G) :=
   (Subgroup.mem_normalizer_iff.1 (F7.normalizer_le_normalizer_centralizer E hh) k).1 hk
 
+omit [Finite G] [IsMulCommutative ↥V] hg in
 theorem conjSub_inv_le_CE {h : G} (hh : h ∈ Subgroup.normalizer (E : Set G)) {P : Subgroup G}
     (hPK : P ≤ Subgroup.centralizer (E : Set G)) :
     B6.conjSub h⁻¹ P ≤ Subgroup.centralizer (E : Set G) := by
   intro x hx
   rw [B6.mem_conjSub, inv_inv] at hx
-  have := hg.conj_mem_CE (Subgroup.inv_mem _ hh) (hPK hx)
+  have := CFSG.Quasithin.H13.N1246.Ctx.Cyc.conj_mem_CE (Subgroup.inv_mem _ hh) (hPK hx)
   simpa [mul_assoc] using this
 
+omit hg in
+include c in
+variable (c) in
 theorem comm_cube (h12210 : Stmt12_2_10) {h : G} (hh : h ∈ Subgroup.normalizer (E : Set G))
     {P : Subgroup G} (hPK : P ≤ Subgroup.centralizer (E : Set G)) (hP3 : IsPGroup 3 P)
     {s s' : G} (hs : s ∈ P) (hs' : s' ∈ P) :
     s * s' * s⁻¹ * s'⁻¹ ∈ Subgroup.centralizer (B6.conjSub h V : Set G) ∧
       s * s * s ∈ Subgroup.centralizer (B6.conjSub h V : Set G) := by
-  have hP'K := hg.conjSub_inv_le_CE hh hPK
+  have hP'K := CFSG.Quasithin.H13.N1246.Ctx.Cyc.conjSub_inv_le_CE hh hPK
   have hP'3 : IsPGroup 3 (B6.conjSub h⁻¹ P) := hP3.map _
   obtain ⟨h1, h2, -⟩ := c.three_sub_facts h12210 hP'K hP'3
   have hmem : ∀ x ∈ P, h⁻¹ * x * h ∈ B6.conjSub h⁻¹ P := fun x hx => by
@@ -60,6 +65,9 @@ theorem comm_cube (h12210 : Stmt12_2_10) {h : G} (hh : h ∈ Subgroup.normalizer
     convert this using 1
     group
 
+omit hg in
+include c in
+variable (c) in
 theorem idx3 (h12210 : Stmt12_2_10) {h : G} (hh : h ∈ Subgroup.normalizer (E : Set G))
     {P : Subgroup G} (hPK : P ≤ Subgroup.centralizer (E : Set G)) (hP3 : IsPGroup 3 P)
     {s y : G} (hs : s ∈ P) (hy : y ∈ P)
@@ -67,7 +75,7 @@ theorem idx3 (h12210 : Stmt12_2_10) {h : G} (hh : h ∈ Subgroup.normalizer (E :
     y ∈ Subgroup.centralizer (B6.conjSub h V : Set G) ∨
       s⁻¹ * y ∈ Subgroup.centralizer (B6.conjSub h V : Set G) ∨
       (s * s)⁻¹ * y ∈ Subgroup.centralizer (B6.conjSub h V : Set G) := by
-  have hP'K := hg.conjSub_inv_le_CE hh hPK
+  have hP'K := CFSG.Quasithin.H13.N1246.Ctx.Cyc.conjSub_inv_le_CE hh hPK
   have hP'3 : IsPGroup 3 (B6.conjSub h⁻¹ P) := hP3.map _
   obtain ⟨-, -, h3⟩ := c.three_sub_facts h12210 hP'K hP'3
   have hmem : ∀ x ∈ P, h⁻¹ * x * h ∈ B6.conjSub h⁻¹ P := fun x hx => by
@@ -96,9 +104,9 @@ theorem isElemAbelian (h12210 : Stmt12_2_10) (hcomm : ⁅pCoreOf 2 (L ⊔ T), L�
     exact Odd.of_dvd_nat (Odd.pow (by decide)) (orderOf_dvd_of_pow_eq_one h1)
   have key : ∀ s ∈ P, ∀ s' ∈ P, s * s' * s⁻¹ * s'⁻¹ = 1 ∧ s * s * s = 1 := by
     intro s hs s' hs'
-    obtain ⟨h0, h0'⟩ := hg.comm_cube h12210 (Subgroup.one_mem _) hPK hP3 hs hs'
-    obtain ⟨h1, h1'⟩ := hg.comm_cube h12210 hgE hPK hP3 hs hs'
-    obtain ⟨h2, h2'⟩ := hg.comm_cube h12210 hggE hPK hP3 hs hs'
+    obtain ⟨h0, h0'⟩ := (CFSG.Quasithin.H13.N1246.Ctx.Cyc.comm_cube c) h12210 (Subgroup.one_mem _) hPK hP3 hs hs'
+    obtain ⟨h1, h1'⟩ := (CFSG.Quasithin.H13.N1246.Ctx.Cyc.comm_cube c) h12210 hgE hPK hP3 hs hs'
+    obtain ⟨h2, h2'⟩ := (CFSG.Quasithin.H13.N1246.Ctx.Cyc.comm_cube c) h12210 hggE hPK hP3 hs hs'
     rw [B6.conjSub_one] at h0 h0'
     have hm : s * s' * s⁻¹ * s'⁻¹ ∈ P :=
       P.mul_mem (P.mul_mem (P.mul_mem hs hs') (P.inv_mem hs)) (P.inv_mem hs')
@@ -114,6 +122,7 @@ theorem isElemAbelian (h12210 : Stmt12_2_10) (hcomm : ⁅pCoreOf 2 (L ⊔ T), L�
   · rw [pow_three']
     exact (key x hx x hx).2
 
+omit hg in
 theorem conjL1_le_of_mem {h : G} (hh : h ∈ Subgroup.normalizer (E : Set G)) {N : Subgroup G}
     (hN : Subgroup.centralizer (E : Set G) ≤ Subgroup.normalizer (N : Set G)) {x : G}
     (hx : x ∈ B6.conjSub h c.L1) (hxN : x ∈ N) (hx3 : x * x * x = 1)
@@ -125,7 +134,7 @@ theorem conjL1_le_of_mem {h : G} (hh : h ∈ Subgroup.normalizer (E : Set G)) {N
     intro y hy
     apply mem_normalizer_conjSub
     rw [inv_inv]
-    exact hN (hg.conj_mem_CE hh hy.2)
+    exact hN (CFSG.Quasithin.H13.N1246.Ctx.Cyc.conj_mem_CE hh hy.2)
   have hxN' : h⁻¹ * x * h ∈ B6.conjSub h⁻¹ N := by
     rw [B6.mem_conjSub, inv_inv]; simpa [mul_assoc] using hxN
   have hx3' : (h⁻¹ * x * h) * (h⁻¹ * x * h) * (h⁻¹ * x * h) = 1 := by

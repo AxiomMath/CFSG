@@ -48,7 +48,7 @@ theorem exists_elemAbelian_nine_le_centralizer {E L : Subgroup G} (hE : IsElemAb
   obtain ⟨ν, hν⟩ : ∃ ν : L × C →* G, ∀ x : L × C, ν x = (x.2 : G) :=
     ⟨C.subtype.comp (MonoidHom.snd L C), fun _ => rfl⟩
   have hEc : ∀ a ∈ E, ∀ b ∈ E, a * b = b * a := by
-    haveI := hE.1
+    have := hE.1
     intro a ha b hb
     exact congrArg Subtype.val ((IsMulCommutative.is_comm (M := E)).comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hEe : ∀ a ∈ E, a ^ 3 = 1 := hE.2
@@ -76,8 +76,7 @@ theorem exists_elemAbelian_nine_le_centralizer {E L : Subgroup G} (hE : IsElemAb
   obtain ⟨S, hScard, hSA⟩ : ∃ S : Subgroup (L × C), Nat.card S = 27 ∧ S ≤ A := by
     obtain ⟨K, hK⟩ : ∃ K : Subgroup A, Nat.card K = 3 ^ 3 :=
       Sylow.exists_subgroup_card_pow_prime 3 h27
-    exact ⟨K.map A.subtype, by rw [Subgroup.card_map_of_injective A.subtype_injective, hK]
-      <;> norm_num, Subgroup.map_subtype_le K⟩
+    exact ⟨K.map A.subtype, by rw [Subgroup.card_map_of_injective A.subtype_injective, hK]; norm_num, Subgroup.map_subtype_le K⟩
   have hSmem : ∀ x ∈ S, μ x ∈ E := fun x hx => (hA x).mp (hSA hx)
   have hμinj : ∀ x ∈ S, μ x = 1 → x = 1 := by
     intro x hx hμx
@@ -159,7 +158,7 @@ theorem exists_elemAbelian_nine_le_centralizer {E L : Subgroup G} (hE : IsElemAb
     obtain ⟨Q, hQ⟩ : ∃ Q : Subgroup (S.map ν), Nat.card Q = 3 ^ 2 :=
       Sylow.exists_subgroup_card_pow_prime 3 h9
     exact ⟨Q.map (S.map ν).subtype, Subgroup.map_subtype_le Q, by
-      rw [Subgroup.card_map_of_injective (S.map ν).subtype_injective, hQ] <;> norm_num⟩
+      rw [Subgroup.card_map_of_injective (S.map ν).subtype_injective, hQ]; norm_num⟩
   have hS'C : S.map ν ≤ C := by
     intro x hx
     obtain ⟨y, -, rfl⟩ := Subgroup.mem_map.mp hx
@@ -168,7 +167,7 @@ theorem exists_elemAbelian_nine_le_centralizer {E L : Subgroup G} (hE : IsElemAb
   have hPC : P ≤ C := hPle.trans hS'C
   have hP'comm : ∀ a ∈ S.map ν, ∀ b ∈ S.map ν, a * b = b * a := by
     intro a ha b hb
-    haveI := hS'ab.1
+    have := hS'ab.1
     exact congrArg Subtype.val ((IsMulCommutative.is_comm (M := S.map ν)).comm ⟨a, ha⟩ ⟨b, hb⟩)
   have hPab : IsElemAbelian 3 P := by
     refine And.intro ?_ ?_

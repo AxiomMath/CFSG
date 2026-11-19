@@ -27,7 +27,7 @@ theorem fusionOddCore_eq_bot_of_simple {H : Type*} [Group H] [Finite H] [IsSimpl
 
 theorem pPrimeCore_eq_bot_of_simple {H : Type*} [Group H] [Finite H] [IsSimpleGroup H]
     (h2 : 2 ∣ Nat.card H) : pPrimeCore 2 H = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (pPrimeCore 2 H) with hb | ht
   · exact hb
   · exfalso
@@ -135,7 +135,7 @@ theorem fivePumpOutcome_of_derived (hleaf : FivePumpLeaf)
     FivePumpOutcome ↥S := by
   classical
   obtain ⟨e5⟩ := hP5
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := rhyp_perm5.simple
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := rhyp_perm5.simple
   have ht2 : t * t = 1 := mul_self_eq_one_of_orderOf_eq_two ht
   set P : Subgroup G := centralizerDerived t with hPdef
   have hPC : P ≤ centralizer ({t} : Set G) := centralizerDerived_le t
@@ -149,7 +149,7 @@ theorem fivePumpOutcome_of_derived (hleaf : FivePumpLeaf)
     rw [hmemD]
     exact mem_centralizer_singleton_iff.1 (hPC hx)
   let eA : ↥PS ≃* alternatingGroup (Fin 5) := (Subgroup.subgroupOfEquivOfLe hPS).trans e5
-  haveI hPSsimple : IsSimpleGroup ↥PS := eA.isSimpleGroup
+  have hPSsimple : IsSimpleGroup ↥PS := eA.isSimpleGroup
   have hcard : Nat.card ↥PS = 60 := by
     rw [Nat.card_congr eA.toEquiv, natCard_alternatingGroup_five]
   have h2 : 2 ∣ Nat.card ↥PS := by rw [hcard]; norm_num

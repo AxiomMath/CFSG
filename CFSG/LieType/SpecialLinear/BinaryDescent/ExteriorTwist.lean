@@ -53,12 +53,12 @@ theorem minor_one_add_single_eq_extUnit (h2 : (2 : F) = 0)
       rw [← heq] at hmem
       exact ha hmem
     simp [extUnit, hnot, Matrix.add_apply, Matrix.smul_apply, smul_eq_mul]
-  · rw [if_neg hst]
+  · rw [ite_eq_right hst]
     by_cases hcond : b ∈ (t : Finset (Fin n)) ∧ a ∉ (t : Finset (Fin n)) ∧
         (s : Finset (Fin n)) = insert a ((t : Finset (Fin n)).erase b)
-    · rw [if_pos hcond]
+    · rw [ite_eq_left hcond]
       simp [extUnit, hcond, hst, Matrix.add_apply, Matrix.smul_apply, smul_eq_mul]
-    · rw [if_neg hcond]
+    · rw [ite_eq_right hcond]
       simp [extUnit, hcond, hst, Matrix.add_apply, Matrix.smul_apply, smul_eq_mul]
 
 theorem extTwist_transvection {a b : Fin n} (hab : a ≠ b) (t : F) :
@@ -134,9 +134,9 @@ theorem extUnit_mul_extUnit {a b : Fin n} (hab : a ≠ b) :
   · rw [Finset.sum_eq_zero]
     · by_cases hst : s = t
       · subst hst
-        rw [if_neg hcond]
+        rw [ite_eq_right hcond]
         simp
-      · rw [if_neg hst]
+      · rw [ite_eq_right hst]
     · intro x _
       have hnot : ¬ (a ∈ (t : Finset (Fin n)) ∧ b ∉ (t : Finset (Fin n)) ∧
           (x : Finset (Fin n)) = insert b ((t : Finset (Fin n)).erase a)) := by

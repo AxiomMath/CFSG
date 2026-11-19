@@ -56,7 +56,7 @@ theorem eq_top_of_pairVec_single_mem (H : Subgroup (PairN 4))
         pairVec 0 (Pi.single 0 (b 0)) * pairVec 0 (Pi.single 1 (b 1)) *
         pairVec 0 (Pi.single 2 (b 2)) * pairVec 0 (Pi.single 3 (b 3)) := by
     simp only [pairVec_mul, pairVec_inj]
-    constructor <;> funext i <;> fin_cases i <;> simp [Pi.single_apply]
+    constructor <;> funext i <;> fin_cases i <;> simp
   rw [hdec]
   exact H.mul_mem (H.mul_mem (H.mul_mem (H.mul_mem (H.mul_mem (H.mul_mem (H.mul_mem
     (hs1 0 _) (hs1 1 _)) (hs1 2 _)) (hs1 3 _)) (hs2 0 _)) (hs2 1 _)) (hs2 2 _)) (hs2 3 _)

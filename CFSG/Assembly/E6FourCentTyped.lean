@@ -24,7 +24,7 @@ private lemma dualLin_single (u : List ℤ) (p : Fin Tag.E6.rank) :
   rw [Finset.sum_eq_single p]
   · simp
   · intro b _ hb
-    rw [Pi.single_apply, if_neg hb, zero_mul]
+    rw [Pi.single_apply, ite_eq_right hb, zero_mul]
   · intro hp
     exact absurd (Finset.mem_univ p) hp
 

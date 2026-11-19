@@ -129,7 +129,7 @@ theorem lin43_card_F_cent_le_p (h41 : c.Sec41) {d' p q' : G} (hd' : d' ∈ d.D) 
   have hFX : ∀ a ∈ d.F, p * a * p⁻¹ ∈ d.F := fun a ha =>
     (mem_normalizer_iff.1 (lin_L₁_le_normalizer_F hl k c (lin_X_le_L₁ hl k c hp)) a).1 ha
   have hQsyl : IsSylowOf 2 (c.Y ⊓ c.S) c.Y :=
-    s313a_isSylowOf_Y_inf_S hl.toCaseHyp k c.S_syl c.P_le_S c.ψ
+    s313a_isSylowOf_Y_inf_S k c.S_syl c.P_le_S c.ψ
   have hcomm_mem := LinT43.comm_mem_centralizer_of_isSylowOf c.card_k_eq (by omega : 1 ≤ 2 * f)
     c.φY hQsyl hθU hθU' hrU hrU' (by rw [hsupU]; exact hFab)
   have hw : ∀ a ∈ d.F, q' * a * q'⁻¹ * a⁻¹ ∈

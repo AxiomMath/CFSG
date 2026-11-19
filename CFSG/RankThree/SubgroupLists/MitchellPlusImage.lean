@@ -35,7 +35,6 @@ theorem eq_zero_of_plusBlock_eq_zero (h2 : (2 : K) ≠ 0) {N W : Matrix V₄ V�
     rcases i with i | i <;> rcases j with j | j <;> fin_cases i <;> fin_cases j <;>
       simp [stdSign, h00, h01, h10, h11] <;>
       first
-      | (rw [hz _ _ (by simp [stdSign]; exact hne)]; simp)
       | (rw [hz _ _ (by simp [stdSign]; exact hne.symm)]; simp)
   have hWP : W * (1 + tStdMat) = (1 - tStdMat) * W := by
     rw [Matrix.mul_add, Matrix.mul_one, hWT, Matrix.sub_mul, Matrix.one_mul, sub_eq_add_neg]
@@ -71,8 +70,9 @@ section Finite
 
 variable [Finite K] {p : ℕ} [Fact p.Prime] [CharP K p]
 
+omit [Finite K] in
 theorem mul_eq_or_eq_neg_of_plusBar_commute (hp2 : p ≠ 2) {G : Subgroup (GL V₄ K)}
-    (hU0 : ∀ x ∈ G, IsSqZero x → x = 1) (hneg : (-1 : GL V₄ K) ∈ G) {x y : GL V₄ K}
+    (_hU0 : ∀ x ∈ G, IsSqZero x → x = 1) (_hneg : (-1 : GL V₄ K) ∈ G) {x y : GL V₄ K}
     (hxG : x ∈ G) (hxC : x ∈ stdCent K) (hyG : y ∈ G) (hyC : y ∈ stdCent K)
     {W : Matrix V₄ V₄ K} {q : K} (hq : q ≠ 0) (hWT : W * tStdMat = -(tStdMat * W))
     (hWW : W * W = q • 1) (hxW : W * ⟪x⟫ = ⟪x⟫ * W) (hyW : W * ⟪y⟫ = ⟪y⟫ * W)
@@ -93,7 +93,7 @@ theorem mul_eq_or_eq_neg_of_plusBar_commute (hp2 : p ≠ 2) {G : Subgroup (GL V�
       have e : plusBar h2 hcG hcC = plusBar h2 hxG hxC * plusBar h2 hyG hyC *
           (plusBar h2 hxG hxC)⁻¹ * (plusBar h2 hyG hyC)⁻¹ := by
         subst hc
-        rw [plusBar_inv hp2 hU0 hneg, plusBar_inv hp2 hU0 hneg, plusBar_mul, plusBar_mul,
+        rw [plusBar_inv hp2, plusBar_inv hp2, plusBar_mul, plusBar_mul,
           plusBar_mul]
       rw [e, hcomm]
       group
@@ -125,15 +125,16 @@ theorem mul_eq_or_eq_neg_of_plusBar_commute (hp2 : p ≠ 2) {G : Subgroup (GL V�
   · right
     rw [hxy, h, neg_one_mul]
 
+omit [Finite K] in
 theorem plusBlock_eq_or_neg_of_plusBar_eq (hp2 : p ≠ 2) {G : Subgroup (GL V₄ K)}
-    (hU0 : ∀ x ∈ G, IsSqZero x → x = 1) (hneg : (-1 : GL V₄ K) ∈ G) {x y : GL V₄ K}
+    (_hU0 : ∀ x ∈ G, IsSqZero x → x = 1) (_hneg : (-1 : GL V₄ K) ∈ G) {x y : GL V₄ K}
     (hxG : x ∈ G) (hxC : x ∈ stdCent K) (hyG : y ∈ G) (hyC : y ∈ stdCent K)
     (h : plusBar (two_ne_zero_of_charP hp2) hxG hxC = plusBar (two_ne_zero_of_charP hp2) hyG hyC) :
     plusBlock ⟪x⟫ = plusBlock ⟪y⟫ ∨ plusBlock ⟪x⟫ = -plusBlock ⟪y⟫ := by
   have h2 := two_ne_zero_of_charP (K := K) hp2
   have e : plusBar h2 (G.mul_mem hxG (G.inv_mem hyG)) (mul_mem hxC (inv_mem hyC)) =
       plusBar h2 hxG hxC * (plusBar h2 hyG hyC)⁻¹ := by
-    rw [plusBar_inv hp2 hU0 hneg, plusBar_mul]
+    rw [plusBar_inv hp2, plusBar_mul]
   have hz : plusBar h2 (G.mul_mem hxG (G.inv_mem hyG)) (mul_mem hxC (inv_mem hyC)) = 1 := by
     rw [e, h, mul_inv_cancel]
   have hxy := plusBlock_mul h2 (mem_stdCent.mp (mul_mem hxC (inv_mem hyC))).2

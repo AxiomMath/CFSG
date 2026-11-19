@@ -10,6 +10,7 @@ open CFSG.Monster.B.Geometry Module
 
 variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_e_mem_W2 {c₀ y : Fin 4 → K}
     (hc₀ : c₀ ∈ (Vtail : Submodule K (Fin 4 → K)))
     (hy : y ∈ (Vtail : Submodule K (Fin 4 → K))) :
@@ -22,10 +23,11 @@ private theorem plh_e_mem_W2 {c₀ y : Fin 4 → K}
   · simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
     ring
 
+omit [CharP K 2] in
 private theorem plh_card_special_le_one {y : Fin 4 → K} (hy3 : y 3 ≠ 0) :
     Nat.card {s : K // 1 + y 3 * s = 0} ≤ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card, Fintype.card_subtype, Finset.card_le_one]
   intro a ha b hb
   simp only [Finset.mem_filter, Finset.mem_univ, true_and] at ha hb
@@ -49,6 +51,7 @@ private theorem plh_arith (hq : 4 ≤ 2 ^ f) : 2 * 2 ^ f + 4 < (2 ^ f) ^ 2 := by
     omega
   omega
 
+omit [Field K] [Finite K] [CharP K 2] in
 private theorem plh_hcard_le (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
     {p g : ℕ} (hp : p ≤ 1) (hg : g ≤ 2) :
     p + g * (2 ^ f + 1) + 1 < Nat.card K := by
@@ -61,13 +64,13 @@ private theorem plh_hcard_le (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
   omega
 
 private theorem plh_exists_common (hK : Nat.card K = (2 ^ f) ^ 2)
-    {c₀ δ : Fin 4 → K} (hc₀ : c₀ ∈ (Vtail : Submodule K (Fin 4 → K))) (hc3 : c₀ 3 ≠ 0)
+    {c₀ δ : Fin 4 → K} (hc₀ : c₀ ∈ (Vtail : Submodule K (Fin 4 → K))) (_hc3 : c₀ 3 ≠ 0)
     (hδ : δ ∈ (W2 : Submodule K (Fin 4 → K))) (hδn : NRvec f δ)
     (specs : Finset (Fin 4 → K))
-    (hspecV : ∀ y ∈ specs, y ∈ (Vtail : Submodule K (Fin 4 → K)))
+    (_hspecV : ∀ y ∈ specs, y ∈ (Vtail : Submodule K (Fin 4 → K)))
     (hspec3 : ∀ y ∈ specs, y 3 ≠ 0)
     (hspecδ : ∀ y ∈ specs, δ = y 3 • c₀ - c₀ 3 • y)
-    (hspecCard : specs.card ≤ 1)
+    (_hspecCard : specs.card ≤ 1)
     (gens : Finset (Fin 4 → K))
     (hgenV : ∀ y ∈ gens, y ∈ (Vtail : Submodule K (Fin 4 → K)))
     (hgen3 : ∀ y ∈ gens, y 3 ≠ 0)
@@ -76,7 +79,7 @@ private theorem plh_exists_common (hK : Nat.card K = (2 ^ f) ^ 2)
       (∀ y ∈ specs, NRvec f ((y 3 • c₀ - c₀ 3 • y) + (y 3 * s) • δ)) ∧
       (∀ y ∈ gens, NRvec f ((y 3 • c₀ - c₀ 3 • y) + (y 3 * s) • δ)) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   set badSpec : Finset K :=
     specs.biUnion (fun y => Finset.univ.filter (fun s => 1 + y 3 * s = 0)) with hbadSpec_def
   set badGen : Finset K :=
@@ -147,6 +150,7 @@ private theorem plh_exists_common (hK : Nat.card K = (2 ^ f) ^ 2)
     exact Finset.mem_insert_of_mem (Finset.mem_union.mpr (Or.inr
       (Finset.mem_biUnion.mpr ⟨y, hy, Finset.mem_filter.mpr ⟨Finset.mem_univ _, h⟩⟩)))
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_BPt_line {c₀ δ : Fin 4 → K} {s : K}
     (hc₀ : c₀ ∈ (Vtail : Submodule K (Fin 4 → K))) (hc3 : c₀ 3 ≠ 0)
     (hδ : δ ∈ (W2 : Submodule K (Fin 4 → K))) :
@@ -163,6 +167,7 @@ private theorem plh_BPt_line {c₀ δ : Fin 4 → K} {s : K}
     exact hc3 h3
   exact ⟨(Submodule.span_singleton_le_iff_mem _ _).mpr hmem, finrank_span_singleton hne0⟩
 
+omit [Finite K] [CharP K 2] in
 private theorem plh_BPt_of_BFl {p L : Submodule K (Fin 4 → K)} (h : BFl p L) : BPt p :=
   ⟨h.1.trans h.2.1, h.2.2.1⟩
 

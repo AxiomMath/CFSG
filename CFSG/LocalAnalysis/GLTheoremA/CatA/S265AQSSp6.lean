@@ -83,7 +83,7 @@ private theorem card_lt_of_sp6 (h : QSNL 3 S B T x D K)
 
 private theorem center_pQuot_eq_bot_of_oddSchur {X J : Subgroup Ω} (hJ : GLAPComponent 3 X J)
     (hS : OddSchurTrivial (PSimple 3 J)) : Subgroup.center (PQuot 3 J) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ
   have hodd : Odd (Nat.card ↥(QuotientGroup.mk' (Subgroup.center (PQuot 3 J))).ker) := by
     rw [QuotientGroup.ker_mk']
@@ -98,7 +98,7 @@ private theorem center_pQuot_eq_bot_of_oddSchur {X J : Subgroup Ω} (hJ : GLAPCo
 theorem QSNL.card_eq_nine_mul_of_sp6 (h : QSNL 3 S B T x D K)
     (hJ : catalogIs (PSimple 3 K) S9.isSp6two) : Nat.card B = 9 * Nat.card D := by
   obtain ⟨-, -, hD9, -, -, -, -⟩ := h.cfg.std
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hlt := card_lt_of_sp6 h hJ
   have hbig := h.cfg.big
   obtain ⟨k, hk⟩ := h.cfg.elem.isPGroup.exists_card_eq

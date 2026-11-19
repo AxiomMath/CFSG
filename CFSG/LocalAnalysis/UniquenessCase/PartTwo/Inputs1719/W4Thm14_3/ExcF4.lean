@@ -31,6 +31,7 @@ private lemma exists_omega_of_card_sixtyfour (hF : Fintype.card F = 2 ^ 6) :
     exact one_ne_zero h4
   exact ⟨ω, hsq, hcube, hne0, hne1⟩
 
+omit [Fintype F] in
 private lemma pow_four_eq_self_iff {ω : F} (hω2 : ω ^ 2 = ω + 1) (hω3 : ω ^ 3 = 1)
     (l : F) : l ^ 4 = l ↔ l = 0 ∨ l = 1 ∨ l = ω ∨ l = ω ^ 2 := by
   constructor
@@ -91,6 +92,7 @@ private def f4Sub : AddSubgroup F where
       norm_num
     rw [h4, ha, CharTwo.neg_eq]
 
+omit [Fintype F] in
 private lemma card_f4Sub {ω : F} (hω2 : ω ^ 2 = ω + 1) (hω3 : ω ^ 3 = 1) (hω0 : ω ≠ 0)
     (hω1 : ω ≠ 1) : Nat.card ↥(f4Sub (F := F)) = 4 := by
   classical
@@ -138,6 +140,7 @@ private lemma card_f4Sub {ω : F} (hω2 : ω ^ 2 = ω + 1) (hω3 : ω ^ 3 = 1) (
 
 private def f4Line (x : F) : AddSubgroup F := (f4Sub (F := F)).map (AddMonoidHom.mulRight x)
 
+omit [Fintype F] in
 private lemma mem_f4Line (x t : F) :
     t ∈ f4Line x ↔ ∃ l : F, l ^ 4 = l ∧ l * x = t := by
   rw [f4Line, AddSubgroup.mem_map]
@@ -147,6 +150,7 @@ private lemma mem_f4Line (x t : F) :
   · rintro ⟨l, hl, hlt⟩
     exact ⟨l, hl, hlt⟩
 
+omit [Fintype F] in
 private lemma card_map_f4Sub_eq_four {ω : F} (hω2 : ω ^ 2 = ω + 1) (hω3 : ω ^ 3 = 1) (hω0 : ω ≠ 0)
     (hω1 : ω ≠ 1) {x : F} (hx : x ≠ 0) : Nat.card ↥(f4Line x) = 4 := by
   rw [f4Line, AddSubgroup.card_map_of_injective]
@@ -154,6 +158,7 @@ private lemma card_map_f4Sub_eq_four {ω : F} (hω2 : ω ^ 2 = ω + 1) (hω3 : �
   · intro a b h
     exact mul_right_cancel₀ hx h
 
+omit [Fintype F] in
 private lemma f4Line_le_of_mem {ω : F} (hω2 : ω ^ 2 = ω + 1) (hω3 : ω ^ 3 = 1)
     {A₀ : AddSubgroup F} {x : F} (hx : x ∈ A₀) (hωx : ω * x ∈ A₀) :
     f4Line x ≤ A₀ := by
@@ -161,7 +166,7 @@ private lemma f4Line_le_of_mem {ω : F} (hω2 : ω ^ 2 = ω + 1) (hω3 : ω ^ 3 
   rw [mem_f4Line] at ht
   obtain ⟨l, hl, rfl⟩ := ht
   rcases (pow_four_eq_self_iff hω2 hω3 l).mp hl with h0 | h1 | h2 | h3
-  · rw [h0]; simpa using AddSubgroup.zero_mem (A₀ : AddSubgroup F)
+  · rw [h0]; simp
   · rw [h1]; simpa using hx
   · rw [h2]; exact hωx
   · rw [h3]
@@ -169,6 +174,7 @@ private lemma f4Line_le_of_mem {ω : F} (hω2 : ω ^ 2 = ω + 1) (hω3 : ω ^ 3 
     rw [h4]
     exact AddSubgroup.add_mem _ hωx hx
 
+omit [Fintype F] in
 private lemma mem_f4Line_of_mul_pow_four_eq {x y : F} (hx : x ≠ 0)
     (h : x * y ^ 4 = y * x ^ 4) : y ∈ f4Line x := by
   rw [mem_f4Line]
@@ -183,10 +189,12 @@ private lemma mem_f4Line_of_mul_pow_four_eq {x y : F} (hx : x ≠ 0)
     field_simp
   · rw [div_mul_cancel₀ _ hx]
 
+omit [Fintype F] in
 private lemma mul_pow_four_ne_of_notMem {x y : F} (hx : x ≠ 0) (hy : y ∉ f4Line x) :
     x * y ^ 4 ≠ y * x ^ 4 :=
   fun h => hy (mem_f4Line_of_mul_pow_four_eq hx h)
 
+omit [Fintype F] [CharP F 2] in
 private lemma omega_mul_mem_inf {A₀ : AddSubgroup F} {ω z : F} (hω2 : ω ^ 2 = ω + 1)
     (hz : z ∈ A₀ ⊓ A₀.map (AddMonoidHom.mulLeft ω)) :
     ω * z ∈ A₀ ⊓ A₀.map (AddMonoidHom.mulLeft ω) := by
@@ -203,6 +211,7 @@ private lemma omega_mul_mem_inf {A₀ : AddSubgroup F} {ω z : F} (hω2 : ω ^ 2
     exact AddSubgroup.add_mem _ hzA ha
   · exact AddSubgroup.mem_map.mpr ⟨z, hzA, rfl⟩
 
+omit [CharP F 2] in
 private lemma card_mul_le_of_map {A₀ : AddSubgroup F} {ω : F} (hω0 : ω ≠ 0)
     (hF64 : Nat.card F = 64) :
     Nat.card ↥A₀ * Nat.card ↥A₀ ≤

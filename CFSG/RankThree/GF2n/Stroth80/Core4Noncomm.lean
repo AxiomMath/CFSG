@@ -53,7 +53,7 @@ theorem psi_surj_of_card {K W S : Type*} [Field K] [Finite K] [AddCommGroup W] [
   let Ψ : S → Ann := fun a => ⟨ψ a, (hAnn _).mpr (hvan a)⟩
   have hΨinj : Function.Injective Ψ := fun a b hab => hψinj (congrArg Subtype.val hab)
   have hfinAnn : Finite Ann := by
-    haveI : Module.Finite K Ann := inferInstance
+    have : Module.Finite K Ann := inferInstance
     exact Module.finite_of_finite K
   have hle : Nat.card Ann ≤ Nat.card S := hAnnle.trans hcard
   have hbij : Function.Bijective Ψ := hΨinj.bijective_of_nat_card_le hle
@@ -106,30 +106,36 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   classical
   exact if h : g ∈ H0 M Z then Pk.φ ⟨g, h⟩ else 1
 
+omit [Finite G] in
 theorem GlobalModelAction.act_of_mem (Pk : GlobalModelAction M Q Z K γ M₀) {g : G}
     (hg : g ∈ H0 M Z) : Pk.act g = Pk.φ ⟨g, hg⟩ := by
   simp [GlobalModelAction.act, hg]
 
+omit [Finite G] in
 theorem GlobalModelAction.act_mul (Pk : GlobalModelAction M Q Z K γ M₀) {g h : G}
     (hg : g ∈ H0 M Z) (hh : h ∈ H0 M Z) : Pk.act (g * h) = Pk.act g * Pk.act h := by
   rw [Pk.act_of_mem hg, Pk.act_of_mem hh, Pk.act_of_mem ((H0 M Z).mul_mem hg hh)]
   exact map_mul Pk.φ ⟨g, hg⟩ ⟨h, hh⟩
 
+omit [Finite G] in
 theorem GlobalModelAction.act_inv (Pk : GlobalModelAction M Q Z K γ M₀) {g : G}
     (hg : g ∈ H0 M Z) : Pk.act g⁻¹ = (Pk.act g)⁻¹ := by
   rw [Pk.act_of_mem hg, Pk.act_of_mem ((H0 M Z).inv_mem hg)]
   exact map_inv Pk.φ ⟨g, hg⟩
 
+omit [Finite G] in
 theorem GlobalModelAction.act_pi (Pk : GlobalModelAction M Q Z K γ M₀) {g x : G}
     (hg : g ∈ H0 M Z) (hx : x ∈ Q) : M₀.π (g * x * g⁻¹) = Pk.act g (M₀.π x) := by
   rw [Pk.act_of_mem hg]
   exact Pk.hφπ ⟨g, hg⟩ x hx
 
+omit [Finite G] in
 theorem GlobalModelAction.act_eq_one_iff (Pk : GlobalModelAction M Q Z K γ M₀) {g : G}
     (hg : g ∈ H0 M Z) : Pk.act g = 1 ↔ g ∈ Q := by
   rw [Pk.act_of_mem hg]
   exact Pk.hφker ⟨g, hg⟩
 
+omit [Finite G] in
 theorem GlobalModelAction.act_fix (Pk : GlobalModelAction M Q Z K γ M₀) {g u : G}
     (hg : g ∈ H0 M Z) (hQn : M ≤ Subgroup.normalizer (Q : Set G)) (hu : u ∈ Q)
     (hgu : ⁅g, u⁆ ∈ Z) : Pk.act g (M₀.π u) = M₀.π u := by
@@ -167,6 +173,7 @@ theorem conj_LA_eq_of_mem_CN (hc : Ctx M Q Z B) {n : ℕ} {t : G} (hs : Sec9Hyp 
   rw [sup_comm]
   exact conj_le_sup_of_mem_CN hc hs hrR hx
 
+omit [CharP K 2] in
 theorem act_fix_line (Pk : GlobalModelAction M Q Z K γ M₀) (hc : Ctx M Q Z B) {n : ℕ} {t : G}
     (hs : Sec9Hyp hc n t) {r : G} (hrR : r ∈ Rt M (LB M Q B) t) {x : G}
     (hxL : x ∈ LB M Q B) (hx : x ∈ hc.CN t) {a : M₀.E} (haA : a ∈ M₀.img (conjSubgroup r B)) :
@@ -176,6 +183,7 @@ theorem act_fix_line (Pk : GlobalModelAction M Q Z K γ M₀) (hc : Ctx M Q Z B)
     (hc.conj_Rt_le_Vt hs.toSec5.mem hrR) (Subgroup.mem_sup_left huA)
   exact Pk.act_fix (hc.LB_le_H0_cb hxL) hc.hyp.Q_normal.2 huQ ((Ctx.mem_CN.mp hx).2 u hAV)
 
+omit [CharP K 2] in
 theorem act_mem_img_QInfQB (Pk : GlobalModelAction M Q Z K γ M₀) (hc : Ctx M Q Z B) {n : ℕ}
     {t : G} (hs : Sec9Hyp hc n t) {r : G} (hrR : r ∈ Rt M (LB M Q B) t) {x : G}
     (hxL : x ∈ LB M Q B) (hx : x ∈ hc.CN t) {e : M₀.E}
@@ -208,7 +216,7 @@ theorem act_mem_img_QInfQB (Pk : GlobalModelAction M Q Z K γ M₀) (hc : Ctx M 
 
 theorem conj_CN_eq_of_mem_Rt (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {r : G}
     (hr : r ∈ Rt M (LB M Q B) t) : conjSubgroup r (hc.CN t) = hc.CN t :=
-  HS9.conj_eq_of_le (HS9.conj_le_of_forall fun x hx => hc.CN_conj_mem ht hr hx)
+  HS9.conj_eq_of_le (HS9.conj_le_of_forall fun _x hx => hc.CN_conj_mem ht hr hx)
 
 theorem LA_inf_CN_eq (hc : Ctx M Q Z B) {t : G} (ht : t ∈ LB M Q B) {r : G}
     (hr : r ∈ Rt M (LB M Q B) t) :
@@ -225,6 +233,7 @@ theorem relIndex_Q_LA_inf_CN (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : �
   rw [e1] at h3
   exact h3
 
+omit [CharP K 2] in
 theorem card_img_Vt_inf_QB_conj (Pk : GlobalModelAction M Q Z K γ M₀) (hc : Ctx M Q Z B) {n : ℕ}
     {t : G} (hs : Sec9Hyp hc n t) (h91 : Step91OrderVQBStatement) {r : G}
     (hr : r ∈ Rt M (LB M Q B) t) :
@@ -252,12 +261,15 @@ theorem card_img_Vt_inf_QB_conj (Pk : GlobalModelAction M Q Z K γ M₀) (hc : C
   rw [h4] at h
   exact (Nat.eq_of_mul_eq_mul_left hpos h).symm
 
+omit [CharP K 2] in
+omit [Finite G] in
 theorem act_fix_img_Vt (Pk : GlobalModelAction M Q Z K γ M₀) (hc : Ctx M Q Z B) {t g : G}
     (hgH : g ∈ H0 M Z) (hg : g ∈ hc.CN t) {e : M₀.E}
     (he : e ∈ M₀.img (Vt M (LB M Q B) B Z t)) : Pk.act g e = e := by
   obtain ⟨w, hwV, hwQ, rfl⟩ := he
   exact Pk.act_fix hgH hc.hyp.Q_normal.2 hwQ ((Ctx.mem_CN.mp hg).2 w hwV)
 
+omit [CharP K 2] in
 theorem card_phi_image (Pk : GlobalModelAction M Q Z K γ M₀) {H : Subgroup G} (hQH : Q ≤ H)
     (hHH0 : H ≤ H0 M Z) :
     Nat.card ↥((H.subgroupOf (H0 M Z)).map Pk.φ) = Q.relIndex H := by
@@ -311,7 +323,7 @@ theorem exists_act_psi_eq (Pk : GlobalModelAction M Q Z K γ M₀) (h34 : Stroth
   have hQTA : Q ≤ TA := le_inf hQLA (sec9_Q_le_CN hc hs5.mem)
   obtain ⟨hWn, hWp, hWs⟩ := hcA.imgQInfQB_lagr hs5.width hs5.n_gt hnoA Pk.h
   have hWmem := hcA.mem_imgQInfQB_iff hs5.width hs5.n_gt hnoA Pk.h
-  haveI : Finite (Pk.lam A) := Pk.finite_lam A
+  have : Finite (Pk.lam A) := Pk.finite_lam A
   let Ssub : Subgroup (M₀.E ≃ₗ[K] M₀.E) := (TA.subgroupOf (H0 M Z)).map Pk.φ
   have hSmem : ∀ T, T ∈ Ssub ↔ ∃ g ∈ TA, Pk.act g = T := by
     intro T
@@ -326,7 +338,7 @@ theorem exists_act_psi_eq (Pk : GlobalModelAction M Q Z K γ M₀) (h34 : Stroth
     obtain ⟨g, hgT, rfl⟩ := (hSmem T).mp hT
     rw [Pk.act_of_mem (hTAH0 hgT)]
     exact (Pk.phi_mem_lam_iff ⟨g, hTAH0 hgT⟩).mpr hgT.1
-  haveI : Finite Ssub := Finite.of_injective (Subgroup.inclusion hSΛ)
+  have : Finite Ssub := Finite.of_injective (Subgroup.inclusion hSΛ)
     (Subgroup.inclusion_injective hSΛ)
   have hq : 1 < Nat.card K := by
     rw [Pk.h.card]
@@ -375,7 +387,7 @@ theorem exists_act_psi_eq (Pk : GlobalModelAction M Q Z K γ M₀) (h34 : Stroth
       apply Subtype.ext
       have := congrArg (fun z : Sg => z.1.1) h
       exact this
-    haveI : Finite Sg := Module.finite_of_finite K
+    have : Finite Sg := Module.finite_of_finite K
     have h1 := Nat.card_le_card_of_injective ι hι
     rw [hcard3, Module.natCard_eq_pow_finrank (K := K) (V := Sg)] at h1
     exact (Nat.pow_le_pow_iff_right hq).mp h1
@@ -531,7 +543,7 @@ theorem coset_core (Pk : GlobalModelAction M Q Z K γ M₀) (h34 : Stroth34State
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre hs5.mem hZ0
   have hZ0H0 : Z0 ≤ H0 M Z := (hcen.1.trans inf_le_left).trans hLBH0
   let Zset : Set (W →ₗ[K] K) := {f | ∃ z ∈ Z0, flagPsiLin M₀ W f₀ (Pk.act z) = f}
-  haveI : Finite (W →ₗ[K] K) := Module.finite_of_finite K
+  have : Finite (W →ₗ[K] K) := Module.finite_of_finite K
   have hZsetcard : Nat.card Zset ≤ Nat.card K := by
     let ev : ↥Z0 → Zset := fun z => ⟨flagPsiLin M₀ W f₀ (Pk.act z), z, z.2, rfl⟩
     have hev : ∀ z z' : ↥Z0, (QuotientGroup.leftRel (Q.subgroupOf Z0)) z z' → ev z = ev z' := by

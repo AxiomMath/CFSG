@@ -38,7 +38,7 @@ private theorem sec11d2_twoCoreIn_conj {K K' : Subgroup G} {a : G}
   have h : K.map (MulAut.conj a⁻¹).toMonoidHom = K' := hK
   rw [sec11d2_twoCoreIn_map (MulAut.conj a⁻¹) K K' h]
   refine Subgroup.mem_map.mpr ⟨x, hx, ?_⟩
-  simp [MulAut.conj_apply]
+  simp
 
 private theorem sec11d2_conjugate_swap {K K' : Subgroup G} {a : G} (haa : a * a = 1)
     (h : CFSG.conjugate K a = K') : CFSG.conjugate K' a = K := by
@@ -50,7 +50,7 @@ private theorem sec11d2_conjugate_swap {K K' : Subgroup G} {a : G} (haa : a * a 
       MonoidHom.id G := by
     ext x
     simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply, hainv,
-      inv_inv, MonoidHom.id_apply]
+      MonoidHom.id_apply]
     calc a * (a * x * a) * a = (a * a) * x * (a * a) := by group
       _ = x := by rw [haa]; group
   rw [hid, Subgroup.map_id]

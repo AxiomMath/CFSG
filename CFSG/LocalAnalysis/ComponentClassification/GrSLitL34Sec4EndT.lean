@@ -19,7 +19,7 @@ theorem isSylowTwoIn_inf_centralizer {S B : Subgroup G}
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, rfl⟩ := hS
   have hSN' : IsSylowTwoIn (P : Subgroup G) (normalizer (B : Set G)) :=
-    isSylowTwoIn_of_not_dvd hSN P.isPGroup' fun h =>
+    isSylowTwoIn_of_not_dvd hSN P.isPGroup fun h =>
       P.not_dvd_index (h.trans (relIndex_dvd_index_of_le hSN))
   exact isSylowTwoIn_inf_of_normal hSN'
     (fun c hc => mem_normalizer_of_forall_commute fun y hy =>

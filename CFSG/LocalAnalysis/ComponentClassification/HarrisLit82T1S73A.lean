@@ -230,7 +230,7 @@ theorem not_le_centralizer_tSeven_odd {S : Subgroup (spinGroup (quadOdd 3 K))}
   have hmN : m ∈ normalizer ((Ssyl : Subgroup (spinGroup (quadOdd 3 K))) :
       Set (spinGroup (quadOdd 3 K))) :=
     Sylow.smul_eq_iff_mem_normalizer.mp
-      (Sylow.ext ((m • Ssyl).maximal_isPGroup.eq_of_ge Ssyl.isPGroup' hmS).symm)
+      (Sylow.ext ((m • Ssyl).maximal_isPGroup.eq_of_ge Ssyl.isPGroup hmS).symm)
   set n := m⁻¹ with hn
   have hnN : n ∈ normalizer ((Ssyl : Subgroup (spinGroup (quadOdd 3 K))) :
       Set (spinGroup (quadOdd 3 K))) := inv_mem hmN
@@ -280,7 +280,7 @@ theorem spinSeven_lemma410a_odd {S₀ : Subgroup (spinGroup (quadOdd 3 K))} (hS�
   set T₀ := (T₁ : Subgroup C).map C.subtype with hT₀
   have hT₀C : T₀ ≤ C := map_subtype_le _
   have hT₀sub : T₀.subgroupOf C = T₁ := comap_map_eq_self_of_injective C.subtype_injective _
-  have hT : IsSylowIn 2 T₀ C := ⟨hT₀C, T₁.isPGroup'.map _, by
+  have hT : IsSylowIn 2 T₀ C := ⟨hT₀C, T₁.isPGroup.map _, by
     show ¬ 2 ∣ (T₀.subgroupOf C).index
     rw [hT₀sub]
     exact Sylow.not_dvd_index T₁⟩
@@ -332,7 +332,7 @@ theorem spinSeven_lemma410a_odd {S₀ : Subgroup (spinGroup (quadOdd 3 K))} (hS�
   have hx'C : x' ∈ C := mem_centralizer_singleton_iff.mpr (hx'c _ (hTS' htT₀))
   have hx'T₀ : x' ∈ T₀ := by
     have hU : IsPGroup 2 ↥(T₀ ⊔ zpowers x') :=
-      S'.isPGroup'.to_le (sup_le hTS' (zpowers_le.mpr hx'S'))
+      S'.isPGroup.to_le (sup_le hTS' (zpowers_le.mpr hx'S'))
     have hUC : T₀ ⊔ zpowers x' ≤ C := sup_le hT₀C (zpowers_le.mpr hx'C)
     have hU' : IsPGroup 2 ((T₀ ⊔ zpowers x').subgroupOf C) :=
       hU.comap_of_injective _ C.subtype_injective
@@ -344,7 +344,7 @@ theorem spinSeven_lemma410a_odd {S₀ : Subgroup (spinGroup (quadOdd 3 K))} (hS�
     rw [heq] at hmem
     exact ⟨_, hmem, rfl⟩
   have hS'syl : IsSylowIn 2 (S' : Subgroup (spinGroup (quadOdd 3 K))) ⊤ :=
-    ⟨le_top, S'.isPGroup', by rw [relIndex_top_right]; exact Sylow.not_dvd_index S'⟩
+    ⟨le_top, S'.isPGroup, by rw [relIndex_top_right]; exact Sylow.not_dvd_index S'⟩
   have hxx' : x = g * x' * g⁻¹ := by rw [hx']; group
   rcases mem_center_sylow_centralizer_odd hp hp2 hK hT hx'T₀
     (fun y hy => hx'c y (hTS' hy)) with h | h | h | h

@@ -17,6 +17,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem zl_aut_eq_one {Bs K : Subgroup G} {y : G} (hyBs : y ∈ Bs) (hy1 : y ≠ 1)
     (hBs : CFSG.Open.IsElemAbelian 3 Bs) (hnt : GGNoTransvection 3 Bs)
     (hKy : K ≤ Subgroup.centralizer ({y} : Set G)) {θ : MulAut ↥Bs} (hθ : θ ∈ ggAutomizer K Bs)

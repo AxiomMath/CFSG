@@ -188,10 +188,10 @@ theorem eaInv_step {L : Array (Array ℕ)} {invs : Array ℕ} {E : Array ℕ} (h
   · exact ⟨h1, h2, h3⟩
 
 theorem foldl_mem_inv {σ α : Type} (f : σ → α → σ) (I : σ → Prop) :
-    ∀ (l : List α), (∀ s x, x ∈ l → I s → I (f s x)) → ∀ s, I s → I (l.foldl f s)
-  | [], _, s, hs => hs
-  | x :: l, h, s, hs => foldl_mem_inv f I l (fun s y hy => h s y (List.mem_cons_of_mem _ hy))
-      (f s x) (h s x List.mem_cons_self hs)
+    ∀ (l : List α), (∀ _s x, x ∈ l → I _s → I (f _s x)) → ∀ _s, I _s → I (l.foldl f _s)
+  | [], _, _s, hs => hs
+  | x :: l, h, _s, hs => foldl_mem_inv f I l (fun _s y hy => h _s y (List.mem_cons_of_mem _ hy))
+      (f _s x) (h _s x List.mem_cons_self hs)
 
 theorem eaNext_inv (L : Array (Array ℕ)) (invs : Array ℕ) :
     EaInv M L invs (L.foldl (fun s E => invs.foldl (eaNextStep M E) s) (∅, #[])) := by
@@ -206,7 +206,7 @@ theorem pt_sq {h : H} (hh : M.m (R.pt h) (R.pt h) = 0) : h * h = 1 :=
 theorem eaInvs_spec {a : ℕ} (ha : a ∈ (eaInvs M).toList) :
     a < M.N ∧ a ≠ 0 ∧ M.m a a = 0 := by
   unfold eaInvs at ha
-  simp only [List.toList_toArray, List.mem_filter, List.mem_range, Bool.and_eq_true, bne_iff_ne,
+  simp only [List.mem_filter, List.mem_range, Bool.and_eq_true, bne_iff_ne,
     ne_eq, beq_iff_eq] at ha
   exact ⟨ha.1, ha.2.1, ha.2.2⟩
 
@@ -400,7 +400,7 @@ theorem exists_rp (K : Subgroup H) : ∃ r, Rp R r K := by
   classical
   refine ⟨eaMask ((List.range M.N).filter fun i => ∃ h ∈ K, R.pt h = i).toArray,
     rp_eaMask R fun i => ?_⟩
-  simp only [List.toList_toArray, List.mem_filter, List.mem_range, decide_eq_true_eq]
+  simp only [List.mem_filter, List.mem_range, decide_eq_true_eq]
   exact ⟨fun h => h.2, fun ⟨g, hg, e⟩ => ⟨e ▸ R.pt_lt g, g, hg, e⟩⟩
 
 structure Rows (M : RegModel) (n w : ℕ) (T : ℕ → ℕ) (IXP IVP : ℕ) : Prop where

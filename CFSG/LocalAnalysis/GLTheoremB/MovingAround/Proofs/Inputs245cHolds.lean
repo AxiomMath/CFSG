@@ -27,7 +27,7 @@ open CFSG.AGLEmbedding.R3.McLThree
 theorem coverX0_McL
     (hs : IsSimpleGroup (CFSGIndex.sporadic .McL).Group) :
     CoverX0 (CFSGIndex.sporadic .McL).Group 3 := by
-  haveI : IsSimpleGroup SporadicName.McL.Group := hs
+  have : IsSimpleGroup SporadicName.McL.Group := hs
   obtain ⟨b⟩ := CFSG.QuasithinUnique.SQTK.nonempty_mulEquiv_carrier_McL
   exact coverX0_of_mulEquiv b.symm (coverX0_of_coverPointDatumA (Y := NativeSporadic.McL)
     Nat.prime_three (by norm_num)

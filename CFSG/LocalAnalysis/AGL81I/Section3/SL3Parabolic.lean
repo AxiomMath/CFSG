@@ -75,7 +75,7 @@ theorem isParabolicP_top_iff_isParabolicGrp (Q : Subgroup G) :
   · rintro ⟨T, hT⟩
     refine ⟨le_top, (T : Subgroup G), ?_, ?_⟩
     · rw [isSylowOf_iff]
-      exact ⟨le_top, T.isPGroup', by
+      exact ⟨le_top, T.isPGroup, by
         rw [Subgroup.relIndex_top_right]
         exact T.not_dvd_index⟩
     · simpa using hT

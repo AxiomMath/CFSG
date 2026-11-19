@@ -16,9 +16,10 @@ theorem false_of_t200_inv_of_noConj [IsSimpleGroup G]
     (hpow : ∀ (g : G) (k : ℕ), g⁻¹ * e ^ (2 * k) * g ∈ (S : Subgroup G) →
       g⁻¹ * e ^ (2 * k) * g ∈ U)
     (hconj : ∀ g : G, g⁻¹ * e * g ∉ U) : False :=
-  CFSG.EvenSporadicStandard.TwoHS.false_of_thompson_pow hnonab S.isPGroup' S.not_dvd_index
+  CFSG.EvenSporadicStandard.TwoHS.false_of_thompson_pow hnonab S.isPGroup S.not_dvd_index
     hUS hUidx heS heU hpow hconj
 
+omit [Finite G] in
 theorem H47Inv_c₁_pow {D : Subgroup G} {m : ℕ}
     (dD : StrothWeakTypeData D (.t200 m)) (hm : 1 ≤ m) (k : ℕ) :
     ((dD.c : G) ^ 2 ^ (m - 1)) ^ k = 1 ∨ ((dD.c : G) ^ 2 ^ (m - 1)) ^ k =

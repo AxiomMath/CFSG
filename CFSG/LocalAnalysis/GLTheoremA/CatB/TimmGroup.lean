@@ -93,7 +93,7 @@ theorem exists_central_involution {P : Subgroup G} (hc : Nat.card (center ↥P) 
     exact congrArg Subtype.val this
 
 theorem eq_centralizer_of_isMaxTwoLocal {M : Subgroup G} (hM : IsMaxTwoLocalSubgroup M)
-    {P : Subgroup G} (hPM : P ≤ M) (hPn : ∀ m ∈ M, ∀ x ∈ P, m * x * m⁻¹ ∈ P)
+    {P : Subgroup G} (_hPM : P ≤ M) (hPn : ∀ m ∈ M, ∀ x ∈ P, m * x * m⁻¹ ∈ P)
     (hc : Nat.card (center ↥P) = 2) {z : G} (hz : z ∈ P) (hz1 : z ≠ 1)
     (hz2 : orderOf z = 2) (hzc : ∀ x ∈ P, x * z = z * x) :
     M = centralizer ({z} : Set G) := by

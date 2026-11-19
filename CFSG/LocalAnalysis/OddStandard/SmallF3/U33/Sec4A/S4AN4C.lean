@@ -14,14 +14,17 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 theorem n4_comm_of_conj_eq {n g : G} (h : n * g * n⁻¹ = g) : g * n = n * g := by
   calc g * n = (n * g * n⁻¹) * n := by rw [h]
     _ = n * g := by group
 
+omit [Finite G] in
 theorem n4_conj_eq_of_comm {n g : G} (h : g * n = n * g) : n * g * n⁻¹ = g := by
   calc n * g * n⁻¹ = (g * n) * n⁻¹ := by rw [h]
     _ = g := by group
 
+omit [Finite G] in
 theorem n4_fix_of_fix_mul {n a b : G} (ha2 : a * a = 1) (h1 : n * a * n⁻¹ = a)
     (h2 : n * (a * b) * n⁻¹ = a * b) : n * b * n⁻¹ = b := by
   have e1 : n * b * n⁻¹ = (n * a * n⁻¹) * (n * (a * b) * n⁻¹) := by
@@ -29,6 +32,7 @@ theorem n4_fix_of_fix_mul {n a b : G} (ha2 : a * a = 1) (h1 : n * a * n⁻¹ = a
       _ = (n * a * n⁻¹) * (n * (a * b) * n⁻¹) := by group
   rw [e1, h1, h2, ← mul_assoc, ha2, one_mul]
 
+omit [Finite G] in
 theorem n4_mem_smul_iff {F : Subgroup G} {a x : G} : x ∈ a • (F : Set G) ↔ ∃ f ∈ F, x = a * f := by
   rw [Set.mem_smul_set]
   constructor
@@ -37,14 +41,18 @@ theorem n4_mem_smul_iff {F : Subgroup G} {a x : G} : x ∈ a • (F : Set G) ↔
   · rintro ⟨f, hf, h⟩
     exact ⟨f, hf, h.symm⟩
 
+omit [Finite G] in
 theorem n4_four_le_A (t x₁ x₂ : G) : fourGrp x₁ x₂ ≤ ctxE t x₁ x₂ := by
   rw [pt_ctxE_eq_sup]
   exact le_sup_right
 
+omit [Finite G] in
 theorem n4_t_mem_A (t x₁ x₂ : G) : t ∈ ctxE t x₁ x₂ := Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 theorem n4_y_mem_four (x₁ x₂ : G) : x₁ ^ 2 ∈ fourGrp x₁ x₂ := Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 theorem n4_z_mem_four (x₁ x₂ : G) : (x₁ * x₂) ^ 2 ∈ fourGrp x₁ x₂ :=
   Subgroup.subset_closure (by simp)
 
@@ -56,6 +64,7 @@ theorem n4_card_omega (h : Ctx0 t L S x₁ x₂ lam rho) :
   rw [Nat.card_coe_set_eq, Set.ncard_smul_set, ← Nat.card_coe_set_eq]
   exact n4_card_four h
 
+omit [Finite G] in
 theorem n4_t_mem_omega (t x₁ x₂ : G) : t ∈ t • (fourGrp x₁ x₂ : Set G) :=
   n4_mem_smul_iff.mpr ⟨1, Subgroup.one_mem _, (mul_one t).symm⟩
 
@@ -152,6 +161,7 @@ theorem n4_rho_moves (h : Ctx0 t L S x₁ x₂ lam rho) {f : G} (hf : f ∈ four
   rw [pt_inf_base h, Subgroup.mem_bot] at hmem
   exact hf1 hmem
 
+omit [Finite G] in
 theorem n4_lam_y (h : WreathRel x₁ x₂ lam) :
     lam * x₁ ^ 2 * lam⁻¹ = x₁ ^ 2 * (x₁ * x₂) ^ 2 := by
   have hcomm : Commute x₁ x₂ := h.comm
@@ -257,7 +267,7 @@ theorem n4_exists_conj_omega (h : L41GPh3 t L S x₁ x₂ lam rho)
     rw [h3, mul_one]
     exact Set.mem_singleton t
   have hcard : Nat.card ↥(t • (fourGrp x₁ x₂ : Set G) \ {t}) = 3 := by
-    rw [Nat.card_coe_set_eq, Set.ncard_diff_singleton_of_mem ht]
+    rw [Nat.card_coe_set_eq, Set.ncard_sdiff_singleton_of_mem ht]
     have h4 : (t • (fourGrp x₁ x₂ : Set G)).ncard = 4 := by
       rw [← Nat.card_coe_set_eq]
       exact n4_card_omega h0

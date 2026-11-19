@@ -33,7 +33,7 @@ private theorem irgF4_map_ggRootSub {U : Type*} [Group U] {Q : Type*} [Group Q]
     change θ (q (u * x * u⁻¹)) = q ((α u) * (α x) * (α u)⁻¹)
     rw [← hqα (u * x * u⁻¹)]
     congr 1
-    simpa only [map_mul, map_inv]
+    simp only [map_mul, map_inv]
   rw [key, hγ]
   simp only [ggRootSub, Subgroup.map_map]
   apply congrArg (fun f : U →* Q => Subgroup.map f (Δ.rootGroup γ'))

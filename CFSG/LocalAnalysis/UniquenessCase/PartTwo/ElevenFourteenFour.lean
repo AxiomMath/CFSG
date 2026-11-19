@@ -19,8 +19,8 @@ theorem inCalV1_of_noncyclic_quotient (D : Data G) (h61 : UC6.R6_1 D) {p : ℕ} 
     [((X ⊓ centralizer (V : Set G)).subgroupOf X).Normal]
     (hXc : ¬ IsCyclic (↥X ⧸ (X ⊓ centralizer (V : Set G)).subgroupOf X)) :
     InCalV1 D.M D.T V := by
-  haveI : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨(D.sig_prime p hp).1⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKM : D.M ⊓ centralizer (V : Set G) ≤ D.M := inf_le_left
   have hMK := uc22p22nc_le_normalizer_inf_centralizer hV.2.2.1
   have hS : IsSylowOf 2 (D.T ⊓ centralizer (V : Set G)) (D.M ⊓ centralizer (V : Set G)) := by
@@ -50,7 +50,7 @@ theorem eleven_four_one_of_sig (D : Data G) (h61 : UC6.R6_1 D) {V₀ V : Subgrou
       rintro rfl
       exact h4 (by simp)
     obtain ⟨hV₀, -, -⟩ := hcase.resolve_left hbot
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h8 : 8 ≤ Nat.card V₀ := by
       obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp (uc22p22e_isPGroup_of_elem hV₀.2.2.2)
       rw [hm] at h4 ⊢

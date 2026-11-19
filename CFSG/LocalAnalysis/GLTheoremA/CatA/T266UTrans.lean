@@ -16,6 +16,7 @@ section Setup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem sup_le_normalizer_of {K B : Subgroup G} (hBN : B ≤ Subgroup.normalizer (K : Set G)) :
     K ⊔ B ≤ Subgroup.normalizer (K : Set G) :=
   sup_le Subgroup.le_normalizer hBN
@@ -25,6 +26,7 @@ theorem twoLocalRank_le_of_le {X Y : Subgroup G} (h : X ≤ Y) :
   CFSG.HardMathSupport.Timmesfeld.ComponentBalance.i112b_twoLocalRank_le_of_injective Nat.prime_three
     (Subgroup.inclusion h) (Subgroup.inclusion_injective h)
 
+omit [Finite G] in
 theorem glaPPrimeCore_subgroupOf_eq_bot {X K : Subgroup G} (hKX : K ≤ X) (hO : GLAPPrimeCoreOf 3 K = ⊥) :
     GLAPPrimeCore 3 ↥(K.subgroupOf X) = ⊥ := by
   have h1 := map_subtype_glaPPrimeCoreOf_subgroupOf 3 hKX
@@ -48,7 +50,7 @@ theorem card_inf_centMod_subgroupOf {X K B : Subgroup G} (hKX : K ≤ X) (hBX : 
   have hker : ¬ 3 ∣ Nat.card X.subtype.ker := by
     rw [Subgroup.ker_subtype, Subgroup.card_bot]
     exact Nat.prime_three.not_dvd_one
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hA1 : IsPGroup 3 (B.subgroupOf X) :=
     isPGroup_of_isElemAbelian (T171.isElemAbelian_subgroupOf X hBX hB)
   have hAN : B.subgroupOf X ≤ Subgroup.normalizer ((K.subgroupOf X : Subgroup X) : Set X) :=
@@ -95,7 +97,7 @@ theorem exists_maxLayer {B E₀ : Subgroup G} (P : Subgroup G → Prop) (hB : Is
     (hcard : Nat.card B ≤ 3 * Nat.card E₀) (hP : P E₀) :
     ∃ E : Subgroup G, E₀ ≤ E ∧ E ≤ B ∧ P E ∧
       ∀ E' : Subgroup G, E' ≤ B → P E' → Nat.card E' ≤ Nat.card E := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hPB : P B
   · exact ⟨B, hE₀B, le_rfl, hPB, fun E' hE' _ => Subgroup.card_le_of_le hE'⟩
   · refine ⟨E₀, le_rfl, hE₀B, hP, fun E' hE'B hE' => ?_⟩

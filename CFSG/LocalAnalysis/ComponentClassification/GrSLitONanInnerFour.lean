@@ -27,7 +27,7 @@ theorem oddIn_comm_of_inner_four_on
   have hyx_comm : y * x = x * y :=
     Subgroup.mem_centralizer_singleton_iff.mp (Subgroup.mem_inf.mp hyinf).2
   let U : Subgroup ↥P := pPrimeCore 2 ↥P
-  haveI : U.Normal := CFSG.pPrimeCore_normal
+  have : U.Normal := CFSG.pPrimeCore_normal
   let x' : ↥P := ⟨x, hxP⟩
   let y' : ↥P := ⟨y, hyP⟩
   have hx' : orderOf x' = 2 := (Subgroup.orderOf_mk x hxP).trans hx
@@ -89,7 +89,7 @@ theorem commutator_inner_ne_bot_le_wGroup_of_on
       ⁅oddIn P ⊓ centralizer ({x} : Set G), gsFixedLayer P x⁆ ≤
         ⁅oddIn P, P⁆ ⊓ wGroup (zpowers x ⊔ zpowers t) := by
   have hperf : ⁅P, P⁆ = P := by
-    haveI : Group.IsPerfect ↥(P.subgroupOf (centralizer ({t} : Set G))) :=
+    have : Group.IsPerfect ↥(P.subgroupOf (centralizer ({t} : Set G))) :=
       ClassicalInvolution.LBalanceProof.isPerfect_of_isPComponent hP
     have h2 : Group.IsPerfect ↥P :=
       Group.IsPerfect.ofSurjective (f := (subgroupOfEquivOfLe hPt).toMonoidHom)
@@ -234,7 +234,7 @@ theorem commutator_inner_ne_bot_le_wGroup_of_on
       (f := (centralizer ({t} : Set G)).subtype)
       (H₁ := pPrimeCore 2 (centralizer ({t} : Set G))) (H₂ := ⊤)
       (K₁ := oddIn P) (K₂ := P) hOdd ?_
-    · haveI : (pPrimeCore 2 (centralizer ({t} : Set G))).Normal := CFSG.pPrimeCore_normal
+    · have : (pPrimeCore 2 (centralizer ({t} : Set G))).Normal := CFSG.pPrimeCore_normal
       refine hcomm.trans ?_
       exact Subgroup.map_mono (Subgroup.commutator_le_left
         (H₁ := pPrimeCore 2 (centralizer ({t} : Set G))) (H₂ := ⊤))

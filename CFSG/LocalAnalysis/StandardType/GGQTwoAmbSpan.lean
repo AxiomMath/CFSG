@@ -18,8 +18,8 @@ theorem GGQTwoAmbModel.span_insert_xV {G : Type} [Group G] [Finite G] {p : ℕ} 
       (insert M.xV (Set.range fun i : {k // k ≠ M.a} => M.coroot i)) = ⊤ := by
   subst hp
   classical
-  haveI : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
-  haveI : FiniteDimensional (ZMod 3) M.V := Module.Finite.of_finite
+  have : Finite M.V := Finite.of_equiv (Additive ↥Bs) M.model.toEquiv
+  have : FiniteDimensional (ZMod 3) M.V := Module.Finite.of_finite
   have hfix1 : ∀ v, (∀ g ∈ M.toLin.parab {k | k ≠ M.a}, g v = v) ↔
       v ∈ Submodule.span (ZMod 3) {M.xV} := M.fixed_lin
   have hxα : ∀ j : {k // k ≠ M.a}, M.root j M.xV = 0 :=

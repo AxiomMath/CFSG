@@ -19,11 +19,11 @@ theorem coprime_pgroup_fixed_sylow [Finite G]
         (sylow : Subgroup G).subgroupOf (FixedPoints.subgroup A G) := by
   let fixed := FixedPoints.subgroup A G
   let restricted := (sylow : Subgroup G).subgroupOf fixed
-  have hrestrictedP : IsPGroup sylowPrime restricted := sylow.isPGroup'.comap_subtype
+  have hrestrictedP : IsPGroup sylowPrime restricted := sylow.isPGroup.comap_subtype
   obtain ⟨fixedSylow, hcontained⟩ := hrestrictedP.exists_le_sylow
   let embedded := (fixedSylow : Subgroup fixed).map fixed.subtype
   have hembeddedP : IsPGroup sylowPrime embedded :=
-    fixedSylow.isPGroup'.map fixed.subtype
+    fixedSylow.isPGroup.map fixed.subtype
   have hembeddedFixed : embedded ≤ fixed := by
     rintro element ⟨original, _, rfl⟩
     exact original.property

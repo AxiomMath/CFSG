@@ -23,6 +23,7 @@ theorem qTwoLMDivF_ggPermSU_coe (σ : Equiv.Perm (Fin m)) :
   simp only [CFSG.RankThree.Classical.permGL, MonoidHom.coe_toHomUnits,
     Matrix.permMatrixHom_apply]
 
+omit [Finite F0] [CharP F0 2] in
 theorem qTwoLMDivF_scalar_ne_zero (hm : 0 < m) {Z : GL (Fin m) F0} {z : F0}
     (hZ : (Z : Matrix (Fin m) (Fin m) F0) = Matrix.diagonal fun _ => z) : z ≠ 0 := by
   intro h0
@@ -32,6 +33,7 @@ theorem qTwoLMDivF_scalar_ne_zero (hm : 0 < m) {Z : GL (Fin m) F0} {z : F0}
     zero_pow hm.ne'] at hdet
   exact not_isUnit_zero hdet
 
+omit [Finite F0] [CharP F0 2] in
 theorem qTwoLMDivF_scalar_inv {Z : GL (Fin m) F0} {z : F0} (hz : z ≠ 0)
     (hZ : (Z : Matrix (Fin m) (Fin m) F0) = Matrix.diagonal fun _ => z) :
     ((Z⁻¹ : GL (Fin m) F0) : Matrix (Fin m) (Fin m) F0) = Matrix.diagonal fun _ => z⁻¹ := by

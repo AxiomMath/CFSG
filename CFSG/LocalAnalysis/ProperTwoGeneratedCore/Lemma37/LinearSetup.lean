@@ -27,7 +27,7 @@ theorem sylowBar_self (hz : IsCentralInvolution (S : Subgroup G) z) :
 theorem sylowBar_injective (hz : IsCentralInvolution (S : Subgroup G) z) :
     Function.Injective (sylowBar hz) := by
   intro a b h
-  have := escapingMk_injOn_twoGroup S.isPGroup' (a := ⟨a, hz.le_centralizer a.2⟩)
+  have := escapingMk_injOn_twoGroup S.isPGroup (a := ⟨a, hz.le_centralizer a.2⟩)
     (b := ⟨b, hz.le_centralizer b.2⟩) a.2 b.2 h
   exact Subtype.ext (congrArg (fun m : Subgroup.centralizer ({z} : Set G) => (m : G)) this)
 

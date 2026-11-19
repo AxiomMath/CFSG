@@ -27,11 +27,11 @@ theorem le_of_isExtraspecialExpP_of_gamma
   obtain ⟨E, hEQ, hEel, hEcard⟩ :=
     exists_elemAbelian_nine_le_of_isExtraspecialExpP (G := G) (Q := Q) hQext
   have hEN : E ≤ Subgroup.normalizer (O : Set G) := hEQ.trans hQO
-  haveI hNorm : Subgroup.Normalizes E O := ⟨hEN⟩
-  haveI : Finite ↥E := Subtype.finite
-  haveI : IsMulCommutative ↥E := hEel.1
-  letI : CommGroup ↥E := IsMulCommutative.instCommGroup
-  haveI : Fact (IsPGroup 3 ↥E) := ⟨hEel.isPGroup⟩
+  have hNorm : Subgroup.Normalizes E O := ⟨hEN⟩
+  have : Finite ↥E := Subtype.finite
+  have : IsMulCommutative ↥E := hEel.1
+  let : CommGroup ↥E := IsMulCommutative.instCommGroup
+  have : Fact (IsPGroup 3 ↥E) := ⟨hEel.isPGroup⟩
   have hncyc : ¬ IsCyclic ↥E := by
     intro hcyc
     have hexp : Monoid.exponent ↥E ∣ 3 :=

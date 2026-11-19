@@ -191,10 +191,10 @@ private theorem diagHom_conj_stdFamilyV_θ_mem (hK : Nat.card K = 4) {m : ℕ}
     by_cases h : j.val + 1 = k'.val
     · have hk' : j.val + 1 < m := h.symm ▸ k'.isLt
       have hj' : j.val < m := Nat.lt_of_succ_lt hk'
-      rw [stdThetaAt, dif_pos h]
+      rw [stdThetaAt, dite_eq_left h]
       exact diagHom_conj_stdChainTheta_mem (F := F) hK
         (⟨j.val, hj'⟩ : Fin m) hk' d A
-    · rw [stdThetaAt, dif_neg h]
+    · rw [stdThetaAt, dite_eq_right h]
       refine ⟨1, ?_⟩
       simp
   · rw [stdFamilyV_θ, stdTheta_last]
@@ -252,7 +252,7 @@ private theorem qTwoTor_le_normalizer_edge (hK : Nat.card K = 4) {m : ℕ}
         Set (CFSG.RankThree.Classical2.orthDerived (Qn E (m + 1)))) := by
   have hne : j ≠ k := by
     rintro rfl
-    rw [CFSG.StandardType.ggCoxeterMatrixD_apply, if_pos rfl] at h3
+    rw [CFSG.StandardType.ggCoxeterMatrixD_apply, ite_eq_left rfl] at h3
     omega
   rw [Subgroup.le_normalizer_iff]
   intro t ht x hx

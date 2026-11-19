@@ -27,25 +27,25 @@ theorem oTwoUpper_eq_oTwoRes {X : Type} [Group X] (A : Subgroup X) : oTwoUpper A
 
 theorem nonempty_mulEquiv_zmod_five {P : Type} [Group P] (hP : Nat.card P = 5) :
     Nonempty (P ≃* Multiplicative (ZMod 5)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : IsCyclic P := isCyclic_of_prime_card hP
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : IsCyclic P := isCyclic_of_prime_card hP
   exact ⟨(zmodCyclicMulEquiv (inferInstance : IsCyclic P)).symm.trans
     (AddEquiv.toMultiplicative (ZMod.ringEquivCongr hP).toAddEquiv)⟩
 
 theorem nonempty_mulEquiv_zmod_five_prod {P : Type} [Group P] (hP : Nat.card P = 25)
     (hexp : ∀ x : P, x ^ 5 = 1) :
     Nonempty (P ≃* Multiplicative (ZMod 5) × Multiplicative (ZMod 5)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Finite P := Nat.finite_of_card_ne_zero (by omega)
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Finite P := Nat.finite_of_card_ne_zero (by omega)
   have hP' : Nat.card P = 5 ^ 2 := by rw [hP]; norm_num
-  letI : CommGroup P := IsPGroup.commGroupOfCardEqPrimeSq hP'
+  let : CommGroup P := IsPGroup.commGroupOfCardEqPrimeSq hP'
   have h5 : ∀ x : Additive P, (5 : ℕ) • x = 0 := fun x => by
     apply Additive.toMul.injective
     simpa using hexp (Additive.toMul x)
-  letI : Module (ZMod 5) (Additive P) := AddCommGroup.zmodModule h5
-  haveI : Finite (Additive P) := Finite.of_equiv P Additive.ofMul
-  letI : Fintype (Additive P) := Fintype.ofFinite _
-  haveI : Module.Finite (ZMod 5) (Additive P) := Module.Finite.of_finite
+  let : Module (ZMod 5) (Additive P) := AddCommGroup.zmodModule h5
+  have : Finite (Additive P) := Finite.of_equiv P Additive.ofMul
+  let : Fintype (Additive P) := Fintype.ofFinite _
+  have : Module.Finite (ZMod 5) (Additive P) := Module.Finite.of_finite
   have hfr : Module.finrank (ZMod 5) (Additive P) = 2 := by
     have h1 := Module.card_eq_pow_finrank (K := ZMod 5) (V := Additive P)
     have h2 : Fintype.card (Additive P) = 5 ^ 2 := by
@@ -134,9 +134,10 @@ theorem center_eq_bot_of_simple_perfect {X : Type} [Group X] [IsSimpleGroup X]
     have h1 : commutator X = ⊥ := (commutator_eq_bot_iff_center_eq_top X).mpr h
     have h2 : commutator X = ⊤ := hp.commutator_eq_top
     rw [h1] at h2
-    haveI : Nontrivial X := IsSimpleGroup.toNontrivial
+    have : Nontrivial X := IsSimpleGroup.toNontrivial
     exact bot_ne_top h2
 
+omit [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))] in
 theorem ker_toAutI_le_pCore (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClosure Vp H)
     (hS : IsSimpleGroup (↥K ⧸ CFSG.pCore 2 ↥K)) (hne : autIH V₁ I H K ≠ ⊥) :
     (toAutI h I).ker ≤ CFSG.pCore 2 ↥K := by
@@ -155,6 +156,7 @@ theorem ker_toAutI_le_pCore (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjClo
   have h2 := hinj (h1.trans (map_one f).symm)
   exact (QuotientGroup.eq_one_iff x).mp h2
 
+omit [Fact (IsElemAbelian 2 (tildeOf V₁ (conjClosure I H)))] in
 theorem mem_pCoreOf_of_mem_K_of_actH_eq_one (h : HypF918 T V L V₁ Vp H K)
     (hIU : I ≤ conjClosure Vp H) (hS : IsSimpleGroup (↥K ⧸ CFSG.pCore 2 ↥K))
     (hne : autIH V₁ I H K ≠ ⊥) {x : G} (hxK : x ∈ K)

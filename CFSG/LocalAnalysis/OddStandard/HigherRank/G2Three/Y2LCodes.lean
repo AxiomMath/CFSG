@@ -73,7 +73,7 @@ theorem y2l_dec_inj {m n : List ℕ} (hm : m.length = 9) (hn : n.length = 9)
   have e : 3 * (t / 3) + t % 3 = t := by omega
   have h1 := congrFun (congrFun h ⟨t / 3, by omega⟩) ⟨t % 3, by omega⟩
   rw [y2l_dec_apply, y2l_dec_apply] at h1
-  simp only [Fin.val_mk, e, List.getD_eq_getElem?_getD, List.getElem?_eq_getElem ht1,
+  simp only [e, List.getD_eq_getElem?_getD, List.getElem?_eq_getElem ht1,
     List.getElem?_eq_getElem ht2, Option.getD_some] at h1
   have h2 := (ZMod.natCast_eq_natCast_iff' _ _ 4).mp h1
   rwa [Nat.mod_eq_of_lt (hm4 _ (List.getElem_mem ht1)),
@@ -122,7 +122,7 @@ theorem y2l_length_enc (D : Matrix (Fin 3) (Fin 3) (ZMod 4)) : (y2l_enc D).lengt
 
 theorem y2l_dec_enc (D : Matrix (Fin 3) (Fin 3) (ZMod 4)) : y2l_dec (y2l_enc D) = D := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [y2l_dec_apply, y2l_enc, ZMod.natCast_zmod_val]
+  fin_cases i <;> fin_cases j <;> simp [y2l_dec_apply, y2l_enc]
 
 theorem y2l_enc_mem_bits {D : Matrix (Fin 3) (Fin 3) (ZMod 4)}
     (h : ∀ i j, D i j = 0 ∨ D i j = 1) : y2l_enc D ∈ y2l_bits 9 := by

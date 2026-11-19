@@ -68,7 +68,7 @@ theorem rowMap_injective (hrl : rows.length = 6)
     rw [← hmc, pmask_pointOf, sum_maskVec_eq_ind_bsum hrl] at h1
     by_contra hb
     rw [Bool.not_eq_false] at hb
-    rw [hb, if_pos rfl] at h1
+    rw [hb, ite_eq_left rfl] at h1
     exact one_ne_zero h1
   apply Multiplicative.toAdd.injective
   rw [← hmc, hm0]

@@ -50,11 +50,11 @@ open Subgroup CFSG.Open CFSG.AGLEmbedding CFSG.AGLEmbeddingD2.ParabLevi
 
 private theorem cartanB_ne_zero_iff {m : ℕ} {i j : Fin m} (hij : i ≠ j) :
     cartanB m i j ≠ 0 ↔ i.val + 1 = j.val ∨ j.val + 1 = i.val := by
-  simp only [cartanB, Matrix.of_apply, if_neg hij]
+  simp only [cartanB, Matrix.of_apply, ite_eq_right hij]
   by_cases h : i.val + 1 = j.val ∨ j.val + 1 = i.val
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     exact ⟨fun _ => h, fun _ => by split_ifs <;> norm_num⟩
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     exact ⟨fun h0 => absurd rfl h0, fun h0 => absurd h0 h⟩
 
 private theorem nodeAdj_val_minus {n : ℕ} {F : Type} [Field F] {b c : F}
@@ -130,12 +130,12 @@ private theorem le_of_interval {n : ℕ} {a b' : Fin (n - 1)} {C : Set (Fin (n -
 private theorem interval_eq_runNodes {n : ℕ} {a b' : Fin (n - 1)} {C : Set (Fin (n - 1))}
     (hCab : C = Set.Icc a b') : C = runNodes n a.val b'.val := by
   rw [hCab]; ext j
-  simp only [Set.mem_Icc, runNodes, Set.mem_setOf_eq, Fin.le_def]
+  simp only [Set.mem_Icc, runNodes, Set.mem_ofPred_eq, Fin.le_def]
 
 private theorem interval_eq_blkNodes {n : ℕ} {a b' : Fin (n - 1)} {C : Set (Fin (n - 1))}
     (hCab : C = Set.Icc a b') (hb' : b'.val + 1 = n - 1) : C = blkNodes (n - 1) a.val := by
   rw [hCab]; ext j
-  simp only [Set.mem_Icc, blkNodes, Set.mem_setOf_eq, Fin.le_def]
+  simp only [Set.mem_Icc, blkNodes, Set.mem_ofPred_eq, Fin.le_def]
   exact ⟨fun h => h.1, fun h => ⟨h, by have := j.isLt; omega⟩⟩
 
 private theorem lt_of_card_two_interval {n : ℕ} {a b' : Fin (n - 1)} {C : Set (Fin (n - 1))}

@@ -52,7 +52,7 @@ theorem prod_acts : ∀ L : List ℕ,
         CertificateChecks.KernelFi23Q.conjPt_acts (frPts_lt i) x hx
     rw [List.map_cons, List.prod_cons, map_mul]
     refine actsAs_congr (h1.mul (prod_acts L)) fun x _ => ?_
-    rw [frW_cons, wa_append, wa_cons, wa_nil, lf_eq, if_neg (by omega), Nat.add_sub_cancel_left]
+    rw [frW_cons, wa_append, wa_cons, wa_nil, lf_eq, ite_eq_right (by omega), Nat.add_sub_cancel_left]
 
 theorem rho_inj {g h : CFSG.Sporadic.Fi23.J}
     (e : CertificateChecks.KernelFi23Q.ρ g = CertificateChecks.KernelFi23Q.ρ h) : g = h := by
@@ -112,8 +112,8 @@ theorem frame_trip (i j k : Fin 23) (hij : i ≠ j) (hki : k ≠ i) (hkj : k ≠
     beta_reduce at h3
     rw [e] at h3
     unfold frTripAt at h3
-    rw [bIf_eq, if_neg (beq_false (hn hij)), bIf_eq, if_neg (beq_false (hn hki)), bIf_eq,
-      if_neg (beq_false (hn hkj))] at h3
+    rw [bIf_eq, ite_eq_right (beq_false (hn hij)), bIf_eq, ite_eq_right (beq_false (hn hki)), bIf_eq,
+      ite_eq_right (beq_false (hn hkj))] at h3
     have h4 := prod_ne_of_frNe h3
     rw [prod_two] at h4
     rwa [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one] at h4

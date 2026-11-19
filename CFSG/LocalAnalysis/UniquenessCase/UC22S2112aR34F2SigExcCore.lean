@@ -731,7 +731,7 @@ theorem mem_centralizer_of_pow_eq_one_of_mem_normalizer_funSet {X : Type} [Group
   have hQN : (P : Subgroup X) ⊓ K ≤ normalizer (K : Set X) :=
     inf_le_right.trans Subgroup.le_normalizer
   have h2 : IsPGroup 2 ((((P : Subgroup X) ⊓ K).subgroupOf (normalizer (K : Set X))).map ρ) := by
-    have hQ2 : IsPGroup 2 ↥((P : Subgroup X) ⊓ K) := P.isPGroup'.to_le inf_le_left
+    have hQ2 : IsPGroup 2 ↥((P : Subgroup X) ⊓ K) := P.isPGroup.to_le inf_le_left
     exact (hQ2.of_equiv (subgroupOfEquivOfLe hQN).symm).map _
   have hxQ : (⟨x, hxK⟩ : normalizer (K : Set X)) ∈
       normalizer ((((P : Subgroup X) ⊓ K).subgroupOf (normalizer (K : Set X)) :

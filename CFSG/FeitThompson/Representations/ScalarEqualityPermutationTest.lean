@@ -341,7 +341,7 @@ theorem indClassFun_one_eq_zero_of_notMem [Fintype L] {X : Subgroup L} {A : Set 
     have h3 := hAinv t⁻¹ _ hA
     simp only [inv_inv] at h3
     exact hyA (by simpa [show t * (t⁻¹ * y * t) * t⁻¹ = y from by group] using h3)
-  · rw [dif_neg hmem]
+  · rw [dite_eq_right hmem]
 
 theorem scalarPermChar_eq_zero_of_notMem [Fintype L] {p q : ℕ} {K H U B H0 : Subgroup L}
     [H.Normal] [H0.Normal] {Eline : ZMod q → Subgroup (↥H ⧸ H0.subgroupOf H)} {A : Set L}
@@ -387,7 +387,7 @@ theorem eq_zero_of_mem_scalarEqualityFamily [Fintype L] {p q : ℕ} {K H U B H0 
   rw [indClassFun_apply]
   refine mul_eq_zero_of_right _ (Finset.sum_eq_zero fun t _ => ?_)
   by_cases hmem : t⁻¹ * y * t ∈ K
-  · rw [dif_pos hmem]
+  · rw [dite_eq_left hmem]
     set z : ↥K := ⟨t⁻¹ * y * t, hmem⟩ with hzdef
     have hzcoe : (z : L) = t⁻¹ * y * t := rfl
     have hz1 : (z : L) ≠ 1 := by
@@ -402,7 +402,7 @@ theorem eq_zero_of_mem_scalarEqualityFamily [Fintype L] {p q : ℕ} {K H U B H0 
       exact hyA (by simpa [show t * (t⁻¹ * y * t) * t⁻¹ = y from by group] using h2)
     exact eq_zero_of_inf_centralizer_eq_bot hirr hdet
       (inf_centralizer_subgroupOf_eq_bot_of_notMem hc hz1 hzA)
-  · rw [dif_neg hmem]
+  · rw [dite_eq_right hmem]
 
 theorem scalarTestChar_eq_zero_of_notMem [Fintype L] {p q : ℕ} {K H U B H0 : Subgroup L}
     [H.Normal] [H0.Normal] [K.Normal] {Eline : ZMod q → Subgroup (↥H ⧸ H0.subgroupOf H)}

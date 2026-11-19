@@ -15,7 +15,7 @@ theorem stdVanishes_of_innerClosure_eq_top {G₀ : Type} [Group G₀] [Finite G�
   rintro ⟨T, hTne, hT2, hle⟩
   have htop : (⊤ : Subgroup G₀) ≤ Subgroup.normalizer (T : Set G₀) := by
     simpa [h] using hle
-  haveI : T.Normal := Subgroup.normalizer_eq_top_iff.mp (le_antisymm le_top htop)
+  have : T.Normal := Subgroup.normalizer_eq_top_iff.mp (le_antisymm le_top htop)
   rcases hsimple.eq_bot_or_eq_top_of_normal T with hT | hT
   · exact hTne hT
   · exact h2 (hT ▸ hT2)

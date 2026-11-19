@@ -21,10 +21,10 @@ theorem exists_langLevi (τ : Tag) (K : Type) [Field K] [Finite K] (w : WeylGrou
     (hw : w • highRoot τ = highRoot τ) : Nonempty (LangLevi τ K w) := by
   classical
   obtain ⟨p, hpK⟩ := CharP.exists K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hpp, hcard⟩ := FiniteField.card K p
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : CharP (AlgebraicClosure K) p :=
+  have : Fact p.Prime := ⟨hpp⟩
+  have : CharP (AlgebraicClosure K) p :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective p
   have hcard' : Nat.card K = p ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hcard]
   have hZ := LangLeviAux.isConnectedAlgebraicSubgroup_parabolicLevi (τ := τ)

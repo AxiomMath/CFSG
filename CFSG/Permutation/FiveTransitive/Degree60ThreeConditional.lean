@@ -43,7 +43,7 @@ private theorem fixed_six_excluded_of_five_fixed_cases
       obtain ⟨g,hg⟩ := hN5 a b ha hb
       exact ⟨⟨toPermHom N F g,⟨g,rfl⟩⟩,hg⟩
   let _ : Nontrivial F := Finite.one_lt_card_iff_nontrivial.mp (by omega)
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixeq : (F : Set X) = fixedPoints Q X := FixedNormalizerAction.fixed_eq Q
   let rho : N →* Equiv.Perm F := toPermHom N F
   have hd : 5 ∣ Nat.card rho.range := by

@@ -37,7 +37,7 @@ theorem mem_e6Inndiag_iff {K : Type} [Field K] [Finite K] (α : MulAut (adjointG
       α = MulAut.conj g * rootDiagAut Tag.E6 K a := by
   constructor
   · intro h
-    haveI := innerAut_normal (G := adjointGroup Tag.E6 K)
+    have := innerAut_normal (G := adjointGroup Tag.E6 K)
     obtain ⟨u, ⟨g, rfl⟩, v, ⟨a, rfl⟩, rfl⟩ := Subgroup.mem_sup_of_normal_left.1 h
     exact ⟨g, a, rfl⟩
   · rintro ⟨g, a, rfl⟩

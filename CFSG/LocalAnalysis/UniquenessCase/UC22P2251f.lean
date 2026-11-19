@@ -68,8 +68,8 @@ theorem exists_commute_of_card {W : Type} [Group W] [Finite W] {p : ℕ} [Fact p
 theorem nonempty_mulEquiv_alt_five {X : Type} [Group X] (h : IsL2Ev X 2) :
     Nonempty (X ≃* alternatingGroup (Fin 5)) := by
   obtain ⟨F, _, _, hF, ⟨e⟩⟩ := h
-  haveI := Fintype.ofFinite F
-  haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  have := Fintype.ofFinite F
+  have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have hcard : Fintype.card F = Fintype.card (GaloisField 2 2) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hF, GaloisField.card 2 2 two_ne_zero]
   obtain ⟨e₂⟩ := CFSG.Quasithin.S146zX.nonempty_mulEquiv_sl_two_four_of_alt_five
@@ -82,7 +82,7 @@ theorem false_of_five {Y Z : Type} [Group Y] [Finite Y] [Group Z] (e : Y ≃* Z)
     (hφj : ∀ c z, j (φ c z) = c * j z * c⁻¹) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {σ : MulAut Y}
     (hσ : orderOf σ = p) {Q : Subgroup Y} (hQ2 : IsPGroup 2 Q) (hQ : Q ≠ ⊥) (hσQ : ∀ q ∈ Q, σ q ∈ Q) :
     False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨c, hc⟩ := hφ.2 (MulAut.congr e σ)
   have hco : orderOf c = p := by rw [← orderOf_injective φ hφ.1 c, hc, MulEquiv.orderOf_eq, hσ]
   have h5 : p ∣ 24 * 5 := by
@@ -111,8 +111,8 @@ theorem false_of_five {Y Z : Type} [Group Y] [Finite Y] [Group Z] (e : Y ≃* Z)
 theorem false_of_isL3 {Y : Type} [Group Y] [Finite Y] (h : IsL3 Y 1) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     {σ : MulAut Y} (hσ : orderOf σ = p) {Q : Subgroup Y} (hQ2 : IsPGroup 2 Q) (hQ : Q ≠ ⊥)
     (hσQ : ∀ q ∈ Q, σ q ∈ Q) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup Y := PartTwo.isSimpleGroup_of_isL3 h
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup Y := PartTwo.isSimpleGroup_of_isL3 h
   have h168 : Nat.card Y = 168 := PartTwo.card_eq_of_isL3 h
   have hinj : Function.Injective (MulAut.conj : Y →* MulAut Y) := by
     refine (injective_iff_map_eq_one _).2 fun g hg => ?_
@@ -270,7 +270,7 @@ theorem uc22p2251f_mem_centralizer {G : Type} [Group G] [Finite G] (D : Data G) 
     (hbad : IsL2Ev ↥(Nb i) 2 ∨ IsL3 ↥(Nb i) 1 ∨ IsS5 ↥(Nb i)) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {x : G}
     (hxM : x ∈ D.M) (hxp : IsPGroup p (zpowers x)) (hxJ : x ∈ normalizer (jOf D.T : Set G))
     (hxE : x ∈ centralizer (proofE D : Set G)) : x ∈ centralizer (D.U : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hV := P22x.uc22p22xf_hV D
   have hd := hNb.1
   obtain ⟨n₀, hn₀⟩ := hxp ⟨x, mem_zpowers x⟩
@@ -365,7 +365,7 @@ theorem uc22p2251f_le_centralizer {G : Type} [Group G] [Finite G] (D : Data G) (
     (hNb : NbarSplit D Nb) {i : Fin m} (hS3 : ∀ k, k ≠ i → IsL2Ev ↥(Nb k) 1)
     (hbad : IsL2Ev ↥(Nb i) 2 ∨ IsL3 ↥(Nb i) 1 ∨ IsS5 ↥(Nb i)) {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p)
     {P : Subgroup G} (hPM : P ≤ D.M) (hPJ : P ≤ normalizer (jOf D.T : Set G)) (hP : IsPGroup p P) :
-    P ⊓ centralizer (proofE D : Set G) ≤ centralizer (D.U : Set G) := fun x hx =>
+    P ⊓ centralizer (proofE D : Set G) ≤ centralizer (D.U : Set G) := fun _x hx =>
   uc22p2251f_mem_centralizer D Ch h3 hH c hNb hS3 hbad hp hp5 (hPM hx.1) (hP.to_le (zpowers_le.2 hx.1))
     (hPJ hx.1) hx.2
 

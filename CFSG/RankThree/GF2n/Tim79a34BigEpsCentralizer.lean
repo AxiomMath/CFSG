@@ -138,7 +138,7 @@ theorem BigEpsCfg.exists_kappa [CharP F 2] (h : BigEpsCfg φ a M P Q B) {t : G} 
   obtain ⟨l, hl⟩ := hκ x hx
   exact ⟨l, by rw [← (hT x hx).2, hl]⟩
 
-theorem BigEpsCfg.pow_conj (h : BigEpsCfg φ a M P Q B) {t : G} {κ : F}
+theorem BigEpsCfg.pow_conj (_h : BigEpsCfg φ a M P Q B) {t : G} {κ : F}
     (hκ : ∀ x, spForm a x = 0 → ∃ l : F, t * φ x * t⁻¹ = φ (κ • x + l • a)) (j : ℕ) :
     ∀ x, spForm a x = 0 → ∃ l : F, t ^ j * φ x * (t ^ j)⁻¹ = φ (κ ^ j • x + l • a) := by
   induction j with
@@ -341,13 +341,13 @@ theorem exists_odd_complement_of_two_elements {Mb : Type} [Group Mb] [Finite Mb]
   set C : Subgroup Mb := Subgroup.centralizer (R : Set Mb) with hC
   have hCN : C ≤ Subgroup.normalizer (W : Set Mb) :=
     (Subgroup.centralizer_le_normalizer _).trans hN
-  haveI hnorm : (W.subgroupOf C).Normal :=
+  have hnorm : (W.subgroupOf C).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hWC).mpr hCN
   have hodd : Odd (W.subgroupOf C).index := by
     by_contra hnot
     have h2 : 2 ∣ (W.subgroupOf C).index :=
       even_iff_two_dvd.mp (Nat.not_odd_iff_even.mp hnot)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := ↥C ⧸ W.subgroupOf C) 2 h2
     obtain ⟨c, rfl⟩ := QuotientGroup.mk_surjective y
     have hc1 : (c : ↥C ⧸ W.subgroupOf C) ^ 2 = 1 := by

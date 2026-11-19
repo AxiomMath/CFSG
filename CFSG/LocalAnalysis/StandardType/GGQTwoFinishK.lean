@@ -15,7 +15,7 @@ theorem ggQ2_finishK {G : Type} [Group G] [Finite G] {p : ℕ} (hLB : GGLBalance
     {φ ψ : MulAut ↥Bs} (hφ : φ ∈ ggAutomizer ⊤ Bs) (hψ : ψ ∈ ggAutomizer K Bs)
     (hD : ∀ b : ↥Bs, (b : G) ∈ D → (((ψ * φ) b : ↥Bs) : G) ∈ D) :
     φ ∈ ggAutomizer (Subgroup.normalizer (ggG0 p B x L D J : Set G)) Bs :=
-  ggQ2_finish_of_le hLB hP hS hAJ hK1 hnb (fun k hk => le_ggG0_of_ggNbr hnb hk) hφ hψ hD
+  ggQ2_finish_of_le hLB hP hS hAJ hK1 hnb (fun _k hk => le_ggG0_of_ggNbr hnb hk) hφ hψ hD
 
 theorem ggQ2_yBridge {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {Bs : Subgroup G}
     {x y : G} {D L J K : Subgroup G} (M : GGQTwoModel p Bs x y D L J K)

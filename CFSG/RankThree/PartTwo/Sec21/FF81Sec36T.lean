@@ -100,19 +100,22 @@ theorem inf_cenS_hyp_inf_cen (hB : FF81Basis b L B b₁ b₂ b₃) (X : Subgroup
 theorem mem_nor_inf_cenS_hyp (hB : FF81Basis b L B b₁ b₂ b₃) {X : Subgroup G} {β : G}
     (hβ : β ∈ Subgroup.closure {b₁, b₂, b₃}) (hβX : β ∈ Nor X) (i : Fin 13) :
     β ∈ Nor (X ⊓ CenS (hyp b₁ b₂ b₃ i)) :=
-  mem_nor_inf hβX (mem_nor_cenS fun h hh => hB.B₁_comm hβ (hyp_le i hh))
+  mem_nor_inf hβX (mem_nor_cenS fun _h hh => hB.B₁_comm hβ (hyp_le i hh))
 
 variable {t₀ : G}
 
+omit [Finite G] in
 theorem le_cen_of_cenS (ht₀L : t₀ ∈ CenS L) : L ≤ Cen t₀ := fun l hl =>
   Subgroup.mem_centralizer_singleton_iff.mpr (Subgroup.mem_centralizer_iff.mp ht₀L l hl)
 
 theorem cen_le_nor_op_two : Cen t₀ ≤ Nor (Op 2 (Cen t₀)) := fun _ hg =>
   Subgroup.mem_normalizer_fintype fun _ hu => op_two_conj hg hu
 
+omit [Finite G] in
 theorem card_zpowers_t₀ (ht₀ : orderOf t₀ = 2) : Nat.card (Subgroup.zpowers t₀) = 2 := by
   rw [Nat.card_zpowers, ht₀]
 
+omit [Finite G] in
 theorem zpowers_le_inf_cenS (ht₀L : t₀ ∈ CenS L) {X H : Subgroup G} (ht₀X : t₀ ∈ X)
     (hH : H ≤ L) : Subgroup.zpowers t₀ ≤ X ⊓ CenS H :=
   Subgroup.zpowers_le.mpr ⟨ht₀X, Subgroup.centralizer_le hH ht₀L⟩

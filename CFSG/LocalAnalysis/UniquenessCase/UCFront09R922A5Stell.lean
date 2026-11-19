@@ -21,8 +21,8 @@ theorem le_calCGS_of_kProper
     (h3G : 3 ∣ Nat.card G) {V R : Subgroup G} (h3 : ¬ 3 ∣ Nat.card ↥V)
     (hVc : CFSG.QuasithinUnique.CharTwo V) (hRV : IsSylowOf 2 R V) (hR : R ≠ ⊥) :
     V ≤ UC6.calCGS R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial ↥R := (nontrivial_iff_ne_bot R).2 hR
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial ↥R := (nontrivial_iff_ne_bot R).2 hR
   obtain ⟨W, hWc, hW1, hWn⟩ :=
     CFSG.RankThree.S4Free.Stell34.stellmacherSzAll_proved.{0, 0} ↥R hRV.isPGroup inferInstance
   have hadm : CFSG.RankThree.S4Free.IsAdmissibleHost (inclusion hRV.le) := by
@@ -52,7 +52,7 @@ theorem I9_le_calCGS
     (hKPSz : CFSG.RankThree.PartTwo.KFacts.KPSz) {D : Data G} {Y H D₃ S : Subgroup G}
     (hY : Hyp97 D Y H D₃ S) (hR : pCoreOf 2 Y ≠ ⊥)
     (hRI : IsSylowOf 2 (pCoreOf 2 Y) (pCoreOf 2 Y ⊔ I9 H)) : I9 H ≤ UC6.calCGS (pCoreOf 2 Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRH : pCoreOf 2 Y ≤ H := (CFSG.LieType.BorelTits.pCoreOf_le 2 Y).trans hY.1.2.1.1
   have hR2 := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 Y
   have h3G : 3 ∣ Nat.card G := by

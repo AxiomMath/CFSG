@@ -139,8 +139,8 @@ theorem asch6_3Even_holds :
   obtain ⟨x, hxeven, hxne2⟩ := hx
   have hLne : L ≠ ⊥ := by
     intro hbot
-    haveI : Subsingleton ↥L := by rw [hbot]; infer_instance
-    haveI : Subsingleton (↥L ⧸ center ↥L) := inferInstance
+    have : Subsingleton ↥L := by rw [hbot]; infer_instance
+    have : Subsingleton (↥L ⧸ center ↥L) := inferInstance
     have hx1 : x = 1 := Subsingleton.elim x 1
     have hord : orderOf x = 1 := by rw [hx1]; exact orderOf_one
     rw [hord] at hxeven

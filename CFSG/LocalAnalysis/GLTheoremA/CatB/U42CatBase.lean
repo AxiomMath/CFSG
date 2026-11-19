@@ -22,6 +22,7 @@ section Commute
 
 variable {p : ℕ}
 
+omit [Finite G] in
 theorem mk_eq_one_iff_mem {X : Subgroup G} {z : G} (hz : z ∈ X) :
     (QuotientGroup.mk' (GLAPPrimeCore p ↥X) ⟨z, hz⟩ : ↥X ⧸ GLAPPrimeCore p ↥X) = 1 ↔
       z ∈ GLAPPrimeCoreOf p X := by
@@ -54,6 +55,7 @@ theorem comm_mem_core_of_ne {X L L' : Subgroup G} (hL : GLAPComponent p X L)
   rw [← hab]
   group
 
+omit [Finite G] in
 theorem card_gLBConj_eq (g : G) (H : Subgroup G) : Nat.card ↥(GLBConj g H) = Nat.card ↥H := by
   unfold GLBConj
   exact Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective
@@ -95,9 +97,11 @@ theorem mem_centMod_of_comm (hp : p.Prime) {X L : Subgroup G} (hL : GLAPComponen
   rw [← glaPPrimeCoreOf_inf_eq_of_isSubnormal hp hL.2.1]
   exact ⟨h1, hyc l hl⟩
 
+omit [Finite G] in
 theorem isCyclic_gLBConj_iff (g : G) (Q : Subgroup G) : IsCyclic ↥(GLBConj g Q) ↔ IsCyclic ↥Q :=
   (Subgroup.equivMapOfInjective Q (MulAut.conj g⁻¹).toMonoidHom (MulAut.conj g⁻¹).injective).isCyclic.symm
 
+omit [Finite G] in
 theorem isPGroup_gLBConj' (g : G) {Q : Subgroup G} (hQ : IsPGroup p ↥Q) : IsPGroup p ↥(GLBConj g Q) := by
   unfold GLBConj
   exact hQ.map _
@@ -137,6 +141,7 @@ theorem mem_ker_actC {X : Subgroup G} (hL : GLAPComponent 3 X L) {C : Subgroup G
   rw [MonoidHom.mem_ker, ← centMod_iff]
   exact chevAut_eq_one_iff Nat.prime_three hL (hCN c.2)
 
+omit [Finite G] in
 theorem mem_centMod_of_mem_centralizer (hxL : x ∈ Subgroup.centralizer (L : Set G)) :
     x ∈ centModSubgroup 3 L := by
   rw [mem_centModSubgroup]
@@ -169,7 +174,7 @@ theorem isTwoElem_mem_core (hL : GLAPComponent 3 (Subgroup.centralizer ({x} : Se
     {t : G} (ht : t ∈ Subgroup.centralizer ({x} : Set G)) (htm : t ∈ centModSubgroup 3 L)
     {k : ℕ} (htk : t ^ 2 ^ k = 1) :
     t ∈ GLAPPrimeCoreOf 3 (Subgroup.centralizer ({x} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := Subgroup.centralizer ({x} : Set G) with hC
   have hxC : x ∈ C := Subgroup.mem_centralizer_singleton_iff.2 rfl
   set N : Subgroup ↥C := (actC L hCN).ker with hN
@@ -207,7 +212,7 @@ theorem isTwoElem_mem_core (hL : GLAPComponent 3 (Subgroup.centralizer ({x} : Se
       refine hcyc P₁ ?_ ?_
       · rintro g ⟨_, ⟨n, hn, rfl⟩, rfl⟩
         exact centMod_iff.2 ((hmemN _).1 n.2)
-      · exact (P.isPGroup'.map _).map _
+      · exact (P.isPGroup.map _).map _
     rw [hP₁] at hP₁c
     rwa [← (Subgroup.equivMapOfInjective _ C.subtype C.subtype_injective).isCyclic,
       ← (Subgroup.equivMapOfInjective _ N.subtype N.subtype_injective).isCyclic] at hP₁c

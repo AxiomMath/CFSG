@@ -33,7 +33,7 @@ private theorem s16e_twoB_perm3_transitive {α : Type} [Finite α] (hα : Nat.ca
 
 private theorem s16e_twoB_orbit_dvd {G α : Type} [Group G] [Finite G] (f : G →* Equiv.Perm α)
     (a : α) : (Set.range fun g : G => f g a).ncard ∣ Nat.card G := by
-  letI : MulAction G α := MulAction.compHom α f
+  let : MulAction G α := MulAction.compHom α f
   have h1 : Set.range (fun g : G => f g a) = MulAction.orbit G a := by
     ext x
     simp only [Set.mem_range, MulAction.mem_orbit_iff]
@@ -50,7 +50,7 @@ private theorem s16e_twoB_dvd_perm {G α : Type} [Group G] [Finite G] [Finite α
   have h3le : 3 ≤ Nat.card α := (Nat.Prime.dvd_factorial Nat.prime_three).1 (h3.trans hdvd)
   have hα : Nat.card α = 3 := le_antisymm hle h3le
   refine ⟨hα, fun a b => ?_⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' 3 h3
   have hg3 : g ^ 3 = 1 := by rw [← hg]; exact pow_orderOf_eq_one g
   have hg1 : g ≠ 1 := by
@@ -75,6 +75,7 @@ private theorem s16e_twoB_three_le_ncard {α : Type} [Finite α] {S : Set α} {x
     Set.ncard_eq_three.2 ⟨x, y, z, hxy, hxz, hyz, rfl⟩
   exact h3 ▸ Set.ncard_le_ncard h (Set.toFinite S)
 
+omit [Finite W] in
 theorem s16e_two_le_fixIrr (hHX : H ≤ X) : H ≤ s16e_two_fixIrr X H := by
   intro h hh
   refine ⟨hHX hh, fun I hI => ?_⟩
@@ -88,6 +89,7 @@ theorem s16e_two_le_fixIrr (hHX : H ≤ X) : H ≤ s16e_two_fixIrr X H := by
     refine Subgroup.mem_map.2 ⟨h⁻¹ u, hstab h⁻¹ (H.inv_mem hh) u hu, ?_⟩
     simp
 
+omit [Finite W] in
 theorem s16e_two_cent_inf_fixIrr (F : Cfg2Setting X H J₀ J₁)
     (hE₀ : Z391.EndUnitsTrivial H J₀) (hE₁ : Z391.EndUnitsTrivial H J₁) :
     s16e_two_cent X H ⊓ s16e_two_fixIrr X H = ⊥ := by
@@ -100,6 +102,7 @@ theorem s16e_two_cent_inf_fixIrr (F : Cfg2Setting X H J₀ J₁)
   rw [Subgroup.mem_bot]
   exact this
 
+omit [Finite W] in
 theorem s16e_two_commutator_cent_fixIrr (F : Cfg2Setting X H J₀ J₁)
     (hE₀ : Z391.EndUnitsTrivial H J₀) (hE₁ : Z391.EndUnitsTrivial H J₁) :
     ⁅s16e_two_cent X H, s16e_two_fixIrr X H⁆ = ⊥ := by
@@ -138,6 +141,7 @@ theorem s16e_two_commutator_cent_fixIrr (F : Cfg2Setting X H J₀ J₁)
   rw [Subgroup.mem_bot, commutatorElement_def, hc']
   group
 
+omit [Finite W] in
 theorem s16e_two_direct_of_sup (F : Cfg2Setting X H J₀ J₁) (hE₀ : Z391.EndUnitsTrivial H J₀)
     (hE₁ : Z391.EndUnitsTrivial H J₁)
     (hsup : s16e_two_cent X H ⊔ s16e_two_fixIrr X H = X) :
@@ -155,7 +159,7 @@ theorem s16e_two_transitive_of_three_dvd (F : Cfg2Setting X H J₀ J₁)
     (h3 : 3 ∣ Nat.card ↥(s16e_two_cent X H)) :
     ∀ I₁ ∈ irrSet H, ∀ I₂ ∈ irrSet H, ∃ k ∈ s16e_two_cent X H, I₂ = I₁.map k.toMonoidHom := by
   intro I₁ hI₁ I₂ hI₂
-  haveI : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
   have hf := s16e_two_irrAct_cent_injective F hE₀ hE₁
   have hle := s16e_two_irrSet_card_le_three F hE₀
   obtain ⟨-, htr⟩ := s16e_twoB_dvd_perm ((s16e_two_irrAct F).comp
@@ -165,6 +169,7 @@ theorem s16e_two_transitive_of_three_dvd (F : Cfg2Setting X H J₀ J₁)
   have := congrArg Subtype.val hk
   simpa [s16e_two_irrAct_apply] using this.symm
 
+omit [Finite W] in
 private theorem s16e_twoB_cfg2_cent (F : Cfg2Setting X H J₀ J₁) :
     Cfg2Setting (Subgroup.centralizer (H : Set (MulAut W))) H J₀ J₁ := by
   refine ⟨F.sq, ?_, F.simple, F.perfect, F.fix, F.irr₀, F.irr₁, F.inf_eq, F.sup_eq⟩
@@ -256,7 +261,8 @@ private theorem s16e_twoB_shear (F : Cfg2Setting X H J₀ J₁) {k : MulAut W}
   show h (γ (a * b)) = γ (h (a * b))
   rw [hγ (a * b), hγ (h (a * b)), hpa, hpa', map_mul h, map_mul h, hcomm]
 
-private theorem s16e_twoB_mul_comm_of_commutator (F : Cfg2Setting X H J₀ J₁)
+omit [Finite W] in
+private theorem s16e_twoB_mul_comm_of_commutator (_F : Cfg2Setting X H J₀ J₁)
     (hcomm : ⁅s16e_two_cent X H, s16e_two_fixIrr X H⁆ = ⊥) :
     ∀ k ∈ s16e_two_cent X H, ∀ n ∈ s16e_two_fixIrr X H, k * n = n * k := by
   intro k hk n hn
@@ -264,17 +270,20 @@ private theorem s16e_twoB_mul_comm_of_commutator (F : Cfg2Setting X H J₀ J₁)
   rw [hcomm, Subgroup.mem_bot] at h
   exact commutatorElement_eq_one_iff_mul_comm.1 h
 
+omit [Finite W] in
 private theorem s16e_twoB_map_mul (x y : MulAut W) (I : Subgroup W) :
     I.map (x * y).toMonoidHom = (I.map y.toMonoidHom).map x.toMonoidHom := by
   rw [Subgroup.map_map]
   rfl
 
+omit [Finite W] in
 private theorem s16e_twoB_decomp (F : Cfg2Setting X H J₀ J₁)
     (hcomm : ⁅s16e_two_cent X H, s16e_two_fixIrr X H⁆ = ⊥)
     (hsup : s16e_two_cent X H ⊔ s16e_two_fixIrr X H = X) {g : MulAut W} (hg : g ∈ X) :
     ∃ k ∈ s16e_two_cent X H, ∃ n ∈ s16e_two_fixIrr X H, g = k * n :=
   s16e_two_mem_sup_of_commute (s16e_twoB_mul_comm_of_commutator F hcomm) (hsup.ge hg)
 
+omit [Finite W] in
 private theorem s16e_twoB_exists_cent_map (F : Cfg2Setting X H J₀ J₁)
     (hcomm : ⁅s16e_two_cent X H, s16e_two_fixIrr X H⁆ = ⊥)
     (hsup : s16e_two_cent X H ⊔ s16e_two_fixIrr X H = X) {g : MulAut W} (hg : g ∈ X)
@@ -284,12 +293,12 @@ private theorem s16e_twoB_exists_cent_map (F : Cfg2Setting X H J₀ J₁)
   exact ⟨k, hk, by rw [s16e_twoB_map_mul, hn.2 I hI]⟩
 
 private theorem s16e_twoB_three_dvd_of_trans (F : Cfg2Setting X H J₀ J₁)
-    (hE₀ : Z391.EndUnitsTrivial H J₀) (hE₁ : Z391.EndUnitsTrivial H J₁)
+    (hE₀ : Z391.EndUnitsTrivial H J₀) (_hE₁ : Z391.EndUnitsTrivial H J₁)
     (hcomm : ⁅s16e_two_cent X H, s16e_two_fixIrr X H⁆ = ⊥)
     (hsup : s16e_two_cent X H ⊔ s16e_two_fixIrr X H = X)
     (hT : ∀ I₁ ∈ irrSet H, ∀ I₂ ∈ irrSet H, ∃ g ∈ X, I₂ = I₁.map g.toMonoidHom) :
     3 ∣ Nat.card ↥(s16e_two_cent X H) := by
-  haveI : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
   have hKT : ∀ I₁ ∈ irrSet H, ∀ I₂ ∈ irrSet H,
       ∃ k ∈ s16e_two_cent X H, I₂ = I₁.map k.toMonoidHom := by
     intro I₁ hI₁ I₂ hI₂
@@ -374,7 +383,7 @@ private theorem s16e_twoB_card_cent_eq_six (F : Cfg2Setting X H J₀ J₁)
     (h3 : 3 ∣ Nat.card ↥(s16e_two_cent X H))
     (hno3 : ∀ Nn : Subgroup ↥X, Nn.Normal → Nn.index ≠ 3) :
     Nat.card ↥(s16e_two_cent X H) = 6 := by
-  haveI : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
+  have : Finite (Subgroup W) := Finite.of_injective _ SetLike.coe_injective
   have hdvd := s16e_two_card_cent_dvd_six F hE₀ hE₁
   have hle6 : Nat.card ↥(s16e_two_cent X H) ≤ 6 := Nat.le_of_dvd (by norm_num) hdvd
   obtain ⟨c, hc⟩ := h3

@@ -36,7 +36,7 @@ theorem card_le_mul_card_ker_of_cyclic {X Q : Type} [Group X] [Finite X] [Group 
 theorem index_le_core {G : Type} [Group G] [Finite G] {R : Type} [Group R] [Finite (MulAut R)]
     {N A : Subgroup G} (hAN : A ≤ N) (ψ : N →* MulAut R)
     {p : ℕ} (hp : 0 < p) (hexp : ∀ a ∈ A, a ^ p = 1)
-    {S J : Subgroup (MulAut R)} (hJS : J ≤ S) (hJn : (J.subgroupOf S).Normal)
+    {S J : Subgroup (MulAut R)} (_hJS : J ≤ S) (hJn : (J.subgroupOf S).Normal)
     {g : MulAut R} (hg : g ∈ S) (hψS : ∀ (a : G) (ha : a ∈ A), ψ ⟨a, hAN ha⟩ ∈ S)
     (hgen : ∀ (a : G) (ha : a ∈ A), ∃ k : ℤ, g ^ k * ψ ⟨a, hAN ha⟩ ∈ J) :
     ∃ A₀ : Subgroup G, A₀ ≤ A ∧ (∀ (a : G) (ha : a ∈ A), a ∈ A₀ ↔ ψ ⟨a, hAN ha⟩ ∈ J) ∧

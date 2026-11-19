@@ -124,11 +124,11 @@ theorem exists_layerElt_of_centralizes {K' : Subgroup Y} {c t : Y}
       QuotientGroup.mk' (classicalInvolutionOddCore ↥(secH K' c)) h = q := by
   classical
   set tH : ↥(secH K' c) := ⟨⟨t, htC⟩, ht'⟩ with htH
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htH2 : tH ^ 2 ^ 1 = 1 := by
     rw [pow_one, pow_two]
     exact Subtype.ext (Subtype.ext ht2)
-  haveI : Fact (IsPGroup 2 ↥(Subgroup.zpowers tH)) := ⟨isPGroup_zpowers_of_pow htH2⟩
+  have : Fact (IsPGroup 2 ↥(Subgroup.zpowers tH)) := ⟨isPGroup_zpowers_of_pow htH2⟩
   have hcop : Nat.Coprime 2 (Nat.card ↥(classicalInvolutionOddCore ↥(secH K' c))) :=
     Nat.coprime_two_left.mpr (CFSG.ComponentClassification.OddCore.odd_card ↥(secH K' c))
   have h := CFSG.centralizer_map_quotient_eq_map_centralizer 2 (Subgroup.zpowers tH)

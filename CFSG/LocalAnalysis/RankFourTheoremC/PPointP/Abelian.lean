@@ -425,12 +425,12 @@ theorem isMulCommutative_sylow_p {p : ℕ} [hp : Fact p.Prime] (hp5 : 5 ≤ p)
       ⟨⟨b, hAC hb⟩, hb⟩
     exact congrArg (fun z => ((z.1 : centralizer (K : Set (RedCent p x))) : RedCent p x)) this
   have hRcomm := commute_of_inner_action_p (K := K) (R := (R : Subgroup (RedCent p x)))
-    R.isPGroup' hKC hKab hCab hinner
+    R.isPGroup hKC hKab hCab hinner
   set C : Subgroup G := centralizer ({x} : Set G) with hC
   set O : Subgroup C := primeComplementCore (G := C) p with hO
   set Qc : Subgroup C := ((P : Subgroup G) ⊓ C).subgroupOf C with hQc
   have hQcp : IsPGroup p Qc :=
-    (P.isPGroup'.to_le (inf_le_left : (P : Subgroup G) ⊓ C ≤ P)).comap_subtype
+    (P.isPGroup.to_le (inf_le_left : (P : Subgroup G) ⊓ C ≤ P)).comap_subtype
   have hinj := injOn_mk_of_isPGroup (primeComplementCore_coprime (G := C) p) hQcp
   refine IsMulCommutative.of_comm fun a b => ?_
   have haQ : (⟨a, hPC a.2⟩ : C) ∈ Qc := mem_subgroupOf.mpr ⟨a.2, hPC a.2⟩

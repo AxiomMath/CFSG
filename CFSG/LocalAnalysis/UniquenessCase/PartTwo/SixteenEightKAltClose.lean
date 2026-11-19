@@ -76,7 +76,7 @@ theorem s16k_false_of_alt_fix (h : S16gRowCtx D V₀ V L hV) {n : ℕ} (hn : 5 �
   unfold FFModel.RealizesVia FFModel.altDn at hπ
   obtain ⟨hπs, _hZU, _hkerle, _hHU, _hHZ, _hsec, _hker, β, _hβs, hβk, hβe⟩ := hπ
   have hUt : commSub ⊤ (lBar V₀ V hV L) = ⊤ := h.comm_top
-  haveI hAlt : IsSimpleGroup (FFModel.altDn n).Gam := by
+  have hAlt : IsSimpleGroup (FFModel.altDn n).Gam := by
     change IsSimpleGroup ↥(alternatingGroup (Fin n))
     exact alternatingGroup.isSimpleGroup (by simpa using hn)
   have hπi : Function.Injective π := (MonoidHom.ker_eq_bot_iff π).mp (by
@@ -84,9 +84,9 @@ theorem s16k_false_of_alt_fix (h : S16gRowCtx D V₀ V L hV) {n : ℕ} (hn : 5 �
     · exact hker
     · exfalso
       have hπ1 : π = 1 := MonoidHom.ker_eq_top_iff.mp hker
-      haveI : IsSimpleGroup (↥(lBar V₀ V hV L) ⧸ Subgroup.center ↥(lBar V₀ V hV L)) :=
+      have : IsSimpleGroup (↥(lBar V₀ V hV L) ⧸ Subgroup.center ↥(lBar V₀ V hV L)) :=
         h.quasi.2
-      haveI : Nontrivial ↥(lBar V₀ V hV L) :=
+      have : Nontrivial ↥(lBar V₀ V hV L) :=
         (QuotientGroup.mk'_surjective (Subgroup.center ↥(lBar V₀ V hV L))).nontrivial
       have htop : (⊤ : Subgroup ↥(lBar V₀ V hV L)) = ⊥ := by
         rw [← MonoidHom.range_eq_top.mpr hπs, hπ1]
@@ -114,7 +114,7 @@ theorem s16k_false_of_alt_fix (h : S16gRowCtx D V₀ V L hV) {n : ℕ} (hn : 5 �
     refine ⟨B, hBH.trans hle, ?_, ?_, ?_⟩
     · exact hB₀p.map F
     · intro hcyc
-      haveI : IsCyclic ↥(B₀.map F) := hcyc
+      have : IsCyclic ↥(B₀.map F) := hcyc
       exact hB₀c (isCyclic_of_injective
         (Subgroup.equivMapOfInjective B₀ F
           ((lBar V₀ V hV L).subtype_injective.comp hπi)).toMonoidHom
@@ -125,7 +125,7 @@ theorem s16k_false_of_alt_fix (h : S16gRowCtx D V₀ V L hV) {n : ℕ} (hn : 5 �
       rw [← hb_eq]
       rcases hcase with hxfix | ⟨m, hm_eq, hβx⟩
       · exact (mem_fixV.1 hxfix) ((lBar V₀ V hV L).subtype (π b₀)) (π b₀).2
-      · haveI : Fact p.Prime := ⟨hp⟩
+      · have : Fact p.Prime := ⟨hp⟩
         have hperm : G6.permAct n
             (b₀ : Equiv.Perm (Fin n)) (m : G6.PermMod n) ∈
             G6.coreMod n := G6.permAct_mem_coreMod _ m.2

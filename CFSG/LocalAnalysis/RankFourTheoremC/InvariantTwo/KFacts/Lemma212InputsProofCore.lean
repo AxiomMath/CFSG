@@ -56,7 +56,7 @@ theorem l212in_dvd_of_pow_mem {p : ℕ} (hp : p.Prime) {C : Type} [CommGroup C] 
     obtain ⟨c, hc⟩ := hdk
     rw [← QuotientGroup.mk_zpow, QuotientGroup.eq_one_iff, hmem]
     exact ⟨c, hc⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf g = p := orderOf_eq_prime hgp hg1
   have := (orderOf_dvd_iff_zpow_eq_one (x := g) (i := k)).2 hgk
   rwa [hord] at this
@@ -130,9 +130,9 @@ theorem outDiag_core {p : ℕ} (hp : p.Prime) {L X S D C : Type} [Group L] [Fini
     (hδ : δ ∉ (MulAut.conj : L →* MulAut L).range) (hαδ : α * δ * α⁻¹ = δ ^ b)
     (hαc : ∀ c ∈ center L, c ^ p = 1 → α c = c ^ a) :
     (a : ZMod p) = b ∨ (b : ZMod p) = 1 := by
-  haveI : Group.IsPerfect L := ⟨hL.1⟩
-  haveI : Group.IsPerfect S := hS
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Group.IsPerfect L := ⟨hL.1⟩
+  have : Group.IsPerfect S := hS
+  have : Fact p.Prime := ⟨hp⟩
   have hρinj : Function.Injective (l212in_descend e) := l212in_descend_injective e
   have hρδp : (l212in_descend e δ) ^ p = 1 := by rw [← map_pow, hδp, map_one]
   have hρb : l212in_descend e α * l212in_descend e δ * (l212in_descend e α)⁻¹ =
@@ -161,7 +161,7 @@ theorem outDiag_core {p : ℕ} (hp : p.Prime) {L X S D C : Type} [Group L] [Fini
       rw [← hc, map_mul, map_inv, map_pow, hdet B, zpow_sub, zpow_natCast]
       exact mul_comm _ _
     have hpb : (p : ℤ) ∣ κ - (b : ℤ) := l212in_dvd_of_pow_mem hp hnotpow hBp hBb
-    haveI : Nontrivial (center L) := (Subgroup.nontrivial_iff_ne_bot _).2 hZne
+    have : Nontrivial (center L) := (Subgroup.nontrivial_iff_ne_bot _).2 hZne
     obtain ⟨m, hm, hmcard⟩ := hZp.nontrivial_iff_card.mp inferInstance
     have hdvd : p ∣ Nat.card (center L) := hmcard ▸ dvd_pow_self p hm.ne'
     obtain ⟨c, hcord⟩ := exists_prime_orderOf_dvd_card' p hdvd

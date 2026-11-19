@@ -219,7 +219,7 @@ theorem exists_mem_normalizer_not_mem_centralizer_center (h₁ : IsKleinFour �
     · exact hs's h'.symm
   have ht2 : orderOf t = 2 := orderOf_eq_prime (by rw [sq]; exact htt) ht1
   obtain ⟨N, hNn, hNidx⟩ := CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson
-    (T := (𝔖.S : Subgroup G)) (U := U) 𝔖.S.isPGroup' 𝔖.S.not_dvd_index hUS hUidx htS htU
+    (T := (𝔖.S : Subgroup G)) (U := U) 𝔖.S.isPGroup 𝔖.S.not_dvd_index hUS hUidx htS htU
     (fun y _ hyU => by
       have hy1 : y ≠ 1 := fun h => hyU (h ▸ one_mem U)
       have hpos := orderOf_pos y

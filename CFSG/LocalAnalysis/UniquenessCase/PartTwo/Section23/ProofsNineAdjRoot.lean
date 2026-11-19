@@ -17,28 +17,30 @@ open scoped Pointwise
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem isPerfect_of_isSLn_two {m : ℕ} (hm : 2 ≤ m)
     (h : CFSG.LocalAnalysis.UniquenessCase.PartTwo.IsSLn X 2 m) :
     Group.IsPerfect X := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let := hKf
+  let := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hK4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
-  haveI : Group.IsPerfect ↥(StatedSL 2 K) :=
+  have : Group.IsPerfect ↥(StatedSL 2 K) :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_two_of_four_le_card hK4
   exact Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
 
+omit [Finite X] in
 theorem isSimpleGroup_of_isSLn_two {m : ℕ} (hm : 2 ≤ m)
     (h : CFSG.LocalAnalysis.UniquenessCase.PartTwo.IsSLn X 2 m) :
     IsSimpleGroup X := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let := hKf
+  let := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hK4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
@@ -50,30 +52,31 @@ theorem isSimpleGroup_of_isSLn_two {m : ℕ} (hm : 2 ≤ m)
     exact Nat.dvd_iff_mod_eq_zero.mp (dvd_pow_self 2 (by omega))
   have hchar : ringChar K = 2 :=
     (FiniteField.even_card_iff_char_two (F := K)).mpr hKeven
-  haveI : CharP K 2 := hchar ▸ ringChar.charP K
+  have : CharP K 2 := hchar ▸ ringChar.charP K
   have hbot : (StatedScalars (Fin 2) K).subgroupOf (StatedSL 2 K) = ⊥ :=
     CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSL_two_eq_bot
   let q : StatedProj (StatedSL 2 K) ≃* ↥(StatedSL 2 K) :=
     (QuotientGroup.quotientMulEquivOfEq hbot).trans QuotientGroup.quotientBot
-  haveI : IsSimpleGroup (StatedProj (StatedSL 2 K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSL 2 K)) :=
     CFSG.Open.StatedAPI.isSimpleGroup_statedProj_statedSL K (d := 2) (by norm_num)
       (Or.inr hK2) (Or.inr hK3)
-  haveI : IsSimpleGroup ↥(StatedSL 2 K) := q.symm.isSimpleGroup
+  have : IsSimpleGroup ↥(StatedSL 2 K) := q.symm.isSimpleGroup
   exact e.isSimpleGroup
 
+omit [Finite X] in
 theorem isL2_of_isSLn_two {m : ℕ} (hm : 2 ≤ m)
     (h : CFSG.LocalAnalysis.UniquenessCase.PartTwo.IsSLn X 2 m) :
     CFSG.LocalAnalysis.UniquenessCase.UC22.IsL2 X m := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-  letI := hKf
-  letI := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let := hKf
+  let := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hKeven : Fintype.card K % 2 = 0 := by
     rw [Fintype.card_eq_nat_card, hKcard]
     exact Nat.dvd_iff_mod_eq_zero.mp (dvd_pow_self 2 (by omega))
   have hchar : ringChar K = 2 :=
     (FiniteField.even_card_iff_char_two (F := K)).mpr hKeven
-  haveI : CharP K 2 := hchar ▸ ringChar.charP K
+  have : CharP K 2 := hchar ▸ ringChar.charP K
   have hbot : (StatedScalars (Fin 2) K).subgroupOf (StatedSL 2 K) = ⊥ :=
     CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSL_two_eq_bot
   let q : StatedProj (StatedSL 2 K) ≃* ↥(StatedSL 2 K) :=
@@ -96,14 +99,14 @@ theorem isL2_of_isSLn_two {m : ℕ} (hm : 2 ≤ m)
 theorem pCore_eq_bot_of_isSLn_two {m : ℕ} (hm : 2 ≤ m)
     (h : CFSG.LocalAnalysis.UniquenessCase.PartTwo.IsSLn X 2 m) :
     CFSG.pCore 2 X = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup X := isSimpleGroup_of_isSLn_two hm h
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup X := isSimpleGroup_of_isSLn_two hm h
   have hp : ¬ IsPGroup 2 X := by
     intro hP
     obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h
-    letI := hKf
-    letI := hKfin
-    letI : Fintype K := Fintype.ofFinite K
+    let := hKf
+    let := hKfin
+    let : Fintype K := Fintype.ofFinite K
     obtain ⟨n, hn⟩ := hP.exists_card_eq
     have hcard : Nat.card X = Nat.card K * (Nat.card K ^ 2 - 1) := by
       rw [Nat.card_congr e.toEquiv, CFSG.Open.StatedAPI.card_statedSL_two K]
@@ -119,7 +122,7 @@ theorem pCore_eq_bot_of_isSLn_two {m : ℕ} (hm : 2 ≤ m)
       exact h3X
     have h32 : 3 ∣ 2 := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3pow
     omega
-  haveI : (CFSG.pCore 2 X).Normal := CFSG.pCore_normal
+  have : (CFSG.pCore 2 X).Normal := CFSG.pCore_normal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.pCore 2 X) with hbot | htop
   · exact hbot
   · have hpc : IsPGroup 2 ↥(CFSG.pCore 2 X) := CFSG.pCore_isPGroup (p := 2) (G := X)
@@ -410,7 +413,7 @@ theorem rootLiftHom_conj_normalizer (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
         ((Subgroup.normalizerMonoidHom (rootLift c hV Xstar)) ⟨g, hgN⟩ y).2⟩ : ↥c.L) =
       ⟨g, hgL⟩ * ⟨(y : G), rootLift_le_L c hV Xstar y.2⟩ * ⟨g, hgL⟩⁻¹ := by
     apply Subtype.ext
-    simpa using hval
+    simp
   rw [hcle, map_mul, map_mul, map_inv]
   rfl
 
@@ -476,7 +479,7 @@ private theorem rootLift_comap_pCore_eq_and_quotient
         ↥Xstar) := by
   have hperfect : ⁅(⊤ : Subgroup ↥(rootLift c hV Xstar)),
       (⊤ : Subgroup ↥(rootLift c hV Xstar))⁆ = ⊤ := by
-    haveI : Group.IsPerfect ↥(rootLift c hV Xstar) :=
+    have : Group.IsPerfect ↥(rootLift c hV Xstar) :=
       Subgroup.isPerfect_iff.mpr (rootLift_perfect c hV Xstar)
     rw [← commutator_def]
     exact Group.IsPerfect.commutator_eq_top
@@ -529,8 +532,8 @@ private noncomputable def rootLiftCoset (c : Ctx23L D Ch) (hV : IsElemAbelian 2 
 
 private noncomputable def rootLiftAction (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
     {m : ℕ} {Xstar : Subgroup ↥(c.H hV)}
-    (hXle : Xstar ≤ ((Hinf (D.M ⊓ c.L)).subgroupOf c.L).map (c.phiL hV))
-    (hm2 : 2 ≤ m) (hXsl : IsSLn Xstar 2 m) {b : G}
+    (_hXle : Xstar ≤ ((Hinf (D.M ⊓ c.L)).subgroupOf c.L).map (c.phiL hV))
+    (_hm2 : 2 ≤ m) (_hXsl : IsSLn Xstar 2 m) {b : G}
     (hbX : b ∈ Subgroup.normalizer (rootLift c hV Xstar : Set G)) :
     Subgroup.zpowers b →* MulAut ↥(rootLift c hV Xstar) :=
   (Subgroup.normalizerMonoidHom (rootLift c hV Xstar)).comp
@@ -587,7 +590,7 @@ private theorem rootLift_fixed_point_hfix
   have hbA : b ∈ Subgroup.normalizer (rootLift c hV Xstar : Set G) :=
     (Subgroup.zpowers_le_of_mem hbX) bA.2
   let α : A →* MulAut ↥(rootLift c hV Xstar) := rootLiftAction c hV hXle hm2 hXsl hbX
-  letI : MulAction A ↥(rootLift c hV Xstar) := MulAction.compHom _ α
+  let : MulAction A ↥(rootLift c hV Xstar) := MulAction.compHom _ α
   let T : Set ↥(rootLift c hV Xstar) := rootLiftCoset c hV hXle hm2 hXsl u hu
   have hcoe : ∀ w : ↥Xstar, (w = ⟨u, hu⟩) ↔ ((w : ↥(c.H hV)) = u) := by
     intro w
@@ -674,7 +677,7 @@ private theorem exists_fixed_lift_of_coprime
       d0⁻¹ * α a y ∈ CFSG.pCore 2 ↥(rootLift c hV Xstar)) :
     ∃ d : ↥(rootLift c hV Xstar),
       rootLiftHom c hV hXle hm2 hXsl d = ⟨u, hu⟩ ∧ (d : G) * b = b * (d : G) := by
-  letI : Fact r.Prime := ⟨hr⟩
+  let : Fact r.Prime := ⟨hr⟩
   let X : Subgroup G := rootLift c hV Xstar
   let f : ↥X →* ↥Xstar := rootLiftHom c hV hXle hm2 hXsl
   let H : Subgroup ↥X := CFSG.pCore 2 ↥X
@@ -713,7 +716,7 @@ theorem exists_fixed_lift_rootLift (c : Ctx23L D Ch) (hV : IsElemAbelian 2 c.V)
       Subgroup.normalizer (Xstar : Set ↥(c.H hV)))
     (hXle : Xstar ≤ ((Hinf (D.M ⊓ c.L)).subgroupOf c.L).map (c.phiL hV))
     (hm2 : 2 ≤ m) (hXsl : IsSLn Xstar 2 m)
-    (huord : orderOf u = r)
+    (_huord : orderOf u = r)
     (hact : ∀ x ∈ Xstar, c.phiL hV ⟨b, c.hL0L (c.hB0.1 hb)⟩ * x *
       (c.phiL hV ⟨b, c.hL0L (c.hB0.1 hb)⟩)⁻¹ = u * x * u⁻¹) :
     ∃ d : ↥(rootLift c hV Xstar),
@@ -801,7 +804,7 @@ private theorem rootLift_inner_condition
   let zX : ↥X := bAct * dAct⁻¹
   have hzval : (zX : G) = b * x * b⁻¹ * (dRoot * x * dRoot⁻¹)⁻¹ := by
     simp [zX, bAct, dAct, xX, Subgroup.normalizerMonoidHom_apply_apply_coe,
-      Subgroup.coe_mul, Subgroup.coe_inv]
+      Subgroup.coe_mul]
   have hfb : (f bAct : ↥(c.H hV)) = t * (f xX) * t⁻¹ := by
     simpa [f, bAct, xX, t, bL] using
       rootLiftHom_conj_normalizer c hV hXle hm2 hXsl bL.2 hbX xX

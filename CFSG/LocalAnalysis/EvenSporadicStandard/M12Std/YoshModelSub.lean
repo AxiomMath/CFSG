@@ -137,7 +137,7 @@ open scoped Classical in
 theorem ψ_of_mem (E : NEmb e₀ d α k) {g : Equiv.Perm (Fin 16)} (hg : g ∈ NG α k) :
     ψ E g = E.Ψ ⟨g, hg⟩ := by
   unfold ψ
-  rw [dif_pos hg]
+  rw [dite_eq_left hg]
 
 theorem ψ_mul (E : NEmb e₀ d α k) {g h : Equiv.Perm (Fin 16)} (hg : g ∈ NG α k)
     (hh : h ∈ NG α k) : ψ E (g * h) = ψ E g * ψ E h := by

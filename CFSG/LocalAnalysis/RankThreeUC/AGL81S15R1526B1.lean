@@ -57,9 +57,10 @@ theorem isNatSum_tiM_aux_normalizer {L L' : Subgroup X} (hL : IsC2 L) (hL' : IsC
       exact ⟨l * l' * l⁻¹, ⟨l', hl', rfl⟩, hcomm l' hl'⟩
   exact mem_normalizer_iff_map_conj_eq.2 (isC2_eq_of_barO2_eq hC2 hL' hbar)
 
+omit [Finite X] in
 theorem isNatSum_tiM_aux_conj_commutator {T : Subgroup X} (L : Subgroup X) (m : X) :
     conjSub m ⁅L, gnV T⁆ = ⁅conjSub m L, gnV T⁆ := by
-  haveI : (gnV T).Normal := Subgroup.normalClosure_normal
+  have : (gnV T).Normal := Subgroup.normalClosure_normal
   have hVm : (gnV T).map (MulAut.conj m).toMonoidHom = gnV T := by
     have : m ∈ Subgroup.normalizer ((gnV T : Subgroup X) : Set X) := by
       rw [Subgroup.normalizer_eq_top_iff.2 ‹(gnV T).Normal›]
@@ -103,9 +104,9 @@ theorem isNatSum_tiM_aux_centralizes {T : Subgroup X} (hX : GNSetting X T)
   exact h2
 
 theorem isNatSum_tiM {T : Subgroup X} (hX : GNSetting X T) {Ls : Subgroup (X ⧸ gnC T)}
-    {L : Subgroup X} (hLs : IsComponentOf Ls ⊤) (hL : LiftOf T L Ls) (hN : IsNatSum L ⁅L, gnV T⁆)
+    {L : Subgroup X} (_hLs : IsComponentOf Ls ⊤) (hL : LiftOf T L Ls) (hN : IsNatSum L ⁅L, gnV T⁆)
     (m : X) : conjSub m ⁅L, gnV T⁆ = ⁅L, gnV T⁆ ∨ ⁅L, gnV T⁆ ⊓ conjSub m ⁅L, gnV T⁆ = ⊥ := by
-  haveI : (gnV T).Normal := Subgroup.normalClosure_normal
+  have : (gnV T).Normal := Subgroup.normalClosure_normal
   have hUm := isNatSum_tiM_aux_conj_commutator (T := T) L m
   by_cases hLm : conjSub m L = L
   · left

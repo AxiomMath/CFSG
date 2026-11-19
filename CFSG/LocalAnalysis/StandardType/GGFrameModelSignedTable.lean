@@ -87,7 +87,7 @@ private theorem frameST_eq_of_forall_eval {x y : Fin k}
   by_contra hxy
   have h1 := congrArg toAdd (h (Pi.mulSingle x (ofAdd 1)))
   rw [Pi.mulSingle_eq_same, Pi.mulSingle_eq_of_ne (Ne.symm hxy)] at h1
-  exact (by decide : (1 : ZMod 3) ≠ 0) (by simpa using h1)
+  exact (by decide : (1 : ZMod 3) ≠ 0) (by simp at h1)
 
 private theorem frameST_sgnAut_mul_permAut_swap_apply (a b i j : Fin k) (f : frameST_V k) :
     (sgnAut i * permAut (Equiv.swap a b) : MulAut (frameST_V k)) f j =
@@ -118,8 +118,8 @@ private theorem frameST_permAut_swap_mul_sgnAut_left {a b : Fin k} (hab : a ≠ 
     frameST_permAut_swap_coord a b j f]
   by_cases h : j = b
   · subst h
-    simp only [if_pos rfl, if_neg hab, Equiv.swap_apply_left, Equiv.swap_apply_right,
-      if_true, if_false]
+    simp only [Equiv.swap_apply_right,
+      ite_true]
   · have h' : Equiv.swap a b j ≠ a := by
       intro hh
       have h1 : j = b :=
@@ -127,7 +127,7 @@ private theorem frameST_permAut_swap_mul_sgnAut_left {a b : Fin k} (hab : a ≠ 
           _ = Equiv.swap a b a := by rw [hh]
           _ = b := Equiv.swap_apply_left a b
       exact h h1
-    simp only [if_neg h, if_neg h']
+    simp only [ite_eq_right h, ite_eq_right h']
 
 private theorem frameST_permAut_swap_mul_sgnAut_right {a b : Fin k} (hab : a ≠ b) :
     (permAut (Equiv.swap a b) : MulAut (frameST_V k)) * sgnAut b =
@@ -140,8 +140,7 @@ private theorem frameST_permAut_swap_mul_sgnAut_right {a b : Fin k} (hab : a ≠
     frameST_permAut_swap_coord a b j f]
   by_cases h : j = a
   · subst h
-    simp only [if_pos rfl, if_neg hab, Equiv.swap_apply_left, Equiv.swap_apply_right,
-      if_true, if_false]
+    simp only [Equiv.swap_apply_left, ite_true]
   · have h' : Equiv.swap a b j ≠ b := by
       intro hh
       have h1 : j = a :=
@@ -149,7 +148,7 @@ private theorem frameST_permAut_swap_mul_sgnAut_right {a b : Fin k} (hab : a ≠
           _ = Equiv.swap a b b := by rw [hh]
           _ = a := Equiv.swap_apply_right a b
       exact h h1
-    simp only [if_neg h, if_neg h']
+    simp only [ite_eq_right h, ite_eq_right h']
 
 private theorem frameST_permAut_swap_commute_sgnAut_mul_sgnAut {a b : Fin k} (hab : a ≠ b) :
     Commute (permAut (Equiv.swap a b) : MulAut (frameST_V k)) (sgnAut a * sgnAut b) := by
@@ -255,9 +254,9 @@ theorem sgnAut_ne_permAut_swap (i : Fin k) {a b : Fin k} (hab : a ≠ b) :
   rw [frameST_sgnAut_coord i b (Pi.mulSingle a (ofAdd 1)), frameST_permAut_swap_basis,
     Equiv.swap_apply_left, Pi.mulSingle_eq_of_ne (Ne.symm hab)] at h1
   by_cases hbi : b = i
-  · rw [if_pos hbi, toAdd_inv, toAdd_one, Pi.mulSingle_eq_same, toAdd_ofAdd] at h1
+  · rw [ite_eq_left hbi, toAdd_inv, toAdd_one, Pi.mulSingle_eq_same, toAdd_ofAdd] at h1
     exact (by decide : (0 : ZMod 3) ≠ 1) h1
-  · rw [if_neg hbi, Pi.mulSingle_eq_same, toAdd_ofAdd] at h1
+  · rw [ite_eq_right hbi, Pi.mulSingle_eq_same, toAdd_ofAdd] at h1
     exact (by decide : (0 : ZMod 3) ≠ 1) h1
 
 theorem sgnAut_ne_negSwapAut (i : Fin k) {a b : Fin k} (hab : a ≠ b) :
@@ -269,9 +268,9 @@ theorem sgnAut_ne_negSwapAut (i : Fin k) {a b : Fin k} (hab : a ≠ b) :
     frameST_negSwapAut_basis_self hab, Pi.mulSingle_eq_of_ne (Ne.symm hab),
     Pi.mulSingle_eq_same, toAdd_ofAdd] at h1
   by_cases hbi : b = i
-  · rw [if_pos hbi, toAdd_inv, toAdd_one] at h1
+  · rw [ite_eq_left hbi, toAdd_inv, toAdd_one] at h1
     exact (by decide : (0 : ZMod 3) ≠ -1) h1
-  · rw [if_neg hbi, toAdd_one] at h1
+  · rw [ite_eq_right hbi, toAdd_one] at h1
     exact (by decide : (0 : ZMod 3) ≠ -1) h1
 
 theorem permAut_swap_ne_negSwapAut {a b c d : Fin k} (hab : a ≠ b) (hcd : c ≠ d) :
@@ -309,8 +308,8 @@ theorem sgnAut_commute_permAut_swap_iff (i : Fin k) {a b : Fin k} (hab : a ≠ b
     · have h2 := congrArg (fun u : MulAut (Fin k → Multiplicative (ZMod 3)) =>
         toAdd (u (Pi.mulSingle (Equiv.swap a b i) (ofAdd 1)) i)) h
       rw [frameST_sgnAut_mul_permAut_swap_apply,
-        frameST_permAut_swap_mul_sgnAut_apply, if_neg hsi] at h2
-      rw [if_pos rfl, Pi.mulSingle_eq_same, toAdd_inv, toAdd_ofAdd] at h2
+        frameST_permAut_swap_mul_sgnAut_apply, ite_eq_right hsi] at h2
+      rw [ite_eq_left rfl, Pi.mulSingle_eq_same, toAdd_inv, toAdd_ofAdd] at h2
       exact absurd h2 (by decide)
   · rintro ⟨hia, hib⟩
     rw [commute_iff_eq]
@@ -318,8 +317,8 @@ theorem sgnAut_commute_permAut_swap_iff (i : Fin k) {a b : Fin k} (hab : a ≠ b
     refine MulEquiv.ext fun f => funext fun j => ?_
     rw [frameST_sgnAut_mul_permAut_swap_apply, frameST_permAut_swap_mul_sgnAut_apply]
     by_cases hji : j = i
-    · rw [hji, if_pos rfl, if_pos hsi]
-    · rw [if_neg hji, if_neg (by
+    · rw [hji, ite_eq_left rfl, ite_eq_left hsi]
+    · rw [ite_eq_right hji, ite_eq_right (by
         intro hh
         exact hji ((Equiv.swap a b).injective (hh.trans hsi.symm)))]
 

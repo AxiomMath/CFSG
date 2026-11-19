@@ -42,8 +42,8 @@ theorem compCharElem_of_unitary_frame_of_four_le (hK : ringChar K = ℓ) (hℓp 
   obtain ⟨hs0, -, -⟩ := outer_componentOrbitLength_spec S hT i
   set s := componentOrbitLength S.ρ (componentRoots (rootCharHom ta) i) with hsdef
   obtain ⟨r, e, hr, hchar, he, hq⟩ := exists_char_pow S
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : CharP L r := hchar
+  have : Fact r.Prime := ⟨hr⟩
+  have : CharP L r := hchar
   have hrℓ : r = ℓ := by
     have hLℓ : ringChar L = ℓ := by
       rw [CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ringChar_algebraicClosure, hK]
@@ -221,8 +221,8 @@ theorem compCharElem_of_unitary_frame_of_four_le (hK : ringChar K = ℓ) (hℓp 
       have h1 : (stdUnitary σQ.toRingHom X₁) ^ ℓ ^ n = 1 := by rw [← map_pow, hX₁n, map_one]
       rw [e1, hcomm.mul_pow, hX₁n, mul_one] at h1
       exact h1
-    haveI : Fact ℓ.Prime := ⟨hℓp⟩
-    haveI : CharP L ℓ := hrℓ ▸ hchar
+    have : Fact ℓ.Prime := ⟨hℓp⟩
+    have : CharP L ℓ := hrℓ ▸ hchar
     have hc₁1 : c₁ = 1 := eq_one_of_mem_center_SL_charPow (by omega) hc₁c hc₁n
     have hX₁C : X₁ ∈ C := by
       rw [hCmem]
@@ -293,7 +293,7 @@ theorem orbitCharElemPerfect_twoD_exc_any {p : ℕ} (hp : p.Prime) {a : Fin τ.r
     OrbitCharElemPerfect S (ringChar K) a i := by
   classical
   have hℓ : (ringChar K).Prime := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     exact (FiniteField.card K (ringChar K)).choose_spec.1
   have hLℓ : ringChar (AlgebraicClosure K) = ringChar K :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.ringChar_algebraicClosure K

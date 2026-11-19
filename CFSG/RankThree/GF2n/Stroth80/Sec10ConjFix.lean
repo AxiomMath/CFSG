@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem mul_comm_of_comm_eq {h a b : G} (e : ⁅h, a⁆ = ⁅h, b⁆) :
     h * (b⁻¹ * a) = b⁻¹ * a * h := by
   have e' : h * (b⁻¹ * a) * h⁻¹ = b⁻¹ * a := by

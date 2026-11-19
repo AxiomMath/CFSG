@@ -285,9 +285,9 @@ private theorem isSolvable_coverCentralizer_quotient (θ : ↥L ⧸ Subgroup.cen
     (hφ : LargeEvenInduces θ (fun l l' => (l' : G) = z⁻¹ * l * z) φ)
     [(J.subgroupOf (TauCeti.fixedSubgroup φ.toMonoidHom)).Normal]
     (hnorm : ((coverComponent θ J).subgroupOf (coverCentralizer L x z)).Normal)
-    (hsolv : IsSolvable (↥(TauCeti.fixedSubgroup φ.toMonoidHom) ⧸
+    (hsolv : Group.IsSolvable (↥(TauCeti.fixedSubgroup φ.toMonoidHom) ⧸
       J.subgroupOf (TauCeti.fixedSubgroup φ.toMonoidHom))) :
-    IsSolvable (↥(coverCentralizer L x z) ⧸
+    Group.IsSolvable (↥(coverCentralizer L x z) ⧸
       (coverComponent θ J).subgroupOf (coverCentralizer L x z)) := by
   let C := coverCentralizer L x z
   let J₁ := coverComponent θ J
@@ -333,22 +333,22 @@ theorem coverComponent_eq_layer (hx : x ∈ Subgroup.centralizer (L : Set G))
     (hφ : LargeEvenInduces θ (fun l l' => (l' : G) = z⁻¹ * l * z) φ)
     (hJ : CFSG.IsQuasisimple ↥J) (hfix : J ≤ TauCeti.fixedSubgroup φ.toMonoidHom)
     [(J.subgroupOf (TauCeti.fixedSubgroup φ.toMonoidHom)).Normal]
-    (hsolv : IsSolvable (↥(TauCeti.fixedSubgroup φ.toMonoidHom) ⧸
+    (hsolv : Group.IsSolvable (↥(TauCeti.fixedSubgroup φ.toMonoidHom) ⧸
       J.subgroupOf (TauCeti.fixedSubgroup φ.toMonoidHom))) :
     let C := L ⊓ Subgroup.centralizer ((Subgroup.closure {x, z} : Subgroup G) : Set G)
     coverComponent θ J = LargeEvenLayer C ∧ IsComponentOf (coverComponent θ J) C ∧
       ((coverComponent θ J).subgroupOf C).Normal ∧
       ∀ _ : ((coverComponent θ J).subgroupOf C).Normal,
-        IsSolvable (↥C ⧸ (coverComponent θ J).subgroupOf C) := by
+        Group.IsSolvable (↥C ⧸ (coverComponent θ J).subgroupOf C) := by
   let C : Subgroup G := coverCentralizer L x z
   let J₁ : Subgroup G := coverComponent θ J
   change J₁ = LargeEvenLayer C ∧ IsComponentOf J₁ C ∧
     (J₁.subgroupOf C).Normal ∧
-    ∀ _ : (J₁.subgroupOf C).Normal, IsSolvable (↥C ⧸ J₁.subgroupOf C)
+    ∀ _ : (J₁.subgroupOf C).Normal, Group.IsSolvable (↥C ⧸ J₁.subgroupOf C)
   have hJ₁C : J₁ ≤ C := coverComponent_le θ hx hz hφ hJ.1 hfix
   have hnorm : (J₁.subgroupOf C).Normal :=
     coverComponent_normal_subgroupOf θ hx hz hφ hJ.1 hfix
-  have hsolvC : IsSolvable (↥C ⧸ J₁.subgroupOf C) :=
+  have hsolvC : Group.IsSolvable (↥C ⧸ J₁.subgroupOf C) :=
     isSolvable_coverCentralizer_quotient θ hφ hnorm hsolv
   have hJcmp : IsComponentOf J₁ C :=
     ⟨hJ₁C, IsSubnormal.step hJ₁C hnorm (IsSubnormal.refl C),

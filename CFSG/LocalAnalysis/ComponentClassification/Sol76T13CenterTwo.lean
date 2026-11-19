@@ -160,9 +160,9 @@ theorem eight_le_of_card_inf_centralizer_eq_four {S : Type} [Group S] [Finite S]
         exact Subtype.ext (mem_centralizer_singleton_iff.mp hys)
     rw [← hTC, ← hmap, card_map_of_injective (Subgroup.subtype_injective _)]
   obtain ⟨p, r, hcl, hp, hr, hrel⟩ :=
-    GSThmB.suzukiTausskyInput ↥(T : Subgroup S) T.isPGroup' h8 b hb2 hcb
+    GSThmB.suzukiTausskyInput ↥(T : Subgroup S) T.isPGroup h8 b hb2 hcb
   set m := orderOf p with hmdef
-  obtain ⟨e, he⟩ := IsPGroup.iff_card.mp T.isPGroup'
+  obtain ⟨e, he⟩ := IsPGroup.iff_card.mp T.isPGroup
   have hm4 : 4 ∣ m := by
     have hme : m ∣ 2 ^ e := he ▸ Dvd.intro_left 2 hp
     obtain ⟨i, -, hi⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hme
@@ -239,7 +239,7 @@ theorem eight_le_of_card_inf_centralizer_eq_four {S : Type} [Group S] [Finite S]
   have hconjU : ∃ g : S, g⁻¹ * s * g ∈ U := by
     by_contra hno
     push Not at hno
-    obtain ⟨N, hN, hNidx⟩ := ThompsonIndexTwo.exists_normal_index_two_of_thompson T.isPGroup'
+    obtain ⟨N, hN, hNidx⟩ := ThompsonIndexTwo.exists_normal_index_two_of_thompson T.isPGroup
       T.not_dvd_index hUT hUidx hsT hsU (fun y hyT hyU => by
         rw [hs]
         have hy1 : y ≠ 1 := fun h => hyU (h ▸ U.one_mem)
@@ -307,7 +307,7 @@ theorem mem_sylow_of_mk_mem {T : Sylow 2 Q} {y : Q} (hy : ∃ k : ℕ, orderOf y
   have hw : t⁻¹ * y ∈ center Q := QuotientGroup.eq.mp hty
   set w := t⁻¹ * y with hwdef
   obtain ⟨k, hk⟩ := hy
-  obtain ⟨e, he⟩ := IsPGroup.iff_orderOf.mp T.isPGroup' ⟨t, htT⟩
+  obtain ⟨e, he⟩ := IsPGroup.iff_orderOf.mp T.isPGroup ⟨t, htT⟩
   have ht : t ^ (2 ^ e) = 1 := by
     have h := pow_orderOf_eq_one (⟨t, htT⟩ : ↥(T : Subgroup Q))
     rw [he] at h
@@ -472,7 +472,7 @@ theorem false_of_sylow_card_four [Group.IsPerfect Q] (hZ2 : 2 ∣ Nat.card ↥(c
         Nat.mul_div_cancel _ (Nat.pos_of_ne_zero hm0)]
     have hzp : IsPGroup 2 (zpowers (g ^ m)) :=
       IsPGroup.of_card (n := i) (by rw [Nat.card_zpowers, hord])
-    have hsup := IsPGroup.to_sup_of_normal_left' T'.isPGroup' hzp (zpowers_le.mpr (pow_mem hgN m))
+    have hsup := IsPGroup.to_sup_of_normal_left' T'.isPGroup hzp (zpowers_le.mpr (pow_mem hgN m))
     have heq : (T' : Subgroup (Q ⧸ center Q)) ⊔ zpowers (g ^ m) ≤
         (T' : Subgroup (Q ⧸ center Q)) := T'.maximal_isPGroup.2 hsup le_sup_left
     have hgmW : g ^ m ∈ W := by
@@ -640,7 +640,7 @@ theorem false_of_sylow_card_four [Group.IsPerfect Q] (hZ2 : 2 ∣ Nat.card ↥(c
       rw [← map_subtype_commutator]
       exact ⟨_, h2, rfl⟩
     have h4 := hcommle h3
-    obtain ⟨e', he'⟩ := IsPGroup.iff_orderOf.mp T.isPGroup' ⟨z, hzT⟩
+    obtain ⟨e', he'⟩ := IsPGroup.iff_orderOf.mp T.isPGroup ⟨z, hzT⟩
     rw [Subgroup.orderOf_mk] at he'
     have hcop : Nat.Coprime (T : Subgroup Q).index (orderOf z) := by
       rw [he']
@@ -651,7 +651,7 @@ theorem false_of_sylow_card_four [Group.IsPerfect Q] (hZ2 : 2 ∣ Nat.card ↥(c
     exact pow_mem h4 n'
   have hz₁1 : z₁ = 1 := by
     obtain ⟨n, hn⟩ := mem_zpowers_iff.mp (hZle z₁ hz₁T hz₁Z)
-    obtain ⟨e', he'⟩ := IsPGroup.iff_orderOf.mp T.isPGroup' ⟨z₁, hz₁T⟩
+    obtain ⟨e', he'⟩ := IsPGroup.iff_orderOf.mp T.isPGroup ⟨z₁, hz₁T⟩
     rw [Subgroup.orderOf_mk] at he'
     have h' : z₁ ^ (2 * n - 1) = 1 := by
       rw [zpow_sub_one, zpow_mul, zpow_two, hn, mul_inv_cancel]
@@ -708,7 +708,7 @@ theorem two_add_factorization_le_of_center (hQ : IsQuasisimple Q)
     have hxz : IsPGroup 2 (zpowers (⟨xb, hxC⟩ : C)) :=
       IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, Subgroup.orderOf_mk, hxb2, pow_one])
     obtain ⟨R, hR⟩ := hxz.exists_le_sylow
-    have hRp : IsPGroup 2 ((R : Subgroup C).map C.subtype) := R.isPGroup'.map _
+    have hRp : IsPGroup 2 ((R : Subgroup C).map C.subtype) := R.isPGroup.map _
     obtain ⟨T, hT⟩ := hRp.exists_le_sylow
     have hRcard : Nat.card ↥((R : Subgroup C).map C.subtype) = 4 := by
       rw [card_map_of_injective (Subgroup.subtype_injective _), R.card_eq_multiplicity, hv2]
@@ -717,7 +717,7 @@ theorem two_add_factorization_le_of_center (hQ : IsQuasisimple Q)
     have hTC : Nat.card ↥((T : Subgroup (Q ⧸ center Q)) ⊓ C) = 4 := by
       apply le_antisymm
       · obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp
-          (T.isPGroup'.to_le (inf_le_left : (T : Subgroup (Q ⧸ center Q)) ⊓ C ≤ T))
+          (T.isPGroup.to_le (inf_le_left : (T : Subgroup (Q ⧸ center Q)) ⊓ C ≤ T))
         have hdvd : 2 ^ k ∣ Nat.card C := hk ▸ card_dvd_of_le inf_le_right
         have hk2 : k ≤ 2 :=
           ((Nat.prime_two.pow_dvd_iff_le_factorization Nat.card_pos.ne').mp hdvd).trans hv2.le
@@ -733,7 +733,7 @@ theorem two_add_factorization_le_of_center (hQ : IsQuasisimple Q)
     ·
       have hT4 : Nat.card ↥(T : Subgroup (Q ⧸ center Q)) = 4 := by
         have hle : 4 ≤ Nat.card ↥(T : Subgroup (Q ⧸ center Q)) := hTC ▸ card_le_of_le inf_le_left
-        obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup'
+        obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup
         rw [hk] at hle h8 ⊢
         have hk2 : k = 2 := by
           rcases Nat.lt_or_ge k 3 with hlt | hge

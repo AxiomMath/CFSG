@@ -13,7 +13,7 @@ variable {G : Type} [Group G]
 
 private theorem odd_card_oddCore' (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -100,11 +100,11 @@ theorem isI4PlusIn_top_of_quotient {A : Type} [Group A] [Finite A] {a : A} (ha :
   rw [IsI4PlusIn] at h ⊢
   refine ⟨ha, ?_⟩
   obtain ⟨Kbar, hKbar⟩ := h.2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : A →* A ⧸ oddCore A := QuotientGroup.mk' (oddCore A)
   let C : Subgroup A := Subgroup.centralizer ({a} : Set A)
   let Bbar : Subgroup (A ⧸ oddCore A) := Subgroup.centralizer ({q a} : Set (A ⧸ oddCore A))
-  haveI : Fact (IsPGroup 2 (Subgroup.zpowers a)) :=
+  have : Fact (IsPGroup 2 (Subgroup.zpowers a)) :=
     ⟨IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, ha]; norm_num)⟩
   have hNodd : Odd (Nat.card (oddCore A)) := odd_card_oddCore' A
   have hcop : Nat.Coprime 2 (Nat.card (oddCore A)) := Nat.coprime_two_left.mpr hNodd

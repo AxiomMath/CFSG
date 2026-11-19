@@ -20,7 +20,7 @@ theorem l62_hasNormalPComplement_centralizer_of_rank (hT : T29.GL83I291Three)
     (hnc : ¬ HasPrimeConstraint (G := X) 3) {w : X} (hw : orderOf w = 3)
     (hrk : CFSG.Open.pRank 3 (centralizer ({w} : Set X)) = 2) :
     CFSG.HasNormalPComplement 3 ↥(centralizer ({w} : Set X)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨S', x', z', hB⟩ := l62Data_toBar h
   obtain ⟨L, hL⟩ :=
     Stroth.Bal3.exists_isComponentOf_of_not_hasPrimeConstraint Nat.prime_three hnc
@@ -59,7 +59,7 @@ theorem l62_hasNormalPComplement_centralizer_of_rank (hT : T29.GL83I291Three)
     obtain ⟨e', -, -⟩ := id hb
     have hZ : center ↥L = ⊥ := T29.k3_center_eq_bot_of_psl227 hL.2.2.1 e'
     have hC : centralizer (L : Set (Bar X)) = ⊥ := hsetup.centralizer_eq_bot hZ
-    haveI : L.Normal := hsetup.normal
+    have : L.Normal := hsetup.normal
     obtain ⟨N, hN, hNi⟩ := K2.exists_index_three_normal hsetup.normal ⟨e'⟩ hC
       (T29.index_eq_of_fieldAut_L227 hC hb)
     exact hB.no_normal_three N hN hNi
@@ -108,6 +108,7 @@ theorem eq_one_of_conj_eq_inv {C : Type*} [Group C] (h : CFSG.HasNormalPCompleme
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem map_subtype_centralizer {M : Subgroup G} (w : ↥M) :
     (centralizer ({w} : Set ↥M)).map M.subtype = M ⊓ centralizer ({(w : G)} : Set G) := by
   ext g

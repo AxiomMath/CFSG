@@ -12,6 +12,7 @@ open CFSG.Open
 
 variable {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 private theorem isPrimitiveRoot_omega (ζ : CubeRoot K) :
     IsPrimitiveRoot (ζ.ω : K) 3 := by
   refine IsPrimitiveRoot.mk_of_lt (ζ.ω : K) (by norm_num) ?_ ?_
@@ -28,15 +29,18 @@ private theorem isPrimitiveRoot_omega (ζ : CubeRoot K) :
           _ = 1 := h3
       exact ζ.ne_one (Units.ext this)
 
+omit [Finite K] in
 private theorem det_diagUnit (u : Fin 4 → Kˣ) :
     Matrix.GeneralLinearGroup.det (diagUnit u) = ∏ i, u i := by
   ext
   simp [diagUnit, Matrix.GeneralLinearGroup.val_det_apply, Matrix.det_diagonal]
 
+omit [Finite K] in
 theorem d₀_le_sl (ζ : CubeRoot K) : D₀ ζ ≤ StatedSL 4 K := by
   rintro g ⟨v, rfl⟩
   exact StatedAPI.mem_statedSL_of_det (det_stdDiagHom ζ v)
 
+omit [Finite K] in
 private theorem conjFact_sl_map_comm (A : Subgroup (StatedSL 4 K))
     (hA : IsElemAbelian 3 A) :
     ∀ x ∈ A.map (StatedSL 4 K).subtype, ∀ y ∈ A.map (StatedSL 4 K).subtype,
@@ -47,6 +51,7 @@ private theorem conjFact_sl_map_comm (A : Subgroup (StatedSL 4 K))
   simpa using congrArg (fun z : A => ((z : StatedSL 4 K) : GL (Fin 4) K))
     (hA.1.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
 
+omit [Finite K] in
 private theorem conjFact_sl_map_pow_three (A : Subgroup (StatedSL 4 K))
     (hA : IsElemAbelian 3 A) :
     ∀ x ∈ A.map (StatedSL 4 K).subtype, x ^ 3 = 1 := by
@@ -54,6 +59,7 @@ private theorem conjFact_sl_map_pow_three (A : Subgroup (StatedSL 4 K))
   obtain ⟨a, ha, hxa⟩ := Subgroup.mem_map.1 hx
   rw [← hxa, ← map_pow, hA.2 a ha, map_one]
 
+omit [Finite K] in
 private theorem conjFact_sl_card (A : Subgroup (StatedSL 4 K)) (hcard : Nat.card A = 27) :
     Nat.card (A.map (StatedSL 4 K).subtype) = 27 :=
   (Subgroup.card_map_of_injective (K := A) (f := (StatedSL 4 K).subtype)
@@ -63,7 +69,7 @@ private theorem conjFact_sl_conj_D0 (ζ : CubeRoot K) (A : Subgroup (StatedSL 4 
     (hA : IsElemAbelian 3 A) (hcard : Nat.card A = 27) :
     ∃ g : GL (Fin 4) K,
       (A.map (StatedSL 4 K).subtype).map (MulAut.conj g).toMonoidHom = D₀ ζ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g, hg⟩ := CFSG.RankThree.PartOne.CTP.exists_conj_diagonal_of_exponent_prime
     (F := K) (n := 4) (p := 3) ⟨(ζ.ω : K), isPrimitiveRoot_omega ζ⟩
     (A.map (StatedSL 4 K).subtype) (conjFact_sl_map_comm A hA) (conjFact_sl_map_pow_three A hA)
@@ -88,6 +94,7 @@ private theorem conjFact_sl_conj_D0 (ζ : CubeRoot K) (A : Subgroup (StatedSL 4 
   rw [Subgroup.card_map_of_injective (MulAut.conj g).injective, conjFact_sl_card A hcard,
     card_D₀ ζ]
 
+omit [Finite K] in
 private theorem conjFact_sl_diagUnit_comm (ζ : CubeRoot K) (u : Fin 4 → Kˣ)
     {y : GL (Fin 4) K} (hy : y ∈ D₀ ζ) : diagUnit u * y = y * diagUnit u := by
   obtain ⟨v, rfl⟩ := hy
@@ -98,6 +105,7 @@ private theorem conjFact_sl_diagUnit_comm (ζ : CubeRoot K) (u : Fin 4 → Kˣ)
   congr 1
   exact mul_comm u _
 
+omit [Finite K] in
 private theorem conjFact_sl_det (g : GL (Fin 4) K) :
     Matrix.GeneralLinearGroup.det
       (diagUnit (fun i : Fin 4 => if i = 0 then (Matrix.GeneralLinearGroup.det g)⁻¹ else 1) *
@@ -111,6 +119,7 @@ private theorem conjFact_sl_det (g : GL (Fin 4) K) :
   rw [map_mul, hdet_t, show Matrix.GeneralLinearGroup.det g = d from rfl]
   exact inv_mul_cancel d
 
+omit [Finite K] in
 private theorem conjFact_sl_det_mat (g : GL (Fin 4) K) :
     ((diagUnit (fun i : Fin 4 => if i = 0 then (Matrix.GeneralLinearGroup.det g)⁻¹ else 1) * g :
         GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K).det = 1 := by
@@ -152,6 +161,7 @@ private theorem conjFact_sl_conj_D0_sl (ζ : CubeRoot K) (A : Subgroup (StatedSL
   rw [Subgroup.card_map_of_injective (MulAut.conj (t * g)).injective, conjFact_sl_card A hcard,
     card_D₀ ζ]
 
+omit [Finite K] in
 private theorem conjFact_sl_subgroup_eq (ζ : CubeRoot K) (A : Subgroup (StatedSL 4 K))
     (g' : StatedSL 4 K)
     (hg' : (A.map (StatedSL 4 K).subtype).map

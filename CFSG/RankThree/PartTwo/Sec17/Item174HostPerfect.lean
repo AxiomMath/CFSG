@@ -22,8 +22,8 @@ open scoped commutatorElement
 
 theorem eq_top_of_isSolvable_quotient {T : Type*} [Group T] [Group.IsPerfect T]
     (N : Subgroup T) [N.Normal] (hs : Group.IsSolvable (T ⧸ N)) : N = ⊤ := by
-  haveI := hs
-  haveI : Group.IsPerfect (T ⧸ N) :=
+  have := hs
+  have : Group.IsPerfect (T ⧸ N) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
   by_contra hne
   have : Nontrivial (T ⧸ N) := by
@@ -40,11 +40,11 @@ theorem subsingleton_of_hasNormalPComplement_two {T : Type*} [Group T] [Finite T
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨N, hN, hNodd, hq⟩ := h
   have hNtop : N = ⊤ := by
-    haveI := hq.isNilpotent
+    have := hq.isNilpotent
     exact eq_top_of_isSolvable_quotient N inferInstance
   subst hNtop
   rw [Subgroup.card_top] at hNodd
-  haveI : Group.IsSolvable T := CFSG.FeitThompson.isSolvable_of_odd_natCard _ (Nat.coprime_two_left.mp hNodd)
+  have : Group.IsSolvable T := CFSG.FeitThompson.isSolvable_of_odd_natCard _ (Nat.coprime_two_left.mp hNodd)
   by_contra hns
   rw [not_subsingleton_iff_nontrivial] at hns
   exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (G := T)).ne
@@ -59,7 +59,7 @@ theorem le_centralizer_of_isPerfect {Γ : Type*} [Group Γ] [Finite Γ]
   have hT3 : ¬ 3 ∣ Nat.card ψ.range := fun h =>
     hK3 (h.trans (Subgroup.card_dvd_of_surjective (f := ψ.rangeRestrict)
       ψ.rangeRestrict_surjective))
-  haveI : Group.IsPerfect ψ.range :=
+  have : Group.IsPerfect ψ.range :=
     Group.IsPerfect.ofSurjective (f := ψ.rangeRestrict) ψ.rangeRestrict_surjective
   have hsub : Subsingleton ψ.range := subsingleton_of_hasNormalPComplement_two
     (Sec16.Crit167.hasNormalPComplement_two_of_le_two hk ψ.range hT3)
@@ -67,7 +67,7 @@ theorem le_centralizer_of_isPerfect {Γ : Type*} [Group Γ] [Finite Γ]
     have := Subsingleton.elim (ψ.rangeRestrict x) 1
     exact congrArg Subtype.val this
   set C : Subgroup K := (Subgroup.centralizer (Q : Set Γ)).subgroupOf K with hCdef
-  haveI : C.Normal := Subgroup.normal_subgroupOf
+  have : C.Normal := Subgroup.normal_subgroupOf
   have hq : IsPGroup r (K ⧸ C) := by
     intro g
     induction g using QuotientGroup.induction_on with
@@ -85,7 +85,7 @@ theorem le_centralizer_of_isPerfect {Γ : Type*} [Group Γ] [Finite Γ]
       refine Subgroup.mem_subgroupOf.mpr (hφ _ hcop ?_)
       rw [Subgroup.coe_pow, map_pow, hψ x, one_pow]
   have hCtop : C = ⊤ := by
-    haveI := hq.isNilpotent
+    have := hq.isNilpotent
     exact eq_top_of_isSolvable_quotient C inferInstance
   intro x hx
   have : (⟨x, hx⟩ : K) ∈ C := hCtop ▸ Subgroup.mem_top _
@@ -108,13 +108,13 @@ theorem le_centralizer_pCoreOf_of_perfect {A : Subgroup G}
     rw [Subgroup.map_subtype_commutator, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
     exact hK
   set eK : K.subgroupOf Y ≃* K := Subgroup.subgroupOfEquivOfLe hKY with heK
-  haveI : Group.IsPerfect ↥(K.subgroupOf Y) :=
+  have : Group.IsPerfect ↥(K.subgroupOf Y) :=
     Group.IsPerfect.ofSurjective (f := eK.symm.toMonoidHom) eK.symm.surjective
   have hK3 : ¬ 3 ∣ Nat.card (K.subgroupOf Y) := by
     rw [Nat.card_congr eK.toEquiv]
     exact fun h => hY3 (h.trans (Subgroup.card_dvd_of_le hKY))
   set Q : Subgroup ↥Y := CFSG.pCore r ↥Y with hQdef
-  haveI : Q.Normal := CFSG.pCore_normal
+  have : Q.Normal := CFSG.pCore_normal
   have hQ : IsPGroup r Q := CFSG.pCore_isPGroup
   have hKQ : K.subgroupOf Y ≤ Subgroup.centralizer (Q : Set ↥Y) := by
     by_cases hr3 : r = 3

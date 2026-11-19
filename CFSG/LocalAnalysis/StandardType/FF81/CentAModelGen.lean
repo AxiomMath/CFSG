@@ -190,11 +190,7 @@ private theorem caGen_conj_mem_uTwo {m : ℕ} {g : GL (BlkIdx 1 m) (ZMod 2)}
       _ = (Pi.single (Sum.inr (Sum.inr 0) : BlkIdx 1 m) 1) ⬝ᵥ ψ := by rw [hrowg]
       _ = ψ (Sum.inr (Sum.inr 0)) := single_one_dotProduct ..
       _ = 0 := hψ
-  · change ((g * u * g⁻¹ : GL (BlkIdx 1 m) (ZMod 2)) :
-        Matrix (BlkIdx 1 m) (BlkIdx 1 m) (ZMod 2)) =
-      1 + vecMulVec ((g : Matrix (BlkIdx 1 m) (BlkIdx 1 m) (ZMod 2)) *ᵥ ψ)
-        (Pi.single (Sum.inr (Sum.inr 0) : BlkIdx 1 m) 1)
-    calc ((g * u * g⁻¹ : GL (BlkIdx 1 m) (ZMod 2)) :
+  · calc ((g * u * g⁻¹ : GL (BlkIdx 1 m) (ZMod 2)) :
           Matrix (BlkIdx 1 m) (BlkIdx 1 m) (ZMod 2))
         = (g : Matrix (BlkIdx 1 m) (BlkIdx 1 m) (ZMod 2)) *
             (u : Matrix (BlkIdx 1 m) (BlkIdx 1 m) (ZMod 2)) * M := by simp [M]
@@ -314,7 +310,7 @@ private theorem caGen_transvectionUnit_vecMul_eC {m : ℕ} {i j : BlkIdx 1 m}
   have hsingle : (Pi.single (Sum.inr (Sum.inr 0) : BlkIdx 1 m) 1 : BlkIdx 1 m → ZMod 2) ᵥ*
       (Matrix.single i j (1 : ZMod 2)) = 0 := by
     ext k
-    simp [Matrix.vecMul_apply, Matrix.single_apply, Pi.single_apply, hi]
+    simp [Matrix.vecMul_apply, hi]
   rw [hsingle, add_zero]
 
 private def caGen_toUnit {m : ℕ} (t : Matrix.TransvectionStruct (BlkIdx 1 m) (ZMod 2)) :
@@ -399,8 +395,8 @@ private theorem caGen_closure_transvectionUnit_eq_top {m : ℕ} :
       ext i j
       by_cases hij : i = j
       · subst hij
-        simp [Matrix.diagonal_apply, hD1 i]
-      · simp [Matrix.diagonal_apply, hij, Matrix.one_apply, hij]
+        simp [hD1 i]
+      · simp [hij]
     have hg_eq : g = P * Q := by
       apply Units.ext
       rw [Units.val_mul, hD, hdiag, Matrix.mul_one]

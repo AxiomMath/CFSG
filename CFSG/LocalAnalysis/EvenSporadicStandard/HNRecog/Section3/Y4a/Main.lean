@@ -88,10 +88,10 @@ theorem y4a_struct_of_good (hI : TwoHSInterface) {G : Type} [Group G] [Finite G]
       (fun hx => h1B 1 hx.2 rfl) hBcard hBorb.conj_mem hfree
       ⟨E, hEM, hE2, fun t ht ht1 => ⟨hEM ht, hEB t ht ht1⟩⟩
 
-theorem y4a_of_hyps (hI : TwoHSInterface) (hC : CSideFacts) {G : Type} [Group G] [Finite G]
-    {a z : G} (h : IsF5Type a z) (hF1 : Vert Fusion1Facts a z) (hCube : Vert CubeFacts a z)
-    (hA8 : Vert A8Shapes a z) (hF2 : Vert Fusion2Facts a z) (hF3 : Vert Fusion3Facts a z)
-    (hPic : Vert A8Pictures a z) (hOrb : Vert GzOrbitFacts a z)
+theorem y4a_of_hyps (hI : TwoHSInterface) (_hC : CSideFacts) {G : Type} [Group G] [Finite G]
+    {a z : G} (h : IsF5Type a z) (hF1 : Vert Fusion1Facts a z) (_hCube : Vert CubeFacts a z)
+    (_hA8 : Vert A8Shapes a z) (hF2 : Vert Fusion2Facts a z) (hF3 : Vert Fusion3Facts a z)
+    (hPic : Vert A8Pictures a z) (_hOrb : Vert GzOrbitFacts a z)
     (hCls : Vert GzClassFacts a z) : Y4aFacts a z :=
   ⟨fun _ ha₁ ha₁A ha₁z =>
     (y4a_struct_of_good hI h hF1 hF2 hF3 hPic hCls.self ha₁ ha₁A ha₁z).1⟩

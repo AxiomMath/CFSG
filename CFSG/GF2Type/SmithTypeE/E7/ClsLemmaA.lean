@@ -49,9 +49,9 @@ theorem clsA1 {a : M6} (hUT : IsUT a) {j : Fin 6} (hj0 : j ≠ 0) (hj5 : j ≠ 5
     a i j = if i = j then 1 else 0 := by
   have h1 := congrFun (congrFun h i) 0
   have hi0 : a i 0 = 0 := by
-    rw [hUT i 0 (Fin.zero_le i), if_neg hi]
+    rw [hUT i 0 (Fin.zero_le i), ite_eq_right hi]
   have ha00 : a 0 0 = 1 := by
-    rw [hUT 0 0 le_rfl, if_pos rfl]
+    rw [hUT 0 0 le_rfl, ite_eq_left rfl]
   fin_cases j <;> simp_all [clsW, Matrix.mul_apply, Fin.sum_univ_six, Matrix.transpose_apply]
 
 theorem clsShape_of_wedge {a : M6} (hUT : IsUT a)
@@ -65,10 +65,10 @@ theorem clsShape_col0 {a : M6} (h : ClsShape a) (i : Fin 6) :
   h.1 i 0 (Fin.zero_le i)
 
 theorem clsShape_00 {a : M6} (h : ClsShape a) : a 0 0 = 1 := by
-  rw [clsShape_col0 h 0, if_pos rfl]
+  rw [clsShape_col0 h 0, ite_eq_left rfl]
 
 theorem clsShape_55 {a : M6} (h : ClsShape a) : a 5 5 = 1 := by
-  rw [h.1 5 5 (by decide), if_pos rfl]
+  rw [h.1 5 5 (by decide), ite_eq_left rfl]
 
 theorem clsShape_mul_0j {a b : M6} (ha : ClsShape a) (hb : ClsShape b) {j : Fin 6}
     (hj0 : j ≠ 0) (hj5 : j ≠ 5) : (a * b) 0 j = a 0 j + b 0 j := by
@@ -77,9 +77,9 @@ theorem clsShape_mul_0j {a b : M6} (ha : ClsShape a) (hb : ClsShape b) {j : Fin 
   have h3 := hb.2 3 j (by decide) hj0 hj5
   have h4 := hb.2 4 j (by decide) hj0 hj5
   have h5 : b 5 j = 0 := by
-    rw [hb.1 5 j (Fin.le_last j), if_neg (Ne.symm hj5)]
+    rw [hb.1 5 j (Fin.le_last j), ite_eq_right (Ne.symm hj5)]
   rw [Matrix.mul_apply, Fin.sum_univ_six, clsShape_00 ha, h5, h1, h2, h3, h4]
-  fin_cases j <;> first | exact absurd rfl hj0 | exact absurd rfl hj5 | (simp <;> ring)
+  fin_cases j <;> first | exact absurd rfl hj0 | exact absurd rfl hj5 | (simp; ring)
 
 theorem clsShape_mul_i5 {a b : M6} (ha : ClsShape a) (hb : ClsShape b) {i : Fin 6}
     (hi0 : i ≠ 0) (hi5 : i ≠ 5) : (a * b) i 5 = a i 5 + b i 5 := by
@@ -130,7 +130,7 @@ theorem clsExt {a b : M6} (ha : ClsShape a) (hb : ClsShape b)
     exact hrow j hj0
   · by_cases hj0 : j = 0
     · subst hj0
-      rw [clsShape_col0 ha, clsShape_col0 hb, if_neg hi0]
+      rw [clsShape_col0 ha, clsShape_col0 hb, ite_eq_right hi0]
     by_cases hj5 : j = 5
     · subst hj5
       by_cases hi5 : i = 5
@@ -242,7 +242,6 @@ theorem clsEnc_inj {N N' : M6} (hN : IsAlt N) (hN' : IsAlt N')
       | exact a1 | exact a2 | exact a3 | exact a4
       | exact b12 | exact b13 | exact b14 | exact b23 | exact b24 | exact b34
       | exact z1 | exact z2 | exact z3 | exact z4
-      | rw [h5 5 (by decide), h5' 5 (by decide)]
   ext i j
   rcases le_total i j with h | h
   · exact key i j h
@@ -384,7 +383,7 @@ theorem clsOmega_par {A B : M6} (hA : ClsShape A) (hB : ClsShape B) (hc : A * B 
 
 theorem clsCard_A (𝒜 : Subgroup GL6) (hsh : ∀ A ∈ 𝒜, ClsShape (A : M6))
     (hcomm : ∀ A ∈ 𝒜, ∀ B ∈ 𝒜, A * B = B * A) : Nat.card 𝒜 ≤ 32 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hiso : clsSub 𝒜 hsh ≤ clsOmega.orthogonal (clsSub 𝒜 hsh) := by
     rintro x ⟨A, hA, rfl⟩
     rw [LinearMap.BilinForm.mem_orthogonal_iff]
@@ -397,7 +396,7 @@ theorem clsCard_A (𝒜 : Subgroup GL6) (hsh : ∀ A ∈ 𝒜, ClsShape (A : M6)
     Submodule.finrank_mono hiso
   have hdim := LinearMap.BilinForm.finrank_orthogonal (K := ZMod 2) clsOmega_nondeg (clsSub 𝒜 hsh)
   have htot : Module.finrank (ZMod 2) ((Fin 4 → ZMod 2) × (Fin 4 → ZMod 2)) = 8 := by
-    simp [Module.finrank_prod, Module.finrank_fin_fun]
+    simp [Module.finrank_prod]
   have hW4 : Module.finrank (ZMod 2) (clsSub 𝒜 hsh) ≤ 4 := by omega
   have hWcard : Nat.card (clsSub 𝒜 hsh) = 2 ^ Module.finrank (ZMod 2) (clsSub 𝒜 hsh) := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2)]
@@ -433,17 +432,17 @@ theorem clsShape_eq_T {a : M6} (ha : ClsShape a) (h0 : ∀ j : Fin 6, j ≠ 0 �
       simp [clsShape_55 ha]
     · by_cases hi0 : i = 0
       · subst hi0
-        simp [clsShape_00 ha]
-      · simp [hi5, hi0]
+        simp
+      · simp [hi5]
   · by_cases hj0 : j = 0
     · subst hj0
       by_cases hi0 : i = 0
       · subst hi0
         simp [clsShape_00 ha]
-      · simp [hi0, clsShape_col0 ha i, Matrix.one_apply]
+      · simp [hi0, clsShape_col0 ha i]
     · by_cases hi0 : i = 0
       · subst hi0
-        simp [h0 j hj0 hj5, hj5, Matrix.one_apply, Ne.symm hj0]
+        simp [h0 j hj0 hj5, hj5, Ne.symm hj0]
       · simp [ha.2 i j hi0 hj0 hj5, hj5, Matrix.one_apply]
 
 theorem clsCard_T : Nat.card {v : Fin 6 → ZMod 2 // v 5 = 0} = 32 := by
@@ -470,14 +469,14 @@ theorem clsCard_altV5_le : Nat.card {N : M6 // InAltV5 N} ≤ 16 * 64 := by
   exact hcard
 
 theorem lemmaA (𝒜 : Subgroup GL6) (hUT : ∀ A ∈ 𝒜, IsUT (A : M6))
-    (hsq : ∀ A ∈ 𝒜, A * A = 1) (hcomm : ∀ A ∈ 𝒜, ∀ B ∈ 𝒜, A * B = B * A)
+    (_hsq : ∀ A ∈ 𝒜, A * A = 1) (hcomm : ∀ A ∈ 𝒜, ∀ B ∈ 𝒜, A * B = B * A)
     (hτ : ∃ A ∈ 𝒜, (A : M6) = tau0M)
     (𝒩 : AddSubgroup M6) (halt : ∀ N ∈ 𝒩, IsAlt N)
     (hi : ∀ A ∈ 𝒜, ∀ N ∈ 𝒩, (A : M6) * N * (A : M6)ᵀ = N)
     (hii : ∀ A ∈ 𝒜, ∀ M : M6, IsAlt M → (A : M6) * M * (A : M6)ᵀ + M ∈ 𝒩)
     (hcard : 2 ^ 15 ≤ Nat.card 𝒜 * Nat.card 𝒩) :
     (∀ A : GL6, A ∈ 𝒜 ↔ InT (A : M6)) ∧ ∀ N : M6, N ∈ 𝒩 ↔ InAltV5 N := by
-  clear hsq
+  clear _hsq
   obtain ⟨A₀, hA₀, hA₀eq⟩ := hτ
   have hwedge : ∀ j : Fin 6, j ≠ 0 → j ≠ 5 → clsW j ∈ 𝒩 := by
     intro j hj0 hj5
@@ -582,7 +581,7 @@ theorem lemmaA (𝒜 : Subgroup GL6) (hUT : ∀ A ∈ 𝒜, IsUT (A : M6))
       omega
     refine ⟨hmemT, fun N => ?_⟩
     exact Set.ext_iff.mp heq N
-  · push_neg at hcaseA
+  · push Not at hcaseA
     have hA2 : Nat.card 𝒜 ≤ 2 := by
       let g : 𝒜 → ZMod 2 := fun A => ((A.1 : GL6) : M6) 0 5
       have hg : Function.Injective g := by

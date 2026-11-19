@@ -66,7 +66,7 @@ theorem card_le_nine_linear {K : Type} [Group K] [Finite K] (hK : CFSG.Open.IsQu
       IsCyclic ↥Q := fun Q hQ =>
     CFSG.Quasithin.F134.isCyclic_of_isPGroup_of_surjective (QuotientGroup.mk'_surjective _)
       (fun S => CFSG.SectionRank.OddCover.isCyclic_of_isPGroup_of_le_GL_three h30 h3'
-        S.isPGroup') Q hQ
+        S.isPGroup) Q hQ
   have hS : OutThreeBound (CFSG.Open.StatedProj (CFSG.Open.StatedSL 3 F)) :=
     (outThreeBound_psl3 F (by rw [Nat.card_units]; exact h3')).of_mulEquiv
       ((CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3 F).symm.trans

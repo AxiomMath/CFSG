@@ -44,6 +44,7 @@ theorem c8_exists_noncyclic_le_of_le_barSub {p : ℕ} [Fact p.Prime] {V₀ V X :
       (stabTil V₀ V).subtype_injective).isCyclic.mpr hcyc
   exact hEc (CFSG.AGLEmbedding.isCyclic_of_le_map (actTil V₀ V hV) hB hE hEp)
 
+omit [Finite G] in
 private theorem c8_isTwoLocal_normalizer_pCoreOf {H : Subgroup G} (h : pCoreOf 2 H ≠ ⊥) :
     IsTwoLocal (normalizer (pCoreOf 2 H : Set G)) ∧ H ≤ normalizer (pCoreOf 2 H : Set G) := by
   refine ⟨⟨pCoreOf 2 H, h, (CFSG.pCore_isPGroup (p := 2) (G := ↥H)).map H.subtype, rfl⟩, ?_⟩
@@ -119,7 +120,7 @@ theorem c8_barSub_inf_eq (D : Data G) (h61 : UC6.R6_1 D) {V₀ V L : Subgroup G}
     exact hψ.symm
   · exfalso
     obtain ⟨E, hEp, hEc⟩ := c8_exists_noncyclic_three_sp6
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     let f : ↥(StatedSp 3 (ZMod 2)) →* MulAut (Vtil V₀ V hV) :=
       (lBar V₀ V hV L).subtype.comp ψ.symm.toMonoidHom
     have hf : Function.Injective f :=

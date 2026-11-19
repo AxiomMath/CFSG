@@ -90,9 +90,9 @@ private theorem isThreeOnePlusFour_map_congr {X Y : Type} [Group X] [Group Y]
 theorem card_le_three_mul_card_inf_linear_of_pow_three {F : Type} [Field F] [Finite F]
     {T : Subgroup (MulAut (projectiveSL 3 F))} (hT : ∀ t ∈ T, t ^ 3 = 1) :
     Nat.card T ≤ 3 * Nat.card (T ⊓ linearAutGroup 3 F : Subgroup _) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨p, -, f, hp, hK⟩ := FiniteField.card' F
-  haveI : IsCyclic (F ≃+* F) :=
+  have : IsCyclic (F ≃+* F) :=
     (card_ringAut_and_isCyclic hp F (by rw [Nat.card_eq_fintype_card, hK])).2
   have hcyc : IsCyclic (fieldAut 3 F).range :=
     isCyclic_of_surjective (fieldAut 3 F).rangeRestrict (fieldAut 3 F).rangeRestrict_surjective
@@ -135,8 +135,8 @@ theorem card_le_three_mul_card_inf_psu_of_pow_three {p f : ℕ} {K : Type} [Fiel
     {T : Subgroup (MulAut (unitaryPSU h 3))} (hT : ∀ t ∈ T, t ^ 3 = 1) :
     Nat.card T ≤
       3 * Nat.card (T ⊓ (CFSG.RankThree.PartTwo.KFacts.psuConj h).range : Subgroup _) := by
-  haveI : Finite K := h.finite
-  haveI : IsCyclic (K ≃+* K) := (card_ringAut_and_isCyclic h.prime K h.card).2
+  have : Finite K := h.finite
+  have : IsCyclic (K ≃+* K) := (card_ringAut_and_isCyclic h.prime K h.card).2
   set N := (psuConj h).range with hNdef
   set C := (psuField h).range with hCdef
   have hcyc : IsCyclic C :=
@@ -190,16 +190,16 @@ theorem false_of_statedClassicalModel_psl_three {Y : Type} [Group Y] {f : ℕ}
     (hm : CFSG.Open.StatedClassicalModel Y .PSL 3 2 f) {T : Subgroup (MulAut Y)}
     (hT : S15.IsThreeOnePlusFour ↥T) : False := by
   obtain ⟨-, K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hm
-  letI := hKfield
-  haveI := hKfin
+  let := hKfield
+  have := hKfin
   let e' : Y ≃* projectiveSL 3 K :=
     (e.trans
       (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 3 K).symm).trans
       (LinearCover.projectiveSpecialLinearEquivProjectiveSL 3 K)
   have h3 : (3 : K) ≠ 0 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := f) (by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K 2 := charP_of_card_eq_prime_pow (f := f) (by
       rw [← Nat.card_eq_fintype_card, hKcard])
     intro h
     have hdvd : 2 ∣ 3 := (CharP.cast_eq_zero_iff K 2 3).mp h
@@ -210,8 +210,8 @@ theorem false_of_statedClassicalModel_psu_three {Y : Type} [Group Y] {f : ℕ}
     (hm : CFSG.Open.StatedClassicalModel Y .PSU 3 2 f) {T : Subgroup (MulAut Y)}
     (hT : S15.IsThreeOnePlusFour ↥T) : False := by
   obtain ⟨hadm, K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hm
-  letI := hKfield
-  haveI := hKfin
+  let := hKfield
+  have := hKfin
   obtain ⟨-, hf1, -, hne⟩ := hadm
   have hf_ne_one : f ≠ 1 := by
     rintro rfl
@@ -225,7 +225,7 @@ theorem false_of_statedClassicalModel_psu_three {Y : Type} [Group Y] {f : ℕ}
   have hU : UnitaryFieldData 2 f K :=
     ⟨Nat.prime_two, hf1, by rw [hKcard, ← pow_mul, mul_comm]⟩
   have h3 : (3 : K) ≠ 0 := by
-    haveI : CharP K 2 := hU.charP
+    have : CharP K 2 := hU.charP
     intro h
     have hdvd : 2 ∣ 3 := (CharP.cast_eq_zero_iff K 2 3).mp h
     norm_num at hdvd

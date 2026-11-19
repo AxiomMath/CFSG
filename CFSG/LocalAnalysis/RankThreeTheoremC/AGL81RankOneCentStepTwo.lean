@@ -44,6 +44,7 @@ theorem not_mem_hyp111Pre (hZ : Subgroup.center ↥K = ⊥) {b : G} (hbX : b ∈
   rw [hb1, orderOf_one] at hbo
   exact (Fact.out : p.Prime).one_lt.ne hbo
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 theorem le_normalizer_hyp111Pre (hK : K.Normal) :
     C ≤ Subgroup.normalizer (hyp111Pre p C K : Set G) := by
   have hN : (K.comap (QuotientGroup.mk' (primeComplementCore (G := C) p))).Normal := hK.comap _
@@ -106,7 +107,7 @@ theorem stepThreeGroup_kbar
     (hne : d1KBar p M (Subgroup.centralizer ({b} : Set G)) ≠ ⊥)
     (hC3 : Open.pRank p (Subgroup.centralizer ({b} : Set G)) ≤ 3) :
     StepThreeGroup p ↥(d1KBar p M (Subgroup.centralizer ({b} : Set G))) := by
-  haveI : Fact p.Prime := ⟨by rcases hp with rfl | rfl <;> norm_num⟩
+  have : Fact p.Prime := ⟨by rcases hp with rfl | rfl <;> norm_num⟩
   have hbC : b ∈ Subgroup.centralizer ({b} : Set G) :=
     Subgroup.mem_centralizer_singleton_iff.mpr rfl
   have hb : ∀ c ∈ Subgroup.centralizer ({b} : Set G), b * c = c * b := fun c hc =>

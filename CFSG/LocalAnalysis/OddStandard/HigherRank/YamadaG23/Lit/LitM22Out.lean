@@ -12,11 +12,11 @@ open Subgroup CFSG.Blueprint CFSG.Sporadic.Mathieu CFSG.Sporadic.Schreier
 theorem gomiOuterM22_holds :
     GomiOuterM22 := by
   intro G _ _ M σ hMn hM22 hC hσ2 hσ1 h9
-  haveI : M.Normal := hMn
+  have : M.Normal := hMn
   obtain ⟨e⟩ := hM22
   let e' : ↥M ≃* ↥NativeSporadic.M22 := e
-  haveI : IsSimpleGroup ↥NativeSporadic.M22 := fam_m22_simplicity.2.2
-  haveI hs : IsSimpleGroup ↥M := e'.isSimpleGroup
+  have : IsSimpleGroup ↥NativeSporadic.M22 := fam_m22_simplicity.2.2
+  have hs : IsSimpleGroup ↥M := e'.isSimpleGroup
   have hcardM : Nat.card ↥M = Nat.card ↥NativeSporadic.M22 := Nat.card_congr e'.toEquiv
   have hcardA : Nat.card (MulAut ↥M) = Nat.card (MulAut ↥NativeSporadic.M22) :=
     Nat.card_congr (MulAut.congr e').toEquiv

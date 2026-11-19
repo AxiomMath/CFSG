@@ -74,7 +74,7 @@ private lemma a8nr_toLin_shift_coe :
   funext i
   fin_cases i <;>
     simp [a8nr_toLin, a8nrToLinEquiv, a8nrAddEquiv, a8nrShiftMat,
-      Matrix.toLin'_apply', Matrix.mulVecLin_apply, Matrix.mulVec_apply_eq_sum,
+      Matrix.toLin'_apply', Matrix.mulVec_apply_eq_sum,
       ggSL9ShiftCoord_apply, Fin.sum_univ_three]
 
 private lemma a8nr_det_shift :

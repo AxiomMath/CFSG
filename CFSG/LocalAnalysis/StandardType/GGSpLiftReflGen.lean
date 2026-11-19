@@ -23,6 +23,7 @@ variable {G : Type} [Group G] [Finite G]
 
 section Helpers
 
+omit [Finite G] in
 private lemma lrg_eq_one_of_mem_centralizer_of_center_eq_bot {X : Subgroup G}
     (hX : Subgroup.center X = ⊥) {z : G} (hzX : z ∈ X)
     (hzC : z ∈ Subgroup.centralizer (X : Set G)) : z = 1 := by
@@ -50,6 +51,7 @@ private def lrg_prodHom (Bs X : Subgroup G) :
       _ = (q.1 : G) * ((q.2 : G) * (r.1 : G)) * (r.2 : G) := by rw [h]
       _ = ((q.1 : G) * (q.2 : G)) * ((r.1 : G) * (r.2 : G)) := by group
 
+omit [Finite G] in
 private lemma lrg_prodHom_bijective {p : ℕ} {B Bs X : Subgroup G} (hBs : GGBstar p B Bs)
     (hZ : Subgroup.center X = ⊥) (hnorm : Bs ≤ Subgroup.normalizer (X : Set G))
     (hinner : ∀ b ∈ Bs, ∃ x ∈ X, ∀ y ∈ X, b * y * b⁻¹ = x * y * x⁻¹) :
@@ -91,10 +93,11 @@ private noncomputable def lrg_subgroupOfEquiv (Bs X : Subgroup G) :
     ↥((Bs ⊓ X).subgroupOf X) ≃* ↥(Bs ⊓ X) where
   toFun x := ⟨((x : ↥X) : G), Subgroup.mem_subgroupOf.mp x.2⟩
   invFun x := ⟨⟨(x : G), x.2.2⟩, Subgroup.mem_subgroupOf.mpr x.2⟩
-  left_inv x := Subtype.ext (Subtype.ext rfl)
-  right_inv x := Subtype.ext rfl
-  map_mul' x y := Subtype.ext rfl
+  left_inv _x := Subtype.ext (Subtype.ext rfl)
+  right_inv _x := Subtype.ext rfl
+  map_mul' _x _y := Subtype.ext rfl
 
+omit [Finite G] in
 private lemma lrg_card_subgroupOf (Bs X : Subgroup G) :
     Nat.card ↥((Bs ⊓ X).subgroupOf X) = Nat.card ↥(Bs ⊓ X) :=
   Nat.card_congr (lrg_subgroupOfEquiv Bs X).toEquiv
@@ -113,6 +116,7 @@ private def lrg_SignedData (p : ℕ) (Bs X : Subgroup G) : Prop :=
         ∀ f f', (g : G) * (τ f : G) * (g : G)⁻¹ = (τ f' : G) →
           ∀ i, Multiplicative.toAdd (f' (π i)) = ε i * Multiplicative.toAdd (f i)
 
+omit [Finite G] in
 private lemma lrg_signedData_of_signedElt {p n : ℕ} {Bs X : Subgroup G}
     (h : GGTorusSignedElt p n ↥X) (hEab : IsElemAbelian p (Bs ⊓ X))
     (hr : p ^ n ≤ Nat.card ↥(Bs ⊓ X)) (h3 : p ^ 3 ≤ Nat.card ↥(Bs ⊓ X)) :
@@ -156,6 +160,7 @@ private lemma lrg_signedData_of_signedElt {p n : ℕ} {Bs X : Subgroup G}
     rw [hcoe f, hcoe f'] at hff'
     exact hff'
 
+omit [Finite G] in
 private lemma lrg_signedData_of_signedEltSC {p : ℕ} {B Bs X : Subgroup G}
     (hBs : GGBstar p B Bs) (hZ : Subgroup.center X = ⊥)
     (hnorm : Bs ≤ Subgroup.normalizer (X : Set G))
@@ -225,7 +230,7 @@ private def lrg_prodAut {V C : Type} [Group V] [Group C] (α : MulAut V) : MulAu
   invFun q := (α.symm q.1, q.2)
   left_inv q := by obtain ⟨f, c⟩ := q; simp
   right_inv q := by obtain ⟨f, c⟩ := q; simp
-  map_mul' q r := by obtain ⟨f, c⟩ := q; obtain ⟨g, d⟩ := r; simp [mul_assoc]
+  map_mul' q r := by obtain ⟨f, c⟩ := q; obtain ⟨g, d⟩ := r; simp
 
 private lemma lrg_prodAut_apply {V C : Type} [Group V] [Group C] (α : MulAut V) (f : V) (c : C) :
     lrg_prodAut (C := C) α (f, c) = (α f, c) := rfl
@@ -240,7 +245,6 @@ private def lrg_prodAutHom (V C : Type) [Group V] [Group C] : MulAut V →* MulA
 private noncomputable def lrg_fixProdEquiv {V C : Type} [Group V] [Group C] (α : MulAut V) :
     {q : V × C // lrg_prodAut (C := C) α q = q} ≃ {f : V // α f = f} × C where
   toFun q := (⟨q.1.1, by
-    change α q.1.1 = q.1.1
     exact congrArg Prod.fst q.2⟩, q.1.2)
   invFun q := ⟨(q.1.1, q.2), by
     rw [lrg_prodAut_apply, q.1.2]⟩
@@ -290,7 +294,7 @@ private theorem lrg_main_of_signedData {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       ∀ b : ↥Bs, (∀ ψ ∈ ggAutomizer X Bs, ψ b = b) →
         (b : G) ∈ Subgroup.centralizer (X : Set G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, τ, hinj, hsurj, hsgn, hperm, hnorm⟩ := hSD
   let V := Fin k → Multiplicative (ZMod p)
   let C : Subgroup G := Bs ⊓ Subgroup.centralizer (X : Set G)
@@ -341,7 +345,7 @@ private theorem lrg_main_of_signedData {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
           _ = (c : G) := by group
       have hb_eq2 : b = (w : G)⁻¹ * ((e : G) * (c : G)) * (w : G) := by
         rw [← hbc]
-        simp only [Subgroup.coe_inv, Subgroup.coe_mul]
+        simp only [Subgroup.coe_inv]
         group
       have hb_eq : b = (τ (s⁻¹ f) : G) * (c : G) := by
         rw [hb_eq2,
@@ -486,13 +490,14 @@ private theorem lrg_main_of_signedData {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
 
 end Helpers
 
+omit [Finite G] in
 theorem dvd_card_sub_one_or_add_one_of_planeTorus {F : Type} [Field F] [Finite F] [CharP F 2]
     {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 1 ≤ n) {Bs X : Subgroup G}
     {ζ : Multiplicative (ZMod p) →* Matrix.SpecialLinearGroup (Fin 2) F} {φ : StatedSp n F →* G}
     (hl : IsPlaneTorusLift p Bs X ζ φ) :
     p ∣ Nat.card F - 1 ∨ p ∣ Nat.card F + 1 := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   have hτinj : Function.Injective (CFSG.StandardType.SpJoin.spPlaneTorus n ζ) :=
     Function.Injective.of_comp (f := φ) (g := CFSG.StandardType.SpJoin.spPlaneTorus n ζ)
       (by simpa only [MonoidHom.coe_comp] using hl.torus_injective)
@@ -561,7 +566,7 @@ theorem ggReflGenerated_of_spLift {F : Type} [Field F] [Finite F] [CharP F 2] {p
   have hcard3 : p ^ 3 ≤ Nat.card ↥(Bs ⊓ X) :=
     le_trans (Nat.pow_le_pow_right hp.pos hn) hcardX
   have hEab : IsElemAbelian p (Bs ⊓ X) := hBs.2.1.mono inf_le_left
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   let e₁ : ↥(CFSG.Assembly.LargeEvenSpGroup F n) ≃*
       CFSG.Assembly.LargeEvenProj (CFSG.Assembly.LargeEvenSpGroup F n) :=
     MulEquiv.ofBijective (CFSG.Assembly.LargeEvenProjMk (CFSG.Assembly.LargeEvenSpGroup F n))

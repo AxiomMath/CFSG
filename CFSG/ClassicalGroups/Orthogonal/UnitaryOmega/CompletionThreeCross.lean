@@ -56,6 +56,7 @@ private theorem cross_coordPlane_anisotropic (i : Fin 4) :
   subst hx
   simp
 
+omit [Finite K] [CharP K 2] in
 private theorem cross_coord_two_three {w : (F × F) × (Fin 4 → K)}
     (hw : w ∈ coordPlane (LinearEquiv.refl F ((F × F) × (Fin 4 → K))) 0 ⊔
       coordPlane (LinearEquiv.refl F ((F × F) × (Fin 4 → K))) 1) :
@@ -63,7 +64,7 @@ private theorem cross_coord_two_three {w : (F × F) × (Fin 4 → K)}
   obtain ⟨y, hy, z, hz, rfl⟩ := Submodule.mem_sup.mp hw
   obtain ⟨a, rfl⟩ := mem_coordPlane.mp hy
   obtain ⟨b, rfl⟩ := mem_coordPlane.mp hz
-  refine ⟨?_, ?_⟩ <;> simp [Pi.single_apply]
+  refine ⟨?_, ?_⟩ <;> simp
 
 private theorem cross_hypH2_le :
     hypH2 E ≤ coordPlane (LinearEquiv.refl F ((F × F) × (Fin 4 → K))) 0 ⊔

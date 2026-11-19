@@ -64,7 +64,7 @@ theorem cl24_finPSL_cla {τ : StatedLieTag} {n n' j d : ℕ}
     by_cases hEven : Even n
     ·
       have hx : cl24E .PSU n = 2 * (n - 1) := by
-        simp only [cl24E]; exact if_pos hEven
+        simp only [cl24E]; exact ite_eq_left hEven
       rw [hx] at h2N hE
       simp only [lieSylowExponent] at h2N
       simp only [cl24E] at hE
@@ -128,7 +128,7 @@ theorem cl24_finPSL_cla {τ : StatedLieTag} {n n' j d : ℕ}
           norm_num at hsize
     ·
       have hx : cl24E .PSU n = 2 * n := by
-        simp only [cl24E]; exact if_neg hEven
+        simp only [cl24E]; exact ite_eq_right hEven
       rw [hx] at h2N hE
       simp only [lieSylowExponent] at h2N
       simp only [cl24E] at hE
@@ -327,13 +327,13 @@ theorem cl24_finPSL_cla {τ : StatedLieTag} {n n' j d : ℕ}
         have hD4z : (lieOrderDivisor .POmegaMinus n (3 ^ j) : ℤ) ≤ 4 := by
           exact_mod_cast hD4
         rcases hs with rfl | rfl <;> rcases hs' with rfl | rfl <;>
-          simp only [one_mul, neg_mul, neg_neg] <;>
+          simp only [one_mul, neg_mul] <;>
           rw [abs_le] <;> constructor <;> omega
       linarith
     have hzero := Int.eq_zero_of_abs_lt_dvd hdvd_sum habs
     have hD1 : (lieOrderDivisor .POmegaMinus n (3 ^ j) : ℤ) = 1 := by
       rcases hs with rfl | rfl <;> rcases hs' with rfl | rfl <;>
-        simp only [one_mul, neg_mul, neg_neg] at hzero ⊢ <;> omega
+        simp only [one_mul, neg_mul] at hzero ⊢ <;> omega
     have : lieOrderDivisor .POmegaMinus n (3 ^ j) = 1 := by exact_mod_cast hD1
     obtain ⟨k, hk⟩ := hD_even
     omega

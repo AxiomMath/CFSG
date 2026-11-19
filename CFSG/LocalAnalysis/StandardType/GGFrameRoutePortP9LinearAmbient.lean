@@ -19,6 +19,7 @@ open Multiplicative
 variable {G : Type} [Group G] [Finite G] {Bs K : Subgroup G} {z : G}
   {F : Type} [Field F] [Finite F] {d : ℕ}
 
+omit [Finite G] in
 theorem center_eq_bot_of_native_linear_two (hF : Nat.card F = 2)
     (e : K ≃* projectiveSL d F) : Subgroup.center K = ⊥ := by
   let eSL := e.trans (LineL2.projEquivTwo hF).symm
@@ -26,6 +27,7 @@ theorem center_eq_bot_of_native_linear_two (hF : Nat.card F = 2)
   rw [Nat.card_congr (Subgroup.centerCongr eSL).toEquiv,
     LineL2.center_eq_bot_two hF, Subgroup.card_bot]
 
+omit [Finite G] in
 theorem bstar_eq_zpowers_sup_inf_of_linear_two (hF : Nat.card F = 2)
     (e : K ≃* projectiveSL d F) (hBs : IsElemAbelian 3 Bs)
     (hN : Bs ≤ Subgroup.normalizer (K : Set G))
@@ -118,9 +120,9 @@ theorem exists_linear_torusData_of_innerDiagOnLabel
       (∀ (α : MulAut K) k, wt (α k) = wt k) ∧ s + 1 = n := by
   obtain ⟨d, F, hfield, hfin, hchar, θ, e, hd, hF, he, hinner⟩ :=
     native_linear_equiv_of_innerDiagOnLabel hBs hcard hn hz hz1 hN hker hBstar hS hK
-  letI : Field F := hfield
-  letI : Finite F := hfin
-  letI : CharP F 2 := hchar
+  let : Field F := hfield
+  let : Finite F := hfin
+  let : CharP F 2 := hchar
   have hdim := native_linear_half_dim_eq_of_card_bstar hF e
     hBs hcard hz hz1 hN hker hBstar hinner
   have hAr := P9_Wa_card_range hBs hcard hz hz1 hN hker

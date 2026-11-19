@@ -26,7 +26,7 @@ private def stabSubE (K P E : Subgroup G) (hEK : ∀ k ∈ K, ∀ e ∈ E, k * e
         a * (b * p * b⁻¹ * p⁻¹) * a⁻¹ * (a * p * a⁻¹ * p⁻¹) := by group
     rw [e, hEK a haK _ (hb p hp)]
     exact E.mul_mem (hb p hp) (ha p hp)
-  one_mem' := ⟨K.one_mem, fun p _ => by simpa using E.one_mem⟩
+  one_mem' := ⟨K.one_mem, fun p _ => by simp⟩
   inv_mem' := by
     rintro a ⟨haK, ha⟩
     refine ⟨K.inv_mem haK, fun p hp => ?_⟩
@@ -109,12 +109,14 @@ section Generic
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conjSubgroup_le_of_normalizer {H K : Subgroup G} (hKH : K ≤ H) {g : G}
     (hg : g ∈ Subgroup.normalizer (H : Set G)) : conjSubgroup g K ≤ H := by
   intro y hy
   have h1 := (Subgroup.mem_normalizer_iff.1 hg (g⁻¹ * y * g)).1 (hKH (mem_conjSubgroup.1 hy))
   simpa [mul_assoc] using h1
 
+omit [Finite G] in
 theorem comm_of_mem_conjSubgroup {K : Subgroup G} (hK : ∀ a ∈ K, ∀ b ∈ K, a * b = b * a)
     (g : G) : ∀ a ∈ conjSubgroup g K, ∀ b ∈ conjSubgroup g K, a * b = b * a := by
   intro a ha b hb
@@ -123,6 +125,7 @@ theorem comm_of_mem_conjSubgroup {K : Subgroup G} (hK : ∀ a ∈ K, ∀ b ∈ K
     _ = g * ((g⁻¹ * b * g) * (g⁻¹ * a * g)) * g⁻¹ := by rw [h1]
     _ = b * a := by group
 
+omit [Finite G] in
 theorem card_conjSubgroup (K : Subgroup G) (g : G) :
     Nat.card ↥(conjSubgroup g K) = Nat.card ↥K :=
   Subgroup.card_map_of_injective (MulAut.conj g).injective
@@ -444,6 +447,7 @@ variable (hR : Nat.card ↥(Rc X) ≤ 2) (hsurj : Function.Surjective C.θ)
   (hπ : Multiplicative.toAdd (D.piQ ⟨x, hx⟩) = barInd {i, j})
 include hR hsurj hQ16 hij hπ
 
+omit hsurj hQ16 in
 theorem centralizer_commutator_le_T2 :
     M ⊓ Subgroup.centralizer
       ((⁅CFSG.Open.pCoreOf 2 M, TOf M x⁆ : Subgroup G) : Set G) ≤ C.T2 i j := by
@@ -501,7 +505,7 @@ theorem normalizer_le_of_commutator_le {E : Subgroup G}
   have hQC₀ : Q ≤ C₀ := fun q hq =>
     Subgroup.mem_centralizer_iff.2 fun e he => hQab e (hEQ he) q hq
   have hCET2 : M ⊓ C₀ ≤ C.T2 i j := fun c hc =>
-    D.centralizer_commutator_le_T2 hR hsurj hQ16 hx hij hπ
+    D.centralizer_commutator_le_T2 hR hx hij hπ
       ⟨hc.1, Subgroup.centralizer_le
         (show ((⁅Q, TOf M x⁆ : Subgroup G) : Set G) ⊆ (E : Set G) from hQ1E) hc.2⟩
   have hEbot : E ≠ ⊥ := by
@@ -577,7 +581,7 @@ theorem normalizer_le_of_commutator_le {E : Subgroup G}
       obtain ⟨h, hhH, hhT, hhN⟩ := exists_mem_normalizer_of_lt hH2 hT2H (Ne.symm hne)
       exact hhT (hHMle ⟨hhH, normalizer_T2_le hR hsurj hQ16 hij hhN⟩)
     have hP₀T : P₀ ≤ TOf M x :=
-      (le_sup_left.trans hHT2.le).trans (D.T2_le_TOf hR hsurj hx hij hπ)
+      (le_sup_left.trans hHT2.le).trans (D.T2_le_TOf hR hx hij hπ)
     have hQP₀ : Q ≤ P₀ := by
       refine H2.le_pCoreOf_of_stabE (K := C₀) (E := E) (fun k hk e he => ?_) hE2 hcons hQC₀
         (fun a ha p hp => ?_)

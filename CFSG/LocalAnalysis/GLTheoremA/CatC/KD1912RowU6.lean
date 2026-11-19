@@ -47,8 +47,8 @@ theorem outTwoNilpConcl_six : CFSG.LieType.ChevTwo.OutTwoNilpConcl S6 :=
   CFSG.Quasithin.H13.OutTwoNilp.outTwoNilpotent_of_twoNilpotent_outer twoNilpotent_outer_six
 
 theorem center_six : Subgroup.center S6 = ⊥ := by
-  haveI := isSimple_S6
-  haveI : Group.IsPerfect M6 :=
+  have := isSimple_S6
+  have : Group.IsPerfect M6 :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := 2) (f := 1) (K := F4) hF4card
       (n := 6) (by norm_num) (by decide)
   exact CFSG.Goldschmidt75.center_eq_bot_of_simple

@@ -129,7 +129,7 @@ theorem let_exists (j : Nat) : ∃ s : Equiv.Perm (Fin 820), j < 7 →
 theorem sg_spec {j : Nat} (hj : j < 7) : PR (C.S j) (sg j) ∧ PR (C.SI j) (sg j)⁻¹ ∧ sg j ∈ P :=
   (let_exists j).choose_spec hj
 
-theorem gens_rep : GensRep 820 10 (mask 10) 7 C.S C.SI sg := fun l hl p hp =>
+theorem gens_rep : GensRep 820 10 (mask 10) 7 C.S C.SI sg := fun _l hl p hp =>
   ⟨(sg_spec hl).1 ⟨p, hp⟩, (sg_spec hl).2.1 ⟨p, hp⟩⟩
 
 theorem hL : ∀ l < 14, Raw.Orb.PRep 820 10 (cgK 7 C.S C.SI l) (gL 7 sg l) := fun l hl x =>
@@ -138,7 +138,7 @@ theorem hL : ∀ l < 14, Raw.Orb.PRep 820 10 (cgK 7 C.S C.SI l) (gL 7 sg l) := f
 theorem hLI : ∀ l < 14, Raw.Orb.PRep 820 10 (cgiK 7 C.S C.SI l) (gL 7 sg l)⁻¹ := fun l hl x =>
   (cg_rep gens_rep (by omega) x.2).2
 
-theorem hLP : ∀ l < 14, gL 7 sg l ∈ P := fun l _ => gL_mem (fun j hj => (sg_spec hj).2.2) l
+theorem hLP : ∀ l < 14, gL 7 sg l ∈ P := fun l _ => gL_mem (fun _j hj => (sg_spec hj).2.2) l
 
 theorem card_ge_of_lb {r : Nat} {ρ : Equiv.Perm (Fin 820)} (hr : PR r ρ) {G L : Nat → Nat}
     {nh nl c : Nat} (hl : lbOK r G L nh nl c = true) :

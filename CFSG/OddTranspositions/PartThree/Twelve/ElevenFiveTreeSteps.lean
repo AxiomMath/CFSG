@@ -215,7 +215,7 @@ theorem exists_fiveTree_leaf {k : ℕ} {ε π : Bool}
     rw [show x = a • c + μ • n from rfl, fiveForm_add_smul_left, hcdual i, hnb i,
       mul_zero, add_zero]
   have hBxj_ne : fiveForm k ε x (b j) ≠ 0 := by
-    rw [hBxi j, if_pos rfl, mul_one]
+    rw [hBxi j, ite_eq_left rfl, mul_one]
     exact ha_ne
   refine ⟨x, hxW, hxH, hBxj_ne, ?_, ?_⟩
   · refine ⟨?_, ?_, ?_, ?_⟩
@@ -236,7 +236,7 @@ theorem exists_fiveTree_leaf {k : ℕ} {ε π : Bool}
       | last =>
         refine ⟨by simp, ?_⟩
         simp only [Fin.snoc_last, Fin.snoc_castSucc]
-        rw [hBxi j, if_pos rfl, mul_one]
+        rw [hBxi j, ite_eq_left rfl, mul_one]
         exact ha_ne
       | cast i =>
         have hi' : (i : ℕ) ≠ 0 := by simpa using hi
@@ -254,7 +254,7 @@ theorem exists_fiveTree_leaf {k : ℕ} {ε π : Bool}
           rw [hBxi i'] at hij
           have h_eq : i' = j := by
             by_contra hne
-            rw [if_neg hne, mul_zero] at hij
+            rw [ite_eq_right hne, mul_zero] at hij
             exact hij rfl
           subst h_eq
           rw [Fin.snoc_last]
@@ -267,7 +267,7 @@ theorem exists_fiveTree_leaf {k : ℕ} {ε π : Bool}
           rw [hBxi i] at hij
           have h_eq : i = j := by
             by_contra hne
-            rw [if_neg hne, mul_zero] at hij
+            rw [ite_eq_right hne, mul_zero] at hij
             exact hij rfl
           subst h_eq
           rw [Fin.snoc_last]
@@ -310,7 +310,7 @@ theorem exists_fiveTree_leaf {k : ℕ} {ε π : Bool}
         cases i using Fin.lastCases with
         | last =>
           rw [Fin.snoc_last, show c'' = (fiveForm k ε y y)⁻¹ • y from rfl,
-            fiveForm_smul_left, hyx, inv_mul_cancel₀ hy_ne, if_pos rfl]
+            fiveForm_smul_left, hyx, inv_mul_cancel₀ hy_ne, ite_eq_left rfl]
         | cast i' =>
           rw [Fin.snoc_castSucc, show c'' = (fiveForm k ε y y)⁻¹ • y from rfl,
             fiveForm_smul_left, hyb i', mul_zero]
@@ -319,7 +319,7 @@ theorem exists_fiveTree_leaf {k : ℕ} {ε π : Bool}
             have h' := congrArg Fin.val h
             simp at h'
             omega
-          rw [if_neg hne]
+          rw [ite_eq_right hne]
       have hc''ns : ¬ IsSquare (fiveForm k ε c'' c'' *
           fiveForm k ε ((Fin.snoc b x : Fin (d + 1) → Fin (k + 1) → ZMod 5) (Fin.last d))
             ((Fin.snoc b x : Fin (d + 1) → Fin (k + 1) → ZMod 5) (Fin.last d))) := by
@@ -372,7 +372,7 @@ theorem exists_fiveTree_leaf {k : ℕ} {ε π : Bool}
             have h' := congrArg Fin.val h
             simp at h'
             omega
-          rw [if_neg hne]
+          rw [ite_eq_right hne]
         | cast i' =>
           rw [Fin.snoc_castSucc, show c' = c - (a * fiveForm k ε c c /
             fiveForm k ε y y) • y from rfl, fiveForm_sub_left, fiveForm_smul_left,
@@ -380,8 +380,8 @@ theorem exists_fiveTree_leaf {k : ℕ} {ε π : Bool}
           simp only [mul_zero, sub_zero]
           rw [hcdual i']
           by_cases h : i' = j
-          · rw [if_pos h, if_pos (by rw [h])]
-          · rw [if_neg h, if_neg (fun hc => h (Fin.castSucc_inj.mp hc))]
+          · rw [ite_eq_left h, ite_eq_left (by rw [h])]
+          · rw [ite_eq_right h, ite_eq_right (fun hc => h (Fin.castSucc_inj.mp hc))]
       have hc'ns : ¬ IsSquare (fiveForm k ε c' c' *
           fiveForm k ε ((Fin.snoc b x : Fin (d + 1) → Fin (k + 1) → ZMod 5) j.castSucc)
             ((Fin.snoc b x : Fin (d + 1) → Fin (k + 1) → ZMod 5) j.castSucc)) := by

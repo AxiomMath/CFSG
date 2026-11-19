@@ -59,8 +59,7 @@ theorem siegelMap_comp {u w w' : Fin m ⊕ Fin m → K} {c c' : K}
   have hw'u := spForm_zero_symm hw'
   have hwu := spForm_zero_symm hw
   simp only [siegelMap, map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply,
-    smul_eq_mul, spForm_self, hw, hw', hwu, hw'u, mul_zero, zero_mul, add_zero, zero_add,
-    smul_zero, zero_smul]
+    smul_eq_mul, spForm_self, hw, hw'u, mul_zero, add_zero]
   module
 
 theorem inSub_comp {L : Subgroup (GL (Fin m ⊕ Fin m) K)} {u w w' : Fin m ⊕ Fin m → K}
@@ -76,8 +75,8 @@ theorem siegelMap_smul_u [CharP K 2] (u : Fin m ⊕ Fin m → K) (a c : K) :
     siegelMap u (a • u) c = siegelMap u 0 c := by
   funext x
   have h := smul_add_self_char2 (a * spForm m K x u) u
-  simp only [siegelMap, map_smul, smul_eq_mul, map_zero, LinearMap.zero_apply, smul_zero,
-    zero_smul, add_zero, zero_add]
+  simp only [siegelMap, map_smul, smul_eq_mul, map_zero, smul_zero,
+    zero_smul, add_zero]
   linear_combination (norm := module) h
 
 theorem mulVec_inv_of_invol (τ : GL (Fin m ⊕ Fin m) K)
@@ -120,7 +119,7 @@ theorem exists_transv [CharP K 2] (z : Fin m ⊕ Fin m → K) (e : K) :
     intro v
     rw [hv, hv]
     simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-      spForm_self, mul_zero, add_zero, smul_zero]
+      spForm_self, mul_zero, add_zero]
     linear_combination (norm := module) smul_add_self_char2 (e * spForm m K v z) z
   refine ⟨A, hA, fun v => hv v, fun v => ?_⟩
   exact mulVec_inv_of_invol A hinv v
@@ -130,7 +129,7 @@ theorem inSub_conj [CharP K 2] {L : Subgroup (GL (Fin m ⊕ Fin m) K)}
     (hN : ∀ A ∈ StatedSp m K, (∃ c : K,
       (A : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ u = c • u) →
         ∀ l ∈ L, A * l * A⁻¹ ∈ L)
-    {w z : Fin m ⊕ Fin m → K} {c e : K} (hw : spForm m K u w = 0)
+    {w z : Fin m ⊕ Fin m → K} {c e : K} (_hw : spForm m K u w = 0)
     (hz : spForm m K u z = 0) (h : InSub L u w c) :
     InSub L u (w + (e * spForm m K w z) • z) c := by
   obtain ⟨l, hl, hlx⟩ := h
@@ -142,8 +141,7 @@ theorem inSub_conj [CharP K 2] {L : Subgroup (GL (Fin m ⊕ Fin m) K)}
   have hzw := spForm_symm_char2 z w
   have hzu := spForm_zero_symm hz
   simp only [siegelMap, hτv, map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply,
-    smul_eq_mul, spForm_self, hz, hzu, hw, hzw, mul_zero, zero_mul, add_zero, zero_add,
-    smul_zero, zero_smul]
+    smul_eq_mul, spForm_self, hz, hzu, hzw, mul_zero, add_zero]
   linear_combination (norm := module) smul_add_self_char2 (e * spForm m K x z) z
 
 theorem inSub_of_ne_zero [CharP K 2] {L : Subgroup (GL (Fin m ⊕ Fin m) K)}
@@ -192,8 +190,8 @@ theorem inSub_zero_scale {L : Subgroup (GL (Fin m ⊕ Fin m) K)} {u : Fin m ⊕ 
     exact h.symm
   refine ⟨A * l * A⁻¹, hN A hA ⟨lam, hAu⟩ l hl, fun x => ?_⟩
   rw [mulVec_units_mul, mulVec_units_mul, hlx]
-  simp only [siegelMap, map_zero, LinearMap.zero_apply, smul_zero, zero_smul, add_zero,
-    zero_add, hBy, Matrix.mulVec_add, Matrix.mulVec_smul, hAu, hAinv]
+  simp only [siegelMap, map_zero, smul_zero, zero_smul, add_zero,
+    hBy, Matrix.mulVec_add, Matrix.mulVec_smul, hAu, hAinv]
   module
 
 theorem inSub_zero_all [Finite K] [CharP K 2] {L : Subgroup (GL (Fin m ⊕ Fin m) K)}

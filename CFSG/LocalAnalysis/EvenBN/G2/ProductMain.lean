@@ -43,7 +43,7 @@ theorem false_of_productHyp (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f 
     (d : G2Data L K) (hK : Nat.card K = 2 ^ f) (hQ : h.QFacts d) (hp : ProductHyp d t f) :
     False := by
   obtain ⟨G₀, hcomm, hperf, hLr, hN⟩ := h.exists_productConfig hW d hK hQ hp
-  haveI := hperf
+  have := hperf
   rcases hQ.branch with h8 | ⟨hK4, -⟩
   · exact h.false_of_productConfig d hK h8 hcomm hLr hN
   · exact h.false_of_productConfig_four d hK hK4 hcomm hLr hN

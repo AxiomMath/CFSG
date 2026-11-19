@@ -78,7 +78,7 @@ private theorem card_eq_sixteen_of_four_lt
     NormalizerSylowSimpleAutomorphism.five_dvd_aut_card G X t T R rfl hcommR hRcard himageR
       a 1 hapow x hbx hx (fun q => hfreeR q x hx) (by change
         (fixedBy X bG \ fixedPoints R X).ncard < Nat.card R; omega)
-  have hRtwo : IsPGroup 2 R := T.isPGroup'.map (fixingSubgroup G t).subtype
+  have hRtwo : IsPGroup 2 R := T.isPGroup.map (fixingSubgroup G t).subtype
   have hRupper : Nat.card R ≤ 16 := by omega
   exact hsize.trans (TwoGroupFiveAutomorphism.card_eq_sixteen_of_five_dvd_aut_card R hRtwo hRupper hfive)
 
@@ -97,7 +97,7 @@ theorem card_eq_two_four_or_sixteen
   by_cases hgt : 4 < Nat.card S
   · exact Or.inr (Or.inr (card_eq_sixteen_of_four_lt G X hX h4 s hs S hfree hcard himage hgt))
   have hnontriv : 1 < Nat.card S := Finite.one_lt_card_iff_nontrivial.mpr inferInstance
-  obtain ⟨k, hk⟩ := S.isPGroup'.exists_card_eq
+  obtain ⟨k, hk⟩ := S.isPGroup.exists_card_eq
   have hk2 : k ≤ 2 := by
     by_contra hn
     have hp := Nat.pow_le_pow_right (by decide : 1 ≤ 2) (show 3 ≤ k by omega)

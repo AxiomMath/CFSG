@@ -30,6 +30,7 @@ variable {G : Type} [Group G] [Finite G]
 section Certs
 
 
+omit [Finite G] in
 theorem not_fgOn_of_isTD4 {J : Subgroup G} {b : G} (h : IsTD4 3 J) : ¬ FGOn 3 b J := by
   rintro (hF | ⟨-, hT, -⟩)
   · exact MI.td4_not_field_holds h hF
@@ -59,7 +60,7 @@ theorem not_fgOn_of_innAutDerived (hD4 : D4InnAutDerivedNotFG) {X J : Subgroup G
       (MI.inner_innDiag_any hJ hchev hbN ((MI.indAut_mem_inner_iff hp hJ hbN).1 h))
   by_cases h360 : Nat.card (PSimple 3 J) = 360
   · obtain ⟨hsimple, hnab⟩ := chev_pSimple_simple_nonabelian hp hJ
-    haveI := hsimple
+    have := hsimple
     exact hinner (CFSG.StandardType.RawAut.mem_inner_of_isPGroup_outer
       (T171Sh.isPGroup_outer_of_card_360 hnab hchev h360) hpOdd hpow)
   have hmem : MI.indAut 3 J b hbN ∈ innAutDerived (PSimple 3 J) := hMI.resolve_right h360

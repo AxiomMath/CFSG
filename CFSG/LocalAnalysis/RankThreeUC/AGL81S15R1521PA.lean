@@ -13,7 +13,7 @@ open scoped Pointwise
 theorem L34Config.toAConfig_aux_elemAbelian {G : Type} [Group G] {p : ℕ} {M A : Subgroup G}
     (h : IsElemAbelian p A) : IsElemAbelian p (A.subgroupOf M) := by
   obtain ⟨hc, hp⟩ := h
-  haveI := hc
+  have := hc
   refine ⟨inferInstance, fun x hx => ?_⟩
   have hx' : (x : G) ∈ A := hx
   apply Subtype.ext
@@ -104,7 +104,7 @@ theorem L34Config.toAConfig_aux_solvable {G : Type} [Group G] {M R H' : Subgroup
     have h1 : ((x : M) : G) = ((y : M) : G) :=
       congrArg (fun z : ↥(H' ⊓ M ⊓ Subgroup.normalizer (R : Set G)) => (z : G)) hxy
     exact Subtype.ext (Subtype.ext h1)
-  haveI := hs
+  have := hs
   exact Group.isSolvable_of_isSolvable_injective hf
 
 theorem L34Config.toAConfig_aux_transitive {G : Type} [Group G] {M A T : Subgroup G} (hT : T ≤ M)

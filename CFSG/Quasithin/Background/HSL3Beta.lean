@@ -132,7 +132,7 @@ theorem exists_diag_of_fix_plane {p : ℕ} (hp : Odd p) {B : GL (Fin 3) K} (hBp 
     have : Submodule.span K (Set.range fun i : Fin 2 => ((bW i : W) : Fin 3 → K)) ≤ W :=
       Submodule.span_le.mpr (by rintro _ ⟨i, rfl⟩; exact (bW i).2)
     exact this h
-  have hU : IsUnit (frameMat b) := Matrix.linearIndependent_cols_iff_isUnit.mp hb_li
+  have hU : IsUnit (frameMat b) := Matrix.linearIndependent_col_iff_isUnit.mp hb_li
   refine ⟨hU.unit, l, hl1, hlp, ?_⟩
   have hb0 : b 0 = ((bW 0 : W) : Fin 3 → K) := rfl
   have hb1 : b 1 = ((bW 1 : W) : Fin 3 → K) := rfl

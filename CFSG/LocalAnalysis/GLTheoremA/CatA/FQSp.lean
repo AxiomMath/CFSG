@@ -27,7 +27,7 @@ theorem mem_StatedSp_iff (A : GL (Fin m ⊕ Fin m) K) :
   · rfl
   · simp
   · intro a ha b hb
-    simp only [Set.mem_setOf_eq, Units.val_mul, Matrix.transpose_mul] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Units.val_mul, Matrix.transpose_mul] at ha hb ⊢
     calc _ = (b : Matrix _ _ K)ᵀ * ((a : Matrix _ _ K)ᵀ * Matrix.fromBlocks 0 1 (-1) 0 *
           (a : Matrix _ _ K)) * (b : Matrix _ _ K) := by simp only [Matrix.mul_assoc]
       _ = _ := by rw [ha, hb]

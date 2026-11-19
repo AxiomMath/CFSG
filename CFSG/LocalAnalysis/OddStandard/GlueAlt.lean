@@ -80,7 +80,7 @@ theorem card_ker_le_two_of_alt {P : Type*} [Group P] [Finite P] [Group.IsPerfect
     exact (hmem k).1 hk
   have h2 : IsPGroup 2 η.ker := by
     intro k
-    obtain ⟨j, hj⟩ := S.isPGroup' ⟨k, hKS k⟩
+    obtain ⟨j, hj⟩ := S.isPGroup ⟨k, hKS k⟩
     exact ⟨j, by simpa using congrArg Subtype.val hj⟩
   exact LocalAnalysis.ComponentInitial.alternating_perfect_central_two_kernel_order_at_most_two
     (by omega) η hη hK h2

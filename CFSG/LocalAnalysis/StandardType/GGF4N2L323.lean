@@ -83,6 +83,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ggN2_isQuasisimple_of_equiv_SL3 {H : Subgroup G}
     (e : ↥H ≃* Matrix.SpecialLinearGroup (Fin 3) (GaloisField 2 2)) :
     CFSG.Open.IsQuasisimple ↥H := by

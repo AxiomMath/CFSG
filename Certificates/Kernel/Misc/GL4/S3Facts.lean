@@ -10,7 +10,7 @@ public section
 namespace CertificateChecks.KernelMisc.GL4S3
 
 open Matrix CFSG.KC.Ord CFSG.KC.LQT.P CFSG.KC.Misc.GL4 Certificates.A5GL42 Certificates.S3x3GL42
-open Certificates.GL4 (GL4)
+open Certificates.GL4Sub (GL4)
 open CertificateChecks.KernelMisc.GL4EA (EA ea_exact)
 open CertificateChecks.KernelMisc.GL4A5 (subspaces_complete subspace_eq stab_of vecOfCode_zero
   det_eq_one subC)

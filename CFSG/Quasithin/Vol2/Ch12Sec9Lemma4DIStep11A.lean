@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem card_GL_two {N : Type} [AddCommGroup N] [Module (ZMod 2) N] [Finite N]
     (h : Module.finrank (ZMod 2) N = 2) : Nat.card (N ≃ₗ[ZMod 2] N) = 6 := by
   classical
-  haveI : Module.Finite (ZMod 2) N := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) N := Module.Finite.of_finite
   let b := Module.finBasisOfFinrankEq (ZMod 2) N h
   let e : (N ≃ₗ[ZMod 2] N) ≃* GL (Fin 2) (ZMod 2) :=
     (LinearMap.GeneralLinearGroup.generalLinearEquiv (ZMod 2) N).symm.trans
@@ -139,9 +139,9 @@ theorem DIEnv.sigma_one_mem (E : DIEnv T L V V₁ V₂ K₁ g D) (h1222 : Stmt12
     (E.I.mul_mem hkiI (E.I.inv_mem hi))).2 hmem
   exact hmem'
 
-theorem DIEnv.sigma_y0_ne_one (E : DIEnv T L V V₁ V₂ K₁ g D) (h1222 : Stmt12_2_2)
-    (h12213 : Stmt12_2_13) (h1289 : Lemma12_8_9W) (h12810 : Lemma12_8_10)
-    (h12813 : Lemma12_8_13) (F2 : FactF2) (F3 : FactF3)
+theorem DIEnv.sigma_y0_ne_one (E : DIEnv T L V V₁ V₂ K₁ g D) (_h1222 : Stmt12_2_2)
+    (_h12213 : Stmt12_2_13) (_h1289 : Lemma12_8_9W) (_h12810 : Lemma12_8_10)
+    (_h12813 : Lemma12_8_13) (_F2 : FactF2) (F3 : FactF3)
     (hpt : kmapOf (D.img K₁) E.kap (stabS E.S) = stabS E.fp)
     (hy0 : E.y₀ ∈ k0Sub K₁ D (D.π E.a)) : E.sigma ⟨E.y₀, hy0⟩ ≠ 1 := by
   intro h1
@@ -179,7 +179,7 @@ theorem DIEnv.sigma_y0_ne_one (E : DIEnv T L V V₁ V₂ K₁ g D) (h1222 : Stmt
     have hρ1 : D.ρ ⟨E.y₀, hyN⟩ = 1 := congrArg Subtype.val hk
     exact order_three_not_mem_two_group (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K₁)
       ((E.hker E.y₀ hyK hyN).1 hρ1) E.hy₀3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord := orderOf_eq_prime hγ3 hγ1
   have hF := F3 (Additive ↥E.I) E.hM E.fp E.fl E.fPl E.hp E.hℓ E.hPl E.hpℓ E.hℓPl _ hord
   have hF' := (hF.1 hpS hlS).2.1
@@ -217,8 +217,8 @@ theorem DIEnv.sigma_pow_three (E : DIEnv T L V V₁ V₂ K₁ g D) {h : G}
     rw [h1, map_one]
   have hd1 : orderOf (E.sigma ⟨h, hhK⟩) ∣ 3 ^ k := orderOf_dvd_of_pow_eq_one hσpow
   have hd2 : orderOf (E.sigma ⟨h, hhK⟩) ∣ 6 := by
-    haveI : Finite (Additive ↥E.I) := (inferInstance : Finite ↥E.I)
-    haveI : Finite (Additive ↥E.I ⧸ E.fl) :=
+    have : Finite (Additive ↥E.I) := (inferInstance : Finite ↥E.I)
+    have : Finite (Additive ↥E.I ⧸ E.fl) :=
       Finite.of_surjective (Submodule.Quotient.mk : Additive ↥E.I → _)
         (Submodule.Quotient.mk_surjective _)
     have := orderOf_dvd_natCard (E.sigma ⟨h, hhK⟩)
@@ -226,7 +226,7 @@ theorem DIEnv.sigma_pow_three (E : DIEnv T L V V₁ V₂ K₁ g D) {h : G}
   obtain ⟨j, hj, hjeq⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 hd1
   have hj1 : j ≤ 1 := by
     by_contra hc
-    push_neg at hc
+    push Not at hc
     have h9 : 3 ^ 2 ∣ 3 ^ j := pow_dvd_pow 3 hc
     rw [← hjeq] at h9
     have h96 := dvd_trans h9 hd2

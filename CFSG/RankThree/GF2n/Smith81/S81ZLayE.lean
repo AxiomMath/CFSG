@@ -77,7 +77,8 @@ theorem Sh_eq (hE : IsStab R E) (hC : Chars K R) :
   · exact hC.surj i.1 (mem_Lay.1 i.2).1
   · exact hC.ne i.1 (mem_Lay.1 i.2).1 j.1 (mem_Lay.1 j.2).1 (fun e => hij (Subtype.ext e)) σ
 
-theorem Eh_succ_le (hh : 1 ≤ h) : Eh E R (h + 1) ≤ Eh E R h :=
+omit [CharP K 2] in
+theorem Eh_succ_le (_hh : 1 ≤ h) : Eh E R (h + 1) ≤ Eh E R h :=
   inf_le_inf_left _ (URge_anti (Nat.le_succ h))
 
 theorem mem_ker_phiE {x : ↥(Eh E R h)} :
@@ -117,6 +118,7 @@ theorem card_Eh_step (hR : Closed R) {h : ℕ} (hh : 1 ≤ h) (E : Subgroup (Gp 
     Nat.card_congr (QuotientGroup.quotientKerEquivRange (phiE hR hh E)).toEquiv
   rw [h1, h2, card_range_phiE, card_ker_phiE, mul_comm]
 
+omit [CharP K 2] in
 theorem URge_eq_bot {H : ℕ} (hH : ∀ α ∈ R, ht α ≤ H) : URge K R (H + 1) = ⊥ := by
   rw [eq_bot_iff]
   refine iSup₂_le fun α hα => ?_
@@ -125,6 +127,7 @@ theorem URge_eq_bot {H : ℕ} (hH : ∀ α ∈ R, ht α ≤ H) : URge K R (H + 1
   push_cast at hαh
   omega
 
+omit [CharP K 2] in
 theorem Eh_one (hE : IsStab R E) : Eh E R 1 = E := inf_eq_left.2 hE.le
 
 theorem card_E_prod (hR : Closed R) {H : ℕ} (hH : ∀ α ∈ R, ht α ≤ H) (hE : IsStab R E) :
@@ -155,6 +158,7 @@ theorem card_E_pow [Finite K] (hR : Closed R) {H : ℕ} (hH : ∀ α ∈ R, ht �
   refine Finset.prod_congr rfl fun n _ => ?_
   rw [Sh_eq (hR := hR) (hh := Nat.succ_pos n) hE hC, card_coordSub]
 
+omit [CharP K 2] in
 theorem Pl_ext_single (R : Finset Rt) {h : ℕ} {α : Rt} (hα : α ∈ Lay R h) (c : K) :
     Pl R h (extLay R h (Pi.single (⟨α, hα⟩ : ↥(Lay R h)) c)) = xE α c := by
   rw [Pl_congr R (c' := Pi.single α c) (fun β hβ => ?_), Pl_single R hα]
@@ -162,7 +166,7 @@ theorem Pl_ext_single (R : Finset Rt) {h : ℕ} {α : Rt} (hα : α ∈ Lay R h)
   · subst hβα
     simp [extLay, hβ]
   · have : (⟨β, hβ⟩ : ↥(Lay R h)) ≠ ⟨α, hα⟩ := fun e => hβα (congrArg Subtype.val e)
-    simp [extLay, hβ, Pi.single_apply, hβα, this]
+    simp [extLay, hβ, hβα, this]
 
 theorem exists_leading (hR : Closed R) (hE : IsStab R E) (hC : Chars K R) {h : ℕ} (hh : 1 ≤ h)
     {α : Rt} (hα : α ∈ Lay R h) (hA : (⟨α, hα⟩ : ↥(Lay R h)) ∈ Ah hR hh E) (c : K) :
@@ -171,7 +175,7 @@ theorem exists_leading (hR : Closed R) (hE : IsStab R E) (hC : Chars K R) {h : �
     rw [Sh_eq hE hC]
     intro j hj
     have : j ≠ ⟨α, hα⟩ := fun e => hj (e ▸ hA)
-    simp [Pi.single_apply, this]
+    simp [this]
   obtain ⟨e, he⟩ := mem_Sh.1 hmem
   refine ⟨e.1, e.2.1, e.2.2, ?_⟩
   have := layCoord_spec hR hh ⟨e.1, e.2.2⟩
@@ -211,7 +215,7 @@ theorem InA.upper (hR : Closed R) (hE : IsStab R E) (hC : Chars K R) {α β : Rt
   rw [mul_one, mul_inv_cancel_left, add_comm k h] at hcc
   have hne : β + α ≠ 0 := add_ne_zero_of_pos hR hβ hαR
   have hcomm1 : ⁅u, xE α (1 : K)⁆ = xE (α + β) (1 : K) := by
-    rw [hu, comm_xE (hR.root β hβ) (hR.root α hαR) hne 1 1, if_pos (by rwa [add_comm] : IsRoot .E7 (β + α))]
+    rw [hu, comm_xE (hR.root β hβ) (hR.root α hαR) hne 1 1, ite_eq_left (by rwa [add_comm] : IsRoot .E7 (β + α))]
     simp [add_comm]
   rw [hcomm1] at hcc
   have hcc' : Cong R (h + k) (Pl R (h + k) (extLay R (h + k) (Pi.single (⟨α + β, hαβL⟩ : ↥(Lay R (h + k))) (1 : K))))
@@ -244,7 +248,7 @@ theorem InA.abelian (hR : Closed R) (hE : IsStab R E) (hC : Chars K R) {α β : 
     group
   rw [h1] at hcc
   have hne : α + β ≠ 0 := add_ne_zero_of_pos hR hαR hβR
-  rw [comm_xE (hR.root α hαR) (hR.root β hβR) hne 1 1, if_pos hroot] at hcc
+  rw [comm_xE (hR.root α hαR) (hR.root β hβR) hne 1 1, ite_eq_left hroot] at hcc
   have hmem : xE (α + β) (1 * 1 : K) ∈ URge K R (h + k + 1) := by
     simpa [Cong] using hcc
   have h2 : Pl R (h + k) (extLay R (h + k) (Pi.single (⟨α + β, hαβL⟩ : ↥(Lay R (h + k))) (1 : K))) ∈

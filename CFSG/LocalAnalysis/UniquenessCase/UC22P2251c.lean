@@ -19,7 +19,7 @@ variable {G : Type} [Group G]
 
 theorem not_dvd_card_of_isPGroup_two [Finite G] {H : Subgroup G} (hH : IsPGroup 2 H) {q : ℕ}
     (hq : q.Prime) (hq2 : q ≠ 2) : ¬ q ∣ Nat.card H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hH.exists_card_eq
   rw [hn]
   exact fun h => hq2 ((Nat.prime_dvd_prime_iff_eq hq Nat.prime_two).1 (hq.dvd_of_dvd_pow h))
@@ -69,7 +69,7 @@ theorem exists_orderOf_three [Finite G] {L P₁ P₂ : Subgroup G} {p : ℕ} [Fa
     (hb₁ : ∀ u ∈ P₁, b⁻¹ * (u * b * u⁻¹) ∈ pCoreOf 2 L)
     (hb₂ : ∀ v ∈ P₂, b⁻¹ * (v * b * v⁻¹) ∈ pCoreOf 2 L) :
     ∃ a ∈ L, orderOf a = 3 ∧ a ∈ centralizer (P₁ : Set G) ⊓ centralizer (P₂ : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hO := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 L
   have hNO := CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 L
   obtain ⟨c, hbc, hcC⟩ := exists_mem_centralizer_of_coset hp2 (by norm_num) hO hP₁ hP₂ h₁₂
@@ -103,11 +103,11 @@ theorem exists_orderOf_three_mem [Finite G] {L : Subgroup G} (h3 : 3 ∣ Nat.car
 
 theorem le_centralizerMod_of_ne [Finite G] {M L K : Subgroup G} (hL : L ∈ calC M)
     (hK : K ∈ calC M) (hne : L ≠ K) :
-    K ≤ CFSG.Quasithin.centralizerMod (pCoreOf 2 L) (normalizer (L : Set G)) L := fun k hk =>
+    K ≤ CFSG.Quasithin.centralizerMod (pCoreOf 2 L) (normalizer (L : Set G)) L := fun _k hk =>
   ⟨PartTwo.calC_le_normalizer_of_ne hL hK hne hk,
     CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 L
       (PartTwo.calC_le_normalizer_of_ne hL hK hne hk),
-    fun l hl => (PartTwo.calC_commutator_le_of_ne hK hL hne.symm
+    fun _l hl => (PartTwo.calC_commutator_le_of_ne hK hL hne.symm
       (commutator_mem_commutator hk hl)).2⟩
 
 theorem inv_mul_conj_mem_of_mem_centralizerMod {L : Subgroup G} {v b : G}
@@ -214,13 +214,13 @@ theorem mem_normalizer_of_pRank_le [Finite G] {M K L : Subgroup G} (hK : K ∈ c
       L.map (MulAut.conj (x ^ 2)).toMonoidHom].Nodup := by
     refine List.nodup_cons.2 ⟨?_, List.nodup_cons.2 ⟨?_, List.nodup_cons.2 ⟨?_,
       List.nodup_singleton _⟩⟩⟩
-    · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false, not_or]
+    · simp only [List.mem_cons, List.not_mem_nil, or_false, not_or]
       exact ⟨hKL, hKc x hxM, hKc _ (pow_mem hxM 2)⟩
-    · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false, not_or]
+    · simp only [List.mem_cons, List.not_mem_nil, or_false, not_or]
       exact ⟨hne1, hne2⟩
     · simpa only [List.mem_singleton] using hne12
   have h4 := length_le_pRank hnd fun L' hL' => by
-    simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hL'
+    simp only [List.mem_cons, List.not_mem_nil, or_false] at hL'
     rcases hL' with rfl | rfl | rfl | rfl
     · exact ⟨hK, hK3, hKZ⟩
     · exact ⟨hL, hL3, hLZ⟩
@@ -234,14 +234,14 @@ theorem le_normalizer_of_pRank_le [Finite G] {M K L H : Subgroup G} (hK : K ∈ 
     (hK3 : 3 ∣ Nat.card (Bar2 K)) (hKZ : center (Bar2 K) = ⊥) (hL3 : 3 ∣ Nat.card (Bar2 L))
     (hLZ : center (Bar2 L) = ⊥) (hM3 : CFSG.Open.pRank 3 M ≤ 3) (hHM : H ≤ M)
     (hH : Odd (Nat.card H)) :
-    H ≤ normalizer (L : Set G) := fun h hh =>
+    H ≤ normalizer (L : Set G) := fun _h hh =>
   mem_normalizer_of_pRank_le hK hKn hL hKL hK3 hKZ hL3 hLZ hM3 (hHM hh)
     (Odd.of_dvd_nat hH (Subgroup.orderOf_dvd_natCard H hh))
 
 theorem mem_centralizer_of_isCyclic [Finite G] {R L : Subgroup G} (hR : IsPGroup 3 R)
     (hRL : R ≤ normalizer (L : Set G)) (hcyc : IsCyclic ↥(R ⊓ L)) {a : G} (haR : a ∈ R)
     (haL : a ∈ L) (ha : orderOf a = 3) : a ∈ centralizer (R : Set G) := by
-  haveI := hcyc
+  have := hcyc
   rw [mem_centralizer_iff]
   intro r hr
   have ha3 : a ^ 3 = 1 := by rw [← ha]; exact pow_orderOf_eq_one a

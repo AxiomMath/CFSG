@@ -10,7 +10,7 @@ namespace CFSG.LocalAnalysis.ComponentInitial.ChevSp6EpsOne
 
 open Subgroup
 
-@[expose] def Pres (u : Bool) (σ : Equiv.Perm (Fin 64)) : Prop := presT u (tupleOf σ) = true
+def Pres (u : Bool) (σ : Equiv.Perm (Fin 64)) : Prop := presT u (tupleOf σ) = true
 
 theorem nl_decomp : ∀ v, v < 64 → wpart v = 0 →
     v = (if (xpart v).testBit 0 then mkv 0 1 else 0) ^^^

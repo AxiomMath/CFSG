@@ -123,7 +123,7 @@ theorem conclusion_of_center_bot [Finite X] {L : Subgroup X}
     have h3 : ((g • Px : Sylow 3 ↥H) : Subgroup ↥H) = MulAut.conj g • (Px : Subgroup ↥H) := rfl
     rw [← h3, hg] at h2
     simpa [MulAut.smul_def] using h2
-  have : Fact (IsPGroup 3 ↥(Pu : Subgroup ↥H)) := ⟨Pu.isPGroup'⟩
+  have : Fact (IsPGroup 3 ↥(Pu : Subgroup ↥H)) := ⟨Pu.isPGroup⟩
   have hLHn : (L.subgroupOf H).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hLH).2 hHN
   set N : Subgroup ↥(Pu : Subgroup ↥H) := (L.subgroupOf H).subgroupOf (Pu : Subgroup ↥H) with hN
   have hNn : N.Normal := hLHn.subgroupOf _
@@ -160,7 +160,7 @@ theorem conclusion_of_center_bot [Finite X] {L : Subgroup X}
     have := Subgroup.mem_center_iff.mp hy'c ⟨u', huQ⟩
     have h2 := congrArg (fun w : ↥(Pu : Subgroup ↥H) => ((w : ↥H) : X)) this
     exact h2.symm
-  obtain ⟨k, hk⟩ := Pu.isPGroup' (y' : ↥(Pu : Subgroup ↥H))
+  obtain ⟨k, hk⟩ := Pu.isPGroup (y' : ↥(Pu : Subgroup ↥H))
   have hyk : y ^ (3 ^ k) = 1 := by
     have h2 := congrArg (fun w : ↥(Pu : Subgroup ↥H) => ((w : ↥H) : X)) hk
     simpa [hy] using h2

@@ -125,7 +125,7 @@ theorem d42_orthogonal_high
     (hcat : IsCatalogLieIso (↥M ⧸ Subgroup.center ↥M) IsD42Index) :
     f = 1 ∧ Module.finrank K W = 8 := by
   classical
-  haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   have hqs : CFSG.IsQuasisimple ↥(orthDerived R) :=
     CFSG.RankThree.PartOne.KCOrthogonal.isQuasisimple_orthDerived hR hT
   have hMtop : M = ⊤ :=
@@ -174,9 +174,9 @@ theorem d42_orthogonal_dim_zero
     {M : Subgroup ↥(orthDerived R)} (hM : CFSG.IsComponent M)
     (hdim : Module.finrank K W = 0) : False := by
   classical
-  haveI : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup R) :=
+  have : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup R) :=
     CFSG.ComponentClassification.CatalogueBOrthogonal.orthogonal_zero_solvable R hdim
-  haveI : Group.IsSolvable ↥M :=
+  have : Group.IsSolvable ↥M :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.inclusion
         (CFSG.RankThree.PartOne.KCOrthogonal.orthDerived_le_orthogonalGroup (Q := R))).comp
@@ -188,8 +188,8 @@ theorem d42_orthogonal_dim_zero
           congrArg (fun z : ↥(TauCeti.QuadraticMap.orthogonalGroup R) =>
             (z : W ≃ₗ[K] W)) h
         exact Subtype.ext (Subtype.ext hamb))
-  haveI : Nontrivial ↥M := CFSG.LocalCores.isQuasisimple_nontrivial hM.1
-  haveI : Group.IsPerfect ↥M := hM.1.1
+  have : Nontrivial ↥M := CFSG.LocalCores.isQuasisimple_nontrivial hM.1
+  have : Group.IsPerfect ↥M := hM.1.1
   exact Group.IsPerfect.not_isSolvable (↥M) inferInstance
 
 theorem d42_orthogonal_dim_two
@@ -212,10 +212,10 @@ theorem d42_orthogonal_dim_two
     intro a b
     exact Subtype.ext (CFSG.RankThree.PartOne.KCOrthComm.commute_of_mem_rotGroup hdim
       (hrot a a.2) (hrot b b.2))
-  haveI : Group.IsSolvable ↥M :=
+  have : Group.IsSolvable ↥M :=
     Group.isSolvable_of_comm (fun a b : ↥M => Subtype.ext (hcommΩ _ _))
-  haveI : Nontrivial ↥M := CFSG.LocalCores.isQuasisimple_nontrivial hM.1
-  haveI : Group.IsPerfect ↥M := hM.1.1
+  have : Nontrivial ↥M := CFSG.LocalCores.isQuasisimple_nontrivial hM.1
+  have : Group.IsPerfect ↥M := hM.1.1
   exact Group.IsPerfect.not_isSolvable (↥M) inferInstance
 
 theorem d42_orthogonal_minus_four
@@ -230,7 +230,7 @@ theorem d42_orthogonal_minus_four
   obtain ⟨hs, -, hnonab, -, -, h4, -⟩ :=
     CFSG.RankThree.PartOne.even_minus_four_six_actual_derived_extraction R hR
       (Or.inl hdim) (fun U hU => hts U (by simpa [hdim] using hU))
-  haveI := hs
+  have := hs
   have hnonab' : ∃ a b : ↥(orthDerived R), a * b ≠ b * a := by
     simpa only [not_forall] using hnonab
   have hZ : Subgroup.center ↥(orthDerived R) = ⊥ :=
@@ -295,7 +295,7 @@ theorem d42_orthogonal_minus_six
   obtain ⟨hs, -, hnonab, -, -, -, h6⟩ :=
     CFSG.RankThree.PartOne.even_minus_four_six_actual_derived_extraction R hR
       (Or.inr hdim) (fun U hU => hts U (by simpa [hdim] using hU))
-  haveI := hs
+  have := hs
   have hnonab' : ∃ a b : ↥(orthDerived R), a * b ≠ b * a := by
     simpa only [not_forall] using hnonab
   have hZ : Subgroup.center ↥(orthDerived R) = ⊥ :=
@@ -381,7 +381,7 @@ theorem d42_orthogonal_split_six
     {M : Subgroup ↥(orthDerived R)} (hM : CFSG.IsComponent M)
     (hcat : IsCatalogLieIso (↥M ⧸ Subgroup.center ↥M) IsD42Index) : False := by
   classical
-  haveI : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial W := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   have hqs : CFSG.IsQuasisimple ↥(orthDerived R) :=
     CFSG.RankThree.PartOne.KCOrthogonal.isQuasisimple_orthDerived hR hT
   have hMtop : M = ⊤ :=
@@ -493,8 +493,8 @@ theorem d42_orthogonal_split_four_big
         (TauCeti.QuadraticMap.orthogonalGroup R).subtype
         (TauCeti.QuadraticMap.orthogonalGroup R).subtype_injective).symm.trans
         ((F.equivMapOfInjective e.symm.toMonoidHom e.symm.injective).symm.trans eSL.symm))⟩
-  haveI : Finite W := Module.finite_of_finite K
-  haveI : Finite (W ≃ₗ[K] W) := Finite.of_injective (fun e : W ≃ₗ[K] W => (e : W → W))
+  have : Finite W := Module.finite_of_finite K
+  have : Finite (W ≃ₗ[K] W) := Finite.of_injective (fun e : W ≃ₗ[K] W => (e : W → W))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   obtain ⟨e1⟩ : Nonempty (↥M ≃* Matrix.SpecialLinearGroup (Fin 2) K) := by
     rcases CFSG.HardMathSupport.Dickson.Sec6.OrthBlocks.eq_or_eq_of_component_join
@@ -535,7 +535,7 @@ theorem d42_orthogonal_split_four_two
     (hdim : Module.finrank K W = 4)
     (hS : ∃ S : Submodule K W, Module.finrank K S = 2 ∧ ∀ x ∈ S, R x = 0)
     (hK2 : Nat.card K = 2)
-    {M : Subgroup ↥(orthDerived R)} (hM : CFSG.IsComponent M)
+    {M : Subgroup ↥(orthDerived R)} (_hM : CFSG.IsComponent M)
     (hcat : IsCatalogLieIso (↥M ⧸ Subgroup.center ↥M) IsD42Index) : False := by
   classical
   obtain ⟨S, hSdim, hSQ⟩ := hS

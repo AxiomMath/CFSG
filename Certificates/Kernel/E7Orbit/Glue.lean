@@ -99,7 +99,7 @@ theorem qe : ∀ j < 6, qV (decV (3 ^ (j + 1))) = 1 := by decide
 
 theorem σ_val {j : Nat} (hj : j < 6) (c : Fin 2187) : (σ j c : Nat) = hN j c := by
   unfold σ
-  rw [dif_pos hj, Perm.mul_apply, rP_val, rP_val]
+  rw [dite_eq_left hj, Perm.mul_apply, rP_val, rP_val]
   rfl
 
 theorem decV_σ (j : Fin 6) (c : Fin 2187) : decV (σ j c) = hV j (decV c) := by
@@ -275,7 +275,7 @@ theorem rootV (d : Fin 4) : ∃ L : List (V × V), (∀ x ∈ L, qV x.1 = 1 ∧ 
         (fun p => by rw [wordPt1, decV_gF, uP0, wP0]; rfl)
         (fun p _ => by rw [wordPt1]; exact gF_lt _ _)]
   · refine ⟨[(decV 194, decV 324), (decV 585, decV 2135)], fun x hx => ?_, ?_⟩
-    · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hx
+    · simp only [List.mem_cons, List.not_mem_nil, or_false] at hx
       rcases hx with rfl | rfl
       · exact ⟨qg.1, qg.2.2.2.1⟩
       · exact ⟨qg.2.2.1, qg.2.2.2.2.2⟩
@@ -344,8 +344,7 @@ theorem card_cls (d : Fin 4) : (Finset.univ.filter (cS · = d)).card =
       change blkF (recAt T (π (π ⟨n, hn.1⟩))) = d
       rw [π, swap_apply_self]
       exact hn.2
-    · change (π (π ⟨n, hn.1⟩)).val = n
-      rw [π, swap_apply_self]
+    · rw [π, swap_apply_self]
 
 theorem cS_zero (i : Fin 3159) : cS i = 0 ↔ i = 0 := by
   constructor

@@ -34,7 +34,7 @@ theorem pRank_three_le_two_A7 :
 
 theorem pRank_three_le_two_M22 :
     CFSG.Open.pRank 3 (⊤ : Subgroup Blueprint.NativeSporadic.M22) ≤ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.SectionRank.pRank_le (by norm_num) fun E _ hE => ?_
   have hP : IsPGroup 3 E := fun g => ⟨1, Subtype.ext (by simpa using hE.2 g g.2)⟩
   obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 hP
@@ -59,9 +59,9 @@ theorem pRank_three_le_two_of_M22 {S : Type} [Group S] [Finite S]
   exact pRank_three_le_two_M22
 
 instance finite_projSU43 : Finite (projSU 4 3 1) := by
-  haveI : Finite (Matrix.GeneralLinearGroup (Fin 4) (GaloisField 3 (2 * 1))) :=
+  have : Finite (Matrix.GeneralLinearGroup (Fin 4) (GaloisField 3 (2 * 1))) :=
     Finite.of_injective Units.val Units.val_injective
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 4) (GaloisField 3 (2 * 1))) :=
+  have : Finite (Matrix.ProjGenLinGroup (Fin 4) (GaloisField 3 (2 * 1))) :=
     inferInstanceAs (Finite (Matrix.GeneralLinearGroup (Fin 4) (GaloisField 3 (2 * 1)) ⧸
       Subgroup.center (Matrix.GeneralLinearGroup (Fin 4) (GaloisField 3 (2 * 1)))))
   exact inferInstance

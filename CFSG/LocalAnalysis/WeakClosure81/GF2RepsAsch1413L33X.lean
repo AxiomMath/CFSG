@@ -75,7 +75,7 @@ theorem l33X_card : Nat.card l33X = 9 := by
     rw [l33X]
     exact (Nat.card_congr (Equiv.ofInjective l33Psi hinj)).symm
   rw [hcard]
-  simp [Nat.card_prod, Nat.card_zmod]
+  simp
 
 theorem l33X_le_inner : l33X ≤ inner L33P := by
   intro x hx
@@ -98,8 +98,7 @@ private theorem a1413L33X_dNeg_conj (a b : ZMod 3) :
   intro i j
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   fin_cases i <;> fin_cases j <;>
-    simp [l33U, coe_dNeg, Matrix.mul_apply, Fin.sum_univ_three] <;>
-    first | rfl | exact neg_zero
+    simp [l33U, coe_dNeg, Matrix.mul_apply, Fin.sum_univ_three]
 
 private theorem a1413L33X_tInv_conj (a b : ZMod 3) :
     MulAut.conj (tInv : L33P) * MulAut.conj (proj 3 (ZMod 3) (l33U a b)) *
@@ -186,8 +185,7 @@ private theorem a1413L33X_slConj (N : GL (Fin 2) (ZMod 3)) (a b : ZMod 3) :
     have := congrFun (congrFun hNN 1) 1
     simpa [Matrix.mul_apply, Fin.sum_univ_two] using this
   fin_cases i <;> fin_cases j <;>
-    simp [bM, l33U, Matrix.mul_apply, Fin.sum_univ_three, Fin.sum_univ_two,
-      Matrix.GeneralLinearGroup.coe_inv, h00, h01, h10, h11] <;>
+    simp [bM, l33U, Matrix.mul_apply, Fin.sum_univ_three, h00, h01, h10, h11] <;>
     ring
 
 private theorem a1413L33X_kap_proj_l33U (N : GL (Fin 2) (ZMod 3)) (a b : ZMod 3) :

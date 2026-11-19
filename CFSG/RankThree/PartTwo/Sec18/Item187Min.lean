@@ -38,6 +38,7 @@ theorem le_normalizer_sup {K U V : Subgroup G} (hU : K ≤ Subgroup.normalizer (
 
 variable {A M H : Subgroup G} {c : G}
 
+omit [Finite G] in
 theorem isPiSubgroup_of_le {X Y : Subgroup G} (hX : IsPiSubgroup (piCompl 3) X) (hYX : Y ≤ X) :
     IsPiSubgroup (piCompl 3) Y :=
   fun p hp => hX p (hp.trans (Subgroup.card_dvd_of_le hYX))

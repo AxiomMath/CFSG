@@ -28,7 +28,7 @@ theorem lt_orbitSize_of_symmetric_eight (S : Finset (Fin 8)) (h0 : (⟨0, by ome
       simpa using hmem
     have hjval : (j : ℕ) = 4 := by
       have hv := congrArg Fin.val hrep
-      simp only [Fin.val_mk] at hv
+      simp only at hv
       omega
     have hjeq : j = (⟨4, by omega⟩ : Fin 8) := Fin.ext (by simpa using hjval)
     rw [hjeq, orbitSize_singleton]

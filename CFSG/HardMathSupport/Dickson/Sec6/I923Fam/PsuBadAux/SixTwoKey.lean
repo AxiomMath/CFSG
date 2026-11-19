@@ -33,7 +33,7 @@ theorem exists_diagonalize (hq : ℓ ^ f = 2) {M : primeFormUnitary h (idGram K 
     have := congrFun (hbc k) i
     simp only [mulVec, dotProduct, Pi.smul_apply, smul_eq_mul] at this
     simp only [Matrix.mul_apply, frameMat, Matrix.of_apply, Matrix.diagonal_apply, mul_ite,
-      mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
     rw [this]
     ring
   refine ⟨T, T⁻¹ * M * T, c, by group, ?_⟩
@@ -137,7 +137,7 @@ theorem entry_eq_zero_of_commute_diagonal {c : Fin n → K} {X : Matrix (Fin n) 
     X i j = 0 := by
   have h1 := congrFun (congrFun hX i) j
   simp only [Matrix.mul_apply, Matrix.diagonal_apply, mul_ite, mul_zero, Finset.sum_ite_eq,
-    Finset.mem_univ, if_true, ite_mul, zero_mul, Finset.sum_ite_eq'] at h1
+    Finset.mem_univ, ite_true, ite_mul, zero_mul, Finset.sum_ite_eq'] at h1
   have h2 : X i j * (c j - c i) = 0 := by linear_combination h1
   rcases mul_eq_zero.1 h2 with h3 | h3
   · exact h3
@@ -207,7 +207,7 @@ theorem exists_diag_form [DecidableEq K] (hq : ℓ ^ f = 2)
   have hmem : (Pi.single j (1 : K) : Fin 6 → K) ∈ coordSub c a := by
     intro i hi
     have : i ≠ j := fun h' => hi (by rw [h'])
-    simp [Pi.single_apply, this]
+    simp [this]
   have hm : Module.finrank K (coordSub c a) ≤ 6 := by
     have := Submodule.finrank_le (coordSub c a)
     simpa [Module.finrank_fin_fun] using this

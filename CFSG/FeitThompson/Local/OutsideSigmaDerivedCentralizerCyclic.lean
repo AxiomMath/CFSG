@@ -105,7 +105,7 @@ theorem isCyclic_of_isNilpotent_of_forall_elementaryAbelianPRank_le_one {X : Typ
   rcases eq_or_ne (P : Subgroup X) ⊥ with hP | hP
   · rw [hP]; infer_instance
   · have hntriv : Nontrivial ↥(P : Subgroup X) := (Subgroup.nontrivial_iff_ne_bot _).2 hP
-    obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq P.isPGroup'
+    obtain ⟨k, hk⟩ := IsPGroup.exists_card_eq P.isPGroup
     have hk1 : 1 < Nat.card ↥(P : Subgroup X) := Finite.one_lt_card
     have hdvd : r ∣ Nat.card X := by
       refine dvd_trans ?_ (P : Subgroup X).card_subgroup_dvd_card
@@ -113,7 +113,7 @@ theorem isCyclic_of_isNilpotent_of_forall_elementaryAbelianPRank_le_one {X : Typ
       refine dvd_pow_self r ?_
       rintro rfl
       rw [hk] at hk1; simp at hk1
-    exact isCyclic_of_elementaryAbelianPRank_le_one hr (hodd.of_dvd_nat hdvd) P.isPGroup'
+    exact isCyclic_of_elementaryAbelianPRank_le_one hr (hodd.of_dvd_nat hdvd) P.isPGroup
       (le_trans (elementaryAbelianPRank_subgroup_le hr.one_lt _) (hrank r))
 
 def outsideSigmaFittingCore (M : Subgroup G) : Subgroup G :=

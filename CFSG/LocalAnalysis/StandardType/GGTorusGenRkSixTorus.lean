@@ -63,7 +63,7 @@ private theorem isPGroup_closure_of_commute_pow {G : Type*} [Group G] {p : ℕ} 
   have hpair : s.Pairwise Commute := by
     intro x hx y hy _
     exact hcomm x hx y hy
-  haveI : IsMulCommutative (Subgroup.closure s) := Subgroup.isMulCommutative_closure hpair
+  have : IsMulCommutative (Subgroup.closure s) := Subgroup.isMulCommutative_closure hpair
   rw [isPGroup_iff_pow_pow_eq_one]
   intro g
   have hg : ∃ k : ℕ, (g : G) ^ p ^ k = 1 := by
@@ -87,10 +87,10 @@ private theorem isPGroup_closure_of_commute_pow {G : Type*} [Group G] {p : ℕ} 
 private theorem lift_commute {p : ℕ} {L' : Type} [Group L'] (Z : Subgroup L') [Z.Normal]
     (hZ : ∀ z : L', z ∈ Z ↔ z ∈ Subgroup.center L' ∧ ∃ k : ℕ, z ^ 2 ^ k = 1)
     (hp : p.Prime) (hp2 : p ≠ 2) {a b : L'}
-    (ha : ∃ k : ℕ, orderOf a = p ^ k) (hb : ∃ k : ℕ, orderOf b = p ^ k)
+    (_ha : ∃ k : ℕ, orderOf a = p ^ k) (hb : ∃ k : ℕ, orderOf b = p ^ k)
     (hcomm : Commute ((QuotientGroup.mk' Z) a) ((QuotientGroup.mk' Z) b)) :
     Commute a b := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcZ : a * b * a⁻¹ * b⁻¹ ∈ Z := by
     have h1 : (QuotientGroup.mk' Z) (a * b * a⁻¹ * b⁻¹) = 1 := by
       rw [map_mul, map_mul, map_mul, map_inv, map_inv, (commute_iff_eq _ _).mp hcomm]
@@ -139,7 +139,7 @@ private theorem isPGroup_two_of_hZ {L' : Type} [Group L'] {Z : Subgroup L'}
 
 private theorem not_dvd_card_of_isPGroup_two {Z : Type*} [Group Z] [Finite Z]
     (hZ2 : IsPGroup 2 Z) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) : ¬ p ∣ Nat.card Z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hpdvd
   obtain ⟨m, hm⟩ := hZ2.exists_card_eq
   have hpdvd2 : p ∣ 2 := hp.dvd_of_dvd_pow (hm ▸ hpdvd)
@@ -153,7 +153,7 @@ private theorem mem_of_map_of_pElement {p : ℕ} {L' G : Type} [Group L'] [Group
     (K : Subgroup L') {u : G} (hu : u ∈ K.map π) {ℓ' : L'}
     (hℓ' : π ℓ' = u) (hpow : ∃ k : ℕ, orderOf ℓ' = p ^ k) :
     ℓ' ∈ K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hkK, hkπ⟩ := Subgroup.mem_map.mp hu
   let πK : K →* G := π.comp K.subtype
   have hkerK : ∀ x : πK.ker, (((x : K) : L')) ∈ Z := by
@@ -194,7 +194,7 @@ theorem pLift_block_torus_props
     {p : ℕ} {K : Type} [Field K]
     {M : Type} [Group M] [Finite M] {L' E J' : Subgroup M}
     {R : Type} [Group R] {I : Set (MulAut R)} {θ : L' ⧸ Subgroup.center L' ≃* R}
-    {hE : E ≤ Subgroup.normalizer (L' : Set M)} (hpos : GGTableBPosition p L' E I θ hE) (hp : p.Prime)
+    {hE : E ≤ Subgroup.normalizer (L' : Set M)} (_hpos : GGTableBPosition p L' E I θ hE) (hp : p.Prime)
     (hp2 : p ≠ 2) (Z : Subgroup L') [Z.Normal]
     (hZ : ∀ z : L', z ∈ Z ↔ z ∈ Subgroup.center L' ∧ ∃ k : ℕ, z ^ 2 ^ k = 1)
     {φ : ↥(unitarySU 2 1 K 6) →* L' ⧸ Z}
@@ -204,7 +204,7 @@ theorem pLift_block_torus_props
         ∀ (s : ↥(unitarySU 2 1 K 6)) (l : L'), (QuotientGroup.mk l : L' ⧸ Z) = φ s →
           (QuotientGroup.mk (L'.normalizerMonoidHom ⟨e, hE e.2⟩ l) : L' ⧸ Z) =
             φ (conjN D hD s))
-    (I₀ : Finset (Fin 6)) (hJL : J' ≤ L')
+    (I₀ : Finset (Fin 6)) (_hJL : J' ≤ L')
     (hJ : (J'.subgroupOf L').map (QuotientGroup.mk' Z) =
       (TableBUE.blockSU (K := K) (n := 1) I₀).map φ)
     (S : Subgroup M)
@@ -213,7 +213,7 @@ theorem pLift_block_torus_props
         (∃ v : Fin 6 → K, ((x : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) = diagonal v) ∧
         (QuotientGroup.mk ℓ' : L' ⧸ Z) = φ x}) :
     IsPGroup p S ∧ S ≤ J' ∧ S ≤ Subgroup.centralizer (E : Set M) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hZ2 : IsPGroup 2 ↥Z := isPGroup_two_of_hZ hZ
   have hCker : ¬ p ∣ Nat.card (QuotientGroup.mk' Z).ker := by
     rw [QuotientGroup.ker_mk']

@@ -13,6 +13,7 @@ open scoped Pointwise commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem str86_torus_chars_of_model
     {N S Kb L1 : Subgroup G} {K : Type} [Field K] [Finite K] [CharP K 2] {k : ℕ}
     (hk : 2 ≤ k) (hKcard : Nat.card K = (2 ^ k) ^ 2)
@@ -342,9 +343,9 @@ theorem str86_caseIIa_two_chars
     hKbB.trans ((le_sup_right : bigB L1 L2 S ≤ P1 L1 L2 S).trans hNP1)
   obtain ⟨K, hK, hKfin, hKchar, hKcard, Φ, hL1, hL2, hS1, hS2⟩ :=
     str86_caseIIa_two_model hF hSB hk hFc hU3 hB2 hm hII hIIa hZ hc hN hNZ hNne hNP1 hNS hNat
-  letI : Field K := hK
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hK
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   have hflag := str86_flag_coords_of_ujSub hN hSN hk hKcard Φ hS1 hS2
   have hfix : ∀ (d : ↥Kb) (n : ↥N), (Φ (Additive.ofMul n)) 1 = 0 →
       (Φ (Additive.ofMul n)) 2 = 0 → (d : G) * (n : G) * (d : G)⁻¹ = (n : G) := by

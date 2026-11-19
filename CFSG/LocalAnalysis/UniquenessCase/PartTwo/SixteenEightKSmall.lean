@@ -16,27 +16,27 @@ variable {K : Type} [Field K] [Finite K]
 private theorem s16k_commutator_comm_of_card {L : Type*} [Group L] {O : Subgroup L} {p k : ℕ}
     (hp : p.Prime) (hk : k = 1 ∨ k = 2) (hO : Nat.card O = 2 * p ^ k) :
     ∀ a ∈ ⁅O, O⁆, ∀ b ∈ ⁅O, O⁆, a * b = b * a := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpos : 0 < p ^ k := pow_pos hp.pos k
-  haveI : Finite O := Nat.finite_of_card_ne_zero (by rw [hO]; omega)
+  have : Finite O := Nat.finite_of_card_ne_zero (by rw [hO]; omega)
   obtain ⟨P, hP⟩ := Sylow.exists_subgroup_card_pow_prime (G := O) p (n := k)
     ⟨2, by rw [hO]; ring⟩
   have hidx : P.index = 2 := by
     have h := Subgroup.card_mul_index P
     rw [hP, hO] at h
     exact Nat.eq_of_mul_eq_mul_left hpos (by linarith)
-  haveI : P.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : P.Normal := Subgroup.normal_of_index_eq_two hidx
   have hPcomm : ∀ x y : P, x * y = y * x := by
     rcases hk with rfl | rfl
-    · haveI := isCyclic_of_prime_card (hP.trans (pow_one p))
+    · have := isCyclic_of_prime_card (hP.trans (pow_one p))
       exact fun x y => mul_comm' x y
-    · haveI := IsPGroup.isMulCommutative_of_card_eq_prime_sq hP
+    · have := IsPGroup.isMulCommutative_of_card_eq_prime_sq hP
       exact fun x y => mul_comm' x y
   have hQcard : Nat.card (O ⧸ P) = 2 := by
     rw [← Subgroup.index_eq_card]
     exact hidx
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := isCyclic_of_prime_card hQcard
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := isCyclic_of_prime_card hQcard
   have hcomm : ∀ x y : O, ⁅x, y⁆ ∈ P := by
     intro x y
     have h : (QuotientGroup.mk' P) ⁅x, y⁆ = 1 := by

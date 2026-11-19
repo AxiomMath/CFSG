@@ -43,7 +43,7 @@ theorem sign_eq_one_of_commute {σ x y : Perm (Fin 5)} (hx4 : x ^ 4 = 1) (hx1 : 
 
 theorem pow_four_eq_one_of_mem_sylow {B : Type*} [Group B] [Finite B] (hB : Nat.card B = 60)
     (S : Sylow 2 B) {s : B} (hs : s ∈ (S : Subgroup B)) : s ^ 4 = 1 := by
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
   have hk' : s ^ 2 ^ k = 1 := congrArg Subtype.val hk
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hk')
   have h60 : orderOf s ∣ 60 := hB ▸ orderOf_dvd_natCard s

@@ -26,8 +26,8 @@ theorem segevSection5_of_inputs [Finite G] [IsSimpleGroup G] (hF : IsF5Type a z)
       (gammaConj a).range = commutator (Gamma a ≃g Gamma a) := by
   obtain ⟨hlines, hperp, hout⟩ := hI
   have hinj := gammaConj_injective hF hL
-  haveI hnorm : (gammaConj a).range.Normal := normal_range_gammaConj hF hL hlines hperp
-  haveI : Finite (Gamma a ≃g Gamma a) := finite_aut
+  have hnorm : (gammaConj a).range.Normal := normal_range_gammaConj hF hL hlines hperp
+  have : Finite (Gamma a ≃g Gamma a) := finite_aut
   have hidx : (gammaConj a).range.index ≤ 2 := by
     refine index_le_two_of_sup_eq_top (gammaConj a).range (vertexStab a) range_sup_vertexStab ?_
       (gxEquivSubgroupOf hinj) hout

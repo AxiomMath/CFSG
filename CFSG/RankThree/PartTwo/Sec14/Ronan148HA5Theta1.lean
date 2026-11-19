@@ -17,7 +17,7 @@ theorem le_XR_of_isPerfect {H : Subgroup RM} (hH : Group.IsPerfect H) : H ≤ XR
   have h2 : Nat.card (↥RM ⧸ XR) = 2 := by
     rw [← Subgroup.index, XR_index]
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := isCyclic_of_prime_card (α := ↥RM ⧸ XR) h2
+  have := isCyclic_of_prime_card (α := ↥RM ⧸ XR) h2
   have hcomm : IsMulCommutative (↥RM ⧸ XR) := IsCyclic.isMulCommutative
   have hle : commutator ↥RM ≤ XR :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le).mp hcomm
@@ -161,7 +161,7 @@ theorem thetaM_eq_bot (h : A5Cfg P q M F) : thetaM M = ⊥ := by
     have e2 := hker t'' ht''θ ht''2 ht''1
     exact hne (hφinj t' ht'θ t'' ht''θ (Subtype.ext (e1.trans e2.symm)))
   obtain ⟨u, huθ, hΦu, hu2⟩ := hΦ
-  haveI : Group.IsPerfect ↥M := h.Mp
+  have : Group.IsPerfect ↥M := h.Mp
   have hΦp : Group.IsPerfect Φ.range :=
     Group.IsPerfect.ofSurjective (f := Φ.rangeRestrict) Φ.rangeRestrict_surjective
   have hΦX : ∀ m : ↥M, Φ m ∈ XR := fun m => le_XR_of_isPerfect hΦp ⟨m, rfl⟩
@@ -190,7 +190,7 @@ theorem thetaM_eq_bot (h : A5Cfg P q M F) : thetaM M = ⊥ := by
   have hp : IsPGroup 2 Ψ.range := by
     obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp h64
     exact IsPGroup.of_card hk
-  haveI : Group.IsPerfect Ψ.range :=
+  have : Group.IsPerfect Ψ.range :=
     Group.IsPerfect.ofSurjective (f := Ψ.rangeRestrict) Ψ.rangeRestrict_surjective
   have hnt : Nontrivial Ψ.range :=
     ⟨⟨⟨Ψ u', u', rfl⟩, 1, fun h1 => hΨu1 (congrArg Subtype.val h1)⟩⟩

@@ -97,7 +97,7 @@ theorem lvlGrp_eq : lvlGrp KSP KTL 0 = lGrp AG 11 := by
   unfold lvlGrp lGrp
   congr 1
   ext U
-  simp only [h0, List.mem_range, Set.mem_setOf_eq]
+  simp only [h0, List.mem_range, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨g, hg, hU⟩
     exact ⟨g, hg, by rwa [← kgens_spec.2.2.2.1 g hg]⟩
@@ -186,7 +186,7 @@ theorem lvlGrp_eq : lvlGrp KSP KTL 0 = lGrp AG 11 := by
   unfold lvlGrp lGrp
   congr 1
   ext U
-  simp only [h0, List.mem_range, Set.mem_setOf_eq]
+  simp only [h0, List.mem_range, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨g, hg, hU⟩
     exact ⟨g, hg, by rwa [← kgens_spec.2.2.2.1 g hg]⟩

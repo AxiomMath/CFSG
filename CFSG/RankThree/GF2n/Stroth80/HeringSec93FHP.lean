@@ -28,7 +28,7 @@ theorem exists_hp95 (h34 : Stroth34Statement) (h91b : Stroth91bStatement)
   have hrR : r ∈ Rt M (LB M Q B) t := hr.mem
   obtain ⟨K, fK, finK, hK2, E, hnrm, φ, ψ, u, hK, hφ, hker, hψ, hQu, hu0, hBiff, hW, hpol, hLB,
     hLA⟩ := exists_points95 h34 hs hr
-  haveI := hnrm
+  have := hnrm
   have hQnd := nondegenerate_polarBilin_quadPlus 2 K
   have h4 : 4 ≤ Fintype.card (Fin 2 ⊕ Fin 2) := by
     rw [Fintype.card_sum, Fintype.card_fin]

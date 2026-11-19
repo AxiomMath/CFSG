@@ -16,18 +16,18 @@ theorem strictB_eq' (y : Nat) (k : Nat → Bool) : CFSG.KC.Enum.strictB y k = k 
 theorem strictN_eq' (y : Nat) (k : Nat → Nat) : CFSG.KC.Enum.strictN y k = k y := by
   cases y <;> rfl
 
-theorem band' (a b : Bool) : Bool.and' a b = (a && b) := by cases a <;> cases b <;> rfl
+theorem band' (a b : Bool) : _root_.Bool.and a b = (a && b) := by cases a <;> cases b <;> rfl
 
-theorem bor' (a b : Bool) : Bool.or' a b = (a || b) := by cases a <;> cases b <;> rfl
+theorem bor' (a b : Bool) : _root_.Bool.or a b = (a || b) := by cases a <;> cases b <;> rfl
 
-theorem bnot' (a : Bool) : Bool.not' a = !a := by cases a <;> rfl
+theorem bnot' (a : Bool) : not a = !a := by cases a <;> rfl
 
 theorem allBelow_spec {n : Nat} {p : Nat → Bool} (h : allBelow n p = true) : ∀ i < n, p i = true := by
   induction n with
   | zero => exact fun i hi => absurd hi (Nat.not_lt_zero i)
   | succ n ih =>
     intro i hi
-    have h' : Bool.and' (p n) (allBelow n p) = true := h
+    have h' : _root_.Bool.and (p n) (allBelow n p) = true := h
     rw [band', Bool.and_eq_true] at h'
     rcases Nat.lt_succ_iff_lt_or_eq.mp hi with hi | rfl
     · exact ih h'.2 i hi
@@ -189,7 +189,7 @@ theorem ctFrom_spec (CT : Nat) (l : List Nat) :
   | nil => exact fun _ _ n h => absurd h (Nat.not_lt_zero n)
   | cons x l ih =>
     intro j hj n hn
-    have h' : Bool.and' (Nat.beq (clsK CT j) x)
+    have h' : _root_.Bool.and (Nat.beq (clsK CT j) x)
         (CFSG.KC.Enum.strictB (Nat.succ j) (ctFrom CT l)) = true := hj
     rw [band', strictB_eq', Bool.and_eq_true] at h'
     cases n with
@@ -213,9 +213,9 @@ theorem clsK_enc {CT : Nat} (hCT : ctOK CT (Array.toList SE.clsArr) = true) (s :
 @[expose] noncomputable def walkRF (f : Nat → Nat → Bool) (lo hi : Nat) (L : List (Nat × Nat)) :
     Nat → Nat → Bool :=
   List.rec (motive := fun _ => Nat → Nat → Bool) (fun _ _ => true)
-    (fun e _ ih j m => Bool.and'
-      (Bool.or' (Bool.not' (Bool.and' (Nat.beq (Nat.land m (nat_lit 1)) (nat_lit 1))
-          (Bool.and' (Nat.ble lo j) (Nat.blt j hi))))
+    (fun e _ ih j m => _root_.Bool.and
+      (_root_.Bool.or (not (_root_.Bool.and (Nat.beq (Nat.land m (nat_lit 1)) (nat_lit 1))
+          (_root_.Bool.and (Nat.ble lo j) (Nat.blt j hi))))
         (Prod.rec (motive := fun _ => Bool) f e))
       (CFSG.KC.Enum.strictB (Nat.succ j) fun j' =>
         CFSG.KC.Enum.strictB (Nat.shiftRight m (nat_lit 1)) (ih j'))) L
@@ -223,7 +223,7 @@ theorem clsK_enc {CT : Nat} (hCT : ctOK CT (Array.toList SE.clsArr) = true) (s :
 theorem walkRF_cons (f : Nat → Nat → Bool) (lo hi a b : Nat) (L : List (Nat × Nat)) (j m : Nat) :
     walkRF f lo hi ((a, b) :: L) j m = true ↔
       ((m % 2 = 1 → lo ≤ j → j < hi → f a b = true) ∧ walkRF f lo hi L (j + 1) (m / 2) = true) := by
-  change Bool.and' _ (CFSG.KC.Enum.strictB (Nat.succ j) fun j' =>
+  change _root_.Bool.and _ (CFSG.KC.Enum.strictB (Nat.succ j) fun j' =>
     CFSG.KC.Enum.strictB (Nat.shiftRight m 1) (walkRF f lo hi L j')) = true ↔ _
   rw [strictB_eq', strictB_eq', band', bor', bnot', band', band', Bool.and_eq_true]
   have e1 : Nat.land m 1 = m % 2 := Nat.and_one_is_mod m
@@ -514,7 +514,7 @@ theorem walkM_cons (f : Nat → Nat → Bool) (a b : Nat) (L : List (Nat × Nat)
         (Nat.beq (m % 2) 1)) true (Nat.beq m 0) := by
   change Bool.rec (motive := fun _ => Bool)
       (Bool.rec (motive := fun _ => Bool) (CFSG.KC.Enum.strictB (Nat.shiftRight m 1) (walkM f L))
-        (Bool.and' (f a b) (CFSG.KC.Enum.strictB (Nat.shiftRight m 1) (walkM f L)))
+        (_root_.Bool.and (f a b) (CFSG.KC.Enum.strictB (Nat.shiftRight m 1) (walkM f L)))
         (Nat.beq (Nat.land m 1) 1)) true (Nat.beq m 0) = _
   have e1 : Nat.land m 1 = m % 2 := Nat.and_one_is_mod m
   have e2 : Nat.shiftRight m 1 = m / 2 := by
@@ -603,7 +603,7 @@ theorem rowsOK_spec (dm mv : Nat) (L : List (Nat × Nat)) : ∀ (R : List (Nat �
       Nat.lor (rowK dm mv R[n].1 L) (Nat.land R[n].2 18446744073709551615) = R[n].2
   | [], _, n, h => absurd h (Nat.not_lt_zero n)
   | (c, r) :: R, hr, n, hn => by
-    have h' : Bool.and' (Nat.beq (Nat.lor (rowK dm mv c L) (Nat.land r 18446744073709551615)) r)
+    have h' : _root_.Bool.and (Nat.beq (Nat.lor (rowK dm mv c L) (Nat.land r 18446744073709551615)) r)
         (rowsOK dm mv R L) = true := hr
     rw [band', Bool.and_eq_true] at h'
     cases n with
@@ -640,7 +640,7 @@ theorem testBit_of {x n : Nat} (h : (x >>> n) &&& 1 = 1) : x.testBit n = true :=
 theorem pos_of_inv {dm mv : Nat} (hdm : dmOK dm = true) (hmv : mvOK mv = true)
     {L : List (Nat × Nat)} (hinvs : invsOK dm mv L = true) {s : SE}
     (hs : Fus.isInv (· * ·) s = true) : ∃ n, ∃ h : n < L.length, L[n].1 = s.enc := by
-  have hA : allBelow (nat_lit 512) (fun c => Bool.or' (Bool.not' (isInvK dm mv c))
+  have hA : allBelow (nat_lit 512) (fun c => _root_.Bool.or (not (isInvK dm mv c))
       (Nat.beq (Nat.land (Nat.shiftRight (codeMask L) c) 1) 1)) = true := by
     have h' := hinvs
     unfold invsOK at h'
@@ -754,7 +754,7 @@ theorem okK_test {A : Fus.Data} (TF : Fus.Data.TableFacts A) {q : Array SE}
   cases rel
   · have hne : walkIdx A w ≠ 0 := by simpa using hr
     have hn1 : A.img (· * ·) q (walkIdx A w) ≠ 1 := fun h => hne (h1 _ hlt h)
-    change Bool.not' (Nat.beq _ 0) = true
+    change not (Nat.beq _ 0) = true
     rw [bnot', nbeq0_enc, Bool.not_eq_true', beq_eq_false_iff_ne]
     exact hn1
   · have he0 : walkIdx A w = 0 := by simpa using hr
@@ -765,7 +765,7 @@ theorem badBK_spec (dm mv CT BP Q : Nat) : ∀ IK : List (Nat × List Nat), badB
     ∃ r ∈ IK, (BP >>> (r.1 + clsK CT (evalWK dm mv Q r.2))) &&& 1 = 1
   | [], h => absurd h Bool.false_ne_true
   | (c, w) :: IK, h => by
-    have h' : Bool.or' (Nat.beq (Nat.land (Nat.shiftRight BP (Nat.add c (clsK CT (evalWK dm mv Q w))))
+    have h' : _root_.Bool.or (Nat.beq (Nat.land (Nat.shiftRight BP (Nat.add c (clsK CT (evalWK dm mv Q w))))
         1) 1) (badBK dm mv CT BP Q IK) = true := h
     rw [bor', Bool.or_eq_true] at h'
     rcases h' with h' | h'
@@ -777,8 +777,8 @@ theorem diffK_spec (dm mv Q : Nat) (pred : Nat → Bool) : ∀ EW : List (Nat ×
     diffK dm mv Q pred EW = true → ∃ r ∈ EW, pred r.1 ≠ pred (evalWK dm mv Q r.2)
   | [], h => absurd h Bool.false_ne_true
   | (e, w) :: EW, h => by
-    have h' : Bool.or' (Bool.rec (motive := fun _ => Bool) (pred (evalWK dm mv Q w))
-        (Bool.not' (pred (evalWK dm mv Q w))) (pred e)) (diffK dm mv Q pred EW) = true := h
+    have h' : _root_.Bool.or (Bool.rec (motive := fun _ => Bool) (pred (evalWK dm mv Q w))
+        (not (pred (evalWK dm mv Q w))) (pred e)) (diffK dm mv Q pred EW) = true := h
     rw [bor', Bool.or_eq_true] at h'
     rcases h' with h' | h'
     · refine ⟨(e, w), List.mem_cons_self, ?_⟩

@@ -18,19 +18,21 @@ open CFSG.LieType.Universal CFSG.LieType.Universal.Unitary CFSG.LieType.BorelTit
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 lemma p9uUMat_pow_three (hK : Nat.card K = 4) {x : K} (hx : x ≠ 0) : x ^ 3 = 1 := by
   classical
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hcard : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have h := FiniteField.pow_card (K := K) x
   rw [hcard] at h
   rw [pow_succ'] at h
   exact mul_left_cancel₀ hx (by rw [h, mul_one])
 
+omit [CharP K 2] in
 lemma p9uUMat_exists_omega (hK : Nat.card K = 4) :
     ∃ ω : K, ω ^ 3 = 1 ∧ ω ≠ 1 := by
   classical
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hcard : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact hK
   have hcu : Fintype.card Kˣ = 3 := by
     rw [Fintype.card_units, hcard]
@@ -38,7 +40,8 @@ lemma p9uUMat_exists_omega (hK : Nat.card K = 4) :
     Fintype.exists_ne_of_one_lt_card (α := Kˣ) (by rw [hcu]; norm_num) (1 : Kˣ)
   exact ⟨(u : K), p9uUMat_pow_three hK (Units.ne_zero u), fun h => hu (Units.ext h)⟩
 
-lemma p9uUMat_omega_sq_add (hK : Nat.card K = 4) {ω : K}
+omit [Finite K] [CharP K 2] in
+lemma p9uUMat_omega_sq_add (_hK : Nat.card K = 4) {ω : K}
     (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) : ω * ω + ω + 1 = 0 := by
   have hprod : (ω - 1) * (ω * ω + ω + 1) = 0 := by
     have : (ω - 1) * (ω * ω + ω + 1) = ω ^ 3 - 1 := by ring
@@ -47,6 +50,7 @@ lemma p9uUMat_omega_sq_add (hK : Nat.card K = 4) {ω : K}
   · exact absurd (sub_eq_zero.mp h) hω1
   · exact h
 
+omit [Finite K] in
 lemma p9uUMat_cube_eq (hK : Nat.card K = 4) {ω : K}
     (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) {x : K} (hx : x ^ 3 = 1) :
     x = 1 ∨ x = ω ∨ x = ω * ω := by
@@ -79,6 +83,7 @@ lemma p9uUMat_cube_eq (hK : Nat.card K = 4) {ω : K}
 @[expose] def p9uUMat_Allowed {n : ℕ} (J : Finset (Fin n)) (d : Fin n → K) : Prop :=
   (∀ l, d l ^ 3 = 1) ∧ (∏ l, d l = 1) ∧ (∀ a ∈ J, ∀ b ∈ J, d a = d b)
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_Allowed.mul {n : ℕ} {J : Finset (Fin n)} {d₁ d₂ : Fin n → K}
     (h₁ : p9uUMat_Allowed J d₁) (h₂ : p9uUMat_Allowed J d₂) :
     p9uUMat_Allowed J (fun l => d₁ l * d₂ l) := by
@@ -92,19 +97,23 @@ lemma p9uUMat_Allowed.mul {n : ℕ} {J : Finset (Fin n)} {d₁ d₂ : Fin n → 
 def p9uUMat_onJ {n : ℕ} (J : Finset (Fin n)) (w : K) : Fin n → K :=
   fun l => if l ∈ J then w else 1
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_onJ_apply_mem {n : ℕ} {J : Finset (Fin n)} {w : K} {a : Fin n}
     (ha : a ∈ J) : p9uUMat_onJ J w a = w := by
   simp [p9uUMat_onJ, ha]
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_onJ_apply_notMem {n : ℕ} {J : Finset (Fin n)} {w : K} {a : Fin n}
     (ha : a ∉ J) : p9uUMat_onJ J w a = 1 := by
   simp [p9uUMat_onJ, ha]
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_onJ_prod {n : ℕ} (J : Finset (Fin n)) (w : K) :
     ∏ l, p9uUMat_onJ J w l = w ^ J.card := by
   change ∏ l : Fin n, (if l ∈ J then w else 1) = w ^ J.card
   rw [Finset.prod_ite_mem_eq, Finset.prod_const]
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_onJ_allowed {n : ℕ} {J : Finset (Fin n)} (hJ : J.card = 0 ∨ J.card = 3)
     {w : K} (hw : w ^ 3 = 1) : p9uUMat_Allowed J (p9uUMat_onJ J w) := by
   refine ⟨?_, ?_, ?_⟩
@@ -116,18 +125,22 @@ lemma p9uUMat_onJ_allowed {n : ℕ} {J : Finset (Fin n)} (hJ : J.card = 0 ∨ J.
 def p9uUMat_two {n : ℕ} (i j : Fin n) (u v : K) : Fin n → K :=
   fun l => if l = i then u else if l = j then v else 1
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_two_apply_i {n : ℕ} (i j : Fin n) (u v : K) :
     p9uUMat_two i j u v i = u := by
   simp [p9uUMat_two]
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_two_apply_j {n : ℕ} {i j : Fin n} (hij : i ≠ j) (u v : K) :
     p9uUMat_two i j u v j = v := by
   simp [p9uUMat_two, Ne.symm hij]
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_two_apply_of_ne {n : ℕ} {i j x : Fin n} (hxi : x ≠ i) (hxj : x ≠ j)
     (u v : K) : p9uUMat_two i j u v x = 1 := by
   simp [p9uUMat_two, hxi, hxj]
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_two_prod {n : ℕ} {i j : Fin n} (hij : i ≠ j) (u v : K) :
     ∏ l, p9uUMat_two i j u v l = u * v := by
   have hpt : p9uUMat_two i j u v =
@@ -141,15 +154,12 @@ lemma p9uUMat_two_prod {n : ℕ} {i j : Fin n} (hij : i ≠ j) (u v : K) :
       · subst hlj; simp [Ne.symm hij]
       · simp [hli, hlj]
   have h1 : ∏ l : Fin n, (if l = i then u else 1) = u := by
-    simpa using (Finset.prod_eq_single (s := Finset.univ)
-      (f := fun l : Fin n => if l = i then u else 1) i
-      (fun b _ hb => by simp [hb]) (fun _ => by simp))
+    simp
   have h2 : ∏ l : Fin n, (if l = j then v else 1) = v := by
-    simpa using (Finset.prod_eq_single (s := Finset.univ)
-      (f := fun l : Fin n => if l = j then v else 1) j
-      (fun b _ hb => by simp [hb]) (fun _ => by simp))
+    simp
   rw [hpt, Finset.prod_mul_distrib, h1, h2]
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_two_allowed {n : ℕ} {J : Finset (Fin n)} {i j : Fin n} (hij : i ≠ j)
     (hi : i ∉ J) (hj : j ∉ J) {u v : K} (hu : u ^ 3 = 1) (hv : v ^ 3 = 1) (huv : u * v = 1) :
     p9uUMat_Allowed J (p9uUMat_two i j u v) := by
@@ -168,11 +178,13 @@ lemma p9uUMat_two_allowed {n : ℕ} {J : Finset (Fin n)} {i j : Fin n} (hij : i 
     have hbj : b ≠ j := fun h => hj (by rwa [h] at hb)
     rw [p9uUMat_two_apply_of_ne hai haj, p9uUMat_two_apply_of_ne hbi hbj]
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_omega_ne_zero {ω : K} (hω3 : ω ^ 3 = 1) : ω ≠ 0 := by
   intro h
   rw [h, zero_pow (by norm_num : 3 ≠ 0)] at hω3
   exact one_ne_zero hω3.symm
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_omega_sq_ne_one {ω : K} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) :
     ω * ω ≠ 1 := by
   intro h
@@ -182,6 +194,7 @@ lemma p9uUMat_omega_sq_ne_one {ω : K} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) :
     _ = ω ^ 3 := by ring
     _ = 1 := hω3
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_omega_ne_sq {ω : K} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1) :
     ω ≠ ω * ω := by
   intro h
@@ -206,6 +219,7 @@ lemma p9uUMat_exists_two_ne {n : ℕ} (hn : 4 ≤ n) (i j : Fin n) (hij : i ≠ 
   · intro h; exact hlC (by rw [h]; exact Finset.mem_insert_self i {j})
   · intro h; exact hlC (by rw [h]; exact Finset.mem_insert_of_mem (Finset.mem_singleton_self j))
 
+omit [Finite K] in
 lemma p9uUMat_coeff_one {n : ℕ} (hK : Nat.card K = 4) (hn : 4 ≤ n)
     {i j : Fin n} (hij : i ≠ j) {ω : K} (hω3 : ω ^ 3 = 1) (hω1 : ω ≠ 1)
     {τ : K ≃+* K} {π : Equiv.Perm (Fin n)} {c : K} (hc3 : c ^ 3 = 1)
@@ -269,6 +283,7 @@ lemma p9uUMat_coeff_one {n : ℕ} (hK : Nat.card K = 4) (hn : 4 ≤ n)
       exact mul_left_cancel₀ hω2_0 this
     exact hkl (π.injective ((keyi (π k) hkω).trans (keyi (π l) hlω).symm))
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_entry {n : ℕ} {g : GL (Fin n) K} {τ : K ≃+* K} {d : Fin n → K}
     {c : K}
     (h : (g : Matrix (Fin n) (Fin n) K) * Matrix.diagonal (fun l => τ (d l)) =
@@ -278,6 +293,7 @@ lemma p9uUMat_entry {n : ℕ} {g : GL (Fin n) K} {τ : K ≃+* K} {d : Fin n →
   have hxy := congrFun (congrFun h x) y
   simpa [Matrix.smul_apply, mul_assoc] using hxy
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_exists_perm {n : ℕ} (g : GL (Fin n) K) :
     ∃ π : Equiv.Perm (Fin n), ∀ a, (g : Matrix (Fin n) (Fin n) K) (π a) a ≠ 0 := by
   have hdet : (g : Matrix (Fin n) (Fin n) K).det ≠ 0 := Matrix.GeneralLinearGroup.det_ne_zero g
@@ -322,12 +338,12 @@ lemma p9uUMat_unitary_scalar_cube {n : ℕ} (hn : 0 < n) {c : K}
     (h : conjTr (unitaryInvolution K 2 1) (c • (1 : Matrix (Fin n) (Fin n) K)) *
       (c • (1 : Matrix (Fin n) (Fin n) K)) = 1) : c ^ 3 = 1 := by
   have h00 := congrFun (congrFun h ⟨0, hn⟩) ⟨0, hn⟩
-  simp [conjTr, Matrix.mul_apply, Matrix.smul_one_eq_diagonal, Matrix.diagonal_apply,
-    Matrix.map_apply, Matrix.transpose_apply, Matrix.one_apply] at h00
+  simp [conjTr, Matrix.mul_apply, Matrix.smul_one_eq_diagonal, Matrix.diagonal_apply] at h00
   rw [frobenius_def] at h00
   simpa [pow_succ] using h00
 
-lemma p9uUMat_pow_two_pow {c : K} (h0 : c ≠ 0) (h3 : c ^ 3 = 1) (k : ℕ) :
+omit [Finite K] [CharP K 2] in
+lemma p9uUMat_pow_two_pow {c : K} (_h0 : c ≠ 0) (h3 : c ^ 3 = 1) (k : ℕ) :
     c ^ (2 ^ k) = if Even k then c else c⁻¹ := by
   have hsq : c ^ 2 = c⁻¹ :=
     (inv_eq_of_mul_eq_one_right (by rw [← pow_succ', h3])).symm
@@ -336,9 +352,10 @@ lemma p9uUMat_pow_two_pow {c : K} (h0 : c ≠ 0) (h3 : c ^ 3 = 1) (k : ℕ) :
   | succ k ih =>
     rw [pow_succ, pow_mul, ih]
     by_cases hk : Even k
-    · rw [if_pos hk, if_neg (fun h => (Nat.even_add_one.mp h) hk), hsq]
-    · rw [if_neg hk, if_pos (Nat.even_add_one.mpr hk), inv_pow, hsq, inv_inv]
+    · rw [ite_eq_left hk, ite_eq_right (fun h => (Nat.even_add_one.mp h) hk), hsq]
+    · rw [ite_eq_right hk, ite_eq_left (Nat.even_add_one.mpr hk), inv_pow, hsq, inv_inv]
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_scalar_root {c₀ : K} (hc0 : c₀ ^ 3 = 1) (k : ℕ) :
     ∃ c : K, c ^ 3 = 1 ∧ c ^ (2 ^ k) = c₀⁻¹ := by
   have h0 : c₀ ≠ 0 := by
@@ -350,9 +367,10 @@ lemma p9uUMat_scalar_root {c₀ : K} (hc0 : c₀ ^ 3 = 1) (k : ℕ) :
     · rw [inv_pow, hc0, inv_one]
     · exact hc0
   · split_ifs with hk
-    · rw [inv_pow, p9uUMat_pow_two_pow h0 hc0 k, if_pos hk]
-    · rw [p9uUMat_pow_two_pow h0 hc0 k, if_neg hk]
+    · rw [inv_pow, p9uUMat_pow_two_pow h0 hc0 k, ite_eq_left hk]
+    · rw [p9uUMat_pow_two_pow h0 hc0 k, ite_eq_right hk]
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_smul_pow {n : ℕ} (c : K) (G : Matrix (Fin n) (Fin n) K) (m : ℕ) :
     (c • G) ^ m = c ^ m • G ^ m := by
   induction m with
@@ -365,6 +383,7 @@ lemma p9uUMat_det_conjTr {n : ℕ} (A : Matrix (Fin n) (Fin n) K) :
   rw [conjTr, Matrix.det_transpose]
   exact (RingEquiv.map_det (unitaryInvolution K 2 1) A).symm
 
+omit [Finite K] [CharP K 2] in
 lemma p9uUMat_diag_of_col_zero {n : ℕ} {A : Matrix (Fin n) (Fin n) K} {i : Fin n}
     (h : ∀ k, k ≠ i → A k i = 0) (m : ℕ) : (A ^ m) i i = (A i i) ^ m := by
   induction m with

@@ -51,7 +51,7 @@ theorem mulT_eq : ∀ i < 192, ∀ j < 192, Certificates.T84S4.mulT i j = mI ACT
   intro i hi j hj
   have hp : 192 * i + j < 192 * 192 := by omega
   unfold Certificates.T84S4.mulT Certificates.T84S4.tb Certificates.T84S4.mulFlat
-  rw [Array.getD_eq_getD_getElem?, Array.getElem?_ofFn, dif_pos hp, Option.getD_some]
+  rw [Array.getD_eq_getD_getElem?, Array.getElem?_ofFn, dite_eq_left hp, Option.getD_some]
   have e1 : (192 * i + j) / 192 = i := by omega
   have e2 : (192 * i + j) % 192 = j := by omega
   simp only [e1, e2]

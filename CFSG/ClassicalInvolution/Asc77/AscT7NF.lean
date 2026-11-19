@@ -38,6 +38,7 @@ theorem not_rLayer_le_sigmaGen_of (hΩ : HypOmegaMod p f Ω) {K : Subgroup G} (h
   have h1 : R ≤ rLayer Ω u' := le_iSup₂_of_le R hR (le_iSup_of_le hRu le_rfl)
   exact hr (T7A.sigmaGen_le_sigmaNorm hΩ.conjInvariant hK (hle (h1 hrR)))
 
+omit [IsSimpleGroup G] in
 theorem Hyp21.of_involution (h : Hyp21 p f Ω K K' z u J t W) {u' : G} (hu : u' ∈ K ⊔ K')
     (hu2 : u' * u' = 1) (hu1 : u' ≠ 1) (huz : u' ≠ z) (htu : t * u' = u' * t) :
     Hyp21 p f Ω K K' z u' J t W :=

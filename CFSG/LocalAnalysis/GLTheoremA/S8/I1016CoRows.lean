@@ -29,8 +29,8 @@ theorem lift_quot_not_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Subgroup 
     (hT'1 : T' ≠ ⊥) (hWT : W' ≤ Subgroup.normalizer (T' : Set (↥X ⧸ GLAPPrimeCore p ↥X))) :
     ∃ W U : Subgroup G, W ≤ X ∧ IsElemAbelian p W ∧ Nat.card W = Nat.card W' ∧ U ≤ X ∧
       IsPGroup 2 U ∧ ¬ U ≤ GLAPPrimeCoreOf p X ∧ W ≤ Subgroup.normalizer (U : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N₀ : Subgroup ↥X := GLAPPrimeCore p ↥X with hN₀
   have hN : ¬ p ∣ Nat.card N₀ :=
     (Nat.Prime.coprime_iff_not_dvd hp).1 (CFSG.pPrimeCore_coprime_card (p := p) (G := ↥X))
@@ -100,7 +100,7 @@ theorem lift_quot_not_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Subgroup 
 theorem lift_elemAbelian {p : ℕ} (hp : p.Prime) {X : Subgroup G}
     {W' : Subgroup (↥X ⧸ GLAPPrimeCore p ↥X)} (hW' : IsElemAbelian p W') :
     ∃ W : Subgroup G, W ≤ X ∧ IsElemAbelian p W ∧ Nat.card W = Nat.card W' := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hN : ¬ p ∣ Nat.card (GLAPPrimeCore p ↥X) :=
     (Nat.Prime.coprime_iff_not_dvd hp).1 (CFSG.pPrimeCore_coprime_card (p := p) (G := ↥X))
   obtain ⟨S, hSel, -, hScard⟩ := exists_elemAbelian_lift _ hN hW'
@@ -151,7 +151,7 @@ theorem i1016Co2At_holds
   have : Finite CFSG.Blueprint.NativeSporadic.Co2 :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Co2.card_Co2]; norm_num)
   have hq := isQuasisimple_pQuot_of_glaPComponent hp3 hL
-  haveI : Group.IsPerfect (PQuot 3 L) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot 3 L) := ⟨hq.1⟩
   obtain ⟨i, hi, ⟨e⟩⟩ := hcat
   rw [sporIs] at hi
   subst hi
@@ -188,7 +188,7 @@ theorem co1_row {X K : Subgroup G} (hK : GLAPComponent 3 X K)
   have : Finite CFSG.Blueprint.NativeSporadic.Co1 :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Co1.card_Co1]; norm_num)
   have hq := isQuasisimple_pQuot_of_glaPComponent hp3 hK
-  haveI : Group.IsPerfect (PQuot 3 K) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot 3 K) := ⟨hq.1⟩
   have hZ : Subgroup.center (PQuot 3 K) = ⊥ :=
     CFSG.AGLEmbedding.center_eq_bot_of_kernelTrivialAt
       CFSG.RankThree.PartTwo.Sec4.Census.Karpilovsky.Coordinator.kernelTrivialAt_three_Co1 eS

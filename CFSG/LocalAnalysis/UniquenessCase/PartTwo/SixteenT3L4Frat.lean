@@ -95,7 +95,7 @@ theorem s16t_l4_exists_lift_barSub {D : Data G} {V₀ V : Subgroup G} {hV : IsEl
     (hEp : IsPGroup p E) :
     ∃ P : Subgroup G, P ≤ J ∧ IsPGroup p P ∧ barSub V₀ V hV P = E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let φ : ↥J →* ↥(barSub V₀ V hV J) :=
     MonoidHom.codRestrict ((actTil V₀ V hV).comp (Subgroup.inclusion (hJ.trans hM)))
       (barSub V₀ V hV J)
@@ -126,7 +126,7 @@ theorem s16t_l4_exists_lift_barSub {D : Data G} {V₀ V : Subgroup G} {hV : IsEl
   let R : Subgroup ↥J := (T : Subgroup ↥Ppre).map Ppre.subtype
   let P : Subgroup G := R.map J.subtype
   have hPJ : P ≤ J := Subgroup.map_subtype_le _
-  have hPp : IsPGroup p P := (T.isPGroup'.map Ppre.subtype).map J.subtype
+  have hPp : IsPGroup p P := (T.isPGroup.map Ppre.subtype).map J.subtype
   have hRφ : R.map φ = E' := by
     apply le_antisymm
     · rintro _ ⟨x, hx, rfl⟩
@@ -196,7 +196,7 @@ theorem s16t_l4_card_barSub {D : Data G} {V₀ V : Subgroup G} {hV : IsElemAbeli
     (hp : p.Prime) (hA : IsPGroup p A)
     (hker : ¬ p ∣ Nat.card ↥(Y ⊓ F11.CTilde D.M V₀ V)) :
     Nat.card ↥(barSub V₀ V hV A) = Nat.card ↥A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨φ, hφsurj, hφker⟩ := s16t_l4_exists_hom_barSub hM (hAY.trans hYM)
   have hAKbot : A ⊓ F11.CTilde D.M V₀ V = ⊥ := by
     have hKp : IsPGroup p ↥(A ⊓ F11.CTilde D.M V₀ V) :=

@@ -13,7 +13,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem p427_cover_gen (X Z B K Lx : Subgroup G) (hZX : Z ≤ X) (hBZ : B ≤ Z)
     (hX : Nat.card ↥X = 64) (hZ : Nat.card ↥Z = 16) (hB : Nat.card ↥B = 4)
     (hLX : Lx ≤ normalizer (X : Set G)) (hLB : ∀ l ∈ Lx, ∀ b ∈ B, l * b = b * l)
-    (hKL : K ≤ Lx) (hidx : K.relIndex Lx = 5)
+    (_hKL : K ≤ Lx) (hidx : K.relIndex Lx = 5)
     (hsp : ∀ g ∈ Lx, g ∉ K → ∀ z ∈ Z, g * z * g⁻¹ ∈ Z → z ∈ B) :
     ∀ c ∈ X, c ∉ B → ∃ h ∈ Lx, h⁻¹ * c * h ∈ Z := by
   classical

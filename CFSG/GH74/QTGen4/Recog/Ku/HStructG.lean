@@ -14,6 +14,7 @@ namespace KuHyp
 
 variable [Finite G] {T M H P : Subgroup G} {z : G}
 
+omit [Finite G] in
 theorem card_P_eq (h : KuHyp G T M H P z) : Nat.card P = 32 := by
   have hP := h.pExtra.2.1
   rw [hP]
@@ -34,10 +35,12 @@ theorem card_pCore_sub_P (h : KuHyp G T M H P z) :
   have hP := card_P_eq h
   omega
 
-theorem conj_mem_pCore_of_mem (h : KuHyp G T M H P z) {k : G} (hk : k ∈ H)
+omit [Finite G] in
+theorem conj_mem_pCore_of_mem (_h : KuHyp G T M H P z) {k : G} (hk : k ∈ H)
     {g : G} (hg : g ∈ pCoreOf 2 H) : k * g * k⁻¹ ∈ pCoreOf 2 H :=
   (Subgroup.mem_normalizer_iff.mp (le_normalizer_pCoreOf_self H hk) g).mp hg
 
+omit [Finite G] in
 theorem conj_mem_P_iff (h : KuHyp G T M H P z) {k : G} (hk : k ∈ H) {g : G} :
     k * g * k⁻¹ ∈ P ↔ g ∈ P :=
   (Subgroup.mem_normalizer_iff.mp (h.hNormP hk) g).symm
@@ -45,9 +48,9 @@ theorem conj_mem_P_iff (h : KuHyp G T M H P z) {k : G} (hk : k ∈ H) {g : G} :
 theorem exists_fixed_coset (h : KuHyp G T M H P z) {x : G} (hxH : x ∈ H)
     (hx3 : orderOf x = 3) :
     ∃ u ∈ pCoreOf 2 H, u ∉ P ∧ x * u * x⁻¹ = u := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hKH : ∀ k ∈ Subgroup.zpowers x, k ∈ H := fun k hk => Subgroup.zpowers_le.mpr hxH hk
-  letI : MulAction (Subgroup.zpowers x) {g : ↥(pCoreOf 2 H) // (g : G) ∉ P} :=
+  let : MulAction (Subgroup.zpowers x) {g : ↥(pCoreOf 2 H) // (g : G) ∉ P} :=
     { smul := fun k a =>
         ⟨⟨(k : G) * (a.1 : G) * (k : G)⁻¹,
             h.conj_mem_pCore_of_mem (hKH k.1 k.2) a.1.2⟩,

@@ -17,7 +17,7 @@ open Matrix CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley
   CFSG.HardMathSupport.Timmesfeld.Tables.T1b
   CFSG.LocalAnalysis.ComponentInitial.FourGroupChevalley
 open CFSG.RankThree.E6 (weylMatrix weylMatrix_mulVec)
-open One (sylowW)
+open _root_.CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.KSE8Five.One (sylowW)
 
 set_option linter.unusedSectionVars false
 
@@ -29,7 +29,7 @@ theorem mulVec_four_mod {M : Matrix (Fin Tag.E8.rank) (Fin Tag.E8.rank) ℤ}
     (M.mulVec v) 4 % 5 = v 4 % 5 := by
   have h1 : (M.mulVec v) 4 - v 4 = ∑ j, (M 4 j - if j = 4 then 1 else 0) * v j := by
     simp only [Matrix.mulVec, dotProduct, sub_mul, Finset.sum_sub_distrib, ite_mul, one_mul,
-      zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+      zero_mul, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   have h2 : (5 : ℤ) ∣ (M.mulVec v) 4 - v 4 := by
     rw [h1]
     exact Finset.dvd_sum fun j _ => Dvd.dvd.mul_right (hM j) _
@@ -113,8 +113,8 @@ theorem exists_conj_commute_z {K : Type} [Field K] [Finite K] (hK5 : 5 ∣ Nat.c
         griessZ hζ * (γ * baseChangeGL (algebraMap K L) (x : ModGL Tag.E8 K) * γ⁻¹) := by
   classical
   obtain ⟨p, hp⟩ := CharP.exists K
-  haveI : Fact p.Prime := ⟨CharP.char_is_prime K p⟩
-  haveI : CharP K p := hp
+  have : Fact p.Prime := ⟨CharP.char_is_prime K p⟩
+  have : CharP K p := hp
   let K₂ : Type := FiniteField.Extension K p 2
   have hcard : Nat.card K₂ = Nat.card K ^ 2 := FiniteField.natCard_extension K p 2
   have h5₂ : 5 ∣ Nat.card K₂ - 1 := by
@@ -135,7 +135,7 @@ theorem exists_conj_commute_z {K : Type} [Field K] [Finite K] (hK5 : 5 ∣ Nat.c
     rw [Subgroup.coe_pow, ← hxg, ← map_pow, this, map_one]
     rfl
   obtain ⟨c, hcN, hcW⟩ := One.exists_conj_monomialN_weyl_le K₂ h5₂ hQp
-  haveI : Algebra.IsAlgebraic K K₂ := Algebra.IsAlgebraic.of_finite K K₂
+  have : Algebra.IsAlgebraic K K₂ := Algebra.IsAlgebraic.of_finite K K₂
   let ψ : K₂ →ₐ[K] L := IsAlgClosed.lift
   refine ⟨baseChangeGL ψ.toRingHom (c : ModGL Tag.E8 K₂),
     (adjointBaseChangeHom Tag.E8 ψ.toRingHom c).2, fun x hx => ?_⟩

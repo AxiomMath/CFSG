@@ -29,6 +29,7 @@ section Vec
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem exists_ne_zero_perp_two (u₁ u₂ : Fin 2 ⊕ Fin 2 → K) :
     ∃ w : Fin 2 ⊕ Fin 2 → K, w ≠ 0 ∧ polar (quadPlus 2 K) u₁ w = 0 ∧
       polar (quadPlus 2 K) u₂ w = 0 := by
@@ -47,6 +48,7 @@ theorem exists_ne_zero_perp_two (u₁ u₂ : Fin 2 ⊕ Fin 2 → K) :
   · have := congrArg Prod.snd (LinearMap.mem_ker.mp hw)
     simpa [f] using this
 
+omit [Finite K] [CharP K 2] in
 theorem exists_nonsingular_perp91 {u u' : Fin 2 ⊕ Fin 2 → K}
     (hQ : (polarBilin (quadPlus 2 K)).Nondegenerate)
     (hu : quadPlus 2 K u = 0) (hu' : quadPlus 2 K u' = 0)
@@ -141,7 +143,7 @@ theorem card_sec_two_pow91 {R N I L₁ L₂ A₁ A₂ : Subgroup G}
   obtain ⟨hIA₁, hA₁N, hIA₂, hA₂N, hsup, hinf, hcomm, hsq, -, -⟩ := hd0
   have hsec := SecHyp.of_isOppDecomp hd hP hI
   obtain ⟨M, iM, iA, κ, hκ, hker⟩ := exists_sectionModule_ker hNφ hsec hcomm
-  haveI : Finite M := hκ.finite
+  have : Finite M := hκ.finite
   have hdec := isCompl_fixedSub_of_isOppDecomp hP hκ hd h₁ h₂
   have hcardN : Nat.card N = Nat.card I * Nat.card M :=
     natCard_eq_of_isSecMod (hIA₁.trans hA₁N) hκ
@@ -168,7 +170,7 @@ theorem card_sec_two_pow91 {R N I L₁ L₂ A₁ A₂ : Subgroup G}
   have hQw : quadPlus 2 K (κ' • a) ≠ 0 := by
     rw [map_smul_eq_sq]
     exact mul_ne_zero (pow_ne_zero 2 hκ'0) hc
-  letI : DistribMulAction (Gom (quadPlus 2 K)) M := descendAction (viaMatrix X E.equiv φ hφ)
+  let : DistribMulAction (Gom (quadPlus 2 K)) M := descendAction (viaMatrix X E.equiv φ hφ)
     (viaMatrix_surjective φ hφ) (fun y hy a => by
       rw [ker_viaMatrix] at hy
       exact hker y hy a)
@@ -177,7 +179,7 @@ theorem card_sec_two_pow91 {R N I L₁ L₂ A₁ A₂ : Subgroup G}
     rw [fixedSub_descend_Lom E φ hφ hker hL₁, fixedSub_descend_Lom E φ hφ hker hL₂]
     exact hdec
   have h4' : 4 ≤ Module.finrank K (Fin 2 ⊕ Fin 2 → K) := by
-    rw [Module.finrank_fintype_fun_eq_card]; simpa using h4
+    rw [Module.finrank_fintype_fun_eq_card]; simp
   have hcard := card_fixedSub_Lom_eq (M := M) hQ h4' hu hu' huu'
   have hx := (stroth_2_1_ii_omega_fixed_of_card hQ hκ.two hu hu' huu' hdec' hcard
     (x := eichlerG (quadPlus 2 K) u' (κ' • a)) (eichlerG_mem_Lom hw')

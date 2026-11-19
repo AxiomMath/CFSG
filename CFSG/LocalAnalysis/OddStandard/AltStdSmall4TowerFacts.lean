@@ -51,8 +51,8 @@ instance : Group (CycExt D) := Group.ofLeftAxioms
     obtain ⟨k₂, d₂⟩ := b
     obtain ⟨k₃, d₃⟩ := c
     cases d₁ <;> cases d₂ <;> cases d₃ <;>
-      simp only [mk_mul_mk, pw, sq, map_mul, map_one, D.hαg, D.hα2, Bool.and_true,
-        Bool.and_false, Bool.true_and, Bool.false_and, Bool.xor_true, Bool.xor_false,
+      simp only [mk_mul_mk, pw, sq, map_mul, D.hαg, D.hα2, Bool.and_true,
+        Bool.and_false, Bool.xor_true, Bool.xor_false,
         Bool.not_true, Bool.not_false, ite_true, ite_false, Bool.false_eq_true, mul_one,
         CycExt.mk.injEq, and_true] <;> group)
   (fun a => by

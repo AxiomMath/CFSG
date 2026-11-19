@@ -49,7 +49,7 @@ private lemma k2Lie_of_k2Simple_comap_innAut (K : Type) [Group K] (hK : commutat
 theorem k2Lie_of_k2Simple (h : K2Simple) : K2Lie := by
   intro Y _ _ fam r f hY _ R hR hS hnot
   obtain ⟨hq, _, hfam⟩ := hY
-  haveI : Group.IsPerfect Y := hq.1
+  have : Group.IsPerfect Y := hq.1
   have hperf : commutator Y = ⊤ := Group.isPerfect_def.mp hq.1
   have hZ : Subgroup.center (Y ⧸ Subgroup.center Y) = ⊥ :=
     Group.IsPerfect.center_quotient_center_eq_bot Y

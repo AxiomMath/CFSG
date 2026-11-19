@@ -35,7 +35,7 @@ theorem r1s_eq_one_of_center_sylow {L : Type*} [Group L] [Finite L] [Group.IsPer
   have h3 : z ^ (S : Subgroup L).index = 1 := by
     have := congrArg Subtype.val h2.symm
     simpa using this
-  obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp S.isPGroup' ⟨z, hzS⟩
+  obtain ⟨j, hj⟩ := IsPGroup.iff_orderOf.mp S.isPGroup ⟨z, hzS⟩
   have hj' : orderOf z = 3 ^ j := by rwa [← Subgroup.orderOf_coe] at hj
   have hdvd : orderOf z ∣ (S : Subgroup L).index := orderOf_dvd_of_pow_eq_one h3
   have hcop : Nat.Coprime (3 ^ j) (S : Subgroup L).index :=
@@ -84,7 +84,7 @@ theorem r1s_sylow_centralizer_cyclic {Y : Type} [Group Y] [Finite Y] {S : Sylow 
   have hLD : Lb ⊓ D = ⊥ :=
     r1s_inf_centralizer_eq_bot hD fun T => ⟨(hL T).1.1, (hL T).2.2⟩
   have hSY : IsSylowOf 3 (S : Subgroup Y) ⊤ := (isSylowOf_iff).mpr
-    ⟨le_top, S.isPGroup', by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
+    ⟨le_top, S.isPGroup, by rw [Subgroup.relIndex_top_right]; exact S.not_dvd_index⟩
   have hSL : IsSylowOf 3 ((S : Subgroup Y) ⊓ Lb) Lb :=
     hSY.inf_of_le_normalizer le_top (normalizer_eq_top Lb).ge
   have hSD : IsSylowOf 3 ((S : Subgroup Y) ⊓ D) D :=
@@ -99,7 +99,7 @@ theorem r1s_sylow_centralizer_cyclic {Y : Type} [Group Y] [Finite Y] {S : Sylow 
   have hSDc : IsCyclic ↥((S : Subgroup Y) ⊓ D) := by
     by_contra hnc
     have h2 := two_le_pRank_of_not_isCyclic Nat.prime_three (by norm_num)
-      S.isPGroup'.to_inf_left hnc
+      S.isPGroup.to_inf_left hnc
     obtain ⟨E, hEle, hE, hEc⟩ :=
       CFSG.PreuniquenessRankFour.Helpers.pRank_attained 3 Nat.prime_three ((S : Subgroup Y) ⊓ D)
     have hsum := add_le_pRank_of_commute (P := (S : Subgroup Y)) hE₁ hE hE₁c hEc

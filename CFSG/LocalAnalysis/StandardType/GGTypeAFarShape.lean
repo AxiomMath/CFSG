@@ -245,7 +245,7 @@ theorem zpowers_eq_of_zpowers_le_of_prime {p : ℕ} [Fact p.Prime] {z w : X} (hw
     Subgroup.zpowers z = Subgroup.zpowers w := by
   have hcardw : Nat.card (Subgroup.zpowers w) = p := by
     rw [Nat.card_zpowers, orderOf_eq_prime hw hw1]
-  haveI : Finite (Subgroup.zpowers w) :=
+  have : Finite (Subgroup.zpowers w) :=
     Nat.finite_of_card_ne_zero (by rw [hcardw]; exact (Fact.out : p.Prime).ne_zero)
   have hdvd : Nat.card (Subgroup.zpowers z) ∣ Nat.card (Subgroup.zpowers w) :=
     Subgroup.card_dvd_of_le h

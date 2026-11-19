@@ -37,11 +37,11 @@ theorem comp_cases_orthDerived (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
   have hV : Nontrivial V := by
     by_contra hV
     rw [not_nontrivial_iff_subsingleton] at hV
-    haveI := hV
+    have := hV
     have h1 : x = 1 := Subtype.ext (LinearEquiv.ext fun v => Subsingleton.elim _ _)
     rw [h1, orderOf_one] at hx3
     omega
-  haveI := hV
+  have := hV
   have hinj : Function.Injective (piOrth Q) := piOrth_injective hQ
   have hL' : CFSG.Open.IsComponentOf (L.map (piOrth Q))
       (Subgroup.centralizer ({piOrth Q x} : Set (ProjOrthDerived Q))) := by
@@ -76,8 +76,8 @@ private theorem apply_eq_of_mem_specialBlock_aux2 :
   rw [h1, h2] at hdeg
   exact absurd hdeg (by norm_num)
 
-theorem apply_eq_of_mem_specialBlock (hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
-    {x : V ≃ₗ[ZMod 2] V} (hxO : x ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hx3 : x ^ 3 = 1)
+theorem apply_eq_of_mem_specialBlock (_hQ : (QuadraticMap.polarBilin Q).Nondegenerate)
+    {x : V ≃ₗ[ZMod 2] V} (_hxO : x ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (_hx3 : x ^ 3 = 1)
     {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ specialBlock Q x (X ^ 2 + X + 1)) {v : V} (hv : x v = v) :
     g v = v := by
   have hgS : g ∈ supportedBlock Q x (X ^ 2 + X + 1) :=

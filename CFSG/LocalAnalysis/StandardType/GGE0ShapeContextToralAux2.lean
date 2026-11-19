@@ -211,7 +211,7 @@ theorem centralizer_dictionary
   have hDleB : contextImage G0 D ≤ contextImage G0 B := contextImage_mono_aux hDB
   refine le_antisymm ?_ ?_
   · rintro x ⟨hxB, hxC⟩
-    simp only [realizedSubgroup, SetLike.mem_coe, Subgroup.mem_map] at hxB
+    simp only [realizedSubgroup, SetLike.mem_coe] at hxB
     obtain ⟨φ, hφ, rfl⟩ := hxB
     have hφB : φ.1 ∈ contextImage G0 B := Subgroup.mem_comap.mp hφ
     rw [mem_contextImage_aux] at hφB

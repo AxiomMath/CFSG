@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem twelve_thirteen (D : Data G) (h63 : UC6.R6_3 D) (h126 : R126 D) (h127 : R127 D)
     (h1211 : R1211_1 D) (h111 : W3Thm111 G) (h6161ii : W3Lem616_1ii G) {V₀ V : Subgroup G}
     (h : Hyp125 D V₀ V) (hm : Nat.card V₀ < 8 → MBarGT D.M V₀ V (D.k + 1))
-    {X : Subgroup G} {n : ℕ} (hXsn : CFSG.Open.IsSubnormal X (X ⊔ D.T)) (hXM : X ⊔ D.T ≤ D.M)
+    {X : Subgroup G} {n : ℕ} (hXsn : CFSG.Open.IsSubnormal X (X ⊔ D.T)) (_hXM : X ⊔ D.T ≤ D.M)
     (hXA : Nonempty (Bar2 X ≃* alternatingGroup (Fin n)))
     (hP : ∀ P : Subgroup G, P ≤ X ⊔ D.T → IsPGroup 3 P → ¬ IsCyclic P →
       (∀ x ∈ P, x ^ 3 = 1) → ⁅⁅P, P⁆, P⁆ = ⊥ → Permutes P D.T → F11.InP11 D P) :
@@ -25,7 +25,7 @@ theorem twelve_thirteen (D : Data G) (h63 : UC6.R6_3 D) (h126 : R126 D) (h127 : 
   · exact ⟨fun h8 => absurd h8 (by omega), by omega⟩
   have hn8 : 8 ≤ n := by omega
   have hTH : CFSG.ABGLocalTools.IsSylowOf 2 D.T (X ⊔ D.T) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact CFSG.ABGLocalTools.isSylowOf_iff.2 (TwelveShort.isSylowIn_of_le D le_sup_right)
   obtain ⟨P, hPH, hPe, hP9, hPT, hPirr⟩ :=
     TwelveThirteen.exists_three_subgroup hn8 hXsn hTH hXA

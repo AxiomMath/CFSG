@@ -115,7 +115,7 @@ theorem IsMaximalPSignalizer.isSylowOf_inf_oddCore_solvableRadical (hp : p ≠ 2
   refine ⟨hle.trans hOS, hpg, ?_⟩
   rw [← Subgroup.relIndex_mul_relIndex _ _ _ hle hOS]
   have hZ : IsPGroup 2 ((center S).map (S : Subgroup H).subtype) :=
-    (S.isPGroup'.to_subgroup _).map _
+    (S.isPGroup.to_subgroup _).map _
   have h2 : ¬ p ∣ (oddCore H).relIndex (solvableRadical H) :=
     not_dvd_relIndex_of_le_sup hp hZ (le_of_eq hrad)
   exact fun h => (Nat.Prime.dvd_mul Fact.out).mp h |>.elim hdvd h2
@@ -260,9 +260,9 @@ theorem IsMaximalPSignalizer.exists_sylow_le_normalizer_of_not_sq_dvd (hp : p �
   set φ := QuotientGroup.mk' (oddCore H) with hφ
   have hPO : (P : Subgroup H) ⊓ oddCore H = R ⊓ oddCore H :=
     (hR.isSylowOf_inf_oddCore hp hD).eq_of_le (inf_le_inf_right _ hRP) inf_le_right
-      (P.isPGroup'.to_le inf_le_left)
+      (P.isPGroup.to_le inf_le_left)
   have hPbar : ∀ x ∈ (P : Subgroup H), ∀ y ∈ (P : Subgroup H), φ x * φ y = φ y * φ x := by
-    have hpg : IsPGroup p ((P : Subgroup H).map φ) := P.isPGroup'.map φ
+    have hpg : IsPGroup p ((P : Subgroup H).map φ) := P.isPGroup.map φ
     obtain ⟨k, hk⟩ := hpg.exists_card_eq
     have hk1 : k ≤ 1 := by
       by_contra hk1
@@ -409,7 +409,7 @@ theorem card_solvableRadical_of_eq {S : Sylow 2 H}
       Nat.card (oddCore H) * Nat.card ((center S).map (S : Subgroup H).subtype) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Z := (center S).map (S : Subgroup H).subtype
-  have hZ2 : IsPGroup 2 Z := (S.isPGroup'.to_subgroup _).map _
+  have hZ2 : IsPGroup 2 Z := (S.isPGroup.to_subgroup _).map _
   have hOZ : oddCore H ⊓ Z = ⊥ := by
     have hodd : Odd (Nat.card (oddCore H ⊓ Z : Subgroup H)) :=
       Odd.of_dvd_nat (odd_card_oddCore (H := H)) (card_dvd_of_le inf_le_left)
@@ -493,7 +493,7 @@ theorem IsMaximalPSignalizer.normal_or_covers_of_solvableRadical (hp : p ≠ 2)
       exact one_mem _
     have hZW : IsSylowOf 2 Z W := by
       rw [isSylowOf_iff]
-      refine ⟨hZS.trans hSW, (S.isPGroup'.to_subgroup _).map _, ?_⟩
+      refine ⟨hZS.trans hSW, (S.isPGroup.to_subgroup _).map _, ?_⟩
       have h1 := relIndex_mul_card Z W
       rw [inf_eq_left.mpr (hZS.trans hSW), hW, hφ, card_comap_mk',
         card_solvableRadical_of_eq hrad] at h1
@@ -522,7 +522,7 @@ theorem IsMaximalPSignalizer.normal_or_covers_of_solvableRadical (hp : p ≠ 2)
     have hRO' : R ≤ O' := by
       have hq : IsPGroup 2 (W ⧸ pPrimeCore 2 W) := by
         rw [IsPGroup.iff_card, ← index_eq_card, hOidx]
-        exact T.isPGroup'.exists_card_eq
+        exact T.isPGroup.exists_card_eq
       have hle := CFSG.QuasiDihedralFusion.le_of_odd_of_isPGroup_quotient (pPrimeCore 2 W) hq
         (R.subgroupOf W) (by
           rw [Nat.card_congr (subgroupOfEquivOfLe hRW).toEquiv]
@@ -560,7 +560,7 @@ theorem IsMaximalPSignalizer.normal_or_covers_of_solvableRadical (hp : p ≠ 2)
       have h2 : O'.relIndex W = (pPrimeCore 2 W).index := by
         rw [hO', relIndex, subgroupOf, comap_map_eq_self_of_injective W.subtype_injective]
       rw [h2, hOidx] at h1
-      obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+      obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
       rw [hk] at h1
       have := (Nat.prime_dvd_prime_iff_eq hpp Nat.prime_two).mp (hpp.dvd_of_dvd_pow h1)
       exact hp this

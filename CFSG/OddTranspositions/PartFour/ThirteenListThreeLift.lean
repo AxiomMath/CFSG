@@ -228,7 +228,7 @@ theorem exists_sevenNine_of_reflGroup_embedding {X : Type} [Group X] {s : X}
     exact Subtype.ext hιc.symm
   have horth : orthReflSet 3 6 f₆ = F3.reflSet f₆ := by
     ext g
-    simp only [orthReflSet, F3.reflSet, fischerTransvections, Set.mem_setOf_eq]
+    simp only [orthReflSet, F3.reflSet, fischerTransvections, Set.mem_ofPred_eq]
     have htwo : (-2 : ZMod 3) = 1 := by decide
     constructor
     · rintro ⟨w, hw, hgw⟩

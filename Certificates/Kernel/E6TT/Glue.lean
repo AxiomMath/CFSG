@@ -35,7 +35,7 @@ theorem leafK_zero {k : Nat} {Hs : List (List Nat)} {Os : List (List (List Nat))
   unfold leafK at h
   rw [nIf_eqE] at h
   by_contra hc
-  rw [if_neg hc] at h
+  rw [ite_eq_right hc] at h
   exact absurd h one_ne_zero
 
 theorem leafKA2_zero {Hs : List (List Nat)} {Os : List (List (List Nat))}
@@ -44,7 +44,7 @@ theorem leafKA2_zero {Hs : List (List Nat)} {Os : List (List (List Nat))}
   rw [nIf_eqE] at h
   refine rowKA2_sound ?_
   by_contra hc
-  rw [if_neg hc] at h
+  rw [ite_eq_right hc] at h
   exact absurd h one_ne_zero
 
 theorem rowK_of_enum (k : Fin 5) {L0 N1 N2 N3 N4 N5 : Nat}

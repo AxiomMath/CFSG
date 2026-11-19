@@ -15,6 +15,7 @@ open CFSG.Yardstones.Mf4cdcdf2e013 (Standing4 Setup4)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem uc22p22c_layer_le (H : Subgroup G) : rankThreeLayer H ≤ H := by
   refine sSup_le ?_
   rintro L ⟨hL, _⟩
@@ -27,16 +28,17 @@ theorem uc22p22c_hyp612_of_sigma2 (hS : Standing G) (S : Setup G) :
   have hp' := hp
   obtain ⟨hpA, Q, hw, hB⟩ := hp
   have hprime := (PartTwo.Three.prime_of_mem_rankThreeSigmaA hpA).1
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hQM : (Q : Subgroup G) ≤ S.M := hw.sylow_le hS hpA
   obtain ⟨_, _, P₀, hP₀Q, hcard, _, _, hnl, _⟩ := hB
   refine ⟨(Q : Subgroup G), P₀, hp', ?_, hP₀Q, hcard, ?_⟩
-  · refine CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨hQM, Q.isPGroup', ?_⟩
+  · refine CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨hQM, Q.isPGroup, ?_⟩
     intro hdvd
     exact Q.not_dvd_index (hdvd.trans (Subgroup.relIndex_dvd_index_of_le hQM))
   · intro hle
     exact hnl ((uc22p22c_layer_le _).trans hle)
 
+omit [Finite G] in
 theorem uc22p22c_layerFour_le (H : Subgroup G) : uniqueFourLayer H ≤ H := by
   refine sSup_le ?_
   rintro L ⟨hL, _⟩
@@ -49,9 +51,9 @@ theorem uc22p22c_hyp612_of_sigma2_four (hS : Standing4 G) (hU : uniqueFourUnique
   intro p hp
   have hp' := hp
   obtain ⟨hpσ, hβ, M', hM', hpσ', P', hP'M', -, -, -, -, P₀', hcl⟩ := hp
-  haveI : Fact p.Prime := ⟨hβ.1⟩
+  have : Fact p.Prime := ⟨hβ.1⟩
   obtain ⟨PM, hPM, -⟩ := UC6.exists_sylow_le_of_sigma hU S.maxLocal hpσ
-  obtain ⟨g, hg⟩ := UC6.exists_le_uniqueFourConj_sylow PM.isPGroup' P'
+  obtain ⟨g, hg⟩ := UC6.exists_le_uniqueFourConj_sylow PM.isPGroup P'
   have hPMN : (PM : Subgroup G) ≤ uniqueFourConj g M' :=
     hg.trans (UC6.uniqueFourConj_mono hP'M' g)
   have hN : IsMaxTwoLocalSubgroup (uniqueFourConj g M') := UC6.isMaxTwoLocal_conj hM' g
@@ -65,7 +67,7 @@ theorem uc22p22c_hyp612_of_sigma2_four (hS : Standing4 G) (hU : uniqueFourUnique
   · have hPle : uniqueFourConj g (P' : Subgroup G) ≤ S.M :=
       heq ▸ UC6.uniqueFourConj_mono hP'M' g
     refine CFSG.ABGLocalTools.isSylowOf_iff.mpr
-      ⟨hPle, UC6.isPGroup_uniqueFourConj P'.isPGroup' g, ?_⟩
+      ⟨hPle, UC6.isPGroup_uniqueFourConj P'.isPGroup g, ?_⟩
     intro hdvd
     have h1 : (uniqueFourConj g (P' : Subgroup G)).index = (P' : Subgroup G).index := by
       have e1 := Subgroup.card_mul_index (uniqueFourConj g (P' : Subgroup G))
@@ -96,6 +98,7 @@ theorem uc22p22c_mem_Z {D : Data G} {x : G} :
     x ∈ D.Z ↔ x ∈ D.T ∧ (∀ k ∈ D.T, k * x = x * k) ∧ x ^ 2 = 1 :=
   CFSG.RankThree.PartOne.Sec15Final.mem_omegaOneCenterIn_iff
 
+omit [Finite G] in
 theorem uc22p22c_elem_mono {E F : Subgroup G} (hE : IsElemAbelian 2 E) (hFE : F ≤ E) :
     IsElemAbelian 2 F :=
   ⟨⟨⟨fun a b => by
@@ -103,6 +106,7 @@ theorem uc22p22c_elem_mono {E F : Subgroup G} (hE : IsElemAbelian 2 E) (hFE : F 
     have h2 := congrArg Subtype.val h
     exact Subtype.ext h2⟩⟩, fun x hx => hE.2 x (hFE hx)⟩
 
+omit [Finite G] in
 theorem uc22p22c_isPGroup_of_elem {E : Subgroup G} (hE : IsElemAbelian 2 E) : IsPGroup 2 E := by
   intro g
   refine ⟨1, ?_⟩
@@ -114,7 +118,7 @@ theorem uc22p22c_U_facts (D : Data G) :
   uCore_le_and_isElemAbelian D.standing.charTwo D.maxLocal.1 D.sylowM
 
 theorem uc22p22c_pCoreOf_le_T (D : Data G) : pCoreOf 2 D.M ≤ D.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := D.sylowM.exists_sylow_eq_subgroupOf
   have h := CFSG.fitting_pCore_le_sylow S
   rw [hS] at h
@@ -128,10 +132,10 @@ theorem uc22p22c_normalizer_V (D : Data G) {V : Subgroup G} (hVne : V ≠ ⊥)
 theorem uc22p22c_exists_fixed {V T : Subgroup G} (hV : IsPGroup 2 V) (hVne : V ≠ ⊥)
     (hT : IsPGroup 2 T) (hTV : T ≤ normalizer (V : Set G)) :
     ∃ v ∈ V, v ≠ 1 ∧ ∀ t ∈ T, t * v * t⁻¹ = v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial V := (Subgroup.nontrivial_iff_ne_bot V).2 hVne
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial V := (Subgroup.nontrivial_iff_ne_bot V).2 hVne
   let φ : ↥T →* MulAut ↥V := V.normalizerMonoidHom.comp (Subgroup.inclusion hTV)
-  letI : MulAction ↥T ↥V := MulAction.compHom ↥V φ
+  let : MulAction ↥T ↥V := MulAction.compHom ↥V φ
   have hdvd : 2 ∣ Nat.card V := by
     obtain ⟨n, hn0, hn⟩ := hV.nontrivial_iff_card.1 inferInstance
     rw [hn]
@@ -154,7 +158,7 @@ theorem uc22p22c_not_isTI (D : Data G) {V : Subgroup G} (hVne : V ≠ ⊥) (hel 
     have := hvT k hk
     calc k * v = (k * v * k⁻¹) * k := by group
       _ = v * k := by rw [this]
-  obtain ⟨g, hgC, hgM⟩ := SetLike.not_le_iff_exists.1 hC
+  obtain ⟨g, hgC, hgM⟩ := IsConcreteLE.not_le_iff_exists.1 hC
   have hcomm : v * g = g * v := mem_centralizer_iff.1 hgC v hvZ
   have hvc : v ∈ V ⊓ CFSG.CGT.Timmesfeld75.conjSubgroup g V := by
     refine ⟨hvV, CFSG.CGT.Timmesfeld75.mem_conjSubgroup.2 ?_⟩
@@ -183,7 +187,7 @@ theorem uc22p22c_odd_normal_eq_bot {Y Vm : Type} [Group Y] [Finite Y] [AddCommGr
     (hfix : ∀ v : Vm, (∀ t ∈ T, ρ t v = v) → ∀ y : Y, ρ y v = v)
     (N : Subgroup Y) [hN : N.Normal] (hodd : Odd (Nat.card N)) : N = ⊥ := by
   classical
-  haveI : Fintype N := Fintype.ofFinite N
+  have : Fintype N := Fintype.ofFinite N
   set e : Module.End (ZMod 2) Vm := ∑ n : N, ρ (n : Y) with he
   have he1 : ∀ m : N, ρ (m : Y) * e = e := by
     intro m
@@ -229,7 +233,7 @@ theorem uc22p22c_odd_normal_eq_bot {Y Vm : Type} [Group Y] [Finite Y] [AddCommGr
       rw [← this, hv, map_zero]⟩
   have hK : K.toSubmodule = ⊥ := by
     by_contra hne
-    haveI : Nontrivial K.toSubmodule := Submodule.nontrivial_iff_ne_bot.2 hne
+    have : Nontrivial K.toSubmodule := Submodule.nontrivial_iff_ne_bot.2 hne
     obtain ⟨x, hx0, hx⟩ :=
       CFSG.RankThree.FFModules.exists_fixed_ne_zero_of_isPGroup (K.toRepresentation) hT
     have hxT : ∀ t ∈ T, ρ t (x : Vm) = (x : Vm) := fun t ht => by
@@ -262,11 +266,11 @@ theorem uc22p22c_centralizer_pCore_le {Y Vm : Type} [Group Y] [Finite Y] [AddCom
     (ρ : Representation (ZMod 2) Y Vm) (hρ : Function.Injective ρ) {T : Subgroup Y}
     (hT : IsPGroup 2 T) (hfix : ∀ v : Vm, (∀ t ∈ T, ρ t v = v) → ∀ y : Y, ρ y v = v) :
     Subgroup.centralizer (CFSG.pCore 2 Y : Set Y) ≤ CFSG.pCore 2 Y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP : CFSG.pPrimeCore 2 Y = ⊥ := by
     rw [CFSG.pPrimeCore_eq_bot_iff]
     intro K hK hcop
-    haveI := hK
+    have := hK
     exact uc22p22c_odd_normal_eq_bot ρ hρ hT hfix K (Nat.coprime_two_left.1 hcop)
   have hF := CFSG.Fitting_eq_pcore Y 2 hP
   have h := CFSG.centralizer_fittingSubgroup_le_fittingSubgroup_of_solvable hsolv
@@ -282,7 +286,7 @@ theorem uc22p22c_core (D : Data G) {V : Subgroup G} (hel : IsElemAbelian 2 V) (h
       a ∈ normalizer (R : Set (MBar D.M V)) → Odd (orderOf a) → ¬ 3 ∣ orderOf a →
         ∀ x ∈ R, a * x * a⁻¹ = x) : False := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Vmod, _, _, _, e, ρ, hc⟩ := uc22br4_exists_conjModule D.M V hVM hel
   have hρ : Function.Injective ρ := uc22br4_injective D.M V hVM e ρ hc
   let bm : ↥D.M := ⟨b, hbM⟩
@@ -292,8 +296,8 @@ theorem uc22p22c_core (D : Data G) {V : Subgroup G} (hel : IsElemAbelian 2 V) (h
   have hTb2 : IsPGroup 2 ↥Tb := by
     have h1 : IsPGroup 2 ↥(D.T.subgroupOf D.M) := D.sylowM.isPGroup.comap_subtype
     exact h1.map (QuotientGroup.mk' (kerAct D.M V).normalCore)
-  haveI : Group.IsSolvable ↥D.M := hsolv
-  haveI : Group.IsSolvable (MBar D.M V) :=
+  have : Group.IsSolvable ↥D.M := hsolv
+  have : Group.IsSolvable (MBar D.M V) :=
     Group.isSolvable_of_surjective (f := QuotientGroup.mk' (kerAct D.M V).normalCore)
       (QuotientGroup.mk'_surjective _)
   let ρY : Representation (ZMod 2) ↥X Vmod := ρ.comp X.subtype
@@ -416,6 +420,7 @@ theorem uc22p22c_hyp11 (D : Data G) {V : Subgroup G} (hW : InCalW D.M D.T V)
     (hTI : ¬ CFSG.CGT.Timmesfeld75.IsTI V) : F11.Hyp11 D ⊥ V :=
   ⟨Or.inr ⟨rfl, hW⟩, hTI, fun h => absurd h (by rw [Subgroup.card_bot]; omega)⟩
 
+omit [Finite G] in
 theorem uc22p22c_cTilde_bot (M V : Subgroup G) :
     F11.CTilde M ⊥ V = M ⊓ centralizer (V : Set G) := by
   ext x
@@ -438,6 +443,7 @@ theorem uc22p22c_cTilde_bot (M V : Subgroup G) :
         _ = (v * x) * x⁻¹ * v⁻¹ := by rw [← h]
         _ = 1 := by group
 
+omit [Finite G] in
 theorem uc22p22c_isSubnormal_le {H K : Subgroup G} (h : CFSG.Open.IsSubnormal H K) : H ≤ K := by
   induction h with
   | refl H => exact le_rfl
@@ -505,7 +511,7 @@ theorem s22_8_of (D : Data G) (Ch : Choice2011 G) (h111 : F11.R111 D) (hV : S22_
       have hrπ : r ∈ piSet c.B0 := by
         rw [c.hpi]
         exact ⟨hr, hrdvd⟩
-      haveI : Fact r.Prime := ⟨hr⟩
+      have : Fact r.Prime := ⟨hr⟩
       obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥c.B0) r hrπ.2
       have hbB : (x : G) ∈ c.B0 := x.2
       have hbr : orderOf (x : G) = r := by rw [Subgroup.orderOf_coe]; exact hx

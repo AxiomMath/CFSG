@@ -15,11 +15,11 @@ theorem commutator_eq_bot_of_normal_pPrime_of_quasisimple {G : Type*} [Group G] 
     (hpQ : p ∣ Nat.card Q) (K : Subgroup G) [K.Normal] (hK : Nat.Coprime p (Nat.card K)) :
     ⁅K, Q⁆ = ⊥ := by
   obtain ⟨hperf, hsimp, -⟩ := hQ
-  haveI := hsimp
+  have := hsimp
   set N : Subgroup ↥Q := (K ⊓ Q).subgroupOf Q with hN
-  haveI hNn : N.Normal := Subgroup.Normal.subgroupOf inferInstance Q
+  have hNn : N.Normal := Subgroup.Normal.subgroupOf inferInstance Q
   have hNZ : N ≤ Subgroup.center ↥Q := by
-    haveI hbar : (N.map (QuotientGroup.mk' (Subgroup.center ↥Q))).Normal :=
+    have hbar : (N.map (QuotientGroup.mk' (Subgroup.center ↥Q))).Normal :=
       Subgroup.Normal.map hNn _ (QuotientGroup.mk'_surjective _)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (N.map (QuotientGroup.mk' (Subgroup.center ↥Q))) with h0 | htop

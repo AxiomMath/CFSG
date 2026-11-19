@@ -53,10 +53,10 @@ theorem u3_T_structure (hc : U3Config G p P M x J) :
     Nat.card (u3T P x J) = p ^ 3 ∧ (∀ t ∈ u3T P x J, t ^ p = 1) ∧
       ¬ IsMulCommutative (u3T P x J) ∧ x ∉ J := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 := hc.five
   obtain ⟨Q, hQg, ψ, hψ, hker, hQ⟩ := hc.u3
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   set C : Subgroup G := Subgroup.centralizer ({x} : Set G) with hC
   have hJC : J ≤ C := hc.le_cent
   have hCJ : C ≤ Subgroup.normalizer (J : Set G) := hc.cent_le
@@ -76,7 +76,7 @@ theorem u3_T_structure (hc : U3Config G p P M x J) :
     hc.generic.2.2.1.inf_of_le_normalizer hJC hCJ
   obtain ⟨Tsyl, hTsyl⟩ := hSylJ
   set T0 : Subgroup J := (Tsyl : Subgroup J) with hT0
-  have hTinj : ∀ t ∈ T0, ψ t = 1 → t = 1 := u3main_eq_one_of_ker ψ hkcop Tsyl.isPGroup'
+  have hTinj : ∀ t ∈ T0, ψ t = 1 → t = 1 := u3main_eq_one_of_ker ψ hkcop Tsyl.isPGroup
   let Tsyl' : Sylow p Q := Tsyl.mapSurjective hψ
   have hTsyl' : (Tsyl' : Subgroup Q) = T0.map ψ := Sylow.coe_mapSurjective hψ Tsyl
   obtain ⟨hcard, hexp, hnab, -⟩ := u3_sylow_data hp5 hQ Tsyl'
@@ -121,11 +121,11 @@ theorem u3_S_decomp (hc : U3Config G p P M x J) :
       u3T P x J ⊔ Z = u3S P x := by
   obtain ⟨hTcard, hTexp, hTnab, hxJ⟩ := u3_T_structure hc
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 := hc.five
   have hp2 : p ≠ 2 := by omega
   obtain ⟨Q, hQg, ψ, hψ, hker, hQ⟩ := hc.u3
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   set C : Subgroup G := Subgroup.centralizer ({x} : Set G) with hC
   have hJC : J ≤ C := hc.le_cent
   have hCJ : C ≤ Subgroup.normalizer (J : Set G) := hc.cent_le
@@ -141,12 +141,12 @@ theorem u3_S_decomp (hc : U3Config G p P M x J) :
     rw [hgJ] at h1
     exact Subgroup.mem_normalizer_iff_map_conj_eq.mpr h1
   let O' : Subgroup C := O.subgroupOf C
-  haveI hO'n : O'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOC).mpr hOnorm
+  have hO'n : O'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOC).mpr hOnorm
   let π : C →* C ⧸ O' := QuotientGroup.mk' O'
   let J' : Subgroup C := J.subgroupOf C
-  haveI hJ'n : J'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJC).mpr hCJ
+  have hJ'n : J'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hJC).mpr hCJ
   let L : Subgroup (C ⧸ O') := J'.map π
-  haveI hLn : L.Normal := Subgroup.Normal.map hJ'n π (QuotientGroup.mk'_surjective O')
+  have hLn : L.Normal := Subgroup.Normal.map hJ'n π (QuotientGroup.mk'_surjective O')
   let eJ : J' ≃* J := Subgroup.subgroupOfEquivOfLe hJC
   let ψ' : J' →* Q := ψ.comp eJ.toMonoidHom
   have hψ' : Function.Surjective ψ' := hψ.comp eJ.surjective
@@ -192,7 +192,7 @@ theorem u3_S_decomp (hc : U3Config G p P M x J) :
     intro c l
     exact MulAut.conjNormal_apply (π c) l
   have hPO : (P : Subgroup G) ⊓ O = ⊥ := by
-    have hPp : IsPGroup p ↥((P : Subgroup G) ⊓ O) := P.isPGroup'.to_inf_left
+    have hPp : IsPGroup p ↥((P : Subgroup G) ⊓ O) := P.isPGroup.to_inf_left
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hPp
     have hdvd : Nat.card ((P : Subgroup G) ⊓ O : Subgroup G) ∣ Nat.card O :=
       Subgroup.card_dvd_of_le inf_le_right
@@ -234,7 +234,7 @@ theorem u3_S_decomp (hc : U3Config G p P M x J) :
     have e1 : (χ.comp T'.subtype).range = T'.map χ := by
       rw [MonoidHom.range_comp, Subgroup.range_subtype]
     rw [← e1, ← Nat.card_congr (MonoidHom.ofInjective hinjχ).toEquiv, hT'card]
-  have hSp : IsPGroup p S' := P.isPGroup'.comap_subtype
+  have hSp : IsPGroup p S' := P.isPGroup.comap_subtype
   have hdvdA : Nat.card (S'.map χ) ∣ p ^ 3 := u3_aut_pgroup_card hp5 hLU3 (S'.map χ) (hSp.map χ)
   have hAeq : T'.map χ = S'.map χ :=
     Subgroup.eq_of_le_of_card_ge (Subgroup.map_mono hT'S')
@@ -310,12 +310,12 @@ theorem u3_S_decomp (hc : U3Config G p P M x J) :
         rw [Subgroup.coe_mul, Subgroup.coe_inv, mul_inv_cancel_left]
       rw [hs']
       exact Subgroup.mul_mem_sup htT hz
-  have hZp : IsPGroup p ↥Z := P.isPGroup'.to_le (fun z hz => ((hZmem z).mp hz).2.1)
+  have hZp : IsPGroup p ↥Z := P.isPGroup.to_le (fun z hz => ((hZmem z).mp hz).2.1)
   have hZcyc : IsCyclic Z := by
     by_contra hnc
-    haveI : Fact (IsPGroup p ↥Z) := ⟨hZp⟩
+    have : Fact (IsPGroup p ↥Z) := ⟨hZp⟩
     obtain ⟨E, -, hEcard, hEel⟩ := CFSG.lemma_4_5_a hp2 hnc
-    haveI : CFSG.IsElementaryAbelian p (E.map Z.subtype) := CFSG.IsElementaryAbelian.map_subtype
+    have : CFSG.IsElementaryAbelian p (E.map Z.subtype) := CFSG.IsElementaryAbelian.map_subtype
     set E' : Subgroup G := E.map Z.subtype with hE'
     have hE'card : Nat.card E' = p ^ 2 := by
       rw [hE', Subgroup.card_map_of_injective Z.subtype_injective, hEcard]
@@ -347,7 +347,7 @@ theorem u3U0_facts (hc : U3Config G p P M x J) :
   obtain ⟨hTcard, hTexp, hTnab, hxJ⟩ := u3_T_structure hc
   obtain ⟨Z, hZcyc, hxZ, hZS, hZT, hTZ, hsup⟩ := u3_S_decomp hc
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx1 : x ≠ 1 := hc.generic.2.1.2.1
   have hxp : x ^ p = 1 := hc.generic.2.1.2.2.1
   have hZTcard : Nat.card (u3ZT P x J) = p :=

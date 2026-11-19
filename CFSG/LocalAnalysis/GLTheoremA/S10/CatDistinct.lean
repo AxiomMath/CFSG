@@ -161,7 +161,7 @@ theorem odd_pow_two_pow_add_one {a j : ℕ} (ha : 1 ≤ a) (hj : 1 ≤ j) : Odd 
   rw [← pow_mul]
   exact odd_two_pow_add_one (by nlinarith)
 
-theorem orderTwistedA_mul_gcd {r m : ℕ} (hr : 1 ≤ r) (hm : 1 ≤ m) :
+theorem orderTwistedA_mul_gcd {r m : ℕ} (hr : 1 ≤ r) (_hm : 1 ≤ m) :
     orderTwistedA r (2 ^ m) * Nat.gcd (r + 1) (2 ^ m + 1) =
       2 ^ (m * (r * (r + 1) / 2)) * twP r (2 ^ m) := by
   rw [orderTwistedA_eq, Nat.div_mul_cancel ((gcd_dvd_twP hr (Nat.one_le_two_pow)).mul_left _), ← pow_mul]
@@ -620,7 +620,7 @@ theorem urn_ne_60 {r n : ℕ} (hr : 2 ≤ r) (hn : 3 ≤ n) : orderTwistedA r (2
 
 theorem card_alternating_of_iso {S : Type} [Group S] {n : ℕ} (hn : 5 ≤ n)
     (e : S ≃* (TauCeti.CFSGIndex.alternating n hn).Group) : Nat.card S = n.factorial / 2 := by
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
   rw [Nat.card_congr e.toEquiv]
   show Nat.card (alternatingGroup (Fin n)) = _
   rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
@@ -806,7 +806,7 @@ theorem field_u42_a6 (hb : OrderBridge) (S : Type) [Group S] (h1 : catalogIs S S
   | alternating n hn =>
     simp only [S10.isA6] at hj
     subst hj
-    haveI : Finite S := Finite.of_equiv _ f.symm.toEquiv
+    have : Finite S := Finite.of_equiv _ f.symm.toEquiv
     have h360 := card_alternating_of_iso hn f
     have h4 := card_isU4two hb h1
     rw [h360] at h4
@@ -893,7 +893,7 @@ theorem field_u33_center (hc : Ctx) (S : Type) [Group S] [Finite S] [IsSimpleGro
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
   · exact h
   · exfalso
-    haveI : IsMulCommutative S := Subgroup.center_eq_top_iff.1 h
+    have : IsMulCommutative S := Subgroup.center_eq_top_iff.1 h
     have hprime : (Nat.card S).Prime := Group.is_simple_iff_prime_card.1 inferInstance
     have hcard : Nat.card S = 6048 := by
       rw [hc.bridge ⟨.twistedA 2 q, hv⟩ S ⟨e⟩]

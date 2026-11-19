@@ -217,7 +217,7 @@ theorem natCard_μ3 {F L : Type} [Field F] [Finite F] [Field L] [Algebra F L] [I
     have h5 : ℓ = 3 := (Nat.prime_dvd_prime_iff_eq hℓ Nat.prime_three).1 h2
     have h4 : 3 ∣ 1 := (Nat.dvd_add_right (h5 ▸ hℓq)).1 h3
     omega
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L (3 ^ padicValNat 3 (Nat.card F + 1))
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L (3 ^ padicValNat 3 (Nat.card F + 1))
   exact hζ.card_rootsOfUnity
 
 @[expose] def ι3 (F L : Type) [Field L] : (Fin 4 → μ3 F L) →* ModGL Tag.E6 L where

@@ -41,8 +41,8 @@ theorem component_not_le_of_odd {H : Type} [Group H] [Finite H] {L K : Subgroup 
   intro hLK
   have hodd : Odd (Nat.card L) := Odd.of_dvd_nat hK (Subgroup.card_dvd_of_le hLK)
   have hsolv : Group.IsSolvable L := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
-  haveI := component_nontrivial hL
-  haveI : Group.IsPerfect L := hL.1.1
+  have := component_nontrivial hL
+  have : Group.IsPerfect L := hL.1.1
   exact Group.IsPerfect.not_isSolvable L hsolv
 
 theorem exists_mem_component_map_ne_one {H S : Type} [Group H] [Finite H] [Group S]
@@ -64,14 +64,14 @@ theorem isPerfect_map {H S : Type} [Group H] [Group S] (F : H →* S) {L : Subgr
 theorem not_le_of_isPGroup {S : Type} [Group S] [Finite S] {E : Subgroup S}
     (hE : IsPGroup 2 E) {P : Subgroup S} [Group.IsPerfect P] (hPne : P ≠ ⊥) : ¬ P ≤ E := by
   intro hPE
-  haveI : Finite E := inferInstance
-  haveI : Group.IsNilpotent E := IsPGroup.isNilpotent hE
+  have : Finite E := inferInstance
+  have : Group.IsNilpotent E := IsPGroup.isNilpotent hE
   have hsolvE : Group.IsSolvable E := inferInstance
   have hsub : Group.IsSolvable (P.subgroupOf E) := inferInstance
   have hPiso : Group.IsSolvable P :=
     Group.isSolvable_of_surjective (f := (Subgroup.subgroupOfEquivOfLe hPE).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hPE).surjective
-  haveI : Nontrivial P := by
+  have : Nontrivial P := by
     by_contra hnot
     rw [not_nontrivial_iff_subsingleton] at hnot
     exact hPne (Subgroup.eq_bot_of_subsingleton P)
@@ -82,11 +82,11 @@ theorem le_of_perfect_of_solvable_quot {S : Type} [Group S] [Finite S] (N : Subg
     P ≤ N := by
   by_contra hPN
   obtain ⟨x, hxP, hxN⟩ := Set.not_subset.mp hPN
-  haveI := hP
-  haveI : Group.IsPerfect (P.map (QuotientGroup.mk' N)) := isPerfect_map _
-  haveI : Group.IsSolvable (P.map (QuotientGroup.mk' N)) := inferInstance
+  have := hP
+  have : Group.IsPerfect (P.map (QuotientGroup.mk' N)) := isPerfect_map _
+  have : Group.IsSolvable (P.map (QuotientGroup.mk' N)) := inferInstance
   have hx1 : QuotientGroup.mk' N x ≠ 1 := fun h => hxN ((QuotientGroup.eq_one_iff x).mp h)
-  haveI : Nontrivial (P.map (QuotientGroup.mk' N)) :=
+  have : Nontrivial (P.map (QuotientGroup.mk' N)) :=
     nontrivial_of_ne ⟨QuotientGroup.mk' N x, Subgroup.mem_map_of_mem _ hxP⟩ 1
       (fun h => hx1 (congrArg Subtype.val h))
   exact Group.IsPerfect.not_isSolvable (P.map (QuotientGroup.mk' N)) inferInstance
@@ -94,7 +94,7 @@ theorem le_of_perfect_of_solvable_quot {S : Type} [Group S] [Finite S] (N : Subg
 theorem component_map_le {H S : Type} [Group H] [Finite H] [Group S] [Finite S] (F : H →* S)
     {L : Subgroup H} (hL : CFSG.IsComponent L) {N : Subgroup S} [N.Normal]
     [Group.IsSolvable (S ⧸ N)] : L.map F ≤ N := by
-  haveI : Group.IsPerfect L := hL.1.1
+  have : Group.IsPerfect L := hL.1.1
   exact le_of_perfect_of_solvable_quot N (isPerfect_map F)
 
 theorem component_map_ne_bot {H S : Type} [Group H] [Finite H] [Group S] (F : H →* S)
@@ -152,7 +152,7 @@ theorem autOddFree_of_surj_simple {L Q : Type} [Group L] [Finite L] [Group Q] [F
   let e : L ⧸ Subgroup.center L ≃* Q :=
     (QuotientGroup.quotientMulEquivOfEq hkereq.symm).trans
       (QuotientGroup.quotientKerEquivOfSurjective ψ hψ)
-  haveI : Group.IsPerfect L := hLq.1
+  have : Group.IsPerfect L := hLq.1
   have hQ' : Q3NM.AutOddFree (L ⧸ Subgroup.center L) := Q3NM.AutOddFree.of_mulEquiv e.symm hAO
   exact Q3NM.autOddFree_of_centralQuotient hQ'
 
@@ -190,17 +190,17 @@ theorem component_eq_and_autOddFree {H S : Type} [Group H] [Finite H] [Group S] 
     exact autOddFree_of_surj_simple hL.1 ψ hψ hnab hAO
 
 theorem centralizes_of_preimage {H S : Type} [Group H] [Finite H] [Group S] [Finite S]
-    (F : H →* S) (hF : Function.Surjective F) (hK : Odd (Nat.card F.ker))
+    (F : H →* S) (_hF : Function.Surjective F) (hK : Odd (Nat.card F.ker))
     {E : Subgroup S} [E.Normal] (hE : IsPGroup 2 E) {L : Subgroup H}
     (hL : CFSG.IsComponent L) {h : H} (hh : F h ∈ E) {x : H} (hx : x ∈ L) :
     h * x = x * h := by
-  haveI : E.Normal := inferInstance
+  have : E.Normal := inferInstance
   have hN : (E.comap F).Normal := inferInstance
   rcases CFSG.LocalCores.component_subnormal_subgroup hL hN.isSubnormal with hLN | hc
   · exfalso
     have hPE : L.map F ≤ E := Subgroup.map_le_iff_le_comap.mpr hLN
-    haveI : Group.IsPerfect L := hL.1.1
-    haveI : Group.IsPerfect (L.map F) := isPerfect_map F
+    have : Group.IsPerfect L := hL.1.1
+    have : Group.IsPerfect (L.map F) := isPerfect_map F
     exact not_le_of_isPGroup hE (component_map_ne_bot F hL hK) hPE
   · have hxh : ⁅x, h⁆ ∈ ⁅L, E.comap F⁆ :=
       Subgroup.commutator_mem_commutator hx (Subgroup.mem_comap.mpr hh)
@@ -210,8 +210,8 @@ theorem centralizes_of_preimage {H S : Type} [Group H] [Finite H] [Group S] [Fin
 theorem no_component_of_pgroup {H S : Type} [Group H] [Finite H] [Group S] [Finite S]
     (F : H →* S) (hK : Odd (Nat.card F.ker)) {W : Subgroup S} [W.Normal] (hW : IsPGroup 2 W)
     [Group.IsSolvable (S ⧸ W)] {L : Subgroup H} (hL : CFSG.IsComponent L) : False := by
-  haveI : Group.IsPerfect L := hL.1.1
-  haveI : Group.IsPerfect (L.map F) := isPerfect_map F
+  have : Group.IsPerfect L := hL.1.1
+  have : Group.IsPerfect (L.map F) := isPerfect_map F
   exact not_le_of_isPGroup hW (component_map_ne_bot F hL hK) (component_map_le F hL)
 
 end Generic

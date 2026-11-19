@@ -33,8 +33,8 @@ theorem mem_centralizerSection_of_commutator_mem {A : Subgroup G}
     {LB : Subgroup G → Subgroup G} {X : Subgroup G} (hX : X ∈ scriptY4 A LB) {g : G}
     (hg : g ∈ Subgroup.normalizer (X : Set G)) (hc : ∀ x ∈ X, ⁅x, g⁆ ∈ pPrimeCoreOf 3 X) :
     g ∈ centralizerSection X (CFSG.Open.pCoreOf 2 X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q := ↥X ⧸ CFSG.pCore 2 ↥X with hQ
   set q : ↥X →* Q := QuotientGroup.mk' (CFSG.pCore 2 ↥X) with hq
   set P : Subgroup ↥X := CFSG.pPrimeCore 3 ↥X with hP
@@ -131,7 +131,7 @@ theorem mem_img148_b155_of_commute
     {e : ↥(M ⊔ A) ⧸ ker148 A M} (he : e ∈ img148 A M (deltaZero A (lB A) M)) {k : ℕ}
     (hek : e ^ 3 ^ k = 1) (hcomm : ∀ y ∈ img148 A M X, y * e = e * y) :
     e ∈ img148 A M (b155 A M X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hXM', -, -, -⟩ := facts_of_mem_maximalTwoLocalsContaining h hM
   obtain ⟨g, hgMA, hgDZ, hge⟩ := mem_img148_iff.mp he
   set q := QuotientGroup.mk' (ker148 A M) with hq
@@ -146,7 +146,7 @@ theorem mem_img148_b155_of_commute
   have hg3MA : g ^ n ∈ M ⊔ A := Subgroup.mem_sup_left hg3M
   have hxHpow : (⟨g, hgMA⟩ : ↥(M ⊔ A)) ^ n = ⟨g ^ n, hg3MA⟩ := by
     apply Subtype.ext
-    simp [Subgroup.coe_pow]
+    simp
   have hpowG : (g ^ n) ^ 3 ^ a = 1 := by
     have h := congrArg Subtype.val hpowH
     simp only [hxHpow, Subgroup.coe_pow, Subgroup.coe_one] at h
@@ -221,7 +221,7 @@ theorem oPrimeResidualOf_le_of_img148_le {A M : Subgroup G} [(ker148 A M).Normal
     (hle : img148 A M (oPrimeResidualOf 3 K) ≤ img148 A M H) : oPrimeResidualOf 3 K ≤ H := by
   rw [oPrimeResidualOf_eq_closure, Subgroup.closure_le]
   intro b hb
-  simp only [Set.mem_setOf_eq] at hb
+  simp only [Set.mem_ofPred_eq] at hb
   obtain ⟨hbK, k, hbk⟩ := hb
   have hbO : b ∈ oPrimeResidualOf 3 K := by
     rw [oPrimeResidualOf_eq_closure]

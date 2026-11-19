@@ -19,7 +19,7 @@ open CFSG.Fischer
     (LinearMap.proj i2 : (Fin 6 → F4) →ₗ[F4] F4))
 
 theorem mem_Vs {i1 i2 : Fin 6} {v : Fin 6 → F4} : v ∈ Vs i1 i2 ↔ v i1 = 0 ∧ v i2 = 0 := by
-  simp [Vs, LinearMap.mem_ker, Prod.ext_iff]
+  simp [Vs, LinearMap.mem_ker]
 
 theorem finrank_Vs {i1 i2 : Fin 6} (hne : i1 ≠ i2) : Module.finrank F4 (Vs i1 i2) = 4 := by
   set f := (LinearMap.proj i1 : (Fin 6 → F4) →ₗ[F4] F4).prod
@@ -27,7 +27,7 @@ theorem finrank_Vs {i1 i2 : Fin 6} (hne : i1 ≠ i2) : Module.finrank F4 (Vs i1 
   have hsurj : Function.Surjective (f : (Fin 6 → F4) →ₗ[F4] F4 × F4) := by
     intro p
     refine ⟨Pi.single i1 p.1 + Pi.single i2 p.2, ?_⟩
-    simp [hf, Pi.single_apply, hne, hne.symm]
+    simp [hf, hne, hne.symm]
   have h := LinearMap.finrank_range_add_finrank_ker f
   rw [LinearMap.range_eq_top.2 hsurj, finrank_top, Module.finrank_prod, Module.finrank_self] at h
   simp only [Module.finrank_fin_fun] at h
@@ -56,13 +56,13 @@ theorem mem_Ks {Y : Matrix (Fin 6) (Fin 6) F4} {i1 i2 : Fin 6} {c : F4} {v : Fin
     refine ⟨h1, h2, ?_⟩
     ext i
     have hi := congrFun h i
-    simp [Matrix.sub_mulVec, Matrix.scalar_apply, Matrix.mulVec_diagonal] at hi
+    simp [Matrix.sub_mulVec, Matrix.scalar_apply] at hi
     simp only [Pi.smul_apply, smul_eq_mul]
     linear_combination hi
   · rintro ⟨h1, h2, h⟩
     refine ⟨?_, h1, h2⟩
     ext i
-    simp [Matrix.sub_mulVec, Matrix.scalar_apply, Matrix.mulVec_diagonal, h]
+    simp [Matrix.sub_mulVec, Matrix.scalar_apply, h]
 
 theorem finrank_Ks_add_le {Y : Matrix (Fin 6) (Fin 6) F4} {i1 i2 : Fin 6} (hne : i1 ≠ i2)
     {c c' : F4} (hcc : c ≠ c') :
@@ -115,7 +115,7 @@ theorem exists_two_small (Y : Matrix (Fin 6) (Fin 6) F4) {i1 i2 : Fin 6} (hne : 
   · omega
 
 theorem finrank_ker_le_three {M Y : Matrix (Fin 6) (Fin 6) F4} {i1 i2 : Fin 6} (hne : i1 ≠ i2)
-    {x1 x2 : F4} (hx1 : x1 ≠ x2) (r1 : ∀ v : Fin 6 → F4, M.mulVec v i1 = x1 * v i1)
+    {x1 x2 : F4} (_hx1 : x1 ≠ x2) (r1 : ∀ v : Fin 6 → F4, M.mulVec v i1 = x1 * v i1)
     (r2 : ∀ v : Fin 6 → F4, M.mulVec v i2 = x2 * v i2)
     (hMY : ∀ v : Fin 6 → F4, v i1 = 0 → v i2 = 0 → M.mulVec v = Y.mulVec v)
     (hns : ∀ c : F4, ∃ i j : Fin 6, i ≠ i1 ∧ i ≠ i2 ∧ j ≠ i1 ∧ j ≠ i2 ∧
@@ -127,7 +127,7 @@ theorem finrank_ker_le_three {M Y : Matrix (Fin 6) (Fin 6) F4} {i1 i2 : Fin 6} (
     intro v hv i
     have h0 : (M - Matrix.scalar (Fin 6) c).mulVec v = 0 := hv
     have hi := congrFun h0 i
-    simp [Matrix.sub_mulVec, Matrix.scalar_apply, Matrix.mulVec_diagonal] at hi
+    simp [Matrix.sub_mulVec, Matrix.scalar_apply] at hi
     linear_combination hi
   have hKV : K ≤ Vs i1 i2 := by
     intro v hv
@@ -150,10 +150,10 @@ theorem finrank_ker_le_three {M Y : Matrix (Fin 6) (Fin 6) F4} {i1 i2 : Fin 6} (
     obtain ⟨i, j, hi1, hi2, hj1, hj2, hYij⟩ := hns c
     have hv : (Pi.single j (1 : F4) : Fin 6 → F4) ∈ Vs i1 i2 := by
       rw [mem_Vs]
-      simp [Pi.single_apply, Ne.symm hj1, Ne.symm hj2]
+      simp [Ne.symm hj1, Ne.symm hj2]
     have hvK : (Pi.single j (1 : F4) : Fin 6 → F4) ∈ K := heq ▸ hv
     have e := hent _ hvK i
-    rw [hMY _ (by simp [Pi.single_apply, Ne.symm hj1]) (by simp [Pi.single_apply, Ne.symm hj2])]
+    rw [hMY _ (by simp [Ne.symm hj1]) (by simp [Ne.symm hj2])]
       at e
     simp [Matrix.mulVec_single, Pi.single_apply] at e
     apply hYij
@@ -165,7 +165,7 @@ theorem finrank_ker_le_three {M Y : Matrix (Fin 6) (Fin 6) F4} {i1 i2 : Fin 6} (
 
 theorem finrank_ker_le_three_x1 {M Y : Matrix (Fin 6) (Fin 6) F4} {i1 i2 : Fin 6} (hne : i1 ≠ i2)
     {x1 x2 : F4} (hx1 : x1 ≠ x2) (r2 : ∀ v : Fin 6 → F4, M.mulVec v i2 = x2 * v i2)
-    (r1 : ∀ v : Fin 6 → F4, M.mulVec v i1 = x1 * v i1)
+    (_r1 : ∀ v : Fin 6 → F4, M.mulVec v i1 = x1 * v i1)
     (hMY : ∀ v : Fin 6 → F4, v i1 = 0 → v i2 = 0 → M.mulVec v = Y.mulVec v)
     (hsmall : Module.finrank F4 (Ks Y i1 i2 x1) ≤ 2) :
     Module.finrank F4 (LinearMap.ker (Matrix.mulVecLin (M - Matrix.scalar (Fin 6) x1))) ≤ 3 := by
@@ -174,7 +174,7 @@ theorem finrank_ker_le_three_x1 {M Y : Matrix (Fin 6) (Fin 6) F4} {i1 i2 : Fin 6
     intro v hv i
     have h0 : (M - Matrix.scalar (Fin 6) x1).mulVec v = 0 := hv
     have hi := congrFun h0 i
-    simp [Matrix.sub_mulVec, Matrix.scalar_apply, Matrix.mulVec_diagonal] at hi
+    simp [Matrix.sub_mulVec, Matrix.scalar_apply] at hi
     linear_combination hi
   have hK2 : K ≤ LinearMap.ker (LinearMap.proj i2 : (Fin 6 → F4) →ₗ[F4] F4) := by
     intro v hv
@@ -221,7 +221,7 @@ theorem three_le_rank {M : Matrix (Fin 6) (Fin 6) F4} {c : F4}
 
 theorem finrank_ker_le_three_x2 {M Y : Matrix (Fin 6) (Fin 6) F4} {i1 i2 : Fin 6} (hne : i1 ≠ i2)
     {x1 x2 : F4} (hx1 : x1 ≠ x2) (r1 : ∀ v : Fin 6 → F4, M.mulVec v i1 = x1 * v i1)
-    (r2 : ∀ v : Fin 6 → F4, M.mulVec v i2 = x2 * v i2)
+    (_r2 : ∀ v : Fin 6 → F4, M.mulVec v i2 = x2 * v i2)
     (hMY : ∀ v : Fin 6 → F4, v i1 = 0 → v i2 = 0 → M.mulVec v = Y.mulVec v)
     (hsmall : Module.finrank F4 (Ks Y i1 i2 x2) ≤ 2) :
     Module.finrank F4 (LinearMap.ker (Matrix.mulVecLin (M - Matrix.scalar (Fin 6) x2))) ≤ 3 := by
@@ -230,7 +230,7 @@ theorem finrank_ker_le_three_x2 {M Y : Matrix (Fin 6) (Fin 6) F4} {i1 i2 : Fin 6
     intro v hv i
     have h0 : (M - Matrix.scalar (Fin 6) x2).mulVec v = 0 := hv
     have hi := congrFun h0 i
-    simp [Matrix.sub_mulVec, Matrix.scalar_apply, Matrix.mulVec_diagonal] at hi
+    simp [Matrix.sub_mulVec, Matrix.scalar_apply] at hi
     linear_combination hi
   have hK1 : K ≤ LinearMap.ker (LinearMap.proj i1 : (Fin 6 → F4) →ₗ[F4] F4) := by
     intro v hv

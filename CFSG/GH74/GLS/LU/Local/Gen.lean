@@ -108,7 +108,7 @@ theorem Nz_conj (hc : LUComps G q z K₁ K₂) {c : G} (hcz : c ∈ Cz z) {n : G
 omit [Finite G] in
 theorem exists_orderOf_eq_two_pow_of_mem_sylow {S : Sylow 2 G} {x : G} (hx : x ∈ (S : Subgroup G)) :
     ∃ n : ℕ, orderOf x = 2 ^ n := by
-  obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨x, hx⟩
+  obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨x, hx⟩
   exact ⟨n, by rw [← hn]; exact (Subgroup.orderOf_mk x hx).symm⟩
 
 theorem A0_comm [IsCyclic ↥(A0 z)] (hc : LUComps G q z K₁ K₂) {a k : G} (ha : a ∈ A0 z)

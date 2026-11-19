@@ -31,6 +31,7 @@ theorem isSubnormal_map_subgroupOf {C K : Subgroup G} (hKC : K ≤ C) (β : G �
 
 variable [Finite G] [Finite M]
 
+omit [Finite M] in
 theorem not_isType429_of_quasisimple_block
     {C K : Subgroup G}
     (hKC : K ≤ C) [hKp : Group.IsPerfect K] (hKs : (K.subgroupOf C).IsSubnormal) (β : G →* M)
@@ -39,8 +40,8 @@ theorem not_isType429_of_quasisimple_block
     (hz : ∀ q ∈ Q, q * z = z * q) (hz3 : orderOf z = 3) :
     ¬ IsType429 (K ⧸ CFSG.pCore 2 K) := by
   intro hT
-  haveI := nontrivial_of_isType429 hT
-  haveI : Nontrivial K := (QuotientGroup.mk'_surjective (CFSG.pCore 2 K)).nontrivial
+  have := nontrivial_of_isType429 hT
+  have : Nontrivial K := (QuotientGroup.mk'_surjective (CFSG.pCore 2 K)).nontrivial
   have hs := isSubnormal_subgroupOf_of_le hQC hKQ (isSubnormal_map_subgroupOf hKC β hKs)
   rcases Res429.eq_top_or_le_center_of_isSubnormal hQ hs with htop | hcen
   ·
@@ -50,7 +51,7 @@ theorem not_isType429_of_quasisimple_block
       intro k'
       apply hβ
       simp only [MonoidHom.coe_comp, Function.comp_apply, Subgroup.coe_subtype,
-        Subgroup.coe_mul, map_mul, hkz]
+        map_mul, hkz]
       exact (hz (β k') (hKQ ⟨k', k'.2, rfl⟩)).symm
     have hko : orderOf (⟨k, hkK⟩ : K) = 3 := by
       rw [← hz3, ← hkz]
@@ -64,7 +65,7 @@ theorem not_isType429_of_quasisimple_block
     have hne : (QuotientGroup.mk' (CFSG.pCore 2 K) ⟨k, hkK⟩ : K ⧸ CFSG.pCore 2 K) ≠ 1 := by
       intro h1
       rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h1
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup : IsPGroup 2 (CFSG.pCore 2 K)) ⟨_, h1⟩
       have hn' : (⟨k, hkK⟩ : K) ^ 2 ^ n = 1 := congrArg Subtype.val hn
       have hd : orderOf (⟨k, hkK⟩ : K) ∣ 2 ^ n := orderOf_dvd_of_pow_eq_one hn'
@@ -72,7 +73,7 @@ theorem not_isType429_of_quasisimple_block
       have := (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mp
         (Nat.Coprime.pow_right n (by norm_num : Nat.Coprime 3 2))
       exact this hd
-    haveI : Group.IsPerfect (K ⧸ CFSG.pCore 2 K) := inferInstance
+    have : Group.IsPerfect (K ⧸ CFSG.pCore 2 K) := inferInstance
     have hZ := center_eq_bot_of_isType429 hT
     rw [hZ, Subgroup.mem_bot] at hcen
     exact hne hcen
@@ -81,7 +82,7 @@ theorem not_isType429_of_quasisimple_block
       intro a b
       apply hβ
       simp only [MonoidHom.coe_comp, Function.comp_apply, Subgroup.coe_subtype,
-        Subgroup.coe_mul, map_mul]
+        map_mul]
       have ha : (⟨β a, hKQ ⟨a, a.2, rfl⟩⟩ : Q) ∈ Subgroup.center Q := hcen (by
         show β a ∈ K.map β
         exact ⟨a, a.2, rfl⟩)
@@ -89,6 +90,7 @@ theorem not_isType429_of_quasisimple_block
       exact (congrArg Subtype.val this).symm
     exact Group.IsPerfect.not_isSolvable K (Group.isSolvable_of_comm hab)
 
+omit [Finite M] in
 theorem not_isType429_of_quasisimple_block_on
     {C K : Subgroup G}
     (hKC : K ≤ C) [hKp : Group.IsPerfect K] (hKs : (K.subgroupOf C).IsSubnormal) (β : C →* M)
@@ -98,7 +100,7 @@ theorem not_isType429_of_quasisimple_block_on
     ¬ IsType429 (K ⧸ CFSG.pCore 2 K) := by
   set K' : Subgroup C := K.subgroupOf C with hK'
   let e : K' ≃* K := Subgroup.subgroupOfEquivOfLe hKC
-  haveI : Group.IsPerfect K' :=
+  have : Group.IsPerfect K' :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hs : (K'.subgroupOf (⊤ : Subgroup C)).IsSubnormal := hKs.comap (⊤ : Subgroup C).subtype
   have hcomp : ∀ a : K', (β.comp K'.subtype) a = (β.comp (Subgroup.inclusion hKC)) (e a) :=

@@ -100,8 +100,7 @@ theorem sl2Weyl_t_conj (t s : K) (ht : t ≠ 0) :
   ext i j
   fin_cases i <;> fin_cases j <;>
     simp [transvection_coe, Matrix.adjugate_fin_two, Matrix.mul_apply,
-      Fin.sum_univ_two, Matrix.one_apply, Matrix.single_apply, Matrix.vecMul, dotProduct,
-      Matrix.add_apply, coe_mul] <;> field_simp <;> ring
+      Fin.sum_univ_two, Matrix.one_apply, Matrix.single_apply, Matrix.add_apply, coe_mul] <;> field_simp <;> ring
 
 theorem zpowers_sup_lower_eq_top {t : K} (ht : t ≠ 0) :
     Subgroup.zpowers (transvection (show (0 : Fin 2) ≠ 1 by decide) t) ⊔
@@ -136,8 +135,8 @@ theorem exists_gen_pair_strong {G : Type} [Group G] [Finite G] {n : ℕ} (hG : I
     ∃ g : G, R ⊔ R.map (MulAut.conj g).toMonoidHom = ⊤ ∧
       ∀ r ∈ R, r ≠ 1 → Subgroup.zpowers r ⊔ R.map (MulAut.conj g).toMonoidHom = ⊤ := by
   obtain ⟨K, hKf, hKfin, hKc, hKcard, hn2, ⟨e⟩⟩ := Z4c2.exists_equiv_sl hG
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (SpecialLinearGroup (Fin 2) K) := Finite.of_equiv G e.toEquiv
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (SpecialLinearGroup (Fin 2) K) := Finite.of_equiv G e.toEquiv
   have hfac := d36_factorization_card_sl2 (K := K) (by omega) hKcard
   have h01 : (0 : Fin 2) ≠ 1 := by decide
   have h10 : (1 : Fin 2) ≠ 0 := by decide

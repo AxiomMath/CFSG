@@ -52,7 +52,7 @@ theorem G47Star.of_ctx {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian 
     rw [h120] at h
     rw [← h]
     exact Dvd.dvd.mul_right (by norm_num) _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨d, hd⟩ := exists_prime_orderOf_dvd_card' (G := ↥(xInf L x.val)) 3 h3X
   have hd3 : orderOf (d : G) = 3 := by rw [Subgroup.orderOf_coe]; exact hd
   refine ⟨s16c1_G47_pCore_bar _, hr, ?_, s16c1_starImg_mono _ hXY, ?_, ?_, ?_, ?_, ?_⟩

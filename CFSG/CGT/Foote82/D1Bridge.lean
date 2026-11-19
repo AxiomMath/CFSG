@@ -14,7 +14,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 
 theorem core_le_centralizerModTwoCore {M L : Subgroup G} (hL : IsFooteBlock M L) :
-    pCoreOf 2 M ≤ centralizerModTwoCore L := fun h hh =>
+    pCoreOf 2 M ≤ centralizerModTwoCore L := fun _h hh =>
   mem_centralizerModTwoCore_of_isFooteBlock hL hL.le hh
     (Subgroup.le_normalizer (CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_le 2 M hh))
 
@@ -92,7 +92,7 @@ theorem block_le_of_normalizer_le {M N J L : Subgroup G} (hJ : IsFooteBlock M J)
       exact hlx
 
 theorem core_le_of_normalizer_le {M N J : Subgroup G} (hJ : IsFooteBlock M J)
-    (hJN : Subgroup.normalizer (J : Set G) ≤ N) : pCoreOf 2 M ≤ N := fun q hq =>
+    (hJN : Subgroup.normalizer (J : Set G) ≤ N) : pCoreOf 2 M ≤ N := fun _q hq =>
   hJN (mem_centralizerModTwoCore_iff.mp (core_le_centralizerModTwoCore hJ hq)).1
 
 end CFSG.CGT.Foote82

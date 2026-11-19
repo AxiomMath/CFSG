@@ -65,7 +65,7 @@ theorem a_pow' (κ : ZMod (2 * n)) (m : ℕ) : (a κ : QuaternionGroup n) ^ m = 
 
 theorem coords (hn : 2 < n) (φ : MulAut (QuaternionGroup n)) :
     ∃ κ γ : ZMod (2 * n), ∀ i, φ (a i) = a (κ * i) ∧ φ (xa i) = xa (γ + κ * i) := by
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   obtain ⟨κ, hκ⟩ : ∃ κ, φ (a 1) = a κ := by
     rcases h : φ (a 1) with κ | κ
     · exact ⟨κ, rfl⟩
@@ -122,7 +122,7 @@ theorem IsTransl.eq_one {φ : MulAut (QuaternionGroup n)} (hφ : IsTransl φ 0) 
 
 theorem two_mul_eq_zero {h j : ℕ} (hn : n = 2 ^ (j + 2)) (hh : h = 2 ^ (j + 1))
     (x d : ZMod (2 * n)) (hd : (h : ZMod (2 * n)) * d ≠ 0) (hx : x * d = 0) : x + x = 0 := by
-  haveI : NeZero n := ⟨by rw [hn]; positivity⟩
+  have : NeZero n := ⟨by rw [hn]; positivity⟩
   have hN : 2 * n = 2 ^ (j + 3) := by rw [hn]; ring
   rw [← ZMod.natCast_zmod_val d] at hd hx
   rw [← ZMod.natCast_zmod_val x] at hx ⊢
@@ -156,7 +156,7 @@ theorem arith_false {h j : ℕ} (hn : n = 2 ^ (j + 2)) (hh : h = 2 ^ (j + 1))
     (E1 : γ + κ * (δ + l * γ) = δ) (E2 : δ + l * δ = h * (γ + κ * γ))
     (E3 : (h : ZMod (2 * n)) * (γ + κ * γ) ≠ 0)
     (E4 : γ + κ * γ + (δ + l * (γ + κ * γ)) = δ) : False := by
-  haveI : NeZero n := ⟨by rw [hn]; positivity⟩
+  have : NeZero n := ⟨by rw [hn]; positivity⟩
   have hnh : n = 2 * h := by rw [hn, hh]; ring
   have hNN : (n : ZMod (2 * n)) * n = 0 := by
     rw [← Nat.cast_mul, ZMod.natCast_eq_zero_iff]
@@ -183,7 +183,7 @@ theorem not_injective {j : ℕ} (hn : n = 2 ^ (j + 2))
   intro hf
   have h4 : 2 ^ 2 ≤ 2 ^ (j + 2) := Nat.pow_le_pow_right (by norm_num) (by omega)
   have hn2 : 2 < n := by rw [hn]; norm_num at h4; omega
-  haveI : NeZero n := ⟨by omega⟩
+  have : NeZero n := ⟨by omega⟩
   set α := f (a 1) with hαdef
   set β := f (xa 0) with hβdef
   obtain ⟨κ, γ, hα⟩ := coords hn2 α
@@ -239,10 +239,10 @@ theorem not_injective {j : ℕ} (hn : n = 2 ^ (j + 2))
 
 theorem center_mem_ker {M : Type*} [Group M] {j : ℕ} (hn : n = 2 ^ (j + 2))
     (f : QuaternionGroup n →* M) (hf : ¬ Function.Injective f) : f (a n) = 1 := by
-  haveI : NeZero n := ⟨by rw [hn]; positivity⟩
+  have : NeZero n := ⟨by rw [hn]; positivity⟩
   obtain ⟨x, y, hxy, hne⟩ : ∃ x y, f x = f y ∧ x ≠ y := by
     unfold Function.Injective at hf
-    push_neg at hf
+    push Not at hf
     exact hf
   have hg : f (x⁻¹ * y) = 1 := by rw [map_mul, map_inv, hxy, inv_mul_cancel]
   have hg1 : x⁻¹ * y ≠ 1 := fun h => hne (inv_mul_eq_one.mp h)

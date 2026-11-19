@@ -47,7 +47,7 @@ private theorem lk0xtta_geom_mul (q k : ℕ) (hq : 1 ≤ q) :
 
 private theorem lk0xtta_p_not_dvd_2304 {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) :
     (2304 : ZMod p) ≠ 0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro h
   have hd : p ∣ 2304 := (ZMod.natCast_eq_zero_iff 2304 p).mp h
   have h23 : p ∣ 2 ∨ p ∣ 3 := by
@@ -126,7 +126,7 @@ private theorem lk0xtta_exists_conj_le_of_not_dvd_index {M : Type*} [Group M] [F
     {p : ℕ} (hp : p.Prime) {A S : Subgroup M} (hAp : IsPGroup p A) (hnot : ¬ p ∣ S.index) :
     ∃ x : M, ∀ a ∈ A, x⁻¹ * a * x ∈ S := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Ω := M ⧸ S
   let _ : MulAction A Ω :=
     { smul := fun a q => (a : M) • q
@@ -156,13 +156,13 @@ theorem twE6_pSubgroup_split {f : ℕ} (hf : 1 ≤ f) {p : ℕ} (hp : p.Prime) (
     ∃ g ∈ ggFixGp .twistedE6 f, ∀ x ∈ E, g⁻¹ * x * g ∈ torusGroup (langTag .twistedE6) GGL := by
   classical
   let K := GaloisField 2 (2 * f)
-  letI : Algebra K GGL := (ggRatEmb (2 * f)).toAlgebra
-  haveI : Fact (Nat.Prime 2) := Nat.fact_prime_two
-  haveI : CharP K 2 := inferInstance
-  haveI : CharP GGL 2 := inferInstance
-  haveI : IsScalarTower (ZMod 2) K GGL :=
+  let : Algebra K GGL := (ggRatEmb (2 * f)).toAlgebra
+  have : Fact (Nat.Prime 2) := Nat.fact_prime_two
+  have : CharP K 2 := inferInstance
+  have : CharP GGL 2 := inferInstance
+  have : IsScalarTower (ZMod 2) K GGL :=
     IsScalarTower.of_algebraMap_eq' (RingHom.ext_zmod _ _)
-  haveI : IsAlgClosure K GGL :=
+  have : IsAlgClosure K GGL :=
     { isAlgClosed := inferInstance
       isAlgebraic := Algebra.IsAlgebraic.tower_top (K := ZMod 2) (L := K) }
   have hK : Nat.card K = (2 ^ f) ^ 2 := by
@@ -173,7 +173,7 @@ theorem twE6_pSubgroup_split {f : ℕ} (hf : 1 ≤ f) {p : ℕ} (hp : p.Prime) (
   obtain ⟨hfin, -, -, -, hTcard, hRcard, -⟩ :=
     CFSG.RankThree.Classical2.twisted_E6_full_rational_fixed_group_order (ℓ := 2) (f := f) Nat.prime_two hf K hK σ hσ
       GGL (ggFrobT f) (ggFrobT_apply f)
-  haveI : Finite ↥(lk0xtta_R f) := by
+  have : Finite ↥(lk0xtta_R f) := by
     show Finite ↥(ggFixGp .twistedE6 f)
     rw [show ggFixGp .twistedE6 f = twistedFixedGroup TwistTag.E6 GGL (ggFrobT f) from rfl]
     exact hfin

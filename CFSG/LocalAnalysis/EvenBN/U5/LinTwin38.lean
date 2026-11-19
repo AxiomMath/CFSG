@@ -43,7 +43,7 @@ theorem odd_normal_eq_bot_of_simple {Q : Type*} [Group Q] [Finite Q] {P N : Subg
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact hN (g : Q) g.2 n hn
-  haveI := hnorm
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.subgroupOf P) with h0 | h1
   · rw [eq_bot_iff]
     intro x hx
@@ -108,7 +108,7 @@ theorem lin_outer_layer_solvable :
 
 theorem lin_perfect_le_layer {P : Subgroup (d.s38dH ⧸ d.s38dO)} (hP : ⁅P, P⁆ = P) :
     P ≤ CFSG.layer (d.s38dH ⧸ d.s38dO) := by
-  haveI : (CFSG.layer (d.s38dH ⧸ d.s38dO)).Characteristic :=
+  have : (CFSG.layer (d.s38dH ⧸ d.s38dO)).Characteristic :=
     CFSG.LocalCores.layer_characteristic
   refine CFSG.SeitzReduction.perfect_le_of_isSolvable_outer (lin_outer_layer_solvable hl) le_top
     Subgroup.le_normalizer_of_normal ?_ hP le_top
@@ -131,8 +131,8 @@ theorem lin_X_le_M₂ {X : Subgroup G} (hXH : X ≤ d.s38dH) (hX : ⁅X, X⁆ = 
     refine ⟨n, hn, ?_⟩
     have : d.s38dθ (n⁻¹ * m) = 1 := by rw [map_mul, map_inv, hnm, inv_mul_cancel]
     exact (QuotientGroup.eq_one_iff _).1 this
-  haveI := s38d_M₂_normal d
-  haveI : Group.IsSolvable d.s38dO :=
+  have := s38d_M₂_normal d
+  have : Group.IsSolvable d.s38dO :=
     CFSG.FeitThompson.isSolvable_of_odd_natCard _ (GMSK.odd_card_standardComponentOddCore _)
   have hres : X' ≤ d.M₂.subgroupOf d.s38dH :=
     CFSG.LocalAnalysis.EvenBN.Sp4.BothTrivialProduct.perfect_le_of_forall_inv_mul_mem
@@ -153,7 +153,7 @@ theorem lin_M₂_le_X
   have hN'perf : ⁅d.N₂.subgroupOf d.s38dH, d.N₂.subgroupOf d.s38dH⁆ = d.N₂.subgroupOf d.s38dH :=
     s38d_perfect_subgroupOf d.N₂_le_centralizer_I₂ (s38d_N₂_perfect hl.hyp)
   have hCent : ∀ m ∈ M', ∀ o ∈ d.s38dO, o * m = m * o := by
-    haveI : (centralizer (d.s38dO : Set ↥d.s38dH)).Normal := Subgroup.normal_centralizer
+    have : (centralizer (d.s38dO : Set ↥d.s38dH)).Normal := Subgroup.normal_centralizer
     have hN' : (d.N₂.subgroupOf d.s38dH : Set ↥d.s38dH) ⊆
         (centralizer (d.s38dO : Set ↥d.s38dH) : Set ↥d.s38dH) := by
       intro n hn
@@ -194,8 +194,8 @@ theorem lin_M₂_le_X
   exact hMX (show (⟨x, s38d_M₂_le_H d hx⟩ : ↥d.s38dH) ∈ M' from hx)
 
 theorem lin_theta_X_eq (hi : d.Sec38Input) (ho : d.Sec38Outcome)
-    (hO : ∀ o : ↥d.s38dH, o ∈ d.s38dO → ∀ n ∈ d.N₂, (o : G) * n = n * (o : G))
-    {X : Subgroup G} (hXH : X ≤ d.s38dH) (hXL : X ≤ d.L₂) (hX : ⁅X, X⁆ = X) (hN₂X : d.N₂ ≤ X)
+    (_hO : ∀ o : ↥d.s38dH, o ∈ d.s38dO → ∀ n ∈ d.N₂, (o : G) * n = n * (o : G))
+    {X : Subgroup G} (hXH : X ≤ d.s38dH) (hXL : X ≤ d.L₂) (hX : ⁅X, X⁆ = X) (_hN₂X : d.N₂ ≤ X)
     (hEX : d.E ⊔ X = d.L₂) :
     (X.subgroupOf d.s38dH).map d.s38dθ = CFSG.layer (d.s38dH ⧸ d.s38dO) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -259,7 +259,7 @@ theorem lin_theta_X_eq (hi : d.Sec38Input) (ho : d.Sec38Outcome)
     exact (MonoidHom.normal_ker θX).conj_mem k hk x₀
   have hlayN : ∀ π ∈ CFSG.layer (Bar d.E ⧸ OE d), ∀ n ∈ N, π * n * π⁻¹ ∈ N :=
     fun π hπ n hn => hNnorm π (hlayX hπ) n hn
-  haveI hlaynormal : (CFSG.layer (Bar d.E ⧸ OE d)).Normal :=
+  have hlaynormal : (CFSG.layer (Bar d.E ⧸ OE d)).Normal :=
     haveI : (CFSG.layer (Bar d.E ⧸ OE d)).Characteristic := CFSG.LocalCores.layer_characteristic
     inferInstance
   have hcentlay : centralizer ((CFSG.layer (Bar d.E ⧸ OE d) : Subgroup (Bar d.E ⧸ OE d)) :

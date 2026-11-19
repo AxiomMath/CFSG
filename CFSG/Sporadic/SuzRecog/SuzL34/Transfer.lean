@@ -13,14 +13,14 @@ private theorem transfer_eq_pow_index {G : Type*} [Group G] [Finite G] {A : Type
       φ ⟨g⁻¹ * y ^ n * g, hn⟩ = φ ⟨y, hy⟩ ^ n) :
     φ.transfer y = φ ⟨y, hy⟩ ^ H.index := by
   classical
-  haveI : Fintype (Quotient (MulAction.orbitRel (Subgroup.zpowers y) (G ⧸ H))) :=
+  have : Fintype (Quotient (MulAction.orbitRel (Subgroup.zpowers y) (G ⧸ H))) :=
     Fintype.ofFinite _
   rw [MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot,
     Subgroup.index_eq_sum_minimalPeriod H y, ← Finset.prod_pow_eq_pow_sum]
   refine Finset.prod_congr rfl fun q _ => h _ _ _
 
 theorem le_oddOrderClosure_of_fixedPointFree {G : Type*} [Group G] [Finite G]
-    {D L : Subgroup G} (hLD : L ≤ D) (hL : ∀ x ∈ L, ∀ y ∈ L, x * y = y * x) {f : G}
+    {D L : Subgroup G} (hLD : L ≤ D) (_hL : ∀ x ∈ L, ∀ y ∈ L, x * y = y * x) {f : G}
     (hfD : f ∈ D) (hf : Odd (orderOf f)) (hfL : ∀ l ∈ L, f * l * f⁻¹ ∈ L)
     (hfix : ∀ l ∈ L, f * l = l * f → l = 1) : L ≤ CFSG.GroupTheory.oddOrderClosure D := by
   classical
@@ -142,9 +142,9 @@ open Subgroup
 
 private theorem core_le {H : Type*} [Group H] [Finite H] {T T₀ T₁ : Subgroup H}
     {t lam a : H} (P : H → Prop) (hP : ∀ g y : H, P (g * y * g⁻¹) ↔ P y)
-    (hT : IsPGroup 2 T) (hTidx : ¬ 2 ∣ T.index)
+    (_hT : IsPGroup 2 T) (hTidx : ¬ 2 ∣ T.index)
     (htT : t ∈ T) (ht2 : t * t = 1) (hcent : ∀ g : H, g * t = t * g)
-    (htT₀ : t ∉ T₀) (hPt : ¬ P t) (hT₀T : T₀ ≤ T)
+    (htT₀ : t ∉ T₀) (_hPt : ¬ P t) (hT₀T : T₀ ≤ T)
     (hT₁ : ∀ x, x ∈ T₁ ↔ x ∈ T₀ ∨ ∃ s ∈ T₀, x = t * s)
     (hT₁T : T₁ ≤ T) (hT₁n : ∀ g ∈ T, ∀ x ∈ T₁, g * x * g⁻¹ ∈ T₁)
     (hidx : T₁.relIndex T = 4)
@@ -238,21 +238,21 @@ private theorem core_le {H : Type*} [Group H] [Finite H] {T T₀ T₁ : Subgroup
       have h1 : T₁.relIndex Ul = 1 := by omega
       exact haT₁ (Subgroup.relIndex_eq_one.mp h1
         (Subgroup.mem_sup_right (Subgroup.mem_zpowers a)))
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let UaT : Subgroup T := Ua.subgroupOf T
   let UlT : Subgroup T := Ul.subgroupOf T
-  haveI hUaTn : UaT.Normal := Subgroup.normal_of_index_eq_two hUa_index
-  haveI hUlTn : UlT.Normal := Subgroup.normal_of_index_eq_two hUl_index
+  have hUaTn : UaT.Normal := Subgroup.normal_of_index_eq_two hUa_index
+  have hUlTn : UlT.Normal := Subgroup.normal_of_index_eq_two hUl_index
   have hQaCard : Nat.card (T ⧸ UaT) = 2 := by
     rw [← Subgroup.index_eq_card]
     exact hUa_index
   have hQlCard : Nat.card (T ⧸ UlT) = 2 := by
     rw [← Subgroup.index_eq_card]
     exact hUl_index
-  haveI : IsCyclic (T ⧸ UaT) := isCyclic_of_prime_card hQaCard
-  haveI : IsCyclic (T ⧸ UlT) := isCyclic_of_prime_card hQlCard
-  letI : CommGroup (T ⧸ UaT) := IsCyclic.commGroup
-  letI : CommGroup (T ⧸ UlT) := IsCyclic.commGroup
+  have : IsCyclic (T ⧸ UaT) := isCyclic_of_prime_card hQaCard
+  have : IsCyclic (T ⧸ UlT) := isCyclic_of_prime_card hQlCard
+  let : CommGroup (T ⧸ UaT) := IsCyclic.commGroup
+  let : CommGroup (T ⧸ UlT) := IsCyclic.commGroup
   let φa : T →* (T ⧸ UaT) := QuotientGroup.mk' UaT
   let φl : T →* (T ⧸ UlT) := QuotientGroup.mk' UlT
   let Va : H →* (T ⧸ UaT) := φa.transfer
@@ -727,12 +727,12 @@ private theorem core_le {H : Type*} [Group H] [Finite H] {T T₀ T₁ : Subgroup
         (T₀.subgroupOf B).relIndex T₁B from rfl]
     rw [Subgroup.relIndex_subgroupOf (H := T₀) (K := T₁) (L := B) hT₁B]
     exact hT₀T₁_rel
-  haveI hT₀Bn : T₀B.Normal := Subgroup.normal_of_index_eq_two hT₀B_index
+  have hT₀Bn : T₀B.Normal := Subgroup.normal_of_index_eq_two hT₀B_index
   have hQbCard : Nat.card (T₁B ⧸ T₀B) = 2 := by
     rw [← Subgroup.index_eq_card]
     exact hT₀B_index
-  haveI : IsCyclic (T₁B ⧸ T₀B) := isCyclic_of_prime_card hQbCard
-  letI : CommGroup (T₁B ⧸ T₀B) := IsCyclic.commGroup
+  have : IsCyclic (T₁B ⧸ T₀B) := isCyclic_of_prime_card hQbCard
+  let : CommGroup (T₁B ⧸ T₀B) := IsCyclic.commGroup
   let φb : T₁B →* (T₁B ⧸ T₀B) := QuotientGroup.mk' T₀B
   let W : Bg →* (T₁B ⧸ T₀B) := φb.transfer
   have hT₁B_odd : Odd T₁B.index := by
@@ -998,7 +998,6 @@ theorem oddOrderClosure_inf_le {G : Type*} [Group G] [Finite G] {D T T₀ T₁ :
     have hytG : (y : G) ≠ t := fun h => hyt (Subtype.ext h)
     have hyPG : ¬ P (y : G) := hyP
     have hyPtG : ¬ P ((y : G) * t) := by
-      change ¬ P ((y : G) * t)
       exact hyPt
     have h := hinv (y : G) hyG hy2G hy1G hytG hyPG hyPtG
     refine ⟨fun hmem => h.1 (Subgroup.mem_subgroupOf.mp hmem), ?_⟩

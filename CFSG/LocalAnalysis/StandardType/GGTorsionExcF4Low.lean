@@ -177,7 +177,7 @@ theorem ggTorsionKnownOver_excLowF4
         _ = Nat.card RT := hcardRT.symm
         _ = Nat.card (↥J ⧸ Subgroup.center ↥J) := hcardT.symm
     obtain ⟨H, hHne, hJdvdH⟩ := ggTorsion_dvd_proper hX θA hδ1 hcomp.1
-    haveI : Finite RA := Finite.of_equiv (X ⧸ Subgroup.center X) θA.toEquiv
+    have : Finite RA := Finite.of_equiv (X ⧸ Subgroup.center X) θA.toEquiv
     have hHleR : Nat.card ↥H ≤ Nat.card RA :=
       Nat.card_le_card_of_injective H.subtype H.subtype_injective
     have hHneR : Nat.card ↥H ≠ Nat.card RA := by

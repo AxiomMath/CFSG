@@ -131,6 +131,7 @@ theorem two_dvd_relIndex_centralizer_inf_of_mem_J (h : Tim79a.ParrottHyp z) {ρ 
     exact hxj (mem_centralizer_singleton_iff.mp (hle hj)).symm
   exact dvd_relIndex_inf_centralizer_of_normal_pGroup hJ'H hHN (isPGroup_J h).to_inf_left hJy
 
+omit [Finite G] in
 theorem centerIn_J_le_of_isSylowOf_centralizer_inf (h : Tim79a.ParrottHyp z)
     (hZ : centerIn (J z) = centerIn (H z)) {ρ x : G} (hρH : ρ ∈ H z) (hxH : x ∈ H z)
     {X : Subgroup G}
@@ -174,6 +175,7 @@ local notation "uA" => (⟨u, u_mem_A⟩ : A45)
 set_option quotPrecheck false in
 local notation "vA" => (⟨v, v_mem_A⟩ : A45)
 
+omit [Finite G] in
 theorem not_mem_J_of_isConj_vA {x : G} (hx : x ∈ H z) (hqx : IsConj (qH D ⟨x, hx⟩) vA) :
     x ∉ J z := by
   intro hxJ

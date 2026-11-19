@@ -136,7 +136,7 @@ theorem ker_su6LeviHom_le_center (hK : Nat.card K = (2 ^ f) ^ 2)
 theorem largeEvenMarking_su6Levi (hf : 1 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
     (hσ : ∀ c, σ c = c ^ 2 ^ f) :
     LargeEvenMarking ↥((su6Levi σ).subgroupOf (graphFixedRootGroup TwistTag.E6 K σ))
-      (fun lab R _ I _ θ => GGChevStTag lab ∧
+      (fun lab _R _ I _ θ => GGChevStTag lab ∧
         ∀ α ∈ KGND.suConjSet (su6LeviHom hK hσ),
           ∃ φ ∈ I,
             ∀ y : ↥((su6Levi σ).subgroupOf (graphFixedRootGroup TwistTag.E6 K σ)),
@@ -157,35 +157,44 @@ private def tau (b : Fin TwistTag.E6.tag.rank → Kˣ) : Fin 6 → Kˣ :=
     (beta b 0 * beta b 1 * beta b 2 * beta b 3)⁻¹,
     (beta b 0 * beta b 1 * beta b 2 * beta b 3 * beta b 4)⁻¹]
 
+omit [Finite K] [CharP K 2] in
 private theorem tau_zero (b : Fin TwistTag.E6.tag.rank → Kˣ) : tau b 0 = 1 := rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem tau_one (b : Fin TwistTag.E6.tag.rank → Kˣ) : tau b 1 = (beta b 0)⁻¹ :=
   rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem tau_two (b : Fin TwistTag.E6.tag.rank → Kˣ) :
     tau b 2 = (beta b 0 * beta b 1)⁻¹ :=
   rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem tau_three (b : Fin TwistTag.E6.tag.rank → Kˣ) :
     tau b 3 = (beta b 0 * beta b 1 * beta b 2)⁻¹ := rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem tau_four (b : Fin TwistTag.E6.tag.rank → Kˣ) :
     tau b 4 = (beta b 0 * beta b 1 * beta b 2 * beta b 3)⁻¹ := rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem tau_five (b : Fin TwistTag.E6.tag.rank → Kˣ) :
     tau b 5 = (beta b 0 * beta b 1 * beta b 2 * beta b 3 * beta b 4)⁻¹ := rfl
 
+omit [CharP K 2] in
 private theorem tau_succ (b : Fin TwistTag.E6.tag.rank → Kˣ) (t : Fin 5) :
     tau b t.succ = tau b t.castSucc * (beta b t)⁻¹ := by
   fin_cases t <;> simp [tau] <;> ac_rfl
 
+omit [CharP K 2] in
 private theorem tau_coeff (b : Fin TwistTag.E6.tag.rank → Kˣ) (t : Fin 5) :
     tau b t.castSucc * (tau b t.succ)⁻¹ = b (E6GraphLevi.pathIdx t) := by
   have h := tau_succ b t
   rw [h, mul_inv_rev, inv_inv]
-  simp only [mul_comm, mul_left_comm, mul_assoc, mul_inv_cancel, one_mul]
+  simp only [mul_comm, mul_left_comm, mul_inv_cancel, one_mul]
   rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem map_beta_zero (b : Fin TwistTag.E6.tag.rank → Kˣ)
     (hb : ∀ i, b (TwistTag.E6.perm i) = Units.map σ.toMonoidHom (b i)) :
     Units.map σ.toMonoidHom (beta b 0) = beta b 4 := by
@@ -195,6 +204,7 @@ private theorem map_beta_zero (b : Fin TwistTag.E6.tag.rank → Kˣ)
   rw [hidx] at h
   simpa only [beta] using h.symm
 
+omit [Finite K] [CharP K 2] in
 private theorem map_beta_one (b : Fin TwistTag.E6.tag.rank → Kˣ)
     (hb : ∀ i, b (TwistTag.E6.perm i) = Units.map σ.toMonoidHom (b i)) :
     Units.map σ.toMonoidHom (beta b 1) = beta b 3 := by
@@ -204,6 +214,7 @@ private theorem map_beta_one (b : Fin TwistTag.E6.tag.rank → Kˣ)
   rw [hidx] at h
   simpa only [beta] using h.symm
 
+omit [Finite K] [CharP K 2] in
 private theorem map_beta_two (b : Fin TwistTag.E6.tag.rank → Kˣ)
     (hb : ∀ i, b (TwistTag.E6.perm i) = Units.map σ.toMonoidHom (b i)) :
     Units.map σ.toMonoidHom (beta b 2) = beta b 2 := by
@@ -213,6 +224,7 @@ private theorem map_beta_two (b : Fin TwistTag.E6.tag.rank → Kˣ)
   rw [hidx] at h
   simpa only [beta] using h.symm
 
+omit [Finite K] [CharP K 2] in
 private theorem map_beta_three (b : Fin TwistTag.E6.tag.rank → Kˣ)
     (hb : ∀ i, b (TwistTag.E6.perm i) = Units.map σ.toMonoidHom (b i)) :
     Units.map σ.toMonoidHom (beta b 3) = beta b 1 := by
@@ -222,6 +234,7 @@ private theorem map_beta_three (b : Fin TwistTag.E6.tag.rank → Kˣ)
   rw [hidx] at h
   simpa only [beta] using h.symm
 
+omit [Finite K] [CharP K 2] in
 private theorem map_beta_four (b : Fin TwistTag.E6.tag.rank → Kˣ)
     (hb : ∀ i, b (TwistTag.E6.perm i) = Units.map σ.toMonoidHom (b i)) :
     Units.map σ.toMonoidHom (beta b 4) = beta b 0 := by
@@ -231,6 +244,7 @@ private theorem map_beta_four (b : Fin TwistTag.E6.tag.rank → Kˣ)
   rw [hidx] at h
   simpa only [beta] using h.symm
 
+omit [Finite K] [CharP K 2] in
 private theorem tau_mul_rev (b : Fin TwistTag.E6.tag.rank → Kˣ)
     (hb : ∀ i, b (TwistTag.E6.perm i) = Units.map σ.toMonoidHom (b i)) (i : Fin 6) :
     Units.map σ.toMonoidHom (tau b i) * tau b (Fin.rev i) = tau b 5 := by
@@ -246,37 +260,35 @@ private theorem tau_mul_rev (b : Fin TwistTag.E6.tag.rank → Kˣ)
     rw [tau_zero, e, tau_five, map_one, one_mul]
   · have e : tau b (Fin.rev (1 : Fin 6)) = tau b 4 := rfl
     rw [tau_one, e, tau_four, tau_five]
-    simp only [map_mul, map_inv, map_one, mul_inv_rev, h0, h1, h2, h3, h4,
-      mul_comm, mul_left_comm, mul_assoc]
+    simp only [map_inv, mul_inv_rev, h0, mul_comm, mul_assoc]
   · have e : tau b (Fin.rev (2 : Fin 6)) = tau b 3 := rfl
     rw [tau_two, e, tau_three, tau_five]
-    simp only [map_mul, map_inv, map_one, mul_inv_rev, h0, h1, h2, h3, h4,
-      mul_comm, mul_left_comm, mul_assoc]
+    simp only [map_mul, map_inv, mul_inv_rev, h0, h1, mul_comm, mul_assoc]
   · have e : tau b (Fin.rev (3 : Fin 6)) = tau b 2 := rfl
     rw [tau_three, e, tau_two, tau_five]
-    simp only [map_mul, map_inv, map_one, mul_inv_rev, h0, h1, h2, h3, h4,
-      mul_comm, mul_left_comm, mul_assoc]
+    simp only [map_mul, map_inv, mul_inv_rev, h0, h1, h2, mul_comm, mul_assoc]
   · have e : tau b (Fin.rev (4 : Fin 6)) = tau b 1 := rfl
     rw [tau_four, e, tau_one, tau_five]
-    simp only [map_mul, map_inv, map_one, mul_inv_rev, h0, h1, h2, h3, h4,
-      mul_comm, mul_left_comm, mul_assoc]
+    simp only [map_mul, map_inv, mul_inv_rev, h0, h1, h2, h3, mul_comm, mul_assoc]
   · have e : tau b (Fin.rev (5 : Fin 6)) = tau b 0 := rfl
     rw [tau_five, e, tau_zero]
-    simp only [map_mul, map_inv, map_one, mul_inv_rev, h0, h1, h2, h3, h4,
-      mul_comm, mul_left_comm, mul_assoc, one_mul]
+    simp only [map_mul, map_inv, mul_inv_rev, h0, h1, h2, h3, h4,
+      mul_comm, mul_assoc, one_mul]
 
+omit [Finite K] [CharP K 2] in
 private theorem map_tau_five (b : Fin TwistTag.E6.tag.rank → Kˣ)
     (hb : ∀ i, b (TwistTag.E6.perm i) = Units.map σ.toMonoidHom (b i)) :
     Units.map σ.toMonoidHom (tau b 5) = tau b 5 := by
   rw [tau_five]
   simp only [map_inv, map_mul, mul_inv_rev, map_beta_zero b hb, map_beta_one b hb,
     map_beta_two b hb, map_beta_three b hb, map_beta_four b hb,
-    mul_comm, mul_left_comm, mul_assoc]
+    mul_comm, mul_assoc]
 
 end Tau
 
 section TorusAction
 
+omit [Finite K] [CharP K 2] in
 private theorem rootDiagUnit_conj_xUnit (b : Fin TwistTag.E6.tag.rank → Kˣ)
     (i : Fin TwistTag.E6.tag.rank) (c : K) :
     rootDiagUnit TwistTag.E6.tag b * xUnit TwistTag.E6.tag K i c *
@@ -290,6 +302,7 @@ private theorem rootDiagUnit_conj_xUnit (b : Fin TwistTag.E6.tag.rank → Kˣ)
     simpa using rootChar_nsmul_single b i 1
   rw [h]
 
+omit [Finite K] [CharP K 2] in
 private theorem rootDiagUnit_conj_yUnit (b : Fin TwistTag.E6.tag.rank → Kˣ)
     (i : Fin TwistTag.E6.tag.rank) (c : K) :
     rootDiagUnit TwistTag.E6.tag b * yUnit TwistTag.E6.tag K i c *
@@ -310,6 +323,7 @@ private theorem rootDiagUnit_conj_yUnit (b : Fin TwistTag.E6.tag.rank → Kˣ)
     rw [h2]
   rw [h]
 
+omit [CharP K 2] in
 private theorem rootDiagUnit_conj_realize (h2 : (2 : K) = 0) (b : Fin TwistTag.E6.tag.rank → Kˣ)
     (B : Matrix.SpecialLinearGroup (Fin 6) K) :
     rootDiagUnit TwistTag.E6.tag b * E6GraphLevi.realize h2 B *
@@ -327,13 +341,13 @@ private theorem rootDiagUnit_conj_realize (h2 : (2 : K) = 0) (b : Fin TwistTag.E
         E6GraphLevi.realize_x h2, rootDiagUnit_conj_xUnit]
       congr 1
       rw [← tau_coeff b t]
-      simp only [mul_comm, mul_left_comm, mul_assoc, Units.val_mul, Units.val_inv_eq_inv_val]
+      simp only [mul_comm, mul_assoc, Units.val_mul, Units.val_inv_eq_inv_val]
     · simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
         E6GraphLevi.realize_y h2 t c, InnerDiagA.conjSL_diagGL_transvection,
         E6GraphLevi.realize_y h2, rootDiagUnit_conj_yUnit]
       congr 1
       rw [← tau_coeff b t, mul_inv_rev, inv_inv]
-      simp only [mul_comm, mul_left_comm, mul_assoc, Units.val_mul, Units.val_inv_eq_inv_val]
+      simp only [mul_comm, mul_left_comm, Units.val_mul, Units.val_inv_eq_inv_val]
   exact congrArg (fun φ : Matrix.SpecialLinearGroup (Fin 6) K →* ModGL TwistTag.E6.tag K =>
     φ B) key
 
@@ -341,6 +355,7 @@ end TorusAction
 
 section Unitary
 
+omit [Finite K] [CharP K 2] in
 private theorem conjGL_diagGL_smul (lam : Kˣ) (d : Fin 6 → Kˣ) (X : GL (Fin 6) K) :
     InnerDiagA.diagGL (fun i => lam * d i) * X * (InnerDiagA.diagGL (fun i => lam * d i))⁻¹ =
       InnerDiagA.diagGL d * X * (InnerDiagA.diagGL d)⁻¹ := by
@@ -423,6 +438,7 @@ end Unitary
 
 section Levi
 
+omit [Finite K] [CharP K 2] in
 private theorem conj_rootDiagUnit_mem_su6Levi {σ : K →+* K} {b : Fin TwistTag.E6.tag.rank → Kˣ}
     (hb : ∀ i, b (TwistTag.E6.perm i) = Units.map σ.toMonoidHom (b i))
     {x : ModGL TwistTag.E6.tag K} (hx : x ∈ su6Levi σ) :
@@ -433,8 +449,8 @@ private theorem conj_rootDiagUnit_mem_su6Levi {σ : K →+* K} {b : Fin TwistTag
   · have hN := rootDiagUnit_mem_normalizer_graphFixedRootGroup (t := TwistTag.E6) (σ := σ) hb
     exact (Subgroup.mem_normalizer_iff.1 hN x).1 hx.2
 
-private noncomputable def compatParamAutLevi (hK : Nat.card K = (2 ^ f) ^ 2)
-    (hσ : ∀ c, σ c = c ^ 2 ^ f) (b : ↥(TableB.TwE6.compat σ)) :
+private noncomputable def compatParamAutLevi (_hK : Nat.card K = (2 ^ f) ^ 2)
+    (_hσ : ∀ c, σ c = c ^ 2 ^ f) (b : ↥(TableB.TwE6.compat σ)) :
     MulAut ↥((su6Levi σ).subgroupOf (graphFixedRootGroup TwistTag.E6 K σ)) where
   toFun l :=
     ⟨RootCentExc.compatParamAut σ b l.1, Subgroup.mem_subgroupOf.2 (by
@@ -473,6 +489,7 @@ private noncomputable def compatParamAutLevi (hK : Nat.card K = (2 ^ f) ^ 2)
     refine Subtype.ext (Subtype.ext ?_)
     simp only [Subgroup.coe_mul, map_mul]
 
+omit [Finite K] [CharP K 2] in
 private theorem coe_compatParamAutLevi (hK : Nat.card K = (2 ^ f) ^ 2)
     (hσ : ∀ c, σ c = c ^ 2 ^ f) (b : ↥(TableB.TwE6.compat σ))
     (l : ↥((su6Levi σ).subgroupOf (graphFixedRootGroup TwistTag.E6 K σ))) :
@@ -529,7 +546,7 @@ theorem exists_suConjSet_compatParamAut (hK : Nat.card K = (2 ^ f) ^ 2)
       (((InnerDiagA.diagGL (tau b') * Matrix.SpecialLinearGroup.toGL B' *
         (InnerDiagA.diagGL (tau b'))⁻¹ : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K))
     rw [InnerDiagA.coe_conjSL]
-    simp only [Units.val_mul, Units.val_inv_eq_inv_val]
+    simp only [Units.val_mul]
     rfl
   have hSL : InnerDiagA.conjSL (InnerDiagA.diagGL (tau b')) B' =
       (((E6GraphLevi.unitarySLEquiv hσ).symm X : ↥(E6GraphLevi.unitarySL σ)) :

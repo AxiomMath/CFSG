@@ -34,19 +34,20 @@ theorem polar_uu : polar Q u u = 2 * c := by rw [polar_self_eq_two_mul, h.Q_u]
 
 theorem polar_vv : polar Q v v = 2 * c := by rw [polar_self_eq_two_mul, h.Q_v]
 
+omit h in
 theorem rotMap_apply' (x : V) :
     rotMap Q c u v x =
       x - c⁻¹ • ((polar Q u x + polar Q v x) • u + polar Q v x • v) := by
   rw [rotMap_apply, polar_add_left]
 
 theorem rotMap_u : rotMap Q c u v u = v := by
-  rw [h.rotMap_apply', h.polar_uu, h.polar_vu]
+  rw [(CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.Bal3.OmMinus.IsRotPair.rotMap_apply' (Q := Q) (c := c) (u := u) (v := v)), h.polar_uu, h.polar_vu]
   have := h.c_ne
-  match_scalars <;> field_simp <;> ring
+  match_scalars <;> field_simp; ring
 
 theorem polar_u_rotMap (x : V) :
     polar Q u (rotMap Q c u v x) = -polar Q u x - polar Q v x := by
-  rw [h.rotMap_apply', polar_sub_right, polar_smul_right, polar_add_right, polar_smul_right,
+  rw [(CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.Bal3.OmMinus.IsRotPair.rotMap_apply' (Q := Q) (c := c) (u := u) (v := v)), polar_sub_right, polar_smul_right, polar_add_right, polar_smul_right,
     polar_smul_right, h.polar_uu, h.polar_uv]
   simp only [smul_eq_mul]
   have := h.c_ne
@@ -55,16 +56,17 @@ theorem polar_u_rotMap (x : V) :
 
 theorem polar_v_rotMap (x : V) :
     polar Q v (rotMap Q c u v x) = polar Q u x := by
-  rw [h.rotMap_apply', polar_sub_right, polar_smul_right, polar_add_right, polar_smul_right,
+  rw [(CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.Bal3.OmMinus.IsRotPair.rotMap_apply' (Q := Q) (c := c) (u := u) (v := v)), polar_sub_right, polar_smul_right, polar_add_right, polar_smul_right,
     polar_smul_right, h.polar_vu, h.polar_vv]
   simp only [smul_eq_mul]
   have := h.c_ne
   field_simp
   ring
 
+omit h in
 theorem rotMap_of_perp {y : V} (hu : polar Q u y = 0) (hv : polar Q v y = 0) :
     rotMap Q c u v y = y := by
-  rw [h.rotMap_apply', hu, hv]
+  rw [(CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.Bal3.OmMinus.IsRotPair.rotMap_apply' (Q := Q) (c := c) (u := u) (v := v)), hu, hv]
   simp
 
 theorem Q_rotMap (x : V) : Q (rotMap Q c u v x) = Q x := by
@@ -79,7 +81,7 @@ theorem Q_rotMap (x : V) : Q (rotMap Q c u v x) = Q x := by
     ring
   have h1 : rotMap Q c u v x =
       x - ((c⁻¹ * (polar Q u x + polar Q v x)) • u + (c⁻¹ * polar Q v x) • v) := by
-    rw [h.rotMap_apply', smul_add, smul_smul, smul_smul]
+    rw [(CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.Bal3.OmMinus.IsRotPair.rotMap_apply' (Q := Q) (c := c) (u := u) (v := v)), smul_add, smul_smul, smul_smul]
   rw [h1, hexp]
   have := h.c_ne
   field_simp
@@ -87,18 +89,18 @@ theorem Q_rotMap (x : V) : Q (rotMap Q c u v x) = Q x := by
 
 theorem rotMap_pow_three (x : V) :
     rotMap Q c u v (rotMap Q c u v (rotMap Q c u v x)) = x := by
-  have hy1 := h.rotMap_apply' x
+  have hy1 := (CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.Bal3.OmMinus.IsRotPair.rotMap_apply' (Q := Q) (c := c) (u := u) (v := v)) x
   have hα₁ := h.polar_u_rotMap x
   have hβ₁ := h.polar_v_rotMap x
-  have hy2 := h.rotMap_apply' (rotMap Q c u v x)
+  have hy2 := (CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.Bal3.OmMinus.IsRotPair.rotMap_apply' (Q := Q) (c := c) (u := u) (v := v)) (rotMap Q c u v x)
   have hα₂ := h.polar_u_rotMap (rotMap Q c u v x)
   have hβ₂ := h.polar_v_rotMap (rotMap Q c u v x)
-  have hy3 := h.rotMap_apply' (rotMap Q c u v (rotMap Q c u v x))
+  have hy3 := (CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.Bal3.OmMinus.IsRotPair.rotMap_apply' (Q := Q) (c := c) (u := u) (v := v)) (rotMap Q c u v (rotMap Q c u v x))
   rw [hy3, hα₂, hβ₂, hy2, hα₁, hβ₁, hy1]
   module
 
 @[expose] noncomputable def rotAut : V ≃ₗ[K] V :=
-  LinearEquiv.ofLinear (rotMap Q c u v) (rotMap Q c u v ∘ₗ rotMap Q c u v)
+  LinearEquiv.ofLinearMap (rotMap Q c u v) (rotMap Q c u v ∘ₗ rotMap Q c u v)
     (LinearMap.ext fun x => h.rotMap_pow_three x) (LinearMap.ext fun x => h.rotMap_pow_three x)
 
 theorem rotAut_apply (x : V) : h.rotAut x = rotMap Q c u v x := rfl
@@ -203,7 +205,7 @@ theorem IsRotPair.rotAut_comm_of_mode (h : IsRotPair Q c u v) {g : V ≃ₗ[K] V
 
 theorem IsRotPair.rotAut_of_perp (h : IsRotPair Q c u v) {y : V} (hu : polar Q u y = 0)
     (hv : polar Q v y = 0) : h.rotAut y = y :=
-  h.rotMap_of_perp hu hv
+  CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.Bal3.OmMinus.IsRotPair.rotMap_of_perp hu hv
 
 theorem RotMode.polar_perp {g : V ≃ₗ[K] V} (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (hm : RotMode g u v) {x : V} (h1 : polar Q u x = 0) (h2 : polar Q v x = 0) :

@@ -78,7 +78,7 @@ theorem aut_inner_of_pairing {K : Type} [Group K] [Finite K] (hperf : commutator
   let π : K →* K ⧸ Z := QuotientGroup.mk' Z
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective Z
   have hker : π.ker = Z := QuotientGroup.ker_mk' Z
-  have hT2 : IsPGroup 2 ((P : Subgroup K).map π) := P.isPGroup'.map π
+  have hT2 : IsPGroup 2 ((P : Subgroup K).map π) := P.isPGroup.map π
   have hTi : ¬ 2 ∣ ((P : Subgroup K).map π).index := fun h =>
     P.not_dvd_index (h.trans (Subgroup.index_map_dvd (P : Subgroup K) hπ))
   let T : Sylow 2 (K ⧸ Z) := hT2.toSylow hTi

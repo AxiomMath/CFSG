@@ -41,7 +41,7 @@ theorem burnsideAut_sp_rankOne (k : Fin r) :
       simp [k'] at this
     have hsnd : simpleSnd k = Sum.inl k' := by
       unfold simpleSnd
-      rw [dif_pos h]
+      rw [dite_eq_left h]
     have hroot : rootVec (Sum.inl k) (Sum.inl k') = simpleRootVec r k := by
       rw [← hsnd]
       exact rootVec_simpleSnd k
@@ -54,7 +54,7 @@ theorem burnsideAut_sp_rankOne (k : Fin r) :
       exact burnsideAut_pairRootElt_one_ne_one _
   · have hsnd : simpleSnd k = Sum.inr k := by
       unfold simpleSnd
-      rw [dif_neg h]
+      rw [dite_eq_right h]
     have hroot : rootVec (Sum.inl k) (Sum.inr k) = simpleRootVec r k := by
       rw [← hsnd]
       exact rootVec_simpleSnd k
@@ -90,7 +90,7 @@ theorem burnsideAut_sp_not_isSolvable_of_weylRep_mem [Finite K] (hK : 4 ≤ Nat.
       rw [burnsideAut_transvection_one_zero_eq_sl2Low]
       exact hneg (hlow c)
     · exact absurd rfl hab
-  haveI := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK
+  have := CFSG.ClassicalModels.specialLinear_isPerfect_two_of_four_le_card K hK
   exact burnsideAut_not_isSolvable_of_perfect_hom ψ hψ1 hrange
 
 theorem burnsideAut_sp4_solvable_le [Finite K] (hK : 4 ≤ Nat.card K)

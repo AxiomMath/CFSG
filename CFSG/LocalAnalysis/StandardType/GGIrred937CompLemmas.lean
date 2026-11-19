@@ -113,20 +113,20 @@ private theorem ggFixCompCyclic_map_conj_mulEquiv {p : ℕ} {G H : Type} [Group 
         exact hle
       rw [Subgroup.map_le_iff_le_comap] at hm
       rwa [Subgroup.comap_map_eq_self_of_injective f.injective] at hm
-    haveI : IsCyclic P₀ := hcyc P₀ hP₀ hle₀
+    have : IsCyclic P₀ := hcyc P₀ hP₀ hle₀
     rw [← hpeq]
     exact isCyclic_of_surjective (f.subgroupMap P₀) (f.subgroupMap P₀).surjective
 
 theorem not_ggFixCompCyclic_of_solvable {p : ℕ} {H : Type} [Group H] [Finite H] (a : MulAut H)
-    (hs : IsSolvable (ggFix a)) : ¬ GGFixCompCyclic p a := by
+    (hs : Group.IsSolvable (ggFix a)) : ¬ GGFixCompCyclic p a := by
   rintro ⟨J₁, hJ₁, -⟩
-  haveI : Group.IsSolvable ↥(ggFix a) := hs
+  have : Group.IsSolvable ↥(ggFix a) := hs
   have hsol : Group.IsSolvable ↥J₁ :=
-    solvable_of_solvable_injective (f := Subgroup.inclusion hJ₁.1)
+    Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hJ₁.1)
       (Subgroup.inclusion_injective hJ₁.1)
-  haveI : Group.IsSolvable ↥J₁ := hsol
-  haveI : Nontrivial ↥J₁ := by
-    haveI : IsSimpleGroup (↥J₁ ⧸ Subgroup.center ↥J₁) := hJ₁.2.2.2
+  have : Group.IsSolvable ↥J₁ := hsol
+  have : Nontrivial ↥J₁ := by
+    have : IsSimpleGroup (↥J₁ ⧸ Subgroup.center ↥J₁) := hJ₁.2.2.2
     exact Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center ↥J₁))
   have hlt : commutator ↥J₁ < ⊤ := Group.IsSolvable.commutator_lt_top_of_nontrivial ↥J₁
   exact (ne_of_lt hlt) hJ₁.2.2.1

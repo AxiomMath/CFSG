@@ -27,7 +27,7 @@ theorem K1525d_of_core_aux_sylow_map {G H : Type} [Group G] [Group H] (f : G →
 theorem K1525d_of_core_aux_sylow_inf {G : Type} [Group G] [Finite G] {P L : Subgroup G}
     (hP : CFSG.QuasithinUnique.IsSylowTwoOf P ⊤) (hN : P ≤ Subgroup.normalizer (L : Set G)) :
     CFSG.QuasithinUnique.IsSylowTwoOf ((P ⊓ L).subgroupOf L) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : CFSG.ABGLocalTools.IsSylowOf 2 P ⊤ :=
     CFSG.ABGLocalTools.isSylowOf_iff.mpr ⟨le_top, hP.2.1, hP.2.2⟩
   have h2 : CFSG.ABGLocalTools.IsSylowOf 2 P (P ⊔ L) := h1.of_le le_sup_left le_top
@@ -114,14 +114,14 @@ theorem K1525d_of_core_aux_chev {G : Type} [Group G] {L : Subgroup G}
     (hiso : Nonempty (↥L ≃* alternatingGroup (Fin 8)) ∨ IsL5Two ↥L) :
     IsChevTwo (↥L ⧸ Subgroup.center ↥L) := by
   rcases hiso with ⟨⟨e⟩⟩ | ⟨d, ⟨q, hq2, hd⟩, ⟨e⟩⟩
-  · haveI : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
-    haveI : IsSimpleGroup ↥L := e.isSimpleGroup
+  · have : IsSimpleGroup (alternatingGroup (Fin 8)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup ↥L := e.isSimpleGroup
     exact K1525d_of_core_aux_chevTwo_quot (K1525d_of_core_aux_center_eq_bot hq)
       (Or.inr (Or.inl ⟨8, Or.inr (Or.inr rfl), ⟨e⟩⟩))
   · obtain ⟨e5⟩ := CFSG.AGLEmbeddingD2.McLaughlin.nonempty_equiv_G52_of_isL5Two
       (⟨d, ⟨q, hq2, hd⟩, ⟨e⟩⟩ : IsL5Two ↥L)
-    haveI : IsSimpleGroup (GL (Fin 5) (ZMod 2)) := CFSG.GroupTheory.GL52.isSimpleGroup_G52
-    haveI : IsSimpleGroup ↥L := e5.isSimpleGroup
+    have : IsSimpleGroup (GL (Fin 5) (ZMod 2)) := CFSG.GroupTheory.GL52.isSimpleGroup_G52
+    have : IsSimpleGroup ↥L := e5.isSimpleGroup
     have hdvd : q.p ∣ 2 := by
       rw [← hq2, TauCeti.PrimePower.card_def]
       exact dvd_pow_self q.p (Nat.ne_of_gt q.exponent_pos)

@@ -18,6 +18,7 @@ theorem w183b2_card_image_mk {L : Type} [Group L] [Finite L] (N S : Subgroup L) 
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem w183b2_pq_ne {P Q M₁ M₂ K : Subgroup G} [(K.subgroupOf (P ⊔ Q)).Normal]
     (hPM : P ≤ M₁) (hnot : ¬ Q ≤ M₁)
     (hK : (K : Set G) = ((Q ⊓ M₁ : Subgroup G) : Set G) * ((P ⊓ M₂ : Subgroup G) : Set G)) :
@@ -39,7 +40,7 @@ theorem w183b2_pq_ne {P Q M₁ M₂ K : Subgroup G} [(K.subgroupOf (P ⊔ Q)).No
     have h1 := Subgroup.mem_subgroupOf.1 hconj
     have h2 : ((p' * (p'⁻¹ * (⟨q, hqL⟩ : ↥(P ⊔ Q))) * p'⁻¹ : ↥(P ⊔ Q)) : G) =
         q * (p' : G)⁻¹ := by
-      simp [mul_assoc]
+      simp
     rwa [h2] at h1
   have hqp' : q * (p' : G)⁻¹ ∈ (K : Set G) := hqp
   rw [hK] at hqp'
@@ -60,6 +61,7 @@ theorem w183b2_pq_ne {P Q M₁ M₂ K : Subgroup G} [(K.subgroupOf (P ⊔ Q)).No
   rw [hq_eq]
   exact M₁.mul_mem (Subgroup.mem_inf.1 hu').2 (hPM hwpP)
 
+omit [Finite G] in
 theorem w183b2_pq_card_conj {P Q K : Subgroup G} [(K.subgroupOf (P ⊔ Q)).Normal]
     (hconj : ∃ l ∈ P ⊔ Q, Q = conjSubgroup P l) :
     Nat.card ((Q.subgroupOf (P ⊔ Q)).map (QuotientGroup.mk' (K.subgroupOf (P ⊔ Q)))) =

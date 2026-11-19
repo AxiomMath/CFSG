@@ -38,7 +38,7 @@ theorem uc22s218u_model {r : ℕ} (hr : r.Prime) (hrK : r ∣ Nat.card K - 1) :
       ∃ Y : Subgroup (StatedProj (StatedSp 2 K)),
         Y ≤ centralizer ((zpowers x : Subgroup (StatedProj (StatedSp 2 K))) : Set (StatedProj (StatedSp 2 K))) ∧
           Nonempty (↥Y ≃* SL(2, K)) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨β, hβ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) r (by rw [Nat.card_units]; exact hrK)
   let lam0 : SL(2, K) →* StatedProj (StatedSp 2 K) :=
     (proj 2 K).comp (CFSG.LocalAnalysis.ComponentInitial.SymplecticTorusWeyl.lam (0 : Fin 2))
@@ -66,7 +66,7 @@ theorem uc22s218u_exists_sp4 {n r : ℕ} (hX : IsSp4 X n) (hn : 2 ≤ n) {U : Su
       Y ≤ centralizer ((zpowers x : Subgroup X) : Set X) ∧ IsL2 ↥Y n ∧
         Nat.card Y = 2 ^ n * ((2 ^ n) ^ 2 - 1) := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide)
-  haveI : CharP K 2 := uc22pwlie_charP_two hK
+  have : CharP K 2 := uc22pwlie_charP_two hK
   obtain ⟨φ, rfl⟩ := uc22p218c_exists_mulEquiv_map e hU
   obtain ⟨x, hx, hxo, Y, hY, ⟨f⟩⟩ := uc22s218u_model (K := K) hr (by rw [hK]; exact hrn)
   refine ⟨φ x, ?_, by rw [MulEquiv.orderOf_eq, hxo], Y.map φ.toMonoidHom, ?_, ?_, ?_⟩
@@ -79,7 +79,7 @@ theorem uc22s218u_exists_sp4 {n r : ℕ} (hX : IsSp4 X n) (hn : 2 ≤ n) {U : Su
     have h1 := congrArg φ (mem_centralizer_iff.1 (hY hy) (x ^ k) (zpow_mem (mem_zpowers x) k))
     rw [map_mul, map_mul, map_zpow] at h1
     exact h1
-  · haveI := Fintype.ofFinite K
+  · have := Fintype.ofFinite K
     exact CFSG.CGT.PushingUpLit.CGT6K1.lieModel_PSL_two_of_mulEquiv_SL_two hn
       (by rw [← Nat.card_eq_fintype_card]; exact hK)
       ((Y.equivMapOfInjective φ.toMonoidHom φ.injective).symm.trans f)
@@ -99,7 +99,7 @@ theorem uc22s218u_exists_lift {L : Subgroup G} {n r : ℕ} (hX : IsSp4 (Bar2 L) 
       ∀ q : ℕ, q.Prime → q ∣ 2 ^ n * ((2 ^ n) ^ 2 - 1) →
         ∃ z ∈ L ⊓ centralizer ((zpowers x : Subgroup G) : Set G), orderOf z = q := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hr2 : r ≠ 2 := uc22p218c_ne_two_of_dvd (by omega) hrn
   have hSb : IsSylowTwoOf ((Q : Subgroup ↥L).map (QuotientGroup.mk' (CFSG.pCore 2 ↥L)) : Subgroup (Bar2 L)) ⊤ :=
     isSylowTwoOf_sylow (Q.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥L)))
@@ -177,7 +177,7 @@ theorem uc22s218u_exists_lift {L : Subgroup G} {n r : ℕ} (hX : IsSp4 (Bar2 L) 
       (mem_centralizer_iff.1 (mem_inf.1 hc).1 (x' ^ k) (zpow_mem (mem_zpowers x') k))
     simpa using h1
   refine ⟨(x' : G), x'.2, hxN, by rw [Subgroup.orderOf_coe, hord], hsec, fun q hq hqd => ?_⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨zb, hzb⟩ := exists_prime_orderOf_dvd_card' (G := ↥Yb) q (by rw [hYc]; exact hqd)
   obtain ⟨z₀, hz₀C, hz₀e⟩ := mem_map.1 (hYC zb.2)
   have h1 : q ∣ orderOf z₀ := by
@@ -197,15 +197,15 @@ theorem uc22s218u_exists_trivial_action (D : Data G) (Ch : Choice2011 G) (h211 :
     (hp : p.Prime) (hp2 : p ≠ 2) (hsp : IsStronglyPEmbedded p D.M) (h3 : 3 ≤ CFSG.Open.pRank p D.M) :
     ∃ y ∈ D.M, orderOf y = p ∧ ∀ l ∈ L, y * l * y⁻¹ * l⁻¹ ∈ pCoreOf 2 L := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set ρ : ↥D.M →* MulAut (Bar2 L) := (rhoL L).comp (inclusion hML) with hρ
   set ψ : ↥D.M →* Outer (Bar2 L) :=
     (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner (Bar2 L))).comp ρ with hψ
   have hcomm : ∀ a b : Outer (Bar2 L), a * b = b * a := by
-    haveI := CFSG.Quasithin.H13.KGInsp4316.outer_cyclic_psp4
+    have := CFSG.Quasithin.H13.KGInsp4316.outer_cyclic_psp4
       (CFSG.Blueprint.LieModel.statedClassicalModel hX (by decide))
-    letI : CommGroup (Outer (Bar2 L)) := IsCyclic.commGroup
+    let : CommGroup (Outer (Bar2 L)) := IsCyclic.commGroup
     exact mul_comm
   have hψp : ¬ p ∣ Nat.card ψ.range := by
     intro hdvd

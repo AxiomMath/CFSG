@@ -28,7 +28,7 @@ theorem kgLangTorusDatumCont_of_models {p : ℕ} (hp : p.Prime) {R : Type} [Grou
             ∃ e ∈ M, e ≠ 1 ∧ e ^ p = 1 ∧ α₀ e = e) :
     KGLangTorusDatumCont p R I F := by
   intro hfin θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I
-  haveI := hfin
+  have := hfin
   obtain ⟨J, S, hJI, hJS, hN, hcycS, hpS⟩ := hcyc
   have hα₀J : kgInducedAut θ α₀ ∉ J := by
     intro h

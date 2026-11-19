@@ -124,7 +124,7 @@ theorem orL_bool (l : List Bool) : orL boolOps l = l.any id := by
 
 theorem stabT_bits (A : M3) (om : List Pt) (hom : ∀ u ∈ om, PtOK u) :
     stabT boolOps (mtab boolOps (bits A) om) = stabOf (om.map ptOf) ((om.map ptOf).map (mulV A)) := by
-  simp only [stabT, mtab, stabOf, andL_bool, orL_bool, List.all_map, List.any_map, List.map_map]
+  simp only [stabT, mtab, stabOf, andL_bool, List.all_map, List.any_map, List.map_map]
   apply all_congr'
   intro u hu
   simp only [Function.comp]
@@ -151,7 +151,7 @@ theorem detL_six (A : M3) : Light.detL A =
       (A.a02 * (A.a11 * A.a20) + A.a01 * (A.a10 * A.a22) + A.a00 * (A.a12 * A.a21)) := by
   have hs : ∀ a b : F4, a - b = a + b := fun _ _ => rfl
   have hn : ∀ a : F4, -a = a := fun _ => rfl
-  simp only [Light.detL, hs, hn]
+  simp only [Light.detL, hs]
   ring
 
 theorem det_toL (A : M3) : CFSG.Quasithin.H13.L34.M3.det (toL A) = (Light.detL A).code := by

@@ -249,7 +249,7 @@ theorem datumFacts_all {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (lab : LargeEven
 theorem t2021RankFact_holds : T2021RankFact := by
   classical
   intro H _ _ p 𝔅 _ _ ψ b hp hp2 _ hexp hcomm hTD4 hrank hF
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases hF with hM | ⟨h3, hT4, -⟩
   swap
   · exact absurd ⟨h3, hT4⟩ hTD4
@@ -264,8 +264,8 @@ theorem t2021RankFact_holds : T2021RankFact := by
       inv_mem' := fun ha => hIinv _ ha }
   have hu₀J : u₀ ∈ J := hu₀I
   have hf₀J : f₀ ∉ J := hFI f₀ hf₀F hf₀p
-  haveI : Finite R := Finite.of_equiv _ θ.toEquiv
-  haveI : Finite (MulAut R) := Finite.of_injective (fun φ : MulAut R => (φ : R → R)) DFunLike.coe_injective
+  have : Finite R := Finite.of_equiv _ θ.toEquiv
+  have : Finite (MulAut R) := Finite.of_injective (fun φ : MulAut R => (φ : R → R)) DFunLike.coe_injective
   let ρ : 𝔅 →* MulAut R := (autR p θ).comp ψ
   have hρind : ∀ g, GLAInduces θ (relOfAut p (ψ g)) (ρ g) := fun g =>
     (induces_iff θ (ψ g) (ρ g)).2 rfl

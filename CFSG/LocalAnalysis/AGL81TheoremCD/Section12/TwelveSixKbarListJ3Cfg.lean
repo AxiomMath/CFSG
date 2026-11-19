@@ -209,7 +209,7 @@ theorem false_of_j3 (hJS : CFSG.AGLEmbedding.KFactJ3Sylow)
       have := Nat.le_of_dvd Nat.card_pos hd
       omega
   have hTK : T' ≤ K := fun t ht => by
-    obtain ⟨n, hn⟩ := T.isPGroup' ⟨t, ht⟩
+    obtain ⟨n, hn⟩ := T.isPGroup ⟨t, ht⟩
     have h := CFSG.AGLEmbedding.mem_sup_centralizer_of_pow Nat.prime_three hOut3 (x := t)
       (n := n) (by simpa using congrArg Subtype.val hn)
     rwa [hC, sup_bot_eq] at h
@@ -260,7 +260,7 @@ theorem false_of_j3 (hJS : CFSG.AGLEmbedding.KFactJ3Sylow)
     intro t W hW hinv hcent
     have htT : t ∈ T' :=
       hI.centralizer_center (Subgroup.mem_centralizer_iff.mpr fun x hx => (hcent x hx).symm)
-    obtain ⟨n, hn⟩ := T.isPGroup' ⟨t, htT⟩
+    obtain ⟨n, hn⟩ := T.isPGroup ⟨t, htT⟩
     exact false_of_inv_of_pow hW hinv (by simpa using congrArg Subtype.val hn)
   rcases IsE27InvConfig.exists_centralizes_of_invariant hcfg hZV hZne hZt with h | h | h
   · exact hkey hcfg.card₁ hcfg.inv₁ h

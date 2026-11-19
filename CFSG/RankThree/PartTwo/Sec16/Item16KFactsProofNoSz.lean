@@ -182,7 +182,7 @@ theorem eq_one_of_pow_five_of_card (hT : Nat.card T = 72) {σ : MulAut T} (hσ :
   have hnd : ∀ (p : ℕ) [Fact p.Prime] (P : Sylow p T), ¬ p ∣ (P : Subgroup T).index :=
     fun p _ P => P.not_dvd_index
   have hpg : ∀ (p : ℕ) [Fact p.Prime] (P : Sylow p T), ∃ k, Nat.card (P : Subgroup T) = p ^ k :=
-    fun p _ P => IsPGroup.iff_card.mp P.isPGroup'
+    fun p _ P => IsPGroup.iff_card.mp P.isPGroup
   have h3card : ∀ P : Sylow 3 T, Nat.card (P : Subgroup T) = 9 := by
     intro P
     obtain ⟨k, hk⟩ := hpg 3 P

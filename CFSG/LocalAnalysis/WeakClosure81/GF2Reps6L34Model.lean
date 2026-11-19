@@ -23,7 +23,7 @@ theorem exists_rep
     rw [h]
     exact (S.subgroupOf R).one_mem
   have hb2 : b ^ 2 = 1 := by rw [pow_two]; exact hB2 b hbB
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hbord : orderOf b = 2 := orderOf_eq_prime hb2 hb1
   rcases (orderOf_eq_two_iff b).1 hbord with hbconj | hbconj | hbconj | hbconj
   · exact absurd (mem_S_of_isConj₁ hbconj) hbS'
@@ -229,7 +229,7 @@ private theorem false_of_mul_r₄_eq_mul_of_commute
 theorem eq_one_or_eq_r₂
     {r : Equiv.Perm (Fin 42)} (hr : r ∈ R) (h2 : r * r = 1) (hc : r * r₂ = r₂ * r)
     (hC : ∀ c ∈ C₂, r * c = c * r) : r = 1 ∨ r = r₂ := by
-  haveI : IsSimpleGroup C₂ := isSimpleGroup_C₂
+  have : IsSimpleGroup C₂ := isSimpleGroup_C₂
   obtain ⟨c, hcC, hrc⟩ := exists_mem_C₂_of_commute_r₂ hr hc
   have hcS : c ∈ S := (Subgroup.mem_inf.mp hcC).2
   have h32 : r₃ * r₂ = r₄ := CFSG.ComponentClassification.TBLit.L34FU.r₂_mul_r₃.symm
@@ -264,7 +264,7 @@ theorem eq_one_or_eq_r₂
 theorem eq_one_or_eq_r₃
     {r : Equiv.Perm (Fin 42)} (hr : r ∈ R) (h2 : r * r = 1) (hc : r * r₃ = r₃ * r)
     (hC : ∀ c ∈ C₃, r * c = c * r) : r = 1 ∨ r = r₃ := by
-  haveI : IsSimpleGroup C₃ := isSimpleGroup_C₃
+  have : IsSimpleGroup C₃ := isSimpleGroup_C₃
   obtain ⟨c, hcC, hrc⟩ := exists_mem_C₃_of_commute_r₃ hr hc
   have hcS : c ∈ S := (Subgroup.mem_inf.mp hcC).2
   have h23 : r₂ * r₃ = r₄ := rfl

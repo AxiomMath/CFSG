@@ -13,14 +13,14 @@ theorem dvd_card_quotient_center_of_quasisimple {Q : Type*} [Group Q] [Finite Q]
     (hQ : IsQuasisimple Q) {p : ℕ} (hp : p.Prime) (hdvd : p ∣ Nat.card Q) :
     p ∣ Nat.card (Q ⧸ Subgroup.center Q) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hndvd
   have hcop : Nat.Coprime p (Nat.card (Q ⧸ Subgroup.center Q)) :=
     (Nat.Prime.coprime_iff_not_dvd hp).2 hndvd
   set Z := Subgroup.center Q with hZ
   let S : Sylow p Q := Sylow.nonempty.some
   have hSmap : ((S : Subgroup Q).map (QuotientGroup.mk' Z)) = ⊥ := by
-    have hSp : IsPGroup p ((S : Subgroup Q).map (QuotientGroup.mk' Z)) := S.isPGroup'.map (QuotientGroup.mk' Z)
+    have hSp : IsPGroup p ((S : Subgroup Q).map (QuotientGroup.mk' Z)) := S.isPGroup.map (QuotientGroup.mk' Z)
     have hSdvd : Nat.card ↥((S : Subgroup Q).map (QuotientGroup.mk' Z)) ∣ Nat.card (Q ⧸ Z) :=
       Subgroup.card_subgroup_dvd_card _
     have hnotdvd : ¬ p ∣ Nat.card ↥((S : Subgroup Q).map (QuotientGroup.mk' Z)) := fun h =>

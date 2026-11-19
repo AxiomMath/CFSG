@@ -79,7 +79,7 @@ theorem exists_conj_torus3_of_isHall {D : Subgroup (SpecialLinearGroup (Fin 3) K
   obtain ⟨hDB, hDodd, k, hk⟩ := hD
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := exists_sylow_unitriangular (K := K) 2 (n := 3) (by norm_num)
-  have hU2 : IsPGroup 2 (unitriangular 3 K) := hP ▸ P.isPGroup'
+  have hU2 : IsPGroup 2 (unitriangular 3 K) := hP ▸ P.isPGroup
   have hUB : unitriangular 3 K ≤ upperTriangular 3 K := unitriangular_le_upperTriangular 3 K
   have hBN : upperTriangular 3 K ≤
       Subgroup.normalizer (unitriangular 3 K : Set (SpecialLinearGroup (Fin 3) K)) :=

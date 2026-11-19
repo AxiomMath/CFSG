@@ -31,7 +31,7 @@ private lemma l02qu7_E_isElemAbelian
     (fun b => Subtype.ext (by simpa using hAb.2 b b.2)) hcomp
 
 private lemma l02qu7_E_subset_I
-    {G : Type} [Group G] [Finite G] {p : ℕ} {Bs : Subgroup G}
+    {G : Type} [Group G] [Finite G] {_p : ℕ} {Bs : Subgroup G}
     {L : Subgroup G} (hN : Bs ≤ Subgroup.normalizer (L : Set G))
     {R : Type} [Group R] {I : Set (MulAut R)}
     (θ : L ⧸ Subgroup.center L ≃* R)
@@ -57,7 +57,7 @@ private lemma l02qu7_E_subset_I
     obtain ⟨l, rfl⟩ := QuotientGroup.mk_surjective y
     have hrel : ((ggGamma L hN c l : L) : G) = (c⁻¹)⁻¹ * (l : G) * c⁻¹ := by
       rw [ggGamma_coe]
-      simp [Subgroup.coe_inv]
+      simp
     have h1 := hφ l (ggGamma L hN c l) hrel
     rw [ggInducedAut_apply]
     exact h1.symm
@@ -151,7 +151,7 @@ theorem q1TorUni_config :
     have hEI : ∀ a ∈ (ggGamma L hN).range.map (ggInducedAut θ),
         a ∈ LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin (lab.rank + 1)) K (2 ^ lab.n)))
           (LargeEvenGUSet (Fin (lab.rank + 1)) K (2 ^ lab.n)) :=
-      l02qu7_E_subset_I (p := p) hN θ hact
+      l02qu7_E_subset_I (_p := p) hN θ hact
     have hpd : p ∣ lab.rank + 1 := hS.2.1.trans (Nat.gcd_dvd_left _ _)
     have hr : p ^ ((lab.rank + 1) - 3) ≤
         Nat.card ((ggGamma L hN).range.map (ggInducedAut θ)) := by

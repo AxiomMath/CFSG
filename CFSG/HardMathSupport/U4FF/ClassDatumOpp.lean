@@ -123,7 +123,7 @@ theorem X_normJconj {X Us : Subgroup (G4 K n)} {m : G4 K n}
         = jSU K n * x * (jSU K n * jSU K n) * q * (jSU K n * jSU K n) * x⁻¹ * jSU K n := by
           rw [hJ]; group
       _ = _ := by
-          simp only [_root_.mul_inv_rev, inv_inv, jSU_inv]
+          simp only [_root_.mul_inv_rev, jSU_inv]
           group
   rw [hyq]
   have e : y = m⁻¹ * (m * y * m⁻¹) * m := by group
@@ -142,7 +142,7 @@ theorem Jconj_normJconj {X Us : Subgroup (G4 K n)}
   have hJ := jSU_mul_self (K := K) (n := n)
   have e : jSU K n * (y * q * y⁻¹) * jSU K n =
       (jSU K n * y * jSU K n) * (jSU K n * q * jSU K n) * (jSU K n * y * jSU K n)⁻¹ := by
-    simp only [_root_.mul_inv_rev, inv_inv, jSU_inv]
+    simp only [_root_.mul_inv_rev, jSU_inv]
     calc jSU K n * (y * q * y⁻¹) * jSU K n
         = jSU K n * y * (jSU K n * jSU K n) * q * (jSU K n * jSU K n) * y⁻¹ * jSU K n := by
           rw [hJ]; group
@@ -175,7 +175,7 @@ theorem H_normJconj {Us : Subgroup (G4 K n)}
   have hJ := jSU_mul_self (K := K) (n := n)
   have e : jSU K n * (h * q * h⁻¹) * jSU K n =
       (jSU K n * h * jSU K n) * (jSU K n * q * jSU K n) * (jSU K n * h * jSU K n)⁻¹ := by
-    simp only [_root_.mul_inv_rev, inv_inv, jSU_inv]
+    simp only [_root_.mul_inv_rev, jSU_inv]
     calc jSU K n * (h * q * h⁻¹) * jSU K n
         = jSU K n * h * (jSU K n * jSU K n) * q * (jSU K n * jSU K n) * h⁻¹ * jSU K n := by
           rw [hJ]; group
@@ -215,7 +215,7 @@ theorem n0_conjY0 (hK : Nat.card K = (2 ^ n) ^ 2) {y : G4 K n} (hy : y ∈ Jconj
   ext i j
   rw [gm_conj_s0, gm_entry_via_J, hc]
   fin_cases i <;> fin_cases j <;>
-    simp [x0Mat, pA_zero, pA_one, pA_two, pA_three, rev0, rev1, rev2, rev3, pow_pow_of_card hK]
+    simp [x0Mat, pA_zero, pA_one, pA_two, pA_three, rev1, rev2, rev3, pow_pow_of_card hK]
 
 theorem n1_conjY1 {y : G4 K n} (hy : y ∈ Jconj K n (X1 K n)) :
     nHom K n s1 * y * (nHom K n s1)⁻¹ ∈ X1 K n := by
@@ -224,7 +224,7 @@ theorem n1_conjY1 {y : G4 K n} (hy : y ∈ Jconj K n (X1 K n)) :
   ext i j
   rw [gm_conj_s1, gm_entry_via_J, hc]
   fin_cases i <;> fin_cases j <;>
-    simp [x1Mat, pB_zero, pB_one, pB_two, pB_three, rev0, rev1, rev2, rev3]
+    simp [x1Mat, pB_zero, pB_one, pB_two, pB_three, rev1, rev2, rev3]
 
 end ConjY
 
@@ -232,19 +232,23 @@ section NWConj
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 
+omit [Finite K] [CharP K 2] in
 theorem x0Mat_apply_of_ne (c : K) (a b : Fin 4) (hab : a ≠ b) (h1 : ¬(a = 0 ∧ b = 1))
     (h2 : ¬(a = 2 ∧ b = 3)) : x0Mat n c a b = 0 := by
   revert hab h1 h2
   fin_cases a <;> fin_cases b <;> simp [x0Mat]
 
+omit [Finite K] [CharP K 2] in
 theorem x1Mat_apply_of_ne (c : K) (a b : Fin 4) (hab : a ≠ b) (h1 : ¬(a = 1 ∧ b = 2)) :
     x1Mat c a b = 0 := by
   revert hab h1
   fin_cases a <;> fin_cases b <;> simp [x1Mat]
 
+omit [Finite K] [CharP K 2] in
 theorem x0Mat_diag (c : K) (a : Fin 4) : x0Mat n c a a = 1 := by
   fin_cases a <;> simp [x0Mat]
 
+omit [Finite K] [CharP K 2] in
 theorem x1Mat_diag (c : K) (a : Fin 4) : x1Mat c a a = 1 := by
   fin_cases a <;> simp [x1Mat]
 

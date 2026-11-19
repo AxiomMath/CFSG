@@ -10,6 +10,7 @@ open CFSG.Timmesfeld CFSG.Timmesfeld.Bridge CFSG.Timmesfeld.Bridge.Asc72
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 theorem eq_of_commute_of_widthOne (hS : Setup G D) (hW : WidthOne D) {u v : G}
     (hu : u ∈ D) (hv : v ∈ D) (hc : Commute u v) : u = v := by
   classical
@@ -54,11 +55,11 @@ theorem index_oddCore_eq_two_of_widthOne (hS : Setup G D) (hW : WidthOne D) :
   obtain ⟨d, hd⟩ := hS.nonempty
   have hd1 : d ≠ 1 := hS.oddT.ne_one hd
   have hd2 : d * d = 1 := hS.oddT.mul_self_eq_one hd
-  haveI : Fintype G := Fintype.ofFinite G
+  have : Fintype G := Fintype.ofFinite G
   have hiso : ∀ g : G, (g * d * g⁻¹) * d = d * (g * d * g⁻¹) → g * d * g⁻¹ = d :=
     fun g hc => eq_of_commute_of_widthOne hS hW (hS.conj_mem g hd) hd hc
   obtain ⟨N, hNn, hNodd, hNz⟩ := CFSG.ZStar.glauberman_zStar G d hd1 hd2 hiso
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   have hNO : N ≤ CFSG.oddCore G := le_sSup ⟨hNn, hNodd⟩
   have hcentN : QuotientGroup.mk' N d ∈ Subgroup.center (G ⧸ N) := by
     rw [Subgroup.mem_center_iff]

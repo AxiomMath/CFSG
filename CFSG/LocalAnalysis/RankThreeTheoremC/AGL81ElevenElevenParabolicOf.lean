@@ -46,8 +46,8 @@ private theorem not_isCyclic_of_two_le_pRank {X : Type} [Group X] [Finite X] {p 
     {A : Subgroup X} (hA : 2 ≤ Open.pRank p A) : ¬ IsCyclic ↥A := by
   intro hcyc
   obtain ⟨E, hEA, hE, hEc⟩ := exists_isElemAbelian_card_sq_of_two_le_pRank hp hA
-  haveI : IsCyclic (E.subgroupOf A) := inferInstance
-  haveI : IsCyclic ↥E :=
+  have : IsCyclic (E.subgroupOf A) := inferInstance
+  have : IsCyclic ↥E :=
     isCyclic_of_surjective (Subgroup.subgroupOfEquivOfLe hEA).toMonoidHom
       (Subgroup.subgroupOfEquivOfLe hEA).surjective
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥E)
@@ -57,6 +57,7 @@ private theorem not_isCyclic_of_two_le_pRank {X : Type} [Group X] [Finite X] {p 
   rw [h1, hEc] at h3
   nlinarith [hp.two_le]
 
+omit [Finite G] in
 theorem commutator_le_pCoreOf_of_forall {M L A : Subgroup G} (hLM : L ≤ M) (hAM : A ≤ M)
     (hMn : M ≤ Subgroup.normalizer (L : Set G))
     (hc : ∀ b ∈ A, ∀ l ∈ L, b * l * b⁻¹ * l⁻¹ ∈ pCoreOf 2 M) : ⁅A, L⁆ ≤ pCoreOf 2 L := by
@@ -67,6 +68,7 @@ theorem commutator_le_pCoreOf_of_forall {M L A : Subgroup G} (hLM : L ≤ M) (hA
   have hal : a * l * a⁻¹ ∈ L := (Subgroup.mem_normalizer_iff.mp (hMn (hAM ha)) l).mp hl
   exact L.mul_mem hal (L.inv_mem hl)
 
+omit [Finite G] in
 theorem barHom_injective_of_isPGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M A : Subgroup G}
     (hAM : A ≤ M) (hA : IsPGroup p A) : Function.Injective (barHom M A hAM) := by
   rw [injective_iff_map_eq_one]
@@ -85,8 +87,8 @@ theorem barHom_injective_of_isPGroup {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M
 
 theorem pRank_barM_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M : Subgroup G}
     (Y : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)) : Open.pRank p Y ≤ Open.pRank p M := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : ¬ p ∣ Nat.card (CFSG.pCore 2 ↥M) := by
     obtain ⟨k, hk⟩ := (CFSG.pCore_isPGroup (p := 2) (G := ↥M)).exists_card_eq
     rw [hk]
@@ -97,6 +99,7 @@ theorem pRank_barM_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {M : Subgroup G}
     _ = Open.pRank p (⊤ : Subgroup ↥M) := CFSG.SectionRank.pRank_quotient_eq _ hN
     _ = Open.pRank p M := (CFSG.SectionRank.pRank_eq_pRank_top_subgroup M).symm
 
+omit [Finite G] in
 theorem irred_transfer_barM {M H A : Subgroup G} (hAM : A ≤ M)
     (hNA : H ⊓ Subgroup.normalizer (A : Set G) ≤ M) (e : ↥A ≃* ↥(barM M A))
     (he : ∀ a : ↥A, ((e a : ↥(barM M A)) : ↥M ⧸ CFSG.pCore 2 ↥M) =
@@ -162,6 +165,7 @@ theorem pRank_le_three_of_escape {p : ℕ} {P : Sylow p G} {M H Q : Subgroup G}
   have h := pRank_inf_le_three_of_setting hS hesc.prime hesc.ne_two hesc.maxTwoLocal_M.1 M
   rwa [inf_idem] at h
 
+omit [Finite G] in
 theorem quot_comm_of_comm_mem {I : Subgroup G}
     (h : ∀ u ∈ I, ∀ v ∈ I, u * v * u⁻¹ * v⁻¹ ∈ pCoreOf 2 I) (a b : ↥I ⧸ CFSG.pCore 2 ↥I) :
     a * b = b * a := by
@@ -183,7 +187,7 @@ theorem exists_comm_not_mem_pCoreOf_of_cZero {X I : Subgroup G} (hI : I ∈ cZer
   push Not at hcon
   have hc := quot_comm_of_comm_mem hcon
   rcases hI.shape with h | ⟨-, hb⟩
-  · haveI := h.component.2.2.2
+  · have := h.component.2.2.2
     have hcen : Subgroup.center ↥(barM I I) = ⊤ := by
       rw [eq_top_iff]
       intro a _
@@ -196,7 +200,7 @@ theorem exists_comm_not_mem_pCoreOf_of_cZero {X I : Subgroup G} (hI : I ∈ cZer
     apply hab
     rw [QuotientGroup.eq, hcen]
     exact Subgroup.mem_top _
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨q, hq⟩ := exists_prime_orderOf_dvd_card' 3 (IsSymThreeOrSUThreeTwo.three_dvd_card hb)
     have hcl := IsSymThreeOrSUThreeTwo.closure_two kFactSUThreeTwoShape_holds hb
     have key : ∀ x ∈ Subgroup.closure {x : ↥I ⧸ CFSG.pCore 2 ↥I | ∃ k : ℕ, x ^ (2 ^ k) = 1},
@@ -219,6 +223,7 @@ theorem exists_comm_not_mem_pCoreOf_of_cZero {X I : Subgroup G} (hI : I ∈ cZer
     have h32 : 3 ∣ 2 := Nat.prime_three.dvd_of_dvd_pow h3
     omega
 
+omit [Finite G] in
 theorem comm_mem_pCoreOf_of_bar {M X I : Subgroup G} (hXM : X ≤ M) (hIX : I ≤ X) {u v : G}
     (hu : u ∈ I) (hv : v ∈ I)
     (h : QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨u, hXM (hIX hu)⟩ *
@@ -226,7 +231,7 @@ theorem comm_mem_pCoreOf_of_bar {M X I : Subgroup G} (hXM : X ≤ M) (hIX : I �
         (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨u, hXM (hIX hu)⟩)⁻¹ *
         (QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨v, hXM (hIX hv)⟩)⁻¹ ∈ pCoreOf 2 (barM M X)) :
     u * v * u⁻¹ * v⁻¹ ∈ pCoreOf 2 I := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hIM : I ≤ M := hIX.trans hXM
   let ρ : ↥I →* ↥M ⧸ CFSG.pCore 2 ↥M :=
     (QuotientGroup.mk' (CFSG.pCore 2 ↥M)).comp (Subgroup.inclusion hIM)
@@ -373,7 +378,7 @@ theorem agl81ElevenElevenParabolicGen_of_na (hC : AGL81TenThreeThreeCasesCfg G)
   obtain ⟨H₁, R₁, hesc⟩ := hd.escape
   have hp : p.Prime := hesc.prime
   have hp2 : p ≠ 2 := hesc.ne_two
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set A := d1LiftX p H Q K with hAdef
   have hAQ : A ≤ Q := d1LiftX_le p H Q K
   have hAH : A ≤ H := hAQ.trans hd.le_H
@@ -383,7 +388,7 @@ theorem agl81ElevenElevenParabolicGen_of_na (hC : AGL81TenThreeThreeCasesCfg G)
     intro k hk
     by_contra hk1
     have hcen : Subgroup.center ↥K = ⊤ := by
-      haveI := hlist.1
+      have := hlist.1
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center ↥K) with h | h
       · exfalso
         apply hk1
@@ -391,12 +396,12 @@ theorem agl81ElevenElevenParabolicGen_of_na (hC : AGL81TenThreeThreeCasesCfg G)
         rw [h] at this
         exact Subgroup.mem_bot.mp this
       · exact h
-    letI : CommGroup ↥K :=
+    let : CommGroup ↥K :=
       { (inferInstance : Group ↥K) with
         mul_comm := fun a b => by
           have := Subgroup.mem_center_iff.mp (hcen ▸ Subgroup.mem_top a) b
           exact this.symm }
-    haveI := hlist.1
+    have := hlist.1
     have hprime := IsSimpleGroup.prime_card (α := ↥K)
     obtain ⟨E, hEK, hE, hEc⟩ := exists_isElemAbelian_card_sq_of_two_le_pRank hp hrk
     have hdvd : p ^ 2 ∣ Nat.card K := hEc ▸ Subgroup.card_dvd_of_le hEK
@@ -419,7 +424,7 @@ theorem agl81ElevenElevenParabolic_of_na (hC : AGL81TenThreeThreeCasesCfg G)
     (h91 : AGL81TenNineOneCfg G) : AGL81ElevenElevenParabolic G := by
   intro hS P M H Q K hd hA6 hnc L hL hLn hJX hAJ hNA hirr hodd
   have hp : (3 : ℕ).Prime := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   set A := d1LiftX 3 H Q K with hAdef
   obtain ⟨-, hAe, hAc⟩ := d1LiftX_facts_cfg hd hA6
   have hAc' : Nat.card A = 3 ^ 2 := by rw [hAc]; norm_num

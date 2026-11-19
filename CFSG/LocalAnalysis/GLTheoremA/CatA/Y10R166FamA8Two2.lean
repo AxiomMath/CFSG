@@ -119,7 +119,7 @@ private theorem sHomW_injective : Function.Injective sHomW := by
 
 private theorem card_SJW : Nat.card SJW = 2 ^ 6 := by
   rw [SJW, ← Nat.card_congr (MonoidHom.ofInjective sHomW_injective).toEquiv]
-  simp [Nat.card_fun, Nat.card_zmod, Nat.card_fin]
+  simp
 
 theorem pow_three_multiplicative_pi3 (u : Multiplicative (Fin 3 → ZMod 3)) : u ^ 3 = 1 := by
   apply Multiplicative.toAdd.injective
@@ -155,7 +155,7 @@ theorem isElemAbelian_BJW : IsElemAbelian 3 BJW :=
 
 theorem card_BJW : Nat.card BJW = 3 ^ 3 := by
   rw [BJW, ← Nat.card_congr (MonoidHom.ofInjective bHomW_injective).toEquiv]
-  simp [Nat.card_fun, Nat.card_zmod, Nat.card_fin]
+  simp
 
 @[expose] def extend23 (a : Fin 2 → ZMod 3) : Fin 3 → ZMod 3 :=
   fun i => if i = 0 then a 0 else if i = 1 then a 1 else 0
@@ -195,7 +195,7 @@ theorem EJW_le_BJW : EJW ≤ BJW := by
 theorem card_EJW : Nat.card EJW = 3 ^ 2 := by
   have hinj : Function.Injective (bHomW.comp eHom23) := bHomW_injective.comp eHom23_injective
   rw [EJW, ← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv]
-  simp [Nat.card_fun, Nat.card_zmod, Nat.card_fin]
+  simp
 
 theorem isPGroup_two_SJW : IsPGroup 2 SJW :=
   IsPGroup.of_card (n := 6) (by rw [card_SJW])
@@ -205,23 +205,19 @@ private def V5idx : W7 := Sum.inr (Sum.inr (Sum.inr (0 : Fin 1)))
 private theorem sPhiW_eq_single : sPhiW = Pi.single V5idx (1 : 𝔽₂) := by
   funext i
   rcases i with a | a | a | a
-  · simp [sPhiW, V5idx, Pi.single_apply]
-  · simp [sPhiW, V5idx, Pi.single_apply]
-  · simp [sPhiW, V5idx, Pi.single_apply]
+  · simp [sPhiW, V5idx]
+  · simp [sPhiW, V5idx]
+  · simp [sPhiW, V5idx]
   · fin_cases a
-    simp [sPhiW, V5idx, Pi.single_apply]
+    simp [sPhiW, V5idx]
 
 private theorem bMatW_V5 (a : Fin 3 → ZMod 3) (j : W7) : bMatW a V5idx j = sPhiW j := by
   rcases j with i | i | i | i
-  · simp [bMatW, V5idx, sPhiW, fromBlocks_apply₁₁, fromBlocks_apply₁₂,
-      fromBlocks_apply₂₁, fromBlocks_apply₂₂]
-  · simp [bMatW, V5idx, sPhiW, fromBlocks_apply₁₁, fromBlocks_apply₁₂,
-      fromBlocks_apply₂₁, fromBlocks_apply₂₂]
-  · simp [bMatW, V5idx, sPhiW, fromBlocks_apply₁₁, fromBlocks_apply₁₂,
-      fromBlocks_apply₂₁, fromBlocks_apply₂₂]
+  · simp [bMatW, V5idx, sPhiW, fromBlocks_apply₂₁]
+  · simp [bMatW, V5idx, sPhiW, fromBlocks_apply₂₁, fromBlocks_apply₂₂]
+  · simp [bMatW, V5idx, sPhiW, fromBlocks_apply₂₁, fromBlocks_apply₂₂]
   · fin_cases i
-    simp [bMatW, V5idx, sPhiW, Matrix.one_apply, fromBlocks_apply₁₁, fromBlocks_apply₁₂,
-      fromBlocks_apply₂₁, fromBlocks_apply₂₂]
+    simp [bMatW, V5idx, sPhiW, fromBlocks_apply₂₂]
 
 private theorem sPhiW_mul_bMatW_inv (a : Fin 3 → ZMod 3) :
     sPhiW ᵥ* bMatW (-a) = sPhiW := by

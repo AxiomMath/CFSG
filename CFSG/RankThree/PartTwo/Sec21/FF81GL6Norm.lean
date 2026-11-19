@@ -122,7 +122,7 @@ private theorem col_ne_col (σ : G6) {c c' : Fin 6} (hcc : c ≠ c') :
     rw [Matrix.mulVec_single_one, Matrix.mulVec_single_one]
     exact h
   have := congrFun (mulVec_injective_units σ h1) c
-  simp [Pi.single_apply, hcc] at this
+  simp [hcc] at this
 
 private theorem sp0_of_planes {σ : G6} {π : Fin 3 → Fin 3} (hinj : Function.Injective π)
     (h : ∀ i, (σ : Matrix (Fin 6) (Fin 6) (ZMod 2)) * dm i =
@@ -135,10 +135,10 @@ private theorem sp0_of_planes {σ : G6} {π : Fin 3 → Fin 3} (hinj : Function.
     simp [Bf_self]
   · by_cases h3 : c.val % 3 = c'.val % 3
     · have hp : pidx π c = pidx π c' := by simp [pidx, h3]
-      rw [if_pos ⟨h3, hcc⟩]
+      rw [ite_eq_left ⟨h3, hcc⟩]
       exact Bf_same (pidx_lt π c) (onPair_col h c) (hp ▸ onPair_col h c') (col_ne_zero σ c)
         (col_ne_zero σ c') (col_ne_col σ hcc)
-    · rw [if_neg (fun h' => h3 h'.1)]
+    · rw [ite_eq_right (fun h' => h3 h'.1)]
       have hp : pidx π c ≠ pidx π c' := by
         intro hp
         apply h3

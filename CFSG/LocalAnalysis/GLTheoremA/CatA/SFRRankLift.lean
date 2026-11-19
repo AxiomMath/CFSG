@@ -102,7 +102,7 @@ theorem exists_elemAb_fix_of_quotient {Q : Type*} [Group Q] [Finite Q]
     (hX : AutRankFour (Q ⧸ Subgroup.center Q)) (α : MulAut Q) (hα : α ^ 3 = 1) :
     ∃ E : Subgroup Q, E ≤ fixSubgroup α ∧ IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 4 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Z := Subgroup.center Q with hZdef
   set π : Q →* Q ⧸ Z := QuotientGroup.mk' Z with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective Z

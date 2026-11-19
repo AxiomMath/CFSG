@@ -19,7 +19,7 @@ theorem sylow_long_prime_card_eq_prime
     Nat.card S = p := by
   classical
   rcases hpCases with rfl | rfl
-  · letI : Fact (Nat.Prime 17) := ⟨by norm_num⟩
+  · let : Fact (Nat.Prime 17) := ⟨by norm_num⟩
     have hnot : ¬17 ∣ h := by
       intro hdvd
       have : 17 ∣ 497664 := hdvd.trans hdiv
@@ -45,7 +45,7 @@ theorem sylow_long_prime_card_eq_prime
     rw [S.card_eq_multiplicity, hPcard,
       hfactorization]
     norm_num
-  · letI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+  · let : Fact (Nat.Prime 19) := ⟨by norm_num⟩
     have hnot : ¬19 ∣ h := by
       intro hdvd
       have : 19 ∣ 497664 := hdvd.trans hdiv
@@ -89,10 +89,10 @@ theorem long_prime_normalizer_constraints
       C.relIndex N * N.index * p = Nat.card P := by
   classical
   dsimp
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : IsCyclic S :=
+  let : Fact p.Prime := ⟨hp⟩
+  let : IsCyclic S :=
     isCyclic_of_prime_card hScard
-  letI : IsMulCommutative S :=
+  let : IsMulCommutative S :=
     IsCyclic.isMulCommutative
   obtain ⟨u, huorder⟩ :=
     IsCyclic.exists_ofOrder_eq_natCard (α := S)
@@ -169,7 +169,7 @@ theorem long_prime_normalizer_constraints
         (Subgroup.centralizer_le_normalizer (S : Set P))
   have hCindex := C.index_mul_card
   rw [hCcard, ← hrel] at hCindex
-  letI : C.IsFiniteRelIndex N :=
+  let : C.IsFiniteRelIndex N :=
     Subgroup.isFiniteRelIndex_of_finiteIndex
   exact ⟨hrDvd,
     Nat.pos_of_ne_zero Subgroup.relIndex_ne_zero,

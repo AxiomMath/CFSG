@@ -29,6 +29,7 @@ namespace Cfg1667
 
 variable {M V W₁ W₂ : Subgroup G}
 
+omit [Finite G] in
 private theorem exists_mul_of_mem_sup {W₁ W₂ : Subgroup G}
     (hcomm : ∀ a ∈ W₁, ∀ b ∈ W₂, a * b = b * a) {v : G}
     (hv : v ∈ W₁ ⊔ W₂) : ∃ w₁ ∈ W₁, ∃ w₂ ∈ W₂, w₁ * w₂ = v := by
@@ -48,6 +49,7 @@ private theorem exists_mul_of_mem_sup {W₁ W₂ : Subgroup G}
     exact ⟨a₁⁻¹, W₁.inv_mem ha₁, a₂⁻¹, W₂.inv_mem ha₂,
       by rw [← mul_inv_rev a₂ a₁, hcomm a₁ ha₁ a₂ ha₂]⟩
 
+omit [Finite G] in
 private theorem mul_eq_mul_iff {W₁ W₂ : Subgroup G} (hinf : W₁ ⊓ W₂ = ⊥)
     {a₁ a₂ b₁ b₂ : G} (ha₁ : a₁ ∈ W₁) (ha₂ : a₂ ∈ W₂) (hb₁ : b₁ ∈ W₁) (hb₂ : b₂ ∈ W₂) :
     a₁ * a₂ = b₁ * b₂ ↔ a₁ = b₁ ∧ a₂ = b₂ := by
@@ -73,6 +75,7 @@ private theorem mul_eq_mul_iff {W₁ W₂ : Subgroup G} (hinf : W₁ ⊓ W₂ = 
   · rintro ⟨rfl, rfl⟩
     rfl
 
+omit [Finite G] in
 private theorem card_sup_of_commute_of_inf_eq_bot (L R : Subgroup G)
     (hcomm : ∀ x ∈ L, ∀ y ∈ R, x * y = y * x) (hinf : L ⊓ R = ⊥) :
     Nat.card (L ⊔ R : Subgroup G) = Nat.card L * Nat.card R := by
@@ -90,6 +93,7 @@ private theorem card_sup_of_commute_of_inf_eq_bot (L R : Subgroup G)
       exact ⟨(⟨x, hx⟩, ⟨y, hy⟩), Subtype.ext hxy⟩
   rw [← Nat.card_congr (Equiv.ofBijective f hf), Nat.card_prod]
 
+omit [Finite G] in
 theorem card_V (h : Cfg1667 M V W₁ W₂) : Nat.card V = 16 := by
   have hW₁V : W₁ ≤ V := by rw [← h.sup_eq]; exact le_sup_left
   have hW₂V : W₂ ≤ V := by rw [← h.sup_eq]; exact le_sup_right
@@ -100,15 +104,18 @@ theorem card_V (h : Cfg1667 M V W₁ W₂) : Nat.card V = 16 := by
   rw [h.sup_eq, h.card₁, h.card₂] at hcard
   simpa using hcard
 
+omit [Finite G] in
 theorem le_M (h : Cfg1667 M V W₁ W₂) : V ≤ M := by
   rw [← h.normalizer_eq]
   exact Subgroup.le_normalizer
 
+omit [Finite G] in
 private theorem conjSubgroup_sup (A B : Subgroup G) (g : G) :
     conjSubgroup (A ⊔ B) g = conjSubgroup A g ⊔ conjSubgroup B g := by
   unfold conjSubgroup
   exact Subgroup.map_sup A B _
 
+omit [Finite G] in
 theorem conj (h : Cfg1667 M V W₁ W₂) (g : G) :
     Cfg1667 (conjSubgroup M g) (conjSubgroup V g) (conjSubgroup W₁ g) (conjSubgroup W₂ g) := by
   refine ⟨E3.isElemAbelian_conjSubgroup h.elemAbelian g, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
@@ -171,6 +178,7 @@ theorem conj (h : Cfg1667 M V W₁ W₂) (g : G) :
 
 end Cfg1667
 
+omit [Finite G] in
 theorem inCalO_bot_swap {n : ℕ} {M V : Subgroup G} {g : G} (h : InCalO n M ⊥ V g) :
     InCalO n (conjSubgroup M g) ⊥ (conjSubgroup V g) g⁻¹ := by
   obtain ⟨hF, hD⟩ := h
@@ -178,6 +186,7 @@ theorem inCalO_bot_swap {n : ℕ} {M V : Subgroup G} {g : G} (h : InCalO n M ⊥
   refine (oFirst_swap n (conjSubgroup M g) ⊥ (conjSubgroup V g) g⁻¹).1 ?_
   simpa only [E3.conjSubgroup_bot, inv_inv, conjSubgroup_conjSubgroup_inv] using hF
 
+omit [Finite G] in
 theorem inCalO_bot_of_mem_calO {n : ℕ} {M V : Subgroup G} (hN : normalizer (V : Set G) = M)
     {g : G} (hg : conjSubgroup V g ∈ calO n M ⊥ V) : InCalO n M ⊥ V g := by
   rw [calO, Set.mem_ofPred_eq] at hg

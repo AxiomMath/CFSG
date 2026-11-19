@@ -86,19 +86,19 @@ theorem cpOK_spec {SL : List Nat} {S TE NE : Nat} {R : List (List Nat)}
   unfold cpEnt at hent
   rw [← inCP_iff]
   cases ht0 : Nat.beq (nthD 0 R[k] 0) 0
-  · rw [ht0, cond_false] at hent
+  · rw [ht0, Bool.cond_false] at hent
     cases ht1 : Nat.beq (nthD 0 R[k] 0) 1
-    · rw [ht1, cond_false] at hent
+    · rw [ht1, Bool.cond_false] at hent
       simp only [Bool.and_eq_true, Bool.not_eq_true'] at hent
       obtain ⟨⟨hc, hcp⟩, hkill⟩ := hent
       rw [hcp]
       simp only [Bool.false_eq_true, iff_false, not_and, not_exists]
       exact fun _ n _ => killOK_spec hkill n
-    · rw [ht1, cond_true] at hent
+    · rw [ht1, _root_.Bool.cond_true] at hent
       simp only [Bool.and_eq_true, Nat.beq_eq, Nat.blt_eq] at hent
       obtain ⟨⟨⟨hc, hcp⟩, hlt⟩, hw⟩ := hent
       exact ⟨fun _ => hcp, fun _ => ⟨hc, _, hlt, hw⟩⟩
-  · rw [ht0, cond_true] at hent
+  · rw [ht0, _root_.Bool.cond_true] at hent
     simp only [Bool.and_eq_true, Bool.not_eq_true'] at hent
     obtain ⟨hc, hcp⟩ := hent
     rw [hc, hcp]

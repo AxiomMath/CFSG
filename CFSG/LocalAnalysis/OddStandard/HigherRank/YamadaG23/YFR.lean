@@ -39,7 +39,7 @@ private lemma s3_t_mem_cen_R (s : Setting3 G L) : s.t ∈ cen s.R := by
 theorem s3_R_cases (hS : HRSetting G L) (h31 : s.Fact31) :
     ∀ r ∈ s.R, ∃ y ∈ s.fr.S, r = y ∨ r = y * s.t := by
   intro r hr
-  haveI : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
+  have : Group.IsPerfect ↥L := isPerfect_of_hrSetting hS
   have hrT : r ∈ s.T := s.R_le_T hr
   have hrN : r ∈ normalizer (L : Set G) := s3_T_le_N s hS hrT
   let α : MulAut (L ⧸ center L) := jHom L ⟨r, hrN⟩
@@ -213,6 +213,7 @@ theorem s3_T1_comm_z (hS : HRSetting G L) (hA : LFactsA s) (h31 : s.Fact31)
         simpa [mul_assoc] using h
       exact s3_t_ne_z s h31 hzt_eq.symm
 
+omit [Finite G] in
 private lemma mem_sup_of_comm {H K : Subgroup G}
     (hcomm : ∀ h ∈ H, ∀ k ∈ K, h * k = k * h) {w : G} (hw : w ∈ H ⊔ K) :
     ∃ h ∈ H, ∃ k ∈ K, h * k = w := by

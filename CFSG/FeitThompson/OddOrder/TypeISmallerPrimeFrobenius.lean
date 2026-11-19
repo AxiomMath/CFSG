@@ -31,7 +31,7 @@ theorem isZGroup_of_forall_prime_lt {E : Subgroup L} (hodd : Odd (Nat.card L))
   intro q hq Q
   have := Fact.mk hq
   by_contra hnc
-  have hQp : IsPGroup q (Q : Subgroup E) := Q.isPGroup'
+  have hQp : IsPGroup q (Q : Subgroup E) := Q.isPGroup
   obtain ⟨n, hn⟩ := hQp.exists_card_eq
   have hn0 : n ≠ 0 := by
     rintro rfl

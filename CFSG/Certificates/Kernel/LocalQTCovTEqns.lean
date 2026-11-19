@@ -180,7 +180,7 @@ private theorem isTK_eq (hw : ∀ w ∈ d.words, ∀ l ∈ w, l < 2) (p : Nat ×
   have hwk := words_lt hw p.1
   rw [Bool.eq_iff_iff]
   unfold isTK isTN cvE
-  simp only [eqL_iff, beq_iff_eq, tab_word, tab_tgt, getRG_rowsG, getK_getD]
+  simp only [eqL_iff, beq_iff_eq, tab_word, tab_tgt, getRG_rowsG]
   have h3 : ([p.2] : List (Fin 2)) = [(p.2 : Nat)].map fo := by simp [fo_val]
   have hlt : ∀ x ∈ d.words.getD p.1 [] ++ [(p.2 : Nat)], x < 2 := by
     intro x hx
@@ -224,8 +224,7 @@ private def wTN (p : Nat × Fin 2) : List Letter :=
 
 private theorem map_wTK (p : Nat × Fin 2) : (wTK (d := d) (cvE p)).map cvL = wTN (d := d) p := by
   unfold wTK wTN cvE
-  simp only [List.map_append, map_posK, map_invWK, tab_word, tab_tgt, getRG_rowsG, getK_getD,
-    List.map_cons, List.map_nil, cvL, fo_val]
+  simp only [List.map_append, map_posK, map_invWK, tab_word, tab_tgt, getRG_rowsG, List.map_cons, List.map_nil, cvL, fo_val]
 
 private theorem wTK_lt (hw : ∀ w ∈ d.words, ∀ l ∈ w, l < 2) (p : Nat × Fin 2) :
     ∀ l ∈ wTK (d := d) (cvE p), l.1 < 2 := by

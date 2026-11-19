@@ -10,14 +10,17 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {Q Y 𝒬 : Subgroup G} {τ ω : G}
 
+omit [Finite G] in
 theorem card_subgroupOf_of_le (hQ : Q ≤ 𝒬) : Nat.card ↥(Q.subgroupOf 𝒬) = Nat.card Q := by
   exact Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQ).toEquiv
 
+omit [Finite G] in
 theorem map_subtype_closure_pair (hτ : τ ∈ 𝒬) (hω : ω ∈ 𝒬) :
     (closure ({(⟨τ, hτ⟩ : ↥𝒬), ⟨ω, hω⟩} : Set ↥𝒬)).map 𝒬.subtype = closure ({τ, ω} : Set G) := by
   rw [MonoidHom.map_closure]
   simp
 
+omit [Finite G] in
 theorem gen_subgroupOf (hQ : Q ≤ 𝒬) (h𝒬 : 𝒬 = Q ⊔ closure ({τ, ω} : Set G)) (hτ : τ ∈ 𝒬)
     (hω : ω ∈ 𝒬) :
     Q.subgroupOf 𝒬 ⊔ closure ({(⟨τ, hτ⟩ : ↥𝒬), ⟨ω, hω⟩} : Set ↥𝒬) = ⊤ := by
@@ -26,6 +29,7 @@ theorem gen_subgroupOf (hQ : Q ≤ 𝒬) (h𝒬 : 𝒬 = Q ⊔ closure ({τ, ω}
     map_subtype_closure_pair hτ hω, Subgroup.map_top, Subgroup.range_subtype]
   exact h𝒬.symm
 
+omit [Finite G] in
 theorem Setting16.of_subgroupOf (h𝒬 : 𝒬 = Q ⊔ closure ({τ, ω} : Set G)) (hτ : τ ∈ 𝒬)
     (hω : ω ∈ 𝒬) (hnorm : ∀ g ∈ 𝒬, ∀ q ∈ Q, g * q * g⁻¹ ∈ Q)
     (hcomm : ∀ a ∈ Q, ∀ b ∈ Q, a * b = b * a)

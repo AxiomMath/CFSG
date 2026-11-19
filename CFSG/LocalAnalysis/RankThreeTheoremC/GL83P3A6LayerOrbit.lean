@@ -39,6 +39,7 @@ variable {X : Type} [Group X] [Finite X] {q₁ q₂ q₃ : X} (hq : VITriple q�
 
 include hq
 
+omit [Finite X] in
 theorem coord_zero {L₁ L₂ L₃ : Subgroup X} (h1 : q₁ ∈ L₁) (h2 : q₂ ∈ L₂) (h3 : q₃ ∈ L₃)
     (i1 : (L₂ ⊔ L₃) ⊓ L₁ = ⊥) (i2 : (L₁ ⊔ L₃) ⊓ L₂ = ⊥) (i3 : (L₁ ⊔ L₂) ⊓ L₃ = ⊥) (v : Vec) :
     (qel q₁ q₂ q₃ v ∈ L₁ → v.2.1 = 0 ∧ v.2.2 = 0) ∧
@@ -116,7 +117,7 @@ include hd
 theorem not_le_centralizer {L : Subgroup X} (hL : IsComponentOf L ⊤) {q : X} (hqL : q ∈ L)
     (hq3 : q ^ 3 = 1) (hq1 : q ≠ 1) : ¬ L ≤ centralizer ({x} : Set X) := by
   intro hle
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsimple := RadicalFreeLayer.component_simple hd.free L hL
   have h3 : 3 ∣ Nat.card L := by
     have := Subgroup.orderOf_dvd_natCard L hqL
@@ -162,8 +163,8 @@ theorem t_mem_normalizer_of_component {L : Subgroup X} (hL : IsComponentOf L ⊤
   set q₂ : X := t * q₁ * t⁻¹ with hq₂def
   set q₃ : X := t * q₂ * t⁻¹ with hq₃def
   have htN := hf.t_mem_normalizer
-  have hq₂Q : q₂ ∈ Qf x e₂ e₃ := hf.conj_mem_of_mem_normalizer htN hq₁Q
-  have hq₃Q : q₃ ∈ Qf x e₂ e₃ := hf.conj_mem_of_mem_normalizer htN hq₂Q
+  have hq₂Q : q₂ ∈ Qf x e₂ e₃ := CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.conj_mem_of_mem_normalizer htN hq₁Q
+  have hq₃Q : q₃ ∈ Qf x e₂ e₃ := CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.conj_mem_of_mem_normalizer htN hq₂Q
   have hq₂L : q₂ ∈ L₂ := ⟨q₁, hq₁L, rfl⟩
   have hq₃L : q₃ ∈ L₃ := ⟨q₂, hq₂L, rfl⟩
   have hq₃t : t * q₃ * t⁻¹ = q₁ := by
@@ -190,10 +191,10 @@ theorem t_mem_normalizer_of_component {L : Subgroup X} (hL : IsComponentOf L ⊤
         exact inf_le_inf (sup_le_sup (zpowers_le.mpr hq₂L) (zpowers_le.mpr hq₃L))
           (zpowers_le.mpr hq₁L)) }
   have hQq : Qf q₁ q₂ q₃ = Qf x e₂ e₃ :=
-    Subgroup.eq_of_le_of_card_ge (Tri.Q_le_of_mem tri hq₁Q hq₂Q hq₃Q)
+    Subgroup.eq_of_le_of_card_ge (Tri.Q_le_of_mem hq₁Q hq₂Q hq₃Q)
       (by rw [tri.Q_card, hf.Q_card])
   have hcoord := Tri.coord_zero tri hq₁L hq₂L hq₃L i1 i2 i3
-  obtain ⟨⟨a, b, c⟩, hxv⟩ := Tri.exists_qel tri (hQq ▸ hf.x_mem)
+  obtain ⟨⟨a, b, c⟩, hxv⟩ := Tri.exists_qel tri (hQq ▸ (CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.x_mem (x := x) (e₂ := e₂) (e₃ := e₃)))
   have hxne : ∀ {M₁ : Subgroup X} {q : X}, IsComponentOf M₁ ⊤ → q ∈ M₁ → q ^ 3 = 1 → q ≠ 1 →
       x ∉ centralizer (M₁ : Set X) := fun hM hq h3 h1 hx =>
     hd.not_le_centralizer hM hq h3 h1 (le_centralizer_singleton hx)
@@ -247,7 +248,7 @@ theorem t_mem_normalizer_of_component {L : Subgroup X} (hL : IsComponentOf L ⊤
   have hw : ρ * (e₂ * e₃) * ρ⁻¹ = e₃ ^ s * e₂ ^ (-s) := by
     rw [show ρ * (e₂ * e₃) * ρ⁻¹ = (ρ * e₂ * ρ⁻¹) * (ρ * e₃ * ρ⁻¹) by group, hf.ρ_e₂, hf.ρ_e₃]
   have hwQ : ρ * (e₂ * e₃) * ρ⁻¹ ∈ Qf x e₂ e₃ :=
-    hf.conj_mem_of_mem_normalizer hf.ρ_mem_normalizer (mul_mem hf.e₂_mem hf.e₃_mem)
+    CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.conj_mem_of_mem_normalizer hf.ρ_mem_normalizer (mul_mem CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.e₂_mem CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.e₃_mem)
   have he231 : e₂ * e₃ ≠ 1 := by
     intro h1
     have h2 : e₂ = e₃⁻¹ := eq_inv_of_mul_eq_one_left h1
@@ -262,7 +263,7 @@ theorem t_mem_normalizer_of_component {L : Subgroup X} (hL : IsComponentOf L ⊤
     rw [this, h1]; group
   have hQsup : Qf x e₂ e₃ ≤ L ⊔ L₂ ⊔ L₃ := by
     rw [← hQq]
-    exact Tri.Q_le_of_mem tri (mem_sup_left (mem_sup_left hq₁L)) (mem_sup_left (mem_sup_right hq₂L))
+    exact Tri.Q_le_of_mem (mem_sup_left (mem_sup_left hq₁L)) (mem_sup_left (mem_sup_right hq₂L))
       (mem_sup_right hq₃L)
   have hwL : ρ * (e₂ * e₃) * ρ⁻¹ ∈ L ∨ ρ * (e₂ * e₃) * ρ⁻¹ ∈ L₂ ∨
       ρ * (e₂ * e₃) * ρ⁻¹ ∈ L₃ := by

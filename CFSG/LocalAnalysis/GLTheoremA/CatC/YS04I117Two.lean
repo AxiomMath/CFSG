@@ -19,7 +19,7 @@ theorem D_eq_zero {dm d1 d2 d3 D : ℕ} (hdm : dm = 2) (h1 : d1 = 2) (h2 : d2 = 
     (h : dm + d1 + d2 + d3 = 8 + 3 * D) : D = 0 := by omega
 
 theorem false_of_fixDim_two_four (h3 : (3 : K) ≠ 0) (hV : finrank K V = 8) (ρ : E →* Module.End K V)
-    (hρ : Function.Injective ρ) (hexp : ∀ x : E, x ^ 3 = 1) (hcard : 27 ≤ Nat.card E)
+    (_hρ : Function.Injective ρ) (hexp : ∀ x : E, x ^ 3 = 1) (hcard : 27 ≤ Nat.card E)
     (heven : ∀ x : E, Even (finrank K (LinearMap.ker (ρ x - 1))))
     (h24 : ∀ x : E, x ≠ 1 →
       finrank K (LinearMap.ker (ρ x - 1)) = 2 ∨ finrank K (LinearMap.ker (ρ x - 1)) = 4) :

@@ -16,11 +16,13 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {L R : Subgroup G} {t : G} {S A B Aa D : Subgroup G}
   {z b : G}
 
+omit [Finite G] in
 private theorem commutator_mem {H : Subgroup G} {x y : G} (hx : x ∈ H) (hy : y ∈ H) :
     ⁅x, y⁆ ∈ H := by
   rw [commutatorElement_def]
   exact H.mul_mem (H.mul_mem (H.mul_mem hx hy) (H.inv_mem hx)) (H.inv_mem hy)
 
+omit [Finite G] in
 private theorem IsLayer.map_commutator {X₀ X : Subgroup G} {ψ : G → G}
     (h : IsLayer L A X₀ X ψ) {x y : G} (hx : x ∈ X) (hy : y ∈ X) :
     ψ ⁅x, y⁆ = ⁅ψ x, ψ y⁆ := by
@@ -76,7 +78,7 @@ theorem ChainHyp.of_isLayer (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
   let Z2 : Subgroup G :=
     { carrier := {f | f ∈ F ∧ ∀ x ∈ X, ⁅x, f⁆ ∈ Z1}
       one_mem' := ⟨F.one_mem, fun x _ => by
-        simpa [commutatorElement_def] using (Z1.one_mem : (1 : G) ∈ Z1)⟩
+        simp [commutatorElement_def]⟩
       mul_mem' := by
         rintro f f' ⟨hf, hfZ⟩ ⟨hf', hf'Z⟩
         refine ⟨F.mul_mem hf hf', fun x hx => ?_⟩
@@ -247,7 +249,7 @@ theorem ChainHyp.of_isLayer (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     have hf0X : f0 ∈ X := hF_le_X hf0F
     let Z1X : Subgroup ↥X := Z1.subgroupOf X
     let FX : Subgroup ↥X := F.subgroupOf X
-    haveI hZ1X_normal : Z1X.Normal :=
+    have hZ1X_normal : Z1X.Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hZ1_le_X).2 fun x hx => by
         rw [Subgroup.mem_normalizer_iff]
         intro z
@@ -257,7 +259,7 @@ theorem ChainHyp.of_isLayer (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     have hFX_normal : FX.Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hF_le_X).2 hXF
     let N : Subgroup (↥X ⧸ Z1X) := FX.map (QuotientGroup.mk' Z1X)
-    haveI hN_normal : N.Normal :=
+    have hN_normal : N.Normal :=
       Subgroup.Normal.map hFX_normal (QuotientGroup.mk' Z1X)
         (QuotientGroup.mk'_surjective Z1X)
     have hNne : N ≠ ⊥ := by
@@ -275,7 +277,7 @@ theorem ChainHyp.of_isLayer (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
     rw [Subgroup.card_bot, mul_one] at hr
     have hXp : IsPGroup 2 ↥X :=
       IsPGroup.of_card (n := 4 * r) (by rw [hr, pow_mul]; norm_num)
-    haveI hNil : Group.IsNilpotent (↥X ⧸ Z1X) := (hXp.to_quotient Z1X).isNilpotent
+    have hNil : Group.IsNilpotent (↥X ⧸ Z1X) := (hXp.to_quotient Z1X).isNilpotent
     obtain ⟨g, hgne⟩ := Subgroup.ne_bot_iff_exists_ne_one.1
       (Group.IsNilpotent.inf_center_ne_bot_of_normal (G := ↥X ⧸ Z1X) hNne)
     obtain ⟨fX, hfXFX, hfXg⟩ := Subgroup.mem_map.1 g.2.1
@@ -406,7 +408,7 @@ theorem ChainHyp.of_isLayer (H : ThCyc G L R t) (W : ThLocalIn L S A B z)
   have hstep7 : ∀ x ∈ X, x ^ 2 = 1 → x ∈ D := by
     let Ω : Subgroup G := omega1 X hstep6
     have hVΩ : omega1 D hD.comm ≤ Ω := fun v hv => ⟨hD_le_X hv.1, hv.2⟩
-    haveI hΩele : IsElementaryAbelian 2 Ω :=
+    have hΩele : IsElementaryAbelian 2 Ω :=
       IsElementaryAbelian.two_of_forall_mul_self
         (fun a ha b hb => hstep6 a ha.1 b hb.1)
         (fun a ha => by simpa [pow_two] using ha.2)

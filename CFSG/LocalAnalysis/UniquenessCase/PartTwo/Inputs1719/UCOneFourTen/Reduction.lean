@@ -72,7 +72,7 @@ theorem isSubnormal_of_lt (h5d3 : PartOne.Section8.Lemma5d3_890) (hK318 : UCK.K3
   have hRH : R ≤ H := hRM.trans hMH
   have hR2 : IsPGroup 2 ((R.subgroupOf H).map (QuotientGroup.mk' (CFSG.pCore 2 ↥H))) := by
     obtain ⟨P, rfl⟩ := hR
-    exact ((P.isPGroup'.map _).of_equiv (subgroupOfEquivOfLe hRH).symm).map _
+    exact ((P.isPGroup.map _).of_equiv (subgroupOfEquivOfLe hRH).symm).map _
   have hsub : ∀ {A B : Subgroup G}, A ≤ B → A.subgroupOf H ≤ B.subgroupOf H :=
     fun h _ hx => h hx
   have hlift : ∀ As : Subgroup (↥H ⧸ CFSG.pCore 2 ↥H),

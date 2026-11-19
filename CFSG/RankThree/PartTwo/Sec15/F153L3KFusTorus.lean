@@ -76,7 +76,7 @@ theorem exists_hilbert90_normOne {K : Type} [Field K] [Finite K] {q₀ : ℕ} (h
     ∃ β : Kˣ, β ^ (q₀ ^ 3 + 1) = 1 ∧ (β : K) = (ω : K) * σ (β : K) := by
   have hF : ∀ x : K, x ^ (q₀ ^ 6) = x := by
     intro x
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     have hcard : Fintype.card K = q₀ ^ 6 := by
       rw [← Nat.card_eq_fintype_card, hK]
       ring
@@ -268,7 +268,7 @@ theorem regular_eigen_of_conj {K : Type} [Field K] (g₀ : GL (Fin 3) K) (l d₀
     fin_cases i <;> fin_cases j <;> simp_all
   refine ⟨(g₀ : Matrix (Fin 3) (Fin 3) K).col,
     fun i => (l : K) * (![(d₀ : K), (d₁ : K), (d₂ : K)] i), ?_, hinj, ?_⟩
-  · exact Matrix.linearIndependent_cols_iff_isUnit.2 g₀.isUnit
+  · exact Matrix.linearIndependent_col_iff_isUnit.2 g₀.isUnit
   · intro i
     rw [conj_matrix]
     exact mulVec_col_eig _ _ _ (Units.inv_mul g₀) i

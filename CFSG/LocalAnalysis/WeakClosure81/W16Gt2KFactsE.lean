@@ -125,9 +125,9 @@ theorem kFacts_rank_out_U3 :
       ∀ E : Subgroup (MulAut X), IsElemAbelian 2 E →
         E ⊓ (MulAut.conj : X →* MulAut X).range = ⊥ → Nat.card E ≤ 2 := by
   intro X _ _ n hn hX E hE hEI
-  haveI : Finite (MulAut X) := Finite.of_injective (fun f : MulAut X => (f : X → X))
+  have : Finite (MulAut X) := Finite.of_injective (fun f : MulAut X => (f : X → X))
     DFunLike.coe_injective
-  haveI : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) := inferInstance
+  have : Finite (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) := inferInstance
   obtain ⟨Dd, hDn, hodd, hcyc⟩ := exists_normal_odd_cyclic_quotient_outer hn hX
   obtain ⟨A, hA, hcard⟩ := isElemAbelian_map_outer E hE hEI
   have hsyl := CFSG.GH74.Uniqueness.Bender.isCyclic_sylow_of_quotient Dd hodd hcyc

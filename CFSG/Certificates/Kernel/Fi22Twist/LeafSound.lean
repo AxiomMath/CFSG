@@ -74,13 +74,13 @@ theorem wf4_sound {WF OF BF S : Nat → Nat} (h : ∀ u < 8, wfK WF OF BF S u = 
     have hc := h u hu
     unfold wfK at hc
     simp only [strictB_eq] at hc
-    simp only [blt_tt hu, recB_tt] at hc
+    simp only [blt_tt hu] at hc
     rcases Nat.eq_zero_or_pos u with rfl | hpos
-    · simp only [beq00, recB_tt] at hc
+    · simp only [beq00] at hc
       obtain ⟨h1, h2⟩ := (CFSG.KS.bAnd_iff _ _).1 hc
       exact ⟨[], (fun _ hg => nomatch hg), fun _ _ => rfl, rfl,
         Nat.eq_of_beq_eq_true h1, Nat.eq_of_beq_eq_true h2⟩
-    simp only [beq_ff (Nat.pos_iff_ne_zero.1 hpos), recB_ff] at hc
+    simp only [beq_ff (Nat.pos_iff_ne_zero.1 hpos)] at hc
     obtain ⟨h1, hc⟩ := (CFSG.KS.bAnd_iff _ _).1 hc
     obtain ⟨h2, hc⟩ := (CFSG.KS.bAnd_iff _ _).1 hc
     obtain ⟨h3, hc⟩ := (CFSG.KS.bAnd_iff _ _).1 hc
@@ -120,8 +120,8 @@ theorem wfB_sound {WF OF BF S : Nat → Nat} (hw : ∀ k < 720, wfK WF OF BF S (
     unfold bfK at hbk
     simp only [strictB_eq] at hc hbk
     have e8 : Nat.sub (8 + k) 8 = k := Nat.add_sub_cancel_left 8 k
-    simp only [blt_ff (Nat.le_add_right 8 k), recB_ff, e8] at hc
-    simp only [beq_ff (Nat.pos_iff_ne_zero.1 hpos), recB_ff] at hc hbk
+    simp only [blt_ff (Nat.le_add_right 8 k), e8] at hc
+    simp only [beq_ff (Nat.pos_iff_ne_zero.1 hpos)] at hc hbk
     obtain ⟨h1, hc⟩ := (CFSG.KS.bAnd_iff _ _).1 hc
     obtain ⟨h2, h3⟩ := (CFSG.KS.bAnd_iff _ _).1 hc
     obtain ⟨-, hbk⟩ := (CFSG.KS.bAnd_iff _ _).1 hbk
@@ -147,7 +147,7 @@ theorem wf8_sound {WF OF BF S : Nat → Nat} (h : wfK WF OF BF S 8 = true) :
       fld(WF 8, Nat.mul 24 p, 4095) = fld(WF p, 24, 4095) ∧
       fld(WF 8, Nat.add (Nat.mul 24 p) 12, 4095) = fld(WF p, 36, 4095) := by
   unfold wfK at h
-  simp only [strictB_eq, blt88, sub88, beq00, recB_tt, recB_ff] at h
+  simp only [strictB_eq, blt88, sub88, beq00] at h
   intro p hp
   have e := allBlk_spec0 h p hp
   obtain ⟨e1, e⟩ := (CFSG.KS.bAnd_iff _ _).1 e
@@ -239,7 +239,7 @@ theorem leafK_sound {T D M BF WF X E K CK : Nat → Nat} {j n offC szC : Nat}
   refine ⟨Nat.eq_of_beq_eq_true h1, fun s hs k p hf hp => ?_⟩
   have e := allBlk_spec0 h2 s hs
   rw [hf] at e
-  simp only [beq_ff (by omega : 8 * k + p + 1 ≠ 0), recB_ff] at e
+  simp only [beq_ff (by omega : 8 * k + p + 1 ≠ 0)] at e
   have ek : Nat.div (Nat.sub (8 * k + p + 1) 1) 8 = k := by
     change (8 * k + p + 1 - 1) / 8 = k
     omega
@@ -257,9 +257,9 @@ theorem leafV_sound {M Dj CK : Nat → Nat} {h offC szC full v ef : Nat}
       ∃ mm < 5, ∃ e < 27, eb M (ap (Dj e) (cg full mm)) v ≠ eb M (ap (Dj e) (bp mm)) (bp 5) := by
   unfold leafV at hv
   cases c1 : Nat.ble 32768 ef
-  · simp only [c1, recB_ff] at hv
+  · simp only [c1] at hv
     cases c2 : Nat.beq ef 1
-    · simp only [c2, recB_ff, strictB_eq] at hv
+    · simp only [c2, strictB_eq] at hv
       obtain ⟨-, hv⟩ := (CFSG.KS.bAnd_iff _ _).1 hv
       obtain ⟨w1, w2⟩ := (CFSG.KS.bAnd_iff _ _).1 hv
       have hw : Nat.sub ef 2 < 135 := Nat.le_of_ble_eq_true w1
@@ -269,9 +269,9 @@ theorem leafV_sound {M Dj CK : Nat → Nat} {h offC szC full v ef : Nat}
         omega
       · exact Nat.mod_lt _ (by omega)
       · exact Nat.ne_of_beq_eq_false (not_tt w2)
-    · simp only [c2, recB_tt] at hv
+    · simp only [c2] at hv
       exact Or.inr (Or.inl (not_tt hv))
-  · simp only [c1, recB_tt, strictB_eq] at hv
+  · simp only [c1, strictB_eq] at hv
     obtain ⟨w1, w2⟩ := (CFSG.KS.bAnd_iff _ _).1 hv
     exact Or.inl ⟨_, Nat.le_of_ble_eq_true w1, Nat.eq_of_beq_eq_true w2⟩
 
@@ -286,7 +286,7 @@ theorem orbK_lt {CK G : Nat → Nat} {gof ng off sz : Nat}
     unfold orbK at hc
     simp only [strictB_eq] at hc
     obtain ⟨h1, -⟩ := (CFSG.KS.bAnd_iff _ _).1 hc
-    simp only [beq_ff (by omega : i + 1 ≠ 0), recB_ff] at h1
+    simp only [beq_ff (by omega : i + 1 ≠ 0)] at h1
     have e : Nat.sub (Nat.add off (i + 1)) 1 = Nat.add off i := by
       simp only [Nat.add_eq, Nat.sub_eq]
       omega
@@ -326,7 +326,7 @@ theorem orbK_mem {CK G : Nat → Nat} {gof ng off sz : Nat}
       obtain ⟨-, hc⟩ := (CFSG.KS.bAnd_iff _ _).1 hc
       obtain ⟨hc, -⟩ := (CFSG.KS.bAnd_iff _ _).1 hc
       rw [hd] at hc
-      simp only [beq00, recB_tt] at hc
+      simp only [beq00] at hc
       rw [Nat.eq_of_beq_eq_true hc]
       exact hb
     | succ d ih =>
@@ -337,7 +337,7 @@ theorem orbK_mem {CK G : Nat → Nat} {gof ng off sz : Nat}
       obtain ⟨-, hc⟩ := (CFSG.KS.bAnd_iff _ _).1 hc
       obtain ⟨hc, -⟩ := (CFSG.KS.bAnd_iff _ _).1 hc
       rw [hd] at hc
-      simp only [beq_ff (by omega : d + 1 ≠ 0), recB_ff] at hc
+      simp only [beq_ff (by omega : d + 1 ≠ 0)] at hc
       obtain ⟨c1, hc⟩ := (CFSG.KS.bAnd_iff _ _).1 hc
       obtain ⟨c2, hc⟩ := (CFSG.KS.bAnd_iff _ _).1 hc
       obtain ⟨c3, c4⟩ := (CFSG.KS.bAnd_iff _ _).1 hc
@@ -417,19 +417,19 @@ theorem dfK_sound {DF : Nat → Nat} {R j e : Nat} (h : dfK DF R j e = true) :
   simp only [strictB_eq] at h
   refine ⟨fun he i hi => ?_, fun h3 i hi => ?_, fun he h3 h9 i hi => ?_, fun he h9 i hi => ?_⟩
   · subst he
-    simp only [beq00, recB_tt] at h
+    simp only [beq00] at h
     exact Nat.eq_of_beq_eq_true (CFSG.KS.allN_spec h i hi)
   · have he : e ≠ 0 := fun he => h3 (by subst he; rfl)
     have c3 : Nat.beq (Nat.mod e 3) 0 = false := beq_ff h3
-    simp only [beq_ff he, recB_ff, c3, recN_ff] at h
+    simp only [beq_ff he, c3] at h
     exact Nat.eq_of_beq_eq_true (CFSG.KS.allN_spec h i hi)
   · have c3 : Nat.beq (Nat.mod e 3) 0 = true := beq_tt h3
     have c9 : Nat.beq (Nat.mod e 9) 0 = false := beq_ff h9
-    simp only [beq_ff (Nat.pos_iff_ne_zero.1 he), recB_ff, c3, recN_tt, c9, recN_ff] at h
+    simp only [beq_ff (Nat.pos_iff_ne_zero.1 he), c3, c9] at h
     exact Nat.eq_of_beq_eq_true (CFSG.KS.allN_spec h i hi)
   · have c3 : Nat.beq (Nat.mod e 3) 0 = true := beq_tt (by change e % 3 = 0; omega)
     have c9 : Nat.beq (Nat.mod e 9) 0 = true := beq_tt h9
-    simp only [beq_ff (Nat.pos_iff_ne_zero.1 he), recB_ff, c3, recN_tt, c9] at h
+    simp only [beq_ff (Nat.pos_iff_ne_zero.1 he), c3, c9] at h
     exact Nat.eq_of_beq_eq_true (CFSG.KS.allN_spec h i hi)
 
 end CFSG.KC.Fi22Twist

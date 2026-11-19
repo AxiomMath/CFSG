@@ -37,18 +37,18 @@ theorem gffa2_commutator_equiv {G H : Type} [Group G] [Group H] {A : Subgroup G}
 theorem gffa2_component_equiv {X R₀ : Type} [Group X] [Group R₀] {C : Subgroup X}
     (T : ↥⁅C, C⁆ ≃* R₀) (hs : IsSimpleGroup R₀) {Q : Subgroup X} (hQ : IsComponentOf Q C) :
     Nonempty (↥Q ≃* R₀) := by
-  haveI := hs
+  have := hs
   have hQ' : Q = ⁅C, C⁆ := ggComponent_eq_commutator hQ T.isSimpleGroup
   exact ⟨(MulEquiv.subgroupCongr hQ').trans T⟩
 
 theorem gffa2_false_of_solvable {X : Type} [Group X] {C Q : Subgroup X}
     (hC : Group.IsSolvable ↥C) (hQ : IsComponentOf Q C) : False := by
-  haveI : Group.IsSolvable ↥C := hC
+  have : Group.IsSolvable ↥C := hC
   have hsol : Group.IsSolvable ↥Q :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hQ.1)
       (Subgroup.inclusion_injective hQ.1)
-  haveI : Group.IsSolvable ↥Q := hsol
-  haveI : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr (ggComponent_ne_bot hQ)
+  have : Group.IsSolvable ↥Q := hsol
+  have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr (ggComponent_ne_bot hQ)
   have hcomm : commutator ↥Q = ⊤ := by
     rw [← ggCommutator_subgroupOf Q, ggComponent_perfect hQ, Subgroup.subgroupOf_self]
   have hlt : commutator ↥Q < ⊤ :=

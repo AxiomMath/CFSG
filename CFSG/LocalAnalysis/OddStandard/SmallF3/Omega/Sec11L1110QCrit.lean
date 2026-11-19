@@ -43,7 +43,7 @@ private lemma exists_notMem_zpowers₁ (P : Sec11Q8Pair z Q1 Q2) :
   by_contra h
   push Not at h
   have hle : Q1 ≤ zpowers z := fun a ha => h a ha
-  haveI : Finite ↥(zpowers z) := by
+  have : Finite ↥(zpowers z) := by
     apply Nat.finite_of_card_ne_zero
     rw [natCard_zpowers_eq_two P]
     norm_num
@@ -58,7 +58,7 @@ private lemma sq_eq_z_of_mem₁ (P : Sec11Q8Pair z Q1 Q2) {a : E} (ha : a ∈ Q1
   · exact absurd (P.invol1 a ha h1) hna
   · exact hz
 
-theorem Sec11Q8Pair.swap_crit (P : Sec11Q8Pair z Q1 Q2) {s : E} (hsz : s * z * s⁻¹ = z)
+theorem Sec11Q8Pair.swap_crit (P : Sec11Q8Pair z Q1 Q2) {s : E} (_hsz : s * z * s⁻¹ = z)
     (hs : ∀ a ∈ Q1, s * a * s⁻¹ ∈ Q2) :
     ∃ q ∈ Q1 ⊔ Q2, q * (s * q⁻¹ * s⁻¹) * (q * (s * q⁻¹ * s⁻¹)) = 1 ∧
       q * (s * q⁻¹ * s⁻¹) ∉ zpowers z := by
@@ -100,7 +100,7 @@ theorem Sec11Q8Pair.swap_crit (P : Sec11Q8Pair z Q1 Q2) {s : E} (hsz : s * z * s
       exact mul_mem hprod ha'2
     exact hna (P.inf a ha1 haQ2)
 
-theorem Sec11Q8Pair.double_crit (P : Sec11Q8Pair z Q1 Q2) {s : E} (hsz : s * z * s⁻¹ = z)
+theorem Sec11Q8Pair.double_crit (P : Sec11Q8Pair z Q1 Q2) {s : E} (_hsz : s * z * s⁻¹ = z)
     (h1 : ∀ a ∈ Q1, s * a * s⁻¹ ∈ Q1) (h2 : ∀ a ∈ Q2, s * a * s⁻¹ ∈ Q2)
     (n1 : ¬ ActsTrivModZ z s Q1) (n2 : ¬ ActsTrivModZ z s Q2) :
     ∃ q ∈ Q1 ⊔ Q2, q * (s * q⁻¹ * s⁻¹) * (q * (s * q⁻¹ * s⁻¹)) = 1 ∧

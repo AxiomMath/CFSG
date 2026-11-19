@@ -468,7 +468,7 @@ private theorem exists_perp_pair_not_perp_of_sq_eq_one (hsym : ∀ x y, b x y = 
     exact he0 h1
   · intro h
     have h1 : b x (x + (p - b p q • q)) = b x (-x) := by rw [h]
-    simp only [LinearMap.BilinForm.add_right, hx, hxe, LinearMap.BilinForm.neg_right, hx] at h1
+    simp only [LinearMap.BilinForm.add_right, hxe, LinearMap.BilinForm.neg_right, hx] at h1
     revert h1
     decide
 
@@ -513,7 +513,7 @@ private theorem exists_perp_pair_not_perp_of_sq_ne_one (hsym : ∀ x y, b x y = 
 
 theorem exists_perp_pair_not_perp (hsym : ∀ x y, b x y = b y x)
     (hnd : ∀ x, (∀ y, b x y = 0) → x = 0) (hn : 5 ≤ n) {p q x : Fin n → ZMod 5}
-    (hp : b p p = 1) (hq : b q q = 1) (hpq0 : b p q ≠ 0) (hqp : q ≠ p) (hqp' : q ≠ -p)
+    (hp : b p p = 1) (hq : b q q = 1) (_hpq0 : b p q ≠ 0) (hqp : q ≠ p) (hqp' : q ≠ -p)
     (hx : b x x = 1) (hxp : b x p = 0) (hxq : b x q = 0) :
     ∃ y, b y y = 1 ∧ b y p = 0 ∧ b y q = 0 ∧ b x y ≠ 0 ∧ y ≠ x ∧ y ≠ -x := by
   by_cases hβ : b p q * b p q = 1
@@ -578,7 +578,7 @@ private theorem exists_degenerate_frame_and_perp (hsym : ∀ x y, b x y = b y x)
 
 private theorem mem_pair_of_forall_perp_of_sq_eq_one (hsym : ∀ x y, b x y = b y x)
     (hnd : ∀ x, (∀ y, b x y = 0) → x = 0) (hn : 5 ≤ n) {p q x : Fin n → ZMod 5}
-    (hp : b p p = 1) (hq : b q q = 1) (hpq0 : b p q ≠ 0) (hqp : q ≠ p) (hqp' : q ≠ -p)
+    (hp : b p p = 1) (hq : b q q = 1) (_hpq0 : b p q ≠ 0) (hqp : q ≠ p) (hqp' : q ≠ -p)
     (hx : ∀ y, b y y = 1 → b y p = 0 → b y q = 0 → b x y = 0)
     (hβ : b p q * b p q = 1) : ∃ l m : ZMod 5, x = l • p + m • q := by
   obtain ⟨f', h₁, h₂, hf'p, hf'e, hf'f', h₁eq, h₂eq, hp₁, hp₂, h₁₁, h₂₂, h₁₂, he, hxe⟩ :=
@@ -594,10 +594,10 @@ private theorem mem_pair_of_forall_perp_of_sq_eq_one (hsym : ∀ x y, b x y = b 
   obtain ⟨x'', hx''⟩ : ∃ x'', x'' = x - b x p • p - b x f' • (p - b p q • q) := ⟨_, rfl⟩
   have hx''p : b x'' p = 0 := by
     simp only [hx'', LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left, hp, hep,
-      hf'p, mul_zero, mul_one, sub_zero, sub_self]
+      mul_zero, mul_one, sub_self]
   have hx''e : b x'' (p - b p q • q) = 0 := by
     simp only [hx'', LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left, hpe, hee,
-      hxe, hf'e, mul_zero, mul_one, sub_zero, sub_self]
+      hxe, mul_zero, sub_self]
   have hx''f' : b x'' f' = 0 := by
     simp only [hx'', LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left, hf'p', hex,
       mul_zero, mul_one, sub_zero, sub_self]
@@ -621,7 +621,7 @@ private theorem mem_pair_of_forall_perp_of_sq_eq_one (hsym : ∀ x y, b x y = b 
       rw [hsym]
       exact hye
     simp only [hx'', LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left,
-      LinearMap.BilinForm.smul_left, hyp', hye', h0, mul_zero, sub_zero, sub_self]
+      LinearMap.BilinForm.smul_left, hyp', hye', h0, mul_zero, sub_self]
   have hx''0 : x'' = 0 :=
     eq_zero_of_forall_norm_one_perp_triple hsym hnd hn hp0 h₁₁ h₂₂ hp₁ hp₂ h₁₂ hx''p hx''h₁
       hx''h₂ hxhyp
@@ -629,7 +629,7 @@ private theorem mem_pair_of_forall_perp_of_sq_eq_one (hsym : ∀ x y, b x y = b 
 
 private theorem mem_pair_of_forall_perp_of_sq_ne_one (hsym : ∀ x y, b x y = b y x)
     (hnd : ∀ x, (∀ y, b x y = 0) → x = 0) (hn : 5 ≤ n) {p q x : Fin n → ZMod 5}
-    (hp : b p p = 1) (hq : b q q = 1) (hpq0 : b p q ≠ 0) (hqp : q ≠ p) (hqp' : q ≠ -p)
+    (hp : b p p = 1) (hq : b q q = 1) (_hpq0 : b p q ≠ 0) (_hqp : q ≠ p) (_hqp' : q ≠ -p)
     (hx : ∀ y, b y y = 1 → b y p = 0 → b y q = 0 → b x y = 0)
     (hβ : b p q * b p q ≠ 1) : ∃ l m : ZMod 5, x = l • p + m • q := by
   have hp0 : b p p ≠ 0 := by rw [hp]; decide
@@ -656,7 +656,7 @@ private theorem mem_pair_of_forall_perp_of_sq_ne_one (hsym : ∀ x y, b x y = b 
     have hyp' : b p y = 0 := by rw [hsym]; exact hyp
     have hyq'ry : b q y = 0 := by rw [hsym]; exact hyq
     simp only [hx', LinearMap.BilinForm.sub_left, LinearMap.BilinForm.smul_left,
-      LinearMap.BilinForm.smul_left, hyp', hyq'ry, h0, mul_zero, sub_zero, sub_self]
+      LinearMap.BilinForm.smul_left, hyp', hyq'ry, h0, mul_zero, sub_self]
   have hx'0 : x' = 0 :=
     eq_zero_of_forall_norm_one_perp_pair hsym hnd hn hp0 hq'0 hpq' hx'p' hx'q'' hxhyp
   exact ⟨l, m, eq_pair_of_sub_eq_zero (by rw [← hx']; exact hx'0)⟩

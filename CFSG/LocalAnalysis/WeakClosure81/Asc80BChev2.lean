@@ -93,10 +93,10 @@ private theorem inf_normalizer_eq_map_borel {Q : Type} [Group Q]
     _ = ((CFSG.LieType.Steinberg.borel D H).map π).map L.subtype := by rw [h1]
 
 private theorem asc80ThmBCase_of_noUMax_lie {t : StatedLieTag} {n f : ℕ}
-    (h : Asc80NoUMax fun X _ => CFSG.Models.LieModel X t n 2 f) :
-    Asc80ThmBCase fun X _ => CFSG.Models.LieModel X t n 2 f :=
+    (h : Asc80NoUMax fun _X _ => CFSG.Models.LieModel _X t n 2 f) :
+    Asc80ThmBCase fun _X _ => CFSG.Models.LieModel _X t n 2 f :=
   asc80ThmBCase_of_noUMax
-    (fun X Y _ _ ⟨e⟩ hX => CFSG.Models.LieModel.of_mulEquiv e hX) h
+    (fun _X _Y _ _ ⟨e⟩ hX => CFSG.Models.LieModel.of_mulEquiv e hX) h
 
 theorem exists_mem_actsOnDynkinMod_of_sup {Q : Type} [Group Q] {L A : Subgroup Q}
     (hLn : L.Normal) (hQ : L ⊔ A = ⊤) {t : Q} (ht : ActsOnDynkinMod ⊥ L t) :
@@ -130,7 +130,7 @@ theorem exists_mem_actsOnDynkinMod_of_sup {Q : Type} [Group Q] {L A : Subgroup Q
   have htN : t ∈ L ⊔ Subgroup.normalizer (P : Set Q) := by
     rw [htopN]
     exact Subgroup.mem_top t
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   obtain ⟨l', hl', n, hn, hlt⟩ :=
     (Subgroup.mem_sup_of_normal_left (s := L)
       (t := Subgroup.normalizer (P : Set Q)) (x := t)).mp htN

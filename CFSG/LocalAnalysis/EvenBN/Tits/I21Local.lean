@@ -22,7 +22,7 @@ theorem sec622_two_two_fusion (h : Sec622Bar G t u x) {S : Subgroup G} (hS : IsP
 theorem sec622_constrained (h : SecTwoHyp G t u) {Q : Subgroup G} (hQn : Q.Normal)
     (hQ2 : IsPGroup 2 Q) (hCQ : centralizer (Q : Set G) ≤ Q) : Sec622T1 u := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hQn
+  have := hQn
   rcases h.center_or_wreathS3 hQ2 hCQ with hz | ⟨A, hAn, -, hA16, -, -, hzA, -⟩
   · have hz2 : (u ^ 2) ^ 2 = 1 := by rw [← pow_mul]; exact h.u_pow_four
     refine ⟨zpowers (u ^ 2), ?_, ?_, mem_zpowers _⟩

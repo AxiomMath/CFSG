@@ -141,12 +141,12 @@ variable {K : Type} [Field K] {b c : K}
 theorem quadMinus_single_u {m : ℕ} :
     quadMinus m K b c (Pi.single (Sum.inr (Sum.inr 0)) 1) = 1 := by
   rw [quadMinus_apply]
-  simp [Pi.single_apply]
+  simp
 
 theorem quadMinus_single_v {m : ℕ} :
     quadMinus m K b c (Pi.single (Sum.inr (Sum.inr 1)) 1) = c := by
   rw [quadMinus_apply]
-  simp [Pi.single_apply]
+  simp
 
 private theorem mem_perp_coordinate_iff {m : ℕ} {i0 : Fin (m - 1)}
     (P : HypPair (quadMinus m K b c)) (hPe : P.e = Pi.single (Sum.inl i0) 1)
@@ -160,7 +160,7 @@ theorem single_inr_inr_mem_perp {m : ℕ} {i0 : Fin (m - 1)} (P : HypPair (quadM
     (j : Fin 2) :
     (Pi.single (Sum.inr (Sum.inr j)) 1 : Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) ∈ P.perp := by
   rw [mem_perp_coordinate_iff P hPe hPf]
-  simp [Pi.single_apply]
+  simp
 
 theorem perp_le_span_quadMinus {m : ℕ} (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
     {i0 : Fin (m - 1)} (P : HypPair (quadMinus m K b c)) (hPe : P.e = Pi.single (Sum.inl i0) 1)
@@ -202,18 +202,18 @@ theorem perp_le_span_quadMinus {m : ℕ} (hirr : ∀ s : K, s ^ 2 + b * s + c �
     · have hi : i ≠ i0 := fun h => hk1 (congrArg Sum.inl h)
       have hmemi : (Pi.single (Sum.inl i) (1 : K) :
           Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) ∈ P.perp :=
-        (hmem _).mpr ⟨by simp [Pi.single_apply], by simp [Pi.single_apply, Ne.symm hi]⟩
+        (hmem _).mpr ⟨by simp, by simp [Ne.symm hi]⟩
       have hpol : polar (quadMinus m K b c) (Pi.single (Sum.inl i) (1 : K)) x₁ = 0 := by
         rw [polar_single_inl_quadMinus, hx₁]
-        simp [Pi.single_apply]
+        simp
       exact hspan_of _ hmemi (quadMinus_single_inl i) hpol
     · have hi : i ≠ i0 := fun h => hk2 (congrArg Sum.inr (congrArg Sum.inl h))
       have hmemi : (Pi.single (Sum.inr (Sum.inl i)) (1 : K) :
           Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) ∈ P.perp :=
-        (hmem _).mpr ⟨by simp [Pi.single_apply, Ne.symm hi], by simp [Pi.single_apply]⟩
+        (hmem _).mpr ⟨by simp [Ne.symm hi], by simp⟩
       have hpol : polar (quadMinus m K b c) (Pi.single (Sum.inr (Sum.inl i)) (1 : K)) x₁ = 0 := by
         rw [polar_single_inr_quadMinus, hx₁]
-        simp [Pi.single_apply]
+        simp
       exact hspan_of _ hmemi (quadMinus_single_inr i) hpol
     · exact hinr j
   intro w hw

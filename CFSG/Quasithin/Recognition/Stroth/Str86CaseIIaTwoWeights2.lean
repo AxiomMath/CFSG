@@ -37,8 +37,8 @@ theorem str86_caseIIa_two_weights
     {Kb : Subgroup G}
     (hKb : Kb ≤ (L2 ⊔ S) ⊓ Subgroup.normalizer (S : Set G))
     (hKbB : Kb ≤ bigB L1 L2 S)
-    (hKbcyc : IsCyclic ↥Kb)
-    (hKbcard : Nat.card ↥Kb = 2 ^ m - 1) :
+    (_hKbcyc : IsCyclic ↥Kb)
+    (_hKbcard : Nat.card ↥Kb = 2 ^ m - 1) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K), Nat.card K = (2 ^ k) ^ 2 ∧
       ∃ χ₂ χ₃ : ↥Kb →* Kˣ,
         (∀ d : ↥Kb, (χ₃ d : K) = (χ₂ d : K) ^ (2 ^ k + 1)) ∧
@@ -72,9 +72,9 @@ theorem str86_caseIIa_two_weights
     hact⟩ :=
     str86_caseIIa_two_chars hF hSB hk hFc hU3 hB2 hm hII hIIa hZ hc hN hNZ hNne hNP1 hNS
       hNat hKb hKbB
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   have hm2 : 2 ≤ m := CFSG.Quasithin.F112R.two_le_of_isL2Quot_of_vBig hF.1.h2.listed hB2 hm
   have hSleP1 : S ≤ P1 L1 L2 S :=
     (le_sup_right : S ≤ bigB L1 L2 S).trans

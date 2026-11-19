@@ -49,7 +49,7 @@ theorem carrierOn_symplecticOrthogonal : CarrierOn .symplecticOrthogonal := by
 theorem outerCentOn_symplecticOrthogonal_of_D4 (hD4 : D4ThreeOuterCent) :
     OuterCentOn .symplecticOrthogonal := by
   intro S _ _ hS hnc idx hfam he p hp hp2 hpc β hβ hout
-  haveI := hS
+  have := hS
   obtain ⟨e⟩ := he
   have hβp : β ^ p = 1 := hβ ▸ pow_orderOf_eq_one β
   obtain ⟨d, hv⟩ := idx

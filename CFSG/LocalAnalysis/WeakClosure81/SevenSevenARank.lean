@@ -48,10 +48,10 @@ theorem imageRankEqRank_iff {V A Y : Subgroup G} [(Y.subgroupOf A).Normal] {Q : 
       ((QuotientGroup.quotientMulEquivOfEq hker'.symm) (QuotientGroup.mk a)) = ψ a
     rw [QuotientGroup.quotientMulEquivOfEq_mk]
     exact QuotientGroup.kerLift_mk ψ a
-  haveI : Finite (↥A ⧸ (Y.subgroupOf A)) :=
+  have : Finite (↥A ⧸ (Y.subgroupOf A)) :=
     Finite.of_surjective (QuotientGroup.mk' (Y.subgroupOf A))
       (QuotientGroup.mk'_surjective (Y.subgroupOf A))
-  haveI : Finite Q := Finite.of_surjective ψ hψ
+  have : Finite Q := Finite.of_surjective ψ hψ
   have hquot : CFSG.pRank 2 (↥A ⧸ (Y.subgroupOf A)) = CFSG.pRank 2 Q :=
     CFSG.GH74.GLS.Bg.pRank_mulEquiv one_lt_two e
   have hcomp : ((e : ↥A ⧸ (Y.subgroupOf A) →* Q)).comp
@@ -85,7 +85,7 @@ theorem isTISubgroup_of_isTI {V : Subgroup G} (hTI : IsTI V) :
 private theorem seven_seven_rank_card_eq_two_pow {G : Type} [Group G] [Finite G]
     {W : Subgroup G} (hW : IsElemAbelian 2 W) :
     Nat.card W = 2 ^ CFSG.pRank 2 ↥W := by
-  haveI : CFSG.IsElementaryAbelian 2 W :=
+  have : CFSG.IsElementaryAbelian 2 W :=
     CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mp hW
   obtain ⟨m, hm⟩ := (CFSG.IsElementaryAbelian.isPGroup 2 W).exists_card_eq
   rw [CFSG.pRank_eq_of_card_eq_pow one_lt_two hm]
@@ -150,7 +150,7 @@ theorem pRank_image_eq_pRank_of_sup_conj (h : Hyp711 V H E) {k : G} (hk : k ∈ 
   obtain ⟨hpart2a, hnormrank⟩ :=
     (CFSG.ASVolI.as_I_6_2 (G := G) V (conjSubgroup V k) h.elemAbelian hA hrank
       hTIV hTIA hne' hcross hNIn).2 hNIn_lt
-  haveI hN : ((pairY V (conjSubgroup V k)).subgroupOf (V ⊔ conjSubgroup V k)).Normal :=
+  have hN : ((pairY V (conjSubgroup V k)).subgroupOf (V ⊔ conjSubgroup V k)).Normal :=
     hpart2a.2.1.2
   have hImage : CFSG.ASVolI.ChIJK.ImageRankEqRank V (V ⊔ conjSubgroup V k)
       (pairY V (conjSubgroup V k)) := hnormrank.1.2

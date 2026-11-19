@@ -16,7 +16,7 @@ private theorem s16h_e3_CycTwoP3M4AA2AACA_isCharacteristicP_of_normalSylow
     (hPnorm : H ≤ Subgroup.normalizer (P : Set X)) (hPgrp : IsPGroup 3 P)
     (hPcent : Subgroup.centralizer (P : Set X) ⊓ H ≤ P) :
     CFSG.IsCharacteristicP 3 ↥H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hN : (P.subgroupOf H).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hPle).mpr hPnorm
   have hsub : P.subgroupOf H ≤ CFSG.pCore 3 ↥H :=

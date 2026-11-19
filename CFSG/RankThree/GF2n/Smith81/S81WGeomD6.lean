@@ -115,7 +115,7 @@ theorem rootSet0_fix [CharP K 2] : ∀ s ∈ rootSet0 K, s (Finsupp.single a0 1 
   rintro s ⟨γ, hγ, hpr, c, hs⟩
   have hn1 : ¬ (pr (a0 : Fin e7Data.d) γ = -1) := by rw [hpr]; norm_num
   apply emb_injective
-  rw [hs, emb_single, e7Data_valid.xu_apply, rootOp_single hγ.1, if_neg hn1, smul_zero, add_zero]
+  rw [hs, emb_single, e7Data_valid.xu_apply, rootOp_single hγ.1, ite_eq_right hn1, smul_zero, add_zero]
 
 theorem far6_witness [CharP K 2] {b : Idx0} (hb : Far6 (b : Fin e7Data.d)) :
     ∃ s ∈ rootSet0 K, ∃ b' : Idx0, b' ≠ a0 ∧ ∀ v : W K, (s v - v) b' = v b := by
@@ -135,7 +135,7 @@ theorem far6_witness [CharP K 2] {b : Idx0} (hb : Far6 (b : Fin e7Data.d)) :
     rw [hba] at h5
     exact h5.symm
   · have key := xuWUnit_apply_coord hγ 1 v (shiftW γ b)
-    rw [if_pos hb', hbb, one_mul] at key
+    rw [ite_eq_left hb', hbb, one_mul] at key
     rw [Finsupp.sub_apply, vAut0_apply, key]
     ring
 
@@ -151,11 +151,11 @@ theorem mu6_W [CharP K 2] {μ : Idx0}
     abel
   rw [key, EW_single hγ μ]
   by_cases h : pr (μ : Fin e7Data.d) γ = -1
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hsμ : shiftW γ μ = a0 := Subtype.ext (by rw [shiftW_val hγ h]; exact hμ γ hγ hpr h)
     rw [hsμ]
     exact Submodule.smul_mem _ c (Submodule.mem_span_singleton_self _)
-  · rw [if_neg h, smul_zero]
+  · rw [ite_eq_right h, smul_zero]
     exact Submodule.zero_mem _
 
 theorem plane6 [CharP K 2] {μ : Idx0} {γ : Fin (Tag.rank .E7) → ℤ} (hγ : γ ∈ Perp)
@@ -176,10 +176,10 @@ theorem plane6 [CharP K 2] {μ : Idx0} {γ : Fin (Tag.rank .E7) → ℤ} (hγ : 
     rw [shiftW_val (neg_mem_Perp hγ) hpa', ← hsh]
     exact shift_neg_shift hγ.1 hpμ
   refine ⟨?_, ?_, ?_, ?_⟩
-  · rw [vAut0_apply, xuWUnit_apply, EW_single hγ, if_neg hn1, smul_zero, add_zero]
-  · rw [vAut0_apply, xuWUnit_apply, EW_single hγ, if_pos hpμ, hsμ]
-  · rw [vAut0_apply, xuWUnit_apply, EW_single (neg_mem_Perp hγ), if_pos hpa', hsa]
-  · rw [vAut0_apply, xuWUnit_apply, EW_single (neg_mem_Perp hγ), if_neg hpμ', smul_zero, add_zero]
+  · rw [vAut0_apply, xuWUnit_apply, EW_single hγ, ite_eq_right hn1, smul_zero, add_zero]
+  · rw [vAut0_apply, xuWUnit_apply, EW_single hγ, ite_eq_left hpμ, hsμ]
+  · rw [vAut0_apply, xuWUnit_apply, EW_single (neg_mem_Perp hγ), ite_eq_left hpa', hsa]
+  · rw [vAut0_apply, xuWUnit_apply, EW_single (neg_mem_Perp hγ), ite_eq_right hpμ', smul_zero, add_zero]
 
 theorem d6MinuscGeom [Finite K] [CharP K 2] :
     MinuscGeom (EAut0 K) (p0 K) (rootRad0 K) 16 := by

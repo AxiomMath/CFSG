@@ -110,7 +110,7 @@ theorem isEmpty_ofList (l : List Char) : (String.ofList l).isEmpty = l.isEmpty :
       intro h
       have := congrArg String.toList h
       simp at this
-    simp [String.isEmpty_iff, this]
+    simp
 
 theorem mem_splitSp {c : Char} : ∀ (l acc : List Char), (∀ x ∈ acc, x ≠ c) →
     ∀ p ∈ splitSp c l acc, ∀ x ∈ p, x ≠ c ∧ (x ∈ l ∨ x ∈ acc)

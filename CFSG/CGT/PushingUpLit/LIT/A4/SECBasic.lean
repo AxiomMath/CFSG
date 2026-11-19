@@ -17,9 +17,9 @@ theorem eq_of_mem_sylow_of_twoRank_le_one {L : Type*} [Group L] [Finite L] (h : 
     have h1 : s = 1 := congrArg Subtype.val h'
     rw [h1, orderOf_one] at hso
     omega⟩⟩
-  have : Nontrivial (Subgroup.center (P : Subgroup L)) := P.isPGroup'.center_nontrivial
+  have : Nontrivial (Subgroup.center (P : Subgroup L)) := P.isPGroup.center_nontrivial
   have hdiv : 2 ∣ Nat.card (Subgroup.center (P : Subgroup L)) := by
-    rcases (P.isPGroup'.to_subgroup (Subgroup.center (P : Subgroup L))).card_eq_or_dvd with h1 | h1
+    rcases (P.isPGroup.to_subgroup (Subgroup.center (P : Subgroup L))).card_eq_or_dvd with h1 | h1
     · exact absurd (Nat.card_eq_one_iff_unique.mp h1).1 (not_subsingleton _)
     · exact h1
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center (P : Subgroup L)) 2 hdiv

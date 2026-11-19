@@ -32,7 +32,7 @@ theorem isPSL_three_four_of_rels {Γ : Type} [Group Γ] {u v : Γ}
       rw [MulEquiv.symm_apply_eq]
       rfl
     simp only [φ, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, h1, QuotientGroup.lift_mk]
-  haveI : IsSimpleGroup PSL3 :=
+  have : IsSimpleGroup PSL3 :=
     (CFSG.LinearGroups.linear_projective_simple (K := CFSG.Fischer.F4) (n := 3) (by norm_num)
       (Or.inl (by norm_num))).2.1
   have hφ0 : φ (genX 0) = u := by

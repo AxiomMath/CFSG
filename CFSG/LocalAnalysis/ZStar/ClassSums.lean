@@ -149,6 +149,7 @@ theorem coeff_eq_of_isConj (R : Type v) [CommSemiring R]
   have hcoeff := congrArg (fun w : MonoidAlgebra R G => w.coeff (g * a)) hcomm
   simpa using hcoeff
 
+omit [Fintype G] in
 private theorem coeff_eq_classRep (R : Type v) [CommSemiring R]
     {z : MonoidAlgebra R G} (hz : z ∈ Submonoid.center (MonoidAlgebra R G))
     (x : G) : z.coeff x = z.coeff (classRep (ConjClasses.mk x)) := by
@@ -223,6 +224,7 @@ theorem scalarAlgebraMap_bijective :
   Classical.choose ((scalarAlgebraMap_bijective ρ).surjective
     (Representation.IntertwiningMap.centralAlgebraMul ρ hz))
 
+omit [Fintype G] in
 private theorem algebraMap_centralScalar {z : MonoidAlgebra k G}
     (hz : z ∈ Submonoid.center (MonoidAlgebra k G)) :
     algebraMap k (ρ.IntertwiningMap ρ) (centralScalar ρ hz) =
@@ -230,6 +232,7 @@ private theorem algebraMap_centralScalar {z : MonoidAlgebra k G}
   Classical.choose_spec ((scalarAlgebraMap_bijective ρ).surjective
     (Representation.IntertwiningMap.centralAlgebraMul ρ hz))
 
+omit [Fintype G] in
 theorem centralScalar_action {z : MonoidAlgebra k G}
     (hz : z ∈ Submonoid.center (MonoidAlgebra k G)) (v : V) :
     ρ.asAlgebraHom z v = centralScalar ρ hz • v := by
@@ -237,6 +240,7 @@ theorem centralScalar_action {z : MonoidAlgebra k G}
     (algebraMap_centralScalar ρ hz)
   simpa [Representation.IntertwiningMap.algebraMap_apply] using h.symm
 
+omit [Fintype G] in
 theorem centralScalar_unique {z : MonoidAlgebra k G}
     (hz : z ∈ Submonoid.center (MonoidAlgebra k G)) (a : k)
     (ha : ∀ v : V, ρ.asAlgebraHom z v = a • v) :
@@ -246,6 +250,7 @@ theorem centralScalar_unique {z : MonoidAlgebra k G}
   ext v
   simpa [Representation.IntertwiningMap.algebraMap_apply] using ha v
 
+omit [Fintype G] in
 private theorem centralScalar_mul {z w : MonoidAlgebra k G}
     (hz : z ∈ Submonoid.center (MonoidAlgebra k G))
     (hw : w ∈ Submonoid.center (MonoidAlgebra k G)) :
@@ -313,6 +318,7 @@ private theorem character_eq_classRep (C : ConjClasses G) {x : G}
       (Representation.char_conj ρ x g).symm
     _ = ρ.character (classRep C) := by rw [hg]
 
+omit [IsAlgClosed k] [FiniteDimensional k V] [ρ.IsIrreducible] in
 private theorem trace_classSum (C : ConjClasses G) :
     LinearMap.trace k V (ρ.asAlgebraHom (classSum k C)) =
       (classSize C : k) * ρ.character (classRep C) := by
@@ -327,6 +333,7 @@ private theorem trace_classSum (C : ConjClasses G) :
     _ = (classSize C : k) * ρ.character (classRep C) := by
       simp [classSize]
 
+omit [Fintype G] in
 theorem trace_centralScalar {z : MonoidAlgebra k G}
     (hz : z ∈ Submonoid.center (MonoidAlgebra k G)) :
     LinearMap.trace k V (ρ.asAlgebraHom z) =

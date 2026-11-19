@@ -327,7 +327,6 @@ theorem e81Check_of_pins (X : E81Data) (hn : X.n = n) {mp : ℕ} (PG : ℕ → �
         rw [getElem!_pos _ i hi']; exact Array.getElem_mem_toList hi', ?_⟩
       obtain ⟨eh, ph⟩ := hh.2 i hi
       rw [eh]
-      try dsimp only
       rw [List.any_eq_true]
       refine ⟨_, Array.getElem_mem_toList (by rw [Array.size_map]; exact ht), ?_⟩
       rw [Array.getElem_map, ← getElem!_pos X.dW t ht]

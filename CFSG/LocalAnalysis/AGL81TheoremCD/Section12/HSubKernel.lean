@@ -10,6 +10,7 @@ open CFSG.Open
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem inf_le_kerIn_sup {K X M : Subgroup G}
     (hK : K ≤ Subgroup.normalizer (X ⊓ M : Set G))
     (hXn : X ≤ Subgroup.normalizer (X ⊓ M : Set G)) :

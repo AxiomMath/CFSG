@@ -16,7 +16,7 @@ open CFSG.RankThree.PartTwo.Sec4 (exists_mulEquiv_reeGamma)
 theorem three_le_pRank_of_G2_char_three
     {L : Type} [Group L] [Finite L] {f : ℕ} (h : LieModel L .G2 0 3 f) :
     3 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hm := h.chevalleyExceptionalModel (by decide)
   have h3 := CFSG.SectionRank.three_mul_le_pRank_of_G2Model (p := 3) (f := f) hm.2
   have hf : 1 ≤ f := hm.1.2.1
@@ -25,7 +25,7 @@ theorem three_le_pRank_of_G2_char_three
 theorem four_le_pRank_of_trialityD4_char_three
     {L : Type} [Group L] [Finite L] {f : ℕ} (h : LieModel L .trialityD4 0 3 f) :
     4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hm := h.chevalleyExceptionalModel (by decide)
   exact CFSG.SectionRank.four_le_pRank_of_trialityD4Model (p := 3) (f := f) hm.1.2.1 hm.2
 

@@ -30,7 +30,7 @@ theorem sq_le_autOrderIn_of_rkAut {p : ℕ} (hp : p.Prime) {J B : Subgroup Y}
     (hB : IsSCp p ⊤ B) (hBN : B ≤ Subgroup.normalizer (J : Set Y)) (hrk : RkAut p ↥J) :
     p ^ 2 ≤ autOrderIn B J := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hBel : IsElemAbelian p B := hB.2.1
   by_contra hlt
   push Not at hlt
@@ -53,7 +53,7 @@ theorem sq_le_autOrderIn_of_rkAut {p : ℕ} (hp : p.Prime) {J B : Subgroup Y}
   have hAcyc : IsCyclic A := by
     rcases Nat.le_one_iff_eq_zero_or_eq_one.1 hr1 with h0 | h1
     · have hc1 : Nat.card A = 1 := by rw [hcardA, hr, h0]; simp
-      haveI : Subsingleton A := (Nat.card_eq_one_iff_unique.1 hc1).1
+      have : Subsingleton A := (Nat.card_eq_one_iff_unique.1 hc1).1
       exact isCyclic_of_subsingleton
     · have hcp : Nat.card A = p := by rw [hcardA, hr, h1]; simp
       exact isCyclic_of_prime_card hcp
@@ -133,7 +133,7 @@ theorem exists_elemAbelian_sq_of_mem {p : ℕ} (hp : p.Prime)
     (hj : orderOf j = p) :
     ∃ E : Subgroup G, IsElemAbelian p E ∧ p ^ 2 ≤ Nat.card E ∧ j ∈ E := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E₀, hE₀el, hE₀card⟩ := hex
   have hE₀p : IsPGroup p E₀ := IsPGroup.of_card (n := 2) hE₀card
   obtain ⟨P₀, hP₀⟩ := hE₀p.exists_le_sylow
@@ -170,11 +170,11 @@ theorem exists_elemAbelian_sq_of_mem {p : ℕ} (hp : p.Prime)
   ·
     push Not at hcen
     obtain ⟨x, hx, hxj⟩ := hcen
-    haveI : Nontrivial (P₁ : Subgroup G) :=
+    have : Nontrivial (P₁ : Subgroup G) :=
       ⟨⟨⟨j, hjP⟩, 1, fun h => hj1 (congrArg Subtype.val h)⟩⟩
-    haveI : Nontrivial (Subgroup.center (P₁ : Subgroup G)) := (P₁.isPGroup').center_nontrivial
+    have : Nontrivial (Subgroup.center (P₁ : Subgroup G)) := (P₁.isPGroup).center_nontrivial
     have hZpg : IsPGroup p (Subgroup.center (P₁ : Subgroup G)) :=
-      (P₁.isPGroup').to_subgroup (Subgroup.center (P₁ : Subgroup G))
+      (P₁.isPGroup).to_subgroup (Subgroup.center (P₁ : Subgroup G))
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hZpg
     have hn0 : n ≠ 0 := by
       rintro rfl
@@ -223,7 +223,7 @@ theorem mem_innerAut_of_pow_eq_one' {G : Type*} [Group G] [Finite G] {p : ℕ}
 theorem rkAut_of_simple {J : Type} [Group J] [Finite J] {p : ℕ} (hp : p.Prime)
     (hZ : Subgroup.center J = ⊥) (hO : Nat.Coprime p (Nat.card (Outer J)))
     (hex : ∃ E₀ : Subgroup J, IsElemAbelian p E₀ ∧ Nat.card E₀ = p ^ 2) : RkAut p J := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro β hβ
   obtain ⟨j, hj⟩ := mem_innerAut_of_pow_eq_one' hO hβ
   have hcard : Nat.card (Subgroup.center J) = 1 := by rw [hZ]; simp

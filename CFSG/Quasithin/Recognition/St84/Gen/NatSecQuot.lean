@@ -28,6 +28,7 @@ def e2 : Fin 2 → F := ![0, 1]
 def lin (A : SL(2, F)) : (Fin 2 → F) ≃ₗ[F] (Fin 2 → F) :=
   Matrix.SpecialLinearGroup.toLin' A
 
+omit [Finite F] [CharP F 2] in
 theorem lin_apply (A : SL(2, F)) (v : Fin 2 → F) :
     lin A v = (A : Matrix (Fin 2) (Fin 2) F).mulVec v := by
   show Matrix.SpecialLinearGroup.toLin' A v = _
@@ -43,16 +44,19 @@ def fixedSub (R : Subgroup SL(2, F)) : Submodule F (Fin 2 → F) where
     intro c v hv r hr
     rw [LinearEquiv.map_smul, hv r hr]
 
+omit [Finite F] [CharP F 2] in
 theorem mem_fixedSub {R : Subgroup SL(2, F)} {v : Fin 2 → F} :
     v ∈ fixedSub R ↔ ∀ r ∈ R, lin r v = v := Iff.rfl
 
 @[expose] def commSub (R : Subgroup SL(2, F)) : Submodule F (Fin 2 → F) :=
   Submodule.span F {w | ∃ r ∈ R, ∃ v : Fin 2 → F, w = lin r v - v}
 
+omit [Finite F] [CharP F 2] in
 theorem sub_mem_commSub {R : Subgroup SL(2, F)} {r : SL(2, F)} (hr : r ∈ R)
     (v : Fin 2 → F) : lin r v - v ∈ commSub R :=
   Submodule.subset_span ⟨r, hr, v, rfl⟩
 
+omit [Finite F] [CharP F 2] in
 theorem conj_lin (B r : SL(2, F)) (v : Fin 2 → F) :
     lin (B * r * B⁻¹) v = lin B (lin r (lin B⁻¹ v)) := by
   show Matrix.SpecialLinearGroup.toLin' (B * r * B⁻¹) v =
@@ -61,6 +65,7 @@ theorem conj_lin (B r : SL(2, F)) (v : Fin 2 → F) :
   rw [map_mul, map_mul, map_inv]
   exact LinearEquiv.mul_apply _ _ _
 
+omit [CharP F 2] in
 theorem fixedSub_sl2Stab_eq_span {v : Fin 2 → F} (hv : v ≠ 0) :
     fixedSub (sl2Stab v) = Submodule.span F {v} := by
   have hne : sl2Stab v ≠ ⊥ := by
@@ -68,7 +73,7 @@ theorem fixedSub_sl2Stab_eq_span {v : Fin 2 → F} (hv : v ≠ 0) :
     have hcard := card_sl2Stab hv
     rw [hbot, Subgroup.card_bot] at hcard
     have h2 : 2 ≤ Nat.card F := by
-      haveI : Nontrivial F := inferInstance
+      have : Nontrivial F := inferInstance
       exact Finite.one_lt_card
     omega
   refine le_antisymm ?_ ?_
@@ -86,6 +91,7 @@ theorem fixedSub_sl2Stab_eq_span {v : Fin 2 → F} (hv : v ≠ 0) :
     subst hw
     exact fun A hA => by rw [lin_apply]; exact hA
 
+omit [Finite F] [CharP F 2] in
 theorem commSub_sl2Stab_le_fixedSub {v : Fin 2 → F} (hv : v ≠ 0) :
     commSub (sl2Stab v) ≤ fixedSub (sl2Stab v) := by
   obtain ⟨B, hB⟩ := exists_sl2_mulVec_single v hv
@@ -114,6 +120,7 @@ theorem commSub_sl2Stab_le_fixedSub {v : Fin 2 → F} (hv : v ≠ 0) :
   rw [hsub, LinearEquiv.map_smul]
   rw [show lin A v = v from by rw [lin_apply]; exact hA]
 
+omit [Finite F] [CharP F 2] in
 theorem commSub_sl2Stab_ne_bot {v : Fin 2 → F} (hv : v ≠ 0) :
     commSub (sl2Stab v) ≠ ⊥ := by
   obtain ⟨B, hB⟩ := exists_sl2_mulVec_single v hv
@@ -148,6 +155,7 @@ theorem commSub_sl2Stab_ne_bot {v : Fin 2 → F} (hv : v ≠ 0) :
     rw [h2, ← map_sub, hx', hB']
   rw [← h1, hmem]
 
+omit [CharP F 2] in
 theorem commSub_sl2Stab_eq {v : Fin 2 → F} (hv : v ≠ 0) :
     commSub (sl2Stab v) = fixedSub (sl2Stab v) := by
   have hle := commSub_sl2Stab_le_fixedSub hv
@@ -170,12 +178,12 @@ theorem commSub_sl2Stab_eq {v : Fin 2 → F} (hv : v ≠ 0) :
 theorem fixedSub_eq_span_of_card {R : Subgroup SL(2, F)} (hR : IsPGroup 2 R)
     (hcard : Nat.card R = Nat.card F) :
     ∃ v : Fin 2 → F, v ≠ 0 ∧ fixedSub R = Submodule.span F {v} := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hRne : R ≠ ⊥ := by
     intro hbot
     rw [hbot, Subgroup.card_bot] at hcard
     have h2 : 2 ≤ Nat.card F := by
-      haveI : Nontrivial F := inferInstance
+      have : Nontrivial F := inferInstance
       exact Finite.one_lt_card
     omega
   have hF : 2 ∣ Nat.card F := by
@@ -206,6 +214,7 @@ theorem finrank_fixedSub_of_card {R : Subgroup SL(2, F)} (hR : IsPGroup 2 R)
   rw [hW]
   exact finrank_span_singleton hv
 
+omit [Finite F] in
 theorem eq_one_of_odd_order_of_fixed {A : SL(2, F)} {v : Fin 2 → F}
     (hv : v ≠ 0) (hodd : Odd (orderOf A))
     (hfix : (A : Matrix (Fin 2) (Fin 2) F).mulVec v = v) : A = 1 := by
@@ -219,9 +228,9 @@ theorem eq_one_of_odd_order_of_fixed {A : SL(2, F)} {v : Fin 2 → F}
 
 theorem natCard_fixedSub_of_card {R : Subgroup SL(2, F)} (hR : IsPGroup 2 R)
     (hcard : Nat.card R = Nat.card F) : Nat.card ↥(fixedSub R) = Nat.card F := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have h2 : 2 ≤ Nat.card F := by
-    haveI : Nontrivial F := inferInstance
+    have : Nontrivial F := inferInstance
     exact Finite.one_lt_card
   have hRne : R ≠ ⊥ := by
     intro hbot
@@ -261,13 +270,13 @@ theorem natCard_fixedSub_of_card {R : Subgroup SL(2, F)} (hR : IsPGroup 2 R)
 theorem commSub_eq_fixedSub_of_card {R : Subgroup SL(2, F)} (hR : IsPGroup 2 R)
     (hcard : Nat.card R = Nat.card F) : commSub R = fixedSub R := by
   have h2 : 2 ≤ Nat.card F := by
-    haveI : Nontrivial F := inferInstance
+    have : Nontrivial F := inferInstance
     exact Finite.one_lt_card
   have hRne : R ≠ ⊥ := by
     intro hbot
     rw [hbot, Subgroup.card_bot] at hcard
     omega
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hF : 2 ∣ Nat.card F := by
     obtain ⟨m, hp, hm⟩ := FiniteField.card F 2
     have hm0 : 0 < (m : ℕ) := m.pos
@@ -313,7 +322,7 @@ theorem fixedSub_inf_sup_of_ne {R R' : Subgroup SL(2, F)}
     change Module.finrank F ↥(fixedSub R') = 1
     exact finrank_fixedSub_of_card hR' hR'card
   have hfinV : Module.finrank F (Fin 2 → F) = 2 := by
-    simpa using (Module.finrank_fin_fun F (n := 2))
+    simp
   have hWne : W ≠ W' := by
     intro hEq
     have hvW : v ∈ W := by
@@ -379,6 +388,7 @@ private def IsBetaEquiv (α : X →* SL(2, F)) (β : ↥E →* Multiplicative (F
     Multiplicative.toAdd (β v) =
       (α ℓ : Matrix (Fin 2) (Fin 2) F).mulVec (Multiplicative.toAdd (β u))
 
+omit [Finite X] [CharP F 2] in
 private theorem card_map_sylow_eq_card (hF : Fintype.card F = 2 ^ n)
     (hα : Function.Surjective α) (hK : IsPGroup 2 α.ker) {A : Subgroup X}
     (hA : IsSylowTwoOf A ⊤) : Nat.card ↥(A.map α) = Nat.card F := by
@@ -411,6 +421,7 @@ private theorem card_map_sylow_eq_card (hF : Fintype.card F = 2 ^ n)
     (k := n) (m := 4 ^ n - 1) hSyl hSL hm
   exact hres.trans hFcard.symm
 
+omit [Finite X] [Fintype F] [CharP F 2] in
 private theorem mem_relCent_iff_fixed (hβk : β.ker = Z.subgroupOf E)
     (hβe : IsBetaEquiv α β) {A : Subgroup X} (e : ↥E) :
     (e : X) ∈ relCent E Z A ↔
@@ -457,6 +468,8 @@ private theorem mem_relCent_iff_fixed (hβk : β.ker = Z.subgroupOf E)
     rw [← commutatorElement_inv a (e : X)]
     exact Z.inv_mem hmem
 
+omit [Finite X] in
+omit [Fintype F] [CharP F 2] in
 private theorem mem_map_relCent_iff_fixed (hβk : β.ker = Z.subgroupOf E)
     (hβ : Function.Surjective β) (hβe : IsBetaEquiv α β) {A : Subgroup X}
     {v : Multiplicative (Fin 2 → F)} :
@@ -476,10 +489,11 @@ private def relCentMapEquivFixed (hβk : β.ker = Z.subgroupOf E)
   toFun v := ⟨Multiplicative.toAdd v.1,
     (mem_map_relCent_iff_fixed hβk hβ hβe).mp v.2⟩
   invFun v := ⟨Multiplicative.ofAdd v.1,
-    (mem_map_relCent_iff_fixed hβk hβ hβe).mpr (by simpa using v.2)⟩
+    (mem_map_relCent_iff_fixed hβk hβ hβe).mpr (by simp)⟩
   left_inv v := by apply Subtype.ext; simp
   right_inv v := by apply Subtype.ext; simp
 
+omit [Finite X] [E.Normal] [Z.Normal] [Fintype F] [CharP F 2] in
 private theorem natCard_map_eq_relIndex (hβk : β.ker = Z.subgroupOf E) {K : Subgroup X}
     (hKE : K ≤ E) : Nat.card ↥((K.subgroupOf E).map β) = Z.relIndex K := by
   let K' : Subgroup ↥E := K.subgroupOf E
@@ -497,6 +511,7 @@ private theorem natCard_map_eq_relIndex (hβk : β.ker = Z.subgroupOf E) {K : Su
       rw [hker]
       exact Subgroup.relIndex_subgroupOf hKE
 
+omit [Finite X] in
 private theorem line_beta (hF : Fintype.card F = 2 ^ n)
     (hα : Function.Surjective α) (hK : IsPGroup 2 α.ker)
     (hβ : Function.Surjective β) (hβk : β.ker = Z.subgroupOf E)
@@ -522,6 +537,7 @@ private theorem line_beta (hF : Fintype.card F = 2 ^ n)
     _ = Nat.card F := SL2Nat.natCard_fixedSub_of_card hR2 hRcard
     _ = 2 ^ n := by rw [Nat.card_eq_fintype_card, hF]
 
+omit [Finite X] [E.Normal] [Z.Normal] [CharP F 2] in
 private theorem index_beta (hF : Fintype.card F = 2 ^ n)
     (hβ : Function.Surjective β) (hβk : β.ker = Z.subgroupOf E) :
     Z.relIndex E = 2 ^ (2 * n) := by
@@ -538,6 +554,7 @@ private theorem index_beta (hF : Fintype.card F = 2 ^ n)
     _ = 2 ^ (2 * n) := by
       rw [Nat.card_eq_fintype_card, hF, pow_two, ← pow_add, two_mul]
 
+omit [Finite X] in
 private theorem comm_le_relCent (hF : Fintype.card F = 2 ^ n)
     (hα : Function.Surjective α) (hK : IsPGroup 2 α.ker)
     (hβk : β.ker = Z.subgroupOf E)
@@ -619,6 +636,7 @@ private theorem comm_le_relCent (hF : Fintype.card F = 2 ^ n)
     simpa [mul_assoc] using h
   exact sup_le hcomm_le_rel hZle
 
+omit [Finite X] in
 private theorem relCent_le_sup (hF : Fintype.card F = 2 ^ n)
     (hα : Function.Surjective α) (hK : IsPGroup 2 α.ker)
     (hβ : Function.Surjective β) (hβk : β.ker = Z.subgroupOf E)
@@ -672,8 +690,7 @@ private theorem relCent_le_sup (hF : Fintype.card F = 2 ^ n)
       refine ⟨y₁ * y₂, (⁅E, A⁆ ⊔ Z).mul_mem hy₁ hy₂, ?_⟩
       rw [map_mul]
       simp [hy₁β, hy₂β, smul_add]
-    · intro c w _ ih
-      intro d
+    · intro c w _ ih d
       obtain ⟨y, hy, hyβ⟩ := ih (d * c)
       refine ⟨y, hy, ?_⟩
       rw [hyβ, smul_smul]
@@ -698,6 +715,7 @@ private theorem relCent_le_sup (hF : Fintype.card F = 2 ^ n)
   rw [hx_eq]
   exact (⁅E, A⁆ ⊔ Z).mul_mem (Subgroup.mem_sup_right hdiff) hysup
 
+omit [Finite X] in
 private theorem comm_eq_beta (hF : Fintype.card F = 2 ^ n)
     (hα : Function.Surjective α) (hK : IsPGroup 2 α.ker)
     (hβ : Function.Surjective β) (hβk : β.ker = Z.subgroupOf E)
@@ -706,6 +724,7 @@ private theorem comm_eq_beta (hF : Fintype.card F = 2 ^ n)
   le_antisymm (comm_le_relCent hF hα hK hβk hβe hZE hA)
     (relCent_le_sup hF hα hK hβ hβk hβe hA)
 
+omit [Finite X] in
 private theorem lines_inf_beta (hF : Fintype.card F = 2 ^ n)
     (hα : Function.Surjective α) (hK : IsPGroup 2 α.ker)
     (hβ : Function.Surjective β) (hβk : β.ker = Z.subgroupOf E)
@@ -801,6 +820,7 @@ private theorem lines_inf_beta (hF : Fintype.card F = 2 ^ n)
       exact (relCent E Z A ⊔ relCent E Z A').mul_mem
         (Subgroup.mem_sup_right (hZle A' hdiff')) hprod
 
+omit [Finite X] [E.Normal] [Z.Normal] [Fintype F] [CharP F 2] in
 private theorem mem_of_map_mem (hβk : β.ker = Z.subgroupOf E) {K : Subgroup X}
     (hZK : Z ≤ K) {e : ↥E} :
     (e : X) ∈ K ↔ β e ∈ (K.subgroupOf E).map β := by
@@ -817,10 +837,11 @@ private theorem mem_of_map_mem (hβk : β.ker = Z.subgroupOf E) {K : Subgroup X}
     rw [h_eq]
     exact K.mul_mem (hZK hdiff) (Subgroup.mem_subgroupOf.mp hy)
 
+omit [Finite X] [Z.Normal] [Fintype F] in
 private theorem fpf_beta (hK : IsPGroup 2 α.ker) (hβk : β.ker = Z.subgroupOf E)
     (hβe : IsBetaEquiv α β) {g : X} (hodd : Odd (orderOf g)) (hgE : g ∉ E)
     {e : X} (he : e ∈ E) (hcomm : ⁅e, g⁆ ∈ Z) : e ∈ Z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let vE : ↥E := ⟨g * e * g⁻¹, (inferInstance : E.Normal).conj_mem e he g⟩
   have hvE : (vE : X) = g * e * g⁻¹ := rfl
   have hβv : β vE = β ⟨e, he⟩ := by
@@ -863,6 +884,7 @@ private theorem fpf_beta (hK : IsPGroup 2 α.ker) (hβk : β.ker = Z.subgroupOf 
     exact hker
   exact hαg (SL2Nat.eq_one_of_odd_order_of_fixed hv hoddα hfix)
 
+omit [Finite X] [Z.Normal] [Fintype F] [CharP F 2] in
 private theorem irred_beta (hα : Function.Surjective α) (hβk : β.ker = Z.subgroupOf E)
     (hβe : IsBetaEquiv α β) {W : Subgroup X} (hZW : Z ≤ W) (hWE : W ≤ E)
     (hWn : (⊤ : Subgroup X) ≤ Subgroup.normalizer (W : Set X)) :
@@ -914,6 +936,7 @@ private theorem irred_beta (hα : Function.Surjective α) (hβk : β.ker = Z.sub
         rwa [hβa'] at himg'
     exact (mem_of_map_mem hβk hZW).mpr himg
 
+omit [Finite X] in
 private theorem natQuot_of_beta_top (hF : Fintype.card F = 2 ^ n)
     (hα : Function.Surjective α) (hK : IsPGroup 2 α.ker)
     (hβ : Function.Surjective β) (hβk : β.ker = Z.subgroupOf E)
@@ -950,10 +973,10 @@ theorem natQuot_of_isNatSecOf {G : Type} [Group G] {L E Z : Subgroup G} [Finite 
   let Z' : Subgroup X := Z.subgroupOf L
   have hNE : L ≤ Subgroup.normalizer (E : Set G) := fun x hx => (hL hx).1
   have hNZ : L ≤ Subgroup.normalizer (Z : Set G) := fun x hx => (hL hx).2
-  haveI hEn : E'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNE
-  haveI hZn : Z'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNZ
+  have hEn : E'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNE
+  have hZn : Z'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hNZ
   have hZE' : Z' ≤ E' := Subgroup.subgroupOf_mono L hZE
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : IsPGroup 2 α.ker := by
     rw [hker]
     have hpc : (pCoreOf 2 L).subgroupOf L = CFSG.pCore 2 X := by

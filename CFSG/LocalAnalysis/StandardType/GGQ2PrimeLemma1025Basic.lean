@@ -157,8 +157,8 @@ private theorem lem1025_le_comm_U52 {G : Type} [Group G] {X : Subgroup G}
     (hX : LieModel X .PSU 5 2 1) : X ≤ ⁅X, X⁆ := by
   have hm := classicalModel_of_PSU (by omega) hX
   have hcard := lem1025_card_U52 hX
-  haveI : IsSimpleGroup X := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hm
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : IsSimpleGroup X := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hm
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   exact le_comm_of_simple (exists_noncomm_of_simple Nat.prime_two (by rw [hcard]; norm_num)
     (by rw [hcard]; norm_num))
 
@@ -166,8 +166,8 @@ theorem lem1025_le_comm_U42 {G : Type} [Group G] {X : Subgroup G} (hX : LieModel
     X ≤ ⁅X, X⁆ := by
   have hm := classicalModel_of_PSU (by omega) hX
   have hcard := CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_four_two hm
-  haveI : IsSimpleGroup X := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hm
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : IsSimpleGroup X := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hm
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   exact le_comm_of_simple (exists_noncomm_of_simple Nat.prime_two (by rw [hcard]; norm_num)
     (by rw [hcard]; norm_num))
 

@@ -171,7 +171,7 @@ theorem e6OutBound_core (B : Subgroup (MulAut ↥(adjointGroup .E6 K)))
   have hcard : Nat.card B = Nat.card Φ.range * Nat.card Φ.ker := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup Φ.ker,
       Nat.card_congr (QuotientGroup.quotientKerEquivRange Φ).toEquiv]
-  haveI : NeZero (exactE Tag.E6) := ⟨by decide⟩
+  have : NeZero (exactE Tag.E6) := ⟨by decide⟩
   have hZ : Nat.card (Multiplicative (ZMod (exactE Tag.E6))) = 2 :=
     (Nat.card_congr (Multiplicative.toAdd : Multiplicative (ZMod (exactE Tag.E6)) ≃ _)).trans
       (Nat.card_zmod _)

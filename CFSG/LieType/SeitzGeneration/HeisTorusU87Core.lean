@@ -42,6 +42,7 @@ theorem ug87_sum_fin {M : Type*} [AddCommMonoid M] (g : ZMod r → M) :
   rw [Nat.mod_eq_of_lt i.isLt, Nat.mod_eq_of_lt j.isLt] at h
   exact Fin.ext h
 
+omit [Fact (Nat.Prime r)] in
 theorem ug87_natCast_r [CharP K 2] (hr8 : r % 8 = 1) : (r : K) = 1 := by
   obtain ⟨m, hm⟩ : ∃ m, r = 2 * m + 1 := ⟨r / 2, by omega⟩
   rw [hm]
@@ -150,6 +151,7 @@ theorem Ug87Ctx.ft_e (c : Ug87Ctx ψ σ) (φ : ℤ → K) (u : ZMod r) :
     ∑ x : ZMod r, φ (σ * χ x) * ψ (u * x) = φ 0 + if u = 0 then 0 else φ (χ u) :=
   ug87_ft_e c.r8 c.sign c.eta_pos c.eta_neg φ u
 
+omit [CharP K 2] in
 theorem Ug87Ctx.sigma_ne_zero (c : Ug87Ctx ψ σ) : σ ≠ 0 := by
   rcases c.sign with h | h <;> simp [h]
 
@@ -181,6 +183,7 @@ theorem ug87_gam_tm_symm (hζ : IsPrimitiveRoot ζ r) (c : Ug87Ctx (ug87_psi hζ
       -(((i : ℕ) : ZMod r) - ((j : ℕ) : ZMod r)) := by ring
   simp only [h1, ug87_chi_neg c.r8, neg_eq_zero]
 
+omit [CharP K 2] in
 theorem ug87_tm_mul (lam : K) (hlam : lam ≠ 0) (σ : ℤ) (x : ZMod r) :
     ug87_tm lam σ 1 x * ug87_tm lam σ (-1) x = 1 := by
   unfold ug87_tm
@@ -204,8 +207,8 @@ theorem ug87_y_apply_zero (hζ : IsPrimitiveRoot ζ r) (c : Ug87Ctx (ug87_psi h�
     rw [ug87_gam_tm hζ c, ug87_gam_tm hζ c]
     simp only [Fin.val_zero, Nat.cast_zero, sub_zero]
     by_cases hj : ((j : ℕ) : ZMod r) = 0
-    · simp [ug87_s, hj, quadraticChar_zero]
-    · simp only [hj, if_false]
+    · simp [ug87_s, hj]
+    · simp only [hj, ite_false]
       unfold ug87_s
       rw [mul_add, mul_one, ← zpow_add₀ hlam]
       have e1 : -(χ ((j : ℕ) : ZMod r)) + 1 * χ ((j : ℕ) : ZMod r) = 0 := by ring
@@ -236,7 +239,7 @@ theorem ug87_gam_v (hζ : IsPrimitiveRoot ζ r) (c : Ug87Ctx (ug87_psi hζ) σ) 
     rw [h]
     by_cases hx : x = 0
     · subst hx
-      simp [quadraticChar_zero]
+      simp
     · have hnx : -x ≠ 0 := neg_ne_zero.mpr hx
       simp [hnx, ug87_chi_neg c.r8]
   have hpt : ∀ x : ZMod r, ug87_tm lam σ 1 x * ug87_psi hζ (((i : ℕ) : ZMod r) * x) *
@@ -245,25 +248,26 @@ theorem ug87_gam_v (hζ : IsPrimitiveRoot ζ r) (c : Ug87Ctx (ug87_psi hζ) σ) 
     intro x
     rw [hG x]
     by_cases hx : σ * χ x = 1
-    · rw [if_pos hx]
+    · rw [ite_eq_left hx]
       unfold ug87_tm
       rw [one_mul, hx, zpow_one]
       ring
-    · rw [if_neg hx]
+    · rw [ite_eq_right hx]
       ring
   rw [Finset.sum_congr rfl fun x _ => hpt x, ← Finset.mul_sum]
   have h2 := c.ft_e (fun n : ℤ => if n = 1 then (1 : K) else 0) ((i : ℕ) : ZMod r)
   rw [h2]
   by_cases hi : ((i : ℕ) : ZMod r) = 0
-  · simp [ug87_v, hi, quadraticChar_zero]
+  · simp [ug87_v, hi]
   · simp [ug87_v, hi]
 
+omit [CharP K 2] in
 theorem ug87_s_v (lam : K) (x : ZMod r) :
     ug87_s lam x * ug87_v x = lam⁻¹ * ug87_v x := by
   unfold ug87_s ug87_v
   by_cases h : χ x = 1
   · simp [h]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     ring
 
 theorem ug87_y_v (hζ : IsPrimitiveRoot ζ r) (c : Ug87Ctx (ug87_psi hζ) σ) {lam : K}
@@ -293,7 +297,7 @@ theorem ug87_gam_sq (hζ : IsPrimitiveRoot ζ r) (c : Ug87Ctx (ug87_psi hζ) σ)
   rw [ug87_gam_tm hζ c, ug87_gam_tm hζ c]
   by_cases hu : ((i : ℕ) : ZMod r) - ((j : ℕ) : ZMod r) = 0
   · simp [hu]
-  · simp only [hu, if_false]
+  · simp only [hu, ite_false]
     have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
     have hw : lam ^ ((2 : ℤ) * χ (((i : ℕ) : ZMod r) - ((j : ℕ) : ZMod r))) =
         lam ^ ((1 : ℤ) * χ (((i : ℕ) : ZMod r) - ((j : ℕ) : ZMod r))) *
@@ -331,18 +335,18 @@ theorem ug87_y_diag (hζ : IsPrimitiveRoot ζ r) (c : Ug87Ctx (ug87_psi hζ) σ)
     rw [hS x]
     by_cases hx : x = 0
     · subst hx
-      simp [ug87_tm, quadraticChar_zero]
+      simp [ug87_tm]
     · have hσχ : σ * χ x ≠ 0 :=
         mul_ne_zero c.sigma_ne_zero (fun h => hx ((ug87_chi_eq_zero_iff x).mp h))
-      simp only [hx, hσχ, if_false, ug87_tm]
+      simp only [hx, hσχ, ite_false, ug87_tm]
       ring
   rw [Finset.sum_congr rfl fun x _ => hpt x]
   have h2 := c.ft_e (fun n : ℤ => lam ^ (2 * n) * (1 + if n = 0 then 0 else lam ^ (-n)))
     ((a : ℕ) : ZMod r)
   rw [h2]
   have hχa : χ ((a : ℕ) : ZMod r) ≠ 0 := fun h => ha ((ug87_chi_eq_zero_iff _).mp h)
-  rw [if_neg ha, if_neg hχa]
-  simp only [mul_zero, zpow_zero, eq_self_iff_true, if_true, add_zero, mul_one, neg_zero]
+  rw [ite_eq_right ha, ite_eq_right hχa]
+  simp only [mul_zero, zpow_zero, ite_true, add_zero, mul_one, neg_zero]
 
 theorem ug87_y_diag_one (hζ : IsPrimitiveRoot ζ r) (c : Ug87Ctx (ug87_psi hζ) σ) {lam : K}
     (hlam : lam ≠ 0) (a : Fin r) (ha : χ ((a : ℕ) : ZMod r) = 1) :
@@ -354,6 +358,7 @@ theorem ug87_y_diag_one (hζ : IsPrimitiveRoot ζ r) (c : Ug87Ctx (ug87_psi hζ)
   field_simp
   ring
 
+omit [CharP K 2] in
 theorem ug87_one_add_ne_zero (hζ : IsPrimitiveRoot ζ r) (hr8 : r % 8 = 1) :
     1 + ζ + ζ ^ 2 ≠ 0 := by
   intro h
@@ -387,23 +392,25 @@ theorem ug87_not_monomial (hζ : IsPrimitiveRoot ζ r) (c : Ug87Ctx (ug87_psi h�
       · rw [hoff j hj a (Ne.symm hja), zero_mul]
       · have : (ug87_v ((j : ℕ) : ZMod r) : K) = 0 := by
           unfold ug87_v
-          rw [if_neg hj]
+          rw [ite_eq_right hj]
         rw [this, mul_zero]
     · intro h
       exact absurd (Finset.mem_univ a) h
   have hva : (ug87_v ((a : ℕ) : ZMod r) : K) = 1 := by
     unfold ug87_v
-    rw [if_pos hχa]
+    rw [ite_eq_left hχa]
   rw [hsingle, hva, mul_one, mul_one, ug87_y_diag_one hζ c hlam a hχa] at hsum
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have hsq : (1 + lam) ^ 2 = 0 := by linear_combination hsum + lam * h2
   have h1' : 1 + lam = 0 := (pow_eq_zero_iff two_ne_zero).mp hsq
   exact hlam1 (by linear_combination h1' - h2)
 
+omit [Fact (Nat.Prime r)] [CharP K 2] in
 theorem ug87_zpow_pow_eq_one {lam : K} (hlam : lam ^ r = 1) (n : ℤ) : (lam ^ n) ^ r = 1 := by
   rw [← zpow_natCast, ← _root_.zpow_mul, mul_comm, _root_.zpow_mul, zpow_natCast, hlam,
     _root_.one_zpow]
 
+omit [CharP K 2] in
 theorem ug87_prod_tm (hr8 : r % 8 = 1) (lam : K) (hlam : lam ≠ 0) (σ m : ℤ) :
     ∏ k : Fin r, ug87_tm lam σ m ((k : ℕ) : ZMod r) = 1 := by
   unfold ug87_tm
@@ -412,6 +419,7 @@ theorem ug87_prod_tm (hr8 : r % 8 = 1) (lam : K) (hlam : lam ≠ 0) (σ m : ℤ)
     rw [← Finset.mul_sum, ← Finset.mul_sum, ug87_sum_chi_fin hr8, mul_zero, mul_zero]
   rw [this, zpow_zero]
 
+omit [CharP K 2] in
 theorem ug87_prod_s (hr8 : r % 8 = 1) (lam : K) (hlam : lam ≠ 0) :
     ∏ k : Fin r, ug87_s lam ((k : ℕ) : ZMod r) = 1 := by
   unfold ug87_s

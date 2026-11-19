@@ -23,7 +23,7 @@ theorem sylow_card_le_five
   classical
   let _ : Fact (Nat.Prime 5) := ⟨by decide⟩
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 5 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 5 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hfixeq : (sylowFixedPoints X P s S : Set X) = fixedPoints Q X := FixedNormalizerAction.fixed_eq Q
   have hF : Nat.card (fixedPoints Q X) = 12 := by rwa [← hfixeq]
   have horbit := Degree67FiveOrbitGeometry.exterior_orbit_card_five P hcard h5 hnotAlt s hs S hF12

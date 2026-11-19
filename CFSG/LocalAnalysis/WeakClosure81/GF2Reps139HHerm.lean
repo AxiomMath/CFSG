@@ -18,14 +18,14 @@ namespace CFSG.LocalAnalysis.WeakClosure81.GF2Reps139
 open scoped Matrix
 
 theorem lemmaH_herm {E V : Type} [Field E] [Finite E] [CharP E 2] [AddCommGroup V] [Module E V]
-    [Module.Finite E V] (θ : E →+* E) (hθ : ∀ e, θ (θ e) = e) (hθ1 : θ ≠ RingHom.id E)
+    [Module.Finite E V] (θ : E →+* E) (_hθ : ∀ e, θ (θ e) = e) (_hθ1 : θ ≠ RingHom.id E)
     (hdim : 3 ≤ Module.finrank E V) (A : Submodule E V)
     (hA : Module.finrank E A + 1 = Module.finrank E V) (h : V →ₗ[E] V →ₛₗ[θ] E)
     (hnd : ∀ x, (∀ y, h x y = 0) → x = 0) (hherm : ∀ x y, h y x = θ (h x y)) :
     Nat.card {g : V ≃ₗ[E] V | (∀ v, g v - v ∈ A) ∧ (∀ a ∈ A, g a = a) ∧
       ∃ l : E, l ≠ 0 ∧ ∀ x y, h (g x) (g y) = l * h x y} ≤ Nat.card {c : E // θ c = c} := by
   classical
-  haveI : Finite V := Module.finite_of_finite E
+  have : Finite V := Module.finite_of_finite E
   have hsep_right : ∀ c : V, (∀ y, h y c = 0) → c = 0 := by
     intro c hc
     refine hnd c fun y => ?_
@@ -48,12 +48,12 @@ theorem lemmaH_herm {E V : Type} [Field E] [Finite E] [CharP E 2] [AddCommGroup 
       rw [Module.natCard_eq_pow_finrank (K := E) (V := V →ₗ[E] E),
           Module.natCard_eq_pow_finrank (K := E) (V := V),
           Subspace.dual_finrank_eq]
-    haveI : Finite (V → E) := by infer_instance
-    haveI : Finite (V →ₗ[E] E) :=
+    have : Finite (V → E) := by infer_instance
+    have : Finite (V →ₗ[E] E) :=
       Finite.of_injective (fun f : V →ₗ[E] E => (f : V → E)) (fun f g h => by
         ext x; exact congrFun h x)
-    haveI : Fintype V := Fintype.ofFinite V
-    haveI : Fintype (V →ₗ[E] E) := Fintype.ofFinite _
+    have : Fintype V := Fintype.ofFinite V
+    have : Fintype (V →ₗ[E] E) := Fintype.ofFinite _
     have hcardF : Fintype.card V = Fintype.card (V →ₗ[E] E) := by
       rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]; exact hcard
     let e : V ≃ (V →ₗ[E] E) := Fintype.equivOfCardEq hcardF
@@ -230,8 +230,8 @@ theorem lemmaH_herm {E V : Type} [Field E] [Finite E] [CharP E 2] [AddCommGroup 
             = h x y + (θ α + α) * (h x c₀ * θ (h y c₀)) := by
           intro x y
           rw [hnormal_form x, hnormal_form y]
-          simp only [map_add, LinearMap.map_add₂, LinearMap.add_apply, map_smulₛₗ,
-            map_smul, LinearMap.smul_apply, smul_eq_mul, map_mul, RingHom.id_apply]
+          simp only [map_add, LinearMap.add_apply, map_smulₛₗ,
+            LinearMap.smul_apply, smul_eq_mul, map_mul, RingHom.id_apply]
           rw [hherm y c₀, hcc]
           ring
         have h1 : h (g.1 x₀) (g.1 x₀) = h x₀ x₀ := by
@@ -295,7 +295,7 @@ theorem lemmaH_herm {E V : Type} [Field E] [Finite E] [CharP E 2] [AddCommGroup 
         fun a b _ => Subtype.ext (by rw [hSsub a, hSsub b])
       simpa using Nat.card_le_card_of_injective (fun _ : {g : V ≃ₗ[E] V | P g} => ()) hinj
     have hE₀ : 1 ≤ Nat.card {c : E // θ c = c} := by
-      haveI : Nonempty {c : E // θ c = c} := ⟨⟨0, map_zero θ⟩⟩
+      have : Nonempty {c : E // θ c = c} := ⟨⟨0, map_zero θ⟩⟩
       exact Nat.card_pos
     omega
 

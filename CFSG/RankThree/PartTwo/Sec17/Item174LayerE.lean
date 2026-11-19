@@ -23,13 +23,16 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_componentLayerOf (Y : Subgroup G) :
     Y ≤ Subgroup.normalizer (GorensteinWalter.componentLayerOf Y : Set G) := fun _ hy =>
   CFSG.Walter.mem_normalizer_componentLayerOf (Subgroup.le_normalizer hy)
 
+omit [Finite G] in
 theorem componentLayerOf_le' (Y : Subgroup G) : GorensteinWalter.componentLayerOf Y ≤ Y :=
   sSup_le fun _ hK => hK.1
 
+omit [Finite G] in
 theorem commutator_componentLayerOf (Y : Subgroup G) :
     ⁅GorensteinWalter.componentLayerOf Y, GorensteinWalter.componentLayerOf Y⁆ =
       GorensteinWalter.componentLayerOf Y := by
@@ -37,6 +40,7 @@ theorem commutator_componentLayerOf (Y : Subgroup G) :
   rw [← Subgroup.map_subtype_commutator, hperf.commutator_eq_top, ← MonoidHom.range_eq_map,
     Subgroup.range_subtype]
 
+omit [Finite G] in
 theorem false_of_isComponentOf_of_solvable {K Y : Subgroup G}
     (hK : GorensteinWalter.IsComponentOf K Y) (hs : Group.IsSolvable ↥K) : False := by
   have hnt : Nontrivial ↥K := hK.2.2.1
@@ -51,7 +55,7 @@ theorem commutator_isComponentOf_eq_bot {p : ℕ} [Fact p.Prime] {K Y S : Subgro
       Subgroup.le_normalizer) hK with hKS | hKS
   · exfalso
     have hKp : IsPGroup p K := hS.to_le hKS
-    haveI := hKp.isNilpotent
+    have := hKp.isNilpotent
     exact false_of_isComponentOf_of_solvable hK inferInstance
   · exact hKS
 

@@ -122,7 +122,7 @@ theorem exists_sylow : ∃ R : Subgroup H, R ≤ L ⊔ (X ⊓ centralizer (N : S
     Z.L2.comap_of_injective B.subtype B.subtype_injective
   obtain ⟨R₀, hR₀⟩ := hL'.exists_le_sylow
   have hRB : (R₀ : Subgroup B).map B.subtype ≤ B := map_subtype_le _
-  have hR2 : IsPGroup 2 ((R₀ : Subgroup B).map B.subtype) := R₀.isPGroup'.map _
+  have hR2 : IsPGroup 2 ((R₀ : Subgroup B).map B.subtype) := R₀.isPGroup.map _
   have hLR : L ≤ (R₀ : Subgroup B).map B.subtype := fun l hl =>
     ⟨⟨l, hLB hl⟩, hR₀ (mem_subgroupOf.mpr hl), rfl⟩
   have hRN := Z.nc _ (hRB.trans Z.sup_le_X) hR2 hLR

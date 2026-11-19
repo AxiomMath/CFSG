@@ -59,7 +59,7 @@ theorem exists_sylow_iso {R P : Type*} [Group R] [Finite R] [Group P] [Finite P]
     exact orderOf_eq_one_iff.mp hxo
   have hbij : Function.Bijective (q.comp (T : Subgroup R).subtype) :=
     hinj.bijective_of_nat_card_le (by rw [hQ, hTcard])
-  exact ⟨T, T.isPGroup', ⟨e.trans (MulEquiv.ofBijective _ hbij).symm⟩⟩
+  exact ⟨T, T.isPGroup, ⟨e.trans (MulEquiv.ofBijective _ hbij).symm⟩⟩
 
 
 section Model

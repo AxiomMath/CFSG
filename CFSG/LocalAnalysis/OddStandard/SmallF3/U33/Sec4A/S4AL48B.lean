@@ -29,6 +29,7 @@ private lemma mem_normalizer_closure_pair_of_conj_mem {g : G}
   · exact le_of_eq (Subgroup.card_map_of_injective (K := closure ({t, tau} : Set G))
       (f := (MulAut.conj g).toMonoidHom) (MulAut.conj g).injective).symm
 
+omit [Finite G] in
 private lemma conj_tau_mem_closure_of {g u : G} (hu : u = tau ∨ u = t * tau)
     (ht2 : t * t = 1) (hgu : g * u * g⁻¹ = t)
     (hgt : g * t * g⁻¹ ∈ closure ({t, tau} : Set G)) :

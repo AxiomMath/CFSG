@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {X : Type} [Group X] [Finite X] {N Q Y V V' B K : Subgroup X} {ρ t τ l : X} [N.Normal]
 
+omit [Finite X] in
 private lemma zik_Q_comm (h : Z4IData N Q Y V V' B K ρ t τ l) :
     ∀ a ∈ Q.map (z4iπ N), ∀ b ∈ Q.map (z4iπ N), a * b = b * a := by
   rintro _ ⟨a, ha, rfl⟩ _ ⟨b, hb, rfl⟩
@@ -30,27 +31,33 @@ private lemma zik_cent_Q (h : Z4IData N Q Y V V' B K ρ t τ l) :
   exact z4i_commute_of_map N h.Q_inf_N (fun x hx => h.normal_Q g₀ x hx) hq
     (hg (z4iπ N q) (Subgroup.mem_map_of_mem (z4iπ N) hq))
 
+omit [Finite X] in
 private lemma zik_Q_le_K (h : Z4IData N Q Y V V' B K ρ t τ l) :
     Q.map (z4iπ N) ≤ K.map (z4iπ N) :=
   Subgroup.map_mono h.Q_le_K
 
+omit [Finite X] in
 private lemma zik_relIndex_K (h : Z4IData N Q Y V V' B K ρ t τ l) :
     (Q.map (z4iπ N)).relIndex (K.map (z4iπ N)) = 4 := by
   rw [Subgroup.relIndex_map_map (z4iπ N) Q K, z4iπ_ker N, sup_eq_left.mpr h.N_le_K,
     h.relIndex_K]
 
+omit [Finite X] in
 private lemma zik_Q_eq (h : Z4IData N Q Y V V' B K ρ t τ l) :
     Q.map (z4iπ N) = B.map (z4iπ N) ⊔ V'.map (z4iπ N) := by
   rw [← Subgroup.map_sup, ← h.Q_eq]
 
+omit [Finite X] in
 private lemma zik_B_le_Q (h : Z4IData N Q Y V V' B K ρ t τ l) :
     B.map (z4iπ N) ≤ Q.map (z4iπ N) :=
   Subgroup.map_mono h.B_le_Q
 
+omit [Finite X] in
 private lemma zik_Y_le_Q (h : Z4IData N Q Y V V' B K ρ t τ l) :
     Y.map (z4iπ N) ≤ Q.map (z4iπ N) :=
   Subgroup.map_mono h.Y_le_Q
 
+omit [Finite X] in
 private lemma zik_Y_eq (h : Z4IData N Q Y V V' B K ρ t τ l) :
     Y.map (z4iπ N) = V.map (z4iπ N) ⊔ V'.map (z4iπ N) := by
   rw [← Subgroup.map_sup, ← h.Y_eq]
@@ -69,28 +76,33 @@ private lemma zik_card_V' (h : Z4IData N Q Y V V' B K ρ t τ l) :
     Nat.card (V'.map (z4iπ N)) = 4 := by
   rw [z4i_card_map N h.odd_N (h.isPGroup_Q.to_le h.V'_le_Q), h.card_V']
 
+omit [Finite X] in
 private lemma zik_sq_mem_V (h : Z4IData N Q Y V V' B K ρ t τ l) :
     ∀ q ∈ Q.map (z4iπ N), q ^ 2 ∈ V.map (z4iπ N) := by
   rintro _ ⟨q, hq, rfl⟩
   simpa only [map_pow] using Subgroup.mem_map_of_mem (z4iπ N) (h.sq_mem_V q hq)
 
+omit [Finite X] in
 private lemma zik_K_cent_Y (h : Z4IData N Q Y V V' B K ρ t τ l) :
     ∀ k ∈ K.map (z4iπ N), ∀ y ∈ Y.map (z4iπ N), k * y = y * k := by
   rintro _ ⟨k, hk, rfl⟩ _ ⟨y, hy, rfl⟩
   simp only [← map_mul, h.K_cent_Y k hk y hy]
 
+omit [Finite X] in
 private lemma zik_comm_KQ (h : Z4IData N Q Y V V' B K ρ t τ l) :
     ∀ k ∈ K.map (z4iπ N), ∀ q ∈ Q.map (z4iπ N),
       k * q * k⁻¹ * q⁻¹ ∈ V.map (z4iπ N) := by
   rintro _ ⟨k, hk, rfl⟩ _ ⟨q, hq, rfl⟩
   simpa only [map_mul, map_inv] using Subgroup.mem_map_of_mem (z4iπ N) (h.comm_KQ k hk q hq)
 
+omit [Finite X] in
 private lemma zik_rho_pow_three (h : Z4IData N Q Y V V' B K ρ t τ l) :
     (z4iπ N ρ) ^ 3 = 1 := by
   have h3 : z4iπ N (ρ ^ 3) = 1 := by rw [h.rho_pow_three, map_one]
   simpa only [map_pow] using h3
 
-private lemma zik_rho_norm (h : Z4IData N Q Y V V' B K ρ t τ l) {A : Subgroup X}
+omit [Finite X] in
+private lemma zik_rho_norm (_h : Z4IData N Q Y V V' B K ρ t τ l) {A : Subgroup X}
     (hA : ∀ x ∈ A, ρ * x * ρ⁻¹ ∈ A) :
     ∀ x ∈ A.map (z4iπ N), z4iπ N ρ * x * (z4iπ N ρ)⁻¹ ∈ A.map (z4iπ N) := by
   rintro _ ⟨x, hx, rfl⟩
@@ -111,6 +123,7 @@ private lemma zik_rho_fpf_Q (h : Z4IData N Q Y V V' B K ρ t τ l) :
   have hq1 : q = 1 := h.rho_fpf_Q q hq hfix
   rw [hq1, map_one]
 
+omit [Finite X] in
 private lemma zik_rho_fpf_KQ (h : Z4IData N Q Y V V' B K ρ t τ l) :
     ∀ k ∈ K.map (z4iπ N),
       z4iπ N ρ * k * (z4iπ N ρ)⁻¹ * k⁻¹ ∈ Q.map (z4iπ N) → k ∈ Q.map (z4iπ N) := by

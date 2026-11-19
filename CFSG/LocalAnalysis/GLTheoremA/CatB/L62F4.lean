@@ -32,8 +32,8 @@ theorem card_alt7 : Nat.card (alternatingGroup (Fin 7)) = 2520 := by
 
 theorem simple_of_iso {I : Type} [Group I] (e : I ≃* alternatingGroup (Fin 7)) (N : Subgroup I) [N.Normal] :
     N = ⊥ ∨ N = ⊤ := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup I := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup I := e.isSimpleGroup
   exact Subgroup.Normal.eq_bot_or_eq_top N
 
 theorem card_of_iso {I : Type} [Group I] (e : I ≃* alternatingGroup (Fin 7)) : Nat.card I = 2520 := by
@@ -41,8 +41,8 @@ theorem card_of_iso {I : Type} [Group I] (e : I ≃* alternatingGroup (Fin 7)) :
 
 theorem hom_trivial_of_small {I : Type} [Group I] (e : I ≃* alternatingGroup (Fin 7)) {M : Type} [Monoid M]
     (φ : I →* M) (hsmall : Nat.card (Set.range φ) < 2520) (i : I) : φ i = 1 := by
-  haveI : Finite I := Finite.of_equiv _ e.toEquiv.symm
-  haveI : Finite (Set.range φ) := (Set.finite_range φ).to_subtype
+  have : Finite I := Finite.of_equiv _ e.toEquiv.symm
+  have : Finite (Set.range φ) := (Set.finite_range φ).to_subtype
   have hn : (φ.ker).Normal := MonoidHom.normal_ker φ
   rcases simple_of_iso e φ.ker with h | h
   · exfalso
@@ -66,7 +66,7 @@ theorem card_end_le (X : Type) [AddCommGroup X] [Module (ZMod 2) X] [Finite X] :
     apply b.ext
     intro i
     exact congrFun hfg i
-  haveI : Finite (Fin (Module.finrank (ZMod 2) X) → X) := inferInstance
+  have : Finite (Fin (Module.finrank (ZMod 2) X) → X) := inferInstance
   have h1 := Nat.card_le_card_of_injective _ hinj
   rw [Nat.card_fun, Nat.card_eq_fintype_card (α := Fin _), Fintype.card_fin] at h1
   exact h1
@@ -128,7 +128,7 @@ theorem comm_bound (A : Type) [AddCommGroup A] [Module (ZMod 2) A] [Module.Finit
     intro h
     rw [h, finrank_top, hA] at hfin
     omega
-  obtain ⟨a2, -, ha2⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨a2, -, ha2⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have ha2' : a2 ∉ P1 := ha2
   have hkey : ∀ x y : ZMod 2, x • a2 + y • R a2 ∈ P1 → x = 0 ∧ y = 0 := by
     intro x y hxy
@@ -197,7 +197,7 @@ theorem comm_bound (A : Type) [AddCommGroup A] [Module (ZMod 2) A] [Module.Finit
     · show f (R a2) = g (R a2)
       rw [hf, hg, h.2]
   have hcardA : Nat.card A = 16 := by
-    haveI := Fintype.ofFinite A
+    have := Fintype.ofFinite A
     have := Module.card_eq_pow_finrank (K := ZMod 2) (V := A)
     rw [hA, ← Nat.card_eq_fintype_card] at this
     simpa using this
@@ -209,7 +209,7 @@ theorem fixed_point_ne {H : Type} [Group H] [Finite H] {p : ℕ} [Fact p.Prime] 
     {α : Type} [MulAction H α] [Finite α] (a0 : α) (h0 : ∀ h : H, h • a0 = a0)
     (hp : p ∣ Nat.card α) : ∃ a : α, a ≠ a0 ∧ ∀ h : H, h • a = a := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hF : MulAction.fixedPoints H α = {a0} := by
     ext a
     constructor
@@ -266,7 +266,7 @@ theorem rho_eps {d : Gx} (hd : d ^ 3 = 1) (v : Vx) : rho d (epsE d v) = epsE d v
   abel
 
 theorem epsE_rho {d : Gx} (hd : d ^ 3 = 1) (v : Vx) : epsE d (rho d v) = epsE d v := by
-  simp only [epsE_apply, map_add, rho_cube_apply hd]
+  simp only [epsE_apply, rho_cube_apply hd]
   abel
 
 theorem epsE_eps {d : Gx} (hd : d ^ 3 = 1) (v : Vx) : epsE d (epsE d v) = epsE d v := by
@@ -311,7 +311,7 @@ theorem finrank_range_add_ker {d : Gx} :
   rw [Module.finrank_fintype_fun_eq_card, hι] at h
   exact h
 
-@[expose] noncomputable def actV (H : Subgroup Gx) : MulAction H Vx where
+@[instance_reducible, expose] noncomputable def actV (H : Subgroup Gx) : MulAction H Vx where
   smul h v := rho (h : Gx) v
   one_smul v := by
     change rho ((1 : H) : Gx) v = v
@@ -324,12 +324,12 @@ def stabV (v : Vx) : Subgroup Gx where
   carrier := {g | rho g v = v}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     rw [map_mul, Module.End.mul_apply, hb, ha]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     have h1 : rho a⁻¹ (rho a v) = v := by
       rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one]; rfl
     rw [ha] at h1; exact h1
@@ -345,12 +345,12 @@ theorem even_of_two_pow_mod_three (k : ℕ) (h : 2 ^ k % 3 = 1) : Even k := by
 
 theorem even_finrank_range {d : Gx} (hd : d ^ 3 = 1) (hd1 : d ≠ 1) :
     Even (Module.finrank (ZMod 2) (LinearMap.range (epsE d))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hord : orderOf d = 3 := orderOf_eq_prime hd hd1
   have hcard : Nat.card (Subgroup.zpowers d) = 3 := by rw [Nat.card_zpowers, hord]
-  haveI : Finite (Subgroup.zpowers d) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Subgroup.zpowers d) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hP : IsPGroup 3 (Subgroup.zpowers d) := IsPGroup.of_card (n := 1) (by rw [hcard]; norm_num)
-  letI : MulAction (Subgroup.zpowers d) Vx := actV (Subgroup.zpowers d)
+  let : MulAction (Subgroup.zpowers d) Vx := actV (Subgroup.zpowers d)
   have hfix : MulAction.fixedPoints (Subgroup.zpowers d) Vx =
       ((LinearMap.range (epsE d) : Submodule (ZMod 2) Vx) : Set Vx) := by
     ext v
@@ -363,9 +363,9 @@ theorem even_finrank_range {d : Gx} (hd : d ^ 3 = 1) (hd1 : d ≠ 1) :
       exact hsub y.2
   have hmod := hP.card_modEq_card_fixedPoints (α := Vx)
   have hV : Nat.card Vx = 64 := by
-    simp [Nat.card_fun, L62Model.ι, L62Model.ι₂]
+    simp [L62Model.ι, L62Model.ι₂]
   have hW : Nat.card (LinearMap.range (epsE d)) = 2 ^ Module.finrank (ZMod 2) (LinearMap.range (epsE d)) := by
-    haveI := Fintype.ofFinite (LinearMap.range (epsE d))
+    have := Fintype.ofFinite (LinearMap.range (epsE d))
     rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod 2)]
     simp
   rw [hV, hfix] at hmod

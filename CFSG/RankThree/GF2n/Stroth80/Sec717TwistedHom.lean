@@ -17,7 +17,7 @@ theorem eq_zero_of_forall_semilinear {K V W : Type*} [Field K] [Finite K] [Algeb
       (∀ p ∈ S, ∀ v, h (p.1 v) = p.2 (h v)) → h = 0) :
     g = 0 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   set b := Module.finBasis (ZMod 2) K
   have hgF : ∀ (r : ZMod 2) (v : V),
       g (algebraMap (ZMod 2) K r • v) = algebraMap (ZMod 2) K r • g v := by

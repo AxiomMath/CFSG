@@ -558,7 +558,7 @@ theorem e6_exists_threeCentral_good (h209U3 : Bal209FourUAt IsU3EightIndex (Fiel
     (hK : CFSG.Open.IsComponentOf K ⊤) (hBSC : IsSCp 3 ⊤ B)
     (hBN : B ≤ Subgroup.normalizer (K : Set X))
     (hrank : GLATwoLocalRank 3 X ≤ CFSG.Open.pRank 3 B) (hLie : IsLieQuot ↥K IsTwE6EightIndex)
-    (hxB : x ∈ B) (hxI : ¬ InnerAt K x)
+    (hxB : x ∈ B) (_hxI : ¬ InnerAt K x)
     (hFx : FieldAutTwE6 (↥K ⧸ Subgroup.center ↥K) (actHom K ⟨x, hBN hxB⟩)) :
     ∃ (y : X) (hyB : y ∈ B), InnerAt K y ∧ y ∉ Subgroup.centralizer (K : Set X) ∧
       GoodAt K B y ∧ ∃ z : ↥K ⧸ Subgroup.center ↥K,

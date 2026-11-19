@@ -32,19 +32,22 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
       decide
     rcases hc with rfl | rfl
     · simp
-    · simpa [hxW, hxP, hxQ]
+    · simp [hxW, hxP, hxQ]
 
+omit [Finite V] [FiniteDimensional (ZMod 2) V] in
 theorem mem_radSing {Q : QuadraticForm (ZMod 2) V} {T : Subgroup (V ≃ₗ[ZMod 2] V)}
     {x : V} : x ∈ radSing Q T ↔ x ∈ fixSub T ∧ x ∈ perpSub Q (fixSub T) ∧ Q x = 0 :=
   Iff.rfl
 
 attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent in
+omit [Finite V] in
 theorem two_mul_finrank_radSing_le (Q : QuadraticForm (ZMod 2) V)
     (hQ : (polarBilin Q).Nondegenerate) (T : Subgroup (V ≃ₗ[ZMod 2] V)) :
     2 * finrank (ZMod 2) (radSing Q T) ≤ finrank (ZMod 2) V :=
   CFSG.RankThree.OrthogonalInvolutions.two_mul_finrank_le_of_forall_eq_zero hQ
-    fun x hx => (mem_radSing.mp hx).2.2
+    fun _x hx => (mem_radSing.mp hx).2.2
 
+omit [Finite V] [FiniteDimensional (ZMod 2) V] in
 theorem apply_mem_radSing {Q : QuadraticForm (ZMod 2) V} {T : Subgroup (V ≃ₗ[ZMod 2] V)}
     {g : V ≃ₗ[ZMod 2] V} (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (hgT : g ∈ Subgroup.normalizer (T : Set (V ≃ₗ[ZMod 2] V))) {x : V}
@@ -88,7 +91,7 @@ theorem radSing_ne_bot (Q : QuadraticForm (ZMod 2) V)
     (hT : T ≤ CFSG.RankThree.OrthogonalInvolutions.omegaGroup Q hQ)
     (h2 : IsPGroup 2 T) (hT1 : T ≠ ⊥) : radSing Q T ≠ ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set W : Submodule (ZMod 2) V := fixSub T with hWdef
   set Wp : Submodule (ZMod 2) V := perpSub Q W with hWpdef
   set R : Submodule (ZMod 2) V := W ⊓ Wp with hRdef
@@ -113,7 +116,7 @@ theorem radSing_ne_bot (Q : QuadraticForm (ZMod 2) V)
     exact Subsingleton.elim _ _
   have hVdvd : 2 ∣ Nat.card V := by
     rw [hcardV]
-    haveI : Nontrivial V := hVnt
+    have : Nontrivial V := hVnt
     have hpos : 0 < finrank (ZMod 2) V := Module.finrank_pos
     obtain ⟨n, hn⟩ : ∃ n, finrank (ZMod 2) V = n + 1 :=
       ⟨_, (Nat.succ_pred_eq_of_pos hpos).symm⟩
@@ -124,7 +127,7 @@ theorem radSing_ne_bot (Q : QuadraticForm (ZMod 2) V)
       V hVdvd (a := (0 : V)) (by
         rw [MulAction.mem_fixedPoints]
         intro t
-        simp [LinearEquiv.smul_def])
+        simp)
     intro hbot
     have hvW : v ∈ W := by
       rw [hWdef, mem_fixSub]
@@ -169,11 +172,11 @@ theorem radSing_ne_bot (Q : QuadraticForm (ZMod 2) V)
           left_inv := by
             intro x
             ext
-            simpa using LinearEquiv.apply_symm_apply (t : V ≃ₗ[ZMod 2] V) (x : V)
+            simp
           right_inv := by
             intro x
             ext
-            simpa using LinearEquiv.symm_apply_apply (t : V ≃ₗ[ZMod 2] V) (x : V) }
+            simp }
       map_one' := by
         ext x
         simp
@@ -181,9 +184,9 @@ theorem radSing_ne_bot (Q : QuadraticForm (ZMod 2) V)
         intro s t
         ext x
         simp [LinearEquiv.mul_apply, Subgroup.coe_mul] }
-  letI : MulAction T Wp := MulAction.compHom Wp actW
+  let : MulAction T Wp := MulAction.compHom Wp actW
   have hWp_even : 2 ∣ Nat.card Wp := by
-    haveI : FiniteDimensional (ZMod 2) Wp := Module.Finite.of_finite
+    have : FiniteDimensional (ZMod 2) Wp := Module.Finite.of_finite
     have hcard : Nat.card Wp = 2 ^ finrank (ZMod 2) Wp := by
       rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod]
     rw [hcard]
@@ -316,7 +319,7 @@ theorem radSing_ne_bot (Q : QuadraticForm (ZMod 2) V)
             rw [← two_smul (ZMod 2) ((rWp : Wp) : V)]
             rw [show (2 : ZMod 2) = 0 from ZMod.natCast_self 2, zero_smul]
           rw [add_assoc, hr2, add_zero] }
-    haveI : FiniteDimensional (ZMod 2) Wp := Module.Finite.of_finite
+    have : FiniteDimensional (ZMod 2) Wp := Module.Finite.of_finite
     have hcardWp : Nat.card Wp = 2 ^ finrank (ZMod 2) Wp := by
       rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod]
     have hWpcard : Nat.card Wp = Nat.card Y + Nat.card Z := by
@@ -351,11 +354,11 @@ theorem radSing_ne_bot (Q : QuadraticForm (ZMod 2) V)
             left_inv := by
               intro y
               ext
-              simpa using LinearEquiv.apply_symm_apply (t : V ≃ₗ[ZMod 2] V) (y.1 : V)
+              simp
             right_inv := by
               intro y
               ext
-              simpa using LinearEquiv.symm_apply_apply (t : V ≃ₗ[ZMod 2] V) (y.1 : V) }
+              simp }
         map_one' := by
           ext y
           simp
@@ -363,7 +366,7 @@ theorem radSing_ne_bot (Q : QuadraticForm (ZMod 2) V)
           intro s t
           ext y
           simp [LinearEquiv.mul_apply, Subgroup.coe_mul] }
-    letI : MulAction T Y := MulAction.compHom Y actY
+    let : MulAction T Y := MulAction.compHom Y actY
     let zY : Y := ⟨0, by simp⟩
     obtain ⟨y, hyfix, hyne0⟩ := h2.exists_fixed_point_of_prime_dvd_card_of_fixed_point
       Y hYdvd (a := zY) (by

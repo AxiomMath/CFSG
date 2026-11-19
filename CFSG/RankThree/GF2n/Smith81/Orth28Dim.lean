@@ -8,14 +8,17 @@ namespace CFSG.RankThree.GF2n.Smith81
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {ι : Type} [Fintype ι] [DecidableEq ι]
 
+omit [Finite K] [CharP K 2] [Fintype ι] [DecidableEq ι] in
 theorem orthTensorLin_apply (g : Matrix (Fin 2) (Fin 2) K) (o : (ι → K) →ₗ[K] (ι → K))
     (p : (ι → K) × (ι → K)) : orthTensorLin g o p = orthTensor g o p :=
   rfl
 
+omit [Finite K] [CharP K 2] [Fintype ι] [DecidableEq ι] in
 theorem transv_sub_one_apply (o : (ι → K) →ₗ[K] (ι → K)) (s : K) (a b : ι → K) :
     (orthTensorLin (!![1, s; 0, 1]) o - 1) (a, b) = (o a + s • o b - a, o b - b) := by
   simp [orthTensorLin_apply, orthTensor]
 
+omit [Finite K] [DecidableEq ι] in
 theorem range_eq_ker_transv (o : (ι → K) →ₗ[K] (ι → K)) (ho : o ∘ₗ o = 1) {s : K} (hs : s ≠ 0) :
     LinearMap.ker (orthTensorLin (!![1, s; 0, 1]) o - 1) =
       LinearMap.range (orthTensorLin (!![1, s; 0, 1]) o - 1) ∧
@@ -75,13 +78,15 @@ theorem range_eq_ker_transv (o : (ι → K) →ₗ[K] (ι → K)) (ho : o ∘ₗ
     omega
   exact ⟨(Submodule.eq_of_le_of_finrank_eq hle (by rw [hrange, hfin])).symm, hrange⟩
 
+omit [Finite K] [CharP K 2] [Fintype ι] [DecidableEq ι] in
 theorem orthTensorLin_one_sub (o : (ι → K) →ₗ[K] (ι → K)) :
     orthTensorLin 1 o - 1 = LinearMap.prodMap (o - 1) (o - 1) := by
   refine LinearMap.ext fun p => ?_
   obtain ⟨a, b⟩ := p
   rw [LinearMap.sub_apply, Module.End.one_apply, orthTensorLin_apply]
-  simp [orthTensor, Matrix.one_apply]
+  simp [orthTensor]
 
+omit [Finite K] [CharP K 2] [DecidableEq ι] in
 theorem finrank_range_one (o : (ι → K) →ₗ[K] (ι → K)) :
     Module.finrank K (LinearMap.range (orthTensorLin 1 o - 1)) =
       2 * Module.finrank K (LinearMap.range (o - 1)) := by

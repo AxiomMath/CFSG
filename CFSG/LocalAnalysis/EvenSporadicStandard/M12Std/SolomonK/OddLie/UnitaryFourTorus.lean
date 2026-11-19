@@ -25,7 +25,7 @@ theorem torusMat_mul {u : K} (h2 : (2 : K) ≠ 0) (hu : u ≠ 0) (x y x' y' : K)
 theorem torusMat_one {u : K} (h2 : (2 : K) ≠ 0) : torusMat u 1 1 = 1 := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [torusMat, Matrix.one_apply, one_add_one_eq_two, h2]
+    simp [torusMat, one_add_one_eq_two, h2]
 
 theorem det_torusMat {u : K} (h2 : (2 : K) ≠ 0) (hu : u ≠ 0) (x y : K) :
     (torusMat u x y).det = x * y := by
@@ -35,7 +35,7 @@ theorem det_torusMat {u : K} (h2 : (2 : K) ≠ 0) (hu : u ≠ 0) (x y : K) :
     exact mul_ne_zero h2 h2
   rw [Matrix.det_fin_two]
   simp only [torusMat, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one]
+    Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one]
   field_simp
   ring
 
@@ -44,7 +44,7 @@ theorem torusMat_inj {u x y x' y' : K} (h2 : (2 : K) ≠ 0) (hu : u ≠ 0)
   have h00 := congrFun (congrFun h 0) 0
   have h10 := congrFun (congrFun h 1) 0
   simp only [torusMat, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-    Matrix.cons_val_one, Matrix.head_cons, Matrix.empty_val', Matrix.cons_val_fin_one] at h00 h10
+    Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one] at h00 h10
   have hsum : x + y = x' + y' := (div_left_inj' h2).1 h00
   have hdiff : x - y = x' - y' := mul_left_cancel₀ hu ((div_left_inj' h2).1 h10)
   exact ⟨mul_left_cancel₀ h2 (by linear_combination hsum + hdiff),

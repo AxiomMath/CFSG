@@ -15,7 +15,7 @@ open CFSG.LieType.Multipliers.U43 CFSG.Monster.B.Co2 CFSG.Monster.B.Co2.Native
   CFSG.HardMathSupport.Meierfrankenfeld.LieOdd.U43Aut
   CFSG.HardMathSupport.Meierfrankenfeld.LieOdd
 
-@[expose] noncomputable def letP (l : ℕ) : Gp :=
+noncomputable def letP (l : ℕ) : Gp :=
   if l < 4 then psi (letElt l) else if l = 4 then dPerm else if l = 5 then sPerm
   else if l = 6 then dPerm⁻¹ else sPerm⁻¹
 
@@ -29,7 +29,7 @@ theorem rep_letTab8 (hf : AutFacts) (l : ℕ) :
   · exact rep_dTab_inv hf
   · exact rep_sTab_inv hf
 
-@[expose] noncomputable def wordP (w : List ℕ) : Gp := w.foldl (fun g l => g * letP l) 1
+noncomputable def wordP (w : List ℕ) : Gp := w.foldl (fun g l => g * letP l) 1
 
 theorem rep_foldl8 (hf : AutFacts) (w : List ℕ) : ∀ (t : Array ℕ) (g : Gp),
     Rep 820 t g → Rep 820 (w.foldl (fun t l => compA 820 t (letTab8 l)) t)
@@ -64,7 +64,7 @@ theorem wordP_mem (hf : AutFacts) (w : List ℕ) : wordP w ∈ Nrm := by
       exact ih _ (Nrm.mul_mem hg (letP_mem hf l))
   exact this 1 Nrm.one_mem
 
-@[expose] noncomputable def treeP (root : Gp) (step : Gp → ℕ → Gp) (par lab : Array ℕ) (nl : ℕ) :
+noncomputable def treeP (root : Gp) (step : Gp → ℕ → Gp) (par lab : Array ℕ) (nl : ℕ) :
     ℕ → ℕ → Gp
   | 0, _ => root
   | f + 1, k => if k = 0 then root else
@@ -96,7 +96,7 @@ theorem treeP_mem {Q : Gp → Prop} {rG : Gp} (hr : Q rG) {sG : Gp → ℕ → G
     · exact hr
     · exact hs _ _ (Nat.mod_lt _ hnl) (ih _)
 
-@[expose] noncomputable def mulStepP (gs : List Gp) (g : Gp) (l : ℕ) : Gp :=
+noncomputable def mulStepP (gs : List Gp) (g : Gp) (l : ℕ) : Gp :=
   if l % 2 = 0 then g * gs.getD (l / 2) 1 else g * (gs.getD (l / 2) 1)⁻¹
 
 theorem rep_mulStepP {ts : List (Array ℕ)} {gs : List Gp} (_hlen : ts.length = gs.length)
@@ -183,7 +183,7 @@ theorem enum_specP {ts : List (Array ℕ)} {gs : List Gp}
       rw [(hrepT i).apply hx, (hrepT j).apply hx, hij]
     simp [fpKey, key 0 (by norm_num), key 1 (by norm_num), key 9 (by norm_num)]
 
-@[expose] def memNA (t : Array ℕ) : Bool := siftA 820 (rawLevels 820 chainS baseArr) baseArr 0 t
+def memNA (t : Array ℕ) : Bool := siftA 820 (rawLevels 820 chainS baseArr) baseArr 0 t
 
 structure OutFacts : Prop where
   pos : 0 < tGens.length
@@ -195,7 +195,7 @@ structure OutFacts : Prop where
     isInvol (tTab k₂) = true → memNA (tTab k₂) = false →
     pairOK memNA (tTab k₁) (tTab k₂) = true
 
-@[expose] noncomputable def tGensG : List Gp := pGensG.map psi ++ tExtraWords.map wordP
+noncomputable def tGensG : List Gp := pGensG.map psi ++ tExtraWords.map wordP
 
 theorem pGens_len : pGens.length = pGenIdx.length := by simp [pGens]
 
@@ -242,9 +242,9 @@ theorem rep_tGens (hf : AutFacts) :
     rw [e1, e2]
     exact rep_wordTab8 hf _
 
-@[expose] noncomputable def tSub : Subgroup Gp := Subgroup.closure {g | g ∈ tGensG}
+noncomputable def tSub : Subgroup Gp := Subgroup.closure {g | g ∈ tGensG}
 
-@[expose] noncomputable def tElt (k : ℕ) : Gp :=
+noncomputable def tElt (k : ℕ) : Gp :=
   treeP 1 (mulStepP tGensG) tPar tLab (2 * tGensG.length) fuel k
 
 theorem tSub_le_Nrm (hf : AutFacts) :
@@ -275,7 +275,7 @@ theorem isInvol_iff_P {t : Array ℕ} {g : Gp} (h : Rep 820 t g) :
 theorem memNA_iff {t : Array ℕ} {g : Gp} (h : Rep 820 t g) :
     memNA t = true ↔ g ∈ Nsub := sift_iff h
 
-@[expose] def SmallP (r : Gp) : Prop := ∀ n ∈ Nsub, orderOf (r * (n * r * n⁻¹)) ≤ 5
+def SmallP (r : Gp) : Prop := ∀ n ∈ Nsub, orderOf (r * (n * r * n⁻¹)) ≤ 5
 
 theorem conj_mem_Nsub {c : Gp} (hc : c ∈ Nrm) {x : Gp} (hx : x ∈ Nsub) : c * x * c⁻¹ ∈ Nsub :=
   ((Subgroup.mem_set_normalizer_iff.1 hc) x).1 hx

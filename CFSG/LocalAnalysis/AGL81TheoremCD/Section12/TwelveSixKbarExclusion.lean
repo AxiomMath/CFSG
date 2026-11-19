@@ -59,6 +59,7 @@ private theorem not_five_dvd_card_of_isPSLType {I : Subgroup G} {n : ℕ} (hn : 
   · have := Nat.Prime.dvd_of_dvd_pow (by norm_num : Nat.Prime 5) h1
     omega
 
+omit [Finite G] in
 private theorem conj_mem (hKH : ((kSub p M H).subgroupOf H).Normal) (y : ↥H)
     (k : ↥(kSub p M H)) : (y : G) * k * (y : G)⁻¹ ∈ kSub p M H :=
   (mem_normalizer_iff.mp ((normal_subgroupOf_iff_le_normalizer
@@ -68,11 +69,13 @@ private noncomputable def kbarAct (hKH : ((kSub p M H).subgroupOf H).Normal) :
     ↥H →* MulAut (kbarQuot p M H) :=
   (MulAut.mapQuotient (center (modTwoCore (kSub p M H)))).comp (kbarConj hKH)
 
+omit [Finite G] in
 private theorem kbarAct_apply_mk (hKH : ((kSub p M H).subgroupOf H).Normal) (y : ↥H)
     (q : modTwoCore (kSub p M H)) :
     kbarAct hKH y (QuotientGroup.mk q) = QuotientGroup.mk (kbarConj hKH y q) :=
   MulAut.mapQuotient_mk _ _ _
 
+omit [Finite G] in
 private theorem kbarAct_mk (hKH : ((kSub p M H).subgroupOf H).Normal) (y : ↥H)
     (k : ↥(kSub p M H)) :
     kbarAct hKH y (QuotientGroup.mk (QuotientGroup.mk k)) =
@@ -80,6 +83,7 @@ private theorem kbarAct_mk (hKH : ((kSub p M H).subgroupOf H).Normal) (y : ↥H)
         (⟨(y : G) * k * (y : G)⁻¹, conj_mem hKH y k⟩ : ↥(kSub p M H))) := by
   rw [kbarAct_apply_mk, kbarConj_mk]
 
+omit [Finite G] in
 private theorem kbarAct_eq_conj (hKH : ((kSub p M H).subgroupOf H).Normal)
     (k : ↥(kSub p M H)) (hk : (k : G) ∈ H) :
     kbarAct hKH ⟨k, hk⟩ =

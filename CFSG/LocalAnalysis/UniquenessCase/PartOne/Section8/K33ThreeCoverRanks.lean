@@ -31,9 +31,9 @@ theorem pRank_three_eq_two_of_lieModel_PSL_three_of_mod_one {p f : ℕ}
     (h : LieModel X .PSL 3 p f) (hmod : p ^ f % 3 = 1) :
     CFSG.Open.pRank 3 (⊤ : Subgroup X) = 2 := by
   obtain ⟨hadm, K, hKfield, hKfin, hK, ⟨e⟩⟩ := h.statedClassicalModel (by decide)
-  letI := hKfield
-  letI := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let := hKfield
+  let := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hq1 : 1 ≤ p ^ f := Nat.one_le_pow f p hadm.1.pos
   have h3q : 3 ∣ p ^ f - 1 := by
     refine ⟨p ^ f / 3, ?_⟩
@@ -43,7 +43,7 @@ theorem pRank_three_eq_two_of_lieModel_PSL_three_of_mod_one {p f : ℕ}
     rwa [hK]
   have h3F : 3 ∣ Fintype.card K - 1 := by
     rwa [Nat.card_eq_fintype_card] at h3K
-  haveI : ((StatedScalars (Fin 3) K).subgroupOf (StatedSL 3 K)).Normal :=
+  have : ((StatedScalars (Fin 3) K).subgroupOf (StatedSL 3 K)).Normal :=
     Subgroup.Normal.subgroupOf (StatedScalars.normal (Fin 3) K) _
   have hmain : CFSG.Open.pRank 3 (⊤ : Subgroup (StatedProj (StatedSL 3 K))) = 2 :=
     CFSG.LocalAnalysis.RankThreeUC.S15.ACore.pRank_statedSL_three (F := K) h3F
@@ -55,18 +55,18 @@ theorem pRank_three_eq_two_of_threeCover_PSL_three {p f : ℕ} {L : Type} [Group
     (h : ThreeCover (fun Y _ => LieModel Y .PSL 3 p f) L) (hmod : p ^ f % 3 = 1) :
     CFSG.Open.pRank 3 (⊤ : Subgroup L) = 2 := by
   obtain ⟨hQ, hZcard, hmodel⟩ := h
-  haveI : Group.IsPerfect L := ⟨hQ.1⟩
+  have : Group.IsPerfect L := ⟨hQ.1⟩
   have hlow : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup L) := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨E, hE, hcard⟩ :=
       CFSG.SectionRank.exists_elemAbelian_sq_of_dvd_card_center (L := L) (p := 3)
-        (by norm_num) (by simpa [hZcard])
+        (by norm_num) (by simp [hZcard])
     exact CFSG.SectionRank.le_pRank (p := 3) (by norm_num) le_top hE
-      (by simpa [hcard])
+      (by simp [hcard])
   obtain ⟨hadm, K, hKfield, hKfin, hK, ⟨e⟩⟩ := hmodel.statedClassicalModel (by decide)
-  letI := hKfield
-  letI := hKfin
-  letI : Fintype K := Fintype.ofFinite K
+  let := hKfield
+  let := hKfin
+  let : Fintype K := Fintype.ofFinite K
   have hq1 : 1 ≤ p ^ f := Nat.one_le_pow f p hadm.1.pos
   have h3q : 3 ∣ p ^ f - 1 := by
     refine ⟨p ^ f / 3, ?_⟩
@@ -85,7 +85,7 @@ theorem pRank_three_eq_two_of_threeCover_PSL_three {p f : ℕ} {L : Type} [Group
     have hsubpos : 0 < p ^ f - 1 := by omega
     have h3le : 3 ≤ p ^ f - 1 := Nat.le_of_dvd hsubpos h3q
     omega
-  haveI : ((StatedScalars (Fin 3) K).subgroupOf (StatedSL 3 K)).Normal :=
+  have : ((StatedScalars (Fin 3) K).subgroupOf (StatedSL 3 K)).Normal :=
     Subgroup.Normal.subgroupOf (StatedScalars.normal (Fin 3) K) _
   by_cases h5 : 5 ≤ Nat.card K
   ·
@@ -200,10 +200,10 @@ theorem pRank_three_eq_two_of_threeCover_PSU_three
     CFSG.Open.pRank 3 (⊤ : Subgroup L) = 2 := by
   obtain ⟨hQ, hZcard, hmodel⟩ := h
   obtain ⟨hadm, K, hKfield, hKfin, hK, ⟨e⟩⟩ := hmodel.statedClassicalModel (by decide)
-  letI := hKfield
-  letI := hKfin
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : Fact p.Prime := ⟨hadm.1⟩
+  let := hKfield
+  let := hKfin
+  let : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hadm.1⟩
   have hq2 : p ^ f ≠ 2 := by
     intro hq
     exact hadm.2.2.2 (by rw [hq])
@@ -224,8 +224,8 @@ theorem pRank_three_eq_two_of_threeCover_PSU_three
     have hcard : Fintype.card K = p ^ (2 * f) := by
       rw [hK', ← pow_mul, Nat.mul_comm]
     exact charP_of_card_eq_prime_pow hcard
-  letI := hchar
-  haveI : ((StatedScalars (Fin 3) K).subgroupOf (StatedSU 3 (p ^ f) K)).Normal :=
+  let := hchar
+  have : ((StatedScalars (Fin 3) K).subgroupOf (StatedSU 3 (p ^ f) K)).Normal :=
     Subgroup.Normal.subgroupOf (StatedScalars.normal (Fin 3) K) _
   have hD : Nat.card
       ((StatedScalars (Fin 3) K).subgroupOf (StatedSU 3 (p ^ f) K)) = 3 := by
@@ -287,9 +287,9 @@ theorem pRank_three_eq_two_of_lieModel_Tits
   have hupper : CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ 2 := by
     obtain ⟨K, hKfield, hKfin, hKchar, hK2, ⟨e⟩⟩ :=
       CFSG.SectionRank.exists_mulEquiv_titsGroup_of_model hTits
-    letI := hKfield
-    letI := hKfin
-    letI := hKchar
+    let := hKfield
+    let := hKfin
+    let := hKchar
     rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 3) (by norm_num) e]
     have hΓ : CFSG.Open.pRank 3 (⊤ : Subgroup (CFSG.LieType.Ree.reeFixed
         CFSG.LieType.Ree.ReeTag.F4 K 0)) ≤ 2 := by

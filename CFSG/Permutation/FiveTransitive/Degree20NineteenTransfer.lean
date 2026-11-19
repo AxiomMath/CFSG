@@ -46,7 +46,7 @@ theorem five_point_stabilizer_card_mod_nineteen_ne_one
   have hPcard : Nat.card P = 1860480 * h := by
     rw [hHindex] at hHindexCard
     exact hHindexCard.symm
-  letI : Fact (Nat.Prime 19) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 19) := ⟨by norm_num⟩
   let S : Sylow 19 P := Sylow.nonempty.some
   have hScard : Nat.card S = 19 :=
     sylow_long_prime_card_eq_prime
@@ -95,14 +95,14 @@ theorem five_point_stabilizer_card_mod_nineteen_ne_one
   let transfer : P →* S :=
     MonoidHom.transferSylow S hnormalizer
   let Q : Subgroup P := transfer.ker
-  letI : Q.Normal := by
+  let : Q.Normal := by
     dsimp only [Q, transfer]
     infer_instance
   have hcomplement : IsComplement' Q S := by
     simpa only [Q, transfer] using
       MonoidHom.ker_transferSylow_isComplement'
         S hnormalizer
-  have hcardMul := hcomplement.card_mul
+  have hcardMul := hcomplement.card_mul_card
   have hQcard : Nat.card Q = 97920 * h := by
     rw [hScard, hPcard] at hcardMul
     nlinarith

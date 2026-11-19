@@ -37,11 +37,13 @@ private noncomputable def representationToMulAut (ρ : Representation (ZMod 2) G
   letI := representationMulDistribMulAction ρ
   MulDistribMulAction.toMulAut G (Multiplicative W)
 
+omit [Finite W] in
 private theorem representationToMulAut_apply (ρ : Representation (ZMod 2) G W) (g : G) (w : W) :
     representationToMulAut ρ g (Multiplicative.ofAdd w) = Multiplicative.ofAdd (ρ g w) := by
-  letI := representationMulDistribMulAction ρ
+  let := representationMulDistribMulAction ρ
   rfl
 
+omit [Finite W] in
 private theorem representationToMulAut_ne_one {ρ : Representation (ZMod 2) G W} {g : G}
     (h : ρ g ≠ 1) : representationToMulAut ρ g ≠ 1 := by
   intro hh
@@ -54,7 +56,7 @@ theorem exists_prime_dvd_two_pow_sub_one_of_ne_one
     (ρ : Representation (ZMod 2) G W) {g : G} {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hord : orderOf g = r) (hρ : ρ g ≠ 1) :
     ∃ b : ℕ, 0 < b ∧ 2 ^ b ≤ Nat.card W ∧ r ∣ 2 ^ b - 1 := by
-  haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite (R := ZMod 2)
+  have : Module.Finite (ZMod 2) W := Module.Finite.of_finite (R := ZMod 2)
   set d := Module.finrank (ZMod 2) W with hd
   have hW : Nat.card W = 2 ^ d := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod]

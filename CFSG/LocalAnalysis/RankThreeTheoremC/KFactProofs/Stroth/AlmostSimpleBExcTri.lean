@@ -27,7 +27,7 @@ theorem card_graphFixedRootGroup_D4_borel {K : Type} [Field K] [Finite K] (σ : 
     Nat.card (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) =
       Nat.card (graphFixedRootBorel TwistTag.D4 K σ.toRingHom) *
         (geomSum 2 3 (2 ^ n) * (geomSum 3 4 (2 ^ n) * geomSum 2 1 (2 ^ n))) := by
-  haveI : Fintype (WeylGroup TwistTag.D4.tag) := Fintype.ofFinite _
+  have : Fintype (WeylGroup TwistTag.D4.tag) := Fintype.ofFinite _
   rw [card_graphFixedRootGroup_eq_borel_mul σ.surjective
     (card_orbitField Nat.prime_two hn hK hσc), sum_length_relWeylTwist_D4]
 
@@ -132,10 +132,10 @@ theorem chevTwoPClosureOddTrialityD4_of_split (hsplit : ChevTwoPClosureOddTriali
         exists_mulEquiv_graphFixedRootGroup_card .D4 Nat.prime_two hn hCEM.2
       have hK : Nat.card K = (2 ^ q.exponent) ^ 3 := hKcard
       have hK3 : Nat.card K = 2 ^ (3 * q.exponent) := by rw [hK, ← pow_mul, mul_comm]
-      haveI : CharP K 2 :=
+      have : CharP K 2 :=
         CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
           Nat.prime_two (by omega) hK3
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       have hH : Holds L 2 := holds_of_chevalleyExceptionalModel hCEM
       have hHC : Holds (graphFixedRootGroup TwistTag.D4 K σ.toRingHom) 2 := hH.of_mulEquiv eL
       obtain ⟨hrk2, E, hE, hEc⟩ := rank_data_of_pRank hp hrk (MulEquiv.refl L)

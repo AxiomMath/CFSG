@@ -56,7 +56,7 @@ theorem Input_Fi22_centreless_holds :
     Input_Fi22_centreless := by
   intro X _ _ hX
   obtain ⟨e⟩ := CatalogInputs.fi22_nonempty_mulEquiv_native hX
-  haveI : IsSimpleGroup X :=
+  have : IsSimpleGroup X :=
     @MulEquiv.isSimpleGroup X _ _ _ CFSG.Sporadic.Fi22.isSimpleGroup_Fi22 e
   apply CatalogInputs.center_eq_bot_of_simple_not_prime
   rw [Nat.card_congr e.toEquiv, CFSG.Sporadic.Fi22.card_Fi22]
@@ -85,11 +85,11 @@ end Fi22
 theorem Input_not_LTwoTwentySeven_holds : Input_not_LTwoTwentySeven := by
   intro X _ _ hX hor
   obtain ⟨e⟩ := hX
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 3 3)) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 3 3)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by
       rw [GaloisField.card 3 3 (by norm_num)]
       norm_num)
-  haveI : IsSimpleGroup X := e.isSimpleGroup
+  have : IsSimpleGroup X := e.isSimpleGroup
   have hX27 : Nat.card X = 9828 :=
     (Nat.card_congr e.toEquiv).trans CFSG.RankThree.PartTwo.KFacts.card_psl2_27
   have hZ : Subgroup.center X = ⊥ :=
@@ -166,7 +166,7 @@ theorem extMat_injective {E : (I → ZMod 2) →ₗ[ZMod 2] (J → ZMod 2)}
 theorem units_map_injective {E : (I → ZMod 2) →ₗ[ZMod 2] (J → ZMod 2)}
     {R : (J → ZMod 2) →ₗ[ZMod 2] (I → ZMod 2)} {P : (J → ZMod 2) →ₗ[ZMod 2] (J → ZMod 2)}
     (h : HypExt E R P) : Function.Injective (Units.map (extMat h)) :=
-  fun a b hab => Units.ext (extMat_injective h (congrArg Units.val hab))
+  fun _a _b hab => Units.ext (extMat_injective h (congrArg Units.val hab))
 
 theorem isometry_extMat {E : (I → ZMod 2) →ₗ[ZMod 2] (J → ZMod 2)}
     {R : (J → ZMod 2) →ₗ[ZMod 2] (I → ZMod 2)} {P : (J → ZMod 2) →ₗ[ZMod 2] (J → ZMod 2)}
@@ -261,8 +261,8 @@ theorem plus_hQ (n : ℕ) (w : Fin n ⊕ Fin n → ZMod 2) (z : Fin (n + 1) ⊕ 
     CFSG.Open.StatedQuadPlus (n + 1) (ZMod 2) (plusE n w + plusP n z) =
       CFSG.Open.StatedQuadPlus n (ZMod 2) w +
         CFSG.Open.StatedQuadPlus (n + 1) (ZMod 2) (plusP n z) := by
-  simp [CFSG.Open.StatedQuadPlus, CFSG.MatrixModel.plusQuadCore, plusE, plusP,
-    Fin.sum_univ_succ, Pi.single_apply]
+  simp [CFSG.Open.StatedQuadPlus, plusE, plusP,
+    Fin.sum_univ_succ]
   ring
 
 theorem plus_dvd (n : ℕ) {A : Matrix.GeneralLinearGroup (Fin n ⊕ Fin n) (ZMod 2)}
@@ -323,8 +323,8 @@ theorem minus_hQ (m : ℕ) (w : Fin m ⊕ Fin m ⊕ Fin 2 → ZMod 2)
     CFSG.Open.StatedQuadMinus (m + 1 + 1) (ZMod 2) 1 1 (minusE m w + minusP m z) =
       CFSG.Open.StatedQuadMinus (m + 1) (ZMod 2) 1 1 w +
         CFSG.Open.StatedQuadMinus (m + 1 + 1) (ZMod 2) 1 1 (minusP m z) := by
-  simp [CFSG.Open.StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, minusE, minusP,
-    Fin.sum_univ_succ, Pi.single_apply]
+  simp [CFSG.Open.StatedQuadMinus, minusE, minusP,
+    Fin.sum_univ_succ]
   ring
 
 theorem minus_dvd (m : ℕ) {A : Matrix.GeneralLinearGroup (Fin m ⊕ Fin m ⊕ Fin 2) (ZMod 2)}
@@ -354,11 +354,11 @@ theorem Prop1116.InputOmegaDvd_holds : Prop1116.InputOmegaDvd := by
 theorem Prop1116.InputNotL27Pi_holds : Prop1116.InputNotL27Pi := by
   intro X _ _ hX hPi
   obtain ⟨e⟩ := hX
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 3 3)) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 3 3)) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by
       rw [GaloisField.card 3 3 (by norm_num)]
       norm_num)
-  haveI : IsSimpleGroup X := @MulEquiv.isSimpleGroup X _ _ _ inferInstance e
+  have : IsSimpleGroup X := @MulEquiv.isSimpleGroup X _ _ _ inferInstance e
   have hX27 : Nat.card X = 9828 :=
     (Nat.card_congr e.toEquiv).trans CFSG.RankThree.PartTwo.KFacts.card_psl2_27
   have hZ : Subgroup.center X = ⊥ :=
@@ -367,7 +367,7 @@ theorem Prop1116.InputNotL27Pi_holds : Prop1116.InputNotL27Pi := by
     rw [CatalogInputs.card_quotient_center_of_eq_bot hZ, hX27]
   rcases hPi with ⟨n, hn5, ⟨g⟩, -⟩ | ⟨ε, n, hn1, hO, -⟩
   ·
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
     have h1 : Nat.card (alternatingGroup (Fin n)) = 9828 := by
       rw [← Nat.card_congr g.toEquiv, hcard]
     rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin] at h1
@@ -451,8 +451,8 @@ theorem Prop1116.InputSchurAlt_holds : Prop1116.InputSchurAlt := by
   intro X _ _ p hp hp2 hq hO n hnp hA
   obtain ⟨hcomm, hsimp⟩ := hq
   obtain ⟨e⟩ := hA
-  haveI : Group.IsPerfect X := Group.isPerfect_def.mpr hcomm
-  haveI : Nontrivial (X ⧸ Subgroup.center X) := hsimp.toNontrivial
+  have : Group.IsPerfect X := Group.isPerfect_def.mpr hcomm
+  have : Nontrivial (X ⧸ Subgroup.center X) := hsimp.toNontrivial
   have hY1 : 1 < Nat.card (X ⧸ Subgroup.center X) := Finite.one_lt_card
   have hp3 : 3 ≤ p := by
     have := hp.two_le
@@ -476,14 +476,14 @@ theorem Prop1116.InputSchurAlt_holds : Prop1116.InputSchurAlt := by
       omega
     · have := Nat.le_of_dvd (by norm_num) hdvd
       omega
-  haveI : Group.IsPerfect (alternatingGroup (Fin n)) :=
+  have : Group.IsPerfect (alternatingGroup (Fin n)) :=
     ⟨commutator_alternatingGroup_eq_top (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega)⟩
   let π : X →* alternatingGroup (Fin n) :=
     e.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center X))
   have hπ : Function.Surjective π := e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : π.ker = Subgroup.center X := by
     ext x
-    simp [π, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp [π]
   obtain ⟨-, h, -, -, -, -, eK, -⟩ :=
     CFSG.RankThree.PerfectCover.perfect_central_kernel_quotient_of_hopf_multiplier π hπ hker.le
   have hcardK : Nat.card (Subgroup.center X) ∣

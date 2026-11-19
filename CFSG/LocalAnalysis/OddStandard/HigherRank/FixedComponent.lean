@@ -32,7 +32,7 @@ private theorem fixedSubgroup_conj_eq_centralizer_gen' {X : Type*} [Group X] (z 
 theorem properFixedComponent_of_standard {G : Type} [Group G] [Finite G] {L : Subgroup G}
     (hS : StandardSetting G L) {t : G} (ht : t ∈ centralizer (L : Set G)) (ht2 : orderOf t = 2) :
     ComponentClassification.CatLeaf.ProperFixedComponent (MulAut.conj t) L := by
-  haveI : IsSimpleGroup G := hS.simple
+  have : IsSimpleGroup G := hS.simple
   obtain ⟨hLT, hcomp⟩ := isPComponent_two_of_standard hS.standard ht ht2
     (even_iff_two_dvd.1 (even_card_of_standard hS.standard))
   have hfix : CFSG.ComponentClassification.FixedCommutingProduct.fixedSubgroup (MulAut.conj t) =

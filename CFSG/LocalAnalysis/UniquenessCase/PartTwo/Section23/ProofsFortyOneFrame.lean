@@ -18,7 +18,7 @@ namespace Ctx23L
 
 private theorem card_le_card_of_forall_eq_smul {K X : Type*} [Field K] [Finite K]
     (β : X → Multiplicative (Fin 2 → K)) (hβ : Function.Injective β) {e : Fin 2 → K}
-    (he : e ≠ 0) (hfix : ∀ v : X, ∃ c : K, β v = Multiplicative.ofAdd (c • e)) :
+    (_he : e ≠ 0) (hfix : ∀ v : X, ∃ c : K, β v = Multiplicative.ofAdd (c • e)) :
     Nat.card X ≤ Nat.card K := by
   classical
   let f : X → K := fun v => Classical.choose (hfix v)
@@ -98,7 +98,7 @@ private theorem exists_smul_of_mem_inf_centralizer {D : Data G} {Ch : Choice2011
     {c : Ctx23L D Ch} {hV : IsElemAbelian 2 c.V} {hLV : c.L ≤ Subgroup.normalizer c.V}
     {κ : CFSG.LocalAnalysis.UniquenessCase.PartTwo.Coordinates c.L c.V hV hLV
       (CFSG.Open.pRank 2 D.Z)}
-    {t l : G} (hlT : l ∈ D.T) (hlL : l ∈ c.L)
+    {t l : G} (_hlT : l ∈ D.T) (hlL : l ∈ c.L)
     (hw : t * l⁻¹ ∈ Subgroup.centralizer (c.V : Set G)) (hαl_ne : κ.α ⟨l, hlL⟩ ≠ 1)
     {e : Fin 2 → κ.K} (he : e ≠ 0)
     (hefix : (κ.α ⟨l, hlL⟩ : Matrix (Fin 2) (Fin 2) κ.K) *ᵥ e = e)

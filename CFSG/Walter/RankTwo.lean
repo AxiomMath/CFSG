@@ -25,7 +25,7 @@ theorem sylow_isKleinFour_of_twoRank_eq_two
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Sg := (S : Subgroup G) with hSg
   have hcomm : ∀ a b : Sg, a * b = b * a := fun a b => hS.is_comm.comm a b
-  have hSp : IsPGroup 2 Sg := S.isPGroup'
+  have hSp : IsPGroup 2 Sg := S.isPGroup
   have hrankS : RankTwoShapes.TwoRankLeTwo Sg := by
     intro E hE hexp
     have hmap : Nat.card (E.map Sg.subtype) = Nat.card E :=
@@ -64,7 +64,7 @@ theorem sylow_isKleinFour_of_twoRank_eq_two
   set A : Subgroup (MulAut Sg) := φ.range with hA
   set P₀ : Subgroup NQ := (Sg ⊓ NQ).subgroupOf NQ with hP₀
   have hP₀p : IsPGroup 2 P₀ :=
-    (S.isPGroup'.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
+    (S.isPGroup.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_right).symm
   have hP₀idx : ¬ 2 ∣ P₀.index := by
     have hle : Sg ≤ NQ := Subgroup.le_normalizer
     have hidx : P₀.index ∣ Sg.index := by

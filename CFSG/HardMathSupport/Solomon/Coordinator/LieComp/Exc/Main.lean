@@ -31,7 +31,7 @@ theorem lieCompOn_exceptional (hres : ExcRationalLieTypes) (hout : TrialityOuter
   by_cases hβ1 : β = 1
   · subst hβ1
     obtain ⟨e⟩ := he
-    haveI := hs
+    have := hs
     exact Or.inl (lieCompExport_one hna idx ⟨e⟩
       ⟨fun f => (isEmpty_cat_alt6 idx (Or.inl hF)).false (e.symm.trans f)⟩)
   by_cases h3 : lieIndexChar idx.1 = 3

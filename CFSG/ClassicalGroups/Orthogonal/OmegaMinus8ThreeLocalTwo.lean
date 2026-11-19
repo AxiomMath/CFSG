@@ -80,7 +80,7 @@ private def summandHom {R M V : Type*} [Semiring R] [AddCommMonoid M] [Module R 
     [AddCommMonoid V] [Module R V] (G : Subgroup (M ≃ₗ[R] M)) (ι : V →ₗ[R] M) (π : M →ₗ[R] V)
     (hπι : ∀ v, π (ι v) = v) (hG : ∀ g ∈ G, ∀ v, ι (π (g (ι v))) = g (ι v)) :
     ↥G →* (V ≃ₗ[R] V) where
-  toFun g := LinearEquiv.ofLinear (π ∘ₗ (g : M ≃ₗ[R] M).toLinearMap ∘ₗ ι)
+  toFun g := LinearEquiv.ofLinearMap (π ∘ₗ (g : M ≃ₗ[R] M).toLinearMap ∘ₗ ι)
     (π ∘ₗ ((g : M ≃ₗ[R] M)⁻¹).toLinearMap ∘ₗ ι)
     (LinearMap.ext fun v => by
       simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearMap.id_apply]
@@ -93,7 +93,7 @@ private def summandHom {R M V : Type*} [Semiring R] [AddCommMonoid M] [Module R 
   map_one' := LinearEquiv.ext fun v => by
     simp [hπι]
   map_mul' g h := LinearEquiv.ext fun v => by
-    simp only [LinearEquiv.ofLinear_apply, LinearMap.comp_apply, LinearEquiv.coe_coe,
+    simp only [LinearEquiv.coe_ofLinearMap, LinearMap.comp_apply, LinearEquiv.coe_coe,
       Subgroup.coe_mul, LinearEquiv.mul_apply]
     rw [hG _ h.2 v]
 

@@ -40,9 +40,11 @@ structure StdGrp (b c : F) (E : Subgroup (GL6 F)) : Prop where
     rw [tc_mul_eq (hE.pel _ g.2) (hE.pel _ h.2)]
     rfl
 
+omit [Finite F] in
 theorem rhoHom_apply {E : Subgroup (GL6 F)} (hE : StdGrp b c E) (g : ↥E) :
     rhoHom hE g = rho (g : GL6 F) := rfl
 
+omit [Finite F] in
 theorem PEl.rho_iso {g : GL6 F} (h : PEl b c g) (p q : F) :
     Nf b c (rho g 0 0 * p + rho g 0 1 * q) (rho g 1 0 * p + rho g 1 1 * q) = Nf b c p q := by
   have hy0 : gv g (nvec F p q) (Sum.inr (Sum.inl idx0)) = 0 := by rw [h.y0, nvec_inr_inl]
@@ -57,11 +59,13 @@ theorem PEl.rho_iso {g : GL6 F} (h : PEl b c g) (p q : F) :
   simp only [Nf]
   linear_combination hQ
 
+omit [Finite F] [CharP F 2] in
 theorem mulVec_add_one (ρ : Matrix (Fin 2) (Fin 2) F) (m : Fin 2 → F) (k : Fin 2) :
     ((ρ + 1) *ᵥ m) k = ρ k 0 * m 0 + ρ k 1 * m 1 + m k := by
   rw [Matrix.add_mulVec, Matrix.one_mulVec, Pi.add_apply]
   simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two]
 
+omit [Finite F] in
 theorem PEl.constraint_vec {g a : GL6 F} (hg : PEl b c g) (ha : PEl b c a) (hg0 : tc g = 0)
     (hg1 : rho g = 1) (hcomm : g * a = a * g) :
     (rho a + 1) *ᵥ (fun k => mcol g idx1 k) = 0 ∧
@@ -77,6 +81,7 @@ theorem PEl.constraint_vec {g a : GL6 F} (hg : PEl b c g) (ha : PEl b c a) (hg0 
     rw [mulVec_add_one, Pi.smul_apply, smul_eq_mul]
     linear_combination h + mcol g idx0 k * h2
 
+omit [Finite F] in
 theorem PEl.m1_zero {g h : GL6 F} (hg : PEl b c g) (hh : PEl b c h) (hg0 : tc g = 0)
     (hg1 : rho g = 1) (hh1 : rho h = 1) (hht : tc h ≠ 0) (hcomm : g * h = h * g) (k : Fin 2) :
     mcol g idx1 k = 0 := by

@@ -39,10 +39,10 @@ private theorem bt_fold (R : Array ℕ) (v k n : ℕ) :
       Finset.sum_range_succ, ← ih]
     by_cases hv : v.testBit n
     · have : bt v n = 1 := by simp [bt, hv]
-      simp only [hv, if_true]
+      simp only [hv, ite_true]
       rw [bt_xor, this, one_mul]
     · have : bt v n = 0 := by simp [bt, hv]
-      simp only [hv, if_false, Bool.false_eq_true]
+      simp only [hv, ite_false, Bool.false_eq_true]
       rw [this, zero_mul, add_zero]
 
 private theorem bt_vecMulN (d : ℕ) (R : Array ℕ) (v k : ℕ) :
@@ -156,18 +156,18 @@ private theorem piv_fold (d c : ℕ) (a : Array ℕ) (l : List ℕ) (hl : ∀ i 
         (if (piv == d && a[x]!.testBit c) = true then x else piv) < d ∧
         a[(if (piv == d && a[x]!.testBit c) = true then x else piv)]!.testBit c = true := by
       by_cases hc : (piv == d && a[x]!.testBit c) = true
-      · simp only [hc, if_true]
+      · simp only [hc, ite_true]
         simp only [Bool.and_eq_true] at hc
         exact fun _ => ⟨hx.1, hx.2, hc.2⟩
-      · simp only [hc, if_false, Bool.false_eq_true]
+      · simp only [hc, ite_false, Bool.false_eq_true]
         exact hp
     obtain ⟨ih1, ih2⟩ := ih (fun i hi => hl i (by simp [hi])) _ hp'
     refine ⟨ih1, fun hr => ?_⟩
     obtain ⟨e, hrest⟩ := ih2 hr
     by_cases hc : (piv == d && a[x]!.testBit c) = true
-    · simp only [hc, if_true] at e
+    · simp only [hc, ite_true] at e
       omega
-    · simp only [hc, if_false, Bool.false_eq_true] at e
+    · simp only [hc, ite_false, Bool.false_eq_true] at e
       refine ⟨e, ?_⟩
       intro i hi
       rcases List.mem_cons.mp hi with rfl | hi
@@ -276,7 +276,7 @@ private theorem einv_swap {c : ℕ} (hc : c < d) {s : Array ℕ × Array ℕ} (h
       if c = k then s.2[p]! else if p = k then s.2[c]! else s.2[k]! := by
     intro k
     rw [get_set _ (by rw [size_set]; have := h.sz2; omega), get_set _ (by have := h.sz2; omega)]
-  refine ⟨by simp [size_set, h.sz1], by simp [size_set, h.sz2], by rw [g1]; simp,
+  refine ⟨by simp [h.sz1], by simp [h.sz2], by rw [g1]; simp,
     by rw [g2]; simp, ?_, ?_, ?_⟩
   · intro i hi
     simp only [g1, g2]
@@ -314,7 +314,7 @@ private theorem einv_step {c ap rp : ℕ} (hc : c < d) (hap : ap.testBit c = tru
       (i ≠ c → (elimStepA c ap rp s i).1[i]!.testBit c = false) := by
   unfold elimStepA
   by_cases hb : (i != c && s.1[i]!.testBit c) = true
-  · simp only [hb, if_true]
+  · simp only [hb, ite_true]
     simp only [Bool.and_eq_true, bne_iff_ne, ne_eq] at hb
     obtain ⟨hic, hbit⟩ := hb
     have g1 : ∀ k, (s.1.set! i (s.1[i]! ^^^ ap))[k]! = if i = k then s.1[i]! ^^^ ap else s.1[k]! :=
@@ -325,9 +325,9 @@ private theorem einv_step {c ap rp : ℕ} (hc : c < d) (hap : ap.testBit c = tru
       intro j hj
       rw [← h.pa, h.col c hc j hj]
       simp; omega
-    refine ⟨⟨by simp [size_set, h.sz1], by simp [size_set, h.sz2], ?_, ?_, ?_, ?_, ?_⟩, ?_, ?_⟩
-    · rw [g1, if_neg hic, h.pa]
-    · rw [g2, if_neg hic, h.pr]
+    refine ⟨⟨by simp [h.sz1], by simp [h.sz2], ?_, ?_, ?_, ?_, ?_⟩, ?_, ?_⟩
+    · rw [g1, ite_eq_right hic, h.pa]
+    · rw [g2, ite_eq_right hic, h.pr]
     · intro k hk
       rw [g1, g2]
       split_ifs
@@ -339,12 +339,12 @@ private theorem einv_step {c ap rp : ℕ} (hc : c < d) (hap : ap.testBit c = tru
       · subst hm'
         have e := hx i hi
         have ec := hx c hc
-        rw [g1, if_pos rfl, dot_xor] at e
-        rw [g1, if_neg hic, h.pa] at ec
+        rw [g1, ite_eq_left rfl, dot_xor] at e
+        rw [g1, ite_eq_right hic, h.pa] at ec
         rw [ec, add_zero] at e
         exact e
       · have := hx m hm
-        rw [g1, if_neg hm'] at this
+        rw [g1, ite_eq_right hm'] at this
         exact this
     · intro k hk j hj
       rw [g1]
@@ -358,9 +358,9 @@ private theorem einv_step {c ap rp : ℕ} (hc : c < d) (hap : ap.testBit c = tru
       · subst hik; rw [hbit] at hk; exact absurd hk (by decide)
       · exact hk
     · intro _
-      rw [g1, if_pos rfl, Nat.testBit_xor, hbit, hap]
+      rw [g1, ite_eq_left rfl, Nat.testBit_xor, hbit, hap]
       rfl
-  · simp only [hb, if_false, Bool.false_eq_true]
+  · simp only [hb, ite_false, Bool.false_eq_true]
     refine ⟨h, fun k hk => hk, fun hic => ?_⟩
     simp only [Bool.and_eq_true, bne_iff_ne, ne_eq, not_and] at hb
     simpa using hb hic
@@ -391,7 +391,7 @@ private theorem inv_col {L : Array ℕ} (hL : mulRows d L M = idRows d) {c : ℕ
   by_cases hp : pivA d c s.1 < d
   · obtain ⟨hcp, hbit⟩ := hp1 hp
     unfold colA
-    rw [if_pos hp]
+    rw [ite_eq_left hp]
     have e0 := einv_swap hc h hcp hp
     obtain ⟨e, hz⟩ := einv_fold hc hbit (List.range' 0 d) _
       (fun i hi => by rw [List.mem_range'_1] at hi; omega) e0

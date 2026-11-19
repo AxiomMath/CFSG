@@ -124,7 +124,7 @@ theorem card_le_and_commute_of_isPGroup {M Ω : Type*} [Group M] [Finite M] [Gro
 private theorem isCyclic_sylow_three_of_pRank_le_one [Finite G] {N : Subgroup G}
     (hrank : CFSG.Open.pRank 3 N ≤ 1) (S₁ : Sylow 3 N) : IsCyclic (S₁ : Subgroup N) := by
   by_contra hnc
-  have : Fact (IsPGroup 3 (S₁ : Subgroup N)) := ⟨S₁.isPGroup'⟩
+  have : Fact (IsPGroup 3 (S₁ : Subgroup N)) := ⟨S₁.isPGroup⟩
   obtain ⟨T, -, hTcard, hTel⟩ :=
     CFSG.lemma_4_5_a (R := (S₁ : Subgroup N)) (p := 3) (by norm_num) hnc
   let f : (S₁ : Subgroup N) →* G := N.subtype.comp (S₁ : Subgroup N).subtype
@@ -174,7 +174,7 @@ theorem cyclicMod_of_le_sup [Finite G] {M J N P : Subgroup G} (hJM : J ≤ M)
   obtain ⟨SP, hSP⟩ := hP.exists_sylow_eq_subgroupOf
   let D : Subgroup (M ⧸ J.subgroupOf M) := (SP : Subgroup M).map q
   have hDle : D ≤ ρ.range := by rw [MonoidHom.range_eq_top.2 hρ]; exact le_top
-  have hDp : IsPGroup 3 D := SP.isPGroup'.map q
+  have hDp : IsPGroup 3 D := SP.isPGroup.map q
   obtain ⟨x, -, hx⟩ := exists_conj_le_map_of_isPGroup ρ S₁ D hDle hDp
   have hCcyc : IsCyclic ((S₁ : Subgroup N).map ρ) :=
     isCyclic_of_surjective (ρ.subgroupMap (S₁ : Subgroup N)) (ρ.subgroupMap_surjective _)

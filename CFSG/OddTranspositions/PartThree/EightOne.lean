@@ -60,7 +60,7 @@ theorem lemma8_1_case_two {H : Type} [Group H] [Finite H]
       Nonempty (H ⧸ CFSG.oddCore H ≃*
         Multiplicative (ZMod 2) × ↥(CFSG.Theory.Comparator.PSU3Model 2)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let N : Subgroup H := CFSG.oddCore H
   let M : Subgroup H := CFSG.solvableRadical H
   have hNM : N ≤ M := EightOne.oddCore_le_of_isBenderGroup hB
@@ -73,7 +73,7 @@ theorem lemma8_1_case_two {H : Type} [Group H] [Finite H]
   let E : Subgroup X := M.map (QuotientGroup.mk' N)
   have hEn : E.Normal :=
     Subgroup.Normal.map (inferInstance : M.Normal) _ (QuotientGroup.mk'_surjective N)
-  haveI : E.Normal := hEn
+  have : E.Normal := hEn
   have hEc : E ≤ Subgroup.center X := h2
   have hO : CFSG.oddCore X = ⊥ := CFSG.LyonsUnitaryFour.oddCore_quotient_oddCore_eq_bot H
   have hE2 : IsPGroup 2 E := EightOne.isPGroup_two_of_le_center hEc hO
@@ -116,7 +116,7 @@ theorem lemma8_1 :
           Multiplicative (ZMod 2) × ↥(CFSG.BenderSuzuki.PSU3Model 2)) := by
   intro G _ _ D hS hB
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Q : Subgroup G := CFSG.pCore 2 G
   let H : Type := G ⧸ Q
   let Dbar : Set H := QuotientGroup.mk' Q '' D

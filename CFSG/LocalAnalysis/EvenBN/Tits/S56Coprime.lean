@@ -19,7 +19,7 @@ private theorem conj_mem_of_gens (P X : Subgroup Γ) (g : Γ)
   | mem z hz =>
     obtain ⟨a, ha, x, hx, rfl⟩ := hz
     exact h a ha x hx
-  | one => simpa using one_mem _
+  | one => simp
   | mul a b _ _ iha ihb =>
     have e : g * (a * b) * g⁻¹ = (g * a * g⁻¹) * (g * b * g⁻¹) := by group
     rw [e]
@@ -87,7 +87,7 @@ private theorem exists_centralized_mem_rightCoset [Finite Γ] {p r : ℕ} [Fact 
     have e : x * z * x⁻¹ * q⁻¹ = (x * (z * q⁻¹) * x⁻¹) * (x * q * x⁻¹ * q⁻¹) := by group
     rw [e]
     exact Y.mul_mem (hstab x hx _ hz) (hcomm x hx)
-  letI : MulAction X S :=
+  let : MulAction X S :=
     { smul := fun x z => ⟨x * z * x⁻¹, hS x x.2 z z.2⟩
       one_smul := fun z => Subtype.ext (by
         change (1 : X).1 * z.1 * ((1 : X).1)⁻¹ = z.1

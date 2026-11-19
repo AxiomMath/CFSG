@@ -25,8 +25,9 @@ namespace Conf683
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L Y₁ Y₂ S : Subgroup G}
   {b : G} {Lb : Subgroup G}
 
+omit [Finite G] in
 private theorem image_inf_le_normalizer_image {A K S : Subgroup G}
-    (hAK : A ≤ Subgroup.normalizer (K : Set G))
+    (_hAK : A ≤ Subgroup.normalizer (K : Set G))
     (hAS : A ≤ Subgroup.normalizer (S : Set G))
     (φ : ↥K ⧸ CFSG.pCore 2 ↥K ≃* alternatingGroup (Fin 7)) :
     (((A ⊓ K).subgroupOf (Subgroup.normalizer (K : Set G))).map
@@ -94,6 +95,7 @@ private theorem a7Rep_inverts_inf {A K : Subgroup G}
     hinj (by simpa using hρconj)
   exact congrArg Subtype.val heq
 
+omit [Finite G] in
 private theorem pow_odd_inverts {x e : G} (h : x * e * x⁻¹ = e⁻¹) {m : ℕ} (hm : Odd m) :
     x ^ m * e * (x ^ m)⁻¹ = e⁻¹ := by
   obtain ⟨k, rfl⟩ := hm
@@ -548,7 +550,7 @@ theorem exists_b' (h : Conf683 A c L Y₁ Y₂ S b Lb) :
     intro hbot
     rw [hbot, Subgroup.card_bot] at hDcard
     norm_num at hDcard
-  haveI : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot D).mpr hDne
+  have : Nontrivial ↥D := (Subgroup.nontrivial_iff_ne_bot D).mpr hDne
   obtain ⟨b', hb'ne⟩ := exists_ne (1 : ↥D)
   have hb'D : (b' : G) ∈ D := b'.2
   have hb'A : (b' : G) ∈ A := hAD₁ (Subgroup.mem_inf.mp hb'D).1
@@ -665,8 +667,7 @@ theorem exists_b' (h : Conf683 A c L Y₁ Y₂ S b Lb) :
       (Subgroup.zpowers c) (Subgroup.zpowers (b' : G)) hnorm hdisj_c, hc_card, hb'card]
   refine ⟨(b' : G), hb'A, hb'ne', ?_, ?_, ?_⟩
   · have hD_eq' : D = A ⊓ Y₁ ⊓ Y₂ := by
-      simp [D, D₁, D₂, inf_assoc, inf_left_comm, inf_comm,
-        inf_of_le_left (inf_le_left : A ⊓ Y₁ ≤ A)]
+      simp [D, D₁, D₂, inf_left_comm, inf_comm]
     exact hD_eq'.symm.trans hD_eq
   · refine (Subgroup.eq_of_le_of_card_ge ?_ ?_).symm
     · exact sup_le (Subgroup.zpowers_le.mpr ⟨hbA, hbY₁⟩)
@@ -930,6 +931,7 @@ private theorem disjoint_zpowers_of_card_three {x y : G}
     · exact absurd h3 hne3
   exact disjoint_iff.mpr (Subgroup.card_eq_one.mp h1)
 
+omit [Finite G] in
 private theorem card_sup_zpowers_eq_nine {x y : G}
     (hx : Nat.card (Subgroup.zpowers x) = 3)
     (hy : Nat.card (Subgroup.zpowers y) = 3)
@@ -1185,7 +1187,7 @@ theorem exists_y₁ (h : Conf683 A c L Y₁ Y₂ S b Lb) {b' : G}
     obtain ⟨m, hm⟩ := Subgroup.mem_zpowers_iff.mp hb'zpb₀
     rw [← hm]
     have e : y * b₀ ^ m * y⁻¹ = (y * b₀ * y⁻¹) ^ m := by
-      simpa [MulAut.conj_apply] using (map_zpow (MulAut.conj y) b₀ m)
+      simp
     rw [e]
     exact (Subgroup.zpowers b).zpow_mem hy_b₀ m
   have hρy2 : ρ ⟨y ^ 2, N.pow_mem hyK 2⟩ = r ^ 2 := by
@@ -1425,7 +1427,7 @@ theorem exists_y₂ (h : Conf683 A c L Y₁ Y₂ S b Lb) {b' : G}
     obtain ⟨m, hm⟩ := Subgroup.mem_zpowers_iff.mp hb'zpb₀
     rw [← hm]
     have e : y * b₀ ^ m * y⁻¹ = (y * b₀ * y⁻¹) ^ m := by
-      simpa [MulAut.conj_apply] using (map_zpow (MulAut.conj y) b₀ m)
+      simp
     rw [e]
     exact (Subgroup.zpowers c).zpow_mem hy_b₀ m
   have hρy2 : ρ ⟨y ^ 2, N.pow_mem hyK 2⟩ = r ^ 2 := by

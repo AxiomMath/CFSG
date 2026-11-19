@@ -78,7 +78,6 @@ theorem IsUnitriThree.pow_three [CharP K 3] {N : Matrix (Fin 3) (Fin 3) K}
   fin_cases i <;> fin_cases j <;>
     simp [pow_succ, Matrix.mul_apply, Fin.sum_univ_three, a10, a20, a21, a00, a11, a22] <;>
     first
-      | ring1
       | linear_combination N 0 1 * h3
       | linear_combination N 1 2 * h3
       | linear_combination (N 0 2 + N 0 1 * N 1 2) * h3
@@ -209,7 +208,7 @@ theorem suThreeX_mem : suThreeX F ∈ SU (unitaryInvolution F 3 1) 3 := by
   ext a b
   fin_cases a <;> fin_cases b <;>
     simp [conjTr, antidiag, suThreeXMat, Matrix.mul_apply, Fin.sum_univ_three, Fin.rev]
-  all_goals first | ring1 | linear_combination h3
+  all_goals linear_combination h3
 
 theorem suThreeY_mem {i : F} (hi : i * i = -1) (hσ : unitaryInvolution F 3 1 i = -i) :
     suThreeY i ∈ SU (unitaryInvolution F 3 1) 3 := by
@@ -222,7 +221,7 @@ theorem suThreeY_mem {i : F} (hi : i * i = -1) (hσ : unitaryInvolution F 3 1 i 
   ext a b
   fin_cases a <;> fin_cases b <;>
     simp [conjTr, antidiag, suThreeYMat, Matrix.mul_apply, Fin.sum_univ_three, Fin.rev, hσ']
-  all_goals first | ring1 | linear_combination h3 - hi
+  all_goals linear_combination h3 - hi
 
 omit [Finite F] [Fact (Nat.Prime 3)] in
 theorem suThreeX_mul_ne {i : F} (hi : i * i = -1) :

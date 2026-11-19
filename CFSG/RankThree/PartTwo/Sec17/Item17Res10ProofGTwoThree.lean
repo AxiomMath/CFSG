@@ -37,7 +37,7 @@ theorem hasCommOfZ_of_witness {X : Type*} [Group X] [Finite X] {Z : Subgroup X}
     exact fun z hz => (hcen z hz x hx).symm
   · rw [Subgroup.mem_centralizer_iff]
     exact fun z hz => (hcen z hz y hy).symm
-  · refine (S.isPGroup').to_le ?_
+  · refine (S.isPGroup).to_le ?_
     rw [Subgroup.closure_le]
     intro a ha
     rcases ha with rfl | ha

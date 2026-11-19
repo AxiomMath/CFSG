@@ -36,7 +36,7 @@ theorem psl_no_e9c7 {F : Type*} [Field F] [Finite F] {V : Type*} [AddCommGroup V
       rcases (Nat.dvd_prime Nat.prime_three).mp hdvd3 with h1 | h3
       · exact absurd h1 (CharP.ringChar_ne_one (R := F))
       · exact h3
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     have hdvdF : 3 ∣ Fintype.card F :=
       (prime_dvd_char_iff_dvd_card (R := F) 3).mp (by rw [hrc])
     rw [← Nat.card_eq_fintype_card] at hdvdF

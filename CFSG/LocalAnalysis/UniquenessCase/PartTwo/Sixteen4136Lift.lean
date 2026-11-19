@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G]
     (Lbar : Subgroup (MulAut (Vtil V₀ V hV))) : Subgroup G :=
   twoResidual (preBarSub M V₀ V hV Lbar)
 
+omit [Finite G] in
 theorem liftO2_le (M V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     (Lbar : Subgroup (MulAut (Vtil V₀ V hV))) : liftO2 M V₀ V hV Lbar ≤ M := by
   unfold liftO2 preBarSub

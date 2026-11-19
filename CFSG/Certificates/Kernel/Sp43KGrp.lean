@@ -18,7 +18,7 @@ noncomputable def ofT (t : ℕ) : G := by
 theorem coe_ofT {t : ℕ} (h : InG t) :
     ((ofT t : G) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) (ZMod 3)) = toMT t := by
   unfold ofT
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem inG_oneT : InG oneT := ⟨exT_oneT, by rw [toMT_oneT]; exact Submonoid.one_mem _⟩
 

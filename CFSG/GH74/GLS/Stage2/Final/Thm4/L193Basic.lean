@@ -223,7 +223,7 @@ theorem exists_pgroup_ge [Finite G] {p : ℕ} [Fact p.Prime] {M D : Subgroup G} 
   have hD' : IsPGroup p (D.subgroupOf M) := hD.comap_subtype
   obtain ⟨T₀, hT₀⟩ := hD'.exists_le_sylow
   refine ⟨(T₀ : Subgroup ↥M).map M.subtype, Subgroup.map_subtype_le _, ?_, ?_, ?_⟩
-  · exact T₀.isPGroup'.of_equiv (Subgroup.equivMapOfInjective (T₀ : Subgroup ↥M) M.subtype M.subtype_injective)
+  · exact T₀.isPGroup.of_equiv (Subgroup.equivMapOfInjective (T₀ : Subgroup ↥M) M.subtype M.subtype_injective)
   · intro x hx
     exact ⟨⟨x, hDM hx⟩, hT₀ hx, rfl⟩
   · have hle : pCore p ↥M ≤ (T₀ : Subgroup ↥M) := IsPGroup.le_sylow_of_normal (pCore_isPGroup (G := ↥M) (p := p)) T₀

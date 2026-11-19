@@ -37,7 +37,7 @@ private theorem nine_dvd_add_one_of_nine_dvd_sq_sub_one (q : ℕ) (h3 : 3 ∣ q 
     have h2 : (3 : ℤ) ∣ 2 := by
       have := Int.dvd_sub h3z h3z'
       ring_nf at this
-      simpa using this
+      simp at this
     omega
   · exact_mod_cast h
 
@@ -61,7 +61,7 @@ theorem ggTwE6ThreeSCShapeInput_of_rankFive (h : GGTwE6ThreeRankFiveInput) :
   let C := ↥(graphFixedRootGroup TwistTag.E6 K (frobQ 2 f))
   let I : Subgroup (MulAut C) := (MulAut.conj : C →* MulAut C).range
   let Innd : Subgroup (MulAut C) := LayerSixE.twInndiagAut f
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hsplit : Innd ≤ M' ∨ M' ⊓ Innd ≤ I := by
     by_cases hle : Innd ≤ M'
     · exact Or.inl hle
@@ -77,7 +77,7 @@ theorem ggTwE6ThreeSCShapeInput_of_rankFive (h : GGTwE6ThreeRankFiveInput) :
       simpa using Nat.sq_sub_sq (2 ^ f) 1
     rw [hfac]
     exact dvd_mul_of_dvd_left h3 _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζo⟩ := TableBSymp.exists_orderOf_eq_of_dvd (K := K) h3K
   have hζ : ζ ^ 3 = 1 := by
     rw [← hζo]
@@ -88,7 +88,7 @@ theorem ggTwE6ThreeSCShapeInput_of_rankFive (h : GGTwE6ThreeRankFiveInput) :
     have hYleS : Y ≤ S := by
       intro y hy
       refine hSC y (hYM hy) (fun s hs => ?_) (hYel.2 y hy)
-      haveI : IsMulCommutative ↥Y := hYel.1
+      have : IsMulCommutative ↥Y := hYel.1
       exact congrArg Subtype.val (mul_comm' (⟨y, hy⟩ : Y) (⟨s, hSY hs⟩ : Y))
     have hYeq : S = Y := le_antisymm hSY hYleS
     have hScard : Nat.card S = 3 ^ 6 := by rw [hYeq, hYcard]

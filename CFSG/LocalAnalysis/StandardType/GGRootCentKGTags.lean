@@ -58,7 +58,7 @@ theorem ggRCS_perfect_lift {r : G} {M G₀ : Subgroup G}
     exact Group.IsPerfect.map (H := (CFSG.perfectResidual P₀).map P₀.subtype)
       (M.subgroupOf N).subtype
   have hKperf : Group.IsPerfect ↥K := by
-    haveI : Group.IsPerfect ↥Kn := hKnperf
+    have : Group.IsPerfect ↥Kn := hKnperf
     exact Group.IsPerfect.map (H := Kn) N.subtype
   have hKnM : Kn ≤ M.subgroupOf N := Subgroup.map_subtype_le _
   have hKM : K ≤ M := by
@@ -185,6 +185,7 @@ section ImgLattice
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem ggRCSImg_sup {r : G} {A B : Subgroup G}
     (hA : A ≤ Subgroup.centralizer ({r} : Set G))
     (hB : B ≤ Subgroup.centralizer ({r} : Set G)) :
@@ -195,6 +196,7 @@ private theorem ggRCSImg_sup {r : G} {A B : Subgroup G}
     Subgroup.subgroupOf_sup hA hB
   rw [ggRCSImg, ggRCSImg, ggRCSImg, hsub, Subgroup.map_sup]
 
+omit [Finite G] in
 private theorem ggRCSImg_commutator {r : G} {A B : Subgroup G}
     (hA : A ≤ Subgroup.centralizer ({r} : Set G))
     (hB : B ≤ Subgroup.centralizer ({r} : Set G)) :
@@ -217,6 +219,7 @@ private theorem ggRCSImg_commutator {r : G} {A B : Subgroup G}
       Subgroup.map_subgroupOf_eq_of_le hB, Subgroup.map_subgroupOf_eq_of_le hABC]
   rw [ggRCSImg, ggRCSImg, ggRCSImg, hsub, Subgroup.map_commutator]
 
+omit [Finite G] in
 private theorem ggRCSImg_pCoreOf_self {r : G} :
     ggRCSImg r (pCoreOf 2 (Subgroup.centralizer ({r} : Set G))) = ⊥ := by
   rw [eq_bot_iff]
@@ -490,7 +493,7 @@ theorem ggRootCentStructKGInput_of_tags (hSP : GGSchreierPerfectInput)
           ggRCSImg_mono r hQ0Y
         rw [ggRCSImg_sup hYC (inf_le_left.trans hQ0C), hZim, sup_bot_eq] at h1
         exact h1
-      haveI hQ0nY' : (Q₀.subgroupOf Y).Normal := by
+      have hQ0nY' : (Q₀.subgroupOf Y).Normal := by
         refine ⟨fun n hn g => ?_⟩
         rw [Subgroup.mem_subgroupOf] at hn ⊢
         exact conj_mem_pCoreOf' 2 (hYC₀ g.2) hn
@@ -589,7 +592,7 @@ theorem ggRootCentStructKGInput_of_tags (hSP : GGSchreierPerfectInput)
             rwa [← h2'] at h3
           · intro hy
             exact mem_ggRCSImg r (y := ⟨(y : G), hYC y.2⟩) hy
-        haveI hQ0bar : ((ggRCSImg r Q₀).subgroupOf (ggRCSImg r Y)).Normal := by
+        have hQ0bar : ((ggRCSImg r Q₀).subgroupOf (ggRCSImg r Y)).Normal := by
           rw [Subgroup.normal_subgroupOf_iff_le_normalizer hQbar_le]
           rw [← hpcore]
           intro x hx
@@ -615,7 +618,7 @@ theorem ggRootCentStructKGInput_of_tags (hSP : GGSchreierPerfectInput)
           let Lbar := ↥(ggRCSImg r Y) ⧸
             (pCoreOf 2 (ggRCSImg r M)).subgroupOf (ggRCSImg r Y)
           have hB : commutator Lbar = ⊤ := by
-            haveI : Group.IsPerfect LY := ⟨hmarkY.1⟩
+            have : Group.IsPerfect LY := ⟨hmarkY.1⟩
             exact (Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom)
               e.symm.surjective).commutator_eq_top
           let eC : LY ⧸ Subgroup.center LY ≃* Lbar ⧸ Subgroup.center Lbar :=

@@ -13,12 +13,14 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem rho_conjQ (L : Subgroup G) {g : G} (hg : g ∈ Subgroup.normalizer (L : Set G))
     (y : PQuot 3 L) : rho L ⟨g, hg⟩ (lemma102_conjQ 3 hg y) = y := by
   obtain ⟨l, rfl⟩ := QuotientGroup.mk_surjective y
   rw [lemma102_conjQ_mk]
   exact rho_mk' L hg _ l (by rw [lemma102_conjHomL_val]; group)
 
+omit [Finite G] in
 theorem conjQ_rho (L : Subgroup G) {g : G} (hg : g ∈ Subgroup.normalizer (L : Set G))
     (y : PQuot 3 L) : lemma102_conjQ 3 hg (rho L ⟨g, hg⟩ y) = y := by
   obtain ⟨l, rfl⟩ := QuotientGroup.mk_surjective y
@@ -29,6 +31,7 @@ theorem conjQ_rho (L : Subgroup G) {g : G} (hg : g ∈ Subgroup.normalizer (L : 
   rw [lemma102_conjHomL_val]
   group
 
+omit [Finite G] in
 theorem centCard2_eq_of_rho (L : Subgroup G) {g : G} (hg : g ∈ Subgroup.normalizer (L : Set G)) :
     centCard2 3 L g = twoPart (Nat.card {y : PQuot 3 L // rho L ⟨g, hg⟩ y = y}) := by
   rw [lemma102_centCard2_eq_fixSub 3 hg]

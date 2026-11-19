@@ -28,14 +28,14 @@ private theorem k2_not_forall_comm_of_isQuasisimple {A : Type} [Group A] [Finite
     (hA : CFSG.Open.IsQuasisimple A) : ¬ ∀ a b : A, a * b = b * a := by
   rintro hc
   obtain ⟨-, hsimple⟩ := hA
-  haveI := hsimple
+  have := hsimple
   have hcenter : Subgroup.center A = ⊤ := by
     rw [eq_top_iff]
     intro z _
     rw [Subgroup.mem_center_iff]
     intro y
     exact (hc z y).symm
-  haveI : Subsingleton (A ⧸ Subgroup.center A) := QuotientGroup.subsingleton_iff.mpr hcenter
+  have : Subsingleton (A ⧸ Subgroup.center A) := QuotientGroup.subsingleton_iff.mpr hcenter
   obtain ⟨a, b, hab⟩ := (inferInstance : Nontrivial (A ⧸ Subgroup.center A)).exists_pair_ne
   exact hab (Subsingleton.elim a b)
 
@@ -114,14 +114,14 @@ private theorem s15_Three_component_eq {A : Type} [Group A] [Finite A]
   exact (k2_not_forall_comm_of_isQuasisimple hB.2.2) hcommB'
 
 private theorem s15_Three_solvable_normal_le_center {Q : Type} [Group Q] [Finite Q]
-    (hQ : CFSG.Open.IsQuasisimple Q) (N : Subgroup Q) (hN : N.Normal) (hs : IsSolvable ↥N) :
+    (hQ : CFSG.Open.IsQuasisimple Q) (N : Subgroup Q) (hN : N.Normal) (hs : Group.IsSolvable ↥N) :
     N ≤ Subgroup.center Q := by
   obtain ⟨hperf, hsimple⟩ := hQ
-  haveI := hsimple
+  have := hsimple
   let π := QuotientGroup.mk' (Subgroup.center Q)
   have hNbar_normal : (N.map π).Normal := hN.map π (QuotientGroup.mk'_surjective _)
-  have hNbar_solv : IsSolvable ↥(N.map π) := by
-    haveI : Group.IsSolvable ↥N := hs
+  have hNbar_solv : Group.IsSolvable ↥(N.map π) := by
+    have : Group.IsSolvable ↥N := hs
     let m : ↥N →* ↥(N.map π) :=
       (π.comp N.subtype).codRestrict (N.map π) (fun x => Subgroup.mem_map_of_mem π x.2)
     have hm : Function.Surjective m := by
@@ -129,11 +129,11 @@ private theorem s15_Three_solvable_normal_le_center {Q : Type} [Group Q] [Finite
       obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.1 hz
       exact ⟨⟨x, hx⟩, rfl⟩
     exact Group.isSolvable_of_surjective (f := m) hm
-  haveI := hNbar_normal
+  have := hNbar_normal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map π) with h | h
   · rw [Subgroup.map_eq_bot_iff] at h
     rwa [QuotientGroup.ker_mk'] at h
-  · haveI : Group.IsSolvable ↥(⊤ : Subgroup (Q ⧸ Subgroup.center Q)) := h ▸ hNbar_solv
+  · have : Group.IsSolvable ↥(⊤ : Subgroup (Q ⧸ Subgroup.center Q)) := h ▸ hNbar_solv
     have hQZsolv : Group.IsSolvable (Q ⧸ Subgroup.center Q) :=
       Group.isSolvable_of_surjective (f := (Subgroup.topEquiv).toMonoidHom)
         (MulEquiv.surjective _)
@@ -166,6 +166,7 @@ private theorem s15_Three_quot_center_iso {Q T : Type} [Group Q] [Group T] (π :
   refine ⟨(QuotientGroup.quotientMulEquivOfEq hker_eq.symm).trans
     (QuotientGroup.quotientKerEquivOfSurjective π hπ)⟩
 
+omit [Finite G] in
 private theorem s15_Three_barLift_exists (hV : IsElemAbelian 2 V) {Y : Subgroup G}
     (hY : Y ≤ stabTil V₀ V) (h2 : barSub V₀ V hV (pCoreOf 2 Y) = ⊥) :
     ∃ ψ : Bar2 Y →* MulAut (Vtil V₀ V hV),
@@ -183,6 +184,7 @@ private theorem s15_Three_barLift_exists (hV : IsElemAbelian 2 V) {Y : Subgroup 
   intro y
   rfl
 
+omit [Finite G] in
 private theorem s15_Three_barSub_comap_map (hV : IsElemAbelian 2 V) {Y : Subgroup G}
     (hY : Y ≤ stabTil V₀ V) (ψ : Bar2 Y →* MulAut (Vtil V₀ V hV))
     (hψ : ∀ y : ↥Y, ψ (QuotientGroup.mk y) = actTil V₀ V hV ⟨y, hY y.2⟩)
@@ -206,11 +208,11 @@ private theorem s15_Three_barSub_comap_map (hV : IsElemAbelian 2 V) {Y : Subgrou
     · refine Subgroup.mem_map.2 ⟨y, ?_, rfl⟩
       rw [Subgroup.mem_comap, hy]
       exact hc
-    · change actTil V₀ V hV ⟨(y : G), hY y.2⟩ = ψ c
-      rw [← hy]
+    · rw [← hy]
       change actTil V₀ V hV ⟨(y : G), hY y.2⟩ = ψ (QuotientGroup.mk y)
       rw [hψ y]
 
+omit [Finite G] in
 private theorem k2_layer_top_of_O2E_eq {Y : Subgroup G} (hYE : F11.O2E Y = Y) :
     CFSG.Open.rankThreeLayer (⊤ : Subgroup (Bar2 Y)) = ⊤ := by
   have hπ : Function.Surjective (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)) :=
@@ -243,7 +245,7 @@ private theorem k2_map_component_eq_bot_or_isComponentOf {D : Data G} {V₀ V K�
         rintro ⟨z, hz⟩
         obtain ⟨c, hc, rfl⟩ := Subgroup.mem_map.1 hz
         exact ⟨⟨c, hc⟩, rfl⟩
-      haveI : Nontrivial ↥(C.map ψ) := (Subgroup.nontrivial_iff_ne_bot _).2 hCbot
+      have : Nontrivial ↥(C.map ψ) := (Subgroup.nontrivial_iff_ne_bot _).2 hCbot
       exact uc22br4_isQuasisimple_of_surjective hC.2.2 f hf
     refine ⟨?_, ?_, hqC⟩
     · rw [← hXbar]
@@ -358,6 +360,7 @@ private theorem s15_Three_component_cover_conj (h : Hyp151 D V₀ V L) (hV : IsE
   refine ⟨C, hC, ?_⟩
   rw [s15_Three_barSub_comap_map hV hYs ψ hψ C, hCmap]
 
+omit [Finite G] in
 private theorem s15_Three_barSub_core_eq_map (hV : IsElemAbelian 2 V) {Y K : Subgroup G}
     (hKY : K ≤ Y) (hYKstab : Y ≤ stabTil V₀ V)
     (ψ : Bar2 Y →* MulAut (Vtil V₀ V hV))
@@ -380,7 +383,6 @@ private theorem s15_Three_barSub_core_eq_map (hV : IsElemAbelian 2 V) {Y K : Sub
     obtain ⟨y, hy, hyc⟩ := Subgroup.mem_map.1 hc
     have hyK : (y : G) ∈ K := (Subgroup.mem_subgroupOf).1 hy
     refine (mem_barSub V₀ V hV K (ψ c)).2 ⟨⟨(y : G), hYKstab y.2⟩, hyK, ?_⟩
-    change actTil V₀ V hV ⟨(y : G), hYKstab y.2⟩ = ψ c
     rw [← hyc]
     change actTil V₀ V hV ⟨(y : G), hYKstab y.2⟩ = ψ (QuotientGroup.mk y)
     rw [hψ y]
@@ -402,7 +404,7 @@ private theorem s15_Three_component_normal {A : Type} [Group A] [Finite A] {C : 
 
 private theorem s15_Three_one_le_pRank_of_dvd {X : Type} [Group X] [Finite X] {p : ℕ}
     (hp : p.Prime) (hd : p ∣ Nat.card X) : 1 ≤ CFSG.Open.pRank p (⊤ : Subgroup X) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨h, hh⟩ := exists_prime_orderOf_dvd_card' (G := X) p hd
   have hle : Subgroup.zpowers h ≤ (⊤ : Subgroup X) := le_top
   have hcard : Nat.card (Subgroup.zpowers h) = p ^ 1 := by
@@ -455,7 +457,7 @@ private theorem s15_Three_pRank3_join {A : Type} [Group A] [Finite A]
     (hdiv₂ : 3 ∣ Nat.card C₂) (hdiv₃ : 3 ∣ Nat.card C₃)
     (hc₁₂ : ⁅C₁, C₂⁆ = ⊥) (hc₁₃ : ⁅C₁, C₃⁆ = ⊥) (hc₂₃ : ⁅C₂, C₃⁆ = ⊥) :
     2 < CFSG.Open.pRank 3 (C₁ ⊔ C₂ ⊔ C₃) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcent₁ : C₃ ≤ Subgroup.centralizer (C₁ : Set A) := by
     rw [Subgroup.commutator_comm C₁ C₃] at hc₁₃
     exact (Subgroup.commutator_eq_bot_iff_le_centralizer).1 hc₁₃
@@ -589,7 +591,7 @@ private theorem s15_Three_pRank3_image {Y L' : Subgroup G} (hL'Y : L' ≤ Y)
     (hN : ¬ 3 ∣ Nat.card ↥(L' ⊓ pCoreOf 2 Y)) :
     CFSG.Open.pRank 3 L' =
       CFSG.Open.pRank 3 ((L'.subgroupOf Y).map (QuotientGroup.mk' (CFSG.pCore 2 ↥Y))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let φ : ↥L' →* Bar2 Y :=
     (QuotientGroup.mk' (CFSG.pCore 2 ↥Y)).comp (Subgroup.inclusion hL'Y)
   have hY : (pCoreOf 2 Y).subgroupOf Y = CFSG.pCore 2 ↥Y :=
@@ -663,7 +665,7 @@ private theorem s15_Three_core_rank_one (hS2 : RSchur2_153) (hV : IsElemAbelian 
     (h2 : barSub V₀ V hV (pCoreOf 2 Y) = ⊥)
     (ψ : Bar2 Y →* MulAut (Vtil V₀ V hV))
     (hψ : ∀ y : ↥Y, ψ (QuotientGroup.mk y) = actTil V₀ V hV ⟨y, hYKstab y.2⟩)
-    {m : G} (hm : m ∈ D.M) {C : Subgroup (Bar2 Y)} (hC : CFSG.Open.IsComponentOf C ⊤)
+    {m : G} (hm : m ∈ D.M) {C : Subgroup (Bar2 Y)} (_hC : CFSG.Open.IsComponentOf C ⊤)
     (hCmap : C.map ψ = barSub V₀ V hV (conjSubgroup K₀ m)) {K : Subgroup G}
     (hKY : K ≤ Y) (hKs : CFSG.Open.IsSubnormal K Y) (hKperf : ⁅K, K⁆ = K)
     (hKq : CFSG.Open.IsQuasisimple (Bar2 K))
@@ -987,7 +989,7 @@ private theorem s15_Three_hyp81_of_three_gap
     (Z := commSub ⊤ (barSub (v1Sub D.M V₀ V hV L) V hV K₀)) hperf
   have hMs : D.M ≤ stabTil V₀ V := s15_Three_le_stabTil h
   have hK0M : K₀ ≤ D.M := hshape.1.trans h.le
-  haveI := s15_Three_cTilde_normal (D := D) hV hMs
+  have := s15_Three_cTilde_normal (D := D) hV hMs
   obtain ⟨X, Y, hCTX, hXM, hXnorm, hXbar, hYX, hYstar, hYrest⟩ :=
     s15_Three_Y119 hSimple h127 h119 h1217 h hV hshape hperf
   obtain ⟨hY119, -⟩ := hYrest
@@ -1183,14 +1185,14 @@ theorem s15_Three_hyp81_of_three (hS2 : RSchur2_153) (hSimple : RSimple153) (h12
   have hL'Y : L' ≤ Y := sup_le hK₁₂Y hK₃Y
   have hN₁₂ : ((K₁ ⊔ K₂).subgroupOf Y).Normal := by
     rw [Subgroup.subgroupOf_sup hK₁Y hK₂Y]
-    haveI : (K₁.subgroupOf Y).Normal := hN₁
-    haveI : (K₂.subgroupOf Y).Normal := hN₂
+    have : (K₁.subgroupOf Y).Normal := hN₁
+    have : (K₂.subgroupOf Y).Normal := hN₂
     exact Subgroup.sup_normal _ _
   have hNL' : (L'.subgroupOf Y).Normal := by
     change ((K₁ ⊔ K₂ ⊔ K₃).subgroupOf Y).Normal
     rw [Subgroup.subgroupOf_sup hK₁₂Y hK₃Y]
-    haveI : ((K₁ ⊔ K₂).subgroupOf Y).Normal := hN₁₂
-    haveI : (K₃.subgroupOf Y).Normal := hN₃
+    have : ((K₁ ⊔ K₂).subgroupOf Y).Normal := hN₁₂
+    have : (K₃.subgroupOf Y).Normal := hN₃
     exact Subgroup.sup_normal _ _
   have hL'Msub : CFSG.Open.IsSubnormal L' D.M :=
     A3.subnormal_trans (A3.subnormal_of_normal hL'Y hNL') hYM

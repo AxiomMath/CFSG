@@ -232,7 +232,7 @@ theorem eq_bot_of_le_centralizer (hO2 : ∀ N : Subgroup G', N.Normal → IsPGro
   have hSn : (S : Subgroup ↥K).Normal := Subgroup.normalizer_eq_top_iff.mp hnorm
   have hSc : (S : Subgroup ↥K).Characteristic := Sylow.characteristic_of_normal S hSn
   have hSmap : ((S : Subgroup ↥K).map K.subtype).Normal := inferInstance
-  have hS2 : IsPGroup 2 ((S : Subgroup ↥K).map K.subtype) := S.isPGroup'.map K.subtype
+  have hS2 : IsPGroup 2 ((S : Subgroup ↥K).map K.subtype) := S.isPGroup.map K.subtype
   have hbot := hO2 _ hSmap hS2
   rw [eq_bot_iff]
   intro y hy

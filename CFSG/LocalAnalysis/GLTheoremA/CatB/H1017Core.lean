@@ -27,6 +27,7 @@ theorem isElemAbelian_map_hom {K H : Type} [Group K] [Group H] {p : ℕ} {A : Su
   obtain ⟨y', hy', rfl⟩ := Subgroup.mem_map.1 hy
   rw [← map_pow, hA.2 y' hy', map_one]
 
+omit [Finite G] in
 theorem isElemAbelian_subgroupOf' {p : ℕ} {L F : Subgroup G} (hF : IsElemAbelian p F) :
     IsElemAbelian p (F.subgroupOf L) := by
   refine ⟨⟨⟨fun a b => Subtype.ext (Subtype.ext ?_)⟩⟩, fun x hx => Subtype.ext (?_)⟩
@@ -37,7 +38,7 @@ theorem isElemAbelian_subgroupOf' {p : ℕ} {L F : Subgroup G} (hF : IsElemAbeli
   (QuotientGroup.mk' (Subgroup.center (PQuot p L))).comp (QuotientGroup.mk' (GLAPPrimeCore p ↥L))
 
 theorem card_le_center_mul_pow {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup G}
-    {A W : Subgroup ↥L} (hA : IsElemAbelian p A) (hW : IsPGroup 2 W) (hW1 : W ≠ ⊥)
+    {A W : Subgroup ↥L} (hA : IsElemAbelian p A) (hW : IsPGroup 2 W) (_hW1 : W ≠ ⊥)
     (hWN : ¬ W ≤ GLAPPrimeCore p ↥L) (hAW : A ≤ Subgroup.normalizer (W : Set ↥L)) :
     Nat.card A ≤
       Nat.card (Subgroup.center (PQuot p L)) * p ^ GLATwoLocalRank p (PSimple p L) := by

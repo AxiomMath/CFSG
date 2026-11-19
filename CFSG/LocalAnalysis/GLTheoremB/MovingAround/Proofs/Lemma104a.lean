@@ -25,6 +25,7 @@ theorem centralizer_inf_le_M' {p : ℕ} {E A M : Subgroup G} (hU : IsUniquenessT
     Subgroup.centralizer ((E ⊓ A : Subgroup G) : Set G) ≤ M :=
   (centralizer_le_glbCore' inf_le_left h2).trans hU.clause_d
 
+omit [Finite G] in
 theorem isSCp_top_of_centralizer' {p : ℕ} {M X A₀ : Subgroup G} (hX : IsSCp p M X)
     (hA₀ : A₀ ≤ X) (hC : Subgroup.centralizer (A₀ : Set G) ≤ M) : IsSCp p ⊤ X := by
   refine ⟨le_top, hX.2.1, fun Y _ hY hXY => ?_⟩
@@ -56,7 +57,7 @@ theorem lemma104_ii_holds : Lemma104_iiStatement := by
 theorem lemma104_i_of_lemma101_i (h101i : Lemma101_iStatement) : Lemma104_iStatement := by
   intro G _ _ m p B M h E A hEA
   have hp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDD := hEA.1
   have hmax := hEA.2
   have hEinD : inD p M E := hDD.1
@@ -106,7 +107,7 @@ theorem lemma104_i_of_conj (hconj : IsUniquenessTwoLocal_conjStatement) : Lemma1
 theorem lemma104_vi_of_lemma104_v (h104v : Lemma104_vStatement) : Lemma104_viStatement := by
   intro G _ _ m p B M h E A hEA h3E
   have hp : p.Prime := h.standing.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hDD := hEA.1
   have hmax := hEA.2
   have hAinDp : inDp p M A := hDD.2.1

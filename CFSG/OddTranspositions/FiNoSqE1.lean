@@ -54,7 +54,7 @@ theorem noSqE1_of_centralizer_twoCore_le {G : Type} [Group G] {D : Set G}
     rw [CFSG.RankThree.GF2n.Tim79a.cenGen] at hx ⊢
     induction hx using Subgroup.closure_induction with
     | mem y hy => exact Subgroup.subset_closure (hconj y hy c hc)
-    | one => simpa using (Subgroup.one_mem (Subgroup.closure (D ∩ (C : Set G))))
+    | one => simp
     | mul a b ha hb iha ihb =>
         rw [show c * (a * b) * c⁻¹ = (c * a * c⁻¹) * (c * b * c⁻¹) by group]
         exact Subgroup.mul_mem _ iha ihb
@@ -66,7 +66,7 @@ theorem noSqE1_of_centralizer_twoCore_le {G : Type} [Group G] {D : Set G}
     intro h k hh hk
     exact hconj_mem h hh k hk
   let KC : Subgroup C := K.subgroupOf C
-  haveI hKCnormal : KC.Normal := hKnormal
+  have hKCnormal : KC.Normal := hKnormal
   let e : KC ≃* K := Subgroup.subgroupOfEquivOfLe hKC
   have hpc : (CFSG.pCore 2 KC).map e.toMonoidHom = CFSG.pCore 2 K :=
     CFSG.pCore_map_iso 2 e
@@ -88,11 +88,11 @@ theorem noSqE1_of_centralizer_twoCore_le {G : Type} [Group G] {D : Set G}
 theorem noSqE1_of_fi22
     {G : Type} [Group G] {D : Set G}
     (hP : Pair G D) (hZ : Subgroup.center G = ⊥) (hS : IsSimpleGroup (commutator G))
-    (hna : ∃ a b : commutator G, a * b ≠ b * a)
+    (_hna : ∃ a b : commutator G, a * b ≠ b * a)
     (h : Nonempty (G ≃* CFSG.Blueprint.NativeSporadic.Fi22)) :
     CFSG.RankThree.GF2n.Tim79a.NoSqE1 D := by
-  haveI : Finite G := hP.1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite G := hP.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine noSqE1_of_centralizer_twoCore_le hP ?_
   intro d hd
   let C : Subgroup G := Subgroup.centralizer ({d} : Set G)
@@ -104,9 +104,9 @@ theorem noSqE1_of_fi22
   have hcommC : commutator C = ⊤ := hcomm
   have hcenterC : (Subgroup.center C).map C.subtype = Subgroup.zpowers d := hcenter
   have hlieC : CFSG.Blueprint.LieModel (C ⧸ Subgroup.center C) .PSU 6 2 1 := hlie
-  haveI : Group.IsPerfect C := Group.isPerfect_def.mpr hcommC
-  haveI : Group.IsPerfect (C ⧸ Subgroup.center C) := inferInstance
-  haveI : IsSimpleGroup (C ⧸ Subgroup.center C) :=
+  have : Group.IsPerfect C := Group.isPerfect_def.mpr hcommC
+  have : Group.IsPerfect (C ⧸ Subgroup.center C) := inferInstance
+  have : IsSimpleGroup (C ⧸ Subgroup.center C) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags
       (by simp [CFSG.Blueprint.classicalTags]) hlieC
   have hlecenter : CFSG.pCore 2 C ≤ Subgroup.center C := by
@@ -114,15 +114,15 @@ theorem noSqE1_of_fi22
     have hN : ((CFSG.pCore 2 C).map π).Normal :=
       Subgroup.Normal.map CFSG.pCore_normal π (QuotientGroup.mk'_surjective _)
     have hP2 : IsPGroup 2 ((CFSG.pCore 2 C).map π) := CFSG.pCore_isPGroup.map π
-    haveI : ((CFSG.pCore 2 C).map π).Normal := hN
+    have : ((CFSG.pCore 2 C).map π).Normal := hN
     have hbot : (CFSG.pCore 2 C).map π = ⊥ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((CFSG.pCore 2 C).map π) with h | h
       · exact h
       · exfalso
         have htop : IsPGroup 2 (⊤ : Subgroup (C ⧸ Subgroup.center C)) := h ▸ hP2
         have hQ2 : IsPGroup 2 (C ⧸ Subgroup.center C) := htop.of_equiv Subgroup.topEquiv
-        haveI : Group.IsNilpotent (C ⧸ Subgroup.center C) := hQ2.isNilpotent
-        haveI : Group.IsSolvable (C ⧸ Subgroup.center C) := inferInstance
+        have : Group.IsNilpotent (C ⧸ Subgroup.center C) := hQ2.isNilpotent
+        have : Group.IsSolvable (C ⧸ Subgroup.center C) := inferInstance
         exact (Group.IsPerfect.not_isSolvable (C ⧸ Subgroup.center C)) inferInstance
     have hker := (Subgroup.map_eq_bot_iff (H := CFSG.pCore 2 C) (f := π)).mp hbot
     simpa [π, QuotientGroup.ker_mk'] using hker
@@ -135,11 +135,11 @@ theorem noSqE1_of_fi22
 theorem noSqE1_of_fi23
     {G : Type} [Group G] {D : Set G}
     (hP : Pair G D) (hZ : Subgroup.center G = ⊥) (hS : IsSimpleGroup (commutator G))
-    (hna : ∃ a b : commutator G, a * b ≠ b * a)
+    (_hna : ∃ a b : commutator G, a * b ≠ b * a)
     (h : Nonempty (G ≃* CFSG.Blueprint.NativeSporadic.Fi23)) :
     CFSG.RankThree.GF2n.Tim79a.NoSqE1 D := by
-  haveI : Finite G := hP.1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite G := hP.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine noSqE1_of_centralizer_twoCore_le hP ?_
   intro d hd
   let C : Subgroup G := Subgroup.centralizer ({d} : Set G)
@@ -150,27 +150,27 @@ theorem noSqE1_of_fi23
   obtain ⟨hcomm, hcenter, -, hQ⟩ := h23 h
   have hcommC : commutator C = ⊤ := hcomm
   have hcenterC : (Subgroup.center C).map C.subtype = Subgroup.zpowers d := hcenter
-  haveI : Group.IsPerfect C := Group.isPerfect_def.mpr hcommC
-  haveI : Group.IsPerfect (C ⧸ Subgroup.center C) := inferInstance
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.Fi22 :=
+  have : Group.IsPerfect C := Group.isPerfect_def.mpr hcommC
+  have : Group.IsPerfect (C ⧸ Subgroup.center C) := inferInstance
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.Fi22 :=
     CFSG.Sporadic.Fi22.isSimpleGroup_Fi22
   obtain ⟨eQ⟩ := hQ
-  haveI : IsSimpleGroup (C ⧸ Subgroup.center C) :=
+  have : IsSimpleGroup (C ⧸ Subgroup.center C) :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Fi22.isSimpleGroup_Fi22 eQ
   have hlecenter : CFSG.pCore 2 C ≤ Subgroup.center C := by
     let π : C →* C ⧸ Subgroup.center C := QuotientGroup.mk' (Subgroup.center C)
     have hN : ((CFSG.pCore 2 C).map π).Normal :=
       Subgroup.Normal.map CFSG.pCore_normal π (QuotientGroup.mk'_surjective _)
     have hP2 : IsPGroup 2 ((CFSG.pCore 2 C).map π) := CFSG.pCore_isPGroup.map π
-    haveI : ((CFSG.pCore 2 C).map π).Normal := hN
+    have : ((CFSG.pCore 2 C).map π).Normal := hN
     have hbot : (CFSG.pCore 2 C).map π = ⊥ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((CFSG.pCore 2 C).map π) with h | h
       · exact h
       · exfalso
         have htop : IsPGroup 2 (⊤ : Subgroup (C ⧸ Subgroup.center C)) := h ▸ hP2
         have hQ2 : IsPGroup 2 (C ⧸ Subgroup.center C) := htop.of_equiv Subgroup.topEquiv
-        haveI : Group.IsNilpotent (C ⧸ Subgroup.center C) := hQ2.isNilpotent
-        haveI : Group.IsSolvable (C ⧸ Subgroup.center C) := inferInstance
+        have : Group.IsNilpotent (C ⧸ Subgroup.center C) := hQ2.isNilpotent
+        have : Group.IsSolvable (C ⧸ Subgroup.center C) := inferInstance
         exact (Group.IsPerfect.not_isSolvable (C ⧸ Subgroup.center C)) inferInstance
     have hker := (Subgroup.map_eq_bot_iff (H := CFSG.pCore 2 C) (f := π)).mp hbot
     simpa [π, QuotientGroup.ker_mk'] using hker
@@ -183,11 +183,11 @@ theorem noSqE1_of_fi23
 theorem noSqE1_of_fi24
     {G : Type} [Group G] {D : Set G}
     (hP : Pair G D) (hZ : Subgroup.center G = ⊥) (hS : IsSimpleGroup (commutator G))
-    (hna : ∃ a b : commutator G, a * b ≠ b * a)
+    (_hna : ∃ a b : commutator G, a * b ≠ b * a)
     (h : Nonempty (G ≃* MulAut CFSG.Blueprint.NativeSporadic.Fi24prime)) :
     CFSG.RankThree.GF2n.Tim79a.NoSqE1 D := by
-  haveI : Finite G := hP.1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite G := hP.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine noSqE1_of_centralizer_twoCore_le hP ?_
   intro d hd
   let C : Subgroup G := Subgroup.centralizer ({d} : Set G)
@@ -220,7 +220,7 @@ theorem noSqE1_of_fi24
       rw [← hCeq']
       exact c.2
     exact Subtype.ext (Subgroup.mem_centralizer_iff.mp (hHcentral hxH) (c : G) hcHK)
-  haveI : HC.Normal := Subgroup.normal_of_le_center hHCle_center
+  have : HC.Normal := Subgroup.normal_of_le_center hHCle_center
   have hsup : KC ⊔ HC = ⊤ := by
     have h := Subgroup.subgroupOf_sup (A := K) (A' := H) (B := C) hKC hHCle
     rw [sup_comm K H, ← hCeq', Subgroup.subgroupOf_self] at h
@@ -244,16 +244,16 @@ theorem noSqE1_of_fi24
     Subgroup.isComplement'_of_disjoint_and_mul_eq_univ hdisjKC hmult
   have eQ : C ⧸ HC ≃* CFSG.Blueprint.NativeSporadic.Fi23 :=
     (hcomp.QuotientMulEquiv).trans ((Subgroup.subgroupOfEquivOfLe hKC).trans eK)
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.Fi23 :=
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.Fi23 :=
     CFSG.Sporadic.Fi23.isSimpleGroup_Fi23
-  haveI : IsSimpleGroup (C ⧸ HC) :=
+  have : IsSimpleGroup (C ⧸ HC) :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Fi23.isSimpleGroup_Fi23 eQ
   have hleHC : CFSG.pCore 2 C ≤ HC := by
     let π : C →* C ⧸ HC := QuotientGroup.mk' HC
     have hN : ((CFSG.pCore 2 C).map π).Normal :=
       Subgroup.Normal.map CFSG.pCore_normal π (QuotientGroup.mk'_surjective _)
     have hP2 : IsPGroup 2 ((CFSG.pCore 2 C).map π) := CFSG.pCore_isPGroup.map π
-    haveI : ((CFSG.pCore 2 C).map π).Normal := hN
+    have : ((CFSG.pCore 2 C).map π).Normal := hN
     have hbot : (CFSG.pCore 2 C).map π = ⊥ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((CFSG.pCore 2 C).map π) with h | h
       · exact h

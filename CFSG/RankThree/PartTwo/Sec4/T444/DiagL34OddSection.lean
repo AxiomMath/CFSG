@@ -16,7 +16,7 @@ theorem not_hasSection_of_le_range_toPGL {K : Type*} [Field K] [Finite K]
     {L : Type*} [Group L] (E : Subgroup L) (hE2 : ∀ x ∈ E, x ^ 2 = 1) (hE : 8 < Nat.card E) :
     ¬ HasSection X L := by
   rintro ⟨A, N, hN, ⟨φ⟩⟩
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 3) K) :=
+  have : Finite (Matrix.ProjGenLinGroup (Fin 3) K) :=
     Finite.of_surjective _ Matrix.ProjGenLinGroup.mk_surjective
   let H : Subgroup (Matrix.SpecialLinearGroup (Fin 3) K) :=
     X.comap (Matrix.SpecialLinearGroup.toPGL :

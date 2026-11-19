@@ -66,7 +66,7 @@ theorem frame_not_bender_normal {T : Type} [Group T] [Finite T]
       CFSG.ClassicalInvolution.Disconnected.AschTight.Sec6Gen.commutes_of_twin_of_isPGroup hΩ hKΩ
         hK'Ω (Ne.symm hK'ne) hz hzK'z inf_le_right inf_le_right hRR'2
     obtain ⟨S₂, hS₂⟩ := hSX.2.1.exists_le_sylow
-    have hc2 := TwinThmEW.u3_two_group_cases F hC hB (S₂ : Subgroup T) S₂.isPGroup'
+    have hc2 := TwinThmEW.u3_two_group_cases F hC hB (S₂ : Subgroup T) S₂.isPGroup
     obtain ⟨x, hxF, y, hyF, hxS, hyS, hx2, -, hxy⟩ :=
       TwinThmEW.u3_pair_noncomm (N := F) (S := (S₂ : Subgroup T)) (T := SX ⊓ K) (T' := SX ⊓ K')
         hzF hz.sq hc2 (inf_le_left.trans hS₂) (inf_le_left.trans hS₂) hcomm haR hbR ha'R hb'R hQ hQ'

@@ -9,13 +9,13 @@ namespace CFSG.AGLEmbeddingD2.Tits.MsideParabolicEscape
 open scoped Pointwise
 
 theorem le_of_maximal {G : Type*} [Group G] [Finite G] (M H A U W : Subgroup G)
-    (hUW : U ≤ W) (hU2 : IsPGroup 2 U) (hUidx : ¬ 2 ∣ (U.subgroupOf W).index)
+    (_hUW : U ≤ W) (_hU2 : IsPGroup 2 U) (hUidx : ¬ 2 ∣ (U.subgroupOf W).index)
     (hAU : A ≤ Subgroup.normalizer (U : Set G)) (hNU : Subgroup.normalizer (U : Set G) ≤ H)
     (hinv : ∀ X : Subgroup G, X ≤ H ⊓ M → IsPGroup 2 X → A ≤ Subgroup.normalizer (X : Set G) →
       X ≤ W)
     (S : Subgroup G) (hSM : S ≤ M) (hS2 : IsPGroup 2 S) (hUS : U ≤ S)
     (hAS : A ≤ Subgroup.normalizer (S : Set G)) : S ≤ U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   by_contra hSU
   have hlt : U < S := lt_of_le_of_ne hUS fun h => hSU (h ▸ le_rfl)
   obtain ⟨x, hxS, hxN, hxU⟩ := exists_mem_normalizer_of_lt hS2 hlt

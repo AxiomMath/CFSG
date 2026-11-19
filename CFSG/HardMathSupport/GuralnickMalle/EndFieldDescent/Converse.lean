@@ -113,7 +113,7 @@ theorem exists_isCurtisType_endField (D : CurtisDatum G cs p)
   let χR : G → K := fun h => if hh : h ∈ D.H then (hχ' h hh).choose else 0
   have hχR : ∀ h (hh : h ∈ D.H), σ h v = χR h • v ∧ χ h = algebraMap K k (χR h) := by
     intro h hh
-    rw [show χR h = (hχ' h hh).choose from dif_pos hh]
+    rw [show χR h = (hχ' h hh).choose from dite_eq_left hh]
     exact (hχ' h hh).choose_spec
   let μR : B → K := fun s => (hμ' s).choose
   have hμR : ∀ s, D.heckeT σ s v = μR s • v ∧ μ s = algebraMap K k (μR s) :=
@@ -182,7 +182,7 @@ theorem isCurtisType_subfield_eq_top_of_smul_one_mem [CharP F p] (D : CurtisDatu
   have htC : D.IsCurtisType (restrictRep ρ C) yR χC μC := by
     refine ⟨htR.1, htR.2.1, fun h hh => ?_, fun s => ?_⟩
     · rw [restrictRep_apply, htR.2.2.1 h hh]
-      simp only [χC, dif_pos hh, Subfield.smul_def]
+      simp only [χC, dite_eq_left hh, Subfield.smul_def]
     · have hT : D.heckeT (restrictRep ρ C) s yR = D.heckeT (endFieldRep ρ) s yR := by
         have := Fintype.ofFinite (D.X s)
         rw [D.heckeT_apply (restrictRep ρ C) s, D.heckeT_apply (endFieldRep ρ) s]

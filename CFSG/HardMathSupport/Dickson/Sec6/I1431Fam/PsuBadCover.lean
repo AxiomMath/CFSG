@@ -23,13 +23,13 @@ theorem exists_hom_to_cover_of_card {E P Y : Type} [Group E] [Finite E] [Group.I
     (hq : Function.Surjective q) (hker : q.ker ≤ Subgroup.center Y) :
     ∃ ρ : E →* Y, ∀ g, q (ρ g) = π g := by
   classical
-  haveI : Group.IsPerfect P := Group.IsPerfect.ofSurjective (f := π) hπ
+  have : Group.IsPerfect P := Group.IsPerfect.ofSurjective (f := π) hπ
   obtain ⟨-, h, hph, -, hhs, hmap, eM, -⟩ :=
     perfect_central_kernel_quotient_of_hopf_multiplier π hπ hC
   set M := hopfMultiplier P with hMdef
   set N := (h.comp M.subtype).ker with hN
-  haveI : Finite M := Nat.finite_of_card_ne_zero hM
-  haveI : Finite N := inferInstance
+  have : Finite M := Nat.finite_of_card_ne_zero hM
+  have : Finite N := inferInstance
   have hsplit : Nat.card M = Nat.card (M ⧸ N) * Nat.card N :=
     Subgroup.card_eq_card_quotient_mul_card_subgroup N
   have hquot : Nat.card (M ⧸ N) = Nat.card π.ker := Nat.card_congr eM.toEquiv
@@ -81,7 +81,7 @@ theorem hopfMultiplier_card_psu (hGA : GriessAllModelsStatement) {X : Type} [Gro
   have hg2 : (Multiplier.genericOrders .PSU n p f).2 = 1 := rfl
   have hc : ∀ m : ℕ, Nat.card (Multiplicative (ZMod m)) = m := fun m => by
     rw [Nat.card_congr Multiplicative.toAdd, Nat.card_zmod]
-  simp only [Multiplier.generic, Multiplier.exceptional, hc, hg1, hg2, hex]
+  simp only [hc, hg1, hg2, hex]
   simp
 
 variable {p f : ℕ} {K : Type} [Field K] [Finite K]
@@ -93,9 +93,9 @@ theorem exists_suHom_to_cover (hGA : GriessAllModelsStatement) {n : ℕ} (h : Un
     ∃ ρ : gramSU h (idGram K n) →* Y,
       ∀ g, q (ρ g) = e0.symm (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n) g) := by
   classical
-  haveI : Finite (GL (Fin n) K) :=
+  have : Finite (GL (Fin n) K) :=
     Finite.of_injective (fun g : GL (Fin n) K => (g : Matrix (Fin n) (Fin n) K)) Units.val_injective
-  haveI : Group.IsPerfect (gramSU h (idGram K n)) :=
+  have : Group.IsPerfect (gramSU h (idGram K n)) :=
     CFSG.RankThree.Classical.isPerfect_gramSU_one h (by omega) (fun hc => by omega)
   set S := gramSU h (idGram K n) with hS
   set Z := normOneScalars h S n with hZ

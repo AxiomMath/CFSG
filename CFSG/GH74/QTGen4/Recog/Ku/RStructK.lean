@@ -148,7 +148,7 @@ theorem sq_eq_one_of_commute (h : KuHyp G T M H P z) {u a : G} (hu : u ∈ kuR T
         _ = u * c * u := by group
 
 theorem abelian_complement_elem (h : KuHyp G T M H P z) {A' : Subgroup G}
-    (hle : A' ≤ kuR T M) (hab : IsMulCommutative A') (hcard : Nat.card A' = 16)
+    (hle : A' ≤ kuR T M) (hab : IsMulCommutative A') (_hcard : Nat.card A' = 16)
     (hAV : A' ⊓ pCoreOf 2 M = kuV2 T M) (hinv : ∃ u ∈ A', u ∉ kuV2 T M ∧ u * u = 1) :
     IsElemAbelian 2 A' := by
   obtain ⟨u, huA, huV2, huu⟩ := hinv

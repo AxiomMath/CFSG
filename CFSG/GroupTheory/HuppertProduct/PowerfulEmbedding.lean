@@ -17,7 +17,7 @@ variable {G : Type*} [Group G]
 
 theorem commutator_mho_le_mho_mho [Finite G] {H : Subgroup G} (hH : IsPGroup 3 H)
     (hcomm : ⁅H, H⁆ ≤ mho H 3) : ⁅mho H 3, H⁆ ≤ mho (mho H 3) 3 := by
-  haveI : Group.IsNilpotent H := hH.isNilpotent
+  have : Group.IsNilpotent H := hH.isNilpotent
   have hMH : mho H 3 ≤ H := mho_le H 3
   have hQH : mho (mho H 3) 3 ≤ H := (mho_le _ 3).trans hMH
   have hQn : H ≤ Subgroup.normalizer ((mho (mho H 3) 3 : Subgroup G) : Set G) :=

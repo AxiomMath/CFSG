@@ -58,11 +58,11 @@ theorem burnsideC56_fin_c4 (hι : Function.Injective ι) (hκ : Function.Injecti
     rw [hAF']; simp
   have hA₁le : A₁' ≤ CL.map κ := hC ▸ hA₁mem.1
   set A₁₀ := A₁'.comap κ with hA₁₀def
-  have hA₁ : A₁₀.map κ = A₁' := burnsideC56_tr_eq_map_comap hκ hA₁le
+  have hA₁ : A₁₀.map κ = A₁' := burnsideC56_tr_eq_map_comap hA₁le
   rw [hC] at hr' hrJ' hAF'
   obtain ⟨r₀, hr₀, rfl⟩ := hr'
   rw [← hA₁, hQ', burnsideC56_fin_relIndex_inf hκ] at hidx'
-  rw [← hA₁, hQ', burnsideC56_tr_rconj hκ, burnsideC56_tr_rconj hκ, ← burnsideC56_fin_image_four,
+  rw [← hA₁, hQ', burnsideC56_tr_rconj, burnsideC56_tr_rconj, ← burnsideC56_fin_image_four,
     burnsideC56_fin_AFam_eq hκ] at hAF'
   rw [burnsideC56_tr_thompsonJ hκ] at hrJ'
   refine ⟨A₁₀.map Λ.subtype, Λ.subtype r₀, ?_, ?_, ?_, ?_⟩
@@ -71,8 +71,8 @@ theorem burnsideC56_fin_c4 (hι : Function.Injective ι) (hκ : Function.Injecti
     intro h
     exact hrJ' (Subgroup.mem_map_of_mem κ ((Subgroup.mem_map_iff_mem hsΛ).mp h))
   · rw [← hQ'', burnsideC56_fin_relIndex_inf hsΛ]; exact hidx'
-  · rw [← hC', ← hQ'', show (Λ.subtype x₀ : G) = Λ.subtype x₀ from rfl, burnsideC56_tr_rconj hsΛ,
-      burnsideC56_tr_rconj hsΛ, ← burnsideC56_fin_image_four, burnsideC56_fin_AFam_eq hsΛ]
+  · rw [← hC', ← hQ'', show (Λ.subtype x₀ : G) = Λ.subtype x₀ from rfl, burnsideC56_tr_rconj,
+      burnsideC56_tr_rconj, ← burnsideC56_fin_image_four, burnsideC56_fin_AFam_eq hsΛ]
     exact hAF'
 
 end CFSG.ASVolI

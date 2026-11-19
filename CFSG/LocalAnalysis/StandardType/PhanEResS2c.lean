@@ -103,7 +103,7 @@ theorem flagAct_kapMat_stdFlag (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut (m + 
       rw [flagPsi_flagAct_coll hK hd (SpecialLinearGroup.toGL A)
           (SpecialLinearGroup.toGL (SpecialLinearGroup.map (sg K f : K →+* K) A))
           hbd hgg' (stdFlag_mem_refSet hd), flagPsi_stdFlag_coll hK hd]
-    simp only [pathMat, Bool.false_eq_true, if_false]
+    simp only [pathMat, Bool.false_eq_true, ite_false]
     rw [hkap, ← heq1]
   · have hPmat : (P : Matrix (Fin (m + 1)) (Fin (m + 1)) K) =
         (revBlocks K (m + 1) d : Matrix (Fin (m + 1)) (Fin (m + 1)) K) := by simpa using hP
@@ -142,7 +142,7 @@ theorem flagAct_kapMat_stdFlag (hK : Nat.card K = (2 ^ f) ^ 2) (hd : IsCut (m + 
     have hkapGL : SpecialLinearGroup.toGL (kapMat (sg K f) true P A) =
         R * SpecialLinearGroup.toGL S * R⁻¹ := by
       rw [h1, map_mul, map_mul, map_inv, htoGLP]
-    simp only [pathMat, if_true]
+    simp only [pathMat, ite_true]
     calc flagAct N (flagAct (SpecialLinearGroup.toGL (kapMat (sg K f) true P A))
             (stdFlag K (m + 1)))
         = flagAct N (flagAct R (flagAct
@@ -196,10 +196,10 @@ theorem exists_chart_shape {I C : Type} (X : ChamberSystem I C) (hK : Nat.card K
       ∀ c ∈ S, Θ.Φ (ψ c) = flagPsi' K f hK (m + 1) d pl (Θ.Φ c) := by
   obtain ⟨Θ, hΘS, hΘψ⟩ := exists_chart_path X hK hd S ψ Θ₀ N hN hS hψS hψψ pol P hP hψ
   refine ⟨Θ, hΘS, fun c hc => ?_⟩
-  rw [hΘψ c hc, flagPsi', dif_pos hd]
+  rw [hΘψ c hc, flagPsi', dite_eq_left hd]
   refine flagPsi_eq_of_pol_eq hK hd _ pl (fun b hb h2 => ?_) ((hΘS c).mp hc)
   rw [hpl b hb h2]
-  simp [List.getD_replicate, show b < d.length - 1 from by omega]
+  simp [show b < d.length - 1 from by omega]
 
 end CFSG.ClassicalInvolution.Phan.PhanE.Res
 

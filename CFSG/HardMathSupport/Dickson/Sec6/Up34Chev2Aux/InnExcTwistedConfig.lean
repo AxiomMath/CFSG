@@ -261,7 +261,7 @@ theorem slHom_frob_one (β : Fin τ.rank → ℤ) (f : ℕ) (A : SL2 (frobeniusF
 theorem card_sl2_frobFixed [IsAlgClosed L] {m : ℕ} (hm : 0 < m) :
     Nat.card (SL2 (frobeniusFixedField L 2 m)) = 2 ^ m * ((2 ^ m) ^ 2 - 1) := by
   have hc : Nat.card (frobeniusFixedField L 2 m) = 2 ^ m := card_frobeniusFixedField hm
-  haveI : Finite (frobeniusFixedField L 2 m) :=
+  have : Finite (frobeniusFixedField L 2 m) :=
     Nat.finite_of_card_ne_zero (by rw [hc]; positivity)
   rw [CFSG.LargeExtraspecial.AS35W.card_SL2, hc]
 
@@ -426,9 +426,11 @@ variable {L : Type} [Field L] [CharP L 2]
 @[expose] noncomputable def fixSub (F₁ : ModGL τ L →* ModGL τ L) : Subgroup (ModGL τ L) :=
   F₁.eqLocus (MonoidHom.id _)
 
+omit [CharP L 2] in
 theorem mem_fixSub {F₁ : ModGL τ L →* ModGL τ L} {g : ModGL τ L} : g ∈ fixSub F₁ ↔ F₁ g = g :=
   Iff.rfl
 
+omit [CharP L 2] in
 theorem sl2_map_WSL (φ : L →+* L) :
     Matrix.SpecialLinearGroup.map φ (WSL : SL2 L) = WSL := by
   apply Subtype.ext
@@ -436,6 +438,7 @@ theorem sl2_map_WSL (φ : L →+* L) :
   rw [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply, Matrix.map_apply]
   fin_cases i <;> fin_cases j <;> simp [WSL]
 
+omit [CharP L 2] in
 theorem sl2_map_uSL (φ : L →+* L) (c : L) :
     Matrix.SpecialLinearGroup.map φ (CFSG.LieType.Chevalley.uSL c : SL2 L) =
       CFSG.LieType.Chevalley.uSL (φ c) := by
@@ -444,6 +447,7 @@ theorem sl2_map_uSL (φ : L →+* L) (c : L) :
   rw [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply, Matrix.map_apply]
   fin_cases i <;> fin_cases j <;> simp [CFSG.LieType.Chevalley.uSL]
 
+omit [CharP L 2] in
 theorem sl2_map_vSL (φ : L →+* L) (c : L) :
     Matrix.SpecialLinearGroup.map φ (CFSG.LieType.Chevalley.vSL c : SL2 L) =
       CFSG.LieType.Chevalley.vSL (φ c) := by
@@ -452,6 +456,7 @@ theorem sl2_map_vSL (φ : L →+* L) (c : L) :
   rw [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply, Matrix.map_apply]
   fin_cases i <;> fin_cases j <;> simp [CFSG.LieType.Chevalley.vSL]
 
+omit [CharP L 2] in
 theorem slHom_commute_gen (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8) {α β : Fin τ.rank → ℤ}
     (hα : IsRoot τ α) (hβ : IsRoot τ β) (h0 : iform α β = 0) (φ ψ : L →+* L)
     (K K' : Subfield L) (A : SL2 K) (B : SL2 K') :

@@ -76,6 +76,7 @@ theorem card_fixV_flag_mul (Mm : MatModel L₁ L₂ F d) {P : Subgroup (MulAut U
       _ ≤ M ^ k * M := Nat.mul_le_mul h4 h2
       _ = M ^ (k + 1) := by ring
 
+omit [Finite U] in
 theorem card_fixV_range_mul_two_le (Mm : MatModel L₁ L₂ F d) {Y' Y : Submodule F (Fin d → F)}
     (D : FacStep Y' Y) {P : Subgroup (MulAut U)} (hP : P ≤ stabSub (rowSub Mm Y))
     (hP' : P ≤ stabSub (rowSub Mm Y')) (hPN : ∀ a ∈ P, ∀ l ∈ L₁, a * l * a⁻¹ ∈ L₁)
@@ -101,6 +102,7 @@ theorem card_fixV_range_mul_two_le (Mm : MatModel L₁ L₂ F d) {Y' Y : Submodu
         Nat.mul_le_mul_left _ (by omega)
     _ = Nat.card F ^ d := hmul
 
+omit [Finite U] [CharP F 2] in
 theorem exists_fixV_eq_rowSub (Mm : MatModel L₁ L₂ F d) {K : Subgroup (MulAut U)}
     (hK : ∀ c ∈ K, ∀ l ∈ L₁, c * l = l * c) : ∃ Y₀, fixV K = rowSub Mm Y₀ := by
   refine exists_eq_rowSub Mm ?_
@@ -109,6 +111,7 @@ theorem exists_fixV_eq_rowSub (Mm : MatModel L₁ L₂ F d) {K : Subgroup (MulAu
     rw [← MulAut.mul_apply, hK c hc l hl, MulAut.mul_apply]
   rw [h, hu c hc]
 
+omit [Finite U] [Fintype F] [CharP F 2] in
 theorem finrank_lt_of_ne_bot (Mm : MatModel L₁ L₂ F d) {K : Subgroup (MulAut U)} (hK : K ≠ ⊥)
     {Y₀ : Submodule F (Fin d → F)} (hY : fixV K = rowSub Mm Y₀) : Module.finrank F Y₀ < d := by
   have hle : Module.finrank F Y₀ ≤ d := by
@@ -124,6 +127,7 @@ theorem finrank_lt_of_ne_bot (Mm : MatModel L₁ L₂ F d) {K : Subgroup (MulAut
   have hu : u ∈ fixV K := hY ▸ Subgroup.mem_top u
   exact hu c hc
 
+omit [Finite U] in
 theorem isInvBy_fixV_of_comm {B K : Subgroup (MulAut U)}
     (hcomm : ∀ b ∈ B, ∀ c ∈ K, b * c = c * b) : IsInvBy B (fixV K) := by
   intro b hb u hu c hc

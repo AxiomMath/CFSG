@@ -88,20 +88,20 @@ private theorem mulAut_ext_jcB {f g : MulAut ↥Jc}
           (⟨jcB i, jcB_mem hi⟩ : ↥Jc) * ⟨jcFold m l, jcFold_mem m l hl'⟩
          else ⟨jcFold m l, jcFold_mem m l hl'⟩) := by
       by_cases hbit : m.testBit i
-      · rw [if_pos hbit]
+      · rw [ite_eq_left hbit]
         apply Subtype.ext
         change jcFold m (i :: l) = jcB i * jcFold m l
         rw [show jcFold m (i :: l) =
-          (if m.testBit i then jcB i * jcFold m l else jcFold m l) from rfl, if_pos hbit]
-      · rw [if_neg hbit]
+          (if m.testBit i then jcB i * jcFold m l else jcFold m l) from rfl, ite_eq_left hbit]
+      · rw [ite_eq_right hbit]
         apply Subtype.ext
         change jcFold m (i :: l) = jcFold m l
         rw [show jcFold m (i :: l) =
-          (if m.testBit i then jcB i * jcFold m l else jcFold m l) from rfl, if_neg hbit]
+          (if m.testBit i then jcB i * jcFold m l else jcFold m l) from rfl, ite_eq_right hbit]
     rw [hP]
     by_cases hbit : m.testBit i
-    · rw [if_pos hbit, map_mul, map_mul, hB, h i hi, ih]
-    · rw [if_neg hbit]
+    · rw [ite_eq_left hbit, map_mul, map_mul, hB, h i hi, ih]
+    · rw [ite_eq_right hbit]
       exact ih
 
 theorem mulAut_ext_basis {f g : MulAut ↥Jc} (h : ∀ i < 10, f (jcA (2 ^ i)) = g (jcA (2 ^ i))) :
@@ -132,7 +132,7 @@ section Gen
 
 theorem coe_qA_apply {k : ℕ} (hk : k < 3) (x : ↥Jc) :
     ((qA k x : ↥Jc) : K) = qK k * x * (qK k)⁻¹ := by
-  rw [qA, dif_pos hk]
+  rw [qA, dite_eq_left hk]
   rfl
 
 theorem qA_jcA {k : ℕ} (hk : k < 3) (m : ℕ) :
@@ -176,7 +176,7 @@ noncomputable abbrev Qj : Subgroup (MulAut ↥Jc) := autImage (⊤ : Subgroup K)
 theorem qA_mem {k : ℕ} (hk : k < 3) : qA k ∈ Qj := by
   rw [Qj, autImage]
   refine ⟨⟨qK k, ⟨by trivial, qK_mem_N hk⟩⟩, ?_⟩
-  rw [qA, dif_pos hk]
+  rw [qA, dite_eq_left hk]
   rfl
 
 theorem qWord_mem {w : List ℕ} (hw : ∀ k ∈ w, k < 3) : qWord w ∈ Qj := by
@@ -218,7 +218,7 @@ theorem Qj_eq_closure : Qj = closure (Set.range fun k : Fin 3 => qA k) := by
     let y : normalizer (Jc : Set K) := ⟨qK k, qK_mem_N hk⟩
     refine Subgroup.mem_map.2 ⟨y, ?_, rfl⟩
     rw [Subgroup.mem_comap]
-    rw [show Jc.normalizerMonoidHom y = qA k from by rw [qA, dif_pos hk]]
+    rw [show Jc.normalizerMonoidHom y = qA k from by rw [qA, dite_eq_left hk]]
     exact Subgroup.subset_closure ⟨k, rfl⟩
   have hN : normalizer (Jc : Set K) ≤ H := by
     rw [normalizer_Jc_eq]
@@ -243,8 +243,8 @@ theorem Qj_eq_closure : Qj = closure (Set.range fun k : Fin 3 => qA k) := by
 
 theorem exists_qWord {g : MulAut ↥Jc} (hg : g ∈ Qj) :
     ∃ w : List ℕ, (∀ k ∈ w, k < 3) ∧ qWord w = g := by
-  haveI : Finite ↥Jc := finite_Jc
-  haveI : Finite (MulAut ↥Jc) := inferInstance
+  have : Finite ↥Jc := finite_Jc
+  have : Finite (MulAut ↥Jc) := inferInstance
   rw [Qj_eq_closure] at hg
   refine Subgroup.closure_induction_left (s := Set.range fun k : Fin 3 => qA k)
     ?one ?mul ?inv hg

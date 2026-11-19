@@ -37,7 +37,7 @@ theorem comm_quot [hN : (W₁.subgroupOf Mf).Normal]
   rw [e]
   exact h
 
-noncomputable def commGroupQ [hN : (W₁.subgroupOf Mf).Normal]
+@[instance_reducible] noncomputable def commGroupQ [hN : (W₁.subgroupOf Mf).Normal]
     (hcomm : ∀ x ∈ Mf, ∀ y ∈ Mf, x⁻¹ * y⁻¹ * x * y ∈ W₁) :
     CommGroup (↥Mf ⧸ W₁.subgroupOf Mf) :=
   { (inferInstance : Group (↥Mf ⧸ W₁.subgroupOf Mf)) with
@@ -110,7 +110,7 @@ section Qcard
 
 variable {Mf W₁ : Subgroup G}
 
-theorem card_quot_81 [Finite G] [hN : (W₁.subgroupOf Mf).Normal] (hWMf : W₁ ≤ Mf)
+theorem card_quot_81 [Finite G] [_hN : (W₁.subgroupOf Mf).Normal] (hWMf : W₁ ≤ Mf)
     (hMf : Nat.card Mf = 243) (hW : Nat.card W₁ = 3) :
     Nat.card (↥Mf ⧸ W₁.subgroupOf Mf) = 81 := by
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (W₁.subgroupOf Mf)
@@ -154,7 +154,7 @@ section Concrete
 
 variable {Mf W₁ : Subgroup G}
 
-theorem mk_eq_exists [hN : (W₁.subgroupOf Mf).Normal] (a b : ↥Mf)
+theorem mk_eq_exists [_hN : (W₁.subgroupOf Mf).Normal] (a b : ↥Mf)
     (h : (QuotientGroup.mk a : ↥Mf ⧸ W₁.subgroupOf Mf) = QuotientGroup.mk b) :
     ∃ w ∈ W₁, (a : G) = (b : G) * w := by
   rw [QuotientGroup.eq, Subgroup.mem_subgroupOf] at h
@@ -245,8 +245,8 @@ theorem V_concrete [Finite G] {Mf W₁ : Subgroup G} {t z σ : G}
     (htzC : ∀ c ∈ Mf, (t * z) * c = c * (t * z) → c ^ 3 = 1)
     (htσ : t * σ = σ * t) :
     ∃ Q : Subgroup G, (∀ x ∈ Q, x ∈ Mf ∧ σ * x = x * σ) ∧ 27 ≤ Nat.card Q := by
-  haveI hN : (W₁.subgroupOf Mf).Normal := normal_W₁_sub hWc
-  letI : CommGroup (↥Mf ⧸ W₁.subgroupOf Mf) := commGroupQ hcomm
+  have hN : (W₁.subgroupOf Mf).Normal := normal_W₁_sub hWc
+  let : CommGroup (↥Mf ⧸ W₁.subgroupOf Mf) := commGroupQ hcomm
   have hσW' : ∀ w ∈ W₁, σ * w * σ⁻¹ ∈ W₁ := fun w hw => by rw [hσW w hw]; exact hw
   have hzW' : ∀ w ∈ W₁, z * w * z⁻¹ ∈ W₁ := fun w hw => by
     rw [hzW w hw]; exact W₁.inv_mem hw
@@ -314,15 +314,15 @@ theorem V_concrete [Finite G] {Mf W₁ : Subgroup G} {t z σ : G}
   let Kc : Subgroup (↥Mf ⧸ W₁.subgroupOf Mf) :=
     { carrier := {v | α v = v}
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred] at ha hb ⊢
         rw [map_mul, ha, hb]
       one_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred]
         exact map_one α
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred] at ha ⊢
         rw [map_inv, ha]
-        rfl }
+        }
   have hKc : 9 ≤ Nat.card ↥Kc := h9
   let Q0 : Subgroup ↥Mf := Kc.comap (QuotientGroup.mk' (W₁.subgroupOf Mf))
   have hQ0idx : Q0.index = Kc.index :=
@@ -354,7 +354,6 @@ theorem V_concrete [Finite G] {Mf W₁ : Subgroup G} {t z σ : G}
     have h := hτinv (QuotientGroup.mk (s := W₁.subgroupOf Mf) y0)
     rw [conjQ_mk] at h
     rw [h, QuotientGroup.mk_inv]
-    rfl
   obtain ⟨w', hw', hty⟩ := mk_eq_exists _ _ hτ1
   have h1' : σ * (y0 : G) * σ⁻¹ = (y0 : G) * w := hyw
   have h2' : t * (y0 : G) * t⁻¹ = (y0 : G)⁻¹ * w' := hty

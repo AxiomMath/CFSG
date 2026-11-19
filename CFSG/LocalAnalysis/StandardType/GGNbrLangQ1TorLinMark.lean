@@ -167,7 +167,7 @@ private theorem l02qt4b_ker_projMk_le_center {ι : Type} [Fintype ι] [Decidable
   simp only [Subgroup.coe_mul]
   exact Subgroup.mem_center_iff.1 hxZ (y : GL ι K)
 
-theorem q1TorLin_marking {N : ℕ} (hN : 2 ≤ N) {K : Type} [Field K] [Finite K] [CharP K 2]
+theorem q1TorLin_marking {N : ℕ} (_hN : 2 ≤ N) {K : Type} [Field K] [Finite K] [CharP K 2]
     (g : GL (Fin N) K) (hg : Odd (orderOf g)) (C : Subgroup (GL (Fin N) K))
     (hC : CFSG.Assembly.IsComponentOf C (Subgroup.centralizer ({g} : Set (GL (Fin N) K))))
     (hCSL : C ≤ LargeEvenSLGroup (Fin N) K)
@@ -195,9 +195,9 @@ theorem q1TorLin_marking {N : ℕ} (hN : 2 ≤ N) {K : Type} [Field K] [Finite K
     exact (CFSG.Assembly.isComponentOf_iff_open).1 hM''
   obtain ⟨r, D, d, hFld, hFin, hAlg, Φ, θ, hd1, hΦinj, hθinj, hθrange, hθapply, i, hd2, hMeq⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.K1419.k1419ClsLinBlock_exists g hord C hM
-  letI : ∀ j, Field (D j) := hFld
-  haveI : ∀ j, Finite (D j) := hFin
-  letI : ∀ j, Algebra K (D j) := hAlg
+  let : ∀ j, Field (D j) := hFld
+  have : ∀ j, Finite (D j) := hFin
+  let : ∀ j, Algebra K (D j) := hAlg
   let mulI : GL (Fin (d i)) (D i) →* (∀ j, GL (Fin (d j)) (D j)) :=
     MonoidHom.mulSingle (fun j => GL (Fin (d j)) (D j)) i
   have hmulI_inj : Function.Injective mulI := by
@@ -243,11 +243,11 @@ theorem q1TorLin_marking {N : ℕ} (hN : 2 ≤ N) {K : Type} [Field K] [Finite K
     have hdvd : ringChar (D i) ∣ 2 := (ringChar.spec (D i) 2).mp h2D
     rcases Nat.prime_two.eq_one_or_self_of_dvd (ringChar (D i)) hdvd with h1 | h2
     · exfalso
-      haveI : CharP (D i) 1 := ringChar.of_eq h1
+      have : CharP (D i) 1 := ringChar.of_eq h1
       have h1z : ((1 : ℕ) : D i) = 0 := (CharP.cast_eq_zero_iff (D i) 1 1).mpr (one_dvd 1)
       exact one_ne_zero (by simpa only [Nat.cast_one] using h1z)
     · exact h2
-  haveI : CharP (D i) 2 := ringChar.of_eq hcharD
+  have : CharP (D i) 2 := ringChar.of_eq hcharD
   obtain ⟨n, -, hfcard⟩ := @FiniteField.card (D i) _ (Fintype.ofFinite (D i)) 2 _
   let f : ℕ := n
   have hcard : Nat.card (D i) = 2 ^ f := by

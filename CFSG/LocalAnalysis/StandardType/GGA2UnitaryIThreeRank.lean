@@ -51,7 +51,7 @@ private theorem ggI1_congr_symm_symm {X Y : Type*} [Group X] [Group Y] (e : X â‰
   refine MulEquiv.ext fun x => ?_
   have h1 : (MulAut.congr e.symm (MulAut.congr e f)) x =
       e.symm ((MulAut.congr e f) (e x)) := by
-    simpa using ggI1_congr_apply e.symm (MulAut.congr e f) x
+    simp
   rw [h1, ggI1_congr_apply e f (e x), MulEquiv.symm_apply_apply e x]
   exact MulEquiv.symm_apply_apply e (f x)
 

@@ -142,15 +142,15 @@ private theorem map_u3x7X₁ (σ : K →+* K) (hσ : σ z = -z) :
     ext i j
     fin_cases i <;> fin_cases j <;> rfl]
   exact mat3_congr
-    (by simp only [map_neg, map_one, map_zero, map_ofNat])
-    (by simp only [map_neg, map_one, map_zero, map_ofNat])
-    (by simp only [map_neg, map_one, map_zero, map_ofNat])
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_neg, map_one, map_zero, map_ofNat])
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_neg, map_one, map_zero, map_ofNat])
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
+    (by simp only [map_zero])
+    (by simp only [map_one])
+    (by simp only [map_zero])
+    (by simp only [map_mul, map_one, hσ]; ring)
+    (by simp only [map_zero])
+    (by simp only [map_mul, map_one, hσ]; ring)
+    (by simp only [map_mul, map_neg, map_one, hσ]; ring)
+    (by simp only [map_zero])
+    (by simp only [map_mul, map_one, hσ]; ring)
 
 private theorem map_u3x7X₂ (σ : K →+* K) (hσ : σ z = -z) :
     (u3x7X₂ z).map σ = (u3x7X₂i z)ᵀ := by
@@ -161,15 +161,15 @@ private theorem map_u3x7X₂ (σ : K →+* K) (hσ : σ z = -z) :
     ext i j
     fin_cases i <;> fin_cases j <;> rfl]
   exact mat3_congr
-    (by simp only [map_neg, map_one, map_zero, map_ofNat])
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_neg, map_one, map_zero, map_ofNat])
-    (by simp only [map_neg, map_one, map_zero, map_ofNat])
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
-    (by simp only [map_add, map_mul, map_neg, map_one, map_zero, map_ofNat, hσ]; ring)
+    (by simp only [map_neg, map_ofNat])
+    (by simp only [map_add, map_mul, map_neg, map_ofNat, hσ]; ring)
+    (by simp only [map_mul, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_one, hσ]; ring)
+    (by simp only [map_neg, map_one])
+    (by simp only [map_neg, map_ofNat])
+    (by simp only [map_add, map_mul, map_neg, map_one, map_ofNat, hσ]; ring)
+    (by simp only [map_add, map_mul, map_neg, map_one, map_ofNat, hσ]; ring)
+    (by simp only [map_mul, map_one, hσ]; ring)
 
 private theorem u3x7_word (hp : (7 : K) = 0) (hz : z ^ 2 = 3) :
     !![-1, 0, 0; 0, -1, 0; 0, 0, 1] * u3x7X₁ z * !![-1, 0, 0; 0, -1, 0; 0, 0, 1] * u3x7X₁i z *
@@ -409,7 +409,7 @@ private theorem u3x7Y_pow (hp : (7 : K) = 0) (hz : z ^ 2 = 3) : u3x7Y z ^ 43 = 1
   rw [q1, q2, q3]
   exact Matrix.one_fin_three.symm
 
-private theorem u3x7Y_ne_one (hp : (7 : K) = 0) (hz : z ^ 2 = 3) : u3x7Y z ≠ 1 := by
+private theorem u3x7Y_ne_one (hp : (7 : K) = 0) (_hz : z ^ 2 = 3) : u3x7Y z ≠ 1 := by
   intro h1
   have e := congrArg (fun M : Matrix (Fin 3) (Fin 3) K => M 0 0) h1
   simp [u3x7Y] at e

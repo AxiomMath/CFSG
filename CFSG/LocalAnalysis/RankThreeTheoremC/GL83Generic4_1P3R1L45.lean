@@ -118,7 +118,7 @@ theorem m11_exists_maximal_not_le (hS : Setting G) (hU0 : FullCoreLocal G)
         V ≤ A.map (QuotientGroup.mk' O) := by
     intro V hV2 hVu v hv
     obtain ⟨W, hW2, hUW, hWV⟩ := m11l45_exists_invariant_two_lift (J := J) (U := U) (x := x)
-      (u := u) (P.isPGroup'.to_le hUP) huJ hUxu hxJc O hOcop V hV2 hVu
+      (u := u) (P.isPGroup.to_le hUP) huJ hUxu hxJc O hOcop V hV2 hVu
     obtain ⟨s, hs, hsW, hsv⟩ := hWV v hv
     exact ⟨⟨s, hs⟩, Subgroup.mem_subgroupOf.mpr (hall W hW2 hUW hsW), hsv⟩
   have htop : A = ⊤ := m11l45_eq_top hKA O hOcop eK T hOA huT huoJ hN hV

@@ -50,7 +50,7 @@ theorem ggTBJTwE6Levi_of_innerDiag (hRig : GGLabelRigidInput)
     (hΛ : LargeEvenInLambda2 (⟨.twE6, 0, n⟩ : LargeEvenLabel))
     (hX : GGHasLabel (⟨.twE6, 0, n⟩ : LargeEvenLabel) (X ⧸ Subgroup.center X))
     (hcard : commutator X = ⊤ → ∀ {R : Type} [Group R]
-      (θ : X ⧸ Subgroup.center X ≃* R) (hN : Bs ≤ Subgroup.normalizer (X : Set G)),
+      (_θ : X ⧸ Subgroup.center X ≃* R) (hN : Bs ≤ Subgroup.normalizer (X : Set G)),
       GGTorusLift p 5 R →
         p ^ 5 ≤ Nat.card (ggGamma X hN).range ∧ p ^ 3 ≤ Nat.card (ggGamma X hN).range)
     (g : G) (hgBs : g ∈ Bs) (hgX : ∃ x ∈ X, g * x * g⁻¹ ≠ x)
@@ -77,12 +77,12 @@ theorem ggTBJTwE6Levi_of_innerDiag (hRig : GGLabelRigidInput)
     (S := fun lab => lab = (⟨.twE6, 0, n⟩ : LargeEvenLabel))
     (P' := fun R _ I _ => GGTorusLift p 5 R ∧ GGTBJTwE6LeviAt p R I) hall
     (fun _ _ _ _ _ _ hP => hP.1) hmark
-  obtain ⟨R, _, I, Fm, -, -, θ, ⟨-, hN, h3I⟩, hlift, hLevi⟩ := largeEvenRawDatum_exists hraw
-  have hBsI : ∀ (b : G) (hb : b ∈ Bs), ggLAut X θ ⟨b, hN hb⟩ ∈ I :=
-    fun b hb => ggLAut_mem_of_induces X θ hN h3I hb
-  obtain ⟨hr, h3⟩ := hcard hXc θ hN hlift
-  have hTB := ggTorusTBGroup_of_marking hp hBs hSC hXc θ hN hBsI hr h3
-  exact hLevi G Bs X J hBs hSC hN (ggQuotHom θ) hTB g hgBs hgX hcomp bX hbX1 hbXC hcount
+  obtain ⟨R, _, I, Fm, -, -, _θ, ⟨-, hN, h3I⟩, hlift, hLevi⟩ := largeEvenRawDatum_exists hraw
+  have hBsI : ∀ (b : G) (hb : b ∈ Bs), ggLAut X _θ ⟨b, hN hb⟩ ∈ I :=
+    fun b hb => ggLAut_mem_of_induces X _θ hN h3I hb
+  obtain ⟨hr, h3⟩ := hcard hXc _θ hN hlift
+  have hTB := ggTorusTBGroup_of_marking hp hBs hSC hXc _θ hN hBsI hr h3
+  exact hLevi G Bs X J hBs hSC hN (ggQuotHom _θ) hTB g hgBs hgX hcomp bX hbX1 hbXC hcount
 
 theorem ggTBJTwE6LeviL_large_prime (hRig : GGLabelRigidInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]

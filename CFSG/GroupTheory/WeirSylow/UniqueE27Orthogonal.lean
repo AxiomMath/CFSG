@@ -53,7 +53,7 @@ theorem apply_mulVec_of_mem_isometryCore {ι : Type} [Fintype ι] [DecidableEq �
 theorem statedOmega_le_isometryCore {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
     (Q₀ : (ι → K) → K) : StatedOmega Q₀ ≤ CFSG.MatrixModel.isometryCore Q₀ :=
   open Matrix in
-  Subgroup.commutator_le.mpr fun g₁ h₁ g₂ h₂ => Subgroup.mul_mem _
+  Subgroup.commutator_le.mpr fun _g₁ h₁ _g₂ h₂ => Subgroup.mul_mem _
     (Subgroup.mul_mem _ (Subgroup.mul_mem _ h₁ h₂) (Subgroup.inv_mem _ h₁))
     (Subgroup.inv_mem _ h₂)
 
@@ -88,7 +88,7 @@ theorem uniqueElemSylow_orthogonalGroup_quadOdd_three (K : Type) [Field K] [Fini
     (hK2 : Odd (Nat.card K)) (hK3 : ¬ 3 ∣ Nat.card K) :
     UniqueElemSylow 3 3 (TauCeti.QuadraticMap.orthogonalGroup (quadOdd 3 K)) := by
   open CFSG.LieType.Universal.Spin Module in
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card] at hK2 hK3
   have hring : ringChar K ≠ 2 := fun h =>
     absurd (FiniteField.even_card_iff_char_two.1 h) (by rw [Nat.odd_iff] at hK2; omega)
@@ -105,7 +105,7 @@ theorem uniqueElemSylow_orthogonalGroup_quadMinus_four (K : Type) [Field K] [Fin
     (hbc : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (hK3 : ¬ 3 ∣ Nat.card K) :
     UniqueElemSylow 3 3 (TauCeti.QuadraticMap.orthogonalGroup (quadMinus 4 K b c)) := by
   open CFSG.LieType.Universal.Spin Module in
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   rw [Nat.card_eq_fintype_card] at hK3
   have hnd := nondegenerate_polarBilin_quadMinus_of_finite 4 K hbc
   have hdim : finrank K (Fin (4 - 1) ⊕ Fin (4 - 1) ⊕ Fin 2 → K) = 2 * 4 :=
@@ -133,7 +133,7 @@ theorem uniqueElemSylow_statedOmega_quadOdd_three (K : Type) [Field K] [Finite K
     (hK2 : Odd (Nat.card K)) (hK3 : ¬ 3 ∣ Nat.card K) :
     UniqueElemSylow 3 3 (StatedOmega (StatedQuadOdd 3 K)) := by
   open CFSG.LieType.Universal.Spin in
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hring : ringChar K ≠ 2 := fun h =>
     absurd (FiniteField.even_card_iff_char_two.1 h)
       (by rw [Nat.card_eq_fintype_card, Nat.odd_iff] at hK2; omega)
@@ -160,7 +160,7 @@ theorem uniqueElemSylow_statedProj_statedOmega_quadOdd_three (K : Type) [Field K
     (uniqueElemSylow_statedOmega_quadOdd_three K hK2 hK3)
   · intro c v
     rw [← coe_quadOdd 3 K, QuadraticMap.map_smul, smul_eq_mul, sq]
-  · simp [StatedQuadOdd, Pi.single_apply]
+  · simp [StatedQuadOdd]
 
 theorem uniqueElemSylow_statedProj_statedOmega_quadMinus_four (K : Type) [Field K] [Finite K]
     {b c : K} (hbc : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (hK3 : ¬ 3 ∣ Nat.card K) :
@@ -171,6 +171,6 @@ theorem uniqueElemSylow_statedProj_statedOmega_quadMinus_four (K : Type) [Field 
     (uniqueElemSylow_statedOmega_quadMinus_four K hbc hK3)
   · intro a v
     rw [← coe_quadMinus 4 K b c, QuadraticMap.map_smul, smul_eq_mul, sq]
-  · simp [StatedQuadMinus, CFSG.MatrixModel.minusQuadCore, Pi.single_apply]
+  · simp [StatedQuadMinus]
 
 end CFSG.GroupTheory.WeirSylow

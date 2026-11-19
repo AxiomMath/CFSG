@@ -58,7 +58,7 @@ theorem exists_fix_inter_modEq {n q : ℕ} [Fact q.Prime] {a b : Equiv.Perm (Fin
     ∃ m : ℕ, m ≤ Nat.card {w : Fin n // b w = w} ∧
       Nat.card {w : Fin n // b w = w} ≡ m [MOD 3] ∧
       Nat.card {w : Fin n // a w = w} ≡ m [MOD q] := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 := card_fix_modEq_card_fix_inter hab hb
   have h2 := card_fix_modEq_card_fix_inter (q := 3) hab.symm ha
   refine ⟨Nat.card {w : Fin n // a w = w ∧ b w = w}, ?_, ?_, h1⟩
@@ -141,7 +141,7 @@ theorem finite_J_tab : Finite J :=
 
 theorem exists_iotaJ_eq {Y : Equiv.Perm (Fin 3510)} (hY : Y ∈ fi22P) :
     ∃ t : J, (Fi22Copy.iotaJ t : Equiv.Perm (Fin 3510)) = Y := by
-  haveI := finite_J_tab
+  have := finite_J_tab
   have hinj : Function.Injective
       (fun t : J => (⟨Fi22Copy.iotaJ t, Fi22Copy.iotaJ_mem t⟩ : fi22P)) :=
     fun s t h => Fi22Copy.iotaJ_injective (congrArg Subtype.val h)
@@ -154,7 +154,7 @@ theorem not_dvd_card_centralizer_of_fixCard {q : ℕ} [Fact q.Prime] (hq : ¬ q 
     (hnum : ∀ m : ℕ, m ≤ fixCard (Fi22Copy.iotaJ u) → fixCard (Fi22Copy.iotaJ u) ≡ m [MOD 3] →
       ¬ fixCard (Fi22Copy.iotaJ x) ≡ m [MOD q]) :
     ¬ q ∣ Nat.card (Subgroup.centralizer ({x} : Set J)) := by
-  haveI := finite_J_tab
+  have := finite_J_tab
   refine not_dvd_card_centralizer_of_pred hq hu
     (fun y => fixCard (Fi22Copy.iotaJ y) = fixCard (Fi22Copy.iotaJ x)) ?_ rfl ?_
   · intro g y hy
@@ -201,9 +201,9 @@ theorem not_dvd_small_primes
       ¬ 13 ∣ Nat.card (Subgroup.centralizer ({x} : Set J)) := by
   obtain ⟨⟨u7, ho7, hf7⟩, ⟨u11, ho11, hf11⟩, ⟨u13, ho13, hf13⟩⟩ := exists_small_prime_elements
   have hJ : Nat.card J = 64561751654400 := Fi22Copy.card_J_eq
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
   refine ⟨?_, ?_, ?_⟩
   · refine not_dvd_card_centralizer_of_fixCard (by rw [hJ]; norm_num) ho7 hx ?_
     intro m hm h3 hmod
@@ -223,7 +223,7 @@ theorem not_dvd_small_primes
 
 theorem card_centralizer_xRep_zero_dvd :
     Nat.card (Subgroup.centralizer ({xRep 0} : Set J)) ∣ 3 ^ 8 * 16 := by
-  haveI := finite_J_tab
+  have := finite_J_tab
   set C := Subgroup.centralizer ({xRep 0} : Set J)
   have h2187 : 2187 ∣ Nat.card C :=
     three_pow_seven_dvd_card_centralizer_xRep (k := 0) (by norm_num)
@@ -289,7 +289,7 @@ theorem tabFi22_card_centralizer_xRep_dvd {k : ℕ} (hk : k < 3) :
 
 theorem tabFi22_pConstrained_xRep {k : ℕ} (hk : k < 3) :
     PConstrainedShape 3 (Subgroup.centralizer ({xRep k} : Set CFSG.Sporadic.Fi22.J)) := by
-  haveI := finite_J_tab
+  have := finite_J_tab
   refine pConstrainedShape_of_solvable Nat.prime_three
     (isSolvable_of_card_dvd_two_three (a := 17) (b := 9) (tabFi22_card_centralizer_xRep_dvd hk)) ?_
   interval_cases k

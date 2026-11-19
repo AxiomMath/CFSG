@@ -34,11 +34,11 @@ theorem uc22s206c_range_le_centralizer {H K : Type} [Group H] [Group K] [Finite 
     (h : IsPGroup p ((MulAut.conjNormal (H := Q)).comp κ).range) :
     κ.range ≤ centralizer (Q : Set H) := by
   set c : K →* MulAut Q := (MulAut.conjNormal (H := Q)).comp κ with hc
-  haveI : Group.IsPerfect c.range := Group.IsPerfect.range c
-  haveI : Finite c.range := Finite.of_surjective _ c.rangeRestrict_surjective
+  have : Group.IsPerfect c.range := Group.IsPerfect.range c
+  have : Finite c.range := Finite.of_surjective _ c.rangeRestrict_surjective
   have hc1 : c.range = ⊥ := by
     by_contra hne
-    haveI : Nontrivial c.range := (nontrivial_iff_ne_bot _).2 hne
+    have : Nontrivial c.range := (nontrivial_iff_ne_bot _).2 hne
     exact Group.IsPerfect.not_isNilpotent c.range h.isNilpotent
   rintro _ ⟨k, rfl⟩
   rw [mem_centralizer_iff]
@@ -77,8 +77,8 @@ theorem uc22s206c_exists {H K : Type} [Group H] [Finite H] [Group K] [Finite K]
     (hnc : ¬ κ.range ≤ centralizer (Q : Set H)) :
     CriticalSection206 κ Y p Q (CFSG.Open.pRank p (⊤ : Subgroup H)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hQnt : Nontrivial Q := by
+  have : Fact p.Prime := ⟨hp⟩
+  have hQnt : Nontrivial Q := by
     rw [nontrivial_iff_ne_bot]
     intro hbot
     apply hnc
@@ -149,8 +149,8 @@ theorem uc22s206c_exists_prime [Finite G] {M : Subgroup G} {X : Subgroup (Bar2 M
 
 theorem uc22s206c_pRank_le [Finite G] (M : Subgroup G) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) :
     CFSG.Open.pRank p (⊤ : Subgroup (Bar2 M)) ≤ CFSG.Open.pRank p M := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : ¬ p ∣ Nat.card (CFSG.pCore 2 ↥M) := by
     intro hdvd
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (CFSG.pCore_isPGroup (p := 2) (G := ↥M))
@@ -175,10 +175,10 @@ theorem uc22s206c_critical [Finite G] {M K : Subgroup G} (hKM : K ≤ M) (hKp : 
     with hκ
   have hrange : κ.range = (K.subgroupOf M).map (QuotientGroup.mk' (CFSG.pCore 2 ↥M)) := by
     rw [hκ, MonoidHom.range_comp, Subgroup.inclusion_range]
-  haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 hKp
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 hKp
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e8⟩ := h8
-  haveI : IsSimpleGroup (alternatingGroup (Fin 8)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 8)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; norm_num)
   have hs : IsSimpleGroup (↥K ⧸ CFSG.pCore 2 ↥K) := e8.isSimpleGroup
   have hYs : Group.IsSolvable ↥(CFSG.pCore 2 ↥K) := by

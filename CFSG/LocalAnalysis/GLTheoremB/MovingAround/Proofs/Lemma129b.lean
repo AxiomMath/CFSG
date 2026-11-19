@@ -21,15 +21,18 @@ variable {Y : Type} [Group Y] [Finite Y]
 
 open CFSG.LocalAnalysis.GLTheoremB.MovingAround.Lemma129W
 
+omit [Finite Y] in
 theorem kconj_eq_gLBConj (K : Subgroup Y) (a : Y) (i : ℕ) : kconj a K i = GLBConj (a ^ i)⁻¹ K := by
   unfold kconj GLBConj
   rw [inv_inv]
 
+omit [Finite Y] in
 theorem isComponentOf_kconj {K : Subgroup Y} (hK : IsComponentOf K ⊤) (a : Y) (i : ℕ) :
     IsComponentOf (kconj a K i) ⊤ := by
   rw [kconj_eq_gLBConj]
   exact isComponentOf_gLBConj hK _
 
+omit [Finite Y] in
 theorem kconj_ne {K : Subgroup Y} {a : Y} {p : ℕ}
     (hcap : ∀ n : ℕ, 0 < n → n < p → a ^ n ∉ Subgroup.normalizer (K : Set Y))
     {i j : ℕ} (hij : i < j) (hjp : j < p) : kconj a K i ≠ kconj a K j := by
@@ -126,7 +129,7 @@ theorem bc_inf_normalizer (h : Cex127 G m p B M E A N D) (hs : Setup2 M A N p S 
     (hAK : ¬ A ≤ Subgroup.normalizer (K : Set G)) :
     A ⊓ Subgroup.normalizer (K : Set G) = F := by
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hFA := hs.F_le_A
   have hAcard := card_eq_pow_pRank hp (A_el h)
   have hFcard := card_eq_pow_pRank hp ((A_el h).mono hFA)
@@ -156,7 +159,7 @@ theorem bc_props_of_not_mem (h : Cex127 G m p B M E A N D) (hs : Setup2 M A N p 
     a ^ p = 1 ∧ A = F ⊔ Subgroup.zpowers a ∧ F ⊓ Subgroup.zpowers a = ⊥ ∧
       ∀ n : ℕ, 0 < n → n < p → a ^ n ∉ Subgroup.normalizer (K : Set G) := by
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hFA := hs.F_le_A
   have hAcard := card_eq_pow_pRank hp (A_el h)
   have hFcard := card_eq_pow_pRank hp ((A_el h).mono hFA)
@@ -183,7 +186,7 @@ theorem bc_props_of_not_mem (h : Cex127 G m p B M E A N D) (hs : Setup2 M A N p 
     · exact (Subgroup.eq_of_le_of_card_ge hle (by rw [hCi, hAcard])).symm
   ·
     have hcardz : Nat.card (Subgroup.zpowers a) = p := by rw [Nat.card_zpowers, hord]
-    haveI : Fact (Nat.card (Subgroup.zpowers a)).Prime := ⟨hcardz ▸ hp⟩
+    have : Fact (Nat.card (Subgroup.zpowers a)).Prime := ⟨hcardz ▸ hp⟩
     rcases Subgroup.eq_bot_or_eq_top_of_prime_card
       ((F ⊓ Subgroup.zpowers a).subgroupOf (Subgroup.zpowers a)) with h1 | h1
     · ext x
@@ -250,7 +253,7 @@ theorem mem_centBar_of_barX_centralizes {p : ℕ} (hp : p.Prime) {N K : Subgroup
 
 theorem barX_A_isSCp (h : Cex127 G m p B M E A N D) : IsSCp p ⊤ (barX p N A) := by
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hA : IsSCp p ⊤ A := (lemma104_ii_holds h.toSec11.toSec10Fails h.pair).2
   exact isSCp_map_quotient (GLAPPrimeCore p ↥N)
     ((Nat.Prime.coprime_iff_not_dvd hp).1 CFSG.pPrimeCore_coprime_card)
@@ -305,12 +308,14 @@ theorem mem_normalizer_of_mk {p : ℕ} (hp : p.Prime) {N K : Subgroup G} (hK : G
     x ∈ Subgroup.normalizer (K : Set G) :=
   mem_normalizer_of_barX_normalizes hp le_rfl hK hxN (Subgroup.le_normalizer hxN) h
 
+omit [Finite G] in
 theorem mk_pow_eq_one {p : ℕ} {N : Subgroup G} {a : G} (haN : a ∈ N) (hap : a ^ p = 1) :
     (QuotientGroup.mk' (GLAPPrimeCore p ↥N) ⟨a, haN⟩) ^ p = 1 := by
   rw [← map_pow]
   have : (⟨a, haN⟩ : ↥N) ^ p = 1 := Subtype.ext hap
   rw [this, map_one]
 
+omit [Finite G] in
 theorem mk_pow {p : ℕ} {N : Subgroup G} {a : G} (haN : a ∈ N) (n : ℕ) :
     QuotientGroup.mk' (GLAPPrimeCore p ↥N) ⟨a ^ n, N.pow_mem haN n⟩ =
       (QuotientGroup.mk' (GLAPPrimeCore p ↥N) ⟨a, haN⟩) ^ n := by
@@ -342,7 +347,7 @@ theorem quotEquivBarX_barAut {p : ℕ} (hp : p.Prime) {N K : Subgroup G} (hK : G
     congr 1
 
 theorem bc_inner {p : ℕ} (hp : p.Prime) {N K F : Subgroup G} (hK : GLAPComponent p N K)
-    (hFN : F ≤ N) (hFK : F ≤ Subgroup.normalizer (K : Set G))
+    (_hFN : F ≤ N) (hFK : F ≤ Subgroup.normalizer (K : Set G))
     (hinn : autBar p F K ≤ innerAut (barOf p K)) :
     ∀ f ∈ barX p N F, ∃ k ∈ barX p N K, ∀ y ∈ barX p N K, f * y * f⁻¹ = k * y * k⁻¹ := by
   rintro _ ⟨⟨f, hfN⟩, hfF, rfl⟩
@@ -371,6 +376,7 @@ section Card
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_sup_of_commute_disjoint {H K : Subgroup G} (hc : ∀ a ∈ H, ∀ b ∈ K, a * b = b * a)
     (hd : H ⊓ K = ⊥) : Nat.card ↥(H ⊔ K) = Nat.card H * Nat.card K := by
   have hcomm : ∀ (m : ↥H) (n : ↥K), Commute (H.subtype m) (K.subtype n) :=
@@ -401,7 +407,7 @@ theorem hcap_of_inf_normalizer (h : Cex127 G m p B M E A N D) (hs : Setup2 M A N
     (haK : a ∉ Subgroup.normalizer (K : Set G)) :
     ∀ n : ℕ, 0 < n → n < p → a ^ n ∉ Subgroup.normalizer (K : Set G) := by
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have haF : a ∉ F := fun haF => haK (hs.hFK haF)
   have hap : a ^ p = 1 := (A_el h).2 a haA
   have ha1 : a ≠ 1 := fun h1 => haK (h1 ▸ Subgroup.one_mem _)
@@ -422,7 +428,7 @@ theorem exists_a_in_A0 (h : Cex127 G m p B M E A N D) (hs : Setup2 M A N p S F K
       f * y * f⁻¹ = k * y * k⁻¹) :
     ∃ a ∈ E ⊓ A, a ∉ Subgroup.normalizer (K : Set G) := by
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hcon
   push Not at hcon
   obtain ⟨a₀, ha₀A, ha₀K⟩ := Set.not_subset.1 hAK
@@ -441,7 +447,7 @@ theorem exists_a_in_A0 (h : Cex127 G m p B M E A N D) (hs : Setup2 M A N p S F K
     intro x hx y hy
     have hx0 : x ∈ Lemma129W.kconj (QuotientGroup.mk' (GLAPPrimeCore p ↥N) ⟨a₀, ha₀N⟩)
         (barX p N K) ((⟨0, hp.pos⟩ : Fin p) : ℕ) :=
-      Subgroup.mem_map.2 ⟨x, hx, by simp [MulAut.conj_apply]⟩
+      Subgroup.mem_map.2 ⟨x, hx, by simp⟩
     refine hcommY ⟨0, hp.pos⟩ ⟨1, hp.one_lt⟩ (fun heq => ?_) x hx0 y hy
     have := congrArg Fin.val heq
     simp at this
@@ -594,6 +600,7 @@ section YKstar
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem inv_pow_eq_pow {a : Y} {p : ℕ} (hp : 0 < p) (ha : a ^ p = 1) (j : ℕ) :
     (a ^ j)⁻¹ = a ^ ((p - 1) * j) := by
   have h1 : a ^ j * a ^ ((p - 1) * j) = 1 := by
@@ -605,6 +612,7 @@ theorem inv_pow_eq_pow {a : Y} {p : ℕ} (hp : 0 < p) (ha : a ^ p = 1) (j : ℕ)
     rw [this, pow_mul, ha, one_pow]
   exact inv_eq_of_mul_eq_one_right h1
 
+omit [Finite Y] in
 theorem gLBConj_pow_le_kstar {p : ℕ} (hp : 0 < p) {K : Subgroup Y} {a : Y} (ha : a ^ p = 1)
     (j : ℕ) : GLBConj (a ^ j) K ≤ Lemma129W.kstar p a K := by
   have hip : ((p - 1) * j) % p < p := Nat.mod_lt _ hp
@@ -706,6 +714,7 @@ section Assembly
 
 variable {G : Type} [Group G] [Finite G] {m p : ℕ} {B M E A N D S F K : Subgroup G}
 
+omit [Finite G] in
 theorem mk_comm_of_comm {p : ℕ} {N : Subgroup G} {x a : G} (hxN : x ∈ N) (haN : a ∈ N)
     (h : x * a = a * x) :
     QuotientGroup.mk' (GLAPPrimeCore p ↥N) ⟨x, hxN⟩ * QuotientGroup.mk' (GLAPPrimeCore p ↥N) ⟨a, haN⟩ =
@@ -830,7 +839,7 @@ theorem lemma129_bc (h121 : Prop121_corStatement) (h : Cex127 G m p B M E A N D)
       (((∃ Q : ℕ, p ∣ Q - 1 ∧ IsLpType p Q (barOf p K)) ∨ (p = 5 ∧ IsSporType .Fi22 (barOf p K))) ∧
         Lemma129IvBData p N K E A) := by
   have hp := prime_of h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hinn : autBar p F K ≤ innerAut (barOf p K) := by
     rcases hsl with ⟨-, -, -, hinn, -⟩ | ⟨-, -, hinn, -⟩ <;> exact hinn
   have hweak : ∀ B' : Subgroup (MulAut (barOf p K)), IsElemAbelian p B' → p ^ 2 ≤ Nat.card B' →
@@ -894,7 +903,7 @@ theorem lemma129_bc (h121 : Prop121_corStatement) (h : Cex127 G m p B M E A N D)
   refine ⟨e₀, F, hEk, by rw [hlayer]; exact hFle, a, haEA, hAeq, ?_⟩
   rw [eq_top_iff]
   intro q _
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hāW : QuotientGroup.mk' (GLAPPrimeCore p ↥N) ⟨a, haN⟩ ∈
       Lemma129W.kstar p (QuotientGroup.mk' (GLAPPrimeCore p ↥N) ⟨a, haN⟩) (barX p N K) ⊔
         Subgroup.zpowers (QuotientGroup.mk' (GLAPPrimeCore p ↥N) ⟨a, haN⟩) :=

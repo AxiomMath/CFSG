@@ -195,14 +195,14 @@ theorem sylowData {G : Type} [Group G] [Finite G] {n : ℕ} {b : G} {L : Subgrou
       rw [Subgroup.map_le_iff_le_comap]
       intro y hy
       rw [Subgroup.mem_comap]
-      simpa only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply] using hg y hy
+      simpa only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply] using hg y hy
     have hUab : CFSG.Open.IsElemAbelian 3 U := hB₂.abel.map (MulAut.conj g).toMonoidHom
     have hUcard : Nat.card U = Nat.card B₂ :=
       Subgroup.card_map_of_injective (MulAut.conj g).injective
     have hUB₂ : U = B₂ := huniq U hUS hUab hUcard
     have hmem : (MulAut.conj g).toMonoidHom x ∈ U := Subgroup.mem_map_of_mem _ hx
     rw [hUB₂] at hmem
-    simpa only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply] using hmem
+    simpa only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply] using hmem
 
 end CFSG.StandardType.FF81.PropOne
 

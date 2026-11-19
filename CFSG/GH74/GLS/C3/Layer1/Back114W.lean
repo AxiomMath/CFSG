@@ -65,7 +65,7 @@ theorem exists_normal_two_complement_isComplement {H : Type} [Group H] [Finite H
     set t := MonoidHom.transferSylow S hnorm g with ht
     have hdvd : orderOf t ∣ orderOf g := orderOf_map_dvd _ g
     have hoddt : Odd (orderOf t) := Odd.of_dvd_nat hg hdvd
-    have hpg : IsPGroup 2 ↥S := S.isPGroup'
+    have hpg : IsPGroup 2 ↥S := S.isPGroup
     obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 hpg) t
     have hk0 : k = 0 := by
       by_contra hne

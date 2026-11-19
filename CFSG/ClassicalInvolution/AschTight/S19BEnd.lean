@@ -84,7 +84,7 @@ theorem false_of_stronglyClosed (hB1 : GoldschmidtB1Tmp) [IsSimpleGroup G]
     Group.isSolvable_of_isSolvable_injective
       (Subgroup.inclusion_injective (inf_le_right : L ⊓ Subgroup.centralizer (B : Set G) ≤ _))
   exact hL (Group.isSolvable_of_surjective
-    (surjective_mk_inf_centralizer (S.isPGroup'.to_le hBS) hBL))
+    (surjective_mk_inf_centralizer (S.isPGroup.to_le hBS) hBL))
 
 theorem nontrivial_sl2 (F : Type) [Field F] : Nontrivial SL(2, F) := by
   refine ⟨⟨⟨!![1, 1; 0, 1], by simp [Matrix.det_fin_two]⟩, 1, fun h => ?_⟩⟩

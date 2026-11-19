@@ -68,8 +68,8 @@ theorem ggTwE6K1LineLabels_of (hS : E6LeviThreeToralBar) (hQ2 : GGTwE6K1ThreeA2T
   have hq2 : 2 ≤ 2 ^ n := by
     calc 2 = 2 ^ 1 := (pow_one 2).symm
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := n * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
   have hchar : ringChar K = 2 := ringChar.eq K 2
   have hK3 : ringChar K ≠ 3 := by

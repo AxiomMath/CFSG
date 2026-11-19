@@ -22,6 +22,7 @@ open CFSG.GroupTheory (centralizer_map_conj centralizer_zpowers_eq mem_normalize
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 private theorem centerIn_conjugate (D : Subgroup G) (g : G) :
     centerIn (CFSG.conjugate D g) = CFSG.conjugate (centerIn D) g := by
   rw [centerIn, centerIn, CFSG.conjugate, CFSG.conjugate,
@@ -29,6 +30,7 @@ private theorem centerIn_conjugate (D : Subgroup G) (g : G) :
       (MulAut.conj g⁻¹).injective,
     centralizer_map_conj g⁻¹ D]
 
+omit [Finite G] in
 private theorem conjugate_centralizer_singleton_eq {a b g : G}
     (h : CFSG.conjugate (Subgroup.zpowers a) g = Subgroup.zpowers b) :
     CFSG.conjugate (Subgroup.centralizer ({a} : Set G)) g =
@@ -41,6 +43,7 @@ private theorem conjugate_centralizer_singleton_eq {a b g : G}
   rw [conjugate_centralizer_singleton,
     ← centralizer_zpowers_eq (g⁻¹ * a * g), ← centralizer_zpowers_eq b, hzp]
 
+omit [Finite G] in
 private theorem conj_mem_centerIn_of_mem_normalizer {D : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (D : Set G)) {a : G} (ha : a ∈ centerIn D) :
     g * a * g⁻¹ ∈ centerIn D := by
@@ -54,6 +57,7 @@ private theorem conj_mem_centerIn_of_mem_normalizer {D : Subgroup G} {g : G}
     _ = g * (a * (g⁻¹ * s * g)) * g⁻¹ := by rw [hcomm]
     _ = (g * a * g⁻¹) * s := by group
 
+omit [Finite G] in
 private theorem mem_centerIn_of_conj_eq {S T : Subgroup G} (hST : S ≤ T) {x : G}
     (hcos : ∀ b ∈ T, b * x ∈ S ∨ b ∈ S) {a : G} (ha : a ∈ centerIn S)
     (hax : x * a * x⁻¹ = a) : a ∈ centerIn T := by
@@ -92,6 +96,7 @@ private noncomputable def centerConjHom {S : Subgroup G} (x : G)
         _ = (a : G) * ((x * (a : G) * x⁻¹) * (b : G)) * (x * (b : G) * x⁻¹) := by rw [hcomm]
         _ = ((a : G) * (x * (a : G) * x⁻¹)) * ((b : G) * (x * (b : G) * x⁻¹)) := by group }
 
+omit [Finite G] in
 private theorem centerConjHom_ker_le {S T : Subgroup G} {x : G}
     (hconjZ : ∀ a ∈ centerIn S, x * a * x⁻¹ ∈ centerIn S)
     (hexp : ∀ a ∈ centerIn S, a * a = 1)
@@ -107,8 +112,9 @@ private theorem centerConjHom_ker_le {S T : Subgroup G} {x : G}
     (eq_inv_of_mul_eq_one_left (hexp (a : G) a.2)).symm
   exact hcenter_of (a : G) a.2 (by rw [hxa, hainv])
 
+omit [Finite G] in
 private theorem centerConjHom_range_le {S T : Subgroup G} {x : G}
-    (hcos : ∀ b ∈ T, b * x ∈ S ∨ b ∈ S)
+    (_hcos : ∀ b ∈ T, b * x ∈ S ∨ b ∈ S)
     (hconjZ : ∀ a ∈ centerIn S, x * a * x⁻¹ ∈ centerIn S) (hx2S : x * x ∈ S)
     (hcenter_of : ∀ a ∈ centerIn S, x * a * x⁻¹ = a → a ∈ centerIn T) :
     (centerConjHom x hconjZ).range ≤ centerIn T := by
@@ -167,7 +173,7 @@ theorem isSylowOf_centralizer_of_centerIn_eq_zpowers {b : G} (hz : orderOf z = 2
     {T : Subgroup G}
     (hT : IsSylowOf 2 T (centralizer ({z} : Set G) ⊓ centralizer ({b} : Set G)))
     (hZ : centerIn T = zpowers z) : IsSylowOf 2 T (centralizer ({b} : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine isSylowOf_of_forall_pElement_normalizer_le hT ?_
   intro g hgM hgN hgP
   have hgcenter : g ∈ Subgroup.normalizer (centerIn T : Set G) := by
@@ -198,10 +204,12 @@ theorem isSylowOf_centralizer_of_centerIn_eq_zpowers {b : G} (hz : orderOf z = 2
   calc g * z = (g * z * g⁻¹) * g := by group
     _ = z * g := by rw [hgz_val]
 
+omit [Finite G] in
 private theorem card_centerIn_conjugate (D : Subgroup G) (h : G) :
     Nat.card (centerIn (CFSG.conjugate D h)) = Nat.card (centerIn D) := by
   rw [centerIn_conjugate, card_conjugate' (centerIn D) h]
 
+omit [Finite G] in
 private theorem exp_centerIn_conjugate {D : Subgroup G} (h : G)
     (hexp : ∀ x ∈ centerIn D, x * x = 1) :
     ∀ x ∈ centerIn (CFSG.conjugate D h), x * x = 1 := by
@@ -220,7 +228,7 @@ theorem conjugate_zpowers_ne_of_card_centerIn {a b : G} {Ta Tb : Subgroup G}
     (hlt : Nat.card (centerIn Tb) ^ 2 < Nat.card (centerIn Ta)) (g : G) :
     CFSG.conjugate (zpowers a) g ≠ zpowers b := by
   intro hconj
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcent : CFSG.conjugate (Subgroup.centralizer ({a} : Set G)) g =
       Subgroup.centralizer ({b} : Set G) :=
     conjugate_centralizer_singleton_eq hconj
@@ -247,6 +255,7 @@ theorem conjugate_zpowers_ne_of_card_centerIn {a b : G} {Ta Tb : Subgroup G}
   rw [hcardS] at hle
   exact (not_le.mpr hlt) hle
 
+omit [Finite G] in
 private theorem mem_commutator_conjugate {Ta Tb : Subgroup G} {h x : G}
     (hx : x ∈ ⁅Ta, Ta⁆) (hSle : CFSG.conjugate Ta h ≤ Tb) :
     h⁻¹ * x * h ∈ ⁅Tb, Tb⁆ := by
@@ -260,6 +269,7 @@ private theorem mem_commutator_conjugate {Ta Tb : Subgroup G} {h x : G}
   rw [hmap] at hxS
   exact Subgroup.commutator_mono hSle hSle hxS
 
+omit [Finite G] in
 private theorem inf_centralizer_le_conjugate_inf {a b y h : G} {Tb : Subgroup G}
     (hCb : CFSG.conjugate (Subgroup.centralizer ({a} : Set G)) h =
       Subgroup.centralizer ({b} : Set G))
@@ -285,7 +295,7 @@ private theorem inf_centralizer_le_conjugate_inf {a b y h : G} {Tb : Subgroup G}
 private theorem card_le_of_le_conjugate_isSylowOf {K Ta R : Subgroup G} {h : G}
     (hTa : IsSylowOf 2 Ta K) (hR : R ≤ CFSG.conjugate K h)
     (hRp : IsPGroup 2 R) : Nat.card R ≤ Nat.card Ta := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSyl : IsSylowOf 2 (CFSG.conjugate Ta h) (CFSG.conjugate K h) :=
     isSylowOf_conjugate hTa h
   obtain ⟨k, hk, hkR⟩ := exists_mem_conjugate_le_of_isSylowOf hSyl hR hRp
@@ -301,7 +311,7 @@ theorem conjugate_zpowers_ne_of_mem_commutator {a b : G} {Ta Tb : Subgroup G}
       Nat.card Ta < Nat.card ↥(Tb ⊓ centralizer ({y} : Set G)))
     (g : G) : CFSG.conjugate (zpowers a) g ≠ zpowers b := by
   intro hconj
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcent : CFSG.conjugate (Subgroup.centralizer ({a} : Set G)) g =
       Subgroup.centralizer ({b} : Set G) :=
     conjugate_centralizer_singleton_eq hconj
@@ -353,7 +363,7 @@ theorem conjugate_zpowers_ne_of_elementaryAbelian {a b : G} {Ta E : Subgroup G}
     (hEab : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hE2 : ∀ x ∈ E, x * x = 1) (g : G) :
     CFSG.conjugate (zpowers a) g ≠ zpowers b := by
   intro hconj
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcent : CFSG.conjugate (Subgroup.centralizer ({a} : Set G)) g =
       Subgroup.centralizer ({b} : Set G) :=
     conjugate_centralizer_singleton_eq hconj
@@ -377,6 +387,7 @@ theorem conjugate_zpowers_ne_of_elementaryAbelian {a b : G} {Ta E : Subgroup G}
     isElementaryAbelian_conjugate (isElementaryAbelian_conjugate hEel g⁻¹) c
   exact hnoE F hFle hFcard (forall_of_isElementaryAbelian hFel)
 
+omit [Finite G] in
 theorem star_of_orderThree_classes {σ a b : G}
     (hcls : ∀ R : Subgroup G, R ≤ H z → Nat.card R = 3 →
       ∃ h ∈ H z, CFSG.conjugate R h = zpowers σ ∨ CFSG.conjugate R h = zpowers a ∨
@@ -414,6 +425,7 @@ theorem star_of_orderThree_classes {σ a b : G}
       rw [← hgh, h1]
     exact hb (g * h) hghσ
 
+omit [Finite G] in
 private theorem conj_eq_or_inv_of_mem_normalizer_zpowers {σ n : G} (hσ : orderOf σ = 3)
     (hn : n ∈ normalizer (zpowers σ : Set G)) :
     n * σ * n⁻¹ = σ ∨ n * σ * n⁻¹ = σ⁻¹ := by
@@ -450,6 +462,7 @@ private theorem conj_eq_or_inv_of_mem_normalizer_zpowers {σ n : G} (hσ : order
       exact hσ2
     exact hkmod.trans hσ2z
 
+omit [Finite G] in
 private theorem mem_centralizer_zpowers_of_conj_eq {σ c : G} (h : c * σ * c⁻¹ = σ) :
     c ∈ centralizer (zpowers σ : Set G) := by
   refine Subgroup.mem_centralizer_iff.mpr ?_
@@ -461,6 +474,7 @@ private theorem mem_centralizer_zpowers_of_conj_eq {σ c : G} (h : c * σ * c⁻
       _ = σ * c := by rw [h]
   exact (Commute.zpow_right hcomm k).eq.symm
 
+omit [Finite G] in
 theorem normalizer_zpowers_eq_mul_of_inv {σ w : G} (hσ : orderOf σ = 3) (hwH : w ∈ H z)
     (hw : w * σ * w⁻¹ = σ⁻¹) :
     ∀ n ∈ normalizer (zpowers σ : Set G), ∃ h ∈ normalizer (zpowers σ : Set G) ⊓ H z,
@@ -485,6 +499,7 @@ theorem normalizer_zpowers_eq_mul_of_inv {σ w : G} (hσ : orderOf σ = 3) (hwH 
     rw [Subgroup.mem_inf]
     exact ⟨hwN, hwH⟩
 
+omit [Finite G] in
 theorem exists_centralizer_conj_of_isConj {σ w : G} (hσ : orderOf σ = 3) (hσH : σ ∈ H z)
     (hstar : ∀ g : G, CFSG.conjugate (zpowers σ) g ≤ H z →
       ∃ h ∈ H z, CFSG.conjugate (zpowers σ) g = CFSG.conjugate (zpowers σ) h)
@@ -526,7 +541,7 @@ theorem lemma53 (h : Tim79a.ParrottHyp z) {σ₁ σ σ₃ : G} {T₁ T₂ T₃ :
     IsSylowOf 2 T₂ (centralizer ({σ} : Set G)) ∧
       (∀ g : G, CFSG.conjugate (zpowers σ) g ≠ zpowers σ₁) ∧
       (∀ g : G, CFSG.conjugate (zpowers σ) g ≠ zpowers σ₃) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT₂syl : IsSylowOf 2 T₂ (centralizer ({σ} : Set G)) :=
     isSylowOf_centralizer_of_centerIn_eq_zpowers h.1 hT₂ hZ₂
   have hcard : Nat.card T₂ = 2 * Nat.card T₁ := by

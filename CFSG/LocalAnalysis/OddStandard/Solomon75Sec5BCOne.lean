@@ -14,6 +14,7 @@ section One
 
 variable {X : Type} [Group X] [Finite X] {n : ℕ}
 
+omit [Finite X] in
 private theorem bcOne_permX_zpow (hn : 8 ≤ n) {B : Subgroup X} (M : AhatModel X n B) {ξ : X}
     (hξ : ξ ∈ normalizer (B : Set X)) (j : ℤ) : M.permX (ξ ^ j) = M.permX ξ ^ j := by
   have h := map_zpow (M.permHom hn) (⟨ξ, hξ⟩ : ↥(normalizer (B : Set X))) j
@@ -26,7 +27,7 @@ private theorem bcOne_permData (hn : 8 ≤ n) {B : Subgroup X} (MB : AhatModel X
     (hzN : z ∈ normalizer (B : Set X)) (hτ : MB.perm z hzN ≠ 1) (P : QuatPiece z D) :
     Nonempty (QuatPermData n) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQtN : P.Qt ≤ normalizer (B : Set X) := fun q hq => hDB (P.Qt_le hq)
   have hyQt : P.y ∈ P.Qt := P.Q_le P.y_mem
   have hxN : P.x ∈ normalizer (B : Set X) := hDB P.x_mem

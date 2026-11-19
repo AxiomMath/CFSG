@@ -123,15 +123,15 @@ theorem ntpA2S_mem_fixedField {L : Type} [Field L] {F : L →+* L} {c : L} :
 theorem ntpA2S_card_fixedField {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
     {f : ℕ} (hf : 1 ≤ f) (F : L →+* L) (hF : ∀ c, F c = c ^ 2 ^ f) :
     Nat.card (ntpA2S_fixedField F) = 2 ^ f := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← natCard_setOf_pow_eq_self (Ω := L) (ℓ := 2) (e := f) (by omega)]
   exact Nat.card_congr (Equiv.subtypeEquivRight fun c => by
-    simp only [Set.mem_setOf_eq, ntpA2S_mem_fixedField, hF])
+    simp only [Set.mem_ofPred_eq, ntpA2S_mem_fixedField, hF])
 
 theorem ntpA2S_card_fixedField_comp {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
     {f : ℕ} (hf : 1 ≤ f) (F : L →+* L) (hF : ∀ c, F c = c ^ 2 ^ f) :
     Nat.card (ntpA2S_fixedField (F.comp F)) = (2 ^ f) ^ 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2f : 2 * f ≠ 0 := by omega
   have he : (2 ^ f) ^ 2 = 2 ^ (2 * f) := by
     rw [pow_two, ← pow_add]
@@ -143,7 +143,7 @@ theorem ntpA2S_card_fixedField_comp {L : Type} [Field L] [IsAlgClosed L] [CharP 
     congr 1
     omega
   exact Nat.card_congr (Equiv.subtypeEquivRight fun c => by
-    simp only [Set.mem_setOf_eq, ntpA2S_mem_fixedField, RingHom.comp_apply, hF, ← pow_mul, hexp])
+    simp only [Set.mem_ofPred_eq, ntpA2S_mem_fixedField, RingHom.comp_apply, hF, ← pow_mul, hexp])
 
 def ntpA2S_splitFixedEquiv {L : Type} [Field L] (n : ℕ) (F : L →+* L) :
     Matrix.SpecialLinearGroup (Fin n) (ntpA2S_fixedField F) ≃*
@@ -344,7 +344,7 @@ theorem ntpA2S_isQuasisimple_split {L : Type} [Field L] [IsAlgClosed L] [CharP L
     CFSG.IsQuasisimple ↥((Matrix.SpecialLinearGroup.map (n := Fin 3) F).eqLocus
       (MonoidHom.id _)) := by
   have hk := ntpA2S_card_fixedField hf F hF
-  haveI : Finite (ntpA2S_fixedField F) :=
+  have : Finite (ntpA2S_fixedField F) :=
     Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
   exact CFSG.LocalCores.isQuasisimple_of_mulEquiv (ntpA2S_splitFixedStatedEquiv 3 F)
     (CFSG.Open.StatedAPI.isQuasisimple_statedSL_of_two_le (m := 2) (by norm_num)
@@ -354,9 +354,9 @@ theorem ntpA2S_isQuasisimple_unitary {L : Type} [Field L] [IsAlgClosed L] [CharP
     {f : ℕ} (hf : 1 ≤ f) (hq : 2 < 2 ^ f) (F : L →+* L) (hF : ∀ c, F c = c ^ 2 ^ f) :
     CFSG.IsQuasisimple ↥(((slGraphAut 3 L).toMonoidHom.comp
       (Matrix.SpecialLinearGroup.map (n := Fin 3) F)).eqLocus (MonoidHom.id _)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard := ntpA2S_card_fixedField_comp hf F hF
-  haveI : Finite (ntpA2S_fixedField (F.comp F)) :=
+  have : Finite (ntpA2S_fixedField (F.comp F)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
   have hqne : (3, 2 ^ f) ≠ (3, 2) := by
     intro h

@@ -22,9 +22,9 @@ theorem fB_spec (g : ℕ) : ∀ n v, v < 64 → v ≤ n → fB g n v = (fTable g
     rw [e]
     by_cases h0 : v = 0
     · subst h0
-      rw [if_pos rfl, fTable_getElem!_zero]
+      rw [ite_eq_left rfl, fTable_getElem!_zero]
     · have hlt := lowIdx_xor_lt h0 h64
-      rw [if_neg h0, fB_spec g n _ (by omega) (by omega), fTable_getElem!_succ h64 h0,
+      rw [ite_eq_right h0, fB_spec g n _ (by omega) (by omega), fTable_getElem!_succ h64 h0,
         Nat.zero_testBit, Bool.xor_false]
 
 theorem fTable_eq_fB (g f : ℕ) {v : ℕ} (hv : v < 64) :
@@ -188,8 +188,8 @@ theorem candVal_eqT (r₁ r₂ : ℕ) (w : ℕ × ℕ × ℕ × ℕ) (f : ℕ) (
   · rfl
   · dsimp only
     by_cases he : e < 128
-    · rw [if_pos he, if_pos he, liftTab_eqF _ _ hs, tp_eq hk hk' he]
-    · rw [if_neg he, if_neg he]
+    · rw [ite_eq_left he, ite_eq_left he, liftTab_eqF _ _ hs, tp_eq hk hk' he]
+    · rw [ite_eq_right he, ite_eq_right he]
 
 theorem innWF_lt (φ : ℕ → ℕ) : innWF φ < 64 := by
   unfold innWF
@@ -216,7 +216,7 @@ theorem sOf_lt (r₁ r₂ : ℕ) (b₀ b₁ : Bool) {i : ℕ} (hi : i < 2) :
   have g0 : (#[rootF r₁, rootF r₂] : Array ℕ)[0]! = rootF r₁ := rfl
   have g1 : (#[rootF r₁, rootF r₂] : Array ℕ)[1]! = rootF r₂ := rfl
   interval_cases i <;> cases b₀ <;> cases b₁ <;>
-    simp [sOf, g0, g1, qmulN_lt h1 hz, qmulN_lt h2 hz, h1, h2]
+    simp [sOf, qmulN_lt h1 hz, qmulN_lt h2 hz, h1, h2]
 
 theorem liftF_hom {g : ℕ} (hq : isoQ false g = true) (f : ℕ) {x y : ℕ} (hx : x < 128)
     (hy : y < 128) : liftF g f (qmulN x y) = qmulN (liftF g f x) (liftF g f y) := by
@@ -306,7 +306,6 @@ theorem candT_eq_A8G (r₁ r₂ : ℕ) (w : ℕ × ℕ × ℕ × ℕ) (f : ℕ) 
   rw [guessF_eq_guessG (φ := fun x => liftF w.1 f (liftF w.2.2.1 0
       (invF (if w.2.1 = 0 then r₁ else r₂) (if w.2.1 = 0 then r₁ else r₂) 0
         (invF w.2.2.1 w.2.2.2 0 x)))) (fun x hx y hy => by
-    beta_reduce
     rw [invF_hom hqk 0 hk hk' hx hy, invF_hom hqr 0 hr hr (invF_lt _ _ _ _) (invF_lt _ _ _ _),
       liftF_hom hqk 0 (invF_lt _ _ _ _) (invF_lt _ _ _ _),
       liftF_hom hqg f (liftF_lt _ _ _) (liftF_lt _ _ _)])]
@@ -332,7 +331,7 @@ theorem qWordF_eq {Y : ℕ → ℕ} (hY : ∀ x < 128, ∀ y < 128, Y (qmulN x y
 theorem candA8G_eq_Y (r₁ r₂ : ℕ) (w : ℕ × ℕ × ℕ × ℕ) (f : ℕ) (b : Bool × Bool)
     (hk : ∀ u < 64, Code.act w.2.2.1 (Code.act w.2.2.2 u) = u)
     (hk' : ∀ u < 64, Code.act w.2.2.2 (Code.act w.2.2.1 u) = u)
-    (hr : ∀ u < 64, Code.act (if w.2.1 = 0 then r₁ else r₂)
+    (_hr : ∀ u < 64, Code.act (if w.2.1 = 0 then r₁ else r₂)
       (Code.act (if w.2.1 = 0 then r₁ else r₂) u) = u)
     (hqk : isoQ false w.2.2.1 = true)
     (hqr : isoQ false (if w.2.1 = 0 then r₁ else r₂) = true) :
@@ -346,7 +345,6 @@ theorem candA8G_eq_Y (r₁ r₂ : ℕ) (w : ℕ × ℕ × ℕ × ℕ) (f : ℕ) 
     split
     · next he =>
       rw [qWordF_eq (fun x hx y hy => by
-        beta_reduce
         rw [invF_hom hqk 0 hk hk' hx hy,
           liftF_hom hqr 0 (invF_lt _ _ _ _) (invF_lt _ _ _ _),
           liftF_hom hqk 0 (liftF_lt _ _ _) (liftF_lt _ _ _)]) he]
@@ -405,9 +403,9 @@ theorem candA8Y_bit (r₁ r₂ : ℕ) (w : ℕ × ℕ × ℕ × ℕ) (f : ℕ) (
       unfold sOf bitA8
       dsimp only
       by_cases hb : (if w.2.1 == 0 then b.1 else b.2) = true
-      · rw [if_pos hb, if_pos hb, qmulN_z0A8, zFlipA8_liftF, zFlipA8_qmulN, zFlipA8_qmulN]
+      · rw [ite_eq_left hb, ite_eq_left hb, qmulN_z0A8, zFlipA8_liftF, zFlipA8_qmulN, zFlipA8_qmulN]
         simp
-      · rw [if_neg hb, if_neg hb]
+      · rw [ite_eq_right hb, ite_eq_right hb]
         simp
     · rfl
 
@@ -433,11 +431,11 @@ theorem cntA8_eq (l : List (Option ℕ)) : cntA8 l = if l.all (fun o => o.isSome
     | none => simp [stepA8]
     | some x =>
       by_cases h : l.all (fun o => o.isSome) = true
-      · rw [if_pos h]
-        simp only [stepA8, List.all_cons, Option.isSome_some, Bool.true_and, h, if_true,
+      · rw [ite_eq_left h]
+        simp only [stepA8, List.all_cons, Option.isSome_some, Bool.true_and, h, ite_true,
           List.filterMap_cons, List.filter_cons]
         split <;> split <;> simp_all
-      · rw [if_neg h]
+      · rw [ite_eq_right h]
         simp [stepA8, h]
 
 theorem len_filterMap_A8 : ∀ (l : List (Option ℕ)), l.all (fun o => o.isSome) = true →
@@ -452,9 +450,9 @@ theorem tailA8_eq (l : List (Option ℕ)) : tailA8 l = tailL l := by
   unfold tailA8 tailL
   rw [cntA8_eq]
   by_cases h : l.all (fun o => o.isSome) = true
-  · rw [if_pos h, h, len_filterMap_A8 l h]
+  · rw [ite_eq_left h, h, len_filterMap_A8 l h]
     simp
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     simp [h]
 
 theorem zFlipA8_eq (v : ℕ) : zFlipA8 v = if v % 2 = 0 then v + 1 else v - 1 := by
@@ -531,8 +529,8 @@ theorem flatMap_filter_eq {α : Type} {p : ℕ → Bool} {G : ℕ → List α} :
     rw [List.flatMap_cons, List.filter_cons,
       flatMap_filter_eq l (fun g hg => h g (List.mem_cons_of_mem a hg))]
     by_cases ha : p a = true
-    · rw [if_pos ha, List.flatMap_cons]
-    · rw [if_neg ha, h a List.mem_cons_self (by simpa using ha), List.nil_append]
+    · rw [ite_eq_left ha, List.flatMap_cons]
+    · rw [ite_eq_right ha, h a List.mem_cons_self (by simpa using ha), List.nil_append]
 
 theorem foldl_push_gens (gens : Array ℕ) (P : ℕ → ℕ → Bool) (F : ℕ → ℕ → Option ℕ) :
     gens.foldl (fun acc g => (List.range 64).foldl (fun acc f =>
@@ -552,9 +550,9 @@ theorem foldl_push_gens (gens : Array ℕ) (P : ℕ → ℕ → Bool) (F : ℕ �
         intro acc
         rw [List.foldl_cons, List.filter_cons]
         by_cases h : P g a = true
-        · rw [if_pos h, ih, if_pos h, Array.toList_push]
+        · rw [ite_eq_left h, ih, ite_eq_left h, Array.toList_push]
           simp [List.append_assoc]
-        · rw [if_neg h, ih, if_neg h]
+        · rw [ite_eq_right h, ih, ite_eq_right h]
     intro l
     induction l with
     | nil => intro acc; simp
@@ -585,7 +583,7 @@ theorem witMap_foldl_get? {R : ℕ → Option SqWit} (hR : ∀ g w, R g = some w
       · subst hga
         rw [hg]
         dsimp only
-        rw [Std.HashMap.get?_insert, hR g w hg, if_pos (beq_self_eq_true g)]
+        rw [Std.HashMap.get?_insert, hR g w hg, ite_eq_left (beq_self_eq_true g)]
       · have hm : m.get? g = some w := by
           rcases h with h | h
           · rcases List.mem_cons.1 h with h | h
@@ -596,7 +594,7 @@ theorem witMap_foldl_get? {R : ℕ → Option SqWit} (hR : ∀ g w, R g = some w
         | none => exact hm
         | some w' =>
           dsimp only
-          rw [Std.HashMap.get?_insert, hR a w' ha, if_neg (by
+          rw [Std.HashMap.get?_insert, hR a w' ha, ite_eq_right (by
             rw [beq_iff_eq]
             exact fun e => hga e.symm)]
           exact hm
@@ -615,7 +613,7 @@ theorem liftTab_a0 (g f : ℕ) :
     simpa using this
   rw [a0N, liftTab_getElem! (by norm_num : 2 < 128)]
   simp only [Nat.reduceMod, Nat.reduceDiv, e1, Nat.zero_xor]
-  cases f.testBit 0 <;> simp <;> omega
+  cases f.testBit 0 <;> simp; omega
 
 theorem a0_filter (g : ℕ) : ((List.range 64).filter fun f => (liftTab g f)[a0N]! == a0N) =
     if Code.act g 1 = 1 then evensF else [] := by
@@ -638,7 +636,7 @@ theorem theta_get {r₁ r₂ i : ℕ} (hi : i < 2) :
 theorem root_eqF {r : ℕ} (h : (innTab (2 * innW (compTab (liftTab r 0) (liftTab r 0))) ==
     compTab (liftTab r 0) (liftTab r 0)) = true) :
     (innRoots (innTabs ()) (compTab (liftTab r 0) (liftTab r 0))).head?.getD 0 = rootF r := by
-  rw [innRoots_eq, if_pos h]
+  rw [innRoots_eq, ite_eq_left h]
   simp only [List.head?_cons, Option.getD_some]
   unfold rootF
   rw [innW_eqF (φ := fun x => liftF r 0 (liftF r 0 x)) (fun x hx => by
@@ -704,7 +702,7 @@ variable {L : List ℕ} {P : List (ℕ × ℕ)} {T W1 W2 : IT} {M1 M2 r1 r2 : �
 include h
 
 theorem root_eq : (a8Data ()).root = #[rootF r1, rootF r2] := by
-  rw [a8_root h.enum, h.reps, h.theta_eq]
+  rw [a8_root h.enum, h.reps, CFSG.KC.C690.A8Hyp.theta_eq]
   unfold repRoot
   simp only [List.map_toArray, List.map_cons, List.map_nil]
   rw [root_eqF h.root1, root_eqF h.root2]
@@ -723,12 +721,12 @@ theorem cm_get_of {w : ℕ × ℕ × ℕ × ℕ} (hw : cmK T W1 W2 L.length M1 M
   split at hw
   · next hi =>
     simp only [Bool.and_eq_true, beq_iff_eq] at hw
-    rw [if_pos hw.1, hw.2, hkL]
+    rw [ite_eq_left hw.1, hw.2, hkL]
     simp [hi]
   · next hi =>
     simp only [Bool.and_eq_true, beq_iff_eq, Bool.not_eq_true'] at hw
     obtain ⟨⟨⟨h1, h2⟩, h3⟩, h4⟩ := hw
-    rw [if_neg (by simp [h2]), if_pos h3, h4, hkL]
+    rw [ite_eq_right (by simp [h2]), ite_eq_left h3, h4, hkL]
     simp [h1]
 
 variable {Ws : List (ℕ × ℕ × ℕ × ℕ)}
@@ -752,7 +750,7 @@ theorem wit_get (hcm : ∀ w ∈ Ws, cmK T W1 W2 L.length M1 M2 w = true) {w : �
           ((#[liftTab r1 0, liftTab r2 0] : Array (Array ℕ))[w.2.1]!))
           (invTab (liftTab w.2.2.1 0))) } := by
   obtain ⟨hcmw, hi⟩ := h.cm_get_of (hcm w hw)
-  rw [a8_witMap h.enum, h.reps, h.theta_eq]
+  rw [a8_witMap h.enum, h.reps, CFSG.KC.C690.A8Hyp.theta_eq]
   unfold witMapOf sqWitData
   rw [List.map_toArray, List.foldl_toArray]
   refine witMap_foldl_get? ?_ ?_ _ _ (Or.inl (mem_sel hsel hw).1)
@@ -765,7 +763,7 @@ theorem wit_get (hcm : ∀ w ∈ Ws, cmK T W1 W2 L.length M1 M2 w = true) {w : �
     · cases e
   · rw [hcmw]
     dsimp only
-    rw [if_pos (by simpa using hi)]
+    rw [ite_eq_left (by simpa using hi)]
 
 theorem s5 (hcm : Ws.all (cmK T W1 W2 L.length M1 M2) = true) (hT : a8T r1 r2 Ws = true) :
     a8S5Of (a8Data ()) = true := by
@@ -785,35 +783,35 @@ theorem s5 (hcm : Ws.all (cmK T W1 W2 L.length M1 M2) = true) (hT : a8T r1 r2 Ws
     rw [a8_involutions h.enum, Array.toList_append, List.toList_toArray, List.toList_toArray,
       List.singleton_append, List.flatMap_cons]
     simp only [a0_filter]
-    rw [if_pos act_one_one,
+    rw [ite_eq_left act_one_one,
       flatMap_filter_eq (p := fun g => Code.act g 1 == 1) (involL L) (fun g _ hg => by
-        rw [if_neg (by simpa using hg)]
+        rw [ite_eq_right (by simpa using hg)]
         rfl), hsel]
     unfold valsA8Y
     rw [List.map_congr_left hone]
     congr 1
     apply flatMap_map_congr
     intro w hw
-    rw [if_pos (mem_sel hsel hw).2]
+    rw [ite_eq_left (mem_sel hsel hw).2]
     exact List.map_congr_left (hrec w hw)
   unfold a8S5Of
   simp only [Bool.and_eq_true]
   refine ⟨⟨⟨h.invOK, ?_⟩, h.witOK_ok⟩, ?_⟩
-  · rw [a8_innTabs h.enum, a8_theta h.enum, h.reps, h.theta_eq]
+  · rw [a8_innTabs h.enum, a8_theta h.enum, h.reps, CFSG.KC.C690.A8Hyp.theta_eq]
     exact rootsOK_of h.root1 h.root2
   rw [List.all_eq_true]
   intro b hb
   rw [foldl_push_gens, hvals b _ (fun f _ => ?_) (fun w hw f _ => ?_)]
   · have e := hcnt b hb
     simp only [List.all_toArray]
-    simp only [List.size_toArray, List.toList_toArray]
+    simp only [List.size_toArray]
     exact e
-  · rw [if_pos (beq_self_eq_true _), a8_innTabs h.enum, candValOne_eq, candOneT_eq_A8G h.isoOne]
+  · rw [ite_eq_left (beq_self_eq_true _), a8_innTabs h.enum, candValOne_eq, candOneT_eq_A8G h.isoOne]
   · obtain ⟨hg, _⟩ := mem_sel hsel hw
     have hne : (w.1 == Code.one) = false := by
       rw [beq_eq_false_iff_ne]
       intro e
-      have hi := (h.mem_involL.1 hg).2
+      have hi := (CFSG.KC.C690.A8Hyp.mem_involL.1 hg).2
       rw [e, ← oneF_eq] at hi
       simp [isInvF] at hi
     obtain ⟨_, hi⟩ := h.cm_get_of (hcm w hw)
@@ -823,9 +821,9 @@ theorem s5 (hcm : Ws.all (cmK T W1 W2 L.length M1 M2) = true) (hT : a8T r1 r2 Ws
       split
       · exact (invPairM_spec hr1).1
       · exact (invPairM_spec hr2).1
-    rw [if_neg (by simp [hne]), h.wit_get hsel hcm hw]
+    rw [ite_eq_right (by simp [hne]), h.wit_get hsel hcm hw]
     dsimp only
-    rw [if_pos (beq_self_eq_true _), a8_innTabs h.enum, h.root_eq, theta_get hi]
+    rw [ite_eq_left (beq_self_eq_true _), a8_innTabs h.enum, h.root_eq, theta_get hi]
     have hqk : isoQ false w.2.2.1 = true := by
       have hc := hcm w hw
       unfold cmK at hc
@@ -836,7 +834,7 @@ theorem s5 (hcm : Ws.all (cmK T W1 W2 L.length M1 M2) = true) (hT : a8T r1 r2 Ws
       · exact h.iso r1 (List.mem_of_getElem? h.l1)
       · exact h.iso r2 (List.mem_of_getElem? h.l2)
     exact (candVal_eqT r1 r2 w f b hk hk' hr (sOf_lt r1 r2 b.1 b.2 hi)).trans
-      ((candT_eq_A8G r1 r2 w f b hk hk' hr (h.iso _ (h.mem_involL.1 hg).1) hqk hqr).trans
+      ((candT_eq_A8G r1 r2 w f b hk hk' hr (h.iso _ (CFSG.KC.C690.A8Hyp.mem_involL.1 hg).1) hqk hqr).trans
         (candA8G_eq_Y r1 r2 w f b hk hk' hr hqk hqr))
 
 end A8Hyp

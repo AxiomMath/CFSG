@@ -34,6 +34,7 @@ private theorem fzrAux_rho0_lt {y : ℕ} (hy : y < 64) : rho0 y < 64 := by
   rw [h, fzIdx_rho0]
   exact fzIdx_lt _
 
+omit [Finite G] in
 private theorem fzrAux_e_eq {n m : ℕ} (hn : n < 512) (hm : m < 512) :
     (fzrCPar D).e n m =
       fzEIdx (fzMulC D.cT D.cS D.cL (fzEOf n) (fzEOf m)) := by
@@ -44,24 +45,29 @@ private theorem fzrAux_e_eq {n m : ℕ} (hn : n < 512) (hm : m < 512) :
     rw [fzEIdx_fzEOf hn, fzEIdx_fzEOf hm]
   rw [h1, fzEm]
 
+omit [Finite G] in
 theorem fzrCPar_e_lt (x y : ℕ) (hx : x < 512) (hy : y < 512) :
     (fzrCPar D).e x y < 512 := by
   rw [fzrAux_e_eq D hx hy]
   exact fzEIdx_lt _
 
+omit [Finite G] in
 theorem fzrCMu_mem (n : ℕ) : fzrCMu D n ∈ T₂ := by
   unfold fzrCMu
   exact D.mu_mem (fzEOf n)
 
+omit [Finite G] in
 theorem fzrCMu_zero : fzrCMu D 0 = 1 := by
   unfold fzrCMu
   rw [← fzEIdx_one, fzEOf_fzEIdx, D.mu_one]
 
+omit [Finite G] in
 theorem fzrCMu_mul {n m : ℕ} (hn : n < 512) (hm : m < 512) :
     fzrCMu D ((fzrCPar D).e n m) = fzrCMu D n * fzrCMu D m := by
   unfold fzrCMu
   rw [fzrAux_e_eq D hn hm, fzEOf_fzEIdx, D.mu_mul]
 
+omit [Finite G] in
 theorem fzrCMu_inj {n m : ℕ} (hn : n < 512) (hm : m < 512) (h : fzrCMu D n = fzrCMu D m) :
     n = m := by
   unfold fzrCMu at h
@@ -73,16 +79,19 @@ theorem fzrCMu_surj {g : G} (hg : g ∈ T₂) : ∃ n, n < 512 ∧ fzrCMu D n = 
   obtain ⟨x, hx⟩ := D.mu_surj hg
   exact ⟨fzEIdx x, fzEIdx_lt x, by unfold fzrCMu; rw [fzEOf_fzEIdx, hx]⟩
 
+omit [Finite G] in
 theorem fzrCMu_tI : fzrCMu D 64 = t := by
   unfold fzrCMu Fz319Data.mu
   rw [fzrAux_fzEOf_64]
   simp [ZMod.val_one, ZMod.val_zero]
 
+omit [Finite G] in
 theorem fzrCMu_sI : fzrCMu D 128 = tau := by
   unfold fzrCMu Fz319Data.mu
   rw [fzrAux_fzEOf_128]
   simp [ZMod.val_one, ZMod.val_zero]
 
+omit [Finite G] in
 theorem fzrCPar_lt : (fzrCPar D).tI < 512 ∧ (fzrCPar D).sI < 512 ∧
     (∀ g ∈ (fzrCPar D).gens.toList, g < 512) ∧ (∀ x, x < 256 → (fzrCPar D).rhoMap x < 512) := by
   refine ⟨by norm_num [fzrCPar, parOf], by norm_num [fzrCPar, parOf], ?_, ?_⟩

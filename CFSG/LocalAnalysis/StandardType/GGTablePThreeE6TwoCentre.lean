@@ -180,8 +180,8 @@ theorem e6Two_rootDiagUnit_mem_rationalComponent
     (hinn : twistInner (componentRoots (rootCharHom a) i) ((S.ρ : (Fin Tag.E6.rank → ℤ) → _)^[2])) :
     rootDiagUnit Tag.E6 a ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : NeZero (2 : ℕ) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : NeZero (2 : ℕ) := ⟨by norm_num⟩
   have h3 : ((3 : ℕ) : L) ≠ 0 := by
     intro h
     have hdvd : (2 : ℕ) ∣ 3 := (CharP.cast_eq_zero_iff L 2 3).1 h

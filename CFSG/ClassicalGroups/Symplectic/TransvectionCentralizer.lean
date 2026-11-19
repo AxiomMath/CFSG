@@ -47,7 +47,7 @@ theorem mulVec_eq_of_commute_transvection {K : Type} [Field K] [CharP K 2] {ι :
   have hrel : ∀ x y : ι → K, a y * (x ⬝ᵥ J *ᵥ u) + a x * (u ⬝ᵥ J *ᵥ y) = 0 := fun x y => by
     have h1 := dot_apply_of_isometry ht x y
     rw [htN x, htN y, Matrix.mulVec_add, ha x, ha y] at h1
-    simp only [Matrix.mulVec_add, Matrix.mulVec_smul, dotProduct_add, add_dotProduct,
+    simp only [Matrix.mulVec_smul, dotProduct_add, add_dotProduct,
       smul_dotProduct, dotProduct_smul, smul_eq_mul, hJa u] at h1
     linear_combination h1
   obtain ⟨x₀, hx₀⟩ : ∃ x₀, x₀ ⬝ᵥ J *ᵥ u ≠ 0 := by

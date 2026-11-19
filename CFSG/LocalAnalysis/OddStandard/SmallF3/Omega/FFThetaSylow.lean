@@ -57,6 +57,7 @@ theorem ffTheta6M_of_mem (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) 
     Subgroup (ProjSim Q) :=
   (S.subgroupOf (Subgroup.normalizer (L : Set G))).map θ
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem mem_ffThetaImg_iff {θ : ↥(Subgroup.normalizer (L : Set G)) →* ProjSim Q} {S : Subgroup G}
     {q : ProjSim Q} :
     q ∈ ffThetaImg θ S ↔ ∃ (s : G) (hs : s ∈ Subgroup.normalizer (L : Set G)),
@@ -105,12 +106,14 @@ theorem ffThetaImg_sylow [Finite G] (hQ : Q.Nondegenerate)
   rw [← hsub]
   exact ff_cover_isSylow2Of (ff6m_phi_cover e hodd) (ff_sylow_inf_normalizer hS)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffThetaImg_isPGroup (θ : ↥(Subgroup.normalizer (L : Set G)) →* ProjSim Q) {S : Subgroup G}
     (hS : IsPGroup 2 S) : IsPGroup 2 (ffThetaImg θ S) := by
   unfold ffThetaImg
   rw [← Subgroup.comap_subtype]
   exact (hS.comap_subtype (K := Subgroup.normalizer (L : Set G))).map θ
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem ffThetaImg_conj_mem (θ : ↥(Subgroup.normalizer (L : Set G)) →* ProjSim Q)
     {S : Subgroup G} {s : G} (hsS : s ∈ S) (hs : s ∈ Subgroup.normalizer (L : Set G))
     {p : ProjSim Q} (hp : p ∈ ffThetaImg θ (S ⊓ L)) :
@@ -126,8 +129,9 @@ private theorem ffThetaImg_conj_mem (θ : ↥(Subgroup.normalizer (L : Set G)) �
   · rw [← map_inv, ← map_mul, ← map_mul]
     exact congrArg θ (Subtype.ext rfl)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffThetaImg_le_normalizer (θ : ↥(Subgroup.normalizer (L : Set G)) →* ProjSim Q)
-    {S : Subgroup G} (hS : S ≤ Subgroup.normalizer (L : Set G)) :
+    {S : Subgroup G} (_hS : S ≤ Subgroup.normalizer (L : Set G)) :
     ffThetaImg θ S ≤ Subgroup.normalizer (ffThetaImg θ (S ⊓ L) : Set (ProjSim Q)) := by
   intro q hq
   rw [Subgroup.mem_normalizer_iff]
@@ -158,12 +162,12 @@ theorem ff_theta_back_left [Finite G] (hq : CFSG.IsQuasisimple ↥L) (hQ : Q.Non
   let θ := ffTheta6M hQ hdim hsgn e
   let P : Subgroup ↥(omegaProj hQ) := ffImg (ff6mPhi e) S
   let T : Subgroup ↥(omegaProj hQ) := (ffThetaImg θ S).comap (ffOmegaToSim hQ)
-  haveI : Finite V := Module.finite_of_finite (ZMod 3)
-  haveI : Finite (V ≃ₗ[ZMod 3] V) :=
+  have : Finite V := Module.finite_of_finite (ZMod 3)
+  have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun f : V ≃ₗ[ZMod 3] V => (f : V → V))
       (fun f g h => LinearEquiv.ext (congrFun h))
-  haveI : Finite (OGroup Q) := Subtype.finite
-  haveI : Finite ↥(omegaProj hQ) := inferInstance
+  have : Finite (OGroup Q) := Subtype.finite
+  have : Finite ↥(omegaProj hQ) := inferInstance
   have hP : IsSylow2Of P ⊤ := ffThetaImg_sylow hQ e hodd hS
   have hPleT : P ≤ T := by
     intro w hw

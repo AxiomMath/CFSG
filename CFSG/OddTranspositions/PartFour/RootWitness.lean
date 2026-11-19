@@ -62,6 +62,7 @@ theorem exists_mem_Dalpha_not_mem_blockLine_of_conj (hC : HypothesisC D) {α' γ
     rwa [hηg]
   exact ⟨cimg g⁻¹ α', hα'', cimg g⁻¹ γ, hγ'', hγ''notperp, hαnotline⟩
 
+omit [Finite G] in
 private theorem rootWitness_exists_point (hC : HypothesisC D) {x : Halpha D hC.alpha}
     (hx : x ∈ DstarH hC) : ∃ ξ ∈ Dalpha D hC.alpha, (x : G) ∈ ξ :=
   mem_DalphaStar_iff.mp ((mem_DstarH_iff hC).mp hx)
@@ -87,7 +88,7 @@ theorem not_mem_perp_of_not_commute_mk (h89 : PartThree.Lemma8_9)
     (hn3 : ¬ ∀ d ∈ D, ∀ e ∈ D, orderOf (d * e) ∈ ({1, 2, 3} : Set ℕ))
     (hMZ : ¬ CFSG.solvableRadical (Halpha D hC.alpha) ≤
       Subgroup.center (Halpha D hC.alpha))
-    {δ ε : Set G} (hδ : δ ∈ Dalpha D hC.alpha) (hε : ε ∈ Dalpha D hC.alpha)
+    {δ ε : Set G} (hδ : δ ∈ Dalpha D hC.alpha) (_hε : ε ∈ Dalpha D hC.alpha)
     {d e : Halpha D hC.alpha} (hd : (d : G) ∈ δ) (he : (e : G) ∈ ε)
     (hne : ¬ Commute (QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) d)
       (QuotientGroup.mk' (CFSG.solvableRadical (Halpha D hC.alpha)) e)) :

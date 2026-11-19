@@ -3710,32 +3710,32 @@ end LargeEven
 
 theorem large_even_of_cases
     (hpre : ∀ (G : Type) [Group G] [Finite G] [IsSimpleGroup G]
-    (hnonab : ∃ a b : G, a * b ≠ b * a) (hK : KProper InCatalog G) (hchar : IsCharTwoType G)
-    (he : 4 ≤ evenRank G),
+    (_hnonab : ∃ a b : G, a * b ≠ b * a) (_hK : KProper InCatalog G) (_hchar : IsCharTwoType G)
+    (_he : 4 ≤ evenRank G),
     (∀ p ∈ LargeEvenBeta 4 G, LargeEvenWeakCoreLocal G p) ∨ LargeEvenGF2Type G ∨
       ∃ p ∈ LargeEvenBeta 4 G, ∃ (B : Subgroup G) (x : G) (L : Subgroup G),
         LargeEvenSStar p B x L ∧ LargeEvenStandardType p B x L)
     (hexclusion : ∀ (G : Type) [Group G] [Finite G] [IsSimpleGroup G]
-    (hnonab : ∃ a b : G, a * b ≠ b * a) (hK : KProper InCatalog G) (hchar : IsCharTwoType G)
-    (he : 4 ≤ evenRank G),
+    (_hnonab : ∃ a b : G, a * b ≠ b * a) (_hK : KProper InCatalog G) (_hchar : IsCharTwoType G)
+    (_he : 4 ≤ evenRank G),
     ∃ p ∈ LargeEvenBeta 4 G, ¬ LargeEvenWeakCoreLocal G p)
-    (hgf2 : ∀ (G : Type) [Group G] [Finite G] [IsSimpleGroup G]
-    (hnonab : ∃ a b : G, a * b ≠ b * a) (hK : KProper InCatalog G) (hchar : IsCharTwoType G)
-    (he : 4 ≤ evenRank G) (hgf2 : LargeEvenGF2Type G), InCatalog G)
+    (_hgf2 : ∀ (G : Type) [Group G] [Finite G] [IsSimpleGroup G]
+    (_hnonab : ∃ a b : G, a * b ≠ b * a) (_hK : KProper InCatalog G) (_hchar : IsCharTwoType G)
+    (_he : 4 ≤ evenRank G) (_hgf2 : LargeEvenGF2Type G), InCatalog G)
     (hstandard : ∀ (G : Type) [Group G] [Finite G] [IsSimpleGroup G]
-    (hnonab : ∃ a b : G, a * b ≠ b * a) (hK : KProper InCatalog G) (hchar : IsCharTwoType G)
-    (he : 4 ≤ evenRank G) (p : ℕ) (hp : p ∈ LargeEvenBeta 4 G) (B : Subgroup G) (x : G)
-    (L : Subgroup G) (hS : LargeEvenSStar p B x L) (hst : LargeEvenStandardType p B x L),
+    (_hnonab : ∃ a b : G, a * b ≠ b * a) (_hK : KProper InCatalog G) (_hchar : IsCharTwoType G)
+    (_he : 4 ≤ evenRank G) (p : ℕ) (_hp : p ∈ LargeEvenBeta 4 G) (B : Subgroup G) (x : G)
+    (L : Subgroup G) (_hS : LargeEvenSStar p B x L) (_hst : LargeEvenStandardType p B x L),
     InCatalog G)
     (G : Type) [Group G] [Finite G] [IsSimpleGroup G]
-    (hnonab : ∃ a b : G, a * b ≠ b * a) (hK : KProper InCatalog G) (hchar : IsCharTwoType G)
-    (he : 4 ≤ evenRank G) : InCatalog G := by
-  rcases hpre G hnonab hK hchar he with
-    hI | hII | ⟨p, hp, B, x, L, hS, hst⟩
-  · obtain ⟨p, hp, hfail⟩ := hexclusion G hnonab hK hchar he
-    exact absurd (hI p hp) hfail
-  · exact hgf2 G hnonab hK hchar he hII
-  · exact hstandard G hnonab hK hchar he p hp B x L hS hst
+    (_hnonab : ∃ a b : G, a * b ≠ b * a) (_hK : KProper InCatalog G) (_hchar : IsCharTwoType G)
+    (_he : 4 ≤ evenRank G) : InCatalog G := by
+  rcases hpre G _hnonab _hK _hchar _he with
+    hI | hII | ⟨p, _hp, B, x, L, _hS, _hst⟩
+  · obtain ⟨p, _hp, hfail⟩ := hexclusion G _hnonab _hK _hchar _he
+    exact absurd (hI p _hp) hfail
+  · exact _hgf2 G _hnonab _hK _hchar _he hII
+  · exact hstandard G _hnonab _hK _hchar _he p _hp B x L _hS _hst
 
 theorem large_even
     (G : Type) [Group G] [Finite G] [IsSimpleGroup G]

@@ -36,7 +36,7 @@ theorem asc08Lemma310NF_holds :
 theorem aschbacherSeitzStatement_holds : AschbacherSeitzStatement := by
   intro G _ _ A m f hm hf hAsp hO hstd hrank
   by_cases hN : A.Normal
-  · haveI : A.Normal := hN
+  · have : A.Normal := hN
     exact Or.inl (Subgroup.normalClosure_eq_self A)
   · rcases (by omega : m = 1 ∨ 2 ≤ m) with hm1 | hm2
     · subst hm1

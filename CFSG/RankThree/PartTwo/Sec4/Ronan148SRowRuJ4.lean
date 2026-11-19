@@ -21,7 +21,7 @@ theorem exists_move_of_automizer {S : Type} [Group S] [Finite S] {B : Subgroup S
     (hA : Nonempty (CFSG.RankThree.Asc83Table.Automizer B ≃* CFSG.RankThree.Asc83Table.GL23))
     {s : S} (hs : s ∈ B) (hs1 : s ≠ 1) :
     ∃ n ∈ Subgroup.normalizer (B : Set S), n ∉ Subgroup.normalizer (Subgroup.zpowers s : Set S) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hcon
   push Not at hcon
   have hs3 : s ^ 3 = 1 := hB.2 s hs

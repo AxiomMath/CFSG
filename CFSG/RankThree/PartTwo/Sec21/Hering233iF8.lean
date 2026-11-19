@@ -37,7 +37,7 @@ theorem eight_le_card_F8 : 8 ≤ Nat.card F8 := by
   obtain ⟨f⟩ := FiniteField.nonempty_algHom_of_finrank_dvd hdvd
   have h8 : ∀ x : GaloisField 2 3, x ^ 8 = x := by
     intro x
-    letI : Fintype (GaloisField 2 3) := Fintype.ofFinite _
+    let : Fintype (GaloisField 2 3) := Fintype.ofFinite _
     have hc : Fintype.card (GaloisField 2 3) = 8 := by
       rw [Fintype.card_eq_nat_card]
       exact hcard

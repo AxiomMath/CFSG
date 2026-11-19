@@ -39,7 +39,7 @@ theorem ree_unbalanced {G : Type} [Group G] [Finite G] {L : Subgroup G}
     (hS : StandardSetting G L) {f : ℕ} (hm : LieModel (L ⧸ center L) .twistedG2 0 3 f)
     (hU : CFSG.ComponentClassification.OutcomeLocal.UOutcome G) :
     AltOutcome G ∨ OddLieType G := by
-  haveI := hS.simple
+  have := hS.simple
   obtain ⟨hout, -⟩ := CFSG.ComponentClassification.CTUSimple.outcome_of_uOutcome hS.nonab hU
   rcases hout with hodd | ⟨n, h7, hn, ⟨e⟩⟩
   · exact .inr hodd

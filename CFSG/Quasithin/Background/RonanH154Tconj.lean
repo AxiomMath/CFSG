@@ -149,7 +149,7 @@ theorem Concl154_comp {V : Type*} [CommGroup V] {Γ Γ' : Subgroup P24} (c : P24
     exact h6
   · exact h7
   · rw [h164w_MY_comp hΓ Q, h164w_KY_comp hΓ Q, hR] at h8
-    exact isDualOfConj_comp c hΓ ρ' φ hφ (MY Γ Q) V₆ _ (KY Γ Q) h8
+    exact isDualOfConj_comp c ρ' φ hφ (MY Γ Q) V₆ _ (KY Γ Q) h8
   · rw [hM] at h9
     exact h9
   · intro g hg

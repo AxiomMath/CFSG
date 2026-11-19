@@ -56,7 +56,7 @@ theorem exists_conj_iff_of_isPGroup {Γ : Type} [Group Γ] [Finite Γ] {p : ℕ}
 
 theorem mem_centralizer_mul_of_coprime {p : ℕ} [Fact p.Prime] {D H M : Subgroup G}
     (hD : IsPGroup p D) (hM : Nat.Coprime (Nat.card M) p) (hMH : M ≤ H)
-    (hMn : (M.subgroupOf H).Normal) (hDH : D ≤ Subgroup.normalizer (H : Set G))
+    (_hMn : (M.subgroupOf H).Normal) (_hDH : D ≤ Subgroup.normalizer (H : Set G))
     (hDM : D ≤ Subgroup.normalizer (M : Set G)) {h : G} (hh : h ∈ H)
     (hfix : ∀ d ∈ D, h⁻¹ * (d⁻¹ * h * d) ∈ M) :
     ∃ c ∈ H ⊓ Subgroup.centralizer (D : Set G), ∃ m ∈ M, h = c * m := by
@@ -161,10 +161,11 @@ theorem mem_centralizer_mul_of_coprime {p : ℕ} [Fact p.Prime] {D H M : Subgrou
   refine ⟨h * a, ⟨hnH, Subgroup.mem_centralizer_iff.2 fun d hd => hcomm d hd⟩, a⁻¹, M.inv_mem haM, ?_⟩
   exact (mul_inv_cancel_right h a).symm
 
+omit [Finite G] in
 theorem relIndex_dvd_of_le_of_normal {M K L : Subgroup G} (hKL : K ≤ L)
     (hn : (M.subgroupOf L).Normal) : M.relIndex K ∣ M.relIndex L := by
   rw [← Subgroup.relIndex_subgroupOf (H := M) hKL]
-  haveI := hn
+  have := hn
   exact Subgroup.relIndex_dvd_index_of_normal _ _
 
 theorem coprime_relIndex_of_normal {p : ℕ} [Fact p.Prime] {I Θ M : Subgroup G}
@@ -349,7 +350,7 @@ theorem eq_top_of_normal_coprime_index {p : ℕ} [hp : Fact p.Prime] {Q : Type} 
     le_center_of_normal_of_isQuasisimple hQ hN hne
   obtain ⟨P⟩ : Nonempty (Sylow p Q) := inferInstance
   have hPN : (P : Subgroup Q) ≤ N := by
-    obtain ⟨n, hn⟩ := IsPGroup.index P.isPGroup' (N.subgroupOf (P : Subgroup Q)) 
+    obtain ⟨n, hn⟩ := IsPGroup.index P.isPGroup (N.subgroupOf (P : Subgroup Q))
     have hdvd : N.relIndex (P : Subgroup Q) ∣ N.index := Subgroup.relIndex_dvd_index_of_normal _ _
     have hn' : N.relIndex (P : Subgroup Q) = p ^ n := hn
     rw [hn'] at hdvd
@@ -390,6 +391,7 @@ theorem eq_top_of_normal_coprime_index {p : ℕ} [hp : Fact p.Prime] {Q : Type} 
     exact h
   exact Sylow.ne_bot_of_dvd_card P hpQ hPbot
 
+omit [Finite G] in
 theorem mem_glaPPrimeCore_of_mem_glaPPrimeCoreOf {p : ℕ} {X : Subgroup G} {k : G}
     (hk : k ∈ GLAPPrimeCoreOf p X) (hkX : k ∈ X) : (⟨k, hkX⟩ : ↥X) ∈ GLAPPrimeCore p ↥X := by
   obtain ⟨y, hy, hyk⟩ := Subgroup.mem_map.1 hk
@@ -507,6 +509,7 @@ theorem pPrimePerfect_glaPLayer (p : ℕ) [Fact p.Prime] (Y : Subgroup G) :
       _ ≤ M := inf_le_left
   exact le_antisymm hMY (sSup_le fun K hK => hcomp K hK)
 
+omit [Finite G] in
 theorem conj_mem_sup_of {g : G} {A B : Subgroup G} (hA : ∀ a ∈ A, g * a * g⁻¹ ∈ A ⊔ B)
     (hB : ∀ b ∈ B, g * b * g⁻¹ ∈ A ⊔ B) : ∀ t ∈ A ⊔ B, g * t * g⁻¹ ∈ A ⊔ B := by
   have hle : A ⊔ B ≤ (A ⊔ B).comap (MulAut.conj g).toMonoidHom :=
@@ -514,6 +517,7 @@ theorem conj_mem_sup_of {g : G} {A B : Subgroup G} (hA : ∀ a ∈ A, g * a * g�
   intro t ht
   exact hle ht
 
+omit [Finite G] in
 theorem mem_normalizer_of_conj' {g : G} {Y : Subgroup G} (h1 : ∀ t ∈ Y, g * t * g⁻¹ ∈ Y)
     (h2 : ∀ t ∈ Y, g⁻¹ * t * g⁻¹⁻¹ ∈ Y) : g ∈ Subgroup.normalizer (Y : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -523,6 +527,7 @@ theorem mem_normalizer_of_conj' {g : G} {Y : Subgroup G} (h1 : ∀ t ∈ Y, g * 
   have := h2 _ hh
   rwa [e] at this
 
+omit [Finite G] in
 theorem mem_normalizer_inf_of {g : G} {A C : Subgroup G}
     (hA : g ∈ Subgroup.normalizer (A : Set G)) (hC : g ∈ Subgroup.normalizer (C : Set G)) :
     g ∈ Subgroup.normalizer ((A ⊓ C : Subgroup G) : Set G) := by
@@ -530,6 +535,7 @@ theorem mem_normalizer_inf_of {g : G} {A C : Subgroup G}
   intro h
   rw [Subgroup.mem_inf, Subgroup.mem_inf, hA h, hC h]
 
+omit [Finite G] in
 theorem inf_le_glaPPrimeCoreOf {p : ℕ} [Fact p.Prime] {I Θ : Subgroup G}
     (hIΘ : I ≤ Subgroup.normalizer (Θ : Set G)) (hΘ : Nat.Coprime (Nat.card Θ) p) :
     I ⊓ Θ ≤ GLAPPrimeCoreOf p I := by
@@ -563,6 +569,7 @@ theorem inf_le_glaPPrimeCoreOf {p : ℕ} [Fact p.Prime] {I Θ : Subgroup G}
   intro x hx
   exact Subgroup.mem_map.2 ⟨⟨x, (Subgroup.mem_inf.1 hx).1⟩, hmem (Subgroup.mem_subgroupOf.2 hx), rfl⟩
 
+omit [Finite G] in
 theorem normal_coprime_inf {p : ℕ} [Fact p.Prime] {L J₁ J₂ : Subgroup G} (hJ₁ : J₁ ≤ L)
     (hJ₂ : J₂ ≤ L) (hn₁ : (J₁.subgroupOf L).Normal) (hn₂ : (J₂.subgroupOf L).Normal)
     (hc₁ : Nat.Coprime (J₁.relIndex L) p) (hc₂ : Nat.Coprime (J₂.relIndex L) p) :
@@ -581,6 +588,7 @@ theorem normal_coprime_inf {p : ℕ} [Fact p.Prime] {L J₁ J₂ : Subgroup G} (
     exact Nat.Coprime.mul_left (Nat.Coprime.coprime_dvd_left
       (relIndex_dvd_of_le_of_normal hJ₁ hn₂) hc₂) hc₁
 
+omit [Finite G] in
 theorem exists_min_card_of {P : Subgroup G → Prop} (h : ∃ J, P J) :
     ∃ O, P O ∧ ∀ J, P J → Nat.card O ≤ Nat.card J := by
   classical

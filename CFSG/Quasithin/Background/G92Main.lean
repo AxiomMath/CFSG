@@ -66,7 +66,7 @@ theorem frame_of_family {m : ℕ} {Hs : Fin m → Subgroup (GLV V)} {p : Fin m �
   have hrot : ∀ i, ∃ x ∈ Hs i, orderOf x = p i := by
     intro i
     obtain ⟨e⟩ := hD.iso i
-    haveI : NeZero (p i) := ⟨(hD.prime i).ne_zero⟩
+    have : NeZero (p i) := ⟨(hD.prime i).ne_zero⟩
     refine ⟨(e.symm (DihedralGroup.r 1) : GLV V), (e.symm (DihedralGroup.r 1)).2, ?_⟩
     rw [Subgroup.orderOf_coe, MulEquiv.orderOf_eq, DihedralGroup.orderOf_r_one]
   choose x hxH hxo using hrot
@@ -95,6 +95,7 @@ theorem frame_of_family {m : ℕ} {Hs : Fin m → Subgroup (GLV V)} {p : Fin m �
 theorem isPGroup_two_of_elem {G : Type*} [Group G] {A : Subgroup G} (hA : IsElemAbelian 2 A) :
     IsPGroup 2 A := fun g => ⟨1, Subtype.ext (by simpa using hA.2 g g.2)⟩
 
+omit [Finite V] in
 theorem g81_of {X A : Subgroup (GLV V)} {m : ℕ} (hm : 0 < m) (hAelem : IsElemAbelian 2 A)
     (hAcard : Nat.card A = 2 ^ m) (hXn : Group.IsNilpotent ↥X) (hXodd : Odd (Nat.card ↥X))
     (hAN : A ≤ Subgroup.normalizer (X : Set (GLV V)))
@@ -186,7 +187,7 @@ theorem g92_main (A : Subgroup (GLV V)) (m : ℕ) (hAelem : IsElemAbelian 2 A)
     have hV : Module.finrank (ZMod 2) V = 0 := by
       have := hd hcomm3
       omega
-    haveI : Subsingleton V := Module.finrank_zero_iff.1 hV
+    have : Subsingleton V := Module.finrank_zero_iff.1 hV
     refine ⟨by rw [hA1]; exact Subgroup.commutator_bot_right _, 0, fun i => i.elim0, ?_⟩
     refine ⟨by simp, by rw [hA1]; exact bot_le, iSupIndep_def.2 fun i => i.elim0,
       fun i => i.elim0, ⟨iSupIndep_def.2 fun i => i.elim0, ?_⟩, fun h => absurd hcomm3 h,

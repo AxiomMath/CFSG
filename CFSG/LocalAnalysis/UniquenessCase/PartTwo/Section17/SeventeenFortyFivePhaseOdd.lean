@@ -99,13 +99,13 @@ open scoped Pointwise commutatorElement
 private theorem not_isD2LieCharSmall_of_typeA {p r : ℕ} {q : TauCeti.PrimePower} (hr : 4 ≤ r) :
     ¬ CFSG.AGLEmbeddingD2.IsD2LieCharSmall p (TauCeti.LieTypeIndex.A r q) := by
   rintro ⟨q', -, (⟨-, h⟩ | ⟨-, h | h⟩)⟩
-  all_goals cases h <;> omega
+  all_goals cases h; try omega
 
 private theorem not_isD2LieCharSmall_of_typeTwistedA {p r : ℕ} {q : TauCeti.PrimePower}
     (hr : 4 ≤ r) :
     ¬ CFSG.AGLEmbeddingD2.IsD2LieCharSmall p (TauCeti.LieTypeIndex.twistedA r q) := by
   rintro ⟨q', -, (⟨-, h⟩ | ⟨-, h | h⟩)⟩
-  all_goals cases h <;> omega
+  all_goals cases h; try omega
 
 private theorem not_isD2LieCharSmall_of_bigNonLin {p : ℕ} {d : TauCeti.LieTypeIndex}
     (h : BigNonLinIndex45 d) : ¬ CFSG.AGLEmbeddingD2.IsD2LieCharSmall p d := by

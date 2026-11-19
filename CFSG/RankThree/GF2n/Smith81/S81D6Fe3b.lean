@@ -25,7 +25,7 @@ private theorem fe3b_height_le_of_perp {β : Fin (Tag.rank .E7) → ℤ} (hβ : 
 private theorem fe3b_height_theta4 : CFSG.Blueprint.Chevalley.height (τ := .E7) theta4 = 9 := by
   decide +kernel
 
-theorem not_isRoot_add_theta4 {γ : Fin (Tag.rank .E7) → ℤ} (hγ : IsRoot .E7 γ) (h0 : γ ∈ Perp)
+theorem not_isRoot_add_theta4 {γ : Fin (Tag.rank .E7) → ℤ} (_hγ : IsRoot .E7 γ) (h0 : γ ∈ Perp)
     (hpos : 0 < CFSG.Blueprint.Chevalley.height (τ := .E7) γ) :
     ¬ IsRoot .E7 (γ + theta4) ∧ γ + theta4 ≠ 0 := by
   have hγ0 : γ node1 = 0 := (perp_iff.1 h0).2

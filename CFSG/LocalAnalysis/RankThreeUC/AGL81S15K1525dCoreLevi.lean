@@ -86,7 +86,7 @@ theorem isL3TwoModO2_of_negIndices {j j' : Fin (dat m).rank} (hj : j'.val = j.va
     isPGroup_leviRad hext (borelQuotient_id m).pGroup
   have hM2 : ¬ IsPGroup 2 ↥(leviM (dat m) (negIndices (dat m) A)) := by
     intro h2
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 h2
     have h3 := isLThreeTwo_three_dvd_card hM
     rw [hn] at h3

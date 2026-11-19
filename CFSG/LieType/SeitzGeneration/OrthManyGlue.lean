@@ -82,9 +82,10 @@ section ProvedGlue
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem isRootCenter_of_pieces {H : Subgroup (V ≃ₗ[K] V)} {V₀ P : Submodule K V}
     {ι : Type} [Nonempty ι] (R : ι → Submodule K V)
-    (hP0 : OrthSep Q P V₀) (hPR : ∀ i, OrthSep Q P (R i))
+    (_hP0 : OrthSep Q P V₀) (hPR : ∀ i, OrthSep Q P (R i))
     (hspan : (⊤ : Submodule K V) ≤ V₀ ⊔ P ⊔ ⨆ i, R i)
     (hEich : ∀ i, ∀ e ∈ V₀ ⊔ P ⊔ R i, ∀ w ∈ V₀ ⊔ P ⊔ R i, eichler Q e w ∈ H)
     {t : V} (htP : t ∈ P) (ht0 : t ≠ 0) (htQ : Q t = 0) : IsRootCenter Q H t := by
@@ -138,6 +139,7 @@ section ProvedRestrict
 variable {K V : Type} [Field K] [Finite K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   {Q : QuadraticForm K V}
 
+omit [Finite K] in
 theorem eichler_mem_of_restricted_plane {U : Submodule K V} (hU : PolarNondegOn Q U)
     (hEU : orthDerived (Q.comp U.subtype) = elementaryGroup (Q.comp U.subtype))
     (E : Subgroup (orthDerived Q))

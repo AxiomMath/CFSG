@@ -176,11 +176,13 @@ open Subgroup CFSG.ABGLocalTools CFSG.ComponentClassification.OuterAutomorphisms
 
 variable {A : Type} [Group A] [Finite A]
 
+omit [Finite A] in
 theorem isPGroup_zpowers {p : ℕ} [Fact p.Prime] {c : A} {n : ℕ} (hc : c ^ (p ^ n) = 1) :
     IsPGroup p (zpowers c) := by
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow (Fact.out : p.Prime)).1 (orderOf_dvd_of_pow_eq_one hc)
   exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hk])
 
+omit [Finite A] in
 theorem le_normalizer_zpowers {S : Subgroup A} {c : A} (hc : c ∈ centralizer (S : Set A)) :
     S ≤ normalizer (zpowers c : Set A) := by
   intro s hs
@@ -188,6 +190,7 @@ theorem le_normalizer_zpowers {S : Subgroup A} {c : A} (hc : c ∈ centralizer (
   obtain ⟨k, rfl⟩ := mem_zpowers_iff.1 hh
   exact (Commute.zpow_left (show Commute c s from (mem_centralizer_iff.1 hc s hs).symm) k).eq
 
+omit [Finite A] in
 theorem sup_comm_of_comm {S T : Subgroup A} (hS : ∀ x ∈ S, ∀ y ∈ S, x * y = y * x)
     (hT : ∀ x ∈ T, ∀ y ∈ T, x * y = y * x) (hST : ∀ x ∈ S, ∀ y ∈ T, x * y = y * x) :
     ∀ x ∈ S ⊔ T, ∀ y ∈ S ⊔ T, x * y = y * x := by
@@ -239,6 +242,7 @@ theorem exists_sylow_aut {p : ℕ} [Fact p.Prime] {L : Type*} [Group L] {K S : S
   rw [Subgroup.mem_map_equiv, hQ]
   rfl
 
+omit [Finite A] in
 theorem mem_of_aut {L : Type*} [Group L] {K S : Subgroup A} [K.Normal]
     (hC : centralizer (K : Set A) = ⊥) (e : ↥K ≃* L) (U : Subgroup L)
     (hU : ∀ y, y ∈ U ↔ ((e.symm y : K) : A) ∈ S)
@@ -278,6 +282,7 @@ theorem mem_of_aut {L : Type*} [Group L] {K S : Subgroup A} [K.Normal]
   rw [← hz]
   exact hx₀
 
+omit [Finite A] in
 theorem solvable_of_aut {L : Type*} [Group L] {K S : Subgroup A} [K.Normal]
     (hC : centralizer (K : Set A) = ⊥) (e : ↥K ≃* L) (U : Subgroup L)
     (hU : ∀ y, y ∈ U ↔ ((e.symm y : K) : A) ∈ S)
@@ -309,9 +314,10 @@ theorem solvable_of_aut {L : Type*} [Group L] {K S : Subgroup A} [K.Normal]
     · intro hy
       refine ⟨(ρ n : MulAut L).symm y, ?_, (ρ n : MulAut L).apply_symm_apply y⟩
       exact (hiff _).1 (by simpa using hy)
-  haveI := h ρ.range hstab
+  have := h ρ.range hstab
   exact Group.isSolvable_of_isSolvable_injective (MonoidHom.rangeRestrict_injective_iff.2 hρ)
 
+omit [Finite A] in
 theorem solvable_of_quotient {K S : Subgroup A} [K.Normal] (hSK : S ≤ K)
     (hK : Group.IsSolvable ↥(normalizer ((S.subgroupOf K : Subgroup K) : Set K)))
     (hQ : Group.IsSolvable (A ⧸ K)) : Group.IsSolvable ↥(normalizer (S : Set A)) := by
@@ -320,7 +326,7 @@ theorem solvable_of_quotient {K S : Subgroup A} [K.Normal] (hSK : S ≤ K)
     (K.subtype.comp (N.subgroupOf K).subtype).codRestrict N
       (fun x => Subgroup.mem_subgroupOf.1 x.2)
   let g : ↥N →* A ⧸ K := (QuotientGroup.mk' K).comp N.subtype
-  haveI : Group.IsSolvable ↥(N.subgroupOf K) := by
+  have : Group.IsSolvable ↥(N.subgroupOf K) := by
     rw [hN, subgroupOf_normalizer_eq hSK]
     exact hK
   refine Group.isSolvable_of_ker_le_range f g ?_
@@ -333,9 +339,9 @@ theorem isSolvable_of_card_dvd_prime {G : Type*} [Group G] [Finite G] {p : ℕ} 
   rcases (Nat.dvd_prime hp).1 h with h1 | h2
   · have : Subsingleton G := (Nat.card_eq_one_iff_unique.1 h1).1
     infer_instance
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     have : IsCyclic G := isCyclic_of_prime_card h2
-    letI : CommGroup G := IsCyclic.commGroup
+    let : CommGroup G := IsCyclic.commGroup
     exact Group.isSolvable_of_comm fun a b => mul_comm a b
 
 theorem isSolvable_of_card_dvd_twelve {G : Type*} [Group G] [Finite G] (h : Nat.card G ∣ 12) :
@@ -348,6 +354,7 @@ theorem normalizer_le_glbCore {p : ℕ} (hp : p.Prime) {G : Type*} [Group G] [Fi
   le_sSup ⟨T, le_rfl, CFSG.AGLEmbedding.KFactProofs.GLBCoreNormalizer.one_le_pRank_of_dvd hp hdvd,
     rfl⟩
 
+omit [Finite A] in
 theorem index_dvd_outer {K : Subgroup A} [K.Normal] (hC : centralizer (K : Set A) = ⊥) :
     K.index ∣ Nat.card (Outer ↥K) :=
   Subgroup.card_dvd_of_injective _ (CFSG.RankThree.PartOne.CTP.quotientOuterHom_injective K hC)
@@ -371,7 +378,7 @@ theorem a6_both {K S : Subgroup A} [K.Normal] (hC : centralizer (K : Set A) = �
     (hS : IsSylowOf 3 S K) (e : ↥K ≃* alternatingGroup (Fin 6)) :
     (∀ c ∈ centralizer (S : Set A), ∀ m : ℕ, c ^ (3 ^ m) = 1 → c ∈ S) ∧
       Group.IsSolvable ↥(normalizer (S : Set A)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨φ⟩ := CFSG.LocalAnalysis.EvenBN.Tits.I21L.a6aut_nonempty_equiv_psl
   exact linTwo_both (p := 3) (n := 2) (by norm_num) (by norm_num) hC hS (e.trans φ)
 
@@ -380,7 +387,7 @@ theorem l225_both {K S : Subgroup A} [K.Normal] (hC : centralizer (K : Set A) = 
     (e : ↥K ≃* (TauCeti.CFSGIndex.lie d).Group) :
     (∀ c ∈ centralizer (S : Set A), ∀ m : ℕ, c ^ (5 ^ m) = 1 → c ∈ S) ∧
       Group.IsSolvable ↥(normalizer (S : Set A)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨φ⟩ := nonempty_mulEquiv_psl2GF_of_isLinTwoIndex (p := 5) (n := 2) hd
   exact linTwo_both (p := 5) (n := 2) (by norm_num) (by norm_num) hC hS (e.trans φ)
 
@@ -407,7 +414,7 @@ theorem l28_both {K S : Subgroup A} [K.Normal] (hC : centralizer (K : Set A) = �
     (e : ↥K ≃* (TauCeti.CFSGIndex.lie d).Group) :
     (∀ c ∈ centralizer (S : Set A), ∀ m : ℕ, c ^ (3 ^ m) = 1 → c ∈ S) ∧
       Group.IsSolvable ↥(normalizer (S : Set A)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK : IsCaseTwoGroup 3 ↥K := ⟨d, Or.inl ⟨rfl, hd⟩, ⟨e⟩⟩
   obtain ⟨-, -, hT⟩ := kFactCaseTwoLocalL28 3 ↥K ⟨rfl, d, hd, ⟨e⟩⟩
   obtain ⟨U, hU⟩ := exists_sylow_aut hS (MulEquiv.refl ↥K)
@@ -418,7 +425,7 @@ theorem l28_both {K S : Subgroup A} [K.Normal] (hC : centralizer (K : Set A) = �
   refine ⟨fun c hc _ _ => mem_of_aut hC (MulEquiv.refl ↥K) (U : Subgroup _) hU (hT U).2.1 hc, ?_⟩
   have hsolvK : Group.IsSolvable ↥(normalizer ((S.subgroupOf K : Subgroup K) : Set K)) := by
     rw [← hUeq]
-    haveI := (hT U).2.2
+    have := (hT U).2.2
     have hdvd : 3 ∣ Nat.card (U : Subgroup ↥K) := by
       rw [card_sylow_three_of_isCaseTwoGroup hK U]
       norm_num
@@ -442,7 +449,7 @@ theorem sz32_both
     (hd : d.1 = .suzuki 2) (e : ↥K ≃* (TauCeti.CFSGIndex.lie d).Group) :
     (∀ c ∈ centralizer (S : Set A), ∀ m : ℕ, c ^ (5 ^ m) = 1 → c ∈ S) ∧
       Group.IsSolvable ↥(normalizer (S : Set A)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hK : IsCaseTwoGroup 5 ↥K := ⟨d, Or.inr ⟨rfl, hd⟩, ⟨e⟩⟩
   obtain ⟨-, -, hT⟩ := kFactCaseTwoLocalSz32 5 ↥K ⟨rfl, d, hd, ⟨e⟩⟩
   obtain ⟨U, hU⟩ := exists_sylow_aut hS (MulEquiv.refl ↥K)
@@ -453,7 +460,7 @@ theorem sz32_both
   refine ⟨fun c hc _ _ => mem_of_aut hC (MulEquiv.refl ↥K) (U : Subgroup _) hU (hT U).2.1 hc, ?_⟩
   have hsolvK : Group.IsSolvable ↥(normalizer ((S.subgroupOf K : Subgroup K) : Set K)) := by
     rw [← hUeq]
-    haveI := (hT U).2.2
+    have := (hT U).2.2
     have hdvd : 5 ∣ Nat.card (U : Subgroup ↥K) := by
       rw [card_sylow_five_of_isCaseTwoGroup hK U]
       norm_num
@@ -480,6 +487,7 @@ theorem isRankThreeL34_of_index {K : Type} [Group K] {d : TauCeti.ValidLieTypeIn
   subst hd'
   exact ⟨q, hq2, hqe, hv, ⟨e⟩⟩
 
+omit [Finite A] in
 theorem l34_index_dvd_twelve {K : Subgroup A} [K.Normal] (hC : centralizer (K : Set A) = ⊥)
     {d : TauCeti.ValidLieTypeIndex} (hd : IsL34Index d)
     (e : ↥K ≃* (TauCeti.CFSGIndex.lie d).Group) : K.index ∣ 12 := by
@@ -507,7 +515,7 @@ theorem l34_cent
     (e : ↥K ≃* (TauCeti.CFSGIndex.lie d).Group) {c : A} (hc : c ∈ centralizer (S : Set A))
     {n : ℕ} (hn : c ^ (3 ^ n) = 1) : c ∈ S := by
   by_contra hcS
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hL : IsRankThreeL34 ↥K := isRankThreeL34_of_index hd e
   obtain ⟨Q, hQ⟩ := hS.exists_sylow_eq_subgroupOf
   have hQmem : ∀ x : K, x ∈ (Q : Subgroup ↥K) ↔ (x : A) ∈ S := fun x => by rw [hQ]; rfl
@@ -553,10 +561,10 @@ theorem l34_cent
   obtain ⟨R, hER⟩ := hEp.exists_le_sylow
   have hR27 : Nat.card (R : Subgroup A) ≤ 27 := by
     have h1 := CFSG.LocalAnalysis.RankThreeTheoremC.kFactL34OutThree A K inferInstance hC hL R
-      R.isPGroup'
+      R.isPGroup
     have hRK : Nat.card ((R : Subgroup A) ⊓ K : Subgroup A) ≤ 9 := by
       have hp : IsPGroup 3 (((R : Subgroup A) ⊓ K).subgroupOf K) :=
-        (R.isPGroup'.to_inf_left (K := K)).comap_subtype
+        (R.isPGroup.to_inf_left (K := K)).comap_subtype
       obtain ⟨Q', hQ'⟩ := hp.exists_le_sylow
       have h2 := Subgroup.card_le_of_le hQ'
       have h3 := CFSG.LocalAnalysis.RankThreeTheoremC.l34SylowCard hL Q'
@@ -581,7 +589,7 @@ theorem l34_cent
 theorem l34_solv {K S : Subgroup A} [K.Normal] (hC : centralizer (K : Set A) = ⊥)
     (hS : IsSylowOf 3 S K) {d : TauCeti.ValidLieTypeIndex} (hd : IsL34Index d)
     (e : ↥K ≃* (TauCeti.CFSGIndex.lie d).Group) : Group.IsSolvable ↥(normalizer (S : Set A)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hL : IsRankThreeL34 ↥K := isRankThreeL34_of_index hd e
   obtain ⟨Q, hQ⟩ := hS.exists_sylow_eq_subgroupOf
   have hQ9 : Nat.card (Q : Subgroup ↥K) = 9 :=
@@ -612,7 +620,7 @@ theorem m11_both
     (e : ↥K ≃* (TauCeti.CFSGIndex.sporadic TauCeti.SporadicName.M11).Group) :
     (∀ c ∈ centralizer (S : Set A), ∀ m : ℕ, c ^ (3 ^ m) = 1 → c ∈ S) ∧
       Group.IsSolvable ↥(normalizer (S : Set A)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hout, hQ⟩ := kFactM11Three ↥K ⟨e⟩
   have hidx : K.index ∣ 1 := hout ▸ index_dvd_outer hC
   have hq : ¬ 3 ∣ Nat.card (A ⧸ K) := fun h => by
@@ -632,7 +640,7 @@ theorem tits_both
     (e : ↥K ≃* (TauCeti.CFSGIndex.lie d).Group) :
     (∀ c ∈ centralizer (S : Set A), ∀ m : ℕ, c ^ (5 ^ m) = 1 → c ∈ S) ∧
       Group.IsSolvable ↥(normalizer (S : Set A)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨R₀⟩ : Nonempty (Sylow 5 A) := inferInstance
   have hout := (d2TorusLocalAt_tits d hd A K inferInstance hC ⟨e⟩ 5 rfl R₀).1
   have hq : ¬ 5 ∣ Nat.card (A ⧸ K) := fun h => hout (h.trans (index_dvd_outer hC))
@@ -645,7 +653,7 @@ theorem mcl_both
     (e : ↥K ≃* (TauCeti.CFSGIndex.sporadic TauCeti.SporadicName.McL).Group) :
     (∀ c ∈ centralizer (S : Set A), ∀ m : ℕ, c ^ (5 ^ m) = 1 → c ∈ S) ∧
       Group.IsSolvable ↥(normalizer (S : Set A)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨R₀⟩ : Nonempty (Sylow 5 A) := inferInstance
   have hout := (d2HeisLocalAt_mcl A K inferInstance hC ⟨e⟩ 5 rfl R₀).1
   have hq : ¬ 5 ∣ Nat.card (A ⧸ K) := fun h => hout (h.trans (index_dvd_outer hC))
@@ -665,8 +673,8 @@ theorem a10_centralizer_le {K : Type} [Group K] [Finite K] (hK : IsA10Type 5 K) 
   have hn21 : ¬ A₁ ≤ A₂ := fun h => hne (Subgroup.eq_of_le_of_card_ge h (by rw [h5₁, h5₂]))
   have hn12 : ¬ A₂ ≤ A₁ := fun h =>
     hne (Subgroup.eq_of_le_of_card_ge h (by rw [h5₁, h5₂])).symm
-  obtain ⟨a, ha₁, ha₂⟩ := SetLike.not_le_iff_exists.1 hn21
-  obtain ⟨b, hb₂, hb₁⟩ := SetLike.not_le_iff_exists.1 hn12
+  obtain ⟨a, ha₁, ha₂⟩ := IsConcreteLE.not_le_iff_exists.1 hn21
+  obtain ⟨b, hb₂, hb₁⟩ := IsConcreteLE.not_le_iff_exists.1 hn12
   have hsQ : a * b ∈ (Q : Subgroup K) := Q.mul_mem (hA₁ ha₁) (hA₂ hb₂)
   have hs1 : a * b ∉ A₁ := fun h => hb₁ (by simpa using A₁.mul_mem (A₁.inv_mem ha₁) h)
   have hs2 : a * b ∉ A₂ := fun h => ha₂ (by simpa using A₂.mul_mem h (A₂.inv_mem hb₂))
@@ -699,7 +707,7 @@ theorem a10_both {K S : Subgroup A} [K.Normal] (hC : centralizer (K : Set A) = �
     (hS : IsSylowOf 5 S K) (e : ↥K ≃* alternatingGroup (Fin 10)) :
     (∀ c ∈ centralizer (S : Set A), ∀ m : ℕ, c ^ (5 ^ m) = 1 → c ∈ S) ∧
       Group.IsSolvable ↥(normalizer (S : Set A)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hK : IsA10Type 5 ↥K := ⟨rfl, ⟨e⟩⟩
   have hout : Nat.card (Outer ↥K) = 2 :=
     CFSG.ProperTwoGeneratedCore.BenderFacts.card_outer_eq_two_of_mulEquiv_alternatingGroup
@@ -791,13 +799,13 @@ theorem cent_of_stepThree
       ⟨rfl, d, hd, ⟨e⟩⟩ | ⟨rfl, ⟨e⟩⟩ | ⟨rfl, d, hd, ⟨e⟩⟩ | ⟨rfl, d, hd, ⟨e⟩⟩ |
       ⟨rfl, d, hd, ⟨e⟩⟩ | ⟨rfl, d, hd, ⟨e⟩⟩ | ⟨rfl, ⟨e⟩⟩ | ⟨rfl, ⟨e⟩⟩
   · exact (a6_both hC hS e).1
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact (unitary_both hC hS hd e).1
   · exact (l28_both hC hS hd e).1
   · exact fun c hc _ hn => l34_cent hC hS hd e hc hn
   · exact (m11_both hC hS e).1
   · exact (l225_both hC hS hd e).1
-  · haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  · have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     exact (unitary_both hC hS hd e).1
   · exact (sz32_both hC hS hd e).1
   · exact (tits_both hC hS hd e).1
@@ -812,13 +820,13 @@ theorem solv_of_stepThree
       ⟨rfl, d, hd, ⟨e⟩⟩ | ⟨rfl, ⟨e⟩⟩ | ⟨rfl, d, hd, ⟨e⟩⟩ | ⟨rfl, d, hd, ⟨e⟩⟩ |
       ⟨rfl, d, hd, ⟨e⟩⟩ | ⟨rfl, d, hd, ⟨e⟩⟩ | ⟨rfl, ⟨e⟩⟩ | ⟨rfl, ⟨e⟩⟩
   · exact (a6_both hC hS e).2
-  · haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  · have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact (unitary_both hC hS hd e).2
   · exact (l28_both hC hS hd e).2
   · exact l34_solv hC hS hd e
   · exact (m11_both hC hS e).2
   · exact (l225_both hC hS hd e).2
-  · haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  · have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     exact (unitary_both hC hS hd e).2
   · exact (sz32_both hC hS hd e).2
   · exact (tits_both hC hS hd e).2
@@ -832,13 +840,13 @@ end OutFacts
 theorem kFactStepThreeCentSylow_holds :
     KFactStepThreeCentSylow := by
   intro p A _ _ K S hKn hC hK hS c hc n hcn
-  haveI := hKn
+  have := hKn
   exact OutFacts.cent_of_stepThree hC hK hS c hc n hcn
 
 theorem kFactStepThreeNormSolv_holds :
     KFactStepThreeNormSolv := by
   intro p A _ _ K S hKn hC hK hS
-  haveI := hKn
+  have := hKn
   exact OutFacts.solv_of_stepThree hC hK hS
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.RankOneCent

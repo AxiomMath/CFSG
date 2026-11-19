@@ -432,7 +432,7 @@ theorem odd_card_of_psl24_section
   have hE'card : Nat.card E' = Nat.card (S₂ : Subgroup L) := by
     rw [hE'def, Subgroup.card_map_of_injective K.subtype_injective, hEdef,
       Subgroup.card_map_of_injective L.subtype_injective]
-  have hE'2 : IsPGroup 2 E' := (S₂.isPGroup'.map _).map _
+  have hE'2 : IsPGroup 2 E' := (S₂.isPGroup.map _).map _
   have hE'1 : E' ≠ ⊥ := by
     intro h0
     rw [h0, Subgroup.card_bot] at hE'card
@@ -469,7 +469,7 @@ theorem three_not_dvd_card_of_psl24_section
   set E' := E.map K.subtype with hE'def
   have hWE' : W ≤ Subgroup.normalizer (E' : Set G) :=
     (Subgroup.map_mono (Subgroup.map_subtype_le W₀)).trans (map_normalizer_le E)
-  have hE'3 : IsPGroup 3 E' := (S₃.isPGroup'.map _).map _
+  have hE'3 : IsPGroup 3 E' := (S₃.isPGroup.map _).map _
   have hE'card : Nat.card E' = Nat.card (S₃ : Subgroup L) := by
     rw [hE'def, Subgroup.card_map_of_injective K.subtype_injective, hEdef,
       Subgroup.card_map_of_injective L.subtype_injective]
@@ -513,7 +513,7 @@ theorem lemma_7_6 :
   set T₀' := (T₀ : Subgroup K).map K.subtype with hT₀'def
   have hT₀'card : Nat.card T₀' = 4 := by
     rw [hT₀'def, Subgroup.card_map_of_injective K.subtype_injective, hT₀card]
-  have hT₀'2 : IsPGroup 2 T₀' := T₀.isPGroup'.map _
+  have hT₀'2 : IsPGroup 2 T₀' := T₀.isPGroup.map _
   have hV : IsKleinFour T₀' := by
     refine ⟨hT₀'card, ?_⟩
     have : Nontrivial T₀' := Finite.one_lt_card_iff_nontrivial.mp (by rw [hT₀'card]; norm_num)

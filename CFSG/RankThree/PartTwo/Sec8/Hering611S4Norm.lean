@@ -102,7 +102,7 @@ theorem reduce_to_D
       rw [← CFSG.RankThree.PartTwo.KFacts.K426Rest.centralizer_pow_eq hz3 he]
       exact mem_centralizer_singleton_iff.2 hce
     · exact j3P.mul_mem (j3P.mul_mem (j3P.inv_mem hk) (hPb hq).2) (by simpa using hk)
-  have hab' : k⁻¹ * ab * k ∈ P₁ := ⟨ab, hab, by simp [MulAut.conj_apply]⟩
+  have hab' : k⁻¹ * ab * k ∈ P₁ := ⟨ab, hab, by simp⟩
   rcases hz with rfl | rfl
   · refine ⟨k, hk, e, he, hkbeq, ?_⟩
     have hPD : P₁ ≤ closure (Set.range j3tD) :=

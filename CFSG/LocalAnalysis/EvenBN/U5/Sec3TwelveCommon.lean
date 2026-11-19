@@ -48,8 +48,10 @@ theorem sec312_sq_mem_F (hp : d.CaseHyp) (k : d.Know10) : ∀ x ∈ d.D, x * x �
   obtain ⟨S, hS, hP⟩ := sec312_exists_S hp
   exact (k.s9_2 S hS hP).2.2.2.2
 
+omit [Finite G] in
 theorem sec312_L₁_eq (k : d.Know10) : d.L₁ = d.D ⊔ d.M₁ := k.s9_3.1
 
+omit [Finite G] in
 theorem sec312_M₁_le_L₁ (k : d.Know10) : d.M₁ ≤ d.L₁ := by
   rw [sec312_L₁_eq k]
   exact le_sup_right
@@ -62,6 +64,7 @@ theorem sec312_L₁_le_N_F (hp : d.CaseHyp) (k : d.Know10) :
   rw [← sec312_centerIn_D hp k]
   exact (sec312_L₁_le_N_D hp).trans (normalizer_le_normalizer_centerIn _)
 
+omit [Finite G] in
 theorem sec312_D_inf_M₁ (k : d.Know10) : d.D ⊓ d.M₁ = ⊥ := by
   rw [eq_bot_iff]
   intro x hx
@@ -70,6 +73,7 @@ theorem sec312_D_inf_M₁ (k : d.Know10) : d.D ⊓ d.M₁ = ⊥ := by
   rw [k.s9e.centralizer_I₁] at h1
   exact h1
 
+omit [Finite G] in
 theorem sec312_card_D (k : d.Know10) : Nat.card d.D = (2 ^ f) ^ 16 := k.s9e.card_D
 
 theorem sec312_card_F (hp : d.CaseHyp) : Nat.card d.F = (2 ^ f) ^ 8 :=
@@ -83,24 +87,30 @@ variable (hp : d.CaseHyp) (k : d.Know10) {S : Subgroup G} (hS : IsSylowOf 2 S d.
   (hP : d.P ≤ S)
 include hp k hS hP
 
+omit [Finite G] hp in
 theorem sec312_S_eq : S = d.E ⊔ d.D := (k.s9_1 S hS hP).1
 
+omit [Finite G] hp in
 theorem sec312_D_le_S : d.D ≤ S := by
-  rw [sec312_S_eq hp k hS hP]
+  rw [sec312_S_eq k hS hP]
   exact le_sup_right
 
-theorem sec312_F_le_S : d.F ≤ S := (sec312_F_le_D hp k).trans (sec312_D_le_S hp k hS hP)
+theorem sec312_F_le_S : d.F ≤ S := (sec312_F_le_D hp k).trans (sec312_D_le_S k hS hP)
 
+omit [Finite G] hp in
 theorem sec312_S_le_L₁ : S ≤ d.L₁ :=
   ((k.s10_2 S hS hP).2.2.2.2.2.2.1).le
 
+omit [Finite G] hp in
 theorem sec312_S_eq_D_sup_R : S = d.D ⊔ (S ⊓ d.M₁) := by
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, c12⟩ := k.s10_1 S hS hP
   have h1 := c12.1
   rwa [(k.s10_2 S hS hP).1.1] at h1
 
+omit [Finite G] hp in
 theorem sec312_isSylowOf_R : IsSylowOf 2 (S ⊓ d.M₁) d.M₁ := (k.s10_2 S hS hP).1.2
 
+omit [Finite G] hp in
 theorem sec312_Q_eq : (d.E ⊓ d.D) ⊔ d.F = d.F ⊔ (S ⊓ centralizer (d.I₅ : Set G)) := by
   obtain ⟨-, -, -, -, -, -, -, -, -, c10, -, -⟩ := k.s10_1 S hS hP
   rw [sup_comm]
@@ -110,7 +120,7 @@ theorem sec312_Q_card : Nat.card ((d.E ⊓ d.D) ⊔ d.F : Subgroup G) = (2 ^ f) 
   have hO := k.s10_o S hS hP
   have hFS := sec312_F_le_S hp k hS hP
   have hN : (S ⊓ centralizer (d.I₅ : Set G)) ≤ normalizer (d.F : Set G) :=
-    inf_le_left.trans ((sec312_S_le_L₁ hp k hS hP).trans (sec312_L₁_le_N_F hp k))
+    inf_le_left.trans ((sec312_S_le_L₁ k hS hP).trans (sec312_L₁_le_N_F hp k))
   have hprod := Common.card_sup_mul_card_inf_eq (A := d.F)
     (B := S ⊓ centralizer (d.I₅ : Set G)) hN
   have hinf : d.F ⊓ (S ⊓ centralizer (d.I₅ : Set G)) = d.F ⊓ centralizer (d.I₅ : Set G) := by
@@ -118,14 +128,16 @@ theorem sec312_Q_card : Nat.card ((d.E ⊓ d.D) ⊔ d.F : Subgroup G) = (2 ^ f) 
     simp only [Subgroup.mem_inf]
     exact ⟨fun ⟨a, _, c⟩ => ⟨a, c⟩, fun ⟨a, c⟩ => ⟨a, hFS a, c⟩⟩
   rw [hinf, hO.cF₅, hO.c₅, sec312_card_F hp] at hprod
-  rw [sec312_Q_eq hp k hS hP]
+  rw [sec312_Q_eq k hS hP]
   have hq : 0 < (2 ^ f) ^ 2 := by positivity
   apply Nat.eq_of_mul_eq_mul_right hq
   rw [hprod]
   ring
 
+omit hS hP in
 theorem sec312_Q_le_D : (d.E ⊓ d.D) ⊔ d.F ≤ d.D := sup_le inf_le_right (sec312_F_le_D hp k)
 
+omit [Finite G] hp in
 theorem sec312_Q_comm : ∀ q ∈ (d.E ⊓ d.D) ⊔ d.F, ∀ r ∈ S, r⁻¹ * (q * r * q⁻¹) ∈ d.F := by
   intro q hq r hr
   have h1 : q ∈ S ⊓ centralizerSection S d.F := by
@@ -169,7 +181,7 @@ theorem sec312_nt : ¬ bar d.F d.M₁ ≤
   have hVsq := sec312_bar_sq hp k
   have hDQ : d.D ≤ (d.E ⊓ d.D) ⊔ d.F := by
     intro x hx
-    have hxS : x ∈ S := sec312_D_le_S hp k hS hP hx
+    have hxS : x ∈ S := sec312_D_le_S k hS hP hx
     set y₀ : Bar d.F := proj d.F ⟨x, hDN hx⟩ with hy₀
     have hy₀V : y₀ ∈ bar d.F d.D := proj_mem_bar (A := d.F) (x := ⟨x, hDN hx⟩) hx
     set Cx : Subgroup G := lift (centralizer ({y₀} : Set (Bar d.F))) with hCx
@@ -180,12 +192,12 @@ theorem sec312_nt : ¬ bar d.F d.M₁ ≤
       (mem_centralizer_singleton_iff.2
         ((mem_centralizer_iff.1 (hM (proj_mem_bar (A := d.F) (x := ⟨s, hMN hs.2⟩) hs.2)) y₀
           hy₀V).symm))
-    have hSCx : S ≤ Cx := (sec312_S_eq_D_sup_R hp k hS hP).le.trans (sup_le hDCx hRCx)
+    have hSCx : S ≤ Cx := (sec312_S_eq_D_sup_R k hS hP).le.trans (sup_le hDCx hRCx)
     have hxQ : x ∈ S ⊓ centralizerSection S d.F := by
       refine Subgroup.mem_inf.2 ⟨hxS, ?_⟩
       refine ⟨le_normalizer hxS, hDN hx, fun s hs => ?_⟩
       have hsN : s ∈ normalizer (d.F : Set G) :=
-        (sec312_S_le_L₁ hp k hS hP |>.trans (sec312_L₁_le_N_F hp k)) hs
+        (sec312_S_le_L₁ k hS hP |>.trans (sec312_L₁_le_N_F hp k)) hs
       have hcomm := mem_centralizer_singleton_iff.1
         (proj_mem_of_mem_lift (x := ⟨s, hsN⟩) (hSCx hs))
       have e : proj d.F ⟨s⁻¹ * (x * s * x⁻¹), mul_mem (inv_mem hsN)
@@ -206,7 +218,7 @@ theorem sec312_fixed {S : Subgroup G} (hS : IsSylowOf 2 S d.L₂) (hP : d.P ≤ 
         Subgroup (Bar d.F)) := by
   set Q : Subgroup G := (d.E ⊓ d.D) ⊔ d.F with hQ
   have hFQ : d.F ≤ Q := le_sup_right
-  have hQD := sec312_Q_le_D hp k hS hP
+  have hQD := sec312_Q_le_D hp k
   have hQN : Q ≤ normalizer (d.F : Set G) := hQD.trans (sec312_D_le_N_F hp k)
   have hcard : Nat.card (bar d.F Q) = (2 ^ f) ^ 4 := by
     have h1 := card_bar_mul hFQ hQN
@@ -223,7 +235,7 @@ theorem sec312_fixed {S : Subgroup G} (hS : IsSylowOf 2 S d.L₂) (hP : d.P ≤ 
     rw [mem_centralizer_iff]
     intro r hr
     obtain ⟨w, hw, rfl⟩ := Sec312.mem_bar_iff_exists.1 hr
-    have h1 := sec312_Q_comm hp k hS hP z hz w hw.1
+    have h1 := sec312_Q_comm k hS hP z hz w hw.1
     have e : proj d.F (w⁻¹ * (z * w * z⁻¹)) = 1 := proj_eq_one_iff.2 h1
     rw [map_mul, map_inv, map_mul, map_mul, map_inv] at e
     have e' := inv_mul_eq_one.1 e
@@ -239,12 +251,14 @@ section Psi
 
 variable {κ : Type} [Field κ] [Fintype κ]
 
+omit [Field κ] in
 theorem sec312_card_eq (hκ : Fintype.card κ = (2 ^ f) ^ 2) : Nat.card κ = 2 ^ (2 * f) := by
   rw [Nat.card_eq_fintype_card, hκ, ← pow_mul, mul_comm]
 
 theorem sec312_charP (hκ : Fintype.card κ = (2 ^ f) ^ 2) : CharP κ 2 :=
   U4.charP_two_of_card (sec312_card_eq hκ)
 
+omit [Field κ] in
 theorem sec312_four_le (hp : d.CaseHyp) (hκ : Fintype.card κ = (2 ^ f) ^ 2) :
     4 ≤ Nat.card κ := by
   rw [sec312_card_eq hκ]
@@ -256,11 +270,11 @@ theorem sec312_swap (hp : d.CaseHyp) (k : d.Know11) (hκ : Fintype.card κ = (2 
     (Common.prodFactorOne ψ).map (MulAut.conj d.t).toMonoidHom = Common.prodFactorTwo ψ ∧
       (Common.prodFactorTwo ψ).map (MulAut.conj d.t).toMonoidHom = Common.prodFactorOne ψ := by
   obtain ⟨k₀, _, _, hk₀, ψ₀, α, hdiag, hswap⟩ := k.s11
-  haveI hc₀ : CharP k₀ 2 := sec312_charP hk₀
-  haveI hc : CharP κ 2 := sec312_charP hκ
+  have hc₀ : CharP k₀ 2 := sec312_charP hk₀
+  have hc : CharP κ 2 := sec312_charP hκ
   have h4₀ := sec312_four_le hp hk₀
   have h4 := sec312_four_le hp hκ
-  haveI : Nontrivial (SL(2, κ)) := (Common.sl2_isSimpleGroup_of_charTwo h4).toNontrivial
+  have : Nontrivial (SL(2, κ)) := (Common.sl2_isSimpleGroup_of_charTwo h4).toNontrivial
   have ht := hp.hyp.t_mem_normalizer_M₁
   have hX₀ : (Common.prodFactorOne ψ₀).map (MulAut.conj d.t).toMonoidHom =
       Common.prodFactorTwo ψ₀ := by
@@ -344,7 +358,7 @@ theorem sec312_inf_F_of_le_M₁ (hp : d.CaseHyp) (k : d.Know10) {H : Subgroup G}
 
 theorem sec312_t_mem_N_S (hp : d.CaseHyp) (k : d.Know10) {S : Subgroup G}
     (hS : IsSylowOf 2 S d.L₂) (hP : d.P ≤ S) : d.t ∈ normalizer (S : Set G) := by
-  rw [sec312_S_eq hp k hS hP]
+  rw [sec312_S_eq k hS hP]
   exact Common.mem_normalizer_sup (hp.hyp.t_mem_normalizer_E_caseB hp.gms)
     hp.hyp.t_mem_normalizer_D
 
@@ -399,10 +413,10 @@ theorem sec312_setting (hp : d.CaseHyp) (k : d.Know11) {S : Subgroup G}
     apply Subtype.ext
     exact (mem_centralizer_iff.1 (Common.prodFactorOne_le_centralizer ψ hz₁) z₂ hz₂).symm
   · exact Sec312.isSylowOf_bar
-      ((sec312_isSylowOf_R hp k10 hS hP).inf_of_le_normalizer hXM
+      ((sec312_isSylowOf_R k10 hS hP).inf_of_le_normalizer hXM
         (Common.le_normalizer_prodFactorOne ψ)) hXN (sec312_inf_F_of_le_M₁ hp k10 hXM)
   · exact Sec312.isSylowOf_bar
-      ((sec312_isSylowOf_R hp k10 hS hP).inf_of_le_normalizer hYM
+      ((sec312_isSylowOf_R k10 hS hP).inf_of_le_normalizer hYM
         (Common.le_normalizer_prodFactorTwo ψ)) hYN (sec312_inf_F_of_le_M₁ hp k10 hYM)
   · intro hX
     have hY'' : bar d.F (Common.prodFactorTwo ψ) ≤

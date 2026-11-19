@@ -84,7 +84,7 @@ theorem comm_cycSub_of_component {σ : Perm Ω} (hσ : σ ^ 3 = 1) {J : Subgroup
     · exact CFSG.SignalizerFunctorTheorem.TransportA.isQuasisimple_of_mulEquiv
         (Subgroup.subgroupOfEquivOfLe hJC).symm hq
   have hVs : IsSubnormal (V.subgroupOf C) ⊤ := isSubnormal_of_normal (cycSub_normal hσ)
-  haveI : Group.IsSolvable ↥(V.subgroupOf C) := Group.isSolvable_of_comm fun a b =>
+  have : Group.IsSolvable ↥(V.subgroupOf C) := Group.isSolvable_of_comm fun a b =>
     Subtype.ext (Subtype.ext (cycSub_comm a.2 b.2))
   have hbot := CFSG.ComponentClassification.LocalComponents.commutes_with_solvable_subnormal
     (J.subgroupOf C) (V.subgroupOf C) hcomp hVs
@@ -95,7 +95,7 @@ theorem comm_cycSub_of_component {σ : Perm Ω} (hσ : σ ^ 3 = 1) {J : Subgroup
   rw [hbot, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at hmem
   exact congrArg Subtype.val hmem
 
-theorem exists_zpow_of_comm_cycles {σ w : Perm Ω} (hw : w * σ = σ * w)
+theorem exists_zpow_of_comm_cycles {σ w : Perm Ω} (_hw : w * σ = σ * w)
     (hcyc : ∀ c ∈ σ.cycleFactorsFinset, w * c = c * w) {a : Ω} (ha : σ a ≠ a) :
     ∃ i : ℤ, w a = (σ ^ i) a := by
   have hc : σ.cycleOf a ∈ σ.cycleFactorsFinset := by
@@ -112,6 +112,7 @@ theorem exists_zpow_of_comm_cycles {σ w : Perm Ω} (hw : w * σ = σ * w)
   obtain ⟨i, hi⟩ := hwa.1
   exact ⟨i, hi.symm⟩
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem comm_apply_zpow {σ w : Perm Ω} (hw : w * σ = σ * w) (i : ℤ) (x : Ω) :
     w ((σ ^ i) x) = (σ ^ i) (w x) :=
   congrArg (fun f : Perm Ω => f x) ((Commute.zpow_right (show Commute w σ from hw) i).eq)
@@ -135,6 +136,7 @@ theorem comm_on_support {σ w₁ w₂ : Perm Ω} (h₁ : w₁ * σ = σ * w₁) 
     rw [Perm.inv_eq_iff_eq]
     exact this.symm
 
+omit [Fintype Ω] [DecidableEq Ω] in
 theorem apply_ne_of_comm {σ w : Perm Ω} (hw : w * σ = σ * w) {x : Ω} (hx : σ x ≠ x) :
     σ (w x) ≠ w x := by
   intro h
@@ -217,13 +219,13 @@ theorem alt_component_struct {σ : Perm Ω} (hσ : σ ^ 3 = 1) {J : Subgroup (Pe
     have h1 := isSubnormal_comap' (mAlt σ).subtype hsnM
     rw [show (mAlt σ).comap (mAlt σ).subtype = ⊤ from Subgroup.subgroupOf_self _] at h1
     exact h1
-  haveI := isQuasisimple_nontrivial hq
+  have := isQuasisimple_nontrivial hq
   have hJe : ↥J ≃* ↥(J.subgroupOf (mAlt σ)) := (Subgroup.subgroupOfEquivOfLe hJM).symm
   by_cases h5 : 5 ≤ Nat.card (Function.fixedPoints σ)
   · refine ⟨h5, ?_⟩
-    haveI : IsSimpleGroup (alternatingGroup (Function.fixedPoints σ)) :=
+    have : IsSimpleGroup (alternatingGroup (Function.fixedPoints σ)) :=
       alternatingGroup.isSimpleGroup h5
-    haveI : IsSimpleGroup ↥(mAlt σ) := (mAltEquiv σ).isSimpleGroup
+    have : IsSimpleGroup ↥(mAlt σ) := (mAltEquiv σ).isSimpleGroup
     rcases i112f_eq_bot_or_top_of_isSubnormal hsnJ with hbot | htop
     · exfalso
       have : Subsingleton ↥(J.subgroupOf (mAlt σ)) := by rw [hbot]; infer_instance
@@ -233,10 +235,10 @@ theorem alt_component_struct {σ : Perm Ω} (hσ : σ ^ 3 = 1) {J : Subgroup (Pe
         (Subgroup.topEquiv.trans (mAltEquiv σ)))⟩
   · exfalso
     have h4 : Nat.card (Function.fixedPoints σ) ≤ 4 := by omega
-    haveI := alternatingGroup.isSolvable h4
-    haveI : Group.IsSolvable ↥(mAlt σ) := Group.isSolvable_of_isSolvable_injective
+    have := alternatingGroup.isSolvable h4
+    have : Group.IsSolvable ↥(mAlt σ) := Group.isSolvable_of_isSolvable_injective
       (mAltEquiv σ).injective
-    haveI : Group.IsSolvable ↥J := Group.isSolvable_of_isSolvable_injective
+    have : Group.IsSolvable ↥J := Group.isSolvable_of_isSolvable_injective
       (Subgroup.inclusion_injective hJM)
     have hperf : Group.IsPerfect ↥J := ⟨hq.1⟩
     exact Group.IsPerfect.not_isSolvable ↥J inferInstance

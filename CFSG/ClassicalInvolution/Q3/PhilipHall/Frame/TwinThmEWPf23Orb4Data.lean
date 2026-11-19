@@ -199,7 +199,7 @@ theorem MinCexQ8.goodFourD_of_commute (c : MinCexQ8 Ω K S R W H) {z g t : G}
   have hmemR' : ∀ u : G, u ∈ K' → u ∈ W → u ∈ R' := fun u huK huW => by
     have : u ∈ K' ⊓ (S : Subgroup G) := ⟨huK, hWS huW⟩
     rwa [inf_S_eq_of_mem_RSet hΩ hK'Ω hR' hR'K' hR'S] at this
-  have hRR'2 : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup'.to_le (sup_le hRS hR'S)
+  have hRR'2 : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup.to_le (sup_le hRS hR'S)
   have hswap : ∀ {K₀ R₀ : Subgroup G} {u : G}, K₀ ∈ twinSet Ω K → R₀ ∈ RSet Ω → R₀ ≤ K₀ →
       R₀ ≤ (S : Subgroup G) → conjSub t K₀ ≠ K₀ → u ∈ R₀ → u ∈ W → orderOf u = 4 →
       (∀ a ∈ R₀ ⊔ conjSub t R₀, a ∈ W → a ≠ 1 → a * a = 1 →
@@ -659,7 +659,7 @@ theorem exists_good_t {S : Sylow 2 G} {H : Subgroup G} (hSH : (S : Subgroup G) �
   rw [← ht₁] at ht₁S
   let 𝒯 : Set G := {s | s ∈ (S : Subgroup G) ∧ ∃ h ∈ H, s = h * t₁ * h⁻¹}
   have hne : 𝒯.Nonempty := ⟨t₁, ht₁S, 1, H.one_mem, by simp⟩
-  haveI : Nonempty ↥𝒯 := hne.to_subtype
+  have : Nonempty ↥𝒯 := hne.to_subtype
   obtain ⟨⟨s, hsS, h₀, hh₀, hs⟩, hmax⟩ := Finite.exists_max
     (fun x : ↥𝒯 => Nat.card ↥((S : Subgroup G) ⊓ Subgroup.centralizer ({(x : G)} : Set G)))
   have e : h₀ * g₁ * z * (h₀ * g₁)⁻¹ = s := by rw [hs, ht₁]; group
@@ -668,7 +668,7 @@ theorem exists_good_t {S : Sylow 2 G} {H : Subgroup G} (hSH : (S : Subgroup G) �
     simpa using this
   rw [e]
   set P₀ : Subgroup G := (S : Subgroup G) ⊓ Subgroup.centralizer ({s} : Set G) with hP₀def
-  have hP₀2 : IsPGroup 2 ↥P₀ := S.isPGroup'.to_le inf_le_left
+  have hP₀2 : IsPGroup 2 ↥P₀ := S.isPGroup.to_le inf_le_left
   have hP₀H : P₀ ≤ Subgroup.centralizer ({s} : Set G) ⊓ H :=
     le_inf inf_le_right (inf_le_left.trans hSH)
   obtain ⟨P, hP, hP₀P⟩ := IsSylow2In.exists_ge hP₀2 hP₀H

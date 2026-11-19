@@ -62,7 +62,7 @@ theorem diagSL_mul_transvection_ne {d : Fin 4 → F} (hd : ∏ i, d i = 1) {a b 
   rw [(diagSL_mul_transvection_apply hd hab 1 a b).1,
     (diagSL_mul_transvection_apply hd hab 1 a b).2] at h1
   have e2 : (1 + Matrix.single a b (1 : F) : Matrix (Fin 4) (Fin 4) F) a b = 1 := by
-    rw [Matrix.add_apply, one_apply_ne hab, Matrix.single_apply, if_pos ⟨rfl, rfl⟩, zero_add]
+    rw [Matrix.add_apply, one_apply_ne hab, Matrix.single_apply, ite_eq_left ⟨rfl, rfl⟩, zero_add]
   rw [e2, mul_one, one_mul] at h1
   exact hd_ab h1
 
@@ -72,38 +72,42 @@ variable [Finite F] (hp : p.Prime) (hp2 : p ≠ 2) (hμ : IsPrimitiveRoot μ p) 
 include hp hp2 hμ
 
 omit [Finite F] in
+omit hp hp2 in
 theorem td_pow (i : Fin 4) : td μ i ^ p = 1 := by
   fin_cases i <;> simp [td, hμ.pow_eq_one]
 
 omit [Finite F] in
+omit hp hp2 in
 theorem t2d_pow (i : Fin 4) : t2d μ i ^ p = 1 := by
   fin_cases i <;> simp [t2d, hμ.pow_eq_one]
 
 omit [Finite F] in
 theorem inv_ne_self : μ⁻¹ ≠ μ := by
-  have hμ0 := ne_zero_of_root hp hp2 hμ
+  have hμ0 := ne_zero_of_root hp hμ
   intro h
   apply pow_two_ne_one hp hp2 hμ
   calc μ ^ 2 = μ * μ := sq μ
     _ = μ⁻¹ * μ := by rw [h]
     _ = 1 := inv_mul_cancel₀ hμ0
 
-omit [Finite F] in
-theorem inv_ne_one : μ⁻¹ ≠ 1 := fun h => ne_one_of_root hp hp2 hμ (inv_eq_one.1 h)
+omit [Finite F] hp2 in
+theorem inv_ne_one : μ⁻¹ ≠ 1 := fun h => ne_one_of_root hp hμ (inv_eq_one.1 h)
 
 include hF
 
+omit hp hp2 hμ in
 theorem isQuasisimple_coordBlockSL_blockJ : CFSG.Open.IsQuasisimple ↥(coordBlockSL F blockJ) :=
   isQuasisimple_coordBlockSL (J := blockJ) (by decide) hF
 
+omit hF [Finite F] in
 theorem dvd_card_coordBlockSL_blockJ :
     p ∣ Nat.card (↥(coordBlockSL F blockJ) ⧸ Subgroup.center ↥(coordBlockSL F blockJ)) := by
-  have hμ0 := ne_zero_of_root hp hp2 hμ
+  have hμ0 := ne_zero_of_root hp hμ
   have hab : (1 : Fin 4) ≠ 2 := by decide
   refine dvd_card_quotient_center_of_not_commute hp (x := diagSL (td μ) (prod_td hμ0))
     (y := Matrix.SpecialLinearGroup.transvection hab 1) ?_
     (transvection_mem_coordBlockSL (by decide) (by decide) hab 1)
-    (diagSL_pow_eq_one hp hp2 hμ (td_pow hp hp2 hμ)) ?_
+    (diagSL_pow_eq_one (td_pow hμ)) ?_
   · rw [mem_coordBlockSL_iff]
     intro i j hij
     rw [coe_diagSL]
@@ -111,80 +115,84 @@ theorem dvd_card_coordBlockSL_blockJ :
     by_cases hij' : i = j
     · subst hij'
       rcases hi with rfl | rfl <;> simp [td]
-    · rw [diagonal_apply_ne _ hij', if_neg hij']
+    · rw [diagonal_apply_ne _ hij', ite_eq_right hij']
   · exact diagSL_mul_transvection_ne (prod_td hμ0) hab
       (by simpa [td] using (inv_ne_self hp hp2 hμ).symm)
 
 theorem glaPComponent_cent_ySL :
-    GLAPComponent p (cent (yd μ) (prod_yd (ne_zero_of_root hp hp2 hμ))) (coordBlockSL F blockJ) :=
+    GLAPComponent p (cent (yd μ) (prod_yd (ne_zero_of_root hp hμ))) (coordBlockSL F blockJ) :=
   CFSG.LocalAnalysis.GLTheoremA.S10.glaPComponent_of_quasisimple hp
-    (IsSubnormal.step (coordBlockSL_le_centralizer_diagSL (yd_const hp hp2 hμ))
-      (coordBlockSL_normal (yd_zero_ne hp hp2 hμ) (yd_const hp hp2 hμ)) (IsSubnormal.refl _))
-    (isQuasisimple_coordBlockSL_blockJ hp hp2 hμ hF) (dvd_card_coordBlockSL_blockJ hp hp2 hμ hF)
+    (IsSubnormal.step (coordBlockSL_le_centralizer_diagSL (yd_const))
+      (coordBlockSL_normal (yd_zero_ne hp hp2 hμ) (yd_const)) (IsSubnormal.refl _))
+    (isQuasisimple_coordBlockSL_blockJ hF) (dvd_card_coordBlockSL_blockJ hp hp2 hμ)
 
 theorem eq_of_glaPComponent_cent_ySL {K : Subgroup (SpecialLinearGroup (Fin 4) F)}
-    (hK : GLAPComponent p (cent (yd μ) (prod_yd (ne_zero_of_root hp hp2 hμ))) K) :
+    (hK : GLAPComponent p (cent (yd μ) (prod_yd (ne_zero_of_root hp hμ))) K) :
     K = coordBlockSL F blockJ :=
-  eq_of_glaPComponent_of_commutator_le (coordBlockSL_le_centralizer_diagSL (yd_const hp hp2 hμ))
-    (isQuasisimple_coordBlockSL_blockJ hp hp2 hμ hF)
+  eq_of_glaPComponent_of_commutator_le (coordBlockSL_le_centralizer_diagSL (yd_const))
+    (isQuasisimple_coordBlockSL_blockJ hF)
     (commutator_centralizer_le_coordBlockSL (yd_zero_ne hp hp2 hμ)) hK
 
 omit hp hp2 hμ hF in
+omit [Finite F] in
 private theorem central_ker (X : Subgroup (SpecialLinearGroup (Fin 4) F)) :
-    ∀ y ∈ X ⊓ (proj 4 F).ker, ∀ x ∈ X, x * y = y * x := fun y hy x _ =>
+    ∀ _y ∈ X ⊓ (proj 4 F).ker, ∀ x ∈ X, x * _y = _y * x := fun _y hy x _ =>
   (Subgroup.mem_center_iff.1 (ker_proj_le_center hy.2) x)
 
 theorem glaPComponent_centralizer_proj_ySL :
     GLAPComponent p (Subgroup.centralizer
-      ({proj 4 F (ySL (ne_zero_of_root hp hp2 hμ))} : Set (projectiveSL 4 F))) (JH F) := by
+      ({proj 4 F (ySL (ne_zero_of_root hp hμ))} : Set (projectiveSL 4 F))) (JH F) := by
   rw [centralizer_proj_ySL hp hp2 hμ]
   exact (CFSG.glaPComponent_map_bijective_of_ker_le_center hp (proj 4 F)
     (central_ker _)).1 _ (glaPComponent_cent_ySL hp hp2 hμ hF)
 
 theorem eq_of_glaPComponent_centralizer_proj_ySL {K : Subgroup (projectiveSL 4 F)}
     (hK : GLAPComponent p (Subgroup.centralizer
-      ({proj 4 F (ySL (ne_zero_of_root hp hp2 hμ))} : Set (projectiveSL 4 F))) K) :
+      ({proj 4 F (ySL (ne_zero_of_root hp hμ))} : Set (projectiveSL 4 F))) K) :
     K = JH F := by
   rw [centralizer_proj_ySL hp hp2 hμ] at hK
   obtain ⟨K₀, hK₀, rfl⟩ := (CFSG.glaPComponent_map_bijective_of_ker_le_center hp (proj 4 F)
     (central_ker _)).2 K hK
   rw [eq_of_glaPComponent_cent_ySL hp hp2 hμ hF hK₀]
 
+omit hp hp2 hμ in
 theorem isQuasisimple_JH : CFSG.Open.IsQuasisimple ↥(JH F) :=
   CFSG.ComponentClassification.Components.quasisimple_of_equiv
-    (mapProjEquiv _ le_rfl).symm (isQuasisimple_coordBlockSL_blockJ hp hp2 hμ hF)
+    (mapProjEquiv _ le_rfl).symm (isQuasisimple_coordBlockSL_blockJ hF)
 
+omit hF [Finite F] in
 theorem dvd_card_JH : p ∣ Nat.card (↥(JH F) ⧸ Subgroup.center ↥(JH F)) := by
   rw [← natCard_quotient_center_congr (mapProjEquiv _ le_rfl)]
-  exact dvd_card_coordBlockSL_blockJ hp hp2 hμ hF
+  exact dvd_card_coordBlockSL_blockJ hp hp2 hμ
 
 omit hF
 
+omit [Finite F] hp2 in
 theorem proj_zSL_not_mem_zpowers :
-    proj 4 F (zSL (ne_zero_of_root hp hp2 hμ)) ∉
-      Subgroup.zpowers (proj 4 F (ySL (ne_zero_of_root hp hp2 hμ))) := by
-  have hμ0 := ne_zero_of_root hp hp2 hμ
+    proj 4 F (zSL (ne_zero_of_root hp hμ)) ∉
+      Subgroup.zpowers (proj 4 F (ySL (ne_zero_of_root hp hμ))) := by
+  have hμ0 := ne_zero_of_root hp hμ
   have hab : (1 : Fin 4) ≠ 2 := by decide
   set u := Matrix.SpecialLinearGroup.transvection hab (1 : F) with hu
   have huJ : u ∈ coordBlockSL F blockJ :=
     transvection_mem_coordBlockSL (by decide) (by decide) hab 1
   have huy : u * ySL hμ0 = ySL hμ0 * u :=
     Subgroup.mem_centralizer_singleton_iff.1
-      (coordBlockSL_le_centralizer_diagSL (yd_const hp hp2 hμ) huJ)
+      (coordBlockSL_le_centralizer_diagSL (yd_const) huJ)
   have hyC : proj 4 F (ySL hμ0) ∈ Subgroup.centralizer ({proj 4 F u} : Set (projectiveSL 4 F)) := by
     rw [Subgroup.mem_centralizer_singleton_iff, ← map_mul, ← map_mul, huy]
   intro hmem
   have hzC := (Subgroup.zpowers_le.2 hyC) hmem
   rw [Subgroup.mem_centralizer_singleton_iff] at hzC
   exact proj_diagSL_mul_transvection_ne (prod_zd hμ0) hab
-    (by simpa [zd] using inv_ne_one hp hp2 hμ) hzC
+    (by simpa [zd] using inv_ne_one hp hμ) hzC
 
 include hF
 
 theorem glaPLayer_JH_inf_centralizer_ne_bot :
     GLAPLayer p (JH F ⊓ Subgroup.centralizer
-      ({proj 4 F (zSL (ne_zero_of_root hp hp2 hμ))} : Set (projectiveSL 4 F))) ≠ ⊥ := by
-  have hμ0 := ne_zero_of_root hp hp2 hμ
+      ({proj 4 F (zSL (ne_zero_of_root hp hμ))} : Set (projectiveSL 4 F))) ≠ ⊥ := by
+  have hμ0 := ne_zero_of_root hp hμ
   have hIJ : blockI ⊆ blockJ := by decide
   have hK₂J : coordBlockSL F blockI ≤ coordBlockSL F blockJ := coordBlockSL_mono hIJ
   have hzI : ∀ i ∈ blockI, ∀ j ∈ blockI, zd μ i = zd μ j := by
@@ -199,8 +207,8 @@ theorem glaPLayer_JH_inf_centralizer_ne_bot :
     rw [centralizer_proj_zSL hp hp2 hμ]
     exact Subgroup.map_mono hK₂z
   have hdist : ∀ i j, (i ∈ blockI ↔ j ∉ blockI) → zd μ i ≠ zd μ j := by
-    have h1 := inv_ne_one hp hp2 hμ
-    have h2 := ne_one_of_root hp hp2 hμ
+    have h1 := inv_ne_one hp hμ
+    have h2 := ne_one_of_root hp hμ
     intro i j hij
     fin_cases i <;> fin_cases j <;> simp_all [zd, blockI, eq_comm]
   have hnorm : ∀ m ∈ cent (zd μ) (prod_zd hμ0), ∀ g ∈ coordBlockSL F blockI,
@@ -212,8 +220,8 @@ theorem glaPLayer_JH_inf_centralizer_ne_bot :
     rw [compIndicator_mul_apply, mul_compIndicator_apply]
     by_cases hi : i ∈ blockI <;> by_cases hj : j ∈ blockI
     · simp [hi, hj]
-    · rw [if_pos hi, if_neg hj, hm i j (hdist i j ⟨fun _ => hj, fun _ => hi⟩)]
-    · rw [if_neg hi, if_pos hj, hm i j (hdist i j ⟨fun h => absurd h hi, fun h => absurd hj h⟩)]
+    · rw [ite_eq_left hi, ite_eq_right hj, hm i j (hdist i j ⟨fun _ => hj, fun _ => hi⟩)]
+    · rw [ite_eq_right hi, ite_eq_left hj, hm i j (hdist i j ⟨fun h => absurd h hi, fun h => absurd hj h⟩)]
     · simp [hi, hj]
   have hN : (K₂.subgroupOf (JH F ⊓ Subgroup.centralizer
       ({proj 4 F (zSL hμ0)} : Set (projectiveSL 4 F)))).Normal := by
@@ -236,7 +244,7 @@ theorem glaPLayer_JH_inf_centralizer_ne_bot :
     refine dvd_card_quotient_center_of_not_commute hp (x := diagSL (t2d μ) (prod_t2d hμ0))
       (y := Matrix.SpecialLinearGroup.transvection hab 1) ?_
       (transvection_mem_coordBlockSL (by decide) (by decide) hab 1)
-      (diagSL_pow_eq_one hp hp2 hμ (t2d_pow hp hp2 hμ)) ?_
+      (diagSL_pow_eq_one (t2d_pow hμ)) ?_
     · rw [mem_coordBlockSL_iff]
       intro i j hij
       rw [coe_diagSL]
@@ -245,7 +253,7 @@ theorem glaPLayer_JH_inf_centralizer_ne_bot :
         have : i = 0 ∨ i = 1 := by
           rcases hij with h | h <;> fin_cases i <;> simp_all [blockI]
         rcases this with rfl | rfl <;> simp [t2d]
-      · rw [diagonal_apply_ne _ hij', if_neg hij']
+      · rw [diagonal_apply_ne _ hij', ite_eq_right hij']
     · exact diagSL_mul_transvection_ne (prod_t2d hμ0) hab
         (by simpa [t2d] using (inv_ne_self hp hp2 hμ).symm)
   exact CFSG.LocalAnalysis.GLTheoremA.Y10F.glaPLayer_ne_bot_of_normal_quasisimple hp hle hN hq

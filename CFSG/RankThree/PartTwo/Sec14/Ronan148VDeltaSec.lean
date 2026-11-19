@@ -34,13 +34,14 @@ theorem not_isSolvable_j2 :
   rw [← htop, hc, Subgroup.card_bot, KFacts.KS14.card_nativeJ2] at h1
   omega
 
+omit [Finite G] in
 theorem surjective_mk_comp_inclusion {X N : Subgroup G}
     (hXN : X ≤ Subgroup.normalizer (N : Set G)) :
     letI := (Subgroup.normal_subgroupOf_iff_le_normalizer (le_sup_right : N ≤ X ⊔ N)).mpr
       (sup_le hXN Subgroup.le_normalizer)
     Function.Surjective ((QuotientGroup.mk' (N.subgroupOf (X ⊔ N))).comp
       (Subgroup.inclusion (le_sup_left : X ≤ X ⊔ N))) := by
-  letI := (Subgroup.normal_subgroupOf_iff_le_normalizer (le_sup_right : N ≤ X ⊔ N)).mpr
+  let := (Subgroup.normal_subgroupOf_iff_le_normalizer (le_sup_right : N ≤ X ⊔ N)).mpr
       (sup_le hXN Subgroup.le_normalizer)
   intro q
   obtain ⟨⟨y, hy⟩, rfl⟩ := QuotientGroup.mk'_surjective _ q
@@ -117,7 +118,7 @@ theorem not_isSec_j2_deltaQ
     have hDN₁ : D' ≤ Subgroup.normalizer (N₁ : Set G) :=
       sup_le (hXC.trans hCN₁) Subgroup.le_normalizer
     have hN₁le : N₁ ≤ D' := le_sup_right
-    letI hnorm₁ : (N₁.subgroupOf D').Normal :=
+    let hnorm₁ : (N₁.subgroupOf D').Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer hN₁le).mpr hDN₁
     have hN₁' : ¬ 3 ∣ Nat.card (N₁.subgroupOf D') := by
       rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hN₁le).toEquiv]
@@ -205,7 +206,7 @@ theorem not_isSec_j2_deltaQ
           have hinj : Function.Injective ι := fun x y hxy => by
             have h1 := congrArg (fun t : ↥(aschbacherSolvableCore 3 ↥Lb') => ((t : ↥Lb') : G)) hxy
             exact Subtype.ext (Subtype.ext h1)
-          exact solvable_of_solvable_injective hinj
+          exact Group.isSolvable_of_isSolvable_injective hinj
         have hsecK := hsecL.quotient_of_isSolvable hJns (N := φ.ker) hkers
         have hd := hsecK.card_dvd
         rw [hJc, Nat.card_congr (QuotientGroup.quotientKerEquivRange φ).toEquiv, hrange] at hd

@@ -30,12 +30,14 @@ variable {G : Type} [Group G] [Finite G] {t u y : G} {σ : Equiv.Perm (Fin 5)}
 variable (F : Five G t u y σ)
 include F
 
+omit [Finite G] in
 theorem Five.T_sq : (t * u) * (t * u) = 1 := by
   calc t * u * (t * u) = t * (u * t) * u := by simp only [mul_assoc]
     _ = t * (t * u) * u := by rw [F.tu]
     _ = (t * t) * (u * u) := by simp only [mul_assoc]
     _ = 1 := by rw [F.t_sq, F.u_sq, one_mul]
 
+omit [Finite G] in
 theorem Five.yT : y * (t * u) = (t * u) * y := by
   calc y * (t * u) = (y * t) * u := (mul_assoc _ _ _).symm
     _ = (t * y) * u := by rw [F.ty]
@@ -43,6 +45,7 @@ theorem Five.yT : y * (t * u) = (t * u) * y := by
     _ = t * (u * y) := by rw [F.uy]
     _ = (t * u) * y := (mul_assoc _ _ _).symm
 
+omit [Finite G] in
 theorem Five.T_mem_Cen_y : t * u ∈ Cen y := mem_Cen.2 (F.yT).symm
 
 @[expose] def Five.yH : ↥(Cen (t * u)) := ⟨y, mem_Cen.2 F.yT⟩
@@ -51,8 +54,10 @@ theorem Five.T_mem_Cen_y : t * u ∈ Cen y := mem_Cen.2 (F.yT).symm
 
 @[expose] def Five.TC : ↥(Cen y) := ⟨t * u, F.T_mem_Cen_y⟩
 
+omit [Finite G] in
 theorem Five.TC_sq : F.TC * F.TC = 1 := Subtype.ext F.T_sq
 
+omit [Finite G] in
 theorem Five.ι_T : F.ι (oMk (Cen y) F.TC) = xW σ := by
   have : F.TC = (⟨t, mem_Cen.2 F.ty⟩ : ↥(Cen y)) * ⟨u, mem_Cen.2 F.uy⟩ := rfl
   rw [this, map_mul, map_mul, F.ι_t, F.ι_u, xW_comm_tau_mul]
@@ -65,6 +70,7 @@ abbrev Bt (t u y : G) : Subgroup G := Cen y ⊓ Cen (t * u)
 
 @[expose] def piX (t u y : G) : ↥(Bt t u y) →* QuotT (t * u) := (mkT (t * u)).comp (incH t u y)
 
+omit [Finite G] in
 theorem Five.piX_mem (b : ↥(Bt t u y)) : piX t u y b ∈ autCentralizer F.yBar := by
   show F.yBar (piX t u y b) = piX t u y b
   change mkT (t * u) F.yH * piX t u y b * (mkT (t * u) F.yH)⁻¹ = piX t u y b
@@ -75,8 +81,10 @@ theorem Five.piX_mem (b : ↥(Bt t u y)) : piX t u y b ∈ autCentralizer F.yBar
 @[expose] def Five.piY : ↥(Bt t u y) →* ↥(autCentralizer F.yBar) :=
   (piX t u y).codRestrict _ F.piX_mem
 
+omit [Finite G] in
 theorem Five.piY_val (b : ↥(Bt t u y)) : (F.piY b : QuotT (t * u)) = piX t u y b := rfl
 
+omit [Finite G] in
 theorem Five.comm_of_fix (h : ↥(Cen (t * u))) (hx : F.yBar (mkT (t * u) h) = mkT (t * u) h) :
     (h : G) * y = y * h := by
   have hx' := hx
@@ -115,6 +123,7 @@ theorem Five.comm_of_fix (h : ↥(Cen (t * u))) (hx : F.yBar (mkT (t * u) h) = m
       exact mul_left_cancel (a := (h : G)) (e3.symm.trans (mul_one _).symm)
   exact hhy
 
+omit [Finite G] in
 theorem Five.piY_surjective : Function.Surjective F.piY := by
   rintro ⟨x, hx⟩
   obtain ⟨h, rfl⟩ := mkT_surjective (t * u) x
@@ -125,9 +134,11 @@ theorem Five.piY_surjective : Function.Surjective F.piY := by
 @[expose] def Five.psi : ↥(Bt t u y) →* Wr2 (Equiv.Perm (Fin 5)) :=
   F.ι.comp ((oMk (Cen y)).comp (incC t u y))
 
+omit [Finite G] in
 theorem Five.incC_comm (b : ↥(Bt t u y)) : incC t u y b * F.TC = F.TC * incC t u y b :=
   Subtype.ext (mem_Cen.1 b.2.2)
 
+omit [Finite G] in
 theorem Five.psi_mem (b : ↥(Bt t u y)) : F.psi b ∈ GW σ := by
   have hh : F.psi b * F.ι (oMk (Cen y) F.TC) = F.ι (oMk (Cen y) F.TC) * F.psi b := by
     rw [Five.psi]
@@ -141,6 +152,7 @@ theorem Five.psi_mem (b : ↥(Bt t u y)) : F.psi b ∈ GW σ := by
 @[expose] noncomputable def Five.lam : ↥(Bt t u y) →* Equiv.Perm (Fin 5) :=
   (kapW σ F.σ_sq).comp F.phi
 
+omit [Finite G] in
 theorem Five.phi_val (b : ↥(Bt t u y)) : (F.phi b : Wr2 (Equiv.Perm (Fin 5))) = F.psi b := rfl
 
 theorem Five.lam_surjective : Function.Surjective F.lam := by
@@ -170,6 +182,7 @@ theorem Five.lam_surjective : Function.Surjective F.lam := by
     rfl
   rw [Five.lam, MonoidHom.comp_apply, h1, kapW_nuW]
 
+omit [Finite G] in
 theorem Five.piY_ker_le : F.piY.ker ≤ F.lam.ker := by
   intro b hb
   rw [MonoidHom.mem_ker] at hb ⊢
@@ -192,6 +205,7 @@ theorem Five.piY_ker_le : F.piY.ker ≤ F.lam.ker := by
       rw [this, F.ι_T]
     rw [Five.lam, MonoidHom.comp_apply, this, (kapW_eq_one_iff σ F.σ_sq _).2 (Or.inr rfl)]
 
+omit [Finite G] in
 theorem Five.ker_lam (b : ↥(Bt t u y)) (hb : F.lam b = 1) :
     ∃ b' : ↥(Bt t u y), oMk (Cen y) (incC t u y b') = 1 ∧ F.piY b' = F.piY b := by
   rw [Five.lam, MonoidHom.comp_apply, kapW_eq_one_iff] at hb
@@ -256,6 +270,7 @@ theorem five_nonempty_mulEquiv :
   have h2 : Nat.card (Oy.map F.piY) ∣ Nat.card Oy := Subgroup.card_map_dvd _ _
   exact Odd.of_dvd_nat hOyodd (h1.trans h2)
 
+omit [Finite G] in
 theorem Five.yBar_ne_one (hnc : ∃ h : ↥(Cen (t * u)), (h : G) * y ≠ y * h) : F.yBar ≠ 1 := by
   intro h1
   obtain ⟨h, hh⟩ := hnc
@@ -271,6 +286,7 @@ theorem five_nonempty_mulEquiv_centralizer :
   have h := five_nonempty_mulEquiv F
   rwa [Five.yBar, autCentralizer_conj] at h
 
+omit [Finite G] in
 theorem Five.orderOf_mkT_yH (hnc : ∃ h : ↥(Cen (t * u)), (h : G) * y ≠ y * h) :
     orderOf (mkT (t * u) F.yH) = 3 := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩

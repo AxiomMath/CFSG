@@ -32,8 +32,8 @@ theorem i133At_of_facts
     I133At G p := by
   unfold I133At
   intro hp hp2 X J I D hJ hch hIJ hDN hDp hDc hcard d hd
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   have hq : CFSG.Open.IsQuasisimple (PQuot p J) := isQuasisimple_pQuot_of_glaPComponent hp hJ
   have hperf : commutator (PQuot p J) = ⊤ := hq.1

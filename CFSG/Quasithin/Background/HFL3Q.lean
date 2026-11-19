@@ -71,14 +71,14 @@ theorem transvection_mem_Q1 {j : Fin 3} (hj : (0 : Fin 3) ≠ j) (a : K) :
   refine ⟨mem_unitriangular.2 ⟨fun i k hik => ?_, fun i => ?_⟩, ?_⟩ <;>
     rw [Matrix.SpecialLinearGroup.transvection_coe] <;> fin_cases j
   · exact absurd rfl hj
-  · fin_cases i <;> fin_cases k <;> simp_all [Matrix.transvection, Matrix.single_apply]
-  · fin_cases i <;> fin_cases k <;> simp_all [Matrix.transvection, Matrix.single_apply]
+  · fin_cases i <;> fin_cases k <;> simp_all
+  · fin_cases i <;> fin_cases k <;> simp_all
   · exact absurd rfl hj
-  · fin_cases i <;> simp [Matrix.transvection, Matrix.single_apply]
-  · fin_cases i <;> simp [Matrix.transvection, Matrix.single_apply]
+  · fin_cases i <;> simp
+  · fin_cases i <;> simp
   · exact absurd rfl hj
-  · simp [Matrix.transvection, Matrix.single_apply]
-  · simp [Matrix.transvection, Matrix.single_apply]
+  · simp
+  · simp
 
 theorem card_fixV_Q1_le (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
     Nat.card ↥(fixV ((Q1 K).map (rho hK))) ≤ 2 ^ n := by
@@ -308,7 +308,7 @@ theorem le_normalizer_of_le (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     obtain ⟨b, hb, hbe⟩ := h1
     have : b = a := by
       have := hbe
-      simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply] at this
+      simp only [MulEquiv.coe_toMonoidHom] at this
       exact mul_left_cancel (mul_right_cancel this)
     rwa [← this]
 

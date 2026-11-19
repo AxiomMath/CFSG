@@ -48,15 +48,15 @@ private theorem fzc_zpowers_rho_cases {rho s : G} (hrho : rho ^ 3 = 1)
   · right; left; rw [zpow_one]
   · right; right; norm_num
 
-theorem fzc_sy3_norm {R N : Subgroup G} {rho : G} (hNR : N ≤ R)
+theorem fzc_sy3_norm {R N : Subgroup G} {rho : G} (_hNR : N ≤ R)
     (hRN : ∀ r ∈ R, ∀ n ∈ N, r * n * r⁻¹ ∈ N) (hrR : ∀ r ∈ R, rho * r * rho⁻¹ ∈ R)
     (hrN : ∀ n ∈ N, rho * n * rho⁻¹ ∈ N) (hab : ∀ a ∈ R, ∀ b ∈ R, a * b * a⁻¹ * b⁻¹ ∈ N)
     (hrho : rho ^ 3 = 1) :
     ∀ x ∈ ⁅R, zpowers rho⁆, x * (rho * x * rho⁻¹) * (rho⁻¹ * x * rho) ∈ N := by
-  haveI hNnorm : (N.subgroupOf R).Normal := ⟨fun n hn g => by
+  have hNnorm : (N.subgroupOf R).Normal := ⟨fun n hn g => by
     simp only [Subgroup.mem_subgroupOf] at hn ⊢
     exact hRN (g : G) g.2 (n : G) hn⟩
-  letI hQcomm : CommGroup (↥R ⧸ N.subgroupOf R) :=
+  let hQcomm : CommGroup (↥R ⧸ N.subgroupOf R) :=
     { (inferInstance : Group (↥R ⧸ N.subgroupOf R)) with
       mul_comm := by
         intro a b
@@ -160,7 +160,7 @@ theorem fzc_sy3_norm {R N : Subgroup G} {rho : G} (hNR : N ≤ R)
           R.mul_mem hr (hrR _ (hrR (r⁻¹) (R.inv_mem hr)))
         rwa [show r * (rho * (rho * r⁻¹ * rho⁻¹) * rho⁻¹) =
             r * (rho * rho) * r⁻¹ * (rho * rho)⁻¹ by
-              simp only [mul_inv_rev, inv_inv]; group,
+              simp only [mul_inv_rev]; group,
           ← fzc_comm_sq_eq] at h
       refine ⟨⟨⁅r, rho ^ 2⁆, hmem⟩, ?_, rfl⟩
       change ν (QuotientGroup.mk (⟨⁅r, rho ^ 2⁆, hmem⟩ : ↥R)) = 1

@@ -27,7 +27,7 @@ theorem CommOrRank.of_sylow_sigmaModel (hr : r.Prime) {G : Type} [Group G] [Fini
 
 theorem CommOrRank.of_mulEquiv (hr : r.Prime) {G H : Type} [Group G] [Finite G] [Group H] [Finite H]
     (e : G ≃* H) (h : CommOrRank r G) : CommOrRank r H := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   rcases h with h | h
   · exact Or.inl (sylow_comm_of_surjective e.toMonoidHom e.surjective h)
   · exact Or.inr (by rwa [← CFSG.SectionRank.pRank_top_eq_of_mulEquiv hr.one_lt e])
@@ -53,7 +53,7 @@ theorem le_of_isPGroup_of_not_dvd_index (hr : r.Prime) {G : Type} [Group G] [Fin
 theorem CommOrRank.of_normal_coprime_index (hr : r.Prime) {G : Type} [Group G] [Finite G]
     (N : Subgroup G) [N.Normal] (hN : ¬ r ∣ N.index) (h : CommOrRank r G) :
     CommOrRank r N := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   rcases h with h | h
   · exact Or.inl (sylow_comm_of_subgroup N h)
   · right
@@ -74,7 +74,7 @@ theorem CommOrRank.of_normal_coprime_index (hr : r.Prime) {G : Type} [Group G] [
 theorem injOn_of_isPGroup_of_not_dvd_ker (hr : r.Prime) {G K : Type} [Group G] [Finite G] [Group K]
     (π : G →* K) (hker : ¬ r ∣ Nat.card π.ker) {U : Subgroup G} (hU : IsPGroup r U) :
     Set.InjOn π (U : Set G) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hU
   have hcop : Nat.Coprime (Nat.card U) (Nat.card π.ker) := by
     rw [hn]
@@ -89,7 +89,7 @@ theorem injOn_of_isPGroup_of_not_dvd_ker (hr : r.Prime) {G K : Type} [Group G] [
 theorem CommOrRank.of_surjective_coprime_ker (hr : r.Prime) {G K : Type} [Group G] [Finite G]
     [Group K] [Finite K] (π : G →* K) (hπ : Function.Surjective π) (hker : ¬ r ∣ Nat.card π.ker)
     (h : CommOrRank r G) : CommOrRank r K := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   rcases h with h | h
   · exact Or.inl (sylow_comm_of_surjective π hπ h)
   · right

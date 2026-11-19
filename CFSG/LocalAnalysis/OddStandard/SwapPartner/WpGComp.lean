@@ -128,7 +128,7 @@ theorem card_le_altCentCard8_of_simpleNormalIn {G : Type} [Group G] [Finite G] {
   have hsub : ((D'.map q).subgroupOf
       (centralizer ({(q u : TwoSec x)} : Set (TwoSec x)))).IsSubnormal :=
     wp_isSubnormal_map_subgroupOf_centralizer Z hZc u hD'le hN
-  haveI : IsSimpleGroup D := hD.simple
+  have : IsSimpleGroup D := hD.simple
   have hDnab : ∃ a b : D, a * b ≠ b * a := by
     obtain ⟨a, ha, b, hb, hab⟩ := hD.nonab
     exact ⟨⟨a, ha⟩, ⟨b, hb⟩, fun h => hab (by simpa using congrArg Subtype.val h)⟩

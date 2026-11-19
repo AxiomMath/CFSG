@@ -37,7 +37,7 @@ theorem aPoint_J {A : Subgroup G} {a c d : G}
           Subgroup.centralizer ({y} : Set G)), A⁆ ≤
         inSubgroup (aschbacherSolvableCore 3) (Subgroup.centralizer ({a} : Set G)) := by
   intro y hyA hyZ
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hAcomm, hAexp⟩ := hAe
   have hcomm : ∀ x ∈ A, ∀ z ∈ A, x * z = z * x := fun x hx z hz =>
     congrArg Subtype.val (isMulCommutative_iff.mp hAcomm ⟨x, hx⟩ ⟨z, hz⟩)
@@ -199,7 +199,7 @@ theorem aPoint_T {A : Subgroup G} {a c d : G}
         u ∈ inSubgroup (CFSG.pCore 2) (Subgroup.centralizer ({a} : Set G) ⊓
           Subgroup.centralizer ({y} : Set G))) →
       u ∈ inSubgroup (aschbacherSolvableCore 3) (Subgroup.centralizer ({a} : Set G)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro u hu
   have hcA : c ∈ A := by rw [← hAcl]; exact Subgroup.subset_closure (by simp)
   have hdA : d ∈ A := by rw [← hAcl]; exact Subgroup.subset_closure (by simp)

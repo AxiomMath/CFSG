@@ -77,7 +77,7 @@ theorem olRow_one_inner (p : ℕ) [Fact p.Prime] (hp5 : 5 ≤ p)
     (h9 : ¬ 9 ∣ Nat.card (projSL 2 (GaloisField p 1))) :
     OLRow (fun T _ => Nonempty (T ≃* projSL 2 (GaloisField p 1))) := by
   have hK : Nat.card (GaloisField p 1) = p := by rw [GaloisField.card p 1 one_ne_zero, pow_one]
-  haveI : IsSimpleGroup (projSL 2 (GaloisField p 1)) :=
+  have : IsSimpleGroup (projSL 2 (GaloisField p 1)) :=
     CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (GaloisField p 1) le_rfl
       (Or.inr (by rw [hK]; omega)) (Or.inr (by rw [hK]; omega))
   have : Finite (projSL 2 (GaloisField p 1)) := inferInstance
@@ -146,7 +146,7 @@ theorem olRow_one (p e : ℕ) [Fact p.Prime] (hp2 : p ≠ 2) (he : 1 ≤ e) :
     rcases pow_dvd_N hp (by norm_num) hqN with h1 | ⟨h7, -⟩
     · obtain rfl : e = 1 := by omega
       have hK19 : Nat.card (GaloisField 19 1) = 19 := by rw [hK]; norm_num
-      haveI : IsSimpleGroup (projSL 2 (GaloisField 19 1)) :=
+      have : IsSimpleGroup (projSL 2 (GaloisField 19 1)) :=
         CFSG.PGLModel.isSimpleGroup_projSL_of_two_le (GaloisField 19 1) le_rfl
           (Or.inr (by rw [hK19]; norm_num)) (Or.inr (by rw [hK19]; norm_num))
       have hZL := Sec4.center_eq_bot_of_mulEquiv_isSimpleGroup hqL φ

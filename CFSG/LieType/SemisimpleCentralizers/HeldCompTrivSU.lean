@@ -28,7 +28,7 @@ theorem hct_heldSU_eq_statedSU {a Q : ℕ} {M : Type} [Field M] {τ : M ≃+* M}
       {A : GL (Fin a) M | Matrix.GeneralLinearGroup.det A = 1 ∧
         ((A : Matrix (Fin a) (Fin a) M).map (· ^ Q))ᵀ * (A : Matrix (Fin a) (Fin a) M) = 1} := by
     ext A
-    simp only [SetLike.mem_coe, heldSU, Subgroup.mem_inf, mem_heldGU, Set.mem_setOf_eq, hτf,
+    simp only [SetLike.mem_coe, heldSU, Subgroup.mem_inf, mem_heldGU, Set.mem_ofPred_eq, hτf,
       mem_statedSL_iff, Units.ext_iff, Matrix.GeneralLinearGroup.val_det_apply, Units.val_one,
       and_comm]
   rw [CFSG.PGLModel.statedSU_eq_closure_det, ← hset, Subgroup.closure_eq]
@@ -38,8 +38,8 @@ theorem hct_comp_top_statedSU {a Q : ℕ} {M : Type} [Field M] [Finite M]
     {X : Subgroup H} (hX : IsComponentOf X ⊤) : X = ⊤ := by
   subst hH
   obtain ⟨p, hchar, k, hp, rfl⟩ := hct_exists_char_pow hK
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hchar
+  have : Fact p.Prime := ⟨hp⟩
+  have := hchar
   have h1 : 1 < Nat.card M := Finite.one_lt_card
   have hQ2 : 2 ≤ p ^ k := by
     by_contra hlt
@@ -50,8 +50,8 @@ theorem hct_comp_top_statedSU {a Q : ℕ} {M : Type} [Field M] [Finite M]
     omega
   rcases Nat.lt_or_ge a 2 with ha | ha
   ·
-    haveI : Subsingleton ↥(StatedSU a (p ^ k) M) := by
-      haveI := hct_subsingleton_statedSL_of_le_one (K := M) (d := a) (by omega)
+    have : Subsingleton ↥(StatedSU a (p ^ k) M) := by
+      have := hct_subsingleton_statedSL_of_le_one (K := M) (d := a) (by omega)
       refine ⟨fun x y => ?_⟩
       have h := Subsingleton.elim (α := ↥(StatedSL a M))
         ⟨x.1, statedSU_le_statedSL a (p ^ k) M x.2⟩ ⟨y.1, statedSU_le_statedSL a (p ^ k) M y.2⟩
@@ -69,11 +69,11 @@ theorem hct_comp_top_statedSU {a Q : ℕ} {M : Type} [Field M] [Finite M]
       rcases hQ with h | h
       · have hs : Group.IsSolvable ↥(StatedSU 2 (p ^ k) M) :=
           hct_isSolvable_of_natCard_eq (p := 2) (q := 3) (a := 1) (b := 1) Nat.prime_two
-            Nat.prime_three (by norm_num) (by rw [hcard, h] <;> norm_num)
+            Nat.prime_three (by norm_num) (by rw [hcard, h]; norm_num)
         exact (hct_not_component_top_of_isSolvable hs hX).elim
       · have hs : Group.IsSolvable ↥(StatedSU 2 (p ^ k) M) :=
           hct_isSolvable_of_natCard_eq (p := 2) (q := 3) (a := 3) (b := 1) Nat.prime_two
-            Nat.prime_three (by norm_num) (by rw [hcard, h] <;> norm_num)
+            Nat.prime_three (by norm_num) (by rw [hcard, h]; norm_num)
         exact (hct_not_component_top_of_isSolvable hs hX).elim
     ·
       have hF : Nat.card (CFSG.LieType.Steinberg.fixedSubfield M p k) = p ^ k :=
@@ -92,7 +92,7 @@ theorem hct_comp_top_statedSU {a Q : ℕ} {M : Type} [Field M] [Finite M]
     ·
       exfalso
       obtain ⟨rfl, h2⟩ := h32
-      have hF : Nat.card M = (2 ^ 1) ^ 2 := by rw [hK, h2] <;> norm_num
+      have hF : Nat.card M = (2 ^ 1) ^ 2 := by rw [hK, h2]; norm_num
       have hcard : Nat.card (StatedSU 3 (2 ^ 1) M) = 216 := by
         rw [CFSG.RankThree.PartTwo.Sec8.Item87Proof.card_statedSU_three_two hF]
         norm_num
@@ -101,7 +101,7 @@ theorem hct_comp_top_statedSU {a Q : ℕ} {M : Type} [Field M] [Finite M]
         simpa using hcard
       have hs : Group.IsSolvable ↥(StatedSU 3 (p ^ k) M) :=
         hct_isSolvable_of_natCard_eq (p := 2) (q := 3) (a := 3) (b := 3) Nat.prime_two
-          Nat.prime_three (by norm_num) (by rw [hcard'] <;> norm_num)
+          Nat.prime_three (by norm_num) (by rw [hcard']; norm_num)
       exact (hct_not_component_top_of_isSolvable hs hX).elim
     · have hnq : (a, p ^ k) ≠ (3, 2) := fun h => h32 ⟨(Prod.mk.inj h).1, (Prod.mk.inj h).2⟩
       have hperf : Group.IsPerfect (StatedSU a (p ^ k) M) :=

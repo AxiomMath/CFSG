@@ -18,8 +18,8 @@ theorem s16nt_su_form {K : Type} [Field K] [Finite K] [Algebra (ZMod 2) K] [Char
           (((g : Matrix.GeneralLinearGroup (Fin n) K) : Matrix (Fin n) (Fin n) K).mulVec y) =
             β x y := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
   let σ : K ≃+* K := CFSG.LieType.BorelTits.unitaryInvolution K 2 1
   have hσ_inv : ∀ c : K, σ (σ c) = c := fun c =>

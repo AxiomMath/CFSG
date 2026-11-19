@@ -19,16 +19,16 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem qTwoNbr_stdComp {B Bs L D J : Subgroup G} {x : G} {𝒦 : Finset (Subgroup G)} {m : ℕ}
     (hcfg : GGSecFiveRouteCfg 3 B Bs x L D J 𝒦) (hm : 5 ≤ m)
-    (hL : LieModel (L ⧸ Subgroup.center L) .PSU m 2 1)
+    (_hL : LieModel (L ⧸ Subgroup.center L) .PSU m 2 1)
     (hFrameL : QTwoFrameL 3 B Bs x L D J) (hFm : hFrameL.m = m) :
     ∃ t : ℕ, 4 ≤ t ∧ t ≤ m - 1 ∧ 3 ∣ Nat.card J ∧
       LieModel (↥J ⧸ Subgroup.center ↥J) .PSU t 2 1 := by
   classical
-  letI := hFrameL.fieldF0
-  haveI := hFrameL.finiteF0
-  haveI := hFrameL.charF0
-  letI := hFrameL.groupL0
-  haveI := hFrameL.finiteL0
+  let := hFrameL.fieldF0
+  have := hFrameL.finiteF0
+  have := hFrameL.charF0
+  let := hFrameL.groupL0
+  have := hFrameL.finiteL0
   have hF : Nat.card hFrameL.F0 = (2 ^ 1) ^ 2 := by simpa using hFrameL.hcardF0
   obtain ⟨y, hy, hyx, -, hJy⟩ := qTwoNbrA_exists_y hcfg.1.1.1 hcfg.1.1.2.1 hcfg.1.1.2.2
   have hN : Bs ≤ Subgroup.normalizer (L : Set G) := hFrameL.hBsN
@@ -65,7 +65,7 @@ theorem qTwoNbr_stdComp {B Bs L D J : Subgroup G} {x : G} {𝒦 : Finset (Subgro
 
 theorem qTwoNbr_le {p : ℕ} {B Bs L D J : Subgroup G} {x : G} {𝒦 : Finset (Subgroup G)}
     (hcfg : GGSecFiveRouteCfg p B Bs x L D J 𝒦) (hLB : GGLBalanceInput)
-    (hPJ : GGStdSubPrimeInput) (hpJ : p ∣ Nat.card J) {y : G} {K : Subgroup G}
+    (_hPJ : GGStdSubPrimeInput) (hpJ : p ∣ Nat.card J) {y : G} {K : Subgroup G}
     (hnbr : GGNbr p B x D J y K) :
     J ≤ K :=
   le_of_ggNbr hLB hcfg.1.1.1 hcfg.1.1.2.2 hpJ hnbr

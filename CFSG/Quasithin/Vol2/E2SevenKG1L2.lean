@@ -24,7 +24,7 @@ theorem mem_sylow_of_mem_normalizer (S : Sylow 2 Y) {R : Subgroup Y} (hR : IsPGr
     (hgR : g ∈ R) (hgN : g ∈ Subgroup.normalizer ((S : Subgroup Y) : Set Y)) :
     g ∈ (S : Subgroup Y) := by
   have h2 : IsPGroup 2 ↥(Subgroup.zpowers g ⊔ (S : Subgroup Y)) :=
-    IsPGroup.to_sup_of_normal_right' (hR.to_le (Subgroup.zpowers_le.mpr hgR)) S.isPGroup'
+    IsPGroup.to_sup_of_normal_right' (hR.to_le (Subgroup.zpowers_le.mpr hgR)) S.isPGroup
       (Subgroup.zpowers_le.mpr hgN)
   exact (S.maximal_isPGroup.le_of_ge h2 le_sup_right)
     (Subgroup.mem_sup_left (Subgroup.mem_zpowers _))
@@ -43,7 +43,7 @@ theorem exists_smul_eq_of_ne (P : Sylow 2 Y)
     intro g hg
     rw [MulAction.mem_stabilizer_iff] at hg
     have hg' : (g : Y) • S = S := hg
-    have hgS := mem_sylow_of_mem_normalizer S P.isPGroup' g.2
+    have hgS := mem_sylow_of_mem_normalizer S P.isPGroup g.2
       (Sylow.smul_eq_iff_mem_normalizer.mp hg')
     obtain ⟨y, rfl⟩ := MulAction.exists_smul_eq Y P S
     have hyN : y ∉ Subgroup.normalizer (Q : Set Y) := fun h =>
@@ -185,7 +185,7 @@ theorem eq_one_of_fix_normalizer (P : Sylow 2 Y)
           simpa using this
         have := Q.mul_mem h1 htQ
         simpa [mul_assoc] using this
-      have hcS := mem_sylow_of_mem_normalizer S P.isPGroup' hcQ hcN
+      have hcS := mem_sylow_of_mem_normalizer S P.isPGroup hcQ hcN
       have hmem : e⁻¹ * (t⁻¹ * e * t) ∈ Q ⊓ (S : Subgroup Y) := ⟨hcQ, hcS⟩
       rw [h0, Subgroup.mem_bot] at hmem
       have := congrArg (fun w => t * e * w) hmem
@@ -197,7 +197,7 @@ theorem eq_one_of_fix_normalizer (P : Sylow 2 Y)
       have hle : N ⊓ Subgroup.normalizer ((S : Subgroup Y) : Set Y) ≤ ⊥ := by
         intro e he
         have heQ : e ∈ Q := hcent _ htQ ht1 e (hE e he)
-        have heS := mem_sylow_of_mem_normalizer S P.isPGroup' heQ he.2
+        have heS := mem_sylow_of_mem_normalizer S P.isPGroup heQ he.2
         have hmem : e ∈ Q ⊓ (S : Subgroup Y) := ⟨heQ, heS⟩
         rw [h0] at hmem
         exact hmem

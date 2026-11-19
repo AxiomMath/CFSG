@@ -11,6 +11,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem ncard_mul_set_mul_card_inf (H K : Subgroup G) :
     ((H : Set G) * (K : Set G)).ncard * Nat.card ↥(H ⊓ K) = Nat.card ↥H * Nat.card ↥K := by
   have h1 := Subgroup.card_mul_eq_card_subgroup_mul_card_quotient K (H : Set G)

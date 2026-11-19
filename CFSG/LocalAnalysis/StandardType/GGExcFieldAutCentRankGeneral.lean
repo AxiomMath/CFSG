@@ -44,13 +44,13 @@ theorem ggFieldRankTransfer_of_bounds {τ : Tag} {K : Type} [Field K] [Finite K]
 
 theorem exists_elemAbelian_centralizing_of_mulAut_field {τ : Tag} {K : Type} [Field K] [Finite K]
     [CharP K 2] {G : Type} [Group G] [Finite G] {p f : ℕ}
-    (hp : p.Prime) (hp2 : p ≠ 2) (hf : 1 ≤ f) (hK : Nat.card K = 2 ^ f)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hf : 1 ≤ f) (hK : Nat.card K = 2 ^ f)
     {ψ : adjointGroup τ K →* G} (hinj : Function.Injective ψ)
     {G₀ Bs : Subgroup G} (hrange : ψ.range = G₀)
-    (hcent : Subgroup.centralizer (G₀ : Set G) = ⊥)
+    (_hcent : Subgroup.centralizer (G₀ : Set G) = ⊥)
     {B : Subgroup (adjointGroup τ K)} (hB : IsElemAbelian p B)
     (hBcard : Nat.card Bs ≤ Nat.card B)
-    {y : G} (hyM : y ∈ Subgroup.normalizer (G₀ : Set G)) (hyp : orderOf y = p)
+    {y : G} (_hyM : y ∈ Subgroup.normalizer (G₀ : Set G)) (_hyp : orderOf y = p)
     (hNF : ∀ α : MulAut (adjointGroup τ K), α ^ p = 1 →
       (∀ h : adjointGroup τ K, α ≠ MulAut.conj h) →
       ∃ (x : adjointGroup τ K) (σ : K ≃+* K),
@@ -62,7 +62,7 @@ theorem exists_elemAbelian_centralizing_of_mulAut_field {τ : Tag} {K : Type} [F
     ∃ E₀ : Subgroup G, E₀ ≤ G₀ ∧ IsElemAbelian p E₀ ∧ (∀ x ∈ E₀, y * x = x * y) ∧
       Nat.card Bs ≤ p * Nat.card E₀ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hα_ord : orderOf α = p := by
     refine orderOf_eq_prime hαp ?_
     intro h1

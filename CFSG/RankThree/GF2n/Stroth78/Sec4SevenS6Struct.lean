@@ -151,7 +151,7 @@ theorem card_Lbar_eq_mul_card_map (S : Setting z E F) {a : G}
         have h3 : (ψ ((x.1 : ↥(Lbar S a)) : Hbar z)).1 = 1 := h1
         rw [h3] at h2
         rw [h2]
-        simpa using (ψ ((x.1 : ↥(Lbar S a)) : Hbar z)).2.2⟩
+        simp⟩
     refine Nat.card_le_card_of_injective f fun x y hxy => ?_
     have := congrArg (fun t : ↥(Lbar S a ⊓ Subgroup.centralizer (Xsub S a : Set (Hbar z))) =>
       (t : Hbar z)) hxy

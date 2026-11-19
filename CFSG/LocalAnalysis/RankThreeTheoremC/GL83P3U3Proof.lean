@@ -35,12 +35,12 @@ theorem zc_le {T : Subgroup G} : zc T ≤ T := inf_le_left
 
 theorem zc_card {T : Subgroup G} (hc : Nat.card T = 3 ^ 3) (hnc : ¬ IsMulCommutative T) :
     Nat.card (zc T) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact Generic49U3.card_inf_centralizer_of_nonabelian_card_p_cube hc hnc
 
 theorem comm_mem_zc {T : Subgroup G} (hc : Nat.card T = 3 ^ 3) (hnc : ¬ IsMulCommutative T) :
     ∀ a ∈ T, ∀ b ∈ T, a * b * a⁻¹ * b⁻¹ ∈ zc T := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : Nat.card (center T) = 3 :=
     Generic49U3.card_center_of_nonabelian_card_p_cube hc hnc
   have hQ : Nat.card (T ⧸ center T) = 3 ^ 2 := by
@@ -100,8 +100,8 @@ theorem cm_inv_right {T : Subgroup G} {a b : G} (hb : b ∈ T) (hw : cm a b ∈ 
 
 theorem isMulCommutative_of_lt {T X : Subgroup G} (hc : Nat.card T = 3 ^ 3) (hXT : X ≤ T)
     (hne : X ≠ T) : IsMulCommutative X := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
   have hdvd : Nat.card X ∣ 3 ^ 3 := hc ▸ Subgroup.card_dvd_of_le hXT
   obtain ⟨i, hi, hci⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 hdvd
   have hi3 : i ≠ 3 := by
@@ -110,10 +110,10 @@ theorem isMulCommutative_of_lt {T X : Subgroup G} (hc : Nat.card T = 3 ^ 3) (hXT
   have hi' : i < 3 := lt_of_le_of_ne hi hi3
   interval_cases i
   · have h1 : Nat.card X = 1 := by rw [hci]; norm_num
-    haveI : Subsingleton X := (Nat.card_eq_one_iff_unique.1 h1).1
+    have : Subsingleton X := (Nat.card_eq_one_iff_unique.1 h1).1
     exact isMulCommutative_iff.2 fun a b => Subsingleton.elim _ _
   · have h3 : Nat.card X = 3 := by rw [hci]; norm_num
-    haveI : IsCyclic X := isCyclic_of_prime_card h3
+    have : IsCyclic X := isCyclic_of_prime_card h3
     exact inferInstance
   · exact IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) hci
 
@@ -175,7 +175,7 @@ theorem noReflection {T : Subgroup G} (hc : Nat.card T = 3 ^ 3) (hnc : ¬ IsMulC
           _ = (φ a * a⁻¹) * (φ b * b⁻¹) := by group
       rw [e]; exact (zc T).mul_mem hua hub
     · refine ⟨T.one_mem, ?_⟩
-      rw [hφ1]; simpa using (zc T).one_mem
+      rw [hφ1]; simp
     · rintro a ⟨ha, hua⟩
       refine ⟨T.inv_mem ha, ?_⟩
       rw [hφinv a ha, inv_inv]
@@ -206,7 +206,7 @@ theorem noReflection {T : Subgroup G} (hc : Nat.card T = 3 ^ 3) (hnc : ¬ IsMulC
       rw [e]
       exact (zc T).mul_mem ((zc T).mul_mem hua hub) (hcm _ (T.inv_mem ha) _ (T.inv_mem hb))
     · refine ⟨T.one_mem, ?_⟩
-      rw [hφ1]; simpa using (zc T).one_mem
+      rw [hφ1]; simp
     · rintro a ⟨ha, hua⟩
       refine ⟨T.inv_mem ha, ?_⟩
       rw [hφinv a ha]
@@ -368,7 +368,7 @@ theorem ActData.exists_rel (hd : ActData H T E) {h t : G} (hh : h ∈ H) (ht : t
     obtain ⟨t', ht', e, he, h1⟩ := hd.TEh h hh t ht
     exact ⟨t', ht', by rw [h1]; simpa using he⟩
   unfold act
-  rw [dif_pos hx]
+  rw [dite_eq_left hx]
   obtain ⟨hmem, hE⟩ := hx.choose_spec
   refine ⟨hmem, hx.choose⁻¹ * (h * t * h⁻¹), hE, ?_⟩
   group
@@ -747,7 +747,7 @@ theorem card_autI_zpowers_le [Finite G] {V : Subgroup G} (hU : IsElemAbelian 2 V
 
 theorem card_le_of_isSylowTwoOf [Finite G] {S B P : Subgroup G} (hS : IsSylowTwoOf S B)
     (hPB : P ≤ B) (hP : IsPGroup 2 P) : Nat.card P ≤ Nat.card S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := hP.exists_card_eq
   have h1 : Nat.card S * (S.subgroupOf B).index = Nat.card B := by
     have := Subgroup.card_mul_index (S.subgroupOf B)
@@ -832,7 +832,7 @@ variable {H Y T E : Subgroup G}
 
 theorem exists_involution_of_card_six {K : Type*} [Group K] [Finite K] (h : Nat.card K = 6) :
     ∃ a : K, a ≠ 1 ∧ a * a = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := K) 2 (by rw [h]; norm_num)
   refine ⟨a, ?_, ?_⟩
   · intro h1
@@ -874,8 +874,8 @@ theorem caseTwo_card [Finite G] (hy : YData H Y T E) (hYsyl : IsSylowTwoOf Y H) 
   have hI1 : ∀ L' ∈ I, L' = L := by
     intro L' hL'
     by_contra hne
-    haveI : Finite L := Nat.finite_of_card_ne_zero (by rw [hL6 L hL]; norm_num)
-    haveI : Finite L' := Nat.finite_of_card_ne_zero (by rw [hL6 L' hL']; norm_num)
+    have : Finite L := Nat.finite_of_card_ne_zero (by rw [hL6 L hL]; norm_num)
+    have : Finite L' := Nat.finite_of_card_ne_zero (by rw [hL6 L' hL']; norm_num)
     obtain ⟨a, ha1, ha2⟩ := exists_involution_of_card_six (hL6 L hL)
     obtain ⟨b, hb1, hb2⟩ := exists_involution_of_card_six (hL6 L' hL')
     have hcab : (a : MulAut (IntMod V hU)) * b = b * a :=
@@ -946,10 +946,10 @@ theorem caseTwo_card [Finite G] (hy : YData H Y T E) (hYsyl : IsSylowTwoOf Y H) 
     obtain ⟨g, hgT, rfl⟩ := (mem_autI hU).1 hx
     have hg3 : g ^ 3 = 1 := Subtype.ext (by simpa using hy.Te g hgT)
     rw [← map_pow, hg3, map_one]
-  haveI : Finite (autI hU T) := inferInstance
+  have : Finite (autI hU T) := inferInstance
   have hodd : ¬ 2 ∣ Nat.card (autI hU T) := by
     intro h2d
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := autI hU T) 2 h2d
     have h3 : (a : MulAut (IntMod V hU)) ^ 3 = 1 := hcube a a.2
     have h4 : orderOf (a : MulAut (IntMod V hU)) = 2 := by
@@ -1060,7 +1060,7 @@ theorem exists_noncentral_normalizing [Finite G] (hy : YData H Y T E) (hYsyl : I
       have := Subgroup.card_le_of_le hle
       rw [zc_card hy.Tc hy.Tnc] at this
       omega
-    obtain ⟨t, htC, htz⟩ := SetLike.not_le_iff_exists.1 hnle
+    obtain ⟨t, htC, htz⟩ := IsConcreteLE.not_le_iff_exists.1 hnle
     refine ⟨t, htC.1, htz, Or.inr ?_⟩
     have hZV : quasithinOmegaOneCenter Y ≤ conjClosure (quasithinOmegaOneCenter Y) H :=
       le_conjClosure _ _
@@ -1079,6 +1079,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.Generic49U3
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem exists_mul_of_mem_sup {A B : Subgroup G} (hAB : A ≤ normalizer (B : Set G)) :
     ∀ v ∈ A ⊔ B, ∃ a ∈ A, ∃ b ∈ B, v = a * b := by
   let D : Subgroup G :=
@@ -1101,6 +1102,7 @@ theorem exists_mul_of_mem_sup {A B : Subgroup G} (hAB : A ≤ normalizer (B : Se
   have hB : B ≤ D := fun b hb => ⟨1, A.one_mem, b, hb, by simp⟩
   exact fun v hv => (sup_le hA hB) hv
 
+omit [Finite G] in
 theorem central_le_sup_zpowers {T : Subgroup G} {x : G} (hxcT : ∀ t ∈ T, x * t = t * x)
     {z : G} (hz : z ∈ T ⊔ zpowers x) (hc : ∀ s ∈ T ⊔ zpowers x, z * s = s * z) :
     z ∈ zc T ⊔ zpowers x := by
@@ -1131,7 +1133,7 @@ theorem case1_final_p3 {M Y S U : Subgroup G} {t : G}
     (htN : t ∈ normalizer (thompsonJ Y : Set G) ∨
       t ∈ normalizer (quasithinOmegaOneCenter Y : Set G)) :
     normalizer (Y : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases htN with htJ | htZ
   · have hUA : U ≤ S ⊓ normalizer (thompsonJ Y : Set G) :=
       le_inf hUS (hUY.trans (normalizer_le_normalizer_thompsonJ' Y))
@@ -1166,6 +1168,7 @@ open Subgroup CFSG.Quasithin CFSG.Open CFSG.QuasithinUnique CFSG.ABGLocalTools
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_of_mul_mem_of_pow {R : Subgroup G} {a s : G} (ha : a ∈ normalizer (R : Set G))
     {m : ℕ} (ham : a ^ (2 ^ m) = 1) (hs : s ^ 3 = 1) (hr : a * s ∈ R) : s ∈ R := by
   have hsr : s = a⁻¹ * (a * s) := by group
@@ -1190,6 +1193,7 @@ theorem mem_of_mul_mem_of_pow {R : Subgroup G} {a s : G} (ha : a ∈ normalizer 
   rw [← h4, h5, pow_mul, h1]
   exact R.pow_mem hq _
 
+omit [Finite G] in
 theorem sup_inf_le_of_perm {R Y S : Subgroup G} (hY2 : IsPGroup 2 Y)
     (hSexp : ∀ s ∈ S, s ^ 3 = 1) (hYR : Y ≤ normalizer (R : Set G))
     (hRS : S ⊓ R = ⊥) (hperm : ∀ w ∈ Y ⊔ S, ∃ y ∈ Y, ∃ s ∈ S, w = y * s) :
@@ -1208,7 +1212,7 @@ theorem sup_inf_le_of_perm {R Y S : Subgroup G} (hY2 : IsPGroup 2 Y)
 
 theorem isSylowTwoOf_sup_of_perm {Y Q : Subgroup G} (hY : IsPGroup 2 Y) (hQ : IsPGroup 3 Q)
     (hperm : ∀ w ∈ Y ⊔ Q, ∃ y ∈ Y, ∃ q ∈ Q, w = y * q) : IsSylowTwoOf Y (Y ⊔ Q) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := hY.exists_card_eq
   obtain ⟨b, hb⟩ := hQ.exists_card_eq
   have hcop : Nat.Coprime (Nat.card Y) (Nat.card Q) := by
@@ -1230,14 +1234,14 @@ theorem isSylowTwoOf_sup_of_perm {Y Q : Subgroup G} (hY : IsPGroup 2 Y) (hQ : Is
 
 theorem isSolvable_sup_of_perm {Y Q : Subgroup G} (hY : IsPGroup 2 Y) (hQ : IsPGroup 3 Q)
     (hperm : ∀ w ∈ Y ⊔ Q, ∃ y ∈ Y, ∃ q ∈ Q, w = y * q) : Group.IsSolvable ↥(Y ⊔ Q) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨a, ha⟩ := hY.exists_card_eq
   obtain ⟨b, hb⟩ := hQ.exists_card_eq
   have hcop : Nat.Coprime (Nat.card Y) (Nat.card Q) := by
     rw [ha, hb]
     exact Nat.Coprime.pow _ _ (by norm_num)
   have hcard := Glauberman281.card_sup_eq_mul hcop hperm
-  haveI : Fintype ↥(Y ⊔ Q) := Fintype.ofFinite _
+  have : Fintype ↥(Y ⊔ Q) := Fintype.ofFinite _
   exact CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
     Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card, hcard, ha, hb])
 
@@ -1250,7 +1254,7 @@ theorem yData_of_case1 {M R T S Y : Subgroup G}
     (hTcard : Nat.card T = 3 ^ 3) (hTexp : ∀ t ∈ T, t ^ 3 = 1) (hTnc : ¬ IsMulCommutative T)
     (hZY : ∀ z ∈ zc T, z ∈ normalizer (Y : Set G)) :
     YData (Y ⊔ T) Y T (Y ⊓ R) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hTM : T ≤ M := hTS.trans hSM
   have hTn : T ≤ normalizer (R : Set G) := hTM.trans hRn
   have hTR : T ⊓ R = ⊥ :=
@@ -1271,8 +1275,7 @@ theorem yData_of_case1 {M R T S Y : Subgroup G}
     (Subgroup.mem_normalizer_iff.1 (hRn hg) r).1 hr
   have hTY : T ⊓ Y = ⊥ := by
     obtain ⟨a, ha⟩ := hY2.exists_card_eq
-    exact Subgroup.inf_eq_bot_of_coprime
-      (by rw [hTcard, ha]; exact Nat.Coprime.pow _ _ (by norm_num))
+    exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [hTcard, ha]; exact Nat.Coprime.pow _ _ (by norm_num))))
   have hEn : ∀ h ∈ Y ⊔ T, ∀ e ∈ Y ⊓ R, h * e * h⁻¹ ∈ Y ⊓ R := by
     intro h hh e he
     have hhW : h ∈ Y ⊔ S := hYTW hh
@@ -1379,7 +1382,7 @@ theorem case1_core_p3 {M R T Y U : Subgroup G} {x : G}
     (hY2 : IsPGroup 2 Y) (hYM : Y ≤ M) (hUY : U ≤ normalizer (Y : Set G))
     (hYB : IsSylowOf 2 (Y ⊓ R) R) :
     normalizer (Y : Set G) ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp2 : (3 : ℕ) ≠ 2 := by norm_num
   have hp : (3 : ℕ).Prime := Nat.prime_three
   have hVM : T ⊔ zpowers x ≤ M := sup_le hTM (zpowers_le.2 hxM)
@@ -1543,7 +1546,7 @@ theorem u3PointLemma43_of_remark (hS : Setting G) (hD1 : TheoremD1 G)
     (hnorm : M ≤ normalizer ((((P : Subgroup G) ⊓ J) ⊔ GLBPrimeCore 3 M : Subgroup G) : Set G)) :
     U3PointLemma43 3 P M J x := by
   intro Y hY2 hYM hUY hYB
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hPx, hTcard, hTexp, hTnc, ⟨Z, -, hxZ, -, hTZ, -⟩, -⟩ := h34
   obtain ⟨T, hT⟩ : ∃ T : Subgroup G, T = (P : Subgroup G) ⊓ J := ⟨_, rfl⟩
   rw [← hT] at hTcard hTexp hTnc hTZ hnorm
@@ -1576,7 +1579,7 @@ theorem u3PointLemma43_of_remark (hS : Setting G) (hD1 : TheoremD1 G)
   have hxcT : ∀ t ∈ T, x * t = t * x := fun t ht =>
     Subgroup.mem_centralizer_iff.1 (hPx (hTP ht)) x rfl
   have hVp : IsPGroup 3 (T ⊔ zpowers x : Subgroup G) :=
-    P.isPGroup'.to_le (sup_le hTP (zpowers_le.2 hxP))
+    P.isPGroup.to_le (sup_le hTP (zpowers_le.2 hxP))
   obtain ⟨A, hA⟩ : ∃ A : Subgroup G, A = (center ↥T).map T.subtype := ⟨_, rfl⟩
   have hUdef : u3VPlane (P : Subgroup G) J x = A ⊔ zpowers x := by rw [hA, hT]; rfl
   rw [hUdef] at hUY

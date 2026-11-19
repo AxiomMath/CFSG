@@ -54,7 +54,7 @@ theorem isPGroup_proj (hd : IsInternalDirect H Nb) (j : Fin m) {A : Subgroup X} 
 
 theorem card_proj_eq_two [Finite X] (hd : IsInternalDirect H Nb) {j : Fin m} (h6 : Nat.card ↥(Nb j) = 6)
     {A : Subgroup X} (hA : IsPGroup 2 A) (hne : proj hd j A ≠ ⊥) : Nat.card ↥(proj hd j A) = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 (isPGroup_proj hd j hA)
   have hdvd : 2 ^ k ∣ 6 := by
     rw [← hk, ← h6]
@@ -84,7 +84,7 @@ variable {ρ : Representation (ZMod 2) X V} {Nbar : Subgroup X} {m : ℕ} {Nb : 
 
 theorem inv_I {g : X} (hg : g ∈ Nbar) : ∀ u ∈ natI ρ Nbar, ρ g u ∈ natI ρ Nbar :=
   P22x.commOn_invariant (A := Nbar) (U := ⊤) (g := g)
-    (fun a ha => Nbar.mul_mem (Nbar.mul_mem hg ha) (Nbar.inv_mem hg)) fun _ _ => trivial
+    (fun _a ha => Nbar.mul_mem (Nbar.mul_mem hg ha) (Nbar.inv_mem hg)) fun _ _ => trivial
 
 theorem inv_Ii (hd : IsInternalDirect Nbar Nb) {g : X} (hg : g ∈ Nbar) (k : Fin m) :
     ∀ u ∈ natIi ρ Nbar (Nb k), ρ g u ∈ natIi ρ Nbar (Nb k) :=
@@ -93,7 +93,7 @@ theorem inv_Ii (hd : IsInternalDirect Nbar Nb) {g : X} (hg : g ∈ Nbar) (k : Fi
     (inv_I hg)
 
 theorem Ii_le_I (hd : IsInternalDirect Nbar Nb) (k : Fin m) : natIi ρ Nbar (Nb k) ≤ natI ρ Nbar :=
-  P22x.commOn_le_of_invariant fun a ha u hu => inv_I (P22w.le_of_isInternalDirect hd k ha) u hu
+  P22x.commOn_le_of_invariant fun _a ha u hu => inv_I (P22w.le_of_isInternalDirect hd k ha) u hu
 
 theorem NatDecAt.step1 {j : Fin m} (d : NatDecAt ρ Nbar Nb j) {k : Fin m} (hkj : k ≠ j) {g : X}
     (hg : g ∈ Nb k) {x : V} (hx : x ∈ natIi ρ Nbar (Nb j)) : ρ g x - x ∈ natC ρ Nbar := by

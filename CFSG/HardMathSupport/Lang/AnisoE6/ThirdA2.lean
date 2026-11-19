@@ -55,7 +55,7 @@ theorem wWord_smul_e2 :
     (coxeterSystem Tag.E6).wordProd wWord • (Pi.single (e6Index 2) 1 : Fin Tag.E6.rank → ℤ) =
       beta2 := by
   simp only [wWord, ωWord_eq, uWord, CoxeterSystem.wordProd, List.map, List.prod_cons,
-    List.prod_nil, List.cons_append, List.nil_append, mul_smul, one_smul, simple_smul, beta2]
+    List.prod_nil, List.cons_append, List.nil_append, mul_smul, one_smul, simple_smul]
   decide +kernel
 
 theorem isRoot_beta1 : IsRoot Tag.E6 beta1 := isRoot_single _ _

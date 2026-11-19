@@ -133,7 +133,7 @@ private theorem rk2Cnt_twF4_eq_zero {m : ℕ} (hm : m ∉ ({1, 2, 4, 6, 12} : Fi
     have h3 : ¬ (m ∣ 6 ∧ ¬ m ∣ 3) := fun h => h6 h.1
     have h12 : ¬ (m ∣ 12 ∧ ¬ m ∣ 6) := fun h => hdiv h.1
     unfold rk2Cnt
-    simp [h1, h2, h4, h3, h12]
+    simp [h1, h4, h3, h12]
 
 private theorem rk2Cnt_triD4_eq_two {m : ℕ} (hm : m ∈ ({1, 2, 3, 6} : Finset ℕ)) :
     rk2Cnt [(2, true), (6, true), (12, true)] m - rk2Cnt [(4, true)] m = 2 := by
@@ -200,7 +200,7 @@ theorem rk2_pRank_le_one_of_rankLE1 {G : Type} [Group G] [Finite G] {p : ℕ} (h
 
 theorem rk2_pRank_eq_zero_of_not_dvd {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     (h : ¬ p ∣ Nat.card G) : CFSG.Open.pRank p (⊤ : Subgroup G) = 0 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hle : CFSG.Open.pRank p (⊤ : Subgroup G) ≤ 0 := by
     refine CFSG.SectionRank.pRank_le hp.one_lt ?_
     intro E _ hE
@@ -288,12 +288,10 @@ private theorem rk2_eval_exhaustionPhi_eq_cyclotomic (m : ℕ)
   rcases hm with rfl | rfl | rfl | rfl | rfl | rfl
   · simp [CFSG.RankThree.Chevalley.exhaustionPhi, Polynomial.cyclotomic_one]
   · simp [CFSG.RankThree.Chevalley.exhaustionPhi, Polynomial.cyclotomic_two]
-  · simp [CFSG.RankThree.Chevalley.exhaustionPhi,
-      CFSG.LieType.SeitzGeneration.cyclotomic_three_eq]
+  · simp [CFSG.RankThree.Chevalley.exhaustionPhi]
   · simp [CFSG.RankThree.Chevalley.exhaustionPhi,
       CFSG.LieType.SeitzGeneration.cyclotomic_four_eq]
-  · simp [CFSG.RankThree.Chevalley.exhaustionPhi,
-      CFSG.LieType.SeitzGeneration.cyclotomic_six_eq]
+  · simp [CFSG.RankThree.Chevalley.exhaustionPhi]
   · simp [CFSG.RankThree.Chevalley.exhaustionPhi,
       CFSG.LieType.SeitzGeneration.cyclotomic_twelve_eq]
 
@@ -318,7 +316,7 @@ theorem rk2_exists_dvd_cyclotomic_of_dvd_card_triD4 {R : Type} [Group R] [Finite
   · exact absurd ht (by simp [markTag])
 
 theorem rk2_exists_dvd_cyclotomic_of_dvd_card_reeF4 {R : Type} [Group R] [Finite R] {n p : ℕ}
-    (hn : 3 ≤ n) (hM : MarkedModel ⟨.twF4, 0, n⟩ R) (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : 3 < p)
+    (hn : 3 ≤ n) (hM : MarkedModel ⟨.twF4, 0, n⟩ R) (hp : p.Prime) (_hp2 : p ≠ 2) (hp3 : 3 < p)
     (hdvd : p ∣ Nat.card R) :
     ∃ m ∈ ({1, 2, 4, 6, 12} : Finset ℕ),
       (p : ℤ) ∣ (Polynomial.cyclotomic m ℤ).eval ((2 ^ n : ℕ) : ℤ) := by
@@ -331,7 +329,7 @@ theorem rk2_exists_dvd_cyclotomic_of_dvd_card_reeF4 {R : Type} [Group R] [Finite
     have hree' : ReeTitsModel R .twistedF4 2 (2 * a + 1) := hf ▸ ⟨hadm, a, hf₀, hrel⟩
     obtain ⟨K, _, _, hcharK, hcard, ⟨eR⟩⟩ :=
       CFSG.LieType.ChevTwo.Semi.exists_mulEquiv_reeGamma ha hree'
-    haveI := hcharK
+    have := hcharK
     have hK : Nat.card K = 2 ^ (2 * a + 1) := hcard
     have hdvd' : p ∣ Nat.card (CFSG.LieType.Ree.ReeTag.F4.reeGamma K a) := by
       rw [← Nat.card_congr eR.toEquiv]
@@ -593,7 +591,7 @@ theorem rk2_nonempty_cat_equiv_twF4 {R : Type} [Group R] {n : ℕ} (hn : 3 ≤ n
     have hree' : ReeTitsModel R .twistedF4 2 (2 * a + 1) := hf ▸ ⟨hadm, a, hf₀, hrel⟩
     obtain ⟨K, _, _, hcharK, hcard, ⟨eR⟩⟩ :=
       CFSG.LieType.ChevTwo.Semi.exists_mulEquiv_reeGamma ha hree' 
-    haveI := hcharK
+    have := hcharK
     obtain ⟨eC⟩ :=
       CFSG.HardMathSupport.Solomon.Coordinator.SeitzOuterCube.Exc.reeGamma_equiv_cat_of_card ha hv hcard
     exact ⟨a, ha, hv, hf, ⟨eR.trans eC.symm⟩⟩
@@ -724,7 +722,7 @@ private theorem rk2_carrier_twB2_not_mem (R : Type) [Group R] [Finite R] (n p : 
   have h0 : CFSG.Open.pRank p (⊤ : Subgroup R) = 0 := by
     refine rk2_pRank_eq_zero_of_not_dvd hp ?_
     obtain ⟨-, a, ha, K, _, hKfin, hf, hcard, ⟨eR⟩⟩ := rk2_suzukiModel_of_markedModel hM
-    haveI := hKfin
+    have := hKfin
     have hK : Nat.card K = 2 ^ (2 * a + 1) := by rw [← hf]; exact hcard
     rw [Nat.card_congr eR.toEquiv, CFSG.LieType.Ree.suzuki_order hK]
     intro hd
@@ -766,7 +764,7 @@ theorem rk2_pRank_le_small {K : Type} [Group K] [Finite K] {lab : GLALabel} {p :
     (CFSG.Foundations.SteinbergCA.quasisimple_iff _).2.2.1.2 hQ
   have hZ : ¬ p ∣ Nat.card (Subgroup.center K) :=
     rk2_not_dvd_card_center hQ' hM htag hp hp2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rw [← CFSG.SectionRank.pRank_quotient_eq (Subgroup.center K) hZ]
   rcases htag with rfl | rfl | rfl
   · obtain ⟨hn1, hr0⟩ := hlab2

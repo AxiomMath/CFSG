@@ -24,13 +24,13 @@ theorem pres_F42 : Pres sE g4E g5E := by
     saltOf (sBits 3)]) (fun i => ?_) (hasBitsS_wordS _ _) (hasBitsS_wordS _ _)
     (relB_of_relN CFSG.KD.F4Syl3.rel_ok)
   rcases i with ⟨_ | _ | _ | _ | n, hi⟩
-  · simp only [Fin.val_mk, List.getD_cons_zero]
+  · simp only [List.getD_cons_zero]
     exact hasBitsS_sE _
-  · simp only [Fin.val_mk, Nat.zero_add, List.getD_cons_succ, List.getD_cons_zero]
+  · simp only [Nat.zero_add, List.getD_cons_succ, List.getD_cons_zero]
     exact hasBitsS_sE _
-  · simp only [Fin.val_mk, Nat.zero_add, List.getD_cons_succ, List.getD_cons_zero]
+  · simp only [Nat.zero_add, List.getD_cons_succ, List.getD_cons_zero]
     exact hasBitsS_sE _
-  · simp only [Fin.val_mk, Nat.zero_add, List.getD_cons_succ, List.getD_cons_zero]
+  · simp only [Nat.zero_add, List.getD_cons_succ, List.getD_cons_zero]
     exact hasBitsS_sE _
   · omega
 

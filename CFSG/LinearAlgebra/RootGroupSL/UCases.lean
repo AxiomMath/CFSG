@@ -21,7 +21,7 @@ theorem eq_datumU1_or_eq_datumU2_std (hd : 2 ≤ Module.finrank k E)
     (hnc : ¬ QK k E X ≤ Subgroup.centralizer (U : Set (SpecialLinearGroup k (DSpace E X)))) :
     U = datumU1 (stdIota k E X) ∨ U = datumU2 (stdPi k E X) := by
   classical
-  haveI hfinE : Module.Finite k E := by
+  have hfinE : Module.Finite k E := by
     rw [Module.finite_def, Submodule.fg_def]
     exact ⟨Set.univ, Set.finite_univ, Submodule.span_univ⟩
   obtain ⟨ν, hνnorm, hνne, hνgen⟩ := exists_norm_one_generator (k := k) (E := E) hd
@@ -32,7 +32,7 @@ theorem eq_datumU1_or_eq_datumU2_std (hd : 2 ≤ Module.finrank k E)
         have h := U.mul_mem hφ hφ'
         rw [uSL_mul] at h
         simpa using h
-      zero_mem' := by simpa [uSL_zero] using U.one_mem
+      zero_mem' := by simp [uSL_zero]
       neg_mem' := by
         intro φ hφ
         have hneg : (-φ : X →ₗ[k] E) = φ := by ext x; exact neg_eq_self_mod k (φ x)
@@ -44,7 +44,7 @@ theorem eq_datumU1_or_eq_datumU2_std (hd : 2 ≤ Module.finrank k E)
         have h := U.mul_mem hχ hχ'
         rw [uSL_mul] at h
         simpa using h
-      zero_mem' := by simpa [uSL_zero] using U.one_mem
+      zero_mem' := by simp [uSL_zero]
       neg_mem' := by
         intro χ hχ
         have hneg : (-χ : E →ₗ[k] X) = χ := by ext x; exact neg_eq_self_mod k (χ x)

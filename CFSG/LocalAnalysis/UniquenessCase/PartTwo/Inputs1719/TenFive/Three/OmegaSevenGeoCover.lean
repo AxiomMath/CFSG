@@ -70,7 +70,7 @@ private theorem omSevenGC_exists_lifts_not_commute {K : Type} [Field K] [Finite 
       π l' = omSevenGCProj h2 (SpinOdd.x 3 K omSevenGCShort 1) ∧
       l * l' ≠ l' * l := by
   classical
-  haveI hperfSpin : Group.IsPerfect (spinGroup (quadOdd 3 K)) :=
+  have hperfSpin : Group.IsPerfect (spinGroup (quadOdd 3 K)) :=
     isPerfect_spinGroup_quadOdd h2 (by norm_num)
   by_contra hcon
   push Not at hcon
@@ -80,7 +80,7 @@ private theorem omSevenGC_exists_lifts_not_commute {K : Type} [Field K] [Finite 
   set prj : ↥E →* L := (MonoidHom.snd (spinGroup (quadOdd 3 K)) L).comp E.subtype with hprj
   have hfs : Function.Surjective fst := pullbackFst_surjective hπ
   have hfc : fst.ker ≤ Subgroup.center ↥E := ker_pullbackFst_le_center hcen
-  haveI : Group.IsPerfect ↥E' :=
+  have : Group.IsPerfect ↥E' :=
     CFSG.ClassicalInvolution.Q3.Q3OF.isPerfect_commutator_of_central fst hfs hfc
   set π' : ↥E' →* spinGroup (quadOdd 3 K) := fst.comp E'.subtype with hπ'
   have hπ's : Function.Surjective π' := by
@@ -134,7 +134,7 @@ private theorem omSevenGC_exists_lifts_not_commute {K : Type} [Field K] [Finite 
       exact h3
     rw [h2] at h1
     exact h1.symm
-  haveI hq2 : IsPGroup 2 (omSevenGCProj h2).ker :=
+  have hq2 : IsPGroup 2 (omSevenGCProj h2).ker :=
     IsPGroup.of_card (n := 1) (by
       change Nat.card (spinToStatedProj (quadOdd 3 K)
         (range_spinMatrix_quadOdd h2 (by norm_num))).ker = 2 ^ 1
@@ -205,7 +205,7 @@ private theorem omSevenGC_liftsConjugate_std {K : Type} [Field K] [Finite K]
       rwa [hcard] at h
     exact orderOf_dvd_iff_pow_eq_one.mp hdvd
   have hg3 : orderOf ⁅l, l'⁆ = 3 := orderOf_eq_prime hgpow3 hg_ne
-  haveI : Finite π.ker := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite π.ker := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hgpowers : Subgroup.zpowers ⁅l, l'⁆ = π.ker := by
     apply Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr hgl)
     rw [Nat.card_zpowers, hg3, hcard]
@@ -247,10 +247,10 @@ theorem exists_liftsConjugate_eichlerProj {K : Type} [Field K] [Finite K] (hK : 
   set u : OmegaSevenIdx → K := Pi.single (SpinOdd.oddIdx 2 true) 1 with hu_def
   set w : OmegaSevenIdx → K := Pi.single SpinOdd.zIdx 1 with hw_def
   have huQ : quadOdd 3 K u = 0 := by simp [u, quadOdd_apply, SpinOdd.oddIdx, Pi.single_apply]
-  have hu0 : u ≠ 0 := by simp [u, SpinOdd.oddIdx, Pi.single_apply]
+  have hu0 : u ≠ 0 := by simp [u, SpinOdd.oddIdx]
   have hpol : polar (quadOdd 3 K) u w = 0 := by
     simp [u, w, polar_quadOdd, SpinOdd.oddIdx, SpinOdd.zIdx, Pi.single_apply]
-  have hwQ : quadOdd 3 K w = 1 := by simp [w, quadOdd_apply, SpinOdd.zIdx, Pi.single_apply]
+  have hwQ : quadOdd 3 K w = 1 := by simp [w, quadOdd_apply, SpinOdd.zIdx]
   have hδ : SpinOdd.x 3 K omSevenGCShort 1 =
       (oddFrame 3 K).shortRoot 2 true (.ofAdd 1) := by
     rw [SpinOdd.x_eq_short (i := 2) (s := true) (h := by

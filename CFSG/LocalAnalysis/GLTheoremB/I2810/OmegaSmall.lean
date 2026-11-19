@@ -19,7 +19,7 @@ namespace CFSG.LocalAnalysis.GLTheoremB.Prop95Iv.I2810.OmegaSmall
 theorem solvable_plus_two : Group.IsSolvable ↥(StatedOmega (StatedQuadPlus 2 (ZMod 2))) := by
   have hcard : Nat.card ↥(orthGroup (StatedQuadPlus 2 (ZMod 2))) = 2 ^ 3 * 3 ^ 2 := by
     rw [card_orthGroup_quadPlus_two, Nat.card_zmod]; norm_num
-  haveI : Fintype ↥(orthGroup (StatedQuadPlus 2 (ZMod 2))) := Fintype.ofFinite _
+  have : Fintype ↥(orthGroup (StatedQuadPlus 2 (ZMod 2))) := Fintype.ofFinite _
   have hO : Group.IsSolvable ↥(orthGroup (StatedQuadPlus 2 (ZMod 2))) :=
     CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow Nat.prime_two
       Nat.prime_three (by norm_num) (by rw [← Nat.card_eq_fintype_card, hcard])

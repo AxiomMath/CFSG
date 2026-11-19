@@ -37,7 +37,7 @@ private theorem ggRKR_recipe {τ : Tag} (hτ' : τ = .E7 ∨ τ = .E8 ∨ τ = .
     LargeEvenRecipeChevalley τ.cartan (2 ^ n) false
       (fun R _ I F => Q R I F ∧ ∃ r, GGTorusLift p r R ∧ GGTorusRootSL2 p r R I) := by
   obtain ⟨K, _, _, hK, hQ⟩ := h
-  haveI : CharP K 2 := charP_two_of_card hK
+  have : CharP K 2 := charP_two_of_card hK
   have hpq : p ∣ Nat.card K + 1 := by rw [hK]; exact hpn
   have hq : 4 ≤ Nat.card K := by
     rw [hK]

@@ -128,7 +128,7 @@ theorem exists_tits_lifts
       | exact h1 13 (by decide)
       | exact h1 14 (by decide)
   have hθt : ∀ k < 5, θ (t k) = adjSwap 5 k := fun k hk => by
-    simp only [t, dif_pos hk]
+    simp only [t, dite_eq_left hk]
     exact ht1 ⟨k, hk⟩
   rcases zmod_two_cases c with rfl | rfl
   ·
@@ -136,7 +136,7 @@ theorem exists_tits_lifts
     have hsq : ∀ k < 5, t k * t k = 1 := fun k hk => by
       have := hrel ⟨k, by omega⟩
       rw [zero_smul, ofAdd_zero, map_one] at this
-      simp only [t, dif_pos hk]
+      simp only [t, dite_eq_left hk]
       interval_cases k <;> simpa [rel, relL, evalW] using this
     obtain ⟨h, hh⟩ := exists_hom_perm 5 t ⟨hsq, hbr, hcm⟩
     have hθh : θ.comp h = MonoidHom.id _ := by
@@ -160,7 +160,7 @@ theorem exists_tits_lifts
     refine ⟨t, hθt, fun k hk => ?_, hbr, hcm⟩
     have := hrel ⟨k, by omega⟩
     rw [one_smul, mkExt_ι] at this
-    simp only [t, dif_pos hk]
+    simp only [t, dite_eq_left hk]
     have e : coordE.symm (titsVal ⟨k, by omega⟩) =
         ((pairEW ⟨k, by omega⟩ ⟨k + 1, by omega⟩ : evenWeight 6) : altHeart 6) := by
       apply coordE.injective

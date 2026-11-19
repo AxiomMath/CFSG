@@ -146,11 +146,11 @@ theorem liftF_W0 {j : Nat} (hj : j < 5) :
   · exact lift_W0 p0_planePts (fun x hx => by rw [liftF_table hj x hx, liftP_eq hj hj0 x hx])
       (liftP_W0 hj hj0)
 
-theorem trLift_facts : ∀ j < 5,
-    (∀ x < 1953, (trLift j)[x]! < 1953 ∧ (trLift j)[(trLift j)[x]!]! = x) ∧
+theorem trLift_facts : ∀ _j < 5,
+    (∀ x < 1953, (trLift _j)[x]! < 1953 ∧ (trLift _j)[(trLift _j)[x]!]! = x) ∧
     (∀ p < 1953, ∀ x < 1953,
-      (trLift j)[(tvTab[p]!)[x]!]! = (tvTab[(trLift j)[p]!]!)[(trLift j)[x]!]!) ∧
-    ∀ p ∈ planePtsArr[0]!, (flagArr[0]!)[(trLift j)[p]!]! = true := fun j hj =>
+      (trLift _j)[(tvTab[p]!)[x]!]! = (tvTab[(trLift _j)[p]!]!)[(trLift _j)[x]!]!) ∧
+    ∀ p ∈ planePtsArr[0]!, (flagArr[0]!)[(trLift _j)[p]!]! = true := fun _j hj =>
   ⟨(lift_facts (liftF_table hj) (liftF_lift hj)).1,
     (lift_facts (liftF_table hj) (liftF_lift hj)).2, liftF_W0 hj⟩
 

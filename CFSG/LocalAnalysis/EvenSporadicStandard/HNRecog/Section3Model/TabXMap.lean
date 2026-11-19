@@ -47,7 +47,7 @@ variable {H : Type} [Group H]
 theorem tabXBase_congr {b b' : H} (hb : IsConj b b') (z : H) :
     {c | IsConj b' c ∧ c ∈ Gx z} = {c | IsConj b c ∧ c ∈ Gx z} := by
   ext c
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   rw [isConj_congr_left hb c]
 
 theorem TableXData.congr {a z b b' z₁ z₁' : H} (ha : a ∈ Subgroup.center H) (hb : IsConj b b')
@@ -129,7 +129,7 @@ theorem TableXData.of_map {H' : Type} [Group H'] (e : H ≃* H') {a z b z₁ : H
   have hbase : e.toMonoidHom '' {c | IsConj b c ∧ c ∈ Gx z} =
       {c | IsConj (e b) c ∧ c ∈ Gx (e z)} :=
     image_eq_of_mem_iff e fun x => by
-      simp only [Set.mem_setOf_eq, isConj_map_iff, mem_Gx_map]
+      simp only [Set.mem_ofPred_eq, isConj_map_iff, mem_Gx_map]
   have hset : (fun i => e.toMonoidHom '' tabXSet a z b z₁ i) =
       tabXSet (e a) (e z) (e b) (e z₁) :=
     funext fun i => image_eq_of_mem_iff e fun x => mem_tabXSet_map e a z b z₁ x i

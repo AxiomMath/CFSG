@@ -59,8 +59,8 @@ theorem isSolvable_of_ne_top_of_isCaseTwoGroup {p : ℕ} {K : Type}
   obtain ⟨⟨d, hv⟩, hd, ⟨e⟩⟩ := hK
   rcases hd with ⟨-, q, hqp, hqe, hdq⟩ | ⟨-, hdq⟩
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI := CFSG.Adapters.certificate43_holds
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have := CFSG.Adapters.certificate43_holds
     obtain ⟨eP⟩ := nonempty_mulEquiv_psl2GF_of_isLinTwoIndex (p := 2) (n := 3) (d := ⟨d, hv⟩)
       ⟨q, hdq, hqp, hqe⟩
     exact isSolvable_of_ne_top_of_mulEquiv (e.trans eP)

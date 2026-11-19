@@ -15,16 +15,18 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {b c : K}
 
 section Plane
 
+omit [Finite K] [CharP K 2] in
 theorem eq_zero_of_isOmegaTwisted_one {e : K}
     (h : IsOmegaTwisted b c (1 : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)) e) : e = 0 := by
   unfold IsOmegaTwisted at h
   have h1 := LinearMap.congr_fun h (Pi.single 0 1)
   have h2 := congrFun h1 0
-  simp only [LinearEquiv.coe_one, Module.End.one_eq_id, LinearMap.id_comp, Module.End.mul_apply,
-    LinearMap.add_apply, LinearMap.smul_apply, Module.End.one_apply, Pi.add_apply, Pi.smul_apply,
-    smul_eq_mul, Pi.single_eq_same, mul_one, LinearMap.id_apply] at h2
+  simp only [Module.End.one_eq_id, Module.End.mul_apply,
+    LinearMap.add_apply, LinearMap.smul_apply, Pi.add_apply, Pi.smul_apply,
+    smul_eq_mul, LinearMap.id_apply] at h2
   simpa using h2
 
+omit [Finite K] [CharP K 2] in
 theorem isOmegaTwisted_pow {ψ : (Fin 2 → K) ≃ₗ[K] (Fin 2 → K)} {e : K}
     (hψ : IsOmegaTwisted b c ψ e) (n : ℕ) : IsOmegaTwisted b c (ψ ^ n) ((n : K) * e) := by
   induction n with
@@ -89,7 +91,7 @@ theorem plane_isOmegaTwisted_zero (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) {N
     have h1 := isOmegaTwisted_pow hl N
     rw [hone] at h1
     have h2 := eq_zero_of_isOmegaTwisted_one h1
-    rw [CharTwo.natCast_eq_ite, if_neg (Nat.not_even_iff_odd.2 hN), one_mul] at h2
+    rw [CharTwo.natCast_eq_ite, ite_eq_right (Nat.not_even_iff_odd.2 hN), one_mul] at h2
     exact h2
   rw [hl0] at hl
   have hgψ : (g : Module.End K (Fin 2 → K)) = ν • (ψ : Module.End K (Fin 2 → K)) := by
@@ -125,6 +127,7 @@ local notation "𝕍" => (Fin r ⊕ Fin r → K) × (Fin 2 → K)
       rw [e] at this
       exact this.symm
 
+omit [Finite K] [CharP K 2] in
 theorem mem_G0 {g : 𝕍 ≃ₗ[K] 𝕍} :
     g ∈ G0 (K := K) (r := r) ht ↔ (∀ v : 𝕍, g v ∈ tailFlag K (Fin 2 → K) r t ↔
       v ∈ tailFlag K (Fin 2 → K) r t) ∧ ∀ v : 𝕍, IsResPerp ht (g v) ↔ IsResPerp ht v := Iff.rfl
@@ -133,12 +136,14 @@ theorem mem_G0 {g : 𝕍 ≃ₗ[K] 𝕍} :
   (LinearMap.snd K (Fin r ⊕ Fin r → K) (Fin 2 → K)) ∘ₗ ((g : 𝕍 →ₗ[K] 𝕍) ∘ₗ
     (LinearMap.inr K (Fin r ⊕ Fin r → K) (Fin 2 → K)))
 
+omit [Finite K] [CharP K 2] in
 theorem pmL_apply (g : 𝕍 ≃ₗ[K] 𝕍) (a : Fin 2 → K) :
     pmL g a = (g ((0 : Fin r ⊕ Fin r → K), a)).2 := rfl
 
 variable (hm0 : r - t = 0)
 include hm0
 
+omit [Finite K] [CharP K 2] in
 theorem fst_mem_tailFlag_of_isResPerp {v : 𝕍} (hv : IsResPerp ht v) :
     ((v.1, 0) : 𝕍) ∈ tailFlag K (Fin 2 → K) r t := by
   rw [mem_tailFlag_iff]
@@ -149,6 +154,7 @@ theorem fst_mem_tailFlag_of_isResPerp {v : 𝕍} (hv : IsResPerp ht v) :
     · exact absurd k.isLt (by omega)
   · exact absurd j.isLt (by omega)
 
+omit [Finite K] [CharP K 2] in
 theorem pmL_mul {g g' : 𝕍 ≃ₗ[K] 𝕍} (hg : g ∈ G0 (K := K) (r := r) ht)
     (hg' : g' ∈ G0 (K := K) (r := r) ht) (a : Fin 2 → K) :
     pmL (g * g') a = pmL g (pmL g' a) := by
@@ -175,7 +181,7 @@ local notation "𝕍" => (Fin r ⊕ Fin r → K) × (Fin 2 → K)
 
 @[expose] noncomputable def pmEquiv (g : ↥(G0 (K := K) (r := r) ht)) :
     (Fin 2 → K) ≃ₗ[K] (Fin 2 → K) :=
-  LinearEquiv.ofLinear (pmL (g : 𝕍 ≃ₗ[K] 𝕍)) (pmL ((g⁻¹ : ↥(G0 (K := K) (r := r) ht)) : 𝕍 ≃ₗ[K] 𝕍))
+  LinearEquiv.ofLinearMap (pmL (g : 𝕍 ≃ₗ[K] 𝕍)) (pmL ((g⁻¹ : ↥(G0 (K := K) (r := r) ht)) : 𝕍 ≃ₗ[K] 𝕍))
     (LinearMap.ext fun a => by
       rw [LinearMap.comp_apply, ← pmL_mul ht hm0 g.2 (g⁻¹).2 a]
       have : ((g : 𝕍 ≃ₗ[K] 𝕍) * ((g⁻¹ : ↥(G0 (K := K) (r := r) ht)) : 𝕍 ≃ₗ[K] 𝕍)) = 1 :=
@@ -189,6 +195,7 @@ local notation "𝕍" => (Fin r ⊕ Fin r → K) × (Fin 2 → K)
       rw [this]
       rfl)
 
+omit [Finite K] [CharP K 2] in
 theorem pmEquiv_apply (g : ↥(G0 (K := K) (r := r) ht)) (a : Fin 2 → K) :
     pmEquiv ht hm0 g a = pmL (g : 𝕍 ≃ₗ[K] 𝕍) a := rfl
 
@@ -197,6 +204,7 @@ theorem pmEquiv_apply (g : ↥(G0 (K := K) (r := r) ht)) (a : Fin 2 → K) :
     rw [pmEquiv_apply, LinearEquiv.mul_apply, pmEquiv_apply, pmEquiv_apply]
     exact pmL_mul ht hm0 g.2 g'.2 a
 
+omit [Finite K] [CharP K 2] in
 theorem quadTail_eq_of_fst_mem {b c : K} {v : 𝕍}
     (hF : ((v.1, 0) : 𝕍) ∈ tailFlag K (Fin 2 → K) r t) :
     quadTail r (minusTailForm K b c) v = minusTailForm K b c v.2 := by

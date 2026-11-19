@@ -39,7 +39,7 @@ private theorem factorization_card_statedSp_two {K : Type} [Field K] [Finite K] 
     Nat.card_units]
 
 private theorem factorization_card_torus_two {K : Type} [Field K] [Finite K]
-    {r : ℕ} (hrd : r ∣ Nat.card K - 1) :
+    {r : ℕ} (_hrd : r ∣ Nat.card K - 1) :
     (Nat.card (torus 2 K)).factorization r = 2 * (Nat.card K - 1).factorization r := by
   rw [card_torus_two, Nat.factorization_pow, Finsupp.smul_apply, smul_eq_mul]
 
@@ -50,7 +50,7 @@ private theorem exists_conj_mem_torus_of_mem_borel {K : Type} [Field K] [Finite 
   obtain ⟨P₀, hP₀⟩ := exists_sylow_unipotent (K := K) 2 2
   have hU2 : IsPGroup 2 (unipotent 2 K) := by
     rw [← hP₀]
-    exact P₀.isPGroup'
+    exact P₀.isPGroup
   obtain ⟨e, heU, hXle⟩ :=
     CFSG.ASVolI.burnsideAut_le_conj_complement
       (E := unipotent 2 K) (Y := borelSubgroup 2 K) (C := torus 2 K)
@@ -70,7 +70,7 @@ private theorem exists_conj_mem_torus_of_mem_borel {K : Type} [Field K] [Finite 
 private theorem exists_sylow_r_torus {K : Type} [Field K] [Finite K] [CharP K 2]
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hrd : r ∣ Nat.card K - 1) :
     ∃ P : Sylow r (StatedSp 2 K), (P : Subgroup (StatedSp 2 K)) ≤ torus 2 K := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   let RT : Sylow r (torus 2 K) := default
   let R : Subgroup (StatedSp 2 K) := (RT : Subgroup (torus 2 K)).map (torus 2 K).subtype
   have hRcard : Nat.card R = r ^ (Nat.card (StatedSp 2 K)).factorization r := by
@@ -117,7 +117,7 @@ private theorem exists_sylow_r_fixed_of_mem_borel {K : Type} [Field K] [Finite K
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hrd : r ∣ Nat.card K - 1) :
     ∃ P : Sylow r (StatedSp 2 K),
       ∀ x ∈ (P : Subgroup (StatedSp 2 K)), h * x * h⁻¹ = x := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨e, -, htT⟩ := exists_conj_mem_torus_of_mem_borel hodd hhB
   obtain ⟨P, hP⟩ := exists_sylow_r_fixed_of_mem_torus htT hr hr2 hrd
   exact ⟨e • P, conj_smul_fixed (r := r) (g := e) (h := h) (P := P) hP⟩
@@ -126,7 +126,7 @@ private theorem exists_conj_mem_borel_of_mem_normalizer_sylow_two {K : Type} [Fi
     [CharP K 2] {h : StatedSp 2 K} (S : Sylow 2 (StatedSp 2 K))
     (hnorm : h ∈ Subgroup.normalizer ((S : Subgroup (StatedSp 2 K)) : Set (StatedSp 2 K))) :
     ∃ g : StatedSp 2 K, g⁻¹ * h * g ∈ borelSubgroup 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P₀, hP₀⟩ := exists_sylow_unipotent (K := K) 2 2
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq (StatedSp 2 K) P₀ S
   have hSmap : (S : Subgroup (StatedSp 2 K)) =
@@ -155,7 +155,7 @@ private theorem exists_sylow_r_fixed_of_mem_normalizer_sylow_two {K : Type} [Fie
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hrd : r ∣ Nat.card K - 1) :
     ∃ P : Sylow r (StatedSp 2 K),
       ∀ x ∈ (P : Subgroup (StatedSp 2 K)), h * x * h⁻¹ = x := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨g, hB⟩ := exists_conj_mem_borel_of_mem_normalizer_sylow_two S hnorm
   have hoddB : Odd (orderOf (g⁻¹ * h * g)) := by
     rw [← MulAut.conj_symm_apply g h, MulEquiv.orderOf_eq]
@@ -175,8 +175,7 @@ private theorem odd_orderOf_of_inner {X : Type} [Group X] [Finite X] {K : Type} 
   let h' : StatedSp 2 K := e h
   have hconj : MulAut.congr e θ = MulAut.conj h' := by
     ext x i j
-    simp only [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_apply_apply,
-      MulAut.conj_apply, map_mul, map_inv]
+    simp only [MulAut.congr_apply, MulEquiv.trans_apply, MulAut.conj_apply]
     rw [← hhθ, MulAut.conj_apply, map_mul, map_mul, map_inv,
       MulEquiv.apply_symm_apply]
   have hord : orderOf (MulAut.conj h') = orderOf θ := by
@@ -194,7 +193,7 @@ private theorem exists_sylow_r_fixed_of_inner {X : Type} [Group X] [Finite X] {K
     (hS : ∀ x ∈ (S : Subgroup X), θ x ∈ (S : Subgroup X))
     {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hrd : r ∣ Nat.card K - 1) :
     ∃ P : Sylow r X, ∀ x ∈ (P : Subgroup X), θ x = x := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hnorm : h ∈ Subgroup.normalizer ((S : Subgroup X) : Set X) :=
     Subgroup.mem_normalizer_fintype fun x hx => by
       have := hS x hx
@@ -228,11 +227,11 @@ theorem kWSp4_holds : KWSp4 W2111 := by
   intro X _ _ a hX θ hodd hW S hS r hr hrd
   obtain ⟨hcl, ha⟩ := uc22p2214_bor_sp4_model hX
   obtain ⟨-, K, hKfield, hKfin, hKcard, ⟨eP⟩⟩ := hcl
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (f := a)
       (by rw [← Nat.card_eq_fintype_card]; exact hKcard)
   let e : X ≃* StatedSp 2 K := eP.trans (projSpEquiv K).symm

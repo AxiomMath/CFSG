@@ -52,7 +52,7 @@ lemma l05nDA_closure_image {M N : Type*} [Group M] [Finite M] [Monoid N]
       · rw [← map_mul, h2, map_one]
     induction hx using Subgroup.closure_induction with
     | mem t ht => exact Submonoid.subset_closure ⟨t, ht, rfl⟩
-    | one => simpa using Submonoid.one_mem (Submonoid.closure (f '' S))
+    | one => simp
     | mul a b ha hb iha ihb => rw [map_mul]; exact Submonoid.mul_mem _ iha ihb
     | inv a ha iha =>
         obtain ⟨y, hy, hy1, hy2⟩ := l05nDA_inv_mem hT (f a) iha
@@ -84,7 +84,7 @@ lemma l05nDA_conj_coe {p N : ℕ} {V : Type} [AddCommGroup V] [Module (ZMod p) V
       θ.toLinearMap ∘ₗ (g : V →ₗ[ZMod p] V) ∘ₗ θ.symm.toLinearMap := by
   apply LinearMap.ext
   intro w
-  simp [l05nDA_conj, LinearEquiv.trans_apply, LinearMap.comp_apply]
+  simp [l05nDA_conj, LinearEquiv.trans_apply]
 
 lemma l05nDA_conj_injective {p N : ℕ} {V : Type} [AddCommGroup V] [Module (ZMod p) V]
     (θ : V ≃ₗ[ZMod p] GGTWE p N) : Function.Injective (l05nDA_conj θ) := by
@@ -98,7 +98,7 @@ lemma l05nDA_conj_injective {p N : ℕ} {V : Type} [AddCommGroup V] [Module (ZMo
     (GGTWE p N ≃ₗ[ZMod p] GGTWE p N) →* Module.End (ZMod p) (GGTWE p N) where
   toFun e := (e : Module.End (ZMod p) (GGTWE p N))
   map_one' := rfl
-  map_mul' e f := rfl
+  map_mul' _e _f := rfl
 
 @[expose] noncomputable def l05nDA_conjEnd {p N : ℕ} {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] (θ : V ≃ₗ[ZMod p] GGTWE p N) :
@@ -154,9 +154,9 @@ lemma l05nDA_ggIsReflection_iff_isLinRefl {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 
     {G : Type} [Group G] [Finite G] {Bs : Subgroup G} {V : Type} [AddCommGroup V]
     [Module (ZMod p) V] (ι : Additive ↥Bs ≃+ V) (t : MulAut ↥Bs) :
     GGIsReflection p t ↔ IsLinRefl (ggLin (p := p) ι t) := by
-  haveI : Finite ↥Bs := Finite.of_injective (Subtype.val : ↥Bs → G) Subtype.val_injective
-  haveI : Finite (Additive ↥Bs) := ‹Finite ↥Bs›
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Finite ↥Bs := Finite.of_injective (Subtype.val : ↥Bs → G) Subtype.val_injective
+  have : Finite (Additive ↥Bs) := ‹Finite ↥Bs›
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
   constructor
   · intro h
     exact exists_of_ggIsReflection (p := p) ι h

@@ -196,6 +196,7 @@ variable {G : Type} [Group G] [Finite G] {T V L V₁ Vp H K I : Subgroup G}
   Y ≤ Subgroup.normalizer (A : Set X) ∧
     ∃ hA : IsElemAbelian 2 A, @FFModel.Realizes ↥A (commGroupOfElemAbelian hA) D (autOn Y A) ⊤ ⊥
 
+omit [Finite G] in
 theorem mem_hat_conjClosure_iff (h : HypF918 T V L V₁ Vp H K)
     {y : GhOf V₁ (conjClosure Vp H) (conjClosure K T)} :
     y ∈ hat' V₁ Vp H K T (conjClosure K T) ↔
@@ -277,7 +278,7 @@ theorem modelOnU_of_realizes (h : HypF918 T V L V₁ Vp H K) (hIU : I ≤ conjCl
     isElemAbelian_secImg (h.isElemAbelian_tilde_of_le hIU)
   refine ⟨hatOf_le_normalizer hKI, hel, ?_⟩
   obtain ⟨π, hπ⟩ := hD
-  letI : CommGroup ↥(hat' V₁ Vp H K T I) := commGroupOfElemAbelian hel
+  let : CommGroup ↥(hat' V₁ Vp H K T I) := commGroupOfElemAbelian hel
   have hτmem : ∀ x : ↥(autIH V₁ I H (conjClosure K T)), tauHat h hIU hAV x ∈
       autOn (hat' V₁ Vp H K T (conjClosure K T)) (hat' V₁ Vp H K T I) := by
     intro x

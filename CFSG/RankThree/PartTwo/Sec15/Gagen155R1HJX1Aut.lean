@@ -22,12 +22,14 @@ variable {G : Type} [Group G] [Finite G]
     ((CFSG.ComponentClassification.TBLit.quotAutOfChar (CFSG.pPrimeCore 3 ↥K)).comp
       (conjAutK K A hAK))
 
+omit [Finite G] in
 theorem actionOnQuot_apply {A K : Subgroup G} (hAK : A ≤ Subgroup.normalizer (K : Set G))
     {S : Type} [Group S] (φ : ↥K ⧸ CFSG.pPrimeCore 3 ↥K ≃* S) (a : ↥A) :
     actionOnQuot hAK φ a = MulAut.congr φ
       (CFSG.ComponentClassification.TBLit.quotAutOfChar (CFSG.pPrimeCore 3 ↥K)
         (conjAutK K A hAK a)) := rfl
 
+omit [Finite G] in
 theorem commutator_mem_pPrimeCoreOf_of_actionOnQuot_eq_one {A K : Subgroup G}
     (hAK : A ≤ Subgroup.normalizer (K : Set G)) {S : Type} [Group S]
     (φ : ↥K ⧸ CFSG.pPrimeCore 3 ↥K ≃* S) (a : ↥A)
@@ -51,6 +53,7 @@ theorem commutator_mem_pPrimeCoreOf_of_actionOnQuot_eq_one {A K : Subgroup G}
   show (((conjAutK K A hAK a) xK / xK : ↥K) : G) = (a : G) * x * (a : G)⁻¹ * x⁻¹
   rw [Subgroup.coe_div, div_eq_mul_inv, conjAutK_apply_coe]
 
+omit [Finite G] in
 theorem exists_centralizing_subgroup {A K : Subgroup G} (hA : Late.IsE27 A)
     (hAK : A ≤ Subgroup.normalizer (K : Set G)) {S : Type} [Group S]
     (hS : ∀ B : Subgroup (MulAut S), CFSG.Assembly.IsElemAbelian 3 B → Nat.card B ≤ 9)
@@ -60,7 +63,7 @@ theorem exists_centralizing_subgroup {A K : Subgroup G} (hA : Late.IsE27 A)
   classical
   let ρ : ↥A →* MulAut S := actionOnQuot hAK φ
   have hEl : CFSG.Assembly.IsElemAbelian 3 ρ.range := by
-    haveI : IsMulCommutative ↥A := hA.1.1
+    have : IsMulCommutative ↥A := hA.1.1
     refine ⟨⟨⟨fun x y => ?_⟩⟩, fun x hx => ?_⟩
     · apply Subtype.ext
       rw [Subgroup.coe_mul, Subgroup.coe_mul]

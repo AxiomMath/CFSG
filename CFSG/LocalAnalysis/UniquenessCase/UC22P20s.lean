@@ -31,7 +31,7 @@ theorem uc22p20s_calLOf_nonempty (D : Data G) (h20_4 : S20_4 D) (h1930 : H1930 D
 theorem uc22p20s_centralizer_le {D : Data G} {L R : Subgroup G} (hL : L ∈ calL D.T D.M)
     (hTR : D.T ≤ R) (hRL : R ≤ L ⊔ D.T) :
     R ⊓ centralizer (pCoreOf 2 R : Set G) ≤ pCoreOf 2 R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLT : L ⊔ D.T ∈ hSet D.T D.M := hL.2.2.1
   have hOT : pCoreOf 2 (L ⊔ D.T) ≤ D.T := uc22p20b_pCoreOf_le_T D le_sup_right
   have hOR : pCoreOf 2 (L ⊔ D.T) ≤ pCoreOf 2 R := by

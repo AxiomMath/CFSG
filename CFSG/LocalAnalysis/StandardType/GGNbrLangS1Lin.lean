@@ -241,7 +241,7 @@ theorem ggNbrLangAxisOuterOn_s1Lin (hsub : GGNbrSubcomponentInput)
     have hc := congrArg (fun z : ↥K => (z : G))
       (Subgroup.mem_center_iff.mp hjZ (Subgroup.inclusion hJK y))
     simpa using hc
-  haveI : Group.IsPerfect ↥J := ⟨hJperf⟩
+  have : Group.IsPerfect ↥J := ⟨hJperf⟩
   let e' : ↥J ⧸ Subgroup.center ↥J ≃* ↥J₀R ⧸ Subgroup.center ↥J₀R :=
     CFSG.ComponentClassification.PerfectCentralQuotient.equivalence ρJ hρJsurj hkerJ
   have hφ : ∃ u ∈ I, ∃ f ∈ Subgroup.closure F, ggLAut K θ ⟨x, hN hxBs⟩ = u * f :=
@@ -284,14 +284,14 @@ theorem ggNbrLangAxisOuterOn_s1Lin (hsub : GGNbrSubcomponentInput)
     exact hlabel
   rw [LargeEvenRecipeLinear] at hlabel'
   obtain ⟨E, hEfield, hEfin, hEcard, ⟨iso⟩⟩ := hlabel'
-  letI : Field E := hEfield
-  letI : Finite E := hEfin
+  let : Field E := hEfield
+  let : Finite E := hEfin
   let σ : ↥J ⧸ Subgroup.center ↥J ≃*
       LargeEvenProj (LargeEvenSLGroup (Fin (lab.rank + 1)) E) := e'.trans iso
   obtain ⟨E', hE'field, hE'fin, θJ, At, hAt, hAtJ⟩ :=
     ggConfig_exists_abelianPreimage_psl hcfg hID hQ2 hIDJ hd hd4 hm hEcard σ
-  letI : Field E' := hE'field
-  letI : Finite E' := hE'fin
+  let : Field E' := hE'field
+  let : Finite E' := hE'fin
   obtain ⟨θ₀, hAt'⟩ := ggNbrLangS1LinAux_thetaAt hN hJK θJ hAt hAtJ
   have hallA : ∀ α ∈ (ggBsAut hN).range, ∃ u ∈ I, ∃ f ∈ Subgroup.closure F,
       kgInducedAut θ α = u * f := by

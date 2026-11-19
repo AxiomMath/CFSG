@@ -29,7 +29,7 @@ theorem coe_sylowOfLe {S U : Subgroup Γ} (hUS : U ≤ S)
 theorem frattini_two {S U : Subgroup Γ} [S.Normal] (hUS : U ≤ S)
     (hcard : Nat.card U = 2 ^ (Nat.card S).factorization 2) :
     Subgroup.normalizer (U : Set Γ) ⊔ S = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := Sylow.normalizer_sup_eq_top (sylowOfLe hUS hcard)
   have e : (sylowOfLe hUS hcard : Sylow 2 S).map S.subtype = U := by
     rw [coe_sylowOfLe, Subgroup.subgroupOf_map_subtype]
@@ -38,18 +38,18 @@ theorem frattini_two {S U : Subgroup Γ} [S.Normal] (hUS : U ≤ S)
 
 
 private theorem finite_sylow (G : Type*) [Group G] [Finite G] (p : ℕ) : Finite (Sylow p G) :=
-  Finite.of_injective (fun S : Sylow p G => ((S : Subgroup G) : Set G))
-    (fun S T hST => Sylow.ext (SetLike.coe_injective hST))
+  Finite.of_injective (fun _S : Sylow p G => ((_S : Subgroup G) : Set G))
+    (fun _S _T hST => Sylow.ext (SetLike.coe_injective hST))
 
 private theorem card_dvd_sub_one {H X : Type*} [Group H] [Finite H] [MulAction H X] [Finite X]
     (x₀ : X) (hx₀ : ∀ h : H, h • x₀ = x₀)
     (hfree : ∀ (x : X) (h : H), x ≠ x₀ → h • x = x → h = 1) :
     Nat.card H ∣ Nat.card X - 1 := by
   classical
-  haveI instH : Fintype H := Fintype.ofFinite H
-  haveI instX : Fintype X := Fintype.ofFinite X
-  haveI instΩ : Fintype (Quotient (MulAction.orbitRel H X)) := Fintype.ofFinite _
-  haveI instFix : ∀ g : H, Fintype (MulAction.fixedBy X g) := fun g => Fintype.ofFinite _
+  have instH : Fintype H := Fintype.ofFinite H
+  have instX : Fintype X := Fintype.ofFinite X
+  have instΩ : Fintype (Quotient (MulAction.orbitRel H X)) := Fintype.ofFinite _
+  have instFix : ∀ g : H, Fintype (MulAction.fixedBy X g) := fun g => Fintype.ofFinite _
   have hfix1 : Fintype.card (MulAction.fixedBy X (1 : H)) = Fintype.card X := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card]
     exact Nat.card_congr
@@ -134,8 +134,8 @@ theorem sylow_inf_eq_bot {S U : Subgroup Γ} [S.Normal] (hUS : U ≤ S)
     (hTI : ∀ g : Γ, U ⊓ conjSubgroup g U = ⊥ ∨ conjSubgroup g U = U)
     (Q : Sylow 2 S) (hQ : Q ≠ sylowOfLe hUS hcard) :
     ((sylowOfLe hUS hcard : Sylow 2 S) : Subgroup S) ⊓ (Q : Subgroup S) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := finite_sylow S 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_sylow S 2
   set P := sylowOfLe hUS hcard with hP
   obtain ⟨g, rfl⟩ := MulAction.exists_smul_eq S P Q
   have hmem : ∀ z : S, z ∈ ((g • P : Sylow 2 S) : Subgroup S) ↔
@@ -197,12 +197,12 @@ theorem sylow_free {S U : Subgroup Γ} [S.Normal] (hUS : U ≤ S)
     (hTI : ∀ g : Γ, U ⊓ conjSubgroup g U = ⊥ ∨ conjSubgroup g U = U)
     (Q : Sylow 2 S) (hQ : Q ≠ sylowOfLe hUS hcard) (h : S) (hh : (h : Γ) ∈ U)
     (hhQ : h • Q = Q) : h = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P := sylowOfLe hUS hcard with hP
   have h1 : h ∈ Subgroup.normalizer (Q : Set S) := Sylow.smul_eq_iff_mem_normalizer.mp hhQ
   have hhP : h ∈ (P : Subgroup S) := Subgroup.mem_subgroupOf.mpr hh
   have h2 : h ∈ (P : Subgroup S) ⊓ Subgroup.normalizer (Q : Set S) := ⟨hhP, h1⟩
-  rw [P.isPGroup'.inf_normalizer_sylow Q, sylow_inf_eq_bot hUS hcard hTI Q hQ] at h2
+  rw [P.isPGroup.inf_normalizer_sylow Q, sylow_inf_eq_bot hUS hcard hTI Q hQ] at h2
   exact Subgroup.mem_bot.mp h2
 
 theorem sylow_not_normal {S U : Subgroup Γ} (hUS : U ≤ S)
@@ -235,8 +235,8 @@ theorem card_sylow_two {S U : Subgroup Γ} [S.Normal] (hUS : U ≤ S)
     (hSsimple : IsSimpleGroup S)
     (hTI : ∀ g : Γ, U ⊓ conjSubgroup g U = ⊥ ∨ conjSubgroup g U = U) :
     Nat.card (Sylow 2 S) = Nat.card U + 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := finite_sylow S 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_sylow S 2
   set P := sylowOfLe hUS hcard with hP
   have hPcard : Nat.card (P : Subgroup S) = Nat.card U := by
     rw [coe_sylowOfLe]
@@ -261,7 +261,7 @@ theorem card_sylow_two {S U : Subgroup Γ} [S.Normal] (hUS : U ≤ S)
     rwa [this] at h1
   have hne : Nat.card (Sylow 2 S) ≠ 1 := by
     intro h1
-    haveI : Subsingleton (Sylow 2 S) := Finite.card_le_one_iff_subsingleton.mp (by omega)
+    have : Subsingleton (Sylow 2 S) := Finite.card_le_one_iff_subsingleton.mp (by omega)
     exact sylow_not_normal hUS hcard hScard hq4 hSsimple (Sylow.normal_of_subsingleton P)
   exact eq_succ_of_modEq_one_of_dvd (by omega) hmod hdvd hne
 
@@ -275,9 +275,9 @@ theorem centralizes_of_perfect {S U Y : Subgroup Γ} [S.Normal] (hUS : U ≤ S)
     (hYU : ∀ y ∈ Y, ∀ u ∈ U, y * u = u * y) (hYperf : ⁅Y, Y⁆ = Y) :
     ∀ y ∈ Y, ∀ s ∈ S, y * s = s * y := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := finite_sylow S 2
-  letI : MulAction Γ (Sylow 2 S) := MulAction.compHom _ (MulAut.conjNormal : Γ →* MulAut S)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_sylow S 2
+  let : MulAction Γ (Sylow 2 S) := MulAction.compHom _ (MulAut.conjNormal : Γ →* MulAut S)
   set P := sylowOfLe hUS hcard with hP
   have hn₂ := card_sylow_two hUS hcard hScard hq4 hSsimple hTI
   have hPcard : Nat.card (P : Subgroup S) = Nat.card U := by
@@ -319,7 +319,7 @@ theorem centralizes_of_perfect {S U Y : Subgroup Γ} [S.Normal] (hUS : U ≤ S)
   have hUinv : ∀ (u : S), (u : Γ) ∈ U → ((u⁻¹ : S) : Γ) ∈ U := fun u hu => by
     simpa using U.inv_mem hu
   obtain ⟨Q₀, hQ₀⟩ : ∃ Q₀ : Sylow 2 S, Q₀ ≠ P := by
-    haveI : Nontrivial (Sylow 2 S) := Finite.one_lt_card_iff_nontrivial.mp (by omega)
+    have : Nontrivial (Sylow 2 S) := Finite.one_lt_card_iff_nontrivial.mp (by omega)
     exact exists_ne P
   have hne_of_smul : ∀ (u : S), (u : Γ) ∈ U → ∀ Q : Sylow 2 S, Q ≠ P → u • Q ≠ P := by
     intro u hu Q hQ h
@@ -327,7 +327,7 @@ theorem centralizes_of_perfect {S U Y : Subgroup Γ} [S.Normal] (hUS : U ≤ S)
     rw [← inv_smul_smul u Q, h]
     exact hPfix _ (hUinv u hu)
   have hcardΩ₀ : Nat.card {Q : Sylow 2 S // Q ≠ P} = Nat.card U := by
-    letI := Fintype.ofFinite (Sylow 2 S)
+    let := Fintype.ofFinite (Sylow 2 S)
     classical
     have h1 := Fintype.card_subtype_compl (fun Q : Sylow 2 S => Q = P)
     have h2 := Fintype.card_subtype_eq P
@@ -408,7 +408,7 @@ theorem centralizes_of_perfect {S U Y : Subgroup Γ} [S.Normal] (hUS : U ≤ S)
   have hKtop : κ.ker ≠ ⊤ := by
     intro htop
     apply sylow_not_normal hUS hcard hScard hq4 hSsimple
-    haveI : ((sylowOfLe hUS hcard : Sylow 2 S) : Subgroup S).Normal := by
+    have : ((sylowOfLe hUS hcard : Sylow 2 S) : Subgroup S).Normal := by
       refine Subgroup.normalizer_eq_top_iff.mp (eq_top_iff.mpr fun g _ => ?_)
       have hg : g ∈ κ.ker := by rw [htop]; exact Subgroup.mem_top g
       exact Sylow.smul_eq_iff_mem_normalizer.mp (congrArg (fun π => π P) (MonoidHom.mem_ker.mp hg))
@@ -437,8 +437,8 @@ theorem card_normalizer_inf {S U : Subgroup Γ} [S.Normal] (hUS : U ≤ S)
     (hSsimple : IsSimpleGroup S)
     (hTI : ∀ g : Γ, U ⊓ conjSubgroup g U = ⊥ ∨ conjSubgroup g U = U) :
     Nat.card ↥(Subgroup.normalizer (U : Set Γ) ⊓ S) = Nat.card U * (Nat.card U - 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := finite_sylow S 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_sylow S 2
   set P := sylowOfLe hUS hcard with hP
   have hn₂ := card_sylow_two hUS hcard hScard hq4 hSsimple hTI
   have hPS : ∀ x : S, x ∈ (P : Subgroup S) ↔ (x : Γ) ∈ U := fun x => Subgroup.mem_subgroupOf

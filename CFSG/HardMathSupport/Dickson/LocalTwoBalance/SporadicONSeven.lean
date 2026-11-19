@@ -17,6 +17,7 @@ section Generic
 
 variable {K : Type*} [Group K] [Finite K] {p : ℕ}
 
+omit [Finite K] in
 theorem aut_mul_conj_mul_inv (σ : MulAut K) (c : K) :
     σ * MulAut.conj c * σ⁻¹ = MulAut.conj (σ c) := by
   ext x

@@ -79,7 +79,7 @@ theorem u6MatConcl_map_conj [Finite K] (h : UnitaryFieldData 2 n K)
     have e1 : ((MulAut.conj σ).toMonoidHom α).toMonoidHom.comp σ.toMonoidHom =
         σ.toMonoidHom.comp α.toMonoidHom := by
       ext x
-      simp [MulAut.conj_apply, MulAut.mul_apply]
+      simp [MulAut.conj_apply]
     rw [e1, ← Subgroup.map_map, hTbN α hα]
   · obtain ⟨α, hα, t, ht, hαt⟩ := hTbA
     refine ⟨MulAut.conj σ α, Subgroup.mem_map_of_mem _ hα, σ t, Subgroup.mem_map_of_mem _ ht, ?_⟩
@@ -107,13 +107,13 @@ section Root
 variable (h : UnitaryFieldData 2 n K) {a b c : Fin 6}
 
 private theorem root_u_left (hab : a ≠ b) : root_u (K := K) a b a = 1 := by
-  simp [root_u, Pi.single_apply, hab]
+  simp [root_u, hab]
 
 private theorem root_u_right (hab : a ≠ b) : root_u (K := K) a b b = 1 := by
-  simp [root_u, Pi.single_apply, hab, Ne.symm hab]
+  simp [root_u, Ne.symm hab]
 
 private theorem root_u_third (hac : a ≠ c) (hbc : b ≠ c) : root_u (K := K) a b c = 0 := by
-  simp [root_u, Pi.single_apply, Ne.symm hac, Ne.symm hbc]
+  simp [root_u, Ne.symm hac, Ne.symm hbc]
 
 private theorem root_dot_uu [CharP K 2] (hab : a ≠ b) :
     root_u (K := K) a b ⬝ᵥ root_u a b = 0 := by
@@ -201,7 +201,7 @@ private theorem root_g_pow_four [CharP K 2] (hab : a ≠ b) (hac : a ≠ c) (hbc
     rw [sq, root_g_mul h hab hac hbc]
     simp only [CharTwo.add_self_eq_zero, zero_add]
   rw [show (4 : ℕ) = 2 * 2 from rfl, pow_mul, hsq, sq, root_g_mul h hab hac hbc]
-  simp only [CharTwo.add_self_eq_zero, map_zero, zero_mul, add_zero, root_g_zero]
+  simp only [CharTwo.add_self_eq_zero, map_zero, zero_mul, root_g_zero]
 
 private theorem root_eq_one_of_pow_four [CharP K 2] {x : K} (hx : x ^ 4 = 1) : x = 1 := by
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
@@ -215,24 +215,24 @@ private noncomputable def root_G (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c)
   val := root_g h a b c t s
   inv := root_g h a b c t (s + h.bar t * t)
   val_inv := by
-    haveI := h.charP
+    have := h.charP
     exact root_g_mul_inv h hab hac hbc t s
   inv_val := by
-    haveI := h.charP
+    have := h.charP
     exact root_g_inv_mul h hab hac hbc t s
 
 private noncomputable def root_R (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) :
     Subgroup (GL (Fin 6) K) where
   carrier := {M | ∃ t s : K, s + h.bar s = h.bar t * t ∧ M = root_G h hab hac hbc t s}
   mul_mem' := by
-    haveI := h.charP
+    have := h.charP
     rintro _ _ ⟨t, s, hts, rfl⟩ ⟨t', s', hts', rfl⟩
     refine ⟨t + t', s + s' + h.bar t * t', ?_, Units.ext (root_g_mul h hab hac hbc t s t' s')⟩
     simp only [map_add, map_mul, h.bar_bar]
     linear_combination hts + hts'
   one_mem' := ⟨0, 0, by simp, Units.ext (root_g_zero h).symm⟩
   inv_mem' := by
-    haveI := h.charP
+    have := h.charP
     have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
     rintro _ ⟨t, s, hts, rfl⟩
     refine ⟨t, s + h.bar t * t, ?_, Units.ext rfl⟩
@@ -241,7 +241,7 @@ private noncomputable def root_R (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c)
 
 private theorem root_G_mem (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) {t s : K}
     (hts : s + h.bar s = h.bar t * t) : root_G h hab hac hbc t s ∈ gramSU h (idGram K 6) := by
-  haveI := h.charP
+  have := h.charP
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   refine ⟨?_, ?_⟩
   · show ((root_g h a b c t s).map h.bar)ᵀ * 1 * root_g h a b c t s = 1
@@ -261,7 +261,7 @@ private theorem root_S_congr (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) {t 
   subst htt
   rfl
 
-private theorem root_diag_mul (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c)
+private theorem root_diag_mul (_hab : a ≠ b) (_hac : a ≠ c) (_hbc : b ≠ c)
     {D : Matrix (Fin 6) (Fin 6) K} (hD : D.IsDiag) (hDa : D a a = 1) (hDb : D b b = 1)
     (hDc : h.bar (D c c) * D c c = 1) (t s : K) :
     D * root_g h a b c t s = root_g h a b c (D c c * t) s * D := by
@@ -273,13 +273,13 @@ private theorem root_diag_mul (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c)
     · rw [hia, hDa, one_mul]
     by_cases hib : i = b
     · rw [hib, hDb, one_mul]
-    simp [root_u, Pi.single_apply, hia, hib]
+    simp [root_u, hia, hib]
   have hde : ∀ i, d i * (Pi.single c (1 : K) : Fin 6 → K) i =
       d c * (Pi.single c (1 : K) : Fin 6 → K) i := by
     intro i
     by_cases hic : i = c
     · rw [hic]
-    simp [Pi.single_apply, hic]
+    simp [hic]
   have hone : ∀ i j, d i * (1 : Matrix (Fin 6) (Fin 6) K) i j =
       (1 : Matrix (Fin 6) (Fin 6) K) i j * d j := by
     intro i j
@@ -339,11 +339,11 @@ private theorem root_g_cc (hac : a ≠ c) (hbc : b ≠ c) (t s : K) : root_g h a
 private theorem root_g_ca (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) (t s : K) :
     root_g h a b c t s c a = t := by
   simp [root_g_apply, root_u_third hac hbc, root_u_left hab, one_apply_ne (Ne.symm hac),
-    Pi.single_apply, hac]
+    hac]
 
 private theorem root_g_ab (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) (t s : K) :
     root_g h a b c t s a b = s := by
-  simp [root_g_apply, root_u_left hab, root_u_right hab, one_apply_ne hab, Pi.single_apply, hac,
+  simp [root_g_apply, root_u_left hab, root_u_right hab, one_apply_ne hab, hac,
     hbc]
 
 end Root
@@ -366,7 +366,7 @@ theorem u6_root_props [Finite K] (h : UnitaryFieldData 2 n K) (hn : Odd n) (hn1 
       (∀ X ∈ Δ, Tb'.map (primeFormConjHom h (idGram K 6) X).toMonoidHom = Tb') ∧
       (∃ t ∈ Tb', primeFormConjHom h (idGram K 6) X₀ t ≠ t) ∧ Nat.card Tb' ≠ 8 := by
   classical
-  haveI := h.charP
+  have := h.charP
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   let T : Subgroup (primeFormP h (idGram K 6)) :=
     ((root_R h hab hac hbc).subgroupOf (gramSU h (idGram K 6))).map
@@ -505,8 +505,8 @@ theorem u6_root_props [Finite K] (h : UnitaryFieldData 2 n K) (hn : Odd n) (hn1 
     omega
 
 private theorem blk_exists_omega (h : UnitaryFieldData 2 n K) : ∃ ω : K, ω ^ 3 = 1 ∧ ω ≠ 1 := by
-  haveI : Finite K := h.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite K := h.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3dvd : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units, h.card, pow_mul, show (2 : ℕ) ^ 2 = 4 by norm_num]
     have h4 : (4 : ℕ) ≡ 1 [MOD 3] := by decide
@@ -555,7 +555,7 @@ private theorem blk_inj (h : UnitaryFieldData 2 n K) {I₀ : Finset (Fin 6)} (hI
     rw [hu, Finset.card_univ, Fintype.card_fin] at hI6
     exact lt_irrefl _ hI6
   have hll := CFSG.ComponentClassification.Burgoyne.U.mem_uBlock_iff.1 hg l l (Or.inl hl)
-  rw [hc', GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, diagonal_apply_eq, if_pos rfl] at hll
+  rw [hc', GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, diagonal_apply_eq, ite_eq_left rfl] at hll
   have hc1 : c = 1 := Units.ext hll
   apply Subtype.ext
   apply Subtype.ext
@@ -610,7 +610,7 @@ private theorem blk_commute_compInd (h : UnitaryFieldData 2 n K) {I₀ : Finset 
     CFSG.ComponentClassification.Burgoyne.PSL.compInd K I₀ * ((g : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) =
       ((g : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) * CFSG.ComponentClassification.Burgoyne.PSL.compInd K I₀ := by
   classical
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   set M : Matrix (Fin 6) (Fin 6) K := ((g : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) with hM
   set d : Fin 6 → K := fun i => ((Y : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) i i
@@ -671,12 +671,12 @@ private theorem blk_commute_compInd (h : UnitaryFieldData 2 n K) {I₀ : Finset 
       refine Finset.card_le_card_of_injOn τ ?_ (fun a _ b _ hab => τ.injective hab)
       intro k hk
       have hk' : k ∈ I₀ := hk
-      simp only [hS1, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq]
+      simp only [hS1, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq]
       rw [hrel k, (hdI k).2 hk', one_mul]
     have hle2 : S1.card ≤ S2.card := by
       refine Finset.card_le_card_of_injOn τ ?_ (fun a _ b _ hab => τ.injective hab)
       intro k hk
-      simp only [hS1, hS2, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hk ⊢
+      simp only [hS1, hS2, Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hk ⊢
       rw [hrel k, hk]
     have hd01 : Disjoint I₀ S1 := by
       rw [Finset.disjoint_left]
@@ -740,7 +740,7 @@ private theorem blk_three_dvd (h : UnitaryFieldData 2 n K) (hn : Odd n) {I₀ : 
       (↥((blk_jMap h).comp (CFSG.ComponentClassification.Burgoyne.U.uBlock 2 n K I₀).subtype).range ⧸
         Subgroup.center
           ↥((blk_jMap h).comp (CFSG.ComponentClassification.Burgoyne.U.uBlock 2 n K I₀).subtype).range) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set U := CFSG.ComponentClassification.Burgoyne.U.uBlock 2 n K I₀
   set φ := (blk_jMap h).comp U.subtype
   obtain ⟨ω, hω3, hω1⟩ := blk_exists_omega h
@@ -778,10 +778,9 @@ private theorem blk_three_dvd (h : UnitaryFieldData 2 n K) (hn : Odd n) {I₀ : 
     have hR : ∀ R : Matrix (Fin 6) (Fin 6) K,
         R = 1 - single i i 1 - single j j 1 + single i j 1 - single j i 1 → R i j = 1 := by
       rintro R rfl
-      simp [Matrix.single_apply, hij, Ne.symm hij]
+      simp [hij, Ne.symm hij]
     simp only [Subgroup.coe_mul, Units.val_mul, hδ, hσ, CFSG.ComponentClassification.Burgoyne.U.coe_uDiag2,
-      CFSG.ComponentClassification.Burgoyne.U.coe_uRot, diagonal_mul, mul_diagonal, hR _ rfl, hij,
-      Ne.symm hij, ↓reduceIte, mul_one, one_mul] at e1
+      CFSG.ComponentClassification.Burgoyne.U.coe_uRot, diagonal_mul, mul_diagonal, hR _ rfl, Ne.symm hij, ↓reduceIte, mul_one, one_mul] at e1
     apply hω2
     calc ω ^ 2 = ω * ω := sq ω
       _ = ω * ω⁻¹ := by rw [← e1]
@@ -814,7 +813,7 @@ private theorem blk_three_dvd (h : UnitaryFieldData 2 n K) (hn : Odd n) {I₀ : 
 theorem u6_block_props [Finite K] (h : UnitaryFieldData 2 n K) (hn : Odd n) (hn1 : 1 < n)
     {I₀ : Finset (Fin 6)} (hI3 : 3 ≤ I₀.card) (hI6 : I₀.card < 6)
     (Y : primeFormUnitary h (idGram K 6))
-    (hYdiag : ((Y : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K).IsDiag) (hY3 : Y ^ 3 = 1)
+    (hYdiag : ((Y : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K).IsDiag) (_hY3 : Y ^ 3 = 1)
     (hYI : ∀ i, ((Y : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) i i = 1 ↔ i ∈ I₀)
     (Δ₀ : Set (primeFormUnitary h (idGram K 6)))
     (hΔdiag : ∀ X ∈ Δ₀, ((X : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K).IsDiag)
@@ -823,9 +822,9 @@ theorem u6_block_props [Finite K] (h : UnitaryFieldData 2 n K) (hn : Odd n) (hn1
       GLAPComponent 3 (fixSubgroup (primeFormConjHom h (idGram K 6) Y)) Jb ∧
       (∀ X ∈ Δ₀, Jb ≤ fixSubgroup (primeFormConjHom h (idGram K 6) X)) ∧
       catalogIs (PSimple 3 Jb) (S10.isUrn n) := by
-  haveI : CharP K 2 := h.charP
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 2 := h.charP
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set U := CFSG.ComponentClassification.Burgoyne.U.uBlock 2 n K I₀
   set φ := (blk_jMap h).comp U.subtype
   have hinj : Function.Injective φ := blk_inj h hI6
@@ -850,7 +849,7 @@ theorem u6_block_props [Finite K] (h : UnitaryFieldData 2 n K) (hn : Odd n) (hn1
   · intro X hX
     rintro _ ⟨⟨g, hg⟩, rfl⟩
     exact blk_mem_fix h (hΔdiag X hX) (hΔI X hX) hg
-  · haveI : Fintype K := Fintype.ofFinite K
+  · have : Fintype K := Fintype.ofFinite K
     have hKc : Fintype.card K = (2 ^ n) ^ 2 := by
       rw [← Nat.card_eq_fintype_card]
       exact h.card_eq_sq
@@ -960,7 +959,7 @@ private theorem cj_exists_avoid {G : Type*} [Group G] [Finite G] (hG : IsPGroup 
   classical
   by_contra hcon
   push Not at hcon
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card).1 hG
   have hHcard : ∀ i ∈ s, 3 * Nat.card (H i) ≤ Nat.card G := by
     intro i hi
@@ -1239,7 +1238,7 @@ private theorem eig_sq_of_scalar [CharP K 2] {p f : ℕ} (h : UnitaryFieldData p
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have hN : μ * h.bar μ = 1 := hμN
   have hy : ((X : Matrix (Fin 6) (Fin 6) K) *ᵥ v - μ • v) ∈ W.orthogonalBilin (idForm h 6) := by
-    rw [Submodule.mem_orthogonalBilin_iff]
+    rw [Submodule.mem_orthogonalBilin]
     intro u hu
     have e := CFSG.LocalAnalysis.GLTheoremA.HDescUniRes.idForm_mulVec_of_mem_primeFormUnitary hX u v
     rw [hfix u hu, LinearMap.map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul] at e
@@ -1285,7 +1284,7 @@ private theorem eig_conj_eq_one_of_scalar [Finite K] (h : UnitaryFieldData 2 n K
     rw [h0, zero_pow (by norm_num)] at hμl
     exact l.ne_zero hμl.symm
   obtain ⟨k, hk⟩ := eig_two_pow_mod hn
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = (3 * k + 2) ^ 2 := by
     rw [← Nat.card_eq_fintype_card, h.card_eq_sq, hk]
   have hμpow : μ ^ ((3 * k + 3) * (3 * k + 1)) = 1 := by
@@ -1410,7 +1409,7 @@ private theorem eig_small [Finite K] (h : UnitaryFieldData 2 n K)
     ∃ w : Fin 6 → K, w ≠ 0 ∧ w ∈ W ∧
       ∀ X ∈ Ah, ∃ μ : K, ((X : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) *ᵥ w = μ • w := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq : ¬(6 = 3 ∧ 2 ^ n = 2) := fun h' => absurd h'.1 (by norm_num)
   set c := primeFormConjHom h (idGram K 6) with hc
   let f := c.subgroupMap Ah
@@ -1438,7 +1437,7 @@ private theorem eig_small [Finite K] (h : UnitaryFieldData 2 n K)
   let L := f.liftOfSurjective hf ⟨g, hker⟩
   have hL : ∀ X : Ah, L (f X) = g X := fun X =>
     MonoidHom.liftOfRightInverse_comp_apply _ _ _ _ X
-  letI : MulAction (Ah.map c) (Projectivization K W) := MulAction.compHom _ L
+  let : MulAction (Ah.map c) (Projectivization K W) := MulAction.compHom _ L
   have hP : IsPGroup 3 (Ah.map c) := fun x => ⟨1, Subtype.ext (by
     rw [pow_one, Subgroup.coe_pow, Subgroup.coe_one]
     exact hAbel.2 x x.2)⟩
@@ -1455,7 +1454,7 @@ private theorem eig_small [Finite K] (h : UnitaryFieldData 2 n K)
   exact e.symm
 
 theorem u6_exists_common_eigenvector [Finite K] (h : UnitaryFieldData 2 n K) (hn : Odd n)
-    (hn1 : 1 < n)
+    (_hn1 : 1 < n)
     {Ah : Subgroup (primeFormUnitary h (idGram K 6))}
     (hAbel : IsElemAbelian 3 (Ah.map (primeFormConjHom h (idGram K 6))))
     (hcard : 27 ≤ Nat.card (Ah.map (primeFormConjHom h (idGram K 6))))
@@ -1543,7 +1542,7 @@ theorem u6MatConcl_of_twoGroup [Finite K] (h : UnitaryFieldData 2 n K) (hn : Odd
     U6MatConcl h Ab := by
   classical
   have := h.finite
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   set c := primeFormConjHom h (idGram K 6) with hc
   have h6 : ¬(6 = 3 ∧ 2 ^ n = 2) := fun h' => absurd h'.1 (by norm_num)
   have hker : ∀ X : primeFormUnitary h (idGram K 6), c X = 1 →
@@ -1705,7 +1704,7 @@ theorem u6MatConcl_of_twoGroup [Finite K] (h : UnitaryFieldData 2 n K) (hn : Odd
   set Δ := Ah1.map (MulAut.conj P⁻¹).toMonoidHom with hΔdef
   have hΔmem : ∀ Y, Y ∈ Δ → ∃ X ∈ Ah1, Y = P⁻¹ * X * P := by
     rintro Y ⟨X, hX, rfl⟩
-    exact ⟨X, hX, by simp [MulAut.conj_apply]⟩
+    exact ⟨X, hX, by simp⟩
   have hdiagΔ : ∀ Y ∈ Δ, ((Y : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K).IsDiag := by
     intro Y hY
     obtain ⟨X, hX, rfl⟩ := hΔmem Y hY
@@ -1734,7 +1733,7 @@ theorem u6MatConcl_of_twoGroup [Finite K] (h : UnitaryFieldData 2 n K) (hn : Odd
   have hw'iso : idForm h 6 w' w' = 0 := by
     rw [hw'def, CFSG.LocalAnalysis.GLTheoremA.HDescUniRes.idForm_mulVec_of_mem_primeFormUnitary
       (P⁻¹).2]
-    exact (Submodule.mem_orthogonalBilin_iff.1 (hiso hwW)) w hwW
+    exact (Submodule.mem_orthogonalBilin.1 (hiso hwW)) w hwW
   obtain ⟨a, b, hab, ha0, hb0⟩ := cj_exists_two_ne_zero h hw'0 hw'iso
   have hentry : ∀ i, w' i ≠ 0 → ∀ Y ∈ Δ, ((Y : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) i i = 1 := by
     intro i hi Y hY

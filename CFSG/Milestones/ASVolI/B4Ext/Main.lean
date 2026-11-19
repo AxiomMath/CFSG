@@ -37,6 +37,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 variable {W : Type*} [AddCommGroup W] [Module (ZMod 2) W] [FiniteDimensional (ZMod 2) W]
   {V : Type*} [AddCommGroup V] [Module (ZMod 2) V]
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem burnsideB49x_defect_mem (ρ : (W ≃ₗ[ZMod 2] W) →* (V ≃ₗ[ZMod 2] V))
     (q : V →ₗ[ZMod 2] W) (hq : ∀ g v, q (ρ g v) = g (q v)) (s : W →ₗ[ZMod 2] V)
     (hs : ∀ x, q (s x) = x) (g : W ≃ₗ[ZMod 2] W) (x : W) :
@@ -50,12 +51,14 @@ theorem burnsideB49x_defect_mem (ρ : (W ≃ₗ[ZMod 2] W) →* (V ≃ₗ[ZMod 2
     ((ρ g : V →ₗ[ZMod 2] V) ∘ₗ s ∘ₗ (g.symm : W →ₗ[ZMod 2] W) - s)
     (fun x => burnsideB49x_defect_mem ρ q hq s hs g x)
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem burnsideB49x_defect_apply (ρ : (W ≃ₗ[ZMod 2] W) →* (V ≃ₗ[ZMod 2] V))
     (q : V →ₗ[ZMod 2] W) (hq : ∀ g v, q (ρ g v) = g (q v)) (s : W →ₗ[ZMod 2] V)
     (hs : ∀ x, q (s x) = x) (g : W ≃ₗ[ZMod 2] W) (x : W) :
     ((burnsideB49x_defect ρ q hq s hs g x : ↥(LinearMap.ker q)) : V) =
       ρ g (s (g.symm x)) - s x := rfl
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem burnsideB49x_defect_mul (ρ : (W ≃ₗ[ZMod 2] W) →* (V ≃ₗ[ZMod 2] V))
     (q : V →ₗ[ZMod 2] W) (hq : ∀ g v, q (ρ g v) = g (q v)) (s : W →ₗ[ZMod 2] V)
     (hs : ∀ x, q (s x) = x) (g h : W ≃ₗ[ZMod 2] W) (x : W) :
@@ -122,8 +125,8 @@ theorem burnsideB49x_complement_dual [Finite V] (ρ : (W ≃ₗ[ZMod 2] W) →* 
       δ ∈ Z1A (burnsideB49x_muD W) → δ ∈ B1A (burnsideB49x_muD W)) :
     ∃ U' : Submodule (ZMod 2) V, (∀ g, ∀ x ∈ U', ρ g x ∈ U') ∧
       IsCompl (LinearMap.ker q) U' := by
-  haveI : Finite ↥(LinearMap.ker q) := inferInstance
-  haveI : FiniteDimensional (ZMod 2) ↥(LinearMap.ker q) := Module.Finite.of_finite
+  have : Finite ↥(LinearMap.ker q) := inferInstance
+  have : FiniteDimensional (ZMod 2) ↥(LinearMap.ker q) := Module.Finite.of_finite
   let Θ : ↥(LinearMap.ker q) ≃ₗ[ZMod 2] Module.Dual (ZMod 2) W :=
     (Module.evalEquiv (ZMod 2) ↥(LinearMap.ker q)).trans θ'.dualMap
   have hΘ : ∀ u w, Θ u w = θ' w u := fun u w => rfl
@@ -198,7 +201,7 @@ theorem burnsideB49x_split_nat (hn : 4 ≤ n) (hK : Nat.card K = 2)
   have hquot : CFSG.ASVolI.ChB.QuotIsoSub G U ∨ CFSG.ASVolI.ChB.QuotIsoDual G U := Or.inl hsub
   set hG := burnsideB49_hG hreal with hGdef
   set hb := burnsideB49_iota_bijective hV hK hreal hquot with hbdef
-  haveI : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
   have hdim : 4 ≤ Module.finrank (ZMod 2) (burnsideB49_W hV U) := by
     rw [burnsideB49_finrank_W hV hK hreal hquot]
     exact hn
@@ -222,7 +225,7 @@ theorem burnsideB49x_split_dual (hn : 5 ≤ n) (hK : Nat.card K = 2)
   have hquot : CFSG.ASVolI.ChB.QuotIsoSub G U ∨ CFSG.ASVolI.ChB.QuotIsoDual G U := Or.inr hdual
   set hG := burnsideB49_hG hreal with hGdef
   set hb := burnsideB49_iota_bijective hV hK hreal hquot with hbdef
-  haveI : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
   have hdim : 5 ≤ Module.finrank (ZMod 2) (burnsideB49_W hV U) := by
     rw [burnsideB49_finrank_W hV hK hreal hquot]
     exact hn

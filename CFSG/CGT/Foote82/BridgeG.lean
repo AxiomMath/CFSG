@@ -24,7 +24,7 @@ private theorem not_le_center_of_isQuasisimple {P : Type*} [Group P] {K : Subgro
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext (Subgroup.mem_center_iff.mp (hle x.2) y)
-  haveI := hK.2.toNontrivial
+  have := hK.2.toNontrivial
   obtain ⟨a, b, hab⟩ := exists_pair_ne (↥K ⧸ Subgroup.center ↥K)
   obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
   obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -87,6 +87,7 @@ private theorem isIrr_top_mono {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
   exact ⟨fun _ _ _ _ => Submodule.mem_top, hlt,
     fun J hJ h1 h2 => hirr J (fun k hk u hu => hJ k (hK hk) u hu) h1 h2⟩
 
+omit [Finite G] in
 private theorem conj_mem_pCoreOf {J : Subgroup G} {t : G} (ht : t ∈ Subgroup.normalizer (J : Set G))
     {q : G} (hq : q ∈ pCoreOf 2 J) : t * q * t⁻¹ ∈ pCoreOf 2 J := by
   obtain ⟨q', hq', rfl⟩ := hq
@@ -106,7 +107,7 @@ private def centMod (J₂ T : Subgroup G) : Subgroup G where
         t * a * t⁻¹ * a⁻¹ * (a * (t * b * t⁻¹ * b⁻¹) * a⁻¹) := by group
     rw [h2]
     exact h1
-  one_mem' := ⟨J₂.one_mem, fun t _ => by simpa using (pCoreOf 2 J₂).one_mem⟩
+  one_mem' := ⟨J₂.one_mem, fun t _ => by simp⟩
   inv_mem' := by
     rintro a ⟨ha, ha'⟩
     refine ⟨J₂.inv_mem ha, fun t ht => ?_⟩
@@ -116,19 +117,23 @@ private def centMod (J₂ T : Subgroup G) : Subgroup G where
     rw [h2]
     exact h1
 
+omit [Finite G] in
 private theorem centMod_le (J₂ T : Subgroup G) : centMod J₂ T ≤ J₂ := fun _ hx => hx.1
 
+omit [Finite G] in
 private theorem pCoreOf_le_centMod {J₂ T : Subgroup G}
-    (hTN : T ≤ Subgroup.normalizer (J₂ : Set G)) : pCoreOf 2 J₂ ≤ centMod J₂ T := fun q hq =>
-  ⟨Subgroup.map_subtype_le _ hq, fun t ht =>
+    (hTN : T ≤ Subgroup.normalizer (J₂ : Set G)) : pCoreOf 2 J₂ ≤ centMod J₂ T := fun _q hq =>
+  ⟨Subgroup.map_subtype_le _ hq, fun _t ht =>
     (pCoreOf 2 J₂).mul_mem (conj_mem_pCoreOf (hTN ht) hq) ((pCoreOf 2 J₂).inv_mem hq)⟩
 
+omit [Finite G] in
 private theorem centralizerBarIn_eq (J₂ T : Subgroup G) :
     centralizerBarIn J₂ T = barIn J₂ (centMod J₂ T) := by
   unfold centralizerBarIn
   rw [show Subgroup.closure {x : G | x ∈ J₂ ∧ ∀ t ∈ T, t * x * t⁻¹ * x⁻¹ ∈ pCoreOf 2 J₂} =
     centMod J₂ T from Subgroup.closure_eq (centMod J₂ T)]
 
+omit [Finite G] in
 private theorem le_centMod_of_barIn_le {J₁ J₂ T : Subgroup G}
     (hTN : T ≤ Subgroup.normalizer (J₂ : Set G)) (hJ₁J₂ : J₁ ≤ J₂)
     (hle : barIn J₂ J₁ ≤ centralizerBarIn J₂ T) : J₁ ≤ centMod J₂ T := by
@@ -142,13 +147,14 @@ private theorem le_centMod_of_barIn_le {J₁ J₂ T : Subgroup G}
   rw [h3]
   exact (centMod J₂ T).mul_mem hz (pCoreOf_le_centMod hTN ⟨_, h1, rfl⟩)
 
+omit [Finite G] in
 private theorem normalClosure_eq_top {J₁ J₂ : Subgroup G} (h2 : IsFooteBlock J₂ J₂)
     (hq : CFSG.Open.IsQuasisimple ↥(barIn J₂ J₁)) :
     Subgroup.normalClosure ((J₁.subgroupOf J₂ : Subgroup ↥J₂) : Set ↥J₂) = ⊤ := by
   set N : Subgroup ↥J₂ := Subgroup.normalClosure ((J₁.subgroupOf J₂ : Subgroup ↥J₂) : Set ↥J₂)
     with hN
   set Q := CFSG.pCore 2 ↥J₂ with hQ
-  haveI hNb : (N.map (QuotientGroup.mk' Q)).Normal :=
+  have hNb : (N.map (QuotientGroup.mk' Q)).Normal :=
     Subgroup.Normal.map inferInstance _ (QuotientGroup.mk'_surjective Q)
   have hbar_le : barIn J₂ J₁ ≤ N.map (QuotientGroup.mk' Q) :=
     Subgroup.map_mono (Subgroup.subset_normalClosure)
@@ -182,6 +188,7 @@ private noncomputable def conjAct (hTN : T ≤ Subgroup.normalizer (J₂ : Set G
     ↥T →* MulAut ↥J₂ :=
   J₂.normalizerMonoidHom.comp (Subgroup.inclusion hTN)
 
+omit [Finite G] in
 private theorem conjAct_pCore (hTN : T ≤ Subgroup.normalizer (J₂ : Set G)) (t : ↥T) {n : ↥J₂}
     (hn : n ∈ CFSG.pCore 2 ↥J₂) : conjAct hTN t n ∈ CFSG.pCore 2 ↥J₂ := by
   have h := CFSG.pCore_map_iso 2 (conjAct hTN t)
@@ -191,6 +198,7 @@ private noncomputable def barAct (hTN : T ≤ Subgroup.normalizer (J₂ : Set G)
     ↥T →* MulAut (↥J₂ ⧸ CFSG.pCore 2 ↥J₂) :=
   quotientAction (conjAct hTN) (CFSG.pCore 2 ↥J₂) (fun t _ hn => conjAct_pCore hTN t hn)
 
+omit [Finite G] in
 private theorem barAct_mk (hTN : T ≤ Subgroup.normalizer (J₂ : Set G)) (t : ↥T) (j : ↥J₂) :
     barAct hTN t (QuotientGroup.mk j) = QuotientGroup.mk (conjAct hTN t j) := rfl
 
@@ -211,6 +219,7 @@ namespace TildeULin
 variable {J₁ J₂ T : Subgroup G} {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   (lin : TildeULin J₂ (J₂ ⊔ T) V)
 
+omit [Finite V] in
 theorem exists_preimage_centralizer (h2 : IsFooteBlock J₂ J₂) (hT : IsPGroup 2 T)
     (hTN : T ≤ Subgroup.normalizer (J₂ : Set G)) (g : GLV V) (hg : g ∈ lin.img J₂)
     (hgT : g ∈ Subgroup.centralizer (lin.img T : Set (GLV V))) :
@@ -260,10 +269,12 @@ namespace BridgeG
 variable {J₁ J₂ T : Subgroup G} {V : Type} [AddCommGroup V] [Module (ZMod 2) V]
   (lin : TildeULin J₂ (J₂ ⊔ T) V)
 
+omit [Finite G] in
 private theorem img_mono {J X : Subgroup G} (lin : TildeULin J X V) {A B : Subgroup G}
     (h : A ≤ B) : lin.img A ≤ lin.img B :=
   Subgroup.map_mono (Subgroup.comap_mono h)
 
+omit [Finite G] in
 private theorem img_le_normalizer {J X : Subgroup G} (lin : TildeULin J X V)
     (hX : X ≤ Subgroup.normalizer (J : Set G)) :
     lin.img X ≤ Subgroup.normalizer (lin.img J : Set (GLV V)) := by
@@ -294,6 +305,7 @@ private theorem img_eq_map_barIn (h2 : IsFooteBlock J₂ J₂) {A : Subgroup G} 
     refine ⟨Subgroup.inclusion le_sup_left a, ha, ?_⟩
     rw [QuotientGroup.mk'_apply, lin.ρbar_mk]
 
+omit [Finite G] in
 private theorem img_sup : lin.img (J₂ ⊔ T) = lin.img J₂ ⊔ lin.img T := by
   unfold TildeULin.img
   rw [← Subgroup.map_sup, ← Subgroup.subgroupOf_sup le_sup_left le_sup_right]
@@ -305,7 +317,6 @@ private theorem ρ_comm_of_mem_blockQ (h2 : IsFooteBlock J₂ J₂) (t x : ↥(J
   rw [map_mul, map_mul, map_mul, map_inv, map_inv] at h1
   exact commutatorElement_eq_one_iff_mul_comm.mp h1
 
-variable [Finite V] in
 private theorem map_centralizerBarIn (h2 : IsFooteBlock J₂ J₂) (hT : IsPGroup 2 T)
     (hTN : T ≤ Subgroup.normalizer (J₂ : Set G)) :
     (centralizerBarIn J₂ T).map (lin.ρbar h2 le_sup_left) =
@@ -328,6 +339,7 @@ namespace TildeULin
 variable {J₁ J₂ T : Subgroup G} {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   (lin : TildeULin J₂ (J₂ ⊔ T) V)
 
+omit [Finite V] in
 theorem setup6Irr_img (h1 : IsFooteBlock J₁ J₁) (h2 : IsFooteBlock J₂ J₂) (hJ₁J₂ : J₁ ≤ J₂)
     (hU : blockU J₁ = ⁅blockQ J₂, J₁⁆) (hT : IsPGroup 2 T)
     (hTN : T ≤ Subgroup.normalizer (J₂ : Set G))
@@ -378,7 +390,7 @@ theorem setup6Irr_img (h1 : IsFooteBlock J₁ J₁) (h2 : IsFooteBlock J₂ J₂
     · rintro _ ⟨x, hx, rfl⟩
       set M := normalClosure (lin.img (J₂ ⊔ T)) (lin.img J₁) with hM
       let f : ↥J₂ →* GLV V := lin.ρ.comp (Subgroup.inclusion hJX)
-      haveI : (M.comap f).Normal := ⟨fun n hn a => by
+      have : (M.comap f).Normal := ⟨fun n hn a => by
         change f (a * n * a⁻¹) ∈ M
         rw [map_mul, map_mul, map_inv]
         exact BridgeG.normalClosure_conj_mem ⟨Subgroup.inclusion hJX a, hJX a.2, rfl⟩ hn⟩
@@ -408,9 +420,9 @@ theorem layerIn_img (h2 : IsFooteBlock J₂ J₂) (hT : IsPGroup 2 T)
       (BridgeG.isQuasisimple_native (lin.isQuasisimple_img h2 hJX))
   have hSp : IsPGroup 2 ↥S :=
     (hT.comap_of_injective (J₂ ⊔ T).subtype Subtype.val_injective).map lin.ρ
-  haveI : Finite (GLV V) :=
+  have : Finite (GLV V) :=
     Finite.of_injective (fun f : GLV V => (f : V → V)) DFunLike.coe_injective
-  haveI : Finite ↥Gm := inferInstance
+  have : Finite ↥Gm := inferInstance
   have hsolv : Group.IsSolvable (↥Gm ⧸ E.subgroupOf Gm) := by
     have hSp' : IsPGroup 2 ↥(S.subgroupOf Gm) :=
       hSp.comap_of_injective Gm.subtype Subtype.val_injective
@@ -426,7 +438,7 @@ theorem layerIn_img (h2 : IsFooteBlock J₂ J₂) (hT : IsPGroup 2 T)
       refine ⟨⟨s, hs⟩, ?_⟩
       change QuotientGroup.mk s = QuotientGroup.mk (e * s)
       rw [QuotientGroup.mk_mul, (QuotientGroup.eq_one_iff e).mpr he, one_mul]
-    haveI := (hSp'.of_surjective _ hsurj).isNilpotent
+    have := (hSp'.of_surjective _ hsurj).isNilpotent
     infer_instance
   have hlayer : CFSG.layer ↥Gm = E.subgroupOf Gm :=
     BridgeG.layer_eq_of_normal_quasisimple _ hq hsolv

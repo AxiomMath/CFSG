@@ -55,9 +55,9 @@ theorem isCyclic_of_two_pow_card_dvd_six {G : Type*} [Group G] [Finite G] {k : �
       have h46 := Nat.dvd_trans h4 hd
       norm_num at h46
   rcases hcard with h1 | h2
-  · haveI : Subsingleton G := (Nat.card_eq_one_iff_unique.mp h1).1
+  · have : Subsingleton G := (Nat.card_eq_one_iff_unique.mp h1).1
     infer_instance
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact isCyclic_of_prime_card h2
 
 theorem eqLocus_mulEquiv_congr {X Y : Type} [Group X] [Group Y] (e : X ≃* Y) (α : MulAut X) :
@@ -87,7 +87,7 @@ theorem isCyclic_of_le_centralizer_psl2 {X : Type} [Group X] [Finite X] {K : Typ
     IsCyclic U := by
   have hne : e x ≠ 1 := fun h => hx1 (e.injective (h.trans (map_one e).symm))
   have hpow : (e x) ^ 3 = 1 := by rw [← map_pow, hx3, map_one]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf (e x) = 3 := orderOf_eq_prime hpow hne
   have hodd : Odd (orderOf (e x)) := by rw [hord]; exact ⟨1, rfl⟩
   have hcyc := (CFSG.ShultStronglyClosedTI.TwoCoreGrowth.psl2_even_odd_element_full_centralizer
@@ -100,7 +100,7 @@ theorem isCyclic_of_le_centralizer_psl2 {X : Type} [Group X] [Finite X] {K : Typ
     subst hh
     show e x * e u = e u * e x
     rw [← map_mul e, ← map_mul e, hU u hu]
-  haveI : IsCyclic (U.map e.toMonoidHom) := Subgroup.isCyclic_of_le hle
+  have : IsCyclic (U.map e.toMonoidHom) := Subgroup.isCyclic_of_le hle
   exact isCyclic_of_injective (U.equivMapOfInjective e.toMonoidHom e.injective).toMonoidHom
     (U.equivMapOfInjective e.toMonoidHom e.injective).injective
 
@@ -156,7 +156,7 @@ theorem kChevTwoCentralizer_psl2 (m : ℕ) (hm : 1 ≤ m) :
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hV2
   have hUk : Nat.card U = 2 ^ k := by rw [Nat.card_congr hUV.toEquiv]; exact hk
   suffices hUcyc : IsCyclic U by
-    haveI := hUcyc
+    have := hUcyc
     exact hVnc (isCyclic_of_injective hUV.symm.toMonoidHom hUV.symm.injective)
   rcases Nat.lt_or_ge m 2 with hm1 | hm2
   ·
@@ -239,7 +239,7 @@ theorem kChevTwoCentralizer_psl2 (m : ℕ) (hm : 1 ≤ m) :
           rw [hK, hFq]
         obtain ⟨hZC, hQC, h3C, -⟩ := fixedPoints_facts_of_mulEquiv_psl2 e h4 hK' hβ3 hin
         have hsub := subsingleton_of_quasisimple_centralizer C R U hQC hZC hRC hRnorm hUR h3C hdivR
-        haveI := hsub
+        have := hsub
         infer_instance
 
 end CFSG.RankThree.PartTwo.Sec4.Item462AltProof.ChevTwoL2

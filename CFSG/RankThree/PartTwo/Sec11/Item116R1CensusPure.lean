@@ -133,9 +133,9 @@ section Pure
 
 variable {X : Type} [Group X] [Finite X] {Abar Bbar Rbar : Subgroup X} {cb db ab : X}
 
-theorem cd_cyclic (H : CDHyp Abar Bbar Rbar cb db ab) {J : Subgroup X} (hJ : CFSG.IsComponent J)
+theorem cd_cyclic (H : CDHyp Abar Bbar Rbar cb db ab) {J : Subgroup X} (_hJ : CFSG.IsComponent J)
     (hZ : Subgroup.center J = ⊥) (hB : ∀ u ∈ J, u ∈ Abar → u ∈ Bbar) : IsCyclic ↥(Rbar ⊓ J) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hzJ : cb * db ∉ J := by
     intro hmem
     have hmemC : (⟨cb * db, hmem⟩ : ↥J) ∈ Subgroup.center ↥J := by
@@ -249,7 +249,7 @@ section Pure
 variable {X : Type} [Group X] [Finite X] {Abar Bbar Rbar : Subgroup X} {cb db ab : X}
 
 theorem cd_not_all_inner (H : CDHyp Abar Bbar Rbar cb db ab) {J : Subgroup X}
-    (hJ : CFSG.IsComponent J) (hZ : Subgroup.center J = ⊥) {e : X} (heJ : e ∈ J) (he1 : e ≠ 1)
+    (_hJ : CFSG.IsComponent J) (hZ : Subgroup.center J = ⊥) {e : X} (heJ : e ∈ J) (he1 : e ≠ 1)
     (heB : e ∈ Bbar) (hnorm : ∀ r ∈ Rbar, ∀ x ∈ J, r * x * r⁻¹ ∈ J)
     (hcyc : ∀ P : Sylow 3 ↥J, IsCyclic ↥(P : Subgroup ↥J)) :
     ¬ ∀ y ∈ Abar, ∃ j ∈ J, ∀ x ∈ J, y * x * y⁻¹ = j * x * j⁻¹ := by
@@ -374,7 +374,7 @@ theorem cd_not_all_inner (H : CDHyp Abar Bbar Rbar cb db ab) {J : Subgroup X}
     intro h
     apply he1
     exact mul_left_cancel (h.trans (mul_one e).symm)
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hcomm' : (⟨e, heJ⟩ : ↥J) * ⟨jw, hjwJ⟩ = ⟨jw, hjwJ⟩ * ⟨e, heJ⟩ :=
     Subtype.ext hcommE.symm
   have ha'3 : (⟨e, heJ⟩ : ↥J) ^ 3 = 1 := Subtype.ext he3
@@ -392,7 +392,7 @@ theorem cd_not_all_inner (H : CDHyp Abar Bbar Rbar cb db ab) {J : Subgroup X}
     hKP (Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _)))
   have hcycP := hcyc P
   classical
-  haveI : Fintype ↥(P : Subgroup ↥J) := Fintype.ofFinite _
+  have : Fintype ↥(P : Subgroup ↥J) := Fintype.ofFinite _
   have hcard := IsCyclic.card_pow_eq_one_le (α := ↥(P : Subgroup ↥J)) (n := 3) (by norm_num)
   have hcubeP : ∀ x : ↥(P : Subgroup ↥J), ((x : ↥J) : X) ^ 3 = 1 → x ^ 3 = 1 := by
     intro x hx
@@ -795,7 +795,7 @@ theorem cdP6_all_sylow_cyclic {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.
     (S : Sylow p G) (hS : IsCyclic ↥(S : Subgroup G)) :
     ∀ P : Sylow p G, IsCyclic ↥(P : Subgroup G) := by
   intro P
-  haveI : Finite (Sylow p G) :=
+  have : Finite (Sylow p G) :=
     Finite.of_injective (fun Q : Sylow p G => (Q : Set G)) (fun Q R h => SetLike.coe_injective h)
   exact (MulEquiv.isCyclic (Sylow.equiv S P)).mp hS
 
@@ -856,7 +856,7 @@ theorem cdP6_core (hK1 : CyclicSylowThreeOutAbelian) (hX : CFSG.IsKGroup X)
     (hcl : ∀ J : Subgroup X, CFSG.IsComponent J → Subgroup.center J = ⊥)
     (J : Subgroup X) (hJ : CFSG.IsComponent J) (h3 : 3 ∣ Nat.card J)
     (S : Sylow 3 ↥J) (hS : ∀ y ∈ (S : Subgroup ↥J), (y : X) ∈ (Rs : Subgroup X)) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZ : Subgroup.center J = ⊥ := hcl J hJ
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥(S : Subgroup ↥J)) 3
     (S.dvd_card_of_dvd_card h3)
@@ -991,11 +991,11 @@ theorem censusD_pure (hK1 : CyclicSylowThreeOutAbelian) (hX : CFSG.IsKGroup X) (
     (hcl : ∀ J : Subgroup X, CFSG.IsComponent J → Subgroup.center J = ⊥) :
     ∀ J : Subgroup X, CFSG.IsComponent J → ¬ 3 ∣ Nat.card J := by
   intro J hJ h3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Sylow 3 X) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Sylow 3 X) :=
     Finite.of_injective (fun Q : Sylow 3 X => (Q : Set X)) (fun Q R h => SetLike.coe_injective h)
   obtain ⟨S0⟩ : Nonempty (Sylow 3 ↥J) := Sylow.nonempty
-  have hQp : IsPGroup 3 ((S0 : Subgroup ↥J).map J.subtype) := S0.isPGroup'.map J.subtype
+  have hQp : IsPGroup 3 ((S0 : Subgroup ↥J).map J.subtype) := S0.isPGroup.map J.subtype
   obtain ⟨R', hR'⟩ := IsPGroup.exists_le_sylow hQp
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X Rs R'
   let f : X ≃* X := MulAut.conj g⁻¹

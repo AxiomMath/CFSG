@@ -174,7 +174,7 @@ theorem s16c13bc_fix3_alt {W : Type} [CommGroup W] {H : Subgroup (MulAut W)} {J 
     have e4 : σ.symm d ≠ b := by
       rw [Ne, Equiv.symm_apply_eq, hc]
       exact fun h => hdc h
-    simp [G6.permAct_apply, G6.allOnes, Pi.single_apply, e1, e2, e3, e4, hba, hda, hdb,
+    simp [G6.permAct_apply, G6.allOnes, e1, e2, e3, e4, hda, hdb,
       hba.symm] at hka hkd
     have h01 : (-1 : ZMod 2) = -0 := hka.symm.trans hkd
     revert h01
@@ -184,25 +184,25 @@ theorem s16c13bc_fix3_sl {W : Type} [CommGroup W] {H : Subgroup (MulAut W)} {J :
     {m a : ℕ} (hm : 3 ≤ m) (hN : BinaryNaturalSL H J ⊥ m a) :
     ∀ w ∈ J, w ≠ 1 → ∃ ψ ∈ H, orderOf ψ = 3 ∧ ψ w = w := by
   obtain ⟨K, hKf, -, -, hR⟩ := hN
-  letI := hKf
+  let := hKf
   exact s16c13bc_fix3_nat (threeFixedModel_statedSL hm) hR
 
 theorem s16c13bc_fix3_sp {W : Type} [CommGroup W] {H : Subgroup (MulAut W)} {J : Subgroup W}
     {n a : ℕ} (hn : 4 ≤ n) (hN : NatSpn H J ⊥ n a) :
     ∀ w ∈ J, w ≠ 1 → ∃ ψ ∈ H, orderOf ψ = 3 ∧ ψ w = w := by
   obtain ⟨-, K, hKf, -, -, hR⟩ := hN
-  letI := hKf
+  let := hKf
   exact s16c13bc_fix3_nat (threeFixedModel_statedSp (by omega)) hR
 
 theorem s16c13bc_fix3_omegaMinus {W : Type} [CommGroup W] {H : Subgroup (MulAut W)}
-    {J : Subgroup W} {n a : ℕ} (hn : 6 ≤ n) (ha : 1 ≤ a) (hN : NatOmegaMinus H J ⊥ n a) :
+    {J : Subgroup W} {n a : ℕ} (hn : 6 ≤ n) (_ha : 1 ≤ a) (hN : NatOmegaMinus H J ⊥ n a) :
     ∀ w ∈ J, w ≠ 1 → ∃ ψ ∈ H, orderOf ψ = 3 ∧ ψ w = w := by
   obtain ⟨-, K, hKf, hKfin, b, c, hcard, hbc, hR⟩ := hN
-  letI := hKf
-  letI := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := a)
+  let := hKf
+  let := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := a)
     (by rw [← Nat.card_eq_fintype_card, hcard])
   exact s16c13bc_fix3_nat (threeFixedModel_statedOmegaMinus (by omega) b c hbc) hR
 

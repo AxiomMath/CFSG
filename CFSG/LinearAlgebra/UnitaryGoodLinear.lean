@@ -24,8 +24,7 @@ private theorem scalar_toLinU
   rw [toLinU_apply]
   ext i
   simp [Module.algebraMap_end_eq_smul_id, Matrix.GeneralLinearGroup.coe_toLin,
-    Matrix.GeneralLinearGroup.coe_scalar, Matrix.mulVecLin, Matrix.toLin'_apply,
-    Matrix.scalar_apply]
+    Matrix.GeneralLinearGroup.coe_scalar, Matrix.mulVecLin, Matrix.scalar_apply]
 
 theorem exists_linear_of_good_unitaryBlock
     {q f p n : ℕ} {K : Type} [Field K] {h : UnitaryFieldData q f K}
@@ -38,10 +37,10 @@ theorem exists_linear_of_good_unitaryBlock
     (hgood : IsGoodBlock h (toLinU h n x) ⟨a, ha⟩) :
     ∃ lam : K, a = X - C lam := by
   classical
-  haveI : Fact q.Prime := ⟨h.prime⟩
-  haveI : CharP K q := h.charP
-  haveI := h.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨h.prime⟩
+  have : CharP K q := h.charP
+  have := h.finite
+  have : Fact p.Prime := ⟨hp⟩
   set xlin : Module.End K (Fin n → K) :=
     ((toLinU h n x : LinearMap.GeneralLinearGroup K (Fin n → K)) :
       Module.End K (Fin n → K)) with hxlin
@@ -95,7 +94,7 @@ theorem exists_linear_of_good_unitaryBlock
       eq_of_monic_of_associated (monic_of_mem_primaryFactors ha)
         (monic_X_pow_sub_C _ hp.pos.ne') hassoc
     have hdeg : a.natDegree = p := by rw [heq, Polynomial.natDegree_X_pow_sub_C]
-    haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+    have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
     have hm2 : 2 ≤ primaryMultiplicity xlin a := hgood.1
     have hdim : Module.finrank K (primaryComponent xlin a) =
         p * primaryMultiplicity xlin a := by

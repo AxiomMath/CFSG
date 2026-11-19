@@ -18,9 +18,11 @@ section Q15B
 
 variable {G : Type} [Group G] [Finite G] {Q Y : Subgroup G} {ρ : G}
 variable [(Y.subgroupOf Q).Normal]
+omit [Finite G] in
 private lemma q15_mem_zpowers_sq : ρ * ρ ∈ zpowers ρ := by
   refine Subgroup.mem_zpowers_iff.mpr ⟨((2 : ℕ) : ℤ), ?_⟩
   rw [zpow_natCast, pow_two]
+omit [Finite G] in
 private lemma q15_pi_commutator_rho_gen (hρQ : ρ ∈ normalizer (Q : Set G))
     (hρY : ρ ∈ normalizer (Y : Set G)) (q : ↥Q) :
     (QuotientGroup.mk' (Y.subgroupOf Q) q)⁻¹ *
@@ -39,6 +41,7 @@ private lemma q15_pi_commutator_rho_gen (hρQ : ρ ∈ normalizer (Q : Set G))
   apply Subtype.ext
   simp only [Subgroup.coe_mul, Subgroup.coe_inv, commutatorElement_def]
   group
+omit [Finite G] in
 private lemma q15_pi_commutator_rho (hρQ : ρ ∈ normalizer (Q : Set G))
     (hρY : ρ ∈ normalizer (Y : Set G)) {g₁ : G} (hg₁ : g₁ ∈ Q) :
     (QuotientGroup.mk' (Y.subgroupOf Q))
@@ -61,6 +64,7 @@ private lemma q15_pi_commutator_rho (hρQ : ρ ∈ normalizer (Q : Set G))
       quotConj Q Y ρ hρQ hρY (QuotientGroup.mk' (Y.subgroupOf Q) ⟨g₁, hg₁⟩) from
     (quotConj_mk hρQ hρY ⟨g₁, hg₁⟩ hqmem).symm]
   group
+omit [Finite G] in
 private lemma q15_pi_comm_rho_mem (hρQ : ρ ∈ normalizer (Q : Set G))
     (hρY : ρ ∈ normalizer (Y : Set G)) {g₁ : G} (hg₁ : g₁ ∈ Q) :
     (QuotientGroup.mk' (Y.subgroupOf Q))
@@ -70,6 +74,7 @@ private lemma q15_pi_comm_rho_mem (hρQ : ρ ∈ normalizer (Q : Set G))
   rw [q15_pi_commutator_rho hρQ hρY hg₁]
   exact (commAut_normal (quotConj Q Y ρ hρQ hρY)).conj_mem _
     (inv_mem (Subgroup.subset_closure ⟨_, rfl⟩)) _
+omit [Finite G] in
 private lemma q15_pi_commutator_rho2 (hρQ : ρ ∈ normalizer (Q : Set G))
     (hρY : ρ ∈ normalizer (Y : Set G)) {g₁ : G} (hg₁ : g₁ ∈ Q) :
     (QuotientGroup.mk' (Y.subgroupOf Q))
@@ -98,6 +103,7 @@ private lemma q15_pi_commutator_rho2 (hρQ : ρ ∈ normalizer (Q : Set G))
       quotConj Q Y ρ hρQ hρY
         ((QuotientGroup.mk' (Y.subgroupOf Q)) ⟨⁅g₁, ρ⁆, h₁⟩) from
     (quotConj_mk hρQ hρY ⟨⁅g₁, ρ⁆, h₁⟩ hmem).symm]
+omit [Finite G] in
 private lemma q15_pi_commutator_mem (hρ3 : ρ ^ 3 = 1)
     (hρQ : ρ ∈ normalizer (Q : Set G)) (hρY : ρ ∈ normalizer (Y : Set G))
     {g₁ : G} (hg₁ : g₁ ∈ Q) {g₂ : G} (hg₂ : g₂ ∈ zpowers ρ) :
@@ -133,6 +139,7 @@ private lemma q15_pi_commutator_mem (hρ3 : ρ ^ 3 = 1)
   · rw [q15_pi_commutator_rho2 hρQ hρY hg₁]
     exact mul_mem (q15_pi_comm_rho_mem hρQ hρY hg₁)
       (commAut_invariant _ _ (q15_pi_comm_rho_mem hρQ hρY hg₁))
+omit [Finite G] in
 theorem q15_map_commutator_eq (hρ3 : ρ ^ 3 = 1) (hρQ : ρ ∈ normalizer (Q : Set G))
     (hρY : ρ ∈ normalizer (Y : Set G)) :
     ((⁅Q, zpowers ρ⁆ : Subgroup G).subgroupOf Q).map (QuotientGroup.mk' (Y.subgroupOf Q)) =
@@ -158,6 +165,7 @@ theorem q15_map_commutator_eq (hρ3 : ρ ^ 3 = 1) (hρQ : ρ ∈ normalizer (Q :
       Subgroup.mem_subgroupOf.mpr
         (Subgroup.commutator_mem_commutator (inv_mem q.2) (Subgroup.mem_zpowers ρ)),
       (q15_pi_commutator_rho_gen hρQ hρY q).symm⟩
+omit [Finite G] in
 theorem q15_subgroupOf_eq_comap (hρ3 : ρ ^ 3 = 1) (hρQ : ρ ∈ normalizer (Q : Set G))
     (hρY : ρ ∈ normalizer (Y : Set G)) (hY : Y ≤ ⁅Q, zpowers ρ⁆) :
     (⁅Q, zpowers ρ⁆ : Subgroup G).subgroupOf Q =
@@ -172,6 +180,7 @@ theorem q15_subgroupOf_eq_comap (hρ3 : ρ ^ 3 = 1) (hρQ : ρ ∈ normalizer (Q
     exact hY hx
   rw [sup_eq_left.mpr hle] at h1
   exact h1.symm
+omit [Finite G] in
 theorem q15_mem_commutator_iff (hρ3 : ρ ^ 3 = 1) (hρQ : ρ ∈ normalizer (Q : Set G))
     (hρY : ρ ∈ normalizer (Y : Set G)) (hY : Y ≤ ⁅Q, zpowers ρ⁆) {x : G} (hx : x ∈ Q) :
     x ∈ ⁅Q, zpowers ρ⁆ ↔
@@ -182,6 +191,7 @@ theorem q15_mem_commutator_iff (hρ3 : ρ ^ 3 = 1) (hρQ : ρ ∈ normalizer (Q 
       commAut (quotConj Q Y ρ hρQ hρY)
   rw [q15_subgroupOf_eq_comap hρ3 hρQ hρY hY, Subgroup.mem_comap]
   rfl
+omit [Finite G] in
 theorem q15_sectionIso_commutator (hρ3 : ρ ^ 3 = 1) (hρQ : ρ ∈ normalizer (Q : Set G))
     (hρY : ρ ∈ normalizer (Y : Set G)) (hY : Y ≤ ⁅Q, zpowers ρ⁆) {K : Type} [Group K]
     (e : ↥(commAut (quotConj Q Y ρ hρQ hρY)) ≃* K) :
@@ -228,6 +238,7 @@ theorem q15_sectionIso_commutator (hρ3 : ρ ^ 3 = 1) (hρQ : ρ ∈ normalizer 
       change ((ψ x : ↥(commAut (quotConj Q Y ρ hρQ hρY))) : ↥Q ⧸ Y.subgroupOf Q) =
         ((1 : ↥(commAut (quotConj Q Y ρ hρQ hρY))) : ↥Q ⧸ Y.subgroupOf Q)
       exact hxq
+omit [Finite G] in
 theorem q15_card_commutator (hρ3 : ρ ^ 3 = 1) (hρQ : ρ ∈ normalizer (Q : Set G))
     (hρY : ρ ∈ normalizer (Y : Set G)) (hY : Y ≤ ⁅Q, zpowers ρ⁆) :
     Nat.card (⁅Q, zpowers ρ⁆ : Subgroup G) =
@@ -237,6 +248,7 @@ theorem q15_card_commutator (hρ3 : ρ ^ 3 = 1) (hρQ : ρ ∈ normalizer (Q : S
   have h1 := Subgroup.card_ker_mul_card_of_surjective hφs
   rw [hφk, Nat.card_congr (Subgroup.subgroupOfEquivOfLe hY).toEquiv] at h1
   exact h1.symm
+omit [Finite G] in
 theorem q15_t_not_mem (hρ3 : ρ ^ 3 = 1) (hρQ : ρ ∈ normalizer (Q : Set G))
     (hρY : ρ ∈ normalizer (Y : Set G)) (hY : Y ≤ ⁅Q, zpowers ρ⁆) {t : G} (htQ : t ∈ Q)
     (htY : t ∉ Y)
@@ -259,6 +271,7 @@ theorem q15_t_not_mem (hρ3 : ρ ^ 3 = 1) (hρQ : ρ ∈ normalizer (Q : Set G))
   have hYmem : (⟨t, htQ⟩ : ↥Q) ∈ Y.subgroupOf Q :=
     (QuotientGroup.eq_one_iff (⟨t, htQ⟩ : ↥Q)).mp hbot
   rwa [Subgroup.mem_subgroupOf] at hYmem
+omit [Finite G] in
 theorem q15_Q_eq_sup (hρ3 : ρ ^ 3 = 1) (hρQ : ρ ∈ normalizer (Q : Set G))
     (hρY : ρ ∈ normalizer (Y : Set G)) (hY : Y ≤ ⁅Q, zpowers ρ⁆) {t : G} (htQ : t ∈ Q)
     (hsup : commAut (quotConj Q Y ρ hρQ hρY) ⊔

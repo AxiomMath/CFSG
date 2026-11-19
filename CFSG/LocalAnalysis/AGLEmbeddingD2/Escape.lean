@@ -101,7 +101,7 @@ variable {p : ℕ} {P : Sylow p G} {M A H R : Subgroup G}
 
 theorem isPGroup (h : D2Escape p P M A H R) : IsPGroup p R := by
   obtain ⟨T, rfl⟩ := h.isSylow
-  exact T.isPGroup'.map H.subtype
+  exact T.isPGroup.map H.subtype
 
 theorem A_le_M (h : D2Escape p P M A H R) : A ≤ M := h.A_le.trans h.le_M
 

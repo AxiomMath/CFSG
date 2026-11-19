@@ -35,7 +35,7 @@ theorem wordTabA_eqT (tabs : Array (Array Nat)) (n : Nat) (w : List Nat) :
   simp [wordTabA, wordTabT, wordImg_eqT]
 
 theorem tMul_eqT (s t : Array Nat) : (tMul s t).toList = tMulT s.toList t.toList := by
-  simp [tMul, tMulT, getD_arr]
+  simp [tMul, tMulT]
 
 theorem tPow_eqT (n : Nat) (y : Array Nat) : ∀ k, (tPow n y k).toList = tPowT n y.toList k
   | 0 => by simp [tPow, tPowT, tId]
@@ -64,7 +64,7 @@ theorem eqOn_eqT (B : List Nat) (us vs : List (Array Nat)) :
 
 theorem cj_eqT (pw : Array (Array Nat)) (a : Array Nat) (i : Nat) :
     (cj pw a i).map Array.toList = cjT (pw.toList.map Array.toList) a.toList i := by
-  simp [cj, cjT, getD_arrA]
+  simp [cj, cjT]
 
 theorem condA_eqT (B : List Nat) (pw : Array (Array Nat)) (a : Array Nat) :
     condA B pw a = condAT B (pw.toList.map Array.toList) a.toList := by
@@ -100,7 +100,7 @@ theorem pairCheck_eqT (n : Nat) (B : List Nat) (y : Array Nat) (ts : List (Array
 
 theorem codeAT_eqT (n : Nat) (t : Array Nat) : CFSG.KC.SLDc.codeAT n t = codeATL n t.toList := by
   funext c
-  simp [CFSG.KC.SLDc.codeAT, codeATL, getD_arr]
+  simp [CFSG.KC.SLDc.codeAT, codeATL]
 
 theorem codeSetT_eqT (n : Nat) (t : Array Nat) (x : List Nat) :
     CFSG.KC.SLDc.codeSetT n t x = codeSetTL n t.toList x := by

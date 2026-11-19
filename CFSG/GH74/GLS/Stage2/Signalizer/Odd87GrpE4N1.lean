@@ -33,7 +33,7 @@ theorem sl2_perfect_odd_cover_kernel {K : Type} [Field K] [Finite K] {p f : ℕ}
     with hT
   have hTc : T ≤ Subgroup.center E := Subgroup.map_subtype_le _
   have : T.Normal := Subgroup.normal_of_le_center hTc
-  have hTp : IsPGroup 2 T := P.isPGroup'.map (Subgroup.center E).subtype
+  have hTp : IsPGroup 2 T := P.isPGroup.map (Subgroup.center E).subtype
   have hTker : T ≤ ρ.ker := hρker ▸ hTc
   let ψ : E ⧸ T →* Matrix.ProjectiveSpecialLinearGroup (Fin 2) K := QuotientGroup.lift T ρ hTker
   have hψsurj : Function.Surjective ψ := fun y => by

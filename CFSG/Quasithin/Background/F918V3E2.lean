@@ -42,7 +42,7 @@ theorem sq_conj_eq {K : Type*} [Group K] [Finite K] (P : Sylow 3 K)
   have hdvd : Nat.card ψ.range ∣ Nat.card (MulAut ↥(P : Subgroup K)) :=
     Subgroup.card_subgroup_dvd_card _
   rw [IsCyclic.card_mulAut] at hdvd
-  obtain ⟨j, hj⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨j, hj⟩ := P.isPGroup.exists_card_eq
   have hj1 : j ≠ 0 := by
     rintro rfl
     exact hP1 (Subgroup.card_eq_one.mp (by simpa using hj))
@@ -75,7 +75,7 @@ theorem inv_of_mem_normalizer_not_mem_centralizer {K : Type*} [Group K] [Finite 
     (hg : g ∈ Subgroup.normalizer (P : Set K)) (hgC : g ∉ Subgroup.centralizer (P : Set K)) :
     ∀ y ∈ (P : Subgroup K), g * y * g⁻¹ = y⁻¹ := by
   obtain ⟨x, hx⟩ := IsCyclic.exists_generator (α := ↥(P : Subgroup K))
-  obtain ⟨j, hj⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨j, hj⟩ := P.isPGroup.exists_card_eq
   have hord : orderOf (x : K) = 3 ^ j := by
     rw [Subgroup.orderOf_coe, orderOf_eq_card_of_forall_mem_zpowers hx, hj]
   have hpow : ∀ y ∈ (P : Subgroup K), ∃ c : ℤ, (x : K) ^ c = y := by

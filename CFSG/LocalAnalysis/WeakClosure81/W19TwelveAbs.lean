@@ -38,7 +38,7 @@ theorem exists_irreducible_constituent {p : ℕ} (hp : p.Prime) (hodd : p ≠ 2)
   have hHR := le_normalizer_commutator_sup hXH hOH hE₁ hVE hV₀ hK hOE
   obtain ⟨E₀, hVE₀, hE₀R, hHE₀, hirr⟩ := exists_minimal_invariant hVR hHR
   refine ⟨E₀, hVE₀.le, hE₀R.trans hRE, hHE₀, hirr, fun hle => ?_⟩
-  obtain ⟨u, huE₀, huV⟩ := SetLike.exists_of_lt hVE₀
+  obtain ⟨u, huE₀, huV⟩ := _root_.IsConcreteLE.exists_of_lt hVE₀
   refine huV (mem_of_mem_commutator_sup hp hodd hA hVE hX (fun x hx => hE₁ (hXH hx))
     (fun x hx v hv => hV₀ x (hXH hx) v hv) (hE₀R huE₀) fun x hx => ?_)
   rw [← commutatorElement_inv]

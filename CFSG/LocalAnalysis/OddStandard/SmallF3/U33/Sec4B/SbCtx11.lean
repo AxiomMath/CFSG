@@ -15,6 +15,7 @@ namespace S4B
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 theorem ctxX_swap (ht2 : t * t = 1) : ctxX t (t * tau) x₁ x₂ = ctxX t tau x₁ x₂ := by
   have hτ : tau = t * (t * tau) := by rw [← mul_assoc, ht2, one_mul]
   apply le_antisymm
@@ -41,6 +42,7 @@ theorem ctxX_swap (ht2 : t * t = 1) : ctxX t (t * tau) x₁ x₂ = ctxX t tau x�
     · rw [h]; exact Subgroup.subset_closure (by simp)
     · rw [h]; exact Subgroup.subset_closure (by simp)
 
+omit [Finite G] in
 theorem ctxM_swap (ht2 : t * t = 1) : ctxM t (t * tau) x₁ x₂ = ctxM t tau x₁ x₂ := by
   rw [ctxM, ctxM, ctxX_swap ht2]
 

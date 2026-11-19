@@ -40,7 +40,7 @@ private lemma isPElt_map_iff (p : ℕ) {K : Type*} [Group K] (u : MulAut K) (x :
 private lemma isElemAbelian_map (p : ℕ) {M : Type*} [Group M] (f : M →* M) {E : Subgroup M}
     (hE : IsElemAbelian p E) : IsElemAbelian p (E.map f) := by
   obtain ⟨hcomm, hpow⟩ := hE
-  haveI : IsMulCommutative E := hcomm
+  have : IsMulCommutative E := hcomm
   constructor
   · refine IsMulCommutative.mk ?_
     refine Std.Commutative.mk ?_
@@ -135,7 +135,7 @@ private lemma comm_conj_conj_iff {K : Type*} [Group K] (a : MulAut K) (E : Subgr
       _ = e * α := by group
 
 private lemma InS_map_conj_inv_iff {K : Type*} [Group K] {R : Type} [Group R] (p : ℕ)
-    (I : Subgroup (MulAut R)) (θ : K ⧸ Subgroup.center K ≃* R) (u : MulAut K)
+    (_I : Subgroup (MulAut R)) (_θ : K ⧸ Subgroup.center K ≃* R) (u : MulAut K)
     (E : Subgroup (MulAut K)) (h : K) :
     GGL45InS p (E.map (MulAut.conj u⁻¹).toMonoidHom) h ↔ GGL45InS p E (u h) := by
   unfold GGL45InS

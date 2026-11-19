@@ -51,15 +51,15 @@ theorem prod_le_normalizer_of_bender {A B : Type} [Group A] [Group B] [Finite A]
     exact Subgroup.mem_map.mpr
       ⟨(1, b), hUY (Subgroup.mem_prod.mpr ⟨Subgroup.one_mem (UA : Subgroup A), hb⟩), rfl⟩
   have hcopA : Nat.Coprime dA (Nat.card UA * Nat.card UB * D) := by
-    obtain ⟨i, hi⟩ := UA.isPGroup'.exists_card_eq
-    obtain ⟨j, hj⟩ := UB.isPGroup'.exists_card_eq
+    obtain ⟨i, hi⟩ := UA.isPGroup.exists_card_eq
+    obtain ⟨j, hj⟩ := UB.isPGroup.exists_card_eq
     rw [hi, hj]
     exact Nat.Coprime.mul_right
       (Nat.Coprime.mul_right (Nat.Coprime.pow_right i (Nat.coprime_two_right.mpr hoddA))
         (Nat.Coprime.pow_right j (Nat.coprime_two_right.mpr hoddA))) hcopDA
   have hcopB : Nat.Coprime dB (Nat.card UA * Nat.card UB * D) := by
-    obtain ⟨i, hi⟩ := UA.isPGroup'.exists_card_eq
-    obtain ⟨j, hj⟩ := UB.isPGroup'.exists_card_eq
+    obtain ⟨i, hi⟩ := UA.isPGroup.exists_card_eq
+    obtain ⟨j, hj⟩ := UB.isPGroup.exists_card_eq
     rw [hi, hj]
     exact Nat.Coprime.mul_right
       (Nat.Coprime.mul_right (Nat.Coprime.pow_right i (Nat.coprime_two_right.mpr hoddB))
@@ -143,7 +143,7 @@ theorem statedSp_le_normalizer {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 3
       have h2 : 2 ∣ 2 ^ n := dvd_pow_self 2 (by omega)
       omega
     have hpU : ¬ p ∣ Nat.card U := by
-      obtain ⟨j, hj⟩ := U.isPGroup'.exists_card_eq
+      obtain ⟨j, hj⟩ := U.isPGroup.exists_card_eq
       rw [hj]
       intro h
       have h2 : p ∣ 2 := hp.dvd_of_dvd_pow h
@@ -343,7 +343,7 @@ theorem prodShape_le_normalizer {X A B : Type} [Group X] [Finite X]
     rw [Subgroup.mem_prod, hUAcoe, hUBcoe]
     exact ⟨Subgroup.mem_map.mpr ⟨u, hu, rfl⟩, Subgroup.mem_map.mpr ⟨u, hu, rfl⟩⟩
   have hprod2 : IsPGroup 2 ((UA : Subgroup A).prod (UB : Subgroup B)) :=
-    (IsPGroup.prod UA.isPGroup' UB.isPGroup').of_equiv (Subgroup.prodEquiv _ _).symm
+    (IsPGroup.prod UA.isPGroup UB.isPGroup).of_equiv (Subgroup.prodEquiv _ _).symm
   have hUeq : ((UA : Subgroup A).prod (UB : Subgroup B)) = (U' : Subgroup (A × B)) :=
     U'.maximal_isPGroup.eq_of_ge hprod2 hUle
   have hU0Y : ((UA : Subgroup A).prod (UB : Subgroup B)) ≤ Y' := by

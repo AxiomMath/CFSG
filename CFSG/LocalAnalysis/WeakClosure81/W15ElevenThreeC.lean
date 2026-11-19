@@ -12,6 +12,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_normalizer_centralizer_of_le_normalizer {A B : Subgroup G}
     (h : A ≤ normalizer (B : Set G)) : A ≤ normalizer (centralizer (B : Set G) : Set G) := by
   have key : ∀ a ∈ A, ∀ x ∈ centralizer (B : Set G),

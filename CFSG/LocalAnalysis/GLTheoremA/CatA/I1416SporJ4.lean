@@ -119,7 +119,7 @@ theorem j4_model
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) :
     Finite ↥J ∧ IsSimpleGroup ↥J ∧ (∃ a c : ↥J, a * c ≠ c * a) ∧
       Nonempty (↥J ≃* (TauCeti.CFSGIndex.sporadic .J4).Group) := by
-  haveI hJs : IsSimpleGroup ↥J := isSimpleGroup_J j4Facts
+  have hJs : IsSimpleGroup ↥J := isSimpleGroup_J j4Facts
   exact ⟨inferInstance, hJs,
     @CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple ↥J _ inferInstance hJs
       not_prime_card_J,
@@ -152,14 +152,14 @@ theorem pSimple_of_glaPComponent_cE {p : ℕ} (hp : p.Prime) {I : Subgroup J}
   obtain ⟨hq, ⟨e⟩⟩ := centralizer_cE_open
   have hIC := glaPComponent_eq_of_quasisimple hq hI
   subst hIC
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J_eq]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J_eq]; norm_num)
   obtain ⟨hs, -⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab hp hI
   exact ⟨(pSimple_equiv_center_quot hq hs).symm.trans e⟩
 
 theorem pSimple_of_glaPComponent_three {p : ℕ} (hp : p.Prime) {x : J} (hx : orderOf x = 3)
     {I : Subgroup J} (hI : GLAPComponent p (centralizer ({x} : Set J)) I) :
     Nonempty (PSimple p I ≃* CFSG.Blueprint.NativeSporadic.M22) := by
-  haveI : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J_eq]; norm_num)
+  have : Finite J := Nat.finite_of_card_ne_zero (by rw [card_J_eq]; norm_num)
   have hx3 : x ^ 3 = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
   have hx1 : x ≠ 1 := by rintro rfl; rw [orderOf_one] at hx; norm_num at hx
   obtain ⟨g, hg⟩ := exists_conj_cE_of_orderThree x hx3 hx1
@@ -174,7 +174,7 @@ theorem row_J4_three (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Sporadi
     (hb : CFSG.HardMathSupport.Solomon.Coordinator.LieOrderBridge) : I1416SporRow .J4 3 := by
   obtain ⟨hfin, hJs, hnc, ⟨b⟩⟩ := CFSG.Sporadic.J4.j4_model hbr
   have hM : Nat.card CFSG.Blueprint.NativeSporadic.M22 = 443520 := CFSG.Sporadic.Mathieu.card_M22
-  haveI : Finite CFSG.Blueprint.NativeSporadic.M22 :=
+  have : Finite CFSG.Blueprint.NativeSporadic.M22 :=
     Nat.finite_of_card_ne_zero (by rw [hM]; norm_num)
   refine @row_of_model .J4 3 J _ hfin hJs hOut b hnc fun x hx I hI => ?_
   obtain ⟨e⟩ := pSimple_of_glaPComponent_three Nat.prime_three hx hI
@@ -186,7 +186,7 @@ theorem qrow_J4_three (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Sporad
     CFSG.LocalAnalysis.GLTheoremA.I1416QRows.I1416QRow .J4 3 := by
   obtain ⟨hfin, hJs, hnc, ⟨b⟩⟩ := CFSG.Sporadic.J4.j4_model hbr
   have hM : Nat.card CFSG.Blueprint.NativeSporadic.M22 = 443520 := CFSG.Sporadic.Mathieu.card_M22
-  haveI : Finite CFSG.Blueprint.NativeSporadic.M22 :=
+  have : Finite CFSG.Blueprint.NativeSporadic.M22 :=
     Nat.finite_of_card_ne_zero (by rw [hM]; norm_num)
   refine @CFSG.LocalAnalysis.GLTheoremA.I1416QRows.qrow_of_model .J4 3 J _ hfin hJs hOut b hnc
     fun x hx I hI => ?_

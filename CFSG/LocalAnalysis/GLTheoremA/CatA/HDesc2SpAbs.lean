@@ -14,16 +14,19 @@ section AbsSp
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V] [Module K V]
 
+omit [Finite K] in
 theorem two_eq_zero_K : (2 : K) = 0 := by
   have := CharP.cast_eq_zero K 2
   simpa using this
 
 include K in
+omit [Finite K] in
 theorem add_self_eq_zero_V (v : V) : v + v = 0 := by
   rw [← two_smul K v, two_eq_zero_K, zero_smul]
 
 variable {E : Type} [Group E]
 
+omit [Finite K] in
 theorem sq_eq_one_of_trivial_on_lagrangian (F : ReflForm K V) (ρ : E →* Module.End K V)
     (hρ : IsIsometric F ρ) (hinj : Function.Injective ρ) {W : Submodule K V}
     (hW : F.perp W = W) (y : E) (hy : ∀ w ∈ W, ρ y w = w) : y * y = 1 := by
@@ -58,6 +61,7 @@ theorem sq_eq_one_of_trivial_on_lagrangian (F : ReflForm K V) (ρ : E →* Modul
     refine LinearMap.ext fun x => Subtype.ext ?_
     simp
 
+omit [Finite K] [CharP K 2] in
 theorem restrictHom_apply (ρ : E →* Module.End K V) (X : Submodule K V)
     (hX : ∀ y : E, ∀ x ∈ X, ρ y x ∈ X) (y : E) (x : X) :
     ((restrictHom ρ X hX y x : X) : V) = ρ y x := rfl
@@ -90,7 +94,7 @@ theorem casePoint (hP3 : ∀ d : K, d ^ 3 = 1 → d = 1) [FiniteDimensional K V]
     (hinj : Function.Injective ρ) {w₀ : V} (hw₀ : w₀ ≠ 0) (hfix : ∀ y : E, ρ y w₀ = w₀) :
     Nat.card E ≤ 3 := by
   classical
-  haveI := Fintype.ofFinite E
+  have := Fintype.ofFinite E
   obtain ⟨k, hk⟩ := hcard
   have h3K : (3 : K) = 1 := by
     have := two_eq_zero_K (K := K)

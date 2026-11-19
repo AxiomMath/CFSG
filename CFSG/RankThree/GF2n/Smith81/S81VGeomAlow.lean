@@ -65,7 +65,7 @@ private theorem alow_card_option_sigma {V : Type} [Finite V] (T : Set V) {ι : T
     _ ≤ Nat.card T := Nat.card_le_card_of_injective f hf
 
 theorem card_points_ge [Finite F] [CharP F 2] (hσ : IsUnitaryInvolution σ)
-    {U : Submodule F (Fin 6 → F)} (h3 : finrank F U = 3)
+    {U : Submodule F (Fin 6 → F)} (_h3 : finrank F U = 3)
     (hno : ∀ L ≤ U, finrank F L = 2 → ¬ IsTotIso σ L) {S : Set (Fin 6 → F)} (hS : ClosedPts σ S)
     {a b c : Fin 6 → F} (ha : a ∈ S) (hb : b ∈ S) (hc : c ∈ S) (haU : a ∈ U) (hbU : b ∈ U)
     (hcU : c ∈ U) (hind : LinearIndependent F ![a, b, c]) :
@@ -172,7 +172,7 @@ theorem card_points_ge [Finite F] [CharP F 2] (hσ : IsUnitaryInvolution σ)
       have hu'y : u' = Submodule.span F {y} :=
         eq_span_singleton_of_mem_of_finrank_eq_one hu'.2.1 (by rw [hyy]; exact hyu') hy0
       exact hne (huy.trans hu'y.symm)
-  haveI : Fintype ↥(IsoPtsOn σ (Submodule.span F {a, b})) := Fintype.ofFinite _
+  have : Fintype ↥(IsoPtsOn σ (Submodule.span F {a, b})) := Fintype.ofFinite _
   have hm : Fintype.card ↥(IsoPtsOn σ (Submodule.span F {a, b})) = Nat.card (Fσ σ) + 1 := by
     rw [← Nat.card_eq_fintype_card]
     exact card_isoPtsOn_pair hσ hai hbi hab

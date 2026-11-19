@@ -77,7 +77,7 @@ theorem exists_primitiveRoot_units [IsAlgClosed L] {ℓ : ℕ} [CharP L ℓ] (h�
     hpℓ ((Nat.prime_dvd_prime_iff_eq hℓ hp).1 ((CharP.cast_eq_zero_iff L ℓ p).1 h)).symm
   have : NeZero (p : L) := ⟨hpL⟩
   have : HasEnoughRootsOfUnity L p := IsSepClosed.hasEnoughRootsOfUnity L p
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L p
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L p
   exact ⟨(hζ₀.isUnit hp.ne_zero).unit, IsPrimitiveRoot.coe_units_iff.mp (by
     rw [IsUnit.unit_spec]
     exact hζ₀)⟩

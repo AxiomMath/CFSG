@@ -18,8 +18,8 @@ theorem pRank_three_mulAut_bar_of_isL3 {L : Subgroup G} (hshape : IsL3 (Bar2 L) 
     CFSG.Open.pRank 3 (⊤ : Subgroup (MulAut (Bar2 L))) = 2 := by
   obtain ⟨K, hfield, hfin, hKcard, ⟨e⟩⟩ :=
     CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hshape
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hk : Nat.card K = 4 := by rw [hKcard]; norm_num
   rw [← CFSG.SectionRank.pRank_eq_open_pRank_top 3 (MulAut (Bar2 L))]
   exact CFSG.RankThree.PartTwo.KFacts.L34.pRank_three_mulAut_of_mulEquiv hk e
@@ -119,7 +119,7 @@ theorem seventeen_sixty (D : Data G) {V₀ V : Subgroup G}
     intro hbot
     exact hbar_ne (le_bot_iff.mp (hbar.trans (le_of_eq hbot)))
   set P3 : Subgroup (Bar2 D.M) := CFSG.pCore 3 (Bar2 D.M) with hP3def
-  haveI hP3N : P3.Normal := by rw [hP3def]; exact CFSG.pCore_normal
+  have hP3N : P3.Normal := by rw [hP3def]; exact CFSG.pCore_normal
   set Ω : Subgroup (Bar2 D.M) := CFSG.Walter.omegaOneCenter P3 3 with hΩdef
   have hΩle : Ω ≤ P3 := by rw [hΩdef]; exact CFSG.Walter.omegaOneCenter_le P3 3
   have hΩel : CFSG.Open.IsElemAbelian 3 Ω := by
@@ -181,7 +181,7 @@ theorem seventeen_sixty (D : Data G) {V₀ V : Subgroup G}
     D.sylowM.le.trans hO2normM
   have hN₁O2 : N₁ ≤ Subgroup.normalizer (CFSG.Open.pCoreOf 2 D.M : Set G) :=
     hN₁M.trans hO2normM
-  haveI hO2N : ((CFSG.Open.pCoreOf 2 D.M).subgroupOf N₁).Normal :=
+  have hO2N : ((CFSG.Open.pCoreOf 2 D.M).subgroupOf N₁).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hO2N₁).mpr hN₁O2
   have hquot : ∀ a b : ↥N₁ ⧸ (CFSG.Open.pCoreOf 2 D.M).subgroupOf N₁, a * b = b * a := by
     intro a b
@@ -242,7 +242,7 @@ theorem seventeen_sixty (D : Data G) {V₀ V : Subgroup G}
       _ = QuotientGroup.mk' ((CFSG.Open.pCoreOf 2 D.M).subgroupOf N₁) y *
             QuotientGroup.mk' ((CFSG.Open.pCoreOf 2 D.M).subgroupOf N₁) x := one_mul _
   have h3Ω : 3 ∣ Nat.card Ω := by
-    haveI : Nontrivial ↥Ω := (Subgroup.nontrivial_iff_ne_bot Ω).mpr hΩne
+    have : Nontrivial ↥Ω := (Subgroup.nontrivial_iff_ne_bot Ω).mpr hΩne
     obtain ⟨x, hx1⟩ := exists_ne (1 : ↥Ω)
     have hx3 : (x : ↥Ω) ^ 3 = 1 := Subtype.ext (hΩel.2 x x.2)
     have hord : orderOf x = 3 := by
@@ -300,12 +300,12 @@ theorem seventeen_sixty (D : Data G) {V₀ V : Subgroup G}
     exists_elemAbelian_permutes_of_isL3 (D := D) ctx.memC.1.le
       (ctx.hyp54.2 L ctx.memC).1 ctx.shapeL
   have hA₀M : A₀ ≤ D.M := hA₀L.trans hLM
-  haveI hKstarSimple : IsSimpleGroup ↥(barImage D.M L) :=
+  have hKstarSimple : IsSimpleGroup ↥(barImage D.M L) :=
     isSimple_barImage_of_shape ctx.memC hThin (Or.inr (Or.inr ctx.shapeL))
-  haveI hKstarN : (barImage D.M L).Normal :=
+  have hKstarN : (barImage D.M L).Normal :=
     s13_barImage_normal (ctx.hyp54.2 L ctx.memC).1
   have hKinfP3 : (barImage D.M L) ⊓ P3 = ⊥ := by
-    haveI hinfN : ((barImage D.M L) ⊓ P3).Normal :=
+    have hinfN : ((barImage D.M L) ⊓ P3).Normal :=
       Subgroup.normal_inf_normal (barImage D.M L) P3
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (((barImage D.M L) ⊓ P3).subgroupOf (barImage D.M L)) with hbot | htop

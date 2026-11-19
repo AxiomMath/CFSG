@@ -38,7 +38,7 @@ theorem ggTBJ_f4_core
   let χ : Multiplicative (Fin Tag.F4.rank → ℤ) →* Kˣ := rootCharHom (ggTBJa p ζ f₀)
   obtain ⟨i, hJi⟩ := ggTBJ_f4_class (p := p) (ζ := ζ) (ψ := ψ) (σ := σ) hp2 hstd f₀ hJ hJl
   let ι := {β : Fin Tag.F4.rank → ℤ // β ∈ componentRoots χ i}
-  haveI : Nonempty ι := by
+  have : Nonempty ι := by
     obtain ⟨a, ha⟩ := Quotient.exists_rep i
     exact ⟨⟨a.1, ⟨a.2, ha⟩⟩⟩
   let f : ι → (Fin 4 → ZMod p) → ZMod p := fun a w => ggTBJFun p a.1 w

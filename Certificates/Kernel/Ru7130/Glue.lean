@@ -292,11 +292,9 @@ theorem ruC_comm : ∀ y ∈ ruC, ∀ i, Commute y (ruV i) := by
     rw [SetLike.mem_coe, Subgroup.mem_centralizer_singleton_iff]
     first
     | exact Cl_comm l hl i
-    | exact (Cl_comm l hl i).symm
   have h := Subgroup.mem_centralizer_singleton_iff.mp (hle hy)
   first
   | exact h
-  | exact h.symm
 
 end Elts
 

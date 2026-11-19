@@ -16,7 +16,7 @@ theorem planeGen_lt {s : Nat} (hs : s < 16) : ∀ i < 891, ((planeGenData ())[s]
     ((planeGenData ())[s]!).size = 891 := by
   obtain ⟨-, h⟩ := planeGenData_get
   obtain ⟨h1, h2⟩ := h s (by omega)
-  rw [pgLens_eq, if_pos hs] at h1 h2
+  rw [pgLens_eq, ite_eq_left hs] at h1 h2
   exact fun i hi => ⟨h2 i hi, h1⟩
 
 theorem planeTabs_get : (planeTabs ()).size = 14 ∧ ∀ s < 14, ((planeTabs ())[s]!).size = 891 ∧
@@ -39,7 +39,7 @@ theorem planeLab_get : (planeLab ()).size = 891 ∧ ∀ k < 891, (planeLab ())[k
 theorem planeSep_get : (planeSep ()).size = 21 ∧ ∀ t < 21, (planeSep ())[t]! = PGE 16 t := by
   obtain ⟨-, h⟩ := planeGenData_get
   obtain ⟨h1, h2⟩ := h 16 (by decide)
-  rw [pgLens_eq, if_neg (by decide)] at h1 h2
+  rw [pgLens_eq, ite_eq_right (by decide)] at h1 h2
   exact ⟨h1, h2⟩
 
 theorem allIn_iff' {lo hi : Nat} {p : Nat → Bool} :
@@ -214,7 +214,7 @@ theorem distinctOK_true : distinctOK (planeXData ()) = true := by
   rw [anyIn_iff]
   by_contra hc
   have hne := ball_range (ball_range pxDistinctK_true i hi) j hj
-  simp only [bne_iff_ne, ne_eq, decide_eq_true_eq] at hne
+  simp only [bne_iff_ne, ne_eq] at hne
   apply hne
   apply row_eq_of_mem (pxRow_pairwise i hi) (pxRow_pairwise j (by omega)) (by simp [pxRow])
   intro a ha

@@ -98,7 +98,7 @@ public theorem CFSG.section15_sigma_complement_fitting_core_tau2
     have hM_norm_F : M ≤ Subgroup.normalizer (section8FittingSubgroup M : Set G) := by
       have hFNorm : ((section8FittingSubgroup M).subgroupOf M).Normal :=
         section8FittingSubgroup_normal_in M
-      letI : ((section8FittingSubgroup M).subgroupOf M).Normal := hFNorm
+      let : ((section8FittingSubgroup M).subgroupOf M).Normal := hFNorm
       exact Subgroup.le_normalizer_of_normal_subgroupOf (section8FittingSubgroup_le M)
     exact hM_norm_F hc.1
   have hC_norm_Y : C ≤ Subgroup.normalizer (Y : Set G) := by
@@ -106,7 +106,7 @@ public theorem CFSG.section15_sigma_complement_fitting_core_tau2
       section8_le_normalizer_piCoreIn_of_le_normalizer
         (G := G) (π := (section10SigmaPrimes M)ᶜ)
         (H := section8FittingSubgroup M) (P := C) hC_norm_F
-  haveI : Ysub.Normal := by
+  have : Ysub.Normal := by
     simpa [Ysub] using
       (Subgroup.normal_subgroupOf_iff_le_normalizer hYleC).2 hC_norm_Y
   let Xsub : Subgroup C := X.subgroupOf C
@@ -182,7 +182,7 @@ private theorem CFSG.section15_secondDerived_le_of_quotientAbelian_ambientDerive
   let D : Subgroup G := ambientDerivedSubgroup M
   rcases hquot with ⟨hKD, hKnorm, hComm⟩
   let Kloc : Subgroup D := K.subgroupOf D
-  haveI : Kloc.Normal := by
+  have : Kloc.Normal := by
     simpa [Kloc] using hKnorm
   have hder_le_Kloc : derivedSubgroup D ≤ Kloc :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le
@@ -202,8 +202,8 @@ private theorem CFSG.section15_nilpotent_top_le_hall_sup_centralizer
   classical
   let π : Set Nat.Primes := subgroupPrimeSet H
   let Z : Subgroup R := piCore πᶜ R
-  haveI : H.Normal := section15_hall_subgroup_normal_of_nilpotent hnil hHall
-  haveI : Z.Normal := by
+  have : H.Normal := section15_hall_subgroup_normal_of_nilpotent hnil hHall
+  have : Z.Normal := by
     simpa [Z] using (inferInstance : (piCore πᶜ R).Normal)
   have htop_nil : Group.IsNilpotent (⊤ : Subgroup R) := by
     let e : R ≃* (⊤ : Subgroup R) :=
@@ -219,7 +219,7 @@ private theorem CFSG.section15_nilpotent_top_le_hall_sup_centralizer
     refine iSup_le ?_
     intro q0
     let q : Nat.Primes := ⟨q0.1.1, Nat.prime_of_mem_primeFactors q0.1.2⟩
-    haveI : Fact q.val.Prime := ⟨q.property⟩
+    have : Fact q.val.Prime := ⟨q.property⟩
     by_cases hqπ : q ∈ π
     · have hcore_le_H : pCore q.val R ≤ H :=
         section15_pSubgroup_le_normal_hall_of_prime_mem
@@ -286,7 +286,7 @@ public theorem CFSG.section15_MF_le_fitting
     (hMF : section15MFSubgroup M MF) :
     MF ≤ section8FittingSubgroup M := by
   rcases hMF.1 with ⟨hMFM, hMFnormM, hMFnil, _hMFHall⟩
-  haveI : Group.IsNilpotent (MF.subgroupOf M) := by
+  have : Group.IsNilpotent (MF.subgroupOf M) := by
     let e := (Subgroup.subgroupOfEquivOfLe (G := G) (H := MF) (K := M) hMFM).symm
     exact Group.nilpotent_of_mulEquiv (G := MF) (G' := MF.subgroupOf M) e
   have hMF_le_fit_local : MF.subgroupOf M ≤ fittingSubgroup M :=
@@ -433,7 +433,7 @@ public theorem CFSG.section15_fitting_msigma_eq_of_MF_eq_msigma
     rw [← hEq]
     exact hMFnil
   have hfit_top : fittingSubgroup (section10Msigma M) = ⊤ := by
-    letI : Group.IsNilpotent (section10Msigma M) := hσnil
+    let : Group.IsNilpotent (section10Msigma M) := hσnil
     exact fitting_eq_top_of_nilpotent (section10Msigma M)
   apply le_antisymm
   · exact section8FittingSubgroup_le (section10Msigma M)
@@ -587,7 +587,7 @@ public theorem CFSG.section15_centralizer_MF_le_fitting_of_MF_eq_msigma
       section15_le_normalizer_subgroupCentralizerIn
         (G := G) (N := C) (E := S) (A := MF)
         hC_norm_S hC_norm_MF
-  haveI : (Cσ.subgroupOf C).Normal :=
+  have : (Cσ.subgroupOf C).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hCσleC).2 hC_norm_Cσ
   have hCσnormC : section10NormalIn Cσ C :=
     ⟨hCσleC, (inferInstance : (Cσ.subgroupOf C).Normal)⟩
@@ -630,16 +630,16 @@ public theorem CFSG.section15_centralizer_MF_le_fitting_of_MF_eq_msigma
     rw [hS_eq_MF]
     exact hMF.1.2.2.1
   have hCσnil : Group.IsNilpotent Cσ := by
-    letI : Group.IsNilpotent S := hσnil
+    let : Group.IsNilpotent S := hσnil
     have hCσsub_nil : Group.IsNilpotent (Cσ.subgroupOf S) := by infer_instance
     let e : Cσ.subgroupOf S ≃* Cσ := Subgroup.subgroupOfEquivOfLe hCσleS
     exact Group.nilpotent_of_mulEquiv (G := Cσ.subgroupOf S) (G' := Cσ)
       (_h := hCσsub_nil) e
   have hXnil : Group.IsNilpotent X := by
-    letI : IsCyclic X := hXcyc
+    let : IsCyclic X := hXcyc
     have hXcomm : IsMulCommutative X := by infer_instance
-    letI : IsMulCommutative X := hXcomm
-    letI : CommGroup X := IsMulCommutative.instCommGroup
+    let : IsMulCommutative X := hXcomm
+    let : CommGroup X := IsMulCommutative.instCommGroup
     infer_instance
   have hCσcentX : Cσ ≤ Subgroup.centralizer (X : Set G) := by
     intro c hc
@@ -658,7 +658,7 @@ public theorem CFSG.section15_centralizer_MF_le_fitting_of_MF_eq_msigma
       section15_le_normalizer_subgroupCentralizerIn
         (G := G) (N := M) (E := M) (A := MF)
         (Subgroup.le_normalizer (H := M)) hM_norm_MF
-  haveI : (C.subgroupOf M).Normal :=
+  have : (C.subgroupOf M).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hC_le_M).2 hM_norm_C
   have hCsub_nil : Group.IsNilpotent (C.subgroupOf M) := by
     let e : C.subgroupOf M ≃* C := Subgroup.subgroupOfEquivOfLe hC_le_M
@@ -875,8 +875,8 @@ private theorem CFSG.section15_quotientAbelian_implies_quotientNilpotent
     section10QuotientNilpotent H K := by
   rcases h with ⟨hKH, hNorm, hComm⟩
   refine ⟨hKH, hNorm, ?_⟩
-  letI : IsMulCommutative (H ⧸ K.subgroupOf H) := hComm
-  letI : CommGroup (H ⧸ K.subgroupOf H) := IsMulCommutative.instCommGroup
+  let : IsMulCommutative (H ⧸ K.subgroupOf H) := hComm
+  let : CommGroup (H ⧸ K.subgroupOf H) := IsMulCommutative.instCommGroup
   infer_instance
 
 omit [Finite G] [IsMinCE G] in
@@ -893,9 +893,9 @@ private theorem CFSG.section15_quotient_nilpotent_of_normal_complement_le
   let Qloc : Subgroup S := Q.subgroupOf S
   let Nloc : Subgroup S := N.subgroupOf S
   let Dloc : Subgroup S := D.subgroupOf S
-  haveI : Qloc.Normal := by
+  have : Qloc.Normal := by
     simpa [Qloc] using hQnorm.2
-  haveI : Nloc.Normal := by
+  have : Nloc.Normal := by
     simpa [Nloc] using hNnorm
   have hcomp_symm : section12ComplementIn S D Q := by
     rcases hcomp with ⟨hQS, hDS, hsup, hdisj⟩
@@ -1061,13 +1061,13 @@ omit [Finite G] [IsMinCE G] in
 public theorem CFSG.section15_isPiSubgroup_le_normal_hall_of_solvable
     {R : Type*} [Group R] [Finite R] {π : Set Nat.Primes}
     {N X : Subgroup R}
-    (hsolv : IsSolvable R)
+    (hsolv : Group.IsSolvable R)
     [N.Normal]
     (hNHall : IsHallSubgroup π N)
     (hXπ : IsPiSubgroup (G := R) π X) :
     X ≤ N := by
   classical
-  letI : MulDistribMulAction Unit R := {
+  let : MulDistribMulAction Unit R := {
     smul := fun _ x => x
     one_smul := fun x => rfl
     mul_smul := fun _ _ x => rfl
@@ -1122,7 +1122,7 @@ private theorem CFSG.section15_sigma_complement_fitting_core_le_derived_of_nontr
     simpa [Kloc] using hK.2
   have hDlocHall : IsHallSubgroup (section14KappaPrimes M)ᶜ Dloc :=
     section15_complement_isHall_compl_of_isHall hKlocHall hcompLoc
-  haveI : Dloc.Normal := by
+  have : Dloc.Normal := by
     simpa [Dloc] using hDnorm.2
   have hYleM : Y ≤ M := by
     exact (piCoreIn_le (G := G) (section10SigmaPrimes M)ᶜ
@@ -1140,7 +1140,7 @@ private theorem CFSG.section15_sigma_complement_fitting_core_le_derived_of_nontr
       Nat.card_congr
         (Subgroup.subgroupOfEquivOfLe (H := Y) (K := M) hYleM).toEquiv
     exact hτ2κc (hYτ2 q (by simpa [Yloc, hcard] using hqYloc))
-  have hMsolv : IsSolvable M :=
+  have hMsolv : Group.IsSolvable M :=
     IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.2 hM.1)
   have hYloc_le_Dloc : Yloc ≤ Dloc :=
     section15_isPiSubgroup_le_normal_hall_of_solvable

@@ -14,7 +14,7 @@ theorem s16_Mod_exists_involution_transvection {W : Type} [CommGroup W] [Finite 
     ∃ t ∈ A, orderOf t = 2 ∧ rk ↥(commSub ⊤ (Subgroup.zpowers t)) = 1 := by
   by_cases hev : Even (Nat.card ↥A)
   · unfold E3.mParam at hm
-    rw [if_pos hev] at hm
+    rw [ite_eq_left hev] at hm
     set S : Set ℕ :=
       {n : ℕ | ∃ t ∈ A, orderOf t = 2 ∧ n = rkIdx (fixV (Subgroup.zpowers t))} with hS
     have hne : S.Nonempty := by
@@ -28,7 +28,7 @@ theorem s16_Mod_exists_involution_transvection {W : Type} [CommGroup W] [Finite 
     refine ⟨t, htA, ht2, ?_⟩
     rw [← commV_eq_commSub, ← rkIdx_fixV_zpowers t, ← hteq, hm]
   · unfold E3.mParam at hm
-    rw [if_neg hev] at hm
+    rw [ite_eq_right hev] at hm
     have hcard : Nat.card W = 2 := by
       rw [card_eq_two_pow_of_isPGroup (isPGroup_two_of_sq_eq_one hW), hm, pow_one]
     obtain ⟨x, y, hxy, huniv⟩ := Nat.card_eq_two_iff.mp hcard

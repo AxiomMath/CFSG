@@ -10,9 +10,9 @@ namespace CFSG.OddStandard.SmallF3.HypA2
 open Subgroup CFSG.Blueprint CFSG.ComponentClassification
 
 theorem card_quot_fusionZStar_dvd {H : Type} [Group H] [Finite H] {T M : Subgroup H}
-    (hTM : T ≤ M) (hT : HarrisLit.IsTwoQuasisimple ↥T) :
+    (hTM : T ≤ M) (_hT : HarrisLit.IsTwoQuasisimple ↥T) :
     Nat.card (↥T ⧸ Open.fusionZStar ↥T) ∣ Nat.card (↥M ⧸ Open.fusionZStar ↥M) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let f : ↥T →* ↥M := Subgroup.inclusion hTM
   have hO : (pPrimeCore 2 ↥M).comap f ≤ pPrimeCore 2 ↥T := by
     refine le_sSup ⟨inferInstance, ?_⟩
@@ -141,21 +141,21 @@ theorem not_dvd_of_psl_card {q m n : ℕ} (hq : Odd q) (h9 : 9 ≤ q) (hm : m * 
     omega
   rcases hqcases with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   · have hmv : m = 360 := by norm_num at hm; omega
-    rcases hn with rfl | rfl | rfl <;> (rw [hmv] at hdvd <;> norm_num at hdvd)
+    rcases hn with rfl | rfl | rfl <;> (rw [hmv] at hdvd; norm_num at hdvd)
   · have hmv : m = 660 := by norm_num at hm; omega
-    rcases hn with rfl | rfl | rfl <;> (rw [hmv] at hdvd <;> norm_num at hdvd)
+    rcases hn with rfl | rfl | rfl <;> (rw [hmv] at hdvd; norm_num at hdvd)
   · have hmv : m = 1092 := by norm_num at hm; omega
-    rcases hn with rfl | rfl | rfl <;> (rw [hmv] at hdvd <;> norm_num at hdvd)
+    rcases hn with rfl | rfl | rfl <;> (rw [hmv] at hdvd; norm_num at hdvd)
   · have hmv : m = 1680 := by norm_num at hm; omega
-    rcases hn with rfl | rfl | rfl <;> (rw [hmv] at hdvd <;> norm_num at hdvd)
+    rcases hn with rfl | rfl | rfl <;> (rw [hmv] at hdvd; norm_num at hdvd)
   · have hmv : m = 2448 := by norm_num at hm; omega
-    rcases hn with rfl | rfl | rfl <;> (rw [hmv] at hdvd <;> norm_num at hdvd)
+    rcases hn with rfl | rfl | rfl <;> (rw [hmv] at hdvd; norm_num at hdvd)
   · have hmv : m = 3420 := by norm_num at hm; omega
-    rcases hn with rfl | rfl | rfl <;> (rw [hmv] at hdvd <;> norm_num at hdvd)
+    rcases hn with rfl | rfl | rfl <;> (rw [hmv] at hdvd; norm_num at hdvd)
   · have hmv : m = 4620 := by norm_num at hm; omega
-    rcases hn with rfl | rfl | rfl <;> (rw [hmv] at hdvd <;> norm_num at hdvd)
+    rcases hn with rfl | rfl | rfl <;> (rw [hmv] at hdvd; norm_num at hdvd)
   · have hmv : m = 6072 := by norm_num at hm; omega
-    rcases hn with rfl | rfl | rfl <;> (rw [hmv] at hdvd <;> norm_num at hdvd)
+    rcases hn with rfl | rfl | rfl <;> (rw [hmv] at hdvd; norm_num at hdvd)
 
 theorem not_dvd_l34_of_psl_card {q m : ℕ} (hq : IsPrimePow q) (hodd : Odd q) (h11 : 11 ≤ q)
     (hm : m * 2 = q * (q ^ 2 - 1)) : ¬ m ∣ 20160 := by

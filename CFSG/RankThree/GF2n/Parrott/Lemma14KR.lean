@@ -273,6 +273,7 @@ end F2
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 private theorem conjV_apply_three {g : ↥(H z)} (h : Tim79a.ParrottHyp z) (hg : g ^ 3 = 1)
     (v : QuotientV.V z) : conjV h g (conjV h g (conjV h g v)) = v := by
   have hh := congrArg (fun φ : MulAut (QuotientV.V z) => φ v)

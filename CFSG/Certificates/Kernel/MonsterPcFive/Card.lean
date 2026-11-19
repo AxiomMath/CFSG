@@ -229,7 +229,7 @@ theorem gens_mem_T [Finite G] (H : PcHyp u2 u1 b x) (C : TabChecks) :
   rintro g (rfl | rfl | ⟨i, rfl⟩)
   · exact ⟨390625, by norm_num, by simp [psi, nfR, dec, decR]⟩
   · exact ⟨78125, by norm_num, by simp [psi, nfR, dec, decR]⟩
-  · fin_cases i <;> simp only [Fin.isValue]
+  · fin_cases i <;> simp only
     · exact ⟨15625, by norm_num, by simp [psi, nfR, dec, decR]⟩
     · exact ⟨3125, by norm_num, by simp [psi, nfR, dec, decR]⟩
     · exact ⟨625, by norm_num, by simp [psi, nfR, dec, decR]⟩

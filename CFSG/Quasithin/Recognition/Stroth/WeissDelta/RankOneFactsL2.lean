@@ -82,7 +82,7 @@ theorem rankOneCenter_psl2 {X Ω : Type} [Group X] [Finite X] [Fintype Ω] [MulA
     rw [h, Nat.card_eq_fintype_card, hΩ]
     have hpos : 0 < 2 ^ m := pow_pos (by norm_num) m
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2dvd : 2 ∣ Nat.card R := by
     rw [hRcard]
     exact dvd_pow_self 2 (by omega)
@@ -144,7 +144,7 @@ theorem rankOneCenter_psl2 {X Ω : Type} [Group X] [Finite X] [Fintype Ω] [MulA
   let F : T → {z : R // z ≠ 1} := fun t =>
     ⟨⟨(t : X) * (z₁ : X) * (t : X)⁻¹, hconjR t⟩, hconj_ne' t⟩
   have hsubCard : Nat.card {z : R // z ≠ 1} = Nat.card R - 1 := by
-    haveI : Fintype R := Fintype.ofFinite R
+    have : Fintype R := Fintype.ofFinite R
     rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card,
       Fintype.card_subtype_compl (fun z : R => z = 1)]
     simp

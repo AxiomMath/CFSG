@@ -25,9 +25,11 @@ theorem rep_apply (g : G) (c : ↥Q) : rep Q g (piV Q c) = piV Q (MulAut.conjNor
   rw [frattiniRep_apply, frattiniConj_mk]
   rfl
 
+omit [Q.Normal] in
 theorem piV_one : piV Q 1 = 0 := by
   simp [piV]
 
+omit [Finite G] [Q.Normal] [Fact (IsPGroup 2 ↥Q)] in
 theorem piV_mul_inv (a b : ↥Q) : piV Q (a * b⁻¹) = piV Q a - piV Q b := by
   simp only [piV, sub_eq_add_neg]
   rfl
@@ -37,6 +39,7 @@ theorem rep_sub_one_apply (g : G) (c : ↥Q) :
   rw [piV_mul_inv, LinearMap.sub_apply, rep_apply]
   rfl
 
+omit [Finite G] [Q.Normal] [Fact (IsPGroup 2 ↥Q)] in
 theorem piV_surjective : Function.Surjective (piV Q) := by
   intro v
   obtain ⟨c, hc⟩ := QuotientGroup.mk_surjective (Additive.toMul v)
@@ -44,7 +47,7 @@ theorem piV_surjective : Function.Surjective (piV Q) := by
 
 theorem exists_pow_mem_centralizer {g : G} (hg : rep Q g = 1) :
     ∃ k : ℕ, g ^ 2 ^ k ∈ centralizer (Q : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : IsPGroup 2 ↥Q := Fact.out
   have hker := (CFSG.GroupTheory.frattini_automorphism_kernel hQ).2
   have hmem : (MulAut.conjNormal g : MulAut ↥Q) ∈
@@ -85,6 +88,7 @@ noncomputable def subEquiv : Subgroup (↥Q ⧸ frattini ↥Q) ≃o Submodule (Z
 noncomputable def subV (H : Subgroup ↥Q) : Submodule (ZMod 2) (FV Q) :=
   subEquiv Q (H.map (QuotientGroup.mk' (frattini ↥Q)))
 
+omit [Q.Normal] in
 theorem mem_subV {H : Subgroup ↥Q} {v : FV Q} : v ∈ subV Q H ↔ ∃ c ∈ H, piV Q c = v := by
   change Additive.toMul v ∈ H.map (QuotientGroup.mk' (frattini ↥Q)) ↔ _
   rw [Subgroup.mem_map]
@@ -94,29 +98,34 @@ theorem mem_subV {H : Subgroup ↥Q} {v : FV Q} : v ∈ subV Q H ↔ ∃ c ∈ H
   · rintro ⟨c, hc, rfl⟩
     exact ⟨c, hc, rfl⟩
 
+omit [Q.Normal] in
 theorem subV_mono {H K : Subgroup ↥Q} (h : H ≤ K) : subV Q H ≤ subV Q K := by
   intro v hv
   obtain ⟨c, hc, rfl⟩ := (mem_subV Q).1 hv
   exact (mem_subV Q).2 ⟨c, h hc, rfl⟩
 
+omit [Q.Normal] in
 theorem subV_iSup {ι : Sort*} (H : ι → Subgroup ↥Q) : subV Q (⨆ i, H i) = ⨆ i, subV Q (H i) := by
   unfold subV
   rw [Subgroup.map_iSup, OrderIso.map_iSup]
 
+omit [Q.Normal] in
 theorem subV_top : subV Q ⊤ = ⊤ := by
   rw [eq_top_iff]
   intro v _
   obtain ⟨c, rfl⟩ := piV_surjective Q v
   exact (mem_subV Q).2 ⟨c, mem_top c, rfl⟩
 
+omit [Q.Normal] in
 theorem card_subV (H : Subgroup ↥Q) :
     Nat.card (subV Q H) = Nat.card (H.map (QuotientGroup.mk' (frattini ↥Q))) := by
   refine Nat.card_congr (Equiv.subtypeEquiv Additive.toMul fun v => ?_)
   exact Iff.rfl
 
+omit [Q.Normal] in
 theorem finrank_le_of_card_le {W : Submodule (ZMod 2) (FV Q)} {n : ℕ}
     (h : Nat.card W ≤ 2 ^ n) : Module.finrank (ZMod 2) W ≤ n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : Nat.card W = 2 ^ Module.finrank (ZMod 2) W := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod]
   rw [h1] at h

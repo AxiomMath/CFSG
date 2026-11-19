@@ -86,6 +86,7 @@ private theorem commute_of_commute_regular {x G : GL (Fin 3) K} {d : Fin 3 → K
   have e2 : h * g = G * (h₁ * g₁) * G⁻¹ := by rw [hg₁def, hh₁def]; group
   rw [e1, e2, hc]
 
+omit [Field K] in
 private theorem injective_vec3 {p q r : K} (hpq : p ≠ q) (hpr : p ≠ r) (hqr : q ≠ r) :
     Function.Injective ![p, q, r] := by
   intro i j hij
@@ -227,7 +228,7 @@ private theorem commutator_commute_matrix {n : Type} [Fintype n] [DecidableEq n]
         simp only [Matrix.mul_smul, Matrix.smul_mul, smul_smul, Matrix.mul_assoc]
     _ = (v⁻¹ * u⁻¹ * v * u) • (X * A * B * Ai * Bi) := by
         rw [hg]
-        simp only [Matrix.mul_smul, Matrix.smul_mul, smul_smul, Matrix.mul_assoc]
+        simp only [Matrix.smul_mul, smul_smul, Matrix.mul_assoc]
     _ = X * (A * B * Ai * Bi) := by
         have : v⁻¹ * u⁻¹ * v * u = 1 := by field_simp
         rw [this, one_smul]
@@ -434,7 +435,7 @@ private theorem false_of_datum {S : Subgroup (ProjGenLinGroup (Fin 3) K)} [Finit
     rw [e]
     exact hcomm _ _ hy2 hz2
   rcases hH₀ with hc | hn
-  · haveI := hLD.perfect
+  · have := hLD.perfect
     have hL : L ≤ ⊥ := by
       calc L = ⁅L, L⁆ := (Subgroup.commutator_eq_self (H := L)).symm
         _ ≤ ⊥ := by
@@ -475,7 +476,7 @@ private theorem noLocalDatum_of_isAlgClosed {K : Type} [Field K] [IsAlgClosed K]
     intro s hs
     have hs0 : s ≠ 0 := by
       rintro rfl
-      exact Units.ne_zero x (by simpa using hs)
+      exact Units.ne_zero x (by simp at hs)
     have hxsc : x = GeneralLinearGroup.scalar (Fin 3) (Units.mk0 s hs0) := by
       apply Units.ext
       rw [hs, coe_scalar_eq]
@@ -564,7 +565,7 @@ theorem noLocalDatum_of_le_projGL {K : Type} [Field K] (h3 : (3 : K) ≠ 0)
     rw [map_ofNat, map_zero]
     exact h
   let e := S.equivMapOfInjective _ hι
-  haveI : Finite (S.map (ProjGenLinGroup.map (n := Fin 3) (algebraMap K (AlgebraicClosure K)))) :=
+  have : Finite (S.map (ProjGenLinGroup.map (n := Fin 3) (algebraMap K (AlgebraicClosure K)))) :=
     Finite.of_equiv S e.toEquiv
   exact NoLocalDatum.of_mulEquiv e (noLocalDatum_of_isAlgClosed h3' _)
 
@@ -586,7 +587,7 @@ theorem noLocalDatum_projSL_three (F : Type) [Field F] [Finite F] (h3 : ringChar
     NoLocalDatum (CFSG.Assembly.RankThreeEven.projSL 3 F) :=
   noLocalDatum_of_le_projGL (three_ne_zero_of_ringChar h3) _
 
-theorem noLocalDatum_projSU_three (p f : ℕ) [Fact p.Prime] (hp : p ≠ 3) (hf : 1 ≤ f) :
+theorem noLocalDatum_projSU_three (p f : ℕ) [Fact p.Prime] (hp : p ≠ 3) (_hf : 1 ≤ f) :
     NoLocalDatum (CFSG.Assembly.RankThreeEven.projSU 3 p f) :=
   noLocalDatum_of_le_projGL (three_ne_zero_galoisField p (2 * f) hp) _
 

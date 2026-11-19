@@ -88,7 +88,7 @@ theorem eq_one_of_commute_rowMat {X : Matrix (Fin 6) (Fin 6) (ZMod 2)}
   have hW : ∀ j, X * threeW j = threeW j * X := by
     intro j
     fin_cases j
-    · simpa [threeW] using (Matrix.mul_one X).trans (Matrix.one_mul X).symm
+    · simp [threeW]
     · simpa [threeW, threeM1] using h1
     · simpa [threeW, threeM2] using h2
     · simpa [threeW, threeM3] using h3
@@ -159,7 +159,7 @@ theorem mem_locQ_of_commute
   have hXsq : X * X = 1 := by
     simp only [X]
     rw [toMatrix_sixAction_mul, hcc, map_one]
-    simpa using (LinearMap.toMatrix_one sixBasis)
+    simp
   have hXeq : X = 1 := eq_one_of_commute_rowMat hX56 hX1 hX20 hXsq
   have hlin : (sixAction c : V6 →ₗ[ZMod 2] V6) = 1 := by
     refine (LinearMap.toMatrix sixBasis sixBasis).injective ?_

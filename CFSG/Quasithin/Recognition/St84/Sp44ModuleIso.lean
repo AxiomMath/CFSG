@@ -23,12 +23,14 @@ variable {G : Type} [Group G] [Finite G]
 variable {Q Z K : Subgroup G} {τ : G}
 variable {α : ↥K ≃* SL₂ F} {β : ↥Q →* Multiplicative (Fin 2 → F)}
 
+omit [Fintype F] [DecidableEq F] [CharP F 2] [Finite G] in
 theorem conjHom_conj (D : ModHyp Q Z K τ α β) (k h : ↥K) (q : ↥Q) :
     conjHom D.norm_Q k (conjHom D.norm_Q h q) = conjHom D.norm_Q (k * h) q := by
   refine Subtype.ext ?_
   simp only [conjHom, MonoidHom.coe_mk, OneHom.coe_mk, Subtype.coe_mk, Subgroup.coe_mul]
   group
 
+omit [Fintype F] [DecidableEq F] [CharP F 2] [Finite G] in
 theorem tauHom_conjHom (D : ModHyp Q Z K τ α β) (k : ↥K) (q : ↥Q) :
     tauHom D.tau_Q (conjHom D.norm_Q k q) = conjHom D.norm_Q k (tauHom D.tau_Q q) := by
   refine Subtype.ext ?_
@@ -43,7 +45,8 @@ theorem tauHom_conjHom (D : ModHyp Q Z K τ α β) (k : ↥K) (q : ↥Q) :
     _ = ((k : G) * τ) * (q : G) * (τ⁻¹ * (k : G)⁻¹) := by rw [hk, hk'']
     _ = (k : G) * (τ * (q : G) * τ⁻¹) * (k : G)⁻¹ := by group
 
-theorem conj_mem_Cplus_hOf (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
+omit [DecidableEq F] [CharP F 2] [Finite G] in
+theorem conj_mem_Cplus_hOf (_hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
     (μ : Fˣ) {q : G} (hq : q ∈ Cplus α Q) :
     ((hOf α μ : ↥K) : G) * q * ((hOf α μ : ↥K) : G)⁻¹ ∈ Cplus α Q := by
   obtain ⟨hqQ, hqC⟩ := mem_Cplus_iff.mp hq
@@ -68,6 +71,7 @@ theorem conj_mem_Cplus_hOf (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
     _ = (((hOf α μ : ↥K) : G) * q * ((hOf α μ : ↥K) : G)⁻¹) *
           ((xElt α t : ↥K) : G) := by rw [hx]; group
 
+omit [Fintype F] [DecidableEq F] [CharP F 2] [Finite G] in
 theorem conj_mem_Cplus_tau (D : ModHyp Q Z K τ α β) {q : G} (hq : q ∈ Cplus α Q) :
     τ * q * τ⁻¹ ∈ Cplus α Q := by
   obtain ⟨hqQ, hqC⟩ := mem_Cplus_iff.mp hq
@@ -86,9 +90,11 @@ theorem conj_mem_Cplus_tau (D : ModHyp Q Z K τ α β) {q : G} (hq : q ∈ Cplus
 @[expose] noncomputable def hT (α : ↥K ≃* SL₂ F) (hF : Fintype.card F = 4) : ↥K :=
   hOf α (mu0 hF)
 
+omit [Finite G] [CharP F 2] in
 theorem alpha_hT (hF : Fintype.card F = 4) : α (hT α hF) = diagSL (mu0 hF) :=
   alpha_hOf α (mu0 hF)
 
+omit [Finite G] [CharP F 2] in
 theorem hOf_comm_hT (hF : Fintype.card F = 4) (μ : Fˣ) :
     hOf α μ * hT α hF = hT α hF * hOf α μ := by
   apply α.injective
@@ -102,12 +108,14 @@ theorem one_add_mu0_eq_sq (hF : Fintype.card F = 4) :
     linear_combination h
   rwa [CharTwo.neg_eq] at h'
 
-@[expose] noncomputable def coeC (D : ModHyp Q Z K τ α β) (c : ↥(Cplus α Q)) : ↥Q :=
+@[expose] noncomputable def coeC (_D : ModHyp Q Z K τ α β) (c : ↥(Cplus α Q)) : ↥Q :=
   ⟨(c : G), Cplus_le_Q α c.2⟩
 
+omit [Fintype F] [DecidableEq F] [CharP F 2] [Finite G] in
 @[simp] theorem coeC_val (D : ModHyp Q Z K τ α β) (c : ↥(Cplus α Q)) :
     ((coeC D c : ↥Q) : G) = (c : G) := rfl
 
+omit [Fintype F] [DecidableEq F] [CharP F 2] [Finite G] in
 @[simp] theorem coeC_mul (D : ModHyp Q Z K τ α β) (x y : ↥(Cplus α Q)) :
     coeC D (x * y) = coeC D x * coeC D y :=
   Subtype.ext (Subgroup.coe_mul (H := Cplus α Q) x y)
@@ -119,7 +127,7 @@ theorem one_add_mu0_eq_sq (hF : Fintype.card F = 4) :
     have h1 : coeC D (1 : ↥(Cplus α Q)) = 1 := Subtype.ext rfl
     rw [h1, map_one, mul_one]
   map_mul' x y := by
-    haveI : IsMulCommutative ↥Q := D.elem.1
+    have : IsMulCommutative ↥Q := D.elem.1
     show coeC D (x * y) * conjHom D.norm_Q (hT α hF) (coeC D (x * y)) =
       (coeC D x * conjHom D.norm_Q (hT α hF) (coeC D x)) *
         (coeC D y * conjHom D.norm_Q (hT α hF) (coeC D y))
@@ -130,10 +138,12 @@ theorem one_add_mu0_eq_sq (hF : Fintype.card F = 4) :
     Subgroup ↥Q :=
   (phiC1 hF D).range
 
+omit [CharP F 2] [Finite G] in
 theorem mem_L1 {hF : Fintype.card F = 4} {D : ModHyp Q Z K τ α β} {c : ↥Q} :
     c ∈ L1 hF D ↔ ∃ x : ↥(Cplus α Q), phiC1 hF D x = c :=
   MonoidHom.mem_range
 
+omit [CharP F 2] [Finite G] in
 theorem phiC1_mem_Cplus (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
     (x : ↥(Cplus α Q)) : ((phiC1 hF D x : ↥Q) : G) ∈ Cplus α Q := by
   have h1 : ((phiC1 hF D x : ↥Q) : G) =
@@ -141,16 +151,18 @@ theorem phiC1_mem_Cplus (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
         ((hOf α (mu0 hF) : ↥K) : G)⁻¹) := by
     show ((coeC D x * conjHom D.norm_Q (hT α hF) (coeC D x) : ↥Q) : G) = _
     simp only [Subgroup.coe_mul, coeC_val, conjHom, MonoidHom.coe_mk, OneHom.coe_mk,
-      Subtype.coe_mk, hT]
+      hT]
   rw [h1]
   exact Subgroup.mul_mem _ x.2
     (conj_mem_Cplus_hOf hF D (mu0 hF) x.2)
 
+omit [CharP F 2] [Finite G] in
 theorem L1_le_Cplus (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {c : ↥Q}
     (hc : c ∈ L1 hF D) : (c : G) ∈ Cplus α Q := by
   obtain ⟨x, rfl⟩ := (mem_L1 (hF := hF) (D := D)).mp hc
   exact phiC1_mem_Cplus hF D x
 
+omit [Finite G] in
 theorem phiC1_beta (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
     (x : ↥(Cplus α Q)) :
     betaAdd β (phiC1 hF D x) =
@@ -172,6 +184,7 @@ theorem phiC1_beta (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
   · simpa using h1
   · simp
 
+omit [Finite G] in
 theorem L1_beta_inj (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {c : ↥Q}
     (hc : c ∈ L1 hF D) (hbeta : betaAdd β c = 0) : c = 1 := by
   obtain ⟨x, rfl⟩ := (mem_L1 (hF := hF) (D := D)).mp hc
@@ -190,6 +203,7 @@ theorem L1_beta_inj (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {c : �
   show coeC D x * conjHom D.norm_Q (hT α hF) (coeC D x) = 1
   rw [hfix, mul_self_mem_Q D.elem]
 
+omit [Finite G] in
 theorem L1_beta_surj (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (a : F) :
     ∃ c ∈ L1 hF D, betaAdd β c = ![a, 0] := by
   have hμ0 : (mu0 hF : F) ≠ 0 := Units.ne_zero (mu0 hF)
@@ -213,14 +227,17 @@ theorem L1_beta_surj (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (a : 
 noncomputable def qq1 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (a : F) : ↥Q :=
   Classical.choose (L1_beta_surj hF D a)
 
+omit [Finite G] in
 theorem qq1_mem (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (a : F) :
     qq1 hF D a ∈ L1 hF D :=
   (Classical.choose_spec (L1_beta_surj hF D a)).1
 
+omit [Finite G] in
 theorem qq1_beta (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (a : F) :
     betaAdd β (qq1 hF D a) = ![a, 0] :=
   (Classical.choose_spec (L1_beta_surj hF D a)).2
 
+omit [Finite G] in
 theorem qq1_unique (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {a : F} {c : ↥Q}
     (hc : c ∈ L1 hF D) (h : betaAdd β c = ![a, 0]) : c = qq1 hF D a := by
   have hmem : c * (qq1 hF D a)⁻¹ ∈ L1 hF D :=
@@ -233,6 +250,7 @@ theorem qq1_unique (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {a : F}
   calc c = c * (qq1 hF D a)⁻¹ * qq1 hF D a := by group
     _ = qq1 hF D a := by rw [h1]; simp
 
+omit [Finite G] in
 theorem qq1_add (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (a b : F) :
     qq1 hF D (a + b) = qq1 hF D a * qq1 hF D b := by
   refine (qq1_unique hF D ?_ ?_).symm
@@ -241,6 +259,7 @@ theorem qq1_add (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (a b : F) 
     ext i
     fin_cases i <;> simp
 
+omit [Finite G] in
 theorem qq1_zero (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
     qq1 hF D 0 = 1 := by
   refine (qq1_unique hF D (Subgroup.one_mem _) ?_).symm
@@ -248,10 +267,12 @@ theorem qq1_zero (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
   ext i
   fin_cases i <;> rfl
 
+omit [Finite G] in
 theorem qq1_mem_Cplus (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (a : F) :
     ((qq1 hF D a : ↥Q) : G) ∈ Cplus α Q :=
   L1_le_Cplus hF D (qq1_mem hF D a)
 
+omit [CharP F 2] [Finite G] in
 theorem conj_mem_L1_hOf (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
     (μ : Fˣ) {c : ↥Q} (hc : c ∈ L1 hF D) :
     conjHom D.norm_Q (hOf α μ) c ∈ L1 hF D := by
@@ -277,9 +298,10 @@ theorem conj_mem_L1_hOf (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
           rw [conjHom_conj (D := D) (k := hT α hF) (h := hOf α μ)]
       _ = phiC1 hF D ⟨((hOf α μ : ↥K) : G) * (x : G) * ((hOf α μ : ↥K) : G)⁻¹, hx⟩ := by
           show _ = coeC D ⟨_, hx⟩ * conjHom D.norm_Q (hT α hF) (coeC D ⟨_, hx⟩)
-          congr 2 <;> exact Subtype.ext rfl
+          congr 2
   exact hcalc.symm
 
+omit [CharP F 2] [Finite G] in
 theorem tau_mem_L1 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {c : ↥Q}
     (hc : c ∈ L1 hF D) : tauHom D.tau_Q c ∈ L1 hF D := by
   obtain ⟨x, rfl⟩ := (mem_L1 (hF := hF) (D := D)).mp hc
@@ -298,9 +320,10 @@ theorem tau_mem_L1 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {c : �
             D (hT α hF) (coeC D x)]
       _ = phiC1 hF D ⟨τ * (x : G) * τ⁻¹, hx⟩ := by
           show _ = coeC D ⟨_, hx⟩ * conjHom D.norm_Q (hT α hF) (coeC D ⟨_, hx⟩)
-          congr 2 <;> exact Subtype.ext rfl
+          congr 2
   exact hcalc.symm
 
+omit [Finite G] in
 theorem conj_hOf_qq1 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
     (μ : Fˣ) (a : F) :
     conjHom D.norm_Q (hOf α μ) (qq1 hF D a) = qq1 hF D ((μ : F) * a) := by
@@ -311,6 +334,7 @@ theorem conj_hOf_qq1 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
     simpa [conjHom] using h
   exact qq1_unique hF D (conj_mem_L1_hOf hF D μ (qq1_mem hF D a)) hbeta
 
+omit [Finite G] in
 theorem conj_tau_qq1 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
     (hν : ∀ q : ↥Q, betaAdd β (tauHom D.tau_Q q) = ν • betaAdd β q) (a : F) :
     tauHom D.tau_Q (qq1 hF D a) = qq1 hF D (ν * a) := by
@@ -320,6 +344,7 @@ theorem conj_tau_qq1 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν :
     fin_cases i <;> simp [Pi.smul_apply, smul_eq_mul]
   exact qq1_unique hF D (tau_mem_L1 hF D (qq1_mem hF D a)) hbeta
 
+omit [Finite G] in
 theorem conj_x_qq1 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t a : F) :
     conjHom D.norm_Q (xElt α t) (qq1 hF D a) = qq1 hF D a := by
   refine Subtype.ext ?_
@@ -335,16 +360,19 @@ noncomputable def qq2 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (b :
     Subgroup ↥Q :=
   (L1 hF D).map (conjHom D.norm_Q (wElt α))
 
+omit [Finite G] in
 theorem qq2_mem (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (b : F) :
     qq2 hF D b ∈ L2 hF D :=
   ⟨qq1 hF D b, qq1_mem hF D b, rfl⟩
 
+omit [Finite G] in
 theorem qq2_beta (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (b : F) :
     betaAdd β (qq2 hF D b) = ![0, b] := by
   have h := betaAdd_conj D.equiv D.norm_Q (wElt α) (qq1 hF D b)
   rw [alpha_wElt, weylSL_mulVec, qq1_beta] at h
   simpa [qq2, conjHom] using h
 
+omit [Finite G] in
 theorem conjHom_w_qq2 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (b : F) :
     conjHom D.norm_Q (wElt α) (qq2 hF D b) = qq1 hF D b := by
   calc conjHom D.norm_Q (wElt α) (qq2 hF D b)
@@ -354,6 +382,7 @@ theorem conjHom_w_qq2 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (b :
     _ = conjHom D.norm_Q 1 (qq1 hF D b) := by rw [wElt_mul_self]
     _ = qq1 hF D b := conjHom_one (D := D) _
 
+omit [Finite G] in
 theorem qq2_add (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (a b : F) :
     qq2 hF D (a + b) = qq2 hF D a * qq2 hF D b := by
   have hq : qq1 hF D (a + b) = qq1 hF D a * qq1 hF D b := qq1_add hF D a b
@@ -361,12 +390,14 @@ theorem qq2_add (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (a b : F) 
     conjHom D.norm_Q (wElt α) (qq1 hF D a) * conjHom D.norm_Q (wElt α) (qq1 hF D b)
   rw [hq, map_mul]
 
+omit [Finite G] in
 theorem qq2_zero (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
     qq2 hF D 0 = 1 := by
   have hq : qq1 hF D 0 = 1 := qq1_zero hF D
   show conjHom D.norm_Q (wElt α) (qq1 hF D 0) = 1
   rw [hq, map_one]
 
+omit [Finite G] in
 theorem conj_hOf_qq2 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
     (μ : Fˣ) (b : F) :
     conjHom D.norm_Q (hOf α μ) (qq2 hF D b) = qq2 hF D (((μ⁻¹ : Fˣ) : F) * b) := by
@@ -393,6 +424,7 @@ theorem conj_hOf_qq2 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
     _ = qq2 hF D (((μ : F) ^ 2) * b) := rfl
     _ = qq2 hF D (((μ⁻¹ : Fˣ) : F) * b) := by rw [units_inv_eq_sq hF]
 
+omit [Finite G] in
 theorem conj_tau_qq2 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
     (hν : ∀ q : ↥Q, betaAdd β (tauHom D.tau_Q q) = ν • betaAdd β q) (b : F) :
     tauHom D.tau_Q (qq2 hF D b) = qq2 hF D (ν * b) := by
@@ -404,6 +436,7 @@ theorem conj_tau_qq2 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν :
     _ = conjHom D.norm_Q (wElt α) (qq1 hF D (ν * b)) := by rw [conj_tau_qq1 hF D hν]
     _ = qq2 hF D (ν * b) := rfl
 
+omit [Finite G] in
 theorem conj_y_qq2 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t b : F) :
     conjHom D.norm_Q (yElt α t) (qq2 hF D b) = qq2 hF D b := by
   have hw : (wElt α)⁻¹ = wElt α := inv_eq_of_mul_eq_one_right (wElt_mul_self α)
@@ -426,6 +459,7 @@ theorem conj_y_qq2 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t b : 
     _ = conjHom D.norm_Q (wElt α) (qq1 hF D b) := by rw [conj_x_qq1]
     _ = qq2 hF D b := rfl
 
+omit [Finite G] in
 theorem L2_beta_line (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {c : ↥Q}
     (hc : c ∈ L2 hF D) : betaAdd β c = ![0, betaAdd β c 1] := by
   obtain ⟨q, hq, rfl⟩ := Subgroup.mem_map.mp hc
@@ -443,6 +477,7 @@ theorem L2_beta_line (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {c : 
     (t b : F) : ↥Q :=
   conjHom D.norm_Q (xElt α t) (qq2 hF D b) * (qq1 hF D (t * b) * qq2 hF D b)⁻¹
 
+omit [Finite G] in
 theorem zz_mem_Z (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t b : F) :
     ((zz hF D t b : ↥Q) : G) ∈ Z := by
   refine (betaAdd_eq_zero_iff D.ker (zz hF D t b)).mp ?_
@@ -456,9 +491,10 @@ theorem zz_mem_Z (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t b : F)
   ext i
   fin_cases i <;> simp
 
+omit [Finite G] in
 theorem zz_add_b (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t b c : F) :
     zz hF D t (b + c) = zz hF D t b * zz hF D t c := by
-  haveI : IsMulCommutative ↥Q := D.elem.1
+  have : IsMulCommutative ↥Q := D.elem.1
   have h2 : conjHom D.norm_Q (xElt α t) (qq2 hF D (b + c)) =
       conjHom D.norm_Q (xElt α t) (qq2 hF D b) *
         conjHom D.norm_Q (xElt α t) (qq2 hF D c) := by
@@ -473,6 +509,7 @@ theorem zz_add_b (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t b c : 
   simp only [mul_inv_rev]
   ac_rfl
 
+omit [Finite G] in
 theorem zz_zero_t (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (b : F) :
     zz hF D 0 b = 1 := by
   show conjHom D.norm_Q (xElt α 0) (qq2 hF D b) *
@@ -485,18 +522,21 @@ theorem zz_zero_t (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (b : F) 
   rw [hx0, conjHom_one (D := D) (q := qq2 hF D b)]
   simp
 
+omit [Finite G] in
 theorem zz_zero_b (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t : F) :
     zz hF D t 0 = 1 := by
   show conjHom D.norm_Q (xElt α t) (qq2 hF D 0) * (qq1 hF D (t * 0) * qq2 hF D 0)⁻¹ = 1
   rw [mul_zero, qq1_zero, qq2_zero]
   simp
 
-theorem hOf_mul_xElt (hF : Fintype.card F = 4) (μ : Fˣ) (t : F) :
+omit [DecidableEq F] [CharP F 2] [Finite G] in
+theorem hOf_mul_xElt (_hF : Fintype.card F = 4) (μ : Fˣ) (t : F) :
     hOf α μ * xElt α t = xElt α ((μ : F) ^ 2 * t) * hOf α μ := by
   calc hOf α μ * xElt α t =
       (hOf α μ * xElt α t * (hOf α μ)⁻¹) * hOf α μ := by group
     _ = xElt α ((μ : F) ^ 2 * t) * hOf α μ := by rw [conj_hOf_x α μ]
 
+omit [Finite G] in
 theorem zz_scale (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (μ : Fˣ) (t b : F) :
     zz hF D ((μ : F) ^ 2 * t) ((μ : F)⁻¹ * b) = zz hF D t b := by
   have hx : hOf α μ * xElt α t = xElt α ((μ : F) ^ 2 * t) * hOf α μ :=
@@ -520,6 +560,7 @@ theorem zz_scale (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (μ : Fˣ
   rw [← hconj]
   exact conjHom_eq_self_of_mem_Z D hF (zz_mem_Z hF D t b) (hOf α μ)
 
+omit [Finite G] in
 theorem zz_tau (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
     (hν : ∀ q : ↥Q, betaAdd β (tauHom D.tau_Q q) = ν • betaAdd β q) (t b : F) :
     tauHom D.tau_Q (zz hF D t b) = zz hF D t (ν * b) := by
@@ -548,10 +589,12 @@ theorem zz_tau (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
     (s : F) : ↥Q :=
   zz hF D 1 (s * s)
 
+omit [Finite G] in
 theorem zeta_mem_Z (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (s : F) :
     ((zeta hF D s : ↥Q) : G) ∈ Z :=
   zz_mem_Z hF D 1 (s * s)
 
+omit [Finite G] in
 theorem zeta_add (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (s t : F) :
     zeta hF D (s + t) = zeta hF D s * zeta hF D t := by
   have hst : (s + t) * (s + t) = s * s + t * t := by
@@ -559,10 +602,12 @@ theorem zeta_add (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (s t : F)
     linear_combination (s * t) * h2
   rw [zeta, hst, zz_add_b, zeta, zeta]
 
+omit [Finite G] in
 theorem zeta_zero (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
     zeta hF D 0 = 1 := by
   rw [zeta, mul_zero, zz_zero_b]
 
+omit [Finite G] in
 theorem zz_eq_zeta (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t b : F) :
     zz hF D t b = zeta hF D (t * b * b) := by
   by_cases ht : t = 0
@@ -586,6 +631,7 @@ theorem zz_eq_zeta (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t b : 
       _ = t ^ 2 * b ^ 4 := by rw [pow_four_eq_self hF b]
       _ = (t * b * b) * (t * b * b) := by ring
 
+omit [Finite G] in
 theorem zeta_tau (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
     (hν : ∀ q : ↥Q, betaAdd β (tauHom D.tau_Q q) = ν • betaAdd β q)
     (hν3 : ν ^ 3 = 1) (s : F) :
@@ -600,6 +646,7 @@ theorem zeta_tau (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
     _ = (ν ^ 2 * s) * (ν ^ 2 * s) := by ring
 
 
+omit [CharP F 2] in
 theorem units_trichotomy (hF : Fintype.card F = 4) {ν : F} (hν3 : ν ^ 3 = 1) (hν1 : ν ≠ 1)
     {x : F} (hx : x ≠ 0) : x = 1 ∨ x = ν ∨ x = ν ^ 2 := by
   have hν0 : ν ≠ 0 := by
@@ -647,6 +694,7 @@ theorem units_trichotomy (hF : Fintype.card F = 4) {ν : F} (hν3 : ν ^ 3 = 1) 
   · exact Or.inr (Or.inl (by simpa [hνu] using congrArg Units.val h))
   · exact Or.inr (Or.inr (by simpa [hνu] using congrArg Units.val h))
 
+omit [Finite G] in
 theorem zeta_ker_invariant (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
     (hν : ∀ q : ↥Q, betaAdd β (tauHom D.tau_Q q) = ν • betaAdd β q)
     (hν3 : ν ^ 3 = 1) {s : F} (hs : zeta hF D s = 1) :
@@ -654,6 +702,7 @@ theorem zeta_ker_invariant (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
   rw [← zeta_tau hF D hν hν3 s, hs]
   exact map_one _
 
+omit [Finite G] in
 theorem zeta_either (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
     (hν : ∀ q : ↥Q, betaAdd β (tauHom D.tau_Q q) = ν • betaAdd β q)
     (hν3 : ν ^ 3 = 1) (hν1 : ν ≠ 1) :
@@ -699,17 +748,20 @@ theorem zeta_either (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : 
     by_contra hs0
     exact h ⟨s, hs0, hzs⟩
 
+omit [Fintype F] [DecidableEq F] [Finite G] in
 theorem xElt_mul_self (α : ↥K ≃* SL₂ F) (t : F) : xElt α t * xElt α t = 1 := by
   apply α.injective
   rw [map_mul, map_one, alpha_xElt]
   rw [← CFSG.SL2MinimalFaithful.unipotent_add, CharTwo.add_self_eq_zero,
     CFSG.SL2MinimalFaithful.unipotent_zero]
 
+omit [Fintype F] [DecidableEq F] [Finite G] in
 theorem yElt_mul_self (α : ↥K ≃* SL₂ F) (t : F) : yElt α t * yElt α t = 1 := by
   apply α.injective
   rw [map_mul, map_one, alpha_yElt]
   rw [← lowerUni_add, CharTwo.add_self_eq_zero, lowerUni_zero]
 
+omit [Fintype F] [DecidableEq F] [CharP F 2] [Finite G] in
 theorem closure_xElt_yElt_eq_top (α : ↥K ≃* SL₂ F) :
     Subgroup.closure (Set.range (xElt α) ∪ Set.range (yElt α)) = ⊤ := by
   have hmap : (Subgroup.closure (Set.range (xElt α) ∪ Set.range (yElt α))).map
@@ -718,7 +770,7 @@ theorem closure_xElt_yElt_eq_top (α : ↥K ≃* SL₂ F) :
     have himg : α.toMonoidHom '' (Set.range (xElt α) ∪ Set.range (yElt α)) =
         Set.range (CFSG.SL2MinimalFaithful.unipotent (F := F)) ∪ Set.range (lowerUni (K := F)) := by
       ext M
-      simp only [Set.mem_image, Set.mem_union, Set.mem_range, MonoidHom.coe_mk, OneHom.coe_mk]
+      simp only [Set.mem_image, Set.mem_union, Set.mem_range]
       constructor
       · rintro ⟨k, (⟨t, rfl⟩ | ⟨t, rfl⟩), rfl⟩
         · exact Or.inl ⟨t, (alpha_xElt α t).symm⟩
@@ -743,7 +795,7 @@ theorem closure_xElt_yElt_eq_top (α : ↥K ≃* SL₂ F) :
   map_one' := by
     simp [qq1_zero, qq2_zero]
   map_mul' x y := by
-    haveI : IsMulCommutative ↥Q := D.elem.1
+    have : IsMulCommutative ↥Q := D.elem.1
     show qq1 hF D (x.toAdd + y.toAdd).1 * qq2 hF D (x.toAdd + y.toAdd).2 =
       (qq1 hF D x.toAdd.1 * qq2 hF D x.toAdd.2) *
         (qq1 hF D y.toAdd.1 * qq2 hF D y.toAdd.2)
@@ -754,6 +806,7 @@ theorem closure_xElt_yElt_eq_top (α : ↥K ≃* SL₂ F) :
     Subgroup ↥Q :=
   (wHom hF D).range
 
+omit [Finite G] in
 theorem mem_W0 {hF : Fintype.card F = 4} {D : ModHyp Q Z K τ α β} {q : ↥Q} :
     q ∈ W0 hF D ↔ ∃ a b : F, q = qq1 hF D a * qq2 hF D b := by
   rw [W0, MonoidHom.mem_range]
@@ -763,6 +816,7 @@ theorem mem_W0 {hF : Fintype.card F = 4} {D : ModHyp Q Z K τ α β} {q : ↥Q} 
   · rintro ⟨a, b, rfl⟩
     exact ⟨Multiplicative.ofAdd (a, b), rfl⟩
 
+omit [Finite G] in
 theorem wHom_injective (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
     Function.Injective (wHom hF D) := by
   intro x y hxy
@@ -777,6 +831,7 @@ theorem wHom_injective (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
   apply Multiplicative.toAdd.injective
   exact Prod.ext h1 h2
 
+omit [Finite G] in
 theorem W0_inf_Z (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
     W0 hF D ⊓ Z.subgroupOf Q = ⊥ := by
   refine le_antisymm ?_ bot_le
@@ -796,10 +851,12 @@ theorem W0_inf_Z (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
     Subgroup G :=
   (W0 hF D).map Q.subtype
 
+omit [Finite G] in
 theorem Wsub_le_Q (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
     Wsub hF D ≤ Q :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem Wsub_inf_Z (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
     Wsub hF D ⊓ Z = ⊥ := by
   refine le_antisymm ?_ bot_le
@@ -812,6 +869,7 @@ theorem Wsub_inf_Z (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
   rw [hmem]
   exact Subgroup.one_mem _
 
+omit [Finite G] in
 theorem exists_decomp (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (q : ↥Q) :
     ∃ a b : F, ∃ z ∈ Z.subgroupOf Q, q = qq1 hF D a * qq2 hF D b * z := by
   let a : F := betaAdd β q 0
@@ -829,11 +887,12 @@ theorem exists_decomp (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (q :
     fin_cases i <;> simp
   refine ⟨a, b, z, hz, ?_⟩
   show q = qq1 hF D a * qq2 hF D b * (q * (qq1 hF D a * qq2 hF D b)⁻¹)
-  haveI : IsMulCommutative ↥Q := D.elem.1
+  have : IsMulCommutative ↥Q := D.elem.1
   calc q = q * ((qq1 hF D a * qq2 hF D b) * (qq1 hF D a * qq2 hF D b)⁻¹) := by
         rw [mul_inv_cancel, mul_one]
     _ = qq1 hF D a * qq2 hF D b * (q * (qq1 hF D a * qq2 hF D b)⁻¹) := by ac_rfl
 
+omit [Finite G] in
 theorem Wsub_sup_Z (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
     Wsub hF D ⊔ Z = Q := by
   refine le_antisymm (sup_le (Wsub_le_Q hF D) D.le_Z) ?_
@@ -849,10 +908,11 @@ theorem Wsub_sup_Z (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
   exact Subgroup.mul_mem_sup hw hzG
 
 
+omit [Finite G] in
 theorem conj_x_qq2 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t b : F) :
     conjHom D.norm_Q (xElt α t) (qq2 hF D b) =
       qq1 hF D (t * b) * qq2 hF D b * zz hF D t b := by
-  haveI : IsMulCommutative ↥Q := D.elem.1
+  have : IsMulCommutative ↥Q := D.elem.1
   calc conjHom D.norm_Q (xElt α t) (qq2 hF D b)
       = (conjHom D.norm_Q (xElt α t) (qq2 hF D b) *
           (qq1 hF D (t * b) * qq2 hF D b)⁻¹) *
@@ -860,11 +920,12 @@ theorem conj_x_qq2 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t b : 
     _ = zz hF D t b * (qq1 hF D (t * b) * qq2 hF D b) := rfl
     _ = qq1 hF D (t * b) * qq2 hF D b * zz hF D t b := by ac_rfl
 
+omit [Finite G] in
 theorem conj_y_qq1 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t a : F) :
     conjHom D.norm_Q (yElt α t) (qq1 hF D a) =
       qq1 hF D a * qq2 hF D (t * a) * zz hF D t a := by
   have hw : (wElt α)⁻¹ = wElt α := inv_eq_of_mul_eq_one_right (wElt_mul_self α)
-  haveI : IsMulCommutative ↥Q := D.elem.1
+  have : IsMulCommutative ↥Q := D.elem.1
   calc conjHom D.norm_Q (yElt α t) (qq1 hF D a)
       = conjHom D.norm_Q (wElt α * xElt α t * (wElt α)⁻¹) (qq1 hF D a) := by
         rw [wElt_conj_xElt]
@@ -883,10 +944,11 @@ theorem conj_y_qq1 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t a : 
         rfl
     _ = qq1 hF D a * qq2 hF D (t * a) * zz hF D t a := by ac_rfl
 
+omit [Finite G] in
 theorem conj_x_mem_W0 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
     (hall : ∀ s, zeta hF D s = 1) (t : F) {q : ↥Q} (hq : q ∈ W0 hF D) :
     conjHom D.norm_Q (xElt α t) q ∈ W0 hF D := by
-  haveI : IsMulCommutative ↥Q := D.elem.1
+  have : IsMulCommutative ↥Q := D.elem.1
   obtain ⟨a, b, rfl⟩ := (mem_W0 (hF := hF) (D := D)).mp hq
   rw [map_mul, conj_x_qq1, conj_x_qq2]
   rw [show zz hF D t b = 1 by rw [zz_eq_zeta, hall]]
@@ -894,10 +956,11 @@ theorem conj_x_mem_W0 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
   rw [qq1_add]
   ac_rfl
 
+omit [Finite G] in
 theorem conj_y_mem_W0 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
     (hall : ∀ s, zeta hF D s = 1) (t : F) {q : ↥Q} (hq : q ∈ W0 hF D) :
     conjHom D.norm_Q (yElt α t) q ∈ W0 hF D := by
-  haveI : IsMulCommutative ↥Q := D.elem.1
+  have : IsMulCommutative ↥Q := D.elem.1
   obtain ⟨a, b, rfl⟩ := (mem_W0 (hF := hF) (D := D)).mp hq
   rw [map_mul, conj_y_qq1, conj_y_qq2]
   rw [show zz hF D t a = 1 by rw [zz_eq_zeta, hall]]
@@ -905,6 +968,7 @@ theorem conj_y_mem_W0 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
   rw [qq2_add]
   ac_rfl
 
+omit [Finite G] in
 theorem mem_normalizer_Wsub_of_W0 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
     (k : ↥K) (hk2 : k * k = 1)
     (hfw : ∀ q ∈ W0 hF D, conjHom D.norm_Q k q ∈ W0 hF D) :
@@ -929,6 +993,7 @@ theorem mem_normalizer_Wsub_of_W0 (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ
             (((k : ↥K) : G) * ((k : ↥K) : G)) := by group
       _ = w := by rw [hkG]; group
 
+omit [Finite G] in
 theorem le_normalizer_Wsub (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
     (hall : ∀ s, zeta hF D s = 1) :
     K ≤ Subgroup.normalizer (Wsub hF D : Set G) := by
@@ -953,9 +1018,10 @@ theorem le_normalizer_Wsub (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β)
   rw [Subgroup.mem_comap] at hmem
   simpa using hmem
 
+omit [Finite G] in
 theorem not_zeta_all_one (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
-    (hν : ∀ q : ↥Q, betaAdd β (tauHom D.tau_Q q) = ν • betaAdd β q)
-    (hν3 : ν ^ 3 = 1) (hν1 : ν ≠ 1) :
+    (_hν : ∀ q : ↥Q, betaAdd β (tauHom D.tau_Q q) = ν • betaAdd β q)
+    (_hν3 : ν ^ 3 = 1) (_hν1 : ν ≠ 1) :
     ¬ (∀ s, zeta hF D s = 1) := by
   intro hall
   have hKnorm := le_normalizer_Wsub hF D hall
@@ -977,6 +1043,7 @@ theorem not_zeta_all_one (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {
   norm_num at hcard
 
 
+omit [Finite G] in
 theorem zeta_injective (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
     (hν : ∀ q : ↥Q, betaAdd β (tauHom D.tau_Q q) = ν • betaAdd β q)
     (hν3 : ν ^ 3 = 1) (hν1 : ν ≠ 1) : Function.Injective (zeta hF D) := by
@@ -995,6 +1062,7 @@ theorem zeta_injective (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν
     (s : F) : ↥Z :=
   ⟨zeta hF D s, zeta_mem_Z hF D s⟩
 
+omit [Finite G] in
 theorem zetaZ_injective (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
     (hν : ∀ q : ↥Q, betaAdd β (tauHom D.tau_Q q) = ν • betaAdd β q)
     (hν3 : ν ^ 3 = 1) (hν1 : ν ≠ 1) : Function.Injective (zetaZ hF D) := by
@@ -1010,7 +1078,7 @@ theorem zetaZ_injective (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {�
 theorem zetaZ_surjective (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
     (hν : ∀ q : ↥Q, betaAdd β (tauHom D.tau_Q q) = ν • betaAdd β q)
     (hν3 : ν ^ 3 = 1) (hν1 : ν ≠ 1) : Function.Surjective (zetaZ hF D) := by
-  letI : Fintype ↥Z := Fintype.ofFinite _
+  let : Fintype ↥Z := Fintype.ofFinite _
   have hcardF : Fintype.card F = 4 := hF
   have hcardZ : Fintype.card ↥Z = 4 := by
     rw [← Nat.card_eq_fintype_card, D.card_Z]
@@ -1045,7 +1113,7 @@ theorem zeta_surj (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
   map_one' := by
     simp [qq1_zero, qq2_zero, zeta_zero]
   map_mul' x y := by
-    haveI : IsMulCommutative ↥Q := D.elem.1
+    have : IsMulCommutative ↥Q := D.elem.1
     show qq1 hF D (x.toAdd + y.toAdd).1 * qq2 hF D (x.toAdd + y.toAdd).2.1 *
         zeta hF D (x.toAdd + y.toAdd).2.2 =
       (qq1 hF D x.toAdd.1 * qq2 hF D x.toAdd.2.1 * zeta hF D x.toAdd.2.2) *
@@ -1053,7 +1121,7 @@ theorem zeta_surj (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
     simp only [Prod.fst_add, Prod.snd_add, qq1_add, qq2_add, zeta_add]
     ac_rfl
 
-@[expose] noncomputable def phi (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
+@[expose] noncomputable def phi (_hF : Fintype.card F = 4) (_D : ModHyp Q Z K τ α β) :
     Multiplicative (F × F × F) →* ↥(radA2 F) where
   toFun x :=
     ⟨aElt ![x.toAdd.1, x.toAdd.2.1] (x.toAdd.2.2 + x.toAdd.1 * x.toAdd.2.1),
@@ -1077,6 +1145,7 @@ theorem zeta_surj (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
     · simp only [Matrix.cons_val_zero, Matrix.cons_val_one]
       ring
 
+omit [Finite G] in
 theorem psi_injective (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
     (hν : ∀ q : ↥Q, betaAdd β (tauHom D.tau_Q q) = ν • betaAdd β q)
     (hν3 : ν ^ 3 = 1) (hν1 : ν ≠ 1) : Function.Injective (psi hF D) := by
@@ -1121,6 +1190,7 @@ theorem psi_surjective (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν
   rw [he]
   exact hq.symm
 
+omit [DecidableEq F] [Finite G] in
 theorem phi_injective (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
     Function.Injective (phi hF D) := by
   intro x y hxy
@@ -1137,6 +1207,7 @@ theorem phi_injective (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
   apply Multiplicative.toAdd.injective
   exact Prod.ext h2 (Prod.ext h1 he)
 
+omit [DecidableEq F] [Finite G] in
 theorem phi_surjective (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
     Function.Surjective (phi hF D) := by
   rintro ⟨g, hg⟩
@@ -1181,10 +1252,11 @@ theorem moduleIso_psi (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν 
     (psi hF D (Multiplicative.ofAdd (a, b, e)))) = phi hF D (Multiplicative.ofAdd (a, b, e))
   rw [← hx, MulEquiv.symm_apply_apply, hp]
 
+omit [Finite G] in
 theorem conj_x_psi (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t a b e : F) :
     conjHom D.norm_Q (xElt α t) (psi hF D (Multiplicative.ofAdd (a, b, e))) =
       psi hF D (Multiplicative.ofAdd (a + t * b, b, e + t * b * b)) := by
-  haveI : IsMulCommutative ↥Q := D.elem.1
+  have : IsMulCommutative ↥Q := D.elem.1
   change conjHom D.norm_Q (xElt α t) (qq1 hF D a * qq2 hF D b * zeta hF D e) =
     qq1 hF D (a + t * b) * qq2 hF D b * zeta hF D (e + t * b * b)
   rw [map_mul, map_mul, conj_x_qq1, conj_x_qq2,
@@ -1200,10 +1272,11 @@ theorem conj_x_psi (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t a b 
     _ = qq1 hF D (a + t * b) * qq2 hF D b * zeta hF D (e + t * b * b) := by
         rw [add_comm (t * b * b) e]
 
+omit [Finite G] in
 theorem conj_y_psi (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t a b e : F) :
     conjHom D.norm_Q (yElt α t) (psi hF D (Multiplicative.ofAdd (a, b, e))) =
       psi hF D (Multiplicative.ofAdd (a, b + t * a, e + t * a * a)) := by
-  haveI : IsMulCommutative ↥Q := D.elem.1
+  have : IsMulCommutative ↥Q := D.elem.1
   change conjHom D.norm_Q (yElt α t) (qq1 hF D a * qq2 hF D b * zeta hF D e) =
     qq1 hF D a * qq2 hF D (b + t * a) * zeta hF D (e + t * a * a)
   rw [map_mul, map_mul, conj_y_qq1, conj_y_qq2,
@@ -1218,6 +1291,7 @@ theorem conj_y_psi (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (t a b 
     _ = qq1 hF D a * qq2 hF D (b + t * a) * zeta hF D (e + t * a * a) := by
         rw [add_comm (t * a) b, add_comm (t * a * a) e]
 
+omit [Finite G] in
 theorem conj_tau_psi (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν : F}
     (hν : ∀ q : ↥Q, betaAdd β (tauHom D.tau_Q q) = ν • betaAdd β q)
     (hν3 : ν ^ 3 = 1) (a b e : F) :
@@ -1228,29 +1302,37 @@ theorem conj_tau_psi (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν :
   rw [map_mul, map_mul, conj_tau_qq1 hF D hν, conj_tau_qq2 hF D hν, zeta_tau hF D hν hν3]
 
 
+omit [Fintype F] [DecidableEq F] in
 theorem sElt_mul (M N : SL₂ F) : sElt (M * N) = sElt M * sElt N := by
   simpa only [sHom₂_apply] using map_mul (sHom₂ F) M N
 
+omit [Fintype F] [DecidableEq F] in
 theorem sElt_one : sElt (1 : SL₂ F) = 1 := by
   simpa only [sHom₂_apply] using map_one (sHom₂ F)
 
+omit [Fintype F] [DecidableEq F] in
 theorem sElt_inv (M : SL₂ F) : sElt M⁻¹ = (sElt M)⁻¹ := by
   simpa only [sHom₂_apply] using map_inv (sHom₂ F) M
 
+omit [Fintype F] [DecidableEq F] in
 theorem sElt_conj_aElt (M : SL₂ F) (v : Fin 2 → F) (c : F) :
     sElt M * aElt v c * (sElt M)⁻¹ =
       aElt ((M : Matrix (Fin 2) (Fin 2) F) *ᵥ v) c := by
   rw [sElt_mul_aElt, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Fintype F] [DecidableEq F] [CharP F 2] in
 theorem dElt_mul (l m : Fˣ) : dElt (l * m) = dElt l * dElt m := by
   simpa only [dHom₂_apply] using map_mul (dHom₂ F) l m
 
+omit [Fintype F] [DecidableEq F] [CharP F 2] in
 theorem dElt_one : dElt (1 : Fˣ) = 1 := by
   simpa only [dHom₂_apply] using map_one (dHom₂ F)
 
+omit [Fintype F] [DecidableEq F] [CharP F 2] in
 theorem dElt_inv (l : Fˣ) : dElt l⁻¹ = (dElt l)⁻¹ := by
   simpa only [dHom₂_apply] using map_inv (dHom₂ F) l
 
+omit [Fintype F] [DecidableEq F] in
 theorem dElt_conj_aElt (l : Fˣ) (v : Fin 2 → F) (c : F) :
     dElt l * aElt v c * (dElt l)⁻¹ =
       aElt ((l : F) • v) ((l : F) ^ 2 * c) := by
@@ -1384,6 +1466,7 @@ theorem moduleIso_tau (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) {ν 
   exact moduleIso_conj_tau hF D hν hν3 hν1 νu hνu a b e
 
 
+omit [Finite G] in
 theorem psi_beta (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (a b e : F) :
     betaAdd β (psi hF D (Multiplicative.ofAdd (a, b, e))) = ![a, b] := by
   show betaAdd β (qq1 hF D a * qq2 hF D b * zeta hF D e) = ![a, b]
@@ -1392,6 +1475,7 @@ theorem psi_beta (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (a b e : 
   ext i
   fin_cases i <;> simp
 
+omit [Finite G] in
 theorem psi_mem_Z_iff (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (a b e : F) :
     ((psi hF D (Multiplicative.ofAdd (a, b, e)) : ↥Q) : G) ∈ Z ↔ a = 0 ∧ b = 0 := by
   constructor
@@ -1406,6 +1490,7 @@ theorem psi_mem_Z_iff (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (a b
     ext i
     fin_cases i <;> rfl
 
+omit [DecidableEq F] [Finite G] in
 theorem phi_mem_rootU₂_iff (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) (a b e : F) :
     ((phi hF D (Multiplicative.ofAdd (a, b, e)) : ↥(radA2 F)) : antiSp F) ∈ rootU₂ F ↔
       a = 0 ∧ b = 0 := by
@@ -1463,11 +1548,13 @@ theorem exists_moduleIso (hF : Fintype.card F = 4) (D : ModHyp Q Z K τ α β) :
     subst hq''
     exact moduleIso_tau hF D hνF hν3 hν1 ν hνval q
 
+omit [Fintype F] [DecidableEq F] [CharP F 2] [Finite G] in
 theorem xElt_eq_symm (α : ↥K ≃* SL₂ F) (t : F) :
     xElt α t = α.symm (CFSG.SL2MinimalFaithful.unipotent t) := by
   apply α.injective
   rw [alpha_xElt, α.apply_symm_apply]
 
+omit [Fintype F] [DecidableEq F] [CharP F 2] [Finite G] in
 theorem Cplus_eq_centralizer (α : ↥K ≃* SL₂ F) (Q : Subgroup G) :
     Cplus α Q = Q ⊓ Subgroup.centralizer
       (Set.range fun t : F => ((α.symm (CFSG.SL2MinimalFaithful.unipotent t) : ↥K) : G)) := by

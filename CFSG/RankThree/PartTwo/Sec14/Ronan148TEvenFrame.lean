@@ -14,7 +14,7 @@ theorem mul_same_axis {p q ℓ : Fin 3 → F} (hℓq : ℓ ⬝ᵥ q = 0) (c : F)
     (1 + vecMulVec p ℓ) * (1 + c • vecMulVec q ℓ) =
       (1 + vecMulVec (p + c • q) ℓ : Matrix (Fin 3) (Fin 3) F) := by
   simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one, Matrix.mul_smul,
-    vecMulVec_mul_vecMulVec, hℓq, zero_smul, vecMulVec_zero, smul_zero, add_zero, add_vecMulVec,
+    vecMulVec_mul_vecMulVec, hℓq, zero_smul, vecMulVec_zero, add_zero, add_vecMulVec,
     smul_vecMulVec]
   abel
 
@@ -22,7 +22,7 @@ theorem mul_same_center {p ℓ ℓ' : Fin 3 → F} (hℓp : ℓ ⬝ᵥ p = 0) (c
     (1 + vecMulVec p ℓ) * (1 + c • vecMulVec p ℓ') =
       (1 + vecMulVec p (ℓ + c • ℓ') : Matrix (Fin 3) (Fin 3) F) := by
   simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one, Matrix.mul_smul,
-    vecMulVec_mul_vecMulVec, hℓp, zero_smul, vecMulVec_zero, smul_zero, add_zero, vecMulVec_add,
+    vecMulVec_mul_vecMulVec, hℓp, zero_smul, vecMulVec_zero, add_zero, vecMulVec_add,
     vecMulVec_smul]
   abel
 
@@ -32,13 +32,13 @@ theorem isElat_of_frame {e f : Fin 3 → Fin 3 → F} (h : IsFrame e f) {i j : F
   refine ⟨?_, ?_, ?_, hg⟩
   · intro h0
     have := h i i
-    rw [h0, dotProduct_zero, if_pos rfl] at this
+    rw [h0, dotProduct_zero, ite_eq_left rfl] at this
     exact zero_ne_one this
   · intro h0
     have := h j j
-    rw [h0, zero_dotProduct, if_pos rfl] at this
+    rw [h0, zero_dotProduct, ite_eq_left rfl] at this
     exact zero_ne_one this
-  · rw [h j i, if_neg (Ne.symm hij)]
+  · rw [h j i, ite_eq_right (Ne.symm hij)]
 
 theorem exists_frame [CharP F 2] {D : Subgroup (GL (Fin 3) F)} {K₀ : Subfield F}
     (hR : ∀ z ∈ D, ∀ p ℓ : Fin 3 → F, IsElat z p ℓ → rootSet D p ℓ = K₀)
@@ -102,8 +102,7 @@ theorem exists_frame [CharP F 2] {D : Subgroup (GL (Fin 3) F)} {K₀ : Subfield 
     fin_cases i <;> fin_cases j <;>
       simp only [Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk, Fin.isValue, he0, he1, he2, hf0, hf1,
         hf2, smul_dotProduct, dotProduct_smul, dotProduct_add, add_dotProduct, smul_eq_mul,
-        hφa, hψb, hφa', hψ'a, if_true, if_false, Fin.reduceEq, ne_eq, not_false_eq_true,
-        reduceCtorEq] <;> norm_num
+        hφa, hψb, hφa', hψ'a, ite_true, ite_false, Fin.reduceEq] <;> norm_num
     · exact inv_mul_cancel₀ hψa
     · linear_combination (ψ ⬝ᵥ a)⁻¹ * hψa'α
     · exact inv_mul_cancel₀ hφb
@@ -112,8 +111,8 @@ theorem exists_frame [CharP F 2] {D : Subgroup (GL (Fin 3) F)} {K₀ : Subfield 
       linear_combination (ψ' ⬝ᵥ b) * two
     · rw [← hη₂def]
       exact inv_mul_cancel₀ ha'
-  have hd : ∀ i j : Fin 3, i ≠ j → f i ⬝ᵥ e j = 0 := fun i j hij => by rw [hfr i j, if_neg hij]
-  have hd1 : ∀ i : Fin 3, f i ⬝ᵥ e i = 1 := fun i => by rw [hfr i i, if_pos rfl]
+  have hd : ∀ i j : Fin 3, i ≠ j → f i ⬝ᵥ e j = 0 := fun i j hij => by rw [hfr i j, ite_eq_right hij]
+  have hd1 : ∀ i : Fin 3, f i ⬝ᵥ e i = 1 := fun i => by rw [hfr i i, ite_eq_left rfl]
   have hsq : ∀ {g₁ g₂ : GL (Fin 3) F} {i j k : Fin 3}, g₁ ∈ D → g₂ ∈ D →
       (g₁ : Matrix (Fin 3) (Fin 3) F) = 1 + vecMulVec (e i) (f j) →
       (g₂ : Matrix (Fin 3) (Fin 3) F) = 1 + vecMulVec (e k) (f i) → i ≠ j → j ≠ k → k ≠ i →

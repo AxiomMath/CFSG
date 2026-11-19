@@ -195,7 +195,7 @@ theorem sec128_aut_dich (κ : Sec128A5 × Sec128A5 →* Sec128A5 × Sec128A5) (h
 theorem sec128_proj2_onto {D : Subgroup (Sec128A5 × Sec128A5)} (hD : Nonempty (↥D ≃* Sec128A5))
     (hne : ∃ d ∈ D, d.2 ≠ 1) : ∀ b : Sec128A5, ∃ a : Sec128A5, (a, b) ∈ D := by
   obtain ⟨e⟩ := hD
-  haveI : IsSimpleGroup ↥D := e.isSimpleGroup
+  have : IsSimpleGroup ↥D := e.isSimpleGroup
   let f : ↥D →* Sec128A5 := (MonoidHom.snd Sec128A5 Sec128A5).comp D.subtype
   have hinj : Function.Injective f := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal f.ker with h | h
@@ -215,7 +215,7 @@ theorem sec128_proj2_onto {D : Subgroup (Sec128A5 × Sec128A5)} (hD : Nonempty (
 theorem sec128_proj1_onto {D : Subgroup (Sec128A5 × Sec128A5)} (hD : Nonempty (↥D ≃* Sec128A5))
     (hne : ∃ d ∈ D, d.1 ≠ 1) : ∀ a : Sec128A5, ∃ b : Sec128A5, (a, b) ∈ D := by
   obtain ⟨e⟩ := hD
-  haveI : IsSimpleGroup ↥D := e.isSimpleGroup
+  have : IsSimpleGroup ↥D := e.isSimpleGroup
   let f : ↥D →* Sec128A5 := (MonoidHom.fst Sec128A5 Sec128A5).comp D.subtype
   have hinj : Function.Injective f := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal f.ker with h | h

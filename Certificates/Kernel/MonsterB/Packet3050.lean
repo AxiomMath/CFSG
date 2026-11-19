@@ -54,7 +54,7 @@ theorem genCheck_pauli {i : Nat} (hi : i < 23) : Native.genCheck i = true := by
   simp only [strictB_eq] at hc
   rw [hs, ha, hd] at hc
   unfold Native.genCheck Native.genAct
-  rw [if_pos hi, native_genOK, native_keyActPauli, native_qPauli, row_eq (by omega)]
+  rw [ite_eq_left hi, native_genOK, native_keyActPauli, native_qPauli, row_eq (by omega)]
   exact genOK_of_lineChk CFSG.KD.KDF.th_ok (actPauli_eq (Model.qPauli i)) hc
 
 theorem genCheck_perm {r : Nat} (hr : r < 12) : Native.genCheck (23 + r) = true := by
@@ -66,7 +66,7 @@ theorem genCheck_perm {r : Nat} (hr : r < 12) : Native.genCheck (23 + r) = true 
   unfold permChk at hc
   simp only [strictB_eq] at hc
   unfold Native.genCheck Native.genAct
-  rw [if_neg (by omega), if_pos (by omega), native_genOK, native_keyActPerm, native_recPerms,
+  rw [ite_eq_right (by omega), ite_eq_left (by omega), native_genOK, native_keyActPerm, native_recPerms,
     row_eq (by omega), show 23 + r - 23 = r by omega]
   exact genOK_of_lineChk CFSG.KD.KDF.th_ok (actPerm_eq CFSG.KD.KDF.th_ok hP hbt hK) hc
 
@@ -76,14 +76,14 @@ theorem genCheck_sign {r : Nat} (hr : r < 11) : Native.genCheck (35 + r) = true 
   unfold signChk at hc
   simp only [strictB_eq] at hc
   unfold Native.genCheck Native.genAct
-  rw [if_neg (by omega), if_neg (by omega), if_pos (by omega), native_genOK, native_keyActSign,
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left (by omega), native_genOK, native_keyActSign,
     row_eq (by omega), show 35 + r - 35 = r by omega, ← hA]
   exact genOK_of_lineChk CFSG.KD.KDF.th_ok (actSign_eq CFSG.KD.KDF.th_ok hlt hW hT hPA) hc
 
 set_option maxRecDepth 200000 in
 theorem genCheck_xi : Native.genCheck 46 = true := by
   unfold Native.genCheck Native.genAct
-  rw [if_neg (by omega), if_neg (by omega), if_neg (by omega), native_genOK, native_keyActXi,
+  rw [ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_right (by omega), native_genOK, native_keyActXi,
     row_eq (by omega)]
   obtain ⟨hs0, hk0, hk9, hmono⟩ := xi_pins
   have hlen : (lineOf CFSG.KD.PktBind.CH CFSG.KD.PktBind.S 46).2 / 3 = f16 XS 9 :=

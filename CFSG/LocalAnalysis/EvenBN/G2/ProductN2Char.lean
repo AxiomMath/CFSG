@@ -235,15 +235,15 @@ theorem exists_mem_centerMod_of_normal {G : Type} [Group G] [Finite G] {W Z P : 
     (hP : IsPGroup 2 P) (hWZ : W ≤ Z) (hne : W ≠ Z) (hZP : Z ≤ P)
     (hPW : P ≤ normalizer (W : Set G)) (hPZ : P ≤ normalizer (Z : Set G)) :
     ∃ z ∈ Z, z ∉ W ∧ z ∈ centerMod W P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hWP : W ≤ P := hWZ.trans hZP
   set B : Subgroup (Bar W) := bar W P with hB
-  haveI : Group.IsNilpotent B := (isPGroup_bar hP).isNilpotent
+  have : Group.IsNilpotent B := (isPGroup_bar hP).isNilpotent
   have hbZP : bar W Z ≤ B := bar_mono hZP
   have hnorm : B ≤ normalizer (bar W Z : Set (Bar W)) := bar_le_normalizer_bar hWZ hPZ
-  haveI : ((bar W Z).subgroupOf B).Normal :=
+  have : ((bar W Z).subgroupOf B).Normal :=
     (normal_subgroupOf_iff_le_normalizer hbZP).2 hnorm
-  obtain ⟨z₀, hz₀Z, hz₀W⟩ := SetLike.exists_of_lt (lt_of_le_of_ne hWZ hne)
+  obtain ⟨z₀, hz₀Z, hz₀W⟩ := _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hWZ hne)
   have hz₀N : z₀ ∈ normalizer (W : Set G) := hPW (hZP hz₀Z)
   have hbot : (bar W Z).subgroupOf B ≠ ⊥ := by
     intro h
@@ -478,8 +478,8 @@ theorem yamada_7_3_eight (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t) 
     ¬ FieldAlternative (yamadaBarK₁ d t) (yamadaT₁ d t) f := by
   classical
   rintro ⟨k₂, hfld, hfin, hk₂, ψ, -, -⟩
-  letI := hfld
-  letI := hfin
+  let := hfld
+  let := hfin
   have hq : 1 < Nat.card K := hQ.one_lt
   have hf : 1 ≤ f := by
     rcases Nat.eq_zero_or_pos f with rfl | hf
@@ -487,7 +487,7 @@ theorem yamada_7_3_eight (hW : CFSG.Walter.WalterOrderForm) (h : Setup G L f t) 
       omega
     · exact hf
   have hk₂' : Nat.card k₂ = Nat.card K ^ 2 := by rw [Nat.card_eq_fintype_card, hk₂, hK]
-  haveI : CharP k₂ 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP k₂ 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (by omega : 1 ≤ 2 * f)
     (by rw [Nat.card_eq_fintype_card, hk₂, ← pow_mul, mul_comm])
   obtain ⟨α₂, hex₂, -⟩ := hp.exact₂

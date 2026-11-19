@@ -30,7 +30,7 @@ theorem card_mul_commutator_le {X Y : Type*} [Group X] [Finite X] [Group Y] (ψ 
       exact ⟨a, a.2, rfl⟩
     · rintro ⟨a, ha, rfl⟩
       exact ⟨⟨a, ha⟩, rfl⟩
-  haveI : Finite ψD.range := Finite.of_surjective ψD.rangeRestrict ψD.rangeRestrict_surjective
+  have : Finite ψD.range := Finite.of_surjective ψD.rangeRestrict ψD.rangeRestrict_surjective
   have h1 : Nat.card ψD.ker * Nat.card ψD.range = Nat.card D := Subgroup.card_ker_mul_card_range ψD
   have h2 : Nat.card Zh ≤ Nat.card ψD.range := Subgroup.card_le_of_le (hZD.trans hrange.ge)
   have h3 : Nat.card (_root_.commutator D) ≤ Nat.card ψD.ker := Subgroup.card_le_of_le hker

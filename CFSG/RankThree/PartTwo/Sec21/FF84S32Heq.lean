@@ -25,6 +25,7 @@ theorem isSylowIn_of_card {p : ℕ} [Fact p.Prime] {P N : Subgroup G} (hPN : P �
   rw [hk, hP]
   exact Nat.le_of_dvd (pow_pos (Nat.Prime.pos (Fact.out : Nat.Prime p)) a) (hcop.dvd_of_dvd_mul_right hdvd)
 
+omit [Finite G] in
 theorem nor_cenS {A : Subgroup G} {g x : G} (hg : g ∈ Nor A) (hx : x ∈ CenS A) :
     g * x * g⁻¹ ∈ CenS A := by
   rw [Subgroup.mem_centralizer_iff]
@@ -39,9 +40,9 @@ theorem nor_cenS {A : Subgroup G} {g x : G} (hg : g ∈ Nor A) (hx : x ∈ CenS 
 
 theorem K_le_O3 {K H : Subgroup G} (hKH : K ≤ H) (hKs : IsSimpleGroup ↥K) (h60 : Nat.card K = 60) :
     K ≤ O3 H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hT : O3 K ≤ O3 H := Subgroup.closure_mono (fun x hx => ⟨hKH hx.1, hx.2⟩)
-  haveI := O3_normal_sub K
+  have := O3_normal_sub K
   have hne : (O3 K).subgroupOf K ≠ ⊥ := by
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ↥K) 2 (by rw [h60]; norm_num)
     intro hbot
@@ -83,10 +84,10 @@ theorem O3_ne_top (h : FF84Sec3 b L B b₁ b₂) : O3 (Cen (b₁ * b₂)) ≠ �
   exact c_notin_O3 h (htop ▸ Subgroup.mem_top _)
 
 theorem S2_H_eq (hQ : LemmaQ) (h : FF84Sec3 b L B b₁ b₂)
-    (hX : Opp 3 (Cen b) = ⊥) (hZ : Subgroup.center L = ⊥) :
+    (_hX : Opp 3 (Cen b) = ⊥) (hZ : Subgroup.center L = ⊥) :
     setMul (Opp 3 (Cen (b₁ * b₂))) (Nor (Subgroup.zpowers b) ⊓ O3 (Cen (b₁ * b₂))) =
       O3 (Cen (b₁ * b₂)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K, hKle, hK60, hKs, hdK, -, -, hKinv⟩ := M1_K h hZ
   obtain ⟨hsylP, hcH⟩ := S2_Sylow_H h
   obtain ⟨hbH, hdH⟩ := S2_mem_H h

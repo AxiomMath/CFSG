@@ -36,9 +36,9 @@ theorem extraspecial_and_automizer {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V :
         ↥(Ralpha p P T B A H (QInvariant.invariant hc hH)) ∧
       ∃ C : Subgroup (MulAut ↥(Ralpha p P T B A H (QInvariant.invariant hc hH))),
         Nat.card C = q := by
-  haveI : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
-  haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
-  haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
+  have : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
+  have : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
+  have : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
   obtain ⟨hsp, hnab, hDE, hcardA, hnorm⟩ := RalphaSpecial.«structure» hc hq hAB hA hH hRne
   obtain ⟨_, _, hRZ⟩ := RstarSpecial.structure hc hq hAB hA
   set hinv := QInvariant.invariant hc hH with hinv_def
@@ -53,12 +53,12 @@ theorem extraspecial_and_automizer {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V :
   have hcard2 := CentralImageOrder.card_le_two hc hH hindex
   have hRR : ⁅R P T B A, R P T B A⁆ ≤ Z P T B := by
     rw [← Subgroup.map_subtype_commutator]; exact hRZ
-  haveI : Finite (Q p P T B H) := by
-    haveI : Finite P := inferInstance
-    haveI : Finite (Pbar P) := inferInstanceAs (Finite (P ⧸ _))
-    haveI : Finite (W P) := inferInstanceAs (Finite (Additive (Pbar P)))
+  have : Finite (Q p P T B H) := by
+    have : Finite P := inferInstance
+    have : Finite (Pbar P) := inferInstanceAs (Finite (P ⧸ _))
+    have : Finite (W P) := inferInstanceAs (Finite (Additive (Pbar P)))
     infer_instance
-  haveI : Finite (Q p P T B H ≃ₗ[ZMod p] Q p P T B H) := by
+  have : Finite (Q p P T B H ≃ₗ[ZMod p] Q p P T B H) := by
     refine Finite.of_injective (fun f : Q p P T B H ≃ₗ[ZMod p] Q p P T B H => (f : _ → _))
       (fun f g h => LinearEquiv.ext (fun x => congrFun h x))
   have hJ2 : IsPGroup 2 J :=
@@ -93,7 +93,7 @@ theorem extraspecial_and_automizer {p : ℕ} {P T B : Subgroup G} {e : ℕ} {V :
   · rw [hcc, Nat.card_congr ((commutator ↥J).equivMapOfInjective _ hinjJ).toEquiv,
       Subgroup.map_subtype_commutator]
     exact hC2
-  · haveI : Fact (Nat.card Aa).Prime := ⟨hcardA ▸ hq⟩
+  · have : Fact (Nat.card Aa).Prime := ⟨hcardA ▸ hq⟩
     let φ : Aa →* MulAut ↥J :=
       (Subgroup.normalizerMonoidHom J).comp (Subgroup.inclusion hnorm)
     have hker : φ.ker = ⊥ := by

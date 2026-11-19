@@ -117,7 +117,7 @@ theorem s16sm_exists_simple_sub {S : Type} [AddCommGroup S] [Module (ZMod 2) S] 
     have := Nat.find_min' hex ⟨T', hT', hne, rfl⟩
     rwa [← hcard] at this
   refine ⟨T, hT, hTne, ?_⟩
-  haveI : Nontrivial T := Submodule.nontrivial_iff_ne_bot.mpr hTne
+  have : Nontrivial T := Submodule.nontrivial_iff_ne_bot.mpr hTne
   refine ⟨inferInstance, fun W hW => ?_⟩
   by_cases hWbot : W = ⊥
   · exact Or.inl hWbot
@@ -160,7 +160,7 @@ theorem s16sm_exists_simple_sub {S : Type} [AddCommGroup S] [Module (ZMod 2) S] 
 theorem s16sm_dual_simple {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
     (ρ : Representation (ZMod 2) G6 V) (h : IsSimpleRep ρ) :
     IsSimpleRep (Representation.dual ρ) := by
-  haveI : Nontrivial V := h.1
+  have : Nontrivial V := h.1
   refine ⟨inferInstance, fun T hT => ?_⟩
   have hUstab : ∀ g, ∀ w ∈ T.dualCoannihilator, ρ g w ∈ T.dualCoannihilator := by
     intro g w hw

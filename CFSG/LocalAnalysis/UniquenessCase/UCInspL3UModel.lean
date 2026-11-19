@@ -80,7 +80,7 @@ theorem betaL_algebraMap (σ : K ≃+* K) (hσ : ∀ c : K, σ c = c ^ p ^ f)
   rw [betaL_apply, ← map_pow, hσ]
   congr 1
   have hpc : c ^ (p ^ f) ^ 2 = c := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     rw [← hK, Nat.card_eq_fintype_card, FiniteField.pow_card]
   calc c ^ (p ^ f) ^ 3 = c ^ ((p ^ f) ^ 2 * p ^ f) := by rw [pow_succ]
     _ = (c ^ (p ^ f) ^ 2) ^ p ^ f := by rw [pow_mul]
@@ -88,7 +88,7 @@ theorem betaL_algebraMap (σ : K ≃+* K) (hσ : ∀ c : K, σ c = c ^ p ^ f)
 
 theorem betaL_betaL (hK : Nat.card K = (p ^ f) ^ 2) (x : L3 K p) :
     betaL K p f (betaL K p f x) = x := by
-  haveI := Fintype.ofFinite (L3 K p)
+  have := Fintype.ofFinite (L3 K p)
   rw [betaL_apply, betaL_apply, ← pow_mul]
   have e : (p ^ f) ^ 3 * (p ^ f) ^ 3 = Nat.card (L3 K p) := by
     rw [FiniteField.natCard_extension, hK]
@@ -105,7 +105,7 @@ theorem exists_model_U (σ : K ≃+* K) (hσ : ∀ c : K, σ c = c ^ p ^ f)
   set Q := p ^ f with hQdef
   have hQ2 : 2 ≤ Q := two_le_of_card_eq_sq hK
   obtain ⟨ℓ, hℓ, hℓ3Q, hℓ2, hℓ3, hℓQ1, hℓQ2⟩ := exists_prime_dvd_coxeter Q hQ2 hq
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hℓN : ¬ ℓ ∣ Nat.card K - 1 := by
     rw [hK]
     have e : Q ^ 2 - 1 = (Q - 1) * (Q + 1) := by

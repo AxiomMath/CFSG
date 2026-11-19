@@ -27,10 +27,10 @@ theorem fRows_fold (hK : Consts c rm one pad t0 t1 t2 t3 t4 t5 t6) {T : Array (A
     have hj := hL j (List.mem_cons_self ..)
     have hL' : ∀ k ∈ L, k < 10 := fun k hk => hL k (List.mem_cons_of_mem _ hk)
     by_cases hb : x.testBit j = true
-    · rw [if_pos hb, if_pos hb]
+    · rw [ite_eq_left hb, ite_eq_left hb]
       refine fRows_fold hK hT x L hL' _ _ (wf_mulRows h1 (hT j hj).1) ?_
       rw [enc_mulRows hK h1 (hT j hj).1, h2, (hT j hj).2]
-    · rw [if_neg hb, if_neg hb]
+    · rw [ite_eq_right hb, ite_eq_right hb]
       exact fRows_fold hK hT x L hL' _ _ h1 h2
 
 theorem fRows_enc (hK : Consts c rm one pad t0 t1 t2 t3 t4 t5 t6) {T : Array (Array V2)}
@@ -56,7 +56,7 @@ theorem fVec_fold (hK : Consts c rm one pad t0 t1 t2 t3 t4 t5 t6) {T : Array (Ar
     have hj := hL j (List.mem_cons_self ..)
     have hL' : ∀ k ∈ L, k < 10 := fun k hk => hL k (List.mem_cons_of_mem _ hk)
     by_cases hb : x.testBit j = true
-    · rw [if_pos hb, if_pos hb]
+    · rw [ite_eq_left hb, ite_eq_left hb]
       have e : (T.map frTable)[j]?.getD #[] = frTable (T[j]?.getD (idRows ())) := by
         have hjs : j < T.size := by omega
         simp only [Array.getElem?_map, Array.getElem?_eq_getElem hjs, Option.map_some,
@@ -64,7 +64,7 @@ theorem fVec_fold (hK : Consts c rm one pad t0 t1 t2 t3 t4 t5 t6) {T : Array (Ar
       rw [e]
       refine fVec_fold hK hs hT x L hL' _ _ (wf_frApply (hT j hj).1 u) ?_
       rw [v2N_frApply hK (hT j hj).1 h1, h2, (hT j hj).2]
-    · rw [if_neg hb, if_neg hb]
+    · rw [ite_eq_right hb, ite_eq_right hb]
       exact fVec_fold hK hs hT x L hL' _ _ h1 h2
 
 theorem fVec_enc (hK : Consts c rm one pad t0 t1 t2 t3 t4 t5 t6) {T : Array (Array V2)}

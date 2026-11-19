@@ -79,7 +79,7 @@ theorem dsucp_frame_psi {G : Type} [Group G] [Finite G] {L : Subgroup G}
 theorem dsucp_sylow_K4 (T0 : Subgroup A5) (hT0 : IsPGroup 2 T0) (hT0i : ¬ 2 ∣ T0.index) :
     ∃ g : A5, ∀ x : A5, x ∈ T0 ↔ g * x * g⁻¹ ∈ K4 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK4p : IsPGroup 2 K4 := IsPGroup.of_card (n := 2) (by rw [card_K4]; norm_num)
   let P : Sylow 2 A5 := hT0.toSylow hT0i
   let Q : Sylow 2 A5 := hK4p.toSylow (by simpa using K4_index_odd)
@@ -217,8 +217,8 @@ theorem dsucp_normalizer_sylow {G : Type} [Group G] [Finite G] {L2 S : Subgroup 
     (hNc : Nat.card ↥(pCoreOf 2 L2) = 32) :
     ∀ x ∈ L2, x ∈ Subgroup.normalizer ((S ⊓ L2 : Subgroup G) : Set G) → x ∈ S ⊓ L2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   intro x hxL hxN
   let φ : ↥L2 →* Equiv.Perm (Fin 3) := e.toMonoidHom.comp (QuotientGroup.mk' (CFSG.pCore 2 ↥L2))
   have hφsurj : Function.Surjective φ := by
@@ -228,7 +228,7 @@ theorem dsucp_normalizer_sylow {G : Type} [Group G] [Finite G] {L2 S : Subgroup 
     exact ⟨y, by simpa [φ] using hq⟩
   have hker : φ.ker = CFSG.pCore 2 ↥L2 := by
     ext y
-    simp [φ, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp [φ]
   have hpc_mem : ∀ y : ↥L2, y ∈ CFSG.pCore 2 ↥L2 ↔ (y : G) ∈ pCoreOf 2 L2 :=
     fun y => CFSG.Quasithin.F1.mem_pCore_iff_coe y
   have hcardpc : Nat.card ↥(CFSG.pCore 2 ↥L2) = 32 := by
@@ -386,8 +386,8 @@ theorem dsucp_bigB_eq {G : Type} [Group G] {L1 L2 S : Subgroup G}
 theorem dsucp_card_sup {G : Type} [Group G] [Finite G] {L2 B : Subgroup G}
     (hBN : B ≤ Subgroup.normalizer (L2 : Set G)) :
     Nat.card ↥(B ⊔ L2) * Nat.card ↥(B ⊓ L2) = Nat.card ↥L2 * Nat.card ↥B := by
-  letI := Subgroup.normal_subgroupOf_of_le_normalizer hBN
-  letI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hBN
+  let := Subgroup.normal_subgroupOf_of_le_normalizer hBN
+  let := Subgroup.normal_subgroupOf_sup_of_le_normalizer hBN
   have hcard := Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient B L2 hBN).toEquiv
   have hq1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (L2.subgroupOf B)
   have hq2 := Subgroup.card_eq_card_quotient_mul_card_subgroup (L2.subgroupOf (B ⊔ L2))
@@ -529,7 +529,7 @@ theorem dsucp_U0 {G : Type} [Group G] [Finite G] {L1 L2 S B : Subgroup G}
     refine (hXmem _).mpr ⟨mb * q * mb⁻¹, ?_, ?_⟩
     · have := hBQ (mb : G) hmbB (q : G) hq
       simpa using this
-    · simp [map_mul, map_inv, Subgroup.coe_mul, Subgroup.coe_inv, hmb]
+    · simp [map_mul, map_inv, Subgroup.coe_mul, hmb]
   have hnotW : ¬ U42.Wc ≤ X := by
     intro hW
     apply hnotE
@@ -562,12 +562,12 @@ open CFSG.GH74.QTGen4.U42
 theorem dsucp_L2_cards {G : Type} [Group G] [Finite G] {L2 S : Subgroup G}
     (hsyl : IsSylowTwoOf (S ⊓ L2) L2)
     (e : oTwoQuot ↥L2 ≃* Equiv.Perm (Fin 3))
-    (hN : pCoreOf 2 L2 ≤ S ⊓ L2)
+    (_hN : pCoreOf 2 L2 ≤ S ⊓ L2)
     (hNc : Nat.card ↥(pCoreOf 2 L2) = 32) :
     Nat.card ↥L2 = 192 ∧ Nat.card ↥(S ⊓ L2) = 64 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   let φ : ↥L2 →* Equiv.Perm (Fin 3) := e.toMonoidHom.comp (QuotientGroup.mk' (CFSG.pCore 2 ↥L2))
   have hcardpc : Nat.card ↥(CFSG.pCore 2 ↥L2) = 32 := by
     rw [← hNc]
@@ -742,7 +742,7 @@ open CFSG.GH74.QTGen4.U42
 theorem dsucp_inf_B_L2 {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup G}
     (h : Hyp111R L1 L2 S) (hS : S ≤ L1) (hs3 : Nonempty (oTwoQuot ↥L2 ≃* Equiv.Perm (Fin 3)))
     (hpc : pCoreOf 2 L2 ≤ S ⊓ L2) (hQ2c : Nat.card ↥(pCoreOf 2 L2) = 32)
-    (hb2 : borelOf L2 S ≤ S) (hBeq : bigB L1 L2 S = L1 ⊓ Subgroup.normalizer (S : Set G)) :
+    (_hb2 : borelOf L2 S ≤ S) (hBeq : bigB L1 L2 S = L1 ⊓ Subgroup.normalizer (S : Set G)) :
     bigB L1 L2 S ⊓ L2 = S ⊓ L2 := by
   apply le_antisymm
   · rintro x ⟨hxB, hxL2⟩

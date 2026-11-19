@@ -34,12 +34,12 @@ theorem genOK_0 : genOK = true := by
   unfold genOK
   refine decide_eq_true ⟨fun i c a b => ?_, fun i c a b => ?_⟩
   · have hx := (h i i.2 c.code c.code.2 a a.2 b b.2).1
-    rw [xCodeN, dif_pos ⟨i.2, c.code.2, a.2, b.2⟩] at hx
+    rw [xCodeN, dite_eq_left ⟨i.2, c.code.2, a.2, b.2⟩] at hx
     refine f4_eq (hx.trans ?_)
     rw [gEnt_code, genEntry_eq]
     rfl
   · have hy := (h i i.2 c.code c.code.2 a a.2 b b.2).2
-    rw [yCodeN, dif_pos ⟨i.2, c.code.2, a.2, b.2⟩] at hy
+    rw [yCodeN, dite_eq_left ⟨i.2, c.code.2, a.2, b.2⟩] at hy
     refine f4_eq (hy.trans ?_)
     rw [gEnt_code, genEntry_eq]
     rfl

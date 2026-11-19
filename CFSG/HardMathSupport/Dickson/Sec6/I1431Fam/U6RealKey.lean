@@ -88,7 +88,7 @@ theorem u6r_exists_nontrivial_cubic_scalar_commutator
     ∃ κ : Kˣ, κ ^ 3 = 1 ∧ κ ≠ 1 ∧
       (g₁ : GL (Fin 6) K) * (g₂ : GL (Fin 6) K) * (g₁ : GL (Fin 6) K)⁻¹ *
         (g₂ : GL (Fin 6) K)⁻¹ = Matrix.GeneralLinearGroup.scalar (Fin 6) κ := by
-  haveI : CharP K 2 := h.charP
+  have : CharP K 2 := h.charP
   obtain ⟨κ, hκ⟩ := u6r_comm_scalar (h := h) (n := 6) (by norm_num) g₂ g₁ hcomm
   have hκc : ⁅(g₁ : GL (Fin 6) K), (g₂ : GL (Fin 6) K)⁆ =
       Matrix.GeneralLinearGroup.scalar (Fin 6) κ := by
@@ -183,8 +183,8 @@ theorem u6r_inner_of_commute (hO : CFSG.ComponentClassification.CatLeaf.LieOrder
     (hst : primeFormConjHom h (idGram K n) C ∈ stabAut J) :
     IsInnerAut (inducedBarHom J ⟨primeFormConjHom h (idGram K n) C, hst⟩) := by
   classical
-  haveI := h.finite
-  haveI : Finite (GL (Fin n) K) :=
+  have := h.finite
+  have : Finite (GL (Fin n) K) :=
     Finite.of_injective (fun g : GL (Fin n) K => (g : Matrix (Fin n) (Fin n) K)) Units.val_injective
   have H : UnitaryPrimaryData h.bar (idForm h n) (t6psub_toLin B) :=
     t6psuh_primaryData_toLin' h B.2 Nat.prime_three (Ne.symm hℓ3) hB3

@@ -67,7 +67,7 @@ private theorem bitZ_moveRow (y : ℕ) (r k r' c : Fin 12) :
   · subst h
     simp [hc]
   · have h' : r.val ≠ r'.val := fun e => h (Fin.ext e)
-    rw [if_neg h, if_neg]
+    rw [ite_eq_right h, ite_eq_right]
     simp only [Bool.and_eq_true, decide_eq_true_eq]
     rintro ⟨h1, h2, -⟩
     omega
@@ -80,14 +80,14 @@ private theorem matOfMask_mulMask (x y : ℕ) :
           ((y >>> (12 * k.val)) % 2 ^ 12) <<< (12 * r.val) else 0) (12 * r'.val + c.val) =
         if r = r' then matOfMask x r' k * matOfMask y k c else 0 := by
     by_cases h : r = r'
-    · rw [if_pos h, ← h, show matOfMask x r k = bitZ x (12 * r.val + k.val) from rfl,
+    · rw [ite_eq_left h, ← h, show matOfMask x r k = bitZ x (12 * r.val + k.val) from rfl,
         show matOfMask y k c = bitZ y (12 * k.val + c.val) from rfl, bitZ_eq x]
       cases x.testBit (12 * r.val + k.val)
-      · rw [if_neg Bool.false_ne_true, if_neg Bool.false_ne_true, bitZ_zero, zero_mul]
-      · rw [if_pos rfl, if_pos rfl, one_mul, bitZ_moveRow, if_pos rfl]
-    · rw [if_neg h]
+      · rw [ite_eq_right Bool.false_ne_true, ite_eq_right Bool.false_ne_true, bitZ_zero, zero_mul]
+      · rw [ite_eq_left rfl, ite_eq_left rfl, one_mul, bitZ_moveRow, ite_eq_left rfl]
+    · rw [ite_eq_right h]
       split_ifs
-      · rw [bitZ_moveRow, if_neg h]
+      · rw [bitZ_moveRow, ite_eq_right h]
       · exact bitZ_zero _
   have hrow (r : Fin 12) :
       bitZ (xorSum fun k : Fin 12 => if x.testBit (12 * r.val + k.val) then
@@ -95,11 +95,11 @@ private theorem matOfMask_mulMask (x y : ℕ) :
         if r = r' then (matOfMask x * matOfMask y) r' c else 0 := by
     rw [bitZ_xorSum, Matrix.mul_apply]
     split_ifs with h
-    · exact Finset.sum_congr rfl fun k _ => (hterm r k).trans (if_pos h)
-    · exact Finset.sum_eq_zero fun k _ => (hterm r k).trans (if_neg h)
+    · exact Finset.sum_congr rfl fun k _ => (hterm r k).trans (ite_eq_left h)
+    · exact Finset.sum_eq_zero fun k _ => (hterm r k).trans (ite_eq_right h)
   show bitZ (mulMask x y) (12 * r'.val + c.val) = _
   rw [mulMask, bitZ_xorSum, Finset.sum_congr rfl fun r _ => hrow r, Finset.sum_ite_eq',
-    if_pos (Finset.mem_univ r')]
+    ite_eq_left (Finset.mem_univ r')]
 
 private theorem matOfMask_xor (a b : ℕ) : matOfMask (a ^^^ b) = matOfMask a + matOfMask b := by
   ext r c
@@ -186,7 +186,7 @@ noncomputable def evalWord : List ℕ → Matrix (Fin 12) (Fin 12) (ZMod 2)
   | g :: w => (if g = 0 then Amat else Bmat) * evalWord w
 
 theorem evalWord_mem_Aalg : ∀ w : List ℕ, evalWord w ∈ Aalg
-  | [] => by simpa [evalWord] using Aalg.one_mem
+  | [] => by simp [evalWord]
   | g :: w => by
       have hg : (if g = 0 then Amat else Bmat) ∈ Aalg := by
         split_ifs with h
@@ -373,7 +373,7 @@ theorem wmat_mem_Aalg (i : Fin 72) : wmat i ∈ Aalg := by
     simp only [Matrix.add_mul, Matrix.mul_add, Matrix.add_apply]
     abel
   map_smul' a X := by
-    simp only [Matrix.smul_mul, Matrix.mul_smul, smul_add, Matrix.add_apply,
+    simp only [Matrix.smul_mul, Matrix.mul_smul, Matrix.add_apply,
       Matrix.smul_apply, smul_eq_mul, RingHom.id_apply]
     rw [mul_add]
 

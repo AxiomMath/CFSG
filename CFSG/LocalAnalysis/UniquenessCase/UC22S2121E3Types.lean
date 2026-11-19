@@ -61,7 +61,7 @@ theorem uc22s2121e3_isL2_of_isU3_r847E3 (hSE : StronglyEmbeddedFive)
     hB hL hK hne hn (Or.inr hU) (Or.inr ⟨hU, hpn⟩) hm hY
   obtain ⟨φ⟩ := PartTwo.s13_bar_equiv hK
   have hpK' : p ∣ Nat.card (Bar2 K) := by rwa [Nat.card_congr φ.toEquiv]
-  haveI : Fact p.Prime := ⟨hpp⟩
+  have : Fact p.Prime := ⟨hpp⟩
   have hz := S15.nt1_pow_eq_neg_one hpn
   have h337 := InS3.k337_holds p hpp hp2 n m hn hm
   rcases hY with hK2 | hKU

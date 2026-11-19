@@ -30,21 +30,26 @@ section TL
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem op_two_isPGroup' (t₀ : G) : IsPGroup 2 (Op 2 (Cen t₀)) :=
   CFSG.pCore_isPGroup.map (Cen t₀).subtype
 
+omit [Finite G] in
 theorem op_two_le' (t₀ : G) : Op 2 (Cen t₀) ≤ Cen t₀ := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem op_two_conj' {t₀ g u : G} (hg : g ∈ Cen t₀) (hu : u ∈ Op 2 (Cen t₀)) :
     g * u * g⁻¹ ∈ Op 2 (Cen t₀) := by
   obtain ⟨o', ho', rfl⟩ := hu
   exact ⟨⟨g, hg⟩ * o' * ⟨g, hg⟩⁻¹,
     (CFSG.pCore_normal (p := 2) (G := ↥(Cen t₀))).conj_mem o' ho' ⟨g, hg⟩, by simp⟩
 
+omit [Finite G] in
 theorem le_cen_of_mem_cenS {L : Subgroup G} {t₀ : G} (ht₀L : t₀ ∈ CenS L) : L ≤ Cen t₀ :=
   fun x hx => Subgroup.mem_centralizer_singleton_iff.mpr
     (Subgroup.mem_centralizer_iff.mp ht₀L x hx)
 
+omit [Finite G] in
 theorem cen_inf_cenS_eq_of_decomp {L T R : Subgroup G} {t₀ : G}
     (hcent : setMul T L = Cen t₀) (hTL : T ⊓ L = ⊥) (hLN : L ≤ Nor T) (hTle : T ≤ Cen t₀)
     (hRL : R ≤ L) (hCLR : L ⊓ CenS R = ⊥) : Cen t₀ ⊓ CenS R = T ⊓ CenS R := by
@@ -192,6 +197,7 @@ theorem mem_nor_inf_cen {T : Subgroup G} {β γ : G} (hβT : β ∈ Nor T)
     _ = β * ((β⁻¹ * γ * β) * v) * β⁻¹ := by rw [hvc]
     _ = γ * (β * v * β⁻¹) := by group
 
+omit [Finite G] in
 theorem centralizes_of_D8 {V : Subgroup G} (e : ↥V ≃* DihedralGroup 4) {β : G}
     (hβ : β ∈ Nor V) (hβ3 : β ^ 3 = 1) : ∀ v ∈ V, β * v * β⁻¹ = v := by
   have hmap : V.map (MulAut.conj β).toMonoidHom = V :=
@@ -226,7 +232,7 @@ section Beta
 variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ b₃ : G}
 
 theorem orderOf_β (hB : FF81Basis b L B b₁ b₂ b₃) : orderOf (β' b₂ b₃) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨h1, h2, h3⟩, ⟨h12, h13, h23⟩⟩ := triple_facts hB.elem
   have hE : IsElemAb 3 3 (Subgroup.closure ({b₂, b₃, b₁} : Set G)) :=
     (isElemAb_perm (isElemAb_perm hB.elem).2.2).2.2
@@ -249,6 +255,7 @@ section TLFacts
 
 variable {G : Type} [Group G] [Finite G] {b : G} {L B : Subgroup G} {b₁ b₂ b₃ : G}
 
+omit [Finite G] in
 theorem le_nor_op_two {t₀ : G} (ht₀L : t₀ ∈ CenS L) : L ≤ Nor (Op 2 (Cen t₀)) := fun l hl =>
   Subgroup.mem_normalizer_iff.mpr fun s => ⟨fun hs => op_two_conj' (le_cen_of_mem_cenS ht₀L hl) hs,
     fun hs => by
@@ -259,10 +266,10 @@ theorem op_two_inf_eq_bot (hB : FF81Basis b L B b₁ b₂ b₃) {t₀ : G} (ht�
     Op 2 (Cen t₀) ⊓ L = ⊥ := by
   have hLt : L ≤ Cen t₀ := le_cen_of_mem_cenS ht₀L
   have hTp : IsPGroup 2 (Op 2 (Cen t₀)) := op_two_isPGroup' t₀
-  haveI : IsSimpleGroup L :=
+  have : IsSimpleGroup L :=
     CFSG.ClassicalGroups.Symplectic.isSimpleGroup_of_statedClassicalModel_PSp L 3 2 1
       hB.hyp.model
-  haveI hn : ((Op 2 (Cen t₀) ⊓ L).subgroupOf L).Normal := ⟨fun n hn g => by
+  have hn : ((Op 2 (Cen t₀) ⊓ L).subgroupOf L).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     exact ⟨op_two_conj' (hLt g.2) hn.1, L.mul_mem (L.mul_mem g.2 hn.2) (L.inv_mem g.2)⟩⟩
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((Op 2 (Cen t₀) ⊓ L).subgroupOf L) with h | h
@@ -287,6 +294,7 @@ section Assemble
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem inv_conj_eq_pow_five {γ h : G} (hγ7 : γ ^ 7 = 1) (hh : h * γ * h⁻¹ = γ ^ 3) :
     h⁻¹ * γ * h⁻¹⁻¹ = γ ^ 5 := by
   have h1 : (h⁻¹ * γ * h⁻¹⁻¹) ^ 3 = γ := by
@@ -307,10 +315,11 @@ theorem tSetup_of {T₀ T₁ T : Subgroup G} (hT0 : IsElemAb 2 6 T₀)
     (hh : h * γ * h⁻¹ = γ ^ 3) (nt1 : ∃ z ∈ T ⊓ CenS T, γ * z ≠ z * γ)
     (nt2 : ∃ u ∈ T, γ * u * γ⁻¹ * u⁻¹ ∉ T ⊓ CenS T) : TSetup T γ h h⁻¹ := by
   subst hTeq
-  exact ⟨card_sup hT0 hT1 hinf hcen, card_center hT0 hT1 hinf hcen, sq_center hT0 hT1 hinf hcen,
-    sq_mem_center hT0 hT1 hinf hcen, comm_mem_center hT0 hT1 hinf hcen, hγT, hhT,
+  exact ⟨card_sup hT0 hT1 hinf hcen, card_center hT0 hT1 hinf hcen, sq_center hT0 hT1 hcen,
+    sq_mem_center hT0 hT1 hcen, comm_mem_center hT0 hT1 hcen, hγT, hhT,
     Subgroup.inv_mem _ hhT, hγ7, hh, inv_conj_eq_pow_five hγ7 hh, nt1, nt2⟩
 
+omit [Finite G] in
 theorem nt_of_act {L T : Subgroup G} {γ : G} (hγL : γ ∈ L) (hγ1 : γ ≠ 1)
     (hf1 : L ⊓ CenS (T ⊓ CenS T) = ⊥)
     (hf2 : ∀ l ∈ L, (∀ u ∈ T, l * u * l⁻¹ * u⁻¹ ∈ T ⊓ CenS T) → l = 1) :

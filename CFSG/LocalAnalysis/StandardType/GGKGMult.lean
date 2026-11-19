@@ -168,7 +168,7 @@ theorem kgMult_SL4 (K : Type) [Field K] [Finite K] (h4 : 4 ≤ Nat.card K)
     intro g
     obtain ⟨n, rfl⟩ := hπ g
     rw [← map_mul, ← map_mul, Subgroup.mem_center_iff.mp z.2 n]
-  haveI : IsCyclic (Subgroup.center (Matrix.SpecialLinearGroup (Fin 4) K)) :=
+  have : IsCyclic (Subgroup.center (Matrix.SpecialLinearGroup (Fin 4) K)) :=
     (MulEquiv.isCyclic (Matrix.SpecialLinearGroup.center_equiv_rootsOfUnity (n := Fin 4)
       (R := K))).mpr inferInstance
   exact isCyclic_of_injective
@@ -206,7 +206,7 @@ theorem stdPair_perp_eq_parabolicRoots :
         iform γ (Pi.single 5 1 : Fin Tag.E6.rank → ℤ) = 0} =
       parabolicRoots Tag.E6 CFSG.RankThree.E6.support134 := by
   ext γ
-  simp only [Set.mem_setOf_eq, parabolicRoots]
+  simp only [Set.mem_ofPred_eq, parabolicRoots]
   constructor
   · rintro ⟨hγ, h1, h2⟩
     obtain ⟨m, rfl⟩ := CFSG.RankThree.E6.isRoot_iff_exists_e6RootVec.1 hγ
@@ -265,7 +265,7 @@ theorem kgAdjM : KGAdjM := by
   have hsurj : Function.Surjective (e.symm.toMonoidHom.comp π) := by
     intro y
     obtain ⟨n, hn⟩ := hπ (e y)
-    exact ⟨n, by rw [MonoidHom.comp_apply, hn]; simpa using e.symm_apply_apply y⟩
+    exact ⟨n, by rw [MonoidHom.comp_apply, hn]; simp⟩
   have hker' : (e.symm.toMonoidHom.comp π).ker ≤ Subgroup.center N := by
     rw [MonoidHom.ker_comp_of_injective π e.symm.toMonoidHom e.symm.injective]
     exact hker

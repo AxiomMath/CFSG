@@ -29,7 +29,7 @@ macro "sporOrd_num" : tactic =>
 
 theorem factorization_three_of_sylow {T : Type} [Group T] [Finite T]
     (h : ∀ P : Sylow 3 T, Nat.card P = 27) : (Nat.card T).factorization 3 = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h1 := h default
   rw [Sylow.card_eq_multiplicity, show (27 : ℕ) = 3 ^ 3 by norm_num] at h1
   exact Nat.pow_right_injective (by norm_num : 2 ≤ 3) h1
@@ -72,7 +72,7 @@ theorem kd264SporAt_M24_three
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges)
     (hOrd : CFSG.HardMathSupport.Solomon.Coordinator.SporadicOrdersTable)
     (hfs : Finite (Carrier .M24) ∧ IsSimpleGroup (Carrier .M24)) : KD264SporAt 3 .M24 := by
-  haveI := hfs.1
+  have := hfs.1
   obtain ⟨hS, hrank, -⟩ := CFSG.RankThree.Asc83Table.M24.table (L := Carrier .M24)
     ⟨MulEquiv.refl _⟩
   refine kd264SporAt_of_carrier hOut hbr hOrd hfs (by sporOrd_num) (by sporOrd_num) Nat.prime_three
@@ -85,7 +85,7 @@ theorem kd264SporAt_Ru_three
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges)
     (hOrd : CFSG.HardMathSupport.Solomon.Coordinator.SporadicOrdersTable)
     (hfs : Finite (Carrier .Ru) ∧ IsSimpleGroup (Carrier .Ru)) : KD264SporAt 3 .Ru := by
-  haveI := hfs.1
+  have := hfs.1
   have hL : NativeSporadic.IsSporadic (Carrier .Ru) .Ru := ⟨MulEquiv.refl _⟩
   have htab := CFSG.RankThree.Asc83Table.Ru.table hL
   have hlay := CFSG.AGLEmbeddingD2.Wilson.Census219.ks219Ru (Carrier .Ru) ⟨MulEquiv.refl _⟩
@@ -102,12 +102,12 @@ theorem kd264SporAt_J4_three
     (hOrd : CFSG.HardMathSupport.Solomon.Coordinator.SporadicOrdersTable)
     (hfs : Finite (Carrier .J4) ∧ IsSimpleGroup (Carrier .J4))
     (hM22 : IsSimpleGroup (Carrier .M22)) : KD264SporAt 3 .J4 := by
-  haveI := hfs.1
+  have := hfs.1
   have hL : NativeSporadic.IsSporadic (Carrier .J4) .J4 := ⟨MulEquiv.refl _⟩
   have htab := CFSG.RankThree.Asc83Table.J4.table hL
   have hlay := CFSG.AGLEmbeddingD2.Wilson.NormalizerAction.ks219J4_holds (Carrier .J4)
     ⟨MulEquiv.refl _⟩
-  haveI : IsSimpleGroup NativeSporadic.M22 := hM22
+  have : IsSimpleGroup NativeSporadic.M22 := hM22
   have hRow : KD264RowData 3 (Carrier .J4) := by
     refine kd264RowData_of_layer (factorization_three_of_sylow htab.1)
       (fun D hD => CFSG.RankThree.PartTwo.Sec4.Item434Spor.noE27_of_pRank_le_two htab.2.1.le D hD)

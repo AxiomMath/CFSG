@@ -18,7 +18,7 @@ namespace TitsSystem
 
 variable (T : TitsSystem G n)
 
-theorem lemma212_conj (hn : 3 ≤ n) {i j : ℤ} (hij : i < j) (hj : j < i + n) {u x : G}
+theorem lemma212_conj (_hn : 3 ≤ n) {i j : ℤ} (hij : i < j) (_hj : j < i + n) {u x : G}
     (hu : u ∈ T.U i) (hu1 : u ≠ 1) (hx : x ∈ win T.U j (i + n - 1))
     (hux : u * x = x * u) :
     T.nu i u * x * (T.nu i u)⁻¹ ∈ win T.U j (2 * i + n - j) := by
@@ -100,7 +100,7 @@ private theorem commute_nu_of_mid (hn : 3 ≤ n) {i j : ℤ} (hj2 : 2 * j = 2 * 
   have hcomm : ⁅v, x⁆ ∈ win T.U (j + 1) (i + n - 1) := by
     have hx' : ⁅x, v⁆ ∈ win T.U (j + 1) (i + n - 1) := by
       have h := T.comm j (i + n) hj (by omega) x hx v hv
-      refine SetLike.le_def.mp ?_ h
+      refine _root_.IsConcreteLE.le_iff.mp ?_ h
       refine iSup₂_le fun k hk => ?_
       have hk1 : j + 1 ≤ k := by linarith [hk.1]
       have hk2 : k ≤ i + n - 1 := by linarith [hk.2]
@@ -287,7 +287,7 @@ theorem lemma212_iii (hn : 3 ≤ n) {i j : ℤ} (hij : i < j) (hj : 2 * j < 2 * 
     group
   have hA : ⁅vb⁻¹, mx⁆ ∈ win T.U (i + 1) (2 * i + n - j - 1) := by
     have h := T.comm i (2 * i + n - j) (by omega) (by omega) vb⁻¹ hvb' mx hmx
-    refine SetLike.le_def.mp ?_ h
+    refine _root_.IsConcreteLE.le_iff.mp ?_ h
     refine iSup₂_le fun k hk => ?_
     have hk1 : i + 1 ≤ k := by linarith [hk.1]
     have hk2 : k ≤ 2 * i + n - j - 1 := by linarith [hk.2]
@@ -297,7 +297,7 @@ theorem lemma212_iii (hn : 3 ≤ n) {i j : ℤ} (hij : i < j) (hj : 2 * j < 2 * 
     have hcomm : ⁅v, x⁆ ∈ win T.U (j + 1) (i + n - 1) := by
       have hx' : ⁅x, v⁆ ∈ win T.U (j + 1) (i + n - 1) := by
         have h := T.comm j (i + n) (by omega) (by omega) x hx v hv
-        refine SetLike.le_def.mp ?_ h
+        refine _root_.IsConcreteLE.le_iff.mp ?_ h
         refine iSup₂_le fun k hk => ?_
         have hk1 : j + 1 ≤ k := by linarith [hk.1]
         have hk2 : k ≤ i + n - 1 := by linarith [hk.2]
@@ -348,7 +348,7 @@ theorem lemma212_iii (hn : 3 ≤ n) {i j : ℤ} (hij : i < j) (hj : 2 * j < 2 * 
     · rw [hkj]
       have hFj : F j = x := by
         change (if j = j then x else if j + 1 ≤ j ∧ j ≤ i + n - 1 then b j else 1) = x
-        rw [if_pos rfl]
+        rw [ite_eq_left rfl]
       rw [hFj]
       exact hx
     · by_cases hkr : j + 1 ≤ k ∧ k ≤ i + n - 1
@@ -368,7 +368,7 @@ theorem lemma212_iii (hn : 3 ≤ n) {i j : ℤ} (hij : i < j) (hj : 2 * j < 2 * 
           change (if i + 1 ≤ 2 * i + n - j ∧ 2 * i + n - j ≤ 2 * i + n - j - 1
             then a (2 * i + n - j) else if 2 * i + n - j = 2 * i + n - j
               then mx else 1) = mx
-          rw [if_neg (by omega), if_pos rfl]
+          rw [ite_eq_right (by omega), ite_eq_left rfl]
         rw [hGj]
         exact hmx
       · rw [show Gcoords k = 1 by simp [Gcoords, hkl, hkj]]
@@ -414,7 +414,7 @@ theorem lemma212_iii (hn : 3 ≤ n) {i j : ℤ} (hij : i < j) (hj : 2 * j < 2 * 
         have hne : k ≠ 2 * i + n - j := by omega
         simp [Gcoords, G', hkl, hle, hne]
       · by_cases hkj : k = 2 * i + n - j
-        · simp [Gcoords, G', hkl, hkj, show i + 1 ≤ 2 * i + n - j by omega]
+        · simp [Gcoords, G', hkj, show i + 1 ≤ 2 * i + n - j by omega]
         · have hnot : ¬(i + 1 ≤ k ∧ k ≤ 2 * i + n - j) := by omega
           simp [Gcoords, G', hkl, hkj, hnot]
     rw [hmap, pad (l := i + 1) (a := i + 1) (b := 2 * i + n - j) (r := i + n)
@@ -502,7 +502,6 @@ theorem lemma212_iii (hn : 3 ≤ n) {i j : ℤ} (hij : i < j) (hj : 2 * j < 2 * 
             simp [intList]
           rw [h1, h2]
   refine ⟨y, hy, ?_⟩
-  change x⁻¹ * v * x * v⁻¹ = y * mx
   have hL : x⁻¹ * v * x * v⁻¹ = B := by
     simp only [B, z]
     group
@@ -523,7 +522,7 @@ theorem lemma29 (hn : 3 ≤ n) {u v : G} (hu : u ∈ T.U 1) (hu1 : u ≠ 1) (hv 
     have h := T.comm (1 : ℤ) (n : ℤ) (by omega) (by omega) u hu v hv
     have he : u * v * u⁻¹ * v⁻¹ = ⁅u, v⁆ := by simp [commutatorElement_def]
     rw [he] at h
-    refine SetLike.le_def.mp ?_ h
+    refine _root_.IsConcreteLE.le_iff.mp ?_ h
     refine iSup₂_le fun j hj => ?_
     obtain ⟨hj1, hj2⟩ := hj
     exact le_iSup₂_of_le j ⟨by omega, by omega⟩ le_rfl
@@ -560,7 +559,7 @@ theorem lemma29 (hn : 3 ≤ n) {u v : G} (hu : u ∈ T.U 1) (hu1 : u ≠ 1) (hv 
     have h2 : ¬ (k + n = n) := by omega
     have h3 : ¬ (2 ≤ k + n ∧ k + n ≤ n - 1) := by omega
     have h4 : n < k + n := by omega
-    rw [if_neg h1, if_neg h2, if_neg h3, dif_pos h4]
+    rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right h3, dite_eq_left h4]
     have hkn : k + n - n = k := by omega
     rw [hkn]
   have hbase_mem : ∀ m : ℕ, 1 ≤ m → m ≤ n → s m ∈ T.U (m : ℤ) := by
@@ -589,13 +588,11 @@ theorem lemma29 (hn : 3 ≤ n) {u v : G} (hu : u ∈ T.U 1) (hu1 : u ≠ 1) (hv 
     apply List.ext_getElem
     · simp only [List.length_map, List.length_range', intList, List.length_map, List.length_range]
       have hlen : (((a + N - 1 : ℕ) : ℤ) + 1 - (a : ℤ)) = (N : ℤ) := by
-        push_cast
         omega
       rw [hlen]
       simp
     · intro i h1 h2
-      simp only [List.getElem_map, List.getElem_range', intList, List.length_map,
-        List.length_range, List.getElem_map, List.getElem_range]
+      simp only [List.getElem_map, List.getElem_range', intList, List.getElem_map, List.getElem_range]
       push_cast
       ring
   have hbridge : ∀ k : ℕ, 1 ≤ k →
@@ -831,7 +828,7 @@ theorem lemma29 (hn : 3 ≤ n) {u v : G} (hu : u ∈ T.U 1) (hu1 : u ≠ 1) (hv 
       have h := T.comm ((k : ℤ) + 1) ((k : ℤ) + n) (by omega) (by omega)
         z hzmem c hcmem
       have h' : ⁅z, c⁆ ∈ win T.U ((k : ℤ) + 2) ((k : ℤ) + n - 1) := by
-        refine SetLike.le_def.mp ?_ h
+        refine _root_.IsConcreteLE.le_iff.mp ?_ h
         refine iSup₂_le fun t ht => ?_
         obtain ⟨ht1, ht2⟩ := ht
         exact le_iSup₂_of_le t ⟨by omega, by omega⟩ le_rfl
@@ -939,7 +936,7 @@ theorem lemma29 (hn : 3 ≤ n) {u v : G} (hu : u ∈ T.U 1) (hu1 : u ≠ 1) (hv 
         · have hjn : j = (k : ℤ) + n := by omega
           have hne : j ≠ (k : ℤ) + 1 := by omega
           have hn1 : n ≠ 1 := by omega
-          simp [Gfun, hcond, hne, hjn, hn1]
+          simp [Gfun, hjn, hn1]
       rw [hGeq, hpad, hcoord_prod]
     have hE : P * b = a⁻¹ * b * a := by
       dsimp only [P, b, a]

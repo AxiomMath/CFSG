@@ -266,7 +266,7 @@ theorem oddLieA5For_twistedE6
   · obtain ⟨-, hform⟩ := oddTwistedE6InnerSLForm_holds J p f hp hp2 hadm hm α hα hi
     have : Fact p.Prime := ⟨hp⟩
     have hf : 1 ≤ f := hadm.2.1
-    haveI : Finite J := (hO J .twistedE6 0 p f hadm hm).1
+    have : Finite J := (hO J .twistedE6 0 p f hadm hm).1
     exact noLitA5_of_slComponentForm (K := GaloisField p f)
       (by rw [ringChar.eq (GaloisField p f) p]; exact hp2)
       (hform (GaloisField p f) (GaloisField.card p f (by omega)))

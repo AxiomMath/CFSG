@@ -49,7 +49,6 @@ theorem numerics_gl {e k t : ℕ} (he : 1 ≤ e) (hk : 1 ≤ k) (ht : 1 ≤ t) (
     hkt
   interval_cases e <;> interval_cases k <;> (try omega) <;> interval_cases t <;> (try omega) <;>
     first
-    | exact ⟨rfl, rfl, rfl⟩
     | (exfalso; simp [Fin.prod_univ_succ] at h₀ h₁)
 
 section Group

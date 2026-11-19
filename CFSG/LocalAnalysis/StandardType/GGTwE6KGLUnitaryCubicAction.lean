@@ -157,8 +157,8 @@ theorem centerQuotientHom_mem_innAutDerived_of_ordTwistedA {f : ℕ} {K : Type} 
       rw [harg, specialBlockEquiv_symm_sesqSUConj_of_model h H a.1 hq2 a.2 hΦ hm hg u hcYmem]
     exact hL.trans hR.symm
   have hSUperf : commutator ↥(sesqSpecialUnitaryGroup Hf) = ⊤ := by
-    haveI : Group.IsPerfect ↥SB := hQSB.1
-    haveI : Group.IsPerfect ↥(sesqSpecialUnitaryGroup Hf) :=
+    have : Group.IsPerfect ↥SB := hQSB.1
+    have : Group.IsPerfect ↥(sesqSpecialUnitaryGroup Hf) :=
       @Group.IsPerfect.ofSurjective ↥SB ↥(sesqSpecialUnitaryGroup Hf) _ _
         Φ.toMonoidHom hQSB.1 Φ.surjective
     exact Group.IsPerfect.commutator_eq_top

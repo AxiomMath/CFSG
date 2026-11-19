@@ -91,7 +91,7 @@ theorem relindex_le_three {G : Type*} [Group G] (R : Subgroup G) (g : G)
 
 theorem three_mul_card_le_of_lt {G : Type*} [Group G] [Finite G] (H K : Subgroup G)
     (hK : IsPGroup 3 K) (hHK : H < K) : 3 * Nat.card H ≤ Nat.card K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp hK
   have hcard : Nat.card H * (H.subgroupOf K).index = Nat.card K := by
     have h1 := Subgroup.card_mul_index (H.subgroupOf K)

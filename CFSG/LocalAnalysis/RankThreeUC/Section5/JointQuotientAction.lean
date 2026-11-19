@@ -14,8 +14,10 @@ variable {G : Type} [Group G] [Finite G]
 
 @[expose] def joint (P T B : Subgroup G) : Subgroup (MulAut ↥P) := Sstar P T B ⊔ Bstar P B
 
+omit [Finite G] in
 theorem Sstar_le_joint (P T B : Subgroup G) : Sstar P T B ≤ joint P T B := le_sup_left
 
+omit [Finite G] in
 theorem Bstar_le_joint (P T B : Subgroup G) : Bstar P B ≤ joint P T B := le_sup_right
 
 @[expose] noncomputable def rep (p : ℕ) [Fact p.Prime] {P : Subgroup G} [Fact (⁅⁅P, P⁆, P⁆ = ⊥)]
@@ -40,10 +42,12 @@ section
 variable (p : ℕ) [Fact p.Prime] {P : Subgroup G} [Fact (⁅⁅P, P⁆, P⁆ = ⊥)]
     [Fact (Monoid.exponent ↥P = p)] (C : Subgroup (MulAut ↥P))
 
+omit [Finite G] in
 theorem rep_apply_mk (c : C) (x : ↥P) :
     rep p C c (Additive.ofMul (QuotientGroup.mk x : Quotient.Pbar P)) =
       Additive.ofMul (QuotientGroup.mk ((c : MulAut ↥P) x)) := rfl
 
+omit [Finite G] in
 theorem rep_injective_iff :
     Function.Injective (rep p C) ↔
       Function.Injective
@@ -68,6 +72,7 @@ theorem rep_injective_iff :
       exact congrArg Additive.ofMul this
   exact forall_congr' fun c => imp_congr_left (key c) |>.trans (by rfl)
 
+omit [Finite G] in
 theorem rep_injective_of_quotientHom
     (h : Function.Injective
       ((CFSG.LargeExtraspecial.RepresentationSupport.ExtraspecialOddQuotientAutFaithfulness.quotientHom ↥P).comp

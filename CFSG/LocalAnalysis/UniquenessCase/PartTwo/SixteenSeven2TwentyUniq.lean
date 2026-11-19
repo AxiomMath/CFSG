@@ -47,7 +47,7 @@ theorem s16c167_twenty_sup_of_ne {K H H' : Subgroup G} (hK : IsElemAbelian 2 K)
     exact hne (e1.trans e2.symm)
 
 theorem s16c167_twenty_uniq {A Vg J J' B B' : Subgroup G} {u u' : G}
-    (hJ : J ≤ Vg) (hJ' : J' ≤ Vg) (hne : J ≠ J') (hsup : J ⊔ J' = Vg)
+    (hJ : J ≤ Vg) (hJ' : J' ≤ Vg) (_hne : J ≠ J') (hsup : J ⊔ J' = Vg)
     (hJel : IsElemAbelian 2 J) (hJel' : IsElemAbelian 2 J')
     (hB : B ≤ A) (hB' : B' ≤ A)
     (hBu : Vg ⊓ centralizer ({u} : Set G) = B) (hBu' : Vg ⊓ centralizer ({u'} : Set G) = B')

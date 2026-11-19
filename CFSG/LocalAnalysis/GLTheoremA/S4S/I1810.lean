@@ -360,6 +360,7 @@ theorem i1810S_dichotomy {p : ℕ} (hp : p.Prime) {Y K₁ B M : Subgroup G}
       exact Subgroup.mem_centralizer_iff.1 (Subgroup.mem_comap.1 hk'S) _ hmbar
     exact ⟨⁅(⟨m, hMK hm⟩ : ↥K), k'⁆, (QuotientGroup.eq_one_iff _).1 hcomm, rfl⟩
 
+omit [Finite G] in
 private theorem le_normalizer_centralizer_of_le' {A R : Subgroup G}
     (h : A ≤ Subgroup.normalizer (R : Set G)) :
     A ≤ Subgroup.normalizer ((Subgroup.centralizer (R : Set G) : Subgroup G) : Set G) := by
@@ -389,8 +390,8 @@ theorem i1810UsedAt_of_schreier
     (G : Type) [Group G] [Finite G] (p : ℕ) : I1810UsedAt G p := by
   intro hp _ Y K₁ B R hY hK₁ _ hBY hR1 hR2 hRX hRidx hBR
   have hSch : CFSG.AGLEmbedding.KFactCatalogSchreier := hS
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hKY, hBK, -, hlay⟩ := layer_closureIn hp hK₁ hBY
   obtain ⟨hXK, -, hKX, -, hXOK, -⟩ := commutator_oPrime_facts hp hK₁ hBY
   set K : Subgroup G := closureIn K₁ B
@@ -434,14 +435,14 @@ theorem i1810UsedAt_of_schreier
     rw [Subgroup.map_commutator, ← MonoidHom.range_eq_map, Subgroup.range_subtype,
       Subgroup.subgroupOf_map_subtype, inf_eq_left.2 hXK]
     exact hXXG
-  haveI hXn : (X.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hXK).2 hKX
+  have hXn : (X.subgroupOf K).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hXK).2 hKX
   have hQq : IsPGroup 2 (R.subgroupOf K) := hR2.comap_of_injective K.subtype K.subtype_injective
   have hQX : R.subgroupOf K ≤ X.subgroupOf K := Subgroup.comap_mono hRX
   have hQi : ¬ 2 ∣ (R.subgroupOf K).relIndex (X.subgroupOf K) := by
     rw [Subgroup.relIndex_subgroupOf hXK]
     exact hRidx
   have hqX : 2 ∣ Nat.card (X.subgroupOf K) := by
-    haveI : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).2 hR1
+    have : Nontrivial R := (Subgroup.nontrivial_iff_ne_bot R).2 hR1
     obtain ⟨n, hn, hcard⟩ := hR2.nontrivial_iff_card.1 inferInstance
     have h1 : 2 ∣ Nat.card R := by
       rw [hcard]
@@ -455,7 +456,7 @@ theorem i1810UsedAt_of_schreier
   have hMsub : (C ⊔ V).subgroupOf K =
       Subgroup.centralizer ((R.subgroupOf K : Subgroup ↥K) : Set ↥K) ⊔ GLAPPrimeCore p ↥K := by
     rw [Subgroup.subgroupOf_sup inf_le_left hVK, hCsub, hVsub]
-  haveI hMn : ((C ⊔ V).subgroupOf K).Normal := by
+  have hMn : ((C ⊔ V).subgroupOf K).Normal := by
     rw [hMsub]
     exact i1810S_centralizer_sup_normal (GLAPPrimeCore p ↥K) (X.subgroupOf K) (R.subgroupOf K)
       hXV hQX hQq hQi

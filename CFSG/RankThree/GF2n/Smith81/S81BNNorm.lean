@@ -20,10 +20,13 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 @[expose] def ActsOnQtAs (ψ : M₀.E ≃ₗ[K] Cube K) (m : G) (T : Cube K ≃ₗ[K] Cube K) : Prop :=
   ∀ x ∈ Q, T (ψ (M₀.π x)) = ψ (M₀.π (m * x * m⁻¹))
 
+omit [Finite G] [Finite K] in
 theorem ActsOnQtAs.one (ψ : M₀.E ≃ₗ[K] Cube K) : ActsOnQtAs ψ (1 : G) 1 := by
   intro x hx
   simp
 
+omit [Finite K] in
+omit [Finite G] in
 theorem ActsOnQtAs.mul (H : StrothHyp M Q Z) {ψ : M₀.E ≃ₗ[K] Cube K} {m m' : G}
     {T T' : Cube K ≃ₗ[K] Cube K} (hm' : m' ∈ M) (h : ActsOnQtAs ψ m T) (h' : ActsOnQtAs ψ m' T') :
     ActsOnQtAs ψ (m * m') (T * T') := by
@@ -36,6 +39,7 @@ theorem ActsOnQtAs.mul (H : StrothHyp M Q Z) {ψ : M₀.E ≃ₗ[K] Cube K} {m m
     _ = ψ (M₀.π (m * m' * x * (m * m')⁻¹)) := by
       rw [show m * (m' * x * m'⁻¹) * m⁻¹ = m * m' * x * (m * m')⁻¹ by group]
 
+omit [Finite G] [Finite K] in
 theorem ActsOnQtAs.unique (ψ : M₀.E ≃ₗ[K] Cube K) {m : G} {T T' : Cube K ≃ₗ[K] Cube K}
     (h : ActsOnQtAs ψ m T) (h' : ActsOnQtAs ψ m T') : T = T' := by
   refine LinearEquiv.ext fun v => ?_
@@ -43,6 +47,8 @@ theorem ActsOnQtAs.unique (ψ : M₀.E ≃ₗ[K] Cube K) {m : G} {T T' : Cube K 
   have hv : ψ (M₀.π x) = v := by rw [hxv]; simp
   rw [← hv, h x hx, h' x hx]
 
+omit [Finite K] in
+omit [Finite G] in
 theorem ActsOnQtAs.pow (H : StrothHyp M Q Z) {ψ : M₀.E ≃ₗ[K] Cube K} {m : G}
     {T : Cube K ≃ₗ[K] Cube K} (hm : m ∈ M) (h : ActsOnQtAs ψ m T) (j : ℕ) :
     ActsOnQtAs ψ (m ^ j) (T ^ j) := by
@@ -52,6 +58,8 @@ theorem ActsOnQtAs.pow (H : StrothHyp M Q Z) {ψ : M₀.E ≃ₗ[K] Cube K} {m :
     rw [pow_succ, pow_succ]
     exact ih.mul H hm h
 
+omit [Finite K] in
+omit [Finite G] in
 theorem ActsOnQtAs.pow_eq_one (H : StrothHyp M Q Z) {ψ : M₀.E ≃ₗ[K] Cube K} {m : G}
     {T : Cube K ≃ₗ[K] Cube K} (hm : m ∈ M) (h : ActsOnQtAs ψ m T) {n : ℕ} (hn : m ^ n = 1) :
     T ^ n = 1 := by
@@ -59,6 +67,7 @@ theorem ActsOnQtAs.pow_eq_one (H : StrothHyp M Q Z) {ψ : M₀.E ≃ₗ[K] Cube 
   rw [hn] at h1
   exact h1.unique ψ (ActsOnQtAs.one ψ)
 
+omit [Finite G] [Finite K] in
 theorem exists_actsOnQtAs (hg : GlobalModelData M Q Z γ M₀) (ψ : M₀.E ≃ₗ[K] Cube K) {m : G}
     (hm : m ∈ H0 M Z) : ∃ T : Cube K ≃ₗ[K] Cube K, ActsOnQtAs ψ m T := by
   obtain ⟨hmM, hmC⟩ := Subgroup.mem_inf.mp hm
@@ -70,6 +79,7 @@ theorem exists_actsOnQtAs (hg : GlobalModelData M Q Z γ M₀) (ψ : M₀.E ≃�
   refine ⟨ψ.symm.trans (T'.trans ψ), fun x hx => ?_⟩
   simp [LinearEquiv.trans_apply, hT' x hx]
 
+omit [Finite K] in
 theorem ActsOnQtAs.mem_Q (H : StrothHyp M Q Z) {ψ : M₀.E ≃ₗ[K] Cube K} {m : G} (hm : m ∈ M)
     (h : ActsOnQtAs ψ m 1) : m ∈ Q := by
   refine H.centralizer_Qt m hm fun y hy => ?_
@@ -85,12 +95,14 @@ theorem ActsOnQtAs.mem_Q (H : StrothHyp M Q Z) {ψ : M₀.E ≃ₗ[K] Cube K} {m
 
 section Uniform
 
+omit [Finite G] in
 private theorem q_le_lgen (M Q B : Subgroup G) : Q ≤ Lgen M (LB M Q B) := by
   calc Q ≤ LB M Q B := le_sup_left
     _ = conjSubgroup 1 (LB M Q B) := (conjSubgroup_one _).symm
     _ ≤ Lgen M (LB M Q B) :=
         le_iSup₂ (f := fun m (_ : m ∈ M) => conjSubgroup m (LB M Q B)) 1 M.one_mem
 
+omit [Finite G] in
 private theorem lgen_le_M (hc : Ctx M Q Z B) : Lgen M (LB M Q B) ≤ M := by
   refine iSup₂_le fun m hm => ?_
   calc conjSubgroup m (LB M Q B) ≤ conjSubgroup m M := Subgroup.map_mono hc.LB_le_M
@@ -98,10 +110,12 @@ private theorem lgen_le_M (hc : Ctx M Q Z B) : Lgen M (LB M Q B) ≤ M := by
 
 variable {ψ : M₀.E ≃ₗ[K] Cube K} {φ : Lgen M (LB M Q B) →* (Cube K ≃ₗ[K] Cube K)}
 
+omit [Finite G] [Finite K] in
 theorem actsOnQtAs_phi (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K))
     (s : Lgen M (LB M Q B)) : ActsOnQtAs ψ (s : G) (φ s) :=
   fun x hx => (d.equivariant s x hx).symm
 
+omit [Finite K] in
 theorem ActsOnQtAs.mem_Lgen (hc : Ctx M Q Z B)
     (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K)) {m : G} {T : Cube K ≃ₗ[K] Cube K}
     (hm : m ∈ M) (h : ActsOnQtAs ψ m T) (hT : T ∈ Gam K) : m ∈ Lgen M (LB M Q B) := by
@@ -118,6 +132,7 @@ theorem ActsOnQtAs.mem_Lgen (hc : Ctx M Q Z B)
   rw [e]
   exact mul_mem s.2 (q_le_lgen M Q B hq)
 
+omit [Finite K] in
 theorem ActsOnQtAs.normalizesSL (hc : Ctx M Q Z B)
     (d : EUniData M Q Z B M₀ ψ φ (Gam K) (p0 K) (U0 K)) {m : G} {T : Cube K ≃ₗ[K] Cube K}
     (hm : m ∈ M) (h : ActsOnQtAs ψ m T) : NormalizesSL T := by

@@ -14,11 +14,13 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem Ctx.CN_congr (hc : Ctx M Q Z B) {s t : G} (hR : Rt M (LB M Q B) s = Rt M (LB M Q B) t)
     (hV : Vt M (LB M Q B) B Z s = Vt M (LB M Q B) B Z t) : hc.CN s = hc.CN t := by
   ext x
   rw [Ctx.mem_CN, Ctx.mem_CN, hR, hV]
 
+omit [Finite G] in
 theorem OmegaPlusNat_congr (hc : Ctx M Q Z B) {s t : G}
     (hR : Rt M (LB M Q B) s = Rt M (LB M Q B) t)
     (hV : Vt M (LB M Q B) B Z s = Vt M (LB M Q B) B Z t) (m : ℕ) :
@@ -26,6 +28,7 @@ theorem OmegaPlusNat_congr (hc : Ctx M Q Z B) {s t : G}
   unfold OmegaPlusNat
   rw [hc.CN_congr hR hV, hR, hV]
 
+omit [Finite G] in
 theorem OmegaMinusNat_congr (hc : Ctx M Q Z B) {s t : G}
     (hR : Rt M (LB M Q B) s = Rt M (LB M Q B) t)
     (hV : Vt M (LB M Q B) B Z s = Vt M (LB M Q B) B Z t) (m : ℕ) :
@@ -33,6 +36,7 @@ theorem OmegaMinusNat_congr (hc : Ctx M Q Z B) {s t : G}
   unfold OmegaMinusNat
   rw [hc.CN_congr hR hV, hR, hV]
 
+omit [Finite G] in
 theorem Sec7Hyp.congr {hc : Ctx M Q Z B} {n : ℕ} {t s : G} (hs : Sec7Hyp hc n t)
     (hsL : s ∈ LB M Q B) (hsQ : s ∉ Q) (hR : Rt M (LB M Q B) s = Rt M (LB M Q B) t)
     (hV : Vt M (LB M Q B) B Z s = Vt M (LB M Q B) B Z t) : Sec7Hyp hc n s where
@@ -88,6 +92,7 @@ theorem conjMod_normalizer_of_nat (h56 : Stroth56NatStatement) {hc : Ctx M Q Z B
     rw [e]
     exact Q.mul_mem hQ hconj
 
+omit [Finite G] in
 theorem Sec7Hyp.omegaNat {hc : Ctx M Q Z B} {n : ℕ} {t : G} (hs : Sec7Hyp hc n t) :
     OmegaNat hc t := by
   obtain ⟨m, hm, h | h⟩ := hs.orth
@@ -131,6 +136,7 @@ theorem sec7ZV_of_parts (hZt : Sec7ZtStatement) (hZ : Sec7CentreMpStatement)
   have hom : OmegaNat hc u := hs'.omegaNat
   exact ((h310 G M Q Z B hc n u hs'.toSec5 (Or.inr hom)).1).symm.trans hV
 
+omit [Finite G] in
 theorem Fgen_conj_mem (hc : Ctx M Q Z B) {L Z0 : Subgroup G} {ν : G} (hνM : ν ∈ M)
     (hνL : ν ∈ Subgroup.normalizer (L : Set G)) {x : G} (hx : x ∈ Fgen M Q L Z0) :
     ν * x * ν⁻¹ ∈ Fgen M Q L Z0 := by

@@ -28,7 +28,7 @@ theorem exists_cube_containing_plane {C : Type*} [Group C] [Finite C] {p : ℕ} 
   obtain ⟨S₀, hS₀⟩ := (hpg hE₀).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq C S S₀
   have hSab : ∀ a ∈ (S : Subgroup C), ∀ b ∈ (S : Subgroup C), a * b = b * a :=
-    hcomm S S.isPGroup'
+    hcomm S S.isPGroup
   set E'' : Subgroup C := E₀.map (MulAut.conj g⁻¹).toMonoidHom with hE''
   have hE''S : E'' ≤ S := by
     rintro _ ⟨x, hx, rfl⟩

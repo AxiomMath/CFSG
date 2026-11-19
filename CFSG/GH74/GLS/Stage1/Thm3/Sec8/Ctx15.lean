@@ -170,8 +170,8 @@ theorem swap_V_small (hII : II4_4_4_center) (hq : II4_4_quat) (hrec : Bg.B_recip
 theorem A_normedBy_S_e1_small (hII : II4_4_4_center) (hq : II4_4_quat) (hrec : Bg.B_reciprocity)
     (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) (he : (Pz S z).relIndex (S1 S K₁) = 2)
     (hk2 : 2 ≤ 2) (hk : Nat.card ↥(Vof S K₁ W₂) = 2 ^ 2) : NormedBy (Aof S K₁ W₂ h) S :=
-  hs.A_normedBy_S_of hII hq hrec hk2 hk (fun t ht hn => hs.swap_V_small hII hq hrec he hk ht hn)
-    (fun x hxS hx1 hx2 _ => hs.KL_e1 hII hq hrec hk2 hk he hxS hx1 hx2)
+  hs.A_normedBy_S_of hII hq hrec hk2 hk (fun _t ht hn => hs.swap_V_small hII hq hrec he hk ht hn)
+    (fun _x hxS hx1 hx2 _ => hs.KL_e1 hII hq hrec hk2 hk he hxS hx1 hx2)
 
 theorem lemma82d (hII : II4_4_4_center) (hq : II4_4_quat) (hrec : Bg.B_reciprocity)
     (hs : Setup8 G z S K₁ K₂ W₁ W₂ U u h) :

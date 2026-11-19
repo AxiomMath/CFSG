@@ -69,13 +69,13 @@ theorem ggQTwoXInL_model_formed {G : Type} [Group G] (n : ℕ) (hn6 : 6 ≤ n)
           refine ⟨σ.symm, ?_⟩
           ext v i
           rw [hσ v i]
-          simp only [q3f_conjD_apply, q3f_P_apply, q3f_permLin_apply, LinearEquiv.mul_apply,
-            q3f_dLin_apply, Function.comp_apply, smul_eq_mul, Equiv.symm_symm]
+          simp only [q3f_conjD_apply, q3f_P_apply, LinearEquiv.mul_apply,
+            q3f_dLin_apply, Equiv.symm_symm]
           ring_nf
         · rintro ⟨σ, rfl⟩
           refine ⟨σ.symm, fun v i => ?_⟩
-          simp only [q3f_conjD_apply, q3f_P_apply, q3f_permLin_apply, LinearEquiv.mul_apply,
-            q3f_dLin_apply, Function.comp_apply, smul_eq_mul, Equiv.symm_symm]
+          simp only [q3f_conjD_apply, q3f_P_apply, LinearEquiv.mul_apply,
+            q3f_dLin_apply]
           ring_nf
       rw [hset]
       rw [show Set.range (fun σ : Equiv.Perm (Fin (m + 1)) =>
@@ -95,7 +95,7 @@ theorem ggQTwoXInL_model_formed {G : Type} [Group G] (n : ℕ) (hn6 : 6 ≤ n)
       · rw [Subgroup.closure_le]
         rintro X ⟨i, rfl⟩
         show q3f_r (m + 1) hm2 i.1 ∈ (q3f_P (m + 1)).range
-        rw [q3f_r, if_neg (q3f_ne_av _ i.2)]
+        rw [q3f_r, ite_eq_right (q3f_ne_av _ i.2)]
         exact MonoidHom.mem_range.mpr ⟨q3f_tau (m + 1) hm2 i.1, rfl⟩
       · rw [show (q3f_P (m + 1)).range = Subgroup.map (q3f_P (m + 1))
             (Subgroup.closure (Set.range (fun l : Fin m =>
@@ -106,7 +106,7 @@ theorem ggQTwoXInL_model_formed {G : Type} [Group G] (n : ℕ) (hn6 : 6 ≤ n)
         rintro X ⟨Y, ⟨l, rfl⟩, rfl⟩
         refine ⟨q3f_index m l, ?_⟩
         show q3f_r (m + 1) hm2 (q3f_index m l).1 = q3f_P (m + 1) (Equiv.swap l.castSucc l.succ)
-        rw [q3f_r, if_neg (q3f_ne_av _ (q3f_index m l).2), q3f_tau_index m l]
+        rw [q3f_r, ite_eq_right (q3f_ne_av _ (q3f_index m l).2), q3f_tau_index m l]
     have hgenK : Subgroup.closure
         (Set.range (fun i : {i : Fin (m + 1) // i ≠ q3f_bv m} =>
           q3f_r (m + 1) hm2 i.1)) =
@@ -147,14 +147,14 @@ theorem ggQTwoXInL_model_formed {G : Type} [Group G] (n : ℕ) (hn6 : 6 ≤ n)
             MonoidHom.mem_range.mpr ⟨_, rfl⟩, ?_⟩
           change q3f_conjD (m + 1) (q3f_P (m + 1) (q3f_tau (m + 1) hm2 i)) =
             q3f_r (m + 1) hm2 i
-          rw [q3f_r, if_pos hia]
+          rw [q3f_r, ite_eq_left hia]
         rcases hmem with ⟨φ, hφ, hφeq⟩
         exact ⟨φ, hφeq⟩
       · have hmem : q3f_r (m + 1) hm2 i ∈
             Subgroup.map (ggLin (p := 3) ι) (ggAutomizer L Bs) := by
           rw [hmapL]
           refine MonoidHom.mem_range.mpr ⟨q3f_tau (m + 1) hm2 i, ?_⟩
-          rw [q3f_r, if_neg hia]
+          rw [q3f_r, ite_eq_right hia]
         rcases hmem with ⟨φ, hφ, hφeq⟩
         exact ⟨φ, hφeq⟩
     let simple : Fin (m + 1) → MulAut ↥Bs := fun i => Classical.choose (hsimple i)

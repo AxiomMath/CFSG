@@ -155,13 +155,13 @@ end Frames
 section D4
 
 
-theorem d4_frames {F : Type} [Field F] (v : WeylGroup Tag.E6) :
-    ∀ c d : Fin 4, edgeD 4 c d → ∃ θ : SL(3, F) →* ModGL Tag.E6 F,
-      θ.comp (blockSL F 3 2 0 (by omega)) =
-          rootSL2 Tag.E6 F ((fun x => v • kacE6.extRoot x) (lD4 c)) ∧
-        θ.comp (blockSL F 3 2 1 (by omega)) =
-          rootSL2 Tag.E6 F ((fun x => v • kacE6.extRoot x) (lD4 d)) :=
-  treeFrames kacE6 (fun {F} _ x y h => e6_frames x y h) v lD4 (edgeD 4) d4_hE
+theorem d4_frames {_F : Type} [Field _F] (v : WeylGroup Tag.E6) :
+    ∀ c d : Fin 4, edgeD 4 c d → ∃ θ : SL(3, _F) →* ModGL Tag.E6 _F,
+      θ.comp (blockSL _F 3 2 0 (by omega)) =
+          rootSL2 Tag.E6 _F ((fun x => v • kacE6.extRoot x) (lD4 c)) ∧
+        θ.comp (blockSL _F 3 2 1 (by omega)) =
+          rootSL2 Tag.E6 _F ((fun x => v • kacE6.extRoot x) (lD4 d)) :=
+  treeFrames kacE6 (fun {_F} _ x y h => e6_frames x y h) v lD4 (edgeD 4) d4_hE
 
 end D4
 

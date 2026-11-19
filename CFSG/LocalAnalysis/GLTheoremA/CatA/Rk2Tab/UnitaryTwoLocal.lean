@@ -47,11 +47,11 @@ theorem commutative_det_one_card_le_pow_sub_two_of_fixed {p : ℕ} [Fact p.Prime
     {v₀ : V} (hv₀ : v₀ ≠ 0) (hfix : ∀ g ∈ E, ((g : V ≃ₗ[K] V) : V →ₗ[K] V) v₀ = v₀) :
     Nat.card E ≤ p ^ (finrank K V - 2) := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun f : V ≃ₗ[K] V => (f : V → V)) DFunLike.coe_injective
-  haveI : Finite E := Subtype.finite
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : Finite E := Subtype.finite
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   let f : E → End K V := fun g => ((g : V ≃ₗ[K] V) : V →ₗ[K] V)
   have hfcomm : ∀ i j : E, Commute (f i) (f j) := fun i j => by
     have h2 : (i * j : E) = (j * i : E) := Subtype.ext (hcomm i i.2 j j.2)
@@ -91,7 +91,7 @@ theorem commutative_det_one_card_le_pow_sub_two_of_fixed {p : ℕ} [Fact p.Prime
       rw [LinearMap.toMatrix_apply, hb g j]
       by_cases hij : i = j
       · subst hij; simp [Matrix.diagonal]
-      · simp [Matrix.diagonal, hij, Pi.smul_apply]
+      · simp [Matrix.diagonal, hij]
     calc ∏ j, μ g j = (Matrix.diagonal (fun j => μ g j)).det := Matrix.det_diagonal.symm
       _ = (LinearMap.toMatrix b b (f g)).det := by rw [hmat]
       _ = LinearMap.det ((g : V ≃ₗ[K] V) : V →ₗ[K] V) := LinearMap.det_toMatrix b (f g)
@@ -102,7 +102,7 @@ theorem commutative_det_one_card_le_pow_sub_two_of_fixed {p : ℕ} [Fact p.Prime
     rw [LinearMap.toMatrix_apply, hb g j]
     by_cases hij : i = j
     · subst hij; simp [Matrix.diagonal]
-    · simp [Matrix.diagonal, hij, Pi.smul_apply]
+    · simp [Matrix.diagonal, hij]
   obtain ⟨j₀, hj₀⟩ : ∃ j, b.repr v₀ j ≠ 0 := by
     by_contra h
     push Not at h
@@ -116,7 +116,7 @@ theorem commutative_det_one_card_le_pow_sub_two_of_fixed {p : ℕ} [Fact p.Prime
       rw [← LinearMap.toMatrix_mulVec_repr b b (f g) v₀, hmatg g]
       have hdiag : (Matrix.diagonal (fun j => μ g j) *ᵥ (b.repr v₀ : Fin (finrank K V) → K)) j₀ =
           μ g j₀ * b.repr v₀ j₀ := by
-        simp [Matrix.mulVec, Matrix.diagonal, dotProduct, Finset.sum_eq_single j₀]
+        simp [Matrix.mulVec, Matrix.diagonal, dotProduct]
       exact hdiag
     have h2 : b.repr ((f g) v₀) j₀ = b.repr v₀ j₀ := by rw [hfix g g.2]
     rw [h1] at h2
@@ -202,8 +202,8 @@ theorem card_le_pow_sub_two_of_normalizes_statedSU [CharP K 2] {f d : ℕ}
     (hcomm : ∀ g ∈ E, ∀ h ∈ E, g * h = h * g) (hexp : ∀ g ∈ E, g ^ p = 1) :
     Nat.card E ≤ p ^ (d - 2) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : (p : K) ≠ 0 := natCast_ne_zero_of_ne_two hp hp2
   have hf : 1 ≤ f := by
     rcases Nat.eq_zero_or_pos f with h0 | h
@@ -303,7 +303,7 @@ theorem card_le_pow_sub_two_of_normalizes_statedSU [CharP K 2] {f d : ℕ}
       rw [h2, sub_self]
       exact W.zero_mem
     have hcardE₀ : Nat.card E₀ ≤ p ^ (d - 3) := by
-      haveI : Finite (W ≃ₗ[K] W) := FlagSplit.finite_linearEquiv (K := K)
+      have : Finite (W ≃ₗ[K] W) := FlagSplit.finite_linearEquiv (K := K)
       have hcommRange : ∀ a ∈ ρP₀.range, ∀ b ∈ ρP₀.range, a * b = b * a := by
         rintro _ ⟨a, rfl⟩ _ ⟨b, rfl⟩
         rw [← map_mul, ← map_mul]
@@ -377,7 +377,7 @@ theorem localRank_statedSU_six_le_four [CharP K 2] {f : ℕ} (hK : Nat.card K = 
   intro R E hR hR1 hER hE
   have hcomm : ∀ g ∈ E, ∀ h ∈ E, g * h = h * g := fun g hg h hh =>
     congrArg Subtype.val (hE.1.is_comm.comm ⟨g, hg⟩ ⟨h, hh⟩)
-  haveI : CFSG.IsElementaryAbelian p E := hE.isElementaryAbelian
+  have : CFSG.IsElementaryAbelian p E := hE.isElementaryAbelian
   have hexp : ∀ g ∈ E, g ^ p = 1 := fun g hg =>
     CFSG.elemPow_eq_one_of_isElementaryAbelian g hg
   have h := card_le_pow_sub_two_of_normalizes_statedSU hK (d := 6) (by norm_num) hp hp2 hpq

@@ -115,13 +115,13 @@ private theorem m6c_torus_cube_root
         refine ⟨u * u', ?_⟩
         rw [← rootDiagUnit_mul]
         exact congrArg (rootDiagUnit Tag.E6)
-          (by funext i; simp only [Pi.mul_apply, Pi.pow_apply, mul_pow])
+          (by funext i; simp only [Pi.mul_apply, mul_pow])
       inv_mem' := by
         rintro t ⟨u, rfl⟩
         refine ⟨u⁻¹, ?_⟩
         rw [rootDiagUnit_inv]
         exact congrArg (rootDiagUnit Tag.E6)
-          (by funext i; simp only [Pi.inv_apply, Pi.pow_apply, inv_pow]) }
+          (by funext i; simp only [Pi.inv_apply, inv_pow]) }
   have hgen : ∀ p : Fin Tag.E6.rank × GGLˣ, torusElt Tag.E6 GGL p.1 p.2 ∈ T3 := by
     rintro ⟨i, s⟩
     obtain ⟨s', hs'⟩ := IsAlgClosed.exists_pow_nat_eq (s : GGL) (by norm_num : 0 < 3)
@@ -177,13 +177,13 @@ theorem not_abelianPreimage_of_regular
     intro i h
     exact hAg i (h ▸ Subgroup.mem_zpowers (gE6 i))
   obtain ⟨a, haA, x, hx, hm⟩ := exists_pairing_witness A hAS hAea hA1 hAg
-  haveI : NeZero (9 : GGL) := ⟨by
+  have : NeZero (9 : GGL) := ⟨by
     intro h
     have hdvd : 2 ∣ 9 := (CharP.cast_eq_zero_iff GGL 2 9).mp h
     norm_num at hdvd⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot GGL 9
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot GGL 9
   have hζ₀9 : ζ₀ ^ 9 = 1 := hζ₀.pow_eq_one
-  have hζ₀0 : ζ₀ ≠ 0 := by rintro rfl; simpa using hζ₀9
+  have hζ₀0 : ζ₀ ≠ 0 := by rintro rfl; simp at hζ₀9
   let η : GGLˣ := Units.mk0 ζ₀ hζ₀0
   have hη : orderOf η = 9 := by
     rw [← orderOf_units, Units.val_mk0]
@@ -226,11 +226,11 @@ theorem not_abelianPreimage_of_regular
     rcases hy with h | h
     · rw [h]; exact hEa he
     · rw [h]; exact hEa hdE
-  haveI : Finite ↥F := hFfin
+  have : Finite ↥F := hFfin
   obtain ⟨k, hkField, hkFinite, κ, ι, hcomp, hdesc⟩ :=
     exists_finite_subfield_lift_adjoint S hS ↥F F.subtype
-  letI : Field k := hkField
-  letI : Finite k := hkFinite
+  let : Field k := hkField
+  let : Finite k := hkFinite
   obtain ⟨n, hnadj, hnb⟩ := hdesc e (by simp [S])
   obtain ⟨d', hd'adj, hd'⟩ := hdesc d (by simp [S])
   let ηu : (↥F)ˣ := Units.mk0 ⟨(η : GGL), hηF⟩ (by

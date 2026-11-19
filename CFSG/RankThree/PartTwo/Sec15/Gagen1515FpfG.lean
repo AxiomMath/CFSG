@@ -63,7 +63,7 @@ theorem conj_eq_or_inv_of_map_zpowers {A : Subgroup G} {a c d : G}
   have hcd3 : (c * d) ^ 3 = 1 := by
     rw [hcomm.mul_pow, hc3, hd3, mul_one]
   have hcdord : orderOf (c * d) = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime hcd3 hcd1
   have hmem : a * c * a⁻¹ ∈ Subgroup.zpowers (c * d) := by
     have h : (MulAut.conj a) c ∈ (Subgroup.zpowers c).map (MulAut.conj a).toMonoidHom :=
@@ -123,7 +123,7 @@ theorem exists_inner
   obtain ⟨hperf, hcover, -, -, -, -⟩ := h.residual_facts
   obtain ⟨-, ⟨e⟩⟩ := hcover
   obtain ⟨k, hk⟩ := ha3
-  haveI : Group.IsPerfect ↥(x₀ L d) := hperf
+  have : Group.IsPerfect ↥(x₀ L d) := hperf
   have hmap := map_conj_x₀ h134 h48 h haA
   have haN : a ∈ Subgroup.normalizer (x₀ L d : Set G) :=
     Subgroup.mem_normalizer_iff_map_conj_eq.mpr hmap
@@ -286,6 +286,7 @@ theorem normalizer_and_conj_of_mem_inner
     rw [Subgroup.card_map_of_injective (MulAut.conj t).injective]
   exact ⟨htN, htc, htd⟩
 
+omit [Finite G] in
 private theorem sq_conj_eq_self_of_conj_eq_inv {g c d : G}
     (hgcd : g * c * g⁻¹ = (c * d)⁻¹) (hgd : g * d * g⁻¹ = d) (hcd_comm : Commute c d) :
     g ^ 2 * c * (g ^ 2)⁻¹ = c := by

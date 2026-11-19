@@ -13,6 +13,7 @@ open Subgroup CFSG.OddStandard.SmallF3.HarrisU33 CFSG.GH74.GLS.Stage1.Thm6.Sec13
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho q : G}
 
+omit [Finite G] in
 private theorem fzc_sy3_mem_sup_comm {A B : Subgroup G} (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a)
     {x : G} (hx : x ∈ A ⊔ B) : ∃ a ∈ A, ∃ b ∈ B, x = a * b := by
   rw [← A.closure_eq, ← B.closure_eq, ← Subgroup.closure_union] at hx
@@ -36,6 +37,7 @@ private theorem fzc_sy3_mem_sup_comm {A B : Subgroup G} (hAB : ∀ a ∈ A, ∀ 
     rw [mul_inv_rev]
     exact (hAB a⁻¹ (A.inv_mem ha) b⁻¹ (B.inv_mem hb)).symm
 
+omit [Finite G] in
 theorem fzc_sy3_q_mem_W (hK : twoCore t = zpowers q) : q ∈ ctxW t x₁ x₂ :=
   mem_sup_left (by rw [hK]; exact mem_zpowers q)
 
@@ -96,8 +98,9 @@ theorem fzc_sy3_lam_t (h : Ctx0 t L S x₁ x₂ lam rho) (hK : twoCore t = zpowe
     _ = q * (q * lam) := by rw [hql]
     _ = q * q * lam := by group
 
-theorem fzc_sy3_R_W : ∀ r ∈ fzR t x₁ x₂, ∀ w ∈ ctxW t x₁ x₂, r * w * r⁻¹ ∈ ctxW t x₁ x₂ :=
-  fun r hr w hw => (Subgroup.mem_normalizer_iff.mp (fzl_R_le_N2 t x₁ x₂ hr) w).mp hw
+omit [Finite G] in
+theorem fzc_sy3_R_W : ∀ _r ∈ fzR t x₁ x₂, ∀ w ∈ ctxW t x₁ x₂, _r * w * _r⁻¹ ∈ ctxW t x₁ x₂ :=
+  fun _r hr w hw => (Subgroup.mem_normalizer_iff.mp (fzl_R_le_N2 t x₁ x₂ hr) w).mp hw
 
 theorem fzc_sy3_W_dec (h : Ctx0 t L S x₁ x₂ lam rho) (hK : twoCore t = zpowers q)
     (hq4 : orderOf q = 4) :

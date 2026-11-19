@@ -18,6 +18,7 @@ section GlueA
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {c : G} {L : Subgroup G} {p : ℕ}
   {C : Subgroup (CFSG.pCore p L)}
 
+omit [Finite G] in
 theorem ga_mem_dOf {g : G} : g ∈ dOf L p C ↔ ∃ x : L, x ∈ omegaOneCore p C ∧ (x : G) = g := by
   unfold dOf
   exact Subgroup.mem_map
@@ -28,10 +29,12 @@ theorem ga_conj_mem_dOf (hcrit : Crit135 L p C) {g d : G} (hg : g ∈ L) (hd : d
   exact ga_mem_dOf.mpr ⟨(⟨g, hg⟩ : L) * x * (⟨g, hg⟩ : L)⁻¹,
     hcrit.criticalAt.normal.conj_mem x hx ⟨g, hg⟩, rfl⟩
 
+omit [Finite G] in
 theorem dOf_le_L : dOf L p C ≤ L := by
   unfold dOf
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem isPGroup_dOf : IsPGroup p (dOf L p C) := by
   intro g
   obtain ⟨x, hx, hxg⟩ := ga_mem_dOf.mp g.2
@@ -71,6 +74,7 @@ theorem orderOf_c (hD : Sec13Data G A c L) : orderOf c = 3 :=
   (Nat.card_zpowers c).symm.trans
     (CFSG.RankThree.PartTwo.Sec13.zpowers_mem_omegaA_iff.mp hD.zpowers_mem_omegaA).2.1
 
+omit [Finite G] in
 theorem ga_isPGroup_subgroupOf {H : Subgroup G} (hH : IsPGroup p H) (K : Subgroup G) :
     IsPGroup p (H.subgroupOf K) := by
   intro s
@@ -95,7 +99,7 @@ theorem ga_dOf_le_pCoreOf (hcrit : Crit135 L p C) {X : Subgroup G} (hdX : dOf L 
   have hS : ((dOf L p C).subgroupOf X).IsSubnormal :=
     ga_isSubnormal_dOf_subgroupOf hcrit hLsub
   have hp : IsPGroup p ((dOf L p C).subgroupOf X) := ga_isPGroup_subgroupOf isPGroup_dOf X
-  haveI : Fact p.Prime := ⟨hcrit.prime⟩
+  have : Fact p.Prime := ⟨hcrit.prime⟩
   have hle := CFSG.LocalAnalysis.RankThreeTheoremC.le_pCore_of_isSubnormal_of_isPGroup hS hp
   calc dOf L p C = ((dOf L p C).subgroupOf X).map X.subtype :=
         (Subgroup.map_subgroupOf_eq_of_le hdX).symm

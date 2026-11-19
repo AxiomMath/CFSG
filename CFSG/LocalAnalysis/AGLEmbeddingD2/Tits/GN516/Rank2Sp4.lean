@@ -33,6 +33,7 @@ theorem sp4_nonab_two : ∃ Q : Subgroup (StatedSp 2 F),
     simp [unitri, sym2, Matrix.mul_apply, Fin.sum_univ_two] at this
 
 
+omit [Finite F] in
 theorem sp4_center_eq_bot : Subgroup.center (StatedSp 2 F) = ⊥ := by
   rw [CFSG.LieType.Universal.Symplectic.center_eq]
   exact CFSG.Timmesfeld.ClassicalOrders.statedScalars_subgroupOf_statedSp_eq_bot 2

@@ -20,6 +20,7 @@ section Plane
 
 variable {x : V ≃ₗ[F] V} {t : F} {v : V}
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem eq_zero_of_apply_eq_of_mem_quadKer (ht : ∀ c : F, c * c + t * c + 1 ≠ 0) {w : V}
     (hw : w ∈ quadKer x t) (hxw : x w = w) : w = 0 := by
   have h0 := mem_quadKer_iff.1 hw
@@ -33,6 +34,7 @@ theorem eq_zero_of_apply_eq_of_mem_quadKer (ht : ∀ c : F, c * c + t * c + 1 �
   rw [h0, h3, sub_zero] at h4
   exact (smul_eq_zero.1 h4).resolve_left ht0
 
+omit [Finite F] [FiniteDimensional F V] in
 theorem planeData_of_quad (hx : x ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
     (ht : ∀ c : F, c * c + t * c + 1 ≠ 0) (hv : x (x v) + t • x v + v = 0) (hQv : Q v ≠ 0) :
     PlaneData Q x v t := by
@@ -59,6 +61,7 @@ theorem planeData_of_quad (hx : x ∈ TauCeti.QuadraticMap.orthogonalGroup Q)
   rw [CharTwo.add_eq_zero] at h3
   exact h3.symm
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 theorem not_isPlusType_plane_of_planeData {c : F} (hd : PlaneData Q x v c) :
     ¬ IsPlusType (Q.comp (plane x v).subtype) := by
   rintro ⟨W, hW, hWs⟩
@@ -82,7 +85,7 @@ private theorem exists_adapted_plane_aux1 (hQ : (QuadraticMap.polarBilin Q).Nond
       PlaneData Q (g : V ≃ₗ[F] V) v t ∧ (g : V ≃ₗ[F] V) v ∈ N ∧
       (∀ b ∈ Bb, ∃ m : ℕ, ∀ y ∈ plane (g : V ≃ₗ[F] V) v,
         (b : V ≃ₗ[F] V) y = ((g : V ≃ₗ[F] V) ^ m) y) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hgB, v₀, hv₀N, hv₀⟩ := hmov
   have hord : orderOf g = p := orderOf_eq_prime (hBb.2 g hgB) (by rintro rfl; exact hv₀ rfl)
   have hx : OddOrderIsometry Q p (g : V ≃ₗ[F] V) :=
@@ -112,6 +115,7 @@ private theorem exists_adapted_plane_aux1 (hQ : (QuadraticMap.polarBilin Q).Nond
       apply_comm_of_isElemAbelian hBb hb hgB v, hm, hc]
   exact ⟨g, t, v, hgB, hvN, hvS, hQv, ht, hd, hgvN, hpow⟩
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_adapted_plane_aux2 {x : V ≃ₗ[F] V} {t : F} {v : V}
     (hv : v ∈ quadKer x t) : plane x v ≤ quadKer x t := by
   have hxv : x v ∈ quadKer x t := by
@@ -122,6 +126,7 @@ private theorem exists_adapted_plane_aux2 {x : V ≃ₗ[F] V} {t : F} {v : V}
   obtain ⟨s, t', rfl⟩ := mem_plane.1 hy
   exact Submodule.add_mem _ (Submodule.smul_mem _ s hv) (Submodule.smul_mem _ t' hxv)
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem exists_adapted_plane_aux3 {x : V ≃ₗ[F] V} {t : F} {v : V}
     (hd : PlaneData Q x v t)
     (hpow : ∀ b ∈ Bb, ∃ m : ℕ, ∀ y ∈ plane x v, (b : V ≃ₗ[F] V) y = (x ^ m) y) :

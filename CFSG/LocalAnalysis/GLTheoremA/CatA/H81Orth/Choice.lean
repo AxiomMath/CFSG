@@ -64,6 +64,7 @@ section Choice
 variable {K : Type} [Field K] [Finite K] {V : Type} [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ}
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem oddOrderIsometry_of_mem (hQ : (polarBilin Q).Nondegenerate) (hpK : (p : K) ≠ 0)
     {Pt : Subgroup ↥(orthDerived Q)} (hPt : IsElemAbelian p Pt) {a : ↥(orthDerived Q)}
     (ha : a ∈ Pt) : OddOrderIsometry Q p (a : V ≃ₗ[K] V) where
@@ -74,10 +75,11 @@ theorem oddOrderIsometry_of_mem (hQ : (polarBilin Q).Nondegenerate) (hpK : (p : 
   cast_ne_zero := hpK
   regular := fun v hv => eq_zero_of_polar_eq_zero hQ hv
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem coe_mul_comm_of_mem {Pt : Subgroup ↥(orthDerived Q)} (hPt : IsElemAbelian p Pt)
     {a b : ↥(orthDerived Q)} (ha : a ∈ Pt) (hb : b ∈ Pt) :
     (a : V ≃ₗ[K] V) * b = b * a := by
-  haveI := hPt.1
+  have := hPt.1
   have h := congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ↥Pt) ⟨b, hb⟩)
   exact congrArg Subtype.val h
 
@@ -105,8 +107,8 @@ theorem h81Choice_of_config [Finite (ProjOrthDerived Q)] (hQ : (polarBilin Q).No
         ∃ k : ℤ, α = MulAut.conj (projT Q yy ^ k)) :
     H81Choice p (Pt.map (projT Q)) JType := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have hy := oddOrderIsometry_of_mem hQ hpK hPt hyy
   have hz := oddOrderIsometry_of_mem hQ hpK hPt hzz

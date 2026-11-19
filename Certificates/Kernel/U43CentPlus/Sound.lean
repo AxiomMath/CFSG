@@ -239,8 +239,8 @@ theorem CE_mem_H4 {c : ℕ} (hc : c < 128) : CE c ∈ H4 :=
 
 end H4
 
-theorem QP_inj {i j : ℕ} (hi : i < 32) (hj : j < 32) (e : QP i = QP j) : i = j :=
-  inj_of_incK (fun i hi => GQ_eq hi) kQinc hi hj e
+theorem QP_inj {_i j : ℕ} (hi : _i < 32) (hj : j < 32) (e : QP _i = QP j) : _i = j :=
+  inj_of_incK (fun _i hi => GQ_eq hi) kQinc hi hj e
 
 @[expose] noncomputable def mtI (i j : ℕ) : ℕ := fld(MT i, Nat.mul 5 j, 31)
 
@@ -325,7 +325,7 @@ theorem gpF_bij {i : ℕ} (hi : i < 4) : Function.Bijective (gpF i hi) := by
   if hi : i < 4 then Equiv.ofBijective (gpF i hi) (gpF_bij hi) else 1
 
 theorem sig_apply {i : ℕ} (hi : i < 4) (j : Fin 32) : (sig i j : ℕ) = GP i j := by
-  rw [sig, dif_pos hi, Equiv.ofBijective_apply, gpF_val]
+  rw [sig, dite_eq_left hi, Equiv.ofBijective_apply, gpF_val]
 
 theorem EP_mem_normalizer {i : ℕ} (hi : i < 4) :
     EP i ∈ normalizer (Q0 : Set (Equiv.Perm (Fin 820))) := by

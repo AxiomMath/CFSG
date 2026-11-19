@@ -81,7 +81,7 @@ theorem leafDSBZSJ [DSLeaf LeafSylowS] [DSLeaf LeafZiStructure] [DSLeaf LeafFait
       simpa [mul_assoc] using this
   have hL1z : ∃ l ∈ L1, l * z ≠ z * l := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hXp : IsPGroup 2 (Subgroup.zpowers z) := by
       apply IsPGroup.of_card (n := 1)
       rw [Nat.card_zpowers, orderOf_eq_prime hz2 hz1]
@@ -151,7 +151,7 @@ theorem leafDSBZSJ [DSLeaf LeafSylowS] [DSLeaf LeafZiStructure] [DSLeaf LeafFait
     | mem x hx =>
       obtain ⟨p, hp, rfl⟩ := hx
       exact Subgroup.subset_closure ⟨g * p, P.mul_mem hg hp, by group⟩
-    | one => simpa using Subgroup.one_mem _
+    | one => simp
     | mul x y _ _ ihx ihy =>
       have e : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
       rw [e]
@@ -317,13 +317,13 @@ theorem leafDSBZSJ [DSLeaf LeafSylowS] [DSLeaf LeafZiStructure] [DSLeaf LeafFait
       apply Subtype.ext
       have hnF : (n : G) ∈ F := Subgroup.mem_subgroupOf.mp hn
       exact (hFΩ (n : G) hnF).2.1 (g : G) (hO1P g.2)
-    haveI hF'N : (F.subgroupOf (pCoreOf 2 L1)).Normal :=
+    have hF'N : (F.subgroupOf (pCoreOf 2 L1)).Normal :=
       ⟨fun n hn g => by
         rw [hF'cen n hn g, mul_inv_cancel_right]
         exact hn⟩
     have hF'Z : F.subgroupOf (pCoreOf 2 L1) ≤ Subgroup.center ↥(pCoreOf 2 L1) :=
       fun n hn => Subgroup.mem_center_iff.mpr (fun g => hF'cen n hn g)
-    haveI hcyc : IsCyclic (↥(pCoreOf 2 L1) ⧸ F.subgroupOf (pCoreOf 2 L1)) :=
+    have hcyc : IsCyclic (↥(pCoreOf 2 L1) ⧸ F.subgroupOf (pCoreOf 2 L1)) :=
       isCyclic_of_prime_card (p := 2) hrelO
     have hHcomm : IsMulCommutative ↥(pCoreOf 2 L1) :=
       MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center

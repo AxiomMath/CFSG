@@ -116,7 +116,7 @@ theorem cl_of_noThreeAct {T Mc M V₁ V₂ Yp I L : Subgroup G} {t : G} (h113 : 
   have hTsyl : IsSylowTwoOf (((Sgp153 T V₁ ⊓ L).subgroupOf L).map
       (QuotientGroup.mk' (Subgroup.center ↥L))) ⊤ := by
     rw [← hT]
-    exact K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup', Tsyl.not_dvd_index⟩
+    exact K1.isSylowTwoOf_top_iff.mpr ⟨Tsyl.isPGroup, Tsyl.not_dvd_index⟩
   obtain ⟨h4₂, h2₂⟩ := quot_klein hV2L hV4 hV2sq hVz₂
   have hVT' : (V₂.subgroupOf L).map (QuotientGroup.mk' (Subgroup.center ↥L)) ≤
       ((Sgp153 T V₁ ⊓ L).subgroupOf L).map (QuotientGroup.mk' (Subgroup.center ↥L)) :=

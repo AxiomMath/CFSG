@@ -30,8 +30,8 @@ theorem map_ne_top_of_ne_top {S S' : Type} [Group S] [Group S'] (e : S' ≃* S)
 
 theorem isSolvable_of_map_mulEquiv {S S' : Type} [Group S] [Group S'] (e : S' ≃* S)
     {J : Subgroup S'} (h : Group.IsSolvable (J.map e.toMonoidHom)) : Group.IsSolvable J := by
-  haveI := h
-  exact solvable_of_solvable_injective
+  have := h
+  exact Group.isSolvable_of_isSolvable_injective
     (f := (J.equivMapOfInjective e.toMonoidHom fun a b h => e.injective h).toMonoidHom)
     (MulEquiv.injective _)
 
@@ -128,7 +128,7 @@ theorem isSylowTwoOf_map_top {W X : Type*} [Group W] [Finite W] [Group X] {ρ : 
   have hS2 : ((S.mapSurjective hρ : Sylow 2 X) : Subgroup X) = (S : Subgroup W).map ρ := by
     rw [Sylow.coe_mapSurjective]
   rw [← hS2]
-  refine ⟨le_top, (S.mapSurjective hρ).isPGroup', ?_⟩
+  refine ⟨le_top, (S.mapSurjective hρ).isPGroup, ?_⟩
   rw [show (((S.mapSurjective hρ : Sylow 2 X) : Subgroup X).subgroupOf ⊤).index =
     ((S.mapSurjective hρ : Sylow 2 X) : Subgroup X).index from Subgroup.relIndex_top_right _]
   exact (S.mapSurjective hρ).not_dvd_index
@@ -175,7 +175,7 @@ theorem isSolvable_of_solvOver {Y : Type} [Group Y] [Finite Y] {L P : Subgroup Y
     have : (⟨x, hx⟩ : ↥L) ∈ P.subgroupOf L := hcm ▸ Subgroup.mem_top _
     exact this
   have hsolvbar := hS _ _ hTb (Subgroup.map_mono hTP') hne
-  haveI := hsolvbar
+  have := hsolvbar
   set f := (QuotientGroup.mk' (Subgroup.center ↥L)).subgroupMap (P.subgroupOf L) with hfdef
   have hcommK : ∀ a b : f.ker, a * b = b * a := by
     intro a b
@@ -186,10 +186,10 @@ theorem isSolvable_of_solvOver {Y : Type} [Group Y] [Finite Y] {L P : Subgroup Y
         congrArg Subtype.val h0
       rwa [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff] at h1
     exact Subtype.ext (Subtype.ext (Subgroup.mem_center_iff.1 ha _).symm)
-  haveI : Group.IsSolvable f.ker := isSolvable_of_comm hcommK
-  haveI : Group.IsSolvable (P.subgroupOf L) :=
-    solvable_of_ker_le_range f.ker.subtype f (by rw [Subgroup.range_subtype])
-  exact solvable_of_solvable_injective
+  have : Group.IsSolvable f.ker := _root_.Group.isSolvable_of_comm hcommK
+  have : Group.IsSolvable (P.subgroupOf L) :=
+    Group.isSolvable_of_ker_le_range f.ker.subtype f (by rw [Subgroup.range_subtype])
+  exact Group.isSolvable_of_isSolvable_injective
     (f := (Subgroup.subgroupOfEquivOfLe hPL).symm.toMonoidHom) (MulEquiv.injective _)
 
 theorem outPNice_three_of_index_two {X : Type*} [Group X] (h : (Inn X).index = 2) :
@@ -284,7 +284,7 @@ theorem fieldIndexOn_small
   · rcases hn with rfl | rfl | rfl
     · exact hsol (SolvOver.of_mulEquiv e.symm solvOver_alt_five)
     · exact hsol (SolvOver.of_mulEquiv e.symm solvOver_alt_six)
-    · haveI := hLn
+    · have := hLn
       exact fieldIndex_of_outPNice hCP (outPNice_three_of_index_two (index_inn_of_alt_eight e))
         (leviInnAt_alt_eight hGA hCP e hrk) ha3 haN hout
   · rcases hd with ⟨q, hq, hd'⟩ | ⟨q, hq, hd'⟩

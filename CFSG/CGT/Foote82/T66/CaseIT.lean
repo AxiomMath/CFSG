@@ -90,7 +90,7 @@ theorem Hyp.T_max (h : Hyp G L z v H₁ m ψ)
     (hzT : swap 0 1 ∈ T₀) (hyT : swap 2 3 ∈ T₀) {Q : Subgroup (GLV V)} (hQG : Q ≤ G)
     (hQ2 : IsPGroup 2 Q) (hTQ : (T₀ : Subgroup (Perm (Fin (m + 6 + 2)))).map (pe ψ) ≤ Q) :
     Q = (T₀ : Subgroup (Perm (Fin (m + 6 + 2)))).map (pe ψ) :=
-  h.syl_criterion T₀ hzT hyT (fun σ _ hc => h.isSwap_of_conj hK2 h25 hc) hQG hQ2 hTQ
+  h.syl_criterion T₀ hzT hyT (fun _σ _ hc => h.isSwap_of_conj hK2 h25 hc) hQG hQ2 hTQ
 
 theorem Hyp.T_le_G (h : Hyp G L z v H₁ m ψ) (T₀ : Subgroup (Perm (Fin (m + 6 + 2)))) :
     T₀.map (pe ψ) ≤ G := by
@@ -102,13 +102,13 @@ theorem Hyp.T_not_dvd (h : Hyp G L z v H₁ m ψ)
     (h25 : CaseIFooteLemma25) (T₀ : Sylow 2 (Perm (Fin (m + 6 + 2))))
     (hzT : swap 0 1 ∈ T₀) (hyT : swap 2 3 ∈ T₀) :
     ¬ 2 ∣ ((T₀ : Subgroup (Perm (Fin (m + 6 + 2)))).map (pe ψ)).relIndex G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set T := (T₀ : Subgroup (Perm (Fin (m + 6 + 2)))).map (pe ψ) with hT
-  have hT2 : IsPGroup 2 T := T₀.isPGroup'.map _
+  have hT2 : IsPGroup 2 T := T₀.isPGroup.map _
   have hT' : IsPGroup 2 (T.subgroupOf G) := hT2.comap_subtype
   obtain ⟨P, hP⟩ := hT'.exists_le_sylow
   have hPmap : (P : Subgroup ↥G).map G.subtype = T := by
-    refine h.T_max hK2 h25 T₀ hzT hyT (Subgroup.map_subtype_le _) (P.isPGroup'.map _) ?_
+    refine h.T_max hK2 h25 T₀ hzT hyT (Subgroup.map_subtype_le _) (P.isPGroup.map _) ?_
     intro x hx
     exact ⟨⟨x, h.T_le_G _ hx⟩, hP (Subgroup.mem_subgroupOf.2 hx), rfl⟩
   have hPeq : (P : Subgroup ↥G) = T.subgroupOf G := by
@@ -117,6 +117,7 @@ theorem Hyp.T_not_dvd (h : Hyp G L z v H₁ m ψ)
   rw [Subgroup.relIndex, ← hPeq]
   exact P.not_dvd_index
 
+omit [Finite V] in
 theorem relIndex_alt (T₀ : Subgroup (Perm (Fin (m + 6 + 2)))) (hzT : swap 0 1 ∈ T₀) :
     ((T₀ ⊓ alternatingGroup (Fin (m + 6 + 2))).map (pe ψ)).relIndex (T₀.map (pe ψ)) = 2 := by
   rw [Subgroup.relIndex_map_map_of_injective _ _ pe_injective]
@@ -146,16 +147,17 @@ theorem Hyp.exists_N₂ (h : Hyp G L z v H₁ m ψ)
   set T₁ := ((T₀ : Subgroup (Perm (Fin (m + 6 + 2)))) ⊓
     alternatingGroup (Fin (m + 6 + 2))).map (pe ψ) with hT₁
   have hT₁T : T₁ ≤ T := Subgroup.map_mono inf_le_left
-  refine CFSG.Quasithin.thompson_transfer_exists_normal_subgroup (h.T_le_G _) (T₀.isPGroup'.map _)
+  refine CFSG.Quasithin.thompson_transfer_exists_normal_subgroup (h.T_le_G _) (T₀.isPGroup.map _)
     (h.T_not_dvd hK2 h25 T₀ hzT hyT) hT₁T (relIndex_alt _ hzT) h.z_mem_G h.std.orderOf_s ?_
   rintro x hxG ⟨σ, ⟨-, hσA⟩, hσ⟩
   have hσ2 : orderOf σ = 2 := by
     rw [← orderOf_injective (pe ψ) pe_injective σ, hσ,
-      show x⁻¹ * z * x = (MulAut.conj x⁻¹).toMonoidHom z by simp [MulAut.conj_apply],
+      show x⁻¹ * z * x = (MulAut.conj x⁻¹).toMonoidHom z by simp,
       orderOf_injective _ (MulAut.conj x⁻¹).injective, h.std.orderOf_s]
   exact h.not_conj_even hK2 (mul_self_of_orderOf_two hσ2) hσA (G.inv_mem hxG)
     (by rw [hσ, inv_inv])
 
+omit [Finite V] in
 theorem commutator_le_of_sq {G N₂ : Subgroup (GLV V)} (hN₂G : N₂ ≤ G)
     (hN : (N₂.subgroupOf G).Normal) (hsq : ∀ x ∈ G, x ^ 2 ∈ N₂) : ⁅G, G⁆ ≤ N₂ := by
   rw [Subgroup.commutator_le]
@@ -171,6 +173,7 @@ theorem commutator_le_of_sq {G N₂ : Subgroup (GLV V)} (hN₂G : N₂ ≤ G)
   have := hconj b⁻¹ (G.inv_mem hb) _ (hsq _ (G.inv_mem ha))
   rwa [inv_inv] at this
 
+omit [Finite V] in
 theorem layerIn_le_of_sq {G N₂ : Subgroup (GLV V)} (hN₂G : N₂ ≤ G)
     (hN : (N₂.subgroupOf G).Normal) (hsq : ∀ x ∈ G, x ^ 2 ∈ N₂) : layerIn G ≤ N₂ := by
   rw [layerIn_eq_sSup]

@@ -20,7 +20,7 @@ theorem comm_mem_of_sup_centralized {K N Q X : Subgroup G} {ρ : G} (hρK : ρ �
     { carrier := {k | k ∈ K ∧ ∀ n ∈ N, k * n * k⁻¹ * n⁻¹ ∈ Q}
       one_mem' := by
         refine ⟨K.one_mem, fun n _hn => ?_⟩
-        simpa using Q.one_mem
+        simp
       mul_mem' := by
         intro a b ha hb
         obtain ⟨haK, haQ⟩ := ha
@@ -78,7 +78,7 @@ theorem comm_mem_of_sup_centralized {K N Q X : Subgroup G} {ρ : G} (hρK : ρ �
 theorem commutator_commutator_zpowers_eq [Finite G] {A : Subgroup G} {ρ : G}
     (hρ3 : ρ ^ 3 = 1) (hA2 : IsPGroup 2 A) (hρA : ρ ∈ normalizer (A : Set G)) :
     ⁅⁅A, zpowers ρ⁆, zpowers ρ⁆ = ⁅A, zpowers ρ⁆ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : IsPGroup 3 (zpowers ρ) := by
     rw [IsPGroup.iff_card, Nat.card_zpowers]
     rcases (Nat.dvd_prime Nat.prime_three).mp (orderOf_dvd_of_pow_eq_one hρ3) with h | h

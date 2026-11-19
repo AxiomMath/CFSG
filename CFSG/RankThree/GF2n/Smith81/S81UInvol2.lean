@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F}
 
+omit [CharP F 2] in
 private theorem h86_tInv2_matrix : ((tInv2 F : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) =
     Matrix.transvection (0 : Fin 6) 1 1 * Matrix.transvection (2 : Fin 6) 3 1 := by
   simp only [tInv2, tInv1, Units.val_mul, transvGL_val]
@@ -24,6 +25,7 @@ private theorem h86_tv_unitary (hσ : ∀ c, σ (σ c) = c) {a b : Fin 6} (hb : 
   subst hb
   exact transvection_long_unitary hσ a hc
 
+omit [CharP F 2] in
 private theorem h86_unitary_mul {A B : Matrix (Fin 6) (Fin 6) F}
     (hA : conjTr σ A * hypGram F * A = hypGram F) (hB : conjTr σ B * hypGram F * B = hypGram F) :
     conjTr σ (A * B) * hypGram F * (A * B) = hypGram F := by
@@ -41,6 +43,7 @@ theorem tInv2_unitary (hσ : ∀ c, σ (σ c) = c) :
     (h86_tv_unitary hσ (a := (0 : Fin 6)) (b := 1) (by decide) (map_one σ))
     (h86_tv_unitary hσ (a := (2 : Fin 6)) (b := 3) (by decide) (map_one σ))
 
+omit [CharP F 2] in
 theorem tInv2_det : ((tInv2 F : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F).det = 1 := by
   rw [h86_tInv2_matrix, Matrix.det_mul, Matrix.det_transvection_of_ne (0 : Fin 6) 1 (by decide) 1,
     Matrix.det_transvection_of_ne (2 : Fin 6) 3 (by decide) 1, mul_one]
@@ -74,6 +77,7 @@ theorem tInv2_mul_self : tInv2 F * tInv2 F = 1 := by
 instance (a b : Fin 6) : Decidable (adm2 a b) :=
   inferInstanceAs (Decidable (a ≠ 1 ∧ a ≠ 3 ∧ b ≠ 0 ∧ b ≠ 2))
 
+omit [CharP F 2] in
 private theorem h86_comm_of {X x y : GL (Fin 6) F} (hx : X * x = x * X) (hy : X * y = y * X) :
     X * (x * y) = x * y * X := by
   calc X * (x * y) = (X * x) * y := (mul_assoc _ _ _).symm
@@ -82,6 +86,7 @@ private theorem h86_comm_of {X x y : GL (Fin 6) F} (hx : X * x = x * X) (hy : X 
     _ = x * (y * X) := by rw [hy]
     _ = x * y * X := (mul_assoc _ _ _).symm
 
+omit [CharP F 2] in
 theorem adm2_comm (a b : Fin 6) (hab : a ≠ b) (h : adm2 a b) (c : F) :
     transvGL F a b hab c * tInv2 F = tInv2 F * transvGL F a b hab c := by
   have h' : a ≠ 1 ∧ a ≠ 3 ∧ b ≠ 0 ∧ b ≠ 2 := h
@@ -196,6 +201,7 @@ theorem posP2_lev (a b : Fin 6) (h : posP2 a b) :
 
 theorem posP2_ne (a b : Fin 6) (h : posP2 a b) : b ≠ partner a := h.2
 
+omit [CharP F 2] in
 theorem exists_norm_one_ne_one (hσ : IsUnitaryInvolution σ) : ∃ μ : F, σ μ * μ = 1 ∧ μ ≠ 1 := by
   obtain ⟨c, hc⟩ := hσ.exists_ne
   have hc0 : c ≠ 0 := by
@@ -214,6 +220,7 @@ theorem exists_norm_one_ne_one (hσ : IsUnitaryInvolution σ) : ∃ μ : F, σ �
     apply hc
     exact ((div_eq_one_iff_eq hsc0).mp h).symm
 
+omit [CharP F 2] in
 private theorem h89_ne_zero {μ : F} (hμ : σ μ * μ = 1) : μ ≠ 0 := by
   rintro rfl
   simp at hμ
@@ -228,9 +235,11 @@ private theorem h89_ne_inv {μ : F} (hμ0 : μ ≠ 0) (hμ1 : μ ≠ 1) : μ ≠
   have h3 : (μ - 1) * (μ - 1) = 0 := by linear_combination h1 - (μ - 1) * h2
   exact sub_eq_zero.mp (mul_self_eq_zero.mp h3)
 
+omit [CharP F 2] in
 private theorem h89_one_ne_inv {ν : F} (hν1 : ν ≠ 1) : (1 : F) ≠ ν⁻¹ :=
   fun h => hν1 (inv_eq_one.mp h.symm)
 
+omit [CharP F 2] in
 private theorem h89_inv_ne_one {ν : F} (hν1 : ν ≠ 1) : ν⁻¹ ≠ 1 :=
   fun h => hν1 (inv_eq_one.mp h)
 
@@ -248,6 +257,7 @@ private theorem h89_posP2_list (a b : Fin 6) (h : posP2 a b) :
     decide
   exact key a b h
 
+omit [CharP F 2] in
 private theorem h89_A_ne {μ : F} (hμ0 : μ ≠ 0) :
     ∀ i : Fin 6, (![μ, μ, μ⁻¹, μ⁻¹, 1, 1] : Fin 6 → F) i ≠ 0 := by
   intro i
@@ -259,6 +269,7 @@ private theorem h89_A_ne {μ : F} (hμ0 : μ ≠ 0) :
   · exact one_ne_zero
   · exact one_ne_zero
 
+omit [CharP F 2] in
 private theorem h89_A_hu {μ : F} (hμ : σ μ * μ = 1) :
     ∀ i : Fin 6, σ ((![μ, μ, μ⁻¹, μ⁻¹, 1, 1] : Fin 6 → F) i) *
       (![μ, μ, μ⁻¹, μ⁻¹, 1, 1] : Fin 6 → F) (partner i) = 1 := by
@@ -275,6 +286,7 @@ private theorem h89_A_hu {μ : F} (hμ : σ μ * μ = 1) :
   · show σ 1 * 1 = 1
     rw [map_one σ, mul_one]
 
+omit [CharP F 2] in
 private theorem h89_A_det {μ : F} (hμ0 : μ ≠ 0) :
     ∏ i, (![μ, μ, μ⁻¹, μ⁻¹, 1, 1] : Fin 6 → F) i = 1 := by
   have hinv : μ * μ⁻¹ = 1 := mul_inv_cancel₀ hμ0
@@ -282,6 +294,7 @@ private theorem h89_A_det {μ : F} (hμ0 : μ ≠ 0) :
   show μ * μ * μ⁻¹ * μ⁻¹ * 1 * 1 = 1
   linear_combination (μ * μ⁻¹ + 1) * hinv
 
+omit [CharP F 2] in
 private theorem h89_B_ne {ν : F} (hν0 : ν ≠ 0) :
     ∀ i : Fin 6, (![1, 1, 1, 1, ν, ν⁻¹] : Fin 6 → F) i ≠ 0 := by
   intro i
@@ -293,6 +306,7 @@ private theorem h89_B_ne {ν : F} (hν0 : ν ≠ 0) :
   · exact hν0
   · exact inv_ne_zero hν0
 
+omit [CharP F 2] in
 private theorem h89_B_hu {ν : F} (hν : σ ν = ν) (hν0 : ν ≠ 0) :
     ∀ i : Fin 6, σ ((![1, 1, 1, 1, ν, ν⁻¹] : Fin 6 → F) i) *
       (![1, 1, 1, 1, ν, ν⁻¹] : Fin 6 → F) (partner i) = 1 := by
@@ -311,6 +325,7 @@ private theorem h89_B_hu {ν : F} (hν : σ ν = ν) (hν0 : ν ≠ 0) :
   · show σ (ν⁻¹) * ν = 1
     rw [map_inv₀ σ, hν, inv_mul_cancel₀ hν0]
 
+omit [CharP F 2] in
 private theorem h89_B_det {ν : F} (hν0 : ν ≠ 0) :
     ∏ i, (![1, 1, 1, 1, ν, ν⁻¹] : Fin 6 → F) i = 1 := by
   have hinv : ν * ν⁻¹ = 1 := mul_inv_cancel₀ hν0
@@ -385,10 +400,7 @@ theorem hpure2 : ∀ ξ ∈ LinearMap.range (rho F (tInv2 F) - 1),
     first
     | (simp (config := {decide := true}) [cfm_add, cfm_smul, cfm_ub_mask]; done)
     | (rw [cfm_zero_of_fixed posP2 hz _ hm (by decide)]
-       simp (config := {decide := true}) [cfm_add, cfm_smul, cfm_ub_mask]; done)
-    | (rw [← hc]
-       simp (config := {decide := true}) [ranG2, vA, vB, cfm_add, cfm_smul, cfm_ub_mask,
-         Fin.sum_univ_succ, cfm_zero]; done)
+       simp (config := {decide := true}) [cfm_add, cfm_smul, cfm_ub_mask])
   rw [hs_eq]
   exact isPure_comb_024_025 _ _
 

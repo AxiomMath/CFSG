@@ -40,7 +40,7 @@ theorem asc80ThmBCase_of_sup_centralizer {P : ∀ (X : Type) [Group X], Prop}
   have S := asc80BSetup hs hnab hAH hA hM
   exfalso
   have hFH : Fstar H ≤ H := fstar_le_group H
-  haveI : ((Fstar H).subgroupOf H).Normal := normal_subgroupOf_fstar H
+  have : ((Fstar H).subgroupOf H).Normal := normal_subgroupOf_fstar H
   have hCent : Subgroup.centralizer (((Fstar H).subgroupOf H : Subgroup ↥H) : Set ↥H) = ⊥ := by
     rw [CFSG.centralizer_subgroupOf_eq (Fstar H) H hFH]
     rw [eq_bot_iff]

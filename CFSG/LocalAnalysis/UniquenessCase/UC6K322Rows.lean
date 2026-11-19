@@ -47,7 +47,7 @@ theorem p_dvd_card_statedSL : p ∣ Nat.card (StatedSL 3 (ZMod p)) := by
   have h1 : (transvGL : GL (Fin 3) (ZMod p)) ≠ 1 := by
     intro h
     have := congrArg (fun g : GL (Fin 3) (ZMod p) => (g : Matrix (Fin 3) (Fin 3) (ZMod p)) 0 1) h
-    simp [transvGL, tv, Matrix.transvection, Matrix.one_apply] at this
+    simp [transvGL, tv, Matrix.transvection] at this
   have hord : orderOf (⟨transvGL, hT⟩ : StatedSL 3 (ZMod p)) = p := by
     apply orderOf_eq_prime
     · exact Subtype.ext (by rw [SubmonoidClass.coe_pow]; exact hp)
@@ -71,7 +71,7 @@ theorem p_dvd_card_psl2 : p ∣ Nat.card (Matrix.ProjectiveSpecialLinearGroup (F
       rw [pow_succ, Matrix.SpecialLinearGroup.coe_mul, ih]
       show !![1, (k : ZMod p); 0, 1] * !![1, 1; 0, 1] = _
       rw [Matrix.mul_fin_two]
-      simp only [mul_one, mul_zero, add_zero, zero_mul, zero_add, one_mul, Nat.cast_succ]
+      simp only [mul_one, mul_zero, add_zero, zero_add, Nat.cast_succ]
       rw [add_comm]
   set π := QuotientGroup.mk' (Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) (ZMod p)))
   have hup : π u ^ p = 1 := by
@@ -93,7 +93,7 @@ theorem p_dvd_card_psl2 : p ∣ Nat.card (Matrix.ProjectiveSpecialLinearGroup (F
     have hu : (u : Matrix (Fin 2) (Fin 2) (ZMod p)) = !![1, 1; 0, 1] := rfl
     rw [hw, hu, Matrix.mul_fin_two, Matrix.mul_fin_two] at h2
     simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.empty_val',
-      Matrix.cons_val_fin_one, mul_one, mul_zero, add_zero, zero_mul, one_mul] at h2
+      Matrix.cons_val_fin_one, mul_one, mul_zero, add_zero] at h2
     have : (1 : ZMod p) = 0 := by linear_combination -h2
     exact one_ne_zero this
   have hord : orderOf (π u) = p := orderOf_eq_prime hup hu1
@@ -172,7 +172,7 @@ theorem not_comm_of_isQuasisimple_k322 {X : Type*} [Group X] (hq : CFSG.Open.IsQ
     have ha : a ∈ commutator X := hq.1 ▸ Subgroup.mem_top a
     rw [hc, Subgroup.mem_bot] at ha
     exact ha
-  haveI := hq.2
+  have := hq.2
   obtain ⟨u, v, huv⟩ := (IsSimpleGroup.toNontrivial : Nontrivial (X ⧸ Subgroup.center X))
   apply huv
   obtain ⟨u, rfl⟩ := QuotientGroup.mk_surjective u
@@ -203,14 +203,14 @@ theorem isQuasisimple_of_mulEquiv_k322 {A B : Type*} [Group A] [Group B] (e : A 
       exact hB.1
     have := congrArg (Subgroup.comap e.toMonoidHom) hmap
     rwa [Subgroup.comap_map_eq_self_of_injective e.injective, Subgroup.comap_top] at this
-  · haveI := hB.2
+  · have := hB.2
     exact (QuotientGroup.congr _ _ e hcen).isSimpleGroup
 
 theorem genFittingLayer_eq {G H : Subgroup (GL (Fin 3) (ZMod p))} (hHG : H ≤ G)
     (hnorm : ∀ g ∈ G, ∀ x ∈ H, g * x * g⁻¹ ∈ H) (hq : CFSG.Open.IsQuasisimple ↥H)
     (hirr : IsIrreducibleMatrixRep H.subtype) : genFittingLayer ↥G = H.subgroupOf G := by
   set H' : Subgroup ↥G := H.subgroupOf G with hH'
-  haveI hH'n : H'.Normal := ⟨fun n hn g =>
+  have hH'n : H'.Normal := ⟨fun n hn g =>
     Subgroup.mem_subgroupOf.2 (hnorm g g.2 n (Subgroup.mem_subgroupOf.1 hn))⟩
   have hq' : CFSG.Open.IsQuasisimple ↥H' :=
     isQuasisimple_of_mulEquiv_k322 (Subgroup.subgroupOfEquivOfLe hHG) hq

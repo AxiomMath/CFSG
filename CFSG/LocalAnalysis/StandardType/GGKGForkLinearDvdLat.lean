@@ -41,7 +41,7 @@ private theorem ggKGTl_permAut_rootV {p d : ℕ} (σ : Equiv.Perm (Fin d)) (i j 
 private theorem ggKGTl_permAut_swap_mul_inv_const {p d : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {i j : Fin d} (v : Fin d → Multiplicative (ZMod p)) {c : Multiplicative (ZMod p)}
     (hc : permAut (Equiv.swap i j) v * v⁻¹ = fun _ => c) : v i = v j := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hi' : (permAut (Equiv.swap i j) v * v⁻¹) i = c := congrFun hc i
   have hj' : (permAut (Equiv.swap i j) v * v⁻¹) j = c := congrFun hc j
   have h1 : toAdd ((permAut (Equiv.swap i j) v * v⁻¹) i) =
@@ -68,14 +68,14 @@ private theorem ggKGTl_ratio_ne_const {p d : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
       permAut σ ((rootV i (σ i) : ↥(sumZero d p)) : Fin d → Multiplicative (ZMod p)) *
         (((rootV i (σ i) : ↥(sumZero d p)) : Fin d → Multiplicative (ZMod p)))⁻¹ =
           fun _ => c := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rintro ⟨c, hc⟩
   obtain ⟨l, hli, hlj, hlk⟩ := TypeA.exists_fin_avoid_three hd i (σ i) (σ (σ i))
   have hl : (permAut σ ((rootV i (σ i) : ↥(sumZero d p)) :
         Fin d → Multiplicative (ZMod p)) *
       (((rootV i (σ i) : ↥(sumZero d p)) : Fin d → Multiplicative (ZMod p)))⁻¹) l = 1 := by
     simp only [Pi.mul_apply, Pi.inv_apply, ggKGTl_permAut_rootV, ggKGTl_rootV_apply,
-      if_neg hlj, if_neg hlk, if_neg hli]
+      ite_eq_right hlj, ite_eq_right hlk, ite_eq_right hli]
     exact mul_inv_cancel _
   have hsi : (permAut σ ((rootV i (σ i) : ↥(sumZero d p)) :
         Fin d → Multiplicative (ZMod p)) *
@@ -83,7 +83,7 @@ private theorem ggKGTl_ratio_ne_const {p d : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
         ofAdd (2 : ZMod p) := by
     have hne : σ i ≠ σ (σ i) := fun h => hi (σ.injective h).symm
     simp only [Pi.mul_apply, Pi.inv_apply, ggKGTl_permAut_rootV, ggKGTl_rootV_apply,
-      if_pos rfl, if_neg hne, if_neg hi, if_true]
+      ite_eq_right hne, ite_eq_right hi, ite_true]
     rw [show (0 : ZMod p) - 1 = -1 by exact zero_sub 1]
     rw [show (1 : ZMod p) - 0 = 1 by exact sub_zero 1]
     rw [ofAdd_neg]
@@ -155,8 +155,6 @@ private theorem ggKGTl_PS_const {p d : ℕ} {S : Subgroup (Fin d → Multiplicat
     ggKGTl_PS hS σ k = k := by
   apply Subtype.ext
   rw [ggKGTl_PS_apply]
-  change (ggKGTl_permS hS σ k : Fin d → Multiplicative (ZMod p)) =
-    (k : Fin d → Multiplicative (ZMod p))
   rw [ggKGTl_permS_apply, hk]
   funext i
   simp only [permAut_apply, Function.comp_apply]
@@ -510,7 +508,7 @@ private theorem ggKGTl_E_swap_fix_card {p d : ℕ} {L' : Type} [Group L'] {A : S
     {a b : Fin d} (hab : a ≠ b) :
     Nat.card ↥(ggKGTl_fixSub (ggKGTl_EHom hS Θ hΘ hker (Equiv.swap a b))) * p =
       Nat.card ↥A := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hK : Nat.card ↥(Θ.ker) = p := ggKGTl_ker_card hpd (by omega) hS Θ hker
   have hFixS_card : Nat.card ↥(ggKGTl_fixSub (ggKGTl_permS hS (Equiv.swap a b))) * p =
       Nat.card ↥S := by
@@ -567,8 +565,8 @@ private theorem ggKGTl_classify {p d : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpd 
     {φ : MulAut ↥A} (hφmem : φ ∈ ggAutomizer (MulAut.conj : L' →* MulAut L').range A)
     (hφrefl : GGIsReflection p φ) :
     ∃ i j : Fin d, i ≠ j ∧ φ = ggKGTl_EHom hS Θ hΘ hker (Equiv.swap i j) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite ↥A := Finite.of_surjective Θ hΘ
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite ↥A := Finite.of_surjective Θ hΘ
   obtain ⟨g, hgH, hgnorm, hgapply⟩ := mem_ggAutomizer_iff.mp hφmem
   obtain ⟨n, rfl⟩ := hgH
   have hφeq : φ = ggConjAut A hgnorm := by
@@ -635,7 +633,7 @@ private noncomputable def ggKGTl_piTop {p d : ℕ} {L' : Type} [Group L'] {A : S
 private theorem ggKGTl_piTop_surjective {p d : ℕ} {L' : Type} [Group L'] {A : Subgroup (MulAut L')}
     (hp : p.Prime) (Θ : ↥(⊤ : Subgroup (Fin d → Multiplicative (ZMod p))) →* ↥A)
     (hΘ : Function.Surjective Θ) : Function.Surjective (ggKGTl_piTop (p := p) Θ) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   intro a
   obtain ⟨f, hf⟩ := hΘ (Additive.toMul a)
   refine ⟨fun i => ((toAdd ((f : Fin d → Multiplicative (ZMod p)) i)).val : ℤ), ?_⟩
@@ -669,7 +667,7 @@ private theorem ggKGTl_dot_y_w {d : ℕ} (i j : Fin d) (y : Fin d → ℤ) :
 private theorem ggKGTl_dot_w_w {d : ℕ} {i j : Fin d} (hij : i ≠ j) :
     dotProduct (ggKGTl_w i j) (ggKGTl_w i j) = 2 := by
   simp only [ggKGTl_w, sub_dotProduct, dotProduct_sub, single_dotProduct, Pi.single_apply,
-    if_true, if_neg hij, if_neg (Ne.symm hij)]
+    ite_true, ite_eq_right hij, ite_eq_right (Ne.symm hij)]
   norm_num
 
 private theorem ggKGTl_cartan {d : ℕ} {i j : Fin d} (hij : i ≠ j) (y : Fin d → ℤ) :
@@ -685,10 +683,10 @@ private theorem ggKGTl_refl {d : ℕ} {i j : Fin d} (hij : i ≠ j) (y : Fin d �
   simp only [ggKGTl_w, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
   by_cases hki : k = i
   · subst hki
-    simp [Pi.single_eq_same, Pi.single_eq_of_ne, hij, Ne.symm hij, Equiv.swap_apply_left]
+    simp [Pi.single_eq_same, Pi.single_eq_of_ne, hij, Equiv.swap_apply_left]
   · by_cases hkj : k = j
     · subst hkj
-      simp [Pi.single_eq_same, Pi.single_eq_of_ne, hij, Ne.symm hij, Equiv.swap_apply_right]
+      simp [Pi.single_eq_same, Pi.single_eq_of_ne, Ne.symm hij, Equiv.swap_apply_right]
     · simp [Pi.single_eq_of_ne, hki, hkj, Equiv.swap_apply_of_ne_of_ne hki hkj]
 
 private theorem ggKGTl_root {d : ℕ} {i j : Fin d} (hij : i ≠ j) :
@@ -749,7 +747,7 @@ private def ggKGTl_Q {m : ℕ} : Matrix (Fin m) (Fin m) ℤ :=
 private theorem ggKGTl_gamma_castSucc {m : ℕ} (k : Fin m) :
     ggKGTl_gamma (Fin.castSucc k) = Pi.single k 1 := by
   rw [ggKGTl_gamma]
-  rw [dif_pos (show (Fin.castSucc k).val < m from k.isLt)]
+  rw [dite_eq_left (show (Fin.castSucc k).val < m from k.isLt)]
   rfl
 
 private theorem ggKGTl_emb_single {m : ℕ} (k : Fin m) :
@@ -760,25 +758,24 @@ private theorem ggKGTl_emb_single {m : ℕ} (k : Fin m) :
   | last =>
     rw [ggKGTl_emb_last]
     simp only [Pi.sub_apply, Pi.single_apply]
-    rw [if_neg (Ne.symm (Fin.castSucc_ne_last k))]
+    rw [ite_eq_right (Ne.symm (Fin.castSucc_ne_last k))]
     simp [Finset.sum_ite_eq']
   | cast j =>
     rw [ggKGTl_emb_castSucc]
-    simp only [Pi.sub_apply, Pi.single_apply, Pi.single_eq_of_ne (Fin.castSucc_ne_last j),
-      sub_zero]
+    simp only [Pi.sub_apply, Pi.single_apply]
     by_cases hjk : j = k
     · subst hjk; simp
-    · simp [hjk, fun h => hjk (Fin.castSucc_injective _ h)]
+    · simp [hjk]
 
 private theorem ggKGTl_emb_gamma {m : ℕ} (c : Fin (m + 1)) :
     ggKGTl_emb (ggKGTl_gamma c) = Pi.single c 1 - Pi.single (Fin.last m) 1 := by
   rcases Fin.eq_castSucc_or_eq_last c with ⟨k, rfl⟩ | rfl
   · rw [ggKGTl_gamma_castSucc, ggKGTl_emb_single]
-  · rw [ggKGTl_gamma, dif_neg (by simp)]
+  · rw [ggKGTl_gamma, dite_eq_right (by simp)]
     funext i
     induction i using Fin.lastCases with
     | last => simp [ggKGTl_emb]
-    | cast j => simp [ggKGTl_emb, Pi.single_eq_of_ne (Fin.castSucc_ne_last j)]
+    | cast j => simp [ggKGTl_emb]
 
 private theorem ggKGTl_emb_gamma_sub {m : ℕ} (a b : Fin (m + 1)) :
     ggKGTl_emb (ggKGTl_gamma a - ggKGTl_gamma b) =
@@ -801,13 +798,13 @@ private theorem ggKGTl_Q_mulVec {m : ℕ} (z : Fin m → ℤ) (k : Fin m) :
       rw [ggKGTl_Q]
       by_cases hjk : k = j
       · subst hjk; simp; ring
-      · rw [if_neg hjk, if_neg (Ne.symm hjk)]; ring]
+      · rw [ite_eq_right hjk, ite_eq_right (Ne.symm hjk)]; ring]
     rw [Finset.sum_add_distrib]
     congr 1
     rw [show (∑ j, (if j = k then (1 : ℤ) else 0) * z j) = ∑ j, (if j = k then z j else 0) from by
       refine Finset.sum_congr rfl fun j _ => ?_
       by_cases h : j = k <;> simp [h]]
-    rw [Finset.sum_ite_eq', if_pos (Finset.mem_univ k)]
+    rw [Finset.sum_ite_eq', ite_eq_left (Finset.mem_univ k)]
   rw [hsplit]; ring
 
 private theorem ggKGTl_gram {m : ℕ} (y z : Fin m → ℤ) :
@@ -835,8 +832,8 @@ private theorem ggKGTl_Q_form (m : ℕ) : GGLatForm (ggKGTl_Q (m := m)) := by
   · ext i j
     rw [Matrix.transpose_apply, ggKGTl_Q, ggKGTl_Q]
     by_cases h : i = j
-    · rw [if_pos h, if_pos h.symm]
-    · rw [if_neg h, if_neg (fun hh => h hh.symm)]
+    · rw [ite_eq_left h, ite_eq_left h.symm]
+    · rw [ite_eq_right h, ite_eq_right (fun hh => h hh.symm)]
   · rw [← ggKGTl_gram y y]
     have hemb : ggKGTl_emb y ≠ 0 := by
       intro h
@@ -885,7 +882,7 @@ private noncomputable def ggKGTl_piInn {p m : ℕ} {L' : Type} [Group L'] {A : S
 private theorem ggKGTl_piInn_surjective {p m : ℕ} {L' : Type} [Group L'] {A : Subgroup (MulAut L')}
     (hp : p.Prime) (Θ : ↥(sumZero (m + 1) p) →* ↥A) (hΘ : Function.Surjective Θ) :
     Function.Surjective (ggKGTl_piInn (p := p) Θ) := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   intro a
   obtain ⟨f, hf⟩ := hΘ (Additive.toMul a)
   let y0 : Fin m → ℤ :=
@@ -986,9 +983,9 @@ theorem ggKGTAD_lattice {p d : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpd : p ∣ 
         ∃ w : Fin m → ℤ, GGLatRoot Q w ∧
           ∀ y : Fin m → ℤ, φ (Additive.toMul (π y)) = Additive.toMul (π (ggLatRefl Q w y)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite ↥A := Finite.of_surjective Θ hΘ
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite ↥A := Finite.of_surjective Θ hΘ
   rcases hS with h | h
   · subst h
     refine ⟨d, 1, ggKGTl_piTop Θ, ggKGTl_latForm_one d,

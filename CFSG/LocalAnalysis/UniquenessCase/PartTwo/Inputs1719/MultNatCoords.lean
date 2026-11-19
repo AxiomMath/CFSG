@@ -148,7 +148,7 @@ theorem exists_coords_of_sumOfNatVia {W : Type} [CommGroup W] [Finite W] [Finite
         funext x
         have hh := h j hj x
         rw [he, hΦcoord] at hh
-        simpa [hh]
+        simp [hh]
       have hw' : Ψ.symm w = Pi.mulSingle (M := fun j : Fin k => ↥(I j)) i (Ψ.symm w i) := by
         funext j
         by_cases hj : j = i

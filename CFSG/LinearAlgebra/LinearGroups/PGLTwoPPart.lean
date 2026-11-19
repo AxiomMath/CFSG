@@ -91,7 +91,7 @@ theorem not_dvd_card_of_comm_permutes_noncyclic_two {p : ℕ} [Fact p.Prime] (hp
     exact Nat.Coprime.pow _ _ hcop2
   have hcardH : Nat.card (Y ⊔ S : Subgroup PGL(Fin 2, k)) = p ^ a * 2 ^ b := by
     rw [Quasithin.H23P4.card_eq_mul_of_coe_eq_mul
-      (Quasithin.H23P4.coe_sup_eq_mul_of_mul_comm hYS) (inf_eq_bot_of_coprime hcop), ha, hb]
+      (Quasithin.H23P4.coe_sup_eq_mul_of_mul_comm hYS) ((Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop))), ha, hb]
   set H' := (Y ⊔ S).map φ
   have hH' : Nat.card H' = p ^ a * 2 ^ b := by
     rw [Subgroup.card_map_of_injective hφ, hcardH]

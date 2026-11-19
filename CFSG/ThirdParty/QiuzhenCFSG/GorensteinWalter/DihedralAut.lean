@@ -179,7 +179,7 @@ private noncomputable def encode (m : ℕ) (hm : 2 ≤ m) :
         apply SemidirectProduct.ext
         · apply reflection_image_unique m (1 : MulAut (D m))
           · simpa [b] using reflection_image_spec m hm (1 : MulAut (D m))
-          · simpa [b] using reflection_image_spec m hm (1 : MulAut (D m))
+          · simp
         · simp [ρ]
       map_mul' := by
         intro f g

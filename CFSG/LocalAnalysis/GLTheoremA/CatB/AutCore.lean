@@ -76,7 +76,7 @@ variable {S : Type} [Group S] [Finite S]
 theorem index_inner_dvd_two (hZ : Subgroup.center S = ⊥)
     (hcard : Nat.card (MulAut S) ≤ 2 * Nat.card S) :
     ((MulAut.conj : S →* MulAut S).range).index ∣ 2 := by
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
+  have : Finite (MulAut S) := MulEquiv.finite_left
   have hIcard : Nat.card ((MulAut.conj : S →* MulAut S).range) = Nat.card S :=
     (Nat.card_congr (MonoidHom.ofInjective (conj_injective_of_center_eq_bot hZ)).toEquiv).symm
   have hidx := Subgroup.index_mul_card ((MulAut.conj : S →* MulAut S).range)
@@ -92,7 +92,7 @@ theorem index_inner_dvd_two (hZ : Subgroup.center S = ⊥)
 
 theorem sq_mem_inner (hZ : Subgroup.center S = ⊥) (hcard : Nat.card (MulAut S) ≤ 2 * Nat.card S)
     (a : MulAut S) : a ^ 2 ∈ (MulAut.conj : S →* MulAut S).range := by
-  haveI : ((MulAut.conj : S →* MulAut S).range).Normal := inner_normal S
+  have : ((MulAut.conj : S →* MulAut S).range).Normal := inner_normal S
   have h := Subgroup.pow_index_mem ((MulAut.conj : S →* MulAut S).range) a
   have h2 := index_inner_dvd_two hZ hcard
   rcases (Nat.dvd_prime Nat.prime_two).1 h2 with h1 | h1
@@ -109,13 +109,13 @@ theorem core_card_le_four (hZ : Subgroup.center S = ⊥)
     (hinvol : ∀ w : MulAut S, orderOf w = 2 →
       ¬ 9 ∣ Nat.card ↥(CFSG.Sporadic.Schreier.fixSub w))
     (H : Subgroup (MulAut S)) (hH : (MulAut.conj : S →* MulAut S).range ≤ H)
-    (x : MulAut S) (hxH : x ∈ H) (hx : orderOf x = 3) :
+    (x : MulAut S) (_hxH : x ∈ H) (hx : orderOf x = 3) :
     Nat.card (GLAPPrimeCoreOf 3 (H ⊓ Subgroup.centralizer ({x} : Set (MulAut S)))) ≤ 4 := by
   classical
-  haveI : Finite (MulAut S) := MulEquiv.finite_left
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut S) := MulEquiv.finite_left
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set I : Subgroup (MulAut S) := (MulAut.conj : S →* MulAut S).range with hIdef
-  haveI hInormal : I.Normal := inner_normal S
+  have hInormal : I.Normal := inner_normal S
   have hinj := conj_injective_of_center_eq_bot hZ
   have hIidx : I.index ∣ 2 := index_inner_dvd_two hZ hcard
   have hsq : ∀ a : MulAut S, a ^ 2 ∈ I := sq_mem_inner hZ hcard
@@ -212,7 +212,7 @@ theorem core_card_le_four (hZ : Subgroup.center S = ⊥)
     · intro h
       exact hInormal.conj_mem n h p
   let α := {n : ↥N // (n : MulAut S) ∉ I}
-  letI : MulAction ↥P α :=
+  let : MulAction ↥P α :=
     { smul := fun p a => ⟨⟨(p : MulAut S) * a.1 * (p : MulAut S)⁻¹, hPN p p.2 a.1 a.1.2⟩,
         fun h => a.2 ((hPI p a.1).1 h)⟩
       one_smul := fun a => Subtype.ext (Subtype.ext (by
@@ -225,9 +225,9 @@ theorem core_card_le_four (hZ : Subgroup.center S = ⊥)
         simp [mul_assoc])) }
   have hα4 : Nat.card α = 4 := by
     classical
-    haveI : Fintype ↥N := Fintype.ofFinite _
-    haveI : Fintype {n : ↥N // (n : MulAut S) ∈ I} := Fintype.ofFinite _
-    haveI : Fintype α := Fintype.ofFinite _
+    have : Fintype ↥N := Fintype.ofFinite _
+    have : Fintype {n : ↥N // (n : MulAut S) ∈ I} := Fintype.ofFinite _
+    have : Fintype α := Fintype.ofFinite _
     have h1 : Nat.card {n : ↥N // (n : MulAut S) ∈ I} = 4 := by
       have e1 : I.relIndex N * Nat.card ↥(I ⊓ N) = Nat.card N := Subgroup.relIndex_mul_card I N
       have e2 : Nat.card ↥(I.subgroupOf N) * (I.subgroupOf N).index = Nat.card ↥N :=

@@ -146,8 +146,8 @@ theorem s38d_commutator_mul_central {x₁ x₂ w₁ w₂ : G}
 theorem s38d_normalClosure_perfect {Q : Type*} [Group Q] {N : Subgroup Q} (hN : ⁅N, N⁆ = N) :
     ⁅normalClosure (N : Set Q), normalClosure (N : Set Q)⁆ = normalClosure (N : Set Q) := by
   apply le_antisymm (s38d_commutator_le_self _)
-  haveI : (normalClosure (N : Set Q)).Normal := Subgroup.normalClosure_normal
-  haveI : ⁅normalClosure (N : Set Q), normalClosure (N : Set Q)⁆.Normal := inferInstance
+  have : (normalClosure (N : Set Q)).Normal := Subgroup.normalClosure_normal
+  have : ⁅normalClosure (N : Set Q), normalClosure (N : Set Q)⁆.Normal := inferInstance
   refine normalClosure_le_normal fun x hx => ?_
   have : x ∈ ⁅N, N⁆ := by rw [hN]; exact hx
   exact commutator_mono subset_normalClosure subset_normalClosure this
@@ -246,7 +246,7 @@ theorem ProdLayer.center_eq_bot {H : Type*} [Group H] {J : Subgroup H} {a : H}
     have h1 : ψ (⟨e, he⟩ * d) = ψ (d * ⟨e, he⟩) := by
       obtain ⟨y, y', hy⟩ : ∃ y y' : J, ψ ⟨e, he⟩ = (y, y') := ⟨_, _, rfl⟩
       rw [map_mul, map_mul, hd, MulEquiv.apply_symm_apply, hy]
-      simp [Prod.ext_iff, hz y]
+      simp [hz y]
     exact congrArg Subtype.val (ψ.injective h1)
   rw [hP.centr, Subgroup.mem_bot] at hdc
   have h2 : d = 1 := Subtype.ext hdc
@@ -292,7 +292,7 @@ theorem s38d_simple_image {F F' : Type*} [Group F] [Group F'] [Finite F] (θ : F
     (hZ : ∀ z : K.map θ, (∀ y : K.map θ, z * y = y * z) → z = 1) :
     IsSimpleGroup (K.map θ) := by
   obtain ⟨e⟩ := s38d_quot_equiv_image θ hθ hK hKev hZ
-  haveI := hK.2
+  have := hK.2
   exact e.symm.isSimpleGroup
 
 theorem s38d_quasi_image {F F' : Type*} [Group F] [Group F'] [Finite F] (θ : F →* F')
@@ -301,11 +301,11 @@ theorem s38d_quasi_image {F F' : Type*} [Group F] [Group F'] [Finite F] (θ : F 
     (hZ : ∀ z : K.map θ, (∀ y : K.map θ, z * y = y * z) → z = 1) :
     CFSG.Open.IsQuasisimple (K.map θ) := by
   obtain ⟨e⟩ := s38d_quot_equiv_image θ hθ hK hKev hZ
-  haveI : IsSimpleGroup (K.map θ) := s38d_simple_image θ hθ hK hKev hZ
+  have : IsSimpleGroup (K.map θ) := s38d_simple_image θ hθ hK hKev hZ
   refine ⟨?_, ?_⟩
-  · haveI : Group.IsPerfect K := Group.isPerfect_def.2 hK.1
-    haveI : Group.IsPerfect (K ⧸ center K) := inferInstance
-    haveI : Group.IsPerfect (K.map θ) := Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
+  · have : Group.IsPerfect K := Group.isPerfect_def.2 hK.1
+    have : Group.IsPerfect (K ⧸ center K) := inferInstance
+    have : Group.IsPerfect (K.map θ) := Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
     exact Group.isPerfect_def.1 this
   · have hc : center (K.map θ) = ⊥ := by
       refine eq_bot_iff.2 fun z hz => ?_
@@ -330,7 +330,7 @@ theorem s38d_two_element_mul_centralizer [Finite G] {E L I : Subgroup G}
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hyk, one_zpow]
   have hMP : IsPGroup 2 M := hE2.to_sup_of_normal_left' hyP hyE
   have hMsolv : Group.IsSolvable M := by
-    haveI := hMP.isNilpotent
+    have := hMP.isNilpotent
     infer_instance
   obtain ⟨n, hn⟩ := (isPGroup_iff_card_dvd_pow.1 hMP)
   have hcop : (Nat.card I).Coprime (Nat.card M) :=
@@ -407,7 +407,7 @@ theorem s38d_perfect_le_normalClosure {Q : Type} [Group Q] [Finite Q] {J : Subgr
       have hdd : d = ι₁ x * ι₂ y := congrArg Subtype.val hd'
       rw [hdd]
       exact mul_mem (Subgroup.mem_sup_left ⟨x, rfl⟩) (Subgroup.mem_sup_right ⟨y, rfl⟩)
-  haveI : D.Normal := Subgroup.normalClosure_normal
+  have : D.Normal := Subgroup.normalClosure_normal
   have hC : Odd (Nat.card (centralizer ((ι₁.range ⊔ ι₂.range : Subgroup Q) : Set Q))) := by
     rw [hsup, hP.centr]
     simp
@@ -423,7 +423,7 @@ theorem s38d_normal_closure_of_conj {Q : Type*} [Group Q] (S : Set Q)
   refine ⟨fun n hn g => ?_⟩
   induction hn using Subgroup.closure_induction with
   | mem x hx => exact Subgroup.subset_closure (h g x hx)
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have : g * (x * y) * g⁻¹ = (g * x * g⁻¹) * (g * y * g⁻¹) := by group
     rw [this]
@@ -440,7 +440,7 @@ theorem s38d_closure_two_elements {K : Type*} [Group K] (hK : CFSG.Open.IsQuasis
   have hSc : ∀ g : K, ∀ s ∈ S, g * s * g⁻¹ ∈ S := by
     rintro g s ⟨k, hk⟩
     exact ⟨k, by rw [conj_pow, hk, mul_one, mul_inv_cancel]⟩
-  haveI := s38d_normal_closure_of_conj S hSc
+  have := s38d_normal_closure_of_conj S hSc
   rcases s38d_quasisimple_normal hK (inferInstance : (Subgroup.closure S).Normal) with h | h
   · exact h
   · exfalso
@@ -469,6 +469,7 @@ theorem s38d_E_le_centralizerSection (d : Data G h) : d.E ≤ centralizerSection
   rw [this]
   exact mul_mem h1 (inv_mem he)
 
+omit [Finite G] in
 theorem s38d_centralizerSection_le (d : Data G h) :
     centralizerSection d.L₂ d.E ≤ normalizer (d.E : Set G) := fun _ hg => hg.2.1
 
@@ -591,7 +592,7 @@ theorem s38d_V_le (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp) :
 theorem s38d_exists_involution_N₂ (hd : d.Hyp) : ∃ x ∈ d.N₂, x ≠ 1 ∧ x * x = 1 := by
   obtain ⟨hinf, -⟩ := d.isSylowOf_N₂_inf_P
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hcl := d.closure_involutions_CPI₂.1
   have hsub : {x | x ∈ d.CPI₂ ∧ x * x = 1} ⊆ {1} := by
     rintro x ⟨hx, hx2⟩
@@ -610,6 +611,7 @@ theorem s38d_exists_involution_N₂ (hd : d.Hyp) : ∃ x ∈ d.N₂, x ≠ 1 ∧
   have : 1 < 2 ^ f := Nat.one_lt_two_pow (by omega)
   omega
 
+omit [Finite G] in
 theorem s38d_odd_I₂ (d : Data G h) : Odd (Nat.card d.I₂) :=
   Odd.of_dvd_nat d.odd_card_I (Subgroup.card_dvd_of_le d.I₂_le_I)
 
@@ -769,13 +771,16 @@ theorem s38d_exists_X (hGMS : GMSK.GMSUnitarySharpKRankOneStatement) (hd : d.Hyp
     _ = d.E ⊔ (X ⊔ N) := by rw [hXN]
     _ ≤ d.E ⊔ X := sup_le le_sup_left (sup_le le_sup_right (inf_le_right.trans le_sup_left))
 
+omit [Finite G] in
 theorem s38d_M₂_subgroupOf (d : Data G h) :
     d.M₂.subgroupOf d.s38dH = normalClosure ((d.N₂.subgroupOf d.s38dH : Subgroup ↥d.s38dH) :
       Set ↥d.s38dH) :=
   Subgroup.comap_map_eq_self_of_injective d.s38dH.subtype_injective _
 
+omit [Finite G] in
 theorem s38d_M₂_le_H (d : Data G h) : d.M₂ ≤ d.s38dH := fun _ ⟨_, _, e⟩ => e ▸ Subtype.property _
 
+omit [Finite G] in
 theorem s38d_M₂_normal (d : Data G h) : (d.M₂.subgroupOf d.s38dH).Normal := by
   rw [s38d_M₂_subgroupOf]
   infer_instance
@@ -805,8 +810,8 @@ theorem s38d_X_le_M₂ (hp : d.ProductCaseHyp) {X : Subgroup G} (hXH : X ≤ d.s
     refine ⟨n, hn, ?_⟩
     have : d.s38dθ (n⁻¹ * m) = 1 := by rw [map_mul, map_inv, hnm, inv_mul_cancel]
     exact (QuotientGroup.eq_one_iff _).1 this
-  haveI := s38d_M₂_normal d
-  haveI : Group.IsSolvable d.s38dO :=
+  have := s38d_M₂_normal d
+  have : Group.IsSolvable d.s38dO :=
     CFSG.FeitThompson.isSolvable_of_odd_natCard _ (GMSK.odd_card_standardComponentOddCore _)
   have hres : X' ≤ d.M₂.subgroupOf d.s38dH :=
     CFSG.LocalAnalysis.EvenBN.Sp4.BothTrivialProduct.perfect_le_of_forall_inv_mul_mem
@@ -879,7 +884,7 @@ theorem s38d_M₂_le_X (hp : d.ProductCaseHyp)
   have hN'perf : ⁅d.N₂.subgroupOf d.s38dH, d.N₂.subgroupOf d.s38dH⁆ = d.N₂.subgroupOf d.s38dH :=
     s38d_perfect_subgroupOf d.N₂_le_centralizer_I₂ (s38d_N₂_perfect hp.hyp)
   have hCent : ∀ m ∈ M', ∀ o ∈ d.s38dO, o * m = m * o := by
-    haveI : (centralizer (d.s38dO : Set ↥d.s38dH)).Normal := Subgroup.normal_centralizer
+    have : (centralizer (d.s38dO : Set ↥d.s38dH)).Normal := Subgroup.normal_centralizer
     have hN' : (d.N₂.subgroupOf d.s38dH : Set ↥d.s38dH) ⊆
         (centralizer (d.s38dO : Set ↥d.s38dH) : Set ↥d.s38dH) := by
       intro n hn
@@ -936,7 +941,7 @@ theorem s38d_X_le_N₂ (hO : ∀ o : ↥d.s38dH, o ∈ d.s38dO → ∀ n ∈ d.N
     refine ⟨n, hn, ?_⟩
     have : d.s38dθ (n⁻¹ * m) = 1 := by rw [map_mul, map_inv, hnm, inv_mul_cancel]
     exact (QuotientGroup.eq_one_iff _).1 this
-  haveI : Group.IsSolvable d.s38dO :=
+  have : Group.IsSolvable d.s38dO :=
     CFSG.FeitThompson.isSolvable_of_odd_natCard _ (GMSK.odd_card_standardComponentOddCore _)
   have hCN : d.s38dO ≤ normalizer (N' : Set ↥d.s38dH) := by
     intro o ho
@@ -967,7 +972,7 @@ theorem s38d_normalClosure_le (d : Data G h) :
     normalClosure (((bar d.E d.N₂).map (QuotientGroup.mk' (OE d)) :
       Subgroup (Bar d.E ⧸ OE d)) : Set (Bar d.E ⧸ OE d)) ≤
       (bar d.E d.L₂).map (QuotientGroup.mk' (OE d)) := by
-  haveI := (s38d_bar_L₂_normal d).map (QuotientGroup.mk' (OE d)) (QuotientGroup.mk'_surjective _)
+  have := (s38d_bar_L₂_normal d).map (QuotientGroup.mk' (OE d)) (QuotientGroup.mk'_surjective _)
   exact normalClosure_le_normal (map_mono (bar_mono d.N₂_le_L₂))
 
 theorem s38d_bar_sup_le (d : Data G h) : bar d.E (d.E ⊔ d.N₂) ≤ bar d.E d.N₂ := by
@@ -1043,8 +1048,8 @@ theorem s38d_L₂_eq (hp : d.ProductCaseHyp) (ho : d.Sec38Outcome) (hodd : d.Sec
     rw [← hEX]
     exact sup_le_sup_left hXN _
 
-theorem sec38_layer (hp : d.ProductCaseHyp) (ha : d.Sec38a) (hi : d.Sec38Input)
-    (hnn : d.Sec38NotNormal) (ho : d.Sec38Outcome) (hodd : d.Sec38Odd) : d.Sec38Layer :=
+theorem sec38_layer (hp : d.ProductCaseHyp) (_ha : d.Sec38a) (_hi : d.Sec38Input)
+    (_hnn : d.Sec38NotNormal) (ho : d.Sec38Outcome) (hodd : d.Sec38Odd) : d.Sec38Layer :=
   ⟨s38d_L₂_eq hp ho hodd, s38d_V_le hp.gms hp.hyp, s38d_odd ho⟩
 
 end Data

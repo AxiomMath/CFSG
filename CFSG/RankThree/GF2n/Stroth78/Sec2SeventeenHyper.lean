@@ -18,7 +18,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
 theorem not_centerIn_le_Q_of_Rbar_ne_bot (S : Setting z E F) {a : G}
-    (hza : z ∈ QaOf a) (hR : Rbar S a ≠ ⊥) :
+    (_hza : z ∈ QaOf a) (hR : Rbar S a ≠ ⊥) :
     ¬ centerIn (QaOf a) ≤ Q z := by
   intro h
   exact hR (rbar_eq_bot_of_centerIn_le_Q S a h)

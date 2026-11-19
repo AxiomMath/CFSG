@@ -95,7 +95,7 @@ theorem ugetP_eq (bs : List (Array (Nat × Nat × Nat × Nat))) (h : ∀ b ∈ b
     simp only [List.map_cons, ugetP, uget]
     cases hk : Nat.blt k b.size
     · exact ih (fun c hc => h c (List.mem_cons_of_mem _ hc)) _
-    · simp only [cond_true]
+    · simp only [_root_.Bool.cond_true]
       rw [decE_packB _ (h b (List.mem_cons_self ..)), getElem!_eq_toList_getDL]
 
 theorem withPacked_eq {β : Sort _} (bs : List (Array (Nat × Nat × Nat × Nat)))

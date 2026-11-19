@@ -20,6 +20,7 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 private instance instFiniteGLVProp35 : Finite (GLV V) :=
   Finite.of_injective (fun f : GLV V => (f : V → V)) fun _ _ h => LinearEquiv.ext (congrFun h)
 
+omit [Finite V] in
 private theorem commSpace_commSpace_of_perfect' {L : Subgroup (GLV V)} (hperf : ⁅L, L⁆ = L)
     {X : Submodule (ZMod 2) V} (hX : Invariant L X) :
     commSpace L (commSpace L X) = commSpace L X := by
@@ -60,6 +61,7 @@ private theorem commSpace_commSpace_of_perfect' {L : Subgroup (GLV V)} (hperf : 
   rw [hperf] at hcomm
   exact commSpace_le_iff.2 fun l hl v hv => (hcomm hl).2 v hv
 
+omit [Finite V] in
 private theorem trivial_of_commSpace_le_fixedSpace' {L : Subgroup (GLV V)} (hperf : ⁅L, L⁆ = L)
     {X : Submodule (ZMod 2) V} (hX : Invariant L X) (h : commSpace L X ≤ fixedSpace L) :
     ∀ l ∈ L, ∀ x ∈ X, l x = x := by
@@ -68,6 +70,7 @@ private theorem trivial_of_commSpace_le_fixedSpace' {L : Subgroup (GLV V)} (hper
   rw [commSpace_commSpace_of_perfect' hperf hX] at h0
   exact commSpace_eq_bot_iff.1 h0
 
+omit [Finite V] in
 theorem trivial_or_commSpace_le {L : Subgroup (GLV V)} (hperf : ⁅L, L⁆ = L)
     (hirr : HasIrrTildeV L) {U : Submodule (ZMod 2) V} (hU : Invariant L U) :
     (∀ l ∈ L, ∀ u ∈ U, l u = u) ∨ commSpace L ⊤ ≤ U := by
@@ -102,6 +105,7 @@ theorem trivial_or_commSpace_le {L : Subgroup (GLV V)} (hperf : ⁅L, L⁆ = L)
     rw [e]
     exact U.sub_mem (hU l hl u hu.1) hu.1
 
+omit [Finite V] in
 private theorem conj_mem_layerIn {G : Subgroup (GLV V)} {g : GLV V} (hg : g ∈ G) {e : GLV V}
     (he : e ∈ layerIn G) : g * e * g⁻¹ ∈ layerIn G := by
   have : (CFSG.layer ↥G).Characteristic := CFSG.LocalCores.layer_characteristic
@@ -109,16 +113,20 @@ private theorem conj_mem_layerIn {G : Subgroup (GLV V)} {g : GLV V} (hg : g ∈ 
   exact ⟨⟨g, hg⟩ * e₀ * ⟨g, hg⟩⁻¹, Subgroup.Normal.conj_mem inferInstance e₀ he₀ ⟨g, hg⟩,
     by simp⟩
 
+omit [Finite V] in
 private theorem layerIn_perfect (G : Subgroup (GLV V)) : ⁅layerIn G, layerIn G⁆ = layerIn G := by
   rw [← Subgroup.map_commutator, CFSG.LocalCores.layer_perfect]
 
+omit [Finite V] in
 private theorem Setup6.perfect {G S L : Subgroup (GLV V)} (h : Setup6 G S L) : ⁅L, L⁆ = L :=
   Subgroup.isPerfect_iff.1 (Group.isPerfect_def.2 h.component.2.2.1)
 
+omit [Finite V] in
 private theorem Setup6.commSpace_ne_bot {G S L : Subgroup (GLV V)} (h : Setup6 G S L) :
     commSpace L ⊤ ≠ ⊥ :=
   ne_bot_of_gt h.irrTilde.1
 
+omit [Finite V] in
 private theorem commSpace_closure_le {s : Set (GLV V)} {U : Submodule (ZMod 2) V}
     (h : ∀ x ∈ s, ∀ v, x v - v ∈ U) : commSpace (Subgroup.closure s) ⊤ ≤ U := by
   let K : Subgroup (GLV V) :=
@@ -133,6 +141,7 @@ private theorem commSpace_closure_le {s : Set (GLV V)} {U : Submodule (ZMod 2) V
   have hle : Subgroup.closure s ≤ K := (Subgroup.closure_le K).2 h
   exact commSpace_le_iff.2 fun k hk v _ => hle hk v
 
+omit [Finite V] in
 private theorem fixes_of_mem_closure {s : Set (GLV V)} {U : Submodule (ZMod 2) V}
     (h : ∀ x ∈ s, ∀ u ∈ U, x u = u) : ∀ g ∈ Subgroup.closure s, ∀ u ∈ U, g u = u := by
   have hle : Subgroup.closure s ≤ centralizerOn ⊤ U :=
@@ -140,10 +149,10 @@ private theorem fixes_of_mem_closure {s : Set (GLV V)} {U : Submodule (ZMod 2) V
   exact fun g hg u hu => (hle hg).2 u hu
 
 theorem Setup6Irr.eq_bot_of_isPGroup {G S L : Subgroup (GLV V)} (h : Setup6Irr G S L)
-    {P : Subgroup (GLV V)} (hPG : P ≤ G) (hP : IsPGroup 2 P)
+    {P : Subgroup (GLV V)} (_hPG : P ≤ G) (hP : IsPGroup 2 P)
     (hN : G ≤ Subgroup.normalizer (P : Set (GLV V))) : P = ⊥ :=
   CFSG.Quasithin.SzN31.eq_bot_of_isPGroup_normal h.irr
-    (fun γ hγ n hn => (Subgroup.mem_normalizer_iff.1 (hN hγ) n).1 hn) hP
+    (fun _γ hγ n hn => (Subgroup.mem_normalizer_iff.1 (hN hγ) n).1 hn) hP
 
 theorem Setup6Irr.normalClosure_layerIn {G S L : Subgroup (GLV V)} (h : Setup6Irr G S L) :
     normalClosure (layerIn G) L = layerIn G := by

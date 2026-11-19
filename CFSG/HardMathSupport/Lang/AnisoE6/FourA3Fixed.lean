@@ -29,7 +29,7 @@ theorem ωγWord_smul_e1 :
     (coxeterSystem Tag.E6).wordProd ωγWord • (Pi.single (e6Index 1) 1 : Fin Tag.E6.rank → ℤ) =
       gammaVec := by
   simp only [ωγWord_eq, CoxeterSystem.wordProd, List.map, List.prod_cons, List.prod_nil, mul_smul,
-    one_smul, simple_smul, gammaVec]
+    one_smul, simple_smul]
   decide +kernel
 
 variable (K : Type) [Field K]

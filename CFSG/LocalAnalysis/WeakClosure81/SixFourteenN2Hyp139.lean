@@ -13,7 +13,7 @@ open CFSG.Quasithin CFSG.Open
 theorem concl139_two_of_hyp139_n2 {W : Type} [CommGroup W] [Finite W]
     (hw2 : ∀ w : W, w ^ 2 = 1)
     {G X D : Subgroup (MulAut W)} {s : MulAut W} {Y : Subgroup W}
-    (hK : CFSG.Open.IsKGroup ↥G) (hpCore : pCoreOf 2 G = ⊥)
+    (_hK : CFSG.Open.IsKGroup ↥G) (_hpCore : pCoreOf 2 G = ⊥)
     (hirr : ∀ Z : Subgroup W, (∀ g ∈ G, ∀ z ∈ Z, g z ∈ Z) → Z = ⊥ ∨ Z = ⊤)
     (ht2 : ∃ t ∈ G, orderOf t = 2 ∧ rkIdx (fixV (Subgroup.zpowers t)) ≤ 3)
     (hXG : X ≤ G) (hXnorm : ∀ g ∈ G, ∀ y ∈ X, g * y * g⁻¹ ∈ X)
@@ -36,7 +36,7 @@ theorem concl139_two_of_hyp139_n2 {W : Type} [CommGroup W] [Finite W]
     omega
   have hfixX : fixV X = ⊥ := fixV_eq_bot_of_irreducible hirr hXG hXnorm hXne
   have hXcard' : Nat.card ↥X = 3 := hXcard
-  letI : Fintype ↥X := Fintype.ofFinite _
+  let : Fintype ↥X := Fintype.ofFinite _
   have hXcardF : Fintype.card ↥X = 3 := by
     rw [← Nat.card_eq_fintype_card, hXcard']
   obtain ⟨xX, hxXne⟩ : ∃ xX : ↥X, xX ≠ 1 := by
@@ -77,7 +77,7 @@ theorem concl139_two_of_hyp139_n2 {W : Type} [CommGroup W] [Finite W]
     exact ((Subgroup.mem_centralizer_iff.mp hcent) x hxX).symm
   have hDcard2 : Nat.card D = 2 := by
     simpa using hDcard
-  letI : Fintype ↥D := Fintype.ofFinite _
+  let : Fintype ↥D := Fintype.ofFinite _
   obtain ⟨dD, hdDne⟩ : ∃ dD : ↥D, dD ≠ 1 := by
     refine Fintype.exists_ne_of_one_lt_card ?_ (1 : ↥D)
     rw [← Nat.card_eq_fintype_card, hDcard2]
@@ -97,7 +97,7 @@ theorem concl139_two_of_hyp139_n2 {W : Type} [CommGroup W] [Finite W]
     intro y hy
     exact (hDCX d hdD y hy).symm
   have hYcard : Nat.card Y = 4 := card_of_rkIdx_two hYrk hW16
-  letI := galoisModule hw2 x hx3 hfix
+  let := galoisModule hw2 x hx3 hfix
   have hdich := H_transitive_or_pair_Hyp139_n2 hw2 x hx3 hx_ord3 hfix hW16 hH hXG hXnorm
     hxgen hsG hs_ord2 hs_not_cent hirr hD hDCX hElem hDcard2 hYD hYinv hYcard hcommH
   rcases hdich with htrans | ⟨S, hS2, hSne, hSproper, hSinv⟩

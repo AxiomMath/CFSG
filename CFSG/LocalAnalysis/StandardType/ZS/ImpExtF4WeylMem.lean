@@ -128,9 +128,7 @@ private theorem weylRefl_e1 (_hp : p ≠ 2) (f : Module.Basis (Fin 4) (ZMod p) U
   · simp [Fin.sum_univ_four, Pi.single_apply, Pi.sub_apply]
     try ring
   · funext j; fin_cases j <;> simp [Pi.single_apply, Pi.sub_apply]
-    try ring
   · funext j; fin_cases j <;> simp [Pi.single_apply, Pi.sub_apply]
-    try ring
 
 private theorem weylRefl_e2 (hp : p ≠ 2) (f : Module.Basis (Fin 4) (ZMod p) U) :
     WeylRefl f (Pi.single 2 1) (Pi.single 2 2) := by
@@ -138,9 +136,7 @@ private theorem weylRefl_e2 (hp : p ≠ 2) (f : Module.Basis (Fin 4) (ZMod p) U)
   · simp [Fin.sum_univ_four, Pi.single_apply, Pi.sub_apply]
     try ring
   · funext j; fin_cases j <;> simp [Pi.single_apply, Pi.sub_apply]
-    try ring
   · funext j; fin_cases j <;> simp [Pi.single_apply, Pi.sub_apply]
-    try ring
 
 private theorem weylRefl_s23 (hp : p ≠ 2) (f : Module.Basis (Fin 4) (ZMod p) U) :
     WeylRefl f (Pi.single 3 1 - Pi.single 2 1) (Pi.single 3 1 - Pi.single 2 1) := by
@@ -157,9 +153,7 @@ private theorem weylRefl_e3 (hp : p ≠ 2) (f : Module.Basis (Fin 4) (ZMod p) U)
   · simp [Fin.sum_univ_four, Pi.single_apply, Pi.sub_apply]
     try ring
   · funext j; fin_cases j <;> simp [Pi.single_apply, Pi.sub_apply]
-    try ring
   · funext j; fin_cases j <;> simp [Pi.single_apply, Pi.sub_apply]
-    try ring
 
 private theorem weylRefl_s13 (hp : p ≠ 2) (f : Module.Basis (Fin 4) (ZMod p) U) :
     WeylRefl f (Pi.single 3 1 - Pi.single 1 1) (Pi.single 3 1 - Pi.single 1 1) := by
@@ -168,10 +162,8 @@ private theorem weylRefl_s13 (hp : p ≠ 2) (f : Module.Basis (Fin 4) (ZMod p) U
     try ring
   · funext j; fin_cases j <;>
       simp [Fin.sum_univ_four, Pi.single_apply, Pi.sub_apply]
-    try ring
   · funext j; fin_cases j <;>
       simp [Fin.sum_univ_four, Pi.single_apply, Pi.sub_apply]
-    try ring
 
 private theorem weylRefl_s03 (hp : p ≠ 2) (f : Module.Basis (Fin 4) (ZMod p) U) :
     WeylRefl f (Pi.single 3 1 - Pi.single 0 1) (Pi.single 3 1 - Pi.single 0 1) := by
@@ -180,10 +172,8 @@ private theorem weylRefl_s03 (hp : p ≠ 2) (f : Module.Basis (Fin 4) (ZMod p) U
     try ring
   · funext j; fin_cases j <;>
       simp [Fin.sum_univ_four, Pi.single_apply, Pi.sub_apply]
-    try ring
   · funext j; fin_cases j <;>
       simp [Fin.sum_univ_four, Pi.single_apply, Pi.sub_apply]
-    try ring
 
 private theorem weylRefl_coord (hp : p ≠ 2) (f : Module.Basis (Fin 4) (ZMod p) U)
     (i : Fin 4) : WeylRefl f (Pi.single i 1) (Pi.single i 2) := by
@@ -218,9 +208,9 @@ private theorem weylRefl_flip (hp : p ≠ 2) (f : Module.Basis (Fin 4) (ZMod p) 
   refine weylRefl_conj ?_ (weylRefl_coord hp f i) hε ?_ ?_
   · fin_cases i <;> simp [Pi.single_apply]
   · funext j; fin_cases j <;> fin_cases i <;>
-      simp [Pi.single_apply, Function.update, Pi.sub_apply, Pi.smul_apply] <;> first | rfl | ring
+      simp [Pi.single_apply, Function.update, Pi.sub_apply, Pi.smul_apply] <;> ring
   · funext j; fin_cases j <;> fin_cases i <;>
-      simp [Pi.single_apply, Function.update, Pi.sub_apply, Pi.smul_apply] <;> first | rfl | ring
+      simp [Pi.single_apply, Function.update, Pi.sub_apply, Pi.smul_apply] <;> ring
 
 private theorem weylRefl_half (hp : p ≠ 2) (f : Module.Basis (Fin 4) (ZMod p) U)
     {ε : Fin 4 → ZMod p} (hε : ∀ i, ε i = 1 ∨ ε i = -1) :

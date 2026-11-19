@@ -23,7 +23,7 @@ theorem coverActsTriviallyOnSmall_of_d2Heis {p : ℕ} [Fact p.Prime] (hp5 : 5 �
       hH L ⊤ inferInstance hC ⟨Subgroup.topEquiv.trans e⟩ p rfl R
     have hnc : ∃ a ∈ (R : Subgroup L), ∃ b ∈ (R : Subgroup L), a * b ≠ b * a := by
       by_contra h
-      push_neg at h
+      push Not at h
       have hle : (R : Subgroup L) ≤ Subgroup.centralizer ((R : Subgroup L) : Set L) := by
         intro a ha
         rw [Subgroup.mem_centralizer_iff]
@@ -34,12 +34,12 @@ theorem coverActsTriviallyOnSmall_of_d2Heis {p : ℕ} [Fact p.Prime] (hp5 : 5 �
       rw [hcomm] at hbot
       rw [hbot, Subgroup.card_bot] at hZcard
       exact (Fact.out : p.Prime).ne_one hZcard.symm
-    exact coverActsTriviallyOnSmall_of_nonabelian Fact.out hp5 R.isPGroup' hnc
+    exact coverActsTriviallyOnSmall_of_nonabelian Fact.out hp5 R.isPGroup hnc
   ·
     intro J _ _ hJ φ hφ
     exfalso
-    haveI : Group.IsPerfect J := hJ
-    haveI : Group.IsPerfect L := Group.IsPerfect.ofSurjective (f := φ) hφ
+    have : Group.IsPerfect J := hJ
+    have : Group.IsPerfect L := Group.IsPerfect.ofSurjective (f := φ) hφ
     have hcommL : ∀ a b : L, a * b = b * a :=
       isMulCommutative_iff.mp (Subgroup.center_eq_top_iff.mp hZ)
     exact Group.IsPerfect.not_isSolvable L ((IsSimpleGroup.comm_iff_isSolvable).mp hcommL)

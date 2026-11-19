@@ -159,7 +159,7 @@ theorem rank_three_component_normalizer_control (hrank : 3 ≤ CFSG.pRank 2 G) (
       (∀ Q : Subgroup G, Q ≤ S → 3 ≤ CFSG.pRank 2 Q →
         Subgroup.normalizer (Q : Set G) ≤ rankThreeClassStabilizer Estar) ∧
       (¬ Conn3 G → rankThreeClassStabilizer Estar < ⊤) := by
-  have hS : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hS : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   refine ⟨?_, fun Estar hEstar hEstarS => ?_⟩
   · obtain ⟨E, hE⟩ := exists_mem_E3_of_three_le_pRank hrank
     obtain ⟨g, hg⟩ := exists_conjugate_le_sylow (rankThree_elementary_isPGroup E hE.1) S

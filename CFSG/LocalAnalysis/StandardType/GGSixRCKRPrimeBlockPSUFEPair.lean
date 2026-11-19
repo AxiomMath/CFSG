@@ -19,9 +19,9 @@ private lemma rckRPfu_transpose_map_antidiag {F : Type} [Field F] (σ : F →+* 
   simp only [Matrix.transpose_apply, Matrix.map_apply, Unitary.antidiag, Matrix.of_apply]
   by_cases h : i = Fin.rev j
   · have h' : j = Fin.rev i := by rw [h, Fin.rev_rev]
-    rw [if_pos h, if_pos h', map_one]
+    rw [ite_eq_left h, ite_eq_left h', map_one]
   · have h' : j ≠ Fin.rev i := fun hh => h (by rw [hh, Fin.rev_rev])
-    rw [if_neg h, if_neg h', map_zero]
+    rw [ite_eq_right h, ite_eq_right h', map_zero]
 
 private lemma rckRPfu_isometry {F : Type} [Field F] {σ : F ≃+* F} {n : ℕ} {x : GL (Fin n) F}
     (hx : x ∈ Unitary.SU σ n) :
@@ -85,14 +85,14 @@ theorem rckRP_flaggedModel_PSU_fieldExtPair
     (fun s hs => hSU s hs) hS he hpair
   obtain ⟨K, hKf, hKa, hKfin, W, hWac, hWF, hWK, hTower, hWfd, eW, φ, hcard, hφ, hφc, hact,
       hcomm⟩ := exists_blockAction_dualPair_PSU hc hSU hS hodd hε he hdeg hpair
-  letI : Field K := hKf
-  letI : Algebra (GaloisField 2 (2 * (g + 1))) K := hKa
-  letI : Finite K := hKfin
-  letI : AddCommGroup W := hWac
-  letI : Module (GaloisField 2 (2 * (g + 1))) W := hWF
-  letI : Module K W := hWK
-  letI : IsScalarTower (GaloisField 2 (2 * (g + 1))) K W := hTower
-  letI : FiniteDimensional K W := hWfd
+  let : Field K := hKf
+  let : Algebra (GaloisField 2 (2 * (g + 1))) K := hKa
+  let : Finite K := hKfin
+  let : AddCommGroup W := hWac
+  let : Module (GaloisField 2 (2 * (g + 1))) W := hWF
+  let : Module K W := hWK
+  let : IsScalarTower (GaloisField 2 (2 * (g + 1))) K W := hTower
+  let : FiniteDimensional K W := hWfd
   have hq : 2 ≤ 2 * (g + 1) *
       blockDegree (Algebra.adjoin (GaloisField 2 (2 * (g + 1))) (Units.val '' S)) e := by
     nlinarith
@@ -155,14 +155,14 @@ theorem rckRP_modelBig_PSU_fieldExtPair
     (fun s hs => hSU s hs) hS he hpair
   obtain ⟨K, hKf, hKa, hKfin, W, hWac, hWF, hWK, hTower, hWfd, eW, φ, hcard, hφ, hφc, hact,
       hcomm⟩ := exists_blockAction_dualPair_PSU hc hSU hS hodd hε he hdeg hpair
-  letI : Field K := hKf
-  letI : Algebra (GaloisField 2 (2 * (g + 1))) K := hKa
-  letI : Finite K := hKfin
-  letI : AddCommGroup W := hWac
-  letI : Module (GaloisField 2 (2 * (g + 1))) W := hWF
-  letI : Module K W := hWK
-  letI : IsScalarTower (GaloisField 2 (2 * (g + 1))) K W := hTower
-  letI : FiniteDimensional K W := hWfd
+  let : Field K := hKf
+  let : Algebra (GaloisField 2 (2 * (g + 1))) K := hKa
+  let : Finite K := hKfin
+  let : AddCommGroup W := hWac
+  let : Module (GaloisField 2 (2 * (g + 1))) W := hWF
+  let : Module K W := hWK
+  let : IsScalarTower (GaloisField 2 (2 * (g + 1))) K W := hTower
+  let : FiniteDimensional K W := hWfd
   have hq : 2 ≤ 2 * (g + 1) *
       blockDegree (Algebra.adjoin (GaloisField 2 (2 * (g + 1))) (Units.val '' S)) e := by
     nlinarith

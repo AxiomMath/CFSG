@@ -10,6 +10,7 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizer_le_of_three_dvd {M : Subgroup G} (hM : GLBStronglyEmbedded 3 M) {m : G}
     (hmM : m ∈ M) (h3 : 3 ∣ orderOf m) : centralizer ({m} : Set G) ≤ M := by
   intro g hg
@@ -26,6 +27,7 @@ theorem centralizer_le_of_three_dvd {M : Subgroup G} (hM : GLBStronglyEmbedded 3
   rw [orderOf_mk] at hdvd
   exact hM.2.2 g hgM (h3.trans hdvd)
 
+omit [Finite G] in
 theorem mem_map_conj_iff {K : Subgroup G} {l y : G} :
     y ∈ K.map (MulAut.conj l).toMonoidHom ↔ l⁻¹ * y * l ∈ K := by
   constructor
@@ -43,13 +45,13 @@ theorem exists_conj_eq_of_card_five {L A B : Subgroup G} (hAL : A ≤ L) (hBL : 
     (hA : Nat.card A = 5) (hB : Nat.card B = 5)
     (hsyl : ∀ D : Subgroup G, D ≤ L → IsPGroup 5 D → Nat.card D ≤ 5) :
     ∃ l ∈ L, B.map (MulAut.conj l).toMonoidHom = A := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hSyl : ∀ Q : Sylow 5 L, Nat.card (Q : Subgroup L) ≤ 5 := by
     intro Q
     have hinj : Function.Injective (L.subtype) := L.subtype_injective
     have hD : ((Q : Subgroup L).map L.subtype) ≤ L := Subgroup.map_subtype_le _
     have hpD : IsPGroup 5 ((Q : Subgroup L).map L.subtype) :=
-      Q.isPGroup'.map L.subtype
+      Q.isPGroup.map L.subtype
     have hc := Subgroup.card_map_of_injective (K := (Q : Subgroup L)) hinj
     rw [← hc]
     exact hsyl _ hD hpD
@@ -102,7 +104,7 @@ theorem exists_conj_eq_of_card_five {L A B : Subgroup G} (hAL : A ≤ L) (hBL : 
 
 theorem covering_of_involution {F : Subgroup G} {x c : G}
     (hodd : Odd (Nat.card (centralizer (F : Set G))))
-    (hc2 : c ^ 2 = 1) (hc1 : c ≠ 1) (hcN : c ∈ normalizer (F : Set G))
+    (hc2 : c ^ 2 = 1) (_hc1 : c ≠ 1) (hcN : c ∈ normalizer (F : Set G))
     (hcC : c ∉ centralizer (F : Set G)) (hcF : ∀ a ∈ F, c * a * c⁻¹ = a⁻¹)
     (hxC : x ∈ centralizer (F : Set G)) (hxc : x * c = c * x) (hx5 : orderOf x = 5)
     (hsyl : ∀ D : Subgroup G, D ≤ centralizer (F : Set G) → IsPGroup 5 D → Nat.card D ≤ 5) :
@@ -112,7 +114,7 @@ theorem covering_of_involution {F : Subgroup G} {x c : G}
   set N : Subgroup G := normalizer (F : Set G) with hNdef
   set C : Subgroup G := centralizer (F : Set G) with hCdef
   have hC_le_N : C ≤ N := Subgroup.centralizer_le_normalizer _
-  haveI hCn : (C.subgroupOf N).Normal := ⟨fun n hn g => by
+  have hCn : (C.subgroupOf N).Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     simpa using conj_mem_centralizer_of_mem_normalizer g.2 hn⟩
   have hodd' : Odd (Nat.card (C.subgroupOf N)) := by
@@ -247,6 +249,7 @@ theorem covering_of_involution {F : Subgroup G} {x c : G}
       rw [h5] at h3
       exact h3
 
+omit [Finite G] in
 theorem exists_exponent_four {x a : G} (hx5 : orderOf x = 5)
     (ha : a ∈ normalizer ((zpowers x : Subgroup G) : Set G)) :
     ∃ j : ℤ, a * x * a⁻¹ = x ^ j ∧ x ^ (j ^ 4) = x := by
@@ -287,6 +290,7 @@ theorem exists_exponent_four {x a : G} (hx5 : orderOf x = 5)
     _ = x ^ (j ^ 4 - 1) * x := zpow_add_one x _
     _ = x := by rw [hx41, one_mul]
 
+omit [Finite G] in
 theorem pow_four_mem_centralizer {x a : G} (hx5 : orderOf x = 5)
     (ha : a ∈ normalizer ((zpowers x : Subgroup G) : Set G)) :
     a ^ 4 ∈ centralizer ({x} : Set G) := by
@@ -308,6 +312,7 @@ theorem pow_four_mem_centralizer {x a : G} (hx5 : orderOf x = 5)
   calc a ^ 4 * x = (a ^ 4 * x * (a ^ 4)⁻¹) * a ^ 4 := by group
     _ = x * a ^ 4 := by rw [h4]
 
+omit [Finite G] in
 theorem conj_mem_centralizer_of_normalizer_zpowers {x a w : G} (hx5 : orderOf x = 5)
     (ha : a ∈ normalizer ((zpowers x : Subgroup G) : Set G))
     (hw : w ∈ centralizer ({x} : Set G)) :

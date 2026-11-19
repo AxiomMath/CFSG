@@ -67,24 +67,24 @@ theorem conj_injective_of_centralizer_eq_bot {X : Type*} [Group X] {L : Subgroup
 
 theorem unitaryOuterResidual_holds : UnitaryOuterResidual := by
   intro p hp hp2 X _ _ L _ hC hE m q hv hm ⟨e⟩ hφ hq1 x hx
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hN3 : 3 ≤ m + 1 := by omega
   have hmodel := CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA m q hv (MulEquiv.refl _)
   have hqne : ¬ (m + 1 = 3 ∧ q.p ^ q.exponent = 2) := fun h => hmodel.1.2.2.2 (by rw [h.1, h.2])
   obtain ⟨K, _, hU, ⟨e₀⟩, ⟨eP⟩⟩ :=
     CFSG.HardMathSupport.Curtis.Coordinator.SeitzTower.exists_primeFormP_mulEquiv_of_statedModel
       hmodel
-  haveI : Finite K := hU.finite
+  have : Finite K := hU.finite
   have hC1 : IsPrimeFormGram (1 : GL (Fin (m + 1)) K) := isPrimeFormGram_one'
   set Cmat : Matrix (Fin (m + 1)) (Fin (m + 1)) K :=
     ((1 : GL (Fin (m + 1)) K) : Matrix (Fin (m + 1)) (Fin (m + 1)) K) with hCmat
   let eL : ↥L ≃* primeFormP hU Cmat := e.trans eP
-  haveI : Finite (primeFormP hU Cmat) := Finite.of_equiv _ eL.toEquiv
+  have : Finite (primeFormP hU Cmat) := Finite.of_equiv _ eL.toEquiv
   have hq1' : ¬ p ∣ q.p ^ q.exponent + 1 := by
     rwa [TauCeti.PrimePower.card_def] at hq1
   have hker : (primeFormFieldFactor hU hC1 hN3 hqne).ker = primeFormD hU Cmat :=
     ker_primeFormFieldFactor hU hC1 hN3 hqne
-  haveI hDn : (primeFormD hU Cmat).Normal := by
+  have hDn : (primeFormD hU Cmat).Normal := by
     rw [← hker]
     infer_instance
   have hΘfld : ∀ σ : K ≃+* K,
@@ -94,7 +94,7 @@ theorem unitaryOuterResidual_holds : UnitaryOuterResidual := by
   have hIDle : inner (primeFormP hU Cmat) ≤ primeFormD hU Cmat := fun α hα => by
     obtain ⟨s, rfl⟩ := (mem_inner_primeFormP hU Cmat α).1 hα
     exact ⟨_, rfl⟩
-  haveI : (inner (primeFormP hU Cmat)).Normal := inner_normal _
+  have : (inner (primeFormP hU Cmat)).Normal := inner_normal _
   have hDI : ∀ w ∈ primeFormD hU Cmat, (∃ k : ℕ, w ^ (p ^ k) = 1) →
       w ∈ inner (primeFormP hU Cmat) := by
     rintro w hw ⟨k, hk⟩

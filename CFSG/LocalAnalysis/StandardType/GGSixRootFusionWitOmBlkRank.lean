@@ -39,8 +39,8 @@ theorem exists_conj_mem_zpowers {H : Type*} [Group H] [Finite H] {p : ℕ} (hp :
   have hbmem : b ∈ (P : Subgroup H) := hbPle (Subgroup.mem_zpowers b)
   have hPnt : Nontrivial (P : Subgroup H) :=
     ⟨⟨⟨b, hbmem⟩, 1, fun h' => hb1 (congrArg Subtype.val h')⟩⟩
-  have hZ := P.isPGroup'.center_nontrivial
-  have hZP : IsPGroup p (Subgroup.center (P : Subgroup H)) := P.isPGroup'.to_subgroup _
+  have hZ := P.isPGroup.center_nontrivial
+  have hZP : IsPGroup p (Subgroup.center (P : Subgroup H)) := P.isPGroup.to_subgroup _
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hZP
   have hn0 : n ≠ 0 := by
     rintro rfl

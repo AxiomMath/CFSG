@@ -115,7 +115,7 @@ theorem conclK_m22_hex
     exact Hex.ind_mulVec (Hex.mulVec_injective basis_hex _) (Hex.image_ovoid basis_hex g) _
   let hcommV : IsMulCommutative ↥(eSub basis_hex) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm basis_hex x y hx hy
-  letI : IsMulCommutative ↥(eSub basis_hex) := hcommV
+  let : IsMulCommutative ↥(eSub basis_hex) := hcommV
   have hFFL : IsFFModule (autOn Mhex (eSub basis_hex)) :=
     FFn.isFFModule_autOn_of_equiv Mhex_le_eNorm
       ((FFh.heartAut 6).comp (alternatingGroup (Fin 6)).subtype) α hα
@@ -222,7 +222,7 @@ theorem conclK_m22_duad
     (isNaturalSection_iff_isSumOfNaturalModules_one _ _ bot_le).mp hsec
   have hcommV : IsMulCommutative ↥(eSub basis_duad) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm basis_duad x y hx hy
-  letI : IsMulCommutative ↥(eSub basis_duad) := hcommV
+  let : IsMulCommutative ↥(eSub basis_duad) := hcommV
   have hFFM : IsFFModule (autOn Mduad (eSub basis_duad)) :=
     FFn.isFFModule_autOn_of_sum (n := 1) (k := 1) (by decide) le_rfl le_rfl hsum
   have hFF : IsFFModule (autOn (Subgroup.normalizer (eSub basis_duad : Set G₀))
@@ -310,7 +310,7 @@ theorem conclK_m22_e8
     (isNaturalSection_iff_isSumOfNaturalModules_one _ _ bot_le).mp hsec
   have hcommV : IsMulCommutative ↥(eSub basis_e8) :=
     IsMulCommutative.of_setLike_mul_comm fun x hx y hy => eSub_comm basis_e8 x y hx hy
-  letI : IsMulCommutative ↥(eSub basis_e8) := hcommV
+  let : IsMulCommutative ↥(eSub basis_e8) := hcommV
   have hFF : IsFFModule (autOn (Subgroup.normalizer (eSub basis_e8 : Set G₀))
       (eSub basis_e8)) := by
     exact FFn.isFFModule_autOn_of_sum (n := 2) (k := 1) (by decide) le_rfl (by norm_num) hsum

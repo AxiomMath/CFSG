@@ -38,7 +38,7 @@ theorem fiveTwoLayer_char5_of_oddLieA5For
     {t : StatedLieTag} (h : C5Exc.OddLieA5For t) : FiveTwoLayerCharFiveClause t := by
   intro S _ _ hs hna ⟨n, f, hm⟩ σ P₁ P₂ h₁ h₂ hne hZ₁ hZ₂ e₁ e₂ huniq
   exfalso
-  haveI := hs
+  have := hs
   have hQ : FixedTwoComponentsQuasisimple S :=
     fixedTwoComponentsQuasisimple_of_oddLieType hna
       ⟨t, n, 5, f, Nat.prime_five, by norm_num, hm.admissible, hm⟩

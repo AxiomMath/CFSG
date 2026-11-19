@@ -30,15 +30,15 @@ theorem permC_val {n : Nat} {t : Array Nat}
 noncomputable def gpX (i j : Nat) : Equiv.Perm (Fin 16) :=
   if j = 0 then tabPerm16 xA else tabPerm16 (xBs[i]!)
 
-theorem gpX_zero (i : Nat) : gpX i 0 = tabPerm16 xA := if_pos rfl
+theorem gpX_zero (i : Nat) : gpX i 0 = tabPerm16 xA := ite_eq_left rfl
 
-theorem gpX_one (i : Nat) : gpX i 1 = tabPerm16 (xBs[i]!) := if_neg one_ne_zero
+theorem gpX_one (i : Nat) : gpX i 1 = tabPerm16 (xBs[i]!) := ite_eq_right one_ne_zero
 
 theorem genSub_eq (i : Nat) : genSub 16 2 (gpX i) = X16 i := by
   unfold genSub X16
   congr 1
   ext g
-  simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨j, hj, rfl⟩
     interval_cases j
@@ -97,12 +97,12 @@ variable (R : Rec X K)
 
 theorem elt_mem {s : Nat} (hs : s < 60) : elt R s ∈ X := by
   unfold elt
-  rw [dif_pos hs]
+  rw [dite_eq_left hs]
   exact (Classical.choose_spec (R.mem s hs)).1
 
 theorem elt_key {s : Nat} (hs : s < 60) (p : Fin 16) : pg4 (el K s) p = elt R s p := by
   unfold elt
-  rw [dif_pos hs]
+  rw [dite_eq_left hs]
   exact (Classical.choose_spec (R.mem s hs)).2 p
 
 theorem elt_of {s : Nat} (hs : s < 60) {x : Equiv.Perm (Fin 16)}
@@ -310,7 +310,7 @@ theorem vFacts (hV : vK K VP = true) : VFacts R VP := by
       Bool.and_eq_true] at h
     refine ⟨Nat.blt_eq.mp h.1, h.2.1, fun m' hm' hne e => ?_⟩
     have h' := CFSG.KS.Raw.Orb.allN_iff.1 h.2.2 m' hm'
-    rw [CFSG.KS.Raw.Orb.bIf_eq, if_neg (by rw [Nat.beq_eq]; exact hne), e, Nat.beq_refl] at h'
+    rw [CFSG.KS.Raw.Orb.bIf_eq, ite_eq_right (by rw [Nat.beq_eq]; exact hne), e, Nat.beq_refl] at h'
     exact Bool.noConfusion h'
   have hlt : ∀ k < 5, ∀ j < 3, vS VP k j < 60 := fun k hk j hj => by
     rw [vS_eq]
@@ -323,7 +323,7 @@ theorem vFacts (hV : vK K VP = true) : VFacts R VP := by
     exact (hm _ (by omega)).2.2 _ (by omega) (by omega) e
   · have h := CFSG.KS.Raw.Orb.allN_iff.1 (CFSG.KS.Raw.Orb.allN_iff.1
       (CFSG.KS.Raw.Orb.allN_iff.1 h2 k hk) j hj) j' hj'
-    rw [CFSG.KS.Raw.Orb.bIf_eq, if_neg (by rw [Nat.beq_eq]; exact hne)] at h
+    rw [CFSG.KS.Raw.Orb.bIf_eq, ite_eq_right (by rw [Nat.beq_eq]; exact hne)] at h
     have hl3 : 3 - (j + j') < 3 := by omega
     exact (tb_beq_iff (tb_cmpT (tb_el R (hlt k hk j hj)) (tb_el R (hlt k hk j' hj')))
       (tb_el R (hlt k hk _ hl3))).1 h
@@ -525,7 +525,7 @@ theorem cv_facts (F : VFacts R VP) (hC : cvK K VP = true) :
   refine ⟨fun s hs2 ho => ?_, fun k hk j hj s hs2 => ?_⟩
   · have h := hs s hs2
     rw [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true,
-      CFSG.KS.Raw.Orb.bIf_eq, if_pos ((isInvT_iff R hs2).2 ho), anyN_iff] at h
+      CFSG.KS.Raw.Orb.bIf_eq, ite_eq_left ((isInvT_iff R hs2).2 ho), anyN_iff] at h
     obtain ⟨k, hk, hv⟩ := h.1
     exact ⟨k, hk, inV_iff.1 hv⟩
   · have h := hs s hs2
@@ -552,7 +552,7 @@ theorem V4Sub_eq (F : VFacts R VP) (hC : cvK K VP = true) {k j : Nat} (hk : k < 
       {v | v ∈ X ∧ orderOf v = 2 ∧ Commute v (elt R (vS VP k j))}) =
       ((Vsub F k hk : Subgroup _) : Set (Equiv.Perm (Fin 16))) := by
     ext v
-    simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_setOf_eq,
+    simp only [Set.mem_union, Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_ofPred_eq,
       SetLike.mem_coe]
     rw [mem_Vsub]
     constructor
@@ -636,7 +636,7 @@ theorem f11_of (R : Rec X K) (hI : invK K 15 = true) (hV : vK K VP = true)
     obtain ⟨h5a, h1a⟩ := (orderOf_prime_iff R hs).1 hx
     have h := CFSG.KS.Raw.Orb.allN_iff.1 h5 s hs
     rw [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bIf_eq, CFSG.KS.Raw.Orb.bAnd_eq, h1a, h5a,
-      Bool.not_false, Bool.true_and, if_pos rfl, CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.strictB_eq,
+      Bool.not_false, Bool.true_and, ite_eq_left rfl, CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.strictB_eq,
       CFSG.KS.Raw.Orb.strictB_eq] at h
     have tx := tb_el R hs
     have t2 := tb_cmpT tx tx
@@ -650,7 +650,7 @@ theorem f11_of (R : Rec X K) (hI : invK K 15 = true) (hV : vK K VP = true)
       rw [← Nat.card_congr (Equiv.subtypeSubtypeEquivSubtypeInter (· ∈ X) _)]
       refine Nat.card_congr (Equiv.subtypeEquivRight fun y => ?_)
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Subtype.ext_iff, Subgroup.coe_mul,
-        Subgroup.coe_inv, Subgroup.coe_pow, hsx, conj_iff, pow_succ', pow_zero, mul_one]
+        Subgroup.coe_inv, hsx, conj_iff, pow_succ', pow_zero, mul_one]
     rw [e, card_states R _ (fun t => strictB (el K t) (fun Y => strictB (cmpT Y (el K s))
       (fun YX => bIf(Nat.beq YX (cmpT (el K s) Y), true, bIf(Nat.beq YX
         (cmpT (cmpT (el K s) (el K s)) Y), true, bIf(Nat.beq YX (cmpT (cmpT (el K s)
@@ -673,7 +673,7 @@ theorem f11_of (R : Rec X K) (hI : invK K 15 = true) (hV : vK K VP = true)
       fun k => by rw [nrm_iff F k.isLt tx, hsx, ← mem_normalizer_iff F k.isLt]
     have h := CFSG.KS.Raw.Orb.allN_iff.1 h3 s hs
     rw [CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.bIf_eq, CFSG.KS.Raw.Orb.bAnd_eq, h1a, h3a,
-      Bool.not_false, Bool.true_and, if_pos rfl, CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true, CFSG.KS.Raw.Orb.strictB_eq,
+      Bool.not_false, Bool.true_and, ite_eq_left rfl, CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true, CFSG.KS.Raw.Orb.strictB_eq,
       CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.strictB_eq, CFSG.KS.Raw.Orb.strictB_eq] at h
     obtain ⟨hcnt, hw⟩ := h
     simp only [CFSG.KS.Raw.Orb.bAnd_eq, Bool.and_eq_true] at hw
@@ -689,7 +689,7 @@ theorem f11_of (R : Rec X K) (hI : invK K 15 = true) (hV : vK K VP = true)
       rw [CFSG.KS.Raw.Orb.strictB_eq, bor2_iff, tb_beq_iff (tb_cmpT ty tx) (tb_cmpT tx ty),
         tb_beq_iff (tb_cmpT ty tx) (tb_cmpT (tb_cmpT tx tx) ty)] at hyc
       simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Subtype.ext_iff, Subgroup.coe_mul,
-        Subgroup.coe_inv, Subgroup.coe_pow, ← hsx, conj_iff, pow_two]
+        Subgroup.coe_inv, ← hsx, conj_iff, pow_two]
       exact hyc
     · have e' := congrArg Fin.val e
       simp only at e'

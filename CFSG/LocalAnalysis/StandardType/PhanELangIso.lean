@@ -51,7 +51,7 @@ include hext hw₀ hsq in
 theorem exists_inv_mul_phi_eq (hBU : BruhatExtras D H) (L : StdLevi F (nrep hct w₀))
     (R : RankOneField hct F) : ∃ g : K, g⁻¹ * F.φ g = nrep hct w₀ := by
   have hpanel1 : StdPanel hct F 1 :=
-    stdPanel_of_rankOneField (hct := hct) (F := F) (n₀ := 1) (hext := hext) (hw₀ := hw₀)
+    stdPanel_of_rankOneField (hct := hct) (F := F) (n₀ := 1) (hext := hext)
       (hsq := hsq) (R := R)
   have ht : IsSphericalFlip (coxeterMatrix D.isFiniteType).toCoxeterSystem (stdδ hct) w₀
       (stdFlip F 1) := stdIsSphericalFlip_one (hct := hct) (F := F) (hext := hext) (hw₀ := hw₀)
@@ -67,17 +67,17 @@ theorem exists_inv_mul_phi_eq (hBU : BruhatExtras D H) (L : StdLevi F (nrep hct 
     ((1 : K) : K ⧸ borel D H)
   obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective y
   have hcell : g⁻¹ * F.φ g ∈ bruhatCell hct w₀ := by
-    have h := (stdδ_flip_mk_eq_iff (hct := hct) (F := F) (hext := hext) (hw₀ := hw₀)
+    have h := (stdδ_flip_mk_eq_iff (hct := hct) (F := F) (hext := hext)
       (n₀ := 1) (g := g) (w := w₀)).mp hy
     simpa using h
   obtain ⟨b₁, hb₁, b₂, hb₂, hg_eq⟩ := hcell
   have hn₀ : F.φ (nrep hct w₀) = (nrep hct w₀)⁻¹ :=
-    eq_inv_of_mul_eq_one_right (nrep_mul_phi_self hct F hext hw₀ hsq)
+    eq_inv_of_mul_eq_one_right (nrep_mul_phi_self hct F hw₀ hsq)
   have hφB : ∀ b ∈ borel D H, F.φ b ∈ borel D H :=
     fun b hb => F.borel_map (Subgroup.mem_map_of_mem F.φ hb)
   have hBT : borel D H ⊓ (borel D H).map
       (MulAut.conj (nrep hct w₀)).toMonoidHom = ⨆ i, H i :=
-    borel_inf_map_conj (hct := hct) (hext := hext) (hw₀ := hw₀) (hsq := hsq) (hBU := hBU)
+    borel_inf_map_conj (hct := hct) (hw₀ := hw₀) (hBU := hBU)
   have hlang : ∀ s ∈ ⨆ i, H i, nrep hct w₀ * F.φ s * (nrep hct w₀)⁻¹ = s⁻¹ →
       ∃ r ∈ ⨆ i, H i, s = r * (nrep hct w₀ * F.φ r * (nrep hct w₀)⁻¹)⁻¹ := by
     intro s hs hτ

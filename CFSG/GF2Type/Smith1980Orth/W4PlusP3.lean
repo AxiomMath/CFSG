@@ -215,7 +215,7 @@ private theorem eight_le_card_Qa_inf_Qa {h₁ h₂ : G} (hQ₁ : h₁ * S.z * h�
 
 include D in
 theorem oEight : OEight S :=
-  fun h₁ h₂ hQ₁ hne₁ hQ₂ hne₂ hcomm =>
+  fun _h₁ _h₂ hQ₁ hne₁ hQ₂ hne₂ hcomm =>
     D.eight_le_card_Qa_inf_Qa hQ₁ hne₁ hQ₂ hne₂ hcomm
 
 end S2Data

@@ -197,14 +197,14 @@ theorem frob73_mod {G : Type*} [Group G] {T₀ E : Subgroup G} (hTE : T₀ ≤ E
     (hrel : β * d * β⁻¹ = d ^ k)
     (hfix : ∀ x ∈ E, β * x * β⁻¹ * x⁻¹ ∈ T₀ → x ∈ T₀) :
     ∀ x ∈ E, d * x * d⁻¹ * x⁻¹ ∈ T₀ := by
-  haveI : (T₀.subgroupOf E).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hTE).2 hEN
+  have : (T₀.subgroupOf E).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hTE).2 hEN
   have hc : ∀ a b : ↥E ⧸ T₀.subgroupOf E, a * b = b * a := by
     intro a b
     refine QuotientGroup.induction_on a fun x => QuotientGroup.induction_on b fun y => ?_
     rw [← QuotientGroup.mk_mul, ← QuotientGroup.mk_mul, QuotientGroup.eq_iff_div_mem,
       Subgroup.mem_subgroupOf]
     simpa [div_eq_mul_inv, mul_assoc] using hcomm x x.2 y y.2
-  letI : CommGroup (↥E ⧸ T₀.subgroupOf E) :=
+  let : CommGroup (↥E ⧸ T₀.subgroupOf E) :=
     { (inferInstance : Group (↥E ⧸ T₀.subgroupOf E)) with mul_comm := hc }
   have hsq' : ∀ q : ↥E ⧸ T₀.subgroupOf E, q * q = 1 := by
     intro q

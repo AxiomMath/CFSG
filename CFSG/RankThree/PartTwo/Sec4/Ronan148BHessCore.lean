@@ -158,7 +158,7 @@ theorem blockHom_rotA_mem {ω : F} (hω : ω ^ 2 + ω + 1 = 0)
   · simp only [map_div₀, map_neg, map_ofNat, map_sub, map_mul]
     field_simp
     norm_num
-  · simp only [map_div₀, map_neg, map_ofNat, map_add, map_mul]
+  · simp only [map_div₀, map_ofNat, map_add, map_mul]
     field_simp
     norm_num
 
@@ -187,7 +187,7 @@ theorem blockHom_rotB_mem {ω : F} (hω : ω ^ 2 + ω + 1 = 0)
   · simp only [map_div₀, map_neg, map_ofNat, map_sub, map_mul]
     field_simp
     norm_num
-  · simp only [map_div₀, map_neg, map_ofNat, map_add, map_mul]
+  · simp only [map_div₀, map_ofNat, map_add, map_mul]
     field_simp
     norm_num
 

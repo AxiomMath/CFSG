@@ -26,7 +26,7 @@ theorem exists_mulEquiv_rootSubgroup_eq_rootSL {F : Type} [Field F] {m : ℕ} {i
   let π₁ : (Fin (m + 1) → F) →ₗ[F] F := LinearMap.proj i
   have h1 : ∀ t, π (ι t) = 0 := by
     intro t
-    simp [ι, π, Pi.single_apply, hij.symm]
+    simp [ι, π, hij.symm]
   have h2 : ∀ t, π (ι₁ t) = t := by
     intro t
     simp [ι₁, π]
@@ -35,7 +35,7 @@ theorem exists_mulEquiv_rootSubgroup_eq_rootSL {F : Type} [Field F] {m : ℕ} {i
     simp [ι, π₁]
   have h4 : ∀ t, π₁ (ι₁ t) = 0 := by
     intro t
-    simp [ι₁, π₁, Pi.single_apply, hij]
+    simp [ι₁, π₁, hij]
   obtain ⟨X', _, _, _, e₀, he, -, hdim⟩ := exists_datumEquiv ι ι₁ π π₁ h1 h2 h3 h4
   have key : ∀ c : F, Matrix.SpecialLinearGroup.toLin'_equiv
       (Matrix.SpecialLinearGroup.transvection hij c) = datumElt ι π h1 c := by

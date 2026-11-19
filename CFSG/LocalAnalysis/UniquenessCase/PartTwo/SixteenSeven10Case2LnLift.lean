@@ -15,7 +15,7 @@ variable {M : Type*} [Group M]
 theorem card_le_pow_of_isPGroup_of_not_dvd {R : Type*} [Group R] [Finite R] {p s : ℕ}
     (hp : p.Prime) (hR : ¬ p ^ (s + 1) ∣ Nat.card R) {Q : Subgroup R} (hQ : IsPGroup p Q) :
     Nat.card Q ≤ p ^ s := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := hQ.exists_card_eq
   have hdvd : p ^ n ∣ Nat.card R := hn ▸ Subgroup.card_subgroup_dvd_card Q
   have hns : n ≤ s := by
@@ -28,7 +28,7 @@ theorem exists_noncyclic_pGroup_map_le [Finite M] {M' : Type*} [Group M'] (φ : 
     {p : ℕ} (hp : p.Prime) {Eb : Subgroup M'} (hEb : Eb ≤ φ.range) (hEp : IsPGroup p Eb)
     (hEc : ¬ IsCyclic ↥Eb) :
     ∃ B : Subgroup M, IsPGroup p B ∧ ¬ IsCyclic ↥B ∧ ∀ b ∈ B, φ b ∈ Eb := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set H : Subgroup M := Eb.comap φ with hH
   let ψ : H →* Eb := (φ.comp H.subtype).codRestrict Eb fun h => h.2
   have hψ : Function.Surjective ψ := fun e => by
@@ -97,8 +97,8 @@ theorem exists_noncyclic_pGroup_of_kernel_trick_surjective [Finite M] {R : Type*
     (hY : ∀ Y : Subgroup M, IsElemAbelian p Y → Y ≤ ψ.ker → Nat.card Y ≤ p) {y : R}
     (hyp : y ^ p = 1) (hy1 : y ≠ 1) :
     ∃ B : Subgroup M, IsPGroup p B ∧ ¬ IsCyclic ↥B ∧ ∀ b ∈ B, ψ b ∈ Subgroup.zpowers y := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite R := Finite.of_surjective ψ hψ
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite R := Finite.of_surjective ψ hψ
   obtain ⟨S₁, hyS⟩ := (isElemAbelian_zpowers hyp).isPGroup.exists_le_sylow
   obtain ⟨P₁, hP₁⟩ := Sylow.mapSurjective_surjective hψ p S₁
   obtain ⟨P₀, hEP₀⟩ := hE.isPGroup.exists_le_sylow

@@ -16,9 +16,11 @@ variable (d : Data G)
     ↥(Jp d) →* MulAut ↥(Ws d) :=
   (alphaHom d hW).comp (Subgroup.inclusion (Jp_le_Hg d))
 
+omit [Finite G] in
 theorem alphaJp_apply (hW : ∀ h ∈ Hs d, ∀ w ∈ Ws d, h * w * h⁻¹ ∈ Ws d) (g : ↥(Jp d)) :
     alphaJp d hW g = alpha d (g : G) := rfl
 
+omit [Finite G] in
 theorem card_range_dvd (z₀ : G) (hW : ∀ h ∈ Hs d, ∀ w ∈ Ws d, h * w * h⁻¹ ∈ Ws d)
     (h19 : img d (Wg d z₀) = Ws d) (hWab : IsElemAbelian 2 (Ws d)) :
     Nat.card (alphaJp d hW).range ∣ (Wg d z₀).relIndex (Jp d) := by
@@ -27,6 +29,7 @@ theorem card_range_dvd (z₀ : G) (hW : ∀ h ∈ Hs d, ∀ w ∈ Ws d, h * w * 
   have h1 := Subgroup.index_dvd_of_le hle
   rwa [Subgroup.index_ker] at h1
 
+omit [Finite G] in
 theorem range_conj_mem (hW : ∀ h ∈ Hs d, ∀ w ∈ Ws d, h * w * h⁻¹ ∈ Ws d) {i l : MulAut ↥(Ws d)}
     (hi : i ∈ Ialpha d) (hl : l ∈ (alphaJp d hW).range) : i * l * i⁻¹ ∈ (alphaJp d hW).range := by
   obtain ⟨h, hh, rfl⟩ := exists_alpha_eq_of_mem_Ialpha d hi
@@ -36,6 +39,7 @@ theorem range_conj_mem (hW : ∀ h ∈ Hs d, ∀ w ∈ Ws d, h * w * h⁻¹ ∈ 
   rw [alphaJp_apply]
   exact alpha_conj hh hxH (star_mem_normalizer_Ws d hW hh) (star_mem_normalizer_Ws d hW hxH)
 
+omit [Finite G] in
 theorem Ja_le_range (hW : ∀ h ∈ Hs d, ∀ w ∈ Ws d, h * w * h⁻¹ ∈ Ws d) (hX : Xg d ≤ Hg d) :
     Ja d ≤ (alphaJp d hW).range := by
   have hnormal : ((alphaJp d hW).range.subgroupOf (Ialpha d)).Normal :=
@@ -52,6 +56,7 @@ theorem Ja_le_range (hW : ∀ h ∈ Hs d, ∀ w ∈ Ws d, h * w * h⁻¹ ∈ Ws 
   obtain ⟨σ', hσ', rfl⟩ := hσ
   exact Subgroup.mem_subgroupOf.1 (h1 hσ')
 
+omit [Finite G] in
 theorem nine_dvd_card_range (z₀ : G) (hW : ∀ h ∈ Hs d, ∀ w ∈ Ws d, h * w * h⁻¹ ∈ Ws d)
     (h19 : img d (Wg d z₀) = Ws d) (hWab : IsElemAbelian 2 (Ws d)) (hX : Xg d ≤ Hg d)
     (h360 : (Wg d z₀).relIndex (Jp d) = 360)
@@ -117,7 +122,7 @@ theorem exists_three_element_C (z₀ : G) (hW : ∀ h ∈ Hs d, ∀ w ∈ Ws d, 
   have hcC : star d ((x : G)⁻¹ * y) ∈
       centralizer ((Ws d : Subgroup (MulAut ↥d.s56V)) : Set (MulAut ↥d.s56V)) :=
     (actFun_eq_one_iff (Ws d) (star_mem_normalizer_Ws d hW hcH)).1 hαc
-  haveI := hN
+  have := hN
   obtain ⟨m, e, hm3, hcm, hcmK⟩ := exists_isPGroup_three_not_mem (K := H0 d z₀) (H := Hg d) hyH
     inf_le_left hjH0 hy3 hyH0
   refine ⟨((x : G)⁻¹ * y) ^ m, pow_mem hcH m, ?_, hcmK, ?_⟩

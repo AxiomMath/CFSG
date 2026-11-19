@@ -32,15 +32,15 @@ private theorem diagramGraph_cartanC (n : ℕ) :
   · rintro (h | h)
     · have hne : i ≠ j := by intro he; rw [he] at h; omega
       refine ⟨hne, ?_, ?_⟩
-      · simp only [if_neg hne, if_pos (Or.inl h)]
+      · simp only [ite_eq_right hne, ite_eq_left (Or.inl h)]
         split_ifs <;> norm_num
-      · simp only [if_neg (Ne.symm hne), if_pos (Or.inr h)]
+      · simp only [ite_eq_right (Ne.symm hne), ite_eq_left (Or.inr h)]
         split_ifs <;> norm_num
     · have hne : i ≠ j := by intro he; rw [he] at h; omega
       refine ⟨hne, ?_, ?_⟩
-      · simp only [if_neg hne, if_pos (Or.inr h)]
+      · simp only [ite_eq_right hne, ite_eq_left (Or.inr h)]
         split_ifs <;> norm_num
-      · simp only [if_neg (Ne.symm hne), if_pos (Or.inl h)]
+      · simp only [ite_eq_right (Ne.symm hne), ite_eq_left (Or.inl h)]
         split_ifs <;> norm_num
 
 private theorem nodeAdj_val_sp {C : Set (Fin n)} {i j : Fin n}
@@ -61,7 +61,7 @@ private theorem nodesOf_blkSet_Icc (hCab : C = Set.Icc a b) (ha : a ∈ C) :
     nodesOf (blkSet C a.castSucc) = C := by
   rw [blkSet_eq_Icc (i := a) hCab ha, hCab]
   ext k
-  simp only [nodesOf, Set.mem_setOf_eq, Finset.mem_Icc, Set.mem_Icc, Fin.le_def,
+  simp only [nodesOf, Set.mem_ofPred_eq, Finset.mem_Icc, Set.mem_Icc, Fin.le_def,
     Fin.val_castSucc, Fin.val_succ]
   omega
 

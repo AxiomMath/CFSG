@@ -145,12 +145,12 @@ theorem homMat_spec {ω : F} (hω1 : ω ≠ 1) (hω3 : ω ^ 3 = 1) :
       simp at this
     · ext i j
       fin_cases i <;> fin_cases j <;>
-        simp [homMat, Matrix.vecMulVec_apply, Pi.single_apply, Matrix.diagonal_apply]
+        simp [homMat, Matrix.vecMulVec_apply]
   · rw [Matrix.isUnit_iff_isUnit_det, homMat, Matrix.det_diagonal]
     simp [Fin.prod_univ_three, hω0]
   · rw [homMat, Matrix.diagonal_pow]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply, hω3]
+    fin_cases i <;> fin_cases j <;> simp [hω3]
 
 theorem heisMat_spec {l : F} (hl : ∀ θ : F, θ ^ 3 ≠ l) :
     IsHeis (heisMat l) ∧ IsUnit (heisMat l) ∧ heisMat l ^ 3 = l • (1 : Matrix (Fin 3) (Fin 3) F) := by
@@ -176,7 +176,7 @@ theorem heisMat_spec {l : F} (hl : ∀ θ : F, θ ^ 3 ≠ l) :
     simp [heisMat, Matrix.det_fin_three, hl0]
   · ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [heisMat, pow_succ, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply]
+      simp [heisMat, pow_succ, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem exists_noncube [Finite F] {ω : F} (hω1 : ω ≠ 1) (hω3 : ω ^ 3 = 1) :
     ∃ l : F, ∀ θ : F, θ ^ 3 ≠ l := by
@@ -337,7 +337,7 @@ theorem trichotomy (hF2 : (2 : F) = 0) {ω : F} (hω : ω ^ 2 + ω + 1 = 0)
     · exact Or.inl (homol_of _ h)
     · exact Or.inl (homol_of _ h)
   right
-  push_neg at hr1
+  push Not at hr1
   obtain ⟨hr10, hr11, hr12⟩ := hr1
   set N0 : Matrix (Fin 3) (Fin 3) F := g' - (1 : F) • (1 : Matrix (Fin 3) (Fin 3) F) with hN0
   set N1 : Matrix (Fin 3) (Fin 3) F := g' - ω • (1 : Matrix (Fin 3) (Fin 3) F) with hN1
@@ -411,14 +411,14 @@ theorem trichotomy (hF2 : (2 : F) = 0) {ω : F} (hω : ω ^ 2 + ω + 1 = 0)
     funext j
     funext i
     rfl
-  have hAu : IsUnit A := Matrix.linearIndependent_cols_iff_isUnit.1 (hAcol ▸ hli)
+  have hAu : IsUnit A := Matrix.linearIndependent_col_iff_isUnit.1 (hAcol ▸ hli)
   have hcols : ∀ j, g *ᵥ vv j = (θ * μ j) • vv j := by
     intro j
     rw [hgg', Matrix.smul_mulVec]
     fin_cases j
-    · simp only [vv, μ]; simpa [hg'w, smul_smul] using congrArg (fun y => θ • y) hg'w
-    · simp only [vv, μ]; simpa [hg'v1, smul_smul] using congrArg (fun y => θ • y) hg'v1
-    · simp only [vv, μ]; simpa [hg'v2, smul_smul] using congrArg (fun y => θ • y) hg'v2
+    · simp only [vv, μ]; simp [hg'w]
+    · simp only [vv, μ]; simp [hg'v1, smul_smul]
+    · simp only [vv, μ]; simp [hg'v2, smul_smul]
   refine ⟨A, θ, hAu, ?_⟩
   ext i j
   have h1 := congrFun (hcols j) i
@@ -426,7 +426,7 @@ theorem trichotomy (hF2 : (2 : F) = 0) {ω : F} (hω : ω ^ 2 + ω + 1 = 0)
   simp only [Matrix.mul_apply, Dm, Matrix.smul_apply, Matrix.diagonal_apply, hA, Matrix.of_apply,
     smul_eq_mul]
   rw [h1]
-  simp only [mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+  simp only [mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ, ite_true]
   show θ * ![1, ω, ω ^ 2] j * vv j i = vv j i * (θ * ![1, ω, ω ^ 2] j)
   ring
 
@@ -441,10 +441,10 @@ theorem fourier_identities (hF2 : (2 : F) = 0) {ω : F} (hω : ω ^ 2 + ω + 1 =
       simp [Dm, Phi, Pm, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply] <;> grind
   · ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Phi, Matrix.mul_apply, Fin.sum_univ_three, Matrix.one_apply] <;> grind
+      simp [Phi, Matrix.mul_apply, Fin.sum_univ_three] <;> grind
   · ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Dm, Pm, Matrix.mul_apply, Fin.sum_univ_three, Matrix.diagonal_apply] <;> grind
+      simp [Dm, Pm, Matrix.mul_apply, Matrix.diagonal_apply] <;> grind
 
 end Leaves
 

@@ -499,7 +499,7 @@ theorem e4c_noGood : ∀ x ∈ omegaT,
     rwa [hu4] at this
   have hpos : 0 < Nat.card H := Nat.card_pos
   have h8 : Nat.card H ∣ 8 := by
-    rcases (by omega : Nat.card H = 4 ∨ Nat.card H = 8) with e | e <;> rw [e] <;> norm_num
+    rcases (by omega : Nat.card H = 4 ∨ Nat.card H = 8) with e | e <;> rw [e]; norm_num
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 (orderOf_dvd_of_pow_eq_one hk)
   have h38 : 3 ^ j ∣ 8 := hj ▸ (Subgroup.orderOf_dvd_natCard H hxH).trans h8
   have hj0 : j = 0 := by

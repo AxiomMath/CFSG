@@ -19,7 +19,7 @@ theorem tmAsm_exists_sylow_le {G : Type*} [Group G] [Finite G] (p : ℕ) [Fact p
     exact y.2
 
 theorem tmAsm_card_dvd_of_inf_eq_bot {G : Type*} [Group G] [Finite G] (M H Q : Subgroup G)
-    (hMH : M ≤ H) (hQH : Q ≤ H) (hQn : (Q.subgroupOf H).Normal) (hinf : M ⊓ Q = ⊥) :
+    (hMH : M ≤ H) (_hQH : Q ≤ H) (hQn : (Q.subgroupOf H).Normal) (hinf : M ⊓ Q = ⊥) :
     Nat.card M ∣ Nat.card (H ⧸ Q.subgroupOf H) := by
   let f : M →* H ⧸ Q.subgroupOf H :=
     (QuotientGroup.mk' (Q.subgroupOf H)).comp (Subgroup.inclusion hMH)
@@ -42,11 +42,11 @@ theorem tmAsm_card_dvd_aut {G : Type*} [Group G] [Finite G] (M H J : Subgroup G)
     { toFun := fun h =>
         { toFun := fun j =>
             ⟨(h : G) * j * (h : G)⁻¹, by
-              have := hJn.conj_mem ⟨j, hJH j.2⟩ (by simpa [Subgroup.mem_subgroupOf] using j.2) h
+              have := hJn.conj_mem ⟨j, hJH j.2⟩ (by simp [Subgroup.mem_subgroupOf]) h
               simpa [Subgroup.mem_subgroupOf] using this⟩
           invFun := fun j =>
             ⟨(h : G)⁻¹ * j * (h : G), by
-              have := hJn.conj_mem ⟨j, hJH j.2⟩ (by simpa [Subgroup.mem_subgroupOf] using j.2) h⁻¹
+              have := hJn.conj_mem ⟨j, hJH j.2⟩ (by simp [Subgroup.mem_subgroupOf]) h⁻¹
               simpa [Subgroup.mem_subgroupOf] using this⟩
           left_inv := fun j => by ext; simp [mul_assoc]
           right_inv := fun j => by ext; simp [mul_assoc]

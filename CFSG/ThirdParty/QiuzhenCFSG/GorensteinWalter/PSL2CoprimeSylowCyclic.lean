@@ -60,7 +60,7 @@ public theorem psl2_sylow_isCyclic_of_coprime_field_card
     (Subgroup.one_lt_card_iff_ne_bot _).2 hRbot
   obtain ⟨k, hk⟩ : ∃ k : ℕ,
       Nat.card (R : Subgroup (PSL2MatrixGroup K)) = r ^ k :=
-    (IsPGroup.iff_card.mp R.isPGroup')
+    (IsPGroup.iff_card.mp R.isPGroup)
   have hkpos : 0 < k := by
     by_contra hk0
     have hkz : k = 0 := Nat.eq_zero_of_not_pos hk0
@@ -74,20 +74,20 @@ public theorem psl2_sylow_isCyclic_of_coprime_field_card
         Nat.card (⊤ : Subgroup (PSL2MatrixGroup K)) :=
       Subgroup.card_dvd_of_le le_top
     exact dvd_trans hrdivR (by simpa using hcarddiv)
-  letI : Nontrivial (R : Type _) :=
+  let : Nontrivial (R : Type _) :=
     Finite.one_lt_card_iff_nontrivial.mp hRcard_gt
   have hcenterNontrivial :
       Nontrivial (Subgroup.center (R : Subgroup (PSL2MatrixGroup K))) :=
     IsPGroup.center_nontrivial
       (G := (R : Subgroup (PSL2MatrixGroup K)))
-      (Sylow.isPGroup' R)
+      (Sylow.isPGroup R)
   have hcenterCard_gt : 1 < Nat.card (Subgroup.center
       (R : Subgroup (PSL2MatrixGroup K))) :=
     Finite.one_lt_card_iff_nontrivial.mpr hcenterNontrivial
   have hrdivCenter : r ∣ Nat.card (Subgroup.center
       (R : Subgroup (PSL2MatrixGroup K))) := by
     obtain ⟨kc, hkc⟩ :=
-      (IsPGroup.iff_card.mp ((Sylow.isPGroup' R).to_subgroup
+      (IsPGroup.iff_card.mp ((Sylow.isPGroup R).to_subgroup
         (Subgroup.center (R : Subgroup (PSL2MatrixGroup K)))))
     have hkcpos : 0 < kc := by
       by_contra hk0
@@ -318,7 +318,7 @@ public theorem psl2_sylow_isCyclic_of_coprime_field_card
     have hTcyclic : IsCyclic T := by
       rw [hg]
       exact (MulEquiv.subgroupMap (MulAut.conj g) U).isCyclic.mp hUc
-    letI : IsCyclic T := hTcyclic
+    let : IsCyclic T := hTcyclic
     exact Subgroup.isCyclic_of_le
       (BenderSuzuki.lemma114_odd_subgroup_le_of_normalizer_card_two hRnorm hRodd hTnormcard)
 
@@ -456,7 +456,7 @@ public theorem psl2_sylow_isCyclic_of_coprime_field_card
     have hTcyclic : IsCyclic T := by
       rw [hg]
       exact (MulEquiv.subgroupMap (MulAut.conj g) S).isCyclic.mp hSc
-    letI : IsCyclic T := hTcyclic
+    let : IsCyclic T := hTcyclic
     exact Subgroup.isCyclic_of_le
       (BenderSuzuki.lemma114_odd_subgroup_le_of_normalizer_card_two hRnorm hRodd hTnormcard)
 

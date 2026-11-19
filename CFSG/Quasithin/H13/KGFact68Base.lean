@@ -169,7 +169,7 @@ theorem mem_omega_of_conj (h : E6.E68Hyp L A R z) (hZ : Subgroup.center ↥L = �
       have h1 : g * x * g⁻¹ = x := by rw [hgP x hx]; group
       rw [h1]
       exact hx
-    have hsup := IsPGroup.to_sup_of_normal_right' hz2 (sylowIn h).isPGroup' hzN
+    have hsup := IsPGroup.to_sup_of_normal_right' hz2 (sylowIn h).isPGroup hzN
     have heq := (sylowIn h).maximal_isPGroup.eq_of_ge hsup le_sup_right
     have hmem : g ∈ Subgroup.zpowers g ⊔ P := Subgroup.mem_sup_left (Subgroup.mem_zpowers g)
     rw [heq] at hmem
@@ -342,7 +342,7 @@ theorem mem_omegaZ_of_commute {K : Type} [Group K] [Finite K] (Q : Sylow 2 K) {g
     have h1 : g * x * g⁻¹ = x := by rw [hgQ x hx]; group
     rw [h1]
     exact hx
-  have hsup := IsPGroup.to_sup_of_normal_right' hz2 Q.isPGroup' hzN
+  have hsup := IsPGroup.to_sup_of_normal_right' hz2 Q.isPGroup hzN
   have heq := Q.maximal_isPGroup.eq_of_ge hsup le_sup_right
   have hmem : g ∈ Subgroup.zpowers g ⊔ (Q : Subgroup K) :=
     Subgroup.mem_sup_left (Subgroup.mem_zpowers g)

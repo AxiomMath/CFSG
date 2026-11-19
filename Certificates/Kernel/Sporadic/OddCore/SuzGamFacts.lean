@@ -151,7 +151,6 @@ theorem gammaStab_four :
 theorem gammaFacts :     (∀ i : Fin 22880, suzGamma.Adj 0 i ↔ i ∈ suzDeltaΩ) ∧
     (∀ s < 4, (MulAction.orbit (gammaStab s) (gammaBasePt s)).ncard ≤ gammaBounds s) ∧
     gammaStab 4 = ⊥ := by
-  intros
   exact ⟨suzGamma_adj_zero, fun _ hs => gammaStab_orbit hs, gammaStab_four⟩
 
 end CertificateChecks.KernelSpor.OddCore.SGam

@@ -49,6 +49,7 @@ namespace Tri
 
 variable {X : Type} [Group X] [Finite X] {x e₂ e₃ : X}
 
+omit [Finite X] in
 theorem gp_eq_one_iff {g : X} (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1) {a : ZMod 3} :
     gp g a = 1 ↔ a = 0 := by
   constructor
@@ -64,6 +65,7 @@ theorem gp_eq_one_iff {g : X} (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1) {a : ZMod 3} :
   · rintro rfl
     exact gp_zero g
 
+omit [Finite X] in
 theorem mem_of_gp_mem {W : Subgroup X} {g : X} (hg3 : g ^ 3 = 1) {k : ZMod 3} (hk : k ≠ 0)
     (hgk : gp g k ∈ W) : g ∈ W := by
   have hkk' : ∀ k : ZMod 3, k ≠ 0 → k * k = 1 := by decide
@@ -77,6 +79,7 @@ variable (h : VITriple x e₂ e₃)
 
 include h
 
+omit [Finite X] in
 theorem qel_add (a b : Vec) : qel x e₂ e₃ (a + b) = qel x e₂ e₃ a * qel x e₂ e₃ b := by
   obtain ⟨a₁, a₂, a₃⟩ := a
   obtain ⟨b₁, b₂, b₃⟩ := b
@@ -89,24 +92,31 @@ theorem qel_add (a b : Vec) : qel x e₂ e₃ (a + b) = qel x e₂ e₃ a * qel 
   simp only [qel, Prod.mk_add_mk, gp_add h.x_pow, gp_add h.e₂_pow, gp_add h.e₃_pow]
   exact (mul3 (c₁ _ _).symm (c₂ _ _).symm (c₃ _ _).symm).symm
 
+omit [Finite X] h in
 theorem qel_zero : qel x e₂ e₃ 0 = 1 := by
   simp [qel, gp_zero]
 
+omit [Finite X] h in
 theorem x_mem : x ∈ Qf x e₂ e₃ := mem_sup_left (mem_zpowers x)
 
+omit [Finite X] h in
 theorem e₂_mem : e₂ ∈ Qf x e₂ e₃ := mem_sup_right (mem_sup_left (mem_zpowers e₂))
 
+omit [Finite X] h in
 theorem e₃_mem : e₃ ∈ Qf x e₂ e₃ := mem_sup_right (mem_sup_right (mem_zpowers e₃))
 
+omit [Finite X] h in
 theorem Q_le_of_mem {W : Subgroup X} (hx : x ∈ W) (h₂ : e₂ ∈ W) (h₃ : e₃ ∈ W) :
     Qf x e₂ e₃ ≤ W :=
   sup_le (zpowers_le.mpr hx) (sup_le (zpowers_le.mpr h₂) (zpowers_le.mpr h₃))
 
+omit [Finite X] h in
 theorem qel_mem (v : Vec) : qel x e₂ e₃ v ∈ Qf x e₂ e₃ :=
   mul_mem (mul_mem (mem_sup_left (pow_mem (mem_zpowers x) _))
     (mem_sup_right (mem_sup_left (pow_mem (mem_zpowers e₂) _))))
     (mem_sup_right (mem_sup_right (pow_mem (mem_zpowers e₃) _)))
 
+omit [Finite X] in
 theorem exists_qel {q : X} (hq : q ∈ Qf x e₂ e₃) : ∃ v : Vec, qel x e₂ e₃ v = q := by
   obtain ⟨a, ha, c, hc, rfl⟩ := u3l42_decomp h.x_T hq
   obtain ⟨b, hb, d, hd, rfl⟩ := u3l42_decomp h.T_comm_gen hc
@@ -117,6 +127,7 @@ theorem exists_qel {q : X} (hq : q ∈ Qf x e₂ e₃) : ∃ v : Vec, qel x e₂
   simp only [qel]
   rw [← zpow_eq_gp h.x_pow, ← zpow_eq_gp h.e₂_pow, ← zpow_eq_gp h.e₃_pow, mul_assoc]
 
+omit [Finite X] in
 theorem qel_eq_one {v : Vec} (hv : qel x e₂ e₃ v = 1) : v = 0 := by
   obtain ⟨a, b, c⟩ := v
   simp only [qel] at hv
@@ -145,6 +156,7 @@ theorem qel_eq_one {v : Vec} (hv : qel x e₂ e₃ v = 1) : v = 0 := by
     (gp_eq_one_iff h.e₃_pow h.e₃_ne).mp hv]
   rfl
 
+omit [Finite X] in
 theorem qel_inj {v w : Vec} (hvw : qel x e₂ e₃ v = qel x e₂ e₃ w) : v = w := by
   have h1 : qel x e₂ e₃ (v - w) * qel x e₂ e₃ w = qel x e₂ e₃ w := by
     rw [← qel_add h, sub_add_cancel, hvw]
@@ -153,34 +165,42 @@ theorem qel_inj {v w : Vec} (hvw : qel x e₂ e₃ v = qel x e₂ e₃ w) : v = 
     simpa using this
   exact sub_eq_zero.mp (qel_eq_one h h2)
 
+omit [Finite X] in
 theorem qel_mv_nat (v : Vec) (n : ℕ) : qel x e₂ e₃ (mv (n : ZMod 3) v) = qel x e₂ e₃ v ^ n := by
   induction n with
-  | zero => rw [Nat.cast_zero, mv_zero, qel_zero h, pow_zero]
+  | zero => rw [Nat.cast_zero, mv_zero, qel_zero, pow_zero]
   | succ n ih => rw [Nat.cast_succ, mv_add, mv_one, qel_add h, ih, pow_succ]
 
+omit [Finite X] in
 theorem qel_mv_mem {W : Subgroup X} (v : Vec) (hv : qel x e₂ e₃ v ∈ W) (i : ZMod 3) :
     qel x e₂ e₃ (mv i v) ∈ W := by
   have : i = ((i.val : ℕ) : ZMod 3) := (ZMod.natCast_zmod_val i).symm
   rw [this, qel_mv_nat h]
   exact pow_mem hv _
 
+omit [Finite X] in
 theorem qel_x : qel x e₂ e₃ (1, 0, 0) = x := by
   simp only [qel, gp_one h.x_pow, gp_zero, mul_one]
 
+omit [Finite X] in
 theorem qel_e₂ : qel x e₂ e₃ (0, 1, 0) = e₂ := by
   simp only [qel, gp_one h.e₂_pow, gp_zero, mul_one, one_mul]
 
+omit [Finite X] in
 theorem qel_e₃ : qel x e₂ e₃ (0, 0, 1) = e₃ := by
   simp only [qel, gp_one h.e₃_pow, gp_zero, one_mul]
 
+omit [Finite X] in
 theorem qel_diag : qel x e₂ e₃ (1, 1, 1) = x * e₂ * e₃ := by
   simp only [qel, gp_one h.x_pow, gp_one h.e₂_pow, gp_one h.e₃_pow]
 
+omit [Finite X] in
 theorem qel_neg (v : Vec) : qel x e₂ e₃ (-v) = (qel x e₂ e₃ v)⁻¹ := by
   refine eq_inv_of_mul_eq_one_left ?_
   have hv : ∀ w : Vec, -w + w = 0 := by decide
-  rw [← qel_add h, hv, qel_zero h]
+  rw [← qel_add h, hv, qel_zero]
 
+omit [Finite X] in
 theorem conj_rot {t : X} (htx : t * x * t⁻¹ = e₂) (hte₂ : t * e₂ * t⁻¹ = e₃)
     (hte₃ : t * e₃ * t⁻¹ = x) (a b c : ZMod 3) :
     t * qel x e₂ e₃ (a, b, c) * t⁻¹ = qel x e₂ e₃ (c, a, b) := by
@@ -206,17 +226,22 @@ theorem frame3 : Frame3 x e₂ e₃ t ρ s :=
     c₂₃ := h.comm_23, tx := h.t_x, te₂ := h.t_e₂, te₃ := h.t_e₃, ρx := h.ρ_x,
     ρe₂ := h.ρ_e₂, ρe₃ := h.ρ_e₃, s_cases := h.s_cases }
 
-theorem x_mem : x ∈ Qf x e₂ e₃ := Tri.x_mem h.toVITriple
+omit [Finite X] h in
+theorem x_mem : x ∈ Qf x e₂ e₃ := Tri.x_mem
 
-theorem e₂_mem : e₂ ∈ Qf x e₂ e₃ := Tri.e₂_mem h.toVITriple
+omit [Finite X] h in
+theorem e₂_mem : e₂ ∈ Qf x e₂ e₃ := Tri.e₂_mem
 
-theorem e₃_mem : e₃ ∈ Qf x e₂ e₃ := Tri.e₃_mem h.toVITriple
+omit [Finite X] h in
+theorem e₃_mem : e₃ ∈ Qf x e₂ e₃ := Tri.e₃_mem
 
+omit [Finite X] h in
 theorem Q_le_of_mem {W : Subgroup X} (hx : x ∈ W) (h₂ : e₂ ∈ W) (h₃ : e₃ ∈ W) :
     Qf x e₂ e₃ ≤ W :=
-  Tri.Q_le_of_mem h.toVITriple hx h₂ h₃
+  Tri.Q_le_of_mem hx h₂ h₃
 
-theorem qel_mem (v : Vec) : qel x e₂ e₃ v ∈ Qf x e₂ e₃ := Tri.qel_mem h.toVITriple v
+omit [Finite X] h in
+theorem qel_mem (v : Vec) : qel x e₂ e₃ v ∈ Qf x e₂ e₃ := Tri.qel_mem v
 
 theorem exists_qel {q : X} (hq : q ∈ Qf x e₂ e₃) : ∃ v : Vec, qel x e₂ e₃ v = q :=
   Tri.exists_qel h.toVITriple hq
@@ -290,7 +315,7 @@ theorem eq_bot_or_eq_of_invariant {W : Subgroup X} (hWQ : W ≤ Qf x e₂ e₃)
   have hv0 : ((a, b, c) : Vec) ≠ 0 := by
     intro h0
     apply hw1
-    rw [← hv, h0, hF.qel_zero]
+    rw [← hv, h0, CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Mod.Frame3.qel_zero]
   have k1 : qel x e₂ e₃ (a + a, 0, 0) ∈ W := by
     have := W.mul_mem hwW (hg1 _ hwW)
     rw [hF.conj_g1, ← hF.qel_add] at this
@@ -316,7 +341,7 @@ theorem eq_bot_or_eq_of_invariant {W : Subgroup X} (hWQ : W ≤ Qf x e₂ e₃)
       refine Tri.mem_of_gp_mem h.e₃_pow hc ?_
       simpa [qel, gp_zero] using k3
   obtain ⟨hx, h₂, h₃⟩ := h.all_mem_of_one ht hone
-  exact le_antisymm hWQ (h.Q_le_of_mem hx h₂ h₃)
+  exact le_antisymm hWQ (CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.Q_le_of_mem hx h₂ h₃)
 
 theorem t_mem_normalizer : t ∈ normalizer ((Qf x e₂ e₃ : Subgroup X) : Set X) := by
   apply GL83P3A6Core.mem_normalizer_of_map_le
@@ -352,6 +377,7 @@ theorem ρ_mem_normalizer : ρ ∈ normalizer ((Qf x e₂ e₃ : Subgroup X) : S
     rw [h.ρ_e₃]
     exact le_sup_of_le_right (le_sup_of_le_left (zpowers_le.mpr (zpow_mem_zpowers e₂ (-s))))
 
+omit [Finite X] h in
 theorem conj_mem_of_mem_normalizer {g q : X}
     (hg : g ∈ normalizer ((Qf x e₂ e₃ : Subgroup X) : Set X)) (hq : q ∈ Qf x e₂ e₃) :
     g * q * g⁻¹ ∈ Qf x e₂ e₃ :=
@@ -365,7 +391,7 @@ theorem diag_mem_of_t_invariant {W : Subgroup X} (hWQ : W ≤ Qf x e₂ e₃) (h
   have hv0 : ((a, b, c) : Vec) ≠ 0 := by
     intro h0
     apply hw1
-    rw [h0, hF.qel_zero]
+    rw [h0, CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Mod.Frame3.qel_zero]
   have h1 : qel x e₂ e₃ (c, a, b) ∈ W := by
     have := ht _ hwW
     rwa [hF.conj_t] at this
@@ -380,6 +406,7 @@ theorem diag_mem_of_t_invariant {W : Subgroup X} (hWQ : W ≤ Qf x e₂ e₃) (h
   rw [e, h.qel_diag] at hsum
   exact hsum
 
+omit [Finite X] h in
 theorem inf_ne_bot {P S : Subgroup X} (hcent : ∀ g ∈ P, g * x = x * g → g ∈ Qf x e₂ e₃)
     (hPQ : P ≤ normalizer ((Qf x e₂ e₃ : Subgroup X) : Set X)) (hSP : S ≤ P) (hS : S ≠ ⊥)
     (hQS : Qf x e₂ e₃ ≤ normalizer (S : Set X)) : S ⊓ Qf x e₂ e₃ ≠ ⊥ := by
@@ -391,9 +418,9 @@ theorem inf_ne_bot {P S : Subgroup X} (hcent : ∀ g ∈ P, g * x = x * g → g 
     refine Subgroup.mem_inf.mpr ⟨?_, ?_⟩
     · have e : g * x * g⁻¹ * x⁻¹ = g * (x * g⁻¹ * x⁻¹) := by group
       rw [e]
-      exact S.mul_mem hg ((mem_normalizer_iff.mp (hQS h.x_mem) g⁻¹).mp (S.inv_mem hg))
-    · exact (Qf x e₂ e₃).mul_mem ((mem_normalizer_iff.mp (hPQ (hSP hg)) x).mp h.x_mem)
-        ((Qf x e₂ e₃).inv_mem h.x_mem)
+      exact S.mul_mem hg ((mem_normalizer_iff.mp (hQS (CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.x_mem (x := x) (e₂ := e₂) (e₃ := e₃))) g⁻¹).mp (S.inv_mem hg))
+    · exact (Qf x e₂ e₃).mul_mem ((mem_normalizer_iff.mp (hPQ (hSP hg)) x).mp (CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.x_mem (x := x) (e₂ := e₂) (e₃ := e₃)))
+        ((Qf x e₂ e₃).inv_mem (CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.x_mem (x := x) (e₂ := e₂) (e₃ := e₃)))
   rw [hbot, mem_bot] at hc
   have hgx : g * x = x * g := by
     have := congrArg (fun z => z * x * g) hc
@@ -407,6 +434,7 @@ theorem inf_ne_bot {P S : Subgroup X} (hcent : ∀ g ∈ P, g * x = x * g → g 
 theorem e₃_eq : (t * t) * x * (t * t)⁻¹ = e₃ := by
   rw [show (t * t) * x * (t * t)⁻¹ = t * (t * x * t⁻¹) * t⁻¹ by group, h.t_x, h.t_e₂]
 
+omit [Finite X] h in
 theorem map_conj_zpowers (g : X) :
     (zpowers x).map (MulAut.conj g).toMonoidHom = zpowers (g * x * g⁻¹) := by
   rw [MonoidHom.map_zpowers]
@@ -431,10 +459,10 @@ theorem conjLinesIn_eq_three
   have hset : {c : Subgroup X | ∃ g : X, c = (zpowers x).map (MulAut.conj g).toMonoidHom ∧
       c ≤ Qf x e₂ e₃} = {zpowers x, zpowers e₂, zpowers e₃} := by
     ext c
-    simp only [Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
     constructor
     · rintro ⟨g, rfl, hle⟩
-      rw [h.map_conj_zpowers g] at hle ⊢
+      rw [CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.map_conj_zpowers g] at hle ⊢
       have hgQ : g * x * g⁻¹ ∈ Qf x e₂ e₃ := zpowers_le.mp hle
       have hg1 : g * x * g⁻¹ ≠ 1 := by
         intro h1
@@ -446,13 +474,13 @@ theorem conjLinesIn_eq_three
       · exact Or.inr (Or.inl (zpowers_eq_of_mem h.e₂_pow h.e₂_ne hl hg1))
       · exact Or.inr (Or.inr (zpowers_eq_of_mem h.e₃_pow h.e₃_ne hl hg1))
     · rintro (rfl | rfl | rfl)
-      · refine ⟨1, ?_, zpowers_le.mpr h.x_mem⟩
-        rw [h.map_conj_zpowers 1]
+      · refine ⟨1, ?_, zpowers_le.mpr (CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.x_mem (x := x) (e₂ := e₂) (e₃ := e₃))⟩
+        rw [CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.map_conj_zpowers 1]
         simp
-      · refine ⟨t, ?_, zpowers_le.mpr h.e₂_mem⟩
-        rw [h.map_conj_zpowers t, h.t_x]
-      · refine ⟨t * t, ?_, zpowers_le.mpr h.e₃_mem⟩
-        rw [h.map_conj_zpowers (t * t), h.e₃_eq]
+      · refine ⟨t, ?_, zpowers_le.mpr CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.e₂_mem⟩
+        rw [CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.map_conj_zpowers t, h.t_x]
+      · refine ⟨t * t, ?_, zpowers_le.mpr CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.e₃_mem⟩
+        rw [CFSG.LocalAnalysis.RankThreeTheoremC.GL83P3A6Layer.XFrame.map_conj_zpowers (t * t), h.e₃_eq]
   unfold conjLinesIn
   rw [hset]
   exact Set.ncard_eq_three.mpr ⟨_, _, _, h12, h13, h23, rfl⟩

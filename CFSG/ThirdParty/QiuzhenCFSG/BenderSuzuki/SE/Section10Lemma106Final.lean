@@ -72,8 +72,8 @@ public theorem lemma106_assembly_of_hall
   let C : Subgroup X := lemma104C d
   let H : Subgroup X := lemma106H d
   have hp : p.Prime := by simpa [p] using d.choice.p_prime
-  letI : Fact p.Prime := ⟨hp⟩
-  letI : IsMulCommutative P :=
+  let : Fact p.Prime := ⟨hp⟩
+  let : IsMulCommutative P :=
     (isCyclic_of_prime_card (by simpa [P] using d.P_card)).isMulCommutative
   have hK_D : K ≤ D := by
     rw [Subgroup.closure_le]
@@ -135,7 +135,7 @@ public theorem lemma106_assembly_of_hall
     simpa [P, p, d.P_card] using
       (pPrimeCore_coprime_card (p := p) (G := D)).symm
   have hNdisjP : Disjoint N P :=
-    disjoint_iff.mpr (Subgroup.inf_eq_bot_of_coprime hcopNP)
+    disjoint_iff.mpr ((Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcopNP)))
   have hC_le_N : C ≤ N := by
     change d.choice.initial.A1 ⊓
         Subgroup.centralizer (d.choice.P : Set X) ≤ K ⊔ A
@@ -191,7 +191,7 @@ public theorem lemma106_assembly_of_hall
       ⟨hK_D hx.1, centralizer_le_normalizer P hx.2⟩
     have hxInf : x ∈ K ⊓ normalizerIn D P := ⟨hx.1, hxNDP⟩
     have hInf : K ⊓ normalizerIn D P = ⊥ :=
-      Subgroup.inf_eq_bot_of_coprime hKcopNDP
+      (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hKcopNDP))
     rw [hInf] at hxInf
     exact hxInf
   have hKcomm : ⁅K, P⁆ = K := by
@@ -201,11 +201,11 @@ public theorem lemma106_assembly_of_hall
       (odd_order_theorem K
         (hDodd.of_dvd_nat (Subgroup.card_dvd_of_le hK_D)))
       hKcopP.symm hCKP
-  have hsolvN : IsSolvable N :=
+  have hsolvN : Group.IsSolvable N :=
     odd_order_theorem N
       (hDodd.of_dvd_nat (Subgroup.card_dvd_of_le hN_D))
-  letI : Subgroup.Normalizes P N := ⟨hPnormN⟩
-  letI : MulDistribMulAction P N :=
+  let : Subgroup.Normalizes P N := ⟨hPnormN⟩
+  let : MulDistribMulAction P N :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer P N hPnormN
   have hfixN : fixedPointSubgroup P N = C.subgroupOf N := by
     simpa [hCentNP] using
@@ -275,7 +275,7 @@ public theorem lemma106_assembly_of_hall
     intro x hx
     exact Subgroup.inf_normalizer_le_normalizer_inf
       ⟨hPnormH hx, hPnormV hx⟩
-  have hsolvR : IsSolvable R :=
+  have hsolvR : Group.IsSolvable R :=
     odd_order_theorem R (hDodd.of_dvd_nat
       (Subgroup.card_dvd_of_le
         ((show R ≤ N from inf_le_left.trans hHleN).trans hN_D)))

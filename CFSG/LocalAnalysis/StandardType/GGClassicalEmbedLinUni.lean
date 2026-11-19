@@ -20,7 +20,7 @@ open CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 
 private theorem elu_charP_two {K : Type} [Field K] [Finite K] {m : ℕ}
     (hK : Nat.card K = 2 ^ m) : CharP K 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨p, hpchar, n, hpprime, hcard⟩ := FiniteField.card' K
   have h2 : Nat.card K = p ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -60,7 +60,7 @@ private theorem elu_linearProjEmbed (d m : ℕ) (hd : 2 ≤ d) (K : Type) [Field
     [Finite K] (hK : Nat.card K = 2 ^ m) :
     GGClassicalProjEmbedAt d (LargeEvenProj (LargeEvenSLGroup (Fin d) K))
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin d) K)) Set.univ) := by
-  haveI hchar : CharP K 2 := elu_charP_two hK
+  have hchar : CharP K 2 := elu_charP_two hK
   have hG : (conjAut d K).ker = Subgroup.center (GL (Fin d) K) := by
     refine le_antisymm ?_ ?_
     · intro A hA
@@ -139,7 +139,7 @@ private theorem elu_unitaryProjEmbed (d n : ℕ) (hd : 3 ≤ d) (hdq : (d, 2 ^ n
     GGClassicalProjEmbedAt d (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n)))
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSUGroup (Fin d) K (2 ^ n)))
         (LargeEvenGUSet (Fin d) K (2 ^ n))) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hn : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with hn | hn
     · subst hn
@@ -150,7 +150,7 @@ private theorem elu_unitaryProjEmbed (d n : ℕ) (hd : 3 ≤ d) (hdq : (d, 2 ^ n
     · exact hn
   have hK2 : Nat.card K = 2 ^ (2 * n) := by
     rw [hK, ← pow_mul, Nat.mul_comm]
-  haveI hchar : CharP K 2 := elu_charP_two hK2
+  have hchar : CharP K 2 := elu_charP_two hK2
   let h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n K :=
     TableBU.unitaryFieldData_of_card hK hn
   let H := LargeEvenSUGroup (Fin d) K (2 ^ n)

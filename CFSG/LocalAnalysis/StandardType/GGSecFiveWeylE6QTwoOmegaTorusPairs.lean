@@ -167,7 +167,7 @@ theorem exists_anisoPair_plane_eq_of_isBlock {b : V ≃ₗ[ZMod 2] V}
         P.polar_aa, P.polar_ab] at h1
       rw [polar_add_right, polar_smul_right_eq, polar_smul_right_eq,
         P.polar_ba, P.polar_bb] at h2
-      simp only [smul_eq_mul, mul_zero, mul_one, zero_add, add_zero] at h1 h2
+      simp only [mul_zero, mul_one, zero_add, add_zero] at h1 h2
       rw [h1, h2, zero_smul, zero_smul, add_zero]
     · have hle2 : Submodule.span (ZMod 2) {a, b a} ≤
           (Submodule.span (ZMod 2) {a, b a}).comap b.toLinearMap := by
@@ -182,12 +182,13 @@ theorem exists_anisoPair_plane_eq_of_isBlock {b : V ≃ₗ[ZMod 2] V}
       exact hle2 hw
   exact ⟨P, hplane⟩
 
-private lemma no_anisoPair_of_maximal_bot (hQ : (polarBilin Q).Nondegenerate)
-    {U : Submodule (ZMod 2) V} (hU : Nondeg (polarBilin Q) U)
+omit [FiniteDimensional (ZMod 2) V] in
+private lemma no_anisoPair_of_maximal_bot (_hQ : (polarBilin Q).Nondegenerate)
+    {U : Submodule (ZMod 2) V} (_hU : Nondeg (polarBilin Q) U)
     {E : Subgroup (V ≃ₗ[ZMod 2] V)}
-    (hEU : E ≤ TauCeti.QuadraticMap.orthogonalGroup Q ⊓
+    (_hEU : E ≤ TauCeti.QuadraticMap.orthogonalGroup Q ⊓
       ptw (LinearMap.BilinForm.orthogonal (polarBilin Q) U))
-    (hE : IsElemAbelian 3 E)
+    (_hE : IsElemAbelian 3 E)
     (hmax : ∀ F : Subgroup (V ≃ₗ[ZMod 2] V), E ≤ F →
       F ≤ TauCeti.QuadraticMap.orthogonalGroup Q ⊓
         ptw (LinearMap.BilinForm.orthogonal (polarBilin Q) U) →

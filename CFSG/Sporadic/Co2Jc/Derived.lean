@@ -158,7 +158,7 @@ theorem qWord_flatMap (w : List ℕ) (f : ℕ → List ℕ) :
     qWord (w.flatMap f) = (w.map fun l => qWord (f l)).prod := by
   induction w with
   | nil => simp [qWord_nil]
-  | cons a t ih => simp [List.flatMap_cons, qWord_append, qWord_cons, ih]
+  | cons a t ih => simp [List.flatMap_cons, qWord_append, ih]
 
 theorem qWord_dWord (w : List ℕ) : qWord (dWord w) = dVal w := by
   rw [dWord, qWord_flatMap, dVal]
@@ -174,9 +174,9 @@ theorem dVal_mem (w : List ℕ) : dVal w ∈ Dg := by
     rw [dVal, List.map_cons, List.prod_cons]
     refine Dg.mul_mem ?_ ih
     by_cases h : a = 0
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact Subgroup.subset_closure (by simp)
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact Subgroup.subset_closure (by simp)
 
 theorem qWord_g1w_eq : qWord g1w = ⁅qA 0, qA 1⁆ := by
@@ -242,7 +242,7 @@ theorem conj_mem_Dg_of_gen {n : ℕ} (hn : n < 3) {d : MulAut ↥Jc} (hd : d ∈
   · rintro x (rfl | rfl)
     · exact h1
     · exact h2
-  · simpa using Dg.one_mem
+  · simp
   · intro a b ha hb iha ihb
     have e : qA n * (a * b) * (qA n)⁻¹ =
         (qA n * a * (qA n)⁻¹) * (qA n * b * (qA n)⁻¹) := by group
@@ -452,10 +452,10 @@ theorem Phi_inj {i j : Fin 22} (h : ∀ x, Phi i x = Phi j x) : i = j := by
     by_cases hi : (maskD i).testBit l
     · by_cases hj : (maskD j).testBit l
       · rw [hi, hj]
-      · rw [if_pos hi, if_neg hj] at hh
+      · rw [ite_eq_left hi, ite_eq_right hj] at hh
         exact absurd hh (by decide)
     · by_cases hj : (maskD j).testBit l
-      · rw [if_neg hi, if_pos hj] at hh
+      · rw [ite_eq_right hi, ite_eq_left hj] at hh
         exact absurd hh.symm (by decide)
       · rw [Bool.eq_false_iff.mpr hi, Bool.eq_false_iff.mpr hj]
   refine maskD_inj (Nat.eq_of_testBit_eq fun l => ?_)
@@ -644,15 +644,15 @@ theorem theta_qA_zero : thetaHom ⟨qA 0, qA_mem (by norm_num)⟩ = -1 := by
 theorem g1w_letters : ∀ k ∈ g1w, k < 3 := by
   intro k hk
   rw [g1w] at hk
-  simp only [List.mem_append, List.mem_cons, List.mem_singleton, List.mem_replicate,
-    List.not_mem_nil, or_false, false_or] at hk
+  simp only [List.mem_append, List.mem_cons, List.mem_replicate,
+    List.not_mem_nil, or_false] at hk
   omega
 
 theorem g2w_letters : ∀ k ∈ g2w, k < 3 := by
   intro k hk
   rw [g2w] at hk
-  simp only [List.mem_append, List.mem_cons, List.mem_singleton, List.mem_replicate,
-    List.not_mem_nil, or_false, false_or] at hk
+  simp only [List.mem_append, List.mem_cons, List.mem_replicate,
+    List.not_mem_nil, or_false] at hk
   omega
 
 theorem theta_commutator_eq_one (x y : Qj) : thetaHom ⁅x, y⁆ = 1 := by
@@ -675,7 +675,7 @@ theorem theta_qWord_g2w : thetaHom (⟨qWord g2w, qWord_mem g2w_letters⟩ : Qj)
   exact theta_commutator_eq_one _ _
 
 theorem theta_eq_one_of_mem_Dg {y : MulAut ↥Jc} :
-    ∀ (hy : y ∈ Dg), ∀ (h : y ∈ Qj), thetaHom ⟨y, h⟩ = 1 := by
+    ∀ (_hy : y ∈ Dg), ∀ (h : y ∈ Qj), thetaHom ⟨y, h⟩ = 1 := by
   refine Subgroup.closure_induction
     (k := ({qWord g1w, qWord g2w} : Set (MulAut ↥Jc)))
     (p := fun y _ => ∀ (h : y ∈ Qj), thetaHom ⟨y, h⟩ = 1) ?_ ?_ ?_ ?_

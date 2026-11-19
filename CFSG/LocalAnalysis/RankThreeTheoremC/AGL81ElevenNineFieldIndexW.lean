@@ -104,7 +104,7 @@ theorem AGL81ElevenNineData.blockFieldIndexW_hyps (hS : Setting G) (h85 : Asc81b
     Subgroup.mem_normalizer_fintype
       (CFSG.HardMathSupport.Curtis.Coordinator.blockPL_conj_mem hT.asc81bHyp haL' haS')
   have hap : IsPGroup p (Subgroup.zpowers (mk ⟨a₀, ha₀HM.2⟩)) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have h1 : (⟨a₀, ha₀HM.2⟩ : ↥M) ^ p ^ 1 = 1 := by
       rw [pow_one]
       exact Subtype.ext (by simp [← hd.order, pow_orderOf_eq_one])

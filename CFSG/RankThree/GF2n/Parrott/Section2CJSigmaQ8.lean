@@ -63,6 +63,7 @@ theorem eq_of_le_of_card_eq_four_mul {N S T : Subgroup G} (hNS : N ≤ S) (hST :
 variable [hN : ((J z).subgroupOf (H z)).Normal]
 variable (D : QuotientData (z := z) hN)
 
+omit hN in
 theorem mem_centerIn_J_of_commute_CJ (h : Tim79a.ParrottHyp z) {x : ↥(H z)} (hx3 : x ^ 3 = 1)
     (hZx : conjZ z x = 1) {y : G} (hy : y ∈ CJ z (x : G))
     (hcomm : ∀ c ∈ CJ z (x : G), c * y = y * c) : y ∈ centerIn (J z) := by

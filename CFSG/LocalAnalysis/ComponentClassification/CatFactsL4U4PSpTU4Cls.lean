@@ -52,10 +52,8 @@ theorem bdK_gens :
     simp only [slU, slL, Matrix.SpecialLinearGroup.coe_one]
     rw [map_one_fixed]
     first
-      | rw [show ((⟨uu 1, det_uu 1⟩ : SpecialLinearGroup (Fin 2) h.fixedField) :
-          Matrix (Fin 2) (Fin 2) h.fixedField) = uu 1 from rfl, map_uu, OneMemClass.coe_one]
-      | rw [show ((⟨ll 1, det_ll 1⟩ : SpecialLinearGroup (Fin 2) h.fixedField) :
-          Matrix (Fin 2) (Fin 2) h.fixedField) = ll 1 from rfl, map_ll, OneMemClass.coe_one]
+
+
       | rw [map_uu, OneMemClass.coe_one]
       | rw [map_ll, OneMemClass.coe_one]
 

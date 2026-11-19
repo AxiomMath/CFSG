@@ -176,18 +176,18 @@ theorem step_rel
   simp only [stepI, Nat.add_eq] at h ⊢
   rw [hy]
   by_cases hlt : posQ R t g < c
-  · rw [Nat.blt_eq.mpr hlt, cond_true]
+  · rw [Nat.blt_eq.mpr hlt, _root_.Bool.cond_true]
     intro hok
     have hin : a1.contains (E R (posQ R t g)) = true := ((h hok).2.1 _).2 ⟨_, hlt, rfl⟩
-    rw [if_pos hin]
+    rw [ite_eq_left hin]
     exact h hok
   · have hb : Nat.blt (posQ R t g) c = false := by
       cases hc : Nat.blt (posQ R t g) c
       · rfl
       · exact absurd (Nat.blt_eq.mp hc) hlt
-    rw [hb, cond_false]
+    rw [hb, Bool.cond_false]
     by_cases heq : posQ R t g = c
-    · rw [Nat.beq_eq.mpr heq, cond_true]
+    · rw [Nat.beq_eq.mpr heq, _root_.Bool.cond_true]
       intro hok
       obtain ⟨h1, h2, h3, h4, h5, h6⟩ := h hok
       have hout : a1.contains (E R (posQ R t g)) = false := by
@@ -196,7 +196,7 @@ theorem step_rel
         · obtain ⟨t', ht', he⟩ := (h2 _).1 hm
           have := hinj t' (by omega) _ hq he
           omega
-      rw [if_neg (by rw [hout]; exact Bool.false_ne_true)]
+      rw [ite_eq_right (by rw [hout]; exact Bool.false_ne_true)]
       refine ⟨by omega, fun y => ?_, ?_, ?_, ?_, ?_⟩
       · rw [Std.HashSet.contains_insert, Bool.or_eq_true, beq_iff_eq, h2]
         constructor
@@ -222,13 +222,13 @@ theorem step_rel
         cases hc : Nat.beq (posQ R t g) c
         · rfl
         · exact absurd (Nat.beq_eq.mp hc) heq
-      rw [hb', cond_false]
+      rw [hb', Bool.cond_false]
       intro hok
       exact absurd hok Bool.false_ne_true
 
 theorem runI_cons (Q : ℕ → Bool → ℕ) (t : ℕ) (l : List ℕ) (st : SI) :
     runI Q (t :: l) st = runI Q l (stepI Q t (stepI Q t st true) false) := by
-  simp only [runI] <;> rfl
+  simp only [runI]
 
 theorem fold_rel
     (hfac : ∀ t < n, VC (E R t) ∧ ∀ g, posQ R t g < n ∧ mulC (gC g) (E R t) = E R (posQ R t g))
@@ -269,7 +269,7 @@ theorem bfsI_cons (Q : ℕ → Bool → ℕ) (fuel c : ℕ) (ok : Bool) (acc : L
     bfsI Q (fuel + 1) c ok acc (t :: fr) =
       bfsI Q fuel (runI Q (t :: fr) (c, ok, acc, [])).1 (runI Q (t :: fr) (c, ok, acc, [])).2.1
         (runI Q (t :: fr) (c, ok, acc, [])).2.2.1 (runI Q (t :: fr) (c, ok, acc, [])).2.2.2 := by
-  simp only [bfsI] <;> rfl
+  simp only [bfsI]
 
 theorem bfsI_false (Q : ℕ → Bool → ℕ) :
     ∀ (fuel c : ℕ) (ok : Bool) (acc fr : List ℕ), ok = false → (bfsI Q fuel c ok acc fr).1 = false
@@ -400,15 +400,13 @@ theorem cert7102_of {R : ℕ → ℕ} {n hi hiT : ℕ} (hn : 0 < n) (hm : n ≤ 
         apply hinv.2
         rw [E, e, colsK_oneP]
       have hst := CFSG.KC.G2Three.allBelow_g2 hW hm t ht
-      try dsimp only at hst
       have hne' : Nat.beq (numX R t) oneP = false := by
         cases hb : Nat.beq (numX R t) oneP
         · rfl
         · exact absurd (Nat.beq_eq.mp hb) hne
       rw [Nat.beq_eq.mpr hsq, hne'] at hst
-      simp only [Bool.not_false, Bool.and_self, cond_true] at hst
+      simp only [Bool.not_false, Bool.and_self, _root_.Bool.cond_true] at hst
       have hw := CFSG.KC.G2Three.allBelow_g2 hst (by norm_num) (v' + 1) (by omega)
-      try dsimp only at hw
       have hv1 : Nat.beq (v' + 1) 0 = false := rfl
       have hv2 : Nat.beq (mvK (numX R t) (v' + 1)) (v' + 1) = true := by
         rw [Nat.beq_eq, mvK_eq hg _ (by omega)]

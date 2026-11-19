@@ -16,7 +16,7 @@ theorem exists_sylow_shape_of_small_centralizer {G : Type*} [Group G] [Finite G]
       (∃ m : ℕ, 1 ≤ m ∧ Nonempty (↥(T : Subgroup ↥L) ≃* DihedralGroup (2 ^ m))) ∨
       ∃ n : ℕ, 3 ≤ n ∧ Nonempty (↥(T : Subgroup ↥L) ≃* QuaternionGroup (2 ^ (n - 2))) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨Ts, hTs, haTs, -, hrel, hcardS⟩ := exists_sylow_index_two ha haN haL
   set S : Subgroup G := Ts ⊓ L with hS
   set C : Subgroup G := centralizer ({a} : Set G) with hCdef
@@ -39,8 +39,8 @@ theorem exists_sylow_shape_of_small_centralizer {G : Type*} [Group G] [Finite G]
     rw [hbot, Subgroup.card_bot] at hcardS2
     omega
   have hS'idx : (S.subgroupOf Ts).index = 2 := hrel'
-  haveI : (S.subgroupOf Ts).Normal := Subgroup.normal_of_index_eq_two hS'idx
-  haveI : Group.IsNilpotent Ts := hTs.isNilpotent
+  have : (S.subgroupOf Ts).Normal := Subgroup.normal_of_index_eq_two hS'idx
+  have : Group.IsNilpotent Ts := hTs.isNilpotent
   have hS'ne : S.subgroupOf Ts ≠ ⊥ := by
     intro hbot
     have hcard1 : Nat.card ↥(S.subgroupOf Ts) = 1 := by rw [hbot, Subgroup.card_bot]

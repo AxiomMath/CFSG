@@ -169,7 +169,7 @@ theorem MinCex.mem_of_conj_mem_dstar (c : MinCex r Ω K S R W H) {M : Subgroup G
   E187C.mem_of_conj_mem_dstar_of c.hyp.trans
     (fun hu hu4 hx => e18_2 G Ω K S R W H c _ hu hu4 _ hx) hMS hu hu4 hx
 
-theorem MinCex.cent_quot_stand [PrintedQuotCent r] (hr : 3 ≤ r) (c : MinCex r Ω K S R W H)
+theorem MinCex.cent_quot_stand [PrintedQuotCent r] (_hr : 3 ≤ r) (c : MinCex r Ω K S R W H)
     {N : Subgroup G} [N.Normal] (hc : CentQuot Ω N) (hNH : N ≤ H) :
     ∃ (Sb : Sylow 2 (G ⧸ N)) (Rb Wb : Subgroup (G ⧸ N)),
       EStand r (quotFamily Ω N) (K.map (QuotientGroup.mk' N)) Sb Rb Wb ∧

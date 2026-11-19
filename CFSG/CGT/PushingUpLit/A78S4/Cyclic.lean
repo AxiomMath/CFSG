@@ -14,13 +14,14 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {V V₂ Z Z₂ J T S M M₂ : Subgroup G} {e : ℕ}
 
+omit [Finite G] in
 theorem sp4_isCyclic_quot (hB : Sp4Base G V V₂ J T S M M₂ e)
     (hC : Sp4Coords G J V V₂ Z Z₂ (GaloisField 2 e)) (hTZ : ∀ t ∈ T, cj t Z = Z)
     (hsZ : ∀ s ∈ S, s ∉ T → cj s Z = Z₂) :
     haveI := hB.normal_J
     IsCyclic (↥S ⧸ J.subgroupOf S) := by
   classical
-  haveI := hB.normal_J
+  have := hB.normal_J
   obtain ⟨c, hV, hV₂, hZc, hZ₂c⟩ := exists_cls2 hC
   have hconjJ : ∀ g ∈ S, ∀ x ∈ J, g * x * g⁻¹ ∈ J := fun g hg x hx => hB.conj_J hg hx
   have hconjJ' : ∀ g ∈ S, ∀ x ∈ J, g⁻¹ * x * g ∈ J := fun g hg x hx => by
@@ -113,11 +114,12 @@ theorem sp4_isCyclic_quot (hB : Sp4Base G V V₂ J T S M M₂ e)
   have hp : IsPGroup 2 (↥S ⧸ J.subgroupOf S) := hB.sylow.isPGroup.to_quotient _
   exact isCyclic_of_forms hp θ hinj hform
 
+omit [Finite G] in
 theorem sp4_S_cyclic (hB : Sp4Base G V V₂ J T S M M₂ e)
     (hC : Sp4Coords G J V V₂ Z Z₂ (GaloisField 2 e)) (hTZ : ∀ t ∈ T, cj t Z = Z)
     (hsZ : ∀ s ∈ S, s ∉ T → cj s Z = Z₂) :
     ∃ s ∈ S, ∀ x ∈ S, ∃ k : ℤ, (s ^ k)⁻¹ * x ∈ J := by
-  haveI := hB.normal_J
+  have := hB.normal_J
   have hcyc := sp4_isCyclic_quot hB hC hTZ hsZ
   obtain ⟨q₀, hq₀⟩ := hcyc.exists_generator
   obtain ⟨s₀, rfl⟩ := QuotientGroup.mk_surjective q₀
@@ -133,7 +135,7 @@ theorem sp4_no_inv (hB : Sp4Base G V V₂ J T S M M₂ e)
     T ≠ J → ∀ x ∈ S, x ∉ T → x * x ≠ 1 := by
   classical
   intro hTJ x hx hxT hxx
-  haveI := hB.normal_J
+  have := hB.normal_J
   have hcyc := sp4_isCyclic_quot hB hC hTZ hsZ
   have : Fintype (↥S ⧸ J.subgroupOf S) := Fintype.ofFinite _
   obtain ⟨f, hf, hfJ, hff⟩ := hinv hTJ

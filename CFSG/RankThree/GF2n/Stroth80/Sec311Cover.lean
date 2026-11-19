@@ -38,7 +38,7 @@ theorem map_le_center_of_comm (N N₀ L : Subgroup R) [N₀.Normal]
   exact this.symm
 
 theorem isElemAbelian_map_of_ab (N N₀ L : Subgroup R) [N₀.Normal]
-    (hLN : L ⊓ N ≤ N₀) (hN₀N : N₀ ≤ N)
+    (hLN : L ⊓ N ≤ N₀) (_hN₀N : N₀ ≤ N)
     (hab : ∀ l ∈ L, ∀ l' ∈ L, ⁅l, l'⁆ ∈ N ∧ l ^ 2 ∈ N) :
     IsElemAbelian 2 (L.map (QuotientGroup.mk' N₀)) := by
   have hmem : ∀ x ∈ L, x ∈ N → x ∈ N₀ := fun x hx hxN => hLN ⟨hx, hxN⟩

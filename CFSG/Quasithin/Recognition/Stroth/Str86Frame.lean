@@ -59,7 +59,7 @@ theorem statedSU_sylow_inf_eq_bot {n : ℕ} (hn : 2 ≤ n)
     (hQ : CFSG.ABGLocalTools.IsSylowOf 2 Q ⊤) (hPQ : P ≠ Q) :
     P ⊓ Q = ⊥ := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let ρ : StatedSU 3 (2 ^ n) F →* StatedProj (StatedSU 3 (2 ^ n) F) :=
     QuotientGroup.mk' ((StatedScalars (Fin 3) F).subgroupOf (StatedSU 3 (2 ^ n) F))
   have hρ : Function.Surjective ρ := QuotientGroup.mk'_surjective _
@@ -100,8 +100,8 @@ theorem str86_oTwoQuot_sylowTwoTI {L : Subgroup G}
       (BenderType.sylowTwoTI hBT)
   · rcases hU3L2 with hU3 | hL2
     · obtain ⟨n, hn, F, hFld, hFin, hFc, hU3⟩ := hU3
-      letI : Field F := hFld
-      haveI : Finite F := hFin
+      let : Field F := hFld
+      have : Finite F := hFin
       rcases hU3 with hSU | hSP
       · obtain ⟨e⟩ := hSU
         have hTI : SylowTwoTI (StatedSU 3 (2 ^ n) F) :=
@@ -256,8 +256,8 @@ theorem str86_bigB_le_normalizer (hO : Str86Orders)
     (S ⊓ L1) ⊔ (S ⊓ L2) = S ∧
       bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G) := by
   obtain ⟨k, hk, F, hField, hFin, hFc, hU3⟩ := h1
-  letI : Field F := hField
-  haveI : Finite F := hFin
+  let : Field F := hField
+  have : Finite F := hFin
   have hF' : F112Hyp L1 L2 ((S ⊓ L1) ⊔ (S ⊓ L2)) := f112Hyp_sup_inf hF
   have hS := hO G L1 L2 S k F hF hk hFc hU3 hB2 h2
   have hS' := hO G L1 L2 ((S ⊓ L1) ⊔ (S ⊓ L2)) k F hF' hk hFc hU3 hB2 h2

@@ -15,8 +15,8 @@ theorem model_B
     Finite (Carrier .B) ∧ IsSimpleGroup (Carrier .B) ∧
       Nonempty (Carrier .B ≃* (TauCeti.CFSGIndex.sporadic .B).Group) ∧
       ∃ a c : Carrier .B, a * c ≠ c * a := by
-  haveI : Finite (Carrier .B) := CFSG.Sporadic.finite_carrier_of_ne_M .B (by decide)
-  haveI : IsSimpleGroup (Carrier .B) := CFSG.Sporadic.B.fam_b_simplicity
+  have : Finite (Carrier .B) := CFSG.Sporadic.finite_carrier_of_ne_M .B (by decide)
+  have : IsSimpleGroup (Carrier .B) := CFSG.Sporadic.B.fam_b_simplicity
   refine ⟨inferInstance, inferInstance, CFSG.Sporadic.Bridge.B.nonempty_mulEquiv,
     CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple fun hp => ?_⟩
   have h91 : 7 * 13 ∣ Nat.card (Carrier .B) :=

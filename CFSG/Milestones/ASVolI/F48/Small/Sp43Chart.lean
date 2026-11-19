@@ -41,8 +41,8 @@ theorem burnsideF48s_sp43c_chart {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E
           M₂ = burnsideF48s_sp43P2.map θ.toMonoidHom) ∨
         (M₁ = burnsideF48s_sp43P2.map θ.toMonoidHom ∧
           M₂ = burnsideF48s_sp43P1.map θ.toMonoidHom)) := by
-  haveI : Finite E := hyp.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite E := hyp.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
   obtain ⟨ε₀⟩ := burnsideF48s_sp43c_equiv_Y hyp.model
   subst hGp

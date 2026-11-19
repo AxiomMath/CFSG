@@ -25,14 +25,14 @@ theorem s16t_l4_exists_noncyclic_three_lbar (hS : S16tL4Setting D V₀ V L hV) :
   let K : Subgroup ↥H := Q.toSubgroup
   let E : Subgroup (MulAut (Vtil V₀ V hV)) := K.map H.subtype
   have hE : E ≤ lBar V₀ V hV L := Subgroup.map_subtype_le _
-  have hEp : IsPGroup 3 ↥E := Q.isPGroup'.map H.subtype
+  have hEp : IsPGroup 3 ↥E := Q.isPGroup.map H.subtype
   refine ⟨E, hE, hEp, ?_⟩
   intro hcyc
   have hcycQ : IsCyclic ↥K :=
     isCyclic_of_injective
       (Subgroup.equivMapOfInjective K H.subtype H.subtype_injective).toMonoidHom
       (Subgroup.equivMapOfInjective K H.subtype H.subtype_injective).injective
-  haveI := hcycQ
+  have := hcycQ
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := ↥K)
   have h9Q : 9 ∣ Nat.card ↥K := by
     have h1 : 3 ^ 2 ∣ Nat.card ↥H := by rw [hcard]; norm_num
@@ -99,7 +99,7 @@ theorem s16t_l4_opp_mem_calC (hS : S16tL4Setting D V₀ V L hV) {Y : Subgroup G}
   have hZY : Z ≤ Y ⊓ N := le_inf inf_le_left hZN
   have hYN : Y ⊓ N ≤ N ⊓ D.M := le_inf inf_le_right (inf_le_left.trans hY.le)
   have hYNnormal : ((Y ⊓ N).subgroupOf (N ⊓ D.M)).Normal := by
-    haveI := hY.normal
+    have := hY.normal
     have h := Subgroup.inf_subgroupOf_inf_normal_of_left (A' := Y) (A := D.M) N
     rwa [inf_comm D.M N] at h
   have hZnormal : (Z.subgroupOf (Y ⊓ N)).Normal := by

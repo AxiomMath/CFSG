@@ -183,10 +183,10 @@ private theorem mem_tail_rmRT :
     .tail _ <| .head _
 
 private theorem permOK_sylT {h0 : autJ2VtxC0 () = true} :
-    ∀ g ∈ sylT, permOK 315 g = true := fun g hg => autJ2VtxC0_perm h0 (mem_autJ2Tbls_sylT hg)
+    ∀ _g ∈ sylT, permOK 315 _g = true := fun _g hg => autJ2VtxC0_perm h0 (mem_autJ2Tbls_sylT hg)
 
 private theorem permOK_abuT {h0 : autJ2VtxC0 () = true} :
-    ∀ g ∈ abuT, permOK 315 g = true := fun g hg => autJ2VtxC0_perm h0 (mem_autJ2Tbls_abuT hg)
+    ∀ _g ∈ abuT, permOK 315 _g = true := fun _g hg => autJ2VtxC0_perm h0 (mem_autJ2Tbls_abuT hg)
 
 private theorem permOK_X1R_list {h0 : autJ2VtxC0 () = true} :
     ∀ g ∈ sylT ++ [g1T], permOK 315 g = true := by
@@ -199,7 +199,7 @@ private theorem permOK_X1R_list {h0 : autJ2VtxC0 () = true} :
     exact autJ2VtxC0_perm h0 mem_autJ2Tbls_g1T
 
 private theorem permOK_q2T_list {h0 : autJ2VtxC0 () = true} :
-    ∀ g ∈ q2T, permOK 315 g = true := fun g hg => autJ2VtxC0_perm h0 (mem_autJ2Tbls_q2T hg)
+    ∀ g ∈ q2T, permOK 315 g = true := fun _g hg => autJ2VtxC0_perm h0 (mem_autJ2Tbls_q2T hg)
 
 private theorem genOf_mono {n : ℕ} {gs hs : List Table} (h : ∀ g ∈ gs, g ∈ hs) :
     genOf n gs ≤ genOf n hs := by
@@ -349,7 +349,7 @@ private theorem pCoreOf_Y2_le_inf :
 
 private theorem pCoreOf_Y2_le_pCoreOf_inf :
     pCoreOf 2 (AJ2L.rCtx.Y 2) ≤ pCoreOf 2 (J0 ⊓ AJ2L.rCtx.Y 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hle := pCoreOf_Y2_le_inf
   refine le_pCoreOf (r := 2) hle ?_ (pCoreOf_isPGroup 2 _)
   exact (Subgroup.normal_subgroupOf_iff_le_normalizer hle).mpr
@@ -358,7 +358,7 @@ private theorem pCoreOf_Y2_le_pCoreOf_inf :
 
 theorem Q2R_subgroupOf :
     Q2R.subgroupOf R = pCoreOf 2 (AJ2L.rCtx.Y 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQR : Q2R ≤ R := Q2R_le_WR.trans WR_le_R
   have hcardQ : Nat.card (Q2R.subgroupOf R) = 32 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hQR).toEquiv, card_Q2R]

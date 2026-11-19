@@ -57,7 +57,7 @@ private theorem a11ss_main {G : Type} [Group G] [Finite G]
     (hperf : commutator ↥K' = ⊤) (hRord : ¬ 7 ^ 4 ∣ Nat.card R) :
     ∃ E : Subgroup G, E ≤ K' ∧ E ≤ Bs ∧ commutator ↥K' = ⊤ ∧ Nat.card E = 7 ^ 3 ∧
       ¬ 7 ^ 4 ∣ Nat.card K' ∧ Bs = Subgroup.zpowers y' ⊔ E ∧ y' ∉ E := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hyB : y' ∈ Bs := hcfg.2.1.1 hnb.1.2.1
   have hy7 : y' ^ 7 = 1 := hnb.1.1.1.2 y' hnb.1.2.1
   have hyne : y' ≠ 1 := hnb.1.2.2.1
@@ -138,7 +138,7 @@ private theorem a11ss_main {G : Type} [Group G] [Finite G]
         ⟨((y : ↥Bs) : G)⁻¹, hBsN (Subgroup.inv_mem _ y.2)⟩ *
           ⟨((x : ↥Bs) : G)⁻¹, hBsN (Subgroup.inv_mem _ x.2)⟩ := by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+      simp only [Subgroup.coe_mul]
       rw [_root_.mul_inv_rev]
     rw [h1, map_mul]
   have hκ₀_anti : ∀ x y : ↥Bs, κ₀ (x * y) = κ₀ y * κ₀ x := by
@@ -257,7 +257,7 @@ private theorem a11ss_main {G : Type} [Group G] [Finite G]
     ext z
     rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf, ← hkerφ]
     rfl
-  haveI hZPnormal : ZP.Normal := hkerP ▸ MonoidHom.normal_ker (φ.comp P.subtype)
+  have hZPnormal : ZP.Normal := hkerP ▸ MonoidHom.normal_ker (φ.comp P.subtype)
   have hPcard : Nat.card P = Nat.card Z * 7 ^ 3 := by
     have h := Subgroup.card_ker_mul_card_range (φ.comp P.subtype)
     rw [hkerP, hrangeP, hcardEbar, hZPcard] at h
@@ -582,7 +582,7 @@ private theorem a11ss_exists_not_dvd_twD {Q : LargeEvenRawCont}
     (h : LargeEvenRawDatum ⟨.twD, 4, 3⟩ Q) :
     ∃ (R : Type) (_ : Group R) (I F : Set (MulAut R)), Q R I F ∧ ¬ 7 ^ 4 ∣ Nat.card R := by
   dsimp only [LargeEvenRawDatum] at h
-  rw [if_neg (by norm_num : ¬ (4 : ℕ) = 2), if_neg (by norm_num : ¬ (4 : ℕ) = 3)] at h
+  rw [ite_eq_right (by norm_num : ¬ (4 : ℕ) = 2), ite_eq_right (by norm_num : ¬ (4 : ℕ) = 3)] at h
   norm_num at h
   dsimp only [LargeEvenRecipeOmegaMinus] at h
   obtain ⟨K, _, _, hK, b, c, hbc, hQ⟩ := h

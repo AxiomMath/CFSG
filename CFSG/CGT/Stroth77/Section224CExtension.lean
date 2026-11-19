@@ -63,7 +63,7 @@ theorem deviation_conj_eq (Z : StrothDatum X) {s l d : G}
         (Subgroup.mem_normalizer_iff''.mp hlN x).mp hx⟩)).toMul : G)
       = l⁻¹ * ((deviation Z s hs (Additive.ofMul ⟨x, hx⟩)).toMul : G) * l := by
   have hdxraw : d * x = x * d := by
-    haveI : IsMulCommutative Z.D := Z.dataD.isMulCommutative
+    have : IsMulCommutative Z.D := Z.dataD.isMulCommutative
     exact Subtype.ext_iff.mp (IsMulCommutative.is_comm.comm (⟨d, hd⟩ : Z.D) ⟨x, hx⟩)
   have hdx : d * x * d⁻¹ = x := by
     rw [hdxraw]
@@ -73,7 +73,7 @@ theorem deviation_conj_eq (Z : StrothDatum X) {s l d : G}
       _ = (s * d)⁻¹ := by rw [hconj]
       _ = d⁻¹ * s⁻¹ := by group
   rw [deviation_apply, deviation_apply]
-  simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk]
+  simp only
   calc s * (l⁻¹ * x * l) * s⁻¹ * (l⁻¹ * x * l)⁻¹
       = l⁻¹ * ((l * s * l⁻¹) * x * (l * s⁻¹ * l⁻¹) * x⁻¹) * l := by group
     _ = l⁻¹ * ((s * d) * x * (d⁻¹ * s⁻¹) * x⁻¹) * l := by rw [hconj, hs_inv]
@@ -189,7 +189,7 @@ theorem type100_uvM_mulVec (v : Fin 3 → ℤ) :
   funext i
   fin_cases i <;>
     simp [Type100.uvM, Type100.uvA, Type100.tM, Type100.ρM, ofCols, Matrix.mulVec,
-      dotProduct, Fin.sum_univ_three] <;> ring
+      dotProduct, Fin.sum_univ_three]
 
 
 theorem t100_compat_uv (m : ℕ) : Compat (StrothTypeIndex.t100 m).k Type100.uvM := by
@@ -244,7 +244,7 @@ theorem two_torsion_solution (m : ℕ) (hm : 2 ≤ m)
     w' = (2 : ℤ) ^ m • (Torus.b : Torus (StrothTypeIndex.t100 m).k) := by
   have hk1 : ∀ i, 1 ≤ (StrothTypeIndex.t100 m).k i := by
     intro i
-    fin_cases i <;> simp [StrothTypeIndex.k, Type100.k] <;> omega
+    fin_cases i <;> simp [StrothTypeIndex.k, Type100.k]; omega
   obtain ⟨ε, hε, hwε⟩ := (Torus.two_zsmul_eq_zero_iff hk1 w).mp hw2
   obtain ⟨ε', hε', hw'ε⟩ := (Torus.two_zsmul_eq_zero_iff hk1 w').mp hw2'
   have h2 : Torus.ofInt (StrothTypeIndex.t100 m).k

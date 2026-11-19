@@ -62,7 +62,7 @@ theorem pCore_two_inf_eq_bot_of_local_shape
       exact hperf
     have : Nontrivial ↥X :=
       nontrivial_of_ne (⟨e, hEX heE⟩ : ↥X) 1 fun h => he1 (congrArg Subtype.val h)
-    exact (IsSolvable.commutator_lt_top_of_nontrivial ↥X).ne hXtop
+    exact (Group.IsSolvable.commutator_lt_top_of_nontrivial ↥X).ne hXtop
   have hsig : D.sig ⊆ D.sig1 := UC6S846.sig_subset_sig1 hSg hns
   obtain ⟨-, t, ht2, hpt, L₀, hL₀H, hL₀n, hHeq, hshape⟩ :=
     h67 hsig 3 Nat.prime_three (by norm_num) E hEM hEel hEcard hΓE H hEH hHtop hne hHM

@@ -75,20 +75,20 @@ theorem shape_of_comm_D (G : Matrix (Fin N) (Fin N) F) (j : Fin (N / 2)) (hN : 6
     by_cases hu1 : u = Fin.rev y1
     · have hu2 : u ≠ Fin.rev y2 := by
         intro e; exact h12 (Fin.rev_injective (hu1.symm.trans e))
-      rw [C1 x y2 hx hy2 hr2 u, if_neg hu, if_neg hu2]; simp
-    · rw [C1 x y1 hx hy1 hr1 u, if_neg hu, if_neg hu1]; simp
+      rw [C1 x y2 hx hy2 hr2 u, ite_eq_right hu, ite_eq_right hu2]; simp
+    · rw [C1 x y1 hx hy1 hr1 u, ite_eq_right hu, ite_eq_right hu1]; simp
   have diagy : ∀ x y, InA j x → ¬ InA j y → y ≠ Fin.rev x → G y y = G x x := by
     intro x y hx hy hyx
     have := C1 x y hx hy hyx x
     have hne : x ≠ Fin.rev y := fun e => hyx (by rw [e, Fin.rev_rev])
-    rw [if_pos rfl, if_neg hne] at this
+    rw [ite_eq_left rfl, ite_eq_right hne] at this
     linear_combination -this
   have R1 : ∀ x y, InA j x → ¬ InA j y → y ≠ Fin.rev x → ∀ v,
       G y v = (if v = y then G x x else 0) - (if v = Fin.rev x then G x (Fin.rev y) else 0) := by
     intro x y hx hy hyx v
     have := E x y hx hy hyx x v
     have hne : x ≠ Fin.rev y := fun e => hyx (by rw [e, Fin.rev_rev])
-    rw [if_pos rfl, if_neg hne] at this
+    rw [ite_eq_left rfl, ite_eq_right hne] at this
     linear_combination -this
   have Rrow : ∀ x y, InA j x → ¬ InA j y → y ≠ Fin.rev x → ∀ v,
       G (Fin.rev x) v = if v = Fin.rev x then G (Fin.rev y) (Fin.rev y) else 0 := by
@@ -96,16 +96,16 @@ theorem shape_of_comm_D (G : Matrix (Fin N) (Fin N) F) (j : Fin (N / 2)) (hN : 6
     have := E x y hx hy hyx (Fin.rev y) v
     have hne : Fin.rev y ≠ x := fun e => hyx (by rw [← e, Fin.rev_rev])
     have h0 : G (Fin.rev y) x = 0 := colx x hx _ hne
-    simp only [h0, hne, if_false, if_true, ite_self, zero_sub] at this
+    simp only [h0, hne, ite_false, ite_true, ite_self, zero_sub] at this
     by_cases hv : v = Fin.rev x
-    · simp only [hv, if_true] at this ⊢
+    · simp only [hv, ite_true] at this ⊢
       linear_combination this
-    · simp only [hv, if_false] at this ⊢
+    · simp only [hv, ite_false] at this ⊢
       linear_combination this
   have gh : ∀ x, InA j x → G x x * G (Fin.rev x) (Fin.rev x) = 1 := by
     intro x hx
     have := hunit x (Fin.rev x)
-    rw [if_pos rfl, Finset.sum_eq_single x] at this
+    rw [ite_eq_left rfl, Finset.sum_eq_single x] at this
     · exact this
     · intro t _ ht
       rw [colx x hx t ht, zero_mul]
@@ -114,7 +114,7 @@ theorem shape_of_comm_D (G : Matrix (Fin N) (Fin N) F) (j : Fin (N / 2)) (hN : 6
       G (Fin.rev y) (Fin.rev y) = G (Fin.rev x) (Fin.rev x) := by
     intro x y hx hy hyx
     have := Rrow x y hx hy hyx (Fin.rev x)
-    rw [if_pos rfl] at this
+    rw [ite_eq_left rfl] at this
     exact this.symm
   have hsq : ∀ g : F, g * g = 1 → g = 1 := by
     intro g hg
@@ -161,8 +161,8 @@ theorem shape_of_comm_D (G : Matrix (Fin N) (Fin N) F) (j : Fin (N / 2)) (hN : 6
   refine fun x y hxy => ?_
   by_cases hy : InA j y
   · by_cases hxy' : x = y
-    · subst hxy'; rw [if_pos rfl, g1 x hy]
-    · rw [if_neg hxy', colx y hy x hxy']
+    · subst hxy'; rw [ite_eq_left rfl, g1 x hy]
+    · rw [ite_eq_right hxy', colx y hy x hxy']
   · have hx : ¬ InA j x := fun hx => hxy (Or.inl ⟨hx, hy⟩)
     by_cases hx' : InA' j x
     · have hxa : InA j (Fin.rev x) := hx'
@@ -176,18 +176,18 @@ theorem shape_of_comm_D (G : Matrix (Fin N) (Fin N) F) (j : Fin (N / 2)) (hN : 6
       rw [Fin.rev_rev, hhy] at this
       rw [this]
       by_cases hyx : y = x
-      · rw [if_pos hyx, if_pos hyx.symm]
-      · rw [if_neg hyx, if_neg (Ne.symm hyx)]
+      · rw [ite_eq_left hyx, ite_eq_left hyx.symm]
+      · rw [ite_eq_right hyx, ite_eq_right (Ne.symm hyx)]
     · have hy' : ¬ InA' j y := fun hy' => hxy (Or.inr ⟨hx, hx', hy'⟩)
       let x0 : Fin N := ⟨0, by omega⟩
       have hx0 : InA j x0 := by simp only [InA, x0]; omega
       have hxr : x ≠ Fin.rev x0 := fun e => hx' (by simp only [InA', e, Fin.rev_rev]; exact hx0)
       have hyr : y ≠ Fin.rev x0 := fun e => hy' (by simp only [InA', e, Fin.rev_rev]; exact hx0)
       have := R1 x0 x hx0 hx hxr y
-      rw [this, if_neg hyr, sub_zero, g1 x0 hx0]
+      rw [this, ite_eq_right hyr, sub_zero, g1 x0 hx0]
       by_cases hyx : y = x
-      · rw [if_pos hyx, if_pos hyx.symm]
-      · rw [if_neg hyx, if_neg (Ne.symm hyx)]
+      · rw [ite_eq_left hyx, ite_eq_left hyx.symm]
+      · rw [ite_eq_right hyx, ite_eq_right (Ne.symm hyx)]
 
 end ShapeD
 
@@ -206,6 +206,7 @@ variable {n : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2]
 
 include he hroot
 
+omit [Finite F] in
 theorem stageY_D : ∀ g : spinGroup (quadPlus n F), ShS0 j 1 (matDe e g) → g ∈ R := by
   classical
   refine mem_of_peel R (fun g => ShS0 j 1 (matDe e g)) (fun g => cntYU j (matDe e g)) ?_ ?_
@@ -233,7 +234,7 @@ theorem stageY_D : ∀ g : spinGroup (quadPlus n F), ShS0 j 1 (matDe e g) → g 
       by_cases hxy : InA j x ∧ InA' j y
       · rw [hz x y hxy.1 hxy.2]
         have : x ≠ y := fun e => InA_not_InA' hxy.1 (by rw [e]; exact hxy.2)
-        simp [Matrix.one_apply, this]
+        simp [this]
       · rw [hg x y hxy]
         by_cases e : x = y <;> simp [Matrix.one_apply, e]
     have : g = 1 := by
@@ -280,6 +281,7 @@ theorem stageY_D : ∀ g : spinGroup (quadPlus n F), ShS0 j 1 (matDe e g) → g 
         have : (Fin.rev b).val ≤ a.val := hq3
         omega
 
+omit [Finite F] in
 theorem stageX_D : ∀ g : spinGroup (quadPlus n F), ShS j 1 (matDe e g) → g ∈ R := by
   classical
   refine mem_of_peel R (fun g => ShS j 1 (matDe e g)) (fun g => cntXU j (matDe e g)) ?_ ?_
@@ -322,6 +324,7 @@ open CFSG.AGLEmbedding.LieOut CFSG.AGLEmbeddingD2.ParabLevi CFSG.LieType.BorelTi
 
 variable {n : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [Finite F] in
 theorem centOb_spinPlus (hn : 3 ≤ n) {I : Set (Fin (plusDatum n F hn).rank)} (hI : I ≠ Set.univ) :
     CentOb (plusDatum n F hn) I := by
   classical

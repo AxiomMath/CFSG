@@ -66,14 +66,16 @@ private noncomputable def conjAction (F Y : Subgroup G)
     (hFN : F ≤ Subgroup.normalizer (Y : Set G)) : ↥F →* MulAut ↥Y :=
   (Subgroup.normalizerMonoidHom Y).comp (Subgroup.inclusion hFN)
 
+omit [Finite G] in
 private theorem conjAction_apply (F Y : Subgroup G)
     (hFN : F ≤ Subgroup.normalizer (Y : Set G)) (f : ↥F) (y : ↥Y) :
     ((conjAction F Y hFN f y : ↥Y) : G) = (f : G) * (y : G) * (f : G)⁻¹ := by
   rw [conjAction, MonoidHom.comp_apply, Subgroup.normalizerMonoidHom_apply_apply_coe,
     Subgroup.coe_inclusion]
 
+omit [Finite G] in
 private theorem conjAction_quotient_invariant (M F Y Q : Subgroup G)
-    (hFN : F ≤ Subgroup.normalizer (Y : Set G)) [hQn : (Q.subgroupOf Y).Normal]
+    (hFN : F ≤ Subgroup.normalizer (Y : Set G)) [_hQn : (Q.subgroupOf Y).Normal]
     (hFM : F ≤ M) (hQM : ∀ m ∈ M, ∀ q ∈ Q, m * q * m⁻¹ ∈ Q) :
     ∀ f : ↥F, (Q.subgroupOf Y).map ((conjAction F Y hFN f).toMonoidHom) = Q.subgroupOf Y := by
   intro f
@@ -108,6 +110,7 @@ private noncomputable def conjQuotAction (F Y Q : Subgroup G)
   CFSG.OrderReductions.InvariantQuotient.quotientHomomorphism (conjAction F Y hFN)
     (Q.subgroupOf Y) hQinv
 
+omit [Finite G] in
 private theorem conjQuotAction_apply (F Y Q : Subgroup G)
     (hFN : F ≤ Subgroup.normalizer (Y : Set G)) [hQn : (Q.subgroupOf Y).Normal]
     (hQinv : ∀ f : ↥F,
@@ -120,6 +123,7 @@ private theorem conjQuotAction_apply (F Y Q : Subgroup G)
     (QuotientGroup.mk' (Q.subgroupOf Y) y) = _
   rw [CFSG.OrderReductions.InvariantQuotient.quotientAutomorphism_apply]
 
+omit [Finite G] in
 private theorem conjQuotAction_ker_iff (F Y Q : Subgroup G)
     (hFN : F ≤ Subgroup.normalizer (Y : Set G)) [hQn : (Q.subgroupOf Y).Normal]
     (hQinv : ∀ f : ↥F,
@@ -156,6 +160,7 @@ private theorem conjQuotAction_ker_iff (F Y Q : Subgroup G)
     rw [h2]
     exact hf y
 
+omit [Finite G] in
 private theorem conjSubgroup_le_M (hc : Ctx M Q Z B) {X : Subgroup G} {g : G} (hg : g ∈ M) :
     conjSubgroup g (LB M Q B ⊓ X) ≤ M := by
   intro f hf
@@ -163,6 +168,7 @@ private theorem conjSubgroup_le_M (hc : Ctx M Q Z B) {X : Subgroup G} {g : G} (h
   have h1 := M.mul_mem (M.mul_mem hg (hc.LB_le_M h0.1)) (M.inv_mem hg)
   rwa [show g * (g⁻¹ * f * g) * g⁻¹ = f by group] at h1
 
+omit [Finite G] in
 private theorem conjSubgroup_le_normalizer (hc : Ctx M Q Z B) {t : G} {X Y : Subgroup G}
     (hsplit : Split95 M Q Z B t X Y) (h1 : OneConcl hc X Y) {g e₀ : G} (hg : g ∈ M)
     (he₀ : e₀ ∈ LB M Q B ⊓ X) (he₀Q : e₀ ∉ Q)
@@ -254,6 +260,7 @@ private theorem exists_mem_ker_not_mem {F : Subgroup G} {R : Type} [Group R] {n 
   rw [hcardQ] at hcardle
   omega
 
+omit [Finite G] in
 private theorem conjQuotAction_q_mem_ker (M F Y Q : Subgroup G)
     (hFN : F ≤ Subgroup.normalizer (Y : Set G)) [hQn : (Q.subgroupOf Y).Normal]
     (hQinv : ∀ f : ↥F,
@@ -271,6 +278,7 @@ private theorem conjQuotAction_q_mem_ker (M F Y Q : Subgroup G)
   rw [h2]
   exact Q.mul_mem hq h1
 
+omit [Finite G] in
 private theorem conjQuotAction_range_comm (F Y Q : Subgroup G)
     (hFN : F ≤ Subgroup.normalizer (Y : Set G)) [hQn : (Q.subgroupOf Y).Normal]
     (hQinv : ∀ f : ↥F,
@@ -303,6 +311,7 @@ private theorem conjQuotAction_range_comm (F Y Q : Subgroup G)
     _ = conjQuotAction F Y Q hFN hQinv f' * conjQuotAction F Y Q hFN hQinv f :=
       map_mul _ f' f
 
+omit [Finite G] in
 private theorem conjQuotAction_range_sq (F Y Q : Subgroup G)
     (hFN : F ≤ Subgroup.normalizer (Y : Set G)) [hQn : (Q.subgroupOf Y).Normal]
     (hQinv : ∀ f : ↥F,
@@ -329,6 +338,7 @@ private noncomputable def conjQuotActionCongr (F Y Q : Subgroup G)
     {R : Type} [Group R] (e : (↥Y ⧸ Q.subgroupOf Y) ≃* R) : ↥F →* MulAut R :=
   (MulAut.congr e).toMonoidHom.comp (conjQuotAction F Y Q hFN hQinv)
 
+omit [Finite G] in
 private theorem conjQuotActionCongr_range_comm (F Y Q : Subgroup G)
     (hFN : F ≤ Subgroup.normalizer (Y : Set G)) [hQn : (Q.subgroupOf Y).Normal]
     (hQinv : ∀ f : ↥F,
@@ -352,6 +362,7 @@ private theorem conjQuotActionCongr_range_comm (F Y Q : Subgroup G)
     _ = (MulAut.congr e) (conjQuotAction F Y Q hFN hQinv f') *
         (MulAut.congr e) (conjQuotAction F Y Q hFN hQinv f) := map_mul _ _ _
 
+omit [Finite G] in
 private theorem conjQuotActionCongr_range_sq (F Y Q : Subgroup G)
     (hFN : F ≤ Subgroup.normalizer (Y : Set G)) [hQn : (Q.subgroupOf Y).Normal]
     (hQinv : ∀ f : ↥F,
@@ -371,6 +382,7 @@ private theorem conjQuotActionCongr_range_sq (F Y Q : Subgroup G)
       rw [h (conjQuotAction F Y Q hFN hQinv f) ⟨f, rfl⟩]
     _ = 1 := map_one _
 
+omit [Finite G] in
 private theorem conjQuotActionCongr_ker_spec (F Y Q : Subgroup G)
     (hFN : F ≤ Subgroup.normalizer (Y : Set G)) [hQn : (Q.subgroupOf Y).Normal]
     (hQinv : ∀ f : ↥F,
@@ -409,15 +421,15 @@ private theorem exists_mem_conj_comm_not_mem_Q (h34 : Stroth34Statement) (hc : C
       have h := hQM (g : G)⁻¹ (M.inv_mem hg) (q : G) hq
       simpa using h
     exact mem_conjSubgroup.mpr ⟨Subgroup.mem_sup_left h0, hQX h0⟩
-  haveI hQYn : (Q.subgroupOf Y).Normal := hYsl.1
+  have hQYn : (Q.subgroupOf Y).Normal := hYsl.1
   obtain ⟨K, hKfield, hKfin, hKq, heK⟩ := hYsl.2
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain ⟨eK⟩ := heK
   obtain ⟨k, hk⟩ : ∃ k : ℕ, Nat.card Z = 2 ^ k := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact ⟨e, he⟩
-  haveI : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hk)
+  have : CharP K 2 := charP_two_of_card_eq_two_pow (hKq.trans hk)
   let eSL : (↥Y ⧸ Q.subgroupOf Y) ≃* SpecialLinearGroup (Fin 2) K :=
     eK.trans (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 K).symm
   have hQinv := conjAction_quotient_invariant M F Y Q hFN hFM hQM
@@ -460,6 +472,7 @@ private theorem exists_mem_conj_comm_not_mem_Q (h34 : Stroth34Statement) (hc : C
   intro hfq
   exact hfQ (Subgroup.mem_subgroupOf.mpr hfq)
 
+omit [Finite G] in
 private theorem comm_LB_mem_Q_of_comm_Y (hc : Ctx M Q Z B) {t : G} {X Y : Subgroup G}
     (hsplit : Split95 M Q Z B t X Y) (h4 : Sec4Concl M Q Z B X Y) {f : G}
     (hcommE : ∀ e ∈ LB M Q B ⊓ X, ⁅f, e⁆ ∈ Q)
@@ -492,7 +505,7 @@ private theorem mem_LB_of_comm_LB (hc : Ctx M Q Z B) {n : ℕ} {t : G}
     (hf : f ∈ conjSubgroup g (LB M Q B ⊓ X))
     (hcomm : ∀ l ∈ LB M Q B, ⁅f, l⁆ ∈ Q) : f ∈ LB M Q B := by
   classical
-  haveI hQn : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have hQn : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   let A : Subgroup (Mbar M Q) := bar M Q (LB M Q B)
   have hApg : IsPGroup 2 A := hc.isElemAbelian_bar_LB.isPGroup
   have hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a := by
@@ -525,7 +538,7 @@ private theorem mem_LB_of_comm_LB (hc : Ctx M Q Z B) {n : ℕ} {t : G}
     rw [← map_mul, ← map_mul, QuotientGroup.coe_mk']
     rw [QuotientGroup.eq_iff_div_mem, Subgroup.mem_subgroupOf]
     have e : (((l * ⟨f, hfM⟩) / (⟨f, hfM⟩ * l) : ↥M) : G) = ⁅(l : G), f⁆ := by
-      simp only [Subgroup.coe_div, Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [Subgroup.coe_div, Subgroup.coe_mul]
       rw [div_eq_mul_inv, commutatorElement_def]
       group
     rw [e]

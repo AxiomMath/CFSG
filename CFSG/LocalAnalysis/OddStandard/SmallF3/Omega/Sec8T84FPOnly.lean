@@ -76,7 +76,7 @@ theorem sec8t84FPonly (F : Facts) (G : Certificates.T84P.Facts) :
     rw [sec8t84FPV0_card, hF'.2]
     norm_num
   · right
-    obtain ⟨a, haF', haV⟩ := SetLike.not_le_iff_exists.mp hle
+    obtain ⟨a, haF', haV⟩ := IsConcreteLE.not_le_iff_exists.mp hle
     have ha1 : a ≠ 1 := fun h => haV (h ▸ (Sec8T84FPV0 F).one_mem)
     obtain ⟨b, c, d, hbF', hcF', hdF', hnd, hspan, hb1, hc1, hd1⟩ :=
       sec8t84_prod4_basis_of_ne_one_aux hF' haF' ha1

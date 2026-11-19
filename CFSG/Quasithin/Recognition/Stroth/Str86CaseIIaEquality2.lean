@@ -39,21 +39,21 @@ theorem str86_chiefSection_sq_relIndex {H U L N : Subgroup G} {m : ℕ}
     {t : G} (htH : t ∈ H) (ht : t * t ∈ pCoreOf 2 H) (htO : t ∉ pCoreOf 2 H) :
     (centralizerMod L N (Subgroup.zpowers t)).relIndex N ^ 2 = L.relIndex N := by
   classical
-  haveI : Fintype (GaloisField 2 m) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 m) := Fintype.ofFinite _
   let hE := isElemAbelian_chiefMod hstep hUH hU
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
   have hHL : H ≤ Subgroup.normalizer (L : Set G) := D14.le_normalizer_of_isNormalIn hstep.2.1
   have hHN : H ≤ Subgroup.normalizer (N : Set G) := D14.le_normalizer_of_isNormalIn hstep.1
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := (hstep.1.1.trans hUH).trans hHL
-  haveI : (L.subgroupOf N).Normal :=
+  have : (L.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hstep.2.2.1.le).mpr hNL
   obtain ⟨e₀⟩ := hL2
   let e : oTwoQuot ↥H ≃* SL(2, GaloisField 2 m) :=
     e₀.trans (CFSG.CGT.Timmesfeld75.pslMulEquivSL (F := GaloisField 2 m))
   let a : SL(2, GaloisField 2 m) := e (QuotientGroup.mk ⟨t, htH⟩)
   let ρ := l2ChiefSectionRep hstep hUH hE e
-  haveI : Fact ρ.IsIrreducible := ⟨l2ChiefSectionRep_irreducible hstep hUH hE e⟩
+  have : Fact ρ.IsIrreducible := ⟨l2ChiefSectionRep_irreducible hstep hUH hE e⟩
   have hsqfix : Nat.card (CFSG.RankThree.FFModules.fixSub ρ
       (Subgroup.zpowers a)) ^ 2 = Nat.card (Additive (Ch3z.chiefMod L N)) :=
     l2ChiefSectionRep_sq_card_fixSub hm2 hstep hUH hE e hnc htH ht htO

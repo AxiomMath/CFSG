@@ -426,7 +426,7 @@ variable {n : ℕ} {Y : Type} [Group Y] [Finite Y] {R : Subgroup Y} {S : Sylow 2
 
 theorem isPGroup_three_zpowers {z : Y} {m : ℕ} (h : z ^ 3 ^ m = 1) :
     IsPGroup 3 (Subgroup.zpowers z) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply IsPGroup.of_card_dvd_pow (n := m)
   rw [Nat.card_zpowers]
   exact orderOf_dvd_of_pow_eq_one h

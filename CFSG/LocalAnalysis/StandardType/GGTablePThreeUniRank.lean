@@ -123,7 +123,7 @@ private lemma uniRank_natCard_le_of_forall_scalar_norm {K : Type} [Field K] {k :
     apply Subtype.ext
     apply Subtype.ext
     rw [Classical.choose_spec (hZ z), Classical.choose_spec (hZ w), h1]
-  haveI : NeZero (q + 1) := ⟨by omega⟩
+  have : NeZero (q + 1) := ⟨by omega⟩
   calc Nat.card Z ≤ Nat.card (rootsOfUnity (q + 1) K) := Nat.card_le_card_of_injective φ hinj
     _ ≤ q + 1 := card_rootsOfUnity K (q + 1)
 

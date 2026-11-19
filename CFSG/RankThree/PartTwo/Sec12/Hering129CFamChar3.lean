@@ -82,14 +82,14 @@ private theorem conj_mem_fixSub_of_mem_normalizer {S : Type} [Group S] {s n c : 
 private theorem gLAPPrimeCore_three_eq_bot {G : Type*} [Group G] [Finite G] (N : Subgroup G)
     (hcen : ∀ h ∈ N, (∀ r ∈ pCoreOf 3 N, h * r = r * h) → h ∈ pCoreOf 3 N) :
     GLAPPrimeCore 3 ↥N = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   show CFSG.pPrimeCore 3 ↥N = ⊥
   rw [CFSG.pPrimeCore_eq_bot_iff]
   intro K hKn hKc
   have hBn : (CFSG.pCore 3 ↥N).Normal := CFSG.pCore_normal
   have hBp : IsPGroup 3 (CFSG.pCore 3 ↥N) := CFSG.pCore_isPGroup
   have hdisj : K ⊓ CFSG.pCore 3 ↥N = ⊥ := by
-    apply Subgroup.inf_eq_bot_of_coprime
+    apply (Subgroup.disjoint_of_coprime_natCard ?_).eq_bot
     obtain ⟨n, hn⟩ := hBp.exists_card_eq
     rw [hn]
     exact Nat.Coprime.pow_right _ hKc.symm
@@ -127,7 +127,7 @@ variable {Q Lb : Type} [Group Q] [Finite Q] [Group Lb] {c a : Q} {I X : Subgroup
 
 theorem census_false_of_char3 (hD : Census129 c a I X f) (hs : IsSimpleGroup Q)
     (hS : IsChevOfChar 3 Q) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hna : ∃ x y : Q, x * y ≠ y * x := by
     obtain ⟨a', b', hab⟩ := hD.quasisimple.2.2
     induction a' using QuotientGroup.induction_on with
@@ -192,7 +192,7 @@ end Char3
 section Groups
 
 theorem isChevOfChar_three_projSL_three_nine : IsChevOfChar 3 (projSL 3 (GaloisField 3 2)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hv : (LieTypeIndex.A 2 ⟨3, 2, Fact.out, by norm_num⟩).Valid :=
     Sec4.Ronan148L.valid_A (by norm_num) (fun h => absurd h (by norm_num)) fun _ => by
       simp only [TauCeti.PrimePower.card_def]
@@ -201,7 +201,7 @@ theorem isChevOfChar_three_projSL_three_nine : IsChevOfChar 3 (projSL 3 (GaloisF
     ⟨(Census.typeAGroupEquivProjSL 2 ⟨3, 2, Fact.out, by norm_num⟩ hv).symm⟩⟩
 
 theorem isChevOfChar_three_projSU_three_nine : IsChevOfChar 3 (projSU 3 3 2) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hv : (LieTypeIndex.twistedA 2 ⟨3, 2, Fact.out, by norm_num⟩).Valid :=
     Sec4.Ronan148L.valid_twistedA le_rfl fun _ => by
       simp only [TauCeti.PrimePower.card_def]
@@ -210,7 +210,7 @@ theorem isChevOfChar_three_projSU_three_nine : IsChevOfChar 3 (projSU 3 3 2) := 
     ⟨(Census.typeTwistedAGroupEquivProjSU 2 ⟨3, 2, Fact.out, by norm_num⟩ hv).symm⟩⟩
 
 theorem isChevOfChar_three_projSL_four_three : IsChevOfChar 3 (projSL 4 (GaloisField 3 1)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hv : (LieTypeIndex.A 3 ⟨3, 1, Fact.out, Nat.one_pos⟩).Valid :=
     Sec4.Ronan148L.valid_A (by norm_num) (fun h => absurd h (by norm_num)) fun _ => by
       simp only [TauCeti.PrimePower.card_def]
@@ -225,18 +225,18 @@ section Holds
 theorem kFCensus46EightChar3_holds : KFCensus46EightChar3 := by
   intro Q Lb _ _ _ c a I X f hQ hD
   exfalso
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rcases hQ with ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩ | ⟨⟨φ⟩⟩
-  · haveI : IsSimpleGroup (projSL 3 (GaloisField 3 2)) :=
+  · have : IsSimpleGroup (projSL 3 (GaloisField 3 2)) :=
       Sec19.Step1914TriProof.isSimpleGroup_projSL_three_of_field _
     exact census_false_of_char3 hD φ.isSimpleGroup
       (let ⟨d, hd, ⟨ψ⟩⟩ := isChevOfChar_three_projSL_three_nine; ⟨d, hd, ⟨φ.trans ψ⟩⟩)
-  · haveI : IsSimpleGroup (projSU 3 3 2) :=
+  · have : IsSimpleGroup (projSU 3 3 2) :=
       Sec19.Step1914TriProof.isSimpleGroup_projSU_three_of_ne_two 3 2 (by norm_num)
         (by norm_num)
     exact census_false_of_char3 hD φ.isSimpleGroup
       (let ⟨d, hd, ⟨ψ⟩⟩ := isChevOfChar_three_projSU_three_nine; ⟨d, hd, ⟨φ.trans ψ⟩⟩)
-  · haveI : IsSimpleGroup (projSL 4 (GaloisField 3 1)) :=
+  · have : IsSimpleGroup (projSL 4 (GaloisField 3 1)) :=
       CFSG.PGLModel.isSimpleGroup_projSL_of_two_le _ (by norm_num) (Or.inl (by norm_num))
         (Or.inl (by norm_num))
     exact census_false_of_char3 hD φ.isSimpleGroup

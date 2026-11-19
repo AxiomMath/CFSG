@@ -41,7 +41,7 @@ theorem sec8_natdata (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement)
         ∀ (c : GaloisField 2 nn) (v w : ↥(Vt M (LB M Q B) B Z t)),
           M₀.π w = c • M₀.π v → secVec ψ w = θ c • secVec ψ v := by
   obtain ⟨K, fK, finK, hK, φ, hφ, hker, hnorm, hn, ψ, hψ⟩ := hmSp
-  haveI := hn
+  have := hn
   have hm : 2 ≤ m := by
     obtain ⟨m₀, hm₀, hsp₀⟩ := hs.sp
     have hsp : SpMNat hc t m := ⟨K, fK, finK, hK, φ, hφ, hker, hnorm, hn, ψ, hψ⟩
@@ -49,11 +49,11 @@ theorem sec8_natdata (h34 : Stroth34Statement) (hRoot : Stroth310RootStatement)
     exact hm₀
   have h5 := hs.toSec5
   have ht : t ∈ LB M Q B := h5.mem
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     obtain ⟨e, -, he, -⟩ := hc.hyp.cp
     exact charP_two_of_card_eq_two_pow (hK.trans he)
   obtain ⟨u, hu0, hBiff, hL, hr'⟩ := hc.sp_points_core h34 hRoot h5 hK hm φ hφ hker ψ hψ
-  haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+  have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
   obtain ⟨nn, γ, M₀, hglob, θ, hθ⟩ :=
     hc.exists_globalRingEquiv ht hK addCommutantScalar_statedSp φ hφ ψ hψ
   have hr1 := hr' ⟨r, hr.mem⟩
@@ -71,6 +71,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem sec8_isSecMod_psi {hc : Ctx M Q Z B} {t r : G} {m : ℕ} {K : Type} [Field K] [Finite K]
     [CharP K 2] {φ : ↥(Rt M (LB M Q B) t) →* GL (Fin m ⊕ Fin m) K}
     {u u' : Fin m ⊕ Fin m → K} (hpts : Sec8Pts hc t r m K φ u u')
@@ -133,7 +134,7 @@ theorem sec8_hypPlane_iff (h34 : Stroth34Statement) {hc : Ctx M Q Z B} {n : ℕ}
     have hkey : ⁅b, ĉ⁆ = 1 := (hperp ⁅ĉ, t⁆ hwV).mp hwQB b hb ĉ hĉQ hz
     exact hne hkey
   · intro hnsub
-    obtain ⟨d, hdC, hdQB⟩ := SetLike.not_le_iff_exists.mp hnsub
+    obtain ⟨d, hdC, hdQB⟩ := IsConcreteLE.not_le_iff_exists.mp hnsub
     have hdV : d ∈ Vt M (LB M Q B) B Z t := hV (Subgroup.mem_sup_left hdC)
     have hex : ¬ ∀ b ∈ B, ∀ y ∈ Q, ⁅y, t⁆ * d⁻¹ ∈ Z → ⁅b, y⁆ = 1 := fun h =>
       hdQB ((hperp d hdV).mpr h)
@@ -259,6 +260,7 @@ theorem sec8_point_eq {hc : Ctx M Q Z B} {m₁ m₂ : G} (h₁ : m₁ ∈ M) (h�
   rw [hconj] at key
   exact key.symm
 
+omit [Finite G] in
 theorem sec8_inf_QB_eq_of_sup_eq_le_sup_comm {C C' : Subgroup G} (h : C ⊔ Z = C' ⊔ Z) :
     C' ≤ Z ⊔ C := by
   have h1 : C' ≤ C' ⊔ Z := le_sup_left

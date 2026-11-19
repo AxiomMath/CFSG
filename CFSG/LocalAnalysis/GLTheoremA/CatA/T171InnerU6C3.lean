@@ -114,7 +114,7 @@ private theorem gramForm_idGram_eq_sum_cubes (v : Fin 6 → F4) :
     gramForm hF4 (idGram F4 6) v v = ∑ i, v i ^ 3 := by
   rw [gramForm_apply]
   have h1 : (idGram F4 6 : Matrix (Fin 6) (Fin 6) F4) *ᵥ v = v := by
-    simpa [idGram] using (Matrix.one_mulVec (v := v))
+    simp [idGram]
   rw [h1]
   simp only [dotProduct, UnitaryFieldData.bar_apply hF4]
   exact Finset.sum_congr rfl fun i _ => by ring
@@ -199,8 +199,8 @@ theorem prFromTwoGroup_holds :
         exact h
       exact (QuotientGroup.eq_one_iff (x : Gu)).mp h1
     exact Subgroup.mem_center_iff.mp (mem_center_of_mem_ZG hxZ) (y : Gu)
-  haveI : Group.IsNilpotent ↥U := hU2.isNilpotent
-  haveI : Group.IsNilpotent ↥Û := Subgroup.isNilpotent_of_ker_le_center φU hkerU_center
+  have : Group.IsNilpotent ↥U := hU2.isNilpotent
+  have : Group.IsNilpotent ↥Û := Subgroup.isNilpotent_of_ker_le_center φU hkerU_center
   obtain ⟨Q : Sylow 2 ↥Û⟩ := (inferInstance : Nonempty (Sylow 2 ↥Û))
   have hQne : (Q : Subgroup ↥Û) ≠ ⊥ := by
     have h2U0 : 2 ∣ Nat.card ↥U := by
@@ -212,7 +212,7 @@ theorem prFromTwoGroup_holds :
       dvd_trans h2U0 (Subgroup.card_dvd_of_surjective (f := φU) hφUsurj)
     exact Sylow.ne_bot_of_dvd_card Q h2U
   let QG : Subgroup Gu := (Q : Subgroup ↥Û).map Û.subtype
-  have hQGp : IsPGroup 2 QG := Q.isPGroup'.map Û.subtype
+  have hQGp : IsPGroup 2 QG := Q.isPGroup.map Û.subtype
   have hQGne : QG ≠ ⊥ := by
     intro hbot
     exact hQne ((Subgroup.map_eq_bot_iff_of_injective (f := Û.subtype)
@@ -228,7 +228,7 @@ theorem prFromTwoGroup_holds :
     intro q hq
     obtain ⟨q₀, hq₀, rfl⟩ := Subgroup.mem_map.mp hq
     obtain ⟨x, hxQ, rfl⟩ := Subgroup.mem_map.mp hq₀
-    obtain ⟨k, hk⟩ := Q.isPGroup' (⟨x, hxQ⟩ : ↥(Q : Subgroup ↥Û))
+    obtain ⟨k, hk⟩ := Q.isPGroup (⟨x, hxQ⟩ : ↥(Q : Subgroup ↥Û))
     have hqpow : (x : Gu) ^ 2 ^ k = 1 := by
       have h := congrArg (fun z : ↥(Q : Subgroup ↥Û) => ((z : ↥Û) : Gu)) hk
       simpa using h
@@ -266,7 +266,7 @@ theorem prFromTwoGroup_holds :
     have hmemÛ : â * (y : Gu) * â⁻¹ ∈ Û :=
       (Subgroup.le_normalizer_iff.mp hÂnormÛ) â hâ (y : Gu) y.2
     have hQnormal : (Q : Subgroup ↥Û).Normal := inferInstance
-    obtain ⟨k, hk⟩ := Q.isPGroup' (⟨y, hy⟩ : ↥(Q : Subgroup ↥Û))
+    obtain ⟨k, hk⟩ := Q.isPGroup (⟨y, hy⟩ : ↥(Q : Subgroup ↥Û))
     have hqpow : (y : Gu) ^ 2 ^ k = 1 := by
       have h := congrArg (fun z : ↥(Q : Subgroup ↥Û) => ((z : ↥Û) : Gu)) hk
       simpa using h
@@ -434,9 +434,9 @@ theorem prFromTwoGroup_holds :
   let z₀ : Fin 6 → F4ˣ := Function.update (fun _ => 1) i₀ ωu
   have hz₀ : z₀ i₁ = z₀ i₂ := by
     have h1 : z₀ i₁ = 1 := by
-      simp [z₀, Function.update, Ne.symm hi₀₁]
+      simp [z₀, Ne.symm hi₀₁]
     have h2 : z₀ i₂ = 1 := by
-      simp [z₀, Function.update, Ne.symm hi₀₂]
+      simp [z₀, Ne.symm hi₀₂]
     rw [h1, h2]
   obtain ⟨â₀, hâ₀⟩ := hbij.2 ⟨z₀, hz₀⟩
   refine ⟨QuotientGroup.mk â₀.1, ?_, ?_⟩

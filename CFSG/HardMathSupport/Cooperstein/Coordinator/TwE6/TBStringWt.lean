@@ -274,7 +274,7 @@ theorem key_02 (hσσ : ∀ c : K, σ (σ c) = c)
   refine key_of_u σ w 1 one_ne_zero (by simp) (by show (1 : K) = (w : K) ^ (0 : ℤ); simp) ?_
   intro l hl
   rw [card_nd2] at hl
-  interval_cases l <;> simp [Fv_nd0, Fv_nd1, Fv_nd2, Fv_nd3, cartan_E6_val, min_nd0, min_nd1, min_nd2, min_nd3, perm_ei0, perm_ei2]
+  interval_cases l; simp [Fv_nd0, Fv_nd1, Fv_nd2, Fv_nd3, cartan_E6_val, min_nd0, min_nd1, min_nd2, min_nd3, perm_ei0, perm_ei2]
 
 theorem key_03 (hσσ : ∀ c : K, σ (σ c) = c)
     (hσ : ∀ c : K, σ c = c ^ (2 ^ f)) (w : (orbitField TwistTag.E6 K σ (nd 0))ˣ) :
@@ -290,7 +290,7 @@ theorem key_03 (hσσ : ∀ c : K, σ (σ c) = c)
   refine key_of_u σ w 1 one_ne_zero (by simp) (by show (1 : K) = (w : K) ^ (0 : ℤ); simp) ?_
   intro l hl
   rw [card_nd3] at hl
-  interval_cases l <;> simp [Fv_nd0, Fv_nd1, Fv_nd2, Fv_nd3, cartan_E6_val, min_nd0, min_nd1, min_nd2, min_nd3, perm_ei0, perm_ei2]
+  interval_cases l; simp [Fv_nd0, Fv_nd1, Fv_nd2, Fv_nd3, cartan_E6_val, min_nd0, min_nd1, min_nd2, min_nd3, perm_ei0, perm_ei2]
 
 theorem key_10 (hσσ : ∀ c : K, σ (σ c) = c)
     (hσ : ∀ c : K, σ c = c ^ (2 ^ f)) (w : (orbitField TwistTag.E6 K σ (nd 1))ˣ) :
@@ -348,7 +348,7 @@ theorem key_12 (hσσ : ∀ c : K, σ (σ c) = c)
       zpow_neg_one]
   · intro l hl
     rw [card_nd2] at hl
-    interval_cases l <;> simp [Fv_nd0, Fv_nd1, Fv_nd2, Fv_nd3, cartan_E6_val, min_nd0, min_nd1, min_nd2, min_nd3, perm_ei0, perm_ei2]
+    interval_cases l; simp [Fv_nd0, Fv_nd1, Fv_nd2, Fv_nd3, cartan_E6_val, min_nd0, min_nd1, min_nd2, min_nd3, perm_ei0, perm_ei2]
 
 theorem key_13 (hσσ : ∀ c : K, σ (σ c) = c)
     (hσ : ∀ c : K, σ c = c ^ (2 ^ f)) (w : (orbitField TwistTag.E6 K σ (nd 1))ˣ) :
@@ -364,7 +364,7 @@ theorem key_13 (hσσ : ∀ c : K, σ (σ c) = c)
   refine key_of_u σ w 1 one_ne_zero (by simp) (by show (1 : K) = (w : K) ^ (0 : ℤ); simp) ?_
   intro l hl
   rw [card_nd3] at hl
-  interval_cases l <;> simp [Fv_nd0, Fv_nd1, Fv_nd2, Fv_nd3, cartan_E6_val, min_nd0, min_nd1, min_nd2, min_nd3, perm_ei0, perm_ei2]
+  interval_cases l; simp [Fv_nd0, Fv_nd1, Fv_nd2, Fv_nd3, cartan_E6_val, min_nd0, min_nd1, min_nd2, min_nd3, perm_ei0, perm_ei2]
 
 theorem key_20 (hσσ : ∀ c : K, σ (σ c) = c)
     (hσ : ∀ c : K, σ c = c ^ (2 ^ f)) (w : (orbitField TwistTag.E6 K σ (nd 2))ˣ) :
@@ -414,7 +414,7 @@ theorem key_22 (hσσ : ∀ c : K, σ (σ c) = c)
     (by rw [card_nd2, pow_one]; show σ _ = _; rw [map_zpow₀, hw']) (by rfl) ?_
   intro l hl
   rw [card_nd2] at hl
-  interval_cases l <;> simp [Fv_nd0, Fv_nd1, Fv_nd2, Fv_nd3, cartan_E6_val, min_nd0, min_nd1, min_nd2, min_nd3, perm_ei0, perm_ei2, map_zpow₀, hw']
+  interval_cases l; simp [Fv_nd0, Fv_nd1, Fv_nd2, Fv_nd3, cartan_E6_val, min_nd0, min_nd1, min_nd2, min_nd3, perm_ei0, perm_ei2, map_zpow₀, hw']
 
 theorem key_23 (hσσ : ∀ c : K, σ (σ c) = c)
     (hσ : ∀ c : K, σ c = c ^ (2 ^ f)) (w : (orbitField TwistTag.E6 K σ (nd 2))ˣ) :
@@ -431,7 +431,7 @@ theorem key_23 (hσσ : ∀ c : K, σ (σ c) = c)
     (by rw [card_nd3, pow_one]; show σ _ = _; rw [map_zpow₀, hw']) (by rfl) ?_
   intro l hl
   rw [card_nd3] at hl
-  interval_cases l <;> simp [Fv_nd0, Fv_nd1, Fv_nd2, Fv_nd3, cartan_E6_val, min_nd0, min_nd1, min_nd2, min_nd3, perm_ei0, perm_ei2, map_zpow₀, hw']
+  interval_cases l; simp [Fv_nd0, Fv_nd1, Fv_nd2, Fv_nd3, cartan_E6_val, min_nd0, min_nd1, min_nd2, min_nd3, perm_ei0, perm_ei2, map_zpow₀, hw']
 
 theorem key_30 (hσσ : ∀ c : K, σ (σ c) = c)
     (hσ : ∀ c : K, σ c = c ^ (2 ^ f)) (w : (orbitField TwistTag.E6 K σ (nd 3))ˣ) :
@@ -480,7 +480,7 @@ theorem key_32 (hσσ : ∀ c : K, σ (σ c) = c)
     (by rw [card_nd2, pow_one]; show σ _ = _; rw [map_zpow₀, hw']) (by rfl) ?_
   intro l hl
   rw [card_nd2] at hl
-  interval_cases l <;> simp [Fv_nd0, Fv_nd1, Fv_nd2, Fv_nd3, cartan_E6_val, min_nd0, min_nd1, min_nd2, min_nd3, perm_ei0, perm_ei2, map_zpow₀, hw']
+  interval_cases l; simp [Fv_nd0, Fv_nd1, Fv_nd2, Fv_nd3, cartan_E6_val, min_nd0, min_nd1, min_nd2, min_nd3, perm_ei0, perm_ei2, map_zpow₀, hw']
 
 theorem key_33 (hσσ : ∀ c : K, σ (σ c) = c)
     (hσ : ∀ c : K, σ c = c ^ (2 ^ f)) (w : (orbitField TwistTag.E6 K σ (nd 3))ˣ) :
@@ -497,7 +497,7 @@ theorem key_33 (hσσ : ∀ c : K, σ (σ c) = c)
     (by rw [card_nd3, pow_one]; show σ _ = _; rw [map_zpow₀, hw']) (by rfl) ?_
   intro l hl
   rw [card_nd3] at hl
-  interval_cases l <;> simp [Fv_nd0, Fv_nd1, Fv_nd2, Fv_nd3, cartan_E6_val, min_nd0, min_nd1, min_nd2, min_nd3, perm_ei0, perm_ei2, map_zpow₀, hw']
+  interval_cases l; simp [Fv_nd0, Fv_nd1, Fv_nd2, Fv_nd3, cartan_E6_val, min_nd0, min_nd1, min_nd2, min_nd3, perm_ei0, perm_ei2, map_zpow₀, hw']
 
 theorem key_all (hσσ : ∀ c : K, σ (σ c) = c) (hσ : ∀ c : K, σ c = c ^ (2 ^ f))
     (b s : TwN) (w : (orbitField TwistTag.E6 K σ b)ˣ) :

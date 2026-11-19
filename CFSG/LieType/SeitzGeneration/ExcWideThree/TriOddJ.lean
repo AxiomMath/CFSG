@@ -60,6 +60,7 @@ def triOddNhat : twistedGroup σ.toRingHom := nHat σ.toRingHom (ng 0) * nHat σ
 theorem triOddNhat_mem_fixedSub : triOddNhat σ ∈ FixedSub σ :=
   mul_mem (nHat_zero_mem_FixedSub σ hσ3) (nHat_one_mem_FixedSub σ hσ3)
 
+omit [Finite K] in
 theorem triOdd_slShort_le_centralizer_conj_slLong (M : Matrix.SpecialLinearGroup (Fin 2) (fixedField σ.toRingHom))
     (a : twistedGroup σ.toRingHom) (ha : a ∈ (slShort σ.toRingHom hσ3).range) :
     a * (triOddNhat σ * slLong σ.toRingHom hσ3 M * (triOddNhat σ)⁻¹) =
@@ -122,7 +123,7 @@ variable {F K : Type} [Field F] [Field K] [Algebra F K]
 theorem triOdd_mem_range_of_quadratic (h3 : Module.finrank F K = 3) (x : K) (a b : F)
     (hx : x ^ 2 + algebraMap F K a * x + algebraMap F K b = 0) :
     x ∈ (algebraMap F K).range := by
-  haveI : Module.Finite F K := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite F K := Module.finite_of_finrank_pos (by omega)
   have hint : IsIntegral F x := Algebra.IsIntegral.isIntegral x
   have hmon : (X ^ 2 + C a * X + C b : F[X]).Monic := by
     have : (X ^ 2 + C a * X + C b : F[X]).natDegree = 2 := by
@@ -157,7 +158,7 @@ theorem triOdd_trace_eq_neg_one_of_pow_three {R : Type} [Field R] (L : SpecialLi
     rw [Matrix.det_fin_two] at hdet
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, hT, Matrix.one_apply] <;>
+      simp [Matrix.mul_apply, Fin.sum_univ_two, hT] <;>
       first | ring1 | linear_combination (-1 : R) * hdet
   have h3 : (L : Matrix (Fin 2) (Fin 2) R) * ((L : Matrix (Fin 2) (Fin 2) R) *
       (L : Matrix (Fin 2) (Fin 2) R)) = 1 := by
@@ -184,7 +185,7 @@ theorem triOdd_trace_eq_neg_one_of_pow_three {R : Type} [Field R] (L : SpecialLi
     set c := (1 + T) / (T ^ 2 - 1) with hc
     have hc2 : c ^ 2 = 1 := by
       have : (L : Matrix (Fin 2) (Fin 2) R).det = c ^ 2 := by
-        rw [hscal]; simp [Matrix.det_fin_two, sq]
+        rw [hscal]; simp [sq]
       rw [← this]; exact hdet
     have hc3 : c ^ 3 = 1 := by
       have h' := congrArg (fun M : SpecialLinearGroup (Fin 2) R => (M : Matrix (Fin 2) (Fin 2) R) 0 0) hL3
@@ -208,7 +209,7 @@ theorem triOdd_exists_comm_not_mem_sl2Range (h3 : Module.finrank F K = 3)
     (L : SpecialLinearGroup (Fin 2) K) (hL : L ∈ sl2Range F K) (hL3 : L ^ 3 = 1) (hL1 : L ≠ 1) :
     ∃ t : SpecialLinearGroup (Fin 2) K, t * L = L * t ∧ t ∉ sl2Range F K := by
   classical
-  haveI : Module.Finite F K := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite F K := Module.finite_of_finrank_pos (by omega)
   obtain ⟨L', hL'⟩ := hL
   have htr := triOdd_trace_eq_neg_one_of_pow_three L hL3 hL1
   have hdet : (L : Matrix (Fin 2) (Fin 2) K).det = 1 := L.2
@@ -238,7 +239,7 @@ theorem triOdd_exists_comm_not_mem_sl2Range (h3 : Module.finrank F K = 3)
   have hdett : (x • (1 : Matrix (Fin 2) (Fin 2) K) + y • (L : Matrix (Fin 2) (Fin 2) K)).det = 1 := by
     rw [Matrix.det_fin_two] at hdet ⊢
     simp only [Matrix.add_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul]
-    simp only [Fin.isValue, ↓reduceIte, Fin.reduceEq, mul_zero, add_zero, mul_one, zero_add]
+    simp only [Fin.isValue, ↓reduceIte, Fin.reduceEq, mul_zero, mul_one, zero_add]
     linear_combination hxy + (y ^ 2) * hdet + (x * y) * htr
   refine ⟨⟨x • (1 : Matrix (Fin 2) (Fin 2) K) + y • (L : Matrix (Fin 2) (Fin 2) K), hdett⟩, ?_, ?_⟩
   · apply Subtype.ext
@@ -285,7 +286,7 @@ theorem triOdd_exists_comm_not_mem_sl2Range (h3 : Module.finrank F K = 3)
     have e00 := htent 0 0
     have e11 := htent 1 1
     simp only [Matrix.add_apply, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, hent, Fin.isValue,
-      ↓reduceIte, Fin.reduceEq, mul_zero, add_zero, zero_add, mul_one] at e01 e10 e00 e11
+      ↓reduceIte, Fin.reduceEq, mul_zero, zero_add, mul_one] at e01 e10 e00 e11
     by_cases hb : L' 0 1 = 0
     · by_cases hc : L' 1 0 = 0
       ·
@@ -535,14 +536,14 @@ theorem triOdd_fixedSubgroup_sup_tau_of_split (hS : TriOddJClassSplitAll) {ℓ f
     calc ℓ = ℓ ^ 1 := (pow_one ℓ).symm
       _ ≤ ℓ ^ f := Nat.pow_le_pow_right hℓ.pos hf)
   have hK' : Nat.card K = ℓ ^ (3 * f) := by rw [hK, ← pow_mul]; ring_nf
-  haveI : CharP K ℓ := finite_field_prime_power_characteristic hℓ (k := 3 * f) (by omega) hK'
+  have : CharP K ℓ := finite_field_prime_power_characteristic hℓ (k := 3 * f) (by omega) hK'
   have hK2 : ringChar K ≠ 2 := by rw [ringChar.eq K ℓ]; exact hℓ2
   have hσ3 : ∀ c, σ (σ (σ c)) = c := CFSG.LieType.Steinberg.TwistedD4.sigma_three_of_card
     (σ := σ.toRingHom) hK hσ
   have hF : Nat.card (fixedField σ.toRingHom) = ℓ ^ f :=
     CFSG.GH74.GLS.Stage4.Hex.card_fixedField_of_cube σ.toRingHom hq2 hK hσ
   have h3 : Module.finrank (fixedField σ.toRingHom) K = 3 := by
-    haveI : Module.Finite (fixedField σ.toRingHom) K := Module.Finite.of_finite
+    have : Module.Finite (fixedField σ.toRingHom) K := Module.Finite.of_finite
     have h := Module.natCard_eq_pow_finrank (K := fixedField σ.toRingHom) (V := K)
     rw [hK, hF] at h
     exact Nat.pow_right_injective hq2 h.symm

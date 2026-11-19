@@ -108,7 +108,7 @@ theorem card_dPairsPos (m : ℕ) : (dPairsPos m).card = (m - 1) * (m - 2) := by
         true_and]
       exact ⟨⟨hx1, by omega⟩, hx2⟩
     · intro y hy
-      simp only [Finset.mem_coe, Finset.mem_product, Finset.mem_univ, true_and] at hy
+      simp only [Finset.mem_coe, Finset.mem_product, Finset.mem_univ] at hy
       obtain ⟨hyP, _⟩ := hy
       obtain ⟨hyT, hy3⟩ := Finset.mem_filter.mp hyP
       obtain ⟨hy1, _hy2⟩ := Finset.mem_product.mp hyT

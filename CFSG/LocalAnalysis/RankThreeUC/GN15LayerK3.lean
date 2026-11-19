@@ -36,7 +36,7 @@ private theorem normal_rankThreeLayer_top' {G : Type} [Group G] :
   exact Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h)
 
 instance gnKThree_normal : (gnKThree T).Normal := by
-  haveI : (rankThreeLayer (⊤ : Subgroup (X ⧸ gnC T))).Normal := normal_rankThreeLayer_top'
+  have : (rankThreeLayer (⊤ : Subgroup (X ⧸ gnC T))).Normal := normal_rankThreeLayer_top'
   unfold gnKThree
   exact Subgroup.Normal.comap (Subgroup.normal_centralizer) _
 
@@ -68,7 +68,7 @@ private theorem layer_eq_rankThreeLayer_top' (G : Type) [Group G] :
 
 private theorem pCore_le_pPrimeCore_three {q : ℕ} (hq : q.Prime) (hq3 : q ≠ 3) :
     CFSG.pCore q G ≤ CFSG.pPrimeCore 3 G := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hcop : Nat.Coprime 3 (Nat.card (CFSG.pCore q G)) := by
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 (CFSG.pCore_isPGroup (p := q) (G := G))
     rw [hn]
@@ -77,7 +77,7 @@ private theorem pCore_le_pPrimeCore_three {q : ℕ} (hq : q.Prime) (hq3 : q ≠ 
 
 private theorem pCore_three_commute_pPrimeCore {a b : G} (ha : a ∈ CFSG.pCore 3 G)
     (hb : b ∈ CFSG.pPrimeCore 3 G) : a * b = b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hzO : a * b * a⁻¹ * b⁻¹ ∈ CFSG.pPrimeCore 3 G :=
     mul_mem (CFSG.pPrimeCore_normal.conj_mem b hb a) (inv_mem hb)
   have hzF : a * b * a⁻¹ * b⁻¹ ∈ CFSG.pCore 3 G := by
@@ -97,6 +97,7 @@ private theorem pCore_three_commute_pPrimeCore {a b : G} (ha : a ∈ CFSG.pCore 
   calc a * b = (a * b * a⁻¹ * b⁻¹) * (b * a) := by group
     _ = b * a := by rw [hz, one_mul]
 
+omit [Finite G] in
 private theorem mul_comm_of_mem_sup {A B : Subgroup G} {z : G} (hA : ∀ a ∈ A, a * z = z * a)
     (hB : ∀ b ∈ B, b * z = z * b) : ∀ g ∈ A ⊔ B, g * z = z * g := fun g hg => by
   have h : A ⊔ B ≤ Subgroup.centralizer ({z} : Set G) :=
@@ -134,7 +135,7 @@ private theorem commute_of_centralizer_three {z z' : G}
 private theorem mem_centralizer_of_mem_pCore_three {p : G} (hp : p ∈ CFSG.pCore 3 G) :
     p ∈ Subgroup.centralizer ((rankThreeLayer (⊤ : Subgroup G) ⊔ CFSG.pPrimeCore 3 G :
       Subgroup G) : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : CFSG.fittingSubgroup G ≤
       Subgroup.centralizer ((CFSG.layer G : Subgroup G) : Set G) :=
     Subgroup.commutator_eq_bot_iff_le_centralizer.mp CFSG.LocalCores.fitting_layer_commute
@@ -150,7 +151,7 @@ section K3
 
 variable {X : Type} [Group X] [Finite X] {T : Subgroup X}
 
-theorem gnPThree_le_gnKThree : gnPThree T ≤ gnKThree T := fun p hp =>
+theorem gnPThree_le_gnKThree : gnPThree T ≤ gnKThree T := fun _p hp =>
   mem_centralizer_of_mem_pCore_three hp
 
 theorem commute_toStar_of_mem_gnKThree {x y : X} (hx : x ∈ gnKThree T) (hy : y ∈ gnKThree T)
@@ -207,12 +208,12 @@ theorem inf_centralizer_conjClosure_le (hX : GNSetting X T) {K : Subgroup X} (hK
     rw [layer_eq_rankThreeLayer_top']
     exact hKH hy.1
   have hO2 : pCoreOf 2 Yb = ⊥ := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     rw [CFSG.pCoreOf_eq_inf_pCoreOf_of_isSubnormal (A3.subnormal_top_iff.mpr hYbsub),
       B6.pCoreOf_top, CFSG.HardMathSupport.Meierfrankenfeld.AGL81.FF531.pCore_two_gnQuot hX,
       inf_bot_eq]
   obtain ⟨p, hp, hp2, hne⟩ := exists_odd_pCoreOf_ne_bot hYbne hYbsub hC hO2
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Qb : Subgroup (X ⧸ gnC T) := pCoreOf p Yb with hQb
   have hQp : IsPGroup p Qb := CFSG.LieType.BorelTits.pCoreOf_isPGroup p Yb
   have hQY : Qb ≤ Yb := CFSG.LieType.BorelTits.pCoreOf_le p Yb

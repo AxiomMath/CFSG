@@ -26,6 +26,7 @@ namespace F4
 
 open F4Data
 
+omit [Finite F] in
 theorem commutator_eq_top : commutator ↥(adjointGroup Tag.F4 F) = ⊤ :=
   (CFSG.LieType.Steinberg.Adjoint.isQuasisimple_f4 F).1.commutator_eq_top
 
@@ -43,7 +44,7 @@ theorem hord_one (hp : p.Prime) (hp5 : 5 ≤ p) (hd : p ∣ Nat.card F - 1) {L :
         twistedTorusOf (canonicalRep (coxeterSystem Tag.F4) L (1 : WeylGroup Tag.F4))
           (Units.map (entrywiseHom Fr)) ∧
       (Nat.card (adjointGroup Tag.F4 F)).factorization p ≤ (Nat.card H).factorization p := by
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed F
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed F
   have hQ : 2 ≤ Nat.card F := Finite.one_lt_card
   obtain ⟨ζ, hζord, hζpow⟩ := exists_unit_orderOf_card_sub_one_alg F L
   obtain ⟨H₀, hH₀T, hH₀card⟩ := exists_le_twistedTorus_card_one (τ := Tag.F4) hFr (by omega) hζpow
@@ -71,7 +72,7 @@ theorem hord_two (hp : p.Prime) (hp5 : 5 ≤ p) (hd : p ∣ Nat.card F + 1) {L :
         twistedTorusOf (canonicalRep (coxeterSystem Tag.F4) L (wp Tag.F4 negWord))
           (Units.map (entrywiseHom Fr)) ∧
       (Nat.card (adjointGroup Tag.F4 F)).factorization p ≤ (Nat.card H).factorization p := by
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed F
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed F
   have hq2 : 2 ≤ Nat.card F := Finite.one_lt_card
   obtain ⟨ζ, hζord, hζpow⟩ := exists_unit_orderOf_card_add_one_alg F L
   obtain ⟨H₀, hH₀T, hH₀card⟩ :=
@@ -104,12 +105,12 @@ theorem mem_twistedTorus_of_steinberg' {L : Type} [Field L] {Fr : L →+* L} {n 
 theorem sylowFrameM_one (hp : p.Prime) (hp5 : 5 ≤ p) (hd : p ∣ Nat.card F - 1) :
     SylowFrameM Tag.F4 F p 1 :=
   exists_exact_frame_sylow (Or.inr rfl) F hp 1 commutator_eq_top
-    fun {L} _ _ _ Fr hFr => hord_one hp hp5 hd Fr hFr
+    fun {_L} _ _ _ Fr hFr => hord_one hp hp5 hd Fr hFr
 
 theorem sylowFrameM_neg (hp : p.Prime) (hp5 : 5 ≤ p) (hd : p ∣ Nat.card F + 1) :
     SylowFrameM Tag.F4 F p (wp Tag.F4 negWord) :=
   exists_exact_frame_sylow (Or.inr rfl) F hp _ commutator_eq_top
-    fun {L} _ _ _ Fr hFr => hord_two hp hp5 hd Fr hFr
+    fun {_L} _ _ _ Fr hFr => hord_two hp hp5 hd Fr hFr
 
 theorem sylowFrameM_three (hp : p.Prime) (hp3 : 3 < p)
     (hd : p ∣ Nat.card F ^ 2 + Nat.card F + 1) : SylowFrameM Tag.F4 F p (f4Coxeter ^ 4) :=
@@ -247,6 +248,6 @@ end F4
 
 theorem wcOn_f4_model {K : Type} [Group K] [Finite K] {ℓ f p : ℕ} [Fact p.Prime] (hℓ : ℓ.Prime)
     (hp2 : p ≠ 2) (hpℓ : p ≠ ℓ) (h : UntwistedChevalleyModel K Tag.F4 (ℓ ^ f)) : WCOn p K :=
-  wcOn_of_untwisted_model hℓ hpℓ h fun F _ _ _ hpq => F4.wcOn_adjoint hp2 hpq
+  wcOn_of_untwisted_model hℓ hpℓ h fun _F _ _ _ hpq => F4.wcOn_adjoint hp2 hpq
 
 end CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.WeakClosure.ExcCross.Untw

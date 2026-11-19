@@ -50,6 +50,7 @@ theorem t_mem_X (hE : Sec8E G t L S z g B E) : t ∈ normalizer (E : Set G) := b
         _ = e := by rw [ht2]; group
     rwa [h3] at h2
 
+omit [Finite G] in
 theorem mem_N_of_comm {x : G} (hxt : x * t = t * x) (hxB : x ∈ normalizer (B : Set G)) :
     x ∈ Nsub8 t B := by
   rw [Nsub8]
@@ -93,9 +94,10 @@ theorem XCt_le_NB (hE : Sec8E G t L S z g B E) :
   simpa [mul_assoc] using h
 
 theorem XCt_le_N (hE : Sec8E G t L S z g B E) :
-    normalizer (E : Set G) ⊓ centralizer ({t} : Set G) ≤ Nsub8 t B := fun x hx =>
+    normalizer (E : Set G) ⊓ centralizer ({t} : Set G) ≤ Nsub8 t B := fun _x hx =>
   mem_N_of_comm (Subgroup.mem_centralizer_singleton_iff.mp hx.2) (XCt_le_NB hE hx)
 
+omit [Finite G] in
 theorem t_mem_N : t ∈ Nsub8 t B :=
   sec8t84a1_A_le_N sec8t84a1_t_mem_A
 
@@ -119,7 +121,7 @@ open Classical in
 
 theorem rhoG_eq (hE : Sec8E G t L S z g B E) {n : G} (hn : n ∈ Nsub8 t B) :
     rhoG hE n = RedAct.redHom (setupE hE) ⟨n, hn⟩ :=
-  dif_pos hn
+  dite_eq_left hn
 
 theorem rhoG_one (hE : Sec8E G t L S z g B E) : rhoG hE 1 = 1 := by
   rw [rhoG_eq hE (one_mem _)]

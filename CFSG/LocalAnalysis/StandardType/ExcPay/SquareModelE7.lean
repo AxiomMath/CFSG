@@ -96,16 +96,16 @@ private theorem excPayN_perfect_and_lie {f : ℕ} {Y : Type} [Group Y]
     (hf : 1 ≤ f) (κ : ↥(adjointGroup .E7 (GaloisField 2 f)) ≃* Y) :
     commutator Y = ⊤ ∧
       CFSG.Blueprint.LieModel (Y ⧸ Subgroup.center Y) .E7 0 2 f := by
-  haveI hsc : Group.IsPerfect ↥(e7Data_valid.minGroup (GaloisField 2 f)) :=
+  have hsc : Group.IsPerfect ↥(e7Data_valid.minGroup (GaloisField 2 f)) :=
     isPerfect_e7 _
-  haveI hperfA : Group.IsPerfect ↥(adjointGroup .E7 (GaloisField 2 f)) :=
+  have hperfA : Group.IsPerfect ↥(adjointGroup .E7 (GaloisField 2 f)) :=
     Group.IsPerfect.ofSurjective (f := (e7EquivAlg f).toMonoidHom) (e7EquivAlg f).surjective
-  haveI hperfY : Group.IsPerfect Y :=
+  have hperfY : Group.IsPerfect Y :=
     @Group.IsPerfect.ofSurjective ↥(adjointGroup .E7 (GaloisField 2 f)) Y _ _
       κ.toMonoidHom hperfA κ.surjective
   refine ⟨Group.IsPerfect.commutator_eq_top, ?_⟩
   have hadm : StatedLieAdmissible .E7 0 2 f := ⟨Nat.prime_two, hf, rfl⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKcard : Nat.card (GaloisField 2 f) = 2 ^ f :=
     GaloisField.card 2 f (by omega)
   let A' := ↥(adjointGroup .E7 (GaloisField 2 f))

@@ -88,7 +88,7 @@ theorem sbB : Nat.beq Sb.lbl.size 128 = true := by
 theorem mwB : Nat.beq D.mw.length 5 = true := by
   quickRfl
 
-open Certificates in
+open _root_.CFSG.Certificates in
 open CFSG.KD.J3Dc in
 theorem facts :
     CFSG.KC.SLDc.dcCheck C D = true ∧

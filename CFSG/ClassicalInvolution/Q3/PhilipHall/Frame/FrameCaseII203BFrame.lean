@@ -269,7 +269,7 @@ theorem cent203b_main (d : Std20Frame K K' J S R R' W V z t)
     {x : G} (hxX : x ∈ sec20X (CoreAssembly.conjClass K) z K K')
     (hxK : x ∈ trivialOnQuot K) (hxK' : x ∈ trivialOnQuot K') :
     x ∈ oddCoreOf (sec20X (CoreAssembly.conjClass K) z K K') ⊔ Subgroup.zpowers z := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hz1 : z ≠ 1 := d.viol.hzK.ne_one
   have hz2 : z * z = 1 := d.viol.hzK.sq
   have hzK : z ∈ K := d.viol.hzK.mem
@@ -289,18 +289,18 @@ theorem cent203b_main (d : Std20Frame K K' J S R R' W V z t)
     cent203b_le_normalizer_of_closed fun x hx a ha => cent203b_D_normal d hx ha
   have hXnN : X ≤ Subgroup.normalizer (N : Set G) :=
     cent203b_le_normalizer_of_closed fun x hx a ha => cent203b_N_normal d hx ha
-  haveI hNn : (N.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNX).mpr hXnN
-  haveI hDn : (D.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hDX).mpr hXnD
-  haveI hZn : ((Subgroup.zpowers z).subgroupOf X).Normal :=
+  have hNn : (N.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hNX).mpr hXnN
+  have hDn : (D.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hDX).mpr hXnD
+  have hZn : ((Subgroup.zpowers z).subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (Subgroup.zpowers_le.mpr hzX)).mpr
       (cent203b_le_normalizer_zpowers hzcomm)
   set Dx : Subgroup X := D.subgroupOf X with hDxdef
   set Nx : Subgroup X := N.subgroupOf X with hNxdef
   set Zx : Subgroup X := (Subgroup.zpowers z).subgroupOf X with hZxdef
   set Qx : Subgroup X := (oddCoreOf X ⊓ D).subgroupOf X with hQxdef
-  haveI : Dx.Normal := hDn
-  haveI : Nx.Normal := hNn
-  haveI : Zx.Normal := hZn
+  have : Dx.Normal := hDn
+  have : Nx.Normal := hNn
+  have : Zx.Normal := hZn
   have hDN_kerG : D ⊔ N ≤ kerG K :=
     sup_le ((inf_le_left.trans inf_le_left).trans cent203b_trivialOnQuot_le_kerG)
       (cent203b_N_le_kerG d)

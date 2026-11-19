@@ -15,8 +15,10 @@ section Basic
 
 variable {z : G} {w : ℕ} {Z A : Subgroup G}
 
+omit [Finite G] in
 theorem Fz_le_Hz (z : G) : Fz z ≤ Hz z := Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem le_normalizer_Fz {K : Subgroup G} (hKH : K ≤ Hz z) :
     K ≤ normalizer (Fz z : Set G) := by
   intro t ht

@@ -210,7 +210,7 @@ theorem ggK1A_core_D3 {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     exact ggK1A_core_sigma (p := p) (nf := n) (N := 4) hp hdvd hK hxp hm
 
 theorem ggK1A_core_twD2 {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
-    (hdvd : p ∣ 2 ^ n - 1 ∨ p ∣ 2 ^ n + 1) (hnotRA : ¬ (p ∣ 2 ∧ p ∣ (2 ^ n) ^ 2 - 1))
+    (hdvd : p ∣ 2 ^ n - 1 ∨ p ∣ 2 ^ n + 1) (_hnotRA : ¬ (p ∣ 2 ∧ p ∣ (2 ^ n) ^ 2 - 1))
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = (2 ^ n) ^ 2) :
     GGK1Core GGMultValidCl p ⟨.twD, 2, n⟩
       (LargeEvenProj (LargeEvenSLGroup (Fin 2) K))

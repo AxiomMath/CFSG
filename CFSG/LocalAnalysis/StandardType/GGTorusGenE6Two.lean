@@ -24,7 +24,7 @@ section Core
 
 theorem ggTorusGenR_adjoint_E6_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     GGTorusGenR 3 4 (adjointGroup .E6 K) := by
-  haveI : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK]; norm_num)
+  have : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK]; norm_num)
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2
   intro E hE hr hsc x hx hx1 J hJ c hc _
   obtain ⟨g, hg⟩ := E6TwoPilot.exists_conj_eq_range_torusE6Two h2 hK hE hr
@@ -64,7 +64,7 @@ section Label
 
 theorem ggTorusGenTableB_E6_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     GGTorusGenTableB 3 (TableBExc.RecipeGroup .E6 K) (TableBExc.RecipeID .E6 K) := by
-  haveI : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK]; norm_num)
+  have : CharP K 2 := charP_two_of_card (m := 1) (by rw [hK]; norm_num)
   have hRk := ggTorusGenTableBRk_of_torusGenR (r := 4) Nat.prime_three
     (fun φ hφ _ => recipeID_subset_inn_E6_two hK hφ)
     (TableBExc.center_recipeGroup_eq_bot .E6 K)

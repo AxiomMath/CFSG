@@ -89,8 +89,8 @@ theorem le_of_normal_of_noncentral {K N : Subgroup G} (hK : ⁅K, K⁆ = K) (hNK
     intro g
     obtain ⟨a, rfl⟩ := e.surjective g
     rw [hαβ, ← map_mul, ← map_mul, hc a]
-  haveI : ((N.subgroupOf K).map β).Normal := hNn.map β hβs
-  haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) F) :=
+  have : ((N.subgroupOf K).map β).Normal := hNn.map β hβs
+  have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 3) F) :=
     CFSG.LinearGroups.special_linear_dimension_at_least_three_perfect (K := F) (n := 3) le_rfl
   have hcov := coreN_cover_of_noncentral ((N.subgroupOf K).map β) hmem hncβ
   have htop : (N.subgroupOf K).map β = ⊤ := coreN_eq_top_of_perfect hcov

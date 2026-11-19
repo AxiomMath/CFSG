@@ -24,7 +24,7 @@ theorem card_le_two_of_centralizer_inf [Finite X] {K : Subgroup X} {t : X} (htK 
   have hFcard : Nat.card F = 2 ^ (Nat.card K).factorization 2 := by
     rw [hFdef, card_map_of_injective K.subtype_injective]
     exact Q.card_eq_multiplicity
-  have hF2 : IsPGroup 2 F := Q.isPGroup'.map _
+  have hF2 : IsPGroup 2 F := Q.isPGroup.map _
   have htF : t ∈ F := ⟨⟨t, htK⟩, hQ (mem_subgroupOf.mpr (mem_zpowers t)), rfl⟩
   set CF := F ⊓ centralizer ({t} : Set X) with hCFdef
   have hCF2 : Nat.card CF ≤ 2 :=

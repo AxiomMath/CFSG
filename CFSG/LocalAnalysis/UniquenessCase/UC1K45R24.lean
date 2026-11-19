@@ -55,6 +55,7 @@ private theorem uc45_singletonZX_abelian (c : Pre45 p G D) (x : ↥(Xof G)) :
     intro y _
     exact Subgroup.mem_center_iff.mp (c.ZX_le hz) y
 
+omit [Finite G] in
 private theorem uc45_singletonZX_normal (x : ↥(Xof G))
     (hxfix : ∀ g : G, MulAut.conjNormal g x * x⁻¹ ∈ Subgroup.center ↥(Xof G)) :
     (singletonZX x).Normal := by
@@ -105,7 +106,7 @@ private theorem uc45_fixed_vector_eq_zero
       simp only [toAdd_ofAdd]
       rw [hw₀]
     rw [← hπker, MonoidHom.mem_ker, map_mul, map_inv, hconj, mul_inv_cancel]
-  haveI : (singletonZX x).Normal := uc45_singletonZX_normal x hxfix
+  have : (singletonZX x).Normal := uc45_singletonZX_normal x hxfix
   have hleX : singletonZX x ≤ Xof G := by
     change Subgroup.closure ({(x : G)} : Set G) ⊔ ZXof G ≤ Xof G
     refine sup_le ?_ ?_
@@ -140,7 +141,7 @@ private theorem uc45_commSpace_finrank_generator (c : Ctx45 p G D)
     Module.finrank (ZMod 2) ↥(LinearMap.range
       ((φ (QuotientGroup.mk d) : W →ₗ[ZMod 2] W) - LinearMap.id)) = 2 := by
   have hZXpos : 0 < Nat.card ↥(ZXof G) := by
-    haveI : Nonempty ↥(ZXof G) := ⟨1, by simp⟩
+    have : Nonempty ↥(ZXof G) := ⟨1, by simp⟩
     exact Nat.card_pos
   have hcardd := hcard d
   rw [uc45_card_commutator_zpowers c.toPre45 hd] at hcardd
@@ -198,7 +199,7 @@ private theorem uc45_commSpace_finrank (c : Ctx45 p G D)
   let ρ : ↥(alternatingGroup (Fin 5)) →* (W ≃ₗ[ZMod 2] W) := φ.comp ι.symm.toMonoidHom
   change ∀ g : ↥(alternatingGroup (Fin 5)), orderOf g = 3 →
     Module.finrank (ZMod 2) ↥(LinearMap.range ((ρ g : W →ₗ[ZMod 2] W) - LinearMap.id)) = 2
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   obtain ⟨d, hd⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top D).mp
     (isCyclic_of_prime_card c.card_three)
   have hιd : orderOf (ι (QuotientGroup.mk d : G ⧸ Wker G)) = 3 :=
@@ -227,9 +228,9 @@ theorem r24_module (hSymp : SympData) (c : Ctx45 p G D)
     hBform, hpre, hcard⟩ :=
     hSymp G (Xof G) (Wker G) (xof_isPGroup (G := G)) c.class_two.1 c.class_two.2
       (uc45_center_Xof_isCyclic c.toPre45) (fun g => mem_wker (G := G) (g := g))
-  letI := hWadd
-  letI := hWmod
-  letI := hWfin
+  let := hWadd
+  let := hWmod
+  let := hWfin
   have h0φ := uc45_fixed_vector_eq_zero φ π hπsurj hπker hequiv c.toPre45
   let ι : (G ⧸ Wker G) ≃* ↥(alternatingGroup (Fin 5)) := uc45_alt5_equiv c hker
   let ρ : ↥(alternatingGroup (Fin 5)) →* (W ≃ₗ[ZMod 2] W) := φ.comp ι.symm.toMonoidHom
@@ -253,9 +254,9 @@ theorem r2_card_X (hSymp : SympData) (c : Ctx45 p G D)
     Nat.card ↥(Xof G) = 16 * Nat.card ↥(Subgroup.center ↥(Xof G)) := by
   obtain ⟨W, hWadd, hWmod, hWfin, φ, π, hcardW, -, hπsurj, hπker, -, -, -⟩ :=
     r24_module hSymp c hker
-  letI := hWadd
-  letI := hWmod
-  letI := hWfin
+  let := hWadd
+  let := hWmod
+  let := hWfin
   have h1 : Nat.card ↥(Xof G) =
       Nat.card (↥(Xof G) ⧸ π.ker) * Nat.card ↥(π.ker) :=
     Subgroup.card_eq_card_quotient_mul_card_subgroup π.ker

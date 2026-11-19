@@ -29,7 +29,7 @@ theorem a5_no_odd_cext_aux {G : Type} [Group G] [Finite G]
   let π : G →* ↥(alternatingGroup (Fin 5)) := e.toMonoidHom.comp (QuotientGroup.mk' Z)
   have hker : π.ker = Z := by
     ext x
-    simp [π, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp [π]
   have hπs : Function.Surjective π := e.surjective.comp (QuotientGroup.mk'_surjective Z)
   have := no_odd_ker hG hπs (hker ▸ hZ) (hker ▸ hodd)
   rwa [hker] at this
@@ -53,9 +53,9 @@ theorem a5_lift_aux (h : Setup28 W K S)
   have hπker : ∀ a, π' a = 1 ↔ a ∈ Subgroup.center ↥(bar W K) := A5Base.piBar_eq_one_iff e
   let Bt : Subgroup ↥(bar W K) := B.comap π'
   let Ih : Subgroup ↥(bar W K) := ⁅Bt, Bt⁆
-  haveI : Group.IsPerfect ↥(alternatingGroup (Fin 5)) := ⟨A5Base.commutator_alt5⟩
+  have : Group.IsPerfect ↥(alternatingGroup (Fin 5)) := ⟨A5Base.commutator_alt5⟩
   have hBperf : ⁅B, B⁆ = B := by
-    haveI : Group.IsPerfect ↥B :=
+    have : Group.IsPerfect ↥B :=
       Group.IsPerfect.ofSurjective (f := θ.symm.toMonoidHom) θ.symm.surjective
     exact Subgroup.isPerfect_iff.mp this
   have hmapBt : Bt.map π' = B := Subgroup.map_comap_eq_self_of_surjective hπs B
@@ -76,7 +76,7 @@ theorem a5_lift_aux (h : Setup28 W K S)
     obtain ⟨i₂, hi₂, z₂, hz₂, rfl⟩ := hdec b₂ hb₂
     rw [CFSG.ComponentClassification.RankTwoAlt.commutatorElement_mul_central hz₁ hz₂]
     exact Subgroup.commutator_mem_commutator hi₁ hi₂
-  haveI : Group.IsPerfect ↥Ih := Subgroup.isPerfect_iff.mpr hIhperf
+  have : Group.IsPerfect ↥Ih := Subgroup.isPerfect_iff.mpr hIhperf
   have hIhB : ∀ i : ↥Ih, π' i ∈ B := fun i => hIhBt i.2
   let ρ : ↥Ih →* ↥B := (π'.comp Ih.subtype).codRestrict B hIhB
   let pH : ↥Ih →* ↥(alternatingGroup (Fin 5)) := θ.toMonoidHom.comp ρ

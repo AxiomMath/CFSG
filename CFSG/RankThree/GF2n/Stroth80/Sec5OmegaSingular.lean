@@ -11,6 +11,7 @@ open scoped Matrix
 
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K]
 
+omit [DecidableEq ι] in
 theorem false_of_nonsingular_flag (Q' : QuadraticForm K (ι → K))
     (hQ : (polarBilin Q').Nondegenerate) (h3 : 3 ≤ Module.finrank K (ι → K))
     (S : Set (Matrix ι ι K)) {u : ι → K} (hu : u ≠ 0) (ha : Q' u ≠ 0) (H : (ι → K) → Prop)

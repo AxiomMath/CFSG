@@ -28,10 +28,10 @@ theorem kFactNineThreeAutSection_of
   by_cases hSzi : p = 5 ∧ ∃ d : TauCeti.ValidLieTypeIndex, i = .lie d ∧ d.1 = .suzuki 2
   · obtain ⟨rfl, d, rfl, hd⟩ := hSzi
     exact hSz q hq hq2 hqp d hd V hV hr A φ hφ
-  · haveI : Fact p.Prime := ⟨hp⟩
-    haveI : Fact q.Prime := ⟨hq⟩
-    haveI : Finite (MulAut V) := MulEquiv.finite_left
-    haveI : Finite i.Group := Finite.of_surjective φ hφ
+  · have : Fact p.Prime := ⟨hp⟩
+    have : Fact q.Prime := ⟨hq⟩
+    have : Finite (MulAut V) := MulEquiv.finite_left
+    have : Finite i.Group := Finite.of_surjective φ hφ
     have hp5 : 5 ≤ p := by
       have := hp.two_le
       rcases (show p = 2 ∨ p = 3 ∨ p = 4 ∨ 5 ≤ p by omega) with h | h | h | h
@@ -45,8 +45,8 @@ theorem kFactNineThreeAutSection_of
 
 theorem automizerBound_holds {p q : ℕ} (hp : p.Prime) (hq : q.Prime) (hpq : p ≠ q) :
     AutomizerBound p q := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact q.Prime := ⟨hq⟩
   intro W _ _ _ hW P hP hab g hg
   refine automizer_pow_three_or_four hW ?_ hP hab hg
   rw [Nat.card_zmod]

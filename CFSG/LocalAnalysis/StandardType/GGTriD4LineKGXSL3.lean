@@ -56,15 +56,15 @@ private lemma rootChar_chainRoot_ratio (L : Type) [Field L] (b : Fin Tag.D4.rank
       Dtuple L b i / Dtuple L b j := by
   fin_cases i <;> fin_cases j <;>
     simp_all [chainRootA2_values, chainRootA2_values', triD4LineV_smul_values, Dtuple,
-      div_eq_mul_inv, mul_assoc, mul_comm, mul_left_comm, pow_two] <;>
-    simp_all [rootChar_add, rootChar_d4LongVec, rootChar_neg, div_eq_mul_inv, mul_assoc,
+      div_eq_mul_inv, mul_comm] <;>
+    simp_all [rootChar_add, rootChar_d4LongVec, rootChar_neg, mul_assoc,
       mul_comm, mul_left_comm, pow_two]
 private lemma diagonal_Dtuple_literal (L : Type) [Field L] (b : Fin Tag.D4.rank → Lˣ) :
     Matrix.diagonal (fun k => (Dtuple L b k : L)) =
       Matrix.diagonal ![(rootChar b ![1, 1, 2, 1] : L), (rootChar b ![1, 1, 1, 1] : L), 1] := by
   change Matrix.diagonal (fun k => (Dtuple L b k : L)) =
     Matrix.diagonal ![(rootChar b (d4LongVec 1 2) : L), (rootChar b (d4LongVec 1 1) : L), 1]
-  congr 1 <;> funext k
+  congr 1; funext k
   fin_cases k <;> rfl
 private lemma diagonal_Dtuple_inv_literal (L : Type) [Field L] (b : Fin Tag.D4.rank → Lˣ) :
     Matrix.diagonal (fun k => ((Dtuple L b k)⁻¹ : L)) =
@@ -73,7 +73,7 @@ private lemma diagonal_Dtuple_inv_literal (L : Type) [Field L] (b : Fin Tag.D4.r
   change Matrix.diagonal (fun k => ((Dtuple L b k)⁻¹ : L)) =
     Matrix.diagonal ![(((rootChar b (d4LongVec 1 2))⁻¹ : Lˣ) : L),
       (((rootChar b (d4LongVec 1 1))⁻¹ : Lˣ) : L), 1]
-  congr 1 <;> funext k
+  congr 1; funext k
   fin_cases k <;> simp [Dtuple]
 private lemma diagonal_mul_inv (L : Type) [Field L] (d : Fin 3 → Lˣ) :
     Matrix.diagonal (fun k => (d k : L)) * Matrix.diagonal (fun k => ((d k)⁻¹ : L)) = 1 := by
@@ -88,7 +88,7 @@ private lemma conj_mul (L : Type) [Field L] (d : Fin 3 → Lˣ) (X Y : Matrix (F
     Matrix.diagonal (fun k => (d k : L)) * (X * Y) *
       Matrix.diagonal (fun k => ((d k)⁻¹ : L)) := by
   have h : Matrix.diagonal (fun k => ((d k)⁻¹ : L)) * Matrix.diagonal (fun k => (d k : L)) = 1 := by
-    simpa using diagonal_mul_inv L (fun k => (d k)⁻¹)
+    simp
   calc
     _ = Matrix.diagonal (fun k => (d k : L)) * X *
         (Matrix.diagonal (fun k => ((d k)⁻¹ : L)) * Matrix.diagonal (fun k => (d k : L))) * Y *
@@ -103,8 +103,8 @@ private lemma diagonal_conj_single (L : Type) [Field L] (d : Fin 3 → Lˣ)
   ext i' j'
   simp only [Matrix.diagonal_mul, Matrix.mul_diagonal]
   by_cases h1 : i' = i <;> by_cases h2 : j' = j <;> by_cases h3 : i' = j'
-  all_goals simp_all [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply,
-    Units.val_div_eq_div_val, div_eq_mul_inv, mul_assoc, mul_comm, mul_left_comm]
+  all_goals simp_all [Matrix.add_apply, Matrix.single_apply,
+    div_eq_mul_inv, mul_assoc, mul_comm]
 private lemma map_eq_self_of_sq_one (L : Type) [Field L] (Fr : L →+* L) {κ : L}
     (hκ : κ * κ = 1) : Fr κ = κ := by
   have h : (κ - 1) * (κ + 1) = 0 := by linear_combination hκ
@@ -121,7 +121,7 @@ private lemma map_sl_eq_single (L : Type) [Field L] (Fr : L →+* L)
   rw [Matrix.SpecialLinearGroup.map_apply_coe, hX]
   ext i' j'
   simp only [RingHom.mapMatrix_apply, Matrix.map_apply, Matrix.add_apply, Matrix.one_apply,
-    Matrix.single_apply, map_add, map_one, map_zero]
+    Matrix.single_apply, map_add, map_one]
   split_ifs with h <;> simp_all
 theorem triD4Line_entrywise_d4A2Qv
     (L : Type) [Field L] (Fr : L →+* L) (q : ModGL Tag.D4 L) (hq : q ∈ d4A2Qv L triD4LineV) :

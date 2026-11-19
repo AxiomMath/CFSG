@@ -14,12 +14,14 @@ open CFSG.Open CFSG.LocalAnalysis.UniquenessCase.UC22 Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem n924x_I9_subgroupOf (H : Subgroup G) :
     (F09.I9 H).subgroupOf H = CFSG.pPrimeCore 3 ↥H := by
   ext x
   rw [Subgroup.mem_subgroupOf, F09.I9]
   exact Subgroup.mem_map_iff_mem H.subtype_injective
 
+omit [Finite G] in
 private theorem n924x_le_normalizer_I9 (H : Subgroup G) :
     H ≤ normalizer (F09.I9 H : Set G) := by
   have hle : F09.I9 H ≤ H := Subgroup.map_subtype_le (CFSG.pPrimeCore 3 ↥H)
@@ -29,7 +31,7 @@ private theorem n924x_le_normalizer_I9 (H : Subgroup G) :
 
 private theorem n924x_coprime_card_I9 (H : Subgroup G) :
     Nat.Coprime 3 (Nat.card (F09.I9 H)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [show F09.I9 H = (CFSG.pPrimeCore 3 ↥H).map H.subtype from rfl,
     Subgroup.card_map_of_injective H.subtype_injective]
   exact CFSG.pPrimeCore_coprime_card
@@ -43,7 +45,7 @@ private theorem n924x_three_dvd_card_isL2 {Y : Type} [Group Y] {m : ℕ} (h : Is
 private theorem n924x_subgroupOf_I9_le_pCore {H X : Subgroup G} {m : ℕ} (hXH : X ≤ H)
     (hL2 : IsL2 (Bar2 X) m) :
     (F09.I9 H).subgroupOf X ≤ CFSG.pCore 2 ↥X := by
-  haveI : IsSimpleGroup (Bar2 X) :=
+  have : IsSimpleGroup (Bar2 X) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
   have hHI : H ≤ normalizer (F09.I9 H : Set G) := n924x_le_normalizer_I9 H
   set J : Subgroup ↥X := (F09.I9 H).subgroupOf X with hJ
@@ -54,7 +56,7 @@ private theorem n924x_subgroupOf_I9_le_pCore {H X : Subgroup G} {m : ℕ} (hXH :
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     have h1 := (Subgroup.mem_normalizer_iff.mp (hHI (hXH g.2)) (x : G)).mp hx
     simpa using h1
-  haveI : (J.map (QuotientGroup.mk' Q)).Normal :=
+  have : (J.map (QuotientGroup.mk' Q)).Normal :=
     hJn.map _ (QuotientGroup.mk'_surjective Q)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (J.map (QuotientGroup.mk' Q)) with h | h
   · intro x hx

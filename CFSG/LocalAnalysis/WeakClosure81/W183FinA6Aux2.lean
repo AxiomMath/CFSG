@@ -57,7 +57,7 @@ theorem w183fin_finG3_A6 : ∀ (Y : Type) [Group Y] [Finite Y] (L : Subgroup Y),
     ∀ A : Subgroup Y, Nat.card A = 4 → CFSG.Open.IsElemAbelian 2 A →
       (∀ t ∈ A, t ≠ 1 → ∀ g ∈ L, g * t = t * g → ∀ a ∈ A, g * a = a * g) → False := by
   intro Y _ _ L hLn hC hL A hcard hel hTI1
-  haveI := hLn
+  have := hLn
   obtain ⟨e⟩ := hL
   obtain ⟨f, hfinj, hfaut, hfL, hfsurj⟩ := w183fin_exists_embedding L hC e
   have hcardA' : Nat.card (A.map f) = 4 := by
@@ -82,15 +82,15 @@ private theorem w183fin_finA6_of_T2a
     (hT2a : ∀ {Y : Type} [Group Y] [Finite Y] (L : Subgroup Y) [L.Normal]
       (e : ↥L ≃* alternatingGroup (Fin 6)) (θ : ↥s6 →* Equiv.Perm (Fin 6))
       (ψ : ↥A6Models.psl29 ≃* alternatingGroup (Fin 6))
-      (hψθ : ∀ x : ↥A6Models.psl29, ((ψ x : alternatingGroup (Fin 6)) : Equiv.Perm (Fin 6)) =
+      (_hψθ : ∀ x : ↥A6Models.psl29, ((ψ x : alternatingGroup (Fin 6)) : Equiv.Perm (Fin 6)) =
         θ (Subgroup.inclusion psl29_le_s6 x))
       (τ : Y), ActsOnDynkinMod ⊥ L τ →
         ((Unc25K1.A6Model.thetaEquiv (e.trans ψ.symm) (MulAut.conjNormal τ) :
           ↥A6Models.autA6) : P10) ∉ s6) : FinA6 := by
   intro Y _ _ L hLn hL hC hτ A hcard hel hTI
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   obtain ⟨e⟩ := hL
-  obtain ⟨θ, ψ, -, hψθ⟩ := Unc25K1.A6Model.exists_pslEquiv
+  obtain ⟨θ, ψ, -, _hψθ⟩ := Unc25K1.A6Model.exists_pslEquiv
   let φ : ↥L ≃* ↥A6Models.psl29 := e.trans ψ.symm
   let Θ := Unc25K1.A6Model.thetaEquiv φ
   have hconj : Function.Injective (MulAut.conjNormal : Y →* MulAut ↥L) := by
@@ -123,7 +123,7 @@ private theorem w183fin_finA6_of_T2a
     show ((Θ (MulAut.conjNormal ((φ.symm ⟨x, hx⟩ : ↥L) : Y)) : ↥A6Models.autA6) : P10) = x
     rw [hΘ]
   obtain ⟨τ, hτd⟩ := hτ
-  have hB3 : ∃ σ ∈ f.range, σ ∉ s6 := ⟨f τ, ⟨τ, rfl⟩, hT2a L e θ ψ hψθ τ hτd⟩
+  have hB3 : ∃ σ ∈ f.range, σ ∉ s6 := ⟨f τ, ⟨τ, rfl⟩, hT2a L e θ ψ _hψθ τ hτd⟩
   have hB1' : f.range ≤ A6Models.autA6 := by
     rintro _ ⟨y, rfl⟩
     exact hB1 y
@@ -162,7 +162,7 @@ private theorem w183fin_exists_three_embedding_of_T2a
     (hT2a : ∀ {Y : Type} [Group Y] [Finite Y] (L : Subgroup Y) [L.Normal]
       (e : ↥L ≃* alternatingGroup (Fin 6)) (θ : ↥s6 →* Equiv.Perm (Fin 6))
       (ψ : ↥A6Models.psl29 ≃* alternatingGroup (Fin 6))
-      (hψθ : ∀ x : ↥A6Models.psl29, ((ψ x : alternatingGroup (Fin 6)) : Equiv.Perm (Fin 6)) =
+      (_hψθ : ∀ x : ↥A6Models.psl29, ((ψ x : alternatingGroup (Fin 6)) : Equiv.Perm (Fin 6)) =
         θ (Subgroup.inclusion psl29_le_s6 x))
       (τ : Y), ActsOnDynkinMod ⊥ L τ →
         ((Unc25K1.A6Model.thetaEquiv (e.trans ψ.symm) (MulAut.conjNormal τ) :
@@ -172,7 +172,7 @@ private theorem w183fin_exists_three_embedding_of_T2a
     (hτ : ActsOnDynkinMod ⊥ L τ) :
     ∃ f : Y →* P10, Function.Injective f ∧
       (f.range = A6Models.pgl29 ∨ f.range = A6Models.m10 ∨ f.range = A6Models.autA6) := by
-  obtain ⟨θ, ψ, -, hψθ⟩ := Unc25K1.A6Model.exists_pslEquiv
+  obtain ⟨θ, ψ, -, _hψθ⟩ := Unc25K1.A6Model.exists_pslEquiv
   let φ : ↥L ≃* ↥A6Models.psl29 := e.trans ψ.symm
   let Θ := Unc25K1.A6Model.thetaEquiv φ
   have hconj : Function.Injective (MulAut.conjNormal : Y →* MulAut ↥L) := by
@@ -202,7 +202,7 @@ private theorem w183fin_exists_three_embedding_of_T2a
       simp
     show ((Θ (MulAut.conjNormal ((φ.symm ⟨x, hx⟩ : ↥L) : Y)) : ↥A6Models.autA6) : P10) = x
     rw [hΘ]
-  have hB3 : ∃ σ ∈ f.range, σ ∉ s6 := ⟨f τ, ⟨τ, rfl⟩, hT2a L e θ ψ hψθ τ hτ⟩
+  have hB3 : ∃ σ ∈ f.range, σ ∉ s6 := ⟨f τ, ⟨τ, rfl⟩, hT2a L e θ ψ _hψθ τ hτ⟩
   have hB1' : f.range ≤ A6Models.autA6 := by
     rintro _ ⟨y, rfl⟩
     exact (Θ (MulAut.conjNormal y)).2
@@ -212,7 +212,7 @@ private theorem w183fin_finGraphOdd_A6_of_T2a
     (hT2a : ∀ {Y : Type} [Group Y] [Finite Y] (L : Subgroup Y) [L.Normal]
       (e : ↥L ≃* alternatingGroup (Fin 6)) (θ : ↥s6 →* Equiv.Perm (Fin 6))
       (ψ : ↥A6Models.psl29 ≃* alternatingGroup (Fin 6))
-      (hψθ : ∀ x : ↥A6Models.psl29, ((ψ x : alternatingGroup (Fin 6)) : Equiv.Perm (Fin 6)) =
+      (_hψθ : ∀ x : ↥A6Models.psl29, ((ψ x : alternatingGroup (Fin 6)) : Equiv.Perm (Fin 6)) =
         θ (Subgroup.inclusion psl29_le_s6 x))
       (τ : Y), ActsOnDynkinMod ⊥ L τ →
         ((Unc25K1.A6Model.thetaEquiv (e.trans ψ.symm) (MulAut.conjNormal τ) :
@@ -222,7 +222,7 @@ private theorem w183fin_finGraphOdd_A6_of_T2a
       ∀ a : Y, orderOf a = 2 →
         ¬ CFSG.Timmesfeld.Bridge.Asc72.IsOddTransp {x : Y | IsConj a x} := by
   intro Y _ _ L hLn hL hC hτ a ha hOT
-  haveI : L.Normal := hLn
+  have : L.Normal := hLn
   obtain ⟨e⟩ := hL
   obtain ⟨τ, hτd⟩ := hτ
   obtain ⟨f, hfinj, hclass⟩ := w183fin_exists_three_embedding_of_T2a hT2a L hC e τ hτd

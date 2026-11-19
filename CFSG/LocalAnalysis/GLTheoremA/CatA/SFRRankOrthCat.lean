@@ -41,9 +41,9 @@ theorem coreThree_catD (k : ℕ) (hk : 5 ≤ k) (hv : (TauCeti.LieTypeIndex.D k 
   have h0 := h
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := h0
   have hK2 : Nat.card K = 2 := by rw [hK]; norm_num
-  haveI := CFSG.HardMathSupport.Dickson.Bal207.OrthRow.Two.charP_two hK2
+  have := CFSG.HardMathSupport.Dickson.Bal207.OrthRow.Two.charP_two hK2
   obtain ⟨-, hnd, -⟩ := coordinate_model_witness_plus h K hK e
-  haveI : Nonempty (Fin (2 * k)) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin (2 * k)) := ⟨⟨0, by omega⟩⟩
   exact coreThree_of_mulEquiv (((coordinatePlusWitnessEquiv K e).trans
     (CFSG.RankThree.PartOne.KCOrthogonalAut.coordBridge _ (by omega))).trans
       (CFSG.RankThree.PartOne.KFR4.orthDerivedEquivProj hnd).symm)
@@ -58,10 +58,10 @@ theorem coreThree_catTwistedD (k : ℕ) (hk : 5 ≤ k)
   have h0 := h
   obtain ⟨-, K, _, _, hK, b, c, hirr, ⟨e⟩⟩ := h0
   have hK2 : Nat.card K = 2 := by rw [hK]; norm_num
-  haveI := CFSG.HardMathSupport.Dickson.Bal207.OrthRow.Two.charP_two hK2
+  have := CFSG.HardMathSupport.Dickson.Bal207.OrthRow.Two.charP_two hK2
   have hn1 : 1 ≤ k := by omega
   obtain ⟨-, hnd, -⟩ := coordinate_model_witness_minus h K hK b c hirr e
-  haveI : Nonempty (Fin (2 * k)) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin (2 * k)) := ⟨⟨0, by omega⟩⟩
   exact coreThree_of_mulEquiv (((coordinateMinusWitnessEquiv K hn1 b c e).trans
     (CFSG.RankThree.PartOne.KCOrthogonalAut.coordBridge _ (by omega))).trans
       (CFSG.RankThree.PartOne.KFR4.orthDerivedEquivProj hnd).symm)

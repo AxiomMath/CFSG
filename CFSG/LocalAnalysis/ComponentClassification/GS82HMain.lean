@@ -21,6 +21,6 @@ theorem not_gs82HConfig_three {X : Type} [Group X] [Finite X] {t : X} {K R T : S
   have hS : Group.IsSolvable SL(2, F) :=
     GH74.Generic.BProg.B1.PilotS1.isSolvable_sl2_three (by rw [Nat.card_eq_fintype_card, hFq])
   exact not_isSolvable_of_isQuasisimple hTq
-    (solvable_of_surjective (f := eT.symm.toMonoidHom) eT.symm.surjective)
+    (Group.isSolvable_of_surjective (f := eT.symm.toMonoidHom) eT.symm.surjective)
 
 end CFSG.ComponentClassification.GSThmB

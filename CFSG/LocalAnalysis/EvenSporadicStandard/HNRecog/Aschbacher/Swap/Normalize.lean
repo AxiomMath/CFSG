@@ -23,14 +23,17 @@ variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
 variable {σ : A5 × A5 →* (V ≃ₗ[ZMod 2] V)} {b b' : V ≃ₗ[ZMod 2] V}
 
+omit [Finite V] in
 private theorem sigma_conj_eq (h u : A5 × A5) :
     σ h * σ u * (σ h)⁻¹ = σ (h * u * h⁻¹) := by
   rw [← map_inv, ← map_mul, ← map_mul]
 
+omit [Finite V] in
 private theorem sigma_inv_conj_eq (h u : A5 × A5) :
     (σ h)⁻¹ * σ u * σ h = σ (h⁻¹ * u * h) := by
   rw [← map_inv, ← map_mul, ← map_mul]
 
+omit [Finite V] in
 theorem SwapsFactors.conj (hb : SwapsFactors σ b) (h : A5 × A5) :
     SwapsFactors σ (σ h * b * (σ h)⁻¹) := by
   refine ⟨?_, ?_⟩
@@ -40,7 +43,7 @@ theorem SwapsFactors.conj (hb : SwapsFactors σ b) (h : A5 × A5) :
     have key : (σ h)⁻¹ * σ (x, 1) * σ h = σ (h.1⁻¹ * x * h.1, 1) := by
       rw [sigma_inv_conj_eq]
       congr 1
-      ext <;> simp [Prod.mk_mul_mk, mul_assoc]
+      ext <;> simp [mul_assoc]
     calc (σ h * b * (σ h)⁻¹) * σ (x, 1) * (σ h * b * (σ h)⁻¹)⁻¹
         = σ h * (b * ((σ h)⁻¹ * σ (x, 1) * σ h) * b⁻¹) * (σ h)⁻¹ := by
           group
@@ -49,14 +52,14 @@ theorem SwapsFactors.conj (hb : SwapsFactors σ b) (h : A5 × A5) :
       _ = σ (1, h.2 * y * h.2⁻¹) := by
           rw [sigma_conj_eq]
           congr 1
-          ext <;> simp [Prod.mk_mul_mk, mul_assoc]
+          ext <;> simp [mul_assoc]
   · intro y
     obtain ⟨x, hx⟩ := hb.2 (h.2⁻¹ * y * h.2)
     refine ⟨h.1 * x * h.1⁻¹, ?_⟩
     have key : (σ h)⁻¹ * σ (1, y) * σ h = σ (1, h.2⁻¹ * y * h.2) := by
       rw [sigma_inv_conj_eq]
       congr 1
-      ext <;> simp [Prod.mk_mul_mk, mul_assoc]
+      ext <;> simp [mul_assoc]
     calc (σ h * b * (σ h)⁻¹) * σ (1, y) * (σ h * b * (σ h)⁻¹)⁻¹
         = σ h * (b * ((σ h)⁻¹ * σ (1, y) * σ h) * b⁻¹) * (σ h)⁻¹ := by
           group
@@ -65,8 +68,9 @@ theorem SwapsFactors.conj (hb : SwapsFactors σ b) (h : A5 × A5) :
       _ = σ (h.1 * x * h.1⁻¹, 1) := by
           rw [sigma_conj_eq]
           congr 1
-          ext <;> simp [Prod.mk_mul_mk, mul_assoc]
+          ext <;> simp [mul_assoc]
 
+omit [Finite V] in
 theorem SwapsFactors.mul (hb : SwapsFactors σ b) (hb' : SwapsFactors σ b') :
     PreservesFactors σ (b * b') := by
   refine ⟨?_, ?_⟩
@@ -87,6 +91,7 @@ theorem SwapsFactors.mul (hb : SwapsFactors σ b) (hb' : SwapsFactors σ b') :
       _ = b * σ (x, 1) * b⁻¹ := by rw [hx]
       _ = σ (1, y') := hy'
 
+omit [Finite V] in
 theorem finrank_range_conj (g b : V ≃ₗ[ZMod 2] V) :
     finrank (ZMod 2) (LinearMap.range (((g * b * g⁻¹ : V ≃ₗ[ZMod 2] V) : V →ₗ[ZMod 2] V) + 1)) =
       finrank (ZMod 2) (LinearMap.range ((b : V →ₗ[ZMod 2] V) + 1)) := by
@@ -98,7 +103,8 @@ theorem finrank_range_conj (g b : V ≃ₗ[ZMod 2] V) :
   rw [LinearEquiv.range, Submodule.map_top]
   exact LinearEquiv.finrank_map_eq g (LinearMap.range ((b : V →ₗ[ZMod 2] V) + 1))
 
-theorem exists_conj_normalized (hσ : Function.Injective σ) (hb : b * b = 1)
+omit [Finite V] in
+theorem exists_conj_normalized (hσ : Function.Injective σ) (_hb : b * b = 1)
     (hsw : SwapsFactors σ b) :
     ∃ (z : A5) (k : ℕ), (k = 1 ∨ k = 2) ∧
       (σ (1, z⁻¹) * b * (σ (1, z⁻¹))⁻¹) * σ (a₀, 1) * (σ (1, z⁻¹) * b * (σ (1, z⁻¹))⁻¹)⁻¹ =
@@ -123,7 +129,7 @@ theorem exists_conj_normalized (hσ : Function.Injective σ) (hb : b * b = 1)
   have key : (σ (1, z⁻¹))⁻¹ * σ (a₀, 1) * σ (1, z⁻¹) = σ (a₀, 1) := by
     rw [sigma_inv_conj_eq]
     congr 1
-    ext <;> simp [Prod.mk_mul_mk, mul_assoc]
+    ext <;> simp [Prod.mk_mul_mk]
   have key2 : σ (1, z⁻¹) * σ (1, y) * (σ (1, z⁻¹))⁻¹ = σ (1, a₀ ^ k) := by
     rw [sigma_conj_eq]
     congr 1

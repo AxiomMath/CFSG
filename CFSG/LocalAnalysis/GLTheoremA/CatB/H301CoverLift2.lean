@@ -24,8 +24,8 @@ theorem nonempty_sporCfgCore_cover {p : ℕ} {row : Row} (hcov : I301ARowCover r
   have hp : row.prime.Prime := by cases row <;> norm_num [Row.prime]
   have hp2 : row.prime ≠ 2 := by cases row <;> norm_num [Row.prime]
   set p : ℕ := row.prime with hpdef
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ3' : Nat.card (Subgroup.center (PQuot p L)) = 3 := hZ3.trans hc
   have hperf : ⁅(⊤ : Subgroup (PQuot p L)), (⊤ : Subgroup (PQuot p L))⁆ = ⊤ :=
     (isQuasisimple_pQuot_of_glaPComponent hp hL).1
@@ -329,8 +329,8 @@ theorem nonempty_sporCfgCore_cover {p : ℕ} {row : Row} (hcov : I301ARowCover r
           · intro r hr
             rw [S8.L89.mem_centerOf_iff]
             refine ⟨hr, fun s hs => ?_⟩
-            haveI : IsCyclic ↥(cfgR0 R D) := isCyclic_of_prime_card (p := 2) h
-            letI : CommGroup ↥(cfgR0 R D) := IsCyclic.commGroup
+            have : IsCyclic ↥(cfgR0 R D) := isCyclic_of_prime_card (p := 2) h
+            let : CommGroup ↥(cfgR0 R D) := IsCyclic.commGroup
             have := mul_comm (⟨s, hs⟩ : ↥(cfgR0 R D)) ⟨r, hr⟩
             simpa using congrArg Subtype.val this
         rw [h1, h]

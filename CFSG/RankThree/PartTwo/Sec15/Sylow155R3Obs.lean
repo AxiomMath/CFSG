@@ -100,7 +100,7 @@ private theorem mem_normalizer_pCoreOf_inf_centralizer {M B : Subgroup G} {x : G
     (hxB : x ∈ Subgroup.centralizer (B : Set G)) :
     x ∈ Subgroup.normalizer
       ((CFSG.Open.pCoreOf 2 M ⊓ Subgroup.centralizer (B : Set G) : Subgroup G) : Set G) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hN : Subgroup.normalizer (B : Set G) ≤
       Subgroup.normalizer (Subgroup.centralizer (B : Set G) : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (Subgroup.centralizer_le_normalizer _)).mp
@@ -192,7 +192,7 @@ theorem Res3Ctx.obs_g_primes (h : Res3Ctx A c L d K) {g : G}
     obtain ⟨m, hm⟩ := hpg
     omega
   · exfalso
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hcop := Sec14.coprime_card_pPrimeCoreOf 3 (Subgroup.centralizer (A : Set G))
     have hdvd : orderOf g ∣ Nat.card (pPrimeCoreOf 3 (Subgroup.centralizer (A : Set G))) :=
       Subgroup.orderOf_dvd_natCard _ hgD
@@ -202,9 +202,10 @@ theorem Res3Ctx.obs_g_primes (h : Res3Ctx A c L d K) {g : G}
 
 theorem obs_V₀_isPGroup (d : G) (M B : Subgroup G) :
     IsPGroup 2 (res3Img d (CFSG.Open.pCoreOf 2 M ⊓ Subgroup.centralizer (B : Set G))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 M).to_inf_left).comap_subtype.map _
 
+omit [Finite G] in
 theorem obs_V₀_le (d : G) (M B : Subgroup G) :
     res3Img d (CFSG.Open.pCoreOf 2 M ⊓ Subgroup.centralizer (B : Set G)) ≤
       Subgroup.centralizer (res3Img d B : Set (Res3Bar d)) := by
@@ -233,11 +234,12 @@ theorem Res3Ctx.obs_g_memV₀ (h : Res3Ctx A c L d K) {M : Subgroup G} {g : G}
   res3Pt_mem_normalizer _ (mem_normalizer_pCoreOf_inf_centralizer hgM
     (Subgroup.centralizer_le (SetLike.coe_subset_coe.mpr inf_le_left) hgA))
 
+omit [Finite G] in
 theorem obs_U_le (d : G) {M B : Subgroup G} {g : G} (hgM : g ∈ M)
     (h14a : ⁅CFSG.Open.pCoreOf 2 M, Subgroup.zpowers g⁆ ≤ Subgroup.centralizer (B : Set G)) :
     res3Img d ⁅CFSG.Open.pCoreOf 2 M, Subgroup.zpowers g⁆ ≤
       res3Img d (CFSG.Open.pCoreOf 2 M ⊓ Subgroup.centralizer (B : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine res3Img_mono (le_inf ?_ h14a)
   exact Subgroup.le_normalizer_iff_commutator_le_left.mp
     (Subgroup.zpowers_le.mpr (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 M hgM))
@@ -285,8 +287,8 @@ theorem Res3Ctx.obs_U_ne (h : Res3Ctx A c L d K) {X K' Y M T : Subgroup G}
       ⁅CFSG.Open.pCoreOf 2 M, Subgroup.zpowers g⁆) :
     res3Img d ⁅CFSG.Open.pCoreOf 2 M, Subgroup.zpowers g⁆ ≠ ⊥ := by
   intro hU
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hstd : Sec14Std G A c L := h.R.toSec14Std
   have hgA : g ∈ Subgroup.centralizer (A : Set G) := Sec14.pPrimeCoreOf_le 3 _ hgD.1
   have hgM : g ∈ M := hgD.2
@@ -376,7 +378,7 @@ theorem Res3Ctx.obs_F_cent (h : Res3Ctx A c L d K) {M : Subgroup G} (hAM : A ≤
       Commute (res3Pt d c h.c_mem_C) v → Commute (res3Pt d g (h.centralizer_le_C hgA)) v := by
   intro vb hvb hcv
   obtain ⟨v, hvC, hvX, rfl⟩ := mem_res3Img_iff.mp hvb
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hXC : (CFSG.Open.pCoreOf 2 M ⊓ Subgroup.centralizer ((A ⊓ L : Subgroup G) : Set G)) ≤
       res3C d := inf_le_right.trans (centralizer_inf_le_C h)
   have hcB : c ∈ Subgroup.centralizer ((A ⊓ L : Subgroup G) : Set G) := by

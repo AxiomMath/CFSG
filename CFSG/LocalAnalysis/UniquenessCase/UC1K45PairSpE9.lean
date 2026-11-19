@@ -10,7 +10,7 @@ namespace CFSG.LocalAnalysis.UniquenessCase.UCK.PairSpLem
 variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
 variable {B : LinearMap.BilinForm (ZMod 2) W} {a b : W ≃ₗ[ZMod 2] W}
 
-theorem commSp_le_orth_of_perp (h : PairHyp B a b)
+theorem commSp_le_orth_of_perp (_h : PairHyp B a b)
     (hperp : ∀ p ∈ commSp a, ∀ q ∈ commSp b, B p q = 0) :
     commSp b ≤ B.orthogonal (commSp a) := by
   intro q hq
@@ -73,7 +73,7 @@ theorem zpowers_inf_eq_bot_of_perp (h : PairHyp B a b)
     (hperp : ∀ p ∈ commSp a, ∀ q ∈ commSp b, B p q = 0) :
     Subgroup.zpowers a ⊓ Subgroup.zpowers b = ⊥ := by
   have hord : Nat.card (Subgroup.zpowers a) = 3 := by rw [Nat.card_zpowers]; exact h.ha.ord
-  haveI : Finite (Subgroup.zpowers a) := Nat.finite_of_card_ne_zero (by rw [hord]; decide)
+  have : Finite (Subgroup.zpowers a) := Nat.finite_of_card_ne_zero (by rw [hord]; decide)
   have hdvd : Nat.card ↥(Subgroup.zpowers a ⊓ Subgroup.zpowers b) ∣ 3 := by
     rw [← hord]
     exact Subgroup.card_dvd_of_le inf_le_left
@@ -146,7 +146,7 @@ theorem pairShapeHom_e9 (h : PairHyp B a b)
     · exact hab
     · exact hab.symm
     · exact absurd rfl hxy
-  haveI := Subgroup.isMulCommutative_closure hpw
+  have := Subgroup.isMulCommutative_closure hpw
   exact pairShapeHom_of_commutative9 inferInstance (card_closure_pair_eq_nine h hperp)
 
 end CFSG.LocalAnalysis.UniquenessCase.UCK.PairSpLem

@@ -24,7 +24,7 @@ theorem absolute_of_σ_eq_one (hσ : F.σ = RingEquiv.refl K) {u w : V} (hu : F.
         rw [F.smul_left]
       _ = F.σ a * F.β u (a • u + w) + F.σ 1 * F.β w (a • u + w) := by
         conv_lhs => rw [show F.β w (a • u + w) = F.σ 1 * F.β w (a • u + w) by
-          simpa using F.smul_left (1 : K) w (a • u + w)]
+          simp]
       _ = F.σ a * (F.β u (a • u) + F.β u w) +
             F.σ 1 * (F.β w (a • u) + F.β w w) := by rw [F.add_right, F.add_right]
       _ = F.σ a * (a * F.β u u + F.β u w) +
@@ -66,7 +66,8 @@ section FiniteDimensional
 
 variable [FiniteDimensional K V]
 
-theorem exists_lam {u : V} (hu : u ≠ 0) :
+omit [FiniteDimensional K V] in
+theorem exists_lam {u : V} (_hu : u ≠ 0) :
     ∃ l : K, revDual F u = F.σ.symm l • F.toDual u := by
   have hspan : revDual F u ∈ Submodule.span K (Set.range (fun _ : Unit => F.toDual u)) := by
     refine _root_.mem_span_of_iInf_ker_le_ker (L := fun _ : Unit => F.toDual u) ?_
@@ -78,10 +79,12 @@ theorem exists_lam {u : V} (hu : u ≠ 0) :
 @[expose] noncomputable def lam (u : V) (hu : u ≠ 0) : K :=
   Classical.choose (exists_lam F hu)
 
+omit [FiniteDimensional K V] in
 theorem revDual_eq_smul_lam {u : V} (hu : u ≠ 0) :
     revDual F u = F.σ.symm (lam F u hu) • F.toDual u :=
   Classical.choose_spec (exists_lam F hu)
 
+omit [FiniteDimensional K V] in
 theorem β_eq_lam {u : V} (hu : u ≠ 0) (v : V) :
     F.β v u = lam F u hu * F.σ (F.β u v) := by
   have h := congrArg (fun φ : Module.Dual K V => φ v) (revDual_eq_smul_lam F hu)
@@ -89,6 +92,7 @@ theorem β_eq_lam {u : V} (hu : u ≠ 0) (v : V) :
   have h' := congrArg F.σ h
   simpa [map_mul] using h'
 
+omit [FiniteDimensional K V] in
 theorem lam_ne_zero {u : V} (hu : u ≠ 0) : lam F u hu ≠ 0 := by
   intro h0
   apply hu
@@ -98,6 +102,7 @@ theorem lam_ne_zero {u : V} (hu : u ≠ 0) : lam F u hu ≠ 0 := by
   rw [h0, zero_mul] at h
   exact F.refl v u h
 
+omit [FiniteDimensional K V] in
 theorem lam_eq_of_independent {u u' : V} (hu : u ≠ 0) (hu' : u' ≠ 0)
     (hind : ∀ c : K, c • u ≠ u') : lam F u hu = lam F u' hu' := by
   have hfu : F.toDual u ≠ 0 := by
@@ -150,6 +155,7 @@ theorem lam_eq_of_independent {u u' : V} (hu : u ≠ 0) (hu' : u' ≠ 0)
   have := congrArg F.σ hbc
   simpa [b, c] using this
 
+omit [FiniteDimensional K V] in
 private theorem exists_notMem_span_singleton {u : V} (hu : u ≠ 0)
     (hdim : 2 ≤ Module.finrank K V) : ∃ w : V, ∀ c : K, c • u ≠ w := by
   have h1 : Module.finrank K (K ∙ u) = 1 := finrank_span_singleton hu
@@ -163,6 +169,7 @@ private theorem exists_notMem_span_singleton {u : V} (hu : u ≠ 0)
   refine ⟨w, fun c hc => hw ?_⟩
   exact Submodule.mem_span_singleton.mpr ⟨c, hc⟩
 
+omit [FiniteDimensional K V] in
 theorem lam_eq_of_dependent {u u' : V} (hdim : 2 ≤ Module.finrank K V) (hu : u ≠ 0)
     (hu' : u' ≠ 0) (hdep : ∃ c : K, c • u = u') : lam F u hu = lam F u' hu' := by
   obtain ⟨c, hc⟩ := hdep
@@ -178,16 +185,18 @@ theorem lam_eq_of_dependent {u u' : V} (hdim : 2 ≤ Module.finrank K V) (hu : u
     exact hw (d * c) (by rw [mul_smul, hc, hd])
   exact h1.trans h2.symm
 
+omit [FiniteDimensional K V] in
 theorem lam_eq (hdim : 2 ≤ Module.finrank K V) {u u' : V} (hu : u ≠ 0) (hu' : u' ≠ 0) :
     lam F u hu = lam F u' hu' := by
   by_cases hdep : ∃ c : K, c • u = u'
   · exact lam_eq_of_dependent F hdim hu hu' hdep
   · exact lam_eq_of_independent F hu hu' fun c hc => hdep ⟨c, hc⟩
 
+omit [FiniteDimensional K V] in
 theorem exists_hermitian_multiple [FiniteDimensional K V] (hdim : 2 ≤ Module.finrank K V)
     (hσ : F.σ ≠ RingEquiv.refl K) :
     (∀ a : K, F.σ (F.σ a) = a) ∧ ∃ μ : K, μ ≠ 0 ∧ ∀ u v, μ * F.β v u = F.σ (μ * F.β u v) := by
-  haveI : Nontrivial V :=
+  have : Nontrivial V :=
     Module.nontrivial_of_finrank_pos (Nat.lt_of_lt_of_le (by norm_num) hdim)
   obtain ⟨u, hu⟩ := exists_ne (0 : V)
   have hex : ∃ v : V, F.β u v ≠ 0 := by

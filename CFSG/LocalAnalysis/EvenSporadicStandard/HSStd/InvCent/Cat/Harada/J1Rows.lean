@@ -33,7 +33,7 @@ theorem card_centralizer_of_J1
 theorem noZ2S5J1_holds :
     NoZ2S5J1 := by
   intro G _ _ S hSn ⟨e⟩ hcent t ht _ ⟨ζ⟩
-  haveI := hSn
+  have := hSn
   have h120 := card_centralizer_of_J1 hcent e ht
   have h240 := CFSG.EvenSporadicStandard.HSStd.InvCent.Harada.card_centralizer_of_equiv ζ
   omega
@@ -41,7 +41,7 @@ theorem noZ2S5J1_holds :
 theorem noTwoCfgJ1_holds :
     NoTwoCfgJ1 := by
   intro G _ _ S hSn ⟨e⟩ hcent t v J h _
-  haveI := hSn
+  have := hSn
   have htop : centralizer ({t} : Set G) ≠ ⊤ := centralizer_singleton_ne_top hcent h.t_ne_one
   have h120 := card_centralizer_of_J1 hcent e h.ht
   have h480 := h.card_centralizer htop

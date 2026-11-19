@@ -10,7 +10,7 @@ open CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial Matrix
 
 variable {p f : ℕ} {K : Type} [Field K] {h : UnitaryFieldData p f K}
 
-@[expose] abbrev suMat (g : hypSU h 1 1) : Matrix (HypIndex 1 1) (HypIndex 1 1) K :=
+abbrev suMat (g : hypSU h 1 1) : Matrix (HypIndex 1 1) (HypIndex 1 1) K :=
   ((g : GL (HypIndex 1 1) K) : Matrix (HypIndex 1 1) (HypIndex 1 1) K)
 
 theorem exists_eq_tau (n : hypSU h 1 1) (hoff : ∀ i j, i ≠ j → suMat n i j = 0) :
@@ -239,7 +239,7 @@ theorem comm_of_odd (h : UnitaryFieldData p f K) (hp : p ≠ 2) {ω : Kˣ} (hω 
       have : (⟨z, hz⟩ : P) ∈ Y.subgroupOf P := htop ▸ Subgroup.mem_top _
       exact this
     have : Group.IsNilpotent P := hPp.isNilpotent
-    obtain ⟨n', hn'N, hn'Y⟩ := SetLike.exists_of_lt
+    obtain ⟨n', hn'N, hn'Y⟩ := IsConcreteLE.exists_of_lt
       (Group.normalizerCondition_of_isNilpotent (G := P) _ hlt)
     set n : hypSU h 1 1 := n'.1 with hn
     have hnP : n ∈ P := n'.2
@@ -266,7 +266,7 @@ theorem comm_of_odd (h : UnitaryFieldData p f K) (hp : p ≠ 2) {ω : Kˣ} (hω 
     have hox : orderOf x₁ = 3 := by
       rw [← orderOf_injective (tau h) (tau_injective h), ← hx₁, ← MulAut.conj_apply,
         MulEquiv.orderOf_eq, hc,
-        orderOf_tau_omega h hω hωb]
+        orderOf_tau_omega h hω]
     have hx3 : (x₁ : K) ^ 3 = 1 := by
       rw [← Units.val_pow_eq_pow_val, ← hox, pow_orderOf_eq_one, Units.val_one]
     have hx1 : (x₁ : K) ≠ 1 := by
@@ -297,7 +297,7 @@ theorem comm_of_odd (h : UnitaryFieldData p f K) (hp : p ≠ 2) {ω : Kˣ} (hω 
       obtain ⟨k, hk⟩ := hPp ⟨c, hmem⟩
       have hk' : c ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
       have h3 : 3 ∣ 2 ^ k := by
-        rw [← orderOf_tau_omega h hω hωb]
+        rw [← orderOf_tau_omega h hω]
         exact orderOf_dvd_of_pow_eq_one hk'
       have := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h3
       omega

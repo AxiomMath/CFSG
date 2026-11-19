@@ -42,7 +42,7 @@ theorem false_of_fieldExt_label_A1_twE6
     · rw [← ht']
       simp [markTag]
     · rw [← hdeg']
-      simp only [markDeg, if_true]
+      simp only [markDeg, ite_true]
       omega
 
 end EvenF

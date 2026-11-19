@@ -33,13 +33,13 @@ theorem phase45_false_of_reeG2 {X : Type} [Group X] [Finite X] {L A₁ A₂ B : 
     CFSG.RankThree.PartOne.CTP.reeTitsModel_reeG2 m hiso
   obtain ⟨a, K, hKfield, hKfin, hKchar, ha, hKcard, ⟨eL⟩⟩ :=
     CFSG.RankThree.Chevalley.exists_mulEquiv_reeGamma_G2_of_reeTitsModel hmodel
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  letI : CharP K CFSG.LieType.Ree.ReeTag.G2.prime := hKchar
-  haveI houtcyc : IsCyclic (Outer ↥L) :=
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  let : CharP K CFSG.LieType.Ree.ReeTag.G2.prime := hKchar
+  have houtcyc : IsCyclic (Outer ↥L) :=
     CFSG.AGLEmbedding.ReeModel.isCyclic_outer_of_equiv ha hKcard eL
   have hout : CFSG.LocalAnalysis.RankThreeTheoremC.ChevTwoOuter.IsPByAbelian 3 (Outer ↥L) := by
-    haveI : IsMulCommutative (Outer ↥L) := IsCyclic.isMulCommutative
+    have : IsMulCommutative (Outer ↥L) := IsCyclic.isMulCommutative
     exact CFSG.LocalAnalysis.RankThreeTheoremC.ChevTwoOuter.IsPByAbelian.of_commutative
       fun x y => IsMulCommutative.is_comm.comm x y
   have hAL : A₁ ⊔ A₂ ≤ L :=

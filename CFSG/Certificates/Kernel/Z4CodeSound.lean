@@ -40,11 +40,11 @@ theorem ofCode_mulC (m n : Nat) : ofCode (mulC m n) = ofCode m * ofCode n := by
   rcases Nat.mod_two_eq_zero_or_one (m / 128) with ha | ha <;>
   rcases Nat.mod_two_eq_zero_or_one (m / 256) with hb | hb <;>
   rcases Nat.mod_two_eq_zero_or_one (m / 512) with hc | hc <;>
-  simp only [hs, ha, hb, hc, Nat.cast_zero, Nat.cast_one, dEnt, uS, dE, DT, if_pos,
-    one_ne_zero, if_false, if_true, Nat.reduceMul, Nat.reduceAdd, Nat.reduceShiftRight,
+  simp only [hs, ha, hb, hc, Nat.cast_zero, Nat.cast_one, dEnt, uS, dE, DT, ite_eq_left,
+    one_ne_zero, ite_false, Nat.reduceMul, Nat.reduceAdd, Nat.reduceShiftRight,
     Nat.reduceAnd, Nat.cast_zero, zero_mul, one_mul, ZMod.natCast_mod, Nat.cast_add, Nat.cast_mul, Nat.cast_ofNat,
     three_eq] <;>
-  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> first | trivial | ring
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> first | trivial
 
 theorem code_lt {y0 y1 y2 s a b c : Nat} (h0 : y0 < 4) (h1 : y1 < 4) (h2 : y2 < 4) (hs : s < 2)
     (ha : a < 2) (hb : b < 2) (hc : c < 2) :
@@ -118,11 +118,10 @@ theorem ofCode8_mulC8 {uv : Nat} (hu : ((uv : ℕ) : ZMod 8) = (u : ZMod 8)) (m 
   rcases Nat.mod_two_eq_zero_or_one (m / 1024) with ha | ha <;>
   rcases Nat.mod_two_eq_zero_or_one (m / 2048) with hb | hb <;>
   rcases Nat.mod_two_eq_zero_or_one (m / 4096) with hc | hc <;>
-  simp only [hs, ha, hb, hc, Nat.cast_zero, Nat.cast_one, Z8M.dEnt, Z8M.uS, dE8, DT8, if_pos,
-    one_ne_zero, if_false, if_true, Nat.reduceMul, Nat.reduceAdd, Nat.reduceShiftRight,
+  simp only [hs, ha, hb, hc, Nat.cast_zero, Nat.cast_one, Z8M.dEnt, Z8M.uS, dE8, DT8, one_ne_zero, Nat.reduceMul, Nat.reduceAdd, Nat.reduceShiftRight,
     Nat.reduceAnd, zero_mul, one_mul, ZMod.natCast_mod, Nat.cast_add, Nat.cast_mul,
-    Nat.cast_ofNat, hu, zero_ne_one, ↓reduceIte] <;>
-  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> first | trivial | ring
+    Nat.cast_ofNat, hu, ↓reduceIte] <;>
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;> first | trivial
 
 theorem code8_lt {y0 y1 y2 s a b c : Nat} (h0 : y0 < 8) (h1 : y1 < 8) (h2 : y2 < 8) (hs : s < 2)
     (ha : a < 2) (hb : b < 2) (hc : c < 2) :

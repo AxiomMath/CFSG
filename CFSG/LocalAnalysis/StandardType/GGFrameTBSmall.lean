@@ -58,7 +58,7 @@ theorem frameTBBody_twD_three :
     LargeEvenLabelAll ⟨.twD, 3, 1⟩ (frameTBBody ⟨.twD, 3, 1⟩) := by
   refine frameTBBody_of_card_lt le_rfl fun Q hQ => ?_
   dsimp only [LargeEvenRawDatum] at hQ ⊢
-  rw [if_neg (by norm_num : ¬ (3 = 2)), if_pos rfl] at hQ ⊢
+  rw [ite_eq_right (by norm_num : ¬ (3 = 2)), ite_eq_left rfl] at hQ ⊢
   exact recipeUnitary_card_lt_two (d := 4) (by omega) (by omega) hQ
 
 end CFSG.StandardType.FrameRoute

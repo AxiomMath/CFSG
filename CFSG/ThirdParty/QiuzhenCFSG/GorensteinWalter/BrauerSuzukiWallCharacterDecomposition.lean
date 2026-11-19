@@ -120,11 +120,11 @@ public theorem brauerSuzukiWall_character_decomposition
     dsimp [a, b]
     rw [Section1.scalarProduct_smul_left, Section1.scalarProduct_smul_right]
     by_cases hij : chiA i = chiB j
-    · rw [if_pos hij, hij,
+    · rw [ite_eq_left hij, hij,
         Section1.scalarProduct_irreducibleCharacter_self (hchiBIrr j)]
       rcases hepsilonA i with hi | hi <;>
         rcases hepsilonB j with hj | hj <;> simp [hi, hj]
-    · rw [if_neg hij,
+    · rw [ite_eq_right hij,
         Section1.scalarProduct_irreducibleCharacter_eq_zero_of_ne
           (hchiAIrr i) (hchiBIrr j) hij]
       simp
@@ -163,17 +163,17 @@ public theorem brauerSuzukiWall_character_decomposition
       by_cases h11 : chiA 1 = chiB 1
       · have hc := hcross
         rw [hpair 0 0, hpair 0 1, hpair 1 0, hpair 1 1] at hc
-        rw [if_pos h00, if_neg h01, if_neg h10, if_pos h11] at hc
+        rw [ite_eq_left h00, ite_eq_right h01, ite_eq_right h10, ite_eq_left h11] at hc
         rcases hepsilonA 0 with ha0 | ha0 <;>
           rcases hepsilonA 1 with ha1 | ha1 <;>
           rcases hepsilonB 0 with hb0 | hb0 <;>
           rcases hepsilonB 1 with hb1 | hb1 <;>
           norm_num [ha0, ha1, hb0, hb1] at hc
       · have hsp : Section1.scalarProduct G (a 0) (b 0) = -1 := by
-          rw [hpair 0 0, if_pos h00]
+          rw [hpair 0 0, ite_eq_left h00]
           have hc := hcross
           rw [hpair 0 0, hpair 0 1, hpair 1 0, hpair 1 1] at hc
-          rw [if_pos h00, if_neg h01, if_neg h10, if_neg h11] at hc
+          rw [ite_eq_left h00, ite_eq_right h01, ite_eq_right h10, ite_eq_right h11] at hc
           simpa using hc
         exact ⟨0, 0, h00, hsp, by simpa [hother_zero] using h11⟩
     · by_cases h01 : chiA 0 = chiB 1
@@ -185,17 +185,17 @@ public theorem brauerSuzukiWall_character_decomposition
         by_cases h10 : chiA 1 = chiB 0
         · have hc := hcross
           rw [hpair 0 0, hpair 0 1, hpair 1 0, hpair 1 1] at hc
-          rw [if_neg h00, if_pos h01, if_pos h10, if_neg h11] at hc
+          rw [ite_eq_right h00, ite_eq_left h01, ite_eq_left h10, ite_eq_right h11] at hc
           rcases hepsilonA 0 with ha0 | ha0 <;>
             rcases hepsilonA 1 with ha1 | ha1 <;>
             rcases hepsilonB 0 with hb0 | hb0 <;>
             rcases hepsilonB 1 with hb1 | hb1 <;>
             norm_num [ha0, ha1, hb0, hb1] at hc
         · have hsp : Section1.scalarProduct G (a 0) (b 1) = -1 := by
-            rw [hpair 0 1, if_pos h01]
+            rw [hpair 0 1, ite_eq_left h01]
             have hc := hcross
             rw [hpair 0 0, hpair 0 1, hpair 1 0, hpair 1 1] at hc
-            rw [if_neg h00, if_pos h01, if_neg h10, if_neg h11] at hc
+            rw [ite_eq_right h00, ite_eq_left h01, ite_eq_right h10, ite_eq_right h11] at hc
             simpa using hc
           exact ⟨0, 1, h01, hsp, by
             simpa [hother_zero, hother_one] using h10⟩
@@ -206,10 +206,10 @@ public theorem brauerSuzukiWall_character_decomposition
               hchiBInj (h10.symm.trans h)
             omega
           have hsp : Section1.scalarProduct G (a 1) (b 0) = -1 := by
-            rw [hpair 1 0, if_pos h10]
+            rw [hpair 1 0, ite_eq_left h10]
             have hc := hcross
             rw [hpair 0 0, hpair 0 1, hpair 1 0, hpair 1 1] at hc
-            rw [if_neg h00, if_neg h01, if_pos h10, if_neg h11] at hc
+            rw [ite_eq_right h00, ite_eq_right h01, ite_eq_left h10, ite_eq_right h11] at hc
             simpa using hc
           exact ⟨1, 0, h10, hsp, by
             simpa [hother_zero, hother_one] using h01⟩
@@ -217,13 +217,13 @@ public theorem brauerSuzukiWall_character_decomposition
             by_contra h11
             have hc := hcross
             rw [hpair 0 0, hpair 0 1, hpair 1 0, hpair 1 1] at hc
-            rw [if_neg h00, if_neg h01, if_neg h10, if_neg h11] at hc
+            rw [ite_eq_right h00, ite_eq_right h01, ite_eq_right h10, ite_eq_right h11] at hc
             norm_num at hc
           have hsp : Section1.scalarProduct G (a 1) (b 1) = -1 := by
-            rw [hpair 1 1, if_pos h11]
+            rw [hpair 1 1, ite_eq_left h11]
             have hc := hcross
             rw [hpair 0 0, hpair 0 1, hpair 1 0, hpair 1 1] at hc
-            rw [if_neg h00, if_neg h01, if_neg h10, if_pos h11] at hc
+            rw [ite_eq_right h00, ite_eq_right h01, ite_eq_right h10, ite_eq_left h11] at hc
             simpa using hc
           exact ⟨1, 1, h11, hsp, by
             simpa [hother_one] using h00⟩

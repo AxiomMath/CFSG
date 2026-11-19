@@ -17,14 +17,14 @@ variable {G : Type} [Group G] [Finite G]
 variable {K : Type} [Field K] [Finite K]
 
 theorem finrank_fixedSpace_omPlusLin_of_component (hK : Nat.card K = 2) {Bs L : Subgroup G}
-    {x : G} (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4) (hperf : commutator ↥L = ⊤)
+    {x : G} (θ : L ⧸ Subgroup.center L ≃* OrthRest.RPlus K 4) (_hperf : commutator ↥L = ⊤)
     (hZ2 : IsPGroup 2 (Subgroup.center L)) (hBs : IsElemAbelian 3 Bs)
     (hcard : Nat.card Bs = 3 ^ 5) (hcardE : Nat.card ↥(Bs ⊓ L) = 3 ^ 4) (hx1 : x ≠ 1)
     (hLx : L ≤ Subgroup.centralizer {x})
     (hBL : Bs ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x)
-    (hstar : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs)
-    (hBsN : Bs ≤ Subgroup.normalizer (L : Set G))
-    (hI : ∀ b ∈ Bs, ∃ φ ∈ LargeEvenInnSet (OrthRest.RPlus K 4),
+    (_hstar : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs)
+    (_hBsN : Bs ≤ Subgroup.normalizer (L : Set G))
+    (_hI : ∀ b ∈ Bs, ∃ φ ∈ LargeEvenInnSet (OrthRest.RPlus K 4),
       LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ)
     {D J : Subgroup G} (hDB : D ≤ Bs) (hDcard : Nat.card D = 3 ^ 2) (hxD : x ∈ D)
     (hJ : CFSG.Assembly.IsComponentOf J (L ⊓ Subgroup.centralizer (D : Set G)))
@@ -33,11 +33,11 @@ theorem finrank_fixedSpace_omPlusLin_of_component (hK : Nat.card K = 2) {Bs L : 
         (CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace (omPlusLin hK θ ⟨e, heL⟩)) = 0 ∨
       Module.finrank K
         (CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace (omPlusLin hK θ ⟨e, heL⟩)) = 6 := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; rfl)
   have hJ' := isComponentOf_map_projOrth hK hZ2 hBs hcard hcardE hx1 hLx hBL hDB hDcard hxD
     hJ heD heL he1 θ
-  have hx3 := orderOf_rPlusEquiv_qMap_of_mem_Bs (x := x) hK hZ2 hBs hDB heD heL he1 θ
+  have hx3 := orderOf_rPlusEquiv_qMap_of_mem_Bs (_x := x) hK hZ2 hBs hDB heD heL he1 θ
   have hx'eq : (OrthTorus.rPlusEquiv K (by norm_num : 1 ≤ 4) (qMap (K := K) θ ⟨e, heL⟩) :
       (Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] (Fin 4 ⊕ Fin 4 → K)) =
       omPlusLin hK θ ⟨e, heL⟩ := by
@@ -58,7 +58,7 @@ theorem mem_ggAutomizer_of_fix_omegaPlus (hK : Nat.card K = 2) {Bs L : Subgroup 
     (hcard : Nat.card Bs = 3 ^ 5) (hcardE : Nat.card ↥(Bs ⊓ L) = 3 ^ 4) (hx1 : x ≠ 1)
     (hLx : L ≤ Subgroup.centralizer {x})
     (hBL : Bs ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x)
-    (hstar : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs)
+    (_hstar : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs)
     (hBsN : Bs ≤ Subgroup.normalizer (L : Set G))
     (hI : ∀ b ∈ Bs, ∃ φ ∈ LargeEvenInnSet (OrthRest.RPlus K 4),
       LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ)
@@ -66,7 +66,7 @@ theorem mem_ggAutomizer_of_fix_omegaPlus (hK : Nat.card K = 2) {Bs L : Subgroup 
     (hJ : CFSG.Assembly.IsComponentOf J (L ⊓ Subgroup.centralizer (D : Set G))) :
     ∀ ψ ∈ ggAutomizer L Bs, (∀ d : ↥Bs, (d : G) ∈ D → ψ d = d) → ψ ∈ ggAutomizer J Bs := by
   classical
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.TauCetiBridge.charP_two_of_card_eq_two_pow (f := 1) (by rw [hK]; rfl)
   intro ψ hψ hfix
   obtain ⟨e, heD, heL, he1, -⟩ :=
@@ -82,7 +82,7 @@ theorem mem_ggAutomizer_of_fix_omegaPlus (hK : Nat.card K = 2) {Bs L : Subgroup 
     exact mul_inv_eq_iff_eq_mul.mp h.symm
   have hc : Commute (⟨l, hlL⟩ : ↥L) ⟨e, heL⟩ := Subtype.ext hle
   have hn := (hc.map (qMap (K := K) θ)).map (OrthTorus.rPlusEquiv K (by norm_num : 1 ≤ 4))
-  have hx3 := orderOf_rPlusEquiv_qMap_of_mem_Bs (x := x) hK hZ2 hBs hDB heD heL he1 θ
+  have hx3 := orderOf_rPlusEquiv_qMap_of_mem_Bs (_x := x) hK hZ2 hBs hDB heD heL he1 θ
   have hJ' := isComponentOf_map_projOrth hK hZ2 hBs hcard hcardE hx1 hLx hBL hDB hDcard hxD
     hJ heD heL he1 θ
   have hQ := TableBOrth.nondegenerate_qPlusForm (K := K) 4
@@ -121,7 +121,7 @@ theorem mem_ggAutomizer_of_fix_omegaPlus (hK : Nat.card K = 2) {Bs L : Subgroup 
     Subgroup.mul_mem _ (Subgroup.inv_mem _ (Subgroup.pow_mem _ heC j)) (Subgroup.inv_mem _ hzC)
   have hj₀eq : (j₀ : G) =
       l * ((e ^ j)⁻¹ * ((j₀⁻¹ * (⟨l, hlL⟩ * (⟨e, heL⟩ ^ j)⁻¹) : ↥L) : G)⁻¹) := by
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_pow, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_pow]
     group
   generalize (e ^ j)⁻¹ * ((j₀⁻¹ * (⟨l, hlL⟩ * (⟨e, heL⟩ ^ j)⁻¹) : ↥L) : G)⁻¹ = c at hcC hj₀eq
   refine mem_ggAutomizer_iff.mpr ⟨j₀, Subgroup.mem_subgroupOf.mp hj₀, ?_, fun b => ?_⟩

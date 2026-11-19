@@ -16,6 +16,7 @@ namespace CFSG.LocalAnalysis.GLTheoremB.Prop95Iv.I2810.CoreAux
 section Sec
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem rho_triv_of_W_proof (hR : Red28 W K S) {a : X} {U₁ U₂ : Subgroup X}
     (hU : U₁ ≤ vOf W K S) {P : Type} [AddCommGroup P] [Module (ZMod 2) P]
     {ρ : ↥(K ⊔ Subgroup.zpowers a) →* LinearMap.GeneralLinearGroup (ZMod 2) P}
@@ -39,6 +40,7 @@ theorem rho_triv_of_W_proof (hR : Red28 W K S) {a : X} {U₁ U₂ : Subgroup X}
   rw [Units.val_one, Module.End.one_apply]
   exact h2.symm
 
+omit [Finite X] in
 theorem rho_nontriv {V U₁ U₂ : Subgroup X} {a : X} (hb : SFBase K V U₁ U₂) {P : Type}
     [AddCommGroup P] [Module (ZMod 2) P]
     {ρ : ↥(K ⊔ Subgroup.zpowers a) →* LinearMap.GeneralLinearGroup (ZMod 2) P}
@@ -60,14 +62,17 @@ theorem rho_nontriv {V U₁ U₂ : Subgroup X} {a : X} (hb : SFBase K V U₁ U�
   rw [this]
   exact h4
 
+omit [Finite X] in
 theorem Mof_le_normalizer_of_mem {a : X} (haN : a ∈ Subgroup.normalizer (K : Set X)) :
     Mof K a ≤ Subgroup.normalizer (K : Set X) :=
   sup_le Subgroup.le_normalizer ((Subgroup.zpowers_le).2 haN)
 
+omit [Finite X] in
 theorem Mof_le_normalizer (h : Setup28 W K S) {a : X} (haS : a ∈ S) :
     Mof K a ≤ Subgroup.normalizer (K : Set X) :=
   Mof_le_normalizer_of_mem (h.hN haS)
 
+omit [Finite X] in
 theorem outer_rho_proof (h : Setup28 W K S) (hR : Red28 W K S) {a : X} (haS : a ∈ S)
     {U₁ U₂ : Subgroup X} (hts : TransSection K (vOf W K S) U₁ U₂ a)
     (hout : ¬ IndInner W K a) {P : Type} [AddCommGroup P] [Module (ZMod 2) P]
@@ -86,8 +91,8 @@ theorem outer_rho_proof (h : Setup28 W K S) (hR : Red28 W K S) {a : X} (haS : a 
   let ρK : ↥K →* LinearMap.GeneralLinearGroup (ZMod 2) P := ρ.comp incl
   let R : Subgroup ↥K := ρK.ker
   let Z : Subgroup ↥(bar W K) := R.map (toBar W K)
-  haveI hRn : R.Normal := MonoidHom.normal_ker ρK
-  haveI hZn : Z.Normal := Subgroup.Normal.map hRn (toBar W K) InducedAux.toBar_surjective
+  have hRn : R.Normal := MonoidHom.normal_ker ρK
+  have hZn : Z.Normal := Subgroup.Normal.map hRn (toBar W K) InducedAux.toBar_surjective
   rcases CFSG.LocalCores.quasisimple_normal_subgroups hR.quasi hZn with hZ | hZ
   ·
     exfalso
@@ -129,6 +134,7 @@ theorem outer_rho_proof (h : Setup28 W K S) (hR : Red28 W K S) {a : X} (haS : a 
       rw [hcX]; simp only [commutatorElement_def]; group
     rw [← e]; exact this
 
+omit [Finite X] in
 theorem rho_isF2Transvection {a : X} {U₁ U₂ : Subgroup X} {P : Type} [AddCommGroup P]
     [Module (ZMod 2) P] {ρ : ↥(Mof K a) →* LinearMap.GeneralLinearGroup (ZMod 2) P}
     {φ : ↥U₁ →* Multiplicative P} (hA : ASection a U₁ U₂)
@@ -202,15 +208,18 @@ theorem rho_isF2Transvection {a : X} {U₁ U₂ : Subgroup X} {P : Type} [AddCom
   rw [hspan]
   exact finrank_span_singleton hp₀
 
+omit [Finite X] in
 theorem normal_subgroupOf_Mof_of_mem {a : X} (haN : a ∈ Subgroup.normalizer (K : Set X)) :
     (K.subgroupOf (Mof K a)).Normal :=
   (Subgroup.normal_subgroupOf_iff_le_normalizer (le_sup_left : K ≤ Mof K a)).2
     (Mof_le_normalizer_of_mem haN)
 
+omit [Finite X] in
 theorem normal_subgroupOf_Mof (h : Setup28 W K S) {a : X} (haS : a ∈ S) :
     (K.subgroupOf (Mof K a)).Normal :=
   normal_subgroupOf_Mof_of_mem (h.hN haS)
 
+omit [Finite X] in
 theorem sup_zpowers_aM_eq_top {K : Subgroup X} {a : X} :
     K.subgroupOf (Mof K a) ⊔ Subgroup.zpowers (aM K a) = ⊤ := by
   apply Subgroup.map_injective (f := (Mof K a).subtype) (Mof K a).subtype_injective
@@ -218,6 +227,7 @@ theorem sup_zpowers_aM_eq_top {K : Subgroup X} {a : X} :
     Subgroup.map_top, Subgroup.range_subtype]
   rfl
 
+omit [Finite X] in
 theorem aM_normal_closure {K : Subgroup X} {a : X} (ha2 : a ^ 2 = 1)
     (hKc : ⁅K, Subgroup.zpowers a⁆ = K) (T : Subgroup ↥(Mof K a)) [T.Normal]
     (haT : aM K a ∈ T) : T = ⊤ := by
@@ -235,19 +245,21 @@ theorem aM_normal_closure {K : Subgroup X} {a : X} (ha2 : a ^ 2 = 1)
   have : t = g := Subtype.ext htg
   rw [← this]; exact ht
 
+omit [Finite X] in
 theorem rho_aM_mem_normalizer_of_mem {a : X} (haN : a ∈ Subgroup.normalizer (K : Set X)) {P : Type}
     [AddCommGroup P] [Module (ZMod 2) P]
     (ρ : ↥(Mof K a) →* LinearMap.GeneralLinearGroup (ZMod 2) P) :
     ρ (aM K a) ∈ Subgroup.normalizer
       (((K.subgroupOf (Mof K a)).map ρ : Subgroup (LinearMap.GeneralLinearGroup (ZMod 2) P)) :
         Set (LinearMap.GeneralLinearGroup (ZMod 2) P)) := by
-  haveI := normal_subgroupOf_Mof_of_mem haN
+  have := normal_subgroupOf_Mof_of_mem haN
   have h1 : aM K a ∈ Subgroup.normalizer
       ((K.subgroupOf (Mof K a) : Subgroup ↥(Mof K a)) : Set ↥(Mof K a)) := by
     rw [Subgroup.normalizer_eq_top_iff.2 inferInstance]
     exact Subgroup.mem_top _
   exact Subgroup.le_normalizer_map ρ ⟨aM K a, h1, rfl⟩
 
+omit [Finite X] in
 theorem rho_aM_mem_normalizer (h : Setup28 W K S) {a : X} (haS : a ∈ S) {P : Type}
     [AddCommGroup P] [Module (ZMod 2) P]
     (ρ : ↥(Mof K a) →* LinearMap.GeneralLinearGroup (ZMod 2) P) :
@@ -256,6 +268,7 @@ theorem rho_aM_mem_normalizer (h : Setup28 W K S) {a : X} (haS : a ∈ S) {P : T
         Set (LinearMap.GeneralLinearGroup (ZMod 2) P)) :=
   rho_aM_mem_normalizer_of_mem (h.hN haS) ρ
 
+omit [Finite X] in
 theorem rho_K_perfect (h : Setup28 W K S) {a : X} {P : Type} [AddCommGroup P] [Module (ZMod 2) P]
     (ρ : ↥(Mof K a) →* LinearMap.GeneralLinearGroup (ZMod 2) P) :
     ⁅(K.subgroupOf (Mof K a)).map ρ, (K.subgroupOf (Mof K a)).map ρ⁆ =
@@ -265,6 +278,7 @@ theorem rho_K_perfect (h : Setup28 W K S) {a : X} {P : Type} [AddCommGroup P] [M
     rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le le_sup_left, h.hK.2.1]
   rw [← Subgroup.map_commutator, h1]
 
+omit [Finite X] in
 theorem rho_irred {V U₁ U₂ : Subgroup X} (hsf : SingleFactor K V U₁ U₂) {a : X} {P : Type}
     [AddCommGroup P] [Module (ZMod 2) P]
     {ρ : ↥(Mof K a) →* LinearMap.GeneralLinearGroup (ZMod 2) P} {φ : ↥U₁ →* Multiplicative P}
@@ -274,10 +288,10 @@ theorem rho_irred {V U₁ U₂ : Subgroup X} (hsf : SingleFactor K V U₁ U₂) 
     { carrier := {x | Multiplicative.toAdd (φ x) ∈ U}
       one_mem' := by simp
       mul_mem' := fun {x y} hx hy => by
-        simp only [Set.mem_setOf_eq, map_mul, toAdd_mul] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq, map_mul, toAdd_mul] at hx hy ⊢
         exact U.add_mem hx hy
       inv_mem' := fun {x} hx => by
-        simp only [Set.mem_setOf_eq, map_inv, toAdd_inv] at hx ⊢
+        simp only [Set.mem_ofPred_eq, map_inv, toAdd_inv] at hx ⊢
         exact U.neg_mem hx }
   let Y : Subgroup X := Yt.map U₁.subtype
   have hY : ∀ x : X, x ∈ Y ↔ ∃ hx : x ∈ U₁, Multiplicative.toAdd (φ ⟨x, hx⟩) ∈ U := by
@@ -327,7 +341,8 @@ theorem rho_irred {V U₁ U₂ : Subgroup X} (hsf : SingleFactor K V U₁ U₂) 
     rw [← hxp]
     exact hxU
 
-theorem shape_hyps_proof (h : Setup28 W K S) (hR : Red28 W K S) {a : X} (haS : a ∈ S)
+omit [Finite X] in
+theorem shape_hyps_proof (h : Setup28 W K S) (_hR : Red28 W K S) {a : X} (haS : a ∈ S)
     (ha2 : a ^ 2 = 1) {U₁ U₂ : Subgroup X} (hts : TransSection K (vOf W K S) U₁ U₂ a)
     {P : Type} [AddCommGroup P] [Module (ZMod 2) P] [Finite P]
     (ρ : ↥(Mof K a) →* LinearMap.GeneralLinearGroup (ZMod 2) P) (φ : ↥U₁ →* Multiplicative P)
@@ -339,13 +354,13 @@ theorem shape_hyps_proof (h : Setup28 W K S) (hR : Red28 W K S) {a : X} (haS : a
           Set (LinearMap.GeneralLinearGroup (ZMod 2) P)) := by
   have htr : IsF2Transvection (ρ (aM K a)) := rho_isF2Transvection hts.asec hd
   refine ⟨?_, htr, rho_aM_mem_normalizer h haS ρ⟩
-  haveI := normal_subgroupOf_Mof h haS
+  have := normal_subgroupOf_Mof h haS
   obtain ⟨φ₀, a₀, h0, -, ha₀, -⟩ := (isF2Transvection_iff _).1 htr
-  haveI : Nontrivial P := ⟨⟨a₀, 0, ha₀⟩⟩
-  haveI : Module.Finite (ZMod 2) P := Module.Finite.of_finite
+  have : Nontrivial P := ⟨⟨a₀, 0, ha₀⟩⟩
+  have : Module.Finite (ZMod 2) P := Module.Finite.of_finite
   refine ⟨Module.finrank_pos, ?_, ?_, Subgroup.map_le_range ρ _, ?_, rho_K_perfect h ρ, ?_⟩
   · have hgen : ∀ T : Subgroup ↥(Mof K a), T.Normal → ρ.ker ≤ T → aM K a ∈ T → T = ⊤ :=
-      fun T hT _ haT => by haveI := hT; exact aM_normal_closure ha2 hKc T haT
+      fun T hT _ haT => by have := hT; exact aM_normal_closure ha2 hKc T haT
     refine ⟨_, ?_, range_eq_closure_conj ρ (aM K a) hgen⟩
     rintro _ ⟨g, -, rfl⟩
     exact isF2Transvection_conj htr g

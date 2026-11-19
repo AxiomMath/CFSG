@@ -19,6 +19,7 @@ open scoped MatrixGroups
 variable {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {K : Type} [Field K] [Finite K]
   [CharP K 2] {f : ℕ} {ψ : Su K 2 f 6 →* G}
 
+omit [Finite K] [CharP K 2] in
 private lemma ggNSPosPF3C_conj_mul_scalar (g X : GL (Fin 6) K) (t : Kˣ) :
     (g * Matrix.GeneralLinearGroup.scalar (Fin 6) t) * X *
         (g * Matrix.GeneralLinearGroup.scalar (Fin 6) t)⁻¹ = g * X * g⁻¹ := by
@@ -32,6 +33,7 @@ private lemma ggNSPosPF3C_conj_mul_scalar (g X : GL (Fin 6) K) (t : Kˣ) :
           (Matrix.GeneralLinearGroup.scalar (Fin 6) t)⁻¹) * g⁻¹ := by group
     _ = g * X * g⁻¹ := by rw [hsc]
 
+omit [Finite K] [CharP K 2] in
 private lemma ggNSPosPF3C_mul_scalar_comm (g N : GL (Fin 6) K) (t : Kˣ)
     (h : N * (g * Matrix.GeneralLinearGroup.scalar (Fin 6) t) =
       (g * Matrix.GeneralLinearGroup.scalar (Fin 6) t) * N) :

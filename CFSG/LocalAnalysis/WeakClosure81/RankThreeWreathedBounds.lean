@@ -53,7 +53,7 @@ theorem two_dvd_card_of_wreathed {L : Type} [Group L] [Finite L]
     (hwr : ∀ S : Sylow 2 L, ∃ m : ℕ, 2 ≤ m ∧
       Nonempty (↥(S : Subgroup L) ≃* CFSG.Open.WreathedTwoGroup m)) :
     2 ∣ Nat.card L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let S : Sylow 2 L := Classical.choice (Sylow.nonempty (p := 2) (G := L))
   obtain ⟨m, hm, ⟨e⟩⟩ := hwr S
   have hcard : Nat.card ↥(S : Subgroup L) = 2 * (2 ^ m) ^ 2 := by
@@ -74,7 +74,7 @@ theorem wreathed_sylow_of_projectiveSL_three
     (e : X ≃* projectiveSL 3 K) :
     ∀ S : Sylow 2 X, ∃ m : ℕ, 2 ≤ m ∧
       Nonempty (↥(S : Subgroup X) ≃* CFSG.Open.WreathedTwoGroup m) := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hp, hcard⟩ := FiniteField.card K (ringChar K)
   have hcardNat : Nat.card K = ringChar K ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -171,7 +171,7 @@ theorem nParam_le_one_of_wreathed_projectiveSL_three
     (hn1 : ∀ x ∈ L, orderOf x = 2 →
       E1.nParam (Subgroup.centralizer ({x} : Set G)) ≤ 1) :
     E1.nParam (⊤ : Subgroup G) ≤ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hwr := wreathed_sylow_of_projectiveSL_three hodd hq4 hq5 e
   have h2 := two_dvd_card_of_wreathed hwr
   have hgen := sup_inf_centralizer_eq_top_of_projectiveSL_three hodd e
@@ -190,7 +190,7 @@ theorem nParam_le_one_of_wreathed_psu_three
     (hn1 : ∀ x ∈ L, orderOf x = 2 →
       E1.nParam (Subgroup.centralizer ({x} : Set G)) ≤ 1) :
     E1.nParam (⊤ : Subgroup G) ≤ 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hwr := wreathed_sylow_of_psu_three hU hp2 hq4 e
   have h2 := two_dvd_card_of_wreathed hwr
   have hgen := sup_inf_centralizer_eq_top_of_psu_three hU hp2 e
@@ -296,8 +296,8 @@ theorem nParam_le_one_of_lieModel_PSL_three_of_three_le
   have hAS := SecE3.almostSimple_generalizedFitting hs hnab hT.2.1 hFT
   obtain ⟨K, hK, hKfin, hcard, ⟨e⟩⟩ :=
     LinearCover.exists_mulEquiv_projectiveSL_of_lieModel hLie
-  letI : Field K := hK
-  letI : Finite K := hKfin
+  let : Field K := hK
+  let : Finite K := hKfin
   exact nParam_le_one_of_wreathed_projectiveSL_three_of_three_le hAS hT hp hp2 hf hcard hq4 e
 
 theorem nParam_le_one_of_lieModel_PSL_three_of_five_lt
@@ -311,8 +311,8 @@ theorem nParam_le_one_of_lieModel_PSL_three_of_five_lt
   have hAS := SecE3.almostSimple_generalizedFitting hs hnab hT.2.1 hFT
   obtain ⟨K, hK, hKfin, hcard, ⟨e⟩⟩ :=
     LinearCover.exists_mulEquiv_projectiveSL_of_lieModel hLie
-  letI : Field K := hK
-  letI : Finite K := hKfin
+  let : Field K := hK
+  let : Finite K := hKfin
   exact nParam_le_one_of_wreathed_projectiveSL_three_of_five_lt hAS hT hp hp2 h5 hcard hq4 e
 
 theorem nParam_le_one_of_lieModel_PSU_three_of_two_le
@@ -328,8 +328,8 @@ theorem nParam_le_one_of_lieModel_PSU_three_of_two_le
     hLie.statedClassicalModel (by decide)
   simp only [StatedClassicalModel] at hc
   obtain ⟨-, K, hK, hKfin, hcard, ⟨e⟩⟩ := hc
-  letI : Field K := hK
-  letI : Finite K := hKfin
+  let : Field K := hK
+  let : Finite K := hKfin
   have hU : UnitaryFieldData p f K :=
     ⟨hp, by omega, by rw [hcard, ← pow_mul, mul_comm f 2]⟩
   exact nParam_le_one_of_wreathed_psu_three_of_two_le hAS hT hU hp2 hf hq4 e
@@ -347,8 +347,8 @@ theorem nParam_le_one_of_lieModel_PSU_three_of_five_lt
     hLie.statedClassicalModel (by decide)
   simp only [StatedClassicalModel] at hc
   obtain ⟨-, K, hK, hKfin, hcard, ⟨e⟩⟩ := hc
-  letI : Field K := hK
-  letI : Finite K := hKfin
+  let : Field K := hK
+  let : Finite K := hKfin
   have hf1 : 1 ≤ f := by
     by_contra h
     have hf0 : f = 0 := by omega

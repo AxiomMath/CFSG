@@ -127,7 +127,7 @@ theorem uw7Cls_eq {j : ℕ} (hj : j < 75735) : uw7Cls j = pkGet JU.uwK 2 j := by
     rw [beq_eq_false_iff_ne]
     exact Nat.ne_of_lt hne
   unfold uwClsK
-  rw [hne64, hmem, hbit, hb1, Bool.false_or, if_neg (by simpa using hj0)]
+  rw [hne64, hmem, hbit, hb1, Bool.false_or, ite_eq_right (by simpa using hj0)]
   cases decide (wtIdx (1 ^^^ s) < 75735) <;> cases s.testBit 31 <;> rfl
 
 theorem uw7Reps_eq {c : ℕ} (hc : c < 4) : (uw7Reps ())[c]! = uwRep c := by

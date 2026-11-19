@@ -20,7 +20,7 @@ section ClassTwo
 
 variable {G : Type*} [Group G]
 
-theorem class_two_pow_aux (x y : G) (hx : Commute ⁅y, x⁆ x) (hy : Commute ⁅y, x⁆ y) (n : ℕ) :
+theorem class_two_pow_aux (x y : G) (_hx : Commute ⁅y, x⁆ x) (hy : Commute ⁅y, x⁆ y) (n : ℕ) :
     y ^ n * x = ⁅y, x⁆ ^ n * (x * y ^ n) := by
   have hc : y * x = ⁅y, x⁆ * (x * y) := by
     rw [commutatorElement_def]; group
@@ -191,7 +191,7 @@ theorem coord_of_sum (i j : Fin 5) (γ : Root .G2) (a b : ℕ)
     (h : γ.1 = a • (radRoot i).1 + b • (radRoot j).1) :
     rc γ 0 = a * rc (radRoot i) 0 + b * rc (radRoot j) 0 := by
   have := congrFun h (0 : Fin 2)
-  simp only [Pi.add_apply, Pi.smul_apply, nsmul_eq_mul] at this
+  simp only [nsmul_eq_mul] at this
   exact this
 
 theorem radRoot_sum_eq (i j : Fin 5) (γ : Root .G2) (a b : ℕ) (ha : 1 ≤ a) (hb : 1 ≤ b)
@@ -361,7 +361,7 @@ theorem sdG2p_holds : SDG2p := by
   let e2 : AdjointQuotient .G2 F ≃* ↥(adjointGroup .G2 F) :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
   let e3 : K ≃* ↥(adjointGroup .G2 F) := e.trans e2
-  haveI : Finite ↥(adjointGroup .G2 F) := Finite.of_equiv K e3.toEquiv
+  have : Finite ↥(adjointGroup .G2 F) := Finite.of_equiv K e3.toEquiv
   exact SylowDichotomyAt.of_mulEquiv hp e3
     (G2Radical.sylowDichotomyAt_adjointG2 F hp h5 (by simpa using hF))
 

@@ -152,7 +152,7 @@ theorem sl2_sylow_borel (K : Type) [Field K] [Finite K] [CharP K 2] (hK : 4 ≤ 
       ¬ (P : Subgroup (SL2 K)).Normal := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨g, hg⟩ := CFSG.LieType.BorelTits.exists_conj_mem_sylow P (Usub_isPGroup K)
-  have hP2 : IsPGroup 2 ↥(P : Subgroup (SL2 K)) := P.isPGroup'
+  have hP2 : IsPGroup 2 ↥(P : Subgroup (SL2 K)) := P.isPGroup
   have hnotP : (P : Subgroup (SL2 K)) ≠ ⊤ := by
     intro h
     apply sl2_not_isPGroup K hK

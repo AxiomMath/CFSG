@@ -122,7 +122,7 @@ private theorem ozCongr_comp_linToMulAut {F F' : Type} [Field F] [Field F'] (ψ 
         (AddEquiv.piCongrRight (fun _ : Fin 4 => ψ.toAddEquiv)))).toMonoidHom.comp
       (CFSG.Quasithin.H11Proof.linToMulAut F (Fin 4 → F)) =
     (CFSG.Quasithin.H11Proof.linToMulAut F' (Fin 4 → F')).comp (ozConjHom ψ) :=
-  MonoidHom.ext fun g => MulEquiv.ext fun y => rfl
+  MonoidHom.ext fun _g => MulEquiv.ext fun _y => rfl
 
 theorem map_omegaFour_ringEquiv {F F' : Type} [Field F] [Field F'] (ψ : F ≃+* F')
     (Q : (Fin 4 → F) → F) (Q' : (Fin 4 → F') → F')

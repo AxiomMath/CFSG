@@ -20,7 +20,7 @@ open Psi
 theorem Psi.mem_orbitUnion_J0 {i : Fin TwistTag.E6.tag.rank} :
     i ∈ TwistTag.E6.orbitUnion J0 ↔ i ≠ e6Idx 1 := by
   rw [TwistTag.mem_orbitUnion]
-  simp only [J0, a2, Set.mem_setOf_eq]
+  simp only [J0, a2, Set.mem_ofPred_eq]
   revert i
   decide
 
@@ -33,8 +33,8 @@ theorem Psi.mem_Qbar_roots_iff {α : Fin TwistTag.E6.tag.rank → ℤ} :
     α ∈ parabolicRadicalRoots TwistTag.E6.tag (TwistTag.E6.orbitUnion J0) ↔
       α ∈ insert e6HighestRoot degOneRoots := by
   rw [mem_S_iff]
-  simp only [parabolicRadicalRoots, parabolicPosRoots, parabolicRoots, Set.mem_diff,
-    Set.mem_setOf_eq, Set.mem_inter_iff]
+  simp only [parabolicRadicalRoots, parabolicPosRoots, parabolicRoots, Set.mem_sdiff,
+    Set.mem_ofPred_eq, Set.mem_inter_iff]
   constructor
   · rintro ⟨⟨hr, hp⟩, hnot⟩
     refine ⟨hr, hp, ?_⟩
@@ -99,7 +99,7 @@ theorem Psi.isUni_of_entries (f : Module.End K (RootModule TwistTag.E6.tag K))
     have hne' : f (Finsupp.single b 1) a ≠ (Finsupp.single b (1 : K) :
         RootModule TwistTag.E6.tag K) a := fun e => hne (by simp [e])
     have := h a b hne'
-    exact ha (by simp only [Set.mem_setOf_eq] at hb ⊢; omega)
+    exact ha (by simp only [Set.mem_ofPred_eq] at hb ⊢; omega)
   · simp
   · intro x y _ _ hx hy
     have : f (x + y) - (x + y) = (f x - x) + (f y - y) := by
@@ -133,7 +133,7 @@ theorem Psi.pinnedX_isUni
   refine isUni_of_entries _ fun a b hne => ?_
   obtain ⟨k, hk, hw⟩ := pinnedX_weight_shift hα c a b hne
   have h2 := congrFun hw (e6Idx 1)
-  simp only [Pi.add_apply, Pi.smul_apply, nsmul_eq_mul, smul_eq_mul, Pi.mul_apply,
+  simp only [Pi.add_apply, nsmul_eq_mul, Pi.mul_apply,
     Pi.natCast_apply] at h2
   have h3 : (1 : ℤ) ≤ k := by exact_mod_cast hk
   unfold lblDeg
@@ -176,7 +176,7 @@ theorem psi_mul
   ext γ
   have h3 := (Finsupp.mem_supported' K _).1 h2 (lab γ) (by simp [lblDeg_lab])
   have h4 : v0 K (lab γ) = 0 := by
-    rw [v0_eq, Finsupp.single_apply, if_neg (lab_ne_lab0 γ).symm]
+    rw [v0_eq, Finsupp.single_apply, ite_eq_right (lab_ne_lab0 γ).symm]
   simp only [psi_apply, Units.val_mul, Module.End.mul_apply, Pi.add_apply]
   simp only [map_sub, Finsupp.coe_sub, Pi.sub_apply, h4] at h3
   linear_combination h3

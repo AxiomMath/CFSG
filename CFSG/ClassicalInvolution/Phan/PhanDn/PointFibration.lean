@@ -47,7 +47,7 @@ variable {K : Type} [Field K] {σ : K ≃+* K} {s : ℕ}
         rw [FlipFrame.finrank_elt hσ e.toFlipFrame 1]
         have hv1 : ((1 : Fin (s + 4)) : ℕ) = 1 := by
           rw [Fin.val_one', Nat.mod_eq_of_lt (by omega)]
-        rw [hv1, if_pos (show 1 + 1 < s + 3 by omega)]
+        rw [hv1, ite_eq_left (show 1 + 1 < s + 3 by omega)]
       have hx : e.line 0 ∈ ptsOn σ (e.line 0 ⊔ e.line 1) :=
         ⟨e.isFlipflopPt_line 0, le_sup_left⟩
       have hy : g.line 0 ∈ ptsOn σ (e.line 0 ⊔ e.line 1) := by
@@ -65,7 +65,7 @@ private theorem isFlipLine_line_sup_line_one (hσ : ∀ x, σ (σ x) = x) {m : �
   rw [FlipFrame.finrank_elt hσ c.toFlipFrame 1]
   have hv1 : ((1 : Fin (m + 1)) : ℕ) = 1 := by
     rw [Fin.val_one', Nat.mod_eq_of_lt (by omega)]
-  rw [hv1, if_pos (show 1 + 1 < m by omega)]
+  rw [hv1, ite_eq_left (show 1 + 1 < m by omega)]
 
 private theorem line_sup_line_eq_of_adj_zero (hσ : ∀ x, σ (σ x) = x) {m : ℕ} (hm : 3 ≤ m)
     {c f : DChamber σ (m + 1)} {p x : Submodule K (Fin (m + 1) ⊕ Fin (m + 1) → K)}

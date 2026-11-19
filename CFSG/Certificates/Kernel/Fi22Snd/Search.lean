@@ -76,8 +76,8 @@ theorem search_sound' {n d np na k chunks T P CB : Nat} {nbr : Array (List Nat)}
     rw [CFSG.KS.Raw.Orb.bIf_eq] at hN
     simp only [lenL_len, Nat.blt_eq] at hN
     by_cases hlt : (nodes[i]!).pre.length < base.length
-    · rw [if_pos hlt] at hN
-      rw [if_pos hlt]
+    · rw [ite_eq_left hlt] at hN
+      rw [ite_eq_left hlt]
       have hsc' := hsc _ hlt
       unfold srcColK at hsc'
       have hlen : (base.take (nodes[i]!).pre.length).length < 65536 := by
@@ -85,8 +85,8 @@ theorem search_sound' {n d np na k chunks T P CB : Nat} {nbr : Array (List Nat)}
         omega
       rw [srcs_get (by omega), ← hcol _ hlen, Nat.eq_of_beq_eq_true hsc', ← getL_getD]
       exact branchOK_of_branchK hpool hPL (hpreN i hi) (fun w _ => hcol _ (hpre i hi) w) hN
-    · rw [if_neg hlt] at hN
-      rw [if_neg hlt, srcs_get (by omega), List.take_length]
+    · rw [ite_eq_right hlt] at hN
+      rw [ite_eq_right hlt, srcs_get (by omega), List.take_length]
       exact leafOK_of_leafK hacc hAC (fun w _ => hcol _ (hpre i hi) w)
         (fun w _ => hcol base hbase w) (inj_of_injK hn hnbr hrow hsym ht hbase hinj) hN
 

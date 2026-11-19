@@ -29,7 +29,7 @@ theorem conjugacy_orbit_overfills
     False := by
   classical
   let A := MulAction.orbit (ConjAct P) u
-  letI : Fintype A := Fintype.ofFinite _
+  let : Fintype A := Fintype.ofFinite _
   let val : A → P := fun a => a.1
   have hvalInjective : Function.Injective val :=
     Subtype.val_injective
@@ -37,7 +37,7 @@ theorem conjugacy_orbit_overfills
     Subgroup.centralizer ({u} : Set P)
   have hAcard :
       Fintype.card A * Nat.card C = Nat.card P := by
-    letI :
+    let :
         Fintype (MulAction.stabilizer (ConjAct P) u) :=
       Fintype.ofFinite _
     have hstabilizer :
@@ -52,16 +52,16 @@ theorem conjugacy_orbit_overfills
       ← Nat.card_eq_fintype_card] at horbitCard
     simpa [A, Nat.card_eq_fintype_card] using horbitCard
   let T := Fin 5 ↪ X
-  letI : MulAction.IsPretransitive P T := by
+  let : MulAction.IsPretransitive P T := by
     change MulAction.IsMultiplyPretransitive P X 5
     exact hP5
-  letI : Nonempty T :=
+  let : Nonempty T :=
     Fintype.card_pos_iff.mp (by
       change 0 < Fintype.card (Fin 5 ↪ X)
       rw [Fintype.card_embedding_eq, Fintype.card_fin,
         Nat.descFactorial_pos]
       exact hcard)
-  letI : Unique (MulAction.orbitRel.Quotient P T) :=
+  let : Unique (MulAction.orbitRel.Quotient P T) :=
     Classical.choice
       ((MulAction.pretransitive_iff_unique_quotient_of_nonempty
         P T).mp hP5)

@@ -17,7 +17,7 @@ private theorem sigmaModelEquivWreath_digits {a : ℕ} {L : List ℕ} (hL : L = 
   subst L
   let β : Fin 2 → Type := fun i =>
     Fin ([0, 1] : List ℕ)[i] → wreathTower 3 (Multiplicative (ZMod (3 ^ a))) ↑i
-  haveI : Unique (β 0) := ⟨⟨fun j => j.elim0⟩, fun f => funext fun j => j.elim0⟩
+  have : Unique (β 0) := ⟨⟨fun j => j.elim0⟩, fun f => funext fun j => j.elim0⟩
   refine ⟨(MulEquiv.mk' (piFinTwoEquiv β) (fun f g => rfl)).trans ?_⟩
   refine MulEquiv.uniqueProd.trans ?_
   exact MulEquiv.funUnique (Fin 1)

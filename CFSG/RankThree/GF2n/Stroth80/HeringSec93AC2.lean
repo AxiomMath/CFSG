@@ -133,8 +133,9 @@ section Bridge
 
 variable {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite G] in
 theorem map_mem_normalizer_of_mem_normalizer {Γ : Type} [Group Γ] {X T : Subgroup G}
-    (π : ↥X →* Γ) (hT : T ≤ X) {g : G} (hg : g ∈ X)
+    (π : ↥X →* Γ) (_hT : T ≤ X) {g : G} (hg : g ∈ X)
     (hgN : g ∈ Subgroup.normalizer (T : Set G)) :
     π ⟨g, hg⟩ ∈ Subgroup.normalizer (((T.subgroupOf X).map π : Subgroup Γ) : Set Γ) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -186,6 +187,7 @@ theorem arith_sylow {q N u : ℕ} (h4 : 4 ≤ q) (hN : N ≤ q * (q - 1))
   have h2 : (m + 1) * (m * (m + 2)) ≤ (m + 1) * m * (m + 1) := h.trans h1
   nlinarith
 
+omit [Finite G] in
 theorem sl2_bridge {L L' F X : Subgroup G} (hXdef : L ⊔ L' = X) (h4 : 4 ≤ Nat.card K)
     (hq2 : ∃ e : ℕ, Nat.card K = 2 ^ e) (hL : IsPGroup 2 ↥L) (hL' : IsPGroup 2 ↥L')
     (π : ↥X →* SL(2, K)) (hsurj : Function.Surjective π)

@@ -134,7 +134,7 @@ theorem kc_glbCore_eq_top_of_innerExFive (hS : SeitzInnerExFive) {K : Type} [Gro
   have hp : p.Prime := h.prime
   have hp5 : 5 ≤ p := h.p5
   have hp2 : p ≠ 2 := by omega
-  have : Fact (IsPGroup p (S : Subgroup K)) := ⟨S.isPGroup'⟩
+  have : Fact (IsPGroup p (S : Subgroup K)) := ⟨S.isPGroup⟩
   obtain ⟨E, -, hEcard, hEel⟩ := CFSG.lemma_4_5_a hp2 h.noncyc_S
   set E₀ : Subgroup K := E.map (S : Subgroup K).subtype with hE₀
   have hEel' : IsElemAbelian p E :=

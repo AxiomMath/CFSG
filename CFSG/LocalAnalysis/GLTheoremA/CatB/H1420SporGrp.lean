@@ -99,7 +99,7 @@ private theorem prime_mul_card_pSimple_dvd_of_mem {Y : Type} [Group Y] [Finite Y
 theorem prime_mul_card_pSimple_dvd {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p.Prime)
     {x : Y} (hx : orderOf x = p) {J : Subgroup Y} (hJ : J ≤ Subgroup.centralizer {x}) :
     p * Nat.card (PSimple p J) ∣ Nat.card Y := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hxJ : x ∈ J
   · exact prime_mul_card_pSimple_dvd_of_mem hx hJ hxJ
   · exact (Nat.mul_dvd_mul_left p (card_pSimple_dvd_card p J)).trans

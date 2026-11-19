@@ -33,7 +33,7 @@ private theorem pair_triple_product {G : Type*} [Group G] (A0 B0 C0 A1 B1 C1 : G
     _ = (A0 * A1) * (B0 * B1) * (C0 * C1) := by group
 
 private theorem cyclic_three {G : Type*} [Group G] {A B C : G}
-    (hAB : Commute A B) (hAC : Commute A C) (hBC : Commute B C) :
+    (hAB : Commute A B) (hAC : Commute A C) (_hBC : Commute B C) :
     B * C * A = A * B * C := by
   calc
     B * C * A = B * (C * A) := by group
@@ -102,6 +102,7 @@ private noncomputable def tripleScaledPoint (γ γ₁ γ₂ : Fin τ.rank → �
     pinnedX τ L γ₁ (c0 * (μ0 * (tBase * k) ^ 2)) *
       pinnedX τ L γ₂ (c0 * (b * (tBase * k) ^ 4))
 
+omit [IsAlgClosed L] in
 private theorem tripleFixedPoint_mem {Ψ : Set (Fin τ.rank → ℤ)} {γ γ₁ γ₂ : Fin τ.rank → ℤ}
     {μ0 b tBase k : L} (hγ : γ ∈ Ψ) (hγ₁ : γ₁ ∈ Ψ) (hγ₂ : γ₂ ∈ Ψ) :
     tripleFixedPoint γ γ₁ γ₂ μ0 b tBase k ∈ rootSpan τ L Ψ := by
@@ -109,6 +110,7 @@ private theorem tripleFixedPoint_mem {Ψ : Set (Fin τ.rank → ℤ)} {γ γ₁ 
   exact mul_mem (mul_mem (pinnedX_mem_rootSpan hγ _) (pinnedX_mem_rootSpan hγ₁ _))
     (pinnedX_mem_rootSpan hγ₂ _)
 
+omit [IsAlgClosed L] in
 private theorem tripleFixedPoint_fixed
     {φ₁ : ModGL τ L →* ModGL τ L} {γ γ₁ γ₂ : Fin τ.rank → ℤ}
     {μ0 μ1 μ2 b c tBase : L}
@@ -142,6 +144,7 @@ private theorem tripleFixedPoint_fixed
       (pinnedX τ L γ₂ (b * (tBase * k) ^ 4)) := hcomm02 _ _
   exact cyclic_three hAB hAC (hcomm12 _ _)
 
+omit [IsAlgClosed L] in
 private theorem tripleFixedPoint_sq [CharP L 2]
     {γ γ₁ γ₂ : Fin τ.rank → ℤ} {μ0 b tBase k : L}
     (hcomm01 : ∀ a b : L, Commute (pinnedX τ L γ a) (pinnedX τ L γ₁ b))

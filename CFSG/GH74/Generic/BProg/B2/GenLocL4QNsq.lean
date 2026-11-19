@@ -274,7 +274,7 @@ theorem Tu_Lc (c u0 u1 s t : F) (hu : u0 ^ 2 - c * u1 ^ 2 = 1) :
     Tu c u0 (-u1) * Lc c s t = Lc c (s * u0 + c * t * u1) (s * u1 + t * u0) * Tu c u0 (-u1) := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [Tu, Lc, Matrix.mul_apply, Fin.sum_univ_four]
-  all_goals first | ring1 | linear_combination (-s) * hu | linear_combination (-(c * t)) * hu |
+  all_goals first | linear_combination (-s) * hu | linear_combination (-(c * t)) * hu |
     linear_combination (-t) * hu
 
 theorem chain_up_id (c m ρ p q0 q1 : F) (hm : m ≠ 0) (h2p : 2 * p ^ 2 - 1 ≠ 0) (hρ : ρ ≠ 0)

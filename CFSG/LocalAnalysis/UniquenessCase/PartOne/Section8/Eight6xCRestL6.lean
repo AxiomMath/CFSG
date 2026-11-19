@@ -231,7 +231,7 @@ private theorem k1566l6a2_sd3_of_internal
   have hy'map : y' ∈ Q.map Φ := by rw [hQmap]; exact hy'Q'
   obtain ⟨y, hyQ, hyy'⟩ := Subgroup.mem_map.mp hy'map
   obtain ⟨P, hP⟩ := hQsyl
-  have hQp : IsPGroup 3 Q := by rw [← hP]; exact P.isPGroup'
+  have hQp : IsPGroup 3 Q := by rw [← hP]; exact P.isPGroup
   have hind : ¬ 3 ∣ Q.index := by rw [← hP]; exact P.not_dvd_index
   have hTQ : T ≤ Q := by
     intro x hx
@@ -947,7 +947,7 @@ private theorem k1566l6b_sd3_of_internal
   have hy'map : y' ∈ Q.map Φ := by rw [hQmap]; exact hy'Q'
   obtain ⟨y, hyQ, hyy'⟩ := Subgroup.mem_map.mp hy'map
   obtain ⟨P, hP⟩ := hQsyl
-  have hQp : IsPGroup 3 Q := by rw [← hP]; exact P.isPGroup'
+  have hQp : IsPGroup 3 Q := by rw [← hP]; exact P.isPGroup
   have hind : ¬ 3 ∣ Q.index := by rw [← hP]; exact P.not_dvd_index
   have hTQ : T ≤ Q := by
     intro x hx

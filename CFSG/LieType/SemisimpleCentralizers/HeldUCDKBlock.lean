@@ -35,7 +35,7 @@ theorem aeval_mem_Vf {f : L[X]} (q : L[X]) {x : Fin n → L} (hx : x ∈ Vf s b 
 theorem aeval_factor_mulVec_eq_zero (H : PrimaryHyp τ s m F a b) {f : L[X]} (hf : f ∈ F)
     {x : Fin n → L} (hx : x ∈ Vf s b F f) : aeval s f *ᵥ x = 0 := by
   rw [mem_Vf] at hx
-  rw [← hx, Matrix.mulVec_mulVec, aeval_mul_Pmat_self H.hirr H.hmon H.hprod H.hsm H.hab hf,
+  rw [← hx, Matrix.mulVec_mulVec, aeval_mul_Pmat_self H.hprod H.hsm hf,
     Matrix.zero_mulVec]
 
 @[expose] noncomputable def opV (s : Matrix (Fin n) (Fin n) L) (b : L[X] → L[X])
@@ -167,7 +167,7 @@ theorem sigmaK_sigmaK (τ : L ≃+* L) (hτ : ∀ x, τ (τ x) = x) {m : ℕ} (h
   have hcomp : (sigmaK τ m hdiv).comp (sigmaK τ m hdiv) = RingHom.id _ := by
     apply AdjoinRoot.ringHom_ext
     · ext l
-      simp only [RingHom.comp_apply, RingHom.id_apply, RingHom.coe_comp, Function.comp_apply]
+      simp only [RingHom.comp_apply, RingHom.id_apply]
       rw [sigmaK_of, sigmaK_of, hτ]
     · simp only [RingHom.comp_apply, RingHom.id_apply]
       rw [sigmaK_root, map_pow, sigmaK_root]

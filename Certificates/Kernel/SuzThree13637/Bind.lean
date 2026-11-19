@@ -51,7 +51,7 @@ theorem bind_q : suzE81.qW.toList.map (posWordK 1782 11 bG) = [Q0, Q1, Q2] := by
     List.map_nil, bind_q0, bind_q1, bind_q2]
 
 theorem bind_d : (suzE81.dW[0]!).toList.map (posWordK 1782 11 qG) = F.D := by
-  simp only [suzE81, Array.toList_map]
+  simp only [suzE81]
   decide +kernel
 
 theorem bind_nb : allN 2 (fun i => withReb 1782 11 SuzC.LR SuzC.TR SuzC.TRI (nthL F.nb i)

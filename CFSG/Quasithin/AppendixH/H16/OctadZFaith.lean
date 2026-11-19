@@ -55,7 +55,7 @@ theorem eq_one_of_fix_octV5 (γ : ↥AutPerm)
       intro x hx
       have hc_eq : (⟨c, hc_aut⟩ : ↥AutPerm) = γ * ⟨k, hk_aut⟩ * γ⁻¹ * ⟨k, hk_aut⟩⁻¹ := by
         apply Subtype.ext
-        simp [hc, Subgroup.coe_mul, Subgroup.coe_inv]
+        simp [hc, Subgroup.coe_mul]
       rw [hc_eq]
       simp only [map_mul, map_inv]
       set A : MulAut W11 := rhoC11 AutPerm le_rfl γ with hA
@@ -176,7 +176,7 @@ private theorem card_cenM_octVz_le :
           _ = x := mul_inv_cancel_right x e
     have hξ1 : (ξ : S24) = 1 := eq_one_of_fix_octV5 ξ hξst hξfixV5
     have hξval : (ξ : S24) = (δ.1 : S24)⁻¹ * (γ.1 : S24) := by
-      simp [ξ, Subgroup.coe_mul, Subgroup.coe_inv]
+      simp [ξ, Subgroup.coe_mul]
     have hγδ' : (γ.1 : S24) = (δ.1 : S24) := by
       have h : (δ.1 : S24)⁻¹ * (γ.1 : S24) = 1 := hξval ▸ hξ1
       calc (γ.1 : S24) = (δ.1 : S24) * ((δ.1 : S24)⁻¹ * (γ.1 : S24)) := by group

@@ -60,7 +60,7 @@ theorem exists_pGroup_lift {p : ℕ} [Fact p.Prime] {X : Type*} [Group X] [Finit
     le_antisymm ((S₀.mapSurjective hfUs).maximal_isPGroup.le_of_ge (hT.to_subgroup ⊤) le_top)
       le_top
   rw [Sylow.coe_mapSurjective] at h1
-  refine ⟨(S₀ : Subgroup ↥U).map U.subtype, S₀.isPGroup'.map _, ?_⟩
+  refine ⟨(S₀ : Subgroup ↥U).map U.subtype, S₀.isPGroup.map _, ?_⟩
   have h2 : ((S₀ : Subgroup ↥U).map fU).map T.subtype = T := by
     rw [← h1, Subgroup.map_top, Subgroup.range_subtype]
   rw [← h2, Subgroup.map_map, Subgroup.map_map]
@@ -125,7 +125,7 @@ theorem lift_comm (h111 : Prop111Statement) {m : ℕ} {B M E A D T L : Subgroup 
       u * QuotientGroup.mk' (GLAPPrimeCore 3 ↥(Cg d)) ⟨b₁, hb₁C⟩ := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   set mk := QuotientGroup.mk' (GLAPPrimeCore 3 ↥(Cg d)) with hmk
   have hBel : IsElemAbelian 3 B := h.uniq.elemAbelian
   have hBM : B ≤ M := h.uniq.le
@@ -289,7 +289,7 @@ theorem le_normalizer_of_card_bStar (hP95 : Prop95) (h111 : Prop111Statement)
     M ≤ Subgroup.normalizer (L : Set G) := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨hLc, -⟩ := hcomp h.toSec13 h.hL
   have hLsn : IsSubnormal L M := hLc.2.1
   have hDA : D ≤ A := h.hD.1
@@ -378,9 +378,9 @@ theorem weak_false (hI191 : Lemma129.Input19_1_two) {m : ℕ} {B M E A D T L : S
     (hB1K : B1 ≤ Subgroup.normalizer (K : Set G)) : False := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup G := h.standing.simple
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup G := h.standing.simple
   have hX : Cg d ≠ ⊤ := Lemma136c.l136c_centralizer_ne_top h.standing.nonabelian hd1
   obtain ⟨⟨h1, -⟩, h3⟩ := hI191 G h.standing.kProper 3 hp (by norm_num) (Cg d) hX 2 Bs
     (by norm_num) hEk
@@ -484,8 +484,8 @@ theorem moved_false (h111 : Prop111Statement) {m : ℕ} {B M E A D T L : Subgrou
     (hb₁K : b₁ ∉ Subgroup.normalizer (K : Set G)) : False := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
-  haveI : Finite (barOf 3 K) := by unfold barOf; infer_instance
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Finite (barOf 3 K) := by unfold barOf; infer_instance
   have hBel : IsElemAbelian 3 B := h.uniq.elemAbelian
   have hBcomm : ∀ y ∈ B, ∀ y' ∈ B, y * y' = y' * y := fun y hy y' hy' =>
     congrArg Subtype.val (hBel.1.is_comm.comm ⟨y, hy⟩ ⟨y', hy'⟩)
@@ -750,7 +750,7 @@ theorem iiHardCaseLieMain_of_inputs (hI191 : Lemma129.Input19_1_two) (hP95 : Pro
   intro G _ _ m B M E A D T L h hN d hd hd1 hfix b B1 hP hS r _hr hEk K hK hnot hBsN hcent _hnb hLie
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨hr2, -, hinn, hweak⟩ := hLie
   subst hr2
   obtain ⟨hLc, -⟩ := hcomp h.toSec13 h.hL

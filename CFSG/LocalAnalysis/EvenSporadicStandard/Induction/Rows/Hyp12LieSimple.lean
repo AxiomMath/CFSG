@@ -47,7 +47,7 @@ theorem isCyclic_sylow_of_lie (thm24_1 : Sol78Thm24_1Use) {G : Type} [Group G] [
   have hrS : CFSG.pRank 2 ↥(S : Subgroup ↥(centralizer (L : Set G))) ≤ 1 :=
     (Hyp.pRank_two_le_of_injective (S : Subgroup ↥(centralizer (L : Set G))).subtype
       (S : Subgroup ↥(centralizer (L : Set G))).subtype_injective).trans hr
-  rcases Hyp.isCyclic_or_genQuaternion_of_pRank_le_one S.isPGroup' hrS with hc | hq
+  rcases Hyp.isCyclic_or_genQuaternion_of_pRank_le_one S.isPGroup hrS with hc | hq
   · exact hc
   · exfalso
     have hnd : ¬ Nat.card ↥(⊤ : Subgroup G) ∣ 95040 := fun h => by
@@ -76,8 +76,8 @@ theorem isCyclic_center_of_sylow {G : Type} [Group G] [Finite G] {L : Subgroup G
   obtain ⟨S, hS⟩ := hP.exists_le_sylow
   have e1 : ↥(ι.range.subgroupOf (S : Subgroup ↥(centralizer (L : Set G)))) ≃* ↥ι.range :=
     Subgroup.subgroupOfEquivOfLe hS
-  haveI := hcyc S
-  haveI : IsCyclic ↥ι.range := isCyclic_of_surjective e1.toMonoidHom e1.surjective
+  have := hcyc S
+  have : IsCyclic ↥ι.range := isCyclic_of_surjective e1.toMonoidHom e1.surjective
   exact isCyclic_of_surjective (MonoidHom.ofInjective hι).symm.toMonoidHom
     (MonoidHom.ofInjective hι).symm.surjective
 

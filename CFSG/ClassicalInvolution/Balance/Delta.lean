@@ -269,6 +269,7 @@ open Subgroup
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem zpowers_eq_one_or_self_delta {z g : G} (hz2 : z * z = 1)
     (h : g ∈ Subgroup.zpowers z) : g = 1 ∨ g = z := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 h
@@ -278,6 +279,7 @@ private theorem zpowers_eq_one_or_self_delta {z g : G} (hz2 : z * z = 1)
   · right
     rw [hm, zpow_add_one, zpow_mul, zpow_two, hz2, one_zpow, one_mul]
 
+omit [Finite G] in
 theorem twoBalancedWrt_of_eight
     {S A : Subgroup G} (hAe : CFSG.Open.IsElemAbelian 2 A) (hAS : A ≤ S)
     (hbal : ∀ V : Subgroup G, V ≤ S → CFSG.Open.IsElemAbelian 2 V →

@@ -166,7 +166,7 @@ theorem inf_sup_le_inf_sup_of_normal (P : Sylow p G) {K C : Subgroup G} [K.Norma
     refine (Subgroup.relIndex_dvd_of_le_left _ (le_sup_right : C ≤ H)).trans ?_
     rw [Subgroup.relIndex_sup_right]
     exact Subgroup.relIndex_dvd_card C S
-  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (P.isPGroup'.to_inf_left (K := K ⊔ C))
+  obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp (P.isPGroup.to_inf_left (K := K ⊔ C))
   rw [hn, Nat.dvd_prime_pow Fact.out] at hpow
   obtain ⟨j, -, hj⟩ := hpow
   have hj0 : j = 0 := by
@@ -401,7 +401,7 @@ theorem three_le_pRank_mulAut_of_outer_extraspecial (R : Sylow p X) {K : Subgrou
   have hS : (R : Subgroup X) ⊓ K ≠ ⊥ := inf_normal_ne_bot_of_dvd_card R hKp
   have hSn := le_normalizer_inf_of_normal_right (R : Subgroup X) K
   obtain ⟨w, ⟨hwR, hwK⟩, hwp, hwc⟩ :=
-    exists_orderOf_eq_prime_commute R.isPGroup' inf_le_left hSn hS
+    exists_orderOf_eq_prime_commute R.isPGroup inf_le_left hSn hS
   set y : MulAut K := ρ w with hy
   have hyp : y ^ p = 1 := by
     have : w ^ p = 1 := hwp ▸ pow_orderOf_eq_one w

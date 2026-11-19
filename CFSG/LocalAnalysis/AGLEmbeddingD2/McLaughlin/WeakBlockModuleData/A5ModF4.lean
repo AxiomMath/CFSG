@@ -75,7 +75,7 @@ def smulW (ω : W →+ W) : F4 → W → W
 theorem add_def (x y : F4) : x + y = F4.add x y := rfl
 theorem mul_def (x y : F4) : x * y = F4.mul x y := rfl
 
-def modF4 (ω : W →+ W) (h2 : ∀ w : W, w + w = 0) (hω : ∀ w, ω (ω w) + ω w + w = 0) :
+@[instance_reducible] def modF4 (ω : W →+ W) (h2 : ∀ w : W, w + w = 0) (hω : ∀ w, ω (ω w) + ω w + w = 0) :
     Module F4 W :=
   have hω' : ∀ v, ω (ω v) = ω v + v := fun v => by
     have := hω v
@@ -88,17 +88,15 @@ def modF4 (ω : W →+ W) (h2 : ∀ w : W, w + w = 0) (hω : ∀ w, ω (ω w) + 
     zero_smul := fun _ => rfl
     smul_zero := fun x => by cases x <;> simp [HSMul.hSMul, SMul.smul, smulW]
     smul_add := fun x v v' => by
-      cases x <;> simp [HSMul.hSMul, SMul.smul, smulW] <;> abel
+      cases x <;> simp [HSMul.hSMul, SMul.smul, smulW]; abel
     add_smul := fun x y v => by
       cases x <;> cases y <;>
         simp only [HSMul.hSMul, SMul.smul, add_def, F4.add, smulW, h2, h3, h4, add_zero, zero_add,
-          add_comm] <;>
-        first | abel | skip
+          add_comm]
     mul_smul := fun x y v => by
       cases x <;> cases y <;>
         simp only [HSMul.hSMul, SMul.smul, mul_def, F4.mul, smulW, map_zero, map_add, hω', h3, h4,
-          add_zero, zero_add, add_comm] <;>
-        first | abel | skip }
+          add_zero, add_comm] }
 
 end Mod
 

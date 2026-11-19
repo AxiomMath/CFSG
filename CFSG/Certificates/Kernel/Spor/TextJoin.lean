@@ -87,7 +87,6 @@ theorem stepC_bad2 (hb : Nat.blt e n = true) (hh : Nat.blt (hexV (Char.toNat ch)
   rw [hb]
   try dsimp only
   rw [strictB_eq]
-  try dsimp only
   rw [hh]
 
 theorem stepC_dig (hb : Nat.blt e n = true) (hh : Nat.blt (hexV (Char.toNat ch)) 16 = true)
@@ -100,11 +99,9 @@ theorem stepC_dig (hb : Nat.blt e n = true) (hh : Nat.blt (hexV (Char.toNat ch))
   rw [hb]
   try dsimp only
   rw [strictB_eq]
-  try dsimp only
   rw [hh]
   try dsimp only
   rw [strictB_eq]
-  try dsimp only
   rw [ht]
 
 theorem stepC_bad3 (hb : Nat.blt e n = true) (hh : Nat.blt (hexV (Char.toNat ch)) 16 = true)
@@ -117,11 +114,9 @@ theorem stepC_bad3 (hb : Nat.blt e n = true) (hh : Nat.blt (hexV (Char.toNat ch)
   rw [hb]
   try dsimp only
   rw [strictB_eq]
-  try dsimp only
   rw [hh]
   try dsimp only
   rw [strictB_eq]
-  try dsimp only
   rw [ht]
   try dsimp only
   rw [hv]
@@ -138,11 +133,9 @@ theorem stepC_ent (hb : Nat.blt e n = true) (hh : Nat.blt (hexV (Char.toNat ch))
   rw [hb]
   try dsimp only
   rw [strictB_eq]
-  try dsimp only
   rw [hh]
   try dsimp only
   rw [strictB_eq]
-  try dsimp only
   rw [ht]
   try dsimp only
   rw [hv]
@@ -267,7 +260,6 @@ theorem hexBind_append {A B : List Char} {wd n w la lb : Nat} {F G : Nat → Nat
       rw [Nat.add_zero]
       refine cmp_lo hL (by omega) ?_
       have hb : Nat.blt L' la = true := Nat.blt_eq.mpr hL
-      try dsimp only
       rw [hb])
   rw [Nat.add_zero, Nat.add_zero] at sA
   rw [sA]

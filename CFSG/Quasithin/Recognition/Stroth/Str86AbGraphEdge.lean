@@ -19,6 +19,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem str86_vtype_of_mem_nbrs {L1 L2 S : Subgroup G} {γ δ : Str86Γ L1 L2 S}
     (hγ : vtype γ = true) (hδ : δ ∈ nbrs γ) : vtype δ = false := by
   have h' := CosetGeom.vtype_ne_of_adj (show (graph _ _ _).Adj γ δ from hδ)

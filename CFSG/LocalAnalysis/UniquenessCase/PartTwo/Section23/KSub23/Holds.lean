@@ -28,15 +28,15 @@ private theorem isPerfect_of_isL2 {W : Type} [Group W] {m : ℕ}
     (hm : 3 ≤ m) (hW : IsL2 W m) : Group.IsPerfect W := by
   obtain ⟨_, K, hfield, hfin, hKcard, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel hW (by decide)
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hK4 : 4 ≤ Nat.card K := by
     rw [hKcard]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) (by omega)
-  haveI : Group.IsPerfect ↥(CFSG.Open.StatedSL 2 K) :=
+  have : Group.IsPerfect ↥(CFSG.Open.StatedSL 2 K) :=
     CFSG.Open.StatedAPI.isPerfect_statedSL_two_of_four_le_card hK4
-  haveI : Group.IsPerfect (CFSG.Open.StatedProj (CFSG.Open.StatedSL 2 K)) :=
+  have : Group.IsPerfect (CFSG.Open.StatedProj (CFSG.Open.StatedSL 2 K)) :=
     Group.IsPerfect.ofSurjective
       (f := QuotientGroup.mk'
         ((CFSG.Open.StatedScalars (Fin 2) K).subgroupOf (CFSG.Open.StatedSL 2 K)))
@@ -91,7 +91,7 @@ theorem kSub23_one :
   have hperfW : Group.IsPerfect W := isPerfect_of_isL2 hm hW
   have hsimpleW : IsSimpleGroup W := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hW
   have hperfY : Group.IsPerfect ↥Y := by
-    haveI := hperfW
+    have := hperfW
     exact Group.IsPerfect.ofSurjective hf
   have hY : ⁅Y, Y⁆ = Y := Subgroup.isPerfect_iff.mp hperfY
   by_cases hne : Y = ⊥
@@ -146,16 +146,16 @@ theorem kSub23_three :
       ∀ Y : Subgroup S, ⁅Y, Y⁆ = Y →
         ∀ R : Subgroup ↥Y, R.Normal → Group.IsSolvable ↥R → R = ⊥ := by
   intro S _ _ hshape Y hY R hRnorm hRsolv
-  haveI : R.Normal := hRnorm
+  have : R.Normal := hRnorm
   rcases kSub23Simple_holds S hshape Y hY with hYbot | hYsimple
   · subst Y
     exact Subgroup.eq_bot_of_subsingleton R
   · rcases hYsimple.eq_bot_or_eq_top_of_normal R with hRbot | hRtop
     · exact hRbot
     · exfalso
-      haveI : Nontrivial ↥Y := hYsimple.toNontrivial
-      haveI : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
-      haveI hsolvTop : Group.IsSolvable ↥(⊤ : Subgroup ↥Y) := hRtop ▸ hRsolv
+      have : Nontrivial ↥Y := hYsimple.toNontrivial
+      have : Group.IsPerfect ↥Y := Subgroup.isPerfect_iff.mpr hY
+      have hsolvTop : Group.IsSolvable ↥(⊤ : Subgroup ↥Y) := hRtop ▸ hRsolv
       let e := (Subgroup.topEquiv : ↥(⊤ : Subgroup ↥Y) ≃* ↥Y)
       have hsolvY : Group.IsSolvable ↥Y :=
         Group.isSolvable_of_surjective (f := e.toMonoidHom) e.surjective

@@ -49,7 +49,7 @@ public import Mathlib.Algebra.Ring.Int.Units
 public import Mathlib.Combinatorics.SimpleGraph.CompleteMultipartite
 public import Mathlib.Combinatorics.SimpleGraph.Paths
 public import Mathlib.Combinatorics.SimpleGraph.Prod
-public import Mathlib.Data.Finite.Prod
+public import Mathlib.Basic.Finite.Prod
 public import Mathlib.Data.Finset.Basic
 public import Mathlib.Data.Finset.Lattice.Fold
 public import Mathlib.Data.Finset.Max
@@ -187,14 +187,14 @@ theorem s16h_sl24_univ_bound (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W
       Nat.card ↥((s16h_sl24_univModel L hU).ker.subgroupOf (s16h_sl24_univModel L hU).sec) := by
   classical
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hrow.2
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   let π₀ : (FFModel.nat (StatedSL 2 K)).Gam →* ↥L := Classical.choose hreal
   have hπ₀ : (FFModel.nat (StatedSL 2 K)).RealizesVia L (commSub ⊤ L)
       (commSub ⊤ L ⊓ fixV L) π₀ := Classical.choose_spec hreal
   have hperf : Group.IsPerfect ↥L := by
     have hK4 : 4 ≤ Nat.card K := by rw [hKcard]; norm_num
-    haveI : Group.IsPerfect (FFModel.nat (StatedSL 2 K)).Gam :=
+    have : Group.IsPerfect (FFModel.nat (StatedSL 2 K)).Gam :=
       CFSG.Open.StatedAPI.isPerfect_statedSL_two_of_four_le_card hK4
     exact Group.IsPerfect.ofSurjective (f := π₀) hπ₀.1
   have hmem : ∀ l ∈ L, ∀ y ∈ (⊤ : Subgroup W), l y ∈ (⊤ : Subgroup W) :=
@@ -225,15 +225,15 @@ theorem s16h_sl24_univ_bound (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W
   have hbound : Nat.card C.β.ker ≤ 4 := by
     obtain ⟨K₂, hK₂f, hK₂fin, hK₂card, π, β, hπs, hβs, hβk, hβe⟩ :=
       s16h_sl24_cover_coord (L := L) (U := commSub ⊤ L) (Z := commSub ⊤ L ⊓ fixV L) hrow
-    letI : Field K₂ := hK₂f
-    letI : Finite K₂ := hK₂fin
-    haveI : Fintype K₂ := Fintype.ofFinite K₂
+    let : Field K₂ := hK₂f
+    let : Finite K₂ := hK₂fin
+    have : Fintype K₂ := Fintype.ofFinite K₂
     have hF : Fintype.card K₂ = 2 ^ 2 := by
       rw [← Nat.card_eq_fintype_card, hK₂card]
       norm_num
-    haveI : CharP K₂ 2 := charP_of_card_eq_prime_pow hF
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : Algebra (ZMod 2) K₂ := ZMod.algebra K₂ 2
+    have : CharP K₂ 2 := charP_of_card_eq_prime_pow hF
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Algebra (ZMod 2) K₂ := ZMod.algebra K₂ 2
     have hZk : (commSub ⊤ L ⊓ fixV L).subgroupOf (commSub ⊤ L) = β.ker := by
       ext x
       rw [MonoidHom.mem_ker, Subgroup.mem_subgroupOf]
@@ -286,7 +286,7 @@ theorem s16h_sl24_univ_bound (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W
       have h4 : (s16h_sl24_univModel L hU).act (gmap γ) (m : W) =
           (π γ : MulAut W) (m : W) := by
         simp only [s16h_sl24_univModel]
-        rw [dif_pos m.2]
+        rw [dite_eq_left m.2]
         rfl
       have hmU : (s16h_sl24_univModel L hU).act (gmap γ) (m : W) ∈ commSub ⊤ L := by
         rw [h4]

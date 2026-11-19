@@ -35,7 +35,7 @@ theorem perLineOn_of_cover {K : Type} [Field K] [Finite K] {n : ℕ}
     simp only at this
     omega
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   have hAb : CFSG.Open.IsElemAbelian 3 (TypeA.inducedSub ψ A) :=
     TypeA.isElemAbelian_inducedSub hψ hA
   have hAbI : ∀ x ∈ TypeA.inducedSub ψ A, x ∈ LargeEvenMatConjImage
@@ -64,7 +64,7 @@ theorem perLineOn_of_cover {K : Type} [Field K] [Finite K] {n : ℕ}
       push Not at hge
       exact hfr (TableBUD.exists_unitary_frame h hK (by norm_num) hdq hp3 hpq hAb hAbI
         (by rw [hcardAb]; simpa using hge))
-    haveI : Finite (MulAut L') := Finite.of_injective (fun φ : MulAut L' => (φ : L' → L'))
+    have : Finite (MulAut L') := Finite.of_injective (fun φ : MulAut L' => (φ : L' → L'))
       DFunLike.coe_injective
     have hA3 : IsPGroup 3 A := fun g => ⟨1, Subtype.ext (by simpa using hA.2 g.1 g.2)⟩
     obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp hA3

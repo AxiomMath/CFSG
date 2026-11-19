@@ -13,8 +13,8 @@ namespace CFSG.RankThree.PartTwo.Sec4.RonanK432
 theorem isCyclic_of_pRank_le_one {X : Type} [Group X] [Finite X]
     (hr : CFSG.Open.pRank 3 (⊤ : Subgroup X) ≤ 1) {R : Subgroup X} (hR : IsPGroup 3 R) :
     IsCyclic R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (IsPGroup 3 R) := ⟨hR⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (IsPGroup 3 R) := ⟨hR⟩
   by_contra hnc
   obtain ⟨E, -, hcard, hel⟩ := CFSG.lemma_4_5_a (p := 3) (by norm_num) hnc
   have hE : CFSG.Open.IsElemAbelian 3 E :=
@@ -81,7 +81,7 @@ theorem sq_mem_centralizer {S : Type} [Group S] [Finite S] (H : Subgroup S) [IsC
     (hH : IsPGroup 3 H) (hcop : Nat.Coprime 3 H.index) {n : S}
     (hn : n ∈ Subgroup.normalizer (H : Set S)) :
     n ^ 2 ∈ Subgroup.centralizer (H : Set S) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let ψ : Subgroup.normalizer (H : Set S) →* MulAut H := Subgroup.normalizerMonoidHom H
   let C : Subgroup S := Subgroup.centralizer (H : Set S)
   have hker : ψ.ker = C.subgroupOf (Subgroup.normalizer (H : Set S)) :=
@@ -122,8 +122,8 @@ theorem exists_normalizer_not_centralizer {S : Type} [Group S] [Finite S] [IsSim
     (hna : ∃ a b : S, a * b ≠ b * a) (P : Sylow 3 S) [IsCyclic (P : Subgroup S)]
     (hP1 : (P : Subgroup S) ≠ ⊥) :
     ∃ n ∈ Subgroup.normalizer (P : Set S), n ∉ Subgroup.centralizer (P : Set S) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Sylow 3 S) := P.finite_of_finiteIndex
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (Sylow 3 S) := P.finite_of_finiteIndex
   by_contra hcon
   push Not at hcon
   have hle : Subgroup.normalizer (P : Set S) ≤ Subgroup.centralizer (P : Set S) :=
@@ -150,13 +150,13 @@ theorem exists_normalizer_not_centralizer {S : Type} [Group S] [Finite S] [IsSim
 theorem exists_inv_of_pRank_one {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
     (hna : ∃ a b : S, a * b ≠ b * a) (hrk : CFSG.Open.pRank 3 (⊤ : Subgroup S) = 1)
     {b : S} (hb : orderOf b = 3) : ∃ t : S, t * b * t⁻¹ = b⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbP : IsPGroup 3 (Subgroup.zpowers b) :=
     IsPGroup.of_card (show Nat.card (Subgroup.zpowers b) = 3 ^ 1 by
       rw [Nat.card_zpowers, hb, pow_one])
   obtain ⟨P, hble⟩ := hbP.exists_le_sylow
-  have hcyc : IsCyclic (P : Subgroup S) := isCyclic_of_pRank_le_one hrk.le P.isPGroup'
-  haveI := hcyc
+  have hcyc : IsCyclic (P : Subgroup S) := isCyclic_of_pRank_le_one hrk.le P.isPGroup
+  have := hcyc
   have hbP' : b ∈ (P : Subgroup S) := hble (Subgroup.mem_zpowers b)
   have hP1 : (P : Subgroup S) ≠ ⊥ := by
     intro h
@@ -165,14 +165,14 @@ theorem exists_inv_of_pRank_one {S : Type} [Group S] [Finite S] [IsSimpleGroup S
     norm_num at hb
   obtain ⟨n, hnN, hnC⟩ := exists_normalizer_not_centralizer hna P hP1
   obtain ⟨g, hgP, hgz⟩ := exists_zpowers_eq (P := (P : Subgroup S))
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp P.isPGroup'
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_card).mp P.isPGroup
   have hord : orderOf g = 3 ^ k := by
     rw [← Nat.card_zpowers, hgz]
     exact hk
   have hcop : Nat.Coprime 3 (P : Subgroup S).index :=
     (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).2 P.not_dvd_index
   have hsq : n ^ 2 ∈ Subgroup.centralizer (P : Set S) :=
-    sq_mem_centralizer (P : Subgroup S) P.isPGroup' hcop hnN
+    sq_mem_centralizer (P : Subgroup S) P.isPGroup hcop hnN
   have hng : n * g * n⁻¹ ∈ (P : Subgroup S) :=
     (Subgroup.mem_normalizer_iff.mp hnN g).mp hgP
   obtain ⟨a, ha⟩ : ∃ a : ℤ, g ^ a = n * g * n⁻¹ := by

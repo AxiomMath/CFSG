@@ -120,17 +120,17 @@ theorem D1ComponentConfig3.le_d1KBar_of_surjective (h3 : D1CaseThreeNotKlingen3 
       (QuotientGroup.quotientBot.symm.trans (QuotientGroup.quotientMulEquivOfEq hZ'c.symm)).trans
         e'
     have hC' := hcfg.centralizer_eq_bot hK' huniq' hcent hZ'c
-    haveI hKn' : K'.Normal := normal_of_forall_isComponentOf_eq hK' huniq'
+    have hKn' : K'.Normal := normal_of_forall_isComponentOf_eq hK' huniq'
     have hOut' := hk.outer p hp2 d' hd'' K' ⟨eK'⟩
     have hRK'' : (Tbar : Subgroup (N ⧸ primeComplementCore (G := N) p)) ≤ K' := by
       have : Finite (MulAut K') := MulEquiv.finite_left
       intro x hx
-      obtain ⟨n, hn⟩ := Tbar.isPGroup' ⟨x, hx⟩
+      obtain ⟨n, hn⟩ := Tbar.isPGroup ⟨x, hx⟩
       have hxn : x ^ p ^ n = 1 := by simpa using congrArg Subtype.val hn
       have hmem := mem_sup_centralizer_of_pow hp hOut' hxn
       rwa [hC', sup_bot_eq] at hmem
     obtain ⟨hKs, hKnab, hKcat⟩ := hcfg.component_facts hK' hZ'c
-    have hX : IsPGroup p Xt := Tbar.isPGroup'.to_le hXR
+    have hX : IsPGroup p Xt := Tbar.isPGroup.to_le hXR
     have hJ : Group.IsPerfect Jt := isPerfect_of_nclIn_eq hS hSnab hX hncl φ hφ hcop
     have hJK : Jt ≤ K' := by
       have := le_sup_centralizer_of_isPerfect hJ (hSch K' hKs hKnab hKcat) (K := K')
@@ -177,7 +177,7 @@ theorem exists_nclIn_eq_of_surjective [Fact p.Prime] {Y : Type} [Group Y] [Finit
       exact ⟨⟨j, Subgroup.mem_subgroupOf.mp hj⟩, rfl⟩
   have hrn : (φ.comp (Subgroup.inclusion (hNJ.trans hJ))).range.Normal := by
     rw [hrange]
-    haveI := nclIn_normal J Xt
+    have := nclIn_normal J Xt
     exact Subgroup.Normal.map inferInstance ψ hJs
   have hrne : (φ.comp (Subgroup.inclusion (hNJ.trans hJ))).range ≠ ⊥ := by
     intro hbot
@@ -207,7 +207,7 @@ theorem exists_nclIn_eq_of_surjective [Fact p.Prime] {Y : Type} [Group Y] [Finit
     rw [orderOf_eq_one_iff] at h1
     exact Subgroup.mem_bot.mpr (congrArg Subtype.val h1)
   have hNs : Function.Surjective (φ.comp (Subgroup.inclusion (hNJ.trans hJ))) := by
-    haveI := hrn
+    have := hrn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (φ.comp (Subgroup.inclusion (hNJ.trans hJ))).range with hb | ht
     · exact absurd hb hrne
@@ -241,7 +241,7 @@ theorem D1ComponentConfig3.hyp917At_of_cover (h3 : D1CaseThreeNotKlingen3 G)
     obtain ⟨h, hh, rfl⟩ := hk
     exact ⟨⟨h, Subgroup.mem_subgroupOf.mp hh⟩, rfl⟩
   obtain ⟨x, hx1, kx, hxk⟩ := hKp
-  haveI := hKs
+  have := hKs
   have hker : ρ.rangeRestrict.ker ≤ ψ.ker := by
     rw [MonoidHom.ker_rangeRestrict]
     exact le_ker_of_isSimpleGroup ψ hψs ρ.ker (fun n hn => coprime_of_mk_inclusion_eq_one3 hWN n hn)
@@ -270,7 +270,7 @@ theorem D1ComponentConfig3.hyp917At_of_cover (h3 : D1CaseThreeNotKlingen3 G)
   have hXR : Xt ≤ Tbar := by
     rw [hcfg.rbar]
     exact Subgroup.map_mono (Subgroup.comap_mono hXT)
-  have hXp : IsPGroup p Xt := Tbar.isPGroup'.to_le hXR
+  have hXp : IsPGroup p Xt := Tbar.isPGroup.to_le hXR
   have hXne : Xt ≠ ⊥ := fun h => hXnc (h ▸ inferInstance)
   obtain ⟨J, hJ, hXJ, hJs, hncl⟩ := exists_nclIn_eq_of_surjective hKs φ hφs hcopφ hXp hXρ hXne
   obtain ⟨hJle, h93⟩ := hcfg.le_d1KBar_of_surjective h3 hother hSch hk hmod hKs hKnab

@@ -26,7 +26,7 @@ theorem exists_inverted_three_unitary (hU : UnitaryFieldData 2 f K) (hf : f ≠ 
     ∃ y : primeFormP hU (idC K),
       primeFormConjHom hU _ A y = y ∧ y ^ 3 = 1 ∧ y ≠ 1 ∧ t * y * t⁻¹ = y⁻¹ := by
   classical
-  haveI : CharP K 2 := hU.charP
+  have : CharP K 2 := hU.charP
   have h2K : (2 : K) = 0 := CharP.cast_eq_zero K 2
   have hq : ¬ (3 = 3 ∧ 2 ^ f = 2) := by
     rintro ⟨-, h⟩

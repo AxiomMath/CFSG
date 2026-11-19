@@ -109,7 +109,7 @@ theorem y6b_a_normalizes_V1 (c : Ctx6 G L) (hH : F33Hyp c.s c.e) (hF : c.toCtx5.
     obtain ⟨e, heE, m, hmM3, hy1eq⟩ :=
       (y6b_mem_W c.toCtx5 hH hF hRT).mp hy1W
     have hm_comm : m * u = u * m := by
-      haveI := y6e_M3_comm c.toCtx5 hF
+      have := y6e_M3_comm c.toCtx5 hF
       exact setLike_mul_comm (s := M3 c.s) hmM3 huM3
     have hmu : m * u * m⁻¹ = u := by rw [hm_comm, mul_assoc, mul_inv_cancel, mul_one]
     have hy1u : (a⁻¹ * (k * a * k⁻¹)) * u * (a⁻¹ * (k * a * k⁻¹))⁻¹ = e * u * e⁻¹ := by

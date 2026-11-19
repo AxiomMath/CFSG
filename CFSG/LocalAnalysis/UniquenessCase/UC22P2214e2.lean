@@ -17,10 +17,10 @@ open CFSG.Open Subgroup
 theorem uc22p2214_bor_card_normalizer {X : Type} [Group X] [Finite X] (hB : fusionIsBenderGroup X)
     (Q : Sylow 2 X) :
     Nat.card (normalizer ((Q : Subgroup X) : Set X)) * (Nat.card (Q : Subgroup X) + 1) = Nat.card X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨q, k, -, hBor⟩ := CFSG.QuasithinUnique.Unc25G2.BenderBorel.exists_borel_of_bender hB
   obtain ⟨-, ⟨D, hDcyc, -, -, hsup⟩, -⟩ := hBor Q
-  have hsolvN := CFSG.QuasithinUnique.Unc25G2.BenderBorel.isSolvable_normalizer_of_sup_cyclic Q.isPGroup'
+  have hsolvN := CFSG.QuasithinUnique.Unc25G2.BenderBorel.isSolvable_normalizer_of_sup_cyclic Q.isPGroup
     hDcyc hsup
   have hreg := CFSG.QuasithinUnique.Unc25G2.BenderBorel.regular_of_borel
     (CFSG.QuasithinUnique.Unc25G2.BenderBorel.isSimpleBenderGroup_of_fusion hB) Q hsolvN
@@ -28,7 +28,7 @@ theorem uc22p2214_bor_card_normalizer {X : Type} [Group X] [Finite X] (hB : fusi
   have hNtop : N ≠ ⊤ := uc22p2214_bor_ne_top_of_bender hB hsolvN
   have hα : ∃ β : X ⧸ N, β ≠ ((1 : X) : X ⧸ N) := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     apply hNtop
     rw [eq_top_iff]
     intro x _
@@ -104,8 +104,8 @@ theorem uc22p2214_borel_prime_U3 {X : Type} [Group X] [Finite X] {n : ℕ} (hX :
 theorem uc22p2214_borel_prime_Sp4 {X : Type} [Group X] [Finite X] {n : ℕ} (hX : IsSp4 X n) {S : Subgroup X}
     (hS : CFSG.ABGLocalTools.IsSylowOf 2 S ⊤) {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hrN : r ∣ Nat.card ↥(normalizer (S : Set X))) : r ∣ 2 ^ n - 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨hcl, -⟩ := uc22p2214_bor_sp4_model hX
   obtain ⟨K, _, _, _, φ, hK, hφS, -, -⟩ :=
     CFSG.QuasithinUnique.Setup.X7a.even_rank_two_residual_symplectic hcl

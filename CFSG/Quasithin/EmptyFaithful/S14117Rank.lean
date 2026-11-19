@@ -26,7 +26,7 @@ theorem isCyclic_sylow_centralizer_of_faithful (hp2 : p ≠ 2)
   have hQpn : Qp.Normal := CFSG.LieType.BorelTits.pCore_normal p
   have hQpp : IsPGroup p Qp := CFSG.LieType.BorelTits.pCore_isPGroup p
   set P₀ : Subgroup Q := (P : Subgroup ↥Cr).map Cr.subtype with hP₀
-  have hP₀p : IsPGroup p P₀ := P.isPGroup'.map Cr.subtype
+  have hP₀p : IsPGroup p P₀ := P.isPGroup.map Cr.subtype
   have hP₀r : ∀ x ∈ P₀, x * r = r * x := by
     rintro _ ⟨y, -, rfl⟩
     have hy : (y : Q) ∈ Subgroup.centralizer ({r} : Set Q) := hCr ▸ y.2

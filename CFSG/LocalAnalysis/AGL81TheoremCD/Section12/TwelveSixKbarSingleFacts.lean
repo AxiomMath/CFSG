@@ -233,11 +233,11 @@ theorem kFactSz32MulAutThreeFree_holds :
     CFSG.RankThree.PartOne.CTP.suzukiModel_of_isoLie 2 hiso
   have hcard : Nat.card Y = 32537600 :=
     CFSG.HardMathSupport.Dickson.Bal207.card_of_suzukiModel_two_five hM
-  haveI : IsSimpleGroup Y := (CFSG.LieType.Simplicity.fam_2b2_simplicity Y 2 5 hM).2
+  have : IsSimpleGroup Y := (CFSG.LieType.Simplicity.fam_2b2_simplicity Y 2 5 hM).2
   have hnab : ∃ a b : Y, a * b ≠ b * a := by
     by_contra h
     push Not at h
-    haveI : IsMulCommutative Y := isMulCommutative_iff.mpr h
+    have : IsMulCommutative Y := isMulCommutative_iff.mpr h
     have hprime : (Nat.card Y).Prime := (Group.is_simple_iff_prime_card).mp inferInstance
     rw [hcard] at hprime
     exact (by norm_num : ¬ Nat.Prime 32537600) hprime
@@ -264,7 +264,7 @@ theorem kFactSz32MulAutThreeFree_holds :
 private theorem card_outer_psl28 {X : Type} [Group X] [Finite X]
     (e : X ≃* CFSG.AGLEmbedding.PSL2GF 2 3) :
     Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) = 3 := by
-  haveI : IsSimpleGroup X :=
+  have : IsSimpleGroup X :=
     CFSG.GF2Type.Smith1979.OmegaPlus.isSimpleGroup_of_mulEquiv_psl28 e
   have hnab : ∃ a b : X, a * b ≠ b * a :=
     CFSG.GF2Type.Smith1979.OmegaPlus.exists_ne_comm_of_mulEquiv_psl28 e
@@ -282,7 +282,7 @@ private theorem card_outer_psl28 {X : Type} [Group X] [Finite X]
   have h2 : Nat.card (MulAut X) = 3 * Nat.card X :=
     CFSG.GF2Type.Smith1979.OmegaPlus.card_mulAut_of_mulEquiv_psl28 e
   rw [h2, hInnerCard] at h1
-  haveI : Nonempty X := ⟨1⟩
+  have : Nonempty X := ⟨1⟩
   exact (Nat.mul_right_cancel Nat.card_pos h1).symm
 
 theorem mem_range_conj_of_inv_of_psl28 {X : Type} [Group X] [Finite X]
@@ -290,10 +290,10 @@ theorem mem_range_conj_of_inv_of_psl28 {X : Type} [Group X] [Finite X]
     (hτ : τ * a * τ⁻¹ = a⁻¹) : a ∈ (MulAut.conj : X →* MulAut X).range := by
   have hOuterCard : Nat.card (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) = 3 :=
     card_outer_psl28 e
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hcyc : IsCyclic (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hcyc : IsCyclic (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) :=
     isCyclic_of_prime_card hOuterCard
-  haveI hcomm : IsMulCommutative (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) :=
+  have hcomm : IsMulCommutative (CFSG.ComponentClassification.OuterAutomorphisms.Outer X) :=
     hcyc.isMulCommutative
   let Inn : Subgroup (MulAut X) := CFSG.ComponentClassification.OuterAutomorphisms.inner X
   let π : MulAut X →* CFSG.ComponentClassification.OuterAutomorphisms.Outer X :=
@@ -341,7 +341,7 @@ theorem card_ne_nine_of_isElemAbelian_of_psl28 {X : Type} [Group X] [Finite X]
     rw [show CFSG.AGLEmbedding.PSL2GF 2 3 = PSL(2, GaloisField 2 3) from rfl, h]
     norm_num
   have hX : Nat.card X = 504 := (Nat.card_congr e.toEquiv).trans hcardPSL
-  haveI : IsSimpleGroup X :=
+  have : IsSimpleGroup X :=
     CFSG.GF2Type.Smith1979.OmegaPlus.isSimpleGroup_of_mulEquiv_psl28 e
   have hnab : ∃ a b : X, a * b ≠ b * a :=
     CFSG.GF2Type.Smith1979.OmegaPlus.exists_ne_comm_of_mulEquiv_psl28 e
@@ -358,7 +358,7 @@ theorem card_ne_nine_of_isElemAbelian_of_psl28 {X : Type} [Group X] [Finite X]
     card_eq_three_pow_factorization hX h9
   have hYcard : Nat.card ↥(Subgroup.zpowers y) = 3 ^ (Nat.card X).factorization 3 :=
     card_eq_three_pow_factorization hX hY9
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let P : Sylow 3 X := Sylow.ofCard A hAcard
   let Q : Sylow 3 X := Sylow.ofCard (Subgroup.zpowers y) hYcard
   have hP : (P : Subgroup X) = A := Sylow.coe_ofCard A hAcard
@@ -368,7 +368,7 @@ theorem card_ne_nine_of_isElemAbelian_of_psl28 {X : Type} [Group X] [Finite X]
     (MulEquiv.subgroupCongr hP).symm |>.trans
       ((Sylow.equiv P Q).trans (MulEquiv.subgroupCongr hQ))
   have hcycA : IsCyclic ↥A := eAQ.isCyclic.mpr (Subgroup.isCyclic_zpowers y)
-  haveI : IsElementaryAbelian 3 ↥A :=
+  have : IsElementaryAbelian 3 ↥A :=
     { toIsMulCommutative := hA.1
       exponent_dvd_p :=
         Monoid.exponent_dvd_of_forall_pow_eq_one fun x => Subtype.ext (hA.2 x x.2) }
@@ -382,13 +382,13 @@ private theorem pPrimeCore_three_le_solvableRadical_of_quot_altSix {G : Type} [G
     (e : (↥L ⧸ CFSG.solvableRadical ↥L) ≃* alternatingGroup (Fin 6)) :
     CFSG.pPrimeCore 3 ↥L ≤ CFSG.solvableRadical ↥L := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) :=
     alternatingGroup.isSimpleGroup (by simp)
   let N : Subgroup ↥L := CFSG.pPrimeCore 3 ↥L
   let R : Subgroup ↥L := CFSG.solvableRadical ↥L
   let π : ↥L →* ↥L ⧸ R := QuotientGroup.mk' R
-  haveI : IsSimpleGroup (↥L ⧸ R) := e.isSimpleGroup
+  have : IsSimpleGroup (↥L ⧸ R) := e.isSimpleGroup
   have hDnormal : (N.map π).Normal :=
     (CFSG.pPrimeCore_normal (p := 3) (G := ↥L)).map π (QuotientGroup.mk'_surjective R)
   have hDcop : Nat.Coprime 3 (Nat.card (N.map π)) :=
@@ -418,15 +418,15 @@ theorem nonempty_center_quot_equiv_altSix_of_isPComponentIn {G : Type} [Group G]
       alternatingGroup (Fin 6)) := by
   classical
   obtain ⟨e₀⟩ := h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥L := CFSG.pPrimeCore 3 ↥L
   let R : Subgroup ↥L := CFSG.solvableRadical ↥L
   have hNleR : N ≤ R :=
     pPrimeCore_three_le_solvableRadical_of_quot_altSix (L := L) e₀
-  haveI : Group.IsSolvable ↥R := CFSG.ABGLocalTools.solvableRadical_isSolvable
+  have : Group.IsSolvable ↥R := CFSG.ABGLocalTools.solvableRadical_isSolvable
   have hNsolv : Group.IsSolvable ↥N :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hNleR)
-  haveI : Group.IsSolvable ↥N := hNsolv
+  have : Group.IsSolvable ↥N := hNsolv
   let g : ↥L →* ↥L ⧸ N := QuotientGroup.mk' N
   have hq : CFSG.IsQuasisimple (↥L ⧸ N) := hL.isQuasisimple_quot Nat.prime_three
   have hq' : CFSG.Open.IsQuasisimple (↥L ⧸ N) :=

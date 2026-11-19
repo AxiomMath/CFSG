@@ -129,7 +129,7 @@ theorem exists_conj_eq_of_mul_self_eq_one [Finite G] {C R : Subgroup G} {t z : G
   obtain ⟨Qj, hQj⟩ := hjG.exists_le_sylow
   obtain ⟨d, hd⟩ := MulAction.exists_smul_eq D Q Qj
   set QG := (Q : Subgroup D).map D.subtype with hQGdef
-  have hQGp : IsPGroup 2 QG := Q.isPGroup'.map _
+  have hQGp : IsPGroup 2 QG := Q.isPGroup.map _
   have hRQG : R ≤ QG := fun r hr =>
     ⟨⟨r, hCD (hRC hr)⟩, hQ (Subgroup.mem_subgroupOf.mpr (Subgroup.mem_sup_right hr)), rfl⟩
   have htQG : t ∈ QG :=

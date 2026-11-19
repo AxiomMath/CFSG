@@ -50,7 +50,6 @@ theorem decV_negV (r : ℕ) : decV (negV r) = - decV r := by
   funext j
   fin_cases j
   all_goals simp [decV, ZMod.natCast_mod, Nat.cast_mul, h2]
-  all_goals exact neg_one_mul _
 
 theorem mem_span_e12 {u : Vec} :
     u ∈ Submodule.span (ZMod 3) {e1, e2} ↔ u 0 = 0 := by

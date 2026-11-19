@@ -26,8 +26,8 @@ theorem items6017 : ∀ x ∈ recTag HS.recShard_7, TagEq x :=
       (ng := kd_count% CFSG.KD.AX.c6017 u) (nch := kd_count% CFSG.KD.AX.c6017 CH)
       (by kd_allE CFSG.KD.AX.c6017 u) (by quickRfl))
     (by decide +kernel) (by quickRfl)
-    (by rw [rlS_lt (by norm_num)] <;> quickRfl) (by rw [rlS_lt (by norm_num)] <;> quickRfl)
-    (by rw [rlS_lt (by norm_num), rlS_lt (by norm_num)] <;> rfl)
+    (by rw [rlS_lt (by norm_num)]; quickRfl) (by rw [rlS_lt (by norm_num)]; quickRfl)
+    (by rw [rlS_lt (by norm_num), rlS_lt (by norm_num)]; rfl)
     (by quickRfl) (by decide +kernel)
 
 theorem neg_grp6017 : notB (grpL CFSG.KD.AX.c6017.rn CFSG.KD.AX.c6017.ck

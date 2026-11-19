@@ -30,7 +30,7 @@ theorem isPClosedMod_of_normal_sup_sylow {X : Type*} [Group X] [Finite X] {p : �
     IsPClosedMod p U := by
   refine ⟨(R : Subgroup X) ⊔ U, h, le_sup_right, ?_, fun hdvd =>
     R.not_dvd_index (hdvd.trans (Subgroup.index_dvd_of_le le_sup_left))⟩
-  obtain ⟨n, hn⟩ := R.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := R.isPGroup.exists_card_eq
   have hdvd : U.relIndex (R : Subgroup X) ∣ p ^ n := hn ▸ Subgroup.relIndex_dvd_card _ _
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Fact.out).mp hdvd
   exact ⟨k, (Subgroup.relIndex_sup_right (H := (R : Subgroup X)) (K := U)).trans hk⟩
@@ -41,8 +41,8 @@ theorem sylow_normal_outer_three_of_cover (hT : ExceptionalTowers) (hA : KFactAl
     (hrk : Open.pRank 3 (⊤ : Subgroup L) ≤ 2) (h3 : 3 ∣ Nat.card (Subgroup.center L)) :
     ∀ P : Sylow 3 (Outer (L ⧸ Subgroup.center L)),
       (P : Subgroup (Outer (L ⧸ Subgroup.center L))).Normal := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup (L ⧸ Subgroup.center L) := hq.2
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup (L ⧸ Subgroup.center L) := hq.2
   obtain ⟨a, b, hab⟩ :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian L hq
   have hZ : Subgroup.center (L ⧸ Subgroup.center L) = ⊥ :=
@@ -70,10 +70,10 @@ theorem sylow_normal_outer_three_of_cover (hT : ExceptionalTowers) (hA : KFactAl
     omega
   rcases hA (L ⧸ N) hqN hcatN hneN hZpN hcyc (by omega) with
     he | he | he | he | ⟨⟨d, hv⟩, hd, he⟩ <;> obtain ⟨e⟩ := he
-  · haveI := Hyp111.finite_outer (alternatingGroup (Fin 6))
+  · have := Hyp111.finite_outer (alternatingGroup (Fin 6))
     exact Hyp111.sylow_normal_outer_of_mulEquiv (eN.symm.trans e) (Hyp111.sylow_normal_of_not_dvd
       (not_dvd_card_outer_alternatingGroup 6 (by norm_num) 3 Nat.prime_three (by norm_num)))
-  · haveI := Hyp111.finite_outer (alternatingGroup (Fin 7))
+  · have := Hyp111.finite_outer (alternatingGroup (Fin 7))
     exact Hyp111.sylow_normal_outer_of_mulEquiv (eN.symm.trans e) (Hyp111.sylow_normal_of_not_dvd
       (not_dvd_card_outer_alternatingGroup 7 (by norm_num) 3 Nat.prime_three (by norm_num)))
   · exact sylow_normal_outer_of_outTowerAt hZ
@@ -95,9 +95,9 @@ theorem sylow_normal_outer_three_of_quasisimple (hT : ExceptionalTowers)
     [Finite L] (hq : Open.IsQuasisimple L) (hcat : IsCatalogGroup (L ⧸ Subgroup.center L))
     (hrk : Open.pRank 3 (⊤ : Subgroup L) ≤ 2) :
     ∀ P : Sylow 3 (Outer L), (P : Subgroup (Outer L)).Normal := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Group.IsPerfect L := ⟨hq.1⟩
-  haveI : IsSimpleGroup (L ⧸ Subgroup.center L) := hq.2
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Group.IsPerfect L := ⟨hq.1⟩
+  have : IsSimpleGroup (L ⧸ Subgroup.center L) := hq.2
   refine sylow_normal_of_injective (centerQuotient_outer_injective L) ?_
   by_cases h3 : 3 ∣ Nat.card (Subgroup.center L)
   · exact sylow_normal_outer_three_of_cover hT hA hN hq hcat hrk h3
@@ -110,9 +110,9 @@ theorem sylow_normal_outer_three_of_quasisimple (hT : ExceptionalTowers)
 theorem sevenOneThreeRankTwo_of_kFacts (hT : ExceptionalTowers) (hA : KFactAlphaListM3Wide)
     (hN : KFactProofs.T29.NoncyclicCentreRank) : SevenOneThreeRankTwo := by
   intro X _ _ hK L hL hLn hL3 _
-  haveI := hLn
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsSimpleGroup (L ⧸ Subgroup.center L) := hL.1.2.1
+  have := hLn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsSimpleGroup (L ⧸ Subgroup.center L) := hL.1.2.1
   have hq : Open.IsQuasisimple L := ⟨hL.1.1.commutator_eq_top, hL.1.2.1⟩
   have hcat : IsCatalogGroup (L ⧸ Subgroup.center L) :=
     (catalogSimpleSections_iff_isKGroup.mpr hK).surjective_image L

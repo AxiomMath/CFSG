@@ -45,7 +45,7 @@ theorem eq_of_mul_self_of_inv_mul_mem {Z : Subgroup X} (hZc : Z ≤ Subgroup.cen
   exact hb'.symm
 
 theorem commute_of_mk_commute {Z : Subgroup X} [Z.Normal] (hZc : Z ≤ Subgroup.center X)
-    (hZodd : Odd (Nat.card Z)) {a b : X} (ha : a * a = 1) (hb : b * b = 1)
+    (hZodd : Odd (Nat.card Z)) {a b : X} (_ha : a * a = 1) (hb : b * b = 1)
     (hab : (a : X ⧸ Z) * (b : X ⧸ Z) = (b : X ⧸ Z) * (a : X ⧸ Z)) :
     a * b = b * a := by
   have hcoe : ((a * b * a⁻¹ : X) : X ⧸ Z) =

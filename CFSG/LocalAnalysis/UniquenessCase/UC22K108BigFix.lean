@@ -43,7 +43,7 @@ theorem k108big_exists_conj_fixed [Finite G] (h : IsBNPair B N S) {p q : ℕ} [h
   have hfix : ∀ c ∈ B, U.map (MulAut.conj c).toMonoidHom = U := fun c hc =>
     Subgroup.mem_normalizer_iff_map_conj_eq.1 (hUB hc)
   have hHV₀ := k108big_cartan_le_normalizer_conj hUB n₀
-  letI actU : MulAction U (Subgroup G) := MulAction.compHom _ (MulAut.conj.comp U.subtype)
+  let actU : MulAction U (Subgroup G) := MulAction.compHom _ (MulAut.conj.comp U.subtype)
   have smulU : ∀ (u : U) (V : Subgroup G), u • V = V.map (MulAut.conj (u : G)).toMonoidHom :=
     fun _ _ => rfl
   have hmemΩ : ∀ g ∈ dc B N w₀, U.map (MulAut.conj g).toMonoidHom ∈ MulAction.orbit U V₀ := by
@@ -59,7 +59,7 @@ theorem k108big_exists_conj_fixed [Finite G] (h : IsBNPair B N S) {p q : ℕ} [h
       Subgroup.mem_normalizer_iff_map_conj_eq.1 (hHV₀ hc)
     rw [hconj U b' (u * c * (n₀ : G)), hfix b' hb', hconj U (n₀ : G) (u * c), ← hV₀,
       hconj V₀ c u, hcV]
-  letI actQ : MulAction Q (Subgroup G) := MulAction.compHom _ φ
+  let actQ : MulAction Q (Subgroup G) := MulAction.compHom _ φ
   have smulQ : ∀ (a : Q) (V : Subgroup G), a • V = V.map (φ a).toMonoidHom := fun _ _ => rfl
   let Ω : SubMulAction Q (Subgroup G) :=
     { carrier := MulAction.orbit U V₀
@@ -76,7 +76,7 @@ theorem k108big_exists_conj_fixed [Finite G] (h : IsBNPair B N S) {p q : ℕ} [h
         apply hmemΩ
         rw [← k108big_image_dc_longest h (φ a) (hφB a) hmax]
         exact ⟨_, hg, rfl⟩ }
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun K : Subgroup G => (K : Set G)) SetLike.coe_injective
   obtain ⟨k, hk⟩ := hUp.card_orbit V₀
   have hcard : ¬ q ∣ Nat.card Ω := by

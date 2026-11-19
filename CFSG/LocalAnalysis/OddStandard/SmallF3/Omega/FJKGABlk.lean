@@ -93,7 +93,7 @@ theorem fj_odd_block_comm (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1)
     (hW : Module.finrank (ZMod 3) (fixSp s) ≤ 2) {g : OGroup Q}
     (hg : g ∈ Subgroup.centralizer ({s} : Set (OGroup Q))) (hodd : Odd (orderOf g)) :
     ∃ b ∈ omegaGroup (nondegenerate_restrict_commSp hQ hs), blockHom hs (1, b) = g := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [← range_blockHom hQ hs] at hg
   obtain ⟨⟨p, c⟩, rfl⟩ := MonoidHom.mem_range.mp hg
   have hord : orderOf (p, c) = orderOf (blockHom hs (p, c)) :=
@@ -118,8 +118,8 @@ theorem fj_odd_block_comm (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1)
 theorem fj_le_fixBlock_of_finrank_le_two (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1)
     (hU : Module.finrank (ZMod 3) (commSp s) ≤ 2) {K : Subgroup (omegaGroup hQ)}
     (hK : K ≤ cOmega hQ s) (hKsl : IsSL23Mod K) : K ≤ (fjOmegaInl hQ hs).range := by
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite (omegaGroup hQ) := Subtype.finite
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (omegaGroup hQ) := Subtype.finite
   refine (l34g_le_closure_odd hKsl).trans ?_
   rw [Subgroup.closure_le]
   rintro c ⟨hcK, hcodd⟩
@@ -133,8 +133,8 @@ theorem fj_le_fixBlock_of_finrank_le_two (hQ : Q.Nondegenerate) {s : OGroup Q} (
 theorem fj_le_commBlock_of_finrank_le_two (hQ : Q.Nondegenerate) {s : OGroup Q} (hs : s * s = 1)
     (hW : Module.finrank (ZMod 3) (fixSp s) ≤ 2) {K : Subgroup (omegaGroup hQ)}
     (hK : K ≤ cOmega hQ s) (hKsl : IsSL23Mod K) : K ≤ (fjOmegaInr hQ hs).range := by
-  haveI : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
-  haveI : Finite (omegaGroup hQ) := Subtype.finite
+  have : Finite (OGroup Q) := CFSG.ClassicalInvolution.finite_orthogonalGroup_of_finite
+  have : Finite (omegaGroup hQ) := Subtype.finite
   refine (l34g_le_closure_odd hKsl).trans ?_
   rw [Subgroup.closure_le]
   rintro c ⟨hcK, hcodd⟩

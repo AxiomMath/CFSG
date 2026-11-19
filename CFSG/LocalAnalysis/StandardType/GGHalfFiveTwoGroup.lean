@@ -30,7 +30,7 @@ private theorem twoProj1_mul_twoProj0 : twoProj1 * twoProj0 = 0 := by
   intro r
   by_cases h1 : r.val / 2 = 1
   · have h0 : ¬ r.val / 2 = 0 := by omega
-    simp [h0, h1]
+    simp [h1]
   · simp [h1]
 
 private def twoCarrier : Set (SpecialLinearGroup (Fin 6) F2) :=
@@ -132,7 +132,7 @@ private theorem twoTau_ne_one : twoTau ≠ 1 := by
   have hc := congrArg (fun M : SpecialLinearGroup (Fin 6) F2 =>
     (M : Matrix (Fin 6) (Fin 6) F2) 0 2) h
   rw [twoTau, SpecialLinearGroup.transvection_coe, Matrix.SpecialLinearGroup.coe_one] at hc
-  simp [Matrix.add_apply, Matrix.single_apply] at hc
+  simp [Matrix.add_apply] at hc
 
 private theorem twoGroup_ne_bot : twoGroup ≠ ⊥ := by
   intro hbot

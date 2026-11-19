@@ -35,7 +35,7 @@ theorem normal_or_alternating_of_standard
   classical
   let Q := RankTwoStandard.rankTwoQuot A
   have hQsimple : IsSimpleGroup Q := hstd.1.2
-  haveI : Finite Q :=
+  have : Finite Q :=
     Finite.of_surjective (QuotientGroup.mk' (Subgroup.center ↥A))
       (QuotientGroup.mk'_surjective (Subgroup.center ↥A))
   rcases hT with h7 | ⟨p, f, hp, hp2, hf, hq5, hmodelT⟩

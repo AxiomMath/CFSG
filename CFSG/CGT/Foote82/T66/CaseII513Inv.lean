@@ -108,7 +108,7 @@ theorem conj_of_inv (hs : CaseIISplit) (hG1 : CaseIIG1) (hG9 : CaseIIG9) (hG12 :
   set y : ↥(HH G L v) := ⟨x * z * x⁻¹, hxH⟩ with hy
   set w : GL I6 (ZMod 2) := ((c.phi y : ↥(omegaMinusTwo 2)) : GL I6 (ZMod 2)) with hw
   have hw2 : orderOf w = 2 := c.orderOf_phi_conj hxH
-  have hℓH : ℓ ∈ HH G L v := c.L_le_H hℓ
+  have hℓH : ℓ ∈ HH G L v := CFSG.CGT.Foote82.CaseII.Ctx.L_le_H hℓ
   have hx' : psiGL ψ ⟨ℓ, c.L_le_H₁ hℓ⟩ ∈ ⁅omegaMinusTwo 2 ⊓ Subgroup.centralizer
       {((ψ ⟨z, c.z_mem⟩ : ↥(orthogonalMinus 2 (ZMod 2) 1 1)) : GL I6 (ZMod 2))},
       omegaMinusTwo 2 ⊓ Subgroup.centralizer

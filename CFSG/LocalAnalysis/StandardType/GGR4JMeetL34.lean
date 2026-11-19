@@ -54,15 +54,15 @@ theorem ggAut_L34_card_le_nine (J : Type) [Group J] [Finite J] (hJ : commutator 
     (hlab : GGHasLabel ⟨.A, 2, 2⟩ (J ⧸ Subgroup.center J)) (W : Subgroup (MulAut J))
     (hW : IsElemAbelian 3 W) : Nat.card W ≤ 9 := by
   obtain ⟨K, hKfield, hKfinite, hKcard, hiso⟩ := hlab
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   obtain ⟨iso⟩ := hiso
   have hK4 : Nat.card K = 4 := by simpa using hKcard
   have hGF4 : Nat.card (GaloisField 2 2) = 4 := by
     rw [GaloisField.card 2 2 (by norm_num)]
     norm_num
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 2) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
   have hK4' : Fintype.card K = 4 := by
     rw [← Nat.card_eq_fintype_card]
     exact hK4

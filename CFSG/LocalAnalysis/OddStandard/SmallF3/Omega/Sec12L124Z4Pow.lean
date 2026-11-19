@@ -52,7 +52,7 @@ theorem sec124_z4_mem_of_sq {V B : Subgroup G} (hV : IsZ4Pow4 V) (hBV : B ≤ V)
     intro b b' h
     apply Subtype.ext
     simpa [ι] using congrArg (fun x : {v : ↥V // v * v = 1} => ((x : ↥V) : G)) h
-  haveI : Finite {v : ↥V // v * v = 1} := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite {v : ↥V // v * v = 1} := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hbij : Function.Bijective ι := hι.bijective_of_nat_card_le (by rw [hcard, hB16])
   intro v hv hv2
   obtain ⟨b, hb⟩ := hbij.2 ⟨⟨v, hv⟩, Subtype.ext (by simpa using hv2)⟩

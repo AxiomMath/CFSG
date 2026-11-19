@@ -186,7 +186,7 @@ theorem conjAut_pow_eq_one_of_largeEvenInduces {G : Type} [Group G] {p : ℕ} {L
   have hap : a ^ p = 1 := by
     have h1 : (⟨d⁻¹, hdN'⟩ : N) ^ p = 1 := by
       apply Subtype.ext
-      simp only [Subgroup.coe_pow, Subgroup.coe_mk, Subgroup.coe_one]
+      simp only [Subgroup.coe_pow, Subgroup.coe_one]
       rw [inv_pow, hdp, inv_one]
     change (ggGamma L (le_refl N) ⟨d⁻¹, hdN'⟩) ^ p = 1
     rw [← map_pow, h1, map_one]
@@ -228,7 +228,7 @@ theorem conjAut_commute_of_largeEvenInduces {G : Type} [Group G] {L : Subgroup G
   let c : MulAut ↥L := ggGamma L (le_refl N) ⟨b⁻¹, hbN'⟩
   have hcommN : (⟨d⁻¹, hdN'⟩ : N) * ⟨b⁻¹, hbN'⟩ = ⟨b⁻¹, hbN'⟩ * ⟨d⁻¹, hdN'⟩ := by
     apply Subtype.ext
-    simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+    simp only [Subgroup.coe_mul]
     rw [← mul_inv_rev, ← mul_inv_rev, hdb]
   have hcomm_ac : Commute a c := by
     have h := congrArg (ggGamma L (le_refl N)) hcommN

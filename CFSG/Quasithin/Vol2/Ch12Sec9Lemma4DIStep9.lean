@@ -17,8 +17,10 @@ variable {G : Type} [Group G] [Finite G]
 
 @[expose] def ccF (a k : G) : G := k * a * k⁻¹ * a⁻¹
 
+omit [Finite G] in
 theorem ccF_one (a : G) : ccF a 1 = 1 := by simp [ccF]
 
+omit [Finite G] in
 theorem ccF_mul (a k l : G) : ccF a (k * l) = (k * ccF a l * k⁻¹) * ccF a k := by
   unfold ccF; group
 
@@ -31,6 +33,7 @@ theorem hom_odd_trivial {N Q : Type} [Group N] [Group Q] (φ : N →* Q)
     rw [pow_succ, hm, one_mul]
   rw [e, hj, show 2 * j + 1 + 1 = 2 * (j + 1) by ring, pow_mul, h2, one_pow]
 
+omit [Finite G] in
 theorem subgroupOf_normal_of_comm {Zs J : Subgroup G}
     (hZc : ∀ x ∈ Zs, ∀ y ∈ Zs, x * y = y * x) : (J.subgroupOf Zs).Normal :=
   ⟨fun n hn g => by
@@ -42,10 +45,11 @@ theorem subgroupOf_normal_of_comm {Zs J : Subgroup G}
     rw [e]
     exact hn⟩
 
+omit [Finite G] in
 theorem hom_quot {K0 Zs J : Subgroup G} [hJn : (J.subgroupOf Zs).Normal]
     (hZc : ∀ x ∈ Zs, ∀ y ∈ Zs, x * y = y * x)
     (hKZ : ∀ k ∈ K0, ∀ z ∈ Zs, k * z * k⁻¹ ∈ Zs)
-    (c : G → G) (hc1 : c 1 = 1) (hcZ : ∀ k ∈ K0, c k ∈ Zs)
+    (c : G → G) (_hc1 : c 1 = 1) (hcZ : ∀ k ∈ K0, c k ∈ Zs)
     (hmul : ∀ k ∈ K0, ∀ l ∈ K0, c (k * l) = (k * c l * k⁻¹) * c k)
     (htriv : ∀ k ∈ K0, ∀ z ∈ Zs, k * z * k⁻¹ * z⁻¹ ∈ J) :
     ∃ φ : K0 →* (Zs ⧸ J.subgroupOf Zs), ∀ k (hk : k ∈ K0),

@@ -27,7 +27,7 @@ private theorem w1369_addHom_smul_of_commute_scalar
     (hTc : ∀ X, T (c • X) = c • T X) (a : F₄) (X : M₄) :
     T (a • X) = a • T X := by
   classical
-  letI : Fintype F₄ := Fintype.ofFinite F₄
+  let : Fintype F₄ := Fintype.ofFinite F₄
   have hc : Fintype.card F₄ = 4 := by
     rw [← Nat.card_eq_fintype_card, GaloisField.card 2 2 (by norm_num)]
     norm_num
@@ -97,7 +97,7 @@ private lemma w1369_natCard_range_sub_eq_four
       map_one' := by simp
       map_mul' := fun u v => by
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv, MulAut.mul_apply, map_mul,
+        simp only [Subgroup.coe_mul, Subgroup.coe_inv, map_mul,
           mul_inv_rev]
         ac_rfl }
   have hmem : ∀ x ∈ Subgroup.zpowers e, x = 1 ∨ x = e := by
@@ -169,8 +169,8 @@ private lemma w1369_natCard_range_sub_eq_four
       hcardΦ)
 
 theorem Std139.moved_axis (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n)
-    {K : Subgroup (MulAut W)} {d : MulAut W} (hK : IsComponentOf K G) (hd : d ∈ D)
-    (hd1 : d ≠ 1) (hKd : K.map (MulAut.conj d).toMonoidHom ≠ K) (h134 : Conc4_134 G K d) :
+    {K : Subgroup (MulAut W)} {d : MulAut W} (_hK : IsComponentOf K G) (_hd : d ∈ D)
+    (_hd1 : d ≠ 1) (_hKd : K.map (MulAut.conj d).toMonoidHom ≠ K) (_h134 : Conc4_134 G K d) :
     ∀ e ∈ D, e ∉ centSub (commSub ⊤ (swapPair K d)) →
       ∀ u ∈ commSub ⊤ (swapPair K d), e u = u ↔ u ∈ commSub ⊤ (swapPair K d) ⊓ Y := by
   intro e he henot u hu
@@ -185,7 +185,7 @@ theorem Std139.moved_axis (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n)
 
 theorem Std139.moved_transvection (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y n)
     {K : Subgroup (MulAut W)} {d : MulAut W} (hK : IsComponentOf K G) (hd : d ∈ D)
-    (hd1 : d ≠ 1) (hKd : K.map (MulAut.conj d).toMonoidHom ≠ K) (h134 : Conc4_134 G K d)
+    (_hd1 : d ≠ 1) (_hKd : K.map (MulAut.conj d).toMonoidHom ≠ K) (_h134 : Conc4_134 G K d)
     (hYU : ∀ y ∈ swapPair K d, ∀ u ∈ commSub ⊤ (swapPair K d), y u ∈ commSub ⊤ (swapPair K d))
     (hDU : ∀ e ∈ D, ∀ u ∈ commSub ⊤ (swapPair K d), e u ∈ commSub ⊤ (swapPair K d))
     [Module (ZMod 2) (Additive ↥(commSub ⊤ (swapPair K d)))]
@@ -287,9 +287,9 @@ theorem Std139.moved_transvection (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D
     rw [h2, hc]
   have hUne : U ≠ ⊥ := by
     intro hbot
-    haveI : Subsingleton ↥U := by rw [hbot]; infer_instance
-    haveI : Subsingleton (Additive ↥U) := inferInstance
-    haveI : Subsingleton M₄ :=
+    have : Subsingleton ↥U := by rw [hbot]; infer_instance
+    have : Subsingleton (Additive ↥U) := inferInstance
+    have : Subsingleton M₄ :=
       ⟨fun x y => by
         have h : ψ.symm x = ψ.symm y := Subsingleton.elim _ _
         simpa using congrArg ψ h⟩
@@ -298,11 +298,11 @@ theorem Std139.moved_transvection (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D
     intro hc0'
     have h := hc (ψ.symm (1 : M₄))
     rw [hc0', zero_smul] at h
-    have h1 : εx (ψ.symm (1 : M₄)) = 0 := ψ.injective (by simpa using h)
-    have h2 : ψ.symm (1 : M₄) = 0 := εx.injective (by simpa using h1)
+    have h1 : εx (ψ.symm (1 : M₄)) = 0 := ψ.injective (by simp at h)
+    have h2 : ψ.symm (1 : M₄) = 0 := εx.injective (by simp at h1)
     have h3 : (1 : M₄) = 0 := by
       have := congrArg ψ h2
-      simpa using this
+      simp at this
     exact one_ne_zero h3
   have hc1 : c ≠ 1 := by
     intro hc1'
@@ -429,7 +429,7 @@ theorem Std139.moved_transvection (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D
       _ = 4 := hcard_range_ε
   have hdim : Module.finrank F₄ (LinearMap.range (g.toLinearMap -
       (1 : M₄ →ₗ[F₄] M₄))) = 1 := by
-    haveI : Fintype F₄ := Fintype.ofFinite F₄
+    have : Fintype F₄ := Fintype.ofFinite F₄
     have hcard := Module.natCard_eq_pow_finrank (K := F₄)
       (V := ↥(LinearMap.range (g.toLinearMap - (1 : M₄ →ₗ[F₄] M₄)) : Set M₄))
     have hF4 : Nat.card F₄ = 4 := by
@@ -455,8 +455,7 @@ theorem Std139.moved_transvection (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D
     have hXX : g.toLinearMap (g.toLinearMap X) = X := hAA X
     rw [hXX]
     abel
-    simp only [two_smul, hadd, CharP.cast_eq_zero F₄ 2, zero_smul, neg_zero, add_zero,
-      neg_smul, one_smul]
+    simp only [two_smul, hadd, neg_zero, neg_smul]
   exact ⟨g, hg, hdim, hsq⟩
 
 end CFSG.LocalAnalysis.WeakClosure81.GF2Reps139

@@ -40,6 +40,7 @@ section Induced
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem indAut_pow_eq_one {p : ℕ} {L : Subgroup G} {b : G}
     (hbN : b ∈ Subgroup.normalizer (L : Set G)) (hbp : b ^ p = 1) : indAut p L b hbN ^ p = 1 := by
   unfold indAut
@@ -48,13 +49,14 @@ theorem indAut_pow_eq_one {p : ℕ} {L : Subgroup G} {b : G}
     Subtype.ext (by simp [inv_pow, hbp])
   rw [h, map_one]
 
+omit [Finite G] in
 theorem indAut_zpow {p : ℕ} {L : Subgroup G} {b : G}
     (hbN : b ∈ Subgroup.normalizer (L : Set G)) (k : ℤ) :
     indAut p L (b ^ k) (Subgroup.zpow_mem _ hbN k) = indAut p L b hbN ^ k := by
   unfold indAut
   rw [← map_zpow]
   congr 1
-  exact Subtype.ext (by simp [zpow_neg, inv_zpow])
+  exact Subtype.ext (by simp [zpow_neg])
 
 end Induced
 
@@ -62,7 +64,7 @@ end Induced
   ∀ (B : Subgroup G) (x : G) (L : Subgroup G), IsSTriple 3 B x L →
     CFSG.Open.IsKGroup ↥(Subgroup.centralizer ({x} : Set G)) → IsChevSimple 2 (PSimple 3 L) →
     catalogIs (PSimple 3 L) isD4any → ∀ b ∈ B,
-      CFSG.Assembly.LargeEvenMarking (PQuot 3 L) fun lab R _ I F θ =>
+      CFSG.Assembly.LargeEvenMarking (PQuot 3 L) fun _lab R _ I _F θ =>
         ∀ φ : MulAut R, LargeEvenInduces θ (indRel 3 L b) φ → CentralMod I φ
 
 section Main
@@ -70,21 +72,22 @@ section Main
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem fieldOn_or_td4_of_central {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : Subgroup G} {b : G}
     (hbN : b ∈ Subgroup.normalizer (L : Set G)) (hbp : b ^ p = 1)
     (hnon : ¬ InnDiagOn p (Subgroup.zpowers b) L)
-    (hM : CFSG.Assembly.LargeEvenMarking (PQuot p L) fun lab R _ I F θ =>
+    (hM : CFSG.Assembly.LargeEvenMarking (PQuot p L) fun _lab R _ I _F θ =>
       ∀ φ : MulAut R, LargeEvenInduces θ (indRel p L b) φ → CentralMod I φ) :
     FieldOn p b L ∨ (p = 3 ∧ IsTD4 3 L) := by
   have h1 := canon_marking_and_labelAll_simple' (P' := TransportFacts p)
-    (fun lab hlab => canonTransportFacts hp hp2 hlab) hM
+    (fun _lab hlab => canonTransportFacts hp hp2 hlab) hM
   have h2 := CFSG.StandardType.Canonical.largeEvenMarking_markedModel h1
-  have h3 : CFSG.Assembly.LargeEvenMarking (PQuot p L) fun lab R _ I F θ =>
+  have h3 : CFSG.Assembly.LargeEvenMarking (PQuot p L) fun _lab R _ I _F θ =>
       (∀ a ∈ Subgroup.zpowers b, ∃ φ ∈ I, LargeEvenInduces θ (indRel p L a) φ) ∨
-        (((lab.tag = .triD4 ∧ p = 3) ∧ MarkedModel lab R) ∨
-          GLAPrimeField p lab I F (GLAInduces θ (indRel p L b))) := by
+        (((_lab.tag = .triD4 ∧ p = 3) ∧ MarkedModel _lab R) ∨
+          GLAPrimeField p _lab I _F (GLAInduces θ (indRel p L b))) := by
     refine Canonical.largeEvenMarking_mono ?_ h2
-    rintro lab R _ I F θ ⟨⟨hcent, ⟨hI, hC, hlift⟩⟩, hMM⟩
+    rintro _lab R _ I _F θ ⟨⟨hcent, ⟨hI, hC, hlift⟩⟩, hMM⟩
     obtain ⟨hmul, hinv, hconj, hFI⟩ := hI
     have h1 : (1 : MulAut R) ∈ I := by simpa using hconj 1
     set α := MulAut.congr θ (indAut p L b hbN) with hα
@@ -101,10 +104,10 @@ theorem fieldOn_or_td4_of_central {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : 
       refine ⟨α ^ k, S.zpow_mem hαI k, (induces_indRel_iff hak θ).2 ?_⟩
       rw [indAut_zpow hbN k, map_zpow]
     · right
-      by_cases ht : lab.tag = .triD4 ∧ p = 3
+      by_cases ht : _lab.tag = .triD4 ∧ p = 3
       · exact Or.inl ⟨ht, hMM⟩
       · right
-        have hne : lab.tag ≠ .triD4 ∨ p ≠ 3 := not_and_or.mp ht
+        have hne : _lab.tag ≠ .triD4 ∨ p ≠ 3 := not_and_or.mp ht
         obtain ⟨hOdd, hLS⟩ := hlift ht
         have hpα : α ^ p = 1 := by
           rw [hα, ← map_pow, indAut_pow_eq_one hbN hbp, map_one]
@@ -116,10 +119,10 @@ theorem fieldOn_or_td4_of_central {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L : 
   rcases marking_or_split h3 with hA | hB
   · exact absurd ⟨Subgroup.zpowers_le.2 hbN, hA⟩ hnon
   · rcases marking_or_split hB with hT | hF
-    · obtain ⟨-, lab, hlab, R, _, I, F, θ, hs, hna, ⟨⟨ht, hp3⟩, hMM⟩⟩ :=
+    · obtain ⟨-, _lab, hlab, R, _, I, _F, θ, hs, hna, ⟨⟨ht, hp3⟩, hMM⟩⟩ :=
         Canonical.largeEvenMarking_exists hT
       subst hp3
-      obtain ⟨tg, rk, nn⟩ := lab
+      obtain ⟨tg, rk, nn⟩ := _lab
       dsimp only at ht
       subst ht
       have hL : CFSG.Blueprint.LieModel R .trialityD4 0 2 nn := hMM

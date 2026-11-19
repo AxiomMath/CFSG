@@ -96,6 +96,7 @@ theorem fixed_W2D_iff (k : Fin 306936) :
   · intro h
     rw [pk_congr _ (NM_lt k.isLt) h, pk_NM]
 
+omit hP in
 theorem letter_fixes_F2D {g : ℕ} (hg : g ∈ W2D) {j : ℕ} (hj : j < 696) :
     CFSG.KD.Fi24Fix.TG g (F2D j) = F2D j := by
   have hg12 : g < 12 := by
@@ -153,7 +154,7 @@ theorem tripleFacts_W2D : TripleFacts (ρ (wp W2D)) := by
     rw [smul_pk_letter hP hg12]
     conv_rhs => rw [← pk_NM l]
     apply pk_congr
-    rw [walk_cons, walk_nil, ← hjl, letter_fixes_F2D hP hg hj]
+    rw [walk_cons, walk_nil, ← hjl, letter_fixes_F2D hg hj]
   · intro k hk hall
     obtain ⟨j, hj, hjk⟩ := (fixed_W2D_iff hP k).1 hk
     have hkp : k = pk (NM_lt k.isLt) := (pk_NM k).symm

@@ -47,7 +47,7 @@ theorem false_of_transitive_of_sl2_le {W : Subgroup (SL3 F)} {μ : F} (hμ0 : μ
     exact h1
   have hsyM := congrArg (fun g : ↥(P1 : Subgroup (SL3 F)) =>
     ((g : SL3 F) : Matrix (Fin 3) (Fin 3) F)) hsy
-  simp only [Subgroup.coe_mul, SpecialLinearGroup.coe_mul] at hsyM
+  simp only [Subgroup.coe_mul] at hsyM
   have hrow : ∀ j : Fin 3, j ≠ 0 → ((y : SL3 F) : Matrix (Fin 3) (Fin 3) F) 0 j = 0 := by
     intro j hj
     have h := congrFun (congrFun hsyM 0) j
@@ -66,7 +66,7 @@ theorem false_of_transitive_of_sl2_le {W : Subgroup (SL3 F)} {μ : F} (hμ0 : μ
     · exact absurd rfl hj
     all_goals
       simp [s, coe_lev, levMat, coe_scalGL, Matrix.mul_apply, Fin.sum_univ_three] at h
-      first | exact key _ h | exact key _ h.symm
+      first | exact key _ h
   have hblock : ((y : SL3 F) : Matrix (Fin 3) (Fin 3) F).submatrix Fin.succ Fin.succ =
       !![1, 1; 0, 1] := (coe_rho1 y).symm.trans hyM
   have hdet := P1_det_eq y.2
@@ -85,7 +85,7 @@ theorem false_of_transitive_of_sl2_le {W : Subgroup (SL3 F)} {μ : F} (hμ0 : μ
     rw [coe_tv he]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp_all [Matrix.one_apply, Matrix.vecMulVec_apply, Pi.single_apply]
+      simp_all [Matrix.vecMulVec_apply]
   have he1 : (e1 : Fin 3 → F) ≠ 0 := by
     intro h
     have := congrFun h 1

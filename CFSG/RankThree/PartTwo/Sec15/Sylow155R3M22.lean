@@ -16,7 +16,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (Outer)
 
 private theorem isPGroup_two_outer_m22 :
     IsPGroup 2 (Outer Blueprint.NativeSporadic.M22) := by
-  haveI : Finite (MulAut Blueprint.NativeSporadic.M22) := MulEquiv.finite_left
+  have : Finite (MulAut Blueprint.NativeSporadic.M22) := MulEquiv.finite_left
   have hle : Nat.card (Outer Blueprint.NativeSporadic.M22) ≤ 2 :=
     CFSG.ClassicalInvolution.Nobq.card_outer_le_two_of_card_mulAut_le
       CFSG.Sporadic.Schreier.m22_center_eq_bot' CFSG.Sporadic.Schreier.m22_mulAut_card
@@ -28,7 +28,7 @@ private theorem isPGroup_two_outer_m22 :
 private theorem false_of_commute_of_five_seven
     {σ τ : MulAut Blueprint.NativeSporadic.M22} (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1) (hτ1 : τ ≠ 1)
     (hτ : ∀ p : ℕ, p.Prime → p ∣ orderOf τ → p = 5 ∨ p = 7) (hστ : σ * τ = τ * σ) : False := by
-  haveI : Finite (MulAut Blueprint.NativeSporadic.M22) := MulEquiv.finite_left
+  have : Finite (MulAut Blueprint.NativeSporadic.M22) := MulEquiv.finite_left
   have hout := isPGroup_two_outer_m22
   have hinj := CFSG.mulAutConj_injective_of_center_eq_bot CFSG.Sporadic.Schreier.m22_center_eq_bot'
   have hn1 : orderOf τ ≠ 1 := fun h => hτ1 (orderOf_eq_one_iff.mp h)
@@ -69,7 +69,7 @@ private theorem false_of_commute_of_five_seven
 theorem res3NoDatumM22_holds :
     Res3NoDatumM22 := by
   rintro J _ _ _ hq ⟨e⟩ c g V U hd
-  haveI : Group.IsPerfect J := hq.1
+  have : Group.IsPerfect J := hq.1
   let Φ : MulAut J →* MulAut Blueprint.NativeSporadic.M22 :=
     (MulAut.congr e).toMonoidHom.comp
       (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom J)

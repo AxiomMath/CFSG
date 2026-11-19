@@ -64,10 +64,7 @@ theorem Frame.codeC_eq {E : Subgroup S} (F : Frame E) (s t : S)
     have hsym6 := d6.symm
     rcases F.c_form s with hs | hs | hs | hs <;> rcases F.c_form t with ht | ht | ht | ht <;>
       rw [hs, ht] at e2 e3 ⊢ <;>
-      simp only [d1, d2, d3, d4, d5, d6, hsym1, hsym2, hsym3, hsym4, hsym5, hsym6, true_or,
-        or_true, or_false, false_or, iff_self, iff_true, true_iff, false_iff, not_true_eq_false,
-        eq_self_iff_true, and_self, and_true, true_and] at e2 e3 <;>
-      simp_all
+      simp only [d1, d2, d3, d4, d5, d6, hsym4, hsym5, hsym6, or_true, or_false, iff_self, iff_true, true_iff] at e2 e3
   exact ⟨hb, hc⟩
 
 theorem Frame.codeC_inj_of' {E : Subgroup S} (F : Frame E)

@@ -10,11 +10,11 @@ namespace CFSG.StandardType
 open CFSG CFSG.Assembly CFSG.Open
 
 theorem ggNbrLSideSp_inn {ℓ n : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ n)
-    (hn : 1 ≤ n) :
+    (_hn : 1 ≤ n) :
     LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup K ℓ)) (LargeEvenGSpSet K ℓ) ⊆
       LargeEvenInnSet (LargeEvenProj (LargeEvenSpGroup K ℓ)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   have hchar : CharP K 2 :=
     charP_of_card_eq_prime_pow (p := 2) (f := n) (by rwa [← Nat.card_eq_fintype_card])
   have h2 : (2 : K) = 0 := CharP.cast_eq_zero K 2

@@ -14,6 +14,7 @@ open Matrix Subgroup CFSG.Quasithin
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_of_alt_422 {X : Subgroup G}
     (h : Nonempty (↥X ≃* alternatingGroup (Fin 4)) ∨ Nonempty (↥X ≃* alternatingGroup (Fin 5))) :
     Nat.card ↥X = 12 ∨ Nat.card ↥X = 60 := by

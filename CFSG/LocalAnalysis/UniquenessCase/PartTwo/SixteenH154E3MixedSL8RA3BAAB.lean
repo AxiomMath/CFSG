@@ -37,10 +37,10 @@ theorem s16h_sl28_seven_z_normalizer_of_C
       fixV (lBar ⊥ V h.hyp151.isElemAbelian L)))
     (h7 : 7 ∈ D.sig)
     {x : G} (hxM : x ∈ D.M) (hxn : x ∉ nBar D.M ⊥ V h.hyp151.isElemAbelian L)
-    (hZ0 : wSub ⊥ V h.hyp151.isElemAbelian L ⊓
+    (_hZ0 : wSub ⊥ V h.hyp151.isElemAbelian L ⊓
         conjSubgroup (wSub ⊥ V h.hyp151.isElemAbelian L) x =
       wSub ⊥ V h.hyp151.isElemAbelian L ⊓ Subgroup.centralizer (L : Set G))
-    (hE : ∃ E : Subgroup G, E ≤ D.M ∧
+    (_hE : ∃ E : Subgroup G, E ≤ D.M ∧
       E ≤ Subgroup.centralizer
         ((wSub ⊥ V h.hyp151.isElemAbelian L ⊓
           Subgroup.centralizer (L : Set G)) : Set G) ∧
@@ -52,7 +52,7 @@ theorem s16h_sl28_seven_z_normalizer_of_C
             Subgroup.centralizer (L : Set G)) : Set G) : Subgroup G) : Set G) ∧
       IsPGroup 7 P ∧ ¬ IsCyclic ↥P := by
   have hV := h.hyp151.isElemAbelian
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hMΓ : D.M ≤ stabTil ⊥ V :=
     le_stabTil h.hyp151.hyp125.pairFacts.le_normalizer
       h.hyp151.hyp125.pairFacts.le_normalizer₀
@@ -77,12 +77,12 @@ theorem s16h_sl28_seven_z_normalizer_of_C
     s16h_sl28_seven_normalizer_bar D S hσ hJP h hs2 ht ht2 ht1 htr hW hcomp hthin hZ
       hbad hrow hZ4 h7 hxM hxn Tbar hTbar
   have hB : B ≤ Tbar := inf_le_left
-  have hE : E ≤ Mbar D.M ⊥ V hV := hEMbar
+  have _hE : E ≤ Mbar D.M ⊥ V hV := hEMbar
   have hEB : E ≤ Subgroup.normalizer (B : Set (MulAut (Vtil ⊥ V hV))) := hEnorm
   obtain ⟨P, hPle, hP7, hPnc⟩ :=
     s16h_frattini_lift_noncyclic_seven (Γ := ↥(stabTil ⊥ V))
       (Q := MulAut (Vtil ⊥ V hV)) (actTil ⊥ V hV) hTM hT' (B := B) (E := E)
-      hB hE hEB hE7 hEnc
+      hB _hE hEB hE7 hEnc
   let H : Subgroup ↥(stabTil ⊥ V) :=
     (D.T.subgroupOf (stabTil ⊥ V)) ⊓ B.comap (actTil ⊥ V hV)
   have hPleH : P ≤ (D.M.subgroupOf (stabTil ⊥ V)) ⊓
@@ -135,7 +135,7 @@ theorem s16h_sl28_seven_z_normalizer_of_C
             ((D.T ⊓ Subgroup.centralizer (Z : Set G) : Subgroup G) : Set G) := by
             rw [Subgroup.map_subgroupOf_eq_of_le hMΓ, hHmap]
   · intro hcyc
-    haveI : IsCyclic ↥(P.map (stabTil ⊥ V).subtype) := hcyc
+    have : IsCyclic ↥(P.map (stabTil ⊥ V).subtype) := hcyc
     exact hPnc (isCyclic_of_injective
       (Subgroup.equivMapOfInjective P (stabTil ⊥ V).subtype
         (Subgroup.subtype_injective (stabTil ⊥ V))).toMonoidHom

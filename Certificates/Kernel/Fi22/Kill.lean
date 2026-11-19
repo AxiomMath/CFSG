@@ -139,7 +139,7 @@ theorem czPow_single (q : Fin 7) : czPow (Multiplicative.ofAdd (Pi.single q 1)) 
   rw [Finset.prod_eq_single q]
   · simp
   · intro b _ hb
-    simp [Pi.single_apply, hb]
+    simp [hb]
   · simp
 
 theorem czPow_zero : czPow 1 = 1 := map_one _

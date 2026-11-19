@@ -18,10 +18,12 @@ variable {G : Type} [Group G] [Finite G]
       ∀ x : IntMod V hV, Setup1645 D V hV x → Concl1647 V x.val → Concl1647a D V₀ V x.val →
         IsSL25By5p12 ↥(starImg (centralizer ({x.val} : Set G)) (yGen L x.val))
 
+omit [Finite G] in
 theorem s16c1_xInf_le_yGen (L : Subgroup G) (z : G) : xInf L z ≤ yGen L z := by
   rw [yGen, hConjClosure]
   exact le_iSup_of_le ⟨1, one_mem _⟩ (le_of_eq (conjSubgroup_one (xInf L z)).symm)
 
+omit [Finite G] in
 theorem s16c1_starImg_mono (K : Subgroup G) {X Y : Subgroup G} (h : X ≤ Y) :
     starImg K X ≤ starImg K Y := by
   unfold starImg
@@ -32,7 +34,7 @@ theorem s16c1_two_lt_pRank_five {H : Subgroup G} {Ys Xs : Subgroup (Bar2 H)} (hX
   obtain ⟨N, hNnormal, hN, -⟩ := hY
   have hS : IsSL2Prime ↥(Xs.subgroupOf Ys) 5 :=
     s16c1_isSL2Prime_of_equiv hX (Subgroup.subgroupOfEquivOfLe hXY).symm
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   obtain ⟨E, hE, hEcard⟩ := s16c1_exists_elemAbelian_five_cube (Y := ↥Ys) hN hS
   have hEmap : IsElemAbelian 5 (E.map Ys.subtype) :=
     CFSG.SectionRank.isElemAbelian_map hE Ys.subtype
@@ -40,7 +42,7 @@ theorem s16c1_two_lt_pRank_five {H : Subgroup G} {Ys Xs : Subgroup (Bar2 H)} (hX
     rw [Subgroup.card_map_of_injective Ys.subtype_injective, hEcard]
   have h3 : 3 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup (Bar2 H)) :=
     CFSG.SectionRank.le_pRank (p := 5) (by norm_num) le_top hEmap hEmapcard
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h5notdvd : ¬ 5 ∣ Nat.card (CFSG.pCore 2 ↥H) := by
     obtain ⟨n, hn⟩ := (IsPGroup.iff_card (p := 2) (G := ↥(CFSG.pCore 2 ↥H))).1
       (CFSG.pCore_isPGroup (p := 2) (G := ↥H))

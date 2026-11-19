@@ -100,7 +100,7 @@ theorem exists_rank_two_subgroup_of_hom (φ : Multiplicative (Fin n → ZMod 3) 
     exact ⟨_, rfl⟩
   · rw [Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv.symm,
       Nat.card_congr (Multiplicative.toAdd : Multiplicative (Fin 2 → ZMod 3) ≃ _)]
-    simp [Nat.card_fun, ZMod.card]
+    simp [ZMod.card]
   · intro x
     simp only [Subgroup.mem_centralizer_iff, Set.mem_singleton_iff, forall_eq, SetLike.mem_coe]
     constructor
@@ -127,6 +127,7 @@ theorem tvMatWord_zmod_two :
     (tvMatWord [(3, 5), (5, 3)] : Matrix (Fin 6) (Fin 6) (ZMod 2)) = Tm := by
   decide +kernel
 
+omit [Finite K] in
 theorem coe_T_eq_Tm :
     ((tvSLWord [(3, 5), (5, 3)] : SL(6, K)) : Matrix (Fin 6) (Fin 6) K) = Tm := by
   rw [coe_tvSLWord]

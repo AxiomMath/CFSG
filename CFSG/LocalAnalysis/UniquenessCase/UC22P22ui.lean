@@ -16,6 +16,7 @@ section Bar11
 
 variable {M V₀ V : Subgroup G} [hn : ((F11.CTilde M V₀ V).subgroupOf M).Normal]
 
+omit [Finite G] in
 theorem uc22p22u_mem_barImage11 {Y : Subgroup G} {q : F11.MBar11 M V₀ V} :
     q ∈ F11.barImage11 M V₀ V Y ↔
       ∃ m : ↥M, (m : G) ∈ Y ∧ (QuotientGroup.mk m : F11.MBar11 M V₀ V) = q := by
@@ -26,6 +27,7 @@ theorem uc22p22u_mem_barImage11 {Y : Subgroup G} {q : F11.MBar11 M V₀ V} :
   · rintro ⟨m, hm, rfl⟩
     exact ⟨m, hm, rfl⟩
 
+omit [Finite G] in
 theorem uc22p22u_mem_barPreimage11 {Xbar : Subgroup (F11.MBar11 M V₀ V)} {x : G} :
     x ∈ F11.barPreimage11 M V₀ V Xbar ↔
       ∃ h : x ∈ M, (QuotientGroup.mk ⟨x, h⟩ : F11.MBar11 M V₀ V) ∈ Xbar := by
@@ -36,6 +38,7 @@ theorem uc22p22u_mem_barPreimage11 {Xbar : Subgroup (F11.MBar11 M V₀ V)} {x : 
   · rintro ⟨h, hx⟩
     exact ⟨⟨x, h⟩, hx, rfl⟩
 
+omit [Finite G] hn in
 theorem uc22p22u_mk_eq_iff {m m' : ↥M} :
     (QuotientGroup.mk m : F11.MBar11 M V₀ V) = QuotientGroup.mk m' ↔
       ((m⁻¹ * m' : ↥M) : G) ∈ F11.CTilde M V₀ V := by
@@ -48,6 +51,7 @@ theorem uc22p22u_card_eq_map_mul_inf_ker {X Y : Type*} [Group X] [Group Y] (f : 
   rw [Subgroup.relIndex_ker, inf_comm] at h
   exact h.symm
 
+omit [Finite G] in
 theorem uc22p22u_card_eq_barImage11_mul {Y : Subgroup G} (hYM : Y ≤ M) :
     Nat.card ↥Y = Nat.card ↥(F11.barImage11 M V₀ V Y) * Nat.card ↥(Y ⊓ F11.CTilde M V₀ V) := by
   have h := uc22p22u_card_eq_map_mul_inf_ker
@@ -75,7 +79,7 @@ theorem uc22p22u_tdata (D : Data G) (h116 : R116W D) (h118 : R118W D) {V : Subgr
     (hZ : Z = T ⊓ F11.CTilde D.M ⊥ V) :
     IsPGroup p ↥T ∧ IsCyclic ↥Z ∧ Z ≤ T ∧ ⁅T, T⁆ ≤ Z ∧ ⁅T, Z⁆ = ⊥ ∧ (∀ t ∈ T, t ^ p ∈ Z) ∧
       T ≤ D.M ∧ F11.barImage11 D.M ⊥ V T = Xbar := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hPM, -, -⟩ := uc22p22u_sylow_O2p hp hp2 hP
   have hPp : IsPGroup p ↥P := (CFSG.ABGLocalTools.isSylowOf_iff.1 hP).2.1
   have h1 := uc22p22u_r1110_part1 D h118 hV hp hp2 hP
@@ -90,7 +94,7 @@ theorem uc22p22u_tdata (D : Data G) (h116 : R116W D) (h118 : R118W D) {V : Subgr
     rw [hT] at ht
     exact uc22p22u_mem_barPreimage11.1 ht.2
   refine ⟨hPp.to_le hTP, ?_, hZT, ?_, ?_, ?_, hTM, ?_⟩
-  · haveI := hcyc
+  · have := hcyc
     exact isCyclic_of_injective (Subgroup.inclusion hZP) (Subgroup.inclusion_injective hZP)
   · refine Subgroup.commutator_le.2 fun a ha b hb => ?_
     obtain ⟨haM, ha'⟩ := hmemT a ha
@@ -161,6 +165,7 @@ theorem uc22p22u_r1110_part3a (D : Data G) (h116 : R116W D) (h118 : R118W D) {V 
   rw [hbar, hXc] at hcard
   exact uc22p22u_twostep_bundle hp hp2 hTp hZc hZT hcomm hcent hpow hn hcard
 
+omit [Finite G] in
 theorem uc22p22u_mem_CElt_bot {M : Subgroup G} {v m : G} :
     m ∈ F11.CElt M ⊥ v ↔ m ∈ M ∧ m * v = v * m := by
   constructor
@@ -176,6 +181,7 @@ theorem uc22p22u_mem_CElt_bot {M : Subgroup G} {v m : G} :
     · rw [Subgroup.mem_bot, mul_inv_eq_one, mul_inv_eq_iff_eq_mul]
       exact h
 
+omit [Finite G] in
 theorem uc22p22u_mem_normalizer_Omega1p {p : ℕ} {T : Subgroup G} {g : G}
     (hg : g ∈ normalizer (T : Set G)) :
     g ∈ normalizer ((F11.Omega1p p T : Subgroup G) : Set G) := by
@@ -217,7 +223,7 @@ theorem uc22p22u_exists_elemAbelian_omega1 {p : ℕ} (hp : p.Prime) (hp2 : p ≠
     (hS : IsPGroup p ↥S) (hZc : IsCyclic ↥Z) (hZS : Z ≤ S) (hcomm : ⁅S, S⁆ ≤ Z) (hcent : ⁅S, Z⁆ = ⊥)
     (hpow : ∀ t ∈ S, t ^ p ∈ Z) (hcard : p ^ 2 * Nat.card ↥Z ≤ Nat.card ↥S) :
     ∃ E : Subgroup G, E ≤ F11.Omega1p p S ∧ IsElemAbelian p E ∧ Nat.card ↥E = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, ha⟩ := IsPGroup.iff_card.1 hS
   obtain ⟨b, hb⟩ := IsPGroup.iff_card.1 (hS.to_le hZS)
   have hab : 2 + b ≤ a := by
@@ -244,6 +250,7 @@ theorem uc22p22u_exists_elemAbelian_omega1 {p : ℕ} (hp : p.Prime) (hp2 : p ≠
     omega
   exact uc22p22u_exists_elemAbelian_sq hp hp2 hYp hnc
 
+omit [Finite G] in
 theorem uc22p22u_mem_normalizer_commutator {M : Subgroup G} {g : G} (hg : g ∈ M) :
     g ∈ normalizer ((⁅M, M⁆ : Subgroup G) : Set G) := by
   have key : ∀ g' : G, g' ∈ M → ∀ x ∈ ⁅M, M⁆, g' * x * g'⁻¹ ∈ ⁅M, M⁆ := by
@@ -271,6 +278,7 @@ theorem uc22p22u_mem_normalizer_commutator {M : Subgroup G} {g : G} (hg : g ∈ 
   have := key g⁻¹ (M.inv_mem hg) _ hx
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem uc22p22u_mem_normalizer_barPreimage11 {M V₀ V : Subgroup G}
     [((F11.CTilde M V₀ V).subgroupOf M).Normal] {Xbar : Subgroup (F11.MBar11 M V₀ V)} [hXn : Xbar.Normal]
     {g : G} (hg : g ∈ M) : g ∈ normalizer ((F11.barPreimage11 M V₀ V Xbar : Subgroup G) : Set G) := by
@@ -289,6 +297,7 @@ theorem uc22p22u_mem_normalizer_barPreimage11 {M V₀ V : Subgroup G}
   have := key g⁻¹ (M.inv_mem hg) _ hx
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem uc22p22u_not_isCyclic_of_card_sq {p : ℕ} (hp : p.Prime) {E : Subgroup G}
     (hE : IsElemAbelian p E) (hcard : Nat.card ↥E = p ^ 2) : ¬ IsCyclic ↥E := by
   intro hc
@@ -311,7 +320,7 @@ theorem uc22p22u_r1110_part3b (D : Data G) (hSig : UC6S846.SigmaStd D) (h61 : UC
     (hσ : D.sig = D.sig1) {v : G} (hvV : v ∈ V)
     (hrank : 1 < CFSG.Open.pRank p (Xbar ⊓ F11.barImage11 D.M ⊥ V (F11.CElt D.M ⊥ v))) :
     UniqueMax D.M (D.M ⊓ centralizer ({v} : Set G)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hVc := uc22p22u_cTilde_bot D.M V
   obtain ⟨hPM, -, -⟩ := uc22p22u_sylow_O2p hp hp2 hP
   set T : Subgroup G := P ⊓ ⁅D.M, D.M⁆ ⊓ F11.barPreimage11 D.M ⊥ V Xbar with hT
@@ -403,7 +412,7 @@ theorem uc22p22u_r1110_part3b (D : Data G) (hSig : UC6S846.SigmaStd D) (h61 : UC
     have hEY : E ≤ Y := hEΩ.trans hΩT
     have hYnc : ¬ IsCyclic ↥Y := by
       intro hc
-      haveI := hc
+      have := hc
       exact hEnc (isCyclic_of_injective (Subgroup.inclusion hEY) (Subgroup.inclusion_injective hEY))
     have hclT : ⁅⁅T, T⁆, T⁆ = ⊥ := by
       rw [eq_bot_iff, ← hcent]
@@ -428,7 +437,7 @@ theorem uc22p22u_r1110_part3b (D : Data G) (hSig : UC6S846.SigmaStd D) (h61 : UC
           exact ⟨⟨(mem_normalizer_iff.1 hgP x).2 hxP, (mem_normalizer_iff.1 h1 x).2 hxc⟩,
             (mem_normalizer_iff.1 h2 x).2 hxX⟩
       exact uc22p22u_mem_normalizer_Omega1p hgT
-    haveI : (CFSG.pCore p (Bar2 D.M)).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore p (Bar2 D.M)).Normal := CFSG.pCore_normal
     have hOn : D.M ≤ normalizer ((F11.O2p p D.M : Subgroup G) : Set G) :=
       uc22p22u_barPreimage_normalizes (D := CFSG.pCore p (Bar2 D.M))
     have hp₁O : ¬ p₁ ∣ Nat.card ↥(F11.O2p p D.M) := by

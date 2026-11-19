@@ -42,7 +42,7 @@ theorem exists_SL2_hom_map_sylowTwo_eq_upperUnipotent {L P : Subgroup G} {n : �
       have hxy : x = y := Subtype.ext hyx.symm
       have h3 : x ∈ CFSG.pCore 2 ↥L := hxy ▸ hy
       have h2 : q x = 1 := (QuotientGroup.eq_one_iff x).mpr h3
-      simpa [φ, h2]
+      simp [φ, h2]
   let _ : Fintype K := Fintype.ofFinite K
   obtain ⟨m, -, hKcard⟩ := FiniteField.card K 2
   have hKcard' : Nat.card K = 2 ^ (m : ℕ) := by rw [Nat.card_eq_fintype_card, hKcard]

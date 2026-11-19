@@ -37,7 +37,7 @@ private theorem spUCited_flagStabilizer_le_iff {I J : Set ℕ}
     obtain ⟨hj1, hjr⟩ := Set.mem_Icc.mp (hJ hj)
     set k : Fin r := ⟨j - 1, by omega⟩
     have hk1 : (k : ℕ) + 1 = j := by
-      simp only [k, Fin.val_mk]
+      simp only [k]
       omega
     have hmemI : weylRep K k ∈ flagStabilizer r K I :=
       (spUCited_mem_flagStabilizer_weylRep (K := K) (r := r) hI k).mpr (by rw [hk1]; exact hjI)
@@ -93,7 +93,7 @@ theorem spUCited_maximal (hr : 2 ≤ r) (M : Subgroup ↥(StatedSp r K))
   rw [spUCited_normalizer_root_zero hr] at hM ⊢
   exact eq_of_stabilizer_flag_le (d := 1) (by omega) M hM
 
-theorem spUCited_cover (hr : 2 ≤ r) (A : Subgroup ↥(StatedSp r K))
+theorem spUCited_cover (_hr : 2 ≤ r) (A : Subgroup ↥(StatedSp r K))
     (hBA : Subgroup.normalizer (unipotent r K : Set ↥(StatedSp r K)) ≤ A)
     (hAP : A ≤ spUCitedPar r K) :
     A = Subgroup.normalizer (unipotent r K : Set ↥(StatedSp r K)) ∨ A = spUCitedPar r K := by

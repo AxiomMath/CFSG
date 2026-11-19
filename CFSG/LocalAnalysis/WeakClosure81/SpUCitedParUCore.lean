@@ -26,8 +26,8 @@ theorem uCited_exists_rootParabolic_statedProjSU (hF : Nat.card F = (2 ^ n) ^ 2)
   obtain ⟨r, ε, hε, rfl⟩ : ∃ r ε, ε ≤ 1 ∧ m = 2 * r + ε :=
     ⟨m / 2, m % 2, by omega, by omega⟩
   have hr : 2 ≤ r := by omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 :=
     CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hF
   have h : UnitaryFieldData 2 n F := unitaryFieldDataOfCard hF
   have hbar : ∀ c : F, h.bar c = unitaryInvolution F 2 n c := by

@@ -37,6 +37,7 @@ theorem le_normalizer_innerT17_8 {D : Data G} {L : Subgroup G}
       (Subgroup.inf_normalizer_le_normalizer_inf (H := D.T) (K := L ⊔ pCoreOf 2 H))
   simpa [innerT17_8, H] using h2
 
+omit [Finite G] in
 private theorem permutes_imageBar2 {H Y Z : Subgroup G} (hY : Y ≤ H) (hZ : Z ≤ H)
     (hperm : Permutes Y Z) :
     Permutes (S18.imageBar2 H Y) (S18.imageBar2 H Z) :=
@@ -106,7 +107,7 @@ theorem mem_sup_pCoreOf_of_mem_imageBar2 {D : Data G} {L : Subgroup G} {x : G}
   have hxeq : x = (l : G) * ((l⁻¹ * x' : ↥H) : G) := by
     have h1 : l * (l⁻¹ * x') = x' := by group
     have h2 := congrArg (Subtype.val) h1
-    simpa [x'] using h2.symm
+    simp [x']
   rw [hxeq]
   exact Subgroup.mul_mem_sup hlL hmemO2
 
@@ -141,7 +142,7 @@ theorem l33_setup {D : Data G} {L : Subgroup G} (hL : L ∈ calC D.M)
     CFSG.Quasithin.A3.isQuasisimple_iff_open.mp hCq
   have hodd : Odd (Nat.card (Subgroup.center ↥(S18.imageBar2 H L))) := by
     rw [hZbot]
-    simpa using odd_one
+    simp
   have hcent' : Subgroup.centralizer (S18.imageBar2 H L : Set (Bar2 H)) =
       (Subgroup.center ↥(S18.imageBar2 H L)).map (S18.imageBar2 H L).subtype := by
     rw [hcent, hZbot]

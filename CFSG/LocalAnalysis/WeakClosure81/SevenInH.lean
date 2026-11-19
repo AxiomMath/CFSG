@@ -10,6 +10,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem iSup_conjSubgroup_subgroupOf_eq {A H : Subgroup G} (hAH : A ≤ H) :
     ⨆ g : ↥H, conjSubgroup (A.subgroupOf H) g = (conjClosure A H).subgroupOf H := by
   apply le_antisymm

@@ -18,6 +18,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ l
 @[expose] def ctxSp (t tau x₁ x₂ lam v : G) : Subgroup G :=
   (ctxU t tau x₁ x₂ lam ⊓ centralizer ({t * lam} : Set G)) ⊔ zpowers v
 
+omit [Finite G] in
 theorem conj_comm_of_cent {q x m : G} (hxq : q * x = x * q) (hmq : m * q = q * m) :
     q * (m * x * m⁻¹) * q⁻¹ = m * x * m⁻¹ := by
   have h1 : q * m * q⁻¹ = m := by rw [hmq.symm]; group
@@ -43,6 +44,7 @@ theorem mem_ctxD_iff (u : G) : u ∈ ctxD ω x₁ x₂ ↔
   exact mem_closure_pair_iff (omega_mul_self hc hω) (z_mul_self hc)
     (omega_comm_V hc hω ((x₁ * x₂) ^ 2) (subset_closure (by simp))) u
 
+omit [Finite G] hc in
 theorem D_le_N : ctxD ω x₁ x₂ ≤ ctxN ω x₁ x₂ := by
   unfold ctxD ctxN
   apply Subgroup.closure_mono
@@ -74,9 +76,9 @@ include hc hω
 theorem D_tG : ∀ g : G, ∀ d ∈ ctxD ω x₁ x₂, g * t * g⁻¹ ≠ d := by
   rcases hω with rfl | rfl
   · intro g d hd
-    exact hc.tG_N g d (D_le_N hc.toCtx4Q (Or.inl rfl) hd)
+    exact hc.tG_N g d (D_le_N (t := t) (Or.inl rfl) hd)
   · intro g d hd
-    exact hc.tG_tN g d (D_le_N hc.toCtx4Q (Or.inr rfl) hd)
+    exact hc.tG_tN g d (D_le_N (t := t) (Or.inr rfl) hd)
 
 theorem D_le_U : ctxD ω x₁ x₂ ≤ ctxU t tau x₁ x₂ lam := by
   unfold ctxD
@@ -137,6 +139,7 @@ theorem conj_omega_of_cent {m : G} (hm : m ∈ ctxM t tau x₁ x₂)
   · left; rw [haeq', h, mul_one]
   · right; rw [haeq', h]
 
+omit hω in
 theorem conj_z_of_cent {m : G} (hm : m ∈ ctxM t tau x₁ x₂)
     (hmq : m * (t * lam) = (t * lam) * m) : m * (x₁ * x₂) ^ 2 * m⁻¹ = (x₁ * x₂) ^ 2 := by
   have hzV : (x₁ * x₂) ^ 2 ∈ fourGrp x₁ x₂ := subset_closure (by simp)
@@ -158,7 +161,7 @@ theorem mem_normalizer_D_of_cent {m : G} (hm : m ∈ ctxM t tau x₁ x₂)
     (hmq : m * (t * lam) = (t * lam) * m) :
     ∀ d ∈ ctxD ω x₁ x₂, m * d * m⁻¹ ∈ ctxD ω x₁ x₂ := by
   have hω' := conj_omega_of_cent hc hω hm hmq
-  have hz' := conj_z_of_cent hc hω hm hmq
+  have hz' := conj_z_of_cent hc hm hmq
   intro d hd
   have hd' := (mem_ctxD_iff hc hω d).mp hd
   apply (mem_ctxD_iff hc hω (m * d * m⁻¹)).mpr

@@ -61,13 +61,15 @@ theorem center_transfer (hp : p.Prime) (x : MulAut K) {J : Subgroup K}
   have hJ' := glaPComponent_map_fixSubgroup _ hker x _ hαβ hπs hp hJ
   exact ⟨hJ', CFSG.LocalAnalysis.GLTheoremA.nonempty_pSimple_equiv_map hp _ hJ hJ'⟩
 
+omit [Finite K] in
 theorem centerQuotientHom_pow_eq_one {x : MulAut K} (hx : x ^ p = 1) :
     centerQuotientHom K x ^ p = 1 := by
   rw [← map_pow, hx, map_one]
 
+omit [Finite K] in
 theorem centerQuotientHom_ne_one (hperf : commutator K = ⊤) {x : MulAut K} (hx : x ≠ 1) :
     centerQuotientHom K x ≠ 1 := by
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hperf
   intro h
   apply hx
   apply CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom_injective K
@@ -116,7 +118,7 @@ theorem alt_family (hp : p.Prime) (hp2 : p ≠ 2) (hq : CFSG.Open.IsQuasisimple 
     (hm : 5 ≤ m) (hJt : Nonempty (PSimple p J₁ ≃* alternatingGroup (Fin m))) :
     ∃ k : ℕ, 1 ≤ k ∧ n = m + k * p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   have hxp : x ^ p = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
   have hx1 : x ≠ 1 := by
@@ -179,7 +181,7 @@ theorem lie_family_degree (hnl : Prop1116Design.InputAltNotLie) (hp : p.Prime)
     (f : K ⧸ Subgroup.center K ≃* (TauCeti.CFSGIndex.lie idx).Group) {x : MulAut K} (hx : x ^ p = 1)
     {J₁ : Subgroup K} (hJ₁ : GLAPComponent p (fixSubgroup x) J₁) {m : ℕ} (hm : 5 ≤ m)
     (hJt : Nonempty (PSimple p J₁ ≃* alternatingGroup (Fin m))) : m = 5 ∨ m = 6 ∨ m = 8 := by
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hq
   obtain ⟨hJ', ⟨eJ⟩⟩ := center_transfer hp x hJ₁
   have hchev : IsChevSimple idx.1.characteristic (K ⧸ Subgroup.center K) :=
@@ -209,8 +211,8 @@ theorem spor_family (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Sporadic
     (hx : orderOf x = p) {J₁ : Subgroup K} (hJ₁ : GLAPComponent p (fixSubgroup x) J₁) {m : ℕ}
     (hJt : Nonempty (PSimple p J₁ ≃* alternatingGroup (Fin m))) : ¬ SporNoAltDown p m name := by
   intro hS
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
   have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hq
   have hcen : Subgroup.center (K ⧸ Subgroup.center K) = ⊥ :=
     CFSG.HardMathSupport.Timmesfeld.Coordinator.center_eq_bot_of_isSimpleGroup hnab
@@ -261,7 +263,7 @@ theorem mul_card_alt_dvd {T : Type} [Group T] [Finite T] {p m : ℕ} (hp : p.Pri
     p * Nat.card (alternatingGroup (Fin m)) ∣
       Nat.card (Subgroup.centralizer ({s} : Set T)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C : Subgroup T := Subgroup.centralizer ({s} : Set T) with hC
   have hQ : Nat.card (PQuot p I) =
       Nat.card (Subgroup.center (PQuot p I)) * Nat.card (alternatingGroup (Fin m)) := by
@@ -316,7 +318,7 @@ theorem mul_card_alt_dvd {T : Type} [Group T] [Finite T] {p m : ℕ} (hp : p.Pri
         have hprime : (Nat.card ↥(Subgroup.zpowers s)).Prime := by
           rw [Nat.card_zpowers, hs]; exact hp
         have hsub : (I ⊓ Subgroup.zpowers s).subgroupOf (Subgroup.zpowers s) = ⊤ := by
-          haveI : Fact (Nat.card ↥(Subgroup.zpowers s)).Prime := ⟨hprime⟩
+          have : Fact (Nat.card ↥(Subgroup.zpowers s)).Prime := ⟨hprime⟩
           rcases Subgroup.eq_bot_or_eq_top_of_prime_card
             ((I ⊓ Subgroup.zpowers s).subgroupOf (Subgroup.zpowers s)) with h | h
           · exact absurd ((Subgroup.subgroupOf_eq_bot.1 h).eq_bot_of_le inf_le_right) hne
@@ -357,7 +359,7 @@ theorem centNoAlt_of_card {p m : ℕ} (hp : p.Prime) {Q : Type} [Group Q] [Finit
   fun s hs _ hI => ⟨fun e => h s hs (mul_card_alt_dvd hp hs hI e)⟩
 
 theorem card_alt (m : ℕ) (hm : 2 ≤ m) : Nat.card (alternatingGroup (Fin m)) = m.factorial / 2 := by
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 hm
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 hm
   rw [nat_card_alternatingGroup, Nat.card_fin]
 
 theorem sporNoAltDown_of_not_dvd
@@ -398,7 +400,7 @@ theorem center_eq_bot_of_alt {X : Type*} [Group X] {m : ℕ} (hm : 4 ≤ m)
 theorem eq_one_of_central_of_alt (hp : p.Prime) {J : Subgroup K} {m : ℕ} (hm : 4 ≤ m)
     (e : CFSG.HardMathSupport.Solomon.LocalBalance.barOf p J ≃* alternatingGroup (Fin m)) {c : K}
     (hcJ : c ∈ J) (hcp : c ^ p = 1) (hc : ∀ j ∈ J, c * j = j * c) : c = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set c' : ↥J := ⟨c, hcJ⟩ with hc'
   have hcen : c' ∈ Subgroup.center ↥J := by
     rw [Subgroup.mem_center_iff]
@@ -420,7 +422,7 @@ theorem le_pRank_aut_of_alt (hp : p.Prime) (hp2 : p ≠ 2) {x : MulAut K} (hx : 
     (e : CFSG.HardMathSupport.Solomon.LocalBalance.barOf p J₁ ≃* alternatingGroup (Fin m)) :
     m / p + 1 ≤ CFSG.Open.pRank p (⊤ : Subgroup (MulAut K)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hrJ : CFSG.Open.pRank p (⊤ : Subgroup ↥J₁) = m / p := by
     have hN : ¬ p ∣ Nat.card (GLAPPrimeCore p ↥J₁) := fun h =>
       hp.one_lt.ne' (Nat.Coprime.eq_one_of_dvd CFSG.pPrimeCore_coprime_card h)
@@ -640,7 +642,7 @@ theorem alt_of_center_odd (hq : CFSG.Open.IsQuasisimple K) {n : ℕ} (hn : 8 ≤
     (f : K ⧸ Subgroup.center K ≃* alternatingGroup (Fin n))
     (hodd : Odd (Nat.card (Subgroup.center K))) : Nonempty (K ≃* alternatingGroup (Fin n)) := by
   obtain ⟨m, rfl⟩ : ∃ m, n = m + 2 := ⟨n - 2, by omega⟩
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
   set η : K →* alternatingGroup (Fin (m + 2)) :=
     f.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K)) with hη
   have hηs : Function.Surjective η := f.surjective.comp (QuotientGroup.mk'_surjective _)
@@ -658,7 +660,7 @@ theorem alt_of_center_odd (hq : CFSG.Open.IsQuasisimple K) {n : ℕ} (hn : 8 ≤
 
 theorem odd_card_center {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hO : GLAPPrimeCore p K = ⊥) :
     Odd (Nat.card (Subgroup.center K)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨a, ha⟩ := (AltFacts2.isPGroup_center_of_core_eq_bot hp hO).exists_card_eq
   rw [ha]
   exact (hp.odd_of_ne_two hp2).pow
@@ -674,7 +676,7 @@ theorem i1415At_of_spor (hnl : Prop1116Design.InputAltNotLie)
       CFSG.Open.IsKGroup (TauCeti.CFSGIndex.sporadic name).Group → SporNoAltDown p m name)
     (G : Type) [Group G] [Finite G] (p : ℕ) : CFSG.LocalAnalysis.GLTheoremA.I1415At G p := by
   intro hp hp2 X K J y m hX hK hyN hyp hcent hJ hm hJt
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpm : p ≤ m := by
     by_contra hlt
     push Not at hlt

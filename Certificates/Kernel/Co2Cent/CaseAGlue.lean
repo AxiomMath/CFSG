@@ -200,7 +200,7 @@ theorem fixR_eq_one :
   · exact hg.2 t h5
   · have h := hv ⟨t - 5, by omega⟩
     have e : 5 + (t - 5) = t := by omega
-    simp only [vR, Fin.val_mk, e] at h
+    simp only [vR, e] at h
     exact h
 
 theorem keyR_facts :

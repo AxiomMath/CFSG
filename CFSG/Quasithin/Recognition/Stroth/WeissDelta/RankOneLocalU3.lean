@@ -169,6 +169,7 @@ section Model
 
 variable {K : Type} [Field K] [Finite K] (J : HermitianForm 3 K)
 
+omit [Finite K] in
 theorem fix_torusPSU (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     (k : ℕ) (hk : 2 ≤ k) (hcard : Nat.card K = (2 ^ k) ^ 2)
     (hconj : ∀ c : K, J.conj c = c ^ (2 ^ k)) (lam : Kˣ)
@@ -303,7 +304,7 @@ theorem fix_torusPSU (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     rw [hxv, Projectivization.mk_eq_mk_iff']
     refine ⟨v 2, ?_⟩
     funext i
-    fin_cases i <;> simp [Pi.single_apply, hv0, hv1]
+    fin_cases i <;> simp [hv0, hv1]
   · left
     have hv2 : v 2 = 0 := by
       by_contra hv2
@@ -325,7 +326,7 @@ theorem fix_torusPSU (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     rw [hxv, Projectivization.mk_eq_mk_iff']
     refine ⟨v 0, ?_⟩
     funext i
-    fin_cases i <;> simp [Pi.single_apply, hv1, hv2]
+    fin_cases i <;> simp [hv1, hv2]
 
 theorem unitaryPointStructure (hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0])
     (k : ℕ) (hk : 2 ≤ k) (hcard : Nat.card K = (2 ^ k) ^ 2)

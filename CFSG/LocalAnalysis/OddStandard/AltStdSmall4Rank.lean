@@ -34,10 +34,12 @@ private theorem le_two_mul_div_four_of_two_pow {k : ℕ} (hk : k ≠ 1) : k ≤ 
 
 variable {α : Type*} [Fintype α]
 
+omit [Fintype α] in
 private theorem sq_eq_one_coe {E : Subgroup (Perm α)} (hE : ∀ x ∈ E, x ^ 2 = 1) (x : E) :
     x ^ 2 = 1 :=
   Subtype.ext (by simpa using hE x x.2)
 
+omit [Fintype α] in
 private theorem smul_eq_of_mem_stabilizer {E : Subgroup (Perm α)} (hE : ∀ x ∈ E, x ^ 2 = 1)
     {a : α} {x : E} (hx : x ∈ stabilizer E a) {b : α} (hb : b ∈ orbit E a) : x • b = b := by
   obtain ⟨y, rfl⟩ := mem_orbit_iff.1 hb

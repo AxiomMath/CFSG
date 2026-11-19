@@ -54,7 +54,7 @@ theorem w16l_mem_of_sq_eq_one_of_map_mem {Q Λ : Type} [Group Q] [Group Λ] (ρ 
 theorem w16l_exists_sylow_cenS_eq_map {Q Λ : Type} [Group Q] [Finite Q] [Group Λ] (ρ : Q →* Λ)
     (hρ : Function.Surjective ρ) (hodd : Odd (Nat.card ρ.ker)) (S₁ : Sylow 2 Q) :
     ∃ S : Sylow 2 Λ, cenS S = (sylowCenter S₁).map ρ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨Sylow.mapSurjective hρ S₁, ?_⟩
   have hcoe : ((Sylow.mapSurjective hρ S₁ : Sylow 2 Λ) : Subgroup Λ) =
       (S₁ : Subgroup Q).map ρ := Sylow.coe_mapSurjective hρ S₁
@@ -82,7 +82,7 @@ theorem w16l_exists_sylow_cenS_eq_map {Q Λ : Type} [Group Q] [Finite Q] [Group 
         ((S₁ : Subgroup Q).mul_mem hzS hyS), hker⟩
     have hbot : (y * z)⁻¹ * (z * y) = 1 := by
       have h := hmem
-      rw [CFSG.RankThree.OddKernel.inf_eq_bot_of_odd S₁.isPGroup' hodd,
+      rw [CFSG.RankThree.OddKernel.inf_eq_bot_of_odd S₁.isPGroup hodd,
         Subgroup.mem_bot] at h
       exact h
     exact (inv_mul_eq_one.mp hbot).symm
@@ -131,9 +131,9 @@ theorem w16l_card_map_sup_root {Q Λ : Type} [Group Q] [Finite Q] [Group Λ] (ρ
     rw [Subgroup.mem_bot]
     have hxcen : x ∈ Subgroup.center Q := hker hxker
     obtain ⟨F, hF, hFin, hChar, e, hq, hSmap, hSsym, hmemS, hmemN⟩ := hpair'.exists_data
-    letI : Field F := hF
-    letI : Finite F := hFin
-    letI : CharP F 2 := hChar
+    let : Field F := hF
+    let : Finite F := hFin
+    let : CharP F 2 := hChar
     have hxcenter : e ⟨x, hxL⟩ ∈ Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) F) := by
       rw [Subgroup.mem_center_iff]
       intro A

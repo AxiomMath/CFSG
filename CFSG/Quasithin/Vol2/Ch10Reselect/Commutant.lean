@@ -86,8 +86,7 @@ theorem addMonoidHom_eq_smul_of_commute_sl2 {K : Type*} [Field K]
   have hA : ∀ a : K, f ![a, 0] = ![a * y, 0] := by
     intro a
     have h := hf (E12 a) ![0, 1]
-    simp only [E12_mulVec, hy, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      zero_add, mul_one] at h
+    simp only [E12_mulVec, hy, Matrix.cons_val_zero, Matrix.cons_val_one, zero_add, mul_one] at h
     have h2 : f ![a, 1] = f ![a, 0] + ![0, y] := by
       rw [← hy, ← map_add]
       congr 1
@@ -101,8 +100,7 @@ theorem addMonoidHom_eq_smul_of_commute_sl2 {K : Type*} [Field K]
   have hB : ∀ b : K, f ![0, b] = ![0, b * x] := by
     intro b
     have h := hf (E21 b) ![1, 0]
-    simp only [E21_mulVec, hx, Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-      mul_one, add_zero, mul_zero, zero_add] at h
+    simp only [E21_mulVec, hx, Matrix.cons_val_zero, Matrix.cons_val_one, mul_one, add_zero] at h
     have h2 : f ![1, b] = f ![1, 0] + f ![0, b] := by
       rw [← map_add]
       congr 1

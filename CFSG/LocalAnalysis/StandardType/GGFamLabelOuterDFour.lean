@@ -27,7 +27,7 @@ theorem langFamRatLabel_outerD_four
     (hout : ¬ twistInner (componentRoots (famCharHom a) i)
       ((S.ρ : (Fin τ.rank → ℤ) → _)^[componentOrbitLength S.ρ
         (componentRoots (famCharHom a) i)]))
-    (hq : CFSG.IsQuasisimple ↥(rationalComponentM S.ρ S.Γ (famCharHom a) i)) :
+    (_hq : CFSG.IsQuasisimple ↥(rationalComponentM S.ρ S.Γ (famCharHom a) i)) :
     FamLabelAt S (famCharHom a) i := by
   obtain ⟨b, j, v, hsel, hpin, hρΨ, hs, hout'⟩ :=
     fam_outerD_four_selected_data hτ S hp hp2 hT hap i hr hc hout

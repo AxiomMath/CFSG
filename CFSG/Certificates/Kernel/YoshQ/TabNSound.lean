@@ -117,7 +117,7 @@ theorem tblEq_tabN (hw0 : 0 < w) (hw : w ≤ 32) (x y : Nat) :
   simp only [beq_iff_eq, Nat.beq_eq]
   exact tabN_inj_iff hw0 hw
 
-theorem idT_tabN (hn : n < 16777216) (hw : n + 1 < 2 ^ w) (hw32 : w ≤ 32) :
+theorem idT_tabN (hn : n < 16777216) (hw : n + 1 < 2 ^ w) (_hw32 : w ≤ 32) :
     idT n = tabN n w (pidn n w) := by
   apply Array.ext (by simp [idT, tabN])
   intro i h1 _
@@ -137,7 +137,7 @@ theorem testBit_setF {acc v i : Nat} (hi : i < 2 ^ w) (j : Nat) :
   · by_cases h2 : j < w * v + w
     · have e : w * v + (j - w * v) = j := by omega
       have h3 : j - w * v < w := by omega
-      simp only [h1, h2, h3, e, and_self, ↓reduceIte, ge_iff_le, decide_true, Bool.true_and]
+      simp only [h1, h2, h3, e, and_self, ↓reduceIte, decide_true, Bool.true_and]
       rcases Bool.eq_false_or_eq_true (acc.testBit j) with h | h <;> simp [h]
     · have h3 : ¬ j - w * v < w := by omega
       simp [h1, h2, h3, testBit_ge hi (Nat.le_of_not_lt h3)]
@@ -149,13 +149,13 @@ theorem pg_setF {acc v i : Nat} (hi : i < 2 ^ w) (k : Nat) :
   intro b
   rw [testBit_pgM, testBit_setF hi]
   by_cases hk : k = v
-  · rw [if_pos hk, ← hk]
+  · rw [ite_eq_left hk, ← hk]
     by_cases hb : b < w
     · have h1 : w * k ≤ w * k + b ∧ w * k + b < w * k + w := ⟨by omega, by omega⟩
       simp [hb, h1]
     · simp only [hb, decide_false, Bool.false_and]
       exact (testBit_ge hi (Nat.le_of_not_lt hb)).symm
-  · rw [if_neg hk, testBit_pgM]
+  · rw [ite_eq_right hk, testBit_pgM]
     by_cases hb : b < w
     · have h1 : ¬ (w * v ≤ w * k + b ∧ w * k + b < w * v + w) := by
         rintro ⟨h1, h2⟩
@@ -175,7 +175,7 @@ theorem replicate_tabN : Array.replicate n (0 : UInt32) = tabN n w 0 := by
   have e : pg w (mask w) 0 i = 0 := by simp [pg]
   simp [tabN, e]
 
-theorem set!_tabN (hw : w ≤ 32) {acc v i : Nat} (hv : v < n) (hi : i < 2 ^ w) :
+theorem set!_tabN (_hw : w ≤ 32) {acc v i : Nat} (_hv : v < n) (hi : i < 2 ^ w) :
     (tabN n w acc).set! v (UInt32.ofNat i) = tabN n w (setF w acc v i) := by
   rw [Array.set!_eq_setIfInBounds]
   apply Array.ext (by simp [tabN])
@@ -185,8 +185,8 @@ theorem set!_tabN (hw : w ≤ 32) {acc v i : Nat} (hv : v < n) (hi : i < 2 ^ w) 
   simp only [tabN, Array.getElem_ofFn]
   rw [pg_mod hk, pg_mod hk, pg_setF hi]
   by_cases e : v = k
-  · rw [if_pos e, if_pos e.symm]
-  · rw [if_neg e, if_neg (Ne.symm e)]
+  · rw [ite_eq_left e, ite_eq_left e.symm]
+  · rw [ite_eq_right e, ite_eq_right (Ne.symm e)]
 
 theorem foldl_inv (hw : w ≤ 32) (hnw : n ≤ 2 ^ w) (x : Nat) :
     ∀ l : List Nat, (∀ i ∈ l, i < n) → ∀ acc : Nat,
@@ -205,9 +205,9 @@ theorem foldl_inv (hw : w ≤ 32) (hnw : n ≤ 2 ^ w) (x : Nat) :
       exact toNat_ofNat_pg hw _ _
     rw [e1]
     by_cases hv : pg w (mask w) (x % 2 ^ (n * w)) i < n
-    · rw [if_pos hv, set!_tabN hw hv (by omega)]
+    · rw [ite_eq_left hv, set!_tabN hw hv (by omega)]
       exact foldl_inv hw hnw x l (fun j hj => hl j (List.mem_cons_of_mem i hj)) _
-    · rw [if_neg hv, Array.set!_eq_setIfInBounds,
+    · rw [ite_eq_right hv, Array.set!_eq_setIfInBounds,
         Array.setIfInBounds_eq_of_size_le (by rw [size_tabN]; omega)]
       exact foldl_inv hw hnw x l (fun j hj => hl j (List.mem_cons_of_mem i hj)) _
 

@@ -38,7 +38,7 @@ theorem exists_orderOf_eq_of_dvd_add_one (K : Type) [Field K] [Finite K] {L : Ty
   have hNpos : N ≠ 0 := fun h0 => by
     rw [h0] at hN
     exact absurd (Nat.eq_zero_of_zero_dvd hN) (by omega)
-  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L N
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L N
   set ζu : Lˣ := (hζ.isUnit hNpos).unit with hζu
   have hζu' : IsPrimitiveRoot ζu N :=
     IsPrimitiveRoot.coe_units_iff.1 (by simpa [hζu] using hζ)

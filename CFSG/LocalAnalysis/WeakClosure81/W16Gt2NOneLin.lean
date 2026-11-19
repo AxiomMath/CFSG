@@ -18,6 +18,7 @@ namespace Cfg1620
 
 variable {M V₀ V U S R H : Subgroup G} {g : G} {B : Subgroup G}
 
+omit [Finite G] in
 private theorem conjSubgroup_inf_cTilde_eq (c : Cfg1620 M V₀ V U S R H g B) {m : G}
     (hm : m ∈ M) :
     conjSubgroup (F11.CTilde M V₀ V ⊓ centralizer (V₀ : Set G)) m =
@@ -29,16 +30,19 @@ private theorem conjSubgroup_inf_cTilde_eq (c : Cfg1620 M V₀ V U S R H g B) {m
       conjSubgroup_eq_iff_mem_normalizer.mpr (c.cex.hyp.h6.le_normalizer₀ hm)]
   rw [E3.conjSubgroup_inf, h1, h2]
 
+omit [Finite G] in
 private theorem le_normalizer_inf_cTilde (c : Cfg1620 M V₀ V U S R H g B) :
     M ≤ Subgroup.normalizer
       ((F11.CTilde M V₀ V ⊓ centralizer (V₀ : Set G) : Subgroup G) : Set G) :=
   fun _ hm => conjSubgroup_eq_iff_mem_normalizer.1 (conjSubgroup_inf_cTilde_eq c hm)
 
+omit [Finite G] in
 private theorem conjSubgroup_centralizer_eq_of_mem_normalizer {V : Subgroup G} {n : G}
     (hn : n ∈ Subgroup.normalizer (V : Set G)) :
     conjSubgroup (Subgroup.centralizer (V : Set G)) n = Subgroup.centralizer (V : Set G) := by
   rw [E3.conjSubgroup_centralizer, conjSubgroup_eq_iff_mem_normalizer.mpr hn]
 
+omit [Finite G] in
 private theorem le_normalizer_inf_centralizer (c : Cfg1620 M V₀ V U S R H g B) :
     (F11.CTilde M V₀ V ⊓ centralizer (V₀ : Set G)) ≤
       Subgroup.normalizer ((centralizer (V : Set G) : Subgroup G) : Set G) := by
@@ -48,6 +52,7 @@ private theorem le_normalizer_inf_centralizer (c : Cfg1620 M V₀ V U S R H g B)
     rw [c.cex.hyp.h6.normalizer_eq]
     exact cTilde_le_M M V₀ V (Subgroup.mem_inf.1 ha).1)
 
+omit [Finite G] in
 private theorem le_normalizer_inf_cTilde_centralizer (c : Cfg1620 M V₀ V U S R H g B) :
     (F11.CTilde M V₀ V ⊓ centralizer (V₀ : Set G)) ≤
       Subgroup.normalizer
@@ -56,6 +61,7 @@ private theorem le_normalizer_inf_cTilde_centralizer (c : Cfg1620 M V₀ V U S R
   (le_inf Subgroup.le_normalizer (le_normalizer_inf_centralizer c)).trans
     Subgroup.inf_normalizer_le_normalizer_inf
 
+omit [Finite G] in
 private theorem sq_mem_centralizer_of_mem_inf_cTilde (c : Cfg1620 M V₀ V U S R H g B) {a : G}
     (ha : a ∈ F11.CTilde M V₀ V ⊓ centralizer (V₀ : Set G)) :
     a ^ 2 ∈ centralizer (V : Set G) := by
@@ -87,6 +93,7 @@ private theorem sq_mem_centralizer_of_mem_inf_cTilde (c : Cfg1620 M V₀ V U S R
   rw [mul_inv_eq_iff_eq_mul] at hmain
   simpa only [pow_two] using hmain.symm
 
+omit [Finite G] in
 private theorem exists_mul_mem_of_relIndex_two {Q V : Subgroup G} (hrel : Q.relIndex V = 2)
     {v₀ v : G} (hv₀V : v₀ ∈ V) (hv₀Q : v₀ ∉ Q) (hvV : v ∈ V) (hvQ : v ∉ Q) :
     ∃ q ∈ Q, v = v₀ * q := by
@@ -100,6 +107,7 @@ private theorem exists_mul_mem_of_relIndex_two {Q V : Subgroup G} (hrel : Q.relI
       exact absurd (by simpa [Subgroup.mem_subgroupOf] using h) hvQ
   exact ⟨v₀⁻¹ * v, by simpa [Subgroup.mem_subgroupOf] using hmem, by group⟩
 
+omit [Finite G] in
 private theorem conj_mul_conj_eq_of_mem {y v₀ q : G} (hqy : q * y = y * q) :
     y * (v₀ * q) * y⁻¹ * (v₀ * q)⁻¹ = y * v₀ * y⁻¹ * v₀⁻¹ := by
   have hqy' : q * y⁻¹ = y⁻¹ * q := by
@@ -211,7 +219,7 @@ theorem exists_mul_eq_inf (c : Cfg1620 M V₀ V U S R H g B) {a : G}
     (ha : a ∈ F11.CTilde M V₀ V ⊓ centralizer (V₀ : Set G)) :
     ∃ b ∈ R ⊓ (F11.CTilde M V₀ V ⊓ centralizer (V₀ : Set G)),
       ∃ d ∈ centralizer (V : Set G), a = b * d := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let A : Subgroup G := F11.CTilde M V₀ V ⊓ centralizer (V₀ : Set G)
   let N : Subgroup G := A ⊓ centralizer (V : Set G)
   have haA : a ∈ A := ha

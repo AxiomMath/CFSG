@@ -144,7 +144,7 @@ theorem centE0Check_of {PA PB : ℕ → ℕ}
     change i < 512 * (i / 512) + 512
     omega
   have e := (CFSG.KC.Misc.Clos.allR_iff _ _ _).1 hcq i hlo hhi
-  rw [Nat.blt_eq.mpr hi, cond_true] at e
+  rw [Nat.blt_eq.mpr hi, _root_.Bool.cond_true] at e
   unfold centAt at e
   rw [e4 i hi, commOK_gE hG, ← arrN_one, genA_eq12 hG (by norm_num : 5 < 12),
     decide_arrN (hlt i hi) ONE_lt, decide_arrN (hlt i hi) h5]

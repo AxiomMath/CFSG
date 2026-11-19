@@ -297,7 +297,7 @@ private lemma commute_of_mem_CV (hκ : IsSpinCoord ψ κ) (hzz : z * z = 1) {x�
   have hinv := hκ.conj_eq_inv_of_fixed hzz hFb1 hx₀ hψx₀ hx₀x₀ hp hfix
   have hpp : p * p = 1 := by
     have h := hκ.sq p hp
-    rw [if_pos (hFb2 (κ p) hfix)] at h
+    rw [ite_eq_left (hFb2 (κ p) hfix)] at h
     exact h
   have hpi : p⁻¹ = p := inv_eq_of_mul_eq_one_right hpp
   calc x₀ * p = (x₀ * p * x₀⁻¹) * x₀ := by group
@@ -629,7 +629,7 @@ theorem exists_commuting_lift (hκ : IsSpinCoord ψ κ) (hzz : z * z = 1)
       obtain ⟨n, hn, hκn⟩ := hκ.surj w₁
       have hnn : n * n = z := by
         have h' := hκ.sq n hn
-        rw [hκn, if_neg (by rw [hqw₁]; decide)] at h'
+        rw [hκn, ite_eq_right (by rw [hqw₁]; decide)] at h'
         exact h'
       have hinv : a * n * a⁻¹ = n⁻¹ :=
         hκ.conj_eq_inv_of_fixed hzz hFv1 ha hψa (Or.inl haa) hn (by rw [hκn]; exact hw₁)

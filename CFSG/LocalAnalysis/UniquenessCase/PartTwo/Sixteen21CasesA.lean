@@ -37,7 +37,7 @@ theorem one_le_pRank_of_case6 {D : Data G} (h165 : R16_5 D) {V₀ V L : Subgroup
     {hV : IsElemAbelian 2 V} (hS : Sect16 D V₀ V L hV) (hc : Case167_6 D V₀ V hV L) :
     ∀ v ∈ V, v ≠ 1 → 1 ≤ CFSG.Open.pRank 3 (D.M ⊓ centralizer ({v} : Set G)) := by
   obtain ⟨hsig, h3⟩ := h165 V₀ V L hV hS.setting hS.ne_bot hS.conc hc.1
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card' 3 h3
   have h3mem : 3 ∈ D.sig := by rw [hsig]; exact Set.mem_singleton 3
   exact one_le_pRank_of_mem_cTilde hS.setting.hyp16.hyp125.1

@@ -49,31 +49,31 @@ private theorem z2a5_socle_absurd [Finite Y] (h : Z2A5Hyp Y τ) {S : Subgroup Y}
       · exact mem_zpowers _
     calc Nat.card V ≤ Nat.card (zpowers τ) := Subgroup.card_le_of_le hVz
       _ = 2 := by rw [Nat.card_zpowers, h.1]
-  haveI : IsSimpleGroup ↥S := hS.simple
+  have : IsSimpleGroup ↥S := hS.simple
   have hnab : ∃ a b : ↥S, a * b ≠ b * a := by
     obtain ⟨a, ha, b, hb, hab⟩ := hS.nonab
     exact ⟨⟨a, ha⟩, ⟨b, hb⟩, fun h' => hab (congrArg Subtype.val h')⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥S) := inferInstance
   apply CFSG.EvenSporadicStandard.Induction.Junction.not_isCyclic_sylow_two hnab P
   have hPc : Nat.card ↥(P : Subgroup ↥S) ≤ 2 := by
-    have h1 := hsmall ((P : Subgroup ↥S).map S.subtype) (P.isPGroup'.map _) (map_subtype_le _)
+    have h1 := hsmall ((P : Subgroup ↥S).map S.subtype) (P.isPGroup.map _) (map_subtype_le _)
     rwa [card_map_of_injective S.subtype_injective] at h1
   rcases Nat.lt_or_ge (Nat.card ↥(P : Subgroup ↥S)) 2 with hlt | hge
   · have h1 : Nat.card ↥(P : Subgroup ↥S) = 1 := by
       have := Nat.card_pos (α := ↥(P : Subgroup ↥S))
       omega
-    haveI : Subsingleton ↥(P : Subgroup ↥S) := (Nat.card_eq_one_iff_unique.1 h1).1
+    have : Subsingleton ↥(P : Subgroup ↥S) := (Nat.card_eq_one_iff_unique.1 h1).1
     exact isCyclic_of_subsingleton
   · exact isCyclic_of_prime_card (p := 2) (le_antisymm hPc hge)
 
 theorem z2a5_le_socle [Finite Y] (h : Z2A5Hyp Y τ) {S : Subgroup Y} (hS : FixedData Y S) :
     oTwoRes (centralizer ({τ} : Set Y)) ≤ S := by
-  haveI := hS.normal
+  have := hS.normal
   have hXC : oTwoRes (centralizer ({τ} : Set Y)) ≤ centralizer ({τ} : Set Y) :=
     (Subgroup.closure_le _).2 fun _ hx => hx.1
   obtain ⟨φ⟩ := z2a5_X_equiv h
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup ↥(alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   have hnorm : ∀ b ∈ oTwoRes (centralizer ({τ} : Set Y)), ∀ x ∈ S ⊓ centralizer ({τ} : Set Y),
       b * x * b⁻¹ ∈ S ⊓ centralizer ({τ} : Set Y) := fun b hb x hx =>
     Subgroup.mem_inf.2 ⟨hS.normal.conj_mem x (Subgroup.mem_inf.1 hx).1 b,
@@ -120,8 +120,8 @@ theorem z2a5_datum [Finite Y] (h : Z2A5Hyp Y τ) {S : Subgroup Y} [S.Normal]
 theorem z2a5_fixed_survivors [Finite Y] (hSel : FixedRootSelector fun D _ => Catalog D)
     (hK : CFSG.SectionRank.IsKGroupCat Y) (h : Z2A5Hyp Y τ) {S : Subgroup Y}
     (hS : FixedData Y S) : FixedRootSurvivors ↥S 2 := by
-  haveI := hS.normal
-  haveI : IsSimpleGroup ↥S := hS.simple
+  have := hS.normal
+  have : IsSimpleGroup ↥S := hS.simple
   obtain ⟨k, _, _, d⟩ := z2a5_datum h hS
   exact hSel.survivors_of_datum hS.simple
     (CFSG.SectionRank.catalog_of_isKGroupCat_of_surjective hK S (MonoidHom.id S)

@@ -95,10 +95,12 @@ def Cen (g : MulAut V) : Subgroup V where
   inv_mem' := fun {u} (hu : g u = u) => show g u⁻¹ = u⁻¹ from by
     rw [map_inv, hu]
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem mem_Cen (g : MulAut V) (v : V) : v ∈ Cen g ↔ g v = v := Iff.rfl
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem fixed_zpowers (φ : MulAut V) (v : V) (h : φ v = v) :
-    ∀ g ∈ Subgroup.zpowers φ, g v = v := fun g hg =>
+    ∀ _g ∈ Subgroup.zpowers φ, _g v = v := fun _g hg =>
   MulAction.mem_stabilizer_iff.1 (Subgroup.zpowers_le.2 (MulAction.mem_stabilizer_iff.2 h) hg)
 
 theorem fixV_zpowers_iff (φ : MulAut V) (v : V) :
@@ -114,6 +116,7 @@ theorem card_fixV_zpowers (φ : MulAut V) [Finite V] :
   rw [mem_Cen]
   simpa using this
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem card_Cen_conj (x a : MulAut V) [Finite V] :
     Nat.card ↥(Cen (x * a * x⁻¹)) = Nat.card ↥(Cen a) := by
   have h1 : ∀ v : V, (x * a * x⁻¹) (x v) = x (a v) := fun v => by
@@ -122,6 +125,7 @@ theorem card_Cen_conj (x a : MulAut V) [Finite V] :
     rw [mem_Cen, mem_Cen, h1, EmbeddingLike.apply_eq_iff_eq]
   exact (Nat.card_congr (Equiv.subtypeEquiv (x : V ≃* V).toEquiv h)).symm
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem Cen_inf_trivial (x a a' : MulAut V)
     (hx : ∀ v : V, (∀ g ∈ Subgroup.zpowers x, g v = v) → v = 1)
     (hprod : a * a' = x) :
@@ -135,6 +139,7 @@ theorem Cen_inf_trivial (x a a' : MulAut V)
   have h' : a' v = v := hv'
   rw [h', hv]
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem card_mul_le_card (a a' : MulAut V) [Finite V]
     (hI : ∀ v : V, v ∈ Cen a → v ∈ Cen a' → v = 1) :
     Nat.card ↥(Cen a) * Nat.card ↥(Cen a') ≤ Nat.card V := by
@@ -158,6 +163,7 @@ theorem card_mul_le_card (a a' : MulAut V) [Finite V]
   have hc : (d : V) = (c : V) := inv_mul_eq_one.1 h3
   exact Prod.ext (Subtype.ext hc.symm) (Subtype.ext hd.symm)
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem card_le_sq [Finite V] (hV : ∀ v : V, v ^ 2 = 1) (a : MulAut V) (ha : a ^ 2 = 1) :
     Nat.card V ≤ Nat.card ↥(Cen a) * Nat.card ↥(Cen a) := by
   let f0 : V →* V := MonoidHom.mk' (fun v : V => v⁻¹ * a v) (fun u v => by
@@ -213,18 +219,22 @@ theorem card_fixV_sq_eq_of_inverts [Finite V] (hV : ∀ v : V, v ^ 2 = 1) (a x :
     simp only [map_mul]
     ac_rfl)
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem Nh_apply (h : MulAut V) (v : V) : Nh h v = v * h v * h (h v) := rfl
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem Nh_fixed (h : MulAut V) (hh3 : ∀ u : V, h (h (h u)) = u) (v : V) :
     h (Nh h v) = Nh h v := by
   rw [Nh_apply, map_mul, map_mul, hh3]
   ac_rfl
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem Nh_of_fixed (h : MulAut V) (hV : ∀ v : V, v ^ 2 = 1) (c : V) (hc : h c = c) :
     Nh h c = c := by
   have hc2 : c * c = 1 := by rw [← pow_two]; exact hV c
   rw [Nh_apply, hc, hc, hc2, one_mul]
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem Nh_comm (k h : MulAut V) (hkh : k * h = h * k) (v : V) :
     k (Nh h v) = Nh h (k v) := by
   have hk : ∀ u : V, k (h u) = h (k u) := fun u => by
@@ -233,6 +243,7 @@ theorem Nh_comm (k h : MulAut V) (hkh : k * h = h * k) (v : V) :
   rw [Nh_apply, Nh_apply, map_mul, map_mul]
   simp only [hk]
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem Nh_Nh_eq_one (h k : MulAut V) (hhk : h * k = k * h)
     (hh3 : ∀ u : V, h (h (h u)) = u) (hk3 : ∀ u : V, k (k (k u)) = u)
     (hfree : ∀ w : V, (∀ g ∈ Subgroup.closure ({h, k} : Set (MulAut V)), g w = w) → w = 1)
@@ -250,11 +261,13 @@ theorem Nh_Nh_eq_one (h k : MulAut V) (hhk : h * k = k * h)
       rw [Nh_comm k h hhk.symm (Nh k v), Nh_fixed k hk3 v]
   exact hfree _ hw
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem comm_apply_of (x y : MulAut V) (hxy : x * y = y * x) (u : V) :
     y (x u) = x (y u) := by
   have := congrArg (fun g : MulAut V => g u) hxy.symm
   simpa [MulAut.mul_apply] using this
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem Nh_prod_four (x y : MulAut V) (hxy : x * y = y * x)
     (hy3 : ∀ u : V, y (y (y u)) = u) (v : V) :
     Nh x v * Nh y v * Nh (x * y) v * Nh (x * y ^ 2) v =
@@ -273,19 +286,23 @@ theorem sq_eq_one_mod (v : V) : v ^ 2 = 1 := by
     rw [ofMul_pow]; exact h
   exact ofMul_eq_zero.1 h'
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem apply_cube_of (g : MulAut V) (hg : g ^ 3 = 1) (u : V) : g (g (g u)) = u := by
   have := congrArg (fun k : MulAut V => k u) hg
   simpa [pow_three, mul_assoc, MulAut.mul_apply] using this
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem mul_comm_of_apply (a b : MulAut V) (h : ∀ v : V, a (b v) = b (a v)) : a * b = b * a := by
   apply MulEquiv.ext
   intro v
   show a (b v) = b (a v)
   exact h v
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem mem_pair_fst (a b : MulAut V) : a ∈ Subgroup.closure ({a, b} : Set (MulAut V)) :=
   Subgroup.subset_closure (Set.mem_insert _ _)
 
+omit [Module (ZMod 2) (Additive V)] in
 theorem mem_pair_snd (a b : MulAut V) : b ∈ Subgroup.closure ({a, b} : Set (MulAut V)) :=
   Subgroup.subset_closure (Set.mem_insert_of_mem _ (Set.mem_singleton _))
 
@@ -342,7 +359,7 @@ theorem prod_four_eq (x y : MulAut V)
   rw [mul_one, hvv, mul_one]
 
 theorem card_eq_mul_fixV_of_three_sq (x y : MulAut V) (hx3 : x ^ 3 = 1) (hy3 : y ^ 3 = 1)
-    (hxy : x * y = y * x) (hx1 : x ≠ 1) (hy : y ∉ Subgroup.zpowers x)
+    (hxy : x * y = y * x) (_hx1 : x ≠ 1) (_hy : y ∉ Subgroup.zpowers x)
     (hE : CFSG.Quasithin.H13.CTK.L5.fixV (K := ZMod 2) (natAct (V := V))
       (Subgroup.closure ({x, y} : Set (MulAut V))) = ⊥) :
     Nat.card V =
@@ -388,15 +405,15 @@ theorem card_eq_mul_fixV_of_three_sq (x y : MulAut V) (hx3 : x ^ 3 = 1) (hy3 : y
     have := Subgroup.mul_mem _ (mem_pair_fst (x * y) (x * y ^ 2)) (Subgroup.inv_mem _ hyK)
     simpa using this
   have hab2 : x * (x * y) = (x * y) * x := mul_comm_of_apply _ _ fun v => by
-    simp [MulAut.mul_apply, hc, hx3f, hy3f]
+    simp [MulAut.mul_apply, hc]
   have hab3 : x * (x * y ^ 2) = (x * y ^ 2) * x := mul_comm_of_apply _ _ fun v => by
-    simp [sq, MulAut.mul_apply, hc, hx3f, hy3f]
+    simp [sq, MulAut.mul_apply, hc]
   have hab4 : y * (x * y) = (x * y) * y := mul_comm_of_apply _ _ fun v => by
-    simp [MulAut.mul_apply, hc, hx3f, hy3f]
+    simp [MulAut.mul_apply, hc]
   have hab5 : y * (x * y ^ 2) = (x * y ^ 2) * y := mul_comm_of_apply _ _ fun v => by
-    simp [sq, MulAut.mul_apply, hc, hx3f, hy3f]
+    simp [sq, MulAut.mul_apply, hc, hy3f]
   have hab6 : (x * y) * (x * y ^ 2) = (x * y ^ 2) * (x * y) := mul_comm_of_apply _ _ fun v => by
-    simp [sq, MulAut.mul_apply, hc, hx3f, hy3f]
+    simp [sq, MulAut.mul_apply, hc, hy3f]
   have K1 := Nh_pair_kill x y x y hE hxy hx3f hy3f hV (mem_pair_fst x y) (mem_pair_snd x y)
   have K2 := Nh_pair_kill x y x (x * y) hE hab2 hx3f hxyf hV (mem_pair_fst x (x * y)) hy_xxy
   have K3 := Nh_pair_kill x y x (x * y ^ 2) hE hab3 hx3f hxy2f hV
@@ -428,7 +445,7 @@ theorem card_eq_mul_fixV_of_three_sq (x y : MulAut V) (hx3 : x ^ 3 = 1) (hy3 : y
       simp only [F, Prod.mk.injEq, Subtype.mk.injEq]
       refine ⟨?_, ?_, ?_, ?_⟩
       · simp only [map_mul, K1.1 c2 hc2', K2.1 c3 hc3', K3.1 c4 hc4', Nh_of_fixed x hV c1 hc1',
-          mul_one, one_mul]
+          mul_one]
       · simp only [map_mul, K1.2 c1 hc1', K4.1 c3 hc3', K5.1 c4 hc4', Nh_of_fixed y hV c2 hc2',
           mul_one, one_mul]
       · simp only [map_mul, K2.2 c1 hc1', K4.2 c2 hc2', K6.1 c4 hc4', Nh_of_fixed (x * y) hV c3 hc3',

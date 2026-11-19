@@ -26,12 +26,12 @@ theorem borelMoves_of_realizesVia {W : Type} [CommGroup W] [Finite W]
     (hcard : Nat.card ↥L = Nat.card SL(2, K)) :
     ∃ S₀ : Subgroup (MulAut W), IsSylowIn 2 S₀ L ∧ BorelMoves L S₀ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let e : SL(2, K) ≃* ↥(StatedSL 2 K) := (H13.A5.statedSLEquivSL 2 K).symm
   have hπinj : Function.Injective π := by
-    haveI : Fintype ↥(StatedSL 2 K) := Fintype.ofFinite _
-    haveI : Fintype ↥L := Fintype.ofFinite _
+    have : Fintype ↥(StatedSL 2 K) := Fintype.ofFinite _
+    have : Fintype ↥L := Fintype.ofFinite _
     refine (Finite.injective_iff_surjective_of_equiv (f := π) ?_).2 hπ.1
     exact Fintype.equivOfCardEq (by
       rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card]
@@ -88,7 +88,7 @@ theorem borelMoves_of_realizesVia {W : Type} [CommGroup W] [Finite W]
 theorem borelMoves_of_isSylowIn {W : Type} [CommGroup W] [Finite W]
     {L S₀ S : Subgroup (MulAut W)} (hS₀ : IsSylowIn 2 S₀ L) (h : BorelMoves L S₀)
     (hS : IsSylowIn 2 S L) : BorelMoves L S := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨l, hl, hS_eq⟩ := isSylowIn_exists_conj hS₀ hS
   obtain ⟨H₀, hH₀L, hH₀N, hH₀odd, hH₀sup, hH₀comm⟩ := h
   refine ⟨H₀.map (MulAut.conj l).toMonoidHom, ?_, ?_, ?_, ?_, ?_⟩

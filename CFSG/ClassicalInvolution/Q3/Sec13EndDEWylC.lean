@@ -21,15 +21,19 @@ variable {G : Type} [Group G] [Finite G]
   Subgroup.closure {σ | ∃ K ∈ dew1V Ω v, ∃ J ∈ dew1V Ω v,
     ∀ M : ↥(dew1V Ω u), ((σ M : ↥(dew1V Ω u)) : Subgroup G) = dewTau K J (M : Subgroup G)}
 
+omit [Finite G] in
 theorem dewDelta_le_pCore (K J : Subgroup G) : dewDelta K J ≤ pCore 2 G := inf_le_right
 
+omit [Finite G] in
 theorem dewQstar_le_pCore (Ω : Set (Subgroup G)) : dewQstar Ω ≤ pCore 2 G :=
   iSup₂_le fun K _ => iSup₂_le fun J _ => dewDelta_le_pCore K J
 
+omit [Finite G] in
 theorem dewDelta_le_dewQstar {Ω : Set (Subgroup G)} {K J : Subgroup G} (hK : K ∈ Ω)
     (hJ : J ∈ twinSet Ω K) : dewDelta K J ≤ dewQstar Ω :=
   le_iSup₂_of_le K hK (le_iSup₂_of_le J hJ le_rfl)
 
+omit [Finite G] in
 theorem dewc_conjSub_sup (g : G) (K J : Subgroup G) :
     conjSub g (K ⊔ J) = conjSub g K ⊔ conjSub g J :=
   Subgroup.map_sup _ _ _
@@ -50,6 +54,7 @@ theorem dewc_closure_comm {M : Type*} [Group M] (S : Set M)
     exact Subgroup.mem_centralizer_iff.mp (hC hb) t ht
   exact Subgroup.mem_centralizer_singleton_iff.mp (hC2 ha)
 
+omit [Finite G] in
 theorem dewc_not_mem_zpowers {u w : G} (hu2 : u * u = 1) (hu1 : u ≠ 1) (hw : w ≠ 1)
     (hwu : w ≠ u) : w ∉ Subgroup.zpowers u := by
   intro hmem
@@ -69,7 +74,7 @@ namespace DE4Hyp
 variable {Ω : Set (Subgroup G)} (h : DE4Hyp Ω)
 include h
 
-theorem dewc_exists_notin_zpowers {u : G} (hu : u ∈ zGroup Ω) (hu1 : u ≠ 1)
+theorem dewc_exists_notin_zpowers {u : G} (_hu : u ∈ zGroup Ω) (hu1 : u ≠ 1)
     (hu2 : u * u = 1) : ∃ v ∈ zGroup Ω, v ∉ Subgroup.zpowers u := by
   by_contra hcon
   push Not at hcon
@@ -78,6 +83,7 @@ theorem dewc_exists_notin_zpowers {u : G} (hu : u ∈ zGroup Ω) (hu1 : u ≠ 1)
   rw [h.card_zGroup, card_zpowers_of_involution hu2 hu1] at h1
   omega
 
+omit [Finite G] in
 theorem dewQstar_normal : (dewQstar Ω).Normal := by
   refine ⟨fun n hn g => ?_⟩
   have hsub : dewQstar Ω ≤ (dewQstar Ω).comap (MulAut.conj g).toMonoidHom := by
@@ -88,7 +94,7 @@ theorem dewQstar_normal : (dewQstar Ω).Normal := by
     have htw : conjSub g J ∈ twinSet Ω (conjSub g K) :=
       ⟨h.hyp.conjInvariant g J hJΩ, g * z * g⁻¹, hz.conj g, hzJ.conj g⟩
     have hK' : conjSub g K ∈ Ω := h.hyp.conjInvariant g K hK
-    haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+    have : (pCore 2 G).Normal := CFSG.pCore_normal
     have hmem : g * x * g⁻¹ ∈ dewDelta (conjSub g K) (conjSub g J) := by
       refine Subgroup.mem_inf.mpr ⟨?_, ?_⟩
       · have h1 : g * x * g⁻¹ ∈ conjSub g (K ⊔ J) := conj_mem_conjSub hxKJ
@@ -119,7 +125,7 @@ theorem zGroup_le_dewQstar : zGroup Ω ≤ dewQstar Ω := by
 
 theorem commutator_mem_dewQstar {K : Subgroup G} (hK : K ∈ Ω) {k q : G} (hk : k ∈ K)
     (hq : q ∈ pCore 2 G) : k * q * k⁻¹ * q⁻¹ ∈ dewQstar Ω := by
-  haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+  have : (pCore 2 G).Normal := CFSG.pCore_normal
   obtain ⟨u, hu⟩ := h.exists_isUniqueInvolution hK
   have hqC : q ∈ Subgroup.centralizer (zGroup Ω : Set G) := h.pCore_le_centralizer_zGroup hq
   have huD : u ∈ zGroup Ω := dew1_involution_mem h.toDEHyp hK hu
@@ -146,7 +152,7 @@ theorem commutator_mem_dewQstar {K : Subgroup G} (hK : K ∈ Ω) {k q : G} (hk :
 theorem exists_sylow_dew :
     ∃ (X : Subgroup G) (S : Sylow 2 G), X ≤ (S : Subgroup G) ∧
       pCore 2 G ⊓ X ≤ dewQstar Ω ∧ pCore 2 G ⊔ X = (S : Subgroup G) := by
-  haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+  have : (pCore 2 G).Normal := CFSG.pCore_normal
   obtain ⟨K, hK, -, -, -⟩ := h.exists_ne
   obtain ⟨z, hz⟩ := h.exists_isUniqueInvolution hK
   have hz1 : z ≠ 1 := hz.ne_one
@@ -349,14 +355,14 @@ theorem exists_sylow_dew :
 
 theorem pCore_le_dewQstar : pCore 2 G ≤ dewQstar Ω := by
   classical
-  haveI := h.dewQstar_normal
-  haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+  have := h.dewQstar_normal
+  have : (pCore 2 G).Normal := CFSG.pCore_normal
   obtain ⟨X, S, hXS, hXQ, hQX⟩ := h.exists_sylow_dew
   have hperf : (⊤ : Subgroup G) ≤ ⁅(⊤ : Subgroup G), (⊤ : Subgroup G)⁆ :=
     le_of_eq h.commutator_eq_top.symm
   let Z : Subgroup G :=
     { carrier := {g | ∀ q ∈ pCore 2 G, g * q * g⁻¹ * q⁻¹ ∈ dewQstar Ω}
-      one_mem' := fun q _ => by simpa using (dewQstar Ω).one_mem
+      one_mem' := fun q _ => by simp
       mul_mem' := by
         intro g g' hg hg' q hq
         have e : g * g' * q * (g * g')⁻¹ * q⁻¹ =
@@ -433,7 +439,7 @@ theorem exists_dewTau_eq {u v v' : G} (hu : u ∈ zGroup Ω) (hu1 : u ≠ 1) (hv
     {K J : Subgroup G} (hK : K ∈ dew1V Ω v) (hJ : J ∈ dew1V Ω v) :
     ∃ K' ∈ dew1V Ω v', ∃ J' ∈ dew1V Ω v', ∀ M ∈ dew1V Ω u, dewTau K' J' M = dewTau K J M := by
   obtain ⟨w, hw, hwv⟩ := h.exists_kernel_conj hu hu1 hv hv' hvu hv'u
-  obtain ⟨-, hfix⟩ := (h.mem_dewKer_iff).mp hw
+  obtain ⟨-, hfix⟩ := (CFSG.ClassicalInvolution.Q3.Sec13.DE4Hyp.mem_dewKer_iff).mp hw
   have hvu' : u ≠ v := fun h1 => hvu (h1 ▸ Subgroup.mem_zpowers _)
   have hne : v ≠ v * u := fun h1 => hu1 (mul_left_cancel (a := v) (by rw [mul_one]; exact h1.symm))
   have hK' : conjSub w K ∈ dew1V Ω v' := by
@@ -473,14 +479,14 @@ theorem dewc_gen_comm {u v : G} (hvu : u ≠ v) {a b : Equiv.Perm ↥(dew1V Ω u
   simp only [Equiv.Perm.mul_apply, ha, hb]
   exact h.dewTau_comm hK hJ hK' hJ' hvu M.2
 
-theorem dewTauGroup_comm {u v : G} (hu : u ∈ zGroup Ω) (hu1 : u ≠ 1) (hvu : u ≠ v)
+theorem dewTauGroup_comm {u v : G} (_hu : u ∈ zGroup Ω) (_hu1 : u ≠ 1) (hvu : u ≠ v)
     {σ σ' : Equiv.Perm ↥(dew1V Ω u)} (hσ : σ ∈ dewTauGroup Ω u v)
     (hσ' : σ' ∈ dewTauGroup Ω u v) : σ * σ' = σ' * σ := by
   refine dewc_closure_comm _ ?_ hσ hσ'
   intro a ha b hb
   exact h.dewc_gen_comm hvu ha hb
 
-theorem dewTauGroup_mul_self {u v : G} (hu : u ∈ zGroup Ω) (hu1 : u ≠ 1) (hvu : u ≠ v)
+theorem dewTauGroup_mul_self {u v : G} (_hu : u ∈ zGroup Ω) (_hu1 : u ≠ 1) (hvu : u ≠ v)
     {σ : Equiv.Perm ↥(dew1V Ω u)} (hσ : σ ∈ dewTauGroup Ω u v) : σ * σ = 1 := by
   unfold dewTauGroup at hσ
   induction hσ using Subgroup.closure_induction with
@@ -505,7 +511,7 @@ theorem exists_mem_dewTauGroup {u v : G} (hu : u ∈ zGroup Ω) (hu1 : u ≠ 1) 
     (hvu : v ∉ Subgroup.zpowers u) {q : G} (hq : q ∈ pCore 2 G) :
     ∃ σ ∈ dewTauGroup Ω u v, ∀ M : ↥(dew1V Ω u),
       ((σ M : ↥(dew1V Ω u)) : Subgroup G) = conjSub q (M : Subgroup G) := by
-  haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+  have : (pCore 2 G).Normal := CFSG.pCore_normal
   have huv : u ≠ v := fun h1 => hvu (h1 ▸ Subgroup.mem_zpowers _)
   have huu : u * u = 1 := h.zGroup_mul_self u hu
   let T : Subgroup G :=
@@ -637,12 +643,12 @@ theorem pCore_act_regular {u : G} (hu : u ∈ zGroup Ω) (hu1 : u ≠ 1) {q : G}
 theorem centralizer_act_eq {u : G} (hu : u ∈ zGroup Ω) (hu1 : u ≠ 1) {g : G}
     (hg : g ∈ Subgroup.centralizer ({u} : Set G)) :
     ∃ q ∈ pCore 2 G, ∀ M ∈ dew1V Ω u, conjSub g M = conjSub q M := by
-  haveI : (pCore 2 G).Normal := CFSG.pCore_normal
+  have : (pCore 2 G).Normal := CFSG.pCore_normal
   rw [h.centralizer_eq_dewKer_sup hu hu1] at hg
   obtain ⟨w, hw, q, hq, rfl⟩ := Subgroup.mem_sup_of_normal_right.mp hg
   refine ⟨q, hq, fun M hM => ?_⟩
   rw [conjSub_mul]
-  exact (h.mem_dewKer_iff.mp hw).2 _ (dew1_conj_mem h.toDEHyp (h.pCore_le_centralizer_zGroup hq) hM)
+  exact (CFSG.ClassicalInvolution.Q3.Sec13.DE4Hyp.mem_dewKer_iff.mp hw).2 _ (dew1_conj_mem h.toDEHyp (h.pCore_le_centralizer_zGroup hq) hM)
 
 theorem normalizer_fixes_twins {u : G} {K : Subgroup G} (hK : K ∈ dew1V Ω u) {g : G}
     (hg : g ∈ Subgroup.normalizer (K : Set G)) : ∀ J ∈ dew1V Ω u, conjSub g J = J := by

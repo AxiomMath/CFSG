@@ -13,7 +13,7 @@ open scoped commutatorElement Pointwise
 private theorem elemAbelian_rank_le {p : ℕ} (hp : p.Prime) {X : Type*} [Group X] [Finite X]
     {Q Q₀ Q₁ : Subgroup X} (h : HeisShape p Q Q₀ Q₁) {E : Subgroup X} (hEQ : E ≤ Q)
     (hE : CFSG.Open.IsElemAbelian p E) {k : ℕ} (hk : Nat.card E = p ^ k) : k ≤ 3 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hΩfin : {q : X | q ∈ Q ∧ q ^ p = 1}.Finite := Set.toFinite _
   have hsub : (E : Set X) ⊆ {q : X | q ∈ Q ∧ q ^ p = 1} := fun x hx => ⟨hEQ hx, hE.2 x hx⟩
   have hcard : (E : Set X).ncard = p ^ k := by
@@ -26,7 +26,7 @@ private theorem elemAbelian_rank_le {p : ℕ} (hp : p.Prime) {X : Type*} [Group 
   subst hk4'
   have hEq : (E : Set X) = {q : X | q ∈ Q ∧ q ^ p = 1} :=
     Set.eq_of_subset_of_ncard_le hsub (h.ncard_pow_eq_one_le.trans hcard.ge) hΩfin
-  haveI := hE.1
+  have := hE.1
   apply h.nonab
   have hQ1 : ∀ a ∈ Q₁, a ∈ E := fun a ha => by
     have hmem : a ∈ {q : X | q ∈ Q ∧ q ^ p = 1} := ⟨h.right_le ha, h.exp a ha⟩
@@ -38,7 +38,7 @@ private theorem elemAbelian_rank_le {p : ℕ} (hp : p.Prime) {X : Type*} [Group 
 private theorem commutator_le_heisZ {p : ℕ} (hp : p.Prime) {X : Type*} [Group X] [Finite X]
     {Q Q₀ Q₁ : Subgroup X} (h : HeisShape p Q Q₀ Q₁) {W : Subgroup X} (hWQ : W ≤ Q) :
     ⁅W, W⁆ ≤ heisZ Q₁ := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rw [commutator_le]
   intro a ha b hb
   rw [commutatorElement_def]
@@ -47,7 +47,7 @@ private theorem commutator_le_heisZ {p : ℕ} (hp : p.Prime) {X : Type*} [Group 
 private theorem card_le_of_exp {p : ℕ} (hp : p.Prime) {X : Type*} [Group X] [Finite X]
     {Q Q₀ Q₁ : Subgroup X} (h : HeisShape p Q Q₀ Q₁) {W : Subgroup X} (hWQ : W ≤ Q)
     (hW : ∀ w ∈ W, w ^ p = 1) : Nat.card W ≤ p ^ 4 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hsub : (W : Set X) ⊆ {q : X | q ∈ Q ∧ q ^ p = 1} := fun x hx => ⟨hWQ hx, hW x hx⟩
   calc Nat.card W = (W : Set X).ncard := Nat.card_coe_set_eq (W : Set X)
     _ ≤ {q : X | q ∈ Q ∧ q ^ p = 1}.ncard := Set.ncard_le_ncard hsub (Set.toFinite _)
@@ -56,7 +56,7 @@ private theorem card_le_of_exp {p : ℕ} (hp : p.Prime) {X : Type*} [Group X] [F
 private theorem exists_conj_le {p : ℕ} (hp : p.Prime) {X : Type*} [Group X] [Finite X]
     (Q : Sylow p X) {U : Subgroup X} (hU : IsPGroup p U) :
     ∃ g : X, U.map (MulAut.conj g).toMonoidHom ≤ (Q : Subgroup X) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨P, hP⟩ := hU.exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X P Q
   refine ⟨g, ?_⟩
@@ -73,7 +73,7 @@ theorem heis_violation_false {p : ℕ} (hp : p.Prime) {X : Type*} [Group X] [Fin
     {Q₀ Q₁ : Subgroup X} (h : HeisShape p (Q : Subgroup X) Q₀ Q₁) (U : Subgroup X) (hU : IsPGroup p U)
     (hv : 4 ≤ CFSG.Open.pRank p U ∨ ¬ IsCyclic ↥⁅U, U⁆ ∨
       ((∀ u ∈ U, u ^ p = 1) ∧ p ^ 5 ≤ Nat.card U)) : False := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨g, hQ⟩ := exists_conj_le hp Q hU
   set f : X →* X := (MulAut.conj g).toMonoidHom with hf
   have hfinj : Function.Injective f := (MulAut.conj g).injective
@@ -82,7 +82,7 @@ theorem heis_violation_false {p : ℕ} (hp : p.Prime) {X : Type*} [Group X] [Fin
     have hr : CFSG.Open.pRank p U ≤ 3 := by
       refine csSup_le' ?_
       rintro k ⟨E, hEU, hE, hk⟩
-      haveI := hE.1
+      have := hE.1
       refine elemAbelian_rank_le hp h (E := E.map f) ((map_mono hEU).trans hQ)
         ⟨inferInstance, ?_⟩ ?_
       · rintro _ ⟨e, he, rfl⟩

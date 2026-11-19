@@ -105,7 +105,7 @@ public theorem CFSG.appendixC_finite_abelian_character_sum_apply
   · have hcard : Fintype.card (Q →* ℂˣ) = Nat.card Q := by
       rw [← Nat.card_eq_fintype_card]
       exact CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity Q ℂ
-    rw [if_pos hq]
+    rw [ite_eq_left hq]
     calc
       (∑ chi : Q →* ℂˣ, (chi q : ℂ)) =
           (Fintype.card (Q →* ℂˣ) : ℂ) := by
@@ -135,7 +135,7 @@ public theorem CFSG.appendixC_finite_abelian_character_sum_apply
       exact sub_eq_zero.mp h
     have hSzero : S = 0 := by
       exact (mul_eq_zero.mp hzero).resolve_left hetaC
-    rw [if_neg hq]
+    rw [ite_eq_right hq]
     exact hSzero
 
 

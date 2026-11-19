@@ -60,7 +60,7 @@ theorem burnsideB610_le_normalizer_commutator (hLV : L ≤ Subgroup.normalizer (
 
 @[expose] def burnsideB610_stab (L V W : Subgroup G) (hV : IsElemAbelian 2 V)
     (hLV : L ≤ Subgroup.normalizer (V : Set G)) (hLW : L ≤ Subgroup.normalizer (W : Set G))
-    (hWV : W ≤ V) : Subgroup G where
+    (_hWV : W ≤ V) : Subgroup G where
   carrier := {g | g ∈ L ∧ ∀ v ∈ V, g * v * g⁻¹ * v⁻¹ ∈ W}
   one_mem' := ⟨L.one_mem, fun v _ => by simp⟩
   mul_mem' := by

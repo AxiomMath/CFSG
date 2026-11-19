@@ -9,7 +9,7 @@ namespace CFSG.GroupTheory
 theorem eq_of_sup_eq_of_le_center {G : Type*} [Group G] {N A B : Subgroup G}
     (hN : N ≤ Subgroup.center G) (hodd : Odd (Nat.card N)) (hA : IsPGroup 2 A)
     (hB : IsPGroup 2 B) (h : A ⊔ N = B ⊔ N) : A = B := by
-  haveI : N.Normal := Subgroup.normal_of_le_center hN
+  have : N.Normal := Subgroup.normal_of_le_center hN
   have key : ∀ {A B : Subgroup G}, IsPGroup 2 A → IsPGroup 2 B → A ⊔ N = B ⊔ N → A ≤ B := by
     intro A B hA hB hAB a ha
     have ha' : a ∈ B ⊔ N := hAB ▸ Subgroup.mem_sup_left ha

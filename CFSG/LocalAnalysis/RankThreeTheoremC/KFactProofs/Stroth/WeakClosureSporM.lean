@@ -27,21 +27,21 @@ theorem wcSporadicAt_M_of_data [Finite (Carrier .M)]
   rcases hmem with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl |
     rfl | rfl
   · exact absurd rfl hq2
-  · haveI : Fact (Nat.Prime 3) := ⟨hq⟩
+  · have : Fact (Nat.Prime 3) := ⟨hq⟩
     exact WCOn.of_hasNoncommPair h3
-  · haveI : Fact (Nat.Prime 5) := ⟨hq⟩
+  · have : Fact (Nat.Prime 5) := ⟨hq⟩
     exact WCOn.of_hasNoncommPair h5
-  · haveI : Fact (Nat.Prime 7) := ⟨hq⟩
+  · have : Fact (Nat.Prime 7) := ⟨hq⟩
     exact WCOn.of_hasNoncommPair h7
   · exact h11
-  · haveI : Fact (Nat.Prime 13) := ⟨hq⟩
+  · have : Fact (Nat.Prime 13) := ⟨hq⟩
     exact WCOn.of_hasNoncommPair h13
   all_goals (exfalso; norm_num at hdvd)
 
 theorem wcSporadicAt_M_of_eleven
     [Finite (Carrier .M)] (h11 : WCOn 11 (Carrier .M)) : WCSporadicAt .M := by
   obtain ⟨-, hcard, h13⟩ := CFSG.HardMathSupport.Timmesfeld.Coordinator.sporadicBMData_holds
-  haveI : IsSimpleGroup (Carrier .M) :=
+  have : IsSimpleGroup (Carrier .M) :=
     CFSG.AGLEmbedding.Norton.OrdinaryProofs.carrier_M_simple
   obtain ⟨e⟩ := CFSG.RankThree.PartOne.SPOR.mulEquiv_Gmat_of_simple
     (T := Carrier .M) (MulEquiv.refl _)

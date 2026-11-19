@@ -98,7 +98,7 @@ theorem crow_Co1_five (hOut : SporadicOuterLeTwo)
   exact five_good (Good := fun T _ => CFSG.LocalAnalysis.GLTheoremA.Chev2Rows.CTypeOK 5 T)
     (fun _ _ _ _ e h => CFSG.LocalAnalysis.GLTheoremA.Chev2Rows.CTypeOK.of_mulEquiv e h)
     (fun _ _ e => by
-      haveI : Finite _ := Nat.finite_of_card_ne_zero (by rw [(J2_facts_of_equiv e).2.1]; norm_num)
+      have : Finite _ := Nat.finite_of_card_ne_zero (by rw [(J2_facts_of_equiv e).2.1]; norm_num)
       exact CFSG.LocalAnalysis.GLTheoremA.Chev2Rows.ctypeOK_of_card_eq hb (J2_facts_of_equiv e).2.1)
     (CFSG.LocalAnalysis.GLTheoremA.Chev2Rows.ctypeOK_A5 (Or.inr rfl) (MulEquiv.refl _)) x hx
 
@@ -118,11 +118,11 @@ theorem crow_Co1_three (hOut : SporadicOuterLeTwo)
   have hC := tabCo1_centShapeRk_three_good (Good := CTypeThree) ctypeThree_of_equiv
     (fun T _ e => by
       have hc : Nat.card T = 3265920 := (Nat.card_congr e.toEquiv).trans card_X₀
-      haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+      have : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
       exact ctypeOK_of_card_eq hb hc)
     (ctypeOK_of_card_eq hb card_alt_nine)
     (fun T _ hc _ => by
-      haveI : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
+      have : Finite T := Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
       exact ctypeOK_of_card_eq hb hc) (hbr .Suz)
   exact @crow_of_centShape .Co1 3 ↥GA _ hfin hs hOut b hnc Nat.prime_three (by norm_num) _
     (CentShape.of_centShapeRk hC) fun _ _ h => h
@@ -145,7 +145,7 @@ theorem crow_J4_three (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Sporad
   have hM : Nat.card CFSG.Blueprint.NativeSporadic.M22 = 443520 := CFSG.Sporadic.Mathieu.card_M22
   refine @crow_of_model .J4 3 J _ hfin hJs hOut b hnc fun x hx I hI => ?_
   obtain ⟨e⟩ := pSimple_of_glaPComponent_three Nat.prime_three hx hI
-  haveI : Finite (PSimple 3 I) :=
+  have : Finite (PSimple 3 I) :=
     Nat.finite_of_card_ne_zero (by rw [Nat.card_congr e.toEquiv, hM]; norm_num)
   exact ctypeOK_of_card_eq hb ((Nat.card_congr e.toEquiv).trans hM)
 
@@ -170,7 +170,7 @@ theorem crow_Fi23_five (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.Spora
   obtain ⟨hfin, hs, hnc, ⟨b⟩⟩ := fi23_model hbr
   refine @crow_of_model .Fi23 5 J _ hfin hs hOut b hnc fun x hx I hI => ?_
   obtain ⟨hsI, hnab⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab Nat.prime_five hI
-  haveI := hsI
+  have := hsI
   obtain ⟨hd, hle⟩ := card_pSimple_five x hx hI
   intro hC
   rcases chev_card_dvd_241920_cases hb hnab hC hd hle with h | h | ⟨h, -⟩ | ⟨h, -⟩

@@ -55,11 +55,11 @@ theorem d4ExitAt_twE6_three (q : TauCeti.PrimePower) (hq2 : q.p = 2)
   obtain ⟨S, a, ι, i, hSq, ⟨Fr, hFr, hΦ⟩, hT, hap, hTp, h1, hinj, hrange, hconj, hqs, hKR⟩ :=
     CFSG.LocalAnalysis.GLTheoremA.T171Sh.twE6_langSetup_and_component (p := 3)
       Nat.prime_three (by norm_num) hq2 σ hK hσ x hx1 hxp Kc hKc
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hcharK : CharP K 2 := charP_of_card_eq_prime_pow (f := q.exponent * 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hcharK : CharP K 2 := charP_of_card_eq_prime_pow (f := q.exponent * 2)
     (by rw [← Nat.card_eq_fintype_card, hK, hq2, ← pow_mul])
-  haveI hcharL : CharP (AlgebraicClosure K) 2 :=
+  have hcharL : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   have h3' : ¬ 3 ∣ 2 ^ q.exponent + 1 := fun hd => h3 (by rwa [hq2])
   have hq : S.D.q % 3 = 1 := by

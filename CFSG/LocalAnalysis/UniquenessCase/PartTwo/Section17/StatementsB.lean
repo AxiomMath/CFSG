@@ -71,7 +71,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
-@[expose] def Concl17_17 (D : Data G) (V₀ V L : Subgroup G) : Prop :=
+@[expose] def Concl17_17 (D : Data G) (_V₀ _V L : Subgroup G) : Prop :=
   IsJ1 (Bar2 L) ∧
     (F08.Thin8 L ∧ pRank 3 L = 1 ∧
       ∀ K ∈ calC D.M, F08.Thin8 K → pRank 3 K = 1 → K = L) ∧
@@ -139,17 +139,17 @@ structure Ctx17_17 (D : Data G) (V₀ V L : Subgroup G) : Prop where
 @[expose] def R17_26aAt (D : Data G) (V₀ V : Subgroup G) : Prop :=
   ∀ L : Subgroup G, Ctx17_17 D V₀ V L → mSub V₀ ≤ 4
 
-@[expose] def P17_26b_1 (D : Data G) (V₀ V L : Subgroup G) (hV : IsElemAbelian 2 V) : Prop :=
+@[expose] def P17_26b_1 (D : Data G) (V₀ V _L : Subgroup G) (_hV : IsElemAbelian 2 V) : Prop :=
   ∀ v : V, (v : G) ≠ 1 → (v : G) ∉ V₀ →
     pRank 5 ((D.M ⊓ centralizer ({(v : G)} : Set G)) ⊓ F11.CTilde D.M V₀ V : Subgroup G) = 1
 
-@[expose] def P17_26b_2 (D : Data G) (V₀ V L : Subgroup G) (hV : IsElemAbelian 2 V) : Prop :=
+@[expose] def P17_26b_2 (D : Data G) (V₀ V _L : Subgroup G) (hV : IsElemAbelian 2 V) : Prop :=
   ∀ v : V, (v : G) ∉ V₀ →
     5 ∣ Nat.card ↥(MulAction.stabilizer (MulAut (Vtil V₀ V hV))
         (mkTil V₀ V hV (IntMod.mk hV v)) ⊓ Mbar D.M V₀ V hV) →
       1 < pRank 5 (D.M ⊓ centralizer ({(v : G)} : Set G) : Subgroup G)
 
-@[expose] def P17_26b_3 (D : Data G) (V₀ V L : Subgroup G) (hV : IsElemAbelian 2 V) : Prop :=
+@[expose] def P17_26b_3 (D : Data G) (V₀ V _L : Subgroup G) (_hV : IsElemAbelian 2 V) : Prop :=
   (4 + mSub V₀ : ℕ∞) ≤ rMV D.M V
 
 @[expose] def R17_26b_1At (D : Data G) (V₀ V : Subgroup G) : Prop :=
@@ -241,12 +241,12 @@ structure Ctx17_29 (D : Data G) (V₀ V L : Subgroup G) : Prop where
 @[expose] def R17_30At (D : Data G) (V₀ V : Subgroup G) : Prop :=
   ∀ L : Subgroup G, Ctx17_29 D V₀ V L → (6 : ℕ∞) ≤ rMV D.M V
 
-@[expose] def R17_31At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_31At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ L ∈ calC D.M,
     (∀ n : ℕ, ¬ CFSG.Quasithin.Is2F4 n (Bar2 L)) ∧
       ¬ LieModel (Bar2 L) .Tits 0 2 1
 
-@[expose] def R17_32At (D : Data G) (V₀ V : Subgroup G) : Prop :=
+@[expose] def R17_32At (D : Data G) (_V₀ _V : Subgroup G) : Prop :=
   ∀ L ∈ calC D.M, ∀ n : ℕ, ¬ Is3D4 (Bar2 L) n
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17

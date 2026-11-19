@@ -228,7 +228,7 @@ theorem sylowCentralizingAutInner_statedProj [Finite K] [CharP K 2] :
   let T : Sylow 2 (StatedProj (StatedSp 2 K)) :=
     S.mapSurjective (SymplecticHigher.proj_surjective (r := 2) (K := K))
   have hT : IsSylowTwoOf (T : Subgroup (StatedProj (StatedSp 2 K))) ⊤ :=
-    isSylowTwoOf_top_iff.mpr ⟨T.isPGroup', T.not_dvd_index⟩
+    isSylowTwoOf_top_iff.mpr ⟨T.isPGroup, T.not_dvd_index⟩
   refine sylowCentralizingAutInner_of_sylow _ hT fun β hβ =>
     inner_of_fixes_unipotent β fun u hu => hβ _ ?_
   rw [Sylow.coe_mapSurjective, hS]

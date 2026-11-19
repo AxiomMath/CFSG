@@ -99,8 +99,8 @@ private noncomputable def kerEquiv {K : Type*} [Field K] (n : ℕ) {G : Type*} [
   toFun x := ⟨(x.1 : G), ⟨x.1.2, (mem_ker_slConjugationEmbHom_iff n ι hι hconj x.1).mp x.2⟩⟩
   invFun x :=
     ⟨⟨x.1, x.2.1⟩, (mem_ker_slConjugationEmbHom_iff n ι hι hconj ⟨x.1, x.2.1⟩).mpr x.2.2⟩
-  left_inv x := rfl
-  right_inv x := rfl
+  left_inv _x := rfl
+  right_inv _x := rfl
 
 private lemma card_ker_slConjugationEmbHom {K : Type*} [Field K] (n : ℕ) {G : Type*} [Group G]
     (ι : Matrix.SpecialLinearGroup (Fin n) K →* G) (hι : Function.Injective ι) {E : Subgroup G}

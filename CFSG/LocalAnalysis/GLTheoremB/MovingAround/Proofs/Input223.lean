@@ -18,11 +18,11 @@ variable {H : Type*} [Group H]
 
 theorem qs_nontrivial (hH : CFSG.Open.IsQuasisimple H) : Nontrivial H := by
   obtain ⟨-, hS⟩ := hH
-  haveI := hS.toNontrivial
+  have := hS.toNontrivial
   exact Function.Surjective.nontrivial (QuotientGroup.mk'_surjective (Subgroup.center H))
 
 theorem qs_comm_ne_bot (hH : CFSG.Open.IsQuasisimple H) : commutator H ≠ ⊥ := by
-  haveI := qs_nontrivial hH
+  have := qs_nontrivial hH
   rw [hH.1]
   exact top_ne_bot
 
@@ -81,7 +81,7 @@ theorem qs_subnormal_aux {A B : Subgroup H} (hH : CFSG.Open.IsQuasisimple H)
         have h1 := (Subgroup.normal_subgroupOf_iff_le_normalizer le_top).1 hn
         rw [top_le_iff] at h1
         exact (Subgroup.normalizer_eq_top_iff).1 h1
-      haveI := hnorm
+      have := hnorm
       exact qs_normal_le_center hH X hX
     · exact hle.trans (ih hZ hY)
 
@@ -95,11 +95,13 @@ section Components
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem comp_top_subgroupOf {L Y : Subgroup G} (hYL : CFSG.Open.IsComponentOf Y L) :
     CFSG.GorensteinWalter.IsComponentOf (Y.subgroupOf L) ⊤ :=
   (CFSG.Adapters.isComponentOf_top_iff _).1
     ((CFSG.LargeExtraspecial.S5.isComponentOf_iff_subgroupOf hYL.1).1 hYL)
 
+omit [Finite G] in
 theorem qs_not_comm_subgroup {Y : Subgroup G} (hY : CFSG.Open.IsQuasisimple ↥Y) :
     ¬ ∀ y ∈ Y, ∀ y' ∈ Y, y * y' = y' * y := by
   intro hc
@@ -160,9 +162,9 @@ variable {H : Type*} [Group H]
 theorem exists_noncentral_pElt [Finite H] {p : ℕ} (hp : p.Prime)
     (hq : CFSG.Open.IsQuasisimple H) (hpH : p ∣ Nat.card H) :
     ∃ x : H, x ∉ Subgroup.center H ∧ ∃ n : ℕ, x ^ (p ^ n) = 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   let P : Sylow p H := default
   set Q : Subgroup H := (P : Subgroup H) with hQdef
   have hQc : Q ≤ Subgroup.center H := by
@@ -173,7 +175,7 @@ theorem exists_noncentral_pElt [Finite H] {p : ℕ} (hp : p.Prime)
       have := congrArg Subtype.val hn
       simpa using this
     exact hcon x hxc n hn'
-  haveI hQn : Q.Normal := by
+  have hQn : Q.Normal := by
     constructor
     intro n hn g
     have hc := Subgroup.mem_center_iff.1 (hQc hn) g
@@ -232,6 +234,7 @@ structure CPData (p : ℕ) (B L : Subgroup G) (𝓛 : Set (Subgroup G)) : Prop w
   comm : ∀ K ∈ 𝓛, ∀ K' ∈ 𝓛, K ≠ K' → ∀ x ∈ K, ∀ y ∈ K', x * y = y * x
   trans : ∀ K ∈ 𝓛, ∀ K' ∈ 𝓛, ∃ b ∈ B, GLBConj b K = K'
 
+omit [Finite G] in
 theorem normalizer_of_comm (K : Subgroup G) (x : G) (hx : ∀ h ∈ K, x * h = h * x) :
     x ∈ Subgroup.normalizer (K : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -251,10 +254,12 @@ theorem normalizer_of_comm (K : Subgroup G) (x : G) (hx : ∀ h ∈ K, x * h = h
     rw [← h5]
     exact hh
 
+omit [Finite G] in
 theorem CPData.K_le_L {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {K : Subgroup G} (hK : K ∈ 𝓛) : K ≤ L :=
   (hcp.comp K hK).1
 
+omit [Finite G] in
 theorem CPData.K_normal {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {K : Subgroup G} (hK : K ∈ 𝓛) : (K.subgroupOf L).Normal := by
   rw [Subgroup.normal_subgroupOf_iff_le_normalizer (hcp.K_le_L hK), hcp.gen]
@@ -280,6 +285,7 @@ theorem CPData.comp_mem {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
   intro y hy y' hy'
   exact Subgroup.mem_centralizer_iff.1 (hcen (hY.1 hy')) y hy
 
+omit [Finite G] in
 theorem isComponentOf_gLBConj_norm {L K : Subgroup G} {b : G}
     (hb : b ∈ Subgroup.normalizer (L : Set G)) (hK : CFSG.Open.IsComponentOf K L) :
     CFSG.Open.IsComponentOf (GLBConj b K) L := by
@@ -311,6 +317,7 @@ theorem CPData.conj_mem {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     GLBConj b K ∈ 𝓛 :=
   hcp.comp_mem (isComponentOf_gLBConj_norm (hcp.norm hb) (hcp.comp K hK))
 
+omit [Finite G] in
 theorem gLBConj_card (b : G) (K : Subgroup G) : Nat.card (GLBConj b K) = Nat.card K := by
   unfold GLBConj
   exact Nat.card_congr (K.equivMapOfInjective (MulAut.conj b⁻¹).toMonoidHom
@@ -319,7 +326,7 @@ theorem gLBConj_card (b : G) (K : Subgroup G) : Nat.card (GLBConj b K) = Nat.car
 theorem CPData.p_dvd_card {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)} (hp : p.Prime)
     (hcp : CPData p B L 𝓛) (hpL : p ∣ Nat.card L) {K : Subgroup G} (hK : K ∈ 𝓛) :
     p ∣ Nat.card K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set O : Subgroup G := (CFSG.pPrimeCore p L).map L.subtype with hO
   have hOcop : Nat.Coprime p (Nat.card O) := by
     have : Nat.card O = Nat.card (CFSG.pPrimeCore p L) :=
@@ -328,7 +335,7 @@ theorem CPData.p_dvd_card {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     exact CFSG.pPrimeCore_coprime_card
   have hex : ∃ K' ∈ 𝓛, ¬ K' ≤ O := by
     by_contra hall
-    push_neg at hall
+    push Not at hall
     have hLO : L ≤ O := by
       rw [hcp.gen]
       exact sSup_le hall
@@ -417,7 +424,7 @@ theorem conj_dlProd (b k : G) (m : ℕ) (hb : b ^ (m + 1) = 1)
   have hconj : b⁻¹ * dlProd b k (m + 1) * b =
       ((List.range (m + 1)).map fun j => cj b k (j + 1)).prod := by
     have h1 : ∀ x : G, b⁻¹ * x * b = MulAut.conj b⁻¹ x := fun x => by
-      simp [MulAut.conj_apply]
+      simp
     rw [h1, dlProd, map_list_prod, List.map_map]
     congr 1
     apply List.map_congr_left
@@ -447,6 +454,7 @@ variable {G : Type*} [Group G] [Finite G]
 def NN (𝓛 : Set (Subgroup G)) (K : Subgroup G) : Subgroup G :=
   sSup {X | X ∈ 𝓛 ∧ X ≠ K}
 
+omit [Finite G] in
 theorem NN_le_centralizer {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {K : Subgroup G} (hK : K ∈ 𝓛) :
     NN 𝓛 K ≤ Subgroup.centralizer (K : Set G) := by
@@ -456,6 +464,7 @@ theorem NN_le_centralizer {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
   intro h hh
   exact hcp.comm K hK X hX.1 (Ne.symm hX.2) h hh x hx
 
+omit [Finite G] in
 theorem mem_sup_of_comm {K N : Subgroup G} (hc : ∀ n ∈ N, ∀ x ∈ K, n * x = x * n) {y : G}
     (hy : y ∈ K ⊔ N) : ∃ k ∈ K, ∃ n ∈ N, y = k * n := by
   let P : Subgroup G :=
@@ -479,7 +488,7 @@ theorem mem_sup_of_comm {K N : Subgroup G} (hc : ∀ n ∈ N, ∀ x ∈ K, n * x
   exact hsup hy
 
 theorem NN_conj_le {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
-    (hcp : CPData p B L 𝓛) {g : G} (hg : g ∈ B) {K : Subgroup G} (hK : K ∈ 𝓛) :
+    (hcp : CPData p B L 𝓛) {g : G} (hg : g ∈ B) {K : Subgroup G} (_hK : K ∈ 𝓛) :
     GLBConj g (NN 𝓛 K) ≤ NN 𝓛 (GLBConj g K) := by
   have key : ∀ X ∈ {X | X ∈ 𝓛 ∧ X ≠ K}, GLBConj g X ≤ NN 𝓛 (GLBConj g K) := by
     intro X hX
@@ -494,6 +503,7 @@ theorem NN_conj_le {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
   refine sSup_le fun X hX => ?_
   exact (Subgroup.map_le_iff_le_comap).1 (key X hX)
 
+omit [Finite G] in
 theorem gLBConj_eq_norm (K : Subgroup G) {g h : G} (hgh : GLBConj g K = GLBConj h K) :
     h * g⁻¹ ∈ Subgroup.normalizer (K : Set G) := by
   have key : ∀ g h : G, GLBConj g K = GLBConj h K → ∀ x ∈ K, (h * g⁻¹) * x * (h * g⁻¹)⁻¹ ∈ K := by
@@ -502,14 +512,14 @@ theorem gLBConj_eq_norm (K : Subgroup G) {g h : G} (hgh : GLBConj g K = GLBConj 
       mem_gLBConj.2 (by rw [show g * (g⁻¹ * x * g) * g⁻¹ = x by group]; exact hx)
     rw [hgh] at hx'
     have := mem_gLBConj.1 hx'
-    convert this using 1 <;> group
+    convert this using 1; group
   rw [Subgroup.mem_normalizer_iff]
   intro x
   constructor
   · exact key g h hgh x
   · intro hx
     have := key h g hgh.symm _ hx
-    convert this using 1 <;> group
+    convert this using 1; group
 
 theorem mem_of_pow_mem_normalizer {p : ℕ} (hp : p.Prime) {G : Type*} [Group G] {b : G}
     (hbp : b ^ p = 1) {N : Subgroup G} {d : ℕ} (hd0 : 0 < d) (hdp : d < p) (h : b ^ d ∈ N) :
@@ -532,8 +542,9 @@ section DiagSub
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem orb_ne {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
-    (hcp : CPData p B L 𝓛) {K₀ : Subgroup G} {b : G} (hbp : b ^ p = 1)
+    (_hcp : CPData p B L 𝓛) {K₀ : Subgroup G} {b : G} (hbp : b ^ p = 1)
     (hbN : b ∉ Subgroup.normalizer (K₀ : Set G)) {i j : ℕ} (hi : i < p) (hj : j < p)
     (hij : i ≠ j) : GLBConj (b ^ i) K₀ ≠ GLBConj (b ^ j) K₀ := by
   intro heq
@@ -549,6 +560,7 @@ theorem orb_ne {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subgroup
     rw [hd] at hu'
     exact hbN (mem_of_pow_mem_normalizer hp hbp (by omega) (by omega) hu')
 
+omit [Finite G] in
 theorem cj_mem_Kj {K₀ : Subgroup G} {b k : G} (hk : k ∈ K₀) (j : ℕ) :
     cj b k j ∈ GLBConj (b ^ j) K₀ := by
   rw [mem_gLBConj]
@@ -589,6 +601,7 @@ theorem Asub_le_centralizer {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : 
     Asub p b K₀ ≤ Subgroup.centralizer (K₀ : Set G) :=
   le_trans (Asub_le_NN hp hcp hK₀ hb hbN) (NN_le_centralizer hcp hK₀)
 
+omit [Finite G] in
 theorem cj_mem_Asub {p : ℕ} {K₀ : Subgroup G} {b k : G} (hk : k ∈ K₀) {j : ℕ} (hj1 : 1 ≤ j)
     (hjp : j < p) : cj b k j ∈ Asub p b K₀ :=
   (le_sSup ⟨j, hj1, hjp, rfl⟩ : GLBConj (b ^ j) K₀ ≤ Asub p b K₀) (cj_mem_Kj hk j)
@@ -620,9 +633,10 @@ theorem dlProd_mem_L {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)} (hcp
   obtain ⟨j, -, rfl⟩ := List.mem_map.1 hx
   exact cj_mem_L hcp hK₀ hb hk j
 
+omit [Finite G] in
 theorem dlProd_eq_k_mul {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
-    (hcp : CPData p B L 𝓛) {K₀ : Subgroup G} (hK₀ : K₀ ∈ 𝓛) {b : G} (hb : b ∈ B)
-    (hbN : b ∉ Subgroup.normalizer (K₀ : Set G)) {k : G} (hk : k ∈ K₀) :
+    (_hcp : CPData p B L 𝓛) {K₀ : Subgroup G} (_hK₀ : K₀ ∈ 𝓛) {b : G} (_hb : b ∈ B)
+    (_hbN : b ∉ Subgroup.normalizer (K₀ : Set G)) {k : G} (hk : k ∈ K₀) :
     dlProd b k p = k * ((List.range (p - 1)).map fun j => cj b k (j + 1)).prod ∧
       ((List.range (p - 1)).map fun j => cj b k (j + 1)).prod ∈ Asub p b K₀ := by
   have hp1 : p = (p - 1) + 1 := (Nat.succ_pred_eq_of_pos hp.pos).symm
@@ -693,7 +707,7 @@ theorem dlHom_range_pdvd {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set
   set z : D := ⟨_, hyD⟩ with hz
   have hz_pow : z ^ (p ^ n) = 1 := by
     apply Subtype.ext
-    simp only [hz, Subgroup.coe_pow, Subgroup.coe_one, map_pow]
+    simp only [hz, Subgroup.coe_pow, Subgroup.coe_one]
     rw [← map_pow, hn, map_one]
   have hz_ne : z ≠ 1 := by
     intro h1
@@ -714,6 +728,7 @@ theorem dlHom_range_pdvd {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set
     exact dvd_pow_self p hi0
   exact hpz.trans (orderOf_dvd_natCard z)
 
+omit [Finite G] in
 theorem L_le_sup_NN {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {K₀ : Subgroup G} (hK₀ : K₀ ∈ 𝓛) :
     L ≤ K₀ ⊔ NN 𝓛 K₀ := by
@@ -816,6 +831,7 @@ theorem dl_le_W {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subgrou
   refine le_trans (dlHom_le_layer hp hcp hK₀ hb hbN hpK) (le_sSup ?_)
   exact ⟨b, hb, fun h => hbN (h ▸ Subgroup.one_mem _), Or.inr hbN, rfl⟩
 
+omit [Finite G] in
 theorem commute_sSup {S T : Set (Subgroup G)}
     (h : ∀ X ∈ S, ∀ Y ∈ T, ∀ x ∈ X, ∀ y ∈ Y, x * y = y * x) :
     ∀ x ∈ sSup S, ∀ y ∈ sSup T, x * y = y * x := by
@@ -834,7 +850,7 @@ theorem commute_sSup {S T : Set (Subgroup G)}
   intro x hx y hy
   exact (Subgroup.mem_centralizer_iff.1 (h2 hy) x hx)
 
-theorem Aset_commute {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
+theorem Aset_commute {p : ℕ} (_hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {K₀ : Subgroup G} (hK₀ : K₀ ∈ 𝓛) {b b' : G} (hb : b ∈ B)
     (hb' : b' ∈ B) (hindep : ∀ i j : ℕ, GLBConj (b ^ i) K₀ = GLBConj (b' ^ j) K₀ → p ∣ i) :
     ∀ x ∈ Asub p b K₀, ∀ y ∈ Asub p b' K₀, x * y = y * x := by
@@ -904,6 +920,7 @@ theorem R2_K₀_le {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subg
   intro x hx
   exact htop (Subgroup.mem_top (⟨x, hx⟩ : K₀))
 
+omit [Finite G] in
 theorem layer_gLBConj_le {p : ℕ} (X : Subgroup G) (g : G) :
     GLBConj g (GLAPLayer p X) ≤ GLAPLayer p (GLBConj g X) := by
   unfold GLAPLayer
@@ -912,6 +929,7 @@ theorem layer_gLBConj_le {p : ℕ} (X : Subgroup G) (g : G) :
   refine sSup_le fun K hK => ?_
   exact (Subgroup.map_le_iff_le_comap).1 (le_sSup (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_gLBConj hK g))
 
+omit [Finite G] in
 theorem conj_comm_aux {g y x : G} (hgy : g * y = y * g) (hx : x * y = y * x) :
     (g * x * g⁻¹) * y = y * (g * x * g⁻¹) := by
   have hy' : g⁻¹ * y = y * g⁻¹ := by
@@ -926,6 +944,7 @@ theorem conj_comm_aux {g y x : G} (hgy : g * y = y * g) (hx : x * y = y * x) :
     _ = y * g * x * g⁻¹ := by rw [hgy]
     _ = y * (g * x * g⁻¹) := by group
 
+omit [Finite G] in
 theorem gLBConj_inf_centralizer {B L : Subgroup G} (hBN : B ≤ Subgroup.normalizer (L : Set G))
     (hcomm : ∀ x ∈ B, ∀ y ∈ B, x * y = y * x) {g y : G} (hg : g ∈ B) (hy : y ∈ B) :
     GLBConj g (L ⊓ Subgroup.centralizer ({y} : Set G)) = L ⊓ Subgroup.centralizer ({y} : Set G) := by
@@ -975,6 +994,7 @@ variable {G : Type*} [Group G] [Finite G]
 
 def Wof (p : ℕ) (B L K₀ : Subgroup G) : Subgroup G := sSup (layerSet p B L K₀)
 
+omit [Finite G] in
 theorem Wof_conj_le {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {K₀ : Subgroup G} {g : G} (hg : g ∈ B) :
     GLBConj g (Wof p B L K₀) ≤ Wof p B L K₀ := by
@@ -990,6 +1010,7 @@ theorem Wof_conj_le {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
   rw [e] at h1
   exact (Subgroup.map_le_iff_le_comap).1 (h1.trans (le_sSup ⟨y, hy, hy1, hyN, rfl⟩))
 
+omit [Finite G] in
 theorem L_le_Wof_of_K₀_le {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {K₀ : Subgroup G} (hK₀ : K₀ ∈ 𝓛) (hK : K₀ ≤ Wof p B L K₀) :
     L ≤ Wof p B L K₀ := by
@@ -1035,9 +1056,9 @@ theorem exists_nontriv_N {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set
     (hR1 : ∀ b' ∈ B, ∃ e : ℤ, b' * (b₀ ^ e)⁻¹ ∈ Subgroup.normalizer (L₁ : Set G))
     (hrank : p ^ 2 ≤ Nat.card B) :
     ∃ x ∈ B, x ∈ Subgroup.normalizer (L₁ : Set G) ∧ x ≠ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hBle : B ≤ Subgroup.zpowers b₀ := by
     intro b' hb'
     obtain ⟨e, he⟩ := hR1 b' hb'
@@ -1056,14 +1077,17 @@ def Zl (L : Subgroup G) : Subgroup G := L ⊓ Subgroup.centralizer (L : Set G)
 
 def MK (𝓛 : Set (Subgroup G)) (L M : Subgroup G) : Subgroup G := Zl L ⊔ NN 𝓛 M
 
+omit [Finite G] in
 theorem NN_le_L {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)} (hcp : CPData p B L 𝓛)
     (M : Subgroup G) : NN 𝓛 M ≤ L :=
   sSup_le fun X hX => (hcp.comp X hX.1).1
 
+omit [Finite G] in
 theorem Zl_comm_left {L : Subgroup G} {z : G} (hz : z ∈ Zl L) {x : G} (hx : x ∈ L) :
     z * x = x * z :=
   ((Subgroup.mem_centralizer_iff.1 hz.2) x hx).symm
 
+omit [Finite G] in
 theorem L_le_normalizer_NN {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {M : Subgroup G} (hM : M ∈ 𝓛) :
     L ≤ Subgroup.normalizer (NN 𝓛 M : Set G) := by
@@ -1075,6 +1099,7 @@ theorem L_le_normalizer_NN {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)
     exact (Subgroup.mem_centralizer_iff.1 (NN_le_centralizer hcp hM hh)) x hx
   · exact (le_sSup ⟨hX, hXM⟩ : X ≤ NN 𝓛 M).trans Subgroup.le_normalizer
 
+omit [Finite G] in
 theorem MK_normal_L {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {M : Subgroup G} (hM : M ∈ 𝓛) {x : G} (hx : x ∈ L) {m : G}
     (hm : m ∈ MK 𝓛 L M) : x * m * x⁻¹ ∈ MK 𝓛 L M := by
@@ -1092,6 +1117,7 @@ theorem MK_normal_L {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
   exact (MK 𝓛 L M).mul_mem (le_sup_left (a := Zl L) (b := NN 𝓛 M) hz)
     (le_sup_right (a := Zl L) (b := NN 𝓛 M) hxn)
 
+omit [Finite G] in
 theorem MK_comm {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {M : Subgroup G} (hM : M ∈ 𝓛) {m : G} (hm : m ∈ MK 𝓛 L M) :
     ∀ y ∈ M, m * y = y * m := by
@@ -1102,6 +1128,7 @@ theorem MK_comm {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
   have h2 : z * y = y * z := Zl_comm_left hz (hcp.K_le_L hM hy)
   rw [mul_assoc, h1, ← mul_assoc, h2, mul_assoc]
 
+omit [Finite G] in
 theorem MK_of_center {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {M : Subgroup G} (hM : M ∈ 𝓛) {z : G} (hz : z ∈ M)
     (hzc : ∀ y ∈ M, z * y = y * z) : z ∈ MK 𝓛 L M := by
@@ -1124,23 +1151,26 @@ theorem MK_of_center {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
 def supp (𝓛 : Set (Subgroup G)) (L : Subgroup G) (w : G) : Set (Subgroup G) :=
   {M | M ∈ 𝓛 ∧ w ∉ MK 𝓛 L M}
 
+omit [Finite G] in
 theorem supp_mul_subset (𝓛 : Set (Subgroup G)) (L : Subgroup G) (w v : G) :
     supp 𝓛 L (w * v) ⊆ supp 𝓛 L w ∪ supp 𝓛 L v := by
   rintro M ⟨hM, hwv⟩
   by_contra h
-  simp only [Set.mem_union, not_or, supp, Set.mem_setOf_eq, not_and, not_not] at h
+  simp only [Set.mem_union, not_or, supp, Set.mem_ofPred_eq, not_and, not_not] at h
   exact hwv ((MK 𝓛 L M).mul_mem (h.1 hM) (h.2 hM))
 
+omit [Finite G] in
 theorem supp_inv (𝓛 : Set (Subgroup G)) (L : Subgroup G) (w : G) :
     supp 𝓛 L w⁻¹ = supp 𝓛 L w := by
   ext M
-  simp only [supp, Set.mem_setOf_eq]
+  simp only [supp, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hM, h⟩
     exact ⟨hM, fun h' => h ((MK 𝓛 L M).inv_mem h')⟩
   · rintro ⟨hM, h⟩
     exact ⟨hM, fun h' => h (by simpa using (MK 𝓛 L M).inv_mem h')⟩
 
+omit [Finite G] in
 theorem supp_eq_empty_central {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {w : G} (hwL : w ∈ L) (hw : supp 𝓛 L w = ∅) : w ∈ Zl L := by
   have hwM : ∀ M ∈ 𝓛, w ∈ MK 𝓛 L M := by
@@ -1157,6 +1187,7 @@ theorem supp_eq_empty_central {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup
   refine Subgroup.mem_inf.2 ⟨hwL, Subgroup.mem_centralizer_iff.2 (fun h hh => ?_)⟩
   exact Subgroup.mem_centralizer_singleton_iff.1 (hLc hh)
 
+omit [Finite G] in
 theorem Zl_conj_le {L : Subgroup G} {x : G} (hx : x ∈ Subgroup.normalizer (L : Set G)) :
     GLBConj x (Zl L) ≤ Zl L := by
   intro z hz
@@ -1221,10 +1252,12 @@ theorem W_cover {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subgrou
     rw [e2]
     exact hsub
 
+omit [Finite G] in
 theorem layer_le_self {p : ℕ} (X : Subgroup G) : GLAPLayer p X ≤ X := by
   unfold GLAPLayer
   exact sSup_le fun K hK => hK.1
 
+omit [Finite G] in
 theorem Wof_le_L {p : ℕ} {B L : Subgroup G} (K₀ : Subgroup G) : Wof p B L K₀ ≤ L :=
   sSup_le fun Z hZ => by
     obtain ⟨y, -, -, -, rfl⟩ := hZ
@@ -1238,6 +1271,7 @@ def VT (W : Subgroup G) (𝓛 : Set (Subgroup G)) (L : Subgroup G) (T : Set (Sub
     (Set.union_subset ha.2 hb.2)⟩
   inv_mem' := fun {a} ha => ⟨W.inv_mem ha.1, by rw [supp_inv]; exact ha.2⟩
 
+omit [Finite G] in
 theorem supp_conj {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {w : G} (hw : w ∈ L) (v : G) :
     supp 𝓛 L (w * v * w⁻¹) = supp 𝓛 L v := by
@@ -1337,6 +1371,7 @@ theorem star_lemma {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subg
     exact Subgroup.mem_top _
   exact (Subgroup.mem_subgroupOf.1 hmem).2
 
+omit [Finite G] in
 theorem qs_le_of_comm {K N : Subgroup G} (hq : CFSG.Open.IsQuasisimple K)
     (h : ∀ a ∈ K, ∀ b ∈ K, ⁅a, b⁆ ∈ N) : K ≤ N := by
   have hcomm_le : ⁅(⊤ : Subgroup K), (⊤ : Subgroup K)⁆ ≤ N.comap K.subtype := by
@@ -1349,6 +1384,7 @@ theorem qs_le_of_comm {K N : Subgroup G} (hq : CFSG.Open.IsQuasisimple K)
   intro x hx
   exact htop (Subgroup.mem_top (⟨x, hx⟩ : K))
 
+omit [Finite G] in
 theorem supp_commutator {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {x y : G} (hx : x ∈ L) (hy : y ∈ L) :
     supp 𝓛 L ⁅x, y⁆ ⊆ supp 𝓛 L x ∩ supp 𝓛 L y := by
@@ -1363,15 +1399,17 @@ theorem supp_commutator {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     rw [show x * y * x⁻¹ * y⁻¹ = (x * y * x⁻¹) * y⁻¹ by group]
     exact (MK 𝓛 L M).mul_mem h1 ((MK 𝓛 L M).inv_mem hyM)
 
+omit [Finite G] in
 theorem exists_noncomm_pair {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {M : Subgroup G} (hM : M ∈ 𝓛) :
     ∃ a ∈ M, ∃ b ∈ M, ⁅a, b⁆ ∉ MK 𝓛 L M := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hle := qs_le_of_comm (hcp.comp M hM).2.2 h
   exact qs_not_comm_subgroup (hcp.comp M hM).2.2
     (fun a ha b hb => MK_comm hcp hM (hle ha) b hb)
 
+omit [Finite G] in
 theorem singleton_decomp {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {M : Subgroup G} (hM : M ∈ 𝓛) {v : G} (hvL : v ∈ L)
     (hv : ∀ M' ∈ 𝓛, M' ≠ M → v ∈ MK 𝓛 L M') : ∃ k ∈ M, ∃ z ∈ Zl L, v = k * z := by
@@ -1412,6 +1450,7 @@ theorem singleton_decomp {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     exact Subgroup.mem_centralizer_singleton_iff.1 (hLc hh)
   exact ⟨k, hk, n, hnZ, rfl⟩
 
+omit [Finite G] in
 theorem comm_not_mem {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {M : Subgroup G} (hM : M ∈ 𝓛) {x z k₁ k₂ : G}
     (hx : x ∈ L) (hz : z ∈ L) (hk₁ : k₁ ∈ M) (hk₂ : k₂ ∈ M)
@@ -1456,11 +1495,12 @@ def IsMinW (p : ℕ) (B L K₀ : Subgroup G) (𝓛 : Set (Subgroup G)) (w₀ : G
   w₀ ∈ Wof p B L K₀ ∧ w₀ ∉ Zl L ∧ ∀ w ∈ Wof p B L K₀, w ∉ Zl L →
     (supp 𝓛 L w₀).ncard ≤ (supp 𝓛 L w).ncard
 
+omit [Finite G] in
 theorem Zl_le_MK (𝓛 : Set (Subgroup G)) (L M : Subgroup G) : Zl L ≤ MK 𝓛 L M := le_sup_left
 
 theorem supp_finite (𝓛 : Set (Subgroup G)) (L : Subgroup G) (w : G) :
     (supp 𝓛 L w).Finite :=
-  (Set.toFinite 𝓛).subset (fun M hM => hM.1)
+  (Set.toFinite 𝓛).subset (fun _M hM => hM.1)
 
 theorem block_sub {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     (hcp : CPData p B L 𝓛) {K₀ : Subgroup G} (hK₀ : K₀ ∈ 𝓛) (hpK : p ∣ Nat.card K₀)
@@ -1494,6 +1534,7 @@ theorem block_sub {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subgr
   have := Set.ncard_lt_ncard hlt (supp_finite 𝓛 L w₀)
   omega
 
+omit [Finite G] in
 theorem gLBConj_inv_gLBConj (g : G) (K : Subgroup G) : GLBConj g⁻¹ (GLBConj g K) = K := by
   simpa using gLBConj_gLBConj_inv g⁻¹ K
 
@@ -1529,6 +1570,7 @@ theorem supp_conj_formula {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     rw [← MK_conj_eq hcp hg hM]
     exact mem_gLBConj.2 h
 
+omit [Finite G] in
 theorem gLBConj_conj_inv (g : G) (K : Subgroup G) : GLBConj g (GLBConj g⁻¹ K) = K := by
   simpa using gLBConj_inv_gLBConj g⁻¹ K
 
@@ -1551,12 +1593,14 @@ theorem supp_conj_ncard {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)}
     _ = GLBConj g (GLBConj g⁻¹ Y) := by rw [h']
     _ = Y := gLBConj_conj_inv g Y
 
+omit [Finite G] in
 theorem comm_mul_right_central {x y c : G} (hc : c * y = y * c) : ⁅x * c, y⁆ = ⁅x, y⁆ := by
   rw [commutatorElement_def, commutatorElement_def]
   have hy : c * y * c⁻¹ = y := by rw [hc]; group
   calc x * c * y * (x * c)⁻¹ * y⁻¹ = x * (c * y * c⁻¹) * x⁻¹ * y⁻¹ := by group
     _ = x * y * x⁻¹ * y⁻¹ := by rw [hy]
 
+omit [Finite G] in
 theorem comm_mul_right_of_comm {x y c : G} (hc : c * x = x * c) : ⁅x, y * c⁆ = ⁅x, y⁆ := by
   rw [commutatorElement_def, commutatorElement_def]
   have hx : x⁻¹ * c = c * x⁻¹ := by
@@ -1567,6 +1611,7 @@ theorem comm_mul_right_of_comm {x y c : G} (hc : c * x = x * c) : ⁅x, y * c⁆
     _ = x * y * (x⁻¹ * c) * c⁻¹ * y⁻¹ := by rw [hx]
     _ = x * y * x⁻¹ * y⁻¹ := by group
 
+omit [Finite G] in
 theorem comm_Zl_pair {L : Subgroup G} {k k' z w : G} (hk : k ∈ L) (hk' : k' ∈ L)
     (hz : z ∈ Zl L) (hw : w ∈ Zl L) : ⁅k * z, k' * w⁆ = ⁅k, k'⁆ := by
   have hzc : ∀ y ∈ L, z * y = y * z := fun y hy => Zl_comm_left hz hy
@@ -1636,10 +1681,12 @@ theorem singleton_case {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (
   rw [← hxM, gLBConj_inv_gLBConj] at hK
   exact hK
 
+omit [Finite G] in
 theorem inB_comm {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)} (hcp : CPData p B L 𝓛)
     {x y : G} (hx : x ∈ B) (hy : y ∈ B) : x * y = y * x :=
   congrArg Subtype.val (hcp.elem.1.is_comm.comm ⟨x, hx⟩ ⟨y, hy⟩)
 
+omit [Finite G] in
 theorem mem_norm_of_gLBConj_eq {g : G} {Q : Subgroup G} (h : GLBConj g Q = Q) :
     g ∈ Subgroup.normalizer (Q : Set G) := by
   have h1 : g⁻¹ ∈ Subgroup.normalizer (Q : Set G) := by
@@ -1648,10 +1695,12 @@ theorem mem_norm_of_gLBConj_eq {g : G} {Q : Subgroup G} (h : GLBConj g Q = Q) :
   have h3 := (Subgroup.normalizer (Q : Set G)).inv_mem h1
   rwa [inv_inv] at h3
 
+omit [Finite G] in
 theorem gLBConj_mul_of_norm {H : Subgroup G} {g n : G}
     (hn : n ∈ Subgroup.normalizer (GLBConj g H : Set G)) : GLBConj (g * n) H = GLBConj g H := by
   rw [← gLBConj_gLBConj, gLBConj_eq_of_mem_normalizer hn]
 
+omit [Finite G] in
 theorem norm_of_comp {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)} (hcp : CPData p B L 𝓛)
     {K₀ : Subgroup G} (hK₀ : K₀ ∈ 𝓛) {n : G} (hn : n ∈ B)
     (hnK : n ∈ Subgroup.normalizer (K₀ : Set G)) {M : Subgroup G} (hM : M ∈ 𝓛) :
@@ -1661,12 +1710,14 @@ theorem norm_of_comp {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)} (hcp
   apply mem_norm_of_gLBConj_eq
   rw [gLBConj_gLBConj, inB_comm hcp hc hn, ← gLBConj_gLBConj, gLBConj_eq_of_mem_normalizer hnK]
 
+omit [Finite G] in
 theorem fix_of_norm_comp {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)} (hcp : CPData p B L 𝓛)
     {K₀ : Subgroup G} (hK₀ : K₀ ∈ 𝓛) {n : G} (hn : n ∈ B)
     (hnK : n ∈ Subgroup.normalizer (K₀ : Set G)) {M : Subgroup G} (hM : M ∈ 𝓛) :
     GLBConj n M = M :=
   gLBConj_eq_of_mem_normalizer (norm_of_comp hcp hK₀ hn hnK hM)
 
+omit [Finite G] in
 theorem cent_of_conj_comp {x c : G} (hc : c * x = x * c) {K K' : Subgroup G}
     (h : GLBConj c K = K') (hK : ∀ y ∈ K, x * y = y * x) : ∀ y ∈ K', x * y = y * x := by
   intro y hy'
@@ -1683,11 +1734,13 @@ theorem cent_of_conj_comp {x c : G} (hc : c * x = x * c) {K K' : Subgroup G}
   rw [e1, e2] at h2
   exact h2
 
+omit [Finite G] in
 theorem zpow_gen_int {p : ℕ} {b : G} (hbp : b ^ p = 1) {e u v : ℤ}
     (huv : u * (p : ℤ) + v * e = 1) : (b ^ e) ^ v = b := by
   have key : e * v = 1 - (p : ℤ) * u := by linear_combination huv
   rw [← zpow_mul, key, zpow_sub, zpow_one, zpow_mul, zpow_natCast, hbp, one_zpow, inv_one, mul_one]
 
+omit [Finite G] in
 theorem central_of_MK {p : ℕ} {B L : Subgroup G} {𝓛 : Set (Subgroup G)} (hcp : CPData p B L 𝓛)
     {M : Subgroup G} (hM : M ∈ 𝓛) {y : G} (hy : y ∈ MK 𝓛 L M) : ∀ t ∈ M, y * t = t * y := by
   obtain ⟨z, hz, n, hn, rfl⟩ := mem_sup_of_comm
@@ -1716,7 +1769,7 @@ theorem W_not_le_Zl {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Sub
     (hcp : CPData p B L 𝓛) {K₀ : Subgroup G} (hK₀ : K₀ ∈ 𝓛) (hpK : p ∣ Nat.card K₀)
     {b₀ : G} (hb₀ : b₀ ∈ B) (hb₀N : b₀ ∉ Subgroup.normalizer (K₀ : Set G)) :
     ∃ w, w ∈ Wof p B L K₀ ∧ w ∉ Zl L := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq : CFSG.Open.IsQuasisimple K₀ := (hcp.comp K₀ hK₀).2.2
   obtain ⟨kk, hkk, -⟩ := exists_noncentral_pElt hp hq hpK
   have hk : (kk : G) ∈ K₀ := kk.2
@@ -1851,7 +1904,7 @@ theorem r1_full_case {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Su
     {w₀ : G} (hmin : IsMinW p B L K₀ 𝓛 w₀) (hS : ∀ M ∈ 𝓛, M ∈ supp 𝓛 L w₀)
     {x : G} (hxB : x ∈ B) (hxN : x ∈ Subgroup.normalizer (K₀ : Set G)) (hx1 : x ≠ 1)
     (hC : ∀ c ∈ B, c ≠ 1 → c ∉ Subgroup.centralizer (L : Set G)) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hbp : b₀ ^ p = 1 := hcp.elem.2 b₀ hb₀
   have hcx : Commute b₀ x := inB_comm hcp hb₀ hxB
   have hSeq : supp 𝓛 L w₀ = 𝓛 := Set.Subset.antisymm (fun M hM => hM.1) hS
@@ -2033,7 +2086,7 @@ theorem R1_K₀_le {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subg
     have hall := r1_two_case hp hcp hK₀ hpK hb₀ hb₀N hR1 hmin h1 h2 hne
     obtain ⟨x, hxB, hxN, hx1⟩ := hx
     exact r1_full_case hp hcp hK₀ hpK hb₀ hb₀N hmin hall hxB hxN hx1 hC
-  · push_neg at htwo
+  · push Not at htwo
     obtain ⟨M, hM⟩ := hsupp_ne
     exact singleton_case hp hcp hK₀ hpK hb₀ hb₀N hmin hM (fun M' hM' => htwo M' hM' M hM)
 
@@ -2043,12 +2096,12 @@ theorem core_L_le {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subgr
     (hJ : ∃ b ∈ B, b ≠ 1 ∧ (b ∈ Subgroup.centralizer (L : Set G) ∨
       b ∉ Subgroup.normalizer (L₁ : Set G))) :
     L ≤ Wof p B L L₁ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpK : p ∣ Nat.card L₁ := hcp.p_dvd_card hp hpL hL₁
   by_cases hA : ∃ b ∈ B, b ≠ 1 ∧ b ∈ Subgroup.centralizer (L : Set G)
   · obtain ⟨b, hb, hb1, hbC⟩ := hA
     exact caseA_le hp hcp hpL hb hb1 hbC
-  · push_neg at hA
+  · push Not at hA
     obtain ⟨b₀, hb₀, hb₀1, hJ'⟩ := hJ
     have hb₀N : b₀ ∉ Subgroup.normalizer (L₁ : Set G) := hJ'.resolve_left (hA b₀ hb₀ hb₀1)
     by_cases hR2 : ∃ b' ∈ B, b' ∉ Subgroup.normalizer (L₁ : Set G) ∧
@@ -2059,7 +2112,7 @@ theorem core_L_le {p : ℕ} (hp : p.Prime) {B L : Subgroup G} {𝓛 : Set (Subgr
         intro b' hb'
         by_cases hb'N : b' ∈ Subgroup.normalizer (L₁ : Set G)
         · exact ⟨0, by simpa using hb'N⟩
-        · push_neg at hR2
+        · push Not at hR2
           obtain ⟨i, j, heq, hpi⟩ := hR2 b' hb' hb'N
           have hu := gLBConj_eq_norm L₁ heq
           have hbp : b₀ ^ p = 1 := hcp.elem.2 b₀ hb₀
@@ -2102,7 +2155,7 @@ namespace CFSG.LocalAnalysis.GLTheoremB.MovingAround
 
 theorem input22_3_2_holds : Input22_3_2 := by
   intro Y _ _ p hp B L L₁ 𝓛 hB hBN hL₁ hrank hpL hgen hcomp hcomm htrans hJ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcp : Input223.CPData p B L 𝓛 := ⟨hB, hBN, hcomp, hgen, hcomm, htrans⟩
   have hrank' : p ^ 2 ≤ Nat.card B := by
     rw [l1110_card_eq_pow_pRank hB]
@@ -2129,7 +2182,7 @@ theorem input22_3_clause2_holds : ∀ (X : Type) [Group X] [Finite X] (p : ℕ),
             b ∉ Subgroup.normalizer (K₁ : Set X))),
           CFSG.Open.GLAPLayer p (L ⊓ Subgroup.centralizer ({b} : Set X))) := by
   intro X _ _ p hp L B K₁ 𝒦 hK₁ hcomp hL hcomm htrans hB hBN hpL hJ hrank
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hr2 : 2 ≤ CFSG.Open.pRank p B := by
     rw [l1110_card_eq_pow_pRank hB] at hrank
     exact (Nat.pow_le_pow_iff_right (by have := hp.two_le; omega)).1 hrank

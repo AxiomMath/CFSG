@@ -73,7 +73,7 @@ theorem co2Basis_isUnit : IsUnit (rowsMatrix 22 co2BasisRows) := by
 
 theorem co2Basis_linearIndependent :
     LinearIndependent (ZMod 2) fun t : Fin 22 => co2Vec (co2BasisList.getD t 0) := by
-  have h := Matrix.linearIndependent_rows_iff_isUnit.2 co2Basis_isUnit
+  have h := Matrix.linearIndependent_row_iff_isUnit.2 co2Basis_isUnit
   have e : (rowsMatrix 22 co2BasisRows).row = fun t : Fin 22 => co2Vec (co2BasisList.getD t 0) :=
     funext rowsMatrix_co2BasisRows_row
   rwa [e] at h

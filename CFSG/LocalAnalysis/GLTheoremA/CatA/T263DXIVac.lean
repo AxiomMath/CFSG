@@ -123,7 +123,7 @@ private theorem card_le_of_noSylowNormalizesTwo {X : Type*} [Group X] [Finite X]
     (hN : NoSylowNormalizesTwo p X) (hfac : (Nat.card X).factorization p ≤ 2) {E U : Subgroup X}
     (hE : IsElemAbelian p E) (hU2 : IsPGroup 2 U) (hU : U ≠ ⊥)
     (hEU : E ≤ Subgroup.normalizer (U : Set X)) : Nat.card E ≤ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   calc Nat.card E ≤ p ^ ((Nat.card X).factorization p - 1) :=
         hN.card_le_pow_factorization_sub_one hp
           (CFSG.LieType.SeitzGeneration.isPGroup_of_isElemAbelian hE) hU hU2 hEU
@@ -134,12 +134,12 @@ private theorem e6_card_le {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpne5 : p �
     (hpne7 : p ≠ 7) {q : TauCeti.PrimePower} (hq : q.card = 2)
     (hv : (TauCeti.LieTypeIndex.E6 q).Valid) {X : Type*} [Group X]
     (eX : Cat ⟨.E6 q, hv⟩ ≃* X) {E U : Subgroup X} (hE : IsElemAbelian p E)
-    (hU2 : IsPGroup 2 U) (hU : U ≠ ⊥) (hEU : E ≤ Subgroup.normalizer (U : Set X)) :
+    (_hU2 : IsPGroup 2 U) (_hU : U ≠ ⊥) (_hEU : E ≤ Subgroup.normalizer (U : Set X)) :
     Nat.card E ≤ p := by
   obtain ⟨K, hfield, hfin, hK, -, ⟨eA⟩⟩ :=
     exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e6 q hv
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hqp : q.p = 2 :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.primePower_p_eq_two_of_card_eq_two hq
   have hpK : ¬ p ∣ Nat.card K := by
@@ -158,12 +158,12 @@ private theorem e7_card_le {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpne5 : p �
     (hpne7 : p ≠ 7) {q : TauCeti.PrimePower} (hq : q.card = 2)
     (hv : (TauCeti.LieTypeIndex.E7 q).Valid) {X : Type*} [Group X]
     (eX : Cat ⟨.E7 q, hv⟩ ≃* X) {E U : Subgroup X} (hE : IsElemAbelian p E)
-    (hU2 : IsPGroup 2 U) (hU : U ≠ ⊥) (hEU : E ≤ Subgroup.normalizer (U : Set X)) :
+    (_hU2 : IsPGroup 2 U) (_hU : U ≠ ⊥) (_hEU : E ≤ Subgroup.normalizer (U : Set X)) :
     Nat.card E ≤ p := by
   obtain ⟨K, hfield, hfin, hK, -, ⟨eA⟩⟩ :=
     exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e7 q hv
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hqp : q.p = 2 :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.primePower_p_eq_two_of_card_eq_two hq
   have hpK : ¬ p ∣ Nat.card K := by
@@ -186,19 +186,19 @@ private theorem e8_card_le {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) (hpne5 : p �
     Nat.card E ≤ p := by
   obtain ⟨K, hfield, hfin, hK, hKchar, ⟨eA⟩⟩ :=
     exists_catEquiv_adjointGroup Even.chevalleyBridgesAll.e8 q hv
-  letI := hfield
-  letI := hfin
+  let := hfield
+  let := hfin
   have hq2 : q.p = 2 :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.primePower_p_eq_two_of_card_eq_two hq
   have hpK : ¬ p ∣ Nat.card K := by
     rw [hK]
     exact not_dvd_card_of_ne hp (by rw [hq2]; omega)
-  haveI : CharP K 2 := by rw [← hq2]; exact hKchar
+  have : CharP K 2 := by rw [← hq2]; exact hKchar
   obtain ⟨e, he⟩ : ∃ e, orderOf ((Nat.card K : ℕ) : ZMod p) = e := ⟨_, rfl⟩
   have hrd : orderOf ((2 : ℕ) : ZMod p) = e := by
     rw [← he, hK, hq]
   have hdvd : p ∣ 2 ^ e - 1 := (CFSG.Timmesfeld.Bang.primitive_of_orderOf hrd).1
-  haveI : Finite X := Finite.of_equiv (adjointGroup Tag.E8 K) (eA.symm.trans eX).toEquiv
+  have : Finite X := Finite.of_equiv (adjointGroup Tag.E8 K) (eA.symm.trans eX).toEquiv
   by_cases hcnt : degCount Tag.E8 e ≤ 1
   · rw [← he] at hcnt
     exact (RankLE1.of_mulEquiv (eA.symm.trans eX) (rankLE1_E8 K hp hpK hcnt)) E hE
@@ -257,16 +257,16 @@ private theorem twE6_card_le {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {q : TauCe
     (hU2 : IsPGroup 2 U) (hU : U ≠ ⊥) (hEU : E ≤ Subgroup.normalizer (U : Set X)) :
     Nat.card E ≤ p := by
   obtain ⟨K, hfield, σ, hK0, hσ0, ⟨eK⟩⟩ := exists_catEquiv_twistedE6 q hv
-  letI := hfield
+  let := hfield
   have hq2 : q.p = 2 :=
     CFSG.HardMathSupport.Timmesfeld.CrossChar.primePower_p_eq_two_of_card_eq_two hq
   have hqcard : q.p ^ q.exponent = 2 := by
     rw [← TauCeti.PrimePower.card_def]
     exact hq
   have hK4 : Nat.card K = 2 ^ 2 := by rw [hK0, hqcard]
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK4]; norm_num)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.LieType.BorelTits.charP_of_natCard_eq (p := 2) (f := 2) hK4
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK4]; norm_num)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.LieType.BorelTits.charP_of_natCard_eq (p := 2) (f := 2) hK4
   have hK : Nat.card K = (2 ^ 1) ^ 2 := by simpa using hK4
   have hσc : ∀ c, σ c = c ^ 2 ^ 1 := by
     intro c
@@ -294,7 +294,7 @@ private theorem twE6_card_le {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {q : TauCe
       have hF2 : Fact (Nat.Prime q.p) := ⟨q.prime_p⟩
       have h := CFSG.LieType.BorelTits.holds_of_twistedChevalleyModel q.exponent_pos hTCM
       rwa [hq2] at h
-    haveI : Finite (Cat ⟨.twistedE6 q, hv⟩) :=
+    have : Finite (Cat ⟨.twistedE6 q, hv⟩) :=
       (CFSG.Assembly.lie_finite_simple ⟨.twistedE6 q, hv⟩).1
     have hH : CFSG.LieType.BorelTits.Holds
         (CFSG.LieType.Chevalley.twistedE6RootGroup K σ) 2 := hH0.of_mulEquiv eK
@@ -323,7 +323,7 @@ private theorem twE6_card_le {p : ℕ} (hp : p.Prime) (hp5 : 5 ≤ p) {q : TauCe
         rcases hp57 with rfl | rfl <;> norm_num [ordTwistedE6]
       by_contra h
       exact h3 ((hp.pow_dvd_iff_le_factorization hne).2 (by omega))
-    haveI : Finite X :=
+    have : Finite X :=
       Finite.of_equiv (CFSG.LieType.Chevalley.twistedE6RootGroup K σ)
         (eK.symm.trans eX).toEquiv
     exact card_le_of_noSylowNormalizesTwo hp hNX hfac hE hU2 hU hEU
@@ -408,7 +408,7 @@ theorem t263SelWP_e6Hard2_of (h : T263SelWP t263GHard2Small) : T263SelWP t263GE6
   | lie d =>
     obtain ⟨d, hv⟩ := d
     cases d <;> simp only [t263GE6Hard2, t263GHard2Vac, t263GHard2Small, onLie] at hi ⊢ <;>
-      first | exact hi.elim | tauto
+      tauto
   | cyclic r hr => exact hi.elim
   | alternating n hn => exact hi.elim
   | sporadic s => exact hi.elim
@@ -420,7 +420,7 @@ theorem t263SelWP_excHard2E_of (h : T263SelWP t263GHard2Small) : T263SelWP t263G
   | lie d =>
     obtain ⟨d, hv⟩ := d
     cases d <;> simp only [t263GExcHard2E, t263GHard2Vac, t263GHard2Small, onLie] at hi ⊢ <;>
-      first | exact hi.elim | tauto
+      tauto
   | cyclic r hr => exact hi.elim
   | alternating n hn => exact hi.elim
   | sporadic s => exact hi.elim

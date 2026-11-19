@@ -48,7 +48,7 @@ theorem card_ker_det_eq [Finite K] {N : Type*} [AddCommGroup N] [Module K N]
 
 theorem card_specialLinearGroup_fin_one [Finite K] :
     Nat.card (Matrix.SpecialLinearGroup (Fin 1) K) = 1 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hq : 1 < Fintype.card K := Fintype.one_lt_card
   rw [Matrix.card_SL_field, Fin.prod_univ_one]
   simp only [Fin.val_zero, pow_zero, pow_one]
@@ -56,7 +56,7 @@ theorem card_specialLinearGroup_fin_one [Finite K] :
 
 theorem card_specialLinearGroup_fin_two [Finite K] {Q : ℕ} (hK : Nat.card K = Q) :
     Nat.card (Matrix.SpecialLinearGroup (Fin 2) K) = Q * (Q ^ 2 - 1) := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hQ : Fintype.card K = Q := by rw [← Nat.card_eq_fintype_card, hK]
   have hq : 1 < Q := hQ ▸ Fintype.one_lt_card
   rw [Matrix.card_SL_field, Fin.prod_univ_two, hQ]
@@ -68,7 +68,7 @@ theorem card_specialLinearGroup_fin_two [Finite K] {Q : ℕ} (hK : Nat.card K = 
 theorem card_specialLinearGroup_fin_three [Finite K] {Q : ℕ} (hK : Nat.card K = Q) :
     Nat.card (Matrix.SpecialLinearGroup (Fin 3) K) =
       Q ^ 3 * (Q ^ 2 - 1) * (Q ^ 3 - 1) := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hQ : Fintype.card K = Q := by rw [← Nat.card_eq_fintype_card, hK]
   have hq : 1 < Q := hQ ▸ Fintype.one_lt_card
   rw [Matrix.card_SL_field, Fin.prod_univ_three, hQ]
@@ -90,8 +90,8 @@ theorem card_specialLinearGroup_fin_three [Finite K] {Q : ℕ} (hK : Nat.card K 
 theorem card_sesqSpecialUnitaryGroup_of_finrank_eq_zero {σ : K →+* K} {N : Type*}
     [AddCommGroup N] [Module K N] [FiniteDimensional K N] (B : N →ₛₗ[σ] N →ₗ[K] K)
     (hN : Module.finrank K N = 0) : Nat.card ↥(sesqSpecialUnitaryGroup B) = 1 := by
-  haveI : Subsingleton N := Module.finrank_zero_iff.mp hN
-  haveI : Subsingleton (LinearMap.GeneralLinearGroup K N) :=
+  have : Subsingleton N := Module.finrank_zero_iff.mp hN
+  have : Subsingleton (LinearMap.GeneralLinearGroup K N) :=
     ⟨fun a b => Units.ext (LinearMap.ext fun v => Subsingleton.elim _ _)⟩
   exact Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨1, Subgroup.one_mem _⟩⟩
 

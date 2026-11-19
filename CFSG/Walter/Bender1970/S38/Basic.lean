@@ -54,7 +54,7 @@ theorem card_sylow_eq_mul (hHA : IsAStar H) (hK : IsComponentOf K H) (T : Sylow 
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set W := (T : Subgroup G) ⊓ Subgroup.centralizer (K : Set G) with hW
   set Q := (T : Subgroup G) ⊓ K with hQ
-  have hWQ := inf_inf_eq_bot T.isPGroup' hKQ
+  have hWQ := inf_inf_eq_bot T.isPGroup hKQ
   rw [← Nat.card_prod]
   refine (Nat.card_congr (Equiv.ofBijective (fun x : W × Q => (⟨(x.1 : G) * x.2,
     (T : Subgroup G).mul_mem x.1.2.1 x.2.2.1⟩ : (T : Subgroup G))) ⟨fun x y h => ?_,
@@ -136,7 +136,7 @@ theorem sq_eq_one_of_not_le
   by_contra hcon
   push Not at hcon
   obtain ⟨x, hxT, hx2⟩ := hcon
-  obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup') ⟨x, hxT⟩
+  obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.mp T.isPGroup) ⟨x, hxT⟩
   rw [Subgroup.orderOf_mk] at hm
   have hm2 : 2 ≤ m := by
     by_contra h
@@ -280,7 +280,7 @@ theorem le_normalizer_of_card_le
       · exact h'
     apply hW
     have hLQ := bender38Component hHA (hcomp h hhH) T hTH hTab
-    obtain ⟨k, hk⟩ := exists_pow_eq_one_of_isPGroup T.isPGroup'
+    obtain ⟨k, hk⟩ := exists_pow_eq_one_of_isPGroup T.isPGroup
     rw [eq_bot_iff]
     intro w hw
     rw [Subgroup.mem_bot]

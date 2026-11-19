@@ -23,7 +23,7 @@ private theorem rhoZero_mem : rhoZero ∈ alternatingGroup (Fin 7) := by
 private theorem rhoZero_comm : rhoZero * Equiv.swap 0 1 = Equiv.swap 0 1 * rhoZero := by decide
 
 private theorem rhoZero_orderOf : orderOf rhoZero = 4 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h := orderOf_eq_prime_pow (x := rhoZero) (p := 2) (n := 1) (by decide) (by decide)
   norm_num at h
   exact h
@@ -62,7 +62,7 @@ theorem exists_even_comm_swap_orderOf_four {a b : Fin 7} (hab : a ≠ b) :
 theorem z2a5_not_A7 [Finite Y] (h : Z2A5Hyp Y τ) {S : Subgroup Y} (hS : FixedData Y S) :
     ¬ Nonempty (↥S ≃* alternatingGroup (Fin 7)) := by
   rintro ⟨η⟩
-  haveI := hS.normal
+  have := hS.normal
   obtain ⟨k, _, _, d⟩ := z2a5_datum h hS
   obtain ⟨-, -, -, σ, hσ, -, ⟨a, b, hab, hσab⟩, -, -⟩ :=
     alternating_involution_normal_even_SL2_fixed_support_rankOne_selector

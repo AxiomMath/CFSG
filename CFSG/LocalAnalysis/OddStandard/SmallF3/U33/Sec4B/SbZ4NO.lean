@@ -10,12 +10,13 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
+omit [Finite G] in
 theorem isElemAbelian_inf_centralizer_one {A : Subgroup G} {t : G}
     (hA : CFSG.Open.IsElemAbelian 2 A) :
     CFSG.Open.IsElemAbelian 2 (A ⊓ centralizer ({t} : Set G)) := by
   refine ⟨IsMulCommutative.of_comm fun x y => Subtype.ext ?_,
     fun x hx => hA.2 x (Subgroup.mem_inf.mp hx).1⟩
-  haveI : IsMulCommutative ↥A := hA.1
+  have : IsMulCommutative ↥A := hA.1
   exact congrArg (Subtype.val : ↥A → G) (mul_comm'
     (⟨(x : G), (Subgroup.mem_inf.mp x.2).1⟩ : ↥A)
     (⟨(y : G), (Subgroup.mem_inf.mp y.2).1⟩ : ↥A))
@@ -42,11 +43,11 @@ theorem U_CA_normal {R A : Subgroup G} (hR : IsPGroup 2 R)
     exact ⟨hAN.2 s (hSR hs) w hx.1,
       mul_mem (mul_mem hs' hx.2) (inv_mem hs')⟩
 
-theorem U_card_CA {R A : Subgroup G} (hR : IsPGroup 2 R)
+theorem U_card_CA {R A : Subgroup G} (_hR : IsPGroup 2 R)
     (hVR : ctxVN t tau x₁ x₂ lam rho ≤ R) (hA : IsE16In R A) (hAN : NormalIn A R) :
     4 ≤ Nat.card ↥(A ⊓ centralizer ({t} : Set G)) := by
   have ht2 : t * t = 1 := hw.t_mul_self
-  have htR : t ∈ R := hVR (hw.E8_le_ctxVN (Subgroup.subset_closure (by simp)))
+  have htR : t ∈ R := hVR (CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Z.E8_le_ctxVN (Subgroup.subset_closure (by simp)))
   have htA : ∀ a ∈ A, t * a * t⁻¹ ∈ A := fun a ha => hAN.2 t htR a ha
   have h := S4B.card_le_sq_card_centralizer (A := A) hA.2.1 ht2 htA
   rw [hA.2.2] at h
@@ -149,7 +150,7 @@ theorem U_VA {R A : Subgroup G} (hR : IsPGroup 2 R)
   have hWV : A ⊓ centralizer ({t} : Set G) = fourGrp x₁ x₂ :=
     U_CA_eq hw hR hVR hA hAN
   have hWA : A ⊓ centralizer ({t} : Set G) ≤ A := inf_le_left
-  have htR : t ∈ R := hVR (hw.E8_le_ctxVN (Subgroup.subset_closure (by simp)))
+  have htR : t ∈ R := hVR (CFSG.OddStandard.SmallF3.HarrisU33.Ctx4Z.E8_le_ctxVN (Subgroup.subset_closure (by simp)))
   have ht2 : t * t = 1 := hw.t_mul_self
   refine ⟨hWV ▸ hWA, ?_⟩
   intro a ha
@@ -159,7 +160,7 @@ theorem U_VA {R A : Subgroup G} (hR : IsPGroup 2 R)
   have hb2 : (t * a * t⁻¹) * (t * a * t⁻¹) = 1 :=
     by simpa [pow_two] using hA.2.1.2 (t * a * t⁻¹) hbA
   have hb_inv : (t * a * t⁻¹)⁻¹ = t * a * t⁻¹ := inv_eq_of_mul_eq_one_right hb2
-  haveI : IsMulCommutative ↥A := hA.2.1.1
+  have : IsMulCommutative ↥A := hA.2.1.1
   have hcomm : (t * a * t⁻¹) * a = a * (t * a * t⁻¹) :=
     congrArg Subtype.val (mul_comm'
       (⟨t * a * t⁻¹, hbA⟩ : ↥A) (⟨a, ha⟩ : ↥A))

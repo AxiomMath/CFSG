@@ -78,7 +78,7 @@ theorem s16e_two_no_index_three_star (D : Data G) (hx : DataExt D) (h61 : UC6.R6
     (N : Subgroup ↥(Mbar D.M (v1Sub D.M V₀ V hV L) V hV)) (hN : N.Normal) : N.index ≠ 3 := by
   obtain ⟨ρ, -, -⟩ := s16e_star_equiv D (r1217_of_twelve_seventeen D hx h61 h127 h1214)
     hset.hyp151 hV
-  haveI : (N.comap ρ.toMonoidHom).Normal := Subgroup.normal_comap _
+  have : (N.comap ρ.toMonoidHom).Normal := Subgroup.normal_comap _
   have hidx : (N.comap ρ.toMonoidHom).index = N.index :=
     Subgroup.index_comap_of_surjective N ρ.surjective
   intro h

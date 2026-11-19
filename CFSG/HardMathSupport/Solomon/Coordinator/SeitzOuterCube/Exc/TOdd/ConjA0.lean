@@ -34,7 +34,7 @@ section Model
 variable {ℓ f : ℕ} {X : Type} [Field X] [Finite X] {σ : X ≃+* X}
 
 theorem three_ne_zero_odd (P : D4ParOdd ℓ f X σ) : (3 : X) ≠ 0 := by
-  haveI := P.charP
+  have := P.charP
   intro h
   have h1 : ℓ ∣ 3 := (CharP.cast_eq_zero_iff X ℓ 3).1 (by exact_mod_cast h)
   exact P.ne_three ((Nat.prime_dvd_prime_iff_eq P.prime Nat.prime_three).1 h1)
@@ -83,6 +83,7 @@ theorem coe_iotaAOdd (P : D4ParOdd ℓ f X σ) (g : Matrix.SpecialLinearGroup (F
   exact h1.symm
 
 open CFSG.RankThree.PartOne.SEITZ7 CFSG.LieType.Steinberg.TwistedD4 in
+omit [Finite X] in
 theorem slShort_upper_xA_odd (σ' : X →+* X) (hσ : ∀ c, σ' (σ' (σ' c)) = c) (c : X) :
     ((slShort σ' hσ (CFSG.LieType.Steinberg.sl2Upper c) : twistedGroup σ') : adjointGroup d4 X) =
       xA σ' c := by
@@ -90,6 +91,7 @@ theorem slShort_upper_xA_odd (σ' : X →+* X) (hσ : ∀ c, σ' (σ' (σ' c)) =
   simp only [xOuter, xA, ← d4Root_dict.2.2.1, ← d4Root_dict.2.2.2.1, ← d4Root_dict.2.2.2.2.1]
 
 open CFSG.RankThree.PartOne.SEITZ7 CFSG.LieType.Steinberg.TwistedD4 in
+omit [Finite X] in
 theorem slShort_lower_xAm_odd (σ' : X →+* X) (hσ : ∀ c, σ' (σ' (σ' c)) = c) (c : X) :
     ((slShort σ' hσ (CFSG.LieType.Steinberg.sl2Lower c) : twistedGroup σ') : adjointGroup d4 X) =
       xAm σ' c := by
@@ -223,6 +225,7 @@ theorem iotaAOdd_range (P : D4ParOdd ℓ f X σ) : (iotaAOdd P).range = Asub σ 
     exact hg'
 
 open CFSG.RankThree.PartOne.SEITZ7 CFSG.LieType.Steinberg.TwistedD4 in
+omit [Finite X] in
 theorem entrywise_xA_odd (c : X) :
     Units.map (entrywiseHom σ.toRingHom) ((xA σ.toRingHom c : adjointGroup d4 X) : ModGL d4 X) =
       ((xA σ.toRingHom (σ c) : adjointGroup d4 X) : ModGL d4 X) := by
@@ -236,6 +239,7 @@ theorem entrywise_xA_odd (c : X) :
   rfl
 
 open CFSG.RankThree.PartOne.SEITZ7 CFSG.LieType.Steinberg.TwistedD4 in
+omit [Finite X] in
 theorem entrywise_xAm_odd (c : X) :
     Units.map (entrywiseHom σ.toRingHom) ((xAm σ.toRingHom c : adjointGroup d4 X) : ModGL d4 X) =
       ((xAm σ.toRingHom (σ c) : adjointGroup d4 X) : ModGL d4 X) := by

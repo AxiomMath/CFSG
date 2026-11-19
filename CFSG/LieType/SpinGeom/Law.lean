@@ -244,7 +244,7 @@ theorem xvec_frameF (k : Fin 4) : xvec K (frameF K k) = 0 := by
 theorem yvec_frameF_zero : yvec K (frameF K 0) = 0 := by
   ext i
   unfold yvec
-  rw [coordY_frameF, if_neg (Fin.succ_ne_zero i).symm]
+  rw [coordY_frameF, ite_eq_right (Fin.succ_ne_zero i).symm]
   rfl
 
 theorem spinElt_injective {c m c' m' : Fin 3 → K} {g g' : Matrix (Fin 3) (Fin 3) K}
@@ -257,11 +257,11 @@ theorem spinElt_injective {c m c' m' : Fin 3 → K} {g g' : Matrix (Fin 3) (Fin 
   have h0 := h (frameF K 0)
   have hm : m = m' := by
     have := congrArg (xvec K) h0
-    rw [xvec_spinElt, xvec_spinElt, xvec_frameF, coordY_frameF, if_pos rfl] at this
+    rw [xvec_spinElt, xvec_spinElt, xvec_frameF, coordY_frameF, ite_eq_left rfl] at this
     simpa using this
   refine ⟨?_, hm, hg⟩
   have := congrArg (yvec K) h0
-  rw [yvec_spinElt, yvec_spinElt, xvec_frameF, yvec_frameF_zero, coordY_frameF, if_pos rfl] at this
+  rw [yvec_spinElt, yvec_spinElt, xvec_frameF, yvec_frameF_zero, coordY_frameF, ite_eq_left rfl] at this
   simpa using this
 
 end Inj

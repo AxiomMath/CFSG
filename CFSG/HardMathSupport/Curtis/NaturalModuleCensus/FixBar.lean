@@ -26,7 +26,7 @@ structure FixBarData {X : Type*} [Group X] [Finite X] (J : Subgroup X) (p : ℕ)
 theorem isSylowTwoOf_top_of_sylow' {Y : Type*} [Group Y] [Finite Y] (P : Sylow 2 Y) :
     IsSylowTwoOf (P : Subgroup Y) ⊤ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  refine ⟨le_top, P.isPGroup', ?_⟩
+  refine ⟨le_top, P.isPGroup, ?_⟩
   rw [show ((P : Subgroup Y).subgroupOf ⊤).index = (P : Subgroup Y).index from
     Subgroup.relIndex_top_right _]
   exact P.not_dvd_index
@@ -150,7 +150,7 @@ theorem exists_pSubgroup_map_eq {p : ℕ} (hp : p.Prime) {P : Subgroup G} {Q : S
   let S' : Sylow p ↥Q := S.mapSurjective hψ'
   have htop : (⊤ : Subgroup ↥Q) = (S' : Subgroup ↥Q) :=
     (S'.maximal_isPGroup.eq_of_le (IsPGroup.of_equiv (hQ) Subgroup.topEquiv.symm) le_top).symm
-  refine ⟨(S : Subgroup ↥P).map P.subtype, ?_, S.isPGroup'.map P.subtype, ?_⟩
+  refine ⟨(S : Subgroup ↥P).map P.subtype, ?_, S.isPGroup.map P.subtype, ?_⟩
   · rintro _ ⟨x, -, rfl⟩
     exact x.2
   · refine le_antisymm ?_ ?_

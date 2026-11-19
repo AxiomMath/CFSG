@@ -39,8 +39,8 @@ private theorem tbT_mem_closure_singleton_eq {E : Type} [Group E] {g t : E}
 
 private theorem tbT_refl_ne_one {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime]
     {Bs : Subgroup G} {φ : MulAut ↥Bs} (hr : GGIsReflection p φ) : φ ≠ 1 := by
-  haveI : Finite ↥Bs := Finite.of_injective (Subtype.val : ↥Bs → G) Subtype.val_injective
-  haveI : Nonempty ↥Bs := ⟨(1 : ↥Bs)⟩
+  have : Finite ↥Bs := Finite.of_injective (Subtype.val : ↥Bs → G) Subtype.val_injective
+  have : Nonempty ↥Bs := ⟨(1 : ↥Bs)⟩
   rintro rfl
   obtain ⟨-, hc⟩ := hr
   simp only [MulAut.one_apply] at hc
@@ -79,7 +79,7 @@ private lemma tbT_A_apply {n : ℕ} (i j : Fin n) :
       (if i = j then 1
         else if (i : ℕ) + 1 = (j : ℕ) ∨ (j : ℕ) + 1 = (i : ℕ) then 3 else 2) := by
   rw [CoxeterMatrix.A]
-  simp only [CoxeterMatrix.M, Matrix.of_apply]
+  simp only [Matrix.of_apply]
   split_ifs <;> omega
 
 private lemma tbT_B_apply {n : ℕ} (i j : Fin n) :
@@ -249,7 +249,7 @@ private theorem tbT_parabolicRestricted
       exact congrArg φ h.symm
   have hconjJ : GGReflConjSimple p (ggAutomizer J Bs) (fun j : Jset => φ j) := by
     by_cases hsmall : k = 1
-    · haveI : Nonempty Jset := ⟨eJ.symm ⟨0, by omega⟩⟩
+    · have : Nonempty Jset := ⟨eJ.symm ⟨0, by omega⟩⟩
       have hsub : Subsingleton Jset := ⟨fun a b => eJ.injective (Fin.ext (by
         have ha := (eJ a).isLt
         have hb := (eJ b).isLt
@@ -318,8 +318,7 @@ theorem ggTBJTypeB_sideDatum_twistedPerm {G : Type} [Group G] [Finite G] {p m : 
     · intro hx
       refine Finset.mem_image.mpr ⟨first (eS.symm ⟨x, hx⟩), ?_, ?_⟩
       · exact Finset.mem_image.mpr ⟨eS.symm ⟨x, hx⟩, Finset.mem_univ _, rfl⟩
-      · change τ (first (eS.symm ⟨x, hx⟩)) = x
-        rw [hτi (eS.symm ⟨x, hx⟩)]; simp
+      · rw [hτi (eS.symm ⟨x, hx⟩)]; simp
   let D : MulAut (Fin m → Multiplicative (ZMod p)) := diagAut s hs
   let N : MulAut (Fin m → Multiplicative (ZMod p)) := permAut (p := p) τ
   let P : MulAut (Fin m → Multiplicative (ZMod p)) := D * N
@@ -377,8 +376,8 @@ theorem ggTBJTypeB_sideDatum_twistedPerm {G : Type} [Group G] [Finite G] {p m : 
   obtain ⟨V, instV, instMod, ι, φ, h, α, C, hMC, hlin, hrefl, hpair, ⟨f, hf⟩, hclos,
     hφexplicit⟩ :=
     exists_typeB_datum_of_signedAut (G := G) (p := p) (m := m) hp2 hm hBs Θ' hX'
-  letI : AddCommGroup V := instV
-  letI : Module (ZMod p) V := instMod
+  let : AddCommGroup V := instV
+  let : Module (ZMod p) V := instMod
   have hφswap : ∀ i : Fin (b - 1),
       φ (Fin.castLE (by omega : b - 1 ≤ m) i) =
         (liftBs Θ') (permAut (p := p) (Equiv.swap
@@ -386,7 +385,7 @@ theorem ggTBJTypeB_sideDatum_twistedPerm {G : Type} [Group G] [Finite G] {p m : 
           (Fin.castLE (by omega : b - 1 + 1 ≤ m) i.succ))) := by
     intro i
     rw [hφexplicit (Fin.castLE (by omega : b - 1 ≤ m) i),
-      dif_pos (by have h := i.isLt; simp only [Fin.val_castLE]; omega)]
+      dite_eq_left (by have h := i.isLt; simp only [Fin.val_castLE]; omega)]
     exact (congrArg (liftBs Θ') (congrArg₂ (fun x y => permAut (p := p) (Equiv.swap x y))
       (Fin.ext rfl) (Fin.ext rfl))).symm
   have hJ_fin : ggAutomizer J Bs = Subgroup.closure
@@ -418,7 +417,7 @@ theorem ggTBJTypeB_sideDatum_twistedPerm {G : Type} [Group G] [Finite G] {p m : 
         rintro (⟨h, -⟩ | ⟨h, -⟩)
         · have hj := hJlt j; omega
         · have hj := hJlt j'; omega
-      rw [tbT_B_apply, tbT_A_apply, if_neg hij, if_neg h4, if_neg hij']
+      rw [tbT_B_apply, tbT_A_apply, ite_eq_right hij, ite_eq_right h4, ite_eq_right hij']
   have hWM : GGIsWeylMatrix (CoxeterMatrix.B m) := tbT_isWeyl_B m hm
   have hWMJ : GGIsWeylMatrix (parMatrix (CoxeterMatrix.B m) Jset) := by
     rw [hMJ_eq]
@@ -437,8 +436,8 @@ theorem ggTBJTypeB_sideDatum_twistedPerm {G : Type} [Group G] [Finite G] {p m : 
         { toFun := fun i => ⟨i.1.val - (b - 1), by have := i.2; omega⟩
           invFun := fun j => ⟨⟨b - 1 + j.val, by have := j.isLt; omega⟩, by
             show b - 1 ≤ b - 1 + j.val; omega⟩
-          left_inv := fun i => by ext; simp only [Fin.val_mk]; have := i.2; omega
-          right_inv := fun j => by ext; simp only [Fin.val_mk]; omega }
+          left_inv := fun i => by ext; simp only; have := i.2; omega
+          right_inv := fun j => by ext; simp only; omega }
       exact (Fintype.card_congr ef).trans (Fintype.card_fin _)
     rw [h2, hb]
   have hT1 : 1 ≤ T.card := by rw [hTcard]; omega

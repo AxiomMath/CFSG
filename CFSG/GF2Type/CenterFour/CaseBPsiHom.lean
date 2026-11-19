@@ -11,16 +11,19 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {n : ℕ}
 
+omit [Finite G] in
 private lemma cfg_mul_self (hC : Config z n) : z * z = 1 := by
   have h := pow_orderOf_eq_one z
   rw [hC.orderOf_eq, sq] at h
   exact h
 
+omit [Finite G] in
 private lemma cfg_conj_mul_self (hC : Config z n) (g : G) :
     g⁻¹ * z * g * (g⁻¹ * z * g) = 1 := by
   calc g⁻¹ * z * g * (g⁻¹ * z * g) = g⁻¹ * (z * z) * g := by group
     _ = 1 := by rw [cfg_mul_self hC]; group
 
+omit [Finite G] in
 private lemma cfg_core_comm_center (hC : Config z n) {x y : G} (hx : x ∈ coreAt z)
     (hy : y ∈ centerAt z) : x * y = y * x :=
   (Subgroup.mem_centralizer_iff.mp (hC.core_le_centralizer_center hx) y hy).symm
@@ -49,6 +52,7 @@ private lemma cfg_commute_sup_of_comm {H : Type*} [Group H] (R Z : Subgroup H)
     · exact mem_centralizer_singleton_iff.mpr (hSa y (Set.mem_union_right _ hy))
   exact (mem_centralizer_singleton_iff.mp (hA hb)).symm
 
+omit [Finite G] in
 theorem CaseB.psi_mul {z₁ : G} (hz₁ : z₁ * z₁ = 1) (q q' : G) :
     psi z₁ (q * q') = psi z₁ q * (q * psi z₁ q' * q⁻¹) := by
   have h1 : psi z₁ q * (q * psi z₁ q' * q⁻¹) = z₁ * q * (z₁ * z₁) * q' * z₁ * q'⁻¹ * q⁻¹ := by
@@ -58,6 +62,7 @@ theorem CaseB.psi_mul {z₁ : G} (hz₁ : z₁ * z₁ = 1) (q q' : G) :
   unfold psi
   group
 
+omit [Finite G] in
 theorem CaseB.conj_psi (hC : Config z n) {g : G}
     (hH : g⁻¹ * z * g ∈ centralizer ({z} : Set G)) {q q' : G}
     (hq : q ∈ coreAt z) (hq' : q' ∈ coreAt z) :
@@ -111,7 +116,7 @@ theorem CaseB.psi_sq_mul (hC : Config z n) {g : G}
 theorem CaseB.psi_mul_generator (hC : Config z n) {g : G}
     (hH : g⁻¹ * z * g ∈ centralizer ({z} : Set G))
     (hK : g⁻¹ * z * g ∉ centralizer (centerAt z : Set G)) {k : G}
-    (hk : centerAt z = zpowers k) (hk4 : orderOf k = 4) (hkz : k ^ 2 = z) {q : G}
+    (hk : centerAt z = zpowers k) (_hk4 : orderOf k = 4) (hkz : k ^ 2 = z) {q : G}
     (hq : q ∈ coreAt z) : psi (g⁻¹ * z * g) (q * k) = psi (g⁻¹ * z * g) q * z := by
   have hz₁ := cfg_conj_mul_self hC g
   have hkZ : k ∈ centerAt z := by

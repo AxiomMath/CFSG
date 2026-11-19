@@ -23,7 +23,7 @@ private lemma pRank_top_eq_three_of_hyp327 {X : Type} [Group X] [Finite X]
     {P A : Subgroup X} (hX : UC22.InS3.UC327.Hyp327 X P A)
     (hPZ : Nonempty (↥P ≃* UC22.InS3.UC326.ZWr 1)) :
     CFSG.Open.pRank 3 (⊤ : Subgroup X) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hPgrp, hPidx⟩ := CFSG.ABGLocalTools.isSylowOf_iff.1 hX.sylow
   have hPsyl : CFSG.Open.pRank 3 P = CFSG.Open.pRank 3 (⊤ : Subgroup X) :=
     (CFSG.SectionRank.pRank_sylow
@@ -115,7 +115,7 @@ theorem kFactE27SignalizerExceptional_of_bal
     (hB : CFSG.HardMathSupport.Dickson.Bal207.Bal207Corr) : KFactE27SignalizerExceptional := by
   intro X _ _ P A hKg hX hPZ hcore _hbal L hL hC hPL hExc W hW hcop
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAP : A ≤ P := hX.jA ▸ Subgroup.map_subtype_le _
   have hAL : A ≤ L := hAP.trans hPL
   have hLn : L.Normal :=

@@ -34,7 +34,7 @@ section Face
 variable {G : Type} [Group G] [Finite G] [CoreLike G] {Ω : Set (Subgroup G)} {K K' W : Subgroup G}
   {S : Sylow 2 G} {R R' : Subgroup G} {z t u₁ u₂ : G}
 
-@[expose] def NoFaceAt (hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) : Prop :=
+@[expose] def NoFaceAt (_hyp : Hyp25 Ω K K' W S R R' z t u₁ u₂) : Prop :=
   ∀ {w₁ w₂ w₃ : G}, w₁ ∈ cA S R R' → w₂ ∈ cA S R R' → w₃ ∈ cA S R R' →
     w₁ * w₁ = 1 → w₂ * w₂ = 1 → w₃ * w₃ = 1 → w₁ ≠ 1 → w₂ ≠ 1 → w₃ ≠ 1 →
     w₁ * w₂ = w₂ * w₁ → w₁ * w₃ = w₃ * w₁ → w₂ * w₃ = w₃ * w₂ → w₁ * w₂ * w₃ = z →

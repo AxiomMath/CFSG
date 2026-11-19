@@ -15,13 +15,14 @@ section Plain
 
 variable {F : Type} [Field F] [Finite F]
 
+omit [Finite F] in
 theorem sl2_lang_general (φ : F ≃+* F) (hφ3 : φ ^ 3 = 1) (hφ1 : φ ≠ 1)
     (a : Matrix.SpecialLinearGroup (Fin 2) F)
     (ha : a * Matrix.SpecialLinearGroup.map φ.toRingHom a *
       Matrix.SpecialLinearGroup.map φ.toRingHom (Matrix.SpecialLinearGroup.map φ.toRingHom a) = 1) :
     ∃ g : Matrix.SpecialLinearGroup (Fin 2) F,
       a = g * (Matrix.SpecialLinearGroup.map φ.toRingHom g)⁻¹ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf φ = 3 := orderOf_eq_prime hφ3 hφ1
   set A : Matrix (Fin 2) (Fin 2) F := (a : Matrix (Fin 2) (Fin 2) F) with hA
   have hA3 : CFSG.GH74.GLS.IVK.H90.Ai φ A 3 = 1 := by
@@ -62,6 +63,7 @@ theorem sl2_lang_general (φ : F ≃+* F) (hφ3 : φ ^ 3 = 1) (hφ1 : φ ≠ 1)
     rw [hDσ, ← mul_assoc, hAB]
   exact eq_mul_inv_of_mul_eq key
 
+omit [Finite F] in
 theorem sl2_map_map (f g : F ≃+* F) (M : Matrix.SpecialLinearGroup (Fin 2) F) :
     Matrix.SpecialLinearGroup.map f.toRingHom (Matrix.SpecialLinearGroup.map g.toRingHom M) =
       Matrix.SpecialLinearGroup.map (f * g).toRingHom M := by
@@ -91,6 +93,7 @@ theorem tauPow_apply_B (hAB : TrialityABFacts σ) (e : ℕ) {b : C0 σ} (hb : b 
   | succ e ih =>
     rw [pow_succ', MulAut.mul_apply, ih, hAB.tau_B b hb]
 
+omit [Finite X] in
 theorem conj_mul_pow_three (g : C0 σ) (φ : MulAut (C0 σ)) (hφ : φ ^ 3 = 1) :
     (MulAut.conj g * φ) ^ 3 = MulAut.conj (g * φ g * φ (φ g)) := by
   refine MulEquiv.ext fun k => ?_
@@ -174,6 +177,7 @@ theorem outer_norm_split (hAB : TrialityABFacts σ) (n : ℕ) (hn : 1 ≤ n)
   rw [hb3, mul_one] at hN
   exact hN
 
+omit [Finite X] in
 theorem congr_conj_conj (k x : C0 σ) :
     (MulAut.congr (MulAut.conj k)).toMonoidHom (MulAut.conj x) = MulAut.conj (k * x * k⁻¹) := by
   refine MulEquiv.ext fun y => ?_
@@ -181,6 +185,7 @@ theorem congr_conj_conj (k x : C0 σ) :
     MulAut.conj_symm_apply, MulAut.conj_apply]
   group
 
+omit [Finite X] in
 theorem congr_conj_mul (k g : C0 σ) (φ : MulAut (C0 σ)) :
     (MulAut.congr (MulAut.conj k)).toMonoidHom (MulAut.conj g * φ) =
       MulAut.conj (k * g * (φ k)⁻¹) * φ := by
@@ -195,6 +200,7 @@ theorem congr_conj_mul (k g : C0 σ) (φ : MulAut (C0 σ)) :
   rw [e1, e2, map_mul, map_mul, map_inv]
   group
 
+omit [Finite X] in
 theorem congr_conj_pair (k x g : C0 σ) (φ : MulAut (C0 σ)) :
     (Subgroup.closure ({MulAut.conj x, MulAut.conj g * φ} : Set (MulAut (C0 σ)))).map
         (MulAut.congr (MulAut.conj k)).toMonoidHom =

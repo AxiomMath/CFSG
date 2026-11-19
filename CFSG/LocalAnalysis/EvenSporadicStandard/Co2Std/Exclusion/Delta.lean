@@ -98,7 +98,7 @@ theorem Hyp.B_le_R₀ (h : Hyp G L A T z t) : B A z ≤ R₀ A z := by
     intro a ha
     rw [mem_centralizer_iff]
     intro b hb
-    letI : IsElementaryAbelian 2 ↥A := h.jc.module.elemAb
+    let : IsElementaryAbelian 2 ↥A := h.jc.module.elemAb
     exact congrArg Subtype.val (mul_comm' (⟨b, hb⟩ : A) ⟨a, ha⟩)
   refine le_inf ?_ (sup_le hAcent (zpowers_le.2 (z_mem_centralizer_A h)))
   change B A z ≤ normalizer (B A z : Set G)
@@ -116,9 +116,11 @@ theorem Hyp.le_M (h : Hyp G L A T z t) : L ⊓ normalizer (A : Set G) ≤ M A z 
   change x ∈ normalizer (B A z : Set G)
   exact Subgroup.inf_normalizer_le_normalizer_sup A (zpowers z) ⟨hx.2, hxnormz⟩
 
+omit [Finite G] in
 theorem E2Facts.delta_mem (h2 : E2Facts L A z) {r : G} (hr : r ∈ R₀ A z) : delta z r ∈ A :=
   delta_mem_of_conj_mem h2.conj_mem hr
 
+omit [Finite G] in
 theorem E2Facts.delta_mul (h2 : E2Facts L A z) {r s : G} (hr : r ∈ R₀ A z) (hs : s ∈ R₀ A z) :
     delta z (r * s) = delta z r * delta z s :=
   delta_mul_of_conj_mem h2.conj_mem hr hs
@@ -161,6 +163,7 @@ theorem Hyp.deltaHom_eq_one_iff (h : Hyp G L A T z t) (h2 : E2Facts L A z)
   · intro h1
     exact Subtype.ext (by simpa using h1)
 
+omit [Finite G] in
 theorem E2Facts.exists_delta_eq (h2 : E2Facts L A z) {a : G} (ha : a ∈ A) :
     ∃ r ∈ R₀ A z, delta z r = a := by
   obtain ⟨r, hr, hrz⟩ := h2.conj_surj a ha

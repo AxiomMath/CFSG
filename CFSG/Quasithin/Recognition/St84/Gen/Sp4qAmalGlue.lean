@@ -158,6 +158,7 @@ private theorem mem_other_iff_of_mem_normalizer {G Y : Type} [Group G] [Group Y]
       exact hxB
     exact hx'.2
 
+omit [Finite G] in
 private theorem isAmalgamOfGroup_sp4_of_amalgam_iso (hf : 2 ≤ f)
     (hiso : Nonempty ((RankTwoAmalgam.ofSubgroups
       (L1 ⊔ bigB L1 L2 S) (L2 ⊔ bigB L1 L2 S)).Iso

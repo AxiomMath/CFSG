@@ -35,7 +35,7 @@ theorem ker_inf_range_eq_bot [Finite Y] {ρ : Representation (ZMod 2) Y V} {z : 
     (hz : orderOf z = 5) :
     Disjoint (LinearMap.ker (ρ z - 1)) (LinearMap.range (ρ z - 1)) := by
   classical
-  letI : Fintype (zpowers z) := Fintype.ofFinite _
+  let : Fintype (zpowers z) := Fintype.ofFinite _
   have hodd : Odd (Fintype.card (zpowers z)) := by
     rw [Fintype.card_eq_nat_card, Nat.card_zpowers, hz]
     decide
@@ -55,12 +55,12 @@ theorem range_invariant {ρ : Representation (ZMod 2) Y V} {z g : Y} (hg : g * z
   rw [← Module.End.mul_apply, ← Module.End.mul_apply, h]
 
 theorem faithful_on_range [Finite Y] {ρ : Representation (ZMod 2) Y V}
-    (hker : IsPGroup 2 ρ.ker) {P : Subgroup Y} (hP : IsPGroup 5 P) {z : Y} (hzP : z ∈ P)
+    (hker : IsPGroup 2 ρ.ker) {P : Subgroup Y} (hP : IsPGroup 5 P) {z : Y} (_hzP : z ∈ P)
     (hz : orderOf z = 5) (hzc : ∀ g ∈ P, g * z = z * g)
     (hZ : ∀ w ∈ P, (∀ g ∈ P, g * w = w * g) → w ^ 5 = 1 → w ∈ zpowers z) {g : Y} (hgP : g ∈ P)
     (hg : ∀ v ∈ LinearMap.range (ρ z - 1), ρ g v = v) : g = 1 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   by_contra hg1
   let K : Subgroup P :=
     { carrier := {k | ∀ v ∈ LinearMap.range (ρ z - 1), ρ (k : Y) v = v}
@@ -75,7 +75,7 @@ theorem faithful_on_range [Finite Y] {ρ : Representation (ZMod 2) Y V}
         conv_lhs => rw [← ha v hv]
         rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one]
         rfl }
-  haveI hKn : K.Normal := by
+  have hKn : K.Normal := by
     refine ⟨fun k hk x v hv => ?_⟩
     have hx : ∀ u ∈ LinearMap.range (ρ z - 1), ρ (x : Y) u ∈ LinearMap.range (ρ z - 1) :=
       fun u hu => range_invariant (hzc x x.2) hu
@@ -96,7 +96,7 @@ theorem faithful_on_range [Finite Y] {ρ : Representation (ZMod 2) Y V}
     have : (⟨g, hgP⟩ : P) ∈ K := fun v hv => hg v hv
     rw [h, Subgroup.mem_bot] at this
     exact hg1 (congrArg Subtype.val this)
-  haveI : Group.IsNilpotent ↥P := hP.isNilpotent
+  have : Group.IsNilpotent ↥P := hP.isNilpotent
   have hN : K ⊓ center ↥P ≠ ⊥ := Group.IsNilpotent.inf_center_ne_bot_of_normal hKne
   have hN5 : IsPGroup 5 ↥(K ⊓ center ↥P) := hP.to_subgroup _
   obtain ⟨n, hn⟩ := hN5.exists_card_eq

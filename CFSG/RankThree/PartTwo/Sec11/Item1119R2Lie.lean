@@ -36,7 +36,7 @@ theorem exists_cube_of_cyclic {G : Type*} [Group G] [IsCyclic G] [Finite G]
   linarith
 
 theorem mem_projImage_slPi_of_cent (hKf : PiField π p f Kf) (hq : ModThree π (p ^ f))
-    (hq2 : 2 < p ^ f) (γ : projImage (glPi π 3 (p ^ f) Kf)) (hγ3 : γ ^ 3 = 1)
+    (_hq2 : 2 < p ^ f) (γ : projImage (glPi π 3 (p ^ f) Kf)) (hγ3 : γ ^ 3 = 1)
     (J : Subgroup (projImage (glPi π 3 (p ^ f) Kf))) (hJp : Group.IsPerfect J)
     (hJS : ∀ j ∈ J, (j : ProjGenLinGroup (Fin 3) Kf) ∈ projImage (slPi π 3 (p ^ f) Kf))
     (hJc : ∀ j ∈ J, γ * j = j * γ)
@@ -75,12 +75,12 @@ theorem mem_projImage_slPi_of_cent (hKf : PiField π p f Kf) (hq : ModThree π (
     exact hz.2
   have hmkz : ProjGenLinGroup.mk (y₀ * z) = ProjGenLinGroup.mk y₀ := by
     rw [map_mul, hmk1 z hzs, mul_one]
-  haveI : Group.IsPerfect J := hJp
+  have : Group.IsPerfect J := hJp
   have hξ1 : ξ ≠ 1 := by
     intro h1
     rw [h1, orderOf_one] at hξ9
     omega
-  haveI : Nontrivial J := ⟨⟨⟨ξ, hξJ⟩, 1, fun h => hξ1 (congrArg Subtype.val h)⟩⟩
+  have : Nontrivial J := ⟨⟨⟨ξ, hξJ⟩, 1, fun h => hξ1 (congrArg Subtype.val h)⟩⟩
   have hJcm : ∀ j ∈ J, ∃ s ∈ centMod (slPi π 3 (p ^ f) Kf) (y₀ * z),
       ((j : projImage (glPi π 3 (p ^ f) Kf)) : ProjGenLinGroup (Fin 3) Kf) =
         ProjGenLinGroup.mk s := by
@@ -230,7 +230,7 @@ theorem mem_projImage_slPi_of_cent (hKf : PiField π p f Kf) (hq : ModThree π (
   have hcube : ∃ c : Kfˣ, c ^ (qSubPi π (p ^ f)) = 1 ∧ c ^ 3 = e⁻¹ := by
     have := hKf.finite
     have : NeZero (qSubPi π (p ^ f)) := ⟨hqne⟩
-    haveI : IsCyclic (rootsOfUnity (qSubPi π (p ^ f)) Kf) := rootsOfUnity.isCyclic _ _
+    have : IsCyclic (rootsOfUnity (qSubPi π (p ^ f)) Kf) := rootsOfUnity.isCyclic _ _
     have hcardT := card_rootsOfUnity_qSubPi hKf hq
     have he3' : (e⁻¹) ^ 3 = 1 := by
       rw [inv_pow]

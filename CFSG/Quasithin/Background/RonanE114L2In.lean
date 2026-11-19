@@ -53,6 +53,7 @@ theorem inner_solvable_gen (e : L ≃* PSL2 K) (hK : Nat.card K = p ^ f) (hp : O
   have := CFSG.Walter.isSolvable_dihedralGroup' n
   exact Group.isSolvable_of_isSolvable_injective (f := d.toMonoidHom) d.injective
 
+omit [Finite K] in
 theorem inner_max_gen (e : L ≃* PSL2 K)
     (hco : ∀ t : PSL2 K, orderOf t = 2 → IsCoatom (Subgroup.centralizer ({t} : Set (PSL2 K))))
     {x : G} (hxL : x ∈ L) (hx : orderOf x = 2) (H : Subgroup G)

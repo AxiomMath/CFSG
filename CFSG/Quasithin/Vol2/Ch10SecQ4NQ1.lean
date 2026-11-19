@@ -149,7 +149,7 @@ theorem mem_oddCoreOf_of_central {C S : Subgroup G} (hSC : S ≤ C) (hS2 : IsPGr
     rw [MonoidHom.mem_ker]
     have h1 : orderOf (f ⟨x, hxC⟩) ∣ orderOf x :=
       (orderOf_map_dvd f (⟨x, hxC⟩ : ↥C)).trans (Subgroup.orderOf_mk x hxC).dvd
-    obtain ⟨e, he⟩ := P.isPGroup' (f ⟨x, hxC⟩)
+    obtain ⟨e, he⟩ := P.isPGroup (f ⟨x, hxC⟩)
     have h2 := orderOf_dvd_of_pow_eq_one he
     have hcop : Nat.Coprime (2 ^ e) (orderOf x) := Nat.Coprime.pow_left e
       (Nat.coprime_two_left.mpr hx)

@@ -20,16 +20,19 @@ variable {G : Type} [Group G] [Finite G]
 abbrev PiSummand (p : ℕ) (H : Subgroup G) : Type :=
   {L : Subgroup G // GLAPComponent p H L ∧ IsPiGroup p (↥L ⧸ GLAPPrimeCore p ↥L)}
 
+omit [Finite G] in
 theorem piLayer_eq_iSup_subtype (p : ℕ) (H : Subgroup G) :
     piLayer p H = ⨆ i : PiSummand p H, i.1 := by
   unfold piLayer
   exact le_antisymm (iSup₂_le fun L h => le_iSup_of_le ⟨L, h⟩ le_rfl)
     (iSup_le fun i => le_iSup₂_of_le i.1 i.2 le_rfl)
 
+omit [Finite G] in
 theorem piLayer_le (p : ℕ) (H : Subgroup G) : piLayer p H ≤ H := by
   unfold piLayer
   exact iSup₂_le fun L h => h.1.1
 
+omit [Finite G] in
 theorem le_piLayer {p : ℕ} {H L : Subgroup G} (hL : GLAPComponent p H L)
     (hP : IsPiGroup p (↥L ⧸ GLAPPrimeCore p ↥L)) : L ≤ piLayer p H :=
   le_iSup₂_of_le (f := fun L (_ : GLAPComponent p H L ∧ IsPiGroup p (↥L ⧸ GLAPPrimeCore p ↥L)) => L)

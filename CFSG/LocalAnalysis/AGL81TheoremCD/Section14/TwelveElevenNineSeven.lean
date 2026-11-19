@@ -37,7 +37,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem condA_of_isSylowOf_gen {q : ℕ} (hq : q.Prime) {M H Q : Subgroup G}
     (hQ : CFSG.ABGLocalTools.IsSylowOf q Q H) : CondA q M Q H := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   exact Or.inl (CFSG.GH74.GLS.Stage2.Signalizer.Ivk8.YCfg.isSylowOf_inf_of_subnormalIn
     hQ (kSub_le q M H) (kSub_subgroupOf_isSubnormal q M H))
 
@@ -55,8 +55,8 @@ theorem o1211At_of_nineSevenOneAt (h1210 : TwelveTenGen) {M : Subgroup G}
     CFSG.LocalAnalysis.AGL81TheoremCD.Section15.O1211At G M := by
   intro q hq hq5 hqσ E hEM hE hEc hΓ H₀ hH₀ hEH₀
   by_contra hH₀M
-  haveI : IsSimpleGroup G := hC.cstar.simple
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : IsSimpleGroup G := hC.cstar.simple
+  have : Fact q.Prime := ⟨hq⟩
   have hq2 : q ≠ 2 := by omega
   have hH₀2 : H₀ ∈ H2Fam M E := mem_H2Fam_iff.mpr
     ⟨CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top hC.cstar.nonab H₀ hH₀, hEH₀, hH₀M,

@@ -96,7 +96,7 @@ theorem maximal_invariant_two_sylow_alternative (a : G) (ha : orderOf a = 2)
     change q ∈ Subgroup.normalizer (RH : Set H) at hqN
     rw [← Subgroup.subgroupOf_normalizer_eq hRH] at hqN
     exact hqN
-  have hQGtwo : IsPGroup 2 QG := (QN.isPGroup'.map N.subtype).map H.subtype
+  have hQGtwo : IsPGroup 2 QG := (QN.isPGroup.map N.subtype).map H.subtype
   have hKQG : K ≤ Subgroup.centralizer (QG : Set G) :=
     Subgroup.le_centralizer_iff.mp (hQGN.trans hnormalizerK)
   have haQG : a ∈ QG := hRG ((le_sup_right : A ≤ R) (Subgroup.mem_zpowers a))

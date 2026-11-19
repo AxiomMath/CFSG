@@ -59,6 +59,7 @@ theorem comm_mem_Z_of_normalizes_LF (hc : Ctx M Q Z B) {h : G} (hh : h ∈ M)
   rw [hzf, hf'1, mul_one]
   exact hz
 
+omit [Finite G] in
 theorem comm_congr_mem_Q (hc : Ctx M Q Z B) {y k : G} (hyM : y ∈ M) (hkM : k ∈ M) {q : G}
     (hq : q ∈ Q) : ⁅y, k⁆⁻¹ * ⁅y, k * q⁆ ∈ Q := by
   have hQn : M ≤ Subgroup.normalizer (Q : Set G) := hc.hyp.Q_normal.2

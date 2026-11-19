@@ -148,7 +148,7 @@ theorem d1Sp62EscResidue_of_cm (hSch : KFactCatalogSchreier) (hres : D1Sp62CMRes
   have hET : E ≤ (T : Subgroup C).map C.subtype := by
     rw [← Subgroup.map_subgroupOf_eq_of_le hEC']
     exact Subgroup.map_mono hT
-  have hT3 : IsPGroup 3 ((T : Subgroup C).map C.subtype) := T.isPGroup'.map _
+  have hT3 : IsPGroup 3 ((T : Subgroup C).map C.subtype) := T.isPGroup.map _
   have h4T : 4 ≤ CFSG.Open.pRank 3 ((T : Subgroup C).map C.subtype) :=
     CFSG.SectionRank.le_pRank (by norm_num) hET hEe hEc
   have hPM : (P : Subgroup G) ≤ M := hcfg.ext.sylow_le

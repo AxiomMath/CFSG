@@ -103,7 +103,7 @@ theorem exists_of_threeCentralZ2 {L T : Subgroup G} {z : G} (hTL : IsSylowOf 3 (
       rwa [← Subtype.ext hys]
   have hz'S₀ : z' ∈ (S₀ : Subgroup L) := (hmemS₀ z').mpr ⟨hzT, hzL⟩
   obtain ⟨k, hk⟩ : ∃ k : ℕ, z ^ 3 ^ k = 1 := by
-    obtain ⟨k, hk⟩ := S₀.isPGroup' ⟨z', hz'S₀⟩
+    obtain ⟨k, hk⟩ := S₀.isPGroup ⟨z', hz'S₀⟩
     exact ⟨k, by simpa [hz'] using congrArg (fun w : (S₀ : Subgroup L) => ((w : L) : G)) hk⟩
   have hx1 : π z' ≠ 1 := by
     intro h
@@ -128,7 +128,7 @@ theorem exists_of_threeCentralZ2 {L T : Subgroup G} {z : G} (hTL : IsSylowOf 3 (
   obtain ⟨R₀, hR₀⟩ := hzpow.exists_le_sylow
   set R : Subgroup L := (R₀ : Subgroup P₁).map P₁.subtype with hR
   have hz'R : z' ∈ R := ⟨⟨z', hz'P₁⟩, hR₀ (Subgroup.mem_zpowers _), rfl⟩
-  have hR3 : IsPGroup 3 R := R₀.isPGroup'.map _
+  have hR3 : IsPGroup 3 R := R₀.isPGroup.map _
   have hinj : Set.InjOn π R := by
     intro a ha b hb hab
     have hN' : a⁻¹ * b ∈ N := QuotientGroup.eq.mp hab

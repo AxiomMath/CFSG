@@ -11,6 +11,7 @@ open CFSG.SignalizerFunctorTheorem.Quadratic CFSG.Quasithin.G11 CFSG.Open Subgro
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem w183l39_exists_swapper_moving {Y T L₁ L₂ : Subgroup (LGL 2 V)}
     (htwo : Br2TwoComp Y T L₁ L₂) {D : Subgroup (LGL 2 V)} (hDY : D ≤ Y) {a d : LGL 2 V}
     (ha : a ∈ D) (hd : d ∈ D) (hswap : cj a L₁ = L₂) {v : V} (hdv : d v ≠ v) :

@@ -74,16 +74,16 @@ theorem IsCyclicTIPair.exists_isCyclicTIIsometry (h : IsCyclicTIPair W W1 W2) :
   have hw1 : ∀ p : Irr ↥W1 × Irr ↥W2,
       cfInner ((h.basisProdIrr p : classFun ↥W) : ↥W → ℂ)
         ((h.basisProdIrr p : classFun ↥W) : ↥W → ℂ) = 1 := by
-    intro p; rw [h.cfInner_basisProdIrr p p, if_pos rfl]
+    intro p; rw [h.cfInner_basisProdIrr p p, ite_eq_left rfl]
   have hw0 : ∀ p q : Irr ↥W1 × Irr ↥W2, p ≠ q →
       cfInner ((h.basisProdIrr p : classFun ↥W) : ↥W → ℂ)
         ((h.basisProdIrr q : classFun ↥W) : ↥W → ℂ) = 0 := by
-    intro p q hpq; rw [h.cfInner_basisProdIrr p q, if_neg hpq]
+    intro p q hpq; rw [h.cfInner_basisProdIrr p q, ite_eq_right hpq]
   have hη1 : ∀ p : Irr ↥W1 × Irr ↥W2, cfInner (η p.1 p.2) (η p.1 p.2) = 1 := by
-    intro p; rw [hηorth, if_pos ⟨rfl, rfl⟩]
+    intro p; rw [hηorth, ite_eq_left ⟨rfl, rfl⟩]
   have hη0 : ∀ p q : Irr ↥W1 × Irr ↥W2, p ≠ q → cfInner (η p.1 p.2) (η q.1 q.2) = 0 := by
     intro p q hpq
-    rw [hηorth, if_neg]
+    rw [hηorth, ite_eq_right]
     exact fun hc => hpq (Prod.ext hc.1 hc.2)
   have hexpf : ∀ f : classFun ↥W, (f : ↥W → ℂ) =
       ∑ p : Irr ↥W1 × Irr ↥W2, (h.basisProdIrr.repr f p) •

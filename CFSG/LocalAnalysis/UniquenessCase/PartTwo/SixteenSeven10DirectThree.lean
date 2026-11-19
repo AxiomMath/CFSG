@@ -13,6 +13,7 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {T : Type} [CommGroup T] [Finite T]
 
+omit [Finite T] in
 private theorem s16c1610_mem_stabSub_of_map_eq {Y : Subgroup T} {g : MulAut T}
     (h : Y.map g.toMonoidHom = Y) : g ∈ stabSub Y := by
   rw [mem_stabSub]

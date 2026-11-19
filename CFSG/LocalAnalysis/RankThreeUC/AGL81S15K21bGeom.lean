@@ -59,8 +59,8 @@ theorem K21bGeom_holds : K21bGeom := by
   · obtain ⟨t, hv⟩ := d
     have ht : t = TauCeti.LieTypeIndex.A 2 Q := hd
     subst ht
-    haveI : Fact (Nat.Prime Q.p) := ⟨Q.prime_p⟩
-    haveI : CharP (GaloisField Q.p Q.exponent) 2 := CharP.congr Q.p hQp
+    have : Fact (Nat.Prime Q.p) := ⟨Q.prime_p⟩
+    have : CharP (GaloisField Q.p Q.exponent) 2 := CharP.congr Q.p hQp
     exact K21bGeomAt.of_mulEquiv
       (e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 Q hv))
       (K21bGeomProof.geomAt_psl (GaloisField Q.p Q.exponent))

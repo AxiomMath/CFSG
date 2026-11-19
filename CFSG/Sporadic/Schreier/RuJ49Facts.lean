@@ -29,10 +29,10 @@ theorem tabOf_tabs (k : ℕ) :
   unfold tabOf tabs
   by_cases hk : k < (wordList ()).length
   · have hs : k < (((wordList ()).map ruSeedWordA).toArray).size := by simpa using hk
-    rw [if_pos hs]
+    rw [ite_eq_left hs]
     simp [getElem!_pos, hk, List.getD_eq_getElem?_getD]
   · have hs : ¬ k < (((wordList ()).map ruSeedWordA).toArray).size := by simpa using hk
-    rw [if_neg hs]
+    rw [ite_eq_right hs]
     have : (wordList ()).getD k [] = [] := by
       simp [List.getD_eq_getElem?_getD, List.getElem?_eq_none (by omega : (wordList ()).length ≤ k)]
     rw [this]
@@ -266,8 +266,8 @@ theorem cfg_gel :
         (by simp [atomsXk])
   · intro i hi j hj hij m hm
     have := hD (.ne (X j) (.pow (X i) (m + 1))) (by
-      simp only [atomsDist, List.mem_flatMap, List.mem_range, List.mem_map]
-      exact ⟨i, hi, j, hj, by rw [if_pos hij]; exact List.mem_map.2 ⟨m, List.mem_range.2 hm, rfl⟩⟩)
+      simp only [atomsDist, List.mem_flatMap, List.mem_range]
+      exact ⟨i, hi, j, hj, by rw [ite_eq_left hij]; exact List.mem_map.2 ⟨m, List.mem_range.2 hm, rfl⟩⟩)
     simpa [At.holds, Ex.evalG, X] using this
   · simpa [At.holds, Ex.evalG, i1E] using hI0 (.eq (.pow i1E 4) .one) (by simp [atomsI0])
   · simpa [At.holds, Ex.evalG, i2E] using hI0 (.eq (.pow i2E 4) .one) (by simp [atomsI0])
@@ -306,7 +306,7 @@ theorem cfg_gel :
   · intro p hp q hq p' hp' q' hq' hlt
     have := hId (.ne (ieE p q) (ieE p' q')) (by
       simp only [atomsIdist, List.mem_flatMap, List.mem_range]
-      exact ⟨p, hp, q, hq, p', hp', q', hq', by rw [if_pos hlt]; simp⟩)
+      exact ⟨p, hp, q, hq, p', hp', q', hq', by rw [ite_eq_left hlt]; simp⟩)
     simpa [At.holds, evalG_ieE] using this
   · obtain ⟨c, hc, he⟩ := holds_cn (hR0 (cn rE (X 0) (pows (X 0))) (by simp [atomsRS0]))
     obtain ⟨m, hm, rfl⟩ := mem_pows_iff.1 hc

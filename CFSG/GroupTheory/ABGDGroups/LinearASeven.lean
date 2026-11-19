@@ -99,7 +99,7 @@ theorem aSeven_centralizer_involution_a7V_certificate : ∀ x : A₇,
     (x * (a7t * a7u) = a7t * a7u * x →
       x ^ 12 = 1 ∧ (x ^ 3 = 1 → x = 1 ∨ x = a7a ∨ x = a7a ^ 2)) := by
   intro x
-  simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_pow, Subgroup.coe_inv, Subgroup.coe_one]
+  simp only [Subtype.ext_iff, Subgroup.coe_mul, Subgroup.coe_pow, Subgroup.coe_one]
   simp only [← CFSG.GorensteinWalter.PermTable.enc_inj, CFSG.GorensteinWalter.PermTable.enc_mul, CFSG.GorensteinWalter.PermTable.enc_pow, CFSG.GorensteinWalter.PermTable.enc_one, CFSG.GorensteinWalter.PermTable.enc_a7a,
     CFSG.GorensteinWalter.PermTable.enc_a7t, CFSG.GorensteinWalter.PermTable.enc_a7u]
   have hm := CFSG.GorensteinWalter.PermTable.enc_mem_permutations (x : Equiv.Perm (Fin 7))

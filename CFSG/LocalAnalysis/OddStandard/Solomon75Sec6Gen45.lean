@@ -176,7 +176,7 @@ theorem sup_centralizer_eq_top_of_conj {X : Type*} [Group X] {x y a b g : X}
     rw [SetLike.mem_coe, mem_centralizer_singleton_iff] at hk
     rw [mem_centralizer_singleton_iff]
     have hu : u = g⁻¹ * v * g := by rw [← huv]; group
-    simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+    simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
     rw [hu]
     calc g⁻¹ * k * g * (g⁻¹ * v * g) = g⁻¹ * (k * v) * g := by group
       _ = g⁻¹ * (v * k) * g := by rw [hk]
@@ -339,13 +339,13 @@ theorem mat_genG (z : ℤ) :
     mat (genG z) = toMat 5 111 (Gen45.letterM matA matB (powM 5 111 matB 4) z) := by
   unfold genG Gen45.letterM
   by_cases h1 : z = 1
-  · rw [if_pos h1, if_pos (Or.inl h1), mat_a, toMat_matA]
+  · rw [ite_eq_left h1, ite_eq_left (Or.inl h1), mat_a, toMat_matA]
   · by_cases h2 : z = -1
-    · rw [if_neg h1, if_pos h2, if_pos (Or.inr h2), a_inv, mat_a, toMat_matA]
-    · rw [if_neg h1, if_neg h2, if_neg (not_or.2 ⟨h1, h2⟩)]
+    · rw [ite_eq_right h1, ite_eq_left h2, ite_eq_left (Or.inr h2), a_inv, mat_a, toMat_matA]
+    · rw [ite_eq_right h1, ite_eq_right h2, ite_eq_right (not_or.2 ⟨h1, h2⟩)]
       by_cases h3 : z = 2
-      · rw [if_pos h3, if_pos h3, mat_b, toMat_matB]
-      · rw [if_neg h3, if_neg h3, b_inv_eq, mat_pow, mat_b, toMat_powM, toMat_matB]
+      · rw [ite_eq_left h3, ite_eq_left h3, mat_b, toMat_matB]
+      · rw [ite_eq_right h3, ite_eq_right h3, b_inv_eq, mat_pow, mat_b, toMat_powM, toMat_matB]
 
 theorem wordM_nil (A B Bi : Array (Array ℕ)) : Gen45.wordM A B Bi [] = idM 111 := by
   simp only [Gen45.wordM, List.foldr_nil]
@@ -367,7 +367,7 @@ theorem genGs_five (hall : ∀ z ∈ genWords[5]!, z.natAbs ≤ 2) :
   unfold genGs
   rw [slpG_eq]
   unfold wordG
-  exact congrArg List.prod (List.map_congr_left fun z hz => if_pos (hall z hz))
+  exact congrArg List.prod (List.map_congr_left fun z hz => ite_eq_left (hall z hz))
 
 theorem toMat_ne_of_mod {X Y : Array (Array ℕ)} {i j : ℕ} (hi : i < 111) (hj : j < 111)
     (h : ¬(X[i]!)[j]! % 5 = (Y[i]!)[j]! % 5) : toMat 5 111 X ≠ toMat 5 111 Y := by

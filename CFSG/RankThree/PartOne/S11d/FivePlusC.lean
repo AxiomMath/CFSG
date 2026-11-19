@@ -39,7 +39,7 @@ theorem smul_mem_map_sylow_two {J D : Type*} [Group J] [Group D] [MulDistribMulA
   obtain ⟨y, hy, rfl⟩ := hx
   have hyF : b • (y : J) ∈ F := hFD b y y.2
   set y' : F := ⟨b • (y : J), hyF⟩ with hy'
-  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P₂.isPGroup' ⟨y, hy⟩
+  obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P₂.isPGroup ⟨y, hy⟩
   have hyk : y ^ (2 ^ k) = 1 := by
     have h1 : (⟨y, hy⟩ : (P₂ : Subgroup F)) ^ (2 ^ k) = 1 := by
       rw [← hk]; exact pow_orderOf_eq_one _
@@ -127,7 +127,7 @@ theorem exists_invariant_two_commutator_of_inner_action_c {J B C : Type*} [Group
     smul_mem_map_sylow_two P₂ hFinv b hx
   have hPjinvC : ∀ b : C, ∀ x ∈ Pj, b • x ∈ Pj := fun b x hx =>
     smul_mem_map_sylow_two P₂ hFinvC b hx
-  have hPj2 : IsPGroup 2 Pj := P₂.isPGroup'.map F.subtype
+  have hPj2 : IsPGroup 2 Pj := P₂.isPGroup.map F.subtype
   set E := actionCommutator C Pj with hE
   have hEle : E ≤ Pj := SteinbergBM.actionCommutator_le_of_invariant hPjinvC
   refine ⟨E, ?_, hPj2.to_le hEle, fun b x hx => smul_mem_actionCommutator_of_comm hBC hPjinv b hx,

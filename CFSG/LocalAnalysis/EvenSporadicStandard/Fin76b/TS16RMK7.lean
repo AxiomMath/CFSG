@@ -63,7 +63,7 @@ theorem OuterS16Hyp.Fbar
   have hF2 : IsPGroup 2 ↥((E ⊓ centralizer ({β} : Set G)).subgroupOf
       (centralizer ({β} : Set G))) := IsPGroup.of_card (n := 3) (by rw [hF8]; norm_num)
   refine ⟨hFD, ?_, Subgroup.map_mono hFD, ?_⟩
-  · rw [hM.card_map_two hFD hF2, hF8]
+  · rw [CFSG.EvenSporadicStandard.Fin76b.M10Config.card_map_two hFD hF2, hF8]
   · obtain ⟨e⟩ := hM.map_D_iso
     rw [Nat.card_congr e.toEquiv]
     rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]

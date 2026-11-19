@@ -203,7 +203,7 @@ theorem IsGomiLeviPackage.inf_sSup_le (h : IsGomiLeviPackage L U P ℳ)
       (h.inf_eq_bot M hM) ((h.inf_eq_center hD hM).ge.trans inf_le_left)
   have hsSup : sSup ((fun M' => D ⊔ M') '' ℳ \ {D ⊔ M}) ≤ D ⊔ N := by
     refine sSup_le fun K hK => ?_
-    rw [Set.mem_diff] at hK
+    rw [Set.mem_sdiff] at hK
     obtain ⟨M', hM', hEq⟩ := (Set.mem_image (fun M' => D ⊔ M') ℳ K).mp hK.1
     rw [← hEq]
     have hmem : M' ∈ {M'' : Subgroup G | M'' ∈ ℳ ∧ D ⊔ M'' ≠ D ⊔ M} :=

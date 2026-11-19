@@ -102,7 +102,7 @@ theorem t158m_false_of_L28 {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Pri
   have hyp' : IsPGroup p (Subgroup.zpowers y) :=
     isPGroup_of_isElemAbelian (t158m_elemAbelian_zpowers hyp)
   obtain ⟨M, hM⟩ := (CFSG.LocalAnalysis.GLTheoremA.S267.glaPLayer_ne_bot_iff p _).1 hlayer
-  haveI : Finite (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group := Finite.of_equiv _ e.toEquiv
+  have : Finite (TauCeti.CFSGIndex.lie ⟨.A 1 q, hv⟩).Group := Finite.of_equiv _ e.toEquiv
   have hα1 := t158m_chevAut_ne_one hp hL hchev hFG
   have hJ' := glaPComponent_chevTransfer hp hyN hyp' hM
   obtain ⟨hLe, -⟩ := chevQ_transport hp e hJ'
@@ -114,7 +114,7 @@ theorem t158m_false_of_chev2Small {G : Type} [Group G] [Finite G] {p : ℕ} (hp 
     (hsmall : catalogIs (PSimple p L) chev2Small) (hyp : y ^ p = 1) (hFG : FGOn p y L)
     (hlayer : GLAPLayer p (L ⊓ Subgroup.centralizer ({y} : Set G)) ≠ ⊥) : False := by
   obtain ⟨hsimple, hna⟩ := chev_pSimple_simple_nonabelian hp hL
-  haveI := hsimple
+  have := hsimple
   obtain ⟨i, hi, ⟨e⟩⟩ := hsmall
   cases i with
   | cyclic _ _ => exact hi.elim

@@ -382,6 +382,7 @@ section Linear
 
 variable {S L K : Subgroup (GLV V)}
 
+omit [Finite V] in
 private theorem invariant_hgen (hSK : S ≤ Subgroup.normalizer (K : Set (GLV V)))
     (hLK : L ≤ Subgroup.normalizer (K : Set (GLV V))) :
     Invariant (S ⊔ L ⊔ K) (commSpace K ⊤) := by
@@ -399,6 +400,7 @@ private noncomputable abbrev imgK (hSK : S ≤ Subgroup.normalizer (K : Set (GLV
     Subgroup (GLV ↥(commSpace K ⊤)) :=
   rimg (S ⊔ L ⊔ K) (resK hSK hLK) A
 
+omit [Finite V] in
 private theorem map_ker_resK (hSK : S ≤ Subgroup.normalizer (K : Set (GLV V)))
     (hLK : L ≤ Subgroup.normalizer (K : Set (GLV V))) :
     (resK hSK hLK).ker.map (S ⊔ L ⊔ K).subtype =
@@ -410,6 +412,7 @@ private theorem map_ker_resK (hSK : S ≤ Subgroup.normalizer (K : Set (GLV V)))
   · rintro ⟨hxH, hxW⟩
     exact ⟨⟨x, hxH⟩, MonoidHom.mem_ker.2 (restrictHom_eq_one_iff.2 hxW), rfl⟩
 
+omit [Finite V] in
 private theorem le_normalizer_centralizerOn {H : Subgroup (GLV V)} {W : Submodule (ZMod 2) V}
     (hW : Invariant H W) : H ≤ Subgroup.normalizer (centralizerOn H W : Set (GLV V)) := by
   rw [Subgroup.le_normalizer_iff]
@@ -420,6 +423,7 @@ private theorem le_normalizer_centralizerOn {H : Subgroup (GLV V)} {W : Submodul
   rw [hcW _ hw']
   simp
 
+omit [Finite V] in
 private theorem inf_centralizerOn_eq_bot {H K : Subgroup (GLV V)}
     (hc : IsCompl (fixedSpace K) (commSpace K ⊤)) :
     centralizerOn H (commSpace K ⊤) ⊓ K = ⊥ := by
@@ -433,6 +437,7 @@ private theorem inf_centralizerOn_eq_bot {H K : Subgroup (GLV V)}
   show k (c + w) = c + w
   rw [map_add, hc' k hkK, hkW w hw]
 
+omit [Finite V] in
 private theorem resK_injOn (hSK : S ≤ Subgroup.normalizer (K : Set (GLV V)))
     (hLK : L ≤ Subgroup.normalizer (K : Set (GLV V)))
     (hc : IsCompl (fixedSpace K) (commSpace K ⊤)) :
@@ -445,6 +450,7 @@ private theorem resK_injOn (hSK : S ≤ Subgroup.normalizer (K : Set (GLV V)))
   rw [inf_centralizerOn_eq_bot hc] at h
   exact Subtype.ext (Subgroup.mem_bot.1 h)
 
+omit [Finite V] in
 private theorem fixedSpace_imgK (hSK : S ≤ Subgroup.normalizer (K : Set (GLV V)))
     (hLK : L ≤ Subgroup.normalizer (K : Set (GLV V))) {A : Subgroup (GLV V)}
     (hAH : A ≤ S ⊔ L ⊔ K) :
@@ -458,6 +464,7 @@ private theorem fixedSpace_imgK (hSK : S ≤ Subgroup.normalizer (K : Set (GLV V
     obtain ⟨a, haA, rfl⟩ := mem_rimg.1 hx
     exact Subtype.ext (hw a haA)
 
+omit [Finite V] in
 private theorem map_commSpace_imgK (hSK : S ≤ Subgroup.normalizer (K : Set (GLV V)))
     (hLK : L ≤ Subgroup.normalizer (K : Set (GLV V))) {A : Subgroup (GLV V)}
     (hAH : A ≤ S ⊔ L ⊔ K) :
@@ -472,6 +479,7 @@ private theorem map_commSpace_imgK (hSK : S ≤ Subgroup.normalizer (K : Set (GL
     exact ⟨resK hSK hLK ⟨a, hAH ha⟩ ⟨w, hw⟩ - ⟨w, hw⟩,
       sub_mem_commSpace (mem_rimg.2 ⟨⟨a, hAH ha⟩, ha, rfl⟩) Submodule.mem_top, rfl⟩
 
+omit [Finite V] in
 private theorem commSpace_top_eq {L K : Subgroup (GLV V)}
     (hfix : ∀ l ∈ L, ∀ v ∈ fixedSpace K, l v = v)
     (hc : IsCompl (fixedSpace K) (commSpace K ⊤)) :
@@ -487,6 +495,7 @@ private theorem commSpace_top_eq {L K : Subgroup (GLV V)}
   rw [h]
   exact sub_mem_commSpace hl hw
 
+omit [Finite V] in
 private theorem irrSec_comap_subtype {W : Submodule (ZMod 2) V} {L : Subgroup (GLV V)}
     {L₀ : Subgroup (GLV ↥W)}
     (hcompat : ∀ l ∈ L, ∃ l₀ ∈ L₀, ∀ w : ↥W, (l₀ w : V) = l (w : V))
@@ -495,7 +504,7 @@ private theorem irrSec_comap_subtype {W : Submodule (ZMod 2) V} {L : Subgroup (G
   obtain ⟨hCU, hmin⟩ := h
   refine ⟨?_, fun J₀ hJ₀ hCJ hJU => ?_⟩
   · refine lt_of_le_of_ne (Submodule.comap_mono hCU.le) fun heq => ?_
-    obtain ⟨x, hxU, hxC⟩ := SetLike.exists_of_lt hCU
+    obtain ⟨x, hxU, hxC⟩ := _root_.IsConcreteLE.exists_of_lt hCU
     have hx : (⟨x, hUW hxU⟩ : ↥W) ∈ U.comap W.subtype := hxU
     rw [← heq] at hx
     exact hxC hx
@@ -516,6 +525,7 @@ private theorem irrSec_comap_subtype {W : Submodule (ZMod 2) V} {L : Subgroup (G
       have h' := congrArg (Submodule.comap W.subtype) h
       rwa [Submodule.comap_map_eq_of_injective hinj] at h'
 
+omit [Finite V] in
 private theorem commSpace_top_le {L K : Subgroup (GLV V)}
     (hLK : L ≤ Subgroup.normalizer (K : Set (GLV V)))
     (hfix : ∀ l ∈ L, ∀ v ∈ fixedSpace K, l v = v)
@@ -567,7 +577,7 @@ theorem Conf62.reduce {G S L K : Subgroup (GLV V)} (hc : Conf62 G S L K) (hmin :
   have hLS : ⁅L, S⁆ = ⊥ :=
     Subgroup.commutator_eq_bot_iff_le_centralizer.2 (hLG.trans inf_le_right)
   have hKK : ⁅K, K⁆ ≠ K := by
-    haveI := Fact.mk hp
+    have := Fact.mk hp
     have hKbot : K ≠ ⊥ := fun h => hne (by rw [h, Subgroup.commutator_bot_left])
     exact (lt_of_le_of_lt (commutator_le_frat hKp) (frat_lt hKp hKbot)).ne
   have hCL : ⁅centralizerOn (S ⊔ L ⊔ K) (commSpace K ⊤), L⁆ = ⊥ :=
@@ -588,7 +598,7 @@ theorem Conf62.reduce {G S L K : Subgroup (GLV V)} (hc : Conf62 G S L K) (hmin :
       exact ⟨fun h => ⟨h.1.2, h.2⟩, fun h => ⟨⟨hHG h.2, h.1⟩, h.2⟩⟩
     rwa [inf_eq_left.2 hLH, e] at h
   have hnt : ∃ a : ↥(S ⊔ L ⊔ K), (a : GLV V) ∈ L ∧ resK hSK hLK a ≠ 1 := by
-    obtain ⟨x, hxU, hxC⟩ := SetLike.exists_of_lt hc.setup.irrTilde.1
+    obtain ⟨x, hxU, hxC⟩ := _root_.IsConcreteLE.exists_of_lt hc.setup.irrTilde.1
     have hxfix : x ∉ fixedSpace L := fun hf => hxC ⟨hf, hxU⟩
     simp only [mem_fixedSpace_iff, not_forall] at hxfix
     obtain ⟨l, hl, hlx⟩ := hxfix

@@ -22,8 +22,8 @@ theorem factorization_card_F4_le_card_b4 {K : Type} [Field K] [Finite K] (h2 : (
     (Nat.card (adjointGroup .F4 K)).factorization p ≤
       (Nat.card ↥(⨆ k, b4Chain K k)).factorization p := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K (ringChar K) := ringChar.charP K
   obtain ⟨n, hℓ, hcard⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcard
   have hℓ2 : ringChar K ≠ 2 := fun h => h2 (by

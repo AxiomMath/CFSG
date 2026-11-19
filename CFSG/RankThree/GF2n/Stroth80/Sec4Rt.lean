@@ -12,7 +12,8 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
-theorem Ctx.conj_bar_LB_le_bar_Rt [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {t : M}
+omit [Finite G] in
+theorem Ctx.conj_bar_LB_le_bar_Rt [(Q.subgroupOf M).Normal] (_hc : Ctx M Q Z B) {t : M}
     (ht : (t : G) ∈ LB M Q B) {y : Mbar M Q}
     (hy : y * QuotientGroup.mk t = QuotientGroup.mk t * y) :
     conjSubgroup y (bar M Q (LB M Q B)) ≤ bar M Q (Rt M (LB M Q B) (t : G)) := by
@@ -50,9 +51,10 @@ theorem Ctx.conj_bar_LB_le_bar_Rt [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {
     le_iSup₂_of_le (m : G) m.2 (le_iSup_of_le htm le_rfl)
   exact (mk_mem_bar_iff_sec4 (hQL.trans hLRt) w).mpr (hle hz')
 
+omit [Finite G] in
 theorem Ctx.le_bar_Rt_of_normalClosure [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {t : M}
     (ht : (t : G) ∈ LB M Q B) {X S : Subgroup (Mbar M Q)} (hSΛ : S ≤ bar M Q (LB M Q B))
-    (hSX : S ≤ X)
+    (_hSX : S ≤ X)
     (hcl : Subgroup.normalClosure ((S.subgroupOf X : Subgroup ↥X) : Set ↥X) = ⊤)
     (hcent : ∀ x ∈ X, x * QuotientGroup.mk t = QuotientGroup.mk t * x) :
     X ≤ bar M Q (Rt M (LB M Q B) (t : G)) := by
@@ -81,10 +83,12 @@ theorem Ctx.normal_bar_Lgen [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) :
   bar_normal ((Subgroup.normal_subgroupOf_iff_le_normalizer (Lgen_le hc.LB_le_M)).mpr
     (Lgen_normalizes M (LB M Q B)))
 
-theorem Ctx.bar_LB_le_bar_Lgen [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) :
+omit [Finite G] in
+theorem Ctx.bar_LB_le_bar_Lgen [(Q.subgroupOf M).Normal] (_hc : Ctx M Q Z B) :
     bar M Q (LB M Q B) ≤ bar M Q (Lgen M (LB M Q B)) :=
-  Subgroup.map_mono fun x hx => le_Lgen_self M (LB M Q B) hx
+  Subgroup.map_mono fun _x hx => le_Lgen_self M (LB M Q B) hx
 
+omit [Finite G] in
 theorem Ctx.bar_LB_le_normalizer_of_normal [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B)
     {X : Subgroup (Mbar M Q)} (hX : X ≤ bar M Q (Lgen M (LB M Q B)))
     (hXn : (X.subgroupOf (bar M Q (Lgen M (LB M Q B)))).Normal) :
@@ -117,6 +121,7 @@ theorem Ctx.le_bar_Rt_of_normal_centralizes [(Q.subgroupOf M).Normal] (h34 : Str
   exact hc.le_bar_Rt_of_normalClosure ht inf_le_left inf_le_right
     (normalClosure_eq_top_of_quasisimple hYq hodd hS2 hS1) hcent
 
+omit [Finite G] in
 theorem Rt_le_Lgen' (M L : Subgroup G) (t : G) : Rt M L t ≤ Lgen M L := by
   unfold Rt Lgen
   exact iSup₂_mono fun m hm => iSup_le fun _ => le_rfl

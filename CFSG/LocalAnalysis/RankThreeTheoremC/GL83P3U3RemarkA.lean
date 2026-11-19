@@ -37,14 +37,14 @@ variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P T D F : Subgroup Y} {x : Y
 theorem fact (h : Case2Data3 p P T D F x) : Fact p.Prime := ⟨h.prime⟩
 
 theorem zOf_card (h : Case2Data3 p P T D F x) : Nat.card (zOf T) = p := by
-  haveI := h.fact
+  have := h.fact
   exact card_inf_centralizer_of_nonabelian_card_p_cube h.pdata.T_card h.pdata.T_nonab
 
-theorem zOf_le (h : Case2Data3 p P T D F x) : zOf T ≤ T := inf_le_left
+theorem zOf_le (_h : Case2Data3 p P T D F x) : zOf T ≤ T := inf_le_left
 
 theorem commutator_mem (h : Case2Data3 p P T D F x) :
     ∀ a ∈ T, ∀ b ∈ T, a * b * a⁻¹ * b⁻¹ ∈ zOf T := by
-  haveI := h.fact
+  have := h.fact
   have hZ : Nat.card (center T) = p :=
     card_center_of_nonabelian_card_p_cube h.pdata.T_card h.pdata.T_nonab
   have hQ : Nat.card (T ⧸ center T) = p ^ 2 := by
@@ -96,7 +96,7 @@ private theorem exists_mul_aux (h : Case2Data3 p P T D F x) :
   exact hle ha
 
 private theorem D_comm (h : Case2Data3 p P T D F x) : ∀ a ∈ D, ∀ b ∈ D, a * b = b * a := by
-  haveI := h.pdata.D_cyc
+  have := h.pdata.D_cyc
   intro a ha b hb
   have := (IsCyclic.isMulCommutative (α := D)).is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩
   exact congrArg Subtype.val this
@@ -120,7 +120,7 @@ theorem exists_mul (h : Case2Data3 p P T D F x) : ∀ a ∈ P, ∃ t ∈ T, ∃ 
 private theorem isPGroup_P (h : Case2Data3 p P T D F x) : IsPGroup p P := by
   obtain ⟨S, hS⟩ := h.sylow
   subst hS
-  exact S.isPGroup'
+  exact S.isPGroup
 
 theorem exists_pow_eq_one (h : Case2Data3 p P T D F x) : ∀ a ∈ P, ∃ k : ℕ, a ^ (p ^ k) = 1 := by
   intro a ha
@@ -139,9 +139,9 @@ theorem x_ne_one (h : Case2Data3 p P T D F x) : x ≠ 1 := by
 private theorem mem_zpowers_aux (h : Case2Data3 p P T D F x) :
     ∀ d ∈ D, d ^ p = 1 → d ∈ zpowers x := by
   classical
-  haveI := h.fact
-  haveI : IsCyclic D := h.pdata.D_cyc
-  haveI : Fintype D := Fintype.ofFinite D
+  have := h.fact
+  have : IsCyclic D := h.pdata.D_cyc
+  have : Fintype D := Fintype.ofFinite D
   intro d hd hdp
   obtain ⟨x', hx'⟩ : ∃ x' : D, (x' : Y) = x := ⟨⟨x, h.pdata.x_mem⟩, rfl⟩
   have hx'ord : orderOf x' = p := by
@@ -184,12 +184,12 @@ private theorem mem_zpowers_aux (h : Case2Data3 p P T D F x) :
 
 theorem x_mem_of_ne_bot (h : Case2Data3 p P T D F x) :
     ∀ C : Subgroup Y, C ≤ D → C ≠ ⊥ → x ∈ C := by
-  haveI := h.fact
+  have := h.fact
   intro C hCD hC
   have hCP : C ≤ P := hCD.trans h.pdata.D_le
   have hCp : IsPGroup p C :=
     (isPGroup_P h).of_injective (Subgroup.inclusion hCP) (Subgroup.inclusion_injective hCP)
-  haveI : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot C).mpr hC
+  have : Nontrivial C := (Subgroup.nontrivial_iff_ne_bot C).mpr hC
   obtain ⟨n, hn, hcard⟩ := hCp.nontrivial_iff_card.mp inferInstance
   have hdvd : p ∣ Nat.card C := by
     rw [hcard]
@@ -267,8 +267,8 @@ variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P T D F : Subgroup Y} {x : Y
 theorem le_pCore_of_forall_le_centralizer (h : Case2Data3 p P T D F x)
     (hT : ∀ L : Subgroup Y, IsComponentOf L ⊤ → T ≤ centralizer (L : Set Y)) :
     T ≤ CFSG.pCore p Y := by
-  haveI : Fact p.Prime := h.fact
-  haveI hOn : (CFSG.pCore p Y).Normal := CFSG.pCore_normal
+  have : Fact p.Prime := h.fact
+  have hOn : (CFSG.pCore p Y).Normal := CFSG.pCore_normal
   have hTE : T ≤ centralizer (CFSG.layer Y : Set Y) := by
     have hlay : CFSG.layer Y ≤ centralizer (T : Set Y) := by
       rw [CFSG.layer.eq_sSup]
@@ -367,6 +367,7 @@ namespace Case2Data3
 
 variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P T D F : Subgroup Y} {x : Y}
 
+omit [Finite Y] in
 private theorem mem_normalizer_of_pow_coprime {H : Subgroup Y} {y : Y} {n : ℕ}
     (hy : y ^ n = 1) {m : ℕ} (hm : Nat.Coprime m n) (hym : y ^ m ∈ normalizer (H : Set Y)) :
     y ∈ normalizer (H : Set Y) := by
@@ -528,7 +529,7 @@ theorem not_le_centralizer_x (h : Case2Data3 p P T D F x) {L : Subgroup Y}
     ¬ L ≤ centralizer ({x} : Set Y) := by
   intro hLW
   obtain ⟨N, hser⟩ := h.series
-  haveI : Fact p.Prime := h.fact
+  have : Fact p.Prime := h.fact
   have h5 : p = 3 := h.three
   obtain ⟨S, hS⟩ := h.sylow
   obtain ⟨t, htmem, hto, htc⟩ :=
@@ -540,7 +541,7 @@ theorem not_le_centralizer_x (h : Case2Data3 p P T D F x) {L : Subgroup Y}
     rwa [hto] at this
   have hPp : ∀ a ∈ P, ∃ k : ℕ, a ^ p ^ k = 1 := by
     intro a ha
-    obtain ⟨k, hk⟩ := S.isPGroup' ⟨a, by rw [hS]; exact ha⟩
+    obtain ⟨k, hk⟩ := S.isPGroup ⟨a, by rw [hS]; exact ha⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hPW : P ≤ centralizer ({x} : Set Y) := hser.P_le
   have hPN : P ≤ Subgroup.normalizer N := by
@@ -568,7 +569,7 @@ theorem not_le_centralizer_x (h : Case2Data3 p P T D F x) {L : Subgroup Y}
     obtain ⟨k, hk⟩ := hPp a ha
     exact ⟨k, pow_mul_mem_of_pow_eq_one (hconj a ha) hk n hn⟩
   obtain ⟨hcomm, hsimp⟩ := hL.2.2
-  haveI := hsimp
+  have := hsimp
   obtain ⟨ρ, hρ⟩ : ∃ ρ : L →* L ⧸ Subgroup.center L, ρ = QuotientGroup.mk' (Subgroup.center L) :=
     ⟨_, rfl⟩
   have hρsurj : Function.Surjective ρ := by
@@ -604,10 +605,10 @@ theorem not_le_centralizer_x (h : Case2Data3 p P T D F x) {L : Subgroup Y}
     rw [← ht']
     simpa using this
   have htPN : t ∈ P ⊔ N := (le_sup_left : P ≤ P ⊔ N) htP
-  haveI hK₁map : ((N.subgroupOf L).map ρ).Normal := hK₁.map ρ hρsurj
+  have hK₁map : ((N.subgroupOf L).map ρ).Normal := hK₁.map ρ hρsurj
   rcases hsimp.eq_bot_or_eq_top_of_normal ((N.subgroupOf L).map ρ) with hA₁ | hA₁
   ·
-    haveI hK₂map : (((P ⊔ N).subgroupOf L).map ρ).Normal := hK₂.map ρ hρsurj
+    have hK₂map : (((P ⊔ N).subgroupOf L).map ρ).Normal := hK₂.map ρ hρsurj
     have hB : ((P ⊔ N).subgroupOf L).map ρ = ⊤ := by
       rcases hsimp.eq_bot_or_eq_top_of_normal (((P ⊔ N).subgroupOf L).map ρ) with hB | hB
       · exfalso
@@ -658,7 +659,7 @@ variable {p : ℕ} {Y : Type} [Group Y] [Finite Y] {P T D F : Subgroup Y} {x : Y
 private theorem T_comm_of_commute (h : Case2Data3 p P T D F x) {u : Y} (hu : u ∈ T)
     (hnc : u ∉ zOf T) {a b : Y} (ha : a ∈ T) (hb : b ∈ T)
     (hau : a * u = u * a) (hbu : b * u = u * b) : a * b = b * a := by
-  haveI := h.fact
+  have := h.fact
   have hZcard : Nat.card (zOf T) = p :=
     card_inf_centralizer_of_nonabelian_card_p_cube h.pdata.T_card h.pdata.T_nonab
   set C : Subgroup Y := T ⊓ centralizer ({u} : Set Y) with hC
@@ -702,7 +703,7 @@ private theorem comm_iff (h : Case2Data3 p P T D F x) {t t' : Y} (ht : t ∈ T) 
     (t * d) * (t' * d') = (t' * d') * (t * d) ↔ t * t' = t' * t := by
   have e1 : d * t' = t' * d := (h.pdata.comm t' ht' d hd).symm
   have e2 : d' * t = t * d' := (h.pdata.comm t ht d' hd').symm
-  haveI := h.pdata.D_cyc
+  have := h.pdata.D_cyc
   have e3 : d * d' = d' * d := setLike_mul_comm hd hd'
   have l : (t * d) * (t' * d') = (t * t') * (d * d') := by
     calc (t * d) * (t' * d') = t * (d * t') * d' := by simp only [mul_assoc]
@@ -725,12 +726,12 @@ private theorem exists_noncomm_inf (h : Case2Data3 p P T D F x) {L : Subgroup Y}
     by_contra hne
     exact hcon0 ⟨a, ha, b, hb, hne⟩
   apply hc
-  haveI := h.fact
+  have := h.fact
   have hN : P ≤ normalizer (L : Set Y) := h.P_le_normalizer hL
   have hPsyl : IsSylowOf p P ⊤ := by
     obtain ⟨S, hS⟩ := h.sylow
     rw [isSylowOf_iff]
-    refine ⟨le_top, hS ▸ S.isPGroup', ?_⟩
+    refine ⟨le_top, hS ▸ S.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right, ← hS]
     exact S.not_dvd_index
   have hPL : IsSylowOf p (P ⊓ L) L :=

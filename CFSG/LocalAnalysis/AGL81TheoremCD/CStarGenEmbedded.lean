@@ -16,9 +16,9 @@ theorem CStarGen.isStronglyPEmbedded_of_not_isSolvable (hC : CStarGen G) {M : Su
     (hns : ¬ Group.IsSolvable ↥M) :
     CFSG.RankThree.PartOne.IsStronglyPEmbedded d M := by
   have hdp : d.Prime := CFSG.RankThreeCoreUniqueness.Helpers.sigmaA_prime d hd.1
-  haveI : Fact d.Prime := ⟨hdp⟩
+  have : Fact d.Prime := ⟨hdp⟩
   obtain ⟨P, hPM, -, hcase⟩ := hC.almost M hM d hd
-  haveI : IsSimpleGroup G := hC.simple
+  have : IsSimpleGroup G := hC.simple
   have hMtop : M ≠ ⊤ :=
     CFSG.RankThreeCoreUniqueness.Helpers.twoLocal_ne_top hC.nonab M hM.1
   have hd2 : 2 ≤ CFSG.Open.pRank d M := hd.2

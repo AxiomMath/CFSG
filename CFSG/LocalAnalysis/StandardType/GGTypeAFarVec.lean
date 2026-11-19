@@ -139,7 +139,7 @@ theorem vec_start_of_swap_fixed {n : ℕ} (hn : 2 ≤ n) {i j : Fin n} (hi : i.v
 theorem exists_zpow_eq_of_pow_eq_one [Finite F] {p : ℕ} [Fact p.Prime] {τ τ' : Fˣ}
     (hτ : τ ^ p = 1) (hτ' : τ' ^ p = 1) (h1 : τ' ≠ 1) : ∃ k : ℤ, τ = τ' ^ k := by
   classical
-  haveI : Fintype Fˣ := Fintype.ofFinite Fˣ
+  have : Fintype Fˣ := Fintype.ofFinite Fˣ
   have hp : 0 < p := (Fact.out : p.Prime).pos
   have hsub : (Subgroup.zpowers τ' : Set Fˣ) ⊆ {a : Fˣ | a ^ p = 1} := by
     intro a ha

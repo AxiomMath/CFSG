@@ -33,13 +33,13 @@ theorem smu_suppIn_single {S : Finset (Fin m)} {r : Fin m ⊕ Fin m} (hr : WitSp
     SmuSuppIn S (Pi.single r (1 : K) : Fin m ⊕ Fin m → K) := by
   intro r' hr'
   have : r' ≠ r := fun h => hr' (h ▸ hr)
-  simp [Pi.single_apply, this]
+  simp [this]
 
 theorem smu_suppOff_single {S : Finset (Fin m)} {r : Fin m ⊕ Fin m} (hr : WitSpNs.plane r ∉ S) :
     SmuSuppOff S (Pi.single r (1 : K) : Fin m ⊕ Fin m → K) := by
   intro r' hr'
   have : r' ≠ r := fun h => hr (h ▸ hr')
-  simp [Pi.single_apply, this]
+  simp [this]
 
 theorem smu_vec_eq_sum_single (v : Fin m ⊕ Fin m → K) :
     v = ∑ r, v r • (Pi.single r (1 : K) : Fin m ⊕ Fin m → K) := by
@@ -59,11 +59,11 @@ theorem SmuOffFix.mulVec_single {S : Finset (Fin m)}
   · by_cases hs : WitSpNs.side s = WitSpNs.side r
     · have : s = r := WitSpNs.eq_of_plane_side hp hs
       subst this
-      simp [Matrix.one_apply]
+      simp
     · have : s ≠ r := fun h => hs (by rw [h])
-      simp [hp, hs, this, Matrix.one_apply, Pi.single_apply]
+      simp [hp, hs, this]
   · have : s ≠ r := fun h => hp (by rw [h])
-    simp [hp, this, Pi.single_apply]
+    simp [hp, this]
 
 theorem SmuOffFix.mulVec_eq {S : Finset (Fin m)} {j : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K}
     (hj : SmuOffFix S j) {v : Fin m ⊕ Fin m → K} (hv : SmuSuppOff S v) : j *ᵥ v = v := by
@@ -93,7 +93,7 @@ theorem smu_form_single (w : Fin m ⊕ Fin m → K) (r : Fin m ⊕ Fin m) :
   rw [Finset.sum_eq_single r]
   · simp
   · intro a _ ha
-    rw [if_neg (fun h => ha (par_injective h).symm), mul_zero]
+    rw [ite_eq_right (fun h => ha (par_injective h).symm), mul_zero]
   · simp
 
 theorem SmuOffFix.suppIn_mulVec {S : Finset (Fin m)}

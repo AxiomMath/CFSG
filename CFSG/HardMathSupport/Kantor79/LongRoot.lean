@@ -17,15 +17,17 @@ variable {K E : Type*} [Field K] [CharP K 2] [AddCommGroup E] [Module K E]
 @[expose] noncomputable def rootEnd (Q : QuadraticForm K E) (a b : E) : E →ₗ[K] E :=
   siegelLin Q a b 1 - 1
 
+omit [CharP K 2] in
 theorem rootEnd_apply (Q : QuadraticForm K E) (a b x : E) :
     rootEnd Q a b x = polar Q x b • a + polar Q x a • b := by
   rw [rootEnd, LinearMap.sub_apply, siegelLin_apply, Module.End.one_apply, one_smul, one_smul]
   abel
 
+omit [CharP K 2] in
 theorem rootEnd_self_adjoint (Q : QuadraticForm K E) (a b x y : E) :
     polar Q (rootEnd Q a b x) y = polar Q x (rootEnd Q a b y) := by
   simp only [rootEnd_apply, polar_add_left, polar_smul_left, polar_add_right, polar_smul_right,
-    smul_eq_mul, QuadraticMap.polarBilin_apply_apply]
+    smul_eq_mul]
   rw [polar_comm Q a y, polar_comm Q b y]
   ring
 
@@ -47,7 +49,7 @@ theorem rootEnd_sq_eq_zero (Q : QuadraticForm K E) (a b : E) (hQa : Q a = 0) (hQ
   change rootEnd Q a b (rootEnd Q a b x) = 0
   rw [rootEnd_apply, rootEnd_apply]
   simp only [polar_add_left, polar_smul_left, smul_eq_mul, hab, hbb, haa, polar_comm Q b a,
-    mul_zero, zero_mul, zero_smul, add_zero]
+    mul_zero, zero_smul, add_zero]
 
 theorem rootEnd_isometry (Q : QuadraticForm K E) (a b x : E) (hQa : Q a = 0) (hQb : Q b = 0)
     (hab : polar Q a b = 0) : Q (x + rootEnd Q a b x) = Q x := by
@@ -72,6 +74,7 @@ theorem movedSpace_rootEquiv (Q : QuadraticForm K E) (a b : E) (hQa : Q a = 0) (
     (hab : polar Q a b = 0) :
     movedSpace (rootEquiv Q a b hQa hQb hab) = LinearMap.range (rootEnd Q a b) := rfl
 
+omit [CharP K 2] in
 theorem range_rootEnd_le_span (Q : QuadraticForm K E) (a b : E) :
     LinearMap.range (rootEnd Q a b) ≤ Submodule.span K ({a, b} : Set E) := by
   rintro _ ⟨x, rfl⟩
@@ -112,6 +115,7 @@ theorem IsLongRootElement.finrank_movedSpace_le_two [FiniteDimensional K E]
   obtain ⟨a, b, hle⟩ := h.movedSpace_le_span
   exact (Submodule.finrank_mono hle).trans (finrank_span_pair_le_two a b)
 
+omit [CharP K 2] in
 theorem IsLongRootElement.conj {Q : QuadraticForm K E} {x g : E ≃ₗ[K] E}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hx : IsLongRootElement Q x) :
     IsLongRootElement Q (g * x * g⁻¹) := by
@@ -196,6 +200,7 @@ theorem IsLongRootElement.polar_apply_self {Q : QuadraticForm K E} {x : E ≃ₗ
       = 2 * (polar Q y b * polar Q y a) := by ring
     _ = 0 := by rw [h2, zero_mul]
 
+omit [CharP K 2] in
 theorem not_isLongRootElement_one {Q : QuadraticForm K E}
     (hnd : ∀ x, (∀ y, polar Q x y = 0) → x = 0) : ¬ IsLongRootElement Q 1 := by
   rintro ⟨a, b, -, -, -, -, hb, hli, hform⟩

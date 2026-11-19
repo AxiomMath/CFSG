@@ -13,12 +13,14 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau : G} {T₂ : Subgroup G}
 variable (D : FzRNum t x₁ x₂ lam rho tau T₂)
 
+omit [Finite G] in
 private theorem fzrAux_sq_eq_one {x : ℕ} (hx : x < 512)
     (hxx : (fzrPar D).e x x = 0) : fzrMu D x * fzrMu D x = 1 := by
   have h := fzrMu_mul D hx hx
   rw [hxx, fzrMu_zero] at h
   exact h.symm
 
+omit [Finite G] in
 private theorem fzrAux_ne_one {x : ℕ} (hx : x < 512) (hx0 : x ≠ 0) :
     fzrMu D x ≠ 1 := by
   intro h
@@ -34,6 +36,7 @@ private theorem fzrAux_comm_L (h : Ctx t L S x₁ x₂ lam rho tau) {c : G} (hc 
     c * t = t * c :=
   Subgroup.mem_centralizer_iff.mp h.hyp.mem_centralizer c hc
 
+omit [Finite G] in
 private theorem fzrAux_conj_iff {v w l : G} (hl : w = l * v * l⁻¹) :
     (∃ g : G, g * t * g⁻¹ = w) ↔ ∃ g : G, g * t * g⁻¹ = v := by
   constructor

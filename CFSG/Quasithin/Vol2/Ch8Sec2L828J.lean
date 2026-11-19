@@ -284,7 +284,7 @@ theorem step828OneA_holds
       rw [e]
       exact hKO (Subgroup.commutator_mem_commutator (K.inv_mem q.2) hyC)
     have hdis := IsPGroup.disjoint_of_ne 3 2 (by norm_num) (Q₀ : Subgroup ↥K)
-      ((pCoreOf 2 K).subgroupOf K) Q₀.isPGroup' hO2
+      ((pCoreOf 2 K).subgroupOf K) Q₀.isPGroup hO2
     have hc : q⁻¹ * q' = 1 :=
       Subgroup.disjoint_def.mp hdis hc1 (Subgroup.mem_subgroupOf.mpr hc2)
     have hqq : q' = q := (inv_mul_eq_one.mp hc).symm
@@ -294,7 +294,7 @@ theorem step828OneA_holds
       _ = y' * q := by group
   have hQcyc : IsCyclic ↥(Q₀ : Subgroup ↥K) := by
     by_contra hnc
-    have : Fact (IsPGroup 3 ↥(Q₀ : Subgroup ↥K)) := ⟨Q₀.isPGroup'⟩
+    have : Fact (IsPGroup 3 ↥(Q₀ : Subgroup ↥K)) := ⟨Q₀.isPGroup⟩
     obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a (by norm_num : (3 : ℕ) ≠ 2) hnc
     set E : Subgroup G := (S.map (Q₀ : Subgroup ↥K).subtype).map K.subtype with hEdef
     have hEcard : Nat.card E = 3 ^ 2 := by

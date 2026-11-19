@@ -31,9 +31,9 @@ theorem exists_plane_torus_lift {G : Type} [Group G] [Finite G] {p : ℕ} (hp : 
     ∃ (ζ : Multiplicative (ZMod p) →* SpecialLinearGroup (Fin 2) F) (φ : StatedSp n F →* G),
       IsPlaneTorusLift p Bs φ'.range ζ φ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let X : Subgroup G := φ'.range
-  haveI : CharP F 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2
+  have : CharP F 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 h2
   have hZ : Subgroup.center X = ⊥ := by
     have hZsp : Subgroup.center (StatedSp n F) = ⊥ := by
       rw [CFSG.LieType.Universal.Symplectic.center_eq,

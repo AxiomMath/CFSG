@@ -19,11 +19,12 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isSolvable_outer_quotient_pCore {K : Subgroup G}
     (hL : Nonempty (↥K ⧸ CFSG.pCore 2 ↥K ≃*
       CFSG.PGLModel.projSL 3 (GaloisField 2 2))) :
     Group.IsSolvable (Outer (↥K ⧸ CFSG.pCore 2 ↥K)) := by
-  haveI : Group.IsSolvable (Outer (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL
+  have : Group.IsSolvable (Outer (CFSG.LocalAnalysis.ComponentInitial.LinearFlag.projectiveSL
       3 (GaloisField 2 2))) :=
     CFSG.HardMathSupport.Foote.Coordinator.TwistedFrame.NormalizerAux.isSolvable_out_projectiveSL
       (K := GaloisField 2 2) (by norm_num)
@@ -53,7 +54,7 @@ theorem kSubLeKSubAt_of
     (hK : KNormalAt M) : KSubLeKSubAt M := by
   intro E H N h hEK hN hKN
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := kSub 3 M H
   let L : Subgroup G := kSub 3 M N
   let Q : Subgroup ↥L := CFSG.pCore 2 ↥L
@@ -64,7 +65,7 @@ theorem kSubLeKSubAt_of
   have hC3H : CaseThree M H := h3 H h.mem_H2StarAll
   have hC3N : CaseThree M N := h3 N hN'.mem_H2StarAll
   have hKperf : Group.IsPerfect ↥K :=
-    HypCGen.isPerfect_kSub (M := M) (E := E) (H := H) hC3H
+    HypCGen.isPerfect_kSub (M := M) (_E := E) (H := H) hC3H
   have hqK : CFSG.IsQuasisimple (↥K ⧸ CFSG.pCore 2 ↥K) :=
     h.isQuasisimple_kSub_quotient hTwo
   have hqL : CFSG.IsQuasisimple (↥L ⧸ CFSG.pCore 2 ↥L) :=

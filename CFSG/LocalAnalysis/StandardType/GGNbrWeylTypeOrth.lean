@@ -93,7 +93,7 @@ theorem ggNbrTableBWeylTypeNonSplitOn_orth :
     subst ht
     have h3 : rank ≠ 3 := by omega
     dsimp only [LargeEvenRawDatum] at hQ ⊢
-    rw [if_neg h3] at hQ ⊢
+    rw [ite_eq_right h3] at hQ ⊢
     rcases Nat.even_or_odd rank with he | ho
     · exact ggWTB1_recipeOmegaPlus_evenWeylTypeW hp hn hpd he hr hQ
     · have h5 : 5 ≤ rank := by
@@ -105,7 +105,7 @@ theorem ggNbrTableBWeylTypeNonSplitOn_orth :
     have h2 : rank ≠ 2 := by omega
     have h3 : rank ≠ 3 := by omega
     dsimp only [LargeEvenRawDatum] at hQ ⊢
-    rw [if_neg h2, if_neg h3] at hQ ⊢
+    rw [ite_eq_right h2, ite_eq_right h3] at hQ ⊢
     rcases hpd with hpd | hpd
     · rcases Nat.even_or_odd (rank - 1) with he | ho
       · have h4 : 4 ≤ rank - 1 := by

@@ -109,10 +109,10 @@ theorem close16_layer_barImage (hS : Close16Setting D V L hV) {X : Subgroup G}
       ((Subgroup.equivMapOfInjective B e.toMonoidHom e.injective).trans
         (MulEquiv.subgroupCongr hmap)).trans
         (Subgroup.subgroupOfEquivOfLe (close16_lbar_le_mbar hS))
-    haveI : IsSimpleGroup ↥(lBar ⊥ V hV L) := close16_lbar_simple hS
+    have : IsSimpleGroup ↥(lBar ⊥ V hV L) := close16_lbar_simple hS
     have hnotcomm : ¬ IsMulCommutative ↥(lBar ⊥ V hV L) := by
       intro hc
-      haveI : IsMulCommutative ↥(lBar ⊥ V hV L) := hc
+      have : IsMulCommutative ↥(lBar ⊥ V hV L) := hc
       have hp : (Nat.card ↥(lBar ⊥ V hV L)).Prime :=
         (Group.is_simple_iff_prime_card).mp inferInstance
       rw [close16_card_lbar hS] at hp
@@ -140,7 +140,7 @@ theorem close16_apply_r119 (h127 : R127 D) (h119 : F11.R119 D) (hS : Close16Sett
       hS.counterex.setting.hyp151.hyp125.pairFacts.le_normalizer₀
   obtain ⟨X, hCX, hXM, hXN, hbarX⟩ := close16_exists_X hS
   let inst₀ : ((F11.CTilde D.M ⊥ V).subgroupOf D.M).Normal := s15_Three_cTilde_normal hV hMs
-  haveI := inst₀
+  have := inst₀
   have hlayerim : rankThreeLayer (F11.barImage11 D.M ⊥ V X) = F11.barImage11 D.M ⊥ V X :=
     close16_layer_barImage hS hXM hbarX
   obtain ⟨Y, hY, -⟩ :=

@@ -59,8 +59,8 @@ theorem pkp_letV (S : List (VP n)) (z : Int) :
     intro m
     rw [← pkp_oneV n, List.getD_map]
   by_cases hz : 0 < z
-  · rw [if_pos hz, h, letV, if_pos hz]
-  · rw [if_neg hz, h, letV, if_neg hz, pkp_invV]
+  · rw [ite_eq_left hz, h, letV, ite_eq_left hz]
+  · rw [ite_eq_right hz, h, letV, ite_eq_right hz, pkp_invV]
 
 theorem pkp_evV (S : List (VP n)) (w : List Int) : pkp (evV S w) = evalCodes (S.map pkp) w := by
   induction w with

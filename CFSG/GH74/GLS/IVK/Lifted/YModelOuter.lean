@@ -269,7 +269,7 @@ theorem model_outer [Finite Gs] {F : Type} [Field F] [Finite F] (hodd : Odd (Nat
     refine ⟨α p, hP p hp, ?_⟩
     exact (mulAut_conj_conj α p).symm
   have hT2 : IsPGroup 2 ↥(Pmap ⊔ zpowers α) :=
-    isPGroup_sup_zpowers_of_involution (P.isPGroup'.map _) hα2 hPmapNorm
+    isPGroup_sup_zpowers_of_involution (P.isPGroup.map _) hα2 hPmapNorm
   have hTR : Pmap ⊔ zpowers α ≤ Φ.range :=
     sup_le ((Subgroup.map_le_range _ _).trans hInn_le) (zpowers_le.2 hαR)
   obtain ⟨Mm, hM, hTM⟩ := M.exists_syl2In_ge hT2 hTR

@@ -15,7 +15,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem isCyclic_sylow_three_of_pRank_le_one {N : Subgroup G}
     (hrank : CFSG.Open.pRank 3 N ≤ 1) (S₁ : Sylow 3 N) : IsCyclic (S₁ : Subgroup N) := by
   by_contra hnc
-  have : Fact (IsPGroup 3 (S₁ : Subgroup N)) := ⟨S₁.isPGroup'⟩
+  have : Fact (IsPGroup 3 (S₁ : Subgroup N)) := ⟨S₁.isPGroup⟩
   obtain ⟨T, -, hTcard, hTel⟩ :=
     CFSG.lemma_4_5_a (R := (S₁ : Subgroup N)) (p := 3) (by norm_num) hnc
   let f : (S₁ : Subgroup N) →* G := N.subtype.comp (S₁ : Subgroup N).subtype

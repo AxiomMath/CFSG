@@ -32,7 +32,7 @@ theorem blkC1_blk1 (A C : B2) : blkC1 (blk1 A C) = C := by
 theorem blk1_mul (A C A' C' : B2) : blk1 A C * blk1 A' C' = blk1 (A * A') (C * C') := by
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [blk1, Matrix.mul_apply, Fin.sum_univ_five, Fin.sum_univ_two] <;> ring
+    simp [blk1, Matrix.mul_apply, Fin.sum_univ_five, Fin.sum_univ_two]
 
 theorem blk1_one : blk1 1 1 = 1 := by
   ext i j; fin_cases i <;> fin_cases j <;> simp [blk1]
@@ -41,8 +41,7 @@ theorem blk1_inj {A C A' C' : B2} (h : blk1 A C = blk1 A' C') : A = A' ∧ C = C
   ⟨by rw [← blkA1_blk1 A C, h, blkA1_blk1], by rw [← blkC1_blk1 A C, h, blkC1_blk1]⟩
 
 theorem blk1_det (A C : B2) : (blk1 A C).det = A.det * C.det := by
-  simp only [Matrix.det_succ_row_zero, Fin.sum_univ_succ, blk1, Matrix.det_fin_two,
-    Matrix.det_fin_three, Matrix.det_unique]
+  simp only [Matrix.det_succ_row_zero, Fin.sum_univ_succ, blk1, Matrix.det_unique]
   simp [Fin.succAbove, Matrix.submatrix]
   ring
 

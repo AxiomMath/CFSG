@@ -77,7 +77,7 @@ private lemma dpeq_commute_QW {g n k : ℕ} {P Q : Matrix (Fin n) (Fin k) (PSUF 
       rw [tcConjTr_mul, hRstar, hPstar]
       rw [show J * ((J * Q) * (W * J)) * J = (J * J) * Q * W * (J * J) by
             simp only [Matrix.mul_assoc], hJ2]
-      simp only [Matrix.mul_one, Matrix.one_mul, Matrix.mul_assoc]
+      simp only [Matrix.mul_one, Matrix.one_mul]
     exact h.symm
   have hγinv : ((γ⁻¹ : GL (Fin n) (PSUF g)) : Matrix (Fin n) (Fin n) (PSUF g)) =
       J * tcConjTr (PSUσ g) (γ : Matrix (Fin n) (Fin n) (PSUF g)) * J := by

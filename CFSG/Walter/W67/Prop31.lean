@@ -135,7 +135,7 @@ theorem exists_conj_sylow (M : Subgroup G₁) (P Q : Sylow 2 G₁) (hP : (P : Su
       (R' : Subgroup M) = (R : Subgroup G₁).subgroupOf M := by
     intro R hR
     have h2 : IsPGroup 2 ((R : Subgroup G₁).subgroupOf M) :=
-      R.isPGroup'.of_equiv (Subgroup.subgroupOfEquivOfLe hR).symm
+      R.isPGroup.of_equiv (Subgroup.subgroupOfEquivOfLe hR).symm
     have hidx : ¬ 2 ∣ ((R : Subgroup G₁).subgroupOf M).index := fun h =>
       R.not_dvd_index (h.trans (Subgroup.relIndex_dvd_index_of_le hR))
     exact ⟨h2.toSylow hidx, h2.toSylow_coe hidx⟩

@@ -32,8 +32,8 @@ theorem lemI_sp (hK : Nat.card K = 2) (hm : 3 ≤ m) {Ã : Subgroup (StatedSp m 
         3 ^ (m - 2) ≤ Nat.card (Ã ⊓ fixSub (LinearMap.range (spEnd x - 1)) :
           Subgroup (StatedSp m K))) := by
   classical
-  haveI := SpFin.finite_statedSp_group (K := K) (m := m)
-  haveI := finite_units_end (K := K) (V := Fin m ⊕ Fin m → K)
+  have := SpFin.finite_statedSp_group (K := K) (m := m)
+  have := finite_units_end (K := K) (V := Fin m ⊕ Fin m → K)
   set Xg : Subgroup (Module.End K (Fin m ⊕ Fin m → K))ˣ := Ã.map (spLin m K) with hXg
   have hXiso := SpFin.isoSetup_map hÃ
   have hx₀ : spLin m K x ∈ Xg := ⟨x, hx, rfl⟩
@@ -98,7 +98,7 @@ theorem not_mem_zpowers_of_fix {x t : StatedSp m K} (hx3 : x ^ 3 = 1) (hx1 : x �
     (ht3 : t ^ 3 = 1) (ht1 : t ≠ 1)
     (hfix : ∀ w ∈ LinearMap.range (spEnd x - 1), spEnd t w = w) :
     t ∉ Subgroup.zpowers x := by
-  haveI := SpFin.finite_statedSp_group (K := K) (m := m)
+  have := SpFin.finite_statedSp_group (K := K) (m := m)
   intro h
   have hxt := mem_zpowers_symm hx3 hx1 ht3 ht1 h
   have htfix : t ∈ fixSub (LinearMap.range (spEnd x - 1)) := hfix
@@ -161,7 +161,7 @@ theorem conclAt_of_six (hK : Nat.card K = 2) {Ã : Subgroup (StatedSp 4 K)}
     (blocks : SpPrimaryBlocks 2 1 3 x (proj 4 K x)) (hd : spFixedDim x = 6)
     (hEN : EndNodeAt Ã x) : ConclAt Ã x := by
   classical
-  haveI := SpFin.finite_statedSp_group (K := K) (m := 4)
+  have := SpFin.finite_statedSp_group (K := K) (m := 4)
   have hx3 : x ^ 3 = 1 := hÃ.2 x hx
   have hx3' : spLin 4 K x ^ 3 = 1 := by rw [← map_pow, hx3, map_one]
   have hbx : ∀ b ∈ Ã, b * x = x * b := fun b hb => TableB.IsElemAbelian.comm hÃ hb hx

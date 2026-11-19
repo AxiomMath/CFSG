@@ -16,6 +16,7 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Field K] {σ : K 
 
 section Block
 
+omit [DecidableEq ι] in
 theorem map_eq_of_forall_mem (e : (ι → K) ≃ₗ[K] (ι → K)) {U : Submodule K (ι → K)}
     (h : ∀ u ∈ U, e u ∈ U) : U.map (e : (ι → K) →ₗ[K] (ι → K)) = U := by
   apply Submodule.eq_of_le_of_finrank_eq
@@ -23,6 +24,7 @@ theorem map_eq_of_forall_mem (e : (ι → K) ≃ₗ[K] (ι → K)) {U : Submodul
     exact h u hu
   · exact LinearEquiv.finrank_map_eq e U
 
+omit [DecidableEq ι] in
 theorem symm_mem_of_forall_mem (e : (ι → K) ≃ₗ[K] (ι → K)) {U : Submodule K (ι → K)}
     (h : ∀ u ∈ U, e u ∈ U) {u : ι → K} (hu : u ∈ U) : e.symm u ∈ U := by
   rw [← map_eq_of_forall_mem e h] at hu
@@ -79,6 +81,7 @@ section Restrict
     rw [LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply] at h
     exact h.symm
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem mem_isomU {β : (ι → K) →ₗ[K] (ι → K) →ₛₗ[σ] K} {U : Submodule K (ι → K)}
     {g : U ≃ₗ[K] U} : g ∈ isomU β U ↔ ∀ x y : U, β (g x : ι → K) (g y : ι → K) = β x y :=
   Iff.rfl
@@ -108,13 +111,16 @@ variable {U W} (hUW : IsCompl U W)
   (Submodule.prodEquivOfIsCompl U W hUW).symm ≪≫ₗ
     ((g.prodCongr (LinearEquiv.refl K W)) ≪≫ₗ Submodule.prodEquivOfIsCompl U W hUW)
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem extU_apply_mem (g : U ≃ₗ[K] U) (u : U) : extU hUW g u = g u := by
-  simp [extU, Submodule.prodEquivOfIsCompl_symm_apply_left]
+  simp [extU]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem extU_apply_mem_right (g : U ≃ₗ[K] U) (w : W) : extU hUW g w = w := by
-  simp [extU, Submodule.prodEquivOfIsCompl_symm_apply_right]
+  simp [extU]
 
 omit [DecidableEq ι] in
+omit [Fintype ι] in
 theorem linearEquiv_ext_of_isCompl (hUW : IsCompl U W) {e e' : (ι → K) ≃ₗ[K] (ι → K)}
     (hU : ∀ u ∈ U, e u = e' u) (hW : ∀ w ∈ W, e w = e' w) : e = e' := by
   ext v
@@ -234,7 +240,7 @@ theorem transpose_mul_map_of_mem_isomGL_unitForm {g : GL ι K} (hg : g ∈ isomG
     by_cases hk : k = j
     · subst hk
       simp
-    · simp [Pi.single_apply, hk]
+    · simp [hk]
   rw [unitForm_apply, unitForm_apply, hσ, Matrix.mulVec_single_one, Matrix.mulVec_single_one,
     single_dotProduct, one_mul] at h
   rw [Matrix.mul_apply, Matrix.one_apply]
@@ -244,7 +250,7 @@ theorem transpose_mul_map_of_mem_isomGL_unitForm {g : GL ι K} (hg : g ∈ isomG
   by_cases hij : i = j
   · subst hij
     simp
-  · simp [Pi.single_apply, hij, Ne.symm hij]
+  · simp [hij]
 
 theorem map_transpose_mul_of_mem_isomGL_unitForm {g : GL ι K} (hg : g ∈ isomGL (unitForm σ)) :
     ((g : Matrix ι ι K).map σ)ᵀ * (g : Matrix ι ι K) = 1 := by
@@ -271,7 +277,7 @@ theorem transpose_mul_mul_of_mem_isomGL_toBilin' {J : Matrix ι ι K} {g : GL ι
 theorem blkI_le_statedSp {r : ℕ}
     (U W : Submodule K (Fin r ⊕ Fin r → K)) :
     blkI (Matrix.toBilin' (Matrix.fromBlocks 0 1 (-1) 0 :
-      Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K)) U W ≤ CFSG.Open.StatedSp r K := fun g hg =>
+      Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) K)) U W ≤ CFSG.Open.StatedSp r K := fun _g hg =>
   Subgroup.subset_closure (transpose_mul_mul_of_mem_isomGL_toBilin' (blkI_le_isomGL _ U W hg))
 
 theorem quad_mulVec_of_mem_isomGL_polar {d : ℕ} (h2 : (2 : K) ≠ 0)

@@ -107,7 +107,7 @@ theorem not_ree_branch {G : Type} [Group G] [Finite G]
   have hSX : ∀ s : G, s ∈ (S : Subgroup G) → s ∈ centralizer ({z} : Set G) := fun s hs => by
     rw [mem_centralizer_singleton_iff]
     exact hSz s hs
-  have hS2 : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hS2 : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   have hord : ∀ s : G, s ∈ (S : Subgroup G) → ∃ n : ℕ, s ^ (2 ^ n) = 1 := fun s hs => by
     obtain ⟨n, hn⟩ := hS2 ⟨s, hs⟩
     exact ⟨n, congrArg Subtype.val hn⟩

@@ -57,8 +57,8 @@ theorem sift2_of_fields {n w i : Nat} {LR TR TRI : Nat → Nat} {BP G k1 k2 : Na
   have hw0 : 0 < w := PF.w_pos hw
   simp only [siftK_succ, siftK_zero, strictB_eq, bIf_eq, Nat.blt_eq, Nat.add_eq,
     Nat.succ_eq_add_one]
-  rw [e1, if_pos hk1, PF.pg_pcomp hn hb2, e2, if_pos hk2]
-  simp only [hsz, Bool.true_and, ↓reduceIte, Nat.beq_eq]
+  rw [e1, ite_eq_left hk1, PF.pg_pcomp hn hb2, e2, ite_eq_left hk2]
+  simp only [hsz, ↓reduceIte, Nat.beq_eq]
   refine PF.eq_of_fields hw0 (PF.pcomp_shr _ _ hn hw0) (PF.pidn_shr hn24 hw) (fun x hx => ?_)
   rw [PF.pg_pcomp hn hx, PF.pg_pcomp hn hx, PF.pg_pidn hn24 hw hx, hE x hx]
   obtain ⟨-, -, f1⟩ := permOK_facts hp1
@@ -113,7 +113,7 @@ theorem schK_of_t3K {n w kS BP i D : Nat} {S SI LR TR TRI U : Nat → Nat}
   unfold invTabK at hinv
   simp only [strictB_eq] at hinv
   generalize Nat.shiftRight (stCnt T) (nat_lit 1) = q at hinv hF
-  simp only [bAnd_iff, Nat.beq_eq, allN_iff, Nat.blt_eq, Nat.add_eq, strictB_eq] at hinv
+  simp only [bAnd_iff, Nat.beq_eq, allN_iff, Nat.blt_eq, Nat.add_eq] at hinv
   obtain ⟨hr, hq⟩ := hinv
   unfold utabF at hU
   simp only [strictB_eq, allN_iff, Nat.beq_eq, Nat.add_eq, Nat.mul_eq, Nat.succ_eq_add_one] at hU
@@ -133,7 +133,7 @@ theorem schK_of_t3K {n w kS BP i D : Nat} {S SI LR TR TRI U : Nat → Nat}
   intro j hj
   by_cases hjq : j < q
   · obtain ⟨hk, hk1, hk2, hE⟩ := t3K_facts (hF _ hc j hjq) rfl rfl rfl rfl rfl
-    rw [if_pos hk]
+    rw [ite_eq_left hk]
     refine sift2_of_fields hsz hb2' (by rw [PF.pg_pcomp hn hb1', PF.pg_pcomp hn hb1']) hk1
       (by rw [PF.pg_pcomp hn hb2', PF.pg_pcomp hn hb2']) hk2 (hp1 _ hk1) (hp2 _ hk2)
       (fun x hx => ?_)
@@ -146,16 +146,16 @@ theorem schK_of_t3K {n w kS BP i D : Nat} {S SI LR TR TRI U : Nat → Nat}
     obtain ⟨hL, hLj⟩ := hq j' hj'
     have hsf : letterK S SI kS (stAt T j') = S (stAt T j') := by
       simp only [letterK, nIf_eq, Nat.blt_eq]
-      rw [if_pos hL]
+      rw [ite_eq_left hL]
     have hsj : letterK S SI kS (stAt T (q + j')) = SI (stAt T j') := by
       simp only [letterK, nIf_eq, Nat.blt_eq]
-      rw [hLj, if_neg (by omega), Nat.sub_eq, Nat.add_sub_cancel_left]
+      rw [hLj, ite_eq_right (by omega), Nat.sub_eq, Nat.add_sub_cancel_left]
     have hpL := hpS _ hL
     have hpt := hR.pt _ hc
     have hz := (permOK_right hpL _ hpt.1).1
     have hk := (hR.closed _ hc _ hj).1
     simp only [hsj] at hk
-    rw [hsj, if_pos hk]
+    rw [hsj, ite_eq_left hk]
     have hpk := hR.pos _ hz hk
     obtain ⟨k1, k2, hk1, hk2, hE⟩ : ∃ k1 k2, k1 < rcnt (LR (i + 1)) ∧ k2 < rcnt (LR (i + 1 + 1)) ∧
         pcomp n w (mask w) (S (stAt T j')) (TR (roff n (n * w) (LR i) +
@@ -200,7 +200,7 @@ theorem t3K_of_sch3F {n w kS BP i T D NSi CH : Nat} {S SI LR TR TRI U : Nat → 
     rw [Nat.mul_comm] at this
     exact this
   simp only [e, bIf_eq] at h1
-  rw [if_pos (Nat.blt_eq.mpr hhc)] at h1
+  rw [ite_eq_left (Nat.blt_eq.mpr hhc)] at h1
   exact allN_iff.1 h1 j hj
 
 theorem schK_of_sch3FL {n w kS kO BP i D NSi CH : Nat} {S SI LR TR TRI U : Nat → Nat}

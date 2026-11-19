@@ -16,11 +16,13 @@ open scoped Matrix
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem zetaBFrame_norm_eq (fr : NFrame Q (Fin 6) 1) (x : V) :
     Q x = fr.b.repr x ⬝ᵥ fr.b.repr x := by
   rw [fr.map_eq, one_mul, dotProduct]
   exact Finset.sum_congr rfl fun i _ => by ring
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem zetaBFrame_polar_eq (fr : NFrame Q (Fin 6) 1) (x y : V) :
     QuadraticMap.polar Q x y = 2 * (fr.b.repr x ⬝ᵥ fr.b.repr y) := by
   have key : ∀ i : Fin 6, (fr.b.repr (x + y)) i ^ 2 - (fr.b.repr x) i ^ 2 -
@@ -51,12 +53,14 @@ private theorem zetaBFrame_polar_eq (fr : NFrame Q (Fin 6) 1) (x y : V) :
     _ = 2 * (fr.b.repr x ⬝ᵥ fr.b.repr y) := by
         rw [dotProduct, Finset.mul_sum]
 
-private theorem zetaBFrame_polar_invariant (fr : NFrame Q (Fin 6) 1) (g : OGroup Q) (x y : V) :
+omit [FiniteDimensional (ZMod 3) V] in
+private theorem zetaBFrame_polar_invariant (_fr : NFrame Q (Fin 6) 1) (g : OGroup Q) (x y : V) :
     QuadraticMap.polar Q ((g : V ≃ₗ[ZMod 3] V) x) ((g : V ≃ₗ[ZMod 3] V) y) =
       QuadraticMap.polar Q x y := by
   rw [QuadraticMap.polar, QuadraticMap.polar, ← map_add (g : V ≃ₗ[ZMod 3] V)]
   simp only [QuadraticMap.map_app_of_mem_orthogonalGroup g.2]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem zetaBFrame_dotProduct_invariant (fr : NFrame Q (Fin 6) 1) (g : OGroup Q)
     (x y : V) :
     fr.b.repr ((g : V ≃ₗ[ZMod 3] V) x) ⬝ᵥ fr.b.repr ((g : V ≃ₗ[ZMod 3] V) y) =
@@ -68,21 +72,23 @@ private theorem zetaBFrame_dotProduct_invariant (fr : NFrame Q (Fin 6) 1) (g : O
       zetaBFrame_polar_invariant fr g x y, zetaBFrame_polar_eq fr x y]
   exact mul_left_cancel₀ (by decide : (2 : ZMod 3) ≠ 0) h1
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem zetaBFrame_basis_dotProduct (fr : NFrame Q (Fin 6) 1) (i j : Fin 6) :
     fr.b.repr (fr.b i) ⬝ᵥ fr.b.repr (fr.b j) =
       (1 : Matrix (Fin 6) (Fin 6) (ZMod 3)) i j := by
   rw [dotProduct]
   simp only [Module.Basis.repr_self_apply]
   rw [Finset.sum_eq_single i]
-  · rw [if_pos rfl, one_mul, Matrix.one_apply]
+  · rw [ite_eq_left rfl, one_mul, Matrix.one_apply]
     by_cases h : i = j
-    · rw [if_pos h.symm, if_pos h]
-    · rw [if_neg (Ne.symm h), if_neg h]
+    · rw [ite_eq_left h.symm, ite_eq_left h]
+    · rw [ite_eq_right (Ne.symm h), ite_eq_right h]
   · intro k _ hki
-    rw [if_neg (Ne.symm hki), zero_mul]
+    rw [ite_eq_right (Ne.symm hki), zero_mul]
   · intro hi
     exact absurd (Finset.mem_univ i) hi
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem zetaBFrame_mul_transpose (fr : NFrame Q (Fin 6) 1) (g : OGroup Q) :
     LinearMap.toMatrix fr.b fr.b (g : V →ₗ[ZMod 3] V) *
       (LinearMap.toMatrix fr.b fr.b (g : V →ₗ[ZMod 3] V))ᵀ = 1 := by
@@ -103,6 +109,7 @@ private theorem zetaBFrame_inv_eq_self_all : ∀ q : ZMod 3, q ≠ 0 → q⁻¹ 
 private theorem zetaBFrame_inv_eq_self (q : ZMod 3) (hq : q ≠ 0) : q⁻¹ = q :=
   zetaBFrame_inv_eq_self_all q hq
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem zetaBFrame_reflection_toMatrix (fr : NFrame Q (Fin 6) 1) {v : Fin 6 → ZMod 3}
     {vv : V} (hvv : fr.b.repr vv = v) [Invertible (Q vv)] :
     LinearMap.toMatrix fr.b fr.b
@@ -136,12 +143,12 @@ private theorem zetaBFrame_reflection_toMatrix (fr : NFrame Q (Fin 6) 1) {v : Fi
   rw [zRefl, Matrix.sub_apply, Matrix.one_apply, Matrix.smul_apply, Matrix.vecMulVec_apply]
   rw [zetaBFrame_inv_eq_self (v ⬝ᵥ v) hqne]
   by_cases h : i = j
-  · rw [if_pos h.symm, if_pos h]
+  · rw [ite_eq_left h.symm, ite_eq_left h]
     simp only [smul_eq_mul]
-    ring <;> rfl
-  · rw [if_neg (Ne.symm h), if_neg h]
+    ring
+  · rw [ite_eq_right (Ne.symm h), ite_eq_right h]
     simp only [smul_eq_mul]
-    ring <;> rfl
+    ring
 
 theorem zetaFrameHom_holds : ZetaFrameHom := by
   intro V _ _ _ Q hQ hdim hsgn
@@ -177,7 +184,7 @@ theorem zetaFrameHom_holds : ZetaFrameHom := by
     have hQvv : Q vv = v ⬝ᵥ v := by
       rw [zetaBFrame_norm_eq fr vv, hvv]
     have hQne : Q vv ≠ 0 := by rw [hQvv]; exact hv
-    letI : Invertible (Q vv) := invertibleOfNonzero hQne
+    let : Invertible (Q vv) := invertibleOfNonzero hQne
     refine ⟨TauCeti.QuadraticMap.reflectionOrthogonal Q vv, ?_, ?_⟩
     · change LinearMap.toMatrix fr.b fr.b
         ((TauCeti.QuadraticMap.reflectionOrthogonal Q vv : OGroup Q) : V →ₗ[ZMod 3] V) =

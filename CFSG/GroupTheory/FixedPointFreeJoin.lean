@@ -386,14 +386,14 @@ private lemma fixedPointFree_quotient {G : Type*} [Group G] [Finite G]
     ∀ x ∈ E, k * x * k⁻¹ * x⁻¹ ∈ V → x ∈ V := by
   have hEZ : E ≤ Subgroup.normalizer (Z : Set G) :=
     le_normalizer_of_commutator_self hZE hEE
-  letI : (Z.subgroupOf E).Normal :=
+  let : (Z.subgroupOf E).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hZE).mpr hEZ
   let Q := E ⧸ Z.subgroupOf E
   have hcommE : _root_.commutator E ≤ Z.subgroupOf E := by
     rw [commutator_def, Subgroup.commutator_le]
     intro x _ y _
     exact hEE (Subgroup.commutator_mem_commutator x.2 y.2)
-  letI : IsMulCommutative Q :=
+  let : IsMulCommutative Q :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le).mpr hcommE
   let c : Q →* Q := conjCommutatorHom hkE hkZ
   let P : Subgroup Q := (V.subgroupOf E).map (QuotientGroup.mk' (Z.subgroupOf E))
@@ -583,14 +583,14 @@ private lemma fixedPointFree_iSup {G : Type*} [Group G] [Finite G] {B V : Subgro
     ∀ x ∈ B, d * x * d⁻¹ * x⁻¹ ∈ V → x ∈ V := by
   have hBVnorm : B ≤ Subgroup.normalizer (V : Set G) :=
     le_normalizer_of_commutator_self hVB hBB
-  letI : (V.subgroupOf B).Normal :=
+  let : (V.subgroupOf B).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hVB).mpr hBVnorm
   let Q := B ⧸ V.subgroupOf B
   have hcommB : _root_.commutator B ≤ V.subgroupOf B := by
     rw [commutator_def, Subgroup.commutator_le]
     intro x _ y _
     exact hBB (Subgroup.commutator_mem_commutator x.2 y.2)
-  letI : IsMulCommutative Q :=
+  let : IsMulCommutative Q :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le).mpr hcommB
   have hdB : d ∈ Subgroup.normalizer (B : Set G) := by
     rw [Subgroup.mem_normalizer_iff_map_conj_eq, hB, iSup_subtype']
@@ -873,14 +873,14 @@ theorem inv_mul_mem_of_s3 {G : Type*} [Group G] {E Z : Subgroup G} {u v : G}
     ∀ x ∈ E, x⁻¹ * (⁅u, ⁅v, x⁆⁆ * ⁅v, ⁅u, x⁆⁆) ∈ Z := by
   have hEZ : E ≤ Subgroup.normalizer (Z : Set G) :=
     le_normalizer_of_commutator_self hZE hEE
-  letI : (Z.subgroupOf E).Normal :=
+  let : (Z.subgroupOf E).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hZE).mpr hEZ
   let Q := E ⧸ Z.subgroupOf E
   have hcommE : _root_.commutator E ≤ Z.subgroupOf E := by
     rw [commutator_def, Subgroup.commutator_le]
     intro x _ y _
     exact hEE (Subgroup.commutator_mem_commutator x.2 y.2)
-  letI : IsMulCommutative Q :=
+  let : IsMulCommutative Q :=
     (Subgroup.Normal.quotient_commutative_iff_commutator_le).mpr hcommE
   have huE : u ∈ Subgroup.normalizer (E : Set G) := hu.1
   have huZ : u ∈ Subgroup.normalizer (Z : Set G) := hu.2

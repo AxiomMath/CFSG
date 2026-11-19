@@ -35,7 +35,7 @@ theorem map_map_higherElemThompson_eq_jG {S H : Subgroup G} (hSH : S ≤ H) (i :
 theorem le_normalizer_jOf_of_normal {S H : Subgroup G} (hSH : S ≤ H)
     (hN : ((CFSG.higherElemThompson ↥(S.subgroupOf H) 0).map (S.subgroupOf H).subtype).Normal) :
     H ≤ Subgroup.normalizer (jOf S : Set G) := by
-  haveI := hN
+  have := hN
   have h := CFSG.ABGLocalTools.le_normalizer_map_subtype H
     ((CFSG.higherElemThompson ↥(S.subgroupOf H) 0).map (S.subgroupOf H).subtype)
   rw [map_map_higherElemThompson_eq_jG hSH 0, ← Sec18.Item187Proof.jOf_eq_jG_zero] at h
@@ -45,7 +45,7 @@ theorem le_normalizer_omegaOneZ_jOneOf_of_normal {S H : Subgroup G} (hSH : S ≤
     (hm : 2 ≤ CFSG.pRank 2 ↥S)
     (hN : ((CFSG.higherElemThompson ↥(S.subgroupOf H) 1).map (S.subgroupOf H).subtype).Normal) :
     H ≤ Subgroup.normalizer (omegaOneZ (jOneOf S) : Set G) := by
-  haveI := hN
+  have := hN
   have h := CFSG.ABGLocalTools.le_normalizer_map_subtype H
     ((CFSG.higherElemThompson ↥(S.subgroupOf H) 1).map (S.subgroupOf H).subtype)
   rw [map_map_higherElemThompson_eq_jG hSH 1, ← Sec18.Item187Proof.jOneOf_eq_jG_one hm] at h
@@ -53,6 +53,7 @@ theorem le_normalizer_omegaOneZ_jOneOf_of_normal {S H : Subgroup G} (hSH : S ≤
   exact Sec7.mem_normalizer_of_conj_mem (fun z hz => Sec7.conj_mem_omegaOneZ (h hx) hz)
     (fun z hz => by simpa using Sec7.conj_mem_omegaOneZ (h (H.inv_mem hx)) hz)
 
+omit [Finite G] in
 theorem omegaOneZ_le_centralizer_of_le_center {S H Y : Subgroup G} (hSH : S ≤ H) (hYH : Y ≤ H)
     (hz : (CFSG.omegaOneCenter (⊤ : Subgroup ↥(S.subgroupOf H))).map (S.subgroupOf H).subtype ≤
       Subgroup.center ↥H) :
@@ -79,7 +80,7 @@ theorem omegaOneZ_le_centralizer_of_le_center {S H Y : Subgroup G} (hSH : S ≤ 
 theorem two_le_pRank_of_not_le_centralizer {S Y : Subgroup G}
     (hch : CFSG.QuasithinUnique.CharTwo (Y ⊔ S)) (hQS : CFSG.Open.pCoreOf 2 (Y ⊔ S) ≤ S)
     (hZ : ¬ omegaOneZ S ≤ Subgroup.centralizer (Y : Set G)) : 2 ≤ CFSG.pRank 2 ↥S := by
-  obtain ⟨z, hz, hzY⟩ := SetLike.not_le_iff_exists.mp hZ
+  obtain ⟨z, hz, hzY⟩ := IsConcreteLE.not_le_iff_exists.mp hZ
   rw [Sec18.Item187Proof.omegaOneZ_eq_omegaG, Sec3.mem_omegaG] at hz
   obtain ⟨hzS, hzc, hz2⟩ := hz
   have hzH : z ∈ Y ⊔ S := (le_sup_right : S ≤ Y ⊔ S) hzS

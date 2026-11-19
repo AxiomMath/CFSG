@@ -21,7 +21,7 @@ theorem pairedSympForm_symm_zmod_two (x y : Fin r ⊕ Fin r → ZMod 2) :
   simp only [map_add, LinearMap.add_apply, pairedSympForm_self] at h
   rcases zmod_two_cases (pairedSympForm (ZMod 2) r x y) with h1 | h1 <;>
     rcases zmod_two_cases (pairedSympForm (ZMod 2) r y x) with h2 | h2 <;>
-    rw [h1, h2] at h ⊢ <;> first | rfl | exact absurd h (by decide)
+    rw [h1, h2] at h ⊢ <;> (exact absurd h (by decide))
 
 @[expose] def tMat (a : Fin r ⊕ Fin r → ZMod 2) :
     Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) (ZMod 2) :=

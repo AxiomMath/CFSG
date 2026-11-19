@@ -228,11 +228,11 @@ theorem exists_nativeSetup {A : SL2 L}
       (∀ γ, IsRoot Tag.E6 γ → S.ρ γ = e6NativeW γ) ∧
       S.Γ = (nativeIota L).range.map (MulAut.conj (nativeCas A)⁻¹).toMonoidHom := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK4 : Nat.card (GaloisField 2 2) = 4 := by
-    rw [GaloisField.card 2 2 (by norm_num)] <;> norm_num
+    rw [GaloisField.card 2 2 (by norm_num)]; norm_num
   have hFr : ∀ c, iterateFrobenius L 2 2 c = c ^ Nat.card (GaloisField 2 2) := fun c => by
-    rw [hK4, iterateFrobenius_def] <;> norm_num
+    rw [hK4, iterateFrobenius_def]; norm_num
   have hperf : Group.IsPerfect ↥(adjointGroup Tag.E6 (GaloisField 2 2)) :=
     (CFSG.LieType.Simplicity.isQuasisimple_adjointGroup_e6 _).1
   have hg0 := entrywiseFrobGL_nativeCas_eq (Ω := L) 2 hA
@@ -248,6 +248,7 @@ theorem exists_nativeSetup {A : SL2 L}
   · show S.D.Γ = _
     rw [hd.Γ_eq, hg]
 
+omit [CharP L 2] [IsAlgClosure (GaloisField 2 2) L] in
 theorem nativeTorus_mem (S : LangSetup Tag.E6 L 5) {A : SL2 L}
     (hΓ : S.Γ = (nativeIota L).range.map (MulAut.conj (nativeCas A)⁻¹).toMonoidHom)
     (y : ↥(adjointGroup Tag.E6 (GaloisField 2 2))) {b : Fin Tag.E6.rank → Lˣ}

@@ -79,7 +79,7 @@ theorem tcCoverOK_sound (hp : p.Prime) {L : List (Array ℤ)} {gens : Array (Lis
     {d : Fin τ.rank → ZMod p} (hd : d ≠ 0) :
     ∃ s ∈ Submodule.span (ZMod p) {f | ∃ g ∈ basis, f = tcVec p τ.rank g}, s ≠ 0 ∧
       ∃ u : WeylGroup τ, cowAct u s = d := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨w, μ, hw, hμ⟩ :=
     (kacOf τ).exists_normal p hp.pos (fun i => (((d i).val : ℕ) : ℤ))
   have h1 : cowAct w⁻¹ (modP p μ) = d := by

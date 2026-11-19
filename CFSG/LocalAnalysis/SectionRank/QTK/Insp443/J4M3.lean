@@ -46,7 +46,7 @@ theorem M3_le_normalizer_Q : M3 ≤ Subgroup.normalizer (Qg : Set J) :=
 
 theorem Q_le_and_eq_V0 {L V : Subgroup J} (hLM : L ≤ M3)
     (hML : M3 ≤ Subgroup.normalizer (L : Set J)) (hper : ⁅L, L⁆ = L)
-    (hVO : V ≤ pCoreOf 2 L) (hOC : pCoreOf 2 L ≤ Subgroup.centralizer (V : Set J))
+    (_hVO : V ≤ pCoreOf 2 L) (hOC : pCoreOf 2 L ≤ Subgroup.centralizer (V : Set J))
     (hLV : L ≤ Subgroup.normalizer (V : Set J)) (hVc : V = ⁅V, L⁆) (hVne : V ≠ ⊥) :
     Qg ≤ L ∧ V = V0 ∧ (θ₂.comp (Subgroup.inclusion hLM)).range = ⊤ := by
   have : Group.IsPerfect ↥L := ⟨commutator_eq_top_of_perfect hper⟩

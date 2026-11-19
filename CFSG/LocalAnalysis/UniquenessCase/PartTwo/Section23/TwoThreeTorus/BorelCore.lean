@@ -42,7 +42,7 @@ theorem not_le_stabSub_fixV {U : Type} [CommGroup U] {H S : Subgroup (MulAut U)}
     have h2 := Subgroup.map_subgroupOf_eq_of_le hSH
     rw [h1, Subgroup.map_bot] at h2
     exact h2.symm
-  haveI : F.Normal := hFnormal
+  have : F.Normal := hFnormal
   rcases Subgroup.Normal.eq_bot_or_eq_top F with hb | ht
   · exact hFne hb
   · have hle : ℓ ≤ fixV H := by

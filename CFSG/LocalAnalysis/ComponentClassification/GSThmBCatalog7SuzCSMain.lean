@@ -192,7 +192,7 @@ theorem centerSylowSuz :
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hS⟩ := hRS
   have hR2 : IsPGroup 2 R := by
-    have h := S.isPGroup'
+    have h := S.isPGroup
     rw [hS] at h
     exact h.of_equiv (Subgroup.subgroupOfEquivOfLe hRN)
   have hRM' : R.map κ ≤ suzM := by

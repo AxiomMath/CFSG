@@ -113,26 +113,25 @@ def s16k_plusD (i j : Fin m) : Fin m ⊕ Fin m → K :=
 
 theorem s16k_Q_plusD {i j : Fin m} (hij : i ≠ j) :
     StatedQuadPlus m K (s16k_plusD (K := K) i j) = 1 := by
-  simp [CFSG.Open.StatedQuadPlus, s16k_plusD, Pi.single_apply, hij, hij.symm]
+  simp [CFSG.Open.StatedQuadPlus, s16k_plusD, Pi.single_apply, hij]
 
 theorem s16k_B_plusD {i j : Fin m} (hij : i ≠ j) :
     plusA j ⬝ᵥ (plusM m K *ᵥ s16k_plusD (K := K) i j) = 1 := by
   unfold plusA
   rw [add_dotProduct, s16k_single_inl_dot, s16k_single_inr_dot]
-  simp [s16k_plusD, Pi.single_apply, hij, hij.symm]
+  simp [s16k_plusD, hij.symm]
 
 theorem s16k_dot_plusA_plusA [CharP K 2] {i j : Fin m} (hij : i ≠ j) :
     plusA i ⬝ᵥ (plusM m K *ᵥ plusA j) = 0 := by
   unfold plusA
   rw [add_dotProduct, s16k_single_inl_dot, s16k_single_inr_dot]
-  simp [plusA, Pi.single_apply, hij, hij.symm]
-  try linear_combination two_eq_zero_K (K := K)
+  simp [hij]
 
 theorem s16k_dot_plusA_plusD [CharP K 2] {i j : Fin m} (hij : i ≠ j) :
     plusA i ⬝ᵥ (plusM m K *ᵥ s16k_plusD (K := K) i j) = 0 := by
   unfold plusA
   rw [add_dotProduct, s16k_single_inl_dot, s16k_single_inr_dot]
-  simp [s16k_plusD, Pi.single_apply, hij, hij.symm]
+  simp [s16k_plusD, hij]
   try linear_combination two_eq_zero_K (K := K)
 
 theorem s16k_dot_plusB_plusA [CharP K 2] {i j : Fin m} (hij : i ≠ j) :
@@ -140,7 +139,7 @@ theorem s16k_dot_plusB_plusA [CharP K 2] {i j : Fin m} (hij : i ≠ j) :
   unfold plusB plusA
   rw [add_dotProduct, add_dotProduct, s16k_single_inl_dot, s16k_single_inl_dot,
     s16k_single_inr_dot]
-  simp [Pi.single_apply, hij, hij.symm]
+  simp [hij]
   try linear_combination two_eq_zero_K (K := K)
 
 theorem s16k_dot_plusB_plusD [CharP K 2] {i j : Fin m} (hij : i ≠ j) :
@@ -148,7 +147,7 @@ theorem s16k_dot_plusB_plusD [CharP K 2] {i j : Fin m} (hij : i ≠ j) :
   unfold plusB
   rw [add_dotProduct, add_dotProduct, s16k_single_inl_dot, s16k_single_inl_dot,
     s16k_single_inr_dot]
-  simp [s16k_plusD, Pi.single_apply, hij, hij.symm]
+  simp [s16k_plusD, hij.symm]
   try linear_combination two_eq_zero_K (K := K)
 
 theorem s16k_plusD_apply_eq_zero {i j : Fin m} {r : Fin m ⊕ Fin m}

@@ -147,7 +147,7 @@ theorem pairSylow_full_pair_family_of_maximal_invariant
     two_le_pointFixedSet_card_of_pair H QG (rightCosetMk H 1) beta (Ne.symm hbeta)
       ((mem_pointFixedSet_iff H QG _).mpr ((Subgroup.map_subtype_le _).trans inf_le_left))
       ((mem_pointFixedSet_iff H QG _).mpr ((Subgroup.map_subtype_le _).trans inf_le_right))
-  have hQeq : QG = P := hmax _ (Q.isPGroup'.map B.subtype) hPQG hQtwo
+  have hQeq : QG = P := hmax _ (Q.isPGroup.map B.subtype) hPQG hQtwo
   refine ⟨beta, hbeta, Q, ?_⟩
   change QG ≤ triplePointStabilizer H z beta
   rw [hQeq]

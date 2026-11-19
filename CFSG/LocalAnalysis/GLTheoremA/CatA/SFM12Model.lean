@@ -13,7 +13,7 @@ open CFSG.Open CFSG.LocalAnalysis.GLTheoremA.Y10F
 
 theorem charP_two_of_card {F : Type} [Field F] [Finite F] (h : Nat.card F = (2 ^ 2) ^ 2) :
     CharP F 2 := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨p, hp, n, hpr, hcard⟩ := FiniteField.card' F
   have h16 : Fintype.card F = 16 := by
     rw [← Nat.card_eq_fintype_card, h]
@@ -64,7 +64,7 @@ theorem U6Mem_of_unitaryDiag (hR : UnitaryDiagFact) : U6Mem := by
     all_goals omega
   obtain ⟨-, F, hFi, hFf, hF, ⟨e⟩⟩ := hsc6
   have hF' : Nat.card F = (2 ^ 2) ^ 2 := hF
-  haveI : CharP F 2 := charP_two_of_card hF'
+  have : CharP F 2 := charP_two_of_card hF'
   have hscal : (CFSG.Open.StatedScalars (Fin 6) F).subgroupOf (CFSG.Open.StatedSU 6 (2 ^ 2) F) = ⊥ := by
     rw [eq_bot_iff]
     intro x hx

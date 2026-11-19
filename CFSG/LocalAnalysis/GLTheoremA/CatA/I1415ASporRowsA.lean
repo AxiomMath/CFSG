@@ -26,7 +26,7 @@ theorem acompOK_of_lines {n p : ℕ} (hp : p.Prime) {P Q : Subgroup (Equiv.Perm 
     (hmem : ∀ j, line j ∈ P)
     (hline : ∀ j, ACompOK p (⟨line j, hmem j⟩ : ↥P)) :
     ∀ k : ↥P, orderOf k = p → ACompOK p k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro k hk
   have hko : orderOf (k : Equiv.Perm (Fin n)) = p := by rw [Subgroup.orderOf_coe]; exact hk
   obtain ⟨g, hgP, hgQ⟩ :=
@@ -55,7 +55,7 @@ theorem acompOK_of_pgroup_record (hp : p.Prime) (hPR : P ≤ R) {x : Equiv.Perm 
     (hAn : (A.subgroupOf C).Normal) (hAP : A ≤ P) (hAp : IsPGroup p ↥A)
     (hAc : Subgroup.centralizer (A : Set (Equiv.Perm (Fin n))) ⊓ C ≤ A) :
     ACompOK p (⟨x, hxP⟩ : ↥P) := by
-  haveI : Finite ↥P := inferInstance
+  have : Finite ↥P := inferInstance
   refine acompOK_of_shapeRkAt (Good := fun _ _ => False) (Rk := fun _ _ => True) hp
     (Or.inl ?_) fun _ _ h => h.elim
   refine CFSG.HardMathSupport.Dickson.I271.pConstrainedShape_of_map_injective P.subtype
@@ -79,12 +79,12 @@ theorem acompOK_of_derived_record (hp : p.Prime) (hPR : P ≤ R) {x : Equiv.Perm
     (hxo : orderOf x = p)
     (hcore : GLAPPrimeCoreOf p (Subgroup.centralizer ({x} : Set (Equiv.Perm (Fin n))) ⊓ P) = ⊥)
     (hpD : p ∣ Nat.card ↥D) (hT : ATypeOK p ↥D) : ACompOK p (⟨x, hxP⟩ : ↥P) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set k : ↥P := ⟨x, hxP⟩ with hk
   set Cq : Subgroup ↥P := Subgroup.centralizer ({k} : Set ↥P) with hCq
   set L : Subgroup ↥P := D.subgroupOf P with hL
   let eL : ↥L ≃* ↥D := Subgroup.subgroupOfEquivOfLe hDP
-  haveI hLs : IsSimpleGroup ↥L := (MulEquiv.isSimpleGroup_congr eL).2 hDs
+  have hLs : IsSimpleGroup ↥L := (MulEquiv.isSimpleGroup_congr eL).2 hDs
   have hLnab : ∃ a b : ↥L, a * b ≠ b * a := by
     obtain ⟨g, hg, h, hh, hgh⟩ := hDnab
     refine ⟨eL.symm ⟨g, hg⟩, eL.symm ⟨h, hh⟩, fun he => hgh ?_⟩
@@ -192,7 +192,7 @@ theorem acompOK_five_of_card_dvd_3000 {Q : Type} [Group Q]
     ACompOK 5 k := by
   intro I hI
   obtain ⟨hs, hnab⟩ := KDSpor.pSimple_simple_nonab Nat.prime_five hI
-  haveI := hs
+  have := hs
   have hd : Nat.card (PSimple 5 I) ∣ 3000 :=
     ((KDL227Rows.card_pSimple_dvd 5 I).trans (Subgroup.card_dvd_of_le hI.1)).trans hk
   obtain ⟨fA⟩ := CFSG.LargeExtraspecial.S12Tri.nonempty_mulEquiv_alternatingGroup_five_of_card_sixty
@@ -209,9 +209,9 @@ theorem arow_McL_three
     I1415Row .McL 3 := by
   have hc : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .McL) = 898128000 :=
     CFSG.Sporadic.McL.card_McL
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .McL) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .McL) :=
     Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .McL) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .McL) :=
     CFSG.Sporadic.McL.isSimpleGroup_McL
   have hsh := CFSG.HardMathSupport.Dickson.I271.mcl_constrainedShape_three
     CFSG.HardMathSupport.Timmesfeld.SporadicBalance.oPrimeCoreTrivialAt_McL
@@ -226,11 +226,11 @@ theorem arow_Ly_five
     I1415Row .Ly 5 := by
   have hc : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .Ly) = 51765179004000000 :=
     CFSG.Sporadic.Ly.card_Ly
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Ly) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Ly) :=
     CFSG.Sporadic.Ly.fam_ly_simplicity.1
-  haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Ly) :=
+  have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Ly) :=
     CFSG.Sporadic.Ly.fam_ly_simplicity.2.2
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   exact arow_of_centShape (Good := fun _ _ => False) hOut (hbr .Ly).some
     (CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hc]; norm_num))
     Nat.prime_five (by norm_num)
@@ -243,9 +243,9 @@ theorem arow_McL_five
     (hbr : CFSG.HardMathSupport.Timmesfeld.Tables.Census.SporadicBridges) :
     I1415Row .McL 5 := by
   have hc : Nat.card CFSG.Blueprint.NativeSporadic.McL = 898128000 := CFSG.Sporadic.McL.card_McL
-  haveI : Finite CFSG.Blueprint.NativeSporadic.McL :=
+  have : Finite CFSG.Blueprint.NativeSporadic.McL :=
     Nat.finite_of_card_ne_zero (by rw [hc]; norm_num)
-  haveI : IsSimpleGroup CFSG.Blueprint.NativeSporadic.McL := CFSG.Sporadic.McL.isSimpleGroup_McL
+  have : IsSimpleGroup CFSG.Blueprint.NativeSporadic.McL := CFSG.Sporadic.McL.isSimpleGroup_McL
   have b : CFSG.Blueprint.NativeSporadic.McL ≃* (TauCeti.CFSGIndex.sporadic .McL).Group :=
     (hbr .McL).some
   obtain ⟨x₁, x₂, -, -, c₁, c₂, -, hall⟩ :=
@@ -275,9 +275,9 @@ theorem arow_Th_five
   have hs : IsSimpleGroup ↥CFSG.Sporadic.Th.J :=
     CFSG.Sporadic.Th.Kernel.isSimpleGroup_J CFSG.Sporadic.Th.th_kernel_facts
   have hnc : ∃ a c : ↥CFSG.Sporadic.Th.J, a * c ≠ c * a := by
-    haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
+    have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
       Finite.of_equiv _ CFSG.Sporadic.Th.thEquivJ.symm.toEquiv
-    haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
+    have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
       CFSG.Sporadic.Th.Kernel.isSimpleGroup_Th
         CFSG.Sporadic.Th.th_kernel_facts
     have hcC : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .Th) = 90745943887872000 :=

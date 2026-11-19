@@ -446,7 +446,7 @@ theorem smallRee_commutator_le_pPrimeCore (ha : 1 ≤ a) (hK : Nat.card K = 3 ^ 
     have hTmcard : Nat.card Tm = Nat.card (T : Subgroup S) := by
       rw [Subgroup.card_map_of_injective B.subtype_injective,
         Subgroup.card_map_of_injective S.subtype_injective]
-    have hTm2 : IsPGroup 2 Tm := (T.isPGroup'.map S.subtype).map B.subtype
+    have hTm2 : IsPGroup 2 Tm := (T.isPGroup.map S.subtype).map B.subtype
     have hTminn : Tm ≤
         (MulAut.conj : ReeTag.G2.reeGamma K a →* MulAut (ReeTag.G2.reeGamma K a)).range :=
       fun y hy => by

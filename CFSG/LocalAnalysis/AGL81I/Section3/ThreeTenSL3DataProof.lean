@@ -21,7 +21,7 @@ theorem threeTenSL3Data_of_torusExclusion {I D P Y : Subgroup H} {p d : ℕ} [Fa
     ThreeTenSL3Data I D Y p d := by
   have hh : ThreeTenHyp I D P Y p d := hhyp
   obtain ⟨hp, _hp2, hd, hd2, hdp, _hI, hDsyl, hDne, _hPsyl, _hY, _hγ, _hN⟩ := hhyp
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   have hSL3 : IsSLType 3 (ZMod p) ↥I := ⟨e⟩
   have hDI : D ≤ I := d_le_I_of_threeTenHyp_of_isSLType hh e htor
   have hDpg : IsPGroup d D := hDsyl.isPGroup

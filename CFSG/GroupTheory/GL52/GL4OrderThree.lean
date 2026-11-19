@@ -73,7 +73,7 @@ theorem gl4EmbM_blk {g : M5} (hg : gl4Shape g) : gl4EmbM (gl4Blk g) = g := by
     have := congrFun h2 j
     rwa [single_one_vecMul, row_apply] at this
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [gl4EmbM, gl4Blk, c, r, Pi.single_apply]
+  fin_cases i <;> fin_cases j <;> simp [gl4EmbM, gl4Blk, c, r]
 
 theorem gl4Shape_inv {g : G52} (hg : gl4Shape (g : M5)) : gl4Shape ((g⁻¹ : G52) : M5) := by
   obtain ⟨h1, h2⟩ := hg

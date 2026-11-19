@@ -31,7 +31,7 @@ theorem ggK1D_exists_lift_plus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
     (hφp : φ ^ p = 1) :
     ∃ x : ↥(LargeEvenOmega (LargeEvenQPlus K r)),
       x ^ p = 1 ∧ MulAut.conj (LargeEvenProjMk (LargeEvenOmega (LargeEvenQPlus K r)) x) = φ := by
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   obtain ⟨p', hp'prime, hp'2, hp'dvd⟩ := ggK1Dl_odd_prime_dvd hnf
   have hZ : Subgroup.center (LargeEvenProj (LargeEvenOmega (LargeEvenQPlus K r))) = ⊥ :=
     ggK1D_centreless_plus (p := p') hp'prime hp'2 (Or.inr hp'dvd) hnf hK h2
@@ -84,7 +84,7 @@ theorem ggK1D_exists_lift_minus {p nf r : ℕ} {K : Type} [Field K] [Finite K]
     ∃ x : ↥(LargeEvenOmega (LargeEvenQMinus (r - 1) b c)),
       x ^ p = 1 ∧
         MulAut.conj (LargeEvenProjMk (LargeEvenOmega (LargeEvenQMinus (r - 1) b c)) x) = φ := by
-  haveI : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+  have : CharP K 2 := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
   obtain ⟨p', hp'prime, hp'2, hp'dvd⟩ := ggK1Dl_odd_prime_dvd hnf
   have hZ : Subgroup.center
       (LargeEvenProj (LargeEvenOmega (LargeEvenQMinus (r - 1) b c))) = ⊥ :=

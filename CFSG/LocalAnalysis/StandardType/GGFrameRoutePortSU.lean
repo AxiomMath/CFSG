@@ -147,7 +147,7 @@ private lemma frameRoutePortSU_e_zero (hk : 1 ≤ k) (hkn : k + 2 ≤ n)
   have hlast : (⟨0, by omega⟩ : Fin n) ≠ (⟨k + 1, by omega⟩ : Fin n) := by
     intro h
     have hval := congrArg Fin.val h
-    simp only [Fin.val_mk] at hval
+    simp only at hval
     omega
   rw [frameRoutePortSU_e_apply, frameRoutePortSU_A_apply, frameRoutePortSU_B_apply,
     frameRoutePortSU_C_apply]
@@ -169,12 +169,12 @@ private lemma frameRoutePortSU_e_one (hk : 1 ≤ k) (hkn : k + 2 ≤ n)
   have h0 : (⟨1, by omega⟩ : Fin n) ≠ (⟨0, by omega⟩ : Fin n) := by
     intro h
     have hval := congrArg Fin.val h
-    simp only [Fin.val_mk] at hval
+    simp only at hval
     omega
   have hlast : (⟨1, by omega⟩ : Fin n) ≠ (⟨k + 1, by omega⟩ : Fin n) := by
     intro h
     have hval := congrArg Fin.val h
-    simp only [Fin.val_mk] at hval
+    simp only at hval
     omega
   have hsel : frameRoutePortSU_shift hkn (⟨0, by omega⟩ : Fin k) =
       (⟨1, by omega⟩ : Fin n) := by
@@ -201,12 +201,12 @@ private lemma frameRoutePortSU_e_tail (hk : 1 ≤ k) (hkn : k + 2 ≤ n)
   have h0 : j ≠ (⟨0, by omega⟩ : Fin n) := by
     intro h
     have hval := congrArg Fin.val h
-    simp only [Fin.val_mk] at hval
+    simp only at hval
     omega
   have hlast : j ≠ (⟨k + 1, by omega⟩ : Fin n) := by
     intro h
     have hval := congrArg Fin.val h
-    simp only [Fin.val_mk] at hval
+    simp only at hval
     omega
   rw [frameRoutePortSU_e_apply, frameRoutePortSU_A_apply, frameRoutePortSU_B_apply,
     frameRoutePortSU_C_apply]
@@ -231,7 +231,7 @@ private noncomputable abbrev frameRoutePortSU_diag (hk : 1 ≤ k) (hkn : k + 2 �
     (u : Fin k → Kˣ) : Fin n → K :=
   fun j => (frameRoutePortSU_e hk hkn u j : K)
 
-private lemma frameRoutePortSU_det (h : UnitaryFieldData 2 1 K) (hk : 1 ≤ k)
+private lemma frameRoutePortSU_det (_h : UnitaryFieldData 2 1 K) (hk : 1 ≤ k)
     (hkn : k + 2 ≤ n) (u : Fin k → Kˣ) :
     ∏ j : Fin n, frameRoutePortSU_diag hk hkn u j = 1 := by
   have hA : frameRoutePortSU_prodHom n (frameRoutePortSU_A hk hkn u) =
@@ -319,13 +319,14 @@ private lemma frameRoutePortSU_diagonal_permMatrix_commute {σ : Equiv.Perm (Fin
   simp only [Matrix.submatrix_apply, id_eq, Matrix.diagonal_apply]
   by_cases h : σ i = j
   · have hs : i = σ.symm j := by rw [← h, Equiv.symm_apply_apply]
-    rw [if_pos hs, if_pos h, hσ i]
+    rw [ite_eq_left hs, ite_eq_left h, hσ i]
   · have hs : ¬ i = σ.symm j := by
       intro hi
       apply h
       rw [hi, Equiv.apply_symm_apply]
-    rw [if_neg hs, if_neg h]
+    rw [ite_eq_right hs, ite_eq_right h]
 
+omit [Field K] in
 private lemma frameRoutePortSU_comp_swap_eq {d : Fin n → K} {a b : Fin n} (h : d a = d b) :
     ∀ i, d (Equiv.swap a b i) = d i := by
   intro i
@@ -356,7 +357,7 @@ private lemma frameRoutePortSU_permSU_swap_not_center (h : UnitaryFieldData 2 1 
   have h00 := congrArg (fun w : GL (Fin n) K =>
     ((w : Matrix (Fin n) (Fin n) K) a a)) hcmat
   rw [coe_permSU, frameRoutePortSU_permMatrix_apply,
-    if_neg (by rw [Equiv.swap_apply_left]; exact hab.symm),
+    ite_eq_right (by rw [Equiv.swap_apply_left]; exact hab.symm),
     Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
     Matrix.diagonal_apply_eq] at h00
   exact Units.ne_zero c h00.symm
@@ -368,7 +369,7 @@ private lemma frameRoutePortSU_range_elemAbelian (h : UnitaryFieldData 2 1 K)
   have hιinj : Function.Injective (frameRoutePortSU_hom h hk hkn) :=
     frameRoutePortSU_hom_injective h hk hkn
   refine ⟨?_, ?_⟩
-  · haveI : IsMulCommutative (Fin k → Kˣ) :=
+  · have : IsMulCommutative (Fin k → Kˣ) :=
       IsMulCommutative.of_comm fun u v => funext fun i => mul_comm (u i) (v i)
     refine ⟨?_, ?_⟩
     · infer_instance
@@ -488,7 +489,7 @@ theorem rank3Witness_unitarySU_two {K : Type} [Field K] (h : UnitaryFieldData 2 
     have hab : a ≠ b := by
       intro hab
       have hval := congrArg Fin.val hab
-      simp only [a, b, Fin.val_mk] at hval
+      simp only [a, b] at hval
       omega
     simpa only [t, σ] using frameRoutePortSU_permSU_swap_not_center h a b hab
   have hcentral : (frameRoutePortSU_hom h hk hkn).range ≤

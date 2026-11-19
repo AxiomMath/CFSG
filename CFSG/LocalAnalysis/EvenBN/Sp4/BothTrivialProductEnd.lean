@@ -241,14 +241,17 @@ variable {G : Type} [Group G] [Finite G]
   QuotientGroup.congr (center X) (center X) (X.normalizerMonoidHom x)
     (characteristic_iff_map_eq.1 inferInstance _)
 
+omit [Finite G] in
 theorem quotientCenterConj_mk {X : Subgroup G} (x : normalizer (X : Set G)) (a : X) :
     quotientCenterConj x (a : X ⧸ center X) =
       ((X.normalizerMonoidHom x a : X) : X ⧸ center X) :=
   rfl
 
+omit [Finite G] in
 theorem normalizerMonoidHom_coe {X : Subgroup G} {x : G} (hxX : x ∈ normalizer (X : Set G))
     (a : X) : ((X.normalizerMonoidHom ⟨x, hxX⟩ a : X) : G) = x * a * x⁻¹ := rfl
 
+omit [Finite G] in
 theorem quotientCenterConj_mul_self {X : Subgroup G} {x : G} (hxX : x ∈ normalizer (X : Set G))
     (hx2 : x * x = 1) :
     quotientCenterConj (⟨x, hxX⟩ : normalizer (X : Set G)) *
@@ -335,7 +338,7 @@ theorem exists_exp_two_fixed_of_inner {n : ℕ} (hK : Nat.card K = 2 ^ n) {θ : 
     (hθ : θ * θ = 1) (hθi : θ ∈ inner (antiSp K)) :
     ∃ E : Subgroup (antiSp K), (∀ y ∈ E, θ y = y) ∧ (∀ y ∈ E, y * y = 1) ∧
       Nat.card E = 2 ^ (3 * n) := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨g, rfl⟩ := MonoidHom.mem_range.1 hθi
   have hgg : g * g = 1 := by
     apply CFSG.QuasithinUnique.Setup.X7b.conj_injective (K := K)
@@ -380,15 +383,18 @@ variable {G : Type} [Group G] [Finite G] {K : Type} [Field K] [CharP K 2] [Finit
     (hxX : x ∈ normalizer (X : Set G)) : MulAut (antiSp K) :=
   MulAut.congr ψ (quotientCenterConj (⟨x, hxX⟩ : normalizer (X : Set G)))
 
+omit [Finite G] [CharP K 2] [Finite K] in
 theorem actAut_apply {X : Subgroup G} (ψ : X ⧸ center X ≃* antiSp K) {x : G}
     (hxX : x ∈ normalizer (X : Set G)) (y : antiSp K) :
     actAut ψ hxX y =
       ψ (quotientCenterConj (⟨x, hxX⟩ : normalizer (X : Set G)) (ψ.symm y)) := rfl
 
+omit [CharP K 2] [Finite K] [Finite G] in
 theorem actAut_mul_self {X : Subgroup G} (ψ : X ⧸ center X ≃* antiSp K) {x : G}
     (hxX : x ∈ normalizer (X : Set G)) (hx2 : x * x = 1) : actAut ψ hxX * actAut ψ hxX = 1 := by
   rw [actAut, ← map_mul, quotientCenterConj_mul_self hxX hx2, map_one]
 
+omit [Finite G] [CharP K 2] [Finite K] in
 theorem actAut_mk {X : Subgroup G} (ψ : X ⧸ center X ≃* antiSp K) {x : G}
     (hxX : x ∈ normalizer (X : Set G)) (a : X) :
     actAut ψ hxX (ψ (a : X ⧸ center X)) =
@@ -529,7 +535,7 @@ theorem inner_or_outer {n : ℕ} (hn : 2 ≤ n)
       have hDeven : 2 ∣ Nat.card D := by
         rw [hDc]
         exact (even_iff_two_dvd.1 (hev.mul_left _))
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨e, he⟩ := exists_prime_orderOf_dvd_card' (G := D) 2 hDeven
       have he' : orderOf (e : G) = 2 := by rw [Subgroup.orderOf_coe, he]
       refine ⟨D, hDF.trans inf_le_left, hDF.trans inf_le_right, ?_, ⟨e, e.2, ?_, ?_⟩, hDc⟩
@@ -672,6 +678,7 @@ theorem false_of_two_covers (hS : Setup L K n φ (zpowers t) t)
       he₁1 he₁2
   · exact false_of_outer_outer hS hcomm hD₁X hD₁t hD₁p hD₁c hD₂X hD₂t hD₂p hD₂c
 
+omit [Finite G] [CharP K 2] [Finite K] in
 theorem exists_cover {X₀ X : Subgroup G} (e : X₀ ≃* X) (ψ₀ : X₀ ⧸ center X₀ ≃* antiSp K)
     (hZ : Odd (Nat.card (center X₀))) :
     Odd (Nat.card (center X)) ∧ Nonempty (X ⧸ center X ≃* antiSp K) := by
@@ -729,7 +736,7 @@ theorem false_of_swap [IsSimpleGroup G]
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hS.two_le
   obtain ⟨hsimple, x, y, hxy⟩ := CFSG.Quasithin.F7Two.isSimpleGroup_antiSp (K := K) hK4
-  haveI := hsimple
+  have := hsimple
   have hL : IsSimpleGroup L := φ.isSimpleGroup
   have hLab : ¬ ∀ x ∈ L, ∀ y ∈ L, x * y = y * x := by
     intro hc

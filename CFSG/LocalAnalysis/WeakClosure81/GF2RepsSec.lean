@@ -11,15 +11,16 @@ open CFSG.LocalAnalysis.UniquenessCase.PartTwo CFSG.Quasithin Subgroup
 
 variable {W : Type*} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem exists_hom_lift (hW : ∀ w : W, w ^ 2 = 1) (A T B' : Subgroup W) (h : A ≤ B' ⊔ T) :
     ∃ β : ↥A →* W, (∀ a : ↥A, β a ∈ T) ∧ ∀ a : ↥A, (a : W) * (β a)⁻¹ ∈ B' := by
   classical
-  letI : Module (ZMod 2) (Additive W) :=
+  let : Module (ZMod 2) (Additive W) :=
     AddCommGroup.zmodModule (n := 2) fun x => by
       apply Additive.toMul.injective
       rw [toMul_nsmul, toMul_zero]
       exact hW x.toMul
-  letI : Module (ZMod 2) (Additive ↥A) :=
+  let : Module (ZMod 2) (Additive ↥A) :=
     AddCommGroup.zmodModule (n := 2) fun x => by
       apply Additive.toMul.injective
       rw [toMul_nsmul, toMul_zero]
@@ -53,8 +54,8 @@ theorem exists_hom_lift (hW : ∀ w : W, w ^ 2 = 1) (A T B' : Subgroup W) (h : A
     { carrier := {a | (a : W) * (β a)⁻¹ ∈ B' ∧ β a ∈ T}
       one_mem' := by
         constructor
-        · simpa using B'.one_mem
-        · simpa using T.one_mem
+        · simp
+        · simp
       mul_mem' := by
         intro a a' ha ha'
         constructor
@@ -105,6 +106,7 @@ theorem exists_hom_lift (hW : ∀ w : W, w ^ 2 = 1) (A T B' : Subgroup W) (h : A
     exact ha
   exact ⟨β, fun a => (hPmem a).2, fun a => (hPmem a).1⟩
 
+omit [Finite W] in
 private theorem gf2_Sec_sup_stable {ι : Type*} [DecidableEq ι] {H : Subgroup (MulAut W)}
     {B : ι → Subgroup W} (hB : ∀ i, StableUnder H (B i)) (s : Finset ι) :
     StableUnder H (s.sup B) := by
@@ -118,6 +120,7 @@ private theorem gf2_Sec_sup_stable {ι : Type*} [DecidableEq ι] {H : Subgroup (
       rw [Finset.sup_insert]
       exact stableUnder_sup (hB j) ih
 
+omit [Finite W] in
 private theorem gf2_Sec_inf_eq {H : Subgroup (MulAut W)} {C A B' T : Subgroup W}
     (hA : IsIrrOn H A C) (hT : IsIrrOn H T C) (hB' : StableUnder H B') (hCB' : C ≤ B')
     (hAle : A ≤ B' ⊔ T) (hAB' : ¬ A ≤ B') : A ⊓ B' = C ∧ T ⊓ B' = C := by
@@ -135,6 +138,7 @@ private theorem gf2_Sec_inf_eq {H : Subgroup (MulAut W)} {C A B' T : Subgroup W}
       have hTB' : T ≤ B' := h ▸ inf_le_right
       exact hAB' (hAle.trans (le_of_eq (sup_eq_left.mpr hTB')))
 
+omit [Finite W] in
 private theorem gf2_Sec_one_way (hW : ∀ w : W, w ^ 2 = 1) {H : Subgroup (MulAut W)}
     {C A B' T : Subgroup W} (hA : IsIrrOn H A C) (hT : IsIrrOn H T C)
     (hB' : StableUnder H B') (hCB' : C ≤ B') (hAle : A ≤ B' ⊔ T) (hAB' : ¬ A ≤ B') :
@@ -251,6 +255,7 @@ private theorem gf2_Sec_one_way (hW : ∀ w : W, w ^ 2 = 1) {H : Subgroup (MulAu
     rw [hb_eq]
     exact (sup_comm A B') ▸ Subgroup.mul_mem_sup a.2 (B'.mul_mem hdB' hcB')
 
+omit [Finite W] in
 theorem secIsoOn_of_le_sup (hW : ∀ w : W, w ^ 2 = 1) {H : Subgroup (MulAut W)}
     {C A B' T : Subgroup W} (hA : IsIrrOn H A C) (hT : IsIrrOn H T C)
     (hB' : StableUnder H B') (hCB' : C ≤ B') (hAle : A ≤ B' ⊔ T) (hAB' : ¬ A ≤ B') :
@@ -264,12 +269,13 @@ theorem secIsoOn_of_le_sup (hW : ∀ w : W, w ^ 2 = 1) {H : Subgroup (MulAut W)}
   exact ⟨(gf2_Sec_one_way hW hA hT hB' hCB' hAle hAB').1,
     (gf2_Sec_one_way hW hT hA hB' hCB' hTA hnot).1⟩
 
+omit [Finite W] in
 theorem exists_secIsoOn_of_le_iSup (hW : ∀ w : W, w ^ 2 = 1) {H : Subgroup (MulAut W)}
     {C A : Subgroup W} {ι : Type*} [Finite ι] {B : ι → Subgroup W} (hA : IsIrrOn H A C)
     (hB : ∀ i, IsIrrOn H (B i) C) (hle : A ≤ C ⊔ ⨆ i, B i) :
     ∃ i, SecIsoOn H A C (B i) C ∧ SecIsoOn H (B i) C A C := by
   classical
-  haveI : Fintype ι := Fintype.ofFinite ι
+  have : Fintype ι := Fintype.ofFinite ι
   have key : ∀ s : Finset ι, A ≤ C ⊔ s.sup B →
       ∃ i ∈ s, SecIsoOn H A C (B i) C ∧ SecIsoOn H (B i) C A C := by
     intro s

@@ -83,7 +83,7 @@ theorem smallModel_map (e : G₀ ≃* G₁) {Bb : Subgroup G₀} (h : SmallModel
     exact hs
 
 theorem noSmallModel_of_mulEquiv (e : G₀ ≃* G₁) (h : NoSmallModel G₁) : NoSmallModel G₀ :=
-  fun Bb hB => h _ (smallModel_map e hB)
+  fun _Bb hB => h _ (smallModel_map e hB)
 
 end CFSG.LocalAnalysis.GLTheoremA.T171S
 

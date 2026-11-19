@@ -92,12 +92,12 @@ end Three
 
 theorem burnsideF48dE_σ_two : burnsideF48dE_σ 2 = burnsideF48d_frob := by
   unfold burnsideF48dE_σ
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem burnsideF48dE_σ_ne {j : ℕ} (h2 : j ≠ 2) :
     burnsideF48dE_σ j = burnsideF48d_σ (if j < 2 then j else j - 1) := by
   unfold burnsideF48dE_σ
-  rw [if_neg h2]
+  rw [ite_eq_right h2]
 
 theorem burnsideF48dE_σ_mem_X {j : ℕ} (h2 : j ≠ 2) : burnsideF48dE_σ j ∈ burnsideF48d_X := by
   rw [burnsideF48dE_σ_ne h2]

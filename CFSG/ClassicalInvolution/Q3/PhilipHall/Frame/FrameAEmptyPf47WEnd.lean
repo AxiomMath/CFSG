@@ -87,7 +87,7 @@ variable {T : Type} [Group T] [Finite T] {K : Subgroup T} {z : T} {J : Subgroup 
 theorem not_fstar_le_wQ [CaseIAmbient T] (cfg : WCfg K z J zJ H S) :
     ¬ genFittingFStar T ≤ wQ K := by
   intro hFQ
-  haveI hFn : (genFittingFStar T).Normal := genFittingFStar_normal T
+  have hFn : (genFittingFStar T).Normal := genFittingFStar_normal T
   have hFHt : genFittingFStar T ≤ firstFactor K := hFQ.trans (wQ_le K)
   obtain ⟨e⟩ := cfg.ht
   let ψ : ↥(genFittingFStar T) →* G192 := e.toMonoidHom.comp
@@ -126,12 +126,12 @@ theorem false_of_thm1 [CaseIAmbient T]
     (h1 : CFSG.ComponentClassification.Asc76.Asc76Theorem1) (cfg : WCfg K z J zJ H S) : False := by
   have hz := cfg.datum.unique
   have hzQ : z ∈ wQ K := cfg.z_mem_Q
-  haveI hFn : (genFittingFStar T).Normal := genFittingFStar_normal T
+  have hFn : (genFittingFStar T).Normal := genFittingFStar_normal T
   obtain ⟨G₁, hG₁⟩ : ∃ G₁ : Subgroup T, genFittingFStar T ⊔ wQ K = G₁ := ⟨_, rfl⟩
   have hFG : genFittingFStar T ≤ G₁ := hG₁ ▸ le_sup_left
   have hQG : wQ K ≤ G₁ := hG₁ ▸ le_sup_right
-  haveI hF₁n : ((genFittingFStar T).subgroupOf G₁).Normal := hFn.subgroupOf G₁
-  haveI : IsSimpleGroup ↥((genFittingFStar T).subgroupOf G₁) :=
+  have hF₁n : ((genFittingFStar T).subgroupOf G₁).Normal := hFn.subgroupOf G₁
+  have : IsSimpleGroup ↥((genFittingFStar T).subgroupOf G₁) :=
     (Subgroup.subgroupOfEquivOfLe hFG).isSimpleGroup
   have hC₁ : Subgroup.centralizer
       (((genFittingFStar T).subgroupOf G₁ : Subgroup ↥G₁) : Set ↥G₁) = ⊥ := by
@@ -170,7 +170,7 @@ theorem false_of_thm1 [CaseIAmbient T]
       CFSG.ComponentClassification.OddCore.maximal T _ hFn hoddF
     rw [CaseIAmbient.oddCore_eq_bot (T := T), le_bot_iff] at hFO
     exact (Subgroup.nontrivial_iff_ne_bot _).mp inferInstance hFO
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨syl⟩ : Nonempty (Sylow 2 ↥(wQ K)) := inferInstance
   have hR : CFSG.ABGLocalTools.IsSylowOf 2 ((syl : Subgroup ↥(wQ K)).map (wQ K).subtype) (wQ K) :=
     ⟨syl, rfl⟩
@@ -191,7 +191,7 @@ theorem false_of_thm1 [CaseIAmbient T]
   · exact not_isElemAbelian_of_z4sq eR₁ hEA
   ·
     have hB₁ := CFSG.ComponentClassification.Asc76X.isBenderGroup_of_isSzOrU3 hSz
-    haveI : IsSimpleGroup ↥G₁ := CFSG.GH74.Uniqueness.isSimpleGroup_of_isBenderGroup hB₁
+    have : IsSimpleGroup ↥G₁ := CFSG.GH74.Uniqueness.isSimpleGroup_of_isBenderGroup hB₁
     have hFeq : genFittingFStar T = G₁ := by
       rcases hF₁n.eq_bot_or_eq_top with h | h
       · exfalso

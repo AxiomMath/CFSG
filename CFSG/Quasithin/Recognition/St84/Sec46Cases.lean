@@ -79,7 +79,7 @@ theorem sq_le_centerOf_L (X : Setup Γ G) {i j : ℤ}
     Subgroup.centralizer_closure, Subgroup.mem_centralizer_iff]
   rintro g ⟨hgGi, n, hgn⟩
   have hgL : g ∈ X.L i := Subgroup.subset_closure ⟨hgGi, n, hgn⟩
-  haveI : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
+  have : Finite ↥(X.Gi i) := X.hyp.finite_stab (X.vert i)
   have hT' : IsSylowTwoOf ((X.Z j ⊔ X.Q i).subgroupOf (X.Gi i))
       ((X.L i).subgroupOf (X.Gi i)) := by
     refine ⟨?_, ?_, ?_⟩

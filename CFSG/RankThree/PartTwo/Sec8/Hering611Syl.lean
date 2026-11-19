@@ -59,7 +59,7 @@ theorem exists_elemAbelian_sylow {L : Subgroup G}
     have hker : p₁⁻¹ * p₂ ∈ θL := (QuotientGroup.eq).mp h12
     have hmem : p₁⁻¹ * p₂ ∈ (P : Subgroup L) := (P : Subgroup L).mul_mem
       ((P : Subgroup L).inv_mem h₁) h₂
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨p₁⁻¹ * p₂, hmem⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨p₁⁻¹ * p₂, hmem⟩
     have hk' : (p₁⁻¹ * p₂) ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
     exact inv_mul_eq_one.mp (KFacts.eq_one_of_mem_aschbacherSolvableCore_of_pow hker hk')
   set g : (P : Subgroup L) →* CFSG.GorensteinWalter.PSL2 F :=

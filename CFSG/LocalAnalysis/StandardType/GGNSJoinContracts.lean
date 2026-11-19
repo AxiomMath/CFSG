@@ -37,6 +37,7 @@ theorem NSTypeAD.le_three {ι : Type} {M : CoxeterMatrix ι} (h : NSTypeAD M) (i
 @[expose] def NSJoinGuard (p : ℕ) (L Bs : Subgroup G) (𝒦 : Finset (Subgroup G)) : Prop :=
   NSJoinGuardOf NSTypeAD p L Bs 𝒦
 
+omit [Finite G] in
 theorem NSJoinGuardOf.mono {T T' : ∀ {ι : Type}, CoxeterMatrix ι → Prop}
     (h : ∀ {ι : Type} {M : CoxeterMatrix ι}, T' M → T M) {p : ℕ} {L Bs : Subgroup G}
     {𝒦 : Finset (Subgroup G)} (hg : NSJoinGuardOf T' p L Bs 𝒦) : NSJoinGuardOf T p L Bs 𝒦 := by
@@ -82,7 +83,7 @@ theorem join_of_three_guard {T : ∀ {ι : Type}, CoxeterMatrix ι → Prop}
         NSJoinGuardOf T p L Bs 𝒦 → ggG0 p B x L D J = L ⊔ ⨆ K ∈ 𝒦, K := by
   intro G _ _ p B Bs x L D J 𝒦 hcfg hns hguard
   obtain ⟨hJL, hcJ⟩ := hJ G p B Bs x L D J 𝒦 hcfg hns hguard
-  refine le_antisymm ?_ (ggJoin_le_ggG0 (Bs := Bs) hcfg.2.2.2.1)
+  refine le_antisymm ?_ (ggJoin_le_ggG0 (_Bs := Bs) hcfg.2.2.2.1)
   exact ggG0_le_join_of_reflMax_genN hJL hcJ
     (hRM G p B Bs x L D J 𝒦 hcfg hns hguard)
     (hGen G p B Bs x L D J 𝒦 hcfg hns hguard)

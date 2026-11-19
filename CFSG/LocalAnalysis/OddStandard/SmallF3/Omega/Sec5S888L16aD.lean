@@ -15,7 +15,7 @@ theorem l16a_exists_oddCore_mul [Finite G] {D X S : Subgroup G} (hS : IsSylow2Of
     (hDX : D ≤ X) (hXN : X ≤ normalizer (D : Set G))
     (hcyc : ∀ P : Sylow 2 ↥D, IsCyclic ↥(P : Subgroup ↥D)) :
     ∀ y ∈ D, ∃ o ∈ oddCoreIn D, ∃ s ∈ S ⊓ D, y = o * s := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hSyl : CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ D) D :=
     (CFSG.ABGLocalTools.isSylowOf_iff.mpr hS).inf_of_le_normalizer hDX hXN
   obtain ⟨Q, hQ⟩ := hSyl.exists_sylow_eq_subgroupOf

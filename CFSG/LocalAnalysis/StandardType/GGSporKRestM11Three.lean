@@ -41,14 +41,14 @@ theorem sporKRest_M11_fstar_normalizer :
 
 theorem sporKRest_coverOrUnmarked_M11_3_carrier :
     SporKRestCoverOrUnmarked 3 ↥NativeSporadic.M11 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact ggSporKRest_coverOrUnmarked_of_fstar_isPGroup (by norm_num)
     (sporKRest_fstar_of_normalizer_maximal m11S0 sporKRest_M11_normalizer_maximal
       sporKRest_M11_fstar_normalizer)
 
 theorem sporKRest_coverOrUnmarked_M11_3 :
     SporKRestCoverOrUnmarked 3 (TauCeti.CFSGIndex.sporadic .M11).Group := by
-  letI : Mul TauCeti.SporadicName.M11.Group := Monoid.toMul
+  let : Mul TauCeti.SporadicName.M11.Group := Monoid.toMul
   obtain ⟨e⟩ := CFSG.Sporadic.Bridge.M11.nonempty_mulEquiv
   show SporKRestCoverOrUnmarked 3 TauCeti.SporadicName.M11.Group
   exact SporKRestCoverOrUnmarked.of_mulEquiv e sporKRest_coverOrUnmarked_M11_3_carrier

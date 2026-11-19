@@ -14,7 +14,7 @@ open CFSG.Open CFSG.HardMathSupport.Solomon.Coordinator.ChevQ
 theorem excU62Type_of_psu {E : Type} [Field E] [Finite E] {m : ℕ}
     (hE : Nat.card E = (2 ^ 1) ^ 2) (hm : m = 4 ∨ m = 5) {Q : Type} [Group Q]
     (e : Q ≃* StatedProj (StatedSU m (2 ^ 1) E)) : ExcU62Type Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨r, rfl⟩ : ∃ r, m = r + 1 := ⟨m - 1, by omega⟩
   let q : TauCeti.PrimePower := ⟨2, 1, Nat.prime_two, by norm_num⟩
   have hv : (TauCeti.LieTypeIndex.twistedA r q).Valid := by
@@ -24,8 +24,8 @@ theorem excU62Type_of_psu {E : Type} [Field E] [Finite E] {m : ℕ}
     exact ⟨by omega, fun hr => by omega⟩
   obtain ⟨-, K₀, _, _, hK₀, ⟨e₀⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv (MulEquiv.refl _)
-  haveI : Fintype K₀ := Fintype.ofFinite _
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype K₀ := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite E
   have hKK : Fintype.card E = Fintype.card K₀ := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK₀, hE]
   let eK : E ≃+* K₀ := FiniteField.ringEquivOfCardEq hKK
@@ -34,7 +34,7 @@ theorem excU62Type_of_psu {E : Type} [Field E] [Finite E] {m : ℕ}
 
 theorem excU62Type_of_psl2 {F : Type} [Field F] [Finite F] (hF : Nat.card F = 8) {Q : Type}
     [Group Q] (e : Q ≃* StatedProj (StatedSL 2 F)) : ExcU62Type Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let q : TauCeti.PrimePower := ⟨2, 3, Nat.prime_two, by norm_num⟩
   have hv : (TauCeti.LieTypeIndex.A 1 q).Valid := by
     rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,

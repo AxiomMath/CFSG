@@ -436,7 +436,7 @@ theorem commute_rootRankOneGroup_of_pair [IsAlgClosed L] (hdeg : entryDegreeBoun
       (fun k => (g' : Module.End L (RootModule τ L)) * xCoeff τ L j' k *
         ((g'⁻¹ : ModGL τ L) : Module.End L (RootModule τ L))) (conj_xUnit_eq_sum hdeg j g)
       (conj_xUnit_eq_sum hdeg j' g')
-      (by beta_reduce; rw [xCoeff_zero, mul_one, Units.mul_inv]) z T hTc ?_
+      (by rw [xCoeff_zero, mul_one, Units.mul_inv]) z T hTc ?_
     intro c hc
     obtain ⟨c', -, rfl⟩ := Finset.mem_image.1 hc
     have h := hz (uSL c')
@@ -450,7 +450,7 @@ theorem commute_rootRankOneGroup_of_pair [IsAlgClosed L] (hdeg : entryDegreeBoun
       (fun k => (g' : Module.End L (RootModule τ L)) * yCoeff τ L j' k *
         ((g'⁻¹ : ModGL τ L) : Module.End L (RootModule τ L))) (conj_yUnit_eq_sum hdeg j g)
       (conj_yUnit_eq_sum hdeg j' g')
-      (by beta_reduce; rw [yCoeff_zero, mul_one, Units.mul_inv]) z T hTc ?_
+      (by rw [yCoeff_zero, mul_one, Units.mul_inv]) z T hTc ?_
     intro c hc
     obtain ⟨c', -, rfl⟩ := Finset.mem_image.1 hc
     have h := hz (vSL c')

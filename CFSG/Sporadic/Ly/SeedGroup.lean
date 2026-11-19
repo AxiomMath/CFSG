@@ -49,7 +49,7 @@ theorem closure_aS_bS (hA : sA.det ≠ 0) (hB : sB.det ≠ 0) :
   convert h using 2
   ext x
   simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_preimage, Subgroup.coe_subtype,
-    Set.mem_setOf_eq]
+    Set.mem_ofPred_eq]
   constructor
   · rintro (rfl | rfl)
     · exact Or.inl rfl

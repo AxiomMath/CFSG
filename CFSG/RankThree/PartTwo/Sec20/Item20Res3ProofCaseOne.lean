@@ -336,7 +336,7 @@ theorem le_centralizer_of_pow_seven_core {A M L N : Subgroup G} {c : G} {T : Sub
     rw [this, orderOf_one] at hd₀
     exact absurd hd₀ (by norm_num)
   have hdy : y * d = d * y := by
-    have hP3' : IsPGroup 3 ((P3 : Subgroup W).map W.subtype) := P3.isPGroup'.map _
+    have hP3' : IsPGroup 3 ((P3 : Subgroup W).map W.subtype) := P3.isPGroup.map _
     have hdisj := IsPGroup.disjoint_of_ne 3 2 (by norm_num) _ _ hP3' hY2
     have h1 : y * d * y⁻¹ * d⁻¹ ∈ (P3 : Subgroup W).map W.subtype :=
       Subgroup.mul_mem _ (hP3 y (Subgroup.mem_zpowers y) d hdP) (Subgroup.inv_mem _ hdP)

@@ -13,6 +13,7 @@ variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V] [CharP K 2] [Fini
   [FiniteDimensional K V] {σ : K ≃+* K} {Q : QuadraticForm K V} {T : V →ₛₗ[(σ : K →+* K)] V}
   {r : ℕ}
 
+omit [CharP K 2] [Finite K] [FiniteDimensional K V] in
 theorem T_mem_framePerp_swap (hTQ : ∀ v, Q (T v) = σ (Q v)) (F : HFrame Q r)
     (hs : ∀ i, T (F.e i) = F.f i ∧ T (F.f i) = F.e i) {v : V} (hv : v ∈ framePerp F) :
     T v ∈ framePerp F := by
@@ -31,6 +32,7 @@ theorem T_mem_framePerp_swap (hTQ : ∀ v, Q (T v) = σ (Q v)) (F : HFrame Q r)
       _ = σ (polar Q v (F.e i)) := polar_semilinear T hTQ _ _
       _ = 0 := by simpa using congrArg σ h1
 
+omit [CharP K 2] [Finite K] [FiniteDimensional K V] in
 theorem framePerp_nd (hQ : (polarBilin Q).Nondegenerate) (F : HFrame Q r) {w : V}
     (hw : w ∈ framePerp F) (h : ∀ u ∈ framePerp F, polar Q w u = 0) : w = 0 := by
   classical

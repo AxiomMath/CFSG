@@ -65,7 +65,7 @@ theorem exists_noncentral_in_sylow (h2 : SeitzNoncentral) {K : Type} [Group K] [
     ∃ E : Subgroup K, E ≤ Q' ∧ IsElemAbelian q E ∧ Nat.card E = q ^ 3 ∧
       ∃ T : Subgroup K, IsPGroup 2 T ∧ ¬ T ≤ Subgroup.center K ∧
         E ≤ Subgroup.normalizer (T : Set K) := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨E₀, hE₀, hE₀c, T₀, hT₀2, hT₀nc, hE₀T₀⟩ := h2 K hK q hq hq2 h4
   obtain ⟨g, hg⟩ := exists_conj_le_sylow (isPGroup_of_isElemAbelian hE₀) hQ hmax
   have hc : Function.Injective (MulAut.conj g).toMonoidHom := (MulAut.conj g).injective
@@ -85,7 +85,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem i2315aAt_of_noncentral (h1 : SeitzGen) (h2 : SeitzNoncentral) : I2315aAt G := by
   intro q hq hq2 K Qo hK hQo hQoK hmax h4
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hι : Function.Injective K.subtype := K.subtype_injective
   set Q' : Subgroup K := Qo.subgroupOf K with hQ'
   have hQ'map : Q'.map K.subtype = Qo := subgroupOf_map_subtype_of_le hQoK
@@ -161,7 +161,7 @@ theorem i2315aAt_of_noncentral (h1 : SeitzGen) (h2 : SeitzNoncentral) : I2315aAt
 
 theorem seitzNoncentral_of_evenCentre (h : SeitzEvenCentre) : SeitzNoncentral := by
   intro K _ _ hK q hq hq2 h4
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hbdd := bddAbove_twoLocalPRanks (G := K) hq.one_lt
   have hne : {k | ∃ H : Subgroup K, IsTwoLocal H ∧ CFSG.Open.pRank q H = k}.Nonempty := by
     by_contra hemp

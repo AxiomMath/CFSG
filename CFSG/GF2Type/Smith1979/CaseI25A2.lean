@@ -26,6 +26,7 @@ variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [FiniteDimensional (ZMo
 @[expose] noncomputable def eichlerFive (Q : QuadraticForm (ZMod 2) W) (a : W) : Set (W ≃ₗ[ZMod 2] W) :=
   eichler Q a '' singPerp Q a
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem conj_mem_singPerp {a : W} {g : W ≃ₗ[ZMod 2] W}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hga : g a = a) {α : W}
     (hα : α ∈ singPerp Q a) : g α ∈ singPerp Q a := by
@@ -38,6 +39,7 @@ theorem conj_mem_singPerp {a : W} {g : W ≃ₗ[ZMod 2] W}
   · exact fun h => h0 ((LinearEquiv.map_eq_zero_iff g).mp h)
   · exact fun h => ha (g.injective (h.trans hga.symm))
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem conj_mem_eichlerFive {a : W} {g : W ≃ₗ[ZMod 2] W}
     (hg : g ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hga : g a = a) {e : W ≃ₗ[ZMod 2] W}
     (he : e ∈ eichlerFive Q a) : g * e * g⁻¹ ∈ eichlerFive Q a := by
@@ -123,7 +125,7 @@ theorem closure_eichlerFive (hcount : CountSixStmt) (hV : finrank (ZMod 2) W = 6
     · rintro x ⟨hx, hx1⟩ hcx
       exact hx1 (hfix x (hPle hx) hcx)
   have hcard : ((P : Set (W ≃ₗ[ZMod 2] W)) \ {1}).ncard + 1 = Nat.card P := by
-    rw [Set.ncard_diff_singleton_add_one P.one_mem (Set.toFinite _)]
+    rw [Set.ncard_sdiff_singleton_add_one P.one_mem (Set.toFinite _)]
     exact (Nat.card_coe_set_eq (P : Set (W ≃ₗ[ZMod 2] W))).symm
   have hne1 : Nat.card P ≠ 1 := by
     intro h1

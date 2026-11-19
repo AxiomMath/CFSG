@@ -99,6 +99,7 @@ theorem bender_card_mulAut {n e : ℕ} (hn : Odd n)
   · rw [hA, hK, hOut]
     ring
 
+omit [Finite K] in
 theorem map_rootCenter_of_map_iff {P : Subgroup K} {f : MulAut K}
     (hf : ∀ x, f x ∈ P ↔ x ∈ P) {z : K} (hz : z ∈ rootCenter P) : f z ∈ rootCenter P := by
   rw [mem_rootCenter_iff] at hz ⊢

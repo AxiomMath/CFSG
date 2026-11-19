@@ -23,10 +23,11 @@ section Blocks
 
 variable {r f : ℕ} {K : Type} [Field K] [Finite K]
 
+omit [Finite K] in
 theorem ker_proj_eq_bot (hf : 1 ≤ f) (hK : Nat.card K = 2 ^ f) :
     (SymplecticFlag.proj r K).ker = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
   rw [SymplecticHigher.ker_proj]
   exact CFSG.Open.StatedAPI.statedScalars_subgroupOf_statedSp_eq_bot
 
@@ -77,8 +78,8 @@ theorem hno_sp_factor (hO : LieOrderFormulasInput) (hf : 1 ≤ f) (hK : Nat.card
       exact false_of_sesqU_block hO _ hE hHf hHfl φ hq hL
   · have hP := blocks.paired h (fun e => hself e.symm)
     obtain ⟨φ, -, -⟩ := hP.factor
-    haveI : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors h.2⟩
-    haveI : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
+    have : Fact (Irreducible (h : K[X])) := ⟨irreducible_of_mem_primaryFactors h.2⟩
+    have : Finite (AdjoinRoot (h : K[X])) := Module.finite_of_finite K
     have hE : Nat.card (AdjoinRoot (h : K[X])) = 2 ^ (f * (h : K[X]).natDegree) := by
       rw [hP.card_field, ← pow_mul]
     have h4 : 4 ≤ Nat.card (AdjoinRoot (h : K[X])) := by
@@ -123,7 +124,7 @@ theorem noL34Layer_conj_sp (hO : LieOrderFormulasInput) (hf : 1 ≤ f) (hr : 1 �
     have := three_ne_zero_of_card_two_pow hf hK
     exact_mod_cast this
   have hsq := (altPrimaryData_spLin hpK hx).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd x)) :=
+  have : Finite (reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   have hq2 : 2 ≤ 2 ^ f :=
     calc 2 = 2 ^ 1 := by norm_num
@@ -155,7 +156,7 @@ theorem up34C2Inn_B_holds : Up34Chev2Inn FamB := by
       (lieModel_classical_iff (by decide)).mp hm
     obtain ⟨hadm, K, _, _, hK, ⟨e0⟩⟩ := hC
     rw [hq2] at hK hadm
-    haveI := hs
+    have := hs
     obtain ⟨hx3, hx1, hnl⟩ := (up34Pumpup_iff _).1 hx
     have hcen : Subgroup.center S = ⊥ := up34_center_eq_bot_of_simple hnab
     have hxcube : x ^ 3 = 1 := by
@@ -180,7 +181,7 @@ theorem up34C2Inn_B_holds : Up34Chev2Inn FamB := by
       have h1 : e0 x = 1 := by rw [← hxy, map_one]
       have h2 : x = 1 := e0.injective (by rw [h1, map_one])
       rw [h2, map_one]
-    haveI : Finite (StatedProj (StatedSp r K)) := Finite.of_equiv S e0.toEquiv
+    have : Finite (StatedProj (StatedSp r K)) := Finite.of_equiv S e0.toEquiv
     have h1 : NoL34Layer (MulAut.congr e0 (MulAut.conj x)) := by
       rw [CFSG.RankThree.PartTwo.KFacts.congr_mulAutConj, ← hxy]
       exact noL34Layer_conj_sp CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput

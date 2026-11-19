@@ -139,7 +139,7 @@ theorem t1428_chevTransfer_gLBConj {G : Type} [Group G] (p : ℕ) {K J : Subgrou
     change chevAut p K ⟨b, hb⟩ (chevQuotHom p K ⟨b⁻¹ * k * b, hkK'⟩) = _
     rw [chevAut_chevQuotHom]
     congr 1
-    all_goals (apply Subtype.ext; simp [chev_coe_normalizerMonoidHom, mul_assoc])
+    all_goals (apply Subtype.ext; simp [mul_assoc])
   · rintro ⟨_, ⟨⟨j, hjK⟩, hj, rfl⟩, rfl⟩
     have hj' : (j : G) ∈ J := Subgroup.mem_subgroupOf.1 hj
     have hbj : b * j * b⁻¹ ∈ K := (Subgroup.mem_normalizer_iff.1 hb j).1 hjK
@@ -148,7 +148,6 @@ theorem t1428_chevTransfer_gLBConj {G : Type} [Group G] (p : ℕ) {K J : Subgrou
     change chevQuotHom p K ⟨b * j * b⁻¹, hbj⟩ = chevAut p K ⟨b, hb⟩ (chevQuotHom p K ⟨j, hjK⟩)
     rw [chevAut_chevQuotHom]
     congr 1
-    all_goals (apply Subtype.ext; simp [chev_coe_normalizerMonoidHom, mul_assoc])
 
 private theorem t1428_mem_normalizer_inf {G : Type} [Group G] {K : Subgroup G} {y b : G}
     (hbK : b ∈ Subgroup.normalizer (K : Set G)) (hby : Commute b y) :
@@ -238,8 +237,8 @@ private theorem t1428u6_centerQuot_equiv_pSimple {S : Type} [Group S] [Finite S]
   have hQ := isQuasisimple_pQuot_of_glaPComponent hp hJ
   have hne : GLAPPrimeCore p ↥J ≠ ⊤ := by
     intro htop
-    haveI : Nontrivial (PQuot p J) := isQuasisimple_nontrivial hQ
-    haveI : Subsingleton (↥J ⧸ GLAPPrimeCore p ↥J) := by
+    have : Nontrivial (PQuot p J) := isQuasisimple_nontrivial hQ
+    have : Subsingleton (↥J ⧸ GLAPPrimeCore p ↥J) := by
       rw [htop]
       exact QuotientGroup.subsingleton_quotient_top
     exact not_subsingleton (PQuot p J) ‹_›
@@ -351,7 +350,6 @@ theorem t1428_diag
       have hck : c⁻¹ * k * c⁻¹⁻¹ ∈ Kb := (Subgroup.mem_normalizer_iff.1 hcN' k).1 hk
       refine ⟨⟨c⁻¹ * k * c⁻¹⁻¹, hck⟩, ?_⟩
       rw [← hδc c⁻¹ hct' k hk hck]
-      change c⁻¹ * δ ⟨k, hk⟩ * c⁻¹⁻¹ = x
       rw [hkx]
       group
   have hBbΔ : Bb ≤ Subgroup.normalizer (Δ : Set H) := fun c hc => hNΔ c (hBt c hc) (hBbK hc)
@@ -426,7 +424,7 @@ theorem t1428_noTri
       CFSG.ComponentClassification.OuterAutomorphisms.inner (PSimple 3 K) := by
   classical
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   set C : Subgroup Ω := ⊤ with hC
   obtain ⟨hBel, hBcard, T₀, hT₀ne, hT₀2, hBT₀⟩ := glaIsBmax_iff.1 hBmax
   have hBC : B ≤ C := le_top
@@ -556,7 +554,7 @@ theorem t1428_noTri
         calc t * b' = (t * b' * t⁻¹ * b'⁻¹) * (b' * t) := by group
           _ = b' * t := by rw [hc1, one_mul]
       obtain ⟨t, htT, ht2, ht1⟩ : ∃ t ∈ T₀, t * t = 1 ∧ t ≠ 1 := by
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         have hcard : 2 ∣ Nat.card T₀ := by
           rcases hT₀2.card_eq_or_dvd with h1 | h2
           · exact absurd (Subgroup.card_eq_one.1 h1) hT₀ne
@@ -634,7 +632,7 @@ theorem t1428_innDiagKind_chevAut
     ∃ labL : GLALabel, HasLabel (PQuot p K) (· = labL) ∧
       InnDiagKind (PSimple p K) labL (chevAut p K ⟨y, hy⟩) := by
   have hcen := Y10F.center_centerQuot_eq_bot hq
-  haveI : Group.IsPerfect (PQuot p K) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot p K) := ⟨hq.1⟩
   have hS : commutator (PSimple p K) = ⊤ :=
     (Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (Subgroup.center (PQuot p K)))
       (QuotientGroup.mk'_surjective _)).commutator_eq_top
@@ -672,7 +670,7 @@ theorem t1428_chevAut_mem_inner
   obtain ⟨htag, hrank, -⟩ := t1428_eq_of_canonLabel hc'
   have hFam : FamOrth labL := Or.inl ⟨htag, by omega⟩
   obtain ⟨hsimple, hna⟩ := chev_pSimple_simple_nonabelian Nat.prime_three hK
-  haveI := hsimple
+  have := hsimple
   have hcen : Subgroup.center (PSimple 3 K) = ⊥ := chev_center_eq_bot_of_simple_nonabelian hna
   obtain ⟨-, a, ha⟩ := Y10GInnOrthMark.innDiagKind_orth_data hcen hFam hin
   exact ⟨a, ha⟩
@@ -683,7 +681,7 @@ theorem t1428D4Fact_holds
   obtain ⟨hΩ, hBmax, hK, -, -, hyB, -, hInn, hr_odd, hr1, h12, -, -, hJ1, hJ2, -, -, -, -⟩ := hcfg
   classical
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   obtain ⟨hBel, hBcard, -⟩ := glaIsBmax_iff.1 hBmax
   have hD4any := t1428_isD4any_of_isD4n hD4
   have hnD4 : ¬ catalogIs (PSimple 3 K) S9.isD4two := by
@@ -783,7 +781,7 @@ theorem t1428U6Fact_of_census
     hc1, hc2, hc3⟩ := hcfg
   classical
   have hp3 : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   obtain ⟨hBel, -, -⟩ := glaIsBmax_iff.1 hBmax
   have hyN : y ∈ Subgroup.normalizer (K : Set Ω) := hInn.1 (Subgroup.mem_zpowers y)
   have hy3 : y ^ 3 = 1 := hBel.2 y hyB
@@ -888,10 +886,10 @@ theorem t1428U6Fact_of_census
         _ < Nat.card ↥(⊤ : Subgroup (PSimple 3 K)) :=
           Subgroup.card_lt_of_lt (lt_top_iff_ne_top.2 hfix)
         _ = Nat.card (PSimple 3 K) := Subgroup.card_top
-    haveI := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
+    have := CFSG.GroupTheory.groups_order_below_sixty_solvable hlt
     have hQs := isQuasisimple_pQuot_of_glaPComponent hp3 (hJs hJ1)
-    haveI := hQs.2
-    haveI : Nontrivial (PQuot 3 (chevTransfer 3 K J₁)) :=
+    have := hQs.2
+    have : Nontrivial (PQuot 3 (chevTransfer 3 K J₁)) :=
       (QuotientGroup.mk'_surjective (Subgroup.center (PQuot 3 (chevTransfer 3 K J₁)))).nontrivial
     exact (Group.IsSolvable.commutator_lt_top_of_nontrivial
       (PQuot 3 (chevTransfer 3 K J₁))).ne hQs.1

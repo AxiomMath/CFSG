@@ -14,9 +14,9 @@ theorem card_modEq_inf_ker {F : Type*} [Field F] [Finite F] {V : Type*} [AddComm
     (W : Submodule F V) (hW : ∀ w ∈ W, g w ∈ W) :
     Nat.card ↥W ≡ Nat.card ↥(W ⊓ LinearMap.ker ((g : V →ₗ[F] V) - 1)) [MOD ℓ] := by
   classical
-  haveI : Finite V := Module.finite_of_finite F
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : Fintype ↥W := Fintype.ofFinite ↥W
+  have : Finite V := Module.finite_of_finite F
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fintype ↥W := Fintype.ofFinite ↥W
   let e : ↥W → ↥W := fun w => ⟨g w, hW w w.2⟩
   have he : Function.Injective e := by
     intro w₁ w₂ h

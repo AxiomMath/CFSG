@@ -47,7 +47,7 @@ theorem exists_even_pair {Q : Type*} [Group Q] (ι : Q →* Perm (Fin 6)) (Y : S
     push Not at hcon
     have : Nat.card ρ.ker * ρ.ker.index ≤ 3 * 2 := Nat.mul_le_mul hcon (h2 ▸ h3)
     omega
-  haveI : Fintype ρ.ker := Fintype.ofFinite _
+  have : Fintype ρ.ker := Fintype.ofFinite _
   have h5 : 1 < (Finset.univ.erase (1 : ρ.ker)).card := by
     rw [Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ, ← Nat.card_eq_fintype_card]
     omega
@@ -69,7 +69,7 @@ theorem conj_of_cen {Q : Type*} [Group Q] (ι : Q →* Perm (Fin 6)) (hι : Func
     ∀ x ∈ L, ∃ y ∈ Y, σ * ι y * σ⁻¹ = x := by
   classical
   have hfin : Finite Y := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Fintype Y := Fintype.ofFinite Y
+  have : Fintype Y := Fintype.ofFinite Y
   let f : Y → Perm (Fin 6) := fun y => σ * ι y * σ⁻¹
   have hf : Function.Injective f := by
     intro y z h

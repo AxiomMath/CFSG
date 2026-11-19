@@ -21,11 +21,11 @@ theorem innDiagLin_of_labelDict (hD : CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.L
 
 theorem fldLin_of_labelDict (hD : CFSG.LocalAnalysis.GLTheoremA.Y10GInnLin.LinLabelDict) : FldLin := by
   intro S _ _ p α J labK labJ hFam hp hp2 hcen hfld hα hlabJ hJ
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨K, hK, hKf, d, hd2, hcardK, hTag, hRank, A, σ, u, e, hαu, hβ, hσ1⟩ :=
     fieldKind_linear_data hcen hFam hfld
   have h2 : (2 : K) = 0 := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨q, hq, m, hqp, hqcard⟩ := FiniteField.card' K
     have hcard' : Nat.card K = 2 ^ (canonLabel labK).n := hcardK
     rw [Nat.card_eq_fintype_card, hqcard] at hcard'

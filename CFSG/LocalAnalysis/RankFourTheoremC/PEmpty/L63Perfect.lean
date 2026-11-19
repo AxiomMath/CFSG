@@ -12,8 +12,8 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {P : Sylow p G} {M : Subgroup G}
 
 theorem sylow_le_commutator (hS : Situation G p P M) : (P : Subgroup G) ≤ ⁅M, M⁆ := by
-  haveI : Fact p.Prime := ⟨hS.prime⟩
-  haveI := hS.simple
+  have : Fact p.Prime := ⟨hS.prime⟩
+  have := hS.simple
   have hperf : commutator G = ⊤ := by
     rcases (Subgroup.commutator_normal (⊤ : Subgroup G) (⊤ : Subgroup G)).eq_bot_or_eq_top with
       h | h
@@ -44,13 +44,13 @@ theorem sylow_le_commutator (hS : Situation G p P M) : (P : Subgroup G) ≤ ⁅M
 
 theorem eq_top_of_isPGroup_quotient (hS : Situation G p P M) (N : Subgroup M) [N.Normal]
     (hN : IsPGroup p (M ⧸ N)) : N = ⊤ := by
-  haveI : Fact p.Prime := ⟨hS.prime⟩
+  have : Fact p.Prime := ⟨hS.prime⟩
   by_contra hNtop
   have hidx : 1 < N.index := by
     have h0 : N.index ≠ 0 := Subgroup.index_ne_zero_of_finite
     have h1 : N.index ≠ 1 := fun h => hNtop (Subgroup.index_eq_one.mp h)
     omega
-  haveI hnt : Nontrivial (M ⧸ N) := Finite.one_lt_card_iff_nontrivial.mp hidx
+  have hnt : Nontrivial (M ⧸ N) := Finite.one_lt_card_iff_nontrivial.mp hidx
   set π := QuotientGroup.mk' N with hπdef
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective N
   set P' : Sylow p M := P.subtype hS.sylow_le with hP'
@@ -73,7 +73,7 @@ theorem eq_top_of_isPGroup_quotient (hS : Situation G p P M) (N : Subgroup M) [N
         MonoidHom.range_eq_top.mpr hπ]
     rw [← h2, eq_top_iff, ← himg]
     exact Subgroup.map_mono hPcomm
-  haveI : Group.IsPerfect (M ⧸ N) := Group.isPerfect_def.mpr hperfQ
+  have : Group.IsPerfect (M ⧸ N) := Group.isPerfect_def.mpr hperfQ
   exact Group.IsPerfect.not_isNilpotent (M ⧸ N) hN.isNilpotent
 
 end CFSG.LocalAnalysis.RankFourTheoremC.PEmpty

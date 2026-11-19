@@ -409,7 +409,7 @@ theorem irreducible_or_card_three_of_irrSpanTrans_index_two
         _ = b * 1 := by rw [hba]
         _ = b := mul_one b
     have hcardJ_le : Nat.card ↥J ≤ 3 := by
-      haveI : Fintype ↥I := Fintype.ofFinite _
+      have : Fintype ↥I := Fintype.ofFinite _
       have hle : Nat.card ↥J ≤ Nat.card {i : ↥I // i ≠ (1 : ↥I)} :=
         Nat.card_le_card_of_injective ev hev_inj
       have hcard_ne : Nat.card {i : ↥I // i ≠ (1 : ↥I)} = 3 := by

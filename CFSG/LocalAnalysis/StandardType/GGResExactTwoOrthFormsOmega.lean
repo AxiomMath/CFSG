@@ -187,6 +187,7 @@ private theorem ggResX2Forms_primaryMultiplicity_le (hK : Nat.card K = 2)
       fun hi => hi.2⟩
   omega
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem ggResX2Forms_card_le (Δ : TBJOmData Q 3 A r) (hA : A ≤ orthDerived Q)
     {E C : Subgroup ↥(orthDerived Q)} (hEA : ∀ e ∈ E, (e : V ≃ₗ[K] V) ∈ A)
     (S : (Fin r → Multiplicative (ZMod 3)) → Prop)

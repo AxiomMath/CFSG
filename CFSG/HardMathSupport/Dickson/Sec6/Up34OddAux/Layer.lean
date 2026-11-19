@@ -108,7 +108,7 @@ theorem not_isLThreeFour_of_lieModel_odd (hO : CFSG.ComponentClassification.CatL
 theorem noL34Layer_of_fixed_equiv {P : Type} [Group P] [Finite P] (ψ : MulAut P) {X : Type}
     [Group X] (e : ↥(fixSubgroup ψ) ≃* X) (hs : IsSimpleGroup X)
     (hnab : ∃ a b : X, a * b ≠ b * a) (hL34 : ¬ IsLThreeFour X) : NoL34Layer ψ := by
-  haveI : IsSimpleGroup ↥(fixSubgroup ψ) := e.isSimpleGroup
+  have : IsSimpleGroup ↥(fixSubgroup ψ) := e.isSimpleGroup
   refine noL34_of_simple_normal_comm ψ (fixSubgroup ψ) le_rfl ?_ inferInstance ?_ ?_
   · refine Subgroup.commutator_le.2 fun a ha b hb => ?_
     rw [commutatorElement_def]

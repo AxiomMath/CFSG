@@ -23,7 +23,7 @@ theorem map_eq_one_of_perfect {C P : Subgroup G} (hPC : P ≤ C) (hP : ⁅P, P�
   have h1 : (⟨ψ ⟨x, hx⟩, ⟨_, rfl⟩⟩ : ↥ψ.range) = 1 := Subsingleton.elim _ _
   exact congrArg Subtype.val h1
 
-theorem perfect_le_of_solvable_quotient {C N P : Subgroup G} (hNC : N ≤ C)
+theorem perfect_le_of_solvable_quotient {C N P : Subgroup G} (_hNC : N ≤ C)
     [(N.subgroupOf C).Normal] (hsol : Group.IsSolvable (↥C ⧸ N.subgroupOf C)) (hPC : P ≤ C)
     (hP : ⁅P, P⁆ = P) : P ≤ N := by
   intro x hx
@@ -35,7 +35,7 @@ theorem perfect_le_glaLayer_of_series {C N M : Subgroup G} (hNC : N ≤ C)
     [(N.subgroupOf C).Normal] (hCN : Group.IsSolvable (↥C ⧸ N.subgroupOf C)) (hMN : M ≤ N)
     [(M.subgroupOf N).Normal] (hNM : Group.IsSolvable (↥N ⧸ M.subgroupOf N))
     (hM : M ≤ GLALayer C) :
-    ∀ P : Subgroup G, P ≤ C → ⁅P, P⁆ = P → P ≤ GLALayer C := fun P hPC hP =>
+    ∀ _P : Subgroup G, _P ≤ C → ⁅_P, _P⁆ = _P → _P ≤ GLALayer C := fun _P hPC hP =>
   (perfect_le_of_solvable_quotient hMN hNM (perfect_le_of_solvable_quotient hNC hCN hPC hP)
     hP).trans hM
 

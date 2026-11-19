@@ -48,14 +48,14 @@ private theorem exists_not_isCyclic_of_surjective {H Q : Type*} [Group H] [Finit
     {p : ℕ} (hp : p.Prime) (π : H →* Q) (hπ : Function.Surjective π) (E : Subgroup Q)
     (hEp : IsPGroup p E) (hE : ¬ IsCyclic E) :
     ∃ P : Subgroup H, IsPGroup p P ∧ ¬ IsCyclic P := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite Q := Finite.of_surjective π hπ
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite Q := Finite.of_surjective π hπ
   obtain ⟨P⟩ : Nonempty (Sylow p H) := inferInstance
-  refine ⟨(P : Subgroup H), P.isPGroup', fun hc => hE ?_⟩
+  refine ⟨(P : Subgroup H), P.isPGroup, fun hc => hE ?_⟩
   obtain ⟨T, hET⟩ := hEp.exists_le_sylow
-  haveI h1 : IsCyclic ↥((P : Subgroup H).map π) :=
+  have h1 : IsCyclic ↥((P : Subgroup H).map π) :=
     isCyclic_of_surjective (π.subgroupMap (P : Subgroup H)) (π.subgroupMap_surjective _)
-  haveI : IsCyclic ↥(T : Subgroup Q) :=
+  have : IsCyclic ↥(T : Subgroup Q) :=
     (Sylow.equiv T (P.mapSurjective hπ)).isCyclic.mpr h1
   exact Subgroup.isCyclic_of_le hET
 
@@ -89,8 +89,8 @@ private theorem noncyc_linear {lab : GLALabel} (htag : lab.tag = .A) {p : ℕ} (
   obtain ⟨K, hfield, hfinite, hK, hQ'⟩ := hQ
   refine ⟨K, hfield, hfinite, hK, hQ', Or.inl ?_⟩
   intro E hE hEel
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hd : 3 ≤ l + 1 := by
     have h1 : p ∣ l + 1 :=
       hpd.trans (by simpa [rk2DiagIndex] using Nat.gcd_dvd_left (l + 1) (2 ^ n - 1))
@@ -131,8 +131,8 @@ private theorem noncyc_unitary {lab : GLALabel} (hlab : GLAInLambda2 lab) (htag 
   obtain ⟨K, hfield, hfinite, hK, hQ'⟩ := hQ
   refine ⟨K, hfield, hfinite, hK, hQ', Or.inl ?_⟩
   intro E hE hEel
-  letI : Field K := hfield
-  letI : Finite K := hfinite
+  let : Field K := hfield
+  let : Finite K := hfinite
   have hn : 1 ≤ n := by simpa using hlab.1
   have hl2 : 2 ≤ l := hlab.2.1
   have hd : 3 ≤ l + 1 := by omega
@@ -166,7 +166,7 @@ private theorem noncyc_unitary {lab : GLALabel} (hlab : GLAInLambda2 lab) (htag 
     intro y hy
     obtain ⟨z, hzE, rfl⟩ := Subgroup.mem_map.mp hy
     exact (RecipeFieldSU.mem_recIU_iff h hd1).mp (hErec hzE)
-  haveI := CFSG.HardMathSupport.Timmesfeld.Tables.T1b.finite_mulAut_primeFormP h
+  have := CFSG.HardMathSupport.Timmesfeld.Tables.T1b.finite_mulAut_primeFormP h
     ((1 : GL (Fin (l + 1)) K) : Matrix (Fin (l + 1)) (Fin (l + 1)) K)
   have hcyc := CFSG.HardMathSupport.Timmesfeld.Tables.T1b.isCyclic_unitaryD_quotient h hd hne
   have h1 := card_le_mul_card_inf_of_le_cyclic _ _ hcyc hp _ (hEel.map _) hE'D
@@ -214,8 +214,8 @@ private theorem noncyc_twE6 {lab : GLALabel} (hlab : GLAInLambda2 lab) (htag : l
   intro Q hQ
   dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, i1, i2, hK, hq⟩ := hQ
-  letI : Field K := i1
-  letI : Finite K := i2
+  let : Field K := i1
+  let : Finite K := i2
   exact ⟨K, i1, i2, hK, hq, Or.inr ⟨TwE6Delta.liftRank 3, by simp [TwE6Delta.liftRank],
     ggTorusLift_twE6Add_holds hn hK Nat.prime_three h3⟩⟩
 
@@ -239,7 +239,7 @@ open Noncyc in
 theorem i173FactNoncyc_holds :
     I173FactNoncyc := by
   intro p Y _ _ S B x hp hp2 _hq _hchev hB hB4 hxB hx1 _hBN hcent hmark
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨hSperf, lab, hlab, hraw⟩ :=
     rk2_marking_and_labelAll (P' := fun _ => NoncycProp p) (fun lab hlab => noncyc_all hlab hp hp2)
       hmark

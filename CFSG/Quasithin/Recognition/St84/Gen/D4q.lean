@@ -124,7 +124,7 @@ private theorem not_isL2Quot_perfectCore_p0
         (MulEquiv.subgroupCongr hPerfectC))
   have hNns : ¬ Group.IsSolvable ↥(perfectCore (P0 σ)) := by
     intro hs
-    haveI : Group.IsSolvable ↥(perfectCore (P0 σ)) := hs
+    have : Group.IsSolvable ↥(perfectCore (P0 σ)) := hs
     apply not_isSolvable_of_isL2Quot hf hq
     exact Group.isSolvable_of_isSolvable_injective (f := ψ.toMonoidHom) ψ.injective
   have hbound : Nat.card K ≤ Nat.card (oTwoQuot ↥(perfectCore (P0 σ))) :=
@@ -221,7 +221,7 @@ private theorem d4q_model_equivs {G : Type} [Group G] [Finite G] {L1 L2 S : Subg
       (↥(L ⊔ bigB L1 L2 S) ≃* ↥M) → IsL2Quot m (oTwoQuot ↥L) →
         ¬ Group.IsSolvable ↥M := by
     intro L M m hm e hq hs
-    haveI : Group.IsSolvable ↥M := hs
+    have : Group.IsSolvable ↥M := hs
     apply not_isSolvable_of_isL2Quot hm hq
     have : Group.IsSolvable ↥(L ⊔ bigB L1 L2 S) :=
       Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
@@ -289,11 +289,11 @@ private theorem d4q_exists_radical_equivs {G : Type} [Group G] [Finite G]
       Nonempty (↥(pCoreOf 2 (L2 ⊔ bigB L1 L2 S)) ≃* ↥(Q1 σ)) := by
   obtain ⟨Y, _, hY, T, M₁, M₂, hp, ⟨iso0⟩⟩ := hA
   obtain ⟨hfinY, -⟩ := hMFf Y hY
-  haveI : Finite Y := hfinY
+  have : Finite Y := hfinY
   have hX : ChevalleyExceptionalModel Y .trialityD4 2 f :=
     (chevalley_of_lieModel hY (by decide)).2
   obtain ⟨K, _, _, σ, φ, hK, hσ, hU, hres, -⟩ := even_rank_two_residual_triality hX hp.1
-  haveI : CharP K 2 := charP_two_of_card (f := f) (by omega) hK
+  have : CharP K 2 := charP_two_of_card (f := f) (by omega) hK
   have hσ3 : σ.toRingHom ^ 3 = 1 := sigma_cube hK σ hσ
   have hk4 : 4 ≤ Nat.card ↥(trialityFixedField K σ.toRingHom) := by
     rw [card_fixedField (f := f) (by omega) hK σ hσ]
@@ -341,7 +341,7 @@ private theorem d4q_radicals {G : Type} [Group G] [Finite G] {L1 L2 S : Subgroup
     exact pCoreOf_eq_of_odd le_sup_left hn2 this
   obtain ⟨K, _, _, σ, hK, hσ, ⟨e1⟩, ⟨e2⟩⟩ :=
     d4q_exists_radical_equivs hMFf hf h1 h2 hA hc1 hc2 ho1 ho2
-  haveI : CharP K 2 := charP_two_of_card (f := f) (by omega) hK
+  have : CharP K 2 := charP_two_of_card (f := f) (by omega) hK
   refine ⟨IsSpecialPow.of_mulEquiv e1.symm (hQ0 K σ (by omega) hK hσ), ?_⟩
   rw [Nat.card_congr e2.toEquiv]
   exact hQ1 K σ (by omega) hK hσ

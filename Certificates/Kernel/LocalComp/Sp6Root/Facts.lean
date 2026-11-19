@@ -166,7 +166,7 @@ theorem genK_sp6 : genK (listTables sp6Gens) (fun l => sp6Gens.getD l 1) =
   congr 1
   ext g
   simp only [listTables, sp6Gens, List.map_cons, List.map_nil, List.size_toArray,
-    List.length_cons, List.length_nil, Nat.reduceAdd, Set.mem_setOf_eq, Set.mem_insert_iff,
+    List.length_cons, List.length_nil, Nat.reduceAdd, Set.mem_ofPred_eq, Set.mem_insert_iff,
     Set.mem_singleton_iff]
   constructor
   · rintro ⟨l, hl, rfl⟩

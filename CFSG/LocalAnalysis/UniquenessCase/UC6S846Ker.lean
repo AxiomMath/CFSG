@@ -11,6 +11,7 @@ open Subgroup CFSG.Open CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem rhoL_eq_one_of_mem_pCoreOf {X H : Subgroup G} (hXH : X ≤ H) {q : G}
     (hqN : q ∈ normalizer (X : Set G)) (hq : q ∈ pCoreOf 2 H) : rhoL X ⟨q, hqN⟩ = 1 := by
   apply MulEquiv.ext

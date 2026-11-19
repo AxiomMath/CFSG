@@ -146,7 +146,7 @@ theorem uT_unitary (h2 : (2 : K) = 0) (hΦ : ε ^ 6 + ε ^ 3 + 1 = 0) :
       (-3) * ε ^ 36 + (1) * ε ^ 39 + (2) * ε ^ 42 + (-3) * ε ^ 45 + (1) * ε ^ 48 + (2) * ε ^ 51 +
       (-3) * ε ^ 54 + (3) * ε ^ 57) * hΦ + ((1)) * h2
 
-theorem uD1_uT_comm (h2 : (2 : K) = 0) (hΦ : ε ^ 6 + ε ^ 3 + 1 = 0) :
+theorem uD1_uT_comm (_h2 : (2 : K) = 0) (_hΦ : ε ^ 6 + ε ^ 3 + 1 = 0) :
     uD1 * uT ε = uT ε * uD1 := by
   ext i j
   fin_cases i <;> fin_cases j
@@ -175,7 +175,7 @@ theorem smul_diag_eq_one (hΦ : ε ^ 6 + ε ^ 3 + 1 = 0) :
   by_cases hij : i = j
   · subst hij
     simp [← pow_add, show 6 + 3 = 9 from rfl, h9]
-  · simp [Matrix.diagonal_apply, hij, Matrix.one_apply]
+  · simp [hij]
 
 @[expose] def glT (h2 : (2 : K) = 0) (hΦ : ε ^ 6 + ε ^ 3 + 1 = 0) : GL (Fin 3) K :=
   ⟨uT ε, ε ^ 6 • (uT ε * uT ε), by
@@ -284,7 +284,7 @@ theorem threeTwoWitness_psu_three_cube {K : Type} [Field K] [Finite K] {f : ℕ}
   · intro u hu
     have e := congrArg (fun A : GL (Fin 3) K => (A : Matrix (Fin 3) (Fin 3) K) 0 1) hu
     simp [glT, uT, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply] at e
-    exact uT_ne_zero h2 g.ne_zero hε6 (by first | exact e | exact e.symm)
+    exact uT_ne_zero h2 g.ne_zero hε6 (by first | exact e.symm)
   · exact Units.ext (uD1_uT_comm h2 hΦ)
 
 end CFSG.HardMathSupport.Timmesfeld.Tables.Census

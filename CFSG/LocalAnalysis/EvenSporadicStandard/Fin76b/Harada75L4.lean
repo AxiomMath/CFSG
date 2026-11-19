@@ -15,16 +15,16 @@ section TwoGroups
 
 theorem coatom_index_eq_two {Q : Type} [Group Q] [Finite Q] (hQ : IsPGroup 2 Q) {M : Subgroup Q}
     (hM : IsCoatom M) : M.index = 2 := by
-  haveI := IsPGroup.isNilpotent hQ
+  have := IsPGroup.isNilpotent hQ
   exact (IsPGroup.isCoatom_iff_index_eq_prime hQ).mp hM
 
 theorem coatom_props {Q : Type} [Group Q] [Finite Q] (hQ : IsPGroup 2 Q) {M : Subgroup Q}
     (hM : IsCoatom M) : (∀ x : Q, x ^ 2 ∈ M) ∧ (∀ x y : Q, x * y * x⁻¹ * y⁻¹ ∈ M) := by
   have hidx := coatom_index_eq_two hQ hM
-  haveI : M.Normal := Subgroup.normal_of_index_eq_two hidx
+  have : M.Normal := Subgroup.normal_of_index_eq_two hidx
   have hcard : Nat.card (Q ⧸ M) = 2 := by rw [← Subgroup.index_eq_card, hidx]
-  haveI : IsCyclic (Q ⧸ M) := isCyclic_of_prime_card hcard
-  letI : CommGroup (Q ⧸ M) := IsCyclic.commGroup
+  have : IsCyclic (Q ⧸ M) := isCyclic_of_prime_card hcard
+  let : CommGroup (Q ⧸ M) := IsCyclic.commGroup
   refine ⟨fun x => ?_, fun x y => ?_⟩
   · have h := Subgroup.pow_index_mem M x
     rwa [hidx] at h
@@ -124,7 +124,7 @@ theorem rank_le_of_card_le_two_pow : ∀ (k : ℕ) (Q : Type) [Group Q] [Finite 
 theorem rank_le_of_card_le_mul_frattini {Q : Type} [Group Q] [Finite Q] (hQ : IsPGroup 2 Q)
     (m : ℕ) (h : Nat.card Q ≤ 2 ^ m * Nat.card (frattini Q)) : Group.rank Q ≤ m := by
   classical
-  haveI : (frattini Q).Normal := inferInstance
+  have : (frattini Q).Normal := inferInstance
   have hPp : IsPGroup 2 (Q ⧸ frattini Q) := hQ.to_quotient (frattini Q)
   have hidx : (frattini Q).index * Nat.card (frattini Q) = Nat.card Q :=
     Subgroup.index_mul_card _
@@ -177,7 +177,7 @@ theorem exists_fixed_ne_of_even {G α : Type} [Group G] [MulAction G α] [Finite
     unfold Nat.ModEq at hmod
     omega
   have he' : e ∈ MulAction.fixedPoints G α := MulAction.mem_fixedPoints.mpr he
-  haveI : Nonempty (MulAction.fixedPoints G α) := ⟨⟨e, he'⟩⟩
+  have : Nonempty (MulAction.fixedPoints G α) := ⟨⟨e, he'⟩⟩
   have hpos : 0 < Nat.card (MulAction.fixedPoints G α) := Nat.card_pos
   have h2 : 1 < Nat.card (MulAction.fixedPoints G α) := by omega
   rw [Finite.one_lt_card_iff_nontrivial] at h2
@@ -291,7 +291,7 @@ theorem exists_block {S : Type} [Group S] [Finite S] {A : Subgroup S} (hS : IsPG
     (ha1 : a ≠ 1) (ha2 : a * a = 1) (ha : ∀ s : S, cj hN s a = a) :
     ∃ b : A, b ∉ Subgroup.zpowers a ∧ ∀ s : S, cj hN s b = b ∨ cj hN s b = a * b := by
   classical
-  haveI hNN : (Subgroup.zpowers a).Normal := normal_of_comm_group hAc _
+  have hNN : (Subgroup.zpowers a).Normal := normal_of_comm_group hAc _
   have hNinv : ∀ s : S, ∀ x ∈ Subgroup.zpowers a, cj hN s x ∈ Subgroup.zpowers a := by
     intro s x hx
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -307,7 +307,7 @@ theorem exists_block {S : Type} [Group S] [Finite S] {A : Subgroup S} (hS : IsPG
     rw [Nat.card_zpowers, orderOf_eq_prime (by rw [pow_two]; exact ha2) ha1, hcard] at h1
     rw [← Subgroup.index_eq_card]
     omega
-  letI := quotMulAction hN (Subgroup.zpowers a) hNinv
+  let := quotMulAction hN (Subgroup.zpowers a) hNinv
   obtain ⟨q, hq1, hqfix⟩ := exists_fixed_ne_of_even hS (by rw [hQcard])
     (1 : A ⧸ Subgroup.zpowers a)
     (fun g => map_one (QuotientGroup.map _ _ (cjHom hN g) (cjHom_le hN _ hNinv g)))
@@ -328,7 +328,7 @@ theorem exists_third {B : Type} [Group B] [Finite B] (hB8 : Nat.card B = 8) (a b
   by_contra hcon
   have h' : ∀ c : B, c ∈ ({1, a, b, a * b} : Finset B) := fun c =>
     Classical.byContradiction fun hc => hcon ⟨c, hc⟩
-  haveI := Fintype.ofFinite B
+  have := Fintype.ofFinite B
   have hsub : (Finset.univ : Finset B) ⊆ {1, a, b, a * b} := fun c _ => h' c
   have h1 := Finset.card_le_card hsub
   have h2 : (Finset.univ : Finset B).card = 8 := by
@@ -342,7 +342,7 @@ theorem coords_of_card {B : Type} [Group B] [Finite B] (hBc : ∀ x y : B, x * y
     ∀ x : B, x = 1 ∨ x = a ∨ x = b ∨ x = a * b ∨ x = c ∨ x = a * c ∨ x = b * c ∨
       x = a * (b * c) := by
   classical
-  haveI hNN : (Subgroup.zpowers a).Normal := normal_of_comm_group hBc _
+  have hNN : (Subgroup.zpowers a).Normal := normal_of_comm_group hBc _
   have hcos : ∀ x y : B, ((x : B ⧸ Subgroup.zpowers a) = (y : B ⧸ Subgroup.zpowers a)) ↔
       (y = x ∨ y = a * x) := by
     intro x y
@@ -406,7 +406,7 @@ theorem coords_of_card {B : Type} [Group B] [Finite B] (hBc : ∀ x y : B, x * y
     rw [Nat.card_zpowers, orderOf_eq_prime (by rw [pow_two]; exact ha2) ha1, hB8] at h1
     rw [← Subgroup.index_eq_card]
     omega
-  haveI := Fintype.ofFinite (B ⧸ Subgroup.zpowers a)
+  have := Fintype.ofFinite (B ⧸ Subgroup.zpowers a)
   let R : Finset (B ⧸ Subgroup.zpowers a) :=
     {((1 : B) : B ⧸ Subgroup.zpowers a), (b : B ⧸ Subgroup.zpowers a),
       (c : B ⧸ Subgroup.zpowers a), ((b * c : B) : B ⧸ Subgroup.zpowers a)}
@@ -570,10 +570,7 @@ theorem Frame.code_eq (F : Frame A) (s t : S) (h : F.code s = F.code t) :
     have hsym6 := d6.symm
     rcases F.c_form s with hs | hs | hs | hs <;> rcases F.c_form t with ht | ht | ht | ht <;>
       rw [hs, ht] at e2 e3 ⊢ <;>
-      simp only [d1, d2, d3, d4, d5, d6, hsym1, hsym2, hsym3, hsym4, hsym5, hsym6, true_or,
-        or_true, or_false, false_or, iff_self, iff_true, true_iff, false_iff, not_true_eq_false,
-        eq_self_iff_true, and_self, and_true, true_and] at e2 e3 <;>
-      simp_all
+      simp only [d1, d2, d3, d4, d5, d6, hsym4, hsym5, hsym6, or_true, or_false, iff_self, iff_true, true_iff] at e2 e3
   exact ⟨hb, hc⟩
 
 theorem Frame.code_inj_of (F : Frame A) (hC : Subgroup.centralizer (A : Set S) ≤ A)
@@ -670,7 +667,7 @@ theorem exists_frame {S : Type} [Group S] [Finite S] {A : Subgroup S} (hS : IsPG
     (hN : A.Normal) (hAc : ∀ x y : A, x * y = y * x) (hexp : ∀ x : A, x * x = 1)
     (hcard : Nat.card A = 8) : Nonempty (Frame A) := by
   classical
-  letI := conjMulAction hN
+  let := conjMulAction hN
   obtain ⟨a, ha1, hafix⟩ := exists_fixed_ne_of_even hS (by rw [hcard]) (1 : A)
     (fun g => cj_one_elem hN g)
   have ha : ∀ s : S, cj hN s a = a := fun s => hafix s
@@ -703,7 +700,7 @@ theorem comm_subgroup_card_le {S : Type} [Group S] [Finite S] {A : Subgroup S}
     (hcard : Nat.card A = 8) (U : Subgroup S) (hU : ∀ x ∈ U, ∀ y ∈ U, x * y = y * x) :
     Nat.card U ≤ 16 := by
   classical
-  haveI : A.Normal := F.hN
+  have : A.Normal := F.hN
   by_contra hlt
   have hlt' : 16 < Nat.card U := not_le.mp hlt
   obtain ⟨m, hm⟩ := (IsPGroup.iff_card).mp (hS.to_subgroup U)
@@ -809,7 +806,7 @@ theorem rank_le_four_of_index {S : Type} [Group S] [Finite S] {A : Subgroup S}
     (hS : IsPGroup 2 S) (F : Frame A) (hC : Subgroup.centralizer (A : Set S) ≤ A)
     (hcard : Nat.card A = 8) (hidx : Nat.card (S ⧸ A) = 8) : Group.rank S ≤ 4 := by
   classical
-  haveI : A.Normal := F.hN
+  have : A.Normal := F.hN
   obtain ⟨s₁, s₂, hz⟩ := F.exists_comm_not_mem hC hidx
   have hS64 : Nat.card S = 64 := by
     rw [← Subgroup.card_mul_index A, hcard, Subgroup.index_eq_card, hidx]

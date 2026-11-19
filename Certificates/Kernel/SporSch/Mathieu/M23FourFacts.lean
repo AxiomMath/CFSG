@@ -151,7 +151,7 @@ theorem b4 : blk 1792 = true := by
   exact f4
 
 theorem b5 : blk 2240 = true := by
-  rw [blk_eqF (lo := 2240) (by rw [hcnt]; try omega)]
+  rw [blk_eqF (lo := 2240) (by rw [hcnt])]
   exact f5
 
 theorem four_all : ∀ j < M23F.cnt,

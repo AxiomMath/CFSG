@@ -76,6 +76,7 @@ private def centerEquivM3 : ↥(Subgroup.center W3) ≃ M3 where
 private theorem card_center_W3 : Nat.card (Subgroup.center W3) = 3 := by
   rw [Nat.card_congr centerEquivM3, card_M3]
 
+omit [Finite G] in
 private theorem mem_baseIn_iff {Q : Subgroup G} (e : ↥Q ≃* W3) {x : G} (hx : x ∈ Q) :
     x ∈ baseIn e ↔ e ⟨x, hx⟩ ∈ wBase := by
   constructor
@@ -96,11 +97,13 @@ private theorem mem_baseIn_iff {Q : Subgroup G} (e : ↥Q ≃* W3) {x : G} (hx :
     rw [Subgroup.mem_map]
     exact ⟨e ⟨x, hx⟩, h, by simp⟩
 
+omit [Finite G] in
 theorem card_centerIn_of_mulEquiv_W3 {Q : Subgroup G} (e : ↥Q ≃* W3) :
     Nat.card (CFSG.centerIn Q) = 3 := by
   rw [CFSG.centerIn_eq_map_center, Subgroup.card_map_of_injective Q.subtype_injective,
     Nat.card_congr (Subgroup.centerCongr e).toEquiv, card_center_W3]
 
+omit [Finite G] in
 theorem centerIn_le_baseIn {Q : Subgroup G} (e : ↥Q ≃* W3) : CFSG.centerIn Q ≤ baseIn e := by
   intro x hx
   have hxQ : x ∈ Q := hx.1
@@ -113,6 +116,7 @@ theorem centerIn_le_baseIn {Q : Subgroup G} (e : ↥Q ≃* W3) : CFSG.centerIn Q
     exact Subgroup.mem_map_of_mem e.toMonoidHom hcenterQ
   exact (mem_baseIn_iff e hxQ).mpr (center_le_wBase hinW)
 
+omit [Finite G] in
 theorem mem_centerIn_of_commute_of_not_mem_baseIn {Q : Subgroup G} (e : ↥Q ≃* W3) {s a : G}
     (hs : s ∈ Q) (hsA : s ∉ baseIn e) (ha : a ∈ baseIn e) (hc : Commute a s) :
     a ∈ CFSG.centerIn Q := by
@@ -153,14 +157,14 @@ private theorem center_le_subgroupOf_of_index_three {Q D : Subgroup G} (hDQ : D 
     apply Subgroup.normal_of_index_eq_minFac_card
     rw [hNindex, hQcard]
     norm_num
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hNne : N ≠ ⊥ := by
     intro hbot
     rw [hbot, Subgroup.card_bot] at hNcard
     omega
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQp : IsPGroup 3 ↥Q := IsPGroup.of_card (n := 4) (by rw [hQcard]; norm_num)
-  haveI : Group.IsNilpotent ↥Q := hQp.isNilpotent
+  have : Group.IsNilpotent ↥Q := hQp.isNilpotent
   have hmeet : N ⊓ Subgroup.center ↥Q ≠ ⊥ :=
     Group.IsNilpotent.inf_center_ne_bot_of_normal (G := ↥Q) (H := N) hNne
   have hHcard : Nat.card (N ⊓ Subgroup.center ↥Q : Subgroup ↥Q) = 3 := by

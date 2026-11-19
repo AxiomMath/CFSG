@@ -15,7 +15,7 @@ theorem mul_card_dvd_card_of_card_centralizer_eq [Finite X] {T : Subgroup X} (hT
     (h : Nat.card ↥(centralizer ({u} : Set X)) =
       m * Nat.card ↥(T ⊓ centralizer ({u} : Set X))) :
     m * Nat.card ↥T ∣ Nat.card X := by
-  haveI := hT
+  have := hT
   have h1 : T.relIndex (centralizer ({u} : Set X)) *
       Nat.card ↥(T ⊓ centralizer ({u} : Set X)) = Nat.card ↥(centralizer ({u} : Set X)) :=
     Subgroup.relIndex_mul_card T _
@@ -31,7 +31,7 @@ theorem mul_card_dvd_card_of_card_centralizer_eq [Finite X] {T : Subgroup X} (hT
 theorem false_of_four_mul_card_dvd [Finite X] (P : Sylow 2 X)
     (hP : Nat.card ↥(P : Subgroup X) = 2 ^ 7) {T : Subgroup X} (hT6 : 2 ^ 6 ∣ Nat.card ↥T)
     (h : 4 * Nat.card ↥T ∣ Nat.card X) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h8 : 2 ^ 8 ∣ Nat.card X := by
     refine dvd_trans ?_ h
     obtain ⟨k, hk⟩ := hT6

@@ -171,7 +171,7 @@ theorem card_N2 (y : Fin 1755) (hy : y ∈ titsLine 0) (hy0 : y ≠ 0) :
       {g | g ∈ ((survivors5 1755 titsNLevels pN7).filter fun a => a[0]! == (y : Nat)).map
         (permOfArr 1755)} := by
     ext g
-    simp only [Set.mem_setOf_eq, List.mem_map, List.mem_filter]
+    simp only [Set.mem_ofPred_eq, List.mem_map, List.mem_filter]
     constructor
     · rintro ⟨hgN, hsq, h0, hy'⟩
       have hgQ : g ∈ titsQN.originalSubgroup := by rw [titsQN_facts.2.2.1]; exact hgN
@@ -353,7 +353,6 @@ theorem noFar_iff (LAY : Nat) (f : Nat → Nat) :
     exact absurd h1 (by decide)
   · intro h
     refine allN_of_forall fun p hp => ?_
-    beta_reduce
     cases hl : Nat.beq (CFSG.KC.TitsOctK.layAt LAY p) 8
     · rfl
     · cases he : Nat.beq (f p) p
@@ -378,7 +377,6 @@ theorem far_iff {arr : Array Nat} {g : Equiv.Perm (Fin 1755)} (ha : Rep 1755 arr
     exact he
   · rintro ⟨p, hd, hgp⟩
     refine ⟨p, p.2, by rw [← dist_inl]; exact hd, ?_⟩
-    beta_reduce
     rw [ha p, hgp]
 
 @[expose] noncomputable def pH7 (a : Array Nat) : Bool := swT TitsH.BP (fun i => a[i]!)
@@ -450,7 +448,7 @@ theorem N1_eq (v : Fin 2925) {a b : Nat} (hab : Pr a b)
     N1s v = {g | g ∈ ((survivors5 1755 titsHLevels pH7).filter (qH a b)).map (permOfArr 1755)} := by
   obtain ⟨hpr, -⟩ := surv5K_propsT pH7 bindsH permH TitsH.hl
   ext g
-  simp only [Set.mem_setOf_eq, List.mem_map, List.mem_filter]
+  simp only [Set.mem_ofPred_eq, List.mem_map, List.mem_filter]
   constructor
   · rintro ⟨hgH, hsq, hs1, hs2, hfar⟩
     have hgQ : g ∈ titsQH.originalSubgroup := by rw [titsQH_facts.2.2.1]; exact hgH

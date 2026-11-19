@@ -102,7 +102,7 @@ theorem twE6_oddOrder_retoralize
       group
     rw [hcomp]
   have hFinite : Finite D'.model := by
-    haveI : Finite S.D.model := S.finite
+    have : Finite S.D.model := S.finite
     rw [hD'model]
     exact Finite.of_surjective
       ((MulAut.conj (D'.g0⁻¹ * S.D.g0)).toMonoidHom.subgroupMap S.D.model)

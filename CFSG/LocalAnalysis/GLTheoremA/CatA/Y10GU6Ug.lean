@@ -13,6 +13,7 @@ variable {F : Type} [Field F] [DecidableEq F] [CharP F 2]
 @[expose] def permM (π : Equiv.Perm (Fin 6)) : Matrix (Fin 6) (Fin 6) F :=
   Matrix.of fun r s => if r = π s then 1 else 0
 
+omit [DecidableEq F] [CharP F 2] in
 theorem permM_transpose_mul (π : Equiv.Perm (Fin 6)) : (permM (F := F) π)ᵀ * permM π = 1 := by
   ext r s
   rw [Matrix.mul_apply, Matrix.one_apply]
@@ -25,6 +26,7 @@ theorem permM_transpose_mul (π : Equiv.Perm (Fin 6)) : (permM (F := F) π)ᵀ *
   · intro h
     exact absurd (Finset.mem_univ _) h
 
+omit [DecidableEq F] [CharP F 2] in
 theorem permM_mul_self (π : Equiv.Perm (Fin 6)) (hπ : ∀ s, π (π s) = s) :
     permM (F := F) π * permM π = 1 := by
   ext r s
@@ -37,12 +39,14 @@ theorem permM_mul_self (π : Equiv.Perm (Fin 6)) (hπ : ∀ s, π (π s) = s) :
   · intro h
     exact absurd (Finset.mem_univ _) h
 
+omit [DecidableEq F] in
 theorem permM_map_frob (π : Equiv.Perm (Fin 6)) :
     (permM (F := F) π).map (⇑(iterateFrobenius F 2 2 : F →+* F)) = permM π := by
   ext r s
   simp only [permM, Matrix.map_apply, Matrix.of_apply]
   split_ifs <;> simp [frob_apply4]
 
+omit [DecidableEq F] in
 theorem det_permM_involution (π : Equiv.Perm (Fin 6)) (hπ : ∀ s, π (π s) = s) :
     (permM (F := F) π).det = 1 := by
   have h2 : (2 : F) = 0 := CharTwo.two_eq_zero
@@ -65,6 +69,7 @@ theorem det_permM_involution (π : Equiv.Perm (Fin 6)) (hπ : ∀ s, π (π s) =
       funext k
       simp [ht k])
 
+omit [DecidableEq F] [CharP F 2] in
 theorem diagU_val (t : Fin 6 → F) (ht : ∀ k, t k ≠ 0) :
     ((diagU t ht : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) = Matrix.diagonal t :=
   rfl
@@ -72,10 +77,12 @@ theorem diagU_val (t : Fin 6 → F) (ht : ∀ k, t k ≠ 0) :
 @[expose] def permU (π : Equiv.Perm (Fin 6)) (hπ : ∀ s, π (π s) = s) : GL (Fin 6) F :=
   Units.mk (permM π) (permM π) (permM_mul_self π hπ) (permM_mul_self π hπ)
 
+omit [DecidableEq F] [CharP F 2] in
 theorem permU_val (π : Equiv.Perm (Fin 6)) (hπ : ∀ s, π (π s) = s) :
     ((permU (F := F) π hπ : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) = permM π :=
   rfl
 
+omit [DecidableEq F] in
 theorem diagU_mem_SU (hF : Nat.card F = (2 ^ 2) ^ 2) {t : Fin 6 → F} (ht : ∀ k, t k ≠ 0)
     (ht5 : ∀ k, t k ^ 5 = 1) (hdet : ∏ k, t k = 1) : diagU t ht ∈ StatedSU 6 (2 ^ 2) F := by
   rw [mem_SU_iff hF]
@@ -85,10 +92,11 @@ theorem diagU_mem_SU (hF : Nat.card F = (2 ^ 2) ^ 2) {t : Fin 6 → F} (ht : ∀
       Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
     congr 1
     funext k
-    simp only [Function.comp, frob_apply4]
+    simp only [frob_apply4]
     rw [← pow_succ]
     exact ht5 k
 
+omit [DecidableEq F] in
 theorem permU_mem_SU (hF : Nat.card F = (2 ^ 2) ^ 2) (π : Equiv.Perm (Fin 6))
     (hπ : ∀ s, π (π s) = s) : permU (F := F) π hπ ∈ StatedSU 6 (2 ^ 2) F := by
   rw [mem_SU_iff hF]
@@ -155,7 +163,7 @@ theorem permU_mem_Ug (hF : Nat.card F = (2 ^ 2) ^ 2) {d : Fin 6 → F} {l0 : F}
           intro h'
           exact hrs (h.trans h')
         have hdr := hmove s hs
-        simp [h, hs, hd s, hdr, hrs]
+        simp [h, hs, hdr]
       · simp [h, hrs]
 
 theorem block_card_five [Finite F] (hF : Nat.card F = (2 ^ 2) ^ 2) {d : Fin 6 → F}
@@ -213,6 +221,7 @@ theorem block_card_five [Finite F] (hF : Nat.card F = (2 ^ 2) ^ 2) {d : Fin 6 �
     ext i j
     simp [Matrix.diagonal_apply, Matrix.one_apply]
 
+omit [CharP F 2] in
 theorem compl_eq_one {d : Fin 6 → F} {l0 : F} (hW : (Eset d l0).card = 5) (hd5 : ∀ k, d k ^ 5 = 1)
     (hdet : ∏ k, d k = 1) (k : Fin 6) (hk : ¬ d k = l0) : d k = 1 := by
   have hl5 : l0 ^ 5 = 1 := by

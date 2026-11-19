@@ -23,7 +23,7 @@ variable {G : Type} [Group G] [Finite G]
 theorem isCyclic_outer_of_isU3_two {Y : Type} [Group Y] (h : IsU3 Y 2) :
     IsCyclic (Outer Y) := by
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := (h.statedClassicalModel (by decide)).2
-  letI : Field K := hKf
+  let : Field K := hKf
   have : Finite K := hKfin
   have hn1 : 1 ≤ 2 := by norm_num
   have hcard : Nat.card K = 2 ^ (2 * 2) := by
@@ -571,7 +571,7 @@ theorem barSub_eq_opp_five_of_ctx17_40
       barSub (⊥ : Subgroup G) V c.ctx.hyp125.isElemAbelian (Opp 5 D.M) := by
   classical
   have hV := c.ctx.hyp125.isElemAbelian
-  letI : CommGroup (Vtil (⊥ : Subgroup G) V hV) :=
+  let : CommGroup (Vtil (⊥ : Subgroup G) V hV) :=
     QuotientGroup.Quotient.commGroup (modNull (⊥ : Subgroup G) V hV)
   have : Finite (Vtil (⊥ : Subgroup G) V hV) := inferInstance
   have hpf := c.ctx.hyp125.pairFacts

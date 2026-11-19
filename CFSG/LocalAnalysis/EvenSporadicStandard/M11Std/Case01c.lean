@@ -111,7 +111,7 @@ theorem exists_normal_E8 (h0 : ¬ IsConj H.t (H.a ^ 4)) {P : Subgroup G} (hP : I
   let U : Subgroup G := (Q : Subgroup N).map N.subtype
   have hUN : U ≤ N := by
     rintro _ ⟨q, -, rfl⟩; exact q.2
-  have hUp : IsPGroup 2 U := Q.isPGroup'.map N.subtype
+  have hUp : IsPGroup 2 U := Q.isPGroup.map N.subtype
   have hUcard : Nat.card U = Nat.card Q :=
     Subgroup.card_map_of_injective N.subtype_injective
   have hGP : Nat.card G = 64 * P.index := by rw [← hcard]; exact (Subgroup.card_mul_index P).symm

@@ -22,7 +22,7 @@ theorem exists_fixed_of_odd_coset_amb (N : Subgroup X) (hodd : Odd (Nat.card N))
     ∃ n ∈ N, t * (h * n) * t⁻¹ = h * n := by
   set Kn : Subgroup X := normalizer (N : Set X) with hKn
   have hNK : N ≤ Kn := Subgroup.le_normalizer
-  haveI : (N.subgroupOf Kn).Normal :=
+  have : (N.subgroupOf Kn).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hNK).2 le_rfl
   have hodd' : Odd (Nat.card (N.subgroupOf Kn)) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNK).toEquiv]
@@ -79,7 +79,7 @@ theorem exists_oddCore_cen_mul_cen {D B : Subgroup X} {s d : X}
   exact ⟨d * (b * n)⁻¹, ⟨hq, hqC⟩, b * n, ⟨hbn, hbnC⟩, by group⟩
 
 theorem cen_oddCoreOf_le_oddCoreOf {C L : Subgroup X} {z₀ : X} (hz2 : z₀ ^ 2 = 1)
-    (hLC : L ≤ C) (hLn : C ≤ normalizer (L : Set X)) (hOL : pPrimeCoreOf 2 C ≤ L)
+    (hLC : L ≤ C) (hLn : C ≤ normalizer (L : Set X)) (_hOL : pPrimeCoreOf 2 C ≤ L)
     (hzL : z₀ ∈ zStar L) :
     pPrimeCoreOf 2 (centralizer ({z₀} : Set X)) ⊓ C ≤ pPrimeCoreOf 2 C := by
   set D : Subgroup X := centralizer ({z₀} : Set X) with hD
@@ -199,7 +199,7 @@ section Lemma34
 variable {X : Type} [Group X] [Finite X] {n : ℕ} {z : X} {Z : Subgroup X}
 
 theorem exists_lemma34_witness (hA : HypA X) (hn : IsMaxAhatDeg X n) (hp : IsSec5Pair X n z Z)
-    {s : X} (hsN : s ∈ normalizer (Z : Set X)) (hs2 : orderOf s = 2)
+    {s : X} (_hsN : s ∈ normalizer (Z : Set X)) (hs2 : orderOf s = 2)
     (hJ : K0 X n (K0 X n (normalizer (Z : Set X)) ⊓ centralizer ({s} : Set X)) ≠ ⊥) :
     ∃ z₀ : X, z₀ ^ 2 = 1 ∧ z₀ ∈ centralizer ({s} : Set X) ∧
       z₀ ∈ zStar (LPlusIn (centralizer ({s} : Set X))) ∧

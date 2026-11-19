@@ -18,7 +18,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {S : Setting G} {g x : G} {K Y : Subgroup S.O}
 
-@[expose] noncomputable def UCore (S : Setting G) (x : G) : Subgroup G :=
+@[expose] noncomputable def UCore (_S : Setting G) (x : G) : Subgroup G :=
   pCoreOf 2 (centralizer ({x} : Set G))
 
 @[expose] noncomputable def Wbar (S : Setting G) (x : G) : Subgroup S.O :=
@@ -76,7 +76,7 @@ theorem Wbar_isPGroup : IsPGroup 2 ↥(Wbar S x) := by
   exact h2.map S.ρ
 
 theorem Wbar_isSolvable : Group.IsSolvable (Wbar S x) := by
-  haveI : Group.IsNilpotent (Wbar S x) := (Wbar_isPGroup (S := S) (x := x)).isNilpotent
+  have : Group.IsNilpotent (Wbar S x) := (Wbar_isPGroup (S := S) (x := x)).isNilpotent
   exact IsNilpotent.to_isSolvable
 
 theorem commute_Wbar_K (T : ThompsonInput S g x K Y) :
@@ -95,7 +95,7 @@ theorem commute_Wbar_K (T : ThompsonInput S g x K Y) :
   have hWsub : ((Wbar S x).subgroupOf Y).IsSubnormal :=
     (Wbar_normal T).isSubnormal
   have hWsolv : Group.IsSolvable ((Wbar S x).subgroupOf Y) := by
-    haveI := Wbar_isSolvable (S := S) (x := x)
+    have := Wbar_isSolvable (S := S) (x := x)
     exact Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hWY).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hWY).injective
@@ -112,6 +112,7 @@ theorem commute_Wbar_K (T : ThompsonInput S g x K Y) :
   have hcomm' := Subgroup.mem_centralizer_iff.mp (hcent hkY) _ hwY
   exact congrArg Subtype.val hcomm'
 
+omit [Finite G] in
 theorem conj_mem_UCore_inf_QG {y : S.M} (hyx : (y : G) * x = x * (y : G)) {u : G}
     (hu : u ∈ UCore S x ⊓ S.QG) : (y : G) * u * (y : G)⁻¹ ∈ UCore S x ⊓ S.QG := by
   have hyH : (y : G) ∈ centralizer ({x} : Set G) :=
@@ -155,12 +156,12 @@ theorem not_centralize_UCore (hchar : IsCharTwoType G) (T : ThompsonInput S g x 
   exact hy1 (orderOf_eq_one_iff.mp hone)
 
 theorem not_centralize_inf_M (hchar : IsCharTwoType G) (T : ThompsonInput S g x K Y)
-    {k : S.O} (hkK : k ∈ K) {y : S.M}
+    {k : S.O} (_hkK : k ∈ K) {y : S.M}
     (hyodd : Odd (orderOf (y : G))) (hy1 : (y : G) ≠ 1)
-    (hyx : (y : G) * x = x * (y : G)) (hk1 : k ≠ 1) :
+    (hyx : (y : G) * x = x * (y : G)) (_hk1 : k ≠ 1) :
     ¬ ∀ p ∈ UCore S x ⊓ S.M, (y : G) * p = p * (y : G) := by
   intro hfixM
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnotU := not_centralize_UCore hchar T hyodd hy1 hyx
   apply hnotU
   have hyH : (y : G) ∈ centralizer ({x} : Set G) :=
@@ -203,7 +204,7 @@ theorem not_centralize_inf_M (hchar : IsCharTwoType G) (T : ThompsonInput S g x 
   intro u hu
   exact Subgroup.mem_centralizer_iff.mp (hN hu) (y : G) (Subgroup.mem_zpowers (y : G))
 
-theorem not_centralize_inf_QG (hchar : IsCharTwoType G) (T : ThompsonInput S g x K Y)
+theorem not_centralize_inf_QG (_hchar : IsCharTwoType G) (T : ThompsonInput S g x K Y)
     {k : S.O} (hkK : k ∈ K) {y : S.M} (hyρ : S.ρ y = k)
     (hyodd : Odd (orderOf (y : G))) (hyx : (y : G) * x = x * (y : G))
     (hnotM : ¬ ∀ p ∈ UCore S x ⊓ S.M, (y : G) * p = p * (y : G)) :
@@ -251,7 +252,7 @@ theorem not_centralize_inf_QG (hchar : IsCharTwoType G) (T : ThompsonInput S g x
       group
     exact ⟨hcommU, (S.ρ_eq_one_iff _).mp hrho⟩
 
-theorem centralize_inf_QG_of_fix (T : ThompsonInput S g x K Y) {k : S.O} (hkK : k ∈ K)
+theorem centralize_inf_QG_of_fix (_T : ThompsonInput S g x K Y) {k : S.O} (_hkK : k ∈ K)
     {y : S.M} (hyρ : S.ρ y = k) (hyodd : Odd (orderOf (y : G)))
     (hyx : (y : G) * x = x * (y : G))
     (hfix : ∀ v ∈ S.clSub (UCore S x),

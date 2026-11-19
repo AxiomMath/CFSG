@@ -27,7 +27,7 @@ theorem isPGroup_le_sup_pCoreOf_of_relIndex_three {G : Type*} [Group G] [Finite 
     (hBR : B ≤ Subgroup.normalizer (R : Set G)) :
     R ≤ L ⊔ pCoreOf 2 (L ⊔ B) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set P : Subgroup G := L ⊔ B with hP
   set Q : Subgroup G := pCoreOf 2 P with hQ
   have hIdxP : B.relIndex P = 3 := by rw [hP]; exact hIdx
@@ -85,7 +85,7 @@ theorem isPGroup_le_sup_pCoreOf_of_relIndex_three {G : Type*} [Group G] [Finite 
           (hQleB (hO2leQ (Subgroup.mem_subgroupOf.mp hx)))
       have hN'normal : ((pCoreOf 2 L).subgroupOf P).Normal :=
         Subgroup.normal_subgroupOf_of_le_normalizer hPnO2
-      haveI : ((pCoreOf 2 L).subgroupOf P).Normal := hN'normal
+      have : ((pCoreOf 2 L).subgroupOf P).Normal := hN'normal
       have hcore : (pCoreOf 2 L).subgroupOf P ≤ (B.subgroupOf P).normalCore :=
         Subgroup.normal_le_normalCore.mpr hN'le
       calc pCoreOf 2 L = ((pCoreOf 2 L).subgroupOf P).map P.subtype :=

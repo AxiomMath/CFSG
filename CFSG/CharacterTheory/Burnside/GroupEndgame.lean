@@ -68,7 +68,7 @@ private theorem exists_nonidentity_conjClass_card_eq_prime_pow
     lt_of_lt_of_le (Nat.one_lt_pow (Nat.ne_of_gt hm) hr.one_lt)
       (Nat.le_of_dvd Nat.card_pos hrpow_dvd_P)
   let : Nontrivial P := (Finite.one_lt_card_iff_nontrivial).mp hPcard
-  let : Nontrivial (Subgroup.center P) := P.isPGroup'.center_nontrivial
+  let : Nontrivial (Subgroup.center P) := P.isPGroup.center_nontrivial
   obtain ⟨z, hz⟩ := exists_ne (1 : Subgroup.center P)
   let x : H := z.1.1
   have hx : x ≠ 1 := by
@@ -139,7 +139,7 @@ theorem isSolvable_of_card_eq_prime_pow_mul_prime_pow_of_simple_case
       · by_cases hnontrivial : Nontrivial H
         · rw [isSimpleGroup_iff] at hsimple
           simp only [hnontrivial, true_and] at hsimple
-          push_neg at hsimple
+          push Not at hsimple
           obtain ⟨N, hNnormal, hNbot, hNtop⟩ := hsimple
           let : N.Normal := hNnormal
           let : Fintype N := Fintype.ofFinite N

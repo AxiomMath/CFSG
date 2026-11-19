@@ -16,8 +16,7 @@ variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
 private theorem smulRight_mul_smulRight_same (φ : Dual K V) (u w : V) :
     φ.smulRight u * φ.smulRight w = φ w • φ.smulRight u := by
   ext z
-  simp only [Module.End.mul_apply, LinearMap.smulRight_apply, map_smul, smul_eq_mul,
-    smul_smul, LinearMap.smul_apply]
+  simp only [Module.End.mul_apply, LinearMap.smulRight_apply, map_smul, smul_smul, LinearMap.smul_apply]
   module
 
 private theorem isRootElt_add_vec {X : Subgroup (LinearMap.GeneralLinearGroup K V)} {u w : V}
@@ -29,7 +28,7 @@ private theorem isRootElt_add_vec {X : Subgroup (LinearMap.GeneralLinearGroup K 
   refine ⟨g * h, X.mul_mem hg hh, ?_⟩
   have hsum : φ.smulRight (u + w) = φ.smulRight u + φ.smulRight w := by
     ext z
-    simp [LinearMap.smulRight_apply, add_smul]
+    simp [LinearMap.smulRight_apply]
   have hz : φ.smulRight u * φ.smulRight w = 0 := by
     rw [smulRight_mul_smulRight_same, hw.1, zero_smul]
   rw [Units.val_mul, hgu, hhw, hsum, smul_add]
@@ -136,7 +135,7 @@ private theorem caseB_all_forms {X : Subgroup (LinearMap.GeneralLinearGroup K V)
     rw [eq_bot_iff]
     intro x hx
     have hx' : x ∈ (⨅ u ∈ {u : V | IsCentre X u}, axisSpace X u) := by
-      simp only [Submodule.mem_iInf, Set.mem_setOf_eq]
+      simp only [Submodule.mem_iInf, Set.mem_ofPred_eq]
       intro u hu
       rw [mem_axisSpace_iff]
       intro φ hφ
@@ -151,6 +150,7 @@ private theorem caseB_all_forms {X : Subgroup (LinearMap.GeneralLinearGroup K V)
   intro ψ
   exact (hW ψ).mp (by rw [hWtop]; exact Submodule.mem_top)
 
+omit [FiniteDimensional K V] in
 private theorem det_one_add_smulRight_of_eq_zero {ι : Type*} [Fintype ι] [DecidableEq ι]
     (b : Module.Basis ι K V) (φ : Dual K V) (u : V) (hφu : φ u = 0) :
     LinearMap.det (1 + φ.smulRight u : V →ₗ[K] V) = 1 := by
@@ -165,8 +165,9 @@ private theorem det_one_add_smulRight_of_eq_zero {ι : Type*} [Fintype ι] [Deci
   rw [← LinearMap.det_toMatrix b, map_add, LinearMap.toMatrix_one, LinearMap.toMatrix_smulRight,
     h, Matrix.det_one_add_replicateCol_mul_replicateRow, hdot, hφu, add_zero]
 
+omit [FiniteDimensional K V] in
 private theorem toLinAlgEquiv_transvection {ι : Type*} [Fintype ι] [DecidableEq ι]
-    (b : Module.Basis ι K V) {i j : ι} (hij : i ≠ j) (c : K) :
+    (b : Module.Basis ι K V) {i j : ι} (_hij : i ≠ j) (c : K) :
     Matrix.toLinAlgEquiv b (Matrix.transvection i j c) =
       1 + c • (b.coord j).smulRight (b i) := by
   apply b.ext
@@ -181,7 +182,7 @@ private theorem sl_le_of_full_transvections {X : Subgroup (LinearMap.GeneralLine
     (hall : ∀ (u : V) (φ : Dual K V), φ u = 0 → IsRootElt X u φ) (hn : 2 ≤ finrank K V)
     (g : LinearMap.GeneralLinearGroup K V) (hg : LinearMap.det (g : V →ₗ[K] V) = 1) : g ∈ X := by
   let b : Module.Basis (Fin (finrank K V)) K V := Module.finBasis K V
-  haveI : Nontrivial (Fin (finrank K V)) := Fin.nontrivial_iff_two_le.mpr hn
+  have : Nontrivial (Fin (finrank K V)) := Fin.nontrivial_iff_two_le.mpr hn
   let S : Matrix.GeneralLinearGroup (Fin (finrank K V)) K →* LinearMap.GeneralLinearGroup K V :=
     Units.map (Matrix.toLinAlgEquiv b).toMonoidHom
   let ψ : Matrix.SpecialLinearGroup (Fin (finrank K V)) K →* LinearMap.GeneralLinearGroup K V :=
@@ -195,7 +196,7 @@ private theorem sl_le_of_full_transvections {X : Subgroup (LinearMap.GeneralLine
     intro i j hij c
     rw [Subgroup.mem_comap]
     have h0 : (b.coord j) (b i) = 0 := by
-      rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_apply, if_neg hij]
+      rw [Module.Basis.coord_apply, Module.Basis.repr_self, Finsupp.single_apply, ite_eq_right hij]
     obtain ⟨h, hh, hh'⟩ := (hall (b i) (b.coord j) h0).2 c
     convert hh using 1
     apply Units.ext
@@ -248,11 +249,13 @@ theorem eq_sl_of_axisSpace {X : Subgroup (LinearMap.GeneralLinearGroup K V)}
   exact ⟨fun hg => (MonoidHom.mem_ker.mp (hX hg)), fun hdet =>
     sl_le_of_full_transvections hroot hn g hdet⟩
 
+omit [FiniteDimensional K V] in
 private theorem gl_inv_val_apply (y : LinearMap.GeneralLinearGroup K V) (x : V) :
     ((y⁻¹ : LinearMap.GeneralLinearGroup K V) : V →ₗ[K] V) ((y : V →ₗ[K] V) x) = x := by
   rw [← Module.End.mul_apply, ← Units.val_mul, inv_mul_cancel, Units.val_one,
     Module.End.one_apply]
 
+omit [FiniteDimensional K V] in
 private theorem gl_val_inv_apply (y : LinearMap.GeneralLinearGroup K V) (x : V) :
     (y : V →ₗ[K] V) (((y⁻¹ : LinearMap.GeneralLinearGroup K V) : V →ₗ[K] V) x) = x := by
   rw [← Module.End.mul_apply, ← Units.val_mul, mul_inv_cancel, Units.val_one,
@@ -437,7 +440,7 @@ theorem exists_alt_isometry_of_axisSpace_hyperplane
         rw [CFSG.ClassicalGroups.Alternating.symplecticTransvection_apply, hgeq]
         have hxa : β x a = -(μ * δ a x) := by rw [anti x a, hμ x]
         simp only [LinearMap.add_apply, LinearMap.smul_apply, Module.End.one_apply,
-          LinearMap.smulRight_apply, smul_eq_mul, hxa]
+          LinearMap.smulRight_apply, hxa]
         module
       rw [h1]
       exact hg

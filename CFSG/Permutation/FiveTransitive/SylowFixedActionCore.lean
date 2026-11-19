@@ -11,20 +11,20 @@ namespace FiveTransitive.SylowFixedActionCore
 
 open MulAction SubMulAction Subgroup
 
-@[expose] abbrev sylowImage
+abbrev sylowImage
     (X : Type) (P : Subgroup (Equiv.Perm X)) (s : Set X)
     {p : ℕ}
     (S : Sylow p (fixingSubgroup P s)) : Subgroup P :=
   (S : Subgroup (fixingSubgroup P s)).map
     (fixingSubgroup P s).subtype
 
-@[expose] abbrev sylowNormalizer
+abbrev sylowNormalizer
     (X : Type) (P : Subgroup (Equiv.Perm X)) (s : Set X)
     {p : ℕ}
     (S : Sylow p (fixingSubgroup P s)) : Subgroup P :=
   Subgroup.normalizer (sylowImage X P s S : Set P)
 
-@[expose] abbrev sylowInNormalizer
+abbrev sylowInNormalizer
     (X : Type) (P : Subgroup (Equiv.Perm X)) (s : Set X)
     {p : ℕ}
     (S : Sylow p (fixingSubgroup P s)) :
@@ -32,7 +32,7 @@ open MulAction SubMulAction Subgroup
   (sylowImage X P s S).subgroupOf
     (sylowNormalizer X P s S)
 
-@[expose] abbrev sylowFixedPoints
+abbrev sylowFixedPoints
     (X : Type) (P : Subgroup (Equiv.Perm X)) (s : Set X)
     {p : ℕ}
     (S : Sylow p (fixingSubgroup P s)) :=
@@ -152,7 +152,7 @@ theorem sylowNormalizer_five_transitive_on_fixedPoints
       _ = Nat.card SP := hQSPcard
       _ = Nat.card S := hSPcard
   obtain ⟨n, hn⟩ :=
-    S.isPGroup'.exists_card_eq
+    S.isPGroup.exists_card_eq
   have hSUisP : IsPGroup p SU := by
     exact IsPGroup.of_card (hSUcard.trans hn)
   have hTUisP : IsPGroup p TU := by

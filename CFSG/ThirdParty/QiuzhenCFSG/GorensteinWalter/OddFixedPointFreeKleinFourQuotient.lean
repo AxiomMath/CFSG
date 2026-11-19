@@ -63,7 +63,7 @@ public theorem odd_fixedPointFree_subgroup_card_three_of_kleinFour_quotient
     have hprod : (h * v * h⁻¹) * (h * u * h⁻¹) ∈ B :=
       B.mul_mem ((show V ≤ B from le_sup_left) hv')
         ((show U ≤ B from le_sup_right) hu')
-    convert hprod using 1 <;> group
+    convert hprod using 1; group
   have hVnormalB : IsNormalIn V B := by
     refine ⟨le_sup_left, ?_⟩
     intro b hb v hv

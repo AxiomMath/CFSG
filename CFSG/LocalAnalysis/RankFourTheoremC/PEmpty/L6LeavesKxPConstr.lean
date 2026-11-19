@@ -66,7 +66,7 @@ theorem mem_Op_of_isPConstrained [Fact p.Prime] {M : Subgroup G}
   set PM : Subgroup ↥M := (P : Subgroup G).subgroupOf M with hPMdef
   have hPMsyl : CFSG.ABGLocalTools.IsSylowOf p PM ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, P.isPGroup'.comap_subtype, ?_⟩
+    refine ⟨le_top, P.isPGroup.comap_subtype, ?_⟩
     rw [Subgroup.relIndex_top_right]
     have h1 : (PM).index = (P : Subgroup G).relIndex M := rfl
     rw [h1]
@@ -87,8 +87,8 @@ theorem false_of_mem_Opp [Fact p.Prime] {H N R O : Subgroup G} (hs : S622IsSimpl
     (hO : Nat.Coprime p (Nat.card O)) (hRO : ∀ r ∈ R, ∃ n : ℕ, r ^ (p ^ n) ∈ O)
     (hzR : z ∈ R) : False := by
   classical
-  haveI hNn : (N.subgroupOf H).Normal := hs.2.1
-  haveI hsimp : IsSimpleGroup (↥H ⧸ N.subgroupOf H) := L613.isSimpleGroup_quotient_of_section hs
+  have hNn : (N.subgroupOf H).Normal := hs.2.1
+  have hsimp : IsSimpleGroup (↥H ⧸ N.subgroupOf H) := L613.isSimpleGroup_quotient_of_section hs
   have hnab := L613.not_comm_quotient_of_section hs
   set π : ↥H →* (↥H ⧸ N.subgroupOf H) := QuotientGroup.mk' (N.subgroupOf H) with hπ
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective _
@@ -114,7 +114,7 @@ theorem false_of_mem_Opp [Fact p.Prime] {H N R O : Subgroup G} (hs : S622IsSimpl
   have hBn : (V.map π).Normal := Subgroup.Normal.map hVn π hπsurj
   have hz'U : z' ∈ U := hzR
   have hAtop : U.map π = ⊤ := by
-    haveI := hAn
+    have := hAn
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (U.map π) with h | h
     · exfalso
       apply hπz
@@ -122,7 +122,7 @@ theorem false_of_mem_Opp [Fact p.Prime] {H N R O : Subgroup G} (hs : S622IsSimpl
       rw [h] at this
       exact this
     · exact h
-  haveI := hBn
+  have := hBn
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (V.map π) with hB | hB
   ·
     have hpgrp : IsPGroup p (↥H ⧸ N.subgroupOf H) := by

@@ -141,7 +141,7 @@ theorem ks135A7TwoLocal : KS135A7TwoLocal := by
     obtain ⟨s, hs, hsv⟩ := hmem
     exact ⟨s, ⟨s, hs, rfl⟩, congrArg Subtype.val hsv⟩
   have hRLY : RL ≤ Y := Subgroup.map_subtype_le _
-  have hRL2 : IsPGroup 2 RL := S₂.isPGroup'.map Y.subtype
+  have hRL2 : IsPGroup 2 RL := S₂.isPGroup.map Y.subtype
   refine ⟨RL.map L.subtype, (bL : G), Subgroup.map_subtype_le _, hRL2.map L.subtype, ?_,
     ⟨Subgroup.mem_subgroupOf.mp hbL, bL.2⟩, ?_, ?_, ?_⟩
   ·

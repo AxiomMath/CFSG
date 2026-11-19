@@ -38,11 +38,11 @@ theorem isUpperUni_rootMatrix {i j : Fin 4} (hij : i < j) (c : K) :
   refine ⟨fun a b hba => ?_, fun a => ?_⟩
   · obtain ⟨h1, h2, h3⟩ := rootMatrix_entries_upper i j a b hij hba
     simp only [rootMatrix, Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply,
-      Matrix.single_apply, if_neg h1, if_neg h2, if_neg h3]
+      Matrix.single_apply, ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
     simp
   · obtain ⟨h2, h3⟩ := rootMatrix_diag_upper i j a hij
     simp only [rootMatrix, Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply,
-      Matrix.single_apply, if_neg h2, if_neg h3]
+      Matrix.single_apply, ite_eq_right h2, ite_eq_right h3]
     simp
 
 theorem isLowerUni_rootMatrix {i j : Fin 4} (hij : j < i) (c : K) :
@@ -50,11 +50,11 @@ theorem isLowerUni_rootMatrix {i j : Fin 4} (hij : j < i) (c : K) :
   refine ⟨fun a b hab => ?_, fun a => ?_⟩
   · obtain ⟨h1, h2, h3⟩ := rootMatrix_entries_lower i j a b hij hab
     simp only [rootMatrix, Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply,
-      Matrix.single_apply, if_neg h1, if_neg h2, if_neg h3]
+      Matrix.single_apply, ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
     simp
   · obtain ⟨h2, h3⟩ := rootMatrix_diag_lower i j a hij
     simp only [rootMatrix, Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply,
-      Matrix.single_apply, if_neg h2, if_neg h3]
+      Matrix.single_apply, ite_eq_right h2, ite_eq_right h3]
     simp
 
 theorem longRootMatrix_entries_upper : ∀ i a b : Fin 4, i < Fin.rev i → b < a →
@@ -63,32 +63,34 @@ theorem longRootMatrix_entries_upper : ∀ i a b : Fin 4, i < Fin.rev i → b < 
 theorem longRootMatrix_entries_lower : ∀ i a b : Fin 4, Fin.rev i < i → a < b →
     ¬(i = a ∧ Fin.rev i = b) ∧ a ≠ b := by decide
 
+omit [Finite K] [CharP K 2] in
 theorem isUpperUni_longRootMatrix {i : Fin 4} (hi : i < Fin.rev i) (c : K) :
     IsUpperUni (longRootMatrix i c : Matrix (Fin 4) (Fin 4) K) := by
   refine ⟨fun a b hba => ?_, fun a => ?_⟩
   · obtain ⟨h2, h1⟩ := longRootMatrix_entries_upper i a b hi hba
-    simp only [longRootMatrix, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, if_neg h1,
-      if_neg h2]
+    simp only [longRootMatrix, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, ite_eq_right h1,
+      ite_eq_right h2]
     simp
   · have h2 : ¬(i = a ∧ Fin.rev i = a) := by
       rintro ⟨h, h'⟩
       rw [← h] at h'
       exact absurd h' (ne_of_gt hi)
-    simp only [longRootMatrix, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, if_neg h2]
+    simp only [longRootMatrix, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, ite_eq_right h2]
     simp
 
+omit [Finite K] [CharP K 2] in
 theorem isLowerUni_longRootMatrix {i : Fin 4} (hi : Fin.rev i < i) (c : K) :
     IsLowerUni (longRootMatrix i c : Matrix (Fin 4) (Fin 4) K) := by
   refine ⟨fun a b hab => ?_, fun a => ?_⟩
   · obtain ⟨h2, h1⟩ := longRootMatrix_entries_lower i a b hi hab
-    simp only [longRootMatrix, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, if_neg h1,
-      if_neg h2]
+    simp only [longRootMatrix, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, ite_eq_right h1,
+      ite_eq_right h2]
     simp
   · have h2 : ¬(i = a ∧ Fin.rev i = a) := by
       rintro ⟨h, h'⟩
       rw [← h] at h'
       exact absurd h' (ne_of_lt hi)
-    simp only [longRootMatrix, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, if_neg h2]
+    simp only [longRootMatrix, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply, ite_eq_right h2]
     simp
 
 theorem exists_norm_of_fixed (hK : Nat.card K = (2 ^ n) ^ 2) {x : K}

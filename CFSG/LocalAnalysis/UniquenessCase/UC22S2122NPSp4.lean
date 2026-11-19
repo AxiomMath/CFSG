@@ -14,13 +14,14 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
-private abbrev uc22s2122npQ (N S : Subgroup G) [h : (S.subgroupOf N).Normal] : Type :=
+private abbrev uc22s2122npQ (N S : Subgroup G) [_h : (S.subgroupOf N).Normal] : Type :=
   ↥N ⧸ S.subgroupOf N
 
 private abbrev uc22s2122npMk (N S : Subgroup G) [h : (S.subgroupOf N).Normal] :
     ↥N →* uc22s2122npQ N S :=
   QuotientGroup.mk' (S.subgroupOf N)
 
+omit [Finite G] in
 private theorem uc22s2122np_quot_rel {N S : Subgroup G} [hS₀ : (S.subgroupOf N).Normal]
     {k : ℕ} {x y : G} (hSN : S ≤ N) (hxN : x ∈ N) (hyN : y ∈ N)
     (hk : x * y * x⁻¹ * (y ^ k)⁻¹ ∈ S) :
@@ -44,6 +45,7 @@ private theorem uc22s2122np_quot_rel {N S : Subgroup G} [hS₀ : (S.subgroupOf N
   rw [hprod] at hq1
   exact mul_inv_eq_one.1 hq1
 
+omit [Finite G] in
 private theorem uc22s2122np_quot_pow_one {N S : Subgroup G} [hS₀ : (S.subgroupOf N).Normal]
     {s : ℕ} {x : G} (hxN : x ∈ N) (hxs : x ^ s = 1) :
     (uc22s2122npMk N S ⟨x, hxN⟩) ^ s = 1 := by
@@ -53,6 +55,7 @@ private theorem uc22s2122np_quot_pow_one {N S : Subgroup G} [hS₀ : (S.subgroup
     simpa using hxs
   rw [h1, map_one]
 
+omit [Finite G] in
 private theorem uc22s2122np_quot_pow_mem_one {N S : Subgroup G} [hS₀ : (S.subgroupOf N).Normal]
     {s : ℕ} {y : G} (hSN : S ≤ N) (hyN : y ∈ N) (hys : y ^ s ∈ S) :
     (uc22s2122npMk N S ⟨y, hyN⟩) ^ s = 1 := by
@@ -65,6 +68,7 @@ private theorem uc22s2122np_quot_pow_mem_one {N S : Subgroup G} [hS₀ : (S.subg
   rw [h1]
   exact hys
 
+omit [Finite G] in
 private theorem uc22s2122np_quot_iterate {N S : Subgroup G} [hS₀ : (S.subgroupOf N).Normal]
     {s k : ℕ} {x y : G} (hxN : x ∈ N) (hyN : y ∈ N)
     (hxq : (uc22s2122npMk N S ⟨x, hxN⟩) ^ s = 1)
@@ -90,12 +94,14 @@ private theorem uc22s2122np_quot_iterate {N S : Subgroup G} [hS₀ : (S.subgroup
   rw [hxq', one_mul, inv_one, mul_one] at h1
   simpa [xq, yq] using h1.symm
 
+omit [Finite G] in
 private theorem uc22s2122np_mem_of_quot_eq_one {N S : Subgroup G} [hS₀ : (S.subgroupOf N).Normal]
     {g : G} (hgN : g ∈ N) (h : uc22s2122npMk N S ⟨g, hgN⟩ = 1) : g ∈ S := by
   change (QuotientGroup.mk' (S.subgroupOf N)) ⟨g, hgN⟩ = 1 at h
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf] at h
   exact h
 
+omit [Finite G] in
 private theorem uc22s2122np_quot_comm {N S : Subgroup G} [hS₀ : (S.subgroupOf N).Normal]
     {x y : G} (hxN : x ∈ N) (hyN : y ∈ N) (hN : x * y * x⁻¹ * y⁻¹ ∈ N)
     (h3 : uc22s2122npMk N S ⟨x, hxN⟩ * uc22s2122npMk N S ⟨y, hyN⟩ *
@@ -114,6 +120,7 @@ private theorem uc22s2122np_quot_comm {N S : Subgroup G} [hS₀ : (S.subgroupOf 
   rw [hsplit]
   exact h3
 
+omit [Finite G] in
 private theorem uc22s2122np_quot_eq_one_of_mem {N S : Subgroup G}
     [hS₀ : (S.subgroupOf N).Normal] {g : G} (hgN : g ∈ N) (hgS : g ∈ S) :
     uc22s2122npMk N S ⟨g, hgN⟩ = 1 := by
@@ -127,14 +134,14 @@ theorem uc22s2122np_comm_mod_of_pow {L S : Subgroup G} {a s : ℕ} (hS : IsSylow
     (hxs : x ^ s = 1) {y : G} (hyL : y ∈ L) (hyS : y ∈ normalizer (S : Set G))
     (hys : y ^ s ∈ S) : x * y * x⁻¹ * y⁻¹ ∈ S := by
   classical
-  haveI : Fact s.Prime := ⟨hs⟩
+  have : Fact s.Prime := ⟨hs⟩
   obtain ⟨k, hk⟩ := uc22p218d_exists_pow_conj_mem_sp4 hS hX hxL hxS
     (hs.odd_of_ne_two hs2) hxs
   let N : Subgroup G := normalizer (S : Set G)
   have hSN : S ≤ N := fun z hz => Subgroup.le_normalizer hz
   have hS₀ : (S.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hSN).2 le_rfl
-  letI : (S.subgroupOf N).Normal := hS₀
+  let : (S.subgroupOf N).Normal := hS₀
   have hxq := uc22s2122np_quot_pow_one (N := N) (S := S) hxS hxs
   have hyq := uc22s2122np_quot_pow_mem_one (N := N) (S := S) hSN hyS hys
   have hrel := uc22s2122np_quot_rel (N := N) (S := S) hSN hxS hyS (hk y hyL hyS)
@@ -162,20 +169,24 @@ def uc22s2122npWSet (L S : Subgroup G) (s : ℕ) : Set G :=
 abbrev uc22s2122npV (L S : Subgroup G) (s : ℕ) : Subgroup G :=
   S ⊔ Subgroup.closure (uc22s2122npWSet L S s)
 
+omit [Finite G] in
 theorem uc22s2122npV_le {L S : Subgroup G} {s : ℕ} (hS : IsSylowOf 2 S L) :
     uc22s2122npV L S s ≤ L :=
   sup_le hS.le ((Subgroup.closure_le _).2 fun _ hx => hx.1)
 
+omit [Finite G] in
 theorem uc22s2122npV_le_normalizer {L S : Subgroup G} {s : ℕ} :
     uc22s2122npV L S s ≤ normalizer (S : Set G) :=
   sup_le (fun _ hx => Subgroup.le_normalizer hx)
     ((Subgroup.closure_le _).2 fun _ hx => hx.2.1)
 
+omit [Finite G] in
 theorem uc22s2122npV_mem {L S : Subgroup G} {s : ℕ} {x : G} (hxL : x ∈ L)
     (hxS : x ∈ normalizer (S : Set G)) (hxs : x ^ s = 1) :
     x ∈ uc22s2122npV L S s :=
   Subgroup.mem_sup_right (Subgroup.subset_closure ⟨hxL, hxS, hxs⟩)
 
+omit [Finite G] in
 private theorem uc22s2122npWSet_conj {L S : Subgroup G} {s : ℕ} {g x : G}
     (hgL : g ∈ normalizer (L : Set G)) (hgS : g ∈ normalizer (S : Set G))
     (hx : x ∈ uc22s2122npWSet L S s) : g * x * g⁻¹ ∈ uc22s2122npWSet L S s := by
@@ -187,6 +198,7 @@ private theorem uc22s2122npWSet_conj {L S : Subgroup G} {s : ℕ} {g x : G}
       ((normalizer (S : Set G)).mul_mem hgS hxS) ((normalizer (S : Set G)).inv_mem hgS)
   · rw [conj_pow, hxs, mul_one, mul_inv_cancel]
 
+omit [Finite G] in
 private theorem uc22s2122np_closure_normalizer {L S : Subgroup G} {s : ℕ} {g : G}
     (hgen : ∀ x ∈ uc22s2122npWSet L S s, g * x * g⁻¹ ∈ uc22s2122npWSet L S s)
     (hgen' : ∀ x ∈ uc22s2122npWSet L S s, g⁻¹ * x * g ∈ uc22s2122npWSet L S s) :
@@ -204,6 +216,7 @@ private theorem uc22s2122np_closure_normalizer {L S : Subgroup G} {s : ℕ} {g :
     rw [MulAut.conj_apply]
     group
 
+omit [Finite G] in
 theorem uc22s2122npV_le_normalizer_of_mem {L S : Subgroup G} {s : ℕ} {g : G}
     (hgL : g ∈ normalizer (L : Set G)) (hgS : g ∈ normalizer (S : Set G)) :
     g ∈ normalizer (uc22s2122npV L S s : Set G) := by
@@ -237,8 +250,9 @@ private def uc22s2122npT' (N S : Subgroup G) [h : (S.subgroupOf N).Normal] (T : 
     Set (uc22s2122npQ N S) :=
   {y | ∃ x : ↥N, (x : G) ∈ T ∧ y = uc22s2122npMk N S x}
 
+omit [Finite G] in
 private theorem uc22s2122np_closure_image {N S : Subgroup G} [hS₀ : (S.subgroupOf N).Normal]
-    {T : Set G} {s : ℕ} (hSN : S ≤ N) (hTN : ∀ x ∈ T, x ∈ N)
+    {T : Set G} {s : ℕ} (hSN : S ≤ N) (_hTN : ∀ x ∈ T, x ∈ N)
     (hTpow : ∀ x ∈ T, x ^ s ∈ S)
     (hTcomm : ∀ x ∈ T, ∀ y ∈ T, x * y * x⁻¹ * y⁻¹ ∈ S) :
     (∀ y ∈ uc22s2122npT' N S T, y ^ s = 1) ∧ (uc22s2122npT' N S T).Pairwise Commute := by
@@ -272,6 +286,7 @@ private theorem uc22s2122np_closure_image {N S : Subgroup G} [hS₀ : (S.subgrou
           uc22s2122npMk N S x := by group
       _ = uc22s2122npMk N S w * uc22s2122npMk N S x := by rw [h3]
 
+omit [Finite G] in
 private theorem uc22s2122np_closure_lift {N S : Subgroup G} [hS₀ : (S.subgroupOf N).Normal]
     {T : Set G} {s : ℕ} (hTN : ∀ x ∈ T, x ∈ N)
     (hT'pow : ∀ y ∈ uc22s2122npT' N S T, y ^ s = 1)
@@ -294,6 +309,7 @@ private theorem uc22s2122np_closure_lift {N S : Subgroup G} [hS₀ : (S.subgroup
   obtain ⟨nu, hnuA, hnu⟩ := Subgroup.mem_map.1 (hclP hu)
   exact ⟨nu, hnuA, hnu⟩
 
+omit [Finite G] in
 private theorem uc22s2122np_closure_pow {N S : Subgroup G} [hS₀ : (S.subgroupOf N).Normal]
     {T : Set G} {s : ℕ} {A : Subgroup (uc22s2122npQ N S)}
     (hApow : ∀ y ∈ A, y ^ s = 1)
@@ -307,6 +323,7 @@ private theorem uc22s2122np_closure_pow {N S : Subgroup G} [hS₀ : (S.subgroupO
     uc22s2122np_mem_of_quot_eq_one (N := N) (S := S) (N.pow_mem nu.2 s) h1
   simpa [hnu] using h2
 
+omit [Finite G] in
 private theorem uc22s2122np_closure_comm {N S : Subgroup G} [hS₀ : (S.subgroupOf N).Normal]
     {T : Set G} {A : Subgroup (uc22s2122npQ N S)} (hAcomm : IsMulCommutative A)
     (hlift : ∀ u ∈ Subgroup.closure T, ∃ nu : ↥N, uc22s2122npMk N S nu ∈ A ∧ (nu : G) = u)
@@ -328,6 +345,7 @@ private theorem uc22s2122np_closure_comm {N S : Subgroup G} [hS₀ : (S.subgroup
     rw [hnu, hnv]
   rwa [he] at hS
 
+omit [Finite G] in
 theorem uc22s2122np_closure_mod {S : Subgroup G} {T : Set G} {s : ℕ}
     (hTN : ∀ x ∈ T, x ∈ normalizer (S : Set G))
     (hTpow : ∀ x ∈ T, x ^ s ∈ S)
@@ -339,13 +357,14 @@ theorem uc22s2122np_closure_mod {S : Subgroup G} {T : Set G} {s : ℕ}
   have hSN : S ≤ N := fun z hz => Subgroup.le_normalizer hz
   have hS₀ : (S.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hSN).2 le_rfl
-  letI : (S.subgroupOf N).Normal := hS₀
+  let : (S.subgroupOf N).Normal := hS₀
   obtain ⟨hT'pow, hT'comm⟩ := uc22s2122np_closure_image hSN hTN hTpow hTcomm
   obtain ⟨A, hAcomm, hApow, hlift⟩ := uc22s2122np_closure_lift hTN hT'pow hT'comm
   intro u hu v hv
   exact ⟨uc22s2122np_closure_comm hAcomm hlift hu hv,
     uc22s2122np_closure_pow hApow hlift hu⟩
 
+omit [Finite G] in
 private theorem uc22s2122npV_sup_zpowers_eq_closure {L S : Subgroup G} {s : ℕ} {b : G} :
     uc22s2122npV L S s ⊔ zpowers b =
       Subgroup.closure ((S : Set G) ∪ uc22s2122npWSet L S s ∪ {b}) := by
@@ -369,6 +388,7 @@ private theorem uc22s2122npV_sup_zpowers_eq_closure {L S : Subgroup G} {s : ℕ}
     · rw [hxb]
       exact Subgroup.mem_sup_right (Subgroup.mem_zpowers b)
 
+omit [Finite G] in
 private theorem uc22s2122np_set_normalizer {L S : Subgroup G} {s : ℕ} {b : G}
     (hbS : b ∈ normalizer (S : Set G)) :
     ∀ x ∈ ((S : Set G) ∪ uc22s2122npWSet L S s ∪ {b}), x ∈ normalizer (S : Set G) := by
@@ -379,6 +399,7 @@ private theorem uc22s2122np_set_normalizer {L S : Subgroup G} {s : ℕ} {b : G}
   · exact hxG.2.1
   · rwa [hxb]
 
+omit [Finite G] in
 private theorem uc22s2122np_set_pow {L S : Subgroup G} {s : ℕ} {b : G} (hbs : b ^ s = 1) :
     ∀ x ∈ ((S : Set G) ∪ uc22s2122npWSet L S s ∪ {b}), x ^ s ∈ S := by
   intro x hx
@@ -390,6 +411,7 @@ private theorem uc22s2122np_set_pow {L S : Subgroup G} {s : ℕ} {b : G} (hbs : 
   · rw [hxb, hbs]
     exact S.one_mem
 
+omit [Finite G] in
 private theorem uc22s2122np_pow_comm_normalizer {S : Subgroup G} {x y : G}
     (hx : x ∈ S) (hy : y ∈ normalizer (S : Set G)) : x * y * x⁻¹ * y⁻¹ ∈ S := by
   rw [Subgroup.mem_normalizer_iff] at hy
@@ -398,6 +420,7 @@ private theorem uc22s2122np_pow_comm_normalizer {S : Subgroup G} {x y : G}
   rw [he]
   exact S.mul_mem hx h1
 
+omit [Finite G] in
 private theorem uc22s2122np_set_comm_of_mem {L S : Subgroup G} {s : ℕ} {b x : G}
     (hbS : b ∈ normalizer (S : Set G)) (hxS : x ∈ S) :
     ∀ y ∈ ((S : Set G) ∪ uc22s2122npWSet L S s ∪ {b}), x * y * x⁻¹ * y⁻¹ ∈ S := by

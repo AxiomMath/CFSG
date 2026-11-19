@@ -259,7 +259,7 @@ theorem strongModel_of_datum_core_gen {τ : Tag}
     have hlt : j.val < m - 1 := by omega
     have := le_iSup (fun i : Fin (m - 1) => if i.val + 2 < m then linNode i.val else Vg)
       ⟨j.val, hlt⟩
-    simpa only [if_pos (show (⟨j.val, hlt⟩ : Fin (m - 1)).val + 2 < m from hj)] using this
+    simpa only [ite_eq_left (show (⟨j.val, hlt⟩ : Fin (m - 1)).val + 2 < m from hj)] using this
   have hle_fork : Vg ≤ ⨆ i : Fin (m - 1), if i.val + 2 < m then linNode i.val else Vg := by
     have hlt : m - 2 < m - 1 := by omega
     have hcond : ¬ (⟨m - 2, hlt⟩ : Fin (m - 1)).val + 2 < m := by
@@ -267,12 +267,12 @@ theorem strongModel_of_datum_core_gen {τ : Tag}
       omega
     have := le_iSup (fun i : Fin (m - 1) => if i.val + 2 < m then linNode i.val else Vg)
       ⟨m - 2, hlt⟩
-    simpa only [if_neg hcond] using this
+    simpa only [ite_eq_right hcond] using this
   have hC : (⨆ i : Fin (m - 1), if i.val + 2 < m then linNode i.val else Vg) =
       D.orbitGroup := by
     refine le_antisymm (iSup_le fun i => ?_) ?_
     · by_cases hi : i.val + 2 < m
-      · rw [if_pos hi]
+      · rw [ite_eq_left hi]
         rintro _ ⟨A, rfl⟩
         refine sl2_hom_mem_of_gens _ D.orbitGroup (fun t => ?_) (fun t => ?_) A
         · have h := (hlongmem ⟨i.val, by omega⟩ hi (t : L)
@@ -285,7 +285,7 @@ theorem strongModel_of_datum_core_gen {τ : Tag}
           rw [← hρi ⟨i.val, by omega⟩] at h
           simp only [MonoidHom.comp_apply, map_vSL']
           exact h
-      · rw [if_neg hi]
+      · rw [ite_eq_right hi]
         rintro _ ⟨B, rfl⟩
         refine sl2_hom_mem_of_gens _ D.orbitGroup (fun t => ?_) (fun t => ?_) B
         · have h := (hforkmem (t : L) (CFSG.LieType.Chevalley.mem_frobeniusFixedField.1 t.2)).1
@@ -374,8 +374,8 @@ theorem strongModel_of_datum_gen {τ : Tag}
         ⟨m - 1, by omega⟩).surjective.range_comp b).symm
     · have e : Equiv.swap (⟨m - 2, by omega⟩ : Fin m) ⟨m - 1, by omega⟩ j = j :=
         Equiv.swap_apply_of_ne_of_ne
-          (fun h' => by rw [h'] at hj; simp only [Fin.val_mk] at hj; omega)
-          (fun h' => by rw [h'] at hj; simp only [Fin.val_mk] at hj; omega)
+          (fun h' => by rw [h'] at hj; simp only at hj; omega)
+          (fun h' => by rw [h'] at hj; simp only at hj; omega)
       show D.θ (toReal (b (Equiv.swap _ _ j))) = toReal (b (Equiv.swap _ _ j))
       rw [e]
       exact hfix j hj
@@ -437,8 +437,8 @@ theorem strongModel_of_dClassTwistedG (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 
   classical
   obtain ⟨r, e, m, hr, hchar, hm5, z, ε, D, hq, he, hDe, hRC, hDs, hCart, hfix, hswap⟩ :=
     CompsPTwoDExport.exists_twoD_export S hτ hTor i hkind h5
-  haveI := hr
-  haveI := hchar
+  have := hr
+  have := hchar
   have hrc : ringChar L = r := ringChar.eq L r
   have hQ' : Q r (r ^ e) := by
     have h := hQ
@@ -472,8 +472,8 @@ theorem strongModel_of_dClassTwistedG (hτ : τ = .D4 ∨ τ = .E6 ∨ τ = .E7 
       exact (ε.symm j).2
     · intro hβ
       exact ⟨ε ⟨β, hβ⟩, by simp⟩
-  have hsw := hswap ⟨m - 2, by omega⟩ ⟨m - 1, by omega⟩ (by simp only [Fin.val_mk]; omega)
-    (by simp only [Fin.val_mk]; omega)
+  have hsw := hswap ⟨m - 2, by omega⟩ ⟨m - 1, by omega⟩ (by simp only; omega)
+    (by simp only; omega)
   have hdat := strongModel_of_datum_gen hτ D hm5 hR
     (fun j : Fin m => (ε.symm j : Fin τ.rank → ℤ)) hbroot hbinj hG (hDs.trans hrange.symm) hfix
     hsw.1 hsw.2
@@ -504,7 +504,7 @@ theorem strongModel_of_dClassTwistedG_E6 (S : LangSetup Tag.E6 L p₀) (hp : p.P
       m = compRank (componentRoots (rootCharHom a) i) ∧
         DStrongModel (rationalComponent S.ρ S.Γ (rootCharHom a) i) m r e :=
   strongModel_of_dClassTwistedG (Or.inr (Or.inl rfl)) kacE6 facts_E6 e6_tree e6_adj e6_check
-    e6_lt e6_card e6_dcount e6_dtrees (fun {F} _ x y h => e6_frames x y h) S hp hpL hTor hTp i h5
+    e6_lt e6_card e6_dcount e6_dtrees (fun {_F} _ x y h => e6_frames x y h) S hp hpL hTor hTp i h5
     hn hkind Q hrec hQ
 
 end PerTag

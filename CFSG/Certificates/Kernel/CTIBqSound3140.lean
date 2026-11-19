@@ -36,7 +36,7 @@ theorem sound3140 (gL a6 a8 q1 q2 : List Nat) (GR A6 A8 Q1 Q2 : Nat)
   have ap : ∀ n, n < 2 ^ 23 → autApplyK (tbOf GR) A8 n = autApply gL.toArray a8.toArray n :=
     fun n hn => autApplyK_eq hg ha8 hGR hA8 hn
   have sq : sqCode 8 = 0 := by decide
-  simp only [d8K, Aux.strictB_eq, Aux.andB_eq, Bool.and_eq_true, Nat.beq_eq, and_assoc] at hk
+  simp only [d8K, Aux.strictB_eq, Aux.andB_eq, Bool.and_eq_true, Nat.beq_eq] at hk
   simp (disch := first | decide | exact autApply_lt _ | exact qmul_lt _ _) only [ap, q] at hk
   simp only [d8G, sq, Bool.and_eq_true, beq_iff_eq, and_assoc]
   exact hk

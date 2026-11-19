@@ -27,6 +27,7 @@ section Inner
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem exists_inner_of_subgroupOf {p : ℕ} {K J : Subgroup X} (hJK : J ≤ K) {b : X}
     (hbN : b ∈ Subgroup.normalizer (K : Set X))
     (h : ∃ i ∈ J.subgroupOf K, ∀ x ∈ J.subgroupOf K,
@@ -39,11 +40,11 @@ theorem exists_inner_of_subgroupOf {p : ℕ} {K J : Subgroup X} (hJK : J ≤ K) 
     rw [map_glaPPrimeCoreOf_of_injective p K.subtype K.subtype_injective,
       Subgroup.map_subgroupOf_eq_of_le hJK]
   rw [h2]
-  exact ⟨_, h1, by simp [coe_normalizerMonoidHom]⟩
+  exact ⟨_, h1, by simp⟩
 
 theorem inducesInnerIn_bar {p : ℕ} (hp : p.Prime) {a : X} {B J : Subgroup X}
     (hJsn : IsSubnormal J (Subgroup.centralizer ({a} : Set X)))
-    (hBC : B ≤ Subgroup.centralizer ({a} : Set X))
+    (_hBC : B ≤ Subgroup.centralizer ({a} : Set X))
     (hBJ : B ≤ Subgroup.normalizer (J : Set X))
     (hinner : ∀ b ∈ B, ∃ j ∈ J, ∀ x ∈ J, b * x * b⁻¹ * (j * x * j⁻¹)⁻¹ ∈ GLAPPrimeCoreOf p J) :
     InducesInnerIn (barX p (Subgroup.centralizer ({a} : Set X)) B)
@@ -95,9 +96,10 @@ theorem coprime_ker_mulEquiv {p : ℕ} {S T : Type} [Group S] [Group T] (e : S �
   rw [hk, inf_bot_eq, Subgroup.card_bot]
   exact Nat.coprime_one_right p
 
+omit [Finite X] in
 theorem map_normalizerMonoidHom_subgroupOf {K J : Subgroup X} {b : X}
     (hbK : b ∈ Subgroup.normalizer (K : Set X)) (hbJ : b ∈ Subgroup.normalizer (J : Set X))
-    (hJK : J ≤ K) :
+    (_hJK : J ≤ K) :
     (J.subgroupOf K).map (K.normalizerMonoidHom ⟨b, hbK⟩).toMonoidHom = J.subgroupOf K := by
   ext z
   constructor
@@ -111,9 +113,10 @@ theorem map_normalizerMonoidHom_subgroupOf {K J : Subgroup X} {b : X}
       have := (Subgroup.mem_normalizer_iff.1 (inv_mem hbJ) z).1 hz'
       simpa [coe_normalizerMonoidHom] using this
     · apply Subtype.ext
-      simp [coe_normalizerMonoidHom]
+      simp
       group
 
+omit [Finite X] in
 theorem normalizerMonoidHom_not_mem_inner {K : Subgroup X} {a : X}
     (haN : a ∈ Subgroup.normalizer (K : Set X))
     (hout : ¬ ∃ k ∈ K, k⁻¹ * a ∈ Subgroup.centralizer (K : Set X)) :
@@ -136,14 +139,14 @@ theorem chevCentralizerStep_of_kdata
   intro X _ _ p K B hH hLie hZ a haB ha1 hout
   have hp := hH.prime
   have hp2 := hH.odd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq := hH.quasi
   have haN : a ∈ Subgroup.normalizer (K : Set X) := hH.norm haB
   have hap : a ^ p = 1 := hH.elem.2 a haB
   let eQ : (↥K ⧸ Subgroup.center ↥K) ≃* ↥K :=
     (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
-  haveI hsimpQ : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
-  haveI hsimp : IsSimpleGroup ↥K := eQ.symm.isSimpleGroup
+  have hsimpQ : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+  have hsimp : IsSimpleGroup ↥K := eQ.symm.isSimpleGroup
   have hnc : ∃ x y : ↥K, x * y ≠ y * x := by
     obtain ⟨u, v, huv⟩ := exists_noncomm_of_isQuasisimple hq
     exact ⟨eQ u, eQ v, fun h => huv (eQ.injective (by rw [map_mul, map_mul]; exact h))⟩

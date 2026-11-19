@@ -30,9 +30,9 @@ theorem qsF3ResOmP_holds : QSF3ResOmP := by
     subst ht h4
     have hn1 : 1 ≤ n := hlab2.1
     dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hraw
-    rw [if_neg (by decide)] at hraw
+    rw [ite_eq_right (by decide)] at hraw
     obtain ⟨F, _, _, hF, hs, hnc, Φ, hΦ⟩ := hraw
-    haveI := hs
+    have := hs
     refine SG.false_of_conj_centralizer h hcat hB hnc Φ hΦ (fun r hr =>
       perfectInLayer_conj_omega (.inr (.inl rfl))
         (statedClassicalModel_omegaPlus 4 n hF ⟨Nat.prime_two, hn1, le_rfl⟩) Nat.prime_three

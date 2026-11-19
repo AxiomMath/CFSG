@@ -144,7 +144,7 @@ theorem r1_ker_le {Y : Type*} [Group Y] [Finite Y] (O : Subgroup Y) [O.Normal]
 theorem r1_dim_ge_four {Y : Type*} [Group Y] [Finite Y] (O : Subgroup Y)
     [O.Normal] (hOodd : Odd (Nat.card O)) (hperf : Group.IsPerfect (Y ⧸ O)) {p : ℕ} [Fact p.Prime]
     (hp5 : 5 ≤ p) {W : Type*} [AddCommGroup W] [Module (ZMod p) W] [FiniteDimensional (ZMod p) W]
-    (ρ : Y →* Module.End (ZMod p) W) {z : Y} (hz : ∀ w, ρ z w = -w) (hW : ∃ w : W, w ≠ 0)
+    (ρ : Y →* Module.End (ZMod p) W) {z : Y} (hz : ∀ w, ρ z w = -w) (_hW : ∃ w : W, w ≠ 0)
     {T : Type*} [Group T] [Finite T] (hT : AltTarget T) (ψ : Y →* T) (hψ : Function.Surjective ψ)
     (hker : ∀ y, (∀ w, ρ y w = w) → ψ y = 1) : 4 ≤ Module.finrank (ZMod p) W := by
   by_contra hlt
@@ -170,8 +170,6 @@ theorem r1_dim_ge_four {Y : Type*} [Group Y] [Finite Y] (O : Subgroup Y)
         intro w
         first
           | exact (neg_one_smul (R := ZMod p) w).symm
-          | (simp [neg_one_smul]; done)
-          | (simp [neg_smul, one_smul]; done)
       rw [hρz, hsm, LinearMap.det_smul, h3', Module.End.one_eq_id, LinearMap.det_id, mul_one]
       exact Odd.neg_one_pow ⟨1, rfl⟩
     have hcomm : ∀ a b : Y, @Bracket.bracket Y Y commutatorElement a b ∈ χ.ker ⊔ O := by

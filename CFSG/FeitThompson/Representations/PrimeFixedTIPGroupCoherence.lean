@@ -219,15 +219,19 @@ variable [Fintype ↑(Irr ↥W₁)] {p a : ℕ} {σ : classFun ↥(W₁ ⊔ W₂
 
 include h
 
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem normal : K.Normal := h.primeCyclicTI.normal
 
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem isNilpotent : Group.IsNilpotent ↥K :=
   isNilpotent_of_natCard_eq_prime_pow h.prime h.natCard_eq_pow
 
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem isSolvable : Group.IsSolvable ↥K :=
   have := h.isNilpotent
   inferInstance
 
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem fixesOnlyCommutatorCoset :
     FrobeniusQuotientLayer.FixesOnlyCommutatorCoset K W₁ :=
   have := h.isSolvable
@@ -268,6 +272,7 @@ variable (h : IsPrimeFixedTIPGroupData p a K W₁ W₂ σ ω A₀ T ζ)
 
 include h
 
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem left_ne_bot : K ≠ ⊥ := by
   intro hbot
   have h1 : Nat.card ↥K = 1 := by rw [hbot]; exact Subgroup.card_bot
@@ -275,6 +280,7 @@ theorem left_ne_bot : K ≠ ⊥ := by
   have h2 : 1 < p ^ a := Nat.one_lt_pow (by have := h.one_le_exponent; omega) h.prime.one_lt
   omega
 
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem punctured_nonempty :
     (((K.map L.subtype : Subgroup G) : Set G) \ {1}).Nonempty := by
   obtain ⟨x, hx⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 h.left_ne_bot
@@ -282,6 +288,7 @@ theorem punctured_nonempty :
     simp only [Set.mem_singleton_iff]
     exact fun hc => hx (Subtype.ext (by simpa using hc))⟩
 
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem dadeMapFun_eq_indClassFun {f : ↥L → ℂ}
     (hf : f ∈ Submodule.span ℤ (indFam K (Irr ↥K \ {1}))) (hf1 : f 1 = 0) :
     dadeMapFun L A₀ T f = indClassFun L f := by
@@ -310,6 +317,7 @@ theorem dadeMapFun_eq_indClassFun {f : ↥L → ℂ}
   rw [coe_dadeMap h.isDadeData ⟨f, hfA₀⟩] at key
   exact key
 
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem isComplement' : K.IsComplement' W₁ := by
   have hKn := h.normal
   refine (isComplement'_of_sup_eq_top_of_inf_eq_bot ?_ h.primeCyclicTI.inf_eq_bot).symm
@@ -317,21 +325,24 @@ theorem isComplement' : K.IsComplement' W₁ := by
   obtain ⟨k, hk, w, hw, rfl⟩ := h.primeCyclicTI.exists_decomp x
   exact mul_mem (Subgroup.mem_sup_left hk) (Subgroup.mem_sup_right hw)
 
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem isPrimeFixedTISetup :
     IsPrimeFixedTISetup G p a L (K.map L.subtype) (W₁.map L.subtype) (W₂.map L.subtype) :=
   isPrimeFixedTISetup_map_subtype h.prime h.odd_prime h.one_le_exponent h.odd_natCard
     h.primeCyclicTI h.not_isMulCommutative h.natCard_eq_pow h.natCard_right_eq_prime
     h.right_le_commutator h.stabilizer_punctured_eq h.inter_conj_punctured_eq_empty
 
+omit [Fintype ↑(Irr ↥W₁)] in
 theorem forall_mem_commutator_of_fixed_coset :
-    ∀ u ∈ W₁, u ≠ 1 → ∀ k ∈ K, k⁻¹ * (u⁻¹ * k * u) ∈ (⁅K, K⁆ : Subgroup ↥L) →
-      k ∈ (⁅K, K⁆ : Subgroup ↥L) :=
+    ∀ _u ∈ W₁, _u ≠ 1 → ∀ _k ∈ K, _k⁻¹ * (_u⁻¹ * _k * _u) ∈ (⁅K, K⁆ : Subgroup ↥L) →
+      _k ∈ (⁅K, K⁆ : Subgroup ↥L) :=
   have := h.isSolvable
-  fun u hu hu1 k hk hfx =>
+  fun _u hu hu1 _k hk hfx =>
     mem_commutator_of_fixed_coset h.primeCyclicTI h.right_le_commutator hu hu1 hk hfx
 
 end IsPrimeFixedTIPGroupData
 
+omit [Fintype G] in
 theorem indFamNonprincipalFinset_eq_fullFamily (K : Subgroup ↥L) :
     indFamNonprincipalFinset ((K.map L.subtype).subgroupOf L) = fullFamily K := by
   rw [subgroupOf_map_subtype_self]
@@ -339,12 +350,14 @@ theorem indFamNonprincipalFinset_eq_fullFamily (K : Subgroup ↥L) :
   rw [mem_indFamNonprincipalFinset, nonprincipalIrr_eq_sdiff_singleton, fullFamily,
     NormalInducedFamily.mem_kerLayerIndFinset, CentralSectionCoherence.kerLayerIndFam_bot]
 
+omit [Fintype G] in
 theorem centralFam_eq_coe_fullFamily (K : Subgroup ↥L) :
     CentralPrimeInduction.centralFam L (K.map L.subtype)
       = (fullFamily K : Set (↥L → ℂ)) := by
   rw [CentralPrimeInduction.centralFam_eq_indFam, subgroupOf_map_subtype_self,
     nonprincipalIrr_eq_sdiff_singleton, coe_fullFamily_eq_indFam_sdiff]
 
+omit [Fintype G] in
 theorem coe_joinedFamily_eq_union (K Zl : Subgroup ↥L) :
     indFamDetect K (Zl.subgroupOf K) ∪ indFamLinear K = (joinedFamily K Zl : Set (↥L → ℂ)) := by
   rw [coe_joinedFamily, FrobeniusQuotientLayer.kerLayerIndFam_commutator_eq_indFamLinear]

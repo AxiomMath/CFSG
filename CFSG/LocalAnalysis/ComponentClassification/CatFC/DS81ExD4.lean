@@ -33,7 +33,7 @@ theorem d4_exists_order_eightynine_commute [Finite K] [CharP K 2] (σ : K ≃+* 
     (hz : d4z K ∈ d4C K σ) (ht : d4t K σ ∈ d4C K σ) :
     ∀ y ∈ ([⟨d4z K, hz⟩, ⟨d4t K σ, ht⟩] : List ↥(d4C K σ)),
       ∃ w : ↥(d4C K σ), orderOf w = 89 ∧ Commute w y := by
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   have hεp : ε ^ 89 = 1 := hε ▸ pow_orderOf_eq_one ε
   have hz89 : ∀ x ∈ Subgroup.zpowers ε, x ^ 89 = 1 := fun x hx => by
     obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx
@@ -81,7 +81,7 @@ theorem lie23To89At_trialityD4 : Lie23To89At .trialityD4 := by
     (dvd_trans h23 (Subgroup.card_subgroup_dvd_card _))
   obtain ⟨-, K, _, _, hcard, σ, hσ, ⟨e⟩⟩ := hM.chevalleyExceptionalModel (by decide)
   have hcard1 : Nat.card K = (2 ^ f) ^ 3 := hcard
-  haveI : CharP K 2 := charP_two_of_card_d4 hcard1
+  have : CharP K 2 := charP_two_of_card_d4 hcard1
   obtain ⟨σE, rfl⟩ : ∃ σE : K ≃+* K, σE.toRingHom = σ :=
     ⟨RingEquiv.ofBijective σ ⟨σ.injective, Finite.surjective_of_injective σ.injective⟩,
       RingHom.ext fun _ => rfl⟩
@@ -106,7 +106,7 @@ theorem lie23To89At_trialityD4 : Lie23To89At .trialityD4 := by
     calc σE (ε : K) = (ε : K) ^ 2 ^ f := hσ _
       _ = (ε : K) ^ (2 ^ f - 1) * ε := by rw [← pow_succ, h2]
       _ = ε := by rw [h1, one_mul]
-  haveI : Fact (Nat.Prime 89) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 89) := ⟨by norm_num⟩
   exact prime_dvd_card_centralizer_of_classesCover (e.trans E)
     (d4_classesCover σE hσ3 (z := ⟨d4z K, hz⟩) (t := ⟨d4t K σE, ht⟩) rfl rfl)
     (d4_exists_order_eightynine_commute σE hσ3 hε hεσ hz ht) hτ

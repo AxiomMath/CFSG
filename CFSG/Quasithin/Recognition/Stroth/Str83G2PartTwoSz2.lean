@@ -20,6 +20,7 @@ open scoped Pointwise MatrixGroups
 variable {G : Type} [Group G] [Finite G]
 variable {L1 L2 S : Subgroup G} {a : ℕ}
 
+omit [Finite G] in
 theorem isElemAbelian_chiefMod_bot {W : Subgroup G} (hW : IsElemAbelian 2 W) :
     IsElemAbelian 2 (Ch3z.chiefMod ⊥ W) := by
   refine ⟨IsMulCommutative.of_comm (fun x y => ?_), fun x hx => ?_⟩
@@ -32,19 +33,19 @@ theorem isElemAbelian_chiefMod_bot {W : Subgroup G} (hW : IsElemAbelian 2 W) :
       rw [← hu, ← map_pow, hu2, map_one]
     simpa using congrArg Subtype.val h2
 
-abbrev szSbar (L1 L2 S : Subgroup G) : Subgroup (oTwoQuot ↥(L1 ⊔ S)) :=
+abbrev szSbar (L1 _L2 S : Subgroup G) : Subgroup (oTwoQuot ↥(L1 ⊔ S)) :=
   (S.subgroupOf (L1 ⊔ S)).map (QuotientGroup.mk' (pCore 2 ↥(L1 ⊔ S)))
 
-abbrev szX0bar (X0 : Subgroup G) (L1 L2 S : Subgroup G) : Subgroup (oTwoQuot ↥(L1 ⊔ S)) :=
+abbrev szX0bar (X0 : Subgroup G) (L1 _L2 S : Subgroup G) : Subgroup (oTwoQuot ↥(L1 ⊔ S)) :=
   (X0.subgroupOf (L1 ⊔ S)).map (QuotientGroup.mk' (pCore 2 ↥(L1 ⊔ S)))
 
 theorem exists_equiv_z1_sylow
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2 ^ (2 * a + 1))
     (hF : F112HypW L1 L2 S) (hB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G))
     (ha : 1 ≤ a) (hSz : Nonempty (oTwoQuot ↥L1 ≃* Sz a))
-    (hL2 : IsL2Quot (2 * a + 1) (oTwoQuot ↥L2))
-    (hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
-    (hJ : ¬ jAtLeast (2 ^ pRank 2 S) (2 ^ (2 * a + 1)) S ≤ Q1 L1 L2 S) :
+    (_hL2 : IsL2Quot (2 * a + 1) (oTwoQuot ↥L2))
+    (_hII : ¬ L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
+    (_hJ : ¬ jAtLeast (2 ^ pRank 2 S) (2 ^ (2 * a + 1)) S ≤ Q1 L1 L2 S) :
     ∃ (X0 : Subgroup G) (e : oTwoQuot ↥(L1 ⊔ S) ≃* suzukiGroup a K),
       (∀ t : G, t ∈ X0 ↔ t ∈ S ∧ t ^ 2 ∈ Q1 L1 L2 S) ∧
       (X0 ≤ S) ∧ (Q1 L1 L2 S ≤ X0) ∧

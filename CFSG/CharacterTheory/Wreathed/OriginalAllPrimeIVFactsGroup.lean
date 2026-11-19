@@ -241,7 +241,7 @@ theorem exists_eq_of_odd {W : Subgroup (SpecialLinearGroup (Fin 2) F)}
     have h2 : x₁ ^ orderOf (x₁, x₂) = 1 := by
       have h := congrArg Prod.fst (pow_orderOf_eq_one (x₁, x₂))
       rwa [Prod.pow_fst, Prod.fst_one] at h
-    obtain ⟨k, hk⟩ := P.isPGroup' x₁
+    obtain ⟨k, hk⟩ := P.isPGroup x₁
     have hcop : Nat.Coprime (2 ^ k) (orderOf (x₁, x₂)) :=
       (Nat.coprime_two_left.mpr h1).pow_left k
     have h3 := pow_gcd_eq_one.mpr ⟨hk, h2⟩

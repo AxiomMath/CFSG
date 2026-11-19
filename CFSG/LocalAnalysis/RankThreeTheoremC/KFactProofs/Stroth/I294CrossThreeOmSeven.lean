@@ -23,7 +23,7 @@ variable {K : Type} [Field K]
 theorem three_ne_zero_of_not_dvd_card [Finite K] (h : ¬ 3 ∣ Nat.card K) : (3 : K) ≠ 0 := by
   intro h0
   apply h
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨p, hp⟩ := CharP.exists K
   have hp' : p.Prime := CharP.char_is_prime K p
   have h3p : p ∣ 3 := (CharP.cast_eq_zero_iff K p 3).1 (by exact_mod_cast h0)
@@ -84,7 +84,7 @@ theorem eq_one_of_mem_scalars_of_pow_three {V : Type*} [AddCommGroup V] [Module 
   exact LinearEquiv.ext fun w => by rw [hc, hc1, one_smul]; rfl
 
 theorem statedQuadOdd_single_z : StatedQuadOdd 3 K (Pi.single (Sum.inr (Sum.inr ())) 1) = 1 := by
-  simp [StatedQuadOdd, Pi.single_apply]
+  simp [StatedQuadOdd]
 
 end Model
 
@@ -172,7 +172,7 @@ theorem i294CrossModelPOmega7_holds : I294CrossModelPOmega7 := by
     exact (hfc a).eq
   have hA : Nat.card (Multiplicative (ZMod 3) × (Multiplicative (ZMod 3) ×
       Multiplicative (ZMod 3))) = 3 ^ 3 := by
-    simp [Nat.card_prod, Nat.card_eq_fintype_card, ZMod.card]
+    simp [Nat.card_eq_fintype_card, ZMod.card]
   exact le_pRank_centralizer_statedProj (fun a b => mul_comm a b) hpowA hA φ hφinj hH hsc g
     hgcomm
 

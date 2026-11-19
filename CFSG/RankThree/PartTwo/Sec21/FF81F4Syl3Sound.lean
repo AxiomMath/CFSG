@@ -25,7 +25,7 @@ variable
 
 theorem exceptionalAut_evalG (w : List Letter) :
     ReeTag.F4.finiteExceptionalAut K (evalG K w) = evalG K (w.map Letter.flip) := by
-  haveI : CharP K 2 := ‹CharP K ReeTag.F4.prime›
+  have : CharP K 2 := ‹CharP K ReeTag.F4.prime›
   have h := reeAut_evalG (K := K) w
   have h1 := DFunLike.congr_fun
     (ReeTag.finiteReeAut_eq_reeAut (t := ReeTag.F4) (K := K) (a := 0)) (evalG K w)

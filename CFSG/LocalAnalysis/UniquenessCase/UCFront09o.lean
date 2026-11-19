@@ -17,6 +17,7 @@ open CFSG.ABGLocalTools (IsSylowOf)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem le_of_mem_invStar9 {K X R Q : Subgroup G} {p : ℕ} [Fact p.Prime]
     (hR : R ∈ InvStar9 K X p) (hQK : Q ≤ K) (hQ : IsPGroup p Q)
     (hXQ : X ≤ normalizer (Q : Set G)) (hRQ : R ≤ normalizer (Q : Set G)) : Q ≤ R :=
@@ -26,7 +27,7 @@ theorem le_of_mem_invStar9 {K X R Q : Subgroup G} {p : ℕ} [Fact p.Prime]
 theorem mem_invStar9_of_not_calCGS_le (D : Data G) (h910 : R910 D) {Y : Subgroup G}
     (hY : Y ∈ calY2Star9 D) (hC : ¬ UC6.calCGS (pCoreOf 2 Y) ≤ D.M) :
     pCoreOf 2 Y ∈ InvStar9 D.M Y 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R := pCoreOf 2 Y with hRdef
   have hRY : R ≤ Y := CFSG.LieType.BorelTits.pCoreOf_le 2 Y
   have hR2 : IsPGroup 2 R := CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 Y
@@ -69,7 +70,7 @@ theorem calCGS_le_of_mem_invStar9 (D : Data G) {L X Y : Subgroup G} (hLM : L ≤
     (hLN : D.M ≤ normalizer (L : Set G)) (hUM : UniqueMax D.M (L ⊔ D.T))
     (hcov : L = X ⊔ pCoreOf 2 L) (hXY : X ≤ Y) (hY : Y ∈ calY2_9 D) (hYL : Opp 3 Y ≤ L)
     (hR : pCoreOf 2 Y ∈ InvStar9 D.M Y 2) : UC6.calCGS (pCoreOf 2 Y) ≤ D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R := pCoreOf 2 Y with hRdef
   set O := pCoreOf 2 L with hOdef
   have hYM : Y ≤ D.M := hY.1.1

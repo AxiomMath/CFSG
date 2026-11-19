@@ -52,7 +52,6 @@ theorem sound_of_props {G : Type*} [Group G] (c : PSimple) (hwf : c.wfB = true) 
     (fun i => c.reps.getD i 0) hrep (fun k => c.cls.getD k none)
     (by
       intro k hk
-      try dsimp only
       obtain ⟨-, -, -, hm⟩ := hK k hk
       have hc := hcls k hk
       revert hm hc

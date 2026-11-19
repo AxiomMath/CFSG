@@ -101,7 +101,7 @@ theorem two_mul_le_rkIdx_of_odd_omegaMinus {b c : K}
       have h6 : Module.finrank K W = 6 := by
         rw [htop, finrank_top, Module.finrank_fintype_fun_eq_card, hcard]
       omega
-    obtain ⟨u, -, huW⟩ := SetLike.exists_of_lt (lt_top_iff_ne_top.mpr hWne)
+    obtain ⟨u, -, huW⟩ := _root_.IsConcreteLE.exists_of_lt (lt_top_iff_ne_top.mpr hWne)
     have hu_ne : u ≠ 0 := by
       intro h0
       apply huW

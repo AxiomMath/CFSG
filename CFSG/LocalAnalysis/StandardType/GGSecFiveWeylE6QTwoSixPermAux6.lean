@@ -60,6 +60,7 @@ private theorem sylow_conj_of_card_eq
   (MulAut.congr θ).toMonoidHom.comp
     ((e6QTwoQuotCenterAutHom L).comp (Subgroup.normalizerMonoidHom L))
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixNormAction_apply
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (g : ↥(Subgroup.normalizer (L : Set G))) :
@@ -67,6 +68,7 @@ theorem e6QTwoSixNormAction_apply
       (MulAut.congr θ) (e6QTwoQuotCenterAutHom L
         (Subgroup.normalizerMonoidHom L g)) := rfl
 
+omit [Finite G] [Finite K] in
 private theorem e6QTwoSixNormAction_mk
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (g : ↥(Subgroup.normalizer (L : Set G))) (l : L) :
@@ -75,6 +77,7 @@ private theorem e6QTwoSixNormAction_mk
         (Subgroup.normalizerMonoidHom L g l)) := by
   rw [e6QTwoSixNormAction_apply, e6QTwoMulAutCongrApply, e6QTwoQuotCenterAutHom_mk]
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixNormAction_of_mem_L
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (g : ↥L) :
@@ -90,6 +93,7 @@ theorem e6QTwoSixNormAction_of_mem_L
     simp [Subgroup.normalizerMonoidHom_apply_apply_coe]
   rw [h]
 
+omit [Finite G] [Finite K] in
 theorem e6QTwoSixNormAction_of_mem_Bs
     (θ : L ⧸ Subgroup.center L ≃* LargeEvenProj (LargeEvenSUGroup (Fin 6) K (2 ^ 1)))
     (hNL : Bs ≤ Subgroup.normalizer (L : Set G)) (b : Bs) :
@@ -124,6 +128,7 @@ private noncomputable def e6QTwoSixDiagSetEquiv (K : Type) [Field K] :
     funext i
     simp
 
+omit [Finite K] in
 private theorem e6QTwoSix_card_diagSet
     (hK : Nat.card K = 4) :
     Nat.card (e6QTwoSixDiagSet K) = 3 ^ 5 := by
@@ -131,6 +136,7 @@ private theorem e6QTwoSix_card_diagSet
   have hunits : Nat.card Kˣ = 3 := by rw [Nat.card_units, hK]
   simp only [Finset.prod_const, Finset.card_univ, Fintype.card_fin, hunits]
 
+omit [Finite G] in
 theorem e6QTwoSixFrameAct_of_mem_range
     (hK : Nat.card K = 4) {Q : GL (Fin 6) K}
     {hQ : Q ∈ primeFormUnitary (USixTwo.fieldDataFour hK)

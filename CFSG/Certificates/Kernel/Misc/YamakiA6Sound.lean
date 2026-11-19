@@ -133,7 +133,7 @@ theorem a6Check_of {RE RP RV PAV PBV : ℕ → ℕ}
       change t < 512 * (t / 512) + 512
       omega
     have e := (CFSG.KC.Misc.Clos.allR_iff _ _ _).1 hcq t hlo hhi
-    rw [Nat.blt_eq.mpr ht, cond_true] at e
+    rw [Nat.blt_eq.mpr ht, _root_.Bool.cond_true] at e
     exact e
   have hpar : ∀ i, 1 ≤ i → i ≤ 11519 → (enumE ()).parent[i]! < i := by
     intro i h1 h2
@@ -154,13 +154,13 @@ theorem a6Check_of {RE RP RV PAV PBV : ℕ → ℕ}
       cases t with
       | zero =>
         have hz : Nat.beq 0 0 = true := rfl
-        rw [hz, cond_true, decide_eq_true_eq] at e0
+        rw [hz, _root_.Bool.cond_true, decide_eq_true_eq] at e0
         rw [e0]
         unfold a6Table
         rw [f0, permL_one]
       | succ t =>
         have hz : Nat.beq (t + 1) 0 = false := rfl
-        rw [hz, cond_false, decide_eq_true_eq, Nat.pred_succ] at e0
+        rw [hz, Bool.cond_false, decide_eq_true_eq, Nat.pred_succ] at e0
         rw [e0]
         unfold a6Table
         obtain ⟨p1, p2⟩ := e5 (t + 1) ht (by omega)

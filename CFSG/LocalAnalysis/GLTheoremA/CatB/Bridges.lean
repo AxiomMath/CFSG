@@ -99,8 +99,8 @@ theorem lieIndex_isD4two {S : Type} [Group S] (h : catalogIs S S9.isD4two) :
 
 theorem exists_ringEquiv_zmod_two {K : Type} [Field K] (hK : Nat.card K = 2) :
     Nonempty (K ≃+* ZMod 2) := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Finite K := Nat.finite_of_card_ne_zero (by omega)
+  have : Fintype K := Fintype.ofFinite K
   exact ⟨FiniteField.ringEquivOfCardEq (by rw [← Nat.card_eq_fintype_card, hK, ZMod.card])⟩
 
 @[expose] noncomputable def statedProjZMod2Equiv {ι : Type} [Fintype ι] [DecidableEq ι]
@@ -140,8 +140,8 @@ theorem bridge_u4two {S : Type} [Group S] (h : catalogIs S S9.isU4two) :
   have hm := lieModel_twistedA' 3 q hv e
   rw [h1, h2] at hm
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ := hm.statedClassicalModel (by decide)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype CFSG.Blueprint.Fischer.K := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype CFSG.Blueprint.Fischer.K := Fintype.ofFinite _
   have hc : Fintype.card K = Fintype.card CFSG.Blueprint.Fischer.K := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK,
       CFSG.Fischer.Classification.Unitary.card_K]
@@ -167,8 +167,8 @@ theorem bridge_u3eight {S : Type} [Group S] (h : catalogIs S S9.isU3eight) :
   have hm := lieModel_twistedA' 2 q hv e
   rw [h1, h2] at hm
   obtain ⟨-, K, _, _, hK, ⟨e'⟩⟩ := hm.statedClassicalModel (by decide)
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField 2 6) := Fintype.ofFinite _
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField 2 6) := Fintype.ofFinite _
   have hc : Fintype.card K = Fintype.card (GaloisField 2 6) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK, GaloisField.card 2 6 (by norm_num)]
     norm_num
@@ -184,7 +184,7 @@ variable {K L : Type} [Field K] [Field L]
 theorem statedQuadPlus_map (φ : K ≃+* L) (n : ℕ) (v : Fin n ⊕ Fin n → K) :
     StatedQuadPlus n L (φ ∘ v) = φ (StatedQuadPlus n K v) := by
   unfold StatedQuadPlus
-  simp [CFSG.MatrixModel.plusQuadCore, map_sum, map_mul]
+  simp [map_sum, map_mul]
 
 theorem map_matrixOrthogonal_plus (φ : K ≃+* L) (n : ℕ) :
     (matrixOrthogonal (StatedQuadPlus n K)).map
@@ -257,8 +257,8 @@ theorem catalogIs_u4two_of_statedProj {X : Type} [Group X] {K : Type} [Field K] 
       ValidLieTypeIndex.fieldExponent ⟨.twistedA 3 pp2, valid_twistedA_three⟩ = 2 ^ 1 := by
     rw [hc2, hf2]
   rw [← hq] at e
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fintype (GaloisField (ValidLieTypeIndex.characteristic
+  have : Fintype K := Fintype.ofFinite K
+  have : Fintype (GaloisField (ValidLieTypeIndex.characteristic
     ⟨.twistedA 3 pp2, valid_twistedA_three⟩)
       (2 * ValidLieTypeIndex.fieldExponent ⟨.twistedA 3 pp2, valid_twistedA_three⟩)) :=
     Fintype.ofFinite _

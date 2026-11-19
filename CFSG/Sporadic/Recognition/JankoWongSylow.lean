@@ -67,7 +67,7 @@ theorem exists_sylow_central_of_cover8 {z : G} (hz : orderOf z = 2)
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set H := centralizer ({z} : Set G) with hH
   obtain ⟨S_E⟩ : Nonempty (Sylow 2 ↥H) := inferInstance
-  have hP : IsPGroup 2 ↥((S_E : Subgroup ↥H).map H.subtype) := S_E.isPGroup'.map H.subtype
+  have hP : IsPGroup 2 ↥((S_E : Subgroup ↥H).map H.subtype) := S_E.isPGroup.map H.subtype
   obtain ⟨S, hPS⟩ := hP.exists_le_sylow
   have hzE_ord : orderOf (zIn z) = 2 := by
     rw [← Subgroup.orderOf_coe]; exact hz
@@ -84,7 +84,7 @@ theorem exists_sylow_central_of_cover8 {z : G} (hz : orderOf z = 2)
     simp only [OneMemClass.coe_one] at this
     rw [this, orderOf_one] at hz
     exact absurd hz (by norm_num)⟩⟩
-  have hcen := (S.isPGroup').center_nontrivial
+  have hcen := (S.isPGroup).center_nontrivial
   obtain ⟨⟨y', hy'c⟩, hy'1⟩ := exists_ne (1 : ↥(Subgroup.center ↥(S : Subgroup G)))
   set y : G := (y' : G) with hy
   have hyS : y ∈ (S : Subgroup G) := y'.2
@@ -101,7 +101,7 @@ theorem exists_sylow_central_of_cover8 {z : G} (hz : orderOf z = 2)
     have : (e : G) ∈ (S : Subgroup G) := hPS ⟨e, he, rfl⟩
     exact hyc _ this
   have hord : ∃ k : ℕ, orderOf yE = 2 ^ k := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup') ⟨y, hyS⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp S.isPGroup) ⟨y, hyS⟩
     refine ⟨k, ?_⟩
     rw [← Subgroup.orderOf_coe yE]
     exact (Subgroup.orderOf_coe (⟨y, hyS⟩ : (S : Subgroup G))).trans hk

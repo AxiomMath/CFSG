@@ -31,7 +31,7 @@ theorem coreE1Datum_titsD :
   CFSG.AGLEmbedding.CoreE1.datum_of_check (D := titsE1Data ()) (a := titsDGen 0) (b := titsDGen 1)
     titsD_eq_closure_pair rfl tits_e1_tab_a tits_e1_tab_b
     (fun P => by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact CFSG.GroupTheory.GL52.card_sylow_of_card_eq_pow_mul (k := 3) (m := 665600)
         (by rw [card_titsD]; norm_num) (by norm_num) P)
     tits_e1_check

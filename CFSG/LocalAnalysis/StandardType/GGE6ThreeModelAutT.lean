@@ -109,7 +109,7 @@ private theorem units_map_entrywiseHom_rootDiagUnit_zetaVec
     rw [hcast, mul_comm]
   rw [hpow, zmodPowHom_apply]
 
-theorem tFrame_aut (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang Fr g) {ζ : Ωˣ} (hζ : ζ ^ 3 = 1)
+theorem tFrame_aut (_h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang Fr g) {ζ : Ωˣ} (hζ : ζ ^ 3 = 1)
     (hζo : orderOf ζ = 3) {D : FrameData ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom)}
     (hD : TSpec hn hK σ hσ Fr hFr g hζ D) : D.AutOK := by
   intro α S hS hα
@@ -333,9 +333,9 @@ theorem tFrame_aut (h3 : 3 ∣ 2 ^ n + 1) {g : ModGL Tag.E6 Ω} (hL : IsLang Fr 
       rootDiagUnit_injective (τ := TwistTag.E6.tag) hdz''
     have h2 : zT = adAct (TwistTag.E6.tag) 3 w (e • xT) :=
       zetaVec_injective (τ := TwistTag.E6.tag) (p := 3) hζo hζ h1
-    have h3 : adAct (TwistTag.E6.tag) 3 w (e • xT) =
+    have _h3 : adAct (TwistTag.E6.tag) 3 w (e • xT) =
         e • adAct (TwistTag.E6.tag) 3 w xT := adAct_smul w e xT
-    exact h2.trans h3
+    exact h2.trans _h3
   calc α * D.ad x * α⁻¹ = D.ad z := hzad
     _ = D.ad (e • adAct .E6 3 w x) :=
         congrArg D.ad (show z = e • adAct .E6 3 w x from hzar)

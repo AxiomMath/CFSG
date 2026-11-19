@@ -304,7 +304,7 @@ theorem exists_odd_lift_inndiag
       (LayerSixE.autFix A).map (adjointGroup τ K).subtype =
         adjointGroup τ K ⊓ centralizer (Â : Set (ModGL τ K)) := by
   classical
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Finite (ModGL τ K) := finite_modGL
   have hDS : (rootDiagUnitHom τ K).range ≤ normalizer (adjointGroup τ K : Set (ModGL τ K)) := by
     rintro _ ⟨a, rfl⟩
     exact (root_diagonal_conjugation τ K a).2.2
@@ -334,7 +334,7 @@ theorem exists_odd_lift_inndiag
     obtain ⟨⟨y, hyA⟩, hy2⟩ := exists_prime_orderOf_dvd_card' (G := A.comap ψ) 2 hev
     have hy1 : y ≠ 1 := by
       intro h; subst h
-      have : orderOf (1 : A.comap ψ) = 2 := by simpa using hy2
+      have : orderOf (1 : A.comap ψ) = 2 := by simp at hy2
       simp at this
     have hysq : y ^ 2 = 1 := by
       have := pow_orderOf_eq_one (⟨y, hyA⟩ : A.comap ψ)
@@ -372,7 +372,7 @@ theorem exists_odd_lift_inndiag
         funext i; simp [Pi.pow_apply, pow_card_eq_one']
       rw [this, map_one]
     have hKodd : Odd (Nat.card Kˣ) := by
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card, Fintype.card_units]
       obtain ⟨n, hn, hcard⟩ := FiniteField.card K 2
       rw [hcard]
@@ -522,7 +522,7 @@ theorem exists_odd_lift_twInndiag
       (LayerSixE.autFix A).map (graphFixedRootGroup TwistTag.E6 K σ).subtype =
         graphFixedRootGroup TwistTag.E6 K σ ⊓ centralizer (Â : Set _) := by
   classical
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have hDS : (TableB.TwE6.compat σ).map (rootDiagUnitHom TwistTag.E6.tag K) ≤
       normalizer (graphFixedRootGroup TwistTag.E6 K σ : Set (ModGL TwistTag.E6.tag K)) := by
     rintro _ ⟨b, hb, rfl⟩
@@ -556,7 +556,7 @@ theorem exists_odd_lift_twInndiag
     obtain ⟨⟨y, hyA⟩, hy2⟩ := exists_prime_orderOf_dvd_card' (G := A.comap ψ) 2 hev
     have hy1 : y ≠ 1 := by
       intro h; subst h
-      have : orderOf (1 : A.comap ψ) = 2 := by simpa using hy2
+      have : orderOf (1 : A.comap ψ) = 2 := by simp at hy2
       simp at this
     have hysq : y ^ 2 = 1 := by
       have := pow_orderOf_eq_one (⟨y, hyA⟩ : A.comap ψ)
@@ -600,7 +600,7 @@ theorem exists_odd_lift_twInndiag
         funext i; simp [Pi.pow_apply, pow_card_eq_one']
       rw [this, map_one]
     have hKodd : Odd (Nat.card Kˣ) := by
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       rw [Nat.card_eq_fintype_card, Fintype.card_units]
       obtain ⟨n, hn, hcard⟩ := FiniteField.card K 2
       rw [hcard]

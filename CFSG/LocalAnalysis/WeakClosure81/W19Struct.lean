@@ -21,7 +21,7 @@ theorem mBarGT_card_le {M V₀ V : Subgroup G} {n : ℕ} (h : MBarGT M V₀ V n)
   · obtain ⟨m, hm, h1, h2⟩ := hex
     have h3 := h.1 m hm h1 h2
     have hpos : 0 < Nat.card (centMod V₀ V m) := by
-      haveI : Nonempty (centMod V₀ V m) := ⟨⟨1, V.one_mem, by simp⟩⟩
+      have : Nonempty (centMod V₀ V m) := ⟨⟨1, V.one_mem, by simp⟩⟩
       exact Nat.card_pos
     calc 2 ^ (n + 1) ≤ 2 ^ (n + 1) * Nat.card (centMod V₀ V m) :=
           Nat.le_mul_of_pos_right _ hpos
@@ -62,16 +62,16 @@ theorem V_le_wClos (c : MinCex193 D V₀ V p X) : V ≤ E3.wClos V 1 D.T :=
   E3.le_wClos_of_mQuot_le_self c.setting.isElemAbelian c.V_le_T le_rfl
     (by rw [E3.mQuot_self]; exact Nat.zero_le _) (by have := c.three_le_rk; omega)
 
-theorem isPGroup_wClos (c : MinCex193 D V₀ V p X) : IsPGroup 2 (E3.wClos V 1 D.T) :=
+theorem isPGroup_wClos (_c : MinCex193 D V₀ V p X) : IsPGroup 2 (E3.wClos V 1 D.T) :=
   D.sylowM.isPGroup.to_le (E3.wClos_le 1 D.T)
 
 theorem inf_Z193_ne_bot (c : MinCex193 D V₀ V p X) : V₀ ⊓ Z193 D V ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set W := E3.wClos V 1 D.T with hW
   have hWT : W ≤ D.T := E3.wClos_le 1 D.T
   have hV₀W : V₀ ≤ W := c.V₀_le_V.trans c.V_le_wClos
-  haveI hnil : Group.IsNilpotent ↥W := c.isPGroup_wClos.isNilpotent
-  haveI hnorm : (V₀.subgroupOf W).Normal := by
+  have hnil : Group.IsNilpotent ↥W := c.isPGroup_wClos.isNilpotent
+  have hnorm : (V₀.subgroupOf W).Normal := by
     refine ⟨fun x hx g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     have hgM : (g : G) ∈ D.M := D.sylowM.le (hWT g.2)

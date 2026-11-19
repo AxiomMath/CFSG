@@ -21,7 +21,7 @@ theorem isChevSimple_three_of_equiv_P9 {T : Type} [Group T]
     (e : T ≃* ↥(CFSG.GH74.KGroups.L28.QP.originalSubgroup)) : IsChevSimple 3 T := by
   obtain ⟨e1⟩ := CFSG.GH74.KGroups.L28.equiv_psl_P
   let q : PrimePower := ⟨2, 3, Nat.prime_two, by norm_num⟩
-  haveI : Fact q.p.Prime := ⟨Nat.prime_two⟩
+  have : Fact q.p.Prime := ⟨Nat.prime_two⟩
   have hv : (LieTypeIndex.A 1 q).Valid := by
     rw [LieTypeIndex.valid_iff, LieTypeIndex.inStandardRange_iff,
       LieTypeIndex.isDuplicateRepresentative_iff]
@@ -40,7 +40,7 @@ theorem card_P9 : Nat.card ↥(CFSG.GH74.KGroups.L28.QP.originalSubgroup) = 504 
 theorem isSimpleGroup_of_equiv_P9 {T : Type} [Group T]
     (e : T ≃* ↥(CFSG.GH74.KGroups.L28.QP.originalSubgroup)) : IsSimpleGroup T := by
   obtain ⟨e1⟩ := CFSG.GH74.KGroups.L28.equiv_psl_P
-  haveI : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) CFSG.Quasithin.GF8) :=
+  have : IsSimpleGroup (Matrix.ProjectiveSpecialLinearGroup (Fin 2) CFSG.Quasithin.GF8) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple
       (by rw [CFSG.GH74.KGroups.L28.card_GF8]; norm_num)
   exact (e.trans e1.symm).isSimpleGroup_congr.2 inferInstance
@@ -49,8 +49,8 @@ theorem nonabelian_of_equiv_P9 {T : Type} [Group T]
     (e : T ≃* ↥(CFSG.GH74.KGroups.L28.QP.originalSubgroup)) : ∃ a b : T, a * b ≠ b * a := by
   by_contra hc
   push Not at hc
-  haveI := isSimpleGroup_of_equiv_P9 e
-  letI : CommGroup T := { (inferInstance : Group T) with mul_comm := hc }
+  have := isSimpleGroup_of_equiv_P9 e
+  let : CommGroup T := { (inferInstance : Group T) with mul_comm := hc }
   have hp := IsSimpleGroup.prime_card (α := T)
   have h1 : Nat.card T = 504 := by rw [Nat.card_congr e.toEquiv]; exact card_P9
   rw [h1] at hp

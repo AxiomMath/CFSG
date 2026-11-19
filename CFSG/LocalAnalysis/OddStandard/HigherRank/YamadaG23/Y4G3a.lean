@@ -40,7 +40,7 @@ private theorem y4_mem_F_sup_zpowers (c : Ctx4 s e) {g : G} (hg2 : g ^ 2 = 1)
     exact (Subgroup.mem_normalizer_iff.mp (Subgroup.zpowers_le.mpr hgnorm hx) d).mp hd
   have hg1 : g ≠ 1 := y4_g_ne_one c hgσ
   have hgord : orderOf g = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime hg2 hg1
   have hgp : ∀ n : ℤ, g ^ n = 1 ∨ g ^ n = g := by
     intro n
@@ -49,10 +49,10 @@ private theorem y4_mem_F_sup_zpowers (c : Ctx4 s e) {g : G} (hg2 : g ^ 2 = 1)
     rcases Int.emod_two_eq_zero_or_one n with h0 | h1
     · left
       have h0' : n % ((2 : ℕ) : ℤ) = 0 := by simpa using h0
-      rwa [← h, h0', zpow_zero]
+      rw [← h, h0', zpow_zero]
     · right
       have h1' : n % ((2 : ℕ) : ℤ) = 1 := by simpa using h1
-      rwa [← h, h1', zpow_one]
+      rw [← h, h1', zpow_one]
   constructor
   · intro hy
     rw [sup_comm] at hy
@@ -112,10 +112,10 @@ private theorem y4_mem_zpowers_t (s : Setting3 G L) {y : G} (hy : y ∈ zpowers 
   rcases Int.emod_two_eq_zero_or_one n with h0 | h1
   · left
     have h0' : n % ((2 : ℕ) : ℤ) = 0 := by simpa using h0
-    rwa [← h, h0', zpow_zero]
+    rw [← h, h0', zpow_zero]
   · right
     have h1' : n % ((2 : ℕ) : ℤ) = 1 := by simpa using h1
-    rwa [← h, h1', zpow_one]
+    rw [← h, h1', zpow_one]
 
 private theorem y4_mem_Y0_imp (c : Ctx4 s e) {g : G} (hg2 : g ^ 2 = 1) (hgT : g ∈ s.T)
     (hgσ : ActsAs L g s.fr'.σ) {x : G} (hx : x ∈ y4Y0 s g) :
@@ -136,7 +136,7 @@ private theorem y4_mem_Y0_imp (c : Ctx4 s e) {g : G} (hg2 : g ^ 2 = 1) (hgT : g 
     · right; right; right
       exact ⟨f, hf, by rw [hxeq, hpf]⟩
 
-theorem y4_Y0_le_T (c : Ctx4 s e) {g : G} (hgT : g ∈ s.T) : y4Y0 s g ≤ s.T := by
+theorem y4_Y0_le_T (_c : Ctx4 s e) {g : G} (hgT : g ∈ s.T) : y4Y0 s g ≤ s.T := by
   change s.fr.F ⊔ zpowers g ⊔ zpowers s.t ≤ s.T
   refine sup_le (sup_le ?_ ?_) ?_
   · exact (s3_F_le_A s).trans (s3_A_le_T s)
@@ -144,7 +144,7 @@ theorem y4_Y0_le_T (c : Ctx4 s e) {g : G} (hgT : g ∈ s.T) : y4Y0 s g ≤ s.T :
   · exact Subgroup.zpowers_le.mpr (s3_t_mem_T s)
 
 theorem y4_Y0_isElemAbelian (c : Ctx4 s e) {g : G} (hg2 : g ^ 2 = 1) (hgT : g ∈ s.T)
-    (hgR : g ∉ s.R) (hgσ : ActsAs L g s.fr'.σ) : IsElemAbelian 2 (y4Y0 s g) := by
+    (_hgR : g ∉ s.R) (hgσ : ActsAs L g s.fr'.σ) : IsElemAbelian 2 (y4Y0 s g) := by
   set P : Subgroup G := s.fr.F ⊔ zpowers g with hP
   have hE : IsE 4 ↥P := by rw [hP]; exact y4_F_sup_g_isE c hg2 hgσ
   have hP_le_T : P ≤ s.T := by
@@ -186,7 +186,7 @@ theorem y4_Y0_isElemAbelian (c : Ctx4 s e) {g : G} (hg2 : g ^ 2 = 1) (hgT : g �
   exact IsElemAbelian.sup_of_commute hH hK hcommP
 
 theorem y4_Y0_card (c : Ctx4 s e) {g : G} (hg2 : g ^ 2 = 1) (hgT : g ∈ s.T)
-    (hgR : g ∉ s.R) (hgσ : ActsAs L g s.fr'.σ) : Nat.card ↥(y4Y0 s g) = 32 := by
+    (_hgR : g ∉ s.R) (hgσ : ActsAs L g s.fr'.σ) : Nat.card ↥(y4Y0 s g) = 32 := by
   set P : Subgroup G := s.fr.F ⊔ zpowers g with hP
   have hE : IsE 4 ↥P := by rw [hP]; exact y4_F_sup_g_isE c hg2 hgσ
   have hcardP : Nat.card ↥P = 16 := by rw [hE.2]; norm_num
@@ -212,7 +212,7 @@ theorem y4_Y0_card (c : Ctx4 s e) {g : G} (hg2 : g ^ 2 = 1) (hgT : g ∈ s.T)
   rw [← hprod, hrel, hcardP]
 
 theorem y4_Y0_inf_B (c : Ctx4 s e) {g : G} (hg2 : g ^ 2 = 1) (hgT : g ∈ s.T)
-    (hgR : g ∉ s.R) (hgσ : ActsAs L g s.fr'.σ) : y4Y0 s g ⊓ s.fr.B = s.fr.F := by
+    (_hgR : g ∉ s.R) (hgσ : ActsAs L g s.fr'.σ) : y4Y0 s g ⊓ s.fr.B = s.fr.F := by
   apply le_antisymm
   · intro x hx
     obtain ⟨hxY, hxB⟩ := Subgroup.mem_inf.mp hx

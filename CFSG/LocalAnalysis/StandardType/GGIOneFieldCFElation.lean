@@ -123,15 +123,14 @@ theorem elProj_suppSub_ne_bot {S : Set (Fin n)} {i j : Fin n} (hi : i ∈ S) (hj
     · rw [hgv, add_sub_cancel_left]
       intro k hk
       have hki : k ≠ i := fun h => hk (h ▸ hi)
-      simp [Pi.single_apply, hki]
+      simp [hki]
     · rw [hgv, hv j hj, zero_smul, add_zero]
   intro hbot
   have hmem : proj n K g ∈ elProj (suppSub (K := K) S) := ⟨g, hgS, rfl⟩
   rw [hbot, Subgroup.mem_bot, proj_eq_one_iff] at hmem
   obtain ⟨c, -, hc⟩ := mem_scalars.mp hmem
   have h1 := congrArg (fun M : Matrix (Fin n) (Fin n) K => M i j) hc
-  simp [hg, CFSG.LinearGroups.coe_transvection, Matrix.scalar_apply, Matrix.diagonal_apply,
-    hij] at h1
+  simp [hg, CFSG.LinearGroups.coe_transvection, Matrix.scalar_apply, hij] at h1
 
 theorem slConjugation_mem_elationGenerators {L : Submodule K (Fin n → K)} (M : GL (Fin n) K)
     (hM : ∀ v ∈ L, (M : Matrix (Fin n) (Fin n) K) *ᵥ v ∈ L)

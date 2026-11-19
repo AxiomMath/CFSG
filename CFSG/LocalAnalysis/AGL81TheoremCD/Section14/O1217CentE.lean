@@ -53,6 +53,7 @@ private lemma sup_zpowers_eq_of_card_eq_prime_sq {p : ℕ} (hp : p.Prime) {E A :
     Subgroup.eq_of_le_of_card_ge hSE (by rw [hScard, hcard])
   simpa only [S] using hSEeq
 
+omit [Finite G] in
 private lemma pCoreOf_inf_centralizer_le_pCoreOf_normalizer_inf (M Y : Subgroup G) :
     CFSG.Open.pCoreOf 2 M ⊓ Subgroup.centralizer (Y : Set G) ≤
       CFSG.Open.pCoreOf 2 (Subgroup.normalizer (Y : Set G) ⊓ M) := by
@@ -96,8 +97,8 @@ private lemma Hyp1417.le_centralizer_kSub_of_not_le (h : Hyp1417 G M q p E)
     A ≤ Subgroup.centralizer
       (AGL81C.kSub q M (Subgroup.normalizer (A : Set G)) : Set G) := by
   obtain ⟨Q, F, s⟩ := h.exists_setting hAE hA hH
-  haveI : Fact p.Prime := ⟨h.hp⟩
-  haveI : IsCyclic A := isCyclic_of_prime_card hA
+  have : Fact p.Prime := ⟨h.hp⟩
+  have : IsCyclic A := isCyclic_of_prime_card hA
   exact s.le_centralizer_kSub h1 le_rfl
 
 theorem Hyp1417.normalizer_le_of_two_lt (h : Hyp1417 G M q p E)
@@ -118,7 +119,7 @@ theorem Hyp1417.centralizer_le (h : Hyp1417 G M q p E)
     (hL34 : KFactL34InvTwo) :
     Subgroup.centralizer (E : Set G) ≤ M := by
   classical
-  haveI : Fact p.Prime := ⟨h.hp⟩
+  have : Fact p.Prime := ⟨h.hp⟩
   obtain ⟨Y, hYE, hYcard, hYnotcent⟩ :=
     exists_card_eq_not_le_centralizer_pCoreOf_inf_centralizer (r := p)
       h.cstar.charTwo h.maxLocal.1 h.hp2 h.le h.elem h.card

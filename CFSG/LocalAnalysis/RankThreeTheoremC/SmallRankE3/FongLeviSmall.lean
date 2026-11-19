@@ -36,7 +36,7 @@ theorem center_eq_bot_of_simple_of_not_prime {G : Type*} [Group G] [IsSimpleGrou
         rw [h]
         exact Subgroup.mem_top a
       exact (Subgroup.mem_center_iff.1 ha b).symm
-    letI : CommGroup G := { ‹Group G› with mul_comm := hcomm }
+    let : CommGroup G := { ‹Group G› with mul_comm := hcomm }
     exact hG IsSimpleGroup.prime_card
 
 theorem center_eq_bot_of_mulEquiv {G H : Type*} [Group G] [Group H] (e : G ≃* H)
@@ -79,7 +79,7 @@ theorem alt_false {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z : A
     (S : E3Setting K K₀ B z p) {n : ℕ} (hn : 5 ≤ n) (h : n = 5 ∨ n = 6 ∨ n = 8)
     (e : Nonempty (↥K ≃* alternatingGroup (Fin n))) : False := by
   obtain ⟨e⟩ := e
-  haveI : IsSimpleGroup (alternatingGroup (Fin n)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin n)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hn)
   obtain ⟨a, b, hab⟩ := alt_exists_not_comm h
   have hZ : Subgroup.center ↥K = ⊥ :=
@@ -96,7 +96,7 @@ theorem a1seven_false {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z
   obtain ⟨hp7, hf⟩ := (Nat.Prime.pow_eq_iff Nat.prime_seven).1 hpow
   have h := CFSG.RankThree.PartOne.N143.statedClassicalModel_of_isoLie_A hv e
   rw [hp7, hf] at h
-  haveI : IsSimpleGroup ↥K := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel h
+  have : IsSimpleGroup ↥K := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel h
   have hcard : Nat.card ↥K = 168 := CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_two_seven h
   have hZ : Subgroup.center ↥K = ⊥ :=
     center_eq_bot_of_simple_of_not_prime (by rw [hcard]; norm_num)
@@ -112,7 +112,7 @@ theorem tA2three_false {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {
   obtain ⟨hp3, hf⟩ := (Nat.Prime.pow_eq_iff Nat.prime_three).1 hpow
   have h := CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA 2 q hv e
   rw [hp3, hf] at h
-  haveI : IsSimpleGroup ↥K := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel h
+  have : IsSimpleGroup ↥K := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel h
   have hcard : Nat.card ↥K = 6048 :=
     CFSG.Open.StatedAPI.card_of_statedClassicalModel_psu_three_three h
   have hZ : Subgroup.center ↥K = ⊥ :=
@@ -128,8 +128,8 @@ theorem tits_false {A : Type} [Group A] [Finite A] {K K₀ B : Subgroup A} {z : 
   obtain ⟨e⟩ := e
   have hmodel := CFSG.RankThree.PartOne.CTP.reeTitsModel_tits (S := ↥K) ⟨hv, ⟨e⟩⟩
   obtain ⟨F, _, _, _, hF, ⟨φ⟩⟩ := CFSG.SectionRank.exists_mulEquiv_titsGroup_of_model hmodel
-  haveI := CFSG.Sporadic.Schreier.Tits.commutator_reeFixed_simple hF
-  haveI : IsSimpleGroup ↥K := φ.isSimpleGroup
+  have := CFSG.Sporadic.Schreier.Tits.commutator_reeFixed_simple hF
+  have : IsSimpleGroup ↥K := φ.isSimpleGroup
   have hZ : Subgroup.center ↥K = ⊥ :=
     center_eq_bot_of_mulEquiv φ
       (CFSG.LocalAnalysis.ComponentInitial.center_commutator_reeFixed_eq_bot hF)

@@ -645,7 +645,7 @@ theorem factL34Modules_holds : FactL34Modules := by
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLX).mpr hXN
   let φX : SL(3, F4) →* ↥X := (Subgroup.inclusion hLX).comp ψ
   obtain ⟨S, hQS⟩ := (isPGroup_U.map φX).exists_le_sylow
-  obtain ⟨c, hc0, hcS⟩ := exists_fixed_ne_zero S.isPGroup'
+  obtain ⟨c, hc0, hcS⟩ := exists_fixed_ne_zero S.isPGroup
     (linV.comp (X.subtype.comp (S : Subgroup ↥X).subtype))
   have hcs : ∀ s ∈ (S : Subgroup ↥X), linV ((s : ↥X) : MulAut V) c = c := fun s hs =>
     hcS ⟨s, hs⟩

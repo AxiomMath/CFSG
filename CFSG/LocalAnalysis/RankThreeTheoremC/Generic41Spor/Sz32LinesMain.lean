@@ -93,7 +93,7 @@ theorem sz32_C_not_out (hdata : Sz32DataFacts) (hc : PointConfig IsSz32Type G 5 
     (hdS : d ∈ u3S P x) (hd5 : d ^ 5 = 1) (hdQ : d ∉ Subgroup.zpowers a ⊔ Subgroup.zpowers c)
     (hconj : ∃ g : G, Subgroup.zpowers d = (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom) :
     False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hpres := hA.pres
   have hao := hpres.ord_a
   have haS : a ∈ u3S P x := hpres.a_mem
@@ -225,7 +225,7 @@ theorem sz32_C_W_lines (hc : PointConfig IsSz32Type G 5 P M x J) {a c y : G}
     (hdW : d ∈ Subgroup.zpowers (a ^ 5) ⊔ Subgroup.zpowers x) (hd1 : d ≠ 1)
     (hconj : ∃ g : G, Subgroup.zpowers d = (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom) :
     Subgroup.zpowers d = Subgroup.zpowers x ∨ Subgroup.zpowers d = Subgroup.zpowers (a ^ 5) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hp5 : Nat.Prime 5 := by norm_num
   have hpres := hA.pres
   have hao := hpres.ord_a
@@ -325,6 +325,7 @@ theorem sz32_C_W_lines (hc : PointConfig IsSz32Type G 5 P M x J) {a c y : G}
       exact hm
     rw [hes]
 
+omit [Finite G] in
 theorem sz32_five_elt_line_swap {u : G} (hu : ∃ k : ℕ, u ^ (5 ^ k) = 1) {A B : Subgroup G}
     (hAB : A ≠ B) (hAu : A.map (MulAut.conj u).toMonoidHom = B)
     (h2 : A.map (MulAut.conj (u ^ 2)).toMonoidHom = A ∨
@@ -398,7 +399,7 @@ theorem sz32_C_le_cent (hc : PointConfig IsSz32Type G 5 P M x J) {a c y : G}
       (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom = Subgroup.zpowers x ∨
         (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom = Subgroup.zpowers (a ^ 5)) :
     (P : Subgroup G) ≤ Subgroup.centralizer ({x} : Set G) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hx1 : x ≠ 1 := hc.generic.2.1.2.1
   have hxS : x ∈ u3S P x := ⟨hc.generic.1, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
   have hxe := sz32_x_ne_e hA hx1
@@ -418,7 +419,7 @@ theorem sz32_C_le_cent (hc : PointConfig IsSz32Type G 5 P M x J) {a c y : G}
     exact hmem
   · exfalso
     have hu5 : ∃ k : ℕ, u ^ (5 ^ k) = 1 := by
-      obtain ⟨k, hk⟩ := P.isPGroup' ⟨u, huP⟩
+      obtain ⟨k, hk⟩ := P.isPGroup ⟨u, huP⟩
       exact ⟨k, by simpa using congrArg Subtype.val hk⟩
     refine sz32_five_elt_line_swap hu5 hxe h1 ?_
     exact hlines (u ^ 2) (hle 2)
@@ -427,8 +428,8 @@ theorem sz32_lines_fusion_core (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullC
     (hSz : Sz32Facts) (hSz' : Sz32OpenFacts) (hdata : Sz32DataFacts)
     (hc : PointConfig IsSz32Type G 5 P M x J) {a c y : G} (hA : Sz32QDecomp P x J a c y)
     (hL33 : U3Lemma33 5 x) : Sz32Lines P x (a ^ 5) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI := hS.simple
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have := hS.simple
   have hpres := hA.pres
   have hn := sz32_torus_elt hS hD1 hU0 hSz' hdata hc hA
   have hlinesS := sz32_C_lines_S hdata hc hA hL33 hn
@@ -441,7 +442,7 @@ theorem sz32_lines_fusion_core (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullC
   have hexists : ∃ h : G, (Subgroup.zpowers x).map (MulAut.conj h).toMonoidHom =
       Subgroup.zpowers (a ^ 5) := by
     by_contra hnone
-    push_neg at hnone
+    push Not at hnone
     have hwc : ∀ g : G, (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom ≤ (P : Subgroup G) →
         (Subgroup.zpowers x).map (MulAut.conj g).toMonoidHom = Subgroup.zpowers x :=
       fun g hg => (hlines g hg).resolve_right (hnone g)

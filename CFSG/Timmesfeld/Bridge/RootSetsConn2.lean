@@ -317,7 +317,7 @@ theorem exists_L (hC : ConnCex D) (h : ThirdKind D a b c x z) :
   set Sset : Set G := {y | y ∈ D ∧ y ∈ S} with hSset
   have hLS : L₀ ⊆ Sset := fun y hy => ⟨(hL₀D y hy).1, hPS (Subgroup.subset_closure hy)⟩
   have hS2 : IsPGroup 2 (Subgroup.closure Sset) :=
-    S.isPGroup'.to_le (by rw [Subgroup.closure_le]; exact fun y hy => hy.2)
+    S.isPGroup.to_le (by rw [Subgroup.closure_le]; exact fun y hy => hy.2)
   have hne : Subgroup.closure L₀ ≠ Subgroup.closure Sset := by
     intro heq
     have hsub : Sset ⊆ L₀ := fun y hy =>
@@ -368,7 +368,7 @@ theorem exists_L (hC : ConnCex D) (h : ThirdKind D a b c x z) :
     · exact absurd h' hye
     · exact h'
     · exfalso
-      obtain ⟨k, hk⟩ := S.isPGroup' ⟨y * e, S.mul_mem hyS.2 (hLS he).2⟩
+      obtain ⟨k, hk⟩ := S.isPGroup ⟨y * e, S.mul_mem hyS.2 (hLS he).2⟩
       have hk' : (y * e) ^ 2 ^ k = 1 := by simpa using congrArg Subtype.val hk
       have h1 : orderOf (y * e) = 1 := by
         have hdvd := orderOf_dvd_of_pow_eq_one hk'

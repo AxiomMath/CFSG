@@ -15,6 +15,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_quot_eq_360 {L₁ : Subgroup G}
     (e : ↥L₁ ⧸ CFSG.pCore 2 ↥L₁ ≃* alternatingGroup (Fin 6)) :
     Nat.card (↥L₁ ⧸ CFSG.pCore 2 ↥L₁) = 360 := by

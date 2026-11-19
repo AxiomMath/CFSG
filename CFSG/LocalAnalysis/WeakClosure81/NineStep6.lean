@@ -19,16 +19,19 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} {y : G}
 
+omit [Finite G] in
 private theorem nineStep6_mQuot_inf_eq (V U : Subgroup G) :
     E3.mQuot V (V ⊓ U) = E3.mQuot V U := by
   unfold E3.mQuot
   rw [inf_comm V U, Subgroup.inf_relIndex_right]
 
+omit [Finite G] in
 private theorem nineStep6_mQuot_bot_eq_rk (V : Subgroup G) :
     E3.mQuot V ⊥ = rk ↥V := by
   unfold E3.mQuot rk
   rw [Subgroup.relIndex_bot_left]
 
+omit [Finite G] in
 private theorem nineStep6_conjSubgroup_ne (hO : InCalO 1 (normalizer (A : Set G)) ⊥ A y) :
     conjSubgroup A y ≠ A := by
   obtain ⟨h1, -, -⟩ := hO.1
@@ -37,6 +40,7 @@ private theorem nineStep6_conjSubgroup_ne (hO : InCalO 1 (normalizer (A : Set G)
   rw [h]
   exact Subgroup.le_normalizer
 
+omit [Finite G] in
 private theorem nineStep6_eq_one_of_mem_isPGroup_of_odd {J : Subgroup G} (hJ2 : IsPGroup 2 J)
     {x : G} (hx : x ∈ J) (hodd : Odd (orderOf x)) : x = 1 := by
   obtain ⟨k, hk⟩ := CFSG.CGT.Timmesfeld75.exists_orderOf_eq_two_pow_of_mem hJ2 hx
@@ -44,6 +48,7 @@ private theorem nineStep6_eq_one_of_mem_isPGroup_of_odd {J : Subgroup G} (hJ2 : 
   have hdvd : orderOf x ∣ 2 ^ k := by rw [hk]
   exact orderOf_eq_one_iff.mp (hcop.eq_one_of_dvd hdvd)
 
+omit [Finite G] in
 private theorem nineStep6_conj_reflection_mul_inv {u t : G} (hu : u * u = 1)
     (hutu : u * t * u⁻¹ = t⁻¹) (k : ℤ) :
     t * (t ^ k * u) * t⁻¹ * (t ^ k * u)⁻¹ = t * t := by
@@ -97,7 +102,7 @@ theorem nVSub_ne_bot (hA : IsElemAbelian 2 A) (hm : 2 < rk ↥A)
 theorem pCoreOf_sup_conj_eq_nVSub_sup_bSub (hA : IsElemAbelian 2 A) (hTI : IsTI A)
     (hm : 2 < rk ↥A) (hO : InCalO 1 (normalizer (A : Set G)) ⊥ A y) :
     pCoreOf 2 (A ⊔ conjSubgroup A y) = nVSub A y ⊔ bSub A y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hg : conjSubgroup A y ≠ A := nineStep6_conjSubgroup_ne hO
   have hP2 : IsPGroup 2 (pCoreOf 2 (A ⊔ conjSubgroup A y)) :=
     CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 (A ⊔ conjSubgroup A y)

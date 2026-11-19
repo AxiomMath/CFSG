@@ -56,7 +56,7 @@ private theorem isPGroup_Z (s : Setting3 G L) : IsPGroup 2 ↥s.fr.Z :=
 
 private theorem s3_A_le_normIn_E (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : s.fr.A ≤ normIn L s.fr.E := by
-  haveI := isPerfect_of_hrSetting (L := L) hS
+  have := isPerfect_of_hrSetting (L := L) hS
   have hAL : s.fr.A ≤ L := A_le_L s
   have hEL : s.fr.E ≤ L := E_le_L s
   have hE2 : IsPGroup 2 ↥s.fr.E := isPGroup_E s
@@ -95,7 +95,7 @@ private theorem s3_A_le_normIn_E (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(ce
 
 theorem lf18_4a_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_4a s := by
-  haveI := isPerfect_of_hrSetting (L := L) hS
+  have := isPerfect_of_hrSetting (L := L) hS
   obtain ⟨-, -, -, -, -, -, -, h18, -, -⟩ := s.facts
   have h4a : centIn (innerAut (L ⧸ center L)) s.fr'.E = s.fr'.E := h18.2.2.2.1.1
   have hEL : s.fr.E ≤ L := E_le_L s
@@ -111,7 +111,7 @@ theorem lf18_4a_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
 
 theorem lf18_4b_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_4b s := by
-  haveI := isPerfect_of_hrSetting (L := L) hS
+  have := isPerfect_of_hrSetting (L := L) hS
   obtain ⟨-, -, -, -, -, -, -, h18, -, -⟩ := s.facts
   have h4b : normIn (innerAut (L ⧸ center L)) s.fr'.E ≤
       normIn (innerAut (L ⧸ center L)) s.fr'.A := h18.2.2.2.1.2.1
@@ -128,7 +128,7 @@ theorem lf18_4b_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
 
 theorem lf18_4c_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_4c s := by
-  haveI := isPerfect_of_hrSetting (L := L) hS
+  have := isPerfect_of_hrSetting (L := L) hS
   obtain ⟨-, -, -, -, -, -, -, h18, -, -⟩ := s.facts
   have h4c : SecProp (normIn (innerAut (L ⧸ center L)) s.fr'.E) s.fr'.A
       (fun Y _ _ _ => Nonempty (Y ≃* Equiv.Perm (Fin 3))) := h18.2.2.2.1.2.2.1
@@ -152,7 +152,7 @@ theorem lf18_4c_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
 
 theorem lf18_4d_of (hS : HRSetting G L) (hZ : Odd (Nat.card ↥(center ↥L)))
     (s : Setting3 G L) : LF18_4d s := by
-  haveI := isPerfect_of_hrSetting (L := L) hS
+  have := isPerfect_of_hrSetting (L := L) hS
   obtain ⟨-, -, -, -, -, -, -, h18, -, -⟩ := s.facts
   have h4d : ∀ u ∈ s.fr'.E, u ∉ s.fr'.Z → ∀ v ∈ s.fr'.E, v ∉ s.fr'.Z →
       ∃ k ∈ normIn (innerAut (L ⧸ center L)) s.fr'.E, k * u * k⁻¹ = v :=

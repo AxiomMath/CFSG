@@ -152,14 +152,14 @@ theorem exists_isPGroup_gt_T1 (hS : Setting h L η t Q T) :
         exact mem_top _
       exact mem_subgroupOf.1 this
     exact absurd (card_le_of_le hle) (not_le.2 hcard)
-  have : Group.IsNilpotent (S₀ : Subgroup G) := S₀.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (S₀ : Subgroup G) := S₀.isPGroup.isNilpotent
   obtain ⟨y, hyN, hyT⟩ := IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent _ hlt)
   have hyN' : (y : G) ∈ normalizer ((miyamotoF1G h L η t ⊔ T : Subgroup G) : Set G) :=
     mem_normalizer_fintype fun n hn =>
       mem_subgroupOf.1 ((mem_normalizer_iff.1 hyN ⟨n, hTS₀ hn⟩).1 (mem_subgroupOf.2 hn))
   have hyT' : (y : G) ∉ miyamotoF1G h L η t ⊔ T := fun e => hyT (mem_subgroupOf.2 e)
   refine ⟨(miyamotoF1G h L η t ⊔ T) ⊔ zpowers (y : G),
-    S₀.isPGroup'.to_le (sup_le hTS₀ (zpowers_le.2 y.2)), le_sup_left,
+    S₀.isPGroup.to_le (sup_le hTS₀ (zpowers_le.2 y.2)), le_sup_left,
     sup_le (le_normalizer.trans hS.normalizer_T1_le_normalizer_Q1)
       (zpowers_le.2 (hS.normalizer_T1_le_normalizer_Q1 hyN')), ?_⟩
   refine lt_of_not_ge fun hle => hyT' ?_

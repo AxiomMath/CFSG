@@ -45,7 +45,7 @@ theorem dvd_card_of_isSLType {X : Type} [Group X] [Finite X] {p d : ℕ}
     (hd : d.Prime) (hd2 : d ≠ 2)
     (hdvd : d ∣ Nat.card (MulAut X)) : d ∣ Nat.card X := by
   by_contra hnd
-  haveI : Fact d.Prime := ⟨hd⟩
+  have : Fact d.Prime := ⟨hd⟩
   obtain ⟨δ, hδ⟩ := exists_prime_orderOf_dvd_card' d hdvd
   have hδ1 : δ = 1 := mulAut_eq_one_of_not_dvd_card hp hd hd2 hnd hX δ hδ
   have hd1 : d = 1 := by
@@ -55,10 +55,10 @@ theorem dvd_card_of_isSLType {X : Type} [Group X] [Finite X] {p d : ℕ}
 
 theorem eq_top_of_index_eq_two_of_isPerfect {G : Type*} [Group G] [Group.IsPerfect G]
     (H : Subgroup G) (hidx : H.index = 2) : H = ⊤ := by
-  letI : H.Normal := Subgroup.normal_of_index_eq_two hidx
+  let : H.Normal := Subgroup.normal_of_index_eq_two hidx
   have hquot : Nat.card (G ⧸ H) = 2 := H.index_eq_card.symm.trans hidx
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsCyclic (G ⧸ H) := isCyclic_of_prime_card hquot
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsCyclic (G ⧸ H) := isCyclic_of_prime_card hquot
   have hle : commutator G ≤ H :=
     Subgroup.Normal.quotient_commutative_iff_commutator_le.mp inferInstance
   exact top_le_iff.mp (by rw [← Group.IsPerfect.commutator_eq_top]; exact hle)
@@ -70,13 +70,13 @@ theorem normalizer_sup_sl2_five (P E : Subgroup (SL(2, ZMod 5))) (d : ℕ)
     Subgroup.normalizer (P : Set (SL(2, ZMod 5))) ⊔
       Subgroup.normalizer (E : Set (SL(2, ZMod 5))) = ⊤ := by
   classical
-  haveI : Fact d.Prime := ⟨hd⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact d.Prime := ⟨hd⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hXcard : Nat.card (SL(2, ZMod 5)) = 120 := by
     rw [CFSG.PSL2Table.card_SL (F := ZMod 5), ZMod.card]
     norm_num
-  haveI : Group.IsPerfect (SL(2, ZMod 5)) := by
+  have : Group.IsPerfect (SL(2, ZMod 5)) := by
     have h4 : ∃ s : Finset (ZMod 5), s.card = 4 := by
       obtain ⟨s, -, hs⟩ := Finset.exists_subset_card_eq (s := (Finset.univ : Finset (ZMod 5)))
         (n := 4) (by rw [Finset.card_univ, ZMod.card]; norm_num)
@@ -129,7 +129,7 @@ theorem normalizer_sup_sl2_five (P E : Subgroup (SL(2, ZMod 5))) (d : ℕ)
       apply orderOf_eq_prime
       · rw [pow_two]
         apply Subtype.ext
-        simp [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_neg]
+        simp
       · refine CFSG.PSL2Table.neg_one_ne_one_SL (F := ZMod 5) ?_
         intro h
         have := (ZMod.natCast_eq_zero_iff 2 5).mp h
@@ -247,8 +247,8 @@ theorem normalizer_sup_of_isSLType_five {X : Type} [Group X] [Finite X]
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P ⊤)
     (hE : CFSG.ABGLocalTools.IsSylowOf d E ⊤) :
     Subgroup.normalizer (P : Set X) ⊔ Subgroup.normalizer (E : Set X) = ⊤ := by
-  haveI : Fact d.Prime := ⟨hd⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact d.Prime := ⟨hd⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := hX
   have hP' : CFSG.ABGLocalTools.IsSylowOf 3 (P.map e.toMonoidHom) ⊤ :=
     isSylowOf_map_mulEquiv e hP

@@ -49,7 +49,7 @@ theorem exists_perfect_sl2_image [CharP K 2] {f : ℕ} (hf : Nat.card K = 2 ^ f)
     rw [Subgroup.map_commutator, Subgroup.map_subgroupOf_eq_of_le hHC, hH]
   refine ⟨(H.subgroupOf C).map g, by rw [← Subgroup.map_commutator, hH₀], fun hbot => ?_, ?_⟩
   · have hle : H.subgroupOf C ≤ g.ker := (Subgroup.map_eq_bot_iff _).mp hbot
-    haveI : Group.IsSolvable g.ker := by
+    have : Group.IsSolvable g.ker := by
       have := hker.isNilpotent
       infer_instance
     apply hne

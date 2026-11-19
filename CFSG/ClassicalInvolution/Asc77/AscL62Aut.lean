@@ -493,7 +493,7 @@ theorem mulAut_involution_eq_one_of_mem (hp : p ≠ 2) (hq : 5 ≤ p ^ f)
     have hquat : IsQuatSub (P : Subgroup SL(2, GaloisField p f)) := ⟨k, hk, ⟨e⟩⟩
     have hz := isUniqueInvolution_top_neg_one hodd
     have hzP : (-1 : SL(2, GaloisField p f)) ∈ (P : Subgroup SL(2, GaloisField p f)) :=
-      mem_of_uniqueInvolution_of_pGroup hz le_top P.isPGroup'
+      mem_of_uniqueInvolution_of_pGroup hz le_top P.isPGroup
         (by have := hquat.eight_le; omega)
     have hzP' := isUniqueInvolution_of_le hz le_top hzP
     obtain ⟨C, hCP, hCc, hCcard, -⟩ := hquat.exists_cyclic_max

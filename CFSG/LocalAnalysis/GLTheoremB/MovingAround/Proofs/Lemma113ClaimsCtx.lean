@@ -43,15 +43,15 @@ structure Ctx (E A : Subgroup G) (e : G) (K Q : Subgroup G) : Prop where
 theorem hC113 : Lemma113d.Input113dCentralizer27 := L2.input113dCentralizer27_holds
 
 theorem hF2' :
-    ∀ (Y : Type) [Group Y] (_ : Y ≃* PSL(2, GaloisField 3 3)) (U : Subgroup (MulAut Y)),
-      U ≤ (MulAut.conj : Y →* MulAut Y).range → Nat.card U = 27 →
-      ∀ σ : MulAut Y, (∀ u ∈ U, σ * u = u * σ) → σ ∈ U := fun Y _ e U hUi hU σ hσ =>
+    ∀ (_Y : Type) [Group _Y] (_ : _Y ≃* PSL(2, GaloisField 3 3)) (U : Subgroup (MulAut _Y)),
+      U ≤ (MulAut.conj : _Y →* MulAut _Y).range → Nat.card U = 27 →
+      ∀ σ : MulAut _Y, (∀ u ∈ U, σ * u = u * σ) → σ ∈ U := fun _Y _ e U hUi hU σ hσ =>
   L2.centralizer_mulAut_sylow_le e U hUi hU σ hσ
 
 theorem Ctx.of_cfg {m : ℕ} {B M E A : Subgroup G}
     {a e : G} {K Q : Subgroup G} (h : Cfg113 G m B M E A a e K Q)
     (hA : Claim113A (M := M) E A e K Q) : Ctx E A e K Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hDD : IsDDpStar 3 M E A := h.pair
   have hEmax : IsSCp 3 ⊤ E := (lemma104_ii_holds h.toSec10Fails hDD).1
   have hAmax : IsSCp 3 ⊤ A := (lemma104_ii_holds h.toSec10Fails hDD).2
@@ -103,24 +103,31 @@ namespace Ctx
 
 variable {E A : Subgroup G} {e : G} {K Q : Subgroup G}
 
+omit [Finite G] in
 theorem hQK (c : Ctx E A e K Q) : Q ≤ Subgroup.normalizer (K : Set G) := c.hQ.1.trans c.hXN
 
+omit [Finite G] in
 theorem hQp (c : Ctx E A e K Q) : IsPGroup 3 ↥Q := c.hQ.2.1
 
-theorem hKe (c : Ctx E A e K Q) : ∀ k ∈ K, e * k = k * e := fun k hk =>
+omit [Finite G] in
+theorem hKe (c : Ctx E A e K Q) : ∀ _k ∈ K, e * _k = _k * e := fun _k hk =>
   Subgroup.mem_centralizer_iff.1 (c.hKX hk) e (Set.mem_singleton e)
 
-theorem hQe (c : Ctx E A e K Q) : ∀ q ∈ Q, e * q = q * e := fun q hq =>
+omit [Finite G] in
+theorem hQe (c : Ctx E A e K Q) : ∀ _q ∈ Q, e * _q = _q * e := fun _q hq =>
   Subgroup.mem_centralizer_iff.1 (c.hQ.1 hq) e (Set.mem_singleton e)
 
+omit [Finite G] in
 theorem Q0_le_E (c : Ctx E A e K Q) : (Q ⊓ K : Subgroup G) ≤ E := by
   rw [c.hEeq]
   exact le_sup_left
 
+omit [Finite G] in
 theorem e_mem_centBar (c : Ctx E A e K Q) : e ∈ centBar 3 Q K :=
   Lemma113d.e_mem_centBar c.hQ c.hXN c.hKe c.heQ
 
-theorem centBar_le (c : Ctx E A e K Q) : centBar 3 Q K ≤ Q := fun g hg =>
+omit [Finite G] in
+theorem centBar_le (_c : Ctx E A e K Q) : centBar 3 Q K ≤ Q := fun _g hg =>
   (Lemma113d.mem_centBar_iff.1 hg).1
 
 theorem card_Q0 (c : Ctx E A e K Q) : Nat.card ↥(Q ⊓ K : Subgroup G) = 27 :=
@@ -195,13 +202,14 @@ theorem eq_of_elemAbelian_card81 (c : Ctx E A e K Q)
   exact Lemma113d.eq_sup_zpowers_of_le c.hQ c.hQ1 c.hXN c.hKX ⟨e0⟩ c.hcyc c.hKe c.he3 c.he1
     c.heQ hF hF81 hFle
 
+omit [Finite G] in
 theorem E_le_P (c : Ctx E A e K Q) : E ≤ (Q ⊓ K : Subgroup G) ⊔ centBar 3 Q K := by
   rw [c.hEeq]
   exact sup_le_sup_left (Subgroup.zpowers_le.2 c.e_mem_centBar) _
 
 theorem sylow_centralizer (c : Ctx E A e K Q) :
     IsSylowIn 3 (Subgroup.centralizer (E : Set G)) ((Q ⊓ K : Subgroup G) ⊔ centBar 3 Q K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPeq := c.inf_centralizer_eq
   have hPQ : (Q ⊓ K : Subgroup G) ⊔ centBar 3 Q K ≤ Q := hPeq ▸ inf_le_left
   have hPC : (Q ⊓ K : Subgroup G) ⊔ centBar 3 Q K ≤ Subgroup.centralizer (E : Set G) :=
@@ -250,7 +258,7 @@ theorem sylow_centralizer (c : Ctx E A e K Q) :
 theorem exists_cube_eq_e (c : Ctx E A e K Q) (hgt : 3 < Nat.card ↥(centBar 3 Q K)) :
     ∃ γ ∈ centBar 3 Q K, γ ^ 3 = e := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hC3 : IsPGroup 3 ↥(centBar 3 Q K) := c.hQp.to_le c.centBar_le
   obtain ⟨k, hk⟩ := (IsPGroup.iff_card (p := 3)).1 hC3
   have hk2 : 2 ≤ k := by
@@ -259,7 +267,7 @@ theorem exists_cube_eq_e (c : Ctx E A e K Q) (hgt : 3 < Nat.card ↥(centBar 3 Q
     have h2 : 3 ^ k ≤ 3 ^ 1 := Nat.pow_le_pow_right (by norm_num) h1
     norm_num at h2
     omega
-  haveI := c.hcyc
+  have := c.hcyc
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥(centBar 3 Q K))
   have hord : orderOf g = 3 ^ k := by rw [orderOf_eq_card_of_forall_mem_zpowers hg, hk]
   set g0 : G := (g : G) with hg0
@@ -299,7 +307,7 @@ theorem centBar_card_le_three (c : Ctx E A e K Q)
       Subgroup.normalizer ((Subgroup.zpowers e : Subgroup G) : Set G)) :
     Nat.card ↥(centBar 3 Q K) ≤ 3 := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hgt
   push Not at hgt
   obtain ⟨γ, hγ, hγe⟩ := c.exists_cube_eq_e hgt
@@ -399,7 +407,7 @@ section Lift
 
 theorem three_group_inf_eq_bot {H : Type} [Group H] [Finite H] {O P : Subgroup H}
     (hO : ¬ 3 ∣ Nat.card O) (hP : IsPGroup 3 ↥P) : O ⊓ P = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : IsPGroup 3 ↥(O ⊓ P) := hP.to_le inf_le_right
   obtain ⟨t, ht⟩ := (IsPGroup.iff_card (p := 3)).1 hp
   have hdvd : Nat.card ↥(O ⊓ P) ∣ Nat.card ↥O := Subgroup.card_dvd_of_le inf_le_left
@@ -433,7 +441,7 @@ theorem exists_mul_mem_normalizer_of_map {H : Type} [Group H] [Finite H] {O : Su
     ∃ p ∈ (P.map (QuotientGroup.mk' O)).comap (QuotientGroup.mk' O),
       p * k ∈ Subgroup.normalizer (P : Set H) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' O with hπ
   set Ŵ : Subgroup (H ⧸ O) := P.map π with hŴ
   set P' : Subgroup H := Ŵ.comap π with hP'
@@ -466,15 +474,18 @@ open scoped Classical in
 noncomputable def pi0 (K : Subgroup G) (q : G) : barOf 3 K :=
   if hq : q ∈ K then (QuotientGroup.mk ⟨q, hq⟩ : barOf 3 K) else 1
 
+omit [Finite G] in
 theorem pi0_of_mem {K : Subgroup G} {q : G} (hq : q ∈ K) :
     pi0 K q = (QuotientGroup.mk ⟨q, hq⟩ : barOf 3 K) := by
   simp [pi0, hq]
 
+omit [Finite G] in
 theorem pi0_mul {K : Subgroup G} {a b : G} (ha : a ∈ K) (hb : b ∈ K) :
     pi0 K (a * b) = pi0 K a * pi0 K b := by
   rw [pi0_of_mem (K.mul_mem ha hb), pi0_of_mem ha, pi0_of_mem hb]
   rfl
 
+omit [Finite G] in
 theorem pi0_inv {K : Subgroup G} {a : G} (ha : a ∈ K) : pi0 K a⁻¹ = (pi0 K a)⁻¹ := by
   rw [pi0_of_mem (K.inv_mem ha), pi0_of_mem ha]
   rfl
@@ -482,6 +493,7 @@ theorem pi0_inv {K : Subgroup G} {a : G} (ha : a ∈ K) : pi0 K a⁻¹ = (pi0 K 
 noncomputable def W0 (K Q : Subgroup G) : Subgroup (barOf 3 K) :=
   ((Q ⊓ K : Subgroup G).subgroupOf K).map (QuotientGroup.mk' (GLAPPrimeCore 3 ↥K))
 
+omit [Finite G] in
 theorem mem_W0_iff {K Q : Subgroup G} {w : barOf 3 K} :
     w ∈ W0 K Q ↔ ∃ q ∈ (Q ⊓ K : Subgroup G), pi0 K q = w := by
   constructor
@@ -491,6 +503,7 @@ theorem mem_W0_iff {K Q : Subgroup G} {w : barOf 3 K} :
   · rintro ⟨q, hq, rfl⟩
     exact ⟨⟨q, hq.2⟩, Subgroup.mem_subgroupOf.2 hq, by rw [pi0_of_mem hq.2]; rfl⟩
 
+omit [Finite G] in
 theorem pi0_mem_W0 {K Q : Subgroup G} {q : G} (hq : q ∈ (Q ⊓ K : Subgroup G)) :
     pi0 K q ∈ W0 K Q := mem_W0_iff.2 ⟨q, hq, rfl⟩
 
@@ -541,12 +554,14 @@ theorem ncard_orbit_modEq_one {M X : Type} [Group M] [MulAction M X] {S₀ : X}
 noncomputable scoped instance connAct (N : Subgroup G) : MulAction ↥N (Subgroup G) :=
   MulAction.compHom (Subgroup G) ((MulAut.conj : G →* MulAut G).comp N.subtype)
 
+omit [Finite G] in
 theorem connAct_mem_smul_iff (N : Subgroup G) (n : ↥N) (S : Subgroup G) (x : G) :
     x ∈ (n • S) ↔ (n : G)⁻¹ * x * n ∈ S := by
   show x ∈ (MulAut.conj (n : G)) • S ↔ _
   rw [Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-  simp [MulAut.conj_apply]
+  simp
 
+omit [Finite G] in
 theorem card_eq_ncard_orbit_mul (N S₀ : Subgroup G) :
     Nat.card ↥N = (MulAction.orbit ↥N S₀).ncard *
       Nat.card ↥(N ⊓ Subgroup.normalizer (S₀ : Set G)) := by
@@ -590,6 +605,7 @@ theorem zmod3_pow_odd (k : ZMod 3) (hk : k ≠ 0) {m : ℕ} (hm : Odd m) : k ^ m
   have h2 : k ^ 2 = 1 := by revert k; decide
   rw [pow_succ, pow_mul, h2, one_pow, one_mul]
 
+omit [Finite G] in
 theorem commute_of_odd_pow_mem_normalizer {n y : G}
     (hn : n ∈ Subgroup.normalizer (Subgroup.zpowers y : Set G)) (hy3 : y ^ 3 = 1) (hy1 : y ≠ 1)
     {m : ℕ} (hm : Odd m) (hnm : n ^ m = 1) : Commute n y := by
@@ -633,6 +649,7 @@ theorem commute_of_odd_pow_mem_normalizer {n y : G}
   calc n * y = (n * y * n⁻¹) * n := by group
     _ = y * n := by rw [hcomm]
 
+omit [Finite G] in
 theorem connAct_smul_eq_iff (N : Subgroup G) (n : ↥N) (S : Subgroup G) :
     n • S = S ↔ (n : G) ∈ Subgroup.normalizer (S : Set G) := by
   constructor
@@ -652,6 +669,7 @@ theorem connAct_smul_eq_iff (N : Subgroup G) (n : ↥N) (S : Subgroup G) :
     rw [e1] at this
     exact this
 
+omit [Finite G] in
 theorem mem_zpowers_cases {e b : G} (he3 : e ^ 3 = 1) (hb : b ∈ Subgroup.zpowers e) :
     b = 1 ∨ b = e ∨ b = e⁻¹ := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hb
@@ -818,12 +836,13 @@ theorem exists_x (c : Ctx E A e K Q) :
     apply c.pi0_injOn hq (one_mem _)
     rw [hfree, h1]
 
+omit [Finite G] in
 theorem pi0_one {K : Subgroup G} : pi0 K 1 = 1 := by
   rw [pi0_of_mem K.one_mem]
   exact QuotientGroup.mk_one _
 
 theorem card_Q_ge (c : Ctx E A e K Q) : 3 ^ 5 ≤ Nat.card ↥Q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEA_le : E ⊔ A ≤ Q := sup_le c.hEQ c.hAQ
   have hne : E ⊔ A ≠ E := fun h => c.hAnE (h ▸ le_sup_right)
   have hsup3 : IsPGroup 3 ↥(E ⊔ A) := c.hQp.to_le hEA_le
@@ -853,6 +872,7 @@ theorem card_Q (c : Ctx E A e K Q)
   have h5 : Nat.card ↥Q ≤ 3 ^ 5 := by norm_num at h4 ⊢; omega
   exact le_antisymm h5 h3
 
+omit [Finite G] in
 theorem Q0_normal_in_Q (c : Ctx E A e K Q) {q : G} (hq : q ∈ Q) {y : G} :
     y ∈ (Q ⊓ K : Subgroup G) ↔ q * y * q⁻¹ ∈ (Q ⊓ K : Subgroup G) :=
   Subgroup.mem_normalizer_iff.1 (Lemma113d.mem_normalizer_inf hq (c.hQK hq)) y
@@ -861,9 +881,9 @@ theorem comm_mem_Q0 (c : Ctx E A e K Q)
     (hB : ¬ Subgroup.normalizer (E : Set G) ≤
       Subgroup.normalizer ((Subgroup.zpowers e : Subgroup G) : Set G)) :
     ∀ a ∈ Q, ∀ b ∈ Q, a * b * a⁻¹ * b⁻¹ ∈ (Q ⊓ K : Subgroup G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N0 : Subgroup ↥Q := (Q ⊓ K : Subgroup G).subgroupOf Q with hN0
-  haveI : N0.Normal := ⟨fun n hn g => by
+  have : N0.Normal := ⟨fun n hn g => by
     rw [hN0, Subgroup.mem_subgroupOf] at hn ⊢
     have := (c.Q0_normal_in_Q g.2).1 hn
     simpa using this⟩
@@ -875,7 +895,7 @@ theorem comm_mem_Q0 (c : Ctx E A e K Q)
   have hq9 : Nat.card (↥Q ⧸ N0) = 3 ^ 2 := by
     have : Nat.card (↥Q ⧸ N0) * 27 = 3 ^ 5 := hsplit.symm
     omega
-  haveI := IsPGroup.isMulCommutative_of_card_eq_prime_sq hq9
+  have := IsPGroup.isMulCommutative_of_card_eq_prime_sq hq9
   intro a ha b hb
   have hcomm : (QuotientGroup.mk (⟨a, ha⟩ * ⟨b, hb⟩ : ↥Q) : ↥Q ⧸ N0) =
       QuotientGroup.mk (⟨b, hb⟩ * ⟨a, ha⟩ : ↥Q) := by
@@ -933,6 +953,7 @@ theorem exists_trans (c : Ctx E A e K Q) {y z : G} (hy : y ∈ (Q ⊓ K : Subgro
     apply c.pi0_injOn hyh ((Q ⊓ K : Subgroup G).inv_mem hz)
     rw [hpi, ht, pi0_inv hz.2]
 
+omit [Finite G] in
 theorem comm_Q0_Q_le (c : Ctx E A e K Q) : ⁅(Q ⊓ K : Subgroup G), Q⁆ ≤ (Q ⊓ K : Subgroup G) :=
   Subgroup.commutator_le.2 fun d hd q hq => by
     rw [commutatorElement_def]
@@ -941,6 +962,7 @@ theorem comm_Q0_Q_le (c : Ctx E A e K Q) : ⁅(Q ⊓ K : Subgroup G), Q⁆ ≤ (
     have := (Q ⊓ K : Subgroup G).mul_mem hd h1
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem conj_mem_comm_Q0_Q (c : Ctx E A e K Q) {q : G} (hq : q ∈ Q) {w : G}
     (hw : w ∈ ⁅(Q ⊓ K : Subgroup G), Q⁆) : q * w * q⁻¹ ∈ ⁅(Q ⊓ K : Subgroup G), Q⁆ := by
   have h1 : (Q ⊓ K : Subgroup G).map (MulAut.conj q).toMonoidHom = (Q ⊓ K : Subgroup G) :=
@@ -957,7 +979,7 @@ theorem conj_mem_comm_Q0_Q (c : Ctx E A e K Q) {q : G} (hq : q ∈ Q) {w : G}
 
 theorem exists_z0 (c : Ctx E A e K Q) :
     ∃ z ∈ ⁅(Q ⊓ K : Subgroup G), Q⁆, z ^ 3 = 1 ∧ z ≠ 1 ∧ ∀ q ∈ Q, q * z = z * q := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPQ : ⁅(Q ⊓ K : Subgroup G), Q⁆ ≤ Q := fun w hw => (c.comm_Q0_Q_le hw).1
   have hbot : ⁅(Q ⊓ K : Subgroup G), Q⁆ ≠ ⊥ := by
     obtain ⟨x, hxA, hxN⟩ := Lemma113d.exists_mem_not_mem_sup c.hQ c.hQ1 c.hXN c.hKX c.hKI
@@ -1117,7 +1139,7 @@ theorem mem_orbit_form (c : Ctx E A e K Q)
     exact Subgroup.zpowers_inv.symm
 
 theorem card_mulAut_E (c : Ctx E A e K Q) : Nat.card (MulAut ↥E) = 24261120 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcomm : ∀ a b : ↥E, a * b = b * a := fun a b =>
     Subtype.ext (congrArg Subtype.val (c.hEel.1.is_comm.comm a b))
   have hpow : ∀ a : ↥E, a ^ 3 = 1 := fun a => Subtype.ext (by simpa using c.hEel.2 a a.2)
@@ -1159,7 +1181,7 @@ theorem index_eq (c : Ctx E A e K Q)
       _ ≤ ((Q ⊓ K : Subgroup G) : Set G).ncard := Set.ncard_image_le (Set.toFinite _)
       _ = 27 := by rw [← Nat.card_coe_set_eq]; exact c.card_Q0
   have hB13 : Y.ncard ≡ 1 [MOD 13] := by
-    haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
     obtain ⟨x, hxK, hxn, ⟨a, hxa⟩, hxfree⟩ := c.exists_x
     have hxN : x ∈ N := c.mem_normalizer_E hxK hxn
     have hxe : Commute x e := (c.hKe x hxK).symm
@@ -1235,7 +1257,7 @@ theorem index_eq (c : Ctx E A e K Q)
     have hle := hA
     have hdvd := hC
     have hne := hD
-    interval_cases hY27 : Y.ncard <;> simp_all <;> omega
+    interval_cases hY27 : Y.ncard <;> simp_all
   rw [h27] at hmain
   exact hmain
 

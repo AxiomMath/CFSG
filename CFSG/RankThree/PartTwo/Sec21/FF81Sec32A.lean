@@ -53,24 +53,28 @@ theorem FF81Hyp.b_cube (h : FF81Hyp b L) : b ^ 3 = 1 := by
 theorem FF81Hyp.b_ne_one (h : FF81Hyp b L) : b ≠ 1 := fun h1 => by
   have := h.ord; rw [h1, orderOf_one] at this; norm_num at this
 
+omit [Finite G] in
 theorem b_mem_cen (b : G) : b ∈ Cen b := Subgroup.mem_centralizer_singleton_iff.mpr rfl
 
 theorem FF81Hyp.b_mem_cenS (h : FF81Hyp b L) : b ∈ CenS L :=
-  Subgroup.mem_centralizer_iff.mpr fun y hy =>
+  Subgroup.mem_centralizer_iff.mpr fun _y hy =>
     Subgroup.mem_centralizer_singleton_iff.mp (h.hLC hy)
 
 theorem FF81Hyp.card_zpowers (h : FF81Hyp b L) : Nat.card (Subgroup.zpowers b) = 3 := by
   rw [Nat.card_zpowers, h.ord]
 
+omit [Finite G] in
 theorem comm_zpow_of_mem_cen {y : G} (hy : y ∈ Cen b) (k : ℤ) : y * b ^ k = b ^ k * y :=
   (Commute.zpow_right (Subgroup.mem_centralizer_singleton_iff.mp hy : Commute y b) k).eq
 
+omit [Finite G] in
 theorem cen_le_cenS_zpowers_of_cen : Cen b ≤ CenS (Subgroup.zpowers b) := fun y hy =>
   Subgroup.mem_centralizer_iff.mpr fun z hz => by
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hz
     exact (comm_zpow_of_mem_cen hy k).symm
 
-theorem cen_le_nor_zpowers : Cen b ≤ Nor (Subgroup.zpowers b) := fun y hy =>
+omit [Finite G] in
+theorem cen_le_nor_zpowers : Cen b ≤ Nor (Subgroup.zpowers b) := fun _y hy =>
   Subgroup.centralizer_le_normalizer _ (cen_le_cenS_zpowers_of_cen hy)
 
 theorem FF81Hyp.zpowers_inf_L (h : FF81Hyp b L) : Subgroup.zpowers b ⊓ L = ⊥ := by
@@ -107,7 +111,7 @@ theorem FF81Hyp.exists_decomp (h : FF81Hyp b L) {x : G} (hx : x ∈ Cen b) :
 
 theorem FF81Hyp.mem_zpowers_of_cube (h : FF81Hyp b L) {d : G} (hdb : d ∈ Cen b)
     (hdL : d ∈ CenS L) (hd3 : d ^ 3 = 1) : d ∈ Subgroup.zpowers b := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hd1 : d = 1
   · rw [hd1]; exact Subgroup.one_mem _
   set H := CenS L
@@ -130,7 +134,7 @@ theorem FF81Hyp.mem_zpowers_of_cube (h : FF81Hyp b L) {d : G} (hdb : d ∈ Cen b
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hw
     exact ((Commute.zpow_left (show Commute v u from huv.symm) k)).eq
   obtain ⟨P, hP⟩ := (IsPGroup.to_sup_of_normal_right' hzu hzv hle).exists_le_sylow
-  haveI := h.cyc P
+  have := h.cyc P
   have hmu : u ∈ (P : Subgroup ↥H) := hP (Subgroup.mem_sup_left (Subgroup.mem_zpowers u))
   have hmv : v ∈ (P : Subgroup ↥H) := hP (Subgroup.mem_sup_right (Subgroup.mem_zpowers v))
   have heq : Subgroup.zpowers (⟨u, hmu⟩ : (P : Subgroup ↥H)) =
@@ -204,6 +208,7 @@ theorem FF81Hyp.card_elem_le (h : FF81Hyp b L)
   rw [← hYE]
   omega
 
+omit [Finite G] in
 theorem isElemAbelian_subgroupOf_of_forall {E C : Subgroup G} (hc : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x)
     (h3 : ∀ x ∈ E, x ^ 3 = 1) : IsElemAbelian 3 (E.subgroupOf C) :=
   ⟨⟨⟨fun x y => Subtype.ext (Subtype.ext (hc _ (Subgroup.mem_subgroupOf.mp x.2) _
@@ -335,7 +340,7 @@ theorem FF81Hyp.localRank_cen (h : FF81Hyp b L) (hTF : KF_Sp6TorusFree)
     (h3 : b₃ ^ 3 = 1) (h9 : Nat.card (Subgroup.closure ({b₁, b₃} : Set G)) = 9) (hs : s ∈ L)
     (hs2 : orderOf s = 2) (hs1 : s * b₁ = b₁ * s) (hs3 : s * b₃ = b₃ * s) :
     localRank 3 ↥(Cen b) = 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm (csSup_le' ?_) ?_
   · rintro _ ⟨H, ⟨P, hP1, hP2, rfl⟩, rfl⟩
     refine csSup_le' ?_

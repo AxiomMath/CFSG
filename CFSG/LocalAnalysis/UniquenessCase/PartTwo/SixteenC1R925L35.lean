@@ -32,14 +32,14 @@ theorem r925_l35_pcore_centralized {Γ : Type} [Group Γ] [Finite Γ]
     hq.of_mulEquiv (r925QuotEquiv (toModO3p Γ) K).symm
   have htriv : ∀ p : {p : ℕ // p.Prime ∧ 5 ≤ p}, ∀ k : ↥K, ψ p (k : Γ) = 1 := by
     intro p k
-    haveI : Fact p.1.Prime := ⟨p.2.1⟩
+    have : Fact p.1.Prime := ⟨p.2.1⟩
     have hcomp : (ψ p).comp K.subtype = 1 :=
       r925_gl2_trivial_of_l35 h.perfect_k W' hWorder hq' p.1 p.2.2 ((ψ p).comp K.subtype)
     have h1 := DFunLike.congr_fun hcomp k
     simpa using h1
   have hA : ∀ p : ℕ, p.Prime → 5 ≤ p → ∀ a ∈ K, ∀ x ∈ CFSG.pCore p Γ, a * x = x * a := by
     intro p hp h5 a ha x hx
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact r925_pcore_centralized_of_rep p h5 h.threeGen_k (hψ ⟨p, ⟨hp, h5⟩⟩).1
       (fun b hb => htriv ⟨p, ⟨hp, h5⟩⟩ ⟨b, hb⟩) a ha x hx
   intro k hk x hx

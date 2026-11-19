@@ -23,35 +23,35 @@ section Inputs
 
 @[expose] def TwE6CaseITauInput : Prop :=
   ∀ (K : Type) [Field K] [Finite K] (σ : K ≃+* K) (q : ℕ)
-    (hK : Nat.card K = q ^ 2) (hσ : ∀ c, σ c = c ^ q) (hK3 : ringChar K ≠ 3)
-    (E₀ : Subgroup (twistedE6RootGroup K σ)) (hE₀ : IsElemAbelian 3 E₀)
-    (hc : Nat.card E₀ = 3 ^ 3) {h₀ : twistedE6RootGroup K σ} (hh₀ : h₀ ∈ E₀) (hh₀1 : h₀ ≠ 1)
-    (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (hFr : ∀ c, Fr c = c ^ q)
+    (_hK : Nat.card K = q ^ 2) (_hσ : ∀ c, σ c = c ^ q) (_hK3 : ringChar K ≠ 3)
+    (E₀ : Subgroup (twistedE6RootGroup K σ)) (_hE₀ : IsElemAbelian 3 E₀)
+    (_hc : Nat.card E₀ = 3 ^ 3) {h₀ : twistedE6RootGroup K σ} (_hh₀ : h₀ ∈ E₀) (_hh₀1 : h₀ ≠ 1)
+    (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (_hFr : ∀ c, Fr c = c ^ q)
     (v : WeylGroup TwistTag.E6.tag)
-    (hv : ∀ γ : Fin TwistTag.E6.tag.rank → ℤ, v • permLattice TwistTag.E6.perm γ = -γ)
+    (_hv : ∀ γ : Fin TwistTag.E6.tag.rank → ℤ, v • permLattice TwistTag.E6.perm γ = -γ)
     (g0 : ModGL TwistTag.E6.tag (AlgebraicClosure K))
-    (hg0C : g0 ∈ adjointGroup TwistTag.E6.tag (AlgebraicClosure K))
-    (hg0 : twistHom TwistTag.E6 (AlgebraicClosure K) Fr g0 =
+    (_hg0C : g0 ∈ adjointGroup TwistTag.E6.tag (AlgebraicClosure K))
+    (_hg0 : twistHom TwistTag.E6 (AlgebraicClosure K) Fr g0 =
       g0 * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) v)
     {a : Fin TwistTag.E6.tag.rank → (AlgebraicClosure K)ˣ}
-    (ha : g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (h₀ : ModGL TwistTag.E6.tag K) *
+    (_ha : g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (h₀ : ModGL TwistTag.E6.tag K) *
       g0 = rootDiagUnit TwistTag.E6.tag a)
-    (haΦ : ∀ α : Fin TwistTag.E6.tag.rank → ℤ, IsRoot TwistTag.E6.tag α →
+    (_haΦ : ∀ α : Fin TwistTag.E6.tag.rank → ℤ, IsRoot TwistTag.E6.tag α →
       (rootChar a α = 1 ↔ (3 : ℤ) ∣ α 3))
-    (hmono : ∀ x ∈ E₀, ∃ t ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K),
+    (_hmono : ∀ x ∈ E₀, ∃ t ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K),
       ∃ w : WeylGroup TwistTag.E6.tag,
         g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x : ModGL TwistTag.E6.tag K) *
           g0 = t * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) w)
-    {x₁ : twistedE6RootGroup K σ} (hx₁ : x₁ ∈ E₀)
+    {x₁ : twistedE6RootGroup K σ} (_hx₁ : x₁ ∈ E₀)
     {t₁ : ModGL TwistTag.E6.tag (AlgebraicClosure K)}
-    (ht₁ : t₁ ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K))
-    {w₁ : WeylGroup TwistTag.E6.tag} (hw₁ : w₁ ≠ 1)
-    (hx₁w : g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x₁ : ModGL TwistTag.E6.tag K) *
+    (_ht₁ : t₁ ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K))
+    {w₁ : WeylGroup TwistTag.E6.tag} (_hw₁ : w₁ ≠ 1)
+    (_hx₁w : g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x₁ : ModGL TwistTag.E6.tag K) *
       g0 = t₁ * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) w₁)
-    (hW : TwE6WeylPartsIn K σ E₀ g0 (Subgroup.zpowers w₁))
-    {γ₁ γ₂ : Fin Tag.E6.rank → ℤ} (hk : E6Kind2A2 w₁ γ₁ γ₂)
-    (hout : ∀ γ ∈ a2Roots γ₁ γ₂, ¬ (3 : ℤ) ∣ γ 3) (htau : E6TauChars w₁ γ₁)
-    (hS4 : ∀ y ∈ E₀, ∀ t ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K),
+    (_hW : TwE6WeylPartsIn K σ E₀ g0 (Subgroup.zpowers w₁))
+    {γ₁ γ₂ : Fin Tag.E6.rank → ℤ} (_hk : E6Kind2A2 w₁ γ₁ γ₂)
+    (_hout : ∀ γ ∈ a2Roots γ₁ γ₂, ¬ (3 : ℤ) ∣ γ 3) (_htau : E6TauChars w₁ γ₁)
+    (_hS4 : ∀ y ∈ E₀, ∀ t ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K),
       g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (y : ModGL TwistTag.E6.tag K) *
           g0 = t * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) w₁ →
         ((g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K))
@@ -63,99 +63,99 @@ section Inputs
     TwE6All24PlaneIn K σ E₀ ∨ NormalizesRGroup (ringChar K) E₀
 
 @[expose] def TwE6CaseIRankOne3A2Input : Prop :=
-  ∀ (K : Type) [Field K] (σ : K ≃+* K) (hK3 : ringChar K ≠ 3)
-    (E₀ : Subgroup (twistedE6RootGroup K σ)) (hE₀ : IsElemAbelian 3 E₀)
+  ∀ (K : Type) [Field K] (σ : K ≃+* K) (_hK3 : ringChar K ≠ 3)
+    (E₀ : Subgroup (twistedE6RootGroup K σ)) (_hE₀ : IsElemAbelian 3 E₀)
     (g0 : ModGL TwistTag.E6.tag (AlgebraicClosure K))
-    (hplane : ∀ y ∈ E₀, ∀ t ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K),
+    (_hplane : ∀ y ∈ E₀, ∀ t ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K),
       ∀ u : WeylGroup TwistTag.E6.tag,
         g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (y : ModGL TwistTag.E6.tag K) *
             g0 = t * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) u →
           (∀ γ : Fin TwistTag.E6.tag.rank → ℤ, IsRoot TwistTag.E6.tag γ → u • γ = γ →
             (3 : ℤ) ∣ γ 3) →
           twE6FixDim K σ y = 24 → TwE6All24PlaneIn K σ E₀)
-    {x₁ : twistedE6RootGroup K σ} (hx₁ : x₁ ∈ E₀)
+    {x₁ : twistedE6RootGroup K σ} (_hx₁ : x₁ ∈ E₀)
     {t₁ : ModGL TwistTag.E6.tag (AlgebraicClosure K)}
-    (ht₁ : t₁ ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K))
+    (_ht₁ : t₁ ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K))
     {w₁ : WeylGroup TwistTag.E6.tag}
-    (hx₁w : g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x₁ : ModGL TwistTag.E6.tag K) *
+    (_hx₁w : g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x₁ : ModGL TwistTag.E6.tag K) *
       g0 = t₁ * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) w₁)
-    (hk : E6Kind3A2 w₁),
+    (_hk : E6Kind3A2 w₁),
     TwE6All24PlaneIn K σ E₀
 
 @[expose] def TwE6CaseIRankOne2A2Input : Prop :=
   ∀ (K : Type) [Field K] [Finite K] (σ : K ≃+* K) (q : ℕ)
-    (hK : Nat.card K = q ^ 2) (hσ : ∀ c, σ c = c ^ q) (hK3 : ringChar K ≠ 3)
-    (E₀ : Subgroup (twistedE6RootGroup K σ)) (hE₀ : IsElemAbelian 3 E₀)
-    (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (hFr : ∀ c, Fr c = c ^ q)
+    (_hK : Nat.card K = q ^ 2) (_hσ : ∀ c, σ c = c ^ q) (_hK3 : ringChar K ≠ 3)
+    (E₀ : Subgroup (twistedE6RootGroup K σ)) (_hE₀ : IsElemAbelian 3 E₀)
+    (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (_hFr : ∀ c, Fr c = c ^ q)
     (v : WeylGroup TwistTag.E6.tag)
-    (hv : ∀ γ : Fin TwistTag.E6.tag.rank → ℤ, v • permLattice TwistTag.E6.perm γ = -γ)
+    (_hv : ∀ γ : Fin TwistTag.E6.tag.rank → ℤ, v • permLattice TwistTag.E6.perm γ = -γ)
     (g0 : ModGL TwistTag.E6.tag (AlgebraicClosure K))
-    (hg0C : g0 ∈ adjointGroup TwistTag.E6.tag (AlgebraicClosure K))
-    (hg0 : twistHom TwistTag.E6 (AlgebraicClosure K) Fr g0 =
+    (_hg0C : g0 ∈ adjointGroup TwistTag.E6.tag (AlgebraicClosure K))
+    (_hg0 : twistHom TwistTag.E6 (AlgebraicClosure K) Fr g0 =
       g0 * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) v)
-    (hmono : ∀ x ∈ E₀, ∃ t ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K),
+    (_hmono : ∀ x ∈ E₀, ∃ t ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K),
       ∃ w : WeylGroup TwistTag.E6.tag,
         g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x : ModGL TwistTag.E6.tag K) *
           g0 = t * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) w)
-    (hplane : ∀ y ∈ E₀, ∀ t ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K),
+    (_hplane : ∀ y ∈ E₀, ∀ t ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K),
       ∀ u : WeylGroup TwistTag.E6.tag,
         g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (y : ModGL TwistTag.E6.tag K) *
             g0 = t * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) u →
           (∀ γ : Fin TwistTag.E6.tag.rank → ℤ, IsRoot TwistTag.E6.tag γ → u • γ = γ →
             (3 : ℤ) ∣ γ 3) →
           twE6FixDim K σ y = 24 → TwE6All24PlaneIn K σ E₀)
-    {x₁ : twistedE6RootGroup K σ} (hx₁ : x₁ ∈ E₀)
+    {x₁ : twistedE6RootGroup K σ} (_hx₁ : x₁ ∈ E₀)
     {t₁ : ModGL TwistTag.E6.tag (AlgebraicClosure K)}
-    (ht₁ : t₁ ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K))
-    {w₁ : WeylGroup TwistTag.E6.tag} (hw₁ : w₁ ≠ 1)
-    (hx₁w : g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x₁ : ModGL TwistTag.E6.tag K) *
+    (_ht₁ : t₁ ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K))
+    {w₁ : WeylGroup TwistTag.E6.tag} (_hw₁ : w₁ ≠ 1)
+    (_hx₁w : g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x₁ : ModGL TwistTag.E6.tag K) *
       g0 = t₁ * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) w₁)
-    (hW : TwE6WeylPartsIn K σ E₀ g0 (Subgroup.zpowers w₁))
-    {γ₁ γ₂ : Fin Tag.E6.rank → ℤ} (hk : E6Kind2A2 w₁ γ₁ γ₂)
-    (hin : ∀ γ ∈ a2Roots γ₁ γ₂, (3 : ℤ) ∣ γ 3),
+    (_hW : TwE6WeylPartsIn K σ E₀ g0 (Subgroup.zpowers w₁))
+    {γ₁ γ₂ : Fin Tag.E6.rank → ℤ} (_hk : E6Kind2A2 w₁ γ₁ γ₂)
+    (_hin : ∀ γ ∈ a2Roots γ₁ γ₂, (3 : ℤ) ∣ γ 3),
     TwE6All24PlaneIn K σ E₀ ∨ NormalizesRGroup (ringChar K) E₀
 
 @[expose] def TwE6CaseIRankTwoInput : Prop :=
-  ∀ (hT : E6CaseITable) (K : Type) [Field K] [Finite K] (σ : K ≃+* K)
-    (q : ℕ) (hK : Nat.card K = q ^ 2) (hσ : ∀ c, σ c = c ^ q) (hK3 : ringChar K ≠ 3)
-    (E₀ : Subgroup (twistedE6RootGroup K σ)) (hE₀ : IsElemAbelian 3 E₀)
-    (hc : Nat.card E₀ = 3 ^ 3) {h₀ : twistedE6RootGroup K σ} (hh₀ : h₀ ∈ E₀) (hh₀1 : h₀ ≠ 1)
-    (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (hFr : ∀ c, Fr c = c ^ q)
+  ∀ (_hT : E6CaseITable) (K : Type) [Field K] [Finite K] (σ : K ≃+* K)
+    (q : ℕ) (_hK : Nat.card K = q ^ 2) (_hσ : ∀ c, σ c = c ^ q) (_hK3 : ringChar K ≠ 3)
+    (E₀ : Subgroup (twistedE6RootGroup K σ)) (_hE₀ : IsElemAbelian 3 E₀)
+    (_hc : Nat.card E₀ = 3 ^ 3) {h₀ : twistedE6RootGroup K σ} (_hh₀ : h₀ ∈ E₀) (_hh₀1 : h₀ ≠ 1)
+    (Fr : AlgebraicClosure K →+* AlgebraicClosure K) (_hFr : ∀ c, Fr c = c ^ q)
     (v : WeylGroup TwistTag.E6.tag)
-    (hv : ∀ γ : Fin TwistTag.E6.tag.rank → ℤ, v • permLattice TwistTag.E6.perm γ = -γ)
+    (_hv : ∀ γ : Fin TwistTag.E6.tag.rank → ℤ, v • permLattice TwistTag.E6.perm γ = -γ)
     (g0 : ModGL TwistTag.E6.tag (AlgebraicClosure K))
-    (hg0C : g0 ∈ adjointGroup TwistTag.E6.tag (AlgebraicClosure K))
-    (hg0 : twistHom TwistTag.E6 (AlgebraicClosure K) Fr g0 =
+    (_hg0C : g0 ∈ adjointGroup TwistTag.E6.tag (AlgebraicClosure K))
+    (_hg0 : twistHom TwistTag.E6 (AlgebraicClosure K) Fr g0 =
       g0 * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) v)
     {a : Fin TwistTag.E6.tag.rank → (AlgebraicClosure K)ˣ}
-    (ha : g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (h₀ : ModGL TwistTag.E6.tag K) *
+    (_ha : g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (h₀ : ModGL TwistTag.E6.tag K) *
       g0 = rootDiagUnit TwistTag.E6.tag a)
-    (haΦ : ∀ α : Fin TwistTag.E6.tag.rank → ℤ, IsRoot TwistTag.E6.tag α →
+    (_haΦ : ∀ α : Fin TwistTag.E6.tag.rank → ℤ, IsRoot TwistTag.E6.tag α →
       (rootChar a α = 1 ↔ (3 : ℤ) ∣ α 3))
-    (hmono : ∀ x ∈ E₀, ∃ t ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K),
+    (_hmono : ∀ x ∈ E₀, ∃ t ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K),
       ∃ w : WeylGroup TwistTag.E6.tag,
         g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x : ModGL TwistTag.E6.tag K) *
           g0 = t * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) w)
-    (hplane : ∀ y ∈ E₀, ∀ t ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K),
+    (_hplane : ∀ y ∈ E₀, ∀ t ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K),
       ∀ u : WeylGroup TwistTag.E6.tag,
         g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (y : ModGL TwistTag.E6.tag K) *
             g0 = t * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) u →
           (∀ γ : Fin TwistTag.E6.tag.rank → ℤ, IsRoot TwistTag.E6.tag γ → u • γ = γ →
             (3 : ℤ) ∣ γ 3) →
           twE6FixDim K σ y = 24 → TwE6All24PlaneIn K σ E₀)
-    {x₁ : twistedE6RootGroup K σ} (hx₁ : x₁ ∈ E₀)
+    {x₁ : twistedE6RootGroup K σ} (_hx₁ : x₁ ∈ E₀)
     {t₁ : ModGL TwistTag.E6.tag (AlgebraicClosure K)}
-    (ht₁ : t₁ ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K))
-    {w₁ : WeylGroup TwistTag.E6.tag} (hw₁ : w₁ ≠ 1)
-    (hx₁w : g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x₁ : ModGL TwistTag.E6.tag K) *
+    (_ht₁ : t₁ ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K))
+    {w₁ : WeylGroup TwistTag.E6.tag} (_hw₁ : w₁ ≠ 1)
+    (_hx₁w : g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x₁ : ModGL TwistTag.E6.tag K) *
       g0 = t₁ * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) w₁)
-    {x₂ : twistedE6RootGroup K σ} (hx₂ : x₂ ∈ E₀)
+    {x₂ : twistedE6RootGroup K σ} (_hx₂ : x₂ ∈ E₀)
     {t₂ : ModGL TwistTag.E6.tag (AlgebraicClosure K)}
-    (ht₂ : t₂ ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K))
-    {w₂ : WeylGroup TwistTag.E6.tag} (hw₂ : w₂ ∉ Subgroup.zpowers w₁)
-    (hx₂w : g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x₂ : ModGL TwistTag.E6.tag K) *
+    (_ht₂ : t₂ ∈ torusGroup TwistTag.E6.tag (AlgebraicClosure K))
+    {w₂ : WeylGroup TwistTag.E6.tag} (_hw₂ : w₂ ∉ Subgroup.zpowers w₁)
+    (_hx₂w : g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x₂ : ModGL TwistTag.E6.tag K) *
       g0 = t₂ * canonicalRep (coxeterSystem TwistTag.E6.tag) (AlgebraicClosure K) w₂)
-    (hn₁ : E6FixesNode3 w₁) (hn₂ : E6FixesNode3 w₂),
+    (_hn₁ : E6FixesNode3 w₁) (_hn₂ : E6FixesNode3 w₂),
     TwE6All24PlaneIn K σ E₀ ∨ NormalizesRGroup (ringChar K) E₀
 
 end Inputs
@@ -190,7 +190,7 @@ theorem twE6CaseI_rootChar_eq {L : Type} [Field L] {a : Fin TwistTag.E6.tag.rank
     intro j hj
     rw [← twE6CI_rootChar_single a j]
     refine (haΦ _ (isRoot_single _ j)).2 ?_
-    rw [Pi.single_apply, if_neg (Ne.symm hj)]
+    rw [Pi.single_apply, ite_eq_right (Ne.symm hj)]
     exact dvd_zero 3
   refine ⟨fun δ => ?_, ?_, fun h => ?_⟩
   · rw [rootChar, Finset.prod_eq_single (3 : Fin TwistTag.E6.tag.rank)

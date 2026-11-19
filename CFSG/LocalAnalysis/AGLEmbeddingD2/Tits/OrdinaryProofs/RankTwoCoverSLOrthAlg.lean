@@ -14,11 +14,10 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι]
 @[expose] public def Sx (R : Type) [Field R] (p q : ι) : Matrix ι ι R :=
   single p q 1 + single q p 1 + single p p 1
 
-public theorem trans_mul_Sx {R : Type} [Field R] (p q : ι) (hpq : p ≠ q) :
+public theorem trans_mul_Sx {R : Type} [Field R] (p q : ι) (_hpq : p ≠ q) :
     transvection p q (1 : R) * transvection q p 1 = 1 + Sx R p q := by
   unfold transvection Sx
-  simp only [add_mul, mul_add, one_mul, mul_one, single_mul_single_same, single_mul_single_of_ne,
-    hpq, hpq.symm]
+  simp only [add_mul, mul_add, one_mul, mul_one, single_mul_single_same]
   abel
 
 public theorem trace_Sx {R : Type} [Field R] (p q : ι) (hpq : p ≠ q) :

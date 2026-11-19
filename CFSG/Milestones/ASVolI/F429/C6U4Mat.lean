@@ -244,7 +244,7 @@ theorem burnsideF429_U4_mem_q2_of_psi {u : hypSU h 2 0} (hu : u ∈ hypUnitriang
   fin_cases i <;> fin_cases j <;> simp [rho2, h1, h2, h3, ha]
 
 theorem burnsideF429_U4_card_q2_ge [Finite K] : (2 ^ m) ^ 4 ≤ Nat.card (radQ2 h) := by
-  haveI : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   have hU := card_hypUnitriangular h (r := 2) (ε := 0) (by norm_num)
   norm_num at hU
   have hker : Nat.card (burnsideF429_U4_psi h).ker ≤ Nat.card (radQ2 h) := by
@@ -298,14 +298,14 @@ theorem burnsideF429_U4_rel_of_comm {b q : hypSU h 2 0} (hb : b ∈ hypUnitriang
   have e11 := burnsideF429_U4_conj_q2 h b hq (a := ie1) (b := if1) (by simp)
   rw [hc] at e12 e11
   simp only [hypPartner_if2, hypPartner_if1, h11, h22, h21, map_zero, map_one, mul_zero,
-    zero_mul, zero_add, add_zero, mul_one, one_mul] at e12 e11
+    zero_add, add_zero, mul_one, one_mul] at e12 e11
   exact ⟨by linear_combination -e12, by linear_combination -e11⟩
 
 theorem burnsideF429_U4_card_elemAb_le [Finite K] {B : Subgroup (hypSU h 2 0)}
     (hBU : B ≤ hypUnitriangular h 2 0) (hB : CFSG.Open.IsElemAbelian 2 B)
     (hBQ : ¬ B ≤ radQ2 h) : Nat.card B ≤ (2 ^ m) ^ 3 := by
   have := h.charP
-  haveI : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
+  have : Finite (hypSU h 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU h
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
   have hcomm := isMulCommutative_iff_of_setLike.mp hB.1
   have hbarK : ∀ c, barEquiv h c = h.bar c := barEquiv_apply h
@@ -319,7 +319,7 @@ theorem burnsideF429_U4_card_elemAb_le [Finite K] {B : Subgroup (hypSU h 2 0)}
     exact burnsideF429_U4_mem_q2_of_psi h (hBU (u : B).2) (Multiplicative.ofAdd.injective hu)
   have hrel : ∀ b ∈ B, ∀ q ∈ B, q ∈ radQ2 h → _ := fun b hb q hqB hq =>
     burnsideF429_U4_rel_of_comm h (hBU hb) hq (by rw [hcomm b hb q hqB, mul_inv_cancel_right])
-  obtain ⟨b₀, hb₀B, hb₀Q⟩ := SetLike.not_le_iff_exists.mp hBQ
+  obtain ⟨b₀, hb₀B, hb₀Q⟩ := IsConcreteLE.not_le_iff_exists.mp hBQ
   have ha₀ : aa b₀ ≠ 0 := fun h0 => hb₀Q (burnsideF429_U4_mem_q2_of_psi h (hBU hb₀B) h0)
   have hba₀ : h.bar (aa b₀) ≠ 0 := fun h0 => ha₀ ((map_eq_zero_iff h.bar h.bar.injective).mp h0)
   have hδ : ∀ q ∈ B, q ∈ radQ2 h → ((q : GL Ix K) : Matrix Ix Ix K) ie2 if2 = 0 := fun q hqB hq =>

@@ -43,7 +43,7 @@ theorem element_fusion_index_two_transfer_internal
     rintro a ⟨x, hx, y, hy, hxy, rfl⟩
     obtain ⟨g, hgy⟩ := isConj_iff.mp hxy
     have hxorder : ∃ n : ℕ, orderOf x = 2 ^ n := by
-      obtain ⟨n, hn⟩ := T.isPGroup'.exists_orderOf_eq_pow
+      obtain ⟨n, hn⟩ := T.isPGroup.exists_orderOf_eq_pow
         (⟨x, hx⟩ : (T : Subgroup G))
       exact ⟨n, (Subgroup.orderOf_coe (⟨x, hx⟩ : (T : Subgroup G))).trans hn⟩
     have hconj : g⁻¹⁻¹ * x * g⁻¹ = y := by simpa only [inv_inv] using hgy

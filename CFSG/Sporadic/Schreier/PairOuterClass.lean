@@ -23,10 +23,10 @@ theorem card_isConj_map (α : MulAut G) (a : G) :
   · intro h
     obtain ⟨c, hc⟩ := isConj_iff.1 h
     refine isConj_iff.2 ⟨α.symm c, α.injective ?_⟩
-    change α (α.symm c * a * (α.symm c)⁻¹) = α x
     rw [map_mul, map_mul, map_inv, MulEquiv.apply_symm_apply]
     exact hc
 
+omit [Group G] in
 theorem card_pairs_le_of_class [Finite G] {A : G → Prop} {R : G → G → Prop} {m : ℕ}
     (h : ∀ x, A x → Nat.card {y // R x y} ≤ m) :
     Nat.card {p : G × G // A p.1 ∧ R p.1 p.2} ≤ Nat.card {x // A x} * m := by

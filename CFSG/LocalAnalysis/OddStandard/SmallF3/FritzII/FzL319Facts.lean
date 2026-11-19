@@ -85,6 +85,7 @@ theorem Z_iff (p : ↥P) : (p : G) ∈ Z ↔ FzInZ (D.φ p) := by
       exact hp
     exact Subgroup.mem_subgroupOf.mp (heq.symm ▸ hpS)
 
+omit [Finite G] in
 theorem E_iff (p : ↥P) : (p : G) ∈ E ↔ (D.cT) (D.φ p) = D.φ p := by
   constructor
   · intro hp

@@ -46,8 +46,8 @@ theorem s16nt_sum_sl (hX2 : ∀ x : X, x ^ 2 = 1) {L : Subgroup (MulAut X)}
     inf_le_right (c := 0) (d := n) ?_ (by omega) hsum
   intro I hI
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hI
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   exact ⟨FFModel.nat (StatedSL n K), s16nt_cover_sl_of_four_le hn4 hKcard, hreal, by
     rw [s16nt_card_natMod (StatedSL n K), hKcard, Fintype.card_fin, pow_one]⟩
 
@@ -59,8 +59,8 @@ theorem s16nt_irr_sl (hX2 : ∀ x : X, x ^ 2 = 1) {L : Subgroup (MulAut X)}
     3 * rk ↥(commSub ⊤ L ⊓ fixV L) ≤ rk ↥(commSub ⊤ L) := by
   obtain ⟨hshape, hnat⟩ := h
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hnat
-  letI := hKf
-  letI := hKfin
+  let := hKf
+  let := hKfin
   have hr := s16nt_range_sl hqs (s16nt_pRank_nt_top hnt) hshape
   have hD : S16BoundCover (FFModel.nat (StatedSL n K)) 0 := by
     rcases hr with hn4 | ⟨hn3, hm2⟩

@@ -71,6 +71,7 @@ theorem pl_normalizer {P L Q D : Subgroup G} (hPL : ∀ a ∈ P, ∀ b ∈ L, a 
     rw [e]
     exact Subgroup.mul_mem _ (Subgroup.mem_sup_left hq) (Subgroup.mem_sup_right hld)
 
+omit [Finite G] in
 theorem conj_comm_of_mem_normalizer {F : Subgroup G} {l b : G}
     (hl : l ∈ normalizer (F : Set G)) (hb : ∀ f ∈ F, f * b = b * f) :
     ∀ f ∈ F, f * (l * b * l⁻¹) = (l * b * l⁻¹) * f := by
@@ -91,6 +92,7 @@ theorem b1_ctxE_le_ctxW (h : Ctx0 t L S x₁ x₂ lam rho) : ctxE t x₁ x₂ �
   rw [pt_ctxE_eq_sup]
   exact sup_le_sup (Subgroup.zpowers_le.mpr h.hyp.mem_twoCore) (pt_four_le_base x₁ x₂)
 
+omit [Finite G] in
 theorem b1_sup_eq (t : G) (x₁ x₂ lam rho : G) :
     twoCore t ⊔ closure {x₁, x₂, rho, lam} = ctxW t x₁ x₂ ⊔ closure {rho, lam} := by
   have hBM : baseGrp x₁ x₂ ≤ closure {x₁, x₂, rho, lam} := by
@@ -141,7 +143,7 @@ theorem b1_norm_four (h : Ctx0 t L S x₁ x₂ lam rho) :
       Subgroup.mul_mem _ (Subgroup.mul_mem _ hlL (pt_base_le_L h hb)) (Subgroup.inv_mem _ hlL)
     have hcomm : ∀ f ∈ fourGrp x₁ x₂, f * b = b * f := by
       intro f hf
-      haveI : IsMulCommutative (baseGrp x₁ x₂) := hAbel
+      have : IsMulCommutative (baseGrp x₁ x₂) := hAbel
       exact congrArg Subtype.val (mul_comm' (⟨f, pt_four_le_base x₁ x₂ hf⟩ : baseGrp x₁ x₂)
         ⟨b, hb⟩)
     have hc := conj_comm_of_mem_normalizer hlN hcomm
@@ -189,7 +191,7 @@ theorem b1_cent_A (h : Ctx0 t L S x₁ x₂ lam rho) (hPL : invCent t = twoCore 
   · intro w hw
     rw [Subgroup.mem_centralizer_iff]
     intro a ha
-    haveI : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
+    have : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
     exact congrArg Subtype.val (mul_comm' (⟨a, hAW ha⟩ : ctxW t x₁ x₂) ⟨w, hw⟩)
 
 theorem b1_cent_W (h : Ctx0 t L S x₁ x₂ lam rho) (hPL : invCent t = twoCore t ⊔ L) :
@@ -202,13 +204,13 @@ theorem b1_cent_W (h : Ctx0 t L S x₁ x₂ lam rho) (hPL : invCent t = twoCore 
   · intro w hw
     rw [Subgroup.mem_centralizer_iff]
     intro a ha
-    haveI : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
+    have : IsMulCommutative (ctxW t x₁ x₂) := h.abelian_W
     exact congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : ctxW t x₁ x₂) ⟨w, hw⟩)
 
 theorem b1_norm_W (h : Ctx0 t L S x₁ x₂ lam rho) (hPL : invCent t = twoCore t ⊔ L) :
     invCent t ⊓ normalizer ((ctxW t x₁ x₂ : Subgroup G) : Set G) =
       ctxW t x₁ x₂ ⊔ closure {rho, lam} := by
-  haveI := h.hyp.isCyclic
+  have := h.hyp.isCyclic
   have hPP : ∀ a ∈ twoCore t, ∀ b ∈ twoCore t, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : twoCore t) ⟨b, hb⟩)
   have hnorm := pl_normalizer (P := twoCore t) (L := L) (Q := twoCore t) (D := baseGrp x₁ x₂)
@@ -220,7 +222,7 @@ theorem b1_norm_W (h : Ctx0 t L S x₁ x₂ lam rho) (hPL : invCent t = twoCore 
 theorem b1_norm_A (h : Ctx0 t L S x₁ x₂ lam rho) (hPL : invCent t = twoCore t ⊔ L) :
     invCent t ⊓ normalizer ((ctxE t x₁ x₂ : Subgroup G) : Set G) =
       ctxW t x₁ x₂ ⊔ closure {rho, lam} := by
-  haveI := h.hyp.isCyclic
+  have := h.hyp.isCyclic
   have hPP : ∀ a ∈ twoCore t, ∀ b ∈ twoCore t, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : twoCore t) ⟨b, hb⟩)
   have hnorm := pl_normalizer (P := twoCore t) (L := L) (Q := zpowers t) (D := fourGrp x₁ x₂)

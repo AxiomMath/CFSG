@@ -54,7 +54,7 @@ theorem TS_le : TS ≤ S0 := by
 noncomputable def tE (j : ℕ) : K := if h : j < 512 then (Sy_ex j h).choose else 1
 
 theorem tE_spec {j : ℕ} (hj : j < 512) : repK (tE j) (SyPt j) ∧ tE j ∈ TS := by
-  simp only [tE, dif_pos hj]
+  simp only [tE, dite_eq_left hj]
   refine ⟨(Sy_ex j hj).choose_spec, ?_⟩
   have : (Sy_ex j hj).choose ∈ {y | ∃ i < 512, repK y (SyPt i)} := ⟨j, hj, (Sy_ex j hj).choose_spec⟩
   rw [Sy_pts] at this
@@ -85,7 +85,7 @@ theorem S_glift' {k : ℕ} (hk : k < 3) (l : ℕ) (hl : l < 5) :
   exact h l hl
 
 theorem repK_xS {k j : ℕ} (hk : k < 3) (hj : j < 512) : repK ((xSE k j : Cz) : K) (xS k j) := by
-  simp only [xSE, dif_pos hj]
+  simp only [xSE, dite_eq_left hj]
   exact repK_czmul (tE_spec hj).1 (repK_qE (S_lift' hk j hj).1)
 
 theorem repK_xSG {k l : ℕ} (hk : k < 3) (hl : l < 5) :
@@ -94,7 +94,7 @@ theorem repK_xSG {k l : ℕ} (hk : k < 3) (hl : l < 5) :
   rwa [← Sy_misc'.2 l hl] at this
 
 theorem piC_xS {k j : ℕ} (hj : j < 512) : piC (xSE k j) = tE j := by
-  simp only [xSE, dif_pos hj]
+  simp only [xSE, dite_eq_left hj]
   rw [map_mul, piC_qE, mul_one, piC_S0 (TS_le (tE_spec hj).2)]
 
 noncomputable abbrev US' (k : ℕ) : Subgroup Cz := XC (k + 3) ⊓ TS.comap piC

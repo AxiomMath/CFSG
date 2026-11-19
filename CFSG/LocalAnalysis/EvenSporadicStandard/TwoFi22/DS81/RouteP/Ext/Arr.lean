@@ -159,8 +159,7 @@ theorem treeOK_spec {tab : Array (List (ℕ × Bool))} (h : treeOK tab = true) :
       (wordAInv (tword tab (24 * u + v)))[0]! = u ∧
         (wordAInv (tword tab (24 * u + v)))[1]! = v := by
   unfold treeOK at h
-  simp only [Bool.and_eq_true, List.all_eq_true, List.mem_range, Bool.or_eq_true, beq_iff_eq,
-    decide_eq_true_eq] at h
+  simp only [Bool.and_eq_true, List.all_eq_true, List.mem_range, Bool.or_eq_true, beq_iff_eq] at h
   intro u hu v hv huv
   rcases h.2 u hu v hv with h1 | h1
   · exact absurd h1 huv

@@ -49,9 +49,9 @@ private theorem CFSG.section13_lemma_13_12_not_le_centralizer_of_msigma_fixed
     have htop_le_M : (⊤ : Subgroup G) ≤ M := by
       simpa [hEtop] using hE.1.2.1
     exact hM.1 (top_le_iff.mp htop_le_M)
-  have hsolvE : IsSolvable E :=
+  have hsolvE : Group.IsSolvable E :=
     IsMinCE.proper_subgroups_solvable E (lt_top_iff_ne_top.2 hEproper)
-  letI : MulDistribMulAction Unit E := {
+  let : MulDistribMulAction Unit E := {
     smul := fun _ x => x
     one_smul := fun _ => rfl
     mul_smul := fun _ _ _ => rfl
@@ -222,7 +222,7 @@ public theorem CFSG.section13_lemma_13_12_quotient_prime_of_not_le_centralizer
   refine ⟨hKnormal.1, ?_⟩
   let Ksub : Subgroup E := K.subgroupOf E
   let Psub : Subgroup E := P.subgroupOf E
-  haveI : Ksub.Normal := by
+  have : Ksub.Normal := by
     simpa [Ksub] using hKnormal.2
   let qE : E →* E ⧸ Ksub := QuotientGroup.mk' Ksub
   have hPsub_card : Nat.card Psub = p.val := by
@@ -354,7 +354,7 @@ private theorem CFSG.section13_lemma_13_12_contradiction_of_msigma_fixed
   have hA_le_Mstarσ : A ≤ section10Msigma Mstar := by
     have hAsub_p : IsPGroup q.val (A.subgroupOf Mstar) := by
       rcases hA.2 with ⟨_hAcard, hAelem⟩
-      haveI : IsElementaryAbelian q.val A := hAelem
+      have : IsElementaryAbelian q.val A := hAelem
       have hAp : IsPGroup q.val A := IsElementaryAbelian.isPGroup q.val A
       exact hAp.of_equiv
         (Subgroup.subgroupOfEquivOfLe (H := A) (K := Mstar) hA_le_Mstar₀).symm

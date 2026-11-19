@@ -15,6 +15,7 @@ variable {G : Type*} [Group G] [Finite G] {P S Q W Z M D : Subgroup G} {g y z : 
 variable (h : QD P S Q W Z M D g y z)
 include h
 
+omit [Finite G] in
 theorem sq_mem_conjSub {r : G} (hr : r ∈ conjSub g W) : r * r ∈ conjSub g Z := by
   have h1 : g⁻¹ * r * g ∈ W := mem_conjSub.mp hr
   have h2 := h.hsqW _ h1
@@ -22,6 +23,7 @@ theorem sq_mem_conjSub {r : G} (hr : r ∈ conjSub g W) : r * r ∈ conjSub g Z 
   have e : g * ((g⁻¹ * r * g) * (g⁻¹ * r * g)) * g⁻¹ = r * r := by group
   rwa [e] at this
 
+omit [Finite G] in
 theorem comm_A_A' {a a' : G} (ha : a ∈ W ⊓ Q) (ha' : a' ∈ conjSub g W ⊓ Q) :
     ⁅a, a'⁆ ∈ W ∧ ⁅a, a'⁆ ∈ Q ∧ ⁅a, a'⁆ * ⁅a, a'⁆ = 1 := by
   have hmem : ⁅a, a'⁆ ∈ W ⊓ conjSub g M :=

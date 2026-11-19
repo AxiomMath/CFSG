@@ -43,7 +43,7 @@ theorem components_eq_of_commuting_quasisimple {H : Type*} [Group H] [Finite H] 
           simpa using this
         exact key (Y i) hi h2
     · exfalso
-      push_neg at h
+      push Not at h
       have hc : ∀ i, ⁅K, Y i⁆ = ⊥ := fun i =>
         (component_normal_subgroup hK (hn i)).resolve_left (h i)
       have hle : (⨆ i, Y i) ≤ Subgroup.centralizer (K : Set H) := by

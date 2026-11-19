@@ -14,7 +14,7 @@ variable {G : Type} [Group G] [Finite G]
 variable {D : Data G} {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
 
 theorem s168e3_false_of_sumOfNat_zero
-    (c : S168e3Ctx D V₀ V L hV)
+    (_c : S168e3Ctx D V₀ V L hV)
     {N : Subgroup (MulAut (Vtil V₀ V hV)) → Subgroup (Vtil V₀ V hV) →
       Subgroup (Vtil V₀ V hV) → Prop}
     (hcomp : CFSG.Open.IsComponentOf

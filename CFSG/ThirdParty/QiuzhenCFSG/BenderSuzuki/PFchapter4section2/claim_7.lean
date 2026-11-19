@@ -39,17 +39,17 @@ private theorem claim_7_reduces_to_claim_6_obligation
                             S ⊔ Q1 = Q) ∧
   s ∈ H ∧ _root_.CFSG.BenderSuzuki.PFAppendixIII.IsInvolution s ∧
     ∃ r : G, r ∈ Q ∧ t * s * t = r⁻¹ * t * r))
-    (hC1 : HypothesisC1 G V) (hC2 : HypothesisC2 G S W t s)
-    (htwo_transitive : MulAction.IsMultiplyPretransitive G Ω 2)
-    (hpoint_stabilizer : ∃ x : Ω, H = MulAction.stabilizer G x)
-    (ht_involution : IsInvolution t) (ht_not_mem_H : t ∉ H)
+    (_hC1 : HypothesisC1 G V) (_hC2 : HypothesisC2 G S W t s)
+    (_htwo_transitive : MulAction.IsMultiplyPretransitive G Ω 2)
+    (_hpoint_stabilizer : ∃ x : Ω, H = MulAction.stabilizer G x)
+    (_ht_involution : IsInvolution t) (_ht_not_mem_H : t ∉ H)
     (hD_eq : D = H ⊓ rightConjugate H t)
-    (hQ_normal_in_H : (Q.subgroupOf H).Normal)
-    (hQ_disjoint_D : Disjoint Q D) (hQ_sup_D : Q ⊔ D = H)
-    (hf_mem : ∀ x : G, x ∈ Q → x ≠ 1 → f x ∈ Q ∧ f x ≠ 1)
-    (hg_mem : ∀ x : G, x ∈ Q → x ≠ 1 → g x ∈ Q ∧ g x ≠ 1)
-    (hh_mem : ∀ x : G, x ∈ Q → x ≠ 1 → h x ∈ D)
-    (hcanonical_eq : ∀ x : G, x ∈ Q → x ≠ 1 → t * x * t = g x * h x * t * f x) :
+    (_hQ_normal_in_H : (Q.subgroupOf H).Normal)
+    (_hQ_disjoint_D : Disjoint Q D) (_hQ_sup_D : Q ⊔ D = H)
+    (_hf_mem : ∀ x : G, x ∈ Q → x ≠ 1 → f x ∈ Q ∧ f x ≠ 1)
+    (_hg_mem : ∀ x : G, x ∈ Q → x ≠ 1 → g x ∈ Q ∧ g x ≠ 1)
+    (_hh_mem : ∀ x : G, x ∈ Q → x ≠ 1 → h x ∈ D)
+    (_hcanonical_eq : ∀ x : G, x ∈ Q → x ≠ 1 → t * x * t = g x * h x * t * f x) :
     ∀ omega omega' x₁ x₂ y₁ y₂ a₁ a₂ : G,
       omega ∈ Q → omega ∉ Q0 → omega' ∈ Q → omega' ∉ Q0 →
       x₁ ∈ Q0 → x₂ ∈ Q0 → y₁ ∈ Q0 → y₂ ∈ Q0 →

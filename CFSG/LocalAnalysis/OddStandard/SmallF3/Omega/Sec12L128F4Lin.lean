@@ -40,14 +40,14 @@ theorem sec128_F4_central_three
       simp only [p, IsRoot.def, eval_add, eval_pow, eval_X, eval_one]
       revert x
       decide
-  haveI : Fact (Irreducible p) := ⟨hp_irred⟩
+  have : Fact (Irreducible p) := ⟨hp_irred⟩
   have hp_ne : p ≠ 0 := hp_irred.ne_zero
   let K := AdjoinRoot p
   have hK_finrank : Module.finrank (ZMod 2) K = 2 := by
     change Module.finrank (ZMod 2) (AdjoinRoot p) = 2
     rw [(AdjoinRoot.powerBasis hp_ne).finrank, AdjoinRoot.powerBasis_dim hp_ne, hp_natDegree]
   have hK_card : Nat.card K = 4 := by
-    haveI : Module.Finite (ZMod 2) K := (AdjoinRoot.powerBasis hp_ne).finite
+    have : Module.Finite (ZMod 2) K := (AdjoinRoot.powerBasis hp_ne).finite
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2) (V := K), Nat.card_zmod, hK_finrank]
     decide
   let A := Module.End (ZMod 2) W
@@ -59,7 +59,7 @@ theorem sec128_F4_central_three
         Polynomial.eval₂_one]
     rw [hval]
     ext w
-    simp only [LinearMap.add_apply, Module.End.one_apply, pow_two, Module.End.mul_apply]
+    simp only [pow_two]
     exact hq w
   have haeval : aeval x p = 0 := by
     rw [Polynomial.aeval_def]
@@ -70,7 +70,7 @@ theorem sec128_F4_central_three
     rw [map_mul]
     change aeval x q * aeval x p = 0
     rw [haeval, mul_zero])
-  letI : Module K W := Module.compHom W φ
+  let : Module K W := Module.compHom W φ
   have hφ_mk : ∀ g : (ZMod 2)[X], φ (AdjoinRoot.mk p g) = g.eval₂ i x := by
     intro g
     rfl

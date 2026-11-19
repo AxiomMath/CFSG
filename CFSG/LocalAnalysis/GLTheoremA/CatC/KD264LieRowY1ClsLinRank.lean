@@ -16,8 +16,8 @@ variable {K : Type} [Field K]
 theorem not_dvd_card_units_three [Finite K] (hω : ∀ c : K, c ^ 2 + c + 1 ≠ 0) :
     ¬ 3 ∣ Nat.card Kˣ := by
   intro h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype Kˣ := Fintype.ofFinite _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype Kˣ := Fintype.ofFinite _
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card 3 (by rwa [Nat.card_eq_fintype_card] at h)
   have hx3 : x ^ 3 = 1 := by rw [← hx]; exact pow_orderOf_eq_one x
   have hx1 : x ≠ 1 := by
@@ -37,8 +37,8 @@ theorem not_dvd_card_units_three [Finite K] (hω : ∀ c : K, c ^ 2 + c + 1 ≠ 
 theorem not_dvd_card_scalars [Finite K] (hω : ∀ c : K, c ^ 2 + c + 1 ≠ 0) (n : ℕ) :
     ¬ 3 ∣ Nat.card (scalars n K) := by
   intro h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype (scalars n K) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype (scalars n K) := Fintype.ofFinite _
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card 3 (by rwa [Nat.card_eq_fintype_card] at h)
   have hz3 : z ^ 3 = 1 := by rw [← hz]; exact pow_orderOf_eq_one z
   have hz1 : z ≠ 1 := by
@@ -78,7 +78,7 @@ theorem not_dvd_card_scalars [Finite K] (hω : ∀ c : K, c ^ 2 + c + 1 ≠ 0) (
 
 theorem sl_pRank_three_le [Finite K] (h3 : (3 : K) ≠ 0) (hω : ∀ c : K, c ^ 2 + c + 1 ≠ 0) (n : ℕ) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (Matrix.SpecialLinearGroup (Fin n) K)) ≤ n / 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.SectionRank.pRank_le (G := Matrix.SpecialLinearGroup (Fin n) K)
     Nat.prime_three.one_lt fun E _ hE => ?_
   let φ : Matrix.SpecialLinearGroup (Fin n) K →* GL (Fin n) K := Matrix.SpecialLinearGroup.toGL
@@ -102,7 +102,7 @@ theorem sl_pRank_three_le [Finite K] (h3 : (3 : K) ≠ 0) (hω : ∀ c : K, c ^ 
 theorem projectiveSL_pRank_eq [Finite K] (hω : ∀ c : K, c ^ 2 + c + 1 ≠ 0) (n : ℕ) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (projectiveSL n K)) =
       CFSG.Open.pRank 3 (⊤ : Subgroup (Matrix.SpecialLinearGroup (Fin n) K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.SectionRank.pRank_quotient_eq (scalars n K) (not_dvd_card_scalars hω n)
 
 theorem projectiveSL_pRank_le [Finite K] (h3 : (3 : K) ≠ 0) (hω : ∀ c : K, c ^ 2 + c + 1 ≠ 0)
@@ -113,7 +113,7 @@ theorem projectiveSL_pRank_le [Finite K] (h3 : (3 : K) ≠ 0) (hω : ∀ c : K, 
 theorem projectiveSL_pRank_ge_four_of_two [Finite K] (hω : ∀ c : K, c ^ 2 + c + 1 ≠ 0)
     (hpK : ¬ 3 ∣ Nat.card K) (hpe : ∀ j : ℕ, 3 ∣ Nat.card K ^ j - 1 ↔ 2 ∣ j) {n : ℕ}
     (hn : 8 ≤ n) : 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (projectiveSL n K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hGL : 4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (GL (Fin n) K)) :=
     CFSG.LocalAnalysis.RankFourTheoremC.le_pRank_GL_matrix (n := n) (e := 2) (r' := 4) hpK
       (by norm_num) hpe (by omega)
@@ -134,7 +134,7 @@ theorem projectiveSL_pRank_ge_four_of_two [Finite K] (hω : ∀ c : K, c ^ 2 + c
 
 theorem projectiveSL_pRank_ge_four_of_five [Finite K] (h : 3 ∣ Nat.card K - 1) :
     4 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup (projectiveSL 5 K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ := kdY1Out_exists_isPrimitiveRoot_three K h
   have hmu : Nat.card (kdY1Mu3 K) = 3 := hζ.card_rootsOfUnity
   let ψ : (Fin 4 → kdY1Mu3 K) →* projectiveSL 5 K :=

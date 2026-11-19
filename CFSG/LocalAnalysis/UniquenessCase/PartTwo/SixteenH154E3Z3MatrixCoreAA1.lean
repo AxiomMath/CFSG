@@ -139,7 +139,7 @@ private lemma s16h_e3_Z3MatrixCoreAA1_closure_involutions_eq_top
     · intro hy; exact ⟨⟨y, hsD hy⟩, hy, rfl⟩
   have hsub : {x : ↥D | (x : G) ∈ s} ⊆ {x : ↥D | orderOf x = 2} := by
     rintro x hx
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     change orderOf x = 2
     rw [← Subgroup.orderOf_coe]
     exact orderOf_eq_prime (hs x hx).1 (hs x hx).2
@@ -195,14 +195,14 @@ private lemma s16h_e3_Z3MatrixCoreAA1_sylow_three_le_scalars
     (hno : ∀ P : Subgroup GL3F4, P ≤ K → IsElemAbelian 3 P → Nat.card ↥P < 9)
     (hZK : ∀ c : OmegaFieldˣ, (SemidirectProduct.inl
       (Matrix.GeneralLinearGroup.scalar (Fin 3) c) : GL3F4) ∈ K)
-    (u : G3F4) (huK : SemidirectProduct.inl u ∈ K) (hu2 : u ^ 2 = 1) (hu1 : u ≠ 1) :
+    (u : G3F4) (huK : SemidirectProduct.inl u ∈ K) (hu2 : u ^ 2 = 1) (_hu1 : u ≠ 1) :
     ∀ P : Sylow 3 ↥(s16h_e3_Z3MatrixCoreAA1_Dp N u),
       (P : Subgroup ↥(s16h_e3_Z3MatrixCoreAA1_Dp N u)).map
           (s16h_e3_Z3MatrixCoreAA1_Dp N u).subtype ≤
         s16h_e3_Z3MatrixCoreAA1_Zs := by
   classical
-  haveI : Finite OmegaField := by
-    haveI : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
+  have : Finite OmegaField := by
+    have : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
     exact Module.finite_of_finite (ZMod 2)
   set D' := s16h_e3_Z3MatrixCoreAA1_Dp N u with hD'def
   set Zs : Subgroup G3F4 :=
@@ -223,7 +223,7 @@ private lemma s16h_e3_Z3MatrixCoreAA1_sylow_three_le_scalars
     rwa [hcard] at hlt
   intro P
   set R : Subgroup G3F4 := (P : Subgroup ↥D').map D'.subtype with hRdef
-  have hR3 : IsPGroup 3 R := P.isPGroup'.map D'.subtype
+  have hR3 : IsPGroup 3 R := P.isPGroup.map D'.subtype
   have hRK : R ≤ s16h_e3_Z3MatrixCoreAA1_K' K :=
     (Subgroup.map_subtype_le _).trans hD'K
   have hRZ3 : IsPGroup 3 ↥(R ⊔ Zs) := by
@@ -232,7 +232,7 @@ private lemma s16h_e3_Z3MatrixCoreAA1_sylow_three_le_scalars
         rw [hZsdef, show Nat.card ↥s16h_e3_Z3MatrixCoreAA1_Zs = 3 from
           s16h_e3_Z3MatrixCoreAA1A_scalar_card]
         norm_num)
-    haveI : Zs.Normal :=
+    have : Zs.Normal :=
       ⟨fun z hz g => by
         have hcomm := (Subgroup.mem_center_iff.mp
           (s16h_e3_Z3MatrixCoreAA1A_scalar_le_center hz)) g
@@ -246,9 +246,9 @@ private lemma s16h_e3_Z3MatrixCoreAA1_sylow_three_le_scalars
   have hRSL : R ≤ (Matrix.GeneralLinearGroup.det (n := Fin 3) (R := OmegaField)).ker :=
     (Subgroup.map_subtype_le _).trans (s16h_e3_Z3MatrixCoreAA1_Dp_le_SL N hu2)
   have hcard_dvd : Nat.card ↥R ∣ 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-    haveI : IsCyclic ↥(R ⊔ Zs) := hcyc
-    haveI : IsCyclic ↥R := Subgroup.isCyclic_of_le (le_sup_left : R ≤ R ⊔ Zs)
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : IsCyclic ↥(R ⊔ Zs) := hcyc
+    have : IsCyclic ↥R := Subgroup.isCyclic_of_le (le_sup_left : R ≤ R ⊔ Zs)
     rw [← IsCyclic.exponent_eq_card]
     apply Monoid.exponent_dvd_iff_forall_pow_eq_one.mpr
     intro x
@@ -273,7 +273,7 @@ private lemma s16h_e3_Z3MatrixCoreAA1_sylow_three_le_scalars
         exact hord_y
       exact (s16h_e3_z3_no_order_nine hdet) hord_coe
   have hle : R.subgroupOf (R ⊔ Zs) ≤ Zs.subgroupOf (R ⊔ Zs) := by
-    haveI : IsCyclic ↥(R ⊔ Zs) := hcyc
+    have : IsCyclic ↥(R ⊔ Zs) := hcyc
     refine (IsCyclic.subgroup_le_iff_card_dvd
       (H := R.subgroupOf (R ⊔ Zs)) (K := Zs.subgroupOf (R ⊔ Zs))).mpr ?_
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe (le_sup_left : R ≤ R ⊔ Zs)).toEquiv,
@@ -374,17 +374,17 @@ theorem s16h_e3_z3_transvection_closure_hypotheses
       (∀ P : Sylow 3 ↥D, normalizer (P : Set ↥D) ≤ centralizer (P : Set ↥D)) ∧
       (∀ P : Sylow 7 ↥D, normalizer (P : Set ↥D) ≤ centralizer (P : Set ↥D)) := by
   classical
-  haveI : Finite OmegaField := by
-    haveI : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
+  have : Finite OmegaField := by
+    have : Module.Finite (ZMod 2) OmegaField := (AdjoinRoot.powerBasis' omegaPoly_monic).finite
     exact Module.finite_of_finite (ZMod 2)
-  haveI : Finite (OmegaField ≃+* OmegaField) :=
+  have : Finite (OmegaField ≃+* OmegaField) :=
     Finite.of_injective (fun σ : OmegaField ≃+* OmegaField => (σ : OmegaField → OmegaField))
       (fun _ _ h => RingEquiv.ext (congrFun h))
-  haveI : Finite GL3F4 :=
+  have : Finite GL3F4 :=
     Finite.of_injective (fun g : GL3F4 => (g.left, g.right))
       (fun _ _ h => SemidirectProduct.ext (congrArg Prod.fst h) (congrArg Prod.snd h))
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   set D' := s16h_e3_Z3MatrixCoreAA1_Dp N u with hD'def
   set D : Subgroup GL3F4 := s16h_e3_Z3MatrixCoreAA1_D N u with hDdef
   have hD'_eq : D' = Subgroup.closure (s16h_e3_Z3MatrixCoreAA1_conjSet N u) := rfl
@@ -420,7 +420,7 @@ theorem s16h_e3_z3_transvection_closure_hypotheses
     rwa [MulAut.conj_apply] at this
   have huDp : u ∈ D' := by
     rw [hD'def, s16h_e3_Z3MatrixCoreAA1_Dp]
-    exact Subgroup.subset_closure ⟨1, N.one_mem, by simp [s16h_e3_Z3MatrixCoreAA1_conjSet]⟩
+    exact Subgroup.subset_closure ⟨1, N.one_mem, by simp⟩
   have huD : SemidirectProduct.inl u ∈ D := by
     rw [hDdef, s16h_e3_Z3MatrixCoreAA1_D]
     exact Subgroup.mem_map.mpr ⟨u, huDp, rfl⟩

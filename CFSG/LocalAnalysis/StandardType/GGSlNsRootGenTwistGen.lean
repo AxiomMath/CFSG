@@ -55,10 +55,10 @@ private theorem crossMap_comp {i j : Fin s} (hij : i ≠ j)
   by_cases hm : m = i
   · subst hm
     have hji : j ≠ m := Ne.symm hij
-    simp only [Prod.mk_add_mk, Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne hji,
+    simp only [Pi.add_apply, Pi.single_eq_same, Pi.single_eq_of_ne hji,
       map_add, map_zero, LinearMap.add_apply]
     rw [add_zero, add_assoc, add_comm (v (x.1 j)) (u (x.1 j))]
-  · simp only [Prod.mk_add_mk, Pi.add_apply, Pi.single_eq_of_ne hm, add_zero, zero_add]
+  · simp only [Pi.add_apply, Pi.single_eq_of_ne hm, add_zero]
 
 private noncomputable def crossMat (ε : Fin n ≃ (Fin (rootPB g).dim × Fin s) ⊕ Fin r)
     (i j : Fin s) (f : AdjoinRoot g →ₗ[K] AdjoinRoot g) : Matrix (Fin n) (Fin n) K :=
@@ -112,16 +112,15 @@ private theorem crossMap_conj_source_apply (hζ : AdjoinRoot.root g ^ p = 1)
     (negMove g j) (blockAct g (Matrix.transvection i j α) ((negMove g j) x)) =
       crossMap i j
         ((LinearMap.mulLeft K α) ∘ₗ (frobAlgEquiv g).toLinearMap) x := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   simp only [negMove_apply, blockAct_apply]
   refine Prod.ext (funext fun m => ?_) (by simp [crossMap_apply])
   rw [Matrix.transvection, Matrix.add_mulVec, Matrix.one_mulVec, Matrix.single_mulVec_eq]
   by_cases hm : m = i
   · subst hm
     have hji : j ≠ m := Ne.symm hij
-    simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, Pi.single_eq_of_ne hji,
-      smul_eq_mul, mul_one, negTau_apply_of_ne g hij, negTau_apply_self, crossMap_apply,
-      LinearMap.comp_apply, LinearMap.mulLeft_apply, Equiv.refl_apply]
+    simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one, negTau_apply_of_ne g hij, negTau_apply_self, crossMap_apply,
+      LinearMap.comp_apply, LinearMap.mulLeft_apply]
     rfl
   · simp only [Pi.single_eq_of_ne hm, Pi.smul_apply, smul_zero, add_zero, Pi.add_apply,
       negTau_apply_apply g hζ hpK, crossMap_apply]
@@ -133,17 +132,16 @@ private theorem crossMap_conj_target_apply (hζ : AdjoinRoot.root g ^ p = 1)
     (negMove g j) (blockAct g (Matrix.transvection j i α) ((negMove g j) x)) =
       crossMap (i := j) (j := i)
         ((LinearMap.mulLeft K (frobAlgEquiv g α)) ∘ₗ (frobAlgEquiv g).toLinearMap) x := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   simp only [negMove_apply, blockAct_apply]
   refine Prod.ext (funext fun m => ?_) (by simp [crossMap_apply])
   rw [Matrix.transvection, Matrix.add_mulVec, Matrix.one_mulVec, Matrix.single_mulVec_eq]
   by_cases hm : m = j
   · subst hm
     have hji : i ≠ m := hij
-    simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, Pi.single_eq_of_ne hji,
-      smul_eq_mul, mul_one, negTau_apply_of_ne g hij, negTau_apply_self, map_add, map_mul,
+    simp only [Pi.add_apply, Pi.smul_apply, Pi.single_eq_same, smul_eq_mul, mul_one, negTau_apply_of_ne g hij, negTau_apply_self, map_add, map_mul,
       frobAlgEquiv_apply_apply g hζ hpK, crossMap_apply, LinearMap.comp_apply,
-      LinearMap.mulLeft_apply, Equiv.refl_apply]
+      LinearMap.mulLeft_apply]
     rfl
   · simp only [Pi.single_eq_of_ne hm, Pi.smul_apply, smul_zero, add_zero, Pi.add_apply,
       negTau_apply_apply g hζ hpK, crossMap_apply]
@@ -317,7 +315,7 @@ private theorem exists_mem_crossMat_direction1 (hp2 : p ≠ 2) (hpK : p ∣ Nat.
     (hP : pairBlock g ε i j ≤ H) (hT : twistPairBlock g hζ hpK ε i j ≤ H)
     (f : AdjoinRoot g →ₗ[K] AdjoinRoot g) :
     ∃ M ∈ H, (M : Matrix (Fin n) (Fin n) K) = crossMat ε i j f := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   obtain ⟨α, β, hf⟩ := exists_mul_add_frob hp2 hpK hgd hζ f
   let N : SpecialLinearGroup (Fin n) K := negSL g hζ hpK ε j
   have hNinv : N⁻¹ = N := inv_eq_of_mul_eq_one_right (negSL_mul_self g hζ hpK ε j)
@@ -360,7 +358,7 @@ private theorem exists_mem_crossMat_direction2 (hp2 : p ≠ 2) (hpK : p ∣ Nat.
     (f : AdjoinRoot g →ₗ[K] AdjoinRoot g) :
     ∃ M ∈ H, (M : Matrix (Fin n) (Fin n) K) =
       crossMat (i := j) (j := i) ε f := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   obtain ⟨α, β, hf⟩ := exists_mul_add_frob hp2 hpK hgd hζ f
   let N : SpecialLinearGroup (Fin n) K := negSL g hζ hpK ε j
   have hNinv : N⁻¹ = N := inv_eq_of_mul_eq_one_right (negSL_mul_self g hζ hpK ε j)
@@ -404,7 +402,7 @@ theorem transvection_mem_of_pairBlock_twistPairBlock (hp2 : p ≠ 2) (hpK : p �
     (hT : twistPairBlock g hζ hpK ε i j ≤ H) (a b : Fin (rootPB g).dim) (t : K) :
     SpecialLinearGroup.transvection (coord_inl_ne_coord_inl (ε := ε) hij a b) t ∈ H ∧
       SpecialLinearGroup.transvection (coord_inl_ne_coord_inl (ε := ε) hij.symm b a) t ∈ H := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   constructor
   · obtain ⟨M, hM, hMmat⟩ := exists_mem_crossMat_direction1 hp2 hpK hgd hζ ε hij hP hT
       (coordMap a b t)

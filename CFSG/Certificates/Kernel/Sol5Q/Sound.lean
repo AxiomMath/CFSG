@@ -57,7 +57,7 @@ theorem strictN_eq (y : ℕ) (k : ℕ → ℕ) : strictN y k = k y := by cases y
 theorem rep_dec {p : ℕ} (hp : PP n 4 p) : Rep n (unpack n 4 p) (dec n p) := fun i => by
   rw [CFSG.KS.Raw.Orb.unpack_get i.2]
   unfold dec
-  rw [dif_pos hp.2]
+  rw [dite_eq_left hp.2]
   rfl
 
 theorem pp_pc {p q : ℕ} (hp : PP n 4 p) (hq : PP n 4 q) : PP n 4 (pc n p q) := hp.mul hq
@@ -125,8 +125,8 @@ theorem fixC_eq {p : ℕ} (hp : PP n 4 p) : fixC n p = fixCount (dec n p) := by
     rw [Fin.ext_iff]
     exact ⟨fun h' => h.trans h', fun h' => h.symm.trans h'⟩
   by_cases hc : dec n p i = i
-  · rw [if_pos hc, if_pos (e.1 hc)]
-  · rw [if_neg hc, if_neg (fun h' => hc (e.2 h'))]
+  · rw [ite_eq_left hc, ite_eq_left (e.1 hc)]
+  · rw [ite_eq_right hc, ite_eq_right (fun h' => hc (e.2 h'))]
 
 theorem fix_add_supp (σ : Perm (Fin n)) : fixCount σ + σ.support.card = n := by
   have h := Finset.card_filter_add_card_filter_not (s := (Finset.univ : Finset (Fin n)))
@@ -427,23 +427,23 @@ private theorem fcrF_sound {e S HB NH : ℕ} {big : Bool} {BN CT : List ℕ} :
         exact fcrF_sound L RR GD h' y hy
     rw [fcrF_cons] at h
     by_cases h0 : Nat.beq t 0 = true
-    · rw [fc_bIf (Nat.beq t 0), if_pos h0, bAnd_eq, Bool.and_eq_true, notB_eq,
+    · rw [fc_bIf (Nat.beq t 0), ite_eq_left h0, bAnd_eq, Bool.and_eq_true, notB_eq,
         Bool.not_eq_true'] at h
       exact ⟨Or.inl (Nat.ne_of_beq_eq_false h.1), RR', GD, h.2⟩
-    rw [fc_bIf (Nat.beq t 0), if_neg h0, fc_bIf (Nat.beq t 1)] at h
+    rw [fc_bIf (Nat.beq t 0), ite_eq_right h0, fc_bIf (Nat.beq t 1)] at h
     by_cases h1 : Nat.beq t 1 = true
-    · rw [if_pos h1, bAnd_eq, Bool.and_eq_true, fc_bIf (Nat.beq x e)] at h
+    · rw [ite_eq_left h1, bAnd_eq, Bool.and_eq_true, fc_bIf (Nat.beq x e)] at h
       refine ⟨?_, RR', GD, h.2⟩
       by_cases hxe : Nat.beq x e = true
       · exact Or.inr (Or.inl (Nat.eq_of_beq_eq_true hxe))
-      · rw [if_neg hxe] at h
+      · rw [ite_eq_right hxe] at h
         exact Or.inr (Or.inr (Or.inl (Nat.eq_of_beq_eq_true h.1)))
-    rw [if_neg h1, fc_bIf (Nat.beq t 2)] at h
+    rw [ite_eq_right h1, fc_bIf (Nat.beq t 2)] at h
     by_cases h2 : Nat.beq t 2 = true
-    · rw [if_pos h2, bAnd_eq, Bool.and_eq_true, bAnd_eq, Bool.and_eq_true] at h
+    · rw [ite_eq_left h2, bAnd_eq, Bool.and_eq_true, bAnd_eq, Bool.and_eq_true] at h
       exact ⟨Or.inr (Or.inr (Or.inr (Or.inl ⟨rest,
         fun c hc => Nat.le_of_ble_eq_true (allL_iff.1 h.1 c hc), h.2.1⟩))), RR', GD, h.2.2⟩
-    rw [if_neg h2] at h
+    rw [ite_eq_right h2] at h
     cases GD with
     | nil => exact absurd h Bool.false_ne_true
     | cons g GD' =>
@@ -524,6 +524,7 @@ theorem fco2K_sound {e HB NH : ℕ} {big : Bool} {FO : List ℕ} (h : fco2K n e 
 
 variable [NeZero n]
 
+omit [NeZero n] in
 theorem pp_sig {S : ℕ} (hSp : permB n 4 S = true) (hn' : n ≤ 11) : PP n 4 S :=
   pp_of_permB (sz_of_le hn') hSp
 
@@ -638,7 +639,7 @@ theorem bn_facts (hn' : n ≤ 11) {BN : List ℕ}
   have hsz := sz_of_le (n := n) hn'
   by_cases h11 : n = 11
   · subst h11
-    rw [if_pos rfl] at hBN
+    rw [ite_eq_left rfl] at hBN
     subst hBN
     rw [Chk.Bn_eleven]
     have hpp2 : PP 11 4 (pc 11 c11 c11) := pp_pc pp_c11 pp_c11
@@ -663,7 +664,7 @@ theorem bn_facts (hn' : n ≤ 11) {BN : List ℕ}
       · refine ⟨pc 11 c11 c11, by simp, hpp2, ?_⟩
         rw [hd2]
         exact (zpow_natCast _ 2).symm
-  · rw [if_neg h11] at hBN
+  · rw [ite_eq_right h11] at hBN
     subst hBN
     rw [Chk.Bn_of_ne h11]
     constructor

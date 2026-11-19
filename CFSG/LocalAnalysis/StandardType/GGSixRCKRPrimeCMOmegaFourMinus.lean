@@ -39,10 +39,10 @@ theorem nonempty_mulEquiv_statedOmega_four_minus {f : ℕ} (hf : 1 ≤ f) {ι₁
     obtain ⟨F, hFfield, hFfinite, hFcard, ⟨eF⟩⟩ :=
       CFSG.RankThree.GF2n.Stroth80.exists_statedOmega_quadMinus_two_mulEquiv
         (K := K) (b := b) (c := c) hirr
-    letI : Field F := hFfield
-    letI : Finite F := hFfinite
-    letI : Fintype F := Fintype.ofFinite F
-    letI : Fintype (GaloisField 2 (2 * f)) := Fintype.ofFinite _
+    let : Field F := hFfield
+    let : Finite F := hFfinite
+    let : Fintype F := Fintype.ofFinite F
+    let : Fintype (GaloisField 2 (2 * f)) := Fintype.ofFinite _
     have hKcard : Nat.card K = 2 ^ f := GaloisField.card 2 f (by omega)
     have hcardNat : Nat.card F = Nat.card (GaloisField 2 (2 * f)) := by
       rw [hFcard, hKcard, GaloisField.card 2 (2 * f) (by omega)]

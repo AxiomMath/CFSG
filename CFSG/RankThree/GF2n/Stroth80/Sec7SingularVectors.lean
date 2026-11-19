@@ -14,7 +14,7 @@ theorem sec7_exists_singular_of_polar_zero {K V : Type*} [Field K] [Finite K] [C
     ∃ p ∈ D, p ≠ 0 ∧ Q p = 0 := by
   have hF : ringChar K = 2 := ringChar.eq K 2
   have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
-  haveI : Module.Finite K D := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite K D := Module.finite_of_finrank_pos (by omega)
   obtain ⟨e⟩ : Nonempty (Module.Basis (Fin 2) K D) := ⟨Module.finBasisOfFinrankEq K D hD⟩
   have hpair : ∀ s t : K, s • e 0 + t • e 1 = 0 → s = 0 ∧ t = 0 := by
     intro s t h
@@ -43,7 +43,7 @@ theorem sec7_exists_singular_of_polar_zero {K V : Type*} [Field K] [Finite K] [C
       exact hr0 (hxy t r h0).2
     · rw [hadd, QuadraticMap.map_smul, QuadraticMap.map_smul, QuadraticMap.polar_smul_left,
         QuadraticMap.polar_smul_right, hxy0, hr, ht]
-      simp only [smul_zero, add_zero, smul_eq_mul]
+      simp only [smul_eq_mul]
       linear_combination ((t * t) * (r * r)) * h2
 
 theorem sec7_exists_ne_zero_zero_of_finrank_three {K M : Type*} [Field K] [Finite K]
@@ -95,7 +95,7 @@ theorem sec7_exists_ne_zero_zero_of_finrank_three {K M : Type*} [Field K] [Finit
 theorem sec7_exists_singular_of_finrank_three {K V : Type*} [Field K] [Finite K]
     [AddCommGroup V] [Module K V] (Q : QuadraticForm K V) (D : Submodule K V)
     (hD : Module.finrank K D = 3) : ∃ p ∈ D, p ≠ 0 ∧ Q p = 0 := by
-  haveI : Module.Finite K D := Module.finite_of_finrank_pos (by omega)
+  have : Module.Finite K D := Module.finite_of_finrank_pos (by omega)
   obtain ⟨z, hz0, hz⟩ := sec7_exists_ne_zero_zero_of_finrank_three (Q.comp D.subtype) hD
   exact ⟨z.1, z.2, fun h => hz0 (Subtype.ext h), hz⟩
 

@@ -18,11 +18,11 @@ theorem false_of_autThreePowInner_of_index (hq : Open.IsQuasisimple ↥L)
     (hC3 : ¬ 3 ∣ Nat.card (centralizer (L : Set Y)))
     (hX : AutThreePowInner (↥L ⧸ center ↥L)) (hN : ∃ N : Subgroup Y, N.Normal ∧ N.index = 3) :
     False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨N, hNn, hNi⟩ := hN
   have hcard : Nat.card (Y ⧸ N) = 3 := hNi
   have hcomm : ∀ a b : Y ⧸ N, a * b = b * a := by
-    haveI := isCyclic_of_prime_card hcard
+    have := isCyclic_of_prime_card hcard
     exact fun a b => (IsCyclic.commGroup (α := Y ⧸ N)).mul_comm a b
   have hmk : ∀ g : Y, g ∈ N ↔ (g : Y ⧸ N) = 1 := fun g => (QuotientGroup.eq_one_iff g).symm
   have hLL : ⁅L, L⁆ = L := by
@@ -47,7 +47,7 @@ theorem false_of_autThreePowInner_of_index (hq : Open.IsQuasisimple ↥L)
     · exact absurd (h ▸ h2) hC3
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 3 Y))
   have hPN : (P : Subgroup Y) ≤ N := fun u hu => by
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨u, hu⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨u, hu⟩
     have huk : u ^ 3 ^ k = 1 := by simpa using congrArg Subtype.val hk
     have hu' := mem_sup_centralizer_of_three_pow_normalizer_cover hX L hLL (MulEquiv.refl _)
       (normalizer_eq_top (H := L) ▸ mem_top u) huk

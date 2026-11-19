@@ -241,7 +241,7 @@ theorem frameRot_conj_flip2 (i : Fin 6) :
 
 theorem exists_inv_of_mem_closure_pair {G : Type*} [Group G] {g₁ g₂ : G}
     (h₁ : g₁ * g₁ = 1) (h₂ : g₂ * g₂ = 1) (h₃ : (g₁ * g₂) ^ 3 = 1)
-    (hne : g₁ * g₂ ≠ 1) {h : G} (hh : h ∈ Subgroup.closure ({g₁, g₂} : Set G))
+    (_hne : g₁ * g₂ ≠ 1) {h : G} (hh : h ∈ Subgroup.closure ({g₁, g₂} : Set G))
     (hh1 : h ≠ 1) (hh3 : h ^ 3 = 1) :
     ∃ s ∈ Subgroup.closure ({g₁, g₂} : Set G), s * s = 1 ∧ s * h * s⁻¹ = h⁻¹ ∧
       Subgroup.closure ({g₁, g₂} : Set G) = Subgroup.closure ({h, s} : Set G) := by
@@ -249,7 +249,7 @@ theorem exists_inv_of_mem_closure_pair {G : Type*} [Group G] {g₁ g₂ : G}
   have hinv₂ : g₂⁻¹ = g₂ := inv_eq_of_mul_eq_one_right h₂
   have key : ∀ x : G, x * x = 1 → x ^ 3 = 1 → x = 1 := by
     intro x hx2 hx3
-    have hx : x ^ 3 = x := by simp [pow_succ, pow_two, hx2]
+    have hx : x ^ 3 = x := by simp [pow_succ, hx2]
     rwa [hx] at hx3
   obtain ⟨k, hk⟩ := CFSG.Monster.B.Recog.mem_range_six
     (by rw [pow_two]; exact h₁) (by rw [pow_two]; exact h₂) h₃ hh

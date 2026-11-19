@@ -19,7 +19,7 @@ theorem hs_sylow_overgroup_orders :
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow 2 NativeSporadic.HS))
   have hmem := Certificates.certificate7087 T
   refine ⟨T, ?_, fun W hW => ?_⟩
-  · obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup'
+  · obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp T.isPGroup
     have h := hmem T le_rfl
     simp only [Finset.mem_insert, Finset.mem_singleton] at h
     rcases h with h | h | h | h | h

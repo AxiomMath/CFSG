@@ -117,7 +117,7 @@ theorem false_of_conj_pgl_twoLocal148 (hKF2 : KF148L3TwoLocal) {A L : Subgroup G
   have hJp : Group.IsPerfect ↥(img148 A Y J) := isPerfect_img148 hJM
   have hJnt : Nontrivial ↥(img148 A Y J) := hJs.toNontrivial
   obtain ⟨hp, hJpi⟩ := Ronan148N.isoLThreePi_of_isZ3PGLThreeAt148 hpgl' hJp hJnt hAN
-  haveI := hp
+  have := hp
   have hDpi : Sec4.IsoLThreePi ↥((img148 A Y J).map (MulAut.conj x).toMonoidHom) p f :=
     isoLThreePi_of_mulEquiv148
       ((img148 A Y J).equivMapOfInjective _ (MulAut.conj x).injective).symm hJpi
@@ -131,7 +131,7 @@ theorem step148PGLConjOmega_of_two (hKF2 : KF148L3TwoLocal) (hΩ2 : Step148PGLCo
     Step148PGLConjOmega := by
   intro G _ _ A c L h Y hY hs ih hYB B Q e K Le hP hkt he J hJ hKJ hAJ hEq hpq heΩ hLeA hX1 y hy
     D hDne hDC hAD heD hHe hV a₀ ha₀ ha₀1 ha₀J
-  letI := ker148_normal hY.2
+  let := ker148_normal hY.2
   obtain ⟨p, f, hf, hpgl⟩ := hpq
   by_cases hq : p = 2 ∧ ¬ 9 ∣ p ^ f - 1
   · obtain ⟨rfl, hq9⟩ := hq

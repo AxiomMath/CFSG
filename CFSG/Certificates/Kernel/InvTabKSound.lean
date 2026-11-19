@@ -51,11 +51,11 @@ theorem letter_unpack {n w : Nat} {regs : List PArr} {L LI : List Nat}
       unpack n w (letterPK (pidn n w) L LI z).2) := by
   unfold pLetter letterPK
   by_cases h0 : z = 0
-  · rw [if_pos h0, if_pos h0, pId, hid]
-  · rw [if_neg h0, if_neg h0]
+  · rw [ite_eq_left h0, ite_eq_left h0, pId, hid]
+  · rw [ite_eq_right h0, ite_eq_right h0]
     by_cases hp : 0 < z
-    · rw [if_pos hp, if_pos hp, hreg]
-    · rw [if_neg hp, if_neg hp, hreg]
+    · rw [ite_eq_left hp, ite_eq_left hp, hreg]
+    · rw [ite_eq_right hp, ite_eq_right hp, hreg]
       rfl
 
 theorem letter_canon {n w : Nat} {L LI : List Nat}
@@ -66,13 +66,13 @@ theorem letter_canon {n w : Nat} {L LI : List Nat}
       canonK n w (mask w) (n * w) (letterPK (pidn n w) L LI z).2 = true := by
   unfold letterPK
   by_cases h0 : z = 0
-  · rw [if_pos h0]
+  · rw [ite_eq_left h0]
     exact ⟨hidc, hidc⟩
-  · rw [if_neg h0]
+  · rw [ite_eq_right h0]
     by_cases hp : 0 < z
-    · rw [if_pos hp]
+    · rw [ite_eq_left hp]
       exact ⟨hc _, hci _⟩
-    · rw [if_neg hp]
+    · rw [ite_eq_right hp]
       exact ⟨hci _, hc _⟩
 
 theorem pWord_unpack {n w : Nat} {regs : List PArr} {L LI : List Nat}
@@ -121,7 +121,7 @@ theorem build_commAt {i j : Nat} (hi : i < xs.size) (hj : j < xs.size) :
     (InvTab.build n xs pts).commAt i j =
       (keyMulB pts xs[i]! xs[j]! == keyMulB pts xs[j]! xs[i]!) := by
   unfold InvTab.commAt
-  rw [build_m, if_pos ⟨hi, hj⟩, build_comm xs pts hi hj]
+  rw [build_m, ite_eq_left ⟨hi, hj⟩, build_comm xs pts hi hj]
 
 theorem build_prodAt {i j : Nat} (hi : i < xs.size) (hj : j < xs.size) :
     (InvTab.build n xs pts).prodAt i j =
@@ -131,7 +131,7 @@ theorem build_prodAt {i j : Nat} (hi : i < xs.size) (hj : j < xs.size) :
           (keyMulB pts xs[i]! xs[j]!) (xs.size + 1)
       else 0 := by
   unfold InvTab.prodAt
-  rw [build_m, if_pos hi, if_pos hj]
+  rw [build_m, ite_eq_left hi, ite_eq_left hj]
   change ((Array.ofFn (n := xs.size) fun i : Fin xs.size => Array.ofFn (n := xs.size)
     fun j : Fin xs.size => if ((InvTab.build n xs pts).comm[i.val]!)[j.val]! = true then
       ((List.range xs.size).foldl (fun h i => h.insert (pts.map fun p => (xs[i]!)[p]!) i)
@@ -151,12 +151,12 @@ theorem build_symOK {i j : Nat} (hi : i < xs.size) (hj : j < xs.size) :
   · have e : keyMulB pts xs[i]! xs[j]! = keyMulB pts xs[j]! xs[i]! := beq_iff_eq.1 h
     have h' : (keyMulB pts xs[j]! xs[i]! == keyMulB pts xs[i]! xs[j]!) = true := by
       rw [e]; exact beq_self_eq_true _
-    rw [if_pos h, if_pos h', h, h', e]
+    rw [ite_eq_left h, ite_eq_left h', h, h', e]
     simp
   · have h' : ¬ (keyMulB pts xs[j]! xs[i]! == keyMulB pts xs[i]! xs[j]!) = true := by
       intro h2
       exact h (by rw [beq_iff_eq] at h2 ⊢; exact h2.symm)
-    rw [if_neg h, if_neg h', Bool.eq_false_iff.2 h, Bool.eq_false_iff.2 h']
+    rw [ite_eq_right h, ite_eq_right h', Bool.eq_false_iff.2 h, Bool.eq_false_iff.2 h']
     rfl
 
 theorem build_ncAt {i j : Nat} (hi : i < xs.size) (hj : j < xs.size)

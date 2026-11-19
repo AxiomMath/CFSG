@@ -33,7 +33,7 @@ private theorem ru16_pd_block {p i : Nat} (h1 : 512 * i ≤ p) (h2 : p < 512 * i
   unfold ru16_pd
   rw [e]
 
-private theorem ru16_pack_eq {c T D : Nat} (hc : c < 256) (hT : T < 8) (hD : D < 8) :
+private theorem ru16_pack_eq {c T D : Nat} (hc : c < 256) (hT : T < 8) (_hD : D < 8) :
     Nat.lor c (Nat.lor (Nat.shiftLeft T 8) (Nat.shiftLeft D 11)) = c + 256 * T + 2048 * D := by
   have e1 : T <<< 8 = T * 256 := Nat.shiftLeft_eq T 8
   have e2 : D <<< 11 = D * 2048 := Nat.shiftLeft_eq D 11
@@ -128,8 +128,8 @@ private theorem ru16_sCentT_eq (m : Nat → Nat → Nat) (u base : Nat) (acc : L
     rw [ru16_sCentT_eq m u base acc L, List.map_cons, List.filter_cons]
     simp only [Nat.add_eq]
     cases h : Nat.beq (m (pc + base) u) (m u (pc + base))
-    · simp [h]
-    · simp [h]
+    · simp
+    · simp
 
 private theorem ru16_blockT (m : Nat → Nat → Nat) (DPR : List Nat) (DM u i j base : Nat)
     (hb : base = 512 * i + 256 * j) (hj : j < 2) (hm : ru16_CommTests m DPR DM u) :
@@ -158,7 +158,7 @@ private theorem ru16_blockT (m : Nat → Nat → Nat) (DPR : List Nat) (DM u i j
     rw [e1, e2] at h
     have hu : ru16_pd u = fget (nat_lit 3864) (Nat.shiftRight u 9) 3 := rfl
     rw [hu] at h
-    simp only [h, hg, Bool.and_self]
+    simp only [h, Bool.and_self]
 
 private theorem ru16_sCentE16_eq (m : Nat → Nat → Nat) (DPR : List Nat) (DM u i : Nat)
     (acc : List Nat) (hm : ru16_CommTests m DPR DM u) :

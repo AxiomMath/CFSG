@@ -38,8 +38,8 @@ theorem hpT : ∀ i < SuzBtT0.cnt, btPtK 1782 11 (mask 11) 3 33 (mask 33) 4 SuzB
 
 theorem t0_eq : genSub 1782 4 t0Gen = T0 := T0_eq.symm
 
-theorem hfixT : ∀ h ∈ genSub 1782 4 t0Gen, (∀ t, h (c1Base t) = c1Base t) → h = 1 :=
-  fun h hh hf => invE1_eq_one (T0_le_invE (t0_eq ▸ hh)) hf
+theorem hfixT : ∀ _h ∈ genSub 1782 4 t0Gen, (∀ t, _h (c1Base t) = c1Base t) → _h = 1 :=
+  fun _h hh hf => invE1_eq_one (T0_le_invE (t0_eq ▸ hh)) hf
 
 theorem hST : ∀ j < 4, ∀ t : Fin 3,
     pg 11 (mask 11) (btKey 33 (mask 33) SuzBtT0.K (SuzBtT0Z.S j)) t = t0Gen j (c1Base t) :=
@@ -105,7 +105,7 @@ theorem fixed_t0 {x : Equiv.Perm (Fin 1782)} (hx : x ∈ T0) (h2 : x * x = 1) (h
   have hinv := (btInvP_iff_el hgT hpT hfixT hbT hST hrT (by norm_num) SuzBtTF.kT0Hd hL1 hLcov
     hLcan hext hi hx he).2 ⟨h2, h1, fun h3 => h1 (Subgroup.mem_bot.1 h3)⟩
   have hf := CFSG.KS.Raw.Orb.allN_iff.1 SuzBtTF.kT0Fx i hi
-  rw [CFSG.KS.Raw.Orb.bIf_eq, if_pos hinv] at hf
+  rw [CFSG.KS.Raw.Orb.bIf_eq, ite_eq_left hinv] at hf
   have hc := Nat.beq_eq.mp hf
   have hm : (Finset.univ.filter fun p : Fin 1782 => x p = p).map Fin.valEmbedding =
       (Finset.range 1782).filter (fun p =>

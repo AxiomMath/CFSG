@@ -133,7 +133,7 @@ structure FusionData (α k : ℕ) : Prop where
   hchains : fusionChainsCheck α k = true
   hcover : fusionCoverCheck α k = true
 
-theorem lift_gen4_substW_toQ (hα : α < 2) (w : List (Fin 9 × Bool)) (hw : ∀ l ∈ w, l.1 ≠ 7) :
+theorem lift_gen4_substW_toQ (_hα : α < 2) (w : List (Fin 9 × Bool)) (hw : ∀ l ∈ w, l.1 ≠ 7) :
     FreeGroup.lift (gen4 e₀ d) (FreeGroup.mk (substW (toQ α α) w)) =
       FreeGroup.lift (gen5 e₀ d α α) (FreeGroup.mk w) := by
   have h1 := lift_comp_substW (MonoidHom.id G) (toQ α α) (gen4 e₀ d) w
@@ -206,15 +206,15 @@ theorem chainRun_sound (D : FusionData α k) (E : NEmb e₀ d α k) :
     cases dir
     · simp only [chainRun, Bool.false_eq_true, ↓reduceIte] at h
       by_cases hc : conjugatesTo α k (nT α k w) (nT α k (jIn α (swN W))) = true
-      · rw [if_pos hc] at h
+      · rw [ite_eq_left hc] at h
         exact ((conjugatesTo_isConj D.hsz D.hnC E hc).trans hsc).trans (ih _ _ h)
-      · rw [if_neg hc] at h
+      · rw [ite_eq_right hc] at h
         exact absurd h (by simp)
     · simp only [chainRun, ↓reduceIte] at h
       by_cases hc : conjugatesTo α k (nT α k w) (nT α k (jOut α (swN W))) = true
-      · rw [if_pos hc] at h
+      · rw [ite_eq_left hc] at h
         exact ((conjugatesTo_isConj D.hsz D.hnC E hc).trans hsc.symm).trans (ih _ _ h)
-      · rw [if_neg hc] at h
+      · rw [ite_eq_right hc] at h
         exact absurd h (by simp)
 
 theorem val_e (he2 : orderOf e = 2) : val e₀ d α [((5 : Fin 9), true)] = e := by

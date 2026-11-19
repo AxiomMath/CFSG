@@ -106,7 +106,7 @@ theorem not_perfectResidualOf_le {A : Type*} [Group A] [Finite A] {G H N : Subgr
     (hs : IsSimpleGroup (↥H ⧸ N.subgroupOf H)) (hna : ¬ IsMulCommutative (↥H ⧸ N.subgroupOf H)) :
     ¬ perfectResidualOf G ≤ N := by
   intro hle
-  haveI : Group.IsPerfect (↥H ⧸ N.subgroupOf H) := isPerfect_of_simple hs hna
+  have : Group.IsPerfect (↥H ⧸ N.subgroupOf H) := isPerfect_of_simple hs hna
   have hDP : perfectResidualOf H ≤ perfectResidualOf G :=
     perfect_subgroup_le_perfectResidualOf _ _ (finite_perfectResidualOf_isPerfect H)
       ((Subgroup.map_subtype_le _).trans hHG)
@@ -121,7 +121,7 @@ theorem not_perfectResidualOf_le {A : Type*} [Group A] [Finite A] {G H N : Subgr
   exact mul_mem (hle (hDP hd)) hn
 
 theorem section_equiv_center_quot {A : Type*} [Group A] [Finite A] {G H N : Subgroup A}
-    (hGn : G.Normal) (hH : CFSG.Open.IsSubnormal H G) (hNH : N ≤ H)
+    (hGn : G.Normal) (hH : CFSG.Open.IsSubnormal H G) (_hNH : N ≤ H)
     (hN : (N.subgroupOf H).Normal)
     (hs : IsSimpleGroup (↥H ⧸ N.subgroupOf H)) (hna : ¬ IsMulCommutative (↥H ⧸ N.subgroupOf H))
     (hq : CFSG.IsQuasisimple ↥(perfectResidualOf G)) :
@@ -131,7 +131,7 @@ theorem section_equiv_center_quot {A : Type*} [Group A] [Finite A] {G H N : Subg
   have hPG : P ≤ G := Subgroup.map_subtype_le _
   have hHG : H ≤ G := le_of_open_subnormal hH
   have hPn : P.Normal := perfectResidualOf_normal hGn
-  haveI : Group.IsPerfect (↥H ⧸ N.subgroupOf H) := isPerfect_of_simple hs hna
+  have : Group.IsPerfect (↥H ⧸ N.subgroupOf H) := isPerfect_of_simple hs hna
   have hDP : perfectResidualOf H ≤ P :=
     perfect_subgroup_le_perfectResidualOf _ _ (finite_perfectResidualOf_isPerfect H)
       ((Subgroup.map_subtype_le _).trans hHG)
@@ -143,7 +143,7 @@ theorem section_equiv_center_quot {A : Type*} [Group A] [Finite A] {G H N : Subg
     let f : ↥H →* ↥H ⧸ N.subgroupOf H := QuotientGroup.mk' (N.subgroupOf H)
     let ψ : ↥P →* ↥H ⧸ N.subgroupOf H := f.comp (Subgroup.inclusion hPH)
     have hsurj : Function.Surjective ψ := by
-      haveI : (P.subgroupOf H).Normal := Subgroup.normal_subgroupOf
+      have : (P.subgroupOf H).Normal := Subgroup.normal_subgroupOf
       have hnorm : ((P.subgroupOf H).map f).Normal :=
         Subgroup.Normal.map inferInstance f (QuotientGroup.mk'_surjective _)
       rcases hs.eq_bot_or_eq_top_of_normal ((P.subgroupOf H).map f) with hbot | htop'
@@ -227,13 +227,13 @@ theorem perfectResidual_equiv {X : Type} [Group X] [Finite X]
       Nonempty (↥(perfectResidualOf G) ≃* SL(2, ZMod 5)) := by
   classical
   set Q : Subgroup X := CFSG.pCore 3 X with hQdef
-  haveI hQn : Q.Normal := Helpers.pCore_normal 3
+  have hQn : Q.Normal := Helpers.pCore_normal 3
   let π : X →* X ⧸ Q := QuotientGroup.mk' Q
   have hπ : Function.Surjective π := QuotientGroup.mk'_surjective Q
   let Y : Subgroup X := G.comap π
-  haveI hYn : Y.Normal := Subgroup.Normal.comap hG π
+  have hYn : Y.Normal := Subgroup.Normal.comap hG π
   set W : Subgroup X := perfectResidualOf Y with hWdef
-  haveI hWn : W.Normal := perfectResidualOf_normal hYn
+  have hWn : W.Normal := perfectResidualOf_normal hYn
   have hWperf : Group.IsPerfect ↥W := finite_perfectResidualOf_isPerfect Y
   have hWmap : W.map π = perfectResidualOf G := by
     let ρ : ↥Y →* ↥G := (π.comp Y.subtype).codRestrict G (fun y => Subgroup.mem_comap.mp y.2)

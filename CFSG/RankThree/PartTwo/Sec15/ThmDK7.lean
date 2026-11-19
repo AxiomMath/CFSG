@@ -113,7 +113,7 @@ theorem isThreeCycle_of_commute_order_seven {σ x : Perm (Fin 10)} (hσ : orderO
 
 theorem a7CentralizerThreeCycle_holds : A7CentralizerThreeCycle := by
   rintro K ⟨φ⟩ x hx hx3
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hcard : 7 ∣ Nat.card (alternatingGroup (Fin 7)) := by
     rw [Nat.card_eq_fintype_card, card_alternatingGroup]
     simp [Fintype.card_fin, Nat.factorial]

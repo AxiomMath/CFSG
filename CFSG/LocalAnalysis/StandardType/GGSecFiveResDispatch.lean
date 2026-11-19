@@ -52,7 +52,7 @@ theorem ggSecFiveDataResAt_G2_of_tbfix
   obtain ⟨y, K, hnbr⟩ := exists_ggNbr hR.1.1.2.2.2.2.2.2.2 hR.1.2.2
   have hfix := hT G p B Bs x L D J hR.1 hR.2.1 hR.2.2.1 hR.2.2.2.1 y K hnbr
     (hWC y K hnbr) (Or.inr hWC)
-  haveI : Fintype ι := Fintype.ofEquiv (Fin 2) e'
+  have : Fintype ι := Fintype.ofEquiv (Fin 2) e'
   let F₀ : Subgroup ↥Bs := (Subgroup.zpowers x).subgroupOf Bs
   have hWT : GGWeylOfType p M (ggAutomizerJoin L Bs 𝒦) := ⟨e, hpres.2⟩
   have hAL : ggAutomizer L Bs ≤ ggAutomizerJoin L Bs 𝒦 := le_sup_left

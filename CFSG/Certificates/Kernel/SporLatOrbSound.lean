@@ -47,17 +47,17 @@ theorem mem_mergeU (x : List Nat) : ∀ (f : Nat) (A B : List (List Nat)),
   | f + 1, a :: A, b :: B => by
     unfold mergeU
     by_cases h1 : eqL a b = true
-    · rw [if_pos h1, List.mem_cons, mem_mergeU x f A B]
+    · rw [ite_eq_left h1, List.mem_cons, mem_mergeU x f A B]
       have e := (eqL_iff a b).1 h1
       subst e
       simp only [List.mem_cons]
       tauto
-    · rw [if_neg h1]
+    · rw [ite_eq_right h1]
       by_cases h2 : lexLt a b = true
-      · rw [if_pos h2, List.mem_cons, mem_mergeU x f A (b :: B)]
+      · rw [ite_eq_left h2, List.mem_cons, mem_mergeU x f A (b :: B)]
         simp only [List.mem_cons]
         tauto
-      · rw [if_neg h2, List.mem_cons, mem_mergeU x f (a :: A) B]
+      · rw [ite_eq_right h2, List.mem_cons, mem_mergeU x f (a :: A) B]
         simp only [List.mem_cons]
         tauto
 
@@ -89,17 +89,17 @@ theorem subS_sound : ∀ (f : Nat) (A B : List (List Nat)), subS f A B = true �
   | f + 1, a :: A, b :: B, h, x, hx => by
     unfold subS at h
     by_cases h1 : eqL a b = true
-    · rw [if_pos h1] at h
+    · rw [ite_eq_left h1] at h
       have e := (eqL_iff a b).1 h1
       subst e
       rcases List.mem_cons.1 hx with rfl | hx
       · exact List.mem_cons_self
       · exact List.mem_cons_of_mem _ (subS_sound f A B h x hx)
-    · rw [if_neg h1] at h
+    · rw [ite_eq_right h1] at h
       by_cases h2 : lexLt b a = true
-      · rw [if_pos h2] at h
+      · rw [ite_eq_left h2] at h
         exact List.mem_cons_of_mem _ (subS_sound f (a :: A) B h x hx)
-      · rw [if_neg h2] at h
+      · rw [ite_eq_right h2] at h
         exact absurd h (by simp)
 
 theorem subL_sound {A B : List (List Nat)} (h : subL A B = true) : ∀ x ∈ A, x ∈ B :=

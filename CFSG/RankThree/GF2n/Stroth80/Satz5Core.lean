@@ -102,7 +102,7 @@ theorem Setting.rootA_rootB (S : Setting M₀ X v₁ v₂ w₁ w₂) (l m : K) (
     rootA M₀ v₂ w₁ l (rootB M₀ v₁ v₂ m e) = rootB M₀ v₁ v₂ m (rootA M₀ v₂ w₁ l e) := by
   have h1 : M₀.B (rootB M₀ v₁ v₂ m e) w₁ = M₀.B e w₁ + m * M₀.B e v₂ := by
     simp only [rootB, map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-      S.b11, S.b21, M₀.alt]
+      S.b11, S.b21]
     ring
   have h2 : M₀.B (rootB M₀ v₁ v₂ m e) v₂ = M₀.B e v₂ := by
     simp only [rootB, map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
@@ -114,9 +114,9 @@ theorem Setting.rootA_rootB (S : Setting M₀ X v₁ v₂ w₁ w₂) (l m : K) (
     ring
   have h4 : M₀.B (rootA M₀ v₂ w₁ l e) v₁ = M₀.B e v₁ + l * M₀.B e v₂ := by
     simp only [rootA, map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-      S.bv2v1, S.bw1v1, M₀.alt]
+      S.bv2v1, S.bw1v1]
     ring
-  simp only [rootA, rootB, h1, h2, h3, h4, map_add, map_smul, LinearMap.add_apply,
+  simp only [rootA, rootB, map_add, map_smul, LinearMap.add_apply,
     LinearMap.smul_apply, smul_eq_mul, S.bw1v2, S.b21, S.b11, S.bw1v1, S.vv, S.bv2v1, M₀.alt]
   module
 
@@ -171,7 +171,7 @@ theorem Setting.comm_inner (S : Setting M₀ X v₁ v₂ w₁ w₂) {a b : G} (h
   rw [e5, e4, S.rootA_rootB l m (rootA M₀ v₂ w₁ l (rootB M₀ v₁ v₂ m (M₀.π x))),
     S.rootA_rootA, S.rootB_rootB]
 
-theorem Setting.exists_corr (S : Setting M₀ X v₁ v₂ w₁ w₂) {p r : G} (hp : p ∈ P) (hr : r ∈ P)
+theorem Setting.exists_corr (_S : Setting M₀ X v₁ v₂ w₁ w₂) {p r : G} (hp : p ∈ P) (hr : r ∈ P)
     (h : M₀.π p = M₀.π r) : ∃ k ∈ Z, r = p * k :=
   ⟨p⁻¹ * r, (Tim79.QuadModel.pi_eq_iff M₀ hp hr).mp h, by group⟩
 

@@ -95,7 +95,7 @@ theorem exists_T (hT₀ : ∃ T : Sylow 2 H, (T : Subgroup H) ≤ centralizer (h
   have hR₀'M : R₀' ≤ h.M3 := map_subtype_le _
   have hR₀'W : R₀' ≤ h.W := hR₀'M.trans h.toHyp52.M3_le_normalizer
   have hE2 : IsPGroup 2 ↥(R₀' ⊔ h.B) :=
-    IsPGroup.to_sup_of_normal_right' (R₀.isPGroup'.map _) h.toHyp52.sec8_isPGroup_B hR₀'W
+    IsPGroup.to_sup_of_normal_right' (R₀.isPGroup.map _) h.toHyp52.sec8_isPGroup_B hR₀'W
   have hEW : R₀' ⊔ h.B ≤ h.W := sup_le hR₀'W le_normalizer
   obtain ⟨w, hw, hwE⟩ := exists_conjugate_le_of_sylow
     ⟨T₀.subtype hT₀W, by rw [Sylow.coe_subtype]⟩ hEW hE2
@@ -117,7 +117,7 @@ theorem exists_T (hT₀ : ∃ T : Sylow 2 H, (T : Subgroup H) ≤ centralizer (h
     rwa [show w * (w⁻¹ * y * w) * w⁻¹ = y by group] at h1
   · have hle : (R₀ : Subgroup ↥h.M3) ≤ ((w • T₀ : Sylow 2 H) : Subgroup H).subgroupOf h.M3 :=
       fun r hr => mem_subgroupOf.mpr (hET (mem_sup_left ⟨r, hr, rfl⟩))
-    exact le_antisymm hle (R₀.maximal_isPGroup.2 ((w • T₀).isPGroup'.comap_subtype) hle)
+    exact le_antisymm hle (R₀.maximal_isPGroup.2 ((w • T₀).isPGroup.comap_subtype) hle)
 
 variable {d}
 
@@ -131,7 +131,7 @@ theorem exists_mem_T_M3 (T : Sylow 2 H) (hTW : (T : Subgroup H) ≤ h.W) (hBT : 
   set S : Subgroup (MulAut (h.K ⧸ pPrimeCore 2 h.K)) :=
     (((T : Subgroup H).subgroupOf h.W) ⊓ N.comap H₁.psiW).map H₁.psiW with hS
   have hS2 : IsPGroup 2 S :=
-    ((T.isPGroup'.comap_subtype (K := h.W)).to_le inf_le_left).map _
+    ((T.isPGroup.comap_subtype (K := h.W)).to_le inf_le_left).map _
   have hSr : S ≤ H₁.kloc.rho.range := by
     rw [H₁.kloc.rho_range_eq]
     rintro _ ⟨x, hx, rfl⟩
@@ -152,7 +152,7 @@ theorem exists_mem_T_M3 (T : Sylow 2 H) (hTW : (T : Subgroup H) ≤ h.W) (hBT : 
     exact hr
   refine ⟨r, mem_inf.mpr ⟨hrT, r.2⟩, ?_⟩
   have hrtT : (r : H)⁻¹ * t ∈ (T : Subgroup H) := mul_mem (inv_mem hrT) ht
-  apply Data.mem_B_of_psiW T.isPGroup' hTW hBT hrtT
+  apply Data.mem_B_of_psiW T.isPGroup hTW hBT hrtT
   have h1 : (⟨(r : H)⁻¹ * t, hTW hrtT⟩ : ↥h.W) =
       (⟨r, h.toHyp52.M3_le_normalizer r.2⟩ : ↥h.W)⁻¹ * ⟨t, hTW ht⟩ := rfl
   have h2 : H₁.psiW ⟨(r : H), h.toHyp52.M3_le_normalizer r.2⟩ = H₁.kloc.rho r :=

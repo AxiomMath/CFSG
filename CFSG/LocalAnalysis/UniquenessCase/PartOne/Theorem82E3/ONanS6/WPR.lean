@@ -32,7 +32,7 @@ theorem zpowers_sq_eq {H : Type*} [Group H] {x : H} (hodd : Odd (orderOf x)) :
     Subgroup.zpowers (x ^ 2) = Subgroup.zpowers x := by
   refine le_antisymm ?_ ?_
   · rw [Subgroup.zpowers_le]
-    simpa using Subgroup.zpow_mem_zpowers x (2 : ℤ)
+    simp
   rw [Subgroup.zpowers_le]
   exact mem_zpowers_pow_iff.mpr (Nat.coprime_iff_gcd_eq_one.mp (Nat.coprime_two_left.mpr hodd))
 
@@ -90,7 +90,7 @@ theorem exists_elemAbelian_card_pow_of_independent {B : Type*} [CommGroup B] [Fi
   rw [← Nat.card_congr (Equiv.ofBijective Φ.rangeRestrict hbij)]
   change Nat.card (ι → ZMod q) = q ^ Fintype.card ι
   rw [Nat.card_pi]
-  simp [Nat.card_zmod]
+  simp
 
 theorem pRank_four_of_three_components_and_central {H : Type*} [Group H] [Finite H]
     {p : ℕ} (hp : p.Prime) {K : Fin 3 → Subgroup H} (hK : ∀ i, IsComponent (K i))
@@ -100,7 +100,7 @@ theorem pRank_four_of_three_components_and_central {H : Type*} [Group H] [Finite
     {z : H} (hz : z ∈ Subgroup.center H) (hzo : orderOf z = p) :
     4 ≤ CFSG.Open.pRank p (⊤ : Subgroup H) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcommK : ∀ i j, i ≠ j → K i ≤ Subgroup.centralizer (K j : Set H) := by
     intro i j hij
     rcases LocalCores.distinct_components_commute (hK i) (hK j) with h | h
@@ -132,10 +132,8 @@ theorem pRank_four_of_three_components_and_central {H : Type*} [Group H] [Finite
     intro o
     rw [Subgroup.orderOf_mk]
     rcases o with - | i
-    · change orderOf (Y none) = p
-      rw [hYnone]; exact hzo
-    · change orderOf (Y (some i)) = p
-      rw [hYsome]; exact hyo i
+    · rw [hYnone]; exact hzo
+    · rw [hYsome]; exact hyo i
   have hind : ∀ n : Option (Fin 3) → ℤ, (∏ o, g o ^ n o) = 1 → ∀ o, (p : ℤ) ∣ n o := by
     intro n hn
     have hzC : ∀ i, z ∈ Subgroup.centralizer ((K i : Set H)) := by
@@ -239,7 +237,7 @@ theorem pElement_normalizes_thetaComponent_of_pRank_three {H : Type*} [Group H] 
     (hrank : CFSG.Open.pRank p (⊤ : Subgroup H) ≤ 3) :
     x ∈ Subgroup.normalizer (L : Set H) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N : Subgroup H := CFSG.RankThree.LocalRank.aschbacherSolvableCore p H with hN
   let π : H →* H ⧸ N := QuotientGroup.mk' N
   have hNcop : ¬ p ∣ Nat.card N :=

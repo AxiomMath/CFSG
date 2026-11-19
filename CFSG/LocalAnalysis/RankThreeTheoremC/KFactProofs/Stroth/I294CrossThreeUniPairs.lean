@@ -59,7 +59,7 @@ theorem exists_piece (hσ : IsUnitaryInvolution σ) {ω : K} (hω : IsPrimitiveR
     (∃ u w : Fin n → K, S u = ω • u ∧ S w = ω ^ 2 • w ∧ herm σ u u = 0 ∧ herm σ w w = 0 ∧
         herm σ u w = 1 ∧ ∀ j, herm σ (c j) u = 0 ∧ herm σ (c j) w = 0) ∨
       (∃ e : Fin n → K, S e = e ∧ herm σ e e = 1 ∧ ∀ j, herm σ (c j) e = 0) := by
-  haveI : NeZero (3 : ℕ) := ⟨by norm_num⟩
+  have : NeZero (3 : ℕ) := ⟨by norm_num⟩
   have hp0 : ((3 : ℕ) : K) ≠ 0 := (hω.neZero').out
   let Q : (Fin n → K) →ₗ[K] (Fin n → K) :=
     LinearMap.id - ∑ j, (hermL σ (c (τ j))).smulRight (c j)
@@ -82,7 +82,7 @@ theorem exists_piece (hσ : IsUnitaryInvolution σ) {ω : K} (hω : IsPrimitiveR
     obtain ⟨b, hb⟩ := hc.eigen (τ j)
     refine ⟨a, ha, fun h0 => ?_⟩
     have h1 := hS (c j) (c (τ j))
-    rw [ha, hb, herm_smul_left, herm_smul_right, hc.gram, if_pos rfl, h0] at h1
+    rw [ha, hb, herm_smul_left, herm_smul_right, hc.gram, ite_eq_left rfl, h0] at h1
     simp at h1
   have hWst : ∀ x ∈ perp σ c, S x ∈ perp σ c := by
     intro x hx j
@@ -209,7 +209,7 @@ theorem HypPairs.paired {k : ℕ} {u w : Fin k → Fin n → K} (h : HypPairs σ
     · rw [Sum.elim_inr, Sum.elim_inl, herm_conj σ hinv, h.uw j i]
       by_cases hij : j = i
       · simp [hij]
-      · simp [hij, Ne.symm hij]
+      · simp [hij]
     · simp [h.ww i j]
   · rcases i with i | i
     · exact h.eu i

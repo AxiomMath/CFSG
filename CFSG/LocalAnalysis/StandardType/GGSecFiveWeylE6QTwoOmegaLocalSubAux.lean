@@ -573,9 +573,9 @@ theorem exists_label_of_component_omegaPlus (hK : Nat.card K = 2) {Bs L : Subgro
     (hcard : Nat.card Bs = 3 ^ 5) (hcardE : Nat.card ↥(Bs ⊓ L) = 3 ^ 4)
     (hx1 : x ≠ 1) (hLx : L ≤ Subgroup.centralizer {x})
     (hBL : Bs ⊓ Subgroup.centralizer (L : Set G) = Subgroup.zpowers x)
-    (hstar : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs)
-    (hBsN : Bs ≤ Subgroup.normalizer (L : Set G))
-    (hI : ∀ b ∈ Bs, ∃ φ ∈ LargeEvenInnSet (OrthRest.RPlus K 4),
+    (_hstar : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ 3 = 1 → g ∈ Bs)
+    (_hBsN : Bs ≤ Subgroup.normalizer (L : Set G))
+    (_hI : ∀ b ∈ Bs, ∃ φ ∈ LargeEvenInnSet (OrthRest.RPlus K 4),
       LargeEvenInduces θ (fun l l' => (l' : G) = b⁻¹ * l * b) φ)
     {D J : Subgroup G} (hDB : D ≤ Bs) (hDcard : Nat.card D = 3 ^ 2) (hxD : x ∈ D)
     (hJ : CFSG.Assembly.IsComponentOf J (L ⊓ Subgroup.centralizer (D : Set G))) :

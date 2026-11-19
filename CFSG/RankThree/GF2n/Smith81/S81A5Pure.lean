@@ -100,8 +100,8 @@ theorem coord_sub (a b : Cube K) (I : Set.powersetCard (Fin 6) 3) :
 
 @[expose] def uMap (K : Type*) [Field K] : W4 K →ₗ[K] Cube K where
   toFun w := ιMulti K 3 ![e K 0, e K 1, (w : Fin 6 → K)]
-  map_add' w w' := ι3_add_thd _ _ _ _
-  map_smul' c w := ι3_smul_thd c _ _ _
+  map_add' _w _w' := ι3_add_thd _ _ _ _
+  map_smul' c _w := ι3_smul_thd c _ _ _
 
 theorem mem_Usp_iff {ξ : Cube K} :
     ξ ∈ Usp K ↔ ∃ w ∈ W4 K, ξ = ιMulti K 3 ![e K 0, e K 1, w] := by

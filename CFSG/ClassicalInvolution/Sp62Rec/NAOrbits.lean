@@ -15,16 +15,19 @@ section Transport
 
 variable {M N : Type} [Group M] [Group N] [Finite M] [Finite N]
 
+omit [Finite M] in
 private theorem mem_orbIn_iff' {X : Subgroup M} {a b : M} :
     b ∈ orbIn X a ↔ ∃ x ∈ X, x * a * x⁻¹ = b :=
   Iff.rfl
 
+omit [Finite M] in
 private theorem orbIn_subset_sub {X : Subgroup M} {c : M} (hc : c ∈ X) :
     orbIn X c ⊆ (X : Set M) := by
   intro b hb
   obtain ⟨x, hx, rfl⟩ := (mem_orbIn_iff').mp hb
   exact X.mul_mem (X.mul_mem hx hc) (X.inv_mem hx)
 
+omit [Finite M] [Finite N] in
 private theorem image_orbIn_preimage {X : Subgroup M} {Y : Subgroup N}
     (ν : ↥X ≃* ↥Y) (ι : ↥Y →* M) (hι : ∀ m : ↥Y, ι m = ((ν.symm m : ↥X) : M)) (c : ↥Y) :
     ι '' (Subtype.val ⁻¹' orbIn Y (c : N)) = orbIn X (ι c) := by
@@ -46,6 +49,7 @@ private theorem image_orbIn_preimage {X : Subgroup M} {Y : Subgroup N}
       exact hmem
     · rw [map_mul, map_mul, map_inv, hmx, hxg]
 
+omit [Finite M] [Finite N] in
 private theorem ncard_orbIn_eq {X : Subgroup M} {Y : Subgroup N}
     (ν : ↥X ≃* ↥Y) (ι : ↥Y →* M) (hι : ∀ m : ↥Y, ι m = ((ν.symm m : ↥X) : M)) (c : ↥Y) :
     (orbIn X (ι c)).ncard = (orbIn Y (c : N)).ncard := by
@@ -58,6 +62,7 @@ private theorem ncard_orbIn_eq {X : Subgroup M} {Y : Subgroup N}
   intro s hs
   exact ⟨⟨s, orbIn_subset_sub c.2 hs⟩, rfl⟩
 
+omit [Finite M] [Finite N] in
 private theorem card_closure_orbIn_eq {X : Subgroup M} {Y : Subgroup N}
     (ν : ↥X ≃* ↥Y) (ι : ↥Y →* M) (hι : ∀ m : ↥Y, ι m = ((ν.symm m : ↥X) : M)) (c : ↥Y) :
     Nat.card ↥(Subgroup.closure (orbIn X (ι c))) =
@@ -87,6 +92,7 @@ end Transport
 variable {G : Type} [Group G] [Finite G] {A X' : Subgroup G}
   {e y : G} {A0 : Subgroup (StatedSp 3 (ZMod 2))} {rho : StatedSp 3 (ZMod 2)}
 
+omit [Finite G] in
 theorem mem_normalizer_iff_theta (θ : ↥(Subgroup.centralizer ({e} : Set G)) ≃* ↥Hhat)
     (hACe : A ≤ Subgroup.centralizer ({e} : Set G))
     (hθA : (A.subgroupOf (Subgroup.centralizer ({e} : Set G))).map θ.toMonoidHom =
@@ -167,6 +173,7 @@ theorem mem_normalizer_iff_theta (θ : ↥(Subgroup.centralizer ({e} : Set G)) �
         exact ⟨fun h => (hnA h).elim, fun h => (hxnx h).elim⟩
   refine hxN.trans ⟨fun h => hNX0 _ t.2 h, fun h => hX0N h⟩
 
+omit [Finite G] in
 theorem card_normalizer_inf_centralizer (θ : ↥(Subgroup.centralizer ({e} : Set G)) ≃* ↥Hhat)
     (hACe : A ≤ Subgroup.centralizer ({e} : Set G))
     (hθA : (A.subgroupOf (Subgroup.centralizer ({e} : Set G))).map θ.toMonoidHom =

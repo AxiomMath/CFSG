@@ -44,7 +44,7 @@ theorem not_dvd_card_of_perfect_central_sylow {J : Type*} [Group J] [Finite J] {
     have h1 : φ g = 1 := MonoidHom.mem_ker.1 (hker (Subgroup.mem_top g))
     rw [MonoidHom.transferSylow_eq_pow P hN g hg] at h1
     have h2 : g ^ (P : Subgroup J).index = 1 := congrArg Subtype.val h1
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨g, hg⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨g, hg⟩
     have hgk : g ^ p ^ k = 1 := congrArg Subtype.val hk
     have h3 : orderOf g ∣ p ^ k := orderOf_dvd_of_pow_eq_one hgk
     have h4 : orderOf g ∣ (P : Subgroup J).index := orderOf_dvd_of_pow_eq_one h2
@@ -113,7 +113,7 @@ theorem no_glaPComponent_of_exact {S : Type} [Group S] [Finite S] {p : ℕ} (hp 
       exact hn⟩
   have huniq : Unique (Sylow p ↥C) := Sylow.unique_of_normal R hRn
   set K : Subgroup ↥C := (P : Subgroup ↥L).map L.subtype with hK
-  have hKp : IsPGroup p K := P.isPGroup'.map _
+  have hKp : IsPGroup p K := P.isPGroup.map _
   obtain ⟨R', hKR'⟩ := hKp.exists_le_sylow
   have hR' : R' = R := Subsingleton.elim _ _
   have hKc : K ≤ Subgroup.center ↥C := hR' ▸ hKR' |>.trans hRc

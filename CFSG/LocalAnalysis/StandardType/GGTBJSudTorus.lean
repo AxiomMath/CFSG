@@ -33,8 +33,8 @@ theorem ggTBJ_sud_torusJNoncomm
       GGIsReflection p (ggConjAut A h₁) ∧ GGIsReflection p (ggConjAut A h₂) ∧
       ggConjAut A h₁ * ggConjAut A h₂ ≠ ggConjAut A h₂ * ggConjAut A h₁ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let hU : UnitaryFieldData 2 n K := TableBU.unitaryFieldData_of_card hK (by omega)
   obtain ⟨hψ, hker, hperf, hAe, hAI, -, -, hsc⟩ := hA
   have hAp : ∀ a ∈ A, a ^ p = 1 := hAe.2
@@ -68,7 +68,7 @@ theorem ggTBJ_sud_torusJNoncomm
   have hle : Nat.card ↥A ≤ p ^ (I₀.card - 1) * Nat.card ↥(A ⊓ C) :=
     ggTBJ_sud_count hU (by omega) hp hφker hdiag hAp I₀ hC
   have hpos : 0 < Nat.card ↥(A ⊓ C) := by
-    haveI : Nonempty ↥(A ⊓ C) := ⟨1⟩
+    have : Nonempty ↥(A ⊓ C) := ⟨1⟩
     exact Nat.card_pos
   have hpow : p ^ 2 ≤ p ^ (I₀.card - 1) := by
     refine Nat.le_of_mul_le_mul_right ?_ hpos

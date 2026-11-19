@@ -157,7 +157,7 @@ theorem exists_twoSubgroup_of_mk_commute {K E : Subgroup G} (hK : K ∈ thetaCom
     have hyT : π y ∈ Tb := y.2
     have h1 : π y = 1 := by
       obtain ⟨t, htT, ht⟩ := hyT
-      obtain ⟨m, hm⟩ := T.isPGroup' ⟨t, htT⟩
+      obtain ⟨m, hm⟩ := T.isPGroup ⟨t, htT⟩
       have ha : (π (y : N)) ^ 3 = 1 := by
         rw [← map_pow]
         have : (y : N) ^ 3 = 1 := by
@@ -236,7 +236,7 @@ theorem exists_twoSubgroup_of_mk_commute {K E : Subgroup G} (hK : K ∈ thetaCom
       Subgroup.map_eq_bot_iff_of_injective _ Y.subtype_injective]
     exact hQ1
   · rw [← hQR]
-    exact (Q.isPGroup'.map _).map _
+    exact (Q.isPGroup.map _).map _
   · intro e he
     have he₁ : (⟨e, hEN he⟩ : N) ∈ E₁ := Subgroup.mem_subgroupOf.mpr he
     exact Subgroup.le_normalizer_map N.subtype ⟨_, hER he₁, rfl⟩

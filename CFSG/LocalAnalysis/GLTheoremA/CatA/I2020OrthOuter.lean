@@ -37,17 +37,17 @@ open scoped commutatorElement
 
 private theorem pComponent_eq_bot_or_eq_subfield {K : Type} [Field K] [Finite K] {d : ℕ}
     {k : Subfield K} {Q₀ : QuadraticForm k (Fin d → k)} {Q : QuadraticForm K (Fin d → K)}
-    {σ : K ≃+* K} {p : ℕ} (hp : p.Prime) (hext : IsExtension k Q₀ Q)
+    {σ : K ≃+* K} {p : ℕ} (_hp : p.Prime) (hext : IsExtension k Q₀ Q)
     (hQσ : ∀ v, Q (coordinateFieldMap d σ v) = σ (Q v))
     (hconc : SubfieldConclusion k Q₀ Q σ p hext hQσ)
     {J : Subgroup (matrixProjectiveDerived Q)}
     (hJ : GLAPComponent p (fixSubgroup (fieldAutT Q σ hQσ)) J) :
     J = ⊥ ∨ J = subfieldDerivedImage k hext := by
   obtain ⟨⟨-, hJs, -⟩, -, hfixiff, hJ₀N, hJ₀norm, hquot, -⟩ := hconc
-  haveI := hJ₀norm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hquot.isNilpotent
-  haveI : Group.IsSolvable
+  have := hJ₀norm
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hquot.isNilpotent
+  have : Group.IsSolvable
       (↥(subfieldFixedGroup k Q₀ Q) ⧸
         (subfieldDerivedImage k hext).subgroupOf (subfieldFixedGroup k Q₀ Q)) :=
     IsNilpotent.to_isSolvable
@@ -69,7 +69,7 @@ private theorem pComponent_eq_bot_or_eq_subfield {K : Type} [Field K] [Finite K]
 
 private theorem false_of_pComponent_subfield {K : Type} [Field K] [Finite K] {d : ℕ}
     {k : Subfield K} {Q₀ : QuadraticForm k (Fin d → k)} {Q : QuadraticForm K (Fin d → K)}
-    {σ : K ≃+* K} {p q f : ℕ} (hp : p.Prime) (hq : q.Prime) (hq2 : q ≠ 2)
+    {σ : K ≃+* K} {p q f : ℕ} (hp : p.Prime) (_hq : q.Prime) (hq2 : q ≠ 2)
     (hd : 0 < d) (hext : IsExtension k Q₀ Q)
     (hQσ : ∀ v, Q (coordinateFieldMap d σ v) = σ (Q v))
     (hconc : SubfieldConclusion k Q₀ Q σ p hext hQσ)
@@ -82,29 +82,29 @@ private theorem false_of_pComponent_subfield {K : Type} [Field K] [Finite K] {d 
   have hJne : J ≠ ⊥ := by
     intro hbot
     have hq' := isQuasisimple_pQuot_of_glaPComponent hp (hbot ▸ hJ)
-    haveI : Subsingleton (PQuot p J) := by
+    have : Subsingleton (PQuot p J) := by
       rw [hbot]
       change Subsingleton (↥(⊥ : Subgroup (matrixProjectiveDerived Q)) ⧸
         GLAPPrimeCore p ↥(⊥ : Subgroup (matrixProjectiveDerived Q)))
       infer_instance
-    haveI : Subsingleton (PQuot p J ⧸ Subgroup.center (PQuot p J)) := inferInstance
+    have : Subsingleton (PQuot p J ⧸ Subgroup.center (PQuot p J)) := inferInstance
     exact (not_subsingleton_iff_nontrivial.mpr hq'.2.toNontrivial) inferInstance
   have hJ₀ : J = subfieldDerivedImage k hext := hcases.resolve_left hJne
   rw [hJ₀] at hJ hJT
   obtain ⟨⟨-, hJs, hnonab⟩, -, hfixiff, hJ₀N, hJ₀norm, hquot, -⟩ := hconc
-  haveI := hJ₀norm
+  have := hJ₀norm
   have hqJ := isQuasisimple_pQuot_of_glaPComponent hp hJ
   have hcore : GLAPPrimeCore p ↥(subfieldDerivedImage k hext) = ⊥ := by
     rcases hJs.eq_bot_or_eq_top_of_normal
       (GLAPPrimeCore p ↥(subfieldDerivedImage k hext)) with h | h
     · exact h
     · exfalso
-      haveI : Subsingleton (PQuot p (subfieldDerivedImage k hext)) := by
+      have : Subsingleton (PQuot p (subfieldDerivedImage k hext)) := by
         change Subsingleton (↥(subfieldDerivedImage k hext) ⧸
           GLAPPrimeCore p ↥(subfieldDerivedImage k hext))
         rw [h]
         exact QuotientGroup.subsingleton_quotient_top
-      haveI : Subsingleton
+      have : Subsingleton
           (PQuot p (subfieldDerivedImage k hext) ⧸
             Subgroup.center (PQuot p (subfieldDerivedImage k hext))) := inferInstance
       exact (not_subsingleton_iff_nontrivial.mpr hqJ.2.toNontrivial) inferInstance
@@ -147,15 +147,15 @@ private theorem orthOuter_odd (p q : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (hq : q
     {J : Subgroup G} (hJ : GLAPComponent p (fixSubgroup β) J) (hJT : JType p q J) : False := by
   obtain ⟨-, hf, -, -⟩ := hG.1
   obtain ⟨K, hfieldK, hfinK, hK, ⟨e⟩⟩ := hG.2
-  letI := hfieldK
-  letI := hfinK
+  let := hfieldK
+  let := hfinK
   have hgates := orthogonal_large_prime_semilinear_field_and_diagonal_gates G .POmegaOdd
     (Or.inl rfl) 3 q f hG K hK e
   have htop : projectivePointFamilyAut (coordinateQuadOdd 3 K) = ⊤ :=
     ((orthogonal_geometry_tail_model_point_family_invariant G .POmegaOdd
       (.inl rfl) 3 q f hG) K hK).2
   let e' := coordinateOddWitnessEquiv K e
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadOdd 3 K)) := Finite.of_equiv _ e'.toEquiv
+  have : Finite (matrixProjectiveDerived (coordinateQuadOdd 3 K)) := Finite.of_equiv _ e'.toEquiv
   let β' : MulAut (matrixProjectiveDerived (coordinateQuadOdd 3 K)) := MulAut.congr e' β
   have hβ' : β' ^ p = 1 := by rw [← map_pow, hβ, map_one]
   have hE : β' ∈ matrixProjectiveImage (coordinateQuadOdd 3 K) :=
@@ -167,7 +167,7 @@ private theorem orthOuter_odd (p q : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (hq : q
     have hcongr : MulAut.congr e' (MulAut.conj (e'.symm t)) = MulAut.congr e' β := by
       rw [OuterAutomorphisms.congr_conj, MulEquiv.apply_symm_apply, ht]
     exact ((MulAut.congr e').injective hcongr).symm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf β' = p := orderOf_eq_prime hβ' fun h => hD (h ▸ one_mem _)
   let J' : Subgroup (matrixProjectiveDerived (coordinateQuadOdd 3 K)) := J.map e'.toMonoidHom
   have hJ' : GLAPComponent p (fixSubgroup β') J' := by
@@ -231,7 +231,7 @@ theorem orthOuter_plus_of_mem_image (p q : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (
   have hgates := orthogonal_large_prime_semilinear_field_and_diagonal_gates G .POmegaPlus
     (Or.inr (Or.inl rfl)) 4 q f hG K hK e
   let e' := coordinatePlusWitnessEquiv K e
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus 4 K)) := Finite.of_equiv _ e'.toEquiv
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus 4 K)) := Finite.of_equiv _ e'.toEquiv
   let β' : MulAut (matrixProjectiveDerived (coordinateQuadPlus 4 K)) := MulAut.congr e' β
   have hβ' : β' ^ p = 1 := by rw [← map_pow, hβ, map_one]
   have hE' : β' ∈ matrixProjectiveImage (coordinateQuadPlus 4 K) := hE
@@ -242,7 +242,7 @@ theorem orthOuter_plus_of_mem_image (p q : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (
     have hcongr : MulAut.congr e' (MulAut.conj (e'.symm t)) = MulAut.congr e' β := by
       rw [OuterAutomorphisms.congr_conj, MulEquiv.apply_symm_apply, ht]
     exact ((MulAut.congr e').injective hcongr).symm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf β' = p := orderOf_eq_prime hβ' fun h => hD (h ▸ one_mem _)
   let J' : Subgroup (matrixProjectiveDerived (coordinateQuadPlus 4 K)) := J.map e'.toMonoidHom
   have hJ' : GLAPComponent p (fixSubgroup β') J' := by
@@ -299,8 +299,8 @@ private theorem orthOuter_plus (p q : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (hq : 
     (β : MulAut G) (hβ : β ^ p = 1) (hnot : ∀ a : G, β ≠ MulAut.conj a)
     {J : Subgroup G} (hJ : GLAPComponent p (fixSubgroup β) J) (hJT : JType p q J) : False := by
   obtain ⟨K, hfieldK, hfinK, hK, ⟨e⟩⟩ := hG.2
-  letI := hfieldK
-  letI := hfinK
+  let := hfieldK
+  let := hfinK
   have hgates := orthogonal_large_prime_semilinear_field_and_diagonal_gates G .POmegaPlus
     (Or.inr (Or.inl rfl)) 4 q f hG K hK e
   have hEA : 3 < p ∨ projectivePointFamilyAut (coordinateQuadPlus 4 K) = ⊤ := by
@@ -308,7 +308,7 @@ private theorem orthOuter_plus (p q : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (hq : 
     have h2 := hp.two_le
     omega
   let e' := coordinatePlusWitnessEquiv K e
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus 4 K)) := Finite.of_equiv _ e'.toEquiv
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus 4 K)) := Finite.of_equiv _ e'.toEquiv
   let β' : MulAut (matrixProjectiveDerived (coordinateQuadPlus 4 K)) := MulAut.congr e' β
   have hβ' : β' ^ p = 1 := by rw [← map_pow, hβ, map_one]
   have hE : β' ∈ matrixProjectiveImage (coordinateQuadPlus 4 K) :=
@@ -322,8 +322,8 @@ private theorem orthOuter_minus (p q : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (hq :
     {J : Subgroup G} (hJ : GLAPComponent p (fixSubgroup β) J) (hJT : JType p q J) : False := by
   obtain ⟨-, hf, -⟩ := hG.1
   obtain ⟨K, hfieldK, hfinK, hK, b, c, hirr, ⟨e⟩⟩ := hG.2
-  letI := hfieldK
-  letI := hfinK
+  let := hfieldK
+  let := hfinK
   have hn1 : 1 ≤ 4 := by omega
   have hgates := orthogonal_large_prime_semilinear_field_and_diagonal_gates G .POmegaMinus
     (Or.inr (Or.inr rfl)) 4 q f hG hn1 K hK b c hirr e
@@ -331,7 +331,7 @@ private theorem orthOuter_minus (p q : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (hq :
     ((orthogonal_geometry_tail_model_point_family_invariant G .POmegaMinus
       (.inr rfl) 4 q f hG) hn1 K hK b c hirr).2
   let e' := coordinateMinusWitnessEquiv K hn1 b c e
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadMinus 4 K hn1 b c)) :=
+  have : Finite (matrixProjectiveDerived (coordinateQuadMinus 4 K hn1 b c)) :=
     Finite.of_equiv _ e'.toEquiv
   let β' : MulAut (matrixProjectiveDerived (coordinateQuadMinus 4 K hn1 b c)) :=
     MulAut.congr e' β
@@ -345,7 +345,7 @@ private theorem orthOuter_minus (p q : ℕ) (hp : p.Prime) (hp2 : p ≠ 2) (hq :
     have hcongr : MulAut.congr e' (MulAut.conj (e'.symm t)) = MulAut.congr e' β := by
       rw [OuterAutomorphisms.congr_conj, MulEquiv.apply_symm_apply, ht]
     exact ((MulAut.congr e').injective hcongr).symm
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf β' = p := orderOf_eq_prime hβ' fun h => hD (h ▸ one_mem _)
   let J' : Subgroup (matrixProjectiveDerived (coordinateQuadMinus 4 K hn1 b c)) :=
     J.map e'.toMonoidHom

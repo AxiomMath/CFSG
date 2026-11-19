@@ -87,7 +87,7 @@ theorem classDefect_isPGroup {G : Type*} [Group G] (prime : ℕ)
     {conjugacyClass : ConjClasses G} {defect : Subgroup G}
     (hdefect : classDefect prime conjugacyClass defect) : IsPGroup prime defect := by
   obtain ⟨element, _, sylow, rfl⟩ := hdefect
-  exact sylow.isPGroup'.of_equiv
+  exact sylow.isPGroup.of_equiv
     ((sylow : Subgroup (Subgroup.centralizer {element})).equivMapOfInjective
       (Subgroup.centralizer {element}).subtype (Subgroup.subtype_injective _))
 

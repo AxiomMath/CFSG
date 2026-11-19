@@ -138,7 +138,7 @@ theorem survivor_exists_conj_torus {G : Type*} [Group G] [Finite G]
     (hG : (Nat.card G).factorization 5 = 3) (Q : Sylow 5 G) {A : G} (hA : A ∈ (Q : Subgroup G)) :
     ∃ (g : G) (v : Fin 3 → ZMod 5), A = g * τ (Multiplicative.ofAdd v) * g⁻¹ ∧
       (Q : Subgroup G) = τ.range.map (MulAut.conj g).toMonoidHom := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hcard : Nat.card τ.range = 5 ^ (Nat.card G).factorization 5 := by
     rw [hG, ← Nat.card_congr (MonoidHom.ofInjective hτ).toEquiv, Nat.card_eq_fintype_card]
     decide +kernel

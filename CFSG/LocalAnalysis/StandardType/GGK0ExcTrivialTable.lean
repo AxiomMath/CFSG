@@ -159,9 +159,9 @@ private lemma ltrk0t1_baseAux_smul (rho0 s : List ℕ) (p : ℕ) (hp : 0 < p)
   | cons a rest ih =>
       simp only [k0BaseAux]
       by_cases h : k0pAct (k0pMul a rho0) s = s
-      · rw [if_pos ((ltrk0t1_act_eq_smul_iff hp (k0pMul a rho0) s).mpr h), if_pos h]
-      · rw [if_neg (fun hh => h ((ltrk0t1_act_eq_smul_iff hp (k0pMul a rho0) s).mp hh)),
-          if_neg h]
+      · rw [ite_eq_left ((ltrk0t1_act_eq_smul_iff hp (k0pMul a rho0) s).mpr h), ite_eq_left h]
+      · rw [ite_eq_right (fun hh => h ((ltrk0t1_act_eq_smul_iff hp (k0pMul a rho0) s).mp hh)),
+          ite_eq_right h]
         exact ih
 
 private lemma ltrk0t1_kacBase_smul (D : K0Diag) (rho0 s : List ℕ) (p : ℕ) (hp : 0 < p) :
@@ -238,7 +238,7 @@ private lemma ltrk0t1_rawMem_smul (D : K0Diag) (tw : Bool) (d n p : ℕ) (s₁ :
   rw [ltrk0t1_datumsOf_smul D (k0Rho0 D tw d) s₁ d n p hp]
   exact hdat
 
-private lemma ltrk0t1_not_dvd_neg {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 1 ≤ n) :
+private lemma ltrk0t1_not_dvd_neg {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (_hn : 1 ≤ n) :
     p ∣ 2 ^ n + 1 → ¬ p ∣ 2 ^ n - 1 := by
   intro h2 h1
   have hsub : p ∣ (2 ^ n + 1) - (2 ^ n - 1) := Nat.dvd_sub h2 h1

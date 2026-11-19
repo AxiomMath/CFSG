@@ -39,7 +39,7 @@ open scoped Matrix
 
 private lemma rckLiftHom_rho_mul_POmegaMinus {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F]
     {ε : Matrix ι ι F} (hε : IsIdempotentElem ε) {x y : Matrix ι ι F}
-    (hx : x * ε = ε * x) (hy : y * ε = ε * y) :
+    (_hx : x * ε = ε * x) (hy : y * ε = ε * y) :
     (x * ε + (1 - ε)) * (y * ε + (1 - ε)) = (x * y) * ε + (1 - ε) := by
   have hε' : ε * ε = ε := hε.eq
   have h1 : (1 - ε) * (1 - ε) = 1 - ε := by
@@ -193,7 +193,7 @@ private lemma rckLiftHom_exists_sb_POmegaMinus {n : ℕ} {F : Type} [Field F] [F
     (hker : ψ.ker ≤ Subgroup.center (spinGroup (Spin.quadMinus n F bq cq)))
     {s : spinGroup (Spin.quadMinus n F bq cq)} {e : X}
     (hs : ∀ u, e⁻¹ * ψ u * e = ψ (s * u * s⁻¹))
-    {B : Subgroup X} (hBN : B ≤ Subgroup.normalizer (ψ.range : Set X))
+    {B : Subgroup X} (_hBN : B ≤ Subgroup.normalizer (ψ.range : Set X))
     (hBID : ∀ b ∈ B, GGPsiInnerDiag (Spin.Twisted.minusDatum n hirr) ψ b)
     (hBe : ∀ b ∈ B, Commute b e) :
     ∃ sb : ↥B → spinGroup (Spin.quadMinus n F bq cq),

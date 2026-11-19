@@ -125,11 +125,11 @@ theorem twPlaneCard_of_dvd (c : TwClass) (K : Type) [Field K] [Finite K]
   refine ⟨hZ, ?_⟩
   have hq : 2 ≤ Nat.card K := (c.two_le_minQ).trans hK
   have hC := c.factorization_card_adjointGroup K hp hp5 hq hord
-  haveI : Finite (Module.End K (RootModule c.tag K)) := Module.finite_of_finite K
-  haveI : Finite (ModGL c.tag K) :=
+  have : Finite (Module.End K (RootModule c.tag K)) := Module.finite_of_finite K
+  have : Finite (ModGL c.tag K) :=
     Finite.of_injective (Units.val : ModGL c.tag K → Module.End K (RootModule c.tag K))
       Units.val_injective
-  haveI : Finite ↥(adjointGroup c.tag K) := inferInstance
+  have : Finite ↥(adjointGroup c.tag K) := inferInstance
   have hX₁ : Nat.card ↥(c.X₁ D) ≠ 0 := Nat.card_pos.ne'
   have hX₂ : Nat.card ↥(c.X₂ D) ≠ 0 := Nat.card_pos.ne'
   have hle₁ : c.X₁ D ≤ adjointGroup c.tag K := fun x hx => ((TwCardAux.mem_frame_iff D _ x).1 hx).1

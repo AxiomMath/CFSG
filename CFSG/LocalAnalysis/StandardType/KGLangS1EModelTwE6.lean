@@ -191,7 +191,7 @@ theorem kgLangS1E_J0_model_twE6
                 y * ψ (QuotientGroup.mk j) * y⁻¹ := by
   classical
   let R := LargeEvenCenterQuot (LargeEvenTwistedH (LargeEvenCartanE 6) K₁ LargeEvenRhoE6 n)
-  letI : Group R := QuotientGroup.Quotient.group
+  let : Group R := QuotientGroup.Quotient.group
     (Subgroup.center (↥(LargeEvenTwistedH (LargeEvenCartanE 6) K₁ LargeEvenRhoE6 n)))
   let I : Set (MulAut R) := LargeEvenChevIDImage (LargeEvenCartanE 6) K₁
     (LargeEvenTwistedH (LargeEvenCartanE 6) K₁ LargeEvenRhoE6 n)
@@ -199,7 +199,7 @@ theorem kgLangS1E_J0_model_twE6
     (LargeEvenTwistedH (LargeEvenCartanE 6) K₁ LargeEvenRhoE6 n)
   let F₀ : ModGL TwistTag.E6.tag L →* ModGL TwistTag.E6.tag L :=
     frobTwistGL TwistTag.E6.tag L 2 e (diagramMap TwistTag.E6 L)
-  haveI hcharK : CharP K₁ 2 := charP_two_of_card (m := n * 2) (by rw [hK₁, pow_mul])
+  have hcharK : CharP K₁ 2 := charP_two_of_card (m := n * 2) (by rw [hK₁, pow_mul])
   have hstab : ∀ g ∈ adjointGroup TwistTag.E6.tag L, F₀ g ∈ adjointGroup TwistTag.E6.tag L := by
     intro g hg
     show frobTwistGL TwistTag.E6.tag L 2 e (diagramMap TwistTag.E6 L) g ∈
@@ -291,7 +291,7 @@ theorem kgLangS1E_J0_model_twE6
   obtain ⟨hsimple_graph, hna_graph⟩ :=
     isSimpleGroup_graphFixedRootGroup_of_perfect TwistTag.E6 k σ hperf
   have hCs : IsSimpleGroup ↥C := by
-    haveI : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.E6 k σ.toRingHom) := hsimple_graph
+    have : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.E6 k σ.toRingHom) := hsimple_graph
     exact eC.isSimpleGroup
   have hCna : ∃ a b : ↥C, a * b ≠ b * a :=
     kgLangS1EModelTwE6Aux_nonabelian eC.symm hna_graph

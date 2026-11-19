@@ -60,10 +60,12 @@ variable {U : Subgroup W}
   @AddMonoidHom.toZModLinearMap 2 (Additive U) (Additive U) _ _
     (addModTwoSub (U := U) hw2) (addModTwoSub (U := U) hw2) (autAddHomSub x hU)
 
+omit [Finite W] in
 @[simp] theorem autEndSub_apply (hw2 : ∀ w : W, w ^ 2 = 1) (x : MulAut W)
     (hU : ∀ u ∈ U, x u ∈ U) (v : Additive U) :
     autEndSub hw2 x hU v = autAddHomSub x hU v := rfl
 
+omit [Finite W] in
 @[simp] theorem autAddHomSub_apply (x : MulAut W) (hU : ∀ u ∈ U, x u ∈ U)
     (v : Additive U) :
     autAddHomSub x hU v =

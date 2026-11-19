@@ -45,7 +45,7 @@ theorem lComm_wordX (hT : ∀ r < 52, tabOK T r = true) (hrow : ∀ i < 16, lCom
     intro i j hi hj hij
     have h := allBelow_true (hrow i hi) j hj
     have hb : Nat.blt i j = true := by rw [Nat.blt_eq]; exact hij
-    simp only [hb, cond_true] at h
+    simp only [hb, _root_.Bool.cond_true] at h
     exact wordX_eq_of_relT hT h
   have hrow_i := hs i hi
   rw [Bool.and_eq_true] at hrow_i
@@ -89,7 +89,7 @@ theorem uComm_wordX (hT : ∀ r < 52, tabOK T r = true) (hrow : ∀ j < 10, uCom
       List.nil_append]
   · have h := allBelow_true (hrow j hj) k hk
     have hb : Nat.beq j k = false := Bool.eq_false_iff.2 (by rw [Ne, Nat.beq_eq]; exact hjk)
-    simp only [hb, cond_false] at h
+    simp only [hb, Bool.cond_false] at h
     exact wordX_eq_of_relT hT h
 
 theorem coDec_wordX (hT : ∀ r < 52, tabOK T r = true) (hrow : ∀ i < 9, coDecT T i = true)

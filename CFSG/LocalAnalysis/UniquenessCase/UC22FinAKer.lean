@@ -20,6 +20,7 @@ theorem center_eq_bot_of_mulEquiv_statedSL {X : Type} [Group X] {F : Type} [Fiel
   rw [← Subgroup.map_center_eq e] at h
   exact (Subgroup.map_eq_bot_iff_of_injective (f := (e : X →* StatedSL 2 F)) _ e.injective).1 h
 
+omit [Finite G] in
 theorem mem_pCoreOf_of_central {R Y : Subgroup G} (hYR : Y ≤ R) (hZ : center (Bar2 Y) = ⊥)
     {y : G} (hyY : y ∈ Y)
     (hc : (QuotientGroup.mk (⟨y, hYR hyY⟩ : ↥R) : Bar2 R) ∈ center (Bar2 R)) :
@@ -116,6 +117,6 @@ theorem not_isSolvable_image {Q : Type} [Group Q] {R Y : Subgroup G} (hYR : Y �
   have : Group.IsSolvable (Bar2 Y) := inferInstance
   have : Nontrivial (Bar2 Y ⧸ center (Bar2 Y)) := hq.2.toNontrivial
   have : Nontrivial (Bar2 Y) := (QuotientGroup.mk'_surjective (center (Bar2 Y))).nontrivial
-  exact (IsSolvable.commutator_lt_top_of_nontrivial (Bar2 Y)).ne hq.1
+  exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (Bar2 Y)).ne hq.1
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.FinA

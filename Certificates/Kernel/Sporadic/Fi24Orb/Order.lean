@@ -30,7 +30,7 @@ noncomputable abbrev Ω : Set (Submodule (ZMod 3) (Fin 781 → ZMod 3)) := {W | 
 theorem ncard_Ω : Ω.ncard = N := by
   have e : Ω = ((Finset.range N).image ψ : Set _) := by
     ext W
-    simp only [Set.mem_setOf_eq, Finset.coe_image, Finset.coe_range, Set.mem_image, Set.mem_Iio]
+    simp only [Set.mem_ofPred_eq, Finset.coe_image, Finset.coe_range, Set.mem_image, Set.mem_Iio]
   rw [e, Set.ncard_coe_finset, Finset.card_image_of_injOn (fun r hr r' hr' h =>
     ψ_inj (Finset.mem_range.1 hr) (Finset.mem_range.1 hr') h), Finset.card_range]
 

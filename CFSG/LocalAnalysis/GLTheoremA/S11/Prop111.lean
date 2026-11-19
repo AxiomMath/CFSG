@@ -62,7 +62,7 @@ theorem nosplit_of_gt (hin : Inputs111 G) (hH : Hyp111 G m p B x L) (hm : 4 ≤ 
 theorem prop111_le (hctx : ThmACtx G m) (hsf : StageFacts G m) (hin : Inputs111 G) (hH : Hyp111 G m p B x L) :
     evenRank ↥L ≤ m := by
   by_contra hgt
-  push_neg at hgt
+  push Not at hgt
   have hm : 4 ≤ m := hctx.1.four_le
   have hns := nosplit_of_gt hin hH hm hgt
   obtain ⟨q, hq, hq2, hqL⟩ := exists_prime_eq_evenRank (L := L) (by omega)

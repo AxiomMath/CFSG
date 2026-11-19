@@ -18,11 +18,13 @@ section Helpers
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem pCoreOf_subgroupOf_nsb41 (L : Subgroup G) :
     (pCoreOf 2 L).subgroupOf L = CFSG.pCore 2 ↥L := by
   unfold pCoreOf
   exact Subgroup.comap_map_eq_self_of_injective L.subtype_injective _
 
+omit [Finite G] in
 private theorem card_modO2_eq_relIndex_nsb41 (L : Subgroup G) :
     Nat.card (ModO2 L) = (pCoreOf 2 L).relIndex L := by
   rw [Subgroup.relIndex, pCoreOf_subgroupOf_nsb41, Subgroup.index_eq_card]
@@ -32,6 +34,7 @@ private theorem relIndex_ne_zero_nsb41 {A : Type} [Group A] [Finite A] (P Q : Su
   unfold Subgroup.relIndex
   exact Subgroup.index_ne_zero_of_finite
 
+omit [Finite G] in
 theorem isPSL_modO2_of_eq_nsb41 {X Y : Subgroup G} {n p e : ℕ} (h : X = Y)
     (hP : IsPSL n p e (ModO2 X)) : IsPSL n p e (ModO2 Y) := by
   subst h
@@ -68,7 +71,7 @@ private theorem le_of_le_sup_pCoreOf_nsb41 {K X Y : Subgroup G} (hXK : X ≤ K)
     rw [h1, h2, h3]
     exact Nat.le_mul_of_pos_left _ (Nat.pos_of_ne_zero (relIndex_ne_zero_nsb41 _ _))
   have hsup : Uu.relIndex (Ku ⊔ Uu) = Uu.relIndex Ku := by
-    haveI := hUuN
+    have := hUuN
     exact Subgroup.relIndex_sup_right Ku Uu
   have hmul : Uu.relIndex (Ku ⊔ Uu) * (Ku ⊔ Uu).index = Uu.index :=
     Subgroup.relIndex_mul_index le_sup_right

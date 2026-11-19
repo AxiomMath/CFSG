@@ -9,14 +9,14 @@ open scoped commutatorElement
 namespace CFSG
 
 theorem centralizes_of_fixed_of_card_four {G : Type*} [Group G] {T : Subgroup G} {b : G}
-    (hT : ∀ x ∈ T, ∀ y ∈ T, x * y = y * x)
+    (_hT : ∀ x ∈ T, ∀ y ∈ T, x * y = y * x)
     (hsq : ∀ x ∈ T, x ^ 2 = 1) (hcard : Nat.card ↥T = 4)
     (hN : b ∈ Subgroup.normalizer (T : Set G))
     (hb3 : b ^ 3 ∈ Subgroup.centralizer (T : Set G))
     {t : G} (ht : t ∈ T) (ht1 : t ≠ 1) (hfix : b * t * b⁻¹ = t) :
     ∀ z ∈ T, b * z * b⁻¹ = z := by
   classical
-  haveI : Finite ↥T := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥T := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   set σ : MulAut ↥T := Subgroup.normalizerMonoidHom T ⟨b, hN⟩ with hσdef
   have hσcoe : ∀ z : ↥T, ((σ z : ↥T) : G) = b * (z : G) * b⁻¹ := fun z =>
     Subgroup.normalizerMonoidHom_apply_apply_coe T ⟨b, hN⟩ z
@@ -52,7 +52,7 @@ theorem centralizes_of_fixed_of_card_four {G : Type*} [Group G] {T : Subgroup G}
         rw [Subgroup.mem_bot] at hmem
         exact htT hmem
       have hHcard2 : 2 ≤ Nat.card ↥H := by
-        haveI hnt : Nontrivial ↥H := (Subgroup.nontrivial_iff_ne_bot H).2 hHne
+        have hnt : Nontrivial ↥H := (Subgroup.nontrivial_iff_ne_bot H).2 hHne
         exact Finite.one_lt_card
       have hHpos : H.index ≠ 0 := Subgroup.index_ne_zero_of_finite
       have hne1 : H.index ≠ 1 := by
@@ -163,7 +163,7 @@ theorem exists_eq_conj_mul_inv_of_fixedPointFree {G : Type*} [Group G] {T : Subg
   group
 
 theorem commutator_zpowers_eq_of_fixedPointFree {G : Type*} [Group G] (T : Subgroup G) (u : G)
-    [Finite T] (hT : ∀ x ∈ T, ∀ y ∈ T, x * y = y * x)
+    [Finite T] (_hT : ∀ x ∈ T, ∀ y ∈ T, x * y = y * x)
     (huN : u ∈ Subgroup.normalizer (T : Set G))
     (hfree : ∀ t ∈ T, u * t * u⁻¹ = t → t = 1) :
     ⁅T, Subgroup.zpowers u⁆ = T := by
@@ -220,7 +220,7 @@ theorem exists_eq_conj_mul_inv_of_commutator_zpowers_eq_top {G : Type*} [Group G
     (hb3 : b ^ 3 ∈ Subgroup.centralizer (T : Set G))
     (h : ⁅T, Subgroup.zpowers b⁆ = T) :
     ∀ t ∈ T, ∃ s ∈ T, t = b * s * b⁻¹ * s⁻¹ := by
-  haveI : Finite ↥T := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite ↥T := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   exact exists_eq_conj_mul_inv_of_fixedPointFree hN
     (fixedPointFree_of_commutator_zpowers_eq_top hT hsq hcard hN hb3 h)
 

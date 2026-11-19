@@ -108,7 +108,7 @@ theorem le_mParam_of_heisCfg_out2 (hW : ∀ w : W, w ^ 2 = 1) {Y L : Subgroup (M
       exact Subgroup.card_quotient_dvd_card _
     exact (h2S.trans hS).trans (Subgroup.card_dvd_of_le hLY)
   unfold E3.mParam
-  rw [if_pos hEven]
+  rw [ite_eq_left hEven]
   refine le_csInf ?_ ?_
   · obtain ⟨t, hto⟩ := exists_prime_orderOf_dvd_card' (G := ↥Y) 2 (even_iff_two_dvd.1 hEven)
     exact ⟨_, (t : MulAut W), t.2, by rwa [Subgroup.orderOf_coe], rfl⟩

@@ -46,7 +46,7 @@ theorem step4_core (hbig : NoBig3 G) {A L' R : Subgroup G} {y d b s : G}
     (hbA : b ∈ A) (hL' : L' ∈ thetaComponentsAt 3 y)
     (e : L' ⧸ aschbacherSolvableCore 3 L' ≃* PSL2 (GaloisField 3 6))
     (hdec : A ≤ Subgroup.zpowers y ⊔ Subgroup.zpowers d ⊔ (A ⊓ L')) (hbL : b ∈ L')
-    (hb1 : b ≠ 1) (hy3 : y ^ 3 = 1) (hd3 : d ^ 3 = 1) (hb3 : b ^ 3 = 1)
+    (hb1 : b ≠ 1) (_hy3 : y ^ 3 = 1) (hd3 : d ^ 3 = 1) (hb3 : b ^ 3 = 1)
     (hR2 : IsPGroup 2 R) (hRd : ∀ r ∈ R, d * r * d⁻¹ ∈ R) (hRb : ∀ r ∈ R, b * r * b⁻¹ ∈ R)
     (hsR : s ∈ R) (hsy : y * s = s * y) (hsd : d * s = s * d) (hsb : b * s ≠ s * b) :
     ∀ r ∈ R, y * r = r * y → d * r = r * d := by

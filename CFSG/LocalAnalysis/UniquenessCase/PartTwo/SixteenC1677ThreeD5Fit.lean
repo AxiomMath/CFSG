@@ -132,19 +132,19 @@ theorem s168e3_d5_fitting_eq [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
     s168e3_d5_inf_cent_eq hW hconc hL hWL hrk hlt
   have h432 : Nat.card ↥A ∣ 2 ^ 4 * 3 ^ 3 :=
     s168e3_d5_card_dvd hW hconc hLn hL hWL hrk hlt
-  haveI hsA : Group.IsSolvable ↥A :=
+  have hsA : Group.IsSolvable ↥A :=
     TauCeti.isSolvable_of_card_dvd_prime_pow_mul_prime_pow Nat.prime_two Nat.prime_three h432
   rw [CFSG.WholeGroup.generalizedFitting_eq_fittingSubgroup_of_isSolvable]
   set F : Subgroup ↥A := CFSG.fittingSubgroup ↥A with hFdef
-  haveI hFnil : Group.IsNilpotent ↥F := by rw [hFdef]; infer_instance
+  have hFnil : Group.IsNilpotent ↥F := by rw [hFdef]; infer_instance
   have hFnorm : F.Normal := by rw [hFdef]; infer_instance
   let Fw : Subgroup (MulAut W) := F.map A.subtype
   have hLnorm : (L.subgroupOf A).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLA).mpr hLn
   have hcardL : Nat.card ↥(L.subgroupOf A) = 9 :=
     (Nat.card_congr (Subgroup.subgroupOfEquivOfLe hLA).toEquiv).trans hfr.card_L
-  haveI hLnilA : Group.IsNilpotent ↥(L.subgroupOf A) := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hLnilA : Group.IsNilpotent ↥(L.subgroupOf A) := by
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact IsPGroup.isNilpotent (IsPGroup.of_card (p := 3) (n := 2) (by rw [hcardL]; norm_num))
   have hLF : L.subgroupOf A ≤ F := by
     rw [hFdef]
@@ -154,7 +154,7 @@ theorem s168e3_d5_fitting_eq [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
     rw [← Subgroup.map_subgroupOf_eq_of_le hLA]
     exact Subgroup.map_mono hLF
   let N : Subgroup ↥F := (L.subgroupOf A).subgroupOf F
-  haveI hNnormal : N.Normal := hLnorm.subgroupOf F
+  have hNnormal : N.Normal := hLnorm.subgroupOf F
   have hNne : N ≠ ⊥ := by
     intro hbot
     have hcard : Nat.card ↥N = 9 := by
@@ -213,7 +213,7 @@ theorem s168e3_d5_fitting_eq [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
       · exact hFnorm.conj_mem fA hfA (⟨g, hgA⟩ : ↥A)⁻¹
       · show A.subtype ((⟨g, hgA⟩ : ↥A)⁻¹ * fA * ⟨g, hgA⟩) =
           (MulAut.conj g⁻¹) (A.subtype fA)
-        simp [MulAut.conj_apply]
+        simp
     have hcomm : k' * (MulAut.conj g⁻¹) f = (MulAut.conj g⁻¹) f * k' :=
       Subgroup.mem_centralizer_iff.mp (hcent_i hconj_mem) k' hk'
     have hgg : (MulAut.conj g) ((MulAut.conj g⁻¹) f) = f := by

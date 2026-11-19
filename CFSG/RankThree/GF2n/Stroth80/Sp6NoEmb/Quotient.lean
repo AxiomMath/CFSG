@@ -14,13 +14,14 @@ open CFSG.ClassicalGroups.Symplectic.Sp6ThreeLocal (block)
 
 variable {K : Type} [Field K] [Fintype K] [CharP K 2] [Algebra (ZMod 2) K]
 
+omit [Fintype K] [CharP K 2] in
 theorem zmod_two_smul_eq {M : Type} [AddCommGroup M] [Module K M] {N : Type} [AddCommGroup N]
     [Module (ZMod 2) N] (f : N →+ M) (c : ZMod 2) (a : N) :
     f (c • a) = (algebraMap (ZMod 2) K c) • f a := by
   have : c = 0 ∨ c = 1 := by revert c; decide
   rcases this with rfl | rfl <;> simp
 
-theorem exists_quotient_of_embedding {n : ℕ} (hK : Fintype.card K = 2 ^ n)
+theorem exists_quotient_of_embedding {n : ℕ} (_hK : Fintype.card K = 2 ^ n)
     {N : Type} [AddCommGroup N] [Module (ZMod 2) N] [Finite N]
     {ρN : Representation (ZMod 2) (StatedSp 3 K) N} (hNirr : ρN.IsIrreducible)
     (hNcard : Nat.card N = Fintype.card K ^ 8)
@@ -33,8 +34,8 @@ theorem exists_quotient_of_embedding {n : ℕ} (hK : Fintype.card K = 2 ^ n)
       ρY.IsIrreducible ∧ Function.Surjective π ∧ 8 ≤ finrank K Yb ∧
       ∀ J, pat (ρY.comp block) J ≤ pat (ρM.comp block) J := by
   classical
-  letI : Module (ZMod 2) M := Module.compHom M (algebraMap (ZMod 2) K)
-  haveI : IsScalarTower (ZMod 2) K M :=
+  let : Module (ZMod 2) M := Module.compHom M (algebraMap (ZMod 2) K)
+  have : IsScalarTower (ZMod 2) K M :=
     ⟨fun c k m => by
       change (c • k) • m = (algebraMap (ZMod 2) K c) • (k • m)
       rw [Algebra.smul_def, mul_smul]⟩
@@ -43,8 +44,7 @@ theorem exists_quotient_of_embedding {n : ℕ} (hK : Fintype.card K = 2 ^ n)
   have hF : ∀ (g : StatedSp 3 K) (y : K ⊗[ZMod 2] N),
       F (baseChangeRep (K := K) ρN g y) = ρM g (F y) := by
     intro g y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
+    induction y using TensorProduct.inductionOn with
     | tmul c a =>
       rw [baseChangeRep_apply, LinearMap.baseChange_tmul, LinearMap.liftBaseChange_tmul,
         LinearMap.liftBaseChange_tmul, map_smul]
@@ -60,7 +60,7 @@ theorem exists_quotient_of_embedding {n : ℕ} (hK : Fintype.card K = 2 ^ n)
     calc 1 < 2 := by norm_num
       _ ≤ Fintype.card K := this
       _ ≤ Fintype.card K ^ 8 := Nat.le_self_pow (by norm_num) _
-  haveI hYnt : Nontrivial Ysub.toSubmodule := by
+  have hYnt : Nontrivial Ysub.toSubmodule := by
     obtain ⟨a, ha⟩ := exists_ne (0 : N)
     refine ⟨⟨⟨F (1 ⊗ₜ a), ⟨_, rfl⟩⟩, 0, fun h => ha (hinj ?_)⟩⟩
     have h1 : F (1 ⊗ₜ a) = 0 := congrArg Subtype.val h
@@ -107,8 +107,7 @@ theorem exists_quotient_of_embedding {n : ℕ} (hK : Fintype.card K = 2 ^ n)
           exact this
         have hzero : ∀ y, π y = 0 := by
           intro y
-          induction y using TensorProduct.induction_on with
-          | zero => exact map_zero π
+          induction y using TensorProduct.inductionOn with
           | tmul c a =>
             have : c ⊗ₜ[ZMod 2] a = c • ((1 : K) ⊗ₜ[ZMod 2] a) := by
               rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
@@ -118,12 +117,12 @@ theorem exists_quotient_of_embedding {n : ℕ} (hK : Fintype.card K = 2 ^ n)
         obtain ⟨x, hx⟩ := exists_ne (0 : Ysub.toSubmodule ⧸ W.toSubmodule)
         obtain ⟨y, rfl⟩ := hπ x
         exact hx (hzero y)
-    haveI : Finite (Ysub.toSubmodule ⧸ W.toSubmodule) := Module.finite_of_finite K
+    have : Finite (Ysub.toSubmodule ⧸ W.toSubmodule) := Module.finite_of_finite K
     have hcard := Nat.card_le_card_of_injective ι hι
     rw [hNcard] at hcard
     have hY : Nat.card (Ysub.toSubmodule ⧸ W.toSubmodule) =
         Fintype.card K ^ finrank K (Ysub.toSubmodule ⧸ W.toSubmodule) := by
-      haveI := Fintype.ofFinite (Ysub.toSubmodule ⧸ W.toSubmodule)
+      have := Fintype.ofFinite (Ysub.toSubmodule ⧸ W.toSubmodule)
       rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := K)]
     rw [hY] at hcard
     exact (Nat.pow_le_pow_iff_right (Fintype.one_lt_card (α := K))).mp hcard
@@ -133,10 +132,11 @@ theorem exists_quotient_of_embedding {n : ℕ} (hK : Fintype.card K = 2 ^ n)
           pat_quot_le (Ysub.toRepresentation.comp block) (subComp W block) J
       _ ≤ pat (ρM.comp block) J := pat_sub_le (ρM.comp block) (subComp Ysub block) J
 
+omit [Field K] [CharP K 2] [Algebra (ZMod 2) K] in
 theorem finrank_zmod_eq {n : ℕ} (hK : Fintype.card K = 2 ^ n) {N : Type} [AddCommGroup N]
     [Module (ZMod 2) N] [Finite N] (hNcard : Nat.card N = Fintype.card K ^ 8) :
     finrank (ZMod 2) N = 8 * n := by
-  haveI := Fintype.ofFinite N
+  have := Fintype.ofFinite N
   have h := Module.card_eq_pow_finrank (K := ZMod 2) (V := N)
   rw [ZMod.card, ← Nat.card_eq_fintype_card, hNcard, hK, ← pow_mul] at h
   have := Nat.pow_right_injective (le_refl 2) h

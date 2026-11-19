@@ -49,7 +49,7 @@ theorem false_of_simple_not_catalog_of_uhered (I : CatInputs) (hRK : RankTwoStdR
     have hrS : CFSG.pRank 2 ↥(S : Subgroup ↥(centralizer (P : Set G))) ≤ 1 :=
       (Hyp.pRank_two_le_of_injective (S : Subgroup ↥(centralizer (P : Set G))).subtype
         (S : Subgroup ↥(centralizer (P : Set G))).subtype_injective).trans hr1
-    rcases Hyp.isCyclic_or_genQuaternion_of_pRank_le_one S.isPGroup' hrS with hcy | hgq
+    rcases Hyp.isCyclic_or_genQuaternion_of_pRank_le_one S.isPGroup hrS with hcy | hgq
     · exact hcy
     · exfalso
       have hnd : ¬ Nat.card ↥(⊤ : Subgroup G) ∣ 95040 := fun h =>
@@ -69,8 +69,8 @@ theorem sol78Thm54ReachHered_of_inputs (I : CatInputs) (hRK : RankTwoStdRec)
   rcases (show N'.index = 1 ∨ N'.index = 2 by omega) with h | h
   · have hNtop : N' = ⊤ := Subgroup.index_eq_one.1 h
     subst hNtop
-    haveI : IsSimpleGroup ↥(⊤ : Subgroup Y) := hN.isSimpleGroup
-    haveI : IsSimpleGroup Y :=
+    have : IsSimpleGroup ↥(⊤ : Subgroup Y) := hN.isSimpleGroup
+    have : IsSimpleGroup Y :=
       (Subgroup.topEquiv.symm : Y ≃* ↥(⊤ : Subgroup Y)).isSimpleGroup
     obtain ⟨a, b, hab⟩ := hN.nonabelian
     have hnonab : ∃ a b : Y, a * b ≠ b * a := ⟨a.1, b.1, fun h => hab (Subtype.ext h)⟩

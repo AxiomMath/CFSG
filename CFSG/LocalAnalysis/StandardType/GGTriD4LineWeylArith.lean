@@ -35,7 +35,7 @@ private lemma triD4LineArith_commutator_mem_N0 (k K : Type) [Field k] [Field K] 
     have hcb : (b : GL (Fin 3) k × Kˣ) = (g', c') := rfl
     rw [hca, hcb, triD4LineArith_commutatorElement_prod]
     have hcc : ⁅c, c'⁆ = 1 := commutatorElement_eq_one_iff_mul_comm.2 (mul_comm c c')
-    simp only [hcc, Prod.mk.injEq, true_and]
+    simp only [hcc]
   have hdet : Matrix.GeneralLinearGroup.det ⁅g, g'⁆ =
       Units.map (Algebra.norm k (S := K)) 1 := by
     have hmem := (⁅a, b⁆ : triD4LineFibre k K).2
@@ -123,7 +123,7 @@ theorem triD4Line_not_dvd_commutator {n : ℕ} (hn : 2 ≤ n) (K : Type) [Field 
     (hk : Nat.card k = 2 ^ n) (D : TriD4LineKGXData n K k) :
     ¬ Nat.card (commutator (Subgroup.centralizer {D.z₀})) ∣ (2 ^ n) ^ 3 * ((2 ^ n) ^ 6 - 1) := by
   intro h
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; exact pow_ne_zero _ (by norm_num))
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; exact pow_ne_zero _ (by norm_num))
   have hcard : Nat.card (commutator (Subgroup.centralizer {D.z₀})) =
       Nat.card (commutator (TriD4LineX k K)) := by
     have hmap : Subgroup.map D.Θ.toMonoidHom

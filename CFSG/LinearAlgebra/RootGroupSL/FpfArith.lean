@@ -18,8 +18,8 @@ theorem exists_norm_eq_one_adjoin_eq_top [Finite k] [Finite E] (hd : 2 ≤ Modul
   let d := Module.finrank k E
   let φ : Eˣ →* kˣ := Units.map (Algebra.norm k)
   let N₁ : Subgroup Eˣ := φ.ker
-  haveI : Finite N₁ := inferInstance
-  haveI : IsCyclic N₁ := isCyclic_subgroup_units (R := E) N₁
+  have : Finite N₁ := inferInstance
+  have : IsCyclic N₁ := isCyclic_subgroup_units (R := E) N₁
   obtain ⟨ν₀, hgen⟩ := IsCyclic.exists_generator (α := N₁)
   let ν : E := (ν₀ : Eˣ)
   have hQ2 : 2 ≤ Q := by
@@ -153,7 +153,7 @@ private lemma prod_fin_ite_lt {M : Type*} [CommMonoid M] (d m : ℕ) (hm : m ≤
       rcases Nat.lt_or_ge m (d + 1) with hm' | hm'
       · have hmle : m ≤ d := Nat.lt_succ_iff.mp hm'
         have hlast : ¬ (d < m) := by omega
-        rw [Fin.val_last, if_neg hlast, mul_one]
+        rw [Fin.val_last, ite_eq_right hlast, mul_one]
         have hcast : (∏ i : Fin d, if ((Fin.castSucc i : Fin (d + 1)) : ℕ) < m then a else 1)
             = (∏ i : Fin d, if (i : ℕ) < m then a else 1) := by
           refine Finset.prod_congr rfl fun i _ => ?_
@@ -164,8 +164,8 @@ private lemma prod_fin_ite_lt {M : Type*} [CommMonoid M] (d m : ℕ) (hm : m ≤
         have hfirst : (∏ i : Fin d, if ((Fin.castSucc i : Fin (d + 1)) : ℕ) < d + 1 then a else 1)
             = a ^ d := by
           refine (Finset.prod_congr rfl fun i _ => ?_).trans (Fin.prod_const d a)
-          simp [i.isLt]
-        rw [hfirst, Fin.val_last, if_pos (Nat.lt_succ_self d), pow_succ]
+          simp
+        rw [hfirst, Fin.val_last, ite_eq_left (Nat.lt_succ_self d), pow_succ]
 
 theorem exists_linearEquiv_det_pow_no_eigenvalue (m : ℕ) (hm : m ≤ Module.finrank k X)
     (s : kˣ) (hs1 : s ≠ 1) (hs2 : s ^ 2 ≠ 1) :
@@ -267,7 +267,7 @@ theorem exists_linearEquiv_det_pow_no_eigenvalue (m : ℕ) (hm : m ≤ Module.fi
       have h : ¬ (i₀ : ℕ) < m := by
         rw [show (i₀ : ℕ) = m from rfl]
         exact lt_irrefl m
-      rw [hDcoe i₀, if_neg h]
+      rw [hDcoe i₀, ite_eq_right h]
     refine ⟨b i₀, b.ne_zero i₀, ?_⟩
     change (g : X →ₗ[k] X) (b i₀) = b i₀
     rw [hg, Matrix.toLin_self]
@@ -289,12 +289,12 @@ theorem exists_linearEquiv_det_pow_no_eigenvalue (m : ℕ) (hm : m ≤ Module.fi
       have h : ¬ (i₀ : ℕ) < m := by
         rw [show (i₀ : ℕ) = m from rfl]
         exact lt_irrefl m
-      rw [hDcoe i₀, if_neg h]
+      rw [hDcoe i₀, ite_eq_right h]
     refine ⟨b.coord i₀, ?_, ?_⟩
     · intro hf
       have h1 : b.coord i₀ (b i₀) = 1 := by simp [Basis.coord_apply]
       rw [hf] at h1
-      simpa using h1
+      simp at h1
     · have hfg : ∀ y : X, b.coord i₀ (g y) = b.coord i₀ y := by
         intro y
         have hrepr : b.repr (g y) = M.mulVec (b.repr y) := by

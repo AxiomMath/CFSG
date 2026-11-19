@@ -39,7 +39,7 @@ theorem maxTwoLocal : IsMaxTwoLocalSubgroup M := by
   exact this.1
 
 theorem isPGroup : IsPGroup p E := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   exact IsPGroup.of_card (n := 2) (by rw [h.card])
 
 theorem pCoreOf_top_eq_bot : pCoreOf 2 (⊤ : Subgroup G) = ⊥ := by
@@ -74,13 +74,13 @@ theorem normalizer_le_of_le {X : Subgroup G} (hEX : E ≤ X) (hXM : X ≤ M) :
   exact (show InU M X from ⟨hXM, fun g hg => h.inU.2 g (hEX.trans hg)⟩).normalizer_le hM
 
 theorem le_of_isPGroup {P : Subgroup G} (hP : IsPGroup p P) (hEP : E ≤ P) : P ≤ M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   set X : Subgroup G := P ⊓ M with hX
   have hEX : E ≤ X := le_inf hEP h.E_le
   by_contra hPM
   have hXP : X < P :=
     lt_of_le_of_ne (fun x hx => (Subgroup.mem_inf.1 hx).1) (fun heq => hPM (heq ▸ inf_le_right))
-  haveI : Group.IsNilpotent P := hP.isNilpotent
+  have : Group.IsNilpotent P := hP.isNilpotent
   have hnc := Group.normalizerCondition_of_isNilpotent (G := P)
   have hlt : X.subgroupOf P < (⊤ : Subgroup P) := by
     rw [lt_top_iff_ne_top]
@@ -92,7 +92,7 @@ theorem le_of_isPGroup {P : Subgroup G} (hP : IsPGroup p P) (hEP : E ≤ P) : P 
     · intro hx
       have : (⟨x, hx⟩ : P) ∈ X.subgroupOf P := htop ▸ Subgroup.mem_top _
       exact this
-  obtain ⟨y, hyN, hyX⟩ := SetLike.exists_of_lt (hnc _ hlt)
+  obtain ⟨y, hyN, hyX⟩ := _root_.IsConcreteLE.exists_of_lt (hnc _ hlt)
   have hXP' : ∀ z : G, z ∈ X → z ∈ P := fun z hz => (Subgroup.mem_inf.1 hz).1
   have hyNG : (y : G) ∈ normalizer (X : Set G) := by
     rw [mem_normalizer_iff]
@@ -109,6 +109,7 @@ theorem le_of_isPGroup {P : Subgroup G} (hP : IsPGroup p P) (hEP : E ≤ P) : P 
   have hyM : (y : G) ∈ M := h.normalizer_le_of_le hEX (fun z hz => (Subgroup.mem_inf.1 hz).2) hyNG
   exact hyX (show (y : G) ∈ X from Subgroup.mem_inf.2 ⟨y.2, hyM⟩)
 
+omit [Finite G] h in
 theorem normal_pCoreOf_top (q : ℕ) : (pCoreOf q (⊤ : Subgroup G)).Normal := by
   have hn : ((pCoreOf q (⊤ : Subgroup G)).subgroupOf ⊤).Normal := by
     rw [CFSG.openPCoreOf_subgroupOf q ⊤]
@@ -117,18 +118,18 @@ theorem normal_pCoreOf_top (q : ℕ) : (pCoreOf q (⊤ : Subgroup G)).Normal := 
     (eq_top_iff.2 ((Subgroup.normal_subgroupOf_iff_le_normalizer le_top).1 hn))
 
 theorem pCoreOf_le : pCoreOf p (⊤ : Subgroup G) ≤ M := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI := h.normal_pCoreOf_top p
+  have : Fact p.Prime := ⟨h.prime⟩
+  have := CFSG.LocalAnalysis.UniquenessCase.UCK.Hyp36.normal_pCoreOf_top (G := G) p
   obtain ⟨P, hEP⟩ := IsPGroup.exists_le_sylow h.isPGroup
   have hO : IsPGroup p (pCoreOf p (⊤ : Subgroup G)) := by
     rw [pCoreOf]
     exact CFSG.pCore_isPGroup.map _
-  exact (hO.le_sylow_of_normal P).trans (h.le_of_isPGroup P.isPGroup' hEP)
+  exact (hO.le_sylow_of_normal P).trans (h.le_of_isPGroup P.isPGroup hEP)
 
 theorem comm_pCoreOf_top {q x : G} (hq : q ∈ pCoreOf 2 M) (hx : x ∈ pCoreOf p (⊤ : Subgroup G)) :
     q * x = x * q := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI := h.normal_pCoreOf_top p
+  have : Fact p.Prime := ⟨h.prime⟩
+  have := CFSG.LocalAnalysis.UniquenessCase.UCK.Hyp36.normal_pCoreOf_top (G := G) p
   have hxM : x ∈ M := h.pCoreOf_le hx
   have hQn : ((pCoreOf 2 M).subgroupOf M).Normal := by
     rw [CFSG.openPCoreOf_subgroupOf 2 M]
@@ -154,7 +155,7 @@ theorem comm_pCoreOf_top {q x : G} (hq : q ∈ pCoreOf 2 M) (hx : x ∈ pCoreOf 
       exact CFSG.pCore_isPGroup.map _
     obtain ⟨a, ha⟩ := hQ2.exists_card_eq
     obtain ⟨b, hb⟩ := hO.exists_card_eq
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [ha, hb]
     exact Nat.Coprime.pow _ _ ((Nat.coprime_primes Nat.prime_two h.prime).2 (Ne.symm h.odd))
   rw [hcoprime, Subgroup.mem_bot] at hc

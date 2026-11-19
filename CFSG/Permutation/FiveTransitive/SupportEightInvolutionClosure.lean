@@ -44,6 +44,7 @@ private noncomputable def stabilizerEquivSmulFiber
     apply Subtype.ext
     simp [f, h]
 
+omit [Fintype Ω] in
 theorem card_smul_mem_finset
     [MulAction.IsPretransitive G Ω] (x : Ω) (B : Finset Ω) :
     (Finset.univ.filter fun q : G => q • x ∈ B).card =
@@ -171,8 +172,8 @@ private theorem overlap_moment
   classical
   have hNatCard : 4 ≤ Nat.card X := by
     simpa [Nat.card_eq_fintype_card] using hcard
-  letI h4I : MulAction.IsMultiplyPretransitive P X 4 := h4
-  letI hjI : MulAction.IsMultiplyPretransitive P X j :=
+  let h4I : MulAction.IsMultiplyPretransitive P X 4 := h4
+  let hjI : MulAction.IsMultiplyPretransitive P X j :=
     MulAction.isMultiplyPretransitive_of_le hj hNatCard
   let B : Finset (Fin j ↪ X) := embeddingsInto j S
   have hcount := sum_card_filter_smul (G := P)
@@ -232,7 +233,7 @@ private theorem exists_overlapPreimage_card_eq_one
     (S : Finset X) (hS : S.card = 8) :
     ∃ q : P, (overlapPreimage S q).card = 1 := by
   classical
-  letI : Fintype P := Fintype.ofFinite P
+  let : Fintype P := Fintype.ofFinite P
   by_contra hnone
   push Not at hnone
   have hm1 := overlap_moment P h4 S (j := 1) (by omega) (by omega)

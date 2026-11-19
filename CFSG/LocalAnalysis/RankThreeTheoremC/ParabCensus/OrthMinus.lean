@@ -301,7 +301,7 @@ theorem hasLeviCensus_idxTwistedD (hZ : OddCenterRest) {X : Type} [Group X] [Fin
   obtain ⟨K, hKf, hKfin, hKchar, b, c, r, s, d, ρ, hr, hirr, hd, hρ, hq⟩ :=
     LeviBlock.exists_orthCover_of_twistedD hZ hCP dI hdI eL
   classical
-  haveI : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
+  have : Finite (((Fin r ⊕ Fin r → K) × (Fin 2 → K)) ≃ₗ[K]
       ((Fin r ⊕ Fin r → K) × (Fin 2 → K))) :=
     LeviBlock.finite_orthLinearEquiv
   obtain ⟨f, -, hK⟩ := card_eq_two_pow_of_charP_two (K := K)
@@ -473,7 +473,7 @@ theorem hasLeviCensus_idxTwistedD (hZ : OddCenterRest) {X : Type} [Group X] [Fin
           IsWBlock ↥(LeviBlock.orthResDer K b c (r - d (Fin.last s)))
         obtain ⟨hsimple, hna, -⟩ := LeviBlock.orthResDer_facts (K := K) (b := b) (c := c)
           (f := f) (m := r - d (Fin.last s)) hK hm1 hirr
-        haveI := hsimple
+        have := hsimple
         obtain ⟨hq, hcenter⟩ := LeviBlock.orthMinus_isQuasisimple_of_simple hna
         exact Or.inr (Or.inl ⟨hq, by rw [hcenter, Subgroup.card_bot]; exact odd_one⟩)
     exact hasLeviCensus_of_mulEquiv_of_finite hCP.parab.1 ρ β hβ hle hn hi hS

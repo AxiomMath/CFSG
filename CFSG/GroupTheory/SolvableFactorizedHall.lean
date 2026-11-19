@@ -32,6 +32,7 @@ lemma IsHallSubgroup.factorization_eq_card_of_mem {π : Set Nat.Primes} {H : Sub
     _ = (Nat.card G).factorization p := by
           rw [Subgroup.card_mul_index]
 
+omit [Finite G] in
 lemma IsHallSubgroup.factorization_eq_zero_of_not_mem {π : Set Nat.Primes} {H : Subgroup G}
     (hH : IsHallSubgroup π H) {p : ℕ} (hp : p.Prime)
     (hmem : (⟨p, hp⟩ : Nat.Primes) ∉ π) :
@@ -40,6 +41,7 @@ lemma IsHallSubgroup.factorization_eq_zero_of_not_mem {π : Set Nat.Primes} {H :
     hmem (hH.p_in_pi_of_p_dvd_card ⟨p, hp⟩ h)
   exact Nat.factorization_eq_zero_of_not_dvd hnotdvd
 
+omit [Finite G] in
 lemma exists_conj_mul_eq_of_mul_eq_top {A B : Subgroup G}
     (hAB : (A : Set G) * (B : Set G) = Set.univ) (g₁ g₂ : G) :
     ∃ h : G,
@@ -135,7 +137,7 @@ theorem exists_isHallSubgroup_factorized (hG : Group.IsSolvable G) {A B : Subgro
       (H : Set G) = ((H ⊓ A : Subgroup G) : Set G) *
         ((H ⊓ B : Subgroup G) : Set G) := by
   classical
-  letI : Group.IsSolvable G := hG
+  let : Group.IsSolvable G := hG
   obtain ⟨H, hH⟩ := SolvableHall.solvable_hall_existence hG π
   obtain ⟨K₁, hK₁⟩ := SolvableHall.solvable_hall_existence
     (inferInstance : Group.IsSolvable A) π

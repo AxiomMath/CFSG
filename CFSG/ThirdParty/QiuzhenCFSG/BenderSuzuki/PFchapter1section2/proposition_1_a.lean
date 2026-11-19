@@ -132,7 +132,7 @@ private theorem proposition_1_a_fixed_cover_of_card_le_two
       simp [f, hpa_ne_pb, hpa_ne_pb.symm, hpa_ne_pz, hpa_ne_pz.symm,
         hpb_ne_pz, hpb_ne_pz.symm] at hij ⊢
   have hthree_le : 3 ≤ Nat.card Fixed := by
-    haveI : Fintype Fixed := Fintype.ofFinite Fixed
+    have : Fintype Fixed := Fintype.ofFinite Fixed
     have hle := Fintype.card_le_of_injective f hf_inj
     simpa [Nat.card_eq_fintype_card] using hle
   omega

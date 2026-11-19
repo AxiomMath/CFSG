@@ -63,7 +63,7 @@ theorem eq_of_not_three_dvd {B R R' : Subgroup Λ} (hB3 : IsPGroup 3 B)
     CFSG.OrderReductions.InvariantSylow.exists_invariant_sylow_containing_of_coprime 3 2 hB3 h3 φ
       (R.subgroupOf Y) hR2' (map_conjHom_subgroupOf hBY hBR)
   have hP₁R : ((P₁ : Subgroup Y)).map Y.subtype ≤ R := by
-    refine hmax _ (P₁.isPGroup'.map _) ?_ ?_
+    refine hmax _ (P₁.isPGroup.map _) ?_ ?_
     · intro b hb
       refine Subgroup.mem_normalizer_fintype fun x hx => ?_
       obtain ⟨y, hy, rfl⟩ := hx

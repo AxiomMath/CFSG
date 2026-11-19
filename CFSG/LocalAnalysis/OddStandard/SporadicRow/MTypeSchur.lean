@@ -13,7 +13,7 @@ open scoped MatrixGroups
 
 private theorem not_isPerfect_sl2_zmod_three : ¬ Group.IsPerfect SL(2, ZMod 3) := by
   intro h
-  haveI : Nontrivial SL(2, ZMod 3) := Finite.one_lt_card_iff_nontrivial.mp (by
+  have : Nontrivial SL(2, ZMod 3) := Finite.one_lt_card_iff_nontrivial.mp (by
     rw [CFSG.ClassicalInvolution.natCard_sl2Three]
     norm_num)
   have hsolv : Group.IsSolvable SL(2, ZMod 3) :=
@@ -29,11 +29,11 @@ theorem oddLieOrder_of_isMTypeSchur {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {L 
   rcases hM with ⟨-, ⟨τ, n, f, hm⟩, -, -⟩ | ⟨-, ⟨e⟩⟩
   · exact oddLieOrder_of_lieModel hp hp2 hm
   · exfalso
-    haveI := hperf
+    have := hperf
     have hperfQ : Group.IsPerfect (L ⧸ pPrimeCore 2 L) :=
       Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' (pPrimeCore 2 L))
         (QuotientGroup.mk'_surjective (pPrimeCore 2 L))
-    haveI := hperfQ
+    have := hperfQ
     exact not_isPerfect_sl2_zmod_three
       (Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective)
 

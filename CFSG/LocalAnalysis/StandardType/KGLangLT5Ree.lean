@@ -68,10 +68,10 @@ private theorem kgLangReeAsmAux_datumCont
     KGLangTorusDatumCont p (LargeEvenCenterQuot (LargeEvenTwF4H a K))
       (LargeEvenChevIDImage LargeEvenCartanF4 K (LargeEvenTwF4H a K))
       (LargeEvenChevFieldImage LargeEvenCartanF4 K (LargeEvenTwF4H a K)) := by
-  haveI : CharP K ReeTag.F4.prime := charP_two_of_card hK
+  have : CharP K ReeTag.F4.prime := charP_two_of_card hK
   obtain ⟨eR⟩ := gff_nonempty_centerQuot_equiv_reeGamma (K := K) (a := a) ha hK
-  haveI hsRee : IsSimpleGroup ↥(ReeTag.F4.reeGamma K a) := gff_isSimpleGroup_reeGamma ha hK
-  haveI : Nontrivial ↥(ReeTag.F4.reeGamma K a) := hsRee.toNontrivial
+  have hsRee : IsSimpleGroup ↥(ReeTag.F4.reeGamma K a) := gff_isSimpleGroup_reeGamma ha hK
+  have : Nontrivial ↥(ReeTag.F4.reeGamma K a) := hsRee.toNontrivial
   have hs : IsSimpleGroup (LargeEvenCenterQuot (LargeEvenTwF4H a K)) := eR.isSimpleGroup
   have hperf : Group.IsPerfect ↥(ReeTag.F4.reeGamma K a) :=
     ⟨ReeTag.commutator_reeGamma_eq_top (t := ReeTag.F4) ha hK⟩
@@ -103,13 +103,13 @@ private theorem kgLangReeAsmAux_datumCont
         rw [kgLangReeAsmAux_endPow_toMonoidHom (adjointGroup ReeTag.F4.tag L)
           (C.Φ * C.Fr ^ b) p]
         simpa using hg
-      haveI := hfin'
+      have := hfin'
       exact kgLangTorusMPart_of_absBridge hp hs hna hconj hrec hstab hfix hbr
         (kgLangReeTorusInput hRLP hM1 hL C hp hp5)
     · push Not at hF
       exact kgLangTorusMPart_of_forall_orderOf_ne hconj hs hna hF
   intro hfin θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I
-  haveI := hfin
+  have := hfin
   have hα₀J : kgInducedAut θ α₀ ∉ J := by
     intro h
     exact hα₀I (hJI ▸ h)

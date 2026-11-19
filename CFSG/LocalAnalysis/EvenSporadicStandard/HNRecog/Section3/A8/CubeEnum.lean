@@ -140,8 +140,8 @@ theorem exists_mem_not_mem_closure_pair {E : Subgroup G} (hE : IsElemTwo 3 E) {x
     (hxE : x ∈ E) (hyE : y ∈ E) (hx1 : x ≠ 1) (hy1 : y ≠ 1) (hne : x ≠ y) :
     ∃ t ∈ E, t ∉ Subgroup.closure ({x, y} : Set G) := by
   by_contra h
-  push_neg at h
-  haveI : IsMulCommutative E := hE.1.1
+  push Not at h
+  have : IsMulCommutative E := hE.1.1
   have hx2 : x ^ 2 = 1 := hE.1.2 x hxE
   have hy2 : y ^ 2 = 1 := hE.1.2 y hyE
   have hxy : x * y = y * x := setLike_mul_comm hxE hyE
@@ -164,12 +164,12 @@ theorem closure_three_eq_of_isElemTwo {E : Subgroup G} (hE : IsElemTwo 3 E) {x y
     (hxE : x ∈ E) (hyE : y ∈ E) (htE : t ∈ E) (hx1 : x ≠ 1) (hy1 : y ≠ 1) (hne : x ≠ y)
     (ht : t ∉ Subgroup.closure ({x, y} : Set G)) :
     Subgroup.closure ({x, y, t} : Set G) = E := by
-  haveI : IsMulCommutative E := hE.1.1
+  have : IsMulCommutative E := hE.1.1
   have hx2 : x ^ 2 = 1 := hE.1.2 x hxE
   have hy2 : y ^ 2 = 1 := hE.1.2 y hyE
   have hxy : x * y = y * x := setLike_mul_comm hxE hyE
   have hEcard : Nat.card E = 8 := by rw [hE.2]; norm_num
-  haveI hEfin : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
+  have hEfin : Finite ↥E := Nat.finite_of_card_ne_zero (by rw [hEcard]; norm_num)
   have hC_le : Subgroup.closure ({x, y, t} : Set G) ≤ E := by
     apply (Subgroup.closure_le E).2
     intro z hz
@@ -191,7 +191,7 @@ theorem closure_three_eq_of_isElemTwo {E : Subgroup G} (hE : IsElemTwo 3 E) {x y
     have htC : t ∈ Subgroup.closure ({x, y, t} : Set G) := Subgroup.subset_closure (by simp)
     rw [← hDC] at htC
     exact ht htC
-  haveI hCfin : Finite ↥(Subgroup.closure ({x, y, t} : Set G)) :=
+  have hCfin : Finite ↥(Subgroup.closure ({x, y, t} : Set G)) :=
     Finite.of_injective (Subgroup.inclusion hC_le) (Subgroup.inclusion_injective hC_le)
   have hcard_lt :
       Nat.card ↥(Subgroup.closure ({x, y} : Set G)) <

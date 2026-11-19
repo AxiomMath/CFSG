@@ -12,14 +12,14 @@ open Subgroup CFSG.Open CFSG.Quasithin
 open CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial
 
 theorem KConfig.exists_u4_coords
-    {X : Type} [Group X] [Finite X] (hXs : IsSimpleGroup X) {m : ℕ}
+    {X : Type} [Group X] [Finite X] (_hXs : IsSimpleGroup X) {m : ℕ}
     (hU : CFSG.Quasithin.IsPSU 4 2 m X) {L V MK : Subgroup X} (hc : KConfig X L V MK) :
     ∃ (K : Type) (_ : Field K) (h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 m K)
       (e : X ≃* CFSG.ClassicalGroups.UnitaryFlag.hypSU h 2 0),
       MK.map e.toMonoidHom = CFSG.Quasithin.H13.U4Par.parP h ∨
         MK.map e.toMonoidHom = CFSG.Quasithin.H13.U4Par.parP2 h := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup X := hXs
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsSimpleGroup X := _hXs
   have hEven : CFSG.Blueprint.EvenLieType X :=
     ⟨.PSU, 4, m, hU.1, Or.inl ⟨by decide, hU⟩⟩
   have hRad : CFSG.Quasithin.SmithC27.IsRadicalParabolic (⊤ : Subgroup X) :=
@@ -47,8 +47,8 @@ theorem KConfig.exists_u4_coords
     rwa [top_inf_eq] at this
   obtain ⟨K, hKfield, hKm, ⟨e₀⟩⟩ :=
     CFSG.Quasithin.H13.U4Par.exists_hypSU_equiv_of_lieModel (Y := X) (Or.inl ⟨by decide, hU⟩)
-  letI : Field K := hKfield
-  haveI : Finite (hypSU hKm 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU hKm
+  let : Field K := hKfield
+  have : Finite (hypSU hKm 2 0) := CFSG.Quasithin.H13.U4Par.finite_hypSU hKm
   have hUs : CFSG.QuasithinUnique.IsSylowTwoOf (hypUnitriangular hKm 2 0) ⊤ :=
     CFSG.Quasithin.H13.U4Par.isSylowTwoOf_hypUnitriangular hKm
   obtain ⟨e, he⟩ := CFSG.Quasithin.H13.Ch4.U4A.exists_equiv_sylow e₀ hUs hS
@@ -92,14 +92,14 @@ theorem KConfig.exists_u4_coords
         exact Group.IsPerfect.map e.toMonoidHom
       have hLmap_ne : L.map e.toMonoidHom ≠ ⊥ :=
         (Subgroup.map_eq_bot_iff_of_injective L e.injective).not.mpr hLne
-      haveI : Nontrivial ↥(L.map e.toMonoidHom) :=
+      have : Nontrivial ↥(L.map e.toMonoidHom) :=
         (Subgroup.nontrivial_iff_ne_bot _).mpr hLmap_ne
       let : Group.IsPerfect ↥(L.map e.toMonoidHom) := hLmap_perf
       have hsolv : Group.IsSolvable ↥(L.map e.toMonoidHom) := by
-        haveI : Group.IsSolvable ↥(CFSG.Quasithin.H13.U4Par.parP hKm ⊓
+        have : Group.IsSolvable ↥(CFSG.Quasithin.H13.U4Par.parP hKm ⊓
             CFSG.Quasithin.H13.U4Par.parP2 hKm) :=
           CFSG.Quasithin.F112R.isSolvable_parP_inf_parP2 hKm
-        haveI : Group.IsSolvable
+        have : Group.IsSolvable
             ↥((L.map e.toMonoidHom).subgroupOf
               (CFSG.Quasithin.H13.U4Par.parP hKm ⊓
                 CFSG.Quasithin.H13.U4Par.parP2 hKm)) := inferInstance

@@ -27,15 +27,15 @@ set_option linter.unusedSectionVars false
 
 theorem charP_langLevi {τ : Tag} {K : Type} [Field K] [Finite K] {w : WeylGroup τ}
     (D : LangLevi τ K w) {ℓ f : ℕ} (hℓ : ℓ.Prime) (hk : Nat.card K = ℓ ^ f) : CharP D.L ℓ := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have : Fintype K := Fintype.ofFinite K
-  haveI : CharP K ℓ := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hk])
+  have : CharP K ℓ := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hk])
   exact (RingHom.charP_iff (algebraMap K D.L) (algebraMap K D.L).injective ℓ).1 inferInstance
 
 theorem exchange_dvd {τ : Tag} {K : Type} [Field K] [Finite K] {w : WeylGroup τ}
     (D : LangLevi τ K w) {S Sa Sb : Set (Fin τ.rank → ℤ)} (Ea : UFrame τ D.L 3 Sa)
-    (hSaroot : ∀ α ∈ Sa, IsRoot τ α) (hSbroot : ∀ α ∈ Sb, IsRoot τ α)
-    (hab : ∀ α ∈ Sa, w • α ∈ Sb) (hba : ∀ α ∈ Sb, w • α ∈ Sa)
+    (hSaroot : ∀ α ∈ Sa, IsRoot τ α) (_hSbroot : ∀ α ∈ Sb, IsRoot τ α)
+    (hab : ∀ α ∈ Sa, w • α ∈ Sb) (_hba : ∀ α ∈ Sb, w • α ∈ Sa)
     (hsq : ∀ i j : Fin 3, i ≠ j → w • (w • Ea.r i j) = Ea.r i j)
     (hS : rootSpan τ D.L S = rootSpan τ D.L Sa ⊔ rootSpan τ D.L Sb)
     (hcomm : ∀ x ∈ rootSpan τ D.L Sa, ∀ y ∈ rootSpan τ D.L Sb, x * y = y * x)
@@ -46,11 +46,11 @@ theorem exchange_dvd {τ : Tag} {K : Type} [Field K] [Finite K] {w : WeylGroup �
     {k : ℕ} (hk : p ^ k ∣ Nat.card K ^ 6 * ((Nat.card K ^ 4 - 1) * (Nat.card K ^ 6 - 1))) :
     p ^ k ∣ Nat.card ↥(D.frame S) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : Fact p.Prime := ⟨hp⟩
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   obtain ⟨ℓ, f, hℓ, hf, hkK⟩ := exists_prime_pow_card K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : CharP D.L ℓ := charP_langLevi D hℓ hkK
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : CharP D.L ℓ := charP_langLevi D hℓ hkK
   set n := canonicalRep (coxeterSystem τ) D.L w with hn
   set Φ : ModGL τ D.L →* ModGL τ D.L := Units.map (entrywiseHom D.Fr) with hΦ
   have hnm : n ∈ monomialSubgroup τ D.L := canonicalRep_mem_monomialSubgroup D.L w
@@ -87,7 +87,7 @@ theorem exchange_dvd {τ : Tag} {K : Type} [Field K] [Finite K] {w : WeylGroup �
     (D.Fr.comp D.Fr) hFr₂bij (n * n) (fun i j => (i, j)) (fun i j hij => hij)
     (fun i j hij => ⟨i, j, hij, rfl⟩) hconj
   obtain ⟨K₂, _, _, hK₂ac, hK₂card⟩ := exists_finite_field_isAlgClosure ℓ (2 * f) (by omega) K D.L
-  haveI : Finite K₂ := Nat.finite_of_card_ne_zero (by
+  have : Finite K₂ := Nat.finite_of_card_ne_zero (by
     rw [hK₂card]
     exact pow_ne_zero _ hℓ.ne_zero)
   have hshape' : ∀ (i j : Fin 3) (hij : i ≠ j) (t : D.L),
@@ -125,7 +125,7 @@ theorem exchange_dvd {τ : Tag} {K : Type} [Field K] [Finite K] {w : WeylGroup �
     have hc : Nat.card ↥θ₀.range = Nat.card SL(3, K₂) := Nat.card_range_of_injective hθ₀
     rw [← hrange, hc]
     exact PlaneCard.card_SL_three_sq hK₂q
-  haveI := hfin
+  have := hfin
   have hdvdFix : p ^ k ∣ Nat.card ↥(fixSubgroup Φ') := hcardFix ▸ hk
   obtain ⟨H₀, hH₀⟩ := Sylow.exists_subgroup_card_pow_prime (G := ↥(fixSubgroup Φ')) p hdvdFix
   have hρSa : ∀ X, Ea.ρ X ∈ rootSpan τ D.L Sa := fun X => by
@@ -187,7 +187,7 @@ theorem exchange_dvd {τ : Tag} {K : Type} [Field K] [Finite K] {w : WeylGroup �
       have h3 : T (Ea.ρ X * T (Ea.ρ X)) = Ea.ρ X * T (Ea.ρ X) := by
         rw [map_mul, hTTx, ← hc]
       exact (hT _).symm.trans h3
-  haveI : Finite ↥H₀ := inferInstance
+  have : Finite ↥H₀ := inferInstance
   have hcardP : Nat.card ↥κ.range = p ^ k := by
     have h : Nat.card ↥κ.range = Nat.card ↥H₀ := Nat.card_range_of_injective hκinj
     rw [h, hH₀]

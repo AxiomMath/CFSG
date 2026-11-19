@@ -35,10 +35,10 @@ private theorem isMulCommutative_of_mulEquiv {G H : Type*} [Group G] [Group H] (
 
 private theorem isMulCommutative_sylow_three (hF2 : Nat.card F ≠ 2)
     (Q : Sylow 3 (PSL2MatrixGroup F)) : IsMulCommutative (Q : Subgroup (PSL2MatrixGroup F)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases h3 : ringChar F = 3
-  · haveI : Fintype F := Fintype.ofFinite F
-    haveI : CharP F 3 := h3 ▸ ringChar.charP F
+  · have : Fintype F := Fintype.ofFinite F
+    have : CharP F 3 := h3 ▸ ringChar.charP F
     obtain ⟨n, -, hn⟩ := FiniteField.card F 3
     have hK : Nat.card F = 3 ^ (n : ℕ) := by rw [Nat.card_eq_fintype_card, hn]
     let Q0 := CFSG.SectionRank.OddCover.pslUSylow (K := F) (p := 3) (f := (n : ℕ))
@@ -52,10 +52,10 @@ private theorem isMulCommutative_sylow_three (hF2 : Nat.card F ≠ 2)
       by_contra hlt
       have h3F : Nat.card F = 3 := by omega
       have : CharP F 3 := by
-        haveI : Fintype F := Fintype.ofFinite F
+        have : Fintype F := Fintype.ofFinite F
         exact charP_of_card_eq_prime (by simpa [Nat.card_eq_fintype_card] using h3F)
       exact h3 (ringChar.eq F 3)
-    haveI : IsCyclic (Q : Subgroup (PSL2MatrixGroup F)) :=
+    have : IsCyclic (Q : Subgroup (PSL2MatrixGroup F)) :=
       CFSG.RankThree.PartTwo.KFacts.isCyclic_sylow_three_psl2 h3 h4 Q
     infer_instance
 
@@ -66,9 +66,9 @@ theorem noLocalDatum_PSL2 (F : Type) [Field F] [Finite F] : NoLocalDatum (PSL2Ma
   · exact noLocalDatum_of_not_dvd (by rw [PSL2.card_psl2_of_card_two hF2]; norm_num)
   · intro c L hLD
     obtain ⟨P, -, hP, hPnc⟩ := hLD.exists_nonabelian
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨Q, hPQ⟩ := hP.exists_le_sylow
-    haveI := PSL2.isMulCommutative_sylow_three hF2 Q
+    have := PSL2.isMulCommutative_sylow_three hF2 Q
     exact hPnc (isMulCommutative_anti hPQ)
 
 theorem noLocalDatum_projSL_two (F : Type) [Field F] [Finite F] :

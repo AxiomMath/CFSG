@@ -43,7 +43,7 @@ theorem lins2a_core {M Λ : Type} [Group M] [Group Λ] [Finite M] [Finite Λ]
   obtain ⟨T, hQT⟩ := hQ.exists_le_sylow
   have hS : IsSylowOf 2 (T : Subgroup M) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, T.isPGroup', T.not_dvd_index⟩
+    exact ⟨le_top, T.isPGroup, T.not_dvd_index⟩
   have hEq : R.map π = (T : Subgroup M).map π := by
     by_contra hne
     have hx := hΛ _ _ (LinCase.linto_isSylowOf_map π hπ hker hR)

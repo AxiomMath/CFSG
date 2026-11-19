@@ -82,11 +82,11 @@ theorem ggTwoNodeNineDepL_closer (hNine : LR6NineDepPos) (hOrb : GGResCentBoundI
   obtain ⟨Λ, i1, i2, b₁, b₂, Λa, i3, i4, ML, CL, MK, CK, V, i5, i6, ι, φ, h, α, hb, hcardΛa,
     hWML, hCL, hWMK, hCK, hlin, hrefl, hpairL, hpairK, hfL, hfK, hclosL, hclosK, hconn, hJ⟩ :=
     ggResTwoNodeDatum_of_sides_card_one ggWeylSimpleSystemsConjInput_holds hp2 hXs hYs
-  letI := i1; letI := i2; letI := i3; letI := i4; letI := i5; letI := i6
+  let := i1; let := i2; let := i3; let := i4; let := i5; let := i6
   obtain ⟨fL, hfL⟩ := hfL
   obtain ⟨fK, hfK⟩ := hfK
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod 3) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod 3) V := Module.Finite.of_finite
   have hφsup : ∀ i : Λ, φ (Sum.inl i) ∈
       ggAutomizer L Bs ⊔ ggAutomizer K Bs := fun i =>
     Subgroup.mem_sup_left (by rw [hclosL]; exact Subgroup.subset_closure ⟨i, rfl⟩)
@@ -112,10 +112,10 @@ theorem ggTwoNodeNineDepL_closer (hNine : LR6NineDepPos) (hOrb : GGResCentBoundI
         · exact Subgroup.subset_closure ⟨Sum.inr a, rfl⟩
   have hA : ggAutomizer L Bs ⊔ ggAutomizer K Bs ≤ ggAutomizer ⊤ Bs :=
     sup_le (ggAutomizer_mono Bs le_top) (ggAutomizer_mono Bs le_top)
-  haveI : Subsingleton Λa := by
+  have : Subsingleton Λa := by
     rw [← Fintype.card_le_one_iff_subsingleton, ← Nat.card_eq_fintype_card]
     omega
-  haveI : Nonempty Λa := by
+  have : Nonempty Λa := by
     rw [← Fintype.card_pos_iff, ← Nat.card_eq_fintype_card]
     omega
   let a₀ : Λa := Classical.choice (inferInstance : Nonempty Λa)
@@ -125,7 +125,7 @@ theorem ggTwoNodeNineDepL_closer (hNine : LR6NineDepPos) (hOrb : GGResCentBoundI
   let xv : V := ι (Additive.ofMul ⟨x, hx⟩)
   obtain ⟨Λ₁, j1, j2, M₁, C₁, V₁, k1, k2, ι₁, φ₁, h₁, α₁, e₁, hM₁, hWM₁, hC₁, hlin₁, hrefl₁,
     hpair₁, ⟨f₁, hf₁⟩, hclos₁⟩ := hXd
-  letI := j1; letI := j2; letI := k1; letI := k2
+  let := j1; let := j2; let := k1; let := k2
   obtain ⟨e, hML⟩ := ggTW_typeA_of_datum (p := 3) (n := 8) hp2 (by omega) hH.1.2.1.2.1
     (ggAutomizer L Bs) e₁ hM₁ hWM₁ f₁ φ₁ hf₁ hrefl₁ hWML fL (fun i => φ (Sum.inl i))
     (fun i => hfL i) (fun i => hrefl (Sum.inl i))

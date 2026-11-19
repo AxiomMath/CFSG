@@ -18,12 +18,12 @@ private theorem ffOutFFRankAutL2_isPGroup_two {G : Type} [Group G] {A : Subgroup
     rw [Subgroup.coe_pow, pow_one, pow_two]
     exact hel (x : G) x.2⟩
 
-private theorem ffOutFFRankAutL2_card_le_eight_S0 (hH : HarrisHyp F)
-    (hF : Nat.card F = 3 ^ 4) {A : Subgroup (PGammaL2 F)} (hA : A ≤ sylS0 F)
+private theorem ffOutFFRankAutL2_card_le_eight_S0 (_hH : HarrisHyp F)
+    (_hF : Nat.card F = 3 ^ 4) {A : Subgroup (PGammaL2 F)} (hA : A ≤ sylS0 F)
     (hel : ∀ x ∈ A, x * x = 1) : Nat.card A ≤ 8 := by
   have hmul := Subgroup.card_ker_mul_card_range (AutL2.projHom A)
   have hrange : Nat.card (AutL2.projHom A).range ≤ 2 := by
-    haveI := isCyclic_ringAut F
+    have := isCyclic_ringAut F
     obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := (AutL2.projHom A).range)
     have hg2 : g ^ 2 = 1 := by
       apply Subtype.ext
@@ -67,7 +67,7 @@ private theorem ffOutFFRankAutL2_card_le_eight_of_isPGroup (hH : HarrisHyp F)
   have hS := hH.isSylowIn_stdTS (K := ⊤) le_top
   obtain ⟨Q, hQ⟩ := hp.exists_le_sylow
   have hQS : IsSylowIn (Q : Subgroup (PGammaL2 F)) ⊤ :=
-    ⟨le_top, Q.isPGroup', fun Q' _ h1 h2 => Q.maximal_isPGroup.eq_of_ge h1 h2⟩
+    ⟨le_top, Q.isPGroup, fun Q' _ h1 h2 => Q.maximal_isPGroup.eq_of_ge h1 h2⟩
   obtain ⟨g, -, hg⟩ := hS.exists_conj hQS
   have hBS : A.map (MulAut.conj g⁻¹).toMonoidHom ≤ sylS0 F := by
     rintro _ ⟨x, hx, rfl⟩

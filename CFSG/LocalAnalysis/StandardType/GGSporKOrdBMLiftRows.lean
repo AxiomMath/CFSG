@@ -17,20 +17,20 @@ theorem ordBMBound_PSp_two {f : ℕ} (hf : 2 ≤ f) :
     OrdBMBound .PSp 2 2 f (bmGlOrd 4 (2 ^ f) * f) := by
   unfold OrdBMBound
   intro R _ _ _ hmodel ℓ hℓ hℓ2
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hclass : StatedClassicalModel R .PSp 2 2 f :=
     LieModel.statedClassicalModel_of_ne_zero (by norm_num : (2 : ℕ) ≠ 0) hmodel
   rw [StatedClassicalModel] at hclass
   obtain ⟨_, K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hclass
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  haveI : CharP K 2 :=
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hKcard
   have hcard : Nat.card (MulAut R) = Nat.card (MulAut (StatedProj (StatedSp 2 K))) :=
     Nat.card_congr (MulAut.congr e).toEquiv
   let V := Fin 2 ⊕ Fin 2 → K
-  haveI : Nontrivial V :=
+  have : Nontrivial V :=
     ⟨fun _ => 1, fun _ => 0, fun h => one_ne_zero (congr_fun h (Sum.inl 0))⟩
   let N : Subgroup (StatedSp 2 K) :=
     (StatedScalars (Fin 2 ⊕ Fin 2) K).subgroupOf (StatedSp 2 K)
@@ -51,7 +51,7 @@ theorem ordBMBound_PSp_two {f : ℕ} (hf : 2 ≤ f) :
   have hind : ∀ R' : Subgroup (MulAut (StatedProj (StatedSp 2 K))), IsPGroup ℓ R' →
       ∀ α ∈ R', ∃ r : Equiv.Perm V, r ∈ semilinGroup K V ∧ P r ∧ Induces π ρ r α := by
     intro R' hR' α hα
-    exact induced_PSp_two (F := K) (p := ℓ) (hp2 := hℓ2) (hF := h4)
+    exact induced_PSp_two (F := K) (p := ℓ) (hp2 := hℓ2) (_hF := h4)
       (R := R') (hR := hR') α hα
   have hlift := lre6b_factorization_le_of_lift (F := K) (V := V)
       (H := ↥(StatedSp 2 K)) (K := StatedProj (StatedSp 2 K))
@@ -73,9 +73,9 @@ theorem ordBMBound_PSp_two {f : ℕ} (hf : 2 ≤ f) :
     apply mul_ne_zero
     · have hpos : 0 < bmGlOrd 4 (2 ^ f) := by
         rw [← hgl]
-        haveI : Finite (V ≃ₗ[K] V) :=
+        have : Finite (V ≃ₗ[K] V) :=
           Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V)) LinearEquiv.coe_injective
-        haveI : Nonempty (V ≃ₗ[K] V) := ⟨LinearEquiv.refl K V⟩
+        have : Nonempty (V ≃ₗ[K] V) := ⟨LinearEquiv.refl K V⟩
         exact Nat.card_pos
       exact ne_of_gt hpos
     · omega
@@ -111,20 +111,20 @@ private theorem lre6br2_bmGlOrd_ne_zero {N q : ℕ} (hq : 2 ≤ q) : bmGlOrd N q
 theorem ordBMBound_POmegaPlus {n f : ℕ} (hn : 5 ≤ n) (hf : 1 ≤ f) :
     OrdBMBound .POmegaPlus n 2 f (bmGlOrd (2 * n) (2 ^ f) * f) := by
   intro R _ _ _ hmodel ℓ hℓ hℓ2
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hclass : StatedClassicalModel R .POmegaPlus n 2 f :=
     hmodel.statedClassicalModel (by decide)
   obtain ⟨-, K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hclass
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
-  haveI : CharP K 2 :=
+  let : Field K := hKfield
+  let : Finite K := hKfin
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two (by omega) hKcard
   have hcardAut : Nat.card (MulAut R) =
       Nat.card (MulAut (StatedProj (StatedOmega (StatedQuadPlus n K)))) :=
     Nat.card_congr (MulAut.congr e).toEquiv
-  haveI : Nontrivial (Fin n ⊕ Fin n → K) := by
-    haveI : NeZero n := ⟨by omega⟩
+  have : Nontrivial (Fin n ⊕ Fin n → K) := by
+    have : NeZero n := ⟨by omega⟩
     infer_instance
   have hN : Fintype.card (Fin n ⊕ Fin n) = 2 * n := by
     simp [Fintype.card_sum, two_mul]
@@ -142,7 +142,7 @@ theorem ordBMBound_POmegaPlus {n f : ℕ} (hn : 5 ≤ n) (hf : 1 ≤ f) :
     (fun r s hr hs => semiIsoQ_mul _ hr hs)
     (fun r hr => semiIsoQ_inv _ hr)
     ℓ
-    (fun R' hR' α hα => induced_POmegaPlus K ℓ hℓ2 n hn R' hR' α hα)
+    (fun R' hR' α hα => induced_POmegaPlus K ℓ n hn R' hR' α hα)
   have hdvd : Nat.card (semilinGroup K (Fin n ⊕ Fin n → K)) ∣
       Nat.card ((Fin n ⊕ Fin n → K) ≃ₗ[K] (Fin n ⊕ Fin n → K)) * Nat.card (K ≃+* K) :=
     lre6b_card_semilin_dvd
@@ -170,20 +170,20 @@ theorem ordBMBound_POmegaPlus {n f : ℕ} (hn : 5 ≤ n) (hf : 1 ≤ f) :
 theorem ordBMBound_POmegaMinus {n f : ℕ} (hn : 4 ≤ n) (hf : 1 ≤ f) :
     OrdBMBound .POmegaMinus n 2 f (bmGlOrd (2 * n) (2 ^ f) * f) := by
   intro R _ _ _ hmodel ℓ hℓ hℓ2
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hn0 : n ≠ 0 := by omega
   have hclassic : StatedClassicalModel R .POmegaMinus n 2 f :=
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero hn0 hmodel
   unfold StatedClassicalModel at hclassic
   obtain ⟨-, K, hField, hFinite, hcard, b, c, hirr, ⟨e⟩⟩ := hclassic
-  letI : Field K := hField
-  letI : Finite K := hFinite
-  haveI : CharP K 2 :=
+  let : Field K := hField
+  let : Finite K := hFinite
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two hf hcard
   let V := Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2 → K
-  haveI : Nonempty (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
-  haveI : Nontrivial V := inferInstance
+  have : Nonempty (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+  have : Nontrivial V := inferInstance
   have hVcard : Fintype.card (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) = 2 * n := by
     simp only [Fintype.card_sum, Fintype.card_fin]
     omega
@@ -210,8 +210,8 @@ theorem ordBMBound_POmegaMinus {n f : ℕ} (hn : 4 ≤ n) (hf : 1 ≤ f) :
     · intro r hr
       exact semiIsoQ_inv (CFSG.LieType.BorelTits.quadMinusForm n K b c hirr) hr
     · intro S hS α hα
-      exact induced_POmegaMinus (F := K) (p := ℓ) (hp2 := hℓ2) (n := n) (hn := hn)
-        (b := b) (c := c) (hirr := hirr) (R := S) (hR := hS) α hα
+      exact induced_POmegaMinus (F := K) (p := ℓ) (n := n) (hn := hn)
+        (b := b) (c := c) (hirr := hirr) (R := S) (_hR := hS) α hα
   have hdvd : Nat.card (semilinGroup K V) ∣
       Nat.card (V ≃ₗ[K] V) * Nat.card (K ≃+* K) :=
     lre6b_card_semilin_dvd (F := K) (V := V)
@@ -229,7 +229,7 @@ theorem ordBMBound_POmegaMinus {n f : ℕ} (hn : 4 ≤ n) (hf : 1 ≤ f) :
   have hdvd' : Nat.card (semilinGroup K V) ∣ bmGlOrd (2 * n) (2 ^ f) * f := by
     simpa only [hbm] using hdvd
   have hbmGl_ne : bmGlOrd (2 * n) (2 ^ f) ≠ 0 := by
-    haveI : Finite (V ≃ₗ[K] V) :=
+    have : Finite (V ≃ₗ[K] V) :=
       Finite.of_injective (fun e : V ≃ₗ[K] V => (e : V → V))
         (fun e₁ e₂ h => LinearEquiv.ext (congrFun h))
     have hne_lin : Nat.card (V ≃ₗ[K] V) ≠ 0 :=

@@ -120,10 +120,10 @@ theorem not_sup_eq_of_isPGroup {G : Type*} [Group G] [Finite G] {V E Q : Subgrou
     (hEV : E ≤ V) (hQV : Q ≤ V) (hQN : V ≤ Subgroup.normalizer (Q : Set G)) (hQ : IsPGroup 2 ↥Q)
     (hcard : Nat.card V = 15 * Nat.card E) : E ⊔ Q ≠ V := by
   intro hsup
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLE : E ≤ Subgroup.normalizer (Q : Set G) := hEV.trans hQN
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hLE
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hLE
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hLE
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hLE
   have he : Q.relIndex E = Q.relIndex (E ⊔ Q) :=
     Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient E Q hLE).toEquiv
   rw [hsup] at he
@@ -287,7 +287,7 @@ theorem le_edge [Finite Y] (v : AE6Vertex V M₀ P) {E Q : Subgroup Y} (hME : M�
 
 theorem pCoreOf_le [Finite Y] (v : AE6Vertex V M₀ P) {E : Subgroup Y} (hME : M₀ ≤ E)
     (hEV : E ≤ V) (hE : Nat.card E = 86016) : pCoreOf 2 V ≤ E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact v.le_edge hME hEV hE (LieType.BorelTits.pCoreOf_le 2 V)
     (LieType.BorelTits.pCoreOf_isPGroup 2 V) (LieType.BorelTits.le_normalizer_pCoreOf 2 V)
 
@@ -358,6 +358,7 @@ theorem ae6Vertex_of_ident (hModel : AE6ModelPar) {P : Set (Subgroup Y)} (A : AE
   exact ae6Vertex_of_img hφ A.range_eq (iSup₂_le hS) himg (hModel α β γ hα hβ hγ hprod)
     fun J hJ => ⟨le_pSpan hJ, A.label J hJ⟩
 
+omit [Finite Y] in
 theorem ae6_members_eq {V E M₀ K : Subgroup Y} (v : AE6Vertex V M₀ (ae6ConjIn V K))
     (hME : M₀ ≤ E) (hEV : E ≤ V) (hE : Nat.card E = 86016) (hKM : K ≤ M₀) :
     {J | J ∈ ae6ConjIn V K ∧ J ≤ E} = ae6ConjIn E K := by

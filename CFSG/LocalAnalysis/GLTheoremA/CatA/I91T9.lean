@@ -89,7 +89,7 @@ theorem card_isA2n {S : Type} [Group S] [Finite S] {k : ℕ} (h : catalogIs S (i
   cases d with
   | A r q =>
     rcases r with _ | _ | _ | r
-    all_goals first | exact hP.elim | skip
+    all_goals try exact hP.elim
     have hc : Nat.card S = lieOrderFormula (LieTypeIndex.A 2 q) :=
       CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds ⟨.A 2 q, hv⟩ S ⟨e⟩
     have hqc : q.card = 2 ^ k := by rw [PrimePower.card_def, hP.1, hP.2]
@@ -104,7 +104,7 @@ theorem card_isU3n {S : Type} [Group S] [Finite S] {k : ℕ} (h : catalogIs S (i
   cases d with
   | twistedA r q =>
     rcases r with _ | _ | _ | r
-    all_goals first | exact hP.elim | skip
+    all_goals try exact hP.elim
     have hc : Nat.card S = lieOrderFormula (LieTypeIndex.twistedA 2 q) :=
       CFSG.HardMathSupport.Solomon.Coordinator.lieOrderBridge_holds ⟨.twistedA 2 q, hv⟩ S ⟨e⟩
     have hqc : q.card = 2 ^ k := by rw [PrimePower.card_def, hP.1, hP.2]

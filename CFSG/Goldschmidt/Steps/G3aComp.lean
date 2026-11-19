@@ -368,7 +368,7 @@ theorem mem_sylow_of_act {a ℓ : Q} (ha : a ∈ (P : Subgroup Q)) (hℓ : ℓ �
     (α := MulAut.conj ℓ') (S := PL) hmaps
   rw [← Sylow.smul_def] at hS
   have hN := Sylow.smul_eq_iff_mem_normalizer.mp hS
-  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') ⟨a, ha⟩
+  obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) ⟨a, ha⟩
   have hak : a ^ (2 ^ k) = 1 := by
     have h1 := pow_orderOf_eq_one (⟨a, ha⟩ : (P : Subgroup Q))
     rw [hk] at h1

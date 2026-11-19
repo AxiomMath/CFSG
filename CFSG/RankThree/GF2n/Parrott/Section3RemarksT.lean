@@ -143,6 +143,7 @@ theorem isKleinFour_of_card_eq_four_V (hJ : IsExtraspecial2 (J z))
   refine ⟨h4, (Monoid.exponent_eq_prime_iff Nat.prime_two).mpr fun v hv => ?_⟩
   exact orderOf_eq_prime (Subtype.ext (pow_two_eq_one_V hJ (v : QuotientV.V z))) hv
 
+omit [Finite G] in
 theorem two_mul_card_map_pi_of_le_J (hJ : IsExtraspecial2 (J z))
     (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z) {K : Subgroup G} (hKJ : K ≤ J z) (hzK : z ∈ K) :
     2 * Nat.card ↥((K.subgroupOf (J z)).map (QuotientV.pi z)) = Nat.card K := by
@@ -410,6 +411,7 @@ theorem exists_lift_t_commute_of (hcard : Nat.card (J z) = 2 ^ 9)
   · exact Subgroup.mem_centralizer_singleton_iff.mp hxC
   · exact (hxσ σ₂ (Subgroup.mem_zpowers _)).symm
 
+omit [Finite G] in
 theorem mem_J_of_conjVA_eq_one (hJ : IsExtraspecial2 (J z))
     (hcomm : ⁅J z, J z⁆ = Subgroup.zpowers z)
     (hCHJ : H z ⊓ Subgroup.centralizer (J z : Set G) ≤ J z)

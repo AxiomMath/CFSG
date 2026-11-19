@@ -2,7 +2,7 @@ module
 
 public import Certificates.Data.Kernel.T10Code
 public import CFSG.LocalAnalysis.OddStandard.AltStdSmall4ModT10Data
-import Mathlib.Data.Nat.SuccPred
+import Mathlib.Order.SuccPred.Nat
 import Mathlib.Data.Rat.Cast.Order
 import Mathlib.Tactic.NormNum.Abs
 import Mathlib.Tactic.NormNum.DivMod
@@ -44,15 +44,15 @@ def atW (w : W10) (j : Nat) : T10 :=
 theorem atW_mulW (p q : W10) (j : Nat) : atW (mulW p q) j = atW p j * atW q j := by
   ext <;> simp only [atW, mulW, Nat.xor_eq, Nat.land_eq, Nat.testBit_xor, Nat.testBit_and,
     b2z_xor, b2z_and, mul_x0, mul_x1, mul_x2, mul_x3, mul_x4, mul_x5, mul_s, mul_a, mul_b,
-    mul_c] <;> ring
+    mul_c]
 
 theorem atW_invW (p : W10) (j : Nat) : atW (invW p) j = (atW p j)⁻¹ := by
   ext <;> simp only [atW, invW, Nat.xor_eq, Nat.land_eq, Nat.testBit_xor, Nat.testBit_and,
     b2z_xor, b2z_and, inv_x0, inv_x1, inv_x2, inv_x3, inv_x4, inv_x5, inv_s, inv_a, inv_b,
-    inv_c, sub_eq_add_neg, neg_add, zmod2_neg, neg_mul] <;> ring
+    inv_c, sub_eq_add_neg, neg_add, zmod2_neg]
 
 theorem atW_ZW (j : Nat) : atW ZW j = 1 := by
-  ext <;> simp [atW, ZW, b2z] <;> rfl
+  ext <;> simp [atW, ZW, b2z]
 
 theorem difW_testBit (p q : W10) (j : Nat) :
     (difW p q).testBit j = !decide (atW p j = atW q j) := by
@@ -62,7 +62,7 @@ theorem difW_testBit (p q : W10) (j : Nat) :
 theorem tb_eq (n i : Nat) : tb n i = n.testBit i := by
   rw [tb, Nat.testBit_eq_decide_div_mod_eq, ← Nat.shiftRight_eq_div_pow]
   rcases Nat.mod_two_eq_zero_or_one (n >>> i) with h | h <;>
-    simp [Nat.land_eq, Nat.and_one_is_mod, h] <;> rfl
+    simp [Nat.land_eq, Nat.and_one_is_mod, h]; rfl
 
 theorem bitv (x k : Nat) : Nat.land (Nat.shiftRight x k) 1 = if x.testBit k then 1 else 0 := by
   rw [Nat.testBit_eq_decide_div_mod_eq, ← Nat.shiftRight_eq_div_pow, Nat.land_eq,
@@ -147,13 +147,13 @@ theorem isInvc_eq {x : Nat} (hx : x < 1024) : isInvc P x = isInv (ofCode x) := b
     Bool.not_not, isInv]
   rfl
 
-theorem commc_eq {g x : Nat} (hg : g < 1024) (hx : x < 1024) :
+theorem commc_eq {g x : Nat} (hg : g < 1024) (_hx : x < 1024) :
     commc P g x = commB (ofCode g) (ofCode x) := by
   rw [commc, tb_eq, CDW, difW_testBit, atW_mulW, atW_mulW, hP g hg, atW_BC x hg, Bool.not_not,
     commB]
   rfl
 
-theorem tb_CJW {g x : Nat} (hg : g < 1024) (hx : x < 1024) :
+theorem tb_CJW {g x : Nat} (hg : g < 1024) (_hx : x < 1024) :
     (!tb (CJW P x) g) = commB (ofCode g * ofCode x * (ofCode g)⁻¹) tm := by
   rw [tb_eq, CJW, difW_testBit]
   simp only [atW_mulW, atW_invW, hP g hg, atW_BC _ hg, Bool.not_not, commB, tm_eq]

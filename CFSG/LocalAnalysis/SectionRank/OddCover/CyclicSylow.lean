@@ -98,7 +98,7 @@ theorem prime_classical_three_cyclic_odd_sylows {p : ℕ} (hp : p.Prime) {ε : �
   rcases hH with ⟨rfl, hK, rfl⟩ | ⟨rfl, hK, rfl⟩
   · refine ⟨fun r hr _ hrp' hr1 P => ?_, ?_⟩
     · refine isCyclic_of_isPGroup_of_le_GL_three (by rw [hK]; exact hrp r hr.out hrp')
-        (fun h => hr1 ?_) P.isPGroup'
+        (fun h => hr1 ?_) P.isPGroup
       rw [hK] at h
       have := Int.natCast_dvd_natCast.2 h
       rwa [Nat.cast_sub hp1, Nat.cast_one] at this
@@ -139,14 +139,14 @@ theorem prime_classical_three_cyclic_odd_sylows {p : ℕ} (hp : p.Prime) {ε : �
               omega] at this
           exact hr2 ((Nat.prime_dvd_prime_iff_eq hr.out Nat.prime_two).1 h2)
         refine isCyclic_of_isPGroup_of_card_eq_mul (Z := Z) (m := p ^ 3 * (p ^ 3 + 1)) ?_ hm
-          P.isPGroup'
+          P.isPGroup
         have hcard := card_statedSU_three_prime (K := K) hK
         have hle : 1 ≤ p ^ 2 := Nat.one_le_pow 2 p hp1
         rw [hZ]
         zify [hle]
         rw [hcard]
         ring
-      · refine isCyclic_of_isPGroup_of_le_GL_three ?_ ?_ P.isPGroup'
+      · refine isCyclic_of_isPGroup_of_le_GL_three ?_ ?_ P.isPGroup
         · rw [hK]
           exact fun h => hrp r hr.out hrp' (hr.out.dvd_of_dvd_pow h)
         · rw [hK]

@@ -70,7 +70,7 @@ theorem case811Exit_of_quasisimpleModOTwo (c : Ctx82E3 D)
         IsAlt (c.Lbar ⧸ Subgroup.center c.Lbar) 11 ∨
         ∃ (fam : LieFam811) (r f : ℕ), IsLie811 c.Lbar fam r f)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨p, hp⟩ := c.sig_nonempty
   have h76 := c.conclusion76 hp
   have hqs : CFSG.Open.IsQuasisimple c.Lbar := c.isQuasisimple_lbar h811

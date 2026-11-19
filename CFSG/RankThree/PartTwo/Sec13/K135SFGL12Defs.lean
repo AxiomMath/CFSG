@@ -41,11 +41,11 @@ open scoped commutatorElement
 private theorem mulAut_mul_conj_mul_inv {S : Type*} [Group S] (α : MulAut S) (g : S) :
     α * (MulAut.conj g : MulAut S) * α⁻¹ = MulAut.conj (α g) := by
   ext x
-  simp [MulAut.conj_apply, MulAut.mul_apply, map_mul, map_inv, MulAut.apply_inv_self]
+  simp [MulAut.conj_apply, MulAut.mul_apply, map_mul, map_inv]
 
 theorem kFactG1GL12_of_outGL12 (hO : KFactOutGL12) : KFactG1GL12 := by
   intro I _ _ hQ hK hGL p hp hp7 f hf V hV1 hV2 hVn hVc
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine g1o_lift_of_V_le_inn hQ f V hV1 hV2 hVn ?_
   have hfp : f ^ p = 1 := by
     have := pow_orderOf_eq_one f

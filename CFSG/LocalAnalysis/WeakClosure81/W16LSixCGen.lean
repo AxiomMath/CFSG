@@ -128,7 +128,7 @@ theorem IsMinFam16.normalClosure_barSub (h1 : W16One G) (hS : Std15 G)
       have hxinv : g * x⁻¹ * g⁻¹ = (g * x * g⁻¹)⁻¹ := by group
       rw [hxinv]
       exact Subgroup.inv_mem _ ihx
-  haveI : (Subgroup.closure {x : X | x * x = 1}).Normal := hnorm
+  have : (Subgroup.closure {x : X | x * x = 1}).Normal := hnorm
   have hbar_le : SevenK.barSub (CFSG.Quasithin.conjClosure V H) φ V
       ≤ Subgroup.closure {x : X | x * x = 1} := by
     intro x hx
@@ -327,7 +327,7 @@ theorem w16l_exists_noncomm_conj {X Y : Type} [Group X] [Group Y] (θ : X →* Y
     obtain ⟨u, hu⟩ := isConj_iff.1 hcy
     rw [← ht, ← hu]
     exact hpairC t u b hb b' hb'
-  haveI : IsMulCommutative ↥(Subgroup.closure (Group.conjugatesOfSet (B : Set Y))) :=
+  have : IsMulCommutative ↥(Subgroup.closure (Group.conjugatesOfSet (B : Set Y))) :=
     Subgroup.isMulCommutative_closure hkcomm
   have hexp : ∀ y ∈ Subgroup.closure (Group.conjugatesOfSet (B : Set Y)), y ^ 2 = 1 := by
     intro y hy

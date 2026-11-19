@@ -76,7 +76,7 @@ theorem ggFalse_of_Xi [Finite G] {p : ℕ} {M E₀ : Subgroup G}
   have hQp : IsPGroup 2 Q := isPGroup_pCoreOf' 2 X
   have hE0X : E₀ ≤ X := fun e he =>
     Subgroup.mem_centralizer_singleton_iff.mpr (hrE e he)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcop : Nat.Coprime p (Nat.card Q) := by
     obtain ⟨k, hk⟩ := hQp.exists_card_eq
     rw [hk]

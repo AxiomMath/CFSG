@@ -713,7 +713,7 @@ private theorem k328r8p_zmat_mul_Pmat (F : Type) [Field F] [Fintype F] [Decidabl
     rw [mul_add, mul_one, hm]
     linear_combination (-(b ^ 2)) * h2
   have hcb : c / b = b * (α ^ 2 + α + 1) := by
-    rw [hc]; field_simp [hb]; try ring
+    rw [hc]; field_simp [hb]
   rw [hz]
   ext r k
   rw [Matrix.mul_apply, Matrix.mul_apply]

@@ -14,17 +14,17 @@ theorem exists_basis_of_commGroup {A : Type*} [CommGroup A] (hexp : ∀ x : A, x
     (hcard : Nat.card A = 5 ^ 3) :
     ∃ x : Fin 3 → A, (∀ a : A, ∃ n : Fin 3 → ℕ, a = x 0 ^ n 0 * x 1 ^ n 1 * x 2 ^ n 2) ∧
       ∀ i j k : ℕ, x 0 ^ i * x 1 ^ j * x 2 ^ k = 1 → 5 ∣ i ∧ 5 ∣ j ∧ 5 ∣ k := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hsmul : ∀ y : Additive A, (5 : ℕ) • y = 0 := by
     intro y
     apply Additive.toMul.injective
     rw [toMul_nsmul, toMul_zero]
     exact hexp _
-  letI : Module (ZMod 5) (Additive A) := AddCommGroup.zmodModule hsmul
+  let : Module (ZMod 5) (Additive A) := AddCommGroup.zmodModule hsmul
   have hA : Nat.card A ≠ 0 := by
     rw [hcard]
     norm_num
-  haveI : Finite (Additive A) := Nat.finite_of_card_ne_zero hA
+  have : Finite (Additive A) := Nat.finite_of_card_ne_zero hA
   have h1 : Nat.card (Additive A) = 5 ^ Module.finrank (ZMod 5) (Additive A) := by
     rw [Module.natCard_eq_pow_finrank (K := ZMod 5), Nat.card_zmod]
   have hrank : Module.finrank (ZMod 5) (Additive A) = 3 := by
@@ -75,7 +75,7 @@ theorem exists_basis_of_cube {G : Type*} [Group G] {E : Subgroup G}
     (hcard : Nat.card E = 5 ^ 3) :
     ∃ x₀ ∈ E, ∃ x₁ ∈ E, ∃ x₂ ∈ E, E ≤ Subgroup.closure {x₀, x₁, x₂} ∧
       ∀ i j k : ℕ, x₀ ^ i * x₁ ^ j * x₂ ^ k = 1 → 5 ∣ i ∧ 5 ∣ j ∧ 5 ∣ k := by
-  letI : CommGroup E :=
+  let : CommGroup E :=
     { (inferInstance : Group E) with
       mul_comm := fun a b => Subtype.ext (hcomm a.1 a.2 b.1 b.2) }
   have hexp' : ∀ x : E, x ^ 5 = 1 := fun x => Subtype.ext (hexp x.1 x.2)

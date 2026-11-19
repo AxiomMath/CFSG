@@ -65,10 +65,10 @@ theorem not_sup_eq_of_isPGroup_seven {G : Type*} [Group G] [Finite G] {V E Q : S
     (hEV : E ≤ V) (hQV : Q ≤ V) (hQN : V ≤ Subgroup.normalizer (Q : Set G)) (hQ : IsPGroup 2 ↥Q)
     (hcard : Nat.card V = 7 * Nat.card E) : E ⊔ Q ≠ V := by
   intro hsup
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLE : E ≤ Subgroup.normalizer (Q : Set G) := hEV.trans hQN
-  haveI := Subgroup.normal_subgroupOf_of_le_normalizer hLE
-  haveI := Subgroup.normal_subgroupOf_sup_of_le_normalizer hLE
+  have := Subgroup.normal_subgroupOf_of_le_normalizer hLE
+  have := Subgroup.normal_subgroupOf_sup_of_le_normalizer hLE
   have he : Q.relIndex E = Q.relIndex (E ⊔ Q) :=
     Nat.card_congr (QuotientGroup.quotientInfEquivProdNormalizerQuotient E Q hLE).toEquiv
   rw [hsup] at he

@@ -16,7 +16,7 @@ variable {m : ℕ} {F : Type*} [Field F] {σ : F ≃+* F} (hσ : ∀ c, σ (σ c
 private theorem antidiag_mul_apply' (C : Matrix (Fin m) (Fin m) F) (x b : Fin m) :
     ((antidiag m : Matrix (Fin m) (Fin m) F) * C) x b = C (Fin.rev x) b := by
   simp only [antidiag, Matrix.mul_apply, Matrix.of_apply, ite_mul, one_mul, zero_mul,
-    Finset.sum_ite_eq', Finset.mem_univ, if_true]
+    Finset.sum_ite_eq', Finset.mem_univ, ite_true]
 
 private theorem mul_antidiag_apply' (C : Matrix (Fin m) (Fin m) F) (a b : Fin m) :
     (C * (antidiag m : Matrix (Fin m) (Fin m) F)) a b = C a (Fin.rev b) := by
@@ -27,7 +27,7 @@ private theorem mul_antidiag_apply' (C : Matrix (Fin m) (Fin m) F) (a b : Fin m)
       intro e
       apply hk
       rw [e, Fin.rev_rev]
-    simp only [antidiag, Matrix.of_apply, if_neg h, mul_zero]
+    simp only [antidiag, Matrix.of_apply, ite_eq_right h, mul_zero]
   · intro h
     exact absurd (Finset.mem_univ _) h
 
@@ -39,7 +39,7 @@ private theorem antidiag_mul_antidiag' :
   by_cases h : a = b
   · subst h; simp
   · have h2 : b ≠ Fin.rev (Fin.rev a) := by rw [Fin.rev_rev]; exact Ne.symm h
-    simp [h, Ne.symm h, h2]
+    simp [h, Ne.symm h]
 
 theorem mat_inv_apply (g : SU σ m) (i j : Fin m) :
     mat σ m g⁻¹ i j = σ (mat σ m g (Fin.rev j) (Fin.rev i)) := by
@@ -76,18 +76,18 @@ private theorem toStd_wtRoot (hm : ¬Even m) (a : Fin (m / 2) ⊕ Fin (m / 2)) :
     toStd m (wtRoot (m := m) a) = wt a := by
   rcases a with k | k
   · funext j
-    rw [toStd, if_neg hm]
+    rw [toStd, ite_eq_right hm]
     by_cases hjk : j = k
     · subst hjk
       simp [wtRoot, wt]
-    · simp only [wtRoot, wt, Pi.sub_apply, Pi.single_apply, if_neg hjk]
+    · simp only [wtRoot, wt, Pi.single_apply, ite_eq_right hjk]
       split_ifs <;> omega
   · funext j
-    rw [toStd, if_neg hm]
+    rw [toStd, ite_eq_right hm]
     by_cases hjk : j = k
     · subst hjk
       simp [wtRoot, wt]
-    · simp only [wtRoot, wt, Pi.sub_apply, Pi.single_apply, if_neg hjk, Pi.neg_apply]
+    · simp only [wtRoot, wt, Pi.single_apply, ite_eq_right hjk, Pi.neg_apply]
       split_ifs <;> omega
 
 variable (σ) in
@@ -108,7 +108,7 @@ variable (σ) in
   one_mem' := by
     intro i j hj hij hia
     rw [map_one, Matrix.one_apply]
-    exact if_neg hij
+    exact ite_eq_right hij
   inv_mem' := by
     intro g hg i j hj hij hia
     rw [mat_inv_apply, hg (Fin.rev j) (Fin.rev i) ?_ ?_ ?_, map_zero]
@@ -143,7 +143,7 @@ theorem suElt_mem_flagSubgroup {a d : Fin (m / 2) ⊕ Fin (m / 2)} (had : idx a 
   intro i j hj hij hia
   rw [mat_suElt hσ had]
   simp only [Matrix.add_apply, Matrix.sub_apply, Matrix.one_apply, single_apply]
-  simp [hij, hia, hj, Ne.symm hia, Ne.symm hj]
+  simp [hij, Ne.symm hia, Ne.symm hj]
 
 theorem suLong_mem_flagSubgroup (a : Fin (m / 2) ⊕ Fin (m / 2)) (c : F) :
     suLong σ a c ∈ flagSubgroup σ a := by
@@ -152,10 +152,10 @@ theorem suLong_mem_flagSubgroup (a : Fin (m / 2) ⊕ Fin (m / 2)) (c : F) :
   · intro i j hj hij hia
     rw [mat_suLong a h]
     simp only [Matrix.add_apply, Matrix.one_apply, single_apply]
-    simp [hij, hia, hj, Ne.symm hia, Ne.symm hj]
+    simp [hij, Ne.symm hia, Ne.symm hj]
   · intro i j hj hij hia
     rw [suLong, dite_eq_right h, map_one, Matrix.one_apply]
-    exact if_neg hij
+    exact ite_eq_right hij
 
 theorem suHeis_mem_flagSubgroup_iff {a b : Fin (m / 2) ⊕ Fin (m / 2)} (hab : idx a ≠ idx b)
     {u v : F} (h : v + σ v + σ u * u = 0) :
@@ -244,13 +244,10 @@ private theorem heisNil_prod_facts [CharP F 2] {a b : Fin (m / 2) ⊕ Fin (m / 2
     heisNil σ hm b u v * heisNil σ hm a u' v' * heisNil σ hm b u v = 0 ∧
     heisNil σ hm a u' v' * heisNil σ hm b u v * heisNil σ hm a u' v' = 0 := by
   obtain ⟨h_ab, h_aB, h_Ab, h_AB, h_aa, h_bb, h_am, h_bm, h_Am, h_Bm, hba⟩ := idxFacts hm hab
-  haveI := matrix_charP (F := F) (m := m) hm
+  have := matrix_charP (F := F) (m := m) hm
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;>
-    simp [heisNil, add_mul, mul_add, sub_mul, mul_sub, single_mul_single', crd_injective.eq_iff,
-      Fin.rev_inj, Sum.swap_swap, crd_swap, h_ab, h_ab.symm, h_aB, h_aB.symm, h_Ab, h_Ab.symm,
-      h_AB, h_AB.symm, h_aa, h_aa.symm, h_bb, h_bb.symm, h_am, h_am.symm, h_bm, h_bm.symm,
-      h_Am, h_Am.symm, h_Bm, h_Bm.symm, hba, hba.symm, CharTwo.neg_eq, zero_mul, mul_zero,
-      add_zero, zero_add, sub_self, sub_zero]
+    simp [heisNil, add_mul, mul_add, sub_mul, mul_sub, crd_swap, h_aB.symm, h_Ab, h_aa.symm, h_bb.symm, h_am.symm, h_bm.symm,
+      h_Am, h_Bm, CharTwo.neg_eq, add_zero, sub_self, sub_zero]
 
 
 
@@ -283,7 +280,7 @@ private theorem mat_eq_one_add_nil_six [CharP F 2] {a b : Fin (m / 2) ⊕ Fin (m
   have hbs : idx a ≠ idx (Sum.swap b) := by rwa [idx_swap]
   have h2 := Pres.heis_neg_valid hσ h
   obtain ⟨h_ab, h_aB, h_Ab, h_AB, h_aa, h_bb, h_am, h_bm, h_Am, h_Bm, hba⟩ := idxFacts hm hab
-  haveI := matrix_charP (F := F) (m := m) hm
+  have := matrix_charP (F := F) (m := m) hm
   have hv : σ v = v + σ u * u := by
     calc σ v = -(v + σ u * u) := by linear_combination h
       _ = v + σ u * u := by rw [CharTwo.neg_eq]
@@ -295,12 +292,9 @@ private theorem mat_eq_one_add_nil_six [CharP F 2] {a b : Fin (m / 2) ⊕ Fin (m
   have hHH : nilSuHeis (σ := σ) (hm := hm) b u v * nilSuHeis (σ := σ) (hm := hm) b u v =
       single (crd b) (Fin.rev (crd b)) (u * σ u) := by
     rw [nilSuHeis, heisNil]
-    simp [add_mul, mul_add, sub_mul, mul_sub, single_mul_single', crd_injective.eq_iff,
-      Fin.rev_inj, Sum.swap_swap, crd_swap, h_ab, h_ab.symm,
-      hba, hba.symm, h_aB, h_aB.symm, h_Ab, h_Ab.symm,
-      h_AB, h_AB.symm, h_aa, h_aa.symm, h_bb, h_bb.symm, h_am, h_am.symm, h_bm, h_bm.symm,
-      h_Am, h_Am.symm, h_Bm, h_Bm.symm, CharTwo.neg_eq, zero_mul, mul_zero, add_zero,
-      zero_add, sub_self, sub_zero]
+    simp [add_mul, mul_add, sub_mul, mul_sub, h_bb.symm, h_bm.symm,
+      h_Bm, CharTwo.neg_eq, add_zero,
+      sub_self, sub_zero]
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
   · rw [mat_suElt hσ hbs]
     simp only [nilSuEltSwap, suEltNil, Sum.swap_swap, crd_swap]
@@ -315,7 +309,7 @@ private theorem mat_eq_one_add_nil_six [CharP F 2] {a b : Fin (m / 2) ⊕ Fin (m
     simp only [CharTwo.neg_eq, Sum.swap_swap, crd_swap, nilSuEltSwap, suEltNil]
     abel
   · rw [mat_suHeis hσ hm h2, heisenbergMatrix_eq_one_add, hHH]
-    simp only [nilSuHeis, heisNil, map_neg, CharTwo.neg_eq, neg_one_smul, CharTwo.sub_eq_add]
+    simp only [nilSuHeis, heisNil, CharTwo.neg_eq, CharTwo.sub_eq_add]
     rw [single_add]
     abel
   · rw [mat_suHeis hσ hm hV, heisenbergMatrix_eq_one_add]
@@ -344,14 +338,13 @@ private theorem nil_products_eq_zero [CharP F 2] {a b : Fin (m / 2) ⊕ Fin (m /
       nilSuHeis (σ := σ) (hm := hm) b u v * nilSuHeis (σ := σ) (hm := hm) b u v = 0 ∧
     nilSuHeisScaled (σ := σ) (hm := hm) a s u v * nilSuEltScaled (σ := σ) a b s v = 0 := by
   obtain ⟨h_ab, h_aB, h_Ab, h_AB, h_aa, h_bb, h_am, h_bm, h_Am, h_Bm, hba⟩ := idxFacts hm hab
-  haveI := matrix_charP (F := F) (m := m) hm
+  have := matrix_charP (F := F) (m := m) hm
   refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;>
     simp [nilSuEltSwap, nilSuHeis, nilSuHeisScaled, nilSuEltScaled, suEltNil, heisNil,
       add_mul, mul_add, sub_mul, mul_sub,
-      single_mul_single', crd_injective.eq_iff, Fin.rev_inj, Sum.swap_swap, crd_swap,
-      h_ab, h_ab.symm, hba, hba.symm, h_aB, h_aB.symm, h_Ab, h_Ab.symm,
-      h_AB, h_AB.symm, h_aa, h_aa.symm, h_bb, h_bb.symm, h_am, h_am.symm, h_bm, h_bm.symm,
-      h_Am, h_Am.symm, h_Bm, h_Bm.symm, CharTwo.neg_eq, zero_mul, mul_zero, add_zero,
+      crd_injective.eq_iff, Sum.swap_swap, crd_swap,
+      hba.symm, h_aB.symm, h_Ab, h_AB, h_aa.symm, h_bb, h_bb.symm, h_am.symm, h_bm, h_bm.symm,
+      h_Am, h_Bm, h_Bm.symm, CharTwo.neg_eq, zero_mul, add_zero,
       zero_add, sub_self, sub_zero]
 
 
@@ -370,13 +363,12 @@ private theorem nil_products_eq [CharP F 2] {a b : Fin (m / 2) ⊕ Fin (m / 2)} 
         nilSuHeis (σ := σ) (hm := hm) b u v =
       single (crd a) (Fin.rev (crd b)) (s * u * σ u) := by
   obtain ⟨h_ab, h_aB, h_Ab, h_AB, h_aa, h_bb, h_am, h_bm, h_Am, h_Bm, hba⟩ := idxFacts hm hab
-  haveI := matrix_charP (F := F) (m := m) hm
+  have := matrix_charP (F := F) (m := m) hm
   refine ⟨?_, ?_, ?_, ?_⟩ <;>
     simp [nilSuEltSwap, nilSuHeis, suEltNil, heisNil, add_mul, mul_add, sub_mul, mul_sub,
-      single_mul_single', crd_injective.eq_iff, Fin.rev_inj, Sum.swap_swap, crd_swap,
-      h_ab, h_ab.symm, hba, hba.symm, h_aB, h_aB.symm, h_Ab, h_Ab.symm,
-      h_AB, h_AB.symm, h_aa, h_aa.symm, h_bb, h_bb.symm, h_am, h_am.symm, h_bm, h_bm.symm,
-      h_Am, h_Am.symm, h_Bm, h_Bm.symm, CharTwo.neg_eq, zero_mul, mul_zero, add_zero,
+      Sum.swap_swap, crd_swap,
+      h_aB.symm, h_Ab, h_bb.symm, h_am.symm, h_bm, h_bm.symm,
+      h_Am, h_Bm, h_Bm.symm, CharTwo.neg_eq, add_zero,
       zero_add, sub_self, sub_zero]
 
 private theorem nsmul_two_eq_zero {R : Type*} [Ring R] [CharP R 2] (X : R) :
@@ -386,7 +378,7 @@ private theorem nsmul_two_eq_zero {R : Type*} [Ring R] [CharP R 2] (X : R) :
 private theorem nsmul_three_eq_self {R : Type*} [Ring R] [CharP R 2] (X : R) :
     (3 : ℕ) • X = X := by
   rw [three_nsmul]
-  simp only [CharTwo.add_self_eq_zero, add_zero, zero_add]
+  simp only [CharTwo.add_self_eq_zero, add_zero]
 
 private theorem comm_four_poly {R : Type*} [Ring R] (B C : R) :
     (1+B)*(1+C)*(1+B+B*B)*(1+C+C*C) =
@@ -406,11 +398,11 @@ private theorem comm_four_char2 {R : Type*} [Ring R] [CharP R 2] (B C : R)
     (hB3 : B*B*B = 0) (hC3 : C*C*C = 0)
     (hB2C : B*B*C = 0) (hBC2 : B*C*C = 0)
     (hCBB : C*B*B = 0) (hCBC : C*B*C = 0)
-    (hBCB : B*C*B = 0) (hCB2 : C*B*C = 0) :
+    (hBCB : B*C*B = 0) (_hCB2 : C*B*C = 0) :
     (1+B)*(1+C)*(1+B+B*B)*(1+C+C*C) = 1 + B*C + C*B := by
   rw [comm_four_poly B C]
   simp only [nsmul_two_eq_zero, nsmul_three_eq_self, hB3, hC3, hB2C, hBC2, hCBB, hCBC,
-    hBCB, hCB2, zero_mul, mul_zero, add_zero, zero_add]
+    hBCB, zero_mul, add_zero]
 
 
 private theorem heis_short_poly {R : Type*} [Ring R] (A B : R) :
@@ -422,12 +414,11 @@ private theorem heis_short_poly {R : Type*} [Ring R] (A B : R) :
 
 private theorem heis_short_char2 {R : Type*} [Ring R] [CharP R 2] (A B : R)
     (hA2 : A*A = 0) (hB3 : B*B*B = 0) (hBAB : B*A*B = 0)
-    (hABAB : A*B*A*B = 0) (hBABB : B*A*B*B = 0) (hABABB : A*B*A*B*B = 0)
+    (hABAB : A*B*A*B = 0) (_hBABB : B*A*B*B = 0) (_hABABB : A*B*A*B*B = 0)
     (hAB3 : A*B*B*B = 0) :
     (1+A)*(1+B)*(1+A)*(1+B+B*B) = 1 + A*B + B*A + A*B*A + A*B*B := by
   rw [heis_short_poly A B]
-  simp only [nsmul_two_eq_zero, hA2, hB3, hBAB, hABAB, hBABB, hABABB, hAB3, zero_mul, mul_zero,
-    add_zero, zero_add]
+  simp only [nsmul_two_eq_zero, hA2, hB3, hBAB, hABAB, hAB3, zero_mul, add_zero]
 
 theorem commutator_suHeis_suHeis [CharP F 2] {a b : Fin (m / 2) ⊕ Fin (m / 2)} (hab : idx a ≠ idx b)
     {u v u' v' : F} (h : v + σ v + σ u * u = 0) (h' : v' + σ v' + σ u' * u' = 0) :
@@ -435,7 +426,7 @@ theorem commutator_suHeis_suHeis [CharP F 2] {a b : Fin (m / 2) ⊕ Fin (m / 2)}
   have h2 := Pres.heis_neg_valid hσ h
   have h2' := Pres.heis_neg_valid hσ h'
   obtain ⟨h_ab, h_aB, h_Ab, h_AB, h_aa, h_bb, h_am, h_bm, h_Am, h_Bm, hba⟩ := idxFacts hm hab
-  haveI := matrix_charP (F := F) (m := m) hm
+  have := matrix_charP (F := F) (m := m) hm
   set B : Matrix (Fin m) (Fin m) F := heisNil σ hm b u v with hBdef
   set C : Matrix (Fin m) (Fin m) F := heisNil σ hm a u' v' with hCdef
   obtain ⟨hBB, hCC, hBC, hCB, hB3, hC3, hB2C, hBC2, hCBB, hCBC, hBCB, hCB2⟩ :=
@@ -449,12 +440,12 @@ theorem commutator_suHeis_suHeis [CharP F 2] {a b : Fin (m / 2) ⊕ Fin (m / 2)}
     rw [mat_suHeis hσ hm h', heisenbergMatrix_eq_one_add, hCdef, heisNil]
   have hBinv : mat σ m (suHeis σ hσ hm b (-u) (-v - u * σ u)) = 1 + B + B * B := by
     rw [mat_suHeis hσ hm h2, heisenbergMatrix_eq_one_add, hBB, hBdef, heisNil]
-    simp only [map_neg, CharTwo.neg_eq, neg_one_smul, CharTwo.sub_eq_add]
+    simp only [CharTwo.neg_eq, CharTwo.sub_eq_add]
     rw [single_add]
     abel
   have hCinv : mat σ m (suHeis σ hσ hm a (-u') (-v' - u' * σ u')) = 1 + C + C * C := by
     rw [mat_suHeis hσ hm h2', heisenbergMatrix_eq_one_add, hCC, hCdef, heisNil]
-    simp only [map_neg, CharTwo.neg_eq, neg_one_smul, CharTwo.sub_eq_add]
+    simp only [CharTwo.neg_eq, CharTwo.sub_eq_add]
     rw [single_add]
     abel
   have hRHS : mat σ m (suElt σ hσ a b (σ u * u')) = 1 + B * C + C * B := by
@@ -475,7 +466,7 @@ theorem commutator_suElt_swap_suHeis [CharP F 2] {a b : Fin (m / 2) ⊕ Fin (m /
   obtain ⟨hE2, hH3, hHEH, hEHEH, hHEHH, hEHEHH, hEHHH, hHaEa⟩ :=
     nil_products_eq_zero (σ := σ) (hm := hm) hab s
   obtain ⟨hEH, hHE, hEHE, hEHH⟩ := nil_products_eq (σ := σ) (hm := hm) hab s
-  haveI := matrix_charP (F := F) (m := m) hm
+  have := matrix_charP (F := F) (m := m) hm
   have hcomm := heis_short_char2 (nilSuEltSwap (σ := σ) a b s) (nilSuHeis (σ := σ) (hm := hm) b u v)
     hE2 hH3 hHEH hEHEH hHEHH hEHEHH hEHHH
   have hv : σ v = v + σ u * u := by
@@ -490,7 +481,7 @@ theorem commutator_suElt_swap_suHeis [CharP F 2] {a b : Fin (m / 2) ⊕ Fin (m /
       1 + nilSuHeisScaled (σ := σ) (hm := hm) a s u v + nilSuEltScaled (σ := σ) a b s v by
     rw [mul_add, mul_one, add_mul, one_mul, hHaEa, add_zero]]
   rw [hEHE, hEHH, hEH, hHE]
-  simp only [nilSuHeisScaled, nilSuEltScaled, nilSuHeis, nilSuEltSwap, heisNil, suEltNil,
+  simp only [nilSuHeisScaled, nilSuEltScaled, heisNil, suEltNil,
     map_mul, hσ, crd_swap]
   rw [show s * σ v = s * v + s * u * σ u by rw [hv]; ring]
   rw [show s * v * σ s = σ s * s * v by ring]

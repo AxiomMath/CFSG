@@ -13,6 +13,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16h_uelem_conjSubgroup_le_of_mem {K M : Subgroup G} (hK : K ≤ M) {x : G}
     (hx : x ∈ M) : conjSubgroup K x ≤ M := by
   intro y hy
@@ -21,6 +22,7 @@ private theorem s16h_uelem_conjSubgroup_le_of_mem {K M : Subgroup G} (hK : K ≤
   have e : x⁻¹ * (x * y * x⁻¹) * x = y := by group
   rwa [e] at h1
 
+omit [Finite G] in
 private theorem s16h_uelem_conj_noncyclic {p : ℕ} {K P : Subgroup G} (hPK : P ≤ K)
     (hPp : IsPGroup p P) (hPc : ¬ IsCyclic ↥P) (x : G) :
     conjSubgroup P x ≤ conjSubgroup K x ∧ IsPGroup p (conjSubgroup P x) ∧
@@ -39,6 +41,7 @@ private theorem s16h_uelem_mem_fixV_sup {W : Type} [CommGroup W] {A B : Subgroup
       (fun y hy => MulAction.mem_stabilizer_iff.mpr (hB y hy))
   exact MulAction.mem_stabilizer_iff.mp (hle hz)
 
+omit [Finite G] in
 private theorem s16h_uelem_barSub_sup (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     {X₁ X₂ : Subgroup G} (h₁ : X₁ ≤ stabTil V₀ V) (h₂ : X₂ ≤ stabTil V₀ V) :
     barSub V₀ V hV (X₁ ⊔ X₂) = barSub V₀ V hV X₁ ⊔ barSub V₀ V hV X₂ := by

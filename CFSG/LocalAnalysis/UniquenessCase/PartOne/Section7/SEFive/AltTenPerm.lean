@@ -37,8 +37,8 @@ private theorem fixes_of_commute_of_five_set {O : Finset (Fin 10)} (hO : O.card 
     (hcomm : Commute a b) (hbprime : (orderOf b).Prime) (hb5 : orderOf b ≠ 5) :
     ∀ i ∈ O, b i = i := by
   classical
-  letI : Fintype {i // i ∈ O} := Subtype.fintype (fun i => i ∈ O)
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  let : Fintype {i // i ∈ O} := Subtype.fintype (fun i => i ∈ O)
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let aO : Perm {i // i ∈ O} := a.subtypePerm (fun i => (haO i).symm)
   have haO5 : aO ^ 5 = 1 := by
     change (a.subtypePerm (fun i => (haO i).symm)) ^ 5 = 1
@@ -157,7 +157,7 @@ private theorem not_preserves_of_isCycle_support {B : Finset (Fin 10)} {c : Perm
 
 theorem eq_bot_of_normalized_by_alt_prod {B : Finset (Fin 10)} (hB : B.card = 5)
     {Q : Subgroup (alternatingGroup (Fin 10))} (hQ : Nat.Coprime (Nat.card Q) 5)
-    (hQB : ∀ σ ∈ Q, (∀ i ∈ B, (σ : Equiv.Perm (Fin 10)) i ∈ B) ∨
+    (_hQB : ∀ σ ∈ Q, (∀ i ∈ B, (σ : Equiv.Perm (Fin 10)) i ∈ B) ∨
       ∀ i ∈ B, (σ : Equiv.Perm (Fin 10)) i ∉ B)
     (hnorm : ∀ g : alternatingGroup (Fin 10), ((∀ i ∉ B, (g : Equiv.Perm (Fin 10)) i = i) ∨
       ∀ i ∈ B, (g : Equiv.Perm (Fin 10)) i = i) → ∀ σ ∈ Q, g * σ * g⁻¹ ∈ Q) : Q = ⊥ := by
@@ -219,7 +219,7 @@ theorem exists_five_commute_not_preserves {B : Finset (Fin 10)} (hB : B.card = 5
       ¬ ((∀ i ∈ B, (c : Equiv.Perm (Fin 10)) i ∈ B) ∨
         ∀ i ∈ B, (c : Equiv.Perm (Fin 10)) i ∉ B) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let sx : Perm (Fin 10) := x
   let sy : Perm (Fin 10) := y
   have hx5' : sx ^ 5 = 1 := by
@@ -314,7 +314,7 @@ theorem exists_five_commute_not_preserves {B : Finset (Fin 10)} (hB : B.card = 5
   have hnotdvd : ¬ orderOf sy ∣ Fintype.card {i : Fin 10 // i ∉ O} := by
     rw [hcardOc]
     exact fun h => hy5' ((Nat.prime_dvd_prime_iff_eq hyr' Nat.prime_five).1 h)
-  haveI : Fact (Nat.Prime (orderOf sy)) := ⟨hyr'⟩
+  have : Fact (Nat.Prime (orderOf sy)) := ⟨hyr'⟩
   obtain ⟨w', hw'⟩ := Equiv.Perm.exists_fixed_point_of_prime
     (p := orderOf sy) (n := 1) hnotdvd (by simpa using hsyCpow)
   let w : Fin 10 := w'.1

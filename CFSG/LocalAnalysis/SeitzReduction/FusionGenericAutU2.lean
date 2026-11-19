@@ -181,7 +181,7 @@ theorem two_dvd_index_of_commutator_eq_top_of_mul_mem (hperf : commutator G = �
           ((S : Subgroup G).subgroupOf L).index :=
       Subgroup.relIndex_subgroupOf hLt
     rwa [e] at h
-  have hSLp : IsPGroup 2 ((S : Subgroup G).subgroupOf L) := S.isPGroup'.comap_subtype
+  have hSLp : IsPGroup 2 ((S : Subgroup G).subgroupOf L) := S.isPGroup.comap_subtype
   set U : Sylow 2 L := hSLp.toSylow hodd with hUdef
   have hUS : ∀ u ∈ (U : Subgroup L), (u : G) ∈ (S : Subgroup G) := by
     intro u hu
@@ -277,7 +277,7 @@ theorem exists_normal_index_two_of_rigid_sylow {t : G} (ht : orderOf t = 2) (S :
     intro y hy hyM
     rw [hxk]
     exact Nat.find_min' hex ⟨y, hy, hyM, rfl⟩
-  rcases LinearPilot.exists_normal_index_two_or_conj_mem_of_min S.isPGroup' S.not_dvd_index hMS
+  rcases LinearPilot.exists_normal_index_two_or_conj_mem_of_min S.isPGroup S.not_dvd_index hMS
     hMidx hxS hxM hmin with h | ⟨g, hgM, hcall⟩
   · exact h
   · exfalso

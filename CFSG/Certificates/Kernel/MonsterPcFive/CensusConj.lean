@@ -34,7 +34,7 @@ theorem pi_ident (c0 c1 c2 c3 s0 s1 s2 s3 : ℕ) (u : Fin 4 → ZMod 5) (i : Fin
   fin_cases i <;>
     simp only [Fin.sum_univ_four, piE, dg, Fin.isValue, Fin.val_zero, Fin.val_one, Fin.val_two,
       fin4_val3, sel4_0, sel4_1, sel4_2, sel4_3, delta_eq, ZMod.natCast_mod] <;>
-    norm_num <;> push_cast <;> rw [h4] <;> ring
+    norm_num <;> rw [h4] <;> ring
 
 theorem cosT_red (k : ℕ) : (cosT k).red := by
   unfold cosT V9.red RV.red
@@ -81,13 +81,13 @@ theorem rep_step (H : PcHyp u2 u1 b x) (C : TabChecks) (h4 : Comm4 (aG b x)) {t 
     funext i
     fin_cases i
     · have e : cc / 125 % 5 = (Pu 0).val := by omega
-      simp [e, ZMod.natCast_zmod_val]
+      simp [e]
     · have e : cc / 25 % 5 = (Pu 1).val := by omega
-      simp [e, ZMod.natCast_zmod_val]
+      simp [e]
     · have e : cc / 5 % 5 = (Pu 2).val := by omega
-      simp [e, ZMod.natCast_zmod_val]
+      simp [e]
     · have e : cc % 5 = (Pu 3).val := by omega
-      simp [e, ZMod.natCast_zmod_val]
+      simp [e]
   refine ⟨hz (aG b x) Su, cc, ?_, ?_, ?_⟩
   · have v0 := hval 0
     have v1 := hval 1
@@ -108,7 +108,7 @@ theorem rep_step (H : PcHyp u2 u1 b x) (C : TabChecks) (h4 : Comm4 (aG b x)) {t 
     have e : d4 cc i = (dg cc ⟨i, hi⟩).val := by
       rw [dg, ZMod.val_natCast]
       exact (Nat.mod_eq_of_lt (by unfold d4; cases i.beq 0 <;> cases i.beq 1 <;> cases i.beq 2 <;>
-        simp only [cond_true, cond_false] <;> exact Nat.mod_lt _ (by norm_num))).symm
+        simp only [_root_.Bool.cond_true, Bool.cond_false] <;> exact Nat.mod_lt _ (by norm_num))).symm
     rw [e, hdg, hz0, ZMod.val_zero]
   · rw [hconj, ← H.psi_mul C ht (iotaV_red _), psi_iotaV H, hdg]
 
@@ -210,14 +210,14 @@ theorem route_good (H : PcHyp u2 u1 b x) (C : TabChecks) {rep depth kind arg cls
     have hcl := hf c hc
     unfold classW at hcl
     by_cases k0 : (nthN kind c).beq 0 = true
-    · simp only [k0, cond_true] at hcl
+    · simp only [k0, _root_.Bool.cond_true] at hcl
       obtain ⟨k, hk, e⟩ := mem_nthN (memK_spec hcl)
       have hk31 : k < 31 := by simpa [repK] using hk
       refine ⟨k, hk31, by rw [e]; exact h5, 1, by norm_num, by norm_num, 1, ?_⟩
       rw [e]
       group
     by_cases k1 : (nthN kind c).beq 1 = true
-    · simp only [k0, k1, cond_true, cond_false, Bool.false_eq_true, Bool.and_eq_true,
+    · simp only [k0, k1, _root_.Bool.cond_true, Bool.cond_false, Bool.and_eq_true,
         Nat.blt_eq] at hcl
       obtain ⟨ha, hs⟩ := hcl
       obtain ⟨cN, hcN⟩ := hN _ ha
@@ -229,7 +229,7 @@ theorem route_good (H : PcHyp u2 u1 b x) (C : TabChecks) {rep depth kind arg cls
       rw [← e] at q
       exact Qt_of_conj q
     · simp only [Bool.not_eq_true] at k0 k1
-      simp only [k0, k1, cond_false, Bool.and_eq_true, Nat.blt_eq, Nat.ble_eq] at hcl
+      simp only [k0, k1, Bool.cond_false, Bool.and_eq_true, Nat.blt_eq, Nat.ble_eq] at hcl
       obtain ⟨⟨⟨h2, h5a⟩, -⟩, hs⟩ := hcl
       have e := H.psi_pow C (dec_red (nthN rep c)) (nthN arg c)
       have hv5 : psi u2 u1 b x (powV (dec (nthN rep c)) (nthN arg c)) ^ 5 = 1 := by
@@ -300,7 +300,7 @@ theorem census_conj [Finite G] (H : PcHyp u2 u1 b x) (C : TabChecks) (hs : sigOK
   unfold ptOK at hpt
   by_cases hd0 : (nthN ds j).beq 0 = true
   · exfalso
-    simp only [hd0, cond_true, Bool.or_eq_true, Bool.not_eq_true'] at hpt
+    simp only [hd0, _root_.Bool.cond_true, Bool.or_eq_true, Bool.not_eq_true'] at hpt
     rcases hpt with h1 | h1
     · apply hZ1
       rw [V9.beq_eq h1, psi_one]
@@ -311,7 +311,7 @@ theorem census_conj [Finite G] (H : PcHyp u2 u1 b x) (C : TabChecks) (hs : sigOK
       rw [e2] at h1
       exact absurd h1 (by decide)
   · simp only [Bool.not_eq_true] at hd0
-    simp only [hd0, cond_false, Bool.and_eq_true, Nat.ble_eq, Nat.blt_eq] at hpt
+    simp only [hd0, Bool.cond_false, Bool.and_eq_true, Nat.ble_eq, Nat.blt_eq] at hpt
     obtain ⟨⟨-, hl⟩, he⟩ := hpt
     have e := congrArg (psi u2 u1 b x) (V9.beq_eq he)
     rw [← H.psi_mul C (dec_red _) (mulV_red _ _), ← H.psi_mul C (dec_red _) (dec_red _)] at e

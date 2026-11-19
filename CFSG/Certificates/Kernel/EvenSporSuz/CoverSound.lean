@@ -45,10 +45,10 @@ theorem ofMt_negM : ofMt negM = -1 := by
   rw [h1, h2, Matrix.neg_apply, Matrix.one_apply]
   by_cases h : i = k
   · subst h
-    simp only [if_true]
+    simp only [ite_true]
     decide
   · have : i.val ≠ k.val := fun h' => h (Fin.ext h')
-    simp only [h, this, if_false, Nat.cast_zero, neg_zero]
+    simp only [h, this, ite_false, Nat.cast_zero, neg_zero]
 
 variable (G : GenSys) (h : G.valid = true)
 
@@ -61,20 +61,20 @@ theorem letterU_mul_succ (i : ℕ) : G.letterU h (2 * i) * G.letterU h (2 * i + 
   have e1 : G.letter (2 * i) = G.mats.getD i oneM := by
     have a1 : 2 * i % 2 = 0 := by omega
     have a2 : 2 * i / 2 = i := by omega
-    simp only [GenSys.letter, a1, a2, if_true]
+    simp only [GenSys.letter, a1, a2, ite_true]
   have e2 : G.letter (2 * i + 1) = G.invs.getD i oneM := by
     have a1 : (2 * i + 1) % 2 ≠ 0 := by omega
     have a2 : (2 * i + 1) / 2 = i := by omega
-    simp only [GenSys.letter, a1, a2, if_false]
+    simp only [GenSys.letter, a1, a2, ite_false]
   rw [e1, e2, (GenSys.valid_pair G h i).1, ofMt_oneM]
 
 theorem letterU_flip (l : Fin gcS × Bool) :
     G.letterU h (2 * l.1.val + if (!l.2) = true then 0 else 1) =
       (G.letterU h (2 * l.1.val + if l.2 = true then 0 else 1))⁻¹ := by
   rcases l with ⟨x, _ | _⟩
-  · simp only [Bool.not_false, if_true, Bool.false_eq_true, if_false, Nat.add_zero]
+  · simp only [Bool.not_false, ite_true, Bool.false_eq_true, ite_false, Nat.add_zero]
     exact eq_inv_of_mul_eq_one_left (letterU_mul_succ G h x.val)
-  · simp only [Bool.not_true, Bool.false_eq_true, if_false, if_true, Nat.add_zero]
+  · simp only [Bool.not_true, Bool.false_eq_true, ite_false, ite_true, Nat.add_zero]
     exact eq_inv_of_mul_eq_one_right (letterU_mul_succ G h x.val)
 
 theorem wordCodes_append (a b : List (Fin gcS × Bool)) :
@@ -124,7 +124,6 @@ theorem eval_commWord_of_central (u v : List (Fin gcS × Bool))
       rw [Units.val_mul, Units.val_mul, ev]
       first
         | exact (Commute.neg_one_right _).eq
-        | simp
   rw [hc]
   group
 

@@ -25,17 +25,17 @@ theorem exists_lang_frame
       (D : FrameData ↥(twistedE6RootGroup K σ)),
       IsLang Fr g₀ ∧ TSpec hn hK σ hσ Fr hFr g₀ hζ D ∧ D.Good := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
-  haveI : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
-  haveI : IsAlgClosed (AlgebraicClosure K) := AlgebraicClosure.isAlgClosed K
+  have : IsAlgClosed (AlgebraicClosure K) := AlgebraicClosure.isAlgClosed K
   obtain ⟨g₀, hg₀, hgn⟩ := exists_inv_mul_twistE6_eq (ℓ := 2) (f := n) hn hFr
     (canonicalRep_mem_adjointGroup (coxeterSystem Tag.E6) (AlgebraicClosure K) twE6W0)
   have hL : IsLang Fr g₀ := ⟨hg₀, hgn⟩
   obtain ⟨D, hD⟩ := exists_tFrame hn hK σ hσ Fr hFr h3 hL hζ hζo
   have hgood : D.Good :=
-    { center := tFrame_center hn hK σ hσ
+    { center := tFrame_center σ
       faithful := tFrame_faithful hn hK σ hσ Fr hFr h3 hL hζ hζo hD
       shape := tFrame_shape hn hK σ hσ Fr hFr h3 hL hζ hζo hD
       torus := tFrame_torus hn hK σ hσ Fr hFr h3 hL hζ hζo hD
@@ -122,7 +122,7 @@ theorem model_data
     (hρ' : ∀ a l, ρ' a (ψ' l) = ψ' (a l)) (hρinj : Function.Injective ρ')
     {A : Subgroup (MulAut L')} (hA : IsElemAbelian 3 A) (hsc : GGTorusSelfCent 3 A)
     (hal : ∀ a ∈ A, ρ' a ∈ D.diag.range) :
-    ∃ (κ : A →* Multiplicative (Fin 6 → ZMod 3)) (T : Subgroup L') (w : Fin 6 → L'),
+    ∃ (κ : A →* Multiplicative (Fin 6 → ZMod 3)) (T : Subgroup L') (_w : Fin 6 → L'),
       (∀ a : A, D.diag (κ a) = ρ' a) ∧ Function.Injective κ ∧
       (κ.range = ⊤ ∨ ∀ x, Multiplicative.ofAdd x ∈ κ.range ↔ x ∈ NoOffRest.hypE6) ∧
       (∀ z ∈ ψ₀.ker, Odd (orderOf z) → z ∈ T) ∧
@@ -134,7 +134,7 @@ theorem model_data
           (b : MulAut L') = MulAut.conj n * a * (MulAut.conj n)⁻¹ →
             Multiplicative.toAdd (κ b) = adAct .E6 3 u (Multiplicative.toAdd (κ a)) := by
   classical
-  obtain ⟨Φ, hΦ, T, w, hbody⟩ :=
+  obtain ⟨Φ, hΦ, T, _w, hbody⟩ :=
     CFSG.StandardType.KGL.modelDiag_of_good_cover ggAbelianLift D hgood
       (coverOdd_T hn hK σ hσ h3) hψ' hker' hperf hρ' hρinj hA hsc hal
   obtain ⟨hinj, hrange, -, hTodd, hTfix, -, -, -, hHyp, hinner, -, -⟩ := hbody
@@ -142,7 +142,7 @@ theorem model_data
     intro z hz hodd
     have hz' : z ∈ ψ'.ker := by rwa [hkerEq]
     exact hTodd z hz' hodd
-  exact ⟨Φ, T, w, hΦ, hinj, hrange, hTodd', hTfix, hHyp, hinner⟩
+  exact ⟨Φ, T, _w, hΦ, hinj, hrange, hTodd', hTfix, hHyp, hinner⟩
 
 private theorem matrix_data
     {n : ℕ} (hn : 1 ≤ n) {K : Type} [Field K] [Finite K]

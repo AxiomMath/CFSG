@@ -17,6 +17,7 @@ open CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag (unipotent)
 variable {Q : Type} [Group Q] [Finite Q] {F : Type} [Field F] [Finite F] [CharP F 2]
   {ι : ↥(CFSG.Assembly.LowTwoRank.StatedSp 2 F) →* Q}
 
+omit [Finite F] [CharP F 2] in
 private theorem Q2_zero_inf_Q2_one_le :
     Q2 F 0 ⊓ Q2 F 1 ≤ CFSG.LocalAnalysis.ComponentInitial.SymplecticFlag.borelSubgroup 2 F := by
   intro g hg
@@ -31,6 +32,7 @@ private theorem Q2_zero_inf_Q2_one_le :
   · exact mem_flagStabilizer.mp h0 1 (by simp)
   · exact mem_flagStabilizer.mp h1 2 (by simp)
 
+omit [Finite F] [CharP F 2] in
 private theorem Q2_injective : Function.Injective (Q2 F) := by
   intro i j hij
   rcases CFSG.QuasithinUnique.Vol2Native.A312L.fin_two_cases i with rfl | rfl <;>
@@ -40,12 +42,14 @@ private theorem Q2_injective : Function.Injective (Q2 F) := by
   · exact absurd hij.symm CFSG.QuasithinUnique.Setup.X7a.Q2_ne
   · rfl
 
+omit [Finite F] [CharP F 2] in
 private theorem not_Q2_le_of_ne {i j : Fin 2} (hij : i ≠ j) : ¬ Q2 F i ≤ Q2 F j := by
   intro h
   exact (CFSG.QuasithinUnique.Setup.X7a.covBy_Q2 j).2
     (CFSG.QuasithinUnique.Setup.X7a.covBy_Q2 i).lt
     (lt_of_le_of_ne h fun he => hij (Q2_injective he))
 
+omit [Finite F] [CharP F 2] in
 private theorem Q2_le_Q2_iff {i j : Fin 2} : Q2 F i ≤ Q2 F j ↔ i = j :=
   ⟨fun h => by
     by_contra hij
@@ -84,6 +88,7 @@ private theorem sp4K₂_Q2_zero {n : ℕ} (hn : 2 ≤ n) (hF : Nat.card F = 2 ^ 
     CFSG.Quasithin.H13.Ch4.Sp4M.map_tau_R1] at h
   exact h.symm
 
+omit [Finite Q] [Finite F] [CharP F 2] in
 theorem isMaxParabolicOver_map_Q2 (hι : Function.Injective ι) (j : Fin 2) :
     IsMaxParabolicOver ι.range ((unipotent 2 F).map ι) ((Q2 F j).map ι) := by
   refine ⟨Subgroup.map_le_range ι _, ?_, ?_, ?_⟩
@@ -118,11 +123,13 @@ theorem isMaxParabolicOver_map_Q2 (hι : Function.Injective ι) (j : Fin 2) :
         subst j
         rw [← hYmap, le_antisymm h1 hQY]
 
+omit [Finite Q] [Finite F] [CharP F 2] in
 theorem map_Q2_zero_ne_one (hι : Function.Injective ι) : (Q2 F 0).map ι ≠ (Q2 F 1).map ι := by
   intro h
   exact CFSG.QuasithinUnique.Setup.X7a.Q2_ne (Subgroup.map_injective hι h)
 
-theorem le_or_le_map_Q2 (hι : Function.Injective ι) {Y : Subgroup Q}
+omit [Finite Q] [Finite F] [CharP F 2] in
+theorem le_or_le_map_Q2 (_hι : Function.Injective ι) {Y : Subgroup Q}
     (hUY : (unipotent 2 F).map ι ≤ Y) (hY : Y < ι.range) :
     Y ≤ (Q2 F 0).map ι ∨ Y ≤ (Q2 F 1).map ι := by
   have hYmap : (Y.comap ι).map ι = Y := Subgroup.map_comap_eq_self hY.le
@@ -141,6 +148,7 @@ theorem le_or_le_map_Q2 (hι : Function.Injective ι) {Y : Subgroup Q}
     rw [← hYmap]
     exact Subgroup.map_mono h
 
+omit [Finite Q] [Finite F] [CharP F 2] in
 theorem map_Q2_inf_le (hι : Function.Injective ι) :
     (Q2 F 0).map ι ⊓ (Q2 F 1).map ι ≤
       normalizer (((unipotent 2 F).map ι : Subgroup Q) : Set Q) := by

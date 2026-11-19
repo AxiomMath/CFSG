@@ -21,12 +21,12 @@ open scoped MatrixGroups
       ext a : 1
       apply Subtype.ext
       ext i j
-      simp [Matrix.SpecialLinearGroup.map_apply_coe])
+      simp)
     (by
       ext a : 1
       apply Subtype.ext
       ext i j
-      simp [Matrix.SpecialLinearGroup.map_apply_coe])
+      simp)
 
 section Main
 
@@ -35,8 +35,8 @@ variable {F : Type} [Field F] [Fintype F]
 theorem false_of_card_three (hcard : Fintype.card F = 3) (hperf : commutator SL(2, F) = ⊤) :
     False := by
   let e : F ≃+* ZMod 3 := FiniteField.ringEquivOfCardEq (by rw [hcard, ZMod.card])
-  haveI : Group.IsPerfect SL(2, F) := Group.isPerfect_def.mpr hperf
-  haveI : Group.IsPerfect SL(2, ZMod 3) :=
+  have : Group.IsPerfect SL(2, F) := Group.isPerfect_def.mpr hperf
+  have : Group.IsPerfect SL(2, ZMod 3) :=
     Group.IsPerfect.ofSurjective (f := (slEquivOfRingEquiv e).toMonoidHom)
       (slEquivOfRingEquiv e).surjective
   have hbot := CFSG.Quasithin.Dickson.sl2_three_perfect_eq_bot ⊤
@@ -50,7 +50,7 @@ variable {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V] [Module (ZMod p) V
 theorem card_eq_ringChar (hF : ringChar F ≠ 2) (hρ : Function.Injective ρ) (hf : Fpf ρ) :
     Fintype.card F = ringChar F := by
   have hrp : (ringChar F).Prime := CharP.char_is_prime F (ringChar F)
-  haveI : Fact (ringChar F).Prime := ⟨hrp⟩
+  have : Fact (ringChar F).Prime := ⟨hrp⟩
   have hle : Nat.card (unipSL F) ≤ ringChar F := by
     refine CFSG.RankThree.PartTwo.KFacts.card_le_of_isCyclic_sylow
       (fun Q : Sylow (ringChar F) SL(2, F) => hf.isCyclic_sylow hρ hF Q) ?_
@@ -82,12 +82,12 @@ theorem thirtyTwo_dvd_card {q : ℕ} (hq : 16 ∣ q - 1) (hq1 : 1 ≤ q) : 32 �
 theorem false_of_sixteen_dvd (hp : p ≠ 2) (hF : ringChar F ≠ 2)
     (hρ : Function.Injective ρ) (hf : Fpf ρ) (h16 : 16 ∣ Fintype.card F - 1)
     (hodd : Odd (Fintype.card F)) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨i, j, w, z, hz, hz1, hi, hj, hji, hw3, hwi, hwj⟩ := exists_quaternion_relations hF
   obtain ⟨S, hS⟩ := (isPGroup_closure_of_quaternion hz hi hj hji).exists_le_sylow
   have hiS : i ∈ S := hS (Subgroup.subset_closure (by simp))
   have hjS : j ∈ S := hS (Subgroup.subset_closure (by simp))
-  haveI : Finite F := inferInstance
+  have : Finite F := inferInstance
   have hodd' : Odd (Nat.card F) := by rwa [Nat.card_eq_fintype_card]
   obtain ⟨n, hn, ⟨e⟩⟩ := CFSG.Semidihedral.OddFieldSL2.sylow_two_quaternion F hodd' S
   have hcardS : Nat.card (S : Subgroup SL(2, F)) = 4 * 2 ^ (n - 2) := by
@@ -119,7 +119,7 @@ variable {F : Type} [Field F] [Finite F] {p : ℕ} [Fact p.Prime] {V : Type} [Ad
 theorem card_eq_five_of_fpf_sl2 (hp : p ≠ 2) (hF : ringChar F ≠ 2)
     (hperf : commutator SL(2, F) = ⊤) (hρ : Function.Injective ρ) (hf : Fpf ρ) :
     Nat.card F = 5 := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   have hcard := card_eq_ringChar hF hρ hf
   have hrp : (ringChar F).Prime := CharP.char_is_prime F (ringChar F)
   rw [Nat.card_eq_fintype_card, hcard]

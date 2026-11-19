@@ -22,17 +22,20 @@ open Polynomial Module QuadraticMap CFSG.RankThree.Classical2 CFSG.RankThree.Par
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [FiniteDimensional (ZMod 2) V]
   {Q : QuadraticForm (ZMod 2) V}
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem rot_apply_left_of_ne {l : List (V × V)} (hl : IsFrame Q l) {p q : V × V} (hp : p ∈ l)
     (hq : q ∈ l) (hne : p ≠ q) : rot Q p.1 p.2 q.1 = q.1 := by
   obtain ⟨h1, -, h3, -⟩ := hl.perp_of_mem_of_ne hp hq hne
   exact rot_apply_of_perp (hl.pair p hp) (by rw [polar_comm]; exact h1) (by rw [polar_comm]; exact h3)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem rot_ne_one {p : V × V} (hp : MinusPair Q p.1 p.2) : rot Q p.1 p.2 ≠ 1 := by
   intro h
   have := rot_apply_left hp
   rw [h] at this
   exact hp.ne this
 
+omit [FiniteDimensional (ZMod 2) V] in
 private lemma rot_mem_zpowers_of_centralizes {Bb : Subgroup ↥(orthDerived Q)} {l : List (V × V)} {m : ℕ}
     (hF : FrameOf Q Bb m l) {d : ↥(orthDerived Q)}
     (hcd : Bb ⊓ Subgroup.centralizer
@@ -117,13 +120,13 @@ private lemma false_of_supportedFixedDerived (hQ : (QuadraticMap.polarBilin Q).N
     (hLd : LayerIs 3 (Subgroup.centralizer ({d} : Set ↥(orthDerived Q))) (isUnA (n - 1) 2))
     (hLeq : GLALayer (Subgroup.centralizer ({d} : Set ↥(orthDerived Q))) =
       F.subgroupOf (orthDerived Q))
-    (hFle : F ≤ supportedFixedDerived Q (d : V ≃ₗ[ZMod 2] V))
+    (_hFle : F ≤ supportedFixedDerived Q (d : V ≃ₗ[ZMod 2] V))
     (hFdim : finrank (ZMod 2) (fixedSpace (d : V ≃ₗ[ZMod 2] V)) ≤ 4 ∨
       F = supportedFixedDerived Q (d : V ≃ₗ[ZMod 2] V))
     {p₀ : V × V} (hp₀ : p₀ ∈ l) (hmov₀ : (d : V ≃ₗ[ZMod 2] V) p₀.1 ≠ p₀.1)
     (huniq : ∀ p ∈ l, p ≠ p₀ → (d : V ≃ₗ[ZMod 2] V) p.1 = p.1) : False := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
   have hl := hF.isFrame
   have hdt : (d : V ≃ₗ[ZMod 2] V) ∈ torus Q l := hF.mem_torus hd
   have hfs := fixedSpace_eq_perpPlane hl hp₀ hdt hmov₀ huniq
@@ -149,9 +152,9 @@ theorem fullSupport_of_layerIs (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) 
     (hcd : Bb ⊓ Subgroup.centralizer
       (GLALayer (Subgroup.centralizer {d}) : Set ↥(orthDerived Q)) = Subgroup.zpowers d) :
     ∀ p ∈ l, (d : V ≃ₗ[ZMod 2] V) p.1 ≠ p.1 := by
-  haveI : Finite V := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite V := Module.finite_of_finite (ZMod 2)
+  have : Finite (V ≃ₗ[ZMod 2] V) := finite_linearEquiv
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hl := hF.isFrame
   have hdt : (d : V ≃ₗ[ZMod 2] V) ∈ torus Q l := hF.mem_torus hd
   have hd3' : (d : V ≃ₗ[ZMod 2] V) ^ 3 = 1 := torus_pow_three hl _ hdt

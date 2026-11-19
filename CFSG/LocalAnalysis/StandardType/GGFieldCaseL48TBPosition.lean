@@ -116,14 +116,14 @@ theorem coverP_at_of_tableB {p : ℕ} {B Bs : Subgroup G} {x : G}
   have : h = (ℓ : G) * g := by rw [hg]; group
   rw [this]
   exact Subgroup.mul_mem _ (Subgroup.mem_sup_left (Subgroup.mem_sup_right ℓ.2))
-    (SetLike.le_def.mp (sup_le (le_sup_left.trans le_sup_left) le_sup_right) hgFY)
+    (_root_.IsConcreteLE.le_iff.mp (sup_le (le_sup_left.trans le_sup_left) le_sup_right) hgFY)
 
 theorem card_bstar_eq {p : ℕ} {B Bs : Subgroup G} {x : G}
     {L D J X B₂ : Subgroup G} {d y : G} {K U U₁ : Subgroup G}
     (hS : GGFieldCaseSetup p B Bs x L D J X B₂ d y K U U₁) :
     Nat.card Bs = Nat.card (Bs ⊓ Subgroup.centralizer (X : Set G) : Subgroup G) * p := by
   have hp : p.Prime := hS.1.1.1.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsS := hS.1.1.1.2.2.2.2.2.2.1
   have hx1 : x ≠ 1 := hsS.2.2.1
   have hBst := hS.1.1.2.1
@@ -170,7 +170,7 @@ theorem exists_monoidHom_of_irredTableB (hF : GGL48NbrFieldInput) {p : ℕ} {B B
     (hKG : GGIrredTableB p R I) (hp4 : ¬ p ∣ 4) :
     ∃ ψ : Subgroup.normalizer (U₁ : Set G) →* Multiplicative (ZMod p), ψ ≠ 1 := by
   have hp : p.Prime := hS.1.1.1.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hsS := hS.1.1.1.2.2.2.2.2.2.1
   have hx1 : x ≠ 1 := hsS.2.2.1
   have hLx : L ≤ Subgroup.centralizer ({x} : Set G) := hsS.2.2.2.1.1
@@ -213,7 +213,7 @@ theorem exists_monoidHom_of_irredTableB (hF : GGL48NbrFieldInput) {p : ℕ} {B B
           obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hh
           have hxa : Commute x a := by
             have := mem_centralizer_singleton_iff.mp ha.1
-            first | exact this | exact this.symm
+            exact this.symm
           exact (Commute.zpow_left hxa k).eq)⟩
     · intro c hc
       apply GGL48TW.Cent.mem_normalizer_of_conj_mem

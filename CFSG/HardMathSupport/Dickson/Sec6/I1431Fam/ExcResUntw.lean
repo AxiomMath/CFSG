@@ -33,7 +33,7 @@ theorem excres_noField_untw {τ : Tag} (hτ : τ = .F4 ∨ τ = .E6 ∨ τ = .E7
     ¬ (FieldBar 2 J (MulAut.conj y) ∧ ¬ TrivBar J (MulAut.conj y)) := by
   classical
   obtain ⟨F, hFf, hFin, hFcard, ⟨θ⟩⟩ := exists_equiv_adjointGroup_of_untwisted hU
-  haveI : CharP F p := finite_field_prime_power_characteristic hp hf hFcard
+  have : CharP F p := finite_field_prime_power_characteristic hp hf hFcard
   have h3F : ¬ 3 ∣ Nat.card F := by
     rw [hFcard]
     intro h3

@@ -27,12 +27,12 @@ theorem coverPG3_cases_of_bounds (h : ∀ k l, k < 2 → l < 3 → Finite (Cover
   obtain ⟨hf, hc⟩ := h k l hk hl
   refine ⟨hf, ?_⟩
   rcases Nat.eq_zero_or_pos l with rfl | hl0
-  · rw [if_pos rfl] at hc
+  · rw [ite_eq_left rfl] at hc
     interval_cases k
     · exact Or.inr ⟨hc, Or.inr (k91c3_hom ![Multiplicative.ofAdd 0, Multiplicative.ofAdd 0,
         Multiplicative.ofAdd 2] (by decide) 2 (by decide))⟩
     · exact Or.inr ⟨hc, Or.inl ⟨rfl, rfl⟩⟩
-  · rw [if_neg hl0.ne'] at hc
+  · rw [ite_eq_right hl0.ne'] at hc
     exact Or.inl (by omega)
 
 end CFSG.LocalAnalysis.UniquenessCase.PartOne.Section8.KInputs

@@ -188,9 +188,9 @@ theorem burnsideB49x_card_fixU_dual (hK : Nat.card K = 2)
       (burnsideB49x_hatW hV U G (burnsideB49_hG hreal) A))) := by
   set hG := burnsideB49_hG hreal with hGdef
   have hquot : CFSG.ASVolI.ChB.QuotIsoSub G U ∨ CFSG.ASVolI.ChB.QuotIsoDual G U := Or.inr hdual
-  haveI : Finite (burnsideB49_W hV U) := inferInstance
-  haveI : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
-  haveI : Finite (Dual (ZMod 2) (burnsideB49_W hV U)) := Module.finite_of_finite (ZMod 2)
+  have : Finite (burnsideB49_W hV U) := inferInstance
+  have : FiniteDimensional (ZMod 2) (burnsideB49_W hV U) := Module.Finite.of_finite
+  have : Finite (Dual (ZMod 2) (burnsideB49_W hV U)) := Module.finite_of_finite (ZMod 2)
   have hn : finrank (ZMod 2) (burnsideB49_W hV U) = n := burnsideB49_finrank_W hV hK hreal hquot
   obtain ⟨φ, hφ⟩ := hdual
   have hann : Nat.card ↥(burnsideB49x_wcomm (burnsideB49x_hatW hV U G hG A)).dualAnnihilator =

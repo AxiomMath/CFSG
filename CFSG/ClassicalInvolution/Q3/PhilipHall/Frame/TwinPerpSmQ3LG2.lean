@@ -124,7 +124,7 @@ theorem false_of_cross (h : PerpHypS n Y R S t) {N : Subgroup Y} [N.Normal]
   · apply hgN
     rw [eq_top_of_core_le h (core_le_of_sylow_le h hS0)]
     exact Subgroup.mem_top g
-  obtain ⟨w, hwS, hwN⟩ := SetLike.not_le_iff_exists.mp hS0
+  obtain ⟨w, hwS, hwN⟩ := IsConcreteLE.not_le_iff_exists.mp hS0
   obtain ⟨e⟩ := h.core.q8
   let e₀ : ↥((S : Subgroup R).map R.subtype) ≃* QuaternionGroup 2 :=
     ((S : Subgroup R).equivMapOfInjective R.subtype R.subtype_injective).symm.trans e
@@ -147,8 +147,8 @@ end Q3L
 
 theorem leaf_g23 {n : ℕ} : TwinLeafS n fun F _ => LieModel F .G2 0 3 1 :=
   TwinLeafS.of_no fun Y _ _ R S t h _ hm => by
-    haveI := h.core.simple
-    haveI hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
+    have := h.core.simple
+    have hTn : (genFittingFStar Y).Normal := genFittingFStar_normal Y
     have hC : Subgroup.centralizer ((genFittingFStar Y : Subgroup Y) : Set Y) = ⊥ :=
       Nobq.centralizer_genFittingFStar_eq_bot h.core.nonab
     obtain ⟨htN, s, hsS, hsN, hs4⟩ := Q3L.exists_u1_sylow h hC

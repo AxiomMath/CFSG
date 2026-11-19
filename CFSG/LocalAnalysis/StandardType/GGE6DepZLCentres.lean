@@ -24,7 +24,7 @@ theorem zl_frame_centres {V : Type} [AddCommGroup V] (hexp : ∀ v : V, 3 • v 
     (hσσ : ∀ i v, σ i (σ i v) = v) :
     ∃ h : Fin 6 → V, (∀ i, Φ (h i) = cartanE6 i) ∧ ∀ i v, σ i v = v - (Φ v i).val • h i := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd0 : ∀ i v, Φ v i = 0 → σ i v - v = 0 := by
     intro i v hv
     have hΦd : Φ (σ i v - v) = 0 := by

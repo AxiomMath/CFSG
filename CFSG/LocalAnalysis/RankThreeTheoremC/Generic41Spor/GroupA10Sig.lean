@@ -21,7 +21,7 @@ theorem a10_sigTriv : SignalizerTrivialX IsA10Type 5 := by
 
 theorem a10_of_cycleType {σ : Equiv.Perm (Fin 10)} (h : σ.cycleType = {5, 5}) :
     σ ^ 5 = 1 ∧ ∀ x, σ x ≠ x := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   constructor
   · rw [Equiv.Perm.pow_prime_eq_one_iff]
     intro c hc

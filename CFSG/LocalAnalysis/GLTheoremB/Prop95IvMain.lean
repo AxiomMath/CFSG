@@ -33,6 +33,7 @@ theorem notCovered_of_lemma96 (h96 : Lemma96) (h : IvSetting m p M D L) : NotCov
   exact (h96 G m p h.standing M D h.hyp (tl M L) (isComponentOf_tl hp hp2 h.hyp h.hL h.hn h.hnc h.hQ)
     (tl_commutator_gammaD hp h.hyp h.hL h.hn h.hnc)).1 T₀ hT₀ hch
 
+omit [Finite G] in
 theorem isGLBlock_of_subgroupOf (hLM : L ≤ M) (hb : IsGLBlock (⊤ : Subgroup ↥M) (L.subgroupOf M)) :
     IsGLBlock M L :=
   ⟨hLM, (CFSG.Open.IsSubnormal.iff_subgroupOf hLM).2 (CFSG.Open.IsSubnormal.top_iff.1 hb.subnormal),

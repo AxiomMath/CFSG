@@ -117,7 +117,7 @@ theorem owL5_T_subset_orbit {K : Type*} [Field K] [CharP K 3] {U : Type}
       rw [pow_succ', LinearEquiv.mul_apply, ih]
       rw [show a + c • u + (2 * (j : K)) • u' = (1 : K) • a + c • u + (2 * (j : K)) • u' by
         rw [one_smul], hg2]
-      simp only [one_smul, zero_smul, add_zero, mul_one]
+      simp only [one_smul, mul_one]
       congr 1
       rw [Nat.cast_succ]; ring_nf
   obtain ⟨i, hi⟩ := hsurj (y / 2)
@@ -211,7 +211,7 @@ theorem owL5_T_card {K : Type*} [Field K] [CharP K 3] [Finite K] {U : Type}
     subst hbb'; subst hyy'; subst hzz'; rfl
   have hrange : owL5_T (K := K) a u u' = Set.range φ := by
     ext v
-    simp only [owL5_T, Set.mem_setOf_eq, Set.mem_range]
+    simp only [owL5_T, Set.mem_ofPred_eq, Set.mem_range]
     constructor
     · rintro ⟨ε, y, z, hε, rfl⟩
       exact ⟨(⟨ε, hε⟩, y, z), rfl⟩
@@ -247,12 +247,12 @@ theorem owL5_orbit_card_nine_aux {K : Type*} [Field K] [CharP K 3] [Finite K]
     · exact hsub
   have hT : Nat.card (owL5_T (K := K) a u u') = 18 := owL5_T_card hK3 hind
   have horbcard : Nat.card (MulAction.orbit H a) = 18 := by rw [horbit, hT]
-  haveI : Finite U := Module.finite_of_finite K
-  haveI : Fintype U := Fintype.ofFinite U
-  haveI : Fintype (U ≃ₗ[K] U) :=
+  have : Finite U := Module.finite_of_finite K
+  have : Fintype U := Fintype.ofFinite U
+  have : Fintype (U ≃ₗ[K] U) :=
     Fintype.ofInjective (fun f : U ≃ₗ[K] U => (f : U → U)) DFunLike.coe_injective
-  haveI : Finite H := Subtype.finite
-  haveI : Fintype H := Fintype.ofFinite H
+  have : Finite H := Subtype.finite
+  have : Fintype H := Fintype.ofFinite H
   have horbcard' : Fintype.card (MulAction.orbit H a) = 18 := by
     rw [← Nat.card_eq_fintype_card]; exact horbcard
   have hdiv : Fintype.card (MulAction.orbit H a) ∣ Nat.card H := by

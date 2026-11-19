@@ -33,7 +33,7 @@ theorem conj_mem_zpowers {G : Type*} [Group G] {b w : G} (h : b⁻¹ * w * b ∈
 
 theorem tbL_le_normalizer_zpowers :
     tbL ≤ Subgroup.normalizer ((Subgroup.zpowers tbw : Subgroup Gmat) : Set Gmat) := by
-  haveI : Finite Gmat := ThreeBNF.finite_Gmat
+  have : Finite Gmat := ThreeBNF.finite_Gmat
   intro b hb
   refine mem_normalizer_of_conj ?_
   refine conj_mem_of_mem_closure (S := {tbb₁, tbb₂} ∪ Set.range tbq) ?_ hb
@@ -58,7 +58,7 @@ theorem components_dvd_card_mulAut (hirr : irrCheck () = true)
       CFSG.Open.IsComponentOf J
         (Subgroup.centralizer ((Subgroup.zpowers tbw : Subgroup Gmat) : Set Gmat)) →
       9 ∣ (Subgroup.center J).index → 3 ^ 12 ∣ Nat.card (MulAut J) := by
-  haveI : Finite Gmat := ThreeBNF.finite_Gmat
+  have : Finite Gmat := ThreeBNF.finite_Gmat
   have hcardG : Nat.card Gmat = CFSG.Open.monsterOrder := CFSG.YGroups.Y443.natCard_Gmat_eq_monsterOrder
   have hLQ : tbL ≤ Subgroup.normalizer (QQ : Set Gmat) := fun b hb =>
     mem_normalizer_of_conj (tbL_conj b hb)

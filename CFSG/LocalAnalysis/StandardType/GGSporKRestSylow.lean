@@ -13,7 +13,7 @@ theorem ggSporKRest_sylow_le {W : Type} [Group W] [Finite W] {p : ℕ} {H E : Su
     (hp : p.Prime) (hE : IsElemAbelian p E) (hE2 : Nat.card E = p ^ 2)
     (hctl : GGControlsStrongFusion H E) :
     ∃ P : Sylow p W, E ≤ (P : Subgroup W) ∧ (P : Subgroup W) ≤ H := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hEH : E ≤ H := hctl.1
   have hcard_ne : Nat.card E ≠ 1 := by
     rw [hE2]
@@ -38,7 +38,7 @@ theorem ggSporKRest_sylow_le {W : Type} [Group W] [Finite W] {p : ℕ} {H E : Su
     exact h
   have hT'p : IsPGroup p T' := by
     rw [hT'def]
-    exact IsPGroup.map (Sylow.isPGroup' T) H.subtype
+    exact IsPGroup.map (Sylow.isPGroup T) H.subtype
   have hT'max : ∀ Q : Subgroup W, IsPGroup p Q → T' ≤ Q → Q ≤ H → Q = T' := by
     intro Q hQp hT'Q hQH
     have hQsub : IsPGroup p (Q.subgroupOf H) := IsPGroup.comap_subtype hQp
@@ -53,12 +53,12 @@ theorem ggSporKRest_sylow_le {W : Type} [Group W] [Finite W] {p : ℕ} {H E : Su
           simp only [Subgroup.subgroupOf_map_subtype, inf_of_le_left hQH]
       _ = T' := by simp only [hEq, hT'def]
   obtain ⟨P, hT'P⟩ := IsPGroup.exists_le_sylow hT'p
-  have hPp : IsPGroup p (P : Subgroup W) := Sylow.isPGroup' P
+  have hPp : IsPGroup p (P : Subgroup W) := Sylow.isPGroup P
   have hPT' : (P : Subgroup W) = T' := by
     by_contra hne
     have hlt : T' < (P : Subgroup W) := lt_of_le_of_ne hT'P (Ne.symm hne)
     have hgrow := CFSG.GroupTheory.lt_inf_normalizer_of_isPGroup hPp hlt
-    obtain ⟨-, g, hg, hgnot⟩ := SetLike.lt_iff_le_and_exists.mp hgrow
+    obtain ⟨-, g, hg, hgnot⟩ := IsConcreteLE.lt_iff_le_and_exists.mp hgrow
     have hgP : g ∈ (P : Subgroup W) := (Subgroup.mem_inf.mp hg).1
     have hgN : g ∈ Subgroup.normalizer (T' : Set W) := (Subgroup.mem_inf.mp hg).2
     have hmaple : E.map (MulAut.conj g⁻¹).toMonoidHom ≤ T' := by

@@ -11,20 +11,21 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_normalizer_inf_lift {A B : Subgroup G} {g : G}
     (hA : g ∈ Subgroup.normalizer (A : Set G)) (hB : g ∈ Subgroup.normalizer (B : Set G)) :
     g ∈ Subgroup.normalizer ((A ⊓ B : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff] at hA hB ⊢
   intro h
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   exact and_congr (hA h) (hB h)
 
 private theorem card_eq_pow_mul_of_pow_mem {p : ℕ} (hp : p.Prime) {O X : Subgroup G}
     (hOX : O ≤ X) (hXN : X ≤ Subgroup.normalizer (O : Set G))
     (hq : ∀ x ∈ X, ∃ k : ℕ, x ^ (p ^ k) ∈ O) :
     ∃ j : ℕ, Nat.card X = p ^ j * Nat.card O := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : (O.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOX).2 hXN
+  have : Fact p.Prime := ⟨hp⟩
+  have : (O.subgroupOf X).Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hOX).2 hXN
   have hQ : IsPGroup p (↥X ⧸ O.subgroupOf X) := by
     intro g
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective g
@@ -42,13 +43,13 @@ private theorem card_eq_pow_mul_of_pow_mem {p : ℕ} (hp : p.Prime) {O X : Subgr
   exact ⟨j, hmul.symm⟩
 
 theorem exists_pGroup_lift {p : ℕ} (hp : p.Prime) {O E' D N : Subgroup G}
-    (hO : ¬ p ∣ Nat.card O) (hOE : O ≤ E') (hEN : E' ≤ Subgroup.normalizer (O : Set G))
+    (_hO : ¬ p ∣ Nat.card O) (hOE : O ≤ E') (hEN : E' ≤ Subgroup.normalizer (O : Set G))
     (hEp : ∀ e ∈ E', ∃ k : ℕ, e ^ (p ^ k) ∈ O) (hD : IsPGroup p D)
     (hDE : D ≤ Subgroup.normalizer (E' : Set G)) (hDN : D ≤ Subgroup.normalizer (N : Set G))
     (hNO : N ≤ Subgroup.normalizer (O : Set G)) (hENO : E' ≤ N ⊔ O) :
     ∃ W : Subgroup G, W ≤ N ⊓ E' ∧ IsPGroup p W ∧ D ≤ Subgroup.normalizer (W : Set G) ∧
       W ⊔ O = E' := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨N₂, hN₂⟩ : ∃ N₂ : Subgroup G, N₂ = N ⊓ E' := ⟨_, rfl⟩
   have hN₂E : N₂ ≤ E' := by rw [hN₂]; exact inf_le_right
   have hN₂N : N₂ ≤ N := by rw [hN₂]; exact inf_le_left
@@ -82,7 +83,7 @@ theorem exists_pGroup_lift {p : ℕ} (hp : p.Prime) {O E' D N : Subgroup G}
   obtain ⟨P, hDP⟩ := IsPGroup.exists_le_sylow hDHp
   obtain ⟨Pg, hPg⟩ : ∃ Pg : Subgroup G, Pg = (P : Subgroup H).map H.subtype := ⟨_, rfl⟩
   have hPgH : Pg ≤ H := by rw [hPg]; exact Subgroup.map_subtype_le _
-  have hPgp : IsPGroup p Pg := by rw [hPg]; exact P.isPGroup'.map H.subtype
+  have hPgp : IsPGroup p Pg := by rw [hPg]; exact P.isPGroup.map H.subtype
   have hDPg : D ≤ Pg := by
     intro d hd
     have hdH : d ∈ H := hDH' hd
@@ -166,8 +167,8 @@ theorem exists_two_subgroup_lift {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {O T' 
     (hT2 : ∀ t ∈ T', ∃ k : ℕ, t ^ (2 ^ k) ∈ O) (hE : IsPGroup p E)
     (hET : E ≤ Subgroup.normalizer (T' : Set G)) :
     ∃ T : Subgroup G, T ≤ T' ∧ T ≠ ⊥ ∧ IsPGroup 2 T ∧ E ≤ Subgroup.normalizer (T : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨j, hj⟩ := card_eq_pow_mul_of_pow_mem Nat.prime_two hOT.le hTN hT2
   have hTp : ¬ p ∣ Nat.card T' := by
     rw [hj]
@@ -184,7 +185,7 @@ theorem exists_two_subgroup_lift {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {O T' 
     exact (dvd_pow_self 2 hj0).mul_right _
   obtain ⟨P, hP⟩ := CFSG.LocalAnalysis.GLTheoremB.exists_sylow_normalized (r := 2) hET hE hTp
   refine ⟨(P : Subgroup T').map T'.subtype, Subgroup.map_subtype_le _, ?_,
-    P.isPGroup'.map T'.subtype, hP⟩
+    P.isPGroup.map T'.subtype, hP⟩
   intro h
   apply P.ne_bot_of_dvd_card h2T
   exact (Subgroup.map_eq_bot_iff_of_injective _ T'.subtype_injective).1 h
@@ -193,11 +194,11 @@ theorem exists_two_subgroup_of_even {p : ℕ} (hp : p.Prime) {O E : Subgroup G}
     (hO : ¬ p ∣ Nat.card O) (hO2 : 2 ∣ Nat.card O) (hE : IsPGroup p E)
     (hEO : E ≤ Subgroup.normalizer (O : Set G)) :
     ∃ T : Subgroup G, T ≤ O ∧ T ≠ ⊥ ∧ IsPGroup 2 T ∧ E ≤ Subgroup.normalizer (T : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := CFSG.LocalAnalysis.GLTheoremB.exists_sylow_normalized (r := 2) hEO hE hO
   refine ⟨(P : Subgroup O).map O.subtype, Subgroup.map_subtype_le _, ?_,
-    P.isPGroup'.map O.subtype, hP⟩
+    P.isPGroup.map O.subtype, hP⟩
   intro h
   apply P.ne_bot_of_dvd_card hO2
   exact (Subgroup.map_eq_bot_iff_of_injective _ O.subtype_injective).1 h

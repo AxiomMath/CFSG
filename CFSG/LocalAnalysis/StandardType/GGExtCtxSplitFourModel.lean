@@ -26,7 +26,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 @[expose] noncomputable def ofMat (A B : Matrix (Fin 4) (Fin 4) (ZMod 5)) (h : A * B = 1)
     (h' : B * A = 1) : (Fin 4 → ZMod 5) ≃ₗ[ZMod 5] (Fin 4 → ZMod 5) :=
-  LinearEquiv.ofLinear (Matrix.toLin' A) (Matrix.toLin' B)
+  LinearEquiv.ofLinearMap (Matrix.toLin' A) (Matrix.toLin' B)
     (by rw [← Matrix.toLin'_mul, h, Matrix.toLin'_one])
     (by rw [← Matrix.toLin'_mul, h', Matrix.toLin'_one])
 
@@ -44,7 +44,7 @@ attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
 
 theorem Qm_apply (v : Fin 4 → ZMod 5) : Qm v = v 0 * v 1 + v 2 ^ 2 + 3 * v 3 ^ 2 := by
   unfold Qm
-  simp only [QuadraticMap.add_apply, QuadraticMap.smul_apply, QuadraticMap.linMulLin_apply,
+  simp only [_root_.add_apply, _root_.smul_apply, QuadraticMap.linMulLin_apply,
     LinearMap.proj_apply, smul_eq_mul]
   ring
 
@@ -473,7 +473,7 @@ private lemma cocycle_dZero_apply (v : Fin 4 → ZMod 5) :
     dZero v = ![3 * v 0, 2 * v 1, 3 * v 2 + v 3, 3 * v 2 + 3 * v 3] := by
   funext i
   fin_cases i <;>
-    simp [dZero, ofMat, LinearEquiv.ofLinear_apply, Matrix.toLin'_apply,
+    simp [dZero, ofMat, LinearEquiv.coe_ofLinearMap, Matrix.toLin'_apply,
       Matrix.mulVec_apply_eq_sum, Fin.sum_univ_four]
 
 private lemma cocycle_sumU1 (v : Fin 4 → ZMod 5) :
@@ -481,8 +481,7 @@ private lemma cocycle_sumU1 (v : Fin 4 → ZMod 5) :
       ![4 * v 0 + v 1 + 3 * v 2, 4 * v 1, v 1 + 4 * v 2, 4 * v 3] := by
   funext i
   fin_cases i <;>
-    simp [Finset.sum_apply, Finset.sum_range_succ, Finset.sum_range_zero,
-      Finset.sum_range_one, pow_zero, pow_one, pow_succ, LinearEquiv.mul_apply,
+    simp [Finset.sum_apply, Finset.sum_range_succ, pow_zero, pow_succ, LinearEquiv.mul_apply,
       LinearEquiv.coe_one, uOne_apply]
   all_goals ring_nf
   all_goals reduce_mod_char
@@ -492,8 +491,7 @@ private lemma cocycle_sumU1three (v : Fin 4 → ZMod 5) :
       ![3 * v 0 + 4 * v 2, 3 * v 1, 3 * v 1 + 3 * v 2, 3 * v 3] := by
   funext i
   fin_cases i <;>
-    simp [Finset.sum_apply, Finset.sum_range_succ, Finset.sum_range_zero,
-      Finset.sum_range_one, pow_zero, pow_one, pow_succ, LinearEquiv.mul_apply,
+    simp [Finset.sum_apply, Finset.sum_range_succ, pow_zero, pow_succ, LinearEquiv.mul_apply,
       LinearEquiv.coe_one, uOne_apply]
   all_goals ring_nf
   all_goals reduce_mod_char
@@ -503,8 +501,7 @@ private lemma cocycle_sumU2 (v : Fin 4 → ZMod 5) :
       ![4 * v 0 + 3 * v 1 + 4 * v 3, 4 * v 1, 4 * v 2, v 1 + 4 * v 3] := by
   funext i
   fin_cases i <;>
-    simp [Finset.sum_apply, Finset.sum_range_succ, Finset.sum_range_zero,
-      Finset.sum_range_one, pow_zero, pow_one, pow_succ, LinearEquiv.mul_apply,
+    simp [Finset.sum_apply, Finset.sum_range_succ, pow_zero, pow_succ, LinearEquiv.mul_apply,
       LinearEquiv.coe_one, uTwo_apply]
   all_goals ring_nf
   all_goals reduce_mod_char
@@ -513,8 +510,7 @@ private lemma cocycle_uOne4_apply (v : Fin 4 → ZMod 5) :
     (uOne ^ 4) v = ![v 0 + 4 * v 1 + 2 * v 2, v 1, 4 * v 1 + v 2, v 3] := by
   funext i
   fin_cases i <;>
-    simp [pow_zero, pow_one, pow_succ, LinearEquiv.mul_apply, LinearEquiv.coe_one,
-      uOne_apply]
+    simp [pow_zero, pow_succ, LinearEquiv.mul_apply, uOne_apply]
   all_goals ring_nf
   all_goals reduce_mod_char
 
@@ -522,8 +518,7 @@ private lemma cocycle_uOne3_apply (v : Fin 4 → ZMod 5) :
     (uOne ^ 3) v = ![v 0 + v 1 + 4 * v 2, v 1, 3 * v 1 + v 2, v 3] := by
   funext i
   fin_cases i <;>
-    simp [pow_zero, pow_one, pow_succ, LinearEquiv.mul_apply, LinearEquiv.coe_one,
-      uOne_apply]
+    simp [pow_zero, pow_succ, LinearEquiv.mul_apply, uOne_apply]
   all_goals ring_nf
   all_goals reduce_mod_char
 

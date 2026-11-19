@@ -357,7 +357,7 @@ private theorem matHom_kLetSU (r : Fin 6) (j : Fin 4) : matHom (kLetSU r j) = kL
 private theorem coe_prod_mem {T : Subgroup PU5} (l : List SU5)
     (h : ∀ x ∈ l, (x : PU5) ∈ T) : ((l.prod : SU5) : PU5) ∈ T := by
   induction l with
-  | nil => simpa using T.one_mem
+  | nil => simp
   | cons a l ih =>
     rw [List.prod_cons, QuotientGroup.mk_mul]
     exact T.mul_mem (h a (List.mem_cons_self ..))

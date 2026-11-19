@@ -250,7 +250,7 @@ theorem t2C_cent_structure (hS2 : IsPGroup 2 ↥S) (hSidx : ¬ 2 ∣ S.index) (h
   have hPZ : (P : Subgroup ↥CS) = Z := by
     refine le_antisymm ?_ hZP
     intro p hp
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨p, hp⟩
     have hk' : ((p : G)) ^ (2 ^ k) = 1 := by
       have := congrArg (fun w : ↥P => ((w : ↥CS) : G)) hk
       simpa using this

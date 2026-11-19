@@ -164,7 +164,7 @@ theorem mbar_structure (T : Sylow 2 G) {M : Subgroup G} (hTM : (T : Subgroup G) 
   have d : ModData (autI hU M) (autI hU Tg) (autI hU (thompsonJ Tg)) I z₀ :=
     { exp2 := fun w => IntMod.sq_eq_one w
       SA := autI_mono hU hTM
-      S2 := B2F.isPGroup_autI hU T.isPGroup' hTN
+      S2 := B2F.isPGroup_autI hU T.isPGroup hTN
       PS := autI_mono hU (thompsonJ_le_self Tg)
       Psyl := hJeq ▸ hPsyl
       comm := hcomm

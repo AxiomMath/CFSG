@@ -24,7 +24,7 @@ theorem W_norm_E {w : G} (hw : w ∈ L ⊓ centralizer ({t} : Set G)) {e : G} (h
 theorem E_le_W : E ≤ L ⊓ centralizer ({t} : Set G) := fun e he =>
   ⟨h.wf.E_le he, mem_centralizer_singleton_iff.2 (h.t_comm_E e he)⟩
 
-theorem B_le_W : B ≤ L ⊓ centralizer ({t} : Set G) := fun b hb =>
+theorem B_le_W : B ≤ L ⊓ centralizer ({t} : Set G) := fun _b hb =>
   ⟨h.conf.B_le hb, h.conf.B_cent hb⟩
 
 theorem E_inf_B {y : G} (hyE : y ∈ E) (hyB : y ∈ B) : y = 1 := by
@@ -37,7 +37,7 @@ theorem E_inf_B {y : G} (hyE : y ∈ E) (hyB : y ∈ B) : y = 1 := by
     refine ⟨?_, ?_⟩
     · exact h.W_norm_E (h.B_le_W b.2) hk.1
     · exact (b * ⟨_, hk.2⟩ * b⁻¹).2
-  haveI := hnorm
+  have := hnorm
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((E ⊓ B).subgroupOf B) with h1 | h1
   · have : (⟨y, hyB⟩ : ↥B) ∈ (E ⊓ B).subgroupOf B := mem_subgroupOf.2 ⟨hyE, hyB⟩
     rw [h1, mem_bot] at this

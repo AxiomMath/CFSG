@@ -25,11 +25,11 @@ private theorem isMulCommutative_of_card_le_three {H : Type*} [Group H] [Finite 
     (hcard : Nat.card H ≤ 3) : IsMulCommutative H := by
   have hpos : 0 < Nat.card H := Nat.card_pos
   interval_cases hc : Nat.card H
-  · haveI : Subsingleton H := Finite.card_le_one_iff_subsingleton.mp (by omega)
+  · have : Subsingleton H := Finite.card_le_one_iff_subsingleton.mp (by omega)
     exact isMulCommutative_iff.mpr fun a b => Subsingleton.elim _ _
-  · haveI : IsCyclic H := isCyclic_of_prime_card (p := 2) hc
+  · have : IsCyclic H := isCyclic_of_prime_card (p := 2) hc
     infer_instance
-  · haveI : IsCyclic H := isCyclic_of_prime_card (p := 3) hc
+  · have : IsCyclic H := isCyclic_of_prime_card (p := 3) hc
     infer_instance
 
 theorem four_le_card_inf_centralizer_of_mem {G : Type*} [Group G] [Finite G] {L : Subgroup G}
@@ -92,7 +92,7 @@ theorem four_le_card_inf_centralizer_of_mem {G : Type*} [Group G] [Finite G] {L 
       norm_num
     obtain ⟨P, hleP⟩ := hZp.exists_le_sylow
     have ha'P : a' ∈ (P : Subgroup ↥L) := hleP (Subgroup.mem_zpowers a')
-    haveI : IsSimpleGroup ↥L := hL
+    have : IsSimpleGroup ↥L := hL
     have heven : Even (Nat.card ↥L) := by
       have h := orderOf_dvd_natCard a'
       rw [ha'ord] at h
@@ -102,9 +102,9 @@ theorem four_le_card_inf_centralizer_of_mem {G : Type*} [Group G] [Finite G] {L 
         ↥L hnab heven P
     have hPnt : Nontrivial ↥(P : Subgroup ↥L) :=
       ⟨⟨a', ha'P⟩, 1, fun h => ha'ne (by simpa using congrArg Subtype.val h)⟩
-    haveI : Nontrivial ↥(P : Subgroup ↥L) := hPnt
+    have : Nontrivial ↥(P : Subgroup ↥L) := hPnt
     have hcenter_ne : Subgroup.center ↥(P : Subgroup ↥L) ≠ ⊥ :=
-      (P.isPGroup'.bot_lt_center).ne'
+      (P.isPGroup.bot_lt_center).ne'
     obtain ⟨z, hz1⟩ := Subgroup.ne_bot_iff_exists_ne_one.mp hcenter_ne
     let zP : ↥(P : Subgroup ↥L) := z
     let zL : ↥L := zP

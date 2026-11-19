@@ -14,7 +14,7 @@ private lemma s16e_d5_pow_apply_pow {W : Type} [Group W] (ξ : MulAut W) (a b : 
 
 private lemma s16e_d5_pow_three_apply {W : Type} [Group W] {ξ : MulAut W} (hξ : ξ ^ 3 = 1)
     (z : W) : ξ (ξ (ξ z)) = z := by
-  have h : (ξ ^ 3) z = ξ (ξ (ξ z)) := by simp [pow_succ, MulAut.mul_apply, pow_two]
+  have h : (ξ ^ 3) z = ξ (ξ (ξ z)) := by simp [pow_succ, MulAut.mul_apply]
   rw [← h, hξ, MulAut.one_apply]
 
 theorem s16e_d5_pow_fix {W : Type} [CommGroup W] {ξ : MulAut W} (hξ : ξ ^ 3 = 1)
@@ -131,7 +131,7 @@ private lemma s16e_d5_orbit_exhaust {W : Type} [CommGroup W] {Z : Subgroup W}
       · exact hz₀
       · exact hz₁Z
       · exact hz₂Z
-  haveI : Finite (Z : Set W) :=
+  have : Finite (Z : Set W) :=
     Nat.finite_of_card_ne_zero (by rw [Nat.card_coe_set_eq, hZc]; decide)
   have hle := Set.ncard_le_ncard hsub
   rw [hins, hZc] at hle
@@ -142,8 +142,8 @@ theorem s16e_d5_schur_local {W : Type} [CommGroup W] {Z : Subgroup W} (hZ : Nat.
     (hfix : ∀ z ∈ Z, ξ z = z → z = 1) (hgZ : ∀ z ∈ Z, g z ∈ Z)
     (hcomm : ∀ z ∈ Z, g (ξ z) = ξ (g z)) :
     ∃ e : ℕ, e < 3 ∧ ∀ z ∈ Z, g z = (ξ ^ e) z := by
-  haveI : Finite ↥Z := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Nontrivial ↥Z := (Finite.one_lt_card_iff_nontrivial).mp (by omega)
+  have : Finite ↥Z := Nat.finite_of_card_ne_zero (by omega)
+  have : Nontrivial ↥Z := (Finite.one_lt_card_iff_nontrivial).mp (by omega)
   obtain ⟨z0, hz0ne1⟩ := exists_ne (1 : ↥Z)
   have hz0Z : (z0 : W) ∈ Z := z0.2
   have hz01 : (z0 : W) ≠ 1 := fun h => hz0ne1 (Subtype.ext h)

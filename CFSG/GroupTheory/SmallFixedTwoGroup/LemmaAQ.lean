@@ -26,16 +26,16 @@ theorem exists_index_two_involutions_central_of_order_four_quotient
     (hz2 : z * z = 1) (hz1 : z ≠ 1) {p : T} (hp1 : p * p ≠ 1) (hp2 : p * p ≠ z)
     (hp4 : p ^ 4 = 1 ∨ p ^ 4 = z) :
     ∃ M : Subgroup T, M.index = 2 ∧ ∀ u ∈ M, u * u = 1 → u ∈ center T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hzle : zpowers z ≤ center T := Subgroup.zpowers_le.2 hz
-  haveI hN : (zpowers z).Normal := Subgroup.normal_of_le_center hzle
+  have hN : (zpowers z).Normal := Subgroup.normal_of_le_center hzle
   have hzp : ∀ w ∈ zpowers z, w = 1 ∨ w = z := by
     intro w hw
     obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hw
     exact zpow_eq_one_or_self hz2 k
   have hordz : orderOf z = 2 := orderOf_eq_prime (by rwa [pow_two]) hz1
   have hNcard : Nat.card (zpowers z) = 2 := by
-    haveI : Fintype T := Fintype.ofFinite T
+    have : Fintype T := Fintype.ofFinite T
     rw [Nat.card_eq_fintype_card, Fintype.card_zpowers, hordz]
   have hQcard : Nat.card (T ⧸ zpowers z) = 8 := by
     have h := Subgroup.card_eq_card_quotient_mul_card_subgroup (zpowers z)
@@ -56,7 +56,7 @@ theorem exists_index_two_involutions_central_of_order_four_quotient
     · exact hp2 (by rw [← pow_two]; exact h1)
   have hordπ : orderOf (π p) = 2 ^ (1 + 1) := orderOf_eq_prime_pow hπp2 hπp4
   have hcardP : Nat.card (zpowers (π p)) = 4 := by
-    haveI : Fintype (T ⧸ zpowers z) := Fintype.ofFinite _
+    have : Fintype (T ⧸ zpowers z) := Fintype.ofFinite _
     rw [Nat.card_eq_fintype_card, Fintype.card_zpowers, hordπ]; rfl
   let M : Subgroup T := (zpowers (π p)).comap π
   have hidx : M.index = 2 := by
@@ -99,9 +99,8 @@ theorem exists_index_two_involutions_central_of_order_four_quotient
     rw [hordp] at hdvd
     obtain ⟨m, hm⟩ := hdvd
     have hk2 : k = 2 * m := by push_cast at hm; omega
-    haveI hMn : M.Normal := Subgroup.normal_of_index_eq_two hidx
+    have hMn : M.Normal := Subgroup.normal_of_index_eq_two hidx
     have hpM : p ∈ M := Subgroup.mem_comap.2 (by
-      change π p ∈ zpowers (π p)
       exact mem_zpowers _)
     have hq2 : (p * p) * (p * p) = 1 := by
       calc (p * p) * (p * p) = p ^ 4 := by

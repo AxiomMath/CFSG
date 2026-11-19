@@ -12,7 +12,7 @@ open scoped commutatorElement
 theorem r4g_inj {M : Type*} [Group M] {p : ℕ} (hp : p.Prime) (R : Subgroup M) [R.Normal]
     (hR : ¬ p ∣ Nat.card R) {E : Subgroup M} (hE : IsPGroup p E) :
     Function.Injective ((QuotientGroup.mk' R).comp E.subtype) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   rw [injective_iff_map_eq_one]
   rintro ⟨e, he⟩ h
   have h' : (e : M ⧸ R) = 1 := h

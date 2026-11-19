@@ -87,7 +87,7 @@ variable {Γ : SimpleGraph V} [Fintype V] [DecidableRel Γ.Adj]
 theorem mem_clSet_iff_line_meets_span
     (hP : IsGeneralizedPolygon Γ 4) (hT : IsThick Γ) {u x y z : V}
     (hux : Γ.dist u x = 2) (huy : Γ.dist u y = 2) (huz : Γ.dist u z = 2)
-    (hxy : Γ.dist x y = 4) (hxz : Γ.dist x z = 4) (hyz : Γ.dist y z = 4) :
+    (hxy : Γ.dist x y = 4) (_hxz : Γ.dist x z = 4) (_hyz : Γ.dist y z = 4) :
     z ∈ clSet Γ x y ↔ ∃ w ∈ spanSet Γ x y, Γ.Adj (commonNeighbor hP huz) w := by
   classical
   constructor

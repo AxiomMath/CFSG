@@ -148,7 +148,7 @@ theorem Ctx.torus_comm (hc : Ctx M Q Z B) {x : G} (hx : x ∈ Q ⊔ QB B)
   funext i
   fin_cases i <;>
     simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, ha0, hP10, hP01,
-      Timmesfeld.RankOne.upperElt] <;> ring
+      Timmesfeld.RankOne.upperElt]; ring
 
 theorem Ctx.exists_torus (hc : Ctx M Q Z B) :
     ∃ x ∈ Q ⊔ QB B, x ∈ Subgroup.normalizer (Z : Set G) ∧

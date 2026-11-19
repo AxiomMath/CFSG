@@ -41,7 +41,7 @@ theorem sp_core_c (f : LinearMap.BilinForm (ZMod 2) W) (hfalt : f.IsAlt)
       CFSG.Open.IsQuasisimple ↥L' ∧ 3 ∣ Nat.card (↥L' ⧸ Subgroup.center ↥L') := by
   classical
   let EΓ : Subgroup (W ≃ₗ[ZMod 2] W) := E'.map (TauCeti.BilinForm.isometryGroup f).subtype
-  haveI : Fintype EΓ := Fintype.ofFinite _
+  have : Fintype EΓ := Fintype.ofFinite _
   have hEΓ : IsElemAbelian 3 EΓ :=
     X1Sp.isElemAbelian_map_hom 3 (TauCeti.BilinForm.isometryGroup f).subtype hE'
   have hcardΓ' : Fintype.card EΓ = Fintype.card E' :=
@@ -90,7 +90,7 @@ theorem sp_core_c (f : LinearMap.BilinForm (ZMod 2) W) (hfalt : f.IsAlt)
       rw [h0, finrank_bot] at this
       omega)
     have h3 : D.e i2 x = D.ρ i2 x := by
-      rw [D.eact i2 i2 x hx, if_pos rfl]
+      rw [D.eact i2 i2 x hx, ite_eq_left rfl]
     rw [h2] at h3
     exact hx0 (D.fixfree i2 x hx (by rw [← h3]; rfl))
   have hfixU : ∀ h ∈ D.fixU, ∃ k : ℕ, h = D.e i2 ^ k := by

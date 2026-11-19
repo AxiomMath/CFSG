@@ -144,7 +144,7 @@ theorem exists_two_subgroup_preimage {ψ : L →* R} (hψ : Function.Surjective 
   obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 2 ↥W))
   have hPn : (P : Subgroup ↥W).Normal := inferInstance
   have := Sylow.unique_of_normal P hPn
-  refine ⟨(P : Subgroup ↥W).map W.subtype, ?_, P.isPGroup'.map _, ?_, ?_⟩
+  refine ⟨(P : Subgroup ↥W).map W.subtype, ?_, P.isPGroup.map _, ?_, ?_⟩
   · rw [Ne, Subgroup.map_eq_bot_iff_of_injective _ W.subtype_injective]
     obtain ⟨⟨v, hvV⟩, hv1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp hV1
     have hv1' : v ≠ 1 := fun h' => hv1 (Subtype.ext h')

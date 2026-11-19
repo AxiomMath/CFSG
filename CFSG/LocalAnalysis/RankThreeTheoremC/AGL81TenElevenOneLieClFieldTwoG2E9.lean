@@ -38,16 +38,16 @@ theorem exists_conj_e9_adjointG2_qplus {K : Type} [Field K] [Finite K] [CharP K 
     (hEc : Nat.card E = 9) (hF : IsElemAbelian 3 F) (hFc : Nat.card F = 9) :
     ∃ g : ↥(adjointGroup .G2 K), ∀ e ∈ E, g * e * g⁻¹ ∈ F := by
   obtain ⟨K₂, _, _, hdeg, σ, hσ⟩ := exists_quadratic_frobenius_all K
-  haveI : Module.Finite K K₂ := Module.finite_of_finrank_pos (by omega)
-  haveI : Finite K₂ := Module.finite_of_finite K
+  have : Module.Finite K K₂ := Module.finite_of_finrank_pos (by omega)
+  have : Finite K₂ := Module.finite_of_finite K
   obtain ⟨M⟩ := QPlusModel.nonempty_of_charTwo hdeg hσ
   have hel : ∀ D : Subgroup ↥(adjointGroup .G2 K), IsElemAbelian 3 D →
       CFSG.IsElementaryAbelian 3 D := fun D hD =>
     { toIsMulCommutative := hD.1
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one fun g =>
         Subtype.ext (by simpa using hD.2 g g.2) }
-  haveI := hel E hE
-  haveI := hel F hF
+  have := hel E hE
+  have := hel F hF
   obtain ⟨yE, hyEΓ, hyE⟩ := M.exists_conj_plane_to_torsion hdeg hσ h3 E (by rw [hEc]; norm_num)
   obtain ⟨yF, hyFΓ, hyF⟩ := M.exists_conj_plane_to_torsion hdeg hσ h3 F (by rw [hFc]; norm_num)
   obtain ⟨c, hc⟩ := M.exists_twistEmb_eq (mul_mem (inv_mem hyFΓ) hyEΓ)
@@ -72,9 +72,9 @@ theorem exists_conj_e9_adjointG2 {K : Type} [Field K] [Finite K] [CharP K 2]
     {E F : Subgroup ↥(adjointGroup .G2 K)} (hE : IsElemAbelian 3 E) (hEc : Nat.card E = 9)
     (hF : IsElemAbelian 3 F) (hFc : Nat.card F = 9) :
     ∃ g : ↥(adjointGroup .G2 K), ∀ e ∈ E, g * e * g⁻¹ ∈ F := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m, hm⟩ : ∃ m : ℕ, Nat.card K = 2 ^ m := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     obtain ⟨k', hk'⟩ := FiniteField.card K 2
     exact ⟨k', by rw [Nat.card_eq_fintype_card, hk'.2]⟩
   have h3 : ¬ 3 ∣ Nat.card K := by

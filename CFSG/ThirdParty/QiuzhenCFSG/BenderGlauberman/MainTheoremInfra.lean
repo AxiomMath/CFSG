@@ -561,7 +561,7 @@ private lemma main_singleton_component_constituent_facts (c : Hyp11 G)
         simpa using hmem
       have hnueq : nu = kappa :=
         deltaNu_injective c h12 hSC hS4 hnus hnut hkappas hkappat hdeltaeq
-      simpa [hnueq]
+      simp [hnueq]
     · intro hnukappa
       have hnueq : nu = kappa := by simpa using hnukappa
       simpa [hnueq] using hkappaB
@@ -857,7 +857,7 @@ public lemma main_exists_principal_in_four_sum
     rcases hpsi i with hpos | hneg
     · have hne : (1 : ClassFunction G) ≠ psi i := (hnone i).symm
       rw [scalarProduct_irr_ite (isIrreducibleCharacter_one G) hpos,
-        if_neg hne]
+        ite_eq_right hne]
       norm_num
     · rw [show psi i = -(-psi i) by simp, scalarProduct_neg_right]
       rw [scalarProduct_irr_ite (isIrreducibleCharacter_one G) hneg]

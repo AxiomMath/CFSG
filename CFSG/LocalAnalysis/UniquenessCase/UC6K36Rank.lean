@@ -12,6 +12,7 @@ open Subgroup CFSG.Open
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem card_sup_mul_card_inf_of_commute {A B : Subgroup G}
     (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) :
     Nat.card ↥(A ⊔ B) * Nat.card ↥(A ⊓ B) = Nat.card A * Nat.card B := by
@@ -46,6 +47,7 @@ theorem card_sup_mul_card_inf_of_commute {A B : Subgroup G}
   rw [hker, hrange, Nat.card_prod] at h
   exact (mul_comm _ _).trans h
 
+omit [Finite G] in
 theorem isElemAbelian_sup_of_commute {p : ℕ} {A B : Subgroup G} (hA : IsElemAbelian p A)
     (hB : IsElemAbelian p B) (hAB : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) : IsElemAbelian p (A ⊔ B) := by
   have hmem : ∀ x ∈ A ⊔ B, ∃ a ∈ A, ∃ b ∈ B, x = a * b := by
@@ -92,6 +94,7 @@ theorem exists_card_eq_of_isElemAbelian {p : ℕ} [Fact p.Prime] {A : Subgroup G
     ∃ k : ℕ, Nat.card A = p ^ k :=
   hA.isPGroup.exists_card_eq
 
+omit [Finite G] in
 theorem exists_elemAbelian_of_two_commuting {p : ℕ} [Fact p.Prime] {K₀ K₁ A₀ A₁ : Subgroup G}
     (h01 : ∀ x ∈ K₀, ∀ y ∈ K₁, x * y = y * x) (hK : K₀ ⊓ K₁ = ⊥) (hA₀ : A₀ ≤ K₀) (hA₁ : A₁ ≤ K₁)
     (he₀ : IsElemAbelian p A₀) (he₁ : IsElemAbelian p A₁) (hc₀ : Nat.card A₀ = p ^ 2)

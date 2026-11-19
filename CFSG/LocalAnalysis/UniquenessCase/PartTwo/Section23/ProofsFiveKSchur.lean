@@ -16,19 +16,19 @@ private theorem ker_eq_bot_of_isL2_cover {E S : Type} [Group E] [Finite E] [Grou
     (f : E →* S) (hf : Function.Surjective f)
     (hker : f.ker ≤ Subgroup.center E) (hodd : Odd (Nat.card f.ker)) :
     f.ker = ⊥ := by
-  haveI := hE
+  have := hE
   have hPSL : IsPSL 2 2 j S := hS.statedClassicalModel (by decide)
   have hPSLq : IsPSL 2 2 j (E ⧸ f.ker) :=
     IsPSL.of_mulEquiv (QuotientGroup.quotientKerEquivOfSurjective f hf).symm hPSL
   refine CFSG.RankThree.PartTwo.KFacts.KS14.eq_bot_of_isPerfect_of_isCyclic_sylow hker ?_
   intro p hp hpker Q
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   exact CFSG.SectionRank.QTK.Insp443.isCyclic_sylow_of_isPSL_two_two hPSLq
     (hodd.ne_two_of_dvd_nat hpker) Q
 
 theorem kSchurL2_holds : KSchurL2 := by
   intro X _ _ j hperf Z _ hZc hoddZ hshape
-  haveI : Group.IsPerfect X := Group.IsPerfect.mk (by rw [commutator_def]; exact hperf)
+  have : Group.IsPerfect X := Group.IsPerfect.mk (by rw [commutator_def]; exact hperf)
   rcases hshape with hsingle | hsquare
   · have hker : (QuotientGroup.mk' Z).ker ≤ Subgroup.center X := by
       rw [QuotientGroup.ker_mk']
@@ -40,14 +40,14 @@ theorem kSchurL2_holds : KSchurL2 := by
       (QuotientGroup.mk' Z) (QuotientGroup.mk'_surjective Z) hker hodd
     rwa [QuotientGroup.ker_mk'] at hbot
   · obtain ⟨A, B, hGA, hGB, ⟨e⟩, hA, hB⟩ := hsquare
-    letI : Group A := hGA
-    letI : Group B := hGB
-    haveI : Group.IsPerfect (X ⧸ Z) := inferInstance
-    haveI : Group.IsPerfect (A × B) :=
+    let : Group A := hGA
+    let : Group B := hGB
+    have : Group.IsPerfect (X ⧸ Z) := inferInstance
+    have : Group.IsPerfect (A × B) :=
       Group.IsPerfect.ofSurjective (f := e.toMonoidHom) e.surjective
-    haveI : Group.IsPerfect A :=
+    have : Group.IsPerfect A :=
       Group.IsPerfect.ofSurjective (f := MonoidHom.fst A B) fun a => ⟨(a, 1), rfl⟩
-    haveI : Group.IsPerfect B :=
+    have : Group.IsPerfect B :=
       Group.IsPerfect.ofSurjective (f := MonoidHom.snd A B) fun b => ⟨(1, b), rfl⟩
     let η : X →* A × B := e.toMonoidHom.comp (QuotientGroup.mk' Z)
     have hη : Function.Surjective η :=
@@ -56,7 +56,7 @@ theorem kSchurL2_holds : KSchurL2 := by
       ext x
       rw [MonoidHom.mem_ker, MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom,
         MulEquiv.map_eq_one_iff]
-      simpa using QuotientGroup.eq_one_iff (N := Z) x
+      simp
     have hker : η.ker ≤ Subgroup.center X := by
       rw [hkerη]
       exact hZc

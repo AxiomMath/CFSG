@@ -29,7 +29,7 @@ theorem factorization_card_aut {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
     [Module.Finite (ZMod 2) W] {n : ℕ} (hn : Module.finrank (ZMod 2) W = n) :
     (Nat.card (W ≃ₗ[ZMod 2] W)).factorization 5 = (n / 4) + padicValNat 5 (n / 4).factorial := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let b : Module.Basis (Fin n) (ZMod 2) W := Module.finBasisOfFinrankEq (ZMod 2) W hn
   let e : GL (Fin n) (ZMod 2) ≃* (W ≃ₗ[ZMod 2] W) :=
     (Matrix.GeneralLinearGroup.toLin' b).trans
@@ -47,7 +47,7 @@ theorem factorization_card_aut {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
 theorem factorization_card_aut_twenty {W : Type} [AddCommGroup W] [Module (ZMod 2) W]
     [Module.Finite (ZMod 2) W] (hn : Module.finrank (ZMod 2) W = 20) :
     (Nat.card (W ≃ₗ[ZMod 2] W)).factorization 5 = 6 := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   rw [factorization_card_aut hn]
   have h120 : padicValNat 5 (20 / 4).factorial = 1 := by
     have : (20 / 4).factorial = 5 * 24 := by decide
@@ -92,7 +92,7 @@ theorem card_range_Trep : Nat.card (Trep.range) = 5 ^ 6 := by
 
 theorem eq_of_le_sylow {S : Sylow 5 (UU ≃ₗ[ZMod 2] UU)} (hS : Trep.range ≤ (S : Subgroup _)) :
     Trep.range = (S : Subgroup (UU ≃ₗ[ZMod 2] UU)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine Subgroup.eq_of_le_of_card_ge hS ?_
   rw [Sylow.card_eq_multiplicity, factorization_card_aut_twenty finrank_UU, card_range_Trep]
 
@@ -102,7 +102,7 @@ theorem exists_model_embedding {P W : Type} [Group P] [AddCommGroup W] [Module (
     ∃ (τ : W ≃ₗ[ZMod 2] UU) (ψ : P →* Wr), Function.Injective ψ ∧
       ∀ (p : P) (v : W), τ (σ p v) = T (ψ p) (τ v) := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let e₀ : W ≃ₗ[ZMod 2] UU := LinearEquiv.ofFinrankEq W UU (by rw [hn, finrank_UU])
   let σ' : P →* (UU ≃ₗ[ZMod 2] UU) := (conjEquiv e₀).toMonoidHom.comp σ
   have hσ' : Function.Injective σ' := (conjEquiv e₀).injective.comp hσ
@@ -122,7 +122,7 @@ theorem exists_model_embedding {P W : Type} [Group P] [AddCommGroup W] [Module (
   let σ'' : P →* (UU ≃ₗ[ZMod 2] UU) := (MulAut.conj g⁻¹).toMonoidHom.comp σ'
   have hσ'' : ∀ p, σ'' p = g⁻¹ * σ' p * g := by
     intro p
-    simp [σ'', MulAut.conj_apply]
+    simp [σ'']
   have hmem : ∀ p, σ'' p ∈ Trep.range := fun p => by
     rw [hσ'']
     exact hconj _ ⟨p, rfl⟩
@@ -144,7 +144,6 @@ theorem exists_model_embedding {P W : Type} [Group P] [AddCommGroup W] [Module (
     have h2 : T (ψ p) (g.symm (e₀ v)) = σ'' p (g.symm (e₀ v)) := h1
     change g.symm (e₀ (σ p v)) = T (ψ p) (g.symm (e₀ v))
     rw [h2, hσ'']
-    change _ = (g⁻¹ * σ' p * g) (g.symm (e₀ v))
     simp [LinearEquiv.mul_apply, σ', conjEquiv_apply]
 
 end CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.KD309

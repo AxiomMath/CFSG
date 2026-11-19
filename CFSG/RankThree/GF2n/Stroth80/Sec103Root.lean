@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem SLMNat.exists_conj_inv_mul_mem_Z {hc : Ctx M Q Z B} {t : G} {m : ℕ}
     (h : SLMNat hc t m) (hm : 2 ≤ m) {x v : G} (hxV : x ∈ Vt M (LB M Q B) B Z t) (hxZ : x ∉ Z)
     (hvV : v ∈ Vt M (LB M Q B) B Z t) (hvZ : v ∉ Z) :
@@ -22,7 +23,7 @@ theorem SLMNat.exists_conj_inv_mul_mem_Z {hc : Ctx M Q Z B} {t : G} {m : ℕ}
   set V := Vt M (LB M Q B) B Z t
   obtain ⟨K, hK, hfin, -, φ, hφrange, -, hSA⟩ := h
   obtain ⟨hRnV, hZn, ψ, hψ⟩ := hSA
-  haveI := hZn
+  have := hZn
   have hker : ∀ w : V, ψ (QuotientGroup.mk w) = 1 ↔ (w : G) ∈ Z := by
     intro w
     rw [← map_one ψ, ψ.injective.eq_iff, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
@@ -166,6 +167,7 @@ theorem Sit.exists_root_group {Y : Subgroup G} {t : G} (hs : Sit M Q Z Y t) {α 
   exact ⟨conjSubgroup g' Z, ⟨H, ⟨g', rfl⟩, hg'Q, hBαne_Z⟩, hαg', hBαY,
     H.le_QB_of_le_QB ⟨g', rfl⟩ ⟨kY, hkY⟩ hBαY' hBαY⟩
 
+omit [Finite G] in
 theorem isRoot_ne_one {Z : Subgroup G} {α : G}
     (hroot : ∃ g : G, ∃ z ∈ Z, z ≠ 1 ∧ g * z * g⁻¹ = α) : α ≠ 1 := by
   obtain ⟨g, z, -, hz1, hgz⟩ := hroot

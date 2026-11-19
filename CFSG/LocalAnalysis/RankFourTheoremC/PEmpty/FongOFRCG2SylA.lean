@@ -61,12 +61,12 @@ theorem reeG2_sylow_cyclic_of_dvd_sub_one (a : ℕ) (ha : 1 ≤ a) (K : Type) [F
   have hH0cyc : IsCyclic (ReeTag.G2.reeFixedTorus K a) := isCyclic_of_surjective f hfsurj
   have hH0card : Nat.card (ReeTag.G2.reeFixedTorus K a) = Nat.card K - 1 := by
     rw [← Nat.card_congr (MulEquiv.ofBijective f ⟨hfinj, hfsurj⟩).toEquiv, Nat.card_units]
-  haveI hCcyc : IsCyclic ((ReeTag.G2.reeFixedTorus K a).subgroupOf (ReeTag.G2.reeGamma K a)) :=
+  have hCcyc : IsCyclic ((ReeTag.G2.reeFixedTorus K a).subgroupOf (ReeTag.G2.reeGamma K a)) :=
     (MulEquiv.isCyclic (Subgroup.subgroupOfEquivOfLe hle)).2 hH0cyc
   have hΓcard : Nat.card (ReeTag.G2.reeGamma K a) =
       Nat.card K ^ 3 * (Nat.card K ^ 3 + 1) * (Nat.card K - 1) := by
     rw [CFSG.HardMathSupport.Lang.Coordinator.card_reeGamma_G2_eq hK, ← hK]
-  haveI : Finite (ReeTag.G2.reeGamma K a) :=
+  have : Finite (ReeTag.G2.reeGamma K a) :=
     Nat.finite_of_card_ne_zero (by rw [hΓcard]; exact mul_ne_zero hm0 hn0)
   have hC : (Nat.card (ReeTag.G2.reeGamma K a)).factorization p ≤
       (Nat.card ((ReeTag.G2.reeFixedTorus K a).subgroupOf (ReeTag.G2.reeGamma K a))).factorization

@@ -92,7 +92,7 @@ private theorem relabel_fixed_zero
     simp [E, Equiv.swap_apply_def, hi0, hij]
   have htriple : ({E 0, E 1, E 2} : Set X) = {e 0, e 1, e 2} := by
     fin_cases j <;> norm_num at hj
-    all_goals ext z; simp [E, Equiv.swap_apply_def] <;> tauto
+    all_goals ext z; simp [E, Equiv.swap_apply_def]; try tauto
   have hd0 : d • E 0 = E 0 := by rw [he0, heju]; exact hdu
   have hfixed : fixedBy X d = {E 0, E 9, E 10, E 11, E 12} := by
     apply fixedBy_eq_of_five d hmaxd

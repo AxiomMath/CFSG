@@ -108,7 +108,7 @@ theorem not_surj_sl2_of_abelian_sylow
     (specialLinearGroupEquivStatedSL 2 F).injective.comp (quatHom_injective hF2 hab')
   obtain ⟨T⟩ : Nonempty (Sylow 2 ↥J) := inferInstance
   have hT : ∀ x ∈ (T : Subgroup ↥J), ∀ y ∈ (T : Subgroup ↥J), x * y = y * x := by
-    obtain ⟨S, hS⟩ := (T.isPGroup'.map J.subtype).exists_le_sylow
+    obtain ⟨S, hS⟩ := (T.isPGroup.map J.subtype).exists_le_sylow
     intro x hx y hy
     exact Subtype.ext (hab S _ (hS ⟨x, hx, rfl⟩) _ (hS ⟨y, hy, rfl⟩))
   have hT' : ∀ x ∈ ((T.mapSurjective hφ : Sylow 2 _) : Subgroup ↥(StatedSL 2 F)),

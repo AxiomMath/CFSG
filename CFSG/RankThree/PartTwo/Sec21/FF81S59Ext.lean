@@ -102,7 +102,7 @@ theorem card_centralizer_mul_card {P : Type} [Group P] [Finite P]
     (hP : IsExtraspecialPGroup 2 P) (B : Subgroup P) (hB : Subgroup.center P ≤ B) :
     Nat.card (Subgroup.centralizer (B : Set P)) * Nat.card B = 2 * Nat.card P := by
   classical
-  haveI : Fintype P := Fintype.ofFinite P
+  have : Fintype P := Fintype.ofFinite P
   obtain ⟨-, hcomm, -, hZ⟩ := hP
   have hcen : ∀ x y : P, ⁅x, y⁆ ∈ Subgroup.center P := ext_commutator_mem_center hcomm
   have hZf : (Finset.univ.filter (· ∈ Subgroup.center P)).card = 2 :=
@@ -121,7 +121,7 @@ theorem card_centralizer_mul_card {P : Type} [Group P] [Finite P]
     by_cases hb : b ∈ Subgroup.center P
     · have hall : Finset.univ.filter (fun y => b * y = y * b) = Finset.univ :=
         Finset.filter_true_of_mem (fun y _ => ((Subgroup.mem_center_iff.1 hb) y).symm)
-      rw [hall, Finset.card_univ, ← Nat.card_eq_fintype_card, if_pos hb]
+      rw [hall, Finset.card_univ, ← Nat.card_eq_fintype_card, ite_eq_left hb]
       ring
     · have hc : Nat.card (Subgroup.centralizer ({b} : Set P))
           = (Finset.univ.filter (fun y => b * y = y * b)).card := by
@@ -129,7 +129,7 @@ theorem card_centralizer_mul_card {P : Type} [Group P] [Finite P]
         congr 1
         ext y
         simp [Subgroup.mem_centralizer_iff]
-      rw [← hc, if_neg hb, add_zero]
+      rw [← hc, ite_eq_right hb, add_zero]
       exact ext_two_mul_card_centralizer_singleton hcen hZ b hb
   have hBy : ∀ y : P,
       2 * ((Finset.univ.filter (· ∈ B)).filter (fun b => b * y = y * b)).card
@@ -141,7 +141,7 @@ theorem card_centralizer_mul_card {P : Type} [Group P] [Finite P]
         apply Finset.filter_true_of_mem
         intro b hb
         exact (Subgroup.mem_centralizer_iff.1 hy) b (Finset.mem_filter.1 hb).2
-      rw [hall, hBf, if_pos hy]
+      rw [hall, hBf, ite_eq_left hy]
       ring
     · obtain ⟨f, hf⟩ := ext_hom_left hcen y
       have key : ∀ b : P, f b = 1 ↔ b * y = y * b := by
@@ -184,7 +184,7 @@ theorem card_centralizer_mul_card {P : Type} [Group P] [Finite P]
           exact ⟨x.2, (hk x).1 hx⟩
         · rintro ⟨hpB, hpy⟩
           exact Subgroup.mem_map.2 ⟨⟨p, hpB⟩, (hk ⟨p, hpB⟩).2 hpy, rfl⟩
-      rw [if_neg hy, add_zero, ← hcardg]
+      rw [ite_eq_right hy, add_zero, ← hcardg]
       exact hdim
   have hswap : ∑ b ∈ Finset.univ.filter (· ∈ B),
         (Finset.univ.filter (fun y => b * y = y * b)).card
@@ -211,9 +211,9 @@ theorem card_centralizer_mul_card {P : Type} [Group P] [Finite P]
 
 theorem ext_sq_mem_center {P : Type} [Group P] [Finite P] (hP : IsExtraspecialPGroup 2 P)
     (x : P) : x ^ 2 ∈ Subgroup.center P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hp, -, hfr, -⟩ := hP
-  haveI : Fact (IsPGroup 2 P) := ⟨hp⟩
+  have : Fact (IsPGroup 2 P) := ⟨hp⟩
   rw [← hfr, CFSG.frattini_eq_closure_commutator_union_powers (p := 2)]
   exact Subgroup.subset_closure (Or.inr ⟨x, rfl⟩)
 
@@ -229,14 +229,14 @@ theorem card_sq_eq_one_extraspecial {P : Type} [Group P] [Finite P]
     (hA2 : ∀ a ∈ A, a ^ 2 = 1) (hAc : ∀ a ∈ A, ∀ b ∈ A, a * b = b * a)
     (hAcard : Nat.card A = 2 ^ 5) : Nat.card {x : P // x ^ 2 = 1} = 272 := by
   classical
-  haveI : Fintype P := Fintype.ofFinite P
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype P := Fintype.ofFinite P
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hP' := hP
   obtain ⟨hp, hcomm, hfr, hZ⟩ := hP
   have hcen : ∀ x y : P, ⁅x, y⁆ ∈ Subgroup.center P := ext_commutator_mem_center hcomm
   have hsqc : ∀ x : P, x ^ 2 ∈ Subgroup.center P := by
     intro x
-    haveI : Fact (IsPGroup 2 P) := ⟨hp⟩
+    have : Fact (IsPGroup 2 P) := ⟨hp⟩
     rw [← hfr, CFSG.frattini_eq_closure_commutator_union_powers (p := 2)]
     exact Subgroup.subset_closure (Or.inr ⟨x, rfl⟩)
   have hZ2 : ∀ z ∈ Subgroup.center P, z ^ 2 = 1 := by

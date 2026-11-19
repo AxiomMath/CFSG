@@ -36,7 +36,7 @@ theorem le_rankThreeGamma_of_normal_coprime {p : ℕ} (hp : p.Prime) {E X : Subg
       exact (mul_left_cancel (mul_right_cancel h3)).symm
   have one_le_pRank_zpowers {p : ℕ} (hp : p.Prime) {e : G} (he : e ≠ 1) (hep : e ^ p = 1) :
       1 ≤ CFSG.Open.pRank p (Subgroup.zpowers e) := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     have hord : orderOf e = p := (orderOf_eq_prime hep he)
     have hcard : Nat.card (Subgroup.zpowers e) = p ^ 1 := by
       rw [Nat.card_zpowers, hord, pow_one]

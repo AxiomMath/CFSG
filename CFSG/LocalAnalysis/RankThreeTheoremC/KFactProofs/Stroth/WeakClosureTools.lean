@@ -10,6 +10,7 @@ open CFSG.Open
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 private theorem map_conj_map_conj (H : Subgroup K) (a b : K) :
     (H.map (MulAut.conj a).toMonoidHom).map (MulAut.conj b).toMonoidHom =
       H.map (MulAut.conj (b * a)).toMonoidHom := by
@@ -18,9 +19,10 @@ private theorem map_conj_map_conj (H : Subgroup K) (a b : K) :
   ext x
   simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite K] in
 private theorem map_conj_one (H : Subgroup K) : H.map (MulAut.conj (1 : K)).toMonoidHom = H := by
   ext x
-  simp [MulAut.conj_apply]
+  simp
 
 theorem WCOn.of_sylow {p : ℕ} [Fact p.Prime] (P₀ : Sylow p K)
     (h : IsMulCommutative (P₀ : Subgroup K) → 2 ≤ CFSG.Open.pRank p (P₀ : Subgroup K) →

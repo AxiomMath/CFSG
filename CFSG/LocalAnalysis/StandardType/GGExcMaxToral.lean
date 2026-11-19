@@ -81,7 +81,7 @@ private theorem ggA5a7_modMat_eq_smul_one {τ : Tag} {p : ℕ} (hp : p.Prime)
     (h : p ^ τ.rank ≤ Nat.card {z : Fin τ.rank → ZMod p //
       (modMat p (weylMatrix w))ᵀ *ᵥ z = (ε : ZMod p) • z}) :
     modMat p (weylMatrix w) = (ε : ZMod p) • 1 := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hcard : Nat.card {z : Fin τ.rank → ZMod p //
       (modMat p (weylMatrix w))ᵀ *ᵥ z = (ε : ZMod p) • z} = p ^ τ.rank := by
     refine le_antisymm ?_ h
@@ -153,7 +153,7 @@ theorem weyl_eq_sign_of_eigenspace_top {τ : Tag} {p : ℕ} (hp : p.Prime) (hp2 
       (modMat p (weylMatrix w))ᵀ *ᵥ z = (ε : ZMod p) • z}) :
     ∀ u : Fin τ.rank → ℤ, w • u = ε • u := by
   have hε2 : ε * ε = 1 := by rcases hε with rfl | rfl <;> norm_num
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hN := ggA5a7_modMat_eq_smul_one hp w h
   have hX := ggA5a7_smul_weylMatrix_pow w hε2
   have hmod := ggA5a7_dvd_of_modMat_eq hε2 hN
@@ -284,14 +284,14 @@ theorem toral_over_closure_of_rank_le_card
     (hcard : p ^ τ.rank ≤ Nat.card A) :
     ∃ g ∈ adjointGroup τ (AlgebraicClosure K),
       ∀ x ∈ A, g⁻¹ * x * g ∈ torusGroup τ (AlgebraicClosure K) := by
-  haveI : Fact p.Prime := Fact.mk hp
+  have : Fact p.Prime := Fact.mk hp
   have hAfin : (A : Set (ModGL τ (AlgebraicClosure K))).Finite := by
     have : Finite A := Nat.finite_of_card_ne_zero
       (lt_of_lt_of_le (pow_pos hp.pos _) hcard).ne'
     exact Set.toFinite _
   obtain ⟨K₁, hK₁, -, hq, hdesc⟩ := exists_descent_subgroup (ℓ := 2) (r := p) hp2.symm
     (isAlgebraic_zmod_algebraicClosure_of_finite K 2) hA hAfin ∅ (le_refl 1)
-  haveI : Finite K₁ := hK₁
+  have : Finite K₁ := hK₁
   set ι := K₁.subtype
   have hA₁C : A.comap (baseChangeGL ι) ≤ adjointGroup τ K₁ := comap_le_adjointGroup ι hdesc
   have hcomm₁ : ∀ x ∈ A.comap (baseChangeGL ι), ∀ y ∈ A.comap (baseChangeGL ι),
@@ -349,11 +349,11 @@ theorem exists_langDatum_of_toral_conj
         ∀ x ∈ E, D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x : ModGL τ K) *
           D.g0 ∈ D.torus := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hf⟩ := FiniteField.card K 2
   have he : 1 ≤ (f : ℕ) := f.pos
   set L := AlgebraicClosure K with hLdef
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective _
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective _
   have hq : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
   have hp2cop : Nat.Coprime p 2 := by
     rw [hp.coprime_iff_not_dvd]
@@ -562,7 +562,7 @@ private lemma ggA5q_minpoly_rat {ι : Type*} [Fintype ι] [DecidableEq ι] [None
     (Polynomial.cyclotomic.monic d ℚ)).symm
 
 private lemma ggA5q_charpoly_dvd_pow_rat {ι : Type*} [Fintype ι] [DecidableEq ι] {d m : ℕ}
-    (hd : 0 < d) (hcard : Fintype.card ι = 2 * m)
+    (_hd : 0 < d) (hcard : Fintype.card ι = 2 * m)
     (Mq : Matrix ι ι ℚ) (hmin : minpoly ℚ Mq = cyclotomic d ℚ) :
     Mq.charpoly ∣ (cyclotomic d ℚ) ^ (2 * m) := by
   let Mc : Matrix ι ι ℂ := Mq.map (algebraMap ℚ ℂ)
@@ -644,9 +644,9 @@ private theorem ggA5r1_charpoly_eq_cyclotomic_pow {ι : Type} [Fintype ι] [Deci
     M.charpoly = (cyclotomic d ℤ) ^ m := by
   rcases Nat.eq_zero_or_pos m with hm | hm
   · subst hm
-    haveI : IsEmpty ι := Fintype.card_eq_zero_iff.mp (by simpa using hcard)
+    have : IsEmpty ι := Fintype.card_eq_zero_iff.mp (by simpa using hcard)
     simp [Matrix.charpoly_isEmpty]
-  · haveI : Nonempty ι := Fintype.card_pos_iff.mp (by rw [hcard]; omega)
+  · have : Nonempty ι := Fintype.card_pos_iff.mp (by rw [hcard]; omega)
     have hd := ggA5q_d_pos hdeg
     have hmin := ggA5q_minpoly_rat hd M h
     have hrat := ggA5q_charpoly_eq_rat hdeg hcard (M.map (Int.castRingHom ℚ)) hmin
@@ -964,7 +964,7 @@ private lemma ggA5r_aeval_four : aeval (weylMatrix ggA5r_w4) (cyclotomic 4 ℤ) 
   have hcyc : cyclotomic 4 ℤ = (X : ℤ[X]) ^ 2 + 1 := by
     rw [show (4 : ℕ) = 2 ^ (1 + 1) by norm_num,
       Polynomial.cyclotomic_prime_pow_eq_geom_sum (R := ℤ) (p := 2) (n := 1) Nat.prime_two]
-    simp only [Finset.sum_range_succ, Finset.sum_range_one, pow_zero, pow_one]
+    simp only [Finset.sum_range_succ, pow_zero, pow_one]
     ring
   rw [ggA5r_w4_matrix, hcyc]
   simpa [add_comm] using ggA5r_M4_quad
@@ -1064,7 +1064,7 @@ private theorem ggA5a8_rootMultiplicity_pow {R : Type*} [CommRing R] [IsDomain R
     (P : R[X]) (hP : P ≠ 0) (a : R) (m : ℕ) :
     (P ^ m).rootMultiplicity a = m * P.rootMultiplicity a := by
   induction m with
-  | zero => simpa using Polynomial.rootMultiplicity_C (1 : R) a
+  | zero => simp
   | succ n ih =>
       rw [pow_succ, Polynomial.rootMultiplicity_mul (mul_ne_zero (pow_ne_zero n hP) hP), ih,
         Nat.succ_mul]
@@ -1078,7 +1078,7 @@ private theorem ggA5a8_charpoly_modMat_transpose {τ : Tag} (p : ℕ)
 private theorem ggA5a8_cyclotomic_rootMultiplicity_le_one {p d q : ℕ} (hp : p.Prime)
     (hq : orderOf (q : ZMod p) = d) :
     (cyclotomic d (ZMod p)).rootMultiplicity (q : ZMod p) ≤ 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases eq_or_ne d 0 with rfl | hd
   · rw [Polynomial.cyclotomic_zero, ← Polynomial.C_1, Polynomial.rootMultiplicity_C]
     exact Nat.zero_le 1
@@ -1095,7 +1095,7 @@ private theorem ggA5a8_cyclotomic_rootMultiplicity_le_one {p d q : ℕ} (hp : p.
       have := Nat.le_of_dvd hp1 hdvd
       omega
     have hNe : NeZero (d : ZMod p) := ⟨fun h => hpd ((ZMod.natCast_eq_zero_iff d p).1 h)⟩
-    haveI : NeZero (d : ZMod p) := hNe
+    have : NeZero (d : ZMod p) := hNe
     have hsep := Polynomial.separable_cyclotomic d (ZMod p)
     have hroot : IsRoot (cyclotomic d (ZMod p)) (q : ZMod p) :=
       Polynomial.isRoot_cyclotomic_iff.mpr hpr
@@ -1122,7 +1122,7 @@ private theorem ggA5a8_natCard_eigenspace_le {K : Type*} [Field K] [Fintype K] {
     (A : Matrix (Fin n) (Fin n) K) (q : K) {m : ℕ}
     (h : Module.finrank K (Module.End.eigenspace (Matrix.toLin' A) q) ≤ m) :
     Nat.card {z : Fin n → K // A *ᵥ z = q • z} ≤ Nat.card K ^ m := by
-  haveI : FiniteDimensional K (Module.End.eigenspace (Matrix.toLin' A) q) :=
+  have : FiniteDimensional K (Module.End.eigenspace (Matrix.toLin' A) q) :=
     FiniteDimensional.finiteDimensional_submodule _
   have hcard : Nat.card {z : Fin n → K // A *ᵥ z = q • z} =
       Nat.card (Module.End.eigenspace (Matrix.toLin' A) q) := by
@@ -1141,7 +1141,7 @@ theorem card_eigenspace_le_of_charpoly {τ : Tag} {p : ℕ} (hp : p.Prime) {d m 
     {M : Matrix (Fin τ.rank) (Fin τ.rank) ℤ} (hM : M.charpoly = (cyclotomic d ℤ) ^ m) {q : ℕ}
     (hq : orderOf (q : ZMod p) = d) :
     Nat.card {z : Fin τ.rank → ZMod p // (modMat p M)ᵀ *ᵥ z = (q : ZMod p) • z} ≤ p ^ m := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hchar : ((modMat p M)ᵀ).charpoly = (cyclotomic d (ZMod p)) ^ m := by
     rw [ggA5a8_charpoly_modMat_transpose p M, hM, Polynomial.map_pow,
       Polynomial.map_cyclotomic_int]
@@ -1252,8 +1252,8 @@ theorem factorization_card_adjointGroup_E8_le
     (Nat.card (adjointGroup .E8 K)).factorization p ≤
       ((((cyclotomic d ℤ) ^ 4).eval (Nat.card K : ℤ)).natAbs).factorization p := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype K := Fintype.ofFinite K
   set q : ℕ := Nat.card K with hqdef
   have hq' : orderOf (q : ZMod p) = d := by rw [hqdef]; exact hq
   have hq2 : 2 ≤ q := by
@@ -1310,10 +1310,10 @@ private theorem ggA5b1_cyclotomic_eval_ne_zero {d q : ℕ} (hd : d = 3 ∨ d = 4
   rw [h, Int.natAbs_zero] at hlt
   omega
 
-private theorem ggA5b1_three_lt_p {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {K : Type} [Field K]
+private theorem ggA5b1_three_lt_p {p : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2) {K : Type} [Field K]
     [Finite K] [CharP K 2] {d : ℕ} (hd : d = 3 ∨ d = 4 ∨ d = 6)
     (hq : orderOf (Nat.card K : ZMod p) = d) : 3 < p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hx0 : (Nat.card K : ZMod p) ≠ 0 := by
     intro hx
     have h0 : orderOf (Nat.card K : ZMod p) = 0 := by
@@ -1335,7 +1335,7 @@ private theorem ggA5b1_entrywiseHom_baseChangeGL_fixed
     (y : ModGL τ K) :
     Units.map (entrywiseHom Fr) (baseChangeGL ι y) = baseChangeGL ι y := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hpow : ∀ c : K, c ^ Nat.card K = c := fun c => by
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card c
@@ -1450,7 +1450,7 @@ private theorem ggA5z0_torsion_finite
       Nat.card {z : Fin τ.rank → ZMod p //
         (modMat p (weylMatrix w))ᵀ *ᵥ z = (Nat.card K : ZMod p) • z}) :
     Finite {y : D.torus // y ^ p = 1} := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   apply Nat.finite_of_card_ne_zero
   rw [hL6]
   exact Nat.card_ne_zero.mpr ⟨⟨0, by simp⟩, inferInstance⟩
@@ -1470,14 +1470,14 @@ private theorem ggA5z0_range_torsion_eq
       (∀ y : ModGL τ (AlgebraicClosure K), (y ∈ D.torus ∧ y ^ p = 1) ↔
         ∃ x ∈ E, D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K))
           (x : ModGL τ K) * D.g0 = y) := by
-  haveI : Finite {y : D.torus // y ^ p = 1} := hfin
+  have : Finite {y : D.torus // y ^ p = 1} := hfin
   let f : adjointGroup τ K →* ModGL τ (AlgebraicClosure K) :=
     (MulAut.conj D.g0⁻¹).toMonoidHom.comp
       ((baseChangeGL (algebraMap K (AlgebraicClosure K))).comp (adjointGroup τ K).subtype)
   have hf : ∀ x : adjointGroup τ K, f x = D.g0⁻¹ *
       baseChangeGL (algebraMap K (AlgebraicClosure K)) (x : ModGL τ K) * D.g0 := by
     intro x
-    simp [f, MulAut.conj_apply]
+    simp [f]
   have hf_inj : Function.Injective f := by
     intro x y hxy
     have h1 : baseChangeGL (algebraMap K (AlgebraicClosure K)) (x : ModGL τ K) =
@@ -1499,10 +1499,10 @@ private theorem ggA5z0_range_torsion_eq
   let e : ↥S ≃ {y : D.torus // y ^ p = 1} :=
     { toFun := fun y => ⟨⟨y.1, y.2.1⟩, Subtype.ext (by simpa using y.2.2)⟩
       invFun := fun y => ⟨y.1.1, y.1.2, by simpa using congrArg Subtype.val y.2⟩
-      left_inv := fun y => by ext <;> rfl
-      right_inv := fun y => by ext <;> rfl }
+      left_inv := fun y => by ext; rfl
+      right_inv := fun y => by ext; rfl }
   have hScard : Nat.card S = Nat.card {y : D.torus // y ^ p = 1} := Nat.card_congr e
-  haveI : Finite ↥S := Finite.of_equiv _ e.symm
+  have : Finite ↥S := Finite.of_equiv _ e.symm
   have hcardS_le : Nat.card S ≤ p ^ excDegCount τ (orderOf (Nat.card K : ZMod p)) := by
     rw [hScard]; exact hupper
   have hcardT_le : Nat.card T ≤ Nat.card S :=
@@ -1536,9 +1536,9 @@ private theorem adjointMaxElemToral_aux
     (hB2 : p = 5 ∧ orderOf (Nat.card K : ZMod p) = 4 → ExcFiveFourToral K) :
     AdjointMaxElemToral τ K p := by
   intro hfin hchar hp hp2 hdeg E hE hcard
-  haveI : Finite K := hfin
-  haveI : CharP K 2 := hchar
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite K := hfin
+  have : CharP K 2 := hchar
+  have : Fact p.Prime := ⟨hp⟩
   rcases excDegCount_ge_four (τ := τ) (d := orderOf (Nat.card K : ZMod p)) hdeg with
     ⟨hτ, hd, ha⟩ | ⟨hτE8, hd, ha⟩
   ·
@@ -1568,8 +1568,8 @@ private theorem adjointMaxElemToral_aux
         exact Subgroup.card_map_of_injective hfA_inj
       rw [hc, ← ha]; exact hcard
     have hA_comm : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := by
-      haveI hEcomm : IsMulCommutative ↥E := hE.1
-      letI : CommMagma ↥E := IsMulCommutative.instCommMagma
+      have hEcomm : IsMulCommutative ↥E := hE.1
+      let : CommMagma ↥E := IsMulCommutative.instCommMagma
       intro x hx y hy
       change x ∈ E.map fA at hx
       change y ∈ E.map fA at hy
@@ -1898,7 +1898,7 @@ theorem adjointMaxElemToral_E8_three
       f x = D.g0⁻¹ * baseChangeGL (algebraMap K (AlgebraicClosure K)) (x : ModGL .E8 K) *
         D.g0 := by
     intro x
-    simp [f, MulAut.conj_apply]
+    simp [f]
   have hset : (A.map f : Set (ModGL .E8 (AlgebraicClosure K))) =
       {y : ModGL .E8 (AlgebraicClosure K) | y ∈ D.torus ∧ y ^ 3 = 1} := by
     ext y
@@ -1919,8 +1919,8 @@ theorem adjointMaxElemToral_E8_three
           simpa using y.2.2)⟩
       invFun := fun y => ⟨y.1.1, y.1.2, by
         simpa using congrArg Subtype.val y.2⟩
-      left_inv := by intro y; ext <;> rfl
-      right_inv := by intro y; ext <;> rfl }
+      left_inv := by intro y; ext; rfl
+      right_inv := by intro y; ext; rfl }
   have hcardA : Nat.card A = 3 ^ 8 := by
     calc
       Nat.card A = Nat.card (A.map f) :=

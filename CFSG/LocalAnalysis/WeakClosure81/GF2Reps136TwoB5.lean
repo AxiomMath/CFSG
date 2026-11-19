@@ -17,10 +17,12 @@ open scoped commutatorElement Pointwise Matrix
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem w1369_stable_Wd (L : Subgroup (MulAut W)) : StableUnder L (Wd L) :=
-  stableUnder_commSub (fun a ha b hb => L.mul_mem (L.mul_mem ha hb) (L.inv_mem ha))
+  stableUnder_commSub (fun _a ha _b hb => L.mul_mem (L.mul_mem ha hb) (L.inv_mem ha))
     (fun _ _ _ _ => Subgroup.mem_top _)
 
+omit [Finite W] in
 private theorem w1369_commSub_Wd_self {L : Subgroup (MulAut W)} (hLp : ⁅L, L⁆ = L) :
     commSub (Wd L) L = Wd L := by
   refine le_antisymm (commSub_le_of_invariant (w1369_stable_Wd L)) ?_

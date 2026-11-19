@@ -127,7 +127,7 @@ theorem localization_of_stationary_factorizations (n : ℕ) (hn : 2 ≤ n) (S : 
   have hPR : ((P : Subgroup R).map R.subtype).map N.subtype ≤ R.map N.subtype :=
     Subgroup.map_mono (Subgroup.map_subtype_le _)
   have hPp : IsPGroup ell (((P : Subgroup R).map R.subtype).map N.subtype) :=
-    (P.isPGroup'.map _).map _
+    (P.isPGroup.map _).map _
   have hTP : T ≤ Subgroup.normalizer
       ((((P : Subgroup R).map R.subtype).map N.subtype : Subgroup G) : Set G) := by
     rw [hP]

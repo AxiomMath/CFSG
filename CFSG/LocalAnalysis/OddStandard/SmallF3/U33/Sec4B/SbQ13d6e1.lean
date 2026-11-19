@@ -18,9 +18,9 @@ theorem q13d_ncard_modEq_fixed {T : Set G} {r : G} (hr : r ^ 3 = 1)
     (hT : ∀ u ∈ T, r * u * r⁻¹ ∈ T) :
     T.ncard ≡ (T ∩ {u : G | r * u * r⁻¹ = u}).ncard [MOD 3] := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥T := Finite.of_injective (Subtype.val : ↥T → G) Subtype.val_injective
-  haveI : Fintype ↥T := Fintype.ofFinite ↥T
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥T := Finite.of_injective (Subtype.val : ↥T → G) Subtype.val_injective
+  have : Fintype ↥T := Fintype.ofFinite ↥T
   let f : Function.End ↥T := fun u => ⟨r * (u : G) * r⁻¹, hT u u.2⟩
   have hf : f ^ 3 = 1 := by
     funext u

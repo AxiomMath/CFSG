@@ -18,7 +18,7 @@ theorem dimension_lower_bound {F : Type*} [Field F] (hF : (2 : F) ≠ 0)
     2 ^ w ≤ Module.finrank F W := by
   classical
   have hcen : Nat.card (Subgroup.center E) = 2 := hE.2.2.2
-  haveI : Finite (Subgroup.center E) := inferInstance
+  have : Finite (Subgroup.center E) := inferInstance
   have hnt : Nontrivial (Subgroup.center E) := by
     rw [← Finite.one_lt_card_iff_nontrivial, hcen]; norm_num
   obtain ⟨z', hz'⟩ := exists_ne (1 : Subgroup.center E)
@@ -42,7 +42,7 @@ theorem dimension_lower_bound {F : Type*} [Field F] (hF : (2 : F) ≠ 0)
       rw [← map_mul, ← map_mul, (Subgroup.mem_center_iff.1 hz g)]
     have : ρ z (ρ g v) = ρ g (ρ z v) := congrArg (fun f => f v) hc
     rw [this, hv', map_neg, neg_add_cancel]
-  haveI : Nontrivial M := by
+  have : Nontrivial M := by
     have : ∃ v, ρ z v ≠ v := by
       by_contra h
       push Not at h

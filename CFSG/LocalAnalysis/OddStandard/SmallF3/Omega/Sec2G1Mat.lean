@@ -210,7 +210,7 @@ theorem not_injective_quaternion_statedProj {K : Type} [Field K] (h2 : (2 : K) â
           Matrix (Fin 2) (Fin 2) K) = -1 := by
         rw [Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply]
         ext i j
-        fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply, Matrix.one_apply]
+        fin_cases i <;> fin_cases j <;> simp
       rw [hscal]
       exact hm.symm
   have hmN : (q * q : H) âˆˆ (StatedScalars (Fin 2) K).subgroupOf H := by

@@ -39,6 +39,7 @@ variable {n : ℕ} {K : Type} [Field K] [Finite K]
   fixedA2Rho GGL (fixedA2Scalar (F := GGL) ω)
 
 
+omit [Finite K] in
 theorem originalM_mem_adjointGroup {F : Type} [Field F] [Finite F] [Finite J]
     (ι : K →+* F) (t : ↥(e6Data_valid.minGroup F))
     (ε : ↥(graphFixedRootGroup TwistTag.E6 K σ.toRingHom) ≃* TwE6Delta.RecipeR K n)
@@ -66,7 +67,7 @@ theorem baseChange_originalScalarPoint {F : Type} [Field F] [Finite F] [CharP F 
     ext i j
     rw [Matrix.SpecialLinearGroup.map_apply_coe, RingHom.mapMatrix_apply]
     fin_cases i <;> fin_cases j <;>
-      simp [diagSL3, Matrix.map_apply, Units.coe_map, hωval, pow_two, mul_assoc]
+      simp [diagSL3, Matrix.map_apply, hωval, pow_two]
   change baseChangeGL (τ := Tag.E6) κ
       (fixedA2Rho F (fixedA2Scalar (F := F) ωF)) = originalScalarPoint ωΩ
   rw [baseChangeGL_fixedA2Rho, hmap]
@@ -237,7 +238,7 @@ theorem exists_originalSC_return
     ∃ c : ↥J, c ^ 3 = 1 ∧ c ≠ 1 ∧ ((c : G) ∈ Bs) ∧
       y0 * recipeMatrixHom (Ω := GGL) σ ε (ψ := ψ) c * y0⁻¹ =
         originalScalarPoint ωΩ ∧
-      ∀ (g : ↥J) (hgN : MulAut.conj g ∈
+      ∀ (g : ↥J) (_hgN : MulAut.conj g ∈
           Subgroup.normalizer (actualRecipeActorGroup hN : Set (MulAut ↥J))) (m : ℤ),
         (y0 * recipeMatrixHom (Ω := GGL) σ ε (ψ := ψ) g * y0⁻¹) *
             originalScalarPoint ωΩ *
@@ -259,9 +260,9 @@ theorem exists_originalSC_return
     hmodelJ, heF, hmodel⟩ :=
     E4bOriginalField.exists_common_field_original_actor_model
       (G := G) hN hn hK σ hσ Fr hFr ε hε hψ hker hperf hAI hy0 hω3 hω1
-  letI : Field F := hFfield
-  letI : Finite F := hFfin
-  letI : CharP F 2 := hFchar
+  let : Field F := hFfield
+  let : Finite F := hFfin
+  let : CharP F 2 := hFchar
   let aF : adjointGroup Tag.E6 F := fixedA2AdjRho (F := F) (fixedA2Scalar (F := F) ωF)
   have haFbase : baseChangeGL (τ := Tag.E6) κ (aF : ModGL Tag.E6 F) = aΩ := by
     change baseChangeGL (τ := Tag.E6) κ
@@ -325,7 +326,7 @@ theorem exists_originalSC_return
         R0 * aΩ * R0⁻¹ := by
     rw [hconjγ]
     rw [← hτframe]
-    simp [R0, MulAut.conj_apply]
+    simp [R0]
     group
   have hτinv_frame : y0 * (recipeActorModelEquiv (A := A) hn hK σ hσ Fr hFr ε hε
       hψ hker hperf hAI (τ⁻¹) : ModGL Tag.E6 GGL) * y0⁻¹ = aΩ⁻¹ := by
@@ -333,8 +334,7 @@ theorem exists_originalSC_return
         hψ hker hperf hAI (τ⁻¹) : ModGL Tag.E6 GGL) =
           ((recipeActorModelEquiv (A := A) hn hK σ hσ Fr hFr ε hε
             hψ hker hperf hAI τ : ModGL Tag.E6 GGL))⁻¹ := by
-      simpa using map_inv (recipeActorModelEquiv (A := A) hn hK σ hσ Fr hFr ε hε
-        hψ hker hperf hAI).toMonoidHom τ
+      simp
     rw [hγinv, ← hτframe]
     group
   have hγconj_eq : (recipeActorModelEquiv (A := A) hn hK σ hσ Fr hFr ε hε
@@ -444,7 +444,7 @@ theorem exists_originalSC_return
     simpa using congrArg (fun x : ↥J => (x : G)) hc3
   have hcBs : (c : G) ∈ Bs := hBs.2.2.2 (c : G) hcCent hc3G
   refine ⟨c, hc3, hcne, hcBs, hcRecipe, ?_⟩
-  intro g hgN m hscalar
+  intro g _hgN m hscalar
   have hMgGad : originalM (K := K) (F := F) (σ := σ) (ε := ε) (ψ := ψ) ιK t g ∈
       adjointGroup Tag.E6 F :=
     originalM_mem_adjointGroup (K := K) (F := F) (σ := σ) (ε := ε) (ψ := ψ) ιK t g
@@ -485,11 +485,11 @@ theorem exists_originalSC_return
         Subgroup.normalizer (E' : Set (ModGL Tag.E6 GGL)) := by
       simpa [E'] using
         framed_recipe_normalizes_originalEFrame (J := ↥J)
-          hn hK hσ Fr hFr ε hε hψ hker hperf hAI hgN (y0 := y0)
+          hn hK hσ Fr hFr ε hε hψ hker hperf hAI _hgN (y0 := y0)
     have hRgN_S : (y0 * recipeMatrixHom (Ω := GGL) σ ε (ψ := ψ) g * y0⁻¹) ∈
         Subgroup.normalizer (fixedA2Torus GGL) :=
       framed_recipe_normalizes_fixedA2Torus (J := ↥J)
-        hn hK hσ Fr hFr ε hε hψ hker hperf hAI hgN hy0
+        hn hK hσ Fr hFr ε hε hψ hker hperf hAI _hgN hy0
         (by simpa [E'] using hS')
     simpa [hXbase] using hRgN_S
   have h := hcov (MulAut.conj g) (MulAut.conj (ψ g)) hψv X hXmodel hXnorm m hXaF_adj

@@ -70,7 +70,7 @@ theorem exists_sylow_le_normalizer (haQ : g * S.z * g⁻¹ ∈ S.QG) (C : Cons31
   obtain ⟨P, hP⟩ := hL.exists_le_sylow
   have hLP : S.Lbar g ≤ (P : Subgroup S.Mbar).map S.Mbar.subtype := fun t ht =>
     ⟨⟨t, S.Lbar_le_Mbar g ht⟩, hP (mem_subgroupOf.mpr ht), rfl⟩
-  refine ⟨P, hLP, le_normalizer_of_weaklyClosed (P.isPGroup'.map _) hLP ?_⟩
+  refine ⟨P, hLP, le_normalizer_of_weaklyClosed (P.isPGroup.map _) hLP ?_⟩
   rintro _ ⟨x, -, rfl⟩ hle
   obtain ⟨m, hm⟩ := x.2
   have e : S.Mbar.subtype x = S.ρ m := hm.symm

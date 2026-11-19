@@ -49,7 +49,7 @@ theorem twOuterHeisPlane_holds :
       (β : K) • 1 := by
     have h1 : (γ₂ : GL (Fin 3) K) ^ 3 = GeneralLinearGroup.scalar (Fin 3) β := hβ
     rw [h1, twPlane_coe_scalar]
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hq' : ℓ ^ f % 3 = 2 := by omega
   have hpos : 0 < ℓ ^ f := pow_pos h.prime.pos f
   have hq2 : 2 < ℓ ^ f := by omega

@@ -89,7 +89,7 @@ theorem Std20.late_no_sq_W (d : Std20 p f K K' J S R R' W V z t) (h8 : 8 < Nat.c
   have heK' : e ∉ K' := by
     intro heK'
     have hA2 : IsPGroup 2 ↥(Subgroup.zpowers e) :=
-      S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (d.hWS heW))
+      S.isPGroup.to_le (Subgroup.zpowers_le.mpr (d.hWS heW))
     have hcard := Sec6Gen.card_le_two_of_le_inf hΩg d.late_mem_K d.late_mem_K' d.ne.symm hA2
       (Subgroup.zpowers_le.mpr heK) (Subgroup.zpowers_le.mpr heK')
     rw [Nat.card_zpowers] at hcard
@@ -206,7 +206,7 @@ theorem Std20.late_no_sq_W (d : Std20 p f K K' J S R R' W V z t) (h8 : 8 < Nat.c
       _ = m * z * m⁻¹ := by rw [he'02]
       _ = a₀ := hme
   have hA₂ : ∀ {w : G}, w ∈ W → IsPGroup 2 ↥(Subgroup.zpowers w) := fun hw =>
-    S.isPGroup'.to_le (Subgroup.zpowers_le.mpr (d.hWS hw))
+    S.isPGroup.to_le (Subgroup.zpowers_le.mpr (d.hWS hw))
   have hA₄ : ∀ {w : G}, w * w = a₀ → 4 ≤ Nat.card ↥(Subgroup.zpowers w) := fun hw => by
     rw [Nat.card_zpowers, late_orderOf_four hw ha₀1 ha₀2]
   have hne : Subgroup.zpowers (m * e * m⁻¹) ≠ Subgroup.zpowers (m * e₀' * m⁻¹) := by

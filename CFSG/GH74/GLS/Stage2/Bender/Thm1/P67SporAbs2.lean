@@ -30,7 +30,7 @@ theorem triples_false_of_sylow_cover_eq {r k t : ℕ} (hr : r.Prime) {P : Subgro
   obtain ⟨Q0, hQ0⟩ := hPp.exists_le_sylow
   have hcardQ : ∀ Q : Sylow r N, Nat.card Q ≤ r ^ k := by
     intro Q
-    obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 Q.isPGroup'
+    obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 Q.isPGroup
     have hdv : r ^ j ∣ Nat.card N := hj ▸ Subgroup.card_subgroup_dvd_card (Q : Subgroup N)
     have hjk : j ≤ k := by
       by_contra h

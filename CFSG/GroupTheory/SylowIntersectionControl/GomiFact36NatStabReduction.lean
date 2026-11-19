@@ -212,7 +212,7 @@ omit [Finite W] in
 private theorem isSylowIn_map_map [Finite D.Gam] {π : D.Gam →* ↥L} (hπs : Function.Surjective π)
     (hinj : Function.Injective π) (T₀ : Sylow 2 D.Gam) :
     IsSylowIn 2 (((T₀ : Subgroup D.Gam).map π).map L.subtype) L := by
-  refine ⟨Subgroup.map_subtype_le _, (T₀.isPGroup'.map π).map L.subtype, ?_⟩
+  refine ⟨Subgroup.map_subtype_le _, (T₀.isPGroup.map π).map L.subtype, ?_⟩
   have hidx : ((T₀ : Subgroup D.Gam).map π).index = (T₀ : Subgroup D.Gam).index :=
     Subgroup.index_map_eq (T₀ : Subgroup D.Gam) hπs
       (by rw [(MonoidHom.ker_eq_bot_iff π).mpr hinj]; exact bot_le)

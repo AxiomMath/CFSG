@@ -74,8 +74,8 @@ theorem bad_pair_five_odd {K : Type} [Field K] [Finite K] {f : ℕ} (hK : Nat.ca
 theorem bad_pair_five_even {K : Type} [Field K] [Finite K] {f : ℕ} (hK : Nat.card K = 5 ^ f)
     (hf : Even f) : ∃ D₀ D₁ : Subgroup PSL(2, K), Nat.card D₀ = 3 ∧ Nat.card D₁ = 3 ∧
       ¬ Z3E9A5Mod2 (D₀ ⊔ D₁) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h3 : 3 ∣ Nat.card Kˣ := by
     rw [Nat.card_units, hK]
     have h24 : 5 ^ 2 - 1 ∣ 5 ^ f - 1 := Nat.pow_sub_one_dvd_pow_sub_one 5 (even_iff_two_dvd.1 hf)
@@ -90,9 +90,9 @@ theorem bad_pair_five_even {K : Type} [Field K] [Finite K] {f : ℕ} (hK : Nat.c
 
 theorem le_pRank_char_three {K : Type} [Field K] [Finite K] {f : ℕ} (hK : Nat.card K = 3 ^ f) :
     f ≤ CFSG.Open.pRank 3 (⊤ : Subgroup PSL(2, K)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 3 := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 3 := charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
   exact Insp.le_pRank (by norm_num) (rootGroup K) le_top rootGroup_isElemAbelian
     ((card_rootGroup).trans hK)
 
@@ -101,7 +101,7 @@ theorem exists_bad_pair_psl2 {K : Type} [Field K] [Finite K] {p f : ℕ} (hp : p
     (h5 : p ^ f ≠ 5) (hrk : CFSG.Open.pRank 3 (⊤ : Subgroup PSL(2, K)) ≤ 1) :
     ∃ D₀ D₁ : Subgroup PSL(2, K), Nat.card D₀ = 3 ∧ Nat.card D₁ = 3 ∧
       ¬ Z3E9A5Mod2 (D₀ ⊔ D₁) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_cases hp2 : p = 2
   · subst hp2
     have : 3 ≤ f := by
@@ -130,8 +130,8 @@ theorem exists_bad_pair_psl2 {K : Type} [Field K] [Finite K] {p f : ℕ} (hp : p
       have hne4 : p ≠ 4 := by rintro rfl; exact absurd hp (by decide)
       have hne6 : p ≠ 6 := by rintro rfl; exact absurd hp (by decide)
       omega
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : CharP K p :=
+    have : Fintype K := Fintype.ofFinite K
+    have : CharP K p :=
       charP_of_card_eq_prime_pow (f := f) (by rw [← Nat.card_eq_fintype_card, hK])
     exact bad_pair_large_char hp7
 

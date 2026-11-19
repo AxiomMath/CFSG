@@ -59,7 +59,7 @@ theorem exists_fixed_of_fixed_center_quotient {K : Type*} [Group K] [Finite K]
 theorem normal_of_simple_of_index_le_four {C : Type*} [Group C] [Finite C] {H : Subgroup C}
     (hH : IsSimpleGroup ↥H) (hindex : H.index ≤ 4) (hcard : 24 < Nat.card ↥H) :
     H.Normal := by
-  haveI := hH
+  have := hH
   have hdvd : H.normalCore.index ∣ 24 :=
     (Subgroup.index_normalCore_dvd_factorial_index H).trans (Nat.factorial_dvd_factorial hindex)
   have hle : H.normalCore.index ≤ 24 := Nat.le_of_dvd (by norm_num) hdvd
@@ -160,7 +160,7 @@ private theorem center_quotient_center_eq_bot {K : Type*} [Group K]
     (hS : IsSimpleGroup (K ⧸ center K))
     (hnonab : ∃ a b : K ⧸ center K, a * b ≠ b * a) :
     center (K ⧸ center K) = ⊥ := by
-  haveI := hS
+  have := hS
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center (K ⧸ center K)) with h | h
   · exact h
   · exfalso
@@ -267,7 +267,7 @@ private theorem odd_card_center_of_component [Finite X] {K : Subgroup X} (hK : I
     Subgroup.card_map_of_injective (f := (layer X).subtype) (layer X).subtype_injective] at h1
   exact hZ.of_dvd_nat h1
 
-private theorem card_fixed_le_centralizer [Finite X] {K : Subgroup X} (hK : IsComponent K)
+private theorem card_fixed_le_centralizer [Finite X] {K : Subgroup X} (_hK : IsComponent K)
     (hKz : K.map (MulAut.conj z) = K) (hZ : Odd (Nat.card (center ↥K))) (hz2 : z * z = 1) :
     Nat.card ↥(TauCeti.fixedSubgroup (quotCenterConj z K hKz).toMonoidHom) ≤
       Nat.card ↥(K ⊓ centralizer ({z} : Set X)) := by
@@ -418,7 +418,7 @@ theorem XHyp.false_of_forall_isComponent [Finite X] (h : XHyp ρ Q V₁ V₂ z Q
     (hmap : ∀ K : Subgroup X, IsComponent K → K.map (MulAut.conj z).toMonoidHom = K)
     (hnc : ∀ K : Subgroup X, IsComponent K → ¬ K ≤ centralizer ({z} : Set X)) : False := by
   classical
-  haveI : IsSimpleGroup ↥⁅Q, Q⁆ := h.isSimpleGroup_commutator
+  have : IsSimpleGroup ↥⁅Q, Q⁆ := h.isSimpleGroup_commutator
   have hQE : ⁅Q, Q⁆ ≤ layer X := h.commutator_le_layer hE
   have hcomp : ∃ K : Subgroup X, IsComponent K ∧ ⁅K, ⁅Q, Q⁆⁆ ≠ ⊥ := by
     by_contra hcon
@@ -430,13 +430,13 @@ theorem XHyp.false_of_forall_isComponent [Finite X] (h : XHyp ρ Q V₁ V₂ z Q
     have hab : IsMulCommutative ↥⁅Q, Q⁆ := by
       rw [← Subgroup.commutator_self_eq_bot_iff]
       exact (Subgroup.commutator_eq_bot_iff_le_centralizer).mpr hQ'cent
-    letI : CommGroup ↥⁅Q, Q⁆ :=
+    let : CommGroup ↥⁅Q, Q⁆ :=
       { (inferInstance : Group ↥⁅Q, Q⁆) with mul_comm := fun a b => hab.is_comm.comm a b }
     have hp : (Nat.card ↥⁅Q, Q⁆).Prime := IsSimpleGroup.prime_card
     rw [h.card_commutator] at hp
     norm_num at hp
   obtain ⟨K, hK, hKQ⟩ := hcomp
-  haveI : IsSimpleGroup (↥K ⧸ center ↥K) := hK.1.2.1
+  have : IsSimpleGroup (↥K ⧸ center ↥K) := hK.1.2.1
   have hKz : K.map (MulAut.conj z) = K := by
     simpa using hmap K hK
   let Kidx : ComponentIndex X := ⟨K, hK⟩
@@ -445,7 +445,7 @@ theorem XHyp.false_of_forall_isComponent [Finite X] (h : XHyp ρ Q V₁ V₂ z Q
   have hαne : α ≠ 1 := quotCenterConj_ne_one z K hKz hK.1.1 (hnc K hK)
   let π : ↥⁅Q, Q⁆ →* (↥K ⧸ center ↥K) := (layerProj X Kidx).comp ((⁅Q, Q⁆).inclusion hQE)
   have hπinj : Function.Injective π := by
-    haveI : (π.ker).Normal := inferInstance
+    have : (π.ker).Normal := inferInstance
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal π.ker with hbot | htop
     · rwa [MonoidHom.ker_eq_bot_iff] at hbot
     · exfalso
@@ -462,7 +462,7 @@ theorem XHyp.false_of_forall_isComponent [Finite X] (h : XHyp ρ Q V₁ V₂ z Q
       have hc' : (g : X) * (k : X) * (g : X)⁻¹ = (k : X) := by simpa using hc
       calc k * g = ((g : X) * k * (g : X)⁻¹) * g := by rw [hc']
         _ = g * k := by group
-  haveI hHsimple : IsSimpleGroup ↥π.range :=
+  have hHsimple : IsSimpleGroup ↥π.range :=
     (MonoidHom.ofInjective hπinj).symm.isSimpleGroup
   have hHcard : Nat.card ↥π.range = 443520 := by
     rw [← h.card_commutator]
@@ -490,7 +490,7 @@ theorem XHyp.false_of_forall_isComponent [Finite X] (h : XHyp ρ Q V₁ V₂ z Q
   have hHcardC : Nat.card ↥(π.range.subgroupOf C) = 443520 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hHle).toEquiv]
     exact hHcard
-  haveI hHsimpleC : IsSimpleGroup ↥(π.range.subgroupOf C) :=
+  have hHsimpleC : IsSimpleGroup ↥(π.range.subgroupOf C) :=
     (Subgroup.subgroupOfEquivOfLe hHle).isSimpleGroup
   have hindex : (π.range.subgroupOf C).index ≤ 4 := by
     have hmul : Nat.card ↥(π.range.subgroupOf C) * (π.range.subgroupOf C).index =

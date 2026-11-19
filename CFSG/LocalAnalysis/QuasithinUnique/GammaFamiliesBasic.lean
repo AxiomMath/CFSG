@@ -19,7 +19,7 @@ theorem exists_isPGroup_card_eq_pow_of_le {p : ℕ} [Fact p.Prime] {U H : Subgro
   have hU' : IsPGroup p (U.subgroupOf H) := hU.of_equiv (Subgroup.subgroupOfEquivOfLe hUH).symm
   obtain ⟨Q, hQ⟩ := hU'.exists_le_sylow
   refine ⟨(Q : Subgroup H).map H.subtype, ?_, Subgroup.map_subtype_le _,
-    Q.isPGroup'.map H.subtype, ?_⟩
+    Q.isPGroup.map H.subtype, ?_⟩
   · have := Subgroup.map_mono (f := H.subtype) hQ
     rwa [Subgroup.map_subgroupOf_eq_of_le hUH] at this
   · rw [Subgroup.card_map_of_injective H.subtype_injective]

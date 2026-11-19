@@ -20,7 +20,7 @@ theorem fix_mem_centralizer_J_of_block
     (hSC : ∀ g ∈ Subgroup.centralizer (Bs : Set G), g ^ p = 1 → g ∈ Bs)
     (hBsJ : Bs ≤ Subgroup.normalizer (J : Set G))
     (hN : Bs ≤ Subgroup.normalizer (X : Set G))
-    {φ : SpecialLinearGroup (Fin (r + 1)) F →* X} (hφs : Function.Surjective φ)
+    {φ : SpecialLinearGroup (Fin (r + 1)) F →* X} (_hφs : Function.Surjective φ)
     (hker : ∀ g, φ g = 1 → g ∈ scalars (r + 1) F)
     (hdiag : ∀ a ∈ (ggGamma X hN).range, ∃ t : Fin (r + 1) → F, TypeANbrDvd.ActsDiag φ a t)
     (S : Finset (Fin (r + 1))) (hS2 : 2 ≤ S.card)

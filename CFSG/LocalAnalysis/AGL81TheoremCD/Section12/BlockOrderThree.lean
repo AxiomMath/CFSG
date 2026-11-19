@@ -25,7 +25,7 @@ private theorem blockHasThree_of_mem_weakBlockSet
     (h25 : CFSG.CGT.PushingUpLit.SolomonAlternatingBlockK)
     (h : TwelveCtx G M p Q H) {L : Subgroup G} (hL : L ∈ weakBlockSet M H) :
     BlockHasThree M (pCoreOf 2 H) L := by
-  haveI : IsSimpleGroup G := h.cstar.simple
+  have : IsSimpleGroup G := h.cstar.simple
   have hphase : CFSG.AGLEmbedding.TwoLocalPhaseThree M H := h.twoLocalPhaseThree
   have hMtop : M ≠ ⊤ := twoLocal_ne_top h.cstar.nonab M h.maxLocal.1
   have hK : CFSG.Open.IsKGroup ↥M :=
@@ -50,6 +50,7 @@ private theorem blockHasThree_of_mem_weakBlockSet
     (CFSG.AGLEmbedding.citedBlockThreeTransvection_of_inverted hInv)
     (CFSG.AGLEmbedding.kFactBlockThreeAltSeven_of_inverted hInv) hL
 
+omit [Finite G] in
 private theorem exists_pow_three_not_mem_center_barM {M S L : Subgroup G}
     (hLM : L ≤ M) (h : BlockHasThree M S L) :
     ∃ k : ↥(barM M L), k ∉ Subgroup.center ↥(barM M L) ∧

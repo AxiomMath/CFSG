@@ -37,8 +37,8 @@ theorem exists_witness_of_scalar_cube {h : UnitaryFieldData p f K} {ω : K}
             (Matrix.ProjGenLinGroup.mk t)⁻¹ ∉
           Subgroup.zpowers (Matrix.ProjGenLinGroup.mk x) := by
   classical
-  haveI : Finite K := h.finite
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 4) K) :=
+  have : Finite K := h.finite
+  have : Finite (Matrix.ProjGenLinGroup (Fin 4) K) :=
     Finite.of_surjective (Matrix.ProjGenLinGroup.mk : GL (Fin 4) K →* _)
       Matrix.ProjGenLinGroup.mk_surjective
   have hω : IsPrimitiveRoot ω 3 := isPrimitiveRoot_three_of_sq_add_add_one hω2 h3
@@ -104,7 +104,7 @@ theorem exists_witness_of_scalar_cube {h : UnitaryFieldData p f K} {ω : K}
   have hdetD : (D : Matrix (Fin 4) (Fin 4) K).det = 1 := by
     have e : GeneralLinearGroup.det D = GeneralLinearGroup.det x' := by
       rw [hD_def, map_mul, map_mul, map_inv]
-      simp [mul_comm, mul_assoc, mul_left_comm]
+      simp [mul_comm, mul_left_comm]
     have h1 := congrArg (fun u : Kˣ => (u : K)) e
     simp only [GeneralLinearGroup.val_det_apply] at h1
     rw [h1, hdetx']
@@ -127,7 +127,7 @@ theorem exists_witness_of_scalar_cube {h : UnitaryFieldData p f K} {ω : K}
       by_cases hij : i = j
       · subst hij
         simp [hd1]
-      · simp [Matrix.diagonal_apply_ne _ hij, hij]
+      · simp [hij]
     have hx'1 : x' = 1 := by
       calc x' = g * (g⁻¹ * x' * g) * g⁻¹ := by group
         _ = 1 := by rw [← hD_def, hD1]; group
@@ -249,9 +249,9 @@ theorem listRow_projSU_four_of_dvd_succ {p f : ℕ} [Fact p.Prime] (hf : 1 ≤ f
     (h3 : 3 ∣ p ^ f + 1) : ListRow (projSU 4 p f) := by
   classical
   have h := unitaryFieldData_galoisField p f hf
-  haveI : Finite (GaloisField p (2 * f)) := h.finite
-  haveI : CharP (GaloisField p (2 * f)) p := h.charP
-  haveI : Finite (Matrix.ProjGenLinGroup (Fin 4) (GaloisField p (2 * f))) :=
+  have : Finite (GaloisField p (2 * f)) := h.finite
+  have : CharP (GaloisField p (2 * f)) p := h.charP
+  have : Finite (Matrix.ProjGenLinGroup (Fin 4) (GaloisField p (2 * f))) :=
     Finite.of_surjective (Matrix.ProjGenLinGroup.mk : GL (Fin 4) (GaloisField p (2 * f)) →* _)
       Matrix.ProjGenLinGroup.mk_surjective
   have h3K : (3 : GaloisField p (2 * f)) ≠ 0 := by
@@ -275,7 +275,7 @@ theorem listRow_projSU_four_of_dvd_succ {p f : ℕ} [Fact p.Prime] (hf : 1 ≤ f
       ring
     rw [hsq]
     exact Dvd.dvd.mul_right h3 _
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨g3, hg3⟩ := exists_prime_orderOf_dvd_card' (G := (GaloisField p (2 * f))ˣ) 3 hdvdU
   have hω3 : (g3 : GaloisField p (2 * f)) ^ 3 = 1 := by
     rw [← Units.val_pow_eq_pow_val, ← hg3, pow_orderOf_eq_one, Units.val_one]

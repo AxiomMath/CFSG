@@ -9,7 +9,7 @@ namespace CFSG.EvenSporadicStandard.Fin76b
 
 theorem cent_sigma_eq {G : Type} [Group G] [Finite G] {L : Subgroup G} {z t σ : G} {T : Subgroup G}
     (h : OuterConfig G L z t T) (hσz : σ * z = z * σ) (hσL : σ ∉ L ⊔ Subgroup.zpowers z)
-    (hσ2 : σ * σ = 1) :
+    (_hσ2 : σ * σ = 1) :
     Subgroup.centralizer ({z} : Set G) ⊓ Subgroup.centralizer ({σ} : Set G) =
       (L ⊓ Subgroup.centralizer ({σ} : Set G)) ⊔ (Subgroup.zpowers z ⊔ Subgroup.zpowers σ) := by
   have hσK : σ ∈ Subgroup.centralizer ({z} : Set G) :=

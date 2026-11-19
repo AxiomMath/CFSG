@@ -59,7 +59,7 @@ theorem mod_pow_eq_iff {a b : Nat} :
     have split : ∀ x, x % 16 ^ (r + 1) % 16 ^ r = x % 16 ^ r ∧
         x % 16 ^ (r + 1) / 16 ^ r = x / 16 ^ r % 16 := fun x => by
       rw [Nat.mod_pow_succ]
-      refine ⟨by simp [Nat.mod_mod], ?_⟩
+      refine ⟨by simp, ?_⟩
       rw [Nat.add_mul_div_left _ _ hp, Nat.div_eq_of_lt (Nat.mod_lt _ hp), Nat.zero_add]
     constructor
     · intro h j hj
@@ -75,14 +75,14 @@ theorem digit_split {lo e h i : Nat} (hlo : lo < 16 ^ i) (he : e < 16) (j : Nat)
     (lo + 16 ^ i * (e + 16 * h)) / 16 ^ j % 16 =
       if j < i then lo / 16 ^ j % 16 else if j = i then e else h / 16 ^ (j - i - 1) % 16 := by
   by_cases hji : j < i
-  · rw [if_pos hji]
+  · rw [ite_eq_left hji]
     obtain ⟨m, rfl⟩ := Nat.exists_eq_add_of_lt hji
     have hpj : 0 < 16 ^ j := by positivity
     have : 16 ^ (j + m + 1) * (e + 16 * h) = 16 ^ j * (16 * (16 ^ m * (e + 16 * h))) := by
       rw [Nat.pow_add, Nat.pow_add, Nat.pow_one]
       ac_rfl
     rw [this, Nat.add_mul_div_left _ _ hpj, Nat.add_mul_mod_self_left]
-  · rw [if_neg hji]
+  · rw [ite_eq_right hji]
     obtain ⟨l, rfl⟩ := Nat.exists_eq_add_of_le (Nat.le_of_not_lt hji)
     have hpi : 0 < 16 ^ i := by positivity
     rw [Nat.pow_add, ← Nat.div_div_eq_div_mul, Nat.add_mul_div_left _ _ hpi,
@@ -90,7 +90,7 @@ theorem digit_split {lo e h i : Nat} (hlo : lo < 16 ^ i) (he : e < 16) (j : Nat)
     cases l with
     | zero => simp [Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt he]
     | succ l =>
-      rw [if_neg (by omega), Nat.pow_succ', ← Nat.div_div_eq_div_mul,
+      rw [ite_eq_right (by omega), Nat.pow_succ', ← Nat.div_div_eq_div_mul,
         Nat.add_mul_div_left _ _ (by decide), Nat.div_eq_of_lt he, Nat.zero_add,
         show i + (l + 1) - i - 1 = l by omega]
 
@@ -132,9 +132,9 @@ theorem basisLike_spec {r c i e : Nat} (h : basisLike r c i e = true) :
   rw [this]
   by_cases hji : j = i
   · subst hji
-    rw [if_pos rfl, Nat.beq_refl]
+    rw [ite_eq_left rfl, Nat.beq_refl]
   · have hb : Nat.beq j i = false := Bool.eq_false_iff.2 fun h => hji (Nat.eq_of_beq_eq_true h)
-    rw [if_neg hji, hb]
+    rw [ite_eq_right hji, hb]
 
 theorem strOK_spec {r P len W R T c s i : Nat} (h : strOK r P len W R T c s i = true) :
     dig s i / 4 + dig s i % 4 ≤ 3 ∧ ∀ n < 2 * W + 1,
@@ -221,7 +221,7 @@ theorem exists_root_add_iff {P R T : Nat}
       intro j
       rw [← root_apply, hroot, hv]
     have hi := hcoord i
-    rw [if_pos rfl] at hi
+    rw [ite_eq_left rfl] at hi
     have hlt := Nat.mod_lt (C.roots.getD k' 0 / 16 ^ (i : Nat)) (show 0 < 16 by decide)
     have hrange : W ≤ d + n ∧ d + n < W + 16 := by omega
     refine ⟨hrange, ?_⟩
@@ -231,12 +231,12 @@ theorem exists_root_add_iff {P R T : Nat}
       have := hcoord ⟨j, hj⟩
       by_cases hji : j = (i : Nat)
       · subst hji
-        rw [if_pos rfl]
-        rw [if_pos rfl] at this
+        rw [ite_eq_left rfl]
+        rw [ite_eq_left rfl] at this
         dsimp only at this
         omega
-      · rw [if_neg hji]
-        rw [if_neg (fun h => hji (congrArg Fin.val h))] at this
+      · rw [ite_eq_right hji]
+        rw [ite_eq_right (fun h => hji (congrArg Fin.val h))] at this
         dsimp only at this
         omega
     have hmod := (mod_pow_eq_iff τ.rank).2 hdig
@@ -255,10 +255,10 @@ theorem exists_root_add_iff {P R T : Nat}
     funext j
     rw [root_apply, hv, hdig j j.isLt, hx, digit_replace c i (d + n - W) j (by omega)]
     by_cases hji : (j : Nat) = i
-    · rw [if_pos hji, if_pos (Fin.ext hji), hji, ← hd]
+    · rw [ite_eq_left hji, ite_eq_left (Fin.ext hji), hji, ← hd]
       push_cast [Nat.cast_sub hrange.1]
       ring
-    · rw [if_neg hji, if_neg (fun h => hji (congrArg Fin.val h))]
+    · rw [ite_eq_right hji, ite_eq_right (fun h => hji (congrArg Fin.val h))]
       ring
 
 theorem checkCoords_of_coordsK (h : coordsK τ.rank S.maxCoord C.roots = true) :
@@ -299,17 +299,17 @@ theorem checkStrings_of_top (P : Nat) (hb : S.checkBuckets C = true)
   · have he : C.root k = Pi.single i 1 := funext fun j => by
       rw [root_apply, basisLike_spec h9 j j.isLt, Pi.single_apply]
       by_cases hji : (j : Nat) = i
-      · rw [if_pos hji, if_pos (Fin.ext hji)]
+      · rw [ite_eq_left hji, ite_eq_left (Fin.ext hji)]
         rfl
-      · rw [if_neg hji, if_neg (fun h => hji (congrArg Fin.val h))]
+      · rw [ite_eq_right hji, ite_eq_right (fun h => hji (congrArg Fin.val h))]
         rfl
     simp [he]
   · have he : C.root k = -Pi.single i 1 := funext fun j => by
       rw [root_apply, basisLike_spec h7 j j.isLt, Pi.neg_apply, Pi.single_apply]
       by_cases hji : (j : Nat) = i
-      · rw [if_pos hji, if_pos (Fin.ext hji)]
+      · rw [ite_eq_left hji, ite_eq_left (Fin.ext hji)]
         rfl
-      · rw [if_neg hji, if_neg (fun h => hji (congrArg Fin.val h))]
+      · rw [ite_eq_right hji, ite_eq_right (fun h => hji (congrArg Fin.val h))]
         rfl
     simp [he]
   · obtain ⟨hs1, hs2⟩ := strOK_spec hs

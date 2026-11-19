@@ -33,7 +33,7 @@ noncomputable def s1E (j : ℕ) : Cz :=
   if h : j < 23040 then ⟨recS hex26805 j, S0_le_Cz (recS_spec hex26805 h).1.1⟩ else 1
 
 theorem repK_s1 {j : ℕ} (hj : j < 23040) : repK ((s1E j : Cz) : K) (C26805Pt j) := by
-  simp only [s1E, dif_pos hj]
+  simp only [s1E, dite_eq_left hj]
   exact (recS_spec hex26805 hj).2
 
 theorem cR1_val : ((cR 1 : Cz) : K) = sElt 26805 := by
@@ -49,12 +49,12 @@ theorem s1E_spec {j : ℕ} (hj : j < 23040) :
     repK (piC (s1E j)) (C26805Pt j) ∧ s1E j * cE 0 26805 = cE 0 26805 * s1E j := by
   have hs := recS_spec hex26805 hj
   refine ⟨?_, ?_⟩
-  · simp only [s1E, dif_pos hj]
+  · simp only [s1E, dite_eq_left hj]
     rw [piC_S0 hs.1.1]
     exact hs.2
   · apply Subtype.ext
     rw [Subgroup.coe_mul, Subgroup.coe_mul, show ((cE 0 26805 : Cz) : K) = sElt 26805 from cR1_val]
-    simp only [s1E, dif_pos hj]
+    simp only [s1E, dite_eq_left hj]
     exact hs.1.2
 
 theorem mem_D1 {d : Cz} : d ∈ DCi 1 ↔ ∃ t < 32, d = qE (X1Dt t) := by

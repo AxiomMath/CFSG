@@ -89,7 +89,7 @@ theorem card_mulAut_le_of_quot {Q : Type} [Group Q] [Finite Q] (hperf : commutat
 
 theorem index_innerAut_le_of_quot {Q : Type} [Group Q] [Finite Q] (hQ : CFSG.Open.IsQuasisimple Q) :
     (innerAut Q).index ≤ (innerAut (Q ⧸ Subgroup.center Q)).index := by
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
   obtain ⟨e⟩ := innerAut_mulEquiv_quot Q
   have hIQ : Nat.card (innerAut Q) = Nat.card (Q ⧸ Subgroup.center Q) :=
     (Nat.card_congr e.toEquiv).symm

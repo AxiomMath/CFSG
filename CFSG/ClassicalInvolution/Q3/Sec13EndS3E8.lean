@@ -27,6 +27,7 @@ theorem surjective_of_card_ker {Γ M : Type} [Group Γ] [Finite Γ] [Group M] [F
   have h4 : 4 ≤ Nat.card f.range := by nlinarith
   omega
 
+omit [Finite G] in
 theorem exists_q8_gen {K : Subgroup G} {z : G}
     (hz : IsUniqueInvolution K z) (hQ : IsQuatSub K) (hK8 : Nat.card K = 8) :
     ∃ i j : G, i ∈ K ∧ j ∈ K ∧ i * i = z ∧ j * j = z ∧ j * i = z * (i * j) ∧
@@ -105,6 +106,7 @@ theorem exists_q8_gen {K : Subgroup G} {z : G}
     rcases hcases (e2 ⟨x, hx⟩) with h | h | h | h | h | h | h | h <;> rw [h] <;>
       simp only [hψone, hψz, hψ3, hψ2j, hψ3j, hψ1j] <;> simp
 
+omit [Finite G] in
 private theorem conj_eq_mul_aux {K : Subgroup G} {z i j : G} (f : G → G)
     (hz : IsUniqueInvolution K z) (hi : i ∈ K) (hj : j ∈ K) (hii : i * i = z)
     (hjj : j * j = z) (hji : j * i = z * (i * j))
@@ -294,6 +296,7 @@ private theorem conj_eq_mul_aux {K : Subgroup G} {z i j : G} (f : G → G)
         rw [mul_assoc, Dm (i * j), hmm, D3]
       exact (L_f (mul_left_cancel ((mul_one z).trans (e.symm.trans hmq))).symm).elim
 
+omit [Finite G] in
 theorem exists_conj_eq_mul_of_not_comm {K : Subgroup G} {z i j t : G}
     (hz : IsUniqueInvolution K z) (hi : i ∈ K) (hj : j ∈ K) (hii : i * i = z) (hjj : j * j = z)
     (hji : j * i = z * (i * j))
@@ -349,6 +352,7 @@ structure Q8Data (K : Subgroup G) (z i j : G) : Prop where
   nf : ∀ x ∈ K, x = 1 ∨ x = z ∨ x = i ∨ x = z * i ∨ x = j ∨ x = z * j ∨ x = i * j ∨
     x = z * (i * j)
 
+omit [Finite G] in
 theorem conj_eq_self_of_normalizer {K : Subgroup G} {z x : G} (hz : IsUniqueInvolution K z)
     (hx : x ∈ Subgroup.normalizer (K : Set G)) : x * z * x⁻¹ = z := by
   have hc : conjSub x K = K := mem_normalizer_iff_conjSub_eq.mp hx
@@ -356,16 +360,19 @@ theorem conj_eq_self_of_normalizer {K : Subgroup G} {z x : G} (hz : IsUniqueInvo
   rw [hc] at h1
   exact (hz.eq h1).symm
 
+omit [Finite G] in
 theorem conj_of_mem_mem {K : Subgroup G} {z x c : G} (hz : IsUniqueInvolution K z)
     (hx : x ∈ K) (hc : c = 1 ∨ c = z) : x * c * x⁻¹ = c := by
   rcases hc with rfl | rfl
   · exact by group
   · exact conj_eq_self_of_normalizer hz (Subgroup.le_normalizer hx)
 
+omit [Finite G] in
 theorem dComm_mem {K : Subgroup G} {d k : G} (hd : d ∈ Subgroup.normalizer (K : Set G))
     (hk : k ∈ K) : dComm d k ∈ K :=
   K.mul_mem ((Subgroup.mem_normalizer_iff.mp hd k).mp hk) (K.inv_mem hk)
 
+omit [Finite G] in
 theorem dComm_mul_left {K : Subgroup G} {z d d' k : G} (hz : IsUniqueInvolution K z)
     (hd : d ∈ Subgroup.normalizer (K : Set G)) (hc : dComm d' k = 1 ∨ dComm d' k = z) :
     dComm (d * d') k = dComm d' k * dComm d k := by
@@ -379,20 +386,23 @@ theorem dComm_mul_left {K : Subgroup G} {z d d' k : G} (hz : IsUniqueInvolution 
     _ = (d * dComm d' k * d⁻¹) * (d * k * d⁻¹ * k⁻¹) := by group
     _ = dComm d' k * dComm d k := by rw [hdc]; rfl
 
+omit [Finite G] in
 theorem dComm_mul_right {K : Subgroup G} {z d x y : G} (hz : IsUniqueInvolution K z)
-    (hx : x ∈ K) (hy : y ∈ K) (hd : d ∈ Subgroup.normalizer (K : Set G))
+    (hx : x ∈ K) (_hy : y ∈ K) (_hd : d ∈ Subgroup.normalizer (K : Set G))
     (hc : dComm d y = 1 ∨ dComm d y = z) :
     dComm d (x * y) = dComm d x * dComm d y := by
   have hxc := conj_of_mem_mem hz hx hc
   calc dComm d (x * y) = dComm d x * (x * dComm d y * x⁻¹) := by unfold dComm; group
     _ = dComm d x * dComm d y := by rw [hxc]
 
+omit [Finite G] in
 theorem dComm_z {K : Subgroup G} {z d : G} (hz : IsUniqueInvolution K z)
     (hd : d ∈ Subgroup.normalizer (K : Set G)) : dComm d z = 1 := by
   unfold dComm
   rw [conj_eq_self_of_normalizer hz hd]
   group
 
+omit [Finite G] in
 theorem dComm_eq_one_iff {d k : G} : dComm d k = 1 ↔ d * k = k * d := by
   unfold dComm
   constructor
@@ -403,10 +413,12 @@ theorem dComm_eq_one_iff {d k : G} : dComm d k = 1 ↔ d * k = k * d := by
     calc d * k * d⁻¹ * k⁻¹ = k * d * d⁻¹ * k⁻¹ := by rw [h1]
       _ = 1 := by group
 
+omit [Finite G] in
 theorem card_zpowers_of_involution {z : G} (hz2 : z * z = 1) (hz1 : z ≠ 1) :
     Nat.card (Subgroup.zpowers z) = 2 := by
   rw [Nat.card_zpowers, orderOf_eq_prime (by rw [pow_two]; exact hz2) hz1]
 
+omit [Finite G] in
 theorem card_zpowers_prod_eq_four {z : G} (hz2 : z * z = 1) (hz1 : z ≠ 1) :
     Nat.card (↥(Subgroup.zpowers z) × ↥(Subgroup.zpowers z)) = 4 := by
   rw [Nat.card_prod, card_zpowers_of_involution hz2 hz1]
@@ -540,7 +552,7 @@ private theorem perm_fin3_three_conj :
 
 theorem three_le_ncard_DSet {Ω : Set (Subgroup G)} (hΩ : HypOmegaGen Ω) {W : Subgroup G}
     (hW : W ∈ WSet Ω) (hS3 : MuIsoS3 Ω W) : 3 ≤ (DSet Ω W).ncard := by
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun H : Subgroup G => (H : Set G)) SetLike.coe_injective
   obtain ⟨phi⟩ : Nonempty (↥(muGroup Ω W) ≃* Equiv.Perm (Fin 3)) := hS3
   obtain ⟨t, ht, ht1⟩ : ∃ t ∈ Asc77.Thompson.muDelta Ω W, t ≠ 1 := by
@@ -599,6 +611,7 @@ theorem three_le_ncard_DSet {Ω : Set (Subgroup G)} (hΩ : HypOmegaGen Ω) {W : 
     (Set.two_lt_ncard_iff (Set.toFinite _)).2 ⟨R1, R2, R3, hR1, hR2, hR3, hR12, hR13, hR23⟩
   omega
 
+omit [Finite G] in
 theorem commute_sq_of_dComm {K : Subgroup G} {z i x c : G} (hz : IsUniqueInvolution K z)
     (hxz : x * z = z * x) (hc : c = 1 ∨ c = z) (hdc : dComm x i = c) :
     Commute (x ^ 2) i := by
@@ -623,6 +636,7 @@ theorem commute_sq_of_dComm {K : Subgroup G} {z i x c : G} (hz : IsUniqueInvolut
             _ = i := by rw [hz.sq, one_mul]
   exact mul_inv_eq_iff_eq_mul.mp h2
 
+omit [Finite G] in
 theorem commute_sq_of_gen {K : Subgroup G} {z i j x : G} (hQ : Q8Data K z i j)
     (hcz : Commute (x ^ 2) z) (hci : Commute (x ^ 2) i) (hcj : Commute (x ^ 2) j) {y : G}
     (hy : y ∈ K) : Commute (x ^ 2) y := by
@@ -636,6 +650,7 @@ theorem commute_sq_of_gen {K : Subgroup G} {z i j x : G} (hQ : Q8Data K z i j)
   · exact hci.mul_right hcj
   · exact hcz.mul_right (hci.mul_right hcj)
 
+omit [Finite G] in
 theorem dComm_eq_one_of_gens {K : Subgroup G} {z i j x : G} (hQ : Q8Data K z i j)
     (hxN : x ∈ Subgroup.normalizer (K : Set G)) (hc : ∀ k ∈ K, dComm x k = 1 ∨ dComm x k = z)
     (hi : dComm x i = 1) (hj : dComm x j = 1) {k : G} (hk : k ∈ K) : dComm x k = 1 := by
@@ -666,6 +681,7 @@ namespace EndHyp
 variable {Ω : Set (Subgroup G)} (h : EndHyp Ω)
 include h
 
+omit [Finite G] in
 theorem exists_isUniqueInvolution {L : Subgroup G} (hL : L ∈ Ω) :
     ∃ z : G, IsUniqueInvolution L z :=
   Sec6Gen.exists_uniqueInvolution h.thmD.hyp hL
@@ -784,7 +800,7 @@ theorem card_zGroup (h9 : Perp9 Ω) (hV : ∀ L ∈ Ω, twinSet Ω L = {L}) :
     have hf : ∀ L ∈ Ω, IsUniqueInvolution L (f L) := by
       intro L hL
       have hex : ∃ u, IsUniqueInvolution L u := h.exists_isUniqueInvolution hL
-      simp only [f, dif_pos hex]
+      simp only [f, dite_eq_left hex]
       exact hex.choose_spec
     have himg : S = f '' Ω := by
       ext u
@@ -815,6 +831,7 @@ theorem zGroup_normal (h9 : Perp9 Ω) (hV : ∀ L ∈ Ω, twinSet Ω L = {L}) :
   · exact Or.inl (by group)
   · exact Or.inr ⟨conjSub g L, h.thmD.hyp.conjInvariant g L hL, hu.conj g⟩
 
+omit [Finite G] in
 theorem zGroup_isPGroup : IsPGroup 2 (zGroup Ω) :=
   CFSG.pCore_isPGroup.to_le (h.zGroup_le_pCore)
 
@@ -1126,13 +1143,13 @@ theorem eq_one_of_odd_mem_centralizer (h9 : Perp9 Ω) (hV : ∀ L ∈ Ω, twinSe
 theorem isPGroup_centralizer_zGroup (h9 : Perp9 Ω) (hV : ∀ L ∈ Ω, twinSet Ω L = {L})
     (hD8 : Nat.card (zGroup Ω) = 8) :
     IsPGroup 2 (Subgroup.centralizer (zGroup Ω : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [IsPGroup.iff_card]
   rcases Nat.eq_two_pow_or_exists_odd_prime_and_dvd
       (Nat.card (Subgroup.centralizer (zGroup Ω : Set G))) with hpow | ⟨p, hp, hdvd, hodd⟩
   · exact hpow
   · exfalso
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨c, hc⟩ := exists_prime_orderOf_dvd_card' p hdvd
     have hord : orderOf (c : G) = p := (Subgroup.orderOf_coe c).trans hc
     obtain ⟨m, hm⟩ := hodd
@@ -1236,13 +1253,13 @@ theorem pCore_le_zGroup (h9 : Perp9 Ω) (hV : ∀ L ∈ Ω, twinSet Ω L = {L})
         group
       rw [e]
       group
-  letI : MulAction G {x : G // ∃ d ∈ zGroup Ω, x = f * d} :=
+  let : MulAction G {x : G // ∃ d ∈ zGroup Ω, x = f * d} :=
     { smul := fun g x => ⟨g * x.1 * g⁻¹, hact g x.1 x.2⟩
       one_smul := fun x => Subtype.ext (by show 1 * x.1 * 1⁻¹ = x.1; simp)
       mul_smul := fun g g' x => Subtype.ext (by
         show g * g' * x.1 * (g * g')⁻¹ = g * (g' * x.1 * g'⁻¹) * g⁻¹
         group) }
-  letI : MulAction G {L : Subgroup G // L ∈ Ω} :=
+  let : MulAction G {L : Subgroup G // L ∈ Ω} :=
     { smul := fun g L => ⟨conjSub g L.1, h.thmD.hyp.conjInvariant g L.1 L.2⟩
       one_smul := fun L => Subtype.ext (conjSub_one L.1)
       mul_smul := fun g g' L => Subtype.ext (conjSub_mul g g' L.1) }
@@ -1256,8 +1273,8 @@ theorem pCore_le_zGroup (h9 : Perp9 Ω) (hV : ∀ L ∈ Ω, twinSet Ω L = {L})
         invFun := fun d => ⟨f * d.1, d.1, d.2, rfl⟩
         left_inv := fun x => Subtype.ext (by simp)
         right_inv := fun d => Subtype.ext (by simp) }
-  haveI : Fintype {x : G // ∃ d ∈ zGroup Ω, x = f * d} := Fintype.ofFinite _
-  haveI : Fintype {L : Subgroup G // L ∈ Ω} := Fintype.ofFinite _
+  have : Fintype {x : G // ∃ d ∈ zGroup Ω, x = f * d} := Fintype.ofFinite _
+  have : Fintype {L : Subgroup G // L ∈ Ω} := Fintype.ofFinite _
   have hX8 : Fintype.card {x : G // ∃ d ∈ zGroup Ω, x = f * d} = 8 := by
     rw [← Nat.card_eq_fintype_card, hXcard, hD8]
   have hY7 : Fintype.card {L : Subgroup G // L ∈ Ω} = 7 := by
@@ -1404,6 +1421,7 @@ theorem dComm_left_mem (h9 : Perp9 Ω) (hV : ∀ L ∈ Ω, twinSet Ω L = {L}) {
     (zGroup Ω).mul_mem ((h.zGroup_normal h9 hV).conj_mem d hd x) ((zGroup Ω).inv_mem hd)
   exact h.eq_one_or_eq_of_mem_zGroup h9 hV hz hcD hcK
 
+omit h [Finite G] in
 theorem dComm_mul_left_K {K : Subgroup G} {z : G} (hz : IsUniqueInvolution K z) {x y d : G}
     (hx : x ∈ K) (hc : dComm y d = 1 ∨ dComm y d = z) :
     dComm (x * y) d = dComm y d * dComm x d := by
@@ -1439,13 +1457,14 @@ theorem dComm_mul_left_K {K : Subgroup G} {z : G} (hz : IsUniqueInvolution K z) 
     have ha₂ := h.dComm_left_mem h9 hV hK hz a.2 hd₂
     refine Prod.ext (Subtype.ext ?_) (Subtype.ext ?_)
     · show dComm ((a * b : K) : G) d₁ = dComm (a : G) d₁ * dComm (b : G) d₁
-      rw [Subgroup.coe_mul, h.dComm_mul_left_K hz a.2 hb₁]
-      rcases hb₁ with e | e <;> rcases ha₁ with e' | e' <;> rw [e, e'] <;> simp [hz.sq]
+      rw [Subgroup.coe_mul, EndHyp.dComm_mul_left_K hz a.2 hb₁]
+      rcases hb₁ with e | e <;> rcases ha₁ with e' | e' <;> rw [e, e'] <;> simp
     · show dComm ((a * b : K) : G) d₂ = dComm (a : G) d₂ * dComm (b : G) d₂
-      rw [Subgroup.coe_mul, h.dComm_mul_left_K hz a.2 hb₂]
-      rcases hb₂ with e | e <;> rcases ha₂ with e' | e' <;> rw [e, e'] <;> simp [hz.sq]
+      rw [Subgroup.coe_mul, EndHyp.dComm_mul_left_K hz a.2 hb₂]
+      rcases hb₂ with e | e <;> rcases ha₂ with e' | e' <;> rw [e, e'] <;> simp
 
 
+omit h in
 theorem centralizes_of_basis {e : Fin 3 → G} (he : TL4.E8Basis (zGroup Ω) e) {x : G}
     (h1 : ∀ m : Fin 3, x * e m = e m * x) : x ∈ Subgroup.centralizer (zGroup Ω : Set G) := by
   refine Subgroup.mem_centralizer_iff.mpr fun d hd => ?_
@@ -1474,7 +1493,7 @@ theorem card_ker_psiHom_le (h9 : Perp9 Ω) (hV : ∀ L ∈ Ω, twinSet Ω L = {L
       · exact dComm_eq_one_iff.mp hxj
       · exact dComm_eq_one_iff.mp hxk
     have hC : (x : G) ∈ Subgroup.centralizer (zGroup Ω : Set G) :=
-      h.centralizes_of_basis he (fun m => hcomm m)
+      EndHyp.centralizes_of_basis he (fun m => hcomm m)
     exact h.eq_one_or_eq_of_centralizes_zGroup h9 hV hK hQ hD8 x.2
       (fun d hd => (Subgroup.mem_centralizer_iff.mp hC) d hd)
   have hmem : ∀ x : (h.psiHom h9 hV hK hQ.inv (he.mem j) (he.mem k)).ker,
@@ -1501,6 +1520,7 @@ theorem psiHom_surjective (h9 : Perp9 Ω) (hV : ∀ L ∈ Ω, twinSet Ω L = {L}
   surjective_of_card_ker _ (h.card_eq_eight hK) (card_zpowers_prod_eq_four hQ.inv.sq hQ.inv.ne_one)
     (h.card_ker_psiHom_le h9 hV hD8 hK hQ he hi hij hik hjk)
 
+omit h in
 theorem conjMat_eq_transvection {e : Fin 3 → G} (he : TL4.E8Basis (zGroup Ω) e) {i j k : Fin 3}
     (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k) {x : G}
     (hxN : ∀ y ∈ zGroup Ω, x * y * x⁻¹ ∈ zGroup Ω) (hxj : dComm x (e j) = e i)
@@ -1510,10 +1530,10 @@ theorem conjMat_eq_transvection {e : Fin 3 → G} (he : TL4.E8Basis (zGroup Ω) 
       TL4.e8Coord e ((if c = j then Pi.single i 1 else 0) + Pi.single c 1) := by
     intro c
     by_cases hc : c = j
-    · rw [hc, if_pos rfl, TL4.e8Coord_add he, TL4.e8Coord_single, TL4.e8Coord_single]
+    · rw [hc, ite_eq_left rfl, TL4.e8Coord_add he, TL4.e8Coord_single, TL4.e8Coord_single]
       have e1 : x * e j * x⁻¹ = dComm x (e j) * e j := by unfold dComm; group
       rw [e1, hxj]
-    · rw [if_neg hc, zero_add, TL4.e8Coord_single]
+    · rw [ite_eq_right hc, zero_add, TL4.e8Coord_single]
       rcases fin3_cover i j k c hij hik.symm hjk.symm with rfl | rfl | rfl
       · have e1 : x * e c * x⁻¹ = dComm x (e c) * e c := by unfold dComm; group
         rw [e1, hxi, one_mul]
@@ -1561,7 +1581,7 @@ theorem transvection_mem_range (h9 : Perp9 Ω) (hV : ∀ L ∈ Ω, twinSet Ω L 
     exact isUniqueInvolution_comm hQ.inv x.2
   refine ⟨(x : G), Subtype.ext ?_⟩
   rw [h.rhoD_val, Matrix.SpecialLinearGroup.transvection_coe]
-  exact h.conjMat_eq_transvection he hij hik hjk
+  exact EndHyp.conjMat_eq_transvection he hij hik hjk
     (fun y hy => (h.zGroup_normal h9 hV).conj_mem y hy x) hxj hxk hxi
 
 theorem rhoD_range (h9 : Perp9 Ω) (hV : ∀ L ∈ Ω, twinSet Ω L = {L})

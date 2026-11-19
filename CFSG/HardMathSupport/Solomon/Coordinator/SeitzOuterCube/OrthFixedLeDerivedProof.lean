@@ -21,7 +21,7 @@ theorem subfieldFixedGroup_le_derivedImage_of_odd_finrank {K : Type} [Field K] [
     (hnd : (QuadraticMap.polarBilin Q).Nondegenerate) :
     subfieldFixedGroup k Q₀ Q ≤ subfieldDerivedImage k hext := by
   by_cases h2 : (2 : K) = 0
-  · haveI : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+  · have : CharP K 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
     exact CFSG.RankThree.PartOne.FieldFix.subfieldFixedGroup_le_derivedImage hext hnd₀ hT₀ hnd
   · exact subfieldFixedGroup_le_derivedImage_of_odd k h2 hext hnd₀ hT₀ hnd hodd
 

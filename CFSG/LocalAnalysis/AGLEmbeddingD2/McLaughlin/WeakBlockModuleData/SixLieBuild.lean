@@ -135,7 +135,7 @@ theorem comm_of_barM_comm {R : Subgroup G} (hR : IsPGroup 3 R) (hRM : R ≤ M)
   calc a * b = a * b * a⁻¹ * b⁻¹ * (b * a) := by group
     _ = b * a := by rw [h2, one_mul]
 
-theorem exists_conj_mem_of_isPGroup_three {K R : Subgroup G} (hR : IsPGroup 3 R) (hRK : R ≤ K)
+theorem exists_conj_mem_of_isPGroup_three {K R : Subgroup G} (hR : IsPGroup 3 R) (_hRK : R ≤ K)
     (hidx : ¬ 3 ∣ R.relIndex K) {n : G} (hn : n ∈ K) (hn3 : IsPGroup 3 (Subgroup.zpowers n)) :
     ∃ g ∈ K, g * n * g⁻¹ ∈ R := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
@@ -180,7 +180,7 @@ theorem card_barM_of_isPGroup_three {R : Subgroup G} (hR : IsPGroup 3 R) (hRM : 
 
 omit [Finite G] in
 theorem irreducibleOn_barM {H R : Subgroup G} (hirr : IrreducibleOn (H ⊓ M ⊓
-      Subgroup.normalizer (R : Set G)) R) (hRM : R ≤ M) (N : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M))
+      Subgroup.normalizer (R : Set G)) R) (_hRM : R ≤ M) (N : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M))
     (hN : ∀ n ∈ H ⊓ M ⊓ Subgroup.normalizer (R : Set G), ∀ hn : n ∈ M,
       QuotientGroup.mk' (CFSG.pCore 2 ↥M) ⟨n, hn⟩ ∈ N) :
     IrreducibleOn N (barM M R) := by

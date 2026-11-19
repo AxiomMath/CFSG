@@ -27,7 +27,7 @@ theorem eq_sup_theta_of_le_normalizer {L K : Subgroup G}
     (Subgroup.normal_subgroupOf_iff_le_normalizer (H := L ⊓ K) (K := L) inf_le_left).mpr
       (Late.le_normalizer_inf Subgroup.le_normalizer hLN)
   let π : ↥L →* ↥L ⧸ Nθ := QuotientGroup.mk' Nθ
-  haveI : (H'.map π).Normal := hHn.map _ (QuotientGroup.mk'_surjective Nθ)
+  have : (H'.map π).Normal := hHn.map _ (QuotientGroup.mk'_surjective Nθ)
   rcases hLsimple.eq_bot_or_eq_top_of_normal (H'.map π) with hbot | htop
   · exfalso
     have hle' : H' ≤ Nθ := by
@@ -36,10 +36,10 @@ theorem eq_sup_theta_of_le_normalizer {L K : Subgroup G}
     have hHle : L ⊓ K ≤ inSubgroup (aschbacherSolvableCore 3) L := by
       intro x hx
       exact Subgroup.mem_map.mpr ⟨⟨x, hx.1⟩, hle' hx, rfl⟩
-    haveI : Group.IsSolvable ↥(aschbacherSolvableCore 3 ↥L) :=
+    have : Group.IsSolvable ↥(aschbacherSolvableCore 3 ↥L) :=
       (solvable_prime_complement_core_characterization (H := ↥L) (p := 3)
         Nat.prime_three).1
-    haveI : Group.IsSolvable ↥(inSubgroup (aschbacherSolvableCore 3) L) := by
+    have : Group.IsSolvable ↥(inSubgroup (aschbacherSolvableCore 3) L) := by
       let φ : ↥(aschbacherSolvableCore 3 ↥L) →*
           ↥(inSubgroup (aschbacherSolvableCore 3) L) :=
         (Subgroup.equivMapOfInjective (aschbacherSolvableCore 3 ↥L) L.subtype
@@ -48,14 +48,14 @@ theorem eq_sup_theta_of_le_normalizer {L K : Subgroup G}
         (Subgroup.equivMapOfInjective (aschbacherSolvableCore 3 ↥L) L.subtype
           L.subtype_injective).surjective
       exact Group.isSolvable_of_surjective hφsurj
-    haveI : Group.IsSolvable ↥(L ⊓ K) :=
+    have : Group.IsSolvable ↥(L ⊓ K) :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hHle)
     have hKV : (L ⊓ K).subgroupOf K ⊔ CFSG.pCore 2 ↥K = ⊤ := by
       refine Subgroup.map_injective K.subtype_injective ?_
       rw [Subgroup.map_sup, Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr inf_le_right,
         Subgroup.map_top, Subgroup.range_subtype]
       exact hcover.symm
-    haveI : Group.IsSolvable ↥((L ⊓ K).subgroupOf K) := by
+    have : Group.IsSolvable ↥((L ⊓ K).subgroupOf K) := by
       let ψ : ↥(L ⊓ K) →* ↥((L ⊓ K).subgroupOf K) :=
         (Subgroup.subgroupOfEquivOfLe inf_le_right).symm.toMonoidHom
       have hψsurj : Function.Surjective ψ :=
@@ -74,8 +74,8 @@ theorem eq_sup_theta_of_le_normalizer {L K : Subgroup G}
         (QuotientGroup.eq_one_iff z).mpr hz
       rw [← hyz, map_mul, hz1, mul_one]
       rfl
-    haveI : Group.IsPerfect (↥K ⧸ CFSG.pCore 2 ↥K) := hKq.1
-    haveI : Nontrivial (↥K ⧸ CFSG.pCore 2 ↥K) :=
+    have : Group.IsPerfect (↥K ⧸ CFSG.pCore 2 ↥K) := hKq.1
+    have : Nontrivial (↥K ⧸ CFSG.pCore 2 ↥K) :=
       CFSG.LocalCores.isQuasisimple_nontrivial hKq
     exact Group.IsPerfect.not_isSolvable (↥K ⧸ CFSG.pCore 2 ↥K)
       (Group.isSolvable_of_surjective hsurj)
@@ -89,6 +89,7 @@ theorem eq_sup_theta_of_le_normalizer {L K : Subgroup G}
       Subgroup.map_top, Subgroup.range_subtype] at h
     exact h.symm
 
+omit [Finite G] in
 theorem sup_eq_sup_theta {L K θ : Subgroup G}
     (hsplit : L = (L ⊓ K) ⊔ θ) (hθL : θ ≤ L) :
     L ⊔ K = K ⊔ θ := by
@@ -103,6 +104,7 @@ theorem sup_eq_sup_theta {L K θ : Subgroup G}
     · exact le_sup_right (a := L) (b := K)
     · exact hθL.trans (le_sup_left (a := L) (b := K))
 
+omit [Finite G] in
 theorem oPrimeResidualOf_le_of_eq_sup {L K θ : Subgroup G}
     (hM : L ⊔ K = K ⊔ θ)
     (hθK : θ ≤ Subgroup.normalizer (K : Set G))
@@ -150,9 +152,9 @@ theorem le_K_of_eq_sup_pCoreOf_two_of_a7_of_LN {A : Subgroup G} {c : G} {L K : S
   exact le_sup_left.trans (hM3.le.trans (oPrimeResidualOf_le_of_eq_sup hM hθK hθcop))
 
 theorem le_K_of_mem_scriptY0Star_of_a7_of_LN {A : Subgroup G} {c : G} {L X K : Subgroup G}
-    (h : Sec15R G A c L) (hX4 : X ∈ scriptY4 A (lB A)) (hK : K ∈ scriptY0Star A (lB A))
-    (hXK : X ≤ K) (hLX : ¬ L ≤ X) (hLΔ : L ≤ delta A (lB A) L)
-    (hΩ : omegaA A = {Subgroup.zpowers c})
+    (h : Sec15R G A c L) (_hX4 : X ∈ scriptY4 A (lB A)) (hK : K ∈ scriptY0Star A (lB A))
+    (_hXK : X ≤ K) (_hLX : ¬ L ≤ X) (_hLΔ : L ≤ delta A (lB A) L)
+    (_hΩ : omegaA A = {Subgroup.zpowers c})
     (hL7 : Nonempty (↥L ⧸ aschbacherSolvableCore 3 ↥L ≃* alternatingGroup (Fin 7)))
     (hcover : K = (L ⊓ K) ⊔ CFSG.Open.pCoreOf 2 K)
     (hLN : Lemma95LN L K) :

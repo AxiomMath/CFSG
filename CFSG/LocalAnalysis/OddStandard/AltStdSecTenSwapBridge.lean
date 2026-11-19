@@ -24,12 +24,12 @@ theorem swapIotaHom_apply (h : Setting G L 10) (d : Cyc L Q z) (T : ShapeTwo L Q
 theorem centData_swapIotaHom (h : Setting G L 10) (d : Cyc L Q z) (T : ShapeTwo L Q z u)
     (e : L ≃* alternatingGroup (Fin 10)) : CentData z (swapIotaHom h d T e) where
   order := d.order
-  inj := fun σ τ hστ => (swapIota h d T e).injective (Subtype.ext hστ)
-  comm := fun σ =>
-    (mem_centralizer_singleton_iff.1 (swapIota_mem_centralizer h d T e σ)).symm
-  ne_z := fun σ hσ =>
-    z_notMem_swapComplement h d T.cent T.outer T.sq (hσ ▸ (swapIota h d T e σ).2)
-  cases := fun g hg => ⟨permOf h d e hg, eq_swapIota_or h d T e hg⟩
+  inj := fun _σ _τ hστ => (swapIota h d T e).injective (Subtype.ext hστ)
+  comm := fun _σ =>
+    (mem_centralizer_singleton_iff.1 (swapIota_mem_centralizer h d T e _σ)).symm
+  ne_z := fun _σ hσ =>
+    z_notMem_swapComplement h d T.cent T.outer T.sq (hσ ▸ (swapIota h d T e _σ).2)
+  cases := fun _g hg => ⟨permOf h d e hg, eq_swapIota_or h d T e hg⟩
 
 theorem noSwapConj_swapIotaHom (h : Setting G L 10) (d : Cyc L Q z) (T : ShapeTwo L Q z u)
     (e : L ≃* alternatingGroup (Fin 10))

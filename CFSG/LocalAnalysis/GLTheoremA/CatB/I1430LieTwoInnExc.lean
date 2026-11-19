@@ -85,10 +85,10 @@ theorem noA6_inner_twE6 (hres : ExcRationalLieTypes) {ℓ f : ℕ} (hℓ : ℓ.P
     (h : ↥(twistedE6InndiagGL K σ)) (hp1 : h ^ 3 = 1) (hh1 : h ≠ 1) :
     ComponentsNoA6 (twistedE6InndiagConj K σ h) := by
   classical
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero))
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
   obtain ⟨p₀, hp₀, hp₀ℓ, hq₀⟩ := exists_setup_prime hℓ hf Nat.prime_three (by norm_num) hpℓ
   obtain ⟨S, a, ι, -, -, hT, hap, h1, hinj, hrange, hconj⟩ :=
     exists_langSetup_of_inndiag_twE6_of_prime hℓ hf hK σ hσ Nat.prime_three hpℓ hp₀ hp₀ℓ hq₀
@@ -162,10 +162,10 @@ theorem noA6_twE6 (hres : ExcRationalLieTypes) (q : TauCeti.PrimePower)
     (hα : α ∈ innAutDerived S) (hα3 : α ^ 3 = 1) (hα1 : α ≠ 1) : ComponentsNoA6 α := by
   classical
   obtain ⟨K, _, σ, hK, hσ, ⟨eK⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]
     exact pow_ne_zero _ (pow_ne_zero _ q.prime_p.ne_zero))
-  haveI : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite ↥(twistedE6RootGroup K σ) := Subtype.finite
   let e' : S ≃* ↥(twistedE6RootGroup K σ) := e.trans eK
   refine ComponentsNoA6.of_congr e' ?_
   have hβmem : MulAut.congr e' α ∈ innAutDerived ↥(twistedE6RootGroup K σ) :=

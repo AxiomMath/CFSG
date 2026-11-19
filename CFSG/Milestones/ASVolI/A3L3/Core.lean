@@ -49,7 +49,7 @@ theorem burnsideA315y_exists_prime_order {G : Type} [Group G] [Finite G] {B : Su
   have hr2 : r ≠ 2 := by
     rintro rfl
     exact (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr hrB)
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' (G := ↥B) r hrB
   exact ⟨b, b.2, r, hr, hr2, hr3, by rw [← Subgroup.orderOf_coe] at hb; exact hb⟩
 
@@ -74,7 +74,7 @@ theorem burnsideA315y_exists_central_involution {G : Type} [Group G] [Finite G] 
     ∃ y ∈ R, y ≠ 1 ∧ y * y = 1 ∧ ∀ s ∈ S, s * y = y * s := by
   classical
   set H : Subgroup ↥S := R.subgroupOf S with hH
-  haveI : H.Normal := by
+  have : H.Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [hH, Subgroup.mem_subgroupOf] at hn ⊢
     have := (Subgroup.mem_normalizer_iff.mp (hSR g.2) (n : G)).mp hn
@@ -86,11 +86,11 @@ theorem burnsideA315y_exists_central_involution {G : Type} [Group G] [Finite G] 
     have : (⟨r, hRS hr⟩ : ↥S) ∈ H := by rw [hH, Subgroup.mem_subgroupOf]; exact hr
     rw [h, Subgroup.mem_bot] at this
     exact hr1 (congrArg Subtype.val this)
-  haveI : Group.IsNilpotent ↥S := hS.isNilpotent
+  have : Group.IsNilpotent ↥S := hS.isNilpotent
   have hZ := Group.IsNilpotent.inf_center_ne_bot_of_normal hHne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hZ2 : IsPGroup 2 ↥(H ⊓ Subgroup.center ↥S) := (hS.to_subgroup _)
-  haveI : Nontrivial ↥(H ⊓ Subgroup.center ↥S) := (Subgroup.nontrivial_iff_ne_bot _).mpr hZ
+  have : Nontrivial ↥(H ⊓ Subgroup.center ↥S) := (Subgroup.nontrivial_iff_ne_bot _).mpr hZ
   have hdvd : 2 ∣ Nat.card ↥(H ⊓ Subgroup.center ↥S) := by
     rcases hZ2.card_eq_or_dvd with h | h
     · exfalso
@@ -119,12 +119,12 @@ variable {F : Type} [Field F] {X : Type} [Group X] (M : burnsideA315y_Model F X)
   carrier := {g | ((g : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F).det = 1}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq, Subgroup.coe_mul, Units.val_mul, Matrix.det_mul] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq, Subgroup.coe_mul, Units.val_mul, Matrix.det_mul] at ha hb ⊢
     rw [ha, hb, mul_one]
   one_mem' := by simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq, Subgroup.coe_inv] at ha ⊢
+    simp only [Set.mem_ofPred_eq, Subgroup.coe_inv] at ha ⊢
     have h := congrArg Matrix.det (congrArg Units.val (mul_inv_cancel (a : GL (Fin 3) F)))
     rw [Units.val_mul, Matrix.det_mul, ha, one_mul, Units.val_one, Matrix.det_one] at h
     exact h
@@ -336,7 +336,7 @@ theorem eq_z_of_central {y : X} (hy : y ∈ M.S) (hy1 : y ≠ 1) (hy2 : y * y = 
   simp only [Subgroup.coe_mul, Units.val_mul, Matrix.GeneralLinearGroup.coe_scalar] at hν'
   have q00 := congrFun (congrFun hν' 0) 0
   have q22 := congrFun (congrFun hν' 2) 2
-  simp [Matrix.mul_apply, Fin.sum_univ_three, ← hS0, e01, e10, e11, e02, e12, e20, e21] at q00 q22
+  simp [Matrix.mul_apply, Fin.sum_univ_three, ← hS0, e01, e10, e02, e12, e20, e21] at q00 q22
   have huw : u ^ 2 = w ^ 2 := by
     rw [sq, sq]
     exact q00.trans q22.symm
@@ -344,7 +344,7 @@ theorem eq_z_of_central {y : X} (hy : y ∈ M.S) (hy1 : y ≠ 1) (hy2 : y * y = 
     intro h
     have hdet := M.S₀_det s hs
     rw [← hS0, Matrix.det_fin_three] at hdet
-    simp [e01, e10, e11, e02, e12, e20, e21, ← hS0] at hdet
+    simp [e01, e10, e11, e02, e12, e20, e21] at hdet
     rw [show S0 0 0 = u from rfl, h] at hdet
     simp at hdet
   have hS0eq : S0 = !![u, 0, 0; 0, u, 0; 0, 0, w] := by
@@ -369,7 +369,7 @@ theorem eq_z_of_central {y : X} (hy : y ∈ M.S) (hy1 : y ≠ 1) (hy2 : y * y = 
       rw [Subgroup.coe_mul, hzinv, Units.val_mul, coe_negDiag3, Matrix.GeneralLinearGroup.coe_scalar,
         ← hS0, hS0eq, h]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three, Matrix.scalar_apply,
+      fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Matrix.scalar_apply,
         diagonal]
     rw [map_mul, map_inv, mul_inv_eq_one] at hsz
     exact hsz
@@ -734,7 +734,7 @@ theorem burnsideA315y_m3_coprime {n : ℕ} (hn : n ≠ 0) : Nat.Coprime (burnsid
 
 theorem burnsideA315y_m3_dvd (n : ℕ) : burnsideA315y_m3 n ∣ n := Nat.ordCompl_dvd n 3
 
-theorem burnsideA315y_dvd_m3 {n r : ℕ} (hn : n ≠ 0) (hr : r.Prime) (hr3 : r ≠ 3) (hrn : r ∣ n) :
+theorem burnsideA315y_dvd_m3 {n r : ℕ} (_hn : n ≠ 0) (hr : r.Prime) (hr3 : r ≠ 3) (hrn : r ∣ n) :
     r ∣ burnsideA315y_m3 n := by
   have hcop : Nat.Coprime r (3 ^ n.factorization 3) :=
     Nat.Coprime.pow_right _ ((Nat.coprime_primes hr Nat.prime_three).mpr hr3)
@@ -1063,7 +1063,7 @@ theorem dichotomy [Finite F] [Finite X] (hfit : burnsideA315y_FittingStatement) 
       apply Units.ext
       rw [Units.val_mul, Units.val_mul, coe_negDiag3]
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three, diagonal, ha02,
+      fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, diagonal, ha02,
         ha12, ha20, ha21]
     set ai : GL (Fin 3) F := (a : GL (Fin 3) F)⁻¹ with hai
     have hcinv : ai * negDiag3 F = negDiag3 F * ai := Commute.inv_left hcomm
@@ -1104,7 +1104,7 @@ theorem K₀_comm {k : ↥M.Γ} (hk : k ∈ M.K₀) : (k : GL (Fin 3) F) * negDi
   apply Units.ext
   rw [Units.val_mul, Units.val_mul, coe_negDiag3]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_three, diagonal, h02, h12,
+  fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, diagonal, h02, h12,
     h20, h21]
 
 theorem zh_mem_K₀ : M.zh ∈ M.K₀ := by
@@ -1275,12 +1275,11 @@ theorem split [Finite F]
   have hg₁e3 : ((g₁ : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) *ᵥ ![0, 0, 1] = ![0, 0, 1] := by
     rw [burnsideA315y_mulVec_e3 M.two_ne hg₁z]
     have : ((g₁ : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) 2 2 = 1 := by
-      simp only [hg₁, Subgroup.coe_mul, Subgroup.coe_inv, Units.val_mul, hσ,
-        Matrix.GeneralLinearGroup.coe_scalar]
+      simp only [hg₁, Subgroup.coe_mul, Subgroup.coe_inv, Units.val_mul, hσ]
       rw [show ((((Matrix.GeneralLinearGroup.scalar (Fin 3) μ)⁻¹ : GL (Fin 3) F)) :
           Matrix (Fin 3) (Fin 3) F) = Matrix.scalar (Fin 3) ((μ⁻¹ : Fˣ) : F) by
         rw [← map_inv, Matrix.GeneralLinearGroup.coe_scalar]]
-      simp [Matrix.mul_apply, Fin.sum_univ_three, g20, g21, hμ, hw0, ← hG]
+      simp [Matrix.mul_apply, Fin.sum_univ_three, hμ, hw0, ← hG]
     rw [this, one_smul]
   have hg₁22 : ((g₁ : GL (Fin 3) F) : Matrix (Fin 3) (Fin 3) F) 2 2 = 1 := by
     have := congrFun hg₁e3 2
@@ -1334,7 +1333,7 @@ theorem split [Finite F]
       apply Subtype.ext
       apply Units.ext
       simp only [Subgroup.coe_mul, Units.val_mul, hA, hδ, burnsideA315y_dgl_val, blkMat_mul,
-        Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_one, Matrix.one_mul, mul_one]
+        Matrix.mul_smul, Matrix.smul_mul, Matrix.one_mul, mul_one]
     rintro h (rfl | rfl | rfl)
     · refine hblk (-1) M.zh ?_
       rw [M.zh_val, coe_negDiag3]

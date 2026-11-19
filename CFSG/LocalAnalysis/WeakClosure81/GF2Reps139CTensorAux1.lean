@@ -121,8 +121,8 @@ theorem w1369_no_L3_of_order3 (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y
     rw [hu2 k hk] at h1
     exact h1
   obtain ⟨E, hEfield, hEfin, hEcard, π, hπ⟩ := hBNat
-  letI : Field E := hEfield
-  letI : Finite E := hEfin
+  let : Field E := hEfield
+  let : Finite E := hEfin
   obtain ⟨f, hfadd, hfker, hfsurj, hfe⟩ :=
     CFSG.Quasithin.Vol2.KGNat.exists_coord
       (CFSG.Quasithin.Vol2.KGNat.linModelNat (StatedSL 3 E)) hπ
@@ -241,7 +241,7 @@ theorem w1369_no_L3_of_order3 (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y
       intro h0
       rw [h0] at hc3
       norm_num at hc3
-    haveI : Fintype E := Fintype.ofFinite E
+    have : Fintype E := Fintype.ofFinite E
     have h := FiniteField.pow_card_sub_one_eq_one c hc0
     have hcard : Fintype.card E = 2 := by
       rw [← Nat.card_eq_fintype_card, hEcard]; norm_num
@@ -298,7 +298,7 @@ theorem w1369_no_L3_of_order3 (hw2 : ∀ w : W, w ^ 2 = 1) (S : Std139 G X D s Y
     have hPall : (∀ u ∈ I, (x ^ k) u ∈ I) ∧ (∀ u ∈ I, (x ^ k) u * u⁻¹ ∈ C) :=
       zpow_induction_left (g := x)
         (P := fun a => (∀ u ∈ I, a u ∈ I) ∧ (∀ u ∈ I, a u * u⁻¹ ∈ C))
-        ⟨fun u hu => by simpa using hu, fun u hu => by simpa [C.one_mem] using hu⟩
+        ⟨fun u hu => by simpa using hu, fun u hu => by simp [C.one_mem]⟩
         hPm hPi k
     exact hPall.2 u hu
   have hxodd : Odd (Nat.card (Subgroup.zpowers x)) := by

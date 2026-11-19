@@ -69,7 +69,7 @@ lemma bkSyl_two_group_eq {m : ℕ} {V₀ Q : Subgroup (Equiv.Perm (Fin m))}
 section Sylow
 
 theorem sylow_alt_unique_fixed {m : ℕ} (hodd : Odd m) (hm : 5 ≤ m)
-    {V₀ : Subgroup (Equiv.Perm (Fin m))} (hV₀A : V₀ ≤ alternatingGroup (Fin m))
+    {V₀ : Subgroup (Equiv.Perm (Fin m))} (_hV₀A : V₀ ≤ alternatingGroup (Fin m))
     (hV₀ : IsPGroup 2 V₀) (hidx : ¬ 2 ∣ (V₀.subgroupOf (alternatingGroup (Fin m))).index) :
     ∃ p : Fin m, (∀ g ∈ V₀, g p = p) ∧ ∀ q : Fin m, (∀ g ∈ V₀, g q = q) → q = p := by
   have hodd' : ¬ 2 ∣ Nat.card (Fin m) := by
@@ -82,7 +82,7 @@ theorem sylow_alt_unique_fixed {m : ℕ} (hodd : Odd m) (hm : 5 ≤ m)
   by_contra hqp
   have hpq : p ≠ q := fun h => hqp h.symm
   have hidx' : ¬ 2 ∣ V₀.relIndex (alternatingGroup (Fin m)) := hidx
-  haveI := alternatingGroup.isMultiplyPretransitive (Fin m)
+  have := alternatingGroup.isMultiplyPretransitive (Fin m)
   have hpt : MulAction.IsMultiplyPretransitive (alternatingGroup (Fin m)) (Fin m) 2 :=
     MulAction.isMultiplyPretransitive_of_le (n := Nat.card (Fin m) - 2)
       (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; omega) (by omega)
@@ -112,12 +112,12 @@ theorem sylow_alt_unique_fixed {m : ℕ} (hodd : Odd m) (hm : 5 ≤ m)
   rw [← Subgroup.relIndex_mul_index hK]
   exact Dvd.dvd.mul_left hev _
 
-theorem exists_odd_normalizing {m : ℕ} (hodd : Odd m) (hm : 5 ≤ m)
+theorem exists_odd_normalizing {m : ℕ} (_hodd : Odd m) (hm : 5 ≤ m)
     {V₀ : Subgroup (Equiv.Perm (Fin m))} (hV₀A : V₀ ≤ alternatingGroup (Fin m))
     (hV₀ : IsPGroup 2 V₀) (hidx : ¬ 2 ∣ (V₀.subgroupOf (alternatingGroup (Fin m))).index) :
     ∃ s : Equiv.Perm (Fin m), s ∉ alternatingGroup (Fin m) ∧ ∀ v ∈ V₀, s * v * s⁻¹ ∈ V₀ := by
   have hidx' : ¬ 2 ∣ V₀.relIndex (alternatingGroup (Fin m)) := hidx
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 (by omega)
   have hAidx : (alternatingGroup (Fin m)).index = 2 :=
     alternatingGroup.index_eq_two (α := Fin m)
   have hnorm : (alternatingGroup (Fin m)).Normal := inferInstance
@@ -127,7 +127,7 @@ theorem exists_odd_normalizing {m : ℕ} (hodd : Odd m) (hm : 5 ≤ m)
     by_contra hcon
     simp only [not_exists, not_and, not_not] at hcon
     have hPV : (P : Subgroup (Equiv.Perm (Fin m))) ≤ V₀ :=
-      bkSyl_two_group_eq hidx' hVP (fun x hx => hcon x hx) P.isPGroup'
+      bkSyl_two_group_eq hidx' hVP (fun x hx => hcon x hx) P.isPGroup
     have heq : (P : Subgroup (Equiv.Perm (Fin m))) = V₀ := le_antisymm hPV hVP
     have h2 : 2 ∣ V₀.index := by
       rw [← Subgroup.relIndex_mul_index hV₀A, hAidx]
@@ -139,7 +139,7 @@ theorem exists_odd_normalizing {m : ℕ} (hodd : Odd m) (hm : 5 ≤ m)
   refine ⟨s, hsA, fun v hv => ?_⟩
   have hR : (P : Subgroup (Equiv.Perm (Fin m))) ⊓ alternatingGroup (Fin m) ≤ V₀ :=
     bkSyl_two_group_eq hidx' (le_inf hVP hV₀A) inf_le_right
-      (P.isPGroup'.to_le inf_le_left)
+      (P.isPGroup.to_le inf_le_left)
   have hmem : s * v * s⁻¹ ∈ (P : Subgroup (Equiv.Perm (Fin m))) ⊓ alternatingGroup (Fin m) :=
     Subgroup.mem_inf.2 ⟨mul_mem (mul_mem hsP (hVP hv)) (inv_mem hsP),
       hnorm.conj_mem v (hV₀A hv) s⟩

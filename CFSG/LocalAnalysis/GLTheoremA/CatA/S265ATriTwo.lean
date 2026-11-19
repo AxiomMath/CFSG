@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {Ω : Type} [Group Ω] [Finite Ω]
 
+omit [Finite Ω] in
 private theorem card_eq_mul_card_map {X J B D : Subgroup Ω} (hN : NLAct 3 X J B D) :
     Nat.card B = Nat.card D *
       Nat.card ((B.subgroupOf (Subgroup.normalizer (J : Set Ω))).map (chevAut 3 J)) := by
@@ -90,8 +91,8 @@ theorem tri_noTwo_cent {X J B D W : Subgroup Ω}
     (hrank : 3 ^ GLATwoLocalRank 3 Ω ≤ Nat.card B)
     (hW : IsPGroup 2 W) (hBW : B ≤ Subgroup.normalizer (W : Set Ω))
     (hWD : W ≤ Subgroup.centralizer (D : Set Ω)) : W = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra hne
   have hD : IsElemAbelian 3 D := isElemAbelian_mono hB hN.le
   have hDpos : 0 < Nat.card D := Nat.card_pos

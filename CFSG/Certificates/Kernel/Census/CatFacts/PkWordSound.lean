@@ -158,7 +158,7 @@ theorem productsW_map {n : Nat} (Ts : List (List (VP n))) :
   induction Ts with
   | nil => simp [productsV, productsW, pkp_oneV, pkpW_nil]
   | cons T Ts ih =>
-    simp only [productsV, productsW, List.map_flatMap, List.flatMap_map]
+    simp only [productsV, productsW, List.map_flatMap]
     congr 1
     funext t
     rw [List.map_map, List.map_map]

@@ -232,7 +232,7 @@ theorem e6FourCent_setup {J : Type} [Group J] [Finite J] (hJ : E6FourMark J)
       (∃ Fr : L →+* L, (∀ c, Fr c = c ^ S.D.q) ∧ S.D.Φ = Units.map (entrywiseHom Fr)) := by
   obtain ⟨K, iF, iFin, iChar, hK, ⟨e⟩⟩ := e6FourMark_exists_adjointGroup hJ hZ
   have hK4 : Nat.card K = 4 := by rw [hK]; norm_num
-  haveI : Group.IsPerfect J := Group.IsPerfect.mk hJ.1
+  have : Group.IsPerfect J := Group.IsPerfect.mk hJ.1
   have hperf : Group.IsPerfect ↥(adjointGroup Tag.E6 K) :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   obtain ⟨L, iL, iAlg, S, hq, -, hρ, hsyl, ⟨f⟩, hΦ⟩ := e6Four_langSetup K hK4 hperf

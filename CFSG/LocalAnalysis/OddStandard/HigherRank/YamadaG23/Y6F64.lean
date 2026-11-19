@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 
+omit [Finite G] in
 theorem y6_card_map_mul_card_ker {X C K : Subgroup G} {Q : Type*} [Group Q] (hCX : C ≤ X)
     (hKC : K ≤ C) (ψ : ↥X →* Q) (hker : ψ.ker = K.subgroupOf X) :
     Nat.card ↥((C.subgroupOf X).map ψ) * Nat.card ↥K = Nat.card ↥C := by

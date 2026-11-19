@@ -51,7 +51,8 @@ theorem map_eq_zBar_of_label (hn : 5 ≤ n) {R₀ : Subgroup G} (hR₀ : R₀ �
     exact injOn_of_label I hn hR₀ h8 hlab hu.mem R₀.one_mem this
   · exact h1
 
-theorem map_oddCore_eq_bot (hn : 5 ≤ n) {J : Subgroup G} (hJ : J ≤ pSpan P)
+omit [Finite G] in
+theorem map_oddCore_eq_bot (hn : 5 ≤ n) {J : Subgroup G} (_hJ : J ≤ pSpan P)
     {α : Finset (Fin n)} {h : α.card = 4} {b : Bool}
     (hlab : (J.subgroupOf (pSpan P)).map I.φ = AE.memBar α h b)
     (hodd : Odd (Nat.card ↥(oddCoreOf J))) :
@@ -81,6 +82,7 @@ theorem map_oddCore_eq_bot (hn : 5 ≤ n) {J : Subgroup G} (hJ : J ≤ pSpan P)
   rw [Subgroup.mem_bot]
   exact orderOf_eq_one_iff.mp h3
 
+omit [Finite G] in
 theorem map_eq_of_le_sup_oddCore (hn : 5 ≤ n) {J R₀ : Subgroup G} (hJ : J ≤ pSpan P) (hR₀J : R₀ ≤ J)
     (hsup : J ≤ R₀ ⊔ oddCoreOf J) {α : Finset (Fin n)} {h : α.card = 4} {b : Bool}
     (hlab : (J.subgroupOf (pSpan P)).map I.φ = AE.memBar α h b)

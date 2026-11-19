@@ -17,10 +17,10 @@ open CFSG.Assembly CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 theorem ggSCWeylIrredTwoL4_specialLinear {d p : ℕ} {K : Type} [Field K] [Finite K]
     (hp : p.Prime) (hpK0 : (p : K) ≠ 0) (hpK : ¬ p ∣ Nat.card K - 1) :
     GGSCWeylIrredTwoLU4 p (Matrix.SpecialLinearGroup (Fin d) K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro E hE _ hsc
   obtain ⟨g, hg, hgd⟩ := exists_irreducible_dvd_cyclotomic (K := K) hp
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hζ : AdjoinRoot.root g ^ p = 1 := (CoordSL.root_isPrimitiveRoot hp hpK0 hgd).pow_eq_one
   have hC : (CoordSL.rootMat g).det = 1 := CoordSL.det_rootMat hp hpK hpK0 hgd
   have hCp : CoordSL.rootMat g ^ p = 1 := CoordSL.rootMat_pow_eq_one hp hpK0 hgd
@@ -117,7 +117,7 @@ theorem ggCenterPrime_projectiveSL_of_sectionsL4 {d p : ℕ} {K : Type} [Field K
 theorem ggCenterPrime_of_alt8L4 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {R : Type} [Group R]
     (e : R ≃* alternatingGroup (Fin 8)) (hZ : Subgroup.center R = ⊥) : GGCenterPrime p R := by
   intro L' _ _ ψ hψ hker hperf hpZ
-  haveI : Group.IsPerfect L' := ⟨hperf⟩
+  have : Group.IsPerfect L' := ⟨hperf⟩
   set ψ' : L' →* alternatingGroup (Fin 8) := e.toMonoidHom.comp ψ with hψ'
   have hker' : ψ'.ker = ψ.ker := TypeA.ker_comp_mulEquiv e ψ
   have hψ's : Function.Surjective ψ' := e.surjective.comp hψ
@@ -158,7 +158,7 @@ theorem ggTorusNoLineTwoL4_linear (hK : Nat.card K = 2 ^ n) (hn : 1 ≤ n) (hp :
     (hp2 : p ≠ 2) (hpq : p ∣ 2 ^ n + 1) :
     GGTorusNoLineTwo p (LargeEvenProj (LargeEvenSLGroup (Fin 4) K))
       (LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSLGroup (Fin 4) K)) Set.univ) := by
-  haveI : CharP K 2 := NbrInnerMore.charP_two_of_card_pow hn hK
+  have : CharP K 2 := NbrInnerMore.charP_two_of_card_pow hn hK
   have hpK0 : (p : K) ≠ 0 := fun hzero =>
     hp2 (((Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).mp
       ((CharP.cast_eq_zero_iff K 2 p).mp hzero)).symm)
@@ -206,7 +206,7 @@ theorem recipeLinear_rowPlainTwoL4 (hn : 1 ≤ n) (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ 2 ^ n + 1) {Q : LargeEvenRawCont} (hQ : LargeEvenRecipeLinear 4 (2 ^ n) Q) :
     LargeEvenRecipeLinear 4 (2 ^ n) fun R _ I F => Q R I F ∧ GGNbrWeylRowPlainTwo p 0 R I F := by
   obtain ⟨K', _, _, hK, hQ'⟩ := hQ
-  haveI : CharP K' 2 := NbrInnerMore.charP_two_of_card_pow hn hK
+  have : CharP K' 2 := NbrInnerMore.charP_two_of_card_pow hn hK
   refine ⟨K', inferInstance, inferInstance, hK, hQ', fun g => ?_, ?_, fun _ _ =>
     ggTorusNoLineTwoL4_linear hK hn hp hp2 hpq⟩
   · rw [← RecipeFieldLinear.coe_recI]

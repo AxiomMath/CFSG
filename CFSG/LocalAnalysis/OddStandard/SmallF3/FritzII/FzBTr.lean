@@ -14,7 +14,7 @@ theorem fzb_power_transfer {G : Type} [Group G] [Finite G] [IsSimpleGroup G]
     (hM : M.relIndex T = 2) {q : G} (hqT : q ∈ T) (hqM : q ∉ M) (hq : q ^ 4 = 1) :
     (∃ a : G, a⁻¹ * q * a ∈ M) ∨ ∃ a : G, a⁻¹ * q ^ 2 * a ∈ T ∧ a⁻¹ * q ^ 2 * a ∉ M := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨h1, h2⟩ := hcon
   refine false_of_thompson_pow hnab hT.1 hT.2 hMT hM hqT hqM ?_ h1
   intro g k hg
@@ -28,7 +28,7 @@ theorem fzb_power_transfer {G : Type} [Group G] [Finite G] [IsSimpleGroup G]
       rw [this, pow_add, pow_mul, hq, one_pow, one_mul]
   rcases hk with hk | hk
   · rw [hk]
-    simpa using M.one_mem
+    simp
   · rw [hk] at hg ⊢
     exact h2 g hg
 

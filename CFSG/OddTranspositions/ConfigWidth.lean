@@ -58,7 +58,7 @@ theorem sylow_inter_D_of_config_ncard_le_three (hQ : Config D u w v z a K₁ S')
     rw [hx', hy']
     exact Subtype.ext (by simpa using hcomm.eq)
   let H : Subgroup K₁ := Subgroup.closure A
-  haveI : IsMulCommutative H := Subgroup.isMulCommutative_closure hAcomm
+  have : IsMulCommutative H := Subgroup.isMulCommutative_closure hAcomm
   have hHsq : ∀ x : H, x ^ 2 = 1 := by
     have hsq_mem : ∀ g (hg : g ∈ H), (⟨g, hg⟩ : H) ^ 2 = 1 := by
       intro g hg
@@ -133,7 +133,7 @@ theorem widthLe_three_of_config (hQ : Config D u w v z a K₁ S') : WidthLe D 3 
   classical
   refine (widthLe_iff_sylow_of_setup hQ.setup 3).mpr ?_
   intro T
-  haveI : Finite (Sylow 2 G) := (default : Sylow 2 G).finite_of_finiteIndex
+  have : Finite (Sylow 2 G) := (default : Sylow 2 G).finite_of_finiteIndex
   let Syl : Sylow 2 G :=
     ⟨S', hQ.sylow.1, fun {P : Subgroup G} hP hle => le_of_eq (hQ.sylow.2 P hP hle)⟩
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq G Syl T

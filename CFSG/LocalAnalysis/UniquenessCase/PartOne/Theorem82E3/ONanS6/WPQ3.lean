@@ -34,7 +34,7 @@ theorem inf_centralizer_map_le_center'_wPQ3
     (((P ⊓ c.L) ⊓ Subgroup.centralizer ((P ⊓ c.L : Subgroup G) : Set G)).subgroupOf c.L).map
         (QuotientGroup.mk' (pCore 2 ↥c.L)) ≤ Subgroup.center c.Lbar := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let N : Subgroup ↥c.L := pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' N
   let Q : Subgroup G := P ⊓ c.L
@@ -96,15 +96,15 @@ theorem zSub_le_modCentralizer'
 
 theorem p6_dichotomy' (c : Ctx82E3 D) {P A : Subgroup G} {a : G}
     (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
-    (hA : CFSG.Open.IsElemAbelian 3 A) (hA27 : Nat.card A = 27) (hZA : zSub P c.L ≤ A)
-    (hAPL : A ≤ P ⊓ c.L) (ha : a ∈ A) (haZ : a ∉ zSub P c.L)
+    (_hA : CFSG.Open.IsElemAbelian 3 A) (_hA27 : Nat.card A = 27) (hZA : zSub P c.L ≤ A)
+    (hAPL : A ≤ P ⊓ c.L) (_ha : a ∈ A) (_haZ : a ∉ zSub P c.L)
     {J : Subgroup G} (hJ : J ∈ thetaComponentsAt 3 a)
     (hAJ : A ≤ Subgroup.normalizer (J : Set G)) (hJM : J = (J ⊓ D.M) ⊔ theta3 J)
     (hC : zSub P c.L ≤ modCentralizer D.M c.L (inSubgroup (pCore 2) c.L)) :
     zSub P c.L ≤ thetaQuotCentralizer J ∨ A ≤ thetaQuotCentralizer J := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  letI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨L, hL, hLJ⟩ := hJ
   let Cc : Subgroup G := Subgroup.centralizer ({a} : Set G)
   let e₀ : ↥L ≃* ↥(L.map Cc.subtype) :=
@@ -115,7 +115,7 @@ theorem p6_dichotomy' (c : Ctx82E3 D) {P A : Subgroup G} {a : G}
       Nat.prime_three hL.1 e.toMonoidHom e.surjective ?_).mp hL.2.2
     rw [show e.toMonoidHom.ker = ⊥ from (MonoidHom.ker_eq_bot_iff e.toMonoidHom).mpr e.injective]
     exact bot_le
-  haveI : Group.IsPerfect (↥J ⧸ aschbacherSolvableCore 3 J) := hQJ.1
+  have : Group.IsPerfect (↥J ⧸ aschbacherSolvableCore 3 J) := hQJ.1
   let M : Subgroup G := D.M
   let O : Subgroup G := inSubgroup (pCore 2) c.L
   let Cmod : Subgroup G := modCentralizer D.M c.L O
@@ -198,12 +198,12 @@ theorem p6_dichotomy' (c : Ctx82E3 D) {P A : Subgroup G} {a : G}
     (CFSG.pCore_isPGroup (p := 2) (G := ↥c.L)).map c.L.subtype |>.to_le inf_le_right
   have hNR2 : IsPGroup 2 ↥NR := hR2.comap_subtype.map ψ
   have hNRsolv : Group.IsSolvable ↥NR := by
-    haveI : Group.IsNilpotent ↥NR := hNR2.isNilpotent
+    have : Group.IsNilpotent ↥NR := hNR2.isNilpotent
     exact IsNilpotent.to_isSolvable
   have hNnormal : N.Normal := hKnormal.map ψ hψsurj
   have hNRnormal : NR.Normal := hRnormal.map ψ hψsurj
   have hNRcenter : NR ≤ Subgroup.center (↥J ⧸ θ) := by
-    letI : NR.Normal := hNRnormal
+    let : NR.Normal := hNRnormal
     exact le_center_of_normal_isSolvable hQJ.2.1 hNRsolv
   have mem_N : ∀ {g : G} (hgJ₁ : g ∈ J₁) (hgK : g ∈ K),
       πJ ⟨g, (Subgroup.mem_inf.mp hgJ₁).1⟩ ∈ N := by
@@ -213,7 +213,7 @@ theorem p6_dichotomy' (c : Ctx82E3 D) {P A : Subgroup G} {a : G}
       πJ ⟨g, (Subgroup.mem_inf.mp hgJ₁).1⟩ ∈ NR := by
     intro g hgJ₁ hgR
     exact Subgroup.mem_map.mpr ⟨⟨g, hgJ₁⟩, Subgroup.mem_subgroupOf.mpr hgR, rfl⟩
-  letI : N.Normal := hNnormal
+  let : N.Normal := hNnormal
   have hN : N ≤ Subgroup.center (↥J ⧸ θ) ∨ N = ⊤ :=
     CFSG.Quasithin.H13.normal_le_center_or_eq_top_of_quasisimple hQJ N
   rcases hN with hNcent | hNtop

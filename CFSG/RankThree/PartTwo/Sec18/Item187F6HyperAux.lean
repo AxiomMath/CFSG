@@ -11,6 +11,7 @@ open scoped commutatorElement Pointwise
 
 variable {V : Type} [Group V] [Finite V]
 
+omit [Finite V] in
 private theorem hypComm_of_sq (hV : ∀ v : V, v * v = 1) (a b : V) : a * b = b * a := by
   have ha : a⁻¹ = a := inv_eq_of_mul_eq_one_right (hV a)
   have hb : b⁻¹ = b := inv_eq_of_mul_eq_one_right (hV b)
@@ -18,22 +19,27 @@ private theorem hypComm_of_sq (hV : ∀ v : V, v * v = 1) (a b : V) : a * b = b 
   rw [mul_inv_rev, ha, hb] at hab
   exact hab.symm
 
+omit [Finite V] in
 private theorem isMulCommutative_of_sq (hV : ∀ v : V, v * v = 1) : IsMulCommutative V :=
   ⟨⟨fun a b => hypComm_of_sq hV a b⟩⟩
 
+omit [Finite V] in
 private theorem normal_of_sq (hV : ∀ v : V, v * v = 1) (K : Subgroup V) : K.Normal := by
-  haveI := isMulCommutative_of_sq hV
+  have := isMulCommutative_of_sq hV
   infer_instance
 
+omit [Finite V] in
 private theorem mem_fix_iff (L : Subgroup (MulAut V)) (v : V) : v ∈ Fix L ↔ ∀ f ∈ L, f v = v :=
   ⟨fun h f hf => (FixedPoints.mem_subgroup _ _ _).mp h ⟨f, hf⟩,
     fun h => (FixedPoints.mem_subgroup _ _ _).mpr fun m => h m.1 m.2⟩
 
+omit [Finite V] in
 private theorem fix_anti {L₁ L₂ : Subgroup (MulAut V)} (h : L₁ ≤ L₂) : Fix L₂ ≤ Fix L₁ := by
   intro v hv
   rw [mem_fix_iff] at hv ⊢
   exact fun f hf => hv f (h hf)
 
+omit [Finite V] in
 private theorem fix_sup_le (L₁ L₂ : Subgroup (MulAut V)) : Fix L₁ ⊓ Fix L₂ ≤ Fix (L₁ ⊔ L₂) := by
   intro v hv
   obtain ⟨h1, h2⟩ := Subgroup.mem_inf.mp hv
@@ -43,6 +49,7 @@ private theorem fix_sup_le (L₁ L₂ : Subgroup (MulAut V)) : Fix L₁ ⊓ Fix 
       (fun f hf => MulAction.mem_stabilizer_iff.mpr (h2 f hf))
   exact fun f hf => MulAction.mem_stabilizer_iff.mp (hst hf)
 
+omit [Finite V] in
 private theorem five_dvd_of_zpow_mem {H : Subgroup (MulAut V)} {x : MulAut V} (hx5 : x ^ 5 = 1)
     (hxH : x ∉ H) {m : ℤ} (hm : x ^ m ∈ H) : (5 : ℤ) ∣ m := by
   by_contra hnd
@@ -81,6 +88,7 @@ private def hypZT (H : Subgroup (MulAut V)) (x : MulAut V) (hc : ∀ h ∈ H, h 
       ((Commute.zpow_left (hc h⁻¹ (H.inv_mem hh)).symm k).inv_left).eq
     rw [mul_inv_rev, zpow_neg, e1]
 
+omit [Finite V] in
 private theorem mem_sup_zpowers_of_comm {H : Subgroup (MulAut V)} {x : MulAut V}
     (hc : ∀ h ∈ H, h * x = x * h) {w : MulAut V} (hw : w ∈ H ⊔ Subgroup.zpowers x) :
     ∃ h ∈ H, ∃ k : ℤ, w = h * x ^ k := by
@@ -89,6 +97,7 @@ private theorem mem_sup_zpowers_of_comm {H : Subgroup (MulAut V)} {x : MulAut V}
       (Subgroup.zpowers_le.mpr ⟨1, H.one_mem, 1, by simp⟩)
   exact hle hw
 
+omit [Finite V] in
 private theorem hyper_sup_zpowers_eq {E H : Subgroup (MulAut V)} (hHE : H ≤ E) (hH : H.relIndex E = 5)
     {x : MulAut V} (hxE : x ∈ E) (hxH : x ∉ H) : H ⊔ Subgroup.zpowers x = E := by
   have h1 : H ≤ H ⊔ Subgroup.zpowers x := le_sup_left
@@ -105,6 +114,7 @@ private theorem hyper_sup_zpowers_eq {E H : Subgroup (MulAut V)} (hHE : H ≤ E)
       omega
     exact le_antisymm h2 (Subgroup.relIndex_eq_one.mp h')
 
+omit [Finite V] in
 private theorem exists_mem_not_mem_of_relIndex {E H : Subgroup (MulAut V)} (hH : H.relIndex E = 5) :
     ∃ x ∈ E, x ∉ H := by
   by_contra hc
@@ -113,6 +123,7 @@ private theorem exists_mem_not_mem_of_relIndex {E H : Subgroup (MulAut V)} (hH :
   have h1 : H.relIndex E = 1 := Subgroup.relIndex_eq_one.mpr hEH
   omega
 
+omit [Finite V] in
 private theorem zt_fix {z : MulAut V} {c m : V} (hV : ∀ v : V, v * v = 1) (hz5 : z ^ 5 = 1)
     (hzc : z c = c) (hzm : z m = c * m) : z m = m := by
   have h2 : z (z m) = m := by
@@ -125,6 +136,7 @@ private theorem zt_fix {z : MulAut V} {c m : V} (hV : ∀ v : V, v * v = 1) (hz5
   rw [h4] at hz5m
   exact hz5m
 
+omit [Finite V] in
 private theorem smul_mem_fix_of_comm {E H : Subgroup (MulAut V)}
     (hEab : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hHE : H ≤ E) {g : MulAut V} (hg : g ∈ E)
     {v : V} (hv : v ∈ Fix H) : g v ∈ Fix H := by
@@ -136,6 +148,7 @@ private theorem smul_mem_fix_of_comm {E H : Subgroup (MulAut V)}
     _ = g (f v) := MulAut.mul_apply V g f v
     _ = g v := by rw [hv f hf]
 
+omit [Finite V] in
 private theorem eq_of_le_hyper {E H K : Subgroup (MulAut V)} (hHK : H ≤ K) (hKE : K ≤ E)
     (hH : H.relIndex E = 5) (hK : K.relIndex E = 5) : H = K := by
   have hm := Subgroup.relIndex_mul_relIndex H K E hHK hKE
@@ -143,6 +156,7 @@ private theorem eq_of_le_hyper {E H K : Subgroup (MulAut V)} (hHK : H ≤ K) (hK
   have h1 : H.relIndex K = 1 := by omega
   exact le_antisymm hHK (Subgroup.relIndex_eq_one.mp h1)
 
+omit [Finite V] in
 private theorem eq_of_not_le_hyper {E H K : Subgroup (MulAut V)} (hHK : H ≤ K) (hKE : K ≤ E)
     (hH : H.relIndex E = 5) (hnot : ¬ K ≤ H) : K = E := by
   have hm := Subgroup.relIndex_mul_relIndex H K E hHK hKE
@@ -154,6 +168,7 @@ private theorem eq_of_not_le_hyper {E H K : Subgroup (MulAut V)} (hHK : H ≤ K)
       omega
     exact le_antisymm hKE (Subgroup.relIndex_eq_one.mp h')
 
+omit [Finite V] in
 private theorem sup_eq_top_of_ne {E H₁ H₂ : Subgroup (MulAut V)} (hH₁E : H₁ ≤ E)
     (hH₁ : H₁.relIndex E = 5) (hH₂E : H₂ ≤ E) (hH₂ : H₂.relIndex E = 5) (hne : H₁ ≠ H₂) :
     H₁ ⊔ H₂ = E := by
@@ -161,6 +176,7 @@ private theorem sup_eq_top_of_ne {E H₁ H₂ : Subgroup (MulAut V)} (hH₁E : H
   intro h
   exact hne (eq_of_le_hyper ((le_sup_right : H₂ ≤ H₁ ⊔ H₂).trans h) hH₁E hH₂ hH₁).symm
 
+omit [Finite V] in
 private theorem fix_inf_eq_fix_of_ne {E H₁ H₂ : Subgroup (MulAut V)} (hH₁E : H₁ ≤ E)
     (hH₁ : H₁.relIndex E = 5) (hH₂E : H₂ ≤ E) (hH₂ : H₂.relIndex E = 5) (hne : H₁ ≠ H₂) :
     Fix H₁ ⊓ Fix H₂ = Fix E := by
@@ -170,14 +186,15 @@ private theorem fix_inf_eq_fix_of_ne {E H₁ H₂ : Subgroup (MulAut V)} (hH₁E
     exact h
   · exact le_inf (fix_anti hH₁E) (fix_anti hH₂E)
 
+omit [Finite V] in
 private theorem exists_mem_not_mem_two {E H₁ H₂ H₃ : Subgroup (MulAut V)} (hH₁E : H₁ ≤ E)
     (hH₁ : H₁.relIndex E = 5) (hH₂E : H₂ ≤ E) (hH₂ : H₂.relIndex E = 5)
-    (hH₃E : H₃ ≤ E) (hH₃ : H₃.relIndex E = 5) (h31 : H₃ ≠ H₁) (h32 : H₃ ≠ H₂) :
+    (_hH₃E : H₃ ≤ E) (hH₃ : H₃.relIndex E = 5) (h31 : H₃ ≠ H₁) (h32 : H₃ ≠ H₂) :
     ∃ z ∈ H₃, z ∉ H₁ ∧ z ∉ H₂ := by
   have hn1 : ¬ H₃ ≤ H₁ := fun h => h31 (eq_of_le_hyper h hH₁E hH₃ hH₁)
   have hn2 : ¬ H₃ ≤ H₂ := fun h => h32 (eq_of_le_hyper h hH₂E hH₃ hH₂)
-  obtain ⟨a, ha3, ha1⟩ := SetLike.not_le_iff_exists.mp hn1
-  obtain ⟨b, hb3, hb2⟩ := SetLike.not_le_iff_exists.mp hn2
+  obtain ⟨a, ha3, ha1⟩ := IsConcreteLE.not_le_iff_exists.mp hn1
+  obtain ⟨b, hb3, hb2⟩ := IsConcreteLE.not_le_iff_exists.mp hn2
   by_contra hcon
   have key : ∀ z ∈ H₃, z ∈ H₁ ∨ z ∈ H₂ := fun z hz3 => by
     by_contra hnot
@@ -192,23 +209,25 @@ private theorem exists_mem_not_mem_two {E H₁ H₂ H₃ : Subgroup (MulAut V)} 
     rw [inv_mul_cancel_left] at h
     exact hb2 h
 
+omit [Finite V] in
 private theorem mul_eq_of_mul_eq (hV : ∀ v : V, v * v = 1) {p q a b : V} (h : p * q = a * b) :
     p * a = b * q := by
-  haveI : Std.Commutative (α := V) (· * ·) := ⟨fun x y => hypComm_of_sq hV x y⟩
-  haveI : Std.Associative (α := V) (· * ·) := ⟨mul_assoc⟩
+  have : Std.Commutative (α := V) (· * ·) := ⟨fun x y => hypComm_of_sq hV x y⟩
+  have : Std.Associative (α := V) (· * ·) := ⟨mul_assoc⟩
   calc p * a = p * a * (q * q) := by rw [hV q, mul_one]
     _ = (p * q) * (a * q) := by ac_rfl
     _ = (a * b) * (a * q) := by rw [h]
     _ = (a * a) * (b * q) := by ac_rfl
     _ = b * q := by rw [hV a, one_mul]
 
+omit [Finite V] in
 private theorem fix_sup_inf_eq {E H₁ H₂ H₃ : Subgroup (MulAut V)} (hV : ∀ v : V, v * v = 1)
     (hEab : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hE5 : ∀ x ∈ E, x ^ 5 = 1)
     (hH₁E : H₁ ≤ E) (hH₁ : H₁.relIndex E = 5) (hH₂E : H₂ ≤ E) (hH₂ : H₂.relIndex E = 5)
     (hH₃E : H₃ ≤ E) (hH₃ : H₃.relIndex E = 5) (h12 : H₁ ≠ H₂) (h31 : H₃ ≠ H₁)
     (h32 : H₃ ≠ H₂) :
     (Fix H₁ ⊔ Fix H₂) ⊓ Fix H₃ = Fix E := by
-  haveI := normal_of_sq hV (Fix H₂)
+  have := normal_of_sq hV (Fix H₂)
   apply le_antisymm
   · intro v hv
     obtain ⟨hv12, hv3⟩ := Subgroup.mem_inf.mp hv
@@ -245,6 +264,7 @@ private theorem fix_sup_inf_eq {E H₁ H₂ H₃ : Subgroup (MulAut V)} (hV : �
     exact (Fix E).mul_mem ha_fix hb_fix
   · exact le_inf (le_sup_of_le_left (fix_anti hH₁E)) (fix_anti hH₃E)
 
+omit [Finite V] in
 private theorem relIndex_sup_eq_mul {A X M : Subgroup V} [X.Normal] (hAX : A ≤ X) (hXM : X ⊓ M = A) :
     A.relIndex (X ⊔ M) = A.relIndex X * A.relIndex M := by
   have h1 : X.relIndex M = A.relIndex M := by
@@ -262,11 +282,11 @@ private theorem relIndex_le_index_of_inf_eq {P C A : Subgroup V} (hPC : P ⊓ C 
         exact Subgroup.index_ne_zero_of_finite)
     _ = C.index := Subgroup.relIndex_top_right C
 
-private theorem card_fix_modEq_of_fixed (hV : ∀ v : V, v * v = 1) {E H : Subgroup (MulAut V)}
+private theorem card_fix_modEq_of_fixed (_hV : ∀ v : V, v * v = 1) {E H : Subgroup (MulAut V)}
     (hEab : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hHE : H ≤ E) {x : MulAut V} (hxE : x ∈ E)
     (hx5 : x ^ 5 = 1) (hfix : ∀ v : V, v ∈ Fix H → x v = v → v ∈ Fix E) :
     Nat.card (Fix H) ≡ Nat.card (Fix E) [MOD 5] := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hP : IsPGroup 5 (Subgroup.zpowers x) := by
     have hdiv : orderOf x ∣ 5 := orderOf_dvd_of_pow_eq_one hx5
     rcases (Nat.dvd_prime Nat.prime_five).mp hdiv with hi | hi
@@ -351,7 +371,7 @@ private theorem exists_not_mem_three {E H₁ H₂ H₃ : Subgroup (MulAut V)} (h
     (hH₁ : H₁.relIndex E = 5) (hH₂E : H₂ ≤ E) (hH₂ : H₂.relIndex E = 5)
     (hH₃E : H₃ ≤ E) (hH₃ : H₃.relIndex E = 5) :
     ∃ y ∈ E, y ∉ H₁ ∧ y ∉ H₂ ∧ y ∉ H₃ := by
-  haveI : Finite (MulAut V) :=
+  have : Finite (MulAut V) :=
     Finite.of_injective (fun f : MulAut V => (f : V ≃ V))
       (fun f g h => MulEquiv.ext fun v => congrArg (fun e : V ≃ V => e v) h)
   by_contra hcon
@@ -367,7 +387,7 @@ private theorem exists_not_mem_three {E H₁ H₂ H₃ : Subgroup (MulAut V)} (h
   rw [inf_eq_left.mpr hH₁E, hH₁] at c1
   rw [inf_eq_left.mpr hH₂E, hH₂] at c2
   rw [inf_eq_left.mpr hH₃E, hH₃] at c3
-  haveI : Nonempty E := ⟨1⟩
+  have : Nonempty E := ⟨1⟩
   have hpos : 0 < Nat.card E := Nat.card_pos
   have hc := Set.ncard_le_ncard hcov
   have hu1 := Set.ncard_union_le ((H₁ : Set (MulAut V)) ∪ (H₂ : Set (MulAut V)))
@@ -379,13 +399,14 @@ private theorem exists_not_mem_three {E H₁ H₂ H₃ : Subgroup (MulAut V)} (h
   have e3 : Nat.card H₃ = (H₃ : Set (MulAut V)).ncard := Nat.card_coe_set_eq _
   omega
 
+omit [Finite V] in
 private theorem fix_zpowers_inf_sup_eq (hV : ∀ v : V, v * v = 1)
     {E H₂ H₃ : Subgroup (MulAut V)} {y : MulAut V}
     (hEab : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hE5 : ∀ x ∈ E, x ^ 5 = 1)
     (hH₂E : H₂ ≤ E) (hH₂ : H₂.relIndex E = 5) (hH₃E : H₃ ≤ E) (hH₃ : H₃.relIndex E = 5)
     (h23 : H₂ ≠ H₃) (hyE : y ∈ E) (hy2 : y ∉ H₂) (hy3 : y ∉ H₃) :
     Fix (Subgroup.zpowers y) ⊓ (Fix H₂ ⊔ Fix H₃) = Fix E := by
-  haveI := normal_of_sq hV (Fix H₃)
+  have := normal_of_sq hV (Fix H₃)
   apply le_antisymm
   · intro v hv
     obtain ⟨hvy, hv23⟩ := Subgroup.mem_inf.mp hv
@@ -418,6 +439,7 @@ private theorem fix_zpowers_inf_sup_eq (hV : ∀ v : V, v * v = 1)
     exact (Fix E).mul_mem hbE hcE
   · exact le_inf (fix_anti (Subgroup.zpowers_le.mpr hyE)) (le_sup_of_le_left (fix_anti hH₂E))
 
+omit [Finite V] in
 private theorem fix_sup_sup_zpowers_inf_eq (hV : ∀ v : V, v * v = 1)
     {E H₁ H₂ H₃ : Subgroup (MulAut V)} {y : MulAut V}
     (hEab : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hE5 : ∀ x ∈ E, x ^ 5 = 1)
@@ -425,8 +447,8 @@ private theorem fix_sup_sup_zpowers_inf_eq (hV : ∀ v : V, v * v = 1)
     (hH₃E : H₃ ≤ E) (hH₃ : H₃.relIndex E = 5) (h12 : H₁ ≠ H₂) (h13 : H₁ ≠ H₃) (h23 : H₂ ≠ H₃)
     (hyE : y ∈ E) (hy1 : y ∉ H₁) (hy2 : y ∉ H₂) (hy3 : y ∉ H₃) :
     (Fix H₁ ⊔ (Fix H₂ ⊔ Fix H₃)) ⊓ Fix (Subgroup.zpowers y) = Fix E := by
-  haveI := normal_of_sq hV (Fix H₂ ⊔ Fix H₃)
-  haveI := normal_of_sq hV (Fix H₃)
+  have := normal_of_sq hV (Fix H₂ ⊔ Fix H₃)
+  have := normal_of_sq hV (Fix H₃)
   apply le_antisymm
   · intro v hv
     obtain ⟨hvP, hvy⟩ := Subgroup.mem_inf.mp hv
@@ -485,9 +507,9 @@ private theorem exists_two_pow_twelve_of_three (hV : ∀ v : V, v * v = 1)
     ∃ y ∈ E, 2 ^ 12 ≤ (Fix (Subgroup.zpowers y)).index := by
   obtain ⟨y, hyE, hy1, hy2, hy3⟩ := exists_not_mem_three hH₁E hH₁ hH₂E hH₂ hH₃E hH₃
   refine ⟨y, hyE, ?_⟩
-  haveI := normal_of_sq hV (Fix H₁)
-  haveI := normal_of_sq hV (Fix H₂)
-  haveI := normal_of_sq hV (Fix H₃)
+  have := normal_of_sq hV (Fix H₁)
+  have := normal_of_sq hV (Fix H₂)
+  have := normal_of_sq hV (Fix H₃)
   have hP := fix_sup_sup_zpowers_inf_eq hV hEab hE5 hH₁E hH₁ hH₂E hH₂ hH₃E hH₃ h12 h13 h23
     hyE hy1 hy2 hy3
   have hbound := relIndex_le_index_of_inf_eq hP
@@ -520,7 +542,7 @@ private theorem index_dvd_five_of_cyclic {G : Type*} [Group G] (hG : ∀ g : G, 
 private theorem exists_active_hyper (hV : ∀ v : V, v * v = 1) {E : Subgroup (MulAut V)}
     (hE5 : ∀ x ∈ E, x ^ 5 = 1) (hEab : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x) (hEne : E ≠ ⊥) :
     ∃ H : Subgroup (MulAut V), H ≤ E ∧ H.relIndex E = 5 ∧ ¬ Fix H ≤ Fix E := by
-  haveI : Finite (MulAut V) :=
+  have : Finite (MulAut V) :=
     Finite.of_injective (fun f : MulAut V => (f : V ≃ V))
       (fun f g h => MulEquiv.ext fun v => congrArg (fun e : V ≃ V => e v) h)
   by_contra hcon
@@ -528,9 +550,9 @@ private theorem exists_active_hyper (hV : ∀ v : V, v * v = 1) {E : Subgroup (M
     intro H hHE hH
     by_contra h
     exact hcon ⟨H, hHE, hH, h⟩
-  letI : CommGroup E :=
+  let : CommGroup E :=
     { (inferInstance : Group E) with mul_comm := fun a b => Subtype.ext (hEab a a.2 b b.2) }
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hG : ∀ g : E, g ^ 5 = 1 := fun g => Subtype.ext (by simpa using hE5 g.1 g.2)
   have hpg : IsPGroup 5 E := fun g => ⟨1, by simpa using hG g⟩
   obtain ⟨n, hn⟩ := card_V_eq_two_pow hV
@@ -589,16 +611,19 @@ private theorem exists_active_hyper (hV : ∀ v : V, v * v = 1) {E : Subgroup (M
 private def conjSub (d : MulAut V) (H : Subgroup (MulAut V)) : Subgroup (MulAut V) :=
   H.map (MulAut.conj d).toMonoidHom
 
+omit [Finite V] in
 private theorem conj_hom_apply (d h : MulAut V) :
     (MulAut.conj d).toMonoidHom h = d * h * d⁻¹ :=
   rfl
 
+omit [Finite V] in
 private theorem mem_conjSub {d g : MulAut V} {H : Subgroup (MulAut V)} :
     g ∈ conjSub d H ↔ ∃ h ∈ H, d * h * d⁻¹ = g := by
   unfold conjSub
   rw [Subgroup.mem_map]
   simp only [conj_hom_apply]
 
+omit [Finite V] in
 private theorem conjSub_mul (a b : MulAut V) (H : Subgroup (MulAut V)) :
     conjSub (a * b) H = conjSub a (conjSub b H) := by
   ext g
@@ -611,6 +636,7 @@ private theorem conjSub_mul (a b : MulAut V) (H : Subgroup (MulAut V)) :
     obtain ⟨h, hh, rfl⟩ := mem_conjSub.mp hk
     exact mem_conjSub.mpr ⟨h, hh, by rw [← hkg]; group⟩
 
+omit [Finite V] in
 private theorem conjSub_one (H : Subgroup (MulAut V)) : conjSub 1 H = H := by
   ext g
   constructor
@@ -620,10 +646,12 @@ private theorem conjSub_one (H : Subgroup (MulAut V)) : conjSub 1 H = H := by
   · intro hg
     exact mem_conjSub.mpr ⟨g, hg, by simp⟩
 
+omit [Finite V] in
 private theorem conjSub_inv_conjSub (a : MulAut V) (H : Subgroup (MulAut V)) :
     conjSub a⁻¹ (conjSub a H) = H := by
   rw [← conjSub_mul, inv_mul_cancel, conjSub_one]
 
+omit [Finite V] in
 private theorem conjSub_conjSub_inv (a : MulAut V) (H : Subgroup (MulAut V)) :
     conjSub a (conjSub a⁻¹ H) = H := by
   rw [← conjSub_mul, mul_inv_cancel, conjSub_one]
@@ -636,10 +664,12 @@ private def stabSub (D H : Subgroup (MulAut V)) : Subgroup (MulAut V) where
     calc conjSub a⁻¹ H = conjSub a⁻¹ (conjSub a H) := by rw [ha.2]
       _ = H := conjSub_inv_conjSub a H⟩
 
+omit [Finite V] in
 private theorem mem_stabSub {D H : Subgroup (MulAut V)} {d : MulAut V} :
     d ∈ stabSub D H ↔ d ∈ D ∧ conjSub d H = H :=
   Iff.rfl
 
+omit [Finite V] in
 private theorem mem_fix_conjSub (d : MulAut V) (H : Subgroup (MulAut V)) (v : V) :
     v ∈ Fix (conjSub d H) ↔ d⁻¹ v ∈ Fix H := by
   rw [mem_fix_iff, mem_fix_iff]
@@ -655,11 +685,13 @@ private theorem mem_fix_conjSub (d : MulAut V) (H : Subgroup (MulAut V)) (v : V)
     have h1 : f (d⁻¹ v) = d⁻¹ v := h f hf
     rw [MulAut.mul_apply, MulAut.mul_apply, h1, MulAut.apply_inv_self]
 
+omit [Finite V] in
 private theorem conj_mem_of_normalizer {E : Subgroup (MulAut V)} {d : MulAut V}
     (hd : d ∈ Subgroup.normalizer (E : Set (MulAut V))) {f : MulAut V} (hf : f ∈ E) :
     d * f * d⁻¹ ∈ E :=
   (Subgroup.mem_normalizer_iff.mp hd f).mp hf
 
+omit [Finite V] in
 private theorem fix_normalizer_iff {E : Subgroup (MulAut V)} {d : MulAut V}
     (hd : d ∈ Subgroup.normalizer (E : Set (MulAut V))) (w : V) :
     d w ∈ Fix E ↔ w ∈ Fix E := by
@@ -677,6 +709,7 @@ private theorem fix_normalizer_iff {E : Subgroup (MulAut V)} {d : MulAut V}
     have h2 : d (d⁻¹ (f (d w))) = d w := congrArg (fun z => d z) h1
     rwa [MulAut.apply_inv_self] at h2
 
+omit [Finite V] in
 private theorem map_conj_eq_of_normalizer {E : Subgroup (MulAut V)} {d : MulAut V}
     (hd : d ∈ Subgroup.normalizer (E : Set (MulAut V))) :
     E.map (MulAut.conj d).toMonoidHom = E := by
@@ -692,6 +725,7 @@ private theorem map_conj_eq_of_normalizer {E : Subgroup (MulAut V)} {d : MulAut 
     rw [conj_hom_apply]
     group
 
+omit [Finite V] in
 private theorem conjSub_le {E H : Subgroup (MulAut V)} {d : MulAut V}
     (hd : d ∈ Subgroup.normalizer (E : Set (MulAut V))) (hHE : H ≤ E) :
     conjSub d H ≤ E := by
@@ -699,6 +733,7 @@ private theorem conjSub_le {E H : Subgroup (MulAut V)} {d : MulAut V}
   obtain ⟨h, hh, rfl⟩ := mem_conjSub.mp hg
   exact conj_mem_of_normalizer hd (hHE hh)
 
+omit [Finite V] in
 private theorem conjSub_relIndex {E H : Subgroup (MulAut V)} {d : MulAut V}
     (hd : d ∈ Subgroup.normalizer (E : Set (MulAut V))) :
     (conjSub d H).relIndex E = H.relIndex E := by
@@ -709,6 +744,7 @@ private theorem conjSub_relIndex {E H : Subgroup (MulAut V)} {d : MulAut V}
   rw [map_conj_eq_of_normalizer hd] at h
   exact h
 
+omit [Finite V] in
 private theorem conjSub_active {E H : Subgroup (MulAut V)} {d : MulAut V}
     (hd : d ∈ Subgroup.normalizer (E : Set (MulAut V))) (ha : ¬ Fix H ≤ Fix E) :
     ¬ Fix (conjSub d H) ≤ Fix E := by
@@ -720,6 +756,7 @@ private theorem conjSub_active {E H : Subgroup (MulAut V)} {d : MulAut V}
     exact hw
   exact (fix_normalizer_iff hd w).mp (hle h1)
 
+omit [Finite V] in
 private theorem not_normalized_of_comm {E D : Subgroup (MulAut V)}
     (hE5 : ∀ x ∈ E, x ^ 5 = 1) (hEab : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x)
     (hDE : D ≤ Subgroup.normalizer (E : Set (MulAut V))) {e : MulAut V} (heD : e ∈ ⁅D, D⁆)
@@ -848,6 +885,7 @@ private theorem not_normalized_of_comm {E D : Subgroup (MulAut V)}
     exact H.mul_mem h2 h2
   simpa using H.inv_mem h3
 
+omit [Finite V] in
 private theorem exists_three_active {E D : Subgroup (MulAut V)}
     (hE5 : ∀ x ∈ E, x ^ 5 = 1) (hEab : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x)
     (hDE : D ≤ Subgroup.normalizer (E : Set (MulAut V))) {e : MulAut V} (heD : e ∈ ⁅D, D⁆)

@@ -77,7 +77,7 @@ theorem agl81TenElevenOneLie_holds
     AGL81TenElevenOneLie G := by
   intro hS P M H Q K L W a₀ hd V hVM hc _ hlie
   refine absurd ?_ hc
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hp, hp2, hyps, hQS, hLn, hrk, hdvd, hrkW, -⟩ :=
     hd.blockFieldIndexW_hyps hS h85 h93 hNX h98
   obtain ⟨ha₀M, haJ, hnon⟩ := hd.mk_normalizer_not_inner_wPre hS h98
@@ -92,7 +92,7 @@ theorem agl81TenElevenOneLie_holds
   have hCP := compParab_of_blockHyps hyps
     (nineThreeTwo_of_not_inner_wPre hp hp2 hyps hrk hdvd hrkW hap haJ hnon)
   set N := barM M L with hNdef
-  haveI hNn : N.Normal := hLn.map π (QuotientGroup.mk'_surjective _)
+  have hNn : N.Normal := hLn.map π (QuotientGroup.mk'_surjective _)
   set C := centralizer (N : Set (↥M ⧸ CFSG.pCore 2 ↥M)) with hCdef
   obtain ⟨n, hn⟩ := hlie
   have hn1 : 1 ≤ n := by
@@ -115,14 +115,14 @@ theorem agl81TenElevenOneLie_holds
     rcases Nat.even_or_odd n with hev | hodn
     · obtain ⟨e, f₀, hf, σ, hσ, g, hg⟩ :=
         SL3E27.exists_slPi_field_of_not_inner_wPre hCP hn1 φ hrkW ha3 haJ hnon
-      haveI : Group.IsPerfect N := ⟨hCP.comp.2.2.1⟩
+      have : Group.IsPerfect N := ⟨hCP.comp.2.2.1⟩
       have hK : PiField true 2 n (GaloisField 2 n) :=
         ⟨Nat.prime_two, hn1, GaloisField.card 2 n (by omega)⟩
       have hθ := SL3E27.aschbacherSolvableCore_eq_bot_of_mulEquiv hCP.comp.2.2 φ
       have hf₀ : Even f₀ := (Nat.even_mul.1 (hf ▸ hev)).resolve_left (by decide)
       obtain ⟨z, hz, hNz, hw⟩ := SL3E27.exists_commute_slThree hK (modThree_two_pow_of_even hev)
         hf (modThree_two_pow_of_even hf₀) hθ e ha3 hσ hg
-      haveI : (zpowers z).Normal := by
+      have : (zpowers z).Normal := by
         rw [← hNz]
         infer_instance
       exact SL3E27.three_le_pRank_centralizer_of_commute hz hw hD hDc
@@ -143,12 +143,12 @@ theorem agl81TenElevenOneLie_holds
         rw [Subgroup.mem_bot]
         exact congrArg Subtype.val h2
       · intro P' hP'
-        have h1 := hodd _ N hNn n hodn ⟨φ⟩ P' P'.isPGroup' hP'
+        have h1 := hodd _ N hNn n hodn ⟨φ⟩ P' P'.isPGroup hP'
         have h2 := (CFSG.SectionRank.pRank_sylow P').1
         omega
   intro E hEM hE hEc
   set E' : Subgroup ↥M := E.subgroupOf M
-  haveI := hE.1
+  have := hE.1
   have hE' : IsElemAbelian 3 E' := by
     refine ⟨⟨⟨fun a b => Subtype.ext (Subtype.ext ?_)⟩⟩, fun x hx => Subtype.ext ?_⟩
     · change ((a : ↥M) : G) * ((b : ↥M) : G) = ((b : ↥M) : G) * ((a : ↥M) : G)

@@ -517,21 +517,21 @@ private lemma exists_tw_commutator_eq
     (hθmem : ∀ X : Subgroup H, X ∈ frameResidue Δ P Q L' ↔
       ∃ g, X = (conjSub (su3Top σ) g).map θ)
     (hd : OddFrameCompatible hFn hr (R.toHom hFn (even_two_mul r) hm) θ)
-    (hmeet :
+    (_hmeet :
       ((UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map
             (oddPrevLift hFn hr (R.toHom hFn (even_two_mul r) hm) θ) ⊔
           (Ym ⊔ Yp ⊔ P P')) ⊓
         ((UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ ⊔
           (Ym' ⊔ Yp' ⊔ P L')) ≤ Yp)
-    (hθ'r : (oddPrevLift hFn hr (R.toHom hFn (even_two_mul r) hm) θ).range =
+    (_hθ'r : (oddPrevLift hFn hr (R.toHom hFn (even_two_mul r) hm) θ).range =
       residueGroup Δ P Q P')
-    (hθ'o : Odd (Nat.card (oddPrevLift hFn hr (R.toHom hFn (even_two_mul r) hm) θ).ker))
-    (hbot : residueGroup Δ P Q P' ⊓ Yp = ⊥)
-    (hBPY : Commuting ((UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map
+    (_hθ'o : Odd (Nat.card (oddPrevLift hFn hr (R.toHom hFn (even_two_mul r) hm) θ).ker))
+    (_hbot : residueGroup Δ P Q P' ⊓ Yp = ⊥)
+    (_hBPY : Commuting ((UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map
       (oddPrevLift hFn hr (R.toHom hFn (even_two_mul r) hm) θ)) Ym)
-    (hBPZ : Commuting ((UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map
+    (_hBPZ : Commuting ((UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map
       (oddPrevLift hFn hr (R.toHom hFn (even_two_mul r) hm) θ)) Yp)
-    (hL : ∀ c : F, σ c = c → R.ξL (Sum.inl P') c =
+    (_hL : ∀ c : F, σ c = c → R.ξL (Sum.inl P') c =
       oddPrevLift hFn hr (R.toHom hFn (even_two_mul r) hm) θ (heis₃ 0 c)) :
     ∃ e : Bool, ∀ s u v : F, valid u v → ∃ w : F,
       ⁅R.ξ (Sum.inl P') (Sum.inr L') s, θ (heis₃ u v)⁆ =
@@ -539,9 +539,9 @@ private lemma exists_tw_commutator_eq
           (heis₃ (RelBuild.tw (unitaryInvolution F 2 n) e s * u) (σ s * s * v)) *
           R.ξ (Sum.inl P') (Sum.inl L') w := by
   classical
-  have hmeet := map_heis_sup_inf_map_heis_sup_le_prev_last hFn hr hm h hML hq hF hns
+  have _hmeet := map_heis_sup_inf_map_heis_sup_le_prev_last hFn hr hm h hML hq hF hns
     hcard hR hθr hθo hθc hθmem
-  obtain ⟨hθ'r, hθ'o, hbot, hBPY, hBPZ, hL⟩ :=
+  obtain ⟨_hθ'r, _hθ'o, _hbot, _hBPY, _hBPZ, _hL⟩ :=
     oddPrevLift_data hFn hr hm h hML hq hF hns hcard hR hθr hθo hθc hθmem hd
   have hex : ∀ s : F, s ≠ 0 → ∃ κ : F, σ κ * κ = σ s * s ∧
       ∀ u v : F, valid u v →
@@ -556,22 +556,22 @@ private lemma exists_tw_commutator_eq
     by_cases hs : s = 0
     · subst hs
       simp [κ]
-    · simp only [κ, dif_neg hs]
+    · simp only [κ, dite_eq_right hs]
       exact (Classical.choose_spec (hex s hs)).1
   have hconj : ∀ s : F, s ≠ 0 → ∀ u v : F, valid u v →
       ((weylPrev hFn hr hm R)⁻¹ * shortWeyl hr R s) * θ (heis₃ u v) *
           ((weylPrev hFn hr hm R)⁻¹ * shortWeyl hr R s)⁻¹ =
         θ (heis₃ (κ s * u) (σ s * s * v)) := by
     intro s hs u v hV
-    simp only [κ, dif_neg hs]
+    simp only [κ, dite_eq_right hs]
     exact (Classical.choose_spec (hex s hs)).2 u v hV
   have hcomm : ∀ s u v : F, valid u v → ∃ w : F,
       ⁅R.ξ (Sum.inl P') (Sum.inr L') s, θ (heis₃ u v)⁆ =
         oddPrevLift hFn hr (R.toHom hFn (even_two_mul r) hm) θ
           (heis₃ (κ s * u) (σ s * s * v)) * R.ξ (Sum.inl P') (Sum.inl L') w :=
     fun s u v hV => exists_commutator_eq_heis_mul hFn hr hm h hML hq hF hns hcard hR
-      hθr hθo hθc hθmem hd hmeet hκ0 hconj s u v hV
-  have hadd := heisConjScalar_add hFn hr hR hL hθ'r hθ'o hbot hBPY hBPZ hκN hcomm
+      hθr hθo hθc hθmem hd _hmeet hκ0 hconj s u v hV
+  have hadd := heisConjScalar_add hFn hr hR _hL _hθ'r _hθ'o _hbot _hBPY _hBPZ hκN hcomm
   have hκ1 : κ 1 = 1 := heisConjScalar_one hFn hr hm hθo hκN hconj
   have hN : ∀ s : F, unitaryInvolution F 2 n (κ s) * κ s =
       1 * (unitaryInvolution F 2 n s * s) := fun s => by simpa using hκN s

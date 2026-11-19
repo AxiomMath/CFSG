@@ -141,7 +141,7 @@ theorem burnsideF48t_g23_map_P1 :
       have h1 := i.2
       have h2 : (i : ℕ) ≠ 3 := fun h => hi (Fin.ext h)
       omega
-    simp only [SetLike.mem_coe, burnsideF48t_g23_coe_L]
+    simp only [SetLike.mem_coe]
     exact burnsideF48t_g23_σ_mem_P1' hi3
   · rw [burnsideF48t_g23_P1'_eq_closure, Subgroup.closure_le]
     rintro _ ⟨k, rfl⟩
@@ -150,7 +150,7 @@ theorem burnsideF48t_g23_map_P1 :
     · have := congrArg Fin.val h
       simp only at this
       omega
-    · simp only [burnsideF48t_g23_coe_L]
+    · simp only
       rfl
 
 theorem burnsideF48t_g23_map_P2 :
@@ -163,7 +163,7 @@ theorem burnsideF48t_g23_map_P2 :
       have h1 := i.2
       have h2 : (i : ℕ) ≠ 2 := fun h => hi (Fin.ext h)
       omega
-    simp only [SetLike.mem_coe, burnsideF48t_g23_coe_L]
+    simp only [SetLike.mem_coe]
     exact burnsideF48t_g23_σ_mem_P2' hi3
   · rw [burnsideF48t_g23_P2'_eq_closure, Subgroup.closure_le]
     rintro _ ⟨k, rfl⟩
@@ -425,7 +425,7 @@ theorem burnsideF48t_g23_facts : burnsideF48t_Facts burnsideF48t_g23L burnsideF4
     have hcomm' := congrArg Subtype.val hcomm
     simp only [Subgroup.coe_mul, burnsideF48t_g23_coe_L2, burnsideF48t_g23_coe_L3,
       burnsideF48t_g23_coe_ev] at hcomm'
-    simp only [burnsideF48t_g23KWL, List.mem_cons, List.mem_singleton, List.not_mem_nil,
+    simp only [burnsideF48t_g23KWL, List.mem_cons, List.not_mem_nil,
       or_false] at hc
     rcases hc with rfl | rfl | rfl | rfl
     · exact ⟨burnsideF48t_g23_tc.1, Or.inr ⟨burnsideF48t_g23_tc.2, burnsideF48t_g23_candRel⟩⟩

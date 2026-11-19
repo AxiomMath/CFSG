@@ -68,7 +68,7 @@ theorem PairStrongCtx.irreducible_of_comm (hK : KFactStrongThreeAutomizer)
     exact Subgroup.comap_map_eq_self_of_injective H.subtype_injective _
   have hR'N₀ : R' ≤ N₀ := fun x hx =>
     Subgroup.mem_subgroupOf.mpr (hRHM (Subgroup.mem_subgroupOf.mp hx))
-  have hR'p : IsPGroup 3 R' := hR'T ▸ T.isPGroup'
+  have hR'p : IsPGroup 3 R' := hR'T ▸ T.isPGroup
   have hR'syl : ¬ 3 ∣ R'.relIndex N₀ := by
     intro hd
     apply T.not_dvd_index

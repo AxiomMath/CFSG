@@ -13,10 +13,11 @@ private noncomputable def dspConj (U : Subgroup G) (a : G)
     (ha : a ∈ Subgroup.normalizer (U : Set G)) : U →* U :=
   ((Subgroup.normalizerMonoidHom U) ⟨a, ha⟩).toMonoidHom
 
+omit [Finite G] in
 private theorem dspConj_coe (U : Subgroup G) (a : G)
     (ha : a ∈ Subgroup.normalizer (U : Set G)) (u : U) :
     ((dspConj U a ha u : U) : G) = a * (u : G) * a⁻¹ := by
-  simpa [dspConj] using Subgroup.normalizerMonoidHom_apply_apply_coe U ⟨a, ha⟩ u
+  simp [dspConj]
 
 private noncomputable def dspPhi (U : Subgroup G) (a : G)
     (hU : ∀ u ∈ U, ∀ v ∈ U, u * v = v * u)
@@ -26,14 +27,15 @@ private noncomputable def dspPhi (U : Subgroup G) (a : G)
     show (1 : U) * (dspConj U a ha 1)⁻¹ = 1
     rw [map_one, inv_one, mul_one]
   map_mul' u v := by
-    letI : IsMulCommutative U :=
+    let : IsMulCommutative U :=
       IsMulCommutative.mk ⟨fun x y => Subtype.ext (hU x.1 x.2 y.1 y.2)⟩
-    letI : CommGroup U := IsMulCommutative.instCommGroup
+    let : CommGroup U := IsMulCommutative.instCommGroup
     show u * v * (dspConj U a ha (u * v))⁻¹ =
       (u * (dspConj U a ha u)⁻¹) * (v * (dspConj U a ha v)⁻¹)
     rw [map_mul (dspConj U a ha) u v, mul_inv_rev]
     ac_rfl
 
+omit [Finite G] in
 private theorem dspPhi_ker (U : Subgroup G) (a : G)
     (hU : ∀ u ∈ U, ∀ v ∈ U, u * v = v * u)
     (ha : a ∈ Subgroup.normalizer (U : Set G)) :
@@ -64,7 +66,7 @@ private theorem dspPhi_ker (U : Subgroup G) (a : G)
 
 theorem relIndex_centralizer_le_mul_card {U U₀ Z : Subgroup G}
     (hU : ∀ u ∈ U, ∀ v ∈ U, u * v = v * u) {a : G} (ha : a ∈ Subgroup.normalizer (U : Set G))
-    (hU₀ : U₀ ≤ U) (hZ : ∀ u ∈ U₀, u * a * u⁻¹ * a⁻¹ ∈ Z) :
+    (_hU₀ : U₀ ≤ U) (hZ : ∀ u ∈ U₀, u * a * u⁻¹ * a⁻¹ ∈ Z) :
     (Subgroup.centralizer ((Subgroup.zpowers a : Subgroup G) : Set G)).relIndex U ≤
       U₀.relIndex U * Nat.card Z := by
   classical

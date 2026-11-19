@@ -21,7 +21,7 @@ theorem unipU_one_mul_apply (M : Matrix (Fin 3) (Fin 3) F) (s : F) (i j : Fin 3)
     ((unipU F s 0 0 : Matrix (Fin 3) (Fin 3) F) * M) i j =
       M i j + if i = 0 then s * M 1 j else 0 := by
   rw [coe_unipU]
-  fin_cases i <;> fin_cases j <;> (simp [Matrix.mul_apply, Fin.sum_univ_three]; try ring)
+  fin_cases i <;> fin_cases j <;> (simp [Matrix.mul_apply, Fin.sum_univ_three])
 
 theorem mul_unipU_two_apply (M : Matrix (Fin 3) (Fin 3) F) (s : F) (i j : Fin 3) :
     (M * (unipU F 0 s 0 : Matrix (Fin 3) (Fin 3) F)) i j =
@@ -33,7 +33,7 @@ theorem unipU_two_mul_apply (M : Matrix (Fin 3) (Fin 3) F) (s : F) (i j : Fin 3)
     ((unipU F 0 s 0 : Matrix (Fin 3) (Fin 3) F) * M) i j =
       M i j + if i = 1 then s * M 2 j else 0 := by
   rw [coe_unipU]
-  fin_cases i <;> fin_cases j <;> (simp [Matrix.mul_apply, Fin.sum_univ_three]; try ring)
+  fin_cases i <;> fin_cases j <;> (simp [Matrix.mul_apply, Fin.sum_univ_three])
 
 theorem mul_unipU_one_transpose_apply (M : Matrix (Fin 3) (Fin 3) F) (s : F) (i j : Fin 3) :
     (M * ((unipU F s 0 0).transpose : Matrix (Fin 3) (Fin 3) F)) i j =

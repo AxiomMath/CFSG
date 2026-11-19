@@ -55,7 +55,7 @@ theorem Std20Frame.late_R_R'_comm (d : Std20Frame K K' J S R R' W V z t) {a b : 
     exact Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.mul_mem _ (d.hRS ha) (d.hR'S hb))
       (Subgroup.inv_mem _ (d.hRS ha))) (Subgroup.inv_mem _ (d.hR'S hb))
   have h1 : ⁅a, b⁆ = 1 := eq_one_of_isPGroup_of_mem_odd (oddCoreOf_odd_natCard K) hc
-    (S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hcS))
+    (S.isPGroup.to_le (Subgroup.zpowers_le.mpr hcS))
   exact commutatorElement_eq_one_iff_mul_comm.mp h1
 
 theorem Std20Frame.late_R'_le_N_R (d : Std20Frame K K' J S R R' W V z t) :

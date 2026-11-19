@@ -32,7 +32,7 @@ theorem coreVanishingDichotomy_of (hUAV : SectionNineUniformAlphaVerification)
       exact congrArg Subtype.val (hA.is_comm.comm ⟨b, hBA hb⟩ ⟨a, ha⟩)
     obtain ⟨-, hcore, hloc⟩ := hAPCLN G p hS.prime hp2
       (fun A' hA' hcard' => (hUAV G p hS hgood A' hA' hcard').1) (P : Subgroup G)
-      P.isPGroup' B hBP hBe hBcard hrank
+      P.isPGroup B hBP hBe hBcard hrank
     exact Or.inl ⟨hα, _, hloc hα, hcore⟩
 
 end CFSG.RankThree.PartOne

@@ -79,7 +79,7 @@ theorem card_le_of_sylow {x : G} {U : Subgroup G} (hUx : U ≤ centralizer ({x} 
   obtain ⟨S₂, hS₂⟩ := hQ'.exists_le_sylow
   set P := (S : Subgroup K).map K.subtype
   have hPx : P ≤ K := Subgroup.map_subtype_le _
-  have hP : IsPGroup 2 P := S.isPGroup'.map K.subtype
+  have hP : IsPGroup 2 P := S.isPGroup.map K.subtype
   have hUP : U ≤ P := by
     intro u hu
     exact ⟨⟨u, hUx hu⟩, hS hu, rfl⟩

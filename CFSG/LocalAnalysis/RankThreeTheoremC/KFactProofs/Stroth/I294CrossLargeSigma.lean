@@ -13,7 +13,7 @@ theorem I294CrossLarge.le_pRank_of_sylow_sigmaModel {p : ℕ} (hp : p.Prime) {G 
     [Finite G] {e a N : ℕ} (ha : 1 ≤ a) (hN : p ≤ N / e)
     (h : ∀ P : Sylow p G, Nonempty (P ≃* sigmaModel p e a N)) :
     p ≤ CFSG.Open.pRank p (⊤ : Subgroup G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hL : 1 < (Nat.digits p (N / e)).length := by
     rw [Nat.lt_digits_length_iff hp.one_lt]
     simpa using hN

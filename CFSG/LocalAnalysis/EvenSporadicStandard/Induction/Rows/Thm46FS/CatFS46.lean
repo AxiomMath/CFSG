@@ -43,7 +43,7 @@ theorem sol78Thm46CatFS_of_inputs (hSuz : SuzONanNotProperFixedCatalog)
     (hCen : Sol78Thm46SporL34Centre) : Sol78Thm46CatFS := by
   intro Y _ _ N' hF hidx hkp hcat P hP hPq hty hsuz
   obtain ⟨σ, Q, -, hσ, hle, -, hcomp, hne, hZ, ⟨e⟩⟩ := fixedComponent_of_solStd hF hidx hP hPq
-  haveI := hF.isSimpleGroup
+  have := hF.isSimpleGroup
   have hna := hF.nonabelian
   have := hF.normal
   have hPN : P ≤ N' := Hyp.le_of_perfect_of_index_le_two hidx hPq.1

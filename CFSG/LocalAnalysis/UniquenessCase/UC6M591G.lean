@@ -17,8 +17,8 @@ theorem gl (h63 : R6_3 (dataOfSetup4 m.hS m.hU m.S)) (h619 : m.C619) (h620 : m.C
     (h632 : m.C632) {u : G} (hu : u ∈ normalizer (m.L : Set G)) (h2 : ∃ k : ℕ, orderOf u = 2 ^ k)
     (h1 : u ≠ 1) : ¬ ⁅zpowers u, m.L⁆ ≤ m.OL := by
   intro hcomm
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   obtain ⟨n, hn⟩ := h2
   have hup : IsPGroup 2 (zpowers u) := IsPGroup.of_card (by rw [Nat.card_zpowers, hn])
   have hodd := m.odd_card_OL h63 h619 h620 h632
@@ -107,7 +107,7 @@ theorem eq_sup_centralizer_EL {Y : Subgroup G} (hYL : Y ≤ normalizer (m.L : Se
     (hEY : m.EL ≤ normalizer (Y : Set G))
     (hcent : ∀ y ∈ Y, ∀ e ∈ m.EL, y * e * y⁻¹ * e⁻¹ ∈ m.OL) :
     Y = (Y ⊓ m.OL) ⊔ (Y ⊓ centralizer (m.EL : Set G)) := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   refine eq_sup_centralizer_of_coprime inf_le_left ?_ (m.isPGroup_of_le_A_inf_L le_rfl) hEY
     (m.comm_EL_le hEY hcent) ?_
   · intro y hy

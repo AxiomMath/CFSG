@@ -19,7 +19,7 @@ variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [FiniteDimensional (ZMo
 private theorem isPlusType_of_ncard_six (Q : QuadraticForm (ZMod 2) W)
     (hQ : Q.polarBilin.Nondegenerate) (h4 : Module.finrank (ZMod 2) W = 4)
     (h6 : {v | Q v = 1}.ncard = 6) : IsPlusType Q := by
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
+  have : Finite W := Module.finite_of_finite (ZMod 2)
   have hnd : ∀ x, (∀ y, QuadraticMap.polar (⇑Q) x y = 0) → x = 0 :=
     fun x hx => hQ.1 x fun y => by
       rw [QuadraticMap.polarBilin_apply_apply]
@@ -60,7 +60,7 @@ theorem isSolvable_orthogonalGroup_plus_four (Q : QuadraticForm (ZMod 2) W)
     (hQ : Q.polarBilin.Nondegenerate) (h4 : Module.finrank (ZMod 2) W = 4)
     (h6 : {v | Q v = 1}.ncard = 6) :
     Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := by
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
+  have : Finite W := Module.finite_of_finite (ZMod 2)
   have hplus := isPlusType_of_ncard_six Q hQ h4 h6
   have hf : CFSG.Quasithin.G11.IsSymplectic Q.polarBilin := by
     refine ⟨fun x => ?_, fun x hx => hQ.1 x hx⟩
@@ -86,7 +86,7 @@ theorem isSolvable_omegaGroup_plus_four (Q : QuadraticForm (ZMod 2) W)
     (hQ : Q.polarBilin.Nondegenerate) (h4 : Module.finrank (ZMod 2) W = 4)
     (h6 : {v | Q v = 1}.ncard = 6) :
     Group.IsSolvable ↥(CFSG.RankThree.OrthogonalInvolutions.omegaGroup Q hQ) := by
-  haveI : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup Q) :=
+  have : Group.IsSolvable ↥(TauCeti.QuadraticMap.orthogonalGroup Q) :=
     isSolvable_orthogonalGroup_plus_four Q hQ h4 h6
   exact Group.isSolvable_of_isSolvable_injective
     (f := Subgroup.inclusion (CFSG.RankThree.OrthogonalInvolutions.omegaGroup_le Q hQ))

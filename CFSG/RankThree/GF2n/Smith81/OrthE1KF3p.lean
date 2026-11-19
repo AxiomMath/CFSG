@@ -445,7 +445,7 @@ lemma minus_line_false_KF3p [CharP K 2] [Finite K] {b c0 : K}
     linear_combination hs - (minusFormKF3p b (Γ *ᵥ v) w) * h2
   obtain ⟨v₀, hv₀⟩ : ∃ v₀, Γ *ᵥ v₀ ≠ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     apply hΓ
     ext i j
     have := congrFun (hcon (Pi.single j 1)) i
@@ -468,7 +468,7 @@ lemma minus_line_false_KF3p [CharP K 2] [Finite K] {b c0 : K}
       calc Γ *ᵥ v = β⁻¹ • (β • (Γ *ᵥ v)) := (inv_smul_smul₀ hβ _).symm
         _ = (-α / β) • w := by rw [h3]; module
   ·
-    push_neg at hcase
+    push Not at hcase
     have hBw : ∀ v, minusFormKF3p b v w = 0 := by
       intro v
       obtain ⟨a, ha⟩ := hcase v
@@ -513,10 +513,12 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2]
 @[expose] def vmKF3p (X : Matrix (Fin 2) (Fin 2) K) : Fin 2 ⊕ Fin 2 → K :=
   Sum.elim ![X 0 0, X 0 1] ![X 1 1, X 1 0]
 
+omit [Field K] [Finite K] [CharP K 2] in
 lemma pm_vm_KF3p (X : Matrix (Fin 2) (Fin 2) K) : pmKF3p (vmKF3p X) = X := by
   ext i j
   fin_cases i <;> fin_cases j <;> rfl
 
+omit [Field K] [Finite K] [CharP K 2] in
 lemma vm_pm_KF3p (v : Fin 2 ⊕ Fin 2 → K) : vmKF3p (pmKF3p v) = v := by
   funext i
   rcases i with i | i <;> fin_cases i <;> rfl
@@ -541,69 +543,83 @@ lemma vm_pm_KF3p (v : Fin 2 ⊕ Fin 2 → K) : vmKF3p (pmKF3p v) = v := by
     (Fin 2 ⊕ Fin 2 → K) →ₗ[K] (Fin 2 ⊕ Fin 2 → K) :=
   pEquivKF3p.symm.toLinearMap ∘ₗ LinearMap.mulRight K C ∘ₗ pEquivKF3p.toLinearMap
 
+omit [Finite K] [CharP K 2] in
 lemma lmKF3p_apply (A : Matrix (Fin 2) (Fin 2) K) (v : Fin 2 ⊕ Fin 2 → K) :
     lmKF3p A v = vmKF3p (A * pmKF3p v) := rfl
 
+omit [Finite K] [CharP K 2] in
 lemma rmKF3p_apply (C : Matrix (Fin 2) (Fin 2) K) (v : Fin 2 ⊕ Fin 2 → K) :
     rmKF3p C v = vmKF3p (pmKF3p v * C) := rfl
 
+omit [Finite K] [CharP K 2] in
 lemma pm_lmKF3p (A : Matrix (Fin 2) (Fin 2) K) (v : Fin 2 ⊕ Fin 2 → K) :
     pmKF3p (lmKF3p A v) = A * pmKF3p v := by
   rw [lmKF3p_apply, pm_vm_KF3p]
 
+omit [Finite K] [CharP K 2] in
 lemma pm_rmKF3p (C : Matrix (Fin 2) (Fin 2) K) (v : Fin 2 ⊕ Fin 2 → K) :
     pmKF3p (rmKF3p C v) = pmKF3p v * C := by
   rw [rmKF3p_apply, pm_vm_KF3p]
 
+omit [Finite K] [CharP K 2] in
 lemma lmKF3p_mul (A B : Matrix (Fin 2) (Fin 2) K) : lmKF3p A * lmKF3p B = lmKF3p (A * B) := by
   apply LinearMap.ext
   intro v
   simp only [Module.End.mul_apply, lmKF3p_apply, pm_vm_KF3p, Matrix.mul_assoc]
 
+omit [Finite K] [CharP K 2] in
 lemma rmKF3p_mul (C D : Matrix (Fin 2) (Fin 2) K) :
     rmKF3p C * rmKF3p D = rmKF3p (D * C) := by
   apply LinearMap.ext
   intro v
   simp only [Module.End.mul_apply, rmKF3p_apply, pm_vm_KF3p, Matrix.mul_assoc]
 
+omit [Finite K] [CharP K 2] in
 lemma lmKF3p_rmKF3p_comm (A C : Matrix (Fin 2) (Fin 2) K) :
     lmKF3p A * rmKF3p C = rmKF3p C * lmKF3p A := by
   apply LinearMap.ext
   intro v
   simp only [Module.End.mul_apply, lmKF3p_apply, rmKF3p_apply, pm_vm_KF3p, Matrix.mul_assoc]
 
+omit [Finite K] [CharP K 2] in
 lemma lmKF3p_one : lmKF3p (1 : Matrix (Fin 2) (Fin 2) K) = 1 := by
   apply LinearMap.ext
   intro v
   simp [lmKF3p_apply, vm_pm_KF3p]
 
+omit [Finite K] [CharP K 2] in
 lemma rmKF3p_one : rmKF3p (1 : Matrix (Fin 2) (Fin 2) K) = 1 := by
   apply LinearMap.ext
   intro v
   simp [rmKF3p_apply, vm_pm_KF3p]
 
+omit [Finite K] [CharP K 2] in
 lemma lmKF3p_injective {A B : Matrix (Fin 2) (Fin 2) K} (h : lmKF3p A = lmKF3p B) : A = B := by
   have := congrArg (fun f => pmKF3p (f (vmKF3p 1))) h
   simpa [pm_lmKF3p, pm_vm_KF3p] using this
 
+omit [Finite K] [CharP K 2] in
 lemma rmKF3p_injective {A B : Matrix (Fin 2) (Fin 2) K} (h : rmKF3p A = rmKF3p B) : A = B := by
   have := congrArg (fun f => pmKF3p (f (vmKF3p 1))) h
   simpa [pm_rmKF3p, pm_vm_KF3p] using this
 
+omit [Finite K] in
 lemma statedQuadPlus_eq_det (v : Fin 2 ⊕ Fin 2 → K) :
     StatedQuadPlus 2 K v = (pmKF3p v).det := by
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
   unfold StatedQuadPlus
-  simp only [CFSG.MatrixModel.plusQuadCore, Fin.sum_univ_two, pmKF3p, Matrix.det_fin_two,
+  simp only [Fin.sum_univ_two, pmKF3p, Matrix.det_fin_two,
     Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-    Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons, Matrix.head_fin_const]
+    Matrix.empty_val', Matrix.cons_val_fin_one]
   linear_combination (v (.inl 1) * v (.inr 1)) * h2
 
+omit [Finite K] [CharP K 2] in
 lemma sl_mul_inv_KF3p (A : Matrix.SpecialLinearGroup (Fin 2) K) :
     (A : Matrix (Fin 2) (Fin 2) K) * ((A⁻¹ : Matrix.SpecialLinearGroup (Fin 2) K) :
       Matrix (Fin 2) (Fin 2) K) = 1 := by
   rw [← Matrix.SpecialLinearGroup.coe_mul, mul_inv_cancel, Matrix.SpecialLinearGroup.coe_one]
 
+omit [Finite K] [CharP K 2] in
 lemma inv_sl_mul_KF3p (A : Matrix.SpecialLinearGroup (Fin 2) K) :
     ((A⁻¹ : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) *
       (A : Matrix (Fin 2) (Fin 2) K) = 1 := by
@@ -631,6 +647,7 @@ lemma inv_sl_mul_KF3p (A : Matrix.SpecialLinearGroup (Fin 2) K) :
     rw [← LinearMap.toMatrix'_mul, rmKF3p_mul, sl_mul_inv_KF3p, rmKF3p_one,
       LinearMap.toMatrix'_one]
 
+omit [Finite K] [CharP K 2] in
 lemma glLmKF3p_mul (A B : Matrix.SpecialLinearGroup (Fin 2) K) :
     (glLmKF3p (A * B)).val = (glLmKF3p A).val * (glLmKF3p B).val := by
   show LinearMap.toMatrix' (lmKF3p ((A * B : Matrix.SpecialLinearGroup (Fin 2) K) :
@@ -639,6 +656,7 @@ lemma glLmKF3p_mul (A B : Matrix.SpecialLinearGroup (Fin 2) K) :
       LinearMap.toMatrix' (lmKF3p (B : Matrix (Fin 2) (Fin 2) K))
   rw [← LinearMap.toMatrix'_mul, lmKF3p_mul, Matrix.SpecialLinearGroup.coe_mul]
 
+omit [Finite K] [CharP K 2] in
 lemma glRmKF3p_mul (A B : Matrix.SpecialLinearGroup (Fin 2) K) :
     (glRmKF3p (B⁻¹ * A⁻¹)).val = (glRmKF3p A⁻¹).val * (glRmKF3p B⁻¹).val := by
   show LinearMap.toMatrix' (rmKF3p ((B⁻¹ * A⁻¹ : Matrix.SpecialLinearGroup (Fin 2) K) :
@@ -657,18 +675,21 @@ lemma glRmKF3p_mul (A B : Matrix.SpecialLinearGroup (Fin 2) K) :
     rw [mul_inv_rev]
     exact glRmKF3p_mul A B)
 
+omit [Finite K] [CharP K 2] in
 lemma rhoLKF3p_apply (A : Matrix.SpecialLinearGroup (Fin 2) K) (v : Fin 2 ⊕ Fin 2 → K) :
     ((rhoLKF3p A : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *ᵥ v =
       lmKF3p (A : Matrix (Fin 2) (Fin 2) K) v := by
   show LinearMap.toMatrix' _ *ᵥ v = _
   rw [LinearMap.toMatrix'_mulVec]
 
+omit [Finite K] [CharP K 2] in
 lemma rhoRKF3p_apply (C : Matrix.SpecialLinearGroup (Fin 2) K) (v : Fin 2 ⊕ Fin 2 → K) :
     ((rhoRKF3p C : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *ᵥ v =
       rmKF3p ((C⁻¹ : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) v := by
   show LinearMap.toMatrix' _ *ᵥ v = _
   rw [LinearMap.toMatrix'_mulVec]
 
+omit [Finite K] [CharP K 2] in
 lemma rho_commute (A C : Matrix.SpecialLinearGroup (Fin 2) K) :
     rhoLKF3p A * rhoRKF3p C = rhoRKF3p C * rhoLKF3p A := by
   apply Units.ext
@@ -680,6 +701,7 @@ lemma rho_commute (A C : Matrix.SpecialLinearGroup (Fin 2) K) :
       LinearMap.toMatrix' (lmKF3p (A : Matrix (Fin 2) (Fin 2) K))
   rw [← LinearMap.toMatrix'_mul, ← LinearMap.toMatrix'_mul, lmKF3p_rmKF3p_comm]
 
+omit [Finite K] [CharP K 2] in
 lemma rhoLKF3p_injective : Function.Injective (rhoLKF3p (K := K)) := by
   intro A B h
   have h' : lmKF3p (A : Matrix (Fin 2) (Fin 2) K) = lmKF3p (B : Matrix (Fin 2) (Fin 2) K) := by
@@ -687,6 +709,7 @@ lemma rhoLKF3p_injective : Function.Injective (rhoLKF3p (K := K)) := by
     exact LinearMap.toMatrix'.injective this
   exact Subtype.ext (lmKF3p_injective h')
 
+omit [Finite K] [CharP K 2] in
 lemma rhoRKF3p_injective : Function.Injective (rhoRKF3p (K := K)) := by
   intro A B h
   have h' : rmKF3p ((A⁻¹ : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) =
@@ -696,12 +719,14 @@ lemma rhoRKF3p_injective : Function.Injective (rhoRKF3p (K := K)) := by
   have := rmKF3p_injective h'
   exact inv_injective (Subtype.ext this)
 
+omit [Finite K] in
 lemma rhoL_iso (A : Matrix.SpecialLinearGroup (Fin 2) K) (v : Fin 2 ⊕ Fin 2 → K) :
     StatedQuadPlus 2 K (((rhoLKF3p A : GL (Fin 2 ⊕ Fin 2) K) :
       Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *ᵥ v) = StatedQuadPlus 2 K v := by
   rw [rhoLKF3p_apply, statedQuadPlus_eq_det, statedQuadPlus_eq_det, pm_lmKF3p, Matrix.det_mul,
     Matrix.SpecialLinearGroup.det_coe, one_mul]
 
+omit [Finite K] in
 lemma rhoR_iso (C : Matrix.SpecialLinearGroup (Fin 2) K) (v : Fin 2 ⊕ Fin 2 → K) :
     StatedQuadPlus 2 K (((rhoRKF3p C : GL (Fin 2 ⊕ Fin 2) K) :
       Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *ᵥ v) = StatedQuadPlus 2 K v := by
@@ -712,10 +737,12 @@ lemma rhoR_iso (C : Matrix.SpecialLinearGroup (Fin 2) K) (v : Fin 2 ⊕ Fin 2 �
 
 @[expose] def factorTwoKF3p : Subgroup (GL (Fin 2 ⊕ Fin 2) K) := (rhoRKF3p (K := K)).range
 
+omit [Finite K] in
 lemma factorOne_le_isoSub (A : Matrix.SpecialLinearGroup (Fin 2) K) :
     rhoLKF3p A ∈ CFSG.MatrixModel.isometryCore (StatedQuadPlus 2 K) :=
   Subgroup.subset_closure fun v => rhoL_iso A v
 
+omit [Finite K] in
 lemma factorTwo_le_isoSub (C : Matrix.SpecialLinearGroup (Fin 2) K) :
     rhoRKF3p C ∈ CFSG.MatrixModel.isometryCore (StatedQuadPlus 2 K) :=
   Subgroup.subset_closure fun v => rhoR_iso C v
@@ -760,6 +787,7 @@ lemma factorTwo_le_omega (h4 : 4 ≤ Nat.card K) :
           CFSG.MatrixModel.isometryCore (StatedQuadPlus 2 K)⁆ :=
         Subgroup.commutator_mono hle hle
 
+omit [Finite K] in
 lemma lm_eq_rm_eq_one {A D : Matrix (Fin 2) (Fin 2) K} (hA : A.det = 1)
     (h : lmKF3p A = rmKF3p D) : A = 1 := by
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
@@ -791,6 +819,7 @@ lemma lm_eq_rm_eq_one {A D : Matrix (Fin 2) (Fin 2) K} (hA : A.det = 1)
   ext i j
   fin_cases i <;> fin_cases j <;> simp [e01, e10, ha, e11]
 
+omit [Finite K] in
 lemma factorOne_inf_factorTwo :
     factorOneKF3p (K := K) ⊓ factorTwoKF3p (K := K) = ⊥ := by
   rw [eq_bot_iff]
@@ -804,22 +833,26 @@ lemma factorOne_inf_factorTwo :
   have : A = 1 := Subtype.ext hA1
   rw [this, map_one]
 
+omit [Finite K] [CharP K 2] in
 lemma factorOne_factorTwo_commute (a b : GL (Fin 2 ⊕ Fin 2) K) (ha : a ∈ factorOneKF3p (K := K))
     (hb : b ∈ factorTwoKF3p (K := K)) : a * b = b * a := by
   obtain ⟨A, rfl⟩ := ha
   obtain ⟨C, rfl⟩ := hb
   exact rho_commute A C
 
+omit [CharP K 2] in
 lemma factorOne_isSL :
     IsSLModel 2 (Nat.card K) ↥(factorOneKF3p (K := K)) :=
   ⟨K, inferInstance, inferInstance, rfl, ⟨(MonoidHom.ofInjective rhoLKF3p_injective).symm.trans
     (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 K)⟩⟩
 
+omit [CharP K 2] in
 lemma factorTwo_isSL :
     IsSLModel 2 (Nat.card K) ↥(factorTwoKF3p (K := K)) :=
   ⟨K, inferInstance, inferInstance, rfl, ⟨(MonoidHom.ofInjective rhoRKF3p_injective).symm.trans
     (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 K)⟩⟩
 
+omit [CharP K 2] in
 lemma card_SL_KF3p :
     Nat.card (Matrix.SpecialLinearGroup (Fin 2) K) = Nat.card K * (Nat.card K ^ 2 - 1) :=
   (Nat.card_congr (CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 K).toEquiv).trans
@@ -841,11 +874,13 @@ lemma card_omega_plus_nat (h4 : 4 ≤ Nat.card K) :
   (rhoLKF3p (K := K)).noncommCoprod rhoRKF3p
     (fun A C => show Commute (rhoLKF3p A) (rhoRKF3p C) from rho_commute A C)
 
+omit [Finite K] [CharP K 2] in
 lemma psiKF3p_apply (A C : Matrix.SpecialLinearGroup (Fin 2) K) :
     psiKF3p (A, C) = rhoRKF3p C * rhoLKF3p A := by
   unfold psiKF3p
   rw [MonoidHom.noncommCoprod_apply']
 
+omit [Finite K] in
 lemma psiKF3p_injective : Function.Injective (psiKF3p (K := K)) := by
   rw [injective_iff_map_eq_one]
   rintro ⟨A, C⟩ h
@@ -913,6 +948,7 @@ lemma factorOne_normalizes (h4 : 4 ≤ Nat.card K) {g : GL (Fin 2 ⊕ Fin 2) K}
     exact hg
   exact (Subgroup.mem_normalizer_iff.mp (hle hg') x).mp hx
 
+omit [Finite K] in
 lemma LR_mul_eq_one {A C : Matrix.SpecialLinearGroup (Fin 2) K}
     (h : rhoLKF3p A * rhoRKF3p C = 1) : A = 1 ∧ C = 1 := by
   have hinv : rhoLKF3p A = (rhoRKF3p C)⁻¹ := eq_inv_of_mul_eq_one_left h
@@ -929,28 +965,33 @@ lemma LR_mul_eq_one {A C : Matrix.SpecialLinearGroup (Fin 2) K}
 @[expose] def uLoKF3p (y : K) : Matrix.SpecialLinearGroup (Fin 2) K :=
   ⟨!![1, 0; y, 1], by simp [Matrix.det_fin_two]⟩
 
+omit [Finite K] [CharP K 2] in
 lemma uUp_add (x x' : K) : uUpKF3p (x + x') = uUpKF3p x * uUpKF3p x' := by
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [uUpKF3p, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [uUpKF3p, Matrix.mul_apply, Fin.sum_univ_two]; ring
 
+omit [Finite K] [CharP K 2] in
 lemma uLo_add (y y' : K) : uLoKF3p (y + y') = uLoKF3p y * uLoKF3p y' := by
   apply Subtype.ext
   rw [Matrix.SpecialLinearGroup.coe_mul]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [uLoKF3p, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [uLoKF3p, Matrix.mul_apply, Fin.sum_univ_two]
 
+omit [Finite K] [CharP K 2] in
 lemma uUp_zero : uUpKF3p (0 : K) = 1 := by
   apply Subtype.ext
   ext i j
   fin_cases i <;> fin_cases j <;> simp [uUpKF3p]
 
+omit [Finite K] [CharP K 2] in
 lemma uLo_zero : uLoKF3p (0 : K) = 1 := by
   apply Subtype.ext
   ext i j
   fin_cases i <;> fin_cases j <;> simp [uLoKF3p]
 
+omit [Finite K] [CharP K 2] in
 lemma uLo_neg_inv (y : K) : (uLoKF3p (-y))⁻¹ = uLoKF3p y := by
   apply inv_eq_of_mul_eq_one_right
   apply Subtype.ext
@@ -958,11 +999,13 @@ lemma uLo_neg_inv (y : K) : (uLoKF3p (-y))⁻¹ = uLoKF3p y := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [uLoKF3p, Matrix.mul_apply, Fin.sum_univ_two]
 
+omit [Finite K] [CharP K 2] in
 lemma uUp_eq_one {x : K} (h : uUpKF3p x = 1) : x = 0 := by
   have := congrArg
     (fun A : Matrix.SpecialLinearGroup (Fin 2) K => (A : Matrix (Fin 2) (Fin 2) K) 0 1) h
   simpa [uUpKF3p] using this
 
+omit [Finite K] [CharP K 2] in
 lemma uLo_eq_one {y : K} (h : uLoKF3p y = 1) : y = 0 := by
   have := congrArg
     (fun A : Matrix.SpecialLinearGroup (Fin 2) K => (A : Matrix (Fin 2) (Fin 2) K) 1 0) h
@@ -977,6 +1020,7 @@ lemma theta_mul_aux {G : Type*} [Group G] (L L' R R' : G) (h : L' * R = R * L') 
   rw [← mul_assoc L' R, h]
   simp only [mul_assoc]
 
+omit [Finite K] [CharP K 2] in
 lemma theta_add (x x' y y' : K) :
     thetaKF3p (x + x') (y + y') = thetaKF3p x y * thetaKF3p x' y' := by
   unfold thetaKF3p
@@ -992,6 +1036,7 @@ lemma theta_add (x x' y y' : K) :
 
 @[expose] def sylowP0KF3p : Subgroup (GL (Fin 2 ⊕ Fin 2) K) := thetaHomKF3p.range
 
+omit [Finite K] in
 lemma thetaHom_injective : Function.Injective (thetaHomKF3p (K := K)) := by
   rw [injective_iff_map_eq_one]
   rintro ⟨x, y⟩ h
@@ -1002,6 +1047,7 @@ lemma thetaHom_injective : Function.Injective (thetaHomKF3p (K := K)) := by
   rw [hx, neg_eq_zero.mp hy]
   rfl
 
+omit [Finite K] in
 lemma sylowP0_card : Nat.card (sylowP0KF3p (K := K)) = Nat.card K * Nat.card K := by
   rw [sylowP0KF3p, ← Nat.card_congr (MonoidHom.ofInjective thetaHom_injective).toEquiv]
   exact Nat.card_prod K K
@@ -1013,6 +1059,7 @@ lemma sylowP0_le_omega (h4 : 4 ≤ Nat.card K) :
   rw [h, thetaKF3p]
   exact Subgroup.mul_mem _ (factorOne_le_omega h4 ⟨_, rfl⟩) (factorTwo_le_omega h4 ⟨_, rfl⟩)
 
+omit [Finite K] [CharP K 2] in
 lemma sylowP0_mem_param {g : GL (Fin 2 ⊕ Fin 2) K} (hg : g ∈ sylowP0KF3p (K := K)) :
     ∃ x y : K, g = thetaKF3p x y := by
   obtain ⟨p, rfl⟩ := hg
@@ -1034,11 +1081,11 @@ lemma sylow_conj_KF3p (h4 : 4 ≤ Nat.card K) (A : Subgroup (GL (Fin 2 ⊕ Fin 2
     (hA : A ≤ StatedOmega (StatedQuadPlus 2 K)) (hcard : Nat.card A = Nat.card K) :
     ∃ g ∈ StatedOmega (StatedQuadPlus 2 K), ∀ a ∈ A, g⁻¹ * a * g ∈ sylowP0KF3p (K := K) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨k, hk⟩ : ∃ k : ℕ, Nat.card K = 2 ^ k := by
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     exact ⟨n, by rw [Nat.card_eq_fintype_card, hn]⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hk1 : k ≠ 0 := by
     rintro rfl
     rw [pow_zero] at hk
@@ -1079,24 +1126,28 @@ lemma sylow_conj_KF3p (h4 : 4 ≤ Nat.card K) (A : Subgroup (GL (Fin 2 ⊕ Fin 2
   rw [Sylow.coe_ofCard] at hyP
   have hval : (((MulAut.conj g')⁻¹ • (⟨a, haΩ⟩ : Ω) : Ω) : GL (Fin 2 ⊕ Fin 2) K) =
       (g' : GL (Fin 2 ⊕ Fin 2) K)⁻¹ * a * (g' : GL (Fin 2 ⊕ Fin 2) K) := by
-    simp [MulAut.conj_apply, MulAut.smul_def]
+    simp [MulAut.smul_def]
   have hfin := Subgroup.mem_subgroupOf.mp hyP
   rw [hval] at hfin
   exact hfin
 
+omit [Finite K] [CharP K 2] in
 lemma pm_add_KF3p (v w : Fin 2 ⊕ Fin 2 → K) : pmKF3p (v + w) = pmKF3p v + pmKF3p w :=
   map_add pEquivKF3p v w
 
+omit [Finite K] [CharP K 2] in
 lemma pm_smul_KF3p (c : K) (v : Fin 2 ⊕ Fin 2 → K) : pmKF3p (c • v) = c • pmKF3p v :=
   map_smul pEquivKF3p c v
 
+omit [Finite K] [CharP K 2] in
 lemma uUp_lo_sub_one (x y : K) :
     ((uUpKF3p x : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) *
       ((uLoKF3p y : Matrix.SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) - 1 =
       !![x * y, x; y, 0] := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [uUpKF3p, uLoKF3p, Matrix.mul_apply, Fin.sum_univ_two]
+  fin_cases i <;> fin_cases j <;> simp [uUpKF3p, uLoKF3p]
 
+omit [Finite K] [CharP K 2] in
 lemma theta_mulVec_v0 (x y : K) :
     pmKF3p (((thetaKF3p x y : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) *ᵥ
       vmKF3p 1) =
@@ -1105,16 +1156,19 @@ lemma theta_mulVec_v0 (x y : K) :
   rw [Units.val_mul, ← Matrix.mulVec_mulVec, rhoRKF3p_apply, uLo_neg_inv, rhoLKF3p_apply,
     pm_lmKF3p, pm_rmKF3p, pm_vm_KF3p, Matrix.one_mul]
 
+omit [Finite K] [CharP K 2] in
 lemma theta_zero_left (y : K) : thetaKF3p 0 y ∈ factorTwoKF3p (K := K) := by
   unfold thetaKF3p
   rw [uUp_zero, map_one, one_mul]
   exact ⟨_, rfl⟩
 
+omit [Finite K] [CharP K 2] in
 lemma theta_zero_right (x : K) : thetaKF3p x 0 ∈ factorOneKF3p (K := K) := by
   unfold thetaKF3p
   rw [neg_zero, uLo_zero, map_one, mul_one]
   exact ⟨_, rfl⟩
 
+omit [CharP K 2] in
 lemma core_KF3p (h4 : 4 ≤ Nat.card K) (Γ : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K)
     (S : Set (GL (Fin 2 ⊕ Fin 2) K)) (hSP : ∀ s ∈ S, s ∈ sylowP0KF3p (K := K))
     (hfin : ∀ s ∈ S, ∃ c : K, ((s : GL (Fin 2 ⊕ Fin 2) K) : Matrix _ _ K) - 1 = c • Γ)
@@ -1184,6 +1238,7 @@ lemma core_KF3p (h4 : 4 ≤ Nat.card K) (Γ : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 �
     rw [hθ, ey]
     exact theta_zero_right x
 
+omit [CharP K 2] in
 lemma line_all_KF3p {Γ : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K} (hΓ : Γ ≠ 0)
     (A : Subgroup (GL (Fin 2 ⊕ Fin 2) K)) (hA : Nat.card A = Nat.card K)
     (hline : ∀ c : K, ∃ a ∈ A,
@@ -1222,6 +1277,7 @@ lemma line_all_KF3p {Γ : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K} (hΓ : �
   obtain ⟨c, -, hc⟩ := hmem
   exact ⟨c, hc.symm⟩
 
+omit [Finite K] [CharP K 2] in
 lemma conj_sub_one_KF3p (g a : GL (Fin 2 ⊕ Fin 2) K) :
     ((g⁻¹ * a * g : GL (Fin 2 ⊕ Fin 2) K) : Matrix (Fin 2 ⊕ Fin 2) (Fin 2 ⊕ Fin 2) K) - 1 =
       ((g⁻¹ : GL (Fin 2 ⊕ Fin 2) K) : Matrix _ _ K) *

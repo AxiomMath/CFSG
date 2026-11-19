@@ -14,6 +14,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {V : Type} [AddCommGroup V]
   [FiniteDimensional K V] {Q : QuadraticForm K V} {p : ℕ} {x : V ≃ₗ[K] V}
 
 omit [Finite K] [CharP K 2] in
+omit [FiniteDimensional K V] in
 theorem othersSpace_invariant {u : V} (hu : u ∈ othersSpace x.toLinearMap (X - 1)) :
     x u ∈ othersSpace x.toLinearMap (X - 1) := by
   have hmap : (othersSpace x.toLinearMap (X - 1)).map x.toLinearMap ≤
@@ -139,12 +140,14 @@ theorem eq_phi (hx : OddOrderIsometry Q 3 x) (hpq : 3 ∣ Nat.card K + 1) {h : K
       (by rw [monic_phi.2, hdeg])).symm
 
 omit [CharP K 2] [FiniteDimensional K V] in
+omit [Finite K] in
 theorem phi_ne : (X ^ 2 + X + 1 : K[X]) ≠ X - 1 := by
   intro h
   have h1 := congrArg natDegree h
   rw [monic_phi.2, show (X - 1 : K[X]) = X - C 1 by rw [C_1], natDegree_X_sub_C] at h1
   omega
 
+omit [CharP K 2] in
 theorem phi_mem (hx : OddOrderIsometry Q 3 x) (hpq : 3 ∣ Nat.card K + 1) (hx1 : x ≠ 1) :
     (X ^ 2 + X + 1 : K[X]) ∈ primaryFactors x.toLinearMap := by
   classical
@@ -178,7 +181,7 @@ omit [Finite K] [CharP K 2] in
 theorem finrank_phi (hmem : (X ^ 2 + X + 1 : K[X]) ∈ primaryFactors x.toLinearMap) :
     finrank K (primaryComponent x.toLinearMap (X ^ 2 + X + 1)) =
       2 * primaryMultiplicity x.toLinearMap (X ^ 2 + X + 1) := by
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) := ⟨irreducible_of_mem_primaryFactors hmem⟩
+  have : Fact (Irreducible (X ^ 2 + X + 1 : K[X])) := ⟨irreducible_of_mem_primaryFactors hmem⟩
   rw [finrank_primaryComponent x.toLinearMap (X ^ 2 + X + 1), monic_phi.2]
 
 theorem dims (hx : OddOrderIsometry Q 3 x) (hpq : 3 ∣ Nat.card K + 1) (hx1 : x ≠ 1) {n : ℕ}

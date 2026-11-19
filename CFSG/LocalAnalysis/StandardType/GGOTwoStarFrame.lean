@@ -19,7 +19,7 @@ theorem ggOTwoFrame_pCore_inf_eq_bot {G : Type} [Group G] [Finite G] {G₀ G₁ 
     (hodd : Odd (G₀.relIndex G₁))
     (hO2 : pCoreOf 2 (G₀ ⊓ Subgroup.centralizer {b}) = ⊥) :
     pCoreOf 2 (M ⊓ Subgroup.centralizer {b}) ⊓ G₁ = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine le_antisymm ?_ bot_le
   rw [← hO2]
   refine le_pCoreOf_of_normalized 2 ?_ ?_ ?_
@@ -33,7 +33,7 @@ theorem ggOTwoFrame_pCore_inf_eq_bot {G : Type} [Group G] [Finite G] {G₀ G₁ 
       have hG1norm : G₁ ≤ Subgroup.normalizer (G₀ : Set G) := hG₁M.trans hMN
       have hNnormal : N.Normal :=
         (Subgroup.normal_subgroupOf_iff_le_normalizer hG₀G₁).mpr hG1norm
-      haveI := hNnormal
+      have := hNnormal
       let xB : G₁ := ⟨x, hxG1⟩
       have hord : orderOf xB = orderOf (⟨x, hxR⟩ :
           ↥(pCoreOf 2 (M ⊓ Subgroup.centralizer {b}))) := by
@@ -90,7 +90,7 @@ theorem ggOTwoFrame_pCore_le_centralizer {G : Type} [Group G] [Finite G] {G₁ M
 theorem ggExistsInvolution_of_isPGroup_ne_bot {G : Type} [Group G] [Finite G] {R : Subgroup G}
     (h2 : IsPGroup 2 R) (hR : R ≠ ⊥) :
     ∃ r ∈ R, orderOf r = 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).mp h2
   have hn0 : n ≠ 0 := by
     rintro rfl

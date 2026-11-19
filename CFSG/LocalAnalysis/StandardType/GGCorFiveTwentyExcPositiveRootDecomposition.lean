@@ -20,7 +20,7 @@ theorem iform_eq_sum_single_basis (x y : Fin τ.rank → ℤ) :
   refine Finset.sum_congr rfl fun j _ => ?_
   have e : (Pi.single j (x j) : Fin τ.rank → ℤ) = x j • Pi.single j 1 := by
     ext k
-    by_cases hk : k = j <;> simp [Pi.single_apply, hk]
+    by_cases hk : k = j <;> simp [hk]
   rw [e, iform_smul_left]
 
 theorem exists_isRoot_sub_single_of_two_le_height (hτ : ∀ i, τ.symmetrizer i i = 1)

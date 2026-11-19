@@ -51,7 +51,7 @@ theorem sec11_class_T [Finite G] (h37 : Asc82Lemma37) (h103 : Asc82Lemma103) {t 
       have h1 : S.relIndex T = 1 := Subgroup.relIndex_eq_one.mpr hle
       rw [hidx] at h1
       exact absurd h1 (by norm_num)
-    obtain ⟨τ, hτT, hτS⟩ := SetLike.not_le_iff_exists.mp hnotTS
+    obtain ⟨τ, hτT, hτS⟩ := IsConcreteLE.not_le_iff_exists.mp hnotTS
     have hτC : τ ∉ centralizer ({t} : Set G) := by
       intro hτc
       let Q : Subgroup G := T ⊓ centralizer ({t} : Set G)

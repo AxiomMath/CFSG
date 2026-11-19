@@ -98,7 +98,7 @@ theorem not_two_dvd_index_Tgrp_P1 (hC : CentData z ι) (hx : IsConj z (ι τ₀)
           simp [f, conjMap]
         rw [hfv, ih]
         apply Subtype.ext
-        simp only [Subtype.coe_mk]
+        simp only
         rw [pow_succ]
         group
   have hfpow : f ^ 2 ^ m = 1 := by
@@ -125,8 +125,7 @@ theorem not_two_dvd_index_Tgrp_P1 (hC : CentData z ι) (hx : IsConj z (ι τ₀)
     change t ∈ Subgroup.centralizer ({(u : G)} : Set G)
     rw [Subgroup.mem_centralizer_singleton_iff]
     have huE : (u : G) ∈ ({z, ι τ₀, z * ι τ₀} : Set G) := u.2
-    simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_empty_iff_false,
-      or_false] at huE
+    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at huE
     have huF : (u : G) ∈ Fgrp (Tgrp z ι Q) := by
       rcases huE with huz | hut | huzt
       · rw [huz]; exact (mem_Fgrp_iff hC hQ).mpr ⟨1, 0, 0, by simp⟩
@@ -138,8 +137,7 @@ theorem not_two_dvd_index_Tgrp_P1 (hC : CentData z ι) (hx : IsConj z (ι τ₀)
       2 * Nat.card (Perm (Fin 10))
     have huE : (u : G) ∈ ({z, ι τ₀, z * ι τ₀} : Set G) := u.2
     have hconj : IsConj z (u : G) := by
-      simp only [Set.mem_insert_iff, Set.mem_singleton_iff, Set.mem_empty_iff_false,
-        or_false] at huE
+      simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at huE
       rcases huE with huz | hut | huzt
       · rw [huz]
       · rw [hut]; exact hx

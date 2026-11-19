@@ -171,7 +171,7 @@ theorem memC_eq : (fun i => (cP1.pts.map fun t => memL 24 ps24 cP2.pts t)[i]!) =
     rw [map_getElem! _ _ (by rw [eP1.2.1]; exact hi)]
     have e := congrFun memI_eq i
     unfold memI at e
-    rw [if_pos hi] at e
+    rw [ite_eq_left hi] at e
     exact e
   · next hi =>
     rw [getElem!_neg]

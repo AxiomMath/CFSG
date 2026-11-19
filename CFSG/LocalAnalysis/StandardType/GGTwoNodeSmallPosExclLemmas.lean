@@ -84,12 +84,12 @@ lemma pxe_symm (p n : ℕ) (i j : Fin n) :
     by_cases hij : i = j
     · subst hij; simp
     · have hji : ¬ (j = i) := fun hh => hij hh.symm
-      rw [if_neg hij, if_neg hji]
+      rw [ite_eq_right hij, ite_eq_right hji]
       by_cases h1 : i.val + 1 = j.val ∨ j.val + 1 = i.val
       · have h2 : j.val + 1 = i.val ∨ i.val + 1 = j.val := h1.symm
-        rw [if_pos h1, if_pos h2]
+        rw [ite_eq_left h1, ite_eq_left h2]
       · have h2 : ¬ (j.val + 1 = i.val ∨ i.val + 1 = j.val) := fun hh => h1 hh.symm
-        rw [if_neg h1, if_neg h2]
+        rw [ite_eq_right h1, ite_eq_right h2]
   exact congrArg (fun z : ℤ => (z : ZMod p)) h
 
 lemma pxe_zA (p n : ℕ) (hp : p = 5 ∨ p = 7) (hn : n = p - 1) :
@@ -128,7 +128,7 @@ lemma pxe_noPreimage (p n : ℕ) (hp : p = 5 ∨ p = 7) (hn : n = p - 1)
     · intro b _ hb; simp [Pi.single_eq_of_ne hb]
     · intro hh; exact absurd (Finset.mem_univ _) hh
   rw [hsingle] at hzero
-  haveI : Fact p.Prime := by
+  have : Fact p.Prime := by
     rcases hp with hp5 | hp7
     · rw [hp5]; exact ⟨by norm_num⟩
     · rw [hp7]; exact ⟨by norm_num⟩
@@ -163,7 +163,7 @@ lemma pxe_mem_allVecsP (p : ℕ) : ∀ (n : ℕ) (v : Vec),
 
 lemma pxe_getD_map_range' {α : Type} (f : ℕ → α) (d : α) {n : ℕ} (i : Fin n) :
     ((List.range n).map f).getD i.val d = f i.val := by
-  rw [List.getD_eq_getElem _ _ (by simpa using i.isLt)]
+  rw [List.getD_eq_getElem _ _ (by simp)]
   simp
 
 lemma pxe_getD_append_last {α : Type} {l : List α} {z : α} {d : α} {n : ℕ}
@@ -180,7 +180,7 @@ lemma pxe_vec_unitP (P : Pt) (i : Fin P.D) :
   simp only [List.getElem_map, List.getElem_range]
   by_cases h : j = i
   · subst h; simp
-  · rw [Pi.single_eq_of_ne h, if_neg (fun hh => h (Fin.ext hh))]
+  · rw [Pi.single_eq_of_ne h, ite_eq_right (fun hh => h (Fin.ext hh))]
     simp
 
 lemma pxe_foldl_add (l : List ℕ) : l.foldl (· + ·) 0 = l.sum := by

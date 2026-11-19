@@ -18,7 +18,7 @@ open CFSG.RankThree.PartTwo.Sec4.Item426 (pow_mul_four_eq_one)
 
 theorem pow_nine_of_pow_twentyseven {K : Type*} [Field K] [CharP K 3]
     {M : Matrix (Fin 4) (Fin 4) K} (h : M ^ 27 = 1) : M ^ 9 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc : Commute M 1 := Commute.one_right M
   have h27 : (M - 1) ^ (3 ^ 3) = 0 := by
     rw [sub_pow_char_pow_of_commute (p := 3) (n := _) hc, one_pow, show 3 ^ 3 = 27 by norm_num, h,
@@ -72,7 +72,7 @@ theorem orderOf_ne_twentyseven_projSU (x : projSU 4 3 1) : orderOf x ≠ 27 := b
 theorem u43NoOrder27 : U43NoOrder27Statement := by
   unfold U43NoOrder27Statement
   intro S _ _ hS g
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := projSU_of_statedClassicalModel_gen (hS.statedClassicalModel (by decide))
   rw [← MulEquiv.orderOf_eq e]
   exact orderOf_ne_twentyseven_projSU (e g)

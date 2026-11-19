@@ -23,8 +23,8 @@ theorem chevAut_ne_one_of_setup {G : Type} [Group G] [Finite G] {p : ℕ} {L J A
       h.prime h.pcomp
   have hJleL : J ≤ L := h.comp.1.1.trans inf_le_left
   have hpL : p ∣ Nat.card ↥L := hpJ.trans (Subgroup.card_dvd_of_le hJleL)
-  haveI : Fact p.Prime := ⟨h.prime⟩
-  haveI hperfL : Group.IsPerfect ↥L := Group.isPerfect_def.mpr h.qs.1
+  have : Fact p.Prime := ⟨h.prime⟩
+  have hperfL : Group.IsPerfect ↥L := Group.isPerfect_def.mpr h.qs.1
   have hcore : GLAPPrimeCore p ↥L ≠ ⊤ := by
     intro htop
     have hc : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥L)) := CFSG.pPrimeCore_coprime_card
@@ -76,8 +76,8 @@ theorem chevTransfer_perfect_ne_bot {G : Type} [Group G] [Finite G] {p : ℕ} {L
         chevTransfer p L J ≠ ⊥ := by
   have hJleL : J ≤ L := h.comp.1.1.trans inf_le_left
   have hJsub : ⁅J.subgroupOf L, J.subgroupOf L⁆ = J.subgroupOf L := by
-    haveI : Group.IsPerfect ↥J := Group.isPerfect_def.mpr h.comp.1.2.2.1
-    haveI : Group.IsPerfect ↥(J.subgroupOf L) :=
+    have : Group.IsPerfect ↥J := Group.isPerfect_def.mpr h.comp.1.2.2.1
+    have : Group.IsPerfect ↥(J.subgroupOf L) :=
       Group.IsPerfect.ofSurjective (f := ((Subgroup.subgroupOfEquivOfLe hJleL).symm :
         ↥J →* ↥(J.subgroupOf L))) (Subgroup.subgroupOfEquivOfLe hJleL).symm.surjective
     exact Subgroup.commutator_eq_self
@@ -96,7 +96,7 @@ theorem chevTransfer_perfect_ne_bot {G : Type} [Group G] [Finite G] {p : ℕ} {L
 private theorem glaPPrimeCore_ne_top_of_dvd {G : Type} [Group G] [Finite G] {p : ℕ}
     {L : Subgroup G} (hp : p.Prime) (hd : p ∣ Nat.card ↥L) : GLAPPrimeCore p ↥L ≠ ⊤ := by
   intro htop
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hc : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥L)) := CFSG.pPrimeCore_coprime_card
   rw [htop, Subgroup.card_top] at hc
   exact hp.ne_one (Nat.Coprime.eq_one_of_dvd hc hd)
@@ -104,7 +104,7 @@ private theorem glaPPrimeCore_ne_top_of_dvd {G : Type} [Group G] [Finite G] {p :
 theorem pSimpleEquivCenterQuot_of_setup {G : Type} [Group G] [Finite G] {p : ℕ}
     {L J A : Subgroup G} {d b : G} (h : Setup p L J A d b) :
     Nonempty ((↥L ⧸ Subgroup.center ↥L) ≃* PSimple p L) := by
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.mpr h.qs.1
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.mpr h.qs.1
   have hpJ : p ∣ Nat.card ↥J :=
     CFSG.LocalAnalysis.GLTheoremB.MovingAround.Claims1110d.prime_dvd_card_of_glaPComponent
       h.prime h.pcomp
@@ -115,14 +115,14 @@ theorem pSimpleEquivCenterQuot_of_setup {G : Type} [Group G] [Finite G] {p : ℕ
 
 theorem isSimpleGroup_pSimple {G : Type} [Group G] [Finite G] {p : ℕ} {L J A : Subgroup G}
     {d b : G} (h : Setup p L J A d b) : IsSimpleGroup (PSimple p L) := by
-  haveI := h.qs.2
+  have := h.qs.2
   obtain ⟨eP⟩ := pSimpleEquivCenterQuot_of_setup h
   exact eP.symm.isSimpleGroup
 
 theorem exists_ne_comm_pSimple {G : Type} [Group G] [Finite G] {p : ℕ} {L J A : Subgroup G}
     {d b : G} (h : Setup p L J A d b) : ∃ a b : PSimple p L, a * b ≠ b * a := by
-  haveI hperfL : Group.IsPerfect ↥L := Group.isPerfect_def.mpr h.qs.1
-  haveI hnt : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := h.qs.2
+  have hperfL : Group.IsPerfect ↥L := Group.isPerfect_def.mpr h.qs.1
+  have hnt : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := h.qs.2
   obtain ⟨eP⟩ := pSimpleEquivCenterQuot_of_setup h
   by_contra hcon
   push Not at hcon
@@ -160,7 +160,7 @@ private theorem twistedA_two_three_false
     refine I142C.conj_injective_of_center hz ?_
     rw [map_pow, hx, hβp, map_one]
   have hx1 : x ≠ 1 := fun hh => hβ1 (by rw [← hx, hh, map_one])
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hord : orderOf x = p := orderOf_eq_prime hxp hx1
   have hKC : P ≤ Subgroup.centralizer ({x} : Set S) := by
     rw [← fixSubgroup_conj_eq_centralizer' x, hx]
@@ -209,7 +209,7 @@ theorem setup_ambiguousChev_false
     have hβ1 : chevAut p L ⟨d, hdN⟩ ≠ 1 := chevAut_ne_one_of_setup h
     obtain ⟨hJperf, hJle, hJne⟩ := chevTransfer_perfect_ne_bot h hdP
     rcases I142C.chev2_lie_cases d1 hv hi with ⟨q, rfl, hq7⟩ | ⟨q, rfl, hq3⟩
-    · haveI : IsSimpleGroup (PSimple p L) := isSimpleGroup_pSimple h
+    · have : IsSimpleGroup (PSimple p L) := isSimpleGroup_pSimple h
       have hcard : Nat.card (PSimple p L) = 168 := by
         obtain ⟨hq7p, he1⟩ := I142C.primePower_eq_of_card (by norm_num : Nat.Prime 7) hq7
         obtain ⟨-, hSCor⟩ := CFSG.Models.lieModel_A 1 q hv e
@@ -218,7 +218,7 @@ theorem setup_ambiguousChev_false
           exact CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_two_seven hSC
         · exact absurd h0 (by norm_num)
       exact hJne (I142M.Ambig.perfect_eq_bot_of_card_168 hcard hβ1 hJle hJperf)
-    · haveI : IsSimpleGroup (PSimple p L) := isSimpleGroup_pSimple h
+    · have : IsSimpleGroup (PSimple p L) := isSimpleGroup_pSimple h
       exact twistedA_two_three_false h.prime h.odd (exists_ne_comm_pSimple h) hv hq3 e
         (chevAut_pow_eq_one p L hdN hdp) hβ1 hJle hJperf hJne
 

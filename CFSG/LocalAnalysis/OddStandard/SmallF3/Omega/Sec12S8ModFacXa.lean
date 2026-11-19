@@ -47,11 +47,11 @@ theorem s8FacX_permVec_injective {σ σ' : Equiv.Perm (Fin 5)}
     have h1 := congrFun (h _ (hev a b hab)) (σ x)
     simp only [permVec, Function.comp_apply, Equiv.symm_apply_apply, ev] at h1
     by_cases hx : x = a ∨ x = b
-    · simp only [hx, if_true] at h1
+    · simp only [hx, ite_true] at h1
       by_cases hy : σ'.symm (σ x) = a ∨ σ'.symm (σ x) = b
       · simp [hx, hy]
       · simp [hy] at h1
-    · simp only [hx, if_false] at h1
+    · simp only [hx, ite_false] at h1
       by_cases hy : σ'.symm (σ x) = a ∨ σ'.symm (σ x) = b
       · simp [hy] at h1
       · simp [hx, hy]

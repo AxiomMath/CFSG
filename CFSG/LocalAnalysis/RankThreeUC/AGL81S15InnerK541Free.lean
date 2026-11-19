@@ -24,7 +24,7 @@ theorem K541CountEven_holds : K541CountEven := by
     obtain ⟨m, hm⟩ := hEven
     omega
   have hV : IsElemAbelian 2 (gnV T) := isElemAbelian_gnV T hGN
-  letI : Module (ZMod 2) (Additive (IntMod (gnV T) hV)) :=
+  let : Module (ZMod 2) (Additive (IntMod (gnV T) hV)) :=
     binModule (fun v : IntMod (gnV T) hV => IntMod.sq_eq_one v)
   obtain ⟨A, hA2, hAb, hAN, hLA, hAJ⟩ := exists_rep_offender_J hGN hV hL hJ
   have hinj := gnRep_injective hV

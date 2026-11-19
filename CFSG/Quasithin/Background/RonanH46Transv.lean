@@ -12,6 +12,7 @@ open scoped MatrixGroups
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [Finite K] in
 private theorem hermBlkZ_mul_inv (X Y : HMod 1 K) :
     hermBlkZ (Y * X⁻¹) = hermBlkZ Y - hermBlkZ X := by
   ext i j

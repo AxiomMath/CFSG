@@ -516,7 +516,7 @@ theorem sqU_pair {h : UnitaryFieldData p f F} {d : Fin 3 → F}
     SqU h (d u * d v) := by
   obtain ⟨h01, h02, h12⟩ := hs
   fin_cases u <;> fin_cases v
-  all_goals first | exact absurd rfl huv | skip
+  all_goals try exact absurd rfl huv
   · exact h01
   · exact h02
   · rw [mul_comm]; exact h01

@@ -26,7 +26,7 @@ private noncomputable def slAut_stdEquiv (m : ℕ) (hm : 5 ≤ m) :
 private theorem slAut_stdEquiv_inl (m : ℕ) (hm : 5 ≤ m) :
     slAut_stdEquiv m hm (Sum.inl 0) = ⟨0, by omega⟩ := by
   simp only [slAut_stdEquiv, Equiv.trans_apply, Equiv.sumAssoc_symm_apply_inl,
-    Equiv.sumCongr_apply, Sum.map_inl, Equiv.refl_apply, finSumFinEquiv_apply_left]
+    Equiv.sumCongr_apply, Sum.map_inl, finSumFinEquiv_apply_left]
   ext
   simp
 
@@ -129,7 +129,7 @@ private theorem slAut_jGL_eq (m : ℕ) :
   all_goals
     try fin_cases a
     try fin_cases b
-    simp [jGL, coe_uGL, uMat, blk, Matrix.one_apply, Matrix.single_apply]
+    simp [jGL, coe_uGL, uMat, blk, Matrix.one_apply]
 
 private theorem slAut_psi_transvection_coe (m : ℕ) (hm : 5 ≤ m) {i j : Fin m} (hij : i ≠ j) :
     ((slAut_psi m hm i j (SpecialLinearGroup.transvection hij 1) : GL (BlkIdx 1 (m - 2)) (ZMod 2)) :
@@ -157,7 +157,7 @@ private theorem slAut_psi_transvection_coe (m : ℕ) (hm : 5 ≤ m) {i j : Fin m
     eq_comm.trans ((hiffA a).trans eq_comm)
   have hiffC' (b : BlkIdx 1 (m - 2)) : j = slAut_e m hm i j b ↔ Sum.inr (Sum.inr 0) = b :=
     eq_comm.trans ((hiffC b).trans eq_comm)
-  simp only [hinj.eq_iff, hiffA, hiffC, hiffA', hiffC']
+  simp only [hinj.eq_iff, hiffA', hiffC']
 
 private theorem slAut_psi_transvection (m : ℕ) (hm : 5 ≤ m) {i j : Fin m} (hij : i ≠ j) :
     slAut_psi m hm i j (SpecialLinearGroup.transvection hij 1) = jGL 1 (m - 2) := by
@@ -219,13 +219,13 @@ private theorem slAut_trace_fromBlocks {ι κ : Type*} [Fintype ι] [Fintype κ]
       Matrix (ι ⊕ κ) (ι ⊕ κ) (ZMod 2)) = Matrix.trace A + Matrix.trace D := by
   classical
   simp only [Matrix.trace, Matrix.diag_apply, Matrix.fromBlocks, Matrix.of_apply,
-    Fintype.sum_sum_type, Matrix.submatrix_apply]
+    Fintype.sum_sum_type]
   simp
 
 private noncomputable def slAut_sumEquiv (n : ℕ) (hn : 3 ≤ n) : Fin 3 ⊕ Fin (n - 3) ≃ Fin n :=
   finSumFinEquiv.trans (finCongr (by omega))
 
-private noncomputable def slAut_blockUnit (n : ℕ) (hn : 3 ≤ n) :
+private noncomputable def slAut_blockUnit (n : ℕ) (_hn : 3 ≤ n) :
     GL (Fin 3 ⊕ Fin (n - 3)) (ZMod 2) where
   val := Matrix.fromBlocks slAut_c3 0 0 1
   inv := Matrix.fromBlocks slAut_c3inv 0 0 1
@@ -435,7 +435,7 @@ private theorem slAut_bb_eq_one (m : ℕ) (hm : 1 ≤ m) (G : GL (BlkIdx 1 m) (Z
     rw [h0, Matrix.zero_mul] at hAA
     have h01 : (0 : ZMod 2) = 1 := by
       have := congrFun (congrFun hAA ⟨0, by omega⟩) ⟨0, by omega⟩
-      simpa [Matrix.one_apply] using this
+      simp at this
     exact zero_ne_one h01
   rcases CFSG.Quasithin.SLnTwo.eq_zero_or_one_of_commute (B := A) (fun g => by
     have h := hcentral (CFSG.Quasithin.SLnTwo.slEquivGL m g)
@@ -458,7 +458,7 @@ private theorem slAut_GL_fin_one_eq_one (P : GL (Fin 1) (ZMod 2)) : P = 1 := by
       rw [hi, hj, h]
   rw [hPij]
   change (1 : ZMod 2) = (1 : Matrix (Fin 1) (Fin 1) (ZMod 2)) i j
-  rw [Matrix.one_apply, if_pos (Subsingleton.elim i j)]
+  rw [Matrix.one_apply, ite_eq_left (Subsingleton.elim i j)]
 
 private theorem slAut_mem_uSub_of_commutator (m : ℕ) (hm : 1 ≤ m) (G : GL (BlkIdx 1 m) (ZMod 2))
     (hG : G ∈ Cent 1 m)
@@ -505,7 +505,7 @@ private theorem slAut_exists_mem_cent (m : ℕ) (hm : 5 ≤ m) {i j : Fin m}
   rw [map_mul, map_mul, hΨτ, MulEquiv.apply_symm_apply]
   exact Subgroup.mem_centralizer_singleton_iff.mp hK
 
-private theorem slAut_map_N_le_uSub (m : ℕ) (hm : 5 ≤ m) {i j : Fin m} (hij : i ≠ j)
+private theorem slAut_map_N_le_uSub (m : ℕ) (hm : 5 ≤ m) {i j : Fin m} (_hij : i ≠ j)
     {τ : SpecialLinearGroup (Fin m) (ZMod 2)}
     (hΨτ : slAut_psi m hm i j τ = jGL 1 (m - 2))
     (N : Subgroup (SpecialLinearGroup (Fin m) (ZMod 2))) (hN : IsPGroup 2 N)

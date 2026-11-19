@@ -79,7 +79,7 @@ theorem isPGroup_unipotent [Finite K] [CharP K 2] (r : ℕ) : IsPGroup 2 (unipot
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := SymplecticFlag.exists_sylow_unipotent (K := K) 2 r
   rw [← hP]
-  exact P.isPGroup'
+  exact P.isPGroup
 
 theorem exists_perm_zero_one (n : ℕ) :
     ∃ π : Equiv.Perm (Fin (n + 3)), π 0 = 1 ∧ π 1 = 2 := by

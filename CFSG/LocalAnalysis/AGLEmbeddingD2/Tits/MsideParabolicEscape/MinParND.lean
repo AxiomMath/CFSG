@@ -30,7 +30,7 @@ theorem commute_neg_single_single (hext : SteinbergExtras D n H) {j k : Fin D.ra
     intro a b' hab
     have h1 := congrFun hab j
     have h2 := congrFun hab k
-    simp [Pi.single_apply, hjk, hjk.symm] at h1 h2
+    simp [hjk, hjk.symm] at h1 h2
     exact ⟨h1, h2⟩
   have hc' := hext.commutator_mem _ hαj' _ hαk hind b hb c hc
   have hempty : (⨆ ε ∈ openCone D.roots (-Pi.single j 1) (Pi.single k 1), D.rootGroup ε) = ⊥ := by
@@ -39,10 +39,10 @@ theorem commute_neg_single_single (hext : SteinbergExtras D n H) {j k : Fin D.ra
     obtain ⟨hεr, a, b', ha, hb', rfl⟩ := hε
     rcases (RootSystem.ofCartan D.isFiniteType D.divisible).sign _ hεr with h | h
     · have := h j
-      simp [Pi.single_apply, hjk, hjk.symm] at this
+      simp [hjk] at this
       omega
     · have := h k
-      simp [Pi.single_apply, hjk, hjk.symm] at this
+      simp [hjk.symm] at this
       omega
   rw [hempty, Subgroup.mem_bot, commutatorElement_def] at hc'
   exact mul_inv_eq_iff_eq_mul.1 (mul_inv_eq_one.1 hc')
@@ -93,7 +93,7 @@ theorem rootGroup_inf_eq_bot (hext : SteinbergExtras D n H) {γ γ' : Fin D.rank
       · simp [h, hu2]
       · simp [h, one_mem])
     (by rw [list_prod_map_ite hnd hγL, list_prod_map_ite hnd hγL']) γ hγL
-  simp only [if_true, hne, if_false] at h
+  simp only [ite_true, hne, ite_false] at h
   exact Subgroup.mem_bot.2 h
 
 end K
@@ -135,12 +135,12 @@ theorem exists_not_commute_of_cartan_ne_zero {j k : Fin D.rank} (hne : j ≠ k)
   have hdiv : ∀ (γ : Fin D.rank → ℤ), γ k = 1 → ∀ δ ∈ D.roots, γ ≠ 2 • δ := by
     intro γ hγ δ _ h
     have := congrFun h k
-    simp only [Pi.smul_apply, smul_eq_mul, nsmul_eq_mul] at this
+    simp only [Pi.smul_apply, nsmul_eq_mul] at this
     omega
   have hinf := rootGroup_inf_eq_bot hext hαk hγ'r (ht_single_pos k) hpos
     (hdiv (Pi.single k 1) (by simp)) (hdiv _ hγ'k) (fun e => by
       have := congrFun e j
-      simp [Pi.single_apply, hne, hγ'j] at this
+      simp [hne, hγ'j] at this
       exact hjk this)
   apply hext.ne_bot _ hαk
   rw [eq_bot_iff, ← hinf]
@@ -191,6 +191,7 @@ section BQ
 variable {K : Type*} {S : Type*} [Group K] [Finite K] [Group S] {D : UniversalRootDatum K}
   {n : Fin D.rank → K} {H : Fin D.rank → Subgroup K} {π : K →* S} {M : ℕ}
 
+omit [Finite K] in
 theorem rootGroup_not_le_ker (h : BorelQuotient D n H π M) {γ : Fin D.rank → ℤ}
     (hγ : γ ∈ D.roots) : ¬ D.rootGroup γ ≤ π.ker := by
   intro hle
@@ -205,6 +206,7 @@ theorem rootGroup_not_le_ker (h : BorelQuotient D n H π M) {γ : Fin D.rank →
     (orderOf_dvd_of_pow_eq_one hk') (orderOf_dvd_of_pow_eq_one hM)
   exact Subgroup.mem_bot.2 (orderOf_eq_one_iff.1 h1)
 
+omit [Finite K] in
 theorem exists_adj_of_proper (h : BorelQuotient D n H π M) (hS : IsSimpleGroup S)
     (hZ : Subgroup.center S = ⊥) {J : Set (Fin D.rank)} (hJ : J.Nonempty)
     (hJc : ∃ k, k ∉ J) : ∃ j ∈ J, ∃ k, k ∉ J ∧ D.cartan j k ≠ 0 := by
@@ -244,7 +246,7 @@ theorem exists_adj_of_proper (h : BorelQuotient D n H π M) (hS : IsSimpleGroup 
     (RootSystem.ofCartan D.isFiniteType D.divisible).single_mem i
   have hXle : ∀ i : Fin D.rank, D.rootGroup (Pi.single i 1) ≤ rankOne D.rootGroup i :=
     fun i => le_sup_left
-  haveI : (ΛJ.map π).Normal := hnormal.map π h.surj
+  have : (ΛJ.map π).Normal := hnormal.map π h.surj
   rcases hS.eq_bot_or_eq_top_of_normal (ΛJ.map π) with hbot | htop'
   · apply rootGroup_not_le_ker h (hα j₀)
     have : ΛJ ≤ π.ker := (Subgroup.map_eq_bot_iff ΛJ).1 hbot

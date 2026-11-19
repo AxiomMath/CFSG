@@ -121,7 +121,7 @@ theorem natCard_mem_calL0Orders (hO : LieOrderFormulasInput) {X : Type} [Group X
     refine List.mem_append_right _ (List.mem_flatMap.2 ⟨t, mem_lie2Tags t,
       List.mem_flatMap.2 ⟨n, List.mem_range.2 (by omega),
         List.mem_filterMap.2 ⟨f, List.mem_range.2 (by omega), ?_⟩⟩⟩)
-    rw [if_pos ⟨lieAdmTwo_of_admissible hadm, hs, hle⟩, hcard]
+    rw [ite_eq_left ⟨lieAdmTwo_of_admissible hadm, hs, hle⟩, hcard]
   rcases hX with ⟨f, hf, t, n, hL⟩ | hL | hL | hL | hL | hL | hA
   · exact key hL (Or.inl hf)
   · exact key (t := .trialityD4) (n := 0) (f := 1) hL (Or.inr (by decide))

@@ -20,12 +20,15 @@ variable {G : Type*} [Group G] {K : Type*} [Field K] [Finite K] [CharP K 2]
   map_one' := by simp
   map_mul' s t := by simp only [Pi.mul_apply, mul_pow, Finset.prod_mul_distrib]
 
+omit [Finite K] [CharP K 2] in
 theorem wtChar_apply (a : Fin 4 → ZMod (Nat.card Kˣ)) (t : Fin 4 → Kˣ) :
     wtChar a t = ∏ k, t k ^ (a k).val := rfl
 
+omit [Finite K] [CharP K 2] in
 theorem wtChar_zero (t : Fin 4 → Kˣ) : wtChar (0 : Fin 4 → ZMod (Nat.card Kˣ)) t = 1 := by
   simp [wtChar]
 
+omit [CharP K 2] in
 theorem wtChar_add (a b : Fin 4 → ZMod (Nat.card Kˣ)) (t : Fin 4 → Kˣ) :
     wtChar (a + b) t = wtChar a t * wtChar b t := by
   simp only [wtChar_apply, Pi.add_apply]
@@ -35,16 +38,19 @@ theorem wtChar_add (a b : Fin 4 → ZMod (Nat.card Kˣ)) (t : Fin 4 → Kˣ) :
   conv_rhs => rw [pow_eq_pow_mod (a := t k) (n := Nat.card Kˣ) _ pow_card_eq_one']
   rw [ZMod.val_add]
 
+omit [CharP K 2] in
 theorem wtChar_neg (a : Fin 4 → ZMod (Nat.card Kˣ)) (t : Fin 4 → Kˣ) :
     wtChar (-a) t = (wtChar a t)⁻¹ := by
   have h := wtChar_add a (-a) t
   rw [add_neg_cancel, wtChar_zero] at h
   exact eq_inv_of_mul_eq_one_right h.symm
 
+omit [CharP K 2] in
 theorem wtChar_sub (a b : Fin 4 → ZMod (Nat.card Kˣ)) (t : Fin 4 → Kˣ) :
     wtChar (a - b) t = wtChar a t / wtChar b t := by
   rw [sub_eq_add_neg, wtChar_add, wtChar_neg, div_eq_mul_inv]
 
+omit [CharP K 2] in
 private theorem units_pow_val_intCast (x : Kˣ) (m : ℤ) :
     x ^ ((m : ZMod (Nat.card Kˣ)).val) = x ^ m := by
   have hdec : ((m : ZMod (Nat.card Kˣ)).val : ℤ) + (Nat.card Kˣ : ℤ) *
@@ -57,16 +63,19 @@ private theorem units_pow_val_intCast (x : Kˣ) (m : ℤ) :
   rw [zpow_add, zpow_mul, show x ^ (Nat.card Kˣ : ℤ) = 1 from by
     rw [zpow_natCast, pow_card_eq_one'], one_zpow, mul_one]
 
+omit [CharP K 2] in
 theorem wtChar_castW_units (α : Fin 4 → ℤ) (t : Fin 4 → Kˣ) :
     wtChar (castW (Nat.card Kˣ) α) t = torusChar α t := by
   rw [wtChar_apply, torusChar_apply]
   refine Finset.prod_congr rfl fun k _ => ?_
   exact units_pow_val_intCast (t k) (α k)
 
+omit [CharP K 2] in
 theorem wtChar_castW (α : Fin 4 → ℤ) (t : Fin 4 → Kˣ) :
     (wtChar (castW (Nat.card Kˣ) α) t : K) = ((torusChar α t : Kˣ) : K) :=
   congrArg ((↑) : Kˣ → K) (wtChar_castW_units α t)
 
+omit [CharP K 2] in
 theorem wtChar_nsmul_castW_units (k : ℕ) (α : Fin 4 → ℤ) (t : Fin 4 → Kˣ) :
     wtChar ((k : ZMod (Nat.card Kˣ)) • castW (Nat.card Kˣ) α) t = (torusChar α t) ^ k := by
   rw [wtChar_apply, torusChar_apply, ← Finset.prod_pow]
@@ -78,6 +87,7 @@ theorem wtChar_nsmul_castW_units (k : ℕ) (α : Fin 4 → ℤ) (t : Fin 4 → K
     ring
   rw [hcast, units_pow_val_intCast, zpow_mul, zpow_natCast]
 
+omit [CharP K 2] in
 theorem wtChar_nsmul_castW (k : ℕ) (α : Fin 4 → ℤ) (t : Fin 4 → Kˣ) :
     (wtChar ((k : ZMod (Nat.card Kˣ)) • castW (Nat.card Kˣ) α) t : K) =
       ((torusChar α t : Kˣ) : K) ^ k := by
@@ -96,6 +106,7 @@ theorem wtChar_nsmul_castW (k : ℕ) (α : Fin 4 → ℤ) (t : Fin 4 → Kˣ) :
     intro c x hx t
     rw [map_smul, hx t, smul_comm]
 
+omit [Finite K] [CharP K 2] in
 theorem mem_wtSpace {a : Fin 4 → ZMod (Nat.card Kˣ)} {x : X} :
     x ∈ wtSpace D ρ a ↔ ∀ t : Fin 4 → Kˣ, ρ (D.h t) x = (wtChar a t : K) • x :=
   Iff.rfl
@@ -103,6 +114,7 @@ theorem mem_wtSpace {a : Fin 4 → ZMod (Nat.card Kˣ)} {x : X} :
 @[expose] noncomputable def wtProj (a : Fin 4 → ZMod (Nat.card Kˣ)) : Module.End K X :=
   ∑ t : Fin 4 → Kˣ, ((wtChar a t)⁻¹ : K) • ρ (D.h t)
 
+omit [CharP K 2] in
 theorem wtProj_apply (a : Fin 4 → ZMod (Nat.card Kˣ)) (x : X) :
     wtProj D ρ a x = ∑ t : Fin 4 → Kˣ, ((wtChar a t)⁻¹ : K) • ρ (D.h t) x := by
   rw [wtProj]
@@ -110,13 +122,14 @@ theorem wtProj_apply (a : Fin 4 → ZMod (Nat.card Kˣ)) (x : X) :
 
 theorem natCard_units_cast_eq_one : ((Nat.card Kˣ : ℕ) : K) = 1 := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hq : ((Nat.card K : ℕ) : K) = 0 := by
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.cast_card_eq_zero K
   have h1 : 1 ≤ Nat.card K := Nat.one_le_iff_ne_zero.mpr Nat.card_pos.ne'
   rw [Nat.card_units, Nat.cast_sub h1, hq, zero_sub, CharTwo.neg_eq, Nat.cast_one]
 
+omit [Finite K] [CharP K 2] in
 private theorem prod_ite_eq_one {α : Type*} [DecidableEq α] (f : Fin 4 → α) (z : α) :
     (∏ k, if f k = z then (1 : K) else 0) = if f = fun _ => z then 1 else 0 := by
   classical
@@ -128,13 +141,13 @@ private theorem prod_ite_eq_one {α : Type*} [DecidableEq α] (f : Fin 4 → α)
       push Not at h
       exact hf (funext h)
     obtain ⟨k, hk⟩ := hex
-    rw [if_neg hf, Finset.prod_eq_zero (Finset.mem_univ k)]
+    rw [ite_eq_right hf, Finset.prod_eq_zero (Finset.mem_univ k)]
     simp [hk]
 
 theorem sum_units_pow (i : ℕ) :
     (∑ x : Kˣ, (x : K) ^ i) = if Nat.card Kˣ ∣ i then 1 else 0 := by
   classical
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have h := FiniteField.sum_pow_units (K := K) i
   have hq : Fintype.card K - 1 = Nat.card Kˣ := by
     rw [Nat.card_eq_fintype_card, Fintype.card_units]
@@ -166,7 +179,7 @@ private theorem sum_zmod_pow_val (u : Kˣ) :
       rw [Fin.sum_univ_eq_sum_range (fun e => (u : K) ^ e) (Nat.card Kˣ), geom_sum_mul, hN,
         sub_self]
     rcases mul_eq_zero.mp hgeom with h' | h'
-    · rw [h', if_neg hu]
+    · rw [h', ite_eq_right hu]
     · exact absurd (Units.ext (sub_eq_zero.mp h')) hu
 
 theorem sum_wtChar (a : Fin 4 → ZMod (Nat.card Kˣ)) :
@@ -202,6 +215,7 @@ theorem sum_wtChar' (t : Fin 4 → Kˣ) :
   simp only [sum_zmod_pow_val, prod_ite_eq_one]
   rfl
 
+omit [CharP K 2] in
 theorem wtProj_mem (a : Fin 4 → ZMod (Nat.card Kˣ)) (x : X) :
     wtProj D ρ a x ∈ wtSpace D ρ a := by
   rw [mem_wtSpace]
@@ -250,8 +264,8 @@ theorem wtProj_of_mem {a b : Fin 4 → ZMod (Nat.card Kˣ)} {x : X}
   simp only [hterm, ← Finset.sum_smul, sum_wtChar]
   have hcond : b - a = 0 ↔ a = b := by rw [sub_eq_zero, eq_comm]
   by_cases hab : a = b
-  · rw [if_pos (hcond.mpr hab), if_pos hab, one_smul]
-  · rw [if_neg (fun h => hab (hcond.mp h)), if_neg hab, zero_smul]
+  · rw [ite_eq_left (hcond.mpr hab), ite_eq_left hab, one_smul]
+  · rw [ite_eq_right (fun h => hab (hcond.mp h)), ite_eq_right hab, zero_smul]
 
 theorem sum_wtProj (x : X) :
     (∑ a : Fin 4 → ZMod (Nat.card Kˣ), wtProj D ρ a x) = x := by
@@ -281,6 +295,7 @@ theorem sum_wtProj_eq_one : (∑ a : Fin 4 → ZMod (Nat.card Kˣ), wtProj D ρ 
   ext x
   simpa using sum_wtProj D ρ x
 
+omit [CharP K 2] in
 theorem wtProj_comm_h (a : Fin 4 → ZMod (Nat.card Kˣ)) (t : Fin 4 → Kˣ) :
     ρ (D.h t) ∘ₗ wtProj D ρ a = wtProj D ρ a ∘ₗ ρ (D.h t) := by
   ext x
@@ -399,7 +414,8 @@ theorem reflTorus_reflTorus {M : Type*} [CommGroup M] (β : Fin 4 → ℤ) (hβ 
   rw [reflTorus, torusChar_reflTorus β hβ, reflTorus, inv_zpow', neg_neg, mul_assoc,
     ← zpow_add, neg_add_cancel, zpow_zero, mul_one]
 
-theorem wtChar_reflTorus (β : Fin 4 → ℤ) (hβ : IsD4Root β)
+omit [CharP K 2] in
+theorem wtChar_reflTorus (β : Fin 4 → ℤ) (_hβ : IsD4Root β)
     (a : Fin 4 → ZMod (Nat.card Kˣ)) (t : Fin 4 → Kˣ) :
     wtChar a (reflTorus β t) = wtChar (reflW β a) t := by
   set e : Fin 4 → ℤ := fun k => ((a k).val : ℤ) with he
@@ -448,6 +464,7 @@ theorem wtChar_reflTorus (β : Fin 4 → ℤ) (hβ : IsD4Root β)
     congr 1
   rw [hL, hR]
 
+omit [CharP K 2] in
 theorem map_mul_wtSpace (β : Fin 4 → ℤ) (hβ : IsD4Root β) (m : G)
     (hm : ∀ t : Fin 4 → Kˣ, m⁻¹ * D.h t * m = D.h (reflTorus β t))
     (a : Fin 4 → ZMod (Nat.card Kˣ)) :
@@ -470,6 +487,7 @@ theorem map_mul_wtSpace (β : Fin 4 → ℤ) (hβ : IsD4Root β) (m : G)
     _ = (wtChar a (reflTorus β t) : K) • ρ m x := by rw [map_smul]
     _ = (wtChar (reflW β a) t : K) • ρ m x := by rw [wtChar_reflTorus β hβ a t]
 
+omit [CharP K 2] in
 theorem map_n_wtSpace (β : Fin 4 → ℤ) (hβ : IsD4Root β)
     (a : Fin 4 → ZMod (Nat.card Kˣ)) :
     (wtSpace D ρ a).map (ρ (D.n β)) = wtSpace D ρ (reflW β a) := by
@@ -493,6 +511,7 @@ theorem map_n_wtSpace (β : Fin 4 → ℤ) (hβ : IsD4Root β)
   exact ⟨ρ (D.n β)⁻¹ y, hy', by
     rw [← Module.End.mul_apply, ← map_mul, mul_inv_cancel, map_one, Module.End.one_apply]⟩
 
+omit [CharP K 2] in
 theorem finrank_wtSpace_reflW [FiniteDimensional K X] (β : Fin 4 → ℤ) (hβ : IsD4Root β)
     (a : Fin 4 → ZMod (Nat.card Kˣ)) :
     Module.finrank K (wtSpace D ρ (reflW β a)) = Module.finrank K (wtSpace D ρ a) := by
@@ -508,29 +527,35 @@ theorem finrank_wtSpace_reflW [FiniteDimensional K X] (β : Fin 4 → ℤ) (hβ 
 @[expose] noncomputable def rootOp (α : Fin 4 → ℤ) (k : ℕ) : Module.End K X :=
   ∑ d : K, rootCoeff k d • ρ (D.x α d)
 
+omit [CharP K 2] in
 theorem rootOp_apply (α : Fin 4 → ℤ) (k : ℕ) (x : X) :
     rootOp D ρ α k x = ∑ d : K, rootCoeff k d • ρ (D.x α d) x := by
   rw [rootOp]
   exact LinearMap.sum_apply _ _ x
 
+omit [Finite K] [CharP K 2] in
 theorem rootCoeff_zero (d : K) : rootCoeff 0 d = if d = 0 then 1 else 0 := by
   simp [rootCoeff]
 
+omit [Finite K] [CharP K 2] in
 theorem rootCoeff_of_pos_of_lt {k : ℕ} (hk0 : 0 < k) (hkN : k < Nat.card Kˣ) (d : K) :
     rootCoeff k d = if d = 0 then 0 else (d ^ k)⁻¹ := by
-  rw [rootCoeff, if_neg hk0.ne', if_pos hkN]
+  rw [rootCoeff, ite_eq_right hk0.ne', ite_eq_left hkN]
 
+omit [CharP K 2] in
 theorem rootCoeff_card (d : K) : rootCoeff (Nat.card Kˣ) d = 1 := by
   have hN : Nat.card Kˣ ≠ 0 := Nat.card_pos.ne'
-  rw [rootCoeff, if_neg hN, if_neg (lt_irrefl (Nat.card Kˣ)), if_pos rfl]
+  rw [rootCoeff, ite_eq_right hN, ite_eq_right (lt_irrefl (Nat.card Kˣ)), ite_eq_left rfl]
 
+omit [CharP K 2] in
 theorem rootCoeff_of_lt {k : ℕ} (hk : Nat.card Kˣ < k) (d : K) : rootCoeff k d = 0 := by
   have hN : Nat.card Kˣ ≠ 0 := Nat.card_pos.ne'
   have hk0 : k ≠ 0 := by omega
   have hnk : ¬ k < Nat.card Kˣ := by omega
   have hne : k ≠ Nat.card Kˣ := by omega
-  rw [rootCoeff, if_neg hk0, if_neg hnk, if_neg hne]
+  rw [rootCoeff, ite_eq_right hk0, ite_eq_right hnk, ite_eq_right hne]
 
+omit [CharP K 2] in
 private theorem sum_K_eq_zero_add {M : Type*} [AddCommMonoid M] (f : K → M) :
     (∑ d : K, f d) = f 0 + ∑ u : Kˣ, f (u : K) := by
   classical
@@ -569,19 +594,20 @@ private theorem sum_units_zpow (n : ℤ) :
       rw [hn', Int.dvd_neg, Int.natCast_dvd_natCast]
     rw [h1, sum_units_pow]
     by_cases h : Nat.card Kˣ ∣ m
-    · rw [if_pos h, if_pos (hiff.mpr h)]
-    · rw [if_neg h, if_neg (fun hh => h (hiff.mp hh))]
+    · rw [ite_eq_left h, ite_eq_left (hiff.mpr h)]
+    · rw [ite_eq_right h, ite_eq_right (fun hh => h (hiff.mp hh))]
 
+omit [CharP K 2] in
 private theorem rootCoeff_sum_mul_zero {m : ℕ} (hm : m ≤ Nat.card Kˣ) :
     (∑ d : K, rootCoeff 0 d * d ^ m) = if 0 = m then 1 else 0 := by
   rw [Finset.sum_eq_single (0 : K)]
-  · rw [rootCoeff_zero, if_pos rfl, one_mul]
+  · rw [rootCoeff_zero, ite_eq_left rfl, one_mul]
     by_cases hm0 : m = 0
     · subst hm0
       simp
-    · rw [zero_pow hm0, if_neg (Ne.symm hm0)]
+    · rw [zero_pow hm0, ite_eq_right (Ne.symm hm0)]
   · intro d _ hd
-    rw [rootCoeff_zero, if_neg hd, zero_mul]
+    rw [rootCoeff_zero, ite_eq_right hd, zero_mul]
   · intro h
     exact absurd (Finset.mem_univ (0 : K)) h
 
@@ -594,7 +620,7 @@ private theorem rootCoeff_sum_mul_card {m : ℕ} (hm : m ≤ Nat.card Kˣ) :
     by_cases hm0 : m = 0
     · subst hm0
       simp
-    · rw [zero_pow hm0, if_neg hm0]
+    · rw [zero_pow hm0, ite_eq_right hm0]
   rw [h0]
   have h1 : ∀ u : Kˣ, rootCoeff (Nat.card Kˣ) (u : K) * (u : K) ^ m = (u : K) ^ m := by
     intro u
@@ -604,7 +630,7 @@ private theorem rootCoeff_sum_mul_card {m : ℕ} (hm : m ≤ Nat.card Kˣ) :
   have hN : Nat.card Kˣ ≠ 0 := Nat.card_pos.ne'
   by_cases hm0 : m = 0
   · subst hm0
-    rw [if_pos rfl, if_pos (dvd_zero _), if_neg hN]
+    rw [ite_eq_left rfl, ite_eq_left (dvd_zero _), ite_eq_right hN]
     exact CharTwo.add_self_eq_zero 1
   · have hdvd : Nat.card Kˣ ∣ m ↔ m = Nat.card Kˣ := by
       constructor
@@ -612,22 +638,22 @@ private theorem rootCoeff_sum_mul_card {m : ℕ} (hm : m ≤ Nat.card Kˣ) :
         exact Nat.le_antisymm hm (Nat.le_of_dvd (Nat.pos_of_ne_zero hm0) hd)
       · intro h
         rw [h]
-    rw [if_neg hm0]
+    rw [ite_eq_right hm0]
     by_cases h : Nat.card Kˣ ∣ m
-    · rw [if_pos h, if_pos (hdvd.mp h).symm, zero_add]
-    · rw [if_neg h, if_neg (fun hnm => h (hdvd.mpr hnm.symm)), zero_add]
+    · rw [ite_eq_left h, ite_eq_left (hdvd.mp h).symm, zero_add]
+    · rw [ite_eq_right h, ite_eq_right (fun hnm => h (hdvd.mpr hnm.symm)), zero_add]
 
 private theorem rootCoeff_sum_mul_pos {k m : ℕ} (hk0 : 0 < k) (hkN : k < Nat.card Kˣ)
     (hm : m ≤ Nat.card Kˣ) :
     (∑ d : K, rootCoeff k d * d ^ m) = if k = m then 1 else 0 := by
   rw [sum_K_eq_zero_add]
   have h0 : rootCoeff k (0 : K) * (0 : K) ^ m = 0 := by
-    rw [rootCoeff_of_pos_of_lt hk0 hkN, if_pos rfl, zero_mul]
+    rw [rootCoeff_of_pos_of_lt hk0 hkN, ite_eq_left rfl, zero_mul]
   rw [h0, zero_add]
   have hterm : ∀ u : Kˣ, rootCoeff k (u : K) * (u : K) ^ m =
       ((u ^ ((m : ℤ) - k) : Kˣ) : K) := by
     intro u
-    rw [rootCoeff_of_pos_of_lt hk0 hkN, if_neg (by exact u.ne_zero)]
+    rw [rootCoeff_of_pos_of_lt hk0 hkN, ite_eq_right (by exact u.ne_zero)]
     rw [Units.val_zpow_eq_zpow_val, zpow_sub₀ (by exact u.ne_zero), div_eq_mul_inv,
       mul_comm]
     simp only [zpow_natCast]
@@ -655,8 +681,8 @@ private theorem rootCoeff_sum_mul_pos {k m : ℕ} (hk0 : 0 < k) (hkN : k < Nat.c
       · intro h
         omega
   by_cases hkm : k = m
-  · rw [if_pos (hiff.mpr hkm), if_pos hkm]
-  · rw [if_neg (fun h => hkm (hiff.mp h)), if_neg hkm]
+  · rw [ite_eq_left (hiff.mpr hkm), ite_eq_left hkm]
+  · rw [ite_eq_right (fun h => hkm (hiff.mp h)), ite_eq_right hkm]
 
 theorem rootCoeff_sum_mul {k m : ℕ} (hk : k ≤ Nat.card Kˣ) (hm : m ≤ Nat.card Kˣ) :
     (∑ d : K, rootCoeff k d * d ^ m) = if k = m then 1 else 0 := by
@@ -671,7 +697,7 @@ private theorem sum_range_pow_succ (u : K) :
     (∑ k ∈ Finset.range (Nat.card Kˣ), u ^ (k + 1)) = if u = 1 then 1 else 0 := by
   have hN : Nat.card Kˣ ≠ 0 := Nat.card_pos.ne'
   by_cases hu : u = 0
-  · rw [if_neg (by rw [hu]; exact zero_ne_one), hu]
+  · rw [ite_eq_right (by rw [hu]; exact zero_ne_one), hu]
     simp
   · have huN : u ^ Nat.card Kˣ = 1 := by
       have h := congrArg ((↑) : Kˣ → K) (pow_card_eq_one' (x := Units.mk0 u hu))
@@ -684,15 +710,16 @@ private theorem sum_range_pow_succ (u : K) :
       exact Finset.sum_congr rfl fun k _ => by rw [pow_succ']]
     by_cases hu1 : u = 1
     · subst hu1
-      rw [if_pos rfl, one_mul]
+      rw [ite_eq_left rfl, one_mul]
       rw [Finset.sum_congr rfl fun k _ => one_pow k, Finset.sum_const, Finset.card_range,
         nsmul_eq_mul, mul_one]
       exact natCard_units_cast_eq_one
-    · rw [if_neg hu1]
+    · rw [ite_eq_right hu1]
       rcases mul_eq_zero.mp hgeom with h | h
       · rw [h, mul_zero]
       · exact absurd (sub_eq_zero.mp h) hu1
 
+omit [CharP K 2] in
 private theorem sum_range_rootCoeff_zero (c : K) :
     (∑ k ∈ Finset.range (Nat.card Kˣ),
       c ^ (k + 1) * rootCoeff (k + 1) (0 : K)) = c ^ Nat.card Kˣ := by
@@ -709,7 +736,7 @@ private theorem sum_range_rootCoeff_zero (c : K) :
     refine Finset.sum_eq_zero fun k hk => ?_
     rw [rootCoeff_of_pos_of_lt (Nat.succ_pos k) (by
       have := Finset.mem_range.mp hk
-      omega), if_pos rfl, mul_zero]
+      omega), ite_eq_left rfl, mul_zero]
   rw [hzero, zero_add]
 
 private theorem rootOp_interpolation_zero (c : K) :
@@ -718,18 +745,19 @@ private theorem rootOp_interpolation_zero (c : K) :
   have hN : Nat.card Kˣ ≠ 0 := Nat.card_pos.ne'
   rw [Finset.sum_range_succ']
   have h0 : c ^ 0 * rootCoeff 0 (0 : K) = 1 := by
-    rw [rootCoeff_zero, if_pos rfl, mul_one, pow_zero]
+    rw [rootCoeff_zero, ite_eq_left rfl, mul_one, pow_zero]
   rw [sum_range_rootCoeff_zero, h0]
   by_cases hc : c = 0
   · subst hc
-    rw [zero_pow hN, zero_add, if_pos rfl]
-  · rw [if_neg hc]
+    rw [zero_pow hN, zero_add, ite_eq_left rfl]
+  · rw [ite_eq_right hc]
     have hcN : c ^ Nat.card Kˣ = 1 := by
       have h := congrArg ((↑) : Kˣ → K) (pow_card_eq_one' (x := Units.mk0 c hc))
       rwa [Units.val_pow_eq_pow_val, Units.val_mk0, Units.val_one] at h
     rw [hcN]
     exact CharTwo.add_self_eq_zero 1
 
+omit [CharP K 2] in
 private theorem rootCoeff_pow_of_ne_zero {c d : K} (hd : d ≠ 0) {j : ℕ}
     (hj1 : 1 ≤ j) (hjN : j ≤ Nat.card Kˣ) :
     c ^ j * rootCoeff j d = (c * d⁻¹) ^ j := by
@@ -739,7 +767,7 @@ private theorem rootCoeff_pow_of_ne_zero {c d : K} (hd : d ≠ 0) {j : ℕ}
         have h := congrArg ((↑) : Kˣ → K) (pow_card_eq_one' (x := Units.mk0 d hd))
         rwa [Units.val_pow_eq_pow_val, Units.val_mk0, Units.val_one] at h,
       inv_one, mul_one]
-  · rw [rootCoeff_of_pos_of_lt (by omega) hj, if_neg hd, ← inv_pow, ← mul_pow]
+  · rw [rootCoeff_of_pos_of_lt (by omega) hj, ite_eq_right hd, ← inv_pow, ← mul_pow]
 
 private theorem rootOp_interpolation_ne_zero {c d : K} (hd : d ≠ 0) :
     (∑ j ∈ Finset.range (Nat.card Kˣ + 1), c ^ j * rootCoeff j d) =
@@ -756,16 +784,16 @@ private theorem rootOp_interpolation_ne_zero {c d : K} (hd : d ≠ 0) :
       ∑ k ∈ Finset.range (Nat.card Kˣ), (c * d⁻¹) ^ (k + 1) := by
     rw [Finset.sum_range_succ']
     have h0 : c ^ 0 * rootCoeff 0 d = 0 := by
-      rw [rootCoeff_zero, if_neg hd, mul_zero]
+      rw [rootCoeff_zero, ite_eq_right hd, mul_zero]
     rw [h0]
-    simp only [zero_add, add_zero]
+    simp only [add_zero]
     exact Finset.sum_congr rfl fun k hk =>
       rootCoeff_pow_of_ne_zero hd (Nat.succ_pos k)
         (Nat.succ_le_of_lt (Finset.mem_range.mp hk))
   rw [hsum, sum_range_pow_succ]
   by_cases hcd : c = d
-  · rw [if_pos hcd, if_pos (huval.mpr hcd)]
-  · rw [if_neg hcd, if_neg (fun h => hcd (huval.mp h))]
+  · rw [ite_eq_left hcd, ite_eq_left (huval.mpr hcd)]
+  · rw [ite_eq_right hcd, ite_eq_right (fun h => hcd (huval.mp h))]
 
 theorem rootOp_interpolation (c d : K) :
     (∑ j ∈ Finset.range (Nat.card Kˣ + 1), c ^ j * rootCoeff j d) =
@@ -775,7 +803,7 @@ theorem rootOp_interpolation (c d : K) :
     exact rootOp_interpolation_zero c
   · exact rootOp_interpolation_ne_zero hd
 
-theorem rho_x_eq_sum (α : Fin 4 → ℤ) (hα : IsD4Root α) (c : K) :
+theorem rho_x_eq_sum (α : Fin 4 → ℤ) (_hα : IsD4Root α) (c : K) :
     ρ (D.x α c) = ∑ k ∈ Finset.range (Nat.card Kˣ + 1), c ^ k • rootOp D ρ α k := by
   ext x
   rw [LinearMap.sum_apply]
@@ -795,39 +823,42 @@ theorem rho_x_eq_sum (α : Fin 4 → ℤ) (hα : IsD4Root α) (c : K) :
     exact congrArg (fun z : K => z • ρ (D.x α d) x) h
   simp only [hinner]
   rw [Finset.sum_eq_single c]
-  · rw [if_pos rfl, one_smul]
+  · rw [ite_eq_left rfl, one_smul]
   · intro d _ hd
-    rw [if_neg (Ne.symm hd), zero_smul]
+    rw [ite_eq_right (Ne.symm hd), zero_smul]
   · intro h
     exact absurd (Finset.mem_univ c) h
 
+omit [CharP K 2] in
 theorem rootOp_zero (α : Fin 4 → ℤ) (hα : IsD4Root α) : rootOp D ρ α 0 = 1 := by
   ext x
   rw [rootOp_apply, Finset.sum_eq_single (0 : K)]
-  · rw [rootCoeff_zero, if_pos rfl, one_smul, D.x_zero hα, map_one, Module.End.one_apply]
+  · rw [rootCoeff_zero, ite_eq_left rfl, one_smul, D.x_zero hα, map_one, Module.End.one_apply]
   · intro d _ hd
-    rw [rootCoeff_zero, if_neg hd, zero_smul]
+    rw [rootCoeff_zero, ite_eq_right hd, zero_smul]
   · intro h
     exact absurd (Finset.mem_univ (0 : K)) h
 
+omit [CharP K 2] in
 theorem rootOp_of_lt (α : Fin 4 → ℤ) {k : ℕ} (hk : Nat.card Kˣ < k) :
     rootOp D ρ α k = 0 := by
   ext x
   rw [rootOp_apply]
   simp only [rootCoeff_of_lt hk, zero_smul, Finset.sum_const_zero, LinearMap.zero_apply]
 
+omit [CharP K 2] in
 theorem rootCoeff_inv_mul (k : ℕ) {lam : K} (hlam : lam ≠ 0) (d : K) :
     rootCoeff k (lam⁻¹ * d) = lam ^ k * rootCoeff k d := by
   rcases Nat.eq_zero_or_pos k with rfl | hkpos
   · rw [rootCoeff_zero, rootCoeff_zero, pow_zero, one_mul]
     by_cases hd : d = 0
-    · rw [hd, mul_zero, if_pos rfl]
-    · rw [if_neg hd, if_neg (mul_ne_zero (inv_ne_zero hlam) hd)]
+    · rw [hd, mul_zero, ite_eq_left rfl]
+    · rw [ite_eq_right hd, ite_eq_right (mul_ne_zero (inv_ne_zero hlam) hd)]
   · rcases lt_or_ge k (Nat.card Kˣ) with hkN | hkN
     · rw [rootCoeff_of_pos_of_lt hkpos hkN, rootCoeff_of_pos_of_lt hkpos hkN]
       by_cases hd : d = 0
-      · rw [hd, mul_zero, if_pos rfl, mul_zero]
-      · rw [if_neg (mul_ne_zero (inv_ne_zero hlam) hd), if_neg hd, mul_pow, mul_inv_rev,
+      · rw [hd, mul_zero, ite_eq_left rfl, mul_zero]
+      · rw [ite_eq_right (mul_ne_zero (inv_ne_zero hlam) hd), ite_eq_right hd, mul_pow, mul_inv_rev,
           inv_pow, inv_inv, mul_comm]
     · rcases eq_or_lt_of_le hkN with hk | hk
       · rw [← hk, rootCoeff_card, rootCoeff_card,
@@ -837,6 +868,7 @@ theorem rootCoeff_inv_mul (k : ℕ) {lam : K} (hlam : lam ≠ 0) (d : K) :
           one_mul]
       · rw [rootCoeff_of_lt hk, rootCoeff_of_lt hk, mul_zero]
 
+omit [CharP K 2] in
 theorem rootOp_conj (α : Fin 4 → ℤ) (hα : IsD4Root α) (t : Fin 4 → Kˣ) (k : ℕ) :
     ρ (D.h t) * rootOp D ρ α k =
       (((torusChar α t : Kˣ) : K)) ^ k • (rootOp D ρ α k * ρ (D.h t)) := by
@@ -880,6 +912,7 @@ theorem rootOp_conj (α : Fin 4 → ℤ) (hα : IsD4Root α) (t : Fin 4 → Kˣ)
     rw [rootCoeff_inv_mul k hlam, mul_smul]
   simp only [hhom, Finset.smul_sum]
 
+omit [CharP K 2] in
 theorem rootOp_mem_wtSpace (α : Fin 4 → ℤ) (hα : IsD4Root α)
     (a : Fin 4 → ZMod (Nat.card Kˣ)) {x : X} (hx : x ∈ wtSpace D ρ a) (k : ℕ) :
     rootOp D ρ α k x ∈ wtSpace D ρ (a + (k : ZMod (Nat.card Kˣ)) • castW (Nat.card Kˣ) α) := by
@@ -895,9 +928,10 @@ private theorem rootCoeff_sum_mul' {i r : ℕ} (hr : r ≤ Nat.card Kˣ) :
   by_cases hi : i ≤ Nat.card Kˣ
   · exact rootCoeff_sum_mul hi hr
   · have hir : i ≠ r := by omega
-    rw [if_neg hir]
+    rw [ite_eq_right hir]
     exact Finset.sum_eq_zero fun c _ => by rw [rootCoeff_of_lt (by omega), zero_mul]
 
+omit [CharP K 2] in
 private theorem rootCoeff_mul_binomial_expand {i j k : ℕ} :
     (∑ c : K, ∑ d : K, rootCoeff i c * rootCoeff j d * (c + d) ^ k) =
       ∑ r ∈ Finset.range (k + 1), (k.choose r : K) *
@@ -942,26 +976,26 @@ private theorem rootCoeff_mul_binomial_sum {i j k : ℕ} (hk : k ≤ Nat.card K�
       rootCoeff_sum_mul' (by omega : k - r ≤ Nat.card Kˣ)]
   rw [Finset.sum_congr rfl hsum]
   by_cases h : k = i + j
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     have hi : i ∈ Finset.range (k + 1) := Finset.mem_range.mpr (by omega)
     rw [Finset.sum_eq_single i]
-    · rw [if_pos rfl, if_pos (by omega : j = k - i)]
+    · rw [ite_eq_left rfl, ite_eq_left (by omega : j = k - i)]
       ring
     · intro r _ hr
-      rw [if_neg (fun hri : i = r => hr hri.symm)]
+      rw [ite_eq_right (fun hri : i = r => hr hri.symm)]
       ring
     · intro hnot
       exact absurd hi hnot
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     refine Finset.sum_eq_zero fun r hr => ?_
     by_cases hri : i = r
     · have hrk : r ≤ k := by
         have := Finset.mem_range.mp hr
         omega
-      rw [if_pos hri]
-      rw [if_neg (fun hjk : j = k - r => h (by omega))]
+      rw [ite_eq_left hri]
+      rw [ite_eq_right (fun hjk : j = k - r => h (by omega))]
       ring
-    · rw [if_neg hri]
+    · rw [ite_eq_right hri]
       ring
 
 private theorem rootCoeff_mul_binomial {i j k : ℕ} (hk : k ≤ Nat.card Kˣ) :
@@ -969,6 +1003,7 @@ private theorem rootCoeff_mul_binomial {i j k : ℕ} (hk : k ≤ Nat.card Kˣ) :
       if k = i + j then ((k.choose i : ℕ) : K) else 0 :=
   (rootCoeff_mul_binomial_expand).trans (rootCoeff_mul_binomial_sum hk)
 
+omit [CharP K 2] in
 private theorem rootOp_mul_expand (α : Fin 4 → ℤ) (hα : IsD4Root α) (i j : ℕ) (x : X) :
     (rootOp D ρ α i * rootOp D ρ α j) x =
       ∑ c : K, ∑ d : K,
@@ -1030,19 +1065,19 @@ private theorem rootOp_mul_apply (α : Fin 4 → ℤ) (hα : IsD4Root α) (i j :
       omega)]
   rw [h3]
   by_cases hij : i + j ≤ Nat.card Kˣ
-  · rw [if_pos hij]
+  · rw [ite_eq_left hij]
     rw [Finset.sum_eq_single (i + j)]
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
     · intro k _ hk
-      rw [if_neg hk, zero_smul]
+      rw [ite_eq_right hk, zero_smul]
     · intro hnot
       exact absurd (Finset.mem_range.mpr (by omega)) hnot
-  · rw [if_neg hij, zero_smul]
+  · rw [ite_eq_right hij, zero_smul]
     refine Finset.sum_eq_zero fun k hk => ?_
     have hk' : k ≤ Nat.card Kˣ := by
       have := Finset.mem_range.mp hk
       omega
-    rw [if_neg (fun h => absurd h (by omega)), zero_smul]
+    rw [ite_eq_right (fun h => absurd h (by omega)), zero_smul]
 
 theorem rootOp_mul (α : Fin 4 → ℤ) (hα : IsD4Root α) (i j : ℕ) :
     rootOp D ρ α i * rootOp D ρ α j =

@@ -49,7 +49,7 @@ private theorem swapCore_one : Equiv.swapCore (0 : Fin 2) 1 1 = 0 := by decide
 
 private theorem commutator_P2 : commutator P2 = ⊤ := by
   have hB : CFSG.BenderSuzuki.IsBenderGroup P2 := .isPSL2 2 le_rfl (MulEquiv.refl _)
-  haveI : IsSimpleGroup P2 := CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup hB
+  have : IsSimpleGroup P2 := CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.isSimpleGroup hB
   obtain ⟨a, b, hab⟩ := CFSG.Timmesfeld.Bridge.Asc72.IsBenderGroup.exists_not_commute hB
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator P2) with h | h
   · exfalso
@@ -116,10 +116,10 @@ private theorem commutator_eq_base :
     commutator W2 = (SemidirectProduct.inl : (Fin 2 → P2) →* W2).range := by
   apply le_antisymm
   · let S : Subgroup W2 := (SemidirectProduct.inr : Equiv.Perm (Fin 2) →* W2).range
-    haveI : IsMulCommutative (Equiv.Perm (Fin 2)) := by
+    have : IsMulCommutative (Equiv.Perm (Fin 2)) := by
       rw [Equiv.Perm.isMulCommutative_iff_card_le_two]
       simp
-    haveI : IsMulCommutative S := inferInstance
+    have : IsMulCommutative S := inferInstance
     have hsup : (SemidirectProduct.inl : (Fin 2 → P2) →* W2).range ⊔ S = ⊤ := by
       rw [eq_top_iff]
       intro x _
@@ -130,11 +130,11 @@ private theorem commutator_eq_base :
           (SemidirectProduct.inl : (Fin 2 → P2) →* W2).range := ⟨x.left, rfl⟩
       have hxinr : SemidirectProduct.inr x.right ∈ S := ⟨x.right, rfl⟩
       exact Subgroup.mul_mem_sup hxbase hxinr
-    haveI hN : ((SemidirectProduct.inl : (Fin 2 → P2) →* W2).range).Normal := by
+    have hN : ((SemidirectProduct.inl : (Fin 2 → P2) →* W2).range).Normal := by
       rw [SemidirectProduct.range_inl_eq_ker_rightHom]
       infer_instance
     exact Subgroup.Normal.commutator_le_of_self_sup_commutative_eq_top hsup
-  · haveI : Group.IsPerfect (Fin 2 → P2) := Group.isPerfect_def.mpr commutator_base
+  · have : Group.IsPerfect (Fin 2 → P2) := Group.isPerfect_def.mpr commutator_base
     have hBperf : Group.IsPerfect (SemidirectProduct.inl : (Fin 2 → P2) →* W2).range :=
       Group.IsPerfect.range (f := (SemidirectProduct.inl : (Fin 2 → P2) →* W2))
     intro x hx
@@ -193,7 +193,7 @@ private theorem conj_coordHom (y : W2) (hy : y.right = sw) (p : P2) :
   congr 1
   funext k
   fin_cases k <;> simp [sw, permAct_apply_two, Pi.mulSingle, Equiv.swap,
-      MonoidHom.mulSingle_apply, Function.update_self, Function.update_of_ne,
+      Function.update_self, Function.update_of_ne,
       swapCore_zero, swapCore_one]
 
 private theorem factor_swap (y : W2) (hy : y ∉ commutator W2) :

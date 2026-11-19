@@ -53,10 +53,12 @@ theorem k43_findIdx?_congr {α : Type} {p q : α → Bool} :
 
 variable [Fact (T24s2.check = true)] {E : List ℕ}
 
+omit [Fact (T24s2.check = true)] in
 theorem vp_getD (H : Packed T24s2 E) {p : ℕ} (hp : p < E.length) : vpK (E.getD p 0) = true := by
   rw [List.getD_eq_getElem _ _ hp]
   exact H.vp _ (List.getElem_mem hp)
 
+omit [Fact (T24s2.check = true)] in
 theorem tArr_eq (H : Packed T24s2 E) {p : ℕ} (hp : p < E.length) : tArr p = unpk (E.getD p 0) := by
   unfold tArr
   exact elems_get H hp
@@ -74,6 +76,7 @@ theorem dzIdx_eq (H : Packed T24s2 E) : dzIdx () = dzIdxK E := by
   rw [tArr_eq H (List.mem_range.1 hp)]
   simp only [actC11_unpk]
 
+omit [Fact (T24s2.check = true)] in
 theorem z0Idx_eq (H : Packed T24s2 E) (hz : unpk z0P = z0Arr) (hvz : vpK z0P = true) :
     z0Idx = z0IdxK E := by
   unfold z0Idx z0IdxK
@@ -83,19 +86,23 @@ theorem z0Idx_eq (H : Packed T24s2 E) (hz : unpk z0P = z0Arr) (hvz : vpK z0P = t
   simp only [Function.comp_apply, ← hz]
   exact unpk_beq (H.vp e he) hvz
 
+omit [Fact (T24s2.check = true)] in
 theorem lt_of_mem_filter_range {f : ℕ → Bool} {n p : ℕ} (h : p ∈ (List.range n).filter f) :
     p < n :=
   List.mem_range.1 (List.mem_filter.1 h).1
 
+omit [Fact (T24s2.check = true)] in
 theorem getD_mem {p : ℕ} (hp : p < E.length) : E.getD p 0 ∈ E := by
   rw [List.getD_eq_getElem _ _ hp]
   exact List.getElem_mem hp
 
+omit [Fact (T24s2.check = true)] in
 theorem map_getD_range (E : List ℕ) : (List.range E.length).map (fun p => E.getD p 0) = E := by
   apply List.ext_getElem (by simp)
   intro i _ h2
   simp [List.getElem?_eq_getElem h2]
 
+omit [Fact (T24s2.check = true)] in
 theorem map_filter_range (f : ℕ → Bool) (E : List ℕ) :
     ((List.range E.length).filter fun p => f (E.getD p 0)).map (fun p => E.getD p 0) =
       E.filter f := by
@@ -103,11 +110,13 @@ theorem map_filter_range (f : ℕ → Bool) (E : List ℕ) :
   rw [List.filter_map]
   rfl
 
+omit [Fact (T24s2.check = true)] in
 theorem getD_mem_filter {f : ℕ → Bool} {p : ℕ}
     (h : p ∈ (List.range E.length).filter fun p => f (E.getD p 0)) : E.getD p 0 ∈ E.filter f := by
   rw [← map_filter_range]
   exact List.mem_map_of_mem h
 
+omit [Fact (T24s2.check = true)] in
 theorem length_filter_range (f : ℕ → Bool) (E : List ℕ) :
     ((List.range E.length).filter fun p => f (E.getD p 0)).length = (E.filter f).length := by
   rw [← map_filter_range f E, List.length_map]
@@ -124,7 +133,7 @@ theorem mulIdx_comm (H : Packed T24s2 E) {p q : ℕ} (hp : p < E.length) (hq : q
 theorem listsOK_of_K (H : Packed T24s2 E) (hid : E.getD 0 0 = pidn 24 5) (hs : listsS = true)
     (h : listsK E = true) : listsOK () = true := by
   unfold listsS at hs
-  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc, decide_eq_true_eq, List.all_eq_true] at hs
+  simp only [Bool.and_eq_true, beq_iff_eq, and_assoc, List.all_eq_true] at hs
   obtain ⟨hvz, hz, h32, h16, hnd, hzz, hany, hvb, hfz, hfix, hid'⟩ := hs
   have hidE : idArr = unpk (E.getD 0 0) := by rw [hid, hid']
   unfold listsK at h
@@ -178,6 +187,7 @@ theorem f3OK_of_K (H : Packed T24s2 E) (hs : f3S = true) (h : f3K E = true) : f3
   rw [tArr_eq H (lt_of_mem_filter_range hp)]
   exact h _ (getD_mem_filter (f := fixesOctP) hp)
 
+omit [Fact (T24s2.check = true)] in
 theorem mem_wordsOfLen_lt {n : ℕ} : ∀ {k : ℕ} {w : List ℕ}, w ∈ wordsOfLen k n → ∀ g ∈ w, g < n
   | 0, w, hw, g, hg => by
     simp only [wordsOfLen, List.mem_singleton] at hw
@@ -190,11 +200,13 @@ theorem mem_wordsOfLen_lt {n : ℕ} : ∀ {k : ℕ} {w : List ℕ}, w ∈ wordsO
     · exact ha
     · exact mem_wordsOfLen_lt hv g hg
 
+omit [Fact (T24s2.check = true)] in
 theorem mem_wordPool_lt {n L : ℕ} {w : List ℕ} (hw : w ∈ wordPool n L) : ∀ g ∈ w, g < n := by
   simp only [wordPool, List.mem_flatMap] at hw
   obtain ⟨k, -, hk⟩ := hw
   exact mem_wordsOfLen_lt hk
 
+omit [Fact (T24s2.check = true)] in
 theorem applyWord_eq (hs : ∀ g ∈ moGens, g.size = 24) (hlen : moGens.length = 10) :
     ∀ w : List ℕ, (∀ g ∈ w, g < 10) → ∀ m, applyWord moGens w m = applyWordK w m
   | [], _, _ => rfl
@@ -207,6 +219,7 @@ theorem applyWord_eq (hs : ∀ g ∈ moGens, g.size = 24) (hlen : moGens.length 
     change actC11 (moGens[g]!) (applyWord moGens w m) = actM (moColsK.getD g []) (applyWordK w m)
     rw [ih, actC11_eq_cols (hs _ hm), moColsK, k43_getD_map _ _ hg]
 
+omit [Fact (T24s2.check = true)] in
 theorem pick6_sub (cands : List ℕ) : ∀ x ∈ pick6 cands, x ∈ cands := by
   unfold pick6
   suffices H : ∀ (l acc : List ℕ), (∀ x ∈ acc, x ∈ cands) → (∀ x ∈ l, x ∈ cands) →
@@ -227,6 +240,7 @@ theorem pick6_sub (cands : List ℕ) : ∀ x ∈ pick6 cands, x ∈ cands := by
       · exact ha x hx
     · exact ha
 
+omit [Fact (T24s2.check = true)] in
 theorem indep6_of_B {cands : List ℕ} (h : indep6B cands = true) : indep6 cands = true := by
   unfold indep6B at h
   unfold indep6
@@ -234,6 +248,7 @@ theorem indep6_of_B {cands : List ℕ} (h : indep6B cands = true) : indep6 cands
   refine ⟨⟨h.1, CFSG.Decide.nodup_of_bitsetNodup_nat h.2⟩, fun x hx => ?_⟩
   simpa using pick6_sub cands x hx
 
+omit [Fact (T24s2.check = true)] in
 theorem f4OK_of_K (hs : f4S = true) (h : ∀ i < 32, f4Slice i = true) : f4OK () = true := by
   unfold f4S at hs
   simp only [Bool.and_eq_true, beq_iff_eq, List.all_eq_true] at hs

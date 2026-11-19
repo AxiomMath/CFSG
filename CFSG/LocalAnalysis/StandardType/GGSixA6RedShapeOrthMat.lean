@@ -148,7 +148,7 @@ theorem ggA6_shape_orthCentralizer {F : Type} [Field F] [Finite F] [CharP F 2]
     rw [Subgroup.card_map_of_injective (K := P) e.injective]
     exact hP
   have hnil : Group.IsNilpotent ↥A := by
-    haveI : Group.IsNilpotent ↥P := hPn
+    have : Group.IsNilpotent ↥P := hPn
     exact Group.nilpotent_of_mulEquiv
       (Subgroup.equivMapOfInjective P e.toMonoidHom e.injective)
   have hJq' : CFSG.Assembly.IsQuasisimple ↥J' :=

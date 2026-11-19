@@ -43,12 +43,12 @@ theorem sl_a5 {E : Type*} [Field E] [Finite E] {m : ℕ} (hm : 2 ≤ m)
     (hf : Function.Surjective f) (hker : f.ker ≤ Subgroup.center _)
     (hA : Nonempty ((T ⧸ Subgroup.center T) ≃* alternatingGroup (Fin 5))) :
     m = 2 ∧ (Nat.card E = 4 ∨ Nat.card E = 5) := by
-  haveI : Finite T := Finite.of_surjective f hf
+  have : Finite T := Finite.of_surjective f hf
   obtain ⟨eA⟩ := hA
   have hSL := card_specialLinear E m (by omega)
   have hZ := card_specialLinear_center E m (by omega)
   have hQ2 : 2 ≤ Nat.card E := by
-    haveI : Fintype E := Fintype.ofFinite E
+    have : Fintype E := Fintype.ofFinite E
     rw [Nat.card_eq_fintype_card]
     exact Fintype.one_lt_card
   have h60 : 60 ∣ Nat.card (Matrix.SpecialLinearGroup (Fin m) E) :=
@@ -132,11 +132,11 @@ theorem su_a5_false {E : Type} [Field E] {ℓ e m : ℕ} (hE : UnitaryFieldData 
     (g : ↥(StatedSU m (ℓ ^ e) E) →* T) (hg : Function.Surjective g)
     (hker : g.ker ≤ Subgroup.center _)
     (hA : Nonempty ((T ⧸ Subgroup.center T) ≃* alternatingGroup (Fin 5))) : False := by
-  haveI := hE.finite
-  haveI : Fact ℓ.Prime := ⟨hE.prime⟩
+  have := hE.finite
+  have : Fact ℓ.Prime := ⟨hE.prime⟩
   have he : 1 ≤ e := hE.one_le
   have hF : Nat.card E = (ℓ ^ e) ^ 2 := by rw [hE.card, ← pow_mul, mul_comm]
-  haveI : Finite T := Finite.of_surjective g hg
+  have : Finite T := Finite.of_surjective g hg
   obtain ⟨eA⟩ := hA
   have hint := CFSG.GH74.GLS.Stage2.Final.ModelOrd.card_statedSU_int hE (n := m) (by omega)
   have h60 : 60 ∣ Nat.card ↥(StatedSU m (ℓ ^ e) E) :=
@@ -212,7 +212,7 @@ theorem nonempty_centerQuot_equiv_of_surjective {G A : Type*} [Group G] [Group A
   exact ⟨(QuotientGroup.quotientMulEquivOfEq (le_antisymm hZ hker)).trans
     (QuotientGroup.quotientKerEquivOfSurjective ψ hψ)⟩
 
-theorem exists_a5_component {K : Type} [Group K] [Finite K] (hK : CFSG.Open.IsQuasisimple K)
+theorem exists_a5_component {K : Type} [Group K] [Finite K] (_hK : CFSG.Open.IsQuasisimple K)
     {x : MulAut K} (hx : Lemma1314.PumpupVia 5 ↥(alternatingGroup (Fin 5)) K x)
     (hlay : PerfectInLayer (autCenterQuot K x)) :
     ∃ T : Subgroup (K ⧸ Subgroup.center K),
@@ -249,7 +249,7 @@ theorem exists_a5_component {K : Type} [Group K] [Finite K] (hK : CFSG.Open.IsQu
   obtain ⟨eJ⟩ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.nonempty_centralQuotient_mulEquiv
     hJcomm ψ hψs hψk
   have hJs : IsSimpleGroup (↥J1 ⧸ Subgroup.center ↥J1) := by
-    haveI : IsSimpleGroup (↥(J1.map π) ⧸ Subgroup.center ↥(J1.map π)) := hTc.2.2.2
+    have : IsSimpleGroup (↥(J1.map π) ⧸ Subgroup.center ↥(J1.map π)) := hTc.2.2.2
     exact eJ.isSimpleGroup
   have hJq : CFSG.Open.IsQuasisimple ↥J1 := ⟨hJcomm, hJs⟩
   have hne : GLAPPrimeCore 5 ↥J1 ≠ ⊤ := by
@@ -302,8 +302,8 @@ theorem linear_inner_a5_false {n : ℕ} {k : Type} [Field k] [Finite k] (hk6 : 6
     (hL : Nonempty ((↥K ⧸ Subgroup.center ↥K) ≃* alternatingGroup (Fin 5))) : False := by
   obtain ⟨h, rfl⟩ := linear_inner_components hpk hA K hK
   have hsq := squarefree_minpoly_glA hpk hA
-  haveI : Fact (Irreducible h.1.1) := ⟨irreducible_of_mem_primaryFactors h.1.2⟩
-  haveI : Finite (AdjoinRoot h.1.1) := Module.finite_of_finite k
+  have : Fact (Irreducible h.1.1) := ⟨irreducible_of_mem_primaryFactors h.1.2⟩
+  have : Finite (AdjoinRoot h.1.1) := Module.finite_of_finite k
   obtain ⟨e⟩ := nonempty_mulEquiv_specialFactor hsq h.1.2
   obtain ⟨f, hf, hker⟩ := InputsL33.exists_surjective_ker_le_center_map_proj e
   have hm : 2 ≤ primaryMultiplicity (glA A : Module.End k (Fin n → k)) h.1.1 := by
@@ -329,7 +329,7 @@ theorem linear_a5_false {S : Type} [Group S] [Finite S] (r : ℕ) (q : TauCeti.P
     (he : Nonempty (S ≃* (TauCeti.CFSGIndex.lie ⟨.A r q, hv⟩).Group))
     {α : MulAut S} (hα : α ^ 5 = 1) {K : Subgroup S} (hK : IsComponentOf K (fixSubgroup α))
     (hL : Nonempty ((↥K ⧸ Subgroup.center ↥K) ≃* alternatingGroup (Fin 5))) : False := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   obtain ⟨e⟩ := he
   let e' : S ≃* LinearFlag.projectiveSL (r + 1) (GaloisField q.p q.exponent) :=
     e.trans ((CFSG.ClassicalModels.linearCatalogCandidateEquivPSL r q hv).trans
@@ -390,14 +390,14 @@ theorem good_block_a5 (H : UnitaryPrimaryData hK.bar B x)
     {T : Type} [Group T] (g : ↥(specialBlock B x (a : K[X])) →* T) (hg : Function.Surjective g)
     (hker : g.ker ≤ Subgroup.center _)
     (hL : Nonempty ((T ⧸ Subgroup.center T) ≃* alternatingGroup (Fin 5))) : ℓ ^ f ≤ 5 := by
-  haveI := hK.finite
-  haveI : CharP K ℓ := hK.charP
+  have := hK.finite
+  have : CharP K ℓ := hK.charP
   have hd : 1 ≤ (a : K[X]).natDegree :=
     Irreducible.natDegree_pos (irreducible_of_mem_primaryFactors a.2)
   have hℓ1 : 1 ≤ ℓ := hK.prime.one_lt.le
   have hfle : ℓ ^ f ≤ ℓ ^ (f * (a : K[X]).natDegree) :=
     Nat.pow_le_pow_right hℓ1 (Nat.le_mul_of_pos_right f hd)
-  haveI : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
+  have : Finite (AdjoinRoot (a : K[X])) := Module.finite_of_finite K
   have hm2 : 2 ≤ primaryMultiplicity (x : Module.End K V) (a : K[X]) := ha.1
   by_cases hself : dualPoly hK.bar (a : K[X]) = a
   · obtain ⟨hE, Hf, hHf, hHfl, ⟨e⟩⟩ :=
@@ -409,7 +409,7 @@ theorem good_block_a5 (H : UnitaryPrimaryData hK.bar B x)
         exact this
       obtain ⟨e2⟩ :=
         CFSG.RankThree.Classical.nonempty_sesqSpecialUnitaryGroup_mulEquiv_SL2 hE hHf hHfl hV
-      haveI : Finite hE.fixedField := inferInstance
+      have : Finite hE.fixedField := inferInstance
       have hcardF : Nat.card hE.fixedField = ℓ ^ (f * (a : K[X]).natDegree) := hE.card_fixedField
       have hφ := InputsL33.ker_comp_mulEquiv_le_center (e.trans e2).symm g hker
       obtain ⟨-, h45⟩ := sl_a5 le_rfl (g.comp (e.trans e2).symm.toMonoidHom)
@@ -453,7 +453,7 @@ theorem unitary_inner_a5 {p : ℕ} (hp : p.Prime) (hpℓ : p ≠ ℓ)
     (hT : CFSG.Open.IsComponentOf T (fixSubgroup (primeFormConjHom h (idGram K n) A)))
     (hL : Nonempty ((↥T ⧸ Subgroup.center ↥T) ≃* alternatingGroup (Fin 5))) : ℓ ^ f ≤ 5 := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hq : 2 ≤ ℓ ^ f := by
     have := Nat.one_lt_pow (by have := h.one_le; omega : f ≠ 0) h.prime.one_lt
     omega
@@ -473,7 +473,7 @@ theorem unitary_inner_a5 {p : ℕ} (hp : p.Prime) (hpℓ : p ≠ ℓ)
     ((Subgroup.equivMapOfInjective F (toLinSU h n) toLinSU_injective).trans
       (MulEquiv.subgroupCongr hFmap)).symm
   let π := QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n)
-  haveI : Finite ↥F := inferInstance
+  have : Finite ↥F := inferInstance
   subst ha
   refine good_block_a5 H a.1 a.2 ((π.subgroupMap F).comp ε.toMonoidHom)
     ((MonoidHom.subgroupMap_surjective π F).comp ε.surjective) (fun u hu => ?_) hL
@@ -589,7 +589,7 @@ theorem isLnEps_cases {S : Type} [Group S] {n q : ℕ} {lin : Bool} (h : IsLnEps
 
 theorem inputA5UpLn_holds : Claims1110f.InputA5UpLn := by
   intro K _ _ hK _ n q lin hL h5 x hx
-  haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.1.2
+  have : IsSimpleGroup (K ⧸ Subgroup.center K) := hK.1.2
   have hna := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hK.1
   have hx5 : x ^ 5 = 1 := by rw [← hx.1]; exact pow_orderOf_eq_one x
   have hβ5 : autCenterQuot K x ^ 5 = 1 := by rw [← map_pow, hx5, map_one]

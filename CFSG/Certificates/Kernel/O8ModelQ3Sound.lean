@@ -95,7 +95,7 @@ private theorem imgMask_lt (n w O G : ℕ) : imgMask n w O G < 2 ^ n := by
 
 private theorem imgTab_get {n w O TI m j : ℕ} (hj : j < m) :
     fget (imgTab n w O TI m) j n = imgMask n w O (perAt n w TI j) :=
-  fget_orN (f := fun i => imgMask n w O (perAt n w TI i)) (fun i _ => imgMask_lt _ _ _ _) hj
+  fget_orN (f := fun _i => imgMask n w O (perAt n w TI _i)) (fun _i _ => imgMask_lt _ _ _ _) hj
 
 private theorem exists_bit_ne {a b n : ℕ} (ha : a < 2 ^ n) (hb : b < 2 ^ n) (h : a ≠ b) :
     ∃ z < n, a.testBit z ≠ b.testBit z := by
@@ -221,7 +221,7 @@ theorem q3_sound {uA T tg : ℕ → Array ℕ} {US PS OS U2 F : Array (Array ℕ
   obtain ⟨h1, h2, h3, h4, h5, h6, h7, h9, h10⟩ := h
   rw [ctAllN_iff] at h1 h4 h6 h9 h10
   rw [F2W.strictN_eq, F2W.strictN_eq, beq_one_rec] at h5
-  simp only [rec_and, ctAndB_eq, Bool.and_eq_true] at h5
+  simp only [Bool.and_eq_true] at h5
   obtain ⟨h5a, h5b⟩ := h5
   rw [ctAllN_iff] at h5a h5b
   have hm : m = 315 := Nat.eq_of_beq_eq_true h2

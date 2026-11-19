@@ -116,6 +116,7 @@ theorem borelLeviSet_commute (h : BorelQuotient D n H π e) {A₁ A₂ : Subgrou
     exact (hcomm x hx y hy).symm
   rw [← Subgroup.map_commutator, hbot, Subgroup.map_bot]
 
+omit [Finite K] [Finite Y] in
 theorem borelLeviSet_pElementSubgroup_eq (h : BorelQuotient D n H π e) {A : Subgroup Y}
     (hA : A ∈ borelLeviSet D π J) : pElementSubgroup 2 A = A := by
   rcases hA with ⟨i, hi, rfl⟩
@@ -194,6 +195,7 @@ theorem map_parJ_le_normalizer_pCoreOf_sup (h : BorelQuotient D n H π e) {A : S
   refine le_normalizer_sup_of_le (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 _) hPX ?_
   exact map_leviRad_le_pCoreOf h J
 
+omit [Finite Y] in
 theorem borelLeviSet_atom (h : BorelQuotient D n H π e) (A : Subgroup Y)
     (hA : IsGomiAtom ⊤ ((posUnipotent D).map π) A) (hAP : A ≤ (parJ D H J).map π) :
     ∃ M ∈ borelLeviSet D π J,

@@ -66,9 +66,9 @@ private theorem sum_pairVec_of_iff {α : Finset (Fin n)} {a c : Fin n} (h : a �
     ∑ x ∈ α, pairVec a c x = 0 := by
   rw [sum_pairVec_eq]
   by_cases ha : a ∈ α
-  · rw [if_pos ha, if_pos (h.mp ha)]
+  · rw [ite_eq_left ha, ite_eq_left (h.mp ha)]
     exact zmod_two_add_self _
-  · rw [if_neg ha, if_neg fun hc => ha (h.mpr hc)]
+  · rw [ite_eq_right ha, ite_eq_right fun hc => ha (h.mpr hc)]
     exact zero_add _
 
 private theorem exists_pair_odd_even (hn : (5 ≤ n ∧ n ≤ 7) ∨ 9 ≤ n) {α γ : Finset (Fin n)}

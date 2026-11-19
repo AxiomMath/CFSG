@@ -29,7 +29,7 @@ theorem two_le_pRank_three_top_of_mulEquiv {Y : Type} [Group Y] [Finite Y] (e : 
 theorem two_le_pRank_three_of_isSpor_M11 (h : IsSpor X .M11) :
     2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
   obtain ⟨e⟩ := h
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M11) := by
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M11) := by
     change Finite CFSG.Blueprint.NativeSporadic.M11
     infer_instance
   exact two_le_pRank_three_top_of_mulEquiv e CFSG.Quasithin.two_le_pRank_M11_1515e
@@ -37,7 +37,7 @@ theorem two_le_pRank_three_of_isSpor_M11 (h : IsSpor X .M11) :
 theorem two_le_pRank_three_of_isSpor_M12
     (h : IsSpor X .M12) : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
   obtain ⟨e⟩ := h
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M12) := by
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M12) := by
     change Finite CFSG.Blueprint.NativeSporadic.M12
     infer_instance
   exact two_le_pRank_three_top_of_mulEquiv e CFSG.Quasithin.two_le_pRank_M12_1515e
@@ -45,7 +45,7 @@ theorem two_le_pRank_three_of_isSpor_M12
 theorem two_le_pRank_three_of_isSpor_M22 (h : IsSpor X .M22) :
     2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
   obtain ⟨e⟩ := h
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M22) := by
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M22) := by
     change Finite CFSG.Blueprint.NativeSporadic.M22
     infer_instance
   exact two_le_pRank_three_top_of_mulEquiv e CFSG.Quasithin.two_le_pRank_M22_1515e
@@ -53,7 +53,7 @@ theorem two_le_pRank_three_of_isSpor_M22 (h : IsSpor X .M22) :
 theorem two_le_pRank_three_of_isSpor_M23 (h : IsSpor X .M23) :
     2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
   obtain ⟨e⟩ := h
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M23) := by
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M23) := by
     change Finite CFSG.Blueprint.NativeSporadic.M23
     infer_instance
   exact two_le_pRank_three_top_of_mulEquiv e CFSG.Quasithin.two_le_pRank_M23_1515e
@@ -61,8 +61,8 @@ theorem two_le_pRank_three_of_isSpor_M23 (h : IsSpor X .M23) :
 theorem two_le_pRank_three_of_isSpor_M24
     (h : IsSpor X .M24) : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
   obtain ⟨e⟩ := h
-  haveI : Finite CFSG.Blueprint.NativeSporadic.M24 := Subtype.finite
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M24) := by
+  have : Finite CFSG.Blueprint.NativeSporadic.M24 := Subtype.finite
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .M24) := by
     change Finite CFSG.Blueprint.NativeSporadic.M24
     infer_instance
   exact two_le_pRank_three_top_of_mulEquiv e CFSG.Quasithin.two_le_pRank_M24_1515e
@@ -79,9 +79,9 @@ theorem two_le_pRank_three_of_isMathieu (h : IsMathieu X) :
 theorem two_le_pRank_three_of_isSpor_J2
     (h : IsSpor X .J2) : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
   obtain ⟨e⟩ := h
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
     Finite.of_equiv X e.toEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.J2 := by
+  have : Finite CFSG.Blueprint.NativeSporadic.J2 := by
     change Finite (CFSG.Blueprint.NativeSporadic.Carrier .J2)
     infer_instance
   exact two_le_pRank_three_top_of_mulEquiv e CFSG.Quasithin.two_le_pRank_J2_1515e
@@ -89,9 +89,9 @@ theorem two_le_pRank_three_of_isSpor_J2
 theorem two_le_pRank_three_of_isSpor_HS
     (h : IsSpor X .HS) : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
   obtain ⟨e⟩ := h
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .HS) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .HS) :=
     Finite.of_equiv X e.toEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.HS := by
+  have : Finite CFSG.Blueprint.NativeSporadic.HS := by
     change Finite (CFSG.Blueprint.NativeSporadic.Carrier .HS)
     infer_instance
   exact two_le_pRank_three_top_of_mulEquiv e CFSG.Quasithin.two_le_pRank_HS_1515e
@@ -99,9 +99,9 @@ theorem two_le_pRank_three_of_isSpor_HS
 theorem two_le_pRank_three_of_isSpor_Ru
     (h : IsSpor X .Ru) : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
   obtain ⟨e⟩ := h
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Ru) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Ru) :=
     Finite.of_equiv X e.toEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.Ru := by
+  have : Finite CFSG.Blueprint.NativeSporadic.Ru := by
     change Finite (CFSG.Blueprint.NativeSporadic.Carrier .Ru)
     infer_instance
   exact two_le_pRank_three_top_of_mulEquiv e CFSG.Quasithin.two_le_pRank_Ru_1515e
@@ -109,9 +109,9 @@ theorem two_le_pRank_three_of_isSpor_Ru
 theorem two_le_pRank_three_of_isSpor_J4
     (h : IsSpor X .J4) : 2 ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
   obtain ⟨e⟩ := h
-  haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .J4) :=
+  have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .J4) :=
     Finite.of_equiv X e.toEquiv
-  haveI : Finite CFSG.Blueprint.NativeSporadic.J4 := by
+  have : Finite CFSG.Blueprint.NativeSporadic.J4 := by
     change Finite (CFSG.Blueprint.NativeSporadic.Carrier .J4)
     infer_instance
   exact two_le_pRank_three_top_of_mulEquiv e CFSG.Quasithin.two_le_pRank_J4_1515e

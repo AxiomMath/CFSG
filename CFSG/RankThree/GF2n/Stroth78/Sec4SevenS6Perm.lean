@@ -70,7 +70,7 @@ theorem card_le_eight_of_elemAbelian (L : Subgroup (Perm (Fin 6)))
     simpa [pow_two] using hsq x.1 x.2
   obtain ⟨n, hn⟩ := hL2.exists_card_eq
   obtain ⟨P, hLP⟩ := hL2.exists_le_sylow
-  obtain ⟨m, hm⟩ := P.isPGroup'.exists_card_eq
+  obtain ⟨m, hm⟩ := P.isPGroup.exists_card_eq
   have hdn : 2 ^ n ∣ 720 := by
     rw [← hn, ← card_perm_six]
     exact L.card_subgroup_dvd_card

@@ -70,7 +70,7 @@ theorem K21dConcl.of_map [Finite S] [Finite S'] (φ : S ≃* S') {U E : Subgroup
 theorem isSylowOf_map [Finite S] [Finite S'] (φ : S ≃* S') {U : Subgroup S}
     (h : CFSG.ABGLocalTools.IsSylowOf 2 U ⊤) :
     CFSG.ABGLocalTools.IsSylowOf 2 (U.map φ.toMonoidHom) ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.ABGLocalTools.isSylowOf_iff] at h ⊢
   obtain ⟨-, hp, hdvd⟩ := h
   refine ⟨le_top, hp.of_equiv (U.equivMapOfInjective φ.toMonoidHom φ.injective), ?_⟩
@@ -80,7 +80,7 @@ theorem isSylowOf_map [Finite S] [Finite S'] (φ : S ≃* S') {U : Subgroup S}
 theorem isSolvable_map (φ : S ≃* S') {D : Subgroup S} (h : Group.IsSolvable ↥D) :
     Group.IsSolvable ↥(D.map φ.toMonoidHom) :=
   haveI := h
-  solvable_of_surjective (f := (D.equivMapOfInjective φ.toMonoidHom φ.injective).toMonoidHom)
+  Group.isSolvable_of_surjective (f := (D.equivMapOfInjective φ.toMonoidHom φ.injective).toMonoidHom)
     (D.equivMapOfInjective φ.toMonoidHom φ.injective).surjective
 
 theorem isElemAbelian_map (φ : S ≃* S') {E : Subgroup S} (h : CFSG.Open.IsElemAbelian 3 E) :

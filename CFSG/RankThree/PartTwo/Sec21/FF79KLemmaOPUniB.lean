@@ -58,11 +58,11 @@ theorem mulSingle_two_mem {n : ℕ} {j k : Fin n} (hjk : j ≠ k) {x y : Kˣ}
   refine ⟨fun i => ?_, ?_⟩
   · by_cases hi : i = j
     · subst hi
-      simp [Pi.mulSingle_apply, hjk, hx]
+      simp [hjk, hx]
     · by_cases hk : i = k
       · subst hk
-        simp [Pi.mulSingle_apply, hi, hy]
-      · simp [Pi.mulSingle_apply, hi, hk]
+        simp [hi, hy]
+      · simp [hi, hk]
   · rw [show (∏ i, (Pi.mulSingle j x * Pi.mulSingle k y : Fin n → Kˣ) i) =
         (∏ i, (Pi.mulSingle j x : Fin n → Kˣ) i) * ∏ i, (Pi.mulSingle k y : Fin n → Kˣ) i from
       Finset.prod_mul_distrib]
@@ -108,7 +108,7 @@ theorem mulSingle_two_pow_three {n : ℕ} (j k : Fin n) {x y : Kˣ} (hx : x ^ 3 
     one_mul]
 
 theorem three_commuting_core (h : UnitaryFieldData p f K) (hn : 5 ≤ n) {w : Kˣ} (hw3 : w ^ 3 = 1)
-    (hw1 : w ≠ 1) (hwq : w ^ (p ^ f + 1) = 1) {t : unitaryPSU h n} (ht : orderOf t = 2)
+    (hw1 : w ≠ 1) (hwq : w ^ (p ^ f + 1) = 1) {t : unitaryPSU h n} (_ht : orderOf t = 2)
     (htc : ∀ x : unitaryTorus p f n K, ∀ i j : Fin n, i.val = 0 → j.val = 1 →
       (x : Fin n → Kˣ) i = (x : Fin n → Kˣ) j → Commute t (torusPSU h n x)) :
     ∃ u v : unitaryPSU h n, Commute t u ∧ Commute t v ∧ Commute u v ∧ orderOf u = 3 ∧
@@ -131,9 +131,9 @@ theorem three_commuting_core (h : UnitaryFieldData p f K) (hn : 5 ≤ n) {w : K�
   have hu3 : xu ^ 3 = 1 := Subtype.ext (mulSingle_two_pow_three _ _ hw3 hw23)
   have hv3 : xv ^ 3 = 1 := Subtype.ext (mulSingle_two_pow_three _ _ hw3 hw23)
   have hu01 : (xu : Fin n → Kˣ) i0 = (xu : Fin n → Kˣ) i1 := by
-    simp [xu, Pi.mulSingle_apply, i0, i1, i2, i3, Fin.ext_iff]
+    simp [xu, i0, i1, i2, i3, Fin.ext_iff]
   have hv01 : (xv : Fin n → Kˣ) i0 = (xv : Fin n → Kˣ) i1 := by
-    simp [xv, Pi.mulSingle_apply, i0, i1, i3, i4, Fin.ext_iff]
+    simp [xv, i0, i1, i3, i4, Fin.ext_iff]
   refine ⟨torusPSU h n xu, torusPSU h n xv, htc xu i0 i1 rfl rfl hu01, htc xv i0 i1 rfl rfl hv01,
     (Commute.all xu xv).map (torusPSU h n), ?_, ?_, ?_⟩
   · refine orderOf_eq_prime (by rw [← map_pow, hu3, map_one]) fun h1 => hw1 ?_
@@ -145,11 +145,10 @@ theorem three_commuting_core (h : UnitaryFieldData p f K) (hn : 5 ≤ n) {w : K�
   · rintro ⟨k, hk⟩
     have h1 : torusPSU h n ((xu ^ k)⁻¹ * xv) = 1 := by
       rw [map_mul, map_inv, map_zpow]
-      change (_ ^ k)⁻¹ * _ = _
       have hk' : torusPSU h n xu ^ k = torusPSU h n xv := hk
       rw [hk', inv_mul_cancel]
     have := torusPSU_eq_one h h1 i0 i4
-    simp [xu, xv, Pi.mulSingle_apply, i0, i2, i3, i4, Fin.ext_iff] at this
+    simp [xu, xv, i0, i2, i3, i4, Fin.ext_iff] at this
     apply hw1
     have h3 : w ^ 3 = w := by rw [pow_succ, ← this, one_mul]
     rwa [h3] at hw3
@@ -242,8 +241,7 @@ theorem exists_involution_swap (hn : 5 ≤ n) (hK2 : (2 : K) = 0) :
       rw [Subgroup.coe_pow, pow_two]; exact swapGL_mul_self _ _), map_one]
   · obtain ⟨c, hc⟩ := exists_scalar_of_proj_eq_one h h1
     have := congrArg (fun g : GL (Fin n) K => (g : Matrix (Fin n) (Fin n) K) i0 i1) hc
-    simp [s, swapGL_coe, Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, scalar_apply, diagonal_apply,
-      h01, Matrix.GeneralLinearGroup.coe_scalar] at this
+    simp [s, swapGL_coe, Equiv.Perm.permMatrix, PEquiv.toMatrix_apply, scalar_apply, h01, Matrix.GeneralLinearGroup.coe_scalar] at this
   · intro x i j hi hj hij
     have hi' : i = i0 := Fin.ext hi
     have hj' : j = i1 := Fin.ext hj
@@ -269,7 +267,7 @@ theorem exists_unit_order_three {p f : ℕ} {K : Type} [Field K] (h : UnitaryFie
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' 3 hd
   refine ⟨w, hw ▸ pow_orderOf_eq_one w, fun e => by simp [e] at hw, ?_⟩
   rw [← orderOf_dvd_iff_pow_eq_one, hw]
-  rcases hQ with e | e <;> rw [e] <;> decide
+  rcases hQ with e | e <;> rw [e]; decide
 
 theorem exists_three_rank_two_psu {S : Type} [Group S] {n p f : ℕ}
     (hM : StatedClassicalModel S .PSU n p f) (hn : 5 ≤ n) (hQ : p ^ f = 2 ∨ p ^ f = 5) :

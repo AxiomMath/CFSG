@@ -569,6 +569,7 @@ variable [DecidableEq G]
 private noncomputable instance conjMulAction (N : Subgroup G) : MulAction N G :=
   MulAction.compHom G (ConjAct.toConjAct.toMonoidHom.comp N.subtype)
 
+omit [Finite G] [DecidableEq G] in
 private lemma conj_smul_def (N : Subgroup G) (n : N) (a : G) :
     n • a = (n : G) * a * (n : G)⁻¹ := rfl
 
@@ -604,6 +605,7 @@ private noncomputable def blockOf (N : Subgroup G) (O : Fin 7 → Finset G) (i :
   classical
   exact Finset.univ.filter fun j => ∃ b ∈ O j, ∃ n ∈ N, n * b * n⁻¹ ∈ O i
 
+omit [Finite G] [DecidableEq G] in
 private lemma mem_blockOf {N : Subgroup G} {O : Fin 7 → Finset G} {i j : Fin 7} :
     j ∈ blockOf N O i ↔ ∃ b ∈ O j, ∃ n ∈ N, n * b * n⁻¹ ∈ O i := by
   classical
@@ -679,6 +681,7 @@ private lemma conjOrbit_inf_H_eq {N : Subgroup G} {O : Fin 7 → Finset G}
   · intro hb
     exact hORB i a ha b hb
 
+omit [Finite G] [DecidableEq G] in
 private lemma stabilizer_eq_subgroupOf (N : Subgroup G) (a : G) :
     MulAction.stabilizer N a = (N ⊓ Subgroup.centralizer ({a} : Set G)).subgroupOf N := by
   classical
@@ -743,6 +746,7 @@ private lemma block_divisibility {N : Subgroup G} {O : Fin 7 → Finset G}
         rw [hmul, ← hC₀, hO, ← hzcard]
     _ = (conjOrbit N z).card * lemma54Sizes i := by rw [Nat.mul_comm]
 
+omit [Group G] [Finite G] [DecidableEq G] in
 private lemma nonempty_O {O : Fin 7 → Finset G} (hCARD : ∀ i, (O i).card = lemma54Sizes i)
     (i : Fin 7) : (O i).Nonempty := by
   rw [← Finset.card_pos, hCARD i]
@@ -781,7 +785,7 @@ private lemma card_conjOrbit_eq_sum {W N : Subgroup G} {O : Fin 7 → Finset G}
     (hOW : ∀ i, ∀ a ∈ O i, a ∈ W ∧ a ≠ 1)
     (hcover : ∀ a ∈ W, a ≠ 1 → ∃ i, a ∈ O i)
     (hORB : ∀ i, ∀ a ∈ O i, ∀ b ∈ O i, ∃ c ∈ N ⊓ H z, c * a * c⁻¹ = b)
-    (hINV : ∀ i, ∀ a ∈ O i, ∀ c ∈ N ⊓ H z, c * a * c⁻¹ ∈ O i)
+    (_hINV : ∀ i, ∀ a ∈ O i, ∀ c ∈ N ⊓ H z, c * a * c⁻¹ ∈ O i)
     (hDISJ : ∀ i j, i ≠ j → Disjoint (O i) (O j))
     (hCARD : ∀ i, (O i).card = lemma54Sizes i)
     (hN : N ≤ normalizer (W : Set G)) {i : Fin 7} {a : G} (ha : a ∈ O i) :
@@ -792,10 +796,12 @@ private lemma card_conjOrbit_eq_sum {W N : Subgroup G} {O : Fin 7 → Finset G}
   · intro j _ l _ hjl
     exact hDISJ j l hjl
 
+omit [Finite G] [DecidableEq G] in
 private lemma z_eq_z1_mul_z1z {W : Subgroup G} (hW2 : ∀ a ∈ W, a * a = 1) {z₁ : G}
     (hz₁W : z₁ ∈ W) : z = z₁ * (z₁ * z) := by
   rw [← mul_assoc, hW2 z₁ hz₁W, one_mul]
 
+omit [Finite G] [DecidableEq G] in
 private lemma mul_eq_z_of_pair {W : Subgroup G}
     (hWab : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a) (hW2 : ∀ a ∈ W, a * a = 1)
     {z₁ : G} (hz₁W : z₁ ∈ W) (hzW : z ∈ W) {a b : G}
@@ -874,6 +880,7 @@ private lemma block_one_ne_singleton {W N : Subgroup G} {O : Fin 7 → Finset G}
   obtain ⟨n, hnN, hnH⟩ := hk
   exact hnH (hNH hnN)
 
+omit [Finite G] [DecidableEq G] in
 private lemma conj_mem_closure_of_conj_mem {S : Set G} {K : Subgroup G} {n : G}
     (hn : ∀ x ∈ S, n * x * n⁻¹ ∈ K) {x : G} (hx : x ∈ Subgroup.closure S) :
     n * x * n⁻¹ ∈ K := by
@@ -884,6 +891,7 @@ private lemma conj_mem_closure_of_conj_mem {S : Set G} {K : Subgroup G} {n : G}
       simpa [MulAut.conj_apply] using hn x hx)
   exact hmap (Subgroup.mem_map.mpr ⟨x, hx, by simp [MulAut.conj_apply]⟩)
 
+omit [Finite G] in
 private lemma mem_J_of_mem_biUnion_of_subset {O : Fin 7 → Finset G} {s : Finset (Fin 7)}
     (hJ : ∀ i : Fin 7, (i : ℕ) < 4 → ∀ a ∈ O i, a ∈ J z)
     (hsub : s ⊆ ({0, 1, 2, 3} : Finset (Fin 7))) {x : G} (hx : x ∈ s.biUnion O) :
@@ -1068,10 +1076,10 @@ private lemma blk_zero_ne {W N : Subgroup G} {O : Fin 7 → Finset G}
     _ = z * n := by rw [hz_fixed]
 
 private lemma blk_one_not_mem_zero {W N : Subgroup G} {O : Fin 7 → Finset G} {z₁ : G}
-    (hOW : ∀ i, ∀ a ∈ O i, a ∈ W ∧ a ≠ 1)
-    (hcover : ∀ a ∈ W, a ≠ 1 → ∃ i, a ∈ O i)
+    (_hOW : ∀ i, ∀ a ∈ O i, a ∈ W ∧ a ≠ 1)
+    (_hcover : ∀ a ∈ W, a ≠ 1 → ∃ i, a ∈ O i)
     (hORB : ∀ i, ∀ a ∈ O i, ∀ b ∈ O i, ∃ c ∈ N ⊓ H z, c * a * c⁻¹ = b)
-    (hN : N ≤ normalizer (W : Set G)) (hO0 : O 0 = {z})
+    (_hN : N ≤ normalizer (W : Set G)) (hO0 : O 0 = {z})
     (hO1 : O 1 = {z₁, z₁ * z}) (hz₁z : ¬ IsConj z₁ z) :
     (1 : Fin 7) ∉ blockOf N O 0 := by
   classical
@@ -1232,7 +1240,7 @@ private lemma blk_hypotheses {W N : Subgroup G} {O : Fin 7 → Finset G} {z₁ :
   · exact blk_span_three hOW hcover hORB hCARD hN hJ hnJ hO0 hO3z
   · exact blk_JW hOW hcover hORB hCARD hN hJ hnJ hO1 hgen
 
-private lemma lemma54_conj_four {W N : Subgroup G} {O : Fin 7 → Finset G}
+private lemma lemma54_conj_four {_W N : Subgroup G} {O : Fin 7 → Finset G}
     (hORB : ∀ i, ∀ a ∈ O i, ∀ b ∈ O i, ∃ c ∈ N ⊓ H z, c * a * c⁻¹ = b)
     (hO0 : O 0 = {z}) (h4 : (4 : Fin 7) ∈ blockOf N O 0) :
     ∀ a ∈ O 4, ∃ n ∈ N, n * z * n⁻¹ = a := by
@@ -1241,7 +1249,7 @@ private lemma lemma54_conj_four {W N : Subgroup G} {O : Fin 7 → Finset G}
   intro a ha
   exact mem_conjOrbit.mp ((mem_blockOf_iff hORB hzO0 ha).mp h4)
 
-private lemma lemma54_conj_two_or_three {W N : Subgroup G} {O : Fin 7 → Finset G}
+private lemma lemma54_conj_two_or_three {_W N : Subgroup G} {O : Fin 7 → Finset G}
     (hORB : ∀ i, ∀ a ∈ O i, ∀ b ∈ O i, ∃ c ∈ N ⊓ H z, c * a * c⁻¹ = b)
     (hCARD : ∀ i, (O i).card = lemma54Sizes i) (hO0 : O 0 = {z})
     (h23 : (2 : Fin 7) ∈ blockOf N O 0 ∨ (3 : Fin 7) ∈ blockOf N O 0) :
@@ -1254,7 +1262,7 @@ private lemma lemma54_conj_two_or_three {W N : Subgroup G} {O : Fin 7 → Finset
   · obtain ⟨a, ha⟩ := nonempty_O hCARD 3
     exact ⟨a, Or.inr ha, mem_conjOrbit.mp ((mem_blockOf_iff hORB hzO0 ha).mp h3)⟩
 
-private lemma lemma54_conj_five_six {W N : Subgroup G} {O : Fin 7 → Finset G}
+private lemma lemma54_conj_five_six {_W N : Subgroup G} {O : Fin 7 → Finset G}
     (hORB : ∀ i, ∀ a ∈ O i, ∀ b ∈ O i, ∃ c ∈ N ⊓ H z, c * a * c⁻¹ = b)
     (hO0 : O 0 = {z})
     (h5 : (5 : Fin 7) ∉ blockOf N O 0) (h6 : (6 : Fin 7) ∉ blockOf N O 0) :
@@ -1267,7 +1275,7 @@ private lemma lemma54_conj_five_six {W N : Subgroup G} {O : Fin 7 → Finset G}
   · exact h5 ((mem_blockOf_iff hORB hzO0 ha).mpr hmem)
   · exact h6 ((mem_blockOf_iff hORB hzO0 ha).mpr hmem)
 
-private lemma lemma54_conj_one_five_six {W N : Subgroup G} {O : Fin 7 → Finset G} {z₁ : G}
+private lemma lemma54_conj_one_five_six {_W N : Subgroup G} {O : Fin 7 → Finset G} {z₁ : G}
     (hORB : ∀ i, ∀ a ∈ O i, ∀ b ∈ O i, ∃ c ∈ N ⊓ H z, c * a * c⁻¹ = b)
     (hCARD : ∀ i, (O i).card = lemma54Sizes i)
     (hO1 : O 1 = {z₁, z₁ * z})
@@ -1350,7 +1358,7 @@ private lemma le_centralizer_of_orbit_subset {N Q : Subgroup G} {x z₁ : G}
     (h6 : (conjOrbit N z₁).card ≤ 6) :
     Q ≤ Subgroup.centralizer ({x} : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨n, hn⟩ := hQp.exists_card_eq
   have hcard : (conjOrbit Q x).card = 1 := by
     have hdvd : (conjOrbit Q x).card ∣ 7 ^ n := by
@@ -1372,6 +1380,7 @@ private lemma le_centralizer_of_orbit_subset {N Q : Subgroup G} {x z₁ : G}
     _ = y * q := by rw [show q * x * q⁻¹ = y by simpa using hqmem]
     _ = x * q := by rw [← hxy]
 
+omit [Finite G] [DecidableEq G] in
 private lemma le_centralizer_mul {Q : Subgroup G} {a b : G}
     (ha : Q ≤ Subgroup.centralizer ({a} : Set G))
     (hb : Q ≤ Subgroup.centralizer ({b} : Set G)) :
@@ -1388,11 +1397,12 @@ private lemma le_centralizer_mul {Q : Subgroup G} {a b : G}
     _ = a * (b * q) := by rw [hqb]
     _ = (a * b) * q := by group
 
+omit [DecidableEq G] in
 private lemma seven_dvd_of_isSylow_le_inf_centralizer {N Q : Subgroup G}
     (hQ : IsSylowOf 7 Q N) (hQC : Q ≤ N ⊓ Subgroup.centralizer ({z} : Set G))
     (hrel : (N ⊓ Subgroup.centralizer ({z} : Set G)).relIndex N = 21) : False := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hQnot : ¬ 7 ∣ Q.relIndex N := (isSylowOf_iff.mp hQ).2.2
   have hdvd : 21 ∣ Q.relIndex N := by
     rw [← hrel]
@@ -1411,7 +1421,7 @@ private lemma blk_seven {W N : Subgroup G} {O : Fin 7 → Finset G} {z₁ : G}
     ∑ j ∈ blockOf N O 0, lemma54Sizes j = 21 → 6 < ∑ j ∈ blockOf N O 1, lemma54Sizes j := by
   classical
   intro h21
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hzO0 : z ∈ O 0 := by rw [hO0]; simp
   have hz₁O1 : z₁ ∈ O 1 := by rw [hO1]; simp
   have hz₁zO1 : z₁ * z ∈ O 1 := by rw [hO1]; simp
@@ -1480,10 +1490,10 @@ theorem lemma54_orbits [DecidableEq G] {z₁ : G} {W N : Subgroup G} (hN : N ≤
     blk_hypotheses hN hWab hW2 hOW hcover hdisj horb hinv hcard hO0 hO1 hJ hnJ hO2z hO3z
       hgen hz₁z hz₁j hk
   have hblk := lemma54_blocks (blockOf N O) hrefl heq hk' h01 h12 h13 h11 hdiv hspan2 hspan3 hJW
-  exact ⟨lemma54_conj_four (W := W) horb hO0 hblk.1,
-    lemma54_conj_two_or_three (W := W) horb hcard hO0 hblk.2.1,
-    lemma54_conj_five_six (W := W) horb hO0 hblk.2.2.1 hblk.2.2.2.1,
-    lemma54_conj_one_five_six (W := W) horb hcard hO1 hblk.2.2.2.2.1,
+  exact ⟨lemma54_conj_four (_W := W) horb hO0 hblk.1,
+    lemma54_conj_two_or_three (_W := W) horb hcard hO0 hblk.2.1,
+    lemma54_conj_five_six (_W := W) horb hO0 hblk.2.2.1 hblk.2.2.2.1,
+    lemma54_conj_one_five_six (_W := W) horb hcard hO1 hblk.2.2.2.2.1,
     lemma54_conj_centralizer (W := W) hOW hcover horb hinv hdisj hcard hN hO0 hO1
       hblk.2.2.2.2.2⟩
 

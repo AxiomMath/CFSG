@@ -39,7 +39,7 @@ theorem isPGroup_quotient_sup_left {p : ℕ} {T C : Subgroup G} (hT : IsPGroup p
     [(C.subgroupOf (T ⊔ C)).Normal] :
     IsPGroup p (↥(T ⊔ C) ⧸ C.subgroupOf (T ⊔ C)) := by
   let Csub : Subgroup ↥(T ⊔ C) := C.subgroupOf (T ⊔ C)
-  haveI : Csub.Normal := by
+  have : Csub.Normal := by
     dsimp [Csub]
     infer_instance
   have hCH : C ≤ T ⊔ C := le_sup_right

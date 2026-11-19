@@ -69,7 +69,7 @@ theorem rckTw78_hπρ
     (hn'M : nv⁻¹ * nw * nv ∈ monomialSubgroup τ CoeffField)
     (hρ : ∀ γ ∈ componentRoots (rootCharHom a) i, S.ρ γ ∈ componentRoots (rootCharHom a) i) :
     ∃ (u : WeylGroup τ), u ∈ parabolicWeylGroup τ (e6Set τ) ∧
-      ∀ (j : Fin τ.rank) (hj : j ∈ e6Set τ),
+      ∀ (j : Fin τ.rank) (_hj : j ∈ e6Set τ),
         weylQuotientHom τ CoeffField ⟨nv⁻¹ * nw * nv, hn'M⟩ • (Pi.single j 1 : Fin τ.rank → ℤ) =
           u • (Pi.single (rhoτ τ j) 1 : Fin τ.rank → ℤ) := by
   classical
@@ -137,13 +137,13 @@ theorem rckTw78_hπρ
           · rw [Finset.sum_eq_single k]
             · simp
             · intro b hb hbk
-              simp [Pi.single_apply, Ne.symm hbk]
+              simp [Ne.symm hbk]
             · intro hk'
               exact absurd (by simpa using hk) hk'
           · rw [hαJ k hk, Finset.sum_eq_zero]
             intro b hb
             have hbk : k ≠ b := fun h => hk (h ▸ (Finset.mem_filter.1 hb).2)
-            simp [Pi.single_apply, hbk]
+            simp [hbk]
         rw [hα_eq, Finset.smul_sum, Finset.smul_sum]
         refine Finset.sum_congr rfl fun j hj => ?_
         have hjJ : j ∈ e6Set τ := (Finset.mem_filter.1 hj).2

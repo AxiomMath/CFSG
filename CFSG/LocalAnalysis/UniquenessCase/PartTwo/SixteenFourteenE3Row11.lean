@@ -21,7 +21,7 @@ variable {G : Type} [Group G] [Finite G]
 private theorem s1614e3_map_fixV_of_commute {T : Type} [CommGroup T] [Finite T]
     {s e : MulAut T} (h : e * s = s * e) :
     (fixV (Subgroup.zpowers s)).map e.toMonoidHom = fixV (Subgroup.zpowers s) := by
-  haveI : Finite ↥(fixV (Subgroup.zpowers s)) := inferInstance
+  have : Finite ↥(fixV (Subgroup.zpowers s)) := inferInstance
   refine Subgroup.eq_of_le_of_card_ge ?_ ?_
   · rintro _ ⟨y, hy, rfl⟩
     rw [CFSG.Quasithin.mem_fixV_zpowers_iff_apply]

@@ -17,7 +17,7 @@ Peterfalvi Part II formalization.  The declarations live in the `BenderSuzuki.Ma
 namespace CFSG.BenderSuzuki
 namespace MatrixGroups
 
-open scoped MatrixGroups
+open scoped _root_.CFSG.BenderSuzuki.MatrixGroups
 open PFAppendixIII
 
 universe w

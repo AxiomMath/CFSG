@@ -21,7 +21,7 @@ theorem gffa2_card_center_dvd_linear {X : Type} [Group X] [Finite X] (hX : Group
     {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 3 ≤ n) (hK : Nat.card K = 2 ^ n)
     (θ : X ⧸ Subgroup.center X ≃* LargeEvenProj (LargeEvenSLGroup (Fin 3) K)) :
     Nat.card (Subgroup.center X) ∣ 3 := by
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hcardK : Fintype.card K = 2 ^ n := by rw [Fintype.card_eq_nat_card, hK]
   have hk : 3 ≤ Fintype.card K := by
     rw [hcardK]
@@ -51,8 +51,8 @@ theorem gffa2_card_center_dvd_unitary
     {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 2 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     (θ : X ⧸ Subgroup.center X ≃* LargeEvenProj (LargeEvenSUGroup (Fin 3) K (2 ^ n))) :
     Nat.card (Subgroup.center X) ∣ 3 := by
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := CFSG.LieType.Steinberg.charP_of_card_eq_sq_pow Nat.prime_two hK
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := CFSG.LieType.Steinberg.charP_of_card_eq_sq_pow Nat.prime_two hK
   have hn1 : 1 ≤ n := by omega
   have ho : ¬ Even 3 := by decide
   have hq : (3, 2 ^ n) ≠ (3, 2) := by

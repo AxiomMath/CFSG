@@ -85,7 +85,7 @@ theorem exists_fixed_of_inner {K R : Subgroup F} {z t u : F} (hK : Mem3 K z)
   have hhP : h ∈ (P : Subgroup (OddQuot K)) := by
     have h2 : IsPGroup 2 (Subgroup.zpowers h) := by
       exact AscFusion.isPGroup_zpowers_of_sq_eq hzz hh2
-    have hsup := IsPGroup.to_sup_of_normal_right' h2 P.isPGroup' (Subgroup.zpowers_le.mpr hnormP)
+    have hsup := IsPGroup.to_sup_of_normal_right' h2 P.isPGroup (Subgroup.zpowers_le.mpr hnormP)
     have heq := P.maximal_isPGroup.eq_of_ge hsup le_sup_right
     rw [← heq]
     exact Subgroup.mem_sup_left (Subgroup.mem_zpowers h)

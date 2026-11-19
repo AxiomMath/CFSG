@@ -52,7 +52,7 @@ theorem pat_linHom_natSlot (hK : Fintype.card K = 2 ^ n) (l : Fin 3) [Module.Fin
       pat (V := (Fin 2 → K) →ₗ[K] CubeSpace K J) (linHom (natSlot l) (cubeRep K J)) J' :=
   sum_pat hK (fun {V} _ _ _ ρ => pat (linHom (natSlot l) ρ) J')
     (fun {V} _ _ _ ρ hsub => by
-      haveI : Subsingleton ((Fin 2 → K) →ₗ[K] V) :=
+      have : Subsingleton ((Fin 2 → K) →ₗ[K] V) :=
         ⟨fun f f' => LinearMap.ext fun _ => Subsingleton.elim _ _⟩
       exact pat_of_subsingleton _ _)
     (fun {V W} _ _ _ _ _ _ ρ σ e => pat_congr (linHomCongrRight _ e) _)
@@ -73,6 +73,7 @@ theorem card_rest_eq_of_eq {J J' : Fin 3 → Finset ℕ} {l : Fin 3} (h : ∀ k,
     rw [h 0 (by decide), h 1 (by decide)]
     omega
 
+omit [Fintype K] in
 theorem slPat_linHom_natSlot_slot_of_ne {k l : Fin 3} (hk : k ≠ l) [Module.Finite K X]
     (ρ : Representation K (Cube K) X) (J'' : Finset ℕ) :
     slPat ((linHom (natSlot l) ρ).comp (slot K k)) J'' = 2 * slPat (ρ.comp (slot K k)) J'' := by
@@ -83,6 +84,7 @@ theorem slPat_linHom_natSlot_slot_of_ne {k l : Fin 3} (hk : k ≠ l) [Module.Fin
   rw [h, slPat, repMultiplicity_piRep_const]
   rfl
 
+omit [Fintype K] in
 theorem slPat_linHom_natSlot_slot_self (l : Fin 3) (ρ : Representation K (Cube K) X)
     (J'' : Finset ℕ) :
     slPat ((linHom (natSlot l) ρ).comp (slot K l)) J'' =
@@ -91,6 +93,7 @@ theorem slPat_linHom_natSlot_slot_self (l : Fin 3) (ρ : Representation K (Cube 
   rw [natSlot_comp_slot_self] at e
   exact slPat_congr (V := (Fin 2 → K) →ₗ[K] X) (W := (Fin 2 → K) →ₗ[K] X) e J''
 
+omit [Fintype K] in
 theorem slPat_linHom_natSL_of_equiv {E : Type} [AddCommGroup E] [Module K E]
     [Module.Finite K E] {m : ℕ} {σ : Representation K SL(2, K) X}
     {τ : Representation K SL(2, K) E} (e : σ.Equiv (piRep fun _ : Fin m => τ)) (J'' : Finset ℕ) :
@@ -123,19 +126,19 @@ theorem pat_linHom_natSlot_of_equiv (hK : Fintype.card K = 2 ^ n) (l : Fin 3)
     intro J₁ hJ₁ hne k hk
     by_contra hJk
     have h1 := slPat_slot_eq_sum hK k (hJ₁ k) (linHom (natSlot l) ρ)
-    rw [hA k hk (J₁ k) (hJ₁ k), if_neg hJk, mul_zero] at h1
+    rw [hA k hk (J₁ k) (hJ₁ k), ite_eq_right hJk, mul_zero] at h1
     have h2 := (Finset.sum_eq_zero_iff.mp h1.symm) J₁ (mem_labels.mpr hJ₁)
-    rw [if_pos rfl] at h2
+    rw [ite_eq_left rfl] at h2
     exact hne ((mul_eq_zero.mp h2).resolve_right (pow_ne_zero _ two_ne_zero))
   split_ifs with hJ'J
   · have h1 := slPat_slot_eq_sum hK l (hJ' l) (linHom (natSlot l) ρ)
-    rw [hB, Finset.sum_eq_single_of_mem J' (mem_labels.mpr hJ'), if_pos rfl,
+    rw [hB, Finset.sum_eq_single_of_mem J' (mem_labels.mpr hJ'), ite_eq_left rfl,
       card_rest_eq_of_eq hJ'J] at h1
     · exact (Nat.eq_of_mul_eq_mul_left (pow_pos two_pos _) (h1.trans (mul_comm _ _))).symm
     · intro J₁ hJ₁ hne
       by_cases hz : pat (linHom (natSlot l) ρ) J₁ = 0
       · rw [hz, zero_mul]
-      · rw [if_neg, mul_zero]
+      · rw [ite_eq_right, mul_zero]
         intro hl
         apply hne
         funext k
@@ -206,14 +209,14 @@ theorem natRep_block_pairEmb (h : Cube K) (l : Fin 3) (x : Fin 2 → K) :
   funext i
   rcases i with i | i
   · rw [pairEmb_inl, natRep_apply, mat, coe_block, blockMatrix, Matrix.fromBlocks_mulVec]
-    simp only [Sum.elim_inl, Pi.add_apply, Matrix.mulVec_diagonal, Function.comp_apply,
+    simp only [Sum.elim_inl, Pi.add_apply, Function.comp_apply,
       pairEmb_inl, pairEmb_inr, natSL_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
     by_cases hi : i = l
     · subst hi
       simp
     · simp [hi]
   · rw [pairEmb_inr, natRep_apply, mat, coe_block, blockMatrix, Matrix.fromBlocks_mulVec]
-    simp only [Sum.elim_inr, Pi.add_apply, Matrix.mulVec_diagonal, Function.comp_apply,
+    simp only [Sum.elim_inr, Pi.add_apply, Function.comp_apply,
       pairEmb_inl, pairEmb_inr, natSL_apply, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
     by_cases hi : i = l
     · subst hi
@@ -237,6 +240,7 @@ variable {X : Type} [AddCommGroup X] [Module K X]
 
 variable [CharP K 2] [Fintype K] {n : ℕ}
 
+omit [Fintype K] in
 theorem pat_linHom_natRep [Module.Finite K X] (ρ : Representation K (StatedSp 3 K) X)
     (J' : Fin 3 → Finset ℕ) :
     pat ((linHom natRep ρ).comp block) J' =
@@ -264,11 +268,11 @@ theorem pat_linHom_natRep_of_const (hK : Fintype.card K = 2 ^ n) [Module.Finite 
     isLabel_constLabel fun i hi => (Finset.mem_singleton.mp hi) ▸ ha
   rw [pat_linHom_natRep_eq_sum hK ρ hJ']
   refine Finset.sum_congr rfl fun l _ => ?_
-  rw [Finset.sum_eq_single_of_mem (constLabel {a}) (mem_labels.mpr hc), hρ _ hc, if_pos rfl,
+  rw [Finset.sum_eq_single_of_mem (constLabel {a}) (mem_labels.mpr hc), hρ _ hc, ite_eq_left rfl,
     one_mul]
   · rfl
   · intro J hJ hne
-    rw [hρ J (mem_labels.mp hJ), if_neg hne, zero_mul]
+    rw [hρ J (mem_labels.mp hJ), ite_eq_right hne, zero_mul]
 
 theorem pat_linHom_natRep_of_const_pos (hK : Fintype.card K = 2 ^ n) [Module.Finite K X]
     (ρ : Representation K (StatedSp 3 K) X) {a : ℕ} (ha0 : 0 < a) (ha : a < n)

@@ -10,6 +10,7 @@ namespace CFSG.RankThree.PartTwo.Sec21.FF79
 
 variable {V : Type} [AddCommGroup V] [Finite V]
 
+omit [Finite V] in
 theorem card_fixed_eq_two_pow {n : ℕ} (hV : Nat.card V = 2 ^ n) (g : V →+ V) :
     ∃ j, j ≤ n ∧ Nat.card {v : V // g v = v} = 2 ^ j := by
   have h := AddSubgroup.card_ker_mul_card_range (g - AddMonoidHom.id V)
@@ -66,11 +67,11 @@ theorem ff79_noInv_abs (n : ℕ) (hn : n = 4 ∨ n = 5) (hV : Nat.card V = 2 ^ n
       Nat.card_coe_set_eq ({v : V | σ v = v} : Set V)
     omega
   have hPcount := card_modEq_five_fixed ({v : V | τ v = v}) σ hσ5
-    (fun v hv => by simp only [Set.mem_setOf_eq] at hv ⊢; rw [← hc, hv])
+    (fun v hv => by simp only [Set.mem_ofPred_eq] at hv ⊢; rw [← hc, hv])
   have hPeq : Nat.card {v : V // v ∈ ({v : V | τ v = v} : Set V) ∧ σ v = v} =
       Nat.card {v : V // σ v = v} :=
     Nat.card_congr (Equiv.subtypeEquivRight (by
-      intro v; simp only [Set.mem_setOf_eq]; exact ⟨fun h => h.2, fun h => ⟨hFP v h, h⟩⟩))
+      intro v; simp only [Set.mem_ofPred_eq]; exact ⟨fun h => h.2, fun h => ⟨hFP v h, h⟩⟩))
   rw [hPeq] at hPcount
   obtain ⟨j, hjn, hj⟩ := card_fixed_eq_two_pow hV τ
   have hjl := card_fixed_lt hV τ hτ1 hj

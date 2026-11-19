@@ -87,7 +87,7 @@ theorem sec5c3qma_frame (hS : Asc82SchurU43) {G : Type} [Group G] [Finite G] {t 
   · intro w hw hev
     have hJ : Even (sec5c_supp w).card := (sec5c_isEvenVec_iff w).mp hev
     have hlift : (⟨sec5c_phi L B r i fr φc w, hw⟩ : ↥L) =
-        sec5c_liftL L B φc (fr.signChange (sec5c_supp w)) := Subtype.ext (habs.phi_even hev)
+        sec5c_liftL L B φc (fr.signChange (sec5c_supp w)) := Subtype.ext (CFSG.OddStandard.SmallF3.Omega.Sec5CDAbs.phi_even hev)
     rw [hlift]
     exact habs.map_liftL (signChange_mem_ffB0 fr hJ)
 

@@ -92,8 +92,8 @@ theorem le_sup_sylow_of_prod {D : Type*} [Group D] [Finite D] {D₀ D₁ : Subgr
   have hD : Nat.card D = Nat.card D₀ * Nat.card D₁ := by
     rw [← card_sup_of_commute hc hd, ht, Subgroup.card_top]
   have hBp : IsPGroup p ↥(B₀ ⊔ B₁) := by
-    have h₀ : IsPGroup p B₀ := P₀.isPGroup'.map _
-    have h₁ : IsPGroup p B₁ := P₁.isPGroup'.map _
+    have h₀ : IsPGroup p B₀ := P₀.isPGroup.map _
+    have h₁ : IsPGroup p B₁ := P₁.isPGroup.map _
     refine h₀.to_sup_of_normal_right' h₁ fun a ha => Subgroup.centralizer_le_normalizer _
       (Subgroup.mem_centralizer_iff.mpr fun b hb => (hcB a ha b hb).symm)
   have hidx : (B₀ ⊔ B₁).index = (P₀ : Subgroup D₀).index * (P₁ : Subgroup D₁).index := by
@@ -126,8 +126,8 @@ theorem exists_abelian_sylow_of_prod {E D : Type*} [Group E] [Finite E] [Group D
   have := hcyc₁ P₁
   obtain ⟨g₀, hg₀⟩ := IsCyclic.exists_generator (α := (P₀ : Subgroup D₀))
   obtain ⟨g₁, hg₁⟩ := IsCyclic.exists_generator (α := (P₁ : Subgroup D₁))
-  obtain ⟨i, hi⟩ := P₀.isPGroup' g₀
-  obtain ⟨j, hj⟩ := P₁.isPGroup' g₁
+  obtain ⟨i, hi⟩ := P₀.isPGroup g₀
+  obtain ⟨j, hj⟩ := P₁.isPGroup g₁
   have hi' : ((g₀ : D₀) : D) ^ p ^ i = 1 := by
     simpa using congrArg (fun u : (P₀ : Subgroup D₀) => ((u : D₀) : D)) hi
   have hj' : ((g₁ : D₁) : D) ^ p ^ j = 1 := by

@@ -294,7 +294,7 @@ theorem s14_lvl12 (M : IsModel (⊤ : Subgroup X) n mul dec) (hn : n < 32768) {t
   · rw [hp1, s14_conj_mul, ← hγ₁, g11, cr2]
   · rw [s14_conj_mul, ← hγ₁, ← hdu', c2]
 
-theorem s14_im (M : IsModel (⊤ : Subgroup X) n mul dec) (hn : n ≤ 65536) {t u1 u2 v : Nat}
+theorem s14_im (_M : IsModel (⊤ : Subgroup X) n mul dec) (hn : n ≤ 65536) {t u1 u2 v : Nat}
     (ht : t < n) (h1 : u1 < n) (h2 : u2 < n) (hv : v < n) (γ : MulAut X)
     (g0 : γ (dec (l16 GS 0)) = dec t) (g1 : γ (dec (l16 GS 1)) = dec u1)
     (g2 : γ (dec (l16 GS 2)) = dec u2) (g3 : γ (dec (l16 GS 3)) = dec v) :

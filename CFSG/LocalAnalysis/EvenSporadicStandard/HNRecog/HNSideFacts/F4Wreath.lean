@@ -139,7 +139,7 @@ theorem mem_a5WrTwoImage_of_prep_sigArrs {k : ℕ} (hk : k < 10) {π : Equiv.Per
 theorem nonempty_quotient_mulEquiv_a5WrTwo {Γ : Type*} [Group Γ] (Q : Subgroup Γ) [Q.Normal]
     (φ : Γ →* Equiv.Perm (Fin 10)) (hker : φ.ker = Q) (hle : φ.range ≤ a5WrTwoImage)
     (hcard : Nat.card φ.range = 7200) : Nonempty (Γ ⧸ Q ≃* A5WrTwo) := by
-  haveI : Finite a5WrTwoImage :=
+  have : Finite a5WrTwoImage :=
     Nat.finite_of_card_ne_zero (by rw [card_a5WrTwoImage]; norm_num)
   have hrange : φ.range = a5WrTwoImage := by
     refine Subgroup.eq_of_le_of_card_ge hle ?_

@@ -24,6 +24,7 @@ variable {K : Type} [Field K] [Finite K] [CharP K 2] {n : ℕ}
 @[expose] def paramW (u : ↥(UpperU K n)) : K × K × K × K :=
   (upMat u 2 3, upMat u 1 3, upMat u 1 2, upMat u 0 3)
 
+omit [Finite K] [CharP K 2] in
 theorem isUpperUni_wMat (n : ℕ) (a b c d : K) : IsUpperUni (wMat n a b c d) := by
   refine ⟨fun i j hji => ?_, fun i => ?_⟩
   · fin_cases i <;> fin_cases j <;> first | exact absurd hji (by decide) | simp [wMat]
@@ -75,6 +76,7 @@ theorem UCond_iff_shiftW {n : ℕ} (hK : Nat.card K = (2 ^ n) ^ 2) (a b c d : K)
   unfold UCond
   rw [shift_fix_iff hK]
 
+omit [Field K] [Finite K] [CharP K 2] in
 theorem cardBoxW (A B C T : K → Prop) :
     Nat.card {w : K × K × K × K // A w.1 ∧ B w.2.1 ∧ C w.2.2.1 ∧ T w.2.2.2} =
       Nat.card {a // A a} * Nat.card {b // B b} * Nat.card {c // C c} * Nat.card {t // T t} := by
@@ -89,6 +91,7 @@ theorem cardBoxW (A B C T : K → Prop) :
   rw [Nat.card_congr e, Nat.card_prod, Nat.card_prod, Nat.card_prod]
   ring
 
+omit [Finite K] in
 theorem cardShiftBoxW {n : ℕ} (P : K × K × K × K → Prop) (A B C T : K → Prop) {m₁ m₂ m₃ m₄ : ℕ}
     (h : ∀ v : K × K × K × K, (UCond n v.1 v.2.1 v.2.2.1 v.2.2.2 ∧ P v) ↔
       (A v.1 ∧ B v.2.1 ∧ C v.2.2.1 ∧ T (v.2.2.2 + v.1 ^ 2 ^ n * v.2.1)))

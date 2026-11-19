@@ -33,7 +33,7 @@ variable {r : ℕ} {S : Fin r → Subgroup s.Q}
 
 section Checks
 
-theorem im_inf_eq (hFac : IsFactorization s.Rbar S) (i₀ : Fin r) (U W V : Subgroup s.Q)
+theorem im_inf_eq (_hFac : IsFactorization s.Rbar S) (i₀ : Fin r) (U W V : Subgroup s.Q)
     (hV : V ≤ s.NQ (S i₀))
     (hVC : V ⊓ Subgroup.centralizer ((S i₀ : Subgroup s.Q) : Set s.Q) = ⊥)
     (hU : U ≤ V) (hW : W ≤ V) :
@@ -61,7 +61,7 @@ theorem im_inf_eq (hFac : IsFactorization s.Rbar S) (i₀ : Fin r) (U W V : Subg
   have hmem : u ∈ U ⊓ W := ⟨hu, huv ▸ hv⟩
   exact (s.mem_im_iff (S i₀) (inf_le_left.trans (hU.trans hV))).mpr ⟨u, hmem, huz⟩
 
-theorem im_bot (hFac : IsFactorization s.Rbar S) (i₀ : Fin r) : s.im (S i₀) ⊥ = ⊥ := by
+theorem im_bot (_hFac : IsFactorization s.Rbar S) (i₀ : Fin r) : s.im (S i₀) ⊥ = ⊥ := by
   refine le_antisymm ?_ bot_le
   intro z hz
   obtain ⟨u, hu, huz⟩ := (s.mem_im_iff (S i₀) bot_le).mp hz
@@ -216,7 +216,7 @@ section SylowTwo
 variable (hFac : IsFactorization s.Rbar S) (i₀ : Fin r)
 
 theorem T'_isPGroup : IsPGroup 2 (s.T' hFac i₀) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h : IsPGroup 2 (s.bar D.T) := s.Tbar_isSylow.isPGroup
   exact (h.comap_subtype).map (s.ψ (S i₀))
 
@@ -366,7 +366,7 @@ theorem TSL'_le_L' : s.TSL' hFac i₀ ≤ s.L' hFac i₀ :=
   s.im_mono (S i₀) (inf_le_right : s.TSL hFac i₀ ≤ S i₀)
 
 theorem TSL'_isSylow : CFSG.ABGLocalTools.IsSylowOf 2 (s.TSL' hFac i₀) (s.L' hFac i₀) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine CFSG.ABGLocalTools.isSylowOf_of_card (s.TSL'_le_L' hFac i₀) ?_
   rw [s.card_TSL' hFac i₀, s.card_L' hFac i₀]
   exact (s.SL_isSylow hFac i₀).card_eq
@@ -376,7 +376,7 @@ theorem TSL'_le_T' : s.TSL' hFac i₀ ≤ s.T' hFac i₀ := by
   exact s.im_mono (S i₀) (s.TSL_le_TL hFac i₀)
 
 theorem T'_inf_L'_eq : s.T' hFac i₀ ⊓ s.L' hFac i₀ = s.TSL' hFac i₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.ABGLocalTools.IsSylowOf.eq_of_le (s.TSL'_isSylow hFac i₀)
     (le_inf (s.TSL'_le_T' hFac i₀) (s.TSL'_le_L' hFac i₀)) inf_le_right
     (s.T'_isPGroup hFac i₀).to_inf_left
@@ -484,11 +484,11 @@ theorem five_dvd_Mbar : 5 ∣ Nat.card s.Mbar := by
 
 theorem L'_strong (h5 : 5 ∣ Nat.card (s.L' hFac i₀)) :
     CFSG.RankThree.PartOne.IsStronglyPEmbedded 5 ((s.ML hFac i₀).subgroupOf (s.L' hFac i₀)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hpMbar : 5 ∣ Nat.card s.Mbar := s.five_dvd_Mbar
   have hpL : 5 ∣ Nat.card (S i₀) := by rw [← s.card_L' hFac i₀]; exact h5
-  haveI : s.Rbar.Normal := s.Rbar_normal
-  haveI : ((S i₀).subgroupOf s.Rbar).Normal := s.factor_normal_in_Rbar hFac i₀
+  have : s.Rbar.Normal := s.Rbar_normal
+  have : ((S i₀).subgroupOf s.Rbar).Normal := s.factor_normal_in_Rbar hFac i₀
   have hMne : s.Mbar ≠ ⊤ := by
     intro htop
     apply s.factor_not_le_Mbar hFac i₀
@@ -615,22 +615,22 @@ theorem X0_le_sup {U : Subgroup s.Q} {C' : Subgroup (s.Xq (S i₀))} :
     ((U.subgroupOf (s.NQ (S i₀)) ⊔ (S i₀).subgroupOf (s.NQ (S i₀))).inv_mem hnL)
 
 theorem bar_A₁_commutative : IsMulCommutative ↥(s.bar s.A₁) := by
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   exact (isCyclic_of_prime_card s.bar_A₁_card).isMulCommutative
 
 theorem bar_A₂_commutative : IsMulCommutative ↥(s.bar s.A₂) := by
-  haveI : Fact (Nat.Prime 31) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 31) := ⟨by norm_num⟩
   exact (isCyclic_of_prime_card s.bar_A₂_card).isMulCommutative
 
 theorem bar_B_commutative : IsMulCommutative ↥(s.bar s.B) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact (isCyclic_of_prime_card s.bar_B_card).isMulCommutative
 
 theorem commutator_sup_le {U : Subgroup s.Q} (hUab : IsMulCommutative ↥U) :
     ⁅U.subgroupOf (s.NQ (S i₀)) ⊔ (S i₀).subgroupOf (s.NQ (S i₀)),
       U.subgroupOf (s.NQ (S i₀)) ⊔ (S i₀).subgroupOf (s.NQ (S i₀))⁆ ≤
       (S i₀).subgroupOf (s.NQ (S i₀)) := by
-  haveI hLn : ((S i₀).subgroupOf (s.NQ (S i₀))).Normal := s.normal_in_NQ (S i₀)
+  have hLn : ((S i₀).subgroupOf (s.NQ (S i₀))).Normal := s.normal_in_NQ (S i₀)
   rw [Subgroup.commutator_le]
   intro a ha b hb
   obtain ⟨u₁, hu₁, m₁, hm₁, rfl⟩ := Subgroup.mem_sup_of_normal_right.mp ha
@@ -813,7 +813,7 @@ theorem lifting_of_le (hFac : IsFactorization s.Rbar S) (i₀ : Fin r)
     exact hUleX0Q ((s.mem_bar_iff hUH).mpr ⟨u, hu, rfl⟩)
   have hWleH : W ≤ s.H := Subgroup.map_subtype_le _
   have hWleM : W ≤ D.M := by
-    haveI hYH : (s.Y.subgroupOf s.H).Normal := s.YH_normal
+    have hYH : (s.Y.subgroupOf s.H).Normal := s.YH_normal
     intro x hx
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
     have hyX : s.π y ∈ X0Q := Subgroup.mem_comap.mp hy
@@ -899,9 +899,9 @@ theorem nonabComponentConfig_holds
       hminR := hminR, hab := hab }
   obtain ⟨r', S', hFac⟩ := s.exists_factorization_Rbar
   let i₀ : Fin r' := Classical.choice (s.nonempty_fin_of_factorization hFac)
-  haveI hCN : (s.CN (S' i₀)).Normal := s.CN_normal (S' i₀)
-  haveI hGrp : Group (s.Xq (S' i₀)) := inferInstance
-  haveI hfin : Finite (s.Xq (S' i₀)) :=
+  have hCN : (s.CN (S' i₀)).Normal := s.CN_normal (S' i₀)
+  have hGrp : Group (s.Xq (S' i₀)) := inferInstance
+  have hfin : Finite (s.Xq (S' i₀)) :=
     Finite.of_surjective (s.ψ (S' i₀)) (QuotientGroup.mk'_surjective _)
   refine ⟨s.Xq (S' i₀), QuotientGroup.Quotient.group (s.CN (S' i₀)), hfin,
     s.L' hFac i₀, s.A₁' hFac i₀, s.A₂' hFac i₀, s.B' hFac i₀, s.T' hFac i₀, s.ML hFac i₀,

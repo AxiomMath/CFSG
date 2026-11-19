@@ -86,7 +86,7 @@ theorem jcoreOm_special {n p : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] 
   have hμ : μ ≠ 1 := by
     rintro rfl
     exact h1 (by rw [Units.val_one, C_1])
-  haveI : Fact (Irreducible (X - C (μ : F))) := ⟨irreducible_X_sub_C _⟩
+  have : Fact (Irreducible (X - C (μ : F))) := ⟨irreducible_X_sub_C _⟩
   have hm : 2 ≤ primaryMultiplicity x.toLinearMap (X - C (μ : F)) := by
     have hpos := hx.primaryMultiplicity_pos hh
     have hne : primaryMultiplicity x.toLinearMap (X - C (μ : F)) ≠ 1 := fun h' =>

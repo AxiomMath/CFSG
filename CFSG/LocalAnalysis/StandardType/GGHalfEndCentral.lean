@@ -39,6 +39,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G}
 
 include h
 
+omit [Finite G] h in
 theorem endT₂_conj_wElt : endT₂ φ₂ * wElt φ₂ * (endT₂ φ₂)⁻¹ = (wElt φ₂)⁻¹ := by
   have hW : (weylRep (m + 1 + 1) F2 ⟨m + 1, by omega⟩)⁻¹ =
       weylRep (m + 1 + 1) F2 ⟨m + 1, by omega⟩ :=
@@ -68,7 +69,7 @@ theorem zpowers_conj_endT₂_x :
     simpa only [wElt] using h.zpowers_x
   have hf : (MulAut.conj (endT₂ φ₂)).toMonoidHom (wElt φ₂) = (wElt φ₂)⁻¹ := by
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
-    exact endT₂_conj_wElt h
+    exact endT₂_conj_wElt
   calc Subgroup.zpowers (endT₂ φ₂ * x * (endT₂ φ₂)⁻¹)
       = (Subgroup.zpowers x).map (MulAut.conj (endT₂ φ₂)).toMonoidHom := by
         rw [MonoidHom.map_zpowers]
@@ -90,11 +91,11 @@ theorem endT₂_comm_J : ∀ j ∈ J, endT₂ φ₂ * j = j * endT₂ φ₂ := b
       (Equiv.swap ((⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).castSucc)
         ((⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).succ)) i = i := by
     intro i hi
-    simp only [Set.mem_setOf_eq] at hi
+    simp only [Set.mem_ofPred_eq] at hi
     refine Equiv.swap_apply_of_ne_of_ne ?_ ?_ <;>
       (intro hh
        have hv := congrArg Fin.val hh
-       simp only [Fin.val_castSucc, Fin.val_succ, Fin.val_mk] at hv
+       simp only [Fin.val_castSucc, Fin.val_succ] at hv
        omega)
   have hmem : slUpper2Hom m s ∈
       slOn (m + 1 + 1 + 1) {i : Fin (m + 1 + 1 + 1) | i.val ≤ m} := by
@@ -107,7 +108,7 @@ theorem endT₂_comm_J : ∀ j ∈ J, endT₂ φ₂ * j = j * endT₂ φ₂ := b
   rw [endT₂, weylRep_eq_slPerm, MonoidHom.comp_apply, ← map_mul, ← map_mul, hcomm]
 
 theorem endT₂_normalizes_L : L.map (MulAut.conj (endT₂ φ₂)).toMonoidHom = L := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hm3 : 3 ≤ m := by have := h.nbr.2.2.1; omega
   have hJ₂ : J = (φ₂.comp (slUpper2Hom m)).range := by
     rw [← h.coords.rangeJ, h.coords.agree]
@@ -133,9 +134,9 @@ theorem endT₂_normalizes_L : L.map (MulAut.conj (endT₂ φ₂)).toMonoidHom =
     apply Subgroup.map_mono
     apply slOn_perfect
     refine ⟨⟨2, by omega⟩, ⟨3, by omega⟩, ⟨4, by omega⟩, ?_, ?_, ?_, ?_, ?_, ?_⟩
-    · simp only [Set.mem_setOf_eq, Fin.val_mk]; omega
-    · simp only [Set.mem_setOf_eq, Fin.val_mk]; omega
-    · simp only [Set.mem_setOf_eq, Fin.val_mk]; omega
+    · simp only [Set.mem_ofPred_eq]; omega
+    · simp only [Set.mem_ofPred_eq]; omega
+    · simp only [Set.mem_ofPred_eq]; omega
     · exact Fin.ne_of_val_ne (by norm_num)
     · exact Fin.ne_of_val_ne (by norm_num)
     · exact Fin.ne_of_val_ne (by norm_num)

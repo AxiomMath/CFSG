@@ -27,7 +27,7 @@ theorem uc22pwsu3_coprime_two_pow {n : ℕ} (hn : 1 ≤ n) : Nat.Coprime (2 ^ n 
   rw [h1, Nat.coprime_self_add_right]
   exact (uc22pwsu3_odd_two_pow_sub_one hn).coprime_two_right
 
-theorem uc22pwsu3_sq_sub_one {n : ℕ} (hn : 1 ≤ n) : (2 ^ n) ^ 2 - 1 = (2 ^ n - 1) * (2 ^ n + 1) := by
+theorem uc22pwsu3_sq_sub_one {n : ℕ} (_hn : 1 ≤ n) : (2 ^ n) ^ 2 - 1 = (2 ^ n - 1) * (2 ^ n + 1) := by
   obtain ⟨m, hm⟩ : ∃ m, 2 ^ n = m + 1 := ⟨2 ^ n - 1, by have := Nat.one_le_two_pow (n := n); omega⟩
   rw [hm, Nat.add_sub_cancel]
   ring_nf
@@ -51,6 +51,7 @@ theorem uc22pwsu3_frob_core {K : Type} [Field K] [Finite K] [CharP K 2] (ϑ : K 
   rw [← h3, hi]
 
 include hσ in
+omit hσ in
 theorem uc22pwsu3_sigma_eq_of_pow {n : ℕ} (hσn : ∀ c : F, σ c = c ^ 2 ^ n) {x : F}
     (hx : x ^ (2 ^ n - 1) = 1) : σ x = x := by
   have h1 : x ^ 2 ^ n = x ^ (2 ^ n - 1) * x := by
@@ -79,7 +80,7 @@ theorem uc22pwsu3_frob (n : ℕ) (hσn : ∀ c : F, σ c = c ^ 2 ^ n)
   obtain ⟨ζ, hζ⟩ : ∃ ζ : traceZero σ, (ζ : F) ≠ 0 :=
     ⟨⟨1, by rw [mem_traceZero, map_one]; exact CharTwo.add_self_eq_zero 1⟩, one_ne_zero⟩
   let K₀ : Subfield F := σ.toRingHom.eqLocusField (RingHom.id F)
-  haveI : CharP K₀ 2 := inferInstance
+  have : CharP K₀ 2 := inferInstance
   have hfix : ∀ β : K₀, σ (β : F) = β := fun β => β.2
   let yE : K₀ → SU σ 3 := fun β => uc22pwsu3Y (β : F) (hfix β)
   have hyE_add : ∀ β β', yE (β + β') = yE β * yE β' := fun β β' =>
@@ -150,7 +151,7 @@ theorem uc22pwsu3_frob (n : ℕ) (hσn : ∀ c : F, σ c = c ^ 2 ^ n)
   refine ⟨i, fun h hh hpow => ?_⟩
   obtain ⟨t, hmat⟩ := exists_mat_eq_diagonal_of_mem_levelTorus_three hh
   have hσt : σ (t : F) = t := by
-    refine uc22pwsu3_sigma_eq_of_pow hσ hσn (uc22pwsu3_entry_pow_eq_one hh ?_ hpow)
+    refine uc22pwsu3_sigma_eq_of_pow hσn (uc22pwsu3_entry_pow_eq_one hh ?_ hpow)
     simp [hmat]
   obtain ⟨h', u, ν, hh', hu, hν, hψh, hrel⟩ := hact h t hh hmat
   have hν1 : (ν : F) ^ (2 ^ n - 1) = 1 := by
@@ -165,7 +166,7 @@ theorem uc22pwsu3_frob (n : ℕ) (hσn : ∀ c : F, σ c = c ^ 2 ^ n)
     have hone : (h' * u) ^ (2 ^ n - 1) = 1 := by rw [← hψh, ← map_pow, hpow, map_one]
     rw [hone, map_one, h00] at hcol
     simpa using hcol.symm
-  have hσν : σ (ν : F) = ν := uc22pwsu3_sigma_eq_of_pow hσ hσn hν1
+  have hσν : σ (ν : F) = ν := uc22pwsu3_sigma_eq_of_pow hσn hν1
   have hnu : (ν : F) = (t : F) ^ 2 ^ i := by
     have h1 := congrArg (fun z : K₀ => (z : F)) (hi (nm t) (nm ν) (fun x => hrel x))
     simp only [nm, hσt, hσν, SubmonoidClass.coe_pow] at h1
@@ -239,7 +240,7 @@ theorem uc22pwr1_datum_su3 (hn : 1 ≤ n) (hF : Nat.card F = (2 ^ n) ^ 2) :
     obtain ⟨τ, hτ⟩ := exists_mat_eq_diagonal_of_mem_levelTorus_three ht
     have h1 : (τ : F) ^ (2 ^ n - 1) = 1 :=
       uc22pwsu3_entry_pow_eq_one ht (by simp [hτ]) htpow
-    exact uc22pwsu3_levelWeyl_conj hσ hζ τ.ne_zero hτ (uc22pwsu3_sigma_eq_of_pow hσ hσn h1)
+    exact uc22pwsu3_levelWeyl_conj hσ hζ τ.ne_zero hτ (uc22pwsu3_sigma_eq_of_pow hσn h1)
   · intro ψ hψ
     exact uc22pwsu3_frob hσ n hσn hnorm htop hHcard ψ hψ
 

@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G] (L : Subgroup G)
   (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom ↥L).comp
     (Subgroup.normalizerMonoidHom (H := L))
 
+omit [Finite G] in
 theorem jHom_actsAs (g : ↥(normalizer (L : Set G))) : ActsAs L (g : G) (jHom L g) := by
   intro x
   refine ⟨Subgroup.normalizerMonoidHom (H := L) g x,
@@ -56,6 +57,7 @@ theorem mem_normalizer_of_actsAs {g : G} {α : MulAut (L ⧸ center L)} (h : Act
     have hzx_eq : z = x := (MulAut.conj g).injective hzx'
     rwa [← hzx_eq]
 
+omit [Finite G] in
 theorem actsAs_unique {g : G} {α β : MulAut (L ⧸ center L)} (hα : ActsAs L g α)
     (hβ : ActsAs L g β) : α = β := by
   ext q
@@ -76,10 +78,12 @@ theorem actsAs_iff {g : G} {α : MulAut (L ⧸ center L)} :
   · rintro ⟨hg, rfl⟩
     exact jHom_actsAs L ⟨g, hg⟩
 
+omit [Finite G] in
 theorem actsAs_one : ActsAs L (1 : G) 1 := by
   intro x
   exact ⟨x, by simp, by simp⟩
 
+omit [Finite G] in
 theorem actsAs_mul {g h : G} {α β : MulAut (L ⧸ center L)} (hg : ActsAs L g α)
     (hh : ActsAs L h β) : ActsAs L (g * h) (α * β) := by
   intro x
@@ -108,6 +112,7 @@ theorem actsAs_inv {g : G} {α : MulAut (L ⧸ center L)} (hg : ActsAs L g α) :
     show α⁻¹ (QuotientGroup.mk x) = QuotientGroup.mk (⟨g⁻¹ * (x : G) * g, hmem⟩ : ↥L)
     rw [← hαy', ← MulAut.mul_apply, inv_mul_cancel, MulAut.one_apply]
 
+omit [Finite G] in
 theorem actsAs_of_mem {l : G} (hl : l ∈ L) :
     ActsAs L l (MulAut.conj (QuotientGroup.mk (⟨l, hl⟩ : ↥L) : L ⧸ center L)) := by
   intro x
@@ -121,6 +126,7 @@ theorem actsAs_of_mem {l : G} (hl : l ∈ L) :
   rw [← map_mul, ← map_inv, ← map_mul]
   congr 1
 
+omit [Finite G] in
 theorem actsAs_of_mem_centralizer {c : G} (hc : c ∈ centralizer (L : Set G)) :
     ActsAs L c (1 : MulAut (L ⧸ center L)) := by
   intro x
@@ -129,6 +135,7 @@ theorem actsAs_of_mem_centralizer {c : G} (hc : c ∈ centralizer (L : Set G)) :
   rw [← hcomm]
   group
 
+omit [Finite G] in
 theorem ker_jHom [Group.IsPerfect ↥L] :
     (jHom L).ker = (centralizer (L : Set G)).subgroupOf (normalizer (L : Set G)) := by
   exact (MonoidHom.ker_comp_of_injective L.normalizerMonoidHom
@@ -172,6 +179,7 @@ theorem mem_jSub {V : Subgroup G} {α : MulAut (L ⧸ center L)} :
         from Subtype.ext rfl]
       exact hj
 
+omit [Finite G] in
 theorem jSub_mono {V W : Subgroup G} (h : V ≤ W) : jSub L V ≤ jSub L W := by
   intro α hα
   rw [jSub, Subgroup.mem_map] at hα ⊢
@@ -244,6 +252,7 @@ theorem jSub_le_inner {V : Subgroup G} (h : V ≤ L ⊔ centralizer (L : Set G))
   refine ⟨QuotientGroup.mk l, ?_⟩
   exact (actsAs_unique L (htα ▸ jHom_actsAs L t) hl).symm
 
+omit [Finite G] in
 theorem isPGroup_jSub {p : ℕ} {V : Subgroup G} (h : IsPGroup p V) : IsPGroup p (jSub L V) := by
   rw [jSub]
   exact (h.comap_subtype (K := normalizer (L : Set G))).map (jHom L)
@@ -252,16 +261,19 @@ theorem isPGroup_jSub {p : ℕ} {V : Subgroup G} (h : IsPGroup p V) : IsPGroup p
     ↥V →* MulAut (L ⧸ center L) :=
   (jHom L).comp (Subgroup.inclusion hV)
 
+omit [Finite G] in
 theorem jOn_actsAs {V : Subgroup G} (hV : V ≤ normalizer (L : Set G)) (g : ↥V) :
     ActsAs L (g : G) (jOn L hV g) := by
   simpa only [jOn, MonoidHom.comp_apply, Subgroup.coe_inclusion] using
     jHom_actsAs L (Subgroup.inclusion hV g)
 
+omit [Finite G] in
 theorem range_jOn {V : Subgroup G} (hV : V ≤ normalizer (L : Set G)) :
     (jOn L hV).range = jSub L V := by
   rw [jOn, MonoidHom.range_comp, Subgroup.inclusion_range]
   rfl
 
+omit [Finite G] in
 theorem ker_jOn [Group.IsPerfect ↥L] {V : Subgroup G} (hV : V ≤ normalizer (L : Set G)) :
     (jOn L hV).ker = (centralizer (L : Set G)).subgroupOf V := by
   ext g

@@ -19,7 +19,7 @@ theorem congr_congr_symm {G H : Type*} [Group G] [Group H] (ψ : G ≃* H) (t : 
 
 theorem d3FieldInvolution_holds : D3FieldInvolution := by
   intro K _ _ n hK t ht3 htE z hz2 hzI hzt A hA hAt hAz
-  haveI := charP_three_of_card hK
+  have := charP_three_of_card hK
   have hn : 1 ≤ n := one_le_of_card_field hK
   have hrc : ringChar K ≠ 2 := by rw [ringChar.eq K 3]; norm_num
   let ψ : adjointGroup Tag.D4 K ≃* D4Model K := coordinatePlusWitnessEquiv K (isoAdj K).symm

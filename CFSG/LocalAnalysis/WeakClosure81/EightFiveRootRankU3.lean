@@ -129,12 +129,12 @@ theorem isSimpleGroup_isPerfect_of_isPSUGp_three {Y : Type} [Group Y] {n : ℕ}
     (hY : IsPSUGp Y 3 n) : IsSimpleGroup Y ∧ Group.IsPerfect Y := by
   obtain ⟨⟨hp, -, -, hne⟩, K, _, _, hK, ⟨e⟩⟩ :=
     CFSG.Blueprint.LieModel.statedClassicalModel_of_ne_zero (by norm_num) hY
-  haveI : Fact (Nat.Prime 2) := ⟨hp⟩
-  haveI : IsSimpleGroup (StatedProj (StatedSU 3 (2 ^ n) K)) :=
+  have : Fact (Nat.Prime 2) := ⟨hp⟩
+  have : IsSimpleGroup (StatedProj (StatedSU 3 (2 ^ n) K)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K 2 n hK 3 le_rfl hne
-  haveI : Group.IsPerfect (StatedSU 3 (2 ^ n) K) :=
+  have : Group.IsPerfect (StatedSU 3 (2 ^ n) K) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hK le_rfl hne
-  haveI : Group.IsPerfect (StatedProj (StatedSU 3 (2 ^ n) K)) :=
+  have : Group.IsPerfect (StatedProj (StatedSU 3 (2 ^ n) K)) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk' _) (QuotientGroup.mk'_surjective _)
   exact ⟨e.isSimpleGroup, Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective⟩
 
@@ -174,8 +174,8 @@ theorem statedSU_transvection_mul_self {n : ℕ} {F₀ : Type} [Field F₀] [Fin
     (hcard : Nat.card F₀ = (2 ^ n) ^ 2) (g : ↥(StatedSU 3 (2 ^ n) F₀))
     (hg : Matrix.rank (((g : GL (Fin 3) F₀) : Matrix (Fin 3) (Fin 3) F₀) - 1) = 1) :
     g * g = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F₀ 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F₀ 2 :=
     CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hcard
   set M : Matrix (Fin 3) (Fin 3) F₀ := ((g : GL (Fin 3) F₀) : Matrix (Fin 3) (Fin 3) F₀) with hM
   have hdet : M.det = 1 := by
@@ -305,8 +305,8 @@ theorem exists_statedSU_cover_of_perfect
     ∃ π : ↥(StatedSU 3 (2 ^ n) F₀) →* L, Function.Surjective π ∧
       ∀ g : ↥(StatedSU 3 (2 ^ n) F₀), e (QuotientGroup.mk (π g)) =
         (QuotientGroup.mk g : StatedProj (StatedSU 3 (2 ^ n) F₀)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F₀ 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F₀ 2 :=
     CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hcard
   let D : Subgroup ↥(StatedSU 3 (2 ^ n) F₀) :=
     (StatedScalars (Fin 3) F₀).subgroupOf (StatedSU 3 (2 ^ n) F₀)
@@ -347,7 +347,7 @@ theorem exists_statedSU_cover
       ∀ g : ↥(StatedSU 3 (2 ^ n) F₀), e (QuotientGroup.mk (π g : X)) =
         (QuotientGroup.mk g : StatedProj (StatedSU 3 (2 ^ n) F₀)) := by
   obtain ⟨ε, hε, hLperf, hdvd⟩ := commutator_quotient_center_equiv hperf
-  haveI : Group.IsPerfect ↥(commutator X) := hLperf
+  have : Group.IsPerfect ↥(commutator X) := hLperf
   obtain ⟨π, hπs, hπ⟩ := exists_statedSU_cover_of_perfect hn hcard (ε.trans e)
     (Odd.of_dvd_nat hodd hdvd)
   refine ⟨π, hπs, fun g => ?_⟩
@@ -368,7 +368,7 @@ theorem isChiefFactor_comp_of_surjective {M Y : Type} [Group M] [Group Y] (π : 
 theorem unitaryRootCommutatorRankAt_three_of_irreducible
     (hSt : SU3IrreducibleRank) : UnitaryRootCommutatorRankAt 3 := by
   intro G _ _ K I n hI hK hC X _ φ hφ hX v hv hvt
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   have hn : 2 ≤ n := two_le_of_isPSUGp_three hX
   obtain ⟨hS, hperf⟩ := isSimpleGroup_isPerfect_of_isPSUGp_three hX
   have hvc : φ v ∉ Subgroup.center X := isUnitaryTransvection_not_mem_center hvt

@@ -171,7 +171,7 @@ theorem card_G_le : Nat.card G ≤ xSet.card * hSet.card := by
   have hs : ∀ g, psi (s (psi g)) = psi g := by
     intro g
     have h : ∃ g', psi g' = psi g := ⟨g, rfl⟩
-    simp only [s, dif_pos h]
+    simp only [s, dite_eq_left h]
     exact Classical.choose_spec h
   let f : G → xSet × Stab := fun g =>
     (⟨psi g, psi_mem g⟩, ⟨g * (s (psi g))⁻¹, psi_mul_inv (hs g)⟩)

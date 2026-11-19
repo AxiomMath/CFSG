@@ -342,7 +342,7 @@ theorem exists_sylow_centralizer [Finite X] {u : X} (hu : ∃ n, orderOf u = p ^
     IsPGroup.of_equiv hz (Subgroup.subgroupOfEquivOfLe hzC).symm
   obtain ⟨S, hS⟩ := hU0.exists_le_sylow
   refine ⟨(S : Subgroup ↥C).map C.subtype, Subgroup.map_subtype_le _, ?_, ?_, ?_⟩
-  · exact S.isPGroup'.map C.subtype
+  · exact S.isPGroup.map C.subtype
   · have hS' : ((S : Subgroup ↥C).map C.subtype).subgroupOf C = (S : Subgroup ↥C) := by
       ext z
       rw [Subgroup.mem_subgroupOf]

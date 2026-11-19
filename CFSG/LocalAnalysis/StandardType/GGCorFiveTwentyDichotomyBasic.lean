@@ -38,6 +38,7 @@ theorem eq_of_le_of_pComponent {p : ℕ} [Fact p.Prime] {Y J X X' : Subgroup G}
     _ ≤ ⁅X', X⁆ := Subgroup.commutator_mono hJX' hJX
     _ ≤ CFSG.Open.lBalancePrimeCore p Y := h
 
+omit [Finite G] in
 theorem eq_one_of_mem_of_coprime {p : ℕ} {O : Subgroup G} (hO : p.Coprime (Nat.card O)) {c : G}
     (hc : c ∈ O) (hcp : c ^ p = 1) : c = 1 := by
   have h1 : orderOf c ∣ p := orderOf_dvd_of_pow_eq_one hcp
@@ -46,6 +47,7 @@ theorem eq_one_of_mem_of_coprime {p : ℕ} {O : Subgroup G} (hO : p.Coprime (Nat
     exact orderOf_dvd_natCard _
   exact orderOf_eq_one_iff.mp (Nat.Coprime.eq_one_of_dvd (Nat.Coprime.coprime_dvd_left h1 hO) h2)
 
+omit [Finite G] in
 theorem commutator_iSup_le_primeCore {p : ℕ} {Y X : Subgroup G} (A : ℕ → Subgroup G) (n : ℕ)
     (hX : X ≤ Y) (hA : ∀ i, i < n → A i ≤ Y)
     (h : ∀ i, i < n → ⁅A i, X⁆ ≤ CFSG.Open.lBalancePrimeCore p Y) :
@@ -63,7 +65,7 @@ theorem exists_pComponent_orbit (hL : GGLBalanceInput) {p : ℕ} (hp : p.Prime) 
     {T : Subgroup G}
     (hT : CFSG.Open.lBalanceIsPComponent p (Y ⊓ centralizer ({e} : Set G)) T) :
     ∃ A : Subgroup G, CFSG.Open.lBalanceIsPComponent p Y A ∧ T ≤ GGPumpup.orbitJoinLT A e p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hTle : T ≤ Y ⊓ centralizer ({e} : Set G) := LBalance.subnormal_le hT.1
   have hTW' : T ≤ CFSG.Open.lBalancePLayer p (Y ⊓ centralizer ({e} : Set G)) := le_sSup hT
   have hTW : T ≤ CFSG.Open.lBalancePLayer p Y :=
@@ -99,7 +101,7 @@ theorem pComponent_le_or_commutator_le (hL : GGLBalanceInput) {p : ℕ} (hp : p.
     ∀ T : Subgroup G, CFSG.Open.lBalanceIsPComponent p (Y ⊓ centralizer (S : Set G)) T →
       T ≤ X ∨ ⁅T, X⁆ ≤ CFSG.Open.lBalancePrimeCore p Y := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hXY : X ≤ Y := LBalance.subnormal_le hX.1
   have hOn : Y ≤ normalizer (CFSG.Open.lBalancePrimeCore p Y : Set G) :=
     (normal_subgroupOf_iff_le_normalizer (LBalance.primeCore_le p Y)).mp

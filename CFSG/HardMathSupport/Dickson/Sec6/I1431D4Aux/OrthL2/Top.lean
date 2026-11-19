@@ -18,6 +18,7 @@ section Top
 
 variable (K : Type) [Field K] [Finite K]
 
+omit [Finite K] in
 theorem finrank_fixedSpace_four_or_six {y : (Coord → K) ≃ₗ[K] (Coord → K)}
     (hyΩ : y ∈ orthDerived (quadPlus 4 K)) (hy1 : y ≠ 1)
     (hlist : FixedLayerListed (quadPlus 4 K) y) :

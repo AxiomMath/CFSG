@@ -82,9 +82,9 @@ theorem closure_exp_two_comm {K : Type*} [Group K] (G : Set K) (hG2 : ∀ x ∈ 
 theorem exists_sylow_two_fixed {K : Type*} [Group K] [Finite K] (α : MulAut K)
     (hαα : α * α = 1) : ∃ S : Sylow 2 K, α • S = S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := finite_subgroup_of_finite K
-  haveI : Finite (Sylow 2 K) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := finite_subgroup_of_finite K
+  have : Finite (Sylow 2 K) :=
     Finite.of_injective (fun S : Sylow 2 K => (S : Subgroup K)) (fun _ _ h => Sylow.ext h)
   have hmod : Nat.card (Sylow 2 K) ≡ 1 [MOD 2] := card_sylow_modEq_one 2 K
   have hodd : Odd (Nat.card (Sylow 2 K)) := by
@@ -108,7 +108,7 @@ theorem involutionFixesElem_of_sylow_large_invs {K : Type*} [Group K] [Finite K]
     CFSG.EvenSporadicStandard.Solomon78.InvolutionFixesElem K 16 := by
   classical
   intro α _ hαα
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hSα⟩ := exists_sylow_two_fixed α hαα
   obtain ⟨φ⟩ := hiso S
   have hSsub : α • (S : Subgroup K) = (S : Subgroup K) := by

@@ -24,7 +24,7 @@ theorem normal_of_pRank_le_one {M L X : Subgroup G} (hL : L ∈ calC M) (hL2 : I
   have hL' : L.map f.toMonoidHom ∈ calC M := UC6S846.calC_map M f hM hL
   have hne : L ≠ L.map f.toMonoidHom := fun h =>
     hxN (UC6S846.mem_normalizer_iff_map_conj.2 h.symm)
-  haveI : IsSimpleGroup (Bar2 L) :=
+  have : IsSimpleGroup (Bar2 L) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
   have hZ : Subgroup.center (Bar2 L) = ⊥ := uc22p21k_center_eq_bot hL.2.2
   have hcard : Nat.card (Bar2 L) = 504 := by

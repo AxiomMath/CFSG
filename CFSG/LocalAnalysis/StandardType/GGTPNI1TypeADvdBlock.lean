@@ -157,7 +157,7 @@ theorem tptdB_block_numerics
     {C : Subgroup (projectiveSL d K)}
     (hC : IsComponentOf C
       (CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup (conjAut d K g)))
-    {labJ : LargeEvenLabel} (hlabJ : LargeEvenInLambda2 labJ) (hlabJtag : labJ.tag = .A)
+    {labJ : LargeEvenLabel} (_hlabJ : LargeEvenInLambda2 labJ) (hlabJtag : labJ.tag = .A)
     (hlabJrank : labJ.rank = d - 2) (hlabJn : labJ.n = f)
     (hlabel : GGHasLabel labJ (↥C ⧸ Subgroup.center ↥C)) :
     ∃ h : Polynomial K, h.natDegree = 1 ∧
@@ -191,11 +191,11 @@ theorem tptdB_block_numerics
   rw [hd1] at hlabel
   rw [LargeEvenRecipeLinear] at hlabel
   obtain ⟨K', hFld, hFin, hK'card, hQ⟩ := hlabel
-  letI : Field K' := hFld
-  haveI : Finite K' := hFin
+  let : Field K' := hFld
+  have : Finite K' := hFin
   have hK'char : ringChar K' = 2 :=
     CFSG.RankThree.Chevalley.ringChar_eq_of_card Nat.prime_two hf1 hK'card
-  haveI : CharP K' 2 := ringChar.of_eq hK'char
+  have : CharP K' 2 := ringChar.of_eq hK'char
   obtain ⟨eQ⟩ := hQ
   have eJ : (↥C ⧸ Subgroup.center ↥C) ≃* projectiveSL (d - 1) K' :=
     eQ.trans (TypeA.recipeEquiv (d - 1) K')
@@ -214,12 +214,12 @@ theorem tptdB_block_numerics
     rw [show f'.ker = f.ker from
       CFSG.StandardType.TypeA.ker_comp_mulEquiv gC f]
     exact hf_ker
-  haveI : Fact (Irreducible h0) := ⟨irreducible_of_mem_primaryFactors hmem⟩
-  haveI : Finite (AdjoinRoot h0) := by
+  have : Fact (Irreducible h0) := ⟨irreducible_of_mem_primaryFactors hmem⟩
+  have : Finite (AdjoinRoot h0) := by
     have hmod : Module.Finite K (AdjoinRoot h0) :=
       (AdjoinRoot.powerBasis (Fact.out : Irreducible h0).ne_zero).finite
     exact Module.finite_of_finite K
-  haveI : CharP (AdjoinRoot h0) 2 :=
+  have : CharP (AdjoinRoot h0) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot h0)).injective 2
   have hqF : CFSG.IsQuasisimple ↥(specialFactor g h0) :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.isQuasisimple_specialFactor

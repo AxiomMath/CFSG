@@ -100,7 +100,7 @@ theorem exists_twist_pair_inv_good {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ �
             else (commConst τ (θ α) (θ β) (1, 1) : k) * d)).prod =
         ([α + β, θ α + θ β].map fun γ => pinnedX τ k γ (0 : k)).prod := by
       simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil,
-        if_neg (Ne.symm hzz.1), pinnedX_zero, mul_one]
+        ite_eq_right (Ne.symm hzz.1), pinnedX_zero, mul_one]
       exact hcd
     have hkey := pinnedX_list_prod_injective (τ := τ) (R := k) [α + β, θ α + θ β] hL hroots
       (fun γ => if γ = α + β then (commConst τ α β (1, 1) : k) * c

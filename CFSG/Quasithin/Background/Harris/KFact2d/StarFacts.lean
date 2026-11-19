@@ -51,6 +51,7 @@ section Star
 
 variable [Finite G] {T N K K0 : Subgroup G}
 
+omit [Finite G] in
 theorem star_sup_pCore (hQJ : pCoreOf 2 K ≤ kerIn N K) (hK0K : K0 ≤ K)
     (hQK : K ≤ Subgroup.normalizer (pCoreOf 2 K : Set G)) :
     E2.star N K (K0 ⊔ pCoreOf 2 K) = E2.star N K K0 := by

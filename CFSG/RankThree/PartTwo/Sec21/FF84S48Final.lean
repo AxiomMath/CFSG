@@ -25,7 +25,7 @@ theorem ff84_4_8_of (h41 : FF84_4_1) (h43 : FF84_4_3) (h44 : FF84_4_4) (h46 : FF
     S45_D_normalizes h41 hs hpost.o3'
   have c : S48Ctx b L B K b₁ b₂ := ⟨hpost, h47 G b L B K b₁ b₂ hpost, hD⟩
   obtain ⟨hEA6, hSPi⟩ := c.S48_elemab hU
-  have hBS : B ≤ Nor S := c.B_le_nor_S hU
+  have hBS : B ≤ Nor S := CFSG.RankThree.PartTwo.Sec21.FF84.S4.S48Ctx.B_le_nor_S hU
   obtain ⟨hb2, hb1, hC⟩ := c.S48_b2 hU
   have h₀ : Nat.card ↥(S ⊓ Cen b) = 16 := by
     show Nat.card ↥(Op 2 (Nor U) ⊓ Cen b) = 16

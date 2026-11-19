@@ -35,7 +35,7 @@ theorem ofMat_toMat {R : Type*} [Semiring R] (n : ℕ) (A : Array (Array R)) (h1
     · simp [ofMat, hrow]
     · intro j hj1 hj2
       have hj : j < n := by simpa [ofMat] using hj1
-      simp [ofMat, toMat, Array.getD, hi, hj, h1, hrow]
+      simp [ofMat, toMat, Array.getD, h1, hrow]
 
 end CFSG.KC.Misc.Spec
 

@@ -269,7 +269,7 @@ theorem exists_dual_pair {w₁ w₂ : Fin 3 → F} (hind : LinearIndependent F !
   obtain ⟨ψ₀, h0⟩ := exists_dotProduct_eq_one hc0
   let P : Matrix (Fin 3) (Fin 3) F := Matrix.of ![ψ₀, w₁, w₂]
   have hP : IsUnit P := by
-    rw [← Matrix.linearIndependent_rows_iff_isUnit]
+    rw [← Matrix.linearIndependent_row_iff_isUnit]
     have := linearIndependent_three h0 h1 h2 hind
     convert this using 1
     funext r

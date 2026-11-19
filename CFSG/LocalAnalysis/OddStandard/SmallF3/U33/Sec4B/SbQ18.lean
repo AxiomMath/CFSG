@@ -40,7 +40,7 @@ theorem sq_comm_mem_of_fpf_quot {Ξ Y V' : Subgroup G} {ρ : G} (hρ3 : ρ ^ 3 =
       change n.1 ∈ V' at h
       exact h
     exact hYc n.1 (hV'Y hnV) x.1 x.2
-  haveI hNn : N.Normal := Subgroup.normal_of_le_center hNle_center
+  have hNn : N.Normal := Subgroup.normal_of_le_center hNle_center
   have hYle_center : Y.subgroupOf Ξ ≤ Subgroup.center Ξ := by
     intro y hy
     rw [Subgroup.mem_center_iff]
@@ -52,7 +52,7 @@ theorem sq_comm_mem_of_fpf_quot {Ξ Y V' : Subgroup G} {ρ : G} (hρ3 : ρ ^ 3 =
       change y.1 ∈ Y at h
       exact h
     exact hYc y.1 hyY x.1 x.2
-  haveI hYn : (Y.subgroupOf Ξ).Normal := Subgroup.normal_of_le_center hYle_center
+  have hYn : (Y.subgroupOf Ξ).Normal := Subgroup.normal_of_le_center hYle_center
   have hρmem : ρ ∈ normalizer (Ξ : Set G) := mem_normalizer_of_conj_mem hρΞ
   let ρ₀ : MulAut Ξ := conjAut Ξ ρ hρmem
   have hρ0cube : ρ₀ ^ 3 = 1 := by
@@ -84,7 +84,7 @@ theorem sq_comm_mem_of_fpf_quot {Ξ Y V' : Subgroup G} {ρ : G} (hρ3 : ρ ^ 3 =
       rw [conjAut_coe]
       simpa using hρV n.1 hnV)
   let T := Ξ ⧸ N
-  haveI hFinT : Finite T :=
+  have hFinT : Finite T :=
     Finite.of_surjective (QuotientGroup.mk' N) (QuotientGroup.mk'_surjective N)
   let ρbar : MulAut T := quotAut ρ₀ N hNinv
   have hNcard : Nat.card N = 4 := by

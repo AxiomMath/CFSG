@@ -15,10 +15,12 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isPGroup_of_isElemAbelian {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     IsPGroup 2 V :=
   fun x => ⟨1, Subtype.ext (by simpa using hV.2 x x.2)⟩
 
+omit [Finite G] in
 private theorem wSub_eq_of_barSub_eq {V₀ V L L' : Subgroup G} (hV : IsElemAbelian 2 V)
     (h : barSub V₀ V hV L = barSub V₀ V hV L') :
     wSub V₀ V hV L = wSub V₀ V hV L' := by
@@ -136,7 +138,7 @@ theorem s1667_conj_cases (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAbelia
         _ = V₀ := hinf
     rw [hWV₀] at hcard
     have hpos : 0 < Nat.card V₀ := by
-      haveI : Nonempty ↥V₀ := ⟨1, V₀.one_mem⟩
+      have : Nonempty ↥V₀ := ⟨1, V₀.one_mem⟩
       exact Nat.card_pos
     omega
   have hinj : Function.Injective (fun Y : Subgroup G => conjSubgroup Y m) := by
@@ -194,7 +196,7 @@ theorem s1667_card_eq (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgroup G}
       normalizer (conjSubgroup (wSub V₀ V hV L) x : Set G) := by
     rw [Subgroup.le_normalizer_iff]
     intro a ha b hb
-    haveI : IsMulCommutative ↥V := hV.1
+    have : IsMulCommutative ↥V := hV.1
     have hcomm : a * b = b * a := setLike_mul_comm (hWV ha) (hWxV hb)
     have hab : a * b * a⁻¹ = b := by
       rw [hcomm]
@@ -208,7 +210,7 @@ theorem s1667_card_eq (D : Data G) (h1217 : R1217 D) {V₀ V L : Subgroup G}
       E3.card_conjSubgroup (wSub V₀ V hV L) x,
       s1667_card_wSub D hS hc] at hmain
   have hpos : 0 < Nat.card V₀ := by
-    haveI : Nonempty ↥V₀ := ⟨1, V₀.one_mem⟩
+    have : Nonempty ↥V₀ := ⟨1, V₀.one_mem⟩
     exact Nat.card_pos
   refine Nat.mul_right_cancel hpos ?_
   rw [hmain]

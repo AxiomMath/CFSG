@@ -48,9 +48,9 @@ theorem «structure» {G : Type} [Group G] [Finite G] {p : ℕ} {P T B : Subgrou
     (hAB : A ≤ B) (hA : Nat.card A = q) :
     Section3.CoprimeSpecialGroups.IsSpecialPGroup (R P T B A) ∧ ¬ IsMulCommutative (R P T B A) ∧
       (commutator (R P T B A)).map (R P T B A).subtype ≤ Z P T B := by
-  haveI : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
-  haveI : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
-  haveI : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
+  have : Fact p.Prime := ⟨hc.oddPrimeClassTwoAction.setting.prime⟩
+  have : Fact (⁅⁅P, P⁆, P⁆ = ⊥) := ⟨hc.oddPrimeClassTwoAction.setting.class_le_two⟩
+  have : Fact (Monoid.exponent ↥P = p) := ⟨hc.oddPrimeClassTwoAction.setting.exponent⟩
   have hp2 : p ≠ 2 := by
     rintro rfl
     exact absurd hc.oddPrimeClassTwoAction.setting.odd (by decide)

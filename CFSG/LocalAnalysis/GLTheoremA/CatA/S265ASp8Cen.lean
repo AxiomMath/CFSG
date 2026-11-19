@@ -22,7 +22,7 @@ private theorem layer_ne_bot_of_normal_factor {G : Type} [Group G] [Finite G]
   subst hY
   let eA : ↥(M.map P.subtype) ≃* T :=
     (Subgroup.equivMapOfInjective M P.subtype P.subtype_injective).symm.trans e
-  haveI : IsSimpleGroup ↥(M.map P.subtype) := eA.isSimpleGroup
+  have : IsSimpleGroup ↥(M.map P.subtype) := eA.isSimpleGroup
   have hA : Nat.card ↥(M.map P.subtype) = Nat.card T := Nat.card_congr eA.toEquiv
   have hnc : ∃ a b : ↥(M.map P.subtype), a * b ≠ b * a := by
     by_contra hcon
@@ -60,7 +60,7 @@ private theorem fixedRank_eq_one_of_layer_eq_bot {s : StatedSp 4 (ZMod 2)} {s₀
   ·
     obtain rfl : s₀ = 3 := by omega
     obtain ⟨-, ⟨e₀⟩⟩ := hc.fixed.resolve_left (by omega)
-    haveI := isSimpleGroup_sp_three
+    have := isSimpleGroup_sp_three
     exact absurd hL (layer_ne_bot_of_normal_factor hc.centralizer_eq hc.commute (M := ⊤)
       inferInstance (Subgroup.topEquiv.trans e₀) (by rw [card_sp_three]; norm_num)
       (by rw [card_sp_three]; norm_num))
@@ -70,7 +70,7 @@ private theorem fixedRank_eq_one_of_layer_eq_bot {s : StatedSp 4 (ZMod 2)} {s₀
     obtain ⟨eS⟩ := CFSG.RankThree.CASymplecticSubfield.nonempty_statedSp_two_mulEquiv_perm
       (k := ZMod 2) (ZMod.card 2)
     let φ := (e₀.trans eS).symm
-    haveI : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup ↥(alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
     have h360 : Nat.card ↥(alternatingGroup (Fin 6)) = 360 := by
       rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin]
       decide
@@ -83,7 +83,7 @@ private theorem fixedRank_eq_one_of_layer_eq_bot {s : StatedSp 4 (ZMod 2)} {s₀
     obtain ⟨E, _, hE, W, _, _, _, Hf, hsymm, hsep, hdim, ⟨e₁⟩⟩ := hc.unitary
     obtain ⟨-, -, -, -, hker, -, -⟩ :=
       CFSG.LinearGroups.unitary_full_group_order hE hsymm hsep hdim (by norm_num)
-    haveI := CFSG.LargeExtraspecial.S14.PSLPSU10.isSimpleGroup_sesqSpecialUnitaryGroup hE hsymm
+    have := CFSG.LargeExtraspecial.S14.PSLPSU10.isSimpleGroup_sesqSpecialUnitaryGroup hE hsymm
       hsep hdim (by norm_num) (by norm_num)
     have hcard := card_special_unitary_four hE hsymm hsep hdim
     let φ := e₁.symm

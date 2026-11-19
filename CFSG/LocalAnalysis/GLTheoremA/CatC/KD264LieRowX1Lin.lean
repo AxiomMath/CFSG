@@ -58,7 +58,7 @@ theorem pRank_le_of_le {p : ℕ} (hp : p.Prime) {E H : Subgroup G} (h : E ≤ H)
 
 theorem exists_card_eq_pow {p : ℕ} (hp : p.Prime) {E : Subgroup G} (hE : IsElemAbelian p E) :
     ∃ k : ℕ, Nat.card E = p ^ k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hP : IsPGroup p E := by
     intro g
     refine ⟨1, ?_⟩
@@ -67,6 +67,7 @@ theorem exists_card_eq_pow {p : ℕ} (hp : p.Prime) {E : Subgroup G} (hE : IsEle
     exact hE.2 g.1 g.2
   exact hP.exists_card_eq
 
+omit [Finite G] in
 theorem isElemAbelian_of_le {p : ℕ} {E E' : Subgroup G} (h : E' ≤ E) (hE : IsElemAbelian p E) :
     IsElemAbelian p E' := by
   obtain ⟨hcomm, hexp⟩ := hE
@@ -84,6 +85,7 @@ theorem center_eq_bot_of_simple_nonabelian {H : Type*} [Group H] [IsSimpleGroup 
     have ha : a ∈ Subgroup.center H := by rw [h]; exact Subgroup.mem_top a
     exact hab ((Subgroup.mem_center_iff.1 ha) b).symm
 
+omit [Finite G] in
 theorem centralizer_map_mulEquiv {H : Type*} [Group H] (e : G ≃* H) (F : Subgroup G) :
     (Subgroup.centralizer (F : Set G)).map (e : G →* H) =
       Subgroup.centralizer ((F.map (e : G →* H) : Subgroup H) : Set H) := by
@@ -112,6 +114,7 @@ theorem card_quotient_center_mulEquiv {A B : Type*} [Group A] [Group B] (e : A �
   have hc := Subgroup.map_center_eq (MulEquiv.subgroupMap e K)
   exact Nat.card_congr (QuotientGroup.congr _ _ (MulEquiv.subgroupMap e K) hc).toEquiv
 
+omit [Finite G] in
 theorem isElemAbelian_of_map_injective {H : Type*} [Group H] {p : ℕ} (f : G →* H)
     (hf : Function.Injective f) {E : Subgroup G} (h : IsElemAbelian p (E.map f)) :
     IsElemAbelian p E := by
@@ -146,7 +149,7 @@ theorem linear_good_of_core (hcore : KD264X1LinCore) {S : Type} [Group S] [Finit
     ∃ F' : Subgroup (MulAut S), F' ≤ A ∧ IsElemAbelian 3 F' ∧
       min 2 (CFSG.Open.pRank 3 A - 1) ≤ CFSG.Open.pRank 3 F' ∧ IsGood 3 F' := by
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI hsimp : IsSimpleGroup (projectiveSL N K) :=
+  have hsimp : IsSimpleGroup (projectiveSL N K) :=
     CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.isSimpleGroup_projectiveSL (by omega)
   have hZG : Subgroup.center (projectiveSL N K) = ⊥ :=
     center_eq_bot_of_simple_nonabelian
@@ -302,7 +305,7 @@ theorem kd264X1LinPart_of_core (hcore : KD264X1LinCore) : KD264X1LinPart := by
       have := hr.2 h
       omega
     omega
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hFcard : Nat.card (GaloisField q.p q.exponent) = 2 := by
     rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', ← TauCeti.PrimePower.card_def]
     exact hq

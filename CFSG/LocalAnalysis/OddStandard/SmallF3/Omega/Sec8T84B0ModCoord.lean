@@ -18,10 +18,10 @@ theorem exists_hom_section {P Q : Type} [CommGroup P] [CommGroup Q] (hP : ∀ x 
     intro y
     obtain ⟨x, rfl⟩ := hf y
     rw [← map_mul, hP x, map_one]
-  letI : Module (ZMod 2) (Additive P) := AddCommGroup.zmodModule fun x => by
+  let : Module (ZMod 2) (Additive P) := AddCommGroup.zmodModule fun x => by
     rw [two_nsmul]
     exact hP (Additive.toMul x)
-  letI : Module (ZMod 2) (Additive Q) := AddCommGroup.zmodModule fun x => by
+  let : Module (ZMod 2) (Additive Q) := AddCommGroup.zmodModule fun x => by
     rw [two_nsmul]
     exact hQ (Additive.toMul x)
   let fL : Additive P →ₗ[ZMod 2] Additive Q := (MonoidHom.toAdditive f).toZModLinearMap 2
@@ -64,11 +64,11 @@ theorem exists_adapted {G : Type} [Group G] (E B : Subgroup G) (hE : IsElemAb2 E
       Acts θ u (blk 1 1) := by
   classical
   obtain ⟨⟨hEcomm, hEexp⟩, _hEcard⟩ := hE
-  haveI : IsMulCommutative E := hEcomm
-  letI : CommGroup ↥E :=
+  have : IsMulCommutative E := hEcomm
+  let : CommGroup ↥E :=
     { (inferInstance : Group ↥E) with
       mul_comm := fun a b => Subtype.ext (setLike_mul_comm a.2 b.2) }
-  letI : CommGroup ↥B :=
+  let : CommGroup ↥B :=
     { (inferInstance : Group ↥B) with
       mul_comm := fun a b => Subtype.ext (setLike_mul_comm (hBE a.2) (hBE b.2)) }
   have hsqE : ∀ x : ↥E, x * x = 1 := fun x =>

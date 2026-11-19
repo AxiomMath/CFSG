@@ -48,7 +48,7 @@ public theorem lemma_2_7
     let Fπ' := piCoreOf (fittingSubgroupOf M) πᶜ
     ⁅M, Subgroup.zpowers c.t⁆ ≤ Fπ' ∧
       ¬ ⁅(c.S : Subgroup G), c.U⁆ ≤ c.FU ∧
-        IsSolvable M := by
+        Group.IsSolvable M := by
   classical
   let π := primesOfOrder (fittingSubgroupOf c.Hhat)
   let Fπ' := piCoreOf (fittingSubgroupOf M) πᶜ

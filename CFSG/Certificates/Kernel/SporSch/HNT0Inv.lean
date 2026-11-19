@@ -136,10 +136,10 @@ theorem invK_iff {ps : List ℕ} {t : ℕ} : invK 8 255 ps t = true ↔
   rw [bAnd_eq, Bool.and_eq_true, sqFixK_iff, bIf_eq]
   refine and_congr Iff.rfl ?_
   by_cases h : allL ps (fun p => Nat.beq (pg 8 255 t p) p) = true
-  · rw [if_pos h]
+  · rw [ite_eq_left h]
     simp only [Bool.false_eq_true, false_iff, not_exists, not_and, not_not]
     exact fun p hp => Nat.eq_of_beq_eq_true (allL_spec h p hp)
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     simp only [true_iff]
     rw [allL_iff] at h
     push Not at h
@@ -197,9 +197,8 @@ theorem pairK_spec {na np kw : ℕ} {IL : ℕ → ℕ} {KB a ta ka row pr b : �
     cases e2 : Nat.beq (appK 8 255 np ta (fldW KB (Nat.mul kw b) kw)) (appK 8 255 np (IL b) ka) <;>
     rw [e1, e2] at h <;> dsimp only at h <;>
     simp only [bAnd_eq, Bool.and_eq_true, beq_eq, blt_eq, decide_eq_true_eq] at h <;>
-    simp only [Bool.false_eq_true, and_false, false_and, and_true, false_implies, not_false_eq_true,
+    simp only [Bool.false_eq_true, and_false, and_true, false_implies, not_false_eq_true,
       true_implies, not_true_eq_false, and_self] <;> first
-    | exact h
     | (obtain ⟨h1, h2, h3, h4⟩ := h
        refine ⟨h1, h2, h3, ?_⟩
        rw [h4]

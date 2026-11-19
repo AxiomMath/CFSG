@@ -38,7 +38,7 @@ private theorem exists_cartan_factor {a f : ℕ}
     split_ifs with hv
     · have hL : (t.Lv 0).map (MulAut.conj (t.edgeElt v)).toMonoidHom = t.Lv v := by
         have h := t.map_Lv_edgeElt hfr v 0
-        rw [if_pos hv] at h
+        rw [ite_eq_left hv] at h
         rwa [show v + 0 = v by omega] at h
       have hD : t.D1 ≤ t.Lv 0 := by
         rw [t.Lv_zero]
@@ -46,7 +46,7 @@ private theorem exists_cartan_factor {a f : ℕ}
       exact (Subgroup.map_mono hD).trans_eq hL
     · have hL : (t.Lv 1).map (MulAut.conj (t.edgeElt v)).toMonoidHom = t.Lv v := by
         have h := t.map_Lv_edgeElt hfr v 1
-        rw [if_neg hv] at h
+        rw [ite_eq_right hv] at h
         rwa [show v + 1 - 1 = v by omega] at h
       have hD : t.D2 ≤ t.Lv 1 := by
         rw [t.Lv_one]
@@ -56,18 +56,18 @@ private theorem exists_cartan_factor {a f : ℕ}
   by_cases hv : Even v
   · have hcard : Nat.card Dv = Nat.card t.D1 := by
       dsimp [Dv]
-      rw [if_pos hv]
+      rw [ite_eq_left hv]
       exact Subgroup.card_map_of_injective
         (f := (MulAut.conj (t.edgeElt v)).toMonoidHom)
         (MulAut.conj (t.edgeElt v)).injective
-    rw [hcard, t.card_D1 hfr, if_pos hv]
+    rw [hcard, t.card_D1 hfr, ite_eq_left hv]
   · have hcard : Nat.card Dv = Nat.card t.D2 := by
       dsimp [Dv]
-      rw [if_neg hv]
+      rw [ite_eq_right hv]
       exact Subgroup.card_map_of_injective
         (f := (MulAut.conj (t.edgeElt v)).toMonoidHom)
         (MulAut.conj (t.edgeElt v)).injective
-    rw [hcard, t.card_D2 hfr, if_neg hv]
+    rw [hcard, t.card_D2 hfr, ite_eq_right hv]
 
 theorem sub_one_dvd_of_Lv_le_centralizer {a f : ℕ}
     (hfr : Frame L1 L2 S a f) {ε h : ℤ} (hh : Even (h - ε)) {X : Subgroup G}
@@ -76,7 +76,7 @@ theorem sub_one_dvd_of_Lv_le_centralizer {a f : ℕ}
     (if Even ε then 2 ^ (2 * a + 1) else 2 ^ f) - 1 ∣
       (if Even ε then 2 ^ f else 2 ^ (2 * a + 1)) - 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf2 : 2 ≤ f := hfr.hf
   obtain ⟨Dε, hDεK, hDεL, hDεcard⟩ := t.exists_cartan_factor hfr ε
   obtain ⟨Dh, hDhK, hDhL, hDhcard⟩ := t.exists_cartan_factor hfr h
@@ -90,7 +90,7 @@ theorem sub_one_dvd_of_Lv_le_centralizer {a f : ℕ}
     have hcomm := t.commutator_mem_Qv_of_mem_centralizer hfr ε hX hXK hXQ hkK hkC
     have hkQ : k ∈ t.Qv ε := t.mem_Qv_of_forall_commutator_mem hfr ε hkL hcomm
     have hKQ : t.K ⊓ t.Qv ε = ⊥ := by
-      refine Subgroup.inf_eq_bot_of_coprime ?_
+      refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
       obtain ⟨n, hn⟩ := (t.isPGroup_Qv ε).exists_card_eq
       rw [hn]
       exact Nat.Coprime.pow_right n (Nat.coprime_two_right.mpr t.hHall.2.1)
@@ -145,16 +145,16 @@ theorem sub_one_dvd_of_Lv_le_centralizer {a f : ℕ}
       (q - 1) * (r - 1) := by
     simpa [q, r, hDεcard, hDhcard, t.card_D1 hfr, t.card_D2 hfr] using hdvd
   by_cases hε : Even ε
-  · rw [if_pos hε, if_pos hε]
+  · rw [ite_eq_left hε, ite_eq_left hε]
     have hhε : Even h := hpar.mpr hε
     have hdvdq : (q - 1) * (q - 1) ∣ (q - 1) * (r - 1) := by
       simpa [hε, hhε] using hdvdqr
     exact Nat.dvd_of_mul_dvd_mul_left hqpos hdvdq
-  · rw [if_neg hε, if_neg hε]
+  · rw [ite_eq_right hε, ite_eq_right hε]
     have hhε : ¬ Even h := fun hh' => hε (hpar.mp hh')
     have hdvdr : (r - 1) * (r - 1) ∣ (r - 1) * (q - 1) := by
       have h := hdvdqr
-      simp only [if_neg hε, if_neg hhε] at h
+      simp only [ite_eq_right hε, ite_eq_right hhε] at h
       rwa [Nat.mul_comm (q - 1) (r - 1)] at h
     exact Nat.dvd_of_mul_dvd_mul_left hrpos hdvdr
 
@@ -165,7 +165,7 @@ theorem IsMaxArc.even_and_eq {a f : ℕ}
     (hZQ : t.Zv (ε + 1 + b₁) = omegaOneCenterOf (pCoreOf 2 (t.Gw ε (ε + 2 * (b₁ + 1))))) :
     Even ε ∧ f = 2 * (2 * a + 1) ∧ Nat.card (t.Zv (ε + 1)) = (2 ^ f) ^ 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hf2 : 2 ≤ f := hfr.hf
   have hnotC : ¬ t.Lv (ε + 1) ≤ centralizer (t.Zv (ε + 1) : Set G) := by
     intro hC'
@@ -219,11 +219,11 @@ theorem IsMaxArc.even_and_eq {a f : ℕ}
   · have hε1 : ¬ Even (ε + 1) := fun he => (Int.even_add_one.mp he) hε
     have hlow' : r ^ 2 ≤ Nat.card (t.Zv (ε + 1)) := by
       have h := hlow
-      rw [if_neg hε1] at h
+      rw [ite_eq_right hε1] at h
       simpa [r] using h
     have hup' : Nat.card (t.Zv (ε + 1)) ≤ q ^ 2 * r := by
       have h := hup
-      rw [if_pos hε] at h
+      rw [ite_eq_left hε] at h
       simpa [q, r] using h
     have hr2 : 2 ≤ r := by
       dsimp [r]
@@ -246,7 +246,7 @@ theorem IsMaxArc.even_and_eq {a f : ℕ}
             ring
       exact (Nat.pow_le_pow_iff_right (by norm_num : 1 < 2)).mp hpow
     have hdvd_qr : q - 1 ∣ r - 1 := by
-      simpa [q, r, if_pos hε] using hdvd
+      simpa [q, r, ite_eq_left hε] using hdvd
     have hqf : 2 * a + 1 ∣ f := by
       apply CFSG.Quasithin.Vol2.Ch11.SecA.dvd_of_two_pow_sub_one_dvd
       simpa [q, r] using hdvd_qr
@@ -290,7 +290,7 @@ theorem IsMaxArc.even_and_eq {a f : ℕ}
       calc 2 = 2 ^ 1 := by norm_num
         _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) (by omega)
     have hdvd_rq : r - 1 ∣ q - 1 := by
-      simpa [q, r, if_neg hε] using hdvd
+      simpa [q, r, ite_eq_right hε] using hdvd
     have hfr_dvd : f ∣ 2 * a + 1 := by
       apply CFSG.Quasithin.Vol2.Ch11.SecA.dvd_of_two_pow_sub_one_dvd
       simpa [q, r] using hdvd_rq
@@ -301,11 +301,11 @@ theorem IsMaxArc.even_and_eq {a f : ℕ}
       exact Nat.pow_lt_pow_right (by norm_num) hflt
     have hlow' : q ^ 4 ≤ Nat.card (t.Zv (ε + 1)) := by
       have h := hlow
-      rw [if_pos hε1] at h
+      rw [ite_eq_left hε1] at h
       simpa [q] using h
     have hup' : Nat.card (t.Zv (ε + 1)) ≤ r ^ 2 * q := by
       have h := hup
-      rw [if_neg hε] at h
+      rw [ite_eq_right hε] at h
       simpa [q, r] using h
     have hr2q2 : r ^ 2 < q ^ 2 :=
       Nat.pow_lt_pow_left hrq_lt (by norm_num : (2 : ℕ) ≠ 0)

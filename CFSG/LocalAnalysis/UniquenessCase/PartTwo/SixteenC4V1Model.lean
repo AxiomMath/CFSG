@@ -19,9 +19,9 @@ section Model
 variable {K : Type} [Field K] [Finite K] (σ : K ≃+* K)
 
 private theorem s16c4v1_mod_char_two (hK : Nat.card K = 4) : (2 : K) = 0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1) hK'
   exact CharP.cast_eq_zero K 2
 
@@ -104,9 +104,9 @@ private theorem s16c4v1_mod_herm_eq_sum (hK : Nat.card K = 4)
 
 private theorem s16c4v1_mod_suid_eq_statedSU (hK : Nat.card K = 4)
     (hσ : IsUnitaryInvolution σ) : SUid σ 4 = StatedSU 4 (2 ^ 1) K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := 1) hK'
   have hσeq : σ = CFSG.LieType.BorelTits.unitaryInvolution K 2 1 := by
     ext c
@@ -116,16 +116,18 @@ private theorem s16c4v1_mod_suid_eq_statedSU (hK : Nat.card K = 4)
   rw [hσeq]
   exact CFSG.LieType.Universal.Unitary.SUid_eq_statedSU hK' 4
 
+omit [Finite K] in
 private theorem s16c4v1_mod_isElemAbelian_subgroupOf {p : ℕ}
     (E : Subgroup (GL (Fin 4) K)) (hEle : E ≤ StatedSU 4 (2 ^ 1) K)
     (hS : SUid σ 4 = StatedSU 4 (2 ^ 1) K) (hE : IsElemAbelian p E) :
     IsElemAbelian p (E.subgroupOf (SUid σ 4)) := by
   have hES : E ≤ SUid σ 4 := by rw [hS]; exact hEle
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   refine ⟨inferInstance, fun x hx => Subtype.ext ?_⟩
   have hx' : (x : GL (Fin 4) K) ∈ E := hx
   simpa using hE.2 (x : GL (Fin 4) K) hx'
 
+omit [Finite K] in
 private theorem s16c4v1_mod_card_subgroupOf (E : Subgroup (GL (Fin 4) K))
     (hEle : E ≤ StatedSU 4 (2 ^ 1) K) (hS : SUid σ 4 = StatedSU 4 (2 ^ 1) K) :
     Nat.card (E.subgroupOf (SUid σ 4)) = Nat.card E := by
@@ -135,7 +137,7 @@ private theorem s16c4v1_mod_card_subgroupOf (E : Subgroup (GL (Fin 4) K))
 
 theorem s16c4v1_card_le_27 (hK : Nat.card K = 4) (hσ : IsUnitaryInvolution σ)
     (E : Subgroup ↥(SUid σ 4)) (hE : IsElemAbelian 3 E) : Nat.card E ≤ 3 ^ 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU : UnitaryFieldData 2 1 K := CFSG.Quasithin.RonanF57.unitaryFieldData_of_card hK
   have hS : SUid σ 4 = StatedSU 4 (2 ^ 1) K := s16c4v1_mod_suid_eq_statedSU σ hK hσ
   let φ : ↥(SUid σ 4) ≃* ↥(unitarySU 2 1 K 4) := MulEquiv.subgroupCongr hS
@@ -158,7 +160,7 @@ theorem s16c4v1_card_le_27 (hK : Nat.card K = 4) (hσ : IsUnitaryInvolution σ)
 theorem s16c4v1_stab_nonsing (hK : Nat.card K = 4) (hσ : IsUnitaryInvolution σ)
     {v : Fin 4 → K} (hv : herm σ v v ≠ 0) :
     ∃ E : Subgroup ↥(SUid σ 4), IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 2 ∧ ∀ γ ∈ E, γ • v = v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : SUid σ 4 = StatedSU 4 (2 ^ 1) K := s16c4v1_mod_suid_eq_statedSU σ hK hσ
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
   have hsum : ∑ i, v i ^ (2 ^ 1 + 1) ≠ 0 := by
@@ -178,7 +180,7 @@ theorem s16c4v1_stab_nonsing (hK : Nat.card K = 4) (hσ : IsUnitaryInvolution σ
 theorem s16c4v1_stab_ne_zero (hK : Nat.card K = 4) (hσ : IsUnitaryInvolution σ)
     {v : Fin 4 → K} (hv : v ≠ 0) :
     ∃ γ : ↥(SUid σ 4), γ ≠ 1 ∧ γ ^ 3 = 1 ∧ γ • v = v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : SUid σ 4 = StatedSU 4 (2 ^ 1) K := s16c4v1_mod_suid_eq_statedSU σ hK hσ
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
   obtain ⟨E, hEle, hE, hEcard, hEfix⟩ :=
@@ -200,7 +202,7 @@ theorem s16c4v1_cover_model (hK : Nat.card K = 4) (hσ : IsUnitaryInvolution σ)
     (E : Subgroup ↥(SUid σ 4)) (hE : IsElemAbelian 3 E) (hcard : Nat.card E = 3 ^ 3)
     {v : Fin 4 → K} (hv : v ≠ 0) :
     ∃ g e : ↥(SUid σ 4), e ∈ E ∧ e ≠ 1 ∧ e • (g • v) = g • v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : SUid σ 4 = StatedSU 4 (2 ^ 1) K := s16c4v1_mod_suid_eq_statedSU σ hK hσ
   let φ : ↥(SUid σ 4) ≃* ↥(unitarySU 2 1 K 4) := MulEquiv.subgroupCongr hS
   let E₀ : Subgroup ↥(unitarySU 2 1 K 4) := E.map φ.toMonoidHom
@@ -261,7 +263,7 @@ theorem s16c4v1_cover_model (hK : Nat.card K = 4) (hσ : IsUnitaryInvolution σ)
   obtain ⟨x, hxE, hxeq⟩ := Subgroup.mem_map.mp he₀E
   have hex : φ.symm e₀ = x := by
     rw [← hxeq]
-    simpa using φ.symm_apply_apply x
+    simp
   have hval : ∀ (y : ↥(unitarySU 2 1 K 4)) (w : Fin 4 → K), (φ.symm y) • w = y • w := by
     intro y w
     rw [Subgroup.smul_def, Subgroup.smul_def,
@@ -282,7 +284,7 @@ theorem s16c4v1_lin_normalizer (hK : Nat.card K = 4) (hσ : IsUnitaryInvolution 
     (hN : ∀ g : ↥(SUid σ 4), ∃ g' : ↥(SUid σ 4),
       ∀ x : Fin 4 → K, A *ᵥ (g • x) = g' • (A *ᵥ x)) :
     ∃ (c : K) (γ : ↥(SUid σ 4)), c ≠ 0 ∧ ∀ x : Fin 4 → K, A *ᵥ x = c • (γ • x) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hU : UnitaryFieldData 2 1 K := CFSG.Quasithin.RonanF57.unitaryFieldData_of_card hK
   have hS2 : SUid σ 4 = StatedSU 4 2 K := by
     simpa only [pow_one] using s16c4v1_mod_suid_eq_statedSU σ hK hσ
@@ -390,6 +392,7 @@ private def s16c4v1_mod_hermForm (hσ : IsUnitaryInvolution σ) :
   refl := fun u v h => by rw [herm_conj σ hσ.invol, h, map_zero]
   nondeg := fun u h => eq_zero_of_herm σ h
 
+omit [Finite K] in
 private theorem s16c4v1_mod_totallyIsotropic (hσ : IsUnitaryInvolution σ)
     {P : Submodule K (Fin 4 → K)} (hP : ∀ x ∈ P, herm σ x x = 0) :
     ∀ x ∈ P, ∀ y ∈ P, herm σ x y = 0 := by
@@ -400,7 +403,7 @@ private theorem s16c4v1_mod_totallyIsotropic (hσ : IsUnitaryInvolution σ)
   have hmem : x + c • y ∈ P := P.add_mem hx (P.smul_mem c hy)
   have h1 := hP (x + c • y) hmem
   simp only [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right,
-    hP x hx, hP y hy, herm_conj σ hσ.invol x y, mul_zero, zero_mul, add_zero,
+    hP x hx, hP y hy, herm_conj σ hσ.invol x y, mul_zero, add_zero,
     zero_add] at h1
   have h2 : c * herm σ x y = c₀ := by
     rw [hc, mul_assoc, inv_mul_cancel₀ hd, mul_one]
@@ -408,7 +411,8 @@ private theorem s16c4v1_mod_totallyIsotropic (hσ : IsUnitaryInvolution σ)
   rw [h2, h3, add_comm] at h1
   exact one_ne_zero (hc₀.symm.trans h1)
 
-theorem s16c4v1_isotropic (hK : Nat.card K = 4) (hσ : IsUnitaryInvolution σ)
+omit [Finite K] in
+theorem s16c4v1_isotropic (_hK : Nat.card K = 4) (hσ : IsUnitaryInvolution σ)
     (P : Submodule K (Fin 4 → K)) (hP : ∀ x ∈ P, herm σ x x = 0) :
     (∀ x ∈ P, ∀ y ∈ P, herm σ x y = 0) ∧ Module.finrank K P ≤ 2 := by
   have htot := s16c4v1_mod_totallyIsotropic σ hσ hP
@@ -420,7 +424,8 @@ theorem s16c4v1_isotropic (hK : Nat.card K = 4) (hσ : IsUnitaryInvolution σ)
   have h2 := Submodule.finrank_mono hle
   omega
 
-theorem s16c4v1_perp_self (hK : Nat.card K = 4) (hσ : IsUnitaryInvolution σ)
+omit [Finite K] in
+theorem s16c4v1_perp_self (_hK : Nat.card K = 4) (hσ : IsUnitaryInvolution σ)
     (P : Submodule K (Fin 4 → K)) (hP : ∀ x ∈ P, ∀ y ∈ P, herm σ x y = 0)
     (h2 : Module.finrank K P = 2) :
     ∀ x : Fin 4 → K, (∀ y ∈ P, herm σ y x = 0) → x ∈ P := by
@@ -435,7 +440,8 @@ theorem s16c4v1_perp_self (hK : Nat.card K = 4) (hσ : IsUnitaryInvolution σ)
   rw [heq]
   exact F.mem_perp.mpr hx
 
-private theorem s16c4v1_mod_root_coeff (hK : Nat.card K = 4)
+omit [Finite K] in
+private theorem s16c4v1_mod_root_coeff (_hK : Nat.card K = 4)
     (hσ : IsUnitaryInvolution σ) {v : Fin 4 → K} (hv : v ≠ 0)
     (hvsing : herm σ v v = 0) (γ : ↥(SUid σ 4))
     (hγ : ∀ x : Fin 4 → K, γ • x - x ∈ K ∙ v) :
@@ -452,7 +458,7 @@ private theorem s16c4v1_mod_root_coeff (hK : Nat.card K = 4)
     have h1 := herm_smul_smul σ γ x y
     rw [hxsplit x, hxsplit y] at h1
     simp only [herm_add_left, herm_add_right, herm_smul_left, herm_smul_right, hvsing,
-      mul_zero, zero_mul, add_zero, zero_add] at h1
+      mul_zero, add_zero] at h1
     have h4 : herm σ x y + (σ (f x) * herm σ v y + f y * herm σ x v) = herm σ x y + 0 := by
       rw [add_zero]
       simpa only [add_assoc] using h1

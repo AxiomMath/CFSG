@@ -22,7 +22,7 @@ private theorem stepC_exists_lift {p : ℕ} (hp : p.Prime) (N : Subgroup Z) [N.N
     ∃ S : Subgroup Z, IsElemAbelian p S ∧ Nat.card S = Nat.card Ē ∧
       S ≤ Ē.comap (QuotientGroup.mk' N) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := (isPGroup_of_isElemAbelian hĒ).exists_card_eq
   set F : Subgroup Z := Ē.comap (QuotientGroup.mk' N) with hF
   have hFcard : Nat.card F = Nat.card N * p ^ k := by
@@ -78,7 +78,7 @@ variable {Z : Type} [Group Z] [Finite Z]
 private theorem stepC_conj_into {p : ℕ} (hp : p.Prime) {Y : Type} [Group Y] [Finite Y]
     {M : Subgroup Y} (hM : IsPGroup p M) (hidx : ¬ p ∣ M.index) {E : Subgroup Y}
     (hE : IsPGroup p E) : ∃ g : Y, ∀ x ∈ E, g⁻¹ * x * g ∈ M := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P₁, hEP₁⟩ := IsPGroup.exists_le_sylow hE
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Y (hM.toSylow hidx) P₁
   refine ⟨g, fun x hx => ?_⟩
@@ -130,8 +130,8 @@ private theorem stepC_abstract {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Q R B N
     (hbound : ∀ E : Subgroup Z, IsElemAbelian p E → E ≤ Q ⊔ B → Nat.card E ≤ Nat.card B) :
     (⁅Q, R⁆ : Subgroup Z) ≤ N := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2p : Nat.Coprime 2 p := (Nat.coprime_primes Nat.prime_two hp).2 hp2.symm
   have h2p' : Nat.Coprime p 2 := (Nat.coprime_primes hp Nat.prime_two).2 hp2
   have hpN : Nat.Coprime p (Nat.card N) := (Nat.Prime.coprime_iff_not_dvd hp).2 hNp
@@ -140,7 +140,7 @@ private theorem stepC_abstract {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Q R B N
   set Qb : Subgroup (Z ⧸ N) := Q.map π with hQb
   set Rb : Subgroup (Z ⧸ N) := R.map π with hRb
   set Bb : Subgroup (Z ⧸ N) := B.map π with hBb
-  haveI hQbn : Qb.Normal := Subgroup.Normal.map inferInstance π hπs
+  have hQbn : Qb.Normal := Subgroup.Normal.map inferInstance π hπs
   have hQbtop : Subgroup.normalizer (Qb : Set (Z ⧸ N)) = ⊤ := Subgroup.normalizer_eq_top Qb
   have hBQ : Bb ≤ Subgroup.normalizer (Qb : Set (Z ⧸ N)) := by
     rw [hQbtop]
@@ -196,11 +196,11 @@ private theorem stepC_abstract {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {Q R B N
         ((le_sup_left : Rb ≤ Rb ⊔ Bb) (Subgroup.mem_map_of_mem π hr))
         ((le_sup_right : Bb ≤ Rb ⊔ Bb) (Subgroup.mem_map_of_mem π hb))))
   have hsolv : Group.IsSolvable (Z ⧸ N) := by
-    haveI : Group.IsNilpotent Qb := hQbp.isNilpotent
-    haveI : Group.IsNilpotent Rb := hRbp.isNilpotent
-    haveI : IsMulCommutative Bb := hBbel.1
-    haveI := isSolvable_sup Rb Bb hBRb
-    haveI := isSolvable_sup Qb (Rb ⊔ Bb) hRBQ
+    have : Group.IsNilpotent Qb := hQbp.isNilpotent
+    have : Group.IsNilpotent Rb := hRbp.isNilpotent
+    have : IsMulCommutative Bb := hBbel.1
+    have := isSolvable_sup Rb Bb hBRb
+    have := isSolvable_sup Qb (Rb ⊔ Bb) hRBQ
     exact Group.isSolvable_of_surjective (f := (Qb ⊔ (Rb ⊔ Bb)).subtype)
       (fun y => ⟨⟨y, hcover y⟩, rfl⟩)
   have hfact : ∀ y : Z ⧸ N, ∃ r ∈ Rb, ∃ m ∈ Qb ⊔ Bb, y = r * m := by
@@ -325,10 +325,12 @@ section Bound
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem stepC_oPPrimeP_le (p : ℕ) (X : Subgroup G) : oPPrimeP p X ≤ X := by
   unfold oPPrimeP
   exact Subgroup.map_subtype_le _
 
+omit [Finite G] in
 private theorem stepC_conj_mem_oPPrimeP {p : ℕ} {X : Subgroup G} {x h : G} (hx : x ∈ X)
     (hh : h ∈ oPPrimeP p X) : x * h * x⁻¹ ∈ oPPrimeP p X := by
   unfold oPPrimeP at hh ⊢
@@ -336,10 +338,11 @@ private theorem stepC_conj_mem_oPPrimeP {p : ℕ} {X : Subgroup G} {x h : G} (hx
   refine Subgroup.mem_map.2 ⟨(⟨x, hx⟩ : ↥X) * m * (⟨x, hx⟩ : ↥X)⁻¹, ?_, ?_⟩
   · rw [Subgroup.mem_comap] at hm ⊢
     rw [map_mul, map_mul, map_inv]
-    haveI : (CFSG.pCore p (↥X ⧸ GLAPPrimeCore p ↥X)).Normal := CFSG.pCore_normal
+    have : (CFSG.pCore p (↥X ⧸ GLAPPrimeCore p ↥X)).Normal := CFSG.pCore_normal
     exact Subgroup.Normal.conj_mem inferInstance _ hm _
   · simp
 
+omit [Finite G] in
 private theorem stepC_le_normalizer_oPPrimeP (p : ℕ) (X : Subgroup G) :
     X ≤ Subgroup.normalizer (oPPrimeP p X : Set G) := by
   intro x hx
@@ -352,6 +355,7 @@ private theorem stepC_le_normalizer_oPPrimeP (p : ℕ) (X : Subgroup G) :
     have := stepC_conj_mem_oPPrimeP (X := X) (X.inv_mem hx) hh
     simpa [mul_assoc] using this
 
+omit [Finite G] in
 private theorem stepC_glaPPrimeCoreOf_le_oPPrimeP (p : ℕ) (X : Subgroup G) :
     GLAPPrimeCoreOf p X ≤ oPPrimeP p X := by
   intro o ho
@@ -365,6 +369,7 @@ private theorem stepC_glaPPrimeCoreOf_le_oPPrimeP (p : ℕ) (X : Subgroup G) :
   rw [h1]
   exact Subgroup.one_mem _
 
+omit [Finite G] in
 private theorem stepC_oPPrimeP_pow_mem (p : ℕ) (X : Subgroup G) {q : G}
     (hq : q ∈ oPPrimeP p X) : ∃ n : ℕ, q ^ (p ^ n) ∈ GLAPPrimeCoreOf p X := by
   unfold oPPrimeP at hq
@@ -408,8 +413,8 @@ private theorem stepC_card_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B R X : 
     {E : Subgroup G} (hE : IsElemAbelian p E) (hEQ : E ≤ oPPrimeP p X ⊔ B) :
     Nat.card E ≤ Nat.card B := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨r₀, hr₀R, hr₀ne, hr₀O⟩ := hR₀
   set Q₀ := oPPrimeP p X with hQ₀
   set O := GLAPPrimeCoreOf p X with hO
@@ -515,6 +520,7 @@ private theorem stepC_card_le {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {B R X : 
   rw [hB.2.1]
   exact hfin
 
+omit [Finite G] in
 private theorem stepC_decomp {Q₀ R B : Subgroup G}
     (hRBN : R ⊔ B ≤ Subgroup.normalizer (Q₀ : Set G))
     (hBR : B ≤ Subgroup.normalizer (R : Set G)) {x : G} (hx : x ∈ Q₀ ⊔ (R ⊔ B)) :
@@ -526,6 +532,7 @@ private theorem stepC_decomp {Q₀ R B : Subgroup G}
   obtain ⟨r, hr, b, hb, rfl⟩ := hw
   exact ⟨q, hq, r, hr, b, hb, (mul_assoc _ _ _).symm⟩
 
+omit [Finite G] in
 private theorem stepC_isPGroup_subgroupOf {q : ℕ} {H K : Subgroup G} (hH : IsPGroup q H) :
     IsPGroup q (H.subgroupOf K) := by
   intro g
@@ -534,6 +541,7 @@ private theorem stepC_isPGroup_subgroupOf {q : ℕ} {H K : Subgroup G} (hH : IsP
   have := congrArg Subtype.val hn
   simpa using this
 
+omit [Finite G] in
 private theorem stepC_isElemAbelian_subgroupOf {p : ℕ} {H K : Subgroup G}
     (hH : IsElemAbelian p H) : IsElemAbelian p (H.subgroupOf K) := by
   refine ⟨⟨⟨fun a b => Subtype.ext (Subtype.ext ?_)⟩⟩, fun x hx => ?_⟩
@@ -550,11 +558,11 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem commutator_oPPrimeP_le_of_exists {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {B R X : Subgroup G} (hB : GLAIsBmax p B) (hBX : B ≤ X) (hR2 : IsPGroup 2 R) (hRX : R ≤ X)
-    (hBR : B ≤ Subgroup.normalizer (R : Set G)) (hodd : Odd (Nat.card (GLAPPrimeCoreOf p X)))
+    (hBR : B ≤ Subgroup.normalizer (R : Set G)) (_hodd : Odd (Nat.card (GLAPPrimeCoreOf p X)))
     (hR₀ : ∃ r ∈ R, r ≠ 1 ∧ ∀ q ∈ oPPrimeP p X, ⁅q, r⁆ ∈ GLAPPrimeCoreOf p X) :
     (⁅oPPrimeP p X, R⁆ : Subgroup G) ≤ GLAPPrimeCoreOf p X := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set Q₀ := oPPrimeP p X with hQ₀
   set O := GLAPPrimeCoreOf p X with hO
   set X₁ : Subgroup G := Q₀ ⊔ (R ⊔ B) with hX₁
@@ -570,9 +578,9 @@ theorem commutator_oPPrimeP_le_of_exists {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
   have hBX₁ : B ≤ X₁ := (le_sup_right : B ≤ R ⊔ B).trans le_sup_right
   have hX₁N : X₁ ≤ Subgroup.normalizer (O : Set G) := hX₁X.trans hXN
   have hX₁Q : X₁ ≤ Subgroup.normalizer (Q₀ : Set G) := hX₁X.trans hXQN
-  haveI hN'n : (O.subgroupOf X₁).Normal :=
+  have hN'n : (O.subgroupOf X₁).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hOX₁).2 hX₁N
-  haveI hQ'n : (Q₀.subgroupOf X₁).Normal :=
+  have hQ'n : (Q₀.subgroupOf X₁).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQX₁).2 hX₁Q
   have hNQ' : O.subgroupOf X₁ ≤ Q₀.subgroupOf X₁ := fun x hx =>
     Subgroup.mem_subgroupOf.2 (stepC_glaPPrimeCoreOf_le_oPPrimeP p X (Subgroup.mem_subgroupOf.1 hx))

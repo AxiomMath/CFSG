@@ -24,7 +24,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem twoCentral_le_pPrimeCoreOf {p : ℕ} (hp : p.Prime) (hodd : p ≠ 2) (X : Subgroup G) :
     twoCentral X ≤ LargeEvenPPrimeCoreOf p X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Z' : Subgroup ↥X := (twoCentral X).subgroupOf X
   have hZ'n : Z'.Normal := by
     refine ⟨fun n hn g => ?_⟩
@@ -55,6 +55,7 @@ section Comm
 
 variable {G : Type} [Group G] [Finite G] {Q : Type} [Group Q]
 
+omit [Finite G] in
 theorem NsQuot.Datum.commutator_le_of_img_centralizes {p : ℕ} {N : Subgroup G} {f : ↥N →* Q}
     {L Bs Z : Subgroup G} (hD : NsQuot.Datum p N f L Bs Z) {x : G} (hx : x ∈ N)
     (hcen : NsQuot.img N f L ≤ Subgroup.centralizer ({f ⟨x, hx⟩} : Set Q)) :
@@ -97,7 +98,7 @@ theorem ggNsq2Nbr_X
     n = 6 ∧ ∃ a : ℕ, 4 ≤ a ∧ a ≤ 5 ∧
       Nonempty (↥J ⧸ Subgroup.center ↥J ≃* Su K 2 1 a ⧸ Subgroup.center (Su K 2 1 a)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hconf : GGConfig p B Bs x L D J := hcfg.1.1
   obtain ⟨hp, hodd⟩ := ggRouteCfg_prime hcfg
   have hx : x ∈ Bs := hconf.2.1.1 (hconf.1.2.2.2.2.2.2.1).2.1
@@ -129,10 +130,10 @@ theorem not_ggInnerDiagOnLabel_unitary_four_two_of_ggNbr
       (fun p lab => ggRowP_ESU p lab ∧ lab.n = 1 ∧ lab.rank = 3) p Bs X := by
   classical
   intro hmark
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨K, hf, hfin, lab, m, θ, hK, h4m, hmrank, hSide, hdvd, hperf, hlab, hBsN, hbs⟩ :=
     ggNSLieN3A_esuCore hmark (fun p lab hl => hl.1)
-  haveI : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := lab.n) hK
+  have : CharP K 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := lab.n) hK
   obtain ⟨tag, rank, n⟩ := lab
   obtain ⟨-, hn1, hr3⟩ := hSide
   change n = 1 at hn1

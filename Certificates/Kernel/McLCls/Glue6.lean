@@ -78,7 +78,7 @@ theorem rho_eq {m : ↥F.M} {σ : Equiv.Perm (Fin 7)}
     rw [Equiv.Perm.inv_eq_iff_eq, hτ, hj]
   have key : rho m (e (ι k)) = e (ι (σ k)) := by
     simp only [rho, MonoidHom.comp_apply, setAct, MonoidHom.coe_mk, OneHom.coe_mk,
-      Equiv.permCongr_apply, Equiv.symm_apply_apply]
+      Equiv.permCongr_apply]
     congr 1
     apply Subtype.ext
     have e1 : (F.O.equivFinOfCardEq card_O).symm (e (ι k)) = ι k := e.symm_apply_apply _
@@ -116,7 +116,7 @@ theorem card_range_ge : 2520 ≤ Nat.card rho.range := by
   have hK : (closure {s | s ∈ [σ1, σ2]}).map (MulAut.conj τ).toMonoidHom ≤ rho.range := by
     rw [MonoidHom.map_closure, closure_le]
     rintro _ ⟨s, hs, rfl⟩
-    simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hs
+    simp only [List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hs
     rcases hs with rfl | rfl
     · exact ⟨mE 0, by rw [rho_m1]; rfl⟩
     · exact ⟨mE 1, by rw [rho_m2]; rfl⟩

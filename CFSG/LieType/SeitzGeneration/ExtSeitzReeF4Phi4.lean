@@ -154,7 +154,7 @@ theorem reeF4_closure_cenGen_eq_top_of_phi4
     rw [← map_pow, hE''p y hy, map_one]
   obtain ⟨S, hS⟩ := (IsPGroup.of_card hE₀c : IsPGroup p ↥(((phi4Plane X a).subgroupOf
     (F4.reeGamma X m)).map e.symm.toMonoidHom)).exists_le_sylow
-  obtain ⟨φ⟩ := hshape _ S.isPGroup' S.not_dvd_index
+  obtain ⟨φ⟩ := hshape _ S.isPGroup S.not_dvd_index
   exact closure_cenGen_eq_top_of_plane S _ φ hS hE₀p hE₀c hE₀top E₁ hE₁p hE₁c
 
 theorem extSeitzAtInnerFor_reeF4_phi4 (m : ℕ) :

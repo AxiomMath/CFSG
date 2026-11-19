@@ -30,7 +30,7 @@ private theorem e7Cent_coord_eq_zero_of_shift {K : Type} [Field K]
     heisCoord .E7 K q μ = 0 := by
   have h := congrFun hshift (μ + γ)
   have hν : μ + γ ∈ rootFinset .E7 := mem_rootFinset.2 hroot
-  rw [shiftRoot, if_pos hν, Pi.zero_apply] at h
+  rw [shiftRoot, ite_eq_left hν, Pi.zero_apply] at h
   rwa [show μ + γ - γ = μ by abel] at h
 
 private theorem e7CentSR_shift_eq_zero_of_mem_rootPerp {K : Type} [Field K] [CharP K 2]

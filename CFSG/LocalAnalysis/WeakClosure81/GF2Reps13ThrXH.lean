@@ -28,17 +28,20 @@ theorem closure_swaps_of_connected {ι : Type} [Fintype ι] [DecidableEq ι]
   rintro σ ⟨a, b, -, rfl⟩
   exact hwalk a b (hG.preconnected a b)
 
+omit [Finite W] in
 private theorem w16g_map_mul (U : Subgroup W) (g h : MulAut W) :
     (U.map g.toMonoidHom).map h.toMonoidHom = U.map (h * g).toMonoidHom := by
   rw [Subgroup.map_map]
   rfl
 
+omit [Finite W] in
 private theorem w16g_map_map_inv (U : Subgroup W) (g : MulAut W) :
     (U.map g.toMonoidHom).map (g⁻¹).toMonoidHom = U := by
   rw [w16g_map_mul, inv_mul_cancel]
   have hone : (1 : MulAut W).toMonoidHom = MonoidHom.id W := by ext x; rfl
   rw [hone, Subgroup.map_id]
 
+omit [Finite W] in
 private theorem w16g_map_map_inv' (U : Subgroup W) (g : MulAut W) :
     (U.map (g⁻¹).toMonoidHom).map g.toMonoidHom = U := by
   rw [w16g_map_mul, mul_inv_cancel]
@@ -55,6 +58,7 @@ private theorem w16g_eq_swap_of_apply {α : Type*} [DecidableEq α] (π : Equiv.
     · rw [hxb, hb, Equiv.swap_apply_right]
     · rw [hfix x hxa hxb, Equiv.swap_apply_of_ne_of_ne hxa hxb]
 
+omit [Finite W] in
 private theorem w16g_one_toMonoidHom :
     ((1 : MulAut W)).toMonoidHom = MonoidHom.id W := by
   ext x; rfl
@@ -74,7 +78,7 @@ theorem s13_deltaSym_of_edge_swaps {A : Subgroup (MulAut W)} {t : MulAut W} {r m
     DeltaSym A t (sSup C) r m := by
   classical
   have hCfin : C.Finite := Set.finite_of_ncard_ne_zero (by rw [hC]; omega)
-  haveI : Fintype ↥C := hCfin.fintype
+  have : Fintype ↥C := hCfin.fintype
   let e : Fin (r + 1) ≃ ↥C :=
     (Finite.equivFinOfCardEq (α := ↥C) (n := r + 1) (by rw [Nat.card_coe_set_eq, hC])).symm
   let Δ : Fin (r + 1) → Subgroup W := fun i => (e i).1
@@ -178,7 +182,7 @@ theorem s13_deltaSym_of_edge_swaps {A : Subgroup (MulAut W)} {t : MulAut W} {r m
       rfl
     rw [hσt, hswapT]
     have hswap : e.symm.permCongr (Equiv.swap a b) = Equiv.swap (e.symm a) (e.symm b) := by
-      simpa [Equiv.permCongr_def] using Equiv.symm_trans_swap_trans a b e.symm
+      simp [Equiv.permCongr_def]
     rw [hswap]
     exact ⟨_, _, hne', rfl⟩
   · intro h2r i hi

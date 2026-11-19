@@ -37,7 +37,7 @@ theorem card_closure_range_rootDiagUnit {K : Type} [Field K] [Finite K]
   have hfx : ∀ x : E, rootDiagUnit .E8 (a x) = f x := by
     intro x
     rw [ha x]
-    simp [f, MulAut.conj_apply]
+    simp [f]
   have hrange : (Set.range fun x : E => rootDiagUnit .E8 (a x)) = (E.map f : Set _) := by
     ext y
     constructor

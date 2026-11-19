@@ -19,17 +19,17 @@ open scoped commutatorElement
 
 theorem exists_inner {E : Type*} [Group E] [Finite E] (hE : CFSG.IsExtraspecialPGroup 2 E)
     (α : MulAut E) (hα : quotientHom E α = 1) : ∃ x : E, α = MulAut.conj x := by
-  haveI hF : Fact (CFSG.IsExtraspecialPGroup 2 E) := ⟨hE⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hF : Fact (CFSG.IsExtraspecialPGroup 2 E) := ⟨hE⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardZ : Nat.card (Subgroup.center E) = 2 := hE.2.2.2
-  haveI : IsCyclic (Subgroup.center E) := isCyclic_of_prime_card hcardZ
+  have : IsCyclic (Subgroup.center E) := isCyclic_of_prime_card hcardZ
   have hcardT : Nat.card (Multiplicative (ZMod 2)) = 2 := by
     rw [Nat.card_eq_fintype_card]; simp
   let ζ : Subgroup.center E ≃* Multiplicative (ZMod 2) :=
     mulEquivOfCyclicCardEq (hcardZ.trans hcardT.symm)
   have hB := nondegenerate ζ
-  haveI : Finite (QSpace E) := inferInstanceAs (Finite (Additive (E ⧸ Subgroup.center E)))
-  haveI : Module.Finite (ZMod 2) (QSpace E) := .of_finite
+  have : Finite (QSpace E) := inferInstanceAs (Finite (Additive (E ⧸ Subgroup.center E)))
+  have : Module.Finite (ZMod 2) (QSpace E) := .of_finite
   let c : QSpace E := ((form ζ).toDual hB).symm (deviation ζ α hα)
   have key : ∀ y : QSpace E, deviation ζ α hα y = form ζ c y := by
     intro y

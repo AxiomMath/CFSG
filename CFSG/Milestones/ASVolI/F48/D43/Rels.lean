@@ -100,12 +100,12 @@ theorem burnsideF48d_TU_rels : ∀ t ∈ ([2, 3, 4] : List (Fin 17)),
 theorem burnsideF48d_U_le : burnsideF48d_U ≤ burnsideF48d_P1 ⊓ burnsideF48d_P2 := by
   rw [burnsideF48d_B_eq_closure, burnsideF48d_U]
   exact Subgroup.closure_mono (Set.image_mono fun j hj => by
-    simp only [Set.mem_setOf_eq] at hj ⊢; omega)
+    simp only [Set.mem_ofPred_eq] at hj ⊢; omega)
 
 theorem burnsideF48d_T_le : burnsideF48d_T ≤ burnsideF48d_P1 ⊓ burnsideF48d_P2 := by
   rw [burnsideF48d_B_eq_closure, burnsideF48d_T]
   exact Subgroup.closure_mono (Set.image_mono fun j hj => by
-    simp only [Set.mem_setOf_eq] at hj ⊢; omega)
+    simp only [Set.mem_ofPred_eq] at hj ⊢; omega)
 
 theorem burnsideF48d_conj_letter {t u : Fin 17} (ht2 : 2 ≤ t.val) (ht4 : t.val ≤ 4)
     (hu : 5 ≤ u.val) :
@@ -143,7 +143,7 @@ theorem burnsideF48d_conj_U {t : Fin 17} (ht2 : 2 ≤ t.val) (ht4 : t.val ≤ 4)
   | mem x hx =>
     obtain ⟨u, hu, rfl⟩ := hx
     exact burnsideF48d_conj_letter ht2 ht4 hu
-  | one => simpa using burnsideF48d_U.one_mem
+  | one => simp
   | mul x y _ _ hx hy =>
     have e : (burnsideF48d_L t)⁻¹ * (x * y) * burnsideF48d_L t =
         ((burnsideF48d_L t)⁻¹ * x * burnsideF48d_L t) *

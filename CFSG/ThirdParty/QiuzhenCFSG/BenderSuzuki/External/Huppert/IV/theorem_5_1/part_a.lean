@@ -79,7 +79,7 @@ public theorem hkt_exists_pElement_notMem_of_prime_dvd_quotient
   rcases hy_map with ⟨x, hxP, hxy⟩
   refine ⟨x, ?_, ?_⟩
   · obtain ⟨k, hk⟩ :=
-      (IsPGroup.iff_orderOf.mp P.isPGroup') (⟨x, hxP⟩ : (P : Subgroup G))
+      (IsPGroup.iff_orderOf.mp P.isPGroup) (⟨x, hxP⟩ : (P : Subgroup G))
     refine ⟨k, ?_⟩
     exact (Subgroup.orderOf_coe
       (H := (P : Subgroup G)) (a := (⟨x, hxP⟩ : (P : Subgroup G)))).trans hk
@@ -107,7 +107,7 @@ private theorem hkt_burnside_iv51_Dsub_p
     (Dsub_eq_denominator : Dsub = (T : Subgroup Q) ⊓ Subgroup.normalizer (M : Set Q)) :
     IsPGroup q Dsub := by
   classical
-  exact IsPGroup.to_le T.isPGroup' (by
+  exact IsPGroup.to_le T.isPGroup (by
     intro x hxD
     have hxDen : x ∈ (T : Subgroup Q) ⊓ Subgroup.normalizer (M : Set Q) := by
       simpa [Dsub_eq_denominator] using hxD
@@ -167,7 +167,7 @@ private theorem hkt_burnside_iv51_normalizer_Dsub_quotient_not_qgroup_source
   intro hquot
   let N : Subgroup Q := Subgroup.normalizer (Dsub : Set Q)
   let C : Subgroup N := (Subgroup.centralizer (Dsub : Set Q)).subgroupOf N
-  haveI : C.Normal := by
+  have : C.Normal := by
     simpa [C, N] using
       (inferInstance :
         ((Subgroup.centralizer (Dsub : Set Q)).subgroupOf
@@ -195,7 +195,7 @@ private theorem hkt_burnside_iv51_normalizer_Dsub_quotient_not_qgroup_source
     have hxEN : xN ∈ EN := by simpa [EN, Subgroup.mem_subgroupOf, xN] using hxE
     exact ⟨xN, hEN_le_SN hxEN, rfl⟩
   have hB_p : IsPGroup q B := by
-    exact SN.isPGroup'.map N.subtype
+    exact SN.isPGroup.map N.subtype
   have hB_le_normalizer_M : B ≤ Subgroup.normalizer (M : Set Q) :=
     intermediate_normalizes_M B hE_le_B hB_p
   have hN_le_normalizer_M : N ≤ Subgroup.normalizer (M : Set Q) := by
@@ -270,8 +270,8 @@ private theorem hkt_burnside_iv51_witness_of_normalizer_growth
     hkt_exists_qprime_divisor_card_of_not_isPGroup q Γ hnot
   let N : Subgroup Q := Subgroup.normalizer (Dsub : Set Q)
   let C : Subgroup N := (Subgroup.centralizer (Dsub : Set Q)).subgroupOf N
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : C.Normal := by
+  have : Fact r.Prime := ⟨hr⟩
+  have : C.Normal := by
     simpa [C, N] using
       (inferInstance :
         ((Subgroup.centralizer (Dsub : Set Q)).subgroupOf
@@ -314,7 +314,7 @@ private theorem hkt_huppert_iv52_burnside_fields_of_center_failure
   classical
   let M : Subgroup Q := centerIn (G := Q) (S : Subgroup Q)
   have hM_p : IsPGroup q M :=
-    IsPGroup.to_le S.isPGroup'
+    IsPGroup.to_le S.isPGroup
       (show M ≤ (S : Subgroup Q) from by
         intro x hx
         exact hx.1)

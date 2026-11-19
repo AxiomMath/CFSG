@@ -27,9 +27,9 @@ theorem kOmPlus_holds : KOmPlus := by
   intro W _ _ H n S Tstar hF
   obtain ⟨hn, hN, hTN, hT2, hST, hTfix⟩ := hF
   obtain ⟨K, hKfield, hKfin, hKchar, hKcard, e, hH, hfix⟩ := KOm.exists_plusCoords hn hN S
-  letI := hKfield
-  letI := hKfin
-  letI := hKchar
+  let := hKfield
+  let := hKfin
+  let := hKchar
   classical
   have hK4 : 4 ≤ Nat.card K := by
     rw [hKcard]
@@ -105,7 +105,7 @@ theorem kOmPlus_holds : KOmPlus := by
   have hbne : ∃ x ∈ ℓ, b x ≠ x := by
     refine ⟨e.symm (Multiplicative.ofAdd (KTabC.e1P K)), ?_, ?_⟩
     · refine (hfix' _).mpr ⟨1, ?_⟩
-      simpa using hxcoord
+      simp
     · intro hbx
       have h3 : Multiplicative.toAdd (e (b (e.symm (Multiplicative.ofAdd (KTabC.e1P K))))) =
           Multiplicative.toAdd (e (e.symm (Multiplicative.ofAdd (KTabC.e1P K)))) := by
@@ -165,7 +165,7 @@ theorem kOmPlus_holds : KOmPlus := by
     intro x hx
     rw [MulAut.smul_def]
     exact hTfix t ht x hx
-  have hS2 : IsPGroup 2 ↥((S : Subgroup ↥H).map H.subtype) := S.isPGroup'.map H.subtype
+  have hS2 : IsPGroup 2 ↥((S : Subgroup ↥H).map H.subtype) := S.isPGroup.map H.subtype
   have hSmax : ∀ P : Subgroup (MulAut W), P ≤ H → IsPGroup 2 ↥P →
       (S : Subgroup ↥H).map H.subtype ≤ P → P = (S : Subgroup ↥H).map H.subtype := by
     intro P hPH hP2 hSP

@@ -30,7 +30,7 @@ theorem s16c167_norm_orbit_injective (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (
         _ = (z' : MulAut W)⁻¹ * (l * (z' : MulAut W)) * (z' : MulAut W)⁻¹ := by
               simp [mul_assoc]
         _ = (z' : MulAut W)⁻¹ * ((z' : MulAut W) * l) * (z' : MulAut W)⁻¹ := by rw [← hz'l]
-        _ = l * (z' : MulAut W)⁻¹ := by simp [mul_assoc]
+        _ = l * (z' : MulAut W)⁻¹ := by simp
     calc g * l = (z' : MulAut W)⁻¹ * (z : MulAut W) * l := rfl
       _ = (z' : MulAut W)⁻¹ * ((z : MulAut W) * l) := by simp [mul_assoc]
       _ = (z' : MulAut W)⁻¹ * (l * (z : MulAut W)) := by rw [hzl]
@@ -64,7 +64,7 @@ theorem s16c167_norm_orbit_injective (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (
     exact Subtype.ext h2
   · exfalso
     obtain ⟨z₀, hz₀Z, v, hvV, hzv⟩ := hnt
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hgZ1 : (⟨g, hgZ⟩ : ↥Z) ≠ 1 := fun h => hg1 (Subtype.ext_iff.mp h)
     have htop : Subgroup.zpowers (⟨g, hgZ⟩ : ↥Z) = ⊤ :=
       zpowers_eq_top_of_prime_card hZ hgZ1
@@ -148,7 +148,7 @@ theorem s16c167_norm_card_irr_natSum3 (hW : ∀ w : W, w ^ 2 = 1) {L Z : Subgrou
     · have hle : V.1 ≤ V'.1 := inf_eq_left.mp htop
       have hcardeq : Nat.card ↥V'.1 = Nat.card ↥V.1 := by rw [V.2.2.2, V'.2.2.2]
       exact Subtype.ext (Subgroup.eq_of_le_of_card_ge hle (le_of_eq hcardeq))
-  haveI : Finite X := Finite.of_injective φ hφinj
+  have : Finite X := Finite.of_injective φ hφinj
   have hXle : Nat.card X ≤ Nat.card {a : ↥A // a ≠ 1} :=
     Nat.card_le_card_of_injective φ hφinj
   have hsub_lt : Nat.card {a : ↥A // a ≠ 1} < Nat.card ↥A :=
@@ -207,7 +207,7 @@ theorem s16c167_norm_exists_stable_irr (hW : ∀ w : W, w ^ 2 = 1) {L Z : Subgro
   obtain ⟨-, hXcard⟩ := s16c167_norm_card_irr_natSum3 hW hL hJ hZ hZL hZJ hZf hPL hP
   let X := {V : Subgroup W // V ≤ J ∧ XMod.IsIrr ↥L V ∧ Nat.card ↥V = 8}
   have hX7 : Nat.card X = 7 := hXcard
-  haveI : Finite X := Nat.finite_of_card_ne_zero (by rw [hX7]; norm_num)
+  have : Finite X := Nat.finite_of_card_ne_zero (by rw [hX7]; norm_num)
   have hxnorm : x ∈ Subgroup.normalizer (L : Set (MulAut W)) :=
     Subgroup.mem_normalizer_iff_map_conj_eq.mpr hxL
   let f : X → X := fun V =>
@@ -256,8 +256,8 @@ theorem s16c167_norm_exists_stable_irr (hW : ∀ w : W, w ^ 2 = 1) {L Z : Subgro
     rw [h]
     have hone : (1 : MulAut W).toMonoidHom = MonoidHom.id W := rfl
     rw [hone, Subgroup.map_id, Equiv.Perm.one_apply]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype X := Fintype.ofFinite X
   obtain ⟨V, hVfix⟩ := Equiv.Perm.exists_fixed_point_of_prime (p := 2) (n := k)
     (by rw [← Nat.card_eq_fintype_card, hX7]; norm_num) hσ
   refine ⟨V.1, V.2.1, V.2.2.1, V.2.2.2, ?_⟩

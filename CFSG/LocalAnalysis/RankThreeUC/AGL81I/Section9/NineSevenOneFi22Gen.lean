@@ -31,8 +31,7 @@ theorem commute_of_action_eq_conj {X : Type} [Group X] {L E : Subgroup X} {a : E
     calc (t : X) * (x : X) * (t : X)⁻¹ = ((x : X) * (t : X)) * (t : X)⁻¹ := by rw [hxt]
       _ = (x : X) := by group
   have h2 := congrArg (fun z : ↥L => (z : X)) h1
-  simp only [Subgroup.normalizerMonoidHom_apply_apply_coe, Subgroup.coe_inclusion,
-    Subgroup.coe_mul, Subgroup.coe_inv] at h2
+  simp only [Subgroup.normalizerMonoidHom_apply_apply_coe, Subgroup.coe_inclusion] at h2
   calc (a : X) * (x : X) = ((a : X) * (x : X) * (a : X)⁻¹) * (a : X) := by group
     _ = (x : X) * (a : X) := by rw [h2]
 
@@ -78,7 +77,7 @@ namespace NineSettingGen
 
 theorem pCoreOf_two_ne_bot_of_mem_H2Fam (h : NineSettingGen G M p Q H E k)
     (hH2 : H ∈ H2Fam M Q) : pCoreOf 2 H ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro hbot
   have hcen : Subgroup.centralizer ((⊥ : Subgroup G) : Set G) = ⊤ :=
     Subgroup.centralizer_eq_top_iff_subset.mpr (bot_le : (⊥ : Subgroup G) ≤ Subgroup.center G)
@@ -89,7 +88,7 @@ theorem pCoreOf_two_ne_bot_of_mem_H2Fam (h : NineSettingGen G M p Q H E k)
 theorem pRank_le_rankThreeLocalRank_of_mem_H2Fam (h : NineSettingGen G M p Q H E k)
     (hH2 : H ∈ H2Fam M Q) {q : ℕ} (hq : 1 < q) :
     CFSG.Open.pRank q H ≤ rankThreeLocalRank q H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTne : CFSG.pCore 2 ↥H ≠ ⊥ := fun hbot =>
     h.pCoreOf_two_ne_bot_of_mem_H2Fam hH2 (by rw [pCoreOf, hbot, Subgroup.map_bot])
   have htop : IsTwoLocal (⊤ : Subgroup ↥H) := by
@@ -163,7 +162,7 @@ theorem exists_sylow_five_of_fi22_action {X : Type} [Group X] [Finite X] {L E Y 
     exact hAcard
   have hSylCard : Nat.card T₀ = 5 ^ (Nat.card ↥L).factorization 5 := by
     rw [hTcard, hcardL, CFSG.AGLEmbeddingD2.factorization_five_fi22]
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let T : Sylow 5 ↥L := Sylow.ofCard T₀ hSylCard
   have hTcoe : (T : Subgroup ↥L) = T₀ := Sylow.coe_ofCard T₀ hSylCard
   refine ⟨T, ?_⟩
@@ -222,7 +221,7 @@ theorem NineSevenRed.two_le_pRank_three_of_fi22 (hK : KFactFi22CentThreeRank)
     {X : Type} [Group X] [Finite X] {E Y S : Subgroup X} (h : NineSevenRed 5 X E Y S)
     {L : Subgroup X} (hL : CFSG.IsComponent L) (hLY : ¬ L ≤ Y)
     (hFi : CFSG.AGLEmbedding.IsFi22 ↥L) : 2 ≤ CFSG.Open.pRank 3 Y := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   refine two_le_pRank_three_of_fi22_normalized hK hFi h.elem_E h.card_E
     (h.le_normalizer_E hL hLY) ?_ hLY
   intro e he he1

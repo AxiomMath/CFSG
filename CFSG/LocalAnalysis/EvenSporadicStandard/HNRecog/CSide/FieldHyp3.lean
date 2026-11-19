@@ -31,11 +31,11 @@ theorem cSideFacts_hyp3_of_free :
             (∀ s ∈ (T : Subgroup C) ⊓ commutator C, ⁅x, s⁆ ∈ centerOf Q) ∧
               ⁅t, x⁆ ∉ centerOf Q := by
   intro C _ Q _ hE hI t ht ht2 hcard
-  haveI hQn : Q.Normal := inferInstance
+  have hQn : Q.Normal := inferInstance
   have hC : WeakHyp C Q := WeakHyp.of_cIrreducible hE hI
-  haveI : Finite Q := hC.finite_Q
-  haveI : Finite C := hC.finite
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  have : Finite Q := hC.finite_Q
+  have : Finite C := hC.finite
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hC.isExtraspecialPGroup
   obtain ⟨S⟩ := hC.nonempty_setup
   have M : CSideModel (extraspecialQuadForm hC.isExtraspecialPGroup) S.σ :=
@@ -50,15 +50,15 @@ theorem cSideFacts_hyp3_of_free :
   obtain ⟨T, hT⟩ := IsPGroup.exists_le_sylow (ds_isPGroup_zpowers_of_sq_eq_one ht2)
   have htT : t ∈ T := hT (Subgroup.mem_zpowers t)
   let H : Subgroup C := (T : Subgroup C) ⊓ commutator C
-  have hH : IsPGroup 2 H := T.isPGroup'.to_inf_left
+  have hH : IsPGroup 2 H := T.isPGroup.to_inf_left
   let ρH : ↥H →* (Additive (Abelianization Q) ≃ₗ[ZMod 2] Additive (Abelianization Q)) :=
     (conjLinEquiv hQn).comp H.subtype
-  haveI : Finite (Additive (Abelianization Q)) := by
+  have : Finite (Additive (Abelianization Q)) := by
     change Finite (Q ⧸ _root_.commutator Q)
     infer_instance
   have hV : finrank (ZMod 2) (Additive (Abelianization Q)) = 8 := by
     simpa using hC.plus.finrank_quotient
-  haveI : Nontrivial (Additive (Abelianization Q)) :=
+  have : Nontrivial (Additive (Abelianization Q)) :=
     Module.nontrivial_of_finrank_pos (by rw [hV]; norm_num)
   obtain ⟨w, hwne, hwfix⟩ := cSide_exists_fixed_of_pGroup hH ρH
   let W : Set (Additive (Abelianization Q)) :=

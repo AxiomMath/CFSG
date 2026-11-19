@@ -143,7 +143,6 @@ theorem str83G4_w_mul_self_mem_q2
     rw [Subgroup.map_eq_bot_iff, hker]
   have hSmap : (Q : Subgroup K) = ((S ⊓ L2).subgroupOf H).map π := by
     rw [hQcoe]
-    change (S.subgroupOf H).map π = ((S ⊓ L2).subgroupOf H).map π
     have hS2 : S = (S ⊓ L2) ⊔ Q2 L1 L2 S :=
       eq_sup_pCoreOf_of_bender_right hF.1 hB (Or.inr (Or.inr ⟨2 * a + 1, by omega, hL2⟩))
     conv_lhs => rw [hS2]
@@ -194,7 +193,7 @@ theorem str83G4_w_mul_self_mem_q2
       calc 8 = 2 ^ 3 := by norm_num
         _ ≤ 2 ^ (2 * a + 1) := Nat.pow_le_pow_right (by norm_num) (by omega)
     omega
-  haveI hD2nt : Nontrivial ↥d.D2 := (Finite.one_lt_card_iff_nontrivial).mp hD2card_gt
+  have hD2nt : Nontrivial ↥d.D2 := (Finite.one_lt_card_iff_nontrivial).mp hD2card_gt
   obtain ⟨x0, hx0ne⟩ := exists_ne (1 : ↥d.D2)
   have hx0D : (x0 : G) ∈ d.D2 := x0.2
   have hx0H : (x0 : G) ∈ H := hD2H hx0D
@@ -226,7 +225,7 @@ theorem str83G4_w_mul_self_mem_q2
     calc c * xbar = (c * xbar * c⁻¹) * c := by group
       _ = xbar * c := by rw [hcx]
   have hc_cartan : c ∈ CFSG.GH74.Uniqueness.Bender.cartan (Q : Subgroup K) t := by
-    rw [← hcore_t.centralizer_cartan_eq Q.isPGroup' hxbar_cartan hxbarne]
+    rw [← hcore_t.centralizer_cartan_eq Q.isPGroup hxbar_cartan hxbarne]
     exact Subgroup.mem_centralizer_singleton_iff.mpr hc_cent
   have hc_Dbar : c ∈ Dbar := by
     rw [hDbar_eq_cartan]

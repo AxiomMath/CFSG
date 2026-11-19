@@ -54,7 +54,7 @@ theorem exists_sylow_map_eq_of_pow_eq_one {K : Type} [Group K] [Finite K] {p : �
 theorem map_eq_self_of_pow_eq_one_of_card_three {K : Type} [Group K] [Finite K] {P : Subgroup K}
     (hP : Nat.card P = 3) (φ : MulAut K) {n : ℕ} (hφ : φ ^ (3 ^ n) = 1)
     (hmap : ∀ g : K, g ∈ P → φ g ∈ P) : ∀ g ∈ P, φ g = g := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro g hg
   by_cases hg1 : g = 1
   · subst hg1
@@ -113,7 +113,7 @@ theorem map_eq_self_of_pow_eq_one_of_card_three {K : Type} [Group K] [Finite K] 
 theorem kFactOutThreePrimeSimple_of_innerAction (hIA : KFactInnerAction) :
     KFactOutThreePrimeSimple := by
   intro K _ _ hK hs hnab ⟨P₀, hP₀, hP₀idx⟩ φ ⟨n, hφ⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hP⟩ := exists_sylow_map_eq_of_pow_eq_one (p := 3) φ hφ
   have hP₀pg : IsPGroup 3 P₀ := IsPGroup.of_card (n := 1) (by rw [hP₀, pow_one])
   let P₀' : Sylow 3 K := hP₀pg.toSylow hP₀idx
@@ -124,7 +124,7 @@ theorem kFactOutThreePrimeSimple_of_innerAction (hIA : KFactInnerAction) :
     rw [Sylow.card_eq_multiplicity P, ← Sylow.card_eq_multiplicity P₀', hcard₀]
   have hfix : ∀ g ∈ (P : Subgroup K), φ g = g :=
     map_eq_self_of_pow_eq_one_of_card_three hcard φ hφ hP
-  haveI : IsCyclic (P : Subgroup K) := isCyclic_of_prime_card (p := 3) hcard
+  have : IsCyclic (P : Subgroup K) := isCyclic_of_prime_card (p := 3) hcard
   have hne : (P : Subgroup K) ≠ ⊥ := by
     intro h
     rw [h, Subgroup.card_bot] at hcard

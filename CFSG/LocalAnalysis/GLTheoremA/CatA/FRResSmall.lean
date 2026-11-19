@@ -64,7 +64,7 @@ theorem nonab_of_simple {X : Type} [Group X] [Finite X] (hs : IsSimpleGroup X)
     (hp : ¬ (Nat.card X).Prime) : ∃ a b : X, a * b ≠ b * a := by
   by_contra hc
   push Not at hc
-  haveI : IsMulCommutative X := ⟨⟨hc⟩⟩
+  have : IsMulCommutative X := ⟨⟨hc⟩⟩
   exact hp (Group.is_simple_iff_prime_card.mp hs)
 
 theorem chevSimple_of_equiv {S T : Type} [Group S] [Group T] (e : S ≃* T) (h : IsChevSimple 2 T) :
@@ -93,7 +93,7 @@ theorem isUThreeThree_of_stated {X : Type} [Group X]
     rw [TauCeti.LieTypeIndex.valid_iff, TauCeti.LieTypeIndex.inStandardRange_iff,
       TauCeti.LieTypeIndex.isDuplicateRepresentative_iff]
     simp [q, TauCeti.PrimePower.card_def]
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let L := GaloisField 3 (2 * 1)
   let _ : Fintype K := Fintype.ofFinite K
   let _ : Fintype L := Fintype.ofFinite L
@@ -118,11 +118,11 @@ theorem solvable_A11 (D : Type) [Group D]
     have := CFSG.Open.StatedAPI.card_statedSL_two K
     rw [hK2] at this
     exact this.trans (by norm_num : (2 : ℕ) * (2 ^ 2 - 1) = 2 ^ 1 * 3 ^ 1)
-  haveI : Finite (LargeEvenSLGroup (Fin (1 + 1)) K) :=
+  have : Finite (LargeEvenSLGroup (Fin (1 + 1)) K) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hs : Group.IsSolvable (LargeEvenSLGroup (Fin (1 + 1)) K) :=
     solv_of_natCard Nat.prime_two Nat.prime_three (by norm_num) hcard
-  haveI : Group.IsSolvable (LargeEvenProj (LargeEvenSLGroup (Fin (1 + 1)) K)) :=
+  have : Group.IsSolvable (LargeEvenProj (LargeEvenSLGroup (Fin (1 + 1)) K)) :=
     inferInstanceAs (Group.IsSolvable (_ ⧸ _))
   exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
 
@@ -132,16 +132,16 @@ theorem solvable_twA21 (D : Type) [Group D]
   dsimp only [CFSG.Assembly.LargeEvenRawDatum, LargeEvenRecipeUnitary] at h
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := h
   have hK' : Nat.card K = (2 ^ 1) ^ 2 := hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := CFSG.LieType.Steinberg.charP_of_card_eq_sq_pow (f := 1) Nat.prime_two hK'
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.LieType.Steinberg.charP_of_card_eq_sq_pow (f := 1) Nat.prime_two hK'
   have hcard : Nat.card (LargeEvenSUGroup (Fin (2 + 1)) K (2 ^ 1)) = 2 ^ 3 * 3 ^ 3 := by
     have := CFSG.SectionRank.OddCover.card_statedSU_three (K := K) (p := 2) (f := 1) hK'
     exact this.trans (by norm_num)
-  haveI : Finite (LargeEvenSUGroup (Fin (2 + 1)) K (2 ^ 1)) :=
+  have : Finite (LargeEvenSUGroup (Fin (2 + 1)) K (2 ^ 1)) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hs : Group.IsSolvable (LargeEvenSUGroup (Fin (2 + 1)) K (2 ^ 1)) :=
     solv_of_natCard Nat.prime_two Nat.prime_three (by norm_num) hcard
-  haveI : Group.IsSolvable (LargeEvenProj (LargeEvenSUGroup (Fin (2 + 1)) K (2 ^ 1))) :=
+  have : Group.IsSolvable (LargeEvenProj (LargeEvenSUGroup (Fin (2 + 1)) K (2 ^ 1))) :=
     inferInstanceAs (Group.IsSolvable (_ ⧸ _))
   exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
 
@@ -195,10 +195,10 @@ theorem solvable_twB2 (D : Type) [Group D]
     have := CFSG.LieType.Ree.suzuki_order (a := 0) (K := K) hK'
     rw [this]
     norm_num
-  haveI : Finite (LargeEvenSzGroup 0 K) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (LargeEvenSzGroup 0 K) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hs : Group.IsSolvable (LargeEvenSzGroup 0 K) :=
     solv_of_natCard Nat.prime_two (by norm_num : Nat.Prime 5) (by norm_num) hcard
-  haveI : Group.IsSolvable (LargeEvenCenterQuot (LargeEvenSzGroup 0 K)) :=
+  have : Group.IsSolvable (LargeEvenCenterQuot (LargeEvenSzGroup 0 K)) :=
     inferInstanceAs (Group.IsSolvable (_ ⧸ _))
   exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
 
@@ -239,7 +239,7 @@ theorem datumCore_adjointG2_two {K : Type} [Field K] [Finite K] (hK2 : Nat.card 
   have hC := hL.statedClassicalModel (by decide)
   have hU := isUThreeThree_of_stated hC
   have hX6048 := CFSG.AGLEmbeddingD2.McLaughlin.card_of_isUThreeThree hU
-  haveI : Finite ↥⁅adjointGroup .G2 K, adjointGroup .G2 K⁆ :=
+  have : Finite ↥⁅adjointGroup .G2 K, adjointGroup .G2 K⁆ :=
     Nat.finite_of_card_ne_zero (by rw [hX6048]; norm_num)
   obtain ⟨hXs, -, -⟩ := CFSG.AGLEmbeddingD2.McLaughlin.u33_simple_card_center hU
   have hDcard : Nat.card ↥(adjointGroup .G2 K) = 12096 :=
@@ -288,7 +288,7 @@ theorem datumCore_twF4 (D : Type) [Group D]
   have eD : D ≃* CFSG.Sporadic.Schreier.Tits.titsD := e.trans eT
   have hcard : Nat.card CFSG.Sporadic.Schreier.Tits.titsD = 17971200 :=
     CFSG.Sporadic.Schreier.Tits.card_titsD
-  haveI : Finite CFSG.Sporadic.Schreier.Tits.titsD :=
+  have : Finite CFSG.Sporadic.Schreier.Tits.titsD :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hs : IsSimpleGroup CFSG.Sporadic.Schreier.Tits.titsD :=
     CFSG.Sporadic.Schreier.Tits.titsD_simple

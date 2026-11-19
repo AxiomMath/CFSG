@@ -13,8 +13,8 @@ open CFSG.Open (StatedClassicalModel)
 
 private theorem invSyl3_finite_sylow {X : Type} [Group X] [Finite X] :
     Finite (Sylow 3 X) :=
-  Finite.of_injective (fun P : Sylow 3 X => (P : Set X))
-    (fun P Q h => Sylow.ext (SetLike.coe_injective h))
+  Finite.of_injective (fun _P : Sylow 3 X => (_P : Set X))
+    (fun _P _Q h => Sylow.ext (SetLike.coe_injective h))
 
 private theorem invSyl3_closure_pair {X : Type} [Group X] {a b t : X}
     (ha : a ^ 3 = 1) (hb : b ^ 3 = 1) (hab : a * b = b * a)
@@ -31,7 +31,7 @@ private theorem invSyl3_closure_pair {X : Type} [Group X] {a b t : X}
     · rw [hx', hy']; exact hab
     · rw [hx', hy']; exact hab.symm
     · rw [hx', hy']
-  haveI hcomm : IsMulCommutative Y := Subgroup.isMulCommutative_closure hpair
+  have hcomm : IsMulCommutative Y := Subgroup.isMulCommutative_closure hpair
   have hcommY : ∀ x y : X, x ∈ Y → y ∈ Y → Commute x y :=
     fun x y hx hy => setLike_mul_comm hx hy
   have key : ∀ y ∈ Y, y ^ 3 = 1 ∧ t * y * t⁻¹ = y⁻¹ := by
@@ -112,7 +112,7 @@ private theorem invSyl3_inverting_of_sylow {X : Type} [Group X] [Finite X]
     (P : Sylow 3 X) (t₀ : X) (ht₀ : t₀ ^ 2 = 1)
     (hinv : ∀ y ∈ P, t₀ * y * t₀⁻¹ = y⁻¹) (Q : Sylow 3 X) :
     ∃ t : X, t ^ 2 = 1 ∧ ∀ y ∈ Q, t * y * t⁻¹ = y⁻¹ := by
-  haveI : Finite (Sylow 3 X) := invSyl3_finite_sylow
+  have : Finite (Sylow 3 X) := invSyl3_finite_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq X P Q
   refine ⟨g * t₀ * g⁻¹, ?_, ?_⟩
   · have ht : t₀ * t₀ = 1 := by rw [← pow_two]; exact ht₀
@@ -282,7 +282,7 @@ theorem exists_inverting_involution {G : Type} [Group G] {J Y : Subgroup G} {m :
   · obtain ⟨e⟩ := CFSG.Open.StatedAPI.nonempty_mulEquiv_specialLinear_zmod_two_of_psl hJ
     have hcardJ : Nat.card ↥J = 20160 :=
       CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_four_two hJ
-    haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [hcardJ]; norm_num)
+    have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [hcardJ]; norm_num)
     have hcardX : Nat.card (Matrix.SpecialLinearGroup (Fin 4) (ZMod 2)) = 20160 :=
       (Nat.card_congr e.toEquiv).symm.trans hcardJ
     have hX3 : Nat.factorization
@@ -302,7 +302,7 @@ theorem exists_inverting_involution {G : Type} [Group G] {J Y : Subgroup G} {m :
   · obtain ⟨e⟩ := CFSG.Open.StatedAPI.nonempty_mulEquiv_specialLinear_zmod_two_of_psl hJ
     have hcardJ : Nat.card ↥J = 9999360 :=
       CFSG.Open.StatedAPI.card_of_statedClassicalModel_psl_five_two hJ
-    haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [hcardJ]; norm_num)
+    have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [hcardJ]; norm_num)
     have hcardX : Nat.card (Matrix.SpecialLinearGroup (Fin 5) (ZMod 2)) = 9999360 :=
       (Nat.card_congr e.toEquiv).symm.trans hcardJ
     have hX3 : Nat.factorization

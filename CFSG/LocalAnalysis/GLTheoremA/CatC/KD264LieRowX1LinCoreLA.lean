@@ -22,6 +22,7 @@ theorem natCast_zmod2_of_odd {n : ℕ} (h : Odd n) : (n : ZMod 2) = 1 := by
   rw [h2]
   simp
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_inv_compl (E : Subgroup (V ≃ₗ[ZMod 2] V)) [Fintype E]
     (hodd : Odd (Fintype.card E)) (X : Submodule (ZMod 2) V) (hX : Inv2 E X) :
     ∃ Y : Submodule (ZMod 2) V, Inv2 E Y ∧ IsCompl X Y := by
@@ -75,8 +76,7 @@ theorem exists_inv_compl (E : Subgroup (V ≃ₗ[ZMod 2] V)) [Fintype E]
     show (g : V ≃ₗ[ZMod 2] V) (π (((g⁻¹ : E) : V ≃ₗ[ZMod 2] V) (h v))) =
       (h : V ≃ₗ[ZMod 2] V) (((k : V ≃ₗ[ZMod 2] V)) (π (((k⁻¹ : E) : V ≃ₗ[ZMod 2] V) v)))
     rw [hkv, hkinv]
-    simp only [LinearEquiv.mul_apply, LinearEquiv.coe_inv, LinearEquiv.apply_symm_apply,
-      LinearEquiv.symm_apply_apply]
+    simp only [LinearEquiv.mul_apply, LinearEquiv.coe_inv, LinearEquiv.apply_symm_apply]
     rfl
   let Y : Submodule (ZMod 2) V := LinearMap.ker P
   have hY : Inv2 E Y := by
@@ -93,6 +93,7 @@ theorem exists_inv_compl (E : Subgroup (V ≃ₗ[ZMod 2] V)) [Fintype E]
     show P (v - P v) = 0
     rw [map_sub, hPX _ (hPmem v), sub_self]
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem exists_inv_compl_within (E : Subgroup (V ≃ₗ[ZMod 2] V)) [Fintype E]
     (hodd : Odd (Fintype.card E)) {W X : Submodule (ZMod 2) V} (hW : Inv2 E W) (hXW : X ≤ W)
     (hX : Inv2 E X) :
@@ -127,6 +128,7 @@ theorem exists_irr_le (E : Subgroup (V ≃ₗ[ZMod 2] V)) {W : Submodule (ZMod 2
       Submodule.finrank_mono hZY
     exact Submodule.eq_of_le_of_finrank_eq hZY (by omega)
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem iSup_cons_eq {k : ℕ} (A : Submodule (ZMod 2) V) (Z : Fin k → Submodule (ZMod 2) V) :
     (⨆ i, (Fin.cons A Z : Fin (k + 1) → Submodule (ZMod 2) V) i) = A ⊔ ⨆ i, Z i := by
   apply le_antisymm
@@ -141,6 +143,7 @@ theorem iSup_cons_eq {k : ℕ} (A : Submodule (ZMod 2) V) (Z : Fin k → Submodu
     · have := le_iSup (fun i => (Fin.cons A Z : Fin (k + 1) → Submodule (ZMod 2) V) i) j.succ
       simpa using this
 
+omit [FiniteDimensional (ZMod 2) V] in
 theorem iSupIndep_cons {k : ℕ} (A : Submodule (ZMod 2) V) (Z : Fin k → Submodule (ZMod 2) V)
     (hZ : iSupIndep Z) (hA : Disjoint A (⨆ i, Z i)) :
     iSupIndep (Fin.cons A Z : Fin (k + 1) → Submodule (ZMod 2) V) := by

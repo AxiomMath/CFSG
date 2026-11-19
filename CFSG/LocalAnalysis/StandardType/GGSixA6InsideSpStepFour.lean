@@ -38,9 +38,9 @@ theorem exists_shape (hK : Nat.card K = 2) (hζo : IsPrimitiveRoot ζ 3)
       (∀ f, F.tor f ∈ B → f a = 0 → f b = 0 → ∃ α β : ZMod 3, f = α • c + β • d) ∧
       ∀ u v : ZMod 3, ∃ f, F.tor f ∈ B ∧ f a = u ∧ f b = v := by
   classical
-  haveI hfin : Module.Finite K L := Module.finite_of_finrank_pos (by omega)
+  have hfin : Module.Finite K L := Module.finite_of_finrank_pos (by omega)
   have hspos : 0 < F.s := Fin.pos_iff_nonempty.mpr ⟨i₀⟩
-  haveI hnez : NeZero n := ⟨by
+  have hnez : NeZero n := ⟨by
     have hs : F.s = n := s_eq F hL
     omega⟩
   change D ≤ B ∧ CFSG.Open.IsElemAbelian 3 D ∧ Nat.card D = 3 ^ 2 ∧ F.tor c ∈ D ∧

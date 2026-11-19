@@ -32,6 +32,7 @@ private lemma nine3_zmod3_add_one_ne (a : ZMod 3) : a + 1 ≠ a := by
   revert a
   decide
 
+omit [Finite Γ] in
 private lemma nine3_fibre_nonempty (h : Nine3OddFrame 3 m π D) (hm : 0 < m) (a : ZMod 3) :
     ∃ f : Γ, f ∈ D ∧ π f = zmodRefl 3 a := by
   have hpos : 0 < Nat.card {x : Γ // x ∈ D ∧ π x = zmodRefl 3 a} := by
@@ -40,6 +41,7 @@ private lemma nine3_fibre_nonempty (h : Nine3OddFrame 3 m π D) (hm : 0 < m) (a 
   obtain ⟨⟨f, hfD, hfpi⟩⟩ := (Nat.card_pos_iff.mp hpos).1
   exact ⟨f, hfD, hfpi⟩
 
+omit [Finite Γ] in
 theorem nine3OddFrame_cent_eq (h : Nine3OddFrame 3 m π D) {a : ZMod 3} {d : Γ}
     (hd : d ∈ nine3FibreSet π D a) : Star3T.cent D d = nine3FibreSet π D a := by
   ext e
@@ -75,6 +77,7 @@ theorem nine3OddFrame_cent_eq (h : Nine3OddFrame 3 m π D) {a : ZMod 3} {d : Γ}
   · intro he
     exact ⟨he.1, h.comm e he.1 d hd.1 (by rw [he.2, hd.2])⟩
 
+omit [Finite Γ] in
 theorem nine3OddFrame_conj_transitive (h : Nine3OddFrame 3 m π D) (hm : 0 < m) (a : ZMod 3)
     {d e : Γ} (hd : d ∈ D) (he : e ∈ D) (hda : π d ≠ zmodRefl 3 a) (hea : π e ≠ zmodRefl 3 a) :
     ∃ s ∈ Subgroup.closure (nine3FibreSet π D a), s * d * s⁻¹ = e := by
@@ -99,6 +102,7 @@ theorem nine3OddFrame_conj_transitive (h : Nine3OddFrame 3 m π D) (hm : 0 < m) 
     calc (z * f) * d * (z * f)⁻¹ = z * (f * d * f⁻¹) * z⁻¹ := by group
       _ = e := hzconj
 
+omit [Finite Γ] in
 theorem nine3OddFrame_aut_eq_conj (h : Nine3OddFrame 3 m π D) (hm : 0 < m) (a : ZMod 3)
     {φ : Γ →* Γ} (hinj : Function.Injective φ) (hD : ∀ d ∈ D, φ d ∈ D)
     (hfix : ∀ d ∈ nine3FibreSet π D a, φ d = d) :

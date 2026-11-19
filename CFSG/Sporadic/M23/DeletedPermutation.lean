@@ -232,7 +232,7 @@ private theorem sub_one_sq_descFactorial (n : ℕ) :
   · interval_cases n <;> norm_num [Nat.descFactorial_succ, Nat.descFactorial_zero]
   · have h1 : 1 ≤ n := by omega
     rw [show n.descFactorial 2 = (n - 1) * n.descFactorial 1 by
-      simpa using Nat.descFactorial_succ n 1]
+      simp]
     rw [Nat.descFactorial_one, Nat.cast_mul, Nat.cast_sub h1]
     push_cast
     ring
@@ -247,11 +247,11 @@ private theorem sub_one_pow_four_descFactorial (n : ℕ) :
     have h2 : 2 ≤ n := by omega
     have h3 : 3 ≤ n := by omega
     rw [show n.descFactorial 4 = (n - 3) * n.descFactorial 3 by
-      simpa using Nat.descFactorial_succ n 3]
+      simp]
     rw [show n.descFactorial 3 = (n - 2) * n.descFactorial 2 by
-      simpa using Nat.descFactorial_succ n 2]
+      simp]
     rw [show n.descFactorial 2 = (n - 1) * n.descFactorial 1 by
-      simpa using Nat.descFactorial_succ n 1]
+      simp]
     rw [Nat.descFactorial_one]
     push_cast [Nat.cast_sub h1, Nat.cast_sub h2, Nat.cast_sub h3]
     ring

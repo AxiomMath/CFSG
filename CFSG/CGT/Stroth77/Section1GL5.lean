@@ -50,7 +50,7 @@ theorem Φ_two_pow (b : Fin 5 → A) (j : Fin 5) : Φ b (2 ^ (j : Nat)) = b j :=
   · simp [Nat.testBit_two_pow_self]
   · intro i _ hij
     have : (i : Nat) ≠ j := fun h => hij (Fin.ext h)
-    simp [Nat.testBit_two_pow, Ne.symm this]
+    simp [Ne.symm this]
   · simp
 
 section Basis
@@ -102,7 +102,7 @@ include hsq hgen in
 theorem coord_spec (a : A) : coord b a < 32 ∧ Φ b (coord b a) = a := by
   have h := Φ_surj hsq hgen a
   unfold coord
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact Classical.choose_spec h
 
 include hsq hgen in
@@ -126,20 +126,20 @@ theorem code_lt (f : MulAut A) : code b f < N :=
 
 include hsq hgen in
 theorem r0_code (f : MulAut A) : r0 (code b f) = coord b (f (b 0)) :=
-  r0_ofRows (coord_lt hsq hgen _) (coord_lt hsq hgen _) (coord_lt hsq hgen _)
-    (coord_lt hsq hgen _) (coord_lt hsq hgen _)
+  r0_ofRows (coord_lt hsq hgen _)
+
 include hsq hgen in
 theorem r1_code (f : MulAut A) : r1 (code b f) = coord b (f (b 1)) :=
-  r1_ofRows (coord_lt hsq hgen _) (coord_lt hsq hgen _) (coord_lt hsq hgen _)
-    (coord_lt hsq hgen _) (coord_lt hsq hgen _)
+  r1_ofRows (coord_lt hsq hgen _) (coord_lt hsq hgen _)
+
 include hsq hgen in
 theorem r2_code (f : MulAut A) : r2 (code b f) = coord b (f (b 2)) :=
   r2_ofRows (coord_lt hsq hgen _) (coord_lt hsq hgen _) (coord_lt hsq hgen _)
-    (coord_lt hsq hgen _) (coord_lt hsq hgen _)
+
 include hsq hgen in
 theorem r3_code (f : MulAut A) : r3 (code b f) = coord b (f (b 3)) :=
   r3_ofRows (coord_lt hsq hgen _) (coord_lt hsq hgen _) (coord_lt hsq hgen _)
-    (coord_lt hsq hgen _) (coord_lt hsq hgen _)
+    (coord_lt hsq hgen _)
 include hsq hgen in
 theorem r4_code (f : MulAut A) : r4 (code b f) = coord b (f (b 4)) :=
   r4_ofRows (coord_lt hsq hgen _) (coord_lt hsq hgen _) (coord_lt hsq hgen _)
@@ -242,7 +242,7 @@ theorem coord_apply_lt_sixteen (f : MulAut A) (hst : stabW4 (code b f) = true) (
     intro p _ m hm; split <;> omega
   unfold vm vm5
   rw [h4]
-  simp only [Bool.false_eq_true, if_false, Nat.xor_zero]
+  simp only [Bool.false_eq_true, ite_false, Nat.xor_zero]
   exact Nat.xor_lt_two_pow (n := 4) (Nat.xor_lt_two_pow (Nat.xor_lt_two_pow (l16 _ _ h0)
     (l16 _ _ h1)) (l16 _ _ h2)) (l16 _ _ h3)
 

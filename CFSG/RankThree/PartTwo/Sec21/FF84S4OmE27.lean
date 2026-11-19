@@ -44,9 +44,9 @@ theorem factorization_51840 : (51840 : ℕ).factorization 3 = 4 := by
 
 theorem exists_conj_E0 {E : Subgroup GL6} (hE : E ≤ O6) (h3 : IsElemAb 3 3 E) :
     ∃ g ∈ O6, E.map (MulAut.conj g).toMonoidHom = E0 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hel := CFSG.Open.isElemAbelian_iff_isElementaryAbelian.mpr h3.1
-  haveI := hel.1
+  have := hel.1
   have hcardO : Nat.card O6 = 51840 := card_orthogonalGroup_qMinusForm
   have hP'card : Nat.card (P81.subgroupOf O6) = 3 ^ (Nat.card O6).factorization 3 := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe P81_le_O6).toEquiv, card_P81, hcardO,

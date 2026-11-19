@@ -287,6 +287,7 @@ open CFSG.QuasithinUnique (IsSylowTwoOf)
 
 variable {m : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2] {b c : F}
 
+omit [Finite F] in
 theorem statedScalars_subgroupOf_statedOmega_quadMinus_projective_eq_bot :
     (StatedScalars (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) F).subgroupOf
       (StatedOmega (StatedQuadMinus m F b c)) = ⊥ := by
@@ -550,7 +551,7 @@ theorem uc22p20oBorelWit_one_of_central_quotient {K : Type} [Group K] [Finite K]
   have hπ : Function.Surjective (QuotientGroup.mk' Z) := QuotientGroup.mk'_surjective Z
   let P' : Sylow 2 (K ⧸ Z) := P.mapSurjective (f := QuotientGroup.mk' Z) hπ
   obtain ⟨F', hF'N, hF'E, hF'c⟩ := h P'
-  have hP : IsPGroup 2 Psub := P.isPGroup'
+  have hP : IsPGroup 2 Psub := P.isPGroup
   let F : Subgroup K := F'.comap (QuotientGroup.mk' Z)
   have hFle : F ≤ Subgroup.normalizer (P : Set K) := by
     change F ≤ Subgroup.normalizer (Psub : Set K)
@@ -580,7 +581,7 @@ open CFSG.Blueprint
 open CFSG.LieType.Ree
 
 theorem exists_borelWit_suzuki {a : ℕ} {K : Type} [Field K]
-    [Finite K] (ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) {r : ℕ} (hr : r.Prime)
+    [Finite K] (_ha : 1 ≤ a) (hK : Nat.card K = 2 ^ (2 * a + 1)) {r : ℕ} (hr : r.Prime)
     (hrdvd : r ∣ 2 ^ (2 * a + 1) - 1) :
     CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p20oBorelWit (suzukiGroup a K) r 1 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
@@ -668,7 +669,7 @@ theorem exists_borelWit_statedSp (m f : ℕ) (F : Type) [Field F] [Finite F] [Ch
   have hcard : Nat.card ψ.range = r ^ m := by
     rw [← Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv]
     rw [CFSG.RankThree.PartOne.TransitiveSemisimple.natCard_pi_univ_subgroup]
-    simp [A, hcardμ]
+    simp [hcardμ]
   have hrange : ψ.range ≤ CFSG.LocalAnalysis.ComponentInitial.SymplecticTorusWeyl.torus m F := by
     rintro _ ⟨a, rfl⟩
     exact ⟨a, rfl⟩
@@ -740,10 +741,12 @@ noncomputable def uc22pwliu_splitA {d : ℕ} (x : Fin d → μ) : Fin d → Kˣ 
 
 noncomputable def uc22pwliu_splitD (ε : ℕ) : Fin ε → Kˣ := fun _ => 1
 
-theorem uc22pwliu_splitHd (d ε : ℕ) (x : Fin d → μ) :
+omit [Finite K] [CharP K 2] in
+theorem uc22pwliu_splitHd (d ε : ℕ) (_x : Fin d → μ) :
     ∀ k, h.norm (uc22pwliu_splitD (K := K) ε k) = 1 := by
   intro k; simp [uc22pwliu_splitD, UnitaryFieldData.norm]
 
+omit [Finite K] [CharP K 2] in
 theorem uc22pwliu_splitHp (d ε : ℕ)
     (hinv : ∀ a : μ, h.bar (((a : Kˣ) : K)) = ((a : Kˣ) : K)) (x : Fin d → μ) :
     torusRatio h (uc22pwliu_splitA (K := K) x) (uc22pwliu_splitD (K := K) ε) = 1 := by
@@ -764,6 +767,7 @@ noncomputable def uc22pwliu_splitElt (d ε : ℕ)
   (torusMat_mem_hypSU h (uc22pwliu_splitA (K := K) x)
     (uc22pwliu_splitHd h d ε x) (uc22pwliu_splitHp h d ε hinv x)).choose
 
+omit [Finite K] [CharP K 2] in
 theorem uc22pwliu_splitElt_spec (d ε : ℕ)
     (hinv : ∀ a : μ, h.bar (((a : Kˣ) : K)) = ((a : Kˣ) : K)) (x : Fin d → μ) :
     uc22pwliu_splitElt h d ε hinv x ∈ hypTorus h d ε ∧
@@ -796,8 +800,9 @@ noncomputable def uc22pwliu_splitT (d ε : ℕ)
     congr 1
     funext z
     rcases z with i | k | i <;>
-      simp [torusEntries, uc22pwliu_splitA, uc22pwliu_splitD, mul_inv] <;> ring
+      simp [torusEntries, uc22pwliu_splitA, uc22pwliu_splitD]; ring
 
+omit [Finite K] [CharP K 2] in
 theorem uc22pwliu_splitT_coe (d ε : ℕ)
     (hinv : ∀ a : μ, h.bar (((a : Kˣ) : K)) = ((a : Kˣ) : K)) (x : Fin d → μ) :
     (((uc22pwliu_splitT h d ε hinv x : hypSU h d ε) : GL (HypIndex d ε) K) :
@@ -806,11 +811,13 @@ theorem uc22pwliu_splitT_coe (d ε : ℕ)
         (uc22pwliu_splitD (K := K) ε)) :=
   (uc22pwliu_splitElt_spec h d ε hinv x).2
 
+omit [Finite K] [CharP K 2] in
 theorem uc22pwliu_splitT_mem_borel (d ε : ℕ)
     (hinv : ∀ a : μ, h.bar (((a : Kˣ) : K)) = ((a : Kˣ) : K)) (x : Fin d → μ) :
     uc22pwliu_splitT h d ε hinv x ∈ hypBorel h d ε :=
   hypTorus_le_hypBorel h (uc22pwliu_splitElt_spec h d ε hinv x).1
 
+omit [Finite K] in
 theorem uc22pwliu_splitT_meet_scalars (d ε : ℕ)
     (hinv : ∀ a : μ, h.bar (((a : Kˣ) : K)) = ((a : Kˣ) : K)) {x : Fin d → μ}
     (hx : uc22pwliu_splitT h d ε hinv x ∈ hypScalars h d ε) : x = 1 := by
@@ -860,12 +867,13 @@ theorem uc22pwliu_splitT_meet_scalars (d ε : ℕ)
     have hval : ((uc22pwliu_splitA (K := K) x i : K)) = 1 := by
       rcases sq_eq_one_iff.mp hsqK with h1 | h1
       · exact h1
-      · rwa [h1, CharTwo.neg_eq]
+      · rw [h1, CharTwo.neg_eq]
     exact Units.ext hval
   apply Subtype.ext
   apply Units.ext
   simpa [uc22pwliu_splitA] using congrArg (fun u : Kˣ => (u : K)) ha1
 
+omit [Finite K] [CharP K 2] in
 theorem uc22pwliu_split_core (d ε : ℕ) (hd : 1 ≤ d) (hε : ε ≤ 1)
     (hinv : ∀ a : μ, h.bar (((a : Kˣ) : K)) = ((a : Kˣ) : K))
     {ℓ : ℕ} (hℓ : ℓ.Prime) (hcard : Nat.card μ = ℓ) (hexp : ∀ a : μ, a ^ ℓ = 1)
@@ -905,6 +913,7 @@ theorem uc22pwliu_split_core (d ε : ℕ) (hd : 1 ≤ d) (hε : ε ≤ 1)
     exact Subgroup.le_normalizer_map α ⟨_, hB, rfl⟩
   exact uc22pwlie_borelWit_of_sylow P0 ψ.range hN hE hcardψ
 
+omit [CharP K 2] in
 theorem uc22pwliu_exists_splitMu {n : ℕ} (h : UnitaryFieldData 2 n K) {ℓ : ℕ}
     (hℓ : ℓ.Prime) (hℓq : ℓ ∣ 2 ^ n - 1) :
     ∃ μ : Subgroup Kˣ, Nat.card μ = ℓ ∧ (∀ a : μ, a ^ ℓ = 1) ∧
@@ -1189,7 +1198,7 @@ theorem k_CartanRank_POmegaPlus_of_griess
   have hgen : CFSG.Blueprint.Multiplier.genericOrders .POmegaPlus m 2 f = (1, 1) := by
     change (if Even ((2 : ℕ) ^ f) then (1, 1) else
       if Even m then (2, 2) else (Nat.gcd 4 (((2 : ℕ) ^ f) ^ m - 1), 1)) = (1, 1)
-    rw [if_pos heven]
+    rw [ite_eq_left heven]
   have hZ : Subgroup.center K = ⊥ :=
     CFSG.LocalAnalysis.UniquenessCase.UC22.uc22p20v_center_eq_bot
       hN hq hodd hmodel hgen

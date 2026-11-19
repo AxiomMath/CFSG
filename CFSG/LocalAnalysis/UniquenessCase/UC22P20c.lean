@@ -20,11 +20,11 @@ theorem uc22p20c_isQuasisimple_of_not_centralizer_le {B : Type} [Group B] [Finit
     (h : ¬ centralizer ((CFSG.solvableRadical B : Subgroup B) : Set B) ≤
       CFSG.solvableRadical B) : CFSG.IsQuasisimple B := by
   set X : Subgroup B := CFSG.solvableRadical B with hX
-  haveI hXn : X.Normal := CFSG.Quasithin.A3.instNormalSolvableRadical B
-  haveI hXs : Group.IsSolvable ↥X := CFSG.Quasithin.A3.solvableRadical_isSolvable
+  have hXn : X.Normal := CFSG.Quasithin.A3.instNormalSolvableRadical B
+  have hXs : Group.IsSolvable ↥X := CFSG.Quasithin.A3.solvableRadical_isSolvable
   set C : Subgroup B := centralizer (X : Set B) with hC
-  haveI hCn : C.Normal := Subgroup.normal_centralizer
-  haveI hmapn : (C.map (QuotientGroup.mk' X)).Normal :=
+  have hCn : C.Normal := Subgroup.normal_centralizer
+  have hmapn : (C.map (QuotientGroup.mk' X)).Normal :=
     Subgroup.Normal.map hCn _ (QuotientGroup.mk'_surjective X)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (C.map (QuotientGroup.mk' X)) with hbot | htop
   · exfalso
@@ -41,7 +41,7 @@ theorem uc22p20c_isQuasisimple_of_not_centralizer_le {B : Type} [Group B] [Finit
       refine ⟨c, hc, ?_⟩
       rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq] at hcb
       exact hcb
-    haveI : Group.IsSolvable (B ⧸ C) := by
+    have : Group.IsSolvable (B ⧸ C) := by
       refine Group.isSolvable_of_surjective (f := (QuotientGroup.mk' C).comp X.subtype) ?_
       intro q
       obtain ⟨b, rfl⟩ := QuotientGroup.mk'_surjective C q
@@ -55,7 +55,7 @@ theorem uc22p20c_isQuasisimple_of_not_centralizer_le {B : Type} [Group B] [Finit
       simpa using h2
     have hsub : Subsingleton (B ⧸ C) := by
       by_contra hns
-      haveI : Nontrivial (B ⧸ C) := not_subsingleton_iff_nontrivial.mp hns
+      have : Nontrivial (B ⧸ C) := not_subsingleton_iff_nontrivial.mp hns
       exact Group.IsPerfect.not_isSolvable (B ⧸ C) inferInstance
     have hCtop : C = ⊤ := by
       rw [eq_top_iff]
@@ -69,27 +69,27 @@ theorem uc22p20c_isQuasisimple_of_not_centralizer_le {B : Type} [Group B] [Finit
       have hg : g ∈ C := hCtop ▸ Subgroup.mem_top g
       exact (Subgroup.mem_centralizer_iff.1 hg x hx).symm
     have hZX : center B ≤ X := by
-      haveI : Group.IsSolvable ↥(center B) := inferInstance
+      have : Group.IsSolvable ↥(center B) := inferInstance
       exact CFSG.Quasithin.A3.le_solvableRadical inferInstance inferInstance
     have hZeq : center B = X := le_antisymm hZX hXZ
     let e : B ⧸ center B ≃* B ⧸ X := QuotientGroup.quotientMulEquivOfEq hZeq
-    haveI := hsimple
+    have := hsimple
     refine ⟨hperf, e.isSimpleGroup, ?_⟩
     obtain ⟨a, b, hab⟩ := hnonab
     exact ⟨e.symm a, e.symm b, fun h => hab (by simpa [map_mul] using congrArg e h)⟩
 
 theorem uc22p20c_le_center_of_cyclic_normal {B : Type} [Group B] [Finite B]
     (hperf : Group.IsPerfect B) (P : Subgroup B) [P.Normal] (hP : IsCyclic P) : P ≤ center B := by
-  haveI := hP
+  have := hP
   let f : B →* MulAut ↥P := MulAut.conjNormal
   have hcomm : ∀ φ ψ : MulAut ↥P, φ * ψ = ψ * φ := by
     intro φ ψ
     apply (IsCyclic.mulAutMulEquiv (G := ↥P)).injective
     rw [map_mul, map_mul, mul_comm]
-  haveI : Group.IsPerfect ↥f.range := Group.IsPerfect.range f
-  haveI : IsMulCommutative ↥f.range :=
+  have : Group.IsPerfect ↥f.range := Group.IsPerfect.range f
+  have : IsMulCommutative ↥f.range :=
     ⟨⟨fun a b => Subtype.ext (hcomm a b)⟩⟩
-  haveI : Subsingleton ↥f.range := inferInstance
+  have : Subsingleton ↥f.range := inferInstance
   intro x hx
   rw [Subgroup.mem_center_iff]
   intro b
@@ -103,8 +103,8 @@ theorem uc22p20c_le_center_of_cyclic_normal {B : Type} [Group B] [Finite B]
 theorem uc22p20c_layer_eq_bot {B : Type} [Group B] [Finite B]
     (hcent : centralizer ((CFSG.solvableRadical B : Subgroup B) : Set B) ≤
       CFSG.solvableRadical B) : CFSG.layer B = ⊥ := by
-  haveI hXn : (CFSG.solvableRadical B).Normal := CFSG.Quasithin.A3.instNormalSolvableRadical B
-  haveI hXs : Group.IsSolvable ↥(CFSG.solvableRadical B) :=
+  have hXn : (CFSG.solvableRadical B).Normal := CFSG.Quasithin.A3.instNormalSolvableRadical B
+  have hXs : Group.IsSolvable ↥(CFSG.solvableRadical B) :=
     CFSG.Quasithin.A3.solvableRadical_isSolvable
   rw [CFSG.layer.eq_sSup, ← le_bot_iff]
   refine sSup_le fun K hK => ?_
@@ -113,14 +113,14 @@ theorem uc22p20c_layer_eq_bot {B : Type} [Group B] [Finite B]
     (CFSG.LocalCores.component_solvable_centralizer hXs hXn.isSubnormal).1 K hK
   have hKle : K ≤ CFSG.solvableRadical B :=
     (Subgroup.commutator_eq_bot_iff_le_centralizer.1 hKX).trans hcent
-  haveI : Group.IsSolvable ↥K :=
+  have : Group.IsSolvable ↥K :=
     Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hKle)
       (Subgroup.inclusion_injective hKle)
   obtain ⟨hperfK, -, a, b, hab⟩ := hK.1
-  haveI := hperfK
-  haveI : Subsingleton ↥K := by
+  have := hperfK
+  have : Subsingleton ↥K := by
     by_contra hns
-    haveI : Nontrivial ↥K := not_subsingleton_iff_nontrivial.mp hns
+    have : Nontrivial ↥K := not_subsingleton_iff_nontrivial.mp hns
     exact Group.IsPerfect.not_isSolvable ↥K inferInstance
   exact hab (Subsingleton.elim _ _)
 
@@ -138,7 +138,7 @@ theorem uc22p20c_exists_noncyclic_pCore {B : Type} [Group B] [Finite B]
     · subst hq2
       rw [h2]
       exact bot_le
-    · haveI : (CFSG.pCore q B).Normal := CFSG.pCore_normal
+    · have : (CFSG.pCore q B).Normal := CFSG.pCore_normal
       exact uc22p20c_le_center_of_cyclic_normal hperf _ (hall q hq hq2)
   have hF : CFSG.fittingSubgroup B ≤ center B := by
     rw [CFSG.LocalCores.fittingSubgroup_eq_iSup_pCore]
@@ -184,7 +184,7 @@ theorem uc22p20c_pRank_comap_eq {X Y : Type} [Group X] [Finite X] [Group Y] [Fin
 
 theorem uc22p20c_not_dvd_card_of_isPGroup_two {A : Type} [Group A] {N : Subgroup A} [Finite N]
     (hN : IsPGroup 2 N) {q : ℕ} (hq : q.Prime) (hq2 : q ≠ 2) : ¬ q ∣ Nat.card N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 hN
   intro hdvd
   rw [hn] at hdvd
@@ -203,25 +203,25 @@ theorem uc22p20c_applyK318 (hK318 : UCK.K318) {A Y : Type} [Group A] [Finite A] 
         (IsL2Odd (A ⧸ CFSG.solvableRadical A) r ∨ IsL3Odd (A ⧸ CFSG.solvableRadical A) r)) ∨
       IsAlt (A ⧸ CFSG.solvableRadical A) 6 ∨ IsAlt (A ⧸ CFSG.solvableRadical A) 7) ∧
     ∃ q : ℕ, q.Prime ∧ q ≠ 2 ∧ 2 ≤ CFSG.Open.pRank q (CFSG.pCore q Y) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set B : Subgroup Y := f.range with hB
   let ρ : A →* ↥B := f.rangeRestrict
   have hρ : Function.Surjective ρ := MonoidHom.rangeRestrict_surjective f
   have hρker : ρ.ker = f.ker := MonoidHom.ker_rangeRestrict f
   have hsolv : Group.IsSolvable ↥ρ.ker := by
     rw [hρker]
-    haveI : Group.IsNilpotent ↥f.ker := hker.isNilpotent
+    have : Group.IsNilpotent ↥f.ker := hker.isNilpotent
     infer_instance
   have hcop : ∀ q : ℕ, q.Prime → q ≠ 2 → ¬ q ∣ Nat.card ρ.ker := by
     intro q hq hq2
     rw [hρker]
     exact uc22p20c_not_dvd_card_of_isPGroup_two hker hq hq2
   have hBK : CFSG.Open.IsKGroup ↥B := hY.subgroup B
-  haveI hBperf : Group.IsPerfect ↥B := Group.IsPerfect.ofSurjective hρ
+  have hBperf : Group.IsPerfect ↥B := Group.IsPerfect.ofSurjective hρ
   let e : A ⧸ CFSG.solvableRadical A ≃* ↥B ⧸ CFSG.solvableRadical ↥B :=
     CFSG.SignalizerFunctorTheorem.McBride.Nonsolv.SolQuot.solQuotEquiv hρ hsolv
-  haveI := hsimple
-  haveI hsimpleB : IsSimpleGroup (↥B ⧸ CFSG.solvableRadical ↥B) := e.symm.isSimpleGroup
+  have := hsimple
+  have hsimpleB : IsSimpleGroup (↥B ⧸ CFSG.solvableRadical ↥B) := e.symm.isSimpleGroup
   have hnonabB : ∃ a b : ↥B ⧸ CFSG.solvableRadical ↥B, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hnonab
     exact ⟨e a, e b, fun h => hab (by simpa [map_mul] using congrArg e.symm h)⟩
@@ -280,12 +280,12 @@ theorem uc22p20c_applyK318 (hK318 : UCK.K318) {A Y : Type} [Group A] [Finite A] 
   refine ⟨hfinal, ?_⟩
   obtain ⟨q, hq, hq2, hqc⟩ := uc22p20c_exists_noncyclic_pCore hBperf hnonabB hB2 hcentB
   refine ⟨q, hq, hq2, ?_⟩
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (IsPGroup q ↥(CFSG.pCore q ↥B)) := ⟨CFSG.pCore_isPGroup⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (IsPGroup q ↥(CFSG.pCore q ↥B)) := ⟨CFSG.pCore_isPGroup⟩
   obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a hq2 hqc
-  haveI := hSel
+  have := hSel
   have hE2 : CFSG.IsElementaryAbelian q ↥((S.map (CFSG.pCore q ↥B).subtype).map B.subtype) := by
-    haveI : CFSG.IsElementaryAbelian q ↥(S.map (CFSG.pCore q ↥B).subtype) := CFSG.IsElementaryAbelian.map_subtype
+    have : CFSG.IsElementaryAbelian q ↥(S.map (CFSG.pCore q ↥B).subtype) := CFSG.IsElementaryAbelian.map_subtype
     exact CFSG.IsElementaryAbelian.map_subtype
   have hEcard : Nat.card ↥((S.map (CFSG.pCore q ↥B).subtype).map B.subtype) = q ^ 2 := by
     rw [Subgroup.card_map_of_injective B.subtype_injective,
@@ -305,9 +305,9 @@ theorem uc22p20c_cCompSpan_top {Q : Type} [Group Q] [Finite Q] (hperf : Group.Is
     (hE : CFSG.Quasithin.oInftyE Q = ⊤) : CFSG.Quasithin.cCompSpan (⊤ : Subgroup Q) = ⊤ := by
   have h := CFSG.Quasithin.E1.oInftyE_eq_cCompSpan_sup Q
   rw [hE] at h
-  haveI hSn : (CFSG.Quasithin.cCompSpan (⊤ : Subgroup Q)).Normal := CFSG.Quasithin.cCompSpan_normal
-  haveI : Group.IsSolvable (Q ⧸ CFSG.Quasithin.cCompSpan (⊤ : Subgroup Q)) := by
-    haveI : Group.IsSolvable ↥(CFSG.solvableRadical Q) :=
+  have hSn : (CFSG.Quasithin.cCompSpan (⊤ : Subgroup Q)).Normal := CFSG.Quasithin.cCompSpan_normal
+  have : Group.IsSolvable (Q ⧸ CFSG.Quasithin.cCompSpan (⊤ : Subgroup Q)) := by
+    have : Group.IsSolvable ↥(CFSG.solvableRadical Q) :=
       CFSG.Quasithin.A3.solvableRadical_isSolvable
     refine Group.isSolvable_of_surjective
       (f := (QuotientGroup.mk' (CFSG.Quasithin.cCompSpan (⊤ : Subgroup Q))).comp
@@ -324,10 +324,10 @@ theorem uc22p20c_cCompSpan_top {Q : Type} [Group Q] [Finite Q] (hperf : Group.Is
     have h3 : r⁻¹ * (s * r) = r⁻¹ * s * r⁻¹⁻¹ := by group
     rw [h3]
     exact h2
-  haveI := hperf
+  have := hperf
   have hsub : Subsingleton (Q ⧸ CFSG.Quasithin.cCompSpan (⊤ : Subgroup Q)) := by
     by_contra hns
-    haveI : Nontrivial (Q ⧸ CFSG.Quasithin.cCompSpan (⊤ : Subgroup Q)) :=
+    have : Nontrivial (Q ⧸ CFSG.Quasithin.cCompSpan (⊤ : Subgroup Q)) :=
       not_subsingleton_iff_nontrivial.mp hns
     exact Group.IsPerfect.not_isSolvable (Q ⧸ CFSG.Quasithin.cCompSpan (⊤ : Subgroup Q))
       inferInstance
@@ -400,7 +400,7 @@ theorem uc22p20c_barInf_simple {G : Type} [Group G] [Finite G] {X C : Subgroup G
     rw [CFSG.Quasithin.solvRad_eq_map_solvableRadical, Subgroup.subgroupOf,
       Subgroup.comap_map_eq_self_of_injective C.subtype_injective]
   let e := QuotientGroup.quotientMulEquivOfEq heq
-  haveI := hstruct.1
+  have := hstruct.1
   refine ⟨e.symm.isSimpleGroup, ?_⟩
   obtain ⟨a, b, hab⟩ := hstruct.2
   exact ⟨e a, e b, fun h => hab (by simpa using congrArg e.symm h)⟩
@@ -423,7 +423,7 @@ section Concrete
 variable {G : Type} [Group G] [Finite G]
 
 theorem uc22p20c_ne_top (D : Data G) {H : Subgroup G} (hH : H ∈ hSet D.T D.M) : H ≠ ⊤ := by
-  haveI := D.standing.simple
+  have := D.standing.simple
   obtain ⟨N, hN, hHN⟩ := uc22p20a_exists_mem_calMOf D hH
   have hNtop : N ≠ ⊤ :=
     CFSG.PreuniquenessRankFour.Helpers.twoLocal_ne_top D.standing.nonab hN.1.1
@@ -479,7 +479,7 @@ theorem s20_2_of (D : Data G) (hK318 : UCK.K318) (h20_1 : S20_1_124 D) : S20_2 D
   have hHtop : H ≠ ⊤ := uc22p20c_ne_top D hH
   have hKtop : K ≠ ⊤ := fun h => hHtop (top_le_iff.mp (h ▸ hKH))
   have hKsub : CFSG.Open.IsSubnormal K H := CFSG.Quasithin.A3.subnormal_of_normal hKH hKn
-  haveI hQperf : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 hKperf
+  have hQperf : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.2 hKperf
   have hKK : CFSG.Open.IsKGroup ↥K :=
     D.standing.kProper.isKGroup K hKtop
   have hYK : CFSG.Open.IsKGroup (↥K ⧸ CFSG.pCore 2 ↥K) :=
@@ -509,7 +509,7 @@ theorem s20_2_of (D : Data G) (hK318 : UCK.K318) (h20_1 : S20_1_124 D) : S20_2 D
       exact ⟨Subgroup.inclusion hCK c, Subgroup.mem_subgroupOf.2 c.2, rfl⟩
     · rintro ⟨x, hx, rfl⟩
       exact ⟨⟨x, Subgroup.mem_subgroupOf.1 hx⟩, rfl⟩
-  haveI hnormal : f.range.Normal := by
+  have hnormal : f.range.Normal := by
     rw [hrange]
     exact Subgroup.Normal.map (uc22p20c_normal_of_mem_cComp_top hQperf hKE hC₀) π hπ
   have hnq : ¬ CFSG.IsQuasisimple ↥f.range := by

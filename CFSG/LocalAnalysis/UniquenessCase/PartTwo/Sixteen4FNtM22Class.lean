@@ -151,7 +151,7 @@ private noncomputable def w183DoubleDual {Q : Type} [AddCommGroup Q] [Module (ZM
     intro x
     apply LinearMap.ext
     intro f
-    simp [Module.evalEquiv_apply, Module.Dual.eval_apply, Representation.dual_apply,
+    simp [Module.Dual.eval_apply, Representation.dual_apply,
       Module.Dual.transpose_apply, LinearMap.comp_apply])
 
 private noncomputable def w183DualEquiv {Q R : Type} [AddCommGroup Q] [Module (ZMod 2) Q]
@@ -163,8 +163,7 @@ private noncomputable def w183DualEquiv {Q R : Type} [AddCommGroup Q] [Module (Z
     intro f
     apply LinearMap.ext
     intro x
-    simp only [LinearMap.comp_apply, Representation.dual_apply, Module.Dual.transpose_apply,
-      LinearEquiv.dualMap_apply]
+    simp only [LinearMap.comp_apply, Representation.dual_apply, Module.Dual.transpose_apply]
     exact (congrArg f
       (Representation.IntertwiningMap.isIntertwining τ σ E.toIntertwiningMap (g⁻¹) x)).symm)
 
@@ -209,8 +208,8 @@ private theorem w183_two_irr_std {Q₁ Q₂ : Type} [AddCommGroup Q₁] [Module 
     (d₁ : Module.finrank (ZMod 2) Q₁ = 10) (d₂ : Module.finrank (ZMod 2) Q₂ = 10)
     (n₁ : ∃ g, τ₁ g ≠ 1) (n₂ : ∃ g, τ₂ g ≠ 1) :
     Nonempty (τ₂.Equiv τ₁) ∨ Nonempty (τ₂.Equiv τ₁.dual) := by
-  haveI : FiniteDimensional (ZMod 2) Q₁ := Module.Finite.of_finite
-  haveI : FiniteDimensional (ZMod 2) Q₂ := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) Q₁ := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) Q₂ := Module.Finite.of_finite
   have hc₁ := CFSG.Quasithin.B45Mat.M22.m22_binary_cases Q₁ τ₁ h₁ (by rw [d₁]; norm_num)
   have hc₂ := CFSG.Quasithin.B45Mat.M22.m22_binary_cases Q₂ τ₂ h₂ (by rw [d₂]; norm_num)
   rcases hc₁ with h1t | h1a | h1b
@@ -268,7 +267,7 @@ theorem s16nt_m22_two_irr
       (e₂ g) x
     rw [Representation.Equiv.toLinearEquiv_apply, Representation.Equiv.toLinearEquiv_apply]
     simp only [MonoidHom.comp_apply] at h
-    have he₂ : e₂.symm.toMonoidHom (e₂ g) = g := by simpa using e₂.symm_apply_apply g
+    have he₂ : e₂.symm.toMonoidHom (e₂ g) = g := by simp
     rw [he₂] at h
     exact h
   · obtain ⟨E⟩ := h
@@ -281,7 +280,7 @@ theorem s16nt_m22_two_irr
       E.toIntertwiningMap (e₂ g) x
     rw [Representation.Equiv.toLinearEquiv_apply, Representation.Equiv.toLinearEquiv_apply]
     simp only [MonoidHom.comp_apply, Representation.dual_apply, map_inv] at h
-    have he₂ : e₂.symm.toMonoidHom (e₂ g) = g := by simpa using e₂.symm_apply_apply g
+    have he₂ : e₂.symm.toMonoidHom (e₂ g) = g := by simp
     rw [he₂] at h
     have he₁ : e₁.symm.toMonoidHom (e₂ g) = e₁.symm (e₂ g) := rfl
     rw [he₁] at h

@@ -201,7 +201,7 @@ theorem exists_twist_antidiag (Fr : L →+* L) (hFr : ∀ c, Fr c = c ^ Nat.card
         = (((x : L) * (y : L) ^ q)⁻¹ * ((x : L) * (y : L) ^ q)) * p := by ring
       _ = p := by rw [hc₁, one_mul]
   have : NeZero ((q ^ 2 - 1 : ℕ) : L) := ⟨hq2L⟩
-  obtain ⟨μ, hμ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot L (q ^ 2 - 1)
+  obtain ⟨μ, hμ⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot L (q ^ 2 - 1)
   have hμ0 : μ ≠ 0 := hμ.ne_zero hqpos.ne'
   have hμq2 : μ ^ (q ^ 2) = μ := by
     have h : q ^ 2 = (q ^ 2 - 1) + 1 := by omega

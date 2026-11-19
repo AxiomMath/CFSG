@@ -106,9 +106,9 @@ theorem zloc_le_hloc_of_card_zq {G : Type} [Group G] [Finite G] {M T L : Subgrou
   have hcard : Nat.card ↥(Zloc h.le L (p a)) ≤ Nat.card ↥(Hloc h.le L (p a)) := by
     rw [hHc, hZc]
     exact hZq
-  haveI hfinZ : Finite ↥(Zloc h.le L (p a)) :=
+  have hfinZ : Finite ↥(Zloc h.le L (p a)) :=
     Nat.finite_of_card_ne_zero (by rw [hZc]; exact Nat.card_pos.ne')
-  haveI hfinH : Finite ↥(Hloc h.le L (p a)) :=
+  have hfinH : Finite ↥(Hloc h.le L (p a)) :=
     Nat.finite_of_card_ne_zero (by rw [hHc]; exact pow_ne_zero 2 (Fintype.card_pos.ne'))
   exact (Subgroup.eq_of_le_of_card_ge hHZ hcard).ge
 

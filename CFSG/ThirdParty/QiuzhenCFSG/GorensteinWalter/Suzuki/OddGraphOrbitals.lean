@@ -282,7 +282,7 @@ private theorem hhat_centralizer_card_four
     have hcomp := Fintype.card_subtype_compl
       (α := C) (p := fun x : C => (x : G) = 1)
     have hBcard : Nat.card B = Nat.card C - Nat.card A := by
-      simpa [Nat.card_eq_fintype_card, A, B] using hcomp
+      simp [Nat.card_eq_fintype_card, A, B]
     have hAle : Nat.card A ≤ Nat.card C := by
       simpa [Nat.card_eq_fintype_card, A] using
         (Fintype.card_subtype_le (p := fun x : C => (x : G) = 1))
@@ -319,7 +319,7 @@ private theorem hhat_centralizer_card_four
     have hcomp := Fintype.card_subtype_compl
       (α := J) (p := fun x : J => (x : G) ∈ V)
     have hJOcard : Nat.card JO = Nat.card J - Nat.card JV := by
-      simpa [Nat.card_eq_fintype_card, JV, JO] using hcomp
+      simp [Nat.card_eq_fintype_card, JV, JO]
     have hJVle : Nat.card JV ≤ Nat.card J := by
       simpa [Nat.card_eq_fintype_card, JV] using
         (Fintype.card_subtype_le (p := fun x : J => (x : G) ∈ V))

@@ -101,7 +101,7 @@ theorem rankOneSyl_root_psu3_cs5 {K : Type} [Field K] [Finite K] [CharP K 2]
       sylowCenter (S : Subgroup (ProjectiveSpecialUnitaryMatrixGroup J)) :=
     map_center_eq_sylowCenter _
   rw [← hS]
-  refine ⟨isSylowTwoOf_top_of_sylow S, ti_of_stronglyEmbedded_cs5 S.isPGroup' hSE,
+  refine ⟨isSylowTwoOf_top_of_sylow S, ti_of_stronglyEmbedded_cs5 S.isPGroup hSE,
     ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   ·
     rw [top_inf_eq, Subgroup.relIndex_top_right]
@@ -109,7 +109,7 @@ theorem rankOneSyl_root_psu3_cs5 {K : Type} [Field K] [Finite K] [CharP K 2]
     rw [hcard, hS]
   ·
     intro N hN hnorm
-    haveI : N.Normal := ⟨fun n hn g => hnorm g (Subgroup.mem_top g) n hn⟩
+    have : N.Normal := ⟨fun n hn g => hnorm g (Subgroup.mem_top g) n hn⟩
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with h | h
     · exact h
     · exfalso
@@ -149,18 +149,18 @@ end Model
 theorem rankOneSyl_top_of_isPSU_three_cs5 {G : Type} [Group G] [Finite G] {n : ℕ} (hn : 2 ≤ n)
     (hG : IsPSU 3 2 n G) {S : Subgroup G} (hS : IsSylowTwoOf S ⊤) :
     RankOneSyl (⊤ : Subgroup G) S (2 ^ n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := exists_mulEquiv_psu3_proj_cs5 hn hG
   let K := FiniteField.Extension (GaloisField 2 n) 2 2
   let J := binaryQuadraticHermitian n (by omega)
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CharP.of_ringHom_of_ne_zero (algebraMap (GaloisField 2 n) K) 2 (by norm_num)
   have hKcard : Nat.card K = (2 ^ n) ^ 2 := by
     rw [FiniteField.natCard_extension, GaloisField.card 2 n (by omega)]
   have hfixed : Nat.card {x : K // J.conj x = x} = 2 ^ n :=
     quadraticBinaryFrobenius_fixed_card n (by omega)
   have hJ : J.form = !![0, 0, 1; 0, 1, 0; 1, 0, 0] := rfl
-  haveI : Finite (ProjectiveSpecialUnitaryMatrixGroup J) := Finite.of_equiv G e.toEquiv
+  have : Finite (ProjectiveSpecialUnitaryMatrixGroup J) := Finite.of_equiv G e.toEquiv
   exact RankOneSyl.of_mulEquiv_cs5 e.symm
     (RankOneSyl.of_one_sylow_cs5 (rankOneSyl_root_psu3_cs5 J n hn hKcard hfixed hJ)) S hS
 

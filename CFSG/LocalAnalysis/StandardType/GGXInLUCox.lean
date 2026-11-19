@@ -28,10 +28,10 @@ private def suThreeFactor (i : ℕ) : ℕ := if Even i then 2 ^ i - 1 else 2 ^ i
 private theorem suThreeFactor_cast (i : ℕ) :
     ((suThreeFactor i : ℕ) : ℤ) = 2 ^ i - (-1) ^ i := by
   rcases Nat.even_or_odd i with hi | hi
-  · simp only [suThreeFactor, if_pos hi, Nat.cast_sub (Nat.one_le_pow' i 1), Nat.cast_one,
+  · simp only [suThreeFactor, ite_eq_left hi, Nat.cast_sub (Nat.one_le_pow' i 1), Nat.cast_one,
       Nat.cast_pow, Even.neg_one_pow hi]
     ring
-  · simp only [suThreeFactor, if_neg (Nat.not_even_iff_odd.mpr hi), Nat.cast_add, Nat.cast_one,
+  · simp only [suThreeFactor, ite_eq_right (Nat.not_even_iff_odd.mpr hi), Nat.cast_add, Nat.cast_one,
       Nat.cast_pow, Nat.cast_ofNat, Odd.neg_one_pow hi]
     ring
 
@@ -56,7 +56,7 @@ private theorem suThreeFactor_factorization {i : ℕ} (hi : 2 ≤ i) :
       rw [show (2 : ℕ) ^ (2 * j) = ((2 : ℕ) ^ 2) ^ j by rw [pow_mul]]
       norm_num
     have hu : suThreeFactor (2 * j) = 4 ^ j - 1 ^ j := by
-      simp only [suThreeFactor, if_pos hE, hpow, one_pow]
+      simp only [suThreeFactor, ite_eq_left hE, hpow, one_pow]
     have hlte := padicValNat.pow_sub_pow (p := 3) (by decide : Odd 3) (x := 4) (y := 1)
       (by norm_num) (by norm_num) (by norm_num) (n := j) hj
     have h4 : padicValNat 3 (4 - 1) = 1 := by norm_num
@@ -70,7 +70,7 @@ private theorem suThreeFactor_factorization {i : ℕ} (hi : 2 ≤ i) :
     have hO : Odd (2 * j + 1) := ⟨j, by omega⟩
     have hnE : ¬ Even (2 * j + 1) := Nat.not_even_iff_odd.mpr hO
     have hu : suThreeFactor (2 * j + 1) = 2 ^ (2 * j + 1) + 1 ^ (2 * j + 1) := by
-      simp only [suThreeFactor, if_neg hnE, one_pow]
+      simp only [suThreeFactor, ite_eq_right hnE, one_pow]
     have hlte := padicValNat.pow_add_pow (p := 3) (by decide : Odd 3) (x := 2) (y := 1)
       (by norm_num) (by norm_num) (n := 2 * j + 1) hO
     have h3 : padicValNat 3 (2 + 1) = 1 := by norm_num

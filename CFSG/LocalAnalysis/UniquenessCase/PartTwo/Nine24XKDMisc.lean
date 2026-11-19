@@ -56,12 +56,12 @@ private theorem n924x_four_dvd_of_dvd_four_mul {d n : ℕ} (h : d ∣ 4 * n) (h2
 
 theorem noL2Section_of_isCyclic {L : Type} [Group L] (hL : IsCyclic L) : NoL2Section L := by
   intro X n hn hL2
-  haveI : IsCyclic L := hL
-  haveI : IsCyclic X := inferInstance
+  have : IsCyclic L := hL
+  have : IsCyclic X := inferInstance
   have hcyc : IsCyclic (Bar2 X) :=
     isCyclic_of_surjective (QuotientGroup.mk' (CFSG.pCore 2 X)) (QuotientGroup.mk'_surjective _)
-  haveI : IsMulCommutative (Bar2 X) := hcyc.isMulCommutative
-  haveI : IsSimpleGroup (Bar2 X) :=
+  have : IsMulCommutative (Bar2 X) := hcyc.isMulCommutative
+  have : IsSimpleGroup (Bar2 X) :=
     CFSG.Blueprint.LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hL2
   have hprime : (Nat.card (Bar2 X)).Prime :=
     (Group.is_simple_iff_prime_card (α := Bar2 X)).1 inferInstance

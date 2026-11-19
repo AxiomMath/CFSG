@@ -241,7 +241,7 @@ theorem Bp_le_P1 : Bp ≤ burnsideF48d_P1 := by
   rintro _ ⟨j, hj, rfl⟩
   exact Subgroup.subset_closure ⟨j, fun h => by
     have : j.val = 1 := congrArg Fin.val h
-    simp only [Set.mem_setOf_eq] at hj
+    simp only [Set.mem_ofPred_eq] at hj
     omega, rfl⟩
 
 theorem Bp_le_lineStab : Bp ≤ lineStab := by
@@ -249,13 +249,13 @@ theorem Bp_le_lineStab : Bp ≤ lineStab := by
   rintro _ ⟨j, hj, rfl⟩
   exact fun p hp => L_line (fun h => by
     have : j.val = 0 := congrArg Fin.val h
-    simp only [Set.mem_setOf_eq] at hj
+    simp only [Set.mem_ofPred_eq] at hj
     omega) hp
 
 theorem U_le_Bp : burnsideF48d_U ≤ Bp := by
   rw [burnsideF48d_U]
   exact Subgroup.closure_mono (Set.image_mono fun j hj => by
-    simp only [Set.mem_setOf_eq] at hj ⊢
+    simp only [Set.mem_ofPred_eq] at hj ⊢
     omega)
 
 theorem U_le_P1 : burnsideF48d_U ≤ burnsideF48d_P1 := U_le_Bp.trans Bp_le_P1
@@ -476,7 +476,7 @@ theorem orbit_P2_sub {r : Fin 26572} (hr : r ∉ burnsideF48d_line) :
   rwa [Subgroup.coe_inv, ← Equiv.Perm.mul_apply, inv_mul_cancel, Equiv.Perm.one_apply] at h'
 
 theorem card_univ_line : (Finset.univ \ burnsideF48d_line : Finset (Fin 26572)).card = 26568 := by
-  rw [Finset.card_univ_diff, Fintype.card_fin]
+  rw [Finset.card_univ_sdiff, Fintype.card_fin]
   rfl
 
 theorem orbits_P2 :

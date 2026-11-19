@@ -26,16 +26,19 @@ abbrev spanH (h : Fin 6 → V) : Submodule (ZMod 3) V :=
 @[expose] def alphaIn (α : Fin 6 → Dual (ZMod 3) V) : Fin 6 → Dual (ZMod 3) (spanH h) :=
   fun i => (α i).comp (spanH h).subtype
 
+omit [Finite V] in
 theorem alphaIn_hIn (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMod 3)) :
     ∀ i j, alphaIn α i (hIn h j) = (CartanMatrix.E 6 i j : ZMod 3) := by
   intro i j
   simp [alphaIn, hIn, hP i j]
 
+omit [Finite V] in
 theorem alphaIn_self (hα : ∀ i, α i (h i) = 2) :
     ∀ i, alphaIn α i (hIn h i) = 2 := by
   intro i
   simp [alphaIn, hIn, hα i]
 
+omit [Finite V] in
 theorem apply_mem_spanH_of_mem_e6Weyl (hα : ∀ i, α i (h i) = 2)
     {g : V ≃ₗ[ZMod 3] V} (hg : g ∈ e6Weyl hα) {v : V} (hv : v ∈ spanH h) :
     g v ∈ spanH h := by
@@ -56,6 +59,7 @@ theorem apply_mem_spanH_of_mem_e6Weyl (hα : ∀ i, α i (h i) = 2)
     rw [LinearEquiv.mul_apply]
     exact hx _ (hy v hv)
 
+omit [Finite V] in
 theorem reflection_restrict {hα : ∀ i, α i (h i) = 2} (i : Fin 6) (s : spanH h) :
     (⟨reflection (hα i) (s : V),
         apply_mem_spanH_of_mem_e6Weyl hα
@@ -66,6 +70,7 @@ theorem reflection_restrict {hα : ∀ i, α i (h i) = 2} (i : Fin 6) (s : spanH
   rw [reflection_apply, reflection_apply]
   simp [alphaIn, hIn]
 
+omit [Finite V] in
 theorem restrict_mem_e6Weyl {hα : ∀ i, α i (h i) = 2}
     {g : V ≃ₗ[ZMod 3] V} (hg : g ∈ e6Weyl hα) :
     ∃ g' ∈ e6Weyl (alphaIn_self hα), ∀ s : spanH h, (g' s : V) = g s := by
@@ -89,6 +94,7 @@ theorem restrict_mem_e6Weyl {hα : ∀ i, α i (h i) = 2}
       _ = x (y' s) := hx_eq (y' s)
       _ = x (y s) := by rw [hy_eq s]
 
+omit [Finite V] in
 theorem lift_mem_e6Weyl {hα : ∀ i, α i (h i) = 2}
     {g' : spanH h ≃ₗ[ZMod 3] spanH h} (hg' : g' ∈ e6Weyl (alphaIn_self hα)) :
     ∃ g ∈ e6Weyl hα, ∀ s : spanH h, (g' s : V) = g s := by
@@ -112,6 +118,7 @@ theorem lift_mem_e6Weyl {hα : ∀ i, α i (h i) = 2}
       _ = x₀ (y s) := hx_eq (y s)
       _ = x₀ (y₀ s) := by rw [hy_eq s]
 
+omit [Finite V] in
 private theorem orbit_spanH (hα : ∀ i, α i (h i) = 2) {v : V} (hv : v ∈ spanH h) :
     Subtype.val '' MulAction.orbit (e6Weyl (alphaIn_self hα)) (⟨v, hv⟩ : spanH h) =
       MulAction.orbit (e6Weyl hα) v := by
@@ -138,7 +145,7 @@ theorem finrank_eq_six (hV : Nat.card V = 3 ^ 6) : finrank (ZMod 3) V = 6 := by
 
 theorem natCard_submodule {W : Type*} [AddCommGroup W] [Module (ZMod 3) W] [Finite W]
     (S : Submodule (ZMod 3) W) : Nat.card S = 3 ^ finrank (ZMod 3) S := by
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := ZMod 3), ZMod.card]
 
 theorem exists_bilinForm_span (hP : ∀ i j, α i (h j) = (CartanMatrix.E 6 i j : ZMod 3))
@@ -154,7 +161,7 @@ theorem card_le_stabilizer_of_forall_apply_eq {hα : ∀ i, α i (h i) = 2}
   have : Finite (V ≃ₗ[ZMod 3] V) :=
     Finite.of_injective (fun e : V ≃ₗ[ZMod 3] V => (e : V → V))
       (fun a b h => LinearEquiv.ext (by simpa using congrFun h))
-  haveI : Fintype ↥(e6Weyl hα) := Fintype.ofFinite _
+  have : Fintype ↥(e6Weyl hα) := Fintype.ofFinite _
   have hle : A.subgroupOf (e6Weyl hα) ≤ MulAction.stabilizer (e6Weyl hα) x := by
     intro g hg
     rw [MulAction.mem_stabilizer_iff]

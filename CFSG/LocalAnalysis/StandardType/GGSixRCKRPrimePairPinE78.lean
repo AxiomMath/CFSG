@@ -225,7 +225,7 @@ theorem exists_cover_rootSpan_e7 {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ 
               ((rootSpan τ K (rootsOfFam β (Set.range l))).subtype.comp Ψ) =
             (rootSubgroup τ K (-γ)).map (MulAut.conj m).toMonoidHom := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hadm : StatedLieAdmissible .E7 0 2 g := ⟨Nat.prime_two, hg, rfl⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ, hρeq⟩ :=
     rckPin_weakCT_data hτ β hroot l (edgeE 7) hgram hframe
@@ -285,7 +285,7 @@ theorem exists_cover_rootSpan_e8 {τ : Tag} (hτ : τ = .D4 ∨ τ = .E6 ∨ τ 
               ((rootSpan τ K (rootsOfFam β (Set.range l))).subtype.comp Ψ) =
             (rootSubgroup τ K (-γ)).map (MulAut.conj m).toMonoidHom := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hadm : StatedLieAdmissible .E8 0 2 g := ⟨Nat.prime_two, hg, rfl⟩
   obtain ⟨U, ρ, hgen, hcomm, hρ, hψ, hρeq⟩ :=
     rckPin_weakCT_data hτ β hroot l (edgeE 8) hgram hframe

@@ -45,7 +45,7 @@ private theorem finrank_le_three
     rw [hfix w hw] at hw'
     rw [Matrix.toBilin'_apply', Matrix.mulVec_sub, dotProduct_sub, hw', sub_self]
   have hlt : W < W ⊔ Submodule.span (ZMod 3) {Pi.single i 1 ᵥ* A - Pi.single i 1} :=
-    SetLike.lt_iff_le_and_exists.2 ⟨le_sup_left, _,
+    IsConcreteLE.lt_iff_le_and_exists.2 ⟨le_sup_left, _,
       Submodule.mem_sup_right (Submodule.mem_span_singleton_self _), fun h => hi (hfix _ h)⟩
   have h1 := Submodule.finrank_lt_finrank_of_lt hlt
   have h2 := finrank_add_le (sup_le hiso (Submodule.span_le.2 (Set.singleton_subset_iff.2 hto)))

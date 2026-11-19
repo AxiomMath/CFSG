@@ -69,14 +69,17 @@ private theorem d33_qm_le (h : HypD32 Tdot Mdp Qm Qp QV) : conjClosure QV ⊤ �
   conjClosure_le fun g _ z hz =>
     (Subgroup.mem_normalizer_iff.mp (h.sec_normal.2 (Subgroup.mem_top g)) z).mp (h.v_le.2 hz)
 
+omit [Finite Mdot] in
 private theorem d33_conj_mem (g : Mdot) (x : ↥(conjClosure QV ⊤)) :
     g * (x : Mdot) * g⁻¹ ∈ conjClosure QV ⊤ :=
   (Subgroup.mem_normalizer_iff.mp (le_normalizer_conjClosure QV ⊤ (Subgroup.mem_top g)) x).mp x.2
 
+omit [Finite W] [Finite Mdot] in
 private theorem d33_act (d : D33Data QV Qm ρ π) (g : Mdot) (x : ↥(conjClosure QV ⊤)) :
     ρ g (π x) = π ⟨g * x * g⁻¹, d33_conj_mem g x⟩ :=
   (d.int g x ⟨g * x * g⁻¹, d33_conj_mem g x⟩ rfl).symm
 
+omit [Finite W] [Finite Mdot] in
 private theorem d33_fix_iff (d : D33Data QV Qm ρ π) (g : Mdot) (x : ↥(conjClosure QV ⊤)) :
     ρ g (π x) = π x ↔ g * (x : Mdot) * g⁻¹ * (x : Mdot)⁻¹ ∈ Qm := by
   rw [d33_act d]
@@ -93,6 +96,7 @@ private theorem d33_fix_iff (d : D33Data QV Qm ρ π) (g : Mdot) (x : ↥(conjCl
     rw [MonoidHom.mem_ker, map_mul, map_inv, mul_inv_eq_one] at h2
     exact h2
 
+omit [Finite W] in
 private theorem d33_pcore_le_ker (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ π) :
     pCoreOf 2 Mdp ≤ ρ.ker := by
   have hD : pCoreOf 2 Mdp ≤ secFix Qp Mdp Qm := by
@@ -115,10 +119,11 @@ private theorem d33_pcore_le_ker (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV 
     group
   rwa [e] at h1
 
+omit [Finite W] in
 private theorem d33_not_le_ker (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ π) :
     ¬ Mdp ≤ ρ.ker := by
   intro hle
-  obtain ⟨x, hxQV, hxn⟩ := SetLike.exists_of_lt h.v_irr.1
+  obtain ⟨x, hxQV, hxn⟩ := _root_.IsConcreteLE.exists_of_lt h.v_irr.1
   apply hxn
   refine ⟨hxQV, h.sec_normal.1 (Subgroup.mem_top x), fun a ha => ?_⟩
   have h1 : ρ a (π ⟨x, le_conjClosure QV ⊤ hxQV⟩) = π ⟨x, le_conjClosure QV ⊤ hxQV⟩ := by
@@ -138,7 +143,7 @@ private theorem d33_hres (h : HypD32 Tdot Mdp Qm Qp QV) :
 private theorem d33_kl (h : HypD32 Tdot Mdp Qm Qp QV) :
     ∀ K : Subgroup Mdot, K ≤ Mdp → (∀ g ∈ Mdp, ∀ k ∈ K, g * k * g⁻¹ ∈ K) →
       (∀ t ∈ Tdot, ∀ k ∈ K, t * k * t⁻¹ ∈ K) → K ≠ Mdp → K ≤ o2Phi Mdp := by
-  haveI : Mdp.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h.normal)
+  have : Mdp.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h.normal)
   have hres := d33_hres h
   rcases h.cases with ⟨L, hL, hq, hX⟩ | ⟨p, hp, hp2, hpg, hlt, hirr⟩
   · intro K hKX hKn hKT hK
@@ -146,9 +151,10 @@ private theorem d33_kl (h : HypD32 Tdot Mdp Qm Qp QV) :
   · intro K hKX hKn hKT hK
     exact RonanD33.kl_of_caseII hres hirr hKX hKn hKT hK
 
+omit [Finite W] in
 private theorem d33_two (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ π) :
     pCoreOf 2 Mdp ≤ Mdp ⊓ ρ.ker ∧ Mdp ⊓ ρ.ker ≤ o2Phi Mdp := by
-  haveI : Mdp.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h.normal)
+  have : Mdp.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h.normal)
   refine ⟨le_inf (RonanD33.pCoreOf_le Mdp) (d33_pcore_le_ker h d), ?_⟩
   refine d33_kl h _ inf_le_left (fun g hg k hk => ?_) (fun t _ k hk => ?_) ?_
   · refine ⟨Mdp.mul_mem (Mdp.mul_mem hg hk.1) (Mdp.inv_mem hg), ?_⟩
@@ -169,9 +175,10 @@ private theorem d33_qm_le_secFix (h : HypD32 Tdot Mdp Qm Qp QV) : Qm ≤ secFix 
     (Subgroup.mem_normalizer_iff.mp (h.sec_normal.1 (Subgroup.mem_top a)) q).mp hq
   exact Qm.mul_mem h1 (Qm.inv_mem hq)
 
-private theorem d33_secFix_le (h : HypD32 Tdot Mdp Qm Qp QV) : secFix Mdp QV Qm ≤ QV :=
+private theorem d33_secFix_le (_h : HypD32 Tdot Mdp Qm Qp QV) : secFix Mdp QV Qm ≤ QV :=
   fun _ hx => hx.1
 
+omit [Finite W] in
 private theorem d33_exp (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ π) :
     ∀ w : W, w ^ 2 = 1 := by
   intro w
@@ -183,6 +190,7 @@ private theorem d33_exp (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ π)
   rw [← map_pow]
   exact MonoidHom.mem_ker.mp this
 
+omit [Finite W] in
 private theorem d33_qsqtk (h : HypD32 Tdot Mdp Qm Qp QV) :
     IsQuotientOfSQTKTC ↥((⊤ : Subgroup Mdot).map ρ) :=
   ⟨Mdot, inferInstance, inferInstance, h.sqt, h.kgp,
@@ -192,6 +200,7 @@ private theorem d33_qsqtk (h : HypD32 Tdot Mdp Qm Qp QV) :
       show (ρ.subgroupMap ⊤) (Subgroup.topEquiv.symm (Subgroup.topEquiv x)) = _
       rw [MulEquiv.symm_apply_apply]⟩
 
+omit [Finite W] in
 private theorem d33_sylow (h : HypD32 Tdot Mdp Qm Qp QV) :
     IsSylowTwoOf (Tdot.map ρ) ((⊤ : Subgroup Mdot).map ρ) := by
   obtain ⟨_, hT2, hidx⟩ := h.sylow
@@ -201,13 +210,15 @@ private theorem d33_sylow (h : HypD32 Tdot Mdp Qm Qp QV) :
   obtain ⟨hp, hi⟩ := RonanD33.sylow_map ρ (le_top : Tdot ≤ ⊤) hT2 hidx'
   exact ⟨Subgroup.map_mono le_top, hp, hi⟩
 
+omit [Finite W] in
 private theorem d33_Mp_normal (h : HypD32 Tdot Mdp Qm Qp QV) :
     (⊤ : Subgroup Mdot).map ρ ≤ Subgroup.normalizer ((Mdp.map ρ : Subgroup (MulAut W)) : Set (MulAut W)) := by
-  haveI : Mdp.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h.normal)
+  have : Mdp.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h.normal)
   refine RonanD33.le_normalizer_of_forall_conj_mem ?_
   rintro _ ⟨g, -, rfl⟩ _ ⟨x, hx, rfl⟩
   exact ⟨g * x * g⁻¹, Subgroup.Normal.conj_mem inferInstance x hx g, by simp⟩
 
+omit [Finite W] in
 private theorem d33_fixed_eq (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ π) :
     XMod.fixed ↥(Mdp.map ρ) ((QV.subgroupOf (conjClosure QV ⊤)).map π) =
       ((secFix Mdp QV Qm).subgroupOf (conjClosure QV ⊤)).map π := by
@@ -225,6 +236,7 @@ private theorem d33_fixed_eq (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm �
     rw [← ha]
     exact (d33_fix_iff d a' x).mpr (hx.2.2 a' ha')
 
+omit [Finite W] in
 private theorem d33_isInv (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ π) :
     XMod.IsInv ↥(Mdp.map ρ) ((QV.subgroupOf (conjClosure QV ⊤)).map π) := by
   rintro ⟨a, ⟨g, hg, rfl⟩⟩ _ ⟨x, hx, rfl⟩
@@ -232,10 +244,11 @@ private theorem d33_isInv (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ �
   rw [d33_act d]
   exact ⟨⟨g * x * g⁻¹, d33_conj_mem g x⟩, h.v_inv g (Subgroup.mem_sup_left hg) x hx, rfl⟩
 
+omit [Finite W] in
 private theorem d33_commOf (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ π) :
     XMod.commOf ↥(Mdp.map ρ) ((QV.subgroupOf (conjClosure QV ⊤)).map π) =
       (QV.subgroupOf (conjClosure QV ⊤)).map π := by
-  haveI : Qm.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h.sec_normal.1)
+  have : Qm.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h.sec_normal.1)
   apply le_antisymm (XMod.commOf_le_of_isInv (d33_isInv h d))
   have hcomm : ∀ c ∈ cmt QV Mdp, ∃ hc' : c ∈ conjClosure QV ⊤,
       π ⟨c, hc'⟩ ∈ XMod.commOf ↥(Mdp.map ρ) ((QV.subgroupOf (conjClosure QV ⊤)).map π) := by
@@ -297,13 +310,14 @@ private theorem d33_commOf (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ 
   rw [this, map_mul, hq1, one_mul]
   exact hcC
 
+omit [Finite W] in
 private theorem d33_irrSec (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ π) :
     XMod.IsIrrSec ↥(Mdp.map ρ) (XMod.fixed ↥(Mdp.map ρ) ((QV.subgroupOf (conjClosure QV ⊤)).map π))
       ((QV.subgroupOf (conjClosure QV ⊤)).map π) := by
   rw [d33_fixed_eq h d]
   refine ⟨?_, ?_⟩
   · refine lt_of_le_of_ne (Subgroup.map_mono fun x hx => d33_secFix_le h hx) ?_
-    obtain ⟨x, hxQV, hxn⟩ := SetLike.exists_of_lt h.v_irr.1
+    obtain ⟨x, hxQV, hxn⟩ := _root_.IsConcreteLE.exists_of_lt h.v_irr.1
     intro heq
     have hmem : π ⟨x, le_conjClosure QV ⊤ hxQV⟩ ∈
         (QV.subgroupOf (conjClosure QV ⊤)).map π := ⟨⟨x, le_conjClosure QV ⊤ hxQV⟩, hxQV, rfl⟩
@@ -353,14 +367,16 @@ private theorem d33_irrSec (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ 
       subst this
       exact hy
 
+omit [Finite W] in
 private theorem d33_irr (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ π) :
     (QV.subgroupOf (conjClosure QV ⊤)).map π ∈ IrrPlus (Mdp.map ρ) (⊤ : Subgroup W) :=
   ⟨le_top, d33_isInv h d, d33_commOf h d, d33_irrSec h d⟩
 
+omit [Finite W] in
 private theorem d33_o2inv (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ π) :
     ∀ g ∈ pCoreOf 2 (Mdp.map ρ ⊔ Tdot.map ρ), ∀ v ∈ (QV.subgroupOf (conjClosure QV ⊤)).map π,
       g v ∈ (QV.subgroupOf (conjClosure QV ⊤)).map π := by
-  haveI : Mdp.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h.normal)
+  have : Mdp.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h.normal)
   intro g hg v hv
   rw [← Subgroup.map_sup] at hg
   obtain ⟨_, hT2, hidx⟩ := h.sylow
@@ -378,6 +394,7 @@ private theorem d33_o2inv (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ �
   rw [d33_act d]
   exact ⟨⟨t * x * t⁻¹, d33_conj_mem t x⟩, h.v_inv t (Subgroup.mem_sup_right ht') x hx, rfl⟩
 
+omit [Finite W] [Finite Mdot] in
 private theorem d33_gen (d : D33Data QV Qm ρ π) :
     (⨆ m ∈ (⊤ : Subgroup Mdot).map ρ,
       ((QV.subgroupOf (conjClosure QV ⊤)).map π).map m.toMonoidHom) = ⊤ := by
@@ -400,10 +417,11 @@ private theorem d33_gen (d : D33Data QV Qm ρ π) :
   subst this
   exact hy
 
+omit [Finite W] in
 private theorem d33_cases (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ π) :
     (∃ L : Subgroup (MulAut W), D31CaseI ((⊤ : Subgroup Mdot).map ρ) (Mdp.map ρ) (Tdot.map ρ) L) ∨
       ∃ p : ℕ, D31CaseII (Mdp.map ρ) (Tdot.map ρ) p := by
-  haveI : Mdp.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h.normal)
+  have : Mdp.Normal := Subgroup.normalizer_eq_top_iff.mp (top_le_iff.mp h.normal)
   have hker := d33_pcore_le_ker h d
   have hnt := d33_not_le_ker h d
   rcases h.cases with ⟨L, hL, hq, hX⟩ | ⟨p, hp, hp2, hpg, hlt, hirr⟩
@@ -428,7 +446,7 @@ private theorem d33_cases (h : HypD32 Tdot Mdp Qm Qp QV) (d : D33Data QV Qm ρ �
     · rw [hX]
       exact RonanD33.map_closure_conj ρ Tdot L
   · right
-    haveI : Finite ↥(Mdp.map ρ) :=
+    have : Finite ↥(Mdp.map ρ) :=
       Finite.of_surjective (ρ.subgroupMap Mdp) (ρ.subgroupMap_surjective Mdp)
     have hMp_ne : Mdp.map ρ ≠ ⊥ := by
       intro hbot

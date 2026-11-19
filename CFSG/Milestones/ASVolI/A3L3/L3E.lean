@@ -81,7 +81,7 @@ theorem burnsideA315y_IsUl_mul {g h : Matrix (Fin 3) (Fin 3) F} (hg : burnsideA3
   obtain ⟨b00, b01, b02, b10, b11, b12, b22⟩ := hh
   refine ⟨⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩, ?_, ?_⟩ <;>
     simp [Matrix.mul_apply, Fin.sum_univ_three, a00, a01, a02, a10, a11, a12, a22, b00, b01, b02,
-      b10, b11, b12, b22] <;> ring
+      b10, b11, b12, b22]
 
 theorem burnsideA315y_IsUl_ext {g h : Matrix (Fin 3) (Fin 3) F} (hg : burnsideA315y_IsUl g)
     (hh : burnsideA315y_IsUl h) (h0 : g 2 0 = h 2 0) (h1 : g 2 1 = h 2 1) : g = h := by
@@ -471,7 +471,7 @@ end burnsideA315y_Model
 theorem burnsideA315y_l3_natCast_surj [Finite F] {p : ℕ} [Fact p.Prime] (hF : Nat.card F = p) :
     ∀ a : F, ∃ n : ℕ, (n : F) = a := by
   have := Fintype.ofFinite F
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   let ψ : ZMod p ≃+* F :=
     ZMod.ringEquivOfPrime F Fact.out (by rw [← Nat.card_eq_fintype_card, hF])
   intro a

@@ -81,7 +81,7 @@ theorem rep_lettersT (w : List ℕ) (hw : ∀ z ∈ w, z < (chainLetters orb).si
     Rep 3510 (lettersT (chainLetters orb) w) (w.map (pairG gs)).prod :=
   rep_lettersT_of rep_chainLetters w hw
 
-@[expose] noncomputable def xRep (k : ℕ) : J := tabElt gJ par (globRep[k]!)
+noncomputable def xRep (k : ℕ) : J := tabElt gJ par (globRep[k]!)
 
 theorem xRep_def (k : ℕ) : xRep k = tabElt gJ par (globRep[k]!) := rfl
 

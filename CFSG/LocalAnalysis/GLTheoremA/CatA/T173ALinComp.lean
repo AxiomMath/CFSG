@@ -42,7 +42,7 @@ theorem lin_component_of_diag {p n d : ℕ} {F : Type} [Field F] [Finite F]
     exact lin_cent_blocks_diag hdiag (hC g (hK.1 hk))
       (fun I hI hcard e he => hcomm I hI hcard _ hk e he)
   obtain ⟨-, hsimple⟩ := hK.2.2
-  haveI := hsimple
+  have := hsimple
   obtain ⟨q1, q2, hq⟩ := exists_pair_ne (↥K₁ ⧸ Subgroup.center ↥K₁)
   obtain ⟨w1, rfl⟩ := QuotientGroup.mk_surjective q1
   obtain ⟨w2, rfl⟩ := QuotientGroup.mk_surjective q2

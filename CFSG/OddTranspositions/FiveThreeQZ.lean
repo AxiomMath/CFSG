@@ -30,13 +30,14 @@ theorem rad_of_normal (hrad : ∀ N : Subgroup G, N.Normal → Group.IsSolvable 
       simpa using this
     exact ⟨φ r, hφ, by simp [φ, MulAut.conjNormal_apply]⟩⟩
   have hRs : Group.IsSolvable (R.map N.subtype) := by
-    haveI := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := N)
+    have := CFSG.SignalizerFunctorTheorem.Nonsolvable.isSolvable_solvableRadical (G := N)
     let f := (R.equivMapOfInjective N.subtype N.subtype_injective).symm
-    exact solvable_of_solvable_injective (f := f.toMonoidHom) f.injective
+    exact Group.isSolvable_of_isSolvable_injective (f := f.toMonoidHom) f.injective
   have hR : R = ⊥ :=
     (Subgroup.map_eq_bot_iff_of_injective _ N.subtype_injective).mp (hrad _ hRn hRs)
   exact le_bot_iff.mp (hR ▸ CFSG.SignalizerFunctorTheorem.Nonsolvable.le_solvableRadical hLn hLs)
 
+omit [Finite G] in
 theorem not_mem_centralizer_of_normal (hS : Setup G D)
     (hrad : ∀ N : Subgroup G, N.Normal → Group.IsSolvable N → N = ⊥)
     {N : Subgroup G} [N.Normal] (hN : N ≠ ⊥) {u : G} (hu : u ∈ D) :
@@ -52,7 +53,7 @@ theorem not_mem_centralizer_of_normal (hS : Setup G D)
     intro a b
     have hb : (b : G) ∈ Subgroup.centralizer (N : Set G) := htop ▸ Subgroup.mem_top _
     exact Subtype.ext (Subgroup.mem_centralizer_iff.mp hb a a.2)
-  exact hN (hrad N inferInstance (isSolvable_of_comm hcomm))
+  exact hN (hrad N inferInstance (_root_.Group.isSolvable_of_comm hcomm))
 
 theorem exists_conj_not_commute (hS : Setup G D)
     (hrad : ∀ N : Subgroup G, N.Normal → Group.IsSolvable N → N = ⊥)
@@ -60,7 +61,7 @@ theorem exists_conj_not_commute (hS : Setup G D)
     ∃ n ∈ N, ¬ Commute (n * u * n⁻¹) u := by
   classical
   by_contra h
-  push_neg at h
+  push Not at h
   have hu2 : u * u = 1 := hS.oddT.mul_self_eq_one hu
   have huinv : u⁻¹ = u := inv_eq_of_mul_eq_one_right hu2
   set k : Set G := {x | ∃ n ∈ N, n * u * n⁻¹ = x}
@@ -88,13 +89,13 @@ theorem exists_conj_not_commute (hS : Setup G D)
   have hLn : L.Normal := ⟨fun x hx g => by
     rw [Subgroup.mem_subgroupOf] at hx ⊢
     exact ⟨by simpa using hEN g g.2 x hx.1, (g * x * g⁻¹).2⟩⟩
-  have hLs : Group.IsSolvable L := isSolvable_of_comm fun a b =>
+  have hLs : Group.IsSolvable L := _root_.Group.isSolvable_of_comm fun a b =>
     Subtype.ext (Subtype.ext (hEc _ (Subgroup.mem_subgroupOf.mp a.2).1 _
       (Subgroup.mem_subgroupOf.mp b.2).1))
   have hL := rad_of_normal hrad L hLn hLs
   have hnc := not_mem_centralizer_of_normal hS hrad hN hu
   rw [Subgroup.mem_centralizer_iff] at hnc
-  push_neg at hnc
+  push Not at hnc
   obtain ⟨n, hn, hnu⟩ := hnc
   have hxE : u * (n * u * n⁻¹) ∈ E :=
     E.mul_mem (Subgroup.subset_closure ⟨1, N.one_mem, by group⟩)
@@ -119,11 +120,11 @@ theorem exists_conj_commute_ne (hS : Setup G D)
     ∃ n ∈ N, n * u * n⁻¹ ≠ u ∧ Commute (n * u * n⁻¹) u := by
   classical
   by_contra h
-  push_neg at h
+  push Not at h
   have hu2 : u * u = 1 := hS.oddT.mul_self_eq_one hu
   have huinv : u⁻¹ = u := inv_eq_of_mul_eq_one_right hu2
   set X : Subgroup G := N ⊔ Subgroup.zpowers u
-  letI : Fintype X := Fintype.ofFinite X
+  let : Fintype X := Fintype.ofFinite X
   have huX : u ∈ X := Subgroup.mem_sup_right (Subgroup.mem_zpowers u)
   set t : X := ⟨u, huX⟩
   have ht1 : t ≠ 1 := fun h1 => hS.oddT.ne_one hu (congrArg Subtype.val h1)
@@ -183,9 +184,9 @@ theorem exists_conj_commute_ne (hS : Setup G D)
 
 theorem centralizer_eq_bot_of_isSimpleGroup (hS : Setup G D)
     (hrad : ∀ N : Subgroup G, N.Normal → Group.IsSolvable N → N = ⊥)
-    {M : Subgroup G} (hM : Asc72.IsMinimalNormal M) (hMs : IsSimpleGroup M) :
+    {M : Subgroup G} (hM : Asc72.IsMinimalNormal M) (_hMs : IsSimpleGroup M) :
     Subgroup.centralizer (M : Set G) = ⊥ := by
-  haveI : M.Normal := hM.1
+  have : M.Normal := hM.1
   by_contra hC
   obtain ⟨u, hu⟩ := hS.nonempty
   have hu2 : u * u = 1 := hS.oddT.mul_self_eq_one hu
@@ -253,9 +254,9 @@ theorem blockKernel_eq_bot_of_simple_minimalNormal (hC : HypothesisC D)
     {M : Subgroup G} (hM : Asc72.IsMinimalNormal M) (hMs : IsSimpleGroup M)
     (hMc : Subgroup.centralizer (M : Set G) = ⊥) : blockKernel hC.alpha = ⊥ := by
   classical
-  haveI : (blockKernel hC.alpha).Normal := blockKernel_normal hC.alpha
+  have : (blockKernel hC.alpha).Normal := blockKernel_normal hC.alpha
   by_contra hK
-  haveI : M.Normal := hM.1
+  have : M.Normal := hM.1
   have hMK : M ≤ blockKernel hC.alpha := le_blockKernel_of_ne_bot hC hrad hK hM
   have hMα : M ≤ Subgroup.normalizer hC.alpha := hMK.trans (blockKernel_le_normalizer hC)
   have hMcl := le_closure_alpha_of_le_normalizer hC hMs hMc hMα

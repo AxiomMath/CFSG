@@ -22,6 +22,7 @@ private lemma fk3_inl_notMem_ffE8Hat {J : Finset (Fin 4)} {m : Fin 2} :
     Sum.inl m ∉ ffE8Hat J := by
   simp [ffE8Hat]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma fk3_apply_apply {e : OGroup Q} (he : e * e = 1) (v : V) :
     (e : V ≃ₗ[ZMod 3] V) ((e : V ≃ₗ[ZMod 3] V) v) = v := by
   have h : (e : V ≃ₗ[ZMod 3] V) * (e : V ≃ₗ[ZMod 3] V) = 1 := by
@@ -38,6 +39,7 @@ private lemma fk3_fin2_ne {m m' : Fin 2} (h : m ≠ m') :
     (m = 0 ∧ m' = 1) ∨ (m = 1 ∧ m' = 0) := by
   revert m m'; decide
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8Frame_eq_signChange {ι : Type} [Fintype ι] [DecidableEq ι] {c : ι → ZMod 3}
     (fr : PFrame Q ι c) (J : Finset ι) {e : OGroup Q}
     (h : ∀ i, (e : V ≃ₗ[ZMod 3] V) (fr.b i) = if i ∈ J then -fr.b i else fr.b i) :
@@ -47,6 +49,7 @@ theorem ffOutFFE8Frame_eq_signChange {ι : Type} [Fintype ι] [DecidableEq ι] {
   intro i
   rw [h i, fr.signChange_basis J i]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8Frame_basis (hdim : Module.finrank (ZMod 3) V = 6) {t : OGroup Q}
     (ht : t * t = 1) {a b : V} {f : Fin 4 → V} (ha : a ∈ fixSp t) (hb : b ∈ fixSp t)
     (hab : QuadraticMap.polar Q a b = 0) (hfix : ∀ v ∈ fixSp t, ∃ x y : ZMod 3, v = x • a + y • b)
@@ -129,6 +132,7 @@ theorem ffOutFFE8Frame_basis (hdim : Module.finrank (ZMod 3) V = 6) {t : OGroup 
           rw [hB2v k, hB2v l]
           exact hff k l hkl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ffOutFFE8Frame_t_eq {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) {t : OGroup Q}
     (ht : t * t = 1) (ha : ∀ i : Fin 2, fr.b (Sum.inl i) ∈ fixSp t)
     (hf : ∀ k, fr.b (Sum.inr k) ∈ commSp t) :
@@ -137,11 +141,11 @@ theorem ffOutFFE8Frame_t_eq {ε : ZMod 3} (fr : PFrame Q FFE8Idx (ffE8Norm ε)) 
   intro i
   cases i with
   | inl m =>
-      rw [(mem_fixSp_iff).mp (ha m), if_neg fk3_inl_notMem_ffE8Hat]
+      rw [(mem_fixSp_iff).mp (ha m), ite_eq_right fk3_inl_notMem_ffE8Hat]
   | inr k =>
-      rw [(mem_commSp_iff ht).mp (hf k), if_pos (fk3_mem_ffE8Hat.mpr (Finset.mem_univ k))]
+      rw [(mem_commSp_iff ht).mp (hf k), ite_eq_left (fk3_mem_ffE8Hat.mpr (Finset.mem_univ k))]
 
-theorem ffOutFFE8Frame_mem_group (hQ : Q.Nondegenerate) {ε : ZMod 3} (hε : ε = 1 ∨ ε = -1)
+theorem ffOutFFE8Frame_mem_group (hQ : Q.Nondegenerate) {ε : ZMod 3} (_hε : ε = 1 ∨ ε = -1)
     (fr : PFrame Q FFE8Idx (ffE8Norm ε))
     (hsign : ∀ K : Finset FFE8Idx, fr.signChange K ∈ omegaGroup hQ ↔
       Even K.card ∧ Even (K.filter fun i => ffE8Norm ε i = -1).card)
@@ -166,14 +170,14 @@ theorem ffOutFFE8Frame_mem_group (hQ : Q.Nondegenerate) {ε : ZMod 3} (hε : ε 
     refine ffOutFFE8Frame_eq_signChange fr (ffE8Hat J) ?_
     intro i
     cases i with
-    | inl m => rw [hfix m, if_neg fk3_inl_notMem_ffE8Hat]
+    | inl m => rw [hfix m, ite_eq_right fk3_inl_notMem_ffE8Hat]
     | inr k =>
         rw [hc k]
         by_cases hk : c k = -1
-        · rw [if_pos (fk3_mem_ffE8Hat.mpr ((hJ k).mpr hk)), hk]
+        · rw [ite_eq_left (fk3_mem_ffE8Hat.mpr ((hJ k).mpr hk)), hk]
           simp
         · have hk1 : c k = 1 := (hc_val k).resolve_right hk
-          rw [if_neg (fun hmem => hk ((hJ k).mp (fk3_mem_ffE8Hat.mp hmem))), hk1]
+          rw [ite_eq_right (fun hmem => hk ((hJ k).mp (fk3_mem_ffE8Hat.mp hmem))), hk1]
           simp
   have he' : fr.signChange (ffE8Hat J) ∈ omegaGroup hQ := heq ▸ heΩ
   have heven : Even J.card := by
@@ -184,7 +188,7 @@ theorem ffOutFFE8Frame_pair_norm (hQ : Q.Nondegenerate) {c : FFE8Idx → ZMod 3}
     (fr : PFrame Q FFE8Idx c) (hc : ∀ i, c i = 1 ∨ c i = -1)
     (hsign : ∀ K : Finset FFE8Idx, fr.signChange K ∈ omegaGroup hQ ↔
       Even K.card ∧ Even (K.filter fun i => c i = -1).card)
-    {e : OGroup Q} (he : e ∈ omegaGroup hQ) {i j : Fin 4} (hij : i ≠ j)
+    {e : OGroup Q} (he : e ∈ omegaGroup hQ) {i j : Fin 4} (_hij : i ≠ j)
     (hfix : ∀ m : Fin 2, (e : V ≃ₗ[ZMod 3] V) (fr.b (Sum.inl m)) = fr.b (Sum.inl m))
     (hpat : ∀ k, (e : V ≃ₗ[ZMod 3] V) (fr.b (Sum.inr k)) =
       (if k = i ∨ k = j then (-1 : ZMod 3) else 1) • fr.b (Sum.inr k)) :
@@ -194,7 +198,7 @@ theorem ffOutFFE8Frame_pair_norm (hQ : Q.Nondegenerate) {c : FFE8Idx → ZMod 3}
     refine ffOutFFE8Frame_eq_signChange fr _ ?_
     intro k
     cases k with
-    | inl m => rw [hfix m, if_neg (by simp)]
+    | inl m => rw [hfix m, ite_eq_right (by simp)]
     | inr k =>
         rw [hpat k]
         simp only [Finset.mem_insert, Finset.mem_singleton, Sum.inr.injEq]

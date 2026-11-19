@@ -37,8 +37,7 @@ theorem card_centralizer_involution_psl49 {X : Type} [Group X] (h : IsPSL 2 7 2 
     exact (e2.subgroupMap (Subgroup.centralizer ({t} : Set X))).toEquiv.trans
       (MulEquiv.subgroupCongr (by
         ext y
-        simp only [Subgroup.mem_map, Subgroup.mem_centralizer_iff, Set.mem_singleton_iff, forall_eq,
-          MulEquiv.coe_toMonoidHom]
+        simp only [Subgroup.mem_map, Subgroup.mem_centralizer_iff, Set.mem_singleton_iff, forall_eq]
         constructor
         · rintro ⟨z, hz, rfl⟩
           have := congrArg e2 hz

@@ -14,10 +14,10 @@ theorem hsurjSplit_holds :
       ∃ f : ↥(Hinf (CFSG.LocalAnalysis.ComponentInitial.OrthogonalSplit.rankOneParabolic K 3 0)) →*
           Matrix.SpecialLinearGroup (Fin 2) K, Function.Surjective f ∧ IsPGroup 2 f.ker := by
   intro K hF hFin m hK hm
-  letI : Field K := hF
-  letI : Finite K := hFin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := m) (by
+  let : Field K := hF
+  let : Finite K := hFin
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := m) (by
     rw [← Nat.card_eq_fintype_card]; exact hK)
   have hm0 : m ≠ 0 := by
     rintro rfl

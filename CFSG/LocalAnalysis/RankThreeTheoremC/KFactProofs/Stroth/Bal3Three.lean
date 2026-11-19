@@ -20,7 +20,7 @@ theorem isSylowOf_inf_of_le_normalizer [Fact p.Prime] (P : Sylow p X) {K : Subgr
     CFSG.ABGLocalTools.IsSylowOf p ((P : Subgroup X) ⊓ K) K := by
   have hP : CFSG.ABGLocalTools.IsSylowOf p (P : Subgroup X) ((P : Subgroup X) ⊔ K) := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_sup_left, P.isPGroup', ?_⟩
+    refine ⟨le_sup_left, P.isPGroup, ?_⟩
     intro hdvd
     have h1 := Subgroup.relIndex_mul_index (le_sup_left : (P : Subgroup X) ≤ (P : Subgroup X) ⊔ K)
     apply P.not_dvd_index
@@ -50,11 +50,11 @@ theorem not_isMulCommutative_inf [Fact p.Prime] (hodd : p ≠ 2) (P : Sylow p X)
 theorem RedConfig.mem_of_mem_inf_centralizer (h : RedConfig p P z D) {x : X}
     (hxP : x ∈ (P : Subgroup X)) (hxC : x ∈ centralizer (D : Set X)) : x ∈ D := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQP : D ⊔ zpowers x ≤ (P : Subgroup X) := sup_le h.le (zpowers_le.2 hxP)
   have hQD : D ⊔ zpowers x ≤ centralizer (D : Set X) :=
     sup_le (le_centralizer_iff_isMulCommutative.mpr h.elem.1) (zpowers_le.2 hxC)
-  have heq : D ⊔ zpowers x = D := h.sylow.eq_of_le le_sup_left hQD (P.isPGroup'.to_le hQP)
+  have heq : D ⊔ zpowers x = D := h.sylow.eq_of_le le_sup_left hQD (P.isPGroup.to_le hQP)
   rw [← heq]
   exact Subgroup.mem_sup_right (mem_zpowers x)
 
@@ -64,12 +64,12 @@ theorem RedConfig.exists_normal_plane (h : RedConfig p P z D) {K : Subgroup X}
     ∃ U : Subgroup X, U ≤ (P : Subgroup X) ⊓ K ∧ IsElemAbelian p U ∧ Nat.card U = p ^ 2 ∧
       z ∈ U ∧ (P : Subgroup X) ≤ normalizer (U : Set X) := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set S : Subgroup X := (P : Subgroup X) ⊓ K with hS
   have hSP : S ≤ (P : Subgroup X) := inf_le_left
   have hnormS : (P : Subgroup X) ≤ normalizer (S : Set X) :=
     (le_inf le_normalizer hn).trans inf_normalizer_le_normalizer_inf
-  haveI : (S.subgroupOf (P : Subgroup X)).Normal :=
+  have : (S.subgroupOf (P : Subgroup X)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hSP).2 hnormS
   have hnc : ¬ IsCyclic (S.subgroupOf (P : Subgroup X)) := by
     intro hcyc
@@ -77,7 +77,7 @@ theorem RedConfig.exists_normal_plane (h : RedConfig p P z D) {K : Subgroup X}
     have : IsCyclic S := (MulEquiv.isCyclic e).1 hcyc
     exact not_isMulCommutative_inf h.ne_two P hK hn hdvd inferInstance
   obtain ⟨U, hUC, hUn, hUcard, hUexp, hUcomm⟩ :=
-    CFSG.Goldschmidt.Sec82.exists_normal_plane_le h.ne_two P.isPGroup'
+    CFSG.Goldschmidt.Sec82.exists_normal_plane_le h.ne_two P.isPGroup
       (S.subgroupOf (P : Subgroup X)) hnc
   set U' : Subgroup X := U.map (P : Subgroup X).subtype with hU'
   have hUel : IsElemAbelian p U :=
@@ -101,14 +101,14 @@ theorem RedConfig.exists_normal_plane (h : RedConfig p P z D) {K : Subgroup X}
     have : 1 < p ^ 2 := Nat.one_lt_pow (by norm_num) hp.one_lt
     omega
   exact ⟨U', hU'S, hU'el, hU'card,
-    mem_of_normalizing_ne_bot hp P.isPGroup' hU'ne hU'P hU'n h.ord h.unique, hU'n⟩
+    mem_of_normalizing_ne_bot hp P.isPGroup hU'ne hU'P hU'n h.ord h.unique, hU'n⟩
 
 theorem RedConfig.false_of_two_components (h : RedConfig p P z D) (hz : z ∈ CFSG.pCore p X)
     {K₁ K₂ : Subgroup X} (hK₁ : IsComponentOf K₁ ⊤) (hK₂ : IsComponentOf K₂ ⊤) (hne : K₁ ≠ K₂) :
     False := by
   classical
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hn₁ := h.le_normalizer_component hz hK₁
   have hn₂ := h.le_normalizer_component hz hK₂
   have hd₁ := h.dvd_card_center_component hz hK₁ hn₁
@@ -157,7 +157,7 @@ theorem RedConfig.false_of_two_components (h : RedConfig p P z D) (hz : z ∈ CF
     have := card_add_le_pRank_of_components h.prime h.ne_two h.core {K₁, K₂} hS hAel hAc hAC
     rw [Finset.card_pair hne, h.pRank_top] at this
     omega
-  have hcen := centralizes_of_two_planes hp h.ne_two P.isPGroup' h.ord (h.le h.mem) h.central
+  have hcen := centralizes_of_two_planes hp h.ne_two P.isPGroup h.ord (h.le h.mem) h.central
     h.le h.elem h.card h.mem (fun x hxP hxC => h.mem_of_mem_inf_centralizer hxP hxC)
     (hU₁S.trans inf_le_left) hU₁e hU₁c hzU₁ hU₁n (hU₂S.trans inf_le_left) hU₂e hU₂c hzU₂ hU₂n
     hcomm hint

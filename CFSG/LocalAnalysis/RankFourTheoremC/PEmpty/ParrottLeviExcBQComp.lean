@@ -109,7 +109,7 @@ theorem isQuasisimple_levi (hdiv : D.divisible = ∅)
 
 theorem center_levi_le (hdiv : D.divisible = ∅)
     (hct : IsCTGroupDatum cs ρ D.roots D.rootGroup n H) (hext : SteinbergExtras D n H)
-    (hBU : BruhatExtras D H) (hE : RootGroupCommutators D) (C : Finset (Fin D.rank)) :
+    (hBU : BruhatExtras D H) (_hE : RootGroupCommutators D) (C : Finset (Fin D.rank)) :
     (center ↥(levi D.rootGroup C)).map (levi D.rootGroup C).subtype ≤ ⨆ i, H i := by
   rw [← leviC_orderEmbOfFin]
   exact (center_leviC_le (e := C.orderEmbOfFin rfl) hdiv hct hext hBU).trans

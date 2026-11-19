@@ -143,7 +143,7 @@ theorem e8Split_frame
       ∃ wt : GGTorusTorWit (Nat.card K - 1) 8 (adjointGroup .E8 K)
           ((TableBExc.torusPow .E8 K p).map
             (MulAut.conj : adjointGroup .E8 K →* MulAut (adjointGroup .E8 K))),
-        (∀ k, wt.n k = n k) ∧ wt.Holds CartanMatrix.E₈ CoxeterMatrix.E₈ := by
+        (∀ k, wt.n k = n k) ∧ wt.Holds (CartanMatrix.E 8) CoxeterMatrix.E₈ := by
   classical
   have hp : p.Prime := Fact.out
   have hpk : p ∣ Nat.card Kˣ := by rwa [Nat.card_units]
@@ -199,7 +199,7 @@ theorem e8Split_frame
     rw [hw _ (ExcFrames.frameDiag_mem hfull ζ hζ s)]
     exact ExcFrames.canonicalRep_conj_frameDiag ζ hζ w s
   refine ⟨ζ, hζ, ι, n, hζo, hι, hrange, hιcoe, hsimple, hnorm, ?_⟩
-  have hC : Tag.E8.cartan = CartanMatrix.E₈ := cartanE_eq 8
+  have hC : Tag.E8.cartan = (CartanMatrix.E 8) := cartanE_eq 8
   have hM : CFSG.LieType.RootSystem.coxeterMatrix
       (CFSG.LieType.Chevalley.isFiniteType_cartan .E8) = CoxeterMatrix.E₈ :=
     FrameRoute.coxeterE8_eq.symm

@@ -109,7 +109,7 @@ theorem exists_moved_of_outer {K : Type} [Field K] [Finite K] {n : ℕ} (hn : 1 
     (hI : φ ∉ TwE6Delta.RecipeI K n) : ∃ x ∈ D, φ x ≠ x := by
   by_contra hcon
   have hcon : ∀ x ∈ D, φ x = x := fun x hx => by_contra fun h => hcon ⟨x, hx, h⟩
-  haveI : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
+  have : CharP K 2 := charP_two_of_card (m := n * 2) (by rw [hK, pow_mul])
   have hinj : Function.Injective (iterateFrobenius K 2 n) := (iterateFrobenius K 2 n).injective
   set σ : K ≃+* K := RingEquiv.ofBijective (iterateFrobenius K 2 n)
     ⟨hinj, Finite.surjective_of_injective hinj⟩ with hσdef

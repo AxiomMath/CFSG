@@ -112,6 +112,7 @@ theorem qTwoSixLem62_coe_enum (hK : Nat.card K = 4) (i : Fin 216) :
   rw [qTwoSixLem62_map_evalG]
   exact qTwoSixLem62_map_matrix_eval (f4cEmb hK) _ _ _
 
+omit [CharP K 2] in
 theorem qTwoSixLem62_map_injective (hK : Nat.card K = 4) :
     Function.Injective (fun M : qTwoSixLem62_Mat => M.map (f4cEmb hK)) := by
   intro M N h
@@ -131,6 +132,7 @@ theorem qTwoSixLem62_coe_injective : Function.Injective (qTwoSixLem62_coeHom (K 
   intro u v h
   exact Subtype.ext (Units.ext h)
 
+omit [CharP K 2] in
 theorem qTwoSixLem62_map_pow_one (hK : Nat.card K = 4) (M : qTwoSixLem62_Mat) (n : ℕ) :
     (M.map (f4cEmb hK)) ^ n = 1 ↔ M ^ n = 1 := by
   rw [← RingHom.mapMatrix_apply, ← map_pow]
@@ -138,6 +140,7 @@ theorem qTwoSixLem62_map_pow_one (hK : Nat.card K = 4) (M : qTwoSixLem62_Mat) (n
   rw [← Matrix.map_one (f4cEmb hK) (map_zero (f4cEmb hK)) (map_one (f4cEmb hK))]
   exact (qTwoSixLem62_map_injective hK).eq_iff
 
+omit [CharP K 2] in
 theorem qTwoSixLem62_map_support (hK : Nat.card K = 4) (J : Finset (Fin 3))
     (M : qTwoSixLem62_Mat) :
     (∀ i j : Fin 3, (i ∉ J ∨ j ∉ J) →
@@ -162,6 +165,7 @@ noncomputable def qTwoSixLem62_sigma (hK : Nat.card K = 4) (c : Bool) : K ≃+* 
   (qTwoSixLem62_fieldEquiv hK).symm.trans
     ((qTwoSixLem62_field c).trans (qTwoSixLem62_fieldEquiv hK))
 
+omit [CharP K 2] in
 theorem qTwoSixLem62_sigma_apply (hK : Nat.card K = 4) (c : Bool) (x : F4c) :
     qTwoSixLem62_sigma hK c (f4cEmb hK x) = f4cEmb hK (qTwoSixLem62_field c x) := by
   change (qTwoSixLem62_fieldEquiv hK)
@@ -170,6 +174,7 @@ theorem qTwoSixLem62_sigma_apply (hK : Nat.card K = 4) (c : Bool) (x : F4c) :
   rw [RingEquiv.symm_apply_apply]
   rfl
 
+omit [CharP K 2] in
 theorem qTwoSixLem62_action_map (hK : Nat.card K = 4) (a b : Fin 3) (c : Bool)
     (M : qTwoSixLem62_Mat) :
     (qTwoSixLem62_action a b c M).map (f4cEmb hK) =

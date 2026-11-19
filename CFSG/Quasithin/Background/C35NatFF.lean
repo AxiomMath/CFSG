@@ -104,7 +104,7 @@ theorem isFFModule_autOn_of_isNaturalSection_two {G : Type} [Group G] [Finite G]
     (h : IsNaturalSection A V W N (StatedSL 2 F)) [IsMulCommutative ↥V] :
     IsFFModule (V := ↥V) (autOn A V) := by
   classical
-  haveI : CharP F 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 (by exact_mod_cast hF)
+  have : CharP F 2 := (CharP.charP_iff_prime_eq_zero Nat.prime_two).2 (by exact_mod_cast hF)
   obtain ⟨hAN, α, hαsurj, hαker, β, hβsurj, hβker, hβeq⟩ := h
   choose t ht using hαsurj
   let e : F → ↥(StatedSL 2 F) := fun c => specialLinearGroupEquivStatedSL 2 F (utriElt c)

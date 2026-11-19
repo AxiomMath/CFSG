@@ -29,8 +29,8 @@ theorem card_le_mul_of_hom {T A : Type*} [Group T] [Group A] [Finite T] [Finite 
 
 theorem card_fixed_conjQ_le (p : Pvis) :
     Nat.card {r : Q // conjQ p r = r} ≤ 2 * Nat.card {v : L2 // modTwoEnd p.1.2 v = v} := by
-  haveI : Finite Q := Nat.finite_of_card_ne_zero (by rw [natCard_Q]; norm_num)
-  haveI : Finite (Multiplicative L2) := Finite.of_equiv _ phi.toEquiv
+  have : Finite Q := Nat.finite_of_card_ne_zero (by rw [natCard_Q]; norm_num)
+  have : Finite (Multiplicative L2) := Finite.of_equiv _ phi.toEquiv
   obtain ⟨T, hT⟩ : ∃ T : Subgroup Q, ∀ r, r ∈ T ↔ conjQ p r = r :=
     ⟨{ carrier := {r | conjQ p r = r}
        mul_mem' := fun {a b} ha hb => by

@@ -58,7 +58,7 @@ theorem card_eq_mul (h : CRel t u x) {N : Subgroup G} (hNC : N ≤ closure ({t, 
       obtain ⟨a, i, j, rfl⟩ := h.mem_closure_iff.mp (hNC hg)
       have hc := (hmem a i j).mp hg
       refine ⟨(i % orderOf x, a % 2, j % 4), ?_, ?_⟩
-      · simp only [S, T, Set.mem_prod, Finset.mem_coe, Finset.mem_range, Finset.mem_filter,
+      · simp only [S, T, Finset.mem_coe, Finset.mem_range, Finset.mem_filter,
           Finset.mem_product]
         exact ⟨Nat.mod_lt _ hx0, ⟨Nat.mod_lt _ (by norm_num), Nat.mod_lt _ (by norm_num)⟩,
           (hper a j).mp hc⟩
@@ -66,12 +66,12 @@ theorem card_eq_mul (h : CRel t u x) {N : Subgroup G} (hNC : N ≤ closure ({t, 
         rw [← pow_mod_of_pow_eq_one h.t_sq a, pow_mod_orderOf x i, ←
           pow_mod_of_pow_eq_one h.u_four j]
     · rintro ⟨q, hq, rfl⟩
-      simp only [S, T, Set.mem_prod, Finset.mem_coe, Finset.mem_range, Finset.mem_filter,
+      simp only [S, T, Finset.mem_coe, Finset.mem_range, Finset.mem_filter,
         Finset.mem_product] at hq
       exact (hmem _ _ _).mpr hq.2.2
   have hinj : Set.InjOn F (S : Set (ℕ × ℕ × ℕ)) := by
     rintro ⟨i, a, j⟩ hq ⟨i', a', j'⟩ hq' hEq
-    simp only [S, T, Set.mem_prod, Finset.mem_coe, Finset.mem_range, Finset.mem_filter,
+    simp only [S, T, Finset.mem_coe, Finset.mem_range, Finset.mem_filter,
       Finset.mem_product] at hq hq'
     obtain ⟨ha, hx, hj⟩ := (nf_eq_iff h).mp hEq
     have hi : i % orderOf x = i' % orderOf x := pow_eq_pow_iff_modEq.mp hx
@@ -288,7 +288,7 @@ theorem sec622_centralizer_solvable {G : Type} [Group G] [Finite G] {t u x : G}
   set H : Subgroup C := (zpowers x).subgroupOf C
   have hHn : H.Normal := (normal_subgroupOf_iff hle).mpr fun a k ha hk =>
     I21.Toolbox.conj_mem_zpowers hc (h.cent ▸ hk) ha
-  haveI := hHn
+  have := hHn
   have hHs : Group.IsSolvable H := by
     refine Group.isSolvable_of_comm fun a b => ?_
     obtain ⟨m, hm⟩ := mem_zpowers_iff.mp (mem_subgroupOf.mp a.2)
@@ -299,14 +299,14 @@ theorem sec622_centralizer_solvable {G : Type} [Group G] [Finite G] {t u x : G}
     rw [← hm, ← hn]
     exact ((Commute.refl x).zpow_zpow m n).eq
   have hQs : Group.IsSolvable (C ⧸ H) := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hcard : Nat.card (C ⧸ H) = 2 ^ 3 := by
       have h1 := H.card_eq_card_quotient_mul_card_subgroup
       have h2 : Nat.card H = orderOf x := by
         rw [Nat.card_congr (subgroupOfEquivOfLe hle).toEquiv, Nat.card_zpowers]
       rw [h2, hcardC] at h1
       exact (Nat.eq_of_mul_eq_mul_right (orderOf_pos x) (by rw [← h1]; ring)).symm
-    haveI : Group.IsNilpotent (C ⧸ H) := (IsPGroup.of_card hcard).isNilpotent
+    have : Group.IsNilpotent (C ⧸ H) := (IsPGroup.of_card hcard).isNilpotent
     exact IsNilpotent.to_isSolvable
   exact Group.isSolvable_of_subgroup_quotient H
 
@@ -337,7 +337,7 @@ theorem sec622_four_one {G : Type} [Group G] [Finite G] {t u x : G} (h : Sec622B
       (N = zpowers u ∧ Nat.card N = 4) ∨ (N = zpowers (t * u) ∧ Nat.card N = 4))) := by
   have hc := h.crel
   have hNC' : N ≤ closure ({t, u, x} : Set G) := h.cent ▸ hNC
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨s, hs⟩ := exists_prime_orderOf_dvd_card' (G := N) 2 hN2
   have hs' : orderOf (s : G) = 2 := by rw [Subgroup.orderOf_coe]; exact hs
   have hs2 : (s : G) ^ 2 = 1 := by rw [← hs']; exact pow_orderOf_eq_one _
@@ -389,10 +389,10 @@ theorem sec622_four_one {G : Type} [Group G] [Finite G] {t u x : G} (h : Sec622B
 
 theorem sec622_le_of_perfect {G : Type} [Group G] [Finite G] {N E : Subgroup G} (hN : N.Normal)
     (hNi : N.index = 2) (hE : Group.IsPerfect E) : E ≤ N := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hN
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hN
   have hcard : Nat.card (G ⧸ N) = 2 := by rw [← Subgroup.index_eq_card]; exact hNi
-  haveI : IsCyclic (G ⧸ N) := isCyclic_of_prime_card hcard
+  have : IsCyclic (G ⧸ N) := isCyclic_of_prime_card hcard
   have h1 : commutator G ≤ N := by
     have := Abelianization.commutator_subset_ker (QuotientGroup.mk' N)
     rwa [QuotientGroup.ker_mk'] at this

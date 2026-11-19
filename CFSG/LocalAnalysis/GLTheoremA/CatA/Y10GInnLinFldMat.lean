@@ -102,10 +102,10 @@ theorem uf_structure {d : ℕ} (hd : 3 ≤ d)
           coe_glMap] using h
       have ht00 : ((transvGL hd b : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) (fin0 hd) (fin0 hd) = 1 := by
         rw [transvGL_entry]
-        simp [Matrix.single_apply, fin0_ne_fin1 hd, (fin0_ne_fin1 hd).symm]
+        simp [(fin0_ne_fin1 hd).symm]
       have ht01 : ((transvGL hd b : GL (Fin d) K) : Matrix (Fin d) (Fin d) K) (fin0 hd) (fin1 hd) = b := by
         rw [transvGL_entry]
-        simp [Matrix.single_apply, fin0_ne_fin1 hd, (fin0_ne_fin1 hd).symm]
+        simp [fin0_ne_fin1 hd]
       have hc1 : (c : K) = 1 := by
         have h := hmat (fin0 hd) (fin0 hd)
         rw [ht00, map_one, mul_one] at h

@@ -50,7 +50,7 @@ theorem WClosed.le_of_centralizes [Finite G] {T : Sylow 2 G} {A : Subgroup G} (h
     (hBA : ∀ b ∈ B, ∀ a ∈ A, b * a = a * b) {y : G} (hy : cj y B ≤ A) : B ≤ A := by
   have hBA' : B ≤ cj y⁻¹ A := cj_le_iff.1 hy
   have hab' := comm_cj (g := y⁻¹) hab
-  have hA2 : IsPGroup 2 A := T.isPGroup'.to_le hAT
+  have hA2 : IsPGroup 2 A := T.isPGroup.to_le hAT
   have hA'2 : IsPGroup 2 (cj y⁻¹ A) := isPGroup_cj hA2 _
   have hAK : A ≤ centralizer (B : Set G) := fun a ha =>
     mem_centralizer_iff.2 fun b hb => hBA b hb a ha
@@ -80,13 +80,13 @@ theorem WClosed.exists_cj_le [Finite G] {T : Sylow 2 G} {A : Subgroup G} (hw : W
     ∃ g : G, cj g B ≤ A ∧ cj g ((T : Subgroup G) ⊓ normalizer (B : Set G)) ≤ T := by
   have hBA₁ : B ≤ cj y⁻¹ A := cj_le_iff.1 hy
   have hab₁ := comm_cj (g := y⁻¹) hab
-  have hA2 : IsPGroup 2 A := T.isPGroup'.to_le hAT
+  have hA2 : IsPGroup 2 A := T.isPGroup.to_le hAT
   have hA₁2 : IsPGroup 2 (cj y⁻¹ A) := isPGroup_cj hA2 _
   have hA₁N : cj y⁻¹ A ≤ normalizer (B : Set G) := fun a ha =>
     centralizer_le_normalizer (B : Set G)
       (mem_centralizer_iff.2 fun b hb => hab₁ b (hBA₁ hb) a ha)
   have hP2 : IsPGroup 2 ↥((T : Subgroup G) ⊓ normalizer (B : Set G)) :=
-    T.isPGroup'.to_le inf_le_left
+    T.isPGroup.to_le inf_le_left
   obtain ⟨n, hn, hS⟩ := exists_isPGroup_sup_cj hP2 hA₁2 inf_le_right hA₁N
   obtain ⟨x, hx⟩ := exists_le_cj_sylow T hS
   refine ⟨x⁻¹, ?_, ?_⟩

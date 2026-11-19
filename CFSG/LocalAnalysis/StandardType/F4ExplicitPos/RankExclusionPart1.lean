@@ -178,7 +178,7 @@ noncomputable def pslToProj {n : Type} [Fintype n] [DecidableEq n]
       (Matrix.ProjectiveSpecialLinearGroup.toPGL (n := n) (R := E)))
 
 theorem pslToProj_injective {n : Type} [Fintype n] [DecidableEq n]
-    {E Ω : Type} [Field E] [Field Ω] (f : E →+* Ω) (hf : Function.Injective f) :
+    {E Ω : Type} [Field E] [Field Ω] (f : E →+* Ω) (_hf : Function.Injective f) :
     Function.Injective (pslToProj (n := n) f) :=
   (pglChange n Ω).injective.comp
     ((CFSG.LieType.TwoRank.projGenLinGroup_map_injective (n := n) f).comp

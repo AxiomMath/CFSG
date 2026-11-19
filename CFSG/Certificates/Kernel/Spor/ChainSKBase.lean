@@ -114,11 +114,11 @@ theorem steps3_get (hS : S.size = s)
   unfold stepX
   rw [nIf_v]
   by_cases hjl : j < LEN i
-  · rw [if_pos (Nat.blt_eq.mpr hjl), getElem!_pos _ j (by simp; omega),
+  · rw [ite_eq_left (Nat.blt_eq.mpr hjl), getElem!_pos _ j (by simp; omega),
       Array.getElem_append_left (by simp; exact hjl)]
     simp only [List.getElem_toArray, List.getElem_map, List.getElem_range]
     exact ⟨(hF _ (hlt j hjl) x hx).1, (hF _ (hlt j hjl) x hx).2.1⟩
-  · rw [if_neg (by simpa using hjl), getElem!_pos _ j (by simp; omega),
+  · rw [ite_eq_right (by simpa using hjl), getElem!_pos _ j (by simp; omega),
       Array.getElem_append_right (by simp; omega)]
     simp only [List.getElem_toArray, List.getElem_map, List.getElem_range, List.size_toArray,
       List.length_map, List.length_range]
@@ -140,12 +140,12 @@ theorem invSteps3_get (hS : S.size = s)
   unfold levInvSteps invX
   rw [hl, nIf_v]
   by_cases hjl : j < LEN i
-  · rw [if_pos (Nat.blt_eq.mpr hjl), getElem!_pos _ j (by simp; omega),
+  · rw [ite_eq_left (Nat.blt_eq.mpr hjl), getElem!_pos _ j (by simp; omega),
       Array.getElem_append_left (by simp; exact hjl)]
     simp only [List.getElem_toArray, List.getElem_map, List.getElem_range]
     rw [pinvs_get hS hF _ (hlt j hjl) x hx]
     exact ⟨rfl, (hF _ (hlt j hjl) x hx).2.2.1⟩
-  · rw [if_neg (by simpa using hjl), getElem!_pos _ j (by simp; omega),
+  · rw [ite_eq_right (by simpa using hjl), getElem!_pos _ j (by simp; omega),
       Array.getElem_append_right (by simp; omega)]
     simp only [List.getElem_toArray, List.getElem_map, List.getElem_range, List.size_toArray,
       List.length_map, List.length_range]

@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G}
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V} {hQ : Q.Nondegenerate}
 
+omit [Finite G] in
 theorem fg_kind2_comm {φ : ↥L →* omegaGroup hQ} {s : G} {g : OGroup Q}
     (hact : CoverAct L φ s (orthToSim Q g)) {c : G} (hcL : c ∈ L) (hcs : s * c = c * s) :
     g * ((φ ⟨c, hcL⟩ : omegaGroup hQ) : OGroup Q) =

@@ -13,6 +13,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF84
 
 variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B K : Subgroup G}
 
+omit [Finite G] in
 theorem eq_one_of_two_odd {V N : Subgroup G} (hV : IsPGroup 2 V) (hNodd : Odd (Nat.card N))
     {u : G} (huV : u ∈ V) (huN : u ∈ N) : u = 1 := by
   obtain ⟨k, hk⟩ := hV ⟨u, huV⟩
@@ -27,12 +28,14 @@ theorem eq_one_of_two_odd {V N : Subgroup G} (hV : IsPGroup 2 V) (hNodd : Odd (N
   have h3 : orderOf u ∣ 1 := hcop ▸ Nat.dvd_gcd h1 h2
   exact orderOf_eq_one_iff.1 (Nat.dvd_one.1 h3)
 
+omit [Finite G] in
 theorem conj_mem_cen {g x β : G} (hx : x ∈ Cen β) : g * x * g⁻¹ ∈ Cen (g * β * g⁻¹) := by
   rw [Subgroup.mem_centralizer_singleton_iff] at hx ⊢
   calc g * x * g⁻¹ * (g * β * g⁻¹) = g * (x * β) * g⁻¹ := by group
     _ = g * (β * x) * g⁻¹ := by rw [hx]
     _ = g * β * g⁻¹ * (g * x * g⁻¹) := by group
 
+omit [Finite G] in
 theorem conj_odd_normal {β : G} {N : Subgroup G} (g : G)
     (hN : ∀ c ∈ Cen β, ∀ y ∈ N, c * y * c⁻¹ ∈ N) :
     ∀ c ∈ Cen (g * β * g⁻¹), ∀ y ∈ N.map (MulAut.conj g).toMonoidHom,
@@ -51,12 +54,12 @@ theorem conj_odd_normal {β : G} {N : Subgroup G} (g : G)
 theorem S44_X_trivial (hA : A8Model L)
     (h : FF84Sec4 b L B K b₁ b₂) (h41 : Opp 3 (Cen b) ≤ Opp 3 (Cen (b * b₁)))
     (hodd : Odd (Nat.card (Opp 3 (Cen (b * b₁))))) : Opp 3 (Cen b) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set E := Subgroup.closure ({b, b₁} : Set G) with hE
   set X := Opp 3 (Cen b) with hX
   set Y := Opp 3 (Cen (b * b₁)) with hY
-  haveI := isElemAb_E h
+  have := isElemAb_E h
   obtain ⟨-, -, -, ⟨i, hiN, hib, hib₁, hib₂⟩, ⟨s, hsN, hsb, hsb₁, hsb₂⟩, -⟩ := h.mono
   have hb₁L : b₁ ∈ L := (Subgroup.mem_inf.1 h.hb₁).2
   have hb₂L : b₂ ∈ L := (Subgroup.mem_inf.1 h.hb₂).2

@@ -110,7 +110,7 @@ theorem e27Sp4One_holds : E2.E27Sp4One := by
   have hE4 : 4 ≤ Nat.card (V.subgroupOf X) := by
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hVX).toEquiv]
     exact hV4
-  haveI : (K.subgroupOf X).Normal := hKn
+  have : (K.subgroupOf X).Normal := hKn
   obtain ⟨χ, ⟨x, hxK, hFeq⟩, hBF, hSF, hEZ, hS06⟩ :=
     model_sp4_one_coord (K := K.subgroupOf X) (S := T.subgroupOf X) (B := M.subgroupOf X)
       (E := V.subgroupOf X) hS hC' hAlt hKS hdiag hBorel hSB hES hSE hE2 hE4

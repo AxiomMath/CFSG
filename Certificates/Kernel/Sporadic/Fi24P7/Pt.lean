@@ -41,7 +41,7 @@ theorem card_ptFix_xw {w : List ℕ} (hw : ∀ g ∈ w, g < 12) :
       exact ⟨(isPt_iff _).2 ⟨r, hrN, rfl⟩, (act_xw_fix_iff hw hrN).2 hr2⟩
   rw [e, Nat.card_coe_set_eq, Set.ncard_coe_finset, Finset.card_image_of_injOn]
   intro r hr r' hr' h
-  simp only [Finset.coe_filter, Finset.mem_range, Set.mem_setOf_eq] at hr hr'
+  simp only [Finset.coe_filter, Finset.mem_range, Set.mem_ofPred_eq] at hr hr'
   exact ψ_inj hr.1 hr'.1 h
 
 theorem card_fix_okS {w K : List ℕ} (h : ∀ c < 75, okS w K c = true) :

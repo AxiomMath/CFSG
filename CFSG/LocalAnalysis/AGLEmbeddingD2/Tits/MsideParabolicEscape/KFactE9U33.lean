@@ -76,7 +76,7 @@ open CFSG.AGLEmbeddingD2.Tits.MsideParabolicEscape.U33
 
 theorem nilp_cube_zero {F : Type} [Field F] [Finite F] (hF : Nat.card F = 9)
     (ν : Matrix (Fin 3) (Fin 3) F) (h : (1 + ν) ^ 3 = 1) : ν ^ 3 = 0 := by
-  haveI := charP_three hF
+  have := charP_three hF
   have h3F : ((3 : ℕ) : F) = 0 := CharP.cast_eq_zero F 3
   have h3ν : (3 : ℕ) • ν = 0 := by rw [← Nat.cast_smul_eq_nsmul F, h3F, zero_smul]
   have h3ν2 : (3 : ℕ) • ν ^ 2 = 0 := by rw [← Nat.cast_smul_eq_nsmul F, h3F, zero_smul]
@@ -88,15 +88,15 @@ theorem kFactE9U33 : KFactE9U33 := by
   intro X _ _ N Q _ hs hmod hQ hQ9 hQC htrans
   classical
   obtain ⟨F, hFfield, hF9, ⟨e⟩⟩ := exists_equiv_statedSU_of_model hmod
-  haveI : Finite F := Nat.finite_of_card_ne_zero (by rw [hF9]; norm_num)
+  have : Finite F := Nat.finite_of_card_ne_zero (by rw [hF9]; norm_num)
   have hcardK : Nat.card ↥(SU F) = 6048 :=
     CFSG.LinearGroups.UnitaryThreeOverNine.card_statedSU hF9
   have hcardN : Nat.card ↥N = 6048 := by
     rw [Nat.card_congr e.toEquiv]; exact hcardK
   have hnc : ¬ IsMulCommutative ↥N := by
     intro hc
-    haveI := hs
-    letI : CommGroup ↥N := { (inferInstance : Group ↥N) with mul_comm := hc.is_comm.comm }
+    have := hs
+    let : CommGroup ↥N := { (inferInstance : Group ↥N) with mul_comm := hc.is_comm.comm }
     have := IsSimpleGroup.prime_card (α := ↥N)
     rw [hcardN] at this
     exact absurd this (by norm_num)

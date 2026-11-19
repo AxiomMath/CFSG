@@ -14,7 +14,7 @@ theorem on25_quasi_of_central_surj {K K' : Type} [Group K] [Finite K] [Group K']
     (h3 : 3 ∣ Nat.card (K ⧸ Subgroup.center K)) (ρ : K →* K')
     (hρ : Function.Surjective ρ) (hker : ρ.ker ≤ Subgroup.center K) :
     CFSG.Open.IsQuasisimple K' ∧ IsPGroup 3 (Subgroup.center K') ∧ 3 ∣ Nat.card K' := by
-  haveI : Finite K' := Finite.of_surjective ρ hρ
+  have : Finite K' := Finite.of_surjective ρ hρ
   have hp : Nat.Prime 3 := Nat.prime_three
   have hperf : (⁅(⊤ : Subgroup K'), ⊤⁆ : Subgroup K') = ⊤ := by
     have h1 := Subgroup.map_commutator (f := ρ) (⊤ : Subgroup K) ⊤
@@ -37,7 +37,7 @@ theorem on25_quasi_of_central_surj {K K' : Type} [Group K] [Finite K] [Group K']
       (QuotientGroup.quotientMulEquivOfEq hN.symm).trans
         (QuotientGroup.quotientKerEquivOfSurjective σ hσ)
     have hsimple : IsSimpleGroup (K' ⧸ Subgroup.center K') := by
-      haveI := hq.2
+      have := hq.2
       exact e.symm.isSimpleGroup
     have hcardq : Nat.card (K' ⧸ Subgroup.center K') = Nat.card (K ⧸ Subgroup.center K) :=
       (Nat.card_congr e.toEquiv).symm
@@ -84,7 +84,7 @@ theorem on25_quasi_of_central_surj {K K' : Type} [Group K] [Finite K] [Group K']
       rw [h2, Subgroup.mem_bot] at this
       exact this
     have hKz : (⊤ : Subgroup K) ≤ Subgroup.center K := fun k _ => hker (MonoidHom.mem_ker.2 (htriv k))
-    haveI := hq.2
+    have := hq.2
     have : Subsingleton (K ⧸ Subgroup.center K) := by
       refine ⟨fun a b => ?_⟩
       obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a

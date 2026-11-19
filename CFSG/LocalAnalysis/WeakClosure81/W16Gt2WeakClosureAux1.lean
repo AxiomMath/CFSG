@@ -17,6 +17,7 @@ namespace Cfg1620
 
 variable {M V₀ V U S R H : Subgroup G} {g : G} {B : Subgroup G}
 
+omit [Finite G] in
 private theorem rk_intSub_eq_of_le {V S : Subgroup G} (hV : IsElemAbelian 2 V) (hS : S ≤ V) :
     rk ↥(intSub V hV S) = rk ↥S := by
   unfold rk
@@ -35,6 +36,7 @@ theorem imgTil_rank_le {V₀ V S : Subgroup G} (hV : IsElemAbelian 2 V) (hS : S 
   rw [rk_intSub_eq_of_le hV hS] at h1
   exact h1
 
+omit [Finite G] in
 theorem commV_zpowers_actTil_eq_imgTil_commutator {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {x : G} (hx : x ∈ stabTil V₀ V) :
     commV (Subgroup.zpowers (actTil V₀ V hV ⟨x, hx⟩)) =

@@ -45,7 +45,7 @@ namespace CFSG.RankThree.PartTwo.Sec11.Item1119Sym
 theorem commutator_xg_comm {G : Type*} [Group G] (x g a c d : G) (m κ : ℤ)
     (hxa : x * a * x⁻¹ = d ^ m * a) (hxc : x * c = c * x) (hxd : x * d = d * x)
     (hga : g * a = a * g) (hgc : g * c * g⁻¹ = d ^ κ * c) (hgd : g * d = d * g)
-    (hac : a * c = c * a) (had : a * d = d * a) (hcd : c * d = d * c) :
+    (_hac : a * c = c * a) (_had : a * d = d * a) (_hcd : c * d = d * c) :
     ∀ u ∈ Subgroup.closure ({c, a, d} : Set G),
       (x * g * x⁻¹ * g⁻¹) * u = u * (x * g * x⁻¹ * g⁻¹) := by
   have hxd' : Commute x d := hxd

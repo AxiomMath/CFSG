@@ -26,7 +26,7 @@ theorem exists_vecMul_eq_zero_dotProduct_ne {A : Matrix (Fin n) (Fin n) F} {y : 
       by_cases h : j = i
       · subst h
         simp
-      · simp [Pi.single_apply, h]
+      · simp [h]
     calc f u = f (∑ i, Pi.single i (u i)) := by rw [Finset.univ_sum_single]
       _ = ∑ i, f (Pi.single i (u i)) := by rw [map_sum]
       _ = ∑ i, u i * f (Pi.single i (1 : F)) := by

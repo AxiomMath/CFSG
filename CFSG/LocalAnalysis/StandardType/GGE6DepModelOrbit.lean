@@ -162,7 +162,7 @@ private lemma wlChunk4_ok :
 
 private lemma allWL :
     tabWL.all (fun q => decide (evalVec gensL hB q.2 = q.1)) = true := by
-  simp only [tabWL, List.all_append, wlChunk0_ok, wlChunk1_ok, wlChunk2_ok, wlChunk3_ok, wlChunk4_ok, Bool.and_true, Bool.true_and]
+  simp only [tabWL, List.all_append, wlChunk0_ok, wlChunk1_ok, wlChunk2_ok, wlChunk3_ok, wlChunk4_ok, Bool.and_true]
 
 private lemma coverWL : ∀ v : Vec6, norm6 v = 1 → v 5 = 0 → v ∈ tabWL.map Prod.fst := by
   decide +kernel

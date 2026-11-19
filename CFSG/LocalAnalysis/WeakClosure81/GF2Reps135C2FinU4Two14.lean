@@ -23,9 +23,9 @@ theorem finU4Two14_holds :
   have hU4 : CFSG.LocalAnalysis.RankThreeUC.IsU4Group 1 L := finU4_isU4Group hL'
   have hI := hctx.2.2.2.2.2
   have hirr : CFSG.LocalAnalysis.RankThreeUC.IsIrrOn L := fun J hJ => hI.2.2.2 J hJ bot_le le_top
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun f : MulAut W => (f : W → W)) DFunLike.coe_injective
-  haveI : Fact (∀ s : W, s * s = 1) := ⟨fun s => by rw [← pow_two]; exact hW s⟩
+  have : Fact (∀ s : W, s * s = 1) := ⟨fun s => by rw [← pow_two]; exact hW s⟩
   have hgg : g * g = 1 := by
     have h1 := pow_orderOf_eq_one g
     rwa [hg2, pow_two] at h1

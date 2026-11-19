@@ -35,7 +35,7 @@ theorem twE6_model_retoralize_exact
   have hyΦ : S.D.Φ y = y := (LangDatum.mem_fix S.D).1 hyfix |>.2
   obtain ⟨hch, halg⟩ :=
     S.exists_charP_isAlgebraic_zmod hal Nat.prime_two (by omega) hq
-  haveI := hch
+  have := hch
   have hFr_eq : Fr = iterateFrobenius L 2 f := by
     ext c
     rw [iterateFrobenius_def, hFr]
@@ -122,7 +122,7 @@ theorem twE6_model_retoralize_exact
       group
     rw [hcomp]
   have hFinite : Finite D'.model := by
-    haveI : Finite S.D.model := S.finite
+    have : Finite S.D.model := S.finite
     rw [hD'model]
     exact Finite.of_surjective
       ((MulAut.conj (D'.g0⁻¹ * S.D.g0)).toMonoidHom.subgroupMap S.D.model)

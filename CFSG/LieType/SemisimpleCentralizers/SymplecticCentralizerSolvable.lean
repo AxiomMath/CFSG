@@ -22,7 +22,7 @@ theorem isSolvable_statedSp_centralizer_of_hasNormalPComplement
          Subgroup.centralizer (E : Set (StatedSp n F))⁆)) :
     Group.IsSolvable ↥(Subgroup.centralizer (E : Set (StatedSp n F))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let H := Subgroup.centralizer (E : Set (StatedSp n F))
   obtain ⟨β, S, ⟨hSC, _, hSq, ⟨k, hder⟩, _⟩, hdiv⟩ :=
     LayerPDiv.exists_coreFamily_sp_pDiv LayerPDiv.altFactorPDivInput_holds
@@ -36,9 +36,9 @@ theorem isSolvable_statedSp_centralizer_of_hasNormalPComplement
       exact Subgroup.commutator_mono (hSC b) (hSC b)
     have hNPCS : CFSG.HasNormalPComplement p ↥(S b) :=
       CFSG.hasNormalPComplement_of_le p hle hNPC
-    haveI : Group.IsPerfect ↥(S b) := LayerFacts.ggIsPerfect_of_commutator_eq hperf
+    have : Group.IsPerfect ↥(S b) := LayerFacts.ggIsPerfect_of_commutator_eq hperf
     obtain ⟨N, hN, hcop, hpg⟩ := hNPCS
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     have hNtop : N = ⊤ :=
       CFSG.ComponentClassification.LiteratureLocal.eq_top_of_isPGroup_quotient_of_perfect N hpg
     have hcopS : Nat.Coprime p (Nat.card ↥(S b)) := by

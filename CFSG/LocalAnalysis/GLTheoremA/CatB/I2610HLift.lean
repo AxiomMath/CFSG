@@ -112,7 +112,7 @@ private theorem cube_mul_eq_of_commutator_scalar {G : Type*} [Group G] {x y z : 
   simpa [hcomm, hz3] using hpow
 
 private theorem mul_mul_eq_scalar_mul_mul {x y S : GL (Fin 6) F4}
-    (h : x * y = S * (y * x)) (hS : ∀ g : GL (Fin 6) F4, S * g = g * S) :
+    (h : x * y = S * (y * x)) (_hS : ∀ g : GL (Fin 6) F4, S * g = g * S) :
     (x * y) * y = S * (y * (x * y)) := by
   have hyx : y * x = S⁻¹ * (x * y) := by
     have h' := congrArg (fun t => S⁻¹ * t) h

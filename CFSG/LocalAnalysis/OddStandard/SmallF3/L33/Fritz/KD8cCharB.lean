@@ -161,7 +161,7 @@ include W in
 @[expose] noncomputable def sylow : Sylow 2 X where
   toSubgroup := T.P
   maximal_isPGroup.left := T.isPGroup
-  maximal_isPGroup.right Q hQ hle := le_of_eq (W.maximal_X hQ hle)
+  maximal_isPGroup.right _Q hQ hle := le_of_eq (W.maximal_X hQ hle)
 
 end Lift
 

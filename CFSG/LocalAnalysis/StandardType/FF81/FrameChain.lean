@@ -19,7 +19,7 @@ variable {G : Type} [Group G] {L : Subgroup G} {n : ℕ}
 
 theorem frameK_add_two (φ : ↥L ≃* SL(n + 1, ZMod 2)) (K0 K1 : Subgroup G) (i : Fin n) :
     frameK φ K0 K1 ((i : ℕ) + 2) = pullSL φ (blockSL2 (ZMod 2) n i.rev).range := by
-  rw [frameK, dif_pos i.isLt, Fin.eta]
+  rw [frameK, dite_eq_left i.isLt, Fin.eta]
 
 theorem a2System_frameK_L (φ : ↥L ≃* SL(n + 1, ZMod 2)) (K0 K1 : Subgroup G) :
     A2System adjA (fun i : Fin n => frameK φ K0 K1 ((i : ℕ) + 2)) L := by

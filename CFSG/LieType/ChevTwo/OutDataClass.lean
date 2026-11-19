@@ -120,7 +120,7 @@ private theorem twoNilpotent_outer_of_psp_even {S : Type} [Group S] [Finite S] {
 private theorem twoNilpotent_outer_of_G2_index
     (q : PrimePower) (hv : (LieTypeIndex.G2 q).Valid) (hp2 : q.p = 2) {Y : Type} [Group Y]
     [Finite Y] (e : Y ≃* (CFSGIndex.lie ⟨.G2 q, hv⟩).Group) : TwoNilpotent (Outer Y) := by
-  haveI : Finite (CFSGIndex.lie ⟨.G2 q, hv⟩).Group := Finite.of_equiv Y e.toEquiv
+  have : Finite (CFSGIndex.lie ⟨.G2 q, hv⟩).Group := Finite.of_equiv Y e.toEquiv
   have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hq3 : 3 ≤ q.card :=
     (LieTypeIndex.inStandardRange_iff _).1 ((LieTypeIndex.valid_iff _).1 hv).1
@@ -173,7 +173,7 @@ theorem outTwoNilp_of_isClassicalTwoOrG2_of_orth
       TwoNilpotent (Outer X))
     {S : Type} [Group S] [Finite S] (hs : IsSimpleGroup S) (hna : ∃ a b : S, a * b ≠ b * a)
     (h : CFSG.AGLEmbedding.IsClassicalTwoOrG2 S) : OutTwoNilpConcl S := by
-  haveI := hs
+  have := hs
   refine outTwoNilpotent_of_twoNilpotent_outer ?_
   rcases h with ⟨d, hd, ⟨e⟩⟩ | ⟨n, hn, ⟨e⟩⟩ | ⟨d, hd, ⟨e⟩⟩
   · rcases CFSG.AGLEmbedding.ParabAutIrr.classical_model_or_g2 d hd e with

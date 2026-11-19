@@ -111,7 +111,7 @@ private theorem wSlpm_det_preReflection {p : ℕ} [Fact p.Prime] {U : Type}
   rw [Module.preReflection, h1, h2, h3, hα]
   exact wSlpm_one_sub_two p
 
-theorem slpm_refl_form {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {U : Type} [AddCommGroup U]
+theorem slpm_refl_form {p : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2) {U : Type} [AddCommGroup U]
     [Module (ZMod p) U] [Module.Finite (ZMod p) U] {r : U ≃ₗ[ZMod p] U} (hr : IsRefl p r) :
     ∃ (a : U) (α : U →ₗ[ZMod p] ZMod p) (hα : α a = 2), r = slpmRefl a α hα := by
   obtain ⟨hr2, hrk⟩ := hr
@@ -194,12 +194,12 @@ theorem slpmRefl_isRefl_det {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {U : Type} 
         · rintro x ⟨v, rfl⟩
           exact ⟨-v, by
             simp only [LinearMap.sub_apply, LinearMap.id_apply, LinearMap.smulRight_apply,
-              map_neg, neg_smul, neg_neg]
+              map_neg]
             abel⟩
         · rintro x ⟨v, rfl⟩
           exact ⟨-v, by
             simp only [LinearMap.sub_apply, LinearMap.id_apply, LinearMap.smulRight_apply,
-              map_neg, neg_smul, neg_neg]
+              map_neg]
             abel⟩
       rw [hrange, LinearMap.range_smulRight_apply hα0 a]
       exact finrank_span_singleton ha0
@@ -209,7 +209,7 @@ theorem slpmRefl_isRefl_det {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {U : Type} 
 theorem slpm_exists_partner {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {U : Type} [AddCommGroup U]
     [Module (ZMod p) U] [Module.Finite (ZMod p) U] (hd : 3 ≤ Module.finrank (ZMod p) U)
     (a : U) (α : U →ₗ[ZMod p] ZMod p) (hα : α a = 2) :
-    ∃ (b : U) (β : U →ₗ[ZMod p] ZMod p) (hβ : β b = 2), α b = 0 ∧ β a = 1 := by
+    ∃ (b : U) (β : U →ₗ[ZMod p] ZMod p) (_hβ : β b = 2), α b = 0 ∧ β a = 1 := by
   have h2 : (2 : ZMod p) ≠ 0 := wSlpm_two_ne_zero hp2
   have ha0 : a ≠ 0 := by
     intro h; rw [h, map_zero] at hα; exact h2 hα.symm
@@ -248,7 +248,7 @@ theorem slpm_exists_partner {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {U : Type} 
       simpa only [smul_smul] using hst
     have hαst : α (s • a + (t * (2 : ZMod p)⁻¹) • b) = 0 := by rw [hst', map_zero]
     have hs : s = 0 := by
-      simp only [map_add, map_smul, hα, hαb, smul_eq_mul, smul_zero, mul_zero,
+      simp only [map_add, map_smul, hα, hαb, smul_eq_mul, mul_zero,
         add_zero] at hαst
       exact wSlpm_mul_two_eq_zero hp2 hαst
     refine ⟨hs, ?_⟩

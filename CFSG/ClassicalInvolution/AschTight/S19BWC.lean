@@ -105,7 +105,7 @@ theorem exists_normalizer_conj_eq (hd : Sec19DataT p f K z S W L t V) {x g : G}
     (hx : x ∈ Subgroup.centralizer (W : Set G))
     (hgx : g * x * g⁻¹ ∈ Subgroup.centralizer (W : Set G)) :
     ∃ n ∈ Subgroup.normalizer (W : Set G), n * x * n⁻¹ = g * x * g⁻¹ :=
-  Sec7.control_centralizer_of_weaklyClosed (S.isPGroup'.to_le hd.hWS) (weaklyClosedIn_W hd) hx
+  Sec7.control_centralizer_of_weaklyClosed (S.isPGroup.to_le hd.hWS) (weaklyClosedIn_W hd) hx
     hgx
 
 end CFSG.ClassicalInvolution.Disconnected.AschTight.S19B

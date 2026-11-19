@@ -88,9 +88,7 @@ private noncomputable def blockConj {G : Type} [Group G] (J : Subgroup G) :
 private theorem blockConj_coe {G : Type} [Group G] (J : Subgroup G)
     (ℓ : ↥J) (u : ↥(blockU J)) :
     ((blockConj J ℓ u : ↥(blockU J)) : G) = (ℓ : G) * (u : G) * (ℓ : G)⁻¹ := by
-  simpa [blockConj] using
-    Subgroup.normalizerMonoidHom_apply_apply_coe (blockU J)
-      (Subgroup.inclusion _ ℓ) u
+  simp [blockConj]
 
 private noncomputable def blockBeta {G : Type} [Group G] [Finite G] {M J : Subgroup G} {m : ℕ}
     (S : Setting G M J m) :
@@ -180,6 +178,7 @@ private noncomputable def blockPsi (φ : Additive ↥(blockU J) →+ ZMod 2) (�
     Additive ↥(blockU J) →+ ZMod 2 :=
   φ.comp (blockConj J (ℓ⁻¹)).toAdditive - φ
 
+omit [Finite G] S in
 private theorem blockPsi_mul (φ : Additive ↥(blockU J) →+ ZMod 2)
     (ℓ₁ ℓ₂ : ↥J) (u : Additive ↥(blockU J)) :
     blockPsi φ (ℓ₁ * ℓ₂) u =
@@ -222,7 +221,7 @@ private theorem polar_w_cocycle (φ : Additive ↥(blockU J) →+ ZMod 2)
     QuadraticMap.polar (quadQ m) (w (ℓ₁ * ℓ₂)) v = blockPsi φ (ℓ₁ * ℓ₂) (βinv v) := hwv _ _
     _ = blockPsi φ ℓ₂ (Additive.ofMul
           (blockConj J (ℓ₁⁻¹) (Additive.toMul (βinv v)))) +
-        blockPsi φ ℓ₁ (βinv v) := blockPsi_mul S φ _ _ _
+        blockPsi φ ℓ₁ (βinv v) := blockPsi_mul φ _ _ _
     _ = QuadraticMap.polar (quadQ m) (w ℓ₂)
           (blockBeta S (Additive.ofMul
             (blockConj J (ℓ₁⁻¹) (Additive.toMul (βinv v))))) +
@@ -428,7 +427,7 @@ private theorem functional_eq_zero (f : Additive ↥(blockU J) →+ ZMod 2)
 
 theorem blockZ_eq_bot (hH1 : H1Natural m) : blockZ J = ⊥ := by
   classical
-  letI : CommGroup ↥(blockU J) := CFSG.Quasithin.commGroupOfElemAbelian S.elemU
+  let : CommGroup ↥(blockU J) := CFSG.Quasithin.commGroupOfElemAbelian S.elemU
   rw [eq_bot_iff]
   intro z hz
   rw [Subgroup.mem_bot]

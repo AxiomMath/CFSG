@@ -63,7 +63,7 @@ namespace TenNineOneThree
 theorem nine_dvd_card_inf {H L Q' : Subgroup G} (hQ : IsSylowIn 3 Q' H)
     (hQL : Q' ≤ normalizer (L : Set G)) (h9 : 9 ∣ Nat.card ↥(H ⊓ L)) :
     9 ∣ Nat.card ↥(Q' ⊓ L) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set K₀ := H ⊓ normalizer (L : Set G)
   have hQK : Q' ≤ K₀ := le_inf hQ.le hQL
   have hK₀H : K₀ ≤ H := inf_le_left
@@ -95,6 +95,7 @@ theorem nine_dvd_card_inf {H L Q' : Subgroup G} (hQ : IsSylowIn 3 Q' H)
   rw [← hcard] at h9
   exact hcop.dvd_of_dvd_mul_left h9
 
+omit [Finite G] in
 theorem nine_dvd_card_of_barM {M H L : Subgroup G} (hHL : H ⊓ L ≤ M)
     {E : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)} (hE : E ≤ barM M (H ⊓ L)) (hE9 : Nat.card E = 9) :
     9 ∣ Nat.card ↥(H ⊓ L) := by
@@ -104,6 +105,7 @@ theorem nine_dvd_card_of_barM {M H L : Subgroup G} (hHL : H ⊓ L ≤ M)
   rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hHL).toEquiv] at h2
   exact hE9 ▸ h1.trans h2
 
+omit [Finite G] in
 theorem isElemAbelian_subgroupOf {A Q' : Subgroup G} (hA : IsElemAbelian 3 A) :
     IsElemAbelian 3 (A.subgroupOf Q') := by
   have := hA.1
@@ -129,7 +131,7 @@ theorem agl81TenNineOneThreeCfg_core (hNX3 : D1NoXBlock3 G) (h98 : AGL81NineEigh
     AGL81TenNineOneThreeCfg G := by
   intro hS P M H Q K hd L hL
   refine ⟨fun e => ?_⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hNX := noXBlockFor_of_setting hNX3 hS
   have hT := hd.toTwoLocalPhaseThree' hS h98
   have hK : Open.IsKGroup ↥M := (hT.toTwoLocalPair.isKGroup_of_isKProper hS.kProper).1
@@ -171,7 +173,7 @@ theorem agl81TenNineOneThreeCfg_core (hNX3 : D1NoXBlock3 G) (h98 : AGL81NineEigh
   have hgen' : A' ⊔ C' = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hAQ hCQ, hgen, Subgroup.subgroupOf_self]
   have hQ3 : IsPGroup 3 ↥Q' := hQ'3
-  haveI := hKn
+  have := hKn
   set πH : ↥H →* H ⧸ primeComplementCore (G := H) 3 := QuotientGroup.mk' _
   set T : Subgroup (H ⧸ primeComplementCore (G := H) 3) := (Q'.subgroupOf H).map πH
   have hT3 : IsPGroup 3 T := (hQ'3.comap_subtype (K := H)).map πH

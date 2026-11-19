@@ -53,7 +53,7 @@ theorem congr_mem_range_conj_iff {G H : Type*} [Group G] [Group H] (e : G ≃* H
   · rintro ⟨y, hy⟩
     refine ⟨e.symm y, MulEquiv.ext fun g => e.injective ?_⟩
     have h1 := congrArg (fun γ : MulAut H => γ (e g)) hy
-    simp only [MulAut.conj_apply, MulAut.congr_apply, MulEquiv.symm_apply_apply] at h1
+    simp only [MulAut.conj_apply, MulAut.congr_apply] at h1
     simp [MulAut.conj_apply, h1]
   · rintro ⟨y, rfl⟩
     refine ⟨e y, MulEquiv.ext fun g => ?_⟩

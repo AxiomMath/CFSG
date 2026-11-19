@@ -93,6 +93,7 @@ section Block
 
 variable {K : Type} [Field K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem glaPLayer_ne_bot_of_unitary_diagonal_block {f : ℕ} (h : UnitaryFieldData 2 f K)
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {σ : K ≃+* K} {e : ℕ}
     (h₀ : UnitaryFieldData 2 e (fixSubfield σ))
@@ -103,11 +104,11 @@ theorem glaPLayer_ne_bot_of_unitary_diagonal_block {f : ℕ} (h : UnitaryFieldDa
     GLAPLayer p (fixSubgroup (primeFormFieldHom h (isPrimeFormGram_idGram (K := K) (n := p)) σ) ⊓
       fixSubgroup (primeFormConjHom h (idGram K p) X)) ≠ ⊥ := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := h.finite
+  have : Fact p.Prime := ⟨hp⟩
+  have := h.finite
   set K₀ := fixSubfield σ with hK₀def
-  haveI : Finite K₀ := h₀.finite
-  haveI : CharP K₀ 2 := h₀.charP
+  have : Finite K₀ := h₀.finite
+  have : CharP K₀ 2 := h₀.charP
   have hσK₀ : ∀ x ∈ K₀, σ x = x := fun x hx => RingHom.mem_eqLocusField.mp hx
   have hK₀card : Nat.card K₀ = (2 ^ e) ^ 2 := by rw [h₀.card, ← pow_mul, mul_comm]
   have hcard : Fintype.card (Fin p) < 2 * p := by
@@ -158,7 +159,7 @@ theorem glaPLayer_ne_bot_of_unitary_diagonal_block {f : ℕ} (h : UnitaryFieldDa
       apply Units.ext
       have h1 := congrArg (fun x : GL (Fin p) K => (x : Matrix (Fin p) (Fin p) K) c c) hν
       simp only [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.diagonal_apply_eq] at h1
-      rw [hιcoe, coe_subfieldGL, Matrix.map_apply, hgc, if_pos rfl] at h1
+      rw [hιcoe, coe_subfieldGL, Matrix.map_apply, hgc, ite_eq_left rfl] at h1
       simpa using h1.symm
     have hg1 : ((g : Su K₀ 2 e p) : GL (Fin p) K₀) = 1 := by
       apply subfieldGL_injective K₀ p
@@ -349,13 +350,13 @@ theorem glaPLayer_ne_bot_of_unitary_diagonal_block {f : ℕ} (h : UnitaryFieldDa
     rw [UnitaryFieldData.bar_apply, ← pow_succ]
     exact (hζ.pow_eq_one_iff_dvd _).2 hpe
   set fd : Fin p → K₀ := fun l => if l = a then ζ else if l = a' then ζ⁻¹ else 1 with hfd
-  have hfa : fd a = ζ := if_pos rfl
+  have hfa : fd a = ζ := ite_eq_left rfl
   have hfa' : fd a' = ζ⁻¹ := by
     show (if a' = a then ζ else if a' = a' then ζ⁻¹ else 1) = ζ⁻¹
-    rw [if_neg haa'.symm, if_pos rfl]
+    rw [ite_eq_right haa'.symm, ite_eq_left rfl]
   have hfo : ∀ l, l ≠ a → l ≠ a' → fd l = 1 := fun l h1 h2 => by
     show (if l = a then ζ else if l = a' then ζ⁻¹ else 1) = 1
-    rw [if_neg h1, if_neg h2]
+    rw [ite_eq_right h1, ite_eq_right h2]
   have hfdet : ∏ l, fd l = 1 := by
     have hsub : ∀ l ∈ (Finset.univ : Finset (Fin p)), l ∉ ({a, a'} : Finset (Fin p)) →
         fd l = 1 := by
@@ -410,7 +411,7 @@ theorem glaPLayer_ne_bot_of_unitary_diagonal_block {f : ℕ} (h : UnitaryFieldDa
   have hsw2 : sw * sw = 1 := by
     ext i j
     rw [Matrix.mul_apply, Matrix.one_apply]
-    simp only [hswapp, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true,
+    simp only [hswapp, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, ite_true,
       Equiv.swap_apply_self]
   have hswT : swᵀ = sw := by
     rw [hsw, Matrix.transpose_permMatrix, Equiv.swap_inv]
@@ -429,7 +430,7 @@ theorem glaPLayer_ne_bot_of_unitary_diagonal_block {f : ℕ} (h : UnitaryFieldDa
     · simp only [idGram, Units.val_one, Matrix.mul_one]
       rw [hs₀, hswmap, hswT, hsw2]
     · rw [hs₀, hswdet]
-  have hswaa' : sw a a' = 1 := by rw [hswapp, Equiv.swap_apply_left, if_pos rfl]
+  have hswaa' : sw a a' = 1 := by rw [hswapp, Equiv.swap_apply_left, ite_eq_left rfl]
   have hnc : x₀ * s₀ ≠ s₀ * x₀ := by
     intro hxs
     have h' := congrArg (fun A : GL (Fin p) K₀ => (A : Matrix (Fin p) (Fin p) K₀) a a') hxs
@@ -451,10 +452,10 @@ theorem glaPLayer_ne_bot_of_unitary_diagonal_block {f : ℕ} (h : UnitaryFieldDa
     rw [hx₀]
     by_cases hij' : i = j
     · subst hij'
-      rw [diagonal_apply_eq, if_pos rfl]
+      rw [diagonal_apply_eq, ite_eq_left rfl]
       have hi : i ∉ J := by tauto
       exact hfo i (fun h' => hi (h' ▸ haJ)) (fun h' => hi (h' ▸ ha'J))
-    · rw [diagonal_apply_ne _ hij', if_neg hij'])
+    · rw [diagonal_apply_ne _ hij', ite_eq_right hij'])
   have hs₀J := hblk s₀ hs₀g (by
     intro i j hij
     rw [hs₀, hswapp]
@@ -464,23 +465,23 @@ theorem glaPLayer_ne_bot_of_unitary_diagonal_block {f : ℕ} (h : UnitaryFieldDa
       have hsi : Equiv.swap a a' i = i := Equiv.swap_apply_of_ne_of_ne hia hia'
       by_cases hij : i = j
       · subst hij
-        rw [if_pos hsi, if_pos rfl]
+        rw [ite_eq_left hsi, ite_eq_left rfl]
       · have hne : Equiv.swap a a' i ≠ j := by
           rw [hsi]
           exact hij
-        rw [if_neg hne, if_neg hij]
+        rw [ite_eq_right hne, ite_eq_right hij]
     · have hja : j ≠ a := fun h' => hj (by rw [h']; exact haJ)
       have hja' : j ≠ a' := fun h' => hj (by rw [h']; exact ha'J)
       have hsj : Equiv.swap a a' j = j := Equiv.swap_apply_of_ne_of_ne hja hja'
       by_cases hij : i = j
       · subst hij
-        rw [if_pos hsj, if_pos rfl]
+        rw [ite_eq_left hsj, ite_eq_left rfl]
       · have hne : Equiv.swap a a' i ≠ j := by
           intro h'
           apply hij
           rw [← hsj] at h'
           exact (Equiv.swap a a').injective h'
-        rw [if_neg hne, if_neg hij])
+        rw [ite_eq_right hne, ite_eq_right hij])
   set eJ := MonoidHom.ofInjective hψinj with heJ
   set x : ↥ψ.range := eJ ⟨_, hx₀J⟩ with hx
   set y : ↥ψ.range := eJ ⟨_, hs₀J⟩ with hy

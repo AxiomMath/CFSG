@@ -19,6 +19,7 @@ variable {G : Type} [Group G] [Finite G]
 
 namespace TwelveEighteen
 
+omit [Finite G] in
 theorem conj_mem_barSub {M V₀ V X : Subgroup G} (hV : IsElemAbelian 2 V)
     (hMX : M ≤ normalizer (X : Set G)) :
     ∀ m ∈ Mbar M V₀ V hV, ∀ x ∈ barSub V₀ V hV X, m * x * m⁻¹ ∈ barSub V₀ V hV X := by
@@ -43,7 +44,7 @@ theorem even_relIndex_cTilde_of_not_twoReduced {M V₀ V : Subgroup G} (hV : IsE
     intro K hKM hMK hCK hidx
     by_contra hKC
     exact hc ⟨K, hKM, hMK, hCK, hidx, hKC⟩
-  haveI : Nontrivial (Vtil V₀ V hV) := by
+  have : Nontrivial (Vtil V₀ V hV) := by
     by_contra hnt
     rw [not_nontrivial_iff_subsingleton] at hnt
     have h1 : Nat.card (Vtil V₀ V hV) ≤ 1 := Finite.card_le_one_iff_subsingleton.2 hnt
@@ -114,7 +115,7 @@ theorem uniqueMax_inf_normalizer_of_isSylowOf (D : Data G) {V : Subgroup G}
       (D.M ⊓ centralizer (V : Set G)))
     {Q : Subgroup G} (hQ : CFSG.ABGLocalTools.IsSylowOf 2 Q (D.M ⊓ centralizer (V : Set G))) :
     UniqueMax D.M (D.M ⊓ normalizer (Q : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk, hkQ⟩ := hT.exists_mem_conj hQ
   have hkM : k ∈ D.M := (Subgroup.mem_inf.1 hk).1
   have hQeq : Q = conjSubgroup (D.T ⊓ centralizer (V : Set G)) k⁻¹ := by
@@ -153,7 +154,7 @@ theorem weakClosureSetting_of_hyp125 (D : Data G) (hx : DataExt D) (h61 : UC6.R6
         hP.le_normalizer hP.le_normalizer₀ (fun v hv hv0 => (hgen v hv hv0).symm) hne hnot
       v1 := fun _ hQ => TwelveEighteen.uniqueMax_inf_normalizer_of_isSylowOf D
         (uc22p22n_inCalV1_of_not_isTI D hx h61 hVin hTI) (by
-          haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+          have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
           have hCM : centralizer (V : Set G) ≤ D.M := centralizer_le_of_inCalV D hVin
           have hMN : D.M ≤ normalizer (centralizer (V : Set G) : Set G) := by
             intro m hm

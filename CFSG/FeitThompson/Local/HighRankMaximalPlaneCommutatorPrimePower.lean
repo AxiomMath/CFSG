@@ -145,7 +145,7 @@ theorem exists_line_le_ne_centerTorsionBy [Finite R] (hp : p.Prime) (hRp : IsPGr
     have h := Subgroup.card_le_of_le hle
     rw [hplane, hZcard, pow_two] at h
     nlinarith [hp.one_lt]
-  obtain ⟨x, hxE, hxZ⟩ := SetLike.not_le_iff_exists.1 hnotle
+  obtain ⟨x, hxE, hxZ⟩ := IsConcreteLE.not_le_iff_exists.1 hnotle
   have hx1 : x ≠ 1 := fun h => hxZ (h ▸ one_mem _)
   have hord : orderOf x = p := by
     rcases (Nat.dvd_prime hp).1 (orderOf_dvd_of_pow_eq_one (hE.prop.2 x hxE)) with h1 | h

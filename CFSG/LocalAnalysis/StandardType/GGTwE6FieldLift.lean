@@ -37,12 +37,12 @@ theorem exists_lift_twLangData {K₀ K : Type} [Field K₀] [Finite K₀] [CharP
       ∀ α, TwDataKills D α → TwDataKills D₀ α := by
   set L₀ := AlgebraicClosure K₀
   set L := AlgebraicClosure K
-  letI : Algebra K₀ L := ((algebraMap K L).comp ι).toAlgebra
+  let : Algebra K₀ L := ((algebraMap K L).comp ι).toAlgebra
   let j' : L₀ →ₐ[K₀] L := IsAlgClosed.lift
   set j : L₀ →+* L := (j' : L₀ →+* L)
   have hj : j.comp (algebraMap K₀ L₀) = (algebraMap K L).comp ι := j'.comp_algebraMap
-  haveI : CharP L₀ 2 := charP_of_injective_algebraMap (algebraMap K₀ L₀).injective 2
-  haveI : CharP L 2 := charP_of_injective_ringHom j.injective 2
+  have : CharP L₀ 2 := charP_of_injective_algebraMap (algebraMap K₀ L₀).injective 2
+  have : CharP L 2 := charP_of_injective_ringHom j.injective 2
   obtain ⟨k, rfl⟩ := hp
   obtain ⟨w, hw⟩ := exists_twistHom_pow_odd D₀.Fr D₀.hg0 k
   set Fr : L →+* L := iterateFrobenius L 2 (m * (2 * k + 1)) with hFrdef

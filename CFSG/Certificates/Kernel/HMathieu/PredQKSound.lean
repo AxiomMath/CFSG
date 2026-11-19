@@ -41,9 +41,9 @@ theorem actMK_eq (cs : List Nat) (m : Nat) : actMK cs m = actM cs m := by
     have h2 : Nat.shiftRight m 1 = m / 2 := Nat.shiftRight_eq_div_pow m 1
     rw [h1, h2, ih, actM, beqQ]
     by_cases h : m % 2 = 1
-    · rw [if_pos h, decide_eq_true h]
+    · rw [ite_eq_left h, decide_eq_true h]
       rfl
-    · rw [if_neg h, decide_eq_false h]
+    · rw [ite_eq_right h, decide_eq_false h]
       rfl
 
 theorem fixLstQ_eq (M F : List Nat) : fixLstQ M F = F.filter fun m => actM M m == m := by
@@ -54,8 +54,8 @@ theorem fixLstQ_eq (M F : List Nat) : fixLstQ M F = F.filter fun m => actM M m =
       (Nat.beq (actMK M f) f) = _
     rw [ih, List.filter_cons, actMK_eq, beqQ]
     by_cases h : actM M f = f
-    · rw [decide_eq_true h, if_pos (by simp [h])]
-    · rw [decide_eq_false h, if_neg (by simpa using h)]
+    · rw [decide_eq_true h, ite_eq_left (by simp [h])]
+    · rw [decide_eq_false h, ite_eq_right (by simpa using h)]
 
 theorem lenK_eq {α : Type} (l : List α) : lenK l = l.length := by
   induction l with
@@ -106,7 +106,7 @@ theorem cmpQK_eq (n : Nat) (strict : Bool) {k : Nat} (hk : 0 < k) (c : Nat) :
   · change Bool.rec (motive := fun _ => Bool) false (Bool.rec (motive := fun _ => Bool)
       (Nat.blt c (Nat.shiftLeft 1 (Nat.succ (Nat.sub n (Nat.mul 2 k))))) true (Nat.beq c 0))
       (Nat.ble (Nat.mul 2 k) n) = _
-    rw [if_neg Bool.false_ne_true, e2, es, shlQ, bltQ, bleQ, beqQ]
+    rw [ite_eq_right Bool.false_ne_true, e2, es, shlQ, bltQ, bleQ, beqQ]
     by_cases h1 : 2 * k ≤ n
     · rw [decide_eq_true h1]
       by_cases hc : c = 0
@@ -125,7 +125,7 @@ theorem cmpQK_eq (n : Nat) (strict : Bool) {k : Nat} (hk : 0 < k) (c : Nat) :
   · change Bool.rec (motive := fun _ => Bool) false (Bool.rec (motive := fun _ => Bool)
       (Nat.blt c (Nat.shiftLeft 1 (Nat.sub n (Nat.mul 2 k)))) true (Nat.beq c 0))
       (Nat.blt (Nat.mul 2 k) n) = _
-    rw [if_pos rfl, e2, es, shlQ, bltQ, bltQ, beqQ]
+    rw [ite_eq_left rfl, e2, es, shlQ, bltQ, bltQ, beqQ]
     by_cases h1 : 2 * k < n
     · rw [decide_eq_true h1]
       by_cases hc : c = 0

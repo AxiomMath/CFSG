@@ -73,7 +73,7 @@ open CFSG.LieType.SemisimpleCentralizers.Held
 
 private theorem sympShape_conj_one {G : Type} [Group G] : MulAut.conj (1 : G) = 1 := by
   ext g
-  simp [MulAut.conj_apply]
+  simp
 
 private theorem sympShape_induced_range
     {K : Type} [Field K] [Finite K] {m : ℕ}
@@ -99,7 +99,7 @@ private theorem sympShape_induced_range
     exact hmem y hy
   have hAne : Nat.card A ≠ 0 :=
     Nat.card_ne_zero.mpr ⟨⟨1⟩, inferInstance⟩
-  haveI : Finite Ā := Nat.finite_of_card_ne_zero (by rw [hcardĀ]; exact hAne)
+  have : Finite Ā := Nat.finite_of_card_ne_zero (by rw [hcardĀ]; exact hAne)
   have hEq : A.map (ggInducedAut θ) = Ā :=
     Subgroup.eq_of_le_of_card_ge hle (hcardĀ.trans hcardMap.symm).le
   rw [← hEq] at ha
@@ -258,8 +258,8 @@ theorem sympShape_holds :
     have hK2 : Nat.card K = 2 := by rw [hK, hn1]; norm_num
     have ha4 : 4 ≤ a := hK2a hK2
     refine ⟨hn1, a, ha4, ?_⟩
-    letI : Field E' := hEf
-    letI : Finite E' := hEfin
+    let : Field E' := hEf
+    let : Finite E' := hEfin
     have hE4 : Nat.card E' = (2 ^ 1) ^ 2 := by rw [hEcard', hK2]; norm_num
     have hτm1 : ∀ y, τ y = y ^ 2 ^ 1 := by
       intro y

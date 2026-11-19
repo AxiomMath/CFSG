@@ -303,11 +303,11 @@ public theorem section14_theorem_14_2_hypothesis_14_3_reference_character
   have hfrob : Section7.frobeniusWithKernel L H :=
     Section12.theorem_12_7 L H hLmax hMF hTypeI
   rcases hMF.1 with ⟨hHL, _hnormal, hnil, _hhall⟩
-  haveI : Group.IsNilpotent H := hnil
-  haveI : IsSolvable H := IsNilpotent.to_isSolvable
+  have : Group.IsNilpotent H := hnil
+  have : Group.IsSolvable H := IsNilpotent.to_isSolvable
   let e : H.subgroupOf L ≃* H := Subgroup.subgroupOfEquivOfLe hHL
-  have hKsolv : IsSolvable (H.subgroupOf L) := by
-    exact solvable_of_solvable_injective (f := e.toMonoidHom) e.injective
+  have hKsolv : Group.IsSolvable (H.subgroupOf L) := by
+    exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
   have hAbot : (⊥ : Subgroup L).Normal := inferInstance
   rcases hTypeI with ⟨U, U1, U0, hF, _hcases⟩
   rcases hF with ⟨_hsolv, _hodd, _hMF, hHbot, _hHltL, _hUne,
@@ -578,11 +578,11 @@ public theorem section14_theorem_14_2_hypothesis_14_10_reference_character
   classical
   have hTypeI' := hTypeI
   rcases hMF.1 with ⟨hKM, _hKnormal0, hKnil, _hHall⟩
-  haveI : Group.IsNilpotent K := hKnil
-  haveI : IsSolvable K := IsNilpotent.to_isSolvable
+  have : Group.IsNilpotent K := hKnil
+  have : Group.IsSolvable K := IsNilpotent.to_isSolvable
   let e : K.subgroupOf M ≃* K := Subgroup.subgroupOfEquivOfLe hKM
-  have hKsolv : IsSolvable (K.subgroupOf M) := by
-    exact solvable_of_solvable_injective (f := e.toMonoidHom) e.injective
+  have hKsolv : Group.IsSolvable (K.subgroupOf M) := by
+    exact Group.isSolvable_of_isSolvable_injective (f := e.toMonoidHom) e.injective
   have hAbot : (⊥ : Subgroup M).Normal := inferInstance
   rcases hTypeI with ⟨_U, _U1, _U0, hF, _hcases⟩
   rcases hF with
@@ -605,7 +605,7 @@ public theorem section14_theorem_14_2_hypothesis_14_10_reference_character
     Section12.theorem_12_7 M K hMmax hMF hTypeI'
   rcases hfrob with
     ⟨_hKMfrob, hKnormal, _R, hcomp, _hKneFrob, _hRne, hcent⟩
-  haveI : (K.subgroupOf M).Normal := hKnormal
+  have : (K.subgroupOf M).Normal := hKnormal
   have hψirr : Section1.IsIrreducibleCharacterOnGroup ψ :=
     Section6.theorem_6_8_inducedKernelFamily_irreducible_of_frobenius_complement
       hSbot hcomp hcent ψ hψmem

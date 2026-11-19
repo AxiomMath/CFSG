@@ -42,11 +42,13 @@ section Local
 
 variable {J : Type} [Group J] [MulAction J (Fin nn)] {g : ℕ → J}
 
+omit [MulAction J (Fin nn)] in
 theorem ev_rep (k : ℕ) (w : List ℕ) : ev g (rep k w) = ev g w ^ k := by
   induction k with
   | zero => rw [rep_zero, ev_nil, pow_zero]
   | succ k ih => rw [rep_succ, ev_append, ih, pow_succ']
 
+omit [MulAction J (Fin nn)] in
 theorem ev_pw (w : List Bool) : ev g (pw w) = evalW (g 6) (g 7) w := by
   induction w with
   | nil => rfl
@@ -57,6 +59,7 @@ theorem ev_pw (w : List Bool) : ev g (pw w) = evalW (g 6) (g 7) w := by
 
 @[expose] def PP (g : ℕ → J) : Subgroup J := Subgroup.closure ({g 6, g 7} : Set J)
 
+omit [MulAction J (Fin nn)] in
 theorem ev_P {w : List ℕ} (hw : codesIn 6 7 w = true) : ev g w ∈ PP g :=
   ev_mem fun c hc => by
     rcases codesIn_mem hw c hc with rfl | rfl
@@ -145,7 +148,7 @@ theorem card_P (hJ : Nat.card J = 50232960) : Nat.card (PP g) = 243 := by
     rw [mem_stabilizer_iff.1 (P_le_stab hg x.2), mem_stabilizer_iff.1 (P_le_stab hg y.2)]
   have hrange : Set.range f = {q : Fin nn | q.val ∈ Qr.map Prod.fst} := by
     ext q
-    simp only [Set.mem_range, Set.mem_setOf_eq]
+    simp only [Set.mem_range, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨x, rfl⟩
       exact P_inv hg x.2 ptB (mem_Q_iff.1 q_facts.2.2.1)
@@ -236,6 +239,7 @@ theorem zr_facts (r : ℕ × List ℕ) (hr : r ∈ Zr) : codesIn 6 7 r.2 = true 
   obtain ⟨h1, h2, h3, h4, h5, h6⟩ := h
   exact ⟨h1, h2, h3, h4, h5, h6⟩
 
+omit [Finite J] [MulAction J (Fin nn)] in
 theorem ev_pair (a b : ℕ) : ev g [a, b] = g a * g b := by simp [ev]
 
 variable (hg : Acts g)

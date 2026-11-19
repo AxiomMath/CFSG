@@ -121,7 +121,7 @@ theorem card_center_dvd_two_of_eight {Y : Type} [Group Y] [Finite Y] (hY : CFSG.
 theorem nonempty_projSL_three_two_of_psl_two_seven {X : Type} [Group X]
     (hm : StatedClassicalModel X .PSL 2 7 1) :
     Nonempty (X ≃* projSL 3 (GaloisField 2 1)) := by
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   obtain ⟨-, K, hK, hKfin, hKcard, ⟨e7⟩⟩ := hm
   have hKF : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = Fintype.card (ZMod 7) := by
@@ -202,7 +202,7 @@ theorem isList194_of_L27 {Y : Type} [Group Y] [Finite Y] (hY : CFSG.IsQuasisimpl
   exact Or.inl ⟨1, le_rfl, Or.inr (Or.inl ⟨(mulEquivQuotientCenterOfEqBot hbot).trans eL⟩)⟩
 
 theorem isSmall194_of_U33 {Y : Type} [Group Y] [Finite Y] (hY : CFSG.IsQuasisimple Y)
-    (hodd : Odd (Nat.card (Subgroup.center Y))) (q : TauCeti.PrimePower)
+    (_hodd : Odd (Nat.card (Subgroup.center Y))) (q : TauCeti.PrimePower)
     (hv : (TauCeti.LieTypeIndex.twistedA 2 q).Valid) (hq : q.card = 3)
     (e : Y ⧸ Subgroup.center Y ≃* (TauCeti.CFSGIndex.lie ⟨.twistedA 2 q, hv⟩).Group) :
     IsSmall194 Y := by

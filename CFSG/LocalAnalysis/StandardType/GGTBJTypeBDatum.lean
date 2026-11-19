@@ -87,7 +87,7 @@ private lemma tbB_fin_ne_succ {k : ℕ} {i : Fin k} (hi : i.val + 1 < k) :
   intro hh
   have h2 : i.val = i.val + 1 := by
     have := congrArg Fin.val hh
-    simpa using this
+    simp at this
   omega
 
 private lemma tbB_liftAut_injective {W : Type} [Group W] (W₀ : Type) [Group W₀] :
@@ -156,8 +156,8 @@ private lemma tbB_toAdd_sgnAut {p k : ℕ} (i : Fin k) (v : Fin k → ZMod p) (j
   rw [sgnAut_apply]
   by_cases hji : j = i
   · subst hji
-    rw [Function.update_self, toAdd_inv, toAdd_ofAdd, if_pos rfl]
-  · rw [Function.update_of_ne hji, toAdd_ofAdd, if_neg hji]
+    rw [Function.update_self, toAdd_inv, toAdd_ofAdd, ite_eq_left rfl]
+  · rw [Function.update_of_ne hji, toAdd_ofAdd, ite_eq_right hji]
 
 private lemma tbB_toAdd_permAut {p k : ℕ} (σ : Equiv.Perm (Fin k)) (v : Fin k → ZMod p)
     (j : Fin k) :
@@ -168,8 +168,8 @@ private lemma tbB_toAdd_permAut {p k : ℕ} (σ : Equiv.Perm (Fin k)) (v : Fin k
 private lemma tbB_single_apply {m p : ℕ} (a b : Fin m) :
     (Pi.single a (1 : ZMod p) : Fin m → ZMod p) b = if a = b then 1 else 0 := by
   by_cases h : a = b
-  · subst h; rw [Pi.single_eq_same, if_pos rfl]
-  · rw [Pi.single_eq_of_ne (Ne.symm h), if_neg h]
+  · subst h; rw [Pi.single_eq_same, ite_eq_left rfl]
+  · rw [Pi.single_eq_of_ne (Ne.symm h), ite_eq_right h]
 
 private theorem tbB_ggLin_g (m p : ℕ) [Fact p.Prime] (i : Fin m) (v : Fin m → ZMod p) :
     ggLin (p := p) (tbB_iota m p) (tbB_g m p i) v
@@ -186,11 +186,11 @@ private theorem tbB_ggLin_g (m p : ℕ) [Fact p.Prime] (i : Fin m) (v : Fin m �
     = (v - tbB_alpha m p i v • tbB_h m p i) j
   by_cases hi : i.val + 1 < m
   · rw [show tbB_g m p i = permAut (Equiv.swap i ⟨i.val + 1, hi⟩) from by
-          unfold tbB_g; rw [dif_pos hi],
+          unfold tbB_g; rw [dite_eq_left hi],
         show tbB_alpha m p i = (LinearMap.proj i - LinearMap.proj ⟨i.val + 1, hi⟩) from by
-          unfold tbB_alpha; rw [dif_pos hi],
+          unfold tbB_alpha; rw [dite_eq_left hi],
         show tbB_h m p i = Pi.single i (1 : ZMod p) - Pi.single ⟨i.val + 1, hi⟩ (1 : ZMod p)
-          from by unfold tbB_h; rw [dif_pos hi]]
+          from by unfold tbB_h; rw [dite_eq_left hi]]
     rw [tbB_toAdd_permAut, Equiv.swap_inv]
     simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, LinearMap.sub_apply,
       LinearMap.proj_apply]
@@ -207,26 +207,26 @@ private theorem tbB_ggLin_g (m p : ℕ) [Fact p.Prime] (i : Fin m) (v : Fin m �
       · rw [Equiv.swap_apply_of_ne_of_ne hji hjs, Pi.single_eq_of_ne' (Ne.symm hji),
           Pi.single_eq_of_ne' (Ne.symm hjs)]
         ring
-  · rw [show tbB_g m p i = sgnAut i from by unfold tbB_g; rw [dif_neg hi],
-        show tbB_alpha m p i = LinearMap.proj i from by unfold tbB_alpha; rw [dif_neg hi],
+  · rw [show tbB_g m p i = sgnAut i from by unfold tbB_g; rw [dite_eq_right hi],
+        show tbB_alpha m p i = LinearMap.proj i from by unfold tbB_alpha; rw [dite_eq_right hi],
         show tbB_h m p i = (2 : ZMod p) • Pi.single i (1 : ZMod p) from by
-          unfold tbB_h; rw [dif_neg hi]]
+          unfold tbB_h; rw [dite_eq_right hi]]
     rw [tbB_toAdd_sgnAut]
     simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, LinearMap.proj_apply]
     by_cases hji : j = i
     · subst hji
-      rw [if_pos rfl, Pi.single_eq_same]
+      rw [ite_eq_left rfl, Pi.single_eq_same]
       ring
-    · rw [if_neg hji, Pi.single_eq_of_ne' (Ne.symm hji)]
+    · rw [ite_eq_right hji, Pi.single_eq_of_ne' (Ne.symm hji)]
       ring
 
 private theorem tbB_toPerm_g (m p : ℕ) (i : Fin m) :
     MulAut.toPerm (Fin m → Multiplicative (ZMod p)) (tbB_g m p i) = spReflPerm m p i := by
   by_cases hi : i.val + 1 < m
   · rw [show tbB_g m p i = permAut (Equiv.swap i ⟨i.val + 1, hi⟩) from by
-        unfold tbB_g; rw [dif_pos hi],
+        unfold tbB_g; rw [dite_eq_left hi],
       tbB_toPerm_permAut, spReflPerm_of_lt m p i hi]
-  · rw [show tbB_g m p i = sgnAut i from by unfold tbB_g; rw [dif_neg hi],
+  · rw [show tbB_g m p i = sgnAut i from by unfold tbB_g; rw [dite_eq_right hi],
       tbB_toPerm_sgnAut, spReflPerm_of_not_lt m p i hi]
 
 private theorem tbB_signedAut_map_toPerm (m p : ℕ) :
@@ -352,9 +352,9 @@ theorem exists_typeB_datum_of_signedAut {G : Type} [Group G] [Finite G] {p m : �
     by_cases hi : i.val + 1 < m
     · refine Or.inr ⟨i, Finset.mem_univ i, ⟨i.val + 1, hi⟩, Finset.mem_univ _,
         tbB_fin_ne_succ hi, ?_⟩
-      unfold tbB_g; rw [dif_pos hi]
+      unfold tbB_g; rw [dite_eq_left hi]
     · refine Or.inl ⟨i, Finset.mem_univ i, ?_⟩
-      unfold tbB_g; rw [dif_neg hi]
+      unfold tbB_g; rw [dite_eq_right hi]
   have hf_simple : ∀ i, (f ((CoxeterMatrix.B m).simple i) : MulAut ↥Bs) = φ i := by
     intro i
     have hei : e ((CoxeterMatrix.B m).simple i) =
@@ -383,42 +383,42 @@ theorem exists_typeB_datum_of_signedAut {G : Type} [Group G] [Finite G] {p m : �
     intro i j
     by_cases hi : i.val + 1 < m <;> by_cases hj : j.val + 1 < m
     · have h1 : tbB_alpha m p i = LinearMap.proj i - LinearMap.proj ⟨i.val + 1, hi⟩ := by
-        unfold tbB_alpha; rw [dif_pos hi]
+        unfold tbB_alpha; rw [dite_eq_left hi]
       have h2 : tbB_h m p j =
           Pi.single j (1 : ZMod p) - Pi.single ⟨j.val + 1, hj⟩ (1 : ZMod p) := by
-        unfold tbB_h; rw [dif_pos hj]
+        unfold tbB_h; rw [dite_eq_left hj]
       rw [h1, h2]
       simp only [LinearMap.sub_apply, LinearMap.proj_apply, Pi.sub_apply, tbB_single_apply,
         CartanMatrix.B, Matrix.of_apply, Fin.ext_iff]
       push_cast
-      split_ifs <;> (first | omega | norm_num | ring)
+      split_ifs <;> (first | omega | norm_num)
     · have h1 : tbB_alpha m p i = LinearMap.proj i - LinearMap.proj ⟨i.val + 1, hi⟩ := by
-        unfold tbB_alpha; rw [dif_pos hi]
+        unfold tbB_alpha; rw [dite_eq_left hi]
       have h2 : tbB_h m p j = (2 : ZMod p) • Pi.single j (1 : ZMod p) := by
-        unfold tbB_h; rw [dif_neg hj]
+        unfold tbB_h; rw [dite_eq_right hj]
       rw [h1, h2, LinearMap.sub_apply, LinearMap.proj_apply, LinearMap.proj_apply]
       simp only [Pi.smul_apply, smul_eq_mul, tbB_single_apply, CartanMatrix.B, Matrix.of_apply,
         Fin.ext_iff]
       push_cast
-      split_ifs <;> (first | omega | norm_num | ring)
+      split_ifs <;> (first | omega | norm_num)
     · have h1 : tbB_alpha m p i = LinearMap.proj i := by
-        unfold tbB_alpha; rw [dif_neg hi]
+        unfold tbB_alpha; rw [dite_eq_right hi]
       have h2 : tbB_h m p j =
           Pi.single j (1 : ZMod p) - Pi.single ⟨j.val + 1, hj⟩ (1 : ZMod p) := by
-        unfold tbB_h; rw [dif_pos hj]
+        unfold tbB_h; rw [dite_eq_left hj]
       rw [h1, h2, LinearMap.proj_apply, Pi.sub_apply]
       simp only [tbB_single_apply, CartanMatrix.B, Matrix.of_apply, Fin.ext_iff]
       push_cast
-      split_ifs <;> (first | omega | norm_num | ring)
+      split_ifs <;> (first | omega | norm_num)
     · have h1 : tbB_alpha m p i = LinearMap.proj i := by
-        unfold tbB_alpha; rw [dif_neg hi]
+        unfold tbB_alpha; rw [dite_eq_right hi]
       have h2 : tbB_h m p j = (2 : ZMod p) • Pi.single j (1 : ZMod p) := by
-        unfold tbB_h; rw [dif_neg hj]
+        unfold tbB_h; rw [dite_eq_right hj]
       rw [h1, h2, LinearMap.proj_apply]
       simp only [Pi.smul_apply, smul_eq_mul, tbB_single_apply, CartanMatrix.B, Matrix.of_apply,
         Fin.ext_iff]
       push_cast
-      split_ifs <;> (first | omega | norm_num | ring)
+      split_ifs <;> (first | omega | norm_num)
   refine ⟨V, inferInstance, inferInstance, ι, φ, fun i => (tbB_h m p i, 0),
     fun i => (tbB_alpha m p i).comp (LinearMap.fst (ZMod p) (Fin m → ZMod p) (Additive W₀)),
     CartanMatrix.B m, ggIntCartan_B m, ?_, ?_, ?_, ?_, ?_, ?_⟩
@@ -439,10 +439,10 @@ theorem exists_typeB_datum_of_signedAut {G : Type} [Group G] [Finite G] {p m : �
     change GGIsReflection p (liftBs Θ (tbB_g m p i))
     by_cases hi : i.val + 1 < m
     · rw [show tbB_g m p i = permAut (Equiv.swap i ⟨i.val + 1, hi⟩) from by
-          unfold tbB_g; rw [dif_pos hi]]
+          unfold tbB_g; rw [dite_eq_left hi]]
       exact ggIsReflection_liftBs hp hp2 Θ (permAut_swap_sq _ _)
         (card_fix_permAut_swap hp hp2 (tbB_fin_ne_succ hi))
-    · rw [show tbB_g m p i = sgnAut i from by unfold tbB_g; rw [dif_neg hi]]
+    · rw [show tbB_g m p i = sgnAut i from by unfold tbB_g; rw [dite_eq_right hi]]
       exact ggIsReflection_liftBs hp hp2 Θ (sgnAut_sq i) (card_fix_sgnAut hp hp2 i)
   · intro i j
     exact hpair i j

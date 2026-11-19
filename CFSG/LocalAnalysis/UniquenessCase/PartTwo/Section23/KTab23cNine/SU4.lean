@@ -162,9 +162,6 @@ private noncomputable def coordAddEquiv {a : ℕ} {K : Type} [Field K]
           ((Mx : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ v) = v
         rw [Matrix.mulVec_mulVec, hmatMxi, Matrix.one_mulVec]
       map_add' := fun v w => by
-        change (Mxi : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ (v + w) =
-          (Mxi : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ v +
-            (Mxi : Matrix (HypIndex 2 0) (HypIndex 2 0) K) *ᵥ w
         rw [Matrix.mulVec_add] }
 
 private lemma exists_adapted_coord {W : Type} [CommGroup W] {K : Type} [Field K]
@@ -238,13 +235,13 @@ private theorem exists_adapted_equiv {W : Type} [CommGroup W] {H : Subgroup (Mul
             Multiplicative.toAdd (e w)) ∧
       (S : Subgroup ↥H) = (hypUnitriangular h 2 0).map Φ.toMonoidHom := by
   obtain ⟨π, e, he⟩ := exists_hypNatEquiv h hreal
-  haveI : Finite ↥(hypSU h 2 0) := by
-    haveI := h.finite
+  have : Finite ↥(hypSU h 2 0) := by
+    have := h.finite
     infer_instance
-  haveI : Finite ↥H := Finite.of_injective π.symm.toEquiv π.symm.toEquiv.injective
+  have : Finite ↥H := Finite.of_injective π.symm.toEquiv π.symm.toEquiv.injective
   obtain ⟨S₀, hS₀⟩ :=
     (unitary_order_and_Sylow h (r := 2) (ε := 0) (by norm_num) (by norm_num)).2.1
-  haveI : Finite (Sylow 2 ↥(hypSU h 2 0)) := Sylow.finite_of_finiteIndex S₀
+  have : Finite (Sylow 2 ↥(hypSU h 2 0)) := Sylow.finite_of_finiteIndex S₀
   let S' : Sylow 2 ↥(hypSU h 2 0) :=
     S.mapSurjective (f := π.symm.toMonoidHom) π.symm.surjective
   obtain ⟨x, hx⟩ := MulAction.exists_smul_eq ↥(hypSU h 2 0) S₀ S'
@@ -307,7 +304,7 @@ theorem su4_exists_mulEquiv_pointStab_fixSub {W : Type} [CommGroup W] [Finite W]
 theorem kTab23cNineAt_of_realizes_su4 {W : Type} [CommGroup W] [Finite W]
     {H : Subgroup (MulAut W)} {a : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 a K)
     (hreal : (FFModel.nat (StatedSU 4 (2 ^ a) K)).Realizes H ⊤ ⊥) : KTab23cNineAt W H := by
-  haveI : Finite ↥(hypSU h 2 0) := CFSG.ClassicalGroups.UnitaryFlag.finite_hypSU h
+  have : Finite ↥(hypSU h 2 0) := CFSG.ClassicalGroups.UnitaryFlag.finite_hypSU h
   refine kTab23cNineAt_of_model H (hypUnitriangular h 2 0) (flagStabilizer h 2 0 {2})
     (parP h) (KTabC.vecStab (hypSU h 2 0).subtype (Pi.single ie1 1)) ?_
     (su4_isParabolicTwo_flagStabilizer_two h) (su4_hypUnitriangular_le_flagStabilizer_two h)
@@ -319,8 +316,8 @@ theorem kTab23cNineAt_of_realizes_su4 {W : Type} [CommGroup W] [Finite W]
 theorem kTab23cNineAt_su4 {W : Type} [CommGroup W] [Finite W]
     {H : Subgroup (MulAut W)} {a : ℕ} (h : NatSUn H ⊤ ⊥ 4 a) : KTab23cNineAt W H := by
   obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   exact kTab23cNineAt_of_realizes_su4 (unitaryFieldDataOfCard hKcard) hreal
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22.KTab23cNine

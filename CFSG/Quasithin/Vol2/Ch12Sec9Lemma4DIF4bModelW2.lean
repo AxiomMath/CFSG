@@ -44,7 +44,7 @@ theorem bM_of_GM {γ : VM ≃ₗ[ZMod 2] VM} (hγ : γ ∈ GM) (x y : VM) :
 
 theorem bM_e0_f0 : bM f0 e0 = 1 := by
   rw [bM_e0_right]
-  simp [f0, mkV, ex, Pi.single_apply]
+  simp [f0, mkV, ex]
 
 theorem bM_f0_u (u : VM) (hu : u (Sum.inl 0) = 0) : bM f0 u = 0 := by
   rw [bM_symm]
@@ -66,7 +66,7 @@ theorem inU_cvec (a1 a2 a3 a4 : ZMod 2) : inU (cvec a1 a2 a3 a4) := by
   simp [inU, cvec, mkV]
 
 theorem inU_projU (v : VM) : inU (projU v) := by
-  refine ⟨?_, ?_⟩ <;> simp [projU, e0, f0, mkV, ex, Pi.single_apply] <;> ring
+  refine ⟨?_, ?_⟩ <;> simp [projU, e0, f0, mkV, ex]
 
 theorem projU_decomp (v : VM) : v = v (Sum.inl 0) • e0 + v (Sum.inr 0) • f0 + projU v := by
   unfold projU
@@ -78,13 +78,13 @@ theorem EL_apply_of_inr (c : VM) (hc : inU c) (v : VM) (hv : v (Sum.inr 0) = 0) 
 
 theorem EL_f0 (c : VM) (hc : inU c) : EL c hc f0 = qM c • e0 + f0 + c := by
   rw [EL_apply, Eev]
-  have h1 : f0 (Sum.inr 0) = 1 := by simp [f0, mkV, ex, Pi.single_apply]
+  have h1 : f0 (Sum.inr 0) = 1 := by simp [f0, mkV, ex]
   have h2 : bM f0 c = 0 := bM_f0_u c hc.1
   rw [h1, h2, one_smul, zero_add, mul_one]
   abel
 
 theorem qM_f0 : qM f0 = 0 := by
-  simp [qM, f0, xp, yp, mkV, dotProduct, Fin.sum_univ_three]
+  simp [qM, f0, xp, yp, mkV, dotProduct]
 
 theorem rad_e0 : ∀ v : VM, bM v e0 = 0 → bM v E1 = 0 → bM v E2 = 0 → bM v F1 = 0 →
     bM v F2 = 0 → v = 0 ∨ v = e0 := by
@@ -101,16 +101,16 @@ theorem kw_char (γ : VM ≃ₗ[ZMod 2] VM) (hγ : γ ∈ GM) (he0 : γ e0 = e0)
     intro u hu
     obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.1 (hcond u hu)
     exact ⟨a, ha.symm⟩
-  have hE1 : bM E1 e0 = 0 := by simp [bM_e0_right, E1, mkV, ex, Pi.single_apply]
-  have hE2 : bM E2 e0 = 0 := by simp [bM_e0_right, E2, mkV, ex, Pi.single_apply]
-  have hF1 : bM F1 e0 = 0 := by simp [bM_e0_right, F1, mkV, ex, Pi.single_apply]
-  have hF2 : bM F2 e0 = 0 := by simp [bM_e0_right, F2, mkV, ex, Pi.single_apply]
-  have hE1r : E1 (Sum.inr 0) = 0 := by simp [E1, mkV, ex, Pi.single_apply]
-  have hE2r : E2 (Sum.inr 0) = 0 := by simp [E2, mkV, ex, Pi.single_apply]
-  have hF1l : F1 (Sum.inl 0) = 0 := by simp [F1, mkV, ex, Pi.single_apply]
-  have hF2l : F2 (Sum.inl 0) = 0 := by simp [F2, mkV, ex, Pi.single_apply]
-  have hE1l : E1 (Sum.inl 0) = 0 := by simp [E1, mkV, ex, Pi.single_apply]
-  have hE2l : E2 (Sum.inl 0) = 0 := by simp [E2, mkV, ex, Pi.single_apply]
+  have hE1 : bM E1 e0 = 0 := by simp [bM_e0_right, E1, mkV, ex]
+  have hE2 : bM E2 e0 = 0 := by simp [bM_e0_right, E2, mkV, ex]
+  have hF1 : bM F1 e0 = 0 := by simp [bM_e0_right, F1, mkV, ex]
+  have hF2 : bM F2 e0 = 0 := by simp [bM_e0_right, F2, mkV, ex]
+  have hE1r : E1 (Sum.inr 0) = 0 := by simp [E1, mkV, ex]
+  have hE2r : E2 (Sum.inr 0) = 0 := by simp [E2, mkV, ex]
+  have hF1l : F1 (Sum.inl 0) = 0 := by simp [F1, mkV, ex]
+  have hF2l : F2 (Sum.inl 0) = 0 := by simp [F2, mkV, ex]
+  have hE1l : E1 (Sum.inl 0) = 0 := by simp [E1, mkV, ex]
+  have hE2l : E2 (Sum.inl 0) = 0 := by simp [E2, mkV, ex]
   obtain ⟨a1, ha1⟩ := coef E1 hE1
   obtain ⟨a2, ha2⟩ := coef E2 hE2
   obtain ⟨a4, ha4⟩ := coef F1 hF1
@@ -181,9 +181,9 @@ theorem kw_char (γ : VM ≃ₗ[ZMod 2] VM) (hγ : γ ∈ GM) (he0 : γ e0 = e0)
   have hγE2 : γ E2 = EL (cvec a1 a2 a3 a4) hc E2 := by
     rw [EL_apply_of_inr _ hc E2 hE2r, bM_E2, hE2', add_comm]
   have hγF1 : γ F1 = EL (cvec a1 a2 a3 a4) hc F1 := by
-    rw [EL_apply_of_inr _ hc F1 (by simp [F1, mkV, ex, Pi.single_apply]), bM_F1, hF1', add_comm]
+    rw [EL_apply_of_inr _ hc F1 (by simp [F1, mkV, ex]), bM_F1, hF1', add_comm]
   have hγF2 : γ F2 = EL (cvec a1 a2 a3 a4) hc F2 := by
-    rw [EL_apply_of_inr _ hc F2 (by simp [F2, mkV, ex, Pi.single_apply]), bM_F2, hF2', add_comm]
+    rw [EL_apply_of_inr _ hc F2 (by simp [F2, mkV, ex]), bM_F2, hF2', add_comm]
   simp only [map_add, map_smul, hγe0, hγf0, hγE1, hγE2, hγF1, hγF2]
 
 end CFSG.Quasithin.H13.C1294.Model

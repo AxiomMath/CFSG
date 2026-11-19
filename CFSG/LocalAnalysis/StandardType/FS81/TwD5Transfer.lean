@@ -39,7 +39,7 @@ theorem exists_sylow_centralizer_eq_subgroupOf {E : Subgroup G} (hE : IsElemAbel
   obtain ⟨P, hEP⟩ := hEC3.exists_le_sylow
   have hPE : (P : Subgroup C) ≤ E.subgroupOf C := by
     intro p hp
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨p, hp⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨p, hp⟩
     exact Subgroup.mem_subgroupOf.mpr (hsyl (p : G) p.2 k (by
       simpa using congrArg (fun z : ↥P => ((z : C) : G)) hk))
   exact ⟨P, le_antisymm hPE hEP⟩

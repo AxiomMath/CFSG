@@ -22,8 +22,8 @@ theorem linear_rank_bounds {N : ℕ} (hN : 3 ≤ N) {K : Type} [Field K] [Finite
         CFSG.Open.pRank 3 E + 1 ≤ CFSG.Open.pRank 3 A)
     (hnot : ¬ A ≤ innAutDerived (projectiveSL N K)) : 4 ≤ N ∧ N ≤ 7 := by
   classical
-  haveI := finite_mulAut' (P := projectiveSL N K)
-  obtain ⟨b, hbA, hbout⟩ := SetLike.not_le_iff_exists.1 hnot
+  have := finite_mulAut' (P := projectiveSL N K)
+  obtain ⟨b, hbA, hbout⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   have hb3 : b ^ 3 = 1 := hA.2 b hbA
   obtain ⟨ι, hιinj, hιfix, hιnorm, hι3⟩ := exists_descent hN hK b hb3 hbout
   have hZ := center_projectiveSL_eq_bot (K := K) hN
@@ -92,7 +92,7 @@ theorem linear_rank_bounds {N : ℕ} (hN : 3 ≤ N) {K : Type} [Field K] [Finite
     exact hcardEbar
   have hEt_ab : IsElemAbelian 3 Et :=
     isElemAbelian_of_map_injective ι hιinj (by rw [hEt_map]; exact hEbar_ab)
-  haveI : Fintype Et := Fintype.ofFinite Et
+  have : Fintype Et := Fintype.ofFinite Et
   have hle := CFSG.LocalAnalysis.GLTheoremA.KD264Lie.X1Sp.card_le_three_pow_half Et hEt_ab
   have h9 : 9 ≤ 3 ^ (Module.finrank (ZMod 2) (Fin N → ZMod 2) / 2) :=
     hEt_card.trans (Nat.card_eq_fintype_card.le.trans hle)

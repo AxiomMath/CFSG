@@ -15,9 +15,9 @@ theorem ggCenterPrime_unitary_gcd
     (hK : Nat.card K = (2 ^ n) ^ 2) (hn : 1 ≤ n) (hd : 3 ≤ d) (hdq : (d, 2 ^ n) ≠ (3, 2))
     (hp : p.Prime) (hp2 : p ≠ 2) (hpd : ¬ (p ∣ d ∧ p ∣ 2 ^ n + 1)) :
     GGCenterPrime p (LargeEvenProj (LargeEvenSUGroup (Fin d) K (2 ^ n))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hFD := TableBU.unitaryFieldData_of_card hK hn
-  haveI : CharP K 2 := hFD.charP
+  have : CharP K 2 := hFD.charP
   have hsplit : ∀ (E : Type) [Group E] [Finite E]
       (π : E →* LargeEvenSUGroup (Fin d) K (2 ^ n)), Function.Surjective π →
       π.ker ≤ Subgroup.center E → Nat.Coprime 2 (Nat.card π.ker) →
@@ -28,7 +28,7 @@ theorem ggCenterPrime_unitary_gcd
         (F := K) (p := 2) (f := n) hK he (by omega) E π hπ hcen hC
     · exact CFSG.LieType.Steinberg.CentralExt.SUOdd.statedSU_odd_exists_section_of_central
         (F := K) (p := 2) (f := n) hK hn hd he hdq hπ hcen
-  haveI : Finite (LargeEvenSUGroup (Fin d) K (2 ^ n)) := Finite.of_injective
+  have : Finite (LargeEvenSUGroup (Fin d) K (2 ^ n)) := Finite.of_injective
     (fun x : LargeEvenSUGroup (Fin d) K (2 ^ n) =>
       ((x : GL (Fin d) K) : Matrix (Fin d) (Fin d) K))
     (fun x y hxy => Subtype.ext (Units.ext hxy))

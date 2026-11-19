@@ -91,7 +91,7 @@ theorem linesOK_of (T : Tabs P pl LT rb PL lf) (G : Geom rb PL lf) : linesOK P p
   by_cases h : x < y ∧ rb x y = true
   · obtain ⟨hxy, hr⟩ := h
     have hL := T.LT_get x hx y hy
-    rw [if_pos hr] at hL
+    rw [ite_eq_left hr] at hL
     rw [T.P_get x hx y hy, T.pl_get x hx, hL]
     have hne : x ≠ y := Nat.ne_of_lt hxy
     have hmem := G.lmem x hx y hy hne hr
@@ -179,7 +179,7 @@ theorem twinsOK_of (T : Tabs P pl LT rb PL lf) (G : Geom rb PL lf)
   obtain ⟨hx693, hr0x⟩ := (G.plmem 0 (by omega) x).1 hx
   have hLT : LT[x]! = (lf 0 x).toArray := by
     have := T.LT_get 0 (by omega) x hx693
-    rw [if_pos hr0x] at this
+    rw [ite_eq_left hr0x] at this
     simpa using this
   rw [hLT]
   have hy0' : (y == 0) = false := by simpa using hy0
@@ -285,7 +285,7 @@ theorem perpPerpOKT_of (T : Tabs P pl LT rb PL lf) (G : Geom rb PL lf) (T0 : Tab
       have hb693 := (mem_NSet.1 hb).1
       refine ⟨a, (hmemN a).2 ha, b, (hmemN b).2 hb, ?_⟩
       have hLT := T.LT_get a ha693 b hb693
-      rw [if_pos hab] at hLT
+      rw [ite_eq_left hab] at hLT
       rw [hLT, T.P_get a ha693 b hb693]
       simp only [Bool.and_eq_true, bne_iff_ne, ne_eq]
       refine ⟨⟨hne, hab⟩, ?_⟩

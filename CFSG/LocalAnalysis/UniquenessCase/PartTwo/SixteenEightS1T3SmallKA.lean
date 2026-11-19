@@ -36,7 +36,7 @@ private theorem s16t3_mem_sup_of_commute {G : Type*} [Group G] {H K : Subgroup G
     (hcomm : ∀ h ∈ H, ∀ k ∈ K, h * k = k * h) {x : G} (hx : x ∈ H ⊔ K) :
     ∃ h ∈ H, ∃ k ∈ K, h * k = x := by
   have hnorm : H ≤ Subgroup.normalizer K := s16t3_le_normalizer_of_comm hcomm
-  haveI : (K.subgroupOf (H ⊔ K)).Normal :=
+  have : (K.subgroupOf (H ⊔ K)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (sup_le hnorm Subgroup.le_normalizer)
   have hx' : (⟨x, hx⟩ : ↥(H ⊔ K)) ∈ H.subgroupOf (H ⊔ K) ⊔ K.subgroupOf (H ⊔ K) := by
     rw [← Subgroup.subgroupOf_sup le_sup_left le_sup_right, Subgroup.subgroupOf_self]
@@ -50,8 +50,8 @@ private theorem s16t3_mem_sup_of_commute {G : Type*} [Group G] {H K : Subgroup G
 private theorem s16t3_card_sup_mul_card_inf_of_le_normalizer {G : Type*} [Group G]
     {H K : Subgroup G} (h : H ≤ Subgroup.normalizer K) :
     Nat.card ↥(H ⊔ K) * Nat.card ↥(H ⊓ K) = Nat.card ↥H * Nat.card ↥K := by
-  haveI : (K.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer h
-  haveI : (K.subgroupOf (H ⊔ K)).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer h
+  have : (K.subgroupOf H).Normal := Subgroup.normal_subgroupOf_of_le_normalizer h
+  have : (K.subgroupOf (H ⊔ K)).Normal := Subgroup.normal_subgroupOf_sup_of_le_normalizer h
   have e := QuotientGroup.quotientInfEquivProdNormalizerQuotient H K h
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (K.subgroupOf H)
   have h2 := Subgroup.card_eq_card_quotient_mul_card_subgroup (K.subgroupOf (H ⊔ K))
@@ -68,6 +68,7 @@ private theorem s16t3_card_sup_of_commute {G : Type*} [Group G] {H K : Subgroup 
     Nat.card ↥(H ⊔ K) * Nat.card ↥(H ⊓ K) = Nat.card ↥H * Nat.card ↥K :=
   s16t3_card_sup_mul_card_inf_of_le_normalizer (s16t3_le_normalizer_of_comm hcomm)
 
+omit [Finite W] in
 private theorem s16t3_smul_eq_self_of_stableUnder {X : Subgroup (MulAut W)} {I : Subgroup W}
     (h : StableUnder X I) {x : MulAut W} (hx : x ∈ X) : x • I = I := by
   refine le_antisymm ?_ ?_
@@ -81,6 +82,7 @@ private theorem s16t3_smul_eq_self_of_stableUnder {X : Subgroup (MulAut W)} {I :
       exact h x⁻¹ (X.inv_mem hx) v hv
     · simp
 
+omit [Finite W] in
 private theorem s16t3_map_mem_irrSet_of_mem {A L : Subgroup (MulAut W)}
     (hA : A ≤ Subgroup.normalizer (L : Set (MulAut W))) {g : MulAut W} (hg : g ∈ A)
     {I : Subgroup W} (hI : I ∈ irrSet L) : I.map g.toMonoidHom ∈ irrSet L :=
@@ -90,6 +92,7 @@ private theorem s16t3_map_mem_irrSet_of_mem {A L : Subgroup (MulAut W)}
       have := (Subgroup.mem_normalizer_iff.1 (hA (A.inv_mem hg)) x).1 hx
       simpa using this) hI
 
+omit [Finite W] in
 private theorem s16t3_K0_trans {A L T N : Subgroup (MulAut W)} (h : ThreeNat A L T)
     (hNA : N ≤ A) (hNfix : ∀ a ∈ N, ∀ I ∈ irrSet L, I.map a.toMonoidHom = I)
     (hNcomm : ∀ n ∈ N, ∀ k ∈ s1t3KBar A L, n * k = k * n)
@@ -108,7 +111,7 @@ private theorem s16t3_K0_trans {A L T N : Subgroup (MulAut W)} (h : ThreeNat A L
   intro I₁ hI₁ I₂ hI₂
   obtain ⟨g, hgA, hg⟩ := h.trans I₁ hI₁ I₂ hI₂
   have hgA' : g ∈ A := hgA.1
-  haveI : ((s1t3KBar A L).subgroupOf A).Normal := hK0NA
+  have : ((s1t3KBar A L).subgroupOf A).Normal := hK0NA
   have hsupA : N.subgroupOf A ⊔ (s1t3KBar A L).subgroupOf A = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hNA hK0A, hNKsup, Subgroup.subgroupOf_self]
   have hmem : (⟨g, hgA'⟩ : ↥A) ∈ N.subgroupOf A ⊔ (s1t3KBar A L).subgroupOf A := by
@@ -142,7 +145,7 @@ private theorem s16t3_K0_stab {A L T : Subgroup (MulAut W)} (h : ThreeNat A L T)
   obtain ⟨I0, hI0, hI0stableT⟩ := s16t3_exists_stable_irr h hodd
   have hI0stable : StableUnder (T ⊓ s1t3KBar A L) I0 :=
     fun x hx u hu => hI0stableT x hx.1 u hu
-  letI : MulAction ↥(s1t3KBar A L) (Subgroup W) :=
+  let : MulAction ↥(s1t3KBar A L) (Subgroup W) :=
     MulAction.compHom (Subgroup W) (Subgroup.subtype (s1t3KBar A L))
   let StabSub : Subgroup ↥(s1t3KBar A L) := MulAction.stabilizer ↥(s1t3KBar A L) I0
   let Stab : Subgroup (MulAut W) := StabSub.map (s1t3KBar A L).subtype
@@ -161,9 +164,9 @@ private theorem s16t3_K0_stab {A L T : Subgroup (MulAut W)} (h : ThreeNat A L T)
       rw [MulAction.compHom_smul_def, Subgroup.pointwise_smul_def]
       exact hkI.symm
   have hstab_card : Nat.card ↥Stab = 24 := by
-    haveI : Fintype ↥(s1t3KBar A L) := Fintype.ofFinite _
-    haveI : Fintype (MulAction.orbit ↥(s1t3KBar A L) I0) := Fintype.ofFinite _
-    haveI : Fintype (MulAction.stabilizer ↥(s1t3KBar A L) I0) := Fintype.ofFinite _
+    have : Fintype ↥(s1t3KBar A L) := Fintype.ofFinite _
+    have : Fintype (MulAction.orbit ↥(s1t3KBar A L) I0) := Fintype.ofFinite _
+    have : Fintype (MulAction.stabilizer ↥(s1t3KBar A L) I0) := Fintype.ofFinite _
     have hOS := MulAction.card_orbit_mul_card_stabilizer_eq_card_group
       (G := ↥(s1t3KBar A L)) I0
     have hOS' : Nat.card (MulAction.orbit ↥(s1t3KBar A L) I0) *
@@ -192,7 +195,7 @@ private theorem s16t3_T_eq {N A L T : Subgroup (MulAut W)} (h : ThreeNat A L T)
     (hNKbot : N ⊓ s1t3KBar A L = ⊥) (hNKsup : N ⊔ s1t3KBar A L = A)
     (hK : Nat.card ↥(s1t3KBar A L) = 168) :
     T = (T ⊓ N) ⊔ (T ⊓ s1t3KBar A L) ∧ Nat.card ↥(T ⊓ s1t3KBar A L) = 8 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK0A : s1t3KBar A L ≤ A := inf_le_left
   have hNnorm : N ≤ Subgroup.normalizer (s1t3KBar A L : Set (MulAut W)) :=
     s16t3_le_normalizer_of_comm hNcomm
@@ -356,7 +359,7 @@ theorem s16t3_kBar_of_parab {A L T : Subgroup (MulAut W)} (h : ThreeNat A L T)
         have hdvd : 3 ^ 2 ∣ 3 ^ m := Nat.pow_dvd_pow 3 h2
         have h9 : (9 : ℕ) ∣ 24 := by
           have := hdvd.trans (hm ▸ h24)
-          simpa using this
+          simp at this
         obtain ⟨c, hc⟩ := h9
         omega
       have hord3 : orderOf q ∣ 3 := by

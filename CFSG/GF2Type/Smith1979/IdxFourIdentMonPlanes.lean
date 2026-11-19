@@ -111,11 +111,11 @@ theorem pr_pairVec (i j : Fin 6) (p : ZMod 2 × ZMod 2) :
   split_ifs <;> rfl
 
 theorem pr_pairVec_self (i : Fin 6) (p : ZMod 2 × ZMod 2) : pr (pairVec i p) i = p := by
-  rw [pr_pairVec, if_pos rfl]
+  rw [pr_pairVec, ite_eq_left rfl]
 
 theorem pr_pairVec_ne {i j : Fin 6} (h : j ≠ i) (p : ZMod 2 × ZMod 2) :
     pr (pairVec i p) j = 0 := by
-  rw [pr_pairVec, if_neg h]
+  rw [pr_pairVec, ite_eq_right h]
 
 theorem pairVec_mem_plane (i : Fin 6) (p : ZMod 2 × ZMod 2) : pairVec i p ∈ plane i :=
   mem_plane_iff_pr.2 fun _ hj => pr_pairVec_ne hj p
@@ -154,9 +154,9 @@ theorem pairVec_inj {a b : Fin 6} {p q : ZMod 2 × ZMod 2} (h : pairVec a p = pa
   have h1 : pr (pairVec a p) a = pr (pairVec b q) a := by rw [h]
   rw [pr_pairVec_self, pr_pairVec] at h1
   by_cases hab : a = b
-  · rw [if_pos hab] at h1
+  · rw [ite_eq_left hab] at h1
     exact ⟨hab, h1⟩
-  · rw [if_neg hab] at h1
+  · rw [ite_eq_right hab] at h1
     exact absurd h1 hp
 
 theorem eq_of_mem_plane_of_mem_plane {i j : Fin 6} {x : V12} (hi : x ∈ plane i)

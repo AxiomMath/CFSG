@@ -13,8 +13,8 @@ theorem y7a_odd_sub {A N : Subgroup G} (hAN : A ≤ N) [hn : (A.subgroupOf N).No
     (hcard : Nat.card (↥N ⧸ A.subgroupOf N) = 18) :
     ∃ N₃ : Subgroup G, A ≤ N₃ ∧ N₃ ≤ N ∧ (∀ x ∈ N₃, x ^ 9 ∈ A) ∧
       ∀ x ∈ N, ∀ j : ℕ, x ^ (3 ^ j) ∈ A → x ∈ N₃ := by
-  haveI h3prime : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hfinite : Finite (↥N ⧸ A.subgroupOf N) :=
+  have h3prime : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hfinite : Finite (↥N ⧸ A.subgroupOf N) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   let P : Sylow 3 (↥N ⧸ A.subgroupOf N) := default
   have hfact18 : (18 : ℕ).factorization 3 = 2 := by
@@ -29,11 +29,11 @@ theorem y7a_odd_sub {A N : Subgroup G} (hAN : A ≤ N) [hn : (A.subgroupOf N).No
     norm_num
   have hindexP : P.index = 2 := by
     have h : Nat.card P * P.index = 18 := by
-      simpa [hcard] using Subgroup.card_mul_index (P : Subgroup (↥N ⧸ A.subgroupOf N))
+      simp [hcard]
     rw [hcardP] at h
     omega
   have hPnormal : P.Normal := Subgroup.normal_of_index_eq_two hindexP
-  haveI : (P : Subgroup (↥N ⧸ A.subgroupOf N)).Normal := hPnormal
+  have : (P : Subgroup (↥N ⧸ A.subgroupOf N)).Normal := hPnormal
   have hsub_le : ∀ H : Subgroup (↥N ⧸ A.subgroupOf N), IsPGroup 3 H → H ≤ P := by
     intro H hH
     obtain ⟨P', hP'⟩ := IsPGroup.exists_le_sylow hH

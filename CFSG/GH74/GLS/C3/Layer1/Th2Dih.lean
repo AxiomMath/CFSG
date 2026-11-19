@@ -229,7 +229,7 @@ theorem exists_dihedral_of_sylow_kBar {G : Type} [Group G] [Finite G] {K P : Sub
   obtain ⟨e', N, hNT⟩ := IVK.ivk_1_2a_exists F hF (kBar K) e T'
   have hBN : P'.map φ ≤ (N.T : Subgroup (MulAut (kBar K))) := by rw [hNT]; exact hBT'
   have hPeq : N.P = P'.map φ :=
-    hSyl.eq_of_le (le_inf hBN hSyl.le) inf_le_right N.T.isPGroup'.to_inf_left
+    hSyl.eq_of_le (le_inf hBN hSyl.le) inf_le_right N.T.isPGroup.to_inf_left
   obtain ⟨n, hn⟩ := IVK.ivk_1_2c F hF (kBar K) e' N
   have hrange' : (φ.comp P'.subtype).range = N.P := by
     rw [hPeq, MonoidHom.range_comp, Subgroup.range_subtype]

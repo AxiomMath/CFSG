@@ -18,7 +18,7 @@ variable {κ : Type*} [Fintype κ] [DecidableEq κ] {K : Type*} [Field K]
 theorem scomm_spec {x y : GL κ K}
     (h : ∃ u : Kˣ, x * y = GeneralLinearGroup.scalar κ u * (y * x)) :
     x * y = GeneralLinearGroup.scalar κ (scomm x y) * (y * x) := by
-  rw [scomm, dif_pos h]
+  rw [scomm, dite_eq_left h]
   exact h.choose_spec
 
 theorem scomm_eq [Nonempty κ] {x y : GL κ K} {u : Kˣ}
@@ -180,13 +180,13 @@ private noncomputable def cfExp (hζ : IsPrimitiveRoot ζ p) (u : Kˣ) : ZMod p 
 private theorem cfExp_spec (hζ : IsPrimitiveRoot ζ p) (u : Kˣ) (hu : u ^ p = 1) :
     ζ ^ (cfExp hζ u).val = u := by
   obtain ⟨hi, hval⟩ := (cfExp_exists hζ hu).choose_spec
-  rw [cfExp, dif_pos hu, ZMod.val_natCast_of_lt hi]
+  rw [cfExp, dite_eq_left hu, ZMod.val_natCast_of_lt hi]
   exact hval
 
 private theorem cfExp_eq (hζ : IsPrimitiveRoot ζ p) {u : Kˣ} (hu : u ^ p = 1)
     {k : ZMod p} (hk : ζ ^ k.val = u) : cfExp hζ u = k := by
   obtain ⟨hi, hval⟩ := (cfExp_exists hζ hu).choose_spec
-  rw [cfExp, dif_pos hu]
+  rw [cfExp, dite_eq_left hu]
   apply ZMod.val_injective p
   rw [ZMod.val_natCast_of_lt hi]
   exact hζ.pow_inj hi (ZMod.val_lt k) (hval.trans hk.symm)

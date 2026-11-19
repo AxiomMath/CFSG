@@ -106,7 +106,7 @@ private theorem exists_pow_subgroup (U M : Subgroup X) [U.Normal] [M.Normal] (n 
   let P : Subgroup X :=
     { carrier := {u | u ∈ U ∧ u ^ n ∈ M}
       mul_mem' := fun {a b} ha hb => ⟨U.mul_mem ha.1 hb.1, hmul a ha.1 b hb.1 ha.2 hb.2⟩
-      one_mem' := ⟨U.one_mem, by simpa using M.one_mem⟩
+      one_mem' := ⟨U.one_mem, by simp⟩
       inv_mem' := fun {a} ha => ⟨U.inv_mem ha.1, by simpa [inv_pow] using M.inv_mem ha.2⟩ }
   refine ⟨P, ⟨fun a ha g => ?_⟩, fun u => Iff.rfl⟩
   refine ⟨(inferInstance : U.Normal).conj_mem a ha.1 g, ?_⟩
@@ -115,9 +115,9 @@ private theorem exists_pow_subgroup (U M : Subgroup X) [U.Normal] [M.Normal] (n 
 
 private theorem commutator_lt_of_isPGroup [Finite X] {q : ℕ} (hq : q.Prime) {U : Subgroup X}
     (hU : IsPGroup q U) (hne : U ≠ ⊥) : ⁅U, U⁆ < U := by
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Group.IsNilpotent U := hU.isNilpotent
-  haveI : Nontrivial U := (Subgroup.nontrivial_iff_ne_bot U).mpr hne
+  have : Fact q.Prime := ⟨hq⟩
+  have : Group.IsNilpotent U := hU.isNilpotent
+  have : Nontrivial U := (Subgroup.nontrivial_iff_ne_bot U).mpr hne
   have h := Group.IsSolvable.commutator_lt_top_of_nontrivial U
   rw [← U.range_subtype, MonoidHom.range_eq_map, ← Subgroup.map_commutator,
     Subgroup.map_subtype_lt_map_subtype]
@@ -185,7 +185,7 @@ private theorem sup_comm_aux {A₁ A₂ : Subgroup X} (h1 : ∀ a ∈ A₁, ∀ 
 private theorem q_mul_card_le [Finite X] {q : ℕ} (hq : q.Prime) {U A B : Subgroup X}
     (hexp : ∀ u ∈ U, u ^ q = 1) (hAB : A ≤ B) (hBU : B ≤ U) (hne : A ≠ B) :
     q * Nat.card A ≤ Nat.card B := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hB : IsPGroup q B := fun b => ⟨1, by rw [pow_one]; exact Subtype.ext (hexp b (hBU b.2))⟩
   obtain ⟨n, hn⟩ := (IsPGroup.iff_card).1 hB
   obtain ⟨k, hk⟩ := Subgroup.card_dvd_of_le hAB
@@ -258,7 +258,7 @@ theorem exists_chief_factor {X : Type} [Group X] [Finite X] {q : ℕ} (hq : q.Pr
       (∀ N : Subgroup X, N.Normal → N ≤ U → N = U ∨ N ≤ Subgroup.center X) ∧
       quotKer U (U ⊓ Subgroup.center X) ≠ ⊤ := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   have hex : ∃ n : ℕ, ∃ N : Subgroup X, N.Normal ∧ N ≤ V ∧
       (∃ g : X, ∃ v ∈ N, g * v ≠ v * g) ∧ Nat.card N = n :=
     ⟨_, V, inferInstance, le_rfl, hnc, rfl⟩
@@ -354,7 +354,7 @@ theorem card_le_of_abelian_le {X : Type} [Group X] [Finite X] {q : ℕ} (hq : q.
       (Nat.card U = q ^ 4 * Nat.card (U ⊓ Subgroup.centralizer (U : Set X) : Subgroup X) →
         Nat.card (U ⊓ Subgroup.centralizer (U : Set X) : Subgroup X) = q) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   generalize hZdef : U ⊓ Subgroup.centralizer (U : Set X) = Z
   have hZU : Z ≤ U := hZdef ▸ inf_le_left
   have hZcen : ∀ z ∈ Z, ∀ u ∈ U, z * u = u * z := by

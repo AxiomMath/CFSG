@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem c23ne_mem_cTilde_iff {M V₀ V : Subgroup G} {x : G} :
     x ∈ F11.CTilde M V₀ V ↔
       x ∈ M ∧ x ∈ Subgroup.normalizer (V₀ : Set G) ∧

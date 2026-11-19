@@ -33,7 +33,7 @@ theorem singSeq_map_of_semiIsoQ (Φ : QuadForm F V) (ρ : H →* Module.End F V)
     by rw [hτ w, hw'.2, map_zero]⟩
 
 theorem singFlag_inv (Φ : QuadForm F V) (ρ : H →* Module.End F V)
-    (hQ : ∀ h v, Φ.Q (ρ h v) = Φ.Q v) (r : Equiv.Perm V) (hr : r ∈ semilinGroup F V)
+    (_hQ : ∀ h v, Φ.Q (ρ h v) = Φ.Q v) (r : Equiv.Perm V) (hr : r ∈ semilinGroup F V)
     (hΦ : SemiIsoQ Φ r) (Q : Subgroup H) (h1 : NormQ ρ r Q) (h2 : NormQ ρ r⁻¹ Q) :
     ∀ k, ∀ v ∈ singFlag Φ ρ Q k, r v ∈ singFlag Φ ρ Q k := by
   intro k v hv

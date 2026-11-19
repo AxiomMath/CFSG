@@ -22,13 +22,13 @@ theorem step76EightTamePoint_of (h34 : Stroth34Statement) (hRoot : Stroth310Root
   have ht : t ∈ LB M Q B := hs5.mem
   have hcardInf := sec7_card_inf_conj_of_tame h34 hZV hc hs h4 hZ0 hg htame
   obtain ⟨K, fK, finK, hK, hnat⟩ := h4
-  haveI : CharP K 2 := sec7ctr_charP hc hK
+  have : CharP K 2 := sec7ctr_charP hc hK
   have hm3 : 3 ≤ 4 := by norm_num
   have hnat' := hnat
   obtain ⟨φ, hφ, hker, hact⟩ := hnat
   obtain ⟨-, hn, ψ, hψ⟩ := hact
-  haveI := hn
-  haveI : Nonempty (Fin 4 ⊕ Fin 4) := ⟨Sum.inl 0⟩
+  have := hn
+  have : Nonempty (Fin 4 ⊕ Fin 4) := ⟨Sum.inl 0⟩
   have h3 : 3 ≤ Module.finrank K (Fin 4 ⊕ Fin 4 → K) := by
     rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]
     omega

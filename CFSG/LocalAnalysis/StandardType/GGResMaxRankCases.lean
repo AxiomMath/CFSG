@@ -55,8 +55,7 @@ private theorem l6x1_dyn_indep_three {V : Type} [AddCommGroup V] [Module (ZMod 3
     (hpair : ∀ o o', α o (h o') = ggMaxRankPairing 3 u v apos o o') :
     LinearIndependent (ZMod 3) fun i : Fin 8 => h (ggMaxRankDyn i) := by
   rw [Fintype.linearIndependent_iff]
-  intro c hc
-  first | funext j | intro j
+  intro c hc j
   have hk : ∀ k : Fin 8, ∑ i : Fin 8, c i * ggMaxRankG8 k i = 0 := by
     intro k
     have h1 : α (ggMaxRankDyn k) (∑ i : Fin 8, c i • h (ggMaxRankDyn i)) = 0 := by
@@ -115,7 +114,7 @@ private theorem l6x1_dyn_ne_a (i : Fin 8) : ggMaxRankDyn i ≠ Sum.inr 1 := by
   revert i
   decide +kernel
 
-private theorem ggMaxRank_span_L {p : ℕ} [Fact p.Prime] (hp : p = 3) {V : Type}
+private theorem ggMaxRank_span_L {p : ℕ} [Fact p.Prime] (_hp : p = 3) {V : Type}
     [AddCommGroup V] [Module (ZMod p) V] {h : Fin 8 ⊕ Fin 2 → V}
     (hrel : ∑ j : Fin 8, ((ggMaxRankMarks j : ℕ) : ZMod p) • h (Sum.inl j) = 0) :
     Submodule.span (ZMod p) (h '' {o : Fin 8 ⊕ Fin 2 | o ≠ Sum.inr 1}) =
@@ -333,7 +332,7 @@ private theorem ggMaxRank_basis_of_x {p : ℕ} [Fact p.Prime] (hp : p = 3) {V : 
               rw [Finset.sum_eq_single j]
               · simp
               · intro i _ hij
-                rw [if_neg (Ne.symm hij), mul_zero]
+                rw [ite_eq_right (Ne.symm hij), mul_zero]
               · intro hj
                 exact absurd (Finset.mem_univ j) hj
     exact h4.symm
@@ -375,7 +374,7 @@ private theorem ggMaxRank_basis_of_x {p : ℕ} [Fact p.Prime] (hp : p = 3) {V : 
   have hcard : Fintype.card (Option (Fin 8)) = Module.finrank (ZMod 3) V := by
     rw [hd]
     simp
-  haveI : Nonempty (Option (Fin 8)) := ⟨none⟩
+  have : Nonempty (Option (Fin 8)) := ⟨none⟩
   refine ⟨basisOfLinearIndependentOfCardEqFinrank hli hcard, ?_, ?_⟩
   · rw [congrFun (coe_basisOfLinearIndependentOfCardEqFinrank hli hcard) none]
     simp [v]
@@ -430,7 +429,7 @@ private lemma l6x2_H_update {p : ℕ} {V : Type} [AddCommGroup V] [Module (ZMod 
           rw [Finset.sum_eq_single k]
           · simp
           · intro j _ hj
-            rw [if_neg hj, zero_smul]
+            rw [ite_eq_right hj, zero_smul]
           · intro hk
             exact absurd (Finset.mem_univ k) hk
         rw [hs]
@@ -488,7 +487,7 @@ private theorem ggMaxRank_w0_act {G : Type} [Group G] {Bs : Subgroup G} {p : ℕ
     rw [Finset.sum_eq_single i]
     · simp
     · intro j _ hj
-      rw [if_neg hj, zero_smul]
+      rw [ite_eq_right hj, zero_smul]
     · intro hi
       exact absurd (Finset.mem_univ i) hi
   have hHneg : l6x2_H h (fun k => if k = i then (-1 : ZMod 3) else 0) = - h (ggMaxRankDyn i) := by
@@ -496,7 +495,7 @@ private theorem ggMaxRank_w0_act {G : Type} [Group G] {Bs : Subgroup G} {p : ℕ
     rw [Finset.sum_eq_single i]
     · simp
     · intro j _ hj
-      rw [if_neg hj, zero_smul]
+      rw [ite_eq_right hj, zero_smul]
     · intro hi
       exact absurd (Finset.mem_univ i) hi
   have hgen := hmain ggMaxRankW0 (fun k => if k = i then (1 : ZMod 3) else 0)
@@ -881,8 +880,8 @@ theorem ggMaxRank_caseI_weyl
     intro o
     have h1 := hpair o o
     simpa [ggMaxRankPairing] using h1
-  haveI : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
-  haveI : Module.Finite (ZMod p) V := Module.Finite.of_finite
+  have : Finite V := Finite.of_equiv (Additive ↥Bs) ι.toEquiv
+  have : Module.Finite (ZMod p) V := Module.Finite.of_finite
   have hirr : ZS.AbsIrred p A :=
     ggRC_absIrred_of_connected (p := p) (V := V) hp2 (fun o => ggLin (p := p) ι (φ o)) h α
       hφ hα hspan hker hconn A hA

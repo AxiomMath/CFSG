@@ -32,9 +32,9 @@ theorem ggR4AmbExcl_classSmall (hPD : GGProjDegreeF4) : GGR4AmbExcl GGR4ClassSma
     largeEvenRawDatum_exists (ggClassicalProjEmbed_holds lab hlab hS.1 _ hraw)
   obtain ⟨-, -, θ, -, hBsN, hBs3⟩ := hq
   obtain ⟨hinn, K, hField, hAlgClosed, hCharP, ε, hε⟩ := hemb
-  letI : Field K := hField
-  letI : IsAlgClosed K := hAlgClosed
-  letI : CharP K 2 := hCharP
+  let : Field K := hField
+  let : IsAlgClosed K := hAlgClosed
+  let : CharP K 2 := hCharP
   obtain ⟨ρ, hρI, hρL, hρk⟩ := ggR4_actionHom hCfg hperf θ hBsN hBs3
   let N : Subgroup G := Subgroup.normalizer (L : Set G)
   let M₀' : Subgroup ↥N := (Subgroup.closure I).comap ρ

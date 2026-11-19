@@ -22,7 +22,7 @@ theorem two_le_pRank_of_mem_centralizer {B L : Subgroup Y} {q : ℕ} (hq : q.Pri
     (hZ : ¬ q ∣ Nat.card (Subgroup.center ↥L)) (hB : q ∣ Nat.card ↥(B ⊓ L)) {u : Y}
     (huB : u ∈ B) (huC : u ∈ Subgroup.centralizer (L : Set Y)) (hu : orderOf u = q) :
     2 ≤ CFSG.Open.pRank q B := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' (G := ↥(B ⊓ L)) q hB
   have hao : orderOf (a : Y) = q := by rw [Subgroup.orderOf_coe, ha]
   have haB : (a : Y) ∈ B := (Subgroup.mem_inf.1 a.2).1
@@ -54,13 +54,13 @@ theorem not_dvd_card_centralizer_inf_layer {L : Subgroup Y} (hL : IsComponentOf 
     rw [kComp_holds.1 _ I J hI' hJ' hne, Subgroup.mem_bot] at h1
     exact commutatorElement_eq_one_iff_mul_comm.1 h1
   let ι := {I : Subgroup Y // IsComponentOf I ⊤ ∧ I ≠ L}
-  haveI : Finite ι := inferInstance
+  have : Finite ι := inferInstance
   let F : Option ι → Subgroup Y := fun o =>
     o.elim (L ⊓ Subgroup.centralizer (L : Set Y)) fun i => i.1
   have hF : ∀ o, ¬ q ∣ Nat.card ↥(F o) := by
     rintro (_ | i)
     · intro hd
-      haveI : Fact q.Prime := ⟨hq⟩
+      have : Fact q.Prime := ⟨hq⟩
       obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥(L ⊓ Subgroup.centralizer
         (L : Set Y))) q hd
       have hzC := Subgroup.mem_centralizer_iff.1 (Subgroup.mem_inf.1 z.2).2
@@ -142,7 +142,7 @@ theorem not_dvd_card_of_isComponentOf_ne {T T₁ T₂ : Subgroup X} {Ls : Subgro
   by_cases hY : GNYComponent T T₁ T₂ Is
   · exact hoth Is hY hne
   intro hd
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := ↥Is) p hd
   have huo : orderOf (u : X ⧸ gnC T) = p := by rw [Subgroup.orderOf_coe, hu]
   have huC : (u : X ⧸ gnC T) ∈ Subgroup.centralizer (Ls : Set (X ⧸ gnC T)) := by

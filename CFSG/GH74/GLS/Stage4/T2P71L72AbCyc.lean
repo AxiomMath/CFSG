@@ -65,7 +65,7 @@ theorem AbCyc.of_section {Y X : Type} [Group Y] [Finite Y] [Group X] (π : Y →
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨T⟩ : Nonempty (Sylow 3 Y) := inferInstance
   let S₁ : Sylow 3 X := T.mapSurjective hπ
-  have h1 : AbCyc ↥(T : Subgroup Y) := hY _ T.isPGroup'
+  have h1 : AbCyc ↥(T : Subgroup Y) := hY _ T.isPGroup
   have h2 : AbCyc ↥(S₁ : Subgroup X) := by
     have hS : (S₁ : Subgroup X) = (T : Subgroup Y).map π := Sylow.coe_mapSurjective hπ T
     rw [hS]

@@ -14,7 +14,8 @@ open Module CFSG.Monster.B.Geometry CFSG.LieType.Chevalley.CosetBuilding
 
 variable {K : Type} [Field K] [Finite K] {f : ℕ} [CharP K 2] {m : ℕ} {d : List ℕ}
 
-private theorem q2cFPo_finrank_Vsub_sup_A {n : ℕ} (hK : Nat.card K = (2 ^ f) ^ 2)
+omit [Finite K] [CharP K 2] in
+private theorem q2cFPo_finrank_Vsub_sup_A {n : ℕ} (_hK : Nat.card K = (2 ^ f) ^ 2)
     (hd : IsCut n d) (pol : List Bool) {ω : Fin 4 → K} (hω : Function.Injective ω) {b r : ℕ}
     (hb : b + 1 < d.length) (hs : blockSize d b ≤ 4) (hr : r ≤ blockSize d b) :
     finrank K (Vsub n (d.getD b 0) ⊔ q2cFPo_A d pol ω b r : Submodule K (Fin n → K)) =
@@ -62,9 +63,9 @@ theorem exists_opp_flagPsi (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
   have hsub : blockSize d b - (blockSize d b - r) = r := by omega
   rw [hblk b r hb hr, flagPsi_E hK hd pol hz hb (Nat.sub_le _ _), psiSub]
   by_cases hp : pol.getD b false = true
-  · rw [if_pos hp, hsub, hblk b r hb hr]
+  · rw [ite_eq_left hp, hsub, hblk b r hb hr]
     exact q2cFPo_inf_perpB_A (K := K) (f := f) hd (pol := pol) (ω := ω) hb hs4 hr hp
-  · rw [if_neg hp, hblk b (blockSize d b - r) hb (Nat.sub_le _ _)]
+  · rw [ite_eq_right hp, hblk b (blockSize d b - r) hb (Nat.sub_le _ _)]
     exact q2cFPo_inf_sgS_A (K := K) (f := f) hK hd (pol := pol) (ω := ω) hω hσω hb hs4 hr
       (Bool.eq_false_of_not_eq_true hp)
 

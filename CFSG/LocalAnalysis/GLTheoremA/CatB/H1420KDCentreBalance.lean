@@ -33,7 +33,7 @@ theorem glaPLayer_inf_centralizer_eq_bot_of_core_layer [Finite G] {p : ℕ} (hp 
     {N : Subgroup G} (hO : GLAPPrimeCoreOf p N = ⊥) (hE : GLAPLayer p N = ⊥) {x : G}
     (hxN : x ∈ N) (hx : ∃ n : ℕ, x ^ p ^ n = 1) :
     GLAPLayer p (N ⊓ Subgroup.centralizer ({x} : Set G)) = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hO' : CFSG.pPrimeCore p ↥N = ⊥ :=
     (Subgroup.map_eq_bot_iff_of_injective _ N.subtype_injective).1 hO
   have hE' : CFSG.pLayer ↥N p = ⊥ := by
@@ -42,7 +42,7 @@ theorem glaPLayer_inf_centralizer_eq_bot_of_core_layer [Finite G] {p : ℕ} (hp 
   have hnc : ∀ K : Subgroup ↥N, ¬ CFSG.IsComponent K := by
     intro K hK
     have hKne : K ≠ ⊥ := by
-      haveI := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+      have := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
       exact (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance
     have hKR : ¬ K ≤ CFSG.pPrimeCore p ↥N := by
       rw [hO', le_bot_iff]
@@ -77,7 +77,7 @@ variable {S : Type} [Group S]
 
 private theorem kdc_center_eq_bot (hs : IsSimpleGroup S) (hnab : ∃ a b : S, a * b ≠ b * a) :
     Subgroup.center S = ⊥ := by
-  haveI := hs
+  have := hs
   rcases Subgroup.Normal.eq_bot_or_eq_top (Subgroup.center S) with h | h
   · exact h
   · obtain ⟨a, b, hab⟩ := hnab
@@ -126,14 +126,14 @@ theorem glaPPrimeCoreOf_glaPLayer_normalizer_conj_eq_bot
         ((Subgroup.zpowers (MulAut.conj u) : Subgroup (MulAut S)) : Set (MulAut S))) = ⊥ ∧
       GLAPLayer 3 (Subgroup.normalizer
         ((Subgroup.zpowers (MulAut.conj u) : Subgroup (MulAut S)) : Set (MulAut S))) = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut S) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut S) :=
     Finite.of_injective (fun f : MulAut S => (f : S → S)) DFunLike.coe_injective
   have hZ := kdc_center_eq_bot hs hnab
   have hinj := kdc_conj_injective hZ
   have hIn : ((MulAut.conj : S →* MulAut S).range).Normal :=
     CFSG.ComponentClassification.OuterAutomorphisms.inner_normal S
-  haveI := hs
+  have := hs
   have hIs : IsSimpleGroup ↥(MulAut.conj : S →* MulAut S).range :=
     (MonoidHom.ofInjective hinj).symm.isSimpleGroup
   have hIab : ∃ a b : ↥(MulAut.conj : S →* MulAut S).range, a * b ≠ b * a := by

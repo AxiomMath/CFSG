@@ -20,7 +20,7 @@ variable {ι K : Type} [Field K] {f : (ι → K) → K} {P : (ι → K) →ₗ[K
 
 theorem IsPolarOf.alt [CharP K 2] (h : IsPolarOf f P) (x : ι → K) : P x x = 0 := by
   have h0 := h 0 0
-  simp only [add_zero, map_zero, LinearMap.zero_apply] at h0
+  simp only [add_zero, map_zero] at h0
   have h1 : f 0 = 0 := by
     linear_combination -h0
   have hxx : x + x = 0 := by
@@ -135,7 +135,7 @@ variable (m : ℕ) (K : Type) [Field K] (b : K)
       · exact Finset.sum_congr rfl fun i _ => by ring
       · ring)
     (fun x y y' => by
-      simp only [Pi.add_apply, add_mul, mul_add, Finset.sum_add_distrib]; ring)
+      simp only [Pi.add_apply, mul_add, Finset.sum_add_distrib]; ring)
     (fun c x y => by
       simp only [Pi.smul_apply, smul_eq_mul]
       rw [mul_add c, Finset.mul_sum]

@@ -154,7 +154,7 @@ theorem exists_split_of_twinE4 {Q : Type} [Group Q] (hE4 : E4SplitModel) {R R' :
     ∃ w : Y, w ^ 3 = 1 ∧ conjSub w R = R ∧ (∀ y ∈ R', w * y = y * w) ∧
       ∃ r ∈ R, w * r ≠ r * w := by
   classical
-  haveI : f.ker.Normal := MonoidHom.normal_ker f
+  have : f.ker.Normal := MonoidHom.normal_ker f
   have h2 : ∀ J ∈ CoreAssembly.conjClass R, IsPGroup 2 J := by
     rintro _ ⟨y, rfl⟩
     exact isPGroup_conjSub y hR2

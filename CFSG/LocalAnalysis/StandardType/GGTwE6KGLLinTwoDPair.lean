@@ -89,7 +89,7 @@ theorem ggInndiagOnCompAt_A_two_dPair {lab : LargeEvenLabel} (hlab : LargeEvenIn
     (largeEvenLabelAll_subset_inn hlab (ggInnerDiagInnLabel_A_linTwo htag hn))
     (largeEvenLabelAll_card_A_linTwo hlab htag)).mono
     fun R _ I _ ⟨hI, hc⟩ hR hna hfin s t n hs3 hs1 ht3 hst hsI htI hn3 J₁ hJ₁ hmark => ?_
-  haveI := hfin
+  have := hfin
   refine not_ggOutsideInndiag_of_threeAdic (hI hR hna) hR hna hs3 hs1 ht3 hst hsI htI hJ₁ hmark ?_
   have hn0 : n ≠ 0 := by
     rintro rfl

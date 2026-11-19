@@ -33,7 +33,7 @@ theorem le_normalizer_of_subset_sectionCentralizer {E : Subgroup G}
     rw [show y * e * y⁻¹ = e * (e⁻¹ * y * e * y⁻¹) by group]
     exact Subgroup.mul_mem_sup he hq
   have hJperf : Group.IsPerfect (E.map (MulAut.conj y).toMonoidHom) := by
-    letI : Group.IsPerfect E := hEp
+    let : Group.IsPerfect E := hEp
     exact Group.IsPerfect.map (MulAut.conj y).toMonoidHom
   have hJE : E.map (MulAut.conj y).toMonoidHom ≤ E :=
     Proof1624.le_of_isPerfect_of_le_sup hQ hQ2 hJperf hmap
@@ -43,6 +43,7 @@ theorem le_normalizer_of_subset_sectionCentralizer {E : Subgroup G}
     Subgroup.eq_of_le_of_card_ge hJE hcard
   simpa using (Subgroup.mem_normalizer_iff_map_conj_eq (H := E) (g := y)).mpr hEq
 
+omit [Finite G] in
 private theorem inf_pCore_le_of_isSylowOf {E Q U : Subgroup G}
     (hENQ : E ≤ Subgroup.normalizer (Q : Set G)) (hQ2 : IsPGroup 2 Q)
     (hU : CFSG.ABGLocalTools.IsSylowOf 2 U E) : E ⊓ Q ≤ U := by
@@ -50,7 +51,7 @@ private theorem inf_pCore_le_of_isSylowOf {E Q U : Subgroup G}
   have hnormal : ((E ⊓ Q).subgroupOf E).Normal := by
     have h : (Q.subgroupOf E).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hENQ
     simpa only [Subgroup.inf_subgroupOf_left] using h
-  letI : ((E ⊓ Q).subgroupOf E).Normal := hnormal
+  let : ((E ⊓ Q).subgroupOf E).Normal := hnormal
   have hp : IsPGroup 2 ((E ⊓ Q).subgroupOf E) := hQ2.to_inf_right.comap_subtype
   obtain ⟨P, hP⟩ := hU
   have hle : ((E ⊓ Q).subgroupOf E) ≤ (P : Subgroup E) := hp.le_sylow_of_normal P

@@ -120,7 +120,7 @@ theorem enc_dec {n : ℕ} (h : n < 128) : enc (dec n) = n := by
     · simp [hc]
     · have hlt := Nat.mod_lt n (by norm_num : 0 < 2)
       have hc0 : n % 2 = 0 := by omega
-      simp [hc, hc0]
+      simp [hc0]
   show (Code.bitZ n 0).val + 2 * packVec (Code.vec (n / 2)) = n
   rw [h1, h2, h3]
   have hd := Nat.div_add_mod n 2
@@ -193,7 +193,7 @@ theorem tabOf_size (φ : Q0 ≃* Q0) : (tabOf φ).size = 128 := by
 
 theorem tabOf_getElem! (φ : Q0 ≃* Q0) (x : Q0) : (tabOf φ)[enc x]! = enc (φ x) := by
   rw [getElem!_pos _ _ (by rw [tabOf_size]; exact enc_lt x)]
-  simp only [tabOf, Array.getElem_ofFn, Array.size_ofFn]
+  simp only [tabOf, Array.getElem_ofFn]
   rw [dec_enc]
 
 theorem tabOf_injective : Function.Injective tabOf := by
@@ -384,7 +384,7 @@ theorem compTab_getElem! (s t : Array ℕ) {i : ℕ} (hi : i < 128) :
     (compTab s t)[i]! = s[t[i]!]! := by
   have hidx : i < (compTab s t).size := by simp [compTab]; omega
   rw [Array.getElem!_eq_getD, ← Array.getElem_eq_getD (fallback := default) (h := hidx)]
-  simp only [compTab, Array.getElem_ofFn, Array.size_ofFn]
+  simp only [compTab, Array.getElem_ofFn]
 
 private theorem foldl_if_true (t : Array ℕ) : ∀ (l : List ℕ) (r : Array ℕ),
     (∀ x ∈ l, t[x]! < 128) →
@@ -392,14 +392,14 @@ private theorem foldl_if_true (t : Array ℕ) : ∀ (l : List ℕ) (r : Array �
       = l.foldl (fun (r : Array ℕ) x => r.set! (t[x]!) x) r
   | [], r, _ => rfl
   | a :: l, r, h => by
-    rw [List.foldl_cons, List.foldl_cons, if_pos (h a (by simp))]
+    rw [List.foldl_cons, List.foldl_cons, ite_eq_left (h a (by simp))]
     exact foldl_if_true t l (r.set! (t[a]!) a) (fun x hx => h x (by simp [hx]))
 
 theorem ofFn_getElem! {n : ℕ} {f : Fin n → ℕ} {i : ℕ} (hi : i < n) :
     (Array.ofFn f)[i]! = f ⟨i, hi⟩ := by
   have hidx : i < (Array.ofFn f).size := by simpa using hi
   rw [Array.getElem!_eq_getD, ← Array.getElem_eq_getD (fallback := default) (h := hidx)]
-  simp only [Array.getElem_ofFn, Array.size_ofFn]
+  simp only [Array.getElem_ofFn]
 
 theorem invTab_size (t : Array ℕ) : (invTab t).size = 128 := by
   rw [invTab]
@@ -418,7 +418,7 @@ theorem invTab_size (t : Array ℕ) : (invTab t).size = 128 := by
   rw [h]
   simp
 
-theorem invTab_getElem! {t : Array ℕ} (hsize : t.size = 128)
+theorem invTab_getElem! {t : Array ℕ} (_hsize : t.size = 128)
     (hlt : ∀ i < 128, t[i]! < 128)
     (hinj : ∀ i < 128, ∀ j < 128, t[i]! = t[j]! → i = j)
     {x : ℕ} (hx : x < 128) : (invTab t)[t[x]!]! = x := by
@@ -467,7 +467,7 @@ theorem innTab_getElem! (e : ℕ) {i : ℕ} (hi : i < 128) :
     (innTab e)[i]! = qmulN (qmulN (qinvN e) i) e := by
   have hidx : i < (innTab e).size := by simp [innTab]; omega
   rw [Array.getElem!_eq_getD, ← Array.getElem_eq_getD (fallback := default) (h := hidx)]
-  simp only [innTab, Array.getElem_ofFn, Array.size_ofFn]
+  simp only [innTab, Array.getElem_ofFn]
 
 theorem tabOf_mul (φ ψ : Q0 ≃* Q0) : tabOf (φ * ψ) = compTab (tabOf φ) (tabOf ψ) := by
   apply array_eq_of_getElem!_eq (tabOf_size _) (by simp [compTab])
@@ -518,7 +518,7 @@ theorem tabOf_inn (e : Q0) : tabOf (inn e) = innTab (enc e) := by
 theorem innTabs_getElem! {e : ℕ} (he : e < 128) : (innTabs ())[e]! = innTab e := by
   have hidx : e < (innTabs ()).size := by simp [innTabs]; omega
   rw [Array.getElem!_eq_getD, ← Array.getElem_eq_getD (fallback := default) (h := hidx)]
-  simp only [innTabs, Array.getElem_ofFn, Array.size_ofFn]
+  simp only [innTabs, Array.getElem_ofFn]
 
 theorem tabOf_one : tabOf (1 : Q0 ≃* Q0) = Array.ofFn (n := 128) fun i => i.val := by
   apply array_eq_of_getElem!_eq (tabOf_size _) (by simp)
@@ -545,17 +545,17 @@ theorem lowIdx_lt_six (v : ℕ) : lowIdx v < 6 := by
 
 theorem lowIdx_spec {v : ℕ} (hv : v ≠ 0) (hv64 : v < 64) : v.testBit (lowIdx v) = true := by
   by_cases h0 : v.testBit 0 = true
-  · simpa [lowIdx, h0] using h0
+  · simp [lowIdx, h0]
   by_cases h1 : v.testBit 1 = true
-  · simpa [lowIdx, h0, h1] using h1
+  · simp [lowIdx, h0, h1]
   by_cases h2 : v.testBit 2 = true
-  · simpa [lowIdx, h0, h1, h2] using h2
+  · simp [lowIdx, h0, h1, h2]
   by_cases h3 : v.testBit 3 = true
-  · simpa [lowIdx, h0, h1, h2, h3] using h3
+  · simp [lowIdx, h0, h1, h2, h3]
   by_cases h4 : v.testBit 4 = true
-  · simpa [lowIdx, h0, h1, h2, h3, h4] using h4
+  · simp [lowIdx, h0, h1, h2, h3, h4]
   by_cases h5 : v.testBit 5 = true
-  · simpa [lowIdx, h0, h1, h2, h3, h4, h5] using h5
+  · simp [lowIdx, h0, h1, h2, h3, h4, h5]
   · exfalso
     apply hv
     apply Nat.zero_of_testBit_eq_false
@@ -587,7 +587,7 @@ theorem lowIdx_two_pow {j : ℕ} (hj : j < 6) : lowIdx (2 ^ j) = j := by
   interval_cases j <;> decide +kernel
 
 theorem act_zero (g : ℕ) : Code.act g 0 = 0 := by
-  simp [Code.act, Code.sel, Code.col]
+  simp [Code.act, Code.sel]
 
 theorem fStep_size (g f : ℕ) (F : Array Bool) (v : ℕ) : (fStep g f F v).size = F.size := by
   unfold fStep
@@ -598,14 +598,14 @@ theorem fStep_size (g f : ℕ) (F : Array Bool) (v : ℕ) : (fStep g f F v).size
 
 theorem fStep_of_eq (g f : ℕ) (F : Array Bool) : fStep g f F 0 = F := by
   unfold fStep
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 theorem fStep_of_ne (g f : ℕ) (F : Array Bool) {v : ℕ} (hv : v ≠ 0) :
     fStep g f F v = F.set! v (F[v ^^^ (1 <<< lowIdx v)]! ^^ f.testBit (lowIdx v) ^^
       b0n (Code.act g (v ^^^ (1 <<< lowIdx v))) (Code.act g (1 <<< lowIdx v)) ^^
       b0n (v ^^^ (1 <<< lowIdx v)) (1 <<< lowIdx v)) := by
   unfold fStep
-  rw [if_neg hv]
+  rw [ite_eq_right hv]
 
 theorem fTable_foldl_size (g f : ℕ) : ∀ (l : List ℕ) (F : Array Bool),
     (l.foldl (fStep g f) F).size = F.size
@@ -633,7 +633,7 @@ theorem foldl_fStep_getElem (g f : ℕ) : ∀ (k : ℕ), k ≤ 64 → ∀ v < k,
       rfl
     rw [hstep]
     by_cases hv0 : v = 0
-    · rw [hv0, if_pos rfl]
+    · rw [hv0, ite_eq_left rfl]
       have h0 : ((List.range k).foldl (fStep g f) (Array.replicate 64 false))[0]! = false := by
         rcases Nat.eq_or_lt_of_le (Nat.zero_le k) with hk0 | hkpos
         · subst hk0
@@ -643,10 +643,10 @@ theorem foldl_fStep_getElem (g f : ℕ) : ∀ (k : ℕ), k ≤ 64 → ∀ v < k,
       rcases eq_or_ne k 0 with hk0 | hk0
       · subst hk0
         rw [fStep_of_eq]
-        simpa using h0
+        simp
       · rw [fStep_of_ne g f _ hk0, Array.getElem!_set!_ne _ _ _ _ (by omega : k ≠ 0)]
         exact h0
-    · rw [if_neg hv0]
+    · rw [ite_eq_right hv0]
       rcases Nat.lt_or_ge v k with hvk | hvk
       · have hstepv :
             (fStep g f ((List.range k).foldl (fStep g f) (Array.replicate 64 false)) k)[v]!
@@ -656,7 +656,7 @@ theorem foldl_fStep_getElem (g f : ℕ) : ∀ (k : ℕ), k ≤ 64 → ∀ v < k,
           · omega
           · exact Array.getElem!_set!_ne _ _ _ _ (by omega)
         rw [hstepv, ih (by omega) v hvk]
-        rw [if_neg hv0]
+        rw [ite_eq_right hv0]
         have hw : v ^^^ (1 <<< lowIdx v) < k := by
           have := lowIdx_xor_lt hv0 (by omega)
           omega
@@ -701,7 +701,7 @@ theorem fTable_getElem!_succ {g f v : ℕ} (hv : v < 64) (hv0 : v ≠ 0) :
       b0n (v ^^^ (1 <<< lowIdx v)) (1 <<< lowIdx v)) := by
   rw [fTable_eq_foldl]
   have h := foldl_fStep_getElem g f 64 (le_refl 64) v hv
-  rwa [if_neg hv0] at h
+  rwa [ite_eq_right hv0] at h
 
 theorem fTable_two_pow {g f : ℕ} {j : ℕ} (hj : j < 6) :
     (fTable g f)[2 ^ j]! = f.testBit j := by
@@ -721,7 +721,7 @@ theorem liftTab_getElem! {g f i : ℕ} (hi : i < 128) :
       2 * Code.act g (i / 2) := by
   have hidx : i < (liftTab g f).size := by rw [liftTab_size]; exact hi
   rw [Array.getElem!_eq_getD, ← Array.getElem_eq_getD (fallback := default) (h := hidx)]
-  simp only [liftTab, Array.getElem_ofFn, Array.size_ofFn]
+  simp only [liftTab, Array.getElem_ofFn]
 
 theorem vec_xor (a b : ℕ) : Code.vec (a ^^^ b) = Code.vec a + Code.vec b := by
   funext i
@@ -741,7 +741,7 @@ theorem exists_liftTab_eq {u : V₀ ≃ₗ[ZMod 2] V₀} {g : ℕ}
     conv_lhs => rw [hx]
     rw [map_mul, hcenter (⟨x.a, 0⟩) (by simp [center_eq_Q0Z, mem_Q0Z_iff])]
     apply Q0.ext
-    · simp only [mul_a, mul_v, hθ, beta0, Pi.zero_apply, zero_mul, mul_zero, add_zero]
+    · simp only [mul_a, hθ, beta0, Pi.zero_apply, mul_zero, add_zero]
       ring
     · simp only [mul_v, hθ, add_zero]
   have hF0 : (θ ⟨0, (0 : V₀)⟩).a = 0 := by
@@ -753,13 +753,13 @@ theorem exists_liftTab_eq {u : V₀ ≃ₗ[ZMod 2] V₀} {g : ℕ}
     intro w e
     have h1 : (⟨0, w + e⟩ : Q0) = (⟨beta0 w e, 0⟩ : Q0) * (⟨0, w⟩ * ⟨0, e⟩) := by
       apply Q0.ext
-      · simp only [mul_a, mul_v, beta0, Pi.zero_apply, zero_mul, mul_zero, add_zero, zero_add]
+      · simp only [mul_a, mul_v, beta0, Pi.zero_apply, zero_mul, add_zero, zero_add]
         rw [CharTwo.add_self_eq_zero]
-      · simp only [mul_v, add_zero, zero_add]
+      · simp only [mul_v, zero_add]
     have h2 : θ (⟨beta0 w e, 0⟩ : Q0) = ⟨beta0 w e, 0⟩ :=
       hcenter _ (by simp [center_eq_Q0Z, mem_Q0Z_iff])
     rw [h1, map_mul, map_mul, h2]
-    simp only [mul_a, mul_v, hθ, beta0, Pi.zero_apply, zero_mul, mul_zero, add_zero]
+    simp only [mul_a, mul_v, hθ, beta0, Pi.zero_apply, zero_mul, add_zero]
     ring
   have hact : ∀ n < 64, Code.act g n = packVec (u (Code.vec n)) := by
     intro n hn

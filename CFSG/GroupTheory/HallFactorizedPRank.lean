@@ -16,7 +16,7 @@ variable {G : Type u} [Group G] [Finite G]
 theorem exists_isHallSubgroup_eq_sup_inf_of_le_pRank (hG : Group.IsSolvable G)
     {A B : Subgroup G} (hAB : (A : Set G) * (B : Set G) = Set.univ) {π : Set Nat.Primes}
     {Hc : Subgroup G} (hHc : IsPiSubgroup π Hc) {q : ℕ} (hq : q.Prime)
-    (hqπ : (⟨q, hq⟩ : Nat.Primes) ∈ π) (h3 : 3 ≤ CFSG.Open.pRank q Hc) :
+    (_hqπ : (⟨q, hq⟩ : Nat.Primes) ∈ π) (h3 : 3 ≤ CFSG.Open.pRank q Hc) :
     ∃ H : Subgroup G, IsHallSubgroup π H ∧ H = H ⊓ A ⊔ H ⊓ B ∧
       3 ≤ CFSG.Open.pRank q H := by
   obtain ⟨H', hH', hHcH'⟩ := CFSG.SolvableHall.solvable_hall_containment hG π Hc hHc

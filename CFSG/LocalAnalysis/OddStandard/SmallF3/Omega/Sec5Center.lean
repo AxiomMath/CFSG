@@ -16,15 +16,15 @@ variable {G : Type} [Group G]
 
 private theorem sec5_odd_card_oddCore (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
 private theorem sec5_oddCore_ne_top_of_twoU43 [Finite G] {L : Subgroup G}
     (h : IsTwoU43 (L ⧸ oddCore L)) : oddCore ↥L ≠ ⊤ := by
   intro htop
-  haveI : Subsingleton (↥L ⧸ oddCore ↥L) := (QuotientGroup.subsingleton_iff).mpr htop
-  haveI : Finite (↥L ⧸ oddCore ↥L) := inferInstance
+  have : Subsingleton (↥L ⧸ oddCore ↥L) := (QuotientGroup.subsingleton_iff).mpr htop
+  have : Finite (↥L ⧸ oddCore ↥L) := inferInstance
   have h1 : Nat.card (Subgroup.center (↥L ⧸ oddCore ↥L)) ≤ 1 :=
     Finite.card_le_one_iff_subsingleton.mpr inferInstance
   have h2 : Nat.card (Subgroup.center (↥L ⧸ oddCore ↥L)) = 2 := h.1
@@ -34,7 +34,7 @@ private theorem sec5_center_map_of_isQuasisimple [Finite G] {L : Subgroup G} (hL
     (hne : oddCore ↥L ≠ ⊤) :
     (Subgroup.center ↥L).map (QuotientGroup.mk' (oddCore ↥L)) =
       Subgroup.center (↥L ⧸ oddCore ↥L) := by
-  haveI : Group.IsPerfect ↥L := hL.1
+  have : Group.IsPerfect ↥L := hL.1
   exact CFSG.ComponentClassification.Quasisimple.center_map_of_central_kernel
     (QuotientGroup.mk' (oddCore ↥L)) (QuotientGroup.mk'_surjective _)
     (by
@@ -52,13 +52,13 @@ theorem sec5_exists_central_involution [Finite G] {L : Subgroup G} (hL : IsOm6Z2
   let N : Subgroup ↥L := oddCore ↥L
   let Q := ↥L ⧸ N
   let q : ↥L →* Q := QuotientGroup.mk' N
-  haveI : N.Normal := oddCore_normal ↥L
+  have : N.Normal := oddCore_normal ↥L
   have hcardCQ : Nat.card (Subgroup.center Q) = 2 := hL.2.1
   have hne : N ≠ ⊤ := sec5_oddCore_ne_top_of_twoU43 hL.2
   have hcenter : (Subgroup.center ↥L).map q = Subgroup.center Q :=
     sec5_center_map_of_isQuasisimple hL.1 hne
   have hoddN : Odd (Nat.card N) := sec5_odd_card_oddCore ↥L
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2dvd : 2 ∣ Nat.card (Subgroup.center Q) := by rw [hcardCQ]
   obtain ⟨c, hc2⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center Q) 2 h2dvd
   let cQ : Q := c
@@ -108,7 +108,7 @@ theorem sec5_mem_zpowers_of_twoElement [Finite G] {L : Subgroup G} (hL : IsOm6Z2
   let N : Subgroup ↥L := oddCore ↥L
   let Q := ↥L ⧸ N
   let q : ↥L →* Q := QuotientGroup.mk' N
-  haveI : N.Normal := oddCore_normal ↥L
+  have : N.Normal := oddCore_normal ↥L
   have hcardCQ : Nat.card (Subgroup.center Q) = 2 := hL.2.1
   have hne : N ≠ ⊤ := sec5_oddCore_ne_top_of_twoU43 hL.2
   have hcenter : (Subgroup.center ↥L).map q = Subgroup.center Q :=
@@ -146,7 +146,7 @@ theorem sec5_mem_zpowers_of_twoElement [Finite G] {L : Subgroup G} (hL : IsOm6Z2
     have h2 : u' ^ 2 = 1 := by rw [← hu'ord, pow_orderOf_eq_one]
     rw [← map_pow, h2, map_one]
   have hqu'ord : orderOf (q u') = 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact orderOf_eq_prime hqu'sq hqu'ne
   have hzle : Subgroup.zpowers (q u') ≤ Subgroup.center Q := Subgroup.zpowers_le.mpr hqu'c
   have hzcard : Nat.card (Subgroup.zpowers (q u')) = 2 := by
@@ -222,12 +222,12 @@ theorem sec5_twoCoreIn_le_centerIn [Finite G] {L : Subgroup G} (hL : IsQuasisimp
     rw [centerIn]
     exact Subgroup.mem_map_of_mem L.subtype (hle hy)
   · exfalso
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hPtop : IsPGroup 2 (⊤ : Subgroup ↥L) := htop ▸ CFSG.pCore_isPGroup
     have hP : IsPGroup 2 ↥L := hPtop.of_equiv Subgroup.topEquiv
-    haveI : Group.IsPerfect ↥L := hL.1
-    haveI : Nontrivial ↥L := CFSG.ComponentClassification.Quasisimple.nontrivial hOpen
-    haveI : Group.IsNilpotent ↥L := hP.isNilpotent
+    have : Group.IsPerfect ↥L := hL.1
+    have : Nontrivial ↥L := CFSG.ComponentClassification.Quasisimple.nontrivial hOpen
+    have : Group.IsNilpotent ↥L := hP.isNilpotent
     exact Group.IsPerfect.not_isSolvable ↥L inferInstance
 
 theorem sec5_zpowers_le_twoCoreIn [Finite G] {L : Subgroup G} {u : G} (hu : u ∈ centerIn L)
@@ -241,7 +241,7 @@ theorem sec5_zpowers_le_twoCoreIn [Finite G] {L : Subgroup G} {u : G} (hu : u �
     simpa using ((sec5_mem_centerIn_iff.mp hu).2 y y.2).symm
   have hu'ord : orderOf u' = 2 := by rw [Subgroup.orderOf_mk, hu2]
   let N' : Subgroup ↥L := Subgroup.zpowers u'
-  haveI : N'.Normal := Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hu'c)
+  have : N'.Normal := Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hu'c)
   have hN'p : IsPGroup 2 N' :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hu'ord]; norm_num)
   have hN'le : N' ≤ CFSG.pCore 2 ↥L :=

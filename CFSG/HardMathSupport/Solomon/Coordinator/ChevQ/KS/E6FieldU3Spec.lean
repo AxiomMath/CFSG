@@ -161,7 +161,7 @@ theorem Std8.fieldAutU_rationalComponent
   classical
   obtain ⟨F, ψ, σ, z, hFcard, hψ, hnorm, hΨ, hQ, hR, hker⟩ := D.exists_pinned_su3 hω i
   rw [← hRi] at hR
-  haveI : Finite ↥F := Nat.finite_of_card_ne_zero (by rw [hFcard]; norm_num)
+  have : Finite ↥F := Nat.finite_of_card_ne_zero (by rw [hFcard]; norm_num)
   have hUF : UnitaryFieldData 2 3 ↥F := ⟨Nat.prime_two, by norm_num, by rw [hFcard]; norm_num⟩
   set G₀ := StatedSU 3 (2 ^ 3) ↥F with hG₀
   set π₀ : ↥G₀ →* ModGL Tag.E6 L :=

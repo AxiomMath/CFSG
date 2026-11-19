@@ -23,7 +23,7 @@ theorem isTsLine_map {g : V12 ≃ₗ[ZMod 2] V12} (hg : ∀ x, q12 (g x) = q12 x
     fun h => huw (g.injective h), tsPair_map hg hts, lineOfPair_map g u w⟩
 
 theorem siegelEquiv_eq_of_lineOfPair_eq {u w u' w' : V12} (h : TsPair u w) (h' : TsPair u' w')
-    (hu : u ≠ 0) (hw : w ≠ 0) (huw : u ≠ w) (hu' : u' ≠ 0) (hw' : w' ≠ 0) (huw' : u' ≠ w')
+    (_hu : u ≠ 0) (_hw : w ≠ 0) (_huw : u ≠ w) (hu' : u' ≠ 0) (hw' : w' ≠ 0) (huw' : u' ≠ w')
     (e : lineOfPair u w = lineOfPair u' w') : siegelEquiv u w = siegelEquiv u' w' := by
   have hu'mem : u' ∈ lineOfPair u w := by
     rw [e]; simp [lineOfPair]

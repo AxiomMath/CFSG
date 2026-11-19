@@ -151,13 +151,13 @@ theorem blockEmbed_apply (ℓ : ι → ℕ) (x : ℕ) (A : SpecialLinearGroup (B
   change (blockEmbedFun ℓ x A : Matrix ι ι K) c a = _
   rw [blockEmbedFun_apply]
   by_cases hc : ℓ c = x
-  · rw [dif_pos hc]
+  · rw [dite_eq_left hc]
     by_cases ha : ℓ a = x
-    · rw [dif_pos ha]
+    · rw [dite_eq_left ha]
       exact CFSG.AGLEmbedding.LeviBlock.extendMat_apply_map
         (φ := (Subtype.val : Block ℓ x → ι)) Subtype.val_injective
         (A : Matrix (Block ℓ x) (Block ℓ x) K) ⟨c, hc⟩ ⟨a, ha⟩
-    · rw [dif_neg ha]
+    · rw [dite_eq_right ha]
       have hca : c ≠ a := fun e => ha (e ▸ hc)
       rw [CFSG.AGLEmbedding.LeviBlock.extendMat_apply_of_not_mem
         (φ := (Subtype.val : Block ℓ x → ι)) Subtype.val_injective
@@ -165,9 +165,9 @@ theorem blockEmbed_apply (ℓ : ι → ℕ) (x : ℕ) (A : SpecialLinearGroup (B
       · exact Matrix.one_apply_ne hca
       · rintro ⟨b, hb⟩
         exact ha (hb ▸ b.2)
-  · rw [dif_neg hc]
+  · rw [dite_eq_right hc]
     by_cases ha : ℓ a = x
-    · rw [if_pos ha]
+    · rw [ite_eq_left ha]
       have hca : c ≠ a := fun e => hc (e ▸ ha)
       rw [CFSG.AGLEmbedding.LeviBlock.extendMat_apply_of_not_mem
         (φ := (Subtype.val : Block ℓ x → ι)) Subtype.val_injective
@@ -175,7 +175,7 @@ theorem blockEmbed_apply (ℓ : ι → ℕ) (x : ℕ) (A : SpecialLinearGroup (B
       · exact Matrix.one_apply_ne hca
       · rintro ⟨b, hb⟩
         exact hc (hb ▸ b.2)
-    · rw [if_neg ha]
+    · rw [ite_eq_right ha]
       rw [CFSG.AGLEmbedding.LeviBlock.extendMat_apply_of_not_mem
         (φ := (Subtype.val : Block ℓ x → ι)) Subtype.val_injective
         (A : Matrix (Block ℓ x) (Block ℓ x) K) (Or.inl ?_)]

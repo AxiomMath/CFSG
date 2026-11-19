@@ -68,9 +68,10 @@ theorem lift_normal_of_two_le_pRank {T L : Subgroup X} {Ls : Subgroup (X ⧸ gnC
   rw [← hL.2]
   exact Subgroup.Normal.map hLn (toStar T) (QuotientGroup.mk'_surjective _)
 
+omit [Finite X] in
 theorem gnImg_le_normalizer_of_normal {T : Subgroup X} {Ls : Subgroup (X ⧸ gnC T)} (h : Ls.Normal) :
     gnImg T T ≤ Subgroup.normalizer (Ls : Set (X ⧸ gnC T)) := by
-  haveI := h
+  have := h
   rw [Subgroup.normalizer_eq_top]
   exact le_top
 
@@ -79,7 +80,7 @@ theorem two_le_pRank_of_two_components' {Y : Type} [Group Y] [Finite Y] {B Ls Is
     (hq : q.Prime) (hq2 : q ≠ 2) (hZ : ¬ q ∣ Nat.card (Subgroup.center ↥Ls))
     (hB : q ∣ Nat.card ↥(B ⊓ Ls)) (hB' : q ∣ Nat.card ↥(B ⊓ Is)) :
     2 ≤ CFSG.Open.pRank q B := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨a', ha'⟩ := exists_prime_orderOf_dvd_card' (G := ↥(B ⊓ Ls)) q hB
   obtain ⟨b', hb'⟩ := exists_prime_orderOf_dvd_card' (G := ↥(B ⊓ Is)) q hB'
   have hai : orderOf (a' : Y) = q ^ 1 := by rw [Subgroup.orderOf_coe, ha', pow_one]
@@ -190,7 +191,7 @@ theorem not_dvd_card_iSup_of_commute {Y : Type} [Group Y] [Finite Y] {ι : Type}
     (H : ι → Subgroup Y)
     (hcomm : Pairwise fun i j : ι => ∀ x y : Y, x ∈ H i → y ∈ H j → Commute x y) {q : ℕ}
     (hq : q.Prime) (h : ∀ i, ¬ q ∣ Nat.card (H i)) : ¬ q ∣ Nat.card (⨆ i, H i : Subgroup Y) := by
-  haveI := Fintype.ofFinite ι
+  have := Fintype.ofFinite ι
   intro hdvd
   rw [← Subgroup.noncommPiCoprod_range (hcomm := hcomm)] at hdvd
   have h1 : Nat.card (Subgroup.noncommPiCoprod hcomm).range ∣ Nat.card (∀ i, H i) :=
@@ -198,7 +199,7 @@ theorem not_dvd_card_iSup_of_commute {Y : Type} [Group Y] [Finite Y] {ι : Type}
   have h2 : Nat.card (∀ i, H i) = ∏ i, Nat.card (H i) := Nat.card_pi
   have h3 := hdvd.trans h1
   rw [h2] at h3
-  obtain ⟨i, -, hi⟩ := (Prime.dvd_finset_prod_iff hq.prime _).1 h3
+  obtain ⟨i, -, hi⟩ := (Prime.dvd_finsetProd_iff hq.prime _).1 h3
   exact h i hi
 
 theorem pElementSubgroup_ystar_le_of_others {T T₁ T₂ : Subgroup X} {q : ℕ} (hq : q.Prime)
@@ -207,7 +208,7 @@ theorem pElementSubgroup_ystar_le_of_others {T T₁ T₂ : Subgroup X} {q : ℕ}
     pElementSubgroup q (Ystar T T₁ T₂) ≤ Ls := by
   classical
   let ι := {I : Subgroup (X ⧸ gnC T) // GNYComponent T T₁ T₂ I ∧ I ≠ Ls}
-  haveI : Finite ι := inferInstance
+  have : Finite ι := inferInstance
   let H : ι → Subgroup (X ⧸ gnC T) := fun i => i.1
   have hcomm : ∀ i j : ι, i ≠ j → ∀ x y : X ⧸ gnC T, x ∈ H i → y ∈ H j → Commute x y := by
     intro i j hij x y hx hy
@@ -317,7 +318,7 @@ theorem not_pElementSubgroup_le_centre {Y : Type} [Group Y] [Finite Y] {A Ls : S
     (hq : q.Prime) (hA : A ≤ Ls) (hZ : ¬ q ∣ Nat.card (Subgroup.center ↥Ls))
     (hd : q ∣ Nat.card A) :
     ¬ pElementSubgroup q Ls ≤ (Subgroup.center ↥Ls).map Ls.subtype := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := A) q hd
   intro hle
   have hxL : (x : Y) ∈ Ls := hA x.2

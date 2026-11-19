@@ -45,7 +45,7 @@ open CFSG.KC.Fi24Orb CFSG.KC.Fi24OrbS CFSG.KC.Fi24FixK
 #kc_forall_chunks slpAll (fun c => slpOK MUL3 VLD3 RS IJ (nat_lit 120) (Nat.mul (nat_lit 16) c) = true)
   8 CFSG.KD.Fi24Orb.slp_ 16
 
-theorem split_idx {r b n : ℕ} (hb : 0 < b) (hr : r < n) :
+theorem split_idx {r b n : ℕ} (hb : 0 < b) (_hr : r < n) :
     Nat.mul b (r / b) + r % b = r ∧ r % b < b := by
   refine ⟨?_, Nat.mod_lt _ hb⟩
   change b * (r / b) + r % b = r

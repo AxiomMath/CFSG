@@ -20,7 +20,8 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem subgroupOf_conjSubgroup_hom {N A : Subgroup G} {x : G} (hxN : x ∈ N) (hAN : A ≤ N) :
+omit [Finite G] in
+theorem subgroupOf_conjSubgroup_hom {N A : Subgroup G} {x : G} (hxN : x ∈ N) (_hAN : A ≤ N) :
     (conjSubgroup A x).subgroupOf N =
       conjSubgroup (A.subgroupOf N) (⟨x, hxN⟩ : ↥N) := by
   ext y
@@ -144,6 +145,7 @@ theorem autA5_symm_conj_19 (c : Equiv.Perm (Fin 5)) (hc : c ∈ alternatingGroup
       (MulAut.conj (⟨c, hc⟩ : alternatingGroup (Fin 5))) = c := by
   rw [← autA5_eq_conj_19 c hc, MulEquiv.symm_apply_apply]
 
+omit [Finite G] in
 theorem exists_rhoL_eq_19 {F : Subgroup G} (e5 : Bar2 F ≃* alternatingGroup (Fin 5))
     (c : alternatingGroup (Fin 5)) :
     ∃ x : ↥F, ((MulAut.congr e5).trans CFSG.Quasithin.L139A5.autA5.symm)
@@ -474,7 +476,7 @@ theorem orest_LK_noswap_19 (D : Data G)
     (hA : A ∈ E3.gammaSet V₀ 0 D.T) (hLn : ¬ (L.subgroupOf D.M).Normal)
     (hJA : ¬ ⁅L ⊔ K, A⁆ ≤ pCoreOf 2 D.M)
     (hq : 2 < E3.mQuot A (A ⊓ pCoreOf 2 (L ⊔ K ⊔ D.T)))
-    (hin : A ≤ (D.T ⊓ (L ⊔ K)) ⊔ pCoreOf 2 (L ⊔ K ⊔ D.T))
+    (_hin : A ≤ (D.T ⊓ (L ⊔ K)) ⊔ pCoreOf 2 (L ⊔ K ⊔ D.T))
     (hτ : E1.tauOf (L ⊔ K ⊔ D.T) D.T A ≤ normalizer (L : Set G)) :
     ∃ g : G, InCalO 2 D.M ⊥ V₀ g ∧ ¬ InCalO 1 D.M ⊥ V₀ g := by
   classical

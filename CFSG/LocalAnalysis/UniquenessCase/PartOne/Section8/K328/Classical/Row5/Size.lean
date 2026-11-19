@@ -109,19 +109,19 @@ private theorem k328r5s_symm_last :
 
 private theorem k328r5s_ext_cc {F : Type} [Field F] (B : Matrix (Fin 6) (Fin 6) F) (i j : Fin 6) :
     k328r5s_ext B i.castSucc j.castSucc = B i j := by
-  simp [k328r5s_ext, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply]
+  simp [k328r5s_ext, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply]
 
 private theorem k328r5s_ext_cl {F : Type} [Field F] (B : Matrix (Fin 6) (Fin 6) F) (i : Fin 6) :
     k328r5s_ext B i.castSucc (Fin.last 6) = 0 := by
-  simp [k328r5s_ext, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, k328r5s_symm_last]
+  simp [k328r5s_ext, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, k328r5s_symm_last]
 
 private theorem k328r5s_ext_lc {F : Type} [Field F] (B : Matrix (Fin 6) (Fin 6) F) (j : Fin 6) :
     k328r5s_ext B (Fin.last 6) j.castSucc = 0 := by
-  simp [k328r5s_ext, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, k328r5s_symm_last]
+  simp [k328r5s_ext, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, k328r5s_symm_last]
 
 private theorem k328r5s_ext_ll {F : Type} [Field F] (B : Matrix (Fin 6) (Fin 6) F) :
     k328r5s_ext B (Fin.last 6) (Fin.last 6) = 1 := by
-  simp [k328r5s_ext, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply, k328r5s_symm_last]
+  simp [k328r5s_ext, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply, k328r5s_symm_last]
 
 private theorem k328r5s_ext_inj {F : Type} [Field F] :
     Function.Injective (k328r5s_ext (F := F)) := by
@@ -160,14 +160,14 @@ private theorem k328r5s_ext_blockDiag3 {F : Type} [Field F] [Fintype F] [Decidab
       rw [k328r5s_ext_lc]
       simp only [blockDiag3, Matrix.of_apply, Fin.val_last, Fin.val_castSucc]
       have := j.isLt
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
   | cast i =>
     induction j using Fin.lastCases with
     | last =>
       rw [k328r5s_ext_cl]
       simp only [blockDiag3, Matrix.of_apply, Fin.val_last, Fin.val_castSucc]
       have := i.isLt
-      rw [if_neg (by omega)]
+      rw [ite_eq_right (by omega)]
     | cast j =>
       rw [k328r5s_ext_cc]
       simp [blockDiag3]

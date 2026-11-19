@@ -62,7 +62,7 @@ theorem sqOne_card_McL
     norm_num
   obtain ⟨φ⟩ := CFSG.GH74.KGroups.sylow_equiv_of_model CFSG.ClassicalInvolution.McLProof.P
     (e₀.trans mclEquivP) S (S_le_K.trans K_le_P) (by rw [card_S]; norm_num) hY (by decide)
-    (P : Subgroup Y) P.isPGroup' P.not_dvd_index
+    (P : Subgroup Y) P.isPGroup P.not_dvd_index
   rw [← McLSyl.card_sq_S]
   refine Nat.card_congr (φ.toEquiv.subtypeEquiv fun x => ?_)
   rw [MulEquiv.toEquiv_eq_coe, MulEquiv.coe_toEquiv, ← SubmonoidClass.coe_pow,

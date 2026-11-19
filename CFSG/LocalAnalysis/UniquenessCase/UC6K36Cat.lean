@@ -10,9 +10,10 @@ open CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isCatalogGroup_quotient_center_of_component (hK : CFSG.Open.IsKGroup G) {L : Subgroup G}
     (hL : CFSG.IsComponent L) : CFSG.Open.IsCatalogGroup (↥L ⧸ Subgroup.center ↥L) := by
-  haveI := hL.1.2.1
+  have := hL.1.2.1
   exact hK.isCatalogGroup_of_surjective L hL.1.2.2 (QuotientGroup.mk' (Subgroup.center ↥L))
     (QuotientGroup.mk'_surjective _)
 

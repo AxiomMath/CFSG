@@ -18,16 +18,19 @@ variable {G : Type*} [Group G] [Finite G]
     (dD : StrothWeakTypeData D τ) : G :=
   (dD.a : G) * (dD.b : G)
 
+omit [Finite G] in
 @[simp] theorem strothCab_def {D : Subgroup G} {τ : StrothTypeIndex}
     (dD : StrothWeakTypeData D τ) :
     strothCab dD = (dD.c : G) * (dD.a : G) * (dD.b : G) := rfl
 
+omit [Finite G] in
 @[simp] theorem strothAB_def {D : Subgroup G} {τ : StrothTypeIndex}
     (dD : StrothWeakTypeData D τ) :
     strothAB dD = (dD.a : G) * (dD.b : G) := rfl
 
 @[expose] def strothConj (r x : G) : G := r⁻¹ * x * r
 
+omit [Finite G] in
 @[simp] theorem strothConj_def (r x : G) : strothConj r x = r⁻¹ * x * r := rfl
 
 theorem sq_mem_D_of_minimal {X : StrothAmbient G} (Z : StrothDatum X)
@@ -36,10 +39,10 @@ theorem sq_mem_D_of_minimal {X : StrothAmbient G} (Z : StrothDatum X)
     (hmin : IsMinimalLModuleMod Z.dataD C) {r : G} (hrC : r ∈ C) :
     r * r ∈ Z.D := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   have hCN : C ≤ Subgroup.normalizer (Z.D : Set G) :=
     hCR.trans (strothR_le_normalizer X Z.D)
-  haveI hN : (Z.D.subgroupOf C).Normal :=
+  have hN : (Z.D.subgroupOf C).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hCN
   have hLD : ∀ l ∈ Z.dataD.L, l ∈ Subgroup.normalizer (Z.D : Set G) := by
     intro l hl
@@ -62,7 +65,7 @@ theorem sq_mem_D_of_minimal {X : StrothAmbient G} (Z : StrothDatum X)
   simpa [pow_two] using hmem
 
 theorem no_index_four_of_four_cases (X : StrothAmbient G) {m : ℕ} (Z : StrothDatum X)
-    (hτ : Z.τ = StrothTypeIndex.t100 m) (C : Subgroup G)
+    (_hτ : Z.τ = StrothTypeIndex.t100 m) (C : Subgroup G)
     (hDC : Z.D ≤ C) (hCR : C ≤ strothR X Z.D)
     (hmin : IsMinimalLModuleMod Z.dataD C)
     (h4 : (Z.D.subgroupOf C).index = 4)

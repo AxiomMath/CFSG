@@ -125,7 +125,7 @@ namespace IsFrob
 variable {Γ : Type*} [Group Γ] {x y : Γ}
 
 theorem orderOf_x (h : IsFrob x y) : orderOf x = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   exact orderOf_eq_prime h.x5 h.x1
 
 theorem card_zpowers_x (h : IsFrob x y) : Nat.card (zpowers x) = 5 := by

@@ -105,7 +105,7 @@ end SylowL
 theorem mem_of_mem_sup_center {X : Type} [Group X] [Finite X]
     (hO : CFSG.Open.classicalInvolutionOddCore X = ⊥) {L : Subgroup X} [L.Normal]
     {R : Subgroup X} {S : Sylow 2 ↥R} {u b : X}
-    (huS : u ∈ (S : Subgroup R).map R.subtype) (hbS : b ∈ (S : Subgroup R).map R.subtype)
+    (_huS : u ∈ (S : Subgroup R).map R.subtype) (_hbS : b ∈ (S : Subgroup R).map R.subtype)
     (huL : u ∈ L) (hbn : b ∉ L ⊔ Subgroup.center X)
     (hcos : ∀ s ∈ (S : Subgroup R).map R.subtype,
       s ∈ Subgroup.zpowers u ∨ b⁻¹ * s ∈ Subgroup.zpowers u) :

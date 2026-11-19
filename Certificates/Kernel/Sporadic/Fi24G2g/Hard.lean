@@ -94,7 +94,7 @@ theorem nodeE_node {G : Type*} [Group G] (L : ℕ → G) (node : List ℕ) {t : 
 theorem nodeD_leaf (node : List ℕ) {j : ℕ} (hj : j < 6) : nodeD node j = 0 := by
   unfold nodeD
   rw [show (15 : ℕ) = 0 + 15 from rfl, buildD_stable node (t := 0) (by omega) 15]
-  simp only [buildD, List.getD_eq_getElem?_getD, List.getElem?_replicate, if_pos hj,
+  simp only [buildD, List.getD_eq_getElem?_getD, List.getElem?_replicate, ite_eq_left hj,
     Option.getD_some]
 
 theorem nodeD_node (node : List ℕ) {t : ℕ} (ht : t < 15)
@@ -222,7 +222,7 @@ section Bind
 @[expose] noncomputable def pkT (r : ℕ) : Fin 306936 :=
   if h : r < 306936 then pk h else ⟨0, by norm_num⟩
 
-theorem pkT_eq {r : ℕ} (h : r < 306936) : pkT r = pk h := dif_pos h
+theorem pkT_eq {r : ℕ} (h : r < 306936) : pkT r = pk h := dite_eq_left h
 
 theorem card_fixed_pts2 (r W : R) :
     Nat.card {x : D24 // r * x * r⁻¹ = x ∧ ∀ _i : Fin 1, W * x * W⁻¹ = x} =
@@ -292,7 +292,7 @@ theorem hard_of {w own : List ℕ} {n m : ℕ} {FL : ℕ → ℕ} {LW : ℕ → 
     intro j hj i hi
     refine ⟨(hleaf j hj i hi).1, ?_⟩
     rw [Subgroup.smul_def]
-    simp only [L', dif_pos hj]
+    simp only [L', dite_eq_left hj]
     rw [pkT_eq (hFL i hi), hL j hj, pkT_eq (hFL _ (hleaf j hj i hi).1)]
     exact pk_congr _ _ (hleaf j hj i hi).2
   have hact := nodeE_act (X := Fin 306936) L' node n (fun i => pkT (FL i)) TB TI hch hleaf' hinv hnode

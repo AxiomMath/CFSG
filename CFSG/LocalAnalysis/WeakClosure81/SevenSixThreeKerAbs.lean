@@ -13,6 +13,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
 
+omit [Finite G] in
 theorem PInvol.map {G' : Type*} [Group G'] (f : G →* G') {p : ℕ} {Q : Subgroup G} {u : G}
     (h : PInvol p Q u) : PInvol p (Q.map f) (f u) := by
   refine ⟨h.prime, h.odd, ?_, ?_, ?_, ?_, ?_⟩
@@ -48,9 +49,9 @@ theorem PInvol.card_main_of_irreducible (ρ : Representation (ZMod 2) G W) {p : 
     (hW : Nontrivial W) (hne : traceSpace ρ u ≠ ⊥)
     (hTI : ∀ y ∈ Q, traceSpace ρ u ⊓ (traceSpace ρ u).map (ρ y) ≠ ⊥ → y * u = u * y) :
     Nat.card Q = p ∨ (Nat.card Q = p ^ 3 ∧ ∃ x ∈ Q, ∃ y ∈ Q, ⁅x, y⁆ ≠ 1) := by
-  haveI : Finite (W →ₗ[ZMod 2] W) :=
+  have : Finite (W →ₗ[ZMod 2] W) :=
     Finite.of_injective (DFunLike.coe : (W →ₗ[ZMod 2] W) → W → W) DFunLike.coe_injective
-  haveI : Finite (W →ₗ[ZMod 2] W)ˣ := Finite.of_injective _ Units.val_injective
+  have : Finite (W →ₗ[ZMod 2] W)ˣ := Finite.of_injective _ Units.val_injective
   let γ : G →* (W →ₗ[ZMod 2] W)ˣ := ρ.asGroupHom
   let ρ' : Representation (ZMod 2) (W →ₗ[ZMod 2] W)ˣ W := Units.coeHom (W →ₗ[ZMod 2] W)
   have hγ : ∀ g : G, (γ g : W →ₗ[ZMod 2] W) = ρ g := fun g =>

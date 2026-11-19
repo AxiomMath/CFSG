@@ -107,7 +107,7 @@ theorem hall_prime_complement_sylow_product (sylowPrime : ℕ) (sylowPrime_prime
     rw [sylow.card_eq_multiplicity, ← orders, index_power,
       Nat.factorization_pow_self sylowPrime_prime]
   have intersection_bot : internalHall ⊓ (sylow : Subgroup parent) = ⊥ := by
-    have intersection_prime := sylow.isPGroup'.to_le
+    have intersection_prime := sylow.isPGroup.to_le
       (show internalHall ⊓ (sylow : Subgroup parent) ≤ sylow from inf_le_right)
     have intersection_coprime := hall_coprime.of_dvd_right
       (Subgroup.card_dvd_of_le (show internalHall ⊓ (sylow : Subgroup parent) ≤ internalHall from inf_le_left))

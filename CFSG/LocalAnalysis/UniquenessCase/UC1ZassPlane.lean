@@ -104,7 +104,7 @@ theorem exists_plane (ρ : Representation K G M) [Nontrivial M] (hk : (2 : K) �
   have hrange : Set.range ![v, w] = {v, w} := by
     ext x
     simp only [Set.mem_range, Fin.exists_fin_two, Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.head_cons, Set.mem_insert_iff, Set.mem_singleton_iff]
+      Set.mem_insert_iff, Set.mem_singleton_iff]
     exact or_congr eq_comm eq_comm
   have hvW : v ∈ Submodule.span K {v, w} := Submodule.subset_span (by simp)
   have hwW : w ∈ Submodule.span K {v, w} := Submodule.subset_span (by simp)

@@ -36,7 +36,7 @@ private theorem td4_blueprint_model {S : Type} [Group S] {q : TauCeti.PrimePower
     (hv : (TauCeti.LieTypeIndex.trialityD4 q).Valid)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.trialityD4 q, hv⟩) :
     CFSG.Blueprint.LieModel S .trialityD4 0 q.p q.exponent := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hto : 0 < (CFSG.Blueprint.Chevalley.TwistTag.D4).order := by decide
   have hKc : Nat.card (GaloisField q.p (q.exponent * (CFSG.Blueprint.Chevalley.TwistTag.D4).order)) =
       (q.p ^ q.exponent) ^ (CFSG.Blueprint.Chevalley.TwistTag.D4).order := by
@@ -65,7 +65,7 @@ private theorem td4_odd_false {S : Type} [Group S] {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.trialityD4 q).Valid) (hp : q.p ≠ 2)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.trialityD4 q, hv⟩) (hchev : IsChevSimple 2 S) :
     False := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hodd := td4_blueprint_model hv e
   have hadm := CFSG.Blueprint.LieModel.admissible hodd
   have hO := CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput

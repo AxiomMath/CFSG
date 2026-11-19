@@ -20,7 +20,7 @@ variable {p : ℕ}
 
 theorem p_dvd_card_alternatingGroup {α : Type*} [Fintype α] [DecidableEq α] (hp : p.Prime)
     (hp2 : p ≠ 2) (h : p ≤ Nat.card α) : p ∣ Nat.card (alternatingGroup α) := by
-  haveI : Nontrivial α := by
+  have : Nontrivial α := by
     rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card]
     have := hp.two_le
     omega
@@ -118,12 +118,12 @@ theorem altFix_isPComponent (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} {τ : ↥(a
       rwa [show c⁻¹ * (c * k * c⁻¹) * c⁻¹⁻¹ = k by group] at h2
   obtain ⟨e⟩ := nonempty_altFix_equiv (τ : Equiv.Perm (Fin n)) hm.symm
   have hcardm : 5 ≤ Nat.card (Fin m) := by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact h5
-  haveI : IsSimpleGroup (alternatingGroup (Fin m)) := alternatingGroup.isSimpleGroup hcardm
-  haveI : IsSimpleGroup ↥(altFix (τ : Equiv.Perm (Fin n))) := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin m)) := alternatingGroup.isSimpleGroup hcardm
+  have : IsSimpleGroup ↥(altFix (τ : Equiv.Perm (Fin n))) := e.isSimpleGroup
   have hnc : ∃ a b : ↥(altFix (τ : Equiv.Perm (Fin n))), a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    haveI : Nontrivial (alternatingGroup (Fin m)) :=
+    have : Nontrivial (alternatingGroup (Fin m)) :=
       alternatingGroup.nontrivial_of_three_le_card (by omega)
     obtain ⟨a, ha⟩ := exists_ne (1 : alternatingGroup (Fin m))
     have hZ := alternatingGroup.center_eq_bot (α := Fin m) (by omega)
@@ -164,9 +164,9 @@ theorem altFix_unique (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} {σ : ↥(alterna
   set m := n - (σ : Equiv.Perm (Fin n)).support.card with hm
   obtain ⟨e⟩ := nonempty_altFix_equiv (σ : Equiv.Perm (Fin n)) hm.symm
   have hcardm : 5 ≤ Nat.card (Fin m) := by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact h5
-  haveI : IsSimpleGroup (alternatingGroup (Fin m)) := alternatingGroup.isSimpleGroup hcardm
-  haveI : IsSimpleGroup ↥(altFix (σ : Equiv.Perm (Fin n))) := e.isSimpleGroup
-  haveI : Nontrivial ↥I := AltDown.nontrivial_of_glaPComponent hp hI
+  have : IsSimpleGroup (alternatingGroup (Fin m)) := alternatingGroup.isSimpleGroup hcardm
+  have : IsSimpleGroup ↥(altFix (σ : Equiv.Perm (Fin n))) := e.isSimpleGroup
+  have : Nontrivial ↥I := AltDown.nontrivial_of_glaPComponent hp hI
   exact AltDown.eq_of_isSubnormal_of_isSimpleGroup
     (glaPComponent_of_le hp hI hIF hFC).2.1 ((Subgroup.nontrivial_iff_ne_bot I).1 inferInstance)
 
@@ -294,10 +294,10 @@ theorem altFix_unique_of_component (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} {σ 
     AltDown.mem_fixSubgroup_conj.2 (Subtype.ext (AltDown.commute_of_mem_range_ofSubtype_compl hk).eq)
   obtain ⟨k, hk⟩ : ∃ k, n - (σ : Equiv.Perm (Fin n)).support.card = k := ⟨_, rfl⟩
   obtain ⟨e⟩ := nonempty_altFix_equiv (σ : Equiv.Perm (Fin n)) hk
-  haveI : Nontrivial ↥I := AltDown.nontrivial_of_glaPComponent hp hI'
+  have : Nontrivial ↥I := AltDown.nontrivial_of_glaPComponent hp hI'
   have hk5 : 5 ≤ k := by
     by_contra hlt
-    haveI : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hI')
+    have : Group.IsPerfect ↥I := Subgroup.isPerfect_iff.2 (glaPComponent_perfect hI')
     have hdvd : Nat.card ↥I ∣ k.factorial := by
       have h1 : Nat.card ↥I ∣ Nat.card ↥(altFix (σ : Equiv.Perm (Fin n))) :=
         Subgroup.card_dvd_of_le hIF
@@ -306,8 +306,8 @@ theorem altFix_unique_of_component (hp : p.Prime) (hp2 : p ≠ 2) {n : ℕ} {σ 
     exact AltDown.false_of_isPerfect_of_card_dvd_twentyFour
       (hdvd.trans (AltDown.factorial_dvd_twentyFour (not_le.1 hlt)))
   have hcardk : 5 ≤ Nat.card (Fin k) := by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hk5
-  haveI : IsSimpleGroup (alternatingGroup (Fin k)) := alternatingGroup.isSimpleGroup hcardk
-  haveI : IsSimpleGroup ↥(altFix (σ : Equiv.Perm (Fin n))) := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin k)) := alternatingGroup.isSimpleGroup hcardk
+  have : IsSimpleGroup ↥(altFix (σ : Equiv.Perm (Fin n))) := e.isSimpleGroup
   refine ⟨AltDown.eq_of_isSubnormal_of_isSimpleGroup (glaPComponent_of_le hp hI' hIF hFC).2.1
     ((Subgroup.nontrivial_iff_ne_bot I).1 inferInstance), by rw [hk]; exact hk5⟩
 
@@ -328,8 +328,8 @@ theorem nonempty_pQuot_equiv_altFix (hp : p.Prime) (hp2 : p ≠ 2) {n m : ℕ} (
     Nonempty (PQuot p (altFix τ) ≃* ↥(alternatingGroup (Fin m))) := by
   obtain ⟨e⟩ := nonempty_altFix_equiv τ hm
   have hcardm : 5 ≤ Nat.card (Fin m) := by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact h5
-  haveI : IsSimpleGroup (alternatingGroup (Fin m)) := alternatingGroup.isSimpleGroup hcardm
-  haveI : IsSimpleGroup ↥(altFix τ) := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin m)) := alternatingGroup.isSimpleGroup hcardm
+  have : IsSimpleGroup ↥(altFix τ) := e.isSimpleGroup
   have hpF : p ∣ Nat.card ↥(altFix τ) := by
     rw [Nat.card_congr e.toEquiv]
     exact p_dvd_card_alternatingGroup hp hp2 (by rw [Nat.card_eq_fintype_card, Fintype.card_fin]; exact hpm)

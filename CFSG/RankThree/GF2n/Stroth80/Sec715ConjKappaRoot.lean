@@ -91,7 +91,7 @@ variable {hS : IsTensorSetup hc n M₀ ρ b} {t : G} {Z0 : Subgroup G} {ψ : M�
 
 theorem exists_ne_zero_one (hK : KModel hS t Z0 ψ φ₈ e) : ∃ c₀ : K, c₀ ≠ 0 ∧ c₀ ≠ 1 := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   by_contra h
   push Not at h
   have hsub : (Finset.univ : Finset K) ⊆ {0, 1} := by

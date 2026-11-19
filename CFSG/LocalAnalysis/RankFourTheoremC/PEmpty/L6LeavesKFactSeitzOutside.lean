@@ -45,7 +45,7 @@ theorem isSimpleGroup_of_isChevSimple_two {S : Type} [Group S] (h : IsChevSimple
   rcases CFSG.StandardType.ChevTwo.chevTwo_cases h with ⟨t, n, f, hm⟩ | ⟨e⟩ | h33
   · exact (CFSG.LieType.Catalog.lieModel_finite_simple S t n 2 f hm).2.2
   · obtain ⟨e⟩ := e
-    haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+    have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
     exact e.isSimpleGroup
   · exact (CFSG.LieType.Catalog.lieModel_finite_simple S .PSU 3 3 1
       (Or.inl ⟨by simp [CFSG.Blueprint.classicalTags], h33⟩)).2.2
@@ -55,7 +55,7 @@ end Simple
 theorem kFactSeitzOutside_holds :
     KFactSeitzOutside := by
   intro A _ _ K E U f hK hB hS hf hf2 hEK hE hEc hUK hU0 hU2 hEU
-  haveI hsimp : IsSimpleGroup ↥K := isSimpleGroup_of_isChevSimple_two hK
+  have hsimp : IsSimpleGroup ↥K := isSimpleGroup_of_isChevSimple_two hK
   have hEcK : Nat.card (E.subgroupOf K) = f ^ 2 := by
     rw [KSeitz.card_subgroupOf hEK]
     exact hEc

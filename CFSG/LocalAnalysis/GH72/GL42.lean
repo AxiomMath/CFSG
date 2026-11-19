@@ -77,6 +77,7 @@ theorem eq_bot_of_forall_mem_fixedPoints {Q : Subgroup (MulAut V)}
   rw [mem_bot]
   exact eq_one_of_forall_apply_eq fun v => mem_fixedPoints.mp (h v) ⟨q, hq⟩
 
+omit [Group V] in
 theorem eq_univ_of_ncard_eq [Finite V] {s : Set V} (h : s.ncard = Nat.card V) : s = Set.univ := by
   by_contra hs
   exact (Set.ncard_lt_card hs).ne h
@@ -86,11 +87,11 @@ theorem card_dvd_ncard_of_free {H X : Type*} [Group H] [Finite H] [MulAction H X
     (hfree : ∀ h : H, ∀ x ∈ S, h • x = x → h = 1) : Nat.card H ∣ S.ncard := by
   classical
   let T : SubMulAction H X := ⟨S, fun {h x} hx => hS h x hx⟩
-  haveI : Fintype H := Fintype.ofFinite H
-  haveI : Finite T := hSf.to_subtype
-  haveI : Fintype T := Fintype.ofFinite T
-  haveI : ∀ h : H, Fintype (fixedBy T h) := fun h => Fintype.ofFinite _
-  haveI : Fintype (Quotient (orbitRel H T)) := Fintype.ofFinite _
+  have : Fintype H := Fintype.ofFinite H
+  have : Finite T := hSf.to_subtype
+  have : Fintype T := Fintype.ofFinite T
+  have : ∀ h : H, Fintype (fixedBy T h) := fun h => Fintype.ofFinite _
+  have : Fintype (Quotient (orbitRel H T)) := Fintype.ofFinite _
   have hB := MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group H T
   have hsum : ∑ h : H, Fintype.card (fixedBy T h) = Fintype.card T := by
     rw [Finset.sum_eq_single (1 : H)]
@@ -113,7 +114,7 @@ theorem ncard_modEq_ncard_inter_fixedPoints {P X : Type*} [Group P] [MulAction P
     [Fact p.Prime] (hP : IsPGroup p P) {O : Set X} (hOf : O.Finite)
     (hO : ∀ g : P, ∀ x ∈ O, g • x ∈ O) : O.ncard ≡ (O ∩ fixedPoints P X).ncard [MOD p] := by
   let T : SubMulAction P X := ⟨O, fun {g x} hx => hO g x hx⟩
-  haveI : Finite T := hOf.to_subtype
+  have : Finite T := hOf.to_subtype
   have h := hP.card_modEq_card_fixedPoints T
   have e1 : Nat.card T = O.ncard := rfl
   have e2 : Nat.card (fixedPoints P T) = (O ∩ fixedPoints P X).ncard := by
@@ -162,7 +163,7 @@ theorem orbit_subset_compl_fixedPoints {H X : Type*} [Group H] [MulAction H X] {
 theorem exists_orderOf_eq_prime [Finite V] {Q : Subgroup (MulAut V)} (hodd : Odd (Nat.card Q))
     {r : ℕ} (hr : r.Prime) (hrd : r ∣ Nat.card Q) :
     ∃ g ∈ Q, orderOf g = r ∧ r ≠ 2 ∧ fixedPoints Q V ⊆ fixedBy V g := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := Q) r hrd
   have hr2 : r ≠ 2 := fun h => by
     rw [h] at hrd
@@ -249,7 +250,7 @@ theorem sylow_normal_of_card {G : Type*} [Group G] [Finite G] {p k m : ℕ} [hp 
     refine h _ h2 ?_
     rw [Nat.ModEq] at h1
     rw [h1, Nat.one_mod_eq_one.mpr hp.out.ne_one]
-  haveI : Subsingleton (Sylow p G) := (Nat.card_eq_one_iff_unique.mp hn).1
+  have : Subsingleton (Sylow p G) := (Nat.card_eq_one_iff_unique.mp hn).1
   exact Sylow.normal_of_subsingleton P
 
 theorem exists_subgroup_card_eq_of_isSolvable {G : Type*} [Group G] [Finite G]
@@ -340,7 +341,7 @@ theorem mul_ncard_le_of_orbits {H X : Type*} [Group H] [MulAction H X] [Finite X
     (hST : ∀ s ∈ S, orbit H s ⊆ T) (hm : ∀ s ∈ S, m ≤ (orbit H s).ncard) :
     m * S.ncard ≤ T.ncard := by
   classical
-  haveI := Fintype.ofFinite X
+  have := Fintype.ofFinite X
   have hdisj : (S.toFinset : Set X).PairwiseDisjoint (fun s => (orbit H s).toFinset) := by
     intro s hs s' hs' hne
     rw [Function.onFun, Finset.disjoint_left]
@@ -390,7 +391,7 @@ end Generic
 
 theorem eq_of_dvd_sixteen {n : ℕ} (h : n ∣ 16) : n = 1 ∨ n = 2 ∨ n = 4 ∨ n = 8 ∨ n = 16 := by
   have : n ≤ 16 := Nat.le_of_dvd (by norm_num) h
-  interval_cases n <;> first | omega | (norm_num at h)
+  interval_cases n <;> first | omega
 
 section Sixteen
 
@@ -401,7 +402,7 @@ theorem card_fixedBy_cases_of_prime {g : MulAut V} {r : ℕ} (hr : r.Prime) (hr2
     (hg : orderOf g = r) :
     (Nat.card (fixedBy V g) = 1 ∧ (r = 3 ∨ r = 5)) ∨ (Nat.card (fixedBy V g) = 2 ∧ r = 7) ∨
       (Nat.card (fixedBy V g) = 4 ∧ r = 3) := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hP : IsPGroup r (zpowers g) :=
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hg, pow_one])
   have hmod := hP.card_modEq_card_fixedPoints V
@@ -424,21 +425,21 @@ theorem card_fixedBy_cases_of_prime {g : MulAut V} {r : ℕ} (hr : r.Prime) (hr2
     refine ⟨hc, ?_⟩
     rw [hc] at key
     have hr15 : r ≤ 15 := Nat.le_of_dvd (by norm_num) key
-    interval_cases r <;> first | omega | (norm_num at hr) | (norm_num at key)
+    interval_cases r <;> first | omega | (norm_num at hr)
   · right; left
     refine ⟨hc, ?_⟩
     rw [hc] at key
     have hr14 : r ≤ 14 := Nat.le_of_dvd (by norm_num) key
-    interval_cases r <;> first | omega | (norm_num at hr) | (norm_num at key)
+    interval_cases r <;> first | omega | (norm_num at hr)
   · right; right
     refine ⟨hc, ?_⟩
     rw [hc] at key
     have hr12 : r ≤ 12 := Nat.le_of_dvd (by norm_num) key
-    interval_cases r <;> first | omega | (norm_num at hr) | (norm_num at key)
+    interval_cases r <;> first | omega | (norm_num at hr)
   · exfalso
     rw [hc] at key
     have hr8 : r ≤ 8 := Nat.le_of_dvd (by norm_num) key
-    interval_cases r <;> first | omega | (norm_num at hr) | (norm_num at key)
+    interval_cases r <;> first | omega | (norm_num at hr)
   · exact absurd hc hne
 
 
@@ -505,11 +506,12 @@ theorem card_dvd_three_of_four_le {Q : Subgroup (MulAut V)} (hodd : Odd (Nat.car
   have hle : Nat.card Q ≤ 12 := Nat.le_of_dvd (by norm_num) hdvd
   have hoddQ := hodd
   interval_cases (Nat.card Q) <;>
-    first | omega | exact absurd hoddQ (by decide) | exact absurd hdvd (by decide)
+    first | omega | exact absurd hoddQ (by decide)
 
 theorem ncard_compl_one : ({1}ᶜ : Set V).ncard = 15 := by
   rw [Set.ncard_compl, h16, Set.ncard_singleton]
 
+omit [Finite V] h16 in
 theorem eq_one_of_mem_fixedBy_of_card_eq_one {g : MulAut V} (hg : Nat.card (fixedBy V g) = 1)
     {v : V} (hv : v ∈ fixedBy V g) : v = 1 := by
   obtain ⟨a, ha⟩ := Set.ncard_eq_one.mp (by rwa [← Nat.card_coe_set_eq])
@@ -519,7 +521,7 @@ theorem eq_one_of_mem_fixedBy_of_card_eq_one {g : MulAut V} (hg : Nat.card (fixe
 
 theorem card_dvd_five_of_isPGroup {Q : Subgroup (MulAut V)} (hP : IsPGroup 5 Q) :
     Nat.card Q ∣ 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hinv : ∀ q : Q, ∀ v ∈ ({1}ᶜ : Set V), q • v ∈ ({1}ᶜ : Set V) := by
     intro q v hv hqv
     apply hv
@@ -536,7 +538,7 @@ theorem card_dvd_five_of_isPGroup {Q : Subgroup (MulAut V)} (hP : IsPGroup 5 Q) 
     have hv' : v ∈ fixedBy V ((q : MulAut V) ^ m) := fixedBy_subset_fixedBy_npow _ m hqv
     rcases card_fixedBy_cases_of_prime h16 (by norm_num) (by norm_num) hm with
       ⟨h, -⟩ | ⟨-, h⟩ | ⟨-, h⟩
-    · exact hv (eq_one_of_mem_fixedBy_of_card_eq_one h16 h hv')
+    · exact hv (eq_one_of_mem_fixedBy_of_card_eq_one h hv')
     · norm_num at h
     · norm_num at h
   have hdvd := card_dvd_ncard_of_free (Set.toFinite _) hinv hfree
@@ -552,7 +554,7 @@ theorem card_dvd_five_of_isPGroup {Q : Subgroup (MulAut V)} (hP : IsPGroup 5 Q) 
 
 theorem card_fixedPoints_eq_two_of_isPGroup {Q : Subgroup (MulAut V)} (hP : IsPGroup 7 Q)
     (hQ : Q ≠ ⊥) : Nat.card (fixedPoints Q V) = 2 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hmod := hP.card_modEq_card_fixedPoints V
   rw [h16] at hmod
   have hdvd := card_fixedPoints_dvd Q
@@ -572,7 +574,7 @@ theorem card_fixedPoints_eq_two_of_isPGroup {Q : Subgroup (MulAut V)} (hP : IsPG
 
 theorem card_dvd_seven_of_isPGroup {Q : Subgroup (MulAut V)} (hP : IsPGroup 7 Q) :
     Nat.card Q ∣ 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   by_cases hQ : Q = ⊥
   · rw [hQ, card_bot]
     exact one_dvd _
@@ -612,7 +614,7 @@ theorem card_dvd_seven_of_isPGroup {Q : Subgroup (MulAut V)} (hP : IsPGroup 7 Q)
 
 theorem four_le_card_fixedPoints_of_isPGroup {Q : Subgroup (MulAut V)} (hP : IsPGroup 3 Q)
     {v : V} (hv : v ≠ 1) (hvQ : v ∈ fixedPoints Q V) : 4 ≤ Nat.card (fixedPoints Q V) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hmod := hP.card_modEq_card_fixedPoints V
   rw [h16] at hmod
   have hdvd := card_fixedPoints_dvd Q
@@ -636,7 +638,7 @@ theorem four_le_card_fixedPoints_of_isPGroup {Q : Subgroup (MulAut V)} (hP : IsP
 
 theorem card_dvd_nine_of_isPGroup {Q : Subgroup (MulAut V)} (hP : IsPGroup 3 Q) :
     Nat.card Q ∣ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨n, hn⟩ := hP.exists_card_eq
   have hodd : Odd (Nat.card Q) := by
     rw [hn]
@@ -704,7 +706,7 @@ theorem card_dvd_nine_of_isPGroup {Q : Subgroup (MulAut V)} (hP : IsPGroup 3 Q) 
     omega
   obtain ⟨h₁, hs₁⟩ := horb v₁ hv₁
   have hrest : (({1}ᶜ : Set V) \ orbit Q v₁).ncard = 6 := by
-    rw [Set.ncard_diff hs₁, ncard_compl_one h16, h₁]
+    rw [Set.ncard_sdiff hs₁, ncard_compl_one h16, h₁]
   obtain ⟨v₂, hv₂, hv₂O⟩ : ∃ v, v ∈ ({1}ᶜ : Set V) ∧ v ∉ orbit Q v₁ := by
     obtain ⟨v, hv⟩ := (Set.ncard_pos (Set.toFinite _)).mp (by omega : 0 <
       (({1}ᶜ : Set V) \ orbit Q v₁).ncard)
@@ -724,7 +726,7 @@ theorem card_dvd_nine_of_isPGroup {Q : Subgroup (MulAut V)} (hP : IsPGroup 3 Q) 
 theorem false_of_commute_of_orderOf_five {g k : MulAut V} (hg : orderOf g = 5)
     (hgk : Commute g k) {v : V} (hv : v ≠ 1) (hkv : k v = v)
     (hk4 : Nat.card (fixedBy V k) ≤ 4) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hg1 : Nat.card (fixedBy V g) = 1 := by
     rcases card_fixedBy_cases_of_prime h16 (by norm_num) (by norm_num) hg with
       ⟨h, -⟩ | ⟨-, h⟩ | ⟨-, h⟩
@@ -756,12 +758,12 @@ theorem false_of_commute_of_orderOf_five {g k : MulAut V} (hg : orderOf g = 5)
     ext w
     simp only [Set.mem_inter_iff, Set.mem_empty_iff_false, iff_false, not_and]
     rintro ⟨-, hw1⟩ hwg
-    exact hw1 (eq_one_of_mem_fixedBy_of_card_eq_one h16 hg1 hwg)
+    exact hw1 (eq_one_of_mem_fixedBy_of_card_eq_one hg1 hwg)
   rw [hempty, Set.ncard_empty] at hmod
   have hOpos : 0 < O.ncard := (Set.ncard_pos (Set.toFinite O)).mpr ⟨v, hkv, hv⟩
   have h1k : (1 : V) ∈ fixedBy V k := by rw [mem_fixedBy, MulAut.smul_def, map_one]
   have hOle : O.ncard ≤ 3 := by
-    rw [hO, Set.ncard_diff (Set.singleton_subset_iff.mpr h1k), Set.ncard_singleton,
+    rw [hO, Set.ncard_sdiff (Set.singleton_subset_iff.mpr h1k), Set.ncard_singleton,
       ← Nat.card_coe_set_eq]
     omega
   have h5 := Nat.modEq_zero_iff_dvd.mp hmod
@@ -810,8 +812,8 @@ theorem apply_eq_of_le_normalizer_of_isPGroup_seven {H P : Subgroup (MulAut V)}
   · exact h2
 
 theorem not_card_eq_thirtyFive {H : Subgroup (MulAut V)} (hH : Nat.card H = 35) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨P₅⟩ := (inferInstance : Nonempty (Sylow 5 H))
   obtain ⟨P₇⟩ := (inferInstance : Nonempty (Sylow 7 H))
   have hG₅ : Nat.card H = 5 ^ 1 * 7 := by rw [hH]; norm_num
@@ -830,7 +832,7 @@ theorem not_card_eq_thirtyFive {H : Subgroup (MulAut V)} (hH : Nat.card H = 35) 
     exists_prime_orderOf_dvd_card' (G := (P₇ : Subgroup H)) 7 (by rw [hc₇]; norm_num)
   have hcomm : Commute ((x : H) : MulAut V) ((y : H) : MulAut V) :=
     (Subgroup.commute_of_normal_of_disjoint _ _ hn₅ hn₇
-      (IsPGroup.disjoint_of_coprime P₅.isPGroup' P₇.isPGroup' (by norm_num)) _ _ x.2 y.2).map
+      (IsPGroup.disjoint_of_coprime P₅.isPGroup P₇.isPGroup (by norm_num)) _ _ x.2 y.2).map
       H.subtype
   have hx5 : orderOf ((x : H) : MulAut V) = 5 := by
     rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe, hx]
@@ -844,8 +846,8 @@ theorem not_card_eq_thirtyFive {H : Subgroup (MulAut V)} (hH : Nat.card H = 35) 
   exact false_of_commute_of_orderOf_five h16 hx5 hcomm hv1 hv (by omega)
 
 theorem not_card_eq_fortyFive {H : Subgroup (MulAut V)} (hH : Nat.card H = 45) : False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P₅⟩ := (inferInstance : Nonempty (Sylow 5 H))
   obtain ⟨P₃⟩ := (inferInstance : Nonempty (Sylow 3 H))
   have hG₅ : Nat.card H = 5 ^ 1 * 9 := by rw [hH]; norm_num
@@ -892,13 +894,13 @@ theorem not_card_eq_fortyFive {H : Subgroup (MulAut V)} (hH : Nat.card H = 45) :
   have hcomm : Commute ((x : H) : MulAut V) (q : MulAut V) := by
     rw [← hyq]
     exact (Subgroup.commute_of_normal_of_disjoint _ _ hn₅ hn₃
-      (IsPGroup.disjoint_of_coprime P₅.isPGroup' P₃.isPGroup' (by norm_num)) _ _ x.2 hyP).map
+      (IsPGroup.disjoint_of_coprime P₅.isPGroup P₃.isPGroup (by norm_num)) _ _ x.2 hyP).map
       H.subtype
   exact false_of_commute_of_orderOf_five h16 hx5 hcomm hw hqw hk4
 
 theorem not_card_eq_sixtyThree {H : Subgroup (MulAut V)} (hH : Nat.card H = 63) : False := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P₇⟩ := (inferInstance : Nonempty (Sylow 7 H))
   obtain ⟨P₃⟩ := (inferInstance : Nonempty (Sylow 3 H))
   have hG₇ : Nat.card H = 7 ^ 1 * 9 := by rw [hH]; norm_num
@@ -915,8 +917,8 @@ theorem not_card_eq_sixtyThree {H : Subgroup (MulAut V)} (hH : Nat.card H = 63) 
   have hS₃c : Nat.card S₃ = 9 := by
     rw [hS₃, card_map_of_injective H.subtype_injective, hc₃]
     norm_num
-  have hS₇p : IsPGroup 7 S₇ := P₇.isPGroup'.map H.subtype
-  have hS₃p : IsPGroup 3 S₃ := P₃.isPGroup'.map H.subtype
+  have hS₇p : IsPGroup 7 S₇ := P₇.isPGroup.map H.subtype
+  have hS₃p : IsPGroup 3 S₃ := P₃.isPGroup.map H.subtype
   have hS₇ne : S₇ ≠ ⊥ := by
     intro h
     rw [h, card_bot] at hS₇c
@@ -953,7 +955,7 @@ theorem card_mem_of_odd {Q : Subgroup (MulAut V)} (hodd : Odd (Nat.card Q)) :
     rcases k with _ | k
     · simp
     have hpd : p ∣ Nat.card Q := (dvd_pow_self p (Nat.succ_ne_zero k)).trans hpk
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := Q) p hpk
     have hK' : Nat.card (K.map Q.subtype) = p ^ (k + 1) :=
       (card_map_of_injective Q.subtype_injective).trans hK
@@ -994,8 +996,8 @@ theorem card_mem_of_odd {Q : Subgroup (MulAut V)} (hodd : Odd (Nat.card Q)) :
 
 theorem exists_apply_eq_of_card_eq_fifteen {Q : Subgroup (MulAut V)} (hQ : Nat.card Q = 15) :
     ∀ v w : V, v ≠ 1 → w ≠ 1 → ∃ q ∈ Q, q v = w := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P₅⟩ := (inferInstance : Nonempty (Sylow 5 Q))
   obtain ⟨P₃⟩ := (inferInstance : Nonempty (Sylow 3 Q))
   have hG₅ : Nat.card Q = 5 ^ 1 * 3 := by rw [hQ]; norm_num
@@ -1029,25 +1031,25 @@ theorem exists_apply_eq_of_card_eq_fifteen {Q : Subgroup (MulAut V)} (hQ : Nat.c
       · exact h
       all_goals
         exfalso
-        have h5 : 5 ∣ orderOf (q : MulAut V) := by rw [Subgroup.orderOf_coe, h] <;> norm_num
+        have h5 : 5 ∣ orderOf (q : MulAut V) := by rw [Subgroup.orderOf_coe, h]; try norm_num
         have hm := orderOf_pow_orderOf_div (orderOf_pos (q : MulAut V)).ne' h5
         have hfix : v ∈ fixedBy V ((q : MulAut V) ^ (orderOf (q : MulAut V) / 5)) :=
           fixedBy_subset_fixedBy_npow _ _ hqv
         rcases card_fixedBy_cases_of_prime h16 (by norm_num) (by norm_num) hm with
           ⟨hc, -⟩ | ⟨-, hc⟩ | ⟨-, hc⟩
-        · exact hv (eq_one_of_mem_fixedBy_of_card_eq_one h16 hc hfix)
+        · exact hv (eq_one_of_mem_fixedBy_of_card_eq_one hc hfix)
         · norm_num at hc
         · norm_num at hc
     have hqP : q ∈ (P₃ : Subgroup Q) := by
       have hZ : IsPGroup 3 (zpowers q) :=
         IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h3, pow_one])
       obtain ⟨R, hR⟩ := hZ.exists_le_sylow
-      letI := Sylow.unique_of_normal P₃ hn₃
+      let := Sylow.unique_of_normal P₃ hn₃
       rw [Subsingleton.elim P₃ R]
       exact hR (mem_zpowers q)
     have hcomm : Commute ((x : Q) : MulAut V) (q : MulAut V) :=
       (Subgroup.commute_of_normal_of_disjoint _ _ hn₅ hn₃
-        (IsPGroup.disjoint_of_coprime P₅.isPGroup' P₃.isPGroup' (by norm_num)) _ _ x.2 hqP).map
+        (IsPGroup.disjoint_of_coprime P₅.isPGroup P₃.isPGroup (by norm_num)) _ _ x.2 hqP).map
         Q.subtype
     exact false_of_commute_of_orderOf_five h16 hx5 hcomm hv hqv hk4
   intro v w hv hw
@@ -1075,7 +1077,7 @@ theorem exists_apply_eq_of_card_eq_fifteen {Q : Subgroup (MulAut V)} (hQ : Nat.c
 theorem card_fixedPoints_eq_two_of_card_eq_twentyOne {Q : Subgroup (MulAut V)}
     (hQ : Nat.card Q = 21) :
     Nat.card (fixedPoints Q V) = 2 ∧ ∀ v ∉ fixedPoints Q V, (orbit Q v).ncard = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨P₇⟩ := (inferInstance : Nonempty (Sylow 7 Q))
   have hG₇ : Nat.card Q = 7 ^ 1 * 3 := by rw [hQ]; norm_num
   have hn₇ := sylow_normal_of_card P₇ hG₇ (by norm_num) fun n hn h => by
@@ -1085,7 +1087,7 @@ theorem card_fixedPoints_eq_two_of_card_eq_twentyOne {Q : Subgroup (MulAut V)}
   set S₇ : Subgroup (MulAut V) := (P₇ : Subgroup Q).map Q.subtype with hS₇
   have hS₇c : Nat.card S₇ = 7 := by
     rw [hS₇, card_map_of_injective Q.subtype_injective, hc₇, pow_one]
-  have hS₇p : IsPGroup 7 S₇ := P₇.isPGroup'.map Q.subtype
+  have hS₇p : IsPGroup 7 S₇ := P₇.isPGroup.map Q.subtype
   have hS₇ne : S₇ ≠ ⊥ := by
     intro h
     rw [h, card_bot] at hS₇c
@@ -1170,7 +1172,7 @@ theorem card_fixedPoints_eq_two_of_card_eq_twentyOne {Q : Subgroup (MulAut V)}
 
 theorem card_fixedPoints_eq_one_of_card_eq_nine {Q : Subgroup (MulAut V)} (hQ : Nat.card Q = 9) :
     Nat.card (fixedPoints Q V) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 Q := IsPGroup.of_card (n := 2) (by rw [hQ]; norm_num)
   have hodd : Odd (Nat.card Q) := by
     rw [hQ]
@@ -1194,9 +1196,9 @@ theorem orbit_eq_of_card_eq_nine {Q : Subgroup (MulAut V)} (hQ : Nat.card Q = 9)
     (hqQ : q ∈ Q) (hq1 : q ≠ 1) {v : V} (hv1 : v ≠ 1) (hqv : q v = v) :
     Nat.card (fixedBy V q) = 4 ∧ (∀ g ∈ Q, ∀ w ∈ fixedBy V q, g w ∈ fixedBy V q) ∧
       orbit Q v = fixedBy V q \ {1} := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hab : ∀ a b : Q, a * b = b * a :=
-    IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (by rw [hQ]; norm_num)
+    (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [hQ]; norm_num)).is_comm.comm
   have hodd : Odd (orderOf q) := by
     have hd : orderOf q ∣ 9 := by
       rw [← hQ, ← Subgroup.orderOf_mk q hqQ]
@@ -1238,7 +1240,7 @@ theorem orbit_eq_of_card_eq_nine {Q : Subgroup (MulAut V)} (hQ : Nat.card Q = 9)
     exact (g : MulAut V).injective this
   have h1q : (1 : V) ∈ fixedBy V q := by rw [mem_fixedBy, MulAut.smul_def, map_one]
   have hcard3 : (fixedBy V q \ {1}).ncard = 3 := by
-    rw [Set.ncard_diff (Set.singleton_subset_iff.mpr h1q), Set.ncard_singleton,
+    rw [Set.ncard_sdiff (Set.singleton_subset_iff.mpr h1q), Set.ncard_singleton,
       ← Nat.card_coe_set_eq, hc4]
   have hvF : v ∉ fixedPoints Q V := by
     intro hv
@@ -1323,7 +1325,7 @@ theorem exists_apply_eq_of_card_eq_nine {Q : Subgroup (MulAut V)} (hQ : Nat.card
         · rw [Set.mem_singleton_iff] at hu
           rw [hu]
           exact hz₀
-      rw [hO, Set.ncard_diff hsub, Set.ncard_pair (Ne.symm hz₀1), ← Nat.card_coe_set_eq]
+      rw [hO, Set.ncard_sdiff hsub, Set.ncard_pair (Ne.symm hz₀1), ← Nat.card_coe_set_eq]
       change Nat.card Z - 2 ≤ 2
       omega
     have hall := smul_eq_of_odd_of_ncard_le_two hodd (Set.toFinite O) hOinv hOc
@@ -1424,7 +1426,7 @@ theorem orbits_of_isolated_subgroup {K Q : Subgroup (MulAut V)} (hQK : Q ≤ K)
   have hW8 : (W : Set V).ncard = 8 := hW
   have hWF : ((W : Set V) \ F).ncard + ((W : Set V) ∩ F).ncard = 8 := by
     rw [← hW8, add_comm]
-    exact Set.ncard_inter_add_ncard_diff_eq_ncard (W : Set V) F
+    exact Set.ncard_inter_add_ncard_sdiff_eq_ncard (W : Set V) F
   have hWFle : ((W : Set V) ∩ F).ncard ≤ Nat.card F := by
     rw [Nat.card_coe_set_eq]
     exact Set.ncard_le_ncard Set.inter_subset_right
@@ -1517,7 +1519,6 @@ theorem orbits_of_isolated_subgroup {K Q : Subgroup (MulAut V)} (hQK : Q ≤ K)
         obtain ⟨q, hq⟩ := mem_orbit_iff.mp hks
         have hq' : ((q : MulAut V)⁻¹ * k) v = s := by
           rw [MulAut.mul_apply]
-          change (q : MulAut V)⁻¹ (k v) = s
           rw [← hq]
           change ((q : MulAut V)⁻¹ * q) s = s
           rw [inv_mul_cancel, MulAut.one_apply]
@@ -1580,7 +1581,7 @@ theorem apply_apply_eq_of_commute_of_fixedBy_subset {f g : MulAut V} (hf : ∀ v
   have hinv : ∀ v : V, v⁻¹ = v := fun v => inv_eq_of_mul_eq_one_right (hV v)
   have hc : ∀ a b : V, a * b = b * a := fun a b => by
     rw [← hinv (a * b), mul_inv_rev, hinv, hinv]
-  letI : CommGroup V := { (inferInstance : Group V) with mul_comm := hc }
+  let : CommGroup V := { (inferInstance : Group V) with mul_comm := hc }
   intro v
   have hgfv : ∀ x, g (f x) = f (g x) := fun x => by
     have := congrArg (fun e : MulAut V => e x) hgf
@@ -1597,14 +1598,14 @@ theorem apply_apply_eq_of_commute_of_fixedBy_subset {f g : MulAut V} (hf : ∀ v
   have hw : f (v * g v) = v * g v := by
     rw [map_mul, hfg]
     calc f v * (g v * v * f v) = (f v * f v) * (g v * v) := by
-          simp only [mul_comm, mul_assoc, mul_left_comm]
+          simp only [mul_comm, mul_left_comm]
       _ = v * g v := by rw [hV, one_mul, mul_comm]
   have hgw := hg _ hw
   rw [map_mul] at hgw
   calc g (g v) = (g v * g v) * g (g v) := by rw [hV, one_mul]
     _ = g v * (g v * g (g v)) := by rw [mul_assoc]
     _ = g v * (v * g v) := by rw [hgw]
-    _ = v * (g v * g v) := by simp only [mul_comm, mul_assoc, mul_left_comm]
+    _ = v * (g v * g v) := by simp only [mul_left_comm]
     _ = v := by rw [hV, mul_one]
 
 theorem eq_one_of_commute_of_fixedBy_subset {f g : MulAut V} (hf : ∀ v, f (f v) = v)
@@ -1659,7 +1660,7 @@ theorem apply_ne_of_commute_of_card_fixedBy_eq_four [Finite V] {f g : MulAut V}
       · rw [Set.mem_singleton_iff] at hu
         rw [hu]
         exact hv
-    rw [hO, Set.ncard_diff hsub, Set.ncard_pair (Ne.symm hv1), ← Nat.card_coe_set_eq, hcard]
+    rw [hO, Set.ncard_sdiff hsub, Set.ncard_pair (Ne.symm hv1), ← Nat.card_coe_set_eq, hcard]
   have hoddZ : Odd (Nat.card (zpowers g)) := by
     rw [Nat.card_zpowers]
     exact hodd
@@ -1697,7 +1698,7 @@ theorem exists_zpow_apply_eq_of_commute_of_card_fixedBy_eq_four [Finite V] {f g 
       exact (g ^ n).injective this
   have h1f : (1 : V) ∈ fixedBy V f := by rw [mem_fixedBy, MulAut.smul_def, map_one]
   have hOc : O.ncard = 3 := by
-    rw [hO, Set.ncard_diff (Set.singleton_subset_iff.mpr h1f), Set.ncard_singleton,
+    rw [hO, Set.ncard_sdiff (Set.singleton_subset_iff.mpr h1f), Set.ncard_singleton,
       ← Nat.card_coe_set_eq, hcard]
   have hvO : v ∈ O := ⟨hv, hv1⟩
   have hwO : w ∈ O := ⟨hw, hw1⟩
@@ -1718,6 +1719,7 @@ theorem exists_zpow_apply_eq_of_commute_of_card_fixedBy_eq_four [Finite V] {f g 
   obtain ⟨n, rfl⟩ := mem_zpowers_iff.mp hr
   exact ⟨n, hrv⟩
 
+omit hV in
 theorem apply_eq_of_commute_of_transvection {f : MulAut V} {z : V}
     (hfz : ∀ v, v⁻¹ * f v = 1 ∨ v⁻¹ * f v = z) (hf1 : f ≠ 1) :
     z ≠ 1 ∧ ∀ g : MulAut V, g * f = f * g → g z = z := by
@@ -1750,7 +1752,7 @@ theorem card_fixedBy_eq_eight_of_transvection [Finite V] (h16 : Nat.card V = 16)
   have hinv : ∀ v : V, v⁻¹ = v := fun v => inv_eq_of_mul_eq_one_right (hV v)
   have hc : ∀ a b : V, a * b = b * a := fun a b => by
     rw [← hinv (a * b), mul_inv_rev, hinv, hinv]
-  obtain ⟨hz1, hcomm⟩ := apply_eq_of_commute_of_transvection hV hfz hf1
+  obtain ⟨hz1, hcomm⟩ := apply_eq_of_commute_of_transvection hfz hf1
   have hfz' : f z = z := hcomm f rfl
   have hinvol : ∀ v, f (f v) = v := by
     intro v
@@ -1761,7 +1763,6 @@ theorem card_fixedBy_eq_eight_of_transvection [Finite V] (h16 : Nat.card V = 16)
       rw [hv, map_mul, hv, hfz', mul_assoc, hV, mul_one]
   refine ⟨hinvol, ?_⟩
   let n : V →* V := MonoidHom.mk' (fun v => v⁻¹ * f v) fun a b => by
-    change (a * b)⁻¹ * f (a * b) = a⁻¹ * f a * (b⁻¹ * f b)
     rw [map_mul, mul_inv_rev]
     calc b⁻¹ * a⁻¹ * (f a * f b) = b⁻¹ * (a⁻¹ * f a) * f b := by group
       _ = (a⁻¹ * f a) * b⁻¹ * f b := by rw [hc b⁻¹]
@@ -1810,12 +1811,11 @@ theorem card_fixedBy_mul_eq_four_of_transvections [Finite V] (h16 : Nat.card V =
   have hinv : ∀ v : V, v⁻¹ = v := fun v => inv_eq_of_mul_eq_one_right (hV v)
   have hc : ∀ a b : V, a * b = b * a := fun a b => by
     rw [← hinv (a * b), mul_inv_rev, hinv, hinv]
-  obtain ⟨hz₁, hcomm₁⟩ := apply_eq_of_commute_of_transvection hV h₁ hf₁
-  obtain ⟨hz₂, hcomm₂⟩ := apply_eq_of_commute_of_transvection hV h₂ hf₂
+  obtain ⟨hz₁, hcomm₁⟩ := apply_eq_of_commute_of_transvection h₁ hf₁
+  obtain ⟨hz₂, hcomm₂⟩ := apply_eq_of_commute_of_transvection h₂ hf₂
   have hf₁z₂ : f₁ z₂ = z₂ := hcomm₂ f₁ hf
   have hom : ∀ f : MulAut V, ∃ n : V →* V, ∀ v, n v = v⁻¹ * f v := fun f =>
     ⟨MonoidHom.mk' (fun v => v⁻¹ * f v) fun a b => by
-      change (a * b)⁻¹ * f (a * b) = a⁻¹ * f a * (b⁻¹ * f b)
       rw [map_mul, mul_inv_rev]
       calc b⁻¹ * a⁻¹ * (f a * f b) = b⁻¹ * (a⁻¹ * f a) * f b := by group
         _ = (a⁻¹ * f a) * b⁻¹ * f b := by rw [hc b⁻¹]
@@ -1928,10 +1928,10 @@ theorem card_dvd_three_and_card_eq_of_transvections [Finite V] (h16 : Nat.card V
       (Nat.card Q = 9 → Q ⊓ C (f₁ * f₂) = ⊥ →
         Nat.card (Q ⊓ C f₁ : Subgroup (MulAut V)) = 3 ∧
           Nat.card (Q ⊓ C f₂ : Subgroup (MulAut V)) = 3 ∧ (Q ⊓ C f₁) ⊔ (Q ⊓ C f₂) = Q) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  obtain ⟨hz₁, hcomm₁⟩ := apply_eq_of_commute_of_transvection hV h₁ hf₁
-  obtain ⟨hz₂, hcomm₂⟩ := apply_eq_of_commute_of_transvection hV h₂ hf₂
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  obtain ⟨hz₁, hcomm₁⟩ := apply_eq_of_commute_of_transvection h₁ hf₁
+  obtain ⟨hz₂, hcomm₂⟩ := apply_eq_of_commute_of_transvection h₂ hf₂
   obtain ⟨hinv₁, hc₁⟩ := card_fixedBy_eq_eight_of_transvection hV h16 h₁ hf₁
   obtain ⟨hinv₂, hc₂⟩ := card_fixedBy_eq_eight_of_transvection hV h16 h₂ hf₂
   have hsq₁ : f₁ * f₁ = 1 := eq_one_of_forall_apply_eq fun v => hinv₁ v
@@ -1972,7 +1972,7 @@ theorem card_dvd_three_and_card_eq_of_transvections [Finite V] (h16 : Nat.card V
       obtain ⟨r, hrR, hr, hp2, hsub⟩ := exists_orderOf_eq_prime hRodd hp hpd
       have hrz : r z = z := hsub hzR
       rcases card_fixedBy_cases_of_prime h16 hp hp2 hr with ⟨hc, -⟩ | ⟨hc, rfl⟩ | ⟨-, h3⟩
-      · exact absurd (eq_one_of_mem_fixedBy_of_card_eq_one h16 hc hrz) hz
+      · exact absurd (eq_one_of_mem_fixedBy_of_card_eq_one hc hrz) hz
       ·
         exfalso
         have hP : IsPGroup 7 (zpowers r) :=
@@ -2015,7 +2015,7 @@ theorem card_dvd_three_and_card_eq_of_transvections [Finite V] (h16 : Nat.card V
             · rw [Set.mem_singleton_iff] at hu
               rw [hu]
               exact hzf
-          rw [hO, Set.ncard_diff hsub, Set.ncard_pair (Ne.symm hz), ← Nat.card_coe_set_eq, hcf]
+          rw [hO, Set.ncard_sdiff hsub, Set.ncard_pair (Ne.symm hz), ← Nat.card_coe_set_eq, hcf]
         have hempty : O ∩ fixedBy V r = ∅ := by
           ext w
           simp only [Set.mem_inter_iff, Set.mem_empty_iff_false, iff_false, not_and]
@@ -2068,7 +2068,7 @@ theorem card_dvd_three_and_card_eq_of_transvections [Finite V] (h16 : Nat.card V
         (hoddel r hr.1) hr1' hwf hw hrw
     have hOc : O.ncard = 3 := by
       have h1f : (1 : V) ∈ fixedBy V (f₁ * f₂) := by rw [mem_fixedBy, MulAut.smul_def, map_one]
-      rw [hO, Set.ncard_diff (Set.singleton_subset_iff.mpr h1f), Set.ncard_singleton,
+      rw [hO, Set.ncard_sdiff (Set.singleton_subset_iff.mpr h1f), Set.ncard_singleton,
         ← Nat.card_coe_set_eq, h₁₂]
     have := card_dvd_ncard_of_free (Set.toFinite O) hinvO hfree
     rwa [hOc] at this
@@ -2085,7 +2085,7 @@ theorem card_dvd_three_and_card_eq_of_transvections [Finite V] (h16 : Nat.card V
       Nat.card (Q ⊓ C f₂ : Subgroup (MulAut V)) *
       Nat.card (Q ⊓ C (f₁ * f₂) : Subgroup (MulAut V)) := by
     let T := GorensteinWalter.kleinFourOfCommutingInvolutions f₁ f₂ hsq₁ hsq₂ hf
-    haveI : IsKleinFour T := GorensteinWalter.isKleinFour_kleinFourOfCommutingInvolutions f₁ f₂
+    have : IsKleinFour T := GorensteinWalter.isKleinFour_kleinFourOfCommutingInvolutions f₁ f₂
       hsq₁ hsq₂ hf₁ hf₂ hne₁₂ hf
     have hmemT : ∀ t ∈ T, t = f₁ * f₂ ∨ t = f₁ ∨ t = f₂ ∨ t = 1 := by
       intro t ht
@@ -2192,7 +2192,6 @@ theorem apply_mem_of_commute_of_fixedBy {V : Type*} [Group V] [Finite V]
     (hcard : Nat.card X * Nat.card (fixedBy V u) = Nat.card V) (hgu : g * u = u * g) :
     ∀ x ∈ X, g x ∈ X := by
   let n : V →* V := MonoidHom.mk' (fun v => v⁻¹ * u v) fun a b => by
-    change (a * b)⁻¹ * u (a * b) = a⁻¹ * u a * (b⁻¹ * u b)
     rw [map_mul, mul_inv_rev]
     calc b⁻¹ * a⁻¹ * (u a * u b) = b⁻¹ * (a⁻¹ * u a) * u b := by group
       _ = (a⁻¹ * u a) * b⁻¹ * u b := by rw [hc b⁻¹]

@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {n : ℕ}
 
+omit [Finite G] in
 private theorem caseA_mem_conj_iff {H : Subgroup G} {g y : G} :
     y ∈ CFSG.conjugate H g ↔ g * y * g⁻¹ ∈ H := by
   unfold CFSG.conjugate
@@ -23,8 +24,9 @@ private theorem caseA_mem_conj_iff {H : Subgroup G} {g y : G} :
   · rintro ⟨x, hx, rfl⟩
     simpa [MulAut.conj_apply, mul_assoc] using hx
   · intro hy
-    exact ⟨g * y * g⁻¹, hy, by simp [MulAut.conj_apply, mul_assoc]⟩
+    exact ⟨g * y * g⁻¹, hy, by simp [mul_assoc]⟩
 
+omit [Finite G] in
 private theorem caseA_fused_conj_left {z w : G} (g : G) (h : Fused z w) :
     Fused z (g * w * g⁻¹) := by
   obtain ⟨k, hk⟩ := h
@@ -42,7 +44,7 @@ private theorem caseA_fused_mul {b a' : G} (hC : Config b n) (ha' : Fused b a')
   obtain ⟨g', hg'⟩ := hC.exists_conj_eq_mul_z hu hne'
   exact ⟨g', by rw [hg', hk]; exact hcomm⟩
 
-theorem CaseA.conj (hC : Config z n) (hA : CaseA z) (g : G) : CaseA (g⁻¹ * z * g) := by
+theorem CaseA.conj (_hC : Config z n) (hA : CaseA z) (g : G) : CaseA (g⁻¹ * z * g) := by
   intro w hw hwu
   have hzw : Fused z (g * w * g⁻¹) := caseA_fused_conj_left g ((fused_conj z g).trans hw)
   have hwz : g * w * g⁻¹ ∈ centralizer ({z} : Set G) := by
@@ -86,7 +88,7 @@ theorem CaseA.commute_of_commute (hC : Config z n) (hA : CaseA z) {u a a' : G}
   have hc : ⁅a, a'⁆ ≠ 1 := fun h => hne (commutatorElement_eq_one_iff_mul_comm.1 h)
   exact huz ((h1.resolve_left hc).symm.trans (h2.resolve_left hc))
 
-theorem CaseA.mul_mem (hC : Config z n) (hA : CaseA z) {a a' : G}
+theorem CaseA.mul_mem (hC : Config z n) (_hA : CaseA z) {a a' : G}
     (ha : Fused z a) (haQ : a ∈ coreAt z) (haz : a ≠ z)
     (ha' : Fused z a') (ha'Q : a' ∈ coreAt z) (haa' : a * a' = a' * a)
     (hne : a' ≠ a) (hnez : a' ≠ a * z) :
@@ -112,11 +114,11 @@ theorem CaseA.mul_mem (hC : Config z n) (hA : CaseA z) {a a' : G}
 
 theorem CaseA.eq_or_eq_mul_of_commute (hC : Config z n) (hA : CaseA z) {a x a' : G}
     (ha : Fused z a) (haQ : a ∈ coreAt z) (haz : a ≠ z)
-    (hx : Fused z x) (hxQ : x ∈ coreAt z) (hxz : x ≠ z) (hax : a * x ≠ x * a)
+    (hx : Fused z x) (hxQ : x ∈ coreAt z) (_hxz : x ≠ z) (hax : a * x ≠ x * a)
     (ha' : Fused z a') (ha'Q : a' ∈ coreAt z) (ha'z : a' ≠ z) (haa' : a * a' = a' * a) :
     a' = a ∨ a' = a * z := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨hne, hnez⟩ := hcon
   obtain ⟨hfb, hbQ, hbz⟩ := CaseA.mul_mem hC hA ha haQ haz ha' ha'Q haa' hne hnez
   have hab : a * (a * a') = a * a' * a := by

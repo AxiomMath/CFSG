@@ -45,7 +45,7 @@ section AutTrivial
 
 variable {Γ : Type*} [Group Γ]
 
-theorem aut_trivial {E N : Subgroup Γ} [E.Normal] (hEN : E ≤ N)
+theorem aut_trivial {E N : Subgroup Γ} [E.Normal] (_hEN : E ≤ N)
     (hcen : ∀ x ∈ N, ∀ g : Γ, ⁅x, g⁆ ∈ E)
     (hperf : (⊤ : Subgroup Γ) ≤ ⁅(⊤ : Subgroup Γ), (⊤ : Subgroup Γ)⁆ ⊔ E)
     (α : Γ ≃* Γ) (hαE : ∀ e ∈ E, α e ∈ E) (hα : ∀ g : Γ, g⁻¹ * α g ∈ N) (g : Γ) :
@@ -202,7 +202,7 @@ theorem E_le_C (hEL : E ≤ L) (hLE : L ≤ normalizer (E : Set G)) :
 theorem pow_relIndex_mem (hEL : E ≤ L) (hLE : L ≤ normalizer (E : Set G)) {y : G}
     (hy : y ∈ centralizerSection L E) : y ^ E.relIndex (centralizerSection L E) ∈ E := by
   have hCE : centralizerSection L E ≤ normalizer (E : Set G) := fun c hc => hc.2.1
-  haveI : (E.subgroupOf (centralizerSection L E)).Normal :=
+  have : (E.subgroupOf (centralizerSection L E)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer (E_le_C hEL hLE)).2 hCE
   have h1 := Subgroup.pow_index_mem (E.subgroupOf (centralizerSection L E)) ⟨y, hy⟩
   have h2 : ((⟨y, hy⟩ ^ E.relIndex (centralizerSection L E) : ↥(centralizerSection L E)) : G) ∈ E :=
@@ -216,7 +216,7 @@ theorem mem_L_of_inner (h : OutCtx L E N R) {r : G} (hr : r ∈ R) (x : ↥L)
     mul_mem (inv_mem (le_normalizer hxL)) (h.RL hr)
   have hyE : (x : G)⁻¹ * r ∈ normalizer (E : Set G) :=
     mul_mem (inv_mem (h.LE hxL)) (h.RE hr)
-  haveI hEn : (E.subgroupOf L).Normal :=
+  have hEn : (E.subgroupOf L).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer h.EL).2 h.LE
   let α : ↥L ≃* ↥L := L.normalizerMonoidHom ⟨(x : G)⁻¹ * r, hyL⟩
   have hαcoe : ∀ g : ↥L, ((α g : ↥L) : G) = ((x : G)⁻¹ * r) * g * ((x : G)⁻¹ * r)⁻¹ :=
@@ -256,7 +256,7 @@ theorem mem_L_of_inner (h : OutCtx L E N R) {r : G} (hr : r ∈ R) (x : ↥L)
     have h3 := hall ⟨g, hg⟩
     exact h3
   have hym := pow_relIndex_mem h.EL h.LE hyC
-  haveI : (L.subgroupOf (normalizer (L : Set G))).Normal := Subgroup.normal_in_normalizer
+  have : (L.subgroupOf (normalizer (L : Set G))).Normal := Subgroup.normal_in_normalizer
   let q : ↥(normalizer (L : Set G)) →*
       ↥(normalizer (L : Set G)) ⧸ L.subgroupOf (normalizer (L : Set G)) := QuotientGroup.mk' _
   let rB : ↥(normalizer (L : Set G)) := ⟨r, h.RL hr⟩

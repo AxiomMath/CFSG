@@ -260,17 +260,17 @@ theorem fz59dPi_eq_one_iff {b : Fin 3 → Fin 2 → G} (hb : Fz59Rows b) (q : Fz
     have n2 := fz59d_z_ne hb 2
     rcases hx with rfl | rfl <;> rcases hy with rfl | rfl <;> rcases hw with rfl | rfl
     · exact Or.inl rfl
-    · simp only [map_one, fz59d_q8Hom_a_two, mul_one, one_mul] at h
+    · simp only [map_one, fz59d_q8Hom_a_two, one_mul] at h
       exact absurd h n2
     · simp only [map_one, fz59d_q8Hom_a_two, mul_one, one_mul] at h
       exact absurd h n1
-    · simp only [map_one, fz59d_q8Hom_a_two, mul_one, one_mul] at h
+    · simp only [map_one, fz59d_q8Hom_a_two, one_mul] at h
       exact absurd (h12 ▸ h) n0
-    · simp only [map_one, fz59d_q8Hom_a_two, mul_one, one_mul] at h
+    · simp only [map_one, fz59d_q8Hom_a_two, mul_one] at h
       exact absurd h n0
-    · simp only [map_one, fz59d_q8Hom_a_two, mul_one, one_mul] at h
+    · simp only [map_one, fz59d_q8Hom_a_two, one_mul] at h
       exact absurd (h02 ▸ h) n1
-    · simp only [map_one, fz59d_q8Hom_a_two, mul_one, one_mul] at h
+    · simp only [map_one, fz59d_q8Hom_a_two, mul_one] at h
       exact absurd (h01 ▸ h) n2
     · exact Or.inr rfl
   · rintro (rfl | rfl)

@@ -19,10 +19,10 @@ variable {G : Type} [Group G] {n : ℕ}
 theorem uc22s206b_simpSec_iso {X S Λ : Type} [Group X] [Finite X] [Group S] [IsSimpleGroup S]
     [Group Λ] (φ : X →* S) (hφ : Function.Surjective φ) (hk : IsPGroup 2 φ.ker)
     (hnc : ∃ a b : Λ, a * b ≠ b * a) (h : uc22p20bSimpSec X Λ) : Nonempty (S ≃* Λ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases uc22p20b_simpSec_restrict φ.ker h with h1 | h2
   · exfalso
-    haveI : Group.IsSolvable ↥φ.ker := by
+    have : Group.IsSolvable ↥φ.ker := by
       have := hk.isNilpotent
       infer_instance
     obtain ⟨a, b, hab⟩ := hnc
@@ -35,7 +35,7 @@ theorem uc22s206b_simpSec_sup {L B : Subgroup G} (hB : B ≤ normalizer (L : Set
     (hBs : Group.IsSolvable ↥B) {Λ : Type} [Group Λ] (hnc : ∃ a b : Λ, a * b ≠ b * a)
     (h : uc22p20bSimpSec ↥(L ⊔ B) Λ) : uc22p20bSimpSec ↥L Λ := by
   have hLX : L ≤ L ⊔ B := le_sup_left
-  haveI : (L.subgroupOf (L ⊔ B)).Normal :=
+  have : (L.subgroupOf (L ⊔ B)).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLX).2 (sup_le Subgroup.le_normalizer hB)
   rcases uc22p20b_simpSec_restrict (L.subgroupOf (L ⊔ B)) h with h1 | h2
   · exact uc22p20b_simpSec_of_surjective (Subgroup.subgroupOfEquivOfLe hLX).symm.toMonoidHom
@@ -53,8 +53,8 @@ theorem uc22s206b_simpSec_sup {L B : Subgroup G} (hB : B ≤ normalizer (L : Set
       simp only [MonoidHom.comp_apply, QuotientGroup.mk'_apply]
       rw [QuotientGroup.eq, Subgroup.mem_subgroupOf]
       simpa [mul_assoc] using (Subgroup.mem_normalizer_iff''.1 (hB hb) l).1 hl
-    haveI : Group.IsSolvable ↥B := hBs
-    haveI : Group.IsSolvable (↥(L ⊔ B) ⧸ L.subgroupOf (L ⊔ B)) :=
+    have : Group.IsSolvable ↥B := hBs
+    have : Group.IsSolvable (↥(L ⊔ B) ⧸ L.subgroupOf (L ⊔ B)) :=
       Group.isSolvable_of_surjective hsurj
     obtain ⟨a, b, hab⟩ := hnc
     exact hab (uc22p20b_simpSec_comm h2 a b)
@@ -128,7 +128,7 @@ theorem uc22s206bPtPreHom_isPGroup_ker {K : Subgroup G} (α : ↥K →* alternat
   simpa using this
 
 theorem uc22s206b_isSolvable_T [Finite G] (D : Data G) : Group.IsSolvable ↥D.T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have := D.sylowM.isPGroup.isNilpotent
   infer_instance
 
@@ -136,7 +136,7 @@ theorem uc22s206b_k_two [Finite G] (D : Data G) (hO : LieOrderFormulasInput)
     (hB : ListBNonabelian) (h1930 : H1930 D) {L : Subgroup G} (hL : L ∈ calL D.T D.M)
     (α : ↥L →* alternatingGroup (Fin 9)) (hα : Function.Surjective α)
     (hker : α.ker = CFSG.pCore 2 ↥L) : D.k = 2 := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 9)) :=
+  have : IsSimpleGroup (alternatingGroup (Fin 9)) :=
     alternatingGroup.isSimpleGroup (by rw [Nat.card_fin]; norm_num)
   have hk2 : IsPGroup 2 α.ker := by
     rw [hker]
@@ -150,7 +150,7 @@ theorem uc22s206b_k_two [Finite G] (D : Data G) (hO : LieOrderFormulasInput)
     obtain ⟨e⟩ := uc22s206b_simpSec_iso α hα hk2 hnc h1
     exact uc22s206a_not_listA_alt9 hO e.symm hA
   show kParam D.M = 2
-  rw [kParam, if_neg hSE]
+  rw [kParam, ite_eq_right hSE]
 
 theorem uc22s206b_le_M [Finite G] (D : Data G) (hO : LieOrderFormulasInput)
     (hB : ListBNonabelian) (h1930 : H1930 D) {L : Subgroup G} (hL : L ∈ calL D.T D.M)
@@ -159,7 +159,7 @@ theorem uc22s206b_le_M [Finite G] (D : Data G) (hO : LieOrderFormulasInput)
     (hi : ∀ (t : G) (ht : t ∈ D.T),
       permAct α hα hker (by norm_num) (by norm_num) ⟨t, hL.1 ht⟩ i = i) :
     ptPre α i ⊔ D.T ≤ D.M := by
-  haveI := isSimpleGroup_stabilizer (n := 9) (by norm_num) i
+  have := isSimpleGroup_stabilizer (n := 9) (by norm_num) i
   by_contra hY
   have hP : ptPre α i ⊔ D.T ∈ hSet D.T D.M :=
     uc22p20b_mem_hSet D hL.2.2.1 le_sup_right (sup_le_sup_right (ptPre_le α i) _) hY

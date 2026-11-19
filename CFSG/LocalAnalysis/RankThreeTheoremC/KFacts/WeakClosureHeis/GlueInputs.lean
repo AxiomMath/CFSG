@@ -46,7 +46,7 @@ private theorem giW6_le_map {G G' : Type*} [Group G] [Group G'] [Finite G] [Fini
     CFSG.Open.pRank p H ≤ CFSG.Open.pRank p (H.map f) := by
   obtain ⟨E, hEH, hE, hk⟩ := giW6_spec hp H
   have hE' : IsElemAbelian p (E.map f) := by
-    haveI := hE.1
+    have := hE.1
     refine ⟨inferInstance, ?_⟩
     rintro _ ⟨x, hx, rfl⟩
     rw [← map_pow, hE.2 x hx, map_one]
@@ -119,7 +119,7 @@ theorem wcOn_of_kFactWeakClosure (hWC : KFactWeakClosure) (hp : p.Prime) (hp2 : 
     exact ⟨i, ⟨Subgroup.topEquiv.trans e⟩⟩
   have hTc : centralizer ((⊤ : Subgroup K) : Set K) = ⊥ := by
     rw [Subgroup.coe_top, Subgroup.centralizer_univ]
-    haveI := hs
+    have := hs
     exact CFSG.ComponentClassification.Helpers.center_eq_bot K hnab
   have hdvd : p ∣ Nat.card (⊤ : Subgroup K) := by
     obtain ⟨E, -, -, hE⟩ := giW6_spec hp.one_lt (P : Subgroup K)

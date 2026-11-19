@@ -53,7 +53,7 @@ theorem pCore_eq_bot [Finite G] (ρ : G →* (V ≃ₗ[ZMod p] V)) (hρ : Functi
       rw [htop]
       trivial
     simpa [σ] using this ⟨x, hx⟩
-  haveI : (CFSG.pCore p G).Normal := inferInstance
+  have : (CFSG.pCore p G).Normal := inferInstance
   exact normal_pSubgroup_eq_bot ρ hρ hirr _ CFSG.pCore_isPGroup
 
 end CFSG.GroupTheory.CoprimeActionSupport.FaithfulIrreduciblePCoreTrivial

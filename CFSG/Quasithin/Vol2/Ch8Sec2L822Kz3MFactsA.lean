@@ -55,9 +55,9 @@ theorem mgrp_sub5760_model_kz3 (Y : Subgroup ↥Mgrp) (hY : Ugrp ≤ Y)
     (MulEquiv.subgroupCongr hYeq').trans (Subgroup.subgroupOfEquivOfLe hLM')
   have hperf : ⁅Subgroup.closure {g | g ∈ l6Gens}, Subgroup.closure {g | g ∈ l6Gens}⁆ =
       Subgroup.closure {g | g ∈ l6Gens} := perfect_of_perfOK (rawIsEnc 22) perf6_ok
-  haveI hP : Group.IsPerfect ↥(Subgroup.closure {g | g ∈ l6Gens}) :=
+  have hP : Group.IsPerfect ↥(Subgroup.closure {g | g ∈ l6Gens}) :=
     Subgroup.isPerfect_iff.mpr hperf
-  haveI hPY : Group.IsPerfect ↥Y :=
+  have hPY : Group.IsPerfect ↥Y :=
     Group.IsPerfect.ofSurjective (f := eY.symm.toMonoidHom) eY.symm.surjective
   let φ : ↥Y →* alternatingGroup (Fin 6) :=
     e.toMonoidHom.comp ((QuotientGroup.mk' V).comp eY.toMonoidHom)
@@ -126,7 +126,7 @@ private theorem card_alt6_kz3 : Nat.card (alternatingGroup (Fin 6)) = 360 := by
   omega
 
 private theorem pCore_alt6_eq_bot_kz3 : CFSG.pCore 2 (alternatingGroup (Fin 6)) = ⊥ := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (CFSG.pCore 2 (alternatingGroup (Fin 6))) with
     h | h
   · exact h
@@ -146,7 +146,7 @@ theorem kzM22Sub5760_kz3_proved : KzM22Sub5760_kz3 := by
   let ι : Q ≃* ↥Mgrp := e'.trans (MulEquiv.subgroupCongr mGens_closure).symm
   obtain ⟨Y, hUY, hYcard, ⟨eY⟩⟩ := sub5760_conj_kz3 ι W hW
   obtain ⟨hperfY, φ, hφs, hφk⟩ := mgrp_sub5760_model_kz3 Y hUY hYcard
-  haveI hperfW : Group.IsPerfect ↥W :=
+  have hperfW : Group.IsPerfect ↥W :=
     Group.IsPerfect.ofSurjective (f := eY.symm.toMonoidHom) eY.symm.surjective
   refine ⟨Subgroup.isPerfect_iff.mp hperfW, ?_⟩
   let ψ : ↥W →* alternatingGroup (Fin 6) := φ.comp eY.toMonoidHom

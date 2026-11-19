@@ -21,6 +21,7 @@ section StepA
 variable (hc : Ctx4Q t L S x₁ x₂ lam rho tau)
 include hc
 
+omit [Finite G] hc in
 theorem lam_mem_U : lam ∈ ctxU t tau x₁ x₂ lam :=
   Subgroup.mem_sup_right (Subgroup.mem_zpowers lam)
 
@@ -28,7 +29,7 @@ theorem lam_conj_O {a : G} (ha : a ∈ ctxO t tau x₁ x₂) : lam * a * lam⁻�
   (O_normal_M t tau x₁ x₂).2 lam hc.lam_mem_M a ha
 
 theorem normal_V_U : NormalIn (fourGrp x₁ x₂) (ctxU t tau x₁ x₂ lam) :=
-  ⟨(V_le_O hc).trans (O_le_U hc), fun g hg k hk => hc.normal_V.2 g (U_le_M hc hg) k hk⟩
+  ⟨(V_le_O hc).trans (O_le_U), fun g hg k hk => hc.normal_V.2 g (U_le_M hc hg) k hk⟩
 
 theorem U_decomp {u : G} (hu : u ∈ ctxU t tau x₁ x₂ lam) :
     u ∈ ctxO t tau x₁ x₂ ∨ ∃ a ∈ ctxO t tau x₁ x₂, u = a * lam := by
@@ -63,7 +64,7 @@ theorem U_decomp {u : G} (hu : u ∈ ctxU t tau x₁ x₂ lam) :
 
 theorem gamma3_le_V :
     ⁅⁅ctxU t tau x₁ x₂ lam, ctxU t tau x₁ x₂ lam⁆, ctxU t tau x₁ x₂ lam⁆ ≤ fourGrp x₁ x₂ :=
-  gamma3_le_of_index_two (normal_V_U hc) (O_le_U hc) (lam_mem_U hc)
+  gamma3_le_of_index_two (normal_V_U hc) (O_le_U) (lam_mem_U)
     (by rw [lam_mul_self hc]; exact one_mem _) (fun a ha b hb => O_comm_le hc ha hb)
     (fun a ha => O_sq_mem_V hc ha) (fun a ha => lam_conj_O hc ha) (fun h hh => U_decomp hc hh)
 
@@ -79,8 +80,8 @@ theorem x₁_mem_Q : x₁ ∈ ctxQ t tau x₁ x₂ rho := hc.base_le_Q (subset_c
 theorem x₂_mem_Q : x₂ ∈ ctxQ t tau x₁ x₂ rho := hc.base_le_Q (subset_closure (by simp))
 
 theorem a_mem_comm_U : x₂ * x₁⁻¹ ∈ ⁅ctxU t tau x₁ x₂ lam, ctxU t tau x₁ x₂ lam⁆ := by
-  have hx₁ : x₁ ∈ ctxU t tau x₁ x₂ lam := O_le_U hc (hc.Q_le_O (x₁_mem_Q hc))
-  have h := Subgroup.commutator_mem_commutator (lam_mem_U hc) hx₁
+  have hx₁ : x₁ ∈ ctxU t tau x₁ x₂ lam := O_le_U (hc.Q_le_O (x₁_mem_Q hc))
+  have h := Subgroup.commutator_mem_commutator (lam_mem_U (lam := lam) (t := t) (tau := tau) (x₁ := x₁) (x₂ := x₂)) hx₁
   rwa [commutatorElement_def, hc.wreath.conj_x₁] at h
 
 theorem a_mem_Q : x₂ * x₁⁻¹ ∈ ctxQ t tau x₁ x₂ rho :=
@@ -99,7 +100,7 @@ theorem V_le_gamma3 (hs : IsSylSL34 (ctxQ t tau x₁ x₂ rho)) :
     fourGrp x₁ x₂ ≤ ⁅⁅ctxU t tau x₁ x₂ lam, ctxU t tau x₁ x₂ lam⁆, ctxU t tau x₁ x₂ lam⁆ := by
   intro c hcV
   obtain ⟨w, hwQ, hw⟩ := pairing_Q hc hs (a_mem_Q hc) (a_not_mem_V hc) hcV
-  have hwU : w ∈ ctxU t tau x₁ x₂ lam := O_le_U hc (hc.Q_le_O hwQ)
+  have hwU : w ∈ ctxU t tau x₁ x₂ lam := O_le_U (hc.Q_le_O hwQ)
   have h := Subgroup.commutator_mem_commutator (a_mem_comm_U hc) hwU
   rwa [commutatorElement_def, hw] at h
 

@@ -92,7 +92,7 @@ theorem step148OmegaRankThree_of (hCore : Step13PZeroCore)
     (hNine : Step148OmegaRankThreeNine) : Step148OmegaRankThree := by
   intro G _ _ A c L h e he heΩ Le hLeA hLt F heF hF hF81
   obtain ⟨p, f, hp, hf, hiso⟩ := hLt
-  haveI := hp
+  have := hp
   have h13 : Sec13Data G A e Le :=
     { h.toSec13Data with zpowers_mem_omegaA := heΩ, mem_lA := hLeA }
   have hA3 : ∀ a ∈ A, a ^ 3 = 1 := h.mem_partTwoF.1.2
@@ -104,8 +104,8 @@ theorem step148OmegaRankThree_of (hCore : Step13PZeroCore)
     norm_num at hcard
   have hLeC : Le ≤ Subgroup.centralizer ({e} : Set G) :=
     Sec6.le_centralizer_of_mem_thetaComponentsAt hLeA.1
-  haveI : Group.IsPerfect ↥Le := Sec6.isPerfect_of_mem_thetaComponentsAt hLeA.1
-  haveI : Group.IsPerfect (↥Le ⧸ aschbacherSolvableCore 3 ↥Le) := isPerfect_quotient _ _
+  have : Group.IsPerfect ↥Le := Sec6.isPerfect_of_mem_thetaComponentsAt hLeA.1
+  have : Group.IsPerfect (↥Le ⧸ aschbacherSolvableCore 3 ↥Le) := isPerfect_quotient _ _
   have h3 : 3 ∣ Nat.card Le :=
     (Sec19.Step1914TriProof.three_dvd_card_of_isoLThreePi hf hiso).trans
       (Subgroup.card_quotient_dvd_card _)

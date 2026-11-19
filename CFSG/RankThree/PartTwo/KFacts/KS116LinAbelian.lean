@@ -62,7 +62,7 @@ private theorem ndc_C_isCyclic_units_of_irred [Finite F] [Module.Finite F V] [No
   classical
   have hVfin : Finite V := Module.finite_of_finite F
   set R : Subalgebra F (V →ₗ[F] V) := Algebra.adjoin F 𝒮 with hR
-  haveI : IsSimpleModule R V := by
+  have : IsSimpleModule R V := by
     rw [isSimpleModule_iff_toSpanSingleton_surjective]
     refine ⟨‹Nontrivial V›, fun x hx => ?_⟩
     set Ux : Submodule F V :=
@@ -78,9 +78,9 @@ private theorem ndc_C_isCyclic_units_of_irred [Finite F] [Module.Finite F V] [No
     intro w
     have : w ∈ Ux := by rw [htop]; trivial
     exact this
-  haveI : Finite (V →ₗ[F] V) :=
+  have : Finite (V →ₗ[F] V) :=
     Finite.of_injective (fun h : V →ₗ[F] V => (h : V → V)) DFunLike.coe_injective
-  haveI : Finite (Module.End R V) :=
+  have : Finite (Module.End R V) :=
     Finite.of_injective (fun f : Module.End R V => (f : V → V)) DFunLike.coe_injective
   have hcentr : ∀ χ : V →ₗ[F] V, (∀ s ∈ 𝒮, χ ∘ₗ s = s ∘ₗ χ) →
       ∀ r ∈ R, χ ∘ₗ r = r ∘ₗ χ := by
@@ -120,11 +120,11 @@ private theorem ndc_C_isCyclic_units_of_irred [Finite F] [Module.Finite F V] [No
     apply LinearMap.ext
     intro x
     exact congrArg (fun e : Module.End R V => (e x : V)) huv
-  haveI : Finite P :=
+  have : Finite P :=
     Finite.of_injective (fun u : P => ((u.1 : (V →ₗ[F] V)ˣ) : V →ₗ[F] V))
       (fun u v h => Subtype.ext (Units.ext h))
-  letI : DivisionRing (Module.End R V) := Module.End.instDivisionRing
-  letI : Field (Module.End R V) := littleWedderburn _
+  let : DivisionRing (Module.End R V) := Module.End.instDivisionRing
+  let : Field (Module.End R V) := littleWedderburn _
   exact isCyclic_of_injective_ringHom f hf
 
 theorem isCyclic_image_of_simple_abelian [Finite F] [Module.Finite F V] [Nontrivial V]
@@ -154,7 +154,7 @@ theorem commute_of_simple_abelian [Finite F] [Module.Finite F V] [Nontrivial V]
     (hsimple : ∀ U : Submodule F V, (∀ b ∈ B, U ≤ U.comap (ρ b)) → U = ⊥ ∨ U = ⊤) :
     ∀ k ∈ K, ∀ b ∈ B, ρ k * ρ b = ρ b * ρ k := by
   intro k hk b hb
-  haveI : IsCyclic (B.map ρ.toHomUnits) := isCyclic_image_of_simple_abelian ρ B hab hsimple
+  have : IsCyclic (B.map ρ.toHomUnits) := isCyclic_image_of_simple_abelian ρ B hab hsimple
   have hKN : K.map ρ.toHomUnits ≤
       Subgroup.normalizer ((B.map ρ.toHomUnits : Subgroup (V →ₗ[F] V)ˣ) : Set (V →ₗ[F] V)ˣ) := by
     rintro x hx
@@ -227,7 +227,7 @@ theorem card_weightSpaces_le [Module.Finite F V] (E : Subgroup G) (ρ : Represen
       Nat.card {W : Submodule F V | W ≠ ⊥ ∧ ∃ χ : E →* Fˣ,
         W = CFSG.RepresentationTheory.weightSpace E ρ χ} ≤ Module.finrank F V := by
   have hind := weightSpace_iSupIndep_E E ρ hab
-  letI : Fintype {χ : E →* Fˣ // CFSG.RepresentationTheory.weightSpace E ρ χ ≠ ⊥} :=
+  let : Fintype {χ : E →* Fˣ // CFSG.RepresentationTheory.weightSpace E ρ χ ≠ ⊥} :=
     hind.fintypeNeBotOfFiniteDimensional
   have hset : {W : Submodule F V | W ≠ ⊥ ∧ ∃ χ : E →* Fˣ,
         W = CFSG.RepresentationTheory.weightSpace E ρ χ} =
@@ -275,7 +275,7 @@ theorem exists_weight_of_nonsimple [Module.Finite F V] (ρ : Representation F G 
     · exact ⟨U, hU, h1⟩
     · have hG : ∃ g : G, ¬ U ≤ U.comap (ρ g) := by
         by_contra hcon
-        push_neg at hcon
+        push Not at hcon
         rcases hirr U hcon with h | h
         · exact hU0 h
         · exact hUt h
@@ -385,7 +385,7 @@ theorem weightSpace_finrank_eq_one [Module.Finite F V] (ρ : Representation F G 
     intro h2
     have hG : ∃ g : G, ¬ W ≤ W.comap (ρ g) := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       rcases hirr W hcon with h | h
       · exact hχ h
       · exact hWtop h
@@ -423,7 +423,7 @@ theorem weightSpace_finrank_eq_one [Module.Finite F V] (ρ : Representation F G 
       exact Units.ext (smul_left_injective F hv0 h3).symm
     have hw : ∃ w ∈ W, ρ g w ∉ W := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       apply hg
       intro x hx
       exact Submodule.mem_comap.mpr (hcon x hx)

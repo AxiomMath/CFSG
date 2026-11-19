@@ -17,7 +17,7 @@ private theorem isConj_iff_of_isConj {G : Type} [Group G] {a x : G} (hx : IsConj
 private theorem orb2A_eq_of_isConj {G : Type} [Group G] {a x : G} (hx : IsConj a x) (y : G) :
     orb2A x y = orb2A a y := by
   ext b
-  simp only [orb2A, Set.mem_setOf_eq]
+  simp only [orb2A, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h1, h2⟩
     exact ⟨(isConj_iff_of_isConj hx b).mp h1, (isConj_iff_of_isConj hx (y * b)).mp h2⟩
@@ -27,7 +27,7 @@ private theorem orb2A_eq_of_isConj {G : Type} [Group G] {a x : G} (hx : IsConj a
 private theorem orb2B_eq_of_isConj {G : Type} [Group G] {a z x : G} (hx : IsConj a x) (y : G) :
     orb2B x z y = orb2B a z y := by
   ext b
-  simp only [orb2B, Set.mem_setOf_eq]
+  simp only [orb2B, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h1, h2⟩
     exact ⟨(isConj_iff_of_isConj hx b).mp h1, h2⟩
@@ -37,7 +37,7 @@ private theorem orb2B_eq_of_isConj {G : Type} [Group G] {a z x : G} (hx : IsConj
 private theorem orb4A_eq_of_isConj {G : Type} [Group G] {a z x : G} (hx : IsConj a x) (y : G) :
     orb4A x z y = orb4A a z y := by
   ext c
-  simp only [orb4A, Set.mem_setOf_eq]
+  simp only [orb4A, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h1, h2⟩
     exact ⟨(isConj_iff_of_isConj hx c).mp h1, h2⟩
@@ -47,7 +47,7 @@ private theorem orb4A_eq_of_isConj {G : Type} [Group G] {a z x : G} (hx : IsConj
 private theorem orb4B_eq_of_isConj {G : Type} [Group G] {a x : G} (hx : IsConj a x) (y : G) :
     orb4B x y = orb4B a y := by
   ext c
-  simp only [orb4B, Set.mem_setOf_eq]
+  simp only [orb4B, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h1, h2⟩
     exact ⟨(isConj_iff_of_isConj hx c).mp h1,
@@ -59,7 +59,7 @@ private theorem orb4B_eq_of_isConj {G : Type} [Group G] {a x : G} (hx : IsConj a
 private theorem orb6A_eq_of_isConj {G : Type} [Group G] {a x : G} (hx : IsConj a x) (y : G) :
     orb6A x y = orb6A a y := by
   ext c
-  simp only [orb6A, Set.mem_setOf_eq]
+  simp only [orb6A, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h1, h2, h3⟩
     exact ⟨(isConj_iff_of_isConj hx c).mp h1, h2,
@@ -71,7 +71,7 @@ private theorem orb6A_eq_of_isConj {G : Type} [Group G] {a x : G} (hx : IsConj a
 private theorem orb3A_eq_of_isConj {G : Type} [Group G] {a x : G} (hx : IsConj a x) :
     orb3A x x = orb3A a x := by
   ext c
-  simp only [orb3A, Set.mem_setOf_eq]
+  simp only [orb3A, Set.mem_ofPred_eq]
   rw [orb2A_eq_of_isConj hx x, orb2A_eq_of_isConj hx c]
   constructor
   · rintro ⟨h1, h2, h3⟩
@@ -82,7 +82,7 @@ private theorem orb3A_eq_of_isConj {G : Type} [Group G] {a x : G} (hx : IsConj a
 private theorem oddSet_eq_of_isConj {G : Type} [Group G] {a x : G} (hx : IsConj a x) :
     oddSet x x = oddSet a x := by
   ext c
-  simp only [oddSet, Set.mem_setOf_eq]
+  simp only [oddSet, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨h1, h2, h3, t, h4, h5⟩
     exact ⟨(isConj_iff_of_isConj hx c).mp h1, h2, h3, t,
@@ -94,7 +94,7 @@ private theorem oddSet_eq_of_isConj {G : Type} [Group G] {a x : G} (hx : IsConj 
 private theorem orb5A_eq_of_isConj {G : Type} [Group G] {a x : G} (hx : IsConj a x) :
     orb5A x x = orb5A a x := by
   ext c
-  simp only [orb5A, Set.mem_setOf_eq, oddSet_eq_of_isConj hx]
+  simp only [orb5A, Set.mem_ofPred_eq, oddSet_eq_of_isConj hx]
   constructor
   · rintro ⟨h1, h2, h3⟩
     exact ⟨h1, h2, fun t ht htc => h3 t ((isConj_iff_of_isConj hx t).mpr ht) htc⟩
@@ -104,7 +104,7 @@ private theorem orb5A_eq_of_isConj {G : Type} [Group G] {a x : G} (hx : IsConj a
 private theorem orb5E_eq_of_isConj {G : Type} [Group G] {a x : G} (hx : IsConj a x) :
     orb5E x x = orb5E a x := by
   ext c
-  simp only [orb5E, Set.mem_setOf_eq, oddSet_eq_of_isConj hx]
+  simp only [orb5E, Set.mem_ofPred_eq, oddSet_eq_of_isConj hx]
   constructor
   · rintro ⟨h1, h2, h3⟩
     exact ⟨h1, h2, fun t ht htc => h3 t ((isConj_iff_of_isConj hx t).mpr ht) htc⟩

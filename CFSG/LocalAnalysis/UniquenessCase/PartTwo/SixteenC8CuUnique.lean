@@ -60,7 +60,7 @@ theorem cu_binModel {W : Type} [CommGroup W] [Finite W] (hexp : ∀ w : W, w ^ 2
     rw [hΨ]
     simp [hc]
   have hWnt : Nontrivial V := by
-    obtain ⟨x, -, hx⟩ := SetLike.exists_of_lt hirr.1
+    obtain ⟨x, -, hx⟩ := _root_.IsConcreteLE.exists_of_lt hirr.1
     exact ⟨⟨c x, 0, fun h => hx ((Subgroup.mem_bot).mpr ((hc_one x).mp h))⟩⟩
   have hFin : Finite V := inferInstance
   let ρ : Representation (ZMod 2) S V :=
@@ -116,7 +116,7 @@ theorem cu_finrank_eq {W : Type} [CommGroup W] [Finite W] (hexp : ∀ w : W, w ^
     rw [← cu_card_of_rk hexp hrk]
     exact (Nat.card_congr (θ.toEquiv.trans Multiplicative.toAdd)).symm
   have h2 : Nat.card V = 2 ^ Module.finrank (ZMod 2) V := by
-    haveI : Module.Finite (ZMod 2) V := Module.Finite.of_finite
+    have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
     rw [Module.natCard_eq_pow_finrank (K := ZMod 2), Nat.card_zmod]
   exact Nat.pow_right_injective (le_refl 2) (h2.symm.trans h1)
 

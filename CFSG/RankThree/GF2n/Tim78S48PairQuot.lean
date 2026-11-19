@@ -17,7 +17,7 @@ variable {G : Type} [Group G]
 
 theorem center_eq_bot_of_simple {Y Z : Type*} [Group Y] [Group Z] (e : Y ≃* Z) [IsSimpleGroup Z]
     (hnc : ¬ ∀ a b : Y, a * b = b * a) : Subgroup.center Y = ⊥ := by
-  haveI : IsSimpleGroup Y := e.isSimpleGroup
+  have : IsSimpleGroup Y := e.isSimpleGroup
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center Y) with h | h
   · exact h
   · exfalso
@@ -55,13 +55,13 @@ theorem quotPair_center_eq_bot (P : QuotPair T T₁) (hCen : BenderCenterInput)
       rw [show x * y * x⁻¹ = y by rw [h x y, mul_inv_cancel_right]])
     exact P.ne (by rw [hx, this])
   rcases hmod with ⟨f, hf, -, ⟨e⟩⟩ | ⟨a, ha, -, ⟨e⟩⟩ | ⟨m, hm, h3, -, ⟨e⟩⟩
-  · haveI : IsSimpleGroup PSL(2, GaloisField 2 f) :=
+  · have : IsSimpleGroup PSL(2, GaloisField 2 f) :=
       Matrix.ProjectiveSpecialLinearGroup.rank_two_simple (by
         rw [GaloisField.card 2 f (by omega)]
         calc 4 = 2 ^ 2 := by norm_num
           _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf)
     exact center_eq_bot_of_simple e hnc
-  · haveI : IsSimpleGroup (Sz a) :=
+  · have : IsSimpleGroup (Sz a) :=
       SignalizerFunctorTheorem.McBride.SzModel.sz_isSimpleGroup ha
     exact center_eq_bot_of_simple e hnc
   · exact center_eq_bot_of_equiv e (DihedralGroup.center_eq_bot_of_odd_ne_one hm (by omega))
@@ -150,7 +150,7 @@ theorem quotPair48 (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInput)
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hmk : ∀ y : ↥X, π y = 1 ↔ (y : G) ∈ N := fun y => by
     rw [hπ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
-  have hNK : N ≤ kernel48 B T g := H.kernelGen_le_kernel
+  have hNK : N ≤ kernel48 B T g := CFSG.RankThree.GF2n.Tim78.Hyp4.kernelGen_le_kernel
   have hconj : ∀ (u : ↥X) (A : Subgroup G), conjSubgroup (π u) ((A.subgroupOf X).map π) =
       ((conjSubgroup (u : G) A).subgroupOf X).map π := by
     intro u A
@@ -262,10 +262,10 @@ theorem quotPair48 (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInput)
 theorem kernel48_eq_kernelGen (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInput)
     (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P) :
     kernel48 B T g = kernelGen48 B T g := by
-  haveI := H.normal_kernelGen h48
+  have := H.normal_kernelGen h48
   have hQP := H.quotPair48 hCen hU h48 hP
   have hZ := quotPair_center_eq_bot hQP hCen hU
-  refine le_antisymm (fun k hk => ?_) H.kernelGen_le_kernel
+  refine le_antisymm (fun k hk => ?_) CFSG.RankThree.GF2n.Tim78.Hyp4.kernelGen_le_kernel
   set X := T ⊔ conjSubgroup g T with hX
   set N := kernelGen48 B T g with hN
   set π := QuotientGroup.mk' (N.subgroupOf X) with hπ
@@ -302,7 +302,7 @@ theorem exists_conj_Tg (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInpu
     (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P) :
     ∃ x ∈ T ⊔ conjSubgroup g T, conjSubgroup g T = conjSubgroup x T ∧
       conjSubgroup g B = conjSubgroup x B := by
-  haveI := H.normal_kernelGen h48
+  have := H.normal_kernelGen h48
   set X := T ⊔ conjSubgroup g T with hX
   set N := kernelGen48 B T g with hN
   set π := QuotientGroup.mk' (N.subgroupOf X) with hπ
@@ -311,7 +311,7 @@ theorem exists_conj_Tg (hCen : BenderCenterInput) (hU : UnitaryTwoGenerationInpu
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
   have hmk : ∀ y : ↥X, π y = 1 ↔ (y : G) ∈ N := fun y => by
     rw [hπ, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
-  have hNK : N ≤ kernel48 B T g := H.kernelGen_le_kernel
+  have hNK : N ≤ kernel48 B T g := CFSG.RankThree.GF2n.Tim78.Hyp4.kernelGen_le_kernel
   have hconj : ∀ (u : ↥X) (A : Subgroup G), conjSubgroup (π u) ((A.subgroupOf X).map π) =
       ((conjSubgroup (u : G) A).subgroupOf X).map π := by
     intro u A

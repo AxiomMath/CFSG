@@ -26,12 +26,13 @@ noncomputable def conjOnL (N L : Subgroup G) (hLN : L ≤ N)
   (MulAut.congr (Subgroup.subgroupOfEquivOfLe hLN)).toMonoidHom.comp
     (MulAut.conjNormal (G := ↥N) (H := L.subgroupOf N))
 
+omit [Finite G] in
 theorem conjOnL_apply (N L : Subgroup G) (hLN : L ≤ N)
     (hNL : N ≤ Subgroup.normalizer (L : Set G)) (n : ↥N) (l : ↥L) :
     conjOnL N L hLN hNL n l =
       (⟨(n : G) * (l : G) * (n : G)⁻¹,
         (Subgroup.mem_normalizer_iff.mp (hNL n.2) (l : G)).mp l.2⟩ : ↥L) := by
-  letI : (L.subgroupOf N).Normal :=
+  let : (L.subgroupOf N).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hLN).mpr hNL
   apply Subtype.ext
   simp [conjOnL, MulAut.conjNormal_apply]
@@ -42,6 +43,7 @@ noncomputable def conjQuotAction (N L : Subgroup G) (Q : Subgroup ↥L) [Q.Chara
   (CFSG.FiveTransitive.CharacteristicAutomorphism.quotient Q).comp
     (conjOnL N L hLN hNL)
 
+omit [Finite G] in
 theorem conjQuotAction_apply_mk (N L : Subgroup G) (Q : Subgroup ↥L) [Q.Characteristic]
     (hLN : L ≤ N) (hNL : N ≤ Subgroup.normalizer (L : Set G)) (n : ↥N) (l : ↥L) :
     conjQuotAction N L Q hLN hNL n (QuotientGroup.mk' Q l) =
@@ -51,6 +53,7 @@ theorem conjQuotAction_apply_mk (N L : Subgroup G) (Q : Subgroup ↥L) [Q.Charac
   rw [conjQuotAction, MonoidHom.comp_apply,
     CFSG.FiveTransitive.CharacteristicAutomorphism.quotient_apply_mk, conjOnL_apply]
 
+omit [Finite G] in
 theorem conjQuotAction_apply_mem (N L : Subgroup G) (Q : Subgroup ↥L) [Q.Characteristic]
     (hLN : L ≤ N) (hNL : N ≤ Subgroup.normalizer (L : Set G)) {n : ↥N} (hn : (n : G) ∈ L)
     (l : ↥L) :
@@ -60,6 +63,7 @@ theorem conjQuotAction_apply_mem (N L : Subgroup G) (Q : Subgroup ↥L) [Q.Chara
   rw [conjQuotAction_apply_mk, MulAut.conj_apply, ← map_mul, ← map_inv]
   rfl
 
+omit [Finite G] in
 private theorem mem_map_subtype_iff {L : Subgroup G} {Q : Subgroup ↥L} {y : ↥L} :
     (y : G) ∈ Q.map L.subtype ↔ y ∈ Q :=
   ⟨fun ⟨z, hz, hzy⟩ => (Subtype.ext hzy : z = y) ▸ hz, fun hy => ⟨y, hy, rfl⟩⟩
@@ -68,6 +72,7 @@ noncomputable def quotientCentralizer (N L : Subgroup G) (Q : Subgroup ↥L) [Q.
     (hLN : L ≤ N) (hNL : N ≤ Subgroup.normalizer (L : Set G)) : Subgroup G :=
   (conjQuotAction N L Q hLN hNL).ker.map N.subtype
 
+omit [Finite G] in
 theorem mem_quotientCentralizer {N L : Subgroup G} (Q : Subgroup ↥L) [Q.Characteristic]
     (hLN : L ≤ N) (hNL : N ≤ Subgroup.normalizer (L : Set G)) {x : G} :
     x ∈ quotientCentralizer N L Q hLN hNL ↔
@@ -79,11 +84,13 @@ theorem mem_quotientCentralizer {N L : Subgroup G} (Q : Subgroup ↥L) [Q.Charac
   · rintro ⟨n, rfl, hn⟩
     exact ⟨n, hn, rfl⟩
 
+omit [Finite G] in
 theorem quotientCentralizer_le (N L : Subgroup G) (Q : Subgroup ↥L) [Q.Characteristic]
     (hLN : L ≤ N) (hNL : N ≤ Subgroup.normalizer (L : Set G)) :
     quotientCentralizer N L Q hLN hNL ≤ N :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem map_le_quotientCentralizer (N L : Subgroup G) (Q : Subgroup ↥L) [Q.Characteristic]
     (hLN : L ≤ N) (hNL : N ≤ Subgroup.normalizer (L : Set G)) :
     Q.map L.subtype ≤ quotientCentralizer N L Q hLN hNL := by
@@ -109,6 +116,7 @@ theorem map_le_quotientCentralizer (N L : Subgroup G) (Q : Subgroup ↥L) [Q.Cha
   rw [helem, map_mul, map_mul, map_inv, hq1]
   simp
 
+omit [Finite G] in
 theorem commutator_mem_map_of_mem_quotientCentralizer {N L : Subgroup G}
     (Q : Subgroup ↥L) [Q.Characteristic] (hLN : L ≤ N)
     (hNL : N ≤ Subgroup.normalizer (L : Set G)) {x l : G}
@@ -136,6 +144,7 @@ theorem commutator_mem_map_of_mem_quotientCentralizer {N L : Subgroup G}
     (Subgroup.mem_normalizer_iff.mp (hLQ hl) _).mp hmemG
   simpa [mul_assoc] using hconj
 
+omit [Finite G] in
 theorem quotientCentralizer_inf_le {N L : Subgroup G} (Q : Subgroup ↥L) [Q.Characteristic]
     (hLN : L ≤ N) (hNL : N ≤ Subgroup.normalizer (L : Set G))
     (hcenter : Subgroup.center (↥L ⧸ Q) = ⊥) :
@@ -167,14 +176,15 @@ theorem quotientCentralizer_inf_le {N L : Subgroup G} (Q : Subgroup ↥L) [Q.Cha
   rw [hcenter, Subgroup.mem_bot] at hz
   exact mem_map_subtype_iff.mpr ((QuotientGroup.eq_one_iff _).mp hz)
 
+omit [Finite G] in
 theorem perfect_le_sup_quotientCentralizer {N L K : Subgroup G} (Q : Subgroup ↥L)
     [Q.Characteristic] (hLN : L ≤ N) (hNL : N ≤ Subgroup.normalizer (L : Set G))
     (hKN : K ≤ N) (hKperf : Group.IsPerfect ↥K)
     (hOut : Group.IsSolvable (Outer (↥L ⧸ Q))) :
     K ≤ L ⊔ quotientCentralizer N L Q hLN hNL := by
   classical
-  haveI : Group.IsPerfect ↥K := hKperf
-  haveI : Group.IsSolvable (Outer (↥L ⧸ Q)) := hOut
+  have : Group.IsPerfect ↥K := hKperf
+  have : Group.IsSolvable (Outer (↥L ⧸ Q)) := hOut
   let ψ : ↥N →* Outer (↥L ⧸ Q) :=
     (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner
       (↥L ⧸ Q))).comp (conjQuotAction N L Q hLN hNL)
@@ -222,19 +232,19 @@ theorem inf_le_pCoreOf_of_quasisimple {N L K : Subgroup G} (hKN : K ≤ N)
     (hcenter : Subgroup.center (↥K ⧸ CFSG.pCore 2 ↥K) = ⊥) (hKL : ¬ K ≤ L) :
     K ⊓ L ≤ CFSG.Open.pCoreOf 2 K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set M₀ : Subgroup ↥K := (K ⊓ L).subgroupOf K with hM₀
   have hM₀normal : M₀.Normal :=
     Subgroup.Normal.mk fun n hn g => by
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       exact ⟨K.mul_mem (K.mul_mem g.2 hn.1) (K.inv_mem g.2),
         (Subgroup.mem_normalizer_iff.mp (hNL (hKN g.2)) (n : G)).mp hn.2⟩
-  haveI : M₀.Normal := hM₀normal
+  have : M₀.Normal := hM₀normal
   set q : ↥K →* (↥K ⧸ CFSG.pCore 2 ↥K) :=
     QuotientGroup.mk' (CFSG.pCore 2 ↥K) with hqdef
   set Mimg : Subgroup (↥K ⧸ CFSG.pCore 2 ↥K) := M₀.map q with hMimg
   have hMimg_normal : Mimg.Normal := hM₀normal.map q (QuotientGroup.mk'_surjective _)
-  haveI : Mimg.Normal := hMimg_normal
+  have : Mimg.Normal := hMimg_normal
   rcases CFSG.LocalCores.quasisimple_normal_subgroups hq hMimg_normal with htop | hcent
   ·
     exfalso
@@ -254,10 +264,10 @@ theorem inf_le_pCoreOf_of_quasisimple {N L K : Subgroup G} (hKN : K ≤ N)
         have hm1 : (QuotientGroup.mk' M₀) (m : ↥K) = 1 :=
           (QuotientGroup.eq_one_iff _).mpr hm
         rw [map_mul, map_inv, hm1, inv_one, mul_one]
-    haveI : Group.IsNilpotent ↥(CFSG.pCore 2 ↥K) :=
+    have : Group.IsNilpotent ↥(CFSG.pCore 2 ↥K) :=
       (CFSG.pCore_isPGroup (p := 2) (G := ↥K)).isNilpotent
-    haveI : Group.IsSolvable ↥(CFSG.pCore 2 ↥K) := inferInstance
-    haveI : Group.IsSolvable (↥K ⧸ M₀) := Group.isSolvable_of_surjective hsurj
+    have : Group.IsSolvable ↥(CFSG.pCore 2 ↥K) := inferInstance
+    have : Group.IsSolvable (↥K ⧸ M₀) := Group.isSolvable_of_surjective hsurj
     have hcomm : ⁅(⊤ : Subgroup ↥K), (⊤ : Subgroup ↥K)⁆ = (⊤ : Subgroup ↥K) := by
       rw [← _root_.commutator_def]
       exact Group.IsPerfect.commutator_eq_top
@@ -295,7 +305,7 @@ theorem exists_elemAbelian_nine_le_quotientCentralizer {N L E : Subgroup G}
   let L' : Subgroup ↥Y := L.subgroupOf Y
   have hL'normal : L'.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hYL).mpr (sup_le Subgroup.le_normalizer hLX)
-  letI : L'.Normal := hL'normal
+  let : L'.Normal := hL'normal
   let θ : ↥X →* (↥Y ⧸ L') :=
     (QuotientGroup.mk' L').comp (Subgroup.inclusion hYX)
   have hsurj : Function.Surjective θ := by
@@ -419,7 +429,7 @@ theorem four_le_pRank_of_quotientCentralizer {N L F B : Subgroup G}
     (hQ3 : ¬ 3 ∣ Nat.card Q) :
     4 ≤ CFSG.Open.pRank 3 N := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Q' : Subgroup G := Q.map L.subtype with hQ'
   have hQ'3 : ¬ 3 ∣ Nat.card Q' := by
     rw [hQ', Subgroup.card_map_of_injective L.subtype_injective]

@@ -22,7 +22,7 @@ theorem exists_commute_of_conj_mem_pPrimeCore {K : Subgroup G} {e k : G}
     (hk : k ∈ K) (hek : k⁻¹ * (e * k * e⁻¹) ∈ (CFSG.pPrimeCore 3 ↥K).map K.subtype) :
     ∃ c ∈ K, e * c = c * e ∧ c⁻¹ * k ∈ (CFSG.pPrimeCore 3 ↥K).map K.subtype := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set X : Subgroup G := Subgroup.normalizer (K : Set G)
   set OK : Subgroup G := (CFSG.pPrimeCore 3 ↥K).map K.subtype
   set N : Subgroup ↥X := OK.subgroupOf X
@@ -33,7 +33,7 @@ theorem exists_commute_of_conj_mem_pPrimeCore {K : Subgroup G} {e k : G}
       (CFSG.pPrimeCore 3 ↥K)
   have hNnormal : N.Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hOKleX).mpr hXnormOK
-  haveI : N.Normal := hNnormal
+  have : N.Normal := hNnormal
   have hNcard : Nat.card N = Nat.card OK :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hOKleX).toEquiv
   have hOKcard : Nat.card OK = Nat.card (CFSG.pPrimeCore 3 ↥K) :=
@@ -106,7 +106,7 @@ theorem mem_map_subgroupOf_of_conj_eq {M E H : Subgroup G} (hdata : HypCGen G M 
       (M.subgroupOf (kSub 3 M H)).map
         (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥(kSub 3 M H))) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEN : E ≤ Subgroup.normalizer ((kSub 3 M H : Subgroup G) : Set G) :=
     hdata.E_le_H.trans (hK 3 E H hdata)
   have hpow : e ^ 3 = 1 := hdata.elem.2 e he
@@ -124,10 +124,11 @@ theorem mem_map_subgroupOf_of_conj_eq {M E H : Subgroup G} (hdata : HypCGen G M 
   rw [pPrimeCore_quotient_eq_of_mem_pPrimeCore_map hcK hk hcO]
   exact Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr hcM)
 
+omit [Finite G] in
 theorem le_of_map_subgroupOf_eq_top {K M : Subgroup G}
     (hOK : (CFSG.pPrimeCore 3 ↥K).map K.subtype ≤ M)
     (h : (M.subgroupOf K).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K)) = ⊤) : K ≤ M := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro k hk
   have hmem : QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K) ⟨k, hk⟩ ∈
       (M.subgroupOf K).map (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥K)) := by
@@ -149,20 +150,21 @@ noncomputable def actStar (J : Subgroup G) :
   (CFSG.SectionRank.Ccomm.autQuotient (CFSG.pPrimeCore 3 ↥J)).comp
     (Subgroup.normalizerMonoidHom J)
 
+omit [Finite G] in
 theorem actStar_mk (J : Subgroup G) (n : ↥(Subgroup.normalizer (J : Set G))) (x : ↥J) :
     actStar J n (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J) x) =
       QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥J) ⟨(n : G) * (x : G) * (n : G)⁻¹,
         (Subgroup.mem_normalizer_iff.mp n.2 (x : G)).mp x.2⟩ := by
-  simp only [actStar, MonoidHom.comp_apply, CFSG.SectionRank.Ccomm.autQuotient_mk,
-    Subgroup.normalizerMonoidHom_apply_apply_coe]
+  simp only [actStar, MonoidHom.comp_apply]
   rfl
 
+omit [Finite G] in
 theorem actStar_eq_one_iff_mem_pPrimeCore {J : Subgroup G}
     (hZ : Subgroup.center (threeStar J) = ⊥)
     (n : ↥(Subgroup.normalizer (J : Set G))) (hn : (n : G) ∈ J) :
     actStar J n = 1 ↔ (n : G) ∈ (CFSG.pPrimeCore 3 ↥J).map J.subtype := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup G := (CFSG.pPrimeCore 3 ↥J).map J.subtype
   have hNO : Subgroup.normalizer (J : Set G) ≤ Subgroup.normalizer (O : Set G) :=
     CFSG.section9_normalizer_le_normalizer_map_subtype_of_characteristic (G := G) J
@@ -226,12 +228,13 @@ theorem actStar_eq_one_iff_mem_pPrimeCore {J : Subgroup G}
     rw [← hsubeq]
     exact Subgroup.mem_subgroupOf.mpr hgoal
 
+omit [Finite G] in
 theorem commutator_mem_pPrimeCore_of_actStar_eq_one {J : Subgroup G}
     (n : ↥(Subgroup.normalizer (J : Set G))) (x : ↥J)
     (h : actStar J n = 1) :
     ⁅(x : G), (n : G)⁆ ∈ (CFSG.pPrimeCore 3 ↥J).map J.subtype := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup G := (CFSG.pPrimeCore 3 ↥J).map J.subtype
   have hNO : Subgroup.normalizer (J : Set G) ≤ Subgroup.normalizer (O : Set G) :=
     CFSG.section9_normalizer_le_normalizer_map_subtype_of_characteristic (G := G) J
@@ -258,7 +261,7 @@ theorem commutator_mem_pPrimeCore_of_actStar_eq_one {J : Subgroup G}
 theorem innerOnKAt_of {M : Subgroup G} (hK : KNormalAt M) (hL : PLayerNotLeAt M)
     (hF : KFactL34FixedPointsGen) : InnerOnKAt M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro E H hdata hC3 e he
   let K : Subgroup G := kSub 3 M H
   let OK : Subgroup G := (CFSG.pPrimeCore 3 ↥K).map K.subtype
@@ -296,7 +299,7 @@ theorem innerOnKAt_of {M : Subgroup G} (hK : KNormalAt M) (hL : PLayerNotLeAt M)
   have hFmap : F = (⊤ : Subgroup ↥E).map ρ := MonoidHom.range_eq_map ρ
   have hFelem : CFSG.Open.IsElemAbelian 3 F := by
     have htop : CFSG.Open.IsElemAbelian 3 (⊤ : Subgroup ↥E) := by
-      haveI := hdata.elem.1
+      have := hdata.elem.1
       refine ⟨⟨⟨fun a b => Subtype.ext (Subtype.ext ?_)⟩⟩, fun x _ => Subtype.ext ?_⟩
       · simpa using congrArg Subtype.val (mul_comm' a.1 b.1)
       · exact hdata.elem.2 (x : G) x.2

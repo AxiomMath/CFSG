@@ -426,7 +426,6 @@ theorem j2 : j2S16OK = true := by
     unfold quadCheck
     rw [eC, allRec_iff]
     intro i hi
-    beta_reduce
     have ci := cCT i hi
     have hq := allN_spec k_quad i (by rw [← hnC]; exact hi)
     simp only [bAnd_iff] at hq
@@ -436,7 +435,6 @@ theorem j2 : j2S16OK = true := by
     refine ⟨⟨invOK_unpack ci cai iai, qi⟩, ?_⟩
     rw [allRec_iff]
     intro j hj
-    beta_reduce
     have cj := cCT j hj
     have hq' := allN_spec k_quad j (by rw [← hnC]; exact hj)
     simp only [bAnd_iff] at hq'

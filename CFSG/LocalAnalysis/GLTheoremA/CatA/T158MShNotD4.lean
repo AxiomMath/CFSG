@@ -60,7 +60,7 @@ theorem not_d4_of_linUni_two (hc : Ctx) {S : Type} [Group S] [Finite S]
     obtain ⟨qT, rfl⟩ : ∃ qT, dT = .trialityD4 qT := by
       cases dT with
       | trialityD4 qT => exact ⟨qT, rfl⟩
-      | _ => simp [onLie] at hdT
+      | _ => simp at hdT
     have hqT2 : qT.p = 2 := CatDistinct.td4_chev2_even hc qT hvT eT hchev
     have hqTexp : 1 ≤ qT.exponent := qT.exponent_pos
     have hcardT : Nat.card S = ordTrialityD4 (2 ^ qT.exponent) := by

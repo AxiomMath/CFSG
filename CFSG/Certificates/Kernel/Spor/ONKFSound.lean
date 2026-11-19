@@ -129,12 +129,12 @@ theorem mvL_acc : ∀ (L : List Nat) (xp xm : Nat) (a : V),
     rw [mvL_cons']
     simp only [accV, stepV]
     by_cases h1 : xp.testBit 0 = true
-    · simp only [h1, if_true]
+    · simp only [h1, ite_true]
       exact mvL_acc L _ _ (a.add (vOf c))
     · by_cases h2 : xm.testBit 0 = true
-      · simp only [h1, h2, if_true, if_false]
+      · simp only [h1, h2, ite_true]
         exact mvL_acc L _ _ (a.add (vOf c).neg)
-      · simp only [h1, h2, if_false]
+      · simp only [h1, h2]
         exact mvL_acc L _ _ a
 
 theorem accV_append : ∀ (L1 L2 : List Nat) (xp xm : Nat) (a : V),

@@ -20,7 +20,7 @@ private theorem false_of_hom_index_two {Y X : Type} [Group Y] [Group X] {s : Y} 
     (hb : H1017.TwoLocalBoundPow 4 N) {E T : Subgroup Y} (hEC : E ≤ C)
     (hE : IsElemAbelian 3 E) (hEc : Nat.card E = 3 ^ 5) (hT : IsPGroup 2 T) (hTC : T ≤ C)
     (hET : E ≤ Subgroup.normalizer (T : Set Y)) (hTc : 8 ≤ Nat.card T) : False := by
-  haveI := Subgroup.normal_of_index_eq_two hN
+  have := Subgroup.normal_of_index_eq_two hN
   set Eb := (E.subgroupOf C).map Φ with hEbdef
   set Tb := (T.subgroupOf C).map Φ with hTbdef
   have hEb : IsElemAbelian 3 Eb := (hE.subgroupOf C).map Φ

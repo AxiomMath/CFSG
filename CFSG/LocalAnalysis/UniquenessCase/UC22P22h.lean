@@ -57,11 +57,10 @@ theorem uc22p22h_fixR [Fintype F] (ha : 1 ≤ a) (hF : Fintype.card F = 2 ^ (2 *
       exact (CharTwo.add_eq_zero.mp this).symm
     obtain ⟨ω, hω⟩ : ∃ ω : F, ω ^ 2 ^ a ≠ ω := by
       have hF' : Nat.card F = 2 ^ (2 * a) := by rw [Nat.card_eq_fintype_card, hF]
-      haveI : Finite F := inferInstance
+      have : Finite F := inferInstance
       exact CFSG.ASVolI.burnsideK312_exists_notFixed ha hF'
     have e3 := congrFun (congrFun (hA ω) 0) 0
-    simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.cons_val_one,
-      Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.zero_apply] at e3
+    simp only [Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero, Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.zero_apply] at e3
     have e3' : sig a ω * X 0 1 + ω * sig a (X 0 1) = 0 := by simpa [h11] using e3
     rw [hσX] at e3'
     have e4 : (sig a ω + ω) * X 0 1 = 0 := by linear_combination e3'
@@ -76,7 +75,7 @@ theorem uc22p22h_fixR [Fintype F] (ha : 1 ≤ a) (hF : Fintype.card F = 2 ^ (2 *
     have h := hAct_uMat_sub t hX
     have h10 : X 1 0 = 0 := by rw [← hermA_apply hX 1 0, h01, map_zero]
     rw [h11, h01] at h
-    simp only [map_zero, mul_zero, add_zero, zero_add] at h
+    simp only [map_zero, mul_zero, add_zero] at h
     have : twistActCh6 a (uMat t) X - X = 0 := by
       rw [h]
       ext i j
@@ -172,13 +171,13 @@ theorem uc22p22h_pres {A : Submodule (ZMod 2) W} {k : ℕ}
         (∀ X ∈ hermA k F, ∃ x ∈ A, β x = X) ∧
         ∀ (l : ↥L) (x : W), x ∈ A → β (ρ l x) = twistActCh6 k (θ l) (β x) := by
   obtain ⟨K, _, _, hKcard, b, c, hbc, hinv, -, -, φ, ψ, -, hψinj, hψsurj, hψact⟩ := h
-  haveI : CharP K 2 := uc22p22d_charP_two hk hKcard
-  letI : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := uc22p22d_charP_two hk hKcard
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨F', _, _, ω, hrank, hω⟩ := CFSG.ASVolI.burnsideI16h_exists_quad_ext hbc
-  haveI : Module.Finite K F' := Module.finite_of_finrank_pos (by rw [hrank]; norm_num)
-  haveI : Finite F' := Module.finite_of_finite K
-  letI : Fintype F' := Fintype.ofFinite F'
-  haveI : CharP F' 2 := charP_of_injective_algebraMap (algebraMap K F').injective 2
+  have : Module.Finite K F' := Module.finite_of_finrank_pos (by rw [hrank]; norm_num)
+  have : Finite F' := Module.finite_of_finite K
+  let : Fintype F' := Fintype.ofFinite F'
+  have : CharP F' 2 := charP_of_injective_algebraMap (algebraMap K F').injective 2
   have hK : Fintype.card K = 2 ^ k := by rw [← Nat.card_eq_fintype_card, hKcard]
   let S : CFSG.ASVolI.burnsideI16h_Setup K F' := ⟨k, b, c, hk, hK, ω, hω, hbc, hrank⟩
   refine ⟨F', inferInstance, inferInstance, inferInstance, CFSG.ASVolI.burnsideI16h_hF S, ?_⟩
@@ -381,7 +380,7 @@ theorem uc22p22h_core [Finite W] {L U : Subgroup H} (hUL : U ≤ L) {p : ℕ} (h
       ¬ Nat.card ↥(fixOn ρ U ⊤) ≡ Nat.card ↥(fixOn ρ U Y) [MOD p]) :
     ∀ x : W, ρ c x = x := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hcl : ∀ g ∈ Subgroup.centralizer (L : Set H), ∀ l ∈ L, ∀ x : W,
       ρ g (ρ l x) = ρ l (ρ g x) := by
     intro g hg l hl x

@@ -32,6 +32,7 @@ private theorem centModSubgroup_eq_of_genHyp {Q : TauCeti.LieTypeIndex → Prop}
   rw [hbot, Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm] at h
   exact h
 
+omit [Finite Ω] in
 private theorem isElemAbelian_zpowers {ε : Ω} (hε3 : ε ^ 3 = 1) :
     IsElemAbelian 3 (Subgroup.zpowers ε) := by
   refine ⟨⟨⟨fun a b => ?_⟩⟩, fun y hy => ?_⟩
@@ -41,12 +42,13 @@ private theorem isElemAbelian_zpowers {ε : Ω} (hε3 : ε ^ 3 = 1) :
   · obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
     rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hε3, one_zpow]
 
+omit [Finite Ω] in
 private theorem sup_zpowers_of_not_mem {H M : Subgroup Ω} {ε : Ω}
     (hcomm : ∀ h ∈ H, h * ε = ε * h) (hε3 : ε ^ 3 = 1) (hHM : H ≤ M) (hεM : ε ∉ M) :
     Nat.card ↥(H ⊔ Subgroup.zpowers ε) = 3 * Nat.card H ∧
       (H ⊔ Subgroup.zpowers ε) ⊓ M = H := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hHN : H ≤ Subgroup.normalizer (Subgroup.zpowers ε : Set Ω) := by
     intro h hh
     rw [Subgroup.mem_normalizer_iff]
@@ -116,6 +118,7 @@ private theorem sup_zpowers_of_not_mem {H M : Subgroup Ω} {ε : Ω}
 private theorem zmod3_ne : (0 : ZMod 3) ≠ 1 ∧ (0 : ZMod 3) ≠ 2 ∧ (1 : ZMod 3) ≠ 2 := by
   decide
 
+omit [Finite Ω] in
 private theorem sup_zpowers_le {H K : Subgroup Ω} {ε : Ω} (hH : H ≤ K) (hε : ε ∈ K) :
     H ⊔ Subgroup.zpowers ε ≤ K :=
   sup_le hH ((Subgroup.zpowers_le).2 hε)
@@ -132,7 +135,7 @@ theorem genStep3On_holds {Q : TauCeti.LieTypeIndex → Prop} (h2 : GenCompQuasiO
     hI B' d J hB'el hBB' hdB' hdS hJ hnJ
   subst hp3
   have hp : Nat.Prime 3 := H.pPrime
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hdp : d ^ 3 = 1 := hB'el.2 d hdB'
   obtain ⟨g, hgB, hgN⟩ : ∃ g ∈ B', g ∉ Subgroup.normalizer (J : Set Ω) := by
     by_contra h

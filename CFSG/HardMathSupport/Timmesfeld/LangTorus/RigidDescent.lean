@@ -150,8 +150,8 @@ theorem LangSetup.isAlgebraic_of_algebraic (K : Type) [Field K] [Finite K] [Alge
   have hint : IsIntegral K c := (Algebra.IsAlgebraic.isAlgebraic c).isIntegral
   have : FiniteDimensional K (IntermediateField.adjoin K {c}) := IntermediateField.adjoin.finiteDimensional hint
   have : Finite (IntermediateField.adjoin K {c}) := Module.finite_of_finite K
-  letI : Fintype (IntermediateField.adjoin K {c}) := Fintype.ofFinite _
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype (IntermediateField.adjoin K {c}) := Fintype.ofFinite _
+  let : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card (IntermediateField.adjoin K {c}) =
       Fintype.card K ^ Module.finrank K (IntermediateField.adjoin K {c}) :=
     Module.card_eq_pow_finrank

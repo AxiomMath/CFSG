@@ -35,7 +35,7 @@ theorem eqpW_eq : (eqpW : SL2 Ω) = uSL 1 * vSL 1 * uSL 1 := by
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   fin_cases i <;> fin_cases j <;>
     simp [eqpW, uSL, vSL, Matrix.mul_apply, Fin.sum_univ_two] <;>
-    first | rfl | linear_combination h2 | linear_combination (-1 : Ω) * h2
+    first | linear_combination h2 | linear_combination (-1 : Ω) * h2
 
 theorem eqpA_inv_mul_map (f : ℕ) {ω : Ω} (hω : ω ^ 2 ^ f = ω + 1) :
     (eqpA ω)⁻¹ * Matrix.SpecialLinearGroup.map (iterateFrobenius Ω 2 f) (eqpA ω) = eqpW := by
@@ -52,7 +52,7 @@ theorem eqpA_inv_mul_map (f : ℕ) {ω : Ω} (hω : ω ^ 2 ^ f = ω + 1) :
   fin_cases i <;> fin_cases j <;>
     simp [eqpA, eqpW, Matrix.adjugate_fin_two, Matrix.mul_apply, Fin.sum_univ_two, hF, hF1,
       RingHom.mapMatrix_apply] <;>
-    first | rfl | linear_combination h2 | linear_combination (-1 : Ω) * h2
+    first | linear_combination h2 | linear_combination (-1 : Ω) * h2
 end A
 
 section Psi

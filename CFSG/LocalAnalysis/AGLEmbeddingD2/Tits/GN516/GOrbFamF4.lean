@@ -120,7 +120,7 @@ theorem f4_edge_of_adj : ∀ u v : Fin 4, u ≠ v → (Tag.cartan .F4 u v : ℤ)
   fin_cases u <;> fin_cases v <;> decide
 
 theorem edgeCond_f4
-    (H : Fin (f4Datum K).rank → Subgroup ↥(adjointGroup .F4 K)) (hrank : 3 ≤ (f4Datum K).rank)
+    (H : Fin (f4Datum K).rank → Subgroup ↥(adjointGroup .F4 K)) (_hrank : 3 ≤ (f4Datum K).rank)
     (u v : Fin (f4Datum K).rank) (hadj : (TauCeti.diagramGraph (f4Datum K).cartan).Adj u v) :
     Core.EdgeCond (f4Datum K) H u v := by
   have hne := (f4Datum K).isFiniteType.diagramGraph_adj_iff.1 hadj

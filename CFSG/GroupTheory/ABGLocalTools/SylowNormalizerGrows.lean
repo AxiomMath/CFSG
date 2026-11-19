@@ -24,14 +24,14 @@ theorem isSylowOf_of_normalizer_inf_le (hT : IsSylowOf p T (H ⊓ M))
     rw [← Subgroup.map_subgroupOf_eq_of_le hTle]
     exact Subgroup.map_mono hTS
   have hSgle : Sg ≤ M := Subgroup.map_subtype_le _
-  have hSgp : IsPGroup p Sg := S.isPGroup'.map M.subtype
+  have hSgp : IsPGroup p Sg := S.isPGroup.map M.subtype
   have hne : Sg ≠ T := by
     intro heq
     apply hTM
     have hSyl : IsSylowOf p Sg M := ⟨S, rfl⟩
     rwa [heq] at hSyl
   have hlt : T < Sg := lt_of_le_of_ne hTSg (Ne.symm hne)
-  haveI : Group.IsNilpotent Sg := hSgp.isNilpotent
+  have : Group.IsNilpotent Sg := hSgp.isNilpotent
   have hnc : NormalizerCondition Sg := Group.normalizerCondition_of_isNilpotent
   have hlt' : T.subgroupOf Sg < ⊤ := by
     refine lt_of_le_of_ne le_top ?_
@@ -43,7 +43,7 @@ theorem isSylowOf_of_normalizer_inf_le (hT : IsSylowOf p T (H ⊓ M))
         trivial
       exact Subgroup.mem_subgroupOf.mp hy'
     exact hne (le_antisymm hSgT hTSg)
-  obtain ⟨x, hxN, hxT⟩ := SetLike.exists_of_lt (hnc (T.subgroupOf Sg) hlt')
+  obtain ⟨x, hxN, hxT⟩ := _root_.IsConcreteLE.exists_of_lt (hnc (T.subgroupOf Sg) hlt')
   have hxS : (x : G) ∈ Sg := x.2
   have hxnorm : (x : G) ∈ Subgroup.normalizer (T : Set G) := by
     have hx : x ∈ (Subgroup.normalizer (T : Set G)).subgroupOf Sg := by

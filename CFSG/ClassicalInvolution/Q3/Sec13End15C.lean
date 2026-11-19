@@ -16,6 +16,7 @@ open CFSG.ClassicalInvolution.Q3.TC.Thin
 variable {G : Type} [Group G] [Finite G]
 
 
+omit [Finite G] in
 private theorem e15c_comm_of_unique {R : Subgroup G} {t : G} (ht : IsUniqueInvolution R t)
     {r : G} (hr : r ∈ R) : r * t = t * r := by
   have hm : r * t * r⁻¹ ∈ R := R.mul_mem (R.mul_mem hr ht.mem) (R.inv_mem hr)
@@ -32,6 +33,7 @@ private theorem e15c_comm_of_unique {R : Subgroup G} {t : G} (ht : IsUniqueInvol
   calc r * t = (r * t * r⁻¹) * r := by group
     _ = t * r := by rw [hc]
 
+omit [Finite G] in
 private theorem e15c_mem_sup {K V : Subgroup G} (hV : V ≤ Subgroup.normalizer (K : Set G))
     {x : G} (hx : x ∈ K ⊔ V) : ∃ k ∈ K, ∃ v ∈ V, x = k * v := by
   let S : Subgroup G :=
@@ -51,6 +53,7 @@ private theorem e15c_mem_sup {K V : Subgroup G} (hV : V ≤ Subgroup.normalizer 
     sup_le (fun k hk => ⟨k, hk, 1, V.one_mem, by simp⟩) (fun v hv => ⟨1, K.one_mem, v, hv, by simp⟩)
   exact hle hx
 
+omit [Finite G] in
 private theorem e15c_mem_normalizer_of_mem_centralizer {K : Subgroup G} {a : G}
     (ha : a ∈ Subgroup.centralizer (K : Set G)) : a ∈ Subgroup.normalizer (K : Set G) := by
   rw [Subgroup.mem_normalizer_iff]
@@ -76,6 +79,7 @@ namespace EndHyp
 
 variable {Ω : Set (Subgroup G)} {K K' : Subgroup G} {z : G}
 
+omit [Finite G] in
 private theorem e15c_pow4 {K : Subgroup G} {z i j : G} (hK : IsUniqueInvolution K z) (hi : i ∈ K)
     (hj : j ∈ K) (hii : i * i = z) (hjj : j * j = z) (hji : j * i = z * (i * j))
     (hnf : ∀ x ∈ K, x = 1 ∨ x = z ∨ x = i ∨ x = z * i ∨ x = j ∨ x = z * j ∨ x = i * j ∨
@@ -118,6 +122,7 @@ private theorem e15c_pow4 {K : Subgroup G} {z i j : G} (hK : IsUniqueInvolution 
   · rw [h1, one_mul]
   · rw [h1, hzz]
 
+omit [Finite G] in
 private theorem e15c_not_semidihedral {K : Subgroup G} {a : G}
     (hK4 : ∀ k ∈ K, k * k * (k * k) = 1) (haK : a ∈ Subgroup.centralizer (K : Set G))
     (ha2 : a * a = 1) (ha1 : a ≠ 1) (hSD : IsSemidihedral (K ⊔ Subgroup.zpowers a)) : False := by
@@ -157,6 +162,7 @@ private theorem e15c_not_semidihedral {K : Subgroup G} {a : G}
   have hle := Nat.le_of_dvd (by norm_num) (orderOf_dvd_of_pow_eq_one h4)
   omega
 
+omit [Finite G] in
 private theorem e15c_odd_eq_sq_pow {y : G} (hy : Odd (orderOf y)) :
     y = (y * y) ^ ((orderOf y + 1) / 2) := by
   obtain ⟨k, hk⟩ : ∃ k, (orderOf y + 1) / 2 = k := ⟨_, rfl⟩
@@ -167,6 +173,7 @@ private theorem e15c_odd_eq_sq_pow {y : G} (hy : Odd (orderOf y)) :
   calc y = y ^ (orderOf y + 1) := by rw [pow_succ, pow_orderOf_eq_one, one_mul]
     _ = (y * y) ^ k := by rw [h2, pow_mul, pow_two]
 
+omit [Finite G] in
 private theorem e15c_commute_of_sq {y x : G} (hy : Odd (orderOf y)) (h : y * y * x = x * (y * y)) :
     y * x = x * y := by
   have hc : Commute (y * y) x := h
@@ -174,6 +181,7 @@ private theorem e15c_commute_of_sq {y x : G} (hy : Odd (orderOf y)) (h : y * y *
   rw [← e15c_odd_eq_sq_pow hy] at hc'
   exact hc'
 
+omit [Finite G] in
 private theorem e15c_odd_comm_cyclic {U : Subgroup G} (hcyc : IsCyclic U) (h4 : Nat.card U = 4)
     {y : G} (hy : Odd (orderOf y)) (hyU : ∀ u ∈ U, y * u * y⁻¹ ∈ U) :
     ∀ u ∈ U, y * u = u * y := by
@@ -258,6 +266,7 @@ private theorem e15c_odd_comm_cyclic {U : Subgroup G} (hcyc : IsCyclic U) (h4 : 
   obtain ⟨j, rfl⟩ := hgen u hu
   exact (Commute.zpow_right (show Commute y (g : G) from hcomm) j).eq
 
+omit [Finite G] in
 private theorem e15c_odd_normalizes (h : EndHyp Ω) {L L' : Subgroup G} (hL : L ∈ Ω)
     (hLL' : L' ≠ L) (htw : twinSet Ω L = {L, L'}) {y : G} (hy : Odd (orderOf y))
     (hyL : conjSub y L ∈ twinSet Ω L) : y ∈ Subgroup.normalizer (L : Set G) := by
@@ -289,6 +298,7 @@ private theorem e15c_odd_normalizes (h : EndHyp Ω) {L L' : Subgroup G} (hL : L 
     rw [this] at hc
     exact hLL' hc.symm
 
+omit [Finite G] in
 private theorem e15c_q8_ij_sq {M : Subgroup G} {z i j : G} (hQ : Q8Data M z i j) :
     (i * j) * (i * j) = z := by
   obtain ⟨hz, hi, -, hii, hjj, hji, -⟩ := hQ
@@ -300,6 +310,7 @@ private theorem e15c_q8_ij_sq {M : Subgroup G} {z i j : G} (hQ : Q8Data M z i j)
     _ = z * (i * i) * (j * j) := by group
     _ = z := by rw [hii, hjj, hz.sq, one_mul]
 
+omit [Finite G] in
 private theorem e15c_comm_of_class {z : G} (hz1 : z ≠ 1) (hz2 : z * z = 1) {c g : G}
     (hc : c ∈ Subgroup.centralizer ({z} : Set G)) (hodd : Odd (orderOf c))
     (hcg : c * g * c⁻¹ = g ∨ c * g * c⁻¹ = z * g) : c * g = g * c := by
@@ -324,6 +335,7 @@ private theorem e15c_comm_of_class {z : G} (hz1 : z ≠ 1) (hz2 : z * z = 1) {c 
     rw [hfix] at h1
     exact hz1 (mul_right_cancel (by rw [one_mul]; exact h1.symm))
 
+omit [Finite G] in
 private theorem e15c_q8_class {M : Subgroup G} {z i j : G} (hQ : Q8Data M z i j) {w : G}
     (hw : w ∈ M) (hww : w * w = z) :
     ({w, z * w} : Set G) = {i, z * i} ∨ ({w, z * w} : Set G) = {j, z * j} ∨
@@ -353,6 +365,7 @@ private theorem e15c_q8_class {M : Subgroup G} {z i j : G} (hQ : Q8Data M z i j)
   · right; right
     rw [h, ← mul_assoc z z, hz2, one_mul, Set.pair_comm]
 
+omit [Finite G] in
 private theorem e15c_class_fix {M : Subgroup G} {z i j : G} (hQ : Q8Data M z i j) {y g : G}
     (hyz : y ∈ Subgroup.centralizer ({z} : Set G)) (hyM : y ∈ Subgroup.normalizer (M : Set G))
     (hg : g ∈ M) (hg2 : g * g = z) :
@@ -417,6 +430,7 @@ private theorem e15c_class_fix {M : Subgroup G} {z i j : G} (hQ : Q8Data M z i j
   · exact step a b hlt (Finset.mem_range.mp hb) hfab
   · exact step b a hlt (Finset.mem_range.mp ha) hfab.symm
 
+omit [Finite G] in
 private theorem e15c_axis_comm {M : Subgroup G} {z i j : G} (hQ : Q8Data M z i j) {y g : G}
     (hyz : y ∈ Subgroup.centralizer ({z} : Set G)) (hyM : y ∈ Subgroup.normalizer (M : Set G))
     (hy : Odd (orderOf y)) (hg : g ∈ M) (hg2 : g * g = z) : y ^ 3 * g = g * y ^ 3 := by
@@ -436,6 +450,7 @@ private theorem e15c_axis_comm {M : Subgroup G} {z i j : G} (hQ : Q8Data M z i j
     exact (Commute.pow_left h1' 3).eq
   · exact e15c_comm_of_class hz1 hz2 (hcomm_of 3) (hdodd 3) hcase
 
+omit [Finite G] in
 private theorem e15c_pow3_mem_centralizer {M : Subgroup G} {z i j : G} (hQ : Q8Data M z i j)
     {y : G} (hyz : y ∈ Subgroup.centralizer ({z} : Set G))
     (hyM : y ∈ Subgroup.normalizer (M : Set G)) (hy : Odd (orderOf y)) :
@@ -478,7 +493,8 @@ private theorem e15c_pow3_mem_centralizer {M : Subgroup G} {z i j : G} (hQ : Q8D
       _ = (y ^ 3 * z) * (i * j) := by rw [hz3]
       _ = y ^ 3 * (z * (i * j)) := by group
 
-private theorem e15c_centralizes_E {A B E : Subgroup G} {z y : G} (hz1 : z ≠ 1) (hz2 : z * z = 1)
+omit [Finite G] in
+private theorem e15c_centralizes_E {A B E : Subgroup G} {z y : G} (_hz1 : z ≠ 1) (hz2 : z * z = 1)
     (hAB : Commutes A B) (hBN : B ≤ Subgroup.normalizer (A : Set G))
     (hEsub : E ≤ A ⊔ B) (hEN : ∀ g ∈ Subgroup.normalizer (A : Set G), ∀ e ∈ E, g * e * g⁻¹ ∈ E)
     (hwE : ∀ w ∈ B, w ∈ E → w = 1 ∨ w = z)
@@ -530,6 +546,7 @@ private theorem e15c_centralizes_E {A B E : Subgroup G} {z y : G} (hz1 : z ≠ 1
       _ = (a * b) * (y * y) := by rw [h1]
   exact e15c_commute_of_sq hy hsq
 
+omit [Finite G] in
 private theorem e15c_comm_of_pow {M : Subgroup G} {y : G} {s : ℕ} (hs : ¬ 3 ∣ s)
     (h3 : y ^ 3 ∈ Subgroup.centralizer (M : Set G))
     (hs' : y ^ s ∈ Subgroup.centralizer (M : Set G)) :
@@ -561,9 +578,9 @@ private theorem e15c_fix_small {K : Subgroup G} {z : G} (hK : IsUniqueInvolution
     (hK8 : Nat.card K = 8) {x : G} (hx : x ∈ Subgroup.normalizer (K : Set G))
     {a : ℕ} (ha : x ^ 3 ^ a = 1) (hnc : ∃ k ∈ K, x * k ≠ k * x) {k : G} (hk : k ∈ K)
     (hxk : x * k = k * x) : k = 1 ∨ k = z := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hH : Subgroup.zpowers x ≤ Subgroup.normalizer (K : Set G) := Subgroup.zpowers_le.mpr hx
-  letI : MulAction (Subgroup.zpowers x) K :=
+  let : MulAction (Subgroup.zpowers x) K :=
     { smul := fun h k => ⟨(h : G) * k * (h : G)⁻¹,
         (Subgroup.mem_normalizer_iff.mp (hH h.2) k).mp k.2⟩
       one_smul := fun k => Subtype.ext (by
@@ -573,7 +590,7 @@ private theorem e15c_fix_small {K : Subgroup G} {z : G} (hK : IsUniqueInvolution
         show ((h₁ * h₂ : Subgroup.zpowers x) : G) * (k : G) *
           ((h₁ * h₂ : Subgroup.zpowers x) : G)⁻¹ =
           ((h₁ : G) * ((h₂ : G) * (k : G) * (h₂ : G)⁻¹) * (h₁ : G)⁻¹)
-        simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+        simp only [Subgroup.coe_mul]
         group) }
   obtain ⟨b, -, hb⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp (orderOf_dvd_of_pow_eq_one ha)
   have hP : IsPGroup 3 (Subgroup.zpowers x) := IsPGroup.of_card (by rw [Nat.card_zpowers, hb])
@@ -671,6 +688,7 @@ private theorem e15c_fix_small {K : Subgroup G} {z : G} (hK : IsUniqueInvolution
     have hmem : (⟨k₀, hk₀⟩ : K) ∈ F := by rw [hFtop]; exact Subgroup.mem_top _
     exact hne (show x * k₀ = k₀ * x from hmem)
 
+omit [Finite G] in
 private theorem e15c_sq_K {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) {w : G}
     (hw : w ∈ K) (hw1 : w ≠ 1) (hwz : w ≠ z) : w * w = z := by
   have hz2 := hQ.inv.sq
@@ -702,6 +720,7 @@ private theorem e15c_sq_K {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) {w 
       _ = (z * z) * ((i * j) * (i * j)) := by group
       _ = z := by rw [hz2, e15c_q8_ij_sq hQ, one_mul]
 
+omit [Finite G] in
 private theorem e15c_center_K {K : Subgroup G} {z i j : G} (hQ : Q8Data K z i j) {a : G}
     (ha : a ∈ K) (hac : ∀ k ∈ K, a * k = k * a) : a = 1 ∨ a = z := by
   have hz1 := hQ.inv.ne_one
@@ -829,10 +848,11 @@ private theorem e15c_cover_logic {X : Type} (S₁ S₂ S₃ A B C D : Set X)
   rcases hA with rfl | rfl | rfl <;> rcases hB with rfl | rfl | rfl <;>
     rcases hC with rfl | rfl | rfl <;> rcases hD with rfl | rfl | rfl <;> simp_all
 
-private theorem e15c_E_inj {K K' E : Subgroup G} {z : G} (hz1 : z ≠ 1) (hz2 : z * z = 1)
+omit [Finite G] in
+private theorem e15c_E_inj {K K' E : Subgroup G} {z : G} (_hz1 : z ≠ 1) (hz2 : z * z = 1)
     (hAB : Commutes K K') (hzE : z ∈ E)
     (hwE : ∀ w ∈ K', w ∈ E → w = 1 ∨ w = z) {k b k' b' e e' : G} (hk : k ∈ K) (hb : b ∈ K')
-    (hk' : k' ∈ K) (hb' : b' ∈ K') (he : e = k * b) (he' : e' = k' * b') (hE : e ∈ E)
+    (_hk' : k' ∈ K) (hb' : b' ∈ K') (he : e = k * b) (he' : e' = k' * b') (hE : e ∈ E)
     (hE' : e' ∈ E) (hkk : k' = k ∨ k' = z * k) : e' = e ∨ e' = z * e := by
   have hc : k' * k⁻¹ = 1 ∨ k' * k⁻¹ = z := by
     rcases hkk with h | h
@@ -869,6 +889,7 @@ private theorem e15c_E_inj {K K' E : Subgroup G} {z : G} (hz1 : z ≠ 1) (hz2 : 
   · right
     rw [he_eq, h]
 
+omit [Finite G] in
 private theorem e15c_conj_E {K K' E : Subgroup G} {z : G} (hAB : Commutes K K')
     (hKN : K' ≤ Subgroup.normalizer (K : Set G)) (hEsub : E ≤ K ⊔ K')
     (hEN : ∀ g ∈ Subgroup.normalizer (K : Set G), ∀ e ∈ E, g * e * g⁻¹ ∈ E)
@@ -902,12 +923,13 @@ private theorem e15c_conj_E {K K' E : Subgroup G} {z : G} (hAB : Commutes K K')
   · right
     rw [hkey, h]
 
+omit [Finite G] in
 private theorem e15c_E_noncomm {K K' E : Subgroup G} {z i j : G} (hQ : Q8Data K z i j)
     (hAB : Commutes K K') (hKN : K' ≤ Subgroup.normalizer (K : Set G)) (hEsub : E ≤ K ⊔ K')
     (hwE : ∀ w ∈ K', w ∈ E → w = 1 ∨ w = z) (hzE : z ∈ E) {e : G} (he : e ∈ E)
     (he1 : e ≠ 1) (he2 : e ≠ z) : ∃ k ∈ K, e * k ≠ k * e := by
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   obtain ⟨a, ha, b, hb, rfl⟩ := e15c_mem_sup hKN (hEsub he)
   have hac : ∀ k ∈ K, a * k = k * a := by
     intro k hk
@@ -932,6 +954,7 @@ private theorem e15c_E_noncomm {K K' E : Subgroup G} {z i j : G} (hQ : Q8Data K 
   have hbz := hwE b hb hbE
   rcases hA with h1 | h1 <;> rcases hbz with h2 | h2 <;> simp_all [hQ.inv.sq]
 
+omit [Finite G] in
 private theorem e15c_conj_one_or_z {K : Subgroup G} {z : G} (hK : IsUniqueInvolution K z)
     {x : G} (hx : x ∈ Subgroup.normalizer (K : Set G)) {k c : G} (hck : x * k * x⁻¹ = c)
     (hc : c = 1 ∨ c = z) : k = 1 ∨ k = z := by
@@ -951,11 +974,13 @@ private theorem e15c_conj_one_or_z {K : Subgroup G} {z : G} (hK : IsUniqueInvolu
       _ = x⁻¹ * (x * z) := by rw [hxz]
       _ = z := by group
 
+omit [Finite G] in
 private theorem e15c_zG_conj {z f k : G} (hf : ∃ g : G, f = g * z * g⁻¹) :
     ∃ g : G, k * f * k⁻¹ = g * z * g⁻¹ := by
   obtain ⟨g, rfl⟩ := hf
   exact ⟨k * g, by group⟩
 
+omit [Finite G] in
 private theorem e15c_card_RSet (h : EndHyp Ω) {R : Subgroup G} (hR : R ∈ RSet Ω) :
     Nat.card R = 8 := by
   obtain ⟨J, hJ, hRJ⟩ := exists_isSylow2In_of_mem_RSet hR
@@ -963,8 +988,9 @@ private theorem e15c_card_RSet (h : EndHyp Ω) {R : Subgroup G} (hR : R ∈ RSet
   rw [← hJR]
   exact h.card_eq_eight hJ
 
+omit [Finite G] in
 private theorem e15c_not_wreathed {K V R : Subgroup G} {z a : G} (hK : IsUniqueInvolution K z)
-    (hR : IsUniqueInvolution R a) (hVR : V ≤ R) (haV : a ∈ V)
+    (hR : IsUniqueInvolution R a) (hVR : V ≤ R) (_haV : a ∈ V)
     (haK : a ∈ Subgroup.centralizer (K : Set G)) (hVN : V ≤ Subgroup.normalizer (K : Set G))
     (hV4 : Nat.card V = 4) (hza : a ≠ z) {i j : G} (hi : i ∈ K) (hj : j ∈ K)
     (hij : i * j ≠ j * i) (hW : IsWreathed (K ⊔ V)) : False := by
@@ -1160,7 +1186,7 @@ theorem eq_of_conj_mem_centralizer (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit 
 
 private theorem e15c_le_oTwoCore_of_odd {C U : Subgroup G} (hU2 : IsPGroup 2 U) (hUC : U ≤ C)
     (hodd : ∀ y ∈ C, Odd (orderOf y) → ∀ u ∈ U, y * u = u * y) : U ≤ oTwoCore C := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let Oset : Set G := {y | y ∈ C ∧ Odd (orderOf y)}
   let N : Subgroup G := Subgroup.closure Oset
   have hNC : N ≤ C := (Subgroup.closure_le _).mpr fun _ hy => hy.1
@@ -1179,7 +1205,7 @@ private theorem e15c_le_oTwoCore_of_odd {C U : Subgroup G} (hU2 : IsPGroup 2 U) 
     exact Subgroup.mem_comap.mp (hsub hn)
   let N' : Subgroup C := N.subgroupOf C
   have hN'mem : ∀ x : C, x ∈ N' ↔ (x : G) ∈ N := fun x => Subgroup.mem_subgroupOf
-  haveI hN'normal : N'.Normal := ⟨fun n hn g => by
+  have hN'normal : N'.Normal := ⟨fun n hn g => by
     rw [hN'mem] at hn ⊢
     have := hNnorm g.1 g.2 n.1 hn
     simpa using this⟩
@@ -1191,11 +1217,11 @@ private theorem e15c_le_oTwoCore_of_odd {C U : Subgroup G} (hU2 : IsPGroup 2 U) 
   have hcover : N' ⊔ (S : Subgroup C) = ⊤ := by
     have hpN : ∀ p : ℕ, p.Prime → p ≠ 2 → ¬ p ∣ N'.index := by
       intro p hp hp2
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       obtain ⟨Q, -⟩ := (IsPGroup.of_bot (p := p) (G := C)).exists_le_sylow
       have hQN : (Q : Subgroup C) ≤ N' := by
         intro x hx
-        obtain ⟨k, hk⟩ := Q.isPGroup' ⟨x, hx⟩
+        obtain ⟨k, hk⟩ := Q.isPGroup ⟨x, hx⟩
         have hk' : x ^ p ^ k = 1 := by
           have := congrArg Subtype.val hk
           simpa using this
@@ -1270,8 +1296,8 @@ private theorem e15c_le_oTwoCore_of_odd {C U : Subgroup G} (hU2 : IsPGroup 2 U) 
       show g * (c * u * c⁻¹) * g⁻¹ = g * c * u * (g * c)⁻¹
       group
     exact Subgroup.mem_comap.mp (hle hx)
-  haveI hTN : T.Normal := ⟨fun n hn g => hTnorm g n hn⟩
-  have hT2 : IsPGroup 2 T := S.isPGroup'.to_le hTS
+  have hTN : T.Normal := ⟨fun n hn g => hTnorm g n hn⟩
+  have hT2 : IsPGroup 2 T := S.isPGroup.to_le hTS
   have hTle : T ≤ sSup {N : Subgroup C | N.Normal ∧ IsPGroup 2 N} :=
     le_sSup ⟨hTN, hT2⟩
   intro u hu
@@ -1357,12 +1383,13 @@ theorem le_oTwoCore_of_odd_centralizes (h : EndHyp Ω) (h9 : Perp9 Ω) (s : Twin
 theorem eGroup_eq_zGroup_inf_sup_of_le (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
     (h13 : zGroup Ω ≠ eGroup Ω K) (hE : eGroup Ω K ≤ K ⊔ K') :
     Nat.card ↥(eGroup Ω K) = 8 ∧ eGroup Ω K = zGroup Ω ⊓ (K ⊔ K') := by
-  have hle : eGroup Ω K ≤ zGroup Ω ⊓ (K ⊔ K') := le_inf (h.eGroup_le_zGroup s.mem) hE
+  have hle : eGroup Ω K ≤ zGroup Ω ⊓ (K ⊔ K') := le_inf (CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.eGroup_le_zGroup s.mem) hE
   have hc8 := h.natCard_zGroup_inf_sup_twin h9 s h13
   have hE8 := h.eight_le_card_eGroup h9 s.mem
   have heq : eGroup Ω K = zGroup Ω ⊓ (K ⊔ K') := Subgroup.eq_of_le_of_card_ge hle (by omega)
   exact ⟨by rw [heq, hc8], heq⟩
 
+omit [Finite G] in
 private theorem e15c_odd_mem_N_K (h : EndHyp Ω) (s : TwinSit Ω K K' z) {y : G}
     (hyC : y ∈ Subgroup.centralizer ({z} : Set G)) (hy : Odd (orderOf y)) :
     y ∈ Subgroup.normalizer (K : Set G) := by
@@ -1376,7 +1403,7 @@ private theorem e15c_odd_mem_N_K (h : EndHyp Ω) (s : TwinSit Ω K K' z) {y : G}
   exact ⟨h.thmD.hyp.conjInvariant y K s.mem, z, s.isInv, hc⟩
 
 private theorem e15c_three_full (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω K K' z)
-    (h13 : zGroup Ω ≠ eGroup Ω K) (hE : eGroup Ω K ≤ K ⊔ K') :
+    (_h13 : zGroup Ω ≠ eGroup Ω K) (hE : eGroup Ω K ≤ K ⊔ K') :
     ∃ x : G, x ∈ Subgroup.normalizer (K : Set G) ∧ x ^ 3 ∈ Subgroup.centralizer (K : Set G) ∧
       (∃ a : ℕ, x ^ 3 ^ a = 1) ∧ (∃ k ∈ K, x * k ≠ k * x) ∧ (∃ k ∈ K', x * k ≠ k * x) := by
   have hΩ := h.thmD.hyp
@@ -1391,7 +1418,7 @@ private theorem e15c_three_full (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω 
   obtain ⟨y, hyC, hyodd, hyt⟩ : ∃ y ∈ Subgroup.centralizer ({z} : Set G),
       Odd (orderOf y) ∧ y * t ≠ t * y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     exact hUO (le_oTwoCore_of_odd_centralizes h h9 s hJs hJt ht hcon hU hUJ hUN)
   have hyz : y * z * y⁻¹ = z := by
     have hc : z * y = y * z := Subgroup.mem_centralizer_iff.mp hyC z (Set.mem_singleton z)
@@ -1422,22 +1449,22 @@ private theorem e15c_three_full (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω 
     exact conj_mem_conjSub he
   have hwE : ∀ w ∈ K', w ∈ eGroup Ω K → w = 1 ∨ w = z := by
     intro w hw hwE
-    have hww := h.zGroup_mul_self h9 w (h.eGroup_le_zGroup s.mem hwE)
+    have hww := h.zGroup_mul_self h9 w (CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.eGroup_le_zGroup s.mem hwE)
     exact s.mem_twin.2.unique w hw hww
   have hwE' : ∀ w ∈ K, w ∈ eGroup Ω K → w = 1 ∨ w = z := by
     intro w hw hwE
-    have hww := h.zGroup_mul_self h9 w (h.eGroup_le_zGroup s.mem hwE)
+    have hww := h.zGroup_mul_self h9 w (CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.eGroup_le_zGroup s.mem hwE)
     exact s.isInv.unique w hw hww
-  have ht_E : t ∈ eGroup Ω K := h.mem_eGroup_of_mem_omegaStarNbr hJs ht
+  have ht_E : t ∈ eGroup Ω K := CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_mem_omegaStarNbr hJs ht
   have hyEK : ∃ k ∈ K, y * k ≠ k * y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hcomm := e15c_centralizes_E (A := K) (B := K') (E := eGroup Ω K) hz1 hz2 hAB
       (Asc77.AscL62.le_normalizer_of_commutes (s.commutes h).symm) hE hEN hwE hyC hcon hyK' hyodd
     exact hyt (hcomm t ht_E)
   have hyEK' : ∃ k ∈ K', y * k ≠ k * y := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hcomm := e15c_centralizes_E (A := K') (B := K) (E := eGroup Ω K) hz1 hz2
       (fun a ha b hb => ((s.commutes h) b hb a ha).symm)
       (Asc77.AscL62.le_normalizer_of_commutes (s.commutes h)) (by rw [sup_comm]; exact hE)
@@ -1453,14 +1480,14 @@ private theorem e15c_three_full (h : EndHyp Ω) (h9 : Perp9 Ω) (s : TwinSit Ω 
   refine ⟨y ^ s3, Subgroup.pow_mem _ hyK s3, hx3, ⟨e3, ?_⟩, ?_, ?_⟩
   · rw [← pow_mul, mul_comm, ← hn, pow_orderOf_eq_one]
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨k, hk, hkx⟩ := hyEK
     apply hkx
     have hxc : y ^ s3 ∈ Subgroup.centralizer (K : Set G) :=
       Subgroup.mem_centralizer_iff.mpr (fun k hk => (hcon k hk).symm)
     exact (Subgroup.mem_centralizer_iff.mp (e15c_comm_of_pow hs3 hyK3 hxc) k hk).symm
   · by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     obtain ⟨k, hk, hkx⟩ := hyEK'
     apply hkx
     have hxc : y ^ s3 ∈ Subgroup.centralizer (K' : Set G) :=
@@ -1493,20 +1520,20 @@ theorem exists_conj_of_mem_eGroup_of_le (h : EndHyp Ω) (h9 : Perp9 Ω) (s : Twi
     exact conj_mem_conjSub he'
   have hwE : ∀ w ∈ K', w ∈ eGroup Ω K → w = 1 ∨ w = z := by
     intro w hw hwE
-    have hww := h.zGroup_mul_self h9 w (h.eGroup_le_zGroup s.mem hwE)
+    have hww := h.zGroup_mul_self h9 w (CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.eGroup_le_zGroup s.mem hwE)
     exact s.mem_twin.2.unique w hw hww
   have hwE' : ∀ w ∈ K, w ∈ eGroup Ω K → w = 1 ∨ w = z := by
     intro w hw hwE
-    have hww := h.zGroup_mul_self h9 w (h.eGroup_le_zGroup s.mem hwE)
+    have hww := h.zGroup_mul_self h9 w (CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.eGroup_le_zGroup s.mem hwE)
     exact s.isInv.unique w hw hww
-  have hzE : z ∈ eGroup Ω K := h.mem_eGroup_of_isUniqueInvolution s.isInv
+  have hzE : z ∈ eGroup Ω K := CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_isUniqueInvolution s.isInv
   obtain ⟨i, j, hi, hj, hii, hjj, hji, hnf⟩ :=
     exists_q8_gen s.isInv (h.isQuatSub_of_mem s.mem) (h.card_eq_eight s.mem)
   have hQ : Q8Data K z i j := ⟨s.isInv, hi, hj, hii, hjj, hji, hnf⟩
   obtain ⟨x, hxN, hx3, ⟨a3, hxa⟩, hnc, -⟩ := e15c_three_full h h9 s h13 hE
   obtain ⟨W, hW, hzW, hKd, J, hJ, hJd, hJs, hJt, U, hU, hUJ, hUW, hUO⟩ := h.exists_choice h9 s
   obtain ⟨t, ht⟩ := Sec6Gen.exists_uniqueInvolution hΩ hJs.1
-  have ht_E : t ∈ eGroup Ω K := h.mem_eGroup_of_mem_omegaStarNbr hJs ht
+  have ht_E : t ∈ eGroup Ω K := CFSG.ClassicalInvolution.Q3.Sec13.EndHyp.mem_eGroup_of_mem_omegaStarNbr hJs ht
   have htz : t ≠ z := by
     intro e'
     apply hJt

@@ -169,8 +169,8 @@ private theorem card_sub3 (H : Subgroup G) : Nat.card (sub3 H : Submodule (ZMod 
 
 private theorem finrank_additive3 [Finite G] (hAcard : Nat.card A = 3 ^ 3) :
     Module.finrank (ZMod 3) (Additive A) = 3 := by
-  haveI : Finite (Additive A) := inferInstanceAs (Finite A)
-  haveI : Module.Finite (ZMod 3) (Additive A) := Module.Finite.of_finite
+  have : Finite (Additive A) := inferInstanceAs (Finite A)
+  have : Module.Finite (ZMod 3) (Additive A) := Module.Finite.of_finite
   have h := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := Additive A)
   have h1 : Nat.card (Additive A) = Nat.card A := Nat.card_congr Additive.toMul
   rw [h1, hAcard, Nat.card_zmod] at h
@@ -436,17 +436,17 @@ theorem false_of_irreducible_triple {G : Type*} [Group G] [Finite G]
     (x : G) (hxW : x ∈ W) (hx4 : x ^ 4 ∈ centralizer (A : Set G))
     (hxZ : ∀ a ∈ A, x ^ 2 * a * (x ^ 2)⁻¹ = a ↔ a ∈ Z) : False := by
   classical
-  haveI hAF : Fact (IsElemAbelian 3 A) := ⟨hA⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hAF : Fact (IsElemAbelian 3 A) := ⟨hA⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have htriple : IrrTriple A W N Z P :=
     ⟨hA, hAcard, hZP, hZA, hPA, hZcard, hPcard, hWA, hNW, hNP, hNZ, hNirr⟩
-  haveI : Finite (Additive A) := inferInstanceAs (Finite A)
-  haveI : Module.Finite (ZMod 3) (Additive A) := Module.Finite.of_finite
+  have : Finite (Additive A) := inferInstanceAs (Finite A)
+  have : Module.Finite (ZMod 3) (Additive A) := Module.Finite.of_finite
   let e : Additive A ≃ₗ[ZMod 3] (Fin 3 → ZMod 3) :=
     LinearEquiv.ofFinrankEq _ _ (by rw [finrank_additive3 hAcard, Module.finrank_fin_fun])
   let ρ0 : W →* (Additive A ≃ₗ[ZMod 3] Additive A) := conjRep3 hWA
-  haveI : Finite ρ0.range := Finite.of_surjective ρ0.rangeRestrict ρ0.rangeRestrict_surjective
+  have : Finite ρ0.range := Finite.of_surjective ρ0.rangeRestrict ρ0.rangeRestrict_surjective
   have hcard : ¬ 3 ∣ Nat.card ρ0.range := by
     have h1 : Nat.card ρ0.range = ρ0.ker.index := (Subgroup.index_ker ρ0).symm
     rw [h1, ker_conjRep3 hWA, inf_comm]
@@ -544,15 +544,15 @@ theorem false_of_irreducible_triple {G : Type*} [Group G] [Finite G]
     have h1 : Module.finrank (ZMod 3) Z0 = Module.finrank (ZMod 3) (sub3 Z : Submodule (ZMod 3) (Additive A)) :=
       LinearEquiv.finrank_map_eq e _
     rw [h1]
-    haveI : Finite (sub3 Z : Submodule (ZMod 3) (Additive A)) := inferInstance
-    haveI : Module.Finite (ZMod 3) (sub3 Z : Submodule (ZMod 3) (Additive A)) := Module.Finite.of_finite
+    have : Finite (sub3 Z : Submodule (ZMod 3) (Additive A)) := inferInstance
+    have : Module.Finite (ZMod 3) (sub3 Z : Submodule (ZMod 3) (Additive A)) := Module.Finite.of_finite
     have h2 := Module.natCard_eq_pow_finrank (K := ZMod 3) (V := (sub3 Z : Submodule (ZMod 3) (Additive A)))
     rw [card_sub3, inf_eq_right.2 hZA, hZcard, Nat.card_zmod] at h2
     exact Nat.pow_right_injective (by norm_num : 2 ≤ 3) (h2.symm.trans (pow_one 3).symm)
   have hfix : {v : Fin 3 → ZMod 3 | (((x0 ^ 2 : GL (Fin 3) (ZMod 3)) :
       Matrix (Fin 3) (Fin 3) (ZMod 3)) *ᵥ v = v)} = (Z0 : Set (Fin 3 → ZMod 3)) := by
     ext v
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe]
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe]
     have hmv : ((x0 ^ 2 : GL (Fin 3) (ZMod 3)) : Matrix (Fin 3) (Fin 3) (ZMod 3)) *ᵥ v =
         e (ρ0 (⟨x, hxW⟩ ^ 2) (e.symm v)) := by
       rw [hpow]

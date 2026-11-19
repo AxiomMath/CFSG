@@ -42,13 +42,13 @@ theorem noCfgU419_of_j4_arith [Finite X] {M : ℕ} (hM : Nat.card X ∣ M) (h19 
 theorem exists_ne_of_isExtOf {Q B : Type*} [Group Q] [Group B] [Nontrivial Q]
     (hq : IsQuasisimple X) (h : IsExtOf X Q B) : ∃ a b : Q, a * b ≠ b * a := by
   obtain ⟨K, hK, -, ⟨eQ⟩⟩ := h
-  haveI : Group.IsPerfect X := hq.1
+  have : Group.IsPerfect X := hq.1
   have hQp : Group.IsPerfect Q :=
     Group.IsPerfect.ofSurjective (f := eQ.toMonoidHom.comp (QuotientGroup.mk' K))
       (eQ.surjective.comp (QuotientGroup.mk'_surjective K))
   by_contra hall
   push Not at hall
-  haveI : Group.IsSolvable Q := isSolvable_of_comm hall
+  have : Group.IsSolvable Q := _root_.Group.isSolvable_of_comm hall
   exact Group.IsPerfect.not_isSolvable Q inferInstance
 
 section Rows
@@ -74,11 +74,11 @@ theorem rowsU419One : RowsU419One := by
         calc 9 = 3 ^ 2 := by norm_num
           _ ≤ 3 ^ e := Nat.pow_le_pow_right (by norm_num) he2
       have hs : IsSimpleGroup X := by
-        haveI := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le F (n := 2) le_rfl
+        have := CFSG.PGLModel.isSimpleGroup_projSL_of_two_le F (n := 2) le_rfl
           (Or.inr (by omega)) (Or.inr (by omega))
         exact φ.isSimpleGroup
       intro α Y m hc
-      haveI := hc.isPerfect
+      have := hc.isPerfect
       obtain ⟨π, hπ, hker⟩ := hc.cover
       exact Ronan148L.rowU3_L2char3 hs (Census.exists_ne_of_isQuasisimple hq)
         (φ.trans (projSLEquivPSL F)) hc.pow_three hc.ne_one hc.le_autFix hc.isSubnormal hc.odd
@@ -86,20 +86,20 @@ theorem rowsU419One : RowsU419One := by
   · exact noCfgU419_projSL_two hp3 φ
 
 theorem noCfgU419_on : NoCfgU419 (Blueprint.NativeSporadic.Carrier .ONan) := by
-  haveI : Finite (Blueprint.NativeSporadic.Carrier .ONan) :=
+  have : Finite (Blueprint.NativeSporadic.Carrier .ONan) :=
     Nat.finite_of_card_ne_zero (by
       show Nat.card Blueprint.NativeSporadic.ON ≠ 0
       rw [CFSG.Sporadic.ON.card_ON]; norm_num)
-  haveI hs : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .ONan) :=
+  have hs : IsSimpleGroup (Blueprint.NativeSporadic.Carrier .ONan) :=
     CFSG.Sporadic.ON.isSimpleGroup_ON
   intro α Y m hc
-  haveI := hc.isPerfect
+  have := hc.isPerfect
   obtain ⟨π, hπ, hker⟩ := hc.cover
   have hna : ∃ a b : Blueprint.NativeSporadic.Carrier .ONan, a * b ≠ b * a := by
     by_contra hall
     push Not at hall
     obtain ⟨E, hEY, -, -, hE9, hEZ⟩ := exists_e9_of_cfg hc
-    haveI : Nontrivial E := by
+    have : Nontrivial E := by
       rw [← Finite.one_lt_card_iff_nontrivial, hE9]
       norm_num
     obtain ⟨⟨z, hz⟩, hz1⟩ := exists_ne (1 : E)
@@ -147,11 +147,11 @@ theorem rowsU419Five : RowsU419Five := by
     · refine noCfgU419_of_two_pow_nine (M := 898128000 * 3) ?_ (by decide)
       rw [card_of_isExtOf_three hext, show Nat.card (Blueprint.NativeSporadic.Carrier .McL) =
         898128000 from CFSG.Sporadic.McL.card_McL]
-    · haveI : Finite (Blueprint.NativeSporadic.Carrier .ONan) :=
+    · have : Finite (Blueprint.NativeSporadic.Carrier .ONan) :=
         Nat.finite_of_card_ne_zero (by
           show Nat.card Blueprint.NativeSporadic.ON ≠ 0
           rw [CFSG.Sporadic.ON.card_ON]; norm_num)
-      haveI : Nontrivial (Blueprint.NativeSporadic.Carrier .ONan) := by
+      have : Nontrivial (Blueprint.NativeSporadic.Carrier .ONan) := by
         rw [← Finite.one_lt_card_iff_nontrivial]
         show 1 < Nat.card Blueprint.NativeSporadic.ON
         rw [CFSG.Sporadic.ON.card_ON]; norm_num

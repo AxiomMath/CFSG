@@ -26,7 +26,7 @@ theorem perm_six_factor_small_or_bijective
       ∃ α : Equiv.Perm F →* Equiv.Perm B,
         Function.Bijective α ∧ α.comp ρ = ψ := by
   classical
-  letI : Nontrivial F :=
+  let : Nontrivial F :=
     Fintype.one_lt_card_iff_nontrivial.mp (by
       rw [← Nat.card_eq_fintype_card, hFcard]
       norm_num)
@@ -64,7 +64,7 @@ theorem perm_six_factor_small_or_bijective
     have hkerNe : α.ker ≠ ⊥ := by
       intro hbot
       exact hα (α.ker_eq_bot_iff.mp hbot)
-    letI : Nontrivial α.ker :=
+    let : Nontrivial α.ker :=
       α.ker.nontrivial_iff_ne_bot.mpr hkerNe
     have hAltLe :
         alternatingGroup F ≤ α.ker :=

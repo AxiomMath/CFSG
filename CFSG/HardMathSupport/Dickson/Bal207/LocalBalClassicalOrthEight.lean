@@ -28,7 +28,7 @@ section Fixed
 theorem exists_orderOf_three_fixed {P : Type*} [Group P] [Finite P] (h3 : 3 ∣ Nat.card P)
     {a : MulAut P} (ha : a ^ 3 = 1) : ∃ t : P, orderOf t = 3 ∧ a t = t := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hiter : ∀ t : P, a (a (a t)) = t := fun t => by
     have := congrArg (fun g : MulAut P => g t) ha
     simpa [pow_succ, MulAut.mul_apply] using this
@@ -45,7 +45,7 @@ theorem exists_orderOf_three_fixed {P : Type*} [Group P] [Finite P] (h3 : 3 ∣ 
   have h3' : 3 ∣ Nat.card (fixSub a) := by
     rw [hcard]
     exact Nat.modEq_zero_iff_dvd.mp (hmod.symm.trans (Nat.modEq_zero_iff_dvd.mpr h3))
-  haveI : Finite (fixSub a) := inferInstance
+  have : Finite (fixSub a) := inferInstance
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := fixSub a) 3 h3'
   exact ⟨(t : P), by rw [Subgroup.orderOf_coe, ht], mem_fixSub.1 t.2⟩
 
@@ -101,9 +101,9 @@ theorem isLocallyBalancedAbs_three_one_matrix_eight (hK : Nat.card K = 8) {d : �
   have := Bal207.OrthEight.charP_two hK
   have hinj := KCOrthogonalD4.conj_injective_matrixProjectiveDerived Q hd hQ hT
   set φ := coordBridge Q hd with hφ
-  haveI : Finite (ProjOrthDerived Q) := Finite.of_surjective
+  have : Finite (ProjOrthDerived Q) := Finite.of_surjective
     (QuotientGroup.mk : orthDerived Q → ProjOrthDerived Q) QuotientGroup.mk_surjective
-  haveI : Finite (matrixProjectiveDerived Q) := Finite.of_equiv _ φ.symm.toEquiv
+  have : Finite (matrixProjectiveDerived Q) := Finite.of_equiv _ φ.symm.toEquiv
   refine isLocallyBalancedAbs_one_of_good Nat.prime_three hinj fun x hx3 hx1 => ?_
   by_cases hxi : x ∈ innerAut (matrixProjectiveDerived Q)
   · right

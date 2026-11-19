@@ -46,6 +46,7 @@ theorem isSylowIn_inf_centralizer_of_normalizer {P A : Subgroup G}
   rw [hEq]
   exact hTsylow
 
+omit [Finite G] in
 theorem cj_cent_singleton {t u h : G} (hh : h * t * h⁻¹ = u) :
     cj h (centralizer ({t} : Set G)) = centralizer ({u} : Set G) := by
   ext x

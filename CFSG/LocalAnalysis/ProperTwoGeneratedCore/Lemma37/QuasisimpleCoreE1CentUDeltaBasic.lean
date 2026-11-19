@@ -89,10 +89,10 @@ theorem fourGroup_facts :
     have hv₀ := mem_sylow_of_mem_partCSylow (T := T) (partCLeft_le d.v_mem_partCLeft)
     have hw₀ := mem_sylow_of_mem_partCSylow (T := T) (partCLeft_le d.w_mem_partCLeft)
     rcases d.eq_of_mem_of_mem_centralizer (L.mul_mem (L.inv_mem hvL) hwL) hK with h1 | h1
-    · have h2 := quasiMk_injOn_twoGroup u T.isPGroup' hw₀ hv₀
+    · have h2 := quasiMk_injOn_twoGroup u T.isPGroup hw₀ hv₀
         (show d.lw = d.lv from (inv_mul_eq_one.mp h1).symm)
       exact d.w_ne.1 (congrArg Subtype.val h2)
-    · have h2 := quasiMk_injOn_twoGroup u T.isPGroup' hw₀
+    · have h2 := quasiMk_injOn_twoGroup u T.isPGroup hw₀
         (Subgroup.mul_mem _ hv₀ d.centralElt_mem_sylow)
         (show d.lw = d.lv * quasiMk u e₀ by rw [d.quasiMk_centralElt, ← h1, mul_inv_cancel_left])
       exact d.w_ne.2 (congrArg Subtype.val h2)

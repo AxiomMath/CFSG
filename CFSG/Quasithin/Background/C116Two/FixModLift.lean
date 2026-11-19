@@ -19,7 +19,7 @@ theorem fixMod_le_centralizer {H L A : Subgroup G} (hL : IsChiBlock H L) (hA : I
   intro u hu huZ a ha
   have hcount := natCount_chiBlock hL hA hAN
   have hi : (A ⊓ Subgroup.centralizer (blockU L : Set G)).relIndex A ≠ 0 := by
-    haveI : (A ⊓ Subgroup.centralizer (blockU L : Set G)).IsFiniteRelIndex A :=
+    have : (A ⊓ Subgroup.centralizer (blockU L : Set G)).IsFiniteRelIndex A :=
       Subgroup.isFiniteRelIndex_of_finiteIndex
     exact Subgroup.relIndex_ne_zero
   have hNM : Nat.card {v : G // v ∈ blockU L ∧ ∀ b ∈ A, ⁅v, b⁆ ∈ blockZ L} ≤

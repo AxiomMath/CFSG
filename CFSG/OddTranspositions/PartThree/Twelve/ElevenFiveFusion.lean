@@ -97,10 +97,10 @@ theorem exists_normalized_axis {k : ℕ} {ε π : Bool} {a b : Fin (k + 1) → Z
         exact (mul_eq_zero.mp h2).resolve_left ha0
       · intro h
         rw [h]; ring
-    rw [← hrefl, hformula, if_neg (by rw [hBab']; exact ha0)]
+    rw [← hrefl, hformula, ite_eq_right (by rw [hBab']; exact ha0)]
     by_cases h : fiveForm k ε b'' b'' = 0
-    · rw [if_pos h, if_pos (hcond.mpr h)]
-    · rw [if_neg h, if_neg (fun hc => h (hcond.mp hc))]
+    · rw [ite_eq_left h, ite_eq_left (hcond.mpr h)]
+    · rw [ite_eq_right h, ite_eq_right (fun hc => h (hcond.mp hc))]
   exact ⟨b', b'', hsplit, horth, hb''ne, hrefl, hsign, hsum_ne, hord⟩
 
 private theorem zmod5_norm_unique (π : Bool) (qa qb qc : ZMod 5)
@@ -201,13 +201,13 @@ theorem residualFusion_five {D : Set G} {k : ℕ} (hk : 4 ≤ k) {ε π : Bool} 
     rcases eq_or_ne (fiveForm k ε b'' b'') 0 with hb''s | hb''n
     · have hc''s : fiveForm k ε c'' c'' = 0 := by
         by_contra h
-        rw [if_pos hb''s, if_neg h] at hord'
+        rw [ite_eq_left hb''s, ite_eq_right h] at hord'
         norm_num at hord'
       exact exists_mem_fiveReflectionGroupIn_apply_eq_of_singular hW hWdim hb''_in_W hc''_in_W
         hb''ne hc''ne hb''s hc''s
     · have hc''n : fiveForm k ε c'' c'' ≠ 0 := by
         intro h
-        rw [if_neg hb''n, if_pos h] at hord'
+        rw [ite_eq_right hb''n, ite_eq_left h] at hord'
         norm_num at hord'
       have hqc : fiveForm k ε b'' b'' = fiveForm k ε c'' c'' :=
         zmod5_norm_unique π (fiveForm k ε a a) (fiveForm k ε b'' b'') (fiveForm k ε c'' c'')

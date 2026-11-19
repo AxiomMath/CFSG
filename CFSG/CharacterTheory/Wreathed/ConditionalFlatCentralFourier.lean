@@ -30,7 +30,7 @@ theorem conditional_flat_central_section_integral_fourier_columns
       (Subgroup.centralizer ((S : Subgroup G) : Set G)))) (θB : eb.index)
     (nb : FiniteIrreducibleCharacterBasis (Subgroup.normalizer ((S : Subgroup G) : Set G)))
     (θhat : nb.index) (hθ : InflatedLabel (oddCore_le_normalizer S) nb eb θB θhat)
-    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
         (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _)
         le_rfl nb θhat = centralCharacterResidueHom basis ideal B)
     (η : G) (hη : η ∈ Subgroup.normalizer (modelBase S e : Set G))

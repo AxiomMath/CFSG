@@ -57,7 +57,7 @@ theorem z2a5_not_M12
     rcases card_centralizerIn_m12_involution hmem h2e with h' | h' <;> rw [h'] at hcard2 <;> omega
   ·
     let ψ : ↥S ≃* ↥CFSG.Blueprint.NativeSporadic.M12 := ψ₀
-    haveI := hS.normal
+    have := hS.normal
     obtain ⟨r, hr, κ, hκi, hκs⟩ := exists_rep_map S ψ hS.cent h.1
     have hbij := m12Rho_bijective_of_ne_top S ψ hS.cent htop
     have hκb : Function.Bijective κ := ⟨hκi, hκs hbij.2⟩

@@ -22,8 +22,7 @@ theorem lemma4_parts :
     simp only [yoshQCheck, Bool.and_eq_true] at h0
     exact h0.1.1.1
   unfold lemma4Check at h
-  simp only [Bool.and_eq_true, List.all_eq_true, List.mem_cons, List.mem_singleton,
-    List.not_mem_nil, or_false] at h
+  simp only [Bool.and_eq_true, List.all_eq_true, List.mem_cons, List.not_mem_nil, or_false] at h
   obtain ⟨h1, h2, h3, h4⟩ := h
   refine ⟨h1, fun α hα => ?_, h3, fun α β hα hβ => h4 α ?_ β ?_⟩
   · obtain ⟨h5, h6, h7⟩ := h2 α (by omega)
@@ -42,8 +41,7 @@ theorem lemma5_parts :
     simp only [yoshQCheck, Bool.and_eq_true] at h0
     exact h0.1.1.2
   unfold lemma5Check at h
-  simp only [Bool.and_eq_true, List.all_eq_true, List.mem_cons, List.mem_singleton,
-    List.not_mem_nil, or_false] at h
+  simp only [Bool.and_eq_true, List.all_eq_true, List.mem_cons, List.not_mem_nil, or_false] at h
   obtain ⟨⟨⟨⟨⟨⟨⟨h1, h2⟩, h3⟩, h4⟩, h5⟩, h6⟩, h7⟩, h8⟩ := h
   refine ⟨h1, h2, h3, h4, h5, h6, fun α β hα hβ => ?_, fun α k hα hk => ?_⟩
   · have := h7 α (by omega) β (by omega)
@@ -57,8 +55,7 @@ theorem lemma5_model_parts :
     simp only [yoshQCheck, Bool.and_eq_true] at h0
     exact h0.1.2
   unfold lemma5ModelCheck at h
-  simp only [Bool.and_eq_true, List.all_eq_true, List.mem_cons, List.mem_singleton,
-    List.not_mem_nil, or_false] at h
+  simp only [Bool.and_eq_true, List.all_eq_true, List.mem_cons, List.not_mem_nil, or_false] at h
   obtain ⟨h1, h2⟩ := h
   exact ⟨h1, fun α k hα hk => h2 α (by omega) k (by omega)⟩
 

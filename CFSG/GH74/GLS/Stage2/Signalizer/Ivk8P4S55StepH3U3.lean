@@ -101,7 +101,7 @@ theorem oFrame_orbit (h : UnitaryFieldData p f K) {A : GL (Fin 3) K} (hA : A ∈
     · change stdHermForm h 3 (M *ᵥ (M *ᵥ v)) (M *ᵥ (M *ᵥ v)) ≠ 0
       rw [hiso, hiso]; exact hvv
 
-theorem ord3_psu3 {r : ℕ} (h : UnitaryFieldData r f K) (hr2 : r ≠ 2) (hr3 : r ≠ 3)
+theorem ord3_psu3 {r : ℕ} (h : UnitaryFieldData r f K) (hr2 : r ≠ 2) (_hr3 : r ≠ 3)
     (α : MulAut (StatedProj (StatedSU 3 (r ^ f) K))) (hα : orderOf α = 3) :
     (∃ E : Subgroup (StatedProj (StatedSU 3 (r ^ f) K)), E ≠ ⊥ ∧ IsPGroup r ↥E ∧
       ∀ x ∈ E, α x ∈ E) ∨ HHObsAt 3 2 (StatedProj (StatedSU 3 (r ^ f) K)) α := by

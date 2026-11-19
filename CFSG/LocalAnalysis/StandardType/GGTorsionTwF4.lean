@@ -50,7 +50,7 @@ theorem ggTorsionKnownOver_typeTwF4 :
   have hge := ggTorsion_marking_card_ge_twF4 ha hm hJ hlab' hdeg hhasJ
   rw [hn2] at hge
   obtain ⟨H, hHne, hJdvdH⟩ := ggTorsion_dvd_proper hX θ hδ1 hcomp.1
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenTwF4H ((n - 1) / 2) K)) :=
+  have : Finite (LargeEvenCenterQuot (LargeEvenTwF4H ((n - 1) / 2) K)) :=
     Finite.of_equiv (X ⧸ Subgroup.center X) θ.toEquiv
   have hHleR : Nat.card ↥H ≤ Nat.card (LargeEvenCenterQuot (LargeEvenTwF4H ((n - 1) / 2) K)) :=
     Nat.card_le_card_of_injective H.subtype H.subtype_injective

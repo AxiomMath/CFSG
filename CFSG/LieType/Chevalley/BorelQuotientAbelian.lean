@@ -22,12 +22,12 @@ theorem isMulCommutative_borelSub_quotient_pCore :
   have hU2 : IsPGroup 2 U :=
     (((positive_root_triangularity.{0, 0} τ).2 K 2).2.1).of_equiv
       (Subgroup.subgroupOfEquivOfLe posUnipotent_le_adjointGroup).symm
-  haveI hUn : (U.subgroupOf B).Normal := normal_posUnipotentSub
+  have hUn : (U.subgroupOf B).Normal := normal_posUnipotentSub
   have hTcomm : ∀ g ∈ torusGroup τ K, ∀ g' ∈ torusGroup τ K, g * g' = g' * g :=
     (triangular_borel_structure.{0, 0} τ K).1
-  haveI hT : IsMulCommutative (torusGroup τ K) :=
+  have hT : IsMulCommutative (torusGroup τ K) :=
     IsMulCommutative.of_comm fun a b => Subtype.ext (hTcomm a a.2 b b.2)
-  haveI hHcomm : IsMulCommutative H := inferInstance
+  have hHcomm : IsMulCommutative H := inferInstance
   have hsup : U.subgroupOf B ⊔ H.subgroupOf B = ⊤ := by
     rw [← Subgroup.subgroupOf_sup hUle hHle]
     rw [show U ⊔ H = B from posUnipotentSub_sup_torusSub, Subgroup.subgroupOf_self]

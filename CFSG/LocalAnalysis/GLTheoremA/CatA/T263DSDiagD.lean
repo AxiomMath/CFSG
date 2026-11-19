@@ -24,7 +24,7 @@ theorem t263_diag_abstract {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {A : Type} [
       ∃ T : Subgroup A, T ≤ I ∧ IsPGroup 2 T ∧ B ≤ Subgroup.normalizer (T : Set A) ∧
         ¬ T ≤ GLAPPrimeCoreOf p I := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hMn : M.Normal := by
     refine Subgroup.normalizer_eq_top_iff.1 ?_
     rw [eq_top_iff, ← hMB]
@@ -35,7 +35,7 @@ theorem t263_diag_abstract {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {A : Type} [
     rw [eq_top_iff, ← hMB]
     exact sup_le (le_normalizer_glaPPrimeCoreOf p M)
       (hBM.trans (CFSG.LocalAnalysis.GLTheoremA.normalizer_le_normalizer_glaPPrimeCoreOf p M))
-  haveI := hNnorm
+  have := hNnorm
   let π : A →* A ⧸ N := QuotientGroup.mk' N
   have hker : ¬ p ∣ Nat.card π.ker := by
     rw [QuotientGroup.ker_mk']
@@ -217,7 +217,7 @@ theorem t263_diag_abstract {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {A : Type} [
       rw [Subgroup.mem_normalizer_iff]
       intro x
       have h5 := Subgroup.mem_normalizer_iff.1 hbV (π x)
-      simp only [SetLike.mem_coe, Subgroup.mem_comap, map_mul, map_inv]
+      simp only [Subgroup.mem_comap, map_mul, map_inv]
       exact h5
     have hcopP : Nat.Coprime p (Nat.card ↥P) := by
       have hsurj := π.subgroupMap_surjective P
@@ -236,7 +236,7 @@ theorem t263_diag_abstract {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {A : Type} [
       Nat.prime_two B P hBp hBP hcopP
     set T : Subgroup A := (Q : Subgroup ↥P).map P.subtype with hT
     have hTP : T ≤ P := Subgroup.map_subtype_le _
-    refine ⟨T, hTP.trans inf_le_left, (Q.isPGroup').map P.subtype, hQ, ?_⟩
+    refine ⟨T, hTP.trans inf_le_left, (Q.isPGroup).map P.subtype, hQ, ?_⟩
     intro hTO
     have hTmap : T.map π = V := (t263_sylow_map_eq π P (by rw [hPmap]; exact hV2) Q).trans hPmap
     have h1 : T.map π ≤ (GLAPPrimeCoreOf p I).map π := Subgroup.map_mono hTO

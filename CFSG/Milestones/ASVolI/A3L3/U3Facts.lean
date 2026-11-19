@@ -53,7 +53,7 @@ theorem burnsideA315y_u3_hΓdiag (hU : UnitaryFieldData p 1 K) (two_ne : (2 : K)
       (ulBlock ((g : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)).det := by
     rw [Matrix.det_fin_three, Matrix.det_fin_two, h02, h12, h20, h21, h22]
     simp only [ulBlock, Matrix.of_apply, Matrix.cons_val', Matrix.cons_val_zero,
-      Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one, Matrix.head_cons]
+      Matrix.cons_val_one, Matrix.empty_val', Matrix.cons_val_fin_one]
     ring
   have hn := burnsideA315y_u3_norm_det hU g
   rw [hdet] at hn
@@ -381,6 +381,7 @@ theorem burnsideA315y_u3_hΓ₁ : ¬ p ∣ (MU).Γ₁.index := by
   have h2 : p ∣ 1 := (Nat.dvd_add_right (dvd_refl p)).mp (hp.trans h1)
   exact hU.prime.one_lt.ne' (Nat.dvd_one.mp h2)
 
+omit [Finite K] in
 theorem burnsideA315y_u3_dgl_diag (s : Kˣ) :
     ((burnsideA315y_dgl s : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) =
       diagonal ![(s : K), s, 1] := by

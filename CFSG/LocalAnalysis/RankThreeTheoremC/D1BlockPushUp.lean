@@ -65,6 +65,7 @@ theorem isSubnormal_inf_of_normal {A B N : Subgroup G} (h : IsSubnormal A B) (hN
     intro x g hx hg
     exact ⟨hn x g hx.1 hg.1, N.mul_mem (N.mul_mem hg.2 hx.2) (N.inv_mem hg.2)⟩
 
+omit [Finite G] in
 theorem normal_subgroupOf_sup_of_le_normalizer_left {L T : Subgroup G}
     (hTL : T ≤ Subgroup.normalizer (L : Set G)) : (L.subgroupOf (L ⊔ T)).Normal := by
   have h := Subgroup.normal_subgroupOf_sup_of_le_normalizer hTL
@@ -85,6 +86,7 @@ theorem mul_pow_mul_inv_pow_mem {L : Subgroup G} {l t : G} (hl : l ∈ L)
     rw [e]
     exact L.mul_mem ih hconj
 
+omit [Finite G] in
 theorem le_of_le_sup_of_isShort2 {L T Y : Subgroup G} (hT2 : IsPGroup 2 T)
     (hTL : T ≤ Subgroup.normalizer (L : Set G)) (hYD : Y ≤ L ⊔ T)
     (hY : ∀ (N : Subgroup Y) [N.Normal], IsPGroup 2 (Y ⧸ N) → N = ⊤) : Y ≤ L := by

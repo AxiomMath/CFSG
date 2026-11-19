@@ -24,7 +24,7 @@ private theorem cfgJ_map_equiv {e : ↥J ≃* Equiv.Perm (Fin 5)} :
   rw [Subgroup.map_commutator, Subgroup.map_top_of_surjective _ e.surjective]
   exact alternatingGroup.commutator_perm_eq (α := Fin 5) (by simp)
 
-private theorem cfgJ_derived_eq (cfg : H2Cfg G t v J) (e : ↥J ≃* Equiv.Perm (Fin 5)) :
+private theorem cfgJ_derived_eq (_cfg : H2Cfg G t v J) (e : ↥J ≃* Equiv.Perm (Fin 5)) :
     (⁅J, J⁆).subgroupOf J = (alternatingGroup (Fin 5)).comap e.toMonoidHom := by
   have hmap : (commutator ↥J).map J.subtype = ⁅J, J⁆ := Subgroup.map_subtype_commutator J
   have hemap : (commutator ↥J).map e.toMonoidHom = alternatingGroup (Fin 5) :=
@@ -33,7 +33,7 @@ private theorem cfgJ_derived_eq (cfg : H2Cfg G t v J) (e : ↥J ≃* Equiv.Perm 
     Subgroup.comap_map_eq_self_of_injective J.subtype_injective (commutator ↥J), ← hemap,
     Subgroup.comap_map_eq_self_of_injective e.injective (commutator ↥J)]
 
-private theorem cfgJ_derived_iso (cfg : H2Cfg G t v J) (e : ↥J ≃* Equiv.Perm (Fin 5)) :
+private theorem cfgJ_derived_iso (_cfg : H2Cfg G t v J) (e : ↥J ≃* Equiv.Perm (Fin 5)) :
     Nonempty (↥⁅J, J⁆ ≃* alternatingGroup (Fin 5)) := by
   refine ⟨?_⟩
   have hmap : (commutator ↥J).map J.subtype = ⁅J, J⁆ := Subgroup.map_subtype_commutator J
@@ -49,7 +49,7 @@ theorem card_J (cfg : H2Cfg G t v J) : Nat.card ↥J = 120 := by
   rw [Nat.card_congr e.toEquiv, Nat.card_perm, Nat.card_fin]
   decide
 
-theorem derived_le (cfg : H2Cfg G t v J) : ⁅J, J⁆ ≤ J :=
+theorem derived_le (_cfg : H2Cfg G t v J) : ⁅J, J⁆ ≤ J :=
   Subgroup.commutator_le_self J
 
 theorem derived_le_centralizer (cfg : H2Cfg G t v J) : ⁅J, J⁆ ≤ centralizer ({t} : Set G) :=
@@ -61,7 +61,7 @@ theorem derived_iso (cfg : H2Cfg G t v J) : Nonempty (↥⁅J, J⁆ ≃* alterna
 
 theorem derived_isSimple (cfg : H2Cfg G t v J) : IsSimpleGroup ↥⁅J, J⁆ := by
   obtain ⟨e⟩ := derived_iso cfg
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup (by simp)
   exact e.isSimpleGroup
 
 theorem derived_nonab (cfg : H2Cfg G t v J) : ∃ a ∈ ⁅J, J⁆, ∃ b ∈ ⁅J, J⁆, a * b ≠ b * a := by
@@ -87,14 +87,14 @@ theorem derived_ne_bot (cfg : H2Cfg G t v J) : ⁅J, J⁆ ≠ ⊥ := by
   norm_num at h
 
 theorem derived_perfect (cfg : H2Cfg G t v J) : ⁅⁅J, J⁆, ⁅J, J⁆⁆ = ⁅J, J⁆ := by
-  haveI : Group.IsPerfect ↥⁅J, J⁆ :=
+  have : Group.IsPerfect ↥⁅J, J⁆ :=
     isPerfect_of_simple_of_nonab (derived_isSimple cfg) (derived_nonab cfg)
   exact Subgroup.commutator_eq_self
 
 theorem not_isPGroup_derived (cfg : H2Cfg G t v J) : ¬ IsPGroup 2 ↥⁅J, J⁆ := by
   obtain ⟨e⟩ := cfg.J_iso
-  haveI : Finite ↥J := Finite.of_injective e e.injective
-  haveI : Finite ↥⁅J, J⁆ :=
+  have : Finite ↥J := Finite.of_injective e e.injective
+  have : Finite ↥⁅J, J⁆ :=
     Finite.of_injective
       (fun x : ↥⁅J, J⁆ => (⟨x.1, Subgroup.commutator_le_self J x.2⟩ : ↥J))
       (fun x y h => by

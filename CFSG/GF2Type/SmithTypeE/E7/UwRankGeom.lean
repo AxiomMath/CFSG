@@ -88,12 +88,11 @@ theorem Dblk_transpose_mul_Ablk (σ : V12 ≃ₗ[ZMod 2] V12) (hσ : ∀ x, q12 
   have e2 : σ (0, Pi.single k 1) = (0, fun i => Ablk σ i k) := by
     refine Prod.ext (hF _) rfl
   rw [e1, e2, B12_pair, B12_pair] at h
-  simp only [Pi.zero_apply, mul_zero, add_zero, zero_mul, Pi.single_apply, ite_mul, one_mul,
-    mul_ite, mul_one, Finset.sum_ite_eq, Finset.sum_ite_eq', Finset.mem_univ, if_true] at h
+  simp only [Pi.zero_apply, mul_zero, add_zero, zero_mul, Pi.single_apply, mul_ite, mul_one, Finset.sum_ite_eq', Finset.mem_univ, ite_true] at h
   rw [Matrix.mul_apply]
   simp only [Matrix.transpose_apply, Matrix.one_apply]
   rw [h]
-  simp [Pi.single_apply, eq_comm]
+  simp [eq_comm]
 
 end Blocks
 
@@ -264,8 +263,8 @@ theorem card_le_of_isElementaryAbelian_stab0 (E : Subgroup TD6) (hE : E ≤ Stab
 
 theorem card_le_of_isElementaryAbelian_TD6 (E : Subgroup TD6) (hE : CFSG.IsElementaryAbelian 2 E) :
     Nat.card E ≤ 2 ^ 15 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hE
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hE
   have hP : IsPGroup 2 E := CFSG.IsElementaryAbelian.isPGroup 2 E
   obtain ⟨i, hi⟩ := exists_fixed_plane E hP
   obtain ⟨g₀, hg₀⟩ := exists_smul_planes_eq i 0
@@ -277,7 +276,7 @@ theorem card_le_of_isElementaryAbelian_TD6 (E : Subgroup TD6) (hE : CFSG.IsEleme
     rw [MulAction.mem_stabilizer_iff]
     show (g₀ * y * g₀⁻¹) • (0 : Fin 75735) = 0
     rw [mul_smul, mul_smul, hinv, hi y hy, hg₀]
-  haveI : CFSG.IsElementaryAbelian 2 (E.map (MulAut.conj g₀).toMonoidHom) :=
+  have : CFSG.IsElementaryAbelian 2 (E.map (MulAut.conj g₀).toMonoidHom) :=
     CFSG.IsElementaryAbelian.map _
   have h := card_le_of_isElementaryAbelian_stab0 _ hE'
   rwa [Subgroup.card_map_of_injective (MulAut.conj g₀).injective] at h

@@ -21,8 +21,8 @@ open CFSG CFSG.Assembly CFSG.Blueprint TableB CFSG.Blueprint.Chevalley CFSG.LieT
 
 private theorem ggTwE6BigD5_ringChar_eq_two_of_card_four {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 4) : ringChar K = 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 2)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   exact ringChar.eq K 2
 
@@ -33,17 +33,17 @@ private theorem ggTwE6BigD5_eq_twD_of_dict {lab : LargeEvenLabel}
   cases t <;> dsimp only [markTag, markRank, markDeg] at ht hr hd
   case twD =>
     by_cases hl2 : l = 2
-    · rw [if_pos hl2] at ht
+    · rw [ite_eq_left hl2] at ht
       exact absurd ht (by decide)
     by_cases hl3 : l = 3
-    · rw [if_neg hl2, if_pos hl3] at ht
+    · rw [ite_eq_right hl2, ite_eq_left hl3] at ht
       exact absurd ht (by decide)
-    · rw [if_neg hl2, if_neg hl3] at hr
-      rw [if_neg hl2] at hd
+    · rw [ite_eq_right hl2, ite_eq_right hl3] at hr
+      rw [ite_eq_right hl2] at hd
       subst hr
       subst hd
       rfl
-  all_goals ((try split_ifs at ht) <;> exact absurd ht (by decide))
+  all_goals ((try split_ifs at ht); try exact absurd ht (by decide))
 
 theorem ggTwE6BigD5_holds :
     GGTwE6BigD5 := by
@@ -71,7 +71,7 @@ theorem ggTwE6BigD5_holds :
   obtain ⟨r, e, hr, hqr, hmodel⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.E6Three.KSConn.d5_class_strongModel
       D.S hFr hΦ D.hL3 D.hT D.hap h3q hk i
-  haveI := D.hchar
+  have := D.hchar
   obtain rfl : r = 2 := by
     rw [← hr, ringChar.eq (AlgebraicClosure K) (ringChar K), hchar]
   obtain rfl : e = 1 :=

@@ -76,7 +76,7 @@ private theorem sub_smul_b_mem_perp {n : ℕ} {F : Type} [Field F] [CharP F 2]
   obtain ⟨c₁, c₂, rfl⟩ := Submodule.mem_span_pair.mp hw
   simp only [(spForm n F).add_left, spForm_β_smul_left, (spForm n F).β_sub_right,
     (spForm n F).add_right, (spForm n F).smul_right, h11, h22, h12, h21, mul_one, mul_zero,
-    add_zero, sub_zero]
+    add_zero]
   ring
 
 private theorem β_a₁_add_inv_a₂_add {n : ℕ} {F : Type} [Field F] [CharP F 2]
@@ -88,7 +88,7 @@ private theorem β_a₁_add_inv_a₂_add {n : ℕ} {F : Type} [Field F] [CharP F
   have h12 : (spForm n F).β a₁ a₂ = 0 := hp.2.2.1
   have h12' : (spForm n F).β a₁ b₂ = 0 := hp.2.2.2.2.1
   simp only [(spForm n F).add_right, (spForm n F).smul_right, h11, h12, h12', mul_one, mul_zero,
-    add_zero, zero_add]
+    add_zero]
 
 private theorem β_a₂_add_inv_a₂_add {n : ℕ} {F : Type} [Field F] [CharP F 2]
     {a₁ a₂ b₁ b₂ : Fin n ⊕ Fin n → F} (hp : SpPlanePair n F a₁ a₂ b₁ b₂)
@@ -135,7 +135,7 @@ private theorem allTrans_conj {n : ℕ} {F : Type} [Field F] [CharP F 2]
       intro v
       rw [ht' v, smul_zero, add_zero, spForm_β_smul_left]
     have hxx : natRep (StatedSp n F) q⁻¹ (natRep (StatedSp n F) q x) = x := by
-      simpa using rep_apply_inv_apply (ρ := natRep (StatedSp n F)) q⁻¹ x
+      simp
     have hconj := rep_conj_apply (F := spForm n F) (ρ := natRep (StatedSp n F))
       (isIsometric_natRep_statedSp n F) hh q⁻¹ w
     simp only [inv_inv] at hconj

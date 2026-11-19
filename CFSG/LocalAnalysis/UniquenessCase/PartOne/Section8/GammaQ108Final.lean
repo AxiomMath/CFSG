@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem rankThreeGamma_le_of_e9_le_X
     (hS : Standing4 G) (hU : CFSG.Open.uniqueFourUnique G) (S : Setup4 G)
-    (hMS : S.InMSigma) (hC : CFSG.Yardstones.Mf4cdcdf2e013.TheoremCAt S.M)
+    (hMS : S.InMSigma) (_hC : CFSG.Yardstones.Mf4cdcdf2e013.TheoremCAt S.M)
     (hnot : ¬ CFSG.RankThree.PartOne.IsStronglyPEmbedded 3 S.M)
     (hSE : StronglyEmbeddedFive)
     {L L' : Subgroup G} (hL : L ∈ CFSG.LocalAnalysis.UniquenessCase.UC22.calC S.M)
@@ -29,8 +29,8 @@ theorem rankThreeGamma_le_of_e9_le_X
     (hEel : CFSG.Open.IsElemAbelian 3 E) (hEcard : Nat.card E = 9) :
     CFSG.Open.rankThreeGamma 1 3 E ≤ S.M := by
   classical
-  haveI : Fact S.p.Prime := ⟨S.hp.1.1⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact S.p.Prime := ⟨S.hp.1.1⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hXM : CFSG.LocalAnalysis.UniquenessCase.UC22.conjClosure S.M L ≤ S.M :=
     (uc22p22u_conjClosure_isProd (M := S.M) (X := S.M) (K := L)
       le_rfl Subgroup.le_normalizer hL).1
@@ -63,12 +63,12 @@ theorem rankThreeGamma_Q_le_of_le_X
     (hSL : CFSG.LocalAnalysis.UniquenessCase.PartTwo.Inputs1719.PartOne.IsSL3Four
       (CFSG.LocalAnalysis.UniquenessCase.UC22.Bar2 L))
     {Q : Subgroup G} (hQX : Q ≤ CFSG.LocalAnalysis.UniquenessCase.UC22.conjClosure S.M L)
-    (hQp : IsPGroup 3 Q) (hQexp : ∀ x ∈ Q, x ^ 3 = 1)
+    (_hQp : IsPGroup 3 Q) (hQexp : ∀ x ∈ Q, x ^ 3 = 1)
     (hE9contain : ∀ x ∈ Q, x ≠ 1 → ∃ E : Subgroup G, x ∈ E ∧ E ≤ Q ∧
       CFSG.Open.IsElemAbelian 3 E ∧ Nat.card E = 9) :
     CFSG.Open.rankThreeGamma 1 3 Q ≤ S.M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h63 : CFSG.LocalAnalysis.UniquenessCase.UC6.R6_3
       (CFSG.LocalAnalysis.UniquenessCase.UC6.dataOfSetup4 hS hU S) :=
     CFSG.LocalAnalysis.UniquenessCase.UC6.r6_3_dataOfSetup4 hS hU S hC

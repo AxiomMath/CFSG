@@ -80,17 +80,17 @@ theorem D1PhaseThree.false_of_center_cube (h : D1PhaseThree 3 P M H R)
     exact ⟨m, Subgroup.mem_subgroupOf.mp hm, rfl⟩
   have hinj : ∀ x y (hx : x ∈ (P : Subgroup G)) (hy : y ∈ (P : Subgroup G)),
       mk ⟨x, hPM hx⟩ = mk ⟨y, hPM hy⟩ → x = y := fun x y hx hy hxy =>
-    eq_of_mk_eq_of_three P.isPGroup' hPM hx hy hxy
+    eq_of_mk_eq_of_three P.isPGroup hPM hx hy hxy
   have hmkmul : ∀ x y (hx : x ∈ M) (hy : y ∈ M),
       mk ⟨x * y, M.mul_mem hx hy⟩ = mk ⟨x, hx⟩ * mk ⟨y, hy⟩ := fun x y hx hy => by
     rw [← map_mul]; rfl
-  have hPb3 : IsPGroup 3 Pb := (P.isPGroup'.comap_subtype (K := M)).map _
+  have hPb3 : IsPGroup 3 Pb := (P.isPGroup.comap_subtype (K := M)).map _
   have hpe : ∀ x ∈ Pb, ∃ k : ℕ, x ^ 3 ^ k = 1 := fun x hx => by
     obtain ⟨k, hk⟩ := hPb3 ⟨x, hx⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hPN : ∀ g ∈ (P : Subgroup G), g ∈ Subgroup.normalizer (L : Set G) := fun g hg =>
     D1PhaseThree.mem_normalizer_of_center h hBF h85 h93 hD2 hcyc hzM hz3 hCz hin hrk hno6 hL
-      hζA hζC hζ3 hζ1 (hPM hg) (P.isPGroup'.to_le ((Subgroup.zpowers_le).mpr hg))
+      hζA hζC hζ3 hζ1 (hPM hg) (P.isPGroup.to_le ((Subgroup.zpowers_le).mpr hg))
   have hPbN : Pb ≤ Subgroup.normalizer (A₀ : Set (↥M ⧸ CFSG.pCore 2 ↥M)) := by
     intro x hx
     obtain ⟨g, hg, rfl⟩ := hPbmem x hx
@@ -152,7 +152,7 @@ theorem D1PhaseThree.false_of_center_cube (h : D1PhaseThree 3 P M H R)
   have hwbA : wb ∈ A₀ := (Subgroup.zpowers_le.mpr hζA) hwbZ
   have hwbC : wb ∈ Cn := (Subgroup.zpowers_le.mpr hζC) hwbZ
   have hR'M : R' ≤ M := hR'P.trans hPM
-  have hR'3 : IsPGroup 3 R' := P.isPGroup'.to_le hR'P
+  have hR'3 : IsPGroup 3 R' := P.isPGroup.to_le hR'P
   set Xb := barM M R' with hXb
   have hXb3 : IsPGroup 3 Xb := (hR'3.comap_subtype (K := M)).map _
   have hXbPb : Xb ≤ Pb := barM_mono hR'P

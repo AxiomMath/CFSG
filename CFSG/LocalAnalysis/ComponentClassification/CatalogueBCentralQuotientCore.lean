@@ -41,7 +41,7 @@ theorem primeCore_map {X Y : Type*} [Group X] [Finite X] [Group Y] [Finite Y]
   let r := preimageRestriction f (pPrimeCore p Y)
   let P : Sylow p V := Classical.choice Sylow.nonempty
   have hPcentral : (P : Subgroup V) ≤ Subgroup.center V :=
-    corePreimage_pSubgroup_central p f hcentral P P.isPGroup'
+    corePreimage_pSubgroup_central p f hcentral P P.isPGroup
   have hnormalizer : Subgroup.normalizer (P : Set V) ≤ Subgroup.centralizer (P : Set V) := by
     intro x _
     apply Subgroup.mem_centralizer_iff.mpr
@@ -59,7 +59,7 @@ theorem primeCore_map {X Y : Type*} [Group X] [Finite X] [Group Y] [Finite Y]
   have hPker : (P : Subgroup V) ≤ r.ker := by
     apply (Subgroup.map_eq_bot_iff _).mp
     apply Subgroup.card_eq_one.mp
-    rcases (P.isPGroup'.map r).card_eq_or_dvd with hone | hdivides
+    rcases (P.isPGroup.map r).card_eq_or_dvd with hone | hdivides
     · exact hone
     · exact ((Fact.out : p.Prime).coprime_iff_not_dvd.mp
         (pPrimeCore_coprime_card (p := p) (G := Y))

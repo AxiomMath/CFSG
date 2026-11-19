@@ -313,11 +313,11 @@ theorem factorization_centralizer
     Subgroup.le_centralizer_iff.mpr (hAα.trans (s.A_le_centralizer_V T₂))
   have hVS := s.fr.V_le_S hT₂
   have hV2 : IsPGroup 2 ((s.fr.V T₂).subgroupOf C) :=
-    (s.fr.S.isPGroup'.to_le hVS).of_equiv (Subgroup.subgroupOfEquivOfLe hVC).symm
+    (s.fr.S.isPGroup.to_le hVS).of_equiv (Subgroup.subgroupOfEquivOfLe hVC).symm
   obtain ⟨P, hP⟩ := hV2.exists_le_sylow
   set P' := (P : Subgroup C).map C.subtype
   have hP'C : P' ≤ C := Subgroup.map_subtype_le _
-  have hP'2 : IsPGroup 2 P' := P.isPGroup'.map _
+  have hP'2 : IsPGroup 2 P' := P.isPGroup.map _
   have hVP' : s.fr.V T₂ ≤ P' := fun v hv => ⟨⟨v, hVC hv⟩, hP hv, rfl⟩
   have hP'card : Nat.card P' = 4 := by
     apply le_antisymm
@@ -403,7 +403,7 @@ theorem normalizer_eq_of
     Subgroup.le_centralizer_iff.mpr (hAα.trans (s.A_le_centralizer_V T₂))
   have hfac := s.factorization_centralizer hp hT₂ h2 hAα hne
   have hn := h42 G s hp hT₂ h2 _ (sup_le hAC hVC) hfac
-  refine mem_normalizer_of_normal_sylow hVC hn (s.fr.S.isPGroup'.to_le (s.fr.V_le_S hT₂)) ?_
+  refine mem_normalizer_of_normal_sylow hVC hn (s.fr.S.isPGroup.to_le (s.fr.V_le_S hT₂)) ?_
     (normalizer_le_normalizer_centralizer _ hy)
   rw [hfac, s.fr.card_V hT₂ h2]
   norm_num

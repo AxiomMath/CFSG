@@ -503,7 +503,7 @@ private lemma rckRPdp_flag_eq {ι F : Type} [Fintype ι] [DecidableEq ι] [Field
   · exact sup_le (le_inf hU₁Q hU₁perp) (le_inf hP_Q hP_perp)
 theorem glGeoFlag_none_of_dualPair {ι F : Type} [Fintype ι] [DecidableEq ι] [Field F] [Finite F]
     (σ : F →+* F) (hσ : ∀ c, σ (σ c) = c) {G : Matrix ι ι F} (hG : IsUnit G.det)
-    (hGh : Matrix.transpose (G.map σ) = G) {e : Matrix ι ι F} (he : IsIdempotentElem e)
+    (_hGh : Matrix.transpose (G.map σ) = G) {e : Matrix ι ι F} (he : IsIdempotentElem e)
     (he₁ : e * formAdj σ G e = 0) (he₂ : formAdj σ G e * e = 0) {R : Subgroup (GL ι F)}
     (hiso : ∀ x ∈ R, Matrix.transpose ((x : Matrix ι ι F).map σ) * G * (x : Matrix ι ι F) = G)
     (hcomm : ∀ x ∈ R, (x : Matrix ι ι F) * e = e * (x : Matrix ι ι F))
@@ -668,7 +668,7 @@ private lemma rckRPdp_q_e_f_zero {ι F : Type} [Fintype ι] [DecidableEq ι] [Fi
       rckRPdp_Bstd_formAdj hG e a (e *ᵥ (((x : Matrix ι ι F) - 1) *ᵥ a)),
       Matrix.mulVec_mulVec (((x : Matrix ι ι F) - 1) *ᵥ a) f e, he₂,
       Matrix.zero_mulVec, Matrix.mulVec_zero]
-    simp [Matrix.toBilin'_apply']
+    simp
   · intro a
     change (f *ᵥ a) ⬝ᵥ (G *ᵥ (((x : Matrix ι ι F) - 1) *ᵥ (f *ᵥ a))) = 0
     rw [Matrix.mulVec_mulVec a ((x : Matrix ι ι F) - 1) f, hsubf,
@@ -699,7 +699,7 @@ private lemma rckRPdp_q_c_zero {ι F : Type} [Fintype ι] [DecidableEq ι] [Fiel
 
 theorem dotProduct_mulVec_sub_one_eq_zero_of_dualPair {ι F : Type} [Fintype ι] [DecidableEq ι]
     [Field F] {G : Matrix ι ι F} (hG : IsUnit G.det) (halt : ∀ v : ι → F, v ⬝ᵥ (G *ᵥ v) = 0)
-    {e : Matrix ι ι F} (he : IsIdempotentElem e) (he₁ : e * formAdj (RingHom.id F) G e = 0)
+    {e : Matrix ι ι F} (_he : IsIdempotentElem e) (he₁ : e * formAdj (RingHom.id F) G e = 0)
     (he₂ : formAdj (RingHom.id F) G e * e = 0) {x : GL ι F}
     (hiso : Matrix.transpose (x : Matrix ι ι F) * G * (x : Matrix ι ι F) = G)
     (hcomm : (x : Matrix ι ι F) * e = e * (x : Matrix ι ι F))

@@ -133,7 +133,7 @@ theorem spBlock_lower_not_comm_lower (u : Fin 2) :
   · intro h
     exact not_commute_x_neg_short_neg_long (F := F) (by simpa [spBlock_lower] using h.symm)
 
-private theorem weyl_preimage_aux (hfin : Finite F) (hF : Nat.card F = 2) (u t : Fin 2)
+private theorem weyl_preimage_aux (_hfin : Finite F) (hF : Nat.card F = 2) (u t : Fin 2)
     {θ₁ : StatedSp 2 F →* X} {θ₂ : SL(3, F) →* X}
     (h₁ : θ₁.ker ≤ Subgroup.center (StatedSp 2 F))
     (h₂ : θ₂.ker ≤ Subgroup.center SL(3, F))
@@ -149,16 +149,16 @@ private theorem weyl_preimage_aux (hfin : Finite F) (hF : Nat.card F = 2) (u t :
   refine ⟨A, hA, ?_, ?_⟩
   · apply hinj₁
     have h : (θ₁.comp (spBlock F u)) (A * A) = 1 := by
-      rw [map_mul, hA, ← map_mul, ← map_mul (blk F t), @weylTwo_mul_self F _ hfin hF,
+      rw [map_mul, hA, ← map_mul, ← map_mul (blk F t), @weylTwo_mul_self F _ hF,
         map_one (blk F t), map_one θ₂]
     simpa using h
   · intro h1
     have hx1 : θ₂ (blk F t (weylTwo F)) = 1 := by
       rw [← hA, h1]
       simp
-    exact @weylTwo_ne_one F _ hfin hF (hinj₂ (by simpa using hx1))
+    exact @weylTwo_ne_one F _ hF (hinj₂ (by simpa using hx1))
 
-private theorem weyl_closure_aux (hfin : Finite F) (hF : Nat.card F = 2) (u t : Fin 2)
+private theorem weyl_closure_aux (_hfin : Finite F) (hF : Nat.card F = 2) (u t : Fin 2)
     {θ₁ : StatedSp 2 F →* X} {θ₂ : SL(3, F) →* X}
     (hcomm : ∀ x ∈ (θ₁.comp (spBlock F u.rev)).range, ∀ y ∈ (Bs F t.rev).map θ₂,
       x * y = y * x)
@@ -194,7 +194,7 @@ private theorem weyl_closure_aux (hfin : Finite F) (hF : Nat.card F = 2) (u t : 
         exact hcent_w
   refine ⟨H, fun y hy => ?_, ?_⟩
   · exact Subgroup.mem_centralizer_iff.mp (hHle hy) (θ₁ c) rfl
-  · refine (@Bs_le_closure_rev_weylTwo F _ hfin hF t).trans ?_
+  · refine (@Bs_le_closure_rev_weylTwo F _ hF t).trans ?_
     rw [Subgroup.closure_le]
     rintro y (hy | hy)
     · exact Subgroup.subset_closure (Set.mem_union_left _ ⟨y, hy, rfl⟩)
@@ -241,7 +241,7 @@ private theorem weyl_cases_aux (hfin : Finite F) (hF : Nat.card F = 2) (u t : Fi
       d ∈ (spBlock F u).range → c * d ≠ d * c → Commute c (spBlock F u A) → False :=
     fun c d hc hd hcd hcA =>
       hcd (weyl_centralizer_aux hfin hF u t h₁ hM hcomm hA hc hcA d hd)
-  rcases @eq_one_or_tv_of_mul_self F _ hfin hF A hA2 with h1 | h2 | h3 | h4
+  rcases @eq_one_or_tv_of_mul_self F _ hF A hA2 with h1 | h2 | h3 | h4
   · exact absurd h1 hA1
   · exfalso
     refine contra (spBlock F u.rev (tv 1 0 (1 : F))) (spBlock F u (tv 1 0 (1 : F)))
@@ -298,7 +298,7 @@ private theorem adjust_ab_aux (hF : Nat.card F = 2) (i : Fin 2) {θ₀ : StatedS
         map_one]
     simpa using h
 
-private theorem adjust_classify_aux (hfin : Finite F) (hF : Nat.card F = 2) (i : Fin 2)
+private theorem adjust_classify_aux (_hfin : Finite F) (hF : Nat.card F = 2) (i : Fin 2)
     {θ₀ : StatedSp 2 F →* X} {ρ : SL(2, F) →* X} (hρ : Function.Injective ρ)
     (hw : ρ (weylTwo F) = θ₀ (spBlock F i (weylTwo F))) {a b : SL(2, F)}
     (ha : θ₀ (spBlock F i a) = ρ (tv 0 1 (1 : F)))
@@ -311,20 +311,20 @@ private theorem adjust_classify_aux (hfin : Finite F) (hF : Nat.card F = 2) (i :
     have h1 : ρ (tv 0 1 (1 : F)) = ρ (weylTwo F) := by
       rw [← ha, h]
       exact hw.symm
-    exact @tv01_ne_weylTwo F _ hfin hF (hρ h1)
+    exact @tv01_ne_weylTwo F _ hF (hρ h1)
   have hbw : b ≠ weylTwo F := by
     intro h
     have h1 : ρ (tv 1 0 (1 : F)) = ρ (weylTwo F) := by
       rw [← hb, h]
       exact hw.symm
-    exact @tv10_ne_weylTwo F _ hfin hF (hρ h1)
+    exact @tv10_ne_weylTwo F _ hF (hρ h1)
   have hab : a ≠ b := by
     intro h
     have h1 : ρ (tv 0 1 (1 : F)) = ρ (tv 1 0 (1 : F)) := by
       rw [← ha, h, hb]
     exact tv01_ne_tv10 (hρ h1)
   have ha_cases : a = tv 0 1 (1 : F) ∨ a = tv 1 0 (1 : F) := by
-    rcases @eq_one_or_tv_of_mul_self F _ hfin hF a ha2 with h | h | h | h
+    rcases @eq_one_or_tv_of_mul_self F _ hF a ha2 with h | h | h | h
     · exfalso
       have h1 : ρ (tv 0 1 (1 : F)) = ρ 1 := by
         rw [← ha, h, map_one (spBlock F i), map_one θ₀, map_one ρ]
@@ -333,7 +333,7 @@ private theorem adjust_classify_aux (hfin : Finite F) (hF : Nat.card F = 2) (i :
     · exact Or.inr h
     · exact absurd h haw
   have hb_cases : b = tv 0 1 (1 : F) ∨ b = tv 1 0 (1 : F) := by
-    rcases @eq_one_or_tv_of_mul_self F _ hfin hF b hb2 with h | h | h | h
+    rcases @eq_one_or_tv_of_mul_self F _ hF b hb2 with h | h | h | h
     · exfalso
       have h1 : ρ (tv 1 0 (1 : F)) = ρ 1 := by
         rw [← hb, h, map_one (spBlock F i), map_one θ₀, map_one ρ]

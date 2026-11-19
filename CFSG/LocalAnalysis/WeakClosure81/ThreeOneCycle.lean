@@ -12,16 +12,19 @@ namespace ThreeOne
 
 variable {Ω : Type*} [Fintype Ω] [DecidableEq Ω] {σ : Perm Ω}
 
+omit [DecidableEq Ω] in
 private lemma exists_notMem_of_card_lt {F : Finset Ω} (h : F.card < Fintype.card Ω) :
     ∃ x, x ∉ F := by
   obtain ⟨x, -, hx⟩ :=
     Finset.exists_mem_notMem_of_card_lt_card (s := F) (t := Finset.univ) (by simpa using h)
   exact ⟨x, hx⟩
 
+omit [DecidableEq Ω] in
 private lemma exists_notMem_of_card_le {F : Finset Ω} {n : ℕ} (hF : F.card ≤ n)
     (hn : n < Fintype.card Ω) : ∃ x, x ∉ F :=
   exists_notMem_of_card_lt (lt_of_le_of_lt hF hn)
 
+omit [Fintype Ω] in
 private lemma card_eight_le (a b c d e f g h : Ω) :
     ({a, b, c, d, e, f, g, h} : Finset Ω).card ≤ 8 := by
   have h1 : ({a, b, c, d, e, f, g, h} : Finset Ω).card
@@ -31,6 +34,7 @@ private lemma card_eight_le (a b c d e f g h : Ω) :
   have h3 : ({c, d, e, f, g, h} : Finset Ω).card ≤ 6 := Finset.card_le_six
   omega
 
+omit [Fintype Ω] in
 private lemma exists_apply_notMem_three (hσ : ∀ x, σ (σ x) = x) {α p1 p2 p3 : Ω}
     (hfix : ∀ x, x ≠ α → σ x ≠ x) (h1α : p1 ≠ α) (h2α : p2 ≠ α) (h3α : p3 ≠ α)
     (h12 : p1 ≠ p2) (h13 : p1 ≠ p3) (h23 : p2 ≠ p3) :
@@ -87,9 +91,9 @@ theorem isThreeCycle_mul_conj {s t z w s' r r' : Ω} (hst : s ≠ t) (hsz : s �
   have hnodup : [z, w, s', t].Nodup := by
     refine List.nodup_cons.2 ⟨?_, List.nodup_cons.2 ⟨?_,
       List.nodup_cons.2 ⟨?_, List.nodup_singleton _⟩⟩⟩
-    · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false, not_or]
+    · simp only [List.mem_cons, List.not_mem_nil, or_false, not_or]
       exact ⟨hzw, hs'z.symm, htz.symm⟩
-    · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false, not_or]
+    · simp only [List.mem_cons, List.not_mem_nil, or_false, not_or]
       exact ⟨hs'w.symm, htw.symm⟩
     · simp only [List.mem_singleton]
       exact hs't
@@ -274,9 +278,9 @@ theorem exists_isThreeCycle_mem_of_apply_ne (hσ : ∀ x, σ (σ x) = x) {α : �
     have hnodup : [p2, p3, α, p1].Nodup := by
       refine List.nodup_cons.2 ⟨?_, List.nodup_cons.2 ⟨?_,
         List.nodup_cons.2 ⟨?_, List.nodup_singleton _⟩⟩⟩
-      · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false, not_or]
+      · simp only [List.mem_cons, List.not_mem_nil, or_false, not_or]
         exact ⟨h23, hp2α, h12.symm⟩
-      · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false, not_or]
+      · simp only [List.mem_cons, List.not_mem_nil, or_false, not_or]
         exact ⟨hp3α, h13.symm⟩
       · simp only [List.mem_singleton]
         exact hp1α.symm

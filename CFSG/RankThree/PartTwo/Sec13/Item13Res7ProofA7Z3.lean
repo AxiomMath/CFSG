@@ -281,7 +281,7 @@ theorem false_of_crit {G : Type} [Group G] [Finite G]
     Nat.prime_two ψP hψPs isPGroup_kleinA7
   set SL := (SP : Subgroup P).map P.subtype with hSL
   set S := SL.map L.subtype with hS
-  have hS2 : IsPGroup 2 S := (SP.isPGroup'.map P.subtype).map L.subtype
+  have hS2 : IsPGroup 2 S := (SP.isPGroup.map P.subtype).map L.subtype
   have hSL' : S ≤ L := Subgroup.map_subtype_le SL
   have hlift : ∀ e : alternatingGroup (Fin 7), e ∈ kleinA7 → ∃ x : L, (x : G) ∈ S ∧
       ψL x = e := by

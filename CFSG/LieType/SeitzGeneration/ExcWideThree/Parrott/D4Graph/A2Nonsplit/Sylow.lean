@@ -35,7 +35,7 @@ theorem exists_conj_mem_of_forall_card_le {p : ℕ} [Fact p.Prime] {C P : Subgro
       have h1 := Subgroup.card_le_of_le hS'
       rw [card_subgroupOf_of_le hPC, Sylow.card_eq_multiplicity] at h1
       exact h1
-    · have hR : IsPGroup p ((S : Subgroup C).map C.subtype) := S.isPGroup'.map _
+    · have hR : IsPGroup p ((S : Subgroup C).map C.subtype) := S.isPGroup.map _
       have h2 := hmax _ hR (Subgroup.map_subtype_le _)
       rw [← hS]
       calc Nat.card (S : Subgroup C) = Nat.card ((S : Subgroup C).map C.subtype) :=
@@ -50,7 +50,7 @@ theorem exists_conj_mem_of_forall_card_le {p : ℕ} [Fact p.Prime] {C P : Subgro
   have hxS : (⟨x, hxC⟩ : C) ∈ (S : Subgroup C) := hS (Subgroup.mem_zpowers _)
   rw [← hc, Sylow.coe_subgroup_smul, Subgroup.mem_pointwise_smul_iff_inv_smul_mem,
     Sylow.coe_ofCard, Subgroup.mem_subgroupOf] at hxS
-  simp only [MulAut.smul_def, map_inv, MulAut.conj_inv_apply] at hxS
+  simp only [MulAut.smul_def, MulAut.conj_inv_apply] at hxS
   refine ⟨c, c.2, ?_⟩
   simpa [mul_assoc] using hxS
 
@@ -60,18 +60,22 @@ section Field
 
 variable {K K₂ : Type} [Field K] [Finite K] [Field K₂] [Finite K₂]
 
+omit [Field K] [Finite K] in
 theorem sq_mod_three (hq : Nat.card K % 3 = 2) : Nat.card K ^ 2 % 3 = 1 := by
   rw [Nat.pow_mod, hq]
 
+omit [Field K] [Finite K] in
 theorem frob_frob (hcard : Nat.card K₂ = Nat.card K ^ 2) {σ : K₂ →+* K₂}
     (hσ : ∀ x, σ x = x ^ Nat.card K) (x : K₂) : σ (σ x) = x := by
   have := Fintype.ofFinite K₂
   rw [hσ, hσ, ← pow_mul, ← sq, ← hcard, Nat.card_eq_fintype_card, FiniteField.pow_card]
 
+omit [Finite K₂] in
 theorem units_frob {q : ℕ} {σ : K₂ →+* K₂} (hσ : ∀ x, σ x = x ^ q) (u : K₂ˣ) :
     Units.map σ.toMonoidHom u = u ^ q :=
   Units.ext (by simp [hσ])
 
+omit [Field K] [Finite K] in
 theorem exists_twist_data (hq : Nat.card K % 3 = 2) (hcard : Nat.card K₂ = Nat.card K ^ 2)
     {σ : K₂ →+* K₂} (hσ : ∀ x, σ x = x ^ Nat.card K) :
     ∃ (Q : SL2 K₂) (ω c : K₂ˣ), Q⁻¹ * orderThreeSL K₂ * Q = HSL ω ∧ orderOf ω = 3 ∧

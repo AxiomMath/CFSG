@@ -32,7 +32,7 @@ private theorem wfeS_eq {n C : ℕ}
   by_cases hq : q = i
   · subst hq
     simp [feS]
-  · simp [feS, hq, Pi.single_apply]
+  · simp [feS, hq]
 
 private theorem wfeT_eq {n C : ℕ}
     (h : ∀ p q : Fin n, ((cij C p q : ℕ) : ZMod 3) = ((CartanMatrix.E n p q : ℤ) : ZMod 3)) :

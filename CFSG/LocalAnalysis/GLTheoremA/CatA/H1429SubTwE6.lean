@@ -112,7 +112,7 @@ theorem pow_dvd_card_pSimple_fieldActor {d : ℕ} (hd : 1 ≤ d) (K : Type) [Fie
     (hI : GLAPComponent 3 (fixSubgroup β) I) : (3 ^ d) ^ 36 ∣ Nat.card (PSimple 3 I) := by
   obtain ⟨M, hMC, hMn, hMsol, hMs, hMnc, hMdvd, hMpow⟩ :=
     exists_simple_normal_fieldActor hd K hK T κ σ ε hT hκ hσ hε
-  haveI := hMn
+  have := hMn
   obtain ⟨e⟩ := exists_equiv_of_conj ψ h hMC hMsol hMs hMnc hMdvd hI
   rw [Nat.card_congr e.toEquiv]
   exact hMpow

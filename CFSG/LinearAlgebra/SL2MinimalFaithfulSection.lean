@@ -1,7 +1,7 @@
 module
 
 public import CFSG.LinearAlgebra.SL2MinimalFaithful
-public import Mathlib.Data.Int.Star
+public import Mathlib.Algebra.Order.Star.Int
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.Tactic.Polynomial.Basic
 

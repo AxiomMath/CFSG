@@ -26,9 +26,10 @@ theorem zpowMatrix_smul_one' {G : Type*} [CommGroup G] {n : ℕ} (c : ℤ) (t : 
   funext j
   rw [zpowMatrix_apply, Pi.pow_apply,
     Finset.prod_eq_single j (fun i _ hij => by
-      simp [Matrix.smul_apply, Matrix.one_apply, hij]) (fun h => absurd (Finset.mem_univ j) h)]
-  simp [Matrix.smul_apply, Matrix.one_apply]
+      simp [Matrix.smul_apply, hij]) (fun h => absurd (Finset.mem_univ j) h)]
+  simp [Matrix.smul_apply]
 
+omit [Finite K] in
 theorem torusCoord_ker_cube (x : Fin Tag.E6.rank → Kˣ)
     (hx : torusCoordHom Tag.E6 K x = 1) : x ^ 3 = 1 := by
   have h := (torusCoordHom_eq_one_iff (τ := Tag.E6) (K := K) x).1 hx
@@ -44,9 +45,11 @@ theorem torusCoord_ker_cube (x : Fin Tag.E6.rank → Kˣ)
 
 @[expose] def compatE : Subgroup (Fin Tag.E6.rank → Kˣ) := compatSubgroup (t := TwistTag.E6) σ
 
+omit [Finite K] in
 theorem mem_compatE {c : Fin Tag.E6.rank → Kˣ} :
     c ∈ compatE K σ ↔ ∀ i, c (TwistTag.E6.perm i) = Units.map σ.toMonoidHom (c i) := Iff.rfl
 
+omit [Finite K] in
 theorem Z0_pm {z : ↥(monomialSub Tag.E6 K)} (hz : z ∈ Z0 Tag.E6 K) :
     ∃ e : Fin Tag.E6.rank → Kˣ, (∀ i, e i * e i = 1) ∧ torusN Tag.E6 K e = z := by
   induction hz using Subgroup.closure_induction with
@@ -75,6 +78,7 @@ theorem Z0_pm {z : ↥(monomialSub Tag.E6 K)} (hz : z ∈ Z0 Tag.E6 K) :
       rw [← mul_inv, he, inv_one]
     · rw [map_inv]
 
+omit [Finite K] in
 theorem sigma_pm {σ : K →+* K} {e : Kˣ} (he : e * e = 1) : Units.map σ.toMonoidHom e = e := by
   have h1 : (e : K) * e = 1 := by
     have := congrArg (fun u : Kˣ => (u : K)) he
@@ -159,6 +163,7 @@ theorem mem_range_iota0_of_Z0 {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q)
 @[expose] noncomputable def torusT {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) :
     Subgroup ↥(N1 K σ) := (iota0 K σ hq hσ).range
 
+omit [Finite K] in
 theorem torusT_normal {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) :
     (torusT K σ hq hσ).Normal := ⟨by
   rintro _ ⟨t, rfl⟩ g
@@ -172,6 +177,7 @@ theorem torusT_normal {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) :
 theorem Z1_le_torusT {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) :
     Z1 K σ ≤ torusT K σ hq hσ := fun _ hg => mem_range_iota0_of_Z0 K σ hq hσ hg
 
+omit [Finite K] in
 theorem psi1_of_What1_ker {w : ↥(N1 K σ)} (hw : w ∈ What1 K σ) (h : psi1 K σ w = 1) :
     w ∈ Z1 K σ := by
   have h1 : monomialSubHom (τ := Tag.E6) (K := K) (jHom K σ w) = 1 := by
@@ -180,7 +186,7 @@ theorem psi1_of_What1_ker {w : ↥(N1 K σ)} (hw : w ∈ What1 K σ) (h : psi1 K
 
 theorem mem_torusT_of_mem_sup {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q) {g : ↥(N1 K σ)}
     (hg : g ∈ torusT K σ hq hσ ⊔ What1 K σ) (hψ : psi1 K σ g = 1) : g ∈ torusT K σ hq hσ := by
-  haveI := torusT_normal K σ hq hσ
+  have := torusT_normal K σ hq hσ
   obtain ⟨t, ht, w, hw, rfl⟩ := Subgroup.mem_sup_of_normal_left.1 hg
   obtain ⟨t', rfl⟩ := ht
   have hw1 : psi1 K σ w = 1 := by
@@ -188,11 +194,13 @@ theorem mem_torusT_of_mem_sup {q : ℕ} (hq : 1 < q) (hσ : ∀ c, σ c = c ^ q)
     exact hψ
   exact mul_mem ⟨t', rfl⟩ (Z1_le_torusT K σ hq hσ (psi1_of_What1_ker K σ hw hw1))
 
+omit [Finite K] in
 theorem What_map_eq : (What Tag.E6 K).map (monoι Tag.E6 K) =
     Subgroup.closure (Set.range fun i : Fin Tag.E6.rank => weylElt Tag.E6 K i 1) := by
   rw [What, MonoidHom.map_closure, ← Set.range_comp]
   congr 1
 
+omit [Finite K] in
 theorem mem_What_of_closure {x : ↥(monomialSub Tag.E6 K)}
     (h : monoι Tag.E6 K x ∈
       Subgroup.closure (Set.range fun i : Fin Tag.E6.rank => weylElt Tag.E6 K i 1)) :
@@ -202,6 +210,7 @@ theorem mem_What_of_closure {x : ↥(monomialSub Tag.E6 K)}
   rw [← this]
   exact h
 
+omit [Finite K] in
 theorem exists_What1_lift {w : WeylGroup TwistTag.E6.tag} (hw : w ∈ relWeylTwist TwistTag.E6) :
     ∃ g ∈ What1 K σ, psi1 K σ g = w := by
   refine ⟨⟨_, canonicalRep_mem_graphFixedRootMonomial TwistTag.E6 K σ hw⟩, ?_,
@@ -210,7 +219,8 @@ theorem exists_What1_lift {w : WeylGroup TwistTag.E6.tag} (hw : w ∈ relWeylTwi
   apply mem_What_of_closure
   exact canonicalRep_mem_closure (cs := coxeterSystem Tag.E6) K w
 
-theorem jHom_injective : Function.Injective (jHom K σ) := fun a b h =>
+omit [Finite K] in
+theorem jHom_injective : Function.Injective (jHom K σ) := fun _a _b h =>
   Subtype.ext (congrArg (fun x : ↥(monomialSub Tag.E6 K) => ((x : ↥(adjointGroup Tag.E6 K)) :
     ModGL Tag.E6 K)) h)
 

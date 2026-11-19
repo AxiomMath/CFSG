@@ -113,21 +113,21 @@ theorem exists_frame_of_action_table (A B : Matrix Idx Idx (ZMod 2)) (u f : Fin 
     · rw [Sum.elim_inr, Sum.elim_inl, omega_comm, huf l k, Jm, Matrix.fromBlocks_apply₂₁,
         Matrix.neg_apply, Matrix.one_apply]
       by_cases hkl : k = l
-      · rw [if_pos hkl, if_pos hkl.symm]
+      · rw [ite_eq_left hkl, ite_eq_left hkl.symm]
         exact (CharTwo.neg_eq (1 : ZMod 2)).symm
       · have hlk : ¬ l = k := fun h => hkl h.symm
-        rw [if_neg hkl, if_neg hlk]
+        rw [ite_eq_right hkl, ite_eq_right hlk]
         exact (CharTwo.neg_eq (0 : ZMod 2)).symm
     · simp [Jm, Matrix.fromBlocks_apply₂₂, hff k l]
   · rintro (k | k)
     · rw [sum_aStdM_inl k]
       by_cases hk : k = 0
       · subst hk; simpa using hA0u
-      · rw [if_neg hk]; exact hAu k hk
+      · rw [ite_eq_right hk]; exact hAu k hk
     · rw [sum_aStdM_inr k]
       by_cases hk : k = 0
       · subst hk; simpa using hA0f
-      · rw [if_neg hk]; simpa using hAf k hk
+      · rw [ite_eq_right hk]; simpa using hAf k hk
   · rintro (k | k)
     · rw [sum_bStdM_inl k]
       fin_cases k
@@ -202,7 +202,7 @@ theorem exists_frame {E : Subgroup ↥(StatedSp 4 (ZMod 2))}
   have hid2 : b = a ^ 2 * (a * b) := by
     rw [← mul_assoc, ← pow_succ, ha3, one_mul]
   have hid3 : b = a * (a * b ^ 2) ^ 2 := by
-    letI : CommGroup ↥E := { (inferInstance : Group ↥E) with mul_comm := hcommE }
+    let : CommGroup ↥E := { (inferInstance : Group ↥E) with mul_comm := hcommE }
     have h4 : b ^ 4 = b := (pow_succ b 3).trans (by rw [hb3, one_mul])
     calc b = a ^ 3 * b ^ 4 := by rw [ha3, h4, one_mul]
       _ = a * (a * b ^ 2) ^ 2 := by

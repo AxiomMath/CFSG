@@ -36,7 +36,7 @@ theorem card_subsOf [FiniteDimensional (ZMod 2) I] (W : Submodule (ZMod 2) I) (j
     (hj : j ≤ finrank (ZMod 2) W) :
     Nat.card (SubsOf W j) = CFSG.Monster.B.TwoA.qBinom 2 (finrank (ZMod 2) W) j := by
   rw [Nat.card_congr (subsOfEquiv W j)]
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
+  have : Finite W := Module.finite_of_finite (ZMod 2)
   have h := CFSG.Monster.B.TwoA.card_subspaces (K := ZMod 2) (V := W) (j := j) hj
   rw [h]
   rfl
@@ -47,6 +47,7 @@ section Complement
 
 variable {I : Type} [AddCommGroup I] [Module (ZMod 2) I] [FiniteDimensional (ZMod 2) I]
 
+omit [FiniteDimensional (ZMod 2) I] in
 theorem sup_inf_complement {W C U : Submodule (ZMod 2) I} (hC : IsCompl W C) (hWU : W ≤ U) :
     W ⊔ (U ⊓ C) = U := by
   have h := sup_inf_assoc_of_le (x := W) (y := C) hWU
@@ -108,7 +109,7 @@ theorem card_superOf (W C : Submodule (ZMod 2) I) (hC : IsCompl W C) (j : ℕ)
     Nat.card {U : Submodule (ZMod 2) I // W ≤ U ∧ finrank (ZMod 2) U = j} =
       CFSG.Monster.B.TwoA.qBinom 2 (finrank (ZMod 2) C) (j - finrank (ZMod 2) W) := by
   rw [Nat.card_congr (superEquiv W C hC j hj)]
-  haveI : Finite C := Module.finite_of_finite (ZMod 2)
+  have : Finite C := Module.finite_of_finite (ZMod 2)
   have hC' : finrank (ZMod 2) W + finrank (ZMod 2) C = finrank (ZMod 2) I :=
     Submodule.finrank_add_eq_of_isCompl hC
   have hle : j - finrank (ZMod 2) W ≤ finrank (ZMod 2) C := by

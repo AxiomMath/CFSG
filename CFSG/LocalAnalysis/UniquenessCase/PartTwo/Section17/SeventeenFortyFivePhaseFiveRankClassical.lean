@@ -45,7 +45,7 @@ private lemma two_le_div_odd (r o : ℕ) (hr : 2 ≤ r) (ho : o = 1 ∨ o = 2 �
   · simp
     omega
   · have h5 := h51 (by norm_num)
-    rw [if_pos (by norm_num : Even 4)]
+    rw [ite_eq_left (by norm_num : Even 4)]
     omega
 
 private lemma two_le_div_minus (r o : ℕ) (hr : 4 ≤ r) (ho : o = 1 ∨ o = 2 ∨ o = 4)
@@ -56,7 +56,7 @@ private lemma two_le_div_minus (r o : ℕ) (hr : 4 ≤ r) (ho : o = 1 ∨ o = 2 
   · simp
     omega
   · have h5 := h51 (by norm_num)
-    rw [if_pos (by norm_num : Even 4)]
+    rw [ite_eq_left (by norm_num : Even 4)]
     omega
 
 theorem two_le_pRank_five_A (r : ℕ) (q : TauCeti.PrimePower)
@@ -108,7 +108,7 @@ theorem two_le_pRank_five_twistedA (r : ℕ) (q : TauCeti.PrimePower)
     norm_num
   rw [CFSG.Open.StatedClassicalModel.pRank_psu_eq (X := K) (n := r + 1) (p := 31)
     (f := q.exponent) (r := 5) hSC (by norm_num) (by norm_num) (by norm_num) hdiv,
-    if_neg h5, hneg]
+    ite_eq_right h5, hneg]
   omega
 
 theorem two_le_pRank_five_B (r : ℕ) (q : TauCeti.PrimePower)
@@ -169,9 +169,9 @@ theorem two_le_pRank_five_D (r : ℕ) (q : TauCeti.PrimePower)
   rw [CFSG.Open.StatedClassicalModel.pRank_pomegaPlus_eq (X := K) (n := r) (p := q.p)
     (f := q.exponent) (r := 5) hm (by norm_num) (by norm_num) (Ne.symm hq5)]
   by_cases hA : ((5 : ℕ) : ℤ) ∣ ((q.p ^ q.exponent : ℕ) : ℤ) ^ r + 1
-  · rw [if_pos hA]
+  · rw [ite_eq_left hA]
     exact two_le_div_minus r _ hr4 hcases h51
-  · rw [if_neg hA]
+  · rw [ite_eq_right hA]
     exact two_le_div_odd r _ (by omega) hcases h51
 
 theorem two_le_pRank_five_twistedD (r : ℕ) (q : TauCeti.PrimePower)
@@ -189,9 +189,9 @@ theorem two_le_pRank_five_twistedD (r : ℕ) (q : TauCeti.PrimePower)
   rw [CFSG.Open.StatedClassicalModel.pRank_pomegaMinus_eq (X := K) (n := r) (p := q.p)
     (f := q.exponent) (r := 5) hm (by norm_num) (by norm_num) (Ne.symm hq5)]
   by_cases hA : ((5 : ℕ) : ℤ) ∣ ((q.p ^ q.exponent : ℕ) : ℤ) ^ r - 1
-  · rw [if_pos hA]
+  · rw [ite_eq_left hA]
     exact two_le_div_minus r _ hr4 hcases h51
-  · rw [if_neg hA]
+  · rw [ite_eq_right hA]
     exact two_le_div_odd r _ (by omega) hcases h51
 
 end CFSG.LocalAnalysis.UniquenessCase.PartTwo.S17.SzFive

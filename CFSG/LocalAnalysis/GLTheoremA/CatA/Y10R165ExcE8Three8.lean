@@ -216,7 +216,7 @@ private theorem sigmaRoot_e8T3W2_two_one :
 theorem sigmaSetE8_e8T3W1 :
     sigmaSetE8 ((coxeterSystem Tag.E8).wordProd e8T3W1) = e8T3A2One := by
   ext α
-  rw [sigmaSetE8_eq, Set.mem_setOf_eq]
+  rw [sigmaSetE8_eq, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨i, j, hij, rfl⟩
     fin_cases i <;> fin_cases j <;>
@@ -238,7 +238,7 @@ theorem sigmaSetE8_e8T3W1 :
 theorem sigmaSetE8_e8T3W2 :
     sigmaSetE8 ((coxeterSystem Tag.E8).wordProd e8T3W2) = e8T3A2Two := by
   ext α
-  rw [sigmaSetE8_eq, Set.mem_setOf_eq]
+  rw [sigmaSetE8_eq, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨i, j, hij, rfl⟩
     fin_cases i <;> fin_cases j <;>

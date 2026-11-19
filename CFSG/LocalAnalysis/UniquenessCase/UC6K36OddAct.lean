@@ -12,6 +12,7 @@ namespace Odd
 
 variable {G : Type} [Group G] [Finite G] (L : Subgroup G) [L.Normal]
 
+omit [L.Normal] [Finite G] in
 theorem mem_center_iff_mem_centerOf (c : ↥L) : c ∈ Subgroup.center ↥L ↔ (c : G) ∈ centerOf L := by
   rw [mem_centerOf, Subgroup.mem_center_iff]
   constructor
@@ -24,6 +25,7 @@ theorem mem_center_iff_mem_centerOf (c : ↥L) : c ∈ Subgroup.center ↥L ↔ 
   QuotientGroup.congr (Subgroup.center ↥L) (Subgroup.center ↥L) (MulAut.conjNormal (H := L) g)
     (Subgroup.characteristic_iff_map_eq.1 inferInstance _)
 
+omit [Finite G] in
 theorem actEquiv_mk (g : G) (y : ↥L) :
     actEquiv L g (QuotientGroup.mk y) = QuotientGroup.mk (MulAut.conjNormal (H := L) g y) := rfl
 
@@ -38,9 +40,11 @@ theorem actEquiv_mk (g : G) (y : ↥L) :
     induction x using QuotientGroup.induction_on with
     | H y => simp [actEquiv_mk, map_mul]
 
+omit [Finite G] in
 theorem actHom_apply_mk (g : G) (y : ↥L) :
     actHom L g (QuotientGroup.mk y) = QuotientGroup.mk (MulAut.conjNormal (H := L) g y) := rfl
 
+omit [Finite G] in
 theorem actHom_mk_eq_iff (g : G) {y : G} (hy : y ∈ L) :
     actHom L g (QuotientGroup.mk ⟨y, hy⟩) = QuotientGroup.mk ⟨y, hy⟩ ↔
       g * y * g⁻¹ * y⁻¹ ∈ centerOf L := by
@@ -60,6 +64,7 @@ theorem actHom_mk_eq_iff (g : G) {y : G} (hy : y ∈ L) :
     rw [h4] at h3
     simpa using (centerOf L).inv_mem h3
 
+omit [Finite G] in
 theorem centralizes_of_forall_comm_mem (hL : commutator ↥L = ⊤) {g : G}
     (hg : ∀ y ∈ L, g * y * g⁻¹ * y⁻¹ ∈ centerOf L) : ∀ y ∈ L, g * y = y * g := by
   let δ : ↥L →* G :=
@@ -94,6 +99,7 @@ theorem comm_central_mul_right {H : Type*} [Group H] {c : H} (hc : c ∈ Subgrou
     _ = ((x * y * x⁻¹ * y⁻¹) * c) * c⁻¹ := by rw [← h (x * y * x⁻¹ * y⁻¹)]
     _ = x * y * x⁻¹ * y⁻¹ := by group
 
+omit [L.Normal] [Finite G] in
 theorem le_of_mul_centerOf {M : Subgroup G} (hL : commutator ↥L = ⊤)
     (hgen : ∀ y ∈ L, ∃ m ∈ M ⊓ L, ∃ z ∈ centerOf L, y = m * z) : L ≤ M := by
   have hcl : commutator ↥L ≤ (M.subgroupOf L) := by

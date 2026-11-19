@@ -68,35 +68,35 @@ theorem glPosRows_eq (i t : Nat) : glPosRows i t = unpackR 22 (posK i t) := by
     rfl
   unfold glPosRows posK
   by_cases h0 : (t == 0) = true
-  · rw [if_pos h0, if_pos h0, idRows_eq]
-  · rw [if_neg h0, if_neg h0]
+  · rw [ite_eq_left h0, ite_eq_left h0, idRows_eq]
+  · rw [ite_eq_right h0, ite_eq_right h0]
     by_cases h4 : i < 4
-    · rw [if_pos h4, if_pos h4, glR_eq (nf_ok h4 t)]
-    · rw [if_neg h4, if_neg h4]
+    · rw [ite_eq_left h4, ite_eq_left h4, glR_eq (nf_ok h4 t)]
+    · rw [ite_eq_right h4, ite_eq_right h4]
       by_cases h5 : (i == 4) = true
-      · rw [if_pos h5, if_pos h5, hx24]
-      · rw [if_neg h5, if_neg h5, e3, hx24, glConj_unpack]
+      · rw [ite_eq_left h5, ite_eq_left h5, hx24]
+      · rw [ite_eq_right h5, ite_eq_right h5, e3, hx24, glConj_unpack]
 
 theorem glLongRows_eq (k : Nat) : glLongRows k = unpackR 22 (longK k) := by
   obtain ⟨h61, -, -, -⟩ := el_eqs
   obtain ⟨-, -, -, e52, e43, e25, e34, -⟩ := frame_eqs
   unfold glLongRows longK
   by_cases c0 : (k == 0) = true
-  · rw [if_pos c0, if_pos c0, glZ_eq]
+  · rw [ite_eq_left c0, ite_eq_left c0, glZ_eq]
     rfl
-  rw [if_neg c0, if_neg c0]
+  rw [ite_eq_right c0, ite_eq_right c0]
   by_cases c1 : (k == 1) = true
-  · rw [if_pos c1, if_pos c1, e25]
-  rw [if_neg c1, if_neg c1]
+  · rw [ite_eq_left c1, ite_eq_left c1, e25]
+  rw [ite_eq_right c1, ite_eq_right c1]
   by_cases c2 : (k == 2) = true
-  · rw [if_pos c2, if_pos c2, e34]
-  rw [if_neg c2, if_neg c2]
+  · rw [ite_eq_left c2, ite_eq_left c2, e34]
+  rw [ite_eq_right c2, ite_eq_right c2]
   by_cases c3 : (k == 3) = true
-  · rw [if_pos c3, if_pos c3, h61]
-  rw [if_neg c3, if_neg c3]
+  · rw [ite_eq_left c3, ite_eq_left c3, h61]
+  rw [ite_eq_right c3, ite_eq_right c3]
   by_cases c4 : (k == 4) = true
-  · rw [if_pos c4, if_pos c4, e52]
-  rw [if_neg c4, if_neg c4, e43]
+  · rw [ite_eq_left c4, ite_eq_left c4, e52]
+  rw [ite_eq_right c4, ite_eq_right c4, e43]
 
 theorem glRootRows_eq (r t : Nat) : glRootRows r t = unpackR 22 (rootK r t) := by
   obtain ⟨-, -, -, -, -, -, -, e0⟩ := frame_eqs

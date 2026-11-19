@@ -23,7 +23,7 @@ noncomputable def s16c1G_kappa {W : Type} [CommGroup W]
   map_mul' := by
     intro g h
     ext x
-    simp [LinearEquiv.mul_apply, MulEquiv.trans_apply, AddEquiv.toMultiplicative_apply_apply]
+    simp [MulEquiv.trans_apply, AddEquiv.toMultiplicative_apply_apply]
 
 theorem s16c1G_kappa_apply {W : Type} [CommGroup W] (β : W ≃* Multiplicative V₀)
     (g : V₀ ≃ₗ[ZMod 2] V₀) (x : W) :
@@ -79,7 +79,7 @@ noncomputable def s16c1G_ptCentHom {W : Type} [CommGroup W] {H : Subgroup (MulAu
   toFun g := ⟨s16c1G_kappa β (g.1 : V₀ ≃ₗ[ZMod 2] V₀),
     (s16c1G_kappa_mem_ptCent hβ w g.1).2 ⟨g.1.2, s16c1G_stab_apply g⟩⟩
   map_one' := Subtype.ext (map_one (s16c1G_kappa β))
-  map_mul' g h := Subtype.ext (map_mul (s16c1G_kappa β) _ _)
+  map_mul' _g _h := Subtype.ext (map_mul (s16c1G_kappa β) _ _)
 
 theorem s16c1G_ptCentHom_bijective {W : Type} [CommGroup W] {H : Subgroup (MulAut W)}
     {β : W ≃* Multiplicative V₀} (hβ : IsOmegaModel H β) (w : W) :

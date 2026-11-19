@@ -34,7 +34,7 @@ theorem q13d_rho_syl3 (h : Q13Om t L S x₁ x₂ lam rho tau om)
     (hII : closure ({t, om} : Set G) ⊓
       centralizer ((q13A t tau x₁ x₂ rho : Subgroup G) : Set G) = zpowers (t * om)) :
     IsSylowIn 3 (zpowers rho) (q13L t tau x₁ x₂ rho om) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle : zpowers rho ≤ q13L t tau x₁ x₂ rho om :=
     Subgroup.zpowers_le.mpr (q13d_rho_norm h)
   have hcardz : Nat.card ↥(zpowers rho) = 3 := by

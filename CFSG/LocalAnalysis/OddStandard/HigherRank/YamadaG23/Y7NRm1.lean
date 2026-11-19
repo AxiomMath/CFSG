@@ -25,13 +25,13 @@ theorem simpleSec_of_gl3 {A M : Subgroup G} (hMA : M ≤ A)
     SimpleSec A M := by
   classical
   obtain ⟨hn, ⟨e⟩⟩ := h
-  haveI := hn
+  have := hn
   let Q : Type := ↥A ⧸ M.subgroupOf A
   let π : ↥A →* Q := QuotientGroup.mk' (M.subgroupOf A)
   have hGL : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
     CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
-  haveI := hGL
-  haveI : IsSimpleGroup Q := e.isSimpleGroup
+  have := hGL
+  have : IsSimpleGroup Q := e.isSimpleGroup
   have hcardQ : Nat.card Q = 168 := by
     rw [Nat.card_congr e.toEquiv, CFSG.ComponentClassification.GHarris.card_GL32_gh]
   refine ⟨hMA, ?_, ?_, ?_, ?_⟩
@@ -44,7 +44,7 @@ theorem simpleSec_of_gl3 {A M : Subgroup G} (hMA : M ≤ A)
         exact hnD g g.2 n hn'⟩
     have hmapnorm : ((D.subgroupOf A).map π).Normal :=
       hDnorm.map π (QuotientGroup.mk'_surjective _)
-    haveI := hmapnorm
+    have := hmapnorm
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((D.subgroupOf A).map π) with hbot | htop
     · left
       have hle : D.subgroupOf A ≤ M.subgroupOf A := by
@@ -82,7 +82,7 @@ theorem simpleSec_of_gl3 {A M : Subgroup G} (hMA : M ≤ A)
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center Q) with hc | hc
       · exact hc
       · exfalso
-        haveI : IsMulCommutative Q := Subgroup.center_eq_top_iff.mp hc
+        have : IsMulCommutative Q := Subgroup.center_eq_top_iff.mp hc
         have hp : (Nat.card Q).Prime := Group.is_simple_iff_prime_card.mp inferInstance
         rw [hcardQ] at hp
         exact absurd hp (by norm_num)
@@ -107,6 +107,7 @@ theorem simpleSec_of_gl3 {A M : Subgroup G} (hMA : M ≤ A)
   · rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (M.subgroupOf A), hcardQ,
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hMA).toEquiv]
 
+omit [Finite G] in
 theorem SimpleSec.conj {A M : Subgroup G} (h : SimpleSec A M) (x : G) :
     SimpleSec (conjSub x A) (conjSub x M) := by
   let f : G →* G := (MulAut.conj x).toMonoidHom

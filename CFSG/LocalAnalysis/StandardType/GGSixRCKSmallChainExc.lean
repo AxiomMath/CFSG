@@ -30,7 +30,7 @@ theorem rck_tagLie_adjointE
   classical
   obtain ⟨h, _hh, hβh, hp1, hh1⟩ :=
     exists_inndiag_of_mem_innAutDerived_E hτ hp β hβmem hβp hβ1
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hcardK⟩ := FiniteField.card K (ringChar K)
   have hK : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hcardK
   have hpℓ : p ≠ ringChar K := by rw [hK2]; exact hp2
@@ -70,7 +70,7 @@ theorem rck_tagLie_of_adjointEquiv
     (hβ1 : β ≠ 1) {J : Subgroup S} (hJ : CFSG.Open.IsComponentOf J (fixSubgroup β)) :
     TagLieType (fun t => IsADETag t ∨ t = .trialityD4) 2 ↥J := by
   have hK2 : ringChar K = 2 := by
-    haveI := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
+    have := CFSG.RankThree.PartOne.charP_two_of_card_eq_pow hK
     exact ringChar.eq K 2
   have hβ'mem : MulAut.congr ψ β ∈ innAutDerived _ := (mem_innAutDerived_congr ψ).2 hβmem
   have hβ'p : (MulAut.congr ψ β) ^ p = 1 := by rw [← map_pow, hβp, map_one]

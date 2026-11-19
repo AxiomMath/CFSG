@@ -26,7 +26,7 @@ theorem s16h_e3_CycTwoP7M6A_pCoreOf_selfCentralizing
       UniqueMax D.M (D.M ⊓ centralizer ({w} : Set G))) :
     Subgroup.centralizer (pCoreOf 7 (Mbar D.M V₀ V hV) : Set (MulAut (Vtil V₀ V hV))) ⊓
       Mbar D.M V₀ V hV ≤ pCoreOf 7 (Mbar D.M V₀ V hV) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hchar := s16h_e3_CycTwoP7M6A_isCharacteristicP D S hr3 hσ hV h hc hp hLp hχ
     hs2 hres hp7 hm hbad
   rw [inf_comm]

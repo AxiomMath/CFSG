@@ -30,21 +30,25 @@ theorem commutator_commutator_W : ⁅⁅W, Y⁆, Y⁆ = ⁅W, Y⁆ :=
   CFSG.CGT.PushingUpLit.SixThree.commutator_commutator_eq c.noTwoQuotient
     (B2F.isPGroup_of_isElemAbelian c.W_elem) c.Y_le_normalizer_W
 
+omit [Finite Ω] in
 theorem commW_le_W : ⁅W, Y⁆ ≤ W := burnsideC121_commutator_le c.Y_le_normalizer_W
 
+omit [Finite Ω] in
 theorem commW_elem : IsElemAbelian 2 ⁅W, Y⁆ := B2F.isElemAbelian_mono c.commW_le_W c.W_elem
 
+omit [Finite Ω] in
 theorem H_le_normalizer_commW :
     burnsideC121_H X T Y ≤ Subgroup.normalizer ((⁅W, Y⁆ : Subgroup Ω) : Set Ω) :=
   burnsideC121_le_normalizer_commutator c.H_le_normalizer_W c.H_le_normalizer
 
+omit [Finite Ω] in
 theorem commW_le_pCore_Y : ⁅W, Y⁆ ≤ pCoreOf 2 Y := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hY : ⁅W, Y⁆ ≤ Y := by
     rw [Subgroup.commutator_comm]
     exact Subgroup.le_normalizer_iff_commutator_le_left.mp
       (c.W_le_H.trans c.H_le_normalizer)
-  exact le_pCoreOf_of_le_normalizer 2 hY (c.Y_le_H.trans c.H_le_normalizer_commW)
+  exact le_pCoreOf_of_le_normalizer 2 hY (CFSG.ASVolI.burnsideC121_YCtx.Y_le_H.trans c.H_le_normalizer_commW)
     (B2F.isPGroup_of_isElemAbelian c.commW_elem)
 
 include D
@@ -65,7 +69,7 @@ theorem inf_centralizer_eq_of_le {M : Subgroup Ω} (hMW : M ≤ W)
   have hn : Y ≤ Subgroup.normalizer ((Y ⊓ Subgroup.centralizer (M : Set Ω) : Subgroup Ω) : Set Ω) :=
     fun y hy => Subgroup.inf_normalizer_le_normalizer_inf
       ⟨Subgroup.le_normalizer hy,
-        B2F.normalizer_le_normalizer_centralizer M (hHM (c.Y_le_H hy))⟩
+        B2F.normalizer_le_normalizer_centralizer M (hHM (CFSG.ASVolI.burnsideC121_YCtx.Y_le_H hy))⟩
   rcases c.normal_le_or_eq D inf_le_left hn with h | h
   · exact le_antisymm h (le_inf (pCoreOf_le 2 Y)
       (c.pCore_Y_le_centralizer.trans (Subgroup.centralizer_le hMW)))
@@ -82,7 +86,7 @@ theorem isTwoReducedIn_of_le {M : Subgroup Ω} (hMW : M ≤ W)
   have hDp : IsPGroup 2 Dd := by
     rintro ⟨d, hd⟩
     obtain ⟨k, hk⟩ := h2 d hd
-    obtain ⟨j, hj⟩ := C124.exists_pow_mem_of_prod c.Y_le_H c.H_le_normalizer c.P_le_H c.P_pGroup
+    obtain ⟨j, hj⟩ := C124.exists_pow_mem_of_prod CFSG.ASVolI.burnsideC121_YCtx.Y_le_H c.H_le_normalizer (CFSG.ASVolI.burnsideC121_YCtx.P_le_H (X := X) (R := R) (T := T) (Y := Y)) c.P_pGroup
       (Subgroup.pow_mem _ (hDH hd) _) (c.H_prod _ (Subgroup.pow_mem _ (hDH hd) _))
     have hmem : (d ^ 2 ^ k) ^ 2 ^ j ∈ Y ⊓ Subgroup.centralizer (M : Set Ω) :=
       ⟨hj, Subgroup.pow_mem _ hk _⟩

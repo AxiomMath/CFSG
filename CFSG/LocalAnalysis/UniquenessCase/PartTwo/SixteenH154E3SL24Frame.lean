@@ -14,6 +14,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem s16h_sl24_map_commSub_le {L : Subgroup (MulAut W)} (σ : MulAut W) :
     (commSub ⊤ L).map σ.toMonoidHom ≤ commSub ⊤ (L.map (MulAut.conj σ).toMonoidHom) := by
   rw [commSub, MonoidHom.map_closure, Subgroup.closure_le]
@@ -21,21 +22,25 @@ theorem s16h_sl24_map_commSub_le {L : Subgroup (MulAut W)} (σ : MulAut W) :
   refine Subgroup.subset_closure ⟨(MulAut.conj σ) x, ⟨x, hx, rfl⟩, σ w, Subgroup.mem_top _, ?_⟩
   simp [MulAut.conj_apply]
 
+omit [Finite W] in
 private theorem s16h_sl24_map_conj_mul (X : Subgroup (MulAut W)) (x y : MulAut W) :
     (X.map (MulAut.conj x).toMonoidHom).map (MulAut.conj y).toMonoidHom =
       X.map (MulAut.conj (y * x)).toMonoidHom := by
   rw [Subgroup.map_map]
   congr 1
 
+omit [Finite W] in
 private theorem s16h_sl24_map_conj_one (X : Subgroup (MulAut W)) :
     X.map (MulAut.conj (1 : MulAut W)).toMonoidHom = X := by
   ext x
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
+omit [Finite W] in
 private theorem s16h_sl24_map_conj_inv (X : Subgroup (MulAut W)) (x : MulAut W) :
     (X.map (MulAut.conj x).toMonoidHom).map (MulAut.conj x⁻¹).toMonoidHom = X := by
   rw [s16h_sl24_map_conj_mul, inv_mul_cancel, s16h_sl24_map_conj_one]
 
+omit [Finite W] in
 theorem s16h_sl4_conc_cent {A : Subgroup (MulAut W)} {t : MulAut W} {L : Subgroup (MulAut W)}
     (hW : Conc4_136W A t L) {g : MulAut W} (hg : g ∈ A)
     (hgn : g ∉ Subgroup.normalizer (L : Set (MulAut W))) :
@@ -60,6 +65,7 @@ theorem s16h_sl4_conc_cent {A : Subgroup (MulAut W)} {t : MulAut W} {L : Subgrou
     simpa [MulAut.mul_apply] using this
   exact h7
 
+omit [Finite W] in
 private theorem s16h_sl24_normalizes_other {X L L' T : Subgroup (MulAut W)}
     (F : s16h_SL4TwoFrame X L L' T) (hne : L ≠ L') {x : MulAut W} (hx : x ∈ X)
     (hxN : x ∈ Subgroup.normalizer (L : Set (MulAut W))) :

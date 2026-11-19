@@ -52,7 +52,7 @@ theorem h0_eq : fi22H0 = Subgroup.closure {h | ∃ j < 18, fi22StrongPerm (jOf j
   rw [fi22H0]
   congr 1
   ext σ
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   have hlen : fi22StabIdx.length = 18 := rfl
   constructor
   · rintro ⟨j, hj, rfl⟩
@@ -65,17 +65,17 @@ theorem h0_eq : fi22H0 = Subgroup.closure {h | ∃ j < 18, fi22StrongPerm (jOf j
     exact List.getElem_mem _
 
 theorem fS_eq :
-    ∀ j < 18, ∀ y : Fin 3510, fS j y = fi22StrongPerm (jOf j) y := fun j hj y =>
+    ∀ _j < 18, ∀ y : Fin 3510, fS _j y = fi22StrongPerm (jOf _j) y := fun _j hj y =>
   strong_at (jOf_lt hj) y
 
 theorem blk_eq (s : ℕ) : blk s = if s < 1 then 0 else if s < 2817 then 1 else 2 := by
   unfold blk
   by_cases h1 : s < 1
-  · rw [if_pos h1, Nat.blt_eq.mpr h1]
-  · rw [if_neg h1, Bool.eq_false_iff.2 fun h => h1 (Nat.blt_eq.mp h)]
+  · rw [ite_eq_left h1, Nat.blt_eq.mpr h1]
+  · rw [ite_eq_right h1, Bool.eq_false_iff.2 fun h => h1 (Nat.blt_eq.mp h)]
     by_cases h2 : s < 2817
-    · rw [if_pos h2, Nat.blt_eq.mpr h2]
-    · rw [if_neg h2, Bool.eq_false_iff.2 fun h => h2 (Nat.blt_eq.mp h)]
+    · rw [ite_eq_left h2, Nat.blt_eq.mpr h2]
+    · rw [ite_eq_right h2, Bool.eq_false_iff.2 fun h => h2 (Nat.blt_eq.mp h)]
 
 theorem blk_iff {t s : ℕ} (ht : t < 3) (hs : s < 3510) :
     blk s = t ↔ fi22StabOrbitStart t ≤ s ∧ s < fi22StabOrbitStart t + fi22StabOrbitSizes.getD t 0 := by
@@ -84,11 +84,11 @@ theorem blk_iff {t s : ℕ} (ht : t < 3) (hs : s < 3510) :
   · have e1 : fi22StabOrbitStart 0 = 0 := rfl
     have e2 : fi22StabOrbitSizes.getD 0 0 = 1 := rfl
     rw [e1, e2]
-    by_cases h1 : s < 1 <;> by_cases h2 : s < 2817 <;> simp [h1, h2] <;> omega
+    by_cases h1 : s < 1 <;> by_cases h2 : s < 2817 <;> simp [h1, h2]
   · have e1 : fi22StabOrbitStart 1 = 1 := rfl
     have e2 : fi22StabOrbitSizes.getD 1 0 = 2816 := rfl
     rw [e1, e2]
-    by_cases h1 : s < 1 <;> by_cases h2 : s < 2817 <;> simp [h1, h2] <;> omega
+    by_cases h1 : s < 1 <;> by_cases h2 : s < 2817 <;> simp [h1, h2]; omega
   · have e1 : fi22StabOrbitStart 2 = 2817 := rfl
     have e2 : fi22StabOrbitSizes.getD 2 0 = 693 := rfl
     rw [e1, e2]
@@ -171,7 +171,7 @@ theorem orbit_eq {t : ℕ} (ht : t < 3) :
     exact Fin.ext (Nat.mod_eq_of_lt (hd_lt ht))
   rw [ep]
   ext y
-  rw [Set.mem_setOf_eq, mem_stab_iff ht]
+  rw [Set.mem_ofPred_eq, mem_stab_iff ht]
   exact orbit_of orbOK ht (hd_lt ht) y
 
 theorem cover (y : Fin 3510) : ∃ t < 3, (y : ℕ) ∈ fi22StabOrbit t := by

@@ -31,11 +31,11 @@ private lemma c8h_perfect_image {Γ : Type} [Group Γ] [Finite Γ] {p : ℕ} (hp
       E.map (QuotientGroup.mk' (CFSG.pPrimeCore 3 Γ)) = ⊤ ∧
       Nonempty (↥(E.map ψ) ≃* SL(2, ZMod p)) ∧ p * (p ^ 2 - 1) = 2 * 168 := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set I := CFSG.pPrimeCore 3 Γ with hI
   obtain ⟨hsimple, hcard⟩ :=
     CFSG.Quasithin.H13.U3.GC137.SQ.simple_card_of_lieModel_psl_three_two hl3
-  haveI : IsSimpleGroup (Γ ⧸ I) := hsimple
+  have : IsSimpleGroup (Γ ⧸ I) := hsimple
   have hperfT : Group.IsPerfect (Γ ⧸ I) := by
     refine TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative ?_
     intro hc
@@ -51,7 +51,7 @@ private lemma c8h_perfect_image {Γ : Type} [Group Γ] [Finite Γ] {p : ℕ} (hp
   have hRperf : Group.IsPerfect R := by
     rw [hR]
     exact Group.IsPerfect.map ψ
-  haveI : Group.IsPerfect R := hRperf
+  have : Group.IsPerfect R := hRperf
   set f : J →* R := ψ.subgroupMap J with hf
   have hfs : Function.Surjective f := ψ.subgroupMap_surjective J
   set g : J →* Γ ⧸ I := (QuotientGroup.mk' I).comp J.subtype with hg
@@ -95,11 +95,11 @@ private lemma c8h_perfect_image {Γ : Type} [Group Γ] [Finite Γ] {p : ℕ} (hp
           Nat.mul_le_mul (by omega : 9 ≤ p)
             (Nat.sub_le_sub_right (Nat.pow_le_pow_left (by omega : 9 ≤ p) 2) 1)
         omega
-      interval_cases p <;> first | rfl | (norm_num at h)
+      interval_cases p <;> (norm_num at h)
     · rw [hcard] at h
       exact ⟨J, hJperf, hψJ, ⟨e⟩, h⟩
   · obtain ⟨e⟩ := he
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     have hφ : Function.Surjective (ψR.comp e.symm.toMonoidHom) :=
       hψRs.comp e.symm.surjective
     rcases CFSG.RankThree.PartTwo.Sec13.Res7Proof.card_eq_of_surj_SL2 le_rfl _ hφ with h | h
@@ -127,13 +127,13 @@ theorem c8h_sl2_of_gl2 {Γ : Type} [Group Γ] [Finite Γ]
   classical
   obtain ⟨E, hEperf, hEmap, he, -⟩ :=
     c8h_perfect_image (by norm_num : Nat.Prime 7) (by norm_num : 3 < 7) hl3 ψ hker
-  haveI : Group.IsPerfect E := hEperf
+  have : Group.IsPerfect E := hEperf
   set I := CFSG.pPrimeCore 3 Γ with hI
   set R := E.map ψ with hR
   have hRperf : Group.IsPerfect R := by
     rw [hR]
     exact Group.IsPerfect.map ψ
-  haveI : Group.IsPerfect R := hRperf
+  have : Group.IsPerfect R := hRperf
   have hle : R ≤ StatedSL 2 (ZMod 7) := by
     intro g hg
     exact CFSG.Open.StatedAPI.mem_statedSL_of_det
@@ -142,7 +142,7 @@ theorem c8h_sl2_of_gl2 {Γ : Type} [Group Γ] [Finite Γ]
     refine Subgroup.eq_of_le_of_card_ge hle ?_
     rw [CFSG.Open.StatedAPI.card_statedSL (2 : ℕ) (ZMod 7)]
     exact le_of_eq (Nat.card_congr he.some.toEquiv).symm
-  haveI : Group.IsPerfect ↥(StatedSL 2 (ZMod 7)) := by
+  have : Group.IsPerfect ↥(StatedSL 2 (ZMod 7)) := by
     rw [← hRS]
     exact hRperf
   have hIn : I.Normal := by
@@ -205,7 +205,7 @@ theorem c8h_sl2_of_gl2 {Γ : Type} [Group Γ] [Finite Γ]
     exact hNnorm (SpecialLinearGroup.toGL s) (by
       rw [CFSG.Open.StatedAPI.statedSL_eq_range_toGL]
       exact ⟨s, rfl⟩) (SpecialLinearGroup.toGL n) hn
-  haveI : N'.Normal := hN'normal
+  have : N'.Normal := hN'normal
   have hN'cases := CFSG.Quasithin.A1c.normal_le_center_or_eq_top (p := 7) (by norm_num) N'
   have hcentN : ∀ n ∈ N, ∀ s ∈ StatedSL 2 (ZMod 7), n * s = s * n := by
     rcases hN'cases with hcenter | htop
@@ -308,7 +308,6 @@ theorem c8h_sl2_of_gl2 {Γ : Type} [Group Γ] [Finite Γ]
     have hc0 : c ≠ 0 := by
       intro hc0
       have hdet0 : ((ψ i : GL (Fin 2) (ZMod 7)).val).det = 0 := by
-        change ((ψ i : Matrix (Fin 2) (Fin 2) (ZMod 7))).det = 0
         rw [hc]
         simp [hc0]
       exact Matrix.GeneralLinearGroup.det_ne_zero (ψ i) hdet0

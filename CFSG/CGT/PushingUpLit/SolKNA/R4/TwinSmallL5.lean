@@ -117,7 +117,7 @@ theorem false_of_l5Ne3 {r n : ℕ} (hr : 4 ≤ r) {Y : Type} [Group Y] [Finite Y
     {S : Sylow 2 R} {t : Y} (h : PerpHypR r n Y R S t)
     (hsmall : TwoSubgroupsFourGenerated ↥(genFittingFStar Y))
     (hF : SmallL5Ne3 ↥(genFittingFStar Y)) : False := by
-  haveI := h.core.simple
+  have := h.core.simple
   obtain ⟨p, f, hp, hp2, hf, h4, h3, hm⟩ := hF
   obtain ⟨-, h5⟩ := Q5L5U5.five_le hp hp2 hf h3
   exact not_twinPair_of_twoBlockShape (twoBlockShape_l5 hp hp2 h5 hm) hsmall

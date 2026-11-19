@@ -188,6 +188,7 @@ theorem unitaryFacts_of_rankOneUnitary [Finite H] {z : V} {X : Type} [Group X] [
     rw [hEq, map_pow] at h1
     simpa [map_pow] using h1
 
+omit [GraphAction H Γ] in
 private theorem map_root_eq [Finite H] {z : V} {X : Type} [Group X] [Finite X]
     [MulAction X {w : V // Γ.Adj z w}] [FaithfulSMul X {w : V // Γ.Adj z w}] {N : Subgroup X}
     (π : ↥(MulAction.stabilizer H z) →* X)
@@ -313,6 +314,7 @@ private theorem map_root_eq [Finite H] {z : V} {X : Type} [Group X] [Finite X]
     simpa [qR, rR] using congrArg (fun s : Rω => (s : X)) h2
   simpa [Q, hrq] using hqQ
 
+omit [GraphAction H Γ] in
 theorem conj_mem_map_subgroupOf_of_socTorus [Finite H] {z : V} {X : Type} [Group X]
     [MulAction X {w : V // Γ.Adj z w}] {N : Subgroup X}
     (π : ↥(MulAction.stabilizer H z) →* X)
@@ -352,6 +354,7 @@ theorem conj_mem_map_subgroupOf_of_socTorus [Finite H] {z : V} {X : Type} [Group
   rw [hAF] at hmap
   simpa [map_mul] using hmap
 
+omit [GraphAction H Γ] in
 private theorem image_commute_of_commutator_le [Finite H] {z : V} {X : Type} [Group X]
     (π : ↥(MulAction.stabilizer H z) →* X)
     (hker : π.ker = (fixingSubgroup H (Γ.neighborSet z)).subgroupOf

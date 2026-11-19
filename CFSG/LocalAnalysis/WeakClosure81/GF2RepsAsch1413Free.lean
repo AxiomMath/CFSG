@@ -22,8 +22,8 @@ private lemma a1413Free_exists_of_fixed (hV : ∀ v : V, v ^ 2 = 1) {X : Subgrou
     rintro h0
     rw [h0] at hX
     exact Nat.not_odd_zero hX
-  haveI : Finite X := Nat.finite_of_card_ne_zero hXne
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Finite X := Nat.finite_of_card_ne_zero hXne
+  have : Fintype X := Fintype.ofFinite X
   have hinv_ne : ∀ x : X, x ≠ 1 → x⁻¹ ≠ x := by
     intro x hx1 h
     have hx2 : x ^ 2 = 1 := by
@@ -50,7 +50,7 @@ private lemma a1413Free_exists_of_fixed (hV : ∀ v : V, v ^ 2 = 1) {X : Subgrou
             · exact Or.inr (by rw [h2, h1])
             · exact Or.inr (by rw [h2, h1])
             · exact Or.inl (by rw [h2, h1, inv_inv]) } }
-  haveI : Fintype (Quotient s) := Quotient.fintype s
+  have : Fintype (Quotient s) := Quotient.fintype s
   let R : Finset X := (Finset.univ : Finset (Quotient s)).image Quotient.out
   have hR_out : ∀ c : Quotient s, Quotient.out c ∈ R := fun c =>
     Finset.mem_image.mpr ⟨c, Finset.mem_univ c, rfl⟩

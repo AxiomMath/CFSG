@@ -18,7 +18,7 @@ theorem toPGL_surjective_charTwo [CharP F 2] :
     Function.Surjective (Matrix.ProjectiveSpecialLinearGroup.toPGL : PSL2 F →* PGL2 F) := by
   intro g
   obtain ⟨A, rfl⟩ := Matrix.ProjGenLinGroup.mk_surjective g
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   exact (pgl2_mk_mem_psl2_range_iff_det_isSquare A).2
     (FiniteField.isSquare_of_char_two (ringChar.eq F 2) _)
 
@@ -90,10 +90,10 @@ theorem core_eight (hF : Nat.card F = 8) {g : PSL2 F}
     (hg3 : g ^ 3 = 1) (hg1 : g ≠ 1) {T : Subgroup (PSL2 F)} (hT3 : ¬ 3 ∣ Nat.card T)
     (hnorm : ∀ x ∈ T, g * x * g⁻¹ ∈ T) : T = ⊥ := by
   by_contra hTne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
     (by rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   have hF3 : Nat.card F = 2 ^ 3 := by rw [hF]; norm_num
   have hgord : orderOf g = 3 := orderOf_eq_prime hg3 hg1
@@ -162,7 +162,7 @@ theorem core_eight (hF : Nat.card F = 8) {g : PSL2 F}
     have hz3 : z = 3 ∧ Nat.card T = 2 := by
       interval_cases z <;> omega
     obtain ⟨rfl, hTc⟩ := hz3
-    haveI hcy : IsCyclic (DihedralGroup 3) := e.isCyclic.1 (hcycT2 hTc)
+    have hcy : IsCyclic (DihedralGroup 3) := e.isCyclic.1 (hcycT2 hTc)
     have hnc : ¬ ∀ a b : DihedralGroup 3, a * b = b * a := by decide
     exact hnc (fun a b => (IsCyclic.commGroup (α := DihedralGroup 3)).mul_comm a b)
   · exfalso
@@ -189,17 +189,17 @@ theorem core_eight (hF : Nat.card F = 8) {g : PSL2 F}
     · exfalso
       have hc : Nat.card ↥(T ⊔ Subgroup.zpowers g) = 6 := by
         rw [Nat.card_congr e.toEquiv]
-        haveI : CharP (GaloisField 2 1) 2 := inferInstance
+        have : CharP (GaloisField 2 1) 2 := inferInstance
         rw [card_psl2_of_charTwo (GaloisField.card 2 1 one_ne_zero)]
         norm_num
       have hTc : Nat.card T = 2 := by omega
-      haveI hcy : IsCyclic (PSL2 (GaloisField 2 1)) := e.isCyclic.1 (hcycT2 hTc)
+      have hcy : IsCyclic (PSL2 (GaloisField 2 1)) := e.isCyclic.1 (hcycT2 hTc)
       obtain ⟨a, b, hab⟩ := psl2_not_comm (GaloisField 2 1)
       exact hab ((IsCyclic.commGroup (α := PSL2 (GaloisField 2 1))).mul_comm a b)
     · exfalso
       have hc : Nat.card ↥(T ⊔ Subgroup.zpowers g) = 504 := by
         rw [Nat.card_congr e.toEquiv]
-        haveI : CharP (GaloisField 2 3) 2 := inferInstance
+        have : CharP (GaloisField 2 3) 2 := inferInstance
         rw [card_psl2_of_charTwo (GaloisField.card 2 3 (by norm_num))]
         norm_num
       omega
@@ -218,9 +218,9 @@ theorem autLTwoEightBalance_holds : AutLTwoEightBalance := by
   intro S _ _ hS A hAel h9 T hT3' hAT
   have hT3 : ¬ 3 ∣ Nat.card T := (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).1 hT3'
   obtain ⟨K, hK, hfin, hcard, ⟨e0⟩⟩ := hS
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := 3)
     (by rw [← Nat.card_eq_fintype_card, hcard]; norm_num)
   let e : S ≃* PSL2 K := e0.trans
     ((CFSG.Assembly.LowTwoRank.specialLinearGroupEquivStatedSL 2 K).symm.trans (slEquivPsl2 K))

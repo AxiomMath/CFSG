@@ -97,7 +97,7 @@ theorem cycThree_mul_diagUnits_pow_three (a b e : Kˣ) :
     GeneralLinearGroup.coe_scalar, scalar_apply]
   ext i j
   simp only [pow_three, Matrix.mul_apply, Fin.sum_univ_three]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply] <;> ring
+  fin_cases i <;> fin_cases j <;> simp <;> ring
 
 theorem cycThree_sq_mul_diagUnits_pow_three (a b e : Kˣ) :
     (cycThree ^ 2 * diagUnits a b e) ^ 3 = GeneralLinearGroup.scalar (Fin 3) (a * b * e) := by
@@ -106,7 +106,7 @@ theorem cycThree_sq_mul_diagUnits_pow_three (a b e : Kˣ) :
     coe_diagUnits_eq, GeneralLinearGroup.coe_scalar, scalar_apply]
   ext i j
   simp only [pow_three, pow_two, Matrix.mul_apply, Fin.sum_univ_three]
-  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply] <;> ring
+  fin_cases i <;> fin_cases j <;> simp <;> ring
 
 theorem exists_eq_scalar_mul_of_conj_of_conj {τ : K} (hτ : τ ^ 3 = 1) (hτ1 : τ ≠ 1)
     {M : GL (Fin 3) K} {ζ μ : Kˣ}

@@ -10,15 +10,18 @@ namespace CFSG.RankThree.GF2n.Stroth80.Classify
 variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V] {F : LinearMap.BilinForm K V}
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem two_smul_zero_K (v : V) : (2 : K) • v = 0 := by
   rw [two_eq_zero_K, zero_smul]
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 private theorem perp_smul {e f w : V} (hwe : F w e = 0) (hwf : F w f = 0) (c : K) :
     F (c • w) e = 0 ∧ F (c • w) f = 0 := by
   refine ⟨?_, ?_⟩
   · rw [map_smul, LinearMap.smul_apply, hwe, smul_zero]
   · rw [map_smul, LinearMap.smul_apply, hwf, smul_zero]
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem coeff_zero_of_disp (halt : F.IsAlt) {e f : V} (hef : F e f = 1)
     {J : Subgroup (V ≃ₗ[K] V)} (hT : NoTransv F J e) {g : V ≃ₗ[K] V}
     (hg : g ∈ J ⊓ pointRadSubgroup F e) {c : K} (hc : g f - f = c • e) : c = 0 := by
@@ -30,17 +33,17 @@ private theorem coeff_zero_of_disp (halt : F.IsAlt) {e f : V} (hef : F e f = 1)
     simp only [map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, hfe,
       mul_one, sub_self]
   have heu : F e (v - F v e • f) = 0 := by
-    simp only [map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, hef,
+    simp only [map_sub, map_smul, smul_eq_mul, hef,
       mul_one]
     rw [form_comm halt e v, sub_self]
   have hgu := pointRad_apply_perp halt hef hQ (v - F v e • f) hu
-  simp only [hc, map_smul, LinearMap.smul_apply, smul_eq_mul, heu, smul_zero, zero_smul,
-    add_zero] at hgu
+  simp only [hc, map_smul, LinearMap.smul_apply, smul_eq_mul, heu] at hgu
   have hsplit : v = F v e • f + (v - F v e • f) := by abel
   calc g v = g (F v e • f + (v - F v e • f)) := by rw [← hsplit]
     _ = F v e • g f + g (v - F v e • f) := by rw [map_add, map_smul]
     _ = v + (c * F v e) • e := by rw [hgu, hgf]; module
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem coord_data (hnd : F.Nondegenerate) (halt : F.IsAlt) {e f : V} (hef : F e f = 1)
     {J : Subgroup (V ≃ₗ[K] V)} (hT : NoTransv F J e)
     (hfe : ElationFull F ((J : Set _) ∩ pointRad F e) e) :
@@ -114,6 +117,7 @@ private theorem coord_data (hnd : F.Nondegenerate) (halt : F.IsAlt) {e f : V} (h
     have hcomp := hK _ hmem (a w + a w' + F w w' + a (w + w')) h123
     linear_combination hcomp - (a w + a w' + F w w') * two_eq_zero_K (K := K)
 
+omit [Finite K] in
 private theorem span_four (halt : F.IsAlt) (hdim : Module.finrank K V = 4) {e f w₁ w₂ : V}
     (hef : F e f = 1) (hw₁e : F w₁ e = 0) (hw₁f : F w₁ f = 0) (hw₂e : F w₂ e = 0)
     (hw₂f : F w₂ f = 0) (h12 : F w₁ w₂ = 1) :
@@ -148,6 +152,7 @@ private theorem span_four (halt : F.IsAlt) (hdim : Module.finrank K V = 4) {e f 
   have hcard : Fintype.card (Fin 4) = Module.finrank K V := by rw [Fintype.card_fin, hdim]
   exact hli.span_eq_top_of_card_eq_finrank' hcard
 
+omit [Finite K] in
 private theorem decomp_W (hnd : F.Nondegenerate) (halt : F.IsAlt) (hdim : Module.finrank K V = 4)
     {e f w₁ w₂ : V} (hef : F e f = 1) (hw₁e : F w₁ e = 0) (hw₁f : F w₁ f = 0)
     (hw₂e : F w₂ e = 0) (hw₂f : F w₂ f = 0) (h12 : F w₁ w₂ = 1) {x : V}
@@ -165,6 +170,7 @@ private theorem decomp_W (hnd : F.Nondegenerate) (halt : F.IsAlt) (hdim : Module
     · simp [h12, form_self halt w₂]
   exact sub_eq_zero.mp hy
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem cone_zero (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ Nat.card K)
     {e f : V} (hef : F e f = 1) {J : Subgroup (V ≃ₗ[K] V)} (hJ : J ≤ sympSubgroup F)
     (hfe : ElationFull F ((J : Set _) ∩ pointRad F e) e)
@@ -190,7 +196,7 @@ private theorem cone_zero (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ N
     apply hw
     have h1 := congrArg (fun v => F v e) ht
     simp only [hfwe, map_smul, LinearMap.smul_apply, smul_eq_mul, hef', mul_one] at h1
-    have ht1 : t = 1 := by first | exact h1.symm | exact h1
+    have ht1 : t = 1 := by first | exact h1.symm
     rw [ht1, one_smul] at ht
     simpa using ht
   have hcw : (f + w) - F (f + w) e • f = w := by
@@ -219,7 +225,7 @@ private theorem cone_zero (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ N
     apply hw
     have h1 := congrArg (fun v => F v f) ht
     simp only [hefw, map_smul, LinearMap.smul_apply, smul_eq_mul, hef, mul_one] at h1
-    have ht1 : t = 1 := by first | exact h1.symm | exact h1
+    have ht1 : t = 1 := by first | exact h1.symm
     rw [ht1, one_smul] at ht
     simpa using ht
   have hcw2 : (e + w) - F (e + w) f • e = w := by
@@ -230,6 +236,7 @@ private theorem cone_zero (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ N
   rw [hcw2]
   exact hω₁
 
+omit [CharP K 2] [FiniteDimensional K V] in
 private theorem exists_coeff_of_line (halt : F.IsAlt) {e f : V} {a : V → K} {w₀ : V}
     (hwe : F w₀ e = 0) (hwf : F w₀ f = 0) (hw₀ : w₀ ≠ 0)
     (hadd : ∀ w w' : V, F w e = 0 → F w f = 0 → F w' e = 0 → F w' f = 0 →
@@ -240,8 +247,7 @@ private theorem exists_coeff_of_line (halt : F.IsAlt) {e f : V} {a : V → K} {w
     intro t t' h
     by_contra hne
     have hsub : F ((t - t') • w₀) (t' • w₀) = 0 := by
-      simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, form_self halt, mul_zero,
-        smul_zero]
+      simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, form_self halt, mul_zero]
     have hsum : (t - t') • w₀ + t' • w₀ = t • w₀ := by
       rw [← add_smul, sub_add_cancel]
     have h1 := hadd ((t - t') • w₀) (t' • w₀) (perp_smul hwe hwf _).1 (perp_smul hwe hwf _).2
@@ -254,6 +260,7 @@ private theorem exists_coeff_of_line (halt : F.IsAlt) {e f : V} {a : V → K} {w
       (smul_ne_zero (sub_ne_zero.mpr hne) hw₀) h0
   exact Finite.surjective_of_injective hinj κ
 
+omit [Finite K] in
 private theorem hyp_case (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ Nat.card K)
     (hdim : Module.finrank K V = 4) {e f : V} (hef : F e f = 1) {J : Subgroup (V ≃ₗ[K] V)}
     (hJ : J ≤ sympSubgroup F) (hfe : ElationFull F ((J : Set _) ∩ pointRad F e) e)
@@ -348,7 +355,7 @@ private theorem ell_case (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ Na
       elationFull_conj hJ hfe hg
     have hcf : F (g e - F (g e) f • e) e = 0 := by
       simp only [map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, hee,
-        smul_zero, sub_zero, mul_zero, hz]
+        sub_zero, mul_zero, hz]
     have hwf : F (g e - F (g e) f • e) f = 0 := by
       simp only [map_sub, map_smul, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, hef,
         mul_one, sub_self]
@@ -391,12 +398,12 @@ private theorem ell_case (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ Na
       intro κ
       rw [pointRad_apply_perp halt hef (hXQ κ) w₀ hwe, hXf κ]
       simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-        form_self halt, hew₀, mul_zero, zero_smul, add_zero, smul_zero]
+        form_self halt, hew₀, mul_zero, zero_smul, add_zero]
     have hYw : ∀ κ, Y κ w₀ = w₀ := by
       intro κ
       rw [pointRad_apply_perp halt hef' (hYQ κ) w₀ hwf, hYe κ]
       simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-        form_self halt, hfw₀, mul_zero, zero_smul, add_zero, smul_zero]
+        form_self halt, hfw₀, mul_zero, zero_smul, add_zero]
     have hYe' : ∀ κ, Y κ e = e + (ss κ • w₀ + κ • f) := fun κ => by
       rw [← hYe κ]
       abel
@@ -436,7 +443,7 @@ private theorem ell_case (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ Na
     have hFh : F (h e) e = 0 := by
       rw [he_eq]
       simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hee,
-        hwe, mul_zero, add_zero, smul_zero, zero_add]
+        hwe, mul_zero, add_zero]
     obtain ⟨τ, hτ⟩ := hbe h hhJ hFh
     have hτl : τ = lam := by
       have h1 : lam • e + ((tt lam + lam * ss lam⁻¹) + (ss 1⁻¹ + 1⁻¹ * tt 1)) • w₀ = τ • e := by
@@ -444,7 +451,7 @@ private theorem ell_case (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ Na
       have h2 := congrArg (fun v => F v f) h1
       simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hef,
         hwf, mul_one, mul_zero, add_zero] at h2
-      first | exact h2.symm | exact h2
+      first | exact h2.symm
     have hhe : h e = lam • e := by rw [hτ, hτl]
     obtain ⟨g, hgJQ, hgω⟩ := ha1 w₀ hwe hwf
     have hcon := conj_pointRad_om halt hef (hJ hhJ) hhe (Subgroup.mem_inf.mp hgJQ).2 hgω hwf
@@ -502,7 +509,7 @@ private theorem ell_case (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ Na
     have hxw : x w = w := by
       rw [pointRad_apply_perp halt hef hxQ w hwe, hxω]
       simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-        form_self halt, hew, mul_zero, zero_smul, add_zero, smul_zero]
+        form_self halt, hew, mul_zero, zero_smul, add_zero]
     have hxe : x e = e := hxQ.2.1
     have hxf : x f = f + ((a' w)⁻¹ • w + a ((a' w)⁻¹ • w) • e) := by
       rw [← hxω]
@@ -535,14 +542,13 @@ private theorem ell_case (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ Na
     have hgJ : y₁ * x₁ * x * y ∈ J := J.mul_mem (J.mul_mem (J.mul_mem hy₁J' hx₁J') hxJ') hyJ'
     have hFg : F ((y₁ * x₁ * x * y) e) e = 0 := by
       rw [hge]
-      simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, hwe, mul_zero, smul_zero]
+      simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, hwe, mul_zero]
     obtain ⟨τ', hτ'⟩ := hbe _ hgJ hFg
     rw [hge] at hτ'
     have hτ0 : τ' = 0 := by
       have h1 := congrArg (fun v => F v f) hτ'
-      simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, hwf, hef, mul_one, mul_zero,
-        smul_zero] at h1
-      first | exact h1.symm | exact h1
+      simp only [map_smul, LinearMap.smul_apply, smul_eq_mul, hwf, hef, mul_one, mul_zero] at h1
+      first | exact h1.symm
     rw [hτ0, zero_smul] at hτ'
     rcases smul_eq_zero.mp hτ' with h | h
     · exact hb h
@@ -558,6 +564,7 @@ private theorem ell_case (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ Na
     linear_combination (a' w) ^ 2 * hι2 - (a' w + a w * ((a' w)⁻¹ * a' w + 1)) * hbinv
   linear_combination key + (-(a w)) * two_eq_zero_K (K := K)
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 private theorem elationFull_of_le {A J : Subgroup (V ≃ₗ[K] V)} {e : V} (hAJ : A ≤ J)
     (hA : (A : Set (V ≃ₗ[K] V)) ⊆ pointRad F e) (hfull : ElationFull F A e) :
     ElationFull F ((J : Set _) ∩ pointRad F e) e := by
@@ -593,7 +600,8 @@ theorem aData_of_noTransv (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ N
     exact ⟨a, ha1, hhom, ha3, ha4, fun g hg w c hwe hwf hc =>
       (hb4 g hg w c hwe hwf hc).trans (heq w hwe hwf)⟩
 
-private theorem hasTransv_conj (halt : F.IsAlt) {e : V} {J : Subgroup (V ≃ₗ[K] V)}
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
+private theorem hasTransv_conj (_halt : F.IsAlt) {e : V} {J : Subgroup (V ≃ₗ[K] V)}
     (hJ : J ≤ sympSubgroup F) {k : V ≃ₗ[K] V} (hk : k ∈ J) {lam : K}
     (hke : k e = lam • e) {c : K} (hc : HasTransv F J e c) : HasTransv F J e (lam ^ 2 * c) := by
   obtain ⟨g₀, hg₀J, hg₀⟩ := hc
@@ -682,6 +690,7 @@ theorem lemmaP_sharp (hnd : F.Nondegenerate) (halt : F.IsAlt) (hq : 4 ≤ Nat.ca
     obtain ⟨c, hc, hc0⟩ := h1
     exact transv_full hnd halt hq hdim hef hJ hfeJ hffJ hc0 hc
 
+omit [Finite K] [FiniteDimensional K V] in
 private theorem span_elPts (hnd : F.Nondegenerate) (halt : F.IsAlt) {e f : V} (hef : F e f = 1)
     {J : Subgroup (V ≃ₗ[K] V)} (hJ : J ≤ sympSubgroup F)
     (hfeJ : ElationFull F ((J : Set _) ∩ pointRad F e) e)

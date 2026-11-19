@@ -87,7 +87,7 @@ private lemma normal_modelA1_subgroupOf_modelP1 :
   rw [heq]
   exact hconj
 
-theorem pCoreOf_modelP1 [Finite k] [CharP k 2] (hVJ : 2 ≤ Module.finrank k VJ) :
+theorem pCoreOf_modelP1 [Finite k] [CharP k 2] (_hVJ : 2 ≤ Module.finrank k VJ) :
     pCoreOf 2 (modelP1 k VJ V₀) = modelA1 k VJ V₀ := by
   apply le_antisymm
   · intro x hx
@@ -182,7 +182,7 @@ private lemma normal_modelA2_subgroupOf_modelP2 :
   rw [heq]
   exact hconj
 
-theorem pCoreOf_modelP2 [Finite k] [CharP k 2] (hVJ : 2 ≤ Module.finrank k VJ) :
+theorem pCoreOf_modelP2 [Finite k] [CharP k 2] (_hVJ : 2 ≤ Module.finrank k VJ) :
     pCoreOf 2 (modelP2 k VJ V₀) = modelA2 k VJ V₀ := by
   apply le_antisymm
   · intro x hx

@@ -25,17 +25,20 @@ theorem rank_cond {p : ℕ} (hp : p.Prime) {B : Subgroup G} (hB : GLAIsBmax p B)
   rw [hB.2.1]
   exact card_le_pow_glaTwoLocalRank hp hW hU hU2 hWU
 
+omit [Finite G] in
 theorem mem_normalizer_inf {H K : Subgroup G} {g : G} (hH : g ∈ Subgroup.normalizer (H : Set G))
     (hK : g ∈ Subgroup.normalizer (K : Set G)) : g ∈ Subgroup.normalizer ((H ⊓ K : Subgroup G) : Set G) := by
   rw [mem_normalizer_iff_gLBConj_eq] at hH hK ⊢
   rw [gLBConj_inf, hH, hK]
 
+omit [Finite G] in
 theorem mem_normalizer_sup {H K : Subgroup G} {g : G} (hH : g ∈ Subgroup.normalizer (H : Set G))
     (hK : g ∈ Subgroup.normalizer (K : Set G)) : g ∈ Subgroup.normalizer ((H ⊔ K : Subgroup G) : Set G) := by
   rw [mem_normalizer_iff_gLBConj_eq] at hH hK ⊢
   unfold GLBConj at hH hK ⊢
   rw [Subgroup.map_sup, hH, hK]
 
+omit [Finite G] in
 theorem mem_centralizer_sup {H K : Subgroup G} {g : G} (hH : g ∈ Subgroup.centralizer (H : Set G))
     (hK : g ∈ Subgroup.centralizer (K : Set G)) :
     g ∈ Subgroup.centralizer ((H ⊔ K : Subgroup G) : Set G) := by
@@ -47,6 +50,7 @@ theorem mem_centralizer_sup {H K : Subgroup G} {g : G} (hH : g ∈ Subgroup.cent
   intro h hh
   exact Subgroup.mem_centralizer_singleton_iff.1 (hle hh)
 
+omit [Finite G] in
 theorem centralizer_sup_zpowers (H : Subgroup G) (x : G) :
     Subgroup.centralizer ((H ⊔ Subgroup.zpowers x : Subgroup G) : Set G) =
       Subgroup.centralizer (H : Set G) ⊓ cx x := by
@@ -60,6 +64,7 @@ theorem centralizer_sup_zpowers (H : Subgroup G) (x : G) :
     rw [S3.centralizer_zpowers x]
     exact hgx
 
+omit [Finite G] in
 theorem normalizer_le_normalizer_centralizer (A : Subgroup G) :
     Subgroup.normalizer (A : Set G) ≤
       Subgroup.normalizer ((Subgroup.centralizer (A : Set G) : Subgroup G) : Set G) := by
@@ -67,6 +72,7 @@ theorem normalizer_le_normalizer_centralizer (A : Subgroup G) :
   rw [mem_normalizer_iff_gLBConj_eq] at hg ⊢
   rw [gLBConj_centralizer, hg]
 
+omit [Finite G] in
 theorem centMod_of_comm {p : ℕ} {L : Subgroup G} {g : G} (h : L ≤ cx g) : CentMod p L g := by
   refine ⟨?_, ?_⟩
   · rw [Subgroup.mem_normalizer_iff]
@@ -90,6 +96,7 @@ theorem centMod_of_comm {p : ℕ} {L : Subgroup G} {g : G} (h : L ≤ cx g) : Ce
     rw [(Subgroup.commutator_eq_bot_iff_le_centralizer).2 hle]
     exact bot_le
 
+omit [Finite G] in
 theorem mem_normalizer_of_uniq {p : ℕ} {Y I : Subgroup G} (hI : GLAPComponent p Y I)
     (huniq : ∀ J : Subgroup G, GLAPComponent p Y J → J = I) {g : G}
     (hg : g ∈ Subgroup.normalizer (Y : Set G)) : g ∈ Subgroup.normalizer (I : Set G) := by
@@ -98,6 +105,7 @@ theorem mem_normalizer_of_uniq {p : ℕ} {Y I : Subgroup G} (hI : GLAPComponent 
   rw [mem_normalizer_iff_gLBConj_eq.1 hg] at h1
   exact huniq _ h1
 
+omit [Finite G] in
 theorem catalogIs_pQuot_of_center {p : ℕ} {J : Subgroup G} {Q : TauCeti.CFSGIndex → Prop}
     (hZ : Nat.card (Subgroup.center (PQuot p J)) = 1) (h : catalogIs (PSimple p J) Q) :
     catalogIs (PQuot p J) Q := by
@@ -106,6 +114,7 @@ theorem catalogIs_pQuot_of_center {p : ℕ} {J : Subgroup G} {Q : TauCeti.CFSGIn
     (QuotientGroup.quotientMulEquivOfEq hbot).trans QuotientGroup.quotientBot
   exact (catalogIs_congr e).1 h
 
+omit [Finite G] in
 theorem inf_cx_mul_pow {L : Subgroup G} {x : G} (hL : L ≤ cx x) (d : G) (i : ℕ) :
     L ⊓ cx (d * x ^ i) = L ⊓ cx d := by
   ext l
@@ -135,7 +144,7 @@ theorem inf_cx_mul_pow {L : Subgroup G} {x : G} (hL : L ≤ cx x) (d : G) (i : �
 theorem centralizer_eq_inf {D : Subgroup G} {a d : G} (hD : IsElemAbelian 3 D) (hDc : Nat.card D = 3 ^ 2)
     (haD : a ∈ D) (ha1 : a ≠ 1) (hdD : d ∈ D) (hd : d ∉ Subgroup.zpowers a) :
     Subgroup.centralizer (D : Set G) = cx a ⊓ cx d := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hao : orderOf a = 3 := orderOf_eq_prime (hD.2 a haD) ha1
   set M : Subgroup G := Subgroup.zpowers a ⊔ Subgroup.zpowers d with hM
   have hMD : M ≤ D := sup_le ((Subgroup.zpowers_le).2 haD) ((Subgroup.zpowers_le).2 hdD)
@@ -154,6 +163,7 @@ theorem centralizer_eq_inf {D : Subgroup G} {a d : G} (hD : IsElemAbelian 3 D) (
   rw [← hMeq, hM, centralizer_sup_zpowers (Subgroup.zpowers a) d, S3.centralizer_zpowers a]
 
 
+omit [Finite G] in
 theorem mem_core_of_centMod {p : ℕ} {J : Subgroup G} (hZ : Nat.card (Subgroup.center (PQuot p J)) = 1)
     {g : G} (hgJ : g ∈ J) (hg : CentMod p J g) : g ∈ GLAPPrimeCoreOf p J := by
   have hbot : Subgroup.center (PQuot p J) = ⊥ := Subgroup.eq_bot_of_card_eq _ hZ
@@ -187,13 +197,15 @@ theorem eq_one_of_mem_core {p : ℕ} (hp : p.Prime) {J : Subgroup G} {g : G}
   exact orderOf_eq_one_iff.1 h3
 
 
+omit [Finite G] in
 theorem isPGroup_zpowers_of_pow {p : ℕ} (hp : p.Prime) {g : G} (hg : g ^ p = 1) :
     IsPGroup p (Subgroup.zpowers g) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow hp).1
     (show orderOf g ∣ p ^ 1 by rw [pow_one]; exact orderOf_dvd_of_pow_eq_one hg)
   exact IsPGroup.of_card (by rw [Nat.card_zpowers, hk])
 
+omit [Finite G] in
 theorem glaPLayer_eq_of_uniq {p : ℕ} {X L : Subgroup G} (hL : GLAPComponent p X L)
     (huniq : ∀ J : Subgroup G, GLAPComponent p X J → J = L) : GLAPLayer p X = L := by
   unfold GLAPLayer
@@ -202,6 +214,7 @@ theorem glaPLayer_eq_of_uniq {p : ℕ} {X L : Subgroup G} (hL : GLAPComponent p 
   · exact le_sSup hL
 
 
+omit [Finite G] in
 theorem commutator_le_of_normalizes {H K : Subgroup G} (hKH : K ≤ Subgroup.normalizer (H : Set G)) :
     ⁅H, K⁆ ≤ H := by
   rw [Subgroup.commutator_le]
@@ -211,6 +224,7 @@ theorem commutator_le_of_normalizes {H K : Subgroup G} (hKH : K ≤ Subgroup.nor
   have h2 := H.mul_mem hh this
   simpa [mul_assoc] using h2
 
+omit [Finite G] in
 theorem mem_normalizer_commutator {H K : Subgroup G} {g : G} (hH : g ∈ Subgroup.normalizer (H : Set G))
     (hK : g ∈ Subgroup.normalizer (K : Set G)) :
     g ∈ Subgroup.normalizer ((⁅H, K⁆ : Subgroup G) : Set G) := by
@@ -223,7 +237,7 @@ theorem exists_inv_two {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hG : IsCharTwoT
     ∃ A R : Subgroup G, A ≤ F ∧ Nat.card A * p = Nat.card F ∧ IsPGroup 2 R ∧ R ≠ ⊥ ∧
       R ≤ Subgroup.centralizer (A : Set G) ∧ B ≤ Subgroup.normalizer (R : Set G) ∧ ⁅R, F⁆ = R := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨U, hU1, hU2, hBU⟩ := hB.2.2
   set S : Set (Subgroup G) := {T | U ≤ T ∧ IsPGroup 2 T ∧ B ≤ Subgroup.normalizer (T : Set G)} with hS
   obtain ⟨T, ⟨hUT, hT2, hBT⟩, hTmax⟩ :=
@@ -286,7 +300,7 @@ theorem lift_quot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Subgroup G}
     (hT'1 : T' ≠ ⊥) (hWT : W' ≤ Subgroup.normalizer (T' : Set (↥X ⧸ GLAPPrimeCore p ↥X))) :
     ∃ W U : Subgroup G, W ≤ X ∧ IsElemAbelian p W ∧ Nat.card W = Nat.card W' ∧ U ≤ X ∧ U ≠ ⊥ ∧
       IsPGroup 2 U ∧ W ≤ Subgroup.normalizer (U : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N₀ : Subgroup ↥X := GLAPPrimeCore p ↥X with hN₀
   have hN : ¬ p ∣ Nat.card N₀ :=
     (Nat.Prime.coprime_iff_not_dvd hp).1 (CFSG.pPrimeCore_coprime_card (p := p) (G := ↥X))
@@ -338,6 +352,7 @@ theorem lift_quot {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X : Subgroup G}
         rw [h1]
         group
 
+omit [Finite G] in
 theorem pQuot_conj (p : ℕ) (g : G) (J : Subgroup G) : Nonempty (PQuot p (GLBConj g J) ≃* PQuot p J) :=
   ⟨(conjQuotEquiv p g J).symm⟩
 
@@ -352,6 +367,7 @@ theorem isTypeWithCenter_conj {p : ℕ} {J : Subgroup G} (g : G) {Q : TauCeti.CF
     (h : IsTypeWithCenter p J Q z) : IsTypeWithCenter p (GLBConj g J) Q z :=
   (isTypeWithCenter_congr (pQuot_conj p g J)).2 h
 
+omit [Finite G] in
 theorem catalogIs_pSimple_conj {p : ℕ} {J : Subgroup G} (g : G) {Q : TauCeti.CFSGIndex → Prop}
     (h : catalogIs (PSimple p J) Q) : catalogIs (PSimple p (GLBConj g J)) Q := by
   obtain ⟨e⟩ := pQuot_conj p g J
@@ -370,7 +386,7 @@ theorem eq_bot_of_perfect_of_isPGroup {p : ℕ} [Fact p.Prime] {Q : Type*} [Grou
 
 theorem not_le_oPrimePOf {p : ℕ} (hp : p.Prime) {Y J M : Subgroup G} (hM : GLAPComponent p Y M)
     (hMJ : M ≤ J) (hMO : M ≤ CFSG.HardMathSupport.Solomon.LocalBalance.oPrimePOf p J) : False := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set π := QuotientGroup.mk' (GLAPPrimeCore p ↥J) with hπ
   set Mb : Subgroup (PQuot p J) := (M.subgroupOf J).map π with hMb
   have hMbP : Mb ≤ CFSG.pCore p (PQuot p J) := by
@@ -396,7 +412,7 @@ theorem not_le_oPrimePOf {p : ℕ} (hp : p.Prime) {Y J M : Subgroup G} (hM : GLA
   have htop : GLAPPrimeCore p ↥M = ⊤ := by
     refine le_antisymm le_top (le_sSup ⟨inferInstance, ?_⟩)
     rwa [Subgroup.card_top]
-  haveI := isQuasisimple_nontrivial (isQuasisimple_pQuot_of_glaPComponent hp hM)
+  have := isQuasisimple_nontrivial (isQuasisimple_pQuot_of_glaPComponent hp hM)
   obtain ⟨u, v, huv⟩ := exists_pair_ne (PQuot p M)
   apply huv
   induction u using QuotientGroup.induction_on with
@@ -409,9 +425,9 @@ theorem not_le_oPrimePOf {p : ℕ} (hp : p.Prime) {Y J M : Subgroup G} (hM : GLA
 theorem oPrimePOf_le_core {p : ℕ} (hp : p.Prime) {X K : Subgroup G} (hK : GLAPComponent p X K)
     (hZ : Nat.card (Subgroup.center (PQuot p K)) = 1) :
     CFSG.HardMathSupport.Solomon.LocalBalance.oPrimePOf p K ≤ GLAPPrimeCoreOf p K := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq := isQuasisimple_pQuot_of_glaPComponent hp hK
-  haveI := isQuasisimple_nontrivial hq
+  have := isQuasisimple_nontrivial hq
   have hbotZ : Subgroup.center (PQuot p K) = ⊥ := Subgroup.eq_bot_of_card_eq _ hZ
   have hPne : CFSG.pCore p (PQuot p K) ≠ ⊤ := by
     intro htop
@@ -547,6 +563,7 @@ theorem exists_comp_of_sub (hlb : LBalanceAt G 3) {X P I : Subgroup G} (hX : CFS
   exact ⟨Q, glaPComponent_of_le hp3 hQ hQX hXX'⟩
 
 
+omit [Finite G] in
 theorem single_of_family {X J₀ : Subgroup G} {𝒞 : Set (Subgroup G)}
     (hsup : (⨆ K ∈ 𝒞, K) = ⨆ g ∈ GLAPLayer 3 X, GLBConj g J₀) (hJ₀ : J₀ ≠ ⊥)
     (hall : ∀ K₁ ∈ 𝒞, ∀ K₂ ∈ 𝒞, K₁ = K₂) : ∃ J ∈ 𝒞, J₀ ≤ J := by
@@ -568,6 +585,7 @@ theorem single_of_family {X J₀ : Subgroup G} {𝒞 : Set (Subgroup G)}
     rw [hne]
     simp
 
+omit [Finite G] in
 theorem three_members {E : Subgroup G} (hE : IsElemAbelian 3 E) {𝒞 : Set (Subgroup G)}
     (hstab : ∀ K ∈ 𝒞, ∀ e ∈ E, GLBConj e K ∈ 𝒞)
     (htr : ∀ K ∈ 𝒞, ∀ K' ∈ 𝒞, ∃ e ∈ E, GLBConj e K = K')
@@ -597,7 +615,7 @@ theorem card_three_comp_sup {Q : Type*} [Group Q] [Finite Q] {J₁ J₂ J₃ D :
     (hDZ : D ≤ Subgroup.center Q) :
     IsElemAbelian 3 (Subgroup.closure {y₁, y₂, y₃} ⊔ D) ∧
       Nat.card (Subgroup.closure {y₁, y₂, y₃} ⊔ D : Subgroup Q) = 3 ^ 5 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have cJ : ∀ {H K : Subgroup Q}, ⁅H, K⁆ = ⊥ → ∀ a ∈ H, ∀ b ∈ K, a * b = b * a := by
     intro H K h a ha b hb
     exact (Subgroup.mem_centralizer_iff.1 (Subgroup.commutator_eq_bot_iff_le_centralizer.1 h ha) b hb).symm
@@ -745,6 +763,7 @@ theorem card_three_comp_sup {Q : Type*} [Group Q] [Finite Q] {J₁ J₂ J₃ D :
   rw [hW₀]
   exact ⟨IsElemAbelian.sup_of_commute hel123 hD (fun a ha d hd => hD1 d hd a), card5⟩
 
+omit [Finite G] in
 theorem pump_normalizes {B Q Y' M : Subgroup G} (hY'B : Y' ≤ B)
     (hconj : ∀ q ∈ Q, B ≤ Subgroup.normalizer ((GLBConj q M : Subgroup G) : Set G))
     (hQ : Q ≤ ⁅Q, Y'⁆) (hY' : ∀ y ∈ Y', CentMod 3 M y) :
@@ -756,7 +775,7 @@ theorem pump_normalizes {B Q Y' M : Subgroup G} (hY'B : Y' ≤ B)
   exact ⟨hN, fun q hq => centMod_iff.2 (hC hq)⟩
 
 theorem le_normalizer_sup_core {p : ℕ} (hp : p.Prime) {X M Q Y'' : Subgroup G} (hM : GLAPComponent p X M)
-    (hQX : Q ≤ X) (hQc : ∀ q ∈ Q, CentMod p M q) (hY''X : Y'' ≤ X)
+    (_hQX : Q ≤ X) (hQc : ∀ q ∈ Q, CentMod p M q) (hY''X : Y'' ≤ X)
     (hY''Q : Y'' ≤ Subgroup.normalizer (Q : Set G)) :
     M ⊔ Y'' ≤ Subgroup.normalizer ((Q ⊔ GLAPPrimeCoreOf p X : Subgroup G) : Set G) := by
   have hOX : X ≤ Subgroup.normalizer (GLAPPrimeCoreOf p X : Set G) := le_normalizer_glaPPrimeCoreOf p X
@@ -818,11 +837,11 @@ theorem pump_contra {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X Q W : Subgroup G
 theorem exists_pSubgroup_relIndex {p : ℕ} (hp : p.Prime) {C N : Subgroup G} (hCN : C ≤ N)
     (hNC : N ≤ Subgroup.normalizer (C : Set G)) {k : ℕ} (hk : p ^ k ∣ C.relIndex N) :
     ∃ Q : Subgroup G, Q ≤ N ∧ IsPGroup p Q ∧ p ^ k ∣ C.relIndex Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set C' : Subgroup ↥N := C.subgroupOf N with hC'
-  haveI hC'n : C'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hCN).2 hNC
+  have hC'n : C'.Normal := (Subgroup.normal_subgroupOf_iff_le_normalizer hCN).2 hNC
   obtain ⟨P⟩ := Sylow.nonempty (p := p) (G := ↥N)
-  refine ⟨(P : Subgroup ↥N).map N.subtype, Subgroup.map_subtype_le _, P.isPGroup'.map N.subtype, ?_⟩
+  refine ⟨(P : Subgroup ↥N).map N.subtype, Subgroup.map_subtype_le _, P.isPGroup.map N.subtype, ?_⟩
   rw [← Subgroup.relIndex_comap]
   change p ^ k ∣ C'.relIndex P
   rw [← Subgroup.relIndex_sup_right]
@@ -839,6 +858,7 @@ theorem exists_pSubgroup_relIndex {p : ℕ} (hp : p.Prime) {C N : Subgroup G} (h
 
 @[expose] def conjOrbit (N : Subgroup G) (y : G) : Set G := {z | ∃ g ∈ N, g * y * g⁻¹ = z}
 
+omit [Finite G] in
 theorem three_dvd_orbit {A : Subgroup G} {x : G}
     (h3 : ∀ g ∈ Subgroup.normalizer (A : Set G), g ∈ cx x → (∃ k : ℕ, g ^ (3 ^ k) = 1) →
       g ∈ Subgroup.centralizer (A : Set G))
@@ -846,7 +866,7 @@ theorem three_dvd_orbit {A : Subgroup G} {x : G}
     (hnA : n ∉ Subgroup.centralizer (A : Set G)) :
     3 ∣ (conjOrbit (Subgroup.normalizer (A : Set G)) x).ncard := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set N := Subgroup.normalizer (A : Set G) with hN
   set O := conjOrbit N x with hO
   obtain ⟨k, hk⟩ := hn3
@@ -857,7 +877,7 @@ theorem three_dvd_orbit {A : Subgroup G} {x : G}
   have hmem : ∀ z ∈ Subgroup.zpowers n, ∀ y ∈ O, z * y * z⁻¹ ∈ O := by
     rintro z hz y ⟨g, hg, rfl⟩
     exact ⟨z * g, N.mul_mem (hZN hz) hg, by group⟩
-  letI : MulAction (Subgroup.zpowers n) O :=
+  let : MulAction (Subgroup.zpowers n) O :=
     { smul := fun z y => ⟨(z : G) * y * (z : G)⁻¹, hmem z z.2 y y.2⟩
       one_smul := fun y => Subtype.ext (show ((1 : Subgroup.zpowers n) : G) * (y : G) *
           ((1 : Subgroup.zpowers n) : G)⁻¹ = (y : G) by simp)
@@ -897,21 +917,23 @@ theorem three_dvd_orbit {A : Subgroup G} {x : G}
     _ = n * b := by group
 
 open Classical in
+omit [Group G] [Finite G] in
 theorem ncard_inter_block {S Bk : Set G} (hB : Bk.ncard = 80) (hfull : (S ∩ Bk).Nonempty → Bk ⊆ S) :
     (S ∩ Bk).ncard = if Bk ⊆ S then 80 else 0 := by
   by_cases h : Bk ⊆ S
-  · rw [if_pos h, Set.inter_eq_right.2 h, hB]
-  · rw [if_neg h]
+  · rw [ite_eq_left h, Set.inter_eq_right.2 h, hB]
+  · rw [ite_eq_right h]
     have : S ∩ Bk = ∅ := by
       by_contra hne
       exact h (hfull (Set.nonempty_iff_ne_empty.2 hne))
     rw [this, Set.ncard_empty]
 
 open Classical in
+omit [Group G] [Finite G] in
 theorem ncard_inter_singleton (S : Set G) (a : G) : (S ∩ {a}).ncard = if a ∈ S then 1 else 0 := by
   by_cases h : a ∈ S
-  · rw [if_pos h, Set.inter_eq_right.2 (Set.singleton_subset_iff.2 h), Set.ncard_singleton]
-  · rw [if_neg h]
+  · rw [ite_eq_left h, Set.inter_eq_right.2 (Set.singleton_subset_iff.2 h), Set.ncard_singleton]
+  · rw [ite_eq_right h]
     have : S ∩ {a} = ∅ := by
       ext y
       simp only [Set.mem_inter_iff, Set.mem_singleton_iff, Set.mem_empty_iff_false, iff_false, not_and]
@@ -919,6 +941,7 @@ theorem ncard_inter_singleton (S : Set G) (a : G) : (S ∩ {a}).ncard = if a ∈
       exact h hy
     rw [this, Set.ncard_empty]
 
+omit [Group G] in
 theorem ncard_union_five {S Q₁ Q₂ Q₃ Q₄ Q₅ : Set G} (h12 : Disjoint Q₁ Q₂) (h13 : Disjoint Q₁ Q₃)
     (h14 : Disjoint Q₁ Q₄) (h15 : Disjoint Q₁ Q₅) (h23 : Disjoint Q₂ Q₃) (h24 : Disjoint Q₂ Q₄)
     (h25 : Disjoint Q₂ Q₅) (h34 : Disjoint Q₃ Q₄) (h35 : Disjoint Q₃ Q₅) (h45 : Disjoint Q₄ Q₅)
@@ -1080,7 +1103,7 @@ theorem card_inv_set {A H : Subgroup G} {x : G} (hA : IsElemAbelian 3 A) (hHA : 
     rw [h1, hH]
     norm_num
   have hHs80 : Hs.ncard = 80 := by
-    rw [hHs, Set.ncard_diff_singleton_of_mem H.one_mem, hHcard]
+    rw [hHs, Set.ncard_sdiff_singleton_of_mem H.one_mem, hHcard]
   have hB3_80 : B3.ncard = 80 := by
     rw [hB3, Set.ncard_image_of_injective _ (mul_right_injective x), hHs80]
   have hB5_80 : B5.ncard = 80 := by
@@ -1164,10 +1187,11 @@ theorem card_inv_set {A H : Subgroup G} {x : G} (hA : IsElemAbelian 3 A) (hHA : 
   · rw [hS]
     split_ifs <;> omega
 
+omit [Finite G] in
 theorem ncard_conjOrbit (N : Subgroup G) (y : G) :
     (conjOrbit N y).ncard = (cx y).relIndex N := by
   classical
-  letI : MulAction N G := MulAction.compHom G (MulAut.conj.comp N.subtype)
+  let : MulAction N G := MulAction.compHom G (MulAut.conj.comp N.subtype)
   have hsmul : ∀ (g : N) (z : G), g • z = (g : G) * z * (g : G)⁻¹ := fun _ _ => rfl
   have horb : MulAction.orbit N y = conjOrbit N y := by
     ext z
@@ -1190,6 +1214,7 @@ theorem ncard_conjOrbit (N : Subgroup G) (y : G) :
   rw [← horb, ← MulAction.index_stabilizer, hstab]
   rfl
 
+omit [Finite G] in
 theorem relIndex_mul_cent {A : Subgroup G} {y : G} (hy : y ∈ A) :
     (Subgroup.centralizer (A : Set G)).relIndex (Subgroup.normalizer (A : Set G)) =
       (cx y).relIndex (Subgroup.normalizer (A : Set G)) *
@@ -1236,13 +1261,13 @@ theorem fusion_contra {A H : Subgroup G} {x a : G} (hA : IsElemAbelian 3 A) (hHA
     (hO1 x hx1) (hOinv x)
   obtain ⟨n, hnN, hn3, hnA⟩ := hn
   have h3x := three_dvd_orbit h3 hnN hn3 hnA
-  rw [if_pos hxOx] at hcx
+  rw [ite_eq_left hxOx] at hcx
   have h81x : 81 ∣ (conjOrbit N x).ncard := by
     rw [hcx] at h3x ⊢
     by_cases hxi : x⁻¹ ∈ conjOrbit N x
-    · rw [if_pos hxi] at h3x ⊢
+    · rw [ite_eq_left hxi] at h3x ⊢
       interval_cases m <;> omega
-    · rw [if_neg hxi] at h3x ⊢
+    · rw [ite_eq_right hxi] at h3x ⊢
       interval_cases m <;> omega
   have haOa : a ∈ conjOrbit N a := ⟨1, N.one_mem, by group⟩
   have hxOa : x ∉ conjOrbit N a := by
@@ -1257,7 +1282,7 @@ theorem fusion_contra {A H : Subgroup G} {x a : G} (hA : IsElemAbelian 3 A) (hHA
       _ = a := by group
   obtain ⟨m', hm', hca⟩ := card_inv_set hA hHA hH hxA hxH hAHx hU (conjOrbit N a) (hOA a ha)
     (hO1 a ha1) (hOinv a)
-  rw [if_neg hxOa, if_neg hxiOa] at hca
+  rw [ite_eq_right hxOa, ite_eq_right hxiOa] at hca
   have hdisj : Disjoint (conjOrbit N x) (conjOrbit N a) := by
     rw [Set.disjoint_left]
     rintro z ⟨g, hg, rfl⟩ ⟨g', hg', h⟩
@@ -1270,7 +1295,7 @@ theorem fusion_contra {A H : Subgroup G} {x a : G} (hA : IsElemAbelian 3 A) (hHA
     · exact ⟨hOA x hxA hz, fun h => hO1 x hx1 (Set.mem_singleton_iff.1 h ▸ hz)⟩
     · exact ⟨hOA a ha hz, fun h => hO1 a ha1 (Set.mem_singleton_iff.1 h ▸ hz)⟩
   have hcardA : ((A : Set G) \ {1}).ncard = 242 := by
-    rw [Set.ncard_diff_singleton_of_mem A.one_mem, ← Nat.card_coe_set_eq]
+    rw [Set.ncard_sdiff_singleton_of_mem A.one_mem, ← Nat.card_coe_set_eq]
     change Nat.card A - 1 = 242
     rw [hA5]
     norm_num

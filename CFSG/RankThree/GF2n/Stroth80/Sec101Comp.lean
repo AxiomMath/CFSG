@@ -17,6 +17,7 @@ section FiniteGroup
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 private lemma injective_comp_inclusion_of_inf_eq_bot {Gc : Type} [Group Gc]
     {R N X : Subgroup Γ} {π : ↥R →* Gc} (hXR : X ≤ R)
     (hker : ∀ r : ↥R, π r = 1 ↔ (r : Γ) ∈ N) (hXN : X ⊓ N = ⊥) :
@@ -33,6 +34,7 @@ private lemma injective_comp_inclusion_of_inf_eq_bot {Gc : Type} [Group Gc]
   rw [Subgroup.mem_bot]
   exact Subtype.ext hx1
 
+omit [Finite Γ] in
 private lemma normal_range_comp_inclusion {Gc : Type} [Group Gc]
     {R X : Subgroup Γ} (hXR : X ≤ R) (π : ↥R →* Gc) (hπ : Function.Surjective π)
     (hXn : ∀ r ∈ R, ∀ x ∈ X, r * x * r⁻¹ ∈ X) :
@@ -51,6 +53,7 @@ private lemma normal_range_comp_inclusion {Gc : Type} [Group Gc]
       π (Subgroup.inclusion hXR _) from rfl, hy, map_mul, map_mul, map_inv]
   rfl
 
+omit [Finite Γ] in
 theorem false_of_commuting_in_quasisimple {Gc : Type} [Group Gc] [Finite Gc]
     (hGc : CFSG.IsQuasisimple Gc) {R N X₂ X₃ : Subgroup Γ} (π : ↥R →* Gc)
     (hπ : Function.Surjective π) (hker : ∀ r : ↥R, π r = 1 ↔ (r : Γ) ∈ N)
@@ -99,13 +102,13 @@ theorem isComponent_of_sup_eq_layer {X Y : Subgroup Γ} (hXY : X ⊔ Y = layer �
   have hN : (X.subgroupOf (X ⊔ Y)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (N := X) (sup_le_normalizer_of_commute hcomm)
   have hL : (X ⊔ Y).IsSubnormal := by
-    haveI hchar : (layer Γ).Characteristic := CFSG.LocalCores.layer_characteristic
+    have hchar : (layer Γ).Characteristic := CFSG.LocalCores.layer_characteristic
     rw [hXY]
     exact Subgroup.Normal.isSubnormal inferInstance
   exact Subgroup.IsSubnormal.step X (X ⊔ Y) le_sup_left hL hN
 
 theorem eq_or_eq_of_sup_eq_layer {X Y : Subgroup Γ} (hXY : X ⊔ Y = layer Γ)
-    (hcomm : ∀ x ∈ X, ∀ y ∈ Y, x * y = y * x) (hXc : IsComponent X) (hYc : IsComponent Y)
+    (_hcomm : ∀ x ∈ X, ∀ y ∈ Y, x * y = y * x) (hXc : IsComponent X) (hYc : IsComponent Y)
     {C : Subgroup Γ} (hC : IsComponent C) : C = X ∨ C = Y := by
   by_contra h
   obtain ⟨hCX, hCY⟩ := not_or.mp h
@@ -134,7 +137,7 @@ theorem eq_layer_of_isComponent (hq : CFSG.IsQuasisimple ↥(layer Γ))
     {K : Subgroup Γ} (hK : IsComponent K) : K = layer Γ := by
   have hL : IsComponent (layer Γ) := by
     refine ⟨hq, ?_⟩
-    haveI hchar : (layer Γ).Characteristic := CFSG.LocalCores.layer_characteristic
+    have hchar : (layer Γ).Characteristic := CFSG.LocalCores.layer_characteristic
     exact Subgroup.Normal.isSubnormal inferInstance
   by_contra hne
   have hKlayer : K ≤ layer Γ := CFSG.LocalCores.component_le_layer hK

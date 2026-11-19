@@ -21,7 +21,7 @@ theorem nonempty_mulEquiv_map_mk_of_isPGroup {p : ℕ} [Fact p.Prime] {N : Subgr
       eq_bot_iff]
     intro x hx
     have hx' : (x : G) ∈ P ⊓ N := ⟨x.2, Subgroup.mem_subgroupOf.1 hx⟩
-    rw [Subgroup.inf_eq_bot_of_coprime hcop, Subgroup.mem_bot] at hx'
+    rw [(Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard hcop)), Subgroup.mem_bot] at hx'
     exact (Subgroup.mem_bot).2 (Subtype.ext hx')
   exact ⟨MulEquiv.ofBijective _ ⟨hinj, (QuotientGroup.mk' N).subgroupMap_surjective P⟩⟩
 

@@ -32,7 +32,7 @@ theorem vMapG_single (σ : K ≃+* K') (a : ι) (c : K) :
   by_cases h : a = b
   · subst h
     simp
-  · simp [Finsupp.single_apply, h]
+  · simp [h]
 
 theorem vMapG_trans (σ : K ≃+* K') (σ' : K' ≃+* K'') (v : ι →₀ K) :
     vMapG σ' (vMapG σ v) = vMapG (σ.trans σ') v := by

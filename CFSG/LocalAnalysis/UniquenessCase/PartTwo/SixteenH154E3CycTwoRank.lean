@@ -13,6 +13,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma s16h_e3_CycTwoRank_le_stabSub_wTil {V₀ V L E : Subgroup G}
     (hV : IsElemAbelian 2 V)
     (hEn : barSub V₀ V hV E ≤

@@ -36,8 +36,8 @@ theorem ggWTSX_coordFrameElt_adjoint
     (hT : GGExcToralRankInput τ K p)
     (hsymm : ∀ i j, τ.cartan i j = τ.cartan j i) :
     GGTorusCoordFrameElt p τ.rank (adjointGroup τ K) (coxeterMatrix (isFiniteType_cartan τ)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   intro E hE hr h3 k τ' hτ' hτ'E
   have hcardE : Nat.card E = p ^ τ.rank := by
     obtain ⟨g, hg⟩ := hT E hE hr

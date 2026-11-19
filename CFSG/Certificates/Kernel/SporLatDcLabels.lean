@@ -27,6 +27,7 @@ theorem wordF_append (w₁ w₂ : List ℕ) (p : ℕ) :
     wordF P.C.L (w₁ ++ w₂) p = wordF P.C.L w₁ (wordF P.C.L w₂ p) := by
   simp [wordF, List.foldr_append]
 
+omit [Finite Γ] in
 theorem act_inj {g : Γ} {p q : ℕ} (hp : p < n) (hq : q < n)
     (h : act n g p = act n g q) : p = q := by
   have e1 : (g • (⟨p, hp⟩ : Fin n)) = (g • (⟨q, hq⟩ : Fin n)) := by
@@ -35,6 +36,7 @@ theorem act_inj {g : Γ} {p q : ℕ} (hp : p < n) (hq : q < n)
   have h2 := MulAction.injective g e1
   simpa using h2
 
+omit [Finite Γ] in
 theorem lab_toFinset {x : List ℕ} (g : Γ) :
     (lab n ptLab x g).toFinset = x.toFinset.image (fun p => act n g p) := by
   have h1 : lab n ptLab x g = sortN (x.map fun p => act n g p) := ptAct_tab _ _
@@ -42,6 +44,7 @@ theorem lab_toFinset {x : List ℕ} (g : Γ) :
   ext q
   simp only [List.mem_toFinset, List.mem_map, Finset.mem_image]
 
+omit [Finite Γ] in
 theorem lab_lt {x : List ℕ} (hx : ∀ p ∈ x, p < n) (g : Γ) :
     ∀ p ∈ lab n ptLab x g, p < n := by
   intro p hp
@@ -50,6 +53,7 @@ theorem lab_lt {x : List ℕ} (hx : ∀ p ∈ x, p < n) (g : Γ) :
   rw [List.mem_toFinset] at hq
   exact act_lt g (hx q hq)
 
+omit [Finite Γ] in
 theorem lab_nodup {x : List ℕ} (hx : ∀ p ∈ x, p < n) (hnd : x.Nodup) (g : Γ) :
     (lab n ptLab x g).Nodup := by
   have h1 : lab n ptLab x g = sortN (x.map fun p => act n g p) := ptAct_tab _ _
@@ -58,6 +62,7 @@ theorem lab_nodup {x : List ℕ} (hx : ∀ p ∈ x, p < n) (hnd : x.Nodup) (g : 
   rw [List.nodup_mergeSort]
   exact List.Nodup.map_on (fun p hp q hq h => act_inj (Γ := Γ) (g := g) (hx p hp) (hx q hq) h) hnd
 
+omit [Finite Γ] in
 theorem lab_valid {x : List ℕ} (hx : ∀ p ∈ x, p < n) (g : Γ) :
     PtValid n (lab n ptLab x g) := by
   refine ⟨sortN_sorted _, ?_⟩
@@ -95,7 +100,7 @@ theorem filter_card_eq_cntO {x : List ℕ} (hnd : x.Nodup) (j : ℕ) :
     List.toFinset_filter]
   congr 1
 
-theorem card_inter_Oj {x : List ℕ} (hx : ∀ p ∈ x, p < n) (hnd : x.Nodup) {s : Γ}
+theorem card_inter_Oj {x : List ℕ} (hx : ∀ p ∈ x, p < n) (_hnd : x.Nodup) {s : Γ}
     (hs : s ∈ P.S) (j : ℕ) :
     ((lab n ptLab x s).toFinset ∩ P.Oj j).card =
       (x.toFinset.filter (fun p => oid P.D p = j)).card := by
@@ -132,7 +137,7 @@ theorem card_inter_Oj {x : List ℕ} (hx : ∀ p ∈ x, p < n) (hnd : x.Nodup) {
 theorem mem_Sx {x : List ℕ} {M : List ℕ} :
     M ∈ P.Sx x ↔ ∃ s ∈ P.S, M = lab n ptLab x s := by
   classical
-  letI : Fintype ↥P.S := Fintype.ofFinite _
+  let : Fintype ↥P.S := Fintype.ofFinite _
   rw [Sx, Finset.mem_image]
   constructor
   · rintro ⟨s, -, rfl⟩

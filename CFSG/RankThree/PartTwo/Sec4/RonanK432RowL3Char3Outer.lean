@@ -28,6 +28,7 @@ theorem scalars_three_eq_bot_char_three : scalars 3 K = ⊥ := by
 theorem proj_three_injective_char_three : Function.Injective (proj 3 K) := by
   rw [← MonoidHom.ker_eq_bot_iff, ker_proj, scalars_three_eq_bot_char_three]
 
+omit [CharP K 3] in
 theorem isInnerAut_of_mem_linearAutGroup_char_three [Finite K] (hcop : (Nat.card Kˣ).Coprime 3)
     {β : MulAut (projectiveSL 3 K)} (hβ : β ∈ linearAutGroup 3 K) : IsInnerAut β := by
   obtain ⟨A, rfl⟩ := mem_linearAutGroup_iff.mp hβ
@@ -57,6 +58,7 @@ theorem mem_range_proj_comp_map_iff_char_three (σ : K ≃+* K) (y : projectiveS
     obtain ⟨A₀, hA₀⟩ := exists_sl_map_subtype_eq (map_eq_of_fieldAut_proj_eq_char_three σ hy)
     exact ⟨A₀, by rw [MonoidHom.comp_apply, hA₀]⟩
 
+omit [CharP K 3] in
 theorem exists_congr_eq_fieldAut_char_three [Finite K] {X : Type} [Group X]
     (hcop : (Nat.card Kˣ).Coprime 3) (e : X ≃* projSL 3 K) {α : MulAut X} (hα : α ^ 3 = 1)
     (hout : ¬ IsInnerAut α) :

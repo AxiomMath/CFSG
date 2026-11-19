@@ -27,7 +27,7 @@ theorem t6psub_isSolvable_fixSub (π : Xs →* T) (hπ : Function.Surjective π)
   set C := fixSubgroup α with hC
   set X := Lemma510Ns.fixSub β with hX
   set X₀ : Subgroup T := C.map π with hX₀
-  haveI : Group.IsSolvable ↥X₀ :=
+  have : Group.IsSolvable ↥X₀ :=
     Group.isSolvable_of_surjective (f := π.subgroupMap C) (π.subgroupMap_surjective C)
   have hX₀X : X₀ ≤ X := map_fixSubgroup_le π hker α β hαβ
   have hcomm : ∀ a ∈ X, ∀ b ∈ X, ⁅a, b⁆ ∈ X₀ := by
@@ -36,7 +36,7 @@ theorem t6psub_isSolvable_fixSub (π : Xs →* T) (hπ : Function.Surjective π)
     obtain ⟨xb, rfl⟩ := hπ b
     exact ⟨⁅xa, xb⁆, comm_mem_fixSubgroup π hker α β hαβ ha hb, map_commutatorElement π xa xb⟩
   set N : Subgroup ↥X := X₀.subgroupOf X with hN
-  haveI : Group.IsSolvable ↥N :=
+  have : Group.IsSolvable ↥N :=
     Group.isSolvable_of_isSolvable_injective
       (f := (Subgroup.subgroupOfEquivOfLe hX₀X).toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hX₀X).injective
@@ -160,7 +160,7 @@ theorem t6psub_glA_scalar_apply {n : ℕ} (ν : Kˣ) (v : Fin n → K) :
 theorem t6psub_exists_eigenspace_two {x : Module.End K (Fin 3 → K)} {b : K[X]}
     (hb : b ∈ primaryFactors x) (hm2 : 2 ≤ primaryMultiplicity x b) :
     ∃ c : K, 2 ≤ Module.finrank K (Module.End.eigenspace x c) := by
-  haveI : Fact (Irreducible b) := ⟨irreducible_of_mem_primaryFactors hb⟩
+  have : Fact (Irreducible b) := ⟨irreducible_of_mem_primaryFactors hb⟩
   have hdeg : 1 ≤ b.natDegree := (Fact.out : Irreducible b).natDegree_pos
   have hrk := finrank_primaryComponent x (a := b)
   have hle : Module.finrank K (primaryComponent x b) ≤ 3 := by

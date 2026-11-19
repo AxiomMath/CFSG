@@ -12,6 +12,7 @@ open Pointwise
 
 variable {T : Type} [Group T] [Finite T]
 
+omit [Finite T] in
 theorem eq_one_of_smul_sylow_eq [IsSimpleGroup T] {p : ℕ} [Fact p.Prime]
     {P : Sylow p T} (hPn : Subgroup.normalizer ((P : Subgroup T) : Set T) ≠ ⊤) {h : T}
     (hh : ∀ Q : Sylow p T, h • Q = Q) : h = 1 := by
@@ -34,6 +35,7 @@ theorem eq_one_of_smul_sylow_eq [IsSimpleGroup T] {p : ℕ} [Fact p.Prime]
       simpa [φ] using this
     exact (Sylow.smul_eq_iff_mem_normalizer).1 hgP
 
+omit [Finite T] in
 theorem toPermHom_mulAut_injective [IsSimpleGroup T] {p : ℕ} [Fact p.Prime]
     {P : Sylow p T} (hPn : Subgroup.normalizer ((P : Subgroup T) : Set T) ≠ ⊤) :
     Function.Injective (MulAction.toPermHom (MulAut T) (Sylow p T)) := by
@@ -71,7 +73,7 @@ theorem card_mulAut_dvd_factorial [IsSimpleGroup T] {p : ℕ} [Fact p.Prime]
 
 theorem not_sq_seven_dvd_card_mulAut_of_card_168 [IsSimpleGroup T] (hT : Nat.card T = 168) :
     ¬ 7 ^ 2 ∣ Nat.card (MulAut T) := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨P⟩ : Nonempty (Sylow 7 T) := inferInstance
   set n := Nat.card (Sylow 7 T) with hn
   have hn1 : n ≡ 1 [MOD 7] := card_sylow_modEq_one 7 T

@@ -177,9 +177,10 @@ section GenericFinite
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem uc22pwt_mem_of_mem_oPi {α : Set ℕ} {E : Subgroup X} (hE : IsMulCommutative E) {x : X}
     (hx : x ∈ oPi α E) : x ∈ E ∧ ∀ p : ℕ, p.Prime → p ∣ orderOf x → p ∈ α := by
-  haveI := hE
+  have := hE
   let P : Subgroup X :=
     { carrier := {y | y ∈ E ∧ ∀ p : ℕ, p.Prime → p ∣ orderOf y → p ∈ α}
       mul_mem' := by
@@ -244,7 +245,7 @@ variable {X : Type} [Group X]
   mul_mem' := by
     rintro x y ⟨hx, hxw⟩ ⟨hy, hyw⟩
     refine ⟨M.mul_mem hx hy, ?_⟩
-    haveI := hM
+    have := hM
     have hc : Commute x y := setLike_mul_comm (s := M) hx hy
     have e : w * (x * y) * w⁻¹ = (w * x * w⁻¹) * (w * y * w⁻¹) := by group
     rw [e, hxw, hyw, mul_inv_rev]
@@ -341,10 +342,12 @@ variable {ρ : Γ →* MulAut X} {τ : Γ} {U A₁ A₂ : Subgroup X} {C : UC22p
 
 include El
 
+omit [Finite X] in
 theorem ord' : orderOf (ρ τ h) = m := by
   rw [MulEquiv.orderOf_eq (ρ τ) h]
   exact El.ord
 
+omit [Finite X] in
 theorem h_noncentral : ∃ y ∈ A₁, h * y ≠ y * h := by
   by_contra hcon
   have hcon' : ∀ y ∈ A₁, h * y = y * h := fun y hy => by_contra fun hne => hcon ⟨y, hy, hne⟩
@@ -363,6 +366,7 @@ theorem h_noncentral : ∃ y ∈ A₁, h * y ≠ y * h := by
     exact hdvd
   exact El.Z p hp hpm (hpm.trans hmdvd)
 
+omit [Finite X] in
 theorem pair : UC22pwtPair h (ρ τ h) m a b α where
   comm := C.comm h El.h_mem _ (C.mem₂ El.h_mem)
   ord := El.ord
@@ -395,6 +399,7 @@ theorem pair : UC22pwtPair h (ρ τ h) m a b α where
   cop := El.cop
   pr := El.pr
 
+omit [Finite X] in
 theorem h_norm₁ : h ∈ normalizer ((U ⊓ A₁ : Subgroup X) : Set X) := by
   rw [Subgroup.mem_normalizer_iff]
   intro u
@@ -403,16 +408,20 @@ theorem h_norm₁ : h ∈ normalizer ((U ⊓ A₁ : Subgroup X) : Set X) := by
   have e : h⁻¹ * (h * u * h⁻¹) * h = u := by group
   rwa [e] at h1
 
+omit [Finite X] in
 theorem h_norm : h ∈ normalizer (U : Set X) :=
   uc22pwt_mem_normalizer_of_part C.comm C.Usplit El.h_mem El.h_norm₁
 
+omit [Finite X] in
 theorem h'_norm₂ : ρ τ h ∈ normalizer ((U ⊓ A₂ : Subgroup X) : Set X) :=
-  uc22pwt_mem_normalizer_aut (ρ τ) (fun y => C.swap_U₁.symm) El.h_norm₁
+  uc22pwt_mem_normalizer_aut (ρ τ) (fun _y => C.swap_U₁.symm) El.h_norm₁
 
+omit [Finite X] in
 theorem h'_norm : ρ τ h ∈ normalizer (U : Set X) :=
   uc22pwt_mem_normalizer_of_part C.comm' (by rw [sup_comm]; exact C.Usplit) (C.mem₂ El.h_mem)
     El.h'_norm₂
 
+omit [Finite X] in
 theorem inv_pow {g : Γ} (hg : g ∈ uc22pwtStab2 ρ A₁ A₂) (k : ℕ) :
     ρ g (h ^ k) ∈ zpowers (h ^ k) ⊔ (U ⊓ A₁) := by
   obtain ⟨y, hy, u, hu, hyu⟩ := uc22pws_exists_mul_of_mem_sup
@@ -423,6 +432,7 @@ theorem inv_pow {g : Γ} (hg : g ∈ uc22pwtStab2 ρ A₁ A₂) (k : ℕ) :
   refine Subgroup.mul_mem_sup ?_ hu'
   exact Subgroup.mem_zpowers_iff.2 ⟨s, by rw [← zpow_natCast, ← zpow_mul, mul_comm]⟩
 
+omit [Finite X] in
 theorem inv_pow' {g : Γ} (hg : g ∈ uc22pwtStab2 ρ A₁ A₂) (k : ℕ) :
     ρ g ((ρ τ h) ^ k) ∈ zpowers ((ρ τ h) ^ k) ⊔ (U ⊓ A₂) := by
   have h1 := El.inv_pow (C.stab_conj hg) k
@@ -487,6 +497,7 @@ variable {ρ : Γ →* MulAut X} {τ : Γ} {U A₁ A₂ : Subgroup X} {C : UC22p
 
 include El
 
+omit [Finite X] in
 theorem diag_stab {g : Γ} (hg : g ∈ uc22pwtStab2 ρ A₁ A₂) :
     ρ g (h ^ b * (ρ τ h) ^ b) * (h ^ b * (ρ τ h) ^ b)⁻¹ ∈ U := by
   have h1 := El.halpha g hg
@@ -508,6 +519,7 @@ theorem diag_stab {g : Γ} (hg : g ∈ uc22pwtStab2 ρ A₁ A₂) :
   rw [e]
   exact U.mul_mem h1.1 h3.1
 
+omit [Finite X] in
 theorem diag_tau : ρ τ (h ^ b * (ρ τ h) ^ b) * (h ^ b * (ρ τ h) ^ b)⁻¹ ∈ U := by
   have h1 := El.halpha (τ * τ) C.stab_ττ
   have hpow : (ρ τ h) ^ b = ρ τ (h ^ b) := (map_pow (ρ τ) h b).symm
@@ -523,6 +535,7 @@ theorem diag_tau : ρ τ (h ^ b * (ρ τ h) ^ b) * (h ^ b * (ρ τ h) ^ b)⁻¹ 
   rw [uc22pwt_diag_identity_tau hPQ hQu]
   exact hu₁mem.1
 
+omit [Finite X] in
 theorem diag_all (g : Γ) : ρ g (h ^ b * (ρ τ h) ^ b) * (h ^ b * (ρ τ h) ^ b)⁻¹ ∈ U := by
   rcases C.perm g with hg | hg
   · exact El.diag_stab hg
@@ -530,6 +543,7 @@ theorem diag_all (g : Γ) : ρ g (h ^ b * (ρ τ h) ^ b) * (h ^ b * (ρ τ h) ^ 
     rw [e]
     exact uc22pwt_closure_mul ρ C.Uinv _ El.diag_tau (El.diag_stab hg)
 
+omit [Finite X] in
 theorem invariant (g : Γ) :
     ∀ x ∈ uc22pwtE h (ρ τ h) a b, ρ g x ∈ uc22pwtE h (ρ τ h) a b ⊔ U := by
   set E := uc22pwtE h (ρ τ h) a b with hE
@@ -582,6 +596,7 @@ theorem alpha_clause (g : Γ) :
       El.diag_all g⟩
   exact (mem_uc22pwtFix.1 (Subgroup.zpowers_le.2 hdfix hxd)).2
 
+omit [Finite X] in
 theorem involution : ∃ w : X, w ^ 2 = 1 ∧ (∀ x ∈ uc22pwtE h (ρ τ h) a b, w * x * w⁻¹ = x⁻¹) ∧
     normalizer (U : Set X) ⊔ Subgroup.zpowers w = ⊤ := by
   have hw₂ : ρ τ w₁ ∈ A₂ := C.mem₂ El.w_mem
@@ -664,7 +679,7 @@ theorem uc22pwt_core (hR1 : uc22pwCartanRankOne) {X : Type} [Group X] [Finite X]
         (mul_mem (Subgroup.pow_mem _ El.h_norm b) (Subgroup.pow_mem _ El.h'_norm b))
   · rw [P.piSet_E]
     ext p
-    simp only [etaSet, Set.mem_setOf_eq]
+    simp only [etaSet, Set.mem_ofPred_eq]
     exact ⟨fun hp => ⟨hp.1, (hpr p hp.1).1 hp.2⟩, fun hp => ⟨hp.1, (hpr p hp.1).2 hp.2⟩⟩
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22

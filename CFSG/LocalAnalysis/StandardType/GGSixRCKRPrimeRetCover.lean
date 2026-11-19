@@ -51,25 +51,25 @@ theorem rckRet_cover
       StandardReturnAt (ggU .E6 0 g) g ∧ RCKADEModel (ggU .E6 0 g) g ∧
       f.range = rationalComponent S.ρ S.Γ (rootCharHom a) i := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite ↥(fixSubfield σ) := hfin
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite ↥(fixSubfield σ) := hfin
   have hadm : StatedLieAdmissible .E6 0 2 g := ⟨Nat.prime_two, hg, rfl⟩
   have hrk : 2 ≤ (ggU .E6 0 g).D.rank := by
     show 2 ≤ (e6Datum (GaloisField 2 g)).rank
     show 2 ≤ 6
     norm_num
-  haveI hfinM : Finite (ggU .E6 0 g).K :=
+  have hfinM : Finite (ggU .E6 0 g).K :=
     ggU_finite_exc (Or.inr (Or.inl rfl)) ⟨hadm, hrk⟩
   obtain ⟨hcommM, -⟩ := ggU_perfect_lieModel hadm hrk
   have hsplit := CFSG.StandardType.LieOddCover.oddCentralSplit_ggU_pos (t := .E6) (n := 0)
     (f := g) (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rfl))))))) hadm
-  haveI : Fintype ↥(fixSubfield σ) := Fintype.ofFinite _
-  haveI : Fintype (GaloisField 2 g) := Fintype.ofFinite _
+  have : Fintype ↥(fixSubfield σ) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 g) := Fintype.ofFinite _
   have hcardEq : Fintype.card (GaloisField 2 g) = Fintype.card ↥(fixSubfield σ) := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hKcard,
       GaloisField.card 2 g hg.ne']
   let e0 : GaloisField 2 g ≃+* ↥(fixSubfield σ) := FiniteField.ringEquivOfCardEq hcardEq
-  haveI : CharP ↥(fixSubfield σ) 2 :=
+  have : CharP ↥(fixSubfield σ) 2 :=
     (RingHom.charP_iff (fixSubfield σ).subtype (fixSubfield σ).subtype.injective 2).2 inferInstance
   obtain ⟨Ψc, hΨcpin, hΨcrange, hΨcker⟩ := rckE6_pinCanon hτ hβroot hι e0
   have hC : componentRootSpan (fixSubfield σ) (rootCharHom a) i = Ψc.range := by

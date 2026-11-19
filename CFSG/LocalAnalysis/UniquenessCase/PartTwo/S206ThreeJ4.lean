@@ -23,7 +23,7 @@ theorem s20_6_dataOfSetup_of_r880J4 (hK331 : InS3.K331) (hS : Standing G) (S : S
     S20_6 (dataOfSetup hS S) := by
   intro h1930 L hL h9
   set D := dataOfSetup hS S
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hk, α, hα, hker, i, -, hLM, hTK, -⟩ := uc22s206b_by1930 D
     CFSG.ComponentClassification.CatLeafProof.lieOrderFormulasInput listBNonabelian h1930 hL h9
   have hLM' : L ⊓ S.M = ptPre α i := hLM

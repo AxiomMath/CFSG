@@ -42,7 +42,7 @@ private theorem hkt_grun_iv37_abelian_residual_extension_source
     HasNormalPComplement q Q := by
   classical
   let A : Subgroup Q := hktAbelianPResidual q Q
-  haveI : A.Normal := by
+  have : A.Normal := by
     simpa [A] using hktAbelianPResidual_normal (Q := Q) (q := q)
   let ZN : Subgroup Q :=
     Subgroup.normalizer
@@ -94,7 +94,7 @@ public theorem hktAbelianPResidual_ne_top_of_hasNormalPComplement_of_dvd_card
     hktAbelianPResidual q G ≠ (⊤ : Subgroup G) := by
   classical
   rcases hcomp with ⟨N, hNnorm, hNcop, hquotp⟩
-  letI : N.Normal := hNnorm
+  let : N.Normal := hNnorm
   have hq_dvd_quot : q ∣ Nat.card (G ⧸ N) := by
     have hcard : Nat.card G = Nat.card (G ⧸ N) * Nat.card N := by
       simpa using (Subgroup.card_eq_card_quotient_mul_card_subgroup (s := N))
@@ -112,11 +112,11 @@ public theorem hktAbelianPResidual_ne_top_of_hasNormalPComplement_of_dvd_card
     have hcard_pos : 0 < Nat.card (G ⧸ N) := Nat.card_pos
     have hcard_one : Nat.card (G ⧸ N) = 1 := by omega
     exact (Fact.out : Nat.Prime q).not_dvd_one (by simpa [hcard_one] using hq_dvd_quot)
-  letI : Nontrivial (G ⧸ N) := hquot_nontriv
+  let : Nontrivial (G ⧸ N) := hquot_nontriv
   have hcomm_ne_top : commutator (G ⧸ N) ≠ (⊤ : Subgroup (G ⧸ N)) := by
-    haveI : Group.IsNilpotent (G ⧸ N) := IsPGroup.isNilpotent (p := q) hquotp
-    haveI : IsSolvable (G ⧸ N) := IsNilpotent.to_isSolvable
-    exact (IsSolvable.commutator_lt_top_of_nontrivial (G := G ⧸ N)).ne
+    have : Group.IsNilpotent (G ⧸ N) := IsPGroup.isNilpotent (p := q) hquotp
+    have : Group.IsSolvable (G ⧸ N) := IsNilpotent.to_isSolvable
+    exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (G := G ⧸ N)).ne
   let φ : G →* ((G ⧸ N) ⧸ commutator (G ⧸ N)) :=
     (QuotientGroup.mk' (commutator (G ⧸ N))).comp (QuotientGroup.mk' N)
   have hφ_surj : Function.Surjective φ := by
@@ -145,7 +145,7 @@ public theorem hktAbelianPResidual_ne_top_of_hasNormalPComplement_of_dvd_card
     exact hcomm_ne_top hcomm_top
   have hab_le_ker : hktAbelianPResidual q G ≤ φ.ker := by
     have hcomm_le : commutator G ≤ φ.ker := by
-      haveI : IsMulCommutative ((G ⧸ N) ⧸ commutator (G ⧸ N)) :=
+      have : IsMulCommutative ((G ⧸ N) ⧸ commutator (G ⧸ N)) :=
         (Subgroup.Normal.quotient_commutative_iff_commutator_le
           (N := commutator (G ⧸ N))).mpr le_rfl
       exact Abelianization.commutator_subset_ker (f := φ)
@@ -205,9 +205,9 @@ public theorem hktAbelianPResidual_ne_top_of_center_normalizer_hasNormalPComplem
   have hZNres_ne_top : hktAbelianPResidual q ZN ≠ (⊤ : Subgroup ZN) := by
     exact hktAbelianPResidual_ne_top_of_hasNormalPComplement_of_dvd_card
       (G := ZN) (q := q) (by simpa [ZN] using hcomp_ZN) (by simpa [ZN] using hq_dvd_ZN)
-  haveI : (hktAbelianPResidual q Q).Normal :=
+  have : (hktAbelianPResidual q Q).Normal :=
     hktAbelianPResidual_normal (Q := Q) (q := q)
-  haveI : (hktAbelianPResidual q ZN).Normal :=
+  have : (hktAbelianPResidual q ZN).Normal :=
     hktAbelianPResidual_normal (Q := ZN) (q := q)
   have h37 :
       Nonempty ((Q ⧸ hktAbelianPResidual q Q) ≃*
@@ -219,7 +219,7 @@ public theorem hktAbelianPResidual_ne_top_of_center_normalizer_hasNormalPComplem
   have hleft_subsingleton : Subsingleton (Q ⧸ hktAbelianPResidual q Q) := by
     rw [hres_top]
     exact QuotientGroup.subsingleton_quotient_top (G := Q)
-  letI : Subsingleton (Q ⧸ hktAbelianPResidual q Q) := hleft_subsingleton
+  let : Subsingleton (Q ⧸ hktAbelianPResidual q Q) := hleft_subsingleton
   have hright_subsingleton : Subsingleton (ZN ⧸ hktAbelianPResidual q ZN) := by
     refine ⟨?_⟩
     intro a b

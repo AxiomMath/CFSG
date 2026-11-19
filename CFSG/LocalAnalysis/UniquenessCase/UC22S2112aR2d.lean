@@ -141,7 +141,7 @@ theorem uc22s2112r2d_key {M L : Subgroup G} (hLM : L ≤ M) (hN : M ≤ normaliz
   have hA₂M : A₂ ≤ M := hA₂AE.trans (hAEle.trans hA₀M)
   obtain ⟨P⟩ : Nonempty (Sylow p (Bar2 L)) := inferInstance
   let Sb : Subgroup (Bar2 L) := P
-  have hSbp : IsPGroup p Sb := P.isPGroup'
+  have hSbp : IsPGroup p Sb := P.isPGroup
   have hSbi : ¬ p ∣ Sb.index := P.not_dvd_index
   obtain ⟨hSbel, hSbcard⟩ := uc22s2112r2d_sylow hp2 eL Sb hSbp hSbi
   obtain ⟨E₀, hE₀S, hE₀el, hE₀card⟩ :=
@@ -258,7 +258,7 @@ theorem uc22s2112r2d_isStronglyPEmbedded (hGA : GriessAllModelsStatement) {D : D
   obtain ⟨R', hR'⟩ := (hSp.comap_subtype : IsPGroup p (S.subgroupOf D.M)).exists_le_sylow
   let R : Subgroup G := (R' : Subgroup ↥D.M).map D.M.subtype
   have hRsyl : CFSG.ABGLocalTools.IsSylowOf p R D.M := ⟨R', rfl⟩
-  have hRp : IsPGroup p R := R'.isPGroup'.map _
+  have hRp : IsPGroup p R := R'.isPGroup.map _
   have hRM : R ≤ D.M := Subgroup.map_subtype_le _
   have hSR : S ≤ R := fun x hx => ⟨⟨x, hSM hx⟩, hR' (Subgroup.mem_subgroupOf.2 hx), rfl⟩
   have hRL : R ⊓ L = S := hSmax _ inf_le_right (hRp.to_le inf_le_left) (le_inf hSR hSL)

@@ -33,7 +33,7 @@ theorem shapeRkAt_of_data {Q : Type} [Group Q] [Finite Q] {p : ℕ} (hp : p.Prim
     refine ⟨fun e he g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at he ⊢
     exact hLn _ g.2 _ he
-  haveI := hEn
+  have := hEn
   have hEmap : E.map C'.subtype = L := Subgroup.map_subgroupOf_eq_of_le hLC
   have eE : ↥(E.map C'.subtype) ≃* ↥L := MulEquiv.subgroupCongr hEmap
   have hsE : IsSimpleGroup ↥(E.map C'.subtype) := eE.isSimpleGroup_congr.2 hs
@@ -46,16 +46,16 @@ theorem shapeRkAt_of_data {Q : Type} [Group Q] [Finite Q] {p : ℕ} (hp : p.Prim
     have hcardE : Nat.card ↥E = Nat.card ↥L := by
       rw [← Subgroup.card_map_of_injective C'.subtype_injective, hEmap]
     have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup E
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     refine IsPGroup.of_card (n := k) ?_
     have hpos : 0 < Nat.card ↥L := Nat.card_pos
     rw [hk, hcardE] at h1
     exact Nat.eq_of_mul_eq_mul_left hpos (by rw [mul_comm (Nat.card ↥L) _, ← h1])
   have hZE : Subgroup.center ↥(E.map C'.subtype) = ⊥ := by
-    haveI := hsE
+    have := hsE
     exact center_eq_bot_of_simple_nonab hnabE
   have hcoreE : GLAPPrimeCore p ↥(E.map C'.subtype) = ⊥ := by
-    haveI := hsE
+    have := hsE
     exact glaPPrimeCore_eq_bot_of_simple hp hpE
   refine shapeRkAt_of_normal_pindex hp E hsE hnabE hpE hq ?_ ?_
   · exact hGood ↥L _ ((pSimpleEquivSelf (E.map C'.subtype) hcoreE hZE).trans eE).symm hG
@@ -65,7 +65,7 @@ theorem exists_noncomm_of_simple_card {G : Type} [Group G] [IsSimpleGroup G]
     (h : ¬ (Nat.card G).Prime) : ∃ a b : G, a * b ≠ b * a := by
   by_contra hc
   push Not at hc
-  letI : CommGroup G := { (inferInstance : Group G) with mul_comm := hc }
+  let : CommGroup G := { (inferInstance : Group G) with mul_comm := hc }
   exact h (IsSimpleGroup.prime_card (α := G))
 
 theorem centShape_of_equiv_JH {p : ℕ} (hp : p.Prime) {S : Type} [Group S] [Finite S]
@@ -91,7 +91,7 @@ set_option maxRecDepth 4000 in
 theorem shape_s1 : ShapeRkAt 3 (LeafType 3) (fun _ _ => True) (sJ 0) := by
   obtain ⟨-, -, hcomm⟩ := CJ_s1_structure
   have hder := commutator_CJ_s1
-  haveI hsimple : IsSimpleGroup ↥L1J := by
+  have hsimple : IsSimpleGroup ↥L1J := by
     have := alt3_simple
     exact MulEquiv.isSimpleGroup (alt3.equivMapOfInjective iotaA iotaA_injective).symm
   have hcard : Nat.card ↥L1J = 181440 := by
@@ -154,7 +154,7 @@ theorem hn_centShapeRk : CentShapeRk 3 (LeafType 3) (fun _ _ => True) ↥JH := b
     exact this
 
 theorem leafShape_HN : LeafShape .HN 3 := by
-  haveI hf : Finite CFSG.Blueprint.NativeSporadic.HN :=
+  have hf : Finite CFSG.Blueprint.NativeSporadic.HN :=
     Finite.of_equiv ↥JH (hnEquivJ : CFSG.Blueprint.NativeSporadic.HN ≃* JH).symm.toEquiv
   exact @centShape_of_equiv_JH 3 Nat.prime_three CFSG.Blueprint.NativeSporadic.HN
     (inferInstance : Group CFSG.Blueprint.NativeSporadic.HN) hf hnEquivJ hn_centShapeRk

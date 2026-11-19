@@ -22,7 +22,7 @@ theorem q2c_Jbounds {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G
   have hp : p.Prime := hcfg.1.2.2.2.2.2.1.1
   have hp2 : p ≠ 2 := hcfg.1.2.2.2.2.2.1.2.1
   have hμ4 : 4 ≤ LargeEvenTwoLocalRank p G := hcfg.1.2.2.2.2.2.1.2.2.2
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.HardMathSupport.Solomon.UniquenessMaximal.charP_two_of_card_pow hK
   have hpK : p ∣ Nat.card K - 1 := by rw [hK]; exact hpm
   constructor

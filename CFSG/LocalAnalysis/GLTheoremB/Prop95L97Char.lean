@@ -15,6 +15,7 @@ open CFSG.Open CFSG.Quasithin CFSG.QuasithinUnique CFSG.LocalAnalysis.GLTheoremB
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem isCharIn_of_le_map {T T₀ : Subgroup G} (hle : T₀ ≤ T)
     (h : ∀ ψ : ↥T ≃* ↥T,
       T₀ ≤ (((T₀.subgroupOf T).comap ψ.toMonoidHom).map T.subtype)) :
@@ -24,10 +25,12 @@ private theorem isCharIn_of_le_map {T T₀ : Subgroup G} (hle : T₀ ≤ T)
   obtain rfl : w = x := Subtype.ext hwx
   exact hw
 
+omit [Finite G] in
 private theorem le_thompsonJ_aux {H A : Subgroup G} (hA : IsMaxElemAbelian H A) :
     A ≤ thompsonJ H :=
   le_iSup₂ (f := fun (A : Subgroup G) (_ : IsMaxElemAbelian H A) => A) A hA
 
+omit [Finite G] in
 private theorem isMaxElemAbelian_map_aut {T A : Subgroup G} (ψ : ↥T ≃* ↥T)
     (hA : IsMaxElemAbelian T A) :
     IsMaxElemAbelian T (((A.subgroupOf T).map ψ.toMonoidHom).map T.subtype) := by
@@ -41,6 +44,7 @@ private theorem isMaxElemAbelian_map_aut {T A : Subgroup G} (ψ : ↥T ≃* ↥T
   rw [hcard]
   exact hA.2.2 B hBT hB
 
+omit [Finite G] in
 theorem isCharIn_thompsonJ (T : Subgroup G) : IsCharIn (thompsonJ T) T := by
   refine isCharIn_of_le_map (iSup₂_le fun A hA => hA.1) fun ψ => ?_
   refine iSup₂_le fun A hA a ha => ?_
@@ -48,6 +52,7 @@ theorem isCharIn_thompsonJ (T : Subgroup G) : IsCharIn (thompsonJ T) T := by
   exact le_thompsonJ_aux (isMaxElemAbelian_map_aut ψ hA)
     ⟨ψ ⟨a, hA.1 ha⟩, ⟨⟨a, hA.1 ha⟩, ha, rfl⟩, rfl⟩
 
+omit [Finite G] in
 theorem isCharIn_omegaOneCenter (T : Subgroup G) : IsCharIn (quasithinOmegaOneCenter T) T := by
   refine isCharIn_of_le_map ((Subgroup.closure_le _).2 fun z hz => hz.1.1) fun ψ => ?_
   refine (Subgroup.closure_le _).2 fun z hz => ?_
@@ -88,7 +93,7 @@ theorem thompsonJ_ne_bot {T : Subgroup G} (hT2 : IsPGroup 2 T) (hT : T ≠ ⊥) 
 
 theorem omegaOneCenter_ne_bot {T : Subgroup G} (hT2 : IsPGroup 2 T) (hT : T ≠ ⊥) :
     quasithinOmegaOneCenter T ≠ ⊥ := by
-  haveI : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hT
+  have : Nontrivial ↥T := (Subgroup.nontrivial_iff_ne_bot T).2 hT
   have hZ : Nontrivial (Subgroup.center ↥T) := hT2.center_nontrivial
   have hZ2 : IsPGroup 2 (Subgroup.center ↥T) := hT2.to_subgroup _
   obtain ⟨n, hn0, hn⟩ := hZ2.nontrivial_iff_card.1 hZ

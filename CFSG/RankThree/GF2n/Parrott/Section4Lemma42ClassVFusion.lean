@@ -124,6 +124,7 @@ theorem commute_of_fixed_classes (h : Tim79a.ParrottHyp z) (P : GL8)
 
 omit
   hN in
+omit [Finite G] in
 theorem conjV_pi_fixed_of_inv (h : Tim79a.ParrottHyp z) {x : G} (hxH : x ∈ H z) {g : G}
     (hg : g ∈ J z) (hxg : x * g * x⁻¹ = g⁻¹) :
     conjV h ⟨x, hxH⟩ (QuotientV.pi z ⟨g, hg⟩) = QuotientV.pi z ⟨g, hg⟩ := by
@@ -385,6 +386,7 @@ theorem exists_fusion_conj (h : Tim79a.ParrottHyp z) (P : GL8)
 
 omit
   hN in
+omit [Finite G] in
 theorem J_inf_centralizer_inf_le_isSylowOf (h : Tim79a.ParrottHyp z) {ρ x : G} {X : Subgroup G}
     (hX : IsSylowOf 2 X (centralizer ({ρ} : Set G) ⊓ H z ⊓ centralizer ({x} : Set G))) :
     J z ⊓ centralizer ({ρ} : Set G) ⊓ centralizer ({x} : Set G) ≤ X := by

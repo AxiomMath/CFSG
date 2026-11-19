@@ -55,7 +55,7 @@ private lemma permVec_single (σ : Equiv.Perm (Fin 5)) (a : Fin 5) :
   simp only [Function.comp_apply, Pi.single_apply]
   by_cases h : j = σ a
   · have h' : σ.symm j = a := (Equiv.symm_apply_eq σ).mpr h
-    simp [h, h']
+    simp [h]
   · have h' : σ.symm j ≠ a := fun hh => h ((Equiv.symm_apply_eq σ).mp hh)
     simp [h, h']
 

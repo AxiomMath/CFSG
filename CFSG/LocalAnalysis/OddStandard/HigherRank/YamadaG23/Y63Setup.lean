@@ -23,7 +23,7 @@ theorem y63_setup {D : Data} [Group Y63TG] (hmul : ∀ x y : Y63TG, (x * y).val 
     (hMt : ∀ m ∈ M, t * m * t⁻¹ = m⁻¹) :
     ∃ k < 4, ∃ φ : ↥P ≃* Y63TG, ∀ x : ↥P, ∃ hx : t * (x : G) * t⁻¹ ∈ P,
       (φ ⟨t * (x : G) * t⁻¹, hx⟩).val = D.tau k (φ x).val := by
-  haveI hMn : (y63Img ψ M).Normal := y63Img_normal ψ hMP hPN
+  have hMn : (y63Img ψ M).Normal := y63Img_normal ψ hMP hPN
   have hMset : ∀ x : Y63TG, x ∈ y63Img ψ M ↔ x.val ∈ D.m0 :=
     y63_M_eq hmul h1 hM (y63Img ψ M) (by rw [y63Img_card ψ hMP]; exact hMcard)
       (y63Img_exp ψ hM4) (y63Img_comm ψ hMc)
@@ -35,7 +35,7 @@ theorem y63_setup {D : Data} [Group Y63TG] (hmul : ∀ x y : Y63TG, (x * y).val 
   obtain ⟨k, hk, g, hg⟩ := y63_S_classify hmul h1 hI hM hS gen hgen hg0 hg1 hg2 hg3 hg4
     (y63Img ψ M) hMset (y63Img ψ S) hBcard hN (y63Img_sup ψ hSP hMP hPN hSM)
   obtain ⟨φ, hφ⟩ : ∃ φ : ↥P ≃* Y63TG, ∀ y, φ y = g⁻¹ * ψ y * g :=
-    ⟨ψ.trans (MulAut.conj g⁻¹), fun y => by simp [MulAut.conj_apply]⟩
+    ⟨ψ.trans (MulAut.conj g⁻¹), fun y => by simp⟩
   refine ⟨k, hk, φ, fun x => ?_⟩
   obtain ⟨s, hs, m, hm, hxsm⟩ := y63_decomp hSP hMP hPN hSM x.1 x.2
   have hxt : t * (x : G) * t⁻¹ = s * m⁻¹ := by

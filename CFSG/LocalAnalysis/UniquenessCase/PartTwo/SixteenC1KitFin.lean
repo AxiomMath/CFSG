@@ -144,11 +144,11 @@ private def s16c1_coordKer : AddSubgroup V₀ where
   zero_mem' := by simp
   add_mem' := by
     intro x y hx hy
-    simp only [Set.mem_setOf_eq] at hx hy
+    simp only [Set.mem_ofPred_eq] at hx hy
     simp [Pi.add_apply, hx, hy]
   neg_mem' := by
     intro x hx
-    simp only [Set.mem_setOf_eq] at hx
+    simp only [Set.mem_ofPred_eq] at hx
     simp [Pi.neg_apply, hx]
 
 private theorem s16c1_card_V₀ : Nat.card V₀ = 64 := by
@@ -196,8 +196,8 @@ private theorem s16c1_closeAcc_mem {S : AddSubgroup V₀} {g : ℕ}
     have hstep : ∀ c ∈ (if s16c1_inSpan acc (act g b) then acc else act g b :: acc),
         vec c ∈ S := by
       by_cases h : s16c1_inSpan acc (act g b)
-      · rw [if_pos h]; exact hacc
-      · rw [if_neg h]
+      · rw [ite_eq_left h]; exact hacc
+      · rw [ite_eq_right h]
         intro c hc
         rcases List.mem_cons.mp hc with rfl | hc
         · exact hg b (hbs b (by simp))
@@ -372,7 +372,7 @@ theorem s16c1_omega0_geo2 (P : AddSubgroup V₀) (hP : Nat.card P = 4) :
       intro h
       exact (bne_iff_ne.mp hne) ((eq_iff_of_hasCode (hasCode_wordProd _) hasCode_one
         (wordC_lt _) one_lt).mp h)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact orderOf_eq_prime h3 hne1
   · intro q hq
     let F : AddSubgroup V₀ :=
@@ -382,11 +382,11 @@ theorem s16c1_omega0_geo2 (P : AddSubgroup V₀) (hP : Nat.card P = 4) :
           exact map_zero _
         add_mem' := by
           intro x y hx hy
-          simp only [Set.mem_setOf_eq] at hx hy
+          simp only [Set.mem_ofPred_eq] at hx hy
           simp [map_add, hx, hy]
         neg_mem' := by
           intro x hx
-          simp only [Set.mem_setOf_eq] at hx
+          simp only [Set.mem_ofPred_eq] at hx
           show (wordProd [p.1, p.2]) (-x) = -x
           rw [s16c1_neg_eq_self x, hx] }
     have hF : AddSubgroup.closure ({(a : V₀), (b : V₀)} : Set V₀) ≤ F := by
@@ -427,7 +427,7 @@ theorem s16c1_omega0_irr_z0 (S : AddSubgroup V₀)
   · obtain ⟨n, hn64, hnS, hn1⟩ := ha
     have hn0 : n ≠ 0 := by
       rintro rfl
-      simp [s16c1_bilin_one, s16c1_one_testBit] at hn1
+      simp [s16c1_bilin_one] at hn1
     have hn1' : n ≠ 1 := by
       rintro rfl
       simp [s16c1_bilin_one, s16c1_one_testBit] at hn1
@@ -483,16 +483,16 @@ theorem s16c1_omega0_irr_z0 (S : AddSubgroup V₀)
           · exact Subtype.ext (by rw [hs0, ht0])
           · exfalso
             have h01 : (0 : Fin 2) = 1 := by
-              simpa [hs0, ht1, s16c1_vec_one_ne_zero] using hst
+              simp [hs0, ht1, s16c1_vec_one_ne_zero] at hst
             exact absurd h01 (by decide)
           · exfalso
             have h10 : (1 : Fin 2) = 0 := by
-              simpa [hs1, ht0, s16c1_vec_one_ne_zero] using hst
+              simp [hs1, ht0, s16c1_vec_one_ne_zero] at hst
             exact absurd h10 (by decide)
           · exact Subtype.ext (by rw [hs1, ht1])
         calc Nat.card S ≤ Nat.card (Fin 2) := Nat.card_le_card_of_injective _ hinj
           _ = 2 := by simp
-      haveI : Nonempty S := ⟨⟨0, S.zero_mem⟩⟩
+      have : Nonempty S := ⟨⟨0, S.zero_mem⟩⟩
       have hpos : 0 < Nat.card S := Finite.card_pos
       have hcards : Nat.card S = 1 ∨ Nat.card S = 2 := by omega
       rcases hcards with h | h

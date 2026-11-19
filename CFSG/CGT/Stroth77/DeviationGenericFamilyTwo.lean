@@ -50,6 +50,7 @@ section Generators
 variable (hfam : τ.m + 2 = τ.n) (hk : ∀ i, 2 ≤ τ.k i)
 include hfam
 
+omit [Finite G] in
 theorem devMat_conj_uv {x : G} (hx : x ∈ 𝓡[S, D]) (hy : dD.uv⁻¹ * x * dD.uv ∈ 𝓡[S, D]) :
     devMat dD hk _ hy = actUv (devMat dD hk x hx) :=
   eq_actUv_of_mul _ _ (devMat_mul_eq_of_conj hk hx hy dD.uv_mem dD.uv_conj
@@ -57,6 +58,7 @@ theorem devMat_conj_uv {x : G} (hx : x ∈ 𝓡[S, D]) (hy : dD.uv⁻¹ * x * dD
     (fun ε => (familyTwo_torusHalf hfam (le_trans (by norm_num) (hk 0)) ε).1)
     (fun d _ => conj_commutator x _ d))
 
+omit [Finite G] in
 theorem devMat_conj_t {x : G} (hx : x ∈ 𝓡[S, D]) (hy : dD.t⁻¹ * x * dD.t ∈ 𝓡[S, D]) :
     devMat dD hk _ hy = actT (devMat dD hk x hx) :=
   eq_actT_of_mul _ _ (devMat_mul_eq_of_conj hk hx hy dD.t_mem dD.t_conj
@@ -64,6 +66,7 @@ theorem devMat_conj_t {x : G} (hx : x ∈ 𝓡[S, D]) (hy : dD.t⁻¹ * x * dD.t
     (fun ε => (familyTwo_torusHalf hfam (le_trans (by norm_num) (hk 0)) ε).2.1)
     (fun d _ => conj_commutator x _ d))
 
+omit [Finite G] in
 theorem devMat_conj_u {x : G} (hx : x ∈ 𝓡[S, D]) (hy : dD.u⁻¹ * x * dD.u ∈ 𝓡[S, D]) :
     devMat dD hk _ hy = actU (devMat dD hk x hx) :=
   eq_actU_of_mul _ _ (devMat_mul_eq_of_conj hk hx hy dD.u_mem dD.u_conj
@@ -73,11 +76,13 @@ theorem devMat_conj_u {x : G} (hx : x ∈ 𝓡[S, D]) (hy : dD.u⁻¹ * x * dD.u
 
 variable (hcent : S ⊓ Subgroup.centralizer (D : Set G) = D)
 
+omit [Finite G] in
 theorem sqBar_conj_uv {x : G} (hx : x ∈ 𝓡[S, D]) (hy : dD.uv⁻¹ * x * dD.uv ∈ 𝓡[S, D]) :
     sqBar dD hk hcent _ hy = barUv *ᵥ sqBar dD hk hcent x hx :=
   sqBar_conj hk hcent hx dD.uv_mem hy dD.uv_conj
     (fun v => (familyTwo_torusBar hfam (one_le_of_two_le hk) v).1)
 
+omit [Finite G] in
 theorem sqBar_conj_t {x : G} (hx : x ∈ 𝓡[S, D]) (hy : dD.t⁻¹ * x * dD.t ∈ 𝓡[S, D]) :
     sqBar dD hk hcent _ hy = barT *ᵥ sqBar dD hk hcent x hx :=
   sqBar_conj hk hcent hx dD.t_mem hy dD.t_conj
@@ -85,6 +90,7 @@ theorem sqBar_conj_t {x : G} (hx : x ∈ 𝓡[S, D]) (hy : dD.t⁻¹ * x * dD.t 
 
 end Generators
 
+omit [Finite G] in
 theorem R_le_setting_R (dD : StrothWeakTypeData D τ) (hk : ∀ i, 2 ≤ τ.k i)
     (hS : Local.Setting S D) : 𝓡[S, D] ≤ hS.R := fun _ hx =>
   Subgroup.mem_inf.mpr ⟨(Subgroup.mem_inf.mp hx).1,
@@ -124,6 +130,7 @@ theorem devMat_proj_rho (hfam : τ.m + 2 = τ.n) (hk : ∀ i, 2 ≤ τ.k i) (hS 
         (dD.ρ⁻¹ * d * dD.ρ)⁻¹ := by rw [h1]
     _ = dD.ρ⁻¹ * (x * d * x⁻¹ * d⁻¹) * dD.ρ := by group
 
+omit [Finite G] in
 theorem mem_centralizer_omegaIn_iff (hfam : τ.m + 2 = τ.n) (hk : ∀ i, 2 ≤ τ.k i) {x : G}
     (hx : x ∈ 𝓡[S, D]) :
     x ∈ Subgroup.centralizer ((omegaIn (τ.n - 2) D : Subgroup G) : Set G) ↔

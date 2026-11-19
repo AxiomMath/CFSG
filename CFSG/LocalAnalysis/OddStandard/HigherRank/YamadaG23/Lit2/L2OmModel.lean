@@ -64,7 +64,7 @@ theorem l2_stated_ker {ι : Type} [Fintype ι] [DecidableEq ι] {K : Type} [Fiel
       intro hh
       have := congrFun hh i
       rw [Pi.zero_apply] at this
-      have h1 : (1 : K) = 0 := by simpa [v₀] using this
+      have h1 : (1 : K) = 0 := by simp [v₀] at this
       exact one_ne_zero h1
     refine hv₀ (hQ.1 v₀ fun y => ?_)
     rw [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polar, h (v₀ + y), h v₀, h y]

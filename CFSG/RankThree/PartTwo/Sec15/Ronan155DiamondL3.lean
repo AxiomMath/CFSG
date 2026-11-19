@@ -19,7 +19,7 @@ theorem hasOrderFourMod_of_quotient {G : Type*} [Group G] [Finite G] {H N : Subg
     (hNH : N ≤ H) [(N.subgroupOf H).Normal] (hsimp : IsSimpleGroup (↥H ⧸ N.subgroupOf H))
     (h4 : ∃ s : ↥H ⧸ N.subgroupOf H, orderOf s = 4) : HasOrderFourMod H := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsSimpleGroup (↥H ⧸ N.subgroupOf H) := hsimp
+  have : IsSimpleGroup (↥H ⧸ N.subgroupOf H) := hsimp
   obtain ⟨s, hs⟩ := h4
   set π := QuotientGroup.mk' (N.subgroupOf H) with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective _
@@ -36,7 +36,7 @@ theorem hasOrderFourMod_of_quotient {G : Type*} [Group G] [Finite G] {H N : Subg
       intro x
       obtain ⟨k, hk⟩ := hD2 ⟨(x : H), x.2⟩
       exact ⟨k, Subtype.ext (Subtype.ext (by simpa using congrArg Subtype.val hk))⟩
-    haveI := hD'n
+    have := hD'n
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((D.subgroupOf H).map π) with hbot | htop
     · intro x hx
       have hxD : (⟨x, hDH hx⟩ : H) ∈ D.subgroupOf H := Subgroup.mem_subgroupOf.mpr hx
@@ -50,7 +50,7 @@ theorem hasOrderFourMod_of_quotient {G : Type*} [Group G] [Finite G] {H N : Subg
         have hq : q ∈ (D.subgroupOf H).map π := by rw [htop]; exact Subgroup.mem_top q
         obtain ⟨k, hk⟩ := hD'2 ⟨q, hq⟩
         exact ⟨k, by simpa using congrArg Subtype.val hk⟩
-      haveI : Nontrivial (↥H ⧸ N.subgroupOf H) := hsimp.toNontrivial
+      have : Nontrivial (↥H ⧸ N.subgroupOf H) := hsimp.toNontrivial
       have hZ : Subgroup.center (↥H ⧸ N.subgroupOf H) = ⊤ := by
         rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
           (Subgroup.center (↥H ⧸ N.subgroupOf H)) with h | h
@@ -62,7 +62,7 @@ theorem hasOrderFourMod_of_quotient {G : Type*} [Group G] [Finite G] {H N : Subg
         exact Subgroup.mem_center_iff.mp hb a
       have hn : (Subgroup.zpowers (s ^ 2)).Normal :=
         ⟨fun a ha b => by rw [hcomm b a, mul_inv_cancel_right]; exact ha⟩
-      haveI := hn
+      have := hn
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.zpowers (s ^ 2)) with h | h
       · have h2 : s ^ 2 = 1 := by
           have := Subgroup.mem_zpowers (s ^ 2)
@@ -170,14 +170,14 @@ theorem kfSubL3_holds :
   have hK : Nat.card K = 2 ^ (2 * n * m) := GaloisField.card 2 (2 * n * m) hf0
   have hf4 : 4 ≤ 2 * n * m := by nlinarith
   set e := CFSG.RankThree.PartTwo.KFacts.L34.projSLEquivProjectiveSL 3 K with he
-  haveI : Finite (CFSG.Assembly.RankThreeEven.projSL 3 K) := Finite.of_equiv _ e.symm.toEquiv
+  have : Finite (CFSG.Assembly.RankThreeEven.projSL 3 K) := Finite.of_equiv _ e.symm.toEquiv
   have hsimp : IsSimpleGroup (↥H ⧸ N.subgroupOf H) := by
     rcases hX with hφ | ⟨hq, ⟨φ⟩⟩
     · obtain ⟨φ⟩ := hφ
-      haveI := CFSG.RankThree.PartTwo.Sec19.Step1914TriProof.isSimpleGroup_projSL_three_of_field
+      have := CFSG.RankThree.PartTwo.Sec19.Step1914TriProof.isSimpleGroup_projSL_three_of_field
         (GaloisField 2 n)
       exact φ.isSimpleGroup
-    · haveI := CFSG.RankThree.PartTwo.Sec4.Item462AltProof.isSimpleGroup_projSU_three 2 n
+    · have := CFSG.RankThree.PartTwo.Sec4.Item462AltProof.isSimpleGroup_projSU_three 2 n
         (by omega) hq.ne'
       exact φ.isSimpleGroup
   have hH := hasOrderFourMod_of_quotient hNH hsimp

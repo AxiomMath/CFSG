@@ -77,7 +77,7 @@ theorem exists_levi_twistedE6 {X : Type} [Group X] {U : Fin 4 → Subgroup X}
   have hdiv : (twistedDatum k θ).divisible = ∅ := rfl
   intro i j hij
   fin_cases i <;> fin_cases j <;>
-    first | (exfalso; revert hij; simp [Fin.le_def]; done) | skip
+    try (exfalso; revert hij; simp [Fin.le_def]; done)
   ·
     exact exists_levi_node hdiv hCTG dat dP0 (rFixed_injective θ _ _)
   ·

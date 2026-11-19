@@ -14,6 +14,7 @@ variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau : G} {T₂ : Subgroup G}
 variable (D : FzRNum t x₁ x₂ lam rho tau T₂)
 
+omit [Finite G] in
 private theorem fzrAux_conj_eq_one (a g : G) : g * a * g⁻¹ = 1 ↔ a = 1 := by
   constructor
   · intro h
@@ -22,6 +23,7 @@ private theorem fzrAux_conj_eq_one (a g : G) : g * a * g⁻¹ = 1 ↔ a = 1 := b
   · rintro rfl
     simp
 
+omit [Finite G] in
 private theorem fzrAux_conj_pow_eq_one (a g : G) (n : ℕ) :
     (g * a * g⁻¹) ^ n = 1 ↔ a ^ n = 1 := by
   rw [conj_pow]
@@ -33,12 +35,14 @@ private theorem fzrAux_conj_pow_eq_one (a g : G) (n : ℕ) :
     rw [h]
     simp
 
+omit [Finite G] in
 private theorem fzrAux_ordClass_conj (a g : G) :
     fzrOrdClass (g * a * g⁻¹) = fzrOrdClass a := by
   unfold fzrOrdClass
   rw [fzrAux_conj_eq_one, fzrAux_conj_pow_eq_one, fzrAux_conj_pow_eq_one,
     fzrAux_conj_pow_eq_one]
 
+omit [Finite G] in
 private theorem fzrAux_cent_iff {u x : ℕ} (hu : u < 512) (hx : x < 512) :
     x ∈ fzrCent (fzrPar D) u ↔ fzrMu D x ∈ invCent (fzrMu D u) := by
   rw [fzrCent, Finset.mem_filter, Finset.mem_range]
@@ -59,13 +63,15 @@ open Classical in
 private noncomputable def fzrAux_psi (g : G) (x : ℕ) : ℕ :=
   if hx : g⁻¹ * fzrMu D x * g ∈ T₂ then Classical.choose (fzrMu_surj D hx) else 0
 
+omit [Finite G] in
 private theorem fzrAux_psi_spec {g : G} {x : ℕ}
     (hx : g⁻¹ * fzrMu D x * g ∈ T₂) :
     fzrAux_psi D g x < 512 ∧ fzrMu D (fzrAux_psi D g x) = g⁻¹ * fzrMu D x * g := by
   unfold fzrAux_psi
-  rw [dif_pos hx]
+  rw [dite_eq_left hx]
   exact Classical.choose_spec (fzrMu_surj D hx)
 
+omit [Finite G] in
 private theorem fzrAux_th_conj (t a g : G) :
     (∃ b : G, b * t * b⁻¹ = g⁻¹ * a * g) ↔ (∃ b : G, b * t * b⁻¹ = a) := by
   constructor
@@ -180,8 +186,8 @@ theorem fzr_cent_embed (h : Ctx t L S x₁ x₂ lam rho tau) (hT2 : IsFzT2 t x�
       simp [hψx.1, hxlt, hψx.2, fzrAux_th_conj t (fzrMu D x) g]
     rw [fzrKey, fzrKey, hkord]
     by_cases hthx : fzrTh D x
-    · rw [if_pos (hth.mpr hthx), if_pos hthx]
-    · rw [if_neg (fun hh => hthx (hth.mp hh)), if_neg hthx]
+    · rw [ite_eq_left (hth.mpr hthx), ite_eq_left hthx]
+    · rw [ite_eq_right (fun hh => hthx (hth.mp hh)), ite_eq_right hthx]
   exact ⟨H₁, ψ, hH₁S, htH₁, ⟨hmaps, hinj, hsurj⟩, hkey⟩
 
 end CFSG.OddStandard.SmallF3.FritzII

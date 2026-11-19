@@ -18,7 +18,7 @@ theorem s16h_e3_mbar_of_rank (D : Data G) {V₀ V : Subgroup G} (h : Hyp125 D V�
         (Subgroup.zpowers τ)))
     (hex : ∃ τ ∈ Mbar D.M V₀ V h.isElemAbelian, τ ^ 2 = 1 ∧ τ ≠ 1) :
     MBarGT D.M V₀ V n := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hV := h.isElemAbelian
   have hpow : ∀ w : Vtil V₀ V hV, w ^ 2 = 1 := s15_Infra_vtil_sq_eq_one V₀ V hV
   rw [Hyp125.mBarGT_iff_lt_mBar h n]
@@ -28,7 +28,7 @@ theorem s16h_e3_mbar_of_rank (D : Data G) {V₀ V : Subgroup G} (h : Hyp125 D V�
     have ho : orderOf τ = 2 := orderOf_eq_prime_iff.2 ⟨hτ2, hτ1⟩
     rw [even_iff_two_dvd]
     exact ho ▸ Subgroup.orderOf_dvd_natCard (Mbar D.M V₀ V hV) hτ
-  rw [if_pos hev]
+  rw [ite_eq_left hev]
   have hmem : sInf {k : ℕ | ∃ t ∈ Mbar D.M V₀ V hV, orderOf t = 2 ∧
       k = rkIdx (fixV (Subgroup.zpowers t))} ∈
       {k : ℕ | ∃ t ∈ Mbar D.M V₀ V hV, orderOf t = 2 ∧

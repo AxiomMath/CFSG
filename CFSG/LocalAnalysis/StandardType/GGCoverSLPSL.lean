@@ -48,9 +48,9 @@ theorem largeEvenLabelAll_coverP_typeA
   dsimp only [LargeEvenRawDatum] at hQ ⊢
   obtain ⟨K, hfield, hfinite, hK, hQ'⟩ := hQ
   refine ⟨K, hfield, hfinite, hK, hQ', ?_⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 :=
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 :=
     charP_of_card_eq_prime_pow (R := K) (p := 2) (f := n)
       (by rw [← Nat.card_eq_fintype_card]; exact hK)
   have hd : 4 ≤ l + 1 := by omega

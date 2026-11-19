@@ -50,7 +50,7 @@ theorem reach_succ (u v : Perm (Fin 6)) (d : ℕ) :
   rw [Function.iterate_succ_apply']
 
 theorem reach_mono (u v : Perm (Fin 6)) : Monotone (reach u v) := by
-  refine monotone_nat_of_le_succ fun d => Finset.le_iff_subset.2 fun x hx => ?_
+  refine monotone_nat_of_le_succ fun d => fun x hx => ?_
   rw [reach_succ]
   unfold reachStep
   exact Finset.mem_union_left _ (Finset.mem_union_left _ hx)
@@ -107,7 +107,7 @@ theorem alt_subset_reach :
   intro x hx
   rw [← heq] at hx
   obtain ⟨k, -, rfl⟩ := Finset.mem_image.1 hx
-  exact Finset.le_iff_subset.1 (reach_mono gu gv (depth_le (hdep k k.isLt))) (hfR k k.isLt).1
+  exact Iff.rfl.1 (reach_mono gu gv (depth_le (hdep k k.isLt))) (hfR k k.isLt).1
 
 end CertificateChecks.KernelMisc.Sp4Reach
 

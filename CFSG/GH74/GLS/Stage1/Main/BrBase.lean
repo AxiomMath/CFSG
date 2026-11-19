@@ -33,7 +33,7 @@ theorem baseBridge7_thm
     model_swap_data h5 hz'o hz'c hD.Ez_eq hD.E₂_eq hD.sl2 hD.inter_E hD.comm_E hD.t_mem hD.t_ord
   obtain ⟨σ, hσ⟩ := exists_sigma_of_compat hXC (fun H hH => isComponent_map_barOf hII hs hH) hcomps hLB hSp hSOz
     hD.Ez_eq hC hc₁ hc₂ hne
-  have hSp' : IsPGroup 2 ↥(S' : Subgroup Gs) := S'.isPGroup'
+  have hSp' : IsPGroup 2 ↥(S' : Subgroup Gs) := S'.isPGroup
   have hz'C : (S' : Subgroup Gs) ≤ centralizer ({z'} : Set Gs) := fun x hx =>
     Subgroup.mem_centralizer_singleton_iff.2 (hz'c x hx)
   have hsyl' : CFSG.ABGLocalTools.IsSylowOf 2 (S' : Subgroup Gs) (centralizer ({z'} : Set Gs)) := by

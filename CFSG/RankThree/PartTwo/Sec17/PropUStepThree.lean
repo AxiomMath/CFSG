@@ -220,7 +220,7 @@ theorem le_normalizer_fstar {G : Type} [Group G] [Finite G] {K F : Subgroup G}
     exact h'
 
 theorem isPerfect_J2 : Group.IsPerfect J2 := by
-  haveI : IsSimpleGroup J2 := Sporadic.J2.isSimpleGroup_J2
+  have : IsSimpleGroup J2 := Sporadic.J2.isSimpleGroup_J2
   have hncomm : ¬ IsMulCommutative J2 := by
     intro h
     have hp := IsSimpleGroup.prime_card (α := J2)
@@ -274,7 +274,7 @@ theorem step3 {G : Type} [Group G] [Finite G] {K F X : Subgroup G}
       ((inSubgroup CFSG.generalizedFitting (pPrimeCoreOf 3 F) : Subgroup G) : Set G)) :
     CFSG.Open.pCoreOf 2 X = ⊥ ∧ K ≤ Subgroup.normalizer (X : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N₀ := pPrimeCoreOf 3 F with hN₀
   set Fs : Subgroup G := inSubgroup CFSG.generalizedFitting N₀ with hFs
   obtain ⟨eX⟩ := hXJ
@@ -351,10 +351,10 @@ theorem step3 {G : Type} [Group G] [Finite G] {K F X : Subgroup G}
       exact Subgroup.mem_map_of_mem N₀.subtype h2
     exact Subgroup.mem_centralizer_iff.mp hc.2 z hzFs
   have hXperf : ⁅X, X⁆ = X := by
-    haveI := isPerfect_J2
+    have := isPerfect_J2
     let eX'' : ↥X ≃* J2 :=
       ((QuotientGroup.quotientBot.symm).trans (QuotientGroup.quotientMulEquivOfEq hpC.symm)).trans eX
-    haveI : Group.IsPerfect ↥X :=
+    have : Group.IsPerfect ↥X :=
       Group.IsPerfect.ofSurjective (G := J2) (f := eX''.symm.toMonoidHom) eX''.symm.surjective
     exact Subgroup.isPerfect_iff.mp inferInstance
   have hCC : ⁅C, C⁆ = X := commutator_eq_of_central_sup hXC inf_le_left hsup hZcent hXperf

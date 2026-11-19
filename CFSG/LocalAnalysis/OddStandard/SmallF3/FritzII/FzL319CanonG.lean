@@ -16,7 +16,8 @@ variable {t tau lam rho : G} {Z E W Q R T P : Subgroup G}
 
 namespace Fz319Data
 
-theorem mu_W {g : G} (hg : g ∈ T) : g ∈ W ↔ ∃ x : FzElt, D.mu x = g ∧ fzInW D.cT x := by
+omit [Finite G] in
+theorem mu_W {g : G} (_hg : g ∈ T) : g ∈ W ↔ ∃ x : FzElt, D.mu x = g ∧ fzInW D.cT x := by
   constructor
   · intro hgW
     rcases D.str.W_split g hgW with hgE | hgE

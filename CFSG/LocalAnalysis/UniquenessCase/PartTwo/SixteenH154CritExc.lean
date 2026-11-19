@@ -25,7 +25,7 @@ theorem s16h_false_of_Z7_six_three (D : Data G) (S : s16h_Std D) (hσ : D.sig = 
   have hk : D.k = 1 := by
     have hsp := S.hSig.sig1_sp 3 (by rw [← hσ, h3]; exact Set.mem_singleton 3)
     unfold Data.k RankThreeUC.kParam
-    rw [if_pos hsp]
+    rw [ite_eq_left hsp]
   have hχ : ¬ ∀ n ∈ Mbar D.M V₀ V h.hyp151.isElemAbelian,
       n ∈ normalizer ((lBar V₀ V h.hyp151.isElemAbelian L : Subgroup _) : Set _) →
         ∀ l ∈ lBar V₀ V h.hyp151.isElemAbelian L, n * l = l * n := fun hχ => by

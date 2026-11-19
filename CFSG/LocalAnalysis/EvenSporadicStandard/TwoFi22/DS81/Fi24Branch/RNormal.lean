@@ -23,6 +23,7 @@ private theorem conj_mem_Pg_of_mem_CNz {n : G} (hn : n ∈ CNz E z) {p : G}
     (CNz E z).mul_mem ((CNz E z).mul_mem ((CNz E z).inv_mem hn) hk) hn
   exact TwoB.conj_mem_O2In_of_conj_mem hK hK' p hp
 
+omit [Finite G] in
 private theorem invUnder_commutator {C P : Subgroup G}
     (h : ∀ n ∈ C, ∀ p ∈ P, n * p * n⁻¹ ∈ P) : InvUnder C ⁅P, P⁆ := by
   intro n hn u hu
@@ -46,12 +47,12 @@ private theorem invUnder_commutator {C P : Subgroup G}
   exact hmem
 
 private theorem mem_coset_or_coset_sq_of_relIndex_three {H K : Subgroup G} {r x : G}
-    (hHK : H ≤ K) (hHn : (H.subgroupOf K).Normal) (hrK : r ∈ K) (hxK : x ∈ K)
+    (_hHK : H ≤ K) (hHn : (H.subgroupOf K).Normal) (hrK : r ∈ K) (hxK : x ∈ K)
     (hcard : H.relIndex K = 3) (hrH : r ∉ H) :
     x ∈ H ∨ (∃ q ∈ H, x = q * r) ∨ (∃ q ∈ H, x = q * r ^ 2) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
-  haveI : (H.subgroupOf K).Normal := hHn
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : (H.subgroupOf K).Normal := hHn
   let Q := ↥K ⧸ H.subgroupOf K
   let q : ↥K →* Q := QuotientGroup.mk' (H.subgroupOf K)
   let rO : ↥K := ⟨r, hrK⟩
@@ -108,7 +109,7 @@ theorem R_normal_CNz (c : Core2 E t z) : ∀ n ∈ CNz E z, ∀ x ∈ Rg t z, n 
   have hO23_le : TwoFi22.O23In (CNz E z) ≤ CNz E z := Glue.O23In_le
   have hP_le_O23 : Pg E z ≤ TwoFi22.O23In (CNz E z) :=
     Glue.le_O23In (Pg_le_CNz E z) rfl
-  haveI hPn : ((Pg E z).subgroupOf (CNz E z)).Normal := TwoB.normal_subgroupOf_O2In (CNz E z)
+  have hPn : ((Pg E z).subgroupOf (CNz E z)).Normal := TwoB.normal_subgroupOf_O2In (CNz E z)
   have hC_le_normP : CNz E z ≤ normalizer (Pg E z : Set G) :=
     Subgroup.le_normalizer_of_normal_subgroupOf (Pg_le_CNz E z)
   have hPO_normal : ((Pg E z).subgroupOf (TwoFi22.O23In (CNz E z))).Normal :=
@@ -129,7 +130,7 @@ theorem R_normal_CNz (c : Core2 E t z) : ∀ n ∈ CNz E z, ∀ x ∈ Rg t z, n 
   have h3dvd : 3 ∣ Nat.card ↥(TwoFi22.O23In (CNz E z)) := by
     rw [c.cocode.card_O23]
     exact ⟨2 ^ 17, rfl⟩
-  haveI : Fact (Nat.Prime 3) := ⟨by decide⟩
+  have : Fact (Nat.Prime 3) := ⟨by decide⟩
   obtain ⟨rO, hrO_ord⟩ := exists_prime_orderOf_dvd_card' 3 h3dvd
   set r : G := (rO : G) with hr
   have hrO : r ∈ TwoFi22.O23In (CNz E z) := by rw [hr]; exact rO.2

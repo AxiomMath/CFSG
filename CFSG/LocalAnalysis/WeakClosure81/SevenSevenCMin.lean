@@ -24,7 +24,7 @@ theorem exists_sevenSevenMinimal_le [Finite G] {V H E V₁ V₂ V₃ A₀ : Subg
     (hA₀ : SevenSevenModule V H E V₁ V₂ V₃ A₀) :
     ∃ A : Subgroup G, A ≤ A₀ ∧ SevenSevenMinimal V H E V₁ V₂ V₃ A := by
   classical
-  haveI : Finite (Subgroup G) :=
+  have : Finite (Subgroup G) :=
     Finite.of_injective (fun S : Subgroup G => (S : Set G)) (fun _ _ h => SetLike.coe_injective h)
   let s : Set (Subgroup G) := {S | SevenSevenModule V H E V₁ V₂ V₃ S ∧ S ≤ A₀}
   have hs : s.Nonempty := ⟨A₀, hA₀, le_rfl⟩
@@ -281,13 +281,13 @@ theorem exists_mem_sdiff_forall_commutator_mem [Finite G] {P A B : Subgroup G}
     (hPA : P ≤ Subgroup.normalizer (A : Set G)) (hPB : P ≤ Subgroup.normalizer (B : Set G))
     (hBA : B < A) : ∃ a ∈ A, a ∉ B ∧ ∀ n ∈ P, ⁅a, n⁆ ∈ B := by
   classical
-  haveI hAc : IsMulCommutative ↥A :=
+  have hAc : IsMulCommutative ↥A :=
     ⟨⟨fun x y => Subtype.ext (hAab x x.2 y y.2)⟩⟩
-  letI : CommGroup ↥A := IsMulCommutative.instCommGroup
-  letI : MulAction ↥P ↥A := MulAction.compHom ↥A (Subgroup.inclusion hPA)
+  let : CommGroup ↥A := IsMulCommutative.instCommGroup
+  let : MulAction ↥P ↥A := MulAction.compHom ↥A (Subgroup.inclusion hPA)
   have hcoe : ∀ (p : ↥P) (a : ↥A), ((p • a : ↥A) : G) = (p : G) * (a : G) * (p : G)⁻¹ :=
     fun _ _ => rfl
-  haveI hq : MulAction.QuotientAction ↥P (B.subgroupOf A) := by
+  have hq : MulAction.QuotientAction ↥P (B.subgroupOf A) := by
     refine ⟨fun p a a' h => ?_⟩
     refine Subgroup.mem_subgroupOf.mpr ?_
     have hB : ((a⁻¹ * a' : ↥A) : G) ∈ B := Subgroup.mem_subgroupOf.mp h
@@ -301,7 +301,7 @@ theorem exists_mem_sdiff_forall_commutator_mem [Finite G] {P A B : Subgroup G}
       group
     rw [heq]
     exact hconj
-  haveI : Finite (↥A ⧸ B.subgroupOf A) := inferInstance
+  have : Finite (↥A ⧸ B.subgroupOf A) := inferInstance
   obtain ⟨n, hn⟩ := hA.index (B.subgroupOf A)
   rw [Subgroup.index_eq_card] at hn
   have hne_top : B.subgroupOf A ≠ ⊤ := by
@@ -346,7 +346,7 @@ theorem exists_mem_sdiff_forall_commutator_mem [Finite G] {P A B : Subgroup G}
       q ≠ QuotientGroup.mk (1 : ↥A) := by
     by_contra h
     push Not at h
-    haveI : Subsingleton (MulAction.fixedPoints ↥P (↥A ⧸ B.subgroupOf A)) :=
+    have : Subsingleton (MulAction.fixedPoints ↥P (↥A ⧸ B.subgroupOf A)) :=
       ⟨fun x y => Subtype.ext (by rw [h x x.2, h y y.2])⟩
     have hcard1 : Nat.card (MulAction.fixedPoints ↥P (↥A ⧸ B.subgroupOf A)) = 1 :=
       Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, hnonempty⟩
@@ -386,6 +386,7 @@ variable {G : Type} [Group G] [Finite G]
 
 variable {V H E J V₁ V₂ V₃ A B : Subgroup G}
 
+omit [Finite G] in
 theorem centralizer_iSub_le_pCoreOf [Finite G] {V H E : Subgroup G} (h : Hyp711 V H E) :
     kSub V H E ⊓ Subgroup.centralizer (iSub V H E : Set G) ≤ pCoreOf 2 (kSub V H E) := by
   have h4 := seven_four h.elemAbelian h.ti h.abelian h.le h.normal h.omega_le

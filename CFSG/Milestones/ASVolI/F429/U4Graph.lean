@@ -44,7 +44,7 @@ theorem burnsideF429_rank_eq_one_iff {m n : Type} [Fintype m] [Fintype n] [Decid
       intro k
       obtain ⟨c, hc⟩ := hvspan ⟨N *ᵥ Pi.single k 1, Pi.single k 1, rfl⟩
       refine ⟨c, fun i => ?_⟩
-      have e1 : (N *ᵥ Pi.single k 1) i = N i k := by simp [mulVec_single_one]
+      have e1 : (N *ᵥ Pi.single k 1) i = N i k := by simp
       have e2 := congrFun (congrArg Subtype.val hc) i
       rw [← e1]
       exact e2.symm
@@ -144,8 +144,8 @@ theorem burnsideF429_U4_isGenLie {m : ℕ} {K : Type} [Field K] (h : UnitaryFiel
       t * ((Φ (a * x * a⁻¹) : ↥Gp) : E) * t⁻¹) :
     IsGenLie ↥(cenIn Gp t) .Sp4 2 m := by
   obtain ⟨ι, -⟩ := burnsideF429_U4_cen_equiv h Φ a ha
-  haveI := charP_fixedField h
-  haveI : Finite K := h.finite
+  have := charP_fixedField h
+  have : Finite K := h.finite
   exact ⟨Nat.prime_two, h.one_le, h.fixedField, inferInstance, inferInstance,
     h.card_fixedField, ⟨ι.symm.trans (CFSG.QuasithinUnique.Lin2.Five.projEquiv _)⟩⟩
 
@@ -200,8 +200,8 @@ theorem burnsideF429_U4_graphFixed {f : ℕ} (chart : NativeChart .U4 2 f Gp)
     chart.GraphFixedMarkingGoal t := by
   intro _
   have hfd := burnsideF4gU4_fieldData mk
-  haveI : CharP mk.field 2 := hfd.charP
-  haveI := charP_fixedField (burnsideF4gU4_fieldData mk)
+  have : CharP mk.field 2 := hfd.charP
+  have := charP_fixedField (burnsideF4gU4_fieldData mk)
   obtain ⟨ι, hι⟩ := burnsideF429_U4_cen_equiv (burnsideF4gU4_fieldData mk)
     (burnsideF4gU4_Phi mk) a ha
   refine burnsideF429_sp4_marking_exists mk.exponent_pos

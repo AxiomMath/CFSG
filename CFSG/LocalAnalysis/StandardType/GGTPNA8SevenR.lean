@@ -111,11 +111,11 @@ private theorem tpa8r_E0inf {X G : Type} [Group X] [Group G]
     (hx₀ : MulAut.conj x₀ = σ)
     (hconj_x : MulAut.conj x = MulAut.congr ρ σ)
     (hconj_inj : Function.Injective (MulAut.conj : G →* MulAut G))
-    (hAρ_le : ∀ a ∈ Aρ, ∀ j ∈ J₀, a j ∈ J₀)
+    (_hAρ_le : ∀ a ∈ Aρ, ∀ j ∈ J₀, a j ∈ J₀)
     (hAonly : ∀ a ∈ A, (∀ j ∈ J, a j = j) → a ∈ Subgroup.zpowers σ)
     (hJcomp : IsComponentOf J (ggAutFixedSubgroup σ))
     (hxE : x ∈ E₀)
-    (hcent : Subgroup.centralizer ({x} : Set G) = (ggAutFixedSubgroup σ).map ρ.toMonoidHom) :
+    (_hcent : Subgroup.centralizer ({x} : Set G) = (ggAutFixedSubgroup σ).map ρ.toMonoidHom) :
     E₀ ⊓ Subgroup.centralizer (J₀ : Set G) = Subgroup.zpowers x := by
   apply le_antisymm
   · intro g hg
@@ -188,7 +188,7 @@ private theorem tpa8r_only {X G : Type} [Group X] [Finite X] [Group G]
     rw [← Subgroup.card_map_of_injective (f := ρ.toMonoidHom)
       (K := J''.comap ρ.toMonoidHom) ρ.injective, hJ''map]
   have h7 : 7 ∣ Nat.card (J''.comap ρ.toMonoidHom) := by rw [hcard]; exact h7J''
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hpc : LargeEvenPComponent 7 (ggAutFixedSubgroup σ) (J''.comap ρ.toMonoidHom) := by
     rw [ggLargeEvenPComponent_iff]
     exact ⟨hcomp1.1, isPComponent_subgroupOf_of_isComponentOf_of_dvd hcomp1 h7⟩
@@ -250,8 +250,8 @@ private theorem tpa8r_setup (hRig : GGLabelRigidInput) (p n : ℕ)
       ((⊤ : Subgroup X) ⧸ Subgroup.center (⊤ : Subgroup X)) .PSL 9 2 1 :=
     statedClassicalModel_of_hasLabel_typeA largeEvenInLambda2_a8 hhasTop
   have hperfTop : commutator ↥(⊤ : Subgroup X) = ⊤ := by
-    haveI : Group.IsPerfect X := ⟨hperf⟩
-    haveI : Group.IsPerfect ↥(⊤ : Subgroup X) :=
+    have : Group.IsPerfect X := ⟨hperf⟩
+    have : Group.IsPerfect ↥(⊤ : Subgroup X) :=
       Group.IsPerfect.ofSurjective (f := (Subgroup.topEquiv (G := X)).symm.toMonoidHom)
         (Subgroup.topEquiv (G := X)).symm.surjective
     exact Group.IsPerfect.commutator_eq_top
@@ -302,14 +302,14 @@ private theorem tpa8r_setup (hRig : GGLabelRigidInput) (p n : ℕ)
   have hcardE0 : 7 ^ 3 ≤ Nat.card E₀ := by rw [hcardE0eqA]; exact hcardAb
   have hAbab : IsElemAbelian 7 Ab := by
     obtain ⟨hc, hp⟩ := hAab
-    haveI : IsMulCommutative A := hc
+    have : IsMulCommutative A := hc
     refine ⟨⟨⟨fun u v => ?_⟩⟩, fun z hz => ?_⟩
     · apply Subtype.ext
       exact setLike_mul_comm (hAbA u.2) (hAbA v.2)
     · exact hp z (hAbA hz)
   have hE0ab : IsElemAbelian 7 E₀ := by
     obtain ⟨hAρc, hAρp⟩ := tpa8r_isElemAbelian_map (MulAut.congr ρ).toMonoidHom hAbab
-    haveI : IsMulCommutative Aρ := hAρc
+    have : IsMulCommutative Aρ := hAρc
     let eE0 : E₀ ≃* Aρ :=
       (Subgroup.equivMapOfInjective E₀ (MulAut.conj : G →* MulAut G) hconj_inj).trans
         (MulEquiv.subgroupCongr hE0map)
@@ -383,7 +383,7 @@ private theorem tpa8r_setup (hRig : GGLabelRigidInput) (p n : ℕ)
       rw [h1, map_one]
     exact hσne hσ1
   have hxord : orderOf x = 7 := by
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     exact orderOf_eq_prime hx7 hxne
   have honly' : ∀ J'' : Subgroup G,
       IsComponentOf J'' (Subgroup.centralizer ({x} : Set G)) →

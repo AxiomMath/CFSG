@@ -78,7 +78,7 @@ theorem exists_family_of_toral_data_five
       (∀ x : X, ∀ i, a x i ^ 5 = 1) ∧
       twE6W0 * v₀⁻¹ ∈ Subgroup.closure {s | ∃ α ∈ familyKernel a, s = rootReflection α} := by
   classical
-  haveI := hXf
+  have := hXf
   have hconj : ∀ z : ModGL Tag.E6 Ω, g₀⁻¹ * z * g₀ = MulAut.conj g₀⁻¹ z := fun z => by
     rw [MulAut.conj_apply, inv_inv]
   have hex : ∀ x : X, ∃ b : Fin Tag.E6.rank → Ωˣ,
@@ -115,9 +115,9 @@ theorem ggTwE6FiveToralTypeMinusOne
     (hXt : IsToralE6 Ω X) :
     ∃ g ∈ adjointGroup Tag.E6 Ω, g⁻¹ * twistE6 Ω Fr g = TwistedDiag.n0 Ω ∧
       ∀ x ∈ X, g⁻¹ * x * g ∈ torusGroup Tag.E6 Ω := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed (GaloisField 2 (2 * f))
-  haveI : CharP Ω 2 := charP_of_injective_algebraMap
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed (GaloisField 2 (2 * f))
+  have : CharP Ω 2 := charP_of_injective_algebraMap
     (algebraMap (GaloisField 2 (2 * f)) Ω).injective 2
   obtain ⟨v₀, g₀, hg₀, hg₀F, hA⟩ :=
     TwE6SigmaTorus.exists_sigmaTorus_of_toral hf Ω Fr hFr hXR hXt

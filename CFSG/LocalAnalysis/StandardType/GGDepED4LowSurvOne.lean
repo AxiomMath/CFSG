@@ -94,14 +94,14 @@ theorem ggDepELSurv1_cell {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
           (fun o => h (o.map Subtype.val id))) := by
   classical
   obtain ⟨a₀, ha₀⟩ := hxa
-  haveI : Module.Finite (ZMod 3) V := by
-    haveI : FiniteDimensional (ZMod 3) V :=
+  have : Module.Finite (ZMod 3) V := by
+    have : FiniteDimensional (ZMod 3) V :=
       FiniteDimensional.of_finrank_pos (by rw [hdim]; norm_num)
     infer_instance
   obtain ⟨θ, hθh, hθα, hθx⟩ := ggDepELModel_iso hF hdim
-  haveI : Subsingleton Λa := (Nat.card_eq_one_iff_unique.mp hcard).1
+  have : Subsingleton Λa := (Nat.card_eq_one_iff_unique.mp hcard).1
   obtain ⟨a⟩ := (Nat.card_eq_one_iff_unique.mp hcard).2
-  letI : Unique Λa := uniqueOfSubsingleton a
+  let : Unique Λa := uniqueOfSubsingleton a
   let ha : GGDepAE 3 6 := θ (h (Sum.inr a))
   obtain ⟨αa, hαa_dot⟩ := l05nPT_dot_of_comp_symm (α (Sum.inr a)) θ
   have hEc : ∀ (c : Fin 6) (hc : GGDepED4In c), e c ≠ b₁ ∧ e c ≠ b₂ := by
@@ -153,7 +153,7 @@ theorem ggDepELSurv1_cell {V : Type} [AddCommGroup V] [Module (ZMod 3) V]
       (CK' (some i) (some j) : ZMod 3) = (CartanMatrix.E 6 i.1 j.1 : ZMod 3) := by
     intro i j
     have hpk := hpairK (Sum.inl (eJ.symm i)) (Sum.inl (eJ.symm j))
-    simp only [Sum.map_inl, id_eq] at hpk
+    simp only [Sum.map_inl] at hpk
     show (CK (F.symm (some i)) (F.symm (some j)) : ZMod 3) =
       (CartanMatrix.E 6 i.1 j.1 : ZMod 3)
     rw [hsomeF i, hsomeF j, ← hpk, show (eJ.symm i).1 = e i.1 from rfl,

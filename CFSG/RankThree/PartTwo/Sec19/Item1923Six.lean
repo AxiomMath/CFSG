@@ -57,7 +57,7 @@ private theorem relIndex_eq_of_card_eq {H H' K : Subgroup G} (hH : H ≤ K) (hH'
 
 private theorem isSylowOf_three_N (h : Hyp1921 G A M N L) (hF : Facts1922 G A M N L c)
     {P : Subgroup G} (hP : IsSylowOf 3 P (M ⊓ N)) : IsSylowOf 3 P N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hPMN, hP3, hPnd⟩ := isSylowOf_iff.mp hP
   have hsup : L ⊔ (M ⊓ N) = N := by
     rw [inf_comm]
@@ -81,7 +81,7 @@ theorem item1923_six_sylow (h : Hyp1921 G A M N L) (hF : Facts1922 G A M N L c)
     (hidx : (M ⊓ N).relIndex M = ((2 ^ n) ^ 2 + 2 ^ n + 1) * ε)
     (hn : Odd n) {P : Subgroup G} (hP : IsSylowOf 3 P (M ⊓ N)) (hAP : A ≤ P) :
     IsSylowOf 3 P M ∧ IsSylowOf 3 P N ∧ Sec18.omegaOneThree P = A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hPMN, hP3, hPnd⟩ := isSylowOf_iff.mp hP
   have hPM : IsSylowOf 3 P M := by
     refine isSylowOf_iff.mpr ⟨hPMN.trans inf_le_left, hP3, fun hd => ?_⟩
@@ -112,6 +112,7 @@ private theorem center_projSL_eq_bot (n : ℕ) :
     (CFSG.RankThree.PartTwo.KFacts.L34.projSLEquivProjectiveSL 3 (GaloisField 2 n))
     Sec3.Sims321.center_projectiveSL_eq_bot
 
+omit [Finite G] in
 private theorem mem_pCore_iff {K : Subgroup G} {x : G} (hx : x ∈ K) :
     (⟨x, hx⟩ : K) ∈ CFSG.pCore 2 K ↔ x ∈ CFSG.Open.pCoreOf 2 K := by
   unfold CFSG.Open.pCoreOf
@@ -124,6 +125,7 @@ private theorem mem_pCore_iff {K : Subgroup G} {x : G} (hx : x ∈ K) :
     rw [← hyeq]
     exact hy
 
+omit [Finite G] in
 private theorem conj_mem_pCoreOf {K : Subgroup G} {g w : G} (hg : g ∈ K)
     (hw : w ∈ CFSG.Open.pCoreOf 2 K) : g * w * g⁻¹ ∈ CFSG.Open.pCoreOf 2 K :=
   (Subgroup.mem_normalizer_iff.mp (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 K hg) w).mp hw
@@ -131,24 +133,25 @@ private theorem conj_mem_pCoreOf {K : Subgroup G} {g w : G} (hg : g ∈ K)
 private theorem pCoreOf_le_of_normalizes {K M : Subgroup G} (hKM : K ≤ M)
     (hMK : M ≤ Subgroup.normalizer (K : Set G)) :
     CFSG.Open.pCoreOf 2 K ≤ CFSG.Open.pCoreOf 2 M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2
     ((CFSG.LieType.BorelTits.pCoreOf_le 2 K).trans hKM)
     (hMK.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 K))
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 K)
 
+omit [Finite G] in
 private theorem mem_normalizer_inf {S T : Subgroup G} {g : G}
     (hS : g ∈ Subgroup.normalizer (S : Set G)) (hT : g ∈ Subgroup.normalizer (T : Set G)) :
     g ∈ Subgroup.normalizer ((S ⊓ T : Subgroup G) : Set G) := by
   rw [Subgroup.mem_normalizer_iff] at hS hT ⊢
   intro x
-  simp only [SetLike.mem_coe, Subgroup.mem_inf]
+  simp only [Subgroup.mem_inf]
   rw [hS x, hT x]
 
 private theorem inf_pCoreOf_eq {K M : Subgroup G} (hKM : K ≤ M)
     (hMK : M ≤ Subgroup.normalizer (K : Set G)) :
     K ⊓ CFSG.Open.pCoreOf 2 M = CFSG.Open.pCoreOf 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply le_antisymm
   · have hnorm : K ≤ Subgroup.normalizer ((K ⊓ CFSG.Open.pCoreOf 2 M : Subgroup G) : Set G) :=
       fun k hk => mem_normalizer_inf (Subgroup.le_normalizer hk)
@@ -169,6 +172,7 @@ private theorem comm_mem_pCoreOf_iff {K M : Subgroup G} (hKM : K ≤ M)
   · intro h
     exact pCoreOf_le_of_normalizes hKM hMK h
 
+omit [Finite G] in
 private theorem mem_pCoreOf_of_comm {K : Subgroup G}
     (hZ : Subgroup.center (K ⧸ CFSG.pCore 2 K) = ⊥) {x : G} (hxK : x ∈ K)
     (hcomm : ∀ k ∈ K, x * k * x⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K) :
@@ -200,6 +204,7 @@ private noncomputable def barM (K M : Subgroup G) (hKM : M ≤ Subgroup.normaliz
     M →* MulAut (K ⧸ CFSG.pCore 2 K) :=
   (Sec3.Sims321.barAut K).comp (Subgroup.inclusion hKM)
 
+omit [Finite G] in
 private theorem mem_sup_of_normalizes {S T : Subgroup G}
     (hT : ∀ t ∈ T, ∀ s ∈ S, t * s * t⁻¹ ∈ S) {x : G} (hx : x ∈ S ⊔ T) :
     ∃ s ∈ S, ∃ t ∈ T, s * t = x := by
@@ -219,6 +224,7 @@ private theorem mem_sup_of_normalizes {S T : Subgroup G}
   obtain ⟨s, hs, t, ht, hst⟩ := (sup_le hSU hTU) hx
   exact ⟨s, hs, t, ht, hst⟩
 
+omit [Finite G] in
 private theorem barAut_eq_conj_of_mem {K : Subgroup G} {m : G}
     (hm : m ∈ Subgroup.normalizer (K : Set G)) (hmK : m ∈ K) :
     Sec3.Sims321.barAut K ⟨m, hm⟩ = MulAut.conj ((⟨m, hmK⟩ : K) : K ⧸ CFSG.pCore 2 K) := by
@@ -228,19 +234,22 @@ private theorem barAut_eq_conj_of_mem {K : Subgroup G} {m : G}
     ← QuotientGroup.mk_inv, ← QuotientGroup.mk_mul]
   rfl
 
+omit [Finite G] in
 private theorem barM_eq_conj {K M : Subgroup G} (hKM : M ≤ Subgroup.normalizer (K : Set G))
     (hKM' : K ≤ M) (l : K) :
     barM K M hKM ⟨(l : G), hKM' l.2⟩ = MulAut.conj ((l : K) : K ⧸ CFSG.pCore 2 K) :=
   barAut_eq_conj_of_mem (hKM (hKM' l.2)) l.2
 
+omit [Finite G] in
 private theorem barM_mk {K M : Subgroup G} (hKM : M ≤ Subgroup.normalizer (K : Set G)) {m : G}
     (hm : m ∈ M) (l : K) :
     barM K M hKM ⟨m, hm⟩ (QuotientGroup.mk l) =
       QuotientGroup.mk ⟨m * l * m⁻¹, (Subgroup.mem_normalizer_iff.mp (hKM hm) (l : G)).mp l.2⟩ :=
   rfl
 
+omit [Finite G] in
 private theorem barM_eq_one_iff {K M : Subgroup G} (hKM : M ≤ Subgroup.normalizer (K : Set G))
-    (hKM' : K ≤ M) {m : G} (hm : m ∈ M) :
+    (_hKM' : K ≤ M) {m : G} (hm : m ∈ M) :
     barM K M hKM ⟨m, hm⟩ = 1 ↔ ∀ k ∈ K, m * k * m⁻¹ * k⁻¹ ∈ CFSG.Open.pCoreOf 2 K := by
   constructor
   · intro h k hk
@@ -272,6 +281,7 @@ private theorem barM_eq_one_iff {K M : Subgroup G} (hKM : M ≤ Subgroup.normali
     rw [key]
     exact (mem_pCore_iff hz).mpr hl
 
+omit [Finite G] in
 private theorem barM_mem_inner_of_mem_KC {K C M : Subgroup G}
     (hKM : M ≤ Subgroup.normalizer (K : Set G)) (hKM' : K ≤ M) (hCM : C ≤ M)
     (hCone : ∀ m (hm : m ∈ M), m ∈ C → barM K M hKM ⟨m, hm⟩ = 1)
@@ -289,6 +299,7 @@ private theorem barM_mem_inner_of_mem_KC {K C M : Subgroup G}
   rw [hsconj]
   exact MonoidHom.mem_range.mpr ⟨_, rfl⟩
 
+omit [Finite G] in
 private theorem mem_KC_of_barM_mem_inner {K C M : Subgroup G}
     (hKM : M ≤ Subgroup.normalizer (K : Set G)) (hKM' : K ≤ M)
     (hCiff : ∀ m (hm : m ∈ M), m ∈ C ↔ barM K M hKM ⟨m, hm⟩ = 1)
@@ -307,6 +318,7 @@ private theorem mem_KC_of_barM_mem_inner {K C M : Subgroup G}
   have := Subgroup.mul_mem_sup l.2 hlm
   simpa only [mul_inv_cancel_left] using this
 
+omit [Finite G] in
 private theorem eq_one_of_mem_two_three {P Q : Subgroup G} (hP : IsPGroup 3 P)
     (hQ : IsPGroup 2 Q) {x : G} (hxP : x ∈ P) (hxQ : x ∈ Q) : x = 1 := by
   obtain ⟨a, ha⟩ := hP ⟨x, hxP⟩
@@ -319,9 +331,10 @@ private theorem eq_one_of_mem_two_three {P Q : Subgroup G} (hP : IsPGroup 3 P)
   rw [hcop, Nat.dvd_one, orderOf_eq_one_iff] at hd
   exact hd
 
+omit [Finite G] in
 private theorem exists_sylow_three_ge {D M : Subgroup G} (hD : IsPGroup 3 D) (hDM : D ≤ M) :
     ∃ R : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 R M ∧ D ≤ R := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hDM' : IsPGroup 3 (D.subgroupOf M) := hD.comap_subtype
   obtain ⟨Q, hQ⟩ := hDM'.exists_le_sylow
   refine ⟨(Q : Subgroup M).map M.subtype, ⟨Q, rfl⟩, ?_⟩
@@ -334,8 +347,8 @@ private theorem isCyclic_inf_of_pRank {K Q : Subgroup G}
     (hr : CFSG.Open.pRank 3 (⊤ : Subgroup (K ⧸ CFSG.pCore 2 K)) ≤ 1)
     (hQK : Q ≤ K) (hQ3 : IsPGroup 3 Q) (hQO : Q ⊓ CFSG.Open.pCoreOf 2 K = ⊥) :
     IsCyclic ↥Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let g : Q →* (K ⧸ CFSG.pCore 2 K) :=
     (QuotientGroup.mk' (CFSG.pCore 2 K)).comp (Subgroup.inclusion hQK)
   have hginj : Function.Injective g := by
@@ -347,9 +360,10 @@ private theorem isCyclic_inf_of_pRank {K Q : Subgroup G}
     rw [hQO, Subgroup.mem_bot] at h3
     exact Subtype.ext (by simpa using h3)
   have hRpg : IsPGroup 3 g.range := hQ3.of_surjective g.rangeRestrict g.rangeRestrict_surjective
-  haveI : IsCyclic g.range := CFSG.RankThree.PartTwo.Sec20.Res5.isCyclic_of_pRank_le_one hr hRpg
+  have : IsCyclic g.range := CFSG.RankThree.PartTwo.Sec20.Res5.isCyclic_of_pRank_le_one hr hRpg
   exact isCyclic_of_surjective (MonoidHom.ofInjective hginj).symm (MulEquiv.surjective _)
 
+omit [Finite G] in
 private theorem relIndex_sup_eq_of_normalizes {K C : Subgroup G}
     (hC : C ≤ Subgroup.normalizer (K : Set G)) : K.relIndex (K ⊔ C) = K.relIndex C := by
   have hX : K ⊔ C ≤ Subgroup.normalizer (K : Set G) := sup_le Subgroup.le_normalizer hC
@@ -445,6 +459,7 @@ private theorem le_sup_of_three_group {K C B Y : Subgroup G}
     exact Nat.eq_of_mul_eq_mul_left (by norm_num) h1
   exact (le_sup_right : Y ≤ K ⊔ Y).trans (Subgroup.relIndex_eq_one.mp hZW1)
 
+omit [Finite G] in
 private theorem mem_zpowers_three {c s : G} (hc : orderOf c = 3) (hs : s ∈ Subgroup.zpowers c) :
     s = 1 ∨ s = c ∨ s = c⁻¹ := by
   obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.mp hs
@@ -472,6 +487,7 @@ private noncomputable def sectionKer (K M : Subgroup G)
     (hKM : M ≤ Subgroup.normalizer (K : Set G)) : Subgroup G :=
   ((barM K M hKM).ker).map M.subtype
 
+omit [Finite G] in
 private theorem mem_sectionKer {K M : Subgroup G} (hKM : M ≤ Subgroup.normalizer (K : Set G))
     {x : G} (hx : x ∈ M) :
     x ∈ sectionKer K M hKM ↔ barM K M hKM ⟨x, hx⟩ = 1 := by
@@ -498,11 +514,11 @@ private theorem coe_sectionKer {K M : Subgroup G} (hKM' : K ≤ M)
     intro k hk
     exact (comm_mem_pCoreOf_iff hKM' hKM hxM hk).mp (hx k hk)
 
-private theorem isSylowOf_sectionKer_of_sylow {K M P B : Subgroup G} (hKM' : K ≤ M)
+private theorem isSylowOf_sectionKer_of_sylow {K M P B : Subgroup G} (_hKM' : K ≤ M)
     (hKM : M ≤ Subgroup.normalizer (K : Set G)) (hPM : CFSG.ABGLocalTools.IsSylowOf 3 P M)
     (hPC : P ⊓ sectionKer K M hKM = B) (hBC : B ≤ sectionKer K M hKM) (hB3 : IsPGroup 3 B)
-    (hB9 : Nat.card B = 9) : CFSG.ABGLocalTools.IsSylowOf 3 B (sectionKer K M hKM) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    (_hB9 : Nat.card B = 9) : CFSG.ABGLocalTools.IsSylowOf 3 B (sectionKer K M hKM) := by
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R, hR, hBR⟩ := exists_sylow_three_ge hB3 hBC
   have hRC : R ≤ sectionKer K M hKM := (CFSG.ABGLocalTools.isSylowOf_iff.mp hR).1
   have hRM : R ≤ M := hRC.trans (Subgroup.map_subtype_le _)
@@ -542,8 +558,8 @@ theorem item1923_six_C (kf5 : KF5) (h : Hyp1921 G A M N L) (hF : Facts1922 G A M
     ∃ C : Subgroup G, (C : Set G) = sectionCentralizer M K (CFSG.Open.pCoreOf 2 M) ∧
       P ⊓ C = A ⊓ L ∧ IsSylowOf 3 (A ⊓ L) C := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKM' : K ≤ M := le_of_mem_oTwoComponentsIn hK.1
   have hLN : L ≤ N := h.L_le_N
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := hF.normal
@@ -685,8 +701,8 @@ theorem item1923_six_BO2 (h : Hyp1921 G A M N L)
     (hPC : P ⊓ C = A ⊓ L) (hCs : IsSylowOf 3 (A ⊓ L) C) :
     M ≤ Subgroup.normalizer (((A ⊓ L) ⊔ CFSG.Open.pCoreOf 2 M : Subgroup G) : Set G) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKM' : K ≤ M := le_of_mem_oTwoComponentsIn hK.1
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := hF.normal
   have hAM : A ≤ M := h.le_M
@@ -891,7 +907,7 @@ theorem item1923_six_abelian (kf5 : KF5) (kfl3aut3 : KFL3Aut3) (h : Hyp1921 G A 
     (hF : Facts1922 G A M N L c) (hK : K ∈ scriptJ M N) (hcK : c ∈ K)
     (hAK : A ⊓ K = Subgroup.zpowers c) (hKM : M ≤ Subgroup.normalizer (K : Set G))
     (hL3 : IsL3OddType (K ⧸ CFSG.pCore 2 K))
-    (hBO2 : M ≤ Subgroup.normalizer (((A ⊓ L) ⊔ CFSG.Open.pCoreOf 2 M : Subgroup G) : Set G))
+    (_hBO2 : M ≤ Subgroup.normalizer (((A ⊓ L) ⊔ CFSG.Open.pCoreOf 2 M : Subgroup G) : Set G))
     {P : Subgroup G} (hP : IsSylowOf 3 P (M ⊓ N)) (hAP : A ≤ P) (hPM : IsSylowOf 3 P M)
     (hΩ : Sec18.omegaOneThree P = A) {C : Subgroup G}
     (hCe : (C : Set G) = sectionCentralizer M K (CFSG.Open.pCoreOf 2 M))
@@ -900,8 +916,8 @@ theorem item1923_six_abelian (kf5 : KF5) (kfl3aut3 : KFL3Aut3) (h : Hyp1921 G A 
       IsCyclic ↥(P ⊓ K) ∧ (∀ x ∈ P ⊓ K, x ^ 3 = 1 → x ∈ Subgroup.zpowers c) ∧
       P ⊓ (K ⊔ C) = (P ⊓ K) ⊔ (A ⊓ L) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hKM' : K ≤ M := le_of_mem_oTwoComponentsIn hK.1
   have hAM : A ≤ M := h.le_M
   have hNL : N ≤ Subgroup.normalizer (L : Set G) := hF.normal

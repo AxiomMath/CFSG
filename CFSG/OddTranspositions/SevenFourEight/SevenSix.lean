@@ -166,6 +166,7 @@ private theorem mul_mem_pCore_of_commute (hS : Setup X Θ)
     rw [e, ha2, hb2, one_mul]
     exact Subgroup.one_mem _
 
+omit [Finite X] in
 private theorem commute_trans (hS : Setup X Θ)
     (hX' : ¬ 2 ∣ (CFSG.pCore 2 ↥(commutator X)).index) {a b v : X} (ha : a ∈ Θ) (hb : b ∈ Θ)
     (hv : v ∈ Θ) (hav : Commute a v) (hbv : Commute b v) : Commute a b := by
@@ -177,6 +178,7 @@ private theorem commute_trans (hS : Setup X Θ)
   exact Subgroup.mul_mem _ (mul_mem_pCore_of_commute hS hX' ha hv hav)
     (Subgroup.inv_mem _ (mul_mem_pCore_of_commute hS hX' hb hv hbv))
 
+omit [Finite X] in
 private theorem exists_not_commute (hS : Setup X Θ)
     (hX' : ¬ 2 ∣ (CFSG.pCore 2 ↥(commutator X)).index)
     (hQ : ¬ CFSG.pCore 2 X ≤ Subgroup.center X) {x : X} (hx : x ∈ Θ) :
@@ -285,6 +287,7 @@ private theorem inter_centralizer_eq (hS : Setup X Θ)
   ext v
   exact and_congr_right fun _ => Subgroup.mem_centralizer_singleton_iff
 
+omit [Finite X] in
 private theorem mul_self_eq_one_of_mem_commutator (hS : Setup X Θ) {a z : X} (ha : a ∈ Θ)
     (hz : z ∈ ⁅CFSG.pCore 2 X, Subgroup.zpowers a⁆) : z * z = 1 := by
   set T : Set X := {y | y ∈ Θ ∧ y * a ∈ CFSG.pCore 2 X} with hTdef
@@ -335,6 +338,7 @@ private theorem mul_self_eq_one_of_mem_commutator (hS : Setup X Θ) {a z : X} (h
       _ = 1 := by rw [ihg, ihh, one_mul]
   | inv g hg ih => rw [← mul_inv_rev, ih, inv_one]
 
+omit [Finite X] in
 private theorem mk_eq_mk_iff (hS : Setup X Θ)
     (hX' : ¬ 2 ∣ (CFSG.pCore 2 ↥(commutator X)).index) {a b : X} (ha : a ∈ Θ) (hb : b ∈ Θ) :
     QuotientGroup.mk' (CFSG.pCore 2 X) a = QuotientGroup.mk' (CFSG.pCore 2 X) b ↔
@@ -343,6 +347,7 @@ private theorem mk_eq_mk_iff (hS : Setup X Θ)
   exact ⟨commute_of_mul_mem_of_isPGroup hS.oddT CFSG.pCore_isPGroup ha hb,
     mul_mem_pCore_of_commute hS hX' ha hb⟩
 
+omit [Finite X] in
 private theorem orderOf_mk_mul_mk (hS : Setup X Θ)
     (hX' : ¬ 2 ∣ (CFSG.pCore 2 ↥(commutator X)).index) {p : ℕ} (hpp : p.Prime)
     (hp : ∀ a ∈ Θ, ∀ b ∈ Θ, ¬ Commute a b → orderOf (a * b) = p) {a b : X} (ha : a ∈ Θ)
@@ -362,6 +367,7 @@ private theorem orderOf_mk_mul_mk (hS : Setup X Θ)
       _ = QuotientGroup.mk' (CFSG.pCore 2 X) b := by rw [h1, one_mul]
   · exact h1
 
+omit [Finite X] in
 private theorem not_mem_pCore (hS : Setup X Θ)
     (hX' : ¬ 2 ∣ (CFSG.pCore 2 ↥(commutator X)).index)
     (hQ : ¬ CFSG.pCore 2 X ≤ Subgroup.center X) {x : X} (hx : x ∈ Θ) :
@@ -658,7 +664,7 @@ theorem AalphaStar_eq_of_alpha_eq (hC : HypothesisC D) (hα : hC.alpha = {hC.d})
     AalphaStar D hC.alpha = {y | y ∈ D ∧ ¬ Commute y hC.d} := by
   rw [hC.AalphaStar_eq_diff_alpha, hα]
   ext y
-  simp only [Set.mem_diff, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_sdiff, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   exact ⟨fun h => h.1, fun h => ⟨h, fun hy => h.2 (hy ▸ Commute.refl _)⟩⟩
 
 private theorem setup_DstarH (hC : HypothesisC D) : Setup (Halpha D hC.alpha) (DstarH hC) :=
@@ -872,7 +878,7 @@ private theorem ncard_not_commute_inter (hC : HypothesisC D) {m : ℕ} (hm : 1 �
     · exact ⟨hC.hd, hv.2.1.symm, fun h => hv.2.2 h.symm⟩
     · exact hx
   have hnot : hC.d ∉ commSet D hC.d ∩ commSet D v := fun h => h.1.2.2 rfl
-  rw [heq, Set.ncard_diff hsub, Set.ncard_insert_of_notMem hnot, hlam,
+  rw [heq, Set.ncard_sdiff hsub, Set.ncard_insert_of_notMem hnot, hlam,
     ncard_commSet_eq hC hv.1]
   omega
 
@@ -1190,7 +1196,7 @@ private theorem dvd_ncard_mul_of_lines {k m : ℕ} (hm : 1 ≤ m) (hk : 1 ≤ k)
   have hLeq : ∀ z ∈ F, L z = insert z.1 (insert z.2 (commSet D z.1 ∩ commSet D z.2)) := by
     rintro ⟨x, y⟩ ⟨hx, hy⟩
     ext c
-    simp only [hL, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_inter_iff]
+    simp only [hL, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_inter_iff]
     constructor
     · rintro ⟨hc, hcx, hcy⟩
       by_cases h1 : c = x
@@ -1234,7 +1240,7 @@ private theorem dvd_ncard_mul_of_lines {k m : ℕ} (hm : 1 ≤ m) (hk : 1 ≤ k)
       rw [show {b | b ∈ F ∧ b.1 = z.1} = Prod.mk z.1 '' commSet D z.1 from ?_,
         Set.ncard_image_of_injective _ (Prod.mk_right_injective z.1), T1 _ hz.1]
       ext ⟨a, b⟩
-      simp only [hF, Set.mem_setOf_eq, Set.mem_image, Prod.mk.injEq]
+      simp only [hF, Set.mem_ofPred_eq, Set.mem_image, Prod.mk.injEq]
       constructor
       · rintro ⟨⟨-, hb⟩, rfl⟩
         exact ⟨b, hb, rfl, rfl⟩

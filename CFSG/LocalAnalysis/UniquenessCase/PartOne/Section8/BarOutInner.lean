@@ -56,7 +56,7 @@ theorem barConjAut_of_mem {L : Subgroup G} {x : G}
     (hx : x ∈ Subgroup.normalizer (L : Set G)) :
     barConjAut (L := L) x = barAction L ⟨x, hx⟩ := by
   classical
-  rw [barConjAut, dif_pos hx]
+  rw [barConjAut, dite_eq_left hx]
 
 private theorem barAction_eq_conj_mk_iff (L : Subgroup G)
     (n : Subgroup.normalizer (L : Set G)) (l : ↥L) :

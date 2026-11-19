@@ -138,7 +138,7 @@ theorem lieSEightNoAt_linear (hLO : LieOrderBridge) :
   have hq8 : q.card = 8 := hf
   have hr := (TauCeti.LieTypeIndex.inStandardRange_iff _).1
     ((TauCeti.LieTypeIndex.valid_iff _).1 hv).1
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let k := GaloisField q.p q.exponent
   have hcard : Nat.card k = q.card := by
     dsimp only [k]

@@ -23,7 +23,7 @@ theorem le_of_index_eq_two_of_psiK_fpf {K : Subgroup G}
     (y : ↥(Subgroup.normalizer (K : Set G))) (hy : ∀ I, Idx2.act (rhoK K y) I ≠ I)
     {H : Subgroup G} (hH : H.index = 2) : K ≤ H := by
   classical
-  haveI hHn : H.Normal := Subgroup.normal_of_index_eq_two hH
+  have hHn : H.Normal := Subgroup.normal_of_index_eq_two hH
   by_contra hKH
   set O := classicalInvolutionOddCore ↥K with hO
   set L : Subgroup ↥K := H.subgroupOf K with hL
@@ -89,6 +89,7 @@ theorem eq_one_or_eq_of_mem_zpowers_sq {X : Type*} [Group X] {u v : X} (hv : v *
   · right
     rw [zpow_add_one, zpow_mul, zpow_two, hv, one_zpow, one_mul]
 
+omit [Finite G] in
 theorem two_group_cases_of_twoTot (L : Subgroup G) [L.Normal]
     (hC : Subgroup.centralizer (L : Set G) = ⊥)
     (hT : CFSG.ClassicalInvolution.Q3.TL4.Bend.TwoTot (Outer ↥L))
@@ -138,9 +139,9 @@ theorem twoTot_outer_psl2_odd {p f : ℕ} [Fact p.Prime] (hp : Odd p) (hf : Odd 
   have hp' := (Fact.out : p.Prime)
   have hf0 : f ≠ 0 := by rintro rfl; exact (Nat.not_odd_zero hf)
   have hK : Nat.card (GaloisField p f) = p ^ f := GaloisField.card p f hf0
-  haveI : Finite (GaloisField p f) :=
+  have : Finite (GaloisField p f) :=
     Nat.finite_of_card_ne_zero (by rw [hK]; exact (pow_pos hp'.pos f).ne')
-  haveI : Finite (Outer (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField p f))) :=
+  have : Finite (Outer (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField p f))) :=
     CFSG.ClassicalInvolution.Q3.TL4.Bend.finite_outer'
   have hdvd := (CFSG.LocalAnalysis.ComponentInitial.linear_two_outer_order_divisor hp'
     (GaloisField p f) hK).1
@@ -151,7 +152,7 @@ theorem twoTot_outer_psl2_odd {p f : ℕ} [Fact p.Prime] (hp : Odd p) (hf : Odd 
     exact Nat.gcd_eq_left (dvd_mul_right 2 k)
   rw [hg] at hdvd
   intro P hP a ha b hb
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hP.exists_card_eq
   have hPd : Nat.card P ∣ f * 2 := (Subgroup.card_subgroup_dvd_card P).trans hdvd
   have hn1 : n ≤ 1 := by

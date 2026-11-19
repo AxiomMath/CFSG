@@ -29,9 +29,9 @@ private theorem isSolvable_autQ_quot {G : Type} [Group G] [Finite G] {X T J : Su
     rw [← Subgroup.subgroupOf_sup (innAutOf_le_autQ T J) (autT_le_autQ T J),
       innAutOf_sup_autT, Subgroup.subgroupOf_self]
   have hTs : Group.IsSolvable ↥Th := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have := (isSylowIn_autT_subgroupOf hR hJ).isPGroup
-    haveI : Group.IsNilpotent ↥Th := this.isNilpotent
+    have : Group.IsNilpotent ↥Th := this.isNilpotent
     infer_instance
   let f : ↥Th →* ↥(autQ T J) ⧸ Lh := (QuotientGroup.mk' Lh).comp Th.subtype
   have hf : Function.Surjective f := by
@@ -55,7 +55,7 @@ theorem asch5_4_of_inputs (hC2 : Asch54Chev2) (hAl : Asch54Alt) (hSp : Asch54Spo
   by_cases h1 : H = lGen IsCalL0 H T
   · exact Or.inl h1
   by_cases hs : Group.IsSolvable ↥H
-  · haveI := hs
+  · have := hs
     exact Or.inr (Or.inr ⟨calNIn_eq_lGen_of_isSolvable' hP0 hTH h1, Or.inl hs⟩)
   have hS : IsSylowIn 2 (T.subgroupOf H) ⊤ := isSylowIn_subgroupOf_top hT
   have hHtop : (⊤ : Subgroup ↥H).map H.subtype = H := by
@@ -86,11 +86,11 @@ theorem asch5_4_of_inputs (hC2 : Asch54Chev2) (hAl : Asch54Alt) (hSp : Asch54Spo
   obtain ⟨hEs, hEnab⟩ := isSimpleGroup_of_isComponent hrad hE
   have hZ : center ↥E = ⊥ := center_eq_bot_of_isComp hJ
   have hAinn : innAutOf ↥E ≤ autQ Sb E := innAutOf_le_autQ Sb E
-  haveI hLn : ((innAutOf ↥E).subgroupOf (autQ Sb E)).Normal :=
+  have hLn : ((innAutOf ↥E).subgroupOf (autQ Sb E)).Normal :=
     Subgroup.Normal.subgroupOf (innAutOf_normal ↥E) _
   let eL : ↥((innAutOf ↥E).subgroupOf (autQ Sb E)) ≃* ↥E :=
     (Subgroup.subgroupOfEquivOfLe hAinn).trans (innAutOfEquiv hJ)
-  haveI := hEs
+  have := hEs
   have hLs : IsSimpleGroup ↥((innAutOf ↥E).subgroupOf (autQ Sb E)) := eL.isSimpleGroup
   have hLnab : ∃ a b : ↥((innAutOf ↥E).subgroupOf (autQ Sb E)), a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hEnab
@@ -152,7 +152,7 @@ theorem asch5_4_of_inputs (hC2 : Asch54Chev2) (hAl : Asch54Alt) (hSp : Asch54Spo
     have hXQ : M.map (autQ Sb E).subtype ≤ autQ Sb E := Subgroup.map_subtype_le M
     have hMY0 : ¬ HasCompFactor (liftN Sb E (M.map (autQ Sb E).subtype)) IsCalL0 := by
       rintro ⟨L, _, hcf, hL⟩
-      haveI : Finite L := isCompositionFactor_finite hcf
+      have : Finite L := isCompositionFactor_finite hcf
       have h7 := isCompositionFactor_of_liftN hR hJ hTX hXQ hcf (hP0 L hL)
       exact hM0 ⟨L, inferInstance, (CFSG.Quasithin.H13.L829N.isCompositionFactor_congr
         (M.equivMapOfInjective _ (autQ Sb E).subtype_injective)).2 h7, hL⟩

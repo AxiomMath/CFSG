@@ -44,6 +44,7 @@ private theorem sc_consts {C : SConsts} (hC : sConstsOK C = true) :
 
 
 open CFSG.KS.Ord in
+set_option exponentiation.threshold 539 in
 private theorem lcanon_iff {X : ℕ} : LCanon 11 7 7 X ↔ Canon 5 7 11 X := by
   unfold LCanon Canon
   constructor
@@ -102,6 +103,7 @@ private theorem canon_inj {X Y : ℕ} (hX : LCanon 11 7 7 X) (hY : LCanon 11 7 7
     (h : smM X = smM Y) : X = Y :=
   ord_inj (lcanon_iff.1 hX) (lcanon_iff.1 hY) h
 
+set_option exponentiation.threshold 539 in
 private theorem zero_fact : LCanon 11 7 7 0 ∧ smM 0 = 0 := by
   refine ⟨⟨by norm_num, fun i _ j _ => by simp⟩, ?_⟩
   funext i j
@@ -319,7 +321,7 @@ private theorem minorB_iff (Y i k j l : ℕ) : minorB Y i k j l = true ↔
   · by_cases h2 : j < l
     · have e1 : Nat.blt i k = true := blt_iff.2 h1
       have e2 : Nat.blt j l = true := blt_iff.2 h2
-      simp [e1, e2, h1, h2, beq_iff]
+      simp [e1, e2, h1, h2]
       exact Iff.rfl
     · have e2 : ¬ Nat.blt j l = true := fun hh => h2 (blt_iff.1 hh)
       simp [h1, h2, e2]
@@ -458,24 +460,24 @@ theorem sClass_sound {C : SConsts} (hC : sConstsOK C = true) {X : ℕ} (hX : LCa
   have s16 : Nat.shiftLeft (nat_lit 1) (nat_lit 16) = 65536 := rfl
   have s32 : Nat.shiftLeft (nat_lit 1) (nat_lit 32) = 4294967296 := rfl
   have s48 : Nat.shiftLeft (nat_lit 1) (nat_lit 48) = 281474976710656 := rfl
-  simp only [bAnd_eq, nIf_eq, bIf_eq, b1, b2, b3, b5, bt, bW, bR, s16, s32, s48, Nat.add_eq,
-    decide_eq_true_eq, Bool.and_eq_true, Bool.false_eq_true, ite_false, ite_true, Bool.not_eq_true]
+  simp only [nIf_eq, bIf_eq, b1, b2, b3, b5, bt, bW, bR, Nat.add_eq,
+    decide_eq_true_eq]
   by_cases ha : smM X = 1
   · simp [ha]
   by_cases hz : (smM X - 1) ^ 2 = 0
   · have hr : ((smM X - 1) ^ 2).rank ≤ 1 := by rw [hz]; simp
     by_cases hb : smM X ^ 2 = 1 <;> by_cases hc : smM X ^ 3 = 1 <;>
       by_cases ht : (smM X).trace = 1 <;> by_cases he : smM X ^ 5 = 1 <;>
-      simp [ha, hb, hc, ht, he, hz, hr] <;> first | rfl | omega
+      simp [ha, hb, hc, ht, he, hz]
   · by_cases hr : ((smM X - 1) ^ 2).rank ≤ 1
     · have hr' : ¬ 2 ≤ ((smM X - 1) ^ 2).rank := by omega
       by_cases hb : smM X ^ 2 = 1 <;> by_cases hc : smM X ^ 3 = 1 <;>
         by_cases ht : (smM X).trace = 1 <;> by_cases he : smM X ^ 5 = 1 <;>
-        simp [ha, hb, hc, ht, he, hz, hr, hr'] <;> first | rfl | omega
+        simp [ha, hb, hc, ht, he, hz, hr, hr']
     · have hr' : 2 ≤ ((smM X - 1) ^ 2).rank := by omega
       by_cases hb : smM X ^ 2 = 1 <;> by_cases hc : smM X ^ 3 = 1 <;>
         by_cases ht : (smM X).trace = 1 <;> by_cases he : smM X ^ 5 = 1 <;>
-        simp [ha, hb, hc, ht, he, hz, hr, hr'] <;> first | rfl | omega
+        simp [ha, hb, hc, ht, he, hz, hr, hr']
 
 end CFSG.KS.LyOm.SB5
 end

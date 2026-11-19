@@ -16,6 +16,7 @@ namespace CFSG.OddStandard.SmallF3.Omega
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec5fb_signChange_injective {c : ZMod 3} (fr : NFrame Q (Fin 5) c) :
     Function.Injective (fun J : Finset (Fin 5) => fr.signChange J) := by
   intro J K h

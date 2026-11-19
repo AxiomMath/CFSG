@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G]
 
 theorem card_le_of_sylowOf_three {C P Q : Subgroup G} (hP : IsSylowOf 3 P C) (hQ : IsPGroup 3 Q)
     (hQC : Q ≤ C) : Nat.card Q ≤ Nat.card P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [L41.isSylowOf_card_p hP]
   obtain ⟨k, hk⟩ := hQ.exists_card_eq
   have hd : 3 ^ k ∣ Nat.card C := hk ▸ Subgroup.card_dvd_of_le hQC
@@ -31,7 +31,7 @@ theorem eq_of_sylowOf_three_le {C P Q : Subgroup G} (hP : IsSylowOf 3 P C) (hQ :
 theorem sylowOf_sup_zpowers {b : G} (hb : orderOf b = 3) {C As : Subgroup G}
     (hbC : b ∈ Nor C) (hbnot : b ∉ C) (hAs : IsSylowOf 3 As C) (hbAs : b ∈ Nor As) :
     IsSylowOf 3 (As ⊔ Subgroup.zpowers b) (C ⊔ Subgroup.zpowers b) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hbAs' : b ∉ As := fun h => hbnot (hAs.1 h)
   have hZC : Subgroup.zpowers b ≤ Subgroup.normalizer (C : Set G) := (Subgroup.zpowers_le).mpr hbC
   have hZAs : Subgroup.zpowers b ≤ Subgroup.normalizer (As : Set G) :=
@@ -70,7 +70,7 @@ theorem sylow_conj_core {b : G} (hb : orderOf b = 3) {C As R : Subgroup G}
     (hbC : b ∈ Nor C) (hbnot : b ∉ C) (hAs : IsSylowOf 3 As C) (hbAs : b ∈ Nor As)
     (hR3 : IsPGroup 3 R) (hbR : b ∈ R) (hRN : R ≤ C ⊔ Subgroup.zpowers b) :
     ∃ c ∈ C, (∀ y ∈ R ⊓ C, c * y * c⁻¹ ∈ As) ∧ c * b * c⁻¹ * b⁻¹ ∈ As := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hT := sylowOf_sup_zpowers hb hbC hbnot hAs hbAs
   have hAsT : As ≤ As ⊔ Subgroup.zpowers b := le_sup_left
   have hbT : b ∈ As ⊔ Subgroup.zpowers b := Subgroup.mem_sup_right (Subgroup.mem_zpowers b)
@@ -102,6 +102,7 @@ theorem sylow_conj_core {b : G} (hb : orderOf b = 3) {C As R : Subgroup G}
     rw [e]
     exact C.mul_mem hc h1
 
+omit [Finite G] in
 theorem exp3_comm {b x w : G} {As : Subgroup G} (hcomm : IsMulCommutative As)
     (hbAs : b ∈ Nor As) (hx : x ∈ As) (hw : w ∈ As)
     (h : (w * b) * ((w * b) * x * (w * b)⁻¹ * x⁻¹) * (w * b)⁻¹ =

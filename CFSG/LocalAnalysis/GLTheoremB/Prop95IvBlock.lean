@@ -18,6 +18,7 @@ section Setting
 variable {G : Type} [Group G] [Finite G]
 variable {m p : ℕ} {M D L : Subgroup G}
 
+omit [Finite G] in
 theorem map_pCoreOf_subgroupOf (hLM : L ≤ M) :
     (pCoreOf 2 (L.subgroupOf M)).map M.subtype = pCoreOf 2 L := by
   have he : (CFSG.pCore 2 ↥(L.subgroupOf M)).map (Subgroup.subgroupOfEquivOfLe hLM).toMonoidHom
@@ -26,30 +27,36 @@ theorem map_pCoreOf_subgroupOf (hLM : L ≤ M) :
   rw [Subgroup.map_map, ← he, Subgroup.map_map]
   rfl
 
+omit [Finite G] in
 private theorem blk_chief_le {V U : Subgroup G} (h : IsChiefFactorOf L V U) : V ≤ U := by
   unfold IsChiefFactorOf at h
   exact h.1.le
 
+omit [Finite G] in
 private theorem blk_subgroupOf_le_iff {A B : Subgroup G} (hA : A ≤ M) :
     A.subgroupOf M ≤ B.subgroupOf M ↔ A ≤ B := by
   refine ⟨fun h x hx => ?_, fun h => Subgroup.subgroupOf_mono M h⟩
   have hxM : (⟨x, hA hx⟩ : ↥M) ∈ A.subgroupOf M := Subgroup.mem_subgroupOf.2 hx
   exact Subgroup.mem_subgroupOf.1 (h hxM)
 
+omit [Finite G] in
 private theorem blk_subgroupOf_lt {V U : Subgroup G} (hVM : V ≤ M) (hUM : U ≤ M) (hVU : V < U) :
     V.subgroupOf M < U.subgroupOf M := by
   refine lt_of_le_of_ne ((blk_subgroupOf_le_iff hVM).2 hVU.le) fun h => hVU.ne ?_
   exact le_antisymm hVU.le ((blk_subgroupOf_le_iff hUM).1 h.ge)
 
+omit [Finite G] in
 private theorem blk_map_subgroupOf_self (X : Subgroup ↥M) :
     (X.map M.subtype).subgroupOf M = X :=
   Subgroup.comap_map_eq_self_of_injective M.subtype_injective X
 
+omit [Finite G] in
 private theorem blk_mem_pCoreOf_iff (hLM : L ≤ M) (x : ↥M) :
     x ∈ pCoreOf 2 (L.subgroupOf M) ↔ (x : G) ∈ pCoreOf 2 L := by
   rw [← map_pCoreOf_subgroupOf hLM]
   exact (Subgroup.mem_map_iff_mem M.subtype_injective).symm
 
+omit [Finite G] in
 private theorem blk_commutator_iff {U V : Subgroup G} (hUM : U ≤ M) (hLM : L ≤ M) :
     ⁅U.subgroupOf M, L.subgroupOf M⁆ ≤ V.subgroupOf M ↔ ⁅U, L⁆ ≤ V := by
   have hmap : (⁅U.subgroupOf M, L.subgroupOf M⁆ : Subgroup ↥M).map M.subtype = ⁅U, L⁆ := by
@@ -57,6 +64,7 @@ private theorem blk_commutator_iff {U V : Subgroup G} (hUM : U ≤ M) (hLM : L �
       Subgroup.map_subgroupOf_eq_of_le hLM]
   rw [← hmap, Subgroup.map_le_iff_le_comap, Subgroup.comap_subtype]
 
+omit [Finite G] in
 private theorem blk_normalizer_iff {K : Subgroup G} (hKM : K ≤ M) (Y : Subgroup ↥M) :
     K.subgroupOf M ≤ Subgroup.normalizer (Y : Set ↥M) ↔
       K ≤ Subgroup.normalizer ((Y.map M.subtype : Subgroup G) : Set G) := by
@@ -69,6 +77,7 @@ private theorem blk_normalizer_iff {K : Subgroup G} (hKM : K ≤ M) (Y : Subgrou
       Subgroup.comap_map_eq_self_of_injective M.subtype_injective Y]
   rw [key, ← Subgroup.map_le_iff_le_comap, Subgroup.subgroupOf_map_subtype, inf_eq_left.2 hKM]
 
+omit [Finite G] in
 private theorem blk_isChiefFactorOf {V U : Subgroup G} (hLM : L ≤ M) (hVM : V ≤ M) (hUM : U ≤ M)
     (h : IsChiefFactorOf L V U) :
     IsChiefFactorOf (L.subgroupOf M) (V.subgroupOf M) (U.subgroupOf M) := by
@@ -93,6 +102,7 @@ private theorem blk_isChiefFactorOf {V U : Subgroup G} (hLM : L ≤ M) (hVM : V 
       calc W' = (W'.map M.subtype).subgroupOf M := (blk_map_subgroupOf_self W').symm
         _ = U.subgroupOf M := by rw [h1]
 
+omit [Finite G] in
 private theorem blk_chiefSeries_le (hLM : L ≤ M) {n : ℕ} {S : Fin (n + 1) → Subgroup G}
     (hS : IsChiefSeriesIn L (pCoreOf 2 L) S) (j : Fin (n + 1)) : S j ≤ M := by
   unfold IsChiefSeriesIn at hS
@@ -102,6 +112,7 @@ private theorem blk_chiefSeries_le (hLM : L ≤ M) {n : ℕ} {S : Fin (n + 1) �
     exact (CFSG.openPCoreOf_le 2 L).trans hLM
   exact (hmono (Fin.le_last j)).trans hlast
 
+omit [Finite G] in
 private theorem blk_chiefSeries_subgroupOf (hLM : L ≤ M) {n : ℕ} {S : Fin (n + 1) → Subgroup G}
     (hS : IsChiefSeriesIn L (pCoreOf 2 L) S) :
     IsChiefSeriesIn (L.subgroupOf M) (pCoreOf 2 (L.subgroupOf M))
@@ -115,6 +126,7 @@ private theorem blk_chiefSeries_subgroupOf (hLM : L ≤ M) {n : ℕ} {S : Fin (n
   · show (S (Fin.last n)).subgroupOf M = pCoreOf 2 (L.subgroupOf M)
     rw [hS'.2.1, ← map_pCoreOf_subgroupOf hLM, blk_map_subgroupOf_self]
 
+omit [Finite G] in
 theorem glBlock_residual_of_subgroupOf (hLM : L ≤ M)
     (h : ∀ (N : Subgroup ↥(L.subgroupOf M)) [N.Normal], IsPGroup 2 (↥(L.subgroupOf M) ⧸ N) → N = ⊤) :
     ∀ (N : Subgroup ↥L) [N.Normal], IsPGroup 2 (↥L ⧸ N) → N = ⊤ := by
@@ -135,15 +147,17 @@ theorem glBlock_residual_of_subgroupOf (hLM : L ≤ M)
     exact Subgroup.mem_top _
   simpa using hx
 
+omit [Finite G] in
 theorem glBlock_simple_of_subgroupOf (hLM : L ≤ M)
     (h : IsSimpleGroup (↥(L.subgroupOf M) ⧸ CFSG.pCore 2 ↥(L.subgroupOf M))) :
     IsSimpleGroup (↥L ⧸ CFSG.pCore 2 ↥L) := by
-  haveI := h
+  have := h
   let e : ↥(L.subgroupOf M) ≃* ↥L := Subgroup.subgroupOfEquivOfLe hLM
   have hmap : (CFSG.pCore 2 ↥(L.subgroupOf M)).map e.toMonoidHom = CFSG.pCore 2 ↥L :=
     CFSG.pCore_map_iso 2 e
   exact (QuotientGroup.congr (CFSG.pCore 2 ↥(L.subgroupOf M)) (CFSG.pCore 2 ↥L) e hmap).symm.isSimpleGroup
 
+omit [Finite G] in
 theorem glBlock_commutator_of_subgroupOf (hLM : L ≤ M)
     (h : ∀ x ∈ ⁅L.subgroupOf M, pCoreOf 2 (L.subgroupOf M)⁆,
       x ∈ pCoreOf 2 (L.subgroupOf M) ∧ x ^ 2 = 1 ∧ ∀ r ∈ pCoreOf 2 (L.subgroupOf M), x * r = r * x) :
@@ -165,6 +179,7 @@ theorem glBlock_commutator_of_subgroupOf (hLM : L ≤ M)
     have := congrArg Subtype.val (h3 r' hr')
     simpa using this
 
+omit [Finite G] in
 theorem glBlock_unique_noncentral_of_subgroupOf (hLM : L ≤ M)
     (h : ∀ (n : ℕ) (S : Fin (n + 1) → Subgroup ↥M),
       IsChiefSeriesIn (L.subgroupOf M) (pCoreOf 2 (L.subgroupOf M)) S →
@@ -180,6 +195,7 @@ theorem glBlock_unique_noncentral_of_subgroupOf (hLM : L ≤ M)
     not_congr (blk_commutator_iff (hSM _) hLM)
   exact ⟨i, (key i).1 hi, fun j hj => hu j ((key j).2 hj)⟩
 
+omit [Finite G] in
 theorem isNoncentralChiefFactor_subgroupOf (hLM : L ≤ M) {V U : Subgroup G}
     (h : IsNoncentralChiefFactor L (pCoreOf 2 L) V U) :
     IsNoncentralChiefFactor (L.subgroupOf M) (pCoreOf 2 (L.subgroupOf M)) (V.subgroupOf M)
@@ -194,6 +210,7 @@ theorem isNoncentralChiefFactor_subgroupOf (hLM : L ≤ M) {V U : Subgroup G}
   · rw [blk_commutator_iff hUM hLM]
     exact hnc
 
+omit [Finite G] in
 private theorem blk_chiefFactorIso_of_le {A N : Type*} [Group A] [AddCommGroup N] (hLM : L ≤ M)
     (V U : Subgroup G) (hUM : U ≤ M) (ρ : ↥(L.subgroupOf M) →* A) (a : A → N → N)
     (h : ChiefFactorIso (L.subgroupOf M) (U.subgroupOf M) (V.subgroupOf M) ρ a) :
@@ -213,12 +230,14 @@ private theorem blk_chiefFactorIso_of_le {A N : Type*} [Group A] [AddCommGroup N
   · intro ℓ u u' huu'
     exact hequiv ((Subgroup.subgroupOfEquivOfLe hLM).symm ℓ) (f u) (f u') (Subtype.ext huu')
 
+omit [Finite G] in
 theorem chiefFactorIso_of_subgroupOf {A N : Type*} [Group A] [AddCommGroup N] (hLM : L ≤ M)
     (V U : Subgroup G) (hU : U ≤ M) (ρ : ↥(L.subgroupOf M) →* A) (a : A → N → N)
     (h : ChiefFactorIso (L.subgroupOf M) (U.subgroupOf M) (V.subgroupOf M) ρ a) :
     ChiefFactorIso L U V (ρ.comp (Subgroup.subgroupOfEquivOfLe hLM).symm.toMonoidHom) a :=
   blk_chiefFactorIso_of_le hLM V U hU ρ a h
 
+omit [Finite G] in
 theorem toBar_comp_subgroupOfEquiv (hLM : L ≤ M) :
     (toBar (CFSG.pCore 2 ↥M) (L.subgroupOf M)).comp
         (Subgroup.subgroupOfEquivOfLe hLM).symm.toMonoidHom = toTl M L hLM := by

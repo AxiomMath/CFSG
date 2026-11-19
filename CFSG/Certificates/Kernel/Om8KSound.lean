@@ -71,16 +71,14 @@ theorem codeIdx_vals :
 theorem polar_eq (x u : ℕ) : polarCode 3 x u = (polS x u : ZMod 2) := by
   obtain ⟨e0, e1, e2, e3, e4, e5, e6, e7⟩ := codeIdx_vals
   have h2 : (2 : ZMod 2) = 0 := rfl
-  simp only [polarCode, CFSG.PGLModel.minusQuadForm, CFSG.MatrixModel.minusQuadCore,
-    Fin.sum_univ_three, Pi.add_apply, vec_bK, e0, e1, e2, e3, e4, e5, e6, e7]
+  simp only [polarCode, CFSG.PGLModel.minusQuadForm, Fin.sum_univ_three, Pi.add_apply, vec_bK, e0, e1, e2, e3, e4, e5, e6, e7]
   push_cast [polS]
   linear_combination ((bK x 6 : ZMod 2) * (bK u 6 : ZMod 2) +
     (bK x 7 : ZMod 2) * (bK u 7 : ZMod 2)) * h2
 
 theorem quad_eq (c : ℕ) : CFSG.PGLModel.minusQuadForm 3 (1 : ZMod 2) 1 (vec 3 c) = (qS c : ZMod 2) := by
   obtain ⟨e0, e1, e2, e3, e4, e5, e6, e7⟩ := codeIdx_vals
-  simp only [CFSG.PGLModel.minusQuadForm, CFSG.MatrixModel.minusQuadCore,
-    Fin.sum_univ_three, vec_bK, e0, e1, e2, e3, e4, e5, e6, e7, bK_sq]
+  simp only [CFSG.PGLModel.minusQuadForm, Fin.sum_univ_three, vec_bK, e0, e1, e2, e3, e4, e5, e6, e7, bK_sq]
   push_cast [qS]
   ring
 
@@ -127,7 +125,7 @@ theorem reflK_xor (u a b : ℕ): reflK u (a ^^^ b) = reflK u a ^^^ reflK u b := 
     · have hab' : polS (a ^^^ b) u % 2 = (polS a u % 2 + polS b u % 2) % 2 := by omega
       rw [ha, hb] at hab'
       norm_num at hab'
-      simp only [ha, hb, hab', xorN, if_true, if_false, zero_ne_one, one_ne_zero]
+      simp only [ha, hb, hab', xorN, ite_true, ite_false, zero_ne_one]
       all_goals
         apply Nat.eq_of_testBit_eq
         intro i
@@ -227,7 +225,7 @@ theorem lane_maskn (n : ℕ) : ∀ (X c : ℕ), c < 256 → ∀ j < n,
   | succ n ih =>
     intro X c hc j hj
     have hb : X % 2 * c < 256 := by
-      rcases Nat.mod_two_eq_zero_or_one X with h | h <;> simp [h] <;> omega
+      rcases Nat.mod_two_eq_zero_or_one X with h | h <;> simp [h]; omega
     rw [and_LMn_succ, add_mul, mul_assoc]
     cases j with
     | zero =>
@@ -304,10 +302,10 @@ theorem wordLanes_lane (cs : List Char) {j : ℕ} (hj : j < 8) :
     rw [cond_beq]
     by_cases h : ch.toNat = 49
     · have hc : ch = '1' := by rw [← Char.ofNat_toNat ch, h]
-      rw [if_pos h, hc]
+      rw [ite_eq_left h, hc]
       simp
     · have hc : ch ≠ '1' := by rintro rfl; exact h rfl
-      rw [if_neg h]
+      rw [ite_eq_right h]
       simp [hc]
 
 theorem lanesOf_lane (g : ℕ → ℕ) (L : List ℕ) (hg : ∀ j ∈ L, g j < 256) :

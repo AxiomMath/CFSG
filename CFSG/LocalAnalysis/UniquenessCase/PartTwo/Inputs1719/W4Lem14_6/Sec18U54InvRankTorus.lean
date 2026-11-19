@@ -178,9 +178,9 @@ theorem two_pow_le_index_fixV_of_avoiding {W : Type} [CommGroup W] [Finite W]
   calc 2 ^ (m * orderOf (2 : ZMod p)) = (2 ^ orderOf (2 : ZMod p)) ^ 𝒮.card := by
         rw [h𝒮card, mul_comm, pow_mul]
     _ = ∏ _D ∈ 𝒮, 2 ^ orderOf (2 : ZMod p) := by rw [Finset.prod_const]
-    _ ≤ ∏ D ∈ 𝒮, Nat.card ↥(fixV D ⊓ K) := Finset.prod_le_prod' h𝒮big
+    _ ≤ ∏ D ∈ 𝒮, Nat.card ↥(fixV D ⊓ K) := Finset.prod_le_prod h𝒮big
     _ ≤ ∏ D ∈ 𝒟.filter (fun D => s ∉ D), Nat.card ↥(fixV D ⊓ K) :=
-        Finset.prod_le_prod_of_subset_of_one_le' h𝒮sub fun D _ _ => Nat.card_pos
+        Finset.prod_le_prod_of_subset_of_one_le h𝒮sub fun D _ _ => Nat.card_pos
     _ = (fixV (Subgroup.zpowers s)).relIndex K := hrel'.symm
     _ ≤ (fixV (Subgroup.zpowers s)).index := hle
 
@@ -254,7 +254,7 @@ theorem twentyFour_le_rkIdx {U : Type} [CommGroup U] [Finite U] (hU : ∀ u : U,
   classical
   have hord : orderOf (2 : ZMod 5) = 4 := (orderOf_eq_iff (by norm_num)).mpr ⟨by decide, by decide⟩
   have h50 : ((5 : ℕ) : ZMod 5) = 0 := by decide
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have h5 : ∀ x : Multiplicative (Fin 3 → ZMod 5), x ^ 5 = 1 := by
     intro x
     apply Multiplicative.toAdd.injective

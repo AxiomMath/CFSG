@@ -15,24 +15,29 @@ namespace IsM125
 
 private abbrev Zc (S : Subgroup G) : Subgroup G := centralizer (S : Set G) ⊓ S
 
+omit [Finite G] in
 private theorem mem_Zc {S : Subgroup G} {x : G} :
     x ∈ Zc S ↔ x ∈ S ∧ ∀ t ∈ S, t * x = x * t := by
   rw [Zc, Subgroup.mem_inf, Subgroup.mem_centralizer_iff]
   exact ⟨fun ⟨hc, hS⟩ => ⟨hS, fun t ht => hc t ht⟩, fun ⟨hS, hc⟩ => ⟨fun t ht => hc t ht, hS⟩⟩
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 private theorem card_Zc {R : Subgroup G} (hR : IsM125 p R) : Nat.card (Zc R) = p :=
   card_Z hR
 
+omit [Finite G] in
 private theorem conj_comm_aux {g x y : G} (hxy : x * y = y * x) :
     (g * x * g⁻¹) * (g * y * g⁻¹) = (g * y * g⁻¹) * (g * x * g⁻¹) := by
   calc (g * x * g⁻¹) * (g * y * g⁻¹) = g * (x * y) * g⁻¹ := by group
     _ = g * (y * x) * g⁻¹ := by rw [hxy]
     _ = (g * y * g⁻¹) * (g * x * g⁻¹) := by group
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 private theorem pow_eq_pow_mod' {w : G} (hw : w ^ p = 1) (n : ℕ) : w ^ n = w ^ (n % p) := by
   conv_lhs => rw [← Nat.mod_add_div n p]
   rw [pow_add, pow_mul, hw, one_pow, mul_one]
 
+omit [Finite G] in
 private theorem exists_nat_pow_of_mem_zpowers {w x : G} (hw : w ^ p = 1) (hw1 : w ≠ 1)
     (hx : x ∈ Subgroup.zpowers w) : ∃ k : ℕ, w ^ k = x := by
   have hord : orderOf w = p := orderOf_eq_prime hw hw1
@@ -58,6 +63,7 @@ private theorem card_le_of_isPGroup {S : Sylow p G} (h : IsM125 p (S : Subgroup 
   rw [hn, hS]
   exact Nat.pow_le_pow_right hp.pos hle
 
+omit [Fact (Nat.Prime p)] in
 private theorem exists_not_mem_E' {R : Subgroup G} (hR : IsM125 p R) :
     ∃ a ∈ R, a ∉ hR.E := by
   by_contra hcon
@@ -287,12 +293,13 @@ private theorem core_false {S : Sylow p G} (h : IsM125 p (S : Subgroup G)) {R : 
   rw [inv_mul_cancel_left] at h4
   exact hvZ h4
 
+omit [Finite G] [Fact (Nat.Prime p)] in
 private theorem exists_max_le {C A : Subgroup G} (hA : IsPGroup p A) (hAC : A ≤ C) :
     ∃ B : Subgroup G, A ≤ B ∧ B ≤ C ∧ IsPGroup p B ∧
       ∀ Q : Subgroup G, Q ≤ C → IsPGroup p Q → B ≤ Q → Q = B := by
   have hA' : IsPGroup p (A.subgroupOf C) := hA.comap_subtype
   obtain ⟨P, hP⟩ := hA'.exists_le_sylow
-  refine ⟨P.toSubgroup.map C.subtype, ?_, Subgroup.map_subtype_le _, P.isPGroup'.map _, ?_⟩
+  refine ⟨P.toSubgroup.map C.subtype, ?_, Subgroup.map_subtype_le _, P.isPGroup.map _, ?_⟩
   · intro x hx
     exact ⟨⟨x, hAC hx⟩, hP (Subgroup.mem_subgroupOf.2 hx), rfl⟩
   · intro Q hQC hQp hBQ
@@ -311,7 +318,7 @@ private theorem exists_conj_le_of_max {C A B : Subgroup G} (hA : IsPGroup p A) (
     (hBm : ∀ Q : Subgroup G, Q ≤ C → IsPGroup p Q → B ≤ Q → Q = B) :
     ∃ c ∈ C, ∀ x ∈ A, c * x * c⁻¹ ∈ B := by
   have hinj : Function.Injective C.subtype := fun a b hab => Subtype.ext hab
-  haveI : Finite (Sylow p C) :=
+  have : Finite (Sylow p C) :=
     Finite.of_injective (fun P : Sylow p C => (P : Set C)) SetLike.coe_injective
   have hmaxA : ∀ {Q : Subgroup C}, IsPGroup p Q → A.subgroupOf C ≤ Q → Q = A.subgroupOf C := by
     intro Q hQ hle
@@ -348,7 +355,7 @@ private theorem exists_conj_le_of_max {C A B : Subgroup G} (hA : IsPGroup p A) (
   exact Subgroup.mem_subgroupOf.1 h2
 
 theorem conj_mem_Z_of_mem_E {S : Sylow p G} (h : IsM125 p (S : Subgroup G)) {z : G}
-    (hz : z ∈ centralizer ((S : Subgroup G) : Set G) ⊓ (S : Subgroup G)) (hz1 : z ≠ 1) {g : G}
+    (hz : z ∈ centralizer ((S : Subgroup G) : Set G) ⊓ (S : Subgroup G)) (_hz1 : z ≠ 1) {g : G}
     (hg : g * z * g⁻¹ ∈ h.E) :
     g * z * g⁻¹ ∈ centralizer ((S : Subgroup G) : Set G) ⊓ (S : Subgroup G) := by
   by_contra hb
@@ -482,7 +489,7 @@ theorem conj_mul_inv_mem_Z_of_mem_E {S : Sylow p G} (h : IsM125 p (S : Subgroup 
     have hSmax : ∀ Q' : Subgroup G, Q' ≤ ⊤ → IsPGroup p Q' → (S : Subgroup G) ≤ Q' →
         Q' = S := fun _ _ hQ' hSQ' => S.maximal_isPGroup.eq_of_ge hQ' hSQ'
     obtain ⟨k, -, hk⟩ :=
-      exists_conj_le_of_max (C := ⊤) S.isPGroup' le_top hSmax hQp le_top hQmax
+      exists_conj_le_of_max (C := ⊤) S.isPGroup le_top hSmax hQp le_top hQmax
     have hSk : (S : Subgroup G).map (MulAut.conj k).toMonoidHom ≤ Q := by
       intro x' hx'
       obtain ⟨s, hs, rfl⟩ := Subgroup.mem_map.1 hx'

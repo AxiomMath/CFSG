@@ -37,7 +37,7 @@ theorem isElemAb_toC (e : ↥Y ≃* F42C) [Finite X] {B : Subgroup X} (hBY : B �
 
 theorem isSylowOf_toC (e : ↥Y ≃* F42C) [Finite X] {Q : Subgroup X} (hQ : IsSylowOf 3 Q Y) :
     IsSylowOf 3 (toC e Q) (⊤ : Subgroup F42C) := by
-  haveI : Finite F42C := finite_adjF
+  have : Finite F42C := finite_adjF
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine isSylowOf_of_card_p le_top ?_
   rw [card_toC e hQ.1, card_sylow_three e hQ, Subgroup.card_top, card_F42C,

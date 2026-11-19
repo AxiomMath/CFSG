@@ -288,7 +288,6 @@ theorem popR_lanes {x : ℕ} (hx : x < 2 ^ 2048) : ∀ s, s ≤ 11 →
   | 0, _ => lanes0 hx
   | s + 1, hs => by
     refine (natRec_succ s).trans ?_
-    beta_reduce
     rw [letN_eq, letN_eq, shl1, popR_lanes hx s (by omega)]
     have e : 2 ^ (11 - s) = 2 * 2 ^ (11 - (s + 1)) := by
       rw [← Nat.pow_succ']

@@ -58,16 +58,16 @@ private theorem normIdx_m (k : Fin 8) : w12UIdxM k.val ∈ w12UNormIdx := by
 
 private theorem idxM_n (s : Fin 2) : w12UIdxM (iN s).val = 4 + s.val := by
   show w12UIdxM s.val = 4 + s.val
-  rw [w12UIdxM, if_pos s.isLt]
+  rw [w12UIdxM, ite_eq_left s.isLt]
 
 private theorem idxM_y (k : Fin 3) : w12UIdxM (iY k).val = 22 + k.val := by
   show w12UIdxM (2 + k.val) = 22 + k.val
-  rw [w12UIdxM, if_neg (by omega)]
+  rw [w12UIdxM, ite_eq_right (by omega)]
   omega
 
 private theorem idxM_z (k : Fin 3) : w12UIdxM (iZ k).val = 25 + k.val := by
   show w12UIdxM (5 + k.val) = 25 + k.val
-  rw [w12UIdxM, if_neg (by omega)]
+  rw [w12UIdxM, ite_eq_right (by omega)]
   omega
 
 noncomputable def co2BlockData :

@@ -25,7 +25,7 @@ private theorem imageCoeff_apply {τ : Tag} {s : ℕ} {ν : Fin s → Fin τ.ran
     imageCoeff ν a (ν i) = a i := by
   classical
   have hex : ∃ j, ν j = ν i := ⟨i, rfl⟩
-  rw [imageCoeff, dif_pos hex]
+  rw [imageCoeff, dite_eq_left hex]
   congr 1
   exact hν (Classical.choose_spec hex)
 

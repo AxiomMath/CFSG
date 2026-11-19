@@ -26,7 +26,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator (fixSubgroup mem_fixSubgroup)
 theorem not_dvd_outer_alt_small {n : ℕ} (hn : n = 5 ∨ n = 6 ∨ n = 7 ∨ n = 8) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) :
     ¬ p ∣ Nat.card (Outer (alternatingGroup (Fin n))) := by
-  haveI : Finite (alternatingGroup (Fin n)) := by
+  have : Finite (alternatingGroup (Fin n)) := by
     rcases hn with rfl | rfl | rfl | rfl <;> infer_instance
   rcases hn with rfl | rfl | rfl | rfl
   · exact not_dvd_outer_alternating (Or.inl rfl) (MulEquiv.refl _) hp hp2
@@ -111,7 +111,7 @@ theorem alt_transfer_of_setup {G : Type} [Group G] [Finite G] {p : ℕ} {L J A :
 theorem ambiguousAltFalse : AmbiguousAltFalse := by
   intro G _ _ p L J A d b n hn hf168 hSetup hcat
   obtain ⟨i, rfl, ⟨e⟩⟩ := hcat
-  haveI : Finite (alternatingGroup (Fin n)) := by
+  have : Finite (alternatingGroup (Fin n)) := by
     rcases hf168 with rfl | rfl | rfl <;> infer_instance
   obtain ⟨xd, Jstar, hxd, hxdp, hEmap, hEeq, h5, hJstar, hJstarEq⟩ :=
     alt_transfer_of_setup hf168 hSetup e
@@ -145,13 +145,13 @@ theorem ambiguousAltFalse : AmbiguousAltFalse := by
       (MulEquiv.subgroupCongr hEeq')
   let eA : ↥Jstar ≃* ↥(alternatingGroup (Fin f)) := eJE.trans eAlt
   have hfs : 5 ≤ f := h5'
-  haveI : IsSimpleGroup ↥(alternatingGroup (Fin f)) :=
+  have : IsSimpleGroup ↥(alternatingGroup (Fin f)) :=
     alternatingGroup.isSimpleGroup (by simpa using hfs)
-  haveI : IsSimpleGroup ↥(altFix (xd : Equiv.Perm (Fin n))) := eAlt.isSimpleGroup
-  haveI : IsSimpleGroup ↥Jstar := eJE.isSimpleGroup
-  haveI : IsSimpleGroup (PSimple p Jstar) :=
+  have : IsSimpleGroup ↥(altFix (xd : Equiv.Perm (Fin n))) := eAlt.isSimpleGroup
+  have : IsSimpleGroup ↥Jstar := eJE.isSimpleGroup
+  have : IsSimpleGroup (PSimple p Jstar) :=
     (isQuasisimple_pQuot_of_glaPComponent hp hJstar).2
-  haveI : Nontrivial (PSimple p Jstar) := inferInstance
+  have : Nontrivial (PSimple p Jstar) := inferInstance
   obtain ⟨a0, b0, hab⟩ :=
     CFSG.Quasithin.EmptyFaithfulMultiple.F618Comp.exists_ne_comm_alternatingGroup
       (by omega : 4 ≤ f)

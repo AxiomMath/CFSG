@@ -87,14 +87,14 @@ private lemma mem_vecSupp {d : ℕ} {F : Type} [Field F] {v : Fin d → F} {i : 
 theorem m_uni_repeated_weight {n d : ℕ} {F : Type} [Field F] [Finite F]
     (hF : Nat.card F = (2 ^ n) ^ 2) (hn : 1 ≤ n) (P : GL (Fin d) F)
     (hP : P ∈ LargeEvenGUSet (Fin d) F (2 ^ n)) {G : Subgroup (GL (Fin d) F)}
-    (hGU : ∀ A ∈ G, A ∈ LargeEvenGUSet (Fin d) F (2 ^ n)) (hdiag : MDiagAt d F P G)
+    (_hGU : ∀ A ∈ G, A ∈ LargeEvenGUSet (Fin d) F (2 ^ n)) (hdiag : MDiagAt d F P G)
     (R : Submodule F (Fin d → F)) (hR0 : R ≠ ⊥)
     (hRiso : ∀ u ∈ R, ∀ v ∈ R, ∑ i, (u i) ^ (2 ^ n) * v i = 0)
     (hRG : ∀ A ∈ G, ∀ v ∈ R, (A : Matrix (Fin d) (Fin d) F).mulVec v ∈ R) :
     ∃ a a' : Fin d, a ≠ a' ∧ ∀ A ∈ G, MWt P A a = MWt P A a' := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI hchar : CharP F 2 := by
+  have : Fintype F := Fintype.ofFinite F
+  have hchar : CharP F 2 := by
     have hring : ringChar F = 2 := by
       rw [FiniteField.even_card_iff_char_two, ← Nat.card_eq_fintype_card, hF]
       have h2 : (2 ^ n) ^ 2 = 2 ^ (2 * n) := by rw [← pow_mul]; ring_nf

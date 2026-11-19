@@ -11,6 +11,7 @@ open CFSG.Quasithin
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem autSub_finset_sup {U : Subgroup W} {Y : Subgroup (MulAut W)}
     (s : Finset (Subgroup (MulAut W))) :
     (∀ H ∈ s, H ≤ Y) → Y ≤ stabSub U →
@@ -31,6 +32,7 @@ theorem autSub_finset_sup {U : Subgroup W} {Y : Subgroup (MulAut W)}
         ((Finset.sup_le fun K hK => hle K (Finset.mem_insert_of_mem hK)).trans hst)]
     rw [ih (fun K hK => hle K (Finset.mem_insert_of_mem hK)) hst]
 
+omit [Finite W] in
 theorem iSup_autSub_eq {U : Subgroup W} {Y : Subgroup (MulAut W)}
     {Δ : Set (Subgroup (MulAut W))} (hfin : Δ.Finite) (hle : ∀ H ∈ Δ, H ≤ Y)
     (hgen : (⨆ H ∈ Δ, H) = Y) (hst : Y ≤ stabSub U) :
@@ -53,8 +55,7 @@ theorem ker_resHomOn_eq {W : Type} [CommGroup W] {Y : Subgroup (MulAut W)}
     {U : Subgroup W} (hstab : Y ≤ stabSub U) :
     (resHomOn U hstab).ker = (Y ⊓ centSub U).subgroupOf Y := by
   ext x
-  simp only [resHomOn, MonoidHom.mem_ker, MonoidHom.comp_apply, ker_resHom,
-    Subgroup.mem_subgroupOf, Subgroup.mem_inf]
+  simp only [resHomOn, MonoidHom.mem_ker, MonoidHom.comp_apply, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
   constructor
   · intro h
     refine ⟨x.2, ?_⟩

@@ -17,8 +17,8 @@ theorem c8_c0_cent (D : Data G) {V₀ V L K : Subgroup G} (hMs : D.M ≤ stabTil
     (hLM : L ≤ D.M) (hGood : C8Good D V₀ V L) {d : ↥K} (hdL : (d : G) ∈ L) :
     ∀ R : Subgroup ↥K, R ≤ c8kC0 D V₀ V K → IsPGroup 7 R → (∀ x ∈ R, d * x * d⁻¹ ∈ R) →
       ∀ x ∈ R, d * x = x * d := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hLN : D.M ≤ Subgroup.normalizer (L : Set G) := hGood.1
   have hL2 : IsPGroup 2 ↥(L ⊓ F11.CTilde D.M V₀ V) := hGood.2
   have hcT : F11.CTilde D.M V₀ V ≤ D.M :=
@@ -93,6 +93,7 @@ theorem c8_c0_cent (D : Data G) {V₀ V L K : Subgroup G} (hMs : D.M ≤ stabTil
       _ = d * x := by rw [hconj]
   exact hfinal.symm
 
+omit [Finite G] in
 private theorem c8k_map_subtype_top (K : Subgroup G) :
     (⊤ : Subgroup ↥K).map K.subtype = K := by
   ext x
@@ -103,6 +104,7 @@ private theorem c8k_map_subtype_top (K : Subgroup G) :
   · rintro hx
     exact ⟨⟨x, hx⟩, trivial, rfl⟩
 
+omit [Finite G] in
 private theorem c8k_charTwo_of_le {K K₁ : Subgroup G} (hK₁K : K₁ ≤ K)
     (hQ : CFSG.Open.pCoreOf 2 K ≤ CFSG.Open.pCoreOf 2 K₁)
     (hchar : CFSG.QuasithinUnique.CharTwo K) : CFSG.QuasithinUnique.CharTwo K₁ := by
@@ -120,7 +122,7 @@ theorem c8_minimal (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V}
     ∀ O : Subgroup ↥K, O.Normal → ¬ O ≤ c8kB D K →
       ∃ Y : Subgroup ↥K, Y ≤ c8kB D K ∧ Y ⊔ O = ⊤ ∧
         ∀ y ∈ Y, y ∈ c8kC0 D V₀ V K → Odd (orderOf y) → y = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro O hOn hOB
   let C : Subgroup G := L ⊓ Subgroup.centralizer ({v₀.val} : Set G)
   let O' : Subgroup G := O.map K.subtype
@@ -213,7 +215,7 @@ theorem c8_exists_w (D : Data G) {V₀ V L : Subgroup G} {hV : IsElemAbelian 2 V
     (hU : C8SetUp D V₀ V L hV v₀ T₀ K T') :
     ∃ w : ↥K, w ∈ c8kS K T' ∧ w ≠ 1 ∧ w ^ 2 = 1 ∧ (∀ s ∈ c8kS K T', w * s = s * w) ∧
       centralizer ({w} : Set ↥K) ≤ c8kB D K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hyp125 : Hyp125 D V₀ V := hS.setting.hyp16.hyp125
   have hP : PairFacts D.M V₀ V := hyp125.pairFacts
   have hcu : CentralizersUnique D.M D.T :=

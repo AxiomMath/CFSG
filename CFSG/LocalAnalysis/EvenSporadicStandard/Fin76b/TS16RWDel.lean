@@ -19,7 +19,7 @@ open scoped Pointwise
 
 @[expose] def A0 : Finset (Fin 128) := x45Fin 0
 
-@[expose] abbrev X45 : Type := ↥(MulAction.orbit ↥Pg A0)
+abbrev X45 : Type := ↥(MulAction.orbit ↥Pg A0)
 
 noncomputable instance : Fintype X45 := Fintype.ofFinite X45
 

@@ -42,11 +42,11 @@ theorem eq_smul_of_commute_irreducible [Finite F] [Module.Finite F V]
     rw [← Module.finrank_pos_iff (R := F)]
     omega
   have hVfin : Finite V := Module.finite_of_finite F
-  haveI : Finite V := hVfin
+  have : Finite V := hVfin
   let ρ := subgroupRep L
   have : Fact ρ.IsIrreducible := ⟨(isIrreducible_iff ρ).2 ⟨hVnt, fun U hU =>
     hirr U (fun g hg w hw => hU ⟨g, hg⟩ w hw)⟩⟩
-  haveI : Module.Free F (EndRing ρ) := Module.Free.of_divisionRing F (EndRing ρ)
+  have : Module.Free F (EndRing ρ) := Module.Free.of_divisionRing F (EndRing ρ)
   have hmul : Module.finrank F (EndRing ρ) * Module.finrank (EndRing ρ) V = 3 := by
     rw [Module.finrank_mul_finrank F (EndRing ρ) V, hV]
   have hdvd : Module.finrank F (EndRing ρ) ∣ 3 := ⟨_, hmul.symm⟩

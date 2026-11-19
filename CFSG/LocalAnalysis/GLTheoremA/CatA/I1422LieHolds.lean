@@ -29,7 +29,7 @@ section Cert
 theorem i1422Lie2Fact_holds : I1422Lie2Fact := by
   intro H _ _ β hβ hQ hchev hodd J hJ
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set Z := Subgroup.center H with hZdef
   set π : H →* H ⧸ Z := QuotientGroup.mk' Z with hπdef
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective Z

@@ -22,7 +22,7 @@ theorem fr_apply (x : F4) : fr x = x ^ 2 := frobenius_def 2 x
 theorem card_F4 : Nat.card F4 = 4 := GaloisField.card 2 2 (by norm_num)
 
 theorem pow_four (x : F4) : x ^ 4 = x := by
-  letI : Fintype F4 := Fintype.ofFinite F4
+  let : Fintype F4 := Fintype.ofFinite F4
   have h := FiniteField.pow_card x
   rw [Fintype.card_eq_nat_card, card_F4] at h
   exact h
@@ -124,8 +124,8 @@ variable {w : ℕ}
 
 theorem e0_val_zero_of_castAdd (i : Fin w) : e0 w (Fin.castAdd 2 i) = 0 := by
   unfold e0
-  simp only [Fin.coe_castAdd]
-  rw [if_neg]
+  simp only [Fin.val_castAdd]
+  rw [ite_eq_right]
   omega
 
 theorem e0_natAdd_zero : e0 w (Fin.natAdd w 0) = 1 := by
@@ -268,7 +268,7 @@ theorem comm_tau0_iff {A : Matrix (Fin (w + 2)) (Fin (w + 2)) F4} (hU : IsUnitar
     unfold tau0
     rw [mul_add, add_mul, mul_one, one_mul, mul_vecMulVec_e, vecMulVec_e_mul, hμ, hrow]
     ext i j
-    simp [vecMulVec_apply, mul_comm, mul_left_comm]
+    simp [vecMulVec_apply]
 
 @[expose] noncomputable def stabSet (w : ℕ) : Subgroup (GL (Fin (w + 2)) F4) where
   carrier := {A | ∃ μ : F4, (A : Matrix (Fin (w + 2)) (Fin (w + 2)) F4) *ᵥ e0 w = μ • e0 w}

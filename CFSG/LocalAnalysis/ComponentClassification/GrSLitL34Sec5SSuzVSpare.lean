@@ -53,8 +53,8 @@ theorem exists_involution_centralizing_pair_suz
     (hc : L34WConfigAt (fun X _ => Blueprint.NativeSporadic.IsSporadic X .Suz) G t P W)
     (_hM : M = normalizer (W : Set G)) (htM : t ∈ M)
     {L : Subgroup (↥M ⧸ pPrimeCore 2 ↥M)} (hL : IsComponent L)
-    (hZ : Nat.card (Subgroup.center ↥L) ≤ 2)
-    (hLty : IsSporadic (↥L ⧸ Subgroup.center ↥L) .Suz)
+    (_hZ : Nat.card (Subgroup.center ↥L) ≤ 2)
+    (_hLty : IsSporadic (↥L ⧸ Subgroup.center ↥L) .Suz)
     (hne : L.map (MulAut.conj (QuotientGroup.mk' (pPrimeCore 2 ↥M) ⟨t, htM⟩)).toMonoidHom ≠ L)
     (hthird : ∃ x : ↥M ⧸ pPrimeCore 2 ↥M, L.map (MulAut.conj x).toMonoidHom ≠ L ∧
       L.map (MulAut.conj x).toMonoidHom ≠
@@ -151,7 +151,7 @@ theorem exists_involution_centralizing_pair_suz
       Subgroup.mem_map_of_mem _ hy
     rwa [hD_conj] at h1
   have hL_even : 2 ∣ Nat.card ↥L := by
-    letI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
+    let : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.1.2.1
     exact (even_iff_two_dvd.mp (CFSG.GH74.even_card_of_nonabelian_simple hL.1.2.2)).trans
       (Subgroup.card_quotient_dvd_card (Subgroup.center ↥L))
   have hL'card : Nat.card ↥L' = Nat.card ↥L := by
@@ -226,7 +226,7 @@ theorem exists_involution_centralizing_pair_suz
       exact hDHnorm.subgroupOf (Q : Subgroup H)
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer inf_le_right).mp hAn
   obtain ⟨z, hzN, hzord, hzcomm⟩ := exists_involution_mem_of_normal_two_pgroup
-    (P := (Q : Subgroup H)) (N := D.subgroupOf H ⊓ (Q : Subgroup H)) Q.isPGroup'
+    (P := (Q : Subgroup H)) (N := D.subgroupOf H ⊓ (Q : Subgroup H)) Q.isPGroup
     inf_le_right hNn hNne
   have hzD : (z : ↥M ⧸ pPrimeCore 2 ↥M) ∈ D :=
     Subgroup.mem_subgroupOf.mp (Subgroup.mem_inf.mp hzN).1

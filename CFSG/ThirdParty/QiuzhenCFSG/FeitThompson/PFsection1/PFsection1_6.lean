@@ -248,7 +248,7 @@ lemma quotient_mk_fiber_nat_card
     (A : Subgroup G) [A.Normal] (q : G ⧸ A) :
     Nat.card {x : G // ((x : G ⧸ A) = q)} = Nat.card A := by
   classical
-  letI : Fintype (G ⧸ A) := Fintype.ofFinite (G ⧸ A)
+  let : Fintype (G ⧸ A) := Fintype.ofFinite (G ⧸ A)
   calc
     Nat.card {x : G // ((x : G ⧸ A) = q)} =
         Nat.card (A × ({q} : Set (G ⧸ A))) := by
@@ -262,8 +262,8 @@ lemma quotient_sum_lift
     (∑ x : G, F ((x : G ⧸ A))) =
       (Nat.card A : ℂ) * (∑ q : G ⧸ A, F q) := by
   classical
-  letI : Fintype (G ⧸ A) := Fintype.ofFinite (G ⧸ A)
-  letI : Fintype G := Fintype.ofFinite G
+  let : Fintype (G ⧸ A) := Fintype.ofFinite (G ⧸ A)
+  let : Fintype G := Fintype.ofFinite G
   calc
     (∑ x : G, F ((x : G ⧸ A))) =
         ∑ q : G ⧸ A, ∑ x : {x : G // ((x : G ⧸ A) = q)},
@@ -327,8 +327,8 @@ public theorem inducedCF_principal_quotientImageSubgroup_mk
         (principalCharacter (quotientImageSubgroup H A))
         (QuotientGroup.mk' A g) := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
-  letI : Fintype (G ⧸ A) := Fintype.ofFinite (G ⧸ A)
+  let : Fintype G := Fintype.ofFinite G
+  let : Fintype (G ⧸ A) := Fintype.ofFinite (G ⧸ A)
   let B : Subgroup (G ⧸ A) := quotientImageSubgroup H A
   let qg : G ⧸ A := QuotientGroup.mk' A g
   let F : G ⧸ A → ℂ := fun y =>
@@ -441,8 +441,8 @@ theorem quotient_inducedCF_formula_on_subgroup
     inducedCF (quotientImageSubgroup H A) thetaQuot ((h : G) : G ⧸ A) =
       inducedCF H theta h := by
   classical
-  letI : Fintype G := Fintype.ofFinite G
-  letI : Fintype (G ⧸ A) := Fintype.ofFinite (G ⧸ A)
+  let : Fintype G := Fintype.ofFinite G
+  let : Fintype (G ⧸ A) := Fintype.ofFinite (G ⧸ A)
   let B : Subgroup (G ⧸ A) := quotientImageSubgroup H A
   let hB : B := ⟨((h : G) : G ⧸ A), quotientImageSubgroup_mk_mem H A h.2⟩
   let F : G ⧸ A → ℂ := fun q =>
@@ -757,7 +757,7 @@ public theorem character_conjugateOrbitSumRepresentation
   classical
   funext h
   let ι := conjugateOrbitIndex H thetaRep.character
-  letI : Fintype ι := Fintype.ofFinite ι
+  let : Fintype ι := Fintype.ofFinite ι
   let κ := Module.Free.ChooseBasisIndex ℂ V
   let b : Module.Basis κ ℂ V := Module.Free.chooseBasis ℂ V
   let L : ι → V →ₗ[ℂ] V :=
@@ -798,7 +798,7 @@ theorem subgroupInRepresentationKernel_conjugateOrbitSumRepresentation_component
   classical
   intro a
   let ι := conjugateOrbitIndex H thetaRep.character
-  letI : Fintype ι := Fintype.ofFinite ι
+  let : Fintype ι := Fintype.ofFinite ι
   have hsum := hker a
   ext v
   let x : ι → V := fun j => if j = i then v else 0
@@ -896,7 +896,7 @@ theorem proposition_1_6_a_forward_canonical
       subgroupInKernel' (inducedCF H thetaRep.character) A := by
   classical
   let theta : ClassFunction H := thetaRep.character
-  letI : Fintype (conjugateOrbitIndex H theta) := Fintype.ofFinite _
+  let : Fintype (conjugateOrbitIndex H theta) := Fintype.ofFinite _
   have hres :
       subgroupRestriction H (inducedCF H theta) =
         fun h =>
@@ -927,7 +927,7 @@ theorem proposition_1_6_a_reverse_canonical
   let theta : ClassFunction H := thetaRep.character
   let ι := conjugateOrbitIndex H theta
   let r : ℕ := H.relIndex (inertiaSubgroup H theta)
-  letI : Fintype ι := Fintype.ofFinite ι
+  let : Fintype ι := Fintype.ofFinite ι
   let sumConj : ClassFunction H :=
     fun h => ∑ i : ι, conjugateOrbitConj H theta i h
   have hres :

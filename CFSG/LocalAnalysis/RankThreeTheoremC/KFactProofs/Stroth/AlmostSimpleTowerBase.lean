@@ -33,7 +33,7 @@ theorem sylow_normal_of_pElements_mem {X : Type} [Group X] [Finite X] {p : ℕ} 
   have hq : Function.Surjective (QuotientGroup.mk' L) := QuotientGroup.mk'_surjective L
   obtain ⟨R, hR⟩ := Sylow.mapSurjective_surjective hq p P
   have hRL : (R : Subgroup X) ≤ L := fun x hx => by
-    obtain ⟨k, hk⟩ := R.isPGroup' ⟨x, hx⟩
+    obtain ⟨k, hk⟩ := R.isPGroup ⟨x, hx⟩
     exact h x ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hbot : (P : Subgroup (X ⧸ L)) = ⊥ := by
     rw [← hR, Sylow.coe_mapSurjective, eq_bot_iff]

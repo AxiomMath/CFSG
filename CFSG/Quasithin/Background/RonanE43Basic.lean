@@ -161,6 +161,7 @@ theorem pRank_le_one_of_card_le {T H : Subgroup G} (hT : IsSylowIn 2 T ⊤) (hTH
   exact h4 (h4E.trans (Subgroup.card_subgroup_dvd_card E))
 
 
+omit [Finite G] in
 theorem exists_moved_of_lt {V : Type} [CommGroup V] (ρ : G →* MulAut V) {T L : Subgroup G}
     (hLT : L ⊔ T = ⊤) (hlt : fixV ρ.range < fixV (T.map ρ)) :
     ∃ v ∈ fixV (T.map ρ), ∃ l ∈ L, ρ l v ≠ v := by

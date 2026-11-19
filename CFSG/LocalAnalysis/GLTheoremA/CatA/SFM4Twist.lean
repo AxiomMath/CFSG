@@ -23,7 +23,7 @@ theorem sfm4_frob_ne_one {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f) {K : Type} [F
     have := congrArg (fun τ : K ≃+* K => τ c) h1
     simpa [hσ] using this
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hQ : 1 < p ^ f := Nat.one_lt_pow (by omega) hp.one_lt
   have hdeg : (Polynomial.X ^ (p ^ f) - Polynomial.X : Polynomial K).natDegree = p ^ f :=
     FiniteField.X_pow_card_sub_X_natDegree_eq K hQ
@@ -52,7 +52,7 @@ theorem sfm4_fieldActor_pow {K : Type} [Field K] [Finite K] (σ δ : K ≃+* K) 
 theorem sfm4_cube_roots_cyclic {G : Type} [Group G] [Finite G] [IsCyclic G] {σ x : G}
     (hσ3 : σ ^ 3 = 1) (hσ1 : σ ≠ 1) (hx : x ^ 3 = 1) : x = 1 ∨ x = σ ∨ x = σ ^ 2 := by
   classical
-  haveI := Fintype.ofFinite G
+  have := Fintype.ofFinite G
   have hσ2 : σ ^ 2 ≠ 1 := by
     intro h
     apply hσ1
@@ -127,8 +127,8 @@ theorem sfm4_twist {f : ℕ} (hf : 1 ≤ f) (K : Type) [Field K] [Finite K]
     ∃ (g : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) (δ : K ≃+* K),
       (δ = σ ∨ δ = σ ^ 2) ∧ MulAut.conj g * β = fieldActor (t := TwistTag.D4) σ δ := by
   obtain ⟨hdec, ⟨Θ, hΘ⟩, hcyc⟩ := sfm4_normal_form hf K hK σ hσ
-  haveI := hcyc
-  haveI : Finite (K ≃+* K) :=
+  have := hcyc
+  have : Finite (K ≃+* K) :=
     Finite.of_injective (fun e : K ≃+* K => (e : K → K)) (fun a b h => RingEquiv.ext fun x => congrFun h x)
   obtain ⟨g₀, δ₀, hβ⟩ := hdec β
   have h3 : δ₀ ^ 3 = 1 := by

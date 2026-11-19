@@ -68,7 +68,7 @@ private theorem exists_mul_self_eq_of_benderType_quot {Y : Type*} [Group Y] [Fin
   have hker : Odd (Nat.card (QuotientGroup.mk' (pPrimeCore 2 Y)).ker) := by
     rw [QuotientGroup.ker_mk']
     exact hodd
-  have hinj := injective_restrict_of_odd (QuotientGroup.mk' (pPrimeCore 2 Y)) hker T.isPGroup'
+  have hinj := injective_restrict_of_odd (QuotientGroup.mk' (pPrimeCore 2 Y)) hker T.isPGroup
   have hsq : (⟨γ₀, hγ₀T⟩ : ↥T) ^ 2 = ⟨s, hsT⟩ := by
     apply hinj
     change (QuotientGroup.mk' (pPrimeCore 2 Y)) (γ₀ ^ 2) =
@@ -109,7 +109,7 @@ private theorem eq_two_one_of_not_three_dvd_card {K : Type*} [Group K] [Finite K
 
 private theorem exists_sylow_stronglyEmbedded
     {S : Type*} [Group S] [Finite S] {n : ℕ} (h : BenderType S n 2 1)
-    {s₁ s₃ : S} (h₁ : s₁ * s₁ = 1) (hs₁2 : orderOf s₁ = 2) (hs₃2 : orderOf s₃ = 2)
+    {s₁ s₃ : S} (_h₁ : s₁ * s₁ = 1) (hs₁2 : orderOf s₁ = 2) (hs₃2 : orderOf s₃ = 2)
     (h₁₃ : s₁ * s₃ ≠ s₃ * s₁) (L : Subgroup S) (hs₁L : s₁ ∈ L) (hs₃L : s₃ ∈ L) :
     ∃ Q : Sylow 2 S, s₁ ∈ (Q : Subgroup S) ∧ s₃ ∉ borel (Q : Subgroup S) ∧
       IsStronglyEmbedded ((borel (Q : Subgroup S) ⊓ L).subgroupOf L) := by
@@ -193,9 +193,9 @@ theorem exists_mul_self_eq_of_mem_closure
   classical
   have h2 : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let L : Subgroup S := Subgroup.closure ({s₁, s₂, s₃} : Set S)
-  have hs₁L : s₁ ∈ L := Subgroup.subset_closure (by simp [L])
-  have hs₂L : s₂ ∈ L := Subgroup.subset_closure (by simp [L])
-  have hs₃L : s₃ ∈ L := Subgroup.subset_closure (by simp [L])
+  have hs₁L : s₁ ∈ L := Subgroup.subset_closure (by simp)
+  have hs₂L : s₂ ∈ L := Subgroup.subset_closure (by simp)
+  have hs₃L : s₃ ∈ L := Subgroup.subset_closure (by simp)
   have hs₁2 : orderOf s₁ = 2 := by
     apply orderOf_eq_prime _ h₁'
     rw [sq]

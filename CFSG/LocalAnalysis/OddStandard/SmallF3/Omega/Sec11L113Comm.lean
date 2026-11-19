@@ -61,7 +61,7 @@ theorem sec113_r_rel (hm : Sec11Model t L S z K1 K2 T Alt φ) {r : G}
     rw [e, ← sec113_z_eq hm] at h
     exact h
 
-theorem sec113_inv_r [Finite G] (hp : Asc82Pre11) {R : Subgroup G}
+theorem sec113_inv_r [Finite G] (_hp : Asc82Pre11) {R : Subgroup G}
     (hctx : Sec11Ctx G t L S z K1 K2 T R) (hm : Sec11Model t L S z K1 K2 T Alt φ) {r r' : G}
     (hr2 : r * r = 1) (hrT : r ∈ T) (hrQ : ∀ q ∈ secQ K1 K2, q * r = r * q)
     (hract : ∀ v, r * φ v * r⁻¹ = φ (permVec (swap 0 1) v)) (hr'T : r' ∈ T)

@@ -44,15 +44,15 @@ theorem T_le_normalizer_E : T ≤ normalizer (E : Set G) := by
     rw [hfinj hyx] at hy
     exact hy
 
-theorem T_le_M {α : G} (hα : AlphaSpec S z t α) (hM : OuterMFacts E S z t) :
+theorem T_le_M {α : G} (_hα : AlphaSpec S z t α) (hM : OuterMFacts E S z t) :
     T ≤ normalizer ((S ⊔ E : Subgroup G) : Set G) := by
   intro s hs
   have hsN : s ∈ normalizer (E : Set G) ⊓ centralizer ({z} : Set G) :=
     ⟨h.T_le_normalizer_E hs, h.oe.cfg.T_le hs⟩
   exact hM.NH_le hsN
 
-theorem exists_Rs {α : G} (hα : AlphaSpec S z t α) (hF : EFacts611 E t)
-    (hM : OuterMFacts E S z t) (hp : OuterPairing h hα) :
+theorem exists_Rs {α : G} (hα : AlphaSpec S z t α) (_hF : EFacts611 E t)
+    (hM : OuterMFacts E S z t) (_hp : OuterPairing h hα) :
     ∃ Rs : Subgroup G, IsPGroup 2 Rs ∧ z ∈ Rs ∧ T ≤ Rs ∧
       Rs ≤ normalizer ((Fsub h hα ⊓ centralizer ({α} : Set G) : Subgroup G) : Set G) ∧
       (∀ P : Subgroup G, IsPGroup 2 P →

@@ -14,6 +14,7 @@ open QuadraticMap
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem commSp_blockHom {t : OGroup Q} (htt : t * t = 1)
     {a : OGroup (Q.restrict (fixSp t))} (haa : a * a = 1)
     {b : OGroup (Q.restrict (commSp t))} (hbb : b * b = 1) :

@@ -81,7 +81,7 @@ private theorem sylow_inf_normal_is_sylow
       (Q : Subgroup N) = (S : Subgroup G).subgroupOf N := by
   classical
   let T : Subgroup N := (S : Subgroup G).subgroupOf N
-  have hTp : IsPGroup 2 T := S.isPGroup'.comap_subtype
+  have hTp : IsPGroup 2 T := S.isPGroup.comap_subtype
   let H : Subgroup G := N ⊔ S
   let E' : Subgroup (↥H) := N.subgroupOf H
   let C' : Subgroup (↥H) := S.subgroupOf H
@@ -168,7 +168,7 @@ public theorem secondCase_centralizer_contains_sylow
     exact PE0.not_dvd_index (dvd_trans (by rwa [hIdx0] at h2) hH0dvd)
   obtain ⟨PC0⟩ : Nonempty (Sylow 2 C0) := inferInstance
   let TC0 : Subgroup (↥w.M) := (PC0 : Subgroup C0).map C0.subtype
-  have hTC0p : IsPGroup 2 TC0 := PC0.isPGroup'.map C0.subtype
+  have hTC0p : IsPGroup 2 TC0 := PC0.isPGroup.map C0.subtype
   have hTC0idx : ¬ 2 ∣ TC0.index := by
     rw [Subgroup.index_map_subtype]
     exact Nat.Prime.not_dvd_mul Nat.prime_two PC0.not_dvd_index hC0odd

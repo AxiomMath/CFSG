@@ -66,7 +66,7 @@ theorem exists_sylow_two_between_D_and_normalizer_R {G : Type*} [Group G] [Finit
     rw [← Subgroup.relIndex_mul_index (σ.S_le_N hσ)]
     exact Dvd.dvd.mul_left h2 _
   have hDK : σ.D ≤ K := le_inf d.R_D (σ.D_le_N hσ)
-  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup'.to_le σ.D_le_S
+  have hD2 : IsPGroup 2 σ.D := σ.S.isPGroup.to_le σ.D_le_S
   obtain ⟨Q₀, hQ₀⟩ := (hD2.comap_subtype (K := K)).exists_le_sylow
   have hQK : (Q₀ : Subgroup K).map K.subtype ≤ K := Subgroup.map_subtype_le _
   obtain ⟨-, hQ2, hQodd⟩ := isSylowOf_iff.mp (⟨Q₀, rfl⟩ : IsSylowOf 2 ((Q₀ : Subgroup K).map

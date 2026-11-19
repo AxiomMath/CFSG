@@ -282,8 +282,8 @@ private theorem tcpr_not_le [Finite X] {T S : Subgroup X} {n : ℕ}
 
 private theorem tcpr_exists_not_mem {T : Subgroup X} (h1 : ¬ T ≤ S₁) (h2 : ¬ T ≤ S₂) :
     ∃ x ∈ T, x ∉ S₁ ∧ x ∉ S₂ := by
-  obtain ⟨a, haT, ha1⟩ := SetLike.not_le_iff_exists.1 h1
-  obtain ⟨b, hbT, hb2⟩ := SetLike.not_le_iff_exists.1 h2
+  obtain ⟨a, haT, ha1⟩ := IsConcreteLE.not_le_iff_exists.1 h1
+  obtain ⟨b, hbT, hb2⟩ := IsConcreteLE.not_le_iff_exists.1 h2
   by_cases ha2 : a ∈ S₂
   · by_cases hb1 : b ∈ S₁
     · refine ⟨a * b, T.mul_mem haT hbT, fun h => ha1 ?_, fun h => hb2 ?_⟩

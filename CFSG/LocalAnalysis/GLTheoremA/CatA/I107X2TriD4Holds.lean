@@ -30,7 +30,7 @@ theorem twoRankLow_triD4_holds (S : Type) [Group S] [Finite S] (lab : GLALabel) 
       rw [hK', h] at h1
       simp at h1
     · exact h
-  haveI : CharP K 2 := charP_two_of_card' hK'
+  have : CharP K 2 := charP_two_of_card' hK'
   let σ : K →+* K := iterateFrobenius K 2 n
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => rfl
   have hσsurj : Function.Surjective σ := Finite.surjective_of_injective σ.injective
@@ -49,9 +49,9 @@ theorem twoRankLow_triD4_holds (S : Type) [Group S] [Finite S] (lab : GLALabel) 
   have e0 : LargeEvenCenterQuot (LargeEvenTwistedH LargeEvenCartanD4 K LargeEvenRhoD4 n) ≃*
       DerivedCentralQuotient (twistedFixedGroup TwistTag.D4 K σ) :=
     (CFSG.StandardType.centerQuot_twistedH_equiv K TwistTag.D4 n σ hσ).some
-  haveI : Finite (LargeEvenCenterQuot (LargeEvenTwistedH LargeEvenCartanD4 K LargeEvenRhoD4 n)) :=
+  have : Finite (LargeEvenCenterQuot (LargeEvenTwistedH LargeEvenCartanD4 K LargeEvenRhoD4 n)) :=
     Finite.of_equiv _ θ.toEquiv
-  haveI : Finite (DerivedCentralQuotient (twistedFixedGroup TwistTag.D4 K σ)) :=
+  have : Finite (DerivedCentralQuotient (twistedFixedGroup TwistTag.D4 K σ)) :=
     Finite.of_equiv _ e0.toEquiv
   rw [CFSG.LocalAnalysis.GLTheoremA.I107L.pRank_eq_of_quotient θ hna,
     CFSG.SectionRank.pRank_top_eq_of_mulEquiv (by norm_num : 1 < 2) e0,

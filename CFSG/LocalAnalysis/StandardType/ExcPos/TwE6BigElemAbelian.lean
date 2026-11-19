@@ -49,8 +49,8 @@ theorem unitarySL_pow_three_eq_one {f : ℕ} {K : Type} [Field K] [Finite K] (hf
     (hB : realize (two_eq_zero_of_card_sq hf hK)
       (B : Matrix.SpecialLinearGroup (Fin 6) K) ^ 3 = 1) :
     B ^ 3 = 1 := by
-  haveI : CharP K 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hf hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hf hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2 : (2 : K) = 0 := two_eq_zero_of_card_sq hf hK
   have hker : B ^ 3 ∈ ((realize h2).comp (unitarySL σ).subtype).ker := by
     rw [MonoidHom.mem_ker, MonoidHom.comp_apply, Subgroup.coe_subtype, Subgroup.coe_pow, map_pow]
@@ -74,7 +74,7 @@ theorem unitarySL_pow_three_eq_one {f : ℕ} {K : Type} [Field K] [Finite K] (hf
 theorem card_ker_realize_unitarySL_le {f : ℕ} {K : Type} [Field K] [Finite K] (hf : 1 ≤ f)
     (hK : Nat.card K = (2 ^ f) ^ 2) {σ : K →+* K} (h3 : 3 ∣ 2 ^ f + 1) :
     Nat.card ((realize (two_eq_zero_of_card_sq hf hK)).comp (unitarySL σ).subtype).ker ≤ 3 := by
-  haveI : CharP K 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hf hK
+  have : CharP K 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hf hK
   have h2 : (2 : K) = 0 := two_eq_zero_of_card_sq hf hK
   have h3K : 3 ∣ Nat.card K - 1 := by
     rw [hK]
@@ -126,13 +126,13 @@ theorem exists_big_elemAbelian_of_model {f : ℕ} {k K : Type} [Field k] [Field 
     (hd3 : d ^ 3 = 1) (hdx : d * x₀ = x₀ * d) (hL : su6Levi σ ≤ ι.range) :
     ∃ E : Subgroup G, IsElemAbelian 3 E ∧ x₀ ∈ E ∧ d ∈ E ∧ 3 ^ 5 ≤ Nat.card E := by
   classical
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-  haveI : CharP K 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hf hK
-  haveI : CharP k 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : CharP K 2 := CFSG.SeitzReduction.TwistedE6Pilot.charP_two_of_card hf hK
+  have : CharP k 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero
     (two_eq_zero_of_card hf hk)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   have hK2 : (2 : K) = 0 := two_eq_zero_of_card_sq hf hK
   set ρ := (thetaSL2 K).comp (Matrix.SpecialLinearGroup.map (algebraMap k K)) with hρ
   have hρinj : Function.Injective ρ := injective_thetaSL2_comp_map hK2 (algebraMap k K)

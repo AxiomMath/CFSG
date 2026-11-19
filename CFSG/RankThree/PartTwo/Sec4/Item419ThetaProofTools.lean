@@ -299,7 +299,7 @@ theorem card_le_of_mem_partTwoF_quotX (hF : ∀ A₀ ∈ partTwoF G, Nat.card A�
     · intro h0
       apply hQ1
       rwa [hU₁, Subgroup.map_eq_bot_iff_of_injective _ (L ⊔ A).subtype_injective] at h0
-    · exact (Q.isPGroup'.map D.subtype).map (L ⊔ A).subtype
+    · exact (Q.isPGroup.map D.subtype).map (L ⊔ A).subtype
     · exact (Subgroup.map_mono hQN).trans (Subgroup.le_normalizer_map _)
   obtain ⟨B, hSB, hBmax⟩ := Finite.exists_le_maximal
     (p := fun B : Subgroup G => CFSG.Assembly.IsElemAbelian 3 B) (isElemAbelian_map_subtype hSe)

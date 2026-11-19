@@ -47,7 +47,7 @@ theorem upper {G : Type*} [Group G] [Finite G]
   have hsecondBound : secondTwo ≤ secondOverlap := Subgroup.map_subtype_le _
   have hbound := BlockPairOrderBounds.reverse component heven huniversal hquasisimple hcard hcontrol
     first other.val fixed hfirst other.property hfixed (fun heq => hother (Subtype.ext heq.symm)) actor hactor
-      firstTwo secondTwo (sylow.isPGroup'.map firstOverlap.subtype) (secondSylow.isPGroup'.map secondOverlap.subtype)
+      firstTwo secondTwo (sylow.isPGroup.map firstOverlap.subtype) (secondSylow.isPGroup.map secondOverlap.subtype)
         (BlockCommonSylowNontrivial.image_ne_bot properties hpositive first hfirst sylow)
           (hfirstBound.trans inf_le_left) (hsecondBound.trans inf_le_left)
             (hfirstBound.trans (hnormalizes first hfirst)) (hsecondBound.trans (hnormalizes other.val other.property))
@@ -89,8 +89,8 @@ theorem lower {G : Type*} [Group G] [Finite G]
   let secondTwo := (movedSylow : Subgroup movedOverlap).map movedOverlap.subtype
   have hfirstBound : firstTwo ≤ fixedOverlap := Subgroup.map_subtype_le _
   have hsecondBound : secondTwo ≤ movedOverlap := Subgroup.map_subtype_le _
-  have hfirstTwo : IsPGroup 2 firstTwo := fixedSylow.isPGroup'.map fixedOverlap.subtype
-  have hsecondTwo : IsPGroup 2 secondTwo := movedSylow.isPGroup'.map movedOverlap.subtype
+  have hfirstTwo : IsPGroup 2 firstTwo := fixedSylow.isPGroup.map fixedOverlap.subtype
+  have hsecondTwo : IsPGroup 2 secondTwo := movedSylow.isPGroup.map movedOverlap.subtype
   have hcommutes : ⁅firstTwo, secondTwo⁆ = ⊥ := by
     have hmap := congrArg (Subgroup.map (MulAut.conj actor).toMonoidHom)
       (UniversalOrbitBlock.block_commutes component heven huniversal fixed hfixed moved hmoved hdistinct)

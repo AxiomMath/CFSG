@@ -34,14 +34,14 @@ private theorem vtype_odd_path {G : Type} [Group G] {G₀ G₁ G₂ : Subgroup G
       have hih := ih (by omega)
       rcases Nat.mod_two_eq_zero_or_one i with h0 | h1
       · have hmod : (i + 1) % 2 = 1 := by omega
-        rw [hih, if_pos h0] at hne
-        rw [hmod, if_neg (by norm_num : (1 : ℕ) ≠ 0)]
+        rw [hih, ite_eq_left h0] at hne
+        rw [hmod, ite_eq_right (by norm_num : (1 : ℕ) ≠ 0)]
         cases hb : CosetGeom.vtype (p 0) <;>
           cases hb' : CosetGeom.vtype (p (i + 1))
         all_goals simp_all
       · have hmod : (i + 1) % 2 = 0 := by omega
-        rw [hih, if_neg (by omega : i % 2 ≠ 0)] at hne
-        rw [hmod, if_pos rfl]
+        rw [hih, ite_eq_right (by omega : i % 2 ≠ 0)] at hne
+        rw [hmod, ite_eq_left rfl]
         cases hb : CosetGeom.vtype (p 0) <;>
           cases hb' : CosetGeom.vtype (p (i + 1))
         all_goals simp_all

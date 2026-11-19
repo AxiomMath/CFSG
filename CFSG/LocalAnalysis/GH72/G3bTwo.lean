@@ -191,7 +191,7 @@ theorem prop_3_2_of_h34 (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁)
     intro h
     rw [h, orderOf_one] at hz₂ord
     omega
-  haveI hcomm₁' : IsMulCommutative ↥S₁' := IsKleinFour.isMulCommutative
+  have hcomm₁' : IsMulCommutative ↥S₁' := IsKleinFour.isMulCommutative
   have hZ₁' : S₁' ⊓ centralizer (S₁' : Set G) = S₁' :=
     inf_of_le_left (Subgroup.le_centralizer_iff_isMulCommutative.mpr inferInstance)
   have hcenter : (𝔖.S : Subgroup G) ⊓ centralizer ((𝔖.S : Subgroup G) : Set G) =
@@ -342,7 +342,7 @@ theorem prop_3_2_of_h34 (𝔖 : Sec3Setting G) (h₁ : IsKleinFour 𝔖.S₁)
       rw [Subgroup.mem_centralizer_iff]
       intro x hx
       obtain ⟨a, ha, bb, hbb, rfl⟩ := hdd''.mem_iff.mp hy
-      haveI : IsMulCommutative ↥S₁'' := IsKleinFour.isMulCommutative
+      have : IsMulCommutative ↥S₁'' := IsKleinFour.isMulCommutative
       have hx_a : a * x = x * a := by
         exact congrArg Subtype.val (IsMulCommutative.is_comm.comm
           (⟨a, ha⟩ : ↥S₁'') ⟨x, hx⟩)

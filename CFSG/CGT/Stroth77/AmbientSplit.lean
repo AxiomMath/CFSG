@@ -42,7 +42,7 @@ theorem torus_eq_zsmul_gens (k : Fin 3 → ℕ) (y : Torus k) :
   choose i hi using fun t : Fin 3 => ZMod.intCast_surjective (y t)
   refine ⟨i 0, i 1, i 2, ?_⟩
   funext t
-  fin_cases t <;> simp [gen, Pi.single_apply, hi, zsmul_eq_mul]
+  fin_cases t <;> simp [gen, hi, zsmul_eq_mul]
 
 theorem even_of_intCast_eq_two_mul {N : ℕ} (hN : 1 ≤ N) {n : ℤ} {w : ZMod (2 ^ N)}
     (h : (n : ZMod (2 ^ N)) = 2 * w) : Even n := by
@@ -138,10 +138,10 @@ theorem t100_square_section
     abel
   have hy1 : y 1 = (j : ZMod (2 ^ (StrothTypeIndex.t100 m).k 1)) := by
     rw [hy]
-    simp [gen, Pi.single_apply]
+    simp [gen]
   have hy2 : y 2 = (k : ZMod (2 ^ (StrothTypeIndex.t100 m).k 2)) := by
     rw [hy]
-    simp [gen, Pi.single_apply]
+    simp [gen]
   have h1u : ((k - j : ℤ) : ZMod (2 ^ (StrothTypeIndex.t100 m).k 1)) = 2 * zu 1 := by
     have h := congrFun hzu' 1
     rw [hφu, hy] at h
@@ -169,18 +169,18 @@ theorem t100_square_section
       -(k : ZMod (2 ^ (StrothTypeIndex.t100 m).k 1)) := by
     rw [hy, map_add, map_add, map_zsmul, map_zsmul, map_zsmul]
     rw [hρ0, hρ1, hρ2]
-    simp [gen, Pi.single_apply, zsmul_eq_mul]
+    simp [gen, zsmul_eq_mul]
   have hφρ2 : ((StrothTypeIndex.t100 m).action.φρ y) 2 =
       (j : ZMod (2 ^ (StrothTypeIndex.t100 m).k 2)) - (k : ZMod (2 ^ (StrothTypeIndex.t100 m).k 2)) := by
     rw [hy, map_add, map_add, map_zsmul, map_zsmul, map_zsmul]
     rw [hρ0, hρ1, hρ2]
-    simp [gen, Pi.single_apply, zsmul_eq_mul]
+    simp [gen, zsmul_eq_mul]
     ring
   have h2r : ((j - 2 * k : ℤ) : ZMod (2 ^ (StrothTypeIndex.t100 m).k 2)) = 2 * zr 2 := by
     have h := congrFun hzr' 2
     simp only [Pi.sub_apply] at h
     rw [hφρ2, hy2] at h
-    simp only [Pi.smul_apply, zsmul_eq_mul] at h
+    simp only [Pi.smul_apply] at h
     convert h using 2 <;> push_cast <;> ring
   have hj2k : Even (j - 2 * k) :=
     even_of_intCast_eq_two_mul (N := (StrothTypeIndex.t100 m).k 2) (by simp [StrothTypeIndex.k, Type100.k]) h2r
@@ -188,7 +188,7 @@ theorem t100_square_section
     have h := congrFun hzr' 1
     simp only [Pi.sub_apply] at h
     rw [hφρ1, hy1] at h
-    simp only [Pi.smul_apply, zsmul_eq_mul] at h
+    simp only [Pi.smul_apply] at h
     push_cast
     ring_nf at h ⊢
     exact h
@@ -198,7 +198,7 @@ theorem t100_square_section
     rcases hneg with ⟨t, ht⟩
     refine ⟨-t, ?_⟩
     have hneg' := congrArg Neg.neg ht
-    simp only [neg_neg, neg_mul] at hneg'
+    simp only [neg_neg] at hneg'
     rw [hneg']
     ring
   have hj : Even j := by
@@ -315,10 +315,10 @@ theorem exists_square_root_c
     (hH : NoInvolutionsCentralizing S B) (hCS : C ≤ S) (hne : C ≠ B) :
     ∃ d : G, d ∈ C ∧ d ∉ B ∧ d * d = (D.c : G) := by
   classical
-  letI : CommGroup C :=
+  let : CommGroup C :=
     { (inferInstance : Group C) with mul_comm := comm_of_le_centralizer D hBC hC hrel }
   have hlt : B < C := lt_of_le_of_ne hBC hne.symm
-  obtain ⟨d, hdC, hdB⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨d, hdC, hdB⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hindex : (B.subgroupOf C).index = 2 := index_two_of_relIndex hBC hrel
   let dC : C := ⟨d, hdC⟩
   have hd2B : d * d ∈ B := by
@@ -348,7 +348,7 @@ theorem exists_square_root_c
       have hmem : dC ∈ B.subgroupOf C := by
         rw [hd_eq]
         exact (B.subgroupOf C).mul_mem (by simpa [Subgroup.mem_subgroupOf] using hz)
-          (by simpa [Subgroup.mem_subgroupOf, bC] using b.2)
+          (by simp [Subgroup.mem_subgroupOf, bC])
       exact hdB (by simpa [Subgroup.mem_subgroupOf] using hmem)
     exact hzB (hH (zC : G) (hCS hzC) hz2 (hC hzC))
   have square_conj (g : G) (hgB : g ∈ Subgroup.normalizer B)

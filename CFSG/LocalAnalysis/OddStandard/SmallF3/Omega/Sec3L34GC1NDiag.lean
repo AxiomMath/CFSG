@@ -12,6 +12,7 @@ variable {A : Type} [Group A] [Finite A] {H : Subgroup A} {𝒮 : Set (Subgroup 
 
 @[expose] def l34gDiag (x t : A) : A := t * (x * t * x⁻¹)
 
+omit [Finite A] in
 theorem l34gDiag_mul (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈ 𝒮)
     (hxS : CFSG.conjugate S x ≠ S) {d e : A} (hd : d ∈ S) (he : e ∈ S) :
     l34gDiag x (d * e) = l34gDiag x d * l34gDiag x e := by
@@ -21,11 +22,13 @@ theorem l34gDiag_eq_one (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈ �
     (hxS : CFSG.conjugate S x ≠ S) {d : A} (hd : d ∈ S) (h : l34gDiag x d = 1) : d = 1 := by
   exact L34GFac.diag_eq_one hF hS hxS hd (by simpa only [l34gDiag] using h)
 
+omit [Finite A] in
 theorem l34gDiag_mem (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈ 𝒮)
     (hxS : CFSG.conjugate S x ≠ S) {d : A} (hd : d ∈ S) :
     l34gDiag x d ∈ H ⊓ centralizer ({x} : Set A) := by
   simpa only [l34gDiag] using L34GFac.diag_mem hF hS hxS hd
 
+omit [Finite A] in
 theorem l34gDiag_inv (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈ 𝒮)
     (hxS : CFSG.conjugate S x ≠ S) {d : A} (hd : d ∈ S) :
     l34gDiag x d⁻¹ = (l34gDiag x d)⁻¹ := by
@@ -34,6 +37,7 @@ theorem l34gDiag_inv (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈ 𝒮)
     simp [l34gDiag]
   exact eq_inv_of_mul_eq_one_left h1
 
+omit [Finite A] in
 theorem l34gDiag_conj (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈ 𝒮)
     (hxS : CFSG.conjugate S x ≠ S) {t k : A} (ht : t ∈ S) (hk : k ∈ S) :
     l34gDiag x (k * t * k⁻¹) = l34gDiag x k * l34gDiag x t * (l34gDiag x k)⁻¹ := by
@@ -42,6 +46,7 @@ theorem l34gDiag_conj (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈ 𝒮)
       l34gDiag_mul hF hS hxS ht (S.inv_mem hk), l34gDiag_inv hF hS hxS hk]
   group
 
+omit [Finite A] in
 theorem l34gDiag_conj_n {n : A} (hnx : n * x = x * n) {d : A} :
     l34gDiag x (n * d * n⁻¹) = n * l34gDiag x d * n⁻¹ := by
   simp only [l34gDiag]
@@ -71,6 +76,7 @@ theorem l34gDiag_conj_n {n : A} (hnx : n * x = x * n) {d : A} :
       rw [l34gDiag_inv hF hS hxS haS]
       exact N.inv_mem haN⟩
 
+omit [Finite A] in
 theorem l34gNS_le (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈ 𝒮)
     (hxS : CFSG.conjugate S x ≠ S) (N : Subgroup A) : l34gNS hF hS hxS N ≤ S :=
   fun t ht => (show t ∈ S ∧ l34gDiag x t ∈ N from ht).1
@@ -92,6 +98,7 @@ theorem l34gNS_isPGroup (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈ �
   refine Subtype.ext (mul_inv_eq_one.mp ?_)
   exact l34gDiag_eq_one hF hS hxS (S.mul_mem a.2.1 (S.inv_mem b.2.1)) h1
 
+omit [Finite A] in
 theorem l34gNS_normal (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈ 𝒮)
     (hxS : CFSG.conjugate S x ≠ S) {N : Subgroup A}
     (hNn : ∀ f ∈ H ⊓ centralizer ({x} : Set A), ∀ n ∈ N, f * n * f⁻¹ ∈ N) :
@@ -109,7 +116,7 @@ theorem l34gNS_eq_bot (hF : L34GFac H 𝒮 x) {S : Subgroup A} (hS : S ∈ 𝒮)
     (hNn : ∀ f ∈ H ⊓ centralizer ({x} : Set A), ∀ n ∈ N, f * n * f⁻¹ ∈ N) :
     l34gNS hF hS hxS N = ⊥ := by
   have hsub : (l34gNS hF hS hxS N).subgroupOf S = ⊥ := by
-    haveI : ((l34gNS hF hS hxS N).subgroupOf S).Normal := l34gNS_normal hF hS hxS hNn
+    have : ((l34gNS hF hS hxS N).subgroupOf S).Normal := l34gNS_normal hF hS hxS hNn
     exact l34g_pGroup_normal_bot (hF.simple S hS)
       ((l34gNS_isPGroup hF hS hxS hN).of_equiv
         (Subgroup.subgroupOfEquivOfLe (l34gNS_le hF hS hxS N)).symm)

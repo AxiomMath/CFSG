@@ -45,7 +45,7 @@ private theorem s16h_closure_conj_isElemAbelian {A : Type*} [Group A] {Mb Lb B :
       exact commutatorElement_eq_one_iff_commute.mp hmem
   have hcommX : IsMulCommutative (Subgroup.closure gen) :=
     Subgroup.isMulCommutative_closure hcomm_gen
-  haveI := hcommX
+  have := hcommX
   refine ⟨hcommX, ?_⟩
   intro x hx
   induction hx using Subgroup.closure_induction with
@@ -95,7 +95,7 @@ theorem s16h_normalClosure_data {A : Type*} [Group A] {Mb Lb B : Subgroup A} {p 
       exact (Subgroup.closure gen).inv_mem ih
   · exact s16h_closure_conj_isElemAbelian hBL hBe hBc hcomm
   · intro q hq
-    rintro x hx
+      x hx
     obtain ⟨b, hb, rfl⟩ := Subgroup.mem_map.mp hx
     simpa [MulAut.conj_apply] using
       Subgroup.subset_closure (show q * b * q⁻¹ ∈ gen from ⟨q, hq, b, hb, rfl⟩)
@@ -103,7 +103,7 @@ theorem s16h_normalClosure_data {A : Type*} [Group A] {Mb Lb B : Subgroup A} {p 
 theorem s16h_two_le_pRank_sup {A : Type*} [Group A] [Finite A] {p : ℕ} (hp : p.Prime)
     {B₁ B₂ : Subgroup A} (hc : ⁅B₁, B₂⁆ = ⊥) (hi : B₁ ⊓ B₂ = ⊥) (h₁ : p ∣ Nat.card B₁)
     (h₂ : p ∣ Nat.card B₂) : 2 ≤ CFSG.Open.pRank p (B₁ ⊔ B₂) := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨a, ha⟩ := exists_prime_orderOf_dvd_card' p h₁
   obtain ⟨b, hb⟩ := exists_prime_orderOf_dvd_card' p h₂
   have ha' : orderOf (a : A) = p := by rw [Subgroup.orderOf_coe]; exact ha

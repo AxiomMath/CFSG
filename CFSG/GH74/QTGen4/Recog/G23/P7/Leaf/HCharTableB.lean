@@ -14,6 +14,7 @@ open Classical
 
 variable {X : Type} [Group X] [Fintype X] {z : X} {rep : Fin 20 → X}
 
+omit [Fintype X] in
 theorem central (h : TabHyp X z rep) (c : X) : c * z * c⁻¹ = z := by
   have hcard : Nat.card {x : X // IsConj (rep 1) x} = 1 := by
     rw [h.card_class 1]
@@ -25,16 +26,19 @@ theorem central (h : TabHyp X z rep) (c : X) : c * z * c⁻¹ = z := by
   have := (Nat.card_eq_one_iff_unique.1 hcard).1
   exact congrArg Subtype.val (this.elim ⟨c * z * c⁻¹, hmem2⟩ ⟨z, hmem1⟩)
 
+omit [Fintype X] in
 theorem orderOf_conj_eq (c x : X) : orderOf (c * x * c⁻¹) = orderOf x := by
   have := (MulAut.conj c).orderOf_eq x
   simpa [MulAut.conj_apply] using this
 
+omit [Fintype X] in
 theorem orderOf_eq_ord (h : TabHyp X z rep) (y : X) : orderOf y = hcOrd (h.cls y) := by
   obtain ⟨c, hc⟩ := isConj_iff.1 (h.isConj_cls y)
   have := orderOf_conj_eq c (rep (h.cls y))
   rw [hc] at this
   rw [this, h.order_rep]
 
+omit [Fintype X] in
 theorem inD_conj (h : TabHyp X z rep) (c x : X) : InD z (c * x * c⁻¹) ↔ InD z x := by
   have hone : ∀ a : X, c * a * c⁻¹ = 1 ↔ a = 1 := fun a => by
     constructor
@@ -53,12 +57,14 @@ theorem inD_conj (h : TabHyp X z rep) (c x : X) : InD z (c * x * c⁻¹) ↔ InD
   unfold InD
   simp only [conj_pow, ne_eq, hone, hz, orderOf_conj_eq]
 
+omit [Fintype X] in
 theorem inD_iff (h : TabHyp X z rep) (y : X) : InD z y ↔ hcDfl (h.cls y) = true := by
   obtain ⟨c, hc⟩ := isConj_iff.1 (h.isConj_cls y)
   have := h.inD_conj c (rep (h.cls y))
   rw [hc] at this
   rw [this, h.dflag]
 
+omit [Fintype X] in
 theorem eq_z_iff (h : TabHyp X z rep) (y : X) : y = z ↔ h.cls y = 1 := by
   rw [h.cls_eq_iff, h.rep_one]
   constructor
@@ -68,16 +74,17 @@ theorem eq_z_iff (h : TabHyp X z rep) (y : X) : y = z ↔ h.cls y = 1 := by
     obtain ⟨c, hc⟩ := isConj_iff.1 hy
     rw [← hc, h.central]
 
+omit [Fintype X] in
 theorem ct_val (h : TabHyp X z rep) (y : X) :
     Nat.card {u : X // orderOf u = 2 ∧ (if y = z then u ≠ z else u * y * u⁻¹ = y⁻¹)} =
       hcCt (h.cls y) := by
   by_cases hy : y = z
   · have : h.cls y = 1 := (h.eq_z_iff y).1 hy
     rw [this]
-    simp only [hy, if_true]
+    simp only [hy, ite_true]
     exact h.ct_z
   · have hne : h.cls y ≠ 1 := fun e => hy ((h.eq_z_iff y).2 e)
-    simp only [hy, if_false]
+    simp only [hy, ite_false]
     rw [← h.ct_other _ hne]
     obtain ⟨c, hc⟩ := isConj_iff.1 (h.isConj_cls y)
     refine Nat.card_congr (Equiv.subtypeEquiv (MulAut.conj c⁻¹).toEquiv fun u => ?_)

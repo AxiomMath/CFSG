@@ -68,7 +68,7 @@ theorem asc82Lemma519_of (h514 : Asc82Lemma514) (h516a : Asc82Lemma516a)
         centralizer ({d} : Set G) ⊓ centralizer ({z} : Set G) ≤
           normalizer (Sec5B517Q8 hq0 : Set G) := by
     rintro d hdQ hd2 hd1 hdz ⟨i, j, hij, hdK⟩
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hmemΓ : ∀ k : Fin 4, Kfam5 K₁ K₂ h k ∈ Gamma5 K₁ K₂ h := fun k => by
       rw [sec5b517_gamma_eq]
       exact ⟨k, rfl⟩

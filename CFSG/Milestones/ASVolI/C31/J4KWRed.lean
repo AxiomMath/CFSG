@@ -24,7 +24,7 @@ theorem burnsideJ4KW_finite_subgroup : Finite (Subgroup J) :=
 theorem burnsideJ4KW_exists_maxTwoLocal {P : Subgroup J} (hP : IsPGroup 2 ↥P) (hne : P ≠ ⊥) :
     ∃ X : Subgroup J, burnsideJ4KW_IsMaxTwoLocal X ∧
       Subgroup.normalizer (P : Set J) ≤ Subgroup.normalizer (X : Set J) := by
-  haveI := burnsideJ4KW_finite_subgroup
+  have := burnsideJ4KW_finite_subgroup
   let S : Set (Subgroup J) := {Y | IsPGroup 2 ↥Y ∧ Y ≠ ⊥ ∧
     Subgroup.normalizer (P : Set J) ≤ Subgroup.normalizer (Y : Set J)}
   have hS : S.Nonempty := ⟨P, hP, hne, le_rfl⟩

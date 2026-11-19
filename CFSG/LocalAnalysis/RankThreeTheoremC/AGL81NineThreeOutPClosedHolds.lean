@@ -14,7 +14,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms
 theorem sylow_normal_outer_nineThree
     (p : ℕ) (i : TauCeti.CFSGIndex) (hp : p.Prime) (hp2 : p ≠ 2) (hi : IsNineThreeIndex p i) :
     ∀ S : Sylow p (Outer i.Group), (S : Subgroup (Outer i.Group)).Normal := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases i with ⟨q, hq⟩ | ⟨n, hn⟩ | ⟨d, hv⟩ | s
   · exact hi.elim
   · exact sylow_normal_outer_alternating_nineThree hp2 n hn hi

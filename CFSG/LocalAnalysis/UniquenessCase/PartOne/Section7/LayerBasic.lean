@@ -15,15 +15,18 @@ open CFSG.RankThree.PartOne (IsStronglyPEmbedded)
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem fstarPreimage_le (p : ℕ) (H : Subgroup G) : fstarPreimage p H ≤ H :=
   Subgroup.map_subtype_le _
 
+omit [Finite G] in
 theorem layerLift_le (p : ℕ) (H : Subgroup G) : layerLift p H ≤ H :=
   (Subgroup.map_subtype_le _).trans (fstarPreimage_le p H)
 
+omit [Finite G] in
 theorem le_normalizer_layerLift (p : ℕ) (H : Subgroup G) :
     H ≤ Subgroup.normalizer (layerLift p H : Set G) := by
-  haveI : (CFSG.generalizedFitting (↥H ⧸ CFSG.pPrimeCore p ↥H)).Normal :=
+  have : (CFSG.generalizedFitting (↥H ⧸ CFSG.pPrimeCore p ↥H)).Normal :=
     CFSG.LocalCores.generalized_fitting_characteristic.2
   have hH₀ : H ≤ Subgroup.normalizer ((fstarPreimage p H : Subgroup G) : Set G) :=
     CFSG.ABGLocalTools.le_normalizer_map_subtype H
@@ -59,7 +62,7 @@ theorem map_layerLift_eq (p : ℕ) (H : Subgroup G)
   have hAH : A ≤ H := fstarPreimage_le p H
   have hAH' : ∀ x : ↥A, A.subtype x ∈ H := fun x => hAH x.2
   have hA : A = H₀.map H.subtype := rfl
-  haveI : Group.IsPerfect ↥Lbar := Subgroup.isPerfect_iff.mpr hL
+  have : Group.IsPerfect ↥Lbar := Subgroup.isPerfect_iff.mpr hL
   let φ : ↥A →* (↥H ⧸ K₀) := π.comp (A.subtype.codRestrict H hAH')
   have hφmem : ∀ x : ↥A, φ x ∈ Lbar := by
     intro x
@@ -132,7 +135,7 @@ theorem isSimpleGroup_generalizedFitting_quotient (k : Sec7Core4 G) {H : Subgrou
       Subgroup.centralizer ((CFSG.generalizedFitting (↥H ⧸ CFSG.pPrimeCore k.p ↥H) :
         Subgroup (↥H ⧸ CFSG.pPrimeCore k.p ↥H)) : Set (↥H ⧸ CFSG.pPrimeCore k.p ↥H)) = ⊥ := by
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
+  have : Fact k.p.Prime := ⟨hp⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H
   let Lbar : Subgroup (↥H ⧸ K₀) := CFSG.generalizedFitting (↥H ⧸ K₀)
   have hO : CFSG.pPrimeCore k.p (↥H ⧸ K₀) = ⊥ := CFSG.pPrimeCore_quotient_eq_bot hp
@@ -144,29 +147,29 @@ theorem dvd_card_generalizedFitting_quotient (k : Sec7Core4 G) {H : Subgroup G}
     (hH : Config k H) :
     k.p ∣ Nat.card ↥(CFSG.generalizedFitting (↥H ⧸ CFSG.pPrimeCore k.p ↥H)) := by
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
+  have : Fact k.p.Prime := ⟨hp⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H
   let Lbar : Subgroup (↥H ⧸ K₀) := CFSG.generalizedFitting (↥H ⧸ K₀)
   by_contra h
   have hcop : Nat.Coprime k.p (Nat.card ↥Lbar) := (hp.coprime_iff_not_dvd).mpr h
-  haveI : Lbar.Normal := CFSG.LocalCores.generalized_fitting_characteristic.2
+  have : Lbar.Normal := CFSG.LocalCores.generalized_fitting_characteristic.2
   have hle : Lbar ≤ CFSG.pPrimeCore k.p (↥H ⧸ K₀) :=
     CFSG.RankThree.PartOne.Sec1511.le_pPrimeCore_of_isSubnormal_p
       (inferInstance : Lbar.Normal).isSubnormal hcop
   rw [CFSG.pPrimeCore_quotient_eq_bot hp] at hle
   have hbot : Lbar = ⊥ := le_bot_iff.mp hle
-  haveI : IsSimpleGroup ↥Lbar := (isSimpleGroup_generalizedFitting_quotient k hH).1
+  have : IsSimpleGroup ↥Lbar := (isSimpleGroup_generalizedFitting_quotient k hH).1
   exact (Subgroup.nontrivial_iff_ne_bot Lbar).1 inferInstance hbot
 
 theorem step72L (k : Sec7Core4 G) : Step72L k := by
   intro H hH hJM
   have hp : k.p.Prime := k.prime
-  haveI : Fact k.p.Prime := ⟨hp⟩
+  have : Fact k.p.Prime := ⟨hp⟩
   let K₀ : Subgroup ↥H := CFSG.pPrimeCore k.p ↥H
   let π : ↥H →* (↥H ⧸ K₀) := QuotientGroup.mk' K₀
   let Lbar : Subgroup (↥H ⧸ K₀) := CFSG.generalizedFitting (↥H ⧸ K₀)
   have hsimple := isSimpleGroup_generalizedFitting_quotient k hH
-  haveI : IsSimpleGroup ↥Lbar := hsimple.1
+  have : IsSimpleGroup ↥Lbar := hsimple.1
   have hperf : ⁅Lbar, Lbar⁆ = Lbar :=
     Subgroup.isPerfect_iff.mp
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup hsimple.2.1).1.1
@@ -176,7 +179,7 @@ theorem step72L (k : Sec7Core4 G) : Step72L k := by
   have hle : Lbar ≤ ((H ⊓ k.M).subgroupOf H).map π := by
     rw [← hmap]
     exact Subgroup.map_mono (Subgroup.subgroupOf_mono H (le_inf (layerLift_le k.p H) hJM))
-  haveI : Lbar.Normal := CFSG.LocalCores.generalized_fitting_characteristic.2
+  have : Lbar.Normal := CFSG.LocalCores.generalized_fitting_characteristic.2
   exact hN.not_dvd_card_of_normal_le hle (dvd_card_generalizedFitting_quotient k hH)
 
 end Sec7Core4

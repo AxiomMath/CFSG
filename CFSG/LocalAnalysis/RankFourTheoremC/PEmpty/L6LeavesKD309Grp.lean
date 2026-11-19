@@ -18,17 +18,17 @@ variable {G : Type} [Group G]
 theorem mem_conj_subgroup_iff (n : G) (H : Subgroup G) (x : G) :
     letI := subConjAction G
     x ∈ n • H ↔ n⁻¹ * x * n ∈ H := by
-  letI := subConjAction G
+  let := subConjAction G
   change x ∈ (MulAut.conj n) • H ↔ _
   rw [Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-  simp [MulAut.smul_def, MulAut.conj_inv_apply]
+  simp [MulAut.smul_def]
 
 theorem comm_le_of_normalized [Finite G] {P J B : Subgroup G} (hP : IsPGroup 5 P) (hJP : J ≤ P)
     (hBJ : B ≤ J) (hJn : ∀ p ∈ P, ∀ j ∈ J, p * j * p⁻¹ ∈ J)
     (hBn : ∀ p ∈ P, ∀ b ∈ B, p * b * p⁻¹ ∈ B) (hcard : Nat.card J = 5 * Nat.card B) :
     ⁅J, P⁆ ≤ B := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   let Bs : Subgroup P := B.subgroupOf P
   let Js : Subgroup P := J.subgroupOf P
   have hBsn : Bs.Normal := ⟨fun b hb p => hBn p p.2 b hb⟩

@@ -157,7 +157,7 @@ theorem exists_maximal_prime (h : Setting p A θ) {q : ℕ} (hq : q = 2 ∨ q = 
   obtain ⟨sylow, hnorm, hne⟩ := normalized_subgroup_invariant_sylow_nontrivial p q h.prime hq' A
     (θ S₀) (isPGroup_actor h) (h.conditions.normalized S₀ hS₀) (h.conditions.coprime S₀ hS₀) hdvd
   have hWq : IsPGroup q ((sylow : Subgroup (θ S₀)).map (θ S₀).subtype) :=
-    sylow.isPGroup'.map _
+    sylow.isPGroup.map _
   have hWcomp : signalizerCompatible p 1 A θ ((sylow : Subgroup (θ S₀)).map (θ S₀).subtype) :=
     signalizer_compatible_of_le p 1 A θ (compat_value h hS₀).1 (Subgroup.map_subtype_le _) hnorm
   obtain ⟨S, hWS, hS⟩ := Finite.exists_le_maximal

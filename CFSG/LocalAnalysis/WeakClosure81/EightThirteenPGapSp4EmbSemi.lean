@@ -15,8 +15,8 @@ open CFSG.Assembly.LowTwoRank (StatedSp)
 theorem sp4_emb_semi {F : Type} [Field F] [Finite F] (hF : Nat.card F = 4) (b : F) (hb : b ≠ 0)
     {A : Subgroup (StatedSp 2 F)} (hA : ∀ g, g ∈ A ↔ ∃ s : F, g = sp4Z s (b * s ^ 2)) :
     Sp4Sl2Emb A := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
+  have : Fintype F := Fintype.ofFinite F
+  have : CharP F 2 := charP_of_card_eq_prime_pow (p := 2) (f := 2) (by
     rw [← Nat.card_eq_fintype_card, hF]; norm_num)
   let hb' : StatedSp 2 F := wcgapesHb b hb
   let ι : Matrix.SpecialLinearGroup (Fin 2) F →* StatedSp 2 F :=

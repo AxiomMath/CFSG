@@ -58,10 +58,10 @@ theorem card_mul_gcd_of_isU3 {X : Type} [Group X] [Finite X] {n : ℕ} (h : IsU3
 theorem card_of_isL2Square_eq {X : Type} [Group X] [Finite X] {n : ℕ} (h : IsL2Square X n) :
     Nat.card X = 2 ^ (2 * n) * (2 ^ (2 * n) - 1) ^ 2 := by
   obtain ⟨A, B, _, _, ⟨e⟩, hA, hB⟩ := h
-  haveI : Finite (A × B) := Finite.of_equiv X e.toEquiv
-  haveI : Finite A := Finite.of_injective (fun a : A => (a, (1 : B)))
+  have : Finite (A × B) := Finite.of_equiv X e.toEquiv
+  have : Finite A := Finite.of_injective (fun a : A => (a, (1 : B)))
     (fun a b hab => by simpa using hab)
-  haveI : Finite B := Finite.of_injective (fun b : B => ((1 : A), b))
+  have : Finite B := Finite.of_injective (fun b : B => ((1 : A), b))
     (fun a b hab => by simpa using hab)
   have hp : 2 ^ n * 2 ^ n = 2 ^ (2 * n) := by
     rw [← pow_add]
@@ -77,10 +77,10 @@ theorem card_mul_gcd_of_isL2U3Product_eq {X : Type} [Group X] [Finite X] {n : �
     Nat.card X * Nat.gcd 3 (2 ^ n + 1) =
       2 ^ (4 * n) * ((2 ^ (2 * n) - 1) * ((2 ^ (2 * n) - 1) * (2 ^ (3 * n) + 1))) := by
   obtain ⟨A, B, _, _, ⟨e⟩, hA, hB⟩ := h
-  haveI : Finite (A × B) := Finite.of_equiv X e.toEquiv
-  haveI : Finite A := Finite.of_injective (fun a : A => (a, (1 : B)))
+  have : Finite (A × B) := Finite.of_equiv X e.toEquiv
+  have : Finite A := Finite.of_injective (fun a : A => (a, (1 : B)))
     (fun a b hab => by simpa using hab)
-  haveI : Finite B := Finite.of_injective (fun b : B => ((1 : A), b))
+  have : Finite B := Finite.of_injective (fun b : B => ((1 : A), b))
     (fun a b hab => by simpa using hab)
   have hB' := card_mul_gcd_of_isU3 hB
   have hA' := card_of_isL2 hA
@@ -163,22 +163,22 @@ theorem exists_two_calC_of_p1642 {D : Data G} {n p : ℕ}
     exact fun h => hab (h a b)
   rcases hn with ⟨⟨A, B, gA, gB, ⟨e⟩, hA, hB⟩, -⟩ |
     ⟨⟨A, B, gA, gB, ⟨e⟩, hA, hB⟩, -⟩
-  · letI := gA
-    letI := gB
-    haveI : IsSimpleGroup A :=
+  · let := gA
+    let := gB
+    have : IsSimpleGroup A :=
       LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hA
-    haveI : IsSimpleGroup B :=
+    have : IsSimpleGroup B :=
       LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hB
     obtain ⟨KA, KB, hKA, hKB, ⟨eA⟩, ⟨eB⟩, hne⟩ :=
       exists_two_calC_of_bar2_hinf_prod (hAab_of hA) (hAab_of hB)
         ((MulEquiv.cast (M := fun x : Subgroup G => Bar2 x) (by rw [hH])).trans e)
     exact ⟨KA, KB, hKA, hKB, LieModel.of_mulEquiv eA.symm hA,
       Or.inl (LieModel.of_mulEquiv eB.symm hB), hne⟩
-  · letI := gA
-    letI := gB
-    haveI : IsSimpleGroup A :=
+  · let := gA
+    let := gB
+    have : IsSimpleGroup A :=
       LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hA
-    haveI : IsSimpleGroup B :=
+    have : IsSimpleGroup B :=
       LieModel.isSimpleGroup_of_mem_classicalTags (by decide) hB
     obtain ⟨KA, KB, hKA, hKB, ⟨eA⟩, ⟨eB⟩, hne⟩ :=
       exists_two_calC_of_bar2_hinf_prod (hAab_of hA)
@@ -206,10 +206,12 @@ theorem three_dvd_card_of_isL2Even {X : Type} [Group X] {m : ℕ} (h : IsL2 X m)
   CFSG.Open.StatedAPI.three_dvd_card_of_statedClassicalModel_psl_two_two
     (LieModel.statedClassicalModel_of_ne_zero (by norm_num) h)
 
+omit [Finite G] in
 theorem three_dvd_card_of_bar_isL2Even {L : Subgroup G} {m : ℕ}
     (h : IsL2 (Bar2 L) m) : 3 ∣ Nat.card L :=
   (three_dvd_card_of_isL2Even h).trans (Subgroup.card_quotient_dvd_card _)
 
+omit [Finite G] in
 theorem three_dvd_card_of_bar_isL2Odd {L : Subgroup G} {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hp3 : p ≠ 3) (h : IsL2Odd (Bar2 L) p) : 3 ∣ Nat.card L := by
   have h3 : 3 ∣ Nat.card (Bar2 L) :=
@@ -255,7 +257,7 @@ theorem pRank_three_eq_one_of_isJ1 {L : Subgroup G}
 theorem isSpor_barInf_of_isJ1 {D : Data G} {L : Subgroup G}
     (hL : L ∈ calC D.M) (h : IsJ1 (Bar2 L)) : ∃ s, IsSpor (BarInf L) s := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (Bar2 L) := e.isSimpleGroup_congr.mpr CFSG.Sporadic.J1.isSimpleGroup_J1
+  have : IsSimpleGroup (Bar2 L) := e.isSimpleGroup_congr.mpr CFSG.Sporadic.J1.isSimpleGroup_J1
   obtain ⟨f⟩ := uc22p21k_barInf_equiv_of_center_bot hL.2.2 (uc22p21k_center_eq_bot hL.2.2)
   exact ⟨.J1, ⟨f.trans e⟩⟩
 
@@ -287,7 +289,7 @@ theorem hyp131_uniq {D : Data G} {V₀ V : Subgroup G} {p : ℕ}
 theorem centSection_eq_cMStar {M L : Subgroup G} (hLM : L ≤ M)
     (hNM : M ≤ normalizer (L : Set G)) :
     centSection M L (pCoreOf 2 L) = F13.cMStar M L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNO : M ≤ normalizer (pCoreOf 2 L : Set G) :=
     hNM.trans (CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 L)
   have hO2 : pCoreOf 2 L ≤ pCoreOf 2 M :=

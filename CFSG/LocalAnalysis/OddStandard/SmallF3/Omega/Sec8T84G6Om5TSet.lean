@@ -23,7 +23,7 @@ theorem sec8t84g6t_reduce [Finite G] {K A : Subgroup G} {t : G} {V : Type} [AddC
     (htK : t ∈ normalizer (K : Set G)) (hA : IsComponentIn A (K ⊓ centralizer ({t} : Set G)))
     (hL : IsL29 A) :
     ∃ u ∈ K ⊓ centralizer ({t} : Set G), u * u = 1 ∧ u ≠ 1 ∧ ¬ InnerOn A u := by
-  haveI : Finite (ProjOrth Q) :=
+  have : Finite (ProjOrth Q) :=
     Nat.finite_of_card_ne_zero (by rw [natCard_projOrth_five hQ hdim]; norm_num)
   have hodd : Odd (Nat.card (center ↥K)) := by
     rw [ff_center_eq_oddCore_five hK]

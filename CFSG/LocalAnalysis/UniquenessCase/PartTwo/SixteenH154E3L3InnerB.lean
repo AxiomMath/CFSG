@@ -11,10 +11,12 @@ open CFSG.Quasithin CFSG.Open Subgroup
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private theorem s16h_e3_l3_split_isPSL {L : Subgroup (MulAut W)} {k : ℕ}
     (S : S16hL3Split L k) (hk : 1 ≤ k) : IsPSL 3 2 1 ↥L :=
   s16h_e3_l3_isPSL_of_coord (BinaryNaturalSL.toL3Coord (S.I_nat ⟨0, hk⟩))
 
+omit [Finite W] in
 private theorem s16h_e3_l3_commSub_top_inv (L : Subgroup (MulAut W)) :
     ∀ l ∈ L, ∀ u ∈ commSub (⊤ : Subgroup W) L, l u ∈ commSub (⊤ : Subgroup W) L := by
   intro l hl u hu
@@ -24,10 +26,11 @@ private theorem s16h_e3_l3_commSub_top_inv (L : Subgroup (MulAut W)) :
       refine Subgroup.subset_closure ⟨l * x * l⁻¹, L.mul_mem (L.mul_mem hl hx) (L.inv_mem hl),
         l w, Subgroup.mem_top _, ?_⟩
       simp [MulAut.mul_apply]
-  | one => simpa using (commSub (⊤ : Subgroup W) L).one_mem
+  | one => simp
   | mul a b ha hb iha ihb => simpa [map_mul] using (commSub (⊤ : Subgroup W) L).mul_mem iha ihb
   | inv a ha ih => simpa [map_inv] using (commSub (⊤ : Subgroup W) L).inv_mem ih
 
+omit [Finite W] in
 private theorem s16h_e3_l3_commSub_top_self {L : Subgroup (MulAut W)} {k : ℕ}
     (S : S16hL3Split L k) : commSub (commSub ⊤ L) L = commSub ⊤ L := by
   refine le_antisymm (commSub_le_of_invariant (s16h_e3_l3_commSub_top_inv L)) ?_
@@ -37,6 +40,7 @@ private theorem s16h_e3_l3_commSub_top_self {L : Subgroup (MulAut W)} {k : ℕ}
         rw [← S.J_comm i]
         exact commSub_mono ((le_iSup (fun i => S.J i) i).trans (le_of_eq S.J_iSup)) le_rfl
 
+omit [Finite W] in
 private theorem s16h_e3_l3_maps_commSub_top {L : Subgroup (MulAut W)} {c : MulAut W}
     (hcL : ∀ l ∈ L, c * l = l * c) :
     ∀ u ∈ commSub (⊤ : Subgroup W) L, c u ∈ commSub (⊤ : Subgroup W) L := by
@@ -100,7 +104,7 @@ private theorem s16h_e3_l3_commSub_zpowers_congr {X : Subgroup W} {g₁ g₂ : M
   · rintro x ⟨w, hw, rfl⟩
     exact ⟨w, hw, by rw [commHom_apply, commHom_apply, h w hw]⟩
 
-theorem s16h_e3_l3_rank_inner_of_invol (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)}
+theorem s16h_e3_l3_rank_inner_of_invol (_hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)}
     {k : ℕ} (S : S16hL3Split L k) (hk : 2 ≤ k) {γ : MulAut W} (hγL : γ ∈ L) (hγ2 : γ ^ 2 = 1)
     (hγ1 : γ ≠ 1) :
     4 ≤ rk ↥(commSub (commSub ⊤ L) (Subgroup.zpowers γ)) := by

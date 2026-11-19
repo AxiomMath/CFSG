@@ -48,7 +48,7 @@ theorem card_le_mul_centralizer_alt5 {Y : Type*} [Group Y] [Finite Y]
     Nat.card Y ≤ 120 * Nat.card (Subgroup.centralizer (K : Set Y)) := by
   have hMA : Nat.card (MulAut K) = 120 := by
     rw [Nat.card_congr (MulAut.congr e).toEquiv, card_mulAut_alt5_abs3]
-  haveI : Finite (MulAut K) := Nat.finite_of_card_ne_zero (by rw [hMA]; norm_num)
+  have : Finite (MulAut K) := Nat.finite_of_card_ne_zero (by rw [hMA]; norm_num)
   have hrange : Nat.card (MulAut.conjNormal (H := K)).range ≤ 120 := by
     rw [← hMA]
     exact Nat.card_le_card_of_injective _ Subtype.val_injective

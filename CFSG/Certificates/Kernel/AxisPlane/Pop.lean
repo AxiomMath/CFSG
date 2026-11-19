@@ -4,7 +4,7 @@ public import CFSG.Certificates.Kernel.AxisPlane.Sound
 public import Mathlib.Data.Nat.ModEq
 public import Mathlib.Algebra.Order.BigOperators.Group.Finset
 public import Mathlib.Algebra.BigOperators.Group.Finset.Piecewise
-public import Mathlib.Data.Nat.SuccPred
+public import Mathlib.Order.SuccPred.Nat
 import Mathlib.Algebra.Order.Ring.Nat
 import Mathlib.Tactic.Ring.RingNF
 

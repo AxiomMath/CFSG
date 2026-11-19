@@ -111,13 +111,13 @@ theorem ggA6_spFour {F : Type} [Field F] {V : Type} [AddCommGroup V] [Module F V
     rw [hJ'card, hHcard] at hmul
     omega
   have hcommHJ : ⁅H, H⁆ ≤ J := by
-    haveI : (J.subgroupOf H).Normal := Subgroup.normal_of_index_eq_two hindex
+    have : (J.subgroupOf H).Normal := Subgroup.normal_of_index_eq_two hindex
     have hquot : Nat.card (↥H ⧸ J.subgroupOf H) = 2 := by
       rw [Subgroup.index_eq_card] at hindex
       exact hindex
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : IsCyclic (↥H ⧸ J.subgroupOf H) := isCyclic_of_prime_card (p := 2) hquot
-    haveI : IsMulCommutative (↥H ⧸ J.subgroupOf H) := IsCyclic.isMulCommutative
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : IsCyclic (↥H ⧸ J.subgroupOf H) := isCyclic_of_prime_card (p := 2) hquot
+    have : IsMulCommutative (↥H ⧸ J.subgroupOf H) := IsCyclic.isMulCommutative
     have hcommH : commutator ↥H ≤ J.subgroupOf H :=
       (Subgroup.Normal.quotient_commutative_iff_commutator_le
         (N := J.subgroupOf H)).mp inferInstance
@@ -128,7 +128,7 @@ theorem ggA6_spFour {F : Type} [Field F] {V : Type} [AddCommGroup V] [Module F V
       (show (⟨h₂, hh₂⟩ : ↥H) ∈ (⊤ : Subgroup ↥H) from trivial))
     rw [Subgroup.mem_subgroupOf] at hmem
     simpa [commutatorElement_def] using hmem
-  haveI : Group.IsPerfect ↥L := Group.IsPerfect.mk hL.2.2.1
+  have : Group.IsPerfect ↥L := Group.IsPerfect.mk hL.2.2.1
   have hLL : ⁅L, L⁆ = L := Subgroup.commutator_eq_self
   have hLJ : L ≤ J := by
     calc L = ⁅L, L⁆ := hLL.symm

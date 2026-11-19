@@ -19,7 +19,7 @@ theorem isPGroup_two_of_quaternion_of_oddCore_eq_bot_of_threePrime
     (eS : (S : Subgroup G) ≃* QuaternionGroup (2 ^ k)) : IsPGroup 2 G := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ2 : IsPGroup 2 (QuaternionGroup (2 ^ k)) :=
-    S.isPGroup'.of_equiv eS
+    S.isPGroup.of_equiv eS
   have hcomp := CFSG.BenderSuzuki.External.huppert_IV_5_11_hasNormalPComplement_of_quaternion_sylow_two
     S ⟨2 ^ k, by
       calc 2 = 2 ^ 1 := by norm_num
@@ -29,7 +29,7 @@ theorem isPGroup_two_of_quaternion_of_oddCore_eq_bot_of_threePrime
     rw [← oddCore_eq_pPrimeCore_two]
     exact hO
   have he := CFSG.BenderSuzuki.External.quotientPPrimeCoreEquivSylowOfHasNormalPComplement hcomp S
-  exact S.isPGroup'.of_equiv
+  exact S.isPGroup.of_equiv
     (((QuotientGroup.quotientMulEquivOfEq hOp).trans QuotientGroup.quotientBot).symm.trans he).symm
 
 theorem le_pCore_two_of_subnormal_quaternion_of_threePrime

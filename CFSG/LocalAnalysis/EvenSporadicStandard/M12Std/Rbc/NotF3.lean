@@ -23,7 +23,7 @@ theorem exists_isComponent_fixed_onQuotient {X : Type*} [Group X] (Z : Subgroup 
     {M : Subgroup (fixedSubgroup ψ)} (hM : CFSG.IsComponent M) :
     ∃ K : Subgroup (fixedSubgroup (onQuotient Z ψ hinv)), CFSG.IsComponent K ∧
       Nonempty (↥K ⧸ center ↥K ≃* ↥M ⧸ center ↥M) := by
-  haveI : (fixedImage Z ψ hinv).Normal :=
+  have : (fixedImage Z ψ hinv).Normal :=
     CFSG.ComponentClassification.CatalogueBFixedCentralQuotient.fixedImage_normal Z ψ hinv hcentral
   set P := fixedImageProjection Z ψ hinv
   have hPs : Function.Surjective P :=
@@ -99,6 +99,7 @@ section Link
 
 variable {H : Type} [Group H] [Finite H] {a : ℕ} {L T : ℕ → Subgroup H} {s : ℕ → H}
 
+omit [Finite H] in
 private theorem mem_centralizer_sup_zpowers_iff {T : Subgroup H} {s x : H}
     (hx : x ∈ centralizer (T : Set H)) :
     x ∈ centralizer ((T ⊔ zpowers s : Subgroup H) : Set H) ↔ s * x = x * s := by
@@ -115,6 +116,7 @@ private theorem mem_centralizer_sup_zpowers_iff {T : Subgroup H} {s x : H}
     exact Subgroup.mem_centralizer_iff.2 fun y hy =>
       Subgroup.mem_centralizer_singleton_iff.1 (hle hy)
 
+omit [Finite H] in
 private theorem conj_conj_eq_of_sq_comm {s x : H} (hc : s ^ 2 * x = x * s ^ 2) :
     s * (s * x * s⁻¹) * s⁻¹ = x := by
   rw [pow_two] at hc

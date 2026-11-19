@@ -22,7 +22,7 @@ theorem tag_of_twistKind_exc_of_compRank_four
     τ = .D4 ∨ τ = .E6 ∨ τ = .E7 ∨ τ = .E8 := by
   have h24 : (componentRoots (rootCharHom a) i).ncard = 24 := by
     unfold twistKind at hk
-    split_ifs at hk with h1 h2 <;> try cases hk
+    split_ifs at hk with h1 h2; try cases hk
     rcases h2 with ⟨h6, -⟩ | ⟨-, h24, -⟩
     · omega
     · exact h24

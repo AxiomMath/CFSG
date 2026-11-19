@@ -157,7 +157,7 @@ theorem kgLangTorusMPart_at_of_bridge {p : ℕ} (hp : p.Prime) {R : Type} [Group
     have hJα : kgInducedAut θ α ∈ J := (hmemJ _).2 hαI
     have hJβ : kgInducedAut θ β ∈ J := (hmemJ _).2 hβI
     have hαβ : α * β = β * α := by
-      letI : IsMulCommutative A := hA.1
+      let : IsMulCommutative A := hA.1
       exact congrArg (fun x : A => (x : MulAut K)) (mul_comm' ⟨α, hαA⟩ ⟨β, hβA⟩)
     have h1 : h (α * β) = h α * h β := hmul α hαA β hβA hJα hJβ
     have h2 : h (β * α) = h β * h α := hmul β hβA α hαA hJβ hJα
@@ -268,7 +268,7 @@ theorem kgLangTorusMPart_at_of_bridge {p : ℕ} (hp : p.Prime) {R : Type} [Group
     rw [hβ x, ← hy]
     change (MulAut.conj (g' : Γ)) (F₀ y) = F₁ ((MulAut.conj (g' : Γ)) y)
     rw [← hF₁ ((MulAut.conj (g' : Γ)) y)]
-    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
+    simp only [MulAut.conj_apply]
     group
   have hβN : ∀ x : G, β x ∈ N ↔ x ∈ N := kgLang_mulAut_mem_iff β hβNf
   have hH90 : ∀ c ∈ N, ((List.range p).map fun i => (β ^ i) c).prod = 1 →
@@ -312,7 +312,6 @@ theorem kgLangTorusMPart_at_of_bridge {p : ℕ} (hp : p.Prime) {R : Type} [Group
       (Subgroup.mem_subgroupOf).mpr (Subgroup.mem_map.mpr ⟨s₀, hs₀N₀, rfl⟩)
     refine ⟨s, hsN, ?_⟩
     apply Subtype.ext
-    change (c : Γ) = (s⁻¹ * β s : G)
     rw [Subgroup.coe_mul, Subgroup.coe_inv, hβ s]
     rw [show (s : Γ) = MulAut.conj (g' : Γ) s₀ from rfl]
     rw [← hx, hs₀]
@@ -348,7 +347,7 @@ theorem kgLangTorusMPart_of_absBridge {p : ℕ} (hp : p.Prime) {R : Type} [Group
     (hbr : AbsBridge p I F G F₀) (hT : KGLangTorusInput p G F₀) :
     KGLangTorusMPart p R I F := by
   intro hfin θ hcomm A hA hAI hA0 α₀ hα₀ hα₀I
-  haveI := hfin
+  have := hfin
   obtain ⟨ρ, Θ, hρ, hρG, hΘ, hI, hconjΘ, hFj⟩ := hbr
   exact kgLangTorusMPart_at_of_bridge hp hs hna hconj hrec hstab hfix ρ Θ hρ hρG hΘ hI hconjΘ hFj
     (fun _ => True) (fun _ _ _ _ => trivial) (fun E hEab hEG _ => hT E hEab hEG)
@@ -376,7 +375,7 @@ theorem kgLangTorusDatumCont_of_excBridge
       by_cases hF : ∃ f ∈ F, orderOf f = p
       · obtain ⟨e, Q, he, hQ, hbr', hSt, hfin⟩ := hbr hs hF
         obtain ⟨h3, h3D, h5⟩ := nonTorsion_excTag hnt hexc
-        haveI := hfin
+        have := hfin
         exact kgLangTorusMPart_of_absBridge hp hs hna hconj hrec hbr'.stab
           (fun g hg => ratPts_fix hg) hbr'.absBridge
           (kgLangExcTorusInput hM1 hM2 hL hp hp2 h3 h5 he hQ hfin)

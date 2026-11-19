@@ -883,7 +883,7 @@ public theorem centralizer_kleinFour_le_dihedral
     intro hle
     apply hVnc
     exact Subgroup.isCyclic_of_le hle
-  obtain ⟨t, htV, htR⟩ := SetLike.not_le_iff_exists.mp hVnotR
+  obtain ⟨t, htV, htR⟩ := IsConcreteLE.not_le_iff_exists.mp hVnotR
   obtain ⟨j, hjV⟩ : ∃ j : ZMod (2 ^ m), DihedralGroup.sr j ∈ V := by
     rcases dihedralGroup_cases t with ⟨i, hi⟩ | ⟨i, hi⟩
     · exfalso

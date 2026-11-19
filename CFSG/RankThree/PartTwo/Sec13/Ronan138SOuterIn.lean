@@ -59,7 +59,7 @@ theorem item138OuterN_of_inner (h131 : Item131) (hspor : SporadicModels131)
   have hnorm : ¬ E ⊓ K ≤ Subgroup.zpowers e → y ∈ Subgroup.normalizer (K : Set G) ∧
       n ∈ Subgroup.normalizer (K : Set G) := by
     intro hEK
-    obtain ⟨b, hbEK, hbe⟩ := SetLike.not_le_iff_exists.mp hEK
+    obtain ⟨b, hbEK, hbe⟩ := IsConcreteLE.not_le_iff_exists.mp hEK
     obtain ⟨hbE, hbK⟩ := Subgroup.mem_inf.mp hbEK
     refine ⟨mem_normalizer_of_mem_lA_of_not_mem hK hbE hbK hbe (hb.hFN hb.hyF)
       (centralizer_le_normalizer_zpowers _ (Subgroup.mem_centralizer_singleton_iff.mpr hye)),

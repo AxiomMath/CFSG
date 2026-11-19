@@ -86,7 +86,7 @@ theorem D1CaseTwoDataAt.false_of_forall_not_le (hAut : KFactCycAut) (hS : KFactS
         t ∈ (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) p)) ⊓ L ∧ orderOf t = p := by
     intro L hL
     obtain ⟨t, ht, htp, -⟩ := exists_mem_centralizer_orderOf_eq
-      (Rbar.isPGroup'.to_le (inf_le_right.trans inf_le_left)) (hmeet L hL)
+      (Rbar.isPGroup.to_le (inf_le_right.trans inf_le_left)) (hmeet L hL)
     exact ⟨t, ht.1, ht.2, htp⟩
   obtain ⟨L₁, hL₁⟩ := hd.cfg.exists_isComponentOf
   obtain ⟨t₁, ht₁V, ht₁, ht₁p⟩ := hpt L₁ hL₁

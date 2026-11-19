@@ -39,7 +39,7 @@ theorem e7K2_fixed_iff_exists_baseChange
     entrywiseFrobGL .E7 L 2 1 k = k ↔
       ∃ k₀ ∈ adjointGroup .E7 (ZMod 2),
         (baseChangeGL (algebraMap (ZMod 2) L) k₀ : ModGL .E7 L) = k := by
-  haveI : PerfectRing L 2 := inferInstance
+  have : PerfectRing L 2 := inferInstance
   have hFr : ∀ c : L, iterateFrobenius L 2 1 c = c ^ Nat.card (ZMod 2) := by
     intro c
     rw [iterateFrobenius_def, Nat.card_zmod]
@@ -102,7 +102,7 @@ theorem k2At_of_baseChange_conj_yAS
         rootProd .E7 L yPsi c) :
     K2At K V r := by
   classical
-  haveI : PerfectRing L 2 := inferInstance
+  have : PerfectRing L 2 := inferInstance
   set bc : ModGL .E7 (ZMod 2) →* ModGL .E7 L :=
     baseChangeGL (algebraMap (ZMod 2) L) with hbc_def
   have hFix_bc : ∀ g : adjointGroup .E7 (ZMod 2),

@@ -125,7 +125,7 @@ theorem not_isPIsolatedOver_alternatingGroup {n : ℕ} (hn : 7 ≤ n) :
   obtain ⟨S, hS⟩ :=
     (isPGroup_zpowers_of_pow_eq_one (p := 2) (x := u) (Subtype.ext hu2)).exists_le_sylow
   obtain ⟨g, hg⟩ := hM.exists_conj_ge (P := S)
-    ⟨le_top, S.isPGroup', by rw [relIndex_top_right]; exact S.not_dvd_index⟩
+    ⟨le_top, S.isPGroup, by rw [relIndex_top_right]; exact S.not_dvd_index⟩
   have hM' := hM.conj g
   set Q := (conjSub g M).map (alternatingGroup (Fin (m + 2))).subtype
   have hQ : ∀ t ∈ Q, ∀ s ∈ alternatingGroup (Fin (m + 2)), t ≠ 1 → t ^ 2 = 1 →

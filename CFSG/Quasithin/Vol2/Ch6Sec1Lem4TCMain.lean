@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem centralizer_le_normalizer614 (S : Subgroup G) :
     Subgroup.centralizer (S : Set G) ≤ Subgroup.normalizer (S : Set G) := by
   have fwd : ∀ y ∈ Subgroup.centralizer (S : Set G), ∀ s ∈ S, y * s * y⁻¹ ∈ S := by
@@ -36,7 +37,7 @@ theorem centralizer_le_normalizer614 (S : Subgroup G) :
     rwa [e] at this
 
 theorem zV_le_pCoreOf614 {T M L V : Subgroup G} (h : Hyp611 G T M L V 4)
-    (hZV : Nat.card ↥(ZV614 T L V) = 4) :
+    (_hZV : Nat.card ↥(ZV614 T L V) = 4) :
     ZV614 T L V ≤ pCoreOf 2 (Subgroup.normalizer ((ZV614 T L V : Subgroup G) : Set G)) := by
   have hp : IsPGroup 2 ↥(ZV614 T L V) := by
     rintro ⟨z, hz⟩
@@ -48,6 +49,7 @@ theorem zV_le_pCoreOf614 {T M L V : Subgroup G} (h : Hyp611 G T M L V 4)
   exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 (Subgroup.le_normalizer)
     le_rfl hp
 
+omit [Finite G] in
 theorem pCoreOf_le_Aprime614 {K : Subgroup G} {E : Subgroup (ModO2 K)} (hE1 : (1 : ModO2 K) ∈ E) :
     pCoreOf 2 K ≤ Aprime614 K E := by
   intro n hn
@@ -73,7 +75,7 @@ theorem step7_false614 (hB : TitsBasicFact) {T M L V K : Subgroup G} {E : Subgro
       f * g * (g * f)⁻¹ ∈ Aprime614 K E)
     (hexpF : ∀ f ∈ Aprime614 K E ⊔ Subgroup.zpowers d, f ^ 3 ∈ Aprime614 K E) : False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hd3 : d ^ 3 = 1 := by
     rw [← hord]
     exact pow_orderOf_eq_one d

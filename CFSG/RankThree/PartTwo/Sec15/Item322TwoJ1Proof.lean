@@ -16,7 +16,7 @@ variable {X : Type} [Group X] [Finite X]
 
 theorem relIndex_center_le_of_relIndex_centralizer_le
     {Q V : Subgroup X} [Q.Normal]
-    (e : X ⧸ Q ≃* NativeSporadic.J2) (hVn : V.Normal) (hV : IsElemTwo V)
+    (e : X ⧸ Q ≃* NativeSporadic.J2) (hVn : V.Normal) (_hV : IsElemTwo V)
     (hQV : Q ≤ Subgroup.centralizer (V : Set X)) {t : X} (htQ : t ∉ Q)
     (ht2 : t * t ∈ Q) {b : ℕ}
     (hb : (Subgroup.centralizer ({t} : Set X)).relIndex V ≤ b) :
@@ -84,6 +84,7 @@ theorem relIndex_center_le_of_relIndex_centralizer_le
     _ = H.relIndex V := Subgroup.inf_relIndex_right _ _
     _ ≤ b ^ 4 := hHle
 
+omit [Finite X] in
 private theorem range_equiv_of_ker_eq {Q : Subgroup X} [Q.Normal] {W : Type} [Group W]
     (ρ : X →* MulAut W) (e : X ⧸ Q ≃* NativeSporadic.J2) (hker : ρ.ker = Q) :
     Nonempty (↥ρ.range ≃* NativeSporadic.J2) :=
@@ -134,17 +135,17 @@ private theorem exists_module_of_relIndex_center_le
           φ v ∈ fixV (Subgroup.zpowers (ρ t))) := by
   set N : Subgroup X := V ⊓ Subgroup.center X with hN
   have hNn : N.Normal := Subgroup.normal_inf_normal V (Subgroup.center X)
-  haveI : N.Normal := hNn
+  have : N.Normal := hNn
   set W : Subgroup (X ⧸ N) := V.map (QuotientGroup.mk' N) with hW
   have hWn : W.Normal := hVn.map _ (QuotientGroup.mk'_surjective N)
-  haveI : W.Normal := hWn
+  have : W.Normal := hWn
   have hWc : ∀ a b : W, a * b = b * a := by
     rintro ⟨_, v, hv, rfl⟩ ⟨_, w, hw, rfl⟩
     apply Subtype.ext
     change QuotientGroup.mk' N v * QuotientGroup.mk' N w =
       QuotientGroup.mk' N w * QuotientGroup.mk' N v
     rw [← map_mul, ← map_mul, hV.1 v hv w hw]
-  letI : CommGroup W := { (inferInstance : Group W) with mul_comm := hWc }
+  let : CommGroup W := { (inferInstance : Group W) with mul_comm := hWc }
   have hW2 : ∀ w : W, w ^ 2 = 1 := by
     rintro ⟨_, v, hv, rfl⟩
     apply Subtype.ext
@@ -261,6 +262,7 @@ private theorem exists_module_of_relIndex_center_le
   exact ⟨W, inferInstance, inferInstance, ρ₀, φ, hkerEq, fun w => by rw [← pow_two]; exact hW2 w,
     hWcard, hφsurj, hφker, hφfix⟩
 
+omit [Finite X] in
 private theorem module_equiv_and_element
     {W : Type} [CommGroup W]
     [Finite W] (hexp : ∀ w : W, w * w = 1) (hcardW : Nat.card W ≤ 2 ^ 12) {Q : Subgroup X}
@@ -271,7 +273,7 @@ private theorem module_equiv_and_element
   let L : Subgroup (MulAut W) := ρ.range
   have hLiso : Nonempty (↥L ≃* NativeSporadic.J2) := range_equiv_of_ker_eq ρ e hker
   obtain ⟨eLJ⟩ := hLiso
-  haveI : IsSimpleGroup ↥L :=
+  have : IsSimpleGroup ↥L :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.J2.isSimpleGroup_J2 eLJ
   have hLnc : ¬ IsMulCommutative ↥L := by
     intro hc
@@ -279,7 +281,7 @@ private theorem module_equiv_and_element
     have hcomm : eLJ.symm a * eLJ.symm b = eLJ.symm b * eLJ.symm a :=
       hc.is_comm.comm _ _
     exact hab (by simpa using congrArg eLJ hcomm)
-  haveI : Group.IsPerfect ↥L := TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hLnc
+  have : Group.IsPerfect ↥L := TauCeti.IsSimpleGroup.isPerfect_of_not_isMulCommutative hLnc
   have hLperf : ⁅L, L⁆ = L := Subgroup.isPerfect_iff.mp inferInstance
   have htne : ρ t ≠ 1 := by
     intro h
@@ -444,8 +446,8 @@ theorem eight_lt_relIndex_centralizer
     rwa [hpow] at hcenter
   obtain ⟨W, hWcomm, hWfin, ρ, φ, hker, hexp, hcard, hφsurj, hφker, hφfix⟩ :=
     exists_module_of_relIndex_center_le e hVn hV hQV hVZ
-  letI : CommGroup W := hWcomm
-  letI : Finite W := hWfin
+  let : CommGroup W := hWcomm
+  let : Finite W := hWfin
   have hcardW : Nat.card W ≤ 2 ^ 12 := by rw [hcard]; exact hcenter'
   obtain ⟨eW, u, huL6, hu2, hu1, heW⟩ :=
     module_equiv_and_element hexp hcardW e hker htQ ht2

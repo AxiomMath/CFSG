@@ -25,6 +25,7 @@ namespace UnitaryCore
 
 variable {n : ℕ} {k : Type} [Field k] [Finite k]
 
+omit [Finite k] in
 theorem eq_X_sub_C_of_acts_as_scalar {A : GL (Fin n) k}
     (hsq : Squarefree (minpoly k (glA A : Module.End k (Fin n → k)))) {b : k[X]}
     (hb : b ∈ primaryFactors (glA A : Module.End k (Fin n → k))) {μ : k}
@@ -62,13 +63,15 @@ section Unitary
 
 variable {n : ℕ} {K : Type} [Field K] {ℓ f : ℕ} (h : UnitaryFieldData ℓ f K) [Finite K]
 
-theorem unitaryCentralizer_glA {A B : GL (Fin n) K} (hAU : A ∈ primeFormUnitary h (idGram K n))
+omit [Finite K] in
+theorem unitaryCentralizer_glA {A B : GL (Fin n) K} (_hAU : A ∈ primeFormUnitary h (idGram K n))
     (hBU : B ∈ primeFormUnitary h (idGram K n)) (hBA : B * A = A * B) :
     glA B ∈ unitaryCentralizer (idForm h n) (glA A) := by
   refine mem_unitaryCentralizer.mpr ⟨?_, ?_⟩
   · exact (toLin_mem_sesqUnitaryGroup_iff B).mpr hBU
   · exact (mem_gl_centralizer.mp (mem_gl_centralizer_glA hBA))
 
+omit [Finite K] in
 theorem commutator_acts_trivially_good {A Ba Bb : GL (Fin n) K}
     (hAU : A ∈ primeFormUnitary h (idGram K n))
     (hBaU : Ba ∈ primeFormUnitary h (idGram K n)) (hBbU : Bb ∈ primeFormUnitary h (idGram K n))
@@ -88,6 +91,7 @@ theorem commutator_acts_trivially_good {A Ba Bb : GL (Fin n) K}
     (fun _ g hg => (commute_iff_eq _ _).2 (hFb g hg))
   exact commutator_acts_trivially_of_scalars hcomm hBa hBb ca cb hca hcb
 
+omit [Finite K] in
 theorem acts_as_scalar_of_mem_X_sub_C {A : GL (Fin n) K} {μ : K} {v : Fin n → K}
     (hv : v ∈ primaryComponent (glA A : Module.End K (Fin n → K)) (X - C μ)) :
     (glA A : Module.End K (Fin n → K)) v = μ • v := by
@@ -171,7 +175,7 @@ theorem unitary_matrix_core (hℓ3 : ℓ ≠ 3) {A Ba Bb : GL (Fin n) K}
     · exact hσ1 (sub_eq_zero.1 h)
     · exact hv₀ne h
   have hbar0 : h.bar (c' : K) ≠ 0 := by
-    simpa using c'.ne_zero
+    simp
   have hdmem := dualPoly_mem_primaryFactors H hj₀
   have hdeq : dualPoly h.bar j₀ = X - C (h.bar (c' : K))⁻¹ := by
     rw [hj₀eq]; exact KCUnitaryBlock.dualPoly_X_sub_C hbar0
@@ -209,7 +213,7 @@ theorem unitary_matrix_core (hℓ3 : ℓ ≠ 3) {A Ba Bb : GL (Fin n) K}
   have hndj : j₀.natDegree = 1 := by rw [hj₀eq]; exact natDegree_X_sub_C _
   have hm1 : 1 ≤ primaryMultiplicity (glA A : Module.End K (Fin n → K)) j₀ := by
     have : Fact (Irreducible j₀) := ⟨irreducible_of_mem_primaryFactors hj₀⟩
-    haveI : Nontrivial (primaryComponent (glA A : Module.End K (Fin n → K)) j₀) :=
+    have : Nontrivial (primaryComponent (glA A : Module.End K (Fin n → K)) j₀) :=
       Submodule.nontrivial_iff_ne_bot.2 (primaryComponent_ne_bot hsq hj₀)
     exact Module.finrank_pos
   by_cases hm : primaryMultiplicity (glA A : Module.End K (Fin n → K)) j₀ ≤ 1
@@ -301,17 +305,20 @@ variable {ℓ f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData ℓ f K) [Fi
     Subgroup (gramSU h (idGram K n)) :=
   (specialBlock (idForm h n) (glA A) j).comap (toLinSU h n)
 
+omit [Finite K] in
 theorem mem_specialSU {A : GL (Fin n) K} {j : K[X]} {g : gramSU h (idGram K n)} :
     g ∈ specialSU h A j ↔ toLinSU h n g ∈ specialBlock (idForm h n) (glA A) j := Iff.rfl
 
+omit [Finite K] in
 theorem specialBlock_le_range_toLinSU {A : GL (Fin n) K}
     (H : UnitaryPrimaryData h.bar (idForm h n) (glA A)) {j : K[X]}
     (hj : j ∈ primaryFactors (glA A : Module.End K (Fin n → K)))
     (hgood : IsGoodBlock h (glA A) ⟨j, hj⟩) :
-    specialBlock (idForm h n) (glA A) j ≤ (toLinSU h n).range := fun g hg =>
+    specialBlock (idForm h n) (glA A) j ≤ (toLinSU h n).range := fun _g hg =>
   mem_range_toLinSU (specialBlock_le_sesqSpecialUnitaryGroup_of_good H (two_le_pow_of h) ⟨j, hj⟩
     hgood hg)
 
+omit [Finite K] in
 theorem map_specialSU {A : GL (Fin n) K}
     (H : UnitaryPrimaryData h.bar (idForm h n) (glA A)) {j : K[X]}
     (hj : j ∈ primaryFactors (glA A : Module.End K (Fin n → K)))
@@ -319,6 +326,7 @@ theorem map_specialSU {A : GL (Fin n) K}
     (specialSU h A j).map (toLinSU h n) = specialBlock (idForm h n) (glA A) j :=
   Subgroup.map_comap_eq_self (specialBlock_le_range_toLinSU h H hj hgood)
 
+omit [Finite K] in
 theorem isQuasisimple_specialSU {A : GL (Fin n) K}
     (H : UnitaryPrimaryData h.bar (idForm h n) (glA A)) {j : K[X]}
     (hj : j ∈ primaryFactors (glA A : Module.End K (Fin n → K)))
@@ -329,11 +337,13 @@ theorem isQuasisimple_specialSU {A : GL (Fin n) K}
       (MulEquiv.subgroupCongr (map_specialSU h H hj hgood))
   exact CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm hQ
 
+omit [Finite K] in
 theorem specialSU_le_fixSubgroup (A : primeFormUnitary h (idGram K n)) (j : K[X]) :
     specialSU h (A : GL (Fin n) K) j ≤ fixSubgroup (primeFormConjSU h (idGram K n) A) := fun g hg =>
   (mem_fixSubgroup_primeFormConjSU_iff A rfl g).mpr
     (specialBlock_le_unitaryCentralizer (Subgroup.mem_comap.mp hg)).2
 
+omit [Finite K] in
 theorem conj_mem_specialSU (A : primeFormUnitary h (idGram K n)) (j : K[X])
     {c g : gramSU h (idGram K n)} (hc : c ∈ fixSubgroup (primeFormConjSU h (idGram K n) A))
     (hg : g ∈ specialSU h (A : GL (Fin n) K) j) :
@@ -344,6 +354,7 @@ theorem conj_mem_specialSU (A : primeFormUnitary h (idGram K n)) (j : K[X])
   exact this
 
 
+omit [Finite K] in
 theorem commute_of_fixes_proj_unitary (F : Subgroup (gramSU h (idGram K n))) (hF : ⁅F, F⁆ = F)
     (B : primeFormUnitary h (idGram K n))
     (hfix : ∀ f ∈ F, primeFormConjHom h (idGram K n) B (f : primeFormP h (idGram K n)) =
@@ -365,6 +376,7 @@ theorem commute_of_fixes_proj_unitary (F : Subgroup (gramSU h (idGram K n))) (hF
     _ = f * B := by rw [h4]
 
 
+omit [Finite K] in
 theorem glaPComponent_map_specialSU {A : primeFormUnitary h (idGram K n)}
     (H : UnitaryPrimaryData h.bar (idForm h n) (glA (A : GL (Fin n) K))) {j : K[X]}
     (hj : j ∈ primaryFactors (glA (A : GL (Fin n) K) : Module.End K (Fin n → K)))
@@ -376,7 +388,7 @@ theorem glaPComponent_map_specialSU {A : primeFormUnitary h (idGram K n)}
       ((specialSU h (A : GL (Fin n) K) j).map
         (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n))) := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hker : (QuotientGroup.mk' (normOneScalars h (gramSU h (idGram K n)) n)).ker ≤
       Subgroup.center (gramSU h (idGram K n)) := by
     rw [QuotientGroup.ker_mk']
@@ -414,6 +426,7 @@ theorem eighty_one_dvd_prod {m : ℕ} (hm : 4 ≤ m) :
   exact (show (81 : ℤ) ∣ 405 by norm_num).trans h2
 
 
+omit [Finite K] in
 theorem eighty_one_dvd_card_specialBlock {A : GL (Fin n) K}
     (H : UnitaryPrimaryData h.bar (idForm h n) (glA A)) {jb : K[X]}
     (hjb : jb ∈ primaryFactors (glA A : Module.End K (Fin n → K))) (hℓf : ℓ ^ f = 2)
@@ -448,7 +461,7 @@ theorem unitary_core {ℓ f n : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 
     {a b : MulAut (primeFormP h (idGram K n))} {x : primeFormP h (idGram K n)}
     {J : Subgroup (primeFormP h (idGram K n))} (c : CoreCfg a b x J) : False := by
   classical
-  haveI := h.finite
+  have := h.finite
   obtain ⟨Ba, hBa⟩ := exists_primeFormConjHom_of_mem_commutator h hn hq c.a_mem
   obtain ⟨Bb, hBb⟩ := exists_primeFormConjHom_of_mem_commutator h hn hq c.b_mem
   set A : primeFormUnitary h (idGram K n) := Ba * Bb * Ba⁻¹ * Bb⁻¹ with hAdef

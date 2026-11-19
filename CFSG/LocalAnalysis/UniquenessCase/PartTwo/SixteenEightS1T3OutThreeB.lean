@@ -11,6 +11,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)}
 
+omit [Finite W] in
 private theorem s16t3_modComm_comap_tilde {I : Subgroup W} (hI : I ∈ irrSet L) :
     modComm L ((tilde L (⊤ : Subgroup W) I).comap
         (QuotientGroup.mk' (modFix L (⊤ : Subgroup W)))) = I := by
@@ -23,7 +24,8 @@ private theorem s16t3_modComm_comap_tilde {I : Subgroup W} (hI : I ∈ irrSet L)
   rw [h]
   exact hI.1
 
-theorem s16t3_tilde_iso_of_iso (hq : CFSG.Open.IsQuasisimple ↥L) {I I' : Subgroup W}
+omit [Finite W] in
+theorem s16t3_tilde_iso_of_iso (_hq : CFSG.Open.IsQuasisimple ↥L) {I I' : Subgroup W}
     (hI : I ∈ irrSet L) (hI' : I' ∈ irrSet L) (hiso : XMod.Iso ↥L I' I) :
     XMod.Iso ↥L (tilde L (⊤ : Subgroup W) I') (tilde L (⊤ : Subgroup W) I) := by
   obtain ⟨φ, hφ⟩ := hiso
@@ -59,7 +61,7 @@ theorem s16t3_tilde_iso_of_iso (hq : CFSG.Open.IsQuasisimple ↥L) {I I' : Subgr
     have h := (hφ a x ⟨(a : MulAut W) (x : W), hstabI' a a.2 x x.2⟩ rfl).symm
     rw [Subgroup.smul_def, MulAut.smul_def] at h
     exact h
-  haveI : ((I ⊓ fixV L).subgroupOf I).Normal := Subgroup.normal_of_isMulCommutative _
+  have : ((I ⊓ fixV L).subgroupOf I).Normal := Subgroup.normal_of_isMulCommutative _
   refine p8b_iso_tilde_of_secIsoL (I := I') (I' := I) le_top le_top ?_
   rw [B5.secIsoL_iff]
   refine ⟨inf_le_left, inf_le_left, (fun h u hu => hstabI' h h.2 u hu),
@@ -105,7 +107,8 @@ theorem s16t3_tilde_iso_of_iso (hq : CFSG.Open.IsQuasisimple ↥L) {I I' : Subgr
       rw [Subgroup.coe_mul, Subgroup.coe_inv, hcoe1, hcoe2, ← map_inv, ← map_mul]
       exact isInv_fixV L γ γ.2 _ hmem
 
-theorem s16t3_eq_of_tilde_eq (hq : CFSG.Open.IsQuasisimple ↥L) {I I' : Subgroup W}
+omit [Finite W] in
+theorem s16t3_eq_of_tilde_eq (_hq : CFSG.Open.IsQuasisimple ↥L) {I I' : Subgroup W}
     (hI : I ∈ irrSet L) (hI' : I' ∈ irrSet L)
     (h : tilde L (⊤ : Subgroup W) I' = tilde L (⊤ : Subgroup W) I) : I' = I := by
   have h1 : modComm L ((tilde L (⊤ : Subgroup W) I').comap

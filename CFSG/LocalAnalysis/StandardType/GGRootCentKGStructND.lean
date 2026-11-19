@@ -55,7 +55,7 @@ theorem KGPiecesD.map {U : Type} [Group U] {𝒟 : Subgroup (MulAut U)} {z : U}
 
 theorem KGPiecesD.map_of_mem {U : Type} [Group U] {𝒟 : Subgroup (MulAut U)} {z : U}
     (h : KGPiecesD 𝒟 z) {β : MulAut U} (hβ : β ∈ 𝒟) : KGPiecesD 𝒟 (β z) :=
-  h.map β fun δ hδ => 𝒟.mul_mem (𝒟.mul_mem (𝒟.inv_mem hβ) hδ) hβ
+  h.map β fun _δ hδ => 𝒟.mul_mem (𝒟.mul_mem (𝒟.inv_mem hβ) hδ) hβ
 
 private theorem sup_proj_mem {G : Type} [Group G] {Q L : Subgroup G}
     (hLQ : L ≤ Subgroup.normalizer (Q : Set G)) (π : ↥(Q ⊔ L) →* ↥L)
@@ -161,7 +161,7 @@ private theorem gGRCSKGPiece_map_sup {U G : Type} [Group U] [Group G]
           Subgroup.centralizer (pCoreOf 2 (ψ.range ⊓ Subgroup.centralizer ({ψ z} : Set G)) :
             Set G)))
     (hLq : CFSG.Assembly.IsQuasisimple ↥L)
-    (hLm : LargeEvenMarking ↥L (fun lab R _ I _ θ => GGChevStTag lab ∧ ∀ α ∈ 𝒜, ∃ φ ∈ I,
+    (hLm : LargeEvenMarking ↥L (fun lab _R _ I _ θ => GGChevStTag lab ∧ ∀ α ∈ 𝒜, ∃ φ ∈ I,
       ∀ y : ↥L, φ (θ (QuotientGroup.mk y)) = θ (QuotientGroup.mk (α y))))
     (hEJ : E ≤ Subgroup.normalizer (((Q ⊔ L).map ψ : Subgroup G) : Set G)) :
     GGRCSKGPiece (ψ.range ⊓ Subgroup.centralizer ({ψ z} : Set G)) E ((Q ⊔ L).map ψ) := by
@@ -236,14 +236,14 @@ theorem kgPiecesD_of_decomp {U : Type} [Group U] {𝒟 : Subgroup (MulAut U)} {z
     (hLQ : L ≤ Subgroup.normalizer (Q : Set U)) (hQL : Q ⊓ L = ⊥)
     (hperf : ⁅Q ⊔ L, Q ⊔ L⁆ = Q ⊔ L) (hLq : CFSG.Assembly.IsQuasisimple ↥L)
     (𝒜 : Set (MulAut ↥L))
-    (hLm : LargeEvenMarking ↥L (fun lab R _ I _ θ => GGChevStTag lab ∧ ∀ α ∈ 𝒜, ∃ φ ∈ I,
+    (hLm : LargeEvenMarking ↥L (fun lab _R _ I _ θ => GGChevStTag lab ∧ ∀ α ∈ 𝒜, ∃ φ ∈ I,
       ∀ y : ↥L, φ (θ (QuotientGroup.mk y)) = θ (QuotientGroup.mk (α y))))
     (hδ : ∀ δ ∈ 𝒟, δ z = z → ∃ α ∈ 𝒜, ∀ s ∈ Q ⊔ L, ∀ l : ↥L, s * (l : U)⁻¹ ∈ Q →
       δ s * ((α l : ↥L) : U)⁻¹ ∈ Q) :
     KGPiecesD 𝒟 z := by
   classical
   intro G _ _ ψ hψ E hE hact
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCnorm : Subgroup.centralizer ({z} : Set U) ≤
       Subgroup.normalizer ((Q ⊔ L : Subgroup U) : Set U) := by
     rw [Subgroup.le_normalizer_iff_commutator_le_right]

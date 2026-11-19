@@ -188,11 +188,11 @@ theorem card_centralizer_short_unitary_odd {K : Type} [Field K] [Finite K] {ℓ 
     (hz1 : z ≠ 1) :
     Nat.card (Subgroup.centralizer ({z} : Set (adjointGroup .G2 K))) =
       (ℓ ^ f) ^ 3 * ((ℓ ^ f) ^ 2 - 1) * ((ℓ ^ f) ^ 3 + 1) := by
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have hchar : CharP K ℓ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic hℓ hf hK
   obtain ⟨L, _, _, _, -, hdeg, -⟩ := KS11Lie4Proof.exists_quadratic_ext' K
-  haveI : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
+  have : CharP L ℓ := charP_of_injective_algebraMap (algebraMap K L).injective ℓ
   obtain ⟨e⟩ := KS11Lie7Proof.nonempty_centralizer_mulEquiv_statedSU (p := ℓ) (f := f) hK h3 hdeg
     hzS hz3 hz1
   have hL : Nat.card L = (ℓ ^ f) ^ 2 := by rw [KS11Lie4Proof.natCard_quadratic hdeg, hK]
@@ -239,7 +239,7 @@ theorem tau_fixes_layer_linear_odd (P : D4ParOdd ℓ f X σ) (hq1 : ℓ ^ f % 3 
     (hx : IsClassX σ x) (hxA : x ∈ A0sub σ)
     (hcard : Nat.card (layerSub σ x) = (ℓ ^ f) ^ 3 * (((ℓ ^ f) ^ 2 - 1) * ((ℓ ^ f) ^ 3 - 1))) :
     ∀ d ∈ layerSub σ x, tauAut σ d = d := by
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   obtain ⟨M, hMC, hMG, hMp, hMcard⟩ := g2_layer_linear_odd P hq1 hx hxA
   exact layer_fixed_of_perfect_card M hMC hMG hMp (by rw [hcard, hMcard])
 
@@ -247,7 +247,7 @@ theorem tau_fixes_layer_unitary_odd (P : D4ParOdd ℓ f X σ) (hq2 : ℓ ^ f % 3
     (hx : IsClassX σ x) (hxA : x ∈ A0sub σ)
     (hcard : Nat.card (layerSub σ x) = (ℓ ^ f) ^ 3 * ((ℓ ^ f) ^ 2 - 1) * ((ℓ ^ f) ^ 3 + 1)) :
     ∀ d ∈ layerSub σ x, tauAut σ d = d := by
-  haveI : Finite (C0 σ) := finite_C0
+  have : Finite (C0 σ) := finite_C0
   obtain ⟨M, hMC, hMG, hMp, hMcard⟩ := g2_layer_unitary_odd P hq2 hx hxA
   exact layer_fixed_of_perfect_card M hMC hMG hMp (by rw [hcard, hMcard])
 

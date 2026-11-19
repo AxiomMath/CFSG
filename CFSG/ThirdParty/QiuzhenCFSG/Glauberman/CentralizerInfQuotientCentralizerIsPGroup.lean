@@ -43,7 +43,7 @@ public theorem centralizer_inf_quotientCentralizer_isPGroup
   let P : Subgroup H := K.subgroupOf H
   have hPnormal : P.Normal :=
     Subgroup.Normal.subgroupOf (inferInstance : K.Normal) H
-  letI : P.Normal := hPnormal
+  let : P.Normal := hPnormal
   have hCE : C ≤ E := by
     intro c hc
     constructor

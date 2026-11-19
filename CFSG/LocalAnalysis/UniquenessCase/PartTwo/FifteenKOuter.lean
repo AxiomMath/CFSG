@@ -12,7 +12,7 @@ theorem s15k_out_embed {S H : Type} [Group S] [Group H] (f : S →* H) (hf : Fun
     (hn : f.range.Normal) (hc : ∀ h : H, (∀ s : S, h * f s = f s * h) → h = 1) :
     ∃ Ψ : H →* MulAut S, Function.Injective Ψ ∧
       ∀ (h : H) (s : S), f (Ψ h s) = h * f s * h⁻¹ := by
-  haveI := hn
+  have := hn
   let Ψ : H →* MulAut S :=
     (MulAut.congr (MonoidHom.ofInjective hf).symm).toMonoidHom.comp
       (MulAut.conjNormal (H := f.range))
@@ -83,7 +83,7 @@ theorem s15k_out_index_pow_of_aut_le {S H : Type} [Group S] [Group H] [Finite S]
 theorem s15k_out_odd_mem {S H : Type} [Group S] [Group H] [Finite H] (f : S →* H)
     (hn : f.range.Normal) {k : ℕ} (hk : f.range.index = 2 ^ k) {x : H}
     (hx : Odd (orderOf x)) : x ∈ f.range := by
-  haveI := hn
+  have := hn
   have h1 : orderOf (QuotientGroup.mk x : H ⧸ f.range) ∣ orderOf x :=
     orderOf_map_dvd (QuotientGroup.mk' f.range) x
   have h2 : orderOf (QuotientGroup.mk x : H ⧸ f.range) ∣ 2 ^ k := by

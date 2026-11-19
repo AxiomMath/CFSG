@@ -43,7 +43,7 @@ private theorem spectrumAdjMatrix_apply_of
     spectrumAdjMatrix c A B = 1 := by
   classical
   change (if (commutingGraph c).Adj A B then (1 : ℝ) else 0) = 1
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 private theorem spectrumAdjMatrix_apply_of_not
     {G : Type u} [Group G] [Finite G]
@@ -52,7 +52,7 @@ private theorem spectrumAdjMatrix_apply_of_not
     spectrumAdjMatrix c A B = 0 := by
   classical
   change (if (commutingGraph c).Adj A B then (1 : ℝ) else 0) = 0
-  rw [if_neg h]
+  rw [ite_eq_right h]
 
 private noncomputable def spectrumDistTwoMatrix
     {G : Type u} [Group G] [Finite G]
@@ -275,8 +275,8 @@ private theorem adjMatrix_mul_distTwo_apply_eq_card
       apply Finset.sum_congr rfl
       intro k _
       by_cases h : commutingGraphDistTwo c k j
-      · rw [if_pos h, spectrumDistTwoMatrix_apply_of c k j h]
-      · rw [if_neg h, spectrumDistTwoMatrix_apply_of_not c k j h]
+      · rw [ite_eq_left h, spectrumDistTwoMatrix_apply_of c k j h]
+      · rw [ite_eq_right h, spectrumDistTwoMatrix_apply_of_not c k j h]
     _ = (((commutingGraph c).neighborFinset i).filter
           (fun k => commutingGraphDistTwo c k j)).card := by simp
     _ = Fintype.card {k : UConjugates c //
@@ -315,8 +315,8 @@ private theorem adjMatrix_mul_distThree_apply_eq_card
       apply Finset.sum_congr rfl
       intro k _
       by_cases h : commutingGraphDistThree c k j
-      · rw [if_pos h, spectrumDistThreeMatrix_apply_of c k j h]
-      · rw [if_neg h, spectrumDistThreeMatrix_apply_of_not c k j h]
+      · rw [ite_eq_left h, spectrumDistThreeMatrix_apply_of c k j h]
+      · rw [ite_eq_right h, spectrumDistThreeMatrix_apply_of_not c k j h]
     _ = (((commutingGraph c).neighborFinset i).filter
           (fun k => commutingGraphDistThree c k j)).card := by simp
     _ = Fintype.card {k : UConjugates c //
@@ -621,7 +621,7 @@ private theorem spectrumScalarMatrix_ofNat
   ext i j
   rw [Matrix.ofNat_apply]
   by_cases hij : i = j
-  · simp only [Matrix.diagonal_apply, hij, if_pos]
+  · simp only [Matrix.diagonal_apply, hij, ite_eq_left]
     exact (Nat.cast_ofNat (R := ℝ)).symm
   · simp [hij]
 
@@ -1016,9 +1016,9 @@ private theorem spectrumIndicator_adj_quadratic_eq_zero
   · by_cases hj : j ∈ S
     · by_cases hij : i = j
       · subst j
-        rw [if_neg (commutingGraph c).irrefl]
+        rw [ite_eq_right (commutingGraph c).irrefl]
       · have hnotAdj : ¬ (commutingGraph c).Adj i j := hS hi hj hij
-        rw [if_neg hnotAdj]
+        rw [ite_eq_right hnotAdj]
     · rw [spectrumIndicator_apply_of_not_mem c S hj]
       simp
   · rw [spectrumIndicator_apply_of_not_mem c S hi]
@@ -1133,8 +1133,8 @@ private theorem spectrumIndicator_adj_mulVec_apply_eq_card
       apply Finset.sum_congr rfl
       intro x _
       by_cases hx : x ∈ S
-      · rw [if_pos hx, spectrumIndicator_apply_of_mem c S hx]
-      · rw [if_neg hx, spectrumIndicator_apply_of_not_mem c S hx]
+      · rw [ite_eq_left hx, spectrumIndicator_apply_of_mem c S hx]
+      · rw [ite_eq_right hx, spectrumIndicator_apply_of_not_mem c S hx]
     _ = (((commutingGraph c).neighborFinset v).filter
         (fun x => x ∈ S)).card := by simp
     _ = Fintype.card {x : {x : UConjugates c // x ∈ S} //

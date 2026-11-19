@@ -42,7 +42,7 @@ theorem uc2_10_7J1_holds : UC2_10_7J1 := by
   have hIndex : ((Subgroup.centralizer ((S : Subgroup A) : Set A)).subgroupOf
       (Subgroup.normalizer ((S : Subgroup A) : Set A))).index = 6 := by
     have h := (hJ2.2.2 7 S (Or.inl rfl)).2
-    rwa [if_neg (by norm_num : (7 : ℕ) ≠ 11)] at h
+    rwa [ite_eq_right (by norm_num : (7 : ℕ) ≠ 11)] at h
   have hCcard : Nat.card (Subgroup.centralizer ((S : Subgroup A) : Set A)) = 7 := by
     rw [hJ2E.2.1 7 (Or.inl rfl) S, hScard]
   have hCsubcard : Nat.card ((Subgroup.centralizer ((S : Subgroup A) : Set A)).subgroupOf

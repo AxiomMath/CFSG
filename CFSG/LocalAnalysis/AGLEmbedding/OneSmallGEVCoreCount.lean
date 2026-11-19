@@ -53,7 +53,7 @@ theorem D1OneSmallData.fusion_count (hd : D1OneSmallData p P M H R Rbar K) {z : 
     Subgroup.mem_centralizer_singleton_iff.mp (hRC hr)
   obtain ⟨hzT, -⟩ := hd.d1LiftX_facts hz
   obtain ⟨x, hxP, hxN, hxR, -⟩ := hd.exists_moving_elt hz hB0
-  obtain ⟨k, hk⟩ := P.isPGroup' ⟨x, hxP⟩
+  obtain ⟨k, hk⟩ := P.isPGroup ⟨x, hxP⟩
   have hxk : x ^ p ^ k = 1 := by simpa using congrArg Subtype.val hk
   have hpdvd : p ∣ (fusionSet R z).ncard := p_dvd_ncard_fusionSet hzp hxN hxk hxR
     (fun y hy hyz hyk => hd.mem_of_mem_normalizer_of_commute hB0 hy hyz hyk)

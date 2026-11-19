@@ -21,7 +21,7 @@ section Cit3
 variable {r n : ℕ}
 
 theorem z2BigChoiceB_of_split (hSplit : Z2BigSplit r n) : Z2BigChoiceB r n :=
-  fun hr Y _ _ R S t J u R₀ T₀ P hs hall hno =>
+  fun hr _Y _ _ _R _S _t _J _u _R₀ _T₀ _P hs hall hno =>
     hs.exists_choiceB hr hSplit hall hno (hs.exists_sylow_conj_le_actAut_image_linkGrp hr)
 
 theorem z2BigChoiceB_holds (r n : ℕ) : Z2BigChoiceB r n :=

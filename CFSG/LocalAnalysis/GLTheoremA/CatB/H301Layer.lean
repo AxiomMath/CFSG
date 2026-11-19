@@ -18,7 +18,7 @@ theorem glaPLayer_eq_of_isSimple_normal_commutator_le {p : ℕ} (hp : p.Prime) {
     (hSH : S ≤ H) (hSn : ∀ g ∈ H, ∀ s ∈ S, g * s * g⁻¹ ∈ S) (hS : IsSimpleGroup ↥S)
     (hnab : ∃ a b : ↥S, a * b ≠ b * a) (hpS : p ∣ Nat.card ↥S) (hc : ⁅H, H⁆ ≤ S) :
     GLAPLayer p H = S := by
-  haveI := hS
+  have := hS
   have hn : (S.subgroupOf H).Normal :=
     ⟨fun x hx g => by
       rw [Subgroup.mem_subgroupOf] at hx ⊢
@@ -31,6 +31,7 @@ theorem glaPLayer_eq_of_isSimple_normal_commutator_le {p : ℕ} (hp : p.Prime) {
   rw [← GLTheoremB.glaPComponent_perfect hJ']
   exact (Subgroup.commutator_mono hJ'.1 hJ'.1).trans hc
 
+omit [Finite G] in
 theorem glaPLayer_eq_of_unique_glaPComponent {p : ℕ} {H S : Subgroup G}
     (hS : GLAPComponent p H S) (huniq : ∀ J, GLAPComponent p H J → J = S) :
     GLAPLayer p H = S := by
@@ -40,8 +41,8 @@ theorem glaPLayer_eq_of_unique_glaPComponent {p : ℕ} {H S : Subgroup G}
 theorem isTypeWithCenter_of_isSimple {p : ℕ} (hp : p.Prime) {J : Subgroup G}
     (hJ : IsSimpleGroup ↥J) (hnab : ∃ a b : ↥J, a * b ≠ b * a) (hpJ : p ∣ Nat.card ↥J)
     {Q : TauCeti.CFSGIndex → Prop} (hQ : catalogIs ↥J Q) : IsTypeWithCenter p J Q 1 := by
-  haveI := hJ
-  haveI : Fact p.Prime := ⟨hp⟩
+  have := hJ
+  have : Fact p.Prime := ⟨hp⟩
   have hcore : GLAPPrimeCore p ↥J = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore p ↥J) with h | h
     · exact h
@@ -65,11 +66,12 @@ theorem isTypeWithCenter_of_isSimple {p : ℕ} (hp : p.Prime) {J : Subgroup G}
   obtain ⟨i, hi, ⟨f⟩⟩ := hQ
   exact ⟨⟨i, hi, ⟨e'.trans f⟩⟩, by rw [hZq, Subgroup.card_bot]⟩
 
+omit [Finite G] in
 theorem le_centralizer_of_normal_two_simple {H N K : Subgroup G} (hNH : N ≤ H) (hKH : K ≤ H)
     (hNn : ∀ g ∈ H, ∀ n ∈ N, g * n * g⁻¹ ∈ N) (hKn : ∀ g ∈ H, ∀ k ∈ K, g * k * g⁻¹ ∈ K)
     (hN : IsPGroup 2 ↥N) (hK : IsSimpleGroup ↥K) (hK2 : ¬ IsPGroup 2 ↥K) :
     N ≤ Subgroup.centralizer (K : Set G) := by
-  haveI := hK
+  have := hK
   have hnorm : (N.subgroupOf K).Normal :=
     ⟨fun x hx g => by
       rw [Subgroup.mem_subgroupOf] at hx ⊢
@@ -89,6 +91,7 @@ theorem le_centralizer_of_normal_two_simple {H N K : Subgroup G} (hNH : N ≤ H)
   calc k * n = (n * k * n⁻¹ * k⁻¹)⁻¹ * (n * k) := by group
     _ = n * k := by rw [h1, inv_one, one_mul]
 
+omit [Finite G] in
 theorem isElemAbelian_closure_three {a b c : G} (hab : Commute a b) (hac : Commute a c)
     (hbc : Commute b c) (ha : a ^ 3 = 1) (hb : b ^ 3 = 1) (hc : c ^ 3 = 1)
     (hind : ∀ i j k : ℕ, i < 3 → j < 3 → k < 3 → a ^ i * b ^ j * c ^ k = 1 →

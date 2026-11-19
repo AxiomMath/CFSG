@@ -34,7 +34,7 @@ private theorem center_reeGamma_eq_bot {K : Type} [Field K] [Finite K] [CharP K 
     {a : ℕ} {S : Type} [Group S] (hSq : CFSG.Open.IsQuasisimple S)
     (e : S ⧸ Subgroup.center S ≃* ↥(ReeTag.F4.reeGamma K a)) :
     Subgroup.center ↥(ReeTag.F4.reeGamma K a) = ⊥ := by
-  haveI : IsSimpleGroup (S ⧸ Subgroup.center S) := hSq.2
+  have : IsSimpleGroup (S ⧸ Subgroup.center S) := hSq.2
   have hnab : ∃ x y : S ⧸ Subgroup.center S, x * y ≠ y * x :=
     CFSG.StandardType.exists_mul_ne_mul_centerQuot_of_perfect hSq.1 inferInstance
   have hZ₀ : Subgroup.center (S ⧸ Subgroup.center S) = ⊥ :=
@@ -54,7 +54,7 @@ private theorem ree_sel_of_dvd {Ω : Type} [Group Ω] [Finite Ω] {p : ℕ} (hp 
     (hKcard : Nat.card K = 2 ^ (2 * a + 1)) (ha : 1 ≤ a) (hpq : p ∣ 2 ^ (2 * a + 1) - 1)
     (eΓ : ↥S ⧸ Subgroup.center ↥S ≃* ↥(ReeTag.F4.reeGamma K a)) :
     ∃ J : Subgroup Ω, DX.SelComp p S B₀ T' x J := by
-  haveI : Finite ↥(ReeTag.F4.reeGamma K a) := Finite.of_equiv _ eΓ.toEquiv
+  have : Finite ↥(ReeTag.F4.reeGamma K a) := Finite.of_equiv _ eΓ.toEquiv
   have hx : x ∈ B := hB₀.1 hxB₀
   have hxp : x ^ p = 1 := hBel.2 x hx
   have hInn : InnDiagOn p (Subgroup.zpowers x) S :=

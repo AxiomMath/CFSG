@@ -23,7 +23,7 @@ theorem map_mulVec_of_cols {R ι : Type*} [CommRing R] [Fintype ι] [DecidableEq
   have hv : v = ∑ i, v i • (Pi.single i (1 : R) : ι → R) := by
     ext r
     simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul]
-    rw [Finset.sum_eq_single r (fun b _ hb => by simp [Pi.single_apply, Ne.symm hb]) (by simp)]
+    rw [Finset.sum_eq_single r (fun b _ hb => by simp [Ne.symm hb]) (by simp)]
     simp
   conv_rhs => rw [hv]
   rw [hM, Q.map_sum, Q.map_sum]

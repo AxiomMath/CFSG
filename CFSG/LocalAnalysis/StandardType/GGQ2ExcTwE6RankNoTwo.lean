@@ -66,7 +66,7 @@ theorem excTwE6_noTwo {G : Type} [Group G] [Finite G] {B Bs : Subgroup G} {x : G
         ((Bs ⊓ Subgroup.centralizer (G0 : Set G)).subgroupOf
           (Subgroup.centralizer (G0 : Set G)))
       rwa [Nat.card_congr (Subgroup.subgroupOfEquivOfLe inf_le_right).toEquiv] at h
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     rcases hTp.card_eq_or_dvd with h1 | h3dvd
     · exact Subgroup.eq_bot_of_card_eq _ h1
     · exact absurd (h3dvd.trans hTdvd) h3n

@@ -87,7 +87,7 @@ public theorem CFSG.section12_exists_primeOrder_zpowers_in_pre
     exact hxne (by simpa using hxbot)
   rcases Nat.exists_prime_and_dvd hcard_ne_one with ⟨q, hqprime, hqdiv⟩
   let q' : Nat.Primes := ⟨q, hqprime⟩
-  haveI : Fact q.Prime := ⟨hqprime⟩
+  have : Fact q.Prime := ⟨hqprime⟩
   obtain ⟨z₀, hz₀_order⟩ :=
     exists_prime_orderOf_dvd_card' (G := Subgroup.zpowers x) q hqdiv
   let z : G := z₀
@@ -113,7 +113,7 @@ public theorem CFSG.section12_exists_primeOrder_zpowers_of_prime_dvd_card_pre
     ∃ z : G, z ∈ B ∧ z ≠ 1 ∧
       Subgroup.zpowers z ∈ section10PrimeOrderSubgroupsIn q B := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.property⟩
+  have : Fact q.val.Prime := ⟨q.property⟩
   obtain ⟨z₀, hz₀_order⟩ := exists_prime_orderOf_dvd_card' (G := B) q.val hqB
   let z : G := z₀
   have hzB : z ∈ B := z₀.property
@@ -172,7 +172,7 @@ public theorem CFSG.section12_subgroupCentralizerIn_primeOrder_eq_bot_of_tau13_p
     (hA_normX : A ≤ Subgroup.normalizer (X : Set G)) :
     subgroupCentralizerIn (section10Msigma M) X = ⊥ := by
   classical
-  haveI : Fact q.val.Prime := ⟨q.2⟩
+  have : Fact q.val.Prime := ⟨q.2⟩
   have hX_M : X ∈ section10PrimeOrderSubgroupsIn q M := by
     simpa [section10PrimeOrderSubgroupsIn] using ⟨hXM, hXcard⟩
   have hXp : IsPGroup q.val X := by
@@ -214,12 +214,12 @@ public theorem CFSG.section12_rankTwo_le_normalizer_of_le_E3_pre
     A ≤ Subgroup.normalizer (X : Set G) := by
   classical
   have hE3cyc : IsCyclic E₃ := (lemma_12_1_d hM hE).2
-  haveI : IsCyclic E₃ := hE3cyc
+  have : IsCyclic E₃ := hE3cyc
   have hXchar : (X.subgroupOf E₃).Characteristic :=
     section12_subgroup_characteristic_of_cyclic (X.subgroupOf E₃)
   have hNormE3_le_NormX :
       Subgroup.normalizer (E₃ : Set G) ≤ Subgroup.normalizer (X : Set G) := by
-    haveI : (X.subgroupOf E₃).Characteristic := hXchar
+    have : (X.subgroupOf E₃).Characteristic := hXchar
     have hle :
         Subgroup.normalizer (E₃ : Set G) ≤
           Subgroup.normalizer ((X.subgroupOf E₃).map E₃.subtype : Set G) :=

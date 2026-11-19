@@ -22,14 +22,14 @@ theorem ConjAgree.self (hl : l ∈ L) (h : ConjAgree L b l) : b * l * b⁻¹ = l
   rw [h l hl]
   group
 
-theorem ConjAgree.commute (hl : l ∈ L) (hm : m ∈ L) (h : ConjAgree L b l) (h' : ConjAgree L b m)
+theorem ConjAgree.commute (_hl : l ∈ L) (_hm : m ∈ L) (h : ConjAgree L b l) (h' : ConjAgree L b m)
     {k : Y} (hk : k ∈ L) : k * (l⁻¹ * m) = (l⁻¹ * m) * k := by
   have e : l * k * l⁻¹ = m * k * m⁻¹ := (h k hk).symm.trans (h' k hk)
   calc k * (l⁻¹ * m) = l⁻¹ * (l * k * l⁻¹) * m := by group
     _ = l⁻¹ * (m * k * m⁻¹) * m := by rw [e]
     _ = (l⁻¹ * m) * k := by group
 
-theorem ConjAgree.mul (hl : l ∈ L) (hm : m ∈ L) (h : ConjAgree L b l) (h' : ConjAgree L c m) :
+theorem ConjAgree.mul (_hl : l ∈ L) (hm : m ∈ L) (h : ConjAgree L b l) (h' : ConjAgree L c m) :
     ConjAgree L (b * c) (l * m) := by
   intro k hk
   have h1 : c * k * c⁻¹ = m * k * m⁻¹ := h' k hk

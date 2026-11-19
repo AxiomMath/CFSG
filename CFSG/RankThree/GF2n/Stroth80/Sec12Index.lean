@@ -11,6 +11,7 @@ open CFSG CFSG.CGT.Timmesfeld75
 variable {G : Type} [Group G] {QF V : Subgroup G} {K : Type} [Field K] [Finite K] [CharP K 2]
   {γ : G → K}
 
+omit [Finite K] in
 theorem card_le_two_mul_of_fixer (M₀ : Tim79.QuadModel QF V K γ)
     (Λ Λ₀ : Subgroup (M₀.E ≃ₗ[K] M₀.E)) (Wp : Submodule K M₀.E) (w' : M₀.E)
     (hdim : Module.finrank K Wp = 2) (hnd : Wp ⊓ M₀.B.orthogonal Wp = ⊥) (hw' : w' ∈ Wp)

@@ -27,7 +27,7 @@ variable {A : Type} [Group A]
 theorem centralizes_of_quotAutN_eq_one {Y : Subgroup A} (hY : Open.IsQuasisimple ↥Y)
     {c : ↥(Subgroup.normalizer (Y : Set A))} (h : quotAutN Y c = 1) :
     ∀ y ∈ Y, (c : A) * y = y * c := by
-  haveI : Group.IsPerfect ↥Y := Group.isPerfect_def.mpr hY.1
+  have : Group.IsPerfect ↥Y := Group.isPerfect_def.mpr hY.1
   have hφ : Y.normalizerMonoidHom c = 1 :=
     CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom_injective ↥Y
       (by rw [map_one]; exact h)
@@ -76,8 +76,8 @@ theorem card_range_dvd_of_not_sq [Finite A] {Y B : Subgroup A} {p : ℕ} (hp : p
     (hBY : B ≤ Subgroup.normalizer (Y : Set A)) (hB : IsPGroup p ↥B)
     (h2 : ¬ p ^ 2 ∣ Nat.card (MulAut (↥Y ⧸ Subgroup.center ↥Y))) :
     Nat.card (quotAut hBY).range ∣ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite ↥(quotAut hBY).range :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite ↥(quotAut hBY).range :=
     Finite.of_surjective _ (quotAut hBY).rangeRestrict_surjective
   have hS : IsPGroup p ↥(quotAut hBY).range :=
     hB.of_surjective (quotAut hBY).rangeRestrict (quotAut hBY).rangeRestrict_surjective
@@ -119,7 +119,7 @@ theorem card_range_dvd_three_of_overgroup96 [Finite A] {Y P B : Subgroup A}
     (hX2 : 2 ∣ Nat.card (↥Y ⧸ Subgroup.center ↥Y))
     (h96 : CFSG.HardMathSupport.Curtis.Proving.OvergroupOrder96 (↥Y ⧸ Subgroup.center ↥Y)) :
     Nat.card (quotAut hBY).range ∣ 3 := by
-  haveI : IsSimpleGroup (↥Y ⧸ Subgroup.center ↥Y) := hY.2
+  have : IsSimpleGroup (↥Y ⧸ Subgroup.center ↥Y) := hY.2
   have hZ : Subgroup.center (↥Y ⧸ Subgroup.center ↥Y) = ⊥ := by
     obtain ⟨a, b, hab⟩ :=
       CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian ↥Y hY
@@ -162,7 +162,7 @@ theorem card_range_dvd_three_of_overgroup96 [Finite A] {Y P B : Subgroup A}
   obtain ⟨T, hT, hTP⟩ := exists_sylow_le_quotSub hpar
   have hNtop : Nn ≠ ⊤ := by
     intro hN
-    haveI hnorm : (quotSub Y P).Normal := Subgroup.normalizer_eq_top_iff.mp hN
+    have hnorm : (quotSub Y P).Normal := Subgroup.normalizer_eq_top_iff.mp hN
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (quotSub Y P) with h | h
     · apply hT.2.2
       have hTb : T = ⊥ := le_bot_iff.mp (h ▸ hTP)

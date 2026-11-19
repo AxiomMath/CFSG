@@ -127,10 +127,10 @@ private theorem rep_foldl_rel {ta tb tai tbi : Table} {α β : Equiv.Perm (Fin 1
         (if l.2 then (if l.1 = 0 then α else if l.1 = 1 then β else 1)
           else (if l.1 = 0 then α else if l.1 = 1 then β else 1)⁻¹) := by
       by_cases h0 : l.1 = 0
-      · cases hl2 : l.2 <;> simp [h0, ha, hai, hl2]
+      · cases hl2 : l.2 <;> simp [h0, ha, hai]
       · by_cases h1 : l.1 = 1
-        · cases hl2 : l.2 <;> simp [h0, h1, hb, hbi, hl2]
-        · cases hl2 : l.2 <;> simp [h0, h1, hl2, Rep.idT (by norm_num : 1408 < 2 ^ 32)]
+        · cases hl2 : l.2 <;> simp [h1, hb, hbi]
+        · cases hl2 : l.2 <;> simp [h0, h1, Rep.idT (by norm_num : 1408 < 2 ^ 32)]
     have := ih _ _ (Rep.compT h hl)
     simpa [CFSG.Sporadic.Bridge.wordProd, mul_assoc] using this
 

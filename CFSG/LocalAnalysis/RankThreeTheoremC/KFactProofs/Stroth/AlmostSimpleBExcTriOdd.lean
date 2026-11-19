@@ -31,8 +31,8 @@ theorem card_le_three_of_normalizes (hσ3 : σ ^ 3 = 1) (h3 : ¬ 3 ∣ Nat.card 
     (hAR : A ≤ Subgroup.normalizer (R : Set (ModGL TwistTag.D4.tag K)))
     {E : Subgroup (ModGL TwistTag.D4.tag K)} (hEA : E ≤ A) (hE3 : ∀ y ∈ E, y ^ 3 = 1) :
     Nat.card E ≤ 3 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hE3' : IsPGroup 3 E := fun y => ⟨1, by rw [pow_one]; exact Subtype.ext (hE3 y y.2)⟩
   obtain ⟨x₀, -, J, hJ, hEJ⟩ := exists_conj_le_graphFixedParabolicLevi TwistTag.D4 (r := 2)
     (p := 3) (by norm_num) σ hσ3 (hEA.trans hAX) hE3' hRX hR2 hR (hEA.trans hAR)
@@ -50,8 +50,8 @@ theorem exists_conj_mem_range_of_normalizes (hσ3 : σ ^ 3 = 1) (h3 : ¬ 3 ∣ N
     ∃ g ∈ graphFixedRootGroup TwistTag.D4 K σ.toRingHom,
       ∃ a : Fin TwistTag.D4.foldedTag.rank,
         g * y * g⁻¹ ∈ (orbitRankOneHom TwistTag.D4 K σ.toRingHom a).range := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hEA : Subgroup.zpowers y ≤ A := (Subgroup.zpowers_le).2 hyA
   have hE3 : ∀ z ∈ Subgroup.zpowers y, z ^ 3 = 1 := by
     rintro _ ⟨k, rfl⟩
@@ -213,7 +213,7 @@ theorem exists_big_exp_three_subgroup (hσ3 : σ ^ 3 = 1) {f : ℕ} (hf : 1 ≤ 
     ∃ E : Subgroup (ModGL TwistTag.D4.tag K), E ≤ graphFixedRootGroup TwistTag.D4 K σ.toRingHom ∧
       (∀ e ∈ E, e * y = y * e) ∧ (∀ e ∈ E, e ^ 3 = 1) ∧ 3 < Nat.card E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨w, b, hw, hcomm⟩ := exists_commuting_rank_one (K := K) σ.toRingHom a
   set R' := orbitConjRankOneHom TwistTag.D4 K σ.toRingHom w b with hR'
   have hinj : Function.Injective R' :=
@@ -247,7 +247,7 @@ theorem exists_big_exp_three_subgroup (hσ3 : σ ^ 3 = 1) {f : ℕ} (hf : 1 ≤ 
     have h1 := eq_one_of_mem_range_of_mem_centralizer σ hσ3 a hzM hzC
     rw [h1, orderOf_one] at hzo
     omega
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
   set E' : Subgroup (ModGL TwistTag.D4.tag K) := Subgroup.zpowers y' ⊔ Subgroup.zpowers z with hE'
   have hyz' : Commute y' z := hyz
   have hcz : ∀ u ∈ Subgroup.zpowers y', ∀ v ∈ Subgroup.zpowers z, u * v = v * u := by
@@ -321,9 +321,9 @@ theorem oddPCoreInClosure_triality_three_odd_aux {f : ℕ} (hf : 1 ≤ f) (hfodd
     (C : Subgroup ↥X) (hC : ∀ c : ↥X, c ∈ C ↔ c * x = x * c) :
     OddPCoreInClosure 3 ↥C := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
-  haveI : Finite X := Subtype.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL TwistTag.D4.tag K) := finite_modGL
+  have : Finite X := Subtype.finite
   have hσ3 : σ ^ 3 = 1 := by
     refine RingEquiv.ext fun c => ?_
     have : Fintype K := Fintype.ofFinite K
@@ -340,7 +340,7 @@ theorem oddPCoreInClosure_triality_three_odd_aux {f : ℕ} (hf : 1 ≤ f) (hfodd
     have h8 : ((2 ^ (2 * k + 1)) ^ 3) % 3 = 2 := by
       rw [Nat.pow_mod, h2]
     omega
-  haveI : Finite C := Subtype.finite
+  have : Finite C := Subtype.finite
   intro N hN hle hcop
   by_contra hodd
   have hxC : x ∈ C := (hC x).2 rfl
@@ -393,11 +393,11 @@ theorem oddPCoreInClosure_triality_three_odd_aux {f : ℕ} (hf : 1 ≤ f) (hfodd
     hEcard
 
 theorem oddPCoreInClosure_triality_three_odd {f : ℕ} (hf : 1 ≤ f) (hfodd : Odd f)
-    (hK : Nat.card K = (2 ^ f) ^ 3) (hσ : ∀ c, σ c = c ^ 2 ^ f)
+    (hK : Nat.card K = (2 ^ f) ^ 3) (hσ : ∀ _c, σ _c = _c ^ 2 ^ f)
     {x : ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom)} (hx : orderOf x = 3) :
     OddPCoreInClosure 3
       ↥(Subgroup.centralizer ({x} : Set ↥(graphFixedRootGroup TwistTag.D4 K σ.toRingHom))) :=
-  oddPCoreInClosure_triality_three_odd_aux σ hf hfodd hK hσ _ rfl hx _ fun c =>
+  oddPCoreInClosure_triality_three_odd_aux σ hf hfodd hK hσ _ rfl hx _ fun _c =>
     Subgroup.mem_centralizer_singleton_iff
 
 end Main

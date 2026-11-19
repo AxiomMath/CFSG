@@ -28,7 +28,7 @@ theorem pair_sylow_ambient_of_whole_fixed_pair
   let : Fact p.Prime := ⟨hp⟩
   let B := rightCosetStabilizer H a ⊓ rightCosetStabilizer H b
   let PG : Subgroup G := (P : Subgroup B).map B.subtype
-  have hPGp : IsPGroup p PG := P.isPGroup'.map B.subtype
+  have hPGp : IsPGroup p PG := P.isPGroup.map B.subtype
   obtain ⟨T, hPGT⟩ := hPGp.exists_le_sylow
   refine ⟨T, ?_⟩
   apply le_antisymm
@@ -36,8 +36,8 @@ theorem pair_sylow_ambient_of_whole_fixed_pair
     have hproper : PG < (T : Subgroup G) := lt_iff_le_not_ge.mpr ⟨hPGT, hnot⟩
     let U : Subgroup G := (T : Subgroup G) ⊓ Subgroup.normalizer (PG : Set G)
     have hgrowth : PG < U := pSubgroup_lt_normalizer_intersection p hp PG
-      (T : Subgroup G) T.isPGroup' hproper
-    have hUp : IsPGroup p U := T.isPGroup'.of_injective
+      (T : Subgroup G) T.isPGroup hproper
+    have hUp : IsPGroup p U := T.isPGroup.of_injective
       (Subgroup.inclusion (show U ≤ (T : Subgroup G) from inf_le_left))
       (Subgroup.inclusion_injective _)
     have hUB : U ≤ B := odd_p_normalizer_fixes_whole_pair H PG U p hp hodd hUp

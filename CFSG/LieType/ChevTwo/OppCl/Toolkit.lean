@@ -68,6 +68,7 @@ theorem exists_equivariant_swap [CharP F 2] [Finite V] (p : ℕ) [Fact p.Prime] 
       ∃ v ∈ B, g v ≠ 0 :=
   TK.exists_equivariant_swap p hp2 Rh hs hR A B D hA hB hD hDB f hfc hfAB hf0
 
+omit [AddCommGroup V] in
 theorem exists_fixed_coset [Finite V] (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2)
     (Rh : Subgroup (Equiv.Perm V)) (hR : IsPGroup p Rh)
     (G : Subgroup (Equiv.Perm V)) (hG : ∀ r ∈ Rh, ∀ g ∈ G, r * g * r⁻¹ ∈ G)

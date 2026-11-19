@@ -29,7 +29,7 @@ universe v
     (T : Section1.ClassFunction L →ₗ[ℂ] Section1.ClassFunction G) : Prop :=
   Section5.hypothesis_5_2_statement S T ∧
     K.Normal ∧
-    IsSolvable K ∧
+    Group.IsSolvable K ∧
     inducedKernelFamily K ⊥ S
 
 public theorem hypothesis_6_1_hypothesis_5_2

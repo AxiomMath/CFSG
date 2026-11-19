@@ -77,12 +77,12 @@ theorem recFacts {CF : Nat → Nat} {A B B4 N k : Nat} (h : classRecK CF A B B4 
       exact absurd hk (of_decide_eq_false h7)
     · exact of_decide_eq_true h7
   · subst hk
-    rw [if_pos rfl] at h8
+    rw [ite_eq_left rfl] at h8
     simp only [Bool.and_eq_true] at h8
     obtain ⟨⟨⟨a, b⟩, c⟩, d⟩ := h8
     exact ⟨Nat.eq_of_beq_eq_true a, Nat.eq_of_beq_eq_true b, Nat.eq_of_beq_eq_true c,
       Nat.eq_of_beq_eq_true d⟩
-  · rw [if_neg (by omega)] at h8
+  · rw [ite_eq_right (by omega)] at h8
     simp only [Bool.and_eq_true] at h8
     exact ⟨of_decide_eq_true h8.1, Nat.eq_of_beq_eq_true h8.2⟩
 
@@ -149,7 +149,7 @@ private theorem get2_one (a b : Array Nat) : (#[a, b] : Array (Array Nat))[1]! =
 private theorem conjK_of_eq {A B B4 l P : Nat} (hl : l = 0) :
     conjK A B B4 l P = mulV (mulV A P) A := by
   unfold conjK
-  rw [if_pos hl]
+  rw [ite_eq_left hl]
 
 theorem conjSeed_unpack (A B P l : Nat) :
     conjSeed #[unpackR 22 A, unpackR 22 B] l (unpackR 22 P) =
@@ -161,7 +161,7 @@ theorem conjSeed_unpack (A B P l : Nat) :
   · have hb : (l == 0) = false := by simp [hl]
     have e' : conjK A B (powV B 4) l P = mulV (mulV B P) (powV B 4) := by
       unfold conjK
-      rw [if_neg hl]
+      rw [ite_eq_right hl]
     rw [conjSeed_ne _ _ hb, get2_one, e', powRows22_eq, mulRows_unpack, mulRows_unpack]
 
 theorem classBFS_rec {CF : Nat → Nat} {A B N cap : Nat} (hN : 0 < N) (hcap : N ≤ cap)
@@ -251,8 +251,7 @@ theorem classOK_of {CF : Nat → Nat} {A B : Nat}
       rfl
     · obtain ⟨hp, he⟩ := (hF x hx).tree (by omega)
       rw [hgetN _ x hx, hgetN _ x hx, hget x hx, hget _ (by omega), conjSeed_unpack, ← he]
-      simp only [h0, decide_true, hp, cL_lt, beq_self_eq_true, Bool.and_self, Bool.or_true,
-        beq_iff_eq]
+      simp only [decide_true, hp, cL_lt, beq_self_eq_true, Bool.and_self, Bool.or_true]
   · obtain ⟨e, ht⟩ := himg x hx l hl
     rw [hget x hx, e, hpos _ ht, hget _ ht]
     simp [ht]

@@ -52,8 +52,9 @@ theorem str83G4_sectionFacts_of_le_q1
     exact L.inv_mem hmem
   exact ⟨hHL, hHN, hNL, hE, hO⟩
 
+omit [Finite G] in
 theorem str83G4_sectionRep_ne_one_of_le_q1
-    {L1 L2 S : Subgroup G} {a : ℕ} {L N : Subgroup G}
+    {L1 _L2 S : Subgroup G} {a : ℕ} {L N : Subgroup G}
     (hnc : ¬ twoResidual (L1 ⊔ S) ≤ centralizerMod L (L1 ⊔ S) N)
     (hHL : L1 ⊔ S ≤ Subgroup.normalizer (L : Set G))
     (hHN : L1 ⊔ S ≤ Subgroup.normalizer (N : Set G))
@@ -64,9 +65,9 @@ theorem str83G4_sectionRep_ne_one_of_le_q1
     letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
     letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
     ∃ g, sectionRep hHL hHN hNL hE hO e g ≠ 1 := by
-  letI : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
-  letI : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
-  obtain ⟨y, hyR, hyC⟩ := SetLike.not_le_iff_exists.mp hnc
+  let : CommGroup (Ch3z.chiefMod L N) := l2ChiefSectionCommGroup hE
+  let : Module (ZMod 2) (Additive (Ch3z.chiefMod L N)) := l2ChiefSectionModule hE
+  obtain ⟨y, hyR, hyC⟩ := IsConcreteLE.not_le_iff_exists.mp hnc
   have hyH : y ∈ L1 ⊔ S := twoResidual_le _ hyR
   obtain ⟨n, hnN, hn⟩ : ∃ n ∈ N, y * n * y⁻¹ * n⁻¹ ∉ L := by
     by_contra hall
@@ -100,7 +101,7 @@ theorem sectionRep_isSzNatural_of_le_q1
     IsSzNatural (sectionRep hHL hHN hNL hE hO e) := by
   have hUH : U ≤ L1 ⊔ S := hUQ.trans ((str83G4_q1_le_s hfr).trans le_sup_right)
   exact sectionRep_isSzNatural_of_quadratic_chiefStep hfr hC hUH hquad hstep hHL hHN hNL hE hO e
-    he (str83G4_sectionRep_ne_one_of_le_q1 (L2 := L2) hnc hHL hHN hNL hE hO e)
+    he (str83G4_sectionRep_ne_one_of_le_q1 (_L2 := L2) hnc hHL hHN hNL hE hO e)
 
 theorem str83G4_isSzNaturalSection_of_quadratic_chiefStep
     {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a) {C : Subgroup G}
@@ -112,7 +113,7 @@ theorem str83G4_isSzNaturalSection_of_quadratic_chiefStep
   obtain ⟨hHL, hHN, hNL, hE, hO⟩ := str83G4_sectionFacts_of_le_q1 hfr hUQ hstep
   let K := GaloisField 2 (2 * a + 1)
   have hK : Nat.card K = 2 ^ (2 * a + 1) := GaloisField.card 2 (2 * a + 1) (by omega)
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨e, he⟩ := str83G4_exists_equiv_sylow hK hfr
   have hnat := sectionRep_isSzNatural_of_le_q1 hfr hC hUQ hstep hquad hnc hHL hHN hNL hE hO e he
   exact isSzNaturalSection_of_isSzNatural hHL hHN hNL hE hO e hnat

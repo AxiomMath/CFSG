@@ -12,22 +12,27 @@ open Subgroup CFSG.OddStandard.SmallF3.HarrisU33
 variable {G : Type} [Group G] [Finite G] {t : G} {L S T₂ : Subgroup G}
   {x₁ x₂ lam rho tau s u : G} {b : Fin 3 → Fin 2 → G} {T₃ : Subgroup G}
 
+omit [Finite G] in
 theorem fzl59b_mem_invCent {g : G} : g ∈ invCent t ↔ g * t = t * g := by
   rw [invCent]
   exact Subgroup.mem_centralizer_singleton_iff
 
+omit [Finite G] in
 theorem fzl59b_conj_fix {k : G} (hk : k ∈ invCent t) : k * t * k⁻¹ = t := by
   have h1 : k * t = t * k := fzl59b_mem_invCent.mp hk
   rw [h1, mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite G] in
 theorem fzl59b_conj_mul {k w : G} (hk : k ∈ invCent t) :
     k * (t * w) * k⁻¹ = t * (k * w * k⁻¹) := by
   calc k * (t * w) * k⁻¹ = (k * t * k⁻¹) * (k * w * k⁻¹) := by group
     _ = t * (k * w * k⁻¹) := by rw [fzl59b_conj_fix hk]
 
+omit [Finite G] in
 theorem fzl59b_isConj_conj {a w : G} (k : G) : IsConj a (k * w * k⁻¹) ↔ IsConj a w :=
   ⟨fun h => h.trans (isConj_iff.mpr ⟨k, rfl⟩).symm, fun h => h.trans (isConj_iff.mpr ⟨k, rfl⟩)⟩
 
+omit [Finite G] in
 theorem fzl59b_conj_pair {k w v : G} (hk : k ∈ invCent t) (hv : k * w * k⁻¹ = v) :
     (IsConj t w ↔ IsConj t v) ∧ (IsConj t (t * w) ↔ IsConj t (t * v)) := by
   refine ⟨?_, ?_⟩

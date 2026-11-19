@@ -266,13 +266,13 @@ theorem D2L34BetaConf3.card_R_eq_nine
         Set (H ⧸ primeComplementCore (G := H) 3)) :=
     hX₀ ▸ hc.almostSimple.sylow_le
   have := hc.almostSimple.normal
-  have h9 := card_le_nine_of_stronglyEmbedded hL hc.le_K hAb Rbar.isPGroup' hRbN hstrX
+  have h9 := card_le_nine_of_stronglyEmbedded hL hc.le_K hAb Rbar.isPGroup hRbN hstrX
   obtain ⟨T, hT⟩ := hc.esc.isSylow
   have hRp : IsPGroup 3 (R.subgroupOf H) := by
     have hTR : (T : Subgroup H) = R.subgroupOf H := by
       rw [← hT, Subgroup.subgroupOf, Subgroup.comap_map_eq_self_of_injective H.subtype_injective]
     rw [← hTR]
-    exact T.isPGroup'
+    exact T.isPGroup
   have hRcard : Nat.card (Rbar : Subgroup (H ⧸ primeComplementCore (G := H) 3)) =
       Nat.card R := by
     rw [hc.rbar, card_map_mk_of_isPGroup Nat.prime_three _ (primeComplementCore_coprime 3) hRp]
@@ -330,7 +330,7 @@ theorem d2L34BetaCoreFree3
     rw [map_conj_mul, hg, hY', ← map_conj_mul, mul_inv_cancel]
     ext x
     simp
-  have hE₀p : IsPGroup 3 E₀ := T.isPGroup'.map H₀.subtype
+  have hE₀p : IsPGroup 3 E₀ := T.isPGroup.map H₀.subtype
   by_cases hcyc : IsCyclic (T : Subgroup H₀)
   ·
     have : IsCyclic E₀ :=
@@ -348,7 +348,7 @@ theorem d2L34BetaCoreFree3
     ext x
     simp
   ·
-    have : Fact (IsPGroup 3 (T : Subgroup H₀)) := ⟨T.isPGroup'⟩
+    have : Fact (IsPGroup 3 (T : Subgroup H₀)) := ⟨T.isPGroup⟩
     obtain ⟨E, -, hEc, hEel⟩ :=
       CFSG.lemma_4_5_a (R := (T : Subgroup H₀)) (p := 3) (by norm_num) hcyc
     set E' : Subgroup G := (E.map (T : Subgroup H₀).subtype).map H₀.subtype with hE'

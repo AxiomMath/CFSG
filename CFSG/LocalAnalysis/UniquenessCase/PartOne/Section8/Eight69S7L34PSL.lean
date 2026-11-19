@@ -35,7 +35,7 @@ theorem not_hasL34Section_mulAut_of_lieModel_psl_two {X : Type} [Group X] [Finit
   have hTG : CFSG.GF2Type.Aschbacher1976Common.TwoGenSubgroups ↥(S : Subgroup X) :=
     CFSG.GF2Type.Aschbacher1976Common.twoGen_of_mulEquiv eD
       (CFSG.GF2Type.Aschbacher1976Common.twoGen_dihedral (2 ^ n))
-  have hR2 : IsPGroup 2 ↥R := S.isPGroup'.to_le hRS
+  have hR2 : IsPGroup 2 ↥R := S.isPGroup.to_le hRS
   have h4 :=
     CFSG.LocalAnalysis.RankFourTheoremC.PEmpty.card_frattini_le_four_of_twoGen hTG hRS hR2
   omega

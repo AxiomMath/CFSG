@@ -140,23 +140,23 @@ theorem kLevel_congr {S T : Type} [Group S] [Group T] (e : S ≃* T) (p : ℕ) :
   have h3 : catalogIs S (k3 p) ↔ catalogIs T (k3 p) := catalogIs_congr e
   unfold kLevel
   by_cases a : IsChevSimple p S
-  · rw [if_pos a, if_pos (h1.1 a)]
-  · rw [if_neg a, if_neg (fun h => a (h1.2 h))]
+  · rw [ite_eq_left a, ite_eq_left (h1.1 a)]
+  · rw [ite_eq_right a, ite_eq_right (fun h => a (h1.2 h))]
     by_cases b : catalogIs S (k2 p)
-    · rw [if_pos b, if_pos (h2.1 b)]
-    · rw [if_neg b, if_neg (fun h => b (h2.2 h))]
+    · rw [ite_eq_left b, ite_eq_left (h2.1 b)]
+    · rw [ite_eq_right b, ite_eq_right (fun h => b (h2.2 h))]
       by_cases c : catalogIs S (k3 p)
-      · rw [if_pos c, if_pos (h3.1 c)]
-      · rw [if_neg c, if_neg (fun h => c (h3.2 h))]
+      · rw [ite_eq_left c, ite_eq_left (h3.1 c)]
+      · rw [ite_eq_right c, ite_eq_right (fun h => c (h3.2 h))]
 
 theorem kLevel_le_two {p : ℕ} {S : Type} [Group S] (h : catalogIs S (k2 p)) : kLevel p S ≤ 2 := by
   unfold kLevel
-  split_ifs <;> first | omega | contradiction
+  split_ifs <;> first | omega
 
 theorem kLevel_le_three {p : ℕ} {S : Type} [Group S] (h : catalogIs S (k3 p)) :
     kLevel p S ≤ 3 := by
   unfold kLevel
-  split_ifs <;> first | omega | contradiction
+  split_ifs <;> first | omega
 
 theorem false_of_glaPComponent_of_solvable {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
     {X I : Subgroup G} (hX : Group.IsSolvable X) (hI : GLAPComponent p X I) : False := by
@@ -182,7 +182,7 @@ theorem nonempty_pSimple_top_equiv {S : Type} [Group S] [Finite S] [IsSimpleGrou
     (hp : p.Prime) (hnc : ∃ a b : S, a * b ≠ b * a) (hI : GLAPComponent p ⊤ (⊤ : Subgroup S)) :
     Nonempty (PSimple p (⊤ : Subgroup S) ≃* S) := by
   have hq := isQuasisimple_pQuot_of_glaPComponent hp hI
-  haveI : IsSimpleGroup (⊤ : Subgroup S) := Subgroup.topEquiv.symm.isSimpleGroup_congr.1 inferInstance
+  have : IsSimpleGroup (⊤ : Subgroup S) := Subgroup.topEquiv.symm.isSimpleGroup_congr.1 inferInstance
   have hcore : GLAPPrimeCore p ↥(⊤ : Subgroup S) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore p ↥(⊤ : Subgroup S)) with h | h
     · exact h
@@ -226,7 +226,7 @@ theorem downLe_of_centralizers {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
     (hcent : ∀ x : S, orderOf x = p → ∀ I : Subgroup S,
       GLAPComponent p (Subgroup.centralizer ({x} : Set S)) I → kLevel p (PSimple p I) ≤ j) :
     DownLe p j S := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro α hα I hI
   have hcen : Subgroup.center S = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center S) with h | h
@@ -255,7 +255,7 @@ theorem downLe_of_small_centralizers {S : Type} [Group S] [Finite S] [IsSimpleGr
     (hp : p.Prime) (hp2 : p ≠ 2) (htop : kLevel p S ≤ j)
     (hsmall : ∀ x : S, orderOf x = p → Nat.card (Subgroup.centralizer ({x} : Set S)) < 60) :
     DownLe p j S :=
-  downLe_of_centralizers hnc hout hp hp2 htop fun x hx I hI =>
+  downLe_of_centralizers hnc hout hp hp2 htop fun x hx _I hI =>
     (false_of_glaPComponent_of_solvable hp
       (CFSG.GroupTheory.groups_order_below_sixty_solvable (hsmall x hx)) hI).elim
 
@@ -277,8 +277,8 @@ theorem kdSporRow_three_of_perm {name : TauCeti.SporadicName} {n : ℕ}
       Nat.card ↥(Subgroup.centralizer ({x} : Set (Equiv.Perm (Fin n))) ⊓ P) < 60) :
     KDSporRow name 3 := by
   set G := (TauCeti.CFSGIndex.sporadic name).Group
-  haveI : IsSimpleGroup G := (MulEquiv.isSimpleGroup_congr b).1 hs
-  haveI : Finite G := Finite.of_equiv _ b.toEquiv
+  have : IsSimpleGroup G := (MulEquiv.isSimpleGroup_congr b).1 hs
+  have : Finite G := Finite.of_equiv _ b.toEquiv
   have hcG : Nat.card G = Nat.card ↥P := (Nat.card_congr b.toEquiv).symm
   have hnc : ∃ a c : G, a * c ≠ c * a :=
     CFSG.LocalAnalysis.GLTheoremA.S8.HNRows.exists_noncomm_of_simple (by rw [hcG]; exact hcard)

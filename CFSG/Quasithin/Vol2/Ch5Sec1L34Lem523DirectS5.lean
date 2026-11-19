@@ -19,7 +19,7 @@ variable {G : Type} [Group G] [Finite G] {T M L V H B D D₃ Z₁ : Subgroup G} 
 theorem cover4 {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) [CharP K 2] {μ : K}
     (h0 : μ ≠ 0) (h1 : μ ≠ 1) (lam : K) : lam = 0 ∨ lam = 1 ∨ lam = μ ∨ lam = 1 + μ := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hcard : Fintype.card K = 4 := by
     rw [← Nat.card_eq_fintype_card]
     exact hK
@@ -50,6 +50,7 @@ theorem cover4 {K : Type} [Field K] [Finite K] (hK : Nat.card K = 4) [CharP K 2]
     exact Finset.mem_univ _
   simpa using hmem
 
+omit [Finite G] in
 theorem coordN_one' {L N : Subgroup G} {m : ℕ} (D : NatL2Data L N m) :
     coordN D (1 : G) N.one_mem = 0 := by
   unfold coordN
@@ -138,7 +139,7 @@ theorem exists_k_moves_z' (s : Setup521 G T M L V H B D D₃ Z₁ n) (h5114 : St
       rw [← coordN_conj D' htN hz'N, hμc, hσ, conj_fix_of_centralizes D' htN
         (Subgroup.mem_centralizer_iff.mp (T_le_centralizer_Z₁ s ht) z hz).symm]
     have hK4 : Nat.card D'.K = 4 := by rw [D'.card]; norm_num
-    haveI : CharP D'.K 2 :=
+    have : CharP D'.K 2 :=
       CFSG.ProperTwoGeneratedCore.LocalCriterionSquareField.char_two_of_card D'.card
     have hzzN : z * z' ∈ N := N.mul_mem hzN hz'N
     rcases cover4 hK4 hμ0 hμ1 (σ μ) with h | h | h | h

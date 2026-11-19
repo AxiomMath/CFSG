@@ -9,6 +9,7 @@ namespace CFSG.RankThree.GF2n.Stroth80.Classify
 variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V]
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem exists_apply_eq_of_elationFull_orth {F : LinearMap.BilinForm K V} (hnd : F.Nondegenerate)
     (halt : F.IsAlt) {Qf : QuadraticForm K V} (hQF : Qf.polarBilin = F)
     {H : Subgroup (V ≃ₗ[K] V)} (hH : H ≤ orthSubgroup Qf) {e : V} (he : Qf e = 0)
@@ -36,7 +37,7 @@ theorem exists_apply_eq_of_elationFull_orth {F : LinearMap.BilinForm K V} (hnd :
     intro u hu
     have h1 : F (g e') (g u) = F e' u := hiso e' u
     rw [hg u hu] at h1
-    simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
+    simp only [map_add, map_smul, smul_eq_mul,
       hgeF] at h1
     have hφu := hφ u
     have hW : F w u = F v u - F e' u := by

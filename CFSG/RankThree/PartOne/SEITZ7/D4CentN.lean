@@ -18,7 +18,7 @@ variable {G : Type*} [Group G]
 theorem index_modEq_one_of_normalizer_le [Finite G] {p : ℕ} [Fact p.Prime] (S : Sylow p G)
     {N : Subgroup G} (hN : Subgroup.normalizer ((S : Subgroup G) : Set G) ≤ N) :
     N.index ≡ 1 [MOD p] := by
-  have hSp : IsPGroup p ↥(S : Subgroup G) := S.isPGroup'
+  have hSp : IsPGroup p ↥(S : Subgroup G) := S.isPGroup
   have hSidx : ¬ p ∣ (S : Subgroup G).index := S.not_dvd_index
   have hSN : (S : Subgroup G) ≤ N := fun s hs => hN (Subgroup.le_normalizer hs)
   have hmod : Nat.card (G ⧸ N) ≡ Nat.card (MulAction.fixedPoints (S : Subgroup G) (G ⧸ N))
@@ -129,7 +129,7 @@ theorem closure_cenGen_trialityD4_phi36_eq_top_N
         (m := 6) (by decide) hp hp5 h6).of_mulEquiv e⟩
   obtain ⟨e', hshape⟩ := hshape
   obtain ⟨S, hS⟩ := (IsPGroup.of_card hE₁c : IsPGroup p ↥E₁).exists_le_sylow
-  obtain ⟨φ⟩ := hshape _ S.isPGroup' S.not_dvd_index
+  obtain ⟨φ⟩ := hshape _ S.isPGroup S.not_dvd_index
   obtain ⟨x, hxE, hx1, hcoat⟩ := hcent q hq K hiso p hp hp5 hp36 S E₁ hS hE₁ hE₁c
   refine closure_cenGen_eq_top_of_normalizer (Subgroup.centralizer {x}) (S : Subgroup K) E₁ φ hS
     hE₁p hE₁c hcoat fun k hk => ?_

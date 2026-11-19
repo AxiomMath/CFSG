@@ -10,6 +10,7 @@ namespace CFSG.LocalAnalysis.RankThreeTheoremC.RankOneCent
 
 variable {Y K : Type} [Group Y] [Group K] [Finite Y] {p : ℕ} [Fact p.Prime]
 
+omit [Finite Y] [Fact (Nat.Prime p)] in
 theorem hasNormalPComplement_of_surjective' (θ : Y →* K) (hθ : Function.Surjective θ)
     (h : CFSG.HasNormalPComplement p Y) : CFSG.HasNormalPComplement p K := by
   obtain ⟨N, hN, hNc, hNp⟩ := h
@@ -29,7 +30,7 @@ include hker
 
 theorem inf_ker_eq_bot {Q : Subgroup Y} (hQ : IsPGroup p Q) : Q ⊓ θ.ker = ⊥ := by
   obtain ⟨n, hn⟩ := hQ.exists_card_eq
-  exact Subgroup.inf_eq_bot_of_coprime (by rw [hn]; exact Nat.Coprime.pow_left n hker.symm)
+  exact (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard (by rw [hn]; exact Nat.Coprime.pow_left n hker.symm)))
 
 theorem eq_of_map_eq {Q : Subgroup Y} (hQ : IsPGroup p Q) {a b : Y} (ha : a ∈ Q) (hb : b ∈ Q)
     (h : θ a = θ b) : a = b := by

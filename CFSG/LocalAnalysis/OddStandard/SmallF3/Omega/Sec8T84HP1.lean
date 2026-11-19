@@ -79,7 +79,7 @@ theorem sec8t84h_mem_normalizer_of_map {A B : Type} [Group A] [Group B] (ι : A 
 theorem sec8t84h_isElemAb2_subgroupOf {X : Type} [Group X] {K B : Subgroup X} (hBK : B ≤ K)
     {k : ℕ} (h : IsElemAb2 B k) : IsElemAb2 (B.subgroupOf K) k := by
   refine ⟨⟨?_, ?_⟩, ?_⟩
-  · haveI : IsMulCommutative ↥B := h.1.1
+  · have : IsMulCommutative ↥B := h.1.1
     infer_instance
   · intro x hx
     have hxB : (x : X) ∈ B := (Subgroup.mem_subgroupOf).mp hx

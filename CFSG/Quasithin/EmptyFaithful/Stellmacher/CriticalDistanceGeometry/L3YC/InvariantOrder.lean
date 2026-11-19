@@ -10,6 +10,7 @@ section Invariant
 
 variable {U : Type*} [CommGroup U] [Finite U]
 
+omit [Finite U] in
 theorem card_invariant_pow (act : Set (U →* U))
     (hirr : ∀ W : Subgroup U, (∀ f ∈ act, ∀ w ∈ W, f w ∈ W) → W = ⊥ ∨ W = ⊤) :
     ∀ (k : ℕ) (W : Subgroup (Fin k → U)), (∀ f ∈ act, ∀ w ∈ W, (fun i => f (w i)) ∈ W) →
@@ -20,7 +21,7 @@ theorem card_invariant_pow (act : Set (U →* U))
     intro W _
     refine ⟨0, ?_⟩
     have : Subsingleton ↥W := ⟨fun a b => Subtype.ext (Subsingleton.elim _ _)⟩
-    simpa using Nat.card_of_subsingleton (1 : ↥W)
+    simp
   | succ k ih =>
     intro W hW
     let π₀ : (Fin (k + 1) → U) →* U := Pi.evalMonoidHom (fun _ => U) 0
@@ -52,7 +53,7 @@ theorem card_invariant_pow (act : Set (U →* U))
         rw [← Subgroup.card_map_of_injective W.subtype_injective, Subgroup.subgroupOf_map_subtype]
       have e2 : W'.map ι = π₀.ker ⊓ W := by
         ext x
-        simp only [Subgroup.mem_map, Subgroup.mem_comap, Subgroup.mem_inf, MonoidHom.mem_ker]
+        simp only [Subgroup.mem_map, Subgroup.mem_inf, MonoidHom.mem_ker]
         constructor
         · rintro ⟨v, hv, rfl⟩
           exact ⟨by simp [π₀, ι], hv⟩

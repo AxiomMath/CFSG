@@ -32,7 +32,7 @@ theorem diag_map_tau (τ : K ≃+* K) (l : K) :
     (diagonal ![l, l, (l * l)⁻¹] : Matrix (Fin 3) (Fin 3) K).map τ =
       diagonal ![τ l, τ l, (τ l * τ l)⁻¹] := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply]
+  fin_cases i <;> fin_cases j <;> simp
 
 theorem tau_of_fix (h2 : (2 : K) ≠ 0) {l : Kˣ} {k : ℕ} (hl : l ^ 2 ^ k = 1) (hl3 : (l : K) ^ 3 ≠ 1)
     {A g : GL (Fin 3) K} {τ : K ≃+* K} {c : Kˣ} (hc3 : c ^ 3 = 1)
@@ -41,7 +41,7 @@ theorem tau_of_fix (h2 : (2 : K) ≠ 0) {l : Kˣ} {k : ℕ} (hl : l ^ 2 ^ k = 1)
     τ (l : K) = (l : K) ∧ (c : K) = 1 := by
   obtain ⟨-, hY⟩ := mat_of_conj hfix
   rw [coe_glAut, hg, diag_map_tau] at hY
-  have hτ0 : τ (l : K) ≠ 0 := by simpa using l.ne_zero
+  have hτ0 : τ (l : K) ≠ 0 := by simp
   have hAinv : (A : Matrix (Fin 3) (Fin 3) K) *
       ((A⁻¹ : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) = 1 := by
     have h1 : ((A * A⁻¹ : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) = 1 := by
@@ -98,9 +98,9 @@ theorem odd_of_ord_norm {h : UnitaryFieldData p f K} (hp2 : p ≠ 2) {l : Kˣ}
 theorem tau_eq_one {h : UnitaryFieldData p f K} (hodd : Odd f) {l : Kˣ}
     (hnorm : h.norm (l : K) = 1) (hl2 : (l : K) ^ 2 ≠ 1) {k : ℕ} {τ : K ≃+* K}
     (hτ : τ ^ 2 ^ k = 1) (hτl : τ (l : K) = (l : K)) : τ = 1 := by
-  haveI := h.finite
+  have := h.finite
   have hcard := (card_ringAut_and_isCyclic h.prime K h.card).1
-  haveI : Finite (K ≃+* K) :=
+  have : Finite (K ≃+* K) :=
     Finite.of_injective (fun σ : K ≃+* K => (σ : K → K)) DFunLike.coe_injective
   have hd1 : orderOf τ ∣ 2 * f := by
     rw [← hcard]
@@ -140,7 +140,7 @@ theorem scalar_mem_GU2 (h : UnitaryFieldData p f K) {c : Kˣ} (hc : h.norm (c : 
   rw [Lemma41aU3.mem_GU2Stated_iff h]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.mul_apply, Fin.sum_univ_two, hc',
+    simp [GeneralLinearGroup.coe_scalar, Matrix.scalar_apply, Matrix.mul_apply, hc',
       Matrix.diagonal_apply]
 
 end CFSG.CGT.PushingUpLit.SolKNA.R4.TwinSocF4.U3

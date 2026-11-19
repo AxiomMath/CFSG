@@ -20,12 +20,12 @@ theorem asHyp_of_compHypK {X T M A L : Subgroup (MulAut V)} (hH : B69.CompHypK X
     ∃ (Y : Type) (_ : Group Y) (_ : Finite Y) (K T' M' : Subgroup Y),
       E2P.ASHyp K T' M' ∧ Nonempty (↥L ⧸ Subgroup.center ↥L ≃* ↥K) := by
   obtain ⟨-, hmp, -, -, -, -, hL, -⟩ := hH
-  haveI : Finite (MulAut V) := inferInstanceAs (Finite (V ≃* V))
+  have : Finite (MulAut V) := inferInstanceAs (Finite (V ≃* V))
   obtain ⟨Y, _, _, K, T', M', hAS, π, hπ⟩ :=
     exists_asHyp_of_component hmp.subgroupOf (B69.isComponentOf_subgroupOf hL)
   have e0 : ↥(L.subgroupOf X) ≃* ↥L := Subgroup.subgroupOfEquivOfLe hL.1
-  haveI := hAS.simple
-  haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
+  have := hAS.simple
+  have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
   obtain ⟨e⟩ := B69.equiv_of_central_quotients hL.2.2 (QuotientGroup.mk' (Subgroup.center ↥L))
     (QuotientGroup.mk'_surjective _) (π.comp e0.symm.toMonoidHom) (hπ.comp e0.symm.surjective)
   exact ⟨Y, inferInstance, inferInstance, K, T', M', hAS, ⟨e⟩⟩

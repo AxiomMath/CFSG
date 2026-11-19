@@ -48,10 +48,10 @@ private lemma s1611e3_c9centb_ker_fst_comp_eq_commutator {A S : Type*} [Group A]
     simpa [Subgroup.mem_prod] using hx'
 
 private lemma s1611e3_c9centb_le_of_isPGroup_of_index_not_dvd {X : Type*} [Group X] [Finite X]
-    {p : ℕ} [Fact p.Prime] {A F P : Subgroup X} (hF : F ≤ A)
+    {p : ℕ} [Fact p.Prime] {A F P : Subgroup X} (_hF : F ≤ A)
     (hFn : (F.subgroupOf A).Normal) (hPA : P ≤ A) (hP : IsPGroup p P)
     (hidx : ¬ p ∣ (F.subgroupOf A).index) : P ≤ F := by
-  haveI := hFn
+  have := hFn
   let q : ↥A →* ↥A ⧸ F.subgroupOf A := QuotientGroup.mk' (F.subgroupOf A)
   have hQp : IsPGroup p ((P.subgroupOf A).map q) := hP.comap_subtype.map q
   have hQdvd : Nat.card ((P.subgroupOf A).map q) ∣ (F.subgroupOf A).index := by
@@ -88,9 +88,9 @@ theorem s1611e3_case9_cent_seven {D : Data G} (h : S1611e3Std D) {V₀ V L : Sub
     padicValNat 7 (Nat.card ↥(Mbar D.M V₀ V hV ⊓
       centSub (fixV (barSub V₀ V hV D.T)))) ≤ 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Finite (MulAut (Vtil V₀ V hV)) := MulEquiv.finite_left
   set Mb : Subgroup (MulAut (Vtil V₀ V hV)) := Mbar D.M V₀ V hV with hMb
   set Tb : Subgroup (MulAut (Vtil V₀ V hV)) := barSub V₀ V hV D.T with hTb
   set C : Subgroup (MulAut (Vtil V₀ V hV)) := Mb ⊓ centSub (fixV Tb) with hC
@@ -113,7 +113,7 @@ theorem s1611e3_case9_cent_seven {D : Data G} (h : S1611e3Std D) {V₀ V L : Sub
   let Pm : Subgroup (MulAut (Vtil V₀ V hV)) := (P : Subgroup ↥C).map C.subtype
   have hPmC : Pm ≤ C := Subgroup.map_subtype_le _
   have hPmMb : Pm ≤ Mb := hPmC.trans inf_le_left
-  have hPm7 : IsPGroup 7 Pm := P.isPGroup'.map C.subtype
+  have hPm7 : IsPGroup 7 Pm := P.isPGroup.map C.subtype
   obtain ⟨e⟩ := h9.1
   have hL3 : IsL3 ↥(lBar V₀ V hV L) 1 := h9.2.1
   have hperf : Group.IsPerfect ↥(lBar V₀ V hV L) :=
@@ -164,7 +164,7 @@ theorem s1611e3_case9_cent_seven {D : Data G} (h : S1611e3Std D) {V₀ V L : Sub
     have hxv : x v = v := (mem_centSub.mp hxcent) v hvT
     have hx7 : x ^ 7 = 1 := by
       obtain ⟨y, hyP, hyx⟩ := Subgroup.mem_map.mp hxP
-      obtain ⟨k, hk⟩ := (isPGroup_iff_orderOf_dvd_pow.mp P.isPGroup') ⟨y, hyP⟩
+      obtain ⟨k, hk⟩ := (isPGroup_iff_orderOf_dvd_pow.mp P.isPGroup) ⟨y, hyP⟩
       have hk'' : (⟨y, hyP⟩ : ↥(P : Subgroup ↥C)) ^ 7 ^ k = 1 :=
         orderOf_dvd_iff_pow_eq_one.mp hk
       have hk' : y ^ 7 ^ k = 1 := by

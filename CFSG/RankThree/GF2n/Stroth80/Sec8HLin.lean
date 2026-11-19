@@ -121,7 +121,7 @@ theorem card_le_of_forall_isotropic_LspGL {m : ℕ} {K : Type} [Field K] [Finite
   exact key
 
 theorem LspGL_invariant_subspace_dichotomy {m : ℕ} {K : Type} [Field K]
-    {u : Fin m ⊕ Fin m → K} (hu : u ≠ 0) (D : Submodule K (Fin m ⊕ Fin m → K)) (huD : u ∈ D)
+    {u : Fin m ⊕ Fin m → K} (_hu : u ≠ 0) (D : Submodule K (Fin m ⊕ Fin m → K)) (huD : u ∈ D)
     (hinv : ∀ A ∈ LspGL m K u, ∀ d ∈ D,
       (A : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K) *ᵥ d ∈ D) :
     (∀ d ∈ D, spForm m K u d = 0) ∨ D = ⊤ := by

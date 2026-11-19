@@ -11,6 +11,7 @@ open CFSG.Open CFSG.Yardstones.Md0ec50421ce4 CFSG.LocalAnalysis.GLTheoremB
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem glaPPrimeCoreOf_eq_self_of_not_dvd {p : ℕ} (hp : p.Prime) {H : Subgroup G}
     (hH : ¬ p ∣ Nat.card H) : GLAPPrimeCoreOf p H = H := by
   refine le_antisymm (Subgroup.map_subtype_le _) ?_

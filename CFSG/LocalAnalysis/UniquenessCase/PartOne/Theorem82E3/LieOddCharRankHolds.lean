@@ -142,7 +142,7 @@ theorem lieOddCharRank_holds :
   have hfam : IsLieFam811 (Y ⧸ center Y) fam r f := hY.2.2
   have hr : r.Prime := by
     rcases fam with _ | _ | _ | _ | _ | _ <;> exact hfam.1
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   rw [CFSG.SectionRank.pRank_coe_eq_openPRank r (⊤ : Subgroup Y),
     ← CFSG.SectionRank.pRank_quotient_eq (center Y) (not_dvd_card_center_of_isLie811 hY hr hr2)]
   exact four_le_pRank_of_isLieFam811 hfam hr2

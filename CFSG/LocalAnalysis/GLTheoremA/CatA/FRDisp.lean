@@ -51,7 +51,7 @@ theorem recUnitary_sub {rank n : ℕ} (hrank : 2 ≤ rank) (hn : 1 ≤ n) {p : �
     LargeEvenRecipeUnitary (rank + 1) (2 ^ n)
       (fun R _ I F => Q R I F ∧ SubCond p ⟨.twA, rank, n⟩ R I F) := by
   obtain ⟨K, hF, hfin, hK, hQ⟩ := h
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 2 * n)
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 2 * n)
     (by rw [hK, ← pow_mul, mul_comm])
   refine ⟨K, hF, hfin, hK, hQ, fun _ _ _ f hf hord => ?_⟩
   obtain ⟨h1, D, h2, h3⟩ := subBody_unitary (by omega) hn hK hp hp2 ∅ f hf hord
@@ -101,14 +101,14 @@ theorem recTwD2_sub {n : ℕ} (hn : 1 ≤ n) {p : ℕ} (hp : p.Prime) (hp2 : p �
     rw [show 2 * (p * c) = p * (2 * c) by ring, Nat.mul_div_cancel_left _ hp.pos,
       Nat.mul_div_cancel_left _ hp.pos]
   refine ⟨hpn, D, h2, Or.inl ?_⟩
-  simp only [CFSG.Assembly.LargeEvenRawDatum, if_true]
+  simp only [CFSG.Assembly.LargeEvenRawDatum, ite_true]
   exact ⟨K', hF', hfin', by rw [hK'', hdiv, ← pow_mul, mul_comm], hQ'⟩
 
 theorem recTwD3_sub {n : ℕ} (hn : 1 ≤ n) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (Q : LargeEvenRawCont)
     (h : LargeEvenRecipeUnitary 4 (2 ^ n) Q) :
     LargeEvenRecipeUnitary 4 (2 ^ n) (fun R _ I F => Q R I F ∧ SubCond p ⟨.twD, 3, n⟩ R I F) := by
   obtain ⟨K, hF, hfin, hK, hQ⟩ := h
-  haveI : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 2 * n)
+  have : CharP K 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq (f := 2 * n)
     (by rw [hK, ← pow_mul, mul_comm])
   refine ⟨K, hF, hfin, hK, hQ, fun _ _ _ f hf hord => ?_⟩
   obtain ⟨h1, D, h2, h3⟩ := subBody_unitary (d := 4) (by omega) hn hK hp hp2 ∅ f hf hord

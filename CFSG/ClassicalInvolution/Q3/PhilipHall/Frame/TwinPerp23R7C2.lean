@@ -20,11 +20,11 @@ namespace F7Y
 variable {Q : Type} [Group Q] [Finite Q] {A B : Subgroup Q} {z : Q}
 
 theorem eq_of_comm_q8 (hz : ∀ q : Q, q * z = z * q) (hsA : IsUniqueInvolution A z)
-    (h8A : Nat.card A = 8) (hnabA : ∃ x ∈ A, ∃ y ∈ A, x * y ≠ y * x) {w : Q} (hw : w ∈ A)
-    (hc : ∀ y ∈ A, y * w = w * y) : w = 1 ∨ w = z :=
+    (h8A : Nat.card A = 8) (hnabA : ∃ x ∈ A, ∃ _y ∈ A, x * _y ≠ _y * x) {w : Q} (hw : w ∈ A)
+    (hc : ∀ _y ∈ A, _y * w = w * _y) : w = 1 ∨ w = z :=
   F7E.mem_inf_q8 (B := Subgroup.centralizer (A : Set Q)) hz hsA h8A hnabA
-    (fun x hx y hy => Subgroup.mem_centralizer_iff.mp hy x hx) hw
-    (Subgroup.mem_centralizer_iff.mpr fun y hy => hc y hy)
+    (fun x hx _y hy => Subgroup.mem_centralizer_iff.mp hy x hx) hw
+    (Subgroup.mem_centralizer_iff.mpr fun _y hy => hc _y hy)
 
 theorem eq_of_comm_sup (hz : ∀ q : Q, q * z = z * q) (hsA : IsUniqueInvolution A z)
     (hsB : IsUniqueInvolution B z) (h8A : Nat.card A = 8) (h8B : Nat.card B = 8)

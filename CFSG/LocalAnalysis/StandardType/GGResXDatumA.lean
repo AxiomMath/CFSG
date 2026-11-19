@@ -231,8 +231,8 @@ private theorem l05nTA_datum_of_torData {G : Type} [Group G] [Finite G] {p m N :
   obtain ⟨w, hw⟩ := hTor
   obtain ⟨V, hVadd, hVmod, hι⟩ :=
     exists_ggLinData (p := p) (G := G) (Bs := Bs) hBs
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod p) V := hVmod
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod p) V := hVmod
   obtain ⟨ι⟩ := hι
   obtain ⟨hnk, hbk, α, hlin, hpair⟩ := l05nTA_lin hm hpm hBs hS hN w hw V ι
   obtain ⟨e, he⟩ := ggTD_weyl hN hw hp2 hBs hnk

@@ -81,6 +81,7 @@ private lemma spEnd_sq_mul_commute_of_conj {t u x : G} (ht : t * t = 1)
       _ = (u * u) * x := by group
   exact step2.symm
 
+omit [Finite F] in
 private lemma spEnd_eq_one_of_commute_all {r : ℕ} [NeZero r]
     {x : SpecialLinearGroup (Fin 2) F}
     (hx : ∀ y : StatedSp r F, lam (0 : Fin r) x * y = y * lam (0 : Fin r) x) : x = 1 := by
@@ -94,10 +95,12 @@ private lemma spEnd_eq_one_of_commute_all {r : ℕ} [NeZero r]
     exact Subgroup.mem_bot.mp hcen
   exact lam_injective (0 : Fin r) (by rw [hbot, map_one])
 
+omit [Finite F] [CharP F 2] in
 private lemma spEnd_lam_one_eq_levi (k : ℕ) (x : SpecialLinearGroup (Fin 2) F) :
     lam (1 : Fin (k + 2 + 1)) x = spLeviBlock (k + 2) F (lam (0 : Fin (k + 2)) x) := by
   rw [spLeviBlock_lam]; rfl
 
+omit [Finite F] in
 private lemma spEnd_eq_one_of_lam_one_centralizes_levi {k : ℕ}
     {x : SpecialLinearGroup (Fin 2) F}
     (hx : ∀ h : StatedSp (k + 2) F, lam (1 : Fin (k + 2 + 1)) x * spLeviBlock (k + 2) F h =
@@ -109,6 +112,7 @@ private lemma spEnd_eq_one_of_lam_one_centralizes_levi {k : ℕ}
   rw [hlam, ← map_mul, ← map_mul] at h
   exact spLeviBlock_injective h
 
+omit [Finite F] [CharP F 2] in
 private lemma spEnd_n0_lam_zero {k : ℕ} (h2 : (2 : F) = 0) (g : SpecialLinearGroup (Fin 2) F) :
     weylRep (k + 2 + 1) F 0 * lam (0 : Fin (k + 2 + 1)) g * weylRep (k + 2 + 1) F 0 =
       lam (1 : Fin (k + 2 + 1)) g :=
@@ -116,6 +120,7 @@ private lemma spEnd_n0_lam_zero {k : ℕ} (h2 : (2 : F) = 0) (g : SpecialLinearG
     (spWeylRep_mul_self (k + 2 + 1) h2 (0 : Fin (k + 2 + 1)))
     (weylRep_conj_lam_swap h2 (0 : Fin (k + 2 + 1)) (by simp) g)
 
+omit [Finite F] [CharP F 2] in
 private lemma spEnd_n0_lam_one {k : ℕ} (h2 : (2 : F) = 0) (g : SpecialLinearGroup (Fin 2) F) :
     weylRep (k + 2 + 1) F 0 * lam (1 : Fin (k + 2 + 1)) g * weylRep (k + 2 + 1) F 0 =
       lam (0 : Fin (k + 2 + 1)) g := by
@@ -138,6 +143,7 @@ private lemma spEnd_n0_lam_one {k : ℕ} (h2 : (2 : F) = 0) (g : SpecialLinearGr
             weylRep (k + 2 + 1) F 0 := by rw [hs0]
     _ = lam (0 : Fin (k + 2 + 1)) g := key
 
+omit [Finite F] [CharP F 2] in
 private lemma spEnd_n0_lam_zero_inv {k : ℕ} (h2 : (2 : F) = 0) (g : SpecialLinearGroup (Fin 2) F) :
     weylRep (k + 2 + 1) F 0 * (lam (0 : Fin (k + 2 + 1)) g)⁻¹ * weylRep (k + 2 + 1) F 0 =
       lam (1 : Fin (k + 2 + 1)) (g⁻¹) := by

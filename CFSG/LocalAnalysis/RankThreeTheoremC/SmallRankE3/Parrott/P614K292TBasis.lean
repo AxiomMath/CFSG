@@ -14,7 +14,7 @@ variable {K : Type} [Field K]
 
 theorem exists_fixed_line [Finite K] {R : Subgroup (GL (Fin 3) K)} (hR : IsPGroup 2 R) :
     ∃ v : Fin 3 → K, v ≠ 0 ∧ ∀ r ∈ R, ∃ c : K, (r : Matrix (Fin 3) (Fin 3) K) *ᵥ v = c • v := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcard : Nat.card (ℙ K (Fin 3 → K)) = 1 + Nat.card K * (Nat.card K + 1) := by
     rw [Projectivization.card_of_finrank K (Fin 3 → K) (n := 3) (by simp),
       Finset.sum_range_succ, Finset.sum_range_succ, Finset.sum_range_succ,

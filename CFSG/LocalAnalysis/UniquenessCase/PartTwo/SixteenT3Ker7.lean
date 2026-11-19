@@ -85,7 +85,7 @@ theorem s16t_ker7_exists_Q {X A : Subgroup (MulAut T)} {r : ℕ} (hT : ∀ t : T
       hsup hcard hrk hperm hsurj
     exact hQ rfl
   · have hr2 : r = 2 := by omega
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hQp : IsPGroup 7 ↥(pCoreOf 7 X) :=
       CFSG.ClassicalGroups.PCoreSection.isPGroup_pCoreOf 7 X
     have hQne : pCoreOf 7 X ≠ ⊥ := by
@@ -103,7 +103,7 @@ theorem s16t_ker7_exists_Q {X A : Subgroup (MulAut T)} {r : ℕ} (hT : ∀ t : T
       · intro o ho
         refine ⟨φ⁻¹ * o * φ, ?_, ?_⟩
         · simpa using CFSG.ClassicalGroups.PCoreSection.conj_mem_pCoreOf (X.inv_mem hφ) ho
-        · simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply]
+        · simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply]
           group
     refine ⟨pCoreOf 7 X, Subgroup.map_subtype_le _, hQp, hQne, hQnorm, ?_⟩
     exact s16t_pGroup_fix_family (Subgroup.map_subtype_le _) hQp

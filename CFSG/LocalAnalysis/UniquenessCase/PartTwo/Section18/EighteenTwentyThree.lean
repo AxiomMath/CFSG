@@ -35,6 +35,7 @@ variable {G : Type} [Group G] [Finite G]
     (w : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F) : Subgroup G :=
   preTil V₀ V hV ((lineCoords ψ w).map (⊤ : Subgroup (Vtil V₀ V hV)).subtype)
 
+omit [Finite G] in
 theorem lineTil_ne_bot (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     {F : Type} [Field F]
     (ψ : ↥(⊤ : Subgroup (Vtil V₀ V hV)) ≃*
@@ -47,7 +48,7 @@ theorem lineTil_ne_bot (V₀ V : Subgroup G) (hV : IsElemAbelian 2 V)
     refine Subgroup.mem_map.mpr ⟨Multiplicative.ofAdd w, ?_, rfl⟩
     have hwspan : w ∈ Submodule.span F ({w} : Set (Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → F)) :=
       Submodule.subset_span (Set.mem_singleton w)
-    simpa using hwspan
+    simp
   have hqne : ((ψ.symm (Multiplicative.ofAdd w) : ↥(⊤ : Subgroup (Vtil V₀ V hV))) :
       Vtil V₀ V hV) ≠ 1 := by
     intro h1

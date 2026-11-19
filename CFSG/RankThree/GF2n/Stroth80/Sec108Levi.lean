@@ -97,6 +97,7 @@ private noncomputable def rhoP (ρ : ↥R →* GL (Fin 3) K) (L : Subgroup 𝓜)
       ρ ⟨p.1, (Subgroup.mem_inf.mp p.2).1⟩ * ρ ⟨q.1, (Subgroup.mem_inf.mp q.2).1⟩
     rw [map_mul]
 
+omit [Finite K] [CharP K 2] in
 @[simp] private lemma rhoP_apply (p : ↥(Psub L R)) :
     rhoP ρ L p = ρ ⟨p.1, (Subgroup.mem_inf.mp p.2).1⟩ := rfl
 
@@ -152,8 +153,7 @@ private noncomputable def chi (hC : Levi108 K L R N Y ρ μ T) : ↥(Psub L R) �
     apply Units.ext
     have hlow := rhoP_lower hC q
     simp only [rhoP_apply] at hlow
-    simp only [Units.val_mk0, Units.val_mul, map_mul, Matrix.GeneralLinearGroup.coe_mul,
-      Matrix.mul_apply, Fin.sum_univ_three, hlow.1, hlow.2, mul_zero, add_zero, rhoP_apply]
+    simp only [Units.val_mk0, Units.val_mul, map_mul, Matrix.mul_apply, Fin.sum_univ_three, hlow.1, hlow.2, mul_zero, add_zero, rhoP_apply]
 
 private lemma chi_eq_one_of_mem_L (hC : Levi108 K L R N Y ρ μ T) {l : 𝓜} (hl : l ∈ L) :
     chi hC ⟨l, Subgroup.mem_inf.mpr ⟨hC.L_le_R hl, Subgroup.le_normalizer hl⟩⟩ = 1 := by
@@ -186,17 +186,20 @@ private noncomputable def diagGL (A : Matrix.SpecialLinearGroup (Fin 2) K) : GL 
       rw [Matrix.det_reindex_self, Matrix.det_fromBlocks_zero₁₂, Matrix.det_one, A.2, one_mul]
       exact one_ne_zero)
 
+omit [Finite K] [CharP K 2] in
 private lemma diagGL_val (A : Matrix.SpecialLinearGroup (Fin 2) K) :
     (diagGL A : Matrix (Fin 3) (Fin 3) K) =
       Matrix.reindex (finSumFinEquiv (m := 1) (n := 2)) (finSumFinEquiv (m := 1) (n := 2))
         (Matrix.fromBlocks (1 : Matrix (Fin 1) (Fin 1) K) 0 0
           (A : Matrix (Fin 2) (Fin 2) K)) := rfl
 
+omit [Finite K] [CharP K 2] in
 private lemma diagGL_det (A : Matrix.SpecialLinearGroup (Fin 2) K) :
     (diagGL A : Matrix (Fin 3) (Fin 3) K).det = 1 := by
   rw [diagGL_val, Matrix.det_reindex_self, Matrix.det_fromBlocks_zero₁₂, Matrix.det_one,
     A.2, one_mul]
 
+omit [Finite K] [CharP K 2] in
 private lemma diagGL_succ_succ (A : Matrix.SpecialLinearGroup (Fin 2) K) (i j : Fin 2) :
     (diagGL A : Matrix (Fin 3) (Fin 3) K) i.succ j.succ = A i j := by
   have hsymm (i : Fin 2) : (finSumFinEquiv (m := 1) (n := 2)).symm i.succ = Sum.inr i := by
@@ -212,6 +215,7 @@ private lemma diagGL_succ_succ (A : Matrix.SpecialLinearGroup (Fin 2) K) (i j : 
   rw [hsymm i, hsymm j]
   simp [Matrix.fromBlocks]
 
+omit [Finite K] [CharP K 2] in
 private lemma diagGL_succ_zero (A : Matrix.SpecialLinearGroup (Fin 2) K) (i : Fin 2) :
     (diagGL A : Matrix (Fin 3) (Fin 3) K) i.succ 0 = 0 := by
   have h0e : (finSumFinEquiv (m := 1) (n := 2)) (Sum.inl (0 : Fin 1)) = 0 := by
@@ -233,13 +237,15 @@ private lemma diagGL_succ_zero (A : Matrix.SpecialLinearGroup (Fin 2) K) (i : Fi
   rw [hsymm i, h0]
   simp [Matrix.fromBlocks]
 
+omit [Finite K] [CharP K 2] in
 private lemma diagGL_mem_statedSL (A : Matrix.SpecialLinearGroup (Fin 2) K) :
     diagGL A ∈ StatedSL 3 K := by
   rw [CFSG.Open.StatedAPI.mem_statedSL_iff]
   exact diagGL_det A
 
+omit [Finite K] [CharP K 2] in
 private lemma block_mul_apply (A B : Matrix (Fin 3) (Fin 3) K)
-    (hA1 : A 1 0 = 0) (hA2 : A 2 0 = 0) (hB1 : B 1 0 = 0) (hB2 : B 2 0 = 0)
+    (hA1 : A 1 0 = 0) (hA2 : A 2 0 = 0) (_hB1 : B 1 0 = 0) (_hB2 : B 2 0 = 0)
     (i j : Fin 2) :
     (A * B) i.succ j.succ = ∑ k : Fin 2, A i.succ k.succ * B k.succ j.succ := by
   rw [Matrix.mul_apply, Fin.sum_univ_three, Fin.sum_univ_two]
@@ -342,6 +348,7 @@ private lemma mem_N_conj (hC : Levi108 K L R N Y ρ μ T) {r : 𝓜} (hr : r ∈
   rw [hC.ker_rho] at hmem
   exact hmem
 
+omit [Finite K] [CharP K 2] in
 private lemma diag_inv_transpose_mulVec_zero (β : K) (hβ0 : β ≠ 0) (v : Fin 3 → K) :
     (((Matrix.diagonal (![β, β⁻¹, 1] : Fin 3 → K))⁻¹)ᵀ *ᵥ v) 0 = β⁻¹ * v 0 := by
   have hDM : (Matrix.diagonal (![β⁻¹, β, 1] : Fin 3 → K) : Matrix (Fin 3) (Fin 3) K) *
@@ -380,6 +387,7 @@ private lemma exists_diag_rho (hC : Levi108 K L R N Y ρ μ T) {β : K} (hβ0 : 
     · rw [hr]
       simp [A, M]
 
+omit [Finite K] [CharP K 2] in
 private lemma vecMulVec_e0_mul_self (u : Fin 3 → K) (hu0 : u 0 = 0) :
     Matrix.vecMulVec (e₀ K) u * Matrix.vecMulVec (e₀ K) u = 0 := by
   rw [Matrix.vecMulVec_mul_vecMulVec]
@@ -387,28 +395,31 @@ private lemma vecMulVec_e0_mul_self (u : Fin 3 → K) (hu0 : u 0 = 0) :
     simp [dotProduct_single, e₀, hu0]
   rw [h, zero_smul, Matrix.vecMulVec_zero]
 
+omit [Finite K] [CharP K 2] in
 private lemma one_sub_vecMulVec_mul_one_add (u : Fin 3 → K) (hu0 : u 0 = 0) :
     ((1 : Matrix (Fin 3) (Fin 3) K) - Matrix.vecMulVec (e₀ K) u) *
       (1 + Matrix.vecMulVec (e₀ K) u) = 1 := by
   rw [sub_mul, one_mul, mul_add, mul_one, vecMulVec_e0_mul_self u hu0]
   abel
 
+omit [Finite K] [CharP K 2] in
 private lemma inv_one_add_vecMulVec (u : Fin 3 → K) (hu0 : u 0 = 0) :
     ((1 : Matrix (Fin 3) (Fin 3) K) + Matrix.vecMulVec (e₀ K) u)⁻¹ =
       1 - Matrix.vecMulVec (e₀ K) u :=
   Matrix.inv_eq_left_inv (one_sub_vecMulVec_mul_one_add u hu0)
 
+omit [Finite K] [CharP K 2] in
 private lemma transpose_inv_one_add_vecMulVec (u : Fin 3 → K) (hu0 : u 0 = 0) :
     (((1 : Matrix (Fin 3) (Fin 3) K) + Matrix.vecMulVec (e₀ K) u)⁻¹)ᵀ =
       1 - Matrix.vecMulVec u (e₀ K) := by
   rw [inv_one_add_vecMulVec u hu0, Matrix.transpose_sub, Matrix.transpose_one,
     Matrix.transpose_vecMulVec]
 
+omit [Finite K] [CharP K 2] in
 private lemma one_sub_vecMulVec_mulVec (u v : Fin 3 → K) :
     ((1 : Matrix (Fin 3) (Fin 3) K) - Matrix.vecMulVec u (e₀ K)) *ᵥ v = v - v 0 • u := by
   ext i
-  simp [Matrix.sub_mulVec, Matrix.one_mulVec, Matrix.vecMulVec_mulVec, dotProduct_single,
-    e₀, MulOpposite.op_smul]
+  simp [Matrix.sub_mulVec, Matrix.one_mulVec, Matrix.vecMulVec_mulVec, e₀]
 
 private theorem mu_conj_of_mem_L (hC : Levi108 K L R N Y ρ μ T) {l : 𝓜} (hl : l ∈ L) {u : Fin 3 → K}
     (hu0 : u 0 = 0)
@@ -679,6 +690,7 @@ private lemma N_normalizes_P (hC : Levi108 K L R N Y ρ μ T) :
     change mkG L (g⁻¹ * y * g) ∈ Pfrak L R
     exact Subgroup.mem_map.mpr ⟨⟨_, hyNL⟩, hyR, rfl⟩
 
+omit [Finite K] [CharP K 2] in
 private lemma inv_block_properties (A : Matrix (Fin 3) (Fin 3) K)
     (hA1 : A 1 0 = 0) (hA2 : A 2 0 = 0) (hdet : A.det = 1) :
     (A⁻¹) 1 0 = 0 ∧ (A⁻¹) 2 0 = 0 ∧ (A⁻¹) 0 0 = (A 0 0)⁻¹ := by
@@ -707,6 +719,7 @@ private lemma inv_block_properties (A : Matrix (Fin 3) (Fin 3) K)
   simp only [mul_zero, add_zero] at h00
   exact ⟨hB1, hB2, eq_inv_of_mul_eq_one_right h00⟩
 
+omit [Finite K] [CharP K 2] in
 private lemma inv_transpose_mulVec_zero (A : Matrix (Fin 3) (Fin 3) K)
     (hA1 : A 1 0 = 0) (hA2 : A 2 0 = 0) (hdet : A.det = 1) (h00 : A 0 0 = 1)
     (v : Fin 3 → K) : ((A⁻¹)ᵀ *ᵥ v) 0 = v 0 := by
@@ -783,11 +796,11 @@ private lemma normalizes_commutator_of_normalizes {H : Subgroup (GG L)} {k : GG 
 
 private lemma N_normalizes_P0 (hC : Levi108 K L R N Y ρ μ T) :
     Nfrak L Y ≤ Subgroup.normalizer (P0frak L R : Set (GG L)) :=
-  fun k hk => normalizes_commutator_of_normalizes (N_normalizes_P hC hk)
+  fun _k hk => normalizes_commutator_of_normalizes (N_normalizes_P hC hk)
 
 private lemma N_normalizes_X (hC : Levi108 K L R N Y ρ μ T) :
     Nfrak L Y ≤ Subgroup.normalizer (Xlevi L R : Set (GG L)) :=
-  fun k hk => normalizes_commutator_of_normalizes (N_normalizes_P0 hC hk)
+  fun _k hk => normalizes_commutator_of_normalizes (N_normalizes_P0 hC hk)
 
 private lemma X_le_N (hC : Levi108 K L R N Y ρ μ T) : Xlevi L R ≤ Nfrak L Y :=
   (Subgroup.commutator_le_self (P0frak L R)).trans
@@ -822,6 +835,7 @@ private lemma rho_00_eq_one_of_mem_P0frak (hC : Levi108 K L R N Y ρ μ T)
   have hval := congrArg (fun u : Kˣ => (u : K)) hchi_gp
   simpa [chi, gp, rhoP_apply] using hval
 
+omit [Finite K] [CharP K 2] in
 private lemma upper_unipotent_of_block_one (M : Matrix (Fin 3) (Fin 3) K)
     (h10 : M 1 0 = 0) (h20 : M 2 0 = 0) (h00 : M 0 0 = 1)
     (hblock : M.submatrix Fin.succ Fin.succ = 1) :

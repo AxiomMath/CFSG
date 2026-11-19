@@ -11,6 +11,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem str86_conj_q1_inf_q2_inf_q1_inf_conj_q2_eq_bot {L1 L2 S : Subgroup G}
     (hV : ∀ g ∈ L2 ⊔ bigB L1 L2 S, g ∉ bigB L1 L2 S →
       ((Q1 L1 L2 S ⊓ Q2 L1 L2 S) ⊔ Z2 L1 L2 S) ⊓

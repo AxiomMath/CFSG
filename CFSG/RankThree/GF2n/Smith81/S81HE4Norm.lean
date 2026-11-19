@@ -15,7 +15,7 @@ private theorem exists_fixed_ne_zero {K E P : Type*} [Field K] [Finite K] [CharP
     (ρ : P →* (E ≃ₗ[K] E)) {e : E} (he : e ≠ 0) : ∃ u : E, u ≠ 0 ∧ ∀ g, ρ g u = u := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have : Finite E := Module.finite_of_finite K
-  letI : MulAction P E :=
+  let : MulAction P E :=
     { smul := fun g u => ρ g u
       one_smul := fun u => by
         show ρ 1 u = u
@@ -41,6 +41,7 @@ section Line
 variable {G : Type} [Group G] [Finite G] {M Q Z : Subgroup G}
   {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
 
+omit [Finite G] in
 theorem fixed_iff_mem_img_of_isPGroup [CharP K 2] (hg : GlobalModelData M Q Z γ M₀)
     {A S L : Subgroup G} (hctx : Ctx M Q Z A)
     (hCQt : CQt Q Z (LB M Q A) = ((A ⊔ Z : Subgroup G) : Set G))

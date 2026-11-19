@@ -27,7 +27,7 @@ theorem glaPPrimeCore_eq_bot_of_subnormal_family {p : ℕ} (hp : p.Prime) {Q : T
     (hpL : ∀ i, p ∣ Nat.card ↥(L i))
     (hcent : IsPGroup p ↥(C ⊓ Subgroup.centralizer ((⨆ i, L i : Subgroup Q) : Set Q))) :
     GLAPPrimeCore p ↥C = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N : Subgroup ↥C := GLAPPrimeCore p ↥C with hN
   have hcop : Nat.Coprime p (Nat.card N) := CFSG.pPrimeCore_coprime_card (p := p) (G := ↥C)
   have key : ∀ {M : Subgroup Q}, CFSG.Open.IsSubnormal M C → CFSG.Open.IsQuasisimple ↥M →

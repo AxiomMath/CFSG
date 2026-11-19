@@ -24,7 +24,7 @@ theorem isMultiplyPretransitive_of_isCycle_five (G : Subgroup (Perm α))
   have hs' : n + 2 < Nat.card α := by omega
   have hpre : IsMultiplyPreprimitive G α (n + 2) := by
     apply hG.isMultiplyPreprimitive hs hs'
-    haveI := isPretransitive_of_isCycle_mem (G := G) hr hrG
+    have := isPretransitive_of_isCycle_mem (G := G) hr hrG
     apply IsPreprimitive.of_prime_card
     have hcard : Nat.card ↥(SubMulAction.ofFixingSubgroup G ((r.support : Set α)ᶜ)) = 5 := by
       change (((r.support : Set α)ᶜ)ᶜ).ncard = 5
@@ -62,7 +62,7 @@ theorem card_closure_threeCycles {c c' : Perm α} (hc : c.IsThreeCycle) (hc' : c
     have hc1 : c ^ m = 1 := Equiv.Perm.disjoint_refl_iff.mp hdisj2
     rw [← hm]
     apply Subtype.ext
-    simpa [Subgroup.coe_zpow, cJ, c'J, hc1]
+    simp [cJ, hc1]
   have hprod : ∀ g : J, ∃ m n : ℤ, cJ ^ m * c'J ^ n = g := by
     intro g
     refine Subgroup.closure_induction (k := ({c, c'} : Set (Perm α)))
@@ -138,9 +138,11 @@ variable {β : Type*} [Fintype β] [DecidableEq β]
 @[expose] def resGroup (X : Subgroup (Perm β)) (Ω : Finset β) : Subgroup (Perm {x // x ∈ Ω}) :=
   X.comap (Perm.ofSubtype : Perm {x // x ∈ Ω} →* Perm β)
 
+omit [Fintype β] in
 theorem mem_resGroup {X : Subgroup (Perm β)} {Ω : Finset β} {π : Perm {x // x ∈ Ω}} :
     π ∈ resGroup X Ω ↔ Perm.ofSubtype π ∈ X := Iff.rfl
 
+omit [Fintype β] in
 theorem mem_iff_mem_of_fix {Ω : Finset β} {σ : Perm β} (h : ∀ x, x ∉ Ω → σ x = x) (x : β) :
     σ x ∈ Ω ↔ x ∈ Ω := by
   constructor
@@ -157,6 +159,7 @@ theorem mem_iff_mem_of_fix {Ω : Finset β} {σ : Perm β} (h : ∀ x, x ∉ Ω 
     Perm {x // x ∈ Ω} :=
   σ.subtypePerm (mem_iff_mem_of_fix h)
 
+omit [Fintype β] in
 theorem ofSubtype_res {Ω : Finset β} (σ : Perm β) (h : ∀ x, x ∉ Ω → σ x = x) :
     Perm.ofSubtype (res σ h) = σ := by
   unfold res
@@ -164,11 +167,13 @@ theorem ofSubtype_res {Ω : Finset β} (σ : Perm β) (h : ∀ x, x ∉ Ω → �
     by_contra hx'
     exact hx (h x hx')
 
+omit [Fintype β] in
 theorem res_apply {Ω : Finset β} (σ : Perm β) (h : ∀ x, x ∉ Ω → σ x = x) (x : {x // x ∈ Ω}) :
     ((res σ h x : {x // x ∈ Ω}) : β) = σ x := by
   unfold res
   rw [Perm.subtypePerm_apply]
 
+omit [Fintype β] in
 theorem res_mem {X : Subgroup (Perm β)} {Ω : Finset β} {σ : Perm β} (hσ : σ ∈ X)
     (h : ∀ x, x ∉ Ω → σ x = x) : res σ h ∈ resGroup X Ω := by
   rw [mem_resGroup, ofSubtype_res]
@@ -212,6 +217,7 @@ theorem fix_of_support_subset {Ω : Finset β} {σ : Perm β} (h : σ.support �
 
 variable {X : Subgroup (Perm β)} {Ω : Finset β}
 
+omit [Fintype β] in
 theorem isPretransitive_resGroup (hfix : ∀ σ ∈ X, ∀ x, x ∉ Ω → σ x = x)
     (htrans : ∀ x ∈ Ω, ∀ y ∈ Ω, ∃ σ ∈ X, σ x = y) :
     IsPretransitive (resGroup X Ω) {x // x ∈ Ω} := by
@@ -222,10 +228,11 @@ theorem isPretransitive_resGroup (hfix : ∀ σ ∈ X, ∀ x, x ∉ Ω → σ x 
   apply Subtype.ext
   simpa [Subgroup.smul_def, Perm.smul_def, res_apply] using hσxy
 
+omit [Fintype β] in
 theorem isPreprimitive_resGroup_of_prime (hfix : ∀ σ ∈ X, ∀ x, x ∉ Ω → σ x = x)
     (htrans : ∀ x ∈ Ω, ∀ y ∈ Ω, ∃ σ ∈ X, σ x = y) (hp : Ω.card.Prime) :
     IsPreprimitive (resGroup X Ω) {x // x ∈ Ω} := by
-  haveI := isPretransitive_resGroup hfix htrans
+  have := isPretransitive_resGroup hfix htrans
   apply IsPreprimitive.of_prime_card
   convert hp using 1
   rw [Nat.card_eq_fintype_card, Fintype.card_coe]
@@ -236,7 +243,7 @@ theorem isPreprimitive_resGroup_of_blocks (hfix : ∀ σ ∈ X, ∀ x, x ∉ Ω 
       ∃ σ ∈ X, B.map σ.toEmbedding ≠ B ∧ ¬ Disjoint (B.map σ.toEmbedding) B) :
     IsPreprimitive (resGroup X Ω) {x // x ∈ Ω} := by
   classical
-  haveI := isPretransitive_resGroup hfix htrans
+  have := isPretransitive_resGroup hfix htrans
   refine ⟨fun {B} hB => ?_⟩
   by_contra htriv
   rw [MulAction.IsTrivialBlock, not_or] at htriv
@@ -313,13 +320,13 @@ theorem exists_map_eq_of_five_cycle (hfix : ∀ σ ∈ X, ∀ x, x ∉ Ω → σ
   have hr'G : res r (hfix r hrX) ∈ resGroup X Ω := res_mem hrX (hfix r hrX)
   have hN : 6 < Nat.card {x // x ∈ Ω} := by
     rwa [Nat.card_eq_fintype_card, Fintype.card_coe]
-  haveI : IsMultiplyPretransitive (resGroup X Ω) {x // x ∈ Ω}
+  have : IsMultiplyPretransitive (resGroup X Ω) {x // x ∈ Ω}
       (Nat.card {x // x ∈ Ω} - 4) :=
     isMultiplyPretransitive_of_isCycle_five (resGroup X Ω) hprim hr' h5' hr'G hN
   have hk' : F.card ≤ Nat.card {x // x ∈ Ω} - 4 := by
     rw [Nat.card_eq_fintype_card, Fintype.card_coe]
     omega
-  haveI : IsMultiplyPretransitive (resGroup X Ω) {x // x ∈ Ω} F.card :=
+  have : IsMultiplyPretransitive (resGroup X Ω) {x // x ∈ Ω} F.card :=
     MulAction.isMultiplyPretransitive_of_le hk' (Nat.sub_le _ _)
   let f : Fin F.card ↪ {x // x ∈ Ω} :=
     ⟨fun i => ⟨(F.equivFin.symm i : β), hF (F.equivFin.symm i).property⟩, by

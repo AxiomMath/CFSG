@@ -20,7 +20,7 @@ abbrev LbY {G : Type} [Group G] (M L : Subgroup G) : Type :=
   ↥(barM M L) ⧸ Subgroup.center ↥(barM M L)
 
 theorem noSwap_of_oneNode {G : Type} [Group G] [Finite G] {M S L : Subgroup G}
-    (hL : IsWeakSBlock M S L)
+    (_hL : IsWeakSBlock M S L)
     (hpar : IsParabolicTwo (barM M L) (barM M (Subgroup.normalizer (S : Set G) ⊓ L)))
     (hsolv : BlockPLThreeSolv M S L)
     (hZ3 : Nat.Coprime 3 (Nat.card (Subgroup.center ↥(barM M L))))
@@ -116,16 +116,16 @@ theorem noSwap_of_pomegaMinus_four {G : Type} [Group G] [Finite G] {M S L : Subg
     (hsolv : BlockPLThreeSolv M S L)
     (hc : StatedClassicalModel (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) .POmegaMinus 4 2 1)
     (hZ3 : Nat.Coprime 3 (Nat.card (Subgroup.center ↥(barM M L))))
-    {E : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)} (hE9 : Nat.card E = 9)
-    (hEP : E ≤ barM M (Subgroup.normalizer (S : Set G) ⊓ L)) :
+    {_E : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)} (hE9 : Nat.card _E = 9)
+    (hEP : _E ≤ barM M (Subgroup.normalizer (S : Set G) ⊓ L)) :
     ¬ IrreducibleOn
-      (Subgroup.normalizer (E : Set (↥M ⧸ CFSG.pCore 2 ↥M)) ⊓
+      (Subgroup.normalizer (_E : Set (↥M ⧸ CFSG.pCore 2 ↥M)) ⊓
         Subgroup.normalizer
           (barM M (Subgroup.normalizer (S : Set G) ⊓ L) : Set (↥M ⧸ CFSG.pCore 2 ↥M)) ⊓
-        Subgroup.normalizer (barM M L : Set (↥M ⧸ CFSG.pCore 2 ↥M))) E :=
+        Subgroup.normalizer (barM M L : Set (↥M ⧸ CFSG.pCore 2 ↥M))) _E :=
   noSwap_of_oneNode hL hpar hsolv hZ3
     (fun T V hV hV3 => card_dvd_three_of_le_normalizer_pomegaMinus_four hc T V hV hV3)
-    (fun T J hNJ hJne hperf E hEJ hE =>
+    (fun T J hNJ hJne hperf _E hEJ hE =>
       card_inf_threePrimeSub_of_model_pomegaMinus_four hc T J hNJ hJne hperf hEJ hE) hE9 hEP
 
 theorem noSwap_of_psu_four {G : Type} [Group G] [Finite G] {M S L : Subgroup G}
@@ -134,16 +134,16 @@ theorem noSwap_of_psu_four {G : Type} [Group G] [Finite G] {M S L : Subgroup G}
     (hsolv : BlockPLThreeSolv M S L)
     (hc : StatedClassicalModel (↥(barM M L) ⧸ Subgroup.center ↥(barM M L)) .PSU 4 2 1)
     (hZ3 : Nat.Coprime 3 (Nat.card (Subgroup.center ↥(barM M L))))
-    {E : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)} (hE9 : Nat.card E = 9)
-    (hEP : E ≤ barM M (Subgroup.normalizer (S : Set G) ⊓ L)) :
+    {_E : Subgroup (↥M ⧸ CFSG.pCore 2 ↥M)} (hE9 : Nat.card _E = 9)
+    (hEP : _E ≤ barM M (Subgroup.normalizer (S : Set G) ⊓ L)) :
     ¬ IrreducibleOn
-      (Subgroup.normalizer (E : Set (↥M ⧸ CFSG.pCore 2 ↥M)) ⊓
+      (Subgroup.normalizer (_E : Set (↥M ⧸ CFSG.pCore 2 ↥M)) ⊓
         Subgroup.normalizer
           (barM M (Subgroup.normalizer (S : Set G) ⊓ L) : Set (↥M ⧸ CFSG.pCore 2 ↥M)) ⊓
-        Subgroup.normalizer (barM M L : Set (↥M ⧸ CFSG.pCore 2 ↥M))) E :=
+        Subgroup.normalizer (barM M L : Set (↥M ⧸ CFSG.pCore 2 ↥M))) _E :=
   noSwap_of_oneNode hL hpar hsolv hZ3
     (fun T V hV hV3 => card_dvd_three_of_le_normalizer_psu_four hc T V hV hV3)
-    (fun T J hNJ hJne hperf E hEJ hE =>
+    (fun T J hNJ hJne hperf _E hEJ hE =>
       card_inf_threePrimeSub_of_model_psu_four hc T J hNJ hJne hperf hEJ hE) hE9 hEP
 
 end CFSG.AGLEmbeddingD2.McLaughlin.WeakBlockModuleData

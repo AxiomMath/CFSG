@@ -22,7 +22,7 @@ private theorem f4P_le_R (s : Setting3 G L) : f4P s ≤ s.R :=
 private theorem isPGroup_zpowers_of_sq_mem {G : Type*} [Group G] [Finite G] {P : Subgroup G}
     (hP : IsPGroup 2 P) {a : G} (ha : a ^ 2 ∈ P) :
     IsPGroup 2 (Subgroup.zpowers a) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hP
   have hdvd1 : orderOf a ∣ 2 * orderOf (a ^ 2) :=
     orderOf_dvd_iff_pow_eq_one.mpr (by rw [pow_mul, pow_orderOf_eq_one])
@@ -35,6 +35,7 @@ private theorem isPGroup_zpowers_of_sq_mem {G : Type*} [Group G] [Finite G] {P :
     _ ∣ 2 * 2 ^ k := Nat.mul_dvd_mul_left 2 hdvd2
     _ = 2 ^ (k + 1) := by rw [pow_succ]; ring
 
+omit [Finite G] in
 private theorem mem_conjSub_iff (V : Subgroup G) (h y : G) :
     y ∈ conjSub h V ↔ h⁻¹ * y * h ∈ V := by
   rw [conjSub, Subgroup.mem_map]
@@ -49,6 +50,7 @@ private theorem mem_conjSub_iff (V : Subgroup G) (h y : G) :
     change h * (h⁻¹ * y * h) * h⁻¹ = y
     group
 
+omit [Finite G] in
 private theorem centIn_conjSub_eq_of_centIn_eq {V : Subgroup G} {h : G}
     (hh : h ∈ Subgroup.normalizer (L : Set G)) (hV : centIn L V = V) :
     centIn L (conjSub h V) = conjSub h V := by
@@ -180,7 +182,7 @@ theorem y54_g_mem_X0 (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T
   calc f * c.g = (c.g * f * c.g⁻¹) * c.g := by rw [hgf]
     _ = c.g * f := by group
 
-theorem y54_g_not_mem_P (c : Ctx5 G L) (hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T) :
+theorem y54_g_not_mem_P (c : Ctx5 G L) (_hH : F33Hyp c.s c.e) (hRT : c.s.R ≠ c.s.T) :
     c.g ∉ f4P c.s :=
   fun hgP => (c.g_spec hRT).2.1 (f4P_le_R c.s hgP)
 

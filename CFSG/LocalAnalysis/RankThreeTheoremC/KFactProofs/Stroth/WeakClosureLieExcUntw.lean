@@ -28,17 +28,17 @@ theorem sylowFrame_untw {τ : Tag} (d : ℕ)
       p ^ ((M.charpoly.eval (Nat.card K : ℤ)).natAbs).factorization p)
     (hperf : commutator ↥(adjointGroup τ K) = ⊤) : SylowFrame τ K p w := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨L, _, _, _, D, Fr, hFr, hD, hDq, hDn, hK0, hd⟩ :=
     exists_untw_frame d hτ K hp hp3 w hperf
-  haveI : IsAlgClosed L := IsAlgClosure.isAlgClosed K
-  haveI : Fintype K := Fintype.ofFinite K
+  have : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
   have hq : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : CharP L (ringChar K) := charP_of_injective_algebraMap (algebraMap K L).injective _
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : CharP L (ringChar K) := charP_of_injective_algebraMap (algebraMap K L).injective _
   have hℓq : ringChar K ∣ Nat.card K := by
     rw [hq]
     exact dvd_pow_self _ f.ne_zero
@@ -173,7 +173,7 @@ theorem seven_or_eleven_le {p : ℕ} (hp : p.Prime) (hp7 : 7 ≤ p) : p = 7 ∨ 
 
 theorem orderOf_dvd_sub_one' {p q e : ℕ} (hp : p.Prime) (hpq : ¬ p ∣ q)
     (he : orderOf (q : ZMod p) = e) : e ∣ p - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq0 : (q : ZMod p) ≠ 0 := fun h => hpq ((ZMod.natCast_eq_zero_iff q p).1 h)
   exact he ▸ ZMod.orderOf_dvd_card_sub_one hq0
 

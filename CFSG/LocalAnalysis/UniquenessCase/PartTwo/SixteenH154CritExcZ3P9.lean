@@ -68,7 +68,7 @@ theorem s16h_z3_exists_elem_nine {W : Type} [CommGroup W] [Finite W]
     ∃ P : Subgroup (MulAut W), P ≤ A ⊓ centSub (commSub (⊤ : Subgroup W) L) ∧
       IsElemAbelian 3 P ∧ 9 ≤ Nat.card ↥P := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let E : Subgroup (MulAut W) := L ⊔ Subgroup.zpowers y
   have hy_ne_one : y ≠ 1 := by
     intro hy1
@@ -128,7 +128,7 @@ theorem s16h_z3_exists_elem_nine {W : Type} [CommGroup W] [Finite W]
     intro u hu
     have hxu : x u ∈ commSub (⊤ : Subgroup W) L₂ := (hB.swap u).mp hu
     have hefix : e (x u) = x u := (mem_centSub.mp (hEcent he)) (x u) hxu
-    simp [MulAut.conj_apply, MulAut.mul_apply, hefix, MulAut.inv_apply_self]
+    simp [MulAut.mul_apply, hefix]
   have hPabel : IsElemAbelian 3 P := hEabel.map (MulAut.conj x⁻¹).toMonoidHom
   have hPcard : Nat.card P = 9 := by
     have h := Subgroup.card_map_of_injective (K := E)

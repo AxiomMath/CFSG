@@ -20,7 +20,7 @@ variable {X : Type} [Group X] [Finite X]
 
 theorem glbCore_two_le_x0 {p : ℕ} (hp : p.Prime) {P B : Subgroup X} (hBP : B ≤ P)
     (hB : IsElemAbelian p B) (hB4 : p ^ 4 ≤ Nat.card B) : GLBCore p 2 B ≤ Inputs245.x0 p P := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine sSup_le ?_
   rintro _ ⟨D, hDB, hD2, rfl⟩
   have hDe : IsElemAbelian p D := GL83.CompFam.elem_mono hB hDB
@@ -38,6 +38,7 @@ theorem glbCore_two_le_x0 {p : ℕ} (hp : p.Prime) {P B : Subgroup X} (hBP : B �
   have hE : IsEkIn p 4 P E := ⟨hEB.trans hBP, GL83.CompFam.elem_mono hB hEB, hEc⟩
   exact Inputs245.normalizer_le_x0' hE hDE hD2
 
+omit [Finite X] in
 theorem le_pCoreOf_of_le_normalizer {p : ℕ} {Y N : Subgroup X} (hNY : N ≤ Y)
     (hYN : Y ≤ Subgroup.normalizer (N : Set X)) (hNp : IsPGroup p N) : N ≤ pCoreOf p Y := by
   have hn : (N.subgroupOf Y).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hYN
@@ -46,6 +47,7 @@ theorem le_pCoreOf_of_le_normalizer {p : ℕ} {Y N : Subgroup X} (hNY : N ≤ Y)
   intro x hx
   exact ⟨⟨x, hNY hx⟩, hle (Subgroup.mem_subgroupOf.2 hx), rfl⟩
 
+omit [Finite X] in
 theorem mem_normalizer_centralizer {K : Subgroup X} {g : X}
     (hg : g ∈ Subgroup.normalizer (K : Set X)) :
     g ∈ Subgroup.normalizer ((Subgroup.centralizer (K : Set X) : Subgroup X) : Set X) := by
@@ -74,6 +76,7 @@ theorem mem_normalizer_centralizer {K : Subgroup X} {g : X}
       _ = g⁻¹ * ((g * x * g⁻¹) * (g * k * g⁻¹)) * g := by rw [h1]
       _ = x * k := by group
 
+omit [Finite X] in
 theorem inf_centralizer_le_pCoreOf {p : ℕ} {P K : Subgroup X} (hPp : IsPGroup p P)
     (hPK : P ≤ Subgroup.normalizer (K : Set X)) :
     P ⊓ Subgroup.centralizer (K : Set X) ≤ pCoreOf p (P ⊔ K) := by
@@ -109,7 +112,7 @@ theorem card_le_of_le_cyclic {p : ℕ} (hp : p.Prime) {C E : Subgroup X} [IsCycl
   obtain ⟨w, hw1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).1 hE1
   have hwp : (w : X) ^ p = 1 := hE.2 w w.2
   have hw1' : (w : X) ≠ 1 := fun h => hw1 (Subtype.ext h)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hwo : orderOf (w : X) = p := orderOf_eq_prime hwp hw1'
   have hZC : Subgroup.zpowers (w : X) ≤ C := (Subgroup.zpowers_le).2 (hEC w.2)
   have hle : E ≤ Subgroup.zpowers (w : X) := fun e he =>
@@ -122,13 +125,13 @@ theorem four_le_pRank_aut {p : ℕ} (hp : p.Prime) {P K : Subgroup X} (hP : IsSy
     (h5 : 5 ≤ CFSG.Open.pRank p (⊤ : Subgroup X)) (hPK : P ≤ Subgroup.normalizer (K : Set X))
     (hcyc : IsCyclic ↥(pCoreOf p (P ⊔ K))) :
     4 ≤ CFSG.Open.pRank p (⊤ : Subgroup (MulAut ↥K)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨B, hBP, hBel, hBc⟩ := Claims1211b.exists_ekIn' hP h5
   have hstab : GL83.CompFam.stab B K = B := inf_eq_left.2 (hBP.trans hPK)
   have hcen : Nat.card (GL83.CompFam.cen B K) ≤ p := by
     have hle : GL83.CompFam.cen B K ≤ pCoreOf p (P ⊔ K) :=
       (inf_le_inf_right _ hBP).trans (inf_centralizer_le_pCoreOf hP.2.1 hPK)
-    haveI := hcyc
+    have := hcyc
     exact card_le_of_le_cyclic hp hle (GL83.CompFam.elem_mono hBel inf_le_left)
   have h := GL83.CompFam.card_stab_le hBel K
   rw [hstab, hBc] at h
@@ -194,7 +197,7 @@ theorem isPGroup_center_of_component {p : ℕ} (hp : p.Prime) (hO : GLAPPrimeCor
 theorem dvd_card_center_of_component {p : ℕ} (hp : p.Prime) (hO : GLAPPrimeCore p X = ⊥)
     {K : Subgroup X} (hK : IsComponentOf K ⊤) (hZK : Subgroup.center ↥K ≠ ⊥) :
     p ∣ Nat.card (Subgroup.center ↥K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨k, hk⟩ := (isPGroup_center_of_component hp hO hK).exists_card_eq
   rcases k with _ | k
   · exact absurd (Subgroup.eq_bot_of_card_eq _ (by rw [hk, pow_zero])) hZK
@@ -210,7 +213,7 @@ theorem exists_config {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hO : GLAPPrimeCo
       z ∈ Subgroup.centralizer (K : Set X) ∧ orderOf z = p ∧
       (∀ b ∈ B, b ∈ Subgroup.centralizer (K : Set X) → b ∈ Subgroup.zpowers z) ∧
       (∀ c ∈ K, c ∈ Subgroup.centralizer (K : Set X) → c ^ p = 1 → c ∈ Subgroup.zpowers z) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨z, hzZ, hzp⟩ := Inputs245.exists_mem_center_orderOf hp hO hZ
   obtain ⟨B, hBP, hBel, hBc⟩ := Claims1211b.exists_ekIn' hP (le_refl (CFSG.Open.pRank p (⊤ : Subgroup X)))
   have hzc : ∀ g : X, g * z = z * g := fun g => (Subgroup.mem_center_iff.1 hzZ) g
@@ -234,7 +237,7 @@ theorem exists_config {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hO : GLAPPrimeCo
   have hzC : z ∈ Subgroup.centralizer (K : Set X) :=
     Subgroup.mem_centralizer_iff.2 fun g _ => hzc g
   set C : Subgroup X := pCoreOf p (P ⊔ K) with hCdef
-  haveI := hcyc
+  have := hcyc
   have hPC : P ⊓ Subgroup.centralizer (K : Set X) ≤ C := inf_centralizer_le_pCoreOf hP.2.1 hPK
   have hzCC : z ∈ C := hPC ⟨hBP hzB, hzC⟩
   have hZC : Subgroup.zpowers z ≤ C := (Subgroup.zpowers_le).2 hzCC
@@ -259,6 +262,7 @@ theorem exists_config {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hO : GLAPPrimeCo
   · intro c hc hcC hcp
     exact Inputs245.mem_of_pow_eq_one_of_cyclic hp hZC hZc (hKC ⟨hc, hcC⟩) hcp
 
+omit [Finite X] in
 theorem closure_gens_eq_top {B K : Subgroup X} {z : X} (hzC : z ∈ Subgroup.centralizer (K : Set X))
     {E : Subgroup (MulAut ↥K)}
     (hEB : ∀ ε ∈ E, ∃ f ∈ B, ∀ y : ↥K, ((ε y : ↥K) : X) = f * (y : X) * f⁻¹)
@@ -326,8 +330,8 @@ theorem ker_conj_eq_center (K : Type*) [Group K] :
 theorem pRank_aut_le_two_of_out {K : Type} [Group K] [Finite K]
     (hOut : CFSG.AGLEmbedding.KOutTwoGroup K) (h27 : ¬ 3 ^ 3 ∣ Nat.card (K ⧸ Subgroup.center K)) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (MulAut K)) ≤ 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut K) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut K) :=
     Finite.of_injective (fun β : MulAut K => (β : K → K)) fun _ _ h => MulEquiv.ext (congrFun h)
   set I : Subgroup (MulAut K) := (MulAut.conj : K →* MulAut K).range with hI
   have hIcard : Nat.card I = Nat.card (K ⧸ Subgroup.center K) := by
@@ -360,14 +364,14 @@ theorem pRank_aut_le_two_of_lfour (hL4 : GL83.I243.LFourFacts) {K : Type} [Group
     (hd : ∃ q : TauCeti.PrimePower, q.p = 2 ∧ q.exponent = 2 ∧ d.1 = .A 2 q)
     (e : K ⧸ Subgroup.center K ≃* (TauCeti.CFSGIndex.lie d).Group) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (MulAut K)) ≤ 2 := by
-  haveI : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv _ e.toEquiv
-  haveI : Finite (MulAut K) :=
+  have : Finite (TauCeti.CFSGIndex.lie d).Group := Finite.of_equiv _ e.toEquiv
+  have : Finite (MulAut K) :=
     Finite.of_injective (fun β : MulAut K => (β : K → K)) fun _ _ h => MulEquiv.ext (congrFun h)
-  haveI : Finite (MulAut (TauCeti.CFSGIndex.lie d).Group) :=
+  have : Finite (MulAut (TauCeti.CFSGIndex.lie d).Group) :=
     Finite.of_injective (fun β : MulAut (TauCeti.CFSGIndex.lie d).Group => (β : _ → _))
       fun _ _ h => MulEquiv.ext (congrFun h)
   obtain ⟨-, hrk, -⟩ := hL4 d hd
-  haveI : Group.IsPerfect K := ⟨hq.1⟩
+  have : Group.IsPerfect K := ⟨hq.1⟩
   have hρ : Function.Injective ((MulAut.congr e).toMonoidHom.comp
       (CFSG.ComponentClassification.PerfectAutomorphisms.centerQuotientHom K)) :=
     (MulAut.congr e).injective.comp
@@ -380,7 +384,7 @@ theorem pRank_aut_le_three_of_j3 (hJ3 : CFSG.AGLEmbedding.KFactJ3OuterRank) {K :
     [Finite K] (hq : CFSG.Open.IsQuasisimple K)
     (e : K ⧸ Subgroup.center K ≃* (TauCeti.CFSGIndex.sporadic .J3).Group) :
     CFSG.Open.pRank 3 (⊤ : Subgroup (MulAut K)) ≤ 3 := by
-  haveI : Group.IsPerfect K := ⟨hq.1⟩
+  have : Group.IsPerfect K := ⟨hq.1⟩
   obtain ⟨hOut, hrk⟩ := hJ3 (K ⧸ Subgroup.center K) ⟨e⟩
   have hZ : Subgroup.center (K ⧸ Subgroup.center K) = ⊥ :=
     CFSG.AGLEmbedding.center_eq_bot_of_isSimpleGroup_of_nonabelian hq.2
@@ -413,6 +417,7 @@ open scoped Pointwise
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem exists_pow_mul_eq {K : Subgroup X} {g k : X} (hg : g ∈ Subgroup.normalizer (K : Set X))
     (hk : k ∈ K) (n : ℕ) : ∃ k' ∈ K, (g * k) ^ n = g ^ n * k' := by
   induction n with
@@ -474,10 +479,12 @@ theorem isPGroup_sup_inf_centralizer {p : ℕ} (hp : p.Prime) (hO : GLAPPrimeCor
     rw [e1]
     exact Subgroup.inv_mem _ hax
 
+omit [Finite X] in
 theorem mem_liftIn {K E : Subgroup X} {k : X} :
     k ∈ liftIn K E ↔ k ∈ K ∧ ∃ x ∈ E, k⁻¹ * x ∈ Subgroup.centralizer (K : Set X) :=
   Iff.rfl
 
+omit [Finite X] in
 theorem liftIn_comm {K E : Subgroup X} (hE : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x)
     (hC : ∀ k ∈ K, ∀ l ∈ K, ∀ x ∈ E, ∀ y ∈ E, k⁻¹ * x ∈ Subgroup.centralizer (K : Set X) →
       l⁻¹ * y ∈ Subgroup.centralizer (K : Set X) → (k⁻¹ * x) * (l⁻¹ * y) = (l⁻¹ * y) * (k⁻¹ * x))
@@ -505,17 +512,17 @@ theorem false_of_onan (hSpo : CFSG.HardMathSupport.Timmesfeld.Coordinator.Sporad
     (hPK : P ≤ Subgroup.normalizer (K : Set X)) (hZK : Subgroup.center ↥K ≠ ⊥)
     (hcyc : IsCyclic ↥(pCoreOf 3 (P ⊔ K)))
     (e : ↥K ⧸ Subgroup.center ↥K ≃* (TauCeti.CFSGIndex.sporadic .ONan).Group) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hq : CFSG.Open.IsQuasisimple ↥K := hK.2.2
   have hOut : CFSG.AGLEmbedding.KOutTwoGroup ↥K := by
-    haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
+    have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hq.2
     have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian ↥K hq
     exact CFSG.AGLEmbedding.kOutTwoGroup_of_card_outer_le_two hq
       (hSpo (↥K ⧸ Subgroup.center ↥K) inferInstance hnab .ONan ⟨e⟩)
   obtain ⟨E, hEP, hEel, hEc⟩ := Claims1211b.exists_ekIn' hP h5
   have hEN : E ≤ Subgroup.normalizer (K : Set X) := hEP.trans hPK
   set O : Subgroup X := pCoreOf 3 (P ⊔ K)
-  haveI := hcyc
+  have := hcyc
   have hC₁O : (P ⊔ K) ⊓ Subgroup.centralizer (K : Set X) ≤ O := by
     refine le_pCoreOf_of_le_normalizer inf_le_left (sup_le ?_ ?_)
       (isPGroup_sup_inf_centralizer Nat.prime_three hO hP.2.1 hPK hK)
@@ -675,7 +682,7 @@ variable {X : Type} [Group X] [Finite X]
 theorem exists_component_of_not_isPConstrained {p : ℕ} (hp : p.Prime)
     (hO : GLAPPrimeCore p X = ⊥) (h : ¬ CFSG.ABGLocalTools.IsPConstrained p X) :
     ∃ K : Subgroup X, IsComponentOf K ⊤ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hno
   push Not at hno
   apply h
@@ -724,7 +731,7 @@ theorem input24_5_small_of_three
   · subst hp3
     exact hres X hKX hO hZ h5 P hP hZP hnc hcZ hL hr3
   exfalso
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp5 : 5 ≤ p := by
     have h2 := hp.two_le
     by_contra hlt
@@ -748,7 +755,7 @@ theorem input24_5_small_of_three
     exists_conj_le_pGroup' (le_top : P ≤ ⊤) hP.2.1 (le_top : E' ≤ ⊤) hE'el.isPGroup
   have hTP : T = P := hP.2.2 T le_top hTp hPT
   rw [hTP] at hE'T
-  haveI : (CFSG.ComponentClassification.Layer.subgroup X).Normal :=
+  have : (CFSG.ComponentClassification.Layer.subgroup X).Normal :=
     CFSG.ComponentClassification.Layer.normal X
   have hconjL : GLBConj x E' ≤ CFSG.ComponentClassification.Layer.subgroup X := by
     intro y hy
@@ -791,7 +798,7 @@ theorem eq_one_of_fix_pair {V : Type} [Group V] {α : MulAut V} {v₀ v₁ : V}
 theorem card_le_three_of_isPGroup_mulAut {V : Type} [Group V] [Finite V]
     (hcomm : ∀ a b : V, a * b = b * a) (hexp : ∀ v : V, v ^ 3 = 1) (hV : Nat.card V ≤ 9)
     {S : Subgroup (MulAut V)} (hS : IsPGroup 3 S) : Nat.card S ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hVp : IsPGroup 3 V := fun v => ⟨1, by rw [pow_one]; exact hexp v⟩
   have h2 : ∀ α ∈ S, α ^ 2 = 1 → α = 1 := by
     intro α hα h
@@ -858,7 +865,7 @@ theorem card_le_three_of_isPGroup_mulAut {V : Type} [Group V] [Finite V]
   have hmem : ∀ α ∈ S, v₁⁻¹ * α v₁ ∈ Subgroup.zpowers v₀ := by
     intro α hα
     have hαv : α v₁ ∈ Subgroup.zpowers v₁ ⊔ Subgroup.zpowers v₀ := htop ▸ Subgroup.mem_top _
-    haveI hn0 : (Subgroup.zpowers v₀).Normal :=
+    have hn0 : (Subgroup.zpowers v₀).Normal :=
       ⟨fun n hn g => by rw [hcomm g n, mul_inv_cancel_right]; exact hn⟩
     obtain ⟨h, hh, k, hk, hhk⟩ := Subgroup.mem_sup_of_normal_right.1 hαv
     obtain ⟨i, rfl⟩ := Subgroup.mem_zpowers_iff.1 hh
@@ -936,7 +943,7 @@ theorem card_le_nine_mul_commutator {X : Type} [Group X] [Finite X] {W : Subgrou
     (hexp : ∀ w ∈ W, w ^ 3 = 1) (hcl : ⁅W, W⁆ ≤ centerOf W)
     (hrk : ∀ U : Subgroup X, U ≤ W → IsElemAbelian 3 U → Nat.card U ≤ 9) :
     Nat.card W ≤ 9 * Nat.card ↥⁅W, W⁆ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hW'pos : 1 ≤ Nat.card ↥⁅W, W⁆ := Nat.card_pos
   by_cases hab : ∀ a ∈ W, ∀ b ∈ W, a * b = b * a
   · have hWe : IsElemAbelian 3 W := ⟨⟨⟨fun a b => Subtype.ext (hab a a.2 b b.2)⟩⟩, hexp⟩
@@ -1039,10 +1046,12 @@ variable {X : Type} [Group X] [Finite X]
     rw [e]
     exact Subgroup.inv_mem _ (hy _ hw')
 
+omit [Finite X] in
 theorem mem_trivMod {W : Subgroup X} {hW : W.Normal} {y : X} :
     y ∈ trivMod W hW ↔ ∀ w ∈ W, ⁅y, w⁆ ∈ ⁅W, W⁆ :=
   Iff.rfl
 
+omit [Finite X] in
 theorem trivMod_normal (W : Subgroup X) (hW : W.Normal) : (trivMod W hW).Normal := by
   refine ⟨fun y hy g w hw => ?_⟩
   have hn : (⁅W, W⁆).Normal := Subgroup.commutator_normal W W
@@ -1058,7 +1067,7 @@ theorem trivMod_normal (W : Subgroup X) (hW : W.Normal) : (trivMod W hW).Normal 
 theorem card_le_three_mul_inf_trivMod {W : Subgroup X} (hW : W.Normal)
     (hexp : ∀ w ∈ W, w ^ 3 = 1) (hW9 : Nat.card W ≤ 9 * Nat.card ↥⁅W, W⁆)
     {E : Subgroup X} (hE : IsPGroup 3 E) : Nat.card E ≤ 3 * Nat.card ↥(E ⊓ trivMod W hW) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hn' : (⁅W, W⁆).Normal := Subgroup.commutator_normal W W
   have hEN : E ≤ Subgroup.normalizer (W : Set X) := by
     rw [Subgroup.normalizer_eq_top_iff.2 hW]
@@ -1102,7 +1111,7 @@ theorem card_le_three_mul_inf_trivMod {W : Subgroup X} (hW : W.Normal)
       exact Nat.mul_le_mul_right _ hgt
     omega
   have hrange : Nat.card ρ.range ≤ 3 := by
-    haveI : Finite V := inferInstance
+    have : Finite V := inferInstance
     have hp : IsPGroup 3 ρ.range := hE.of_surjective ρ.rangeRestrict ρ.rangeRestrict_surjective
     exact card_le_three_of_isPGroup_mulAut hVcomm hVexp hVcard hp
   have hker : ρ.ker.map E.subtype ≤ E ⊓ trivMod W hW := by
@@ -1144,14 +1153,14 @@ theorem exists_pow_mem_centralizer_of_critical {O : Subgroup X} [O.Normal] (hO :
       ⁅y, w⁆ ∈ ⁅(Claims1211b.omegaC 3 C).map (O.subtype.comp (MulEquiv.refl ↥O).toMonoidHom),
         (Claims1211b.omegaC 3 C).map (O.subtype.comp (MulEquiv.refl ↥O).toMonoidHom)⁆) :
     ∃ a : ℕ, y ^ 3 ^ a ∈ Subgroup.centralizer (O : Set X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set e : ↥O ≃* ↥O := MulEquiv.refl ↥O with he
   set ψ : ↥O →* X := O.subtype.comp e.toMonoidHom with hψ
   have hψinj : Function.Injective ψ := O.subtype_injective.comp e.injective
   set WT := Claims1211b.omegaC 3 C with hWT
-  haveI := hC.1
-  haveI : (CFSG.omega₁ (G := ↥C) (p := 3)).Characteristic := CFSG.omega₁_characteristic _
-  haveI : (⁅WT, WT⁆).Characteristic := inferInstance
+  have := hC.1
+  have : (CFSG.omega₁ (G := ↥C) (p := 3)).Characteristic := CFSG.omega₁_characteristic _
+  have : (⁅WT, WT⁆).Characteristic := inferInstance
   set α : MulAut ↥O := (e.trans (MulAut.conjNormal y)).trans e.symm with hα
   have hψα1 : ∀ t : ↥O, ψ (α t) = y * ψ t * y⁻¹ := by
     intro t
@@ -1213,7 +1222,7 @@ theorem exists_kernel_of_rank_two {O : Subgroup X} [hOn : O.Normal] (hO : IsPGro
     (hrk : ∀ U : Subgroup X, U ≤ O → IsElemAbelian 3 U → Nat.card U ≤ 9) :
     ∃ Q : Subgroup X, Q.Normal ∧ (∀ y ∈ Q, ∃ a : ℕ, y ^ 3 ^ a ∈ Subgroup.centralizer (O : Set X)) ∧
       ∀ E : Subgroup X, IsPGroup 3 ↥E → Nat.card E ≤ 3 * Nat.card ↥(E ⊓ Q) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨C, hC⟩, -⟩ := CFSG.SectionRank.Ccomm.thompson_critical_subgroup hO
   set W : Subgroup X := (Claims1211b.omegaC 3 C).map (O.subtype.comp (MulEquiv.refl ↥O).toMonoidHom) with hWdef
   have hWn : W.Normal := Claims1211b.normal_omegaC_map (p := 3) (MulEquiv.refl ↥O) hC
@@ -1247,7 +1256,7 @@ theorem le_sup_of_pow_mem {p : ℕ} [Fact p.Prime] {P H N : Subgroup X} (hP : Is
     hH.isSubnormal
   have hT' : (T : Subgroup ↥H).map H.subtype = P ⊓ H := hT
   set N' : Subgroup ↥H := N.subgroupOf H with hN'
-  haveI : N'.Normal := Subgroup.Normal.subgroupOf hN H
+  have : N'.Normal := Subgroup.Normal.subgroupOf hN H
   set M' : Subgroup ↥H := N' ⊔ (T : Subgroup ↥H) with hM'
   have h1 : M'.index ∣ (T : Subgroup ↥H).index := Subgroup.index_dvd_of_le le_sup_right
   have h2 : M'.index ∣ N'.index := Subgroup.index_dvd_of_le le_sup_left
@@ -1275,6 +1284,7 @@ theorem le_sup_of_pow_mem {p : ℕ} [Fact p.Prime] {P H N : Subgroup X} (hP : Is
   rw [hM', Subgroup.map_sup, hN', Subgroup.subgroupOf_map_subtype, hT', inf_comm N H] at this
   exact this
 
+omit [Finite X] in
 theorem exists_pow_mem_of_mem_sup {p : ℕ} {A P : Subgroup X} [hA : A.Normal] (hP : IsPGroup p ↥P)
     {x : X} (hx : x ∈ A ⊔ P) : ∃ k : ℕ, x ^ p ^ k ∈ A := by
   obtain ⟨g, hg, a, ha, rfl⟩ := Subgroup.mem_sup_of_normal_right.1 (sup_comm A P ▸ hx)
@@ -1295,7 +1305,7 @@ theorem sup_centralizer_inf_le {p : ℕ} [Fact p.Prime] (hO : GLAPPrimeCore p X 
       Subgroup.centralizer (CFSG.pCore p X : Set X) ≤
     CFSG.ComponentClassification.Layer.subgroup X ⊔ CFSG.pCore p X := by
   set L := CFSG.ComponentClassification.Layer.subgroup X with hLdef
-  haveI : L.Normal := CFSG.ComponentClassification.Layer.normal X
+  have : L.Normal := CFSG.ComponentClassification.Layer.normal X
   have hLO := layer_le_centralizer_pCore (X := X) p
   rintro x ⟨hx, hxO⟩
   obtain ⟨l, hl, c, hc, rfl⟩ := Subgroup.mem_sup_of_normal_right.1 hx
@@ -1339,7 +1349,7 @@ theorem card_le_nine_of_le_pCore (hO : GLAPPrimeCore 3 X = ⊥) {P : Subgroup X}
     (hZK : Subgroup.center ↥K ≠ ⊥)
     (hr3 : CFSG.Open.pRank 3 (P ⊓ (CFSG.ComponentClassification.Layer.subgroup X ⊔ CFSG.pCore 3 X)) ≤ 3)
     {U : Subgroup X} (hUO : U ≤ CFSG.pCore 3 X) (hU : IsElemAbelian 3 U) : Nat.card U ≤ 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set O := CFSG.pCore 3 X with hOdef
   set L := CFSG.ComponentClassification.Layer.subgroup X with hLdef
   obtain ⟨t, htPK, ht3, htC⟩ :=
@@ -1433,13 +1443,13 @@ theorem card_le_nine_of_le_pCore (hO : GLAPPrimeCore 3 X = ⊥) {P : Subgroup X}
 
 theorem input24_5_smallThree_of_outClosed (hres : Input24_5_outClosed) : Input24_5_smallThree := by
   intro X _ _ hKX hO hZ h5 P hP hZP hnc hcZ hL hr3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set L := CFSG.ComponentClassification.Layer.subgroup X with hLdef
   set O := CFSG.pCore 3 X with hOdef
-  haveI hLn : L.Normal := CFSG.ComponentClassification.Layer.normal X
+  have hLn : L.Normal := CFSG.ComponentClassification.Layer.normal X
   set A : Subgroup X := L ⊔ Subgroup.centralizer (L : Set X) with hAdef
-  haveI hAn : A.Normal := Subgroup.sup_normal _ _
-  haveI hX₁ : (A ⊔ P).Normal := hres X hKX hO hZ h5 P hP hZP hnc hcZ hr3
+  have hAn : A.Normal := Subgroup.sup_normal _ _
+  have hX₁ : (A ⊔ P).Normal := hres X hKX hO hZ h5 P hP hZP hnc hcZ hr3
   have h4P : 4 ≤ CFSG.Open.pRank 3 P := by
     have := Inputs245.five_le_pRank_sylow hP h5
     omega
@@ -1451,10 +1461,10 @@ theorem input24_5_smallThree_of_outClosed (hres : Input24_5_outClosed) : Input24
   obtain ⟨K, hK⟩ := exists_component_of_not_isPConstrained Nat.prime_three hO hnc
   have hrkO : ∀ U : Subgroup X, U ≤ O → IsElemAbelian 3 U → Nat.card U ≤ 9 :=
     fun U hUO hU => card_le_nine_of_le_pCore hO hP hK (hcZ K hK) hr3 hUO hU
-  haveI : O.Normal := CFSG.pCore_normal
+  have : O.Normal := CFSG.pCore_normal
   obtain ⟨Q, hQn, hQc, hQE⟩ :=
     exists_kernel_of_rank_two (O := O) (CFSG.pCore_isPGroup (p := 3) (G := X)) hrkO
-  haveI := hQn
+  have := hQn
   obtain ⟨E, hEP, hEel, hEc⟩ := Claims1211b.exists_ekIn' hP h5
   have hEQ := hQE E hEel.isPGroup
   rw [hEc] at hEQ
@@ -1471,12 +1481,12 @@ theorem input24_5_smallThree_of_outClosed (hres : Input24_5_outClosed) : Input24
   have hPQ4 : 4 ≤ CFSG.Open.pRank 3 (P ⊓ Q) :=
     hk4.trans (CFSG.SectionRank.le_pRank (by norm_num) (inf_le_inf_right Q hEP) hEQel hk)
   set Q₁ : Subgroup X := Q ⊓ (A ⊔ P) with hQ₁def
-  haveI hQ₁n : Q₁.Normal := Subgroup.normal_inf_normal Q (A ⊔ P)
+  have hQ₁n : Q₁.Normal := Subgroup.normal_inf_normal Q (A ⊔ P)
   have hPQ₁ : P ⊓ Q₁ = P ⊓ Q := by
     rw [hQ₁def, ← inf_assoc, inf_right_comm, inf_eq_left.2 (le_sup_right : P ≤ A ⊔ P)]
   have hQ₁x : Q₁ ≤ Inputs245.x0 3 P := by
     set C₁ : Subgroup X := Q₁ ⊓ Subgroup.centralizer (O : Set X) with hC₁def
-    haveI hC₁n : C₁.Normal := Subgroup.normal_inf_normal _ _
+    have hC₁n : C₁.Normal := Subgroup.normal_inf_normal _ _
     have hQ₁le := le_sup_of_pow_mem hP (H := Q₁) (N := Subgroup.centralizer (O : Set X))
       (fun x hx => hQc x hx.1)
     have hC₁le := le_sup_of_pow_mem hP (H := C₁) (N := A)
@@ -1508,7 +1518,7 @@ theorem exists_e9_of_component (hO : GLAPPrimeCore 3 X = ⊥) {P : Subgroup X}
     (hZK : Subgroup.center ↥K ≠ ⊥) :
     ∃ E : Subgroup X, E ≤ P ⊓ K ∧ IsElemAbelian 3 E ∧ Nat.card E = 9 ∧
       Nat.card ↥(E ⊓ Subgroup.centralizer (K : Set X)) ≤ 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨t, htPK, ht3, htC⟩ :=
     CFSG.AGLEmbedding.exists_mem_sylow_inf_component Nat.prime_three (by norm_num) hO
       (Inputs245.sylowOf hP) hK
@@ -1565,7 +1575,7 @@ theorem false_of_three_components (hO : GLAPPrimeCore 3 X = ⊥) {P : Subgroup X
     (hcZ : ∀ K : Subgroup X, IsComponentOf K ⊤ → Subgroup.center ↥K ≠ ⊥)
     {K₁ K₂ K₃ : Subgroup X} (h₁ : IsComponentOf K₁ ⊤) (h₂ : IsComponentOf K₂ ⊤)
     (h₃ : IsComponentOf K₃ ⊤) (h12 : K₁ ≠ K₂) (h13 : K₁ ≠ K₃) (h23 : K₂ ≠ K₃) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨E₁, hE₁, hE₁e, hE₁c, hE₁C⟩ := exists_e9_of_component hO hP h₁ (hcZ K₁ h₁)
   obtain ⟨E₂, hE₂, hE₂e, hE₂c, -⟩ := exists_e9_of_component hO hP h₂ (hcZ K₂ h₂)
   obtain ⟨E₃, hE₃, hE₃e, hE₃c, hE₃C⟩ := exists_e9_of_component hO hP h₃ (hcZ K₃ h₃)
@@ -1618,7 +1628,7 @@ theorem le_normalizer_of_rank (hO : GLAPPrimeCore 3 X = ⊥) {P : Subgroup X} (h
     (hr3 : CFSG.Open.pRank 3 (P ⊓ (CFSG.ComponentClassification.Layer.subgroup X ⊔ CFSG.pCore 3 X)) ≤ 3)
     (hcZ : ∀ K : Subgroup X, IsComponentOf K ⊤ → Subgroup.center ↥K ≠ ⊥) {K : Subgroup X}
     (hK : IsComponentOf K ⊤) : P ≤ Subgroup.normalizer (K : Set X) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro b hbP
   by_contra hbK
   set K₂ : Subgroup X := GLBConj b K with hK₂def
@@ -1754,7 +1764,7 @@ theorem le_sup_of_pow_mem' {p : ℕ} [Fact p.Prime] {P H N : Subgroup X} (hP : I
         rw [Subgroup.mem_subgroupOf, ← h1]
         exact ⟨x, hx, rfl⟩⟩ }
   set N' : Subgroup ↥H := N.subgroupOf H with hN'
-  haveI : N'.Normal := Subgroup.Normal.subgroupOf hN H
+  have : N'.Normal := Subgroup.Normal.subgroupOf hN H
   set M' : Subgroup ↥H := N' ⊔ (T : Subgroup ↥H) with hM'
   have h1 : M'.index ∣ (T : Subgroup ↥H).index := Subgroup.index_dvd_of_le le_sup_right
   have h2 : M'.index ∣ N'.index := Subgroup.index_dvd_of_le le_sup_left
@@ -1797,6 +1807,7 @@ theorem le_sup_of_pow_mem' {p : ℕ} [Fact p.Prime] {P H N : Subgroup X} (hP : I
     rintro α ⟨i, hi⟩
     exact ⟨i, by rw [inv_pow]; exact Subgroup.inv_mem _ hi⟩
 
+omit [Finite X] in
 theorem conj_mem_normalizer {K : Subgroup X} {g y : X}
     (hy : y ∈ Subgroup.normalizer ((GLBConj g K : Subgroup X) : Set X)) :
     g * y * g⁻¹ ∈ Subgroup.normalizer (K : Set X) := by
@@ -1823,7 +1834,7 @@ theorem isCyclic_center_of_component (hT : CFSG.HardMathSupport.Timmesfeld.Compo
     (hP : IsSylowIn 3 ⊤ P)
     (hr3 : CFSG.Open.pRank 3 (P ⊓ (CFSG.ComponentClassification.Layer.subgroup X ⊔ CFSG.pCore 3 X)) ≤ 3)
     {K : Subgroup X} (hK : IsComponentOf K ⊤) : IsCyclic (Subgroup.center ↥K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZp := isPGroup_center_of_component Nat.prime_three hO hK
   have hrk := pRank_component_le hP hr3 hK
   have h1 : CFSG.Open.pRank 3 (Subgroup.center ↥K) ≤ 1 := by
@@ -1862,7 +1873,7 @@ theorem input24_5_outClosed_of_outThree
     (hT : CFSG.HardMathSupport.Timmesfeld.ComponentBalance.Tables112) (hres : Input24_5_outThree) :
     Input24_5_outClosed := by
   intro X _ _ hKX hO hZ h5 P hP hZP hnc hcZ hr3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨K₁, K₂, h₁, h₂, hall⟩ := exists_two_components hO hP hr3 hcZ hnc
   set L := CFSG.ComponentClassification.Layer.subgroup X with hLdef
   have hL : L = K₁ ⊔ K₂ := by
@@ -1873,9 +1884,9 @@ theorem input24_5_outClosed_of_outThree
     rcases hall K hK with rfl | rfl
     · exact le_sup_left
     · exact le_sup_right
-  haveI hLn : L.Normal := CFSG.ComponentClassification.Layer.normal X
+  have hLn : L.Normal := CFSG.ComponentClassification.Layer.normal X
   set A : Subgroup X := L ⊔ Subgroup.centralizer (L : Set X) with hAdef
-  haveI hAn : A.Normal := Subgroup.sup_normal _ _
+  have hAn : A.Normal := Subgroup.sup_normal _ _
   have hP₁ := le_normalizer_of_rank hO hP hr3 hcZ h₁
   have hP₂ := le_normalizer_of_rank hO hP hr3 hcZ h₂
   have hcl : ∀ {K : Subgroup X}, IsComponentOf K ⊤ →
@@ -1985,14 +1996,14 @@ theorem threeMod_closed_of_normalSylow {K : Type} [Group K] [Finite K]
     (hα : ∃ i : ℕ, α ^ 3 ^ i ∈ (MulAut.conj : K →* MulAut K).range)
     (hβ : ∃ j : ℕ, β ^ 3 ^ j ∈ (MulAut.conj : K →* MulAut K).range) :
     ∃ k : ℕ, (α * β) ^ 3 ^ k ∈ (MulAut.conj : K →* MulAut K).range := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut K) :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut K) :=
     Finite.of_injective (fun β : MulAut K => (β : K → K)) fun _ _ h => MulEquiv.ext (congrFun h)
   obtain ⟨S⟩ : Nonempty (Sylow 3 (MulAut K)) := inferInstance
   set I : Subgroup (MulAut K) := (MulAut.conj : K →* MulAut K).range with hI
-  haveI hIn : I.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal K
+  have hIn : I.Normal := CFSG.ComponentClassification.OuterAutomorphisms.inner_normal K
   set N : Subgroup (MulAut K) := I ⊔ (S : Subgroup (MulAut K)) with hNdef
-  haveI hN : N.Normal := h S
+  have hN : N.Normal := h S
   have key : ∀ γ : MulAut K, (∃ i : ℕ, γ ^ 3 ^ i ∈ I) → γ ∈ N := by
     rintro γ ⟨i, hi⟩
     have h1 : (QuotientGroup.mk γ : MulAut K ⧸ N) ^ 3 ^ i = 1 := by
@@ -2011,7 +2022,7 @@ theorem threeMod_closed_of_normalSylow {K : Type} [Group K] [Finite K]
       exact (dvd_pow_self 3 hj0).trans (h2.trans h3)
     rw [hj0, pow_zero, orderOf_eq_one_iff, QuotientGroup.eq_one_iff] at hj
     exact hj
-  exact exists_pow_mem_of_mem_sup S.isPGroup' (Subgroup.mul_mem _ (key α hα) (key β hβ))
+  exact exists_pow_mem_of_mem_sup S.isPGroup (Subgroup.mul_mem _ (key α hα) (key β hβ))
 
 theorem input24_5_outThree_holds (hW : CFSG.LocalAnalysis.RankThreeTheoremC.KFactAlphaListM3Wide)
     (hSmall : GL83.I243.SmallThreeFacts)
@@ -2031,7 +2042,7 @@ theorem input24_5_outThree_holds (hW : CFSG.LocalAnalysis.RankThreeTheoremC.KFac
     exact threeMod_closed_of_outTwo hOut α β hα hβ
   · obtain ⟨hOut, -, -⟩ := hSmall K hq (.sporadic .M22) (Or.inr rfl) h22
     exact threeMod_closed_of_outTwo hOut α β hα hβ
-  · haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
+  · have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2
     have hnab := CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian K hq
     have hle := hSpo (K ⧸ Subgroup.center K) inferInstance hnab .ONan hON
     exact threeMod_closed_of_outTwo (CFSG.AGLEmbedding.kOutTwoGroup_of_card_outer_le_two hq hle)

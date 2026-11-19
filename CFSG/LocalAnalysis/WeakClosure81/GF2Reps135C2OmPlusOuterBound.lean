@@ -48,7 +48,7 @@ private theorem w135c2_omfPBound_form_b_eq_ite [Fact p.Prime] [CharP k p]
   · subst hji
     rw [inv_mul_cancel, map_one, Module.End.one_apply, hfy]
     simp
-  · rw [if_neg hji]
+  · rw [ite_eq_right hji]
     obtain ⟨h, hh, e⟩ :=
       CFSG.HardMathSupport.Cooperstein.Coordinator.CurtisExc.nW_inv_mul D (b i) (b j)
     obtain ⟨ω, hω, hωe⟩ := cs.exists_isReduced ((b i)⁻¹ * b j)
@@ -230,7 +230,7 @@ private theorem w135c2_omfPBound_toStdD_comp_omGraphSwap_ne {n : ℕ} (hn : 3 �
     intro h
     exact hp (Fin.ext (by show a.val = n - 2; omega))
   unfold toStdD
-  simp only [Function.comp_apply, hswap, dif_neg hcond]
+  simp only [Function.comp_apply, hswap, dite_eq_right hcond]
   rw [Function.update_of_ne hq]
   simp only [hswap2]
   split_ifs <;> omega
@@ -286,7 +286,7 @@ private theorem w135c2_omfPBound_stdReflD_conj_two_q {n : ℕ} (hn : 2 ≤ n) (e
     Or.inr (by show n - 1 + 1 = n; omega)
   rw [Function.update_self]
   simp only [Function.comp_apply, h1]
-  rw [Function.update_of_ne h2.symm, if_pos hif]
+  rw [Function.update_of_ne h2.symm, ite_eq_left hif]
   ring
 
 private theorem w135c2_omfPBound_stdReflD_conj_two_p {n : ℕ} (hn : 2 ≤ n) (e : Fin n → ℤ) :
@@ -323,7 +323,7 @@ private theorem w135c2_omfPBound_stdReflD_conj_two_p {n : ℕ} (hn : 2 ≤ n) (e
     Or.inl (by show n - 2 + 2 = n; omega)
   rw [Function.update_of_ne h2]
   simp only [Function.comp_apply, h1]
-  rw [Function.update_self, if_pos hif]
+  rw [Function.update_self, ite_eq_left hif]
   ring
 
 private theorem w135c2_omfPBound_stdReflD_conj_two_ne {n : ℕ} (hn : 2 ≤ n) (e : Fin n → ℤ)
@@ -363,7 +363,7 @@ private theorem w135c2_omfPBound_stdReflD_conj_two_ne {n : ℕ} (hn : 2 ≤ n) (
     · exact hsub2 h
   rw [Function.update_of_ne haq]
   simp only [Function.comp_apply]
-  rw [hswap, Function.update_of_ne haq, if_neg hif]
+  rw [hswap, Function.update_of_ne haq, ite_eq_right hif]
   ring
 
 private theorem w135c2_omfPBound_stdReflD_conj_two {n : ℕ} (hn : 2 ≤ n) (e : Fin n → ℤ) :
@@ -418,7 +418,7 @@ private theorem w135c2_omfPBound_stdReflD_conj_last_q {n : ℕ} (hn : 2 ≤ n) (
     Or.inr (by show n - 1 + 1 = n; omega)
   rw [Function.update_self]
   simp only [Function.comp_apply, h1]
-  rw [if_pos hif, Function.update_of_ne h2.symm]
+  rw [ite_eq_left hif, Function.update_of_ne h2.symm]
   ring
 
 private theorem w135c2_omfPBound_stdReflD_conj_last_p {n : ℕ} (hn : 2 ≤ n) (e : Fin n → ℤ) :
@@ -455,7 +455,7 @@ private theorem w135c2_omfPBound_stdReflD_conj_last_p {n : ℕ} (hn : 2 ≤ n) (
     Or.inl (by show n - 2 + 2 = n; omega)
   rw [Function.update_of_ne h2]
   simp only [Function.comp_apply, h1]
-  rw [Function.update_self, if_pos hif]
+  rw [Function.update_self, ite_eq_left hif]
   ring
 
 private theorem w135c2_omfPBound_stdReflD_conj_last_ne {n : ℕ} (hn : 2 ≤ n) (e : Fin n → ℤ)
@@ -495,7 +495,7 @@ private theorem w135c2_omfPBound_stdReflD_conj_last_ne {n : ℕ} (hn : 2 ≤ n) 
     · exact hsub2 h
   rw [Function.update_of_ne haq]
   simp only [Function.comp_apply]
-  rw [hswap, Function.update_of_ne haq, if_neg hif]
+  rw [hswap, Function.update_of_ne haq, ite_eq_right hif]
   ring
 
 private theorem w135c2_omfPBound_stdReflD_conj_last {n : ℕ} (hn : 2 ≤ n) (e : Fin n → ℤ) :

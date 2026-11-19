@@ -100,7 +100,7 @@ theorem fiveQ_le_stab :
   rintro _ ⟨k, hk, rfl⟩
   have hk2 : k < 2 := by
     have := hk
-    rw [Set.mem_setOf_eq, fiveQGen_size] at this
+    rw [Set.mem_ofPred_eq, fiveQGen_size] at this
     exact this
   rw [SetLike.mem_coe, MulAction.mem_stabilizer_iff, u0_eq]
   refine smul_eq_of_maps fun x hx => ?_

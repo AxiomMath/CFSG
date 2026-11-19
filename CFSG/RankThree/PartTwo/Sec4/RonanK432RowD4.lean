@@ -20,7 +20,7 @@ section D4
 theorem listRow_C0 {n : ℕ} {X : Type} [Field X] [Finite X] {σ : X ≃+* X}
     (P : D4Par n X σ) (hn : 2 ≤ n)
     (hcard : Nat.card (C0 σ) = ordTrialityD4 (2 ^ n)) : ListRow (C0 σ) := by
-  haveI : Finite (C0 σ) := Nat.finite_of_card_ne_zero (by
+  have : Finite (C0 σ) := Nat.finite_of_card_ne_zero (by
     rw [hcard]
     unfold ordTrialityD4
     have h1 : 0 < 2 ^ n := by positivity
@@ -71,7 +71,7 @@ theorem rowOf_trialityD4 (q : TauCeti.PrimePower)
     have hcard : Nat.card (C0 σ) = ordTrialityD4 (2 ^ q.exponent) := by
       rw [show Nat.card (C0 σ) = Nat.card S from (Nat.card_congr φ.toEquiv).symm,
         Timmesfeld.card_chevalleyExceptionalModel_two hm]
-    haveI : Finite (C0 σ) := Finite.of_equiv S φ.toEquiv
+    have : Finite (C0 σ) := Finite.of_equiv S φ.toEquiv
     exact ListRow.of_mulEquiv φ.symm (listRow_C0 P hn hcard)
 
 end D4

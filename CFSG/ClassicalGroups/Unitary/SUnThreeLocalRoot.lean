@@ -48,9 +48,9 @@ theorem rootMatrix_entry_ne_zero {a b : Fin n} {c : L} {i j : Fin n}
   apply h
   rw [rootMatrix, Matrix.sub_apply, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply,
     Matrix.single_apply]
-  rw [if_neg (fun hh : i = j => hc (Or.inl hh)),
-    if_neg (fun hh : a = i ∧ b = j => hc (Or.inr (Or.inl ⟨hh.1.symm, hh.2.symm⟩))),
-    if_neg (fun hh : Fin.rev b = i ∧ Fin.rev a = j =>
+  rw [ite_eq_right (fun hh : i = j => hc (Or.inl hh)),
+    ite_eq_right (fun hh : a = i ∧ b = j => hc (Or.inr (Or.inl ⟨hh.1.symm, hh.2.symm⟩))),
+    ite_eq_right (fun hh : Fin.rev b = i ∧ Fin.rev a = j =>
       hc (Or.inr (Or.inr ⟨hh.1.symm, hh.2.symm⟩)))]
   ring
 
@@ -59,8 +59,8 @@ theorem longRootMatrix_entry_ne_zero {a : Fin n} {c : L} {i j : Fin n}
   by_contra hc
   apply h
   rw [longRootMatrix, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
-  rw [if_neg (fun hh : i = j => hc (Or.inl hh)),
-    if_neg (fun hh : a = i ∧ Fin.rev a = j => hc (Or.inr ⟨hh.1.symm, hh.2.symm⟩))]
+  rw [ite_eq_right (fun hh : i = j => hc (Or.inl hh)),
+    ite_eq_right (fun hh : a = i ∧ Fin.rev a = j => hc (Or.inr ⟨hh.1.symm, hh.2.symm⟩))]
   ring
 
 theorem rootMatrix_mulVec (a b : Fin n) (c : L) (w : Fin n → L) :
@@ -264,12 +264,12 @@ theorem two_le_pRank_of_mulVec [Finite L] {r : ℕ} [Fact r.Prime] {H : Subgroup
       one_mem' := by simp [Matrix.one_mulVec]
       mul_mem' := by
         intro a b ha hb
-        simp only [Set.mem_setOf_eq, Subgroup.coe_mul, Units.val_mul,
+        simp only [Set.mem_ofPred_eq, Subgroup.coe_mul, Units.val_mul,
           ← Matrix.mulVec_mulVec] at ha hb ⊢
         rw [hb, ha]
       inv_mem' := by
         intro a ha
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         have h1 : (((a : GL (Fin n) L)⁻¹ : GL (Fin n) L) : Matrix (Fin n) (Fin n) L) *ᵥ
             (((a : GL (Fin n) L) : Matrix (Fin n) (Fin n) L) *ᵥ w) = w := by
           rw [Matrix.mulVec_mulVec]

@@ -28,8 +28,8 @@ theorem kL34Data_holds :
   have hclass : CFSG.Open.StatedClassicalModel X .PSL 3 2 2 :=
     (CFSG.Blueprint.LieModel.classical_iff (by decide : StatedLieTag.PSL ∈ classicalTags)).1 hL3
   obtain ⟨-, K, hKfield, hKfin, hKcard, ⟨e⟩⟩ := hclass
-  letI := hKfield
-  letI := hKfin
+  let := hKfield
+  let := hKfin
   have hcardX : Nat.card X = 2 ^ 6 * 3 ^ 2 * 5 * 7 := by
     rw [Nat.card_congr e.toEquiv,
       CFSG.Timmesfeld.ClassicalOrders.card_statedProj_statedSL (n := 3) (by norm_num)]
@@ -53,7 +53,7 @@ theorem kL34Data_holds :
     rw [CFSG.SectionRank.pRank_eq_open_pRank_top]
     rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 5) (by norm_num)
       (Subgroup.topEquiv : ↥(⊤ : Subgroup X) ≃* X)]
-    haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
     have h5dvd : 5 ∣ Nat.card X := by rw [hcardX]; norm_num
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 5 h5dvd
     have hpos : 1 ≤ CFSG.Open.pRank 5 (⊤ : Subgroup X) :=
@@ -74,8 +74,8 @@ theorem kL34Data_holds :
     omega
   ·
     intro Y _ _ ⟨K', hK'field, hK'fin, hK'card, ⟨eY⟩⟩
-    letI := hK'field
-    letI := hK'fin
+    let := hK'field
+    let := hK'fin
     have h2 : CFSG.Open.pRank 3 (⊤ : Subgroup ↥(StatedSL 3 K')) = 2 :=
       CFSG.Quasithin.R3c.pRank_three_statedSL_three_even (K := K') (n := 2) (by norm_num)
         (by rw [hK'card]; norm_num)

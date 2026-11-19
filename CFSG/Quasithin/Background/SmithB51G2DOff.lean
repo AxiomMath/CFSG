@@ -30,7 +30,7 @@ theorem exists_sylow_le [Finite V] {G A : Subgroup (MulAut V)} (hAG : A ≤ G)
   have hA' : IsPGroup 2 (A.subgroupOf G) :=
     hA.of_equiv (Subgroup.subgroupOfEquivOfLe hAG).symm
   obtain ⟨Q, hQ⟩ := hA'.exists_le_sylow
-  refine ⟨(Q : Subgroup ↥G).map G.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup'.map _, ?_⟩,
+  refine ⟨(Q : Subgroup ↥G).map G.subtype, ⟨Subgroup.map_subtype_le _, Q.isPGroup.map _, ?_⟩,
     fun a ha => ⟨⟨a, hAG ha⟩, hQ ha, rfl⟩⟩
   have : ((Q : Subgroup ↥G).map G.subtype).subgroupOf G = (Q : Subgroup ↥G) :=
     Subgroup.comap_map_eq_self_of_injective G.subtype_injective _

@@ -15,6 +15,7 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.AlgebraicGroup
 variable {Omega : Type} [Field Omega] [IsAlgClosed Omega] [CharP Omega 2]
   {lab : LargeEvenLabel} {p : ℕ} {R : Type} [Group R] {I : Set (MulAut R)} {phi : MulAut R}
 
+omit [CharP Omega 2] in
 theorem lq_K4 (A : K0LangMark Omega lab p R I phi)
     (P : K0Positions A) (j : Fin A.row.D.orbits.length)
     (hj : A.row.D.orbits[j].lab = ⟨.A, 1, 1⟩) (hqs : A.row.D.orbits[j].qs = false) :

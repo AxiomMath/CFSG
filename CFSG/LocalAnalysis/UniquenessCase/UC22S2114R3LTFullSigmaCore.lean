@@ -505,7 +505,7 @@ theorem pRank_le_three_and_dvd_sq_sub_one_of_rank_three_model
       rw [show (2 ^ f) ^ 2 - 1 = (2 ^ f - 1) * (2 ^ f + 1) by
         simpa [mul_comm] using Nat.sq_sub_sq (2 ^ f) 1]
       exact dvd_mul_of_dvd_left hd _
-    · simp only [rkLin, ↓reduceIte, if_neg he]
+    · simp only [rkLin, ↓reduceIte, ite_eq_right he]
       refine ⟨(hdivBound he).trans (by norm_num), fun h => ?_⟩
       have h0 : eP (2 ^ f) p ≠ 0 := by intro h0; rw [h0] at h; simp at h
       have hle := hdiv h0 h

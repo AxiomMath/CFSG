@@ -122,10 +122,10 @@ theorem apply_one_mul_bCoeff (j : ι) :
   have hδ : (if γ k₀ = γ j then (1 : ℂ) else 0) = (if j = k₀ then 1 else 0) := by
     by_cases h : j = k₀
     · subst h; simp
-    · rw [if_neg h, if_neg (fun he => h (E.injective he).symm)]
+    · rw [ite_eq_right h, ite_eq_right (fun he => h (E.injective he).symm)]
   rw [hδ] at hkey
   simp only [map_natCast] at hkey
-  rw [ha, hb, E.bCoeff_apply j, E.bCoeff_apply k₀, if_pos rfl]
+  rw [ha, hb, E.bCoeff_apply j, E.bCoeff_apply k₀, ite_eq_left rfl]
   linear_combination hkey
 
 theorem exists_rat_bCoeff_ratio :

@@ -84,11 +84,11 @@ theorem cntComm_succ {n w m : Nat} {T : Nat → Nat} {Y lo d : Nat} :
       nIf(Nat.beq (pcomp n w m t Y) (pcomp n w m Y t), Nat.succ c, c))) = _
   rw [strictN_eq', strictN_eq']
   by_cases e : pcomp n w m (T (lo + d)) Y = pcomp n w m Y (T (lo + d))
-  · rw [if_pos e]
+  · rw [ite_eq_left e]
     have : Nat.beq (pcomp n w m (T (Nat.add lo d)) Y) (pcomp n w m Y (T (Nat.add lo d))) = true :=
       Nat.beq_eq.mpr e
     rw [this]
-  · rw [if_neg e]
+  · rw [ite_eq_right e]
     have : Nat.beq (pcomp n w m (T (Nat.add lo d)) Y) (pcomp n w m Y (T (Nat.add lo d))) = false := by
       cases hb : Nat.beq (pcomp n w m (T (Nat.add lo d)) Y) (pcomp n w m Y (T (Nat.add lo d)))
       · rfl
@@ -103,9 +103,9 @@ theorem cntComm_eq {n w m : Nat} (T : Nat → Nat) (Y lo : Nat) : ∀ len,
     rw [cntComm_succ, cntComm_eq T Y lo d, List.range'_concat, List.filter_append,
       List.length_append, Nat.one_mul]
     by_cases e : pcomp n w m (T (lo + d)) Y = pcomp n w m Y (T (lo + d))
-    · rw [if_pos e]
+    · rw [ite_eq_left e]
       simp [e]
-    · rw [if_neg e]
+    · rw [ite_eq_right e]
       simp [e]
 
 theorem card_inf_eq_length_filter {G : Type*} [Group G] {H K : Subgroup G} {n : ℕ} (g : ℕ → G)
@@ -115,14 +115,14 @@ theorem card_inf_eq_length_filter {G : Type*} [Group G] {H K : Subgroup G} {n : 
   classical
   have himg : g '' ↑(Finset.range n) = (H : Set G) := by
     ext x
-    simp only [Set.mem_image, Finset.mem_coe, Finset.mem_range, SetLike.mem_coe, hmem x]
+    simp only [Set.mem_image, Finset.mem_range, SetLike.mem_coe, hmem x]
   have hinj : Set.InjOn g ↑(Finset.range n) := by
     refine Set.injOn_of_ncard_image_eq ?_
     rw [himg, Set.ncard_coe_finset, Finset.card_range, ← hcard, ← Nat.card_coe_set_eq]
     rfl
   have hT : g '' ↑((List.range n).filter p).toFinset = ((H ⊓ K : Subgroup G) : Set G) := by
     ext x
-    simp only [Set.mem_image, Finset.mem_coe, List.mem_toFinset, List.mem_filter, List.mem_range,
+    simp only [Set.mem_image, List.mem_toFinset, List.mem_filter, List.mem_range,
       SetLike.mem_coe, Subgroup.mem_inf]
     constructor
     · rintro ⟨i, ⟨hi, hpi⟩, rfl⟩

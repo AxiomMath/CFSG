@@ -39,7 +39,6 @@ theorem elemAbelian8_of_card4 {G : Type} [Group G] [Finite G] {z c d : G}
     rcases ha with rfl | rfl | rfl <;> rcases hb with rfl | rfl | rfl
     all_goals first
       | exact absurd rfl hab
-      | exact Commute.refl _
       | exact hzc
       | exact hzd
       | exact hcd

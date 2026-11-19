@@ -30,7 +30,7 @@ theorem exists_vectors_of_reflection_list {Q : QuadraticForm K V} :
     · have hr : ((r : TauCeti.QuadraticMap.orthogonalGroup Q) : V ≃ₗ[K] V) =
           CFSG.ClassicalGroups.Orthogonal.reflect Q v := by
         rw [← hv, TauCeti.QuadraticMap.coe_reflectionOrthogonal]
-        letI : Invertible (Q v) := hinv
+        let : Invertible (Q v) := hinv
         exact (CFSG.ClassicalGroups.Orthogonal.reflect_eq_reflection).symm
       rw [List.prod_cons, Subgroup.coe_mul, hprod, hr, List.map_cons, List.prod_cons]
 
@@ -44,7 +44,7 @@ theorem exists_list_reflect_of_fix [FiniteDimensional K V] [NeZero (2 : K)]
       g = (l.map (CFSG.ClassicalGroups.Orthogonal.reflect Q)).prod := by
   classical
   have h2 : (2 : K) ≠ 0 := NeZero.ne 2
-  letI : Invertible (2 : K) := invertibleOfNonzero h2
+  let : Invertible (2 : K) := invertibleOfNonzero h2
   let W : Submodule K V := LinearMap.BilinForm.orthogonal Q.polarBilin P
   have hW : IsCompl P W := hP.isCompl_orthogonal
   have hWnd : (Q.restrict W).Nondegenerate := hQ.nondegenerate_restrict_orthogonal hP

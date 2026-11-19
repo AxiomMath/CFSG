@@ -47,7 +47,7 @@ private theorem s16t3_endUnitsTrivial_of_iso {Γ : Type*} [Group Γ] {Q : Type*}
   exact φ.symm.injective h2
 
 private theorem s16t3_isotypicOfLength_sup_two {Γ : Type*} [Group Γ] {Q : Type*} [CommGroup Q]
-    [MulDistribMulAction Γ Q] [Finite Q] (hQ : ∀ q : Q, q ^ 2 = 1)
+    [MulDistribMulAction Γ Q] [Finite Q] (_hQ : ∀ q : Q, q ^ 2 = 1)
     {Λ : Subgroup Γ} {P P' : Subgroup Q} (hP : XMod.IsIrr ↥Λ P) (hP' : XMod.IsIrr ↥Λ P')
     (hne : P ≠ P') (hiso : XMod.Iso ↥Λ P' P) :
     IsotypicOfLength ↥Λ (P ⊔ P') P 2 := by
@@ -147,7 +147,7 @@ theorem s16t3_exists_unique_third (h : ThreeNat A L T) (h7 : Nat.card ↥(irrSet
     exact hcard_top
   let S := {J : Subgroup (W ⧸ modFix L (⊤ : Subgroup W)) //
       J ≤ tilde L (⊤ : Subgroup W) x ⊔ tilde L (⊤ : Subgroup W) y ∧ XMod.IsIrr ↥L J}
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   have hcardS : Fintype.card S = 3 := by
     rw [← Nat.card_eq_fintype_card]
     exact hcard

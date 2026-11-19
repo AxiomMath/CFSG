@@ -85,7 +85,7 @@ variable (K : Type) [Field K] [Finite K] [CharP K 2]
 abbrev e8LangField : Type := AlgebraicClosure (FiniteField.Extension K 2 2)
 
 theorem isAlgClosure_e8LangField : IsAlgClosure K (e8LangField K) := by
-  haveI : Algebra.IsAlgebraic K (FiniteField.Extension K 2 2) := Algebra.IsAlgebraic.of_finite K _
+  have : Algebra.IsAlgebraic K (FiniteField.Extension K 2 2) := Algebra.IsAlgebraic.of_finite K _
   infer_instance
 
 variable {K}
@@ -108,6 +108,7 @@ theorem e8LangG0_mem {ω : (FiniteField.Extension K 2 2)ˣ} (hω : orderOf ω = 
   unfold e8LangG0
   exact TableBExcTwo.baseChangeGL_mem_adjointGroup _ (langElt frameE8 hω).2
 
+omit [Finite K] in
 theorem e8LangN_mem_adjointGroup : e8LangN K ∈ adjointGroup .E8 (e8LangField K) :=
   (frameProd (e8LangField K) frameE8 (nSL 1)).2
 
@@ -165,7 +166,7 @@ private theorem baseChangeGL_frameDiag {R S : Type} [Field R] [Field S] (f : R �
   funext i
   simp [TableBExc.E6Three.zetaVec, zmodPowHom, map_pow]
 
-theorem coe_langModelMulEquiv_tE (hK : Nat.card K = 2)
+theorem coe_langModelMulEquiv_tE (_hK : Nat.card K = 2)
     {ω : (FiniteField.Extension K 2 2)ˣ} (hω : orderOf ω = 3) (hω3 : ω ^ 3 = 1)
     (v : Fin 8 → ZMod 3) :
     ((langModelMulEquiv .E8 K (e8LangField K) (e8LangG0 hω)
@@ -227,11 +228,11 @@ private theorem mem_parabolicRoots_e6Nodes_E8_iff {α : Fin Tag.E8.rank → ℤ}
   · intro h
     refine ⟨?_, ?_⟩
     · have hm : (6 : Fin Tag.E8.rank) ∉ e6Nodes .E8 := by
-        simp only [e6Nodes, Set.mem_setOf_eq, not_le]
+        simp only [e6Nodes, Set.mem_ofPred_eq, not_le]
         decide
       simpa using h.2 6 hm
     · have hm : (7 : Fin Tag.E8.rank) ∉ e6Nodes .E8 := by
-        simp only [e6Nodes, Set.mem_setOf_eq, not_le]
+        simp only [e6Nodes, Set.mem_ofPred_eq, not_le]
         decide
       simpa using h.2 7 hm
   · rintro ⟨h6, h7⟩
@@ -304,7 +305,7 @@ theorem e6Roots_subset_familyKernel_lineRep {ζ : Lˣ} (hζo : orderOf ζ = 3) (
   rw [h6]
   norm_num
 
-private theorem familyStabilizer_smul_mem_familyKernel_iff {ζ : Lˣ} (hζo : orderOf ζ = 3)
+private theorem familyStabilizer_smul_mem_familyKernel_iff {ζ : Lˣ} (_hζo : orderOf ζ = 3)
     (hζ : ζ ^ 3 = 1) {w : WeylGroup .E8}
     (hw : w ∈ familyStabilizer (fun _ : Unit => TableBExc.E6Three.zetaVec ζ hζ
       (Pi.single (6 : Fin Tag.E8.rank) 2))) (γ : Fin Tag.E8.rank → ℤ) :
@@ -362,8 +363,8 @@ private theorem card_filter_orth_smul {ζ : Lˣ} (hζo : orderOf ζ = 3) (hζ : 
     exact Finset.mem_filter.2 ⟨hmemS' γ hγ1, (hcoords' γ hγ1).2 hγ2, by
       rw [← iform_smul_smul w α (w⁻¹ • γ), smul_inv_smul]
       exact hγ3⟩
-  · intro β _; simp [smul_inv_smul]
-  · intro γ _; simp [inv_smul_smul]
+  · intro β _; simp
+  · intro γ _; simp
 
 theorem familyStabilizer_mapsTo_e6Roots_lineRep {ζ : Lˣ} (hζo : orderOf ζ = 3)
     (hζ : ζ ^ 3 = 1) :

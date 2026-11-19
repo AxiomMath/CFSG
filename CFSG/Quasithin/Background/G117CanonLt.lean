@@ -46,7 +46,7 @@ theorem ltFacts (hE11 : E11Stmt) (hN6 : A6NormalizerBound) (hA6 : A6Facts)
     {Q : ConclPred} {B : LinearMap.BilinForm (ZMod 2) V} {Γ : Subgroup (GLV V)} {v₁ : V}
     {W : Submodule (ZMod 2) V} {X X₀ L : Subgroup (GLV V)} {I : Submodule (ZMod 2) V} {m : ℕ}
     (c : QCtx Q B Γ v₁ W X X₀ L I m) (hH : Invariant (normalClosure Γ L) I)
-    (hne : I ≠ ⊤) (hV8 : Module.finrank (ZMod 2) V = 8) (hm3 : m = 3)
+    (_hne : I ≠ ⊤) (hV8 : Module.finrank (ZMod 2) V = 8) (hm3 : m = 3)
     (hI4 : Module.finrank (ZMod 2) ↥I = 4)
     (hperm : IsPermCoreModule (restrictRange (normalClosure Γ L) I hH) (alternatingGroup (Fin 6)))
     (hend : EndIsField (restrictRange (normalClosure Γ L) I hH) 1) : LtFacts Γ L X I := by

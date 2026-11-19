@@ -59,7 +59,7 @@ private theorem c2slmod_dim_two {f : ℕ} (ε : Fin f → Finset (Fin 2))
         have hbne : (b : ℕ) ≠ 0 := fun h => h0 r (by rwa [show (⟨0, by omega⟩ : Fin 2) = b from
           Fin.ext h.symm])
         exact Fin.ext (by have := b.isLt; omega)
-      simp [hr, hsing, ha1]
+      simp [hsing, ha1]
   simp_rw [hone]
   rw [Finset.prod_ite, Finset.prod_const_one, one_mul, Finset.prod_const]
 
@@ -68,7 +68,7 @@ private theorem c2slmod_natural {W : Type} [CommGroup W] [Finite W]
     [Fintype K] [CharP K 2] (hK : Fintype.card K = 2 ^ f)
     (φ : Matrix.SpecialLinearGroup (Fin (m + 1)) K →* ↥L) (hφs : Function.Surjective φ)
     (hker : φ.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin (m + 1)) K)) (hm : 1 ≤ m)
-    {ε : Fin f → Finset (Fin (m + 1))} (h0 : ∀ r, (⟨0, by omega⟩ : Fin (m + 1)) ∉ ε r)
+    {ε : Fin f → Finset (Fin (m + 1))} (_h0 : ∀ r, (⟨0, by omega⟩ : Fin (m + 1)) ∉ ε r)
     (hdesc : ∀ (r₀ : Fin f) (j : Fin (m + 1)), (∀ r, r ≠ r₀ → ε r = ∅) → ε r₀ = {j} →
       ∃ β : Additive W ≃+ (Set.powersetCard (Fin (m + 1)) (j : ℕ) → K),
         ∀ g w, β (pslRep φ g w) = extTwist (m + 1) (j : ℕ) (r₀ : ℕ) K g *ᵥ β w)
@@ -90,7 +90,7 @@ theorem chev2SmallModules_psl
     apply Additive.toMul.injective
     show (Additive.toMul a) ^ 2 = 1
     exact hW _
-  letI : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule hW2
+  let : Module (ZMod 2) (Additive W) := AddCommGroup.zmodModule hW2
   obtain ⟨hn2, K, _, _, _, hKcard, φ, hφs, hker, -⟩ := w135c2_psl_cover hW hQ hirr hlie
   have hirrρ := w135c2_psl_rep_irreducible hirr φ hφs
   have hne := w135c2_psl_rep_ne_one hQ φ hφs

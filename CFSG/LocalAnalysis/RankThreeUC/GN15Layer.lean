@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {X : Type} [Group X] [Finite X] {T T₁ T₂ : Subgroup X}
 
+omit [Finite X] in
 theorem GNAbsorbs.of_normal_decomp {A : Subgroup X} (hA : A.Normal)
     (h : ∀ u ∈ A, ∃ c ∈ Subgroup.centralizer (T₁ : Set X), ∃ p ∈ Y0 T T₁ T₂,
       ∃ r ∈ Subgroup.normalizer (T₂ : Set X),
@@ -30,6 +31,7 @@ theorem GNAbsorbs.of_normal_decomp {A : Subgroup X} (hA : A.Normal)
   rw [ha']
   group
 
+omit [Finite X] in
 theorem GNAbsorbs.of_normal_factor {A : Subgroup X} (hA : A.Normal)
     (h : ∀ u ∈ A, ∃ a ∈ Subgroup.centralizer (T₁ : Set X), ∃ b ∈ Subgroup.normalizer (T₂ : Set X),
       b ∈ Subgroup.normalizer (Y0 T T₁ T₂ : Set X) ∧ u = a * b) :
@@ -50,7 +52,7 @@ theorem commutator_gnHPre_le_gnKMin : ⁅gnHPre T, thompsonJ T⁆ ≤ gnKMin T :
 
 omit [Finite X] in
 theorem gnKMin_le_gnHPre : gnKMin T ≤ gnHPre T := by
-  haveI : (gnHPre T).Normal := gnHPre_normal
+  have : (gnHPre T).Normal := gnHPre_normal
   exact Subgroup.normalClosure_le_normal (Subgroup.commutator_le_left _ _)
 
 theorem gnHPre_le_gnKMin_sup_normalizer (hX : GNSetting X T) :
@@ -70,6 +72,7 @@ theorem gnAbsorbs_H_of_gnKMin (hX : GNSetting X T) (hP : IsC118Pair T T₁ T₂)
   ∀ k ∈ gnKMin T, ∃ a ∈ Subgroup.centralizer (T₁ : Set X), ∃ b ∈ Subgroup.normalizer (T₂ : Set X),
     b ∈ Subgroup.normalizer (Y0 T T₁ T₂ : Set X) ∧ k = a * b
 
+omit [Finite X] in
 theorem gnAbsorbs_gnKMin (h : GNLayerFactor T T₁ T₂) : GNAbsorbs T T₁ T₂ (gnKMin T) :=
   GNAbsorbs.of_normal_factor gnKMin_normal h
 

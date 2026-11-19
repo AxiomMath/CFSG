@@ -97,14 +97,14 @@ theorem exists_stdSetup8 {K : Type} [Field K] [Finite K] (hK : Nat.card K = 64) 
         S.D.n = canonicalRep (coxeterSystem TwistTag.E6.tag) L twE6W0 ∧ S.IsAlgebraic ∧
         Nonempty (twistedE6RootGroup K σ ≃* S.Γ) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hK2 : Nat.card K = (2 ^ 3) ^ 2 := by rw [hK]; norm_num
   have hσ2 : ∀ c, σ c = c ^ (2 ^ 3) := fun c => by rw [hσ]; norm_num
-  haveI hcK : CharP K 2 := charP_of_card_eq_prime_pow (f := 6)
+  have hcK : CharP K 2 := charP_of_card_eq_prime_pow (f := 6)
     (by rw [← Nat.card_eq_fintype_card, hK]; norm_num)
   set L := AlgebraicClosure K with hL
-  haveI hcL : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI hL' : IsAlgClosed L := IsAlgClosure.isAlgClosed K
+  have hcL : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have hL' : IsAlgClosed L := IsAlgClosure.isAlgClosed K
   obtain ⟨Fr, hFr, D, hΦ, hDq, hDn⟩ :=
     exists_langDatum_twistedE6 Nat.prime_two (by norm_num : 1 ≤ 3) K hK2 twE6W0
   have hFr8 : ∀ c, Fr c = c ^ 8 := fun c => by rw [hFr c]; norm_num

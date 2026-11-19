@@ -250,7 +250,7 @@ theorem w183Pgl_delta_add (σ : GL (Fin 3) (ZMod 2) →* MulAut I) (π : I →* 
       (t : Matrix (Fin 3) (Fin 3) (ZMod 2)) = 1 + vecMulVec u f →
         ∀ i : I, f ⬝ᵥ Multiplicative.toAdd (π i) = 0 → σ t i = i)
     {f u u' : Fin 3 → ZMod 2} {t t' t'' : GL (Fin 3) (ZMod 2)} (hf : f ≠ 0) (hu : u ≠ 0)
-    (hu' : u' ≠ 0) (huu' : u ≠ u') (hfu : f ⬝ᵥ u = 0) (hfu' : f ⬝ᵥ u' = 0)
+    (_hu' : u' ≠ 0) (_huu' : u ≠ u') (hfu : f ⬝ᵥ u = 0) (hfu' : f ⬝ᵥ u' = 0)
     (ht : (t : Matrix (Fin 3) (Fin 3) (ZMod 2)) = 1 + vecMulVec u f)
     (ht' : (t' : Matrix (Fin 3) (Fin 3) (ZMod 2)) = 1 + vecMulVec u' f)
     (ht'' : (t'' : Matrix (Fin 3) (Fin 3) (ZMod 2)) = 1 + vecMulVec (u + u') f) {i : I}
@@ -280,7 +280,7 @@ theorem w183Pgl_exists_section (hI : ∀ x : I, x ^ 2 = 1) (σ : GL (Fin 3) (ZMo
     (π : I →* W183PglVec) (hπ : Function.Surjective π)
     (hπσ : ∀ (g : GL (Fin 3) (ZMod 2)) (i : I), Multiplicative.toAdd (π (σ g i)) =
       (g : Matrix (Fin 3) (Fin 3) (ZMod 2)) *ᵥ Multiplicative.toAdd (π i))
-    (hker : ∀ i : I, π i = 1 → ∀ g, σ g i = i)
+    (_hker : ∀ i : I, π i = 1 → ∀ g, σ g i = i)
     (htriv : ∀ (f u : Fin 3 → ZMod 2) (t : GL (Fin 3) (ZMod 2)), f ≠ 0 → u ≠ 0 → f ⬝ᵥ u = 0 →
       (t : Matrix (Fin 3) (Fin 3) (ZMod 2)) = 1 + vecMulVec u f →
         ∀ i : I, f ⬝ᵥ Multiplicative.toAdd (π i) = 0 → σ t i = i) :

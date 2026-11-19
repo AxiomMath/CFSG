@@ -12,6 +12,7 @@ namespace R38K
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem eq_one_of_pow_prime_pow {p : ℕ} {S : Subgroup H} (hS : Nat.Coprime p (Nat.card S))
     {x : H} (hx : x ∈ S) {m : ℕ} (h : x ^ (p ^ m) = 1) : x = 1 := by
   have h1 : orderOf (⟨x, hx⟩ : ↥S) ∣ p ^ m :=
@@ -23,6 +24,7 @@ theorem eq_one_of_pow_prime_pow {p : ℕ} {S : Subgroup H} (hS : Nat.Coprime p (
   have := orderOf_eq_one_iff.1 h4
   simpa using congrArg Subtype.val this
 
+omit [Finite H] in
 theorem mem_sup_zpowers_of_mem_nor {N : Subgroup H} {x : H} (hx : x ∈ Nor N) {y : H}
     (hy : y ∈ N ⊔ Subgroup.zpowers x) : ∃ n ∈ N, ∃ i : ℤ, y = n * x ^ i := by
   have hxi : ∀ i : ℤ, ∀ n ∈ N, x ^ i * n * (x ^ i)⁻¹ ∈ N := fun i n hn =>
@@ -52,7 +54,7 @@ theorem mem_sup_zpowers_of_mem_nor {N : Subgroup H} {x : H} (hx : x ∈ Nor N) {
 
 theorem odd_Opp_conj {β g : H} (h : Odd (Nat.card (Opp 3 (Nor (Subgroup.zpowers β))))) :
     Odd (Nat.card (Opp 3 (Nor (Subgroup.zpowers (g * β * g⁻¹))))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO : conjBy g (Opp 3 (Nor (Subgroup.zpowers β))) =
       Opp 3 (Nor (Subgroup.zpowers (g * β * g⁻¹))) := by
     rw [L14.conjBy_Opp, Ctl34.conjBy_Nor_zpowers']
@@ -60,14 +62,14 @@ theorem odd_Opp_conj {β g : H} (h : Odd (Nat.card (Opp 3 (Nor (Subgroup.zpowers
   exact h
 
 
-theorem exists_central_complement_p {p : ℕ} [Fact p.Prime] {R Z : Subgroup H} (hZR : Z ≤ R)
+theorem exists_central_complement_p {p : ℕ} [Fact p.Prime] {R Z : Subgroup H} (_hZR : Z ≤ R)
     (hZc : ∀ r ∈ R, ∀ z ∈ Z, r * z = z * r) (hZp : IsPGroup p Z)
     (hcop : ∀ r ∈ R, ∃ m : ℕ, Nat.Coprime p m ∧ r ^ m ∈ Z) :
     ∃ O : Subgroup H, O ≤ R ∧ Z ⊓ O = ⊥ ∧ (∀ r ∈ R, ∃ z ∈ Z, ∃ x ∈ O, r = z * x) ∧
       Nat.Coprime p (Nat.card O) := by
   classical
   let N : Subgroup ↥R := Z.subgroupOf R
-  haveI hNn : N.Normal := ⟨fun n hn g => by
+  have hNn : N.Normal := ⟨fun n hn g => by
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have e : (g : H) * (n : H) * (g : H)⁻¹ = (n : H) := by
       calc (g : H) * (n : H) * (g : H)⁻¹ = ((n : H) * (g : H)) * (g : H)⁻¹ := by
@@ -113,6 +115,7 @@ theorem exists_central_complement_p {p : ℕ} [Fact p.Prime] {R Z : Subgroup H} 
     rw [h1, ← hK.symm.index_eq_card]
     exact hcopN
 
+omit [Finite H] in
 theorem mem_complement_of_coprime_orderOf_p {p : ℕ} [Fact p.Prime] {R Z O : Subgroup H}
     (hZc : ∀ r ∈ R, ∀ z ∈ Z, r * z = z * r) (hZp : IsPGroup p Z) (hOR : O ≤ R)
     (hdec : ∀ r ∈ R, ∃ z ∈ Z, ∃ x ∈ O, r = z * x) (hOc : Nat.Coprime p (Nat.card O))
@@ -145,6 +148,7 @@ theorem mem_complement_of_coprime_orderOf_p {p : ℕ} [Fact p.Prime] {R Z O : Su
     (dvd_pow_self p hk0).trans hdvd
   exact (Nat.Prime.coprime_iff_not_dvd (Fact.out : p.Prime)).mp hx hpd
 
+omit [Finite H] in
 theorem conj_mem_complement_p {p : ℕ} [Fact p.Prime] {R Z O : Subgroup H}
     (hZc : ∀ r ∈ R, ∀ z ∈ Z, r * z = z * r) (hZp : IsPGroup p Z) (hOR : O ≤ R)
     (hdec : ∀ r ∈ R, ∃ z ∈ Z, ∃ x ∈ O, r = z * x) (hOc : Nat.Coprime p (Nat.card O))
@@ -159,7 +163,7 @@ theorem nor_sup_decomp_rel {Γ Z : Subgroup H} {x : H} (hx : orderOf x = 3) (hx�
     (hg : g ∈ Nor (Subgroup.zpowers x ⊔ Z)) :
     ∃ z ∈ Z, ∃ n ∈ Γ ⊓ Nor (Subgroup.zpowers x), g = z * n := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hx3 : x ^ 3 = 1 := by
     rw [← hx]
     exact pow_orderOf_eq_one x
@@ -225,7 +229,7 @@ theorem nor_sup_decomp_rel {Γ Z : Subgroup H} {x : H} (hx : orderOf x = 3) (hx�
 theorem weak_rel {b t b₁ b₂ : H} {J : Subgroup H} (h : FS79Hyp b t b₁ b₂ J) {E : Subgroup H}
     (hbE : b ∈ E) {h' : H} (hb' : h' * b * h'⁻¹ ∈ Nor E) : h' * b * h'⁻¹ ∈ E := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set b' : H := h' * b * h'⁻¹ with hb'def
   have hb3 : b ^ 3 = 1 := by
     rw [← h.ord_b]

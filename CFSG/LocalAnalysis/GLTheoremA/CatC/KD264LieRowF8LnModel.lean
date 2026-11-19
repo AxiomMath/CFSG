@@ -26,7 +26,7 @@ theorem finite_mulAut' {P : Type*} [Group P] [Finite P] : Finite (MulAut P) :=
 
 theorem center_projectiveSL_eq_bot {N : ℕ} (hN : 3 ≤ N) {K : Type} [Field K] :
     Subgroup.center (projectiveSL N K) = ⊥ := by
-  haveI : IsSimpleGroup (projectiveSL N K) :=
+  have : IsSimpleGroup (projectiveSL N K) :=
     CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.isSimpleGroup_projectiveSL hN
   exact center_eq_bot_of_simple_nonabelian
     (CFSG.GH74.GLS.Stage2.Bender.Thm1.Ln.exists_noncomm_projectiveSL hN)
@@ -108,8 +108,8 @@ theorem kerLn_model (hN : 4 ≤ N) (hK : Nat.card K = 8)
     KD264F8Datum (projectiveSL N K) A := by
   classical
   have hN3 : 3 ≤ N := by omega
-  haveI := finite_mulAut' (P := projectiveSL N K)
-  obtain ⟨b, hbA, hbout⟩ := SetLike.not_le_iff_exists.1 hnot
+  have := finite_mulAut' (P := projectiveSL N K)
+  obtain ⟨b, hbA, hbout⟩ := IsConcreteLE.not_le_iff_exists.1 hnot
   have hb3 : b ^ 3 = 1 := hA.2 b hbA
   obtain ⟨ι, hιinj, hιfix, hιnorm, hι3⟩ := exists_descent hN3 hK b hb3 hbout
   have hZ := center_projectiveSL_eq_bot (K := K) hN3

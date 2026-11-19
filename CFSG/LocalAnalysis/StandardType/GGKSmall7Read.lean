@@ -71,7 +71,7 @@ private lemma lr6rd_cardJ : Fintype.card {c : Fin 6 // GGDepED4In c} = 4 := by
 theorem ggDepED4_E6_of_pat6 {Λa : Type} [Fintype Λa] [DecidableEq Λa] (hΛa : Nat.card Λa = 2)
     {MK : CoxeterMatrix ({c : Fin 6 // GGDepED4In c} ⊕ Λa)}
     {CK : Matrix ({c : Fin 6 // GGDepED4In c} ⊕ Λa) ({c : Fin 6 // GGDepED4In c} ⊕ Λa) ℤ}
-    (hWK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
+    (_hWK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
     (hJ : ∀ i j : {c : Fin 6 // GGDepED4In c},
       (CK (Sum.inl i) (Sum.inl j) : ZMod 3) = (CartanMatrix.E 6 i.1 j.1 : ZMod 3))
     (hP : GGDepED4PatE6 CK) :
@@ -158,38 +158,38 @@ theorem ggDepED4_E6_of_pat6 {Λa : Type} [Fintype Λa] [DecidableEq Λa] (hΛa :
       MK (Sum.inr a₁) (Sum.inl j) = (if j.1 = c then 3 else 2) := by
     intro j
     by_cases hjc : j.1 = c
-    · have h1 : CK (Sum.inr a₁) (Sum.inl j) = -1 := by rw [hCa1 j, if_pos hjc]
-      have h2 : CK (Sum.inl j) (Sum.inr a₁) = -1 := by rw [hCa1' j, if_pos hjc]
-      rw [hM_of_neg _ _ Sum.inr_ne_inl h1 h2, if_pos hjc]
-    · have h0 : CK (Sum.inr a₁) (Sum.inl j) = 0 := by rw [hCa1 j, if_neg hjc]
-      rw [hM_of_zero _ _ Sum.inr_ne_inl h0, if_neg hjc]
+    · have h1 : CK (Sum.inr a₁) (Sum.inl j) = -1 := by rw [hCa1 j, ite_eq_left hjc]
+      have h2 : CK (Sum.inl j) (Sum.inr a₁) = -1 := by rw [hCa1' j, ite_eq_left hjc]
+      rw [hM_of_neg _ _ Sum.inr_ne_inl h1 h2, ite_eq_left hjc]
+    · have h0 : CK (Sum.inr a₁) (Sum.inl j) = 0 := by rw [hCa1 j, ite_eq_right hjc]
+      rw [hM_of_zero _ _ Sum.inr_ne_inl h0, ite_eq_right hjc]
   have hMKa1' : ∀ j : {c : Fin 6 // GGDepED4In c},
       MK (Sum.inl j) (Sum.inr a₁) = (if j.1 = c then 3 else 2) := by
     intro j
     by_cases hjc : j.1 = c
-    · have h1 : CK (Sum.inl j) (Sum.inr a₁) = -1 := by rw [hCa1' j, if_pos hjc]
-      have h2 : CK (Sum.inr a₁) (Sum.inl j) = -1 := by rw [hCa1 j, if_pos hjc]
-      rw [hM_of_neg _ _ Sum.inl_ne_inr h1 h2, if_pos hjc]
-    · have h0 : CK (Sum.inl j) (Sum.inr a₁) = 0 := by rw [hCa1' j, if_neg hjc]
-      rw [hM_of_zero _ _ Sum.inl_ne_inr h0, if_neg hjc]
+    · have h1 : CK (Sum.inl j) (Sum.inr a₁) = -1 := by rw [hCa1' j, ite_eq_left hjc]
+      have h2 : CK (Sum.inr a₁) (Sum.inl j) = -1 := by rw [hCa1 j, ite_eq_left hjc]
+      rw [hM_of_neg _ _ Sum.inl_ne_inr h1 h2, ite_eq_left hjc]
+    · have h0 : CK (Sum.inl j) (Sum.inr a₁) = 0 := by rw [hCa1' j, ite_eq_right hjc]
+      rw [hM_of_zero _ _ Sum.inl_ne_inr h0, ite_eq_right hjc]
   have hMKa2 : ∀ j : {c : Fin 6 // GGDepED4In c},
       MK (Sum.inr a₂) (Sum.inl j) = (if j.1 = c' then 3 else 2) := by
     intro j
     by_cases hjc : j.1 = c'
-    · have h1 : CK (Sum.inr a₂) (Sum.inl j) = -1 := by rw [hCa2 j, if_pos hjc]
-      have h2 : CK (Sum.inl j) (Sum.inr a₂) = -1 := by rw [hCa2' j, if_pos hjc]
-      rw [hM_of_neg _ _ Sum.inr_ne_inl h1 h2, if_pos hjc]
-    · have h0 : CK (Sum.inr a₂) (Sum.inl j) = 0 := by rw [hCa2 j, if_neg hjc]
-      rw [hM_of_zero _ _ Sum.inr_ne_inl h0, if_neg hjc]
+    · have h1 : CK (Sum.inr a₂) (Sum.inl j) = -1 := by rw [hCa2 j, ite_eq_left hjc]
+      have h2 : CK (Sum.inl j) (Sum.inr a₂) = -1 := by rw [hCa2' j, ite_eq_left hjc]
+      rw [hM_of_neg _ _ Sum.inr_ne_inl h1 h2, ite_eq_left hjc]
+    · have h0 : CK (Sum.inr a₂) (Sum.inl j) = 0 := by rw [hCa2 j, ite_eq_right hjc]
+      rw [hM_of_zero _ _ Sum.inr_ne_inl h0, ite_eq_right hjc]
   have hMKa2' : ∀ j : {c : Fin 6 // GGDepED4In c},
       MK (Sum.inl j) (Sum.inr a₂) = (if j.1 = c' then 3 else 2) := by
     intro j
     by_cases hjc : j.1 = c'
-    · have h1 : CK (Sum.inl j) (Sum.inr a₂) = -1 := by rw [hCa2' j, if_pos hjc]
-      have h2 : CK (Sum.inr a₂) (Sum.inl j) = -1 := by rw [hCa2 j, if_pos hjc]
-      rw [hM_of_neg _ _ Sum.inl_ne_inr h1 h2, if_pos hjc]
-    · have h0 : CK (Sum.inl j) (Sum.inr a₂) = 0 := by rw [hCa2' j, if_neg hjc]
-      rw [hM_of_zero _ _ Sum.inl_ne_inr h0, if_neg hjc]
+    · have h1 : CK (Sum.inl j) (Sum.inr a₂) = -1 := by rw [hCa2' j, ite_eq_left hjc]
+      have h2 : CK (Sum.inr a₂) (Sum.inl j) = -1 := by rw [hCa2 j, ite_eq_left hjc]
+      rw [hM_of_neg _ _ Sum.inl_ne_inr h1 h2, ite_eq_left hjc]
+    · have h0 : CK (Sum.inl j) (Sum.inr a₂) = 0 := by rw [hCa2' j, ite_eq_right hjc]
+      rw [hM_of_zero _ _ Sum.inl_ne_inr h0, ite_eq_right hjc]
   have hMK11 : MK (Sum.inr a₁) (Sum.inr a₁) = 1 := MK.diagonal _
   have hMK22 : MK (Sum.inr a₂) (Sum.inr a₂) = 1 := MK.diagonal _
   have hMK12 : MK (Sum.inr a₁) (Sum.inr a₂) = 2 :=
@@ -208,8 +208,7 @@ theorem ggDepED4_E6_of_pat6 {Λa : Type} [Fintype Λa] [DecidableEq Λa] (hΛa :
     rw [eK_apply i, eK_apply j]
     fin_cases i <;> fin_cases j <;>
       simp [eKf, hMKJ, hMKa1, hMKa1', hMKa2, hMKa2',
-        hMK11, hMK12, hMK21, hMK22, hdc, hdc', hcc', hd3, hc3, hc'3, hc3', hc'3', hd3',
-        hcd, hc'd, hc'c, hleafc, hleafc', hdleaf, lr6rd_coxE6_diag, lr6rd_coxE6_leaf_leaf,
+        hMK12, hMK21, hdc, hdc', hcc', hc3', hc'3', hcd, hc'd, hc'c, hleafc, hleafc', hdleaf, lr6rd_coxE6_leaf_leaf,
         lr6rd_coxE6_leaf_center, lr6rd_coxE6_center_leaf] <;> decide
   have hMKeq : MK = CoxeterMatrix.E₆.reindex eK := by
     apply CoxeterMatrix.ext
@@ -258,7 +257,7 @@ private lemma lr6rd_cartan_of_D6_reindex {Λ : Type} [Fintype Λ] [DecidableEq �
       exact GGIntCartan.reindex e (ggIntCartan_D 6)
     have hle : MK (e i) (e j) ≤ 3 := by
       rw [he, CoxeterMatrix.reindex_apply, Equiv.symm_apply_apply, Equiv.symm_apply_apply,
-        ggCoxeterMatrixD_apply, if_neg hij]
+        ggCoxeterMatrixD_apply, ite_eq_right hij]
       split_ifs <;> omega
     have hpair := (hCK.pair hC₂ (e.injective.ne hij)).2 hle
     rw [hpair.1]
@@ -267,7 +266,7 @@ private lemma lr6rd_cartan_of_D6_reindex {Λ : Type} [Fintype Λ] [DecidableEq �
 theorem ggDepED4_D6_of_pat6 {Λa : Type} [Fintype Λa] [DecidableEq Λa] (hΛa : Nat.card Λa = 2)
     {MK : CoxeterMatrix ({c : Fin 6 // GGDepED4In c} ⊕ Λa)}
     {CK : Matrix ({c : Fin 6 // GGDepED4In c} ⊕ Λa) ({c : Fin 6 // GGDepED4In c} ⊕ Λa) ℤ}
-    (hWK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
+    (_hWK : GGIsWeylMatrix MK) (hCK : GGIntCartan MK CK)
     (hJ : ∀ i j : {c : Fin 6 // GGDepED4In c},
       (CK (Sum.inl i) (Sum.inl j) : ZMod 3) = (CartanMatrix.E 6 i.1 j.1 : ZMod 3))
     (hP : GGDepED4PatD6 CK) :
@@ -326,20 +325,20 @@ theorem ggDepED4_D6_of_pat6 {Λa : Type} [Fintype Λa] [DecidableEq Λa] (hΛa :
       MK (Sum.inr a₁) (Sum.inl j) = (if j.1 = c then 3 else 2) := by
     intro j
     by_cases hjc : j.1 = c
-    · have h1 : CK (Sum.inr a₁) (Sum.inl j) = -1 := by rw [hCa1 j, if_pos hjc]
-      have h2 : CK (Sum.inl j) (Sum.inr a₁) = -1 := by rw [hCa1' j, if_pos hjc]
-      rw [lr6rd_M_of_neg hCK Sum.inr_ne_inl h1 h2, if_pos hjc]
-    · have h0 : CK (Sum.inr a₁) (Sum.inl j) = 0 := by rw [hCa1 j, if_neg hjc]
-      rw [lr6rd_M_of_zero hCK Sum.inr_ne_inl h0, if_neg hjc]
+    · have h1 : CK (Sum.inr a₁) (Sum.inl j) = -1 := by rw [hCa1 j, ite_eq_left hjc]
+      have h2 : CK (Sum.inl j) (Sum.inr a₁) = -1 := by rw [hCa1' j, ite_eq_left hjc]
+      rw [lr6rd_M_of_neg hCK Sum.inr_ne_inl h1 h2, ite_eq_left hjc]
+    · have h0 : CK (Sum.inr a₁) (Sum.inl j) = 0 := by rw [hCa1 j, ite_eq_right hjc]
+      rw [lr6rd_M_of_zero hCK Sum.inr_ne_inl h0, ite_eq_right hjc]
   have hMKa1' : ∀ j : {c : Fin 6 // GGDepED4In c},
       MK (Sum.inl j) (Sum.inr a₁) = (if j.1 = c then 3 else 2) := by
     intro j
     by_cases hjc : j.1 = c
-    · have h1 : CK (Sum.inl j) (Sum.inr a₁) = -1 := by rw [hCa1' j, if_pos hjc]
-      have h2 : CK (Sum.inr a₁) (Sum.inl j) = -1 := by rw [hCa1 j, if_pos hjc]
-      rw [lr6rd_M_of_neg hCK Sum.inl_ne_inr h1 h2, if_pos hjc]
-    · have h0 : CK (Sum.inl j) (Sum.inr a₁) = 0 := by rw [hCa1' j, if_neg hjc]
-      rw [lr6rd_M_of_zero hCK Sum.inl_ne_inr h0, if_neg hjc]
+    · have h1 : CK (Sum.inl j) (Sum.inr a₁) = -1 := by rw [hCa1' j, ite_eq_left hjc]
+      have h2 : CK (Sum.inr a₁) (Sum.inl j) = -1 := by rw [hCa1 j, ite_eq_left hjc]
+      rw [lr6rd_M_of_neg hCK Sum.inl_ne_inr h1 h2, ite_eq_left hjc]
+    · have h0 : CK (Sum.inl j) (Sum.inr a₁) = 0 := by rw [hCa1' j, ite_eq_right hjc]
+      rw [lr6rd_M_of_zero hCK Sum.inl_ne_inr h0, ite_eq_right hjc]
   have hMKa2 : ∀ j : {c : Fin 6 // GGDepED4In c}, MK (Sum.inr a₂) (Sum.inl j) = 2 :=
     fun j => lr6rd_M_of_zero hCK Sum.inr_ne_inl (hCa2 j)
   have hMKa2' : ∀ j : {c : Fin 6 // GGDepED4In c}, MK (Sum.inl j) (Sum.inr a₂) = 2 :=
@@ -362,8 +361,7 @@ theorem ggDepED4_D6_of_pat6 {Λa : Type} [Fintype Λa] [DecidableEq Λa] (hΛa :
     rw [eD_apply i, eD_apply j]
     fin_cases i <;> fin_cases j <;>
       simp [eDf, hMKJ, hMKa1, hMKa1', hMKa2, hMKa2',
-        hMK11, hMK12, hMK21, hMK22, hc3, hc3', he1c, he2c, he12', he13, he23, he13', he23',
-        he1c', he2c', he21', he1, he2, hleafc, lr6rd_coxE6_diag, lr6rd_coxE6_leaf_leaf,
+        hMK12, hMK21, hc3', he1c, he2c, he12', he1c', he2c', he21', he1, he2, hleafc, lr6rd_coxE6_leaf_leaf,
         lr6rd_coxE6_leaf_center, lr6rd_coxE6_center_leaf, ggCoxeterMatrixD_apply] <;> decide
   have hMKeq : MK = (ggCoxeterMatrixD 6).reindex eD := by
     apply CoxeterMatrix.ext
@@ -381,10 +379,10 @@ theorem ggKSmall7_cases_of_alignedW {G : Type} [Group G] [Finite G] {Bs F J O : 
   obtain ⟨Λ, hΛf, hΛd, b₁, b₂, Λa, hΛaf, hΛad, ML, CL, MK, CK, V, hVadd, hVmod,
     ι, φ, h, α, e, hb1, hb2, hcardΛa, hML, hMLweyl, hCLcartan, hMKweyl, hCKcartan,
     hform, hrefl, hpairL, hpairK, ⟨fK, hfK⟩, hAL, hAK, hAJ⟩ := hA
-  letI : Fintype Λ := hΛf
-  letI : DecidableEq Λ := hΛd
-  letI : AddCommGroup V := hVadd
-  letI : Module (ZMod 3) V := hVmod
+  let : Fintype Λ := hΛf
+  let : DecidableEq Λ := hΛd
+  let : AddCommGroup V := hVadd
+  let : Module (ZMod 3) V := hVmod
   let eJ := l05nEC_eJ b₁ b₂ e hb1 hb2
   let ee : ({c : Fin 6 // GGDepED4In c} ⊕ Λa) ≃ ({i : Λ // i ≠ b₁ ∧ i ≠ b₂} ⊕ Λa) :=
     Equiv.sumCongr eJ (Equiv.refl Λa)
@@ -399,10 +397,9 @@ theorem ggKSmall7_cases_of_alignedW {G : Type} [Group G] [Finite G] {Bs F J O : 
       (CK' (Sum.inl i) (Sum.inl j) : ZMod 3) = (CartanMatrix.E 6 i.1 j.1 : ZMod 3) := by
     intro i j
     have hpk := hpairK (Sum.inl (eJ i)) (Sum.inl (eJ j))
-    simp only [Sum.map_inl, id_eq] at hpk
+    simp only [Sum.map_inl] at hpk
     have hck : CK' (Sum.inl i) (Sum.inl j) = CK (Sum.inl (eJ i)) (Sum.inl (eJ j)) := by
-      simp only [CK', Matrix.submatrix_apply, ee, Equiv.sumCongr_apply, Sum.map_inl,
-        Sum.map_inr, Equiv.refl_apply]
+      simp only [CK', Matrix.submatrix_apply, ee, Equiv.sumCongr_apply, Sum.map_inl]
     have hgoal : α (Sum.inl (eJ i).1) (h (Sum.inl (eJ j).1)) =
         (CK (Sum.inl (eJ i)) (Sum.inl (eJ j)) : ZMod 3) := hpk
     rw [hck, ← hgoal]
@@ -474,7 +471,7 @@ theorem ggKSmall7_cases_of_alignedW {G : Type} [Group G] [Finite G] {Bs F J O : 
         simp [CK', Matrix.submatrix_apply, ee, Equiv.trans_apply]
       rw [hsub, hCK'e i j]
     have hpairE : ∀ i j : Fin 6, α (Sum.inl (e i)) (h (Sum.inl (e j))) =
-        (CartanMatrix.E₆ i j : ZMod 3) := by
+        ((CartanMatrix.E 6) i j : ZMod 3) := by
       intro i j
       rw [hpairL (e i) (e j), l05nEU_cartan_of_reindex e hCLcartan hML i j]
     have hcardMK : Nat.card ↥(ggAutomizer O Bs) = Nat.card MK.Group :=

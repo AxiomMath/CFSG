@@ -27,7 +27,7 @@ private theorem eq_one_of_conjSub_mul_mul_eq (h : TransvectionHyp H Δ)
     (hz : z ∈ shortRootGroup Δ (P k) (Q k) (P i) (Q i))
     (hb : b ∈ (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ)
     (hc : conjSub (P i) (y * z * b) = P i) : y = 1 := by
-  haveI := h.finite
+  have := h.finite
   have hKD := commuting_map_heis_of_ne (unitaryInvolution_involutive hFn) hθr hik
   have hbN : b ∈ Subgroup.normalizer (P i : Set H) :=
     conjSub_eq_self_iff.1 (conjSub_of_forall_commute fun a ha =>
@@ -87,7 +87,7 @@ private theorem eq_one_of_mem_map_heis_mul (h : TransvectionHyp H Δ) (hML : Mee
     (hz : z ∈ shortRootGroup Δ (P k) (Q k) (P i) (Q i))
     (hβ : β ∈ (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ')
     (hzβ : z * β ∈ (UC22.uc22pwsu3X (unitaryInvolution_involutive hFn)).map θ) : β = 1 := by
-  haveI := h.finite
+  have := h.finite
   have hKD := commuting_map_heis_of_ne (unitaryInvolution_involutive hFn) hθr hik
   have hQi : conjSub (conjSub (Q i) β) z = Q i := by
     rw [← conjSub_mul]

@@ -173,12 +173,11 @@ private theorem wcS_ne :
   have h' := congrArg (fun g : GL (Fin (m + 2) ⊕ Fin (m + 2)) F =>
     (g : Matrix (Fin (m + 2) ⊕ Fin (m + 2)) (Fin (m + 2) ⊕ Fin (m + 2)) F)) h
   have := congrFun (congrFun h' (Sum.inl 0)) (Sum.inr 1)
-  simp [wcSXU, wcSYU, wcSX, wcSY, Matrix.fromBlocks_multiply, wcSS, wcSA, wcSD, wcS_ne10,
-    wcS_ne10.symm] at this
+  simp [wcSXU, wcSYU, wcSX, wcSY, Matrix.fromBlocks_multiply, wcSS, wcSA, wcSD, wcS_ne10.symm] at this
 
 private theorem wcS_nonscalarPPair {p : ℕ} [Fact p.Prime] [CharP F p] :
     NonscalarPPair p (StatedSp (m + 2) F) := by
-  haveI : Nonempty (Fin (m + 2) ⊕ Fin (m + 2)) := ⟨Sum.inl 0⟩
+  have : Nonempty (Fin (m + 2) ⊕ Fin (m + 2)) := ⟨Sum.inl 0⟩
   have hx : (wcSXU : GL (Fin (m + 2) ⊕ Fin (m + 2)) F) ∈ StatedSp (m + 2) F :=
     Subgroup.subset_closure wcSX_symp
   have hy : (wcSYU : GL (Fin (m + 2) ⊕ Fin (m + 2)) F) ∈ StatedSp (m + 2) F :=
@@ -193,7 +192,7 @@ private theorem wcS_charP {F : Type} [Field F] [Finite F] {p f : ℕ} [Fact p.Pr
   have := Fintype.ofFinite F
   exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, h])
 
-theorem wcOn_psp {K : Type} [Group K] [Finite K] {n p f : ℕ} [Fact p.Prime] (hp2 : p ≠ 2)
+theorem wcOn_psp {K : Type} [Group K] [Finite K] {n p f : ℕ} [Fact p.Prime] (_hp2 : p ≠ 2)
     (hn : 2 ≤ n) (h : CFSG.Open.StatedClassicalModel K .PSp n p f) : WCOn p K := by
   obtain ⟨-, F, _, _, hF, ⟨e⟩⟩ := h
   have : CharP F p := wcS_charP hF

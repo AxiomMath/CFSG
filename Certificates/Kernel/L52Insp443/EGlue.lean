@@ -86,7 +86,7 @@ theorem cand1 {us : List Table} {z w : ℕ} (hz : z < 7) (hw : w < 2) (hl : us.l
     (h3 : irrOK 31 7 x7T (invT 31 x7T) us (wB w) = true) :
     candOK (invT 31 x7T) us (1, z, w) = true := by
   rw [candOK.eq_1]
-  simp only [hz, hw, hl, h1, h2, h3, decide_true, Bool.true_and, Bool.and_true, beq_self_eq_true,
+  simp only [hz, hw, hl, h1, h2, h3, decide_true, Bool.and_true, beq_self_eq_true,
     Bool.or_true, Bool.true_or]
 
 theorem cand2 {us : List Table} {w : ℕ} (hw : w < 2) (hl : us.length = 3)

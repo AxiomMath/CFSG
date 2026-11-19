@@ -25,12 +25,12 @@ theorem burnsideB610_commutator_cjSub {g : G} (hg : g ∈ Subgroup.normalizer (V
 
 theorem burnsideB610_coe_conjInvHom (g : G) (L : Subgroup G) (x : ↥(cjSub g L)) :
     ((burnsideB610_conjInvHom g L x : ↥L) : G) = g⁻¹ * x * g := by
-  simp [burnsideB610_conjInvHom, MulAut.conj_apply]
+  simp [burnsideB610_conjInvHom]
 
 theorem burnsideB610_conjInvHom_surjective (g : G) (L : Subgroup G) :
     Function.Surjective (burnsideB610_conjInvHom g L) := by
   intro l
-  refine ⟨⟨g * l * g⁻¹, mem_cjSub.mpr (by simpa [mul_assoc] using l.2)⟩, Subtype.ext ?_⟩
+  refine ⟨⟨g * l * g⁻¹, mem_cjSub.mpr (by simp [mul_assoc])⟩, Subtype.ext ?_⟩
   rw [burnsideB610_coe_conjInvHom]
   group
 
@@ -65,8 +65,8 @@ theorem burnsideB610_conjInvHom_surjective (g : G) (L : Subgroup G) :
     refine D.βsurj.comp fun w => ?_
     refine ⟨⟨g * w * g⁻¹, ?_⟩, Subtype.ext ?_⟩
     · rw [burnsideB610_commutator_cjSub hg, mem_cjSub]
-      simpa [mul_assoc] using w.2
-    · simp [MulAut.conj_apply, mul_assoc]
+      simp [mul_assoc]
+    · simp [mul_assoc]
   βker := by
     ext w
     rw [MonoidHom.mem_ker, MonoidHom.comp_apply, ← MonoidHom.mem_ker, D.βker,

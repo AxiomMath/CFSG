@@ -96,7 +96,7 @@ theorem isSylowOf_top_of_isolated {G : Type*} [Group G] [Finite G] {x : G} {T : 
     (hT : IsSylowOf 2 T (centralizer ({x} : Set G))) (hx : x ∈ T)
     (hiso : ∀ g : G, g * x * g⁻¹ ∈ T → g * x * g⁻¹ = x) : IsSylowOf 2 T ⊤ := by
   obtain ⟨S, hTS⟩ := hT.isPGroup.exists_le_sylow
-  have hS : IsPGroup 2 (S : Subgroup G) := S.isPGroup'
+  have hS : IsPGroup 2 (S : Subgroup G) := S.isPGroup
   have hTeq : T = (S : Subgroup G) := by
     by_contra hne
     have hlt : T < (S : Subgroup G) := lt_of_le_of_ne hTS hne

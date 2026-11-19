@@ -6,7 +6,7 @@ public section
 
 universe u v w
 
-namespace CFSG.Open.Open
+namespace CFSG.Open.Thm
 
 theorem macwilliams_four_generator
     (S : Type) [Group S] [Finite S] (hS : IsPGroup 2 S)
@@ -14,4 +14,4 @@ theorem macwilliams_four_generator
     ∀ U : Subgroup S, ∃ X : Finset S, X.card ≤ 4 ∧ Subgroup.closure (X : Set S) = U :=
   _root_.CFSG.Milestones.cls_connectivity_macwilliams_four_generator S hS hE
 
-end CFSG.Open.Open
+end CFSG.Open.Thm

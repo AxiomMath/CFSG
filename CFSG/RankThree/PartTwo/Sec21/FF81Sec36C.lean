@@ -59,8 +59,11 @@ theorem conj_ε3 (hB : FF81Basis b L B b₁ b₂ b₃) {g : G} (m : Fin 3 → Fi
       group, ← conj_pow, ← conj_pow, ← conj_pow, h0, h1, h2, ← hB.ε3_smul, ← hB.ε3_smul,
     ← hB.ε3_smul, ← hB.ε3_add, ← hB.ε3_add]
 
+omit [Finite G] in
 theorem ε3_b₁ : ε3 b₁ b₂ b₃ ![1, 0, 0] = b₁ := by simp [ε3, val_one3]
+omit [Finite G] in
 theorem ε3_b₂ : ε3 b₁ b₂ b₃ ![0, 1, 0] = b₂ := by simp [ε3, val_one3]
+omit [Finite G] in
 theorem ε3_b₃ : ε3 b₁ b₂ b₃ ![0, 0, 1] = b₃ := by simp [ε3, val_one3]
 
 theorem ε3_b₁_inv (hB : FF81Basis b L B b₁ b₂ b₃) : ε3 b₁ b₂ b₃ ![2, 0, 0] = b₁⁻¹ := by
@@ -100,6 +103,7 @@ theorem _root_.CFSG.RankThree.PartTwo.Sec21.FF81.FF81Basis.exists_mono (hB : FF8
   · obtain ⟨g, hg, e1, e2, e3⟩ := hB.monoL
     exact ⟨g, hg, e1.trans ε3_b₁.symm, e2.trans ε3_b₃.symm, e3.trans ε3_b₂.symm⟩
 
+omit [Finite G] in
 theorem card_inf_cenS_conjBy {X H : Subgroup G} {g : G} (hg : g ∈ Nor X) :
     Nat.card ↥(X ⊓ CenS (conjBy g H)) = Nat.card ↥(X ⊓ CenS H) := by
   have heq : conjBy g (X ⊓ CenS H) = X ⊓ CenS (conjBy g H) := by

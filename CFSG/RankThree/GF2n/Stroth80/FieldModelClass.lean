@@ -70,6 +70,7 @@ variable {K : Type} [Field K]
 def transC (τ : G) (C : Set (Subgroup G)) : Set (Subgroup G) :=
   {U | ∃ U₀ ∈ C, U = conjSubgroup τ U₀}
 
+omit [Finite G] in
 theorem transC_mul (g h : G) (C : Set (Subgroup G)) :
     transC (g * h) C = transC g (transC h C) := by
   ext U
@@ -79,6 +80,7 @@ theorem transC_mul (g h : G) (C : Set (Subgroup G)) :
   · rintro ⟨U₁, ⟨U₀, hU₀, rfl⟩, rfl⟩
     exact ⟨U₀, hU₀, by rw [conjSubgroup_mul]⟩
 
+omit [Finite G] in
 theorem transC_one (C : Set (Subgroup G)) : transC 1 C = C := by
   ext U
   constructor
@@ -87,6 +89,7 @@ theorem transC_one (C : Set (Subgroup G)) : transC 1 C = C := by
   · intro hU
     exact ⟨U, hU, (conjSubgroup_one U).symm⟩
 
+omit [Finite G] in
 theorem conj_mem_classOf {τ : G} (hV : τ ∈ Subgroup.normalizer (V : Set G))
     (hQ : τ ∈ Subgroup.normalizer (Q : Set G)) {γ : G → K} {U : Subgroup G}
     (hU : U ∈ classOf V Q γ) :
@@ -106,6 +109,7 @@ theorem conj_mem_classOf {τ : G} (hV : τ ∈ Subgroup.normalizer (V : Set G))
   · intro v hv
     exact hcσ _ ((mem_iff_conj_inv_of_normalizer hV v).mp hv)
 
+omit [Finite G] in
 theorem transC_classOf {τ : G} (hV : τ ∈ Subgroup.normalizer (V : Set G))
     (hQ : τ ∈ Subgroup.normalizer (Q : Set G)) (γ : G → K) :
     transC τ (classOf V Q γ) = classOf V Q (fun v => γ (τ⁻¹ * v * τ)) := by
@@ -124,6 +128,7 @@ theorem transC_classOf {τ : G} (hV : τ ∈ Subgroup.normalizer (V : Set G))
       rwa [this] at h1
     · rw [← conjSubgroup_mul, mul_inv_cancel, conjSubgroup_one]
 
+omit [Finite G] in
 theorem exists_period (τ : G) {N : ℕ} (hN : 0 < N) (hτN : τ ^ N = 1) (C : Set (Subgroup G)) :
     ∃ d, 0 < d ∧ d ∣ N ∧ transC (τ ^ d) C = C ∧
       ∀ i, 0 < i → i < d → transC (τ ^ i) C ≠ C := by
@@ -150,6 +155,7 @@ theorem exists_period (τ : G) {N : ℕ} (hN : 0 < N) (hτN : τ ^ N = 1) (C : S
     exact Nat.find_min hex hid ⟨hi, hC⟩
 
 
+omit [Finite G] in
 theorem gammaCompat_of_stable {n : ℕ} (hn : 2 ≤ n) {U₁ U₂ : Subgroup G}
     (D₁ : MulData V U₁ Q (GaloisField 2 n)) (D₂ : MulData V U₂ Q (GaloisField 2 n))
     {τ : G} {a : GaloisField 2 n} (hτV : τ ∈ Subgroup.normalizer (V : Set G))
@@ -217,22 +223,27 @@ variable {K : Type} [Field K] [CharP K 2] {γ : G → K} (C : ModelCtx V Q γ)
 
 include C
 
+omit [Finite G] [CharP K 2] in
 theorem jf_mul {x x' : G} (hx : x ∈ Q) (hx' : x' ∈ Q) :
     jf γ Q (x * x') = jf γ Q x + jf γ Q x' := by
   ext y
   exact C.γ_comm_mul_left hx hx' y.2
 
+omit [Finite G] [CharP K 2] in
 theorem jf_one : jf γ Q 1 = 0 := by
   ext y
   simp [jf, C.γ_one]
 
+omit [Finite G] [CharP K 2] in
 theorem jf_V {v : G} (hv : v ∈ V) : jf γ Q v = 0 := by
   ext y
   simp [jf, C.comm_eq_one_left hv y.2, C.γ_one]
 
+omit [Finite G] [CharP K 2] in
 theorem jf_of_commute {x : G} {y : ↥Q} (h : x * (y : G) = (y : G) * x) : jf γ Q x y = 0 := by
   simp [jf, commutatorElement_eq_one_iff_mul_comm.mpr h, C.γ_one]
 
+omit [Finite G] in
 theorem jf_additive_right {x : G} (hx : x ∈ Q) (y y' : ↥Q) :
     jf γ Q x (y * y') = jf γ Q x y + jf γ Q x y' := by
   show γ ⁅x, ((y * y' : ↥Q) : G)⁆ = γ ⁅x, (y : G)⁆ + γ ⁅x, (y' : G)⁆
@@ -241,6 +252,7 @@ theorem jf_additive_right {x : G} (hx : x ∈ Q) (y y' : ↥Q) :
     ← C.γ_comm_symm hx y'.2]
   exact C.γ_comm_mul_left y.2 y'.2 hx
 
+omit [Finite G] [CharP K 2] in
 theorem Top_jf {a : K} {τ : G} (hτ : ∀ y ∈ Q, τ⁻¹ * y * τ ∈ Q)
     (hγ : ∀ v ∈ V, γ (τ * v * τ⁻¹) = a * γ v) {x : G} (hx : x ∈ Q) :
     Top Q a τ hτ (jf γ Q x) = jf γ Q (τ * x * τ⁻¹) := by
@@ -251,6 +263,7 @@ theorem Top_jf {a : K} {τ : G} (hτ : ∀ y ∈ Q, τ⁻¹ * y * τ ∈ Q)
     simp only [commutatorElement_def]; group
   rw [e, hγ _ h1]
 
+omit [Finite G] [CharP K 2] in
 theorem Top_pow_jf {a : K} {τ : G} (hτ : ∀ y ∈ Q, τ⁻¹ * y * τ ∈ Q)
     (hτ' : ∀ y ∈ Q, τ * y * τ⁻¹ ∈ Q)
     (hγ : ∀ v ∈ V, γ (τ * v * τ⁻¹) = a * γ v) {x : G} (hx : x ∈ Q) (k : ℕ) :

@@ -199,7 +199,7 @@ theorem lieInvolCentCharTwo_holds :
       (RankThree.Suzuki_involution_centralizers_and_inner_odd_centralizers ha hK').1 y hy
     have hC2 : IsPGroup 2 ↥(Subgroup.centralizer ({y} : Set (suzukiGroup a K))) := by
       rw [hP]
-      exact P.isPGroup'
+      exact P.isPGroup
     exact isCharacteristicP_of_isPGroup (hC2.of_equiv Subgroup.topEquiv.symm)
   ·
     obtain ⟨e⟩ := Sporadic.Schreier.Tits.titsModelEquiv _ 2 1 h

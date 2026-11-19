@@ -17,7 +17,7 @@ theorem siegel_add_smul_self_eq {K V : Type*} [Field K] [AddCommGroup V] [Module
   refine Units.ext (LinearMap.ext fun x => ?_)
   rw [siegel_apply hB hvw', siegel_apply hB hvw]
   have key : (2 * (s * B x v)) • v = 0 := by rw [h2, zero_mul, zero_smul]
-  simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul]
+  simp only [map_add, map_smul, smul_eq_mul]
   linear_combination (norm := module) key
 
 theorem siegel_apply_sub {K V : Type*} [Field K] [AddCommGroup V] [Module K V]
@@ -35,7 +35,7 @@ theorem card_le_of_no_c2 {K V : Type*} [Field K] [Finite K] [CharP K 2] [AddComm
       c = 0 ∨ ∃ s : K, w = s • u) :
     Nat.card ↥P ≤ Nat.card K ^ (m - 1) := by
   have h2 : (2 : K) = 0 := by exact_mod_cast CharP.cast_eq_zero K 2
-  haveI : Finite V := Module.finite_of_finite K
+  have : Finite V := Module.finite_of_finite K
   have hK : 0 < Nat.card K := Nat.card_pos
   have hrep : ∀ g ∈ P, ∃ w c, B u w = 0 ∧ siegel B hB u w c = g :=
     fun g hg => mem_pointRadical.mp (hP hg)

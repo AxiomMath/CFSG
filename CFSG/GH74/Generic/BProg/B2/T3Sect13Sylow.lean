@@ -130,7 +130,7 @@ theorem exists_sylow_between (hs : Stage2Setup G x K A M P Q) (h2 : Stage2Concl2
   have hAel : IsElementaryAbelian 2 ↥A := hA.1.2.1
   have hA2 : IsPGroup 2 ↥A := IsElementaryAbelian.isPGroup 2 A
   obtain ⟨T₀, hAT₀⟩ := hA2.exists_le_sylow
-  have hT₀M : (T₀ : Subgroup G) ≤ M := cor2_c h2 _ A T₀.isPGroup' hA hAT₀
+  have hT₀M : (T₀ : Subgroup G) ≤ M := cor2_c h2 _ A T₀.isPGroup hA hAT₀
   have hQp : IsPGroup 2 ↥(Q.subgroupOf M) := hs.sylowQ.isPGroup.comap_subtype
   obtain ⟨P', hP'⟩ := hQp.exists_le_sylow
   have hP₀ : IsSylowOf 2 ((P' : Subgroup ↥M).map M.subtype) M := ⟨P', rfl⟩
@@ -162,7 +162,7 @@ theorem sylow_center_of_c1 (hs : Stage2Setup G x K A M P Q) (hKM : K ≤ M) (hQM
   refine ⟨T, hQT, hTM, ?_⟩
   have hQsyl : IsSylowOf 2 Q (CMbar M K) := T3Rank.isSylowOf_CMbar hs hKM hH hc1
   have hTX : (T : Subgroup G) ⊓ CMbar M K = Q :=
-    hQsyl.eq_of_le (le_inf hQT hQsyl.le) inf_le_right T.isPGroup'.to_inf_left
+    hQsyl.eq_of_le (le_inf hQT hQsyl.le) inf_le_right T.isPGroup.to_inf_left
   have hrQ : pRank 2 ↥Q ≤ 1 := by
     rw [← Thm2Comp.pRank_eq_pRank_sylow hQsyl]; exact hr
   intro t ht

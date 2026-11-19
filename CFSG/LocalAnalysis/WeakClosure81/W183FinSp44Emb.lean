@@ -41,7 +41,7 @@ private theorem w183finSp44Emb_map_innAutOf {M M' : Type} [Group M] [Group M'] (
 theorem exists_emb (Y : Type) [Group Y] [Finite Y] (L : Subgroup Y) (hLn : L.Normal)
     (hSp : IsSp4 ↥L 2) (hC : Subgroup.centralizer (L : Set Y) = ⊥) :
     ∃ f : Y →* MulAut S4, Function.Injective f ∧ L.map f = innAutOf S4 := by
-  letI : L.Normal := hLn
+  let : L.Normal := hLn
   obtain ⟨e⟩ := isSp4_equiv_S4 hSp
   let f : Y →* MulAut S4 := (MulAut.congr e).toMonoidHom.comp (MulAut.conjNormal : Y →* MulAut ↥L)
   refine ⟨f, ?_, ?_⟩

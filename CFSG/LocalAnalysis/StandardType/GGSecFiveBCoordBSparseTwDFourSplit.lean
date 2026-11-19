@@ -35,6 +35,7 @@ open CFSG.LieType.Universal.Spin
 
 variable {G F : Type} [Group G] [Finite G] [Field F] [Finite F] [CharP F 2] {b c : F}
 
+omit [Finite G] in
 theorem exists_injective_split_completion_of_node_crossing (r : ℕ) (hr : 3 ≤ r)
     (hirr : ∀ s : F, s ^ 2 + b * s + c ≠ 0) (hcard : 2 < Nat.card F)
     (a : chartSubgroup (n := r + 2) (F := F) (b := b) (c := c) (deletionPlanes r) →* G)

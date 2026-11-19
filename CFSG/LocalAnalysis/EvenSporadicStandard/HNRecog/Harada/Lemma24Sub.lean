@@ -11,7 +11,7 @@ open Subgroup CFSG.GH74.Uniqueness.SU.SU5
 
 variable {G : Type} [Group G]
 
-@[expose] abbrev Y24 (a : G) : Type := ↥(centralizer ({a} : Set G))
+abbrev Y24 (a : G) : Type := ↥(centralizer ({a} : Set G))
 
 @[expose] def aY (a : G) : Y24 a :=
   ⟨a, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩

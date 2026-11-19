@@ -17,7 +17,7 @@ theorem GGTorusTorData.card_le {p m N : ℕ} (hp : p.Prime) (hm : m ≠ 0)
     {A : Subgroup (MulAut L')} (hA : IsElemAbelian p A) (h : GGTorusTorData m N C M L' A) :
     Nat.card A ≤ p ^ N := by
   classical
-  haveI : NeZero m := ⟨hm⟩
+  have : NeZero m := ⟨hm⟩
   obtain ⟨w, hw⟩ := h
   obtain ⟨-, hAT, -, hhom, -, -, -, -, -, -, hsep, -⟩ := hw
   have hone : ∀ k, w.α k 1 = 1 := fun k => ggTor_alpha_one w.T (w.α k) (hhom k)
@@ -93,7 +93,7 @@ theorem dvd_add_of_split_twisted {p : ℕ} (hp3 : p ≠ 3) {lab : LargeEvenLabel
 theorem ggTorEnn_eq_zero_of_dvd_sub {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {lab : LargeEvenLabel}
     (h : p ∣ 2 ^ lab.n - 1) : ggTorEnn p lab = 0 := by
   unfold ggTorEnn
-  rw [if_neg (not_dvd_two_pow_add_one_of_dvd_sub hp hp2 h)]
+  rw [ite_eq_right (not_dvd_two_pow_add_one_of_dvd_sub hp hp2 h)]
 
 theorem ggTorEnn_le_one (p : ℕ) (lab : LargeEvenLabel) : ggTorEnn p lab ≤ 1 := by
   unfold ggTorEnn
@@ -311,7 +311,7 @@ private theorem row_bounds_core {G : Type} [Group G] [Finite G] {p r ℓ N : ℕ
     (hp : p.Prime) (hBsE : IsElemAbelian p Bs) (hBlt : B < Bs)
     (hB : p ^ (r + 1) ≤ Nat.card B) (hBs : Nat.card Bs ≤ p ^ (N + 1))
     (hcard : Nat.card Bs = p ^ ℓ) : r + 2 ≤ ℓ ∧ ℓ ≤ N + 1 := by
-  letI : Fact p.Prime := ⟨hp⟩
+  let : Fact p.Prime := ⟨hp⟩
   have hmul := mul_card_le_card_of_lt hp hBsE hBlt
   have hpow : p ^ (r + 2) ≤ p ^ ℓ := by
     calc

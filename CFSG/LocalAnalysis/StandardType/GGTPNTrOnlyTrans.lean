@@ -16,7 +16,7 @@ theorem ggTPNOnlyComp_of_amb {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.P
     (hn : GGNbr p B x D J y K) (hx : x ∈ Subgroup.normalizer (K : Set G))
     (h : ∀ S : Subgroup G, LargeEvenPComponent p (Subgroup.centralizer (D : Set G)) S → S = J) :
     GGTPNOnlyComp p (K.normalizerMonoidHom ⟨x, hx⟩) (J.subgroupOf K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro J' hJ'
   have hKle : K ≤ Subgroup.centralizer ({y} : Set G) := hn.1.2.2.2.1
   have hKpc : LargeEvenPComponent p (Subgroup.centralizer ({y} : Set G)) K := hn.1.2.2.2.2.1

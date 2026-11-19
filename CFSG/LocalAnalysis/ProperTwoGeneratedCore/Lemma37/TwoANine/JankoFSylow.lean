@@ -47,7 +47,7 @@ theorem S₁_quaternion : Nonempty (S₁ e ≃* QuaternionGroup 4) := by
     have hb := eq_z_of_mem_F hz hH e _ (b.1 : F e).2
       (by rw [Subgroup.orderOf_coe, Subgroup.orderOf_coe]; exact b.2)
     exact Subtype.ext (Subtype.ext (Subtype.ext (ha.trans hb.symm)))
-  rcases rank_one_two_cyclic_or_quaternion (default : Sylow 2 (F e)).isPGroup' hrank with
+  rcases rank_one_two_cyclic_or_quaternion (default : Sylow 2 (F e)).isPGroup hrank with
     hcyc | ⟨n, -, ⟨φ⟩⟩
   · exfalso
     obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := (default : Sylow 2 (F e)))

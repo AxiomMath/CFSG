@@ -279,10 +279,10 @@ private theorem spHypMap_involutive (n j : ℕ) (h : 2 * j ≤ n) :
   intro a
   by_cases ha : a.val < 2 * j
   · have h1 : a.val ^^^ 1 < 2 * j := xor_one_lt_of_lt_two_mul ha
-    simp only [spHypMap, dif_pos ha, dif_pos h1]
+    simp only [spHypMap, dite_eq_left ha, dite_eq_left h1]
     apply Fin.ext
     simp only [Nat.xor_assoc, Nat.xor_self, Nat.xor_zero]
-  · simp only [spHypMap, dif_neg ha]
+  · simp only [spHypMap, dite_eq_right ha]
 
 private def spHypPerm (n j : ℕ) (h : 2 * j ≤ n) : Equiv.Perm (Fin n) :=
   Function.Involutive.toPerm (spHypMap n j h) (spHypMap_involutive n j h)
@@ -291,12 +291,12 @@ private theorem spHypPerm_apply_of_lt {n j : ℕ} (h : 2 * j ≤ n) {a : Fin n}
     (ha : a.val < 2 * j) :
     spHypPerm n j h a = ⟨a.val ^^^ 1, lt_of_lt_of_le (xor_one_lt_of_lt_two_mul ha) h⟩ := by
   show spHypMap n j h a = _
-  rw [spHypMap, dif_pos ha]
+  rw [spHypMap, dite_eq_left ha]
 
 private theorem spHypPerm_apply_of_not_lt {n j : ℕ} (h : 2 * j ≤ n) {a : Fin n}
     (ha : ¬ a.val < 2 * j) : spHypPerm n j h a = a := by
   show spHypMap n j h a = a
-  rw [spHypMap, dif_neg ha]
+  rw [spHypMap, dite_eq_right ha]
 
 private theorem spHypPerm_apply_apply {n j : ℕ} (h : 2 * j ≤ n) (a : Fin n) :
     spHypPerm n j h (spHypPerm n j h a) = a :=
@@ -354,10 +354,10 @@ private theorem spHypIdem_apply {n j : ℕ} (h : 2 * j ≤ n) (a b : Fin n) :
   simp only [spHypIdem, Matrix.of_apply]
   by_cases hb : b = spHypPerm n j h a
   · by_cases ha : a.val < 2 * j
-    · rw [if_pos hb, if_pos ha, if_pos ((spHypIdem_cond h a b).mpr ⟨hb, ha⟩)]
-    · rw [if_pos hb, if_neg ha,
-        if_neg (fun hc => ha ((spHypIdem_cond h a b).mp hc).2)]
-  · rw [if_neg hb, if_neg (fun hc => hb ((spHypIdem_cond h a b).mp hc).1)]
+    · rw [ite_eq_left hb, ite_eq_left ha, ite_eq_left ((spHypIdem_cond h a b).mpr ⟨hb, ha⟩)]
+    · rw [ite_eq_left hb, ite_eq_right ha,
+        ite_eq_right (fun hc => ha ((spHypIdem_cond h a b).mp hc).2)]
+  · rw [ite_eq_right hb, ite_eq_right (fun hc => hb ((spHypIdem_cond h a b).mp hc).1)]
 
 omit [Finite K] [CharP K 2] in
 private theorem spHypIdem_sq {n j : ℕ} (h : 2 * j ≤ n) :
@@ -366,22 +366,22 @@ private theorem spHypIdem_sq {n j : ℕ} (h : 2 * j ≤ n) :
   rw [pow_two, Matrix.mul_apply, Matrix.diagonal_apply]
   have hπ : spHypPerm n j h (spHypPerm n j h a) = a := spHypPerm_apply_apply h a
   rw [Finset.sum_eq_single (spHypPerm n j h a)]
-  · rw [spHypIdem_apply h a (spHypPerm n j h a), if_pos rfl]
+  · rw [spHypIdem_apply h a (spHypPerm n j h a), ite_eq_left rfl]
     by_cases ha : a.val < 2 * j
-    · rw [if_pos ha]
+    · rw [ite_eq_left ha]
       have hpa : (spHypPerm n j h a).val < 2 * j := by
         rw [spHypPerm_apply_of_lt h ha]; exact xor_one_lt_of_lt_two_mul ha
-      rw [spHypIdem_apply h (spHypPerm n j h a) b, hπ, if_pos hpa]
+      rw [spHypIdem_apply h (spHypPerm n j h a) b, hπ, ite_eq_left hpa]
       by_cases hb : b = a
-      · rw [if_pos hb, hb, if_pos rfl, one_mul]
-      · rw [if_neg hb, if_neg (fun hab : a = b => hb hab.symm), mul_zero]
-    · rw [if_neg ha]
+      · rw [ite_eq_left hb, hb, ite_eq_left rfl, one_mul]
+      · rw [ite_eq_right hb, ite_eq_right (fun hab : a = b => hb hab.symm), mul_zero]
+    · rw [ite_eq_right ha]
       rw [spHypIdem_apply h (spHypPerm n j h a) b, hπ]
       by_cases hb : b = a
-      · rw [if_pos hb, hb, if_pos rfl, zero_mul]
-      · rw [if_neg hb, if_neg (fun hab : a = b => hb hab.symm), mul_zero]
+      · rw [ite_eq_left hb, hb, ite_eq_left rfl, zero_mul]
+      · rw [ite_eq_right hb, ite_eq_right (fun hab : a = b => hb hab.symm), mul_zero]
   · intro c _ hc
-    rw [spHypIdem_apply h a c, if_neg hc, zero_mul]
+    rw [spHypIdem_apply h a c, ite_eq_right hc, zero_mul]
   · intro hmem
     exact absurd (Finset.mem_univ _) hmem
 
@@ -408,12 +408,12 @@ private theorem spHypIdem_permMatrix_inl_inl {n j : ℕ} (h : 2 * j ≤ n) (a b 
     PEquiv.toMatrix_toPEquiv_apply, Pi.single_apply, Equiv.eq_symm_apply, spMonoPerm_inl]
   by_cases hb : b.val < 2 * j
   · have hs : ¬ (if b.val < 2 * j then (-1 : ℤ) else 1) = 1 := by simp [hb]
-    rw [if_neg hs]
+    rw [ite_eq_right hs]
     by_cases hab : a = b
     · subst hab; simp [hb]
     · simp [hab]
   · have hs : (if b.val < 2 * j then (-1 : ℤ) else 1) = 1 := by simp [hb]
-    rw [if_pos hs, spHypPerm_apply_of_not_lt h hb]
+    rw [ite_eq_left hs, spHypPerm_apply_of_not_lt h hb]
     by_cases hab : a = b
     · subst hab; simp [hb]
     · simp [hab, Ne.symm hab]
@@ -429,21 +429,21 @@ private theorem spHypIdem_permMatrix_inl_inr {n j : ℕ} (h : 2 * j ≤ n) (a b 
     PEquiv.toMatrix_toPEquiv_apply, Pi.single_apply, Equiv.eq_symm_apply, spMonoPerm_inr]
   by_cases hb : b.val < 2 * j
   · have hs : ¬ (if b.val < 2 * j then (-1 : ℤ) else 1) = 1 := by simp [hb]
-    rw [if_neg hs]
+    rw [ite_eq_right hs]
     simp only [Sum.inl.injEq]
     simp only [spHypPerm_eq_iff h a b]
     by_cases hba : b = spHypPerm n j h a
     · have ha : a.val < 2 * j := (spHypPerm_val_lt h a).mp (by rw [← hba]; exact hb)
       simp [hba, ha]
-    · rw [if_neg hba, if_neg hba]
+    · rw [ite_eq_right hba, ite_eq_right hba]
   · have hs : (if b.val < 2 * j then (-1 : ℤ) else 1) = 1 := by simp [hb]
-    rw [if_pos hs, spHypPerm_apply_of_not_lt h hb]
+    rw [ite_eq_left hs, spHypPerm_apply_of_not_lt h hb]
     by_cases hba : b = spHypPerm n j h a
     · have ha : ¬ a.val < 2 * j :=
         fun ha => hb (by rw [hba]; exact (spHypPerm_val_lt h a).mpr ha)
-      rw [if_pos hba, if_neg ha]
+      rw [ite_eq_left hba, ite_eq_right ha]
       simp
-    · rw [if_neg hba]
+    · rw [ite_eq_right hba]
       simp
 
 omit [Finite K] [CharP K 2] in
@@ -457,21 +457,21 @@ private theorem spHypIdem_permMatrix_inr_inl {n j : ℕ} (h : 2 * j ≤ n) (a b 
     PEquiv.toMatrix_toPEquiv_apply, Pi.single_apply, Equiv.eq_symm_apply, spMonoPerm_inl]
   by_cases hb : b.val < 2 * j
   · have hs : ¬ (if b.val < 2 * j then (-1 : ℤ) else 1) = 1 := by simp [hb]
-    rw [if_neg hs]
+    rw [ite_eq_right hs]
     simp only [Sum.inr.injEq]
     simp only [spHypPerm_eq_iff h a b]
     by_cases hba : b = spHypPerm n j h a
     · have ha : a.val < 2 * j := (spHypPerm_val_lt h a).mp (by rw [← hba]; exact hb)
       simp [hba, ha]
-    · rw [if_neg hba, if_neg hba]
+    · rw [ite_eq_right hba, ite_eq_right hba]
   · have hs : (if b.val < 2 * j then (-1 : ℤ) else 1) = 1 := by simp [hb]
-    rw [if_pos hs, spHypPerm_apply_of_not_lt h hb]
+    rw [ite_eq_left hs, spHypPerm_apply_of_not_lt h hb]
     by_cases hba : b = spHypPerm n j h a
     · have ha : ¬ a.val < 2 * j :=
         fun ha => hb (by rw [hba]; exact (spHypPerm_val_lt h a).mpr ha)
-      rw [if_pos hba, if_neg ha]
+      rw [ite_eq_left hba, ite_eq_right ha]
       simp
-    · rw [if_neg hba]
+    · rw [ite_eq_right hba]
       simp
 
 omit [Finite K] [CharP K 2] in
@@ -485,12 +485,12 @@ private theorem spHypIdem_permMatrix_inr_inr {n j : ℕ} (h : 2 * j ≤ n) (a b 
     PEquiv.toMatrix_toPEquiv_apply, Pi.single_apply, Equiv.eq_symm_apply, spMonoPerm_inr]
   by_cases hb : b.val < 2 * j
   · have hs : ¬ (if b.val < 2 * j then (-1 : ℤ) else 1) = 1 := by simp [hb]
-    rw [if_neg hs]
+    rw [ite_eq_right hs]
     by_cases hab : a = b
     · subst hab; simp [hb]
     · simp [hab]
   · have hs : (if b.val < 2 * j then (-1 : ℤ) else 1) = 1 := by simp [hb]
-    rw [if_pos hs, spHypPerm_apply_of_not_lt h hb]
+    rw [ite_eq_left hs, spHypPerm_apply_of_not_lt h hb]
     by_cases hab : a = b
     · subst hab; simp [hb]
     · simp [hab, Ne.symm hab]
@@ -637,8 +637,8 @@ private theorem exists_conj_hyp {n : ℕ} (hn : 2 ≤ n) {y g₁ : StatedSp n K}
     ext a b
     simp only [Matrix.transpose_apply, Matrix.of_apply]
     by_cases h : a.val < 2 * j ∧ b.val < 2 * j ∧ a.val / 2 = b.val / 2 ∧ a ≠ b
-    · rw [if_pos h, if_pos ⟨h.2.1, h.1, h.2.2.1.symm, fun hba => h.2.2.2 hba.symm⟩]
-    · rw [if_neg h, if_neg fun h' =>
+    · rw [ite_eq_left h, ite_eq_left ⟨h.2.1, h.1, h.2.2.1.symm, fun hba => h.2.2.2 hba.symm⟩]
+    · rw [ite_eq_right h, ite_eq_right fun h' =>
         h ⟨h'.2.1, h'.1, h'.2.2.1.symm, fun hab => h'.2.2.2 hab.symm⟩]
   have hN3 : N ^ 3 = N := by rw [hNdef]; exact spHypIdem_cube hjn
   have hw : mat n K (m * y' * m⁻¹) = Matrix.fromBlocks 1 N 0 1 := by rw [hlevi, hPS]

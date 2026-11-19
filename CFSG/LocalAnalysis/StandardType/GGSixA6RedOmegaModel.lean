@@ -186,10 +186,10 @@ theorem ggA6_omega_model (t : StatedLieTag) (ht : t = .POmegaPlus ∨ t = .POmeg
     have hSC : CFSG.Open.StatedClassicalModel (G ⧸ Subgroup.center G) .POmegaPlus n 2 f :=
       CFSG.Blueprint.LieModel.statedClassicalModel hLie (by decide)
     obtain ⟨⟨h2prime, hf1, h4n⟩, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hSC
-    letI : Field K := hKf
-    letI : Finite K := hKfin
-    haveI : Fact (Nat.Prime 2) := ⟨h2prime⟩
-    haveI : CharP K 2 := CFSG.SectionRank.charP_of_natCard_eq_pow (K := K) (p := 2) (f := f) hKcard
+    let : Field K := hKf
+    let : Finite K := hKfin
+    have : Fact (Nat.Prime 2) := ⟨h2prime⟩
+    have : CharP K 2 := CFSG.SectionRank.charP_of_natCard_eq_pow (K := K) (p := 2) (f := f) hKcard
     have hn : 1 ≤ n := by omega
     have hbot : (CFSG.Open.StatedScalars (Fin n ⊕ Fin n) K).subgroupOf
         (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadPlus n K)) = ⊥ :=
@@ -213,10 +213,10 @@ theorem ggA6_omega_model (t : StatedLieTag) (ht : t = .POmegaPlus ∨ t = .POmeg
     have hSC : CFSG.Open.StatedClassicalModel (G ⧸ Subgroup.center G) .POmegaMinus n 2 f :=
       CFSG.Blueprint.LieModel.statedClassicalModel hLie (by decide)
     obtain ⟨⟨h2prime, hf1, h4n⟩, K, hKf, hKfin, hKcard, b, c, hirr, ⟨e⟩⟩ := hSC
-    letI : Field K := hKf
-    letI : Finite K := hKfin
-    haveI : Fact (Nat.Prime 2) := ⟨h2prime⟩
-    haveI : CharP K 2 := CFSG.SectionRank.charP_of_natCard_eq_pow (K := K) (p := 2) (f := f) hKcard
+    let : Field K := hKf
+    let : Finite K := hKfin
+    have : Fact (Nat.Prime 2) := ⟨h2prime⟩
+    have : CharP K 2 := CFSG.SectionRank.charP_of_natCard_eq_pow (K := K) (p := 2) (f := f) hKcard
     obtain ⟨v₀, hv₀⟩ := CFSG.RankThree.CentralLift.exists_quadMinus_ne_zero (K := K) n b c
     have hbot : (CFSG.Open.StatedScalars (Fin (n - 1) ⊕ Fin (n - 1) ⊕ Fin 2) K).subgroupOf
         (CFSG.Open.StatedOmega (CFSG.Open.StatedQuadMinus n K b c)) = ⊥ :=

@@ -22,8 +22,8 @@ theorem exists_irreducible_dvd_cyclotomic {K : Type} [Field K] {p : ℕ} (hp : p
 theorem galExp_ne_bot {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.Prime) (hpK0 : (p : K) ≠ 0)
     (hpK : ¬ p ∣ Nat.card K - 1) (g : Polynomial K) [Fact (Irreducible g)]
     (hζ : AdjoinRoot.root g ^ p = 1) : CoordSL.galExp g hζ ≠ ⊥ := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hpdvd : ¬ p ∣ Nat.card K := by
     intro hdiv
     obtain ⟨c, hchar, n, hcprime, hcard⟩ := FiniteField.card' K
@@ -44,8 +44,8 @@ theorem galExp_ne_bot {K : Type} [Field K] [Finite K] {p : ℕ} (hp : p.Prime) (
       simpa using h1
     exact hpK ((Nat.modEq_iff_dvd' hcard1).mp hmod.symm)
   have hu_ne : u ≠ 1 := fun h => hne (by rw [← hval, h, Units.val_one])
-  haveI : Module.Finite K (AdjoinRoot g) := (CoordSL.rootPB g).finite
-  haveI : Finite (AdjoinRoot g) := Module.finite_of_finite K
+  have : Module.Finite K (AdjoinRoot g) := (CoordSL.rootPB g).finite
+  have : Finite (AdjoinRoot g) := Module.finite_of_finite K
   have hroot : (FiniteField.frobeniusAlgEquivOfAlgebraic K (AdjoinRoot g)) (AdjoinRoot.root g) =
       AdjoinRoot.root g ^ (u : ZMod p).val := by
     rw [FiniteField.coe_frobeniusAlgEquivOfAlgebraic]
@@ -81,10 +81,10 @@ theorem CoordSL.range_frameHom_of_sc {G : Type} [Group G] {n e s r p : ℕ} {F :
 theorem ggSCWeylIrred_specialLinear {d p : ℕ} {K : Type} [Field K] [Finite K] (hp : p.Prime)
     (hpK0 : (p : K) ≠ 0) (hpK : ¬ p ∣ Nat.card K - 1) :
     GGSCWeylIrred p 0 (Matrix.SpecialLinearGroup (Fin d) K) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro E hE _ _ hsc
   obtain ⟨g, hg, hgd⟩ := exists_irreducible_dvd_cyclotomic (K := K) hp
-  haveI : Fact (Irreducible g) := ⟨hg⟩
+  have : Fact (Irreducible g) := ⟨hg⟩
   have hζ : AdjoinRoot.root g ^ p = 1 := (CoordSL.root_isPrimitiveRoot hp hpK0 hgd).pow_eq_one
   have hC : (CoordSL.rootMat g).det = 1 := CoordSL.det_rootMat hp hpK hpK0 hgd
   have hCp : CoordSL.rootMat g ^ p = 1 := CoordSL.rootMat_pow_eq_one hp hpK0 hgd

@@ -9,7 +9,7 @@ namespace CFSG.StandardType
 open Matrix
 
 theorem ggNSPosPA_monomial_of_conj_torus
-    {K : Type} [Field K] [CharP K 2] {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hn : 2 ≤ n)
+    {K : Type} [Field K] [CharP K 2] {p n : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (_hn : 2 ≤ n)
     (ζ : Kˣ) (hζ : orderOf ζ = p) (x : GL (Fin n) K)
     (h : ∀ v : Fin n → ℕ, p ∣ ∑ i, v i →
       ∃ d : Fin n → K,
@@ -48,7 +48,7 @@ theorem ggNSPosPA_monomial_of_conj_torus
     exact Matrix.isDiag_diagonal d
   refine ⟨t, hmem, ?_⟩
   have hti : t i = ζ := by simp [t, v, hij]
-  have htj : t j = ζ ^ (p - 1) := by simp [t, v, hij, Ne.symm hij]
+  have htj : t j = ζ ^ (p - 1) := by simp [t, v, Ne.symm hij]
   rw [hti, htj]
   intro hcon
   have hpow : ζ ^ (p - 2) = 1 := by

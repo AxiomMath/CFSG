@@ -59,10 +59,10 @@ theorem lanes_mul_testBitQ : ∀ (n Z c : ℕ), c < 2 ^ 12 → ∀ j b, b < 12 �
         _ < 2 ^ 12 := by omega
     rw [Nat.add_comm ((Z &&& 1) * c), Nat.testBit_two_pow_mul_add _ h1]
     rcases j with _ | j
-    · simp only [Nat.mul_zero, Nat.zero_add, hb, if_true, and_one_mul_testBitQ Z c b]
+    · simp only [Nat.mul_zero, Nat.zero_add, hb, ite_true, and_one_mul_testBitQ Z c b]
       simp
     · have hj : ¬ (12 * (j + 1) + b < 12) := by omega
-      rw [if_neg hj, show 12 * (j + 1) + b - 12 = 12 * j + b by omega,
+      rw [ite_eq_right hj, show 12 * (j + 1) + b - 12 = 12 * j + b by omega,
         lanes_mul_testBitQ n (Z >>> 12) c hc j b hb, Nat.testBit_shiftRight]
       rw [show 12 + 12 * j = 12 * (j + 1) by omega]
       simp
@@ -319,9 +319,9 @@ theorem stepRelQ (gens : List (List ℕ)) (hg : gens.all (validB 12) = true)
     rfl
   rw [hy, h1 _ hlt]
   by_cases hc : memP b1 (mulQ ((gens.map codeQ).getD i oneQ) x) = true
-  · rw [if_pos hc, if_pos hc]
+  · rw [ite_eq_left hc, ite_eq_left hc]
     exact ⟨h2, h3, h4, h5, h6, h1⟩
-  · rw [if_neg hc, if_neg hc]
+  · rw [ite_eq_right hc, ite_eq_right hc]
     refine ⟨?_, ?_, ?_, ?_, ?_, ?_⟩
     · simp only [List.map_cons, h2, hev, hy]
     · simp only [List.map_cons, h3]

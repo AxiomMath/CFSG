@@ -14,12 +14,12 @@ open CFSG.ComponentClassification.FixedCommutingProduct (fixedSubgroup)
 
 theorem a6_psl_graphField (hO : LieOrderFormulasInput) {n f : ℕ} {K : Type} [Field K] [Finite K]
     (hK : Nat.card K = 3 ^ f) (hn : 3 ≤ n) (hadm : StatedLieAdmissible .PSL n 3 f)
-    (hm : LieModel (ProjectiveSpecialLinearGroup (Fin n) K) .PSL n 3 f)
+    (_hm : LieModel (ProjectiveSpecialLinearGroup (Fin n) K) .PSL n 3 f)
     (A : GL (Fin n) K) (σ : K ≃+* K) (hσ1 : σ ≠ 1)
     (hord : orderOf (graphFieldAction n K A σ) = 2)
     (D : Subgroup ↥(fixedSubgroup (graphFieldAction n K A σ)))
     (hD : A6Hyp (graphFieldAction n K A σ) D) : False := by
-  clear hm
+  clear _hm
   obtain ⟨hDc, hDZ⟩ := hD.component
   obtain ⟨j, -, hadm', hmodel⟩ :=
     CatLeafProof.X10Lin.graphField_psl_component_model (p := 3) hn Nat.prime_three

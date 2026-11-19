@@ -195,7 +195,7 @@ theorem ggL48TBForm5RowE_holds
   intro p lab _ hlab _ _ hrow
   obtain ⟨ht, hp, h3⟩ := hrow
   subst hp
-  simpa only [GGL48TB0Rank, ht, if_true] using
+  simpa only [GGL48TB0Rank, ht, ite_true] using
     largeEvenLabelAll_torusGenRk_twE6_three hlab ht h3
 
 end CFSG.StandardType

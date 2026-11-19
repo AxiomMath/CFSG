@@ -170,7 +170,7 @@ public theorem CFSG.section10_prime_not_dvd_maximal_index_of_mem_sigma
   have hPGp : IsPGroup p.val PG := by
     change IsPGroup p.val ((P : Subgroup M).map M.subtype)
     simpa using
-      (IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup' M.subtype)
+      (IsPGroup.map (p := p.val) (H := (P : Subgroup M)) P.isPGroup M.subtype)
   obtain ⟨S, hPGS⟩ := IsPGroup.exists_le_sylow (G := G) (p := p.val) hPGp
   have hS_eq_PG : (S : Subgroup G) = PG := by
     simpa [PG] using section10_sigma_ambient_sylow_eq_of_le_sylow hpσ P S hPGS

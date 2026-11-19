@@ -31,7 +31,7 @@ theorem endg_abelian_of (h : EndgameHyp X A R N H t)
       (∃ k ∈ Kp, ∃ c ∈ Cj, k * c ≠ c * k) → False) : False := by
   classical
   obtain ⟨T, hT⟩ := hSyl
-  haveI := h.H_normal
+  have := h.H_normal
   have hA2 : IsPGroup 2 A := fun a => ⟨1, Subtype.ext (by simpa [pow_two] using h.A_sq a a.2)⟩
   have hA1 : A ≠ ⊥ := fun hb => h.t_ne (by
     have := h.t_mem
@@ -57,7 +57,7 @@ theorem endg_abelian_of (h : EndgameHyp X A R N H t)
   have hab : IsMulCommutative ↥(CFSG.LargeExtraspecial.S11.wcl z) :=
     ⟨⟨fun a b => Subtype.ext (hEab a (hwcl a.2) b (hwcl b.2))⟩⟩
   set U : Subgroup X := Subgroup.normalClosure ({z} : Set X) with hU
-  haveI hUn : U.Normal := Subgroup.normalClosure_normal
+  have hUn : U.Normal := Subgroup.normalClosure_normal
   have hzH : z ∈ H := h.R_le_H (h.A_le_R hzA)
   have hUH : U ≤ H := Subgroup.normalClosure_le_normal (Set.singleton_subset_iff.mpr hzH)
   have hzU : z ∈ U := Subgroup.subset_normalClosure (Set.mem_singleton z)
@@ -67,7 +67,7 @@ theorem endg_abelian_of (h : EndgameHyp X A R N H t)
   set 𝒦 : Set (Subgroup X) := {C | IsComponent C ∧ C ≤ U} with h𝒦
   obtain ⟨F, hFcard, hF⟩ := h.count
   have h𝒦F : 𝒦 ⊆ (F : Set (Subgroup X)) := fun C hC => by simpa using hF C hC.1
-  haveI : Finite ↥𝒦 := (Finset.finite_toSet F).subset h𝒦F |>.to_subtype
+  have : Finite ↥𝒦 := (Finset.finite_toSet F).subset h𝒦F |>.to_subtype
   have hcard : Nat.card ↥𝒦 ≤ 4 := by
     rw [Nat.card_coe_set_eq]
     calc 𝒦.ncard ≤ (F : Set (Subgroup X)).ncard := Set.ncard_le_ncard h𝒦F (Finset.finite_toSet F)
@@ -172,7 +172,7 @@ theorem endg_abelian_of (h : EndgameHyp X A R N H t)
       endg_split_elem hCD hbot hZ hzCD (h.A_sq z hzA) hKz hKCe hKD
     have ha1 : a ≠ 1 := fun ha => hCz (hiff.mpr ha)
     have hgold := hsimp Cj hCjc hCjU
-    haveI := hCs
+    have := hCs
     have e : ↥Cj ≃* ↥Cj ⧸ Subgroup.center ↥Cj :=
       ((QuotientGroup.quotientMulEquivOfEq hcen).trans QuotientGroup.quotientBot).symm
     obtain ⟨hout, hdich⟩ := endg_gold_facts (endg_goldschmidtSimpleType_congr e hgold)

@@ -42,7 +42,7 @@ private theorem conjugate_family_card
       X = P.map (MulAut.conj g).toMonoidHom} =
       (Subgroup.normalizer (P : Set G)).index := by
   classical
-  letI : MulAction G (Subgroup G) :=
+  let : MulAction G (Subgroup G) :=
     { smul := fun g H => H.map (MulAut.conj g).toMonoidHom
       one_smul := by
         intro H
@@ -117,7 +117,7 @@ public theorem secondCase_linearEquation11_region_inequality
     (∃ g : G, Y = P.map (MulAut.conj g).toMonoidHom) ∧ Adm X.1 Y}
   let ConjP : Type u := {Y : Subgroup G // ∃ g : G,
     Y = P.map (MulAut.conj g).toMonoidHom}
-  letI : Fintype (Subgroup G) := Fintype.ofFinite (Subgroup G)
+  let : Fintype (Subgroup G) := Fintype.ofFinite (Subgroup G)
   let Lle : ∀ X : Xs, L ≤ Fintype.card (Ys X) := fun X =>
     by
       have h1 : L ≤ Nat.card (Ys X) := by

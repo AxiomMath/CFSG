@@ -183,9 +183,9 @@ private theorem wordPF_lt {n w : Nat} (Ps : List Nat)
     intro x hx
     show (if c < Ps.length then fd w (Ps.getD c 0) (wordPF w Ps wd x) else wordPF w Ps wd x) < n
     by_cases hc : c < Ps.length
-    · rw [if_pos hc]
+    · rw [ite_eq_left hc]
       exact hPs c hc _ (ih x hx)
-    · rw [if_neg hc]
+    · rw [ite_eq_right hc]
       exact ih x hx
 
 private theorem wordP_nil (n w : Nat) (Ps : List Nat) :
@@ -218,8 +218,8 @@ theorem wordP_eq_of_maps {n w : Nat} (hw : n ≤ 2 ^ w) (Ps : List Nat)
     rw [fd_enc (fun i hi => Nat.lt_of_lt_of_le (hlt i hi) hw) hx]
     show _ = (if c < Ps.length then fd w (Ps.getD c 0) (wordPF w Ps wd x) else wordPF w Ps wd x)
     by_cases hc : c < Ps.length
-    · rw [if_pos hc, if_pos hc]
-    · rw [if_neg hc, if_neg hc, idP_eq hw,
+    · rw [ite_eq_left hc, ite_eq_left hc]
+    · rw [ite_eq_right hc, ite_eq_right hc, idP_eq hw,
         fd_enc (fun i hi => Nat.lt_of_lt_of_le hi hw) (hlt x hx)]
 
 end CFSG.KS.PK

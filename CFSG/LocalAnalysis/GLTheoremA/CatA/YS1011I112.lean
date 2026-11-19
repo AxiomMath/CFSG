@@ -66,8 +66,8 @@ private theorem tri_quot_equiv {G : Type} [Group G] [Finite G] {X J : Subgroup G
     exact not_subsingleton_iff_nontrivial.2 hnt QuotientGroup.subsingleton_quotient_top
   have hOZ : GLAPPrimeCore 3 ↥J ≤ Subgroup.center ↥J :=
     le_center_of_normal_of_isQuasisimple hq inferInstance hOtop
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hq.2
-  haveI := hq.2.toNontrivial
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hq.2
+  have := hq.2.toNontrivial
   have hZbot : Subgroup.center (↥J ⧸ Subgroup.center ↥J) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (↥J ⧸ Subgroup.center ↥J)) with h | h
     · exact h
@@ -145,7 +145,7 @@ private theorem tri_odd_false {S : Type} [Group S] {q : TauCeti.PrimePower}
     (hv : (TauCeti.LieTypeIndex.trialityD4 q).Valid) (hp : q.p ≠ 2)
     (e : S ≃* TauCeti.ValidLieTypeIndex.Group ⟨.trialityD4 q, hv⟩) (hchev : IsChevSimple 2 S) :
     False := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hto : 0 < (CFSG.Blueprint.Chevalley.TwistTag.D4).order := by decide
   have hKc : Nat.card (GaloisField q.p (q.exponent * (CFSG.Blueprint.Chevalley.TwistTag.D4).order)) =
       (q.p ^ q.exponent) ^ (CFSG.Blueprint.Chevalley.TwistTag.D4).order := by

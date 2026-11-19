@@ -27,10 +27,11 @@ theorem transvection12_mem_Q2 (a : K) :
   refine ⟨CFSG.LocalAnalysis.ComponentInitial.LinearFlag.mem_unitriangular.2
     ⟨fun i k hik => ?_, fun i => ?_⟩, ?_⟩ <;>
     rw [Matrix.SpecialLinearGroup.transvection_coe]
-  · fin_cases i <;> fin_cases k <;> simp_all [Matrix.single_apply]
-  · fin_cases i <;> simp [Matrix.single_apply]
-  · simp [Matrix.single_apply]
+  · fin_cases i <;> fin_cases k <;> simp_all
+  · fin_cases i <;> simp
+  · simp
 
+omit [Finite K] [CharP K 2] in
 theorem QWs_eq_Q2 : QWs K = Q2 K := by
   apply le_antisymm
   · refine (Subgroup.closure_le _).2 ?_
@@ -53,6 +54,7 @@ theorem QWs_eq_Q2 : QWs K = Q2 K := by
     exact mul_mem (Subgroup.subset_closure ⟨_, Or.inl rfl⟩)
       (Subgroup.subset_closure ⟨_, Or.inr rfl⟩)
 
+omit [Finite K] [CharP K 2] in
 theorem QZs_eq_Q1 : QZs K = Q1 K := by
   apply le_antisymm
   · refine (Subgroup.closure_le _).2 ?_
@@ -75,12 +77,12 @@ theorem QZs_eq_Q1 : QZs K = Q1 K := by
     exact mul_mem (Subgroup.subset_closure ⟨_, Or.inl rfl⟩)
       (Subgroup.subset_closure ⟨_, Or.inr rfl⟩)
 
-theorem fixed_QW (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2) :
+theorem fixed_QW (_hn : 1 ≤ n) (_hK : Nat.card K = (2 ^ n) ^ 2) :
     {X : Matrix (Fin 3) (Fin 3) K |
         ∀ g ∈ QWs K, tw n (g : Matrix (Fin 3) (Fin 3) K) X = X} =
       {X | ∀ i j, (i = 2 ∨ j = 2) → X i j = 0} := by
   ext X
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · intro hX
     have g1 : SpecialLinearGroup.transvection (by decide : (0 : Fin 3) ≠ 2) (1 : K) ∈ QWs K :=

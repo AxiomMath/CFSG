@@ -32,8 +32,8 @@ theorem isNilpotent_comap_of_isPGroup {G H : Type} [Group G] [Finite G] [Group H
   have hrange : f.range ≤ T := by
     rintro _ ⟨x, rfl⟩
     exact x.2
-  haveI : Finite f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
-  haveI : Group.IsNilpotent ↥f.range := (hT.to_le hrange).isNilpotent
+  have : Finite f.range := Finite.of_surjective f.rangeRestrict f.rangeRestrict_surjective
+  have : Group.IsNilpotent ↥f.range := (hT.to_le hrange).isNilpotent
   refine Subgroup.isNilpotent_of_ker_le_center f.rangeRestrict ?_
   intro x hx
   have hx1 : π (x : G) = 1 := congrArg Subtype.val (MonoidHom.mem_ker.1 hx)
@@ -46,7 +46,7 @@ theorem exists_mul_of_comap_isPGroup {G H : Type} [Group G] [Finite G] [Group H]
     {T : Subgroup H} [T.Normal] (hT : IsPGroup 2 T) {g : G} (hg : π g ∈ T) :
     ∃ s ∈ CFSG.pCore 2 G, ∃ z ∈ π.ker, g = s * z := by
   have hnil := isNilpotent_comap_of_isPGroup π hker hT
-  haveI hNn : (T.comap π).Normal := inferInstance
+  have hNn : (T.comap π).Normal := inferInstance
   obtain ⟨k, hk⟩ := hT ⟨π g, hg⟩
   have hk' : π g ^ 2 ^ k = 1 := congrArg Subtype.val hk
   have hu : g ^ 2 ^ k ∈ π.ker := by rw [MonoidHom.mem_ker, map_pow, hk']

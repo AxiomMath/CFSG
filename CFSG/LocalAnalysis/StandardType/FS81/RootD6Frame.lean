@@ -24,7 +24,7 @@ private theorem nGen_mul_self (i : Fin 7) :
     rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_one]
     ext a b
     fin_cases a <;> fin_cases b <;>
-      simp [WSL, Matrix.mul_apply, Fin.sum_univ_two, CharTwo.neg_eq]
+      simp [WSL, Matrix.mul_apply, Fin.sum_univ_two]
   rw [nGen, ← map_mul, hW, map_one]
 
 private theorem isPGroup_closure_range_nGen :
@@ -71,7 +71,7 @@ private theorem nGen_conj_tE_update (i : Fin 7) (v : Fin 7 → ZMod 3) :
 private theorem nGen_mem_normalizer_tE_range (i : Fin 7) :
     nGen (ZMod 2) frameE7 i ∈
       Subgroup.normalizer ((tE (ZMod 2) frameE7).range : Set _) := by
-  haveI : Finite ↥((tE (ZMod 2) frameE7).range) :=
+  have : Finite ↥((tE (ZMod 2) frameE7).range) :=
     Finite.Set.finite_range (tE (ZMod 2) frameE7)
   refine Subgroup.mem_normalizer_fintype fun x hx => ?_
   obtain ⟨w, rfl⟩ := hx
@@ -90,7 +90,7 @@ private theorem closure_range_nGen_le_normalizer_tE_range :
 private theorem eq_single_of_forall_update_neg_eq_smul {v : Fin 7 → ZMod 3} (hv : v ≠ 0)
     (h : ∀ i : Fin 7, ∃ k : ZMod 3, Function.update v i (-v i) = k • v) :
     ∃ i₀ : Fin 7, v = Pi.single i₀ (v i₀) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hex : ∃ i, v i ≠ 0 := by
     by_contra hcon
     push Not at hcon

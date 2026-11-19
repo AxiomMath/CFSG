@@ -55,18 +55,18 @@ private theorem exists_sylow_center_involution (X : Type) [Group X] [Finite X]
     ∃ (P : Sylow 2 X) (t : X), t ∈ (P : Subgroup X) ∧
       (∀ s ∈ (P : Subgroup X), s * t = t * s) ∧ orderOf t = 2 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 X) := inferInstance
   have hfac : 0 < (Nat.card X).factorization 2 :=
     Nat.Prime.factorization_pos_of_dvd Nat.prime_two Nat.card_pos.ne' h2
-  haveI hnt : Nontrivial (P : Subgroup X) := by
+  have hnt : Nontrivial (P : Subgroup X) := by
     rw [← Finite.one_lt_card_iff_nontrivial, Sylow.card_eq_multiplicity P]
     calc (2 : ℕ) = 2 ^ 1 := by norm_num
       _ ≤ 2 ^ (Nat.card X).factorization 2 := Nat.pow_le_pow_right (by norm_num) hfac
   obtain ⟨c, hcZ, hc1⟩ : ∃ c ∈ Subgroup.center (P : Subgroup X), c ≠ 1 := by
-    obtain ⟨c, hc, hcn⟩ := SetLike.exists_of_lt (IsPGroup.bot_lt_center (P.isPGroup'))
+    obtain ⟨c, hc, hcn⟩ := _root_.IsConcreteLE.exists_of_lt (IsPGroup.bot_lt_center (P.isPGroup))
     exact ⟨c, hc, fun h => hcn (by rw [Subgroup.mem_bot]; exact h)⟩
-  have hdvd : 2 ∣ orderOf c := IsPGroup.dvd_orderOf (P.isPGroup') hc1
+  have hdvd : 2 ∣ orderOf c := IsPGroup.dvd_orderOf (P.isPGroup) hc1
   have hZdvd : 2 ∣ Nat.card (Subgroup.center (P : Subgroup X)) := by
     have h1 : orderOf (⟨c, hcZ⟩ : Subgroup.center (P : Subgroup X)) = orderOf c :=
       (Subgroup.orderOf_coe ⟨c, hcZ⟩).symm

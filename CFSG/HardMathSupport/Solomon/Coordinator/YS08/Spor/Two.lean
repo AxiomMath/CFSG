@@ -34,7 +34,7 @@ theorem sporL3DownInner_J3
 
 theorem sporL3DownInner_Ru
     (hbr : SporadicBridges) : SporL3DownInner .Ru := by
-  haveI : Finite ruP := Nat.finite_of_card_ne_zero (by
+  have : Finite ruP := Nat.finite_of_card_ne_zero (by
     rw [card_ruP']; norm_num)
   refine sporL3DownInner_of_model _ ⟨ruEquivP.symm.trans (hbr .Ru).some⟩
     (by rw [card_ruP']; exact noL3Eq_145926144000) ?_

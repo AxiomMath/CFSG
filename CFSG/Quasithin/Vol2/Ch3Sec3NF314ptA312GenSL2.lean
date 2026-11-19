@@ -28,12 +28,12 @@ theorem sl2_diag {p : ℕ} [Fact p.Prime] (x : SL2 p) (hb : x.1 0 1 = 0) (hc : x
   · left
     apply Matrix.SpecialLinearGroup.ext
     intro i j
-    fin_cases i <;> fin_cases j <;> simp [hb, hc, hd, Matrix.one_apply] <;>
+    fin_cases i <;> fin_cases j <;> simp [hb, hc, hd] <;>
       linear_combination h
   · right
     apply Matrix.SpecialLinearGroup.ext
     intro i j
-    fin_cases i <;> fin_cases j <;> simp [hb, hc, hd, Matrix.one_apply, Matrix.neg_apply] <;>
+    fin_cases i <;> fin_cases j <;> simp [hb, hc, hd, Matrix.neg_apply] <;>
       linear_combination h
 
 theorem sl2_involution_eq (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2) (x : SL2 p) (hx : x * x = 1) :
@@ -48,7 +48,7 @@ theorem sl2_involution_eq (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2) (x : SL2 p) (
   have e00 := congrFun (congrFun hM 0) 0
   have e01 := congrFun (congrFun hM 0) 1
   have e10 := congrFun (congrFun hM 1) 0
-  simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.one_apply] at e00 e01 e10
+  simp [Matrix.mul_apply, Fin.sum_univ_two] at e00 e01 e10
   by_cases hs : x.1 0 0 + x.1 1 1 = 0
   · exfalso
     have hd : x.1 1 1 = -x.1 0 0 := by linear_combination hs
@@ -71,7 +71,7 @@ theorem sl2_involution_eq (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2) (x : SL2 p) (
       linear_combination (x.1 0 0) * had - (x.1 1 1) * ha2
     exact sl2_diag x hb hc hd
 
-theorem sl2_not_comm (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2) :
+theorem sl2_not_comm (p : ℕ) [Fact p.Prime] (_hp2 : p ≠ 2) :
     ∃ a b : SL2 p, a * b ≠ b * a := by
   let u : SL2 p := ⟨!![1, 1; 0, 1], by simp [Matrix.det_fin_two]⟩
   let l : SL2 p := ⟨!![1, 0; 1, 1], by simp [Matrix.det_fin_two]⟩
@@ -83,7 +83,7 @@ theorem sl2_not_comm (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2) :
   rw [hu, hl] at h00
   simp [Matrix.mul_apply, Fin.sum_univ_two] at h00
 
-theorem sl2_central_eq (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2) (x : SL2 p)
+theorem sl2_central_eq (p : ℕ) [Fact p.Prime] (_hp2 : p ≠ 2) (x : SL2 p)
     (hx : x ∈ Subgroup.center (SL2 p)) : x = 1 ∨ x = -1 := by
   rw [Subgroup.mem_center_iff] at hx
   let u : SL2 p := ⟨!![1, 1; 0, 1], by simp [Matrix.det_fin_two]⟩
@@ -127,7 +127,7 @@ theorem card_center_sl2 (p : ℕ) [Fact p.Prime] (hp2 : p ≠ 2) :
     · rw [Subgroup.zpowers_le]
       exact neg_one_mem_center_sl2 p
   rw [hZ, Nat.card_zpowers]
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   apply orderOf_eq_prime
   · simp
   · exact neg_one_ne_one_sl2 p hp2
@@ -197,7 +197,7 @@ theorem sl2_O2_card {Q : Type} [Group Q] [Finite Q] {B : Subgroup Q} (p : ℕ) [
   have h2dvd : 2 ∣ Nat.card (CFSG.pCore 2 ↥B) := by
     rw [hk]
     exact dvd_pow_self 2 hk0
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨y, hyord⟩ := exists_prime_orderOf_dvd_card' (G := ↥(CFSG.pCore 2 ↥B)) 2 h2dvd
   have hy2 : y ^ 2 = 1 := orderOf_dvd_iff_pow_eq_one.mp (by simp [hyord])
   have hyne : y ≠ 1 := by

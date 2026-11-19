@@ -259,7 +259,7 @@ theorem smith_2_14 (H : StrothHyp M Q Z) {z : G} (hz : z ∈ Z) (hz1 : z ≠ 1)
     have hAX : A ≤ QB X := (hA.le_QB_iff H hX).mp hXA
     have hAY : A ≤ QB Y := (hA.le_QB_iff H hY).mp hYA
     ext C
-    simp only [Set.mem_setOf_eq, Set.mem_singleton_iff]
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨hC, hCX, hCY⟩
       have hXC : X ≤ QB C := (hC.le_QB_iff H hX).mpr hCX

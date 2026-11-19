@@ -30,7 +30,7 @@ private theorem sup_imageOTwoQuot_eq_normalizer {L T D : Subgroup G}
     imageOTwoQuot L T ⊔ imageOTwoQuot L D =
       Subgroup.normalizer (imageOTwoQuot L T : Set (oTwoQuot ↥L)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTL : T ≤ L := hT.le
   have hQL : pCoreOf 2 L ≤ T := hT.pCoreOf_le
   have hDL : D ≤ L := hD.1.trans inf_le_left
@@ -87,7 +87,7 @@ private theorem image_eq_bot_or_eq_center_or_eq_sylow
         Subgroup.centralizer ((S : Subgroup (oTwoQuot ↥L)) : Set _)) ∨
       imageOTwoQuot L X = (S : Subgroup (oTwoQuot ↥L)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hNX : Subgroup.normalizer ((S : Subgroup (oTwoQuot ↥L)) : Set _) ≤
       Subgroup.normalizer (imageOTwoQuot L X : Set (oTwoQuot ↥L)) := by
     rw [hScoe, ← sup_imageOTwoQuot_eq_normalizer ha hSz hT hD]
@@ -100,6 +100,7 @@ private theorem image_eq_bot_or_eq_center_or_eq_sylow
     (K := GaloisField 2 (2 * a + 1)) ha
     (GaloisField.card 2 (2 * a + 1) (by omega)) (szModelEquiv hSz) S hWS hNX
 
+omit [Finite G] in
 private theorem le_pCoreOf_of_imageOTwoQuot_eq_bot {L T X : Subgroup G} (hTL : T ≤ L)
     (hXT : X ≤ T) (h : imageOTwoQuot L X = ⊥) : X ≤ pCoreOf 2 L := by
   intro x hx
@@ -118,7 +119,7 @@ private theorem sq_mem_and_mem_sup_of_imageOTwoQuot_eq_center
     (∀ x ∈ X, x * x ∈ pCoreOf 2 L) ∧
       ∀ x ∈ T, x * x ∈ pCoreOf 2 L → x ∈ X ⊔ pCoreOf 2 L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTL : T ≤ L := hT.le
   have hZmem := (sz_center_card_and_mem ha (szModelEquiv hSz) S).2
   constructor
@@ -154,6 +155,7 @@ private theorem sq_mem_and_mem_sup_of_imageOTwoQuot_eq_center
       exact hmkZ
     exact mem_sup_pCoreOf_of_mk_mem (M := L) (A := X) (x := ⟨x, hxL⟩) hmkX
 
+omit [Finite G] in
 private theorem le_sup_of_imageOTwoQuot_eq_sylow {L T X : Subgroup G} (hTL : T ≤ L)
     (S : Sylow 2 (oTwoQuot ↥L))
     (hScoe : (S : Subgroup (oTwoQuot ↥L)) = imageOTwoQuot L T)
@@ -176,7 +178,7 @@ theorem le_or_sq_or_le_of_sz {L T D X : Subgroup G} {a : ℕ}
       ((∀ x ∈ X, x * x ∈ pCoreOf 2 L) ∧ ∀ x ∈ T, x * x ∈ pCoreOf 2 L → x ∈ X ⊔ pCoreOf 2 L) ∨
       T ≤ X ⊔ pCoreOf 2 L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨S, hScoe⟩ := exists_sylow_imageOTwoQuot hT
   rcases image_eq_bot_or_eq_center_or_eq_sylow ha hSz hT hD hXT hTX hXD S hScoe with
     hbot | hcen | htop
@@ -193,7 +195,7 @@ private theorem inf_sup_normalizer_eq {L1 L2 S : Subgroup G}
     (t : Track L1 L2 S) {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     (L1 ⊔ S) ⊓ Subgroup.normalizer (S : Set G) = S ⊔ t.D1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : F112HypW L1 L2 S := hfr.hF
   have hH : Hyp111 L1 L2 S := hF.1
   have hS1 : S = (S ⊓ L1) ⊔ Q1 L1 L2 S :=
@@ -236,7 +238,7 @@ private theorem hallTwoPrime_D1 {L1 L2 S : Subgroup G}
     (t : Track L1 L2 S) {a f : ℕ} (hfr : Frame L1 L2 S a f) :
     HallTwoPrime t.D1 ((L1 ⊔ S) ⊓ Subgroup.normalizer (S : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hH : Hyp111 L1 L2 S := hfr.hF.1
   have hNA := t.inf_sup_normalizer_eq hfr
   rw [hNA]
@@ -261,7 +263,7 @@ theorem trichotomy_Qv_zero {a f : ℕ} (hfr : Frame L1 L2 S a f)
     X ≤ t.Qv 0 ∨ ((∀ x ∈ X, x * x ∈ t.Qv 0) ∧ ∀ s ∈ S, s * s ∈ t.Qv 0 → s ∈ X ⊔ t.Qv 0) ∨
       S ≤ X ⊔ t.Qv 0 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hF : F112HypW L1 L2 S := hfr.hF
   have hH : Hyp111 L1 L2 S := hF.1
   have hS1 : S = (S ⊓ L1) ⊔ Q1 L1 L2 S :=

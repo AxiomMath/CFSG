@@ -84,7 +84,7 @@ theorem not_three_dvd_orderOf_of_mem_thetaCent (p : G) {s : G} (hs : s ∈ theta
 theorem h1b_step3 (hP2b : Item116P2b) (hP2c : Item116P2c) (h45 : Sec4.Item4_5)
     (h : ResidueConfig G A c L a R Y d) (hT : A ∉ partTwoT G) (hR1 : ResidueR1 G A c a d) :
     ∀ x ∈ thetaCent (c * d), x * a = a * x → x * c * x⁻¹ * c⁻¹ ∈ thetaCent a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨-, hD8, n, hnW, hnc, hnd, hna⟩ := hR1
   obtain ⟨K₁, K₂, h1, h2, hne, hZ1, hZ2, hdK, hcK, -, -⟩ :=
     aComponentData hP2b hP2c h45 h hT hD8 hnW hnc hnd hna
@@ -257,8 +257,8 @@ theorem h1b_prime_config (hP2b : Item116P2b) (hP2c : Item116P2c) (h45 : Sec4.Ite
     ∀ x ∈ inSubgroup (twoQ q) (thetaCent (c * d)),
       c * x * c⁻¹ * x⁻¹ ∈ inSubgroup (CFSG.pCore 2) (thetaCent (c * d)) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hs := h.toSec11Std hT
   have hAe := h.mem_partTwoF.1
   have hcomm : ∀ u ∈ A, ∀ w ∈ A, u * w = w * u := fun u hu w hw =>

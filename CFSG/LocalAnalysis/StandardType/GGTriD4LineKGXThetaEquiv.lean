@@ -74,15 +74,15 @@ private lemma exists_algebraMap_fixedUnit {K k : Type} [Field K] [Field k] [Alge
 private lemma theta_sigma_algebraMap {K k : Type} [Field K] [Field k] [Algebra k K]
     {n : ℕ} (hk : Nat.card k = 2 ^ n) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n) (x : k) :
     σ (algebraMap k K x) = algebraMap k K x := by
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Fintype k := Fintype.ofFinite k
   rw [hσ, ← map_pow,
     show x ^ 2 ^ n = x by rw [← hk, Nat.card_eq_fintype_card, FiniteField.pow_card]]
 
 private lemma theta_sigma_cube_eq_one {K : Type} [Field K] [Finite K] {n : ℕ}
     (hK : Nat.card K = (2 ^ n) ^ 3) (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n) :
     σ ^ 3 = 1 := by
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   refine RingEquiv.ext fun c => ?_
   rw [ringEquiv_pow_three_apply]
   have hcard : ∀ x : K, x ^ Nat.card K = x := fun x => by
@@ -107,7 +107,7 @@ private lemma baseChangeGL_entrywise {τ : Tag} {K L : Type} [Field K] [Field L]
       = entrywise η' (↑(baseChangeGL ι x) : Module.End L (RootModule τ L)) := rfl
   have hLfun : (↑(Units.map (entrywiseHom η) x) : Module.End K (RootModule τ K))
       = entrywise η (x : Module.End K (RootModule τ K)) := rfl
-  simp only [Units.coe_map, MonoidHom.coe_coe]
+  simp only [Units.coe_map]
   rw [baseChangeGL_apply_single, hfun, entrywise_single, baseChangeGL_apply_single]
   ext c
   rw [hLfun, entrywise_single]
@@ -130,11 +130,11 @@ theorem triD4LineTheta_fieldActor_NR
         (m : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) =
       (m : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 3)
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 3)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
-  haveI : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
   let Fr : L →+* L := iterateFrobenius L 2 n
   have hFr : ∀ c, Fr c = c ^ 2 ^ n := fun c => iterateFrobenius_def 2 n c
   have hcomm : ∀ c : K, Fr (algebraMap K L c) = algebraMap K L (σ c) := by
@@ -175,7 +175,7 @@ theorem triD4LineTheta_equivariant_H1
             (y : graphFixedRootGroup TwistTag.D4 K σ.toRingHom) ∧
         θH y' = triD4LineSigma k K τ (θH y) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hn : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with h | h
     · exfalso
@@ -184,11 +184,11 @@ theorem triD4LineTheta_equivariant_H1
       have h2 := Fintype.one_lt_card (α := K)
       omega
     · exact h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 3)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := charP_of_card_eq_prime_pow (p := 2) (f := n * 3)
     (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-  haveI : Module.Finite k K := Module.Finite.of_finite
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Module.Finite k K := Module.Finite.of_finite
   have hσ3 : σ ^ 3 = 1 := theta_sigma_cube_eq_one hK σ hσ
   obtain ⟨hTorusEq, ⟨e, he⟩, -⟩ := even_triality_faithful_torus_coordinates (K := K) σ hσ3
   let cH := Subgroup.subgroupOfEquivOfLe (graphFixedRootTorus_le TwistTag.D4 K σ.toRingHom)
@@ -225,8 +225,7 @@ theorem triD4LineTheta_equivariant_H1
     congr 1
     funext j
     fin_cases j <;>
-      simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons,
-        Matrix.cons_val_two, Matrix.tail_cons]
+      simp only
     · rfl
     · exact hnorm
     · rfl

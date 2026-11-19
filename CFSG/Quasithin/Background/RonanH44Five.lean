@@ -58,7 +58,7 @@ theorem part5 (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
   rintro ⟨x, hxL, hx1, hord, hxfix⟩
   have hAN : A ≤ norm hK := hA.1.trans hMN
   have hAe : IsElemAbelian2 A := hA.2.2
-  haveI : Finite (MulAut (HMod n K)) := MulEquiv.finite_left
+  have : Finite (MulAut (HMod n K)) := MulEquiv.finite_left
   have hV : rk (HMod n K) = 9 * n := by
     unfold rk
     rw [card_HMod hn hK, padicValNat.prime_pow]
@@ -116,7 +116,7 @@ theorem part5 (hn : 1 ≤ n) (hK : Nat.card K = (2 ^ n) ^ 2)
       (g' : Matrix (Fin 3) (Fin 3) K) 2 2 = 1 := by
     have h := g'.2
     rw [Matrix.det_fin_three] at h
-    simp only [e10, e20, e01, e21, e11, mul_zero, zero_mul, sub_zero, add_zero, zero_add] at h
+    simp only [e10, e20, e01, e21, e11, mul_zero, zero_mul, sub_zero, add_zero] at h
     linear_combination h
   have hsl : g' ^ (2 * (2 ^ n + 1)) = 1 :=
     part5_pow_eq_one _ _ ((g' : Matrix (Fin 3) (Fin 3) K) 0 2) ((g' : Matrix (Fin 3) (Fin 3) K) 1 2)

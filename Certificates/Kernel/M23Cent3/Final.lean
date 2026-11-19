@@ -89,7 +89,7 @@ theorem wperm_prep12641 (W L : Nat) :
 
 theorem image_pick2 {α : Type} (a b : α) : pick2 a b '' {j | j < 2} = {a, b} := by
   ext y
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨j, hj, rfl⟩
     interval_cases j
@@ -185,7 +185,6 @@ theorem mem_of_cm {p : Nat} {σ : Equiv.Perm (Fin 23)} (hp : PRep 23 5 p σ)
   refine mem_inf.2 ⟨hm, Subgroup.mem_centralizer_singleton_iff.2 ?_⟩
   first
   | exact e
-  | exact e.symm
 
 theorem c1_mem : ⟪c1W⟫ ∈ Cx := mem_of_cm pinC1 (wordG_mem _) comm_all.1
 theorem c2_mem : ⟪c2W⟫ ∈ Cx := mem_of_cm pinC2 (wordG_mem _) comm_all.2.1
@@ -600,7 +599,7 @@ theorem m23_conj_x : ∀ t ∈ NativeSporadic.M23, orderOf t = 3 →
     _ = (wW gA gB (SW i) (SL i))⁻¹ * ⟪xW⟫ * (wW gA gB (SW i) (SL i))⁻¹⁻¹ := by
       rw [hu]; group
 
-open Certificates in
+open _root_.CFSG.Certificates in
 open CFSG.AGLEmbeddingD2.Wilson.ThreeCore.M23 CFSG.Sporadic.Th CFSG.Blueprint Subgroup in
 theorem m23_cent3_facts :
     (∀ t ∈ NativeSporadic.M23, orderOf t = 3 → ∃ g ∈ NativeSporadic.M23,

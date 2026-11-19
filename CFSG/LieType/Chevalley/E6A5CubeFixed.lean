@@ -66,8 +66,8 @@ theorem exists_mem_SUM_of_twist_fixed {σ : K →+* K} (hσσ : ∀ c, σ (σ c)
     have hz := tauSL_smul_one σ (z := z₀) (l := ω) hω
     have e'' := congrArg (fun x : SpecialLinearGroup (Fin 6) K =>
       (x : Matrix (Fin 6) (Fin 6) K) 0 0) e'
-    simp only [Matrix.SpecialLinearGroup.coe_mul, hω, hz, Matrix.smul_mul, Matrix.mul_smul,
-      Matrix.mul_one, smul_smul, Matrix.smul_apply, Matrix.one_apply_eq, smul_eq_mul,
+    simp only [Matrix.SpecialLinearGroup.coe_mul, hω, hz, Matrix.mul_smul,
+      Matrix.mul_one, Matrix.smul_apply, Matrix.one_apply_eq, smul_eq_mul,
       Matrix.SpecialLinearGroup.coe_one] at e''
     have hσω0 : σ ω ≠ 0 := by simpa using hω0
     field_simp at e''

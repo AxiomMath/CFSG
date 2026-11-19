@@ -227,7 +227,7 @@ theorem eq_of_mem_partTwoE_of_le (hEF : partTwoF G = partTwoE G)
       Nat.prime_three Nat.prime_two SE D hSE3 hSED hcop h2
   set f := (Y ⊔ A).subtype with hf
   set T' := (T : Subgroup D).map D.subtype with hT'
-  have hT'2 : IsPGroup 2 T' := T.isPGroup'.map D.subtype
+  have hT'2 : IsPGroup 2 T' := T.isPGroup.map D.subtype
   have hSG : SE.map f ∈ partTwoE G := by
     refine ⟨isElemAbelian_map148 hSEab f, ?_, T'.map f, ?_, hT'2.map f, ?_⟩
     · rw [Subgroup.card_map_of_injective (Y ⊔ A).subtype_injective, hSEcard]

@@ -228,7 +228,7 @@ theorem normal_commutator_commutator (hL : L.Normal) [hE : E.Normal] (hEL : E �
     rw [hRE, Subgroup.mem_bot] at this
     exact commutatorElement_eq_one_iff_mul_comm.mp this
   set D0 : Subgroup Y := L ⊓ Subgroup.centralizer (E : Set Y) with hD0
-  haveI hD0n : D0.Normal := by
+  have hD0n : D0.Normal := by
     refine ⟨fun d hd y => ⟨hL.conj_mem d hd.1 y, ?_⟩⟩
     refine Subgroup.mem_centralizer_iff.mpr ?_
     intro e he
@@ -266,7 +266,7 @@ theorem normal_commutator_commutator (hL : L.Normal) [hE : E.Normal] (hEL : E �
   rw [← this]
   exact Subgroup.commutator_normal D0 D0
 
-theorem mem_of_central (hL : L.Normal) [hE : E.Normal]
+theorem mem_of_central (hL : L.Normal) [_hE : E.Normal]
     (hLJ : L ≤ ⁅L, J⁆ ⊔ E)
     {Q : Type*} [Group Q] (f : Y →* Q) (hf : f.ker = E)
     (hS : IsSimpleGroup ↥(L.map f))

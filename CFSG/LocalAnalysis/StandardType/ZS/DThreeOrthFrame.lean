@@ -649,7 +649,7 @@ private theorem exists_scalarFrame_plus_aux {m : ℕ} (hm : 5 ≤ m)
     intro l k
     by_cases h : l = k
     · subst h; simp [cf, plusCf]
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have hne : Fin.castLE hm3 l ≠ Fin.castLE hm3 k := fun heq =>
         h (Fin.castLE_injective hm3 heq)
       simp [cf, plusCf, hne]
@@ -819,7 +819,7 @@ private theorem exists_scalarFrame_minus_aux {m : ℕ} (hm : 4 ≤ m)
     intro l k
     by_cases h : l = k
     · subst h; simp [cf, minusCf]
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       have hne : (Sum.inl (Sum.inr (Fin.castLE hm3 l)) : CFSG.Open.GLAMinusIdx (m - 1)) ≠
           (Sum.inl (Sum.inr (Fin.castLE hm3 k)) : CFSG.Open.GLAMinusIdx (m - 1)) := by
         intro heq

@@ -120,10 +120,10 @@ section Transfer
 
 variable {G : Type} [Group G]
 
-@[expose] noncomputable def ιG {x₁ : G} (φ : ↥(NormX x₁) ≃* Ly0.B0) : Ly0.B0 →* G :=
+noncomputable def ιG {x₁ : G} (φ : ↥(NormX x₁) ≃* Ly0.B0) : Ly0.B0 →* G :=
   (NormX x₁).subtype.comp φ.symm.toMonoidHom
 
-@[expose] noncomputable def gOf {x₁ : G} (φ : ↥(NormX x₁) ≃* Ly0.B0) (k : G) : Fin 6 → G :=
+noncomputable def gOf {x₁ : G} (φ : ↥(NormX x₁) ≃* Ly0.B0) (k : G) : Fin 6 → G :=
   fun i => if i.val = 5 then k else ιG φ (gBs i)
 
 theorem lift_gOf_bword {x₁ : G} (φ : ↥(NormX x₁) ≃* Ly0.B0) (k : G) {r : List (Fin 6 × Bool)}
@@ -265,7 +265,7 @@ theorem substW_range (hY : Ly1080.YOK) {Ut : List ℤ}
 theorem isBWord_iff (r : List (Fin 6 × Bool)) : isBWord r = true ↔ ∀ l ∈ r, l.1.val < 5 := by
   simp [isBWord]
 
-@[expose] def EEvHolds (ev : EEv) : Prop :=
+def EEvHolds (ev : EEv) : Prop :=
   (∀ l ∈ ev.1, l ≠ 0 ∧ l.natAbs ≤ 4) ∧ (∀ l ∈ ev.2.1, l.1.val < 5) ∧
     (∀ l ∈ ev.2.2, l.1.val < 5) ∧
     FreeGroup.lift gB (FreeGroup.mk ev.2.1) = wordG (wordLetter Ly0.uG) ev.1 ∧
@@ -440,7 +440,7 @@ variable {G : Type} [Group G]
 noncomputable def gT5 {x₁ : G} (φ : ↥(NormX x₁) ≃* Ly0.B0) (M : ModelGlue) (k : G) : Fin 5 → G :=
   fun i => if h : i.val < 4 then borelTx φ M ⟨i.val, h⟩ else k
 
-@[expose] def TrSegHolds (sg : TrSeg) : Prop :=
+def TrSegHolds (sg : TrSeg) : Prop :=
   (∀ l ∈ sg.1, l.1.val < 5) ∧ (∀ l ∈ sg.2, l.1.val < 4) ∧
     FreeGroup.lift gB (FreeGroup.mk sg.1) = FreeGroup.lift txP (FreeGroup.mk sg.2)
 
@@ -508,7 +508,7 @@ variable {G : Type} [Group G] [Finite G] {t : G}
   {ρ : ↥(centralizer ({t} : Set G)) →* Perm (Fin 11)}
   {x₁ x₂ x₃ : ↥(centralizer ({t} : Set G))}
 
-@[expose] def TrEvHolds (ev : TrEv) : Prop :=
+def TrEvHolds (ev : TrEv) : Prop :=
   TrSegHolds ev.1 ∧ (∀ sg ∈ ev.2, TrSegHolds sg) ∧
     FreeGroup.lift (fun i : Fin 5 => Ly243.gg i.val) (FreeGroup.mk (trWord ev)) = 1
 
@@ -584,7 +584,7 @@ theorem gOf_zero_ne_one {x₁ : G} (φ : ↥(NormX x₁) ≃* Ly0.B0) (k : G) (h
   have : φ.symm (gBs 0) = 1 := Subtype.ext h1
   simpa using this
 
-@[expose] def FamRel (eEvs : List EEv) (trEvs : List TrEv) (r : List (Fin 6 × Bool)) : Prop :=
+def FamRel (eEvs : List EEv) (trEvs : List TrEv) (r : List (Fin 6 × Bool)) : Prop :=
   ((∀ l ∈ r, l.1.val < 5) ∧ FreeGroup.lift gBs (FreeGroup.mk r) = 1) ∨ r = kkRel ∨
     (∃ e ∈ eEvs, r = eRelOf e ∧ EEvHolds e) ∨ ∃ ev ∈ trEvs, r = trRel ev ∧ TrEvHolds ev
 

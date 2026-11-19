@@ -20,7 +20,7 @@ theorem not_threeCover_PSL5 {X : Type} [Group X] [Finite X]
     (hS : LieModel (X ⧸ Subgroup.center X) .PSL 5 p f) :
     Nat.card (Subgroup.center X) ≠ 3 := by
   intro hZ
-  haveI : Group.IsPerfect X := ⟨hq.1⟩
+  have : Group.IsPerfect X := ⟨hq.1⟩
   have hmod : CFSG.Open.StatedClassicalModel (X ⧸ Subgroup.center X) .PSL 5 p f :=
     LieModel.statedClassicalModel hS (by decide)
   obtain ⟨-, ⟨e⟩⟩ := CFSG.LieType.Steinberg.CentralExt.GriessClassical.psl_row hmod
@@ -49,7 +49,7 @@ theorem not_threeCover_PSU5 {X : Type} [Group X] [Finite X]
     (hS : LieModel (X ⧸ Subgroup.center X) .PSU 5 p f) :
     Nat.card (Subgroup.center X) ≠ 3 := by
   intro hZ
-  haveI : Group.IsPerfect X := ⟨hq.1⟩
+  have : Group.IsPerfect X := ⟨hq.1⟩
   have hmod : CFSG.Open.StatedClassicalModel (X ⧸ Subgroup.center X) .PSU 5 p f :=
     LieModel.statedClassicalModel hS (by decide)
   obtain ⟨-, ⟨e⟩⟩ :=
@@ -85,7 +85,7 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
   · rcases h1 with h | h | h | h | h | h | h | h | h | h | h
     ·
       obtain ⟨p, f, -, h⟩ := h
-      haveI : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
+      have : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -95,7 +95,7 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨p, f, -, h⟩ := h
-      haveI : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
+      have : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -105,7 +105,7 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨p, f, -, h | h⟩ := h
-      · haveI : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
+      · have : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
         have hZ : Subgroup.center (Bar2 L) = ⊥ :=
           CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
         refine ⟨?_, fun h3 => ?_⟩
@@ -117,7 +117,7 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         exact False.elim (not_threeCover_PSL5 hq h.2.2 h.2.1)
     ·
       obtain ⟨p, f, -, h | h⟩ := h
-      · haveI : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
+      · have : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
         have hZ : Subgroup.center (Bar2 L) = ⊥ :=
           CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
         refine ⟨?_, fun h3 => ?_⟩
@@ -129,7 +129,7 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         exact False.elim (not_threeCover_PSU5 hq h.2.2 h.2.1)
     ·
       obtain ⟨p, f, h⟩ := h
-      haveI : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
+      have : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -139,9 +139,9 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨e⟩ := h
-      haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M11) :=
+      have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M11) :=
         CFSG.Sporadic.Mathieu.fam_m11_simplicity.2.2
-      haveI : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
+      have : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -151,9 +151,9 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨e⟩ := h
-      haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M22) :=
+      have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M22) :=
         CFSG.Sporadic.Mathieu.fam_m22_simplicity.2.2
-      haveI : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
+      have : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -163,9 +163,9 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨e⟩ := h
-      haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M23) :=
+      have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M23) :=
         CFSG.Sporadic.Mathieu.fam_m23_simplicity.2.2
-      haveI : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
+      have : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -175,9 +175,9 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨e⟩ := h
-      haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .HS) :=
+      have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .HS) :=
         CFSG.Sporadic.HS.isSimpleGroup_HS
-      haveI : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
+      have : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -187,8 +187,8 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨e⟩ := h
-      haveI : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
-      haveI : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
+      have : IsSimpleGroup (alternatingGroup (Fin 7)) := alternatingGroup.isSimpleGroup (by simp)
+      have : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -198,8 +198,8 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨e⟩ := h
-      haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-      haveI : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
+      have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+      have : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -219,7 +219,7 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
       exact Or.inr (Or.inr h)
   · rcases h3 with h | h | h | h | h | h | h | h | h | h | h | h
     ·
-      haveI : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
+      have : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -229,7 +229,7 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨p, f, h⟩ := h
-      haveI : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
+      have : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -238,7 +238,7 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
       · rw [hZ, Subgroup.card_bot] at h3
         norm_num at h3
     ·
-      haveI : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
+      have : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -248,7 +248,7 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨p, f, h⟩ := h
-      haveI : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
+      have : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -258,7 +258,7 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨f, h⟩ := h
-      haveI : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
+      have : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -267,7 +267,7 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
       · rw [hZ, Subgroup.card_bot] at h3
         norm_num at h3
     ·
-      haveI : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
+      have : IsSimpleGroup (Bar2 L) := CFSG.Timmesfeld.isSimpleGroup_of_lieModel h
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -277,9 +277,9 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨e⟩ := h
-      haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
+      have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J2) :=
         CFSG.Sporadic.J2.isSimpleGroup_J2
-      haveI : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
+      have : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -289,9 +289,9 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨e⟩ := h
-      haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .He) :=
+      have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .He) :=
         CFSG.Sporadic.He.isSimpleGroup_He
-      haveI : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
+      have : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -301,9 +301,9 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨e⟩ := h
-      haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Ru) :=
+      have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Ru) :=
         CFSG.Sporadic.Ru.isSimpleGroup_Ru
-      haveI : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
+      have : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -313,9 +313,9 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨e⟩ := h
-      haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J4) :=
+      have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J4) :=
         CFSG.Sporadic.J4.isSimpleGroup_J4
-      haveI : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
+      have : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -325,9 +325,9 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨e⟩ := h
-      haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M12) :=
+      have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M12) :=
         CFSG.Sporadic.Mathieu.fam_m12_simplicity.2.2
-      haveI : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
+      have : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩
@@ -337,9 +337,9 @@ theorem center_card_le_three_and_center_three_imp_of_list857 {G : Type} [Group G
         norm_num at h3
     ·
       obtain ⟨e⟩ := h
-      haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M24) :=
+      have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .M24) :=
         CFSG.Sporadic.Mathieu.fam_m24_simplicity.2.2
-      haveI : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
+      have : IsSimpleGroup (Bar2 L) := e.isSimpleGroup
       have hZ : Subgroup.center (Bar2 L) = ⊥ :=
         CFSG.LocalAnalysis.UniquenessCase.UC22.P22w.center_eq_bot_of_isSimpleGroup hq
       refine ⟨?_, fun h3 => ?_⟩

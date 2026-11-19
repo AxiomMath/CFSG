@@ -60,10 +60,10 @@ theorem D1PhaseThree.dec_of_threeASix (h : D1PhaseThree 3 P M H R)
     rintro _ ⟨g, hg, rfl⟩
     have hgP : (g : G) ∈ (P : Subgroup G) := Subgroup.mem_subgroupOf.mp hg
     have hg3 : IsPGroup 3 (Subgroup.zpowers (g : G)) :=
-      P.isPGroup'.to_le ((Subgroup.zpowers_le).mpr hgP)
+      P.isPGroup.to_le ((Subgroup.zpowers_le).mpr hgP)
     exact mem_normalizer_barM g.2 (D1PhaseThree.mem_normalizer_of_threeASix h hThree hcyc
       hzM hz3 hCz hin hrk hL hZ hA6 g.2 hg3)
-  have hPb3 : IsPGroup 3 (barM M (P : Subgroup G)) := (P.isPGroup'.comap_subtype (K := M)).map _
+  have hPb3 : IsPGroup 3 (barM M (P : Subgroup G)) := (P.isPGroup.comap_subtype (K := M)).map _
   have hPbin : ∀ x ∈ barM M (P : Subgroup G),
       x ∈ barM M L ⊔ Subgroup.centralizer (barM M L : Set (↥M ⧸ CFSG.pCore 2 ↥M)) :=
     fun x hx => ha x (hPbN hx) (by
@@ -122,7 +122,7 @@ theorem D1PhaseThree.false_of_threeASix_out (h : D1PhaseThree 3 P M H R)
     exact ⟨m, Subgroup.mem_subgroupOf.mp hm, rfl⟩
   have hinj : ∀ x y (hx : x ∈ (P : Subgroup G)) (hy : y ∈ (P : Subgroup G)),
       mk ⟨x, hPM hx⟩ = mk ⟨y, hPM hy⟩ → x = y := fun x y hx hy hxy =>
-    eq_of_mk_eq_of_three P.isPGroup' hPM hx hy hxy
+    eq_of_mk_eq_of_three P.isPGroup hPM hx hy hxy
   have hmkmul : ∀ x y (hx : x ∈ M) (hy : y ∈ M),
       mk ⟨x * y, M.mul_mem hx hy⟩ = mk ⟨x, hx⟩ * mk ⟨y, hy⟩ := fun x y hx hy => by
     rw [← map_mul]; rfl
@@ -131,7 +131,7 @@ theorem D1PhaseThree.false_of_threeASix_out (h : D1PhaseThree 3 P M H R)
     apply hinj _ _ (P.pow_mem hx 3) P.one_mem
     rw [show (⟨x ^ 3, hPM (P.pow_mem hx 3)⟩ : M) = ⟨x, hPM hx⟩ ^ 3 from rfl, map_pow, hx3]
     exact (map_one mk).symm
-  have hPb3 : IsPGroup 3 Pb := (P.isPGroup'.comap_subtype (K := M)).map _
+  have hPb3 : IsPGroup 3 Pb := (P.isPGroup.comap_subtype (K := M)).map _
   have hzbPb : zb ∈ Pb := hmemPb z hzP
   rcases hstr with ⟨y, hyR, hy3⟩ | ⟨hcard, a, haR, ha3w, ha31, har⟩
   ·
@@ -173,7 +173,7 @@ theorem D1PhaseThree.false_of_threeASix_out (h : D1PhaseThree 3 P M H R)
   set Rb := barM M R' with hRb
   have hRbPb : Rb ≤ Pb := barM_mono hR'P
   have hRbc : Nat.card Rb = 3 ^ 4 := by
-    rw [card_barM_of_isPGroup hp hp2 (hR'P.trans hPM) (P.isPGroup'.to_le hR'P), hcard]
+    rw [card_barM_of_isPGroup hp hp2 (hR'P.trans hPM) (P.isPGroup.to_le hR'P), hcard]
   have hRbmem : ∀ g (hg : g ∈ R'), mk ⟨g, hPM (hR'P hg)⟩ ∈ Rb := fun g hg =>
     ⟨⟨g, hPM (hR'P hg)⟩, Subgroup.mem_subgroupOf.mpr hg, rfl⟩
   have hRz : ∀ x ∈ Rb, x * zb = zb * x := by

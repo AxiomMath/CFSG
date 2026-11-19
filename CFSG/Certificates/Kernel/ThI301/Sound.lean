@@ -27,7 +27,7 @@ theorem ncAt_prep {x y yi p : Nat} {X G : Perm (Fin 9)} (h : ncAt x y yi p = tru
   simp only [Perm.mul_apply] at e
   have e1 := pg15 hyi ⟨p, hp⟩
   have e2 := pg15 hX ⟨p, hp⟩
-  simp only [Fin.val_mk] at e1 e2
+  simp only at e1 e2
   rw [e1, e2]
   simp only [pg15 hX, pg15 hy, pg15 hyi]
   exact e

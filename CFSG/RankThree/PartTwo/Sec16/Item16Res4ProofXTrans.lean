@@ -123,11 +123,11 @@ theorem exists_conj_of_max {X S T : Subgroup G} {p : ℕ} [Fact p.Prime] (hSX : 
   obtain ⟨P, hSP⟩ := (hS.comap_subtype (K := X)).exists_le_sylow
   obtain ⟨Q, hTQ⟩ := (hT.comap_subtype (K := X)).exists_le_sylow
   have hPS : (P : Subgroup X).map X.subtype = S := by
-    refine hSmax _ (P.isPGroup'.map _) ?_ (Subgroup.map_subtype_le _)
+    refine hSmax _ (P.isPGroup.map _) ?_ (Subgroup.map_subtype_le _)
     intro s hs
     exact ⟨⟨s, hSX hs⟩, hSP (Subgroup.mem_comap.mpr hs), rfl⟩
   have hQT : (Q : Subgroup X).map X.subtype = T := by
-    refine hTmax _ (Q.isPGroup'.map _) ?_ (Subgroup.map_subtype_le _)
+    refine hTmax _ (Q.isPGroup.map _) ?_ (Subgroup.map_subtype_le _)
     intro t ht
     exact ⟨⟨t, hTX ht⟩, hTQ (Subgroup.mem_comap.mpr ht), rfl⟩
   obtain ⟨x, hx⟩ := MulAction.exists_smul_eq X P Q

@@ -59,7 +59,7 @@ theorem exists_hom_gl3_ker_eq {G : Type*} [Group G] [Finite G]
     (hEA : ∀ y ∈ E, ∀ a ∈ A, ⁅y, a⁆ = 1 ∨ ⁅y, a⁆ = c)
     (hSA : ∀ y ∈ S, (∀ a ∈ A, ⁅y, a⁆ = 1 ∨ ⁅y, a⁆ = c) → y ∈ E) :
     ∃ ρ : ↥L →* GL (Fin 3) (ZMod 2), ∀ ℓ : ↥L, ρ ℓ = 1 ↔ (ℓ : G) ∈ E := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcA : c ∈ A := hA ▸ Subgroup.subset_closure (by simp)
   have hcc : c * c = 1 := hAsq c hcA
   obtain ⟨ρ, hρ⟩ := exists_hom_gl3 L A c v₁ v₂ v₃ hA hAcard hAsq hLA hLc
@@ -120,7 +120,7 @@ theorem normalizer_quotient_gl3 {G : Type*} [Group G] [Finite G]
     haveI : (E.subgroupOf L).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hL.le
     Nonempty (↥L ⧸ E.subgroupOf L ≃* GL (Fin 3) (ZMod 2)) ∧ ⁅L, L⁆ = L ∧
       ∀ z ∈ L, (∀ ℓ ∈ L, ⁅z, ℓ⁆ ∈ E) → z ∈ E := by
-  haveI : (E.subgroupOf L).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hL.le
+  have : (E.subgroupOf L).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hL.le
   obtain ⟨ρ, hρ⟩ := exists_hom_gl3_ker_eq E S A L c v₁ v₂ v₃ hSsyl hSL hLc hA hAcard hAsq hLA hCA
     hEA hSA
   have hEL : E ≤ L := hES.trans hSL
@@ -133,10 +133,10 @@ theorem normalizer_quotient_gl3 {G : Type*} [Group G] [Finite G]
       rw [Subgroup.map_subtype_commutator]
       exact hEc hx
     exact (Subgroup.mem_map_iff_mem L.subtype_injective).1 h1
-  haveI : Group.IsPerfect (GL (Fin 3) (ZMod 2)) := Group.isPerfect_def.2 commutator_gl32
-  haveI : Group.IsPerfect (↥L ⧸ E.subgroupOf L) :=
+  have : Group.IsPerfect (GL (Fin 3) (ZMod 2)) := Group.isPerfect_def.2 commutator_gl32
+  have : Group.IsPerfect (↥L ⧸ E.subgroupOf L) :=
     Group.IsPerfect.ofSurjective (f := φ.symm.toMonoidHom) φ.symm.surjective
-  haveI : Group.IsPerfect ↥L := Group.isPerfect_def.2
+  have : Group.IsPerfect ↥L := Group.isPerfect_def.2
     (commutator_eq_top_of_quotient_perfect (E.subgroupOf L) hEc' Group.IsPerfect.commutator_eq_top)
   exact ⟨⟨φ⟩, Subgroup.commutator_eq_self, center_quotient_trivial L E hEL ρ hρ hcard⟩
 

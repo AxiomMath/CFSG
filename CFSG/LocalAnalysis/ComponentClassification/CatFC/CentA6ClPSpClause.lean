@@ -61,13 +61,13 @@ theorem negSwap_sp (i : K) (hi : i * i = -1) :
   rw [fromBlocks_transpose, fromBlocks_multiply, fromBlocks_multiply]
   simp [smul_smul, hi]
 
-theorem negSwap_skewNs (i d : K) (hi : i * i = -1) :
+theorem negSwap_skewNs (i d : K) (_hi : i * i = -1) :
     fromBlocks (i • (1 : Matrix (Fin r) (Fin r) K)) 0 0 ((-i) • (1 : Matrix (Fin r) (Fin r) K)) *
       skewNs r K d = -(skewNs r K d *
         fromBlocks (i • (1 : Matrix (Fin r) (Fin r) K)) 0 0
           ((-i) • (1 : Matrix (Fin r) (Fin r) K))) := by
   rw [skewNs, fromBlocks_multiply, fromBlocks_multiply, fromBlocks_neg]
-  simp [smul_smul, hi]
+  simp [smul_smul]
   rw [mul_comm]
 
 variable (r K) in
@@ -142,7 +142,7 @@ theorem alg_mul_conj {n : Type*} [Fintype n] [DecidableEq n] (M : Matrix n n K) 
   have : (a • (1 : Matrix n n K) + b • M) * (a • (1 : Matrix n n K) - b • M) =
       (a * a) • (1 : Matrix n n K) - (b * b) • (M * M) := by
     simp only [Matrix.add_mul, Matrix.mul_sub, Matrix.smul_mul, Matrix.mul_smul, Matrix.one_mul,
-      Matrix.mul_one, smul_smul, smul_sub]
+      Matrix.mul_one]
     module
   rw [this, hMM]
   have : (a * a) • (1 : Matrix n n K) - (b * b) • (c • (1 : Matrix n n K)) =
@@ -155,7 +155,7 @@ theorem alg_conj_mul {n : Type*} [Fintype n] [DecidableEq n] (M : Matrix n n K) 
   have : (a • (1 : Matrix n n K) - b • M) * (a • (1 : Matrix n n K) + b • M) =
       (a * a) • (1 : Matrix n n K) - (b * b) • (M * M) := by
     simp only [Matrix.sub_mul, Matrix.mul_add, Matrix.smul_mul, Matrix.mul_smul, Matrix.one_mul,
-      Matrix.mul_one, smul_smul, smul_add]
+      Matrix.mul_one]
     module
   rw [this, hMM]
   have : (a * a) • (1 : Matrix n n K) - (b * b) • (c • (1 : Matrix n n K)) =

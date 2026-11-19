@@ -15,6 +15,7 @@ section End
 
 variable {Y : Type} [Group Y] [Finite Y] {Pb : Subgroup Y} {a c y : Y}
 
+omit [Finite Y] in
 theorem szh1e_exists_exp {C : Subgroup Y} {g y : Y} (hC : C = Subgroup.zpowers g)
     (hy : ∀ u ∈ C, y * u * y⁻¹ ∈ C) : ∃ n : ℤ, ∀ u ∈ C, y * u * y⁻¹ = u ^ n := by
   have hg : g ∈ C := hC ▸ Subgroup.mem_zpowers g
@@ -26,6 +27,7 @@ theorem szh1e_exists_exp {C : Subgroup Y} {g y : Y} (hC : C = Subgroup.zpowers g
     _ = (g ^ n) ^ m := by rw [hn]
     _ = (g ^ m) ^ n := by rw [← zpow_mul, ← zpow_mul, mul_comm]
 
+omit [Finite Y] in
 theorem szh1e_pow_conj {C : Subgroup Y} {y : Y} {n : ℤ} (hn : ∀ u ∈ C, y * u * y⁻¹ = u ^ n)
     (k : ℕ) {u : Y} (hu : u ∈ C) : y ^ k * u * (y ^ k)⁻¹ = u ^ (n ^ k) := by
   induction k with
@@ -39,6 +41,7 @@ theorem szh1e_zmod_eq {n m : ℤ} (h : (25 : ℤ) ∣ n - m) : (n : ZMod 25) = (
   have := (ZMod.intCast_eq_intCast_iff_dvd_sub m n 25).mpr (by simpa using h)
   exact this.symm
 
+omit [Finite Y] in
 theorem szh1e_zpow_eq_self {u : Y} (h25 : u ^ 25 = 1) {n : ℤ} (hn : (n : ZMod 25) = 1) :
     u ^ n = u := by
   have h1 : (25 : ℤ) ∣ n - 1 := by

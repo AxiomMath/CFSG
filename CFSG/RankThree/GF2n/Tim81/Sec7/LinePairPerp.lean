@@ -108,7 +108,7 @@ private theorem comp_iotaHom_range_le_perpRoots [Finite F] [CharP F 2] {f : ℕ}
     (hT₁ : IsUTransGroup (unitaryInvolution F 2 f)
       (Pi.single (Fin.last (m + 1)) 1) T₁) :
     (Φ.comp iotaHom).range ≤ perpRoots Δ (T₀.map Φ ⊔ T₁.map Φ) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h2f : 4 ≤ 2 ^ f := by
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ f := Nat.pow_le_pow_right (by norm_num) hf

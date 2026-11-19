@@ -44,14 +44,14 @@ theorem spEnd_eq_one_iff {t : StatedSp 4 (ZMod 2)} : spEnd t = 1 ↔ t = 1 := by
   carrier := {v | ∀ t ∈ T, spEnd t v = v}
   add_mem' := by
     intro u v hu hv t ht
-    simp only [Set.mem_setOf_eq, map_add] at hu hv ⊢
+    simp only [Set.mem_ofPred_eq, map_add] at hu hv ⊢
     rw [hu t ht, hv t ht]
   zero_mem' := by
     intro t _
     simp
   smul_mem' := by
     intro c v hv t ht
-    simp only [Set.mem_setOf_eq, map_smul] at hv ⊢
+    simp only [Set.mem_ofPred_eq, map_smul] at hv ⊢
     rw [hv t ht]
 
 theorem mem_fixSpace {T : Subgroup (StatedSp 4 (ZMod 2))} {v : V8} :
@@ -71,7 +71,7 @@ theorem fixSpace_invariant {T : Subgroup (StatedSp 4 (ZMod 2))} {x : StatedSp 4 
 
 theorem fixSpace_ne_top {T : Subgroup (StatedSp 4 (ZMod 2))} (hT1 : T ≠ ⊥) : fixSpace T ≠ ⊤ := by
   intro htop
-  haveI : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).2 hT1
+  have : Nontrivial T := (Subgroup.nontrivial_iff_ne_bot T).2 hT1
   obtain ⟨t, ht1⟩ := exists_ne (1 : T)
   have hfix : spEnd (t : StatedSp 4 (ZMod 2)) = 1 := by
     apply LinearMap.ext
@@ -82,12 +82,12 @@ theorem fixSpace_ne_top {T : Subgroup (StatedSp 4 (ZMod 2))} (hT1 : T ≠ ⊥) :
   exact ht1 (Subtype.ext (spEnd_eq_one_iff.1 hfix))
 
 theorem card_V8 : Nat.card V8 = 256 := by
-  simp [V8, Nat.card_fun, Nat.card_sum, ZMod.card]
+  simp [V8, ZMod.card]
 
 theorem fixSpace_ne_bot {T : Subgroup (StatedSp 4 (ZMod 2))} (hT2 : IsPGroup 2 T) :
     fixSpace T ≠ ⊥ := by
   intro hbot
-  letI : MulAction T V8 :=
+  let : MulAction T V8 :=
     { smul := fun t v => spEnd (t : StatedSp 4 (ZMod 2)) v
       one_smul := fun v => by
         show spEnd ((1 : T) : StatedSp 4 (ZMod 2)) v = v

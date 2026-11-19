@@ -125,7 +125,7 @@ theorem SG.tyF_three_of_dvd {X : Type} [Group X] (h : catalogIs X (tyF 3))
   case A r q =>
     obtain ⟨hr, hq2, h3⟩ := (hi : r + 1 = 3 ∧ q.p = 2 ∧ 3 ∣ q.card - 1)
     obtain rfl : r = 2 := by omega
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     set eP := e.trans (CFSG.ClassicalModels.linearCatalogCandidateEquivPSL 2 q hv)
     have hF := GaloisField.card q.p q.exponent q.exponent_pos.ne'
     have hc := CFSG.Timmesfeld.ClassicalOrders.card_psl_three_mul_gcd

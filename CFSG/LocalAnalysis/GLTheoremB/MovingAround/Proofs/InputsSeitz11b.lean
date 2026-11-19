@@ -27,14 +27,14 @@ theorem twE6Eight_fixed_layer {L : Type} [Field L] [Finite L] (hL : Nat.card L =
       ∀ g ∈ fixSubgroup (fieldActor σ η), (∀ j ∈ J, g * j = j * g) → g = 1 := by
   classical
   have hℓ : Nat.Prime 2 := Nat.prime_two
-  haveI : Fact (Nat.Prime 2) := ⟨hℓ⟩
+  have : Fact (Nat.Prime 2) := ⟨hℓ⟩
   have hK : Nat.card L = 2 ^ (2 * 1 * 3) := by rw [hL]; norm_num
   have hσ' : ∀ c, σ c = c ^ 2 ^ (1 * 3) := fun c => by rw [hσ]
   obtain ⟨fr, hfr, hord, hgen, hcardAut, -⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_automorphism_fixed_field_cardinality hℓ
       (by norm_num : 1 ≤ 2 * 1 * 3) hK
-  haveI : Finite (L ≃+* L) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; omega)
-  haveI : IsCyclic (L ≃+* L) := isCyclic_iff_exists_zpowers_eq_top.2 ⟨fr, hgen⟩
+  have : Finite (L ≃+* L) := Nat.finite_of_card_ne_zero (by rw [hcardAut]; omega)
+  have : IsCyclic (L ≃+* L) := isCyclic_iff_exists_zpowers_eq_top.2 ⟨fr, hgen⟩
   have hT : ∀ c, fr c = c ^ 2 ^ 1 := fun c => by rw [hfr, pow_one]
   have hT6 : fr ^ (2 * 3) = 1 := by
     rw [show 2 * 3 = orderOf fr by rw [hord]]
@@ -78,7 +78,7 @@ theorem twE6Eight_fixed_layer {L : Type} [Field L] [Finite L] (hL : Nat.card L =
   have hSD : J₀.subgroupOf C = ⁅Γ, Γ⁆ := by
     rw [hΓε]
     exact hderived.symm
-  haveI : Finite k := Subtype.finite
+  have : Finite k := Subtype.finite
   refine ⟨k, σ₀, J₀.subgroupOf C, ?_, ?_, ⟨(Subgroup.subgroupOfEquivOfLe hJC).trans
     (Subgroup.equivMapOfInjective (twistedE6RootGroup k σ₀) _
       (baseChangeGL_injective (τ := TwistTag.E6.tag) k.subtype)).symm⟩, ?_, ?_, ?_⟩
@@ -143,7 +143,7 @@ theorem add_le_pRank_of_fixed_twE6Out {K : Subgroup X} {a : X} (ha3 : a ^ 3 = 1)
     (hfix : ∀ y ∈ E, a * (y : X) * a⁻¹ = y) : 1 + r ≤ CFSG.Open.pRank 3 (⊤ : Subgroup X) := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have ha1 : a ≠ 1 := fun h => haK (h ▸ K.one_mem)
   have hao : orderOf a = 3 := orderOf_eq_prime ha3 ha1
   have hZel : IsElemAbelian 3 (Subgroup.zpowers a) :=
@@ -179,7 +179,7 @@ theorem add_le_pRank_of_fixed_twE6Out {K : Subgroup X} {a : X} (ha3 : a ^ 3 = 1)
 theorem exists_elemAbelian_five_twE6Two {k : Type} [Field k] [Finite k] (hk : Nat.card k = 2 ^ 2)
     (σ₀ : k ≃+* k) (hσ₀ : ∀ c, σ₀ c = c ^ 2) :
     ∃ E : Subgroup ↥(twistedE6RootGroup k σ₀), IsElemAbelian 3 E ∧ ∃ r, 5 ≤ r ∧ Nat.card E = 3 ^ r := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have he : orderOf (((2 ^ 1 : ℕ)) : ZMod 3) = 2 := by
     rcases CFSG.LieType.SeitzGeneration.orderOf_natCast_three (by norm_num : ¬ 3 ∣ 2 ^ 1) with h | h
     · exfalso
@@ -218,7 +218,7 @@ theorem twE6Eight_field_data {K : Type} [Group K] {L : Type} [Field L] [Finite L
       Nat.prime_two (by norm_num : 1 ≤ 3) L (by rw [hL]; norm_num) σ hσ Θ hΘ Nat.prime_three
       (by norm_num) hα3 hxaD
   obtain ⟨k, σ₀, J, hk4, hσ₀, ⟨eJ⟩, hJΓ, hJn, hfaith⟩ := twE6Eight_fixed_layer hL σ hσ hηo
-  haveI : Finite k := Subtype.finite
+  have : Finite k := Subtype.finite
   set Γ := fixSubgroup (fieldActor (t := TwistTag.E6) σ (Θ α)) with hΓdef
   let χ : K ≃* ↥(twistedE6RootGroup L σ) := θ.trans ψ
   have hχ : ∀ z : K, χ (xa z) = fieldActor σ (Θ α) (χ z) := by
@@ -243,7 +243,7 @@ theorem twE6Eight_field_data {K : Type} [Group K] {L : Type} [Field L] [Finite L
     exact hJΓ (eJ.symm v).2
   let ιD : ↥(fixSubgroup xa) →* ↥Γ :=
     (χ.toMonoidHom.comp (fixSubgroup xa).subtype).codRestrict Γ fun z => hfixK z z.2
-  haveI := hJn
+  have := hJn
   let eJ' : ↥(J.subgroupOf Γ) ≃* ↥(twistedE6RootGroup k σ₀) := (Subgroup.subgroupOfEquivOfLe hJΓ).trans eJ
   let ρ : ↥(fixSubgroup xa) →* MulAut ↥(twistedE6RootGroup k σ₀) :=
     (MulAut.congr eJ').toMonoidHom.comp ((MulAut.conjNormal (H := J.subgroupOf Γ)).comp ιD)
@@ -283,7 +283,7 @@ theorem exists_twoGroup_of_layer_twE6Out {K T : Type} [Group K] [Finite K] [Grou
     ∃ E : Subgroup K, E ≤ D ∧ 9 ≤ Nat.card E ∧
       ∃ U : Subgroup K, U ≠ ⊥ ∧ IsPGroup 2 ↥U ∧ (∀ u ∈ U, xa u = u) ∧ ∀ z ∈ E, ∀ u ∈ U, z * u * z⁻¹ ∈ U := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set ρD : ↥D →* MulAut T := ρ.comp (Subgroup.inclusion hDfix) with hρD
   have hρDinj : Function.Injective ρD := hρ.comp (Subgroup.inclusion_injective hDfix)
   have hρDι : ∀ (z : ↥D) v, ι (ρD z v) = (z : K) * ι v * (z : K)⁻¹ := fun z v =>
@@ -338,7 +338,7 @@ theorem le_glbCore_of_outer_twoGroup_twE6Out {B K : Subgroup X} (hB : IsElemAbel
     K ≤ GLBCore 3 2 B := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   set A := InputsSeitz3.autIm B K with hAdef
   have hAel : IsElemAbelian 3 A := InputsSeitz3.isElemAbelian_autIm hB K
   set M : Subgroup (MulAut ↥K) := E.map MulAut.conj with hM
@@ -419,7 +419,7 @@ theorem le_glbCore_of_twE6Eight_field (hR7 : Claims1310t.Rank3CuResExcSeven)
     K ≤ GLBCore 3 2 B := by
   classical
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hZ : Subgroup.center ↥K = ⊥ := by
     by_contra hZ
     exact InputsSeitz7.cen_ne_bot_of_center_ne_bot hcore hB hrk hK hZ hBN hC
@@ -443,14 +443,14 @@ theorem le_glbCore_of_twE6Eight_field (hR7 : Claims1310t.Rank3CuResExcSeven)
   obtain ⟨L, _, σ, hL, hσ, ⟨eC⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
   have hq8 : q.p ^ q.exponent = 2 ^ 3 := by rw [hq.1, hq.2]
   have hL64 : Nat.card L = (2 ^ 3) ^ 2 := by rw [hL, hq8]
-  haveI : Finite L := Nat.finite_of_card_ne_zero (by rw [hL64]; norm_num)
+  have : Finite L := Nat.finite_of_card_ne_zero (by rw [hL64]; norm_num)
   have hσ8 : ∀ c, σ c = c ^ (2 ^ 3) := fun c => by rw [hσ, hq8]
   let θ : ↥K ≃* twistedE6RootGroup L σ := eK.trans eC
   set A := InputsSeitz3.autIm B K with hAdef
   have hAel : IsElemAbelian 3 A := InputsSeitz3.isElemAbelian_autIm hB K
   have hAc : Nat.card A = 3 ^ CFSG.Open.pRank 3 B :=
     (InputsSeitz3.card_autIm hBN hC).trans (GL83.PiGen.card_eq_pow_pRank hB)
-  obtain ⟨y, hyA, hyD⟩ := SetLike.not_le_iff_exists.1 (hfield L σ hL64 hσ8 θ)
+  obtain ⟨y, hyA, hyD⟩ := IsConcreteLE.not_le_iff_exists.1 (hfield L σ hL64 hσ8 θ)
   obtain ⟨x, hxA, rfl⟩ := hyA
   have hxA' := hxA
   obtain ⟨n, hn, rfl⟩ := hxA
@@ -502,7 +502,7 @@ theorem le_glbCore_of_twE6Eight_field (hR7 : Claims1310t.Rank3CuResExcSeven)
         simp only [MulAut.conj_apply, MulAut.mul_apply, map_mul, map_inv, MulAut.apply_inv_self]
       rw [e1, hcomm, mul_inv_cancel_right]
     exact hconj h1
-  haveI : Finite (MulAut ↥(twistedE6RootGroup k σ₀)) :=
+  have : Finite (MulAut ↥(twistedE6RootGroup k σ₀)) :=
     CFSG.HardMathSupport.Solomon.Coordinator.ChevQ.CartanConjAux.finite_mulAut _
   obtain ⟨E, hED, hE9, U, hU0, hU2, hUfix, hEU⟩ :=
     exists_twoGroup_of_layer_twE6Out (hR7 k σ₀ hk4 hσ₀) hι hιfix hρ hρι hDel hDfix hD4

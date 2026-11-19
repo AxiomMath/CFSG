@@ -332,7 +332,7 @@ theorem torus_sylow_of_maximal (hI : PositiveInputs G t s₀ d J p f)
     have : Fact r.Prime := ⟨hr⟩
     obtain ⟨Br⟩ : Nonempty (Sylow r B) := inferInstance
     obtain ⟨Vr, hVr, hBrV⟩ := exists_isSylowOf_le ((Subgroup.map_subtype_le _).trans hBO)
-      (Br.isPGroup'.map B.subtype)
+      (Br.isPGroup.map B.subtype)
     obtain ⟨hVC, -⟩ := hI.le_C_of_isPGroup hr hrB Br hVr.isPGroup hBrV
     have hVU : IsSylowOf r (Vr ⊓ U) U := hVr.inf_of_le_normalizer hUO hOU
     have hbot : Vr ⊓ U = ⊥ := by

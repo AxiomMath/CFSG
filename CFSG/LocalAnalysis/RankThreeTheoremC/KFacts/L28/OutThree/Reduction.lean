@@ -67,7 +67,7 @@ import Mathlib.Combinatorics.SimpleGraph.Paths
 import Mathlib.Data.Fin.Tuple.Basic
 import Mathlib.Data.Fin.Tuple.Sort
 import Mathlib.Data.Fin.VecNotation
-import Mathlib.Data.Finite.Card
+import Mathlib.SetTheory.Cardinal.NatCard
 import Mathlib.Data.List.Basic
 import Mathlib.Data.Matrix.Basis
 import Mathlib.Data.Matrix.Mul
@@ -283,11 +283,11 @@ theorem exists_threeComplement_of_outCommInner [Finite Y] {K : Subgroup Y}
   let S : Subgroup (N ⧸ M) :=
     { carrier := {x | x ^ b = 1}
       mul_mem' := fun {x y} hx hy => by
-        simp only [Set.mem_setOf_eq] at hx hy ⊢
+        simp only [Set.mem_ofPred_eq] at hx hy ⊢
         rw [(show Commute x y from hcomm x y).mul_pow, hx, hy, one_mul]
       one_mem' := by simp
       inv_mem' := fun {x} hx => by
-        simp only [Set.mem_setOf_eq] at hx ⊢
+        simp only [Set.mem_ofPred_eq] at hx ⊢
         rw [inv_pow, hx, inv_one] }
   have hS : ∀ x, x ∈ S ↔ x ^ b = 1 := fun x => Iff.rfl
   refine ⟨(S.comap φ).map N.subtype, map_subtype_le _, ?_, ?_, ?_, ?_⟩

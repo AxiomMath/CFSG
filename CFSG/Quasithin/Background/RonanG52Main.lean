@@ -34,7 +34,7 @@ theorem nonempty_equiv_St_of_lines {V : Type} [AddCommGroup V]
     (M₁ M₂ : AddSubgroup V) (hM₁ : Nat.card M₁ = 4) (hM₂ : Nat.card M₂ = 4)
     (hM₁G : ∀ g ∈ Ga, ∀ l ∈ M₁, τ g l ∈ M₁) (hM₂G : ∀ g ∈ Gb, ∀ l ∈ M₂, τ g l ∈ M₂) :
     Nonempty (Representation.Equiv St τ) := by
-  haveI : FiniteDimensional (ZMod 2) V := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) V := Module.Finite.of_finite
   obtain ⟨L₁', hL₁', hL₁''⟩ := exists_line_conj τ c (Ga : Set (Perm (Fin 6)))
     (g5G1 : Set (Perm (Fin 6))) M₁ hM₁ hM₁G hca
   obtain ⟨L₂', hL₂', hL₂''⟩ := exists_line_conj τ c (Gb : Set (Perm (Fin 6)))

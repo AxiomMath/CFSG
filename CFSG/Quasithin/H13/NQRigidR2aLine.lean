@@ -93,7 +93,7 @@ theorem exists_invariant_line_of_projectiveSL_three {H : Type} [Group H] [Finite
   set B := τ.range with hB
   have hB2 : IsPGroup 2 B := by
     rw [hB, MonoidHom.range_eq_map]
-    exact ((Q.isPGroup'.to_le inf_le_left).of_equiv Subgroup.topEquiv.symm).map _
+    exact ((Q.isPGroup.to_le inf_le_left).of_equiv Subgroup.topEquiv.symm).map _
   have hBP : ∀ b ∈ B, Pst.map (b : MulAut (LinearFlag.projectiveSL 3 F)).toMonoidHom = Pst := by
     rintro _ ⟨n, rfl⟩
     apply Subgroup.eq_of_le_of_card_ge

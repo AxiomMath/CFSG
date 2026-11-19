@@ -42,9 +42,9 @@ theorem evPt_heGen {w : List ℕ} (hw : ∀ k ∈ w, k < 2)
       else (heGen 1)[evPt (heGen 0) (heGen 1) w x]!) = _
     rw [ih', heWordPerm_cons, Equiv.Perm.mul_apply]
     rcases (by have := hw k List.mem_cons_self; omega : k = 0 ∨ k = 1) with rfl | rfl
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
       exact rep_heGen (by norm_num) _
-    · rw [if_neg one_ne_zero]
+    · rw [ite_eq_right one_ne_zero]
       exact rep_heGen (by norm_num) _
 
 theorem heWordPerm_mem {w : List ℕ} (hw : ∀ k ∈ w, k < 2) : heWordPerm w ∈ heP := by
@@ -104,7 +104,7 @@ theorem hePE8_of {a b c : Equiv.Perm (Fin 8330)} (ha : a ∈ heP) (hb : b ∈ he
     exacts [ha2, hb2, hc2]
   set A := Subgroup.closure ({a, b, c} : Set (Equiv.Perm (Fin 8330))) with hA
   have hAc : ∀ x ∈ A, ∀ y ∈ A, x * y = y * x := by
-    haveI : IsMulCommutative ↥A :=
+    have : IsMulCommutative ↥A :=
       Subgroup.isMulCommutative_closure fun x hx y hy _ => hS x hx y hy
     intro x hx y hy
     exact setLike_mul_comm hx hy

@@ -5,7 +5,7 @@ public import Mathlib.Algebra.BigOperators.Fin
 public import Mathlib.Tactic.LinearCombination
 public import Mathlib.Algebra.CharP.Two
 public import Mathlib.LinearAlgebra.Matrix.Notation
-public import Mathlib.Data.Nat.SuccPred
+public import Mathlib.Order.SuccPred.Nat
 public import Mathlib.Data.ZMod.Defs
 public import Mathlib.Tactic.Ring.RingNF
 

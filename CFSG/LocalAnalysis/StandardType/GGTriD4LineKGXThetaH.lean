@@ -14,8 +14,8 @@ open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.RankThree.Chevalley
 private lemma sigma_algebraMap_eq {K k : Type} [Field K] [Field k] [Algebra k K] {n : ℕ}
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ 2 ^ n) (hk : Nat.card k = 2 ^ n) (x : k) :
     σ (algebraMap k K x) = algebraMap k K x := by
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Fintype k := Fintype.ofFinite k
   have hx : x ^ (2 ^ n) = x := by
     rw [← hk, Nat.card_eq_fintype_card, FiniteField.pow_card]
   rw [hσ, ← map_pow, hx]
@@ -177,28 +177,28 @@ theorem triD4Line_exists_thetaH
         ∀ hdet : Matrix.GeneralLinearGroup.det g = Units.map (Algebra.norm k (S := K))
             (Units.map (algebraMap k K).toMonoidHom c * a),
           θ y = triD4LineMk k K g (Units.map (algebraMap k K).toMonoidHom c * a) hdet := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; positivity)
   have hn : 1 ≤ n := by
     rcases Nat.eq_zero_or_pos n with hn0 | hpos
     · exfalso
       have h1 : Nat.card K = 1 := by rw [hK, hn0]; norm_num
-      haveI : Fintype K := Fintype.ofFinite K
+      have : Fintype K := Fintype.ofFinite K
       have h2 : 1 < Fintype.card K := Fintype.one_lt_card
       rw [← Nat.card_eq_fintype_card, h1] at h2
       exact lt_irrefl 1 h2
     · exact hpos
-  haveI : CharP K 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := by
+    have : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := n * 3)
       (by rw [← Nat.card_eq_fintype_card, hK, pow_mul])
   have hσ3 : σ ^ 3 = 1 := by
     refine RingEquiv.ext fun c => ?_
     rw [ringEquiv_pow_three_apply]
     exact ringEquiv_cube_apply_eq hK hσ c
-  haveI : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
+  have : Finite k := Nat.finite_of_card_ne_zero (by rw [hk]; positivity)
   have hdeg : Module.finrank k K = 3 := by
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fintype k := Fintype.ofFinite k
+    have : Fintype K := Fintype.ofFinite K
+    have : Fintype k := Fintype.ofFinite k
     have hcard := Module.card_eq_pow_finrank (K := k) (V := K)
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hk, hK] at hcard
     have h2n : 2 ≤ 2 ^ n := by
@@ -211,7 +211,7 @@ theorem triD4Line_exists_thetaH
   have hψinj : Function.Injective ψ := fixedFieldUnits_injective σ hσ hk
   have hcardF : Nat.card (trialityFixedField K σ.toRingHom) = 2 ^ n :=
     card_trialityFixedField hK σ hσ hn
-  haveI : Finite (trialityFixedField K σ.toRingHom) :=
+  have : Finite (trialityFixedField K σ.toRingHom) :=
     Nat.finite_of_card_ne_zero (by rw [hcardF]; positivity)
   have hcard : Nat.card (trialityFixedField K σ.toRingHom)ˣ = Nat.card kˣ := by
     rw [Nat.card_units, Nat.card_units, hcardF, hk]

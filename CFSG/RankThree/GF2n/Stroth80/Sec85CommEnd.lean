@@ -28,7 +28,7 @@ open scoped commutatorElement Matrix
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
 theorem sec85_centralizer_le_Z0 (h34 : Stroth34Statement) (h51 : Stroth51Statement)
-    (h53 : Stroth53Statement) (h310chi : Stroth310ChiStatement) (hzt : Sec8ZtStatement)
+    (h53 : Stroth53Statement) (h310chi : Stroth310ChiStatement) (_hzt : Sec8ZtStatement)
     (hA : Sec8AExistsStatement) (hc : Ctx M Q Z B) {n : ℕ} {t r : G} (hs : Sec8Hyp hc n t)
     (hr : Sec7A hc t r) (hC : Conc83 hc n t) {Z0 : Subgroup G}
     (hZ0 : IsCentrePre Z0 (Rt M (LB M Q B) t) Q) {w : G} (hwH : w ∈ H0 M Z)
@@ -65,9 +65,9 @@ theorem sec85_centralizer_le_Z0 (h34 : Stroth34Statement) (h51 : Stroth51Stateme
   have hZ0card : Nat.card ↥Z0 = Nat.card Q * Nat.card Z :=
     sec86ZCard_of_51 h51 hA G M Q Z B hc n t hs Z0 hZ0
   obtain ⟨K, iF, iFin, hchar, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  haveI : CharP K 2 := hchar
-  haveI hEfin : Module.Finite K M₀.E := M₀.fin
-  haveI hEfinite : Finite M₀.E := Module.finite_of_finite K
+  have : CharP K 2 := hchar
+  have hEfin : Module.Finite K M₀.E := M₀.fin
+  have hEfinite : Finite M₀.E := Module.finite_of_finite K
   have hq : Nat.card K = Nat.card Z := hD.card
   have hq2 : 2 ≤ Nat.card Z := by have := hc.hyp.q4; omega
   obtain ⟨A, A₀, hAmem, hA₀mem, hA₀A, hdim⟩ := sec8_exists_codim_one h310chi h53.1 hc hs hr hD

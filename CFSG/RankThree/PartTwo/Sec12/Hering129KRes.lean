@@ -28,13 +28,13 @@ theorem isQuasisimple_of_isSLThreePiAt {X : Type} [Group X] {m : ℕ} (hX : Sec4
 theorem map_theta_eq_bot {X Q : Type} [Group X] [Finite X] [Group Q] (hQ : CFSG.IsQuasisimple Q)
     (hZ : Nat.card (Subgroup.center Q) = 3) (φ : X →* Q) (hφ : Function.Surjective φ) :
     (aschbacherSolvableCore 3 X).map φ = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hθs, hθc, hθ3, -, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := X) Nat.prime_three
-  haveI := hθs
+  have := hθs
   set M := (aschbacherSolvableCore 3 X).map φ with hM
-  haveI hMn : M.Normal := Subgroup.Normal.map inferInstance φ hφ
-  have hMsolv : Group.IsSolvable M := solvable_of_surjective (φ.subgroupMap_surjective _)
+  have hMn : M.Normal := Subgroup.Normal.map inferInstance φ hφ
+  have hMsolv : Group.IsSolvable M := Group.isSolvable_of_surjective (φ.subgroupMap_surjective _)
   have hMZ : M ≤ Subgroup.center Q := Hering129HLift.solvable_normal_le_center hQ M hMsolv
   have hMcard : Nat.card M ∣ Nat.card (aschbacherSolvableCore 3 X) :=
     Subgroup.card_dvd_of_surjective (φ.subgroupMap_surjective (aschbacherSolvableCore 3 X))
@@ -54,11 +54,11 @@ theorem exists_quotTheta_resCent_equiv {G : Type} [Group G] [Finite G] {Y : Subg
     Nonempty (↥(resCent Y c) ⧸ aschbacherSolvableCore 3 ↥(resCent Y c) ≃*
       ↥(resCent (⊤ : Subgroup (↥Y ⧸ aschbacherSolvableCore 3 ↥Y))
         (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥Y) ⟨c, hcY⟩))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hθs, hθc, hθ3, -, -, -, -⟩ :=
     solvable_prime_complement_core_characterization (H := ↥Y) Nat.prime_three
   set N := aschbacherSolvableCore 3 ↥Y with hN
-  haveI : N.Normal := inferInstance
+  have : N.Normal := inferInstance
   set π := QuotientGroup.mk' N with hπ
   set c₀ : ↥Y := ⟨c, hcY⟩ with hc₀
   have hc₀3 : c₀ ^ 3 = 1 := Subtype.ext (by simpa using hc3)
@@ -107,10 +107,10 @@ theorem exists_quotTheta_resCent_equiv {G : Type} [Group G] [Finite G] {Y : Subg
       have h3 : (i : G) ∈ inSubgroup (aschbacherSolvableCore 3) Y := ⟨_, h2, rfl⟩
       exact mem_theta_of_mem_theta_of_le hIY i.2 h3
     · intro t ht
-      haveI : Group.IsSolvable (aschbacherSolvableCore 3 ↥I) := hθIs
+      have : Group.IsSolvable (aschbacherSolvableCore 3 ↥I) := hθIs
       set M := (aschbacherSolvableCore 3 ↥I).map ρ with hM
-      haveI hMn : M.Normal := Subgroup.Normal.map inferInstance ρ hρ
-      have hMsolv : Group.IsSolvable M := solvable_of_surjective (ρ.subgroupMap_surjective _)
+      have hMn : M.Normal := Subgroup.Normal.map inferInstance ρ hρ
+      have hMsolv : Group.IsSolvable M := Group.isSolvable_of_surjective (ρ.subgroupMap_surjective _)
       have hMZ : M ≤ Subgroup.center ↥Î :=
         Hering129HLift.solvable_normal_le_center hQÎ M hMsolv
       have hMcard : Nat.card M ∣ Nat.card (aschbacherSolvableCore 3 ↥I) :=
@@ -134,11 +134,11 @@ theorem false_of_threeA_image {X Q : Type} [Group X] [Finite X] [Group Q]
     (hsub : (φ.range.subgroupOf (resCent (⊤ : Subgroup Q) z)).IsSubnormal)
     (hne : φ.range ≠ ⊥)
     (hZ2 : ∀ w ∈ Subgroup.center (X ⧸ aschbacherSolvableCore 3 X), w ^ 2 = 1) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C := resCent (⊤ : Subgroup Q) z with hC
   have hQ := isQuasisimple_of_isSLThreePiAt hz hm
   have hZ3 : Nat.card (Subgroup.center ↥C) = 3 := card_center_eq_three_of_isSLThreePi ⟨m, hz⟩
-  haveI : Group.IsPerfect X := hXp
+  have : Group.IsPerfect X := hXp
   have hPperf : Group.IsPerfect φ.range :=
     Group.IsPerfect.ofSurjective (f := φ.rangeRestrict) φ.rangeRestrict_surjective
   have hP'perf : Group.IsPerfect (φ.range.subgroupOf C) :=
@@ -208,8 +208,8 @@ theorem mem_resCent_of_image {Y : Type} [Group Y] [Finite Y] (N : Subgroup Y) [N
   set T := Subgroup.centralizer ({t} : Set Y) with hT
   have hsT : s ∈ T := Subgroup.mem_centralizer_singleton_iff.mpr hts
   set P : Subgroup T := perfectResidual T with hP
-  haveI : P.Characteristic := CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual_characteristic
-  haveI : P.Normal := inferInstance
+  have : P.Characteristic := CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual_characteristic
+  have : P.Normal := inferInstance
   rw [← map_resCent_quot N hN ht3] at hs
   obtain ⟨y, hy, hys⟩ := hs
   obtain ⟨p, hpP, hpy⟩ := hy

@@ -25,7 +25,7 @@ theorem noOuterIrr_L3big
   by_contra hcon
   have hEboff : Nat.card W ≤ Nat.card E * Nat.card (fixV E) := not_lt.1 hcon
   have hV' : ∀ w : W, w * w = 1 := hW
-  haveI : Finite (MulAut W) :=
+  have : Finite (MulAut W) :=
     Finite.of_injective (fun g : MulAut W => (g : W → W)) DFunLike.coe_injective
   have hodd : Odd (Nat.card (Subgroup.center ↥L)) :=
     Family.odd_card_center_of_irreducible hV' hirr.2
@@ -34,17 +34,17 @@ theorem noOuterIrr_L3big
       ⟨Nat.prime_two, by omega, by norm_num, by simp, by simp⟩ (e.trans hY.some)
   obtain ⟨F, iF, iFin, φ₀, hFc, hcov⟩ := X7Sec.exists_cover_of_model hq.1 hodd (by omega) hmodel
   obtain ⟨W₂, _, _, _, ⟨θ⟩⟩ := Layer.Actor.exists_binModel_of_binary hV'
-  haveI : Nontrivial W := hirr.1
-  haveI : Nontrivial W₂ := (θ.toEquiv.trans Multiplicative.toAdd).symm.nontrivial
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Nontrivial W := hirr.1
+  have : Nontrivial W₂ := (θ.toEquiv.trans Multiplicative.toAdd).symm.nontrivial
+  have : Fintype F := Fintype.ofFinite F
   have hFcard : Fintype.card F = 2 ^ f := by rw [Fintype.card_eq_nat_card]; exact hFc
-  haveI hchar : CharP F 2 := finite_field_prime_power_characteristic Nat.prime_two (by omega) hFc
+  have hchar : CharP F 2 := finite_field_prime_power_characteristic Nat.prime_two (by omega) hFc
   set A := E.map (binPsi θ).toMonoidHom with hAdef
   have hoff : Nat.card W₂ ≤ Nat.card ↥A * Nat.card {u : W₂ // ∀ a ∈ A, a u = u} := by
     rw [B42SL3.card_fix_map, Subgroup.card_map_of_injective (binPsi θ).injective,
       ← Layer.Actor.natCard_eq θ]
     exact hEboff
-  haveI hAel : CFSG.IsElementaryAbelian 2 ↥A := (Layer.Actor.isElemAbelian2_iff_map θ E).1 hel
+  have hAel : CFSG.IsElementaryAbelian 2 ↥A := (Layer.Actor.isElemAbelian2_iff_map θ E).1 hel
   have hA1 : A ≠ ⊥ := by
     rw [Ne, hAdef, Subgroup.map_eq_bot_iff_of_injective E (binPsi θ).injective]
     exact hne

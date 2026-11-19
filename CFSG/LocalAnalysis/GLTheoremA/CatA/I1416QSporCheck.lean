@@ -17,7 +17,7 @@ theorem qcompOK_three_of_card_dvd_360 {Q : Type} [Group Q]
     (hk : Nat.card (Subgroup.centralizer ({k} : Set Q)) ∣ 360) : QCompOK 3 k := by
   intro I hI
   obtain ⟨hs, hnab⟩ := KDSpor.pSimple_simple_nonab Nat.prime_three hI
-  haveI := hs
+  have := hs
   have h3 : 3 * Nat.card (PSimple 3 I) ∣ 360 :=
     (three_mul_card_pSimple_dvd_cent hk3 hI.1).trans hk
   have hd : Nat.card (PSimple 3 I) ∣ 3000 :=

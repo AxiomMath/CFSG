@@ -211,9 +211,9 @@ private theorem R_smul_mem_E {n : ℕ} {E : Subgroup (GL (Fin n) F4)}
 
 private theorem R_ne_bot {n : ℕ} {U₀ : Subgroup (SU n)} (hU0p : IsPGroup 2 ↥U₀)
     (hU0 : U₀ ≠ ⊥) : R U₀ ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hW : W U₀ ≠ ⊥ := W_ne_bot hU0
-  haveI : Nontrivial ↥(W U₀) := Submodule.nontrivial_iff_ne_bot.2 hW
+  have : Nontrivial ↥(W U₀) := Submodule.nontrivial_iff_ne_bot.2 hW
   have hfix : (repOnW U₀).invariants ≠ ⊥ := by
     refine Representation.invariants_ne_bot_of_forall_pow_eq_one 2 (repOnW U₀) ?_
     intro g
@@ -411,7 +411,7 @@ private theorem transvection_ne_one {n : ℕ} (x : Fin n → F4) (hx : H x x = 0
       _ = 1 + 1 := by rw [hx3]
       _ = 0 := F4_one_add_one
   rw [hmat] at hz
-  simpa using hz
+  simp at hz
 
 private theorem transvection_commute_apply {n : ℕ} {E : Subgroup (SU n)}
     (hexp : ∀ e ∈ E, e ^ 3 = 1) {x : Fin n → F4} (hx0 : x ≠ 0)
@@ -492,7 +492,7 @@ theorem suInvCent (n : ℕ) : SUInvCent n := by
   rcases Nat.eq_zero_or_pos n with rfl | hn
   · intro E U₀ hU0p hU0 hE hcomm hexp
     exfalso
-    haveI : Subsingleton (SU 0) := inferInstance
+    have : Subsingleton (SU 0) := inferInstance
     refine hU0 ((Subgroup.eq_bot_iff_forall U₀).2 ?_)
     intro x _
     exact Subsingleton.elim x 1

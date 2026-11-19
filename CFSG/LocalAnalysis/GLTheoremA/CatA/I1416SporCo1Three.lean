@@ -29,8 +29,8 @@ include hGood hU hA9 hS in
 theorem tabCo1_centShapeRk_three_good
     (hb : Nonempty (CFSG.Blueprint.NativeSporadic.Suz ≃* (TauCeti.CFSGIndex.sporadic .Suz).Group)) :
     CentShapeRk 3 Good (fun _ _ => True) ↥GA := by
-  haveI : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥GA := CFSG.Sporadic.Co1Schreier.finite_GA
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hRk : ∀ (T T' : Type) [Group T] [Group T'], T ≃* T' → True → True := fun _ _ _ _ _ h => h
   intro k hk1 hk3
   obtain ⟨g, x, hx, hcases⟩ := tabCo1_census_three k (orderOf_eq_prime hk3 hk1)

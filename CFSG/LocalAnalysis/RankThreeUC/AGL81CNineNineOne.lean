@@ -37,19 +37,19 @@ theorem o991Gen_of_inputs (h7 : NineSevenTwoInputGen) (h6 : NineSixInputGen)
   obtain ⟨L, hL, -, -⟩ := hcomp.exists_shape
   have hLns : ¬ Group.IsSolvable ↥L := by
     intro hLsolv
-    haveI := hLsolv
+    have := hLsolv
     obtain ⟨-, hsimple, a, b, hab⟩ := hL.1
-    haveI := hsimple
+    have := hsimple
     exact hab (IsSimpleGroup.comm_iff_isSolvable.mpr inferInstance a b)
   have hHns : ¬ Group.IsSolvable ↥H := by
     intro hHsolv
-    haveI := hHsolv
+    have := hHsolv
     have hLsolv : Group.IsSolvable ↥L :=
       Group.isSolvable_of_isSolvable_injective (f := L.subtype) L.subtype_injective
     exact hLns hLsolv
   have hMns : ¬ Group.IsSolvable ↥M := by
     intro hMsolv
-    haveI := hMsolv
+    have := hMsolv
     let e := Subgroup.equivMapOfInjective M (MulAut.conj g).toMonoidHom
       (MulAut.conj g).injective
     have hHsolv : Group.IsSolvable ↥H :=

@@ -110,7 +110,7 @@ private theorem g2no_six_root {F : Type} [Field F] [CharP F 2] (c : F) :
 
 private theorem g2no_N6_entry {F : Type} [Field F] :
     g2no_N6 (F := F) (e6 (Sum.inl (1 : Fin 3))) (e6 (Sum.inl (0 : Fin 3))) = 1 := by
-  simp [g2no_N6, g2no_N3, Matrix.reindexAlgEquiv_apply, Matrix.reindex_apply]
+  simp [g2no_N6, g2no_N3, Matrix.coe_reindexAlgEquiv, Matrix.reindex_apply]
 
 private theorem g2no_exists_mulAut {F : Type} [Field F] [CharP F 2]
     (M : GL (Fin 6) F) (hM : M * M = 1)
@@ -340,11 +340,11 @@ theorem natOut_g2Six
     have hentry := congrArg (fun M : Matrix (Fin 6) (Fin 6) F => M i j) h1
     rw [Matrix.smul_apply, Matrix.one_apply, smul_eq_mul] at hentry
     by_cases hij : i = j
-    · rw [if_pos hij] at hentry
-      rw [Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, if_pos hij, mul_one]
+    · rw [ite_eq_left hij] at hentry
+      rw [Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, ite_eq_left hij, mul_one]
       exact eq_inv_of_mul_eq_one_right hentry
-    · rw [if_neg hij] at hentry
-      rw [Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, if_neg hij, mul_zero]
+    · rw [ite_eq_right hij] at hentry
+      rw [Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, ite_eq_right hij, mul_zero]
       exact (mul_eq_zero.mp hentry).resolve_left hc0sq
   have hBscalar : (g2Six ((ψ g) ^ 2) : Matrix (Fin 6) (Fin 6) F) = (c0 ^ 2)⁻¹ • 1 := by
     calc (g2Six ((ψ g) ^ 2) : Matrix (Fin 6) (Fin 6) F)

@@ -77,7 +77,7 @@ theorem s15k_pord_omega_plus {X : Type} [Group X] {n : ℕ} (hn : 6 ≤ n)
     (n = 6 → Nat.card X = 20160) ∧ (8 ≤ n → 2 ^ 7 ∣ Nat.card X) := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := h
   have hK2 : Nat.card K = 2 := by simpa using hK
-  haveI : CharP K 2 := s15k_pord_omp_charP_two (f := 1) hK
+  have : CharP K 2 := s15k_pord_omp_charP_two (f := 1) hK
   have hm3 : 3 ≤ n / 2 := by omega
   have hcardX : Nat.card X = Nat.card ↥(StatedOmega (StatedQuadPlus (n / 2) K)) := by
     rw [Nat.card_congr e.toEquiv]

@@ -95,7 +95,7 @@ theorem map_glaPPrimeCoreOf_centralizer_le {X Z : Type*} [Group X] [Finite X] [G
   have hPT : P ≤ T := Subgroup.map_subtype_le _
   have hQP : Q ≤ P := fun b hb =>
     Subgroup.mem_map.2 ⟨⟨b, hQT hb⟩, hS (Subgroup.mem_subgroupOf.2 hb), rfl⟩
-  have hPp : IsPGroup p P := S.isPGroup'.map _
+  have hPp : IsPGroup p P := S.isPGroup.map _
   have hPN : P ≤ Q ⊔ φ.ker := hPT
   have hchain := map_GLAPPrimeCoreOf_centralizer_le_of_le φ hp _ le_rfl hQP hPp hPN
   have hsub : (GLAPPrimeCoreOf p (Subgroup.centralizer (P : Set X))).map φ ≤

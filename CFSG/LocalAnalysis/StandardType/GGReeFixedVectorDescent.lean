@@ -49,7 +49,7 @@ private theorem exists_fixed_vector_of_simple {Γ : Type} [Group Γ] [Finite Γ]
   intro n ih V _ _ _ _ ρ hfin
   classical
   by_cases hirr : ρ.IsIrreducible
-  · haveI : IsSimpleModule (MonoidAlgebra (AlgebraicClosure (ZMod 2)) Γ) ρ.asModule :=
+  · have : IsSimpleModule (MonoidAlgebra (AlgebraicClosure (ZMod 2)) Γ) ρ.asModule :=
       (Representation.irreducible_iff_isSimpleModule_asModule ρ).mp hirr
     exact hW V ρ
   · have hbot_top : (⊥ : Subrepresentation ρ) ≠ ⊤ := by
@@ -60,7 +60,7 @@ private theorem exists_fixed_vector_of_simple {Γ : Type} [Group Γ] [Finite Γ]
       have hvmem : v ∈ (⊥ : Submodule (AlgebraicClosure (ZMod 2)) V) := by
         rw [hsub]; trivial
       exact hv (by simpa [Submodule.mem_bot] using hvmem)
-    haveI : Nontrivial (Subrepresentation ρ) := ⟨⟨⊥, ⊤, hbot_top⟩⟩
+    have : Nontrivial (Subrepresentation ρ) := ⟨⟨⊥, ⊤, hbot_top⟩⟩
     have hnot : ¬ (∀ a : Subrepresentation ρ, a = ⊥ ∨ a = ⊤) := by
       intro hall
       exact hirr ((isSimpleOrder_iff (Subrepresentation ρ)).mpr ⟨inferInstance, hall⟩)
@@ -72,8 +72,8 @@ private theorem exists_fixed_vector_of_simple {Γ : Type} [Group Γ] [Finite Γ]
     have hσsub_top : σ.toSubmodule ≠ ⊤ := by
       intro h
       exact hσtop (Subrepresentation.toSubmodule_injective (by rw [h]; rfl))
-    haveI : Nontrivial σ.toSubmodule := Submodule.nontrivial_iff_ne_bot.mpr hσsub_bot
-    haveI : Module.Finite (AlgebraicClosure (ZMod 2)) σ.toSubmodule := inferInstance
+    have : Nontrivial σ.toSubmodule := Submodule.nontrivial_iff_ne_bot.mpr hσsub_bot
+    have : Module.Finite (AlgebraicClosure (ZMod 2)) σ.toSubmodule := inferInstance
     have hlt : Module.finrank (AlgebraicClosure (ZMod 2)) σ.toSubmodule < n := by
       rw [← hfin]
       exact Submodule.finrank_lt hσsub_top
@@ -95,10 +95,10 @@ private theorem exists_fixed_vector_over_zmod_two {Γ : Type} [Group Γ] [Finite
     (ρ : Representation (ZMod 2) Γ A) : ∃ a : A, a ≠ 0 ∧ ρ e a = a := by
   let K := AlgebraicClosure (ZMod 2)
   let V := K ⊗[ZMod 2] A
-  haveI hFin : Module.Finite K V := Module.Finite.base_change (ZMod 2) K A
-  haveI hTors : Module.IsTorsionFree K V := inferInstance
-  haveI hFlat : Module.Flat (ZMod 2) K := Module.Flat.of_free
-  haveI hNontriv : Nontrivial V := by
+  have hFin : Module.Finite K V := Module.Finite.base_change (ZMod 2) K A
+  have hTors : Module.IsTorsionFree K V := inferInstance
+  have hFlat : Module.Flat (ZMod 2) K := Module.Flat.of_free
+  have hNontriv : Nontrivial V := by
     rw [← Module.finrank_pos_iff (R := K)]
     rw [Module.finrank_baseChange]
     exact (Module.finrank_pos_iff (R := ZMod 2) (M := A)).mpr ‹Nontrivial A›
@@ -122,7 +122,7 @@ private theorem exists_fixed_vector_over_zmod_two {Γ : Type} [Group Γ] [Finite
     intro hf
     have hfb : Function.Injective (LinearMap.baseChange K f) := by
       have h := Module.Flat.lTensor_preserves_injective_linearMap (M := K) f hf
-      simpa only [LinearMap.baseChange_eq_ltensor] using h
+      simpa only [LinearMap.baseChange_eq_lTensor] using h
     exact hv0 (hfb (by rw [hvker, map_zero]))
   have hker : f.ker ≠ ⊥ := fun h => hfnot ((LinearMap.ker_eq_bot (f := f)).mp h)
   obtain ⟨a, ha, ha0⟩ := (Submodule.ne_bot_iff f.ker).mp hker
@@ -132,7 +132,7 @@ private theorem exists_fixed_vector_over_zmod_two {Γ : Type} [Group Γ] [Finite
     simpa only [f, LinearMap.sub_apply, Module.End.one_apply] using hfa
   exact sub_eq_zero.mp this
 
-theorem fixed_vector_descent {Γ : Type} [Group Γ] [Finite Γ] (e : Γ) (hodd : Odd (orderOf e))
+theorem fixed_vector_descent {Γ : Type} [Group Γ] [Finite Γ] (e : Γ) (_hodd : Odd (orderOf e))
     (hW : ∀ (W : Type) [AddCommGroup W] [Module (AlgebraicClosure (ZMod 2)) W]
       [Module.Finite (AlgebraicClosure (ZMod 2)) W]
       (ρ : Representation (AlgebraicClosure (ZMod 2)) Γ W)
@@ -140,10 +140,10 @@ theorem fixed_vector_descent {Γ : Type} [Group Γ] [Finite Γ] (e : Γ) (hodd :
       ∃ w : W, w ≠ 0 ∧ ρ e w = w)
     (Q : Type) [Group Q] [Finite Q] (hQ : ∀ x : Q, x ^ 2 = 1) [Nontrivial Q]
     (ρ : Γ →* MulAut Q)
-    (hirr : ∀ W : Subgroup Q, (∀ r, ∀ x ∈ W, ρ r x ∈ W) → W = ⊥ ∨ W = ⊤) :
+    (_hirr : ∀ W : Subgroup Q, (∀ r, ∀ x ∈ W, ρ r x ∈ W) → W = ⊥ ∨ W = ⊤) :
     ∃ x : Q, x ≠ 1 ∧ ρ e x = x := by
   have hcomm : ∀ x y : Q, x * y = y * x := commute_of_sq_eq_one hQ
-  letI : CommGroup Q := { (inferInstance : Group Q) with mul_comm := hcomm }
+  let : CommGroup Q := { (inferInstance : Group Q) with mul_comm := hcomm }
   have h2smul : ∀ x : Additive Q, (2 : ℕ) • x = 0 := by
     intro x
     rw [two_nsmul]
@@ -151,10 +151,10 @@ theorem fixed_vector_descent {Γ : Type} [Group Γ] [Finite Γ] (e : Γ) (hodd :
     rw [show Additive.toMul x * Additive.toMul x = 1 from by
       simpa [pow_two] using hQ (Additive.toMul x)]
     rfl
-  letI : Module (ZMod 2) (Additive Q) := AddCommGroup.zmodModule h2smul
-  haveI : Finite (Additive Q) := inferInstance
-  haveI : Module.Finite (ZMod 2) (Additive Q) := Module.Finite.of_finite
-  haveI : Nontrivial (Additive Q) := inferInstance
+  let : Module (ZMod 2) (Additive Q) := AddCommGroup.zmodModule h2smul
+  have : Finite (Additive Q) := inferInstance
+  have : Module.Finite (ZMod 2) (Additive Q) := Module.Finite.of_finite
+  have : Nontrivial (Additive Q) := inferInstance
   let ρ' : Representation (ZMod 2) Γ (Additive Q) :=
     { toFun := fun g => AddMonoidHom.toZModLinearMap 2 ((ρ g).toAdditive.toAddMonoidHom)
       map_one' := by

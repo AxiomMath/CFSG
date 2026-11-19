@@ -94,7 +94,7 @@ theorem not_dvd_card_isoLeviImage {p : ℕ} [Fact p.Prime]
   ·
     exact hall (@mul_comm' _ _ hE.toIsMulCommutative)
   ·
-    haveI := hcyc
+    have := hcyc
     exact hall mul_comm'
   ·
     exact hfalse y hy (commute_of_equiv_dihedral e (by rw [hconj]; omega) (by rw [hy]; omega))
@@ -113,7 +113,7 @@ theorem not_dvd_card_isoLeviImage {p : ℕ} [Fact p.Prime]
       have hN1 : N = ⊥ := Subgroup.eq_bot_of_card_eq N (by rw [hNm, pow_zero])
       rw [hN1, bot_sup_eq] at hNC
       have hCtop : ∀ a, a ∈ C := fun a => by rw [hNC]; exact Subgroup.mem_top a
-      haveI := hC
+      have := hC
       exact hall fun a b => congrArg Subtype.val (mul_comm' (⟨a, hCtop a⟩ : C) ⟨b, hCtop b⟩)
     ·
       obtain ⟨n, hn⟩ := exists_prime_orderOf_dvd_card' (G := ↥N) p

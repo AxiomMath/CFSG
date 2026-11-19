@@ -220,7 +220,7 @@ private theorem card_inf_plane {B : Subgroup G} (hBA : B ≤ t.d.AA) (hB9 : Nat.
   set n := Nat.card ((B ⊓ (t.d.A i ⊔ t.d.A j)) : Subgroup G) with hn
   obtain ⟨k, hk, hkn⟩ :=
     (Nat.dvd_prime_pow Nat.prime_three (m := 2) (i := n)).mp (by simpa using hdvd)
-  interval_cases k <;> simp_all <;> omega
+  interval_cases k <;> simp_all; omega
 
 private theorem plane_X_ne {B : Subgroup G} (hBA : B ≤ t.d.AA) (hB9 : Nat.card B = 9)
     (hZB : t.Z ≤ B) (hyB : t.y ∈ Subgroup.normalizer (B : Set G))
@@ -378,7 +378,6 @@ theorem exists_mem_A_sup_A_of_mem_plane {B : Subgroup G} (hBA : B ≤ t.d.AA)
   have hunion : (N0 ∪ N1 ∪ N2 ∪ N3).ncard = 8 := by
     rw [Set.ncard_union_eq hd0123, Set.ncard_union_eq hd012, Set.ncard_union_eq hd01,
       hN0, hN1, hN2, hN3]
-    try norm_num
   have hNsub : N0 ∪ N1 ∪ N2 ∪ N3 ⊆ (B : Set G) \ {1} := by
     intro x hx
     simp only [Set.mem_union, Set.mem_sdiff, Set.mem_singleton_iff] at hx ⊢
@@ -413,8 +412,8 @@ theorem normalizer_plane_le {p : ℕ} (hp : p ∈ c.sig) (hN : t.PairNormalizerL
     Subgroup.normalizer (B : Set G) ≤ c.S.M := by
   classical
   have hpp : p.Prime := (c.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X01 : Subgroup G := B ⊓ (t.d.A 0 ⊔ t.d.A 1)
   let X12 : Subgroup G := B ⊓ (t.d.A 1 ⊔ t.d.A 2)
   have h01 : Nat.card X01 = 3 := t.card_inf_plane hBA hB9 hZB (by decide)
@@ -527,7 +526,7 @@ private theorem dvd_card_inf_centralizer_conj {p : ℕ} [Fact p.Prime] {x w s : 
     rw [MonoidHom.map_zpowers]
     congr 1
     rw [hxw]
-    try simp [MulAut.conj_apply]
+    try simp
   have hcent : (Subgroup.centralizer ({w} : Set G)).map
       (MulAut.conj s⁻¹).toMonoidHom = Subgroup.centralizer ({x} : Set G) := by
     have hw : Subgroup.centralizer ({w} : Set G) =
@@ -554,8 +553,8 @@ theorem false_of_conj_plane {p : ℕ} (hp : p ∈ c.sig) (hN : t.PairNormalizerL
     (hne : B.map (MulAut.conj h).toMonoidHom ≠ B) : False := by
   classical
   have hpp : p.Prime := (c.sig_prime p hp).1
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X : Subgroup G := B ⊓ (t.d.A 0 ⊔ t.d.A 1)
   have hXcard : Nat.card X = 3 := t.card_inf_plane hBA hB9 hZB (by decide)
   have hXnebot : X ≠ ⊥ := by
@@ -729,7 +728,7 @@ theorem pPrimeCore_le {p : ℕ} (hN : t.PairNormalizerLe p)
     {H : Subgroup G} (hA : t.d.A 0 ⊔ t.d.A 1 ≤ H) :
     (CFSG.pPrimeCore 3 ↥H).map H.subtype ≤ c.S.M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let E : Subgroup G := t.d.A 0 ⊔ t.d.A 1
   let K : Subgroup ↥H := CFSG.pPrimeCore 3 ↥H
   let EH : Subgroup ↥H := E.subgroupOf H

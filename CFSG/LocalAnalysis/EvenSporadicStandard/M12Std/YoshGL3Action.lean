@@ -74,12 +74,12 @@ theorem exists_hom_gl_three_of_closure_eq_top {E L : Type*} [Group E] [Group L]
     (σ : L →* Monoid.End E) (hσ : ∀ ℓ, σ ℓ c = c) :
     ∃ ρ : L →* GL (Fin 3) (ZMod 2), ∀ ℓ, ρ ℓ = 1 ↔
       ∀ e : E, σ ℓ e * e⁻¹ = 1 ∨ σ ℓ e * e⁻¹ = c := by
-  letI : CommGroup E := { ‹Group E› with mul_comm := mul_comm_of_mul_self_eq_one hsq }
-  letI : Module (ZMod 2) (Additive E) := AddCommGroup.zmodModule (n := 2) fun x => by
+  let : CommGroup E := { ‹Group E› with mul_comm := mul_comm_of_mul_self_eq_one hsq }
+  let : Module (ZMod 2) (Additive E) := AddCommGroup.zmodModule (n := 2) fun x => by
     rw [two_nsmul]
     exact congrArg Additive.ofMul (hsq (Additive.toMul x))
-  haveI : Finite E := Nat.finite_of_card_ne_zero (by omega)
-  haveI : Module.Finite (ZMod 2) (Additive E) := Module.Finite.of_finite
+  have : Finite E := Nat.finite_of_card_ne_zero (by omega)
+  have : Module.Finite (ZMod 2) (Additive E) := Module.Finite.of_finite
   have hrank : Module.finrank (ZMod 2) (Additive E) = 3 + 1 := by
     have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := Additive E)
     rw [Nat.card_zmod, show Nat.card (Additive E) = 16 from hcard] at h

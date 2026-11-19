@@ -315,7 +315,7 @@ theorem lieOuterThreeAt_d4_of_cases (h : D4ThreeOuterCases) :
     have hTc : Nat.card ↥(fixSubfield T) = 3 ^ d :=
       CFSG.RankThree.PartOne.KGD.card_fixSubfield_cube Nat.prime_three hd
         (by rw [hK, ← pow_mul, mul_comm]) T hT
-    haveI : Finite ↥(fixSubfield T) := Subtype.finite
+    have : Finite ↥(fixSubfield T) := Subtype.finite
     have hfield : OuterSubThree .POmegaPlus 4 (3 * d)
         (fixSubgroup (entrywiseAdjointAut Tag.D4 T)) :=
       outerSubThree_entrywise_of_model T (by decide)

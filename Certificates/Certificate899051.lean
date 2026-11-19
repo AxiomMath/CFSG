@@ -81,7 +81,7 @@ theorem certificate899051 :
     ∧ (lineCount mC = 24)
     ∧ (lineCount mD = 15)
     ∧ (lineCount mE = 30)
-    ∧ (∀ (m : Fin 7 → Bool) (hm : m = mA ∨ m = mB ∨ m = mC ∨ m = mD ∨ m = mE), ((nonzeroL.filter fun v => m (tab v).1).toFinset).card = 2 * lineCount m)
+    ∧ (∀ (m : Fin 7 → Bool) (_hm : m = mA ∨ m = mB ∨ m = mC ∨ m = mD ∨ m = mE), ((nonzeroL.filter fun v => m (tab v).1).toFinset).card = 2 * lineCount m)
     ∧ (([false, true].all fun m₁ => [false, true].all fun m₂ => [false, true].all fun m₄ => [false, true].all fun m₅ => [false, true].all fun m₆ => (optLD 1 m₁).all fun p₁ => (optLD 2 m₂).all fun p₂ => (optLD 4 m₄).all fun p₄ => (optLD 5 m₅).all fun p₅ => (optLD 6 m₆).all fun p₆ => decide (C1D (mkCfgD m₁ m₂ m₄ m₅ m₆ p₁ p₂ p₄ p₅ p₆) → C3D (mkCfgD m₁ m₂ m₄ m₅ m₆ p₁ p₂ p₄ p₅ p₆) → C4D (mkCfgD m₁ m₂ m₄ m₅ m₆ p₁ p₂ p₄ p₅ p₆) 2 → C4D (mkCfgD m₁ m₂ m₄ m₅ m₆ p₁ p₂ p₄ p₅ p₆) 4 → GoodD (mkCfgD m₁ m₂ m₄ m₅ m₆ p₁ p₂ p₄ p₅ p₆))) = true) :=
   ⟨mem_nonzeroL, not_zero_mem_nonzeroL, mem_allV, H0L_transpose, H0L_comm_T0,
     H0L_cols_of H0L_eq E0L_eqD SU_eqD H0L_colsD, card_stab, tab_spec, tab_rep, rep_ne_zero,

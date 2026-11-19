@@ -24,6 +24,7 @@ instance instActorAction (σ : MulAut M) : MulDistribMulAction (Subgroup.zpowers
 abbrev commAct (σ : MulAut M) : Subgroup M :=
   CFSG.commutatorAction (A := Subgroup.zpowers σ) (G := M)
 
+omit [Finite M] in
 theorem zpowers_self_eq_top (σ : MulAut M) :
     Subgroup.zpowers (⟨σ, Subgroup.mem_zpowers σ⟩ : Subgroup.zpowers σ) = ⊤ := by
   rw [eq_top_iff]
@@ -32,6 +33,7 @@ theorem zpowers_self_eq_top (σ : MulAut M) :
   rw [Subgroup.mem_zpowers_iff]
   exact ⟨k, Subtype.ext hk⟩
 
+omit [Finite M] in
 theorem pow_mem_commSub (τ : MulAut M) (n : ℕ) (g : M) :
     g⁻¹ * (τ ^ n) g ∈ commSub τ := by
   induction n generalizing g with
@@ -46,6 +48,7 @@ theorem pow_mem_commSub (τ : MulAut M) (n : ℕ) (g : M) :
         Subgroup.subset_closure (show g⁻¹ * τ g ∈ Set.range (fun x : M => x⁻¹ * τ x) from ⟨g, rfl⟩)
       exact Subgroup.mul_mem _ hgen (ih (τ g))
 
+omit [Finite M] in
 theorem zpow_mem_commSub (τ : MulAut M) (k : ℤ) (g : M) :
     g⁻¹ * (τ ^ k) g ∈ commSub τ := by
   obtain ⟨n, rfl | rfl⟩ := Int.eq_nat_or_neg k
@@ -62,6 +65,7 @@ theorem zpow_mem_commSub (τ : MulAut M) (k : ℤ) (g : M) :
     rw [key]
     exact Subgroup.inv_mem _ (pow_mem_commSub τ n ((τ ^ (-(n : ℤ))) g))
 
+omit [Finite M] in
 theorem commutatorAction_eq_commSub {A : Type} [Group A] [MulDistribMulAction A M]
     (a₀ : A) (hgen : Subgroup.zpowers a₀ = ⊤) (τ : MulAut M)
     (hsmul : ∀ x : M, a₀ • x = τ x) :
@@ -87,17 +91,21 @@ theorem commutatorAction_eq_commSub {A : Type} [Group A] [MulDistribMulAction A 
     rw [CFSG.commutatorAction_eq_closure]
     exact Subgroup.subset_closure ⟨a₀, g, by rw [hsmul]⟩
 
+omit [Finite M] in
 theorem commAct_eq_commSub (σ : MulAut M) : commAct σ = commSub σ :=
   commutatorAction_eq_commSub ⟨σ, Subgroup.mem_zpowers σ⟩ (zpowers_self_eq_top σ) σ
     (fun _ => rfl)
 
+omit [Finite M] in
 theorem commAct_normal (σ : MulAut M) : (commAct σ).Normal :=
   CFSG.commutatorAction_normal (A := Subgroup.zpowers σ) (G := M)
 
+omit [Finite M] in
 theorem commAct_isInvariant (σ : MulAut M) :
     IsInvariant (Subgroup.zpowers σ) M (commAct σ) :=
   CFSG.commutatorAction_isInvariant (A := Subgroup.zpowers σ) (G := M)
 
+omit [Finite M] in
 theorem commAct_invariant (σ : MulAut M) {x : M} (hx : x ∈ commAct σ) :
     σ x ∈ commAct σ := by
   have := ((commAct_isInvariant σ).invariant ⟨σ, Subgroup.mem_zpowers σ⟩ x).mp hx
@@ -114,6 +122,7 @@ theorem commAct_map_eq (σ : MulAut M) :
     (commAct σ).map σ.toMonoidHom = commAct σ :=
   map_eq_of_pointwise_invariant σ (commAct σ) (fun _ hx => commAct_invariant σ hx)
 
+omit [Finite M] in
 theorem restrictedAutomorphism_pow_apply (σ : MulAut M) (L : Subgroup M)
     (hL : L.map σ.toMonoidHom = L) (n : ℕ) (l : L) :
     (((CFSG.OrderReductions.InvariantSylow.restrictedAutomorphism σ L hL) ^ n) l : M) =
@@ -141,7 +150,7 @@ theorem good_restrict {p : ℕ} {σ : MulAut M} (hGood : Good p M σ) {L : Subgr
     rw [restrictedAutomorphism_pow_apply σ L hL 3 l, hGood.pow_three]
     rfl
   · intro q hq hq2 hqp
-    letI : Fact q.Prime := ⟨hq⟩
+    let : Fact q.Prime := ⟨hq⟩
     obtain ⟨Q, hQfix⟩ : ∃ Q : Sylow q M, ∀ x ∈ (Q : Subgroup M), σ x = x :=
       hGood.fixesSylow q hq hq2 hqp
     obtain ⟨Q', hQ'⟩ := CFSG.HardMathSupport.Solomon.Coordinator.exists_sylow_inf_normal Q L
@@ -162,7 +171,7 @@ theorem commSub_commAct_restrict_eq_top (σ : MulAut M) (hσ : σ ^ 3 = 1)
   let a₀ : Subgroup.zpowers σ := ⟨σ, Subgroup.mem_zpowers σ⟩
   let τ : MulAut (commAct σ) :=
     CFSG.OrderReductions.InvariantSylow.restrictedAutomorphism σ (commAct σ) (commAct_map_eq σ)
-  letI : MulDistribMulAction (Subgroup.zpowers σ) (commAct σ) :=
+  let : MulDistribMulAction (Subgroup.zpowers σ) (commAct σ) :=
     CFSG.SignalizerFunctor.Helpers.invariantSubgroupAction (commAct σ)
       (fun a x hx => (commAct_isInvariant σ).invariant a x |>.mp hx)
   have hcop : Nat.Coprime (Nat.card (Subgroup.zpowers σ)) (Nat.card M) := by
@@ -193,6 +202,7 @@ abbrev quotientAutomorphism (σ : MulAut M) (N : Subgroup M) [N.Normal]
     (h : N.map σ.toMonoidHom = N) : MulAut (M ⧸ N) :=
   QuotientGroup.congr N N σ h
 
+omit [Finite M] in
 theorem quotientAutomorphism_pow_three (σ : MulAut M) (N : Subgroup M) [N.Normal]
     (h : N.map σ.toMonoidHom = N) (hσ : σ ^ 3 = 1) :
     quotientAutomorphism σ N h ^ 3 = 1 := by
@@ -216,6 +226,7 @@ theorem quotientAutomorphism_pow_three (σ : MulAut M) (N : Subgroup M) [N.Norma
     rw [hpow 3 x, hσ]
     rfl
 
+omit [Finite M] in
 theorem quotient_commSub_eq (σ : MulAut M) (N : Subgroup M) [N.Normal]
     (h : N.map σ.toMonoidHom = N) :
     commSub (quotientAutomorphism σ N h) = (commSub σ).map (QuotientGroup.mk' N) := by
@@ -256,7 +267,7 @@ theorem quotient_good {p : ℕ} {σ : MulAut M} (hGood : Good p M σ) (N : Subgr
     exact hGood.not_dvd_three (h.trans N.index_dvd_card)
   · exact quotientAutomorphism_pow_three σ N hmap hGood.pow_three
   · intro q hq hq2 hqp
-    letI : Fact q.Prime := ⟨hq⟩
+    let : Fact q.Prime := ⟨hq⟩
     obtain ⟨Q, hQfix⟩ : ∃ Q : Sylow q M, ∀ x ∈ (Q : Subgroup M), σ x = x :=
       hGood.fixesSylow q hq hq2 hqp
     refine ⟨Q.mapSurjective (QuotientGroup.mk'_surjective N), ?_⟩

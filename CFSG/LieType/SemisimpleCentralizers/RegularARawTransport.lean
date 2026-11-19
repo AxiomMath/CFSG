@@ -22,10 +22,10 @@ theorem isSolvable_ggFixedSubgroup_of_rawLinear
       ↥⁅ggFixedSubgroup E, ggFixedSubgroup E⁆) :
     Group.IsSolvable ↥(ggFixedSubgroup E) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP K 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP K 2 := by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fintype K := Fintype.ofFinite K
     apply charP_of_card_eq_prime_pow
     simpa [Nat.card_eq_fintype_card] using hK
   let L : Subgroup (GL (Fin (m + 1)) K) := LargeEvenSLGroup (Fin (m + 1)) K
@@ -194,13 +194,13 @@ theorem isSolvable_ggFixedSubgroup_of_rawLinear
   have hp2 : p ≠ 2 := by
     rintro rfl
     exact (Nat.not_even_iff_odd.mpr hodd) (even_iff_two_dvd.mpr (by simpa using hpF))
-  haveI : Finite (LargeEvenProj L) := by
+  have : Finite (LargeEvenProj L) := by
     dsimp only [L]
     infer_instance
-  haveI : Finite E' := by
+  have : Finite E' := by
     dsimp only [E']
     infer_instance
-  haveI : Finite G := by
+  have : Finite G := by
     dsimp only [G]
     exact Finite.of_equiv (LargeEvenProj L × E') SemidirectProduct.equivProd.symm
   let eAmb : ↥(_root_.commutator ↥H) ≃* ↥⁅H, H⁆ :=
@@ -211,7 +211,7 @@ theorem isSolvable_ggFixedSubgroup_of_rawLinear
   have hHsolv : Group.IsSolvable ↥H :=
     isSolvable_centralizer_of_hasNormalPComplement
       (m := m) (F := K) (G := G) hkerψ hp hp2 hpF hE_G hEA hNPC_amb
-  haveI : Group.IsSolvable ↥H := hHsolv
+  have : Group.IsSolvable ↥H := hHsolv
   exact Group.isSolvable_of_surjective (f := eHF.toMonoidHom) eHF.surjective
 
 theorem largeEvenLabelAll_A_commonFixed_isSolvable

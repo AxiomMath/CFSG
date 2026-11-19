@@ -75,7 +75,7 @@ theorem IsSolid.exists_coord (hσ : IsUnitaryInvolution σ) {M : Submodule K (Fi
     · subst hij
       simpa [v] using hb (e.symm i) (e.symm i)
     · have hne : e.symm i ≠ e.symm j := fun h => hij (e.symm.injective h)
-      rw [if_neg hij]
+      rw [ite_eq_right hij]
       simpa [v, hne] using hb (e.symm i) (e.symm j)
   have hv_mem : ∀ i, v i ∈ M := fun i => (b (e.symm i)).2
   have hflip : ∀ x y, flipHerm σ (φ x) (φ y) = herm σ y x := by
@@ -95,7 +95,7 @@ theorem IsSolid.exists_coord (hσ : IsUnitaryInvolution σ) {M : Submodule K (Fi
           rw [Finset.sum_eq_single i]
           · simp
           · intro j _ hji
-            rw [if_neg (Ne.symm hji), mul_zero]
+            rw [ite_eq_right (Ne.symm hji), mul_zero]
           · intro h
             exact absurd (Finset.mem_univ i) h
       _ = ∑ i, σ (y i) * x i :=
@@ -171,28 +171,28 @@ theorem solidTypeB_injective (t : ℕ) : Function.Injective (solidTypeB t) := by
   intro i j hij
   unfold solidTypeB at hij
   by_cases hi : (i : ℕ) + 1 = t + 2
-  · rw [if_pos hi] at hij
+  · rw [ite_eq_left hi] at hij
     have hj : (j : ℕ) + 1 = t + 2 := by
       by_contra h
-      rw [if_neg h] at hij
+      rw [ite_eq_right h] at hij
       have hval := congrArg Fin.val hij
       simp only [Fin.val_last, Fin.val_castSucc] at hval
       omega
     apply Fin.ext
     omega
-  · rw [if_neg hi] at hij
+  · rw [ite_eq_right hi] at hij
     have hj : ¬ (j : ℕ) + 1 = t + 2 := by
       intro h
-      rw [if_pos h] at hij
+      rw [ite_eq_left h] at hij
       have hval := congrArg Fin.val hij
       simp only [Fin.val_last, Fin.val_castSucc] at hval
       omega
-    rw [if_neg hj] at hij
+    rw [ite_eq_right hj] at hij
     exact Fin.ext (by simpa using congrArg Fin.val hij)
 
 theorem solidTypeB_zero (t : ℕ) : solidTypeB t 0 = 0 := by
   unfold solidTypeB
-  rw [if_neg (by rw [Fin.val_zero]; omega)]
+  rw [ite_eq_right (by rw [Fin.val_zero]; omega)]
   rfl
 
 structure SolidChart (σ : K ≃+* K) (t : ℕ)
@@ -235,7 +235,7 @@ private theorem isFlipflopPt_map_line (hσ : IsUnitaryInvolution σ) (hM : IsSol
   have hvj : v j ≠ 0 := by
     intro h0
     have h := horth j j
-    rw [h0, herm_zero_left, if_pos rfl] at h
+    rw [h0, herm_zero_left, ite_eq_left rfl] at h
     exact one_ne_zero h.symm
   have hw0 : φ (v j) ≠ 0 := fun h => hvj (hinj (by rw [h, map_zero]))
   have hline : (c.line j).map φ = K ∙ φ (v j) := by
@@ -445,12 +445,12 @@ private theorem oddLine_last (φ : (Fin (t + 3) → K) →ₗ[K] (Fin (t + 3) �
     (c : Frame σ (t + 3)) :
     oddLine φ c (Fin.last (t + 2)) =
       dFlipSub σ ((c.line (Fin.last (t + 2))).map φ) := by
-  rw [oddLine, if_pos rfl]
+  rw [oddLine, ite_eq_left rfl]
 
 private theorem oddLine_of_ne (φ : (Fin (t + 3) → K) →ₗ[K] (Fin (t + 3) ⊕ Fin (t + 3) → K))
     (c : Frame σ (t + 3)) {j : Fin (t + 3)} (hj : j ≠ Fin.last (t + 2)) :
     oddLine φ c j = (c.line j).map φ := by
-  rw [oddLine, if_neg hj]
+  rw [oddLine, ite_eq_right hj]
 
 private noncomputable def oddFrame (hσ : IsUnitaryInvolution σ) (hM : IsSolid σ M)
     (hinj : Function.Injective φ) (hrange : LinearMap.range φ = M)
@@ -459,9 +459,9 @@ private noncomputable def oddFrame (hσ : IsUnitaryInvolution σ) (hM : IsSolid 
   line := oddLine φ c
   isFlipflopPt_line j := by
     by_cases hj : j = Fin.last (t + 2)
-    · rw [oddLine, if_pos hj]
+    · rw [oddLine, ite_eq_left hj]
       exact isFlipflopPt_dFlipSub_map_line hσ hM hinj hrange hφ c j
-    · rw [oddLine, if_neg hj]
+    · rw [oddLine, ite_eq_right hj]
       exact isFlipflopPt_map_line hσ hM hinj hrange hφ c j
   polar_eq_zero i j hij u hu v hv := by
     change u ∈ oddLine φ c i at hu
@@ -469,8 +469,8 @@ private noncomputable def oddFrame (hσ : IsUnitaryInvolution σ) (hM : IsSolid 
     by_cases hi : i = Fin.last (t + 2)
     · subst hi
       have hj : j ≠ Fin.last (t + 2) := Ne.symm hij
-      rw [oddLine, if_pos rfl] at hu
-      rw [oddLine, if_neg hj] at hv
+      rw [oddLine, ite_eq_left rfl] at hu
+      rw [oddLine, ite_eq_right hj] at hv
       obtain ⟨w₀, hw₀, hw⟩ := Submodule.mem_map.mp ((mem_dFlipSub hσ.invol).mp hu)
       obtain ⟨v₀, hv₀, rfl⟩ := Submodule.mem_map.mp hv
       have hu_eq : u = dFlip σ (φ w₀) := by rw [hw, dFlip_dFlip hσ.invol]
@@ -479,16 +479,16 @@ private noncomputable def oddFrame (hσ : IsUnitaryInvolution σ) (hM : IsSolid 
         (c.orth_line j (Fin.last (t + 2)) hj v₀ hv₀ w₀ hw₀)
     · by_cases hj : j = Fin.last (t + 2)
       · subst hj
-        rw [oddLine, if_neg hi] at hu
-        rw [oddLine, if_pos rfl] at hv
+        rw [oddLine, ite_eq_right hi] at hu
+        rw [oddLine, ite_eq_left rfl] at hv
         obtain ⟨u₀, hu₀, rfl⟩ := Submodule.mem_map.mp hu
         obtain ⟨w₀, hw₀, hw⟩ := Submodule.mem_map.mp ((mem_dFlipSub hσ.invol).mp hv)
         have hv_eq : v = dFlip σ (φ w₀) := by rw [hw, dFlip_dFlip hσ.invol]
         rw [hv_eq, ← flipHerm, hφ]
         exact herm_eq_zero_comm (σ := σ) hσ.invol
           (c.orth_line i (Fin.last (t + 2)) hi u₀ hu₀ w₀ hw₀)
-      · rw [oddLine, if_neg hi] at hu
-        rw [oddLine, if_neg hj] at hv
+      · rw [oddLine, ite_eq_right hi] at hu
+        rw [oddLine, ite_eq_right hj] at hv
         obtain ⟨u₀, hu₀, rfl⟩ := Submodule.mem_map.mp hu
         obtain ⟨v₀, hv₀, rfl⟩ := Submodule.mem_map.mp hv
         exact polar_phi_phi_eq_zero hM hrange u₀ v₀
@@ -498,22 +498,22 @@ private noncomputable def oddFrame (hσ : IsUnitaryInvolution σ) (hM : IsSolid 
     by_cases hi : i = Fin.last (t + 2)
     · subst hi
       have hj : j ≠ Fin.last (t + 2) := Ne.symm hij
-      rw [oddLine, if_pos rfl] at hu
-      rw [oddLine, if_neg hj] at hv
+      rw [oddLine, ite_eq_left rfl] at hu
+      rw [oddLine, ite_eq_right hj] at hv
       obtain ⟨w₀, hw₀, hw⟩ := Submodule.mem_map.mp ((mem_dFlipSub hσ.invol).mp hu)
       obtain ⟨v₀, hv₀, rfl⟩ := Submodule.mem_map.mp hv
       have hu_eq : u = dFlip σ (φ w₀) := by rw [hw, dFlip_dFlip hσ.invol]
       rw [hu_eq, flipHerm, polar_dFlip, polar_phi_phi_eq_zero hM hrange w₀ v₀, map_zero]
     · by_cases hj : j = Fin.last (t + 2)
       · subst hj
-        rw [oddLine, if_neg hi] at hu
-        rw [oddLine, if_pos rfl] at hv
+        rw [oddLine, ite_eq_right hi] at hu
+        rw [oddLine, ite_eq_left rfl] at hv
         obtain ⟨u₀, hu₀, rfl⟩ := Submodule.mem_map.mp hu
         obtain ⟨w₀, hw₀, hw⟩ := Submodule.mem_map.mp ((mem_dFlipSub hσ.invol).mp hv)
         have hv_eq : v = dFlip σ (φ w₀) := by rw [hw, dFlip_dFlip hσ.invol]
         rw [hv_eq, flipHerm, dFlip_dFlip hσ.invol, polar_phi_phi_eq_zero hM hrange u₀ w₀]
-      · rw [oddLine, if_neg hi] at hu
-        rw [oddLine, if_neg hj] at hv
+      · rw [oddLine, ite_eq_right hi] at hu
+        rw [oddLine, ite_eq_right hj] at hv
         obtain ⟨u₀, hu₀, rfl⟩ := Submodule.mem_map.mp hu
         obtain ⟨v₀, hv₀, rfl⟩ := Submodule.mem_map.mp hv
         rw [hφ]
@@ -628,7 +628,7 @@ private theorem oddEmb_isTypeMorphism (hσ : IsUnitaryInvolution σ) (hM : IsSol
   by_cases hi : (i : ℕ) + 1 = t + 2
   · have hτ : solidTypeB t i = Fin.last (t + 2) := by
       unfold solidTypeB
-      rw [if_pos hi]
+      rw [ite_eq_left hi]
     rw [hτ]
     have hcast : i.castSucc = (⟨t + 1, by omega⟩ : Fin (t + 3)) :=
       Fin.ext (by simp only [Fin.val_castSucc]; omega)
@@ -674,7 +674,7 @@ private theorem oddEmb_isTypeMorphism (hσ : IsUnitaryInvolution σ) (hM : IsSol
       exact congrArg (fun W => W.map φ) hplane
   · have hτ : solidTypeB t i = i.castSucc := by
       unfold solidTypeB
-      rw [if_neg hi]
+      rw [ite_eq_right hi]
     rw [hτ]
     refine (FlipFrame.elt_eq_elt_iff_castSucc hσ.invol (k := i)
       (c := (oddEmb hσ hM hinj hrange hφ hOdd x).toFlipFrame)
@@ -747,11 +747,11 @@ private theorem oddNeighbour_alt (hσ : IsUnitaryInvolution σ) (hM : IsSolid σ
     have hval0 : (⟨t + 1, by omega⟩ : Fin (t + 3)).val = t + 1 := rfl
     rw [hval0] at hval
     by_cases hi : (i : ℕ) + 1 = t + 2
-    · rw [show solidTypeB t i = Fin.last (t + 2) from by unfold solidTypeB; rw [if_pos hi]] at hval
+    · rw [show solidTypeB t i = Fin.last (t + 2) from by unfold solidTypeB; rw [ite_eq_left hi]] at hval
       have hv : (Fin.last (t + 2) : Fin (t + 3)).val = t + 2 := rfl
       rw [hv] at hval
       omega
-    · rw [show solidTypeB t i = i.castSucc from by unfold solidTypeB; rw [if_neg hi]] at hval
+    · rw [show solidTypeB t i = i.castSucc from by unfold solidTypeB; rw [ite_eq_right hi]] at hval
       have hv : (i.castSucc : Fin (t + 3)).val = (i : ℕ) := rfl
       rw [hv] at hval
       omega
@@ -773,22 +773,22 @@ private theorem oddAuxLine_le (d : DChamber σ (t + 3)) (halt : d.alt = M) :
   intro j
   by_cases hj : j = Fin.last (t + 2)
   · subst hj
-    rw [oddAuxLine, if_pos rfl]
+    rw [oddAuxLine, ite_eq_left rfl]
     exact le_trans (dFlipSub_line_le_alt d) (le_of_eq halt)
   · have hjlt : (j : ℕ) < t + 2 := by
       have h := j.is_lt
       have hne : (j : ℕ) ≠ t + 2 := fun h' => hj (Fin.ext h')
       omega
-    rw [oddAuxLine, if_neg hj]
+    rw [oddAuxLine, ite_eq_right hj]
     exact le_trans (le_trans (d.line_le_sub (l := j) hjlt) (sub_le_alt d)) (le_of_eq halt)
 
 private theorem oddAuxLine_isFlipflopPt (hσ : IsUnitaryInvolution σ) (d : DChamber σ (t + 3)) :
     ∀ j, IsFlipflopPt σ (oddAuxLine d j) := by
   intro j
   by_cases hj : j = Fin.last (t + 2)
-  · rw [oddAuxLine, if_pos hj]
+  · rw [oddAuxLine, ite_eq_left hj]
     exact isFlipflopPt_dFlipSub hσ.invol (d.isFlipflopPt_line j)
-  · rw [oddAuxLine, if_neg hj]
+  · rw [oddAuxLine, ite_eq_right hj]
     exact d.isFlipflopPt_line j
 
 private theorem oddAuxLine_orth (hσ : ∀ x, σ (σ x) = x) (d : DChamber σ (t + 3)) :
@@ -797,22 +797,22 @@ private theorem oddAuxLine_orth (hσ : ∀ x, σ (σ x) = x) (d : DChamber σ (t
   by_cases hi : i = Fin.last (t + 2)
   · subst hi
     have hj : j ≠ Fin.last (t + 2) := Ne.symm hij
-    rw [oddAuxLine, if_pos rfl] at hu
-    rw [oddAuxLine, if_neg hj] at hv
+    rw [oddAuxLine, ite_eq_left rfl] at hu
+    rw [oddAuxLine, ite_eq_right hj] at hv
     have hdu : dFlip σ u ∈ d.line (Fin.last (t + 2)) := (mem_dFlipSub hσ).mp hu
     have hu_eq : u = dFlip σ (dFlip σ u) := (dFlip_dFlip hσ u).symm
     rw [hu_eq, flipHerm, polar_dFlip, d.polar_eq_zero (Fin.last (t + 2)) j (Ne.symm hj)
       (dFlip σ u) hdu v hv, map_zero]
   · by_cases hj : j = Fin.last (t + 2)
     · subst hj
-      rw [oddAuxLine, if_neg hi] at hu
-      rw [oddAuxLine, if_pos rfl] at hv
+      rw [oddAuxLine, ite_eq_right hi] at hu
+      rw [oddAuxLine, ite_eq_left rfl] at hv
       have hdv : dFlip σ v ∈ d.line (Fin.last (t + 2)) := (mem_dFlipSub hσ).mp hv
       have hv_eq : v = dFlip σ (dFlip σ v) := (dFlip_dFlip hσ v).symm
       rw [hv_eq, flipHerm, dFlip_dFlip hσ]
       exact d.polar_eq_zero i (Fin.last (t + 2)) hi u hu (dFlip σ v) hdv
-    · rw [oddAuxLine, if_neg hi] at hu
-      rw [oddAuxLine, if_neg hj] at hv
+    · rw [oddAuxLine, ite_eq_right hi] at hu
+      rw [oddAuxLine, ite_eq_right hj] at hv
       exact d.flipHerm_eq_zero i j hij u hu v hv
 
 private noncomputable def oddAuxFrame (hσ : IsUnitaryInvolution σ)
@@ -845,16 +845,16 @@ private theorem oddEmb_isPanelLift (hσ : IsUnitaryInvolution σ) (hM : IsSolid 
     apply DChamber.ext
     funext j
     by_cases hj : j = Fin.last (t + 2)
-    · rw [hj, oddEmb_line_last, hyline (Fin.last (t + 2)), oddAuxLine, if_pos rfl,
+    · rw [hj, oddEmb_line_last, hyline (Fin.last (t + 2)), oddAuxLine, ite_eq_left rfl,
         dFlipSub_dFlipSub hσ.invol]
-    · rw [oddEmb_line_of_ne hσ hM hinj hrange hφ hOdd y hj, hyline j, oddAuxLine, if_neg hj]
+    · rw [oddEmb_line_of_ne hσ hM hinj hrange hφ hOdd y hj, hyline j, oddAuxLine, ite_eq_right hj]
   have hyadj : (frameSystem σ (t + 2)).adj i x y := by
     intro j hj1 hj2
     refine Submodule.map_injective_of_injective hinj ?_
     by_cases hi : (i : ℕ) + 1 = t + 2
     · have hτ : solidTypeB t i = Fin.last (t + 2) := by
         unfold solidTypeB
-        rw [if_pos hi]
+        rw [ite_eq_left hi]
       have hadjLast : ∀ j : Fin (t + 3), j ≠ Fin.last (t + 2) →
           (oddEmb hσ hM hinj hrange hφ hOdd x).elt j = d.elt j := by
         intro j hj
@@ -886,10 +886,10 @@ private theorem oddEmb_isPanelLift (hσ : IsUnitaryInvolution σ) (hM : IsSolid 
         omega
       rw [show (x.line j).map φ = (oddEmb hσ hM hinj hrange hφ hOdd x).line j from
           (oddEmb_line_of_ne hσ hM hinj hrange hφ hOdd x hjlast).symm,
-        hlines.1 j hjlt, hyline j, oddAuxLine, if_neg hjlast]
+        hlines.1 j hjlt, hyline j, oddAuxLine, ite_eq_right hjlast]
     · have hτ : solidTypeB t i = i.castSucc := by
         unfold solidTypeB
-        rw [if_neg hi]
+        rw [ite_eq_right hi]
       have hadjCast : ∀ j : Fin (t + 3), j ≠ i.castSucc →
           (oddEmb hσ hM hinj hrange hφ hOdd x).elt j = d.elt j := by
         intro j hj
@@ -914,10 +914,10 @@ private theorem oddEmb_isPanelLift (hσ : IsUnitaryInvolution σ) (hM : IsSolid 
           have h := hlines.1 (Fin.last (t + 2)) hlast1 hlast2
           rw [oddEmb_line_last hσ hM hinj hrange hφ hOdd x] at h
           rw [← h, dFlipSub_dFlipSub hσ.invol]
-        rw [heq, hyline (Fin.last (t + 2)), oddAuxLine, if_pos rfl]
+        rw [heq, hyline (Fin.last (t + 2)), oddAuxLine, ite_eq_left rfl]
       · rw [show (x.line j).map φ = (oddEmb hσ hM hinj hrange hφ hOdd x).line j from
             (oddEmb_line_of_ne hσ hM hinj hrange hφ hOdd x hj).symm,
-          hlines.1 j hj1 hj2, hyline j, oddAuxLine, if_neg hj]
+          hlines.1 j hj1 hj2, hyline j, oddAuxLine, ite_eq_right hj]
   exact ⟨y, hyadj, hemb⟩
 
 theorem IsSolid.exists_solidChart (hσ : IsUnitaryInvolution σ) {t : ℕ}

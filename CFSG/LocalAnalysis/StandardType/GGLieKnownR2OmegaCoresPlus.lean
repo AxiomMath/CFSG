@@ -91,12 +91,12 @@ theorem spinPlus_highest {n : ℕ} (hn : 3 ≤ n) {F : Type} [Field F] :
     (s := 1) (t := 1) h01 (Or.inl rfl) (Or.inl rfl)
   have hθht : ht θ = 2 * (n : ℤ) - 3 := by
     rw [Spin.ht_of_toStdD_eq_add n (by omega) hθstd]
-    simp only [Fin.val_mk, one_mul]
+    simp only [one_mul]
     ring
   have hroot_le : ∀ {γ : Fin n → ℤ}, γ ∈ roots (Spin.isFiniteType_cartanD n) ∅ →
       ht γ ≤ 2 * (n:ℤ) - 3 := by
     intro γ hγ
-    rw [Spin.rootsD_eq n (by omega), Set.mem_setOf_eq] at hγ
+    rw [Spin.rootsD_eq n (by omega), Set.mem_ofPred_eq] at hγ
     obtain ⟨i, j, s, t, hij, hs, hts, hstd⟩ := hγ
     exact cop_ht_le hn hij hs hts hstd
   have hstd_of_max : ∀ {γ : Fin n → ℤ}, γ ∈ roots (Spin.isFiniteType_cartanD n) ∅ →
@@ -106,7 +106,7 @@ theorem spinPlus_highest {n : ℕ} (hn : 3 ≤ n) {F : Type} [Field F] :
     intro γ hγ hmax
     have hγht : ht γ = 2 * (n:ℤ) - 3 :=
       le_antisymm (hroot_le hγ) (by rw [← hθht]; exact hmax θ hθmem)
-    rw [Spin.rootsD_eq n (by omega), Set.mem_setOf_eq] at hγ
+    rw [Spin.rootsD_eq n (by omega), Set.mem_ofPred_eq] at hγ
     obtain ⟨i, j, s, t, hij, hs, hts, hstd⟩ := hγ
     exact cop_eq_std_of_ht hn hij hs hts hstd hγht
   have hγ₀std := hstd_of_max hγ₀ hmax₀
@@ -136,7 +136,7 @@ theorem spinPlus_coreOne {n : ℕ} (hn : 4 ≤ n) {F : Type} [Field F] [Finite F
       obtain ⟨i, j, hij, s, t, hstd, hgrp⟩ :=
         Spin.exists_plusRootGroup_eq (K := F) (n := n) hn3 hγ
       change IsPGroup 2 (Spin.plusRootGroup n F hn3 γ)
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       obtain ⟨k, -, hk⟩ := FiniteField.card F 2
       have hf : Function.Injective ((Spin.plusFrame n F hn3).longRoot hij s t) :=
         Spin.HypFrame.longRoot_injective _ hij s t

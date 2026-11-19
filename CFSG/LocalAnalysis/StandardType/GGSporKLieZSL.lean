@@ -43,7 +43,7 @@ private lemma l937z_sl_normal {K : Type} [Field K] (n : ℕ) (x : GL (Fin n) K) 
       Subgroup.normalizer
         (Subgroup.centralizer ({x} : Set (GL (Fin n) K)) ⊓ StatedSL n K :
           Set (GL (Fin n) K)) := by
-  haveI : (StatedSL n K).Normal := by
+  have : (StatedSL n K).Normal := by
     rw [l937z_sl_eq_det_ker n]
     infer_instance
   exact Subgroup.le_normalizer_inf Subgroup.le_normalizer (by
@@ -87,7 +87,7 @@ theorem lieZRow_PSL {K : Type} [Field K] [Finite K] [CharP K 2] (n : ℕ)
     (h7 : ¬ 7 ∣ Nat.card K - 1) : LieZRow (StatedProj (StatedSL n K)) := by
   apply lieZRow_statedProj (StatedSL n K) ?_
     (lieZRow_of_pCoreSevenTrivial (pCoreSevenTrivial_StatedSL n))
-  letI : Fintype K := Fintype.ofFinite K
+  let : Fintype K := Fintype.ofFinite K
   have hoddK : Odd (Nat.card K - 1) := by
     obtain ⟨f, _hp2, hf⟩ := FiniteField.card K 2
     have hcard : Nat.card K = 2 ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card, hf]

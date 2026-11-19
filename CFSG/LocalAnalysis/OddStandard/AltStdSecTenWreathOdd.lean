@@ -11,6 +11,7 @@ open Subgroup
 
 variable {X : Type} [Group X] [Finite X] {t : X} {A K : Subgroup X}
 
+omit [Finite X] in
 theorem exists_inner_of_odd_order {J : Subgroup X} (eJ : J ≃* alternatingGroup (Fin 8)) {g : X}
     (hg : g ∈ normalizer (J : Set X)) (hodd : Odd (orderOf g)) :
     ∃ k ∈ J, ∀ y ∈ J, g * y * g⁻¹ = k * y * k⁻¹ := by
@@ -135,11 +136,11 @@ theorem WreathK.exists_card_centralizer_eq (hE : ExactShape t A 8) (hK : WreathK
       Nat.card ↥(CFSG.layer X ⊓ centralizer ({s} : Set X)) * 2 ^ j := by
   let E : Subgroup X := CFSG.layer X
   let C : Subgroup X := centralizer ({s} : Set X)
-  haveI hEchar : E.Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI : Finite (X ⧸ E) :=
+  have hEchar : E.Characteristic := CFSG.LocalCores.layer_characteristic
+  have : Finite (X ⧸ E) :=
     Finite.of_surjective (QuotientGroup.mk' E) (QuotientGroup.mk'_surjective E)
   have hindex : ∃ b : ℕ, E.index = 2 ^ b := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have hquot : IsPGroup 2 (X ⧸ E) := by
       rw [isPGroup_iff_orderOf_dvd_pow]
       intro q

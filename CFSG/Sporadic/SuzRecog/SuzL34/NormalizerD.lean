@@ -207,7 +207,7 @@ theorem card_normalizer_L_inf_centralizer_t0 [Finite G]
           have h := (hfib (ψ x * sN) (ψ x)).mpr ?_
           · rwa [ψ_spec x] at h
           · have h1 : ((ψ x : ↥N) : G)⁻¹ * ((ψ x * sN : ↥N) : G) = (s : G) := by
-              simp [sN, mul_assoc]
+              simp [sN]
             rw [h1]
             exact s.2.2
         apply Prod.ext
@@ -394,7 +394,7 @@ theorem exists_map_eq_X16 [Finite G] (hF1 : F1Prop) (hF6 : F6Prop) (hF6b : F6bPr
     rw [hLbot, Subgroup.card_bot] at hcardL
     norm_num at hcardL
   have hg5 : orderOf g = 5 := by
-    haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+    have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
     exact orderOf_eq_prime hg5pow hg1
   obtain ⟨i, hi, hXeq⟩ := exists_eq_X16 hF9 hF11 hcardX hT hgX hgadd hg5
   exact ⟨i, hi, hXeq⟩

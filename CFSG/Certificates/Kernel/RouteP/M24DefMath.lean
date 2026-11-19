@@ -37,7 +37,7 @@ theorem bp_two_pow (x : ℕ) {j : ℕ} (hj : j < 11) :
   rw [bp_eq_sum, Finset.sum_eq_single j]
   · simp [Nat.testBit_two_pow_self]
   · intro c _ hc
-    simp [Nat.testBit_two_pow, Ne.symm hc]
+    simp [Ne.symm hc]
   · intro h
     exact absurd (Finset.mem_range.2 hj) h
 
@@ -100,7 +100,7 @@ theorem bvec_dapp_aux (D m : ℕ) : ∀ k : ℕ,
     rw [blt_land_shiftLeft]
     cases m.testBit k
     · simp
-    · simp only [if_true]
+    · simp only [ite_true]
       exact bvec_xor _ _ _
 
 theorem dapp_lt (D m : ℕ) : dapp D m < 2 ^ 11 := by

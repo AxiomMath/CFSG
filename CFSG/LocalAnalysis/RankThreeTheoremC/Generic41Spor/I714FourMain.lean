@@ -36,16 +36,16 @@ theorem kFactI714Four_of_inputs
         (Nat.card (((Q : Subgroup X) ⊓ K : Subgroup X)) = 25 ∧
           IsCyclic (((Q : Subgroup X) ⊓ K : Subgroup X))) := by
   intro X _ _ K hKn hKs hKnab hKcat hKc Q hQK hQc hQnab hQe hQb
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hQ3 : Nat.card (Q : Subgroup X) = 5 ^ 3 := by rw [hQc]; norm_num
   have hM : NoM125.IsM125 5 (Q : Subgroup X) :=
     ⟨Nat.prime_five, by norm_num, hQ3, hQnab, fun s hs => by simpa using hQe s hs, hQb⟩
   have hcyc : IsCyclic ↥((Q : Subgroup X) ⊓ K) := isCyclic_inf_of_isM125 hKs hKnab Q hM
   have hQsyl : IsSylowOf 5 (Q : Subgroup X) ⊤ := by
     rw [isSylowOf_iff]
-    exact ⟨le_top, Q.isPGroup', by rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
+    exact ⟨le_top, Q.isPGroup, by rw [Subgroup.relIndex_top_right]; exact Q.not_dvd_index⟩
   have hsyl : IsSylowOf 5 ((Q : Subgroup X) ⊓ K) K :=
     hQsyl.inf_of_le_normalizer le_top (Subgroup.normalizer_eq_top_iff.mpr hKn).ge
   obtain ⟨T, hT⟩ := hsyl.exists_sylow_eq_subgroupOf

@@ -60,9 +60,9 @@ theorem nParam_le_one_of_wreathed {L : Subgroup G} (hAS : SecE3.AlmostSimple L) 
           calc 4 = 2 ^ 2 := by norm_num
             _ ≤ 2 ^ m := Nat.pow_le_pow_right (by norm_num) hm
         omega)) htn
-  haveI : Group.IsSolvable ↥(Subgroup.normalizer (BL : Set ↥L)) :=
+  have : Group.IsSolvable ↥(Subgroup.normalizer (BL : Set ↥L)) :=
     isSolvable_normalizer_modelBase m hm S e'
-  haveI : Group.IsNilpotent (G ⧸ L) := hAS.isPGroup_quotient.isNilpotent
+  have : Group.IsNilpotent (G ⧸ L) := hAS.isPGroup_quotient.isNilpotent
   have hmemN : ∀ g : ↥L, g ∈ Subgroup.normalizer (BL : Set ↥L) → (g : G) ∈ N := fun g hg => by
     have := Subgroup.le_normalizer_map L.subtype (Subgroup.mem_map_of_mem _ hg)
     exact this
@@ -91,7 +91,7 @@ theorem nParam_le_one_of_wreathed {L : Subgroup G} (hAS : SecE3.AlmostSimple L) 
     exact Subtype.ext (hzc _ hs.1)
   have hz2L : orderOf (⟨z, hzL⟩ : ↥L) = 2 := by
     rw [← hz2, Subgroup.orderOf_mk]
-  haveI : IsSimpleGroup ↥L := hAS.simple
+  have : IsSimpleGroup ↥L := hAS.simple
   obtain ⟨g, hgN, hgz⟩ := exists_normalizer_moves hAS.nonabelian m hm S e' hzBL hz2L
   have hnotC : ¬ N ≤ Subgroup.centralizer ({z} : Set G) := by
     intro hle

@@ -16,6 +16,7 @@ open CFSG.RankThree.PartTwo.Sec19.SimsTheoremC
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mem_normalizer_centralizerModTwoCore {L : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (L : Set G)) :
     g ∈ Subgroup.normalizer (centralizerModTwoCore L : Set G) := by
@@ -41,6 +42,7 @@ theorem mem_normalizer_centralizerModTwoCore {L : Subgroup G} {g : G}
   have := key g⁻¹ (Subgroup.inv_mem _ hg) (Subgroup.inv_mem _ hP) _ hx
   simpa [mul_assoc] using this
 
+omit [Finite G] in
 theorem pCoreOf_le_centralizerModTwoCore (L : Subgroup G) :
     pCoreOf 2 L ≤ centralizerModTwoCore L := by
   intro x hx
@@ -53,6 +55,7 @@ theorem pCoreOf_le_centralizerModTwoCore (L : Subgroup G) :
   rw [e]
   exact Subgroup.mul_mem _ hx h1
 
+omit [Finite G] in
 theorem le_normalizer_of_isSylowTwoOf {L N R : Subgroup G} (hLN : L ≤ N)
     (hR : IsSylowTwoOf R (centralizerModTwoCore L ⊓ N)) :
     L ≤ Subgroup.normalizer (R : Set G) := by
@@ -93,6 +96,7 @@ theorem ef1_climb (hG : IsCharTwoType G) (hKP : CFSG.Assembly.KProper CFSG.Assem
     exact hsub this
   · exact ⟨hblock, hKD, hPD, hgen, hne, harrow⟩
 
+omit [Finite G] in
 theorem le_normalizer_centralizer_inf {L N P : Subgroup G} (hPN : P ≤ N)
     (hPL : P ≤ Subgroup.normalizer (L : Set G)) :
     P ≤ Subgroup.normalizer ((centralizerModTwoCore L ⊓ N : Subgroup G) : Set G) := by

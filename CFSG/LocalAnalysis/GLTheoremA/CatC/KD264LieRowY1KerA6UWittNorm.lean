@@ -84,9 +84,9 @@ theorem monoN_diag_monoM (e : Fin 6 ≃ Fin 6) (c : Fin 6 → K) (hc : ∀ j, c 
   rw [Matrix.mul_apply, Finset.sum_eq_single (e b)]
   · by_cases hab : a = b
     · subst hab
-      simp [monoN, monoM, hc]
+      simp [monoN, monoM]
       rw [mul_comm ((c a)⁻¹ * d (e a)) (c a), ← mul_assoc, mul_inv_cancel₀ (hc a), one_mul]
-    · simp [monoN, monoM, hab, Matrix.diagonal_apply]
+    · simp [monoN, monoM, hab]
   · intro k _ hk
     simp [monoM, hk]
   · intro hn
@@ -169,7 +169,7 @@ theorem gram_table (h : UnitaryFieldData p f K) (hbar : ∀ x : K, x ^ 3 = 1 →
     rw [gram_herm h T (a k') (b k), T3 k' k (Ne.symm hkk), map_zero]
   exact ⟨T1, T2, T3, T4, fun k => gram_herm h T (a k) (b k)⟩
 
-theorem perm_inj (h : UnitaryFieldData p f K) (P : Subgroup (GL (Fin 6) K)) (T : GL (Fin 6) K)
+theorem perm_inj (_h : UnitaryFieldData p f K) (P : Subgroup (GL (Fin 6) K)) (T : GL (Fin 6) K)
     (hdiag : ∀ g ∈ P, ∀ i j, i ≠ j →
       ((T⁻¹ * g * T : GL (Fin 6) K) : Matrix (Fin 6) (Fin 6) K) i j = 0)
     (hpow : ∀ g ∈ P, g ^ 3 = 1) (a b : Fin 3 → Fin 6)
@@ -205,7 +205,6 @@ theorem perm_inj (h : UnitaryFieldData p f K) (P : Subgroup (GL (Fin 6) K)) (T :
       exact this
   intro x y hxy
   fin_cases x <;> fin_cases y <;> simp at hxy ⊢ <;> first
-    | rfl
     | exact absurd (hA _ _ hxy) (by decide)
     | exact absurd (hB _ _ hxy) (by decide)
     | exact absurd hxy (hAB _ _)
@@ -279,7 +278,7 @@ theorem witt_normal_form [Finite K] (h : UnitaryFieldData p f K)
 
 theorem WittEigen6_holds (h : UnitaryFieldData p f K) : WittEigen6 h := by
   intro hbar hζ P hPsu hcomm hpow hcard
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hdet : ∀ g ∈ P, (g : Matrix (Fin 6) (Fin 6) K).det = 1 :=
     fun g hg => (mem_gramSU.mp (hPsu g hg)).2
   have hgram : ∀ g ∈ P,

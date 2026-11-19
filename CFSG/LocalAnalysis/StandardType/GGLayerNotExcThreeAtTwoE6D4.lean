@@ -245,7 +245,7 @@ theorem rootDiagUnit_eq_one_of_pow_mem_closure (S : LangSetup Tag.E6 L p₀) (hq
   have hall : ∀ β : Fin Tag.E6.rank → ℤ, IsRoot Tag.E6 β → rootChar a β = 1 := by
     intro β hβ
     have e1 := (rootChar_rho_iterate_parity S hq2 hT hap k β hβ).2
-    rw [if_neg (Nat.not_even_iff_odd.2 hk), rho_iterate_eq_pow_smul S hq2 hT hap hρw k β hβ,
+    rw [ite_eq_right (Nat.not_even_iff_odd.2 hk), rho_iterate_eq_pow_smul S hq2 hT hap hρw k β hβ,
       closure_rootReflection_le_rootCharStabilizer hker hmem β] at e1
     have h2 : rootChar a β ^ 2 = 1 := by
       rw [eq_inv_iff_mul_eq_one] at e1
@@ -330,8 +330,8 @@ theorem omegaMinus8Fine_d4Class_E6_two (S : LangSetup Tag.E6 L p₀)
   obtain ⟨ℓ, f, hℓ, hchar, hf, hqf⟩ := LangSetup.exists_char_pow S
   have hℓf : ℓ ^ f = 2 := by rw [← hqf, hq2]
   obtain ⟨rfl, rfl⟩ := (Nat.Prime.pow_eq_iff Nat.prime_two).1 hℓf
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP L 2 := hchar
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP L 2 := hchar
   have hE6 := e6FixDNAll_proved
   obtain ⟨v, hv, hρ⟩ := exists_pinned_d4Class_E6 S hT hap h1 i hrank hcard
   obtain ⟨Fr, hFr', hΦ'⟩ := hFr
@@ -399,7 +399,7 @@ theorem d4Class_ggCQ_E6_two (S : LangSetup Tag.E6 L p₀)
     (i : KernelComponent (rootCharHom a))
     (hrank : compRank (componentRoots (rootCharHom a) i) = 4)
     (hcard : (componentRoots (rootCharHom a) i).ncard = 24)
-    (hqs : CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom a) i)) :
+    (_hqs : CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom a) i)) :
     GGNotExcThreeOrder (ggCQ (rationalComponent S.ρ S.Γ (rootCharHom a) i)) := by
   have hfine := omegaMinus8Fine_d4Class_E6_two S hFr hq2 hT hap h1 i hrank hcard
   have hadm := LieModel.admissible hfine

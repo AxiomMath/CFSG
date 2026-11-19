@@ -41,18 +41,21 @@ theorem k148f_inner {X K : Subgroup G} (hK : GLAPComponent 3 X K) (hTD4 : IsTD4 
   by_contra hne
   exact (MI.td4_nonInnDiag_any hK hTD4 ⟨hyK.1 (Subgroup.mem_zpowers y), hne⟩).2 hyK
 
+omit [Finite G] in
 theorem k148f_elem {K : Subgroup G} {y : G} (hyN : y ∈ Subgroup.normalizer (K : Set G))
     (hin : InducesInnerMod 3 K y) :
     ∃ c : PQuot 3 K, MulAut.conj c = CFSG.HardMathSupport.Solomon.LocalBalance.barAut 3 K ⟨y, hyN⟩ := by
   obtain ⟨c, hc⟩ := MonoidHom.mem_range.1 ((inducesInnerMod_iff_barAut_mem_inner hyN).1 hin)
   exact ⟨c, hc⟩
 
+omit [Finite G] in
 theorem k148f_barAut_pow_three {K : Subgroup G} {y : G} (hyN : y ∈ Subgroup.normalizer (K : Set G))
     (hy3 : y ^ 3 = 1) : CFSG.HardMathSupport.Solomon.LocalBalance.barAut 3 K ⟨y, hyN⟩ ^ 3 = 1 := by
   rw [← map_pow]
   have h3 : (⟨y, hyN⟩ : ↥(Subgroup.normalizer (K : Set G))) ^ 3 = 1 := Subtype.ext hy3
   rw [h3, map_one]
 
+omit [Finite G] in
 theorem k148f_pow_three {K : Subgroup G} (hcenter : Subgroup.center (PQuot 3 K) = ⊥) {y : G}
     (hyN : y ∈ Subgroup.normalizer (K : Set G)) (hy3 : y ^ 3 = 1) {c : PQuot 3 K}
     (hc : MulAut.conj c = CFSG.HardMathSupport.Solomon.LocalBalance.barAut 3 K ⟨y, hyN⟩) : c ^ 3 = 1 := by
@@ -80,6 +83,7 @@ theorem k148f_conj_inj {Q : Type} [Group Q] (hZ : Subgroup.center Q = ⊥) {a b 
   rw [hZ, Subgroup.mem_bot] at hc
   exact (inv_mul_eq_one.1 hc).symm
 
+omit [Finite G] in
 theorem k148f_comm_fix {K : Subgroup G} (hcenter : Subgroup.center (PQuot 3 K) = ⊥) {x y : G}
     (hxN : x ∈ Subgroup.normalizer (K : Set G)) (hyN : y ∈ Subgroup.normalizer (K : Set G))
     (hxy : x * y = y * x) {c : PQuot 3 K}

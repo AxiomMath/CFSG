@@ -100,7 +100,7 @@ theorem frameCaseITF_holds_explicit :
         ∀ (J : Subgroup T) (zK zJ : T), AViol (CoreAssembly.conjClass R) R J zK zJ →
           aStar (CoreAssembly.conjClass R) R ≠ CoreAssembly.conjClass R → False := by
   intro T _ _ hF hO hT hnab hB hP R t hD J zK zJ hv hne
-  haveI : CaseIAmbient T := ⟨hF.1, hF.2, hO⟩
+  have : CaseIAmbient T := ⟨hF.1, hF.2, hO⟩
   exact frameCaseI_false_of_rows CFSG.ComponentClassification.RankTwoFoundation.asc75Theorem4
     frameC201G23Sec_proved frameC201U3FalseF_proved frameC201M12False_of_certs
     frameC201L3E8False_of_certs frameC201WFalse_of_certs hT ⟨hnab, hB, hP, hD, hv, hne⟩

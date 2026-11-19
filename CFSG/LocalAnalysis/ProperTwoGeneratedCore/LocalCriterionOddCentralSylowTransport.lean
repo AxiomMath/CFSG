@@ -35,7 +35,7 @@ theorem sylow_extension_same_ambient_image [Finite K]
   let : Fact p.Prime := ⟨hp⟩
   let f := Subgroup.inclusion hYB
   let U := (R : Subgroup Y).map f
-  have hU : IsPGroup p U := R.isPGroup'.map f
+  have hU : IsPGroup p U := R.isPGroup.map f
   have hnot : ¬ p ∣ U.index := by
     change ¬ p ∣ ((R : Subgroup Y).map f).index
     rw [(R : Subgroup Y).index_map_of_injective (Subgroup.inclusion_injective hYB),

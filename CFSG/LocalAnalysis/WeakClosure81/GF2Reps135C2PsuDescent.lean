@@ -212,7 +212,7 @@ theorem w135c2_psu_descent {m f : ℕ} (hm : 3 ≤ m) {K : Type} [Field K] [Fini
         (fun g => c2psudes_minorMatrix_compl_submatrix φ₀ (by omega) g r₀ e he)
       exact ⟨(suFrob φ₀ f r₀).comp (unitaryInvolution K 2 f).toRingHom, Θ, hΘ⟩
   obtain ⟨τ', Θ, hΘ⟩ := hmodel
-  letI : Algebra K k := τ'.toAlgebra
+  let : Algebra K k := τ'.toAlgebra
   let T : SU (unitaryInvolution K 2 f) m → Matrix (Fin m) (Fin m) K :=
     fun g => ((g : GL (Fin m) K) : Matrix (Fin m) (Fin m) K)
   let Φ : W →+ (Fin m → k) :=
@@ -235,8 +235,8 @@ theorem w135c2_psu_descent {m f : ℕ} (hm : 3 ≤ m) {K : Type} [Field K] [Fini
           ((1 : k) ⊗ₜ[E] ρ.asModuleEquiv.symm w) := by
       rw [CFSG.Theory.Representation.extendScalars_apply, LinearMap.baseChange_tmul]
     rw [h1, h2, hβ₀, hΘ]
-  letI : DistribMulAction (SU (unitaryInvolution K 2 f) m) W := DistribMulAction.compHom W ρ
-  haveI : Nontrivial W :=
+  let : DistribMulAction (SU (unitaryInvolution K 2 f) m) W := DistribMulAction.compHom W ρ
+  have : Nontrivial W :=
     ((CFSG.QuasithinUnique.Setup.SL2Modules.isIrreducible_iff ρ).mp
       (inferInstance : ρ.IsIrreducible)).1
   have hΦ0 : Φ ≠ 0 := by

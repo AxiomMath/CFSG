@@ -145,7 +145,7 @@ theorem exists_sylow_of_normalizer {A B : Subgroup G} (hBA : B ≤ A) (hB : IsPG
   replace hR : B.subgroupOf A ≤ R := hR
   refine ⟨R, ?_⟩
   set P : Subgroup G := (R : Subgroup ↥A).map A.subtype with hP
-  have hP2 : IsPGroup 2 P := R.isPGroup'.map A.subtype
+  have hP2 : IsPGroup 2 P := R.isPGroup.map A.subtype
   have hBP : B ≤ P := fun x hx => ⟨⟨x, hBA hx⟩, hR (mem_subgroupOf.mpr hx), rfl⟩
   have hPA : P ≤ A := map_subtype_le _
   have hPB : P = B := by

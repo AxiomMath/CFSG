@@ -81,18 +81,18 @@ theorem rhoTFrame_perm_unique {G : Type} [Group G] {Bs : Subgroup G} {A : Subgro
   obtain ⟨ua, hua⟩ := exists_point hW a
   obtain ⟨up, hup⟩ := exists_point hW (σ.symm j)
   have hb : κ m (ua * up⁻¹) = 1 := by
-    rw [map_mul, map_inv, hua, hup, if_neg (Ne.symm ham), if_neg (Ne.symm hpm), mul_inv_cancel]
+    rw [map_mul, map_inv, hua, hup, ite_eq_right (Ne.symm ham), ite_eq_right (Ne.symm hpm), mul_inv_cancel]
   obtain ⟨t, ht⟩ := Subgroup.mem_zpowers_iff.1 (hc _ hb)
   have hκ : ∀ i, κ i (φ (ua * up⁻¹)) * (κ i (φ' (ua * up⁻¹)))⁻¹ =
       (if i = m then 1 else ω3) ^ t := fun i => by
     rw [← map_inv, ← map_mul, ← ht, map_zpow, hW.x_coord]
   have h1 : (ω3 : Multiplicative (ZMod 3)) ^ t = 1 := by
     have := hκ n
-    rwa [hφ, hφ', hsn, hs'n, mul_inv_cancel, if_neg hn, eq_comm] at this
+    rwa [hφ, hφ', hsn, hs'n, mul_inv_cancel, ite_eq_right hn, eq_comm] at this
   have h2 := hκ j
-  rw [hφ, hφ', if_neg hjm, h1, mul_inv_eq_one, map_mul, map_mul, map_inv, map_inv, hua, hup,
-    hua, hup, if_neg (Ne.symm hap), if_neg (Ne.symm hap'), if_pos rfl,
-    if_neg (Ne.symm hj), mul_inv_cancel] at h2
+  rw [hφ, hφ', ite_eq_right hjm, h1, mul_inv_eq_one, map_mul, map_mul, map_inv, map_inv, hua, hup,
+    hua, hup, ite_eq_right (Ne.symm hap), ite_eq_right (Ne.symm hap'), ite_eq_left rfl,
+    ite_eq_right (Ne.symm hj), mul_inv_cancel] at h2
   simp only [inv_one, mul_one] at h2
   exact one_ne_ω3 h2.symm
 

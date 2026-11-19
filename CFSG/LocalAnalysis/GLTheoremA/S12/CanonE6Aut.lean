@@ -241,7 +241,7 @@ theorem card_le_five_pow_four_aut_E6 {K : Type} [Field K] [Finite K] (hK : Nat.c
       Nat.card (adjointGroup .E6 K) :=
     (Nat.card_congr (MonoidHom.ofInjective hinj).toEquiv).symm
   have hdvd : Nat.card E ∣ Nat.card (adjointGroup .E6 K) := hNcard ▸ Subgroup.card_dvd_of_le hle
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨k, hk⟩ := (CFSG.Open.IsElemAbelian.isPGroup hE).exists_card_eq
   by_contra hgt
   have hk5 : 5 ≤ k := by

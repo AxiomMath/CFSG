@@ -35,7 +35,7 @@ theorem eq_one_of_mul_eq_smul_mul_char_two [CharP K 2] (hm : 1 ≤ m) {S T : Mat
   have h2 : ((r * r) - 1) • S = 0 := by rw [sub_smul, ← h1, one_smul, sub_self]
   have hS0 : S ≠ 0 := by
     rintro rfl
-    haveI : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
+    have : Nonempty (Fin m) := ⟨⟨0, hm⟩⟩
     exact hS Matrix.det_zero
   have h3 : (r * r) - 1 = 0 := (smul_eq_zero.1 h2).resolve_right hS0
   exact eq_one_of_mul_self_eq_one_char_two (sub_eq_zero.1 h3)

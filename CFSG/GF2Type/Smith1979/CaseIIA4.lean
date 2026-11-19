@@ -15,7 +15,7 @@ open Subgroup Module QuadraticMap CFSG.RankThree.OrthogonalInvolutions CFSG.Larg
 
 variable {G : Type*} [Group G] [Finite G] {S : Setting G} {g : G} {t : S.O}
 
-@[expose] def Tk (t k : S.O) (hkt : k * t = t * k) (htt : t * t = 1) : Subgroup S.O where
+@[expose] def Tk (t k : S.O) (_hkt : k * t = t * k) (htt : t * t = 1) : Subgroup S.O where
   carrier := {r | r * t = t * r ∧ (r * k * r⁻¹ = k ∨ r * k * r⁻¹ = k * t)}
   mul_mem' := by
     rintro r r' ⟨hr, hrk⟩ ⟨hr', hrk'⟩

@@ -88,7 +88,7 @@ variable {G : Type} [Group G]
 @[expose] def centralizerMod (z : G) (N E : Subgroup G) : Subgroup G where
   carrier := {n | n ∈ N ∧ n ∈ centralizer ({z} : Set G) ∧ n ∈ normalizer (E : Set G) ∧
     ∀ q ∈ E, n * q * n⁻¹ * q⁻¹ ∈ zpowers z}
-  one_mem' := ⟨one_mem N, one_mem _, one_mem _, fun q _ => by simpa using one_mem (zpowers z)⟩
+  one_mem' := ⟨one_mem N, one_mem _, one_mem _, fun q _ => by simp⟩
   mul_mem' := by
     rintro a b ⟨haN, haz, haE, ha⟩ ⟨hbN, hbz, hbE, hb⟩
     refine ⟨mul_mem haN hbN, mul_mem haz hbz, mul_mem haE hbE, fun q hq => ?_⟩

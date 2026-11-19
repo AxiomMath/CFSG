@@ -42,7 +42,7 @@ theorem fitting_le_oddCore {X : Type} [Group X] [Finite X] (h2 : CFSG.pCore 2 X 
   have hSc : (S : Subgroup ↥F).Characteristic := Sylow.characteristic_of_normal S hSn
   have hSX : ((S : Subgroup ↥F).map F.subtype).Normal := normal_map_of_characteristic _
   have hS2 : IsPGroup 2 ↥((S : Subgroup ↥F).map F.subtype) :=
-    S.isPGroup'.map F.subtype
+    S.isPGroup.map F.subtype
   have hSbot : (S : Subgroup ↥F).map F.subtype = ⊥ := by
     rw [eq_bot_iff, ← h2]
     exact le_sSup ⟨hSX, hS2⟩

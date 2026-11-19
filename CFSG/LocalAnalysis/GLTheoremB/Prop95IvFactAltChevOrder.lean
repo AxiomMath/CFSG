@@ -32,7 +32,7 @@ theorem two_le_two_pow {f : ℕ} (hf : 1 ≤ f) : 2 ≤ 2 ^ f := by
 
 theorem one_le_two_pow' (f : ℕ) : 1 ≤ 2 ^ f := Nat.one_le_two_pow
 
-theorem fam_A {r f : ℕ} (hr : 1 ≤ r) (hf : 1 ≤ f) :
+theorem fam_A {r f : ℕ} (hr : 1 ≤ r) (_hf : 1 ≤ f) :
     2 ^ (f * (r * (r + 1) / 2)) ∣ ordA r (2 ^ f) ∧
       ordA r (2 ^ f) ≤ 2 ^ (3 * (f * (r * (r + 1) / 2))) := by
   refine ⟨?_, ?_⟩
@@ -60,7 +60,7 @@ theorem fam_twistedA {r f : ℕ} (hr : 2 ≤ r) (hf : 1 ≤ f) :
     calc _ ≤ _ := hb
       _ = 2 ^ (3 * (f * (r * (r + 1) / 2))) := two_pow_pow f 3 _
 
-theorem fam_BC {r f : ℕ} (hr : 1 ≤ r) (hf : 1 ≤ f) :
+theorem fam_BC {r f : ℕ} (hr : 1 ≤ r) (_hf : 1 ≤ f) :
     2 ^ (f * (r * r)) ∣ ordBC r (2 ^ f) ∧
       ordBC r (2 ^ f) ≤ 2 ^ (3 * (f * (r * r))) := by
   refine ⟨?_, ?_⟩
@@ -70,7 +70,7 @@ theorem fam_BC {r f : ℕ} (hr : 1 ≤ r) (hf : 1 ≤ f) :
   · calc ordBC r (2 ^ f) ≤ (2 ^ f) ^ (3 * (r * r)) := ordBC_le hr (one_le_two_pow' f)
       _ = 2 ^ (3 * (f * (r * r))) := two_pow_pow f 3 _
 
-theorem fam_D {r f : ℕ} (hr : 4 ≤ r) (hf : 1 ≤ f) :
+theorem fam_D {r f : ℕ} (hr : 4 ≤ r) (_hf : 1 ≤ f) :
     2 ^ (f * (r * (r - 1))) ∣ ordD r (2 ^ f) ∧
       ordD r (2 ^ f) ≤ 2 ^ (3 * (f * (r * (r - 1)))) := by
   refine ⟨?_, ?_⟩
@@ -91,7 +91,7 @@ theorem fam_twistedD {r f : ℕ} (hr : 4 ≤ r) (hf : 1 ≤ f) :
           ordTwistedD_le hr (two_le_two_pow hf)
       _ = 2 ^ (3 * (f * (r * (r - 1)))) := two_pow_pow f 3 _
 
-theorem fam_E6 {f : ℕ} (hf : 1 ≤ f) :
+theorem fam_E6 {f : ℕ} (_hf : 1 ≤ f) :
     2 ^ (f * 36) ∣ ordE6 (2 ^ f) ∧ ordE6 (2 ^ f) ≤ 2 ^ (3 * (f * 36)) := by
   refine ⟨?_, ?_⟩
   · rw [pow_mul]
@@ -99,7 +99,7 @@ theorem fam_E6 {f : ℕ} (hf : 1 ≤ f) :
   · calc ordE6 (2 ^ f) ≤ (2 ^ f) ^ (3 * 36) := ordE6_le (one_le_two_pow' f)
       _ = 2 ^ (3 * (f * 36)) := two_pow_pow f 3 36
 
-theorem fam_E7 {f : ℕ} (hf : 1 ≤ f) :
+theorem fam_E7 {f : ℕ} (_hf : 1 ≤ f) :
     2 ^ (f * 63) ∣ ordE7 (2 ^ f) ∧ ordE7 (2 ^ f) ≤ 2 ^ (3 * (f * 63)) := by
   refine ⟨?_, ?_⟩
   · rw [pow_mul]
@@ -107,7 +107,7 @@ theorem fam_E7 {f : ℕ} (hf : 1 ≤ f) :
   · calc ordE7 (2 ^ f) ≤ (2 ^ f) ^ (3 * 63) := ordE7_le (one_le_two_pow' f)
       _ = 2 ^ (3 * (f * 63)) := two_pow_pow f 3 63
 
-theorem fam_E8 {f : ℕ} (hf : 1 ≤ f) :
+theorem fam_E8 {f : ℕ} (_hf : 1 ≤ f) :
     2 ^ (f * 120) ∣ ordE8 (2 ^ f) ∧ ordE8 (2 ^ f) ≤ 2 ^ (3 * (f * 120)) := by
   refine ⟨?_, ?_⟩
   · rw [pow_mul]
@@ -115,7 +115,7 @@ theorem fam_E8 {f : ℕ} (hf : 1 ≤ f) :
   · calc ordE8 (2 ^ f) ≤ (2 ^ f) ^ (3 * 120) := ordE8_le (one_le_two_pow' f)
       _ = 2 ^ (3 * (f * 120)) := two_pow_pow f 3 120
 
-theorem fam_F4 {f : ℕ} (hf : 1 ≤ f) :
+theorem fam_F4 {f : ℕ} (_hf : 1 ≤ f) :
     2 ^ (f * 24) ∣ ordF4 (2 ^ f) ∧ ordF4 (2 ^ f) ≤ 2 ^ (3 * (f * 24)) := by
   refine ⟨?_, ?_⟩
   · rw [pow_mul]
@@ -123,7 +123,7 @@ theorem fam_F4 {f : ℕ} (hf : 1 ≤ f) :
   · calc ordF4 (2 ^ f) ≤ (2 ^ f) ^ (3 * 24) := ordF4_le (one_le_two_pow' f)
       _ = 2 ^ (3 * (f * 24)) := two_pow_pow f 3 24
 
-theorem fam_G2 {f : ℕ} (hf : 1 ≤ f) :
+theorem fam_G2 {f : ℕ} (_hf : 1 ≤ f) :
     2 ^ (f * 6) ∣ ordG2 (2 ^ f) ∧ ordG2 (2 ^ f) ≤ 2 ^ (3 * (f * 6)) := by
   refine ⟨?_, ?_⟩
   · rw [pow_mul]

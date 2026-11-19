@@ -138,18 +138,18 @@ structure E6ThreeCentreData (F : Type) [Field F] [Finite F] [CharP F 2]
 
 def e6Three_frame_data (F : Type) [Field F] [Finite F] [CharP F 2]
     (n p q : ℕ) (hcard : Nat.card F = 2 ^ n) (hn : 2 ≤ n)
-    (hp : p.Prime) (hp2 : p ≠ 2) (hrk : rk2Ord p n = 3) (hq : q.Prime)
+    (hp : p.Prime) (hp2 : p ≠ 2) (hrk : rk2Ord p n = 3) (_hq : q.Prime)
     (Ã : Subgroup ↥(e6Data_valid.minGroup F)) (hAe : IsElemAbelian p Ã)
     (hmax : CFSG.Open.pRank p (⊤ : Subgroup ↥(e6Data_valid.minGroup F)) ≤
       CFSG.Open.pRank p Ã)
-    (hA3 : 3 ≤ CFSG.Open.pRank p Ã) :
+    (_hA3 : 3 ≤ CFSG.Open.pRank p Ã) :
     E6ThreeFrameData F n p q Ã := by
   refine Classical.choice ?_
-  letI : Finite ↥(e6Data_valid.minGroup F) :=
+  let : Finite ↥(e6Data_valid.minGroup F) :=
     CFSG.ClassicalInvolution.ModelFacts.ChevAut.finite_minGroup e6Data_valid F
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CharP (AlgebraicClosure F) 2 :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : CharP (AlgebraicClosure F) 2 :=
     charP_of_injective_algebraMap (algebraMap F (AlgebraicClosure F)).injective 2
   have hp5 : 5 < p := by have := seven_le_of_card hcard hp hp2 hrk; omega
   have hpq : p ∣ Nat.card F ^ 2 + Nat.card F + 1 := three_dvd_card_sq_add hcard hp hp2 hrk
@@ -221,7 +221,7 @@ def e6Three_layer_data (F : Type) [Field F] [Finite F] [CharP F 2]
     _, hxord, hf, hFr, w, S₁, S₂, KL, hw₁, hw₂, hS₁r, hvS₁, hS₂r, hvS₂, hKL,
     hdvdP, _, _, _, _, _, _, _⟩ := D
   classical
-  haveI : CharP (AlgebraicClosure F) 2 :=
+  have : CharP (AlgebraicClosure F) 2 :=
     charP_of_injective_algebraMap (algebraMap F (AlgebraicClosure F)).injective 2
   have hp5 : 5 < p := by have := seven_le_of_card hcard hp hp2 hrk; omega
   have hpq : p ∣ Nat.card F ^ 2 + Nat.card F + 1 := three_dvd_card_sq_add hcard hp hp2 hrk
@@ -318,8 +318,8 @@ def e6Three_centre_data (F : Type) [Field F] [Finite F] [CharP F 2]
     rcases hqdiv with h | ⟨hn1, -⟩
     · rwa [hcard]
     · omega
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : NeZero q := ⟨hq.ne_zero⟩
+  have : Fact q.Prime := ⟨hq⟩
+  have : NeZero q := ⟨hq.ne_zero⟩
   obtain ⟨T, hTle, hTel, hTcard⟩ :=
     exists_elemAbelian_le_of_mulEquiv
       (e := eJ₁.trans (Subgroup.topEquiv (G := SL(3, F))).symm)

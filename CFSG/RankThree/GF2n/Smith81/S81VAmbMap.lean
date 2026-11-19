@@ -11,19 +11,23 @@ open CFSG.ClassicalGroups.Unitary CFSG.LieType.Universal.Unitary CFSG.RankThree.
 
 variable {F : Type} [Field F] [CharP F 2] {σ : F ≃+* F}
 
+omit [CharP F 2] in
 theorem map_map_gLin (g h : SUid σ 6) (W : Submodule F (Fin 6 → F)) :
     (W.map (gLin h)).map (gLin g) = W.map (gLin (g * h)) := by
   have hl : gLin (g * h) = (gLin g).comp (gLin h) := LinearMap.ext fun v => gLin_mul g h v
   rw [hl, Submodule.map_comp]
 
+omit [CharP F 2] in
 theorem map_gLin_inf (g : SUid σ 6) (x y : Submodule F (Fin 6 → F)) :
     (x ⊓ y).map (gLin g) = x.map (gLin g) ⊓ y.map (gLin g) := by
   exact Submodule.map_inf (gLin g) (gLin_injective g)
 
+omit [CharP F 2] in
 theorem finrank_map_gLin (g : SUid σ 6) (W : Submodule F (Fin 6 → F)) :
     finrank F ↥(W.map (gLin g)) = finrank F ↥W := by
   exact (Submodule.equivMapOfInjective (gLin g) (gLin_injective g) W).finrank_eq.symm
 
+omit [CharP F 2] in
 theorem isPt_map (g : SUid σ 6) {W : Submodule F (Fin 6 → F)} (hW : IsPt σ W) :
     IsPt σ (W.map (gLin g)) := by
   have hT : IsTotIso σ W := hW.1

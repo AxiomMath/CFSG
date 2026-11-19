@@ -25,7 +25,7 @@ private theorem exists_isElemAbelian_le_comap {G : Type} [Group G] [Finite G]
     ∃ B : Subgroup G, B ≤ E.comap (QuotientGroup.mk' N) ∧ IsElemAbelian r B ∧
       Nat.card B = Nat.card E := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   set π : G →* G ⧸ N := QuotientGroup.mk' N with hπ
   let ψ : ↥(E.comap π) →* G ⧸ N := π.comp (E.comap π).subtype
   have hψ : ∀ x : ↥(E.comap π), ψ x ∈ E := fun x => x.2
@@ -70,8 +70,8 @@ theorem le_evenRank_of_quotient {G : Type} [Group G] [Finite G] {N : Subgroup G}
     (hE : IsElemAbelian r E) (hEcard : Nat.card E = r ^ k)
     (hXE : E ≤ Subgroup.normalizer (X : Set (G ⧸ N))) : k ≤ evenRank G := by
   classical
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set π : G →* G ⧸ N := QuotientGroup.mk' N with hπ
   have hπsurj : Function.Surjective π := QuotientGroup.mk'_surjective N
   set H : Subgroup G := X.comap π with hH
@@ -97,7 +97,7 @@ theorem le_evenRank_of_quotient {G : Type} [Group G] [Finite G] {N : Subgroup G}
     CFSG.SignalizerFunctor.Helpers.normalized_pgroup_actor_sylow_containing r 2 hr
       Nat.prime_two B H ⊥ (isPGroup_of_isElemAbelian hBelem) hBnle hcoprime bot_le
       (IsPGroup.of_bot (p := 2)) (by rw [Subgroup.normalizer_eq_top]; exact le_top)
-  have hP2 : IsPGroup 2 ((S : Subgroup H).map H.subtype) := S.isPGroup'.map H.subtype
+  have hP2 : IsPGroup 2 ((S : Subgroup H).map H.subtype) := S.isPGroup.map H.subtype
   have h2H : 2 ∣ Nat.card H := by
     rw [hcardH]
     refine dvd_mul_of_dvd_left ?_ _

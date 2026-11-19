@@ -154,8 +154,8 @@ theorem dichotomy_of_frame' {T U Z C₀ : Subgroup G} {e : G}
     · exact Subgroup.zpowers_le.mpr heU
 
 theorem pcore_centralizer_le_theta_threeCore_of_frame'
-    (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
-    (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (h7 : D.sig = {7})
+    (_hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
+    (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar) (_h7 : D.sig = {7})
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     (hNZ : Subgroup.normalizer ((zSub P c.L : Subgroup G) : Set G) ≤ D.M)
     {e : G} (hP1 : CFSG.ABGLocalTools.IsSylowOf 3
@@ -182,14 +182,14 @@ theorem pcore_centralizer_le_theta_threeCore_of_frame'
   let Z : Subgroup G := zSub P c.L
   let W : Subgroup G := Subgroup.centralizer ({e} : Set G) ⊓ CFSG.Open.pCoreOf 2 D.M
   let K : Subgroup G := H ⊓ D.M
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hθX : CFSG.RankThree.LocalRank.aschbacherSolvableCore 3 X = ⊥ :=
     (CFSG.RankThree.theta_quotient_core_and_ranks (G := H)).1
   have hcore2 : CFSG.pCore 2 X = ⊥ := by
     apply le_bot_iff.mp
-    haveI : Group.IsNilpotent ↥(CFSG.pCore 2 X) :=
+    have : Group.IsNilpotent ↥(CFSG.pCore 2 X) :=
       (CFSG.pCore_isPGroup (p := 2) (G := X)).isNilpotent
-    haveI : Group.IsSolvable ↥(CFSG.pCore 2 X) := inferInstance
+    have : Group.IsSolvable ↥(CFSG.pCore 2 X) := inferInstance
     have hmaxX := (CFSG.RankThree.LocalRank.solvable_prime_complement_core_characterization (H := X)
       Nat.prime_three).2.2.2.1
     exact (hmaxX (CFSG.pCore 2 X) inferInstance inferInstance
@@ -197,7 +197,7 @@ theorem pcore_centralizer_le_theta_threeCore_of_frame'
         (CFSG.pCore_isPGroup (p := 2) (G := X)) Nat.prime_three (by norm_num))).trans
       (le_of_eq hθX)
   have hmapT : T.map H.subtype = P ⊓ H := by
-    simpa [T] using Subgroup.map_subgroupOf_eq_of_le (H := P ⊓ H) (K := H) inf_le_right
+    simp [T]
   have hTH : CFSG.ABGLocalTools.IsSylowOf 3 T (⊤ : Subgroup H) := by
     rw [← CFSG.ABGLocalTools.isSylowOf_map_subtype_iff H]
     simpa [hmapT, H, Subgroup.map_top, Subgroup.range_subtype] using hP1
@@ -340,7 +340,7 @@ theorem pcore_centralizer_le_theta_threeCore_of_frame'
       have hhfr : h ∈ R ⊔ (⊤ ⊓ Subgroup.normalizer (U : Set H)) := by
         rw [← hfr]
         exact hh
-      haveI : R.Normal := hRnormal
+      have : R.Normal := hRnormal
       rw [Subgroup.mem_sup_of_normal_left] at hhfr
       obtain ⟨r, hr, n, hn, hrn⟩ := hhfr
       have hπr : π r ∈ CFSG.pCore 3 X := hr
@@ -371,7 +371,7 @@ theorem pcore_centralizer_le_theta_threeCore_of_frame'
       intro x
       obtain ⟨h, rfl⟩ := QuotientGroup.mk'_surjective θ x
       have hh : h ∈ θ ⊔ K.subgroupOf H := hHsplit (Subgroup.mem_top h)
-      haveI : θ.Normal := inferInstance
+      have : θ.Normal := inferInstance
       rw [Subgroup.mem_sup_of_normal_left] at hh
       obtain ⟨t, ht, k, hk, htk⟩ := hh
       have hkK : k.1 ∈ K := Subgroup.mem_subgroupOf.mp hk
@@ -464,6 +464,7 @@ noncomputable abbrev pl7C0_wPL7 {D : Data G} (P : Subgroup G) (c : Ctx82E3 D) :
 noncomputable abbrev pl7T_wPL7 (P : Subgroup G) (e : G) : Subgroup G :=
   P ⊓ Subgroup.centralizer ({e} : Set G)
 
+omit [Finite G] in
 theorem pl7_center_map_eq_wPL7 (Q : Subgroup G) :
     (Subgroup.center ↥Q).map Q.subtype = Q ⊓ Subgroup.centralizer (Q : Set G) := by
   ext x
@@ -515,7 +516,7 @@ theorem pl7_card_Q_wPL7 (c : Ctx82E3 D)
     (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     Nat.card ↥(pl7Q_wPL7 P c) = 3 ^ 5 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPL : CFSG.ABGLocalTools.IsSylowOf 3 (pl7Q_wPL7 P c) c.L :=
     hP.inf_of_le_normalizer c.hyp81.1 c.le_normalizer_L
   rw [hPL.card_eq, pl7_factorization_card_L_wPL7 c hON]
@@ -542,7 +543,7 @@ theorem pl7_commutator_Q_wPL7
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     ⁅pl7Q_wPL7 P c, pl7Q_wPL7 P c⁆ ≤ zSub P c.L := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' O
   let QL : Subgroup ↥c.L := (pl7Q_wPL7 P c).subgroupOf c.L
@@ -593,7 +594,7 @@ theorem pl7_card_centralizer_of_card_three_pow_five_wPL7 {Q : Type*} [Group Q] [
     (hg : g ∉ Subgroup.center Q) :
     Nat.card (Subgroup.centralizer ({g} : Set Q)) = 81 := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hidx_le : (Subgroup.centralizer ({g} : Set Q)).index ≤ 3 :=
     CFSG.HardMathSupport.Solomon.Coordinator.c25_index_centralizer_le hZ hcomm g
   have hidx_dvd : (Subgroup.centralizer ({g} : Set Q)).index ∣ 3 ^ 5 := by
@@ -618,7 +619,7 @@ theorem pl7_card_centralizer_of_card_three_pow_five_wPL7 {Q : Type*} [Group Q] [
     interval_cases i
     · rw [hi] at hidx_ne
       norm_num at hidx_ne
-    · simpa [hi] using rfl
+    · simp [hi]
   have hmul := Subgroup.card_mul_index (Subgroup.centralizer ({g} : Set Q))
   rw [hidx, hcard] at hmul
   norm_num at hmul ⊢
@@ -672,7 +673,7 @@ theorem pl7_center_centralizer_Q_wPL7
         (pl7Q_wPL7 P c ⊓ Subgroup.centralizer ({e} : Set G)).subtype =
       Subgroup.zpowers e ⊔ zSub P c.L := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Q : Subgroup G := pl7Q_wPL7 P c
   let S : Subgroup G := Q ⊓ Subgroup.centralizer ({e} : Set G)
   let Z : Subgroup G := zSub P c.L
@@ -763,9 +764,8 @@ theorem pl7_center_centralizer_Q_wPL7
     have hquot : Nat.card (↥S ⧸ Subgroup.center ↥S) = 3 := by
       have hmul := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center ↥S)
       rw [hS_card, hcardCent] at hmul
-      norm_num at hmul ⊢
       omega
-    haveI : IsCyclic (↥S ⧸ Subgroup.center ↥S) := isCyclic_of_prime_card hquot
+    have : IsCyclic (↥S ⧸ Subgroup.center ↥S) := isCyclic_of_prime_card hquot
     have hab : IsMulCommutative ↥S :=
       isMulCommutative_of_isCyclic_quotient_center_self ↥S
     have htop : Subgroup.center ↥S = ⊤ := Subgroup.center_eq_top_iff.mpr hab
@@ -853,7 +853,7 @@ theorem pl7_mem_center_lbar_iff_wPL7
     QuotientGroup.mk (s := CFSG.Open.pCore 2 ↥c.L) ⟨a, ha.2⟩ ∈ Subgroup.center c.Lbar ↔
       a ∈ zSub P c.L := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let O : Subgroup ↥c.L := CFSG.Open.pCore 2 ↥c.L
   let π : ↥c.L →* c.Lbar := QuotientGroup.mk' O
   have hPdisjO : P ⊓ CFSG.Open.pCoreOf 2 c.L = ⊥ := by
@@ -905,7 +905,7 @@ theorem pl7_P_le_sup_wPL7
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     P ≤ pl7Q_wPL7 P c ⊔ pl7C0_wPL7 P c := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let φ : ↥D.M →* MulAut c.Lbar :=
     CFSG.GroupTheory.conjModPCore 2 c.L D.M c.le_normalizer_L
   let Psub : Subgroup ↥D.M := P.subgroupOf D.M
@@ -1020,7 +1020,7 @@ theorem pl7_P_le_sup_wPL7
   exact Subgroup.mul_mem_sup hqQ hC0
 
 theorem pl7_phi_eq_one_of_mem_C0_wPL7
-    (c : Ctx82E3 D) (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
+    (c : Ctx82E3 D) (_hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) {z : G}
     (hz : z ∈ pl7C0_wPL7 P c) :
     CFSG.GroupTheory.conjModPCore 2 c.L D.M c.le_normalizer_L
@@ -1042,7 +1042,7 @@ theorem pl7_zSub_le_C0_wPL7
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     zSub P c.L ≤ pl7C0_wPL7 P c := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let φ : ↥D.M →* MulAut c.Lbar :=
     CFSG.GroupTheory.conjModPCore 2 c.L D.M c.le_normalizer_L
   intro z hz
@@ -1080,7 +1080,7 @@ theorem pl7_cyclic_C0_wPL7
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M) :
     IsCyclic ↥(pl7C0_wPL7 P c) := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let C0 : Subgroup G := pl7C0_wPL7 P c
   have hC0p : IsPGroup 3 C0 := hP.isPGroup.to_le inf_le_left
   have hrank : CFSG.Open.pRank 3 C0 ≤ 1 := by
@@ -1181,13 +1181,13 @@ theorem pl7_T_eq_wPL7
         (pl7_commute_C0_Q_wPL7 c hP x hx e he)
 
 theorem threeCoreFrame_of_onan''
-    (hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
+    (_hK2 : K2ONanCentralizer) (c : Ctx82E3 D)
     (hON : ThreeCover (fun Y _ => IsSpor Y .ONan) c.Lbar)
     {P : Subgroup G} (hP : CFSG.ABGLocalTools.IsSylowOf 3 P D.M)
     {e : G} (he : e ∈ P ⊓ c.L) (he3 : orderOf e = 3) (heZ : e ∉ zSub P c.L) :
     ThreeCoreFrame' (P ⊓ Subgroup.centralizer ({e} : Set G)) (zSub P c.L) e := by
   classical
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Q : Subgroup G := pl7Q_wPL7 P c
   let C0 : Subgroup G := pl7C0_wPL7 P c
   let Z : Subgroup G := zSub P c.L
@@ -1263,7 +1263,7 @@ theorem threeCoreFrame_of_onan''
         refine Subgroup.mem_subgroupOf.mpr ⟨?_, ?_⟩
         · exact P.mul_mem (P.mul_mem hpP hqQ.1) (P.inv_mem hpP)
         · exact (Subgroup.mem_normalizer_iff.mp hpL _).1 hqQ.2
-      haveI := hQPnorm
+      have := hQPnorm
       have hsup : QP ⊔ C0P = ⊤ := by
         apply le_antisymm le_top
         intro x hx
@@ -1279,10 +1279,10 @@ theorem threeCoreFrame_of_onan''
         exact Subgroup.mul_mem_sup (Subgroup.mem_subgroupOf.mpr hq)
           (Subgroup.mem_subgroupOf.mpr hc)
       have hC0Pcyc : IsCyclic ↥C0P := by
-        haveI : IsCyclic ↥C0 := pl7_cyclic_C0_wPL7 c hON hP
+        have : IsCyclic ↥C0 := pl7_cyclic_C0_wPL7 c hON hP
         exact (MulEquiv.isCyclic (Subgroup.subgroupOfEquivOfLe
           (show C0 ≤ P from inf_le_left))).mpr ‹IsCyclic ↥C0›
-      haveI : IsCyclic (↥P ⧸ QP) :=
+      have : IsCyclic (↥P ⧸ QP) :=
         CFSG.quotient_isCyclic_of_sup_cyclic_right hsup hC0Pcyc
       have hcommquot : IsMulCommutative (↥P ⧸ QP) := inferInstance
       have hPPsub : commutator ↥P ≤ QP :=

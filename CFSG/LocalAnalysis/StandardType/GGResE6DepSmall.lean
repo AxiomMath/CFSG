@@ -101,7 +101,7 @@ theorem GGResHyp.not_smallLie
     (hMark : GGInnerDiagOnLabel (fun _ lab => lab.tag = .G2 ∨ lab.tag = .triD4 ∨ lab.tag = .twB2 ∨
       lab.tag = .twF4 ∨ lab.tag = .B2der ∨ lab.tag = .G2der ∨ lab.tag = .twF4der) 3 Bs X) :
     False := by
-  letI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  let : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine hH.not_innerDiagOnLabel_of_card_lt hX ?_ hMark
   intro lab hΛ htag
   exact (ggSmallThreeRank_of_labels lab hΛ htag).mono

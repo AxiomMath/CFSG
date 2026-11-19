@@ -122,6 +122,7 @@ omit [Finite G] in
 theorem comm_mem_Ut {t x : G} (hx : x ∈ Q) : ⁅x, t⁆ ∈ Ut Q Z t :=
   Subgroup.mem_sup_left (Subgroup.commutator_mem_commutator hx (Subgroup.mem_zpowers t))
 
+omit [Finite G] in
 theorem Ctx.Ut_le_Q (hc : Ctx M Q Z B) {t : G} (htM : t ∈ M) : Ut Q Z t ≤ Q :=
   sup_le (comm_zpowers_le_of_conj (hc.conj_mem_Q_of_mem_M htM).1
     (hc.conj_mem_Q_of_mem_M htM).2) hc.Z_le_Q

@@ -702,7 +702,7 @@ public theorem cp_of_cpStar (K : CharacteristicFunctor p) (S : Sylow p G) :
   intro hStar W hWne hWleS g hWg
   let W' : Subgroup G := Subgroup.closure W
   have hW'_le_S : W' ≤ (S : Subgroup G) := (Subgroup.closure_le (K := (S : Subgroup G))).mpr hWleS
-  have hW'p : IsPGroup p W' := IsPGroup.to_le S.isPGroup' hW'_le_S
+  have hW'p : IsPGroup p W' := IsPGroup.to_le S.isPGroup hW'_le_S
   have hW'g_le_S : conjSubgroup g W' ≤ (S : Subgroup G) := by
     rw [conjSubgroup, MonoidHom.map_closure]
     refine (Subgroup.closure_le (K := (S : Subgroup G))).mpr ?_
@@ -893,7 +893,7 @@ omit [Finite G] in
 public theorem pCore_le_sylow {p : ℕ} [Fact p.Prime] (S : Sylow p G) :
     pCore p G ≤ (S : Subgroup G) := by
   have hsup : IsPGroup p (((S : Subgroup G) ⊔ pCore p G : Subgroup G)) :=
-    IsPGroup.to_sup_of_normal_right S.isPGroup' (pCore_isPGroup (G := G) (p := p))
+    IsPGroup.to_sup_of_normal_right S.isPGroup (pCore_isPGroup (G := G) (p := p))
   have heq : (S : Subgroup G) ⊔ pCore p G = (S : Subgroup G) :=
     S.maximal_isPGroup.eq_of_ge hsup le_sup_left
   exact sup_eq_left.mp heq
@@ -907,7 +907,7 @@ public theorem sylow_inf_normal (S : Sylow p G) {N : Subgroup G} [N.Normal] :
   classical
   let P : Subgroup ↥N := ((S : Subgroup G) ⊓ N).subgroupOf N
   have hP1 : IsPGroup p P := by
-    have hSn : IsPGroup p (↥((S : Subgroup G) ⊓ N)) := S.isPGroup'.to_inf_left
+    have hSn : IsPGroup p (↥((S : Subgroup G) ⊓ N)) := S.isPGroup.to_inf_left
     exact hSn.of_equiv (Subgroup.subgroupOfEquivOfLe (H := (S : Subgroup G) ⊓ N) (K := N) inf_le_right).symm
   have hrel1 :
       ((S : Subgroup G) ⊓ N).relIndex (S : Subgroup G) *
@@ -1267,7 +1267,7 @@ theorem step_III_scratch (S : Sylow p G) (h : Theorem51HypA p G ∨ Theorem51Hyp
     have hZ_le_S : Z ≤ (S : Subgroup G) := by
       intro z hz
       exact hz.1
-    have hZp : IsPGroup p (↥Z) := IsPGroup.to_le (hK := S.isPGroup') hZ_le_S
+    have hZp : IsPGroup p (↥Z) := IsPGroup.to_le (hK := S.isPGroup) hZ_le_S
     have hZ_le_CWg : Z ≤ Subgroup.centralizer (conjSubset g (W : Set G)) := by
       intro z hz
       rw [Subgroup.mem_centralizer_iff]
@@ -1371,7 +1371,7 @@ theorem step_III_scratch (S : Sylow p G) (h : Theorem51HypA p G ∨ Theorem51Hyp
         hWg_sub (hWg_sub.trans hS_le_M) hS_le_M hSleNZJ hCpM
     · have hZ_ne_bot : Z ≠ ⊥ := by
         simpa [Z, Zsub] using
-          (centerIn_ne_bot_of_isPGroup_ne_bot (G := G) (p := p) S.isPGroup' hSbot)
+          (centerIn_ne_bot_of_isPGroup_ne_bot (G := G) (p := p) S.isPGroup hSbot)
       have hZ_le_X : Z ≤ X := by
         have : IsMulCommutative ↥Z := centerIn_isMulCommutative_local (G := G) (S : Subgroup G)
         exact (Subgroup.le_centralizer (H := Z)).trans (Subgroup.centralizer_le_normalizer (Z : Set G))
@@ -1425,7 +1425,7 @@ theorem step_IV_scratch (S : Sylow p G) (_h : Theorem51HypA p G ∨ Theorem51Hyp
     hWp.of_equiv (Subgroup.subgroupOfEquivOfLe (H := W) (K := N) hW_le_N).symm
   obtain ⟨T, hW'_le_T⟩ := IsPGroup.exists_le_sylow (G := ↥N) (p := p) hW'p
   let T₁ : Subgroup G := T.map N.subtype
-  have hT₁p : IsPGroup p (↥T₁) := IsPGroup.map (H := T) T.isPGroup' N.subtype
+  have hT₁p : IsPGroup p (↥T₁) := IsPGroup.map (H := T) T.isPGroup N.subtype
   obtain ⟨S₁, hT₁_le_S₁⟩ := IsPGroup.exists_le_sylow (G := G) (p := p) hT₁p
   obtain ⟨y, hy⟩ := MulAction.exists_smul_eq G S S₁
   let x : G := (y : G)⁻¹
@@ -1484,7 +1484,7 @@ theorem step_IV_scratch (S : Sylow p G) (_h : Theorem51HypA p G ∨ Theorem51Hyp
         exact n.2
       have hQp : IsPGroup p (↥(((S₁ : Subgroup G) ⊓ N).subgroupOf N)) := by
         have hS1p : IsPGroup p (↥((S₁ : Subgroup G) ⊓ N)) :=
-          S₁.isPGroup'.to_inf_left
+          S₁.isPGroup.to_inf_left
         exact hS1p.of_equiv (Subgroup.subgroupOfEquivOfLe
           (H := (S₁ : Subgroup G) ⊓ N) (K := N) inf_le_right).symm
       have hT_subgroupOf : T ≤ ((S₁ : Subgroup G) ⊓ N).subgroupOf N := by
@@ -1652,7 +1652,7 @@ private lemma pPart_mono {p : ℕ} [Fact p.Prime] {a b : ℕ} (hb : b ≠ 0) (ha
 private lemma pPart_card_eq_card_of_sylow {p : ℕ} [Fact p.Prime] {G : Type*} [Group G]
     [Finite G] (T : Sylow p G) : pPart p (Nat.card G) = Nat.card T := by
   classical
-  have hTp : IsPGroup p (T : Subgroup G) := T.isPGroup'
+  have hTp : IsPGroup p (T : Subgroup G) := T.isPGroup
   obtain ⟨n, hn⟩ := hTp.exists_card_eq
   have hnot : ¬ p ∣ (T : Subgroup G).index := Sylow.not_dvd_index (P := T)
   have hTcard_ne : Nat.card (↥(T : Subgroup G)) ≠ 0 :=
@@ -1752,7 +1752,7 @@ private lemma isSylow_of_sylow_normalizer {p : ℕ} [Fact p.Prime] {G : Type*} [
               (fun X : Subgroup ↥(S : Subgroup G) => X.map (S : Subgroup G).subtype) htop.symm
           _ = T := by
             exact (Subgroup.map_subgroupOf_eq_of_le hTS))
-    have hHp : IsPGroup p (↥(S : Subgroup G)) := S.isPGroup'
+    have hHp : IsPGroup p (↥(S : Subgroup G)) := S.isPGroup
     have hgrowth := normalizer_lt_of_lt_of_isPGroup (P := ↥(S : Subgroup G)) (p := p) hHp hHlt
     have hnorm : Subgroup.normalizer (H : Set ↥(S : Subgroup G)) =
         ((Subgroup.normalizer (T : Set G)) ⊓ (S : Subgroup G)).subgroupOf (S : Subgroup G) := by
@@ -1764,7 +1764,7 @@ private lemma isSylow_of_sylow_normalizer {p : ℕ} [Fact p.Prime] {G : Type*} [
       ((Subgroup.normalizer (T : Set G)) ⊓ (S : Subgroup G)).subgroupOf (Subgroup.normalizer (T : Set G))
     have hQp : IsPGroup p Q := by
       have hXp : IsPGroup p (((Subgroup.normalizer (T : Set G)) ⊓ (S : Subgroup G)) : Subgroup G) := by
-        apply IsPGroup.to_le (hK := S.isPGroup')
+        apply IsPGroup.to_le (hK := S.isPGroup)
         exact inf_le_right
       exact IsPGroup.of_equiv (hG := hXp)
         (Subgroup.subgroupOfEquivOfLe (show (Subgroup.normalizer (T : Set G)) ⊓ (S : Subgroup G) ≤
@@ -2091,7 +2091,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
       · exact hS₁max.2 hQ hle
   let D : Subgroup G := Subgroup.normalizer (J : Set G) ⊓ (S₁ : Subgroup G)
   have hJp : IsPGroup p J := by
-    apply IsPGroup.to_le S.isPGroup'
+    apply IsPGroup.to_le S.isPGroup
     exact thompsonSubgroup_le_local (S : Subgroup G)
   have hZ_le_ZJ : Z ≤ ZJ (S : Subgroup G) := by
     intro z hz
@@ -2126,7 +2126,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
         Subgroup.normalizer (J : Set G) ⊓ (S₁ : Subgroup G) = (S₁ : Subgroup G) → _)
       simpa [D] using hD_eq
     have hsup_p : IsPGroup p (J ⊔ (S₁ : Subgroup G) : Subgroup G) :=
-      hJp.to_sup_of_normal_left' S₁.isPGroup' hS₁_le_NJ
+      hJp.to_sup_of_normal_left' S₁.isPGroup hS₁_le_NJ
     have hsup_eq : J ⊔ (S₁ : Subgroup G) = (S₁ : Subgroup G) :=
       S₁.maximal_isPGroup.eq_of_ge hsup_p le_sup_right
     exact hJ_not_le_S₁ (sup_eq_right.mp hsup_eq)
@@ -2139,7 +2139,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
     exact hD_lt_S₁.2 hS₁_le_D
   have hD₁_lt_normalizer : D₁ < Subgroup.normalizer (D₁ : Set ↥(S₁ : Subgroup G)) :=
     normalizer_lt_of_lt_of_isPGroup (P := ↥(S₁ : Subgroup G)) (p := p)
-      S₁.isPGroup' hD₁_lt_top
+      S₁.isPGroup hD₁_lt_top
   have hnormalizer_D₁ :
       Subgroup.normalizer (D₁ : Set ↥(S₁ : Subgroup G)) =
         ((Subgroup.normalizer (D : Set G)) ⊓ (S₁ : Subgroup G)).subgroupOf
@@ -2169,7 +2169,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
   have hD_le_NJ : D ≤ NJ := by
     exact inf_le_left
   let D_J : Subgroup ↥NJ := D.subgroupOf NJ
-  have hDp : IsPGroup p D := S₁.isPGroup'.to_le hD_lt_S₁.le
+  have hDp : IsPGroup p D := S₁.isPGroup.to_le hD_lt_S₁.le
   have hD_Jp : IsPGroup p D_J :=
     hDp.of_equiv (Subgroup.subgroupOfEquivOfLe hD_le_NJ).symm
   obtain ⟨P, hD_J_le_P⟩ := hD_Jp.exists_le_sylow
@@ -2205,7 +2205,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
   have hD_P_lt_normalizer :
       D_P < Subgroup.normalizer (D_P : Set ↥(P : Subgroup ↥NJ)) :=
     normalizer_lt_of_lt_of_isPGroup (P := ↥(P : Subgroup ↥NJ)) (p := p)
-      P.isPGroup' hD_P_lt_top
+      P.isPGroup hD_P_lt_top
   let ιP : ↥(P : Subgroup ↥NJ) →* G :=
     NJ.subtype.comp (P : Subgroup ↥NJ).subtype
   have hιP_injective : Function.Injective ιP := by
@@ -2217,7 +2217,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
     (Subgroup.normalizer (D_P : Set ↥(P : Subgroup ↥NJ))).map ιP
   have hnormalizer_D_P_p :
       IsPGroup p (Subgroup.normalizer (D_P : Set ↥(P : Subgroup ↥NJ))) :=
-    P.isPGroup'.to_subgroup _
+    P.isPGroup.to_subgroup _
   have hEp : IsPGroup p E := by
     exact IsPGroup.map hnormalizer_D_P_p ιP
   have hD_P_card : Nat.card D_P = Nat.card D := by
@@ -2315,14 +2315,14 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
       have hvZJ := hV_le_ZJ hv
       exact (Subgroup.mem_centralizer_iff.mp hvZJ.2 j hj).symm
     have hAp : IsPGroup p A :=
-      S₁.isPGroup'.to_le (hA_le_NDS₁.trans inf_le_right)
+      S₁.isPGroup.to_le (hA_le_NDS₁.trans inf_le_right)
     obtain ⟨Sstar, c, hcC, hA_le_SstarG, hJ_le_SstarGc⟩ :=
       exists_sylow_normalizer_conjugate_contains V A J hAp hA_le_NV hJp hJ_le_CV
     let NV : Subgroup G := Subgroup.normalizer (V : Set G)
     let SstarG : Subgroup G := (Sstar : Subgroup ↥NV).map NV.subtype
     let R : Subgroup G := conjSubgroup c SstarG
     have hSstarGp : IsPGroup p SstarG := by
-      exact IsPGroup.map Sstar.isPGroup' NV.subtype
+      exact IsPGroup.map Sstar.isPGroup NV.subtype
     have hRp : IsPGroup p R := by
       exact IsPGroup.map hSstarGp (MulAut.conj c⁻¹).toMonoidHom
     obtain ⟨S₂, hR_le_S₂⟩ := hRp.exists_le_sylow
@@ -2495,7 +2495,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
     rw [← hDa_eq]
     exact Subgroup.map_mono hZ_le_D
   let T₀G : Subgroup G := (T₀ : Subgroup ↥NDJ).map NDJ.subtype
-  have hT₀Gp : IsPGroup p T₀G := IsPGroup.map T₀.isPGroup' NDJ.subtype
+  have hT₀Gp : IsPGroup p T₀G := IsPGroup.map T₀.isPGroup NDJ.subtype
   have hT₀G_le_NDJ : T₀G ≤ NDJ := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
@@ -2512,7 +2512,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
     hT₀Gp.of_equiv (Subgroup.subgroupOfEquivOfLe hT₀G_le_ND).symm
   obtain ⟨T₁, hT₀_ND_le_T₁⟩ := hT₀_NDp.exists_le_sylow
   let T₁G : Subgroup G := (T₁ : Subgroup ↥ND).map ND.subtype
-  have hT₁Gp : IsPGroup p T₁G := IsPGroup.map T₁.isPGroup' ND.subtype
+  have hT₁Gp : IsPGroup p T₁G := IsPGroup.map T₁.isPGroup ND.subtype
   have hT₁G_le_ND : T₁G ≤ ND := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
@@ -2645,7 +2645,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
     intro x hx
     refine Subgroup.mem_map.mpr ⟨⟨x, hH_le_N hx⟩, ?_, rfl⟩
     exact hH_N_le_T (Subgroup.mem_subgroupOf.mpr hx)
-  have hTGp : IsPGroup p TG := IsPGroup.map T.isPGroup' N.subtype
+  have hTGp : IsPGroup p TG := IsPGroup.map T.isPGroup N.subtype
   have hTG_le_N : TG ≤ N := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
@@ -2798,7 +2798,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
     hTGp.of_equiv (Subgroup.subgroupOfEquivOfLe hTG_le_NL).symm
   obtain ⟨Tstar, hTG_NL_le_Tstar⟩ := hTG_NLp.exists_le_sylow
   let TstarG : Subgroup G := (Tstar : Subgroup ↥NL).map NL.subtype
-  have hTstarGp : IsPGroup p TstarG := IsPGroup.map Tstar.isPGroup' NL.subtype
+  have hTstarGp : IsPGroup p TstarG := IsPGroup.map Tstar.isPGroup NL.subtype
   have hTstarG_le_NL : TstarG ≤ NL := by
     intro x hx
     rcases Subgroup.mem_map.mp hx with ⟨y, hy, rfl⟩
@@ -2811,7 +2811,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
   have hTG_le_S₃ : TG ≤ (S₃ : Subgroup G) := hTG_le_TstarG.trans hTstarG_le_S₃
   let I_N : Subgroup ↥N := ((S₃ : Subgroup G) ⊓ N).subgroupOf N
   have hI_Np : IsPGroup p I_N := by
-    have hIp : IsPGroup p (↥((S₃ : Subgroup G) ⊓ N)) := S₃.isPGroup'.to_inf_left
+    have hIp : IsPGroup p (↥((S₃ : Subgroup G) ⊓ N)) := S₃.isPGroup.to_inf_left
     exact hIp.of_equiv
       (Subgroup.subgroupOfEquivOfLe
         (H := (S₃ : Subgroup G) ⊓ N) (K := N) inf_le_right).symm
@@ -2938,14 +2938,14 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
     exact (Subgroup.mem_centralizer_iff.mp (hZ_le_L hz).2) j hj |>.symm
   obtain ⟨S_Z, c, hc_CZ, hS_le_S_ZG, hJT_le_cS_ZG⟩ :=
     exists_sylow_normalizer_conjugate_contains
-      Z (S : Subgroup G) JT S.isPGroup' hS_le_NZ hJTp hJT_le_CZ
+      Z (S : Subgroup G) JT S.isPGroup hS_le_NZ hJTp hJT_le_CZ
   let S_ZG : Subgroup G :=
     (S_Z : Subgroup ↥(Subgroup.normalizer (Z : Set G))).map
       (Subgroup.normalizer (Z : Set G)).subtype
   change (S : Subgroup G) ≤ S_ZG at hS_le_S_ZG
   change JT ≤ conjSubgroup c S_ZG at hJT_le_cS_ZG
   have hS_ZGp : IsPGroup p S_ZG :=
-    IsPGroup.map S_Z.isPGroup' (Subgroup.normalizer (Z : Set G)).subtype
+    IsPGroup.map S_Z.isPGroup (Subgroup.normalizer (Z : Set G)).subtype
   have hS_ZG_eq_S : S_ZG = (S : Subgroup G) :=
     S.maximal_isPGroup.eq_of_ge hS_ZGp hS_le_S_ZG
   have hJT_le_Sc : JT ≤ conjSubgroup c (S : Subgroup G) := by
@@ -3083,7 +3083,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
       intro x hx
       exact thompsonSubgroup_le_local (G := G) (S : Subgroup G) hx.1
     have hY_le_M : Y ≤ M := hY_le_ZJ.trans (hZJ_le_S.trans hS_le_M)
-    have hYp : IsPGroup p Y := S.isPGroup'.to_le (hY_le_ZJ.trans hZJ_le_S)
+    have hYp : IsPGroup p Y := S.isPGroup.to_le (hY_le_ZJ.trans hZJ_le_S)
     let Y_M : Subgroup ↥M := Y.subgroupOf M
     have hY_Mp : IsPGroup p Y_M :=
       hYp.of_equiv (Subgroup.subgroupOfEquivOfLe hY_le_M).symm
@@ -3154,7 +3154,7 @@ public theorem theorem5_1_step_I (S : Sylow p G) (h : Theorem51HypA p G ∨ Theo
       apply ha_bad
       rw [hZbot]
       simp [conjSubgroup]
-    have hZp : IsPGroup p Z := S.isPGroup'.to_le hZ_le_S
+    have hZp : IsPGroup p Z := S.isPGroup.to_le hZ_le_S
     have hZ_le_XZ : Z ≤ XZ := hZ_le_S.trans hS_le_XZ
     have hZnormal : (Z.subgroupOf XZ).Normal := Subgroup.normal_in_normalizer
     have hZ_XZp : IsPGroup p (Z.subgroupOf XZ) :=
@@ -3244,7 +3244,7 @@ public theorem theorem5_1_step_II (S : Sylow p G)
   let S₀ : Sylow p ↥C := S.subtype hS_le_CZ
   -- `J'` is a `p`-subgroup of `C`
   have hJ'p : IsPGroup p J' := by
-    apply IsPGroup.to_le (hK := IsPGroup.map (H := (S : Subgroup G)) S.isPGroup'
+    apply IsPGroup.to_le (hK := IsPGroup.map (H := (S : Subgroup G)) S.isPGroup
       (MulAut.conj g).toMonoidHom)
     exact thompsonSubgroup_le_local (G := G) ((S : Subgroup G).map (MulAut.conj g).toMonoidHom)
   let J₀ : Subgroup ↥C := J'.subgroupOf C
@@ -3409,7 +3409,7 @@ public theorem cp_of_cpSubgroup (K : CharacteristicFunctor p) (S : Sylow p G) :
   have hWgen : Subgroup.closure W ≤ (S : Subgroup G) :=
     (Subgroup.closure_le (K := (S : Subgroup G))).mpr hWle
   have hWgp : IsPGroup p (Subgroup.closure W) := by
-    apply IsPGroup.to_le (hK := S.isPGroup')
+    apply IsPGroup.to_le (hK := S.isPGroup)
     exact hWgen
   have hWg_le : conjSubgroup g (Subgroup.closure W) ≤ (S : Subgroup G) := by
     have hmap : conjSubgroup g (Subgroup.closure W) =

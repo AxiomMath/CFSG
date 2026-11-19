@@ -12,6 +12,7 @@ open scoped Pointwise
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 private theorem conjIn_mono_aux {K₁ K₂ : Subgroup G} (hK : K₁ ≤ K₂) (x : G) :
     conjIn K₁ x ⊆ conjIn K₂ x := by
   rintro u ⟨k, hk, hku⟩

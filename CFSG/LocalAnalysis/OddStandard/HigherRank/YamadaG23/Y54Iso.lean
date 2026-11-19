@@ -49,7 +49,7 @@ theorem y54_secProp (c : Ctx5 G L) (hH : F33Hyp c.s c.e) :
         (m' : G) = n * m * n⁻¹ → ((φ (π m') : ↥c.s.fr.F) : G) = n * (φ (π m) : G) * n⁻¹) := by
   obtain ⟨hn, hbody⟩ := secProp_iso (y54phiHom c hH) (y54phiHom_surj c hH) (y54phiHom_ker c hH)
   obtain ⟨φ, hφ⟩ := hbody
-  haveI : (c.s.fr.F.subgroupOf (M3 c.s)).Normal := hn
+  have : (c.s.fr.F.subgroupOf (M3 c.s)).Normal := hn
   refine ⟨hn, φ, ?_⟩
   intro n hnmem m m' hmm'
   show ((φ (QuotientGroup.mk' (c.s.fr.F.subgroupOf (M3 c.s)) m') : ↥c.s.fr.F) : G) =

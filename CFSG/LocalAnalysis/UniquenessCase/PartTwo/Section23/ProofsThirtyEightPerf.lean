@@ -22,7 +22,7 @@ theorem s23_38_perf_of (D : Data G) (Ch : Choice2011 G) (h37 : S23_37 D Ch)
     (hOq : S23_38_perf_Oq D Ch)
     (hn3 : H1930 D → ∀ c : Ctx23L D Ch, 3 ≤ c.n) : S23_38_perf D Ch := by
   intro h1930 c X hX hB0norm hperf
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS_le_T : CFSG.Open.pCoreOf 2 (c.L ⊔ D.T) ≤ D.T :=
     uc22p20b_pCoreOf_le_T D le_sup_right
   have hX_le_M : X ≤ D.M := hX.trans (hS_le_T.trans D.sylowM.le)

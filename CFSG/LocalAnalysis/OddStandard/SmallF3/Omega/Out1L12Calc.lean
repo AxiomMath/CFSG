@@ -131,7 +131,7 @@ theorem R_inv (h : L12Coord S t u) {x : S} (hx : x * t = t * x) (hx2 : x ^ 2 = 1
   have hj2 : j % 2 < 2 := Nat.mod_lt _ (by norm_num)
   interval_cases k % 2 <;> interval_cases j % 2 <;> simp
 
-theorem R_gen (h : L12Coord S t u) {v : S} (hv : v * t = t * v) (hv4 : orderOf v = 4)
+theorem R_gen (h : L12Coord S t u) {v : S} (hv : v * t = t * v) (_hv4 : orderOf v = 4)
     (hne : v ∉ Subgroup.zpowers u) {x : S} (hx : x * t = t * x) :
     ∃ i j : ℕ, x = u ^ i * v ^ j := by
   obtain ⟨i, j, hvij⟩ := h.cent v hv

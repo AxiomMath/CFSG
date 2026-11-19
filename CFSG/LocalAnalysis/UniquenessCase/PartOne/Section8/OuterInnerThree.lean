@@ -17,7 +17,7 @@ theorem mem_inner_of_isPGroup_three
   have hψP : IsPGroup 3 (Subgroup.zpowers ψ) := by
     have h := hφ.map (QuotientGroup.mk' (inner X))
     rwa [MonoidHom.map_zpowers] at h
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hψ1 : ψ = 1 := by
     by_contra hψ
     have hψsub : (⟨ψ, Subgroup.mem_zpowers ψ⟩ : Subgroup.zpowers ψ) ≠ 1 := by

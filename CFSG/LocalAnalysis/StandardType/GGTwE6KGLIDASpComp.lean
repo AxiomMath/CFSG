@@ -60,7 +60,7 @@ open CFSG.RankThree.PartOne.KCOrthogonal (reciprocalPolynomial)
 variable {r g : ℕ} {K : Type} [Field K]
 
 private theorem charP_two_kglSpC [Finite K] (hK : Nat.card K = 2 ^ g) : CharP K 2 := by
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   exact charP_of_card_eq_prime_pow (p := 2) (f := g) (by rw [Fintype.card_eq_nat_card, hK])
 
 private theorem not_three_dvd_kglSpC {q : ℕ} (hq : q = 2 ^ g) (hg : 3 ∣ 2 ^ g + 1) :
@@ -113,7 +113,7 @@ theorem sp_component_eq_fixed_or_unitary_of_odd {r g : ℕ} {K : Type} [Field K]
     T = (⁅spSupported x {X - 1}, spSupported x {X - 1}⁆).map (proj r K) ∨
       T = (⁅spSupported x {X ^ 2 + X + 1}, spSupported x {X ^ 2 + X + 1}⁆).map (proj r K) := by
   classical
-  haveI := charP_two_kglSpC hK
+  have := charP_two_kglSpC hK
   have hg1 : 1 ≤ g := Nat.pos_of_ne_zero (by rintro rfl; norm_num at hg)
   have hxne : x ≠ 1 := fun h => hx1 (by rw [h, map_one])
   have ha : orderOf (proj r K x) = 3 := orderOf_eq_prime (by rw [← map_pow, hx3, map_one]) hx1
@@ -126,7 +126,7 @@ theorem sp_component_eq_fixed_or_unitary_of_odd {r g : ℕ} {K : Type} [Field K]
   have hZc : (proj r K).ker ≤ Subgroup.center (StatedSp r K) := by
     rw [CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.ker_proj]
     exact CFSG.LocalAnalysis.ComponentInitial.SymplecticHigher.spScalars_le_center
-  haveI : Finite ↥(reciprocalOrbits (spEnd x)) :=
+  have : Finite ↥(reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcomm, -, hjoin⟩ := blocks.directProduct
   open CFSG.HardMathSupport.Solomon.Coordinator in

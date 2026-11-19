@@ -147,7 +147,7 @@ theorem levTwoS3e7_refuteOK_sound {m : ℕ} (h : levTwoS3e7_refuteOK m = true) :
   · by_cases hlt : levTwoS3e7_maskPop m < 6
     · exact Or.inr (Or.inl hlt)
     · refine Or.inr (Or.inr ?_)
-      rw [levTwoS3e7_refuteOK, if_neg hmem, if_neg hlt] at h
+      rw [levTwoS3e7_refuteOK, ite_eq_right hmem, ite_eq_right hlt] at h
       exact levTwoS3e7_not_irred_of_sideOK (of_decide_eq_true h)
 
 theorem levTwoS3e7_irred_mask_cases (m : ℕ) (hm : m < 255)

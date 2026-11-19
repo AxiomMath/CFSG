@@ -16,7 +16,7 @@ namespace CertificateChecks.Batch3055
 
 set_option maxRecDepth 100000
 
-@[expose] def cR : Array (Array ℕ) := ((List.range 21).map cRows).toArray
+def cR : Array (Array ℕ) := ((List.range 21).map cRows).toArray
 
 theorem kVec : boundL (pw2 22) frameOrbit.toList = true := by quickRfl
 
@@ -54,9 +54,9 @@ theorem frame : natCertOK actFrame 21 validW 31 frameCert = true ∧ frameCert.p
 
 open Frame3055 (actM recF edgeF)
 
-@[expose] noncomputable def fixK (c : ℕ) : Bool := allN 8 fun j => Nat.beq (digK c j) j
+noncomputable def fixK (c : ℕ) : Bool := allN 8 fun j => Nat.beq (digK c j) j
 
-@[expose] noncomputable def inOK (v : ℕ) : Bool :=
+noncomputable def inOK (v : ℕ) : Bool :=
   anyN 16 fun j => Nat.beq (fget Frame3055.OK j 111) v
 
 theorem kGen : (List.range 9).all (fun k => PermArr fPerms[k]!) = true ∧ fPerms.size = 9 := by
@@ -78,7 +78,7 @@ theorem kClose : closeOK actM 9 recF edgeF 11520 111 64 180 = true := by
 theorem kFix : allN 180 (fun c => allN 64 fun j => (fun v => orB (notB (fixK v)) (inOK v))
     (valF 111 (recF (Nat.add (Nat.mul c 64) j)))) = true := by quickRfl
 
-@[expose] def octIdx : List ℕ :=
+def octIdx : List ℕ :=
   [11519, 10788, 9979, 9248, 8415, 7684, 6875, 6144, 5375, 4644, 3835, 3104, 2271, 1540, 731, 0]
 
 theorem kOct : ∀ j < 16, PermArr octPerms[j]! = true ∧ fixJ octPerms[j]! = true ∧

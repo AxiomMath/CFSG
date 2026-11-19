@@ -24,7 +24,7 @@ private theorem a10kp_map_conj_inv (K : Subgroup (Perm (Fin 10))) (σ : Perm (Fi
   have h : (MulAut.conj σ⁻¹).toMonoidHom.comp (MulAut.conj σ).toMonoidHom = MonoidHom.id _ := by
     ext y
     simp only [MonoidHom.comp_apply, MulEquiv.coe_toMonoidHom, MulAut.conj_apply,
-      MonoidHom.id_apply, mul_inv_rev, inv_inv]
+      MonoidHom.id_apply, inv_inv]
     group
   rw [h, Subgroup.map_id]
 
@@ -136,7 +136,7 @@ theorem klein_normal_form {E : Subgroup (Perm (Fin 10))} (hEA : E ≤ alternatin
     (∃ x ∈ E, x.support.card = 8) ∨
       ∃ σ : Perm (Fin 10), ∃ a ∈ E, ∃ b ∈ E,
         (σ * a * σ⁻¹ = tZero ∧ σ * b * σ⁻¹ = taA) ∨ (σ * a * σ⁻¹ = tZero ∧ σ * b * σ⁻¹ = tbB) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcomm : ∀ x ∈ E, ∀ y ∈ E, x * y = y * x := fun x hx y hy =>
     a10kp_comm_of_sq (hE2 x hx) (hE2 y hy) (hE2 _ (mul_mem hx hy))
   obtain ⟨a, ha, ha1⟩ : ∃ a ∈ E, a ≠ 1 := by

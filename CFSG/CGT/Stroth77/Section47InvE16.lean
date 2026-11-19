@@ -14,11 +14,13 @@ namespace Stroth47Core
 
 variable {D : Subgroup G} {m : ℕ} (dD : StrothWeakTypeData D (.t200 m)) {e : G} {p : ℕ}
 
+omit [Finite G] in
 theorem t200invEAction_ve {p : ℕ}
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p) :
     (dD.t200invEAction hrel).ve = Torus.ofInt _ ![(2 : ℤ) ^ (m - 1), 0, 0] := rfl
 
-theorem t200_inv_sqE_c (hm : 1 ≤ m)
+omit [Finite G] in
+theorem t200_inv_sqE_c (_hm : 1 ≤ m)
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p)
     (x0 x1 x2 : ℤ) (l : Bool) :
     ∃ s1 s2 : ℤ, (dD.t200invEAction hrel).sqE (Torus.ofInt _ ![x0, x1, x2])
@@ -29,8 +31,8 @@ theorem t200_inv_sqE_c (hm : 1 ≤ m)
   simp only [EAction.sqE, EAction.twist, t200invEAction_ve]
   cases l <;>
   simp only [SigmaFourAction.d8Act, Bool.false_eq_true, ↓reduceIte, AddMonoidHom.comp_apply,
-    AddMonoidHom.id_apply, Bool.and_false, map_add, map_sub, map_zero, hφ, t200_φu,
-    ← Torus.ofInt_add, ← Torus.ofInt_sub, add_zero, zero_add]
+    AddMonoidHom.id_apply, Bool.and_false, map_zero, hφ, t200_φu,
+    ← Torus.ofInt_add, ← Torus.ofInt_sub, add_zero]
   · refine ⟨2 ^ (m + 1) * x1, 2 ^ (m + 1) * x2, ?_⟩
     congr 1
     funext i
@@ -38,8 +40,9 @@ theorem t200_inv_sqE_c (hm : 1 ≤ m)
   · refine ⟨x1 + (-1 + 2 ^ (m + 1)) * x2, x2 + (-1 + 2 ^ (m + 1)) * x1, ?_⟩
     congr 1
     funext i
-    fin_cases i <;> simp <;> ring
+    fin_cases i <;> simp
 
+omit [Finite G] in
 theorem t200_inv_sqE_ne_zero (hm : 1 ≤ m)
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p)
     (v : Torus (StrothTypeIndex.t200 m).k) (l : Bool) :
@@ -58,6 +61,7 @@ theorem t200_inv_sqE_ne_zero (hm : 1 ≤ m)
     simpa using h1
   exact two_pow_pred_ne_zero hm (by simpa using h2)
 
+omit [Finite G] in
 theorem t200_inv_mul_self_ne_one (hm : 1 ≤ m)
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p)
     (v : Torus (StrothTypeIndex.t200 m).k) (l : Bool) :
@@ -68,6 +72,7 @@ theorem t200_inv_mul_self_ne_one (hm : 1 ≤ m)
   intro h
   exact t200_inv_sqE_ne_zero dD hm hrel v l ((dD.ofTorus_eq_one_iff).mp h)
 
+omit [Finite G] in
 theorem t200_inv_h7 (hm : 1 ≤ m)
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p) :
     ∀ E : Subgroup G, E ≤ (D ⊔ Subgroup.closure {dD.uv, dD.t, dD.u} ⊔

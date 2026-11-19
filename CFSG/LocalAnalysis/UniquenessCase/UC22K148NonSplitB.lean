@@ -68,12 +68,12 @@ theorem not_isComponentOf_sup_zpowers
     iSup₂_le fun j hj y hy => Subgroup.mem_centralizer_iff.2 fun x hx =>
       hD.2.1 i j (Ne.symm (show j ≠ i from hj)) x hx y hy
   refine hinner L hLc fun g => ?_
-  haveI := hN
+  have := hN
   have hg : g ∈ N ⊔ (cenOn ρ ⊤ (commOn ρ N ⊤) ⊔ Subgroup.zpowers a) := by
     rw [hsup]
     exact Subgroup.mem_top g
   obtain ⟨n, hn, k, hk, rfl⟩ := Subgroup.mem_sup_of_normal_left.1 hg
-  haveI := hHn
+  have := hHn
   have hk' : (⟨k, hk⟩ : ↥(cenOn ρ ⊤ (commOn ρ N ⊤) ⊔ Subgroup.zpowers a)) ∈
       Hs i ⊔ ⨆ j ∈ {j | j ≠ i}, Hs j := by
     rw [htop]

@@ -38,7 +38,7 @@ theorem charTwo_P1h : CharTwo P1h := by
       ext g
       change ((g : Ah) ∈ P1h ∧ (g : Ah) ∈ Yh) ↔ (g : Ah) ∈ Yh
       exact ⟨fun h => h.2, fun h => ⟨g.2, h⟩⟩
-    haveI : Yh.Normal := Yh_normal
+    have : Yh.Normal := Yh_normal
     have hn : (N.subgroupOf P1h).Normal := by rw [hsub]; infer_instance
     exact (Subgroup.normal_subgroupOf_iff_le_normalizer hNle).mp hn
   have hPlain : CharTwo P1 := by

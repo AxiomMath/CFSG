@@ -17,7 +17,7 @@ theorem not_forall_commute_of_isPGroup {L : Type*} [Group L] [Finite L] {x y : L
     (hH : IsPGroup 3 H) (hxH : x ∈ H) (hyH : y ∈ H) (S : Sylow 3 L) :
     ¬ ∀ a ∈ (S : Subgroup L), ∀ b ∈ (S : Subgroup L), a ^ 3 = 1 → b ^ 3 = 1 →
       a * b = b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P, hHP⟩ := hH.exists_le_sylow
   obtain ⟨g, rfl⟩ := MulAction.exists_smul_eq L P S
   intro hall
@@ -37,10 +37,10 @@ theorem not_forall_commute_of_isPGroup {L : Type*} [Group L] [Finite L] {x y : L
 theorem exists_sylow_eq_of_nine_le {X : Type*} [Group X] [Finite X] {H : Subgroup X}
     (hH : IsPGroup 3 H) (h9 : 9 ≤ Nat.card H) (h27 : ¬ 27 ∣ Nat.card X) :
     ∃ Q : Sylow 3 X, (Q : Subgroup X) = H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨Q, hQ⟩ := hH.exists_le_sylow
   refine ⟨Q, (Subgroup.eq_of_le_of_card_ge hQ ?_).symm⟩
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Q.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.1 Q.isPGroup
   have hdvd : 3 ^ k ∣ Nat.card X := hk ▸ Subgroup.card_subgroup_dvd_card _
   have hk2 : k ≤ 2 := by
     by_contra hk2
@@ -63,8 +63,8 @@ theorem isPGroup_zpowers_of_pow_three {G : Type*} [Group G] {g : G} (hg : g ^ 3 
 theorem isPGroup_closure_of_conj_eq_mul {G : Type*} [Group G] {x y c : G}
     (hc : c ∈ Subgroup.center G) (hc3 : c ^ 3 = 1) (hx3 : x ^ 3 = 1) (hy3 : y ^ 3 = 1)
     (hconj : y * x * y⁻¹ = c * x) : IsPGroup 3 (Subgroup.closure {x, y}) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : (Subgroup.zpowers c).Normal :=
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : (Subgroup.zpowers c).Normal :=
     Subgroup.normal_of_le_center (Subgroup.zpowers_le.mpr hc)
   have hAp : IsPGroup 3 (Subgroup.zpowers c ⊔ Subgroup.zpowers x : Subgroup G) :=
     IsPGroup.to_sup_of_normal_left (isPGroup_zpowers_of_pow_three hc3)
@@ -109,7 +109,7 @@ theorem exists_pair_of_cover {L X : Type*} [Group L] [Finite L] [Group X]
     (hQ : (Q : Subgroup X) = Subgroup.closure {u, v}) :
     ∃ a b : L, a ^ 3 = 1 ∧ b ^ 3 = 1 ∧ a * b ≠ b * a ∧
       ∃ P : Subgroup L, IsPGroup 3 P ∧ a ∈ P ∧ b ∈ P := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hodd : Odd 3 := by decide
   obtain ⟨n, hn⟩ := hnu
   obtain ⟨m, hm⟩ := hnv
@@ -131,7 +131,7 @@ theorem exists_pair_of_cover {L X : Type*} [Group L] [Finite L] [Group X]
   have hbP : b ∈ (P : Subgroup L) := by
     rw [hPeq, Subgroup.mem_comap, hQ]
     exact Subgroup.subset_closure (Set.mem_insert_of_mem _ rfl)
-  refine ⟨a, b, ha, hb, fun hab => ?_, P, P.isPGroup', haP, hbP⟩
+  refine ⟨a, b, ha, hb, fun hab => ?_, P, P.isPGroup, haP, hbP⟩
   apply GL83.not_isMulCommutative_sylow_of_perfect hperf h3 P
   have hpair : ({a, b} : Set L).Pairwise Commute := by
     intro x hx y hy _
@@ -198,7 +198,7 @@ theorem not_forall_commute_of_cover {L X : Type*} [Group L] [Finite L] [Group X]
 
 theorem kFactCentralOmega_of_reduced (h : CentralOmegaReduced) : KFactCentralOmega := by
   intro K _ _ hq hcat h3 hrk S
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : (3 : ℕ).Prime := Nat.prime_three
   let N : Subgroup K := GL83.I243.Cover.primeCentre 3 K
   have hqN : CFSG.Open.IsQuasisimple (K ⧸ N) := GL83.I243.Cover.isQuasisimple_quotient hq
@@ -235,7 +235,7 @@ theorem kFactCentralOmega_of_reduced (h : CentralOmegaReduced) : KFactCentralOme
   intro hall
   apply hS'
   have hSN : (S : Subgroup K) ⊓ N = ⊥ :=
-    CFSG.RankThree.PartTwo.Sec4.inf_eq_bot_of_isPGroup_of_not_dvd hp S.isPGroup' hNc
+    CFSG.RankThree.PartTwo.Sec4.inf_eq_bot_of_isPGroup_of_not_dvd hp S.isPGroup hNc
   have hcube : ∀ a ∈ (S : Subgroup K), QuotientGroup.mk' N a ^ 3 = 1 → a ^ 3 = 1 := by
     intro a ha ha3
     have hmem : a ^ 3 ∈ (S : Subgroup K) ⊓ N := by

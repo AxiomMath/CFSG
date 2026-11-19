@@ -20,6 +20,7 @@ theorem exists_relIndex_eq_two_pow_of_le {X K H : Subgroup G} (hXK : X ≤ K) (h
 
 variable [Finite G]
 
+omit [Finite G] in
 theorem odd_relIndex_inf_of_normal_two {T H K : Subgroup G} (hTH : T ≤ H)
     (hHT : H ≤ normalizer (T : Set G)) (hodd : Odd (T.relIndex H)) (hKH : K ≤ H) :
     Odd ((T ⊓ K).relIndex K) := by

@@ -262,7 +262,7 @@ theorem ff6p_ts_mem_of_outer (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod
     hgnot ((Subgroup.inv_mem_iff (H := omegaProj hQ)).mp h)
   have hindex : (omegaProj hQ).index = 2 := by
     rw [index_omegaProj hQ h2,
-      if_neg (ff_piOrth_not_mem_omegaGroup_six_plus hQ hdim hsgn)]
+      ite_eq_right (ff_piOrth_not_mem_omegaGroup_six_plus hQ hdim hsgn)]
   have hmem : toProj Q (fr.signChange {none}) * g⁻¹ ∈ omegaProj hQ :=
     (Subgroup.mul_mem_iff_of_index_two hindex).mpr
       ⟨fun h => absurd h hgtnot, fun h => absurd h hginvnot⟩

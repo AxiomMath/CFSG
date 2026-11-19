@@ -25,7 +25,7 @@ namespace CFSG.Sporadic.Co2Rank3
 open CFSG.Sporadic.Co2Cert CFSG.Monster.B.Co2.Native CFSG.Certificates.Native
   CFSG.Sporadic.Co2Rank3.Native
 
-@[expose] def co2ColourT (s : ℕ) : Array ℕ :=
+def co2ColourT (s : ℕ) : Array ℕ :=
   CFSG.Sporadic.FischerOddCore.Native.colourT 2300 co2Nbr (idA 2300) (refineBase.take s) 3
 
 end CFSG.Sporadic.Co2Rank3

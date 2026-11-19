@@ -19,7 +19,7 @@ theorem spModelAction_holds {m : ℕ} {K : Type} [Field K] [Finite K] [CharP K 2
     ClassicalModelAction ↥(StatedSp m K) := by
   intro x hx1 hx3 C hC hlab y hxy hyC
   obtain ⟨n, hn1, hK⟩ : ∃ n : ℕ, 1 ≤ n ∧ Nat.card K = 2 ^ n := by
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     obtain ⟨n, -, hn⟩ := FiniteField.card K 2
     refine ⟨(n : ℕ), n.pos, ?_⟩
     rw [Nat.card_eq_fintype_card, hn]

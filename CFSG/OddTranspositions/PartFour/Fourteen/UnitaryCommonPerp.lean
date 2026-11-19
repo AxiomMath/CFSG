@@ -206,12 +206,12 @@ private theorem blockSel_mulVec_transpose {k : ℕ} (y : Fin (k + 2) → F) (h0 
   funext a
   rw [blockSel_mulVec]
   by_cases ha : 2 ≤ a.val ∧ a.val < 2 + k
-  · rw [dif_pos ha, blockSel_transpose_mulVec hk]
+  · rw [dite_eq_left ha, blockSel_transpose_mulVec hk]
     congr 1
     ext
     simp only [blockIdx_val]
     omega
-  · rw [dif_neg ha]
+  · rw [dite_eq_right ha]
     have : a.val < 2 := by
       have := a.isLt
       omega
@@ -224,7 +224,7 @@ private theorem blockSel_mulVec_transpose {k : ℕ} (y : Fin (k + 2) → F) (h0 
 private theorem blockSel_mulVec_zero_one {k : ℕ} (v : Fin k → F) :
     (blockSel F (k + 2) k 2 *ᵥ v) 0 = 0 ∧ (blockSel F (k + 2) k 2 *ᵥ v) 1 = 0 := by
   rw [blockSel_mulVec, blockSel_mulVec]
-  refine ⟨dif_neg ?_, dif_neg ?_⟩ <;> simp
+  refine ⟨dite_eq_right ?_, dite_eq_right ?_⟩ <;> simp
 
 private theorem blockSel_mulVec_injective {k : ℕ} :
     Function.Injective (fun v : Fin k → F => blockSel F (k + 2) k 2 *ᵥ v) := by
@@ -491,7 +491,7 @@ private theorem isUnitaryTransvectionIn_kFactsSuProjTv (hF : Nat.card F = (2 ^ n
   refine ⟨MulEquiv.subgroupCongr (SUid_eq_statedSU hF k) (suTv hσ e 1), rfl, ?_⟩
   have hM : ((((suTv hσ e 1 : SUid σ₂ k) : GL (Fin k) F) : Matrix (Fin k) (Fin k) F)) =
       tvMat σ₂ e 1 := by
-    rw [suTv, dif_pos ⟨he, h1⟩]
+    rw [suTv, dite_eq_left ⟨he, h1⟩]
     rfl
   change Matrix.rank ((((suTv hσ e 1 : SUid σ₂ k) : GL (Fin k) F) :
     Matrix (Fin k) (Fin k) F) - 1) = 1

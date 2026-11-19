@@ -143,10 +143,10 @@ private lemma bmSDU_exists_orthonormal {F : Type} [Field F] [Finite F] [CharP F 
       IsUnit Q ∧
       Matrix.transpose (Q.map (CFSG.LieType.BorelTits.unitaryInvolution F 2 f).toRingHom) * A * Q
         = 1 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨b, hb, horth⟩ := CFSG.LieType.Steinberg.exists_herm_orthonormal
     (bmSDU_isUnitaryInvolution hc) hA hdet
-  refine ⟨Matrix.transpose (Matrix.of b), (Matrix.linearIndependent_cols_iff_isUnit).mp hb, ?_⟩
+  refine ⟨Matrix.transpose (Matrix.of b), (Matrix.linearIndependent_col_iff_isUnit).mp hb, ?_⟩
   ext i j
   rw [Matrix.one_apply]
   have h := horth i j
@@ -164,7 +164,7 @@ private lemma bmSDU_exists_witt {F : Type} [Field F] [Finite F] [CharP F 2] {f :
       IsUnit P ∧
       Matrix.transpose (P.map (CFSG.LieType.BorelTits.unitaryInvolution F 2 f).toRingHom) * P
         = Unitary.antidiag r := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P, hP⟩ := CFSG.LieType.Universal.Unitary.exists_wittMatrix hc r
   refine ⟨(P : Matrix (Fin r) (Fin r) F), P.isUnit, ?_⟩
   simpa [CFSG.LieType.Universal.Unitary.conjTr] using hP
@@ -208,9 +208,9 @@ private lemma bmSDU_antidiag_herm {F : Type} [Field F] (σ : F →+* F) (n : ℕ
   rw [hanti j i, hanti i j]
   by_cases h : i = j.rev
   · have h2 : j = i.rev := by rw [h, Fin.rev_rev]
-    rw [if_pos h, if_pos h2, map_one]
+    rw [ite_eq_left h, ite_eq_left h2, map_one]
   · have h2 : j ≠ i.rev := by intro h2; apply h; rw [h2, Fin.rev_rev]
-    rw [if_neg h, if_neg h2, map_zero]
+    rw [ite_eq_right h, ite_eq_right h2, map_zero]
 
 private lemma bmSDU_gram_herm {F : Type} [Field F] {n r : ℕ} (σ : F →+* F)
     (hσ : ∀ x, σ (σ x) = x) (G : Matrix (Fin n) (Fin n) F)
@@ -577,7 +577,7 @@ private lemma bmSDU_adjoin_comm {F : Type} [Field F] {n : ℕ} {S : Set (GL (Fin
       (s' : Matrix (Fin n) (Fin n) F) * (s : Matrix (Fin n) (Fin n) F)
     rw [← Units.val_mul, ← Units.val_mul]
     exact congrArg Units.val (hS s hs s' hs').eq
-  haveI : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
+  have : IsMulCommutative (Algebra.adjoin F (Units.val '' S)) :=
     Algebra.isMulCommutative_adjoin F hcommS
   intro a ha b hb
   have h := congrArg Subtype.val (mul_comm' (⟨a, ha⟩ : Algebra.adjoin F (Units.val '' S))
@@ -916,8 +916,8 @@ private lemma bmSDU_anti_map {F : Type} [Field F] (σ : F →+* F) (r : ℕ) :
       if b = a.rev then 1 else 0 := fun a b => rfl
   rw [hanti i j]
   by_cases h : j = i.rev
-  · rw [if_pos h, map_one]
-  · rw [if_neg h, map_zero]
+  · rw [ite_eq_left h, map_one]
+  · rw [ite_eq_right h, map_zero]
 
 private lemma bmSDU_anti_symm {F : Type} [Field F] (r : ℕ) :
     Matrix.transpose (Unitary.antidiag r : Matrix (Fin r) (Fin r) F) = Unitary.antidiag r := by
@@ -955,14 +955,14 @@ private lemma bmSDU_std_mulVec_first {F : Type} [Field F] {r : ℕ} (hr : 2 ≤ 
     Matrix.mulVec (Unitary.antidiag r : Matrix (Fin r) (Fin r) F)
       (Pi.single (⟨0, by omega⟩ : Fin r) (1 : F)) =
       (Pi.single (Fin.rev (⟨0, by omega⟩ : Fin r)) (1 : F) : Fin r → F) := by
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   funext i
   rw [Matrix.mulVec_apply, dotProduct, Finset.sum_eq_single (⟨0, by omega⟩ : Fin r)]
   · rw [Pi.single_eq_same, mul_one, Matrix.row_apply, Unitary.antidiag, Matrix.of_apply,
       Pi.single_apply]
     by_cases h : i = Fin.rev (⟨0, by omega⟩ : Fin r)
-    · rw [if_pos ((bmSDU_std_rev_iff hr i).mpr h), if_pos h]
-    · rw [if_neg (fun hh => h ((bmSDU_std_rev_iff hr i).mp hh)), if_neg h]
+    · rw [ite_eq_left ((bmSDU_std_rev_iff hr i).mpr h), ite_eq_left h]
+    · rw [ite_eq_right (fun hh => h ((bmSDU_std_rev_iff hr i).mp hh)), ite_eq_right h]
   · intro j _ hj
     rw [Pi.single_eq_of_ne hj, mul_zero]
   · simp
@@ -971,7 +971,7 @@ private lemma bmSDU_std_mulVec_last {F : Type} [Field F] {r : ℕ} (hr : 2 ≤ r
     Matrix.mulVec (Unitary.antidiag r : Matrix (Fin r) (Fin r) F)
       (Pi.single (Fin.rev (⟨0, by omega⟩ : Fin r)) (1 : F)) =
       (Pi.single (⟨0, by omega⟩ : Fin r) (1 : F) : Fin r → F) := by
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero r := ⟨by omega⟩
   funext i
   rw [Matrix.mulVec_apply, dotProduct,
     Finset.sum_eq_single (Fin.rev (⟨0, by omega⟩ : Fin r))]
@@ -982,7 +982,7 @@ private lemma bmSDU_std_mulVec_last {F : Type} [Field F] {r : ℕ} (hr : 2 ≤ r
     · have hcond : ¬ ((⟨0, by omega⟩ : Fin r).rev = i.rev) := by
         intro hh
         exact h (Fin.rev_injective hh).symm
-      rw [if_neg hcond, if_neg h]
+      rw [ite_eq_right hcond, ite_eq_right h]
   · intro j _ hj
     rw [Pi.single_eq_of_ne hj, mul_zero]
   · simp
@@ -1054,8 +1054,8 @@ private lemma bmSDU_transv_std_su_aux {F : Type} [Field F] [CharP F 2] {r : ℕ}
       smul_eq_mul]
     rw [map_add, map_mul, show σ (E i j) = E i j from congrFun (congrFun hEmap i) j]
     by_cases h : i = j
-    · rw [if_pos h, map_one]
-    · rw [if_neg h, map_zero]
+    · rw [ite_eq_left h, map_one]
+    · rw [ite_eq_right h, map_zero]
   have hiso : Matrix.transpose ((1 + c • E).map σ) * A * (1 + c • E) = A := by
     rw [hmapE, Matrix.transpose_add, Matrix.transpose_one, Matrix.transpose_smul]
     calc (1 + σ c • Matrix.transpose E) * A * (1 + c • E)
@@ -1099,7 +1099,7 @@ private lemma bmSDU_transv_std_su {F : Type} [Field F] [CharP F 2] {r : ℕ} (σ
       · rw [hi]; simp
       · simp [Pi.single_eq_of_ne hi]
     · rw [bmSDU_std_mulVec_first hr, single_dotProduct, Pi.single_apply,
-        if_neg (bmSDU_std_rev_zero_ne hr), mul_zero]
+        ite_eq_right (bmSDU_std_rev_zero_ne hr), mul_zero]
   · rw [h2]
     refine bmSDU_transv_std_su_aux σ c hc ?_ ?_
     · funext i
@@ -1107,7 +1107,7 @@ private lemma bmSDU_transv_std_su {F : Type} [Field F] [CharP F 2] {r : ℕ} (σ
       · rw [hi]; simp
       · simp [Pi.single_eq_of_ne hi]
     · rw [bmSDU_std_mulVec_last hr, single_dotProduct, Pi.single_apply,
-        if_neg (Ne.symm (bmSDU_std_rev_zero_ne hr)), mul_zero]
+        ite_eq_right (Ne.symm (bmSDU_std_rev_zero_ne hr)), mul_zero]
 
 private lemma bmSDU_vecMul_transpose {F : Type} [CommSemiring F] {m n : Type}
     [Fintype n] (M : Matrix m n F) (x : n → F) :
@@ -1399,8 +1399,7 @@ private lemma bmSDU_transv_generator_mul {F : Type} [Field F] {n r : ℕ} (σ : 
     U * (1 + c • Matrix.vecMulVec v (Matrix.vecMul (fun i => σ (v i)) (Unitary.antidiag r))) * L = U
         * L + c • (U * Matrix.vecMulVec v (Matrix.vecMul (fun i => σ (v i)) (Unitary.antidiag r)) *
             L) := by
-  simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.one_mul,
-    Matrix.mul_smul, Matrix.smul_mul]
+  simp only [Matrix.mul_add, Matrix.add_mul, Matrix.mul_one, Matrix.mul_smul, Matrix.smul_mul]
 
 private lemma bmSDU_transv_generator_expand {F : Type} [Field F] {n r : ℕ} (σ : F ≃+* F)
     {e : Matrix (Fin n) (Fin n) F} {U : Matrix (Fin n) (Fin r) F}
@@ -1489,7 +1488,7 @@ private lemma bmSDU_transv_aux_iso_map
         c • (Matrix.vecMulVec v (Matrix.vecMul (fun i => σ (v i)) (Unitary.antidiag r))).map σ := by
   ext i j
   by_cases h : i = j <;>
-    simp [h, Matrix.map_apply, Matrix.add_apply, Matrix.one_apply, Matrix.smul_apply, smul_eq_mul,
+    simp [h, Matrix.map_apply, Matrix.add_apply, Matrix.smul_apply, smul_eq_mul,
         hc]
 
 private lemma bmSDU_transv_aux_iso_transpose
@@ -2004,7 +2003,7 @@ theorem unitTransvGroup_map_of_unitary_block {F : Type} [Field F] [CharP F 2] {n
         (Matrix.transpose (e.map σ.toRingHom)) =
         Matrix.mulVec (e.map σ.toRingHom) (fun i => σ (Matrix.mulVec U v i)) := by
       ext j
-      simp only [Matrix.vecMul_apply, Matrix.transpose_apply, Matrix.mulVec_apply]
+      simp only [Matrix.vecMul_apply, Matrix.mulVec_apply]
       exact Finset.sum_congr rfl fun i _ => mul_comm _ _
     rw [h2, hx]
   have hgroup : unitTransvGroup σ.toRingHom (Unitary.antidiag n * e) (Matrix.mulVec U v) =
@@ -2012,7 +2011,7 @@ theorem unitTransvGroup_map_of_unitary_block {F : Type} [Field F] [CharP F 2] {n
     rw [unitTransvGroup, unitTransvGroup]
     congr 1
     ext g
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor <;> rintro ⟨c, hc, hg⟩
     · exact ⟨c, hc, by simpa [hvec] using hg⟩
     · exact ⟨c, hc, by simpa [← hvec] using hg⟩
@@ -2134,11 +2133,11 @@ private lemma bmSDU_root_pair_form (n g r : ℕ)
   refine ⟨?_, ?_, ?_⟩
   · rw [unitary_block_form_apply (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * (g + 1))) 2 (g + 1)) U hA (Pi.single (⟨0, hr⟩ : Fin r) 1)
         (Pi.single (⟨0, hr⟩ : Fin r) 1), hσv, bmSDU_anti_vecMul, bmSDU_std_mulVec_first hr2]
-    rw [single_dotProduct, Pi.single_apply, if_neg (bmSDU_std_rev_zero_ne hr2), mul_zero]
+    rw [single_dotProduct, Pi.single_apply, ite_eq_right (bmSDU_std_rev_zero_ne hr2), mul_zero]
   · rw [unitary_block_form_apply (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * (g + 1))) 2 (g + 1)) U hA (Pi.single (Fin.rev (⟨0, hr⟩ : Fin r)) 1)
         (Pi.single (Fin.rev (⟨0, hr⟩ : Fin r)) 1), hσw, bmSDU_anti_vecMul, bmSDU_std_mulVec_last
             hr2]
-    rw [single_dotProduct, Pi.single_apply, if_neg (Ne.symm (bmSDU_std_rev_zero_ne hr2)), mul_zero]
+    rw [single_dotProduct, Pi.single_apply, ite_eq_right (Ne.symm (bmSDU_std_rev_zero_ne hr2)), mul_zero]
   · rw [unitary_block_form_apply (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * (g + 1))) 2 (g + 1)) U hA (Pi.single (⟨0, hr⟩ : Fin r) 1)
         (Pi.single (Fin.rev (⟨0, hr⟩ : Fin r)) 1), hσv, bmSDU_anti_vecMul, bmSDU_std_mulVec_first
             hr2]
@@ -2240,8 +2239,8 @@ private lemma bmSDU_map_subtype_le_iff {F : Type} [Field F] {r : ℕ} (σ : F �
 
 private lemma bmSDU_le_comap_iff {G H : Type} [Group G] [Group H] (f : G →* H)
     (K : Subgroup G) (L : Subgroup H) :
-    K ≤ L.comap f ↔ ∀ g ∈ K, f g ∈ L :=
-  ⟨fun h g hg => h hg, fun h g hg => h g hg⟩
+    K ≤ L.comap f ↔ ∀ _g ∈ K, f _g ∈ L :=
+  ⟨fun h _g hg => h hg, fun h _g hg => h _g hg⟩
 
 private lemma bmSDU_map_subtype_le_comap_iff {G' H' : Type} [Group G'] [Group H']
     (f : G' →* H') (K : Subgroup G') (L : Subgroup H') :
@@ -2293,7 +2292,7 @@ private theorem bmSDU_toStd_apply_of_even {n : ℕ} (he : Even n) (v : Fin (n / 
     (a : Fin (n / 2)) :
     Unitary.toStd n v a = (if a.val + 1 = n / 2 then 2 else 1) * v a -
       (if h : 0 < a.val then v ⟨a.val - 1, by omega⟩ else 0) := by
-  rw [Unitary.toStd, if_pos he]
+  rw [Unitary.toStd, ite_eq_left he]
   rfl
 
 private theorem bmSDU_exists_highest {n : ℕ} (hn : 2 ≤ n) :
@@ -2309,7 +2308,7 @@ private theorem bmSDU_exists_highest {n : ℕ} (hn : 2 ≤ n) :
     · have : a = ⟨0, hm⟩ := Fin.ext h0
       subst this
       simp
-      split_ifs <;> simp_all <;> omega
+      split_ifs <;> simp_all
     · have h1 : 0 < a.val := Nat.pos_of_ne_zero h0
       have hne : ¬ (a = ⟨0, hm⟩) := fun e => h0 (by rw [e])
       simp [h1, hne]
@@ -2317,7 +2316,7 @@ private theorem bmSDU_exists_highest {n : ℕ} (hn : 2 ≤ n) :
   · refine ⟨fun _ => 2, ?_⟩
     funext a
     rw [bmSDU_weight_lowIdx, Pi.smul_apply, Pi.single_apply, nsmul_eq_mul]
-    simp only [Unitary.toStd, if_neg he]
+    simp only [Unitary.toStd, ite_eq_right he]
     by_cases h0 : a.val = 0
     · have : a = ⟨0, hm⟩ := Fin.ext h0
       subst this
@@ -2415,10 +2414,10 @@ private theorem bmSDU_toStd_neg (n : ℕ) (v : Fin (n / 2) → ℤ) :
     Unitary.toStd n (-v) = -Unitary.toStd n v := by
   by_cases he : Even n
   · funext a
-    simp only [Unitary.toStd, if_pos he, CFSG.LieType.Universal.Symplectic.toStd, Pi.neg_apply]
+    simp only [Unitary.toStd, ite_eq_left he, CFSG.LieType.Universal.Symplectic.toStd, Pi.neg_apply]
     split_ifs <;> ring
   · funext a
-    simp only [Unitary.toStd, if_neg he, Pi.neg_apply]
+    simp only [Unitary.toStd, ite_eq_right he, Pi.neg_apply]
     split_ifs <;> ring
 
 private theorem bmSDU_rootGroup_map_subtype_of_toStd {F : Type} [Field F] [CharP F 2] {n : ℕ}
@@ -2763,7 +2762,7 @@ private lemma bmSDU_not_good_cases (r g : ℕ)
     have hr3 : r ≤ 3 := by
       by_contra h
       exact hbad' ⟨by omega, by omega⟩
-    simp only [eq_self_iff_true, true_and]
+    simp only [true_and]
     omega
   · left
     have hq : 4 ≤ 2 ^ (g + 1) := by
@@ -2784,7 +2783,7 @@ private lemma bmSDU_not_good_cases (r g : ℕ)
 private lemma bmSDU_SU_le_one_solvable {F : Type} [Field F] (σ : F ≃+* F) {r : ℕ} (hr : r ≤ 1) :
     Group.IsSolvable ↥(Unitary.SU σ r) := by
   rcases (by omega : r = 0 ∨ r = 1) with rfl | rfl
-  · haveI : Subsingleton ↥(Unitary.SU σ 0) := inferInstance
+  · have : Subsingleton ↥(Unitary.SU σ 0) := inferInstance
     exact Group.isSolvable_of_comm (fun a b => Subsingleton.elim _ _)
   · exact Group.isSolvable_of_comm (fun a b => Subtype.ext (by
       apply Units.ext
@@ -2828,7 +2827,7 @@ private lemma bmSDU_primeFactors_PSU_two_zero
 private theorem bmSDU_solvable_PSU_two_zero
     :
     Group.IsSolvable ((ggU .PSU 2 1).K) := by
-  haveI : Finite ((ggU .PSU 2 1).K) :=
+  have : Finite ((ggU .PSU 2 1).K) :=
     (inferInstance : Finite ↥(Unitary.SU
       (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 2) 2 1) 2))
   exact CFSG.LocalAnalysis.ComponentInitial.isSolvable_of_card_primeFactors_le_two
@@ -2837,7 +2836,7 @@ private theorem bmSDU_solvable_PSU_two_zero
 private theorem bmSDU_solvable_PSU_three_zero
     :
     Group.IsSolvable ((ggU .PSU 3 1).K) := by
-  haveI : Finite ((ggU .PSU 3 1).K) :=
+  have : Finite ((ggU .PSU 3 1).K) :=
     (inferInstance : Finite ↥(Unitary.SU
       (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 2) 2 1) 3))
   refine CFSG.LocalAnalysis.ComponentInitial.isSolvable_of_card_primeFactors_le_two
@@ -2901,7 +2900,7 @@ private theorem bmSDU_not_solvable_of_component
     ¬ Group.IsSolvable ((ggU .PSU r (g + 1)).K) := by
   intro hK
   have hGe : Group.IsSolvable ↥(ι.range) := by
-    haveI : Group.IsSolvable ((ggU .PSU r (g + 1)).K) := hK
+    have : Group.IsSolvable ((ggU .PSU r (g + 1)).K) := hK
     exact Group.isSolvable_of_surjective (f := ι.rangeRestrict) ι.rangeRestrict_surjective
   set H := glBlockCentralizer
     ((Unitary.SU (CFSG.LieType.BorelTits.unitaryInvolution (GaloisField 2 (2 * (g + 1))) 2
@@ -2910,10 +2909,10 @@ private theorem bmSDU_not_solvable_of_component
     rw [← hrange]
     exact hGe
   have hcomm : Group.IsSolvable ↥⁅H,H⁆ := by
-    haveI : Group.IsSolvable ↥H := hH
+    have : Group.IsSolvable ↥H := hH
     exact Group.isSolvable_of_isSolvable_injective
       (Subgroup.inclusion_injective (Subgroup.commutator_le_self H))
-  haveI : Group.IsSolvable ↥⁅H,H⁆ := hcomm
+  have : Group.IsSolvable ↥⁅H,H⁆ := hcomm
   exact CFSG.StandardType.LinSemisimple.false_of_isQuasisimple_of_le_isSolvable hJe.2.2 hJe.1
 
 private theorem bmSDU_good_parameters
@@ -3160,7 +3159,7 @@ private lemma bmSDU_antidiag_mulVec_apply {F : Type} [Field F] {r : ℕ}
   · rw [Matrix.row_apply]; simp [Unitary.antidiag]
   · intro j _ hj
     rw [Matrix.row_apply]
-    simp only [Unitary.antidiag, Matrix.of_apply, if_neg hj, zero_mul]
+    simp only [Unitary.antidiag, Matrix.of_apply, ite_eq_right hj, zero_mul]
   · intro h; exact absurd (Finset.mem_univ _) h
 
 private lemma bmSDU_isotropic_form_sum {F : Type} [Field F] {r : ℕ} (σ : F →+* F)
@@ -3669,7 +3668,7 @@ private lemma bmSDU_pair_vecMul_mul_e {F : Type} [Field F] (σ : F →+* F) {n :
   rw [h1]
   have h2 : Matrix.vecMul x (Matrix.transpose (e.map σ)) = Matrix.mulVec (e.map σ) x := by
     ext j
-    simp only [Matrix.vecMul_apply, Matrix.transpose_apply, Matrix.mulVec_apply]
+    simp only [Matrix.vecMul_apply, Matrix.mulVec_apply]
     exact Finset.sum_congr rfl fun i _ => mul_comm _ _
   rw [h2, hx]
 
@@ -3851,7 +3850,7 @@ private lemma bmSDU_four_le_of_isotropic_pair {F : Type} [Field F] (σ : F ≃+*
     rw [show U = Submodule.span F (Set.range ![v, w]) from rfl, Submodule.span_le]
     rintro x ⟨i, rfl⟩
     fin_cases i
-    · simp only [LinearMap.BilinForm.mem_orthogonal_iff]
+    · simp only
       intro n hn
       have hker : U' ≤ LinearMap.ker (B.flip v) := by
         rw [show U' = Submodule.span F (Set.range ![fun i => σ (v i), fun i => σ (w i)]) from rfl,
@@ -3861,7 +3860,7 @@ private lemma bmSDU_four_le_of_isotropic_pair {F : Type} [Field F] (σ : F ≃+*
         · simpa [LinearMap.BilinForm.flip_apply] using hBvv
         · simpa [LinearMap.BilinForm.flip_apply] using hBwv
       exact hker hn
-    · simp only [LinearMap.BilinForm.mem_orthogonal_iff]
+    · simp only
       intro n hn
       have hker : U' ≤ LinearMap.ker (B.flip w) := by
         rw [show U' = Submodule.span F (Set.range ![fun i => σ (v i), fun i => σ (w i)]) from rfl,
@@ -4002,7 +4001,7 @@ private lemma bmSDU_pair_antidiag_linind {F : Type} [Field F] {r : ℕ} (σ : F 
       = ![Matrix.mulVec (Unitary.antidiag r) (fun i => σ (v i)),
           Matrix.mulVec (Unitary.antidiag r) (fun i => σ (w i))] := by
     funext i
-    fin_cases i <;> simp [Matrix.mulVecLin_apply]
+    fin_cases i <;> simp
   simpa only [heq] using hmap
 
 private lemma bmSDU_h_hermitian_symm {F : Type} [Field F] (σ : F ≃+* F) {r : ℕ}
@@ -4381,7 +4380,7 @@ private theorem bmSDU_closure_short
     refine LinearIndependent.of_comp (Matrix.mulVecLin U) ?_
     have hcomp2 : (Matrix.mulVecLin U) ∘ ![v', w'] = ![v₀, w₀] := by
       ext i
-      fin_cases i <;> simp [Matrix.mulVecLin_apply, hv', hw']
+      fin_cases i <;> simp [hv', hw']
     rw [hcomp2]
     exact hlin
   have hv'iso : Matrix.vecMul (fun i => σe (v' i)) (Unitary.antidiag r) ⬝ᵥ v' = 0 := by

@@ -80,8 +80,7 @@ theorem quasi_LVM : CFSG.IsQuasisimple ↥(autOn L
     (conjClosure (conjClosure V₀ T) (Subgroup.normalizer (conjClosure L T : Set G)))) := by
   refine isQuasisimple_autOn c.L_le_NVM c.fsu.quasisimple
     (fun x hx => c.pCoreOf_L_le ⟨x, ?_, rfl⟩) ?_
-  · try with_reducible rfl
-    exact hx
+  · exact hx
   · by_contra hcon
     push Not at hcon
     exact c.not_le_centralizer_VM fun l hl => hcon l hl

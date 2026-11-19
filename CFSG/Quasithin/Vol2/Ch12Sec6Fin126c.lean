@@ -158,7 +158,7 @@ theorem zpowers_le_of_dvd {N : Subgroup Q} (hN : 9 ∣ Nat.card N) :
   have : 27 ∣ 720 := Dvd.dvd.trans ⟨k, by ring⟩ h4
   norm_num at this
 
-theorem le_range_ιA5 {N P : Subgroup Q} (hPN : P ≤ N)
+theorem le_range_ιA5 {N P : Subgroup Q} (_hPN : P ≤ N)
     (hNP : N ≤ Subgroup.normalizer (P : Set Q)) (hP4 : Nat.card P = 4)
     (hP2 : ∀ p ∈ P, p ^ 2 = 1) (hN : 9 ∣ Nat.card N) : P ≤ (ιA5 e).range := by
   have hXN := zpowers_le_of_dvd e hN

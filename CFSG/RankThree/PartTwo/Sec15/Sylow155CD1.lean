@@ -126,6 +126,7 @@ private theorem false_of_le_centralizer {Q : Type} [Group Q] [Finite Q] {J Ā : 
   intro g
   exact Subtype.ext (Subgroup.mem_centralizer_iff.mp hx g g.2)
 
+omit [Finite G] in
 private theorem eq_of_mk'_eq {A C : Subgroup G} {N : Subgroup ↥C} [N.Normal]
     (hN : ¬ 3 ∣ Nat.card N) (hA3 : ∀ a ∈ A, a ^ 3 = 1) {a b : ↥C} (ha : (a : G) ∈ A)
     (hb : (b : G) ∈ A) (hab : QuotientGroup.mk' N a = QuotientGroup.mk' N b) : a = b := by
@@ -142,6 +143,7 @@ private theorem eq_of_mk'_eq {A C : Subgroup G} {N : Subgroup ↥C} [N.Normal]
   rw [Nat.Coprime.gcd_eq_one hg] at h1
   exact inv_mul_eq_one.mp (orderOf_eq_one_iff.mp (Nat.dvd_one.mp h1))
 
+omit [Finite G] in
 private theorem mem_map_comap_iff {C : Subgroup G} {Q : Type*} [Group Q] (f : ↥C →* Q)
     (T : Subgroup Q) (g : ↥C) : (g : G) ∈ (T.comap f).map C.subtype ↔ f g ∈ T := by
   constructor

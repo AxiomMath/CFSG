@@ -32,7 +32,7 @@ theorem bender_center_le {X : Type} [Group X] [Finite X]
     have : (⟨e, hET he⟩ : ↥(T : Subgroup X)) ∈ E' := Subgroup.mem_subgroupOf.mpr he
     rw [hb, Subgroup.mem_bot] at this
     exact Subgroup.mem_bot.mpr (congrArg Subtype.val this)
-  have : Group.IsNilpotent ↥(T : Subgroup X) := T.isPGroup'.isNilpotent
+  have : Group.IsNilpotent ↥(T : Subgroup X) := T.isPGroup.isNilpotent
   have hcen := Group.IsNilpotent.inf_center_ne_bot_of_normal hE'1
   obtain ⟨⟨⟨x, hxT⟩, hxmem⟩, hx1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).mp hcen
   have hxE : x ∈ E := Subgroup.mem_subgroupOf.mp hxmem.1

@@ -44,7 +44,7 @@ theorem u42_alt_abstract {p f : ℕ} {E : Type} [Field E] (h : UnitaryFieldData 
   obtain ⟨hττ, hfinW, -, -, hB2⟩ := hall b t hb ht
   obtain ⟨B, hBv, halt, hBnd, -, -⟩ := hB2 rfl
   have hbN : h.norm (b : E) = -1 := by simpa using hb
-  haveI : Module.Finite h.fixedField (conjFixed h ((b : E) • τ₀)) := finite_conjFixed
+  have : Module.Finite h.fixedField (conjFixed h ((b : E) • τ₀)) := finite_conjFixed
   obtain ⟨m, bW, hm, hll, hrr, hlr⟩ :=
     CFSG.ComponentClassification.CatalogueBAlternatingIsometry.exists_blueprint_symplectic_basis
       B halt hBnd
@@ -83,7 +83,7 @@ theorem u42_alt_abstract {p f : ℕ} {E : Type} [Field E] (h : UnitaryFieldData 
     intro i j
     have hN' : (b : E) * h.bar (b : E) = -1 := hbN
     simp only [hgl, LinearMap.map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul, map_smul,
-      RingHom.id_apply, map_mul, u42Sgn_bar h]
+      map_mul, u42Sgn_bar h]
     rcases i with i | i <;> rcases j with j | j
     · simp [hHf, hll, u42Sgn]
     · simp only [u42Sgn, hHf]
@@ -117,15 +117,14 @@ theorem u42_alt_abstract {p f : ℕ} {E : Type} [Field E] (h : UnitaryFieldData 
       by_cases hij : i = j
       · subst hij
         simp
-      · simp [hij, Finsupp.single_apply, Ne.symm hij]
+      · simp [hij]
     rw [hmat, Matrix.det_diagonal, Fintype.prod_sum_type]
-    simp [u42Sgn, Fin.prod_univ_two]
+    simp [u42Sgn]
     ring
   have hcompat : ∀ v, τ₀ (gl v) = (h.bar (b : E) / (b : E)) • gl (τ₀ v) := by
     intro v
     have e : τ₀.comp gl = ((h.bar (b : E) / (b : E)) • gl).comp τ₀ := bV.ext fun j => by
-      simp only [LinearMap.comp_apply, hgl, LinearMap.smul_apply, hτb, map_smulₛₗ, map_smul,
-        smul_smul, map_mul, u42Sgn_bar h j]
+      simp only [LinearMap.comp_apply, hgl, LinearMap.smul_apply, hτb, map_smulₛₗ, smul_smul, map_mul, u42Sgn_bar h j]
       congr 1
       simp only [RingHom.id_apply]
       field_simp
@@ -143,7 +142,7 @@ theorem u42_alt_element {K : Type} [Field K] (h : UnitaryFieldData 3 1 K)
           ((g : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K).map h.bar =
           (z : K) • (((g : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) *
             ((A : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K)) := by
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hodd : Odd 3 := ⟨1, by norm_num⟩
   have hτ₀ : Function.Bijective (semilinearMatrixMap h
       ((A : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K)) :=

@@ -207,7 +207,7 @@ theorem pa450010_good_A :
       (p := 2) (q := 3) (a := 6) (b := 1) Nat.prime_two Nat.prime_three (by norm_num) ?_
     rw [← Nat.card_eq_fintype_card, pa450010_card_DA]
     norm_num
-  have hQsol : Group.IsSolvable ↥Q := solvable_of_solvable_injective (Subgroup.inclusion_injective hQ)
+  have hQsol : Group.IsSolvable ↥Q := Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hQ)
   have : Group.IsPerfect ↥Q := Subgroup.isPerfect_iff.mpr hperf
   have : Nontrivial ↥Q := (Subgroup.nontrivial_iff_ne_bot Q).mpr hne
   exact Group.IsPerfect.not_isSolvable ↥Q hQsol

@@ -255,7 +255,7 @@ theorem sylow_noncomm_of_pcomp {X Λ L P₀ : Subgroup G} (hΛ : IsPCompIn 2 X �
   let _ : CommGroup ↥(T : Subgroup ↥Λ) :=
     { (inferInstance : Group ↥(T : Subgroup ↥Λ)) with mul_comm := hcommT }
   have hcyc : IsCyclic ↥(T : Subgroup ↥Λ) :=
-    CFSG.DisconnectedInvolutionGraph.Helpers.rank_one_abelian_two_group_cyclic _ T.isPGroup' hrank
+    CFSG.DisconnectedInvolutionGraph.Helpers.rank_one_abelian_two_group_cyclic _ T.isPGroup hrank
   have hsolv : Group.IsSolvable ↥Λ := isSolvable_of_isCyclic_sylow_two T hcyc
   have hq := TwoThin.isQuasisimple_hat hΛ
   have : Group.IsSolvable (↥Λ ⧸ pPrimeCore 2 ↥Λ) := inferInstance
@@ -398,13 +398,13 @@ theorem exists_solv_data {G : Type} [Group G] [Finite G] {x y : G}
     exact (TwoThin.odd_card_pPrimeCore ↥C').of_dvd_nat (Subgroup.card_dvd_of_injective incl hinj)
   let E : Balance.SL23.Ext ↥Vt := ⟨χ, hχsurj, hχkerodd⟩
   obtain ⟨T⟩ : Nonempty (Sylow 2 ↥Vt) := inferInstance
-  obtain ⟨a, ha, b, hb, hab⟩ := E.nonab T.isPGroup' (E.card_sylow T)
+  obtain ⟨a, ha, b, hb, hab⟩ := E.nonab T.isPGroup (E.card_sylow T)
   let ψG : ↥Vt →* G := (A.subtype.comp ι).comp Vt.subtype
   have hψGinj : Function.Injective ψG :=
     Subtype.val_injective.comp (hιinj.comp (Subtype.val_injective))
   have hψGval : ∀ t : ↥Vt, ψG t = (((t : ↥C') : ↥Cy) : G) := fun t => rfl
   refine ⟨((Vt ⊔ pPrimeCore 2 ↥C').map ι).map A.subtype, (T : Subgroup ↥Vt).map ψG, hVG, ?_, ?_,
-    T.isPGroup'.map ψG, ⟨ψG a, Subgroup.mem_map_of_mem _ ha, ψG b, Subgroup.mem_map_of_mem _ hb,
+    T.isPGroup.map ψG, ⟨ψG a, Subgroup.mem_map_of_mem _ ha, ψG b, Subgroup.mem_map_of_mem _ hb,
       fun h => hab (hψGinj (by rw [map_mul, map_mul]; exact h))⟩⟩
   · rintro _ ⟨t, -, rfl⟩
     refine ⟨?_, ((t : ↥C') : ↥Cy).2⟩

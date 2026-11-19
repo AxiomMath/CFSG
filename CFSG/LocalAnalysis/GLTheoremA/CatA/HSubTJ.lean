@@ -15,7 +15,7 @@ theorem le_center_of_normal_ne_top {G : Type} [Group G] (hq : IsQuasisimple G) (
   set Z := Subgroup.center G with hZ
   have hQsimp : IsSimpleGroup (G ⧸ Z) := hq.2
   set M : Subgroup (G ⧸ Z) := (N ⊔ Z).map (QuotientGroup.mk' Z) with hM
-  haveI : M.Normal := Subgroup.Normal.map inferInstance (QuotientGroup.mk' Z)
+  have : M.Normal := Subgroup.Normal.map inferInstance (QuotientGroup.mk' Z)
     (QuotientGroup.mk'_surjective Z)
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal M with hbot | htop
   · intro n hn
@@ -92,7 +92,7 @@ theorem mem_center_of_quotQuot_eq_one {G : Type} [Group G] (hq : IsQuasisimple G
 theorem lift_of_inner {H : Type} [Group H] {J : Subgroup H} (hJq : IsQuasisimple ↥J)
     {T : Type} [Group T] (φ : ↥J →* T) (hφs : Function.Surjective φ)
     (hφk : ∀ x : ↥J, φ x = 1 → x ∈ Subgroup.center ↥J)
-    {d : H} (c : ↥J ≃* ↥J) (hc : ∀ x : ↥J, (c x : H) = d * x * d⁻¹)
+    {d : H} (c : ↥J ≃* ↥J) (_hc : ∀ x : ↥J, (c x : H) = d * x * d⁻¹)
     {s : T} (hs : ∀ x : ↥J, φ (c x) = s * φ x * s⁻¹) :
     ∃ j : ↥J, ∀ x : ↥J, c x = j * x * j⁻¹ := by
   obtain ⟨j, hj⟩ := hφs s

@@ -34,8 +34,8 @@ private theorem lr2od4_subsingleton_ringAut {K : Type} [Field K] (hK : Nat.card 
 
 private theorem lr2od4_ringChar_eq_two {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     ringChar K = 2 := by
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K 2 := charP_of_card_eq_prime_pow (f := 1) (by
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K 2 := charP_of_card_eq_prime_pow (f := 1) (by
     rw [← Nat.card_eq_fintype_card]; simpa using hK)
   exact ringChar.eq K 2
 
@@ -78,19 +78,19 @@ private theorem lr2od4_ord7_bound
     (Nat.card (MulAut (adjointGroup Tag.D4 K))).factorization 7 ≤
       (Nat.card (adjointGroup Tag.D4 K)).factorization 7 := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hKchar : ringChar K = 2 := lr2od4_ringChar_eq_two hKcard
   have hsub : Subsingleton (RingAut K) := lr2od4_subsingleton_ringAut hKcard
   obtain ⟨S⟩ := (Sylow.nonempty : Nonempty (Sylow 7 (MulAut (adjointGroup Tag.D4 K))))
   obtain ⟨T, hTle, -, hcorr1, hcorr2⟩ :=
-    exists_lift_group (K := K) hKchar Nat.prime_seven (by norm_num : (7 : ℕ) ≠ 2) S.isPGroup'
-  haveI : Finite (RingAut K) := inferInstance
-  haveI : Finite (ModGL Tag.D4 K) := CFSG.LieType.Chevalley.finite_modGL (τ := Tag.D4) (K := K)
-  haveI : Finite (GamL Tag.D4 K) :=
+    exists_lift_group (K := K) hKchar Nat.prime_seven (by norm_num : (7 : ℕ) ≠ 2) S.isPGroup
+  have : Finite (RingAut K) := inferInstance
+  have : Finite (ModGL Tag.D4 K) := CFSG.LieType.Chevalley.finite_modGL (τ := Tag.D4) (K := K)
+  have : Finite (GamL Tag.D4 K) :=
     Finite.of_injective (fun s : GamL Tag.D4 K => (s.left, s.right)) (by
       intro a b h
       exact SemidirectProduct.ext (congrArg Prod.fst h) (congrArg Prod.snd h))
-  haveI : Finite T := inferInstance
+  have : Finite T := inferInstance
   have hcardST : Nat.card S = Nat.card T := by
     have key1 : ∀ α : S, ∃ s : T,
         d4LiftHom (K := K) (⟨s.1, hTle s.2⟩ : d4LiftSub K) =
@@ -161,8 +161,8 @@ theorem ord7Param_D4_two :
   have hclass : StatedClassicalModel R .POmegaPlus 4 2 1 :=
     LieModel.statedClassicalModel_of_ne_zero (by norm_num : (4 : ℕ) ≠ 0) hmodel
   obtain ⟨-, K, hKfield, hKfin, hKcard, hRK⟩ := hclass
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   have hKcard2 : Nat.card K = 2 := by simpa using hKcard
   obtain ⟨e0⟩ := hRK
   obtain ⟨e1⟩ :=

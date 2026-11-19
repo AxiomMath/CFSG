@@ -259,7 +259,7 @@ public theorem proposition
         (t * x * t) (htxtNotH x hxS hxne) with ⟨p, hp, _huniq⟩
     let QH : Subgroup H := Q.subgroupOf H
     let DH : Subgroup H := D.subgroupOf H
-    haveI : QH.Normal := by
+    have : QH.Normal := by
       simpa [QH] using hch.1.section2.hA.A1.Q_normal_in_H
     have hsupH : QH ⊔ DH = ⊤ := by
       rw [← Subgroup.subgroupOf_sup
@@ -356,7 +356,7 @@ public theorem proposition
             _ = a * g * d * (a * t * a) * f * a⁻¹ := by rw [hat]
             _ = gc * dc * t * fc := by
               dsimp [gc, dc, fc]
-              simp [mul_assoc, mul_inv_cancel_right, inv_mul_cancel_left]
+              simp [mul_assoc, inv_mul_cancel_left]
     have hgcQ : gc ∈ Q := by simpa [hSQ] using hgcS
     have hg'Q : g' ∈ Q := by simpa [hSQ] using hg'S
     have hgcH : gc ∈ H := hch.1.section2.hA.A1.Q_le_H hgcQ
@@ -413,7 +413,7 @@ public theorem proposition
               simp [mul_assoc]
             _ = a * g * d * (a * t * a) * f * a⁻¹ := by rw [hat]
             _ = (a * g * a⁻¹) * (a * d * a) * t * (a * f * a⁻¹) := by
-              simp [mul_assoc, mul_inv_cancel_right, inv_mul_cancel_left]
+              simp [mul_assoc, inv_mul_cancel_left]
   have hcanonicalUnique :
       ∀ x : G, x ∈ S → x ≠ 1 →
         ∀ g₁ : G, g₁ ∈ S → ∀ d₁ : G, d₁ ∈ D → ∀ f₁ : G, f₁ ∈ S →
@@ -452,7 +452,7 @@ public theorem proposition
   have hKcyclic : IsCyclic K :=
     (PFchapter1section2.proposition_2
       H D Q K V W Q0 S Q1 t hch.1.section2).1
-  letI : IsCyclic K := hKcyclic
+  let : IsCyclic K := hKcyclic
   have hKcomm : ∀ a : G, a ∈ K → ∀ b : G, b ∈ K → a * b = b * a := by
     intro a ha b hb
     exact congrArg Subtype.val
@@ -1065,7 +1065,7 @@ public theorem proposition
             have hback := hKnormS k⁻¹ (K.inv_mem hkK)
               (k * x * k⁻¹) hx
             simpa [mul_assoc] using hback
-        letI : Subgroup.Normalizes K S := ⟨hKleNormalizer⟩
+        let : Subgroup.Normalizes K S := ⟨hKleNormalizer⟩
         have hactualFaithful : FaithfulSMul K S := by
           rw [faithfulSMul_iff]
           intro k hkfix
@@ -1127,7 +1127,6 @@ public theorem proposition
             have hkxy : y = k • x := by
               apply Subtype.ext
               simp only [Subgroup.conjMulDistribMulActionOfLeNormalizer_smul_coe]
-              change (y : G) = (k : G) * (x : G) * (k : G)⁻¹
               rw [← hax, ← hay]
               dsimp [k, rightConjugateElem]
               group
@@ -1213,10 +1212,9 @@ public theorem proposition
           have hcardCenterSub :
               Nat.card CenterSharp = Nat.card (Subgroup.center S) - 1 := by
             classical
-            letI : Fintype (Subgroup.center S) := Fintype.ofFinite _
-            letI : Fintype CenterSharp := Fintype.ofFinite _
-            simpa [CenterSharp, Nat.card_eq_fintype_card] using
-              (Set.card_ne_eq (1 : Subgroup.center S))
+            let : Fintype (Subgroup.center S) := Fintype.ofFinite _
+            let : Fintype CenterSharp := Fintype.ofFinite _
+            simp [CenterSharp, Nat.card_eq_fintype_card]
           have hcenterPos : 0 < Nat.card (Subgroup.center S) := Nat.card_pos
           have hsubEq :
               Nat.card (Subgroup.center S) - 1 = Nat.card K :=
@@ -1259,7 +1257,7 @@ public theorem proposition
                 hpairMul 0 z 0 z
               _ = pairLift 0 0 := by
                 rw [hdiag]
-                simp only [zero_add, zero_mul, CharTwo.add_self_eq_zero]
+                simp only [zero_mul, CharTwo.add_self_eq_zero]
               _ = 1 := hpairOne
           let fieldToCenter : F → Subgroup.center S := fun z => by
             let zS : S := ⟨pairLift 0 z, hpairMem 0 z⟩
@@ -1476,7 +1474,7 @@ public theorem proposition
             have hrInvBeta : beta (⟨r⁻¹, hrInvS⟩ : S) = 1 := by
               have hinv := hbetaInv rS
               have h_eq : (⟨r⁻¹, hrInvS⟩ : S) = (rS : S)⁻¹ := by
-                apply Subtype.ext; simp [rS, Subgroup.coe_inv]
+                apply Subtype.ext; simp [rS]
               simpa [h_eq, hbetaR] using hinv
             have hkappaA₁ :
                 kappa a₁ = (kappa ell)⁻¹ * (kappa k)⁻¹ ^ 2 := by
@@ -2010,7 +2008,7 @@ public theorem proposition
                     _ = (((aK : G) * (ell₁ : G)) * (k₁.1 : G)) ^ 2 := by
                       rw [h_sq_mul ((aK : G) * (ell₁ : G)) (k₁.1 : G)
                         (K.mul_mem aK.property ell₁.property) k₁.1.property]
-                    _ = ((aK * ell₁ * k₁.1) ^ 2 : G) := by simp [Subgroup.coe_mul]
+                    _ = ((aK * ell₁ * k₁.1) ^ 2 : G) := by simp
             have hKodd : Odd (Nat.card K) :=
               odd_of_card_dvd hch.1.section2.hA.A1.D_odd
                 (Subgroup.card_dvd_of_le hch.1.section2.K_le_D)
@@ -2142,10 +2140,10 @@ public theorem proposition
             ⟨a, haK, by simpa [representative, rrOf] using ha⟩
     have hcardRepParam : Nat.card RepParam = Nat.card K + 2 := by
       classical
-      letI : Fintype K := Fintype.ofFinite K
-      letI : Fintype {k : K // (k : G) ≠ 1} := Fintype.ofFinite _
+      let : Fintype K := Fintype.ofFinite K
+      let : Fintype {k : K // (k : G) ≠ 1} := Fintype.ofFinite _
       have hKSharp : Nat.card {k : K // (k : G) ≠ 1} = Nat.card K - 1 := by
-        simpa [Nat.card_eq_fintype_card] using (Set.card_ne_eq (1 : K))
+        simp [Nat.card_eq_fintype_card]
       dsimp [RepParam]
       rw [Nat.card_sum, Nat.card_fin, hKSharp]
       have hKpos : 0 < Nat.card K := Nat.card_pos
@@ -2193,7 +2191,7 @@ public theorem proposition
               hpairMul 0 z 0 z
             _ = pairLift 0 0 := by
               rw [hdiag]
-              simp only [zero_add, zero_mul, CharTwo.add_self_eq_zero]
+              simp only [zero_mul, CharTwo.add_self_eq_zero]
             _ = 1 := hpairOne
         have hpairZeroNe : ∀ z : F, z ≠ 0 → pairLift 0 z ≠ 1 := by
           intro z hz hzero
@@ -2249,12 +2247,11 @@ public theorem proposition
           exact GaloisField.card 2 n hn
         have hcardFSharp : Nat.card FSharp = q - 1 := by
           classical
-          letI : Fintype F := Fintype.ofFinite F
-          letI : Fintype FSharp := Fintype.ofFinite FSharp
+          let : Fintype F := Fintype.ofFinite F
+          let : Fintype FSharp := Fintype.ofFinite FSharp
           calc
             Nat.card FSharp = Nat.card F - 1 := by
-              simpa [FSharp, Nat.card_eq_fintype_card] using
-                (Set.card_ne_eq (0 : F))
+              simp [FSharp, Nat.card_eq_fintype_card]
             _ = q - 1 := by rw [hcardF]
         calc
           Nat.card InvS = Nat.card FSharp :=
@@ -2332,10 +2329,9 @@ public theorem proposition
             right_inv := by intro x; rfl }
         have hcardSub : Nat.card SSharpSub = Nat.card S - 1 := by
           classical
-          letI : Fintype S := Fintype.ofFinite S
-          letI : Fintype SSharpSub := Fintype.ofFinite SSharpSub
-          simpa [SSharpSub, Nat.card_eq_fintype_card] using
-            (Set.card_ne_eq (1 : S))
+          let : Fintype S := Fintype.ofFinite S
+          let : Fintype SSharpSub := Fintype.ofFinite SSharpSub
+          simp [SSharpSub, Nat.card_eq_fintype_card]
         calc
           Nat.card SSharp = Nat.card SSharpSub := Nat.card_congr sharpEquiv
           _ = Nat.card S - 1 := hcardSub
@@ -2414,19 +2410,19 @@ public theorem proposition
         r⁻¹ hrInvS 1 D.one_mem r hrS (by simpa using hstruct)
         1 K.one_mem g hgS d hdD f hfS (by simpa using hdecomp)
       have hdOne' : d = 1 := by simpa using hdOne
-      simpa [hdOne']
+      simp [hdOne']
     · subst y
       have hdOne := hDcoefficientCovariant r hrS hrNe
         r hrS 1 D.one_mem s hsS (by simpa using htrt)
         1 K.one_mem g hgS d hdD f hfS (by simpa using hdecomp)
       have hdOne' : d = 1 := by simpa using hdOne
-      simpa [hdOne']
+      simp [hdOne']
     · subst y
       have hdOne := hDcoefficientCovariant r⁻¹ hrInvS hrInvNe
         s hsS 1 D.one_mem r⁻¹ hrInvS (by simpa using htrInvt)
         1 K.one_mem g hgS d hdD f hfS (by simpa using hdecomp)
       have hdOne' : d = 1 := by simpa using hdOne
-      simpa [hdOne']
+      simp [hdOne']
     · subst y
       exact hrrCoefficient k hkK hkNe g hgS d hdD f hfS hdecomp
   have hDcoefficient : ∀ x : G, x ∈ S → x ≠ 1 →

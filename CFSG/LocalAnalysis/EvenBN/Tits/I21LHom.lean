@@ -17,6 +17,7 @@ universe u
 
 variable {V : Type*} [AddCommGroup V] [Module (ZMod 2) V] [Module.Finite (ZMod 2) V]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem comm_comp_subtype {G : Type u} [Group G] (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) :
     comm (ρ.comp M.subtype) ⊤ = comm ρ M := by
   ext z
@@ -27,11 +28,13 @@ theorem comm_comp_subtype {G : Type u} [Group G] (ρ : G →* (V ≃ₗ[ZMod 2] 
   · intro h m _
     exact h m m.2
 
+omit [Module.Finite (ZMod 2) V] in
 theorem cz_comp_subtype {G : Type u} [Group G] (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G) :
     cz (ρ.comp M.subtype) ⊤ = cz ρ M := by
   unfold cz
   rw [comm_comp_subtype]
 
+omit [Module.Finite (ZMod 2) V] in
 theorem simple_comp_subtype {G : Type u} [Group G] (ρ : G →* (V ≃ₗ[ZMod 2] V)) (M : Subgroup G)
     (h : Simple ρ M) : Simple (ρ.comp M.subtype) ⊤ := by
   intro z hz
@@ -45,10 +48,10 @@ theorem cyclic_of_simple_odd {j : ℕ} (hdim : finrank (ZMod 2) V = 2 ^ j) :
   induction n using Nat.strong_induction_on with
   | _ n ih =>
     intro G _ _ ρ hn hodd hinj hs
-    haveI : Nontrivial V := Module.finrank_pos_iff.mp (by rw [hdim]; positivity)
+    have : Nontrivial V := Module.finrank_pos_iff.mp (by rw [hdim]; positivity)
     rcases subsingleton_or_nontrivial G with hG | hG
     · exact isCyclic_of_subsingleton
-    haveI : Group.IsSolvable G := CFSG.FeitThompson.isSolvable_of_odd_natCard _ (hn ▸ hodd)
+    have : Group.IsSolvable G := CFSG.FeitThompson.isSolvable_of_odd_natCard _ (hn ▸ hodd)
     obtain ⟨M, hMnorm, q, hq, hMq⟩ := exists_normal_prime_index G
     have hqn : q ∣ n := by
       rw [← hn, ← hMq]; exact Subgroup.index_dvd_card M
@@ -70,12 +73,12 @@ theorem cyclic_of_simple_odd {j : ℕ} (hdim : finrank (ZMod 2) V = 2 ^ j) :
         (simple_comp_subtype ρ M hsM)
     have hMab : ∀ a ∈ M, ∀ b ∈ M, a * b = b * a := by
       intro a ha b hb
-      letI := IsCyclic.commGroup (α := M)
+      let := IsCyclic.commGroup (α := M)
       exact congrArg Subtype.val (mul_comm (⟨a, ha⟩ : M) ⟨b, hb⟩)
     have hinjZ : InjZ ρ M := injZ_of_simple ρ M hoddM hsM
     have hK : IsField (cz ρ M) := isField_cz ρ M hinjZ
     have hKd : finrank (ZMod 2) (cz ρ M) ∣ finrank (ZMod 2) V := by
-      letI : Field (cz ρ M) := hK.toField
+      let : Field (cz ρ M) := hK.toField
       exact Dvd.intro _ (Module.finrank_mul_finrank (ZMod 2) (cz ρ M) V)
     obtain ⟨t, -, ht⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (hdim ▸ hKd)
     have hcen : ∀ (x : G) (z : Module.End (ZMod 2) V), z ∈ cz ρ M → cj ρ x z = z := by
@@ -99,10 +102,10 @@ theorem cyclic_of_simple_odd {j : ℕ} (hdim : finrank (ZMod 2) V = 2 ^ j) :
       have := hcentral m hm g
       calc g * m = g * m * g⁻¹ * g := by group
         _ = m * g := by rw [this]
-    haveI : Fact q.Prime := ⟨hq⟩
-    haveI : IsCyclic (G ⧸ M) := isCyclic_of_prime_card (p := q) (by rw [← hMq]; rfl)
+    have : Fact q.Prime := ⟨hq⟩
+    have : IsCyclic (G ⧸ M) := isCyclic_of_prime_card (p := q) (by rw [← hMq]; rfl)
     have hab : ∀ a b : G, a * b = b * a := fun a b =>
-      commutative_of_cyclic_center_quotient (QuotientGroup.mk' M) (by simpa using hMc) a b
+      (MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center (QuotientGroup.mk' M) (by simpa using hMc)).is_comm.comm a b
     have hoddT : Odd (Nat.card (⊤ : Subgroup G)) := by rw [Subgroup.card_top]; exact hn ▸ hodd
     exact isCyclic_of_injZ ρ (injZ_of_simple ρ ⊤ hoddT hs) hinj hab
 
@@ -112,7 +115,7 @@ theorem isCyclic_of_irreducible_odd {V : Type*} [AddCommGroup V] [Module (ZMod 2
     [Module.Finite (ZMod 2) V] (O : Subgroup (V ≃ₗ[ZMod 2] V)) (hodd : Odd (Nat.card O))
     {j : ℕ} (hdim : Module.finrank (ZMod 2) V = 2 ^ j)
     (hirr : ∀ U : Submodule (ZMod 2) V, (∀ g ∈ O, Stable g U) → U = ⊥ ∨ U = ⊤) : IsCyclic O := by
-  haveI : Finite O := Nat.finite_of_card_ne_zero (by
+  have : Finite O := Nat.finite_of_card_ne_zero (by
     intro h; rw [h] at hodd; exact absurd hodd (by decide))
   refine Hom.cyclic_of_simple_odd hdim (Nat.card O) O O.subtype rfl hodd Subtype.val_injective
     (Hom.simple_of_irreducible O.subtype fun U hU => hirr U fun g hg u hu => hU ⟨g, hg⟩ u hu)

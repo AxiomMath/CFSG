@@ -163,7 +163,7 @@ theorem eq_of_mem_simplePosSubgroup_xUnit_one {i j : Fin Tag.D4.rank}
   have h1 : adjX Tag.D4 K i 1 = adjX Tag.D4 K j c := Subtype.ext hc
   have h2 := rootCoord_ite_eq_of_adjX_eq h1 i
   by_contra hji
-  simp only [if_true, if_neg hji] at h2
+  simp only [ite_true, ite_eq_right hji] at h2
   exact one_ne_zero h2
 
 end Regular

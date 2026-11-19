@@ -193,14 +193,14 @@ theorem su3ti_sylow_inf_eq_bot_of_conj {S : Type*} [Group S] [Finite S] {p : ℕ
         rw [hss']; group
       rw [← this]; group
     have h3 := H (g⁻¹ * g') hx s hs s' hs' h2
-    simp [MulAut.smul_def, h3]
+    simp [h3]
 
 end SylowTI
 
 theorem su3SylowTI : SU3SylowTIStatement := by
   intro f K _ h hf P Q hP hQ hPQ
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := h.finite
+  have := h.finite
   obtain ⟨-, ⟨U, hU⟩, -⟩ := unitary_order_and_Sylow h (r := 1) (ε := 1) le_rfl le_rfl
   have toSylow : ∀ P : Subgroup (hypSU h 1 1), IsSylowOf 2 P ⊤ →
       ∃ P' : Sylow 2 (hypSU h 1 1), (P' : Subgroup (hypSU h 1 1)) = P := by

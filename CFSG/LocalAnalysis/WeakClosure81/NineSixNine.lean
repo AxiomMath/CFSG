@@ -48,9 +48,9 @@ theorem betaN_eq_top_of_isTI {V : Subgroup G} (hTI : IsTI V) (n : ℕ) :
     ext U
     simp only [Set.mem_empty_iff_false, iff_false]
     intro hU
-    simp only [calBn, propN, Set.mem_setOf_eq] at hU
+    simp only [calBn, propN, Set.mem_ofPred_eq] at hU
     obtain ⟨-, t, ht, -, W, hWV, -, -, hWt, hPropB⟩ := hU
-    rw [SetLike.le_def] at hWt
+    rw [_root_.IsConcreteLE.le_iff] at hWt
     push Not at hWt
     obtain ⟨w, hwW, hwC⟩ := hWt
     have htw : ¬ t * w = w * t := by

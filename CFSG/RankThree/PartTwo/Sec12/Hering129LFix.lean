@@ -21,7 +21,7 @@ theorem exists_threeLocalModel {X : Type} [Group X] [Finite X] {r : TauCeti.Prim
     ∃ S M : Subgroup X, ThreeLocalModel X r (r.card ^ δ) S M := by
   rcases hX with ⟨rfl, hX1⟩ | ⟨rfl, hr, ⟨f⟩⟩
   · obtain ⟨K, hKf, hKfin, hK, hKp, ⟨e⟩⟩ := Hering129KModels.exists_adjoint_model hX1
-    haveI : Finite (CFSG.Blueprint.Chevalley.adjointGroup .G2 K) := Finite.of_equiv X e.toEquiv
+    have : Finite (CFSG.Blueprint.Chevalley.adjointGroup .G2 K) := Finite.of_equiv X e.toEquiv
     have hK3 : ringChar K ≠ 3 := by rw [hKp]; exact hp3
     have hK4 : 4 ≤ Nat.card K := by rw [hK]; exact h4
     have hM := g2_threeLocalModel r hK hK3 hK4
@@ -39,7 +39,7 @@ theorem exists_threeLocalModel {X : Type} [Group X] [Finite X] {r : TauCeti.Prim
       omega
     have P : Sec19.D4Par r.exponent K σ :=
       ⟨r.exponent_pos, by rw [hK, hr2], fun c => by rw [hσ c, hr2]⟩
-    haveI : Finite (Sec19.C0 σ) := Finite.of_equiv X e.toEquiv
+    have : Finite (Sec19.C0 σ) := Finite.of_equiv X e.toEquiv
     exact ⟨_, _, (d4_threeLocalModel P hn r hr2).map e.symm⟩
 
 theorem ks129ThreeLocalFix_holds : KS129ThreeLocalFix := by

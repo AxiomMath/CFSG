@@ -54,7 +54,7 @@ theorem card_le_thirtyTwo (hset : GoldSetting G S A) (h4 : Nat.card A = 4)
     (Subgroup.mem_centralizer_singleton_iff.mp hc.2)
     (sq_mem_of_commutator_le hset h4 hZ hD hc.1)
   have hC8 : Nat.card C ≤ 8 := by
-    obtain ⟨k, hk⟩ := (S.isPGroup'.to_le (inf_le_left : C ≤ _)).exists_card_eq
+    obtain ⟨k, hk⟩ := (S.isPGroup.to_le (inf_le_left : C ≤ _)).exists_card_eq
     have hk3 := CFSG.SectionRank.le_pRank one_lt_two inf_le_left (isElemAbelian_of_sq hC2) hk
     rw [hk]
     calc 2 ^ k ≤ 2 ^ 3 := Nat.pow_le_pow_right (by norm_num) (hk3.trans hrank)

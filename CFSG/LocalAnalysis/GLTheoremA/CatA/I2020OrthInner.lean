@@ -39,8 +39,8 @@ private theorem exists_sylow_lift {K V : Type} [Field K] [Finite K] [AddCommGrou
       (∀ t ∈ Tstar, (QuotientGroup.mk' ((scalars K V).subgroupOf (orthDerived Q))) t ∈ T) ∧
       ¬ 2 ∣ ((Tstar.map (Subgroup.subtype (orthDerived Q))).subgroupOf L).index := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V))
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V))
     fun g₁ g₂ h => LinearEquiv.ext (congrFun h)
   set ρ : ↥(orthDerived Q) →* ProjOrthDerived Q :=
     QuotientGroup.mk' ((scalars K V).subgroupOf (orthDerived Q))
@@ -130,14 +130,14 @@ private theorem i2020FixCent_conj_projOrth {K V : Type} [Field K] [Finite K]
     (b : ProjOrthDerived Q) (hb : b ^ p = 1) :
     I2020FixCent p (JType p q) (MulAut.conj b) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K q := by rw [← hring]; exact ringChar.charP K
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V))
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K q := by rw [← hring]; exact ringChar.charP K
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) := Finite.of_injective (fun g : V ≃ₗ[K] V => (g : V → V))
     fun g₁ g₂ h => LinearEquiv.ext (congrFun h)
   have hpℓ : p ≠ ringChar K := fun h => hpq (h.trans hring)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨-, hcenterΩ, hcardZ, hsimple, hnonab, -, -, -, hOddLifts⟩ :=
     orthogonal_high_Witt_derived_quotient_and_odd_lifts (K := K) (V := V) (Q := Q) hQ hT
   have hZ : Subgroup.center (ProjOrthDerived Q) = ⊥ :=
@@ -291,7 +291,7 @@ private theorem i2020FixCent_conj_projOrth {K V : Type} [Field K] [Finite K]
         ((specialBlock_le_isometryCentralizer h).trans (fun _ hg => (Subgroup.mem_inf.mp hg).1))
     obtain ⟨Tstar, hTstar2, hTstarL, hTstarT, hTodd⟩ := exists_sylow_lift hΩ hJeq hTsyl
     have hST₁ : ⁅S₁, Tstar⁆ = ⊥ := hcommute_lift hTstar2 hTstarT
-    haveI : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
+    have : Fact (Irreducible h) := ⟨irreducible_of_mem_primaryFactors hh⟩
     have hpos : 0 < primaryMultiplicity (x : V ≃ₗ[K] V).toLinearMap h :=
       hx.primaryMultiplicity_pos hh
     rcases Nat.lt_or_ge (primaryMultiplicity (x : V ≃ₗ[K] V).toLinearMap h) 2 with hm1 | hm2
@@ -417,9 +417,9 @@ private theorem i2020FixCent_of_model {t : StatedLieTag} {n : ℕ} (htn : I2020O
     rcases htn with ⟨rfl, -⟩ | ⟨(rfl | rfl), -⟩ <;> simp
   obtain ⟨K, hfield, hfin, V, _, _, _, Q, hQ, hT, hring, hcard, hdim, ⟨e⟩⟩ :=
     CFSG.HardMathSupport.Solomon.LocalBalance.Lemma27Ns.I1433.exists_projOrth_model_dim ht hG
-  letI := hfield
-  letI := hfin
-  haveI : Finite (ProjOrthDerived Q) := Finite.of_equiv _ e.toEquiv
+  let := hfield
+  let := hfin
+  have : Finite (ProjOrthDerived Q) := Finite.of_equiv _ e.toEquiv
   have hdim' : Module.finrank K V ≤ 8 := by
     rw [hdim]
     rcases htn with ⟨rfl, rfl⟩ | ⟨(rfl | rfl), rfl⟩ <;> simp

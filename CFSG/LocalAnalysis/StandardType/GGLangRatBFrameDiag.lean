@@ -83,7 +83,7 @@ private lemma langRatBD_uSL_eq_transvection {K : Type} [Field K] (t : K) :
   rw [Matrix.SpecialLinearGroup.transvection_coe, coe_uSL]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.single_apply]
+    simp
 
 private lemma langRatBD_vSL_eq_transvection {K : Type} [Field K] (t : K) :
     vSL t = Matrix.SpecialLinearGroup.transvection (by decide : (1 : Fin 2) ≠ 0) t := by
@@ -91,7 +91,7 @@ private lemma langRatBD_vSL_eq_transvection {K : Type} [Field K] (t : K) :
   rw [Matrix.SpecialLinearGroup.transvection_coe, coe_vSL]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [Matrix.single_apply]
+    simp
 
 private lemma langRatBD_transvection_congr {n : ℕ} {K : Type} [Field K] {i i' j j' : Fin n}
     (hij : i ≠ j) (hij' : i' ≠ j') (hi : i = i') (hj : j = j') (t : K) :
@@ -164,11 +164,11 @@ theorem langRatB_frame_diag
     unfold slEmbedMat CFSG.ClassicalInvolution.Models.SymplecticPairs.inclMat
     simp only [Matrix.add_apply, Matrix.mul_apply, Matrix.sub_apply, Matrix.one_apply,
       Matrix.transpose_apply, Matrix.of_apply, Fin.sum_univ_two, coe_HSL,
-      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+      Matrix.cons_val_zero, Matrix.cons_val_one]
     clear hu hv hs hHSL hε1 hε2 ε1 ε2 s φ hψ hX hτ he
     by_cases hix : i = x <;> by_cases hiy : i = y <;>
       by_cases hjx : j = x <;> by_cases hjy : j = y <;>
-      simp_all [eq_comm] <;> ring
+      simp_all [eq_comm]
   calc ψ X = ψ (slEmbed e he (HSL u)) := by rw [hXeq]
     _ = φ (HSL u) := rfl
     _ = rootSL2 τ L (σ x y) (HSL u) := hHSL

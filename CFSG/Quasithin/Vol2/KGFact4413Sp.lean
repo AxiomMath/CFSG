@@ -177,7 +177,7 @@ theorem proj_spW₀_not_mem : proj 2 K spW₀ ∉ (borelSubgroup 2 K).map (proj 
 theorem isPGroup_projUnipotent_two : IsPGroup 2 (projUnipotent 2 K) := by
   obtain ⟨P, hP⟩ := exists_sylow_projUnipotent (K := K) 2 (r := 2) (by norm_num)
   rw [← hP]
-  exact P.isPGroup'
+  exact P.isPGroup
 
 theorem dSp_complement :
     dSp K ≤ Subgroup.normalizer (projUnipotent 2 K : Set (StatedProj Sp₄)) ∧

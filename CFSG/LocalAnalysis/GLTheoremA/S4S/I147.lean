@@ -51,7 +51,7 @@ private theorem i147_lift_elemAbelian {H S : Type} [Group H] [Group S] [Finite H
     {E : Subgroup S} (hE : IsElemAbelian 3 E) :
     ∃ R : Subgroup H, IsElemAbelian 3 R ∧ R.map ψ = E ∧ Nat.card R = Nat.card E := by
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hOn : ψ.ker.Normal := inferInstance
   have hNO : (⊤ : Subgroup H) ≤ Subgroup.normalizer (ψ.ker : Set H) :=
     (Subgroup.normalizer_eq_top_iff.2 hOn).ge
@@ -115,7 +115,7 @@ private theorem i147_lift_elemAbelian {H S : Type} [Group H] [Group S] [Finite H
 theorem i147At_of {G : Type} [Group G] [Finite G] (h : KD147) : I147At G := by
   intro Y L₀ hL hcat
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   obtain ⟨hcenKD, hE9KD, hcompKD⟩ := h (PSimple 3 L₀) hcat
   have hq : CFSG.Open.IsQuasisimple (PQuot 3 L₀) := isQuasisimple_pQuot_of_glaPComponent hp hL
   have hZ : Subgroup.center (PQuot 3 L₀) = ⊥ :=

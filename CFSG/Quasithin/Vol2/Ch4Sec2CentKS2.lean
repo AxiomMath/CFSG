@@ -13,10 +13,12 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem mem_pCoreOf_iff_mem_pCore_centKS2 {X : Subgroup G} (x : ↥X) :
     (x : G) ∈ pCoreOf 2 X ↔ x ∈ CFSG.pCore 2 ↥X :=
   Subgroup.mem_map_iff_mem X.subtype_injective
 
+omit [Finite G] in
 private theorem mem_sup_of_right_le_normalizer_centKS2 {A B : Subgroup G}
     (hB : B ≤ Subgroup.normalizer (A : Set G)) {x : G} (hx : x ∈ A ⊔ B) :
     ∃ a ∈ A, ∃ b ∈ B, x = a * b := by

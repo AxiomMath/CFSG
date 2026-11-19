@@ -90,7 +90,7 @@ private theorem submatrix_mul
       G.submatrix (emb k) (emb k) * H.submatrix (emb k) (emb k) := by
   ext a b
   simp only [Matrix.submatrix_apply, Matrix.mul_apply]
-  rw [sum_split, hG.1, hH.2, if_neg (emb_ne_inl a), if_neg (emb_ne_inr b)]
+  rw [sum_split, hG.1, hH.2, ite_eq_right (emb_ne_inl a), ite_eq_right (emb_ne_inr b)]
   simp
 
 private theorem gram_form_t {n : ℕ} (M : Matrix (Fin n ⊕ Fin n) (Fin n ⊕ Fin n) F)
@@ -113,7 +113,7 @@ private theorem submatrix_symplectic
   ext a b
   have h := congrFun (congrFun hJ (emb k a)) (emb k b)
   rw [gram_form_t, Fin.sum_univ_castSucc, hG.2 (emb k a), hG.2 (emb k b),
-    if_neg (emb_ne_inr a), if_neg (emb_ne_inr b), gram_emb] at h
+    ite_eq_right (emb_ne_inr a), ite_eq_right (emb_ne_inr b), gram_emb] at h
   rw [gram_form_t, ← h]
   simp [emb]
 
@@ -159,10 +159,10 @@ private theorem col_last_eq [CharP F 2]
     G (emb k b) (Sum.inr (Fin.last k)) = G (Sum.inl (Fin.last k)) (emb k b.swap) := by
   have h := congrFun (congrFun hJ (emb k b)) (Sum.inl (Fin.last k))
   rw [show G * gram F (k + 1) * Gᵀ = G * Jmat (k + 1) F * Gᵀ from rfl, gram_form,
-    Fin.sum_univ_castSucc, hG.1 (emb k b), if_neg (emb_ne_inl b), hG.1 (Sum.inl (Fin.last k)),
-    if_pos rfl] at h
+    Fin.sum_univ_castSucc, hG.1 (emb k b), ite_eq_right (emb_ne_inl b), hG.1 (Sum.inl (Fin.last k)),
+    ite_eq_left rfl] at h
   have hgram : gram F (k + 1) (emb k b) (Sum.inl (Fin.last k)) = 0 := by
-    rcases b with j | j <;> simp [emb, gram, Matrix.one_apply, (Fin.castSucc_lt_last j).ne]
+    rcases b with j | j <;> simp [emb, gram, (Fin.castSucc_lt_last j).ne]
   rw [hgram] at h
   have hl : ∀ j : Fin k, G (emb k b) (Sum.inl j.castSucc) = if b = Sum.inl j then 1 else 0 :=
     fun j => hGs b (Sum.inl j)
@@ -170,12 +170,12 @@ private theorem col_last_eq [CharP F 2]
     fun j => hGs b (Sum.inr j)
   simp only [hl, hr, ite_mul, one_mul, zero_mul, zero_sub, mul_one] at h
   rcases b with j₀ | j₀
-  · simp only [Sum.inl.injEq, reduceCtorEq, if_false, sub_zero, Finset.sum_ite_eq,
-      Finset.mem_univ, if_true] at h
+  · simp only [Sum.inl.injEq, reduceCtorEq, ite_false, sub_zero, Finset.sum_ite_eq,
+      Finset.mem_univ, ite_true] at h
     rw [CharTwo.neg_eq, add_eq_zero_iff_eq_neg, CharTwo.neg_eq] at h
     exact h.symm
-  · simp only [Sum.inr.injEq, reduceCtorEq, if_false, zero_sub, Finset.sum_neg_distrib,
-      Finset.sum_ite_eq, Finset.mem_univ, if_true] at h
+  · simp only [Sum.inr.injEq, reduceCtorEq, ite_false, zero_sub, Finset.sum_neg_distrib,
+      Finset.sum_ite_eq, Finset.mem_univ, ite_true] at h
     rw [CharTwo.neg_eq, CharTwo.neg_eq, add_eq_zero_iff_eq_neg, CharTwo.neg_eq] at h
     exact h.symm
 
@@ -224,18 +224,18 @@ private theorem commute_of_mem_ker [CharP F 2]
     ext x z
     rw [mul_apply_rc hG hH, mul_apply_rc hH hG]
     rcases coord_cases x with ⟨a, rfl⟩ | rfl | rfl
-    · simp only [hGs, hHs, sum_ite_mul, if_neg (emb_ne_inl a), zero_mul, add_zero]
+    · simp only [hGs, hHs, sum_ite_mul, ite_eq_right (emb_ne_inl a), zero_mul, add_zero]
       rcases coord_cases z with ⟨b, rfl⟩ | rfl | rfl
-      · rw [hGs, hHs, if_neg (emb_ne_inr b), mul_zero, mul_zero]
-      · simp only [hG.1, hH.1, if_neg (emb_ne_inl a), reduceCtorEq, if_false, mul_zero]
-      · rw [if_pos rfl, mul_one, mul_one, add_comm]
-    · simp only [if_true, one_mul]
+      · rw [hGs, hHs, ite_eq_right (emb_ne_inr b), mul_zero, mul_zero]
+      · simp only [hG.1, hH.1, ite_eq_right (emb_ne_inl a), reduceCtorEq, ite_false, mul_zero]
+      · rw [ite_eq_left rfl, mul_one, mul_one, add_comm]
+    · simp only [ite_true, one_mul]
       rcases coord_cases z with ⟨b, rfl⟩ | rfl | rfl
-      · simp only [hGs, hHs, sum_mul_ite, if_neg (emb_ne_inr b), mul_zero, add_zero]
+      · simp only [hGs, hHs, sum_mul_ite, ite_eq_right (emb_ne_inr b), mul_zero, add_zero]
         exact add_comm _ _
-      · simp only [hG.1, hH.1, if_neg (emb_ne_inl _), if_true, mul_zero,
-          Finset.sum_const_zero, zero_add, reduceCtorEq, if_false]
-      · simp only [hGc, hHc, if_true, mul_one]
+      · simp only [hG.1, hH.1, ite_eq_right (emb_ne_inl _), ite_true, mul_zero,
+          Finset.sum_const_zero, zero_add, reduceCtorEq, ite_false]
+      · simp only [hGc, hHc, ite_true, mul_one]
         have hswap : ∑ d, H (Sum.inl (Fin.last k)) (emb k d) *
               G (Sum.inl (Fin.last k)) (emb k d.swap) =
             ∑ d, G (Sum.inl (Fin.last k)) (emb k d) * H (Sum.inl (Fin.last k)) (emb k d.swap) := by
@@ -244,8 +244,8 @@ private theorem commute_of_mem_ker [CharP F 2]
           exact Finset.sum_congr rfl fun d _ => mul_comm _ _
         rw [hswap]
         abel
-    · simp only [hG.2, hH.2, if_neg (emb_ne_inr _), zero_mul, Finset.sum_const_zero, zero_add,
-        reduceCtorEq, if_false, if_true, one_mul]
+    · simp only [hG.2, hH.2, ite_eq_right (emb_ne_inr _), zero_mul, Finset.sum_const_zero, zero_add,
+        reduceCtorEq, ite_false, ite_true, one_mul]
   refine Subtype.ext (mat_injective ?_)
   rw [Subgroup.coe_mul, Subgroup.coe_mul, map_mul, map_mul]
   exact key
@@ -254,7 +254,7 @@ private theorem commute_of_normal [Finite F] [CharP F 2] (hF : 4 ≤ Nat.card F)
     (N : Subgroup (Subgroup.centralizer (longT k F : Set (StatedSp (k + 1) F)))) (hN : N.Normal)
     (h2 : IsPGroup 2 N) {a b : Subgroup.centralizer (longT k F : Set (StatedSp (k + 1) F))}
     (ha : a ∈ N) (hb : b ∈ N) : a * b = b * a := by
-  haveI : (N.map (piC k F)).Normal := hN.map (piC k F) piC_surjective
+  have : (N.map (piC k F)).Normal := hN.map (piC k F) piC_surjective
   have hbot := CFSG.SeitzReduction.SymplecticPilot.eq_bot_of_normal_of_isPGroup_statedSp hF hk
     (N.map (piC k F)) (h2.map (piC k F))
   have hker : ∀ c ∈ N, c ∈ (piC k F).ker := fun c hc => by

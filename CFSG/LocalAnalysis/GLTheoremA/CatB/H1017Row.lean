@@ -16,6 +16,7 @@ section Row
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem isElemAbelian_sup {p : ℕ} {P Q : Subgroup G} (hP : IsElemAbelian p P)
     (hQ : IsElemAbelian p Q) (hPQ : ∀ a ∈ P, ∀ b ∈ Q, a * b = b * a) :
     IsElemAbelian p (P ⊔ Q) := by
@@ -46,6 +47,7 @@ theorem isElemAbelian_sup {p : ℕ} {P Q : Subgroup G} (hP : IsElemAbelian p P)
     rw [(Commute.mul_pow (hcommC a ha b hb)), iha, ihb, one_mul]
   | inv a ha iha => rw [inv_pow, iha, inv_one]
 
+omit [Finite G] in
 theorem isElemAbelian_zpowers {p : ℕ} {x : G} (hx : x ^ p = 1) :
     IsElemAbelian p (Subgroup.zpowers x) := by
   refine ⟨⟨⟨fun a b => Subtype.ext ?_⟩⟩, ?_⟩
@@ -65,7 +67,7 @@ theorem mem_of_center_card_three {p : ℕ} (hp : p.Prime) {x : G} {L : Subgroup 
       Nat.card A ≤ p) : x ∈ L := by
   by_contra hxL
   subst hp3
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   have hLC : L ≤ cx x := hL.1
   have hxLc : ∀ l ∈ L, x * l = l * x := fun l hl => ((Subgroup.mem_centralizer_singleton_iff).1 (hLC hl)).symm
   have hxC : x ∈ Subgroup.centralizer (L : Set G) :=
@@ -162,6 +164,7 @@ theorem mem_of_center_card_three {p : ℕ} (hp : p.Prime) {x : G} {L : Subgroup 
   have hbound := hr1 A hAab hAle hAcM
   omega
 
+omit [Finite G] in
 theorem isPGroup_subgroupOf_of {p : ℕ} {L V : Subgroup G} (hV : IsPGroup p V) :
     IsPGroup p (V.subgroupOf L) := by
   intro g

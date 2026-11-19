@@ -25,7 +25,7 @@ theorem exists_col (hB : D321Base M Mp T L V t) {K : Type} [Field K] {I : Subgro
       Function.Injective ψ ∧ ψ.range = tilde Mp ⊤ I ∧
       ∀ γ v, ψ (ofAdd (slm γ *ᵥ v)) =
         (⟨(π γ : MulAut W), hB.L_le (π γ).2⟩ : ↥M) • ψ (ofAdd v) := by
-  letI := qAct hB.hD.hyp.Mp_normal
+  let := qAct hB.hD.hyp.Mp_normal
   obtain ⟨-, -, -, hHU, -, -, -, β, hβs, hβk, hβe⟩ := hreal
   let e : Multiplicative (Fin 2 → K) → (↥(FFModel.nat (StatedSL 2 K)).sec ⧸
       (FFModel.nat (StatedSL 2 K)).ker.subgroupOf (FFModel.nat (StatedSL 2 K)).sec) :=
@@ -79,7 +79,7 @@ theorem exists_coord (hB : D321Base M Mp T L V t) (h3 : D321Three Mp L) :
         (Ψ : Multiplicative (Matrix (Fin 2) (Fin 2) K) →* (W ⧸ modFix Mp (⊤ : Subgroup W))),
         IsCoord π Ψ ∧ Ψ.range = tilde Mp ⊤ (commV L) ∧ (∀ γ, ((π γ : ↥M) : MulAut W) ∈ L) ∧
         ∀ l ∈ L, ∃ γ, ((π γ : ↥M) : MulAut W) = l := by
-  letI := qAct hB.hD.hyp.Mp_normal
+  let := qAct hB.hD.hyp.Mp_normal
   obtain ⟨n, -, K, _, _, hcard, I, π, -, hind, hsup, hreal⟩ := h3
   have hIU : ∀ i, I i ≤ commV L := fun i => hsup ▸ (le_iSup I i).trans le_sup_right
   have hcol : ∀ i, ∃ ψ : Multiplicative (Fin 2 → K) →* (W ⧸ modFix Mp (⊤ : Subgroup W)),
@@ -90,8 +90,8 @@ theorem exists_coord (hB : D321Base M Mp T L V t) (h3 : D321Three Mp L) :
   choose ψ hψi hψr hψe using hcol
   have hK : ringChar K = 2 := by
     let _ : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 :=
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 :=
       charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hcard)
     exact ringChar.eq K 2
   let col (j : Fin 2) : Multiplicative (Matrix (Fin 2) (Fin 2) K) →* Multiplicative (Fin 2 → K) :=
@@ -203,7 +203,7 @@ theorem normalizer_hyps (hB : D321Base M Mp T L V t) {X : Subgroup (MulAut W)} {
       ∃ δ, g * π γ * g⁻¹ = π δ) ∧
     ∀ g ∈ (Subgroup.normalizer (X : Set (MulAut W))).subgroupOf M, ∀ Y,
       ∃ Y', g • Ψ (ofAdd Y) = Ψ (ofAdd Y') := by
-  letI := qAct hB.hD.hyp.Mp_normal
+  let := qAct hB.hD.hyp.Mp_normal
   refine ⟨fun g hg γ => ?_, fun g hg Y => ?_⟩
   · have hg' := Subgroup.mem_subgroupOf.1 hg
     have h1 : (g : MulAut W) * (π γ : MulAut W) * (g : MulAut W)⁻¹ ∈ X :=

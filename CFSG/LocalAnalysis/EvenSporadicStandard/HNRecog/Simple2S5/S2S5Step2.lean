@@ -27,7 +27,7 @@ theorem zpowers_eq_and_card_of_central {Y : Type*} [Group Y] (Z : Subgroup Y) [Z
     ht1 (Subgroup.zpowers_eq_bot.1 (Subgroup.eq_bot_of_card_eq _ h))
   have hcard : Nat.card (Subgroup.zpowers t) = 2 :=
     ((Nat.dvd_prime Nat.prime_two).1 hd).resolve_left hne
-  haveI : Finite Z := Nat.finite_of_card_ne_zero (by omega)
+  have : Finite Z := Nat.finite_of_card_ne_zero (by omega)
   refine ⟨(Subgroup.eq_of_le_of_card_ge hle (by omega)).symm, ?_⟩
   rw [Subgroup.card_eq_card_quotient_mul_card_subgroup Z, Nat.card_congr e.toEquiv, hZ,
     Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin]
@@ -49,7 +49,7 @@ theorem perm_five_normal_two_group_eq_bot (N : Subgroup (Equiv.Perm (Fin 5))) [N
         have : (⟨x, hxA⟩ : alternatingGroup (Fin 5)) ∈ N.subgroupOf (alternatingGroup (Fin 5)) :=
           h ▸ Subgroup.mem_top _
         exact this
-      haveI := Fact.mk Nat.prime_two
+      have := Fact.mk Nat.prime_two
       obtain ⟨n, hn⟩ := IsPGroup.iff_card.1 (hN.to_le hle)
       rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin] at hn
       have h3 : 3 ∣ 2 ^ n := hn ▸ (by decide : 3 ∣ Nat.factorial 5 / 2)
@@ -60,7 +60,7 @@ theorem perm_five_normal_two_group_eq_bot (N : Subgroup (Equiv.Perm (Fin 5))) [N
     have hy : g * x * g⁻¹ ∈ N := Subgroup.Normal.conj_mem inferInstance x hx g
     have := hA (x * (g * x * g⁻¹)⁻¹) (N.mul_mem hx (N.inv_mem hy)) (by
       rw [Equiv.Perm.mem_alternatingGroup]
-      simp only [Equiv.Perm.sign_mul, Equiv.Perm.sign_inv, map_mul, map_inv]
+      simp only [map_mul, map_inv]
       generalize Equiv.Perm.sign x = a
       generalize Equiv.Perm.sign g = b
       revert a b
@@ -76,7 +76,7 @@ theorem step2 {G : Type*} [Group G] {Y : Subgroup G}
       ∀ N : Subgroup G, N ≤ Y → (∀ y ∈ Y, ∀ n ∈ N, y * n * y⁻¹ ∈ N) → IsPGroup 2 ↥N →
         N ≤ Subgroup.zpowers t := by
   obtain ⟨Z, hZn, hZcard, ⟨e⟩, _⟩ := hY
-  haveI : Z.Normal := hZn
+  have : Z.Normal := hZn
   let t' : ↥Y := ⟨t, htY⟩
   have ht'central : ∀ y : ↥Y, t' * y = y * t' := by
     intro y
@@ -95,7 +95,7 @@ theorem step2 {G : Type*} [Group G] {Y : Subgroup G}
   let π : ↥Y →* Equiv.Perm (Fin 5) := e.toMonoidHom.comp (QuotientGroup.mk' Z)
   have hπsurj : Function.Surjective π := e.surjective.comp (QuotientGroup.mk'_surjective Z)
   have hN'2 : IsPGroup 2 ↥N' := hN2.of_equiv (Subgroup.subgroupOfEquivOfLe hNY).symm
-  haveI : (N'.map π).Normal := hN'normal.map π hπsurj
+  have : (N'.map π).Normal := hN'normal.map π hπsurj
   have hmapbot : N'.map π = ⊥ := perm_five_normal_two_group_eq_bot _ (hN'2.map π)
   intro n hn
   have hn' : (⟨n, hNY hn⟩ : ↥Y) ∈ N' := hn

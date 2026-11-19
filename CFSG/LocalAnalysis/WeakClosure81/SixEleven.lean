@@ -12,6 +12,7 @@ open scoped Pointwise commutatorElement
 variable {G : Type*} [Group G] [Finite G]
 variable {V : Subgroup G}
 
+omit [Finite G] in
 theorem omegaOneCenterOf_isElemAbelian (X : Subgroup G) :
     IsElemAbelian 2 (omegaOneCenterOf X) := by
   rw [omegaOneCenterOf, omegaOneOf]

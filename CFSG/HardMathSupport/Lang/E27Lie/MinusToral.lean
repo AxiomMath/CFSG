@@ -167,7 +167,7 @@ end Frame
 
 variable {p f : ℕ} [Fact p.Prime]
 
-theorem minusToral_frame (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) (hf : 1 ≤ f)
+theorem minusToral_frame (hp : p.Prime) (_hp2 : p ≠ 2) (_hp3 : p ≠ 3) (hf : 1 ≤ f)
     (hq : (p ^ f) % 3 = 2) (K : Type) [Field K] [Finite K] (hK : Nat.card K = (p ^ f) ^ 3)
     (σ : K ≃+* K) (hσ : ∀ c, σ c = c ^ (p ^ f)) (L : Type) [Field L] [Algebra K L]
     [IsAlgClosure K L] [CharP L p] {g₀ : ModGL TwistTag.D4.tag L} (hg₀ : D4MinusFrame p f L g₀)
@@ -353,7 +353,7 @@ theorem minusToral_frame (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) (hf : 1 
 
 theorem minusToralLower_holds : MinusToralLower := by
   intro p f hp hp2 hp3 hf hq K _ _ hK σ hσ s hs _
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨L, _, _, _, _, g₀, b, hframe, hb3, hb1, hsL⟩ := hs
   refine minusToral_frame hp hp2 hp3 hf hq K hK σ hσ L hframe b hb3 hb1 s ?_
   rw [d4MinusPsi_apply, hsL]

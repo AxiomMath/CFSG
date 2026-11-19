@@ -62,7 +62,7 @@ theorem dig_qS (p c : Nat) {u : Nat} (hu : u < 37) : dig (qS p c) u = f4mul (qd 
 theorem qd_code (p : Nat) {a b : Nat} (ha : a < 6) (hb : b < 6) :
     qd p (6 * a + b) = f4mul (coord p a) (f4mul (coord p b) (coord p b)) := by
   unfold qd
-  rw [if_pos (by omega), show (6 * a + b) / 6 = a by omega, show (6 * a + b) % 6 = b by omega]
+  rw [ite_eq_left (by omega), show (6 * a + b) / 6 = a by omega, show (6 * a + b) % 6 = b by omega]
 
 theorem qd_one (p : Nat) : qd p 36 = 1 := rfl
 

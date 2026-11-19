@@ -11,6 +11,7 @@ open CFSG.Monster.B.Geometry Module
 
 variable {K : Type} [Field K] [Finite K] (f : ℕ) [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 private lemma plh_inf_eq_bot_iff_not_le {a Y : Submodule K (Fin 4 → K)}
     (ha : finrank K a = 1) : a ⊓ Y = ⊥ ↔ ¬ a ≤ Y := by
   constructor
@@ -38,6 +39,7 @@ private lemma plh_le_sgS_iff (hK : Nat.card K = (2 ^ f) ^ 2)
     have hmono := sgS_mono (f := f) h
     rwa [sgS_sgS hK a] at hmono
 
+omit [Finite K] [CharP K 2] in
 private lemma plh_finrank_sup_point_of_not_le {L a : Submodule K (Fin 4 → K)}
     (hL : finrank K L = 2) (ha : finrank K a = 1) (h : ¬ a ≤ L) :
     finrank K ↥(L ⊔ a) = 3 := by
@@ -48,6 +50,7 @@ private lemma plh_finrank_sup_point_of_not_le {L a : Submodule K (Fin 4 → K)}
   rw [hinf, finrank_bot, add_zero, hL, ha] at hsum
   exact hsum
 
+omit [Finite K] [CharP K 2] in
 private lemma plh_inf_eq_bot_iff_finrank_sup {P Q : Submodule K (Fin 4 → K)}
     (hP : finrank K P = 2) (hQ : finrank K Q = 2) :
     P ⊓ Q = ⊥ ↔ finrank K ↥(P ⊔ Q) = 4 := by
@@ -110,7 +113,7 @@ theorem skew_iff (hK : Nat.card K = (2 ^ f) ^ 2) {x t : Submodule K (Fin 4 → K
 
 theorem adm4c_adj_iff (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
     {x y : Submodule K (Fin 4 → K)} (hx : finrank K x = 1) (hy : finrank K y = 1)
-    (hnx : sgS K f 4 x ≠ x) (hny : sgS K f 4 y ≠ y) (hxy : x ≠ y) :
+    (_hnx : sgS K f 4 x ≠ x) (_hny : sgS K f 4 y ≠ y) (hxy : x ≠ y) :
     AdmAdj (Adm4c (K := K) f) x y ↔ (x ⊔ y) ⊓ sgS K f 4 (x ⊔ y) = ⊥ := by
   rw [AdmAdj]
   constructor

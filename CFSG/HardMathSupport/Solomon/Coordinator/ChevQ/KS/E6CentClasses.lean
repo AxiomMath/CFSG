@@ -24,6 +24,7 @@ variable {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
 
 @[expose] def a0 (ω : Lˣ) : Fin Tag.E6.rank → Lˣ := Pi.mulSingle 3 ω
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem dV_x0_eq (ω : Lˣ) : dV ω x0 = rootDiagUnit Tag.E6 (a0 ω) := by
   unfold dV
   congr 1
@@ -32,11 +33,13 @@ theorem dV_x0_eq (ω : Lˣ) : dV ω x0 = rootDiagUnit Tag.E6 (a0 ω) := by
   · subst hi
     simp only [torV, x0, a0, Pi.single_eq_same, Pi.mulSingle_eq_same]
     rw [show ZMod.val (1 : ZMod 3) = 1 from rfl, pow_one]
-  · simp [torV, x0, a0, Pi.single_apply, Pi.mulSingle_apply, hi]
+  · simp [torV, x0, a0, hi]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem rootChar_a0 (ω : Lˣ) (β : Fin Tag.E6.rank → ℤ) : rootChar (a0 ω) β = ω ^ β 3 :=
   CFSG.RankThree.Chevalley.rootChar_mulSingle_eq_zpow 3 ω β
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem mem_kernelRoots_a0 {ω : Lˣ} (hω : orderOf ω = 3) {β : Fin Tag.E6.rank → ℤ} :
     β ∈ kernelRoots (rootCharHom (a0 ω)) ↔ IsRoot Tag.E6 β ∧ 3 ∣ β 3 := by
   change IsRoot Tag.E6 β ∧ rootChar (a0 ω) β = 1 ↔ _
@@ -46,6 +49,7 @@ theorem mem_kernelRoots_a0 {ω : Lˣ} (hω : orderOf ω = 3) {β : Fin Tag.E6.ra
 
 theorem R6_nodup : R6.Nodup := by decide +kernel
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem exists_classEquiv {ω : Lˣ} (hω : orderOf ω = 3) :
     ∃ e : KernelComponent (rootCharHom (a0 ω)) ≃ Fin 3, ∀ i,
       componentRoots (rootCharHom (a0 ω)) i =
@@ -91,7 +95,7 @@ theorem ncard_classRoots (k : Fin 3) :
   have hset : {β : Fin Tag.E6.rank → ℤ | IsRoot Tag.E6 β ∧ 3 ∣ β 3 ∧ cls β = k} =
       ↑(R6.filter fun β => 3 ∣ β 3 ∧ cls β = k).toFinset := by
     ext β
-    simp only [Set.mem_setOf_eq, Finset.mem_coe, List.mem_toFinset, List.mem_filter,
+    simp only [Set.mem_ofPred_eq, Finset.mem_coe, List.mem_toFinset, List.mem_filter,
       decide_eq_true_eq]
     exact ⟨fun ⟨h1, h2, h3⟩ => ⟨mem_R6_of_isRoot h1, h2, h3⟩,
       fun ⟨h1, h2, h3⟩ => ⟨isRoot_of_mem_R6 h1, h2, h3⟩⟩
@@ -111,7 +115,7 @@ theorem exists_frames_a0 {ω : Lˣ}
     by_cases hj : j = 3
     · subst hj
       simpa [a0] using hω3
-    · simp [a0, Pi.mulSingle_apply, hj]
+    · simp [a0, hj]
   have h6 : (componentRoots (rootCharHom (a0 ω)) i).ncard = 6 := by
     rw [he i]
     exact ncard_classRoots _

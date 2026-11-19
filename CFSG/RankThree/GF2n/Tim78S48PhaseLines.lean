@@ -101,6 +101,7 @@ theorem trans_W (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P)
   rwa [hbot, Subgroup.mem_bot] at this
 
 omit H in
+omit [Finite G] in
 theorem torus_param {D : L2Coords B T g F} {K₁ : Subgroup G} (hK₁ : IsTorusLift D K₁) {k : G}
     (hk : k ∈ K₁) (hk1 : k ≠ 1) :
     ∃ c : Fˣ, (c : F) ≠ 1 ∧ D.ε ⟨k, hK₁.le_X hk⟩ = torusElt c := by
@@ -113,8 +114,9 @@ theorem torus_param {D : L2Coords B T g F} {K₁ : Subgroup G} (hK₁ : IsTorusL
   rw [hK₁.inf_ker, Subgroup.mem_bot] at h3
   exact h3
 
-theorem K₁_regular (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup g B ≤ P)
-    (hTK : ∃ t ∈ T, t ∉ kernel48 B T g) {D : L2Coords B T g F} {Θ : (Fin 2 → F) → G}
+omit [Finite G] in
+theorem K₁_regular (_h48 : Hyp48 M B T g) (_hP : ¬ conjSubgroup g B ≤ P)
+    (_hTK : ∃ t ∈ T, t ∉ kernel48 B T g) {D : L2Coords B T g F} {Θ : (Fin 2 → F) → G}
     (N : IsNatCoords D Θ) {K₁ : Subgroup G} (hK₁ : IsTorusLift D K₁) :
     ∀ x ∈ K₁, x ≠ 1 → ∀ b ∈ B, x * b * x⁻¹ = b → b = 1 := by
   intro x hx hx1 b hb hxb
@@ -211,6 +213,7 @@ theorem eq_of_normalized [CharP F 2] (h48 : Hyp48 M B T g) (hP : ¬ conjSubgroup
         _ = 1 := Units.mul_inv c
     exact hc1 (eq_one_of_sq_eq_one_char_two (by rw [sq]; exact hcc))
 
+omit [Finite G] H in
 theorem induces_natural {f : ℕ} {D : L2Coords B T g (GaloisField 2 f)}
     {Θ : (Fin 2 → GaloisField 2 f) → G} (N : IsNatCoords D Θ) :
     InducesNaturalSL2 f (T ⊔ conjSubgroup g T) (B ⊔ conjSubgroup g B) := by

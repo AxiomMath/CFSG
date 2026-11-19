@@ -87,7 +87,7 @@ theorem rckRowK2_IIp_of
     hJrow hG0 hOddCent hprime hpne2 hA hB1A hDB1 hDcard hAnorm hMarkG hB1norm hB1cap
     hB1card hApow hAcap hAcapBot hB1L hMarkL hCompJ hOddCenJ hLG0 hExists hNotCent hCompL
     hNoA6 rb Vb hK1 hPos V r hrV hVJ hVab hVcard hr_eq hVmap hConj hK1'
-  intro e heD hene K hKcomp hJK hOddK
+    e heD hene K hKcomp hJK hOddK
   have hrne : r ≠ 1 := by
     intro h
     exact hK1.2.1 (by rw [← hr_eq, h, map_one])

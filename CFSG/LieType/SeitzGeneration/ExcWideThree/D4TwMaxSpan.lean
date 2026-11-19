@@ -176,7 +176,6 @@ theorem outer_pos_mul (a b c a' b' c' : K) :
         (xPar (rootOperatorFamily Tag.D4) (Pi.single (nd 1) 1) b' *
           xPar (rootOperatorFamily Tag.D4) (Pi.single (nd 3) 1) c') := by
         erw [hBCA'.eq]
-        try rfl
     _ = (xPar (rootOperatorFamily Tag.D4) (Pi.single (nd 0) 1) a *
           xPar (rootOperatorFamily Tag.D4) (Pi.single (nd 0) 1) a') *
         (xPar (rootOperatorFamily Tag.D4) (Pi.single (nd 1) 1) b *
@@ -191,7 +190,6 @@ theorem outer_pos_mul (a b c a' b' c' : K) :
             xPar (rootOperatorFamily Tag.D4) (Pi.single (nd 3) 1) c) *
           xPar (rootOperatorFamily Tag.D4) (Pi.single (nd 3) 1) c') := by
         erw [hCB'.eq]
-        try rfl
     _ = (xPar (rootOperatorFamily Tag.D4) (Pi.single (nd 0) 1) a *
           xPar (rootOperatorFamily Tag.D4) (Pi.single (nd 0) 1) a') *
         (xPar (rootOperatorFamily Tag.D4) (Pi.single (nd 1) 1) b *

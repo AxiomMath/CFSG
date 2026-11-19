@@ -25,7 +25,7 @@ theorem le_of_isSylowIn_centralizer {E Q : Subgroup G}
   have hle2 : E ⊔ Q ≤ Subgroup.centralizer (E : Set G) := sup_le hEC hQC
   have hmul := Subgroup.relIndex_mul_relIndex E (E ⊔ Q) _ hle1 hle2
   have hpow : ∃ k, E.relIndex (E ⊔ Q) = 2 ^ k := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨n, hn⟩ := hsup.exists_card_eq
     have hd : E.relIndex (E ⊔ Q) ∣ Nat.card (E ⊔ Q : Subgroup G) :=
       Subgroup.relIndex_dvd_card E (E ⊔ Q)
@@ -43,7 +43,7 @@ theorem le_of_isSylowIn_centralizer {E Q : Subgroup G}
 
 private theorem card_le_sixteen_of_isPGroup_perm_six {P : Subgroup (Equiv.Perm (Fin 6))}
     (hP : IsPGroup 2 P) : Nat.card P ≤ 16 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨n, hn⟩ := hP.exists_card_eq
   have hd : Nat.card P ∣ Nat.card (Equiv.Perm (Fin 6)) := Subgroup.card_subgroup_dvd_card P
   rw [hn, Nat.card_perm, Nat.card_eq_fintype_card, Fintype.card_fin] at hd
@@ -85,6 +85,7 @@ theorem card_inf_centralizer_mul_le_of_conj {N : Subgroup G} {Z : Set G} {m : �
     exact Prod.ext (Subtype.ext (mul_right_cancel hkk')) rfl
   rwa [Nat.card_prod, Nat.card_fin] at key
 
+omit [Finite G] in
 theorem mem_omegaIn_one_of_mul_self {D : Subgroup G} {z : G} (hz : z ∈ D) (h2 : z * z = 1) :
     z ∈ omegaIn 1 D := by
   refine ⟨⟨z, hz⟩, Subgroup.subset_closure ?_, rfl⟩
@@ -106,7 +107,7 @@ variable {G : Type} [Group G] [Finite G] (F : StrothFrame G)
 
 theorem sylow_inf_centralizer_E_le :
     (F.S : Subgroup G) ⊓ Subgroup.centralizer (F.E : Set G) ≤ F.E :=
-  le_of_isSylowIn_centralizer F.E_syl (F.S.isPGroup'.to_le inf_le_left) inf_le_right
+  le_of_isSylowIn_centralizer F.E_syl (F.S.isPGroup.to_le inf_le_left) inf_le_right
 
 theorem card_sylow_inf_normalizer_E_le :
     Nat.card ((F.S : Subgroup G) ⊓ Subgroup.normalizer (F.E : Set G) : Subgroup G) ≤ 256 := by
@@ -120,7 +121,7 @@ theorem card_sylow_inf_normalizer_E_le :
       Nat.card ((F.S : Subgroup G) ⊓ Subgroup.normalizer (F.E : Set G) : Subgroup G) :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hle).toEquiv
   have hHp : IsPGroup 2 H :=
-    (F.S.isPGroup'.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe hle).symm
+    (F.S.isPGroup.to_le inf_le_left).of_equiv (Subgroup.subgroupOfEquivOfLe hle).symm
   have hrange : Nat.card ψ.range ≤ 16 :=
     card_le_sixteen_of_isPGroup_perm_six (hHp.of_surjective ψ.rangeRestrict
       ψ.rangeRestrict_surjective)

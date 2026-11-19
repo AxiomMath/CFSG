@@ -97,7 +97,7 @@ theorem lemma85_main
     have hzE : ∀ g ∈ layer H, z * g = g * z := center_of_component_central hK₀ hzK hzc
     have hzL : z ∈ layer H := component_le_layer hK₀ hzK
     have hzT : z ∈ (T : Subgroup H) := hEz z hzL hzE
-    obtain ⟨n, hn⟩ := T.isPGroup' ⟨z, hzT⟩
+    obtain ⟨n, hn⟩ := T.isPGroup ⟨z, hzT⟩
     obtain ⟨j, hj⟩ := exists_pow_orderOf_eq_two hz1 ⟨n, congrArg Subtype.val hn⟩
     have hj1 : z ^ j ≠ 1 := fun h1 => by rw [h1, orderOf_one] at hj; omega
     intro hbot

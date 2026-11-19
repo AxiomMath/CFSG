@@ -132,7 +132,7 @@ theorem J_comm : ∀ x ∈ S.J, ∀ y ∈ S.J, x * y = y * x := by
   obtain ⟨T', -, -, hT'c, hT'J⟩ := S.J_swaps
   intro x hx y hy
   rw [J, hT'J] at hx hy
-  haveI : IsMulCommutative ↥(Subgroup.closure T') :=
+  have : IsMulCommutative ↥(Subgroup.closure T') :=
     Subgroup.isMulCommutative_closure (fun t ht t' ht' _ => hT'c t ht t' ht')
   exact congrArg Subtype.val (mul_comm' ⟨x, hx⟩ ⟨y, hy⟩)
 

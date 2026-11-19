@@ -16,7 +16,7 @@ theorem asc82Lemma77b_of (h36 : Asc82Lemma36) (h72 : Asc82Lemma72) (hP : Asc82Ta
     (h77a : Asc82Lemma77a) : Asc82Lemma77b := by
   intro G _ _ t L S z g B hc
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hle : CFSG.conjugate L g ⊓ MSub S B ≤
       MSub S B ⊓ centralizer ({t} : Set G) ⊓ centralizer ({g⁻¹ * t * g} : Set G) := by
     intro n hn
@@ -31,9 +31,9 @@ theorem asc82Lemma77b_of (h36 : Asc82Lemma36) (h72 : Asc82Lemma72) (hP : Asc82Ta
       Subgroup.mem_centralizer_singleton_iff.mpr hns⟩
   have hsolH := sec7l77_H_solvable h36 h72 hP hc
   have hsolR : Group.IsSolvable ↥(CFSG.conjugate L g ⊓ MSub S B) :=
-    solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+    Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
   obtain ⟨-, ρ, hρ, -⟩ := h77a G t L S z g B hc
-  haveI : Group.IsSolvable (Equiv.Perm (Fin 5)) := solvable_of_surjective hρ
-  exact Equiv.Perm.fin_5_not_solvable this
+  have : Group.IsSolvable (Equiv.Perm (Fin 5)) := Group.isSolvable_of_surjective hρ
+  exact Equiv.Perm.not_isSolvable_fin_5 this
 
 end CFSG.OddStandard.SmallF3.Omega

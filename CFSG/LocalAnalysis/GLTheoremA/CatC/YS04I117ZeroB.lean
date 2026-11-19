@@ -18,6 +18,7 @@ section Zero
 variable {K : Type} [Field K] [Finite K]
   {g : (Fin 4 ⊕ Fin 4 → K) ≃ₗ[K] (Fin 4 ⊕ Fin 4 → K)}
 
+omit [Finite K] in
 theorem sum_eq_zero_of_fixed_zero (h3 : (3 : K) ≠ 0)
     (hg3 : ∀ v, g (g (g v)) = v)
     (hd : finrank K (LinearMap.ker ((g : (Fin 4 ⊕ Fin 4 → K) →ₗ[K] _) - LinearMap.id)) = 0)
@@ -130,7 +131,7 @@ theorem finrank_planeSp {v : Fin 4 ⊕ Fin 4 → K} (hv : v ≠ 0) : finrank K (
   have hset : Set.range ![v, g v] = {v, g v} := by
     ext x
     simp only [Set.mem_range, Set.mem_insert_iff, Set.mem_singleton_iff, Fin.exists_fin_two,
-      Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.head_cons]
+      Matrix.cons_val_zero, Matrix.cons_val_one]
     tauto
   rw [hset] at this
   exact this
@@ -252,6 +253,7 @@ theorem exists_invariant_maximal_of_noRoot :
     simp
 
 include hsum hroot in
+omit [Finite K] in
 theorem no_invariant_line_of_noRoot :
     IsEmpty {L : Submodule K (Fin 4 ⊕ Fin 4 → K) // L ∈ singularSubspaces (quadPlus 4 K) 1 ∧
       L.map (g : (Fin 4 ⊕ Fin 4 → K) →ₗ[K] (Fin 4 ⊕ Fin 4 → K)) = L} := by
@@ -274,7 +276,7 @@ theorem ne_two_mul_of_noRoot :
         M.map (g : (Fin 4 ⊕ Fin 4 → K) →ₗ[K] (Fin 4 ⊕ Fin 4 → K)) = M} ≠
       2 * Nat.card {L : Submodule K (Fin 4 ⊕ Fin 4 → K) // L ∈ singularSubspaces (quadPlus 4 K) 1 ∧
         L.map (g : (Fin 4 ⊕ Fin 4 → K) →ₗ[K] (Fin 4 ⊕ Fin 4 → K)) = L} := by
-  haveI := no_invariant_line_of_noRoot hsum hroot (g := g)
+  have := no_invariant_line_of_noRoot hsum hroot (g := g)
   have h0 : Nat.card {L : Submodule K (Fin 4 ⊕ Fin 4 → K) //
       L ∈ singularSubspaces (quadPlus 4 K) 1 ∧
         L.map (g : (Fin 4 ⊕ Fin 4 → K) →ₗ[K] (Fin 4 ⊕ Fin 4 → K)) = L} = 0 := Nat.card_of_isEmpty

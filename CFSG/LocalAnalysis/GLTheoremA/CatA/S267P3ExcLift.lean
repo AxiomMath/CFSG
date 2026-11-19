@@ -19,7 +19,7 @@ variable {q : ℕ} {Ω : Type} [Group Ω] [Finite Ω] {S B : Subgroup Ω}
 
 theorem P3Hyp.false_of_liftDatum (H : P3Hyp q S B) {X : Type} [Group X] (e : PSimple 3 S ≃* X)
     (hL : LiftDatum X 3) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set e' : ↥S ⧸ Subgroup.center ↥S ≃* X := (psimpleEquivCenterQuot H).symm.trans e
   set π : ↥S →* X := e'.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center ↥S)) with hπdef
   have hπ : Function.Surjective π := e'.surjective.comp (QuotientGroup.mk'_surjective _)
@@ -81,9 +81,9 @@ theorem P3Hyp.false_of_commuting_SL2_fixedField (H : P3Hyp q S B)
     (hφ : ∀ i, Function.Injective (φ i))
     (hcomm : ∀ i j, i ≠ j → ∀ A B : SL(2, d.fixedField), φ i A * φ j B = φ j B * φ i A) :
     False := by
-  haveI : Fintype d.fixedField := Fintype.ofFinite _
-  haveI : Fact d.characteristic.Prime := ⟨d.characteristic_prime⟩
-  haveI : CharP d.fixedField d.characteristic :=
+  have : Fintype d.fixedField := Fintype.ofFinite _
+  have : Fact d.characteristic.Prime := ⟨d.characteristic_prime⟩
+  have : CharP d.fixedField d.characteristic :=
     charP_of_card_eq_prime_pow (f := d.fieldExponent) (by
       rw [← Nat.card_eq_fintype_card, TauCeti.ValidLieTypeIndex.card_fixedField,
         TauCeti.ValidLieTypeIndex.fieldOrder_eq_characteristic_pow])

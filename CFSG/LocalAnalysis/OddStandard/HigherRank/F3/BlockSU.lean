@@ -82,7 +82,7 @@ theorem statedSU_three_quasisimple_center {K : Type} [Field K] [Finite K] (hK : 
     IsQuasisimple ↥(StatedSU n 3 K) ∧
       center ↥(StatedSU n 3 K) =
         (StatedScalars (Fin n) K).subgroupOf (StatedSU n 3 K) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (p := 3) (f := 1)
     (card_eq_sq_of_card_nine hK) (by omega) (by rcases hn with rfl | rfl <;> decide)
 

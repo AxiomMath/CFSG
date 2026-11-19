@@ -43,7 +43,7 @@ theorem ggRealRootSL2On_three_uNonsplitDvd_ne_five :
         omega
       have hpl' : 3 ∣ l + 1 := ⟨k, hk⟩
       have hrank : ggUnitaryTorusRank 3 (l + 1) = l + 1 - 3 := by
-        rw [ggUnitaryTorusRank, if_pos hpl']
+        rw [ggUnitaryTorusRank, ite_eq_left hpl']
       rw [← hrank]
       exact ggTorusLift_unitary hK (by omega) (by omega) hdq hp hpn
     · have hle : (l + 1) / 3 + 2 ≤ max (l + 1 - 3) 3 := by

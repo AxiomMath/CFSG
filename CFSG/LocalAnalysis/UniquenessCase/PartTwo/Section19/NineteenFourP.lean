@@ -30,7 +30,7 @@ theorem not_le_centralizer_cClos_two_19 {D : Data G} {V₀ V : Subgroup G}
   have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨z, hzord⟩ := exists_prime_orderOf_dvd_card' (G := ↥J) 5 h5J
   have hzo : orderOf (z : G) = 5 := by rw [Subgroup.orderOf_coe, hzord]
-  obtain ⟨g, hgN, hgM⟩ := SetLike.not_le_iff_exists.mp hN2
+  obtain ⟨g, hgN, hgM⟩ := IsConcreteLE.not_le_iff_exists.mp hN2
   have hzC : (z : G) ∈ centralizer (E3.cClos V₀ 2 D.T : Set G) := hJC z.2
   have hmem : g⁻¹ * (z : G) * g ∈
       centralizer ((V₀ ⊓ centerOf (E3.wClos V₀ 2 D.T) : Subgroup G) : Set G) := by

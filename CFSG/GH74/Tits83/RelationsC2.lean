@@ -54,10 +54,10 @@ theorem comm_X2_X8 (t u : F.K) :
         F.X 7 (t * F.sigma u * u) := by
   by_cases ht : t = 0
   · subst ht
-    simp [F.X_zero, F.X'_zero]
+    simp [F.X_zero]
   by_cases hu : u = 0
   · subst hu
-    simp [F.X_zero, F.X'_zero]
+    simp [F.X_zero]
   have hst : F.sigma t ≠ 0 := (map_ne_zero F.sigma).2 ht
   have hsu : F.sigma u ≠ 0 := (map_ne_zero F.sigma).2 hu
   set c : F.K := (F.sigma u * u)⁻¹ with hc
@@ -93,38 +93,28 @@ theorem comm_X2_X8 (t u : F.K) :
     field_simp
   have hbc : b * c = t := by
     rw [hc, hb, ha]
-    try simp only [map_mul, map_inv₀, F.sigma_sigma]
     field_simp
   have hD2t : D2 = F.sigma t * t := by
     rw [hD2, hc, hsa, map_inv₀, map_mul, F.sigma_sigma]
-    try simp only [map_mul, map_inv₀, F.sigma_sigma]
     field_simp
     try ring
   have hD3a : D3 * a = D1 := by
     rw [hD3, hD1, hc, hb, ha, hsa, hsb]
-    try simp only [map_mul, map_inv₀, F.sigma_sigma]
     field_simp
-    try ring
   have hCa : C * a = D4 := by
     rw [hC, hD4, hc, hb, ha, hsb]
     try simp only [map_mul, map_inv₀, F.sigma_sigma]
     field_simp
-    try ring
   have hD5sa : D5 = F.sigma a * a := by
     rw [hD5, hc, hb, ha, hsb]
-    try simp only [map_mul, map_inv₀, F.sigma_sigma]
+    try simp only [map_mul, F.sigma_sigma]
     field_simp
-    try ring
   have hD3t : D3 = F.sigma t * t * u := by
     rw [hD3, hc, hb, ha, hsb]
-    try simp only [map_mul, map_inv₀, F.sigma_sigma]
     field_simp
-    try ring
   have hCt : C = F.sigma t * u := by
     rw [hC, hc, hb, ha, hsb]
-    try simp only [map_mul, map_inv₀, F.sigma_sigma]
     field_simp
-    try ring
   have hbt : b = t * F.sigma u * u := by rw [hb, ha]
   set y : G := F.X 8 u with hy
   set y' : G := F.X' 0 c with hyp
@@ -169,7 +159,7 @@ theorem comm_X2_X8 (t u : F.K) :
     congr 1
     rw [hc, ha]
     norm_num [wtX]
-    simp only [map_mul, map_inv₀, F.sigma_sigma]
+    simp only [F.sigma_sigma]
     field_simp
   have hyX6 : ⁅y, X6⁆ = X7 := by
     rw [hX6, hX7]
@@ -480,7 +470,7 @@ theorem r15 (s : ℤ) (hs : Even s) (t u : F.K) :
   conv at h =>
     rhs
     simp only [map_mul, map_inv]
-  simp only [MulAut.conj_apply, F.conj_rho_X, F.conj_rho_X'] at h
+  simp only [MulAut.conj_apply, F.conj_rho_X] at h
   rwa [show (2 : ℤ) + 2 * k = 2 + s by omega,
     show (8 : ℤ) + 2 * k = 8 + s by omega,
     show (3 : ℤ) + 2 * k = 3 + s by omega,

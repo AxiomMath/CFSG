@@ -103,7 +103,7 @@ theorem original_triple_odd_sylow_centralizer_saturated
   rw [original_pair_class_eq h.local_datum S hzS hzcenter beta hbeta t ht] at hsclass
   obtain ⟨b, hb⟩ := hsclass
   let U := X ⊔ Subgroup.zpowers x
-  have hXp : IsPGroup p X := P.isPGroup'.map V.subtype
+  have hXp : IsPGroup p X := P.isPGroup.map V.subtype
   have hUp : IsPGroup p U := hXp.to_sup_of_normal_left' hzp
     (Subgroup.zpowers_le.mpr (Subgroup.centralizer_le_normalizer (X : Set G) hxcent))
   have hWjoin : U ≤ X ⊔ QG :=

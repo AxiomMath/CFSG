@@ -28,7 +28,7 @@ theorem s16h_e3_z3_order_five {F : Subgroup (Matrix.GeneralLinearGroup (Fin 3) O
           SemidirectProduct.rightHom τ ≠ 1 →
           ∀ a ∈ P, τ * SemidirectProduct.inl a * τ⁻¹ = SemidirectProduct.inl a⁻¹) := by
   classical
-  haveI hfinF : Finite ↥F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
+  have hfinF : Finite ↥F := Nat.finite_of_card_ne_zero (by rw [hF]; norm_num)
   have hne : F ≠ ⊥ := by
     intro h
     rw [h, Subgroup.card_bot] at hF

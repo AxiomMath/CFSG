@@ -20,11 +20,11 @@ theorem stroth51_of_inputs (h34 : Stroth34Statement) (hRoot : Stroth310RootState
   · exact sec51_sp h34 hRoot h311a h311bC h311bK G M Q Z B hc n t hs hsp r hr hplane
   · have hnatSO : SpNat hc t ∨ OmegaNat hc t := Or.inr hom
     obtain ⟨K, fK, finK, hK, hcase⟩ := hom
-    haveI : CharP K 2 := by
+    have : CharP K 2 := by
       obtain ⟨e, -, he, -⟩ := hc.hyp.cp
       exact charP_two_of_card_eq_two_pow (hK.trans he)
     rcases hcase with ⟨m, hm, hnat⟩ | ⟨m, b, c, hm, hirr, hnat⟩
-    · haveI : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
+    · have : Nonempty (Fin m ⊕ Fin m) := ⟨Sum.inl ⟨0, by omega⟩⟩
       have h3 : 3 ≤ Module.finrank K (Fin m ⊕ Fin m → K) := by
         rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_fin]; omega
       refine sec51_orth h34 hRoot h311a h311bC h311bK hc hs hnatSO hK
@@ -37,7 +37,7 @@ theorem stroth51_of_inputs (h34 : Stroth34Statement) (hRoot : Stroth310RootState
       obtain ⟨n', hn'⟩ := stroth_2_1_ii_secOmegaPlus (ElemMatrixIso.plus hm) hm
         (isPlus_quadPlus m) φ hφ hNφ hP hI hN hd h₁ h₂ hu hu' huu' hL₁ hL₂
       exact ⟨2 ^ (m - 1) * n', (Nat.even_pow.mpr ⟨even_two, by omega⟩).mul_right n', hn'⟩
-    · haveI : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
+    · have : Nonempty (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2) := ⟨Sum.inr (Sum.inr 0)⟩
       have h3 : 3 ≤ Module.finrank K (Fin (m - 1) ⊕ Fin (m - 1) ⊕ Fin 2 → K) := by
         rw [Module.finrank_fintype_fun_eq_card, Fintype.card_sum, Fintype.card_sum,
           Fintype.card_fin, Fintype.card_fin]; omega

@@ -60,7 +60,7 @@ private theorem borel_ker_comm_G6 {K : Type} [Field K] (a b : ↥(borelDiagG6 K)
     simp [Matrix.mul_apply, Fin.sum_univ_two, a00, a11, a10, b00, b11, b10, add_comm]
 
 private theorem borelG6_solvable (K : Type) [Field K] : Group.IsSolvable ↥(borelG6 K) := by
-  haveI : IsMulCommutative ↥(borelDiagG6 K).ker := ⟨⟨borel_ker_comm_G6⟩⟩
+  have : IsMulCommutative ↥(borelDiagG6 K).ker := ⟨⟨borel_ker_comm_G6⟩⟩
   have h1 : Group.IsSolvable ↥(borelDiagG6 K).ker := inferInstance
   exact Group.isSolvable_of_ker_le_range (borelDiagG6 K).ker.subtype (borelDiagG6 K) (by simp)
 
@@ -70,7 +70,7 @@ private theorem lower_left_eq_zero_G6 {K : Type} [Field K] (z : SpecialLinearGro
   have key : ((z * unipotent (1 : K) * z⁻¹ : SpecialLinearGroup (Fin 2) K) :
       Matrix (Fin 2) (Fin 2) K) 1 0 =
       -((z : Matrix (Fin 2) (Fin 2) K) 1 0 * (z : Matrix (Fin 2) (Fin 2) K) 1 0) := by
-    simp [coe_unipotent, Matrix.mul_apply, Fin.sum_univ_two, Matrix.adjugate_fin_two] <;> ring
+    simp [coe_unipotent, Matrix.mul_apply, Fin.sum_univ_two, Matrix.adjugate_fin_two]; ring
   have h10 : ((z * unipotent (1 : K) * z⁻¹ : SpecialLinearGroup (Fin 2) K) :
       Matrix (Fin 2) (Fin 2) K) 1 0 =
       ((unipotent r : SpecialLinearGroup (Fin 2) K) : Matrix (Fin 2) (Fin 2) K) 1 0 := by
@@ -194,7 +194,7 @@ theorem natBlock_normalizer_solvable {H Q : Subgroup (MulAut V)} {U : Subgroup V
   have hρ₀ : ∀ x, ρ₀ x = g⁻¹ * e0.symm (ι₀ x) * g := by
     intro x
     show (MulAut.conj g⁻¹) (e0.symm (ι₀ x)) = _
-    simp [MulAut.conj_apply]
+    simp
   have hmem : ∀ x, ρ₀ x ∈ borelG6 K := by
     intro x
     rw [hρ₀]
@@ -215,7 +215,7 @@ theorem natBlock_normalizer_solvable {H Q : Subgroup (MulAut V)} {U : Subgroup V
       simpa [map_mul, map_inv, hπz] using this
   let ρ : ↥(H ⊓ Subgroup.normalizer (Q : Set (MulAut V))) →* ↥(borelG6 K) :=
     ρ₀.codRestrict (borelG6 K) hmem
-  haveI := borelG6_solvable K
+  have := borelG6_solvable K
   exact Group.isSolvable_of_isSolvable_injective (f := ρ) (fun a b hab => hρ₀inj (congrArg Subtype.val hab))
 
 end Natural

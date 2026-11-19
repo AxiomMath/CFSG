@@ -15,6 +15,7 @@ variable {W : Type} [CommGroup W] [Finite W]
 @[expose] def s13XSupp (X : Subgroup (MulAut W)) (B : Set (Subgroup W)) : Subgroup (MulAut W) :=
   X ⊓ ⨅ (U : Subgroup W) (_ : U ∈ s13IsoComps X ∧ U ∉ B), s13KerOn X U
 
+omit [Finite W] in
 theorem mem_s13XSupp {X : Subgroup (MulAut W)} {B : Set (Subgroup W)} {x : MulAut W} :
     x ∈ s13XSupp X B ↔ x ∈ X ∧ ∀ U ∈ s13IsoComps X, U ∉ B → x ∈ s13KerOn X U := by
   simp only [s13XSupp, Subgroup.mem_inf, Subgroup.mem_iInf]
@@ -24,6 +25,7 @@ theorem mem_s13XSupp {X : Subgroup (MulAut W)} {B : Set (Subgroup W)} {x : MulAu
   · rintro ⟨hxX, hxall⟩
     exact ⟨hxX, fun U hUP => hxall U hUP.1 hUP.2⟩
 
+omit [Finite W] in
 theorem s13XSupp_le {X : Subgroup (MulAut W)} {B : Set (Subgroup W)} : s13XSupp X B ≤ X :=
   inf_le_left
 
@@ -86,7 +88,7 @@ theorem card_s13XSupp_singleton_le (hW : ∀ w : W, w * w = 1) {p : ℕ} (hp : p
     have hxyX : (⟨(x : MulAut W), hxX⟩ : ↥X) = ⟨(y : MulAut W), hyX⟩ :=
       coord_injective hW hp hp2 hX hl hcoord
     exact Subtype.ext (congrArg (fun z : ↥X => (z : MulAut W)) hxyX)
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   calc Nat.card ↥(s13XSupp X {U})
       ≤ Nat.card (ZMod p) := Nat.card_le_card_of_injective f hf_inj
     _ = p := Nat.card_zmod p
@@ -135,7 +137,7 @@ theorem s13_seven_pair (h : HAb A X Q t 7) :
     have hU' : U ∈ s13Supp X (Q.map (MulAut.conj (1 : MulAut W)).toMonoidHom) := by
       convert hU using 2
       ext x
-      simp [MulAut.conj_apply]
+      simp
     have h1 := not_fixed_comp h (a := 1) (Subgroup.one_mem A) (U := U) hU'
     simpa using h1
   have hrk3 : ∀ U ∈ s13Supp X Q, rk ↥U = 3 := by
@@ -143,7 +145,7 @@ theorem s13_seven_pair (h : HAb A X Q t 7) :
     exact rk_s13IsoComps_eq_three h hU.1
   have hsum3 : rk ↥(commSub ⊤ Q) = 3 * (s13Supp X Q).ncard := by
     rw [rk_commSub_top_eq_sum h.hW (by norm_num) (by norm_num) h.hXe h.hQX]
-    haveI : Fintype {U : Subgroup W // U ∈ s13Supp X Q} := Fintype.ofFinite _
+    have : Fintype {U : Subgroup W // U ∈ s13Supp X Q} := Fintype.ofFinite _
     rw [← finsum_subtype_eq_finsum_cond, finsum_eq_sum_of_fintype]
     have hcongr : ∀ U : {U : Subgroup W // U ∈ s13Supp X Q}, rk ↥(U : Subgroup W) = 3 :=
       fun U => hrk3 U U.2
@@ -184,7 +186,7 @@ theorem s13_seven_pair (h : HAb A X Q t 7) :
     linarith
   have hconj1 : MulAut.conj (1 : MulAut W) = 1 := by
     ext x
-    simp [MulAut.conj_apply]
+    simp
   have hQmap1 : Q.map (MulAut.conj (1 : MulAut W)).toMonoidHom = Q := by
     rw [hconj1]
     exact Subgroup.map_id Q
@@ -212,12 +214,15 @@ theorem s13_seven_pair (h : HAb A X Q t 7) :
     (c : (s13SuppGraph A X Q).ConnectedComponent) : Set (Subgroup W) :=
   Subtype.val '' c.supp
 
+omit [Finite W] in
 private theorem w16g_hab_prime (h : HAb A X Q t p) : p.Prime := by
   obtain rfl | rfl := h.hp <;> norm_num
 
+omit [Finite W] in
 private theorem w16g_hab_ne_two (h : HAb A X Q t p) : p ≠ 2 := by
   obtain rfl | rfl := h.hp <;> norm_num
 
+omit [Finite W] in
 private theorem w16g_conj_le_X (h : HAb A X Q t p) {a : MulAut W} (ha : a ∈ A) :
     Q.map (MulAut.conj a).toMonoidHom ≤ X := by
   intro x hx
@@ -225,12 +230,14 @@ private theorem w16g_conj_le_X (h : HAb A X Q t p) {a : MulAut W} (ha : a ∈ A)
   show a * q * a⁻¹ ∈ X
   exact h.hXA a ha q (h.hQX hq)
 
+omit [Finite W] in
 private theorem w16g_s13XSupp_mono {X : Subgroup (MulAut W)} {B B' : Set (Subgroup W)}
     (hBB' : B ⊆ B') : s13XSupp X B ≤ s13XSupp X B' := by
   intro x hx
   rw [mem_s13XSupp] at hx ⊢
   exact ⟨hx.1, fun U hU hUB' => hx.2 U hU fun hUB => hUB' (hBB' hUB)⟩
 
+omit [Finite W] in
 private theorem w16g_s13CompSet_disjoint {A X Q : Subgroup (MulAut W)}
     {c c' : (s13SuppGraph A X Q).ConnectedComponent} (hne : c ≠ c') :
     Disjoint (s13CompSet A X Q c) (s13CompSet A X Q c') := by
@@ -238,6 +245,7 @@ private theorem w16g_s13CompSet_disjoint {A X Q : Subgroup (MulAut W)}
   exact Set.disjoint_image_of_injective Subtype.val_injective
     (SimpleGraph.pairwise_disjoint_supp_connectedComponent (s13SuppGraph A X Q) hne)
 
+omit [Finite W] in
 private theorem w16g_mem_s13IsoComps_of_mem_compSet {A X Q : Subgroup (MulAut W)}
     {c : (s13SuppGraph A X Q).ConnectedComponent} {U : Subgroup W}
     (hU : U ∈ s13CompSet A X Q c) : U ∈ s13IsoComps X := by
@@ -319,6 +327,7 @@ private theorem w16g_graph_coord_inj (h : HAb A X Q t p)
     coord_injective h.hW hp hp2 h.hXe hl hcoord
   exact Subtype.ext (congrArg (fun z : ↥X => (z : MulAut W)) hxyX)
 
+omit [Finite W] in
 private theorem w16g_card_supp_eq {A X Q : Subgroup (MulAut W)}
     (c : (s13SuppGraph A X Q).ConnectedComponent) :
     Nat.card ↥c.supp = (s13CompSet A X Q c).ncard := by
@@ -336,7 +345,7 @@ private theorem w16g_edge_generator (h : HAb A X Q t p)
   classical
   have hp := w16g_hab_prime h
   have hp2 := w16g_hab_ne_two h
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hQaX := w16g_conj_le_X h ha
   obtain ⟨c', hc'⟩ := w16g_conj_le_XSupp h h2 ha
   have hsupp_sub : s13Supp X (Q.map (MulAut.conj a).toMonoidHom) ⊆ s13CompSet A X Q c' :=
@@ -401,7 +410,7 @@ private theorem w16g_graph_vertex_on_edge (h : HAb A X Q t p)
         Or.inl ⟨a, ha, hS.trans (by rw [hy]; exact Set.pair_comm x y)⟩⟩
 
 private theorem w16g_graph_independent (h : HAb A X Q t p)
-    (h2 : ∀ a ∈ A, (s13Supp X (Q.map (MulAut.conj a).toMonoidHom)).ncard = 2) :
+    (_h2 : ∀ a ∈ A, (s13Supp X (Q.map (MulAut.conj a).toMonoidHom)).ncard = 2) :
     iSupIndep (fun c : (s13SuppGraph A X Q).ConnectedComponent =>
       s13XSupp X (s13CompSet A X Q c)) := by
   classical
@@ -476,7 +485,7 @@ private theorem w16g_graph_supp_eq (h : HAb A X Q t p)
     exact hU_supp.2 hcomm
 
 private theorem w16g_graph_card_le (h : HAb A X Q t p)
-    (h2 : ∀ a ∈ A, (s13Supp X (Q.map (MulAut.conj a).toMonoidHom)).ncard = 2)
+    (_h2 : ∀ a ∈ A, (s13Supp X (Q.map (MulAut.conj a).toMonoidHom)).ncard = 2)
     (c : (s13SuppGraph A X Q).ConnectedComponent) :
     Nat.card ↥(s13XSupp X (s13CompSet A X Q c)) ≤ p ^ (s13CompSet A X Q c).ncard := by
   classical
@@ -484,9 +493,9 @@ private theorem w16g_graph_card_le (h : HAb A X Q t p)
   have hp2 := w16g_hab_ne_two h
   obtain ⟨lam, hl⟩ := exists_coord h.hW hp hp2 h.hXe
   let ι := ↥c.supp
-  haveI : Fintype ι := Fintype.ofFinite _
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Finite (ι → ZMod p) := (inferInstance : Fintype (ι → ZMod p)).finite
+  have : Fintype ι := Fintype.ofFinite _
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Finite (ι → ZMod p) := (inferInstance : Fintype (ι → ZMod p)).finite
   let φ : ↥(s13XSupp X (s13CompSet A X Q c)) → (ι → ZMod p) := fun x k =>
     lam k.1 (Additive.ofMul ⟨(x : MulAut W), s13XSupp_le x.2⟩)
   have hφ_inj : Function.Injective φ := w16g_graph_coord_inj h hl c
@@ -502,13 +511,13 @@ private theorem w16g_graph_card_ge (h : HAb A X Q t p) (hQp : Nat.card ↥Q = p)
   classical
   have hp := w16g_hab_prime h
   have hp2 := w16g_hab_ne_two h
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   obtain ⟨lam, hl⟩ := exists_coord h.hW hp hp2 h.hXe
   let G : SimpleGraph ↥c.supp := c.toSimpleGraph
   let ι := ↥c.supp
-  haveI : Fintype ι := Fintype.ofFinite _
-  haveI : DecidableEq ι := Classical.decEq _
+  have : Fintype ι := Fintype.ofFinite _
+  have : DecidableEq ι := Classical.decEq _
   have hgen : ∀ (i j : ι), G.Adj i j →
       ∃ q : ↥X, (q : MulAut W) ∈ s13XSupp X (s13CompSet A X Q c) ∧
         ∀ k : ι, lam k.1 (Additive.ofMul q) ≠ 0 ↔ (k = i ∨ k = j) := by
@@ -530,7 +539,7 @@ private theorem w16g_graph_card_ge (h : HAb A X Q t p) (hQp : Nat.card ↥Q = p)
     if h : G.Adj i j then lam k.1 (Additive.ofMul (gen i j h)) else 0
   have hv : ∀ i j, G.Adj i j → ∀ k, v i j k ≠ 0 ↔ (k = i ∨ k = j) := by
     intro i j hij k
-    simp only [v, dif_pos hij]
+    simp only [v, dite_eq_left hij]
     exact (Classical.choose_spec (hgen i j hij)).2 k
   have hbound := w16t_card_span_edges G c.connected_toSimpleGraph v hv
   let inc : ↥(s13XSupp X (s13CompSet A X Q c)) →* ↥X := Subgroup.inclusion s13XSupp_le
@@ -561,7 +570,7 @@ private theorem w16g_graph_card_ge (h : HAb A X Q t p) (hQp : Nat.card ↥Q = p)
     rintro w ⟨i, j, hij, rfl⟩
     refine ⟨⟨gen i j hij, (Classical.choose_spec (hgen i j hij)).1⟩, ?_⟩
     funext k
-    simp only [v, dif_pos hij, φ]
+    simp only [v, dite_eq_left hij, φ]
     rw [show inc ⟨(gen i j hij : MulAut W),
         (Classical.choose_spec (hgen i j hij)).1⟩ = gen i j hij from
       Subtype.ext rfl]

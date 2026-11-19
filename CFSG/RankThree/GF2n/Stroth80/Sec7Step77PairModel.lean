@@ -35,6 +35,7 @@ theorem sec7_mem_H0_of_mul_Q (hc : Ctx M Q Z B) {u s : G} (hu : u ∈ H0 M Z)
     _ = (s * u⁻¹) * (u * z) := by rw [h1]
     _ = s * z := by group
 
+omit [Finite G] in
 theorem sec7_conj_mem_H0 (hc : Ctx M Q Z B) {g h : G} (hg : g ∈ M) (hh : h ∈ H0 M Z) :
     g * h * g⁻¹ ∈ H0 M Z := by
   refine ⟨M.mul_mem (M.mul_mem hg hh.1) (M.inv_mem hg),
@@ -126,7 +127,7 @@ theorem sec7_pair_card_meet [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B) {n : �
     le_inf hZV hZVg
   have hDQ : Vt M (LB M Q B) B Z t ⊓ conjSubgroup g (Vt M (LB M Q B) B Z t) ≤ Q :=
     inf_le_left.trans hVQ
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hK2 : 2 ≤ Nat.card K := Finite.one_lt_card
   have hfU : Module.finrank K (hc.VtSub hS.model t) = 4 := by
     have h := Module.natCard_eq_pow_finrank (K := K) (V := hc.VtSub hS.model t)
@@ -206,7 +207,7 @@ theorem step77OneMeet_facts_of_inputs (h34 : Stroth34Statement) (hRoot : Stroth3
         ((∀ w ∈ Wt Q (Vt M (LB M Q B) B Z t), ⁅s, w⁆ ∈ Vt M (LB M Q B) B Z t) → 2 ≤ d) := by
   intro G _ _ M Q Z B hc n t hs hom Z0 hZ0 g hgM s hs1
   classical
-  haveI := hc.normal_Q_in_M
+  have := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have htM : t ∈ M := hc.LB_le_M ht
   have hguM : g * t * g⁻¹ ∈ M := M.mul_mem (M.mul_mem hgM htM) (M.inv_mem hgM)
@@ -221,7 +222,7 @@ theorem step77OneMeet_facts_of_inputs (h34 : Stroth34Statement) (hRoot : Stroth3
   obtain ⟨hc1, hd4, hd⟩ := sec7_pair_card_meet hc M₀ ρ b hS hgM ψs hrs hUcard
   obtain ⟨hf, hr⟩ := sec7_model_form M₀
   have hZV' : Z ≤ Vt M (LB M Q B) B Z t := sec39_Z_le_Vt
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hK2 : 2 ≤ Nat.card K := Finite.one_lt_card
   refine ⟨Module.finrank K ↥(hc.VtSub hS.model t ⊓ LinearMap.range ψs), hd4, ?_, hd, ?_⟩
   · rw [hc1, ← hS.card]

@@ -71,7 +71,7 @@ theorem kernel_transfer_orderZJ_admissible
   let W := CFSG.pPrimeCore p K
   let N := Subgroup.normalizer (RK : Set K)
   let zK : K := ⟨z, hzK⟩
-  have hQp : IsPGroup p QG := Q.isPGroup'.map T.subtype
+  have hQp : IsPGroup p QG := Q.isPGroup.map T.subtype
   have hRQ : R ≤ QG := Subgroup.map_subtype_le _
   have hQJ : QG ≤ pairOddCore H beta :=
     (Subgroup.map_subtype_le _).trans inf_le_right
@@ -91,7 +91,7 @@ theorem kernel_transfer_orderZJ_admissible
     rw [MonoidHom.ker_eq_bot _ K.subtype_injective, Subgroup.card_bot]
     exact Nat.coprime_one_right p
   have hRimage : RK.map K.subtype = R := by
-    have hh := LocalTheta.orderZJ_image_of_coprime_kernel hp K.subtype hKker SK S.isPGroup'
+    have hh := LocalTheta.orderZJ_image_of_coprime_kernel hp K.subtype hKker SK S.isPGroup
     rwa [hSQ] at hh
   have hRKQ : RK ≤ SK := Subgroup.map_subtype_le _
   have hRKchar : (RK.subgroupOf SK).Characteristic := by

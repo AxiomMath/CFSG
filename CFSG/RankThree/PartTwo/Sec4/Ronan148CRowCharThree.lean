@@ -21,7 +21,7 @@ theorem rowS148_of_coreFree {S : Type} [Group S]
     (hmeet : ∀ E : Subgroup (MulAut S), (∀ a ∈ E, a ^ 3 = 1) → Nat.card E = 9 →
       ∃ x ∈ E ⊓ innerAut S, x ≠ 1) :
     RowS148 S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro F E X R hc
   obtain ⟨x, ⟨hxE, hxin⟩, hx1⟩ := hmeet E (fun a ha => hc.isE27.1.2 a (hc.le ha)) hc.card
   have hx3 : orderOf x = 3 := orderOf_eq_prime (hc.isE27.1.2 x (hc.le hxE)) hx1
@@ -51,7 +51,7 @@ theorem rowSOf148_projSL_char_three {r e : ℕ} (hr : 2 ≤ r) (he : 1 ≤ e)
     RowSOf148 (projSL (r + 1) (GaloisField 3 e)) := by
   intro S _ _ hs hna ⟨eS⟩
   let q : TauCeti.PrimePower := ⟨3, e, Nat.prime_three, he⟩
-  haveI : Fact (Nat.Prime q.p) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime q.p) := ⟨Nat.prime_three⟩
   have hq3 : 3 ≤ q.card := by
     rw [TauCeti.PrimePower.card_def]
     exact Nat.le_self_pow (by omega : e ≠ 0) 3
@@ -80,7 +80,7 @@ theorem rowSOf148_projSU_char_three {r e : ℕ} (hr : 2 ≤ r) (he : 1 ≤ e)
     (h9 : ¬ 9 ∣ 2 * e * (3 ^ e + 1)) : RowSOf148 (projSU (r + 1) 3 e) := by
   intro S _ _ hs hna ⟨eS⟩
   let q : TauCeti.PrimePower := ⟨3, e, Nat.prime_three, he⟩
-  haveI : Fact (Nat.Prime q.p) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime q.p) := ⟨Nat.prime_three⟩
   have hq3 : 3 ≤ q.card := by
     rw [TauCeti.PrimePower.card_def]
     exact Nat.le_self_pow (by omega : e ≠ 0) 3
@@ -110,7 +110,7 @@ theorem rowSOf148_nine_G2 : RowSOf148 (TauCeti.CFSGIndex.lie g2ThreeIndex).Group
       ⟨_, rfl⟩ ⟨eS⟩ 3 Nat.prime_three (by norm_num)
       (TauCeti.LieTypeIndex.characteristic_G2 ⟨3, 1, Nat.prime_three, Nat.one_pos⟩) x hx hxo H hH
   · let q : TauCeti.PrimePower := ⟨3, 1, Nat.prime_three, Nat.one_pos⟩
-    haveI : Fact q.p.Prime := ⟨Nat.prime_three⟩
+    have : Fact q.p.Prime := ⟨Nat.prime_three⟩
     have hK : Nat.card (GaloisField q.p q.exponent) = q.p ^ q.exponent :=
       GaloisField.card _ _ q.exponent_pos.ne'
     have hK' : Nat.card (GaloisField q.p q.exponent) = q.card := by
@@ -120,11 +120,11 @@ theorem rowSOf148_nine_G2 : RowSOf148 (TauCeti.CFSGIndex.lie g2ThreeIndex).Group
     let e : S ≃* adjointGroup .G2 (GaloisField q.p q.exponent) :=
       eS.trans (b.symm.trans ((QuotientGroup.quotientMulEquivOfEq center_adjointGroup_eq_bot).trans
         QuotientGroup.quotientBot))
-    haveI hchar : CharP (GaloisField q.p q.exponent) ReeTag.G2.prime :=
+    have hchar : CharP (GaloisField q.p q.exponent) ReeTag.G2.prime :=
       (inferInstance : CharP (GaloisField 3 1) 3)
     obtain ⟨-, -, ⟨Θ, -, -, hker⟩, -⟩ :=
       G2_three_exact_automorphism_normal_form q.exponent_pos (GaloisField q.p q.exponent) hK
-    haveI : NeZero (2 * q.exponent) := ⟨by norm_num [q]⟩
+    have : NeZero (2 * q.exponent) := ⟨by norm_num [q]⟩
     exact CFSG.HardMathSupport.Timmesfeld.DefChar.exists_inner_of_cyclic_quotient
       (A := Multiplicative (ZMod (2 * q.exponent))) e Θ hker Nat.prime_three E hE3
       (by rw [hE]; norm_num)

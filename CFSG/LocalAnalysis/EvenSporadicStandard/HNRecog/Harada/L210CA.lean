@@ -67,7 +67,7 @@ theorem L210_card_centralizer_le (h : Abs210 A w ψ) {i : X} (hi : i ∈ normali
   have hiN2 : iN * iN = 1 := by
     apply Subtype.ext
     dsimp only [iN]
-    simp only [Subgroup.coe_mul, Subgroup.coe_one]
+    simp only [Subgroup.coe_one]
     exact hi2
   by_cases hcase : ψ iN ∈ commutator A5WrTwo
   ·

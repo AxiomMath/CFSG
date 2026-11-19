@@ -189,6 +189,7 @@ private theorem card_phiHomLBSet (D : Sec108Data hc t Y)
       right_inv := fun x => by ext; simp }
   rw [Nat.card_congr e, D.card_map_phiHom_LB AM]
 
+omit [Finite G] in
 private theorem card_axisSet (AM : Smith81.Smith23E1.ActionModel M Q Z) {β : Fin 3 → AM.K}
     (hβ : β ≠ 0) :
     Nat.card (axisSet β) = Nat.card Z ^ 2 := by

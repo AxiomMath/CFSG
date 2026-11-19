@@ -37,7 +37,7 @@ private theorem s16e_sig_not_cube_dvd_factorial_fourteen {q : ℕ} (hq : q.Prime
     | exact hq2 rfl
     | exact hq3 rfl
     | (norm_num at h; done)
-    | (norm_num at hq; done)
+    | (norm_num at hq)
 
 private theorem s16e_sig_stab_of_map_eq {T : Type} [CommGroup T] {U : Subgroup T}
     {φ : MulAut T} (h : U.map φ.toMonoidHom = U) : φ ∈ stabSub U := by
@@ -59,7 +59,7 @@ theorem s16e_pRank_lt_three_of_symSum_two [Finite W] (hW : ∀ w : W, w ^ 2 = 1)
   have hge : 3 ≤ CFSG.Open.pRank q A := not_lt.1 hlt
   obtain ⟨Z, hZ, hind, hsup, hcard, _⟩ := h
   have hfin : (conjSubs A Z).Finite := Set.finite_of_ncard_pos (by rw [hcard]; omega)
-  letI : Fintype ↥(conjSubs A Z) := hfin.fintype
+  let : Fintype ↥(conjSubs A Z) := hfin.fintype
   let Y : ↥(conjSubs A Z) → Subgroup W := Subtype.val
   have hYinj : Function.Injective Y := Subtype.val_injective
   have hYsSup : ⨆ i, Y i = ⊤ := by

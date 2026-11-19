@@ -31,19 +31,19 @@ private noncomputable abbrev sig : Fin 2 → J3Model := ![a Native.j3Data, b Nat
 
 private theorem hA : MatP 80 SA.M = matOf (J Native.j3Data).subtype (sig 0) := by
   rw [show (sig 0 : J Native.j3Data) = a Native.j3Data from rfl,
-    matOf, Subgroup.subtype_apply, coe_a, gA, dif_pos dets.1,
+    matOf, Subgroup.subtype_apply, coe_a, gA, dite_eq_left dets.1,
     Matrix.GeneralLinearGroup.val_mkOfDetNeZero, MatP_A]
 
 private theorem hB : MatP 80 SB.M = matOf (J Native.j3Data).subtype (sig 1) := by
   rw [show (sig 1 : J Native.j3Data) = b Native.j3Data from rfl,
-    matOf, Subgroup.subtype_apply, coe_b, gB, dif_pos dets.2,
+    matOf, Subgroup.subtype_apply, coe_b, gB, dite_eq_left dets.2,
     Matrix.GeneralLinearGroup.val_mkOfDetNeZero, MatP_B]
 
 private theorem uJ_eq : uJ = fun i : Fin 7 => segVal sig segs i.val := by
   funext i
   have hi : i.val < (List.range 7).length := by simp
   unfold uJ uN segVal segs
-  rw [List.getD_eq_getElem _ _ (by simpa using hi), List.getElem_map, List.getElem_range]
+  rw [List.getD_eq_getElem _ _ (by simp), List.getElem_map, List.getElem_range]
   exact prod_pairLetter _ _ _
 
 private theorem pairs_one {q : List (Fin 7 × Bool) × List (Fin 2 × Bool)} (hq : q ∈ pairs) :

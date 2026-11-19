@@ -99,7 +99,7 @@ theorem card_centralizer_lt_of_automizer {C : Type*} [Group C] {lam : ZMod 5}
         obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.mp hb
         rw [map_zpow]
         exact Equiv.Perm.zpow_apply_eq_self_of_apply_eq_self hρ k⟩
-  haveI : Finite ι.range := (Set.finite_range ι).to_subtype
+  have : Finite ι.range := (Set.finite_range ι).to_subtype
   have hf_inj : Function.Injective f := by
     intro x x' hxx
     have hs : Classical.choose (MonoidHom.mem_range.mp x.1.2) =

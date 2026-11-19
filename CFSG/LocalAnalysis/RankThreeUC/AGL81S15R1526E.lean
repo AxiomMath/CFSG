@@ -180,7 +180,7 @@ theorem yLifts_inf_centralizer_le_pCore_aux6 {T T₁ T₂ : Subgroup X} (hX : GN
     {I K : Subgroup X} (hI : I ∈ CY T T₁ T₂)
     (hK : K ≤ Subgroup.centralizer ((⁅gnV T, yLifts T T₁ T₂⁆ : Subgroup X) : Set X))
     (hbar : barO2 I ≤ barO2 K) : False := by
-  haveI hVn : (gnV T).Normal := Subgroup.normalClosure_normal
+  have hVn : (gnV T).Normal := Subgroup.normalClosure_normal
   have hVea := CFSG.HardMathSupport.Meierfrankenfeld.AGL81.I542.isElemAbelian_gnV T hX
   have hIC : IsC2 I := by
     obtain ⟨_, _, hL⟩ := hI
@@ -233,7 +233,7 @@ variable {X : Type} [Group X] [Finite X]
 theorem yLifts_inf_centralizer_le_pCore_aux7 {T T₁ T₂ : Subgroup X} {y : X}
     (hy : y ∈ yLifts T T₁ T₂) :
     y ∈ Subgroup.normalizer ((⁅gnV T, yLifts T T₁ T₂⁆ : Subgroup X) : Set X) := by
-  haveI hVn : (gnV T).Normal := Subgroup.normalClosure_normal
+  have hVn : (gnV T).Normal := Subgroup.normalClosure_normal
   rw [Subgroup.commutator_comm]
   exact mem_normalizer_commutator (liftOf_conj_aux1 (Subgroup.le_normalizer hy))
 
@@ -379,6 +379,7 @@ section WSub
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem yLifts_le_normalizer_wSub_aux1 (M T : Subgroup G) (U : Subgroup ↥M) {A : Subgroup G}
     (g : G) (hA : A = (U.map M.subtype).map (MulAut.conj g).toMonoidHom) (hAT : A ≤ T) :
     A ≤ wSub G M T U := by

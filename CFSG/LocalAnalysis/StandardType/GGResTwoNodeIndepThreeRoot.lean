@@ -141,7 +141,7 @@ private lemma l6p1_alpha_coroot_step {p m : ℕ} {V : Type} [AddCommGroup V] [Mo
   rw [Finset.sum_eq_single_of_mem (⟨k - 1, hk1⟩ : Fin m) hb h0]
   rw [l6p1_hpair_chain hv αv hpair ⟨k, hk⟩ ⟨k - 1, hk1⟩]
   have hz : TauCeti.chainEntry k (k - 1) = -1 := by
-    rw [TauCeti.chainEntry_def, if_neg (by omega), if_pos (by omega)]
+    rw [TauCeti.chainEntry_def, ite_eq_right (by omega), ite_eq_left (by omega)]
   rw [hz]
   norm_num
 
@@ -171,7 +171,7 @@ private lemma l6p1_beta_hv_step {p m : ℕ} {V : Type} [AddCommGroup V] [Module 
   rw [Finset.sum_eq_single_of_mem (⟨k - 1, hk1⟩ : Fin m) hb h0]
   rw [l6p1_hpair_chain hv αv hpair ⟨k - 1, hk1⟩ ⟨k, hk⟩]
   have hz : TauCeti.chainEntry (k - 1) k = -1 := by
-    rw [TauCeti.chainEntry_def, if_neg (by omega), if_neg (by omega), if_pos (by omega)]
+    rw [TauCeti.chainEntry_def, ite_eq_right (by omega), ite_eq_right (by omega), ite_eq_left (by omega)]
   rw [hz]
   norm_num
 

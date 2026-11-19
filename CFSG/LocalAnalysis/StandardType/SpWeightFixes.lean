@@ -23,7 +23,7 @@ variable {F : Type} [Field F] [Finite F] [CharP F 2] {Ω : Type} [Field Ω] [Alg
 theorem exists_frobenius_twist (h3 : 3 ∣ Nat.card F + 1) :
     ∃ σ : Ω ≃+* Ω, (∀ x : F, σ (algebraMap F Ω x) = algebraMap F Ω x) ∧
       (∀ η : Ω, η ^ 3 = 1 → σ η = η⁻¹) ∧ ∀ η : Ω, η ^ 7 = 1 → ∃ k : ℕ, σ η = η ^ 2 ^ k := by
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   obtain ⟨f, _, hfcard⟩ := FiniteField.card F 2
   have hcard : Nat.card F = 2 ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card]

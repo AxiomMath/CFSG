@@ -317,7 +317,7 @@ theorem fz59_cb (N : Subgroup (Equiv.Perm Fz59Cell))
         · exact Or.inl (Subtype.ext (Subtype.ext h))
         · exact Or.inr (Subtype.ext (Subtype.ext h))
     omega
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨⟨⟨m, hmN⟩, hmk⟩, hmo⟩ := exists_prime_orderOf_dvd_card' 2 hk2
   have hmo' : orderOf m = 2 := by simpa using hmo
   have hmm : m * m = 1 := by rw [← sq, ← hmo', pow_orderOf_eq_one]

@@ -35,7 +35,7 @@ theorem exists_cPart (h : TransvectionHyp H Δ) (hML : MeetsLines Δ)
       ((∃ R : SpRelations r (GaloisField 2 f) H, R.HasFrameImages Δ P Q) ∨
         ∃ R : SURelations r (unitaryInvolution (GaloisField 2 (2 * f)) 2 f) H,
           R.HasFrameImages Δ P Q) := by
-  haveI : Finite H := h.finite
+  have : Finite H := h.finite
   let i₀ : Fin r := ⟨0, by omega⟩
   have hPi₀ : P i₀ ∈ Δ := hF.memP i₀
   obtain ⟨f, hf, hcard₀, -⟩ :=
@@ -69,6 +69,7 @@ private theorem levelSign_eq_one {F : Type} [Field F] [CharP F 2] {σ : F ≃+* 
   simp only [shortSign]
   split_ifs <;> simp [CharTwo.neg_eq]
 
+omit [Finite F] in
 theorem levelWeyl_conj_suLong {σ : F ≃+* F} (hσ : ∀ c, σ (σ c) = c) {ζ : traceZero σ}
     (hζ : (ζ : F) ≠ 0) {m : ℕ} {j : Fin (m / 2)} (hj : j.val + 1 < m / 2)
     (a : Fin (m / 2) ⊕ Fin (m / 2)) (c : F) :
@@ -105,7 +106,7 @@ variable
   (R.toHom hFn he hm).comp
     (((CurtisTits.rankOne (Unitary.rootGroup (unitaryInvolution F 2 n)
         (unitaryInvolution_involutive hFn) m) ⟨m / 2 - 1, by omega⟩).subtype).comp
-      (rankOneLastEvenEquiv hFn he (by simp only [Fin.val_mk]; omega)).symm.toMonoidHom)
+      (rankOneLastEvenEquiv hFn he (by simp only; omega)).symm.toMonoidHom)
 
 theorem lastBlock_suLong_inl {c : F} (hc : unitaryInvolution F 2 n c = c) :
     R.lastBlock hFn he hm (suLong (unitaryInvolution F 2 n) (Sum.inl 0) c) =
@@ -171,8 +172,7 @@ theorem lastBlock_suLong_inr {c : F} (hc : unitaryInvolution F 2 n c = c) :
       simpa [lastIdxEven] using lowIdx_ne_rev k k
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [Matrix.submatrix_apply, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply,
-        lastIdxEven, h01, h01.symm, lowIdx_ne_rev k k, (lowIdx_ne_rev k k).symm]
+      simp [Matrix.submatrix_apply, Matrix.add_apply, lastIdxEven, lowIdx_ne_rev k k, (lowIdx_ne_rev k k).symm]
   have hsymm : ((rankOneLastEvenEquiv hFn he hk).symm
       (suLong (unitaryInvolution F 2 n) (Sum.inr (0 : Fin (2 / 2))) c) :
         SU (unitaryInvolution F 2 n) m) =

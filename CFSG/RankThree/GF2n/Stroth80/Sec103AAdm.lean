@@ -28,7 +28,7 @@ private lemma image_imgSub_Vt_card_eq_pow
     {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     (hD : GlobalModelData M Q Z γ M₀) {m : ℕ} (hsl : SLMNat hc t m) :
     Nat.card ↥(imgSub M₀ (Vt M (LB M Q B) B Z t)
-      (fun c e he => hc.smul_mem_img_Vt hD t c he)) = Nat.card K ^ m := by
+      (fun c _e he => hc.smul_mem_img_Vt hD t c he)) = Nat.card K ^ m := by
   have hVcard := hsl.card_Vt
   have hVdec := M₀.card_eq (hc.Vt_le_Q t)
     (sec39_Z_le_Vt (M := M) (L := LB M Q B) (B := B) (Z := Z) (t := t))
@@ -37,13 +37,13 @@ private lemma image_imgSub_Vt_card_eq_pow
     rw [← hD.card] at hq
     omega
   have hWimg : Nat.card ↥(imgSub M₀ (Vt M (LB M Q B) B Z t)
-      (fun c e he => hc.smul_mem_img_Vt hD t c he)) =
+      (fun c _e he => hc.smul_mem_img_Vt hD t c he)) =
       Nat.card (M₀.img (Vt M (LB M Q B) B Z t)) := rfl
   have hkey : Nat.card K * Nat.card ↥(imgSub M₀ (Vt M (LB M Q B) B Z t)
-      (fun c e he => hc.smul_mem_img_Vt hD t c he)) =
+      (fun c _e he => hc.smul_mem_img_Vt hD t c he)) =
       Nat.card K * Nat.card K ^ m := by
     calc Nat.card K * Nat.card ↥(imgSub M₀ (Vt M (LB M Q B) B Z t)
-          (fun c e he => hc.smul_mem_img_Vt hD t c he))
+          (fun c _e he => hc.smul_mem_img_Vt hD t c he))
         = Nat.card K * Nat.card (M₀.img (Vt M (LB M Q B) B Z t)) := by rw [hWimg]
       _ = Nat.card Z * Nat.card (M₀.img (Vt M (LB M Q B) B Z t)) := by rw [hD.card]
       _ = Nat.card (Vt M (LB M Q B) B Z t) := hVdec.symm
@@ -60,11 +60,11 @@ private lemma orthogonal_le_image_Vt_of_mem
     (hno : ∀ c ∈ Q, c * α = α * c → c ∈ Subgroup.centralizer (B : Set G) →
       c ∈ Wt Q (Vt M (LB M Q B) B Z t)) :
     M₀.B.orthogonal P ≤ M₀.B.orthogonal (imgSub M₀ (Vt M (LB M Q B) B Z t)
-      (fun c e he => hc.smul_mem_img_Vt hD t c he)) := by
-  intro e he
+      (fun c _e he => hc.smul_mem_img_Vt hD t c he)) := by
+  intro _e he
   rw [LinearMap.BilinForm.mem_orthogonal_iff] at he ⊢
   intro v hv
-  obtain ⟨c, hcQ, hπ⟩ := M₀.π_surj e
+  obtain ⟨c, hcQ, hπ⟩ := M₀.π_surj _e
   have hcα : c * α = α * c := by
     rw [Tim79.QuadModel.comm_iff_B M₀ hD.reg hcQ hα]
     rw [hπ, Tim79.QuadModel.B_comm, he (M₀.π α) hαP, neg_zero]
@@ -80,17 +80,17 @@ private lemma pi_mem_image_Vt_of_le_span
     {K : Type} [Field K] [Finite K] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ}
     (hD : GlobalModelData M Q Z γ M₀) {m : ℕ} (hm : 2 ≤ m) {α : G} {b : M₀.E}
     (hWcard : Nat.card ↥(imgSub M₀ (Vt M (LB M Q B) B Z t)
-      (fun c e he => hc.smul_mem_img_Vt hD t c he)) = Nat.card K ^ m)
+      (fun c _e he => hc.smul_mem_img_Vt hD t c he)) = Nat.card K ^ m)
     (hWP : imgSub M₀ (Vt M (LB M Q B) B Z t)
-      (fun c e he => hc.smul_mem_img_Vt hD t c he) ≤
+      (fun c _e he => hc.smul_mem_img_Vt hD t c he) ≤
         Submodule.span K ({M₀.π α, b} : Set M₀.E))
     (hPdim : Module.finrank K ↥(Submodule.span K ({M₀.π α, b} : Set M₀.E)) ≤ 2) :
     M₀.π α ∈ imgSub M₀ (Vt M (LB M Q B) B Z t)
-      (fun c e he => hc.smul_mem_img_Vt hD t c he) := by
+      (fun c _e he => hc.smul_mem_img_Vt hD t c he) := by
   classical
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   let W : Submodule K M₀.E := imgSub M₀ (Vt M (LB M Q B) B Z t)
-    (fun c e he => hc.smul_mem_img_Vt hD t c he)
+    (fun c _e he => hc.smul_mem_img_Vt hD t c he)
   let P : Submodule K M₀.E := Submodule.span K ({M₀.π α, b} : Set M₀.E)
   have hWleP : Nat.card ↥W ≤ Nat.card ↥P :=
     Nat.card_le_card_of_injective (fun x : W => (⟨x.1, hWP x.2⟩ : P))
@@ -130,7 +130,7 @@ theorem SLMNat.exists_mem_centralizer_not_mem_Wt_of_not_mem_Vt {hc : Ctx M Q Z B
   classical
   by_contra hcon
   obtain ⟨K, fK, finK, chK, γ, M₀, hD⟩ := stroth_globalModelData hc.hyp
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   obtain ⟨g, hg⟩ := hc.conj
   have hBline : M₀.IsLine B := by
     rw [hg]
@@ -264,7 +264,7 @@ theorem BadA.card_le_card_centralizer (D : BadA hc n t Y) {c : G} (hcQ : c ∈ Q
   have hAleQ : A ≤ Q := inf_le_left
   have hsurj : Function.Surjective (commHomOfLe hc hcQ A₀ hA₀leQ) := by
     intro z
-    obtain ⟨b, hbX, hbc⟩ := SetLike.not_le_iff_exists.mp hXc
+    obtain ⟨b, hbX, hbc⟩ := IsConcreteLE.not_le_iff_exists.mp hXc
     have hbc' : b * c ≠ c * b := fun h =>
       hbc (Subgroup.mem_centralizer_singleton_iff.mpr h)
     obtain ⟨β, hβX, hβ⟩ := hX.exists_mem_comm_eq hbX hcQ hbc' z.2
@@ -296,7 +296,7 @@ theorem BadA.exists_adm (D : BadA hc n t Y) :
     ∃ c : G, Adm103 M Q Z B t Y c ∧ ∃ X : Subgroup G, Ctx M Q Z X ∧
       X ≤ Q ⊓ QB Y ⊓ Vt M (LB M Q B) B Z t ∧ Y ≤ QB X ∧
         ¬ X ≤ Subgroup.centralizer ({c} : Set G) := by
-  obtain ⟨α, hαA, hαV⟩ := SetLike.not_le_iff_exists.mp D.hbad
+  obtain ⟨α, hαA, hαV⟩ := IsConcreteLE.not_le_iff_exists.mp D.hbad
   obtain ⟨c, hcQ, hcα, hcB, hcW⟩ :=
     Good101.exists_mem_centralizer_not_mem_Wt D.H D.ht hαA.1 hαV
   obtain ⟨X, hX, hXV, hYX, hXc⟩ := D.exists_root_group_of_not_mem_Wt hcQ hcW
@@ -304,7 +304,8 @@ theorem BadA.exists_adm (D : BadA hc n t Y) :
     ⟨α, ⟨hαA, Subgroup.mem_centralizer_singleton_iff.mpr hcα.symm⟩, hαV⟩,
     D.card_le_card_centralizer hcQ hX hXV hXc⟩, X, hX, hXV, hYX, hXc⟩
 
-private theorem BadA.exists_shift_centralizer (D : BadA hc n t Y) {c c₀ : G}
+omit [Finite G] in
+private theorem BadA.exists_shift_centralizer (_D : BadA hc n t Y) {c c₀ : G}
     (hAc₀ : ∀ a ∈ Q ⊓ QB Y, a * c₀ = c₀ * a) :
     Q ⊓ QB Y ⊓ Subgroup.centralizer ({c * c₀} : Set G) =
       Q ⊓ QB Y ⊓ Subgroup.centralizer ({c} : Set G) ∧

@@ -79,7 +79,7 @@ private theorem suMat_apply_eq_zero_of_rev_eq_of_mem_lowRad {w : SU σ m} (hw : 
     omega
   have hsum := sum_mat_mul_mat (σ := σ) w i (Fin.rev (lowIdx a))
   rw [mat_eq_suMat] at hsum
-  rw [hi, if_neg (fun h => hne_i h.symm)] at hsum
+  rw [hi, ite_eq_right (fun h => hne_i h.symm)] at hsum
   rw [Finset.sum_eq_single (lowIdx a)] at hsum
   · rw [suMat_apply_eq_one_of_mem_lowRad hw (j := Fin.rev (lowIdx a))
       (i := Fin.rev (lowIdx a)) (by simp only [Fin.val_rev, val_lowIdx]; omega),
@@ -113,11 +113,11 @@ private theorem sub_one_apply_eq_zero_of_rev_eq_of_mem_lowRad {w : SU σ m} (hw 
     rw [← h] at hi
     exact lowIdx_ne_rev a a hi.symm
   rw [Matrix.sub_apply, suMat_apply_eq_zero_of_rev_eq_of_mem_lowRad hw hi, Matrix.one_apply,
-    if_neg hne, sub_zero]
+    ite_eq_right hne, sub_zero]
 
 private theorem sub_one_apply_lowIdx_rev_lowIdx (w : SU σ m) (a b : Fin (m / 2)) :
     (suMat σ m w - 1) (lowIdx a) (Fin.rev (lowIdx b)) = lowBlock σ m w a b := by
-  rw [Matrix.sub_apply, Matrix.one_apply, if_neg (lowIdx_ne_rev a b), sub_zero, lowBlock,
+  rw [Matrix.sub_apply, Matrix.one_apply, ite_eq_right (lowIdx_ne_rev a b), sub_zero, lowBlock,
     Matrix.of_apply]
 
 private theorem sum_eq_sum_lowIdx {M : Type*} [AddCommMonoid M] {f : Fin m → M}
@@ -203,7 +203,7 @@ private theorem eq_one_of_mem_lowRad_of_lowBlock_eq_zero {w : SU σ m} (hw : w �
     · have h1 : (suMat σ m w - 1) (lowIdx ⟨j.val, hj⟩) i = 0 :=
         sub_one_apply_eq_zero_of_rev_eq_of_mem_lowRad hw hrev
       rw [Matrix.sub_apply, sub_eq_zero] at h1
-      rw [h1, Matrix.one_apply, if_neg (fun h => lowIdx_ne_rev ⟨j.val, hj⟩ ⟨j.val, hj⟩
+      rw [h1, Matrix.one_apply, ite_eq_right (fun h => lowIdx_ne_rev ⟨j.val, hj⟩ ⟨j.val, hj⟩
         (by rw [h, hrev]))]
     · obtain ⟨b, hb | hb⟩ := exists_lowIdx (fun h => hrev h.symm)
       · rw [hb] at hi
@@ -228,7 +228,7 @@ theorem lowBlock_add_conjTr {g : SU σ m} (hg : g ∈ lowRad σ m) :
   ext a b
   have hsum := sum_mat_mul_mat (σ := σ) g (Fin.rev (lowIdx a)) (Fin.rev (lowIdx b))
   rw [mat_eq_suMat] at hsum
-  rw [Fin.rev_rev, if_neg (fun h => lowIdx_ne_rev a b h.symm)] at hsum
+  rw [Fin.rev_rev, ite_eq_right (fun h => lowIdx_ne_rev a b h.symm)] at hsum
   have h2 := Finset.sum_eq_add (s := Finset.univ)
     (f := fun t => σ (suMat σ m g t (Fin.rev (lowIdx a)))
       * suMat σ m g (Fin.rev t) (Fin.rev (lowIdx b)))

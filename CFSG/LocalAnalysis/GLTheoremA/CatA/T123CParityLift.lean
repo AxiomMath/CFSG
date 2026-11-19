@@ -58,7 +58,7 @@ theorem exists_two_le_of_center_quot {Q : Type*} [Group Q] [Finite Q] (Φ : Set 
     have hRP : R = P := Subsingleton.elim R P
     rw [← hRP]
     exact hR (Subgroup.mem_zpowers h)
-  refine ⟨(P : Subgroup H).map H.subtype, ?_, P.isPGroup'.map _, ?_⟩
+  refine ⟨(P : Subgroup H).map H.subtype, ?_, P.isPGroup.map _, ?_⟩
   · intro hbot
     rw [Subgroup.map_eq_bot_iff_of_injective _ H.subtype_injective] at hbot
     rw [hbot, Subgroup.map_bot] at htop
@@ -74,7 +74,7 @@ theorem exists_two_le_of_center_quot {Q : Type*} [Group Q] [Finite Q] (Φ : Set 
         (CFSG.ComponentClassification.PerfectAutomorphisms.onCenterQuotient_apply_mk φ _).symm
       rw [e1]
       exact hΦ φ hφ _ q.2
-    obtain ⟨k, hk⟩ := P.isPGroup' ⟨q, hq⟩
+    obtain ⟨k, hk⟩ := P.isPGroup ⟨q, hq⟩
     have hqk : (q : Q) ^ 2 ^ k = 1 := by
       have := congrArg (fun z : (P : Subgroup H) => ((z : H) : Q)) hk
       simpa using this
@@ -87,7 +87,7 @@ theorem exists_two_le_of_center_quot {Q : Type*} [Group Q] [Finite Q] (Φ : Set 
 theorem not_dvd_card_comap_of_isPGroup_two {A B : Type*} [Group A] [Group B] [Finite A]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (f : A →* B) (hker : Nat.Coprime p (Nat.card f.ker))
     {S : Subgroup B} (hS : IsPGroup 2 S) : ¬ p ∣ Nat.card (S.comap f) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hdvd
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := S.comap f) p hdvd
   have hwS : f (w : A) ∈ S := w.2
@@ -115,7 +115,7 @@ theorem exists_twoSubgroup_le_of_chevAut {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2
     (hEU : ∀ (e : G) (he : e ∈ E), ∀ u ∈ U, chevAut p K ⟨e, hEK he⟩ u ∈ U) :
     ∃ T : Subgroup G, T ≤ K ∧ T ≠ ⊥ ∧ IsPGroup 2 T ∧
       E ≤ Subgroup.normalizer (T : Set G) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Φ : Set (MulAut (PQuot p K)) :=
     {φ | ∃ (e : G) (he : e ∈ E), φ = barAut p K ⟨e, hEK he⟩}

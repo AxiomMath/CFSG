@@ -16,12 +16,15 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 L14
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem l14_mem_cen {x g : G} (h : x * g = g * x) : g ∈ Cen x :=
   Subgroup.mem_centralizer_singleton_iff.mpr h.symm
 
+omit [Finite G] in
 private theorem l14_cen_comm {x g : G} (hg : g ∈ Cen x) : x * g = g * x :=
   (Subgroup.mem_centralizer_singleton_iff.mp hg).symm
 
+omit [Finite G] in
 private theorem l14_Jnorm {b : G} {J : Subgroup G} (hstd : FFStandardJ b J) {b₁ : G}
     (hb₁J : b₁ ∈ J) (hb₁o : orderOf b₁ = 3) :
     ∀ c ∈ Cen b, ∀ j ∈ J, c * j * c⁻¹ ∈ J := by
@@ -44,6 +47,7 @@ private theorem l14_Jnorm {b : G} {J : Subgroup G} (hstd : FFStandardJ b J) {b�
   rw [heq] at this
   exact this
 
+omit [Finite G] in
 private theorem l14_mem_sup_of_comm {A H : Subgroup G} (hc : ∀ a ∈ A, ∀ h ∈ H, a * h = h * a)
     {g : G} (hg : g ∈ A ⊔ H) : ∃ a ∈ A, ∃ h ∈ H, g = a * h := by
   let S : Subgroup G :=
@@ -67,6 +71,7 @@ private theorem l14_mem_sup_of_comm {A H : Subgroup G} (hc : ∀ a ∈ A, ∀ h 
       (fun h hh => ⟨1, A.one_mem, h, hh, (one_mul h).symm⟩)
   exact hle hg
 
+omit [Finite G] in
 private theorem l14_mem_cenS_sup {K₁ K₂ : Subgroup G} {z : G} (h₁ : z ∈ CenS K₁)
     (h₂ : z ∈ CenS K₂) : z ∈ CenS (K₁ ⊔ K₂) := by
   have hle : K₁ ⊔ K₂ ≤ Cen z := by
@@ -93,7 +98,7 @@ structure Setup14 (n : ℕ) (b : G) (J B : Subgroup G) : Prop where
 theorem setup14 (hK : FF79KTypeLn) (hCJ : FF79KCenterJ) {n : ℕ} (hn : n = 4 ∨ n = 5)
     {b : G} {J : Subgroup G} (h : FF79Hyp n b J) {B : Subgroup G}
     (hB : IsSylowOf 3 B (Cen b)) : Setup14 n b J B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e27, e9, hsup, hBC⟩ := ff79_1_3_struct hK hn h hB
   obtain ⟨hJC, hcomp, huniq⟩ := h.std
   have hq : CFSG.IsQuasisimple ↥J :=
@@ -137,7 +142,7 @@ theorem B_le_cenS_B : B ≤ CenS B := fun u hu =>
   Subgroup.mem_centralizer_iff.mpr (fun v hv => S.B_comm v hv u hu)
 
 theorem exists_order3 : ∃ t ∈ B ⊓ J, orderOf t = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h3 : 3 ∣ Nat.card ↥(B ⊓ J) := by
     rw [S.e9.2]; exact dvd_pow_self 3 (by norm_num)
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' (G := ↥(B ⊓ J)) 3 h3
@@ -147,7 +152,7 @@ theorem hZ3 : Nat.Coprime 3 (Nat.card ↥(Subgroup.center ↥J)) :=
   Nat.Coprime.coprime_dvd_right S.hZ (by norm_num)
 
 theorem X_le_cenS (hX : Odd (Nat.card (Opp 3 (Cen b)))) : Opp 3 (Cen b) ≤ CenS J := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJc := S.J_le_cen
   set X := Opp 3 (Cen b) with hXdef
   have hI : ((X ⊓ J).subgroupOf J).Normal := ⟨fun u hu h => by
@@ -204,7 +209,7 @@ theorem C0_norm : ∀ g ∈ Cen b, ∀ c ∈ Cen b ⊓ CenS J, g * c * g⁻¹ �
     _ = g * c * g⁻¹ * j := by group
 
 theorem C0_decomp : ∀ c ∈ Cen b ⊓ CenS J, ∃ i : ℤ, ∃ x ∈ Opp 3 (Cen b), c = b ^ i * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C₀ := Cen b ⊓ CenS J with hC₀
   have hBsyl : IsSylowOf 3 (B ⊓ C₀) C₀ := isSylowOf_inf_normal S.hB inf_le_left S.C0_norm
   have hBeq : B ⊓ C₀ = Subgroup.zpowers b := by
@@ -242,7 +247,7 @@ theorem X_le_C0 (hX : Odd (Nat.card (Opp 3 (Cen b)))) : Opp 3 (Cen b) ≤ Cen b 
 
 theorem b_mem_C0 : b ∈ Cen b ⊓ CenS J :=
   ⟨Subgroup.mem_centralizer_singleton_iff.mpr rfl,
-    Subgroup.mem_centralizer_iff.mpr fun j hj => (l14_cen_comm (S.J_le_cen hj)).symm⟩
+    Subgroup.mem_centralizer_iff.mpr fun _j hj => (l14_cen_comm (S.J_le_cen hj)).symm⟩
 
 theorem C0_eq (hX : Odd (Nat.card (Opp 3 (Cen b)))) :
     Cen b ⊓ CenS J = Subgroup.zpowers b ⊔ Opp 3 (Cen b) := by
@@ -267,7 +272,7 @@ theorem card_C0 (hX : Odd (Nat.card (Opp 3 (Cen b)))) :
       rwa [Nat.card_zpowers, S.hyp.ord] at this
     have d2 : Nat.card ↥(Subgroup.zpowers b ⊓ Opp 3 (Cen b)) ∣ Nat.card (Opp 3 (Cen b)) :=
       Subgroup.card_dvd_of_le inf_le_right
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     exact Nat.eq_one_of_dvd_coprimes (Opp_coprime 3 _) d1 d2
   rw [h2, mul_one, Nat.card_zpowers, S.hyp.ord] at h1
   rw [S.C0_eq hX]
@@ -288,6 +293,7 @@ theorem C0_le_cenB : Cen b ⊓ CenS J ≤ CenS B := by
     intro y hy
     exact Subgroup.mem_centralizer_iff.mp hc.2 y hy.2
 
+omit [Finite G] S in
 theorem inf_cenS_card_dvd : Nat.card ↥(J ⊓ CenS J) ∣ Nat.card ↥(Subgroup.center ↥J) := by
   have hle : J ⊓ CenS J ≤ (Subgroup.center ↥J).map J.subtype := by
     rintro z ⟨hzJ, hzC⟩
@@ -303,7 +309,7 @@ theorem index_data (hX : Odd (Nat.card (Opp 3 (Cen b)))) (hAC : FF79KAutCentP) :
     ∃ k : ℕ, (k = 1 ∨ k = 2) ∧ (Opp 3 (Cen b)).relIndex (CenS B) = 27 * k ∧
       Nat.card ↥(CenS B) = 27 * k * Nat.card (Opp 3 (Cen b)) ∧
       (k = 1 → CenS B = (B ⊓ J) ⊔ (Cen b ⊓ CenS J)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set X := Opp 3 (Cen b) with hXdef
   set D := CenS B with hD
   set B₀ := B ⊓ J with hB₀
@@ -343,7 +349,7 @@ theorem index_data (hX : Odd (Nat.card (Opp 3 (Cen b)))) (hAC : FF79KAutCentP) :
       have d2 : Nat.card ↥(B₀ ⊓ C₀) ∣ Nat.card ↥(Subgroup.center ↥J) :=
         (Subgroup.card_dvd_of_le
           (inf_le_inf (inf_le_right : B₀ ≤ J) (inf_le_right : C₀ ≤ CenS J))).trans
-          S.inf_cenS_card_dvd
+          Setup14.inf_cenS_card_dvd
       exact Nat.eq_one_of_dvd_coprimes (Nat.Coprime.pow_left 2 S.hZ3) d1 d2
     rw [h1, mul_one, S.e9.2, S.card_C0 hX] at hprod
     rw [hprod]
@@ -367,6 +373,7 @@ theorem index_data (hX : Odd (Nat.card (Opp 3 (Cen b)))) (hAC : FF79KAutCentP) :
     have h2 : (B₀ ⊔ C₀).relIndex D = 1 := by rw [hk]; exact h1
     exact le_antisymm (Subgroup.relIndex_eq_one.mp h2) hYD
 
+omit S [Finite G] in
 theorem cen_le_cenS_zpowers : Cen b ≤ CenS (Subgroup.zpowers b) := by
   intro c hc
   rw [Subgroup.mem_centralizer_iff]
@@ -377,7 +384,7 @@ theorem cen_le_cenS_zpowers : Cen b ≤ CenS (Subgroup.zpowers b) := by
 theorem cen_inf_cenS_B₀_le : Cen b ⊓ CenS (B ⊓ J) ≤ CenS B := by
   intro c hc
   rw [← S.hsup]
-  exact l14_mem_cenS_sup (S.cen_le_cenS_zpowers hc.1) hc.2
+  exact l14_mem_cenS_sup (Setup14.cen_le_cenS_zpowers hc.1) hc.2
 
 theorem XleD (hX : Odd (Nat.card (Opp 3 (Cen b)))) : Opp 3 (Cen b) ≤ CenS B :=
   (S.X_le_C0 hX).trans S.C0_le_cenB
@@ -386,7 +393,7 @@ theorem part1 (hX : Odd (Nat.card (Opp 3 (Cen b)))) (hAC : FF79KAutCentP) :
     Opp 3 (Cen b) ≤ CenS B ∧ ((Opp 3 (Cen b)).subgroupOf (CenS B)).Normal ∧
       Nat.Coprime (Nat.card (Opp 3 (Cen b))) 6 ∧
       Nat.Coprime ((Opp 3 (Cen b)).relIndex (CenS B)) (Nat.card (Opp 3 (Cen b))) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk, hrel, -, -⟩ := S.index_data hX hAC
   have hc3 : Nat.Coprime 3 (Nat.card (Opp 3 (Cen b))) := Opp_coprime 3 _
   have hc2 : Nat.Coprime 2 (Nat.card (Opp 3 (Cen b))) := Nat.coprime_two_left.mpr hX
@@ -400,7 +407,7 @@ theorem part1 (hX : Odd (Nat.card (Opp 3 (Cen b)))) (hAC : FF79KAutCentP) :
     · simpa using h27
     · exact Nat.Coprime.mul_left h27 hc2
 
-theorem cen_decomp (hX : Odd (Nat.card (Opp 3 (Cen b)))) (hAC : FF79KAutCentP)
+theorem cen_decomp (_hX : Odd (Nat.card (Opp 3 (Cen b)))) (hAC : FF79KAutCentP)
     (hD : CenS B = (B ⊓ J) ⊔ (Cen b ⊓ CenS J)) :
     ∀ c ∈ Cen b, ∃ j ∈ J, ∃ c₀ ∈ Cen b ⊓ CenS J, c = j * c₀ := by
   intro c hc
@@ -459,7 +466,7 @@ theorem part3 (hX : Odd (Nat.card (Opp 3 (Cen b)))) (hAC : FF79KAutCentP) :
     have hinf : Nat.card ↥(J ⊓ (Cen b ⊓ CenS J)) = 1 := by
       have d1 : Nat.card ↥(J ⊓ (Cen b ⊓ CenS J)) ∣ Nat.card ↥(Subgroup.center ↥J) :=
         (Subgroup.card_dvd_of_le (inf_le_inf_left J (inf_le_right : Cen b ⊓ CenS J ≤ CenS J))).trans
-          S.inf_cenS_card_dvd
+          Setup14.inf_cenS_card_dvd
       have d2 : Nat.card ↥(J ⊓ (Cen b ⊓ CenS J)) ∣ Nat.card ↥(Cen b ⊓ CenS J) :=
         Subgroup.card_dvd_of_le inf_le_right
       rw [S.card_C0 hX] at d2
@@ -483,7 +490,7 @@ theorem relIndex_C0 (hX : Odd (Nat.card (Opp 3 (Cen b)))) :
 theorem opp_cenS_of_mem (hX : Odd (Nat.card (Opp 3 (Cen b)))) (hAC : FF79KAutCentP)
     (hCA : FF79KCentAlpha) (hodd : Odd (Nat.card ↥(CenS B)) ∨ n = 5) {A : Subgroup G}
     (hAB : A ≤ B) (hbA : b ∈ A) (hne : A ≠ B) : Opp 3 (CenS A) = Opp 3 (Cen b) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hAcen : CenS A ≤ Cen b := Subgroup.centralizer_le (Set.singleton_subset_iff.mpr hbA)
   apply le_antisymm
   swap
@@ -492,7 +499,7 @@ theorem opp_cenS_of_mem (hX : Odd (Nat.card (Opp 3 (Cen b)))) (hAC : FF79KAutCen
   have hzA : Subgroup.zpowers b ≤ A := Subgroup.zpowers_le.mpr hbA
   by_cases hA : A ≤ Subgroup.zpowers b
   · have hAeq : A = Subgroup.zpowers b := le_antisymm hA hzA
-    have : CenS A = Cen b := le_antisymm hAcen (by rw [hAeq]; exact S.cen_le_cenS_zpowers)
+    have : CenS A = Cen b := le_antisymm hAcen (by rw [hAeq]; exact Setup14.cen_le_cenS_zpowers)
     rw [this]
   obtain ⟨a, haA, haz⟩ : ∃ a ∈ A, a ∉ Subgroup.zpowers b := by
     by_contra hcon
@@ -516,7 +523,7 @@ theorem opp_cenS_of_mem (hX : Odd (Nat.card (Opp 3 (Cen b)))) (hAC : FF79KAutCen
     apply haz
     rw [hazα, h1, mul_one]
     exact hz
-  haveI : IsElementaryAbelian 3 ↥(B ⊓ J) := S.e9.1
+  have : IsElementaryAbelian 3 ↥(B ⊓ J) := S.e9.1
   have hα3 : α ^ 3 = 1 := elemPow_eq_one_of_isElementaryAbelian (A := B ⊓ J) α hα
   have hαo : orderOf α = 3 := orderOf_eq_prime hα3 hα1
   have hA₀ : A ⊓ (B ⊓ J) = Subgroup.zpowers α := by
@@ -598,6 +605,7 @@ theorem opp_cenS_of_mem (hX : Odd (Nat.card (Opp 3 (Cen b)))) (hAC : FF79KAutCen
 
 end Setup14
 
+omit [Finite G] in
 private theorem l14_conjBy_cenS (g : G) (H : Subgroup G) :
     CenS (conjBy g H) = conjBy g (CenS H) := by
   ext z
@@ -620,6 +628,7 @@ private theorem l14_conjBy_cenS (g : G) (H : Subgroup G) :
       _ = g * (c * h) * g⁻¹ := by rw [this]
       _ = g * c * g⁻¹ * (g * h * g⁻¹) := by group
 
+omit [Finite G] in
 private theorem l14_conjBy_inv_conjBy (g : G) (H : Subgroup G) : conjBy g (conjBy g⁻¹ H) = H := by
   have := conjBy_conjBy_inv g⁻¹ H
   rwa [inv_inv] at this
@@ -628,7 +637,7 @@ theorem ff79_1_4_of (hK : FF79KTypeLn) (h14k : FF79KCenterJ ∧ FF79KAutCentP �
     FF79KCentAlpha) : FF79_1_4 := by
   obtain ⟨hCJ, hAC, hCA⟩ := h14k
   intro G _ _ n hn b J h B hB hX hCB X
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have S := setup14 hK hCJ hn h hB
   obtain ⟨p1, p2, p3, p4⟩ := S.part1 hX hAC
   refine ⟨p1, p2, p3, p4, ?_, S.part3 hX hAC⟩
@@ -656,7 +665,7 @@ theorem ff79_1_4_of (hK : FF79KTypeLn) (h14k : FF79KCenterJ ∧ FF79KAutCentP �
     rw [hcenB', Subgroup.card_map_of_injective (MulAut.conj g⁻¹).injective]
     exact hCB
   have hA'B' : A' ≤ B' := Subgroup.map_mono hAB.le
-  have hbA' : b ∈ A' := ⟨g * b * g⁻¹, hg, by simp [MulAut.conj_apply]; group⟩
+  have hbA' : b ∈ A' := ⟨g * b * g⁻¹, hg, by simp; group⟩
   have hne : A' ≠ B' := by
     intro heq
     have := congrArg (conjBy g) heq

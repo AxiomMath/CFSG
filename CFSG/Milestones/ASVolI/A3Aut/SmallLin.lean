@@ -36,6 +36,7 @@ theorem burnsideAut_blkHom_coe (hK : Nat.card K = 2) {n : ℕ}
       Matrix (Fin m) (Fin m) K) =
       blkAt a m h ((g : SpecialLinearGroup (Fin n) K) : Matrix (Fin n) (Fin n) K) := rfl
 
+omit [Field K] [Finite K] in
 theorem burnsideAut_blkAt_entry {n a m : ℕ} (h : a + m ≤ n) (A : Matrix (Fin n) (Fin n) K)
     (i j : Fin m) (k l : Fin n) (hk : (k : ℕ) = a + i) (hl : (l : ℕ) = a + j) :
     blkAt a m h A i j = A k l := by
@@ -53,17 +54,19 @@ theorem burnsideAut_blkAt_entry {n a m : ℕ} (h : a + m ≤ n) (A : Matrix (Fin
       else 0
     else if i = j then 1 else 0
 
+omit [Finite K] in
 theorem burnsideAut_blkAt_liftMat {n : ℕ} (a m : ℕ) (h : a + m ≤ n)
     (X : Matrix (Fin m) (Fin m) K) : blkAt a m h (burnsideAut_liftMat (n := n) a m X) = X := by
   ext i j
   rw [blkAt_apply]
   simp only [burnsideAut_liftMat, Matrix.of_apply]
-  rw [dif_pos ⟨Nat.le_add_right a i, by have := i.isLt; omega⟩,
-    dif_pos ⟨Nat.le_add_right a j, by have := j.isLt; omega⟩]
+  rw [dite_eq_left ⟨Nat.le_add_right a i, by have := i.isLt; omega⟩,
+    dite_eq_left ⟨Nat.le_add_right a j, by have := j.isLt; omega⟩]
   congr 1
   · exact Fin.ext (by simp)
   · exact Fin.ext (by simp)
 
+omit [Finite K] in
 theorem burnsideAut_liftMat_unitri {n : ℕ} (a m : ℕ) {X : Matrix (Fin m) (Fin m) K}
     (hX1 : ∀ i j : Fin m, j < i → X i j = 0) (hX2 : ∀ i : Fin m, X i i = 1) :
     (∀ i j : Fin n, j < i → burnsideAut_liftMat a m X i j = 0) ∧
@@ -85,6 +88,7 @@ theorem burnsideAut_liftMat_unitri {n : ℕ} (a m : ℕ) {X : Matrix (Fin m) (Fi
     · exact hX2 _
     · rfl
 
+omit [Finite K] in
 theorem burnsideAut_det_liftMat {n : ℕ} (a m : ℕ) {X : Matrix (Fin m) (Fin m) K}
     (hX1 : ∀ i j : Fin m, j < i → X i j = 0) (hX2 : ∀ i : Fin m, X i i = 1) :
     (burnsideAut_liftMat (n := n) a m X).det = 1 := by
@@ -97,10 +101,12 @@ theorem burnsideAut_det_liftMat {n : ℕ} (a m : ℕ) {X : Matrix (Fin m) (Fin m
   ⟨burnsideAut_liftMat a m ((X : SpecialLinearGroup (Fin m) K) : Matrix (Fin m) (Fin m) K),
     burnsideAut_det_liftMat a m X.2.1 X.2.2⟩
 
+omit [Finite K] in
 theorem burnsideAut_liftU_mem {n : ℕ} (a m : ℕ) (X : ↥(unitriangular m K)) :
     burnsideAut_liftU (n := n) a m X ∈ unitriangular n K :=
   burnsideAut_liftMat_unitri a m X.2.1 X.2.2
 
+omit [Finite K] in
 theorem burnsideAut_unitriangular_of_blocks {n d : ℕ} (hdn : d ≤ n)
     {g : SpecialLinearGroup (Fin n) K} (hg : g ∈ stabilizer (flagSpace n K d))
     (h1 : blkAt 0 d (by omega) (g : Matrix (Fin n) (Fin n) K) = 1)
@@ -134,6 +140,7 @@ theorem burnsideAut_unitriangular_of_blocks {n d : ℕ} (hdn : d ≤ n)
         Matrix.one_apply_eq] at e
       exact e
 
+omit [Finite K] in
 theorem burnsideAut_image_three {n m : ℕ} {H : Subgroup (SpecialLinearGroup (Fin n) K)}
     (f : ↥H →* SpecialLinearGroup (Fin m) K) {S B : Subgroup (SpecialLinearGroup (Fin n) K)}
     (hBH : B ≤ H) (hSH : S ≤ H) (hS : IsPGroup 2 ↥S) (hB : Odd (Nat.card ↥B))
@@ -156,7 +163,7 @@ theorem burnsideAut_image_three {n m : ℕ} {H : Subgroup (SpecialLinearGroup (F
     exact hB
   · rcases hBc with hab | ⟨r, hr, hBr⟩
     · left
-      haveI : IsMulCommutative ↥(B.subgroupOf H) := ⟨⟨fun a b => by
+      have : IsMulCommutative ↥(B.subgroupOf H) := ⟨⟨fun a b => by
         apply eB.injective
         rw [map_mul, map_mul]
         exact hab.is_comm.comm _ _⟩⟩
@@ -174,9 +181,9 @@ theorem burnsideAut_sl_three (hK : Nat.card K = 2) :
       (B : Set (SpecialLinearGroup (Fin n) K)) * (S : Set (SpecialLinearGroup (Fin n) K)) =
         (S : Set (SpecialLinearGroup (Fin n) K)) * (B : Set (SpecialLinearGroup (Fin n) K)) →
       IsPGroup 3 ↥B := by
-  haveI : CharP K 2 := burnsideA26_charP_two (n := 1) (by rw [hK]; rfl)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : CharP K 2 := burnsideA26_charP_two (n := 1) (by rw [hK]; rfl)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro n
   induction n using Nat.strong_induction_on with
   | _ n ih =>
@@ -208,19 +215,19 @@ theorem burnsideAut_sl_three (hK : Nat.card K = 2) :
       ⟨hSsyl, hB, h3, hBc, hperm⟩
     have hnil : Group.IsNilpotent ↥B := by
       rcases hBc with hab | ⟨r, hr, hBr⟩
-      · haveI := hab
+      · have := hab
         infer_instance
-      · haveI : Fact r.Prime := ⟨hr⟩
+      · have : Fact r.Prime := ⟨hr⟩
         exact hBr.isNilpotent
     have hsolv : Group.IsSolvable ↥(B ⊔ S) := hc.sup_solvable hnil
     have hne : B ⊔ S ≠ ⊤ := by
       intro htop
-      haveI := sl_isSimple_of_card_two hK hn3
+      have := sl_isSimple_of_card_two hK hn3
       obtain ⟨a, b, hab⟩ := sl_nonabelian_of_card_two hK hn3
       rw [htop] at hsolv
-      haveI := hsolv
+      have := hsolv
       have : Group.IsSolvable (SpecialLinearGroup (Fin n) K) :=
-        solvable_of_surjective (f := (Subgroup.topEquiv :
+        Group.isSolvable_of_surjective (f := (Subgroup.topEquiv :
           ↥(⊤ : Subgroup (SpecialLinearGroup (Fin n) K)) ≃* _).toMonoidHom)
           Subgroup.topEquiv.surjective
       exact hab ((IsSimpleGroup.comm_iff_isSolvable.2 this) a b)
@@ -315,8 +322,8 @@ theorem burnsideAut_a315_Ln_two {n : ℕ} (hn : 3 ≤ n) (G : Type) [Group G]
     (hL : CFSG.Quasithin.IsPSL n 2 1 ↥L) : False := by
   obtain ⟨-, K, _, _, hK, ⟨e⟩⟩ := id hL
   have hK2 : Nat.card K = 2 := by simpa using hK
-  haveI : CharP K 2 := burnsideA26_charP_two (n := 1) (by rw [hK2]; rfl)
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := burnsideA26_charP_two (n := 1) (by rw [hK2]; rfl)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOut : ∀ α : MulAut ↥L, Odd (orderOf α) → ∃ l : ↥L, α = MulAut.conj l := by
     intro α hα
     obtain ⟨l, hl⟩ := burnsideA26_l45 hn hK2 e α hα

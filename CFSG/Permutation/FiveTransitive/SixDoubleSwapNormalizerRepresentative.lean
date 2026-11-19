@@ -49,7 +49,7 @@ theorem exists_conjugate
     ConjugateFixedNormalizer.normalizer_conj_back G Q R c hc a hT
   have hb : orderOf b = 4 := by
     have h := orderOf_injective (MulAut.conj c⁻¹).toMonoidHom (MulAut.conj c⁻¹).injective a
-    simpa only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv, ha] using h
+    simpa only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv, ha] using h
   let e : Fin 4 ↪ X := ⟨fun i => c⁻¹ • E.val i,
     fun i j h => E.val.injective (smul_left_cancel c⁻¹ h)⟩
   have hee : e = e₀ := by

@@ -132,7 +132,7 @@ theorem c23_2_trans_proved : C23_2_trans p f := by
       have hR'syl : IsSylow2In F.ρ'.R K' := by rw [← hρ'K]; exact F.ρ'.hRK
       have hc2 : Commutes F.ρ.R F.ρ'.R :=
         hΩ.commutes_of_twin_of_isPGroup hK hK' hKK'.symm hz hz' (hρK ▸ F.ρ.hRK.1)
-          (hρ'K ▸ F.ρ'.hRK.1) (S.isPGroup'.to_le (sup_le hρS hρ'S))
+          (hρ'K ▸ F.ρ'.hRK.1) (S.isPGroup.to_le (sup_le hρS hρ'S))
       have hCx : ∀ x ∈ F.ρ.R, ∀ y ∈ F.ρ'.R, orderOf x = 4 → orderOf y = 4 →
           Subgroup.centralizer ({x * y} : Set G) ≤ H := by
         intro x hx y hy ox oy t ht

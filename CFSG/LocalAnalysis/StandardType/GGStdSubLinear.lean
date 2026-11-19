@@ -75,7 +75,7 @@ private theorem ggStdSubLinearAux_label_arith {lab : LargeEvenLabel}
       simp [markRank, hl2] at h
       omega
     · by_cases hl3 : l = 3
-      · exact absurd h1 (by simp [markTag, hl2, hl3])
+      · exact absurd h1 (by simp [markTag, hl3])
       · exact absurd h1 (by simp [markTag, hl2, hl3])
   case E6 => exact absurd h1 (by simp [markTag])
   case E7 => exact absurd h1 (by simp [markTag])

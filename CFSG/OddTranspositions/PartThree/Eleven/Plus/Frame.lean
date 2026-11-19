@@ -228,7 +228,7 @@ private theorem frameR_even : ∀ (g : plusPerm) (σ : Equiv.Perm (Fin 4)),
   have hkprop : (let a := (plusEnum ()).pts[k]!;
       !(mapsFrame a) || (oddPerms.all fun σ => !(matchesPerm a σ))) = true :=
     allLt_spec evenCheck_true hk
-  simp only [evenCheck] at hkprop
+  simp only at hkprop
   rw [hmap] at hkprop
   simp only [Bool.not_true, Bool.false_or] at hkprop
   have hτfalse : matchesPerm ((plusEnum ()).pts[k]!) τ = false := by
@@ -460,9 +460,9 @@ private theorem deriveFun_spec (f : ℕ → ℕ) (a b : ℕ)
         dsimp only at hspec
         rw [stepVal]
         split_ifs with hs
-        · rw [if_pos hs] at hspec
+        · rw [ite_eq_left hs] at hspec
           exact initFun_eq_of_step f a b _ hfix h0 h1 hspec
-        · rw [if_neg hs] at hspec
+        · rw [ite_eq_right hs] at hspec
           rw [Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true, Bool.and_eq_true] at hspec
           obtain ⟨⟨⟨⟨hx60, hy60⟩, hxy⟩, hox⟩, hoy⟩ := hspec
           have hx60' : (derivSrc[k]! - 1) / 60 < 60 := decide_eq_true_eq.mp hx60
@@ -628,7 +628,6 @@ private theorem frameR_aut : ∀ φ : plusPerm ≃* plusPerm, φ '' plusClass = 
     intro k
     apply Fin.ext
     rw [hd1]
-    change ((permOfArr 60 (dImageList S)) k : ℕ) = (ψ k : ℕ)
     have hgall : (List.range 60).all
         (fun p => (deriveArr a b)[p]! == (dImageList S)[p]!) = true := by
       change matchesArr (deriveArr a b) (dImageList S) = true
@@ -681,8 +680,8 @@ private theorem conj_image_plusClass (g : plusPerm) :
 theorem exists_plusFrame : ∀ T : Sylow 2 plusPerm,
     ∃ r : Fin 4 → plusPerm, O4PlusFrame plusClass (T : Subgroup plusPerm) r := by
   intro T
-  haveI : Finite (Sylow 2 plusPerm) := inferInstance
-  haveI := Sylow.isPretransitive_of_finite (p := 2) (G := plusPerm)
+  have : Finite (Sylow 2 plusPerm) := inferInstance
+  have := Sylow.isPretransitive_of_finite (p := 2) (G := plusPerm)
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq plusPerm T0 T
   refine ⟨fun i => MulAut.conj g (frameR i), ?_⟩
   have hmap := O4PlusFrame.map (MulAut.conj g) (conj_image_plusClass g) frame_T0

@@ -67,8 +67,8 @@ private theorem count_foldl (c : Nat) (l : List Nat) (acc : Nat) :
   | cons a l ih =>
     rw [List.foldl_cons, ih, List.filter_cons, bool_one_zero]
     by_cases h : coord c a != 0
-    · simp only [if_pos h, List.length_cons]; omega
-    · simp only [if_neg h]; omega
+    · simp only [ite_eq_left h, List.length_cons]; omega
+    · simp only [ite_eq_right h]; omega
 
 theorem weightK_eq (c : Nat) : weightK c = weightC c := by
   refine (recN6_eq 0 (fun acc i => Nat.add acc
@@ -87,7 +87,7 @@ theorem gensK_eq (l : List Nat) : gensK l = l.filter (fun c => weightC c == 2) +
     show Bool.rec (motive := fun _ => List Nat) (gensK l) (c :: gensK l)
       (Nat.beq (weightK c) 2) = _
     rw [hw, ih]
-    by_cases h : weightC c == 2 <;> simp [h, List.filter_cons]
+    by_cases h : weightC c == 2 <;> simp [h]
 
 end CFSG.KS.PK
 

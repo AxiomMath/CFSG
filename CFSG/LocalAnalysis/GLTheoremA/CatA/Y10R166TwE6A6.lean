@@ -53,6 +53,7 @@ noncomputable abbrev twE6EnnolaSetup (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^
     (finite_model_twistedE6 (ℓ := 2) (σ := σ) Nat.prime_two (by omega) hK hσ hFr
       (twE6EnnolaDatum (ℓ := 2) Nat.prime_two (by omega) hK hFr) rfl)
 
+omit [Finite K] in
 theorem twE6EnnolaSetup_D (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
     (hσ : ∀ c, σ c = c ^ (2 ^ f)) (hFr : ∀ c, Fr c = c ^ (2 ^ f))
     {q : ℕ} (hq : q.Prime) (hqdvd : q ∣ 2 ^ f + 1) :
@@ -60,6 +61,7 @@ theorem twE6EnnolaSetup_D (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
       twE6EnnolaDatum (Ω := Ω) (ℓ := 2) Nat.prime_two (by omega) hK hFr :=
   rfl
 
+omit [Finite K] in
 theorem twE6EnnolaSetup_rho (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
     (hσ : ∀ c, σ c = c ^ (2 ^ f)) (hFr : ∀ c, Fr c = c ^ (2 ^ f))
     {q : ℕ} (hq : q.Prime) (hqdvd : q ∣ 2 ^ f + 1) :
@@ -67,6 +69,7 @@ theorem twE6EnnolaSetup_rho (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
       Equiv.neg (Fin Tag.E6.rank → ℤ) :=
   rfl
 
+omit [Finite K] in
 theorem twE6EnnolaSetup_Gamma (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
     (hσ : ∀ c, σ c = c ^ (2 ^ f)) (hFr : ∀ c, Fr c = c ^ (2 ^ f))
     {q : ℕ} (hq : q.Prime) (hqdvd : q ∣ 2 ^ f + 1) :
@@ -74,13 +77,14 @@ theorem twE6EnnolaSetup_Gamma (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
       ⁅thetaFixed Fr, thetaFixed Fr⁆ :=
   rfl
 
+omit [Finite K] in
 theorem twE6EnnolaSetup_q (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
     (hσ : ∀ c, σ c = c ^ (2 ^ f)) (hFr : ∀ c, Fr c = c ^ (2 ^ f))
     {q : ℕ} (hq : q.Prime) (hqdvd : q ∣ 2 ^ f + 1) :
     (twE6EnnolaSetup (Fr := Fr) hf hK hσ hFr hq hqdvd).D.q = 2 ^ f :=
   rfl
 
-@[expose] noncomputable def twE6JStar {q : ℕ} {ζ : Ωˣ}
+@[expose] noncomputable def twE6JStar {_q : ℕ} {ζ : Ωˣ}
     (i : KernelComponent (rootCharHom (twE6omega1Tuple ζ))) : Subgroup (ModGL Tag.E6 Ω) :=
   rationalComponent (Equiv.neg (Fin Tag.E6.rank → ℤ)) ⁅thetaFixed Fr, thetaFixed Fr⁆
     (rootCharHom (twE6omega1Tuple ζ)) i
@@ -94,12 +98,13 @@ variable {f : ℕ} {K : Type} [Field K] [Finite K] {σ : K ≃+* K}
   {Ω : Type} [Field Ω] [Algebra K Ω] [IsAlgClosure K Ω] [IsAlgClosed Ω] [CharP Ω 2]
   {Fr : Ω →+* Ω}
 
+omit [Finite K] in
 theorem twE6_dStrongModel_omega1 (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
     (hσ : ∀ c, σ c = c ^ (2 ^ f)) (hFr : ∀ c, Fr c = c ^ (2 ^ f)) {q : ℕ}
     (hq : q.Prime) (hq2 : q ≠ 2) (hqdvd : q ∣ 2 ^ f + 1)
     {ζ : Ωˣ} (hζq : ζ ^ q = 1) (hζ1 : ζ ≠ 1)
     (i : KernelComponent (rootCharHom (twE6omega1Tuple ζ))) :
-    DStrongModel (twE6JStar (Fr := Fr) (q := q) (ζ := ζ) i) 5 2 f := by
+    DStrongModel (twE6JStar (Fr := Fr) (_q := q) (ζ := ζ) i) 5 2 f := by
   classical
   have hker : kernelRoots (rootCharHom (twE6omega1Tuple ζ)) = twE6D5 :=
     kernelRoots_omega1 hq hζq hζ1
@@ -163,20 +168,22 @@ theorem twE6_dStrongModel_omega1 (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
   subst hm5'
   exact hSM
 
+omit [Finite K] in
 theorem twE6_isQuasisimple_omega1 (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
     (hσ : ∀ c, σ c = c ^ (2 ^ f)) (hFr : ∀ c, Fr c = c ^ (2 ^ f)) {q : ℕ}
     (hq : q.Prime) (hq2 : q ≠ 2) (hqdvd : q ∣ 2 ^ f + 1)
     {ζ : Ωˣ} (hζq : ζ ^ q = 1) (hζ1 : ζ ≠ 1)
     (i : KernelComponent (rootCharHom (twE6omega1Tuple ζ))) :
-    CFSG.IsQuasisimple ↥(twE6JStar (Fr := Fr) (q := q) (ζ := ζ) i) :=
+    CFSG.IsQuasisimple ↥(twE6JStar (Fr := Fr) (_q := q) (ζ := ζ) i) :=
   (twE6_dStrongModel_omega1 hf hK hσ hFr hq hq2 hqdvd hζq hζ1 i).2.1
 
+omit [Finite K] in
 theorem twE6_hasLabel_omega1 (hf : 2 ≤ f) (hK : Nat.card K = (2 ^ f) ^ 2)
     (hσ : ∀ c, σ c = c ^ (2 ^ f)) (hFr : ∀ c, Fr c = c ^ (2 ^ f)) {q : ℕ}
     (hq : q.Prime) (hq2 : q ≠ 2) (hqdvd : q ∣ 2 ^ f + 1)
     {ζ : Ωˣ} (hζq : ζ ^ q = 1) (hζ1 : ζ ≠ 1)
     (i : KernelComponent (rootCharHom (twE6omega1Tuple ζ))) :
-    HasLabel ↥(twE6JStar (Fr := Fr) (q := q) (ζ := ζ) i) (· = ⟨.twD, 5, f⟩) := by
+    HasLabel ↥(twE6JStar (Fr := Fr) (_q := q) (ζ := ζ) i) (· = ⟨.twD, 5, f⟩) := by
   have hSM := twE6_dStrongModel_omega1 hf hK hσ hFr hq hq2 hqdvd hζq hζ1 i
   exact hasLabel_of_statedClassicalModel_POmegaMinus hSM.2.1
     (statedClassicalModel_of_lieModel (t := .POmegaMinus) (n := 5) (r := 2) (e := f)

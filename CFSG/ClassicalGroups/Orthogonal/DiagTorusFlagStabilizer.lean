@@ -39,9 +39,9 @@ theorem minusDiagGen_mem_statedOmega_fin (t : Fˣ) (j : Fin (m - 1))
       · rw [polar_quadMinus_single_inr_inl]; simp
     · fin_cases u
       · constructor <;>
-          simp [polar_quadMinus_single_inr_inr_zero, polar_quadMinus_single_inr_inr_one]
+          simp [polar_quadMinus_single_inr_inr_zero]
       · constructor <;>
-          simp [polar_quadMinus_single_inr_inr_zero, polar_quadMinus_single_inr_inr_one]
+          simp [polar_quadMinus_single_inr_inr_one]
   have hstep := reflect_mul_reflect_eq_diagGL (Q := quadMinus m F b c) (e := Sum.inl j)
     (f := Sum.inr (Sum.inl j)) (by simp) t d (by simp [hddef]) (by simp [hddef]) (by
       intro k h1 h2
@@ -98,7 +98,7 @@ section Minus
 open CFSG.LocalAnalysis.ComponentInitial.OrthogonalTail
 open CFSG.ComponentClassification.CatalogueBOrthogonalPointPlusBorel
 
-theorem diagTorusMinus_subgroupOf_le_statedDerivedFlagStabilizer (hm : 4 ≤ m) :
+theorem diagTorusMinus_subgroupOf_le_statedDerivedFlagStabilizer (_hm : 4 ≤ m) :
     (diagTorusMinus m F).subgroupOf (StatedOmega (StatedQuadMinus m F b c)) ≤
       statedDerivedFlagStabilizer (StatedQuadMinus m F b c)
         (tailModelFlag (m - 1) F (Fin 2)) := by
@@ -155,7 +155,7 @@ section Plus
 open CFSG.LocalAnalysis.ComponentInitial.OrthogonalSplit
 open CFSG.ComponentClassification.CatalogueBOrthogonalPointPlusBorel
 
-theorem diagTorusOrth_le_statedDerivedFlagStabilizer (hm : 4 ≤ m) :
+theorem diagTorusOrth_le_statedDerivedFlagStabilizer (_hm : 4 ≤ m) :
     diagTorusOrth m F ≤
       statedDerivedFlagStabilizer (StatedQuadPlus m F) (stdFlag m F) := by
   classical

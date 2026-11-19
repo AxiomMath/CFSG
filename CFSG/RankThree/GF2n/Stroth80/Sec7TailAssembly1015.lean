@@ -30,6 +30,7 @@ theorem Z0_le_CN_of_34 (h34 : Stroth34Statement) (hZc : Sec7CentreMpStatement) (
   refine ⟨hZ0.le hx, fun v hv => ?_⟩
   exact (hZc G M Q Z B hc n t hs Z0 hZ0 x hx).2 v (Vt_le_Wt_of_34 h34 hc hs.toSec5 hv)
 
+omit [Finite G] in
 theorem not_omegaMinus_two_of_cases {hc : Ctx M Q Z B} {t : G}
     (h : OmegaMinusNat hc t 3 ∨ OmegaPlusNat hc t 3 ∨ OmegaPlusNat hc t 4) :
     ¬ OmegaMinusNat hc t 2 := by
@@ -52,7 +53,7 @@ theorem stroth710_of_steps (h34 : Stroth34Statement) (h77 : Stroth77Statement)
     intro g hg hle
     by_contra hne
     exact hno ⟨g, hg, hle, hne⟩
-  haveI : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
+  have : (Q.subgroupOf M).Normal := hc.normal_Q_in_M
   have ht : t ∈ LB M Q B := hs.toSec5.mem
   have hZL : Z0 ≤ LB M Q B := fun z hz => (hZc G M Q Z B hc n t hs Z0 hZ0 z hz).1
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre ht hZ0

@@ -15,12 +15,14 @@ open CFSG.Open CFSG.ABGLocalTools CFSG.RankThreeCoreUniqueness.Helpers Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem r10a32_comm_zpowers {a b : G} (hab : Commute a b) :
     ∀ h ∈ Subgroup.zpowers b, h * a = a * h := by
   intro h hh
   obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.mp hh
   exact ((hab.zpow_right m).symm).eq
 
+omit [Finite G] in
 theorem centralizer_le_of_prop614 {M : Subgroup G} {x z y : G} {T : Subgroup G}
     (hyS : y ∈ smallRankS x T) (hy1 : y ≠ 1) (hzy : z * y = y * z)
     (hP614 : ∀ S₀ : Subgroup G, S₀ ≤ smallRankS x T → S₀ ≠ ⊥ →
@@ -51,6 +53,7 @@ open CFSG.Open CFSG.ABGLocalTools Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem r10a31_norm_C {F : Subgroup G} {n c : G}
     (hn : n ∈ normalizer (F : Set G)) (hc : c ∈ centralizer (F : Set G)) :
     n * c * n⁻¹ ∈ centralizer (F : Set G) := by
@@ -64,11 +67,13 @@ private theorem r10a31_norm_C {F : Subgroup G} {n c : G}
     _ = n * (c * (n⁻¹ * h * n)) * n⁻¹ := by rw [hck]
     _ = n * c * n⁻¹ * h := by group
 
+omit [Finite G] in
 private theorem r10a31_pow_eq_one {r : ℕ} {g : G} (hP : IsPGroup r (zpowers g)) :
     ∃ e : ℕ, g ^ (r ^ e) = 1 := by
   obtain ⟨e, he⟩ := hP ⟨g, Subgroup.mem_zpowers g⟩
   exact ⟨e, by simpa using congrArg Subtype.val he⟩
 
+omit [Finite G] in
 private theorem r10a31_pow_eq_one_of_mem {V : Subgroup G} {r : ℕ} (hV : IsPGroup r V)
     {u : G} (hu : u ∈ V) : ∃ e : ℕ, u ^ (r ^ e) = 1 := by
   obtain ⟨e, he⟩ := hV ⟨u, hu⟩
@@ -80,6 +85,7 @@ private theorem r10a31_coprime_six {r : ℕ} (hr : r.Prime) (hr2 : r ≠ 2) (hr3
   have h3 : Nat.Coprime r 3 := (Nat.coprime_primes hr Nat.prime_three).mpr hr3
   exact Nat.Coprime.mul_right h2 h3
 
+omit [Finite G] in
 private theorem r10a31_orderOf_coprime {g : G} {r e : ℕ} (hr : r.Prime) (hr2 : r ≠ 2)
     (hr3 : r ≠ 3) (hg : g ^ (r ^ e) = 1) : Nat.Coprime (orderOf g) 6 :=
   Nat.Coprime.coprime_dvd_left (orderOf_dvd_of_pow_eq_one hg)
@@ -89,10 +95,12 @@ private theorem r10a31_not_three_dvd {n : ℕ} (h : Nat.Coprime n 6) : ¬ 3 ∣ 
   have h3 : Nat.Coprime n 3 := Nat.Coprime.coprime_dvd_right (by norm_num) h
   exact (Nat.prime_three.coprime_iff_not_dvd).mp h3.symm
 
+omit [Finite G] in
 private theorem r10a31_orderOf_conj (b h : G) : orderOf (b * h * b⁻¹) = orderOf h := by
   have := MulEquiv.orderOf_eq (MulAut.conj b) h
   simpa only [MulAut.conj_apply] using this
 
+omit [Finite G] in
 private theorem r10a31_normalizer_zpowers {u b : G} (hb : Commute b u) :
     b ∈ normalizer (zpowers u : Set G) := by
   have key : ∀ c : G, Commute c u → ∀ k : ℤ, c * u ^ k * c⁻¹ = u ^ k := by
@@ -265,7 +273,7 @@ private theorem r10a31_reduce {M F S₀ : Subgroup G} {x z y : G} {r : ℕ}
   obtain ⟨W, hWmem, hW3, hBW⟩ :=
     r10a31_threeComplement hx1 hx3 hz3 hxz hxM hBM hCxB hS0N hxS0 hzS0
   have hm'W : m' ∈ W := (hWmem m').mpr ⟨hm'W0, r10a31_not_three_dvd hcop⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨V, hVW, hVr, hBV, w, hwW, hwV⟩ :=
     exists_invariant_sylow_conj hNB.isPGroup hBW hW3 hm'W hiP
   obtain ⟨m'', hm''⟩ : ∃ m'' : G, m'' = w⁻¹ * m' * w := ⟨_, rfl⟩
@@ -312,7 +320,7 @@ private theorem r10a31_case_f {M F V : Subgroup G} {x z m : G} {f : ℕ}
     rw [hmV]
     exact one_mem _
   have hcop : Nat.Coprime (Nat.card V) 6 := by
-    haveI : Fact f.Prime := ⟨hfp⟩
+    have : Fact f.Prime := ⟨hfp⟩
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hVf
     rw [hn]
     exact Nat.Coprime.pow_left n (r10a31_coprime_six hfp (by omega) (by omega))
@@ -375,7 +383,7 @@ theorem iii_assembly (hHH : KFactHallHigmanOdd)
     (hfp : f.Prime) (hf5 : 5 ≤ f) (hFe : IsElemAbelian f F) (hFne : F ≠ ⊥) (hFM : F ⊓ M = ⊥)
     (hx1 : x ≠ 1) (hx3 : x ^ 3 = 1) (hz3 : z ^ 3 = 1) (hxz : x * z = z * x) (hxM : x ∈ M)
     (hBM : zpowers x ⊔ zpowers z ≤ M)
-    (hFCx : F ≤ centralizer ({x} : Set G))
+    (_hFCx : F ≤ centralizer ({x} : Set G))
     (hCxN : centralizer ({x} : Set G) ≤ normalizer (F : Set G))
     (hxC : x ∈ centralizer (F : Set G)) (hzN : z ∈ normalizer (F : Set G))
     (hzC : z ∉ centralizer (F : Set G)) (hCodd : ¬ 2 ∣ Nat.card (centralizer (F : Set G)))
@@ -470,7 +478,7 @@ theorem lemma630_iii_core (hS : Setting G) (hOut : KFactOutQ8Quaternion)
   have hPlane := sylow_inf_centralizer_eq_plane hS hf (h28.2.1 rfl)
   have hPx : IsSylowOf 3 ((P : Subgroup G) ⊓ centralizer ({x} : Set G))
       (centralizer ({x} : Set G)) :=
-    isSylowOf_iff.mpr ⟨inf_le_right, P.isPGroup'.to_inf_left, hf.point.sylow_centralizer⟩
+    isSylowOf_iff.mpr ⟨inf_le_right, P.isPGroup.to_inf_left, hf.point.sylow_centralizer⟩
   have hCxB : IsSylowOf 3 (zpowers x ⊔ zpowers z) (centralizer ({x} : Set G)) := by
     rw [← hPlane]
     exact hPx

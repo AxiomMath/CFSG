@@ -73,11 +73,11 @@ theorem eq_of_diagonal_mul_permMatrix {a : Fin 6 → K} (ha : ∀ i, a i ≠ 0) 
   have hi₀' : π⁻¹ i₀ = i₀ := by rw [Equiv.Perm.inv_eq_iff_eq, hi₀]
   have hl : l = 1 := by
     have h1 := hent i₀ i₀
-    rw [if_pos hi₀', mul_one, one_mul] at h1
+    rw [ite_eq_left hi₀', mul_one, one_mul] at h1
     have h2 : (l - 1) * a i₀ = 0 := by linear_combination -h1
     exact sub_eq_zero.1 ((mul_eq_zero.1 h2).resolve_right (ha i₀))
   have h1 := hent (π i) i
-  rw [if_pos (by simp), mul_one, one_mul, hl, one_mul] at h1
+  rw [ite_eq_left (by simp), mul_one, one_mul, hl, one_mul] at h1
   exact h1
 
 end Perm
@@ -183,12 +183,12 @@ theorem conjDiag_transvection (e : Fin 6 → K) (he : ∀ i, e i ≠ 0) {i j : F
   by_cases hrs : r = s
   · subst hrs
     have hn : ¬ (i = r ∧ j = r) := fun h => hij (h.1.trans h.2.symm)
-    simp only [if_true, hn, if_false, add_zero, mul_one]
+    simp only [ite_true, hn, ite_false, add_zero, mul_one]
     exact mul_inv_cancel₀ (he r)
   · by_cases h2 : i = r ∧ j = s
     · obtain ⟨rfl, rfl⟩ := h2
-      simp only [hrs, if_false, and_self, if_true, zero_add]
-    · simp only [hrs, h2, if_false, add_zero, mul_zero, zero_mul]
+      simp only [hrs, ite_false, and_self, ite_true, zero_add]
+    · simp only [hrs, h2, ite_false, add_zero, mul_zero, zero_mul]
 
 theorem vtwBa_jA (c : Kˣ) (t : Fin 5) :
     ((vtwBa c (C2E6Std.jA t) : Kˣ) : K) =
@@ -220,14 +220,14 @@ theorem vtwD_conj_liftA (c : Kˣ) (h : SpecialLinearGroup (Fin 6) K) :
     · simp only [MonoidHom.comp_apply, Subgroup.coe_subtype, MulEquiv.coe_toMonoidHom,
         MulAut.conj_apply]
       rw [conjDiag_transvection, liftA_upAdj, liftA_upAdj]
-      simp only [Subgroup.coe_mk]
+      simp only
       rw [(root_diagonal_conjugation _ K _).1, vtwBa_jA]
       congr 1
       ring
     · simp only [MonoidHom.comp_apply, Subgroup.coe_subtype, MulEquiv.coe_toMonoidHom,
         MulAut.conj_apply]
       rw [conjDiag_transvection, liftA_downAdj, liftA_downAdj]
-      simp only [Subgroup.coe_mk]
+      simp only
       rw [(root_diagonal_conjugation _ K _).2.1, vtwBa_jA_inv]
       congr 1
       ring

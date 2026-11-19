@@ -44,6 +44,7 @@ section Abstract
 
 variable {Y : Type} [CommGroup Y] [Finite Y]
 
+omit [Finite Y] in
 theorem s16e_d3_card_normalizer_seven (hsq : ∀ y : Y, y ^ 2 = 1) (hY : Nat.card Y = 8)
     {Q : Subgroup (MulAut Y)} (hQ : Nat.card Q = 7) :
     Nat.card (normalizer (Q : Set (MulAut Y))) = 21 := by
@@ -62,6 +63,7 @@ theorem s16e_d3_card_normalizer_seven (hsq : ∀ y : Y, y ^ 2 = 1) (hY : Nat.car
       (f := e.toMonoidHom) e.injective, hmap]
   rw [hcard, hNcard]
 
+omit [Finite Y] in
 theorem s16e_d3_card_dvd_of_le_normalizer (hsq : ∀ y : Y, y ^ 2 = 1) (hY : Nat.card Y = 8)
     {Q N : Subgroup (MulAut Y)} (hQ : Nat.card Q = 7)
     (hN : N ≤ normalizer (Q : Set (MulAut Y))) :
@@ -69,6 +71,7 @@ theorem s16e_d3_card_dvd_of_le_normalizer (hsq : ∀ y : Y, y ^ 2 = 1) (hY : Nat
   rw [← s16e_d3_card_normalizer_seven hsq hY hQ]
   exact Subgroup.card_dvd_of_le hN
 
+omit [Finite Y] in
 theorem s16e_d3_eq_one_of_commute (hsq : ∀ y : Y, y ^ 2 = 1) (hY : Nat.card Y = 8)
     {x y : MulAut Y} (hxy : Commute x y) (hx : x ^ 3 = 1) (hy : y ^ 7 = 1) (hy1 : y ≠ 1) :
     x = 1 := by
@@ -80,8 +83,8 @@ theorem s16e_d3_eq_one_of_commute (hsq : ∀ y : Y, y ^ 2 = 1) (hY : Nat.card Y 
   have hcomm' : Commute (e x) (e y) := hxy.map e.toMonoidHom
   have hx1 : e x = 1 := by
     by_contra hxne
-    haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     have hox : orderOf (e x) = 3 := orderOf_eq_prime hx' hxne
     have hoy : orderOf (e y) = 7 := orderOf_eq_prime hy' hy1'
     have hco : Nat.Coprime (orderOf (e x)) (orderOf (e y)) := by rw [hox, hoy]; norm_num
@@ -102,6 +105,7 @@ section Blocks
 
 variable {W : Type} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 private lemma s16e_d3_conj_mem_of_map_conj_eq {L : Subgroup (MulAut W)} {n : MulAut W}
     (h : L.map (MulAut.conj n).toMonoidHom = L) {l : MulAut W} (hl : l ∈ L) :
     n * l * n⁻¹ ∈ L := by
@@ -110,6 +114,7 @@ private lemma s16e_d3_conj_mem_of_map_conj_eq {L : Subgroup (MulAut W)} {n : Mul
   rw [h] at hm
   simpa [MulAut.conj_apply] using hm
 
+omit [Finite W] in
 theorem s16e_d3_eq_of_commute_on_block (hW : ∀ w : W, w ^ 2 = 1) {Y : Subgroup W}
     (hY : Nat.card Y = 8) {g l : MulAut W} (hg : g ∈ stabSub Y) (hl : l ∈ stabSub Y)
     (hgl : g * l = l * g) (hg3 : g ^ 3 = 1) (hl7 : l ^ 7 = 1) (hln : ∃ y ∈ Y, l y ≠ y) :
@@ -145,8 +150,9 @@ theorem s16e_d3_eq_of_commute_on_block (hW : ∀ w : W, w ^ 2 = 1) {Y : Subgroup
   rw [resHom_apply] at h2
   simpa using h2
 
+omit [Finite W] in
 theorem s16e_d3_card_autSub_dvd (hW : ∀ w : W, w ^ 2 = 1) {Y : Subgroup W}
-    (hY : Nat.card Y = 8) {N L : Subgroup (MulAut W)} (hN : N ≤ stabSub Y) (hL : L ≤ stabSub Y)
+    (hY : Nat.card Y = 8) {N L : Subgroup (MulAut W)} (_hN : N ≤ stabSub Y) (_hL : L ≤ stabSub Y)
     (hNL : ∀ n ∈ N, L.map (MulAut.conj n).toMonoidHom = L) (hL7 : Nat.card (autSub L Y) = 7) :
     Nat.card (autSub N Y) ∣ 21 := by
   have h2Y : ∀ v : ↥Y, v ^ 2 = 1 := fun v => Subtype.ext (by simpa using hW (v : W))

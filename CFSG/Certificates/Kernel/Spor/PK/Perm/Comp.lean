@@ -140,9 +140,9 @@ private theorem pcR_spec (n w p q : Nat) (K : Nat) : ∀ b, n < 2 ^ (b + K) →
     rw [pcR_succ]
     by_cases h0 : n / 2 ^ b = 0
     · have hlt : n < 2 ^ b := (Nat.div_eq_zero_iff_lt (Nat.two_pow_pos b)).1 h0
-      rw [if_pos h0, Nat.mod_eq_of_lt hlt]
+      rw [ite_eq_left h0, Nat.mod_eq_of_lt hlt]
       exact ⟨Nat.zero_add _, Nat.dvd_zero _⟩
-    · rw [if_neg h0]
+    · rw [ite_eq_right h0]
       have hdiv : n / 2 ^ b / 2 = n / 2 ^ (b + 1) := by
         rw [Nat.div_div_eq_div_mul, Nat.pow_succ]
       have hmod : n % 2 ^ (b + 1) = n % 2 ^ b + 2 ^ b * (n / 2 ^ b % 2) := Nat.mod_pow_succ
@@ -150,11 +150,11 @@ private theorem pcR_spec (n w p q : Nat) (K : Nat) : ∀ b, n < 2 ^ (b + K) →
       obtain ⟨ih1, ih2⟩ := ih (b + 1) hb'
       rw [hdiv]
       by_cases h1 : n / 2 ^ b % 2 = 0
-      · rw [if_pos h1]
+      · rw [ite_eq_left h1]
         rw [h1, Nat.mul_zero, Nat.add_zero] at hmod
         rw [hmod] at ih1 ih2
         exact ⟨ih1, ih2⟩
-      · rw [if_neg h1]
+      · rw [ite_eq_right h1]
         have h1' : n / 2 ^ b % 2 = 1 := by omega
         have hlo : n - n / 2 ^ b * 2 ^ b = n % 2 ^ b := by
           have := @Nat.div_mul_self_eq_mod_sub_self n (2 ^ b)
@@ -167,9 +167,9 @@ private theorem pcR_spec (n w p q : Nat) (K : Nat) : ∀ b, n < 2 ^ (b + K) →
         have hA : (if b < 3 then pmkH w (mask w) p q b lo else pmkH8 w (mask w) p q (b - 3) lo) =
             enc w (fun i => fd w p (fd w q (lo + i))) (2 ^ b) := by
           by_cases h3 : b < 3
-          · rw [if_pos h3]
+          · rw [ite_eq_left h3]
             exact pmkH_eq w p q b lo
-          · rw [if_neg h3]
+          · rw [ite_eq_right h3]
             have := pmkH8_eq w p q (b - 3) lo
             rwa [show b - 3 + 3 = b by omega] at this
         rw [hA]

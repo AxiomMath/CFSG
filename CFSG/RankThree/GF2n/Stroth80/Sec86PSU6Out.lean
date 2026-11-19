@@ -16,7 +16,7 @@ section Certs
 theorem exists_prime_pow_of_card_sq {K : Type} [Field K] [Finite K] {q : ℕ}
     (hK : Nat.card K = q ^ 2) : ∃ p j : ℕ, p.Prime ∧ 1 ≤ j ∧ q = p ^ j := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   obtain ⟨p, -, n, hp, hcard⟩ := FiniteField.card' K
   rw [Nat.card_eq_fintype_card, hcard] at hK
   have hdvd : q ∣ p ^ (n : ℕ) := ⟨q, by rw [hK]; ring⟩
@@ -31,27 +31,27 @@ theorem psu6OutSolvable_holds : PSU6OutSolvableStatement := by
   intro q Y _ _ F _ hF hC
   obtain ⟨K, _, _, hK, ⟨e⟩⟩ := hF
   obtain ⟨p, j, hp, hj, rfl⟩ := exists_prime_pow_of_card_sq hK
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hnq : ((6 : ℕ), p ^ j) ≠ (3, 2) := by simp
-  haveI : IsSimpleGroup (StatedProj (StatedSU 6 (p ^ j) K)) :=
+  have : IsSimpleGroup (StatedProj (StatedSU 6 (p ^ j) K)) :=
     CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU K p j hK 6 (by norm_num) hnq
-  haveI : Group.IsPerfect (StatedSU 6 (p ^ j) K) :=
+  have : Group.IsPerfect (StatedSU 6 (p ^ j) K) :=
     CFSG.ClassicalGroups.Unitary.isPerfect_statedSU (p := p) (f := j) hK (n := 6) (by norm_num)
       hnq
-  haveI : Group.IsPerfect (StatedProj (StatedSU 6 (p ^ j) K)) := inferInstance
-  haveI hS : IsSimpleGroup ↥F := e.isSimpleGroup
-  haveI : Group.IsPerfect ↥F :=
+  have : Group.IsPerfect (StatedProj (StatedSU 6 (p ^ j) K)) := inferInstance
+  have hS : IsSimpleGroup ↥F := e.isSimpleGroup
+  have : Group.IsPerfect ↥F :=
     Group.IsPerfect.ofSurjective (f := e.symm.toMonoidHom) e.symm.surjective
   have hnonab : ∃ a b : ↥F, a * b ≠ b * a := by
     by_contra hcon
     push Not at hcon
-    haveI : IsMulCommutative ↥F := ⟨⟨fun a b => hcon a b⟩⟩
+    have : IsMulCommutative ↥F := ⟨⟨fun a b => hcon a b⟩⟩
     exact Group.IsPerfect.not_isMulCommutative ↥F inferInstance
   have hcl : StatedClassicalModel ↥F .PSU 6 p j :=
     ⟨⟨hp, hj, by norm_num, hnq⟩, K, inferInstance, inferInstance, hK, ⟨e⟩⟩
   have hcat : CFSG.Assembly.InCatalog ↥F :=
     CFSG.ClassicalModels.inCatalog_of_statedClassicalModel ↥F .PSU 6 p j hcl
-  haveI : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥F) :=
+  have : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥F) :=
     CFSG.RankThree.PartOne.TCB.schreierFor_inCatalog_holds ↥F hnonab hcat
   have hcen : Subgroup.center ↥F = ⊥ := by
     rcases (Subgroup.center ↥F).normal_of_characteristic.eq_bot_or_eq_top with h | h

@@ -169,7 +169,7 @@ public lemma conjIrrS_r0_fixed_iff_r0_inv (c : Hyp11 G) (α : Irr (↥c.U)) :
 `r0` (both send `α` to the unique other element of the `S0`-orbit). -/
 public lemma conjIrrS_r0_eq_r0_inv_of_not_fixed (c : Hyp11 G) (hSC : Section3Hyp c)
     (α : Irr (↥c.U))
-    (hα : conjIrrS c (c.S0_le_S (S0_generator_mem_S0 c)) α ≠ α) :
+    (_hα : conjIrrS c (c.S0_le_S (S0_generator_mem_S0 c)) α ≠ α) :
     conjIrrS c (c.S0_le_S ((c.S0 : Subgroup G).inv_mem (S0_generator_mem_S0 c))) α =
       conjIrrS c (c.S0_le_S (S0_generator_mem_S0 c)) α := by
   have hA : conjIrrS c (c.S0_le_S (S0_generator_mem_S0 c))
@@ -229,7 +229,7 @@ public lemma s0Orbit_card_le_two (c : Hyp11 G) (hSC : Section3Hyp c)
       have hEqG : (a⁻¹ : G) * (a * (g : G)) = (g : G) := by group
       have hEq : conjIrrS c (c.S0_le_S g.2) α =
           conjIrrS c ((c.S : Subgroup G).mul_mem haS h1) α := by
-        simpa [hEqG]
+        simp [hEqG]
       have hEq2 : conjIrrS c ((c.S : Subgroup G).mul_mem haS h1) α =
           conjIrrS c haS α := by
         calc
@@ -274,7 +274,7 @@ public lemma s0Orbit_subset_pair_inv (c : Hyp11 G) (hSC : Section3Hyp c) (α : I
     have hgEq : (S0_generator c)⁻¹ * ((S0_generator c) * (g : G)) = (g : G) := by group
     have h2 : conjIrrS c (c.S0_le_S g.2) α =
         conjIrrS c ((c.S : Subgroup G).mul_mem (c.S0_le_S ((c.S0 : Subgroup G).inv_mem (S0_generator_mem_S0 c))) h1) α := by
-      simpa [hgEq]
+      simp [hgEq]
     have h3 : conjIrrS c ((c.S : Subgroup G).mul_mem (c.S0_le_S ((c.S0 : Subgroup G).inv_mem (S0_generator_mem_S0 c))) h1) α =
         conjIrrS c h1 (conjIrrS c (c.S0_le_S ((c.S0 : Subgroup G).inv_mem (S0_generator_mem_S0 c))) α) :=
       conjIrrS_mul c (c.S0_le_S ((c.S0 : Subgroup G).inv_mem (S0_generator_mem_S0 c))) h1 α
@@ -467,7 +467,7 @@ public theorem orbitOfAlpha_spec (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Section3Hy
       ⟨σ₂, hp1, hσ₂, hne, hsum⟩
     constructor
     · refine ⟨⟨p, hp1⟩, ?_⟩
-      simpa [orbitOfAlpha, lam, hα, p]
+      simp [orbitOfAlpha, lam, hα, p]
     · intro ν hν
       have hν' : ν ∈ orbit c.H0 c.U p := by
         simpa [orbitOfAlpha, lam, hα, p] using hν
@@ -493,7 +493,7 @@ public theorem orbitOfAlpha_spec (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Section3Hy
         (s0Orbit_sum_eq_α_add_r0_of_not_fixed c hSC α hα).symm
     constructor
     · refine ⟨⟨extensionChar_ind c hSC α lam, hν⟩, ?_⟩
-      simpa [orbitOfAlpha, lam, hα]
+      simp [orbitOfAlpha, lam, hα]
     · intro ν hν
       have hν' : ν ∈ orbit c.H0 c.U (extensionChar_ind c hSC α lam) := by
         simpa [orbitOfAlpha, lam, hα] using hν
@@ -516,12 +516,12 @@ public lemma orbit_eq_of_mem' (c : Hyp11 G) [Fintype ↥(LambdaHom c.H0 c.U)]
     refine Finset.mem_image.mpr ⟨l * l₀, Finset.mem_univ _, ?_⟩
     rw [← hEq₀]
     ext x
-    simp [LambdaChar, map_mul, mul_assoc]
+    simp [LambdaChar, mul_assoc]
   · intro hψ
     rcases (Finset.mem_image.mp hψ) with ⟨l, hl, rfl⟩
     refine Finset.mem_image.mpr ⟨l * l₀⁻¹, Finset.mem_univ _, ?_⟩
     ext x
-    simp [LambdaChar, map_mul, map_inv, Units.val_inv, mul_assoc]
+    simp [LambdaChar, mul_assoc]
     have hμx : μ x = (l₀.1 x : ℂ) * ν x := (congrFun hEq₀ x).symm
     rw [hμx]
     have hne : (l₀.1 x : ℂ) ≠ 0 := unit_val_ne_zero (l₀.1 x)
@@ -567,7 +567,7 @@ public theorem exists_lam_constituent_of_scalarProduct_one (c : Hyp11 G) (h12 : 
     exact Classical.choose_spec (Classical.choose_spec
       (exists_extensionChar_of_isIrreducible c hSC (hξ := hirr i)))
   have hres : ∀ i (u : ↥c.U), χs i ⟨(u : G),
-      SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩ = (αi i).1 u := by
+      _root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩ = (αi i).1 u := by
     intro i u
     rw [hχeq i]
     simpa using extensionChar_restrict c hSC (αi i) (lam i) u
@@ -577,13 +577,13 @@ public theorem exists_lam_constituent_of_scalarProduct_one (c : Hyp11 G) (h12 : 
     ext u
     calc
       ψU u = μ.1 ⟨(u : G), (h12.U_normal_in_H0).1 u.2⟩ := rfl
-      _ = ψX ⟨(u : G), SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩ := by
+      _ = ψX ⟨(u : G), _root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩ := by
             rw [hψXeq]
       _ = (∑ i, (ms i : ℂ) • χs i) ⟨(u : G),
-          SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩ := by
+          _root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩ := by
             rw [hψXsum]
       _ = ∑ i, (ms i : ℂ) • (χs i ⟨(u : G),
-          SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩) := by
+          _root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right) u.2⟩) := by
             simp
       _ = (∑ i, (ms i : ℂ) • (αi i).1) u := by
             simp_rw [hres]
@@ -630,8 +630,8 @@ public theorem exists_lam_constituent_of_scalarProduct_one (c : Hyp11 G) (h12 : 
                 exact (hnot (Finset.mem_univ i₀)).elim
         _ = (ms i₀ : ℂ) := by
               by_cases h : χs i₀ = χs i₀
-              · simp [h]
-              · simp [h]
+              · simp
+              · simp
     rw [hsum₀, ← hχ₀] at h
     exact h
   have hspRestrict : scalarProduct (↥(extensionSubgroup c)) (extensionChar c hSC α (lam i₀))
@@ -793,7 +793,7 @@ public lemma stabilizer_fixed_constituent_eq_one (c : Hyp11 G) (h12 : Hyp12 c)
     intro s
     apply Units.ext
     let x : ↥c.H0 := ⟨(s : G), SPrimeMulU_le_H0 c
-      (SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s.2)⟩
+      (_root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s.2)⟩
     have hval : (l.1 x : ℂ) * p x = p x := by
       have h' := congrFun hl x
       simpa [LambdaChar] using h'
@@ -804,9 +804,9 @@ public lemma stabilizer_fixed_constituent_eq_one (c : Hyp11 G) (h12 : Hyp12 c)
       norm_num
     have hpx : p x = α.1 1 := by
       have hX := extensionChar_ind_constituent_on_X_of_fixed c hSC h12 α 1 hfix hσp hσpin
-        ⟨(s : G), SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s.2⟩
+        ⟨(s : G), _root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s.2⟩
       have hE : extensionChar c hSC α 1 ⟨(s : G),
-          SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s.2⟩ = α.1 1 := by
+          _root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s.2⟩ = α.1 1 := by
         simpa using extensionChar_mul c hSC α 1 (1 : ↥c.U) s
       rw [hX, hE]
     have hcancel : (l.1 x : ℂ) = 1 := by
@@ -837,7 +837,7 @@ public lemma stabilizer_fixed_constituent_eq_one (c : Hyp11 G) (h12 : Hyp12 c)
 exactly `{1, λ₂}`. -/
 public lemma stabilizer_ind_not_fixed_eq_pair (c : Hyp11 G) (h12 : Hyp12 c)
     (hSC : Section3Hyp c) [Fintype ↥(LambdaHom c.H0 c.U)] (α : Irr (↥c.U))
-    (hnot : conjIrrS c (c.S0_le_S (S0_generator_mem_S0 c)) α ≠ α) :
+    (_hnot : conjIrrS c (c.S0_le_S (S0_generator_mem_S0 c)) α ≠ α) :
     ∀ l : LambdaHom c.H0 c.U,
       LambdaChar l.1 * extensionChar_ind c hSC α 1 = extensionChar_ind c hSC α 1 ↔
         l = 1 ∨ l = lambdaTwo c h12 := by
@@ -848,14 +848,14 @@ public lemma stabilizer_ind_not_fixed_eq_pair (c : Hyp11 G) (h12 : Hyp12 c)
       intro s
       apply Units.ext
       let x : ↥c.H0 := ⟨(s : G), SPrimeMulU_le_H0 c
-        (SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s.2)⟩
+        (_root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s.2)⟩
       have hval : (l.1 x : ℂ) * extensionChar_ind c hSC α 1 x =
           extensionChar_ind c hSC α 1 x := by
         have h' := congrFun hl x
         simpa [LambdaChar] using h'
       have hInd : extensionChar_ind c hSC α 1 x = 2 * α.1 1 := by
         have hxX : (x : G) ∈ extensionSubgroup c :=
-          SetLike.le_def.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s.2
+          _root_.IsConcreteLE.le_iff.mp (show SPrime c ≤ extensionSubgroup c from le_sup_left) s.2
         have hsh : (S0_generator c) * (x : G) * (S0_generator c)⁻¹ ∈ extensionSubgroup c :=
           S0_generator_normalizes_extensionSubgroup c hSC ⟨(x : G), hxX⟩
         have hmain := inducedFromSub_eq_add_conj_index_two (extensionSubgroup c) c.H0
@@ -1144,7 +1144,7 @@ public theorem orbitOfAlpha_degree_sum (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Sect
   · have hInd1 : extensionChar_ind c hSC α 1 1 = 2 * α.1 1 := by
       have hxX : (1 : G) ∈ extensionSubgroup c := (extensionSubgroup c).one_mem
       have hsh : (S0_generator c) * (1 : G) * (S0_generator c)⁻¹ ∈ extensionSubgroup c := by
-        simpa using S0_generator_normalizes_extensionSubgroup c hSC (1 : ↥(extensionSubgroup c))
+        simp
       have hmain := inducedFromSub_eq_add_conj_index_two (extensionSubgroup c) c.H0
         (SPrimeMulU_le_H0 c) (extensionSubgroup_index_two c hSC h12)
         (s := S0_generator c) (S0_generator_mem_H0 c)
@@ -1152,7 +1152,7 @@ public theorem orbitOfAlpha_degree_sum (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Sect
         (extensionChar c hSC α 1)
         (isCharacter_isClassFunction (extensionChar_isCharacter c hSC α 1)) hxX hsh
       have h1 : extensionChar c hSC α 1
-          ⟨(1 : G), SetLike.le_def.mp (show c.U ≤ extensionSubgroup c from le_sup_right)
+          ⟨(1 : G), _root_.IsConcreteLE.le_iff.mp (show c.U ≤ extensionSubgroup c from le_sup_right)
             (1 : ↥c.U).2⟩ = α.1 1 :=
         extensionChar_restrict c hSC α 1 (1 : ↥c.U)
       have h2 : extensionChar c hSC α 1
@@ -1166,7 +1166,7 @@ public theorem orbitOfAlpha_degree_sum (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Sect
       change @inducedFromSub G _ _ (extensionSubgroup c) c.H0 (SPrimeMulU_le_H0 c)
         (extensionChar c hSC α 1) ⟨(1 : G), SPrimeMulU_le_H0 c hxX⟩ = 2 * α.1 1
       rw [hmain]
-      simp [h1, h2]
+      simp [h1]
       ring
     have hstab2 : (Finset.univ.filter (fun s : LambdaHom c.H0 c.U =>
         LambdaChar s.1 * extensionChar_ind c hSC α 1 = extensionChar_ind c hSC α 1)).card = 2 :=
@@ -1253,7 +1253,7 @@ private lemma restrictU_conjChar (c : Hyp11 G) (h12 : Hyp12 c)
       conjChar c.U (fun x : ↥c.U => S_normalizes_U c c.s c.s_mem_S x.1 x.2)
         (restrictU c h12 ν) := by
   funext u
-  simp [restrictU, conjChar, conjMonoidHom, conjIrrS]
+  simp [restrictU, conjChar, conjMonoidHom]
 
 /-- The scalar product of an orbit-sum of irreducibles with one of its
 members is `1`. -/
@@ -1298,7 +1298,7 @@ private lemma mem_of_sum_eq_irr {G : Type u} [Group G] [Fintype G]
 /-- If a sum of irreducibles equals a sum of two distinct irreducibles,
 every member of the sum is one of the two. -/
 private lemma mem_pair_of_sum_eq_pair (c : Hyp11 G) {s : Finset (Irr (↥c.U))}
-    {a b β : Irr (↥c.U)} (hne : a ≠ b) (hβ : β ∈ s)
+    {a b β : Irr (↥c.U)} (_hne : a ≠ b) (hβ : β ∈ s)
     (hsum : (∑ γ ∈ s, γ.1) = a.1 + b.1) : β = a ∨ β = b := by
   classical
   have hsp1 : scalarProduct (↥c.U) (∑ γ ∈ s, γ.1) β.1 = 1 := by
@@ -1325,7 +1325,7 @@ private lemma mem_pair_of_sum_eq_pair (c : Hyp11 G) {s : Finset (Irr (↥c.U))}
 
 /-- Conjugating the `S0`-orbit sum of `α` by `s` gives the `S0`-orbit sum
 of `α^s`. -/
-private lemma s0Orbit_conjIrrS (c : Hyp11 G) (hSC : Section3Hyp c)
+private lemma s0Orbit_conjIrrS (c : Hyp11 G) (_hSC : Section3Hyp c)
     (α : Irr (↥c.U)) :
     conjChar c.U (fun x : ↥c.U => S_normalizes_U c c.s c.s_mem_S x.1 x.2)
         (∑ β ∈ s0Orbit c α, β.1) =
@@ -1592,8 +1592,7 @@ public theorem orbitOfAlpha_fixed_iff (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Secti
         _ = σ := hresconj
     exact stabilizerS_not_le_S0_of_sα_mem c α
       (sα_mem_s0Orbit_of_sum_fixed c hSC α hsumfix)
-  · intro hnot
-    intro ν hν
+  · intro hnot ν hν
     rcases orbitOfAlpha_spec c h12 hSC α with ⟨⟨μ, hL⟩, hres⟩
     have hνirr : IsIrreducibleCharacter ν :=
       orbit_mem_isIrreducible c.H0 c.U μ.2 (by simpa [hL] using hν)
@@ -1657,7 +1656,7 @@ private lemma exists_outside_of_not_le (c : Hyp11 G) (α : Irr (↥c.U))
   exact hnone ⟨x, hx, hxS0⟩
 
 /-- If `S0 ≤ S_α` and some outside element fixes `α`, then `S_α = S`. -/
-private lemma stabilizerS_eq_S_of_outside (c : Hyp11 G) (hSC : Section3Hyp c)
+private lemma stabilizerS_eq_S_of_outside (c : Hyp11 G) (_hSC : Section3Hyp c)
     (α : Irr (↥c.U))
     (hS0le : (c.S0 : Subgroup G) ≤ stabilizerS c α)
     {x : G} (hxStab : x ∈ stabilizerS c α)
@@ -1712,6 +1711,7 @@ private lemma stabilizerS_inf_S0_eq_SPrime (c : Hyp11 G) (hSC : Section3Hyp c)
     exact Subgroup.mem_inf.mpr
       ⟨SPrime_le_stabilizerS c hSC α hxSP, SPrime_le_S0 c hxSP⟩
 
+omit [Fintype G] in
 /-- If `t·x ∈ K` and `t` is an involution, then `K⟨x⟩ = K⟨t⟩`. -/
 private lemma sup_zpowers_eq_of_reflection {K : Subgroup G} {t x : G}
     (ht2 : t * t = 1) (htx : t * x ∈ K) :
@@ -1732,15 +1732,15 @@ private lemma sup_zpowers_eq_of_reflection {K : Subgroup G} {t x : G}
     · rw [Subgroup.zpowers_le]
       rw [hx]
       exact (K ⊔ Subgroup.zpowers t).mul_mem
-        (SetLike.le_def.mp le_sup_right (Subgroup.mem_zpowers t))
-        (SetLike.le_def.mp le_sup_left htx)
+        (_root_.IsConcreteLE.le_iff.mp le_sup_right (Subgroup.mem_zpowers t))
+        (_root_.IsConcreteLE.le_iff.mp le_sup_left htx)
   · refine sup_le ?_ ?_
     · exact le_sup_left
     · rw [Subgroup.zpowers_le]
       rw [ht]
       exact (K ⊔ Subgroup.zpowers x).mul_mem
-        (SetLike.le_def.mp le_sup_right (Subgroup.mem_zpowers x))
-        (SetLike.le_def.mp le_sup_left (K.inv_mem htx))
+        (_root_.IsConcreteLE.le_iff.mp le_sup_right (Subgroup.mem_zpowers x))
+        (_root_.IsConcreteLE.le_iff.mp le_sup_left (K.inv_mem htx))
 
 /-- An element of `S \ S0` lies in one of the two subgroups
 `S'⟨t1⟩`, `S'⟨t2⟩`. -/
@@ -1780,8 +1780,8 @@ private lemma outside_mem_sup_t1_or_t2 (c : Hyp11 G) {x : G}
     · simpa [r] using hrSP
     · have hmem : c.t1 * (r : G) ∈ SPrime c ⊔ Subgroup.zpowers c.t1 :=
         (SPrime c ⊔ Subgroup.zpowers c.t1).mul_mem
-          (SetLike.le_def.mp le_sup_right (Subgroup.mem_zpowers c.t1))
-          (SetLike.le_def.mp le_sup_left hrSP)
+          (_root_.IsConcreteLE.le_iff.mp le_sup_right (Subgroup.mem_zpowers c.t1))
+          (_root_.IsConcreteLE.le_iff.mp le_sup_left hrSP)
       simpa [hxeq] using hmem
   · right
     have hrev : c.t2 * c.t1 = (S0_generator c)⁻¹ := by
@@ -1820,10 +1820,10 @@ private lemma outside_mem_sup_t1_or_t2 (c : Hyp11 G) {x : G}
             _ = x := by rw [ht2]; simp
         exact hxx.symm
       have hmemSup : c.t2 * x ∈ SPrime c ⊔ Subgroup.zpowers c.t2 :=
-        SetLike.le_def.mp le_sup_left hmem
+        _root_.IsConcreteLE.le_iff.mp le_sup_left hmem
       have hfinal : c.t2 * (c.t2 * x) ∈ SPrime c ⊔ Subgroup.zpowers c.t2 :=
         (SPrime c ⊔ Subgroup.zpowers c.t2).mul_mem
-          (SetLike.le_def.mp le_sup_right (Subgroup.mem_zpowers c.t2)) hmemSup
+          (_root_.IsConcreteLE.le_iff.mp le_sup_right (Subgroup.mem_zpowers c.t2)) hmemSup
       rw [hx2]
       exact hfinal
 
@@ -1862,7 +1862,7 @@ private lemma stabilizerS_eq_sup_of_outside (c : Hyp11 G) (hSC : Section3Hyp c)
           Subgroup.mem_inf.mpr ⟨hgStab, hgS0⟩
         rw [hinter] at hmem
         exact hmem
-      exact SetLike.le_def.mp le_sup_left hgSP
+      exact _root_.IsConcreteLE.le_iff.mp le_sup_left hgSP
     · have habK : a * b ∈ K := by
         rw [hiff]
         simp [haK, hbK]
@@ -1875,18 +1875,18 @@ private lemma stabilizerS_eq_sup_of_outside (c : Hyp11 G) (hSC : Section3Hyp c)
         rw [hinter] at hmem
         exact hmem
       have hxInvSup : x⁻¹ ∈ SPrime c ⊔ Subgroup.zpowers x :=
-        SetLike.le_def.mp le_sup_right
+        _root_.IsConcreteLE.le_iff.mp le_sup_right
           ((Subgroup.zpowers x).inv_mem (Subgroup.mem_zpowers x))
       have hprod : x⁻¹ * (x * g) = g := by group
       have hmemSup : x⁻¹ * (x * g) ∈ SPrime c ⊔ Subgroup.zpowers x :=
         (SPrime c ⊔ Subgroup.zpowers x).mul_mem hxInvSup
-          (SetLike.le_def.mp le_sup_left habSP)
+          (_root_.IsConcreteLE.le_iff.mp le_sup_left habSP)
       simpa [hprod] using hmemSup
   · exact hle
 
 /-- The `i.e.`-part of Remark 3.1: `S_α ≰ S0` iff (`n = 1` and `S_α = S`) or
 (`n = 2` and `S_α = S'⟨t1⟩` or `S'⟨t2⟩`). -/
-public theorem stabilizerS_not_le_S0_iff (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Section3Hyp c)
+public theorem stabilizerS_not_le_S0_iff (c : Hyp11 G) (_h12 : Hyp12 c) (hSC : Section3Hyp c)
     [Fintype ↥(LambdaHom c.H0 c.U)] (α : Irr (↥c.U)) :
     ¬ stabilizerS c α ≤ (c.S0 : Subgroup G) ↔
       ((s0Orbit c α).card = 1 ∧ stabilizerS c α = (c.S : Subgroup G)) ∨
@@ -1949,12 +1949,12 @@ public theorem stabilizerS_not_le_S0_iff (c : Hyp11 G) (h12 : Hyp12 c) (hSC : Se
       · intro hle
         have ht1S0 : c.t1 ∈ (c.S0 : Subgroup G) := hle (by
           rw [hEq1]
-          exact SetLike.le_def.mp le_sup_right (Subgroup.mem_zpowers c.t1))
+          exact _root_.IsConcreteLE.le_iff.mp le_sup_right (Subgroup.mem_zpowers c.t1))
         exact c.t1_not_mem_S0 ht1S0
       · intro hle
         have ht2S0 : c.t2 ∈ (c.S0 : Subgroup G) := hle (by
           rw [hEq2]
-          exact SetLike.le_def.mp le_sup_right (Subgroup.mem_zpowers c.t2))
+          exact _root_.IsConcreteLE.le_iff.mp le_sup_right (Subgroup.mem_zpowers c.t2))
         exact c.t2_not_mem_S0 ht2S0
 
 /-- Every `Λ`-orbit is of the form `Λ(α)` for some `α ∈ Irr(U)`. -/

@@ -40,7 +40,7 @@ variable {G : Type} [Group G] {L : Subgroup G} {K : Type} [Field K] [CharP K 2] 
 @[expose] def FF3Concl (φ : L ≃* antiSp K) (t : G) (i : Axis) : Prop :=
   normalizer (Tplus φ t i : Set G) ≤ normalizer (S φ t i : Set G)
 
-@[expose] def FF5Concl (n : ℕ) (φ : L ≃* antiSp K) (t : G) : Prop :=
+@[expose] def FF5Concl (n : ℕ) (_φ : L ≃* antiSp K) (t : G) : Prop :=
   ∀ R : Subgroup G, IsPGroup 2 R → R ≤ centralizer ({t} : Set G) →
     Nat.card R ≤ 2 * Nat.card K ^ 4 * 2 ^ (n.factorization 2)
 

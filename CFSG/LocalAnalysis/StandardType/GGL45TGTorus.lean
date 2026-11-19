@@ -21,7 +21,7 @@ theorem exists_lift_of_diag_three (S : GSetting p q₀ d k D K ψ E) {P : GL (Fi
     (hd : d = 3) (s : Fin d → kˣ) (hs : ∀ i, s i ^ p = 1) :
     ∃ y, S.IsLift y ∧ P * y * P⁻¹ = diagGL d s := by
   classical
-  haveI : NeZero p := ⟨S.hp.ne_zero⟩
+  have : NeZero p := ⟨S.hp.ne_zero⟩
   have ht : ∀ x : {x : GL (Fin d) k // S.IsLift x}, ∃ t : Fin d → kˣ,
       (∀ i, t i ^ p = 1) ∧ P * x.1 * P⁻¹ = diagGL d t := fun x => S.frame_eq_diagGL hP x.2
   choose t htp ht using ht
@@ -156,9 +156,9 @@ theorem commute_of_comm_scalar (S : GSetting p q₀ d k D K ψ E) {g : GL (Fin d
         by_contra hne
         by_cases hae : a' = e
         · subst hae
-          simp only [hne, if_false, one_mul, if_true] at ha'
+          simp only [hne, ite_false, one_mul, ite_true] at ha'
           exact hωinv ha'
-        · simp only [hne, hae, if_false, mul_one] at ha'
+        · simp only [hne, hae, ite_false, mul_one] at ha'
           exact hω1 ha'.symm
       · rw [hsv]; simp [hb₂.1, hb₂.2.2]
   obtain ⟨t, -, hxt⟩ := S.frame_eq_diagGL hP hx

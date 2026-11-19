@@ -178,8 +178,7 @@ theorem stmt5_2_8_U4_SL3_of (h37 : A37ForSQTK) (h38 : A38ForSQTK) (h39 : A39ForS
     congr 1
     · rw [show Nat.card (↥K ⧸ CFSG.pCore 2 ↥K) = Nat.card (ModO2 K) from rfl,
         Nat.card_congr eK.toEquiv, card_SL_two hFc]
-    · try with_reducible rfl
-      exact (Subgroup.card_map_of_injective K.subtype_injective).symm
+    · exact (Subgroup.card_map_of_injective K.subtype_injective).symm
   have htprops : ∀ t : G, orderOf t = 2 →
       pCoreOf 2 (K ⊔ sec52S M H) = Q ⊔ Subgroup.zpowers t →
         t ∈ Subgroup.normalizer (Q : Set G) ∧ t ^ 2 = 1 ∧

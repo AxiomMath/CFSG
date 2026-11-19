@@ -24,7 +24,7 @@ theorem typeCNormalDatumQ8_proved :
   have hLC : L ≤ C := isSubnormal_le hz.subnormal
   obtain ⟨hodd, -⟩ := odd_index_of_memberIndex_eq_three hS.sup hC
   set Q' : Subgroup Y := (Q : Subgroup L).map L.subtype with hQ'def
-  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup'.map L.subtype
+  have hQ'2 : IsPGroup 2 Q' := Q.isPGroup.map L.subtype
   have hQ'T : Q' ≤ T := isPGroup_two_le_of_odd_index hodd hQ'2
   have hQ'L : Q' ≤ L := Subgroup.map_subtype_le _
   have hQ'C : Q' ≤ C := hQ'L.trans hLC
@@ -62,8 +62,7 @@ theorem typeCNormalDatumQ8_proved :
     ⟨⟨⟨q, hQ'T hq⟩, (hR _).mpr (hQ'P hq)⟩, rfl⟩
   have hQ''2 : IsPGroup 2 (Q'.comap ι) := hQ'2.comap_of_injective ι hι
   have hmax : ∀ ⦃K : Subgroup R⦄, IsPGroup 2 K → Q'.comap ι ≤ K → K ≤ Q'.comap ι := by
-    intro K hK hle
-    intro r hr
+    intro K hK hle r hr
     have hKY2 : IsPGroup 2 (K.map ι) := hK.map ι
     obtain ⟨q, hq, o, ho, hqo⟩ := mem_sup_oddCoreIn hQ'C (hιmem r)
     have hqK : q ∈ K.map ι := by

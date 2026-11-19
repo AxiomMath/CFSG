@@ -36,7 +36,7 @@ theorem sec11_X_E4 [Finite G] (hp : Asc82Pre11) (h111N : Asc82Lemma111N) {t : G}
     exact Subgroup.subset_closure ⟨1, by simp, by simp⟩
   have htzX : t * z ∈ secXH t z := by
     have htzTheta : t * z ∈ secTheta t z R := sec11_tz_mem_Theta hp h111N hctx
-    simp only [secTheta, Set.mem_setOf_eq] at htzTheta
+    simp only [secTheta, Set.mem_ofPred_eq] at htzTheta
     obtain ⟨-, h, hhH, hheq⟩ := htzTheta
     simp only [secXH]
     exact Subgroup.subset_closure ⟨h, hhH, hheq⟩

@@ -103,7 +103,7 @@ theorem m3_structure [CFSG.QuasithinUnique.Ch1.SporLat.M24.M24Lat] {B : Subgroup
   have hperfB : Group.IsPerfect ↥B := Subgroup.isPerfect_iff.mpr hperf
   let incl : ↥B →* ↥M3 := Subgroup.inclusion hBle
   have hρ : ((rho3 j4Facts).comp incl).range = ⊥ := by
-    haveI := hperfB
+    have := hperfB
     have hRρ : Group.IsPerfect ((rho3 j4Facts).comp incl).range := Group.IsPerfect.range _
     rcases isPerfect_perm_five hRρ with h | h
     · exact h
@@ -124,11 +124,11 @@ theorem m3_structure [CFSG.QuasithinUnique.Ch1.SporLat.M24.M24Lat] {B : Subgroup
       rw [hρ, Subgroup.mem_bot] at this
       exact this
     exact (rho3_eq_one_iff ⟨b, hBle hb⟩).mp h1
-  haveI := E8.isSimpleGroup_statedSL3
+  have := E8.isSimpleGroup_statedSL3
   have hc168 : Nat.card ↥(CFSG.Assembly.LowTwoRank.StatedSL 3 (ZMod 2)) = 168 := E8.card_statedSL3
   have hQ2 : IsPGroup 2 ↥Qg := IsPGroup.of_card (n := 15) card_Q
   have htop : (B.subgroupOf M3).map eM3 = ⊤ := by
-    haveI := hperfB
+    have := hperfB
     have hR : Group.IsPerfect ((MonoidHom.comp eM3 incl).range) := Group.IsPerfect.range _
     have hrange : (MonoidHom.comp eM3 incl).range = (B.subgroupOf M3).map eM3 := by
       rw [MonoidHom.range_comp, Subgroup.inclusion_range]

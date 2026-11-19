@@ -16,7 +16,7 @@ theorem noQ16Q16_mulAut_of_autModel {X₀ : Type} [Group X₀] {W : Type} [Group
     (hW : CFSG.ComponentClassification.RankTwoSporadic.AutModel X₀ W X) {F : Type} [Group F]
     (e : F ≃* X₀) (h : NoQ16Q16 W) : NoQ16Q16 (MulAut F) := by
   obtain ⟨ε⟩ := hW.nonempty_mulEquiv
-  haveI := hW.normal
+  have := hW.normal
   let c : W →* MulAut ↥X := MulAut.conjNormal
   have hinj : Function.Injective c := by
     rw [injective_iff_map_eq_one]

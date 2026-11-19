@@ -273,7 +273,7 @@ private theorem k89oc_pRank_five_X_le_one
       rw [← Subgroup.map_subgroupOf_eq_of_le hS₀_le_X]
       exact Subgroup.map_mono hQle
     have hT_pgroup : IsPGroup 5 ((Q : Subgroup ↥X).map X.subtype) :=
-      Q.isPGroup'.map X.subtype
+      Q.isPGroup.map X.subtype
     have hS₀_lt_T : S₀ < (Q : Subgroup ↥X).map X.subtype := by
       refine lt_of_le_of_ne hS₀_le_T ?_
       intro hEq

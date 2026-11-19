@@ -29,11 +29,11 @@ theorem d6RootCoreAt_holds : D6RootCoreAt := by
   have hEcard7 : Nat.card E = 3 ^ 7 := by simpa [Row.m, Row.n] using hEcard
   obtain ⟨hKsimple, ⟨eD6⟩⟩ := isSimpleGroup_and_mulEquiv_of_isRow_D6 hrow hZ
   have hRKnormal : ((R ⊓ K).subgroupOf K).Normal := by
-    haveI : (R.subgroupOf C).Normal := hRn'
+    have : (R.subgroupOf C).Normal := hRn'
     have h := Subgroup.inf_subgroupOf_inf_normal_of_left (A := C) (A' := R) K
     rwa [inf_eq_right.mpr hKC'] at h
   have hRKbot : R ⊓ K = ⊥ := by
-    haveI : ((R ⊓ K).subgroupOf K).Normal := hRKnormal
+    have : ((R ⊓ K).subgroupOf K).Normal := hRKnormal
     rcases hKsimple.eq_bot_or_eq_top_of_normal ((R ⊓ K).subgroupOf K) with hbot | htop
     · have hd : Disjoint (R ⊓ K) K := Subgroup.subgroupOf_eq_bot.mp hbot
       have h : (R ⊓ K) ⊓ K = ⊥ := disjoint_iff.mp hd
@@ -84,7 +84,7 @@ theorem d6RootCoreAt_holds : D6RootCoreAt := by
   have hx3 : x ^ 3 = 1 := by
     rw [← hxord]
     exact pow_orderOf_eq_one x
-  haveI : Finite (Subgroup G) := by
+  have : Finite (Subgroup G) := by
     have h : Fintype G := Fintype.ofFinite G
     let : Fintype G := h
     refine Finite.of_injective (fun S : Subgroup G => (S : Set G).toFinset) ?_
@@ -93,7 +93,7 @@ theorem d6RootCoreAt_holds : D6RootCoreAt := by
     have hh : y ∈ (S : Set G).toFinset ↔ y ∈ (T : Set G).toFinset := by
       rw [← Finset.ext_iff.mp hst y]
     simpa using hh
-  letI : Fintype (Subgroup G) := Fintype.ofFinite (Subgroup G)
+  let : Fintype (Subgroup G) := Fintype.ofFinite (Subgroup G)
   let T : Finset (Subgroup G) :=
     Finset.univ.filter (fun M => M ≤ K ∧ IsElemAbelian 3 M ∧ x ∈ M)
   have hTne : T.Nonempty := by
@@ -158,7 +158,7 @@ theorem d6RootCoreAt_holds : D6RootCoreAt := by
     intro y hy
     rw [Set.mem_singleton_iff] at hy
     rw [hy]
-    haveI : IsMulCommutative F := hFelem.1
+    have : IsMulCommutative F := hFelem.1
     have hcomm := congrArg Subtype.val (mul_comm' (⟨f, hf⟩ : F) ⟨b₀, hb₀F⟩)
     exact hcomm.symm
   have hFle : F ≤ Subgroup.zpowers b₀ ⊔ K := by

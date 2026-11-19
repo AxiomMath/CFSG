@@ -36,7 +36,7 @@ theorem s1611e3_exists_mul_of_mem_sup_of_commute
         rwa [h1]
       · change a * (a⁻¹ * y * a⁻¹⁻¹) * a⁻¹ = y
         group
-  haveI : (K.subgroupOf (H ⊔ K)).Normal :=
+  have : (K.subgroupOf (H ⊔ K)).Normal :=
     Subgroup.normal_subgroupOf_sup_of_le_normalizer hH
   have hx' : (⟨x, hx⟩ : ↥(H ⊔ K)) ∈ H.subgroupOf (H ⊔ K) ⊔ K.subgroupOf (H ⊔ K) := by
     rw [← Subgroup.subgroupOf_sup le_sup_left le_sup_right, Subgroup.subgroupOf_self]
@@ -53,7 +53,7 @@ theorem s1611e3_seven_eq_one_of_fix_isIrr {L : Subgroup (MulAut W)} {I : Subgrou
     {a : MulAut W} (haL : a ∈ L) (ha7 : a ^ 7 = 1) {z : W} (hzI : z ∈ I) (hz1 : z ≠ 1)
     (haz : a z = z) : a = 1 := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hP : IsPGroup 7 ↥(Subgroup.zpowers a) := by
     apply IsPGroup.of_card_dvd_pow (n := 1)
     rw [Nat.card_zpowers, pow_one]
@@ -65,7 +65,7 @@ theorem s1611e3_seven_eq_one_of_fix_isIrr {L : Subgroup (MulAut W)} {I : Subgrou
     { smul := fun p v => ⟨p.1 v.1, hinvI p.1 p.2 v.1 v.2⟩
       one_smul := fun _ => Subtype.ext rfl
       mul_smul := fun _ _ _ => Subtype.ext rfl }
-  letI := act
+  let := act
   have hfixC : Nat.card (MulAction.fixedPoints ↥(Subgroup.zpowers a) ↥I) =
       Nat.card ↥(fixV (Subgroup.zpowers a) ⊓ I) := by
     refine Nat.card_congr ?_
@@ -91,7 +91,7 @@ theorem s1611e3_seven_eq_one_of_fix_isIrr {L : Subgroup (MulAut W)} {I : Subgrou
     have hne : (⟨(1 : W), h1mem⟩ : ↥(fixV (Subgroup.zpowers a) ⊓ I)) ≠ ⟨z, hzmem⟩ := by
       intro h
       exact hz1 (Subtype.ext_iff.mp h).symm
-    haveI : Nontrivial ↥(fixV (Subgroup.zpowers a) ⊓ I) := ⟨_, _, hne⟩
+    have : Nontrivial ↥(fixV (Subgroup.zpowers a) ⊓ I) := ⟨_, _, hne⟩
     have h := Finite.one_lt_card (α := ↥(fixV (Subgroup.zpowers a) ⊓ I))
     omega
   have hcard8 : Nat.card ↥(fixV (Subgroup.zpowers a) ⊓ I) = 8 := by
@@ -122,6 +122,7 @@ theorem s1611e3_seven_eq_one_of_fix_isIrr {L : Subgroup (MulAut W)} {I : Subgrou
     (s16c167_norm_irr_nontrivial hI hcI) a haL
     (fun v hv => mem_fixV.mp (hle_fix hv) a (Subgroup.mem_zpowers a))
 
+omit [Finite W] in
 theorem s1611e3_eq_of_mul_eq_mul_of_inf_bot {A B : Subgroup W} (h : A ⊓ B = ⊥)
     {u u' v v' : W} (hu : u ∈ A) (hu' : u' ∈ B) (hv : v ∈ A) (hv' : v' ∈ B)
     (hmul : u * u' = v * v') : u = v ∧ u' = v' := by

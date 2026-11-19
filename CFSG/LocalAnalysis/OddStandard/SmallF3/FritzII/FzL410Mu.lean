@@ -41,7 +41,7 @@ private lemma fz410_pow_zmod2 {G : Type} [Group G] {g : G} (hg : g ^ 2 = 1) (a b
   have h01a : a = 0 ∨ a = 1 := by revert a; decide
   have h01b : b = 0 ∨ b = 1 := by revert b; decide
   rcases h01a with rfl | rfl <;> rcases h01b with rfl | rfl
-  · simp only [add_zero, ZMod.val_zero, pow_zero, one_mul, mul_one]
+  · simp only [add_zero, ZMod.val_zero, pow_zero, mul_one]
   · simp only [zero_add, ZMod.val_zero, ZMod.val_one 2, pow_zero, pow_one, one_mul]
   · simp only [add_zero, ZMod.val_zero, ZMod.val_one 2, pow_zero, pow_one, mul_one]
   · rw [show (1 : ZMod 2) + 1 = 0 by decide, ZMod.val_zero, pow_zero,
@@ -52,13 +52,14 @@ namespace Fz410Mod
 variable {G : Type} [Group G] [Finite G] {t tau lam rho s : G} {Z E W Q R T P : Subgroup G}
   {emb : FzL410.A → G} (M : Fz410Mod t tau lam rho s Z E W Q R T P emb)
 
+omit [Finite G] in
 private lemma fz410_conj_val {g : G} {f : FzL410.A → FzL410.A}
     (hf : ∀ q, MulAut.conj g (emb q) = emb (f q)) (a : ZMod 2) (q : FzL410.A) :
     ((MulAut.conj g) ^ a.val) (emb q) = emb (FzL410.ap a f q) := by
   have h01 : a = 0 ∨ a = 1 := by revert a; decide
   rcases h01 with rfl | rfl
-  · rw [ZMod.val_zero, pow_zero, MulAut.one_apply, FzL410.ap, if_pos rfl]
-  · rw [ZMod.val_one 2, pow_one, FzL410.ap, if_neg (by decide)]
+  · rw [ZMod.val_zero, pow_zero, MulAut.one_apply, FzL410.ap, ite_eq_left rfl]
+  · rw [ZMod.val_one 2, pow_one, FzL410.ap, ite_eq_right (by decide)]
     exact hf q
 
 include M
@@ -177,6 +178,7 @@ private lemma fz410_conj_v (w : FzL410.V) (q : FzL410.A) :
       fz410_conj_val (emb := emb) ht a (FzL410.ap b FzL410.ss (FzL410.ap c FzL410.ll q))]
   rfl
 
+omit [Finite G] M in
 private lemma fz410_mu_eq (x : FzL410.TM) :
     fz410Mu emb t s lam x = emb x.1 * fz410MuV t s lam x.2 := by
   rw [fz410Mu, fz410MuV]
@@ -222,7 +224,7 @@ private lemma fz410_muV_mul_self (w : FzL410.V) :
   simp [fz410MuV, ZMod.val_zero, pow_zero]
 
 private lemma fz410_mu_mem_T (x : FzL410.TM) : fz410Mu emb t s lam x ∈ T := by
-  rw [fz410_mu_eq M x, fz410MuV]
+  rw [fz410_mu_eq x, fz410MuV]
   exact T.mul_mem
     (M.str.RT (M.str.QR (M.pf.PQ ((M.emb.mem (emb x.1)).mpr ⟨x.1, rfl⟩))))
     (T.mul_mem (T.mul_mem
@@ -232,7 +234,7 @@ private lemma fz410_mu_mem_T (x : FzL410.TM) : fz410Mu emb t s lam x ∈ T := by
 
 theorem mu_mul (x y : FzL410.TM) :
     fz410Mu emb t s lam (FzL410.mulT x y) = fz410Mu emb t s lam x * fz410Mu emb t s lam y := by
-  rw [fz410_mu_eq M x, fz410_mu_eq M y, fz410_mu_eq M (FzL410.mulT x y)]
+  rw [fz410_mu_eq x, fz410_mu_eq y, fz410_mu_eq (FzL410.mulT x y)]
   simp only [FzL410.mulT]
   rw [M.emb.mul, M.fz410_muV_add]
   have key : emb (FzL410.act x.2 y.1) * fz410MuV t s lam x.2
@@ -247,7 +249,7 @@ theorem mu_mul (x y : FzL410.TM) :
 
 theorem mu_inj : Function.Injective (fz410Mu emb t s lam) := by
   intro x y hxy
-  rw [fz410_mu_eq M x, fz410_mu_eq M y] at hxy
+  rw [fz410_mu_eq x, fz410_mu_eq y] at hxy
   have hVin : (fz410MuV t s lam x.2)⁻¹ = fz410MuV t s lam x.2 :=
     inv_eq_of_mul_eq_one_right (M.fz410_muV_mul_self x.2)
   have hP : fz410MuV t s lam (y.2 + x.2) ∈ P := by
@@ -284,7 +286,7 @@ theorem mem_T (g : G) : g ∈ T ↔ ∃ x, fz410Mu emb t s lam x = g := by
   constructor
   · intro hg
     classical
-    haveI : Fintype T := Fintype.ofFinite T
+    have : Fintype T := Fintype.ofFinite T
     let f : FzL410.TM → T := fun x => ⟨fz410Mu emb t s lam x, M.fz410_mu_mem_T x⟩
     have hf : Function.Injective f := by
       intro x y hxy

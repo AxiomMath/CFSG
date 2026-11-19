@@ -8,6 +8,7 @@ namespace CFSG.GroupTheory
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem pow_card_conj_eq_of_stabilizes {P W : Subgroup G} {k : G}
     (hkW : ∀ w ∈ W, k * w * k⁻¹ = w)
     (hkP : ∀ p ∈ P, k * p * k⁻¹ * p⁻¹ ∈ W) :

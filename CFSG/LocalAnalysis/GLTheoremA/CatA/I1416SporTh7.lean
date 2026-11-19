@@ -42,7 +42,7 @@ theorem prime_mul_card_pSimple_dvd_cent {S : Type} [Group S] [Finite S] {p : ℕ
     {k : S} (hk : orderOf k = p) {J : Subgroup S}
     (hJ : J ≤ Subgroup.centralizer ({k} : Set S)) :
     p * Nat.card (PSimple p J) ∣ Nat.card (Subgroup.centralizer ({k} : Set S)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hkc : ∀ g ∈ J, g * k = k * g := fun g hg =>
     Subgroup.mem_centralizer_singleton_iff.1 (hJ hg)
   by_cases hkJ : k ∈ J
@@ -116,7 +116,7 @@ theorem prime_mul_card_pSimple_dvd_cent {S : Type} [Group S] [Finite S] {p : ℕ
 
 theorem card_eq_168_of_dvd {T : Type} [Group T] [Finite T] [IsSimpleGroup T]
     (hnab : ∃ a b : T, a * b ≠ b * a) (hd : Nat.card T ∣ 168) : Nat.card T = 168 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hns : ¬ Group.IsSolvable T := fun h => by
     obtain ⟨a, b, hab⟩ := hnab
     exact hab ((IsSimpleGroup.comm_iff_isSolvable.2 h) a b)
@@ -161,16 +161,16 @@ theorem card_eq_168_of_dvd {T : Type} [Group T] [Finite T] [IsSimpleGroup T]
       norm_num at this
     · apply hns
       have hp : IsPGroup 7 T := by
-        have := P.isPGroup'
+        have := P.isPGroup
         rw [ht] at this
         exact this.of_equiv Subgroup.topEquiv
-      haveI := hp.isNilpotent
+      have := hp.isNilpotent
       infer_instance
   · exact h168
 
 theorem orderOf_mul_pow_six {G : Type*} [Group G] {x y : G} (hc : Commute x y) (hx : x ^ 7 = 1)
     (hy : y ^ 7 = 1) (hpow : ∀ k < 7, y ≠ x ^ k) : orderOf (x * y ^ 6) = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   refine orderOf_eq_prime ?_ ?_
   · rw [(hc.pow_right 6).mul_pow, hx, one_mul, ← pow_mul, show 6 * 7 = 7 * 6 by norm_num,
       pow_mul, hy, one_pow]
@@ -242,11 +242,11 @@ theorem orderOf_z7 : orderOf (slpJ a b prog7 24 * slpJ a b prog7 25 ^ 6) = 7 := 
 set_option maxRecDepth 100000 in
 theorem compOK_z7 : CompOK 7 (slpJ a b prog7 24 * slpJ a b prog7 25 ^ 6) := by
   have hp7 : Nat.Prime 7 := by norm_num
-  haveI : Finite J :=
+  have : Finite J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Th.Max3.natCard_J]; norm_num)
   intro I hI
   obtain ⟨hs, hnab⟩ := CFSG.LocalAnalysis.GLTheoremA.KDSpor.pSimple_simple_nonab hp7 hI
-  haveI := hs
+  have := hs
   have hd : 7 * Nat.card (PSimple 7 I) ∣ 1176 :=
     card_centralizer_z7 ▸ prime_mul_card_pSimple_dvd_cent hp7 orderOf_z7 hI.1
   have hd168 : Nat.card (PSimple 7 I) ∣ 168 :=
@@ -257,8 +257,8 @@ theorem compOK_z7 : CompOK 7 (slpJ a b prog7 24 * slpJ a b prog7 25 ^ 6) := by
 set_option maxRecDepth 100000 in
 theorem compOK_seven_J (k : J) (hk : orderOf k = 7) : CompOK 7 k := by
   have hp7 : Nat.Prime 7 := by norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨hp7⟩
-  haveI : Finite J :=
+  have : Fact (Nat.Prime 7) := ⟨hp7⟩
+  have : Finite J :=
     Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Th.Max3.natCard_J]; norm_num)
   obtain ⟨h7x, h7y, hcomm, hx1, hpow⟩ := thSeven_pair
   obtain ⟨c, hc⟩ := exists_conj_eq_of_pair (z := slpJ a b prog7 24 * slpJ a b prog7 25 ^ 6)
@@ -285,9 +285,9 @@ theorem row_Th_seven
   have hs : IsSimpleGroup ↥CFSG.Sporadic.Th.J :=
     CFSG.Sporadic.Th.Kernel.isSimpleGroup_J CFSG.Sporadic.Th.th_kernel_facts
   have hnc : ∃ a c : ↥CFSG.Sporadic.Th.J, a * c ≠ c * a := by
-    haveI : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
+    have : Finite (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
       Finite.of_equiv _ CFSG.Sporadic.Th.thEquivJ.symm.toEquiv
-    haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
+    have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .Th) :=
       CFSG.Sporadic.Th.Kernel.isSimpleGroup_Th
         CFSG.Sporadic.Th.th_kernel_facts
     have hcC : Nat.card (CFSG.Blueprint.NativeSporadic.Carrier .Th) = 90745943887872000 :=

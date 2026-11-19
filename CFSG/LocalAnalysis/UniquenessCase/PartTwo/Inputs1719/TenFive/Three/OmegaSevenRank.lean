@@ -130,8 +130,8 @@ theorem three_pow_ten_dvd_card_of_model {L : Type} [Group L] [Finite L]
   have hcl : (.POmegaOdd : StatedLieTag) ∈ CFSG.Blueprint.classicalTags := by
     decide
   obtain ⟨-, K, hKfield, hKfinite, hKcard, ⟨e⟩⟩ := hm.statedClassicalModel hcl
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
+  let : Field K := hKfield
+  let : Finite K := hKfinite
   have hord : Nat.card (L ⧸ center L) = ordBC 3 3 := by
     rw [Nat.card_congr e.toEquiv]
     exact CFSG.ClassicalInvolution.card_statedProj_statedOmega_quadOdd_eq_ordBC

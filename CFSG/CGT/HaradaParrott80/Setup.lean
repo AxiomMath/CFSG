@@ -20,7 +20,7 @@ theorem vec_inv (u : ↥(blockU J)) : S.vec u⁻¹ = -S.vec u := by
 
 include S in
 theorem blockU_le_M : blockU J ≤ M :=
-  (Setting.blockU_le_blockQ S).trans ((Setting.blockQ_le S).trans S.le)
+  (Setting.blockU_le_blockQ S).trans ((Setting.blockQ_le).trans S.le)
 
 include S in
 theorem five_le_finrank : 5 ≤ Module.finrank (ZMod 2) (Vec m) := by

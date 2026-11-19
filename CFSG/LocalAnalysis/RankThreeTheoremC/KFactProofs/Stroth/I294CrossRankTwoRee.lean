@@ -163,7 +163,6 @@ private theorem exists_reeF4_of_isReeF4 {d : TauCeti.LieTypeIndex} (h : I294Cros
   cases d <;> first
     | exact ⟨_, rfl⟩
     | exact False.elim h
-    | simp [I294CrossIsReeF4] at h
 
 private theorem three_pow_four_dvd_ordTwistedF4 {f : ℕ} (hf : Odd f) (h3 : 3 ∣ f) :
     3 ^ 4 ∣ CFSG.Open.ordTwistedF4 (2 ^ f) := by

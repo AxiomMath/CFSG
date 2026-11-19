@@ -21,7 +21,7 @@ theorem oddInv_exists_fixed_conj {K : Type*} [Group K] [Finite K] (Q : Subgroup 
     ∃ s : K, (∃ k : K, k * c * k⁻¹ = s) ∧ (s : K ⧸ Q) = (c : K ⧸ Q) ∧ σ * s = s * σ := by
   classical
   let F := {s : K // (∃ k : K, k * c * k⁻¹ = s) ∧ (s : K ⧸ Q) = (c : K ⧸ Q)}
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   let f : Function.End F := fun s =>
     ⟨σ * s.1 * σ⁻¹, by
       obtain ⟨k, hk⟩ := s.2.1
@@ -44,7 +44,7 @@ theorem oddInv_exists_fixed_conj {K : Type*} [Group K] [Finite K] (Q : Subgroup 
     rw [hiter 5, oddInvFive_conj_iterate_apply, hσ]
     group
   by_contra hcon
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   have hmod := Equiv.Perm.card_fixedPoints_modEq (f := f) (p := 5) (n := 1) hf5
   have hfixempty : Function.fixedPoints f = ∅ := by
     rw [Set.eq_empty_iff_forall_notMem]

@@ -171,6 +171,7 @@ theorem LinSetup.le_QB_two (hc : Ctx M Q Z B) (hS : LinSetup M Q Z B 2 V₁ V₂
   rw [hπe] at he
   exact ((TM.M₀.mem_img_iff hZD haQ).mp he).2
 
+omit [Finite G] in
 theorem LinSetup.exists_swap {n : ℕ} (hS : LinSetup M Q Z B n V₁ V₂) :
     ∃ x ∈ M, conjSubgroup x V₁ = V₂ := by
   obtain ⟨K, hK, hfin, hcard, φ, hrange, hker, hZV₁, hV₁Q, hZV₂, hV₂Q, hint, hsup,
@@ -191,6 +192,7 @@ theorem LinSetup.inf_QB_eq_two_base (hc : Ctx M Q Z B) (hS : LinSetup M Q Z B 2 
   have hbZ : b ∈ Z := by rw [← hDV₂]; exact ⟨hbD, hb⟩
   exact V₁.mul_mem ha (hZV₁ hbZ)
 
+omit [Finite G] in
 theorem inf_QB_conj_of_mem (hH : StrothHyp M Q Z) {r : G} (hr : r ∈ M) (A : Subgroup G) :
     Q ⊓ QB (conjSubgroup r A) = conjSubgroup r (Q ⊓ QB A) := by
   have hQ : conjSubgroup r Q = Q := conjSubgroup_eq_self_iff.mpr (hH.Q_normal.2 hr)

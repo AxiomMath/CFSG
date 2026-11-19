@@ -35,6 +35,7 @@ variable {G : Type} [Group G] [Finite G]
       (Subgroup.inv_mem _ (ha j hj))
     simpa [inv_inv] using this
 
+omit [Finite G] in
 private theorem glaPPrimeCoreOf_le_cent0 {p : ℕ} {X J : Subgroup G} (hJX : J ≤ X) :
     GLAPPrimeCoreOf p X ≤ cent0 p X J := by
   intro o ho
@@ -44,6 +45,7 @@ private theorem glaPPrimeCoreOf_le_cent0 {p : ℕ} {X J : Subgroup G} (hJX : J �
     ((Subgroup.mem_normalizer_iff.1 (le_normalizer_glaPPrimeCoreOf p X (hJX hj)) o).1 ho)
     (Subgroup.inv_mem _ ho)
 
+omit [Finite G] in
 private theorem le_glaPPrimeCoreOf_of_coprime {p : ℕ} {N K : Subgroup G} (hNK : N ≤ K)
     (hK : K ≤ Subgroup.normalizer (N : Set G)) (hN : Nat.Coprime p (Nat.card N)) :
     N ≤ GLAPPrimeCoreOf p K := by
@@ -56,7 +58,7 @@ private theorem le_glaPPrimeCoreOf_of_coprime {p : ℕ} {N K : Subgroup G} (hNK 
 
 theorem le_sup_of_isMaxInvariant {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {X J B D S : Subgroup G} (hJ : GLAPComponent p X J) (hB : IsPGroup p B) (hBX : B ≤ X)
-    (hBJ : B ≤ Subgroup.normalizer (J : Set G)) (hDB : D ≤ B) (hDJ : D ≤ centModSubgroup p J)
+    (_hBJ : B ≤ Subgroup.normalizer (J : Set G)) (hDB : D ≤ B) (hDJ : D ≤ centModSubgroup p J)
     (hS2 : IsPGroup 2 S) (hSC : S ≤ cent0 p X J) (hBS : B ≤ Subgroup.normalizer (S : Set G))
     (hSmax : ∀ T : Subgroup G, IsPGroup 2 T → T ≤ cent0 p X J →
       B ≤ Subgroup.normalizer (T : Set G) → S ≤ T → T = S) :

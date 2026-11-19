@@ -56,8 +56,7 @@ private theorem mem_normalizer_commutator {G : Type*} [Group G] {H : Subgroup G}
   rw [Subgroup.map_commutator, hg]
 
 theorem sympNorm_holds : SympNorm := by
-  intro n m K _ _ hn _hneq hK p hp hp2
-  intro x y hx1 hxp _hyp hcomm J hJ
+  intro n m K _ _ hn _hneq hK p hp hp2 x y hx1 hxp _hyp hcomm J hJ
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hn1 : 1 ≤ n := by omega
   have hm1 : 1 ≤ m := by
@@ -66,11 +65,11 @@ theorem sympNorm_holds : SympNorm := by
       have h2 : 2 ≤ Nat.card K := by have := Finite.one_lt_card (α := K); omega
       omega
     · exact h
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero n := ⟨by omega⟩
-  haveI hchar : CharP K 2 := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    letI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero n := ⟨by omega⟩
+  have hchar : CharP K 2 := by
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    let : Fintype K := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (p := 2) (f := m)
       (by rw [Fintype.card_eq_nat_card, hK])
   have hq : 2 ≤ 2 ^ m := by
@@ -90,7 +89,7 @@ theorem sympNorm_holds : SympNorm := by
     rw [CharP.cast_eq_zero_iff K 2] at h
     exact hp2 (Nat.prime_dvd_prime_iff_eq Nat.prime_two hp |>.1 h).symm
   have hsq : Squarefree (minpoly K (spEnd x)) := (altPrimaryData_spLin hpK hxp).squarefree
-  haveI : Finite (reciprocalOrbits (spEnd x)) :=
+  have : Finite (reciprocalOrbits (spEnd x)) :=
     (Set.Finite.image _ (Finset.finite_toSet _)).to_subtype
   obtain ⟨hcommf, -, hjoin⟩ := hblocks.directProduct
   let A : reciprocalOrbits (spEnd x) → Subgroup (StatedSp n K) :=

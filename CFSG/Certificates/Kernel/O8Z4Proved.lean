@@ -162,8 +162,8 @@ theorem sliceK_testBit (A : ℕ) {i k b : ℕ} (hi : i < 6) (hk : k < 6) (hb : b
     rw [bitN_eq]
     cases x.testBit b <;> rfl
   interval_cases b
-  · rw [if_pos (by omega), show 6 * 0 + k = k by omega, testBit_orN6 (fun k _ => bitN_lt2 _ _) hk, hb']
-  · rw [if_neg (by omega), show 6 * 1 + k - 6 = k by omega, testBit_orN6 (fun k _ => bitN_lt2 _ _) hk,
+  · rw [ite_eq_left (by omega), show 6 * 0 + k = k by omega, testBit_orN6 (fun k _ => bitN_lt2 _ _) hk, hb']
+  · rw [ite_eq_right (by omega), show 6 * 1 + k - 6 = k by omega, testBit_orN6 (fun k _ => bitN_lt2 _ _) hk,
       hb']
 
 theorem slOK_slice (A : ℕ) : SlOK (dec4M A) (sliceK A) := fun i hi k hk b hb => by
@@ -239,12 +239,12 @@ theorem testBit_orN_pair {a b : ℕ → ℕ} (ha : ∀ i < 6, a i < 2) (hb : ∀
     rw [Bool.and_eq_true, decide_eq_true_eq] at h
     obtain ⟨hp, h⟩ := h
     by_cases hp6 : p < 6
-    · rw [if_pos hp6] at h
+    · rw [ite_eq_left hp6] at h
       refine ⟨p, hp6, ?_⟩
       change (a p <<< p ||| b p <<< (6 + p)).testBit p = true
       rw [Nat.testBit_or, Nat.testBit_shiftLeft, Nat.sub_self, h]
       simp
-    · rw [if_neg hp6] at h
+    · rw [ite_eq_right hp6] at h
       refine ⟨p - 6, by omega, ?_⟩
       change (a (p - 6) <<< (p - 6) ||| b (p - 6) <<< (6 + (p - 6))).testBit p = true
       rw [Nat.testBit_or, Nat.testBit_shiftLeft, Nat.testBit_shiftLeft,
@@ -380,11 +380,11 @@ theorem mvB_eq {A : Array (Array ℕ)} {X : ℕ} (hA : SlOK A X) (hA4 : ∀ i < 
     have key := fun i (hi : i < 6) => sum_mod4 (fun k => m4Get A i k) (fun k => v.getD k 0)
       (fun k hk => hA4 i hi k hk) (fun k hk => hv k hk)
     by_cases hp6 : p < 6
-    · rw [if_pos hp6, if_pos hp6, sc p hp6, land1_testBit0, hmv p hp6, key p hp6, tb]
+    · rw [ite_eq_left hp6, ite_eq_left hp6, sc p hp6, land1_testBit0, hmv p hp6, key p hp6, tb]
       simp only [pow_zero, Nat.div_one, decide_eq_decide]
       omega
     · have hi : p - 6 < 6 := by omega
-      rw [if_neg hp6, if_neg hp6, sc _ hi, sh _ hi, sl _ hi, testBit_nxor, land1_testBit0,
+      rw [ite_eq_right hp6, ite_eq_right hp6, sc _ hi, sh _ hi, sl _ hi, testBit_nxor, land1_testBit0,
         hmv _ hi, key _ hi, Finset.sum_add_distrib, bitN1_t0, xor_mod2, tb, pow_one]
       generalize (∑ k ∈ Finset.range 6, m4Get A (p - 6) k % 2 * (v.getD k 0 % 2)) = c
       generalize (∑ k ∈ Finset.range 6, m4Get A (p - 6) k / 2 % 2 * (v.getD k 0 % 2)) = x

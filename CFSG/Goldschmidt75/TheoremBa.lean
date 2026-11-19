@@ -173,7 +173,7 @@ theorem baFor_of_lt (IH : ∀ (H : Type u) [Group H] [Finite H], Nat.card H < Na
       rw [← Subgroup.card_top (G := G)]
       exact Subgroup.card_lt_of_lt (lt_top_iff_ne_top.mpr hN)
     have hS₁ : Nat.card S₀ < Nat.card ↥(S ⊓ normalizer (S₀ : Set G)) :=
-      Subgroup.card_lt_of_lt (lt_inf_normalizer (P.isPGroup'.to_le hSP) hlt)
+      Subgroup.card_lt_of_lt (lt_inf_normalizer (P.isPGroup.to_le hSP) hlt)
     exact baRel_of_subgroup P hSP hS hfn (IH _ hcard) (hlarger _ inf_le_left hS₁) hh hV hVh
 
 theorem baFor (p : ℕ) [Fact p.Prime] (G : Type u) [Group G] [Finite G] : BaFor p G := by

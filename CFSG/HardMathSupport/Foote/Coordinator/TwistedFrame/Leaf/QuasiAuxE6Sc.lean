@@ -61,10 +61,10 @@ theorem endo_fix_of_mem_Qh {J : Set (Fin Tag.E6.rank)} {a : Fin e6Data.d}
   | mem x hx =>
     obtain ⟨j, hj, c, rfl | rfl⟩ := hx
     · rw [e6Data_valid.endo_xm k, LinearMap.add_apply, LinearMap.smul_apply,
-        e6Data_valid.rootOp_single_apply (R := k), if_neg (by rw [ha j hj]; decide)]
+        e6Data_valid.rootOp_single_apply (R := k), ite_eq_right (by rw [ha j hj]; decide)]
       simp
     · rw [e6Data_valid.endo_xm k, LinearMap.add_apply, LinearMap.smul_apply,
-        e6Data_valid.rootOp_neg_single_apply (R := k), if_neg (by rw [ha j hj]; decide)]
+        e6Data_valid.rootOp_neg_single_apply (R := k), ite_eq_right (by rw [ha j hj]; decide)]
       simp
   | one => simp [e6Data_valid.endo_one]
   | mul x y _ _ hx hy => rw [e6Data_valid.endo_mul, Module.End.mul_apply, hy, hx]

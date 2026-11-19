@@ -89,7 +89,7 @@ theorem Sp4Loc.card_uType [Finite G] (h : Sp4Loc G L L₂ V V₂ Z Z₂ J T S M 
 theorem Sp4Base.isPGroup_S [Finite G] (h : Sp4Base G V V₂ J T S M M₂ e) : IsPGroup 2 S := by
   obtain ⟨Q, hQ⟩ := h.sylow
   have : IsPGroup 2 ((Q : Subgroup (⊤ : Subgroup G)).map (⊤ : Subgroup G).subtype) :=
-    Q.isPGroup'.map _
+    Q.isPGroup.map _
   rwa [hQ] at this
 
 theorem exists_central_uType [Finite G] (h : Sp4Loc G L L₂ V V₂ Z Z₂ J T S M M₂ e) :

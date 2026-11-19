@@ -42,7 +42,7 @@ theorem conj_mem_oddClassSub {a n x : Y} (hn : n ∈ Subgroup.normalClosure ({a}
   · rintro x ⟨m, hm, rfl⟩
     exact Subgroup.subset_closure
       ⟨n * m, (Subgroup.normalClosure ({a} : Set Y)).mul_mem hn hm, by group⟩
-  · simpa using (Subgroup.closure (w183b5_classSet a)).one_mem
+  · simp
   · intro x y _ _ ihx ihy
     rw [show n * (x * y) * n⁻¹ = n * x * n⁻¹ * (n * y * n⁻¹) by group]
     exact Subgroup.mul_mem _ ihx ihy
@@ -66,8 +66,7 @@ theorem iSup_conj_oddClassSub (a : Y) :
           Subgroup.map_mono (oddClassSub_le_normalClosure a)
       _ = Subgroup.normalClosure ({a} : Set Y) :=
           Subgroup.Normal.map_conj_eq (Subgroup.normalClosure ({a} : Set Y)) y
-  · change Subgroup.normalClosure ({a} : Set Y) ≤ _
-    rw [Subgroup.normalClosure, Subgroup.closure_le]
+  · rw [Subgroup.normalClosure, Subgroup.closure_le]
     intro x hx
     have hbc : IsConj a x := by
       obtain ⟨b, hb, hbd⟩ := (Group.mem_conjugatesOfSet_iff).1 hx
@@ -88,7 +87,7 @@ theorem normalClosure_oddClassSub {a : Y}
   let C2 := w183b5_conjSet a
   have hXeq : X = Subgroup.closure C1 := rfl
   have hX_le_N : X ≤ N := by rw [hX, hN]; exact oddClassSub_le_normalClosure a
-  haveI hNnormal : N.Normal := by rw [hN]; infer_instance
+  have hNnormal : N.Normal := by rw [hN]; infer_instance
   have haN : a ∈ N := Subgroup.subset_normalClosure (Set.mem_singleton a)
   have haC2 : a ∈ C2 := ⟨1, X.one_mem, by simp⟩
   have key : ∀ n ∈ N, ∀ c ∈ C2, n * c * n⁻¹ ∈ C2 ∧ n⁻¹ * c * n ∈ C2 := by
@@ -144,8 +143,7 @@ theorem normalClosure_oddClassSub {a : Y}
           group
     · intro c hc
       exact ⟨by simpa using hc, by simpa using hc⟩
-    · intro x y _ _ ihx ihy
-      intro c hc
+    · intro x y _ _ ihx ihy c hc
       have h1 : y * c * y⁻¹ ∈ C2 := (ihy c hc).1
       have h2 : x * (y * c * y⁻¹) * x⁻¹ ∈ C2 := (ihx (y * c * y⁻¹) h1).1
       have h3 : x⁻¹ * c * x ∈ C2 := (ihx c hc).2
@@ -155,8 +153,7 @@ theorem normalClosure_oddClassSub {a : Y}
         group
       · convert h4 using 1
         group
-    · intro x _ ihx
-      intro c hc
+    · intro x _ ihx c hc
       have h1 : x⁻¹ * c * x ∈ C2 := (ihx c hc).2
       have h2 : x * c * x⁻¹ ∈ C2 := (ihx c hc).1
       constructor

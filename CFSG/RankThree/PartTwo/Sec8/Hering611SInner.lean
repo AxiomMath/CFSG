@@ -64,7 +64,6 @@ theorem exists_mem_inf_of_conj_mem {A L : Subgroup G}
         actHom L ⟨b, hAN hb⟩ * MulAut.conj x := by
       rw [← hgg, ← map_mul, ← map_mul, hgb]
     apply hinj
-    change MulAut.conj (actHom L ⟨b, hAN hb⟩ x) = MulAut.conj x
     rw [← KFacts.mul_mulAutConj_mul_inv, ← hc, mul_inv_cancel_right]
   have hg3 : (⟨g, hgN⟩ : Subgroup.normalizer (L : Set G)) ^ 3 = 1 :=
     Subtype.ext (hAe.2 g hgA)

@@ -99,7 +99,7 @@ theorem rckSU3_char_trivial_of_span {n r : ℕ} {M : Type*} [Group M] {Ψ : Set 
 
 theorem rckSU3_pow_eq_one {F : Type*} [Field F] {p : ℕ} (hp : 0 < p) :
     Finite {u : Fˣ // u ^ p = 1} ∧ Nat.card {u : Fˣ // u ^ p = 1} ≤ p := by
-  haveI : NeZero p := NeZero.of_pos hp
+  have : NeZero p := NeZero.of_pos hp
   let e : {u : Fˣ // u ^ p = 1} ≃ rootsOfUnity p F := {
     toFun := fun u => ⟨u.1, (mem_rootsOfUnity p u.1).2 u.2⟩,
     invFun := fun u => ⟨u.1, (mem_rootsOfUnity p u.1).1 u.2⟩,

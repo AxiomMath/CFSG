@@ -232,7 +232,7 @@ theorem twinPerp24R_of_two23 (hr : 4 ≤ r) (hTwo : Perp23.Two23R r n) (hA : Alp
     rw [← hgen]
     exact sup_le hCvN hCN
   have hEnormal : E.Normal := Subgroup.normalizer_eq_top_iff.mp hEtop
-  haveI := h.core.simple
+  have := h.core.simple
   exact not_tightInO2_of_fstar h.core.nonab hz1 ⟨E, hEnormal, hEp, htE⟩
 
 theorem twinPerp24R_of_alphaOdd (hr : 4 ≤ r) (hE : TwinThmER r n) (h233 : TwinPerp233R r n)

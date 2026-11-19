@@ -51,7 +51,7 @@ public theorem firstCase_klein_restrictionSeven_transfer
     (hklein : IsKleinFour (pCore 2 c.Hhat))
     {n : ℕ} {y : G} {X : Subgroup G}
     (hyJ : y ∈ firstCaseJ c n)
-    (hXne : X ≠ ⊥) (hXle : X ≤ c.Hhat)
+    (hXne : X ≠ ⊥) (_hXle : X ≤ c.Hhat)
     (hXodd : Nat.Coprime 2 (Nat.card X))
     (hXinv : ∀ x : G, x ∈ X → x ∈ invertedElements c.Hhat y)
     (hC_even : Even (Nat.card (Subgroup.centralizer (X : Set G))))
@@ -132,7 +132,7 @@ public theorem firstCase_klein_restrictionSeven_transfer
     rcases Subgroup.mem_map.mp hz with ⟨x, hx, hzx⟩
     have hxInv : y * x * y⁻¹ = x⁻¹ := (hXinv x hx).2
     rw [← hzx]
-    simp only [yg, MulAut.conj_apply]
+    simp only [yg]
     calc
       (g * y * g⁻¹) * (g * x * g⁻¹) * (g * y * g⁻¹)⁻¹ =
           g * (y * x * y⁻¹) * g⁻¹ := by group

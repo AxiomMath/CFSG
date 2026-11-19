@@ -29,8 +29,8 @@ private theorem commutator_alt5 : commutator (alternatingGroup (Fin 5)) = ⊤ :=
 
 private theorem not_isSolvable_alt5 : ¬ Group.IsSolvable (alternatingGroup (Fin 5)) := by
   intro hs
-  haveI : Group.IsPerfect (alternatingGroup (Fin 5)) := ⟨commutator_alt5⟩
-  haveI : Nontrivial (alternatingGroup (Fin 5)) := IsSimpleGroup.toNontrivial
+  have : Group.IsPerfect (alternatingGroup (Fin 5)) := ⟨commutator_alt5⟩
+  have : Nontrivial (alternatingGroup (Fin 5)) := IsSimpleGroup.toNontrivial
   exact Group.IsPerfect.not_isSolvable _ hs
 
 variable {ι : Type} [Fintype ι] [DecidableEq ι] {G : ι → Type} [∀ j, Group (G j)]
@@ -40,7 +40,7 @@ private theorem card_quot_center_eq_sixty {S : Type*} [Group S] (hq : Open.IsQua
     Nat.card (S ⧸ Subgroup.center S) = 60 := by
   have hne : h.ker ≠ ⊤ := by
     intro htop
-    haveI : Nontrivial (alternatingGroup (Fin 5)) := IsSimpleGroup.toNontrivial
+    have : Nontrivial (alternatingGroup (Fin 5)) := IsSimpleGroup.toNontrivial
     obtain ⟨a, ha⟩ := exists_ne (1 : alternatingGroup (Fin 5))
     obtain ⟨y, rfl⟩ := hh a
     exact ha ((MonoidHom.mem_ker).mp (htop ▸ Subgroup.mem_top y))
@@ -74,7 +74,7 @@ theorem exists_block_of_subnormal (S : ∀ j, Subgroup (G j)) {X B : Subgroup (�
     push Not at hall
     have htop : ∀ j, (p j).ker.map g = ⊤ := by
       intro j
-      haveI : ((p j).ker.map g).Normal := (MonoidHom.normal_ker _).map g hg
+      have : ((p j).ker.map g).Normal := (MonoidHom.normal_ker _).map g hg
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((p j).ker.map g) with h | h
       · exact absurd ((Subgroup.map_eq_bot_iff _).mp h) (hall j)
       · exact h
@@ -92,7 +92,7 @@ theorem exists_block_of_subnormal (S : ∀ j, Subgroup (G j)) {X B : Subgroup (�
         exact MonoidHom.range_eq_top.mpr hg
       | insert a s ha ih =>
         rw [Finset.iInf_insert]
-        haveI := hnorm s
+        have := hnorm s
         rw [eq_top_iff]
         calc (⊤ : Subgroup (alternatingGroup (Fin 5))) = commutator (alternatingGroup (Fin 5)) :=
               commutator_alt5.symm
@@ -112,7 +112,7 @@ theorem exists_block_of_subnormal (S : ∀ j, Subgroup (G j)) {X B : Subgroup (�
       exact this
     have h1 := hfin Finset.univ
     rw [hbot, Subgroup.map_bot] at h1
-    haveI : Nontrivial (alternatingGroup (Fin 5)) := IsSimpleGroup.toNontrivial
+    have : Nontrivial (alternatingGroup (Fin 5)) := IsSimpleGroup.toNontrivial
     exact bot_ne_top h1
   obtain ⟨j, hj⟩ := hstep
   set R := (p j).range with hR
@@ -174,13 +174,13 @@ theorem exists_block_of_subnormal (S : ∀ j, Subgroup (G j)) {X B : Subgroup (�
   swap
   · exfalso
     have h1 : Group.IsSolvable ↥D :=
-      solvable_of_solvable_injective (f := Subgroup.inclusion hDS) (Subgroup.inclusion_injective _)
+      Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hDS) (Subgroup.inclusion_injective _)
     have h2 : Group.IsSolvable ↥(commutator ↥R) :=
-      solvable_of_solvable_injective (f := eD.toMonoidHom) eD.injective
+      Group.isSolvable_of_isSolvable_injective (f := eD.toMonoidHom) eD.injective
     have h3 : Group.IsSolvable ↥((commutator ↥R).map g') :=
-      solvable_of_surjective (g'.subgroupMap_surjective _)
+      Group.isSolvable_of_surjective (g'.subgroupMap_surjective _)
     rw [hcomm'] at h3
-    exact not_isSolvable_alt5 (solvable_of_surjective (f := (⊤ : Subgroup _).subtype)
+    exact not_isSolvable_alt5 (Group.isSolvable_of_surjective (f := (⊤ : Subgroup _).subtype)
       (fun a => ⟨⟨a, Subgroup.mem_top a⟩, rfl⟩))
   refine ⟨j, hq, ?_⟩
   rcases CFSG.Fischer.Classification.Recognition.IsSubnormal.eq_or_le_center hDSs hq with
@@ -213,7 +213,7 @@ theorem exists_block_of_subnormal (S : ∀ j, Subgroup (G j)) {X B : Subgroup (�
       rw [Subgroup.mem_bot, commutatorElement_eq_one_iff_mul_comm]
       exact hA a b
     rw [commutator_alt5] at h1
-    haveI : Nontrivial (alternatingGroup (Fin 5)) := IsSimpleGroup.toNontrivial
+    have : Nontrivial (alternatingGroup (Fin 5)) := IsSimpleGroup.toNontrivial
     exact top_ne_bot h1
   refine ⟨?_, ?_⟩
   · have eS : ↥(S j) ≃* ↥(commutator ↥R) := (MulEquiv.subgroupCongr hDeq.symm).trans eD.symm
@@ -250,7 +250,7 @@ theorem exists_quotient_of_cover {Y : Type} [Group Y] [Finite Y] {L P : Subgroup
     simp [hθ, hk]
   set φ := (QuotientGroup.mk' (CFSG.pCore 2 ↥P)).comp θ with hφ
   refine ⟨φ, (QuotientGroup.mk'_surjective _).comp hθs, ?_, fun q => rfl⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmem : ∀ x : ↥φ.ker, (θ.comp φ.ker.subtype) x ∈ CFSG.pCore 2 ↥P := fun x => by
     have h1 : (QuotientGroup.mk' (CFSG.pCore 2 ↥P)) (θ (x : ↥((P.subgroupOf L).comap ρ))) = 1 :=
       x.2
@@ -258,8 +258,8 @@ theorem exists_quotient_of_cover {Y : Type} [Group Y] [Finite Y] {L P : Subgroup
     exact h1
   set g₀ : ↥φ.ker →* ↥(CFSG.pCore 2 ↥P) := (θ.comp φ.ker.subtype).codRestrict _ hmem
     with hg₀
-  haveI : Group.IsSolvable ↥(CFSG.pCore 2 ↥P) := by
-    haveI := (CFSG.pCore_isPGroup (G := ↥P) (p := 2)).isNilpotent
+  have : Group.IsSolvable ↥(CFSG.pCore 2 ↥P) := by
+    have := (CFSG.pCore_isPGroup (G := ↥P) (p := 2)).isNilpotent
     infer_instance
   have hcen : ∀ c : ↥g₀.ker,
       (((c : ↥φ.ker) : ↥((P.subgroupOf L).comap ρ)) : K) ∈ Subgroup.center K := by
@@ -271,13 +271,13 @@ theorem exists_quotient_of_cover {Y : Type} [Group Y] [Finite Y] {L P : Subgroup
     simp only [hg₀, hθ, MonoidHom.codRestrict_apply, MonoidHom.comp_apply,
       Subgroup.coe_subtype, OneMemClass.coe_one] at h2
     exact Subtype.ext h2
-  haveI : Group.IsSolvable ↥g₀.ker := by
-    apply isSolvable_of_comm
+  have : Group.IsSolvable ↥g₀.ker := by
+    apply _root_.Group.isSolvable_of_comm
     intro a b
     apply Subtype.ext; apply Subtype.ext; apply Subtype.ext
     simp only [Subgroup.coe_mul]
     exact Subgroup.mem_center_iff.mp (hcen b) _
-  exact solvable_of_ker_le_range g₀.ker.subtype g₀ (fun x hx => ⟨⟨x, hx⟩, rfl⟩)
+  exact Group.isSolvable_of_ker_le_range g₀.ker.subtype g₀ (fun x hx => ⟨⟨x, hx⟩, rfl⟩)
 
 theorem exists_block_of_comap {Q X : Type*} [Group Q] [Finite Q] [Group X]
     (S : ∀ j, Subgroup (G j)) (β : Q →* ∀ j, G j) (hβ : IsPGroup 2 β.ker)
@@ -345,13 +345,13 @@ theorem leviBlocksOfFiveComponents_holds : LeviBlocksOfFiveComponents := by
             rw [Subgroup.map_commutator, Subgroup.map_commutator]
         _ ≤ (φ.ker.map β).map (Pi.evalMonoidHom G j₁) := Subgroup.map_mono (Subgroup.map_mono hle)
     have hT : Group.IsSolvable ↥((φ.ker.map β).map (Pi.evalMonoidHom G j₁)) := by
-      haveI : Group.IsSolvable ↥(φ.ker.map β) := solvable_of_surjective (β.subgroupMap_surjective _)
-      exact solvable_of_surjective ((Pi.evalMonoidHom G j₁).subgroupMap_surjective _)
+      have : Group.IsSolvable ↥(φ.ker.map β) := Group.isSolvable_of_surjective (β.subgroupMap_surjective _)
+      exact Group.isSolvable_of_surjective ((Pi.evalMonoidHom G j₁).subgroupMap_surjective _)
     have hSs : Group.IsSolvable ↥(S j₁) :=
-      solvable_of_solvable_injective (f := Subgroup.inclusion hSle) (Subgroup.inclusion_injective _)
-    haveI : Group.IsPerfect ↥(S j₁) := ⟨hq₁.1⟩
-    haveI : Nontrivial (↥(S j₁) ⧸ Subgroup.center ↥(S j₁)) := hq₁.2.toNontrivial
-    haveI : Nontrivial ↥(S j₁) :=
+      Group.isSolvable_of_isSolvable_injective (f := Subgroup.inclusion hSle) (Subgroup.inclusion_injective _)
+    have : Group.IsPerfect ↥(S j₁) := ⟨hq₁.1⟩
+    have : Nontrivial (↥(S j₁) ⧸ Subgroup.center ↥(S j₁)) := hq₁.2.toNontrivial
+    have : Nontrivial ↥(S j₁) :=
       (QuotientGroup.mk'_surjective (Subgroup.center ↥(S j₁))).nontrivial
     exact Group.IsPerfect.not_isSolvable _ hSs
 

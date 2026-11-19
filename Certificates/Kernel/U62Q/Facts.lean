@@ -86,7 +86,7 @@ theorem Q_le_T46 : Q ≤ CFSG.Fischer.T46 := by
   rw [Subgroup.closure_le]
   rintro _ ⟨k, hk, rfl⟩
   have hk3 : k < 3 := by
-    rw [Set.mem_setOf_eq, gsQ_size] at hk
+    rw [Set.mem_ofPred_eq, gsQ_size] at hk
     exact hk
   have hsz : gsQ[k]!.size = (t46Q ()).size := by
     rw [gsQ_get hk3]
@@ -127,7 +127,7 @@ theorem wP_mem (u : List (Fin 3)) : wP u ∈ Q := by
   apply Subgroup.list_prod_mem
   intro y hy
   obtain ⟨x, -, rfl⟩ := List.mem_map.1 hy
-  exact Subgroup.subset_closure ⟨x.val, by rw [Set.mem_setOf_eq, gsQ_size]; exact x.isLt, rfl⟩
+  exact Subgroup.subset_closure ⟨x.val, by rw [Set.mem_ofPred_eq, gsQ_size]; exact x.isLt, rfl⟩
 
 theorem eq_of_beq {p q : ℕ} {x y : Equiv.Perm (Fin 693)} (hp : PP 693 10 p) (hq : PP 693 10 q)
     (hx : Rep 693 (unpack 693 10 p) x) (hy : Rep 693 (unpack 693 10 q) y) (h : x = y) :
@@ -178,11 +178,11 @@ theorem card_le_81_of_le_Q {F : Subgroup (Equiv.Perm (Fin 693))} (hFQ : F ≤ Q)
     (hF : IsElemAbelian 3 F) : Nat.card F ≤ 81 := by
   classical
   have hgmem : ∀ k (hk : k < 3), permOfArr 693 gsQ[k]! ∈ Q :=
-    fun k hk => Subgroup.subset_closure ⟨k, by rw [Set.mem_setOf_eq, gsQ_size]; exact hk, rfl⟩
+    fun k hk => Subgroup.subset_closure ⟨k, by rw [Set.mem_ofPred_eq, gsQ_size]; exact hk, rfl⟩
   let gel : Fin 3 → Q := fun k => ⟨permOfArr 693 gsQ[k.1]!, hgmem k.1 k.2⟩
   by_contra hlt
   push Not at hlt
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hFp : IsPGroup 3 F := fun g => ⟨1, by
     rw [pow_one]
     exact Subtype.ext (by simpa using hF.2 g g.2)⟩
@@ -213,12 +213,12 @@ theorem card_le_81_of_le_Q {F : Subgroup (Equiv.Perm (Fin 693))} (hFQ : F ≤ Q)
     have h1 := Subgroup.card_mul_index (H.subgroupOf Q)
     rw [hHq, card_Q] at h1
     omega
-  haveI : (H.subgroupOf Q).Normal :=
+  have : (H.subgroupOf Q).Normal :=
     Subgroup.normal_of_index_eq_minFac_card (by rw [hidx, card_Q]; norm_num)
   have hq3 : Nat.card (Q ⧸ H.subgroupOf Q) = 3 := by
     rw [← hidx]
     rfl
-  haveI : IsCyclic (Q ⧸ H.subgroupOf Q) := isCyclic_of_prime_card hq3
+  have : IsCyclic (Q ⧸ H.subgroupOf Q) := isCyclic_of_prime_card hq3
   let φ0 : (Q ⧸ H.subgroupOf Q) ≃* Multiplicative (ZMod 3) :=
     mulEquivOfCyclicCardEq (by rw [hq3, Nat.card_eq_fintype_card, Fintype.card_multiplicative, ZMod.card])
   let φ : Q →* Multiplicative (ZMod 3) := φ0.toMonoidHom.comp (QuotientGroup.mk' _)

@@ -126,7 +126,7 @@ theorem inf_pCoreOf_eq_bot_of_odd_center {Y L : Subgroup (MulAut W)}
       intro x hx
       have hx' : (⟨x, hx⟩ : ↥L) ∈ N.subgroupOf L := by rw [htop]; exact Subgroup.mem_top _
       exact (Subgroup.mem_subgroupOf.mp hx').2
-    haveI : Nontrivial ↥L := CFSG.LocalCores.isQuasisimple_nontrivial hq
+    have : Nontrivial ↥L := CFSG.LocalCores.isQuasisimple_nontrivial hq
     have hperf : Group.IsPerfect ↥L := hq.1
     exact Group.IsPerfect.not_isNilpotent ↥L
       ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 Y).to_le hLQ).isNilpotent
@@ -171,7 +171,7 @@ theorem inf_pCoreOf_le_centralizer_of_isComponent {Y L : Subgroup (MulAut W)}
       exact (Subgroup.mem_subgroupOf.mp hx').2
     have hq : CFSG.IsQuasisimple ↥L :=
       (CFSG.Quasithin.A3.isQuasisimple_iff_open (Q := ↥L)).mpr hcomp.2.2
-    haveI : Nontrivial ↥L := CFSG.LocalCores.isQuasisimple_nontrivial hq
+    have : Nontrivial ↥L := CFSG.LocalCores.isQuasisimple_nontrivial hq
     have hperf : Group.IsPerfect ↥L := hq.1
     exact Group.IsPerfect.not_isNilpotent ↥L
       ((CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 Y).to_le hLQ).isNilpotent
@@ -185,6 +185,7 @@ theorem inf_pCoreOf_le_centralizer_of_isComponent {Y L : Subgroup (MulAut W)}
   exact Subgroup.mem_centralizer_iff.mpr fun y hy =>
     congrArg Subtype.val (hxZ ⟨y, hy⟩)
 
+omit [Finite W] in
 theorem isComponentOf_autSub {Y L : Subgroup (MulAut W)} {U : Subgroup W}
     (hLY : L ≤ Y) (hstab : Y ≤ stabSub U) (hcomp : IsComponentOf L Y)
     (hLnc : ¬ L ≤ centSub U) : IsComponentOf (autSub L U) (autSub Y U) := by
@@ -206,12 +207,14 @@ theorem isComponentOf_autSub {Y L : Subgroup (MulAut W)} {U : Subgroup W}
   rw [← hmap1, ← hmap2]
   exact CFSG.Open.IsSubnormal.map (f := resHomOn U hstab) hcomp_top.2.1
 
+omit [Finite W] in
 theorem map_fixV_autSub {Y X : Subgroup (MulAut W)} {U : Subgroup W}
     (hXY : X ≤ Y) (hstab : Y ≤ stabSub U) (hXU : fixV X ≤ U) :
     (fixV (autSub X U)).map U.subtype = fixV X := by
   rw [map_subtype_fixV_autSub (hXY.trans hstab)]
   exact inf_eq_right.mpr hXU
 
+omit [Finite W] in
 theorem fixV_autSub_ne {Y T : Subgroup (MulAut W)}
     (hTY : T ≤ Y) (hQleT : pCoreOf 2 Y ≤ T) (hfix : fixV T ≠ fixV Y) :
     fixV (autSub T (fixV (pCoreOf 2 Y))) ≠ fixV (autSub Y (fixV (pCoreOf 2 Y))) := by
@@ -333,7 +336,7 @@ theorem aSet_autSub {W : Type} [CommGroup W] [Finite W] {Y A : Subgroup (MulAut 
     exact Subgroup.map_injective U.subtype_injective hmaps
 
 theorem bParam_le_autSub {W : Type} [CommGroup W] [Finite W] {Y L : Subgroup (MulAut W)}
-    {U : Subgroup W} (hLY : L ≤ Y) (hstab : Y ≤ stabSub U)
+    {U : Subgroup W} (_hLY : L ≤ Y) (hstab : Y ≤ stabSub U)
     (hne : ∀ (k : ℕ) (A : Subgroup (MulAut W)),
       A ∈ E3.aSet k Y →
       ⁅L, A⁆ ≠ ⊥ → ⁅autSub L U, autSub A U⁆ ≠ ⊥) :
@@ -398,8 +401,7 @@ theorem commutator_autSub_ne_bot_of_centralizer {Y L A : Subgroup (MulAut W)}
       simpa using hmem
     have hker' : (resHomOn U hstab).ker = (Y ⊓ centSub U).subgroupOf Y := by
       ext x
-      simp only [resHomOn, MonoidHom.mem_ker, MonoidHom.comp_apply, ker_resHom,
-        Subgroup.mem_subgroupOf, Subgroup.mem_inf]
+      simp only [resHomOn, MonoidHom.mem_ker, MonoidHom.comp_apply, Subgroup.mem_subgroupOf, Subgroup.mem_inf]
       constructor
       · intro h
         refine ⟨x.2, ?_⟩
@@ -554,7 +556,7 @@ structure NoO2NormalSetup {Y L T : Subgroup (MulAut W)} (hLY : L ≤ Y) where
     have hLbot : L ≤ (⊥ : Subgroup (MulAut W)) := by
       have h1 : L ≤ L ⊓ centSub U := le_inf le_rfl hle
       rwa [hfaith] at h1
-    haveI : Nontrivial ↥L := CFSG.LocalCores.isQuasisimple_nontrivial hq
+    have : Nontrivial ↥L := CFSG.LocalCores.isQuasisimple_nontrivial hq
     exact (Subgroup.nontrivial_iff_ne_bot L).mp inferInstance (le_bot_iff.mp hLbot)
   have hqb : CFSG.Open.IsQuasisimple ↥Lb :=
     B1Red.isQuasisimple_autSub (hLY.trans hst) hqL hLnc

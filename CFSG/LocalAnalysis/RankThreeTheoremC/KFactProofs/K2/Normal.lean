@@ -19,13 +19,13 @@ variable {G : Type} [Group G] [Finite G] {Y Q : Subgroup G}
 
 theorem fc_sylow_inf (h : K2Setup G Y Q) {N K : Subgroup G} (hN : N.Normal) (hKN : K ≤ N)
     (hKn : (K.subgroupOf N).Normal) : CFSG.ABGLocalTools.IsSylowOf 3 (Q ⊓ K) K := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hQ : CFSG.ABGLocalTools.IsSylowOf 3 Q ⊤ :=
     CFSG.ABGLocalTools.isSylowOf_iff.mpr
       ⟨le_top, h.pgroup, by rw [Subgroup.relIndex_top_right]; exact h.index⟩
   have hQN : CFSG.ABGLocalTools.IsSylowOf 3 (Q ⊓ N) N :=
     hQ.inf_of_le_normalizer le_top (by
-      haveI := hN
+      have := hN
       exact Subgroup.le_normalizer_of_normal)
   have hNK : N ≤ normalizer (K : Set G) := Subgroup.le_normalizer_of_normal_subgroupOf hKN
   have := hQN.inf_of_le_normalizer hKN hNK
@@ -33,17 +33,18 @@ theorem fc_sylow_inf (h : K2Setup G Y Q) {N K : Subgroup G} (hN : N.Normal) (hKN
 
 theorem fc_dvd_card {T K : Subgroup G} (hT : CFSG.ABGLocalTools.IsSylowOf 3 T K)
     (hK : 3 ∣ Nat.card K) : 3 ∣ Nat.card T := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [hT.card_eq]
   exact dvd_pow_self 3
     (Nat.Prime.factorization_pos_of_dvd Nat.prime_three Nat.card_pos.ne' hK).ne'
 
 theorem fc_exists_order_three {T K : Subgroup G} (hT : CFSG.ABGLocalTools.IsSylowOf 3 T K)
     (hK : 3 ∣ Nat.card K) : ∃ a : G, a ∈ T ∧ orderOf a = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := T) 3 (fc_dvd_card hT hK)
   exact ⟨x, x.2, by rw [Subgroup.orderOf_coe]; exact hx⟩
 
+omit [Finite G] in
 theorem fc_le_normalizer_inf {K : Subgroup G} (hQ : Q ≤ normalizer (K : Set G)) :
     Q ≤ normalizer ((Q ⊓ K : Subgroup G) : Set G) := by
   intro g hg
@@ -192,8 +193,8 @@ theorem K2Setup.minimal_normal_data (h : K2Setup G Y Q)
     ∃ (r : ℕ) (S : Fin r → Subgroup G), 1 ≤ r ∧ SimpleFactorData N S ∧
       ∀ i, 3 ∣ Nat.card (S i) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : N.Normal := hN
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : N.Normal := hN
   have h3 : 3 ∣ Nat.card N := by
     by_contra hnd
     have hcop : Nat.Coprime 3 (Nat.card N) :=
@@ -272,6 +273,7 @@ variable {G : Type} [Group G] [Finite G] {Y Q : Subgroup G}
 
 open CFSG.LocalAnalysis.RankThreeTheoremC (SimpleFactorData)
 
+omit [Finite G] in
 theorem simpleFactorData_le_iSup {N : Subgroup G} {r : ℕ} {S : Fin r → Subgroup G}
     (hS : SimpleFactorData N S) : N ≤ ⨆ i, S i := by
   obtain ⟨e, he⟩ := hS.prod
@@ -360,17 +362,20 @@ section Cards
 
 variable {G : Type} [Group G] [Finite G] {Y Q : Subgroup G}
 
+omit [Finite G] in
 private lemma fcc_conj_mul (x y : G) :
     (MulAut.conj (x * y)).toMonoidHom =
       (MulAut.conj x).toMonoidHom.comp (MulAut.conj y).toMonoidHom := by
   ext z
   simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite G] in
 private lemma fcc_map_conj_mul (K : Subgroup G) (x y : G) :
     K.map (MulAut.conj (x * y)).toMonoidHom =
       (K.map (MulAut.conj y).toMonoidHom).map (MulAut.conj x).toMonoidHom := by
   rw [fcc_conj_mul, Subgroup.map_map]
 
+omit [Finite G] in
 private lemma fcc_odd_fix (X Z : Subgroup G) (hXZ : X ≠ Z)
     (h1 : ∀ g : G, X.map (MulAut.conj g).toMonoidHom = X ∨ X.map (MulAut.conj g).toMonoidHom = Z)
     (h2 : ∀ g : G, Z.map (MulAut.conj g).toMonoidHom = X ∨ Z.map (MulAut.conj g).toMonoidHom = Z)
@@ -395,13 +400,13 @@ private lemma fcc_odd_fix (X Z : Subgroup G) (hXZ : X ≠ Z)
       rw [e, fcc_map_conj_mul, hsq, ih]
   have h := hodd m
   rw [hg, show (MulAut.conj (1 : G)).toMonoidHom = MonoidHom.id G from
-    MonoidHom.ext fun z => by simp [MulAut.conj_apply], Subgroup.map_id] at h
+    MonoidHom.ext fun z => by simp, Subgroup.map_id] at h
   exact hXZ h
 
 theorem normalizes_factors_of_two {N : Subgroup G} (hN : N.Normal) {S : Fin 2 → Subgroup G}
     (hS : SimpleFactorData N S) {Q : Subgroup G} (hQ : IsPGroup 3 Q) (i : Fin 2) :
     Q ≤ normalizer (S i : Set G) := by
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   have hne : S 0 ≠ S 1 := by
     intro heq
     have h01 : S 0 ⊓ S 1 = ⊥ := hS.inf_eq_bot (by decide)
@@ -476,13 +481,13 @@ variable {G : Type} [Group G] [Finite G] {Y Q : Subgroup G}
 
 theorem K2Setup.centralizer_eq_bot (h : K2Setup G Y Q)
     (hG : primeComplementCore (G := G) 3 = ⊥) {L : Subgroup G} (hL : L.Normal)
-    (hLs : IsSimpleGroup L) (hLn : ∃ a b : L, a * b ≠ b * a) (h3 : 3 ∣ Nat.card L) :
+    (_hLs : IsSimpleGroup L) (_hLn : ∃ a b : L, a * b ≠ b * a) (h3 : 3 ∣ Nat.card L) :
     centralizer (L : Set G) = ⊥ := by
   by_contra hne
-  haveI : L.Normal := hL
+  have : L.Normal := hL
   obtain ⟨M, hMn, hMC, hMne, -⟩ :=
     CFSG.exists_minimal_normal_le (centralizer (L : Set G)) inferInstance hne
-  haveI : M.Normal := hMn
+  have : M.Normal := hMn
   have h3M : 3 ∣ Nat.card M := by
     by_contra hnd
     have hcop : Nat.Coprime 3 (Nat.card M) :=

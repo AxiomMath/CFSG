@@ -103,7 +103,7 @@ theorem normalizer_le_normalizer_of_rank_three [Finite G] {p s : ℕ} [hp : Fact
     · rw [h0]; simpa using hwu
     · obtain ⟨j, hj⟩ := Nat.exists_eq_succ_of_ne_zero hpos.ne'
       have := Nat.find_min hex (show j < j₀ by omega)
-      rwa [hj] at *
+      rw [hj] at *; assumption
   obtain ⟨k, hkp, hk⟩ := hpow w hwU hwn hwp
   have key : ∀ h ∈ H, g⁻¹ * h * g ∈ U₁ → g⁻¹ * h ^ (p ^ (s - 1) * k) * g ∈ V := by
     intro h hh hhg
@@ -115,13 +115,13 @@ theorem normalizer_le_normalizer_of_rank_three [Finite G] {p s : ℕ} [hp : Fact
       rw [hwdef]; group
     rw [e2, e1] at hc
     exact hc
-  haveI hnorm : (U₁.subgroupOf U).Normal :=
+  have hnorm : (U₁.subgroupOf U).Normal :=
     (Subgroup.normal_subgroupOf_iff hU₁U).mpr fun a b ha hb =>
       (Subgroup.mem_normalizer_iff.mp (hUN hb) a).mp ha
   obtain ⟨u₀, hu₀, hU⟩ := hcyc
   have hz : Subgroup.zpowers u₀ ≤ Subgroup.normalizer (U₁ : Set G) :=
     (Subgroup.zpowers_le).mpr (hUN hu₀)
-  haveI hQcyc : IsCyclic (U ⧸ U₁.subgroupOf U) := by
+  have hQcyc : IsCyclic (U ⧸ U₁.subgroupOf U) := by
     refine ⟨⟨QuotientGroup.mk ⟨u₀, hu₀⟩, fun q => ?_⟩⟩
     induction q using QuotientGroup.induction_on with
     | H y =>
@@ -187,7 +187,7 @@ theorem normalizer_le_normalizer_of_rank_three [Finite G] {p s : ℕ} [hp : Fact
         (a ^ (-m') * c) ^ ((p ^ (s - 1) * k : ℕ) * j) = 1 := by
       rw [zpow_mul, zpow_mul, zpow_natCast, zpow_natCast]
       exact h'
-    letI : CommGroup H :=
+    let : CommGroup H :=
       { (inferInstance : Group H) with mul_comm := fun x y => Subtype.ext (hHc x x.2 y y.2) }
     set A : H := ⟨a, ha⟩
     set B : H := ⟨b, hb⟩
@@ -259,7 +259,7 @@ end Core
 theorem ggL45FiveIOneInput_of_rank (hT : GGL45TorusIOneInput) (hpc : GGRawPCyclicOn GGNotD4Three)
     (hD4 : GGL45CyclicD4IOneInput) (hR : GGL45FiveRankInput) : GGL45FiveIOneInput := by
   intro G _ _ p B Bs x L D J X B₂ d y K U U₁ hcfg hI1 _ _ hΩ _ r hr _
-  haveI : Fact p.Prime := ⟨hcfg.prime⟩
+  have : Fact p.Prime := ⟨hcfg.prime⟩
   suffices hN : Subgroup.normalizer (U : Set G) ≤ Subgroup.normalizer (U₁ : Set G) from hN hr.1
   rcases hR G p B Bs x L D J X B₂ d y K U U₁ hcfg hI1 hΩ with
     ⟨hJ, hab⟩ | ⟨s, hs, hHU, hHc, hexp, hpow, h3⟩

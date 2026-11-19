@@ -19,7 +19,7 @@ theorem compNormal_twistedA_of_not_dvd {p : ℕ} {T : Type} [Group T] [Finite T]
   obtain ⟨d, hv⟩ := d
   cases d with
   | twistedA r q =>
-    haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+    have : Fact q.p.Prime := ⟨q.prime_p⟩
     obtain ⟨⟨hℓ, hf, hn3, hq⟩, K, _, _, hK, ⟨eT⟩⟩ :=
       CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv e
     have h : UnitaryFieldData q.p q.exponent K := ⟨hℓ, hf, by rw [hK, ← pow_mul, mul_comm]⟩
@@ -40,7 +40,7 @@ theorem compNormal_twistedA_of_not_dvd {p : ℕ} {T : Type} [Group T] [Finite T]
 theorem genPlaneTwANotDvd_holds : GenPlaneTwANotDvd := by
   intro p T _ _ d hd hQ hnd P hP hcard J
   obtain ⟨e⟩ := hd.iso
-  haveI := (CFSG.Assembly.lie_finite_simple d).2
+  have := (CFSG.Assembly.lie_finite_simple d).2
   exact not_forall_glaPComponent_of_compNormal CFSG.LieType.SeitzGeneration.kFactSeitzRankTwo_holds
     (genCompQuasiOn_holds' PlaneIdxTwA) hd hQ e.isSimpleGroup hP hcard
     (fun x hx _ => compNormal_twistedA_of_not_dvd hd hQ hnd x (hP.2 x hx)) J

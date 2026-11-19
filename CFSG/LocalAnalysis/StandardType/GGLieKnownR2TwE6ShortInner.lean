@@ -61,7 +61,7 @@ private theorem l10sw2_transport
     CFSG.SeitzReduction.F4Pilot.involutive_of_natCard_eq hK hσ
   have hIT : TorusRegularAlpha3 θ := by
     have hunit : ∃ t : kˣ, (t : k) ≠ 1 := by
-      haveI : Fintype kˣ := Fintype.ofFinite kˣ
+      have : Fintype kˣ := Fintype.ofFinite kˣ
       have hcard : 1 < Fintype.card kˣ := by
         rw [← Nat.card_eq_fintype_card, Nat.card_units]
         have h4 : 4 ≤ 2 ^ f := by

@@ -86,7 +86,7 @@ theorem wreathedSetting_exists_isWModel
         rintro _ ⟨_, ⟨X, rfl⟩, rfl⟩
         exact ⟨_, rfl⟩
       · rintro _ ⟨s, hs, rfl⟩
-        obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, Subgroup.mem_subgroupOf.mp hs⟩
+        obtain ⟨k, hk⟩ := S.isPGroup ⟨s, Subgroup.mem_subgroupOf.mp hs⟩
         have hk' : s ^ 2 ^ k = 1 := Subtype.ext (by simpa using congrArg Subtype.val hk)
         exact mem_modelBase_of_two_pow hdata.sigma_odd (k := k)
           (by rw [← map_pow, hk', map_one])

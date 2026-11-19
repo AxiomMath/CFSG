@@ -30,7 +30,7 @@ theorem factorization_three_29484 : (29484 : ℕ).factorization 3 = 4 := by
 
 theorem exists_mulEquiv_L2 {Y : Type} [Group Y] [Finite Y] (hY : Nat.card Y = 9828)
     (hmodel : LieModel (Y ⧸ center Y) .PSL 2 3 3) : Nonempty (Y ≃* L2 F27) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := F27) 3 3 (by norm_num)
     (by rw [GaloisField.card 3 3 (by norm_num)]) hmodel
   let e' : Y ⧸ center Y ≃* L2 F27 := e.trans (L2.equivPSL F27).symm
@@ -53,7 +53,7 @@ theorem exists_mulEquiv_L2 {Y : Type} [Group Y] [Finite Y] (hY : Nat.card Y = 98
 theorem sylow_isElemAbelian_card {Y : Type} [Group Y] [Finite Y] (e : Y ≃* L2 F27)
     (hY : Nat.card Y = 9828) (S : Sylow 3 Y) :
     IsElemAbelian 3 (S : Subgroup Y) ∧ Nat.card S = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcard : Nat.card S = 27 := by
     rw [Sylow.card_eq_multiplicity, hY, factorization_three_9828]; norm_num
   refine ⟨?_, hcard⟩
@@ -67,8 +67,8 @@ theorem sylow_isElemAbelian_card {Y : Type} [Group Y] [Finite Y] (e : Y ≃* L2 
 theorem exists_conj_of_card_81 {A : Type*} [Group A] (hA : Nat.card A = 58968)
     {M R : Subgroup A} (hM : Nat.card M = 81) (hR : Nat.card R = 81) :
     ∃ g : A, R = M.map (MulAut.conj g).toMonoidHom := by
-  haveI : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite A := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have h81 : (3 : ℕ) ^ (Nat.card A).factorization 3 = 81 := by
     rw [hA, factorization_three_58968]; norm_num
   obtain ⟨g, hg⟩ := MulAction.IsPretransitive.exists_smul_eq (M := A)
@@ -83,8 +83,8 @@ theorem card_of_isSylowOf {Y : Type} [Group Y] [Finite Y] (e : Y ≃* L2 F27)
     (hY : Nat.card Y = 9828) (hA : Nat.card (MulAut Y) = 58968)
     {B : Subgroup (MulAut Y)} (hB : innAut Y ≤ B) (h3 : 3 ∣ (innAut Y).relIndex B)
     {R : Subgroup (MulAut Y)} (hR : CFSG.ABGLocalTools.IsSylowOf 3 R B) : Nat.card R = 81 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (MulAut Y) := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (MulAut Y) := Nat.finite_of_card_ne_zero (by rw [hA]; norm_num)
   have h1 := Subgroup.relIndex_mul_card (innAut Y) B
   rw [inf_eq_left.2 hB, card_innAut_eq e, hY] at h1
   have hdvd : Nat.card B ∣ 58968 := hA ▸ Subgroup.card_subgroup_dvd_card B

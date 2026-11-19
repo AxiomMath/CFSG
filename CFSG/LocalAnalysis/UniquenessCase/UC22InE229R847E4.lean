@@ -63,7 +63,7 @@ theorem r847E4_setup4_of_five_le (hSE : StronglyEmbeddedFive) (hSEZ : StronglyEm
     · have hq3' : 3 < q := by
         have := hq.two_le
         omega
-      haveI : Fact q.Prime := ⟨hq⟩
+      have : Fact q.Prime := ⟨hq⟩
       have hX1 : X ≠ ⊥ := by
         intro h
         rw [h, Subgroup.card_bot] at hXc

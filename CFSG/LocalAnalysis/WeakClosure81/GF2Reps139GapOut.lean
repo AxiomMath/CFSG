@@ -22,7 +22,7 @@ theorem gapOutU43_le_eight : ∀ (S : Type) [Group S] [Finite S], LieModel S .PS
   have hcard :=
     (CFSG.LocalAnalysis.ComponentInitial.unitary_model_outer_two_part_bound S 4 3 1 hcl).2.2.1
   norm_num at hcard
-  haveI : Finite (Outer S) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (Outer S) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   let φ : E →* Outer S := (QuotientGroup.mk' (inner S)).comp E.subtype
   have hφ : Function.Injective φ := by
     rw [injective_iff_map_eq_one]

@@ -68,7 +68,7 @@ theorem card_map_Y (d : LJ Ω K J K' z j u v)
       (le_inf (fun x hx => (hΘ x).mpr (Subgroup.mem_centralizer_iff.mpr fun e he =>
         h.eGrp_comm K e he x hx)) (hEle.trans inf_le_left))
   have h1 := Subgroup.card_mul_index (Θ.domRestrict Y).ker
-  rw [Subgroup.index_ker, MonoidHom.restrict_range Y Θ, MonoidHom.ker_restrict] at h1
+  rw [Subgroup.index_ker, MonoidHom.domRestrict_range Y Θ, MonoidHom.ker_domRestrict] at h1
   have h2 : Nat.card ↥(Θ.ker.subgroupOf Y) = 8 := by
     rw [← Subgroup.card_map_of_injective Y.subtype_injective, Subgroup.subgroupOf_map_subtype,
       hker, h8]
@@ -240,10 +240,10 @@ theorem centralizer_le_eGrp (d : LJ Ω K J K' z j u v)
     (hΘ : ∀ x : G, Θ x = 1 ↔ x ∈ Subgroup.centralizer (eGrp Ω z K : Set G)) :
     Subgroup.centralizer (eGrp Ω z K : Set G) ≤ eGrp Ω z K := by
   have h8 := h.card_eGrp_K d hs
-  haveI hEn := h.eGrp_normal h8
+  have hEn := h.eGrp_normal h8
   set E := eGrp Ω z K with hE
   set A := Subgroup.centralizer (E : Set G) with hA
-  haveI hAn : A.Normal := inferInstance
+  have hAn : A.Normal := inferInstance
   set Y := pairNormalizers K J z j with hY
   have hsurj := h.surjective_action d hs hΘ
   have hA2 := h.isPGroup_centralizer d hs
@@ -278,7 +278,7 @@ theorem centralizer_le_eGrp (d : LJ Ω K J K' z j u v)
   set π := QuotientGroup.mk' E with hπ
   set B := T.map π with hB
   set Zb := A.map π with hZb
-  haveI hZbn : Zb.Normal := Subgroup.Normal.map hAn π (QuotientGroup.mk'_surjective E)
+  have hZbn : Zb.Normal := Subgroup.Normal.map hAn π (QuotientGroup.mk'_surjective E)
   have hZc : Zb ≤ Subgroup.center (G ⧸ E) := by
     rintro _ ⟨a, ha, rfl⟩
     rw [Subgroup.mem_center_iff]
@@ -339,7 +339,7 @@ theorem centralizer_le_eGrp (d : LJ Ω K J K' z j u v)
       rwa [hHidx] at h'
     have h4 : c ^ 21 ∈ B ⊓ Zb := ⟨h3, Subgroup.pow_mem _ hc 21⟩
     rw [hBZ, Subgroup.mem_bot] at h4
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp hZ2 ⟨c, hc⟩
     rw [Subgroup.orderOf_mk] at hk
     have h5 : orderOf c ∣ 21 := orderOf_dvd_of_pow_eq_one h4
@@ -403,7 +403,7 @@ theorem isL3E8_of_e8 (hΩ : TypeRHyp Ω) (hO : classicalInvolutionOddCore G = �
   obtain ⟨K', u, v, d⟩ := exists_LJ hΩ hK hv.mem (WR1.inA_of_aViol hv) hz hv.hzJ
     (fun L hL => h.isPGroup hL)
   have h8 := h.card_eGrp_K d hs
-  haveI hEn := h.eGrp_normal h8
+  have hEn := h.eGrp_normal h8
   obtain ⟨Θ, hΘ⟩ := exists_action_e8 (eGrp Ω z K) (h.eGrp_comm K) (h.eGrp_sq K) h8
   have hsurj := h.surjective_action d hs hΘ
   have hAE := h.centralizer_le_eGrp d hs hΘ

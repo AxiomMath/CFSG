@@ -51,7 +51,7 @@ theorem y322_of_check {x : CFSG.Sporadic.Fi23.J} {T : Table} (hT : Rep 31671 T x
     have hc8 : c < 8 := hl c hc
     show y322Img (fun i : Fin 8 => conjPt ks[i.val]!) c = conjPt ks[c]!
     unfold y322Img
-    rw [dif_pos hc8]
+    rw [dite_eq_left hc8]
   · refine ⟨0, 1, fun hcomm => ?_⟩
     have hA := rep_starWordTab_dTable [ks[0]!, ks[1]!]
     have hB := rep_starWordTab_dTable [ks[1]!, ks[0]!]
@@ -133,7 +133,7 @@ end Top
 section ThreeA
 
 theorem shapeRkAt_t3_zero : ShapeRkAt 3 (LeafType 3) (fun _ _ => True) (t3 0) := by
-  haveI := finite_J23
+  have := finite_J23
   have hcl := t3_classData.1
   have hz : orderOf (t3 0) = 3 := hcl.1
   have hcardC := card_cent_t3_zero

@@ -24,7 +24,7 @@ private theorem natCard_toAddSubgroup (S : Subgroup H) :
   Nat.card_congr
     { toFun := fun x => ⟨Additive.toMul x.1, (Additive.mem_toAddSubgroup S x.1).1 x.2⟩
       invFun := fun x => ⟨Additive.ofMul x.1,
-        (Additive.mem_toAddSubgroup S (Additive.ofMul x.1)).2 (by simpa using x.2)⟩
+        (Additive.mem_toAddSubgroup S (Additive.ofMul x.1)).2 (by simp)⟩
       left_inv := by intro x; ext; simp
       right_inv := by intro x; ext; simp }
 
@@ -32,12 +32,12 @@ private theorem eq_zero_of_mem_elemAbelian [Finite Q] (hE : IsExtraspecialPGroup
     {E : Subgroup H} (hEelem : CFSG.Open.IsElemAbelian 2 E) {q : Q} (hq : (q : H) ∈ E) :
     extraspecialQuadForm hE (Additive.ofMul (Abelianization.of q)) = 0 := by
   have hq2 : q ^ 2 = 1 := Subtype.ext (by simpa using hEelem.2 (q : H) hq)
-  rw [extraspecialQuadForm_apply, if_pos hq2]
+  rw [extraspecialQuadForm_apply, ite_eq_left hq2]
 
 theorem IsPlusExtraspecial.isPlusType_extraspecialQuadForm {m : ℕ} (h : IsPlusExtraspecial m Q) :
     letI := h.finite
     IsPlusType (extraspecialQuadForm h.isExtraspecialPGroup) := by
-  letI := h.finite
+  let := h.finite
   have hE : IsExtraspecialPGroup 2 Q := h.isExtraspecialPGroup
   obtain ⟨E, hEQ, hEelem, hEcard⟩ := h.2.2
   let E' : Subgroup Q := E.comap Q.subtype
@@ -80,7 +80,7 @@ theorem IsPlusExtraspecial.isPlusType_extraspecialQuadForm {m : ℕ} (h : IsPlus
     rw [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polar]
     rw [hW_sing (y + x) (W.add_mem hy hx), hW_sing y hy, hW_sing x hx]
     ring
-  haveI : Module.Finite (ZMod 2) (Additive (Abelianization Q)) := Module.Finite.of_finite
+  have : Module.Finite (ZMod 2) (Additive (Abelianization Q)) := Module.Finite.of_finite
   have hVfin : finrank (ZMod 2) (Additive (Abelianization Q)) = 2 * m := h.finrank_quotient
   have hfin_orth : finrank (ZMod 2)
         (LinearMap.BilinForm.orthogonal (extraspecialQuadForm hE).polarBilin W) =
@@ -120,11 +120,11 @@ theorem IsPlusExtraspecial.isPlusType_extraspecialQuadForm {m : ℕ} (h : IsPlus
     rw [hS] at h1
     exact h1
   have hker_pos : 0 < Nat.card φ.ker := by
-    haveI : Nonempty φ.ker := ⟨⟨0, φ.ker.zero_mem⟩⟩
+    have : Nonempty φ.ker := ⟨⟨0, φ.ker.zero_mem⟩⟩
     exact Nat.card_pos
   have hm_le : m ≤ finrank (ZMod 2) W := by
     have hcardW : Nat.card Etilde = 2 ^ finrank (ZMod 2) W := by
-      haveI : Module.Finite (ZMod 2) W := Module.Finite.of_finite
+      have : Module.Finite (ZMod 2) W := Module.Finite.of_finite
       have h := Module.natCard_eq_pow_finrank (K := ZMod 2) (V := W)
       rw [Nat.card_zmod] at h
       exact h

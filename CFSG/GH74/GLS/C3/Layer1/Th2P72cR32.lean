@@ -272,7 +272,7 @@ theorem exists_involution_cent_comm (hF₀ : L2Field F₀) (e₀ : K₀ ≃* L2 
         rw [← map_mul, DihedralGroup.sr_mul_self, map_one]
       exact congrArg Subtype.val this
     · intro h
-      have h1 : φ.symm (DihedralGroup.sr j) = 1 := Subtype.ext (by simpa using h)
+      have h1 : φ.symm (DihedralGroup.sr j) = 1 := Subtype.ext (by simp at h)
       have h2 : DihedralGroup.sr j = 1 := by
         rw [← map_one φ.symm] at h1
         exact φ.symm.injective h1

@@ -18,6 +18,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem str86_exists_mem_u3X1_not_mem_q2 {L1 L2 S : Subgroup G} {k : ℕ} (hk : 1 ≤ k)
     (hX1Q2 : u3X1 L1 L2 S ⊔ Q2 L1 L2 S = S)
     (hSQ2 : (Q2 L1 L2 S).relIndex S = (2 ^ k) ^ 2) :
@@ -63,12 +64,12 @@ theorem str86_z2_isChiefStep_u3H
 theorem str86_q2_noncentral_count_le_one
     {L1 L2 S : Subgroup G} {k : ℕ} {F : Type} [Field F] [Finite F] (hF : F112Hyp L1 L2 S)
     (hSB : bigB L1 L2 S ≤ Subgroup.normalizer (S : Set G)) (hk : 2 ≤ k)
-    (hFc : Nat.card F = (2 ^ k) ^ 2)
-    (hU3 : Nonempty (oTwoQuot ↥L1 ≃* StatedSU 3 (2 ^ k) F) ∨
+    (_hFc : Nat.card F = (2 ^ k) ^ 2)
+    (_hU3 : Nonempty (oTwoQuot ↥L1 ≃* StatedSU 3 (2 ^ k) F) ∨
       Nonempty (oTwoQuot ↥L1 ≃* StatedProj (StatedSU 3 (2 ^ k) F)))
-    (hB2 : VBig L2) (h2 : VL2 L2)
-    (hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
-    (hZQ : ¬ Z2 L1 L2 S ≤ Q1 L1 L2 S)
+    (_hB2 : VBig L2) (_h2 : VL2 L2)
+    (_hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
+    (_hZQ : ¬ Z2 L1 L2 S ≤ Q1 L1 L2 S)
     (hL2 : IsL2Quot (2 * k) (oTwoQuot ↥L2))
     (hY : Nat.card ↥(Z2 L1 L2 S ⊓ Q1 L1 L2 S) = (2 ^ k) ^ 3)
     (hI4 : Nat.card (u3X1 L1 L2 S) = (2 ^ k) ^ 7)
@@ -100,7 +101,7 @@ theorem str86_q2_chiefFactor_natural_card
       Nonempty (oTwoQuot ↥L1 ≃* StatedProj (StatedSU 3 (2 ^ k) F)))
     (hB2 : VBig L2) (h2 : VL2 L2)
     (hZI : L1 ⊔ Q1 L1 L2 S ≤ Subgroup.centralizer (Z1 L1 L2 S : Set G))
-    (hZQ : ¬ Z2 L1 L2 S ≤ Q1 L1 L2 S)
+    (_hZQ : ¬ Z2 L1 L2 S ≤ Q1 L1 L2 S)
     (hL2 : IsL2Quot (2 * k) (oTwoQuot ↥L2))
     (hX1' : ⁅u3X1 L1 L2 S, u3X1 L1 L2 S⁆ = Z1 L1 L2 S)
     (hY : Nat.card ↥(Z2 L1 L2 S ⊓ Q1 L1 L2 S) = (2 ^ k) ^ 3)
@@ -294,8 +295,8 @@ theorem str86Q1Eq_holds :
         Q1 L1 L2 S = u3X1 L1 L2 S := by
   intro G _ _ L1 L2 S hF hSB h1 hB2 h2 hZI hZQ
   obtain ⟨k, hk, F, hFld, hFin, hFc, hU3⟩ := h1
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have h1 : VU3Big L1 := ⟨k, hk, F, inferInstance, inferInstance, hFc, hU3⟩
   obtain ⟨hL2, hZ2, hZ1, hY, hX1', hX1Q1⟩ :=
     str86_l2_eq_and_z2 hF hSB hk hFc hU3 hB2 h2 hZI hZQ

@@ -52,7 +52,7 @@ theorem card_eq_and_not_comm_of_center_ne_bot {K : Type} [Group K] [Finite K] {n
     · exact Or.inl (by rw [hKcard]; norm_num [Nat.factorial])
     · exact Or.inr (by rw [hKcard]; norm_num [Nat.factorial])
   refine ⟨?_, ?_⟩
-  · obtain ⟨m, hm⟩ := T.isPGroup'.exists_card_eq
+  · obtain ⟨m, hm⟩ := T.isPGroup.exists_card_eq
     have hidx := T.not_dvd_index
     have hmul := (T : Subgroup K).card_mul_index
     rw [hm] at hmul
@@ -99,7 +99,7 @@ theorem kFactP1ThreeAlt : KFactP1ThreeAlt := by
   have hOut := not_dvd_card_outer_of_quotient hOutQ
   have hRK : (Rb : Subgroup Y) ≤ K ⊔ Subgroup.centralizer (K : Set Y) := by
     intro x hx
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp Rb.isPGroup') ⟨x, hx⟩
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp Rb.isPGroup) ⟨x, hx⟩
     refine mem_sup_centralizer_of_pow hp hOut (n := n) ?_
     have h1 := pow_orderOf_eq_one (⟨x, hx⟩ : (Rb : Subgroup Y))
     rw [hn] at h1

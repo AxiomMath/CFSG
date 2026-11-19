@@ -46,7 +46,7 @@ theorem ggA6_F4_core_of_f_eq_one
     exact hkerbot
   let e : (ggU .F4 n 1).K ≃* ↥G₀ :=
     (MonoidHom.ofInjective hinj).trans (MulEquiv.subgroupCongr hr)
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxord : orderOf x = p := orderOf_eq_prime (hab.2 x (hDB hxD)) hx1
   let x' : ↥G₀ := ⟨x, hxG⟩
   let D' : Subgroup ↥G₀ := D.subgroupOf G₀

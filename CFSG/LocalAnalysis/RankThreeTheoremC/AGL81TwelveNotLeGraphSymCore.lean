@@ -22,7 +22,7 @@ theorem eq_one_of_pow_two_pow_three {z : R} (h2 : ∃ i : ℕ, z ^ 2 ^ i = 1)
 section Core
 
 theorem zpowers_sup_eq_of_card_nine {M : Type*} [Group M] [Finite M] (hcard : Nat.card M = 9)
-    {u v : M} (hu3 : orderOf u = 3) (hv3 : orderOf v = 3) (hne : v ∉ zpowers u) :
+    {u v : M} (hu3 : orderOf u = 3) (_hv3 : orderOf v = 3) (hne : v ∉ zpowers u) :
     zpowers u ⊔ zpowers v = ⊤ := by
   have h1 : Nat.card (zpowers u) = 3 := by rw [Nat.card_zpowers, hu3]
   have hdvd : Nat.card (zpowers u ⊔ zpowers v : Subgroup M) ∣ 9 := by
@@ -62,7 +62,7 @@ theorem core_comm {M : Type*} [CommGroup M] [Finite M] (hcard : Nat.card M = 9)
     obtain ⟨j, rfl⟩ := Subgroup.mem_zpowers_iff.1 hz
     rw [mul_pow, ← zpow_natCast, ← zpow_natCast, ← zpow_mul, ← zpow_mul, mul_comm (i : ℤ),
       mul_comm (j : ℤ), zpow_mul, zpow_mul]
-    simp [← zpow_natCast, ha3, ha'3]
+    simp [ha3, ha'3]
   have hoc : orderOf c = 3 := orderOf_eq_prime (hexp c) hc1
   have hsq : ∀ z : M, z ^ 2 = 1 → z = 1 := fun z hz => by
     have h3 := hexp z
@@ -173,7 +173,7 @@ theorem core_comm {M : Type*} [CommGroup M] [Finite M] (hcard : Nat.card M = 9)
     have h2 : c ^ j = (c ^ j)⁻¹ := by
       calc c ^ j = (a ^ i) * ((a ^ i)⁻¹ * c ^ j) := by group
         _ = (a ^ i) * ((c ^ j)⁻¹ * (a ^ i)⁻¹) := by rw [h1]
-        _ = (c ^ j)⁻¹ := by simp [mul_comm, mul_left_comm]
+        _ = (c ^ j)⁻¹ := by simp [mul_comm]
     calc (c ^ j) ^ 2 = c ^ j * c ^ j := pow_two _
       _ = c ^ j * (c ^ j)⁻¹ := by rw [← h2]
       _ = 1 := mul_inv_cancel _
@@ -189,10 +189,10 @@ theorem false_of_two_symThree [Finite R] (hO2 : CFSG.pCore 2 R = ⊥)
     (hc3 : c ^ 3 = 1) (hc1 : c ≠ 1) (hcT : c ∈ normalizer ((T : Subgroup R) : Set R)) :
     False := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO2' := eq_bot_of_subnormal_isPGroup_two hO2
   set N : Subgroup R := CFSG.pCore 3 R with hN
-  haveI hNn : N.Normal := CFSG.pCore_normal
+  have hNn : N.Normal := CFSG.pCore_normal
   have hN3 : IsPGroup 3 N := CFSG.pCore_isPGroup
   obtain ⟨a, haX, ha1, ha3, hXa, -, -⟩ := symThree_data hX
   obtain ⟨a', ha'X', ha1', ha3', hXa', -, -⟩ := symThree_data hX'
@@ -251,7 +251,7 @@ theorem false_of_two_symThree [Finite R] (hO2 : CFSG.pCore 2 R = ⊥)
       exact N.mul_mem this (N.inv_mem hcN)
     have h4 : t * c * t⁻¹ * c⁻¹ = 1 := by
       refine eq_one_of_pow_two_pow_three ?_ ?_
-      · have := T.isPGroup' ⟨_, h2⟩
+      · have := T.isPGroup ⟨_, h2⟩
         obtain ⟨i, hi⟩ := this
         exact ⟨i, by simpa using congrArg Subtype.val hi⟩
       · have := hN3 ⟨_, h3⟩
@@ -260,8 +260,8 @@ theorem false_of_two_symThree [Finite R] (hO2 : CFSG.pCore 2 R = ⊥)
     calc t * c = (t * c * t⁻¹ * c⁻¹) * c * t := by group
       _ = c * t := by rw [h4]; group
   have hcomm : ∀ x y : N, x * y = y * x :=
-    IsPGroup.commutative_of_card_eq_prime_sq (p := 3) (by rw [hcardN]; norm_num)
-  letI : CommGroup N := { (inferInstance : Group N) with mul_comm := hcomm }
+    (IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 3) (by rw [hcardN]; norm_num)).is_comm.comm
+  let : CommGroup N := { (inferInstance : Group N) with mul_comm := hcomm }
   obtain ⟨s, hsT, hsX, hs2, hs1⟩ := exists_involution_mem_sylow hX hXs T
   obtain ⟨s', hs'T, hs'X', hs'2, hs'1⟩ := exists_involution_mem_sylow hX' hXs' T
   obtain ⟨hsa, -⟩ := hXa s hsX hs2 hs1
@@ -272,7 +272,7 @@ theorem false_of_two_symThree [Finite R] (hO2 : CFSG.pCore 2 R = ⊥)
     rw [hcT' s' hs'T]; group
   have hw : ∃ e : ℕ, (MulAut.conjNormal s * MulAut.conjNormal s' : MulAut N) ^ (2 ^ e) = 1 := by
     have hmem : s * s' ∈ (T : Subgroup R) := (T : Subgroup R).mul_mem hsT hs'T
-    obtain ⟨e, he⟩ := (T.isPGroup') ⟨s * s', hmem⟩
+    obtain ⟨e, he⟩ := (T.isPGroup) ⟨s * s', hmem⟩
     refine ⟨e, ?_⟩
     have he' : (s * s') ^ (2 ^ e) = 1 := by simpa using congrArg Subtype.val he
     rw [← map_mul, ← map_pow, he', map_one]

@@ -165,9 +165,9 @@ theorem addS_eq (gens : List Mc) (x : Mc) (k : ℕ → List Mc → Bool) : ∀ s
     unfold bfsAddK
     rw [List.foldl_cons]
     cases h : memS s (mcIdx (mulF x g))
-    · simp only [h, strictB_ml, cond_false]
+    · simp only [strictB_ml, Bool.cond_false]
       exact ih _ _
-    · simp only [h, cond_true]
+    · simp only [_root_.Bool.cond_true]
       exact ih _ _
 
 theorem foldS_eq (gens : List Mc) : ∀ (fr : List Mc) (k : ℕ → List Mc → Bool) s l,

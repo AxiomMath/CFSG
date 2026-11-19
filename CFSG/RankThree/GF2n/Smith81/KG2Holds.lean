@@ -86,7 +86,7 @@ theorem kG2_holds : KG2Statement := by
   · exact absurd hcl (by decide)
   · obtain ⟨⟨-, hf, -⟩, hU⟩ := hce
     obtain ⟨K, _, _, hK, ⟨e⟩⟩ := nonempty_mulEquiv_adjointGroup .G2 hU
-    haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
+    have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hK
     obtain ⟨c, hc⟩ := isConj_iff.mp
       (isConj_longRootElt_of_mulEquiv (K := K) e hHyp.isClass hHyp.root hd)
     let φ : Y ≃* ↥(adjointGroup .G2 K) := e.trans (MulAut.conj c)

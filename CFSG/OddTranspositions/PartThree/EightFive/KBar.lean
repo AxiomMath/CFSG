@@ -39,6 +39,7 @@ theorem isBenderGroup_of_disconnected_centSetBar (hT1 : TheoremOne) (hS : Setup 
     exists_meetsSq_centSetBar hS htri hn hn1 hord htrans
   exact isBenderGroup_of_conclusion hSq hx hy hxy hxyD hConclusion
 
+omit [Finite G] in
 theorem false_of_commute_mkCentSet (hS : Setup G D) {z : G}
     {u w v : G} (huC : u ∈ centSet D z) (hvC : v ∈ centSet D z) (hwC : w ∈ centSet D z)
     (hno : ¬ ∃ d ∈ D, Commute d u ∧ Commute d v ∧ Commute d w)

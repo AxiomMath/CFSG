@@ -84,8 +84,7 @@ private theorem sq_formula {N : ℕ} {i j : Fin N} (hij : i ≠ j) :
     exact hij
   have hCC : Matrix.single i i (1 : F2) * Matrix.single i i 1 = Matrix.single i i 1 := by
     rw [Matrix.single_mul_single_same, mul_one]
-  simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one,
-    Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add]
+  simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one]
   rw [hAA, hAB, hAC, hBA, hBB, hBC, hCA, hCB, hCC]
   ext r c
   simp only [Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
@@ -104,11 +103,11 @@ private theorem mul_single_apply' {N : ℕ} (M : Matrix (Fin N) (Fin N) F2) (i j
     (M * Matrix.single i j c0) r c = if c = j then M r i * c0 else 0 := by
   rw [Matrix.mul_apply, Finset.sum_eq_single i]
   · by_cases hcj : c = j
-    · rw [hcj, Matrix.single_apply_same, if_pos rfl]
-    · rw [if_neg hcj, Matrix.single_apply,
-        if_neg (by rintro ⟨-, h⟩; exact hcj h.symm), mul_zero]
+    · rw [hcj, Matrix.single_apply_same, ite_eq_left rfl]
+    · rw [ite_eq_right hcj, Matrix.single_apply,
+        ite_eq_right (by rintro ⟨-, h⟩; exact hcj h.symm), mul_zero]
   · intro x _ hx
-    rw [Matrix.single_apply, if_neg (by rintro ⟨h, -⟩; exact hx h.symm), mul_zero]
+    rw [Matrix.single_apply, ite_eq_right (by rintro ⟨h, -⟩; exact hx h.symm), mul_zero]
   · intro h
     exact absurd (Finset.mem_univ i) h
 
@@ -117,11 +116,11 @@ private theorem single_mul_apply' {N : ℕ} (M : Matrix (Fin N) (Fin N) F2) (i j
     (Matrix.single i j c0 * M) r c = if r = i then c0 * M j c else 0 := by
   rw [Matrix.mul_apply, Finset.sum_eq_single j]
   · by_cases hri : r = i
-    · rw [hri, Matrix.single_apply_same, if_pos rfl]
-    · rw [if_neg hri, Matrix.single_apply,
-        if_neg (by rintro ⟨h, -⟩; exact hri h.symm), zero_mul]
+    · rw [hri, Matrix.single_apply_same, ite_eq_left rfl]
+    · rw [ite_eq_right hri, Matrix.single_apply,
+        ite_eq_right (by rintro ⟨h, -⟩; exact hri h.symm), zero_mul]
   · intro x _ hx
-    rw [Matrix.single_apply, if_neg (by rintro ⟨-, h⟩; exact hx h.symm), zero_mul]
+    rw [Matrix.single_apply, ite_eq_right (by rintro ⟨-, h⟩; exact hx h.symm), zero_mul]
   · intro h
     exact absurd (Finset.mem_univ j) h
 
@@ -139,15 +138,15 @@ private theorem commute_single_of_commute_slOn {N : ℕ} {S : Set (Fin N)}
   exact (add_left_cancel h).symm
 
 private theorem exists_ne_mem_S {m : ℕ} (hm : 3 ≤ m) {a : Fin (m + 1 + 1 + 1)}
-    (ha : a ∈ Sset m) : ∃ b ∈ Sset m, b ≠ a := by
+    (_ha : a ∈ Sset m) : ∃ b ∈ Sset m, b ≠ a := by
   by_cases h2 : a = ⟨2, by omega⟩
   · refine ⟨⟨3, by omega⟩, ?_, ?_⟩
-    · simp only [Sset, Set.mem_setOf_eq]; omega
+    · simp only [Sset, Set.mem_ofPred_eq]; omega
     · rw [h2]
       intro h
       exact absurd (Fin.ext_iff.mp h) (by norm_num)
   · refine ⟨⟨2, by omega⟩, ?_, ?_⟩
-    · simp only [Sset, Set.mem_setOf_eq]; omega
+    · simp only [Sset, Set.mem_ofPred_eq]; omega
     · exact fun h => h2 h.symm
 
 private theorem col_row_of_commute_slOn {m : ℕ} (hm : 3 ≤ m)
@@ -205,45 +204,39 @@ private theorem omega_comm_entries {N : ℕ} {X : Matrix (Fin N) (Fin N) F2} {i 
         (if r = i then X i c else 0) := by
     intro r c
     have hX := h
-    simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one,
-      Matrix.mul_zero, Matrix.zero_mul, add_zero, zero_add] at hX
+    simp only [Matrix.add_mul, Matrix.mul_add, Matrix.one_mul, Matrix.mul_one] at hX
     have h' := congrFun (congrFun hX r) c
     simp only [Matrix.add_apply, mul_single_apply', single_mul_apply', mul_one, one_mul] at h'
     simpa only [add_assoc] using add_left_cancel (by simpa only [add_assoc] using h')
   have hri : ∀ r, r ≠ i → r ≠ j → X r i = 0 := by
     intro r hr_i hr_j
     have h := hrc r j
-    simp only [if_pos rfl, if_neg hij.symm, if_neg hr_i, if_neg hr_j, if_true, if_false,
-      add_zero, zero_add] at h
+    simp only [ite_eq_right hij.symm, ite_eq_right hr_i, ite_eq_right hr_j, ite_true, add_zero] at h
     exact h
   have hrj : ∀ r, r ≠ i → r ≠ j → X r j = 0 := by
     intro r hr_i hr_j
     have h := hrc r i
-    simp only [if_neg hij, if_pos rfl, if_neg hr_i, if_neg hr_j, if_true, if_false,
-      add_zero, zero_add] at h
+    simp only [ite_eq_right hij, ite_eq_right hr_i, ite_eq_right hr_j, ite_true, add_zero, zero_add] at h
     rw [hri r hr_i hr_j, add_zero] at h
     exact h
   have hic : ∀ c, c ≠ i → c ≠ j → X i c = 0 := by
     intro c hc_i hc_j
     have h := hrc j c
-    simp only [if_neg hc_j, if_neg hc_i, if_neg hij.symm, if_pos rfl, if_true, if_false,
-      add_zero, zero_add] at h
+    simp only [ite_eq_right hc_j, ite_eq_right hc_i, ite_eq_right hij.symm, ite_true, add_zero, zero_add] at h
     exact h.symm
   have hjc : ∀ c, c ≠ i → c ≠ j → X j c = 0 := by
     intro c hc_i hc_j
     have h := hrc i c
-    simp only [if_neg hc_j, if_neg hc_i, if_pos rfl, if_neg hij, if_true, if_false,
-      add_zero, zero_add] at h
+    simp only [ite_eq_right hc_j, ite_eq_right hc_i, ite_eq_right hij, ite_true, add_zero] at h
     rw [hic c hc_i hc_j, add_zero] at h
     exact h.symm
   have hji : X j i = X i j := by
     have h := hrc j j
-    simp only [if_pos rfl, if_neg hij.symm, if_true, if_false, add_zero, zero_add] at h
+    simp only [ite_eq_right hij.symm, ite_true, add_zero, zero_add] at h
     exact h
   have hjj : X j j = X i i + X i j := by
     have h := hrc i j
-    simp only [if_pos rfl, if_neg hij.symm, if_neg hij, if_true, if_false, add_zero,
-      zero_add] at h
+    simp only [ite_eq_right hij.symm, ite_eq_right hij, ite_true, add_zero] at h
     have h2 : X i j + X i j = (0 : F2) := by
       linear_combination (X i j) * gf2_two
     calc X j j = X j j + (X i j + X i j) := by rw [h2, add_zero]
@@ -269,16 +262,16 @@ private theorem z0_ne_o1 (m : ℕ) : z0 m ≠ o1 m := by
   intro h; have := congrArg Fin.val h; simp [z0_val, o1_val] at this
 
 private theorem z0_not_mem_S (m : ℕ) : z0 m ∉ Sset m := by
-  simp only [Sset, Set.mem_setOf_eq, z0_val]; omega
+  simp only [Sset, Set.mem_ofPred_eq, z0_val]; omega
 
 private theorem o1_not_mem_S (m : ℕ) : o1 m ∉ Sset m := by
-  simp only [Sset, Set.mem_setOf_eq, o1_val]; omega
+  simp only [Sset, Set.mem_ofPred_eq, o1_val]; omega
 
 private theorem zk_not_mem_S (m : ℕ) : zk m ∉ Sset m := by
-  simp only [Sset, Set.mem_setOf_eq, zk_val]; omega
+  simp only [Sset, Set.mem_ofPred_eq, zk_val]; omega
 
 private theorem ok_not_mem_S (m : ℕ) : ok m ∉ Sset m := by
-  simp only [Sset, Set.mem_setOf_eq, ok_val]; omega
+  simp only [Sset, Set.mem_ofPred_eq, ok_val]; omega
 
 private theorem z0_ne_zk (m : ℕ) (hm : 3 ≤ m) : z0 m ≠ zk m := by
   intro h
@@ -307,11 +300,11 @@ private theorem o1_ne_ok (m : ℕ) (hm : 3 ≤ m) : o1 m ≠ ok m := by
 private theorem zk_ne_ok (m : ℕ) : zk m ≠ ok m := by
   intro h; have := congrArg Fin.val h; simp [zk_val, ok_val] at this
 
-private theorem eq_special_of_not_mem_S {m : ℕ} (hm : 3 ≤ m) {x : Fin (m + 1 + 1 + 1)}
+private theorem eq_special_of_not_mem_S {m : ℕ} (_hm : 3 ≤ m) {x : Fin (m + 1 + 1 + 1)}
     (hx : x ∉ Sset m) : x = z0 m ∨ x = o1 m ∨ x = zk m ∨ x = ok m := by
   have hxlt : x.val < m + 3 := x.isLt
   have h : x.val = 0 ∨ x.val = 1 ∨ x.val = m + 1 ∨ x.val = m + 2 := by
-    simp only [Sset, Set.mem_setOf_eq, not_and, not_le] at hx
+    simp only [Sset, Set.mem_ofPred_eq, not_and, not_le] at hx
     omega
   rcases h with h | h | h | h
   · left; apply Fin.ext; simp [z0_val, h]
@@ -446,10 +439,9 @@ private theorem omega_pow_apply_z0_z0 {m : ℕ} (hm : 3 ≤ m) {a : ℕ} (ha : a
     (((((omegaBlock (m + 1 + 1) ⟨0, by omega⟩ : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2)) ^ a : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) : MatN m) (z0 m) (z0 m)) = (if a = 0 then 1 else if a = 1 then 0 else 1) := by
   rcases (show a = 0 ∨ a = 1 ∨ a = 2 by omega) with rfl | rfl | rfl
   · rw [pow_zero, Matrix.SpecialLinearGroup.coe_one]
-    simp [Matrix.one_apply, z0_ne_o1 m, z0_ne_zk m hm, z0_ne_ok m hm, o1_ne_zk m hm,
-      o1_ne_ok m hm, zk_ne_ok m, eq_comm]
+    simp
   · rw [pow_one, coe_omegaBlock_sum]
-    simp only [z0, o1, zk, ok, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp only [z0, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     have h1 : z0 m ≠ o1 m := z0_ne_o1 m
     have h2 : z0 m ≠ zk m := z0_ne_zk m hm
     have h3 : z0 m ≠ ok m := z0_ne_ok m hm
@@ -460,7 +452,7 @@ private theorem omega_pow_apply_z0_z0 {m : ℕ} (hm : 3 ≤ m) {a : ℕ} (ha : a
   · rw [pow_two]
     try rw [Matrix.SpecialLinearGroup.coe_mul]
     rw [coe_omegaBlock_sum, sq_formula (show (⟨0, by omega⟩ : Fin (m + 1 + 1)).castSucc ≠ (⟨0, by omega⟩ : Fin (m + 1 + 1)).succ from Fin.castSucc_lt_succ.ne)]
-    simp only [z0, o1, zk, ok, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp only [z0, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     have h1 : z0 m ≠ o1 m := z0_ne_o1 m
     have h2 : z0 m ≠ zk m := z0_ne_zk m hm
     have h3 : z0 m ≠ ok m := z0_ne_ok m hm
@@ -472,10 +464,9 @@ private theorem omega_pow_apply_z0_o1 {m : ℕ} (hm : 3 ≤ m) {a : ℕ} (ha : a
     (((((omegaBlock (m + 1 + 1) ⟨0, by omega⟩ : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2)) ^ a : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) : MatN m) (z0 m) (o1 m)) = (if a = 0 then 0 else if a = 1 then 1 else 1) := by
   rcases (show a = 0 ∨ a = 1 ∨ a = 2 by omega) with rfl | rfl | rfl
   · rw [pow_zero, Matrix.SpecialLinearGroup.coe_one]
-    simp [Matrix.one_apply, z0_ne_o1 m, z0_ne_zk m hm, z0_ne_ok m hm, o1_ne_zk m hm,
-      o1_ne_ok m hm, zk_ne_ok m, eq_comm]
+    simp [z0_ne_o1 m]
   · rw [pow_one, coe_omegaBlock_sum]
-    simp only [z0, o1, zk, ok, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp only [z0, o1, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     have h1 : z0 m ≠ o1 m := z0_ne_o1 m
     have h2 : z0 m ≠ zk m := z0_ne_zk m hm
     have h3 : z0 m ≠ ok m := z0_ne_ok m hm
@@ -486,7 +477,7 @@ private theorem omega_pow_apply_z0_o1 {m : ℕ} (hm : 3 ≤ m) {a : ℕ} (ha : a
   · rw [pow_two]
     try rw [Matrix.SpecialLinearGroup.coe_mul]
     rw [coe_omegaBlock_sum, sq_formula (show (⟨0, by omega⟩ : Fin (m + 1 + 1)).castSucc ≠ (⟨0, by omega⟩ : Fin (m + 1 + 1)).succ from Fin.castSucc_lt_succ.ne)]
-    simp only [z0, o1, zk, ok, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp only [z0, o1, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     have h1 : z0 m ≠ o1 m := z0_ne_o1 m
     have h2 : z0 m ≠ zk m := z0_ne_zk m hm
     have h3 : z0 m ≠ ok m := z0_ne_ok m hm
@@ -498,10 +489,9 @@ private theorem omegak_pow_apply_zk_zk {m : ℕ} (hm : 3 ≤ m) {a : ℕ} (ha : 
     (((((omegaBlock (m + 1 + 1) ⟨m + 1, by omega⟩ : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2)) ^ a : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) : MatN m) (zk m) (zk m)) = (if a = 0 then 1 else if a = 1 then 0 else 1) := by
   rcases (show a = 0 ∨ a = 1 ∨ a = 2 by omega) with rfl | rfl | rfl
   · rw [pow_zero, Matrix.SpecialLinearGroup.coe_one]
-    simp [Matrix.one_apply, z0_ne_o1 m, z0_ne_zk m hm, z0_ne_ok m hm, o1_ne_zk m hm,
-      o1_ne_ok m hm, zk_ne_ok m, eq_comm]
+    simp
   · rw [pow_one, coe_omegaBlock_sum]
-    simp only [z0, o1, zk, ok, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp only [zk, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     have h1 : z0 m ≠ o1 m := z0_ne_o1 m
     have h2 : z0 m ≠ zk m := z0_ne_zk m hm
     have h3 : z0 m ≠ ok m := z0_ne_ok m hm
@@ -512,7 +502,7 @@ private theorem omegak_pow_apply_zk_zk {m : ℕ} (hm : 3 ≤ m) {a : ℕ} (ha : 
   · rw [pow_two]
     try rw [Matrix.SpecialLinearGroup.coe_mul]
     rw [coe_omegaBlock_sum, sq_formula (show (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).castSucc ≠ (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).succ from Fin.castSucc_lt_succ.ne)]
-    simp only [z0, o1, zk, ok, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp only [zk, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     have h1 : z0 m ≠ o1 m := z0_ne_o1 m
     have h2 : z0 m ≠ zk m := z0_ne_zk m hm
     have h3 : z0 m ≠ ok m := z0_ne_ok m hm
@@ -524,10 +514,9 @@ private theorem omegak_pow_apply_zk_ok {m : ℕ} (hm : 3 ≤ m) {a : ℕ} (ha : 
     (((((omegaBlock (m + 1 + 1) ⟨m + 1, by omega⟩ : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2)) ^ a : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) : MatN m) (zk m) (ok m)) = (if a = 0 then 0 else if a = 1 then 1 else 1) := by
   rcases (show a = 0 ∨ a = 1 ∨ a = 2 by omega) with rfl | rfl | rfl
   · rw [pow_zero, Matrix.SpecialLinearGroup.coe_one]
-    simp [Matrix.one_apply, z0_ne_o1 m, z0_ne_zk m hm, z0_ne_ok m hm, o1_ne_zk m hm,
-      o1_ne_ok m hm, zk_ne_ok m, eq_comm]
+    simp [zk_ne_ok m]
   · rw [pow_one, coe_omegaBlock_sum]
-    simp only [z0, o1, zk, ok, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp only [zk, ok, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     have h1 : z0 m ≠ o1 m := z0_ne_o1 m
     have h2 : z0 m ≠ zk m := z0_ne_zk m hm
     have h3 : z0 m ≠ ok m := z0_ne_ok m hm
@@ -538,7 +527,7 @@ private theorem omegak_pow_apply_zk_ok {m : ℕ} (hm : 3 ≤ m) {a : ℕ} (ha : 
   · rw [pow_two]
     try rw [Matrix.SpecialLinearGroup.coe_mul]
     rw [coe_omegaBlock_sum, sq_formula (show (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).castSucc ≠ (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).succ from Fin.castSucc_lt_succ.ne)]
-    simp only [z0, o1, zk, ok, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp only [zk, ok, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     have h1 : z0 m ≠ o1 m := z0_ne_o1 m
     have h2 : z0 m ≠ zk m := z0_ne_zk m hm
     have h3 : z0 m ≠ ok m := z0_ne_ok m hm
@@ -550,10 +539,9 @@ private theorem omegak_pow_fixes_z0 {m : ℕ} (hm : 3 ≤ m) {a : ℕ} (ha : a �
     (((((omegaBlock (m + 1 + 1) ⟨m + 1, by omega⟩ : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2)) ^ a : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) : MatN m) x (z0 m)) = (if x = z0 m then 1 else 0) := by
   rcases (show a = 0 ∨ a = 1 ∨ a = 2 by omega) with rfl | rfl | rfl
   · rw [pow_zero, Matrix.SpecialLinearGroup.coe_one]
-    simp [Matrix.one_apply, z0_ne_o1 m, z0_ne_zk m hm, z0_ne_ok m hm, o1_ne_zk m hm,
-      o1_ne_ok m hm, zk_ne_ok m, eq_comm]
+    simp [Matrix.one_apply]
   · rw [pow_one, coe_omegaBlock_sum]
-    simp only [z0, o1, zk, ok, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp only [z0, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     have h1 : z0 m ≠ o1 m := z0_ne_o1 m
     have h2 : z0 m ≠ zk m := z0_ne_zk m hm
     have h3 : z0 m ≠ ok m := z0_ne_ok m hm
@@ -564,7 +552,7 @@ private theorem omegak_pow_fixes_z0 {m : ℕ} (hm : 3 ≤ m) {a : ℕ} (ha : a �
   · rw [pow_two]
     try rw [Matrix.SpecialLinearGroup.coe_mul]
     rw [coe_omegaBlock_sum, sq_formula (show (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).castSucc ≠ (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).succ from Fin.castSucc_lt_succ.ne)]
-    simp only [z0, o1, zk, ok, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp only [z0, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     have h1 : z0 m ≠ o1 m := z0_ne_o1 m
     have h2 : z0 m ≠ zk m := z0_ne_zk m hm
     have h3 : z0 m ≠ ok m := z0_ne_ok m hm
@@ -576,10 +564,9 @@ private theorem omegak_pow_fixes_o1 {m : ℕ} (hm : 3 ≤ m) {a : ℕ} (ha : a �
     (((((omegaBlock (m + 1 + 1) ⟨m + 1, by omega⟩ : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2)) ^ a : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) : MatN m) x (o1 m)) = (if x = o1 m then 1 else 0) := by
   rcases (show a = 0 ∨ a = 1 ∨ a = 2 by omega) with rfl | rfl | rfl
   · rw [pow_zero, Matrix.SpecialLinearGroup.coe_one]
-    simp [Matrix.one_apply, z0_ne_o1 m, z0_ne_zk m hm, z0_ne_ok m hm, o1_ne_zk m hm,
-      o1_ne_ok m hm, zk_ne_ok m, eq_comm]
+    simp [Matrix.one_apply]
   · rw [pow_one, coe_omegaBlock_sum]
-    simp only [z0, o1, zk, ok, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp only [o1, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     have h1 : z0 m ≠ o1 m := z0_ne_o1 m
     have h2 : z0 m ≠ zk m := z0_ne_zk m hm
     have h3 : z0 m ≠ ok m := z0_ne_ok m hm
@@ -590,7 +577,7 @@ private theorem omegak_pow_fixes_o1 {m : ℕ} (hm : 3 ≤ m) {a : ℕ} (ha : a �
   · rw [pow_two]
     try rw [Matrix.SpecialLinearGroup.coe_mul]
     rw [coe_omegaBlock_sum, sq_formula (show (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).castSucc ≠ (⟨m + 1, by omega⟩ : Fin (m + 1 + 1)).succ from Fin.castSucc_lt_succ.ne)]
-    simp only [z0, o1, zk, ok, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp only [o1, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     have h1 : z0 m ≠ o1 m := z0_ne_o1 m
     have h2 : z0 m ≠ zk m := z0_ne_zk m hm
     have h3 : z0 m ≠ ok m := z0_ne_ok m hm
@@ -602,10 +589,9 @@ private theorem omega_pow_fixes_zk {m : ℕ} (hm : 3 ≤ m) {a : ℕ} (ha : a �
     (((((omegaBlock (m + 1 + 1) ⟨0, by omega⟩ : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2)) ^ a : SpecialLinearGroup (Fin (m + 1 + 1 + 1)) F2) : MatN m) (zk m) x) = (if x = zk m then 1 else 0) := by
   rcases (show a = 0 ∨ a = 1 ∨ a = 2 by omega) with rfl | rfl | rfl
   · rw [pow_zero, Matrix.SpecialLinearGroup.coe_one]
-    simp [Matrix.one_apply, z0_ne_o1 m, z0_ne_zk m hm, z0_ne_ok m hm, o1_ne_zk m hm,
-      o1_ne_ok m hm, zk_ne_ok m, eq_comm]
+    simp [Matrix.one_apply, eq_comm]
   · rw [pow_one, coe_omegaBlock_sum]
-    simp only [z0, o1, zk, ok, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp only [zk, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     have h1 : z0 m ≠ o1 m := z0_ne_o1 m
     have h2 : z0 m ≠ zk m := z0_ne_zk m hm
     have h3 : z0 m ≠ ok m := z0_ne_ok m hm
@@ -616,7 +602,7 @@ private theorem omega_pow_fixes_zk {m : ℕ} (hm : 3 ≤ m) {a : ℕ} (ha : a �
   · rw [pow_two]
     try rw [Matrix.SpecialLinearGroup.coe_mul]
     rw [coe_omegaBlock_sum, sq_formula (show (⟨0, by omega⟩ : Fin (m + 1 + 1)).castSucc ≠ (⟨0, by omega⟩ : Fin (m + 1 + 1)).succ from Fin.castSucc_lt_succ.ne)]
-    simp only [z0, o1, zk, ok, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
+    simp only [zk, Matrix.add_apply, Matrix.one_apply, Matrix.single_apply]
     have h1 : z0 m ≠ o1 m := z0_ne_o1 m
     have h2 : z0 m ≠ zk m := z0_ne_zk m hm
     have h3 : z0 m ≠ ok m := z0_ne_ok m hm
@@ -753,35 +739,35 @@ theorem eq_omegaBlock_pow_mul_pow {m : ℕ} (hm : 3 ≤ m)
   have hY := shape_facts hm hYS hY0 hYk
   have hYii : (Y : MatN m) (z0 m) (z0 m) = p := by
     rw [show Y = w0 ^ a * wk ^ b from rfl, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Finset.sum_eq_single (z0 m)]
-    · rw [omegak_pow_fixes_z0 hm hb (z0 m), if_pos rfl, mul_one,
+    · rw [omegak_pow_fixes_z0 hm hb (z0 m), ite_eq_left rfl, mul_one,
         omega_pow_apply_z0_z0 hm ha]
       exact (expOf_spec p q hpq).1
     · intro x _ hx
-      rw [omegak_pow_fixes_z0 hm hb x, if_neg hx, mul_zero]
+      rw [omegak_pow_fixes_z0 hm hb x, ite_eq_right hx, mul_zero]
     · intro h; exact absurd (Finset.mem_univ (z0 m)) h
   have hYij : (Y : MatN m) (z0 m) (o1 m) = q := by
     rw [show Y = w0 ^ a * wk ^ b from rfl, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Finset.sum_eq_single (o1 m)]
-    · rw [omegak_pow_fixes_o1 hm hb (o1 m), if_pos rfl, mul_one,
+    · rw [omegak_pow_fixes_o1 hm hb (o1 m), ite_eq_left rfl, mul_one,
         omega_pow_apply_z0_o1 hm ha]
       exact (expOf_spec p q hpq).2
     · intro x _ hx
-      rw [omegak_pow_fixes_o1 hm hb x, if_neg hx, mul_zero]
+      rw [omegak_pow_fixes_o1 hm hb x, ite_eq_right hx, mul_zero]
     · intro h; exact absurd (Finset.mem_univ (o1 m)) h
   have hYki : (Y : MatN m) (zk m) (zk m) = p' := by
     rw [show Y = w0 ^ a * wk ^ b from rfl, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Finset.sum_eq_single (zk m)]
-    · rw [omega_pow_fixes_zk hm ha (zk m), if_pos rfl, one_mul,
+    · rw [omega_pow_fixes_zk hm ha (zk m), ite_eq_left rfl, one_mul,
         omegak_pow_apply_zk_zk hm hb]
       exact (expOf_spec p' q' hp'q').1
     · intro x _ hx
-      rw [omega_pow_fixes_zk hm ha x, if_neg hx, zero_mul]
+      rw [omega_pow_fixes_zk hm ha x, ite_eq_right hx, zero_mul]
     · intro h; exact absurd (Finset.mem_univ (zk m)) h
   have hYkj : (Y : MatN m) (zk m) (ok m) = q' := by
     rw [show Y = w0 ^ a * wk ^ b from rfl, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply, Finset.sum_eq_single (zk m)]
-    · rw [omega_pow_fixes_zk hm ha (zk m), if_pos rfl, one_mul,
+    · rw [omega_pow_fixes_zk hm ha (zk m), ite_eq_left rfl, one_mul,
         omegak_pow_apply_zk_ok hm hb]
       exact (expOf_spec p' q' hp'q').2
     · intro x _ hx
-      rw [omega_pow_fixes_zk hm ha x, if_neg hx, zero_mul]
+      rw [omega_pow_fixes_zk hm ha x, ite_eq_right hx, zero_mul]
     · intro h; exact absurd (Finset.mem_univ (zk m)) h
   refine ⟨a, b, ?_⟩
   have heq : d = Y := eq_of_params hm hDkeep hY (by rw [hYii]) (by rw [hYij])

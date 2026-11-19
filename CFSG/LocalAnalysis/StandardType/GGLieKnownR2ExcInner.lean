@@ -134,7 +134,7 @@ private theorem l10sx78_a_torusElt_mem_scalarGroup
     torusElt τ K (l10sx78_a_i₀ τ) t ∈ l10sx78_a_scalarGroup τ K (highRoot τ) := by
   have hθ : IsRoot τ (highRoot τ) := (l10sx78_a_highRootData hτ).maxHeight.1
   have hexp : ∑ j, Tag.cartan τ (l10sx78_a_i₀ τ) j * highRoot τ j = 1 := by
-    rw [(l10sx78_a_highRootData hτ).coPair (l10sx78_a_i₀ τ), if_pos rfl]
+    rw [(l10sx78_a_highRootData hτ).coPair (l10sx78_a_i₀ τ), ite_eq_left rfl]
   refine ⟨(t : K), fun c => ?_⟩
   rw [conj_pinnedX_of_mem_torusGroup (torusElt_mem_torusGroup (l10sx78_a_i₀ τ) t) hθ c,
     torusRootChar_torusElt (l10sx78_a_i₀ τ) t hθ, hexp, zpow_one]
@@ -290,7 +290,7 @@ private theorem l10sx78_a_normalizer_conj_scalar
     exact l10sx78_a_torusElt_mem_scalarGroup hτ u
   have hhμ : H * pinnedX τ K (highRoot τ) 1 * H⁻¹ = pinnedX τ K (highRoot τ) μ := by
     have hexp : ∑ j, Tag.cartan τ (l10sx78_a_i₀ τ) j * highRoot τ j = 1 := by
-      rw [(l10sx78_a_highRootData hτ).coPair (l10sx78_a_i₀ τ), if_pos rfl]
+      rw [(l10sx78_a_highRootData hτ).coPair (l10sx78_a_i₀ τ), ite_eq_left rfl]
     rw [hH]
     change torusElt τ K (l10sx78_a_i₀ τ) u * pinnedX τ K (highRoot τ) 1 *
         (torusElt τ K (l10sx78_a_i₀ τ) u)⁻¹ = pinnedX τ K (highRoot τ) μ
@@ -402,7 +402,7 @@ private theorem l10sx78_field_trivial
     have hχ : torusRootChar (torusElt τ K (l10sx78_a_i₀ τ) t) (highRoot τ) = (t : K) := by
       rw [torusRootChar_torusElt (l10sx78_a_i₀ τ) t hθroot]
       have hexp : ∑ j, Tag.cartan τ (l10sx78_a_i₀ τ) j * highRoot τ j = 1 := by
-        rw [(l10sx78_a_highRootData hτ).coPair (l10sx78_a_i₀ τ), if_pos rfl]
+        rw [(l10sx78_a_highRootData hτ).coPair (l10sx78_a_i₀ τ), ite_eq_left rfl]
       rw [hexp, zpow_one]
     have hh_tor : ∀ c : K, (h : ModGL τ K) * pinnedX τ K (highRoot τ) c *
         (h : ModGL τ K)⁻¹ = pinnedX τ K (highRoot τ) ((t : K) * c) := by
@@ -469,7 +469,7 @@ private theorem l10sx78_field_trivial
   refine RingEquiv.ext fun a => ?_
   by_cases ha : a = 0
   · subst ha
-    simpa using map_zero σ
+    simp
   · simpa using hkey (Units.mk0 a ha)
 
 private theorem l10sx78_inner_maxHeight
@@ -481,7 +481,7 @@ private theorem l10sx78_inner_maxHeight
       ∑ i, δ i ≤ ∑ i, γ₀ i) :
     GGRootNormInner ((adjDatum (rootOperatorFamily τ) (GaloisField 2 f)).rootGroup γ₀) := by
   intro y hy2 hyR hytriv
-  haveI : CharP (GaloisField 2 f) 2 := inferInstance
+  have : CharP (GaloisField 2 f) 2 := inferInstance
   have hcard : Nat.card (GaloisField 2 f) = 2 ^ f := GaloisField.card 2 f (by omega)
   obtain ⟨hnf, -⟩ := even_E7_E8_exact_inner_field_automorphism_normal_form hf
     (GaloisField 2 f) hcard τ hτ

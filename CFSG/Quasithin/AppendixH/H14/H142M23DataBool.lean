@@ -44,22 +44,22 @@ theorem m23K_strict_eq (y : ℕ) (k : ℕ → Bool) : m23K_strict y k = k y := b
   List.rec (motive := fun _ => ℕ → Bool) (fun _ => true)
     (fun e _ ih k => Prod.rec (motive := fun _ => Bool) (fun m q =>
       Prod.rec (motive := fun _ => Bool) (fun j p =>
-        Bool.and' (Nat.beq (m23K_lane T k) m) (Bool.and' (Nat.blt p k) (Bool.and' (Nat.blt j 2)
-          (Bool.and' (Nat.beq m (m23K_act (Bool.rec (motive := fun _ => List ℕ) C₁ C₀ (Nat.beq j 0))
+        _root_.Bool.and (Nat.beq (m23K_lane T k) m) (_root_.Bool.and (Nat.blt p k) (_root_.Bool.and (Nat.blt j 2)
+          (_root_.Bool.and (Nat.beq m (m23K_act (Bool.rec (motive := fun _ => List ℕ) C₁ C₀ (Nat.beq j 0))
             (m23K_lane T p))) (m23K_strict (Nat.succ k) ih))))) q) e) L
 
 @[expose] noncomputable def m23K_chk (T : ℕ) (C₀ C₁ : List ℕ) (m₀ : ℕ) (L : List (ℕ × ℕ × ℕ)) :
     Bool :=
   List.rec (motive := fun _ => Bool) false
-    (fun e rest _ => Bool.and' (Nat.beq e.1 m₀)
-      (Bool.and' (Nat.beq (m23K_lane T 0) e.1) (m23K_walk T C₀ C₁ rest 1))) L
+    (fun e rest _ => _root_.Bool.and (Nat.beq e.1 m₀)
+      (_root_.Bool.and (Nat.beq (m23K_lane T 0) e.1) (m23K_walk T C₀ C₁ rest 1))) L
 
 theorem m23K_walk_cons (T : ℕ) (C₀ C₁ : List ℕ) (m j p : ℕ) (L : List (ℕ × ℕ × ℕ)) (k : ℕ) :
     m23K_walk T C₀ C₁ ((m, j, p) :: L) k =
       (Nat.beq (m23K_lane T k) m && (Nat.blt p k && (Nat.blt j 2 &&
         (Nat.beq m (m23K_act (Bool.rec (motive := fun _ => List ℕ) C₁ C₀ (Nat.beq j 0))
           (m23K_lane T p)) && m23K_walk T C₀ C₁ L (k + 1))))) := by
-  change Bool.and' _ (Bool.and' _ (Bool.and' _ (Bool.and' _
+  change _root_.Bool.and _ (_root_.Bool.and _ (_root_.Bool.and _ (_root_.Bool.and _
     (m23K_strict (Nat.succ k) (m23K_walk T C₀ C₁ L))))) = _
   rw [m23K_strict_eq]
 

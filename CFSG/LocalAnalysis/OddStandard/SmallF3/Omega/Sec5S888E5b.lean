@@ -88,10 +88,10 @@ private theorem s888_fixedSet_card (hS : PlaneSys V W) (hE : ActsElemAb V E) (i 
       if i ∈ suppUnion (suppSet hS E) then 2 else 4 := by
   classical
   by_cases hi : i ∈ suppUnion (suppSet hS E)
-  · rw [s888_fixedSet, dif_pos hi, if_pos hi]
+  · rw [s888_fixedSet, dite_eq_left hi, ite_eq_left hi]
     exact card_fixed_of_actsNontriv (hS.card i) (fun a ha => hS.sq a (hS.le i ha))
       (s888_involAct hS hE i hi) (s888_suppWitness_spec (E := E) hS i hi).2.2
-  · rw [s888_fixedSet, dif_neg hi, if_neg hi]
+  · rw [s888_fixedSet, dite_eq_right hi, ite_eq_right hi]
     rw [Nat.card_congr (Equiv.Set.univ (↥(W i)))]
     exact hS.card i
 
@@ -100,7 +100,7 @@ private theorem s888_comp_mem_fixedSet (hS : PlaneSys V W) (v : V)
     (⟨comp hS v i, comp_mem hS v i⟩ : ↥(W i)) ∈ s888_fixedSet (E := E) hS i := by
   classical
   by_cases hi : i ∈ suppUnion (suppSet hS E)
-  · rw [s888_fixedSet, dif_pos hi]
+  · rw [s888_fixedSet, dite_eq_left hi]
     change (s888_suppWitness (E := E) hS i hi : X) * comp hS v i *
       (s888_suppWitness (E := E) hS i hi : X)⁻¹ = comp hS v i
     obtain ⟨hyE, hy1, -⟩ := s888_suppWitness_spec (E := E) hS i hi
@@ -108,7 +108,7 @@ private theorem s888_comp_mem_fixedSet (hS : PlaneSys V W) (v : V)
     have hcf := comp_fixed hS v (s888_suppWitness (E := E) hS i hi) (hv _ hyE) i
     rw [hpi] at hcf
     exact hcf.symm
-  · rw [s888_fixedSet, dif_neg hi]
+  · rw [s888_fixedSet, dite_eq_right hi]
     exact Set.mem_univ _
 
 private theorem s888_eq_of_comp_eq_on_minima (hS : PlaneSys V W) (hE : ActsElemAb V E)
@@ -156,7 +156,7 @@ theorem card_fixed_le (hS : PlaneSys V W) (hE : ActsElemAb V E) :
         ↥(s888_fixedSet (E := E) hS i.val)) =
       ∏ i : ↥(s888_orbitMinima hS E), Nat.card ↥(s888_fixedSet (E := E) hS i.val) :=
     Nat.card_pi
-  haveI : Finite (∀ i : ↥(s888_orbitMinima hS E),
+  have : Finite (∀ i : ↥(s888_orbitMinima hS E),
         ↥(s888_fixedSet (E := E) hS i.val)) := by
     apply Nat.finite_of_card_ne_zero
     rw [hcardβ]

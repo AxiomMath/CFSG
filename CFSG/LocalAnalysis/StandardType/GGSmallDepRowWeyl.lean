@@ -31,7 +31,7 @@ theorem ggSmallE7Input_holds :
       LinearIndependent (ZMod 7) h := by
   intro U _ _ _ A h α r hA hr hrpair hpair
   obtain ⟨u, φ, hφ, hK, hspan, hker, hAeq⟩ := hA
-  haveI : Finite U := Module.finite_of_finite (ZMod 7)
+  have : Finite U := Module.finite_of_finite (ZMod 7)
   exact ggE7Seven_A6_linearIndependent u φ hK (fun i => Module.reflection (hφ i))
     (fun i v => Module.reflection_apply v (hφ i)) h α hpair r hrpair
     (fun j => hAeq ▸ hr j)
@@ -42,8 +42,8 @@ theorem false_of_linWeyl
     (X : GGNineDepCtx h α r s x)
     (hcell : (p = 5 ∧ N = 5) ∨ (p = 3 ∧ N = 6) ∨ (p = 7 ∧ N = 7) ∨ (p = 5 ∧ N = 10))
     (hw : ZS.LinWeyl p (ggNineQ X)) : False := by
-  haveI : Module.Finite (ZMod p) V := X.finite
-  haveI : Module.Finite (ZMod p) ↥(ggFixLineT r s) :=
+  have : Module.Finite (ZMod p) V := X.finite
+  have : Module.Finite (ZMod p) ↥(ggFixLineT r s) :=
     FiniteDimensional.finiteDimensional_submodule (ggFixLineT r s)
   have hirr : ∀ W : Submodule (ZMod p) ↥(ggFixLineT r s),
       (∀ a ∈ ggNineQ X, ∀ w ∈ W, a w ∈ W) → W = ⊥ ∨ W = ⊤ := X.restr.2.1.1

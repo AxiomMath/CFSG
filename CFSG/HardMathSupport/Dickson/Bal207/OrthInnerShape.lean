@@ -60,7 +60,7 @@ theorem semilinConj_mem_specialBlock {σ : K ≃+* K} {Fs : V ≃+ V}
   have hP'S : (specialBlock Q xe h).map φ ≤ supportedBlock Q xe h := by
     rintro _ ⟨g, hg, rfl⟩
     exact hmapS g (specialBlock_le_supportedBlock h hg)
-  haveI := hperf
+  have := hperf
   have hP'perf : Group.IsPerfect ↥((specialBlock Q xe h).map φ) :=
     Group.IsPerfect.map (H := specialBlock Q xe h) φ
   have hdet : ∀ z (hz : z ∈ (specialBlock Q xe h).map φ),
@@ -90,7 +90,7 @@ theorem exists_lie_twistedA_of_le {E : Type} [Field E] [Finite E] {k m n : ℕ}
       Nonempty ((↥(CFSG.Open.StatedSU m (2 ^ k) E) ⧸
         Subgroup.center ↥(CFSG.Open.StatedSU m (2 ^ k) E)) ≃*
           (TauCeti.CFSGIndex.lie i).Group) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hk0 : 0 < k := by omega
   have hQ := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card (p := 2) hE hm hmq
   obtain ⟨r, rfl⟩ : ∃ r, m = r + 1 := ⟨m - 1, by omega⟩
@@ -107,8 +107,8 @@ theorem exists_lie_twistedA_of_le {E : Type} [Field E] [Finite E] {k m n : ℕ}
     · norm_num
   obtain ⟨-, K₀, _, _, hK₀, ⟨e₀⟩⟩ :=
     CFSG.QuasithinUnique.SQTK.statedClassicalModel_twistedA r q hv (MulEquiv.refl _)
-  haveI : Fintype K₀ := Fintype.ofFinite _
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype K₀ := Fintype.ofFinite _
+  have : Fintype E := Fintype.ofFinite E
   have hKK : Fintype.card E = Fintype.card K₀ := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hK₀, hE]
   let eK : E ≃+* K₀ := FiniteField.ringEquivOfCardEq hKK
@@ -144,7 +144,7 @@ theorem dims_of_orderOf_three (hF : Nat.card F = 2 ∨ Nat.card F = 8)
     norm_num
   have hx := oddOrderIsometry_of_orthDerived Nat.prime_three hpl hQ x hx3
   have hpq : 3 ∣ Nat.card F + 1 := by
-    rcases hF with h | h <;> rw [h] <;> norm_num
+    rcases hF with h | h <;> rw [h]; norm_num
   have hx1 : (x : V ≃ₗ[F] V) ≠ 1 := by
     intro h1
     have : x = 1 := Subtype.ext h1
@@ -152,6 +152,7 @@ theorem dims_of_orderOf_three (hF : Nat.card F = 2 ∨ Nat.card F = 8)
     omega
   exact ⟨hx, hpq, dims hx hpq hx1 hdim hV⟩
 
+omit [Finite F] in
 theorem exists_normal_of_fixed [Nontrivial V] (hQ : (polarBilin Q).Nondegenerate) {p : ℕ}
     {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x) {G : Subgroup (V ≃ₗ[F] V)}
     (hGq : CFSG.IsQuasisimple ↥G) (hGle : G ≤ supportedFixedDerived Q x)
@@ -230,11 +231,12 @@ theorem fixed_image_pair [Nontrivial V] (hF : Nat.card F = 2 ∨ Nat.card F = 8)
   · exact Or.inl himg.symm
   · exact Or.inr himg.symm
 
+omit [Finite F] [CharP F 2] in
 theorem two_le_primaryMultiplicity_phi {p : ℕ} {x : V ≃ₗ[F] V} (hx : OddOrderIsometry Q p x)
     (hmem : (X ^ 2 + X + 1 : F[X]) ∈ primaryFactors x.toLinearMap)
     (hq : CFSG.IsQuasisimple ↥(specialBlock Q x (X ^ 2 + X + 1))) :
     2 ≤ primaryMultiplicity x.toLinearMap (X ^ 2 + X + 1) := by
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : F[X])) := ⟨irreducible_of_mem_primaryFactors hmem⟩
+  have : Fact (Irreducible (X ^ 2 + X + 1 : F[X])) := ⟨irreducible_of_mem_primaryFactors hmem⟩
   have h1 := hx.primaryMultiplicity_pos hmem
   by_contra hlt
   have hbot := hx.specialBlock_eq_bot_of_finrank_eq_one hmem (by omega)
@@ -242,6 +244,7 @@ theorem two_le_primaryMultiplicity_phi {p : ℕ} {x : V ≃ₗ[F] V} (hx : OddOr
   rw [hbot] at hnt
   exact (Subgroup.nontrivial_iff_ne_bot _).mp hnt rfl
 
+omit [CharP F 2] in
 theorem specialBlock_phi_type (hF : Nat.card F = 2 ∨ Nat.card F = 8) {x : V ≃ₗ[F] V}
     (hx : OddOrderIsometry Q 3 x) (hmem : (X ^ 2 + X + 1 : F[X]) ∈ primaryFactors x.toLinearMap)
     (hq : CFSG.IsQuasisimple ↥(specialBlock Q x (X ^ 2 + X + 1))) :
@@ -253,7 +256,7 @@ theorem specialBlock_phi_type (hF : Nat.card F = 2 ∨ Nat.card F = 8) {x : V �
               (TauCeti.CFSGIndex.lie i).Group) := by
   classical
   have hirr := irreducible_of_mem_primaryFactors hmem
-  haveI : Fact (Irreducible (X ^ 2 + X + 1 : F[X])) := ⟨hirr⟩
+  have : Fact (Irreducible (X ^ 2 + X + 1 : F[X])) := ⟨hirr⟩
   have hm2 := two_le_primaryMultiplicity_phi hx hmem hq
   obtain ⟨f, hf, hKf⟩ := exists_exp hF
   obtain ⟨d, ℓ, f', hU, B, -, hq', hBsymm, hBl, hrange⟩ :=
@@ -283,9 +286,9 @@ theorem specialBlock_phi_type (hF : Nat.card F = 2 ∨ Nat.card F = 8) {x : V �
     have := Nat.pow_right_injective le_rfl h2
     omega
   have hk : f' * d = 1 ∨ f' * d = 3 := hqf ▸ hf
-  haveI := hU.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI := hU.charP
+  have := hU.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hU.charP
   have hE : Nat.card (AdjoinRoot (X ^ 2 + X + 1 : F[X])) = (2 ^ (f' * d)) ^ 2 := by
     rw [hU.card, ← pow_mul, mul_comm]
   have : Finite V := Module.finite_of_finite F
@@ -293,8 +296,8 @@ theorem specialBlock_phi_type (hF : Nat.card F = 2 ∨ Nat.card F = 8) {x : V �
     fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
   have : Finite ↥(sesqSpecialUnitaryGroup B) := Finite.of_equiv _ e₁.toEquiv
   have hsolv : ¬ Group.IsSolvable ↥(sesqSpecialUnitaryGroup B) := fun hs => by
-    haveI := CFSG.LocalCores.isQuasisimple_nontrivial hq
-    haveI : Group.IsPerfect ↥(specialBlock Q x (X ^ 2 + X + 1)) := hq.1
+    have := CFSG.LocalCores.isQuasisimple_nontrivial hq
+    have : Group.IsPerfect ↥(specialBlock Q x (X ^ 2 + X + 1)) := hq.1
     exact Group.IsPerfect.not_isSolvable _
       (Group.isSolvable_of_isSolvable_injective (f := e₁.toMonoidHom) e₁.injective)
   rcases Nat.lt_or_ge (primaryMultiplicity x.toLinearMap (X ^ 2 + X + 1)) 3 with hm3 | hm3
@@ -309,9 +312,9 @@ theorem specialBlock_phi_type (hF : Nat.card F = 2 ∨ Nat.card F = 8) {x : V �
       rw [hU.card_fixedField, hqf, hKf]
     have h8 : Nat.card F = 8 := by
       refine hF.resolve_left fun h2 => hsolv ?_
-      haveI := CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable
+      have := CFSG.ComponentClassification.CatalogueBGeneralLinear.generalLinear_two_small_solvable
         ↥hU.fixedField (Or.inl (hcardF.trans h2))
-      haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) ↥hU.fixedField) :=
+      have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) ↥hU.fixedField) :=
         Group.isSolvable_of_isSolvable_injective
           (f := (Matrix.SpecialLinearGroup.toGL :
             Matrix.SpecialLinearGroup (Fin 2) ↥hU.fixedField →* _))
@@ -384,7 +387,7 @@ theorem orthInner_comp_cases {F : Type} [Field F] [Finite F] [CharP F 2]
       ∃ i : TauCeti.ValidLieTypeIndex, OrthFixedIdx n i.1 ∧
         Nonempty ((↥L ⧸ Subgroup.center ↥L) ≃* (TauCeti.CFSGIndex.lie i).Group) := by
   classical
-  haveI : Nontrivial (Fin d → F) := by
+  have : Nontrivial (Fin d → F) := by
     obtain ⟨U, hU3, -⟩ := hT
     exact Module.nontrivial_of_finrank_pos (R := F)
       (lt_of_lt_of_le (by norm_num : 0 < 3) (hU3 ▸ Submodule.finrank_le U))
@@ -392,7 +395,7 @@ theorem orthInner_comp_cases {F : Type} [Field F] [Finite F] [CharP F 2]
     dims_of_orderOf_three hF hQ (by rw [Module.finrank_fin_fun, hdim]) hV x hx3
   rcases inner_comp_cases hF hQ x hx3 hL with ⟨-, hq, hLJ⟩ | ⟨G, hGq, hGle, hGn, hG4, hLG⟩
   · exact Or.inl ⟨hmem, two_le_primaryMultiplicity_phi hx hmem hq, by omega, hLJ, hq⟩
-  · haveI : Fact (Irreducible (X ^ 2 + X + 1 : F[X])) :=
+  · have : Fact (Irreducible (X ^ 2 + X + 1 : F[X])) :=
       ⟨irreducible_of_mem_primaryFactors hmem⟩
     have hm1 := hx.primaryMultiplicity_pos hmem
     subst hLG
@@ -414,7 +417,7 @@ theorem orthInner_comp_unique_two {F : Type} [Field F] [Finite F] [CharP F 2]
     (hL' : CFSG.Open.IsComponentOf L' (Solomon.Coordinator.fixSubgroup (MulAut.conj t))) :
     L = L' := by
   classical
-  haveI : Nontrivial (Fin d → F) := by
+  have : Nontrivial (Fin d → F) := by
     obtain ⟨U, hU3, -⟩ := hT
     exact Module.nontrivial_of_finrank_pos (R := F)
       (lt_of_lt_of_le (by norm_num : 0 < 3) (hU3 ▸ Submodule.finrank_le U))
@@ -471,7 +474,7 @@ theorem orthInnerShape {F : Type} [Field F] [Finite F] [CharP F 2]
           CFSG.Open.IsComponentOf L (Solomon.Coordinator.fixSubgroup (MulAut.conj t)) →
           L.map ω.toMonoidHom ≠ L → Subgroup.center ↥L = ⊥) := by
   classical
-  haveI : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
+  have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   have hpl : (3 : ℕ) ≠ ringChar F := by
     rw [ringChar.eq F 2]
     norm_num
@@ -502,10 +505,10 @@ theorem orthInnerShape {F : Type} [Field F] [Finite F] [CharP F 2]
       exact ⟨i, h1, h2, hiso⟩
   ·
     by_contra hne
-    haveI : Finite ((Fin d → F) ≃ₗ[F] (Fin d → F)) :=
+    have : Finite ((Fin d → F) ≃ₗ[F] (Fin d → F)) :=
       Finite.of_injective (fun e : (Fin d → F) ≃ₗ[F] (Fin d → F) => (e : (Fin d → F) → Fin d → F))
         fun e₁ e₂ h => LinearEquiv.ext (congrFun h)
-    haveI : Finite (ProjOrthDerived Q) := Finite.of_surjective (piOrth Q) piOrth_surjective
+    have : Finite (ProjOrthDerived Q) := Finite.of_surjective (piOrth Q) piOrth_surjective
     have hωt : ω (piOrth Q x) = piOrth Q x := by
       apply KCOrthogonalD4.conj_injective_projOrthDerived Q hQ hT
       refine MulEquiv.ext fun g => ?_

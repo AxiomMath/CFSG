@@ -26,21 +26,21 @@ theorem AschbacherHyp.exists_mul_mem_sq_eq [Finite C] (hC : AschbacherHyp C Q)
     (hirr : ∀ U : Submodule (ZMod 2) (Additive (Abelianization Q)),
       (∀ g : alternatingGroup (Fin 5) × alternatingGroup (Fin 5), ∀ u ∈ U, σ g u ∈ U) →
         U = ⊥ ∨ U = ⊤)
-    {z : C} (hzQ : z ∈ Q)
+    {z : C} (_hzQ : z ∈ Q)
     (hz : ∀ x ∈ Q, (∀ y ∈ Q, x * y = y * x) → x = 1 ∨ x = z)
     (hne : ∀ l : ↥(commutator C), InnerInv (θ l) → l ^ 2 ≠ 1)
     (l : ↥(commutator C)) (hl : InnerInv (θ l)) :
     ∃ q : C, q ∈ Q ∧ ((l : C) * q) ^ 2 = z := by
   classical
-  haveI : Finite Q := hC.plus.finite
-  haveI : Finite (Additive (Abelianization Q)) := by
+  have : Finite Q := hC.plus.finite
+  have : Finite (Additive (Abelianization Q)) := by
     change Finite (Q ⧸ _root_.commutator Q); infer_instance
   have hE : IsExtraspecialPGroup 2 Q := hC.plus.isExtraspecialPGroup
   obtain ⟨a, ha1, ha2, hcases⟩ := hl
   have hθlsq : (θ l) ^ 2 = 1 := by
     rcases hcases with h | h
-    · rw [h]; ext <;> simp [Prod.pow_fst, Prod.pow_snd, ha2]
-    · rw [h]; ext <;> simp [Prod.pow_fst, Prod.pow_snd, ha2]
+    · rw [h]; ext <;> simp [ha2]
+    · rw [h]; ext <;> simp [ha2]
   have hθl2 : θ (l ^ 2) = 1 := by rw [map_pow, hθlsq]
   have hl2Q : (l : C) ^ 2 ∈ Q := by
     simpa using (hθk (l ^ 2)).1 hθl2

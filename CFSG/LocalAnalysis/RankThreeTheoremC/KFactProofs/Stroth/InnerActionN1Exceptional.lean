@@ -62,14 +62,14 @@ theorem wA_wB_pow_three : ((wA : SL(3, K)) * wB) ^ 3 = 1 := by
   rw [Matrix.SpecialLinearGroup.coe_pow]
   fin_cases i <;> fin_cases j <;>
     simp [pow_succ, Matrix.SpecialLinearGroup.coe_mul, coe_wA, coe_wB, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.one_apply]
+      Fin.sum_univ_three]
 
 theorem wB_wA_pow_three : ((wB : SL(3, K)) * wA) ^ 3 = 1 := by
   ext i j
   rw [Matrix.SpecialLinearGroup.coe_pow]
   fin_cases i <;> fin_cases j <;>
     simp [pow_succ, Matrix.SpecialLinearGroup.coe_mul, coe_wA, coe_wB, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.one_apply]
+      Fin.sum_univ_three]
 
 theorem a2Inv_comm (X Y : SL(3, K)) : a2Inv₁ K X * a2Inv₂ K Y = a2Inv₂ K Y * a2Inv₁ K X := by
   have h1 : twoA2Mul K (X, 1) = a2Inv₁ K X := by rw [twoA2Mul_eq, map_one, mul_one]
@@ -392,7 +392,7 @@ open CFSG.Blueprint (ChevalleyExceptionalModel UntwistedChevalleyModel TwistedCh
 
 theorem n1TwE6_holds : N1TwE6 := by
   intro S _ _ ℓ f hmodel _ T hT hTi
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨hp, hf, -⟩, hm⟩ := hmodel
   have hm' : TwistedChevalleyModel S TwistTag.E6 (ℓ ^ f) := hm
   obtain ⟨F, _, _, σ, -, -, ⟨e⟩⟩ := exists_mulEquiv_graphFixedRootGroup_of_twisted_prime hp hf hm'
@@ -406,7 +406,7 @@ theorem n1TwE6_holds : N1TwE6 := by
 
 theorem n1E6_holds : N1E6 := by
   intro S _ _ ℓ f hmodel _ T hT hTi
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨hp, hf, -⟩, hm⟩ := hmodel
   have hm' : UntwistedChevalleyModel S Tag.E6 (ℓ ^ f) := hm
   obtain ⟨F, _, _, -, ⟨e⟩⟩ := exists_mulEquiv_adjointGroup_of_untwisted hm'
@@ -430,7 +430,7 @@ theorem not_isMulCommutative_sylow_of_perfect_center {R : Type*} [Group R] [Fini
   intro hcomm
   classical
   let H : Subgroup R := P
-  haveI : H.FiniteIndex := inferInstance
+  have : H.FiniteIndex := inferInstance
   let ϕ : H →* Abelianization H := Abelianization.of
   let T : R →* Abelianization H := MonoidHom.transfer ϕ
   have hT : T z = 1 := by
@@ -461,9 +461,9 @@ theorem exists_noncomm_pSubgroup_of_perfect_center {G : Type*} [Group G] [Finite
     ∃ H : Subgroup G, IsPGroup p H ∧ ∃ a ∈ H, ∃ b ∈ H, a * b ≠ b * a := by
   obtain ⟨P⟩ : Nonempty (Sylow p R) := inferInstance
   have hnc := not_isMulCommutative_sylow_of_perfect_center hperf hz hzp P
-  refine ⟨(P : Subgroup R).map R.subtype, P.isPGroup'.map _, ?_⟩
+  refine ⟨(P : Subgroup R).map R.subtype, P.isPGroup.map _, ?_⟩
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   exact hnc ⟨⟨fun a b => Subtype.ext (Subtype.ext (hcon _ ⟨a, a.2, rfl⟩ _ ⟨b, b.2, rfl⟩))⟩⟩
 
 
@@ -482,7 +482,7 @@ theorem exists_perfect_center_three_D4 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 
     ∃ R : Subgroup (graphFixedRootGroup TwistTag.D4 K σ.toRingHom), commutator R = ⊤ ∧
       ∃ z ∈ Subgroup.center R, orderOf z = 3 := by
   classical
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
+  have : Fact ℓ.Prime := ⟨hℓ⟩
   have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hK]; exact pow_ne_zero _ (pow_ne_zero _ hℓ.ne_zero))
   have hK3 : Nat.card K = ℓ ^ (3 * f) := by rw [hK, ← pow_mul, mul_comm]
@@ -499,11 +499,11 @@ theorem exists_perfect_center_three_D4 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 
     intro h
     have := (CharP.cast_eq_zero_iff Ω ℓ 3).1 h
     exact hℓ3 ((Nat.prime_dvd_prime_iff_eq hℓ Nat.prime_three).1 this)
-  haveI : NeZero ((3 : ℕ) : Ω) := ⟨h3Ω⟩
+  have : NeZero ((3 : ℕ) : Ω) := ⟨h3Ω⟩
   obtain ⟨ζ0, hζ0⟩ := HasEnoughRootsOfUnity.prim (M := Ω) (n := 3)
   have hμ : Nat.card (rootsOfUnity 3 Ω) = 3 := hζ0.card_rootsOfUnity
-  haveI : Finite (rootsOfUnity 3 Ω) := Nat.finite_of_card_ne_zero (by rw [hμ]; norm_num)
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (rootsOfUnity 3 Ω) := Nat.finite_of_card_ne_zero (by rw [hμ]; norm_num)
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := rootsOfUnity 3 Ω) 3 (by rw [hμ])
   have hζ3 : (ζ : Ωˣ) ^ 3 = 1 := (mem_rootsOfUnity 3 (ζ : Ωˣ)).1 ζ.2
   have hζ1 : (ζ : Ωˣ) ≠ 1 := by
@@ -555,7 +555,7 @@ theorem exists_perfect_center_three_D4 {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 
 theorem exists_noncomm_three_of_ne_three {ℓ f : ℕ} (hℓ3 : ℓ ≠ 3) (hq2 : 2 < ℓ ^ f) {S : Type}
     [Group S] [Finite S] (hmodel : ChevalleyExceptionalModel S .trialityD4 ℓ f) :
     ∃ H : Subgroup S, IsPGroup 3 H ∧ ∃ a ∈ H, ∃ b ∈ H, a * b ≠ b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨hp, hf, -⟩, hm⟩ := hmodel
   have hm' : TwistedChevalleyModel S TwistTag.D4 (ℓ ^ f) := hm
   obtain ⟨K, _, _, σ, hK, hσ, ⟨e⟩⟩ := exists_mulEquiv_graphFixedRootGroup_of_twisted_prime hp hf hm'
@@ -577,14 +577,14 @@ theorem exists_noncomm_three_of_ne_three {ℓ f : ℕ} (hℓ3 : ℓ ≠ 3) (hq2 
       · rw [hk]; push_cast; ring
       · have h3 : ((ℓ ^ f : ℕ) : ℤ) - 1 = 3 * (k : ℤ) := by rw [hk]; push_cast; ring
         rw [h3]
-        simpa using Int.gcd_mul_left 3 1 (k : ℤ)
+        simp
     · obtain ⟨k, hk⟩ : ∃ k, ℓ ^ f = 3 * k + 2 := ⟨ℓ ^ f / 3, by omega⟩
       refine exists_perfect_center_three_D4 hp hf hℓ3 hq2 K hK3 σe hσe (ε := -1) (Or.inr rfl)
         (d := 9 * k ^ 2 + 9 * k + 3) ?_ ⟨3 * k ^ 2 + 3 * k + 1, by ring⟩ ?_
       · rw [hk]; push_cast; ring
       · have h3 : ((ℓ ^ f : ℕ) : ℤ) - (-1) = 3 * ((k : ℤ) + 1) := by rw [hk]; push_cast; ring
         rw [h3]
-        simpa using Int.gcd_mul_left 3 1 ((k : ℤ) + 1)
+        simp
   obtain ⟨H, hH, a, ha, b, hb, hab⟩ := exists_noncomm_pSubgroup_of_perfect_center R hR hz hzo
   let e' : graphFixedRootGroup TwistTag.D4 K σe.toRingHom ≃* S := e
   refine ⟨H.map e'.toMonoidHom, hH.map _, e' a, ⟨a, ha, rfl⟩, e' b, ⟨b, hb, rfl⟩, ?_⟩
@@ -744,7 +744,7 @@ theorem wordGL_A_B_noncomm : wordGL wordA * wordGL wordB ≠ wordGL wordB * word
 theorem exists_noncomm_three_of_two {S : Type} [Group S] [Finite S]
     (hmodel : CFSG.Blueprint.ChevalleyExceptionalModel S .trialityD4 2 1) :
     ∃ H : Subgroup S, IsPGroup 3 H ∧ ∃ a ∈ H, ∃ b ∈ H, a * b ≠ b * a := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hL : CFSG.Blueprint.LieModel S .trialityD4 0 2 1 :=
     Or.inr (Or.inl ⟨rfl, by simp [CFSG.Blueprint.chevalleyExceptionalTags], hmodel⟩)
   obtain ⟨e⟩ := CFSG.LargeExtraspecial.S63.nonempty_equiv_trialityGroup8 S hL
@@ -770,7 +770,7 @@ open CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.InnerAction (N13D4)
 
 theorem n13D4_holds : N13D4 := by
   intro S _ _ ℓ f hmodel T hT hTi
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hp : ℓ.Prime := hmodel.1.1
   have hf : 1 ≤ f := hmodel.1.2.1
   obtain ⟨H, hH, a, ha, b, hb, hab⟩ :

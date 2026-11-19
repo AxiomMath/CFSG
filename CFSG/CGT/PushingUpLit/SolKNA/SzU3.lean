@@ -222,15 +222,15 @@ theorem sylowImg_eq_pCoreOf_of_isSzOrU3 (S : STSetting G K)
     simpa [MulAut.smul_def, mul_assoc] using hQP h1
   have hPM : M = Subgroup.normalizer ((P : Subgroup G) : Set G) := by
     by_contra hne
-    exact hmax.2 _ (lt_of_le_of_ne hNP hne) ⟨P, hPne, P.isPGroup', rfl⟩
+    exact hmax.2 _ (lt_of_le_of_ne hNP hne) ⟨P, hPne, P.isPGroup, rfl⟩
   have hPleM : (P : Subgroup G) ≤ M := hPM ▸ Subgroup.le_normalizer
   have hPsyl : IsSylowOf 2 (P : Subgroup G) M :=
-    isSylowOf_iff.mpr ⟨hPleM, P.isPGroup', fun h => P.not_dvd_index
+    isSylowOf_iff.mpr ⟨hPleM, P.isPGroup, fun h => P.not_dvd_index
       (h.trans (Subgroup.relIndex_dvd_index_of_le hPleM))⟩
   have hPK : IsSylowOf 2 ((P : Subgroup G) ⊓ K) K :=
     hPsyl.inf_of_le_normalizer hKM hMK
   have hPKO : (P : Subgroup G) ⊓ K ≤ pCoreOf 2 K := by
-    refine le_pCoreOf_of_le_normalizer 2 inf_le_right ?_ (P.isPGroup'.to_inf_left)
+    refine le_pCoreOf_of_le_normalizer 2 inf_le_right ?_ (P.isPGroup.to_inf_left)
     intro k hk
     exact CFSG.RankThree.GF2n.mem_normalizer_inf (hPM ▸ hKM hk) (Subgroup.le_normalizer hk)
   have hOR : pCoreOf 2 K ≤ sylowImg R := by

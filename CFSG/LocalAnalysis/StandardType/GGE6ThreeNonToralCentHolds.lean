@@ -174,8 +174,8 @@ private theorem algebraicClosure_facts {K : Type} [Field K] [Finite K] [CharP K 
       ringChar (AlgebraicClosure K) ≠ 3 ∧
       (letI := ZMod.algebra (AlgebraicClosure K) 2
        Algebra.IsAlgebraic (ZMod 2) (AlgebraicClosure K)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hchar : CharP (AlgebraicClosure K) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hchar : CharP (AlgebraicClosure K) 2 :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective 2
   refine ⟨hchar, ?_, ?_⟩
   · rw [ringChar.eq (AlgebraicClosure K) 2]
@@ -185,14 +185,14 @@ private theorem algebraicClosure_facts {K : Type} [Field K] [Finite K] [CharP K 
 theorem ggL45E6NonToralThreeCent_holds :
     GGL45E6NonToralThreeCent := by
   intro K₀ hfield hfin hchar Ebar hEadj hEea hnt hcard
-  letI := hfield
-  letI := hfin
-  letI := hchar
+  let := hfield
+  let := hfin
+  let := hchar
   let L := AlgebraicClosure K₀
   obtain ⟨hcharL, hL, halg⟩ := algebraicClosure_facts (K := K₀)
-  haveI := hcharL
+  have := hcharL
   have hEfin : (Ebar : Set (ModGL .E6 L)).Finite := by
-    haveI : Finite Ebar := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+    have : Finite Ebar := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
     exact Set.toFinite _
   obtain ⟨g, hgG, hEM, hreg⟩ :=
     E6NonToralThree.exists_conj_regular (L := L) (ℓ := 2) (by norm_num)

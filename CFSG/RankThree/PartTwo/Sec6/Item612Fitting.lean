@@ -491,7 +491,7 @@ theorem map_le_centralizer_pCore_of_mem_partTwoS (hG : PartTwoStanding G) {A E :
       intro hbot
       apply R.ne_bot_of_dvd_card hev
       exact (Subgroup.map_eq_bot_iff_of_injective _ θG.subtype_injective).mp hbot
-    have hcard := Sec5.card_le_of_le_normalizer hG.evenRank_eq hR1 (R.isPGroup'.map _) hAab hAR
+    have hcard := Sec5.card_le_of_le_normalizer hG.evenRank_eq hR1 (R.isPGroup.map _) hAab hAR
     have hAE : E = A := Subgroup.eq_of_le_of_card_ge hEA (by rw [hEmem.2.1]; exact hcard)
     have hmax : ∀ x ∈ Subgroup.centralizer ((E.subgroupOf H : Subgroup H) : Set H), x ^ 3 = 1 →
         x ∈ E.subgroupOf H := by

@@ -114,9 +114,9 @@ theorem e8Ten_frames (K : Type) [Field K] [Finite K]
       Nat.card ↥(Subgroup.center ↥(TwClass.e8Ten.X₁ D)) = Nat.gcd 5 (Nat.card K + 1) := by
   classical
   obtain ⟨ℓ, f, hℓ, hf, hk⟩ := exists_prime_pow_card K
-  haveI : Fact ℓ.Prime := ⟨hℓ⟩
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
-  haveI : CharP D.L ℓ := charP_langLevi D hℓ hk
+  have : Fact ℓ.Prime := ⟨hℓ⟩
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : CharP D.L ℓ := charP_langLevi D hℓ hk
   have hne : ((5 : ℕ), ℓ ^ f) ≠ (3, 2) := fun h => by
     have := (Prod.mk.inj h).1
     omega

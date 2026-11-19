@@ -18,7 +18,7 @@ section Assembly
 
 theorem twoSignalizerFive_holds : TwoSignalizerFive := by
   intro X _ _ K hKn hs hnab B hB hBc hBC hcase T hT hBT
-  haveI : K.Normal := hKn
+  have : K.Normal := hKn
   obtain ⟨hcase, hBK⟩ := hcase
   rcases hcase with ⟨hv, e⟩ | e | e
   · exact commutator_le_centralizer_of_signalizerAutAt (by norm_num) (by norm_num)

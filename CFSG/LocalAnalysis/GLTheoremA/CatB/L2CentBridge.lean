@@ -44,7 +44,7 @@ theorem l2c_isTypeL2_of_catalog {S : Type} [Group S] [Finite S] {n : ℕ}
       · simp only [isL2n] at hi
         obtain ⟨hp2, hn⟩ := hi
         have hpos : 0 < q.exponent := q.exponent_pos
-        haveI : Fact (Nat.Prime q.p) := ⟨q.prime_p⟩
+        have : Fact (Nat.Prime q.p) := ⟨q.prime_p⟩
         have hF : Nat.card (GaloisField q.p q.exponent) = 2 ^ n := by
           rw [GaloisField.card q.p q.exponent hpos.ne', hp2, hn]
         refine ⟨hn ▸ hpos, GaloisField q.p q.exponent, inferInstance, inferInstance, hF, ⟨?_⟩⟩

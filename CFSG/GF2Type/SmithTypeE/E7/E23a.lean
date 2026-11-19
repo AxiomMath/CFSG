@@ -27,6 +27,7 @@ variable {G : Type} [Group G] [Finite G]
   (∀ P : Subgroup G, P ≤ cent2 t u ⊓ S.M →
     (∀ c ∈ cent2 t u ⊓ S.M, ∀ p ∈ P, c * p * c⁻¹ ∈ P) → IsPGroup 2 P → P ≤ S.QG)
 
+omit [Finite G] in
 theorem commute_conj_iff_E7 (g a b : G) :
     Commute (g * a * g⁻¹) (g * b * g⁻¹) ↔ Commute a b := by
   constructor
@@ -41,22 +42,26 @@ theorem commute_conj_iff_E7 (g a b : G) :
       _ = g * (b * a) * g⁻¹ := by rw [h]
       _ = g * b * g⁻¹ * (g * a * g⁻¹) := by group
 
+omit [Finite G] in
 theorem conj_mem_cent2_iff_E7 (g : G) {t u x : G} :
     g * x * g⁻¹ ∈ cent2 (g * t * g⁻¹) (g * u * g⁻¹) ↔ x ∈ cent2 t u := by
   rw [mem_cent2, mem_cent2, commute_conj_iff_E7, commute_conj_iff_E7]
 
+omit [Finite G] in
 theorem conj_mem_QG_iff_E7 (S : Setting G) {g : G} (hg : g ∈ S.M) {x : G} :
     g * x * g⁻¹ ∈ S.QG ↔ x ∈ S.QG := by
   refine ⟨fun h => ?_, S.conj_mem_QG hg⟩
   have := S.conj_mem_QG (S.M.inv_mem hg) h
   rwa [show g⁻¹ * (g * x * g⁻¹) * g⁻¹⁻¹ = x by group] at this
 
+omit [Finite G] in
 theorem conj_mem_M_iff_E7 (S : Setting G) {g : G} (hg : g ∈ S.M) {x : G} :
     g * x * g⁻¹ ∈ S.M ↔ x ∈ S.M := by
   refine ⟨fun h => ?_, fun h => S.M.mul_mem (S.M.mul_mem hg h) (S.M.inv_mem hg)⟩
   have := S.M.mul_mem (S.M.mul_mem (S.M.inv_mem hg) h) hg
   rwa [show g⁻¹ * (g * x * g⁻¹) * g = x by group] at this
 
+omit [Finite G] in
 theorem E23aConcl.of_conj (S : Setting G) {t u g : G} (hg : g ∈ S.M)
     (h : E23aConcl S (g * t * g⁻¹) (g * u * g⁻¹)) : E23aConcl S t u := by
   obtain ⟨h1, h2, h3, h4, h5⟩ := h
@@ -418,7 +423,7 @@ theorem conj_mem_mbarImage_of_mem_Lstd (h34a : SmithE7E34a) (h34b : SmithE7E34b)
     {P : Subgroup G} (hPn : ∀ c ∈ cent2 t u ⊓ S.M, ∀ p ∈ P, c * p * c⁻¹ ∈ P)
     (g : ↥TD6) (hg : (g : Equiv.Perm (Fin 365211)) ∈ Lstd) :
     ∀ p ∈ mbarImage S P, (ψ.symm g : S.Mbar) * p * (ψ.symm g : S.Mbar)⁻¹ ∈ mbarImage S P := by
-  haveI : Finite S.Mbar := Bridge.finite_Mbar S
+  have : Finite S.Mbar := Bridge.finite_Mbar S
   have hle : Lstd ≤ ((Subgroup.normalizer ((mbarImage S P : Subgroup S.Mbar) : Set S.Mbar)).comap
       ψ.symm.toMonoidHom).map TD6.subtype := by
     rw [Subgroup.closure_le]

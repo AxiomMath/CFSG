@@ -86,7 +86,7 @@ theorem det_ne_zero_of_ne_smul {u u' : Fin 2 → F} (hu : u ≠ 0) (hne : ∀ c 
       linear_combination hd
 
 theorem vecMulVec_eq_smul_iff {a b n u : Fin 2 → F} {c : F} (ha : a ≠ 0) (hb : b ≠ 0)
-    (hn : n ≠ 0) (hu : u ≠ 0) (hc : c ≠ 0)
+    (hn : n ≠ 0) (_hu : u ≠ 0) (_hc : c ≠ 0)
     (h : Matrix.vecMulVec a b = c • Matrix.vecMulVec n u) :
     ∃ α β : F, a = α • n ∧ b = β • u ∧ α * β = c := by
   have he : ∀ i k, a i * b k = c * (n i * u k) := fun i k => by
@@ -134,7 +134,7 @@ theorem planeAdd_inf {u u' : Fin 2 → F} (hu : u ≠ 0) (hu' : u' ≠ 0) (hne :
     (AddSubgroup.mem_inf.mp hX).1 (AddSubgroup.mem_inf.mp hX).2
   exact hne c hc
 
-theorem planeAdd_sup {u u' : Fin 2 → F} (hu : u ≠ 0) (hu' : u' ≠ 0) (hne : ∀ c : F, u' ≠ c • u) :
+theorem planeAdd_sup {u u' : Fin 2 → F} (hu : u ≠ 0) (_hu' : u' ≠ 0) (hne : ∀ c : F, u' ≠ c • u) :
     planeAdd u ⊔ planeAdd u' = ⊤ := by
   have hd := det_ne_zero_of_ne_smul hu hne
   rw [eq_top_iff]
@@ -242,10 +242,10 @@ theorem forall_of_forall_det_eq_one {p : Matrix (Fin 2) (Fin 2) F → Prop}
     fin_cases i <;> fin_cases j <;> simp
   have h00 : ∀ t : F, p !![t, 0; 0, 0] := fun t => by
     convert hmul _ _ (h01 t) (h10 1) using 1
-    simp [Matrix.mul_fin_two]
+    simp
   have h11 : ∀ t : F, p !![0, 0; 0, t] := fun t => by
     convert hmul _ _ (h10 t) (h01 1) using 1
-    simp [Matrix.mul_fin_two]
+    simp
   have hA : A = !![A 0 0, 0; 0, 0] + !![0, A 0 1; 0, 0] + !![0, 0; A 1 0, 0] +
       !![0, 0; 0, A 1 1] := by
     ext i j
@@ -369,8 +369,8 @@ theorem eq_planeAdd_of_card [Finite F] (Y : AddSubgroup (Matrix (Fin 2) (Fin 2) 
     exact hall _ X hXY
   · rw [hcard, card_planeAdd hi]
 
-theorem ne_of_torus_relations [CharP F 2] {γ μ μ' δ : F} (hγ : γ ≠ 0) (hμ : μ ≠ 0)
-    (hμ' : μ' ≠ 0) (hdet : δ = μ * μ') (hδ : δ ≠ 1) (hV : δ * (γ * μ) = 1)
+theorem ne_of_torus_relations [CharP F 2] {γ μ μ' δ : F} (_hγ : γ ≠ 0) (_hμ : μ ≠ 0)
+    (_hμ' : μ' ≠ 0) (hdet : δ = μ * μ') (hδ : δ ≠ 1) (hV : δ * (γ * μ) = 1)
     (hD : μ = γ ∨ γ * μ' = 1) : μ ≠ μ' := by
   intro hμμ
   rw [← hμμ] at hdet hD

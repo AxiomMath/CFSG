@@ -19,7 +19,7 @@ theorem conjAct_mul_mul_inv {V : Subgroup G} (x y : Subgroup.normalizer (V : Set
   rw [map_mul, map_mul, map_inv]
 
 omit [Finite G] in
-theorem autOn_le_normalizer {V X Z : Subgroup G} (hXV : X ≤ Subgroup.normalizer (V : Set G))
+theorem autOn_le_normalizer {V X Z : Subgroup G} (_hXV : X ≤ Subgroup.normalizer (V : Set G))
     (hXZ : X ≤ Subgroup.normalizer (Z : Set G)) :
     autOn X V ≤ Subgroup.normalizer (autOn Z V : Set (MulAut V)) :=
   CFSG.Quasithin.AutOn.autOn_le_normalizer_autOn hXZ

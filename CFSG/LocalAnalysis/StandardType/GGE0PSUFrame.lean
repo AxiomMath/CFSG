@@ -24,11 +24,11 @@ theorem GUFull_eq_heldGU {m Q : ℕ} {E : Type} [Field E] {τ : E ≃+* E} {hτ 
   apply le_antisymm
   · rw [ClassicalBlocks.GUFull, Subgroup.closure_le]
     intro A hA
-    rw [Set.mem_setOf_eq, hmap] at hA
+    rw [Set.mem_ofPred_eq, hmap] at hA
     exact Held.mem_heldGU.mpr hA
   · intro A hA
     refine Subgroup.subset_closure ?_
-    rw [Set.mem_setOf_eq, hmap]
+    rw [Set.mem_ofPred_eq, hmap]
     exact Held.mem_heldGU.mp hA
 
 theorem conj_mem_heldGU_of_unitary {n : ℕ} {F : Type} [Field F] {σ : F ≃+* F}

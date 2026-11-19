@@ -24,7 +24,7 @@ private theorem s16h_endo_of_natReal {ι : Type} [Fintype ι] [DecidableEq ι] [
       (∀ g ∈ autSec X U Z, ∀ x : Sec U Z, f (g x) = g (f x)) →
         f = 1 ∨ f = MonoidHom.id (Sec U Z) := by
   obtain ⟨β, hβs, hβk, hβe⟩ := R.exists_β
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hker : β.ker = Z.subgroupOf U := by
     ext u
     rw [MonoidHom.mem_ker, hβk u, Subgroup.mem_subgroupOf]
@@ -133,16 +133,16 @@ theorem s16h_simpleScalar_natOmegaMinus4 [Finite W] {L : Subgroup (MulAut W)} {U
     s16h_SimpleScalar L U Z := by
   have hN : NatOmegaMinus L U Z 4 1 := h
   obtain ⟨-, K, hKfield, hKfin, b, c, hKcard, hpoly, hReal⟩ := h
-  letI := hKfield
-  letI := hKfin
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let := hKfield
+  let := hKfin
+  have : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hKcard2 : Nat.card K = 2 := by
     simpa using hKcard
   have hKcardF : Fintype.card K = 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hKcard2
-  haveI : CharP K 2 := charP_of_card_eq_prime hKcardF
+  have : CharP K 2 := charP_of_card_eq_prime hKcardF
   obtain ⟨π, hπ⟩ := hReal
   have hZU : Z ≤ U := hπ.2.1
   constructor

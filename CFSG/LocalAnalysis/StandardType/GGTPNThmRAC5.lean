@@ -16,8 +16,8 @@ private lemma ggKacRA_n_eq_one_of_labelIso_twA {lab : LargeEvenLabel} {r : ℕ}
   rcases h with h | h | h | h | h | h | h | h
   · rw [h]
   · exact h.2.2.2
-  · obtain ⟨h1, h2⟩ := h; rw [h1]; simpa using h2
-  · obtain ⟨h1, h2⟩ := h; rw [h1]; simpa using h2
+  · obtain ⟨h1, h2⟩ := h; rw [h1]; simp at h2
+  · obtain ⟨h1, h2⟩ := h; rw [h1]; simp at h2
   · obtain ⟨h1, h2⟩ := h; rw [h1]
     have := congrArg LargeEvenLabel.n h2
     simpa using this.symm
@@ -79,10 +79,10 @@ private lemma ggKacRA_nonsplit_rank_bound
   have hAll := largeEvenLabelAll_torusLift_twA (p := 3) hΛX htag Nat.prime_three hpq
   have hRaw := hAll (fun R _ _ _ => Nonempty (X ⧸ Subgroup.center X ≃* R)) hhX
   obtain ⟨R, hR, I, F, ⟨⟨e⟩, hT⟩⟩ := largeEvenRawDatum_exists hRaw
-  letI := hR
+  let := hR
   have hT' : GGTorusLift 3 (N - 3) R := by
     have hrankEq : ggUnitaryTorusRank 3 (labX.rank + 1) = N - 3 := by
-      rw [ggUnitaryTorusRank, if_pos (by rw [← hN]; exact h3N), hN]
+      rw [ggUnitaryTorusRank, ite_eq_left (by rw [← hN]; exact h3N), hN]
     rwa [hrankEq] at hT
   have hlift := ggKacRA_le_twoLocalRank_of_torusLift (r := N - 3) hT' e hperf
   obtain ⟨m, hcardAb, hrankle⟩ := hrank

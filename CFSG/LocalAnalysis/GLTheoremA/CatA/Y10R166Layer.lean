@@ -23,7 +23,7 @@ theorem glaPLayer_ne_bot_of_isSubnormal_quasisimple {q : ℕ} (hq : q.Prime) {H 
     (hsn : IsSubnormal L H) (hL : CFSG.Open.IsQuasisimple ↥L)
     (hdvd : q ∣ Nat.card (↥L ⧸ Subgroup.center ↥L)) :
     GLAPLayer q H ≠ ⊥ := by
-  haveI : Nontrivial ↥L := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial hL
+  have : Nontrivial ↥L := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial hL
   have hLne : L ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot L).1 inferInstance
   intro hbot
   exact hLne (le_bot_iff.1 (hbot ▸ le_glaPLayer_of_isSubnormal_quasisimple hq hsn hL hdvd))
@@ -45,14 +45,14 @@ theorem isComponentOf_and_glaLayer_eq_of_normal_solvable {C J : Subgroup X} (hJC
     (hN : (J.subgroupOf C).Normal) (hJ : CFSG.Open.IsQuasisimple ↥J)
     (hsolv : Group.IsSolvable (↥C ⧸ J.subgroupOf C)) :
     CFSG.Open.IsComponentOf J C ∧ GLALayer C = J := by
-  haveI : (J.subgroupOf C).Normal := hN
+  have : (J.subgroupOf C).Normal := hN
   have hcomp : CFSG.Open.IsComponentOf J C :=
     ⟨hJC, IsSubnormal.step hJC hN (IsSubnormal.refl C), hJ⟩
-  haveI : Group.IsSolvable (↥C ⧸ J.subgroupOf C) := hsolv
+  have : Group.IsSolvable (↥C ⧸ J.subgroupOf C) := hsolv
   refine ⟨hcomp, le_antisymm ?_ (CFSG.LocalAnalysis.GLTheoremA.I142N.le_GLALayer hcomp)⟩
   refine CFSG.LocalAnalysis.GLTheoremA.I142N.GLALayer_le_of fun L hL => ?_
   set π : ↥C →* (↥C ⧸ J.subgroupOf C) := QuotientGroup.mk' _
-  haveI : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
+  have : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
   have hperf : Group.IsPerfect ↥(L.subgroupOf C) :=
     Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hL.1).symm.toMonoidHom)
@@ -60,7 +60,7 @@ theorem isComponentOf_and_glaLayer_eq_of_normal_solvable {C J : Subgroup X} (hJC
   have himg : Group.IsPerfect ↥(Subgroup.map π (L.subgroupOf C)) := Group.IsPerfect.map (f := π)
   have hbot : Subgroup.map π (L.subgroupOf C) = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥(Subgroup.map π (L.subgroupOf C)) :=
+    have : Nontrivial ↥(Subgroup.map π (L.subgroupOf C)) :=
       (Subgroup.nontrivial_iff_ne_bot _).2 hne
     exact Group.IsPerfect.not_isSolvable ↥(Subgroup.map π (L.subgroupOf C)) inferInstance
   intro l hl

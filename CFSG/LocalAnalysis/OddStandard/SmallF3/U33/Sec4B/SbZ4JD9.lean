@@ -36,6 +36,7 @@ namespace ZJData
 
 variable (h : ZJData Q Y V V' B ρ t τ l y z v₁ v₂) include h
 
+omit [Finite H] in
 theorem V_le_Cq : V ≤ Q ⊓ centralizer ({t * τ} : Set H) := by
   intro v hv
   have hvY : v ∈ Y := by rw [h.Y_eq]; exact Subgroup.mem_sup_left hv
@@ -54,6 +55,7 @@ theorem V_le_Cq : V ≤ Q ⊓ centralizer ({t * τ} : Set H) := by
     _ = t * (τ * v) := by rw [← hτv]
     _ = (t * τ) * v := by group
 
+omit [Finite H] in
 theorem inv_Cq {c : H} (hc : c ∈ Q ⊓ centralizer ({t * τ} : Set H)) : t * c * t⁻¹ = c⁻¹ := by
   have hcQ : c ∈ Q := hc.1
   have hcomm : c * (t * τ) = (t * τ) * c :=
@@ -70,6 +72,7 @@ theorem inv_Cq {c : H} (hc : c ∈ Q ⊓ centralizer ({t * τ} : Set H)) : t * c
   calc t * c * t⁻¹ = (t * c⁻¹ * t⁻¹)⁻¹ := by group
     _ = c⁻¹ := by rw [h2]
 
+omit [Finite H] in
 theorem rho_norm_Cq {c : H} (hc : c ∈ Q ⊓ centralizer ({t * τ} : Set H)) :
     ρ * c * ρ⁻¹ ∈ Q ⊓ centralizer ({t * τ} : Set H) := by
   have hcQ : c ∈ Q := hc.1
@@ -135,7 +138,7 @@ theorem card_Cq_le :
     have hmul := Subgroup.index_mul_card (Y.subgroupOf Q)
     rw [hcardYsubQ, h.card_Q] at hmul
     omega
-  haveI : Y.IsFiniteRelIndex Q :=
+  have : Y.IsFiniteRelIndex Q :=
     Subgroup.isFiniteRelIndex_iff_finiteIndex.mpr inferInstance
   have hrelLe : (Y.subgroupOf Cq).index ≤ 4 := by
     have hle := Subgroup.relIndex_le_of_le_right (H := Y) (K := Cq) (L := Q) hCqQ
@@ -232,7 +235,7 @@ theorem exists_conj_t (hb : ZJBound t) {c : H} (hc : c ∈ Q ⊓ centralizer ({t
   have hsub : Set.range f ⊆ S := by
     rintro x ⟨w, rfl⟩
     exact ⟨(w : H) * t * (w : H)⁻¹ * t⁻¹,
-      comm_t_mem_Cq h hMh (Mc_le_Mh h hMh hMc w.2), by simp only [f]; group⟩
+      comm_t_mem_Cq h hMh (Mc_le_Mh hMc w.2), by simp only [f]; group⟩
   have hScard : Nat.card S ≤ 16 := by
     let g : Cq → H := fun d => (d : H) * t
     have hinj : Function.Injective g := by
@@ -268,7 +271,7 @@ theorem card_Cq (hb : ZJBound t) : Nat.card ↥(Q ⊓ centralizer ({t * τ} : Se
     have hsub : Set.range f ⊆ S := by
       rintro x ⟨w, rfl⟩
       exact ⟨(w : H) * t * (w : H)⁻¹ * t⁻¹,
-        comm_t_mem_Cq h hMh (Mc_le_Mh h hMh hMc w.2), by simp only [f]; group⟩
+        comm_t_mem_Cq h hMh (Mc_le_Mh hMc w.2), by simp only [f]; group⟩
     have hSle : S.ncard ≤ Nat.card ↥Cq := by
       let g : Cq → H := fun d => (d : H) * t
       have hinj : Function.Injective g := by

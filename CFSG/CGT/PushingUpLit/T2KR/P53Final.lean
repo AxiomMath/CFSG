@@ -94,7 +94,7 @@ theorem conclusion_of_block {L M : Subgroup G} {n : ℕ} (h : T2Hyp G L M n) (T 
     le_inf hm (Subgroup.map_mono hP.1)
   have hTN : (T : Subgroup G) ⊓ N.map (MulAut.conj m).toMonoidHom =
       P.map (MulAut.conj m).toMonoidHom :=
-    le_antisymm (le_of_isSylowOf_of_le hP' (T.isPGroup'.to_le inf_le_left) hle inf_le_right) hle
+    le_antisymm (le_of_isSylowOf_of_le hP' (T.isPGroup.to_le inf_le_left) hle inf_le_right) hle
   refine ⟨N.map (MulAut.conj m).toMonoidHom, X.map (MulAut.conj m).toMonoidHom,
     isMaximalTwoLocal_map_conj hNmax m, ?_, ?_, ?_, ?_, ?_⟩
   · intro heq

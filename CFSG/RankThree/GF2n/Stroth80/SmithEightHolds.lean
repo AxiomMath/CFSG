@@ -104,15 +104,6 @@ theorem conjOm8_mulVec_conjPhi {K : Type} [Field K]
       (reindexVectorEquiv (plusIndexEquiv 4)).symm
         ((g : GL (Fin (2 * 4)) K) *ᵥ x)
   rw [hθ_val]
-  change ((((A.val * ((reindexOm8 K).symm g).val * A.val⁻¹ :
-        GL (Fin 4 ⊕ Fin 4) K) :
-      Matrix (Fin 4 ⊕ Fin 4) (Fin 4 ⊕ Fin 4) K) *ᵥ
-      (((A.val : GL (Fin 4 ⊕ Fin 4) K) :
-        Matrix (Fin 4 ⊕ Fin 4) (Fin 4 ⊕ Fin 4) K) *ᵥ y))) =
-    ((A.val : GL (Fin 4 ⊕ Fin 4) K) :
-      Matrix (Fin 4 ⊕ Fin 4) (Fin 4 ⊕ Fin 4) K) *ᵥ
-      (reindexVectorEquiv (plusIndexEquiv 4)).symm
-        ((g : GL (Fin (2 * 4)) K) *ᵥ x)
   rw [Matrix.mulVec_mulVec]
   have hcancel : (((A.val * ((reindexOm8 K).symm g).val * A.val⁻¹ :
         GL (Fin 4 ⊕ Fin 4) K) :

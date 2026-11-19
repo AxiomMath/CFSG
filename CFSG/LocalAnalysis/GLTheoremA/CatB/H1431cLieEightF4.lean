@@ -33,7 +33,7 @@ theorem lieSEightNoAt_F4 (hLO : LieOrderBridge) :
     have h := q.card_def
     rw [hq8, hp2] at h
     exact Nat.pow_right_injective (le_refl 2) (h.symm.trans (by norm_num : 8 = 2 ^ 3))
-  haveI : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
+  have : IsSimpleGroup (Y ⧸ Subgroup.center Y) := hY.2
   have hnab : ∃ a b : Y ⧸ Subgroup.center Y, a * b ≠ b * a :=
     CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian Y hY
   have hZ : Subgroup.center (Y ⧸ Subgroup.center Y) = ⊥ :=

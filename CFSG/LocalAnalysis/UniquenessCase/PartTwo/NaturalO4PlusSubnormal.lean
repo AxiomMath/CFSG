@@ -14,15 +14,16 @@ open CFSG.StandardType.OmNonsplit CFSG.Quasithin.G64
 
 variable {W : Type*} [CommGroup W] [Finite W]
 
+omit [Finite W] in
 theorem exists_mulEquiv_sl2_of_isSubnormal_isNaturalO4Plus {R : Subgroup (MulAut W)}
     {e : ℕ} {Kc : Subgroup (MulAut W)} (hKbar : CFSG.Open.IsQuasisimple Kc)
     (hsub : CFSG.Open.IsSubnormal Kc R) (hnat : IsNaturalO4Plus R e) :
     ∃ (K : Type) (_ : Field K) (_ : Finite K), Nat.card K = 2 ^ e ∧
       4 ≤ Nat.card K ∧ Nonempty (Kc ≃* Matrix.SpecialLinearGroup (Fin 2) K) := by
   obtain ⟨K, hKfield, hKfinite, hKcard, hreal⟩ := hnat
-  letI : Field K := hKfield
-  letI : Finite K := hKfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hKfield
+  let : Finite K := hKfinite
+  let : Fintype K := Fintype.ofFinite K
   let Γ := CFSG.PGLModel.orthogonalPlus 2 K
   obtain ⟨π, hπ⟩ := hreal
   have hinj : Function.Injective π :=
@@ -72,7 +73,7 @@ theorem exists_mulEquiv_sl2_of_isSubnormal_isNaturalO4Plus {R : Subgroup (MulAut
     rw [h3] at h2
     have h4 := h2.map fL.toMonoidHom
     rwa [hΓmap] at h4
-  haveI : CharP K 2 := by
+  have : CharP K 2 := by
     have h1 : Fintype.card K = 2 ^ e := by
       rw [← Nat.card_eq_fintype_card]
       exact hKcard

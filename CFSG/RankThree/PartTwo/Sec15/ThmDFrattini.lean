@@ -10,6 +10,7 @@ open Subgroup
 
 variable {M : Type*} [Group M] [Finite M]
 
+omit [Finite M] in
 theorem inf_eq_bot_of_isPGroup_of_not_dvd {p : ℕ} [hp : Fact p.Prime] {N A : Subgroup M}
     (hN : ¬ p ∣ Nat.card N) (hA : IsPGroup p A) : A ⊓ N = ⊥ := by
   rw [eq_bot_iff]
@@ -34,6 +35,7 @@ theorem inf_eq_bot_of_isPGroup_of_not_dvd {p : ℕ} [hp : Fact p.Prime] {N A : S
   refine (dvd_pow_self p hj0).trans ?_ |>.trans h2
   rw [hjx]
 
+omit [Finite M] in
 theorem card_sup_of_inf_eq_bot {N A : Subgroup M} [N.Normal] (h : A ⊓ N = ⊥) :
     Nat.card ↥(A ⊔ N) = Nat.card A * Nat.card N := by
   have hdisj : Disjoint N A := by
@@ -51,7 +53,7 @@ theorem card_sup_of_inf_eq_bot {N A : Subgroup M} [N.Normal] (h : A ⊓ N = ⊥)
 theorem exists_conj_into_of_sylow {N A : Subgroup M} [N.Normal] (hN : ¬ 3 ∣ Nat.card N)
     (hA : IsPGroup 3 A) (y : M) (hy : ∀ a ∈ A, y * a * y⁻¹ ∈ A ⊔ N) :
     ∃ w ∈ A ⊔ N, ∀ a ∈ A, w * (y * a * y⁻¹) * w⁻¹ ∈ A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set X := A ⊔ N with hX
   have hAN : A ⊓ N = ⊥ := inf_eq_bot_of_isPGroup_of_not_dvd hN hA
   have hcardX : Nat.card ↥X = Nat.card A * Nat.card N := card_sup_of_inf_eq_bot hAN

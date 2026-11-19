@@ -167,7 +167,7 @@ theorem isSolvable_centralizer_fi24C {d : ↥fi24C}
     (hP : Nat.card ↥(fi24P ⊓ Subgroup.centralizer
       ({fi24Psi d} : Set (Equiv.Perm (Fin 378)))) = 5832) :
     Group.IsSolvable ↥(Subgroup.centralizer ({d} : Set ↥fi24C)) := by
-  haveI := fi24C_finite
+  have := fi24C_finite
   have hmemQ : ∀ c : ↥fi24C, c ∈ fi24QC ↔ fi24Psi c = 1 := fun c => by
     rw [fi24QC_eq, Subgroup.mem_comap, MonoidHom.mem_ker]
     rfl
@@ -203,9 +203,9 @@ theorem isSolvable_centralizer_fi24C {d : ↥fi24C}
 theorem rowR0_fi24_extraspecial :
     CFSG.LocalAnalysis.GLTheoremA.S8.IsExtraSpec2
       (CFSG.LocalAnalysis.GLTheoremA.H301.rowR0Of dJ (fi24QC.map fi24C.subtype)) := by
-  haveI : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
-  haveI := fi24C_finite
-  haveI := fi24QC_extraspecial
+  have : Finite ↥J := Nat.finite_of_card_ne_zero (by rw [CFSG.Sporadic.Fi24.card_J]; norm_num)
+  have := fi24C_finite
+  have := fi24QC_extraspecial
   have hR : CFSG.LargeExtraspecial.Timmesfeld.IsExtraspecial2 (fi24QC.map fi24C.subtype) := by
     refine (CFSG.LargeExtraspecial.DWTim79.isExtraspecialPGroup_iff_isExtraspecial2 _).1 ?_
     exact (CFSG.LargeExtraspecial.DWTim79.isExtraspecialPGroup_map_iff fi24QC fi24C.subtype
@@ -215,7 +215,7 @@ theorem rowR0_fi24_extraspecial :
   have hPne : Subgroup.zpowers dJ ≠ ⊥ := Subgroup.zpowers_ne_bot.2 dJ_ne_one
   have hNP : Subgroup.zpowers dJ ≤
       Subgroup.normalizer ((fi24QC.map fi24C.subtype : Subgroup J) : Set J) := by
-    haveI := fi24QC_normal
+    have := fi24QC_normal
     rw [Subgroup.zpowers_le]
     have h := Subgroup.le_normalizer_map (H := fi24QC) fi24C.subtype
     rw [Subgroup.normalizer_eq_top] at h
@@ -243,7 +243,7 @@ theorem isSolvable_centralizer_dJ_inf
     (hP : Nat.card ↥(fi24P ⊓ Subgroup.centralizer
       ({fi24Psi ⟨dJ, xJ_mem 0⟩} : Set (Equiv.Perm (Fin 378)))) = 5832) :
     Group.IsSolvable ↥(Subgroup.centralizer ({dJ} : Set J) ⊓ fi24C) := by
-  haveI := isSolvable_centralizer_fi24C
+  have := isSolvable_centralizer_fi24C
     (card_fi24QC_inf_centralizer dJC_pow_three card_fi24N_inf_centralizer_dJ) hP
   let f : ↥(Subgroup.centralizer ({(⟨dJ, xJ_mem 0⟩ : ↥fi24C)} : Set ↥fi24C)) →*
       ↥(Subgroup.centralizer ({dJ} : Set J) ⊓ fi24C) :=

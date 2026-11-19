@@ -24,7 +24,7 @@ theorem le_of_sylow_section {X : Type} [Group X] [Finite X] {H F R T₀ : Subgro
       rw [Subgroup.mem_subgroupOf] at hn ⊢
       simpa using hTn (g : X) g.2 (n : X) hn
     have hpow : x ^ (T₀.relIndex R) ∈ T₀ := by
-      haveI : (T₀.subgroupOf R).Normal := hN
+      have : (T₀.subgroupOf R).Normal := hN
       have h := Subgroup.pow_index_mem (T₀.subgroupOf R) (⟨x, hx⟩ : R)
       rw [Subgroup.mem_subgroupOf] at h
       simpa [Subgroup.relIndex] using h

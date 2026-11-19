@@ -52,7 +52,7 @@ theorem ggQ2TBCGraph_D {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgrou
     obtain ⟨e, -⟩ := hLW
     exact (Fintype.card_congr e).symm.trans (Fintype.card_fin rank)
   dsimp only [LargeEvenRawDatum, CFSG.Assembly.LargeEvenRawDatumLegacy] at hraw
-  rw [if_neg (by omega : rank ≠ 3)] at hraw
+  rw [ite_eq_right (by omega : rank ≠ 3)] at hraw
   obtain ⟨K, hKf, hKfin, hK, -, -, θ, -⟩ := hraw
   have hK2 : Nat.card K = 2 := by rw [hK]; norm_num
   have : Fintype K := Fintype.ofFinite K

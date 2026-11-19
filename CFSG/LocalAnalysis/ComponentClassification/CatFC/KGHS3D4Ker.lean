@@ -131,7 +131,7 @@ theorem phi_ker_le_span {v : RootModule Tag.D4 K} (hv : phi K v = 0) :
     ext a
     rcases a with j | ⟨α, hα⟩
     · exact key4 (Fin.cast rfl.symm j)
-    · simp [hVec, Finsupp.single_apply, hR hα]
+    · simp [hVec, hR hα]
   rw [key]
   exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _)
 

@@ -439,7 +439,7 @@ theorem not_isChevSimple_of_dvd_nM (hb : CFSG.HardMathSupport.Solomon.Coordinato
 
 end S_not_isChevSimple_of_dvd_nM
 
-theorem dvd_two_pow_mul_of_not_dvd {a m K k : ℕ} (hm : Odd m) (h : a ∣ 2 ^ K * m)
+theorem dvd_two_pow_mul_of_not_dvd {a m K k : ℕ} (_hm : Odd m) (h : a ∣ 2 ^ K * m)
     (hk : ¬ 2 ^ (k + 1) ∣ a) : a ∣ 2 ^ k * m := by
   have ha : a ≠ 0 := by
     rintro rfl
@@ -475,7 +475,7 @@ open CFSG.AGLEmbedding.Norton.MON5_7 (gw) in
 open CFSG.AGLEmbedding.Norton.Gen11 (gen11W0) in
 open CFSG.Monster.Generated (Gmat) in
 theorem mElevenNoL223_of_no23 (h : MElevenNo23) : MElevenNoL223 := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   intro I hI h6
   apply h
   have hmul := Inputs1419b.mul_card_pSimple_dvd (by norm_num)
@@ -492,7 +492,7 @@ open CFSG.AGLEmbedding.Norton.MON5_7 (gw) in
 open CFSG.AGLEmbedding.Norton.Gen11 (gen11W0) in
 open CFSG.Monster.Generated (Gmat) in
 theorem mElevenDown_of_noL223 (h : MElevenNoL223) : SporTables2.MElevenDown := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   have hx := CFSG.HardMathSupport.Timmesfeld.SporadicBalance.MonsterElevenLocal.orderOf_x11
   have h2 := CFSG.HardMathSupport.Dickson.BMRows.M11.not_two_pow_seven_dvd_card_centralizer_x11
   have hG : Nat.card Gmat = 11 * (2 ^ 46 * OrderDvdM.oddM) := by
@@ -527,7 +527,7 @@ open CFSG.Monster.Generated (Gmat)
 theorem mElevenNoL223_of_shapeRkAt {Good Rk : ∀ (T : Type) [Group T], Prop}
     (h : CFSG.HardMathSupport.Dickson.I271.ShapeRkAt 11 Good Rk (gw gen11W0))
     (hG : ∀ (T : Type) [Group T], Good T → Nat.card T ≠ 6072) : MElevenNoL223 := by
-  haveI : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
+  have : Finite Gmat := CFSG.Monster.Generated.finite_Gmat
   intro I hI
   rcases h with hc | ⟨J, -, hu, hg, -⟩
   · exact (CFSG.HardMathSupport.Dickson.I271.no_glaPComponent_of_pConstrainedShape (by norm_num) hc

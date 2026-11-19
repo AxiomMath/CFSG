@@ -142,7 +142,7 @@ private theorem map_mk_moufang {P₁ P₂ R : Subgroup G}
       intro hp_eq
       apply ha1
       exact (map_mk_eq_one_iff (H := H) (R := R)).mpr
-        (by simpa [hp_eq] using R.one_mem)
+        (by simp [hp_eq])
     obtain ⟨u, hu₂, hu1, r, hr, hxy⟩ := hMouf (p : G) (Subgroup.mem_subgroupOf.mp hp) hp1
     have huH : u ∈ H := hP₂H hu₂
     have hbB : mk ⟨u, huH⟩ ∈ (P₂.subgroupOf H).map mk :=
@@ -162,7 +162,7 @@ private theorem map_mk_moufang {P₁ P₂ R : Subgroup G}
       intro hu_eq
       apply hb1
       exact (map_mk_eq_one_iff (H := H) (R := R)).mpr
-        (by simpa [hu_eq] using R.one_mem)
+        (by simp [hu_eq])
     obtain ⟨p, hp, hp1, r, hr, hxy⟩ := hMouf' (u : G) (Subgroup.mem_subgroupOf.mp hu) hu1
     have hpH : p ∈ H := hP₁H hp
     have haA : mk ⟨p, hpH⟩ ∈ (P₁.subgroupOf H).map mk :=
@@ -192,7 +192,7 @@ private theorem isElemAbRankOne_map_mk {P₁ P₂ R : Subgroup G}
   classical
   let H := P₁ ⊔ P₂
   let mk := QuotientGroup.mk' (R.subgroupOf H)
-  haveI : (R.subgroupOf H).Normal :=
+  have : (R.subgroupOf H).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hR
   have hP₁H : P₁ ≤ H := le_sup_left
   have hP₂H : P₂ ≤ H := le_sup_right
@@ -235,7 +235,7 @@ theorem exists_hom_SL2_of_moufang_quot {P₁ P₂ R : Subgroup G}
         (P₁.subgroupOf (P₁ ⊔ P₂)).map φ = utri (GaloisField 2 n) ∧
         (P₂.subgroupOf (P₁ ⊔ P₂)).map φ = ltri (GaloisField 2 n) := by
   classical
-  haveI : (R.subgroupOf (P₁ ⊔ P₂)).Normal :=
+  have : (R.subgroupOf (P₁ ⊔ P₂)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hR
   have hP₁ne : P₁ ≠ ⊥ := by
     intro hbot
@@ -308,8 +308,8 @@ private theorem IsElemAbRankOne.odd_card_normalizer_inf' {X : Type*} [Group X] [
   obtain ⟨X', instGroupX', instFintypeX', ⟨e⟩⟩ :=
     (Finite.exists_type_univ_nonempty_mulEquiv (G := X) :
       ∃ (X' : Type) (_ : Group X') (_ : Fintype X'), Nonempty (X ≃* X'))
-  letI := instGroupX'
-  letI := instFintypeX'
+  let := instGroupX'
+  let := instFintypeX'
   have h' : IsElemAbRankOne (A.map e.toMonoidHom) (B.map e.toMonoidHom) :=
     h.map e.surjective (by
       rw [MonoidHom.ker_eq_bot e.toMonoidHom e.injective]

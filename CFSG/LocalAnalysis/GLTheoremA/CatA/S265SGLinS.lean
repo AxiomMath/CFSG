@@ -46,10 +46,10 @@ theorem SG.exists_sl2_split {F : Type} [Field F] [Finite F] [CharP F 2] {n : ℕ
       prod_primaryFactors hsq] at hle
     omega
   obtain ⟨ω, hω⟩ : ∃ ω : F, IsPrimitiveRoot ω 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨u, hu⟩ := exists_prime_orderOf_dvd_card' (G := Fˣ) 3 (by rw [Nat.card_units]; exact hF)
     exact ⟨u, IsPrimitiveRoot.coe_units_iff.mpr (IsPrimitiveRoot.iff_orderOf.mpr hu)⟩
-  haveI : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
+  have : Fact (Irreducible a) := ⟨irreducible_of_mem_primaryFactors ha⟩
   exact SG.exists_sl2_of_primaryBlock hB3 hBc hd hd ha hm
     (hω.map_of_injective (algebraMap F (AdjoinRoot a)).injective) (AdjoinRoot.root a)
     fun v => (coe_root_smul_primaryComponent T a v).symm

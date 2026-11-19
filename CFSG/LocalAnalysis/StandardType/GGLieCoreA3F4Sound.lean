@@ -200,7 +200,7 @@ private theorem rs_sub {r : Array Int} (hr : r ∈ rs) :
 
 private theorem rs_sup (m : Fin 48) : toArr (CFSG.RankThree.PartOne.KF4.f4RootVec m) ∈ rs := by
   have h := (List.all_eq_true.mp rs_sup_all) m (by simp [List.mem_finRange])
-  exact List.contains_iff.mp h
+  exact _root_.List.contains_iff_mem.mp h
 
 private theorem isRoot_iff_mem_rs (γ : Fin Tag.F4.rank → ℤ) :
     IsRoot Tag.F4 γ ↔ toArr γ ∈ rs := by
@@ -255,11 +255,11 @@ private theorem compInv_inner_step
       else if acc.any (fun c => Certificates.A3LatticeF4.form c k != 0) then acc ++ [k]
       else acc) := by
   by_cases h1 : acc.contains k
-  · simp only [h1, if_true]; exact hacc
-  · simp only [h1, Bool.false_eq_true, if_false]
+  · simp only [h1, ite_true]; exact hacc
+  · simp only [h1, Bool.false_eq_true, ite_false]
     by_cases h2 : acc.any (fun c => Certificates.A3LatticeF4.form c k != 0)
-    · simp only [h2, if_true]
-      have hkacc : k ∉ acc := fun hk' => h1 (List.contains_iff.mpr hk')
+    · simp only [h2, ite_true]
+      have hkacc : k ∉ acc := fun hk' => h1 (_root_.List.contains_iff_mem.mpr hk')
       refine ⟨?_, ?_, ?_⟩
       · rw [List.nodup_append]
         refine ⟨hacc.1, by simp, ?_⟩
@@ -301,7 +301,7 @@ private theorem compInv_inner_step
             rw [hm₂, hδ]
           rw [← hβδ]
           exact Relation.EqvGen.trans _ _ _ heq (Relation.EqvGen.rel _ _ hadj)
-    · simp only [h2, if_false]; exact hacc
+    · simp only [h2]; exact hacc
 
 private theorem compInv_ks_foldl
     (c₁ c₂ : Fin Tag.F4.rank → ZMod 3) (m : Fin Tag.F4.rank → ℤ) (acc : List (Array Int))
@@ -350,11 +350,11 @@ private theorem mem_inner (ks acc : List (Array Int)) (seed : Array Int) (hx : s
   refine mem_foldl_of_mem ks _ acc seed hx ?_
   intro acc' k hx'
   by_cases h1 : acc'.contains k
-  · simp only [h1, if_true]; exact hx'
-  · simp only [h1, Bool.false_eq_true, if_false]
+  · simp only [h1, ite_true]; exact hx'
+  · simp only [h1, Bool.false_eq_true, ite_false]
     by_cases h2 : acc'.any (fun c => Certificates.A3LatticeF4.form c k != 0)
-    · simp only [h2, if_true]; exact List.mem_append_left _ hx'
-    · simp only [h2, if_false]; exact hx'
+    · simp only [h2, ite_true]; exact List.mem_append_left _ hx'
+    · simp only [h2]; exact hx'
 
 private theorem mem_comp_seed (ks : List (Array Int)) (seed : Array Int) :
     seed ∈ Certificates.A3LatticeF4.comp ks seed := by
@@ -371,7 +371,7 @@ private theorem adjClosed_elim {ks cs : List (Array Int)}
   have h1 := h c hc
   rw [List.all_eq_true] at h1
   have h2 := h1 k hk
-  rw [Bool.or_eq_true, beq_iff_eq, List.contains_iff] at h2
+  rw [Bool.or_eq_true, beq_iff_eq, _root_.List.contains_iff_mem] at h2
   exact h2
 
 private theorem f4Symm_symm (i j : Fin Tag.F4.rank) :

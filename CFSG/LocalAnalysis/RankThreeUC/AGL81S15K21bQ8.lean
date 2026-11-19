@@ -35,8 +35,8 @@ theorem pow_four_of_equiv {H : Type} [Group H] {Q : Subgroup H}
 
 theorem mulAut_comm_of_card_three {C : Type} [Group C] (hC : Nat.card C = 3) (σ τ : MulAut C) :
     σ * τ = τ * σ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : IsCyclic C := isCyclic_of_prime_card hC
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : IsCyclic C := isCyclic_of_prime_card hC
   apply (IsCyclic.mulAutMulEquiv C).injective
   rw [map_mul, map_mul, mul_comm]
 
@@ -117,7 +117,7 @@ theorem eq_bot_or_eq_top_of_hasQ8 {V : Type} [Group V] [Finite V] (hV : ∀ x y 
     · exact absurd (Subgroup.eq_bot_of_card_eq F (by simpa using hFm)) hbot
     · simpa using hFm
     · exact absurd ((Subgroup.card_eq_iff_eq_top F).mp (by rw [hFm, hc]; norm_num)) htop
-  haveI hFn : F.Normal := ⟨fun n hn g => by rw [hV g n, mul_inv_cancel_right]; exact hn⟩
+  have hFn : F.Normal := ⟨fun n hn g => by rw [hV g n, mul_inv_cancel_right]; exact hn⟩
   have hQcard : Nat.card (V ⧸ F) = 3 := by
     have h := F.index_mul_card
     rw [F.index_eq_card, hF3, hc] at h

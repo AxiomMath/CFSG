@@ -16,8 +16,8 @@ theorem y7c_order7_fpf {F : Subgroup G} (hF : Nat.card F = 8) {x : G} (hx : x ^ 
     (hn : ∀ f ∈ F, x * f * x⁻¹ ∈ F) (hnc : ∃ f ∈ F, x * f * x⁻¹ ≠ f) {f : G} (hf : f ∈ F)
     (hfx : x * f * x⁻¹ = f) : f = 1 := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
-  haveI : Fintype ↥F := Fintype.ofFinite ↥F
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fintype ↥F := Fintype.ofFinite ↥F
   let g : Function.End ↥F := fun y => ⟨x * (y : G) * x⁻¹, hn (y : G) y.2⟩
   have hg_apply : ∀ y : ↥F, (g y : G) = x * (y : G) * x⁻¹ := fun _ => rfl
   have hiter : ∀ n : ℕ, ∀ y : ↥F, ((g^[n]) y : G) = x ^ n * (y : G) * (x ^ n)⁻¹ := by

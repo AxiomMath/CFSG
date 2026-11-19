@@ -42,14 +42,14 @@ theorem subsingleton_of_isSpGp_zero {Y : Type} [Group Y] {n : ℕ} (h : IsSpGp Y
     Subsingleton Y := by
   obtain ⟨k, hk, F, hF, hFin, hcard, ⟨e⟩⟩ := h
   obtain rfl : k = 0 := by omega
-  haveI : Subsingleton (Matrix.GeneralLinearGroup (Fin 0 ⊕ Fin 0) F) :=
+  have : Subsingleton (Matrix.GeneralLinearGroup (Fin 0 ⊕ Fin 0) F) :=
     ⟨fun a b => Units.ext (Subsingleton.elim _ _)⟩
   exact e.toEquiv.subsingleton
 
 theorem subsingleton_of_isL2WrSymGp_zero {Y : Type} [Group Y] {n : ℕ} (h : IsL2WrSymGp Y n 0) :
     Subsingleton Y := by
   obtain ⟨F, hF, hFin, hcard, ⟨e⟩⟩ := h
-  haveI : Subsingleton (WreathSym (Matrix.SpecialLinearGroup (Fin 2) F) 0) := by
+  have : Subsingleton (WreathSym (Matrix.SpecialLinearGroup (Fin 2) F) 0) := by
     refine ⟨fun a b => SemidirectProduct.ext ?_ ?_⟩
     · exact Subsingleton.elim _ _
     · exact Subsingleton.elim _ _
@@ -68,10 +68,10 @@ theorem three_le_of_isPSUGp {Y : Type} [Group Y] {m n : ℕ} (h : IsPSUGp Y m n)
 
 theorem eq_bot_of_subsingleton_quot {X : Type} [Group X] [Finite X] {S : Subgroup X}
     (hS : BarSituation X S) (h : Subsingleton (X ⧸ Subgroup.center X)) : S = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc : ∀ g : X, g ∈ Subgroup.center X := fun g =>
     (QuotientGroup.eq_one_iff g).1 (Subsingleton.elim _ _)
-  haveI hnormS : S.Normal := ⟨fun n hn g => by
+  have hnormS : S.Normal := ⟨fun n hn g => by
     have h1 := Subgroup.mem_center_iff.1 (hc g) n
     rwa [show g * n * g⁻¹ = n by rw [← h1]; group]⟩
   exact le_bot_iff.1 (hS.pCore_eq_bot ▸ CFSG.LieType.BorelTits.le_pCore 2 hnormS

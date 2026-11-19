@@ -263,7 +263,7 @@ theorem hasCommOfZ_g2 {K : Type}
     exact (hcen z hz y hyS).symm
   · rw [hZeq]
     exact Subgroup.mem_zpowers _
-  · refine (S.isPGroup').to_le ?_
+  · refine (S.isPGroup).to_le ?_
     rw [Subgroup.closure_le]
     intro a ha
     rcases ha with rfl | ha

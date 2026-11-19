@@ -42,6 +42,7 @@ theorem mem_hyperFix_of_orbit (h : HeisHyp σ lam ω) {x : projectiveSL 3 F}
     CFSG.HardMathSupport.Foote.ModuleExclusions.exists_hyperplane_of_orbit_le _ hs hcard x horb
   exact ⟨H, hHB, hHi, fun b hb => hHx b hb⟩
 
+omit [Finite F] in
 theorem smul_eq_apply (b : MulAut (projectiveSL 3 F)) (x : projectiveSL 3 F) : b • x = b x := rfl
 
 theorem mem_hyperFix_of_fS_cD (h : HeisHyp σ lam ω) {x : projectiveSL 3 F} (hf : fS σ x = x)

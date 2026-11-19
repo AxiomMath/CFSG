@@ -24,8 +24,10 @@ variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {z t : G} {T₀ E : Su
 
 include h
 
+omit [Finite G] h in
 theorem E2_sub : E2 E t ⊆ E := fun _ he => he.1
 
+omit [Finite G] h in
 theorem E4_sub : E4 E t ⊆ E := fun _ he => he.1
 
 theorem E0_sub : ({1, t} : Set G) ⊆ E := by
@@ -33,6 +35,7 @@ theorem E0_sub : ({1, t} : Set G) ⊆ E := by
   · exact one_mem _
   · exact h.t_mem_E
 
+omit [Finite G] h in
 theorem mem_blk {s u : G} {C : Set G} : u ∈ blk s C ↔ ∃ e ∈ C, u = s * e := by
   constructor
   · rintro ⟨e, he, rfl⟩; exact ⟨e, he, rfl⟩
@@ -43,8 +46,8 @@ theorem blk_disjoint {s₁ s₂ : G} (hs₁ : s₁ ∈ S) (hs₂ : s₂ ∈ S) (
     Disjoint (blk s₁ C₁) (blk s₂ C₂) := by
   rw [Set.disjoint_left]
   rintro u hu hu'
-  obtain ⟨e₁, he₁, rfl⟩ := (mem_blk h).1 hu
-  obtain ⟨e₂, he₂, he⟩ := (mem_blk h).1 hu'
+  obtain ⟨e₁, he₁, rfl⟩ := (mem_blk).1 hu
+  obtain ⟨e₂, he₂, he⟩ := (mem_blk).1 hu'
   have h3 : s₁⁻¹ * s₂ = e₁ * e₂⁻¹ := by
     calc s₁⁻¹ * s₂ = s₁⁻¹ * (s₂ * e₂) * e₂⁻¹ := by group
       _ = s₁⁻¹ * (s₁ * e₁) * e₂⁻¹ := by rw [← he]
@@ -55,6 +58,7 @@ theorem blk_disjoint {s₁ s₂ : G} (hs₁ : s₁ ∈ S) (hs₂ : s₂ ∈ S) (
   · exact h1 h5
   · exact h2 h5
 
+omit [Finite G] h in
 theorem blk_inter {s : G} {C₁ C₂ : Set G} : blk s C₁ ∩ blk s C₂ = blk s (C₁ ∩ C₂) := by
   ext u
   constructor
@@ -126,16 +130,16 @@ theorem classify {α : G} (hα : AlphaSpec S z t α) {u : G} (hu : u ∈ S ⊔ E
     exact ⟨he, hu2, hu1, hut⟩
   · have hee := key z h.zS h.z_sq hc
     rcases split hee z hc with h1 | h1 | h1
-    · left; exact (h.mem_blk).2 ⟨e, Or.inl h1, hc⟩
-    · left; exact (h.mem_blk).2 ⟨e, Or.inr h1, hc⟩
-    · right; left; exact (h.mem_blk).2 ⟨e, h1, hc⟩
+    · left; exact (Hyp69.mem_blk).2 ⟨e, Or.inl h1, hc⟩
+    · left; exact (Hyp69.mem_blk).2 ⟨e, Or.inr h1, hc⟩
+    · right; left; exact (Hyp69.mem_blk).2 ⟨e, h1, hc⟩
   · have hee := key α hα.mem hα.sq hc
     rcases split hee α hc with h1 | h1 | h1
-    · right; right; left; exact (h.mem_blk).2 ⟨e, Or.inl h1, hc⟩
-    · right; right; left; exact (h.mem_blk).2 ⟨e, Or.inr h1, hc⟩
-    · right; right; right; left; exact (h.mem_blk).2 ⟨e, h1, hc⟩
+    · right; right; left; exact (Hyp69.mem_blk).2 ⟨e, Or.inl h1, hc⟩
+    · right; right; left; exact (Hyp69.mem_blk).2 ⟨e, Or.inr h1, hc⟩
+    · right; right; right; left; exact (Hyp69.mem_blk).2 ⟨e, h1, hc⟩
   · right; right; right; right; right
-    refine (h.mem_blk).2 ⟨e, ⟨he, ?_⟩, hc⟩
+    refine (Hyp69.mem_blk).2 ⟨e, ⟨he, ?_⟩, hc⟩
     have hs := h.alpha_z_mem hα
     have hcom : e * (α * z) = (α * z) * e := (h.S_comm_E _ hs e he).symm
     have h1 : t * (e * e) = 1 := by

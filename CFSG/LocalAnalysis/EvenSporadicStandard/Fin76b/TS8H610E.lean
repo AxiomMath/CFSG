@@ -102,7 +102,6 @@ theorem Zg_comm {α : G} (hα : AlphaSpec S z t α) {a b : G}
   rcases (h.mem_Zg hα).1 ha with h1 | h1 | h1 | h1 <;>
     rcases (h.mem_Zg hα).1 hb with h2 | h2 | h2 | h2 <;> rw [h1, h2] <;>
     first
-    | exact (Commute.refl _).eq
     | exact (Commute.one_left _).eq
     | exact (Commute.one_right _).eq
     | exact hcomm.eq

@@ -664,7 +664,7 @@ theorem exists_parrott_of_conjAct {L : Subgroup P} (hL : IsSimpleGroup ↥L)
 
 theorem le_quadY_sup_of_conjAct {L : Subgroup P} (hL : IsSimpleGroup ↥L)
     (hZ : center ↥L = ⊥) {t u : P} (htN : t ∈ normalizer (L : Set P))
-    (huN : u ∈ normalizer (L : Set P)) (htt : t * t = 1) (huu : u * u = 1)
+    (huN : u ∈ normalizer (L : Set P)) (_htt : t * t = 1) (_huu : u * u = 1)
     (htu : t * u = u * t)
     (h : (MulAut.conj : ↥L →* MulAut ↥L).range ≤
       quadY (closure {conjAct L ⟨t, htN⟩, conjAct L ⟨u, huN⟩} ⊔
@@ -694,7 +694,7 @@ theorem le_quadY_sup_of_conjAct {L : Subgroup P} (hL : IsSimpleGroup ↥L)
     simpa [QEbar] using h
   simpa [H] using le_of_image_le hL hZ htN huN htu hGN hHleG himg
 
-theorem exists_of_l2CaseIII_conjAct {L : Subgroup P} (hL : IsSimpleGroup ↥L)
+theorem exists_of_l2CaseIII_conjAct {L : Subgroup P} (_hL : IsSimpleGroup ↥L)
     (hZ : center ↥L = ⊥) {t u : P} (htN : t ∈ normalizer (L : Set P))
     (huN : u ∈ normalizer (L : Set P)) (htt : t * t = 1) (huu : u * u = 1)
     (htu : t * u = u * t)

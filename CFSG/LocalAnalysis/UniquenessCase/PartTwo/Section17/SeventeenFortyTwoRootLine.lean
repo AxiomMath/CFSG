@@ -36,6 +36,7 @@ private theorem pRank_top_bar2_lt_of_pRank_eq_two {X M : Subgroup G} {p : ℕ}
     (CFSG.SectionRank.pRank_eq_pRank_top_subgroup X).symm
   omega
 
+omit [Finite G] in
 private theorem dvd_card_quotient_of_isL2 {Yt : Subgroup G} {N₀ : Subgroup ↥Yt} {p n : ℕ}
     (hN₀ : N₀.Normal)
     (hL2 : @IsL2 (↥Yt ⧸ N₀) (@QuotientGroup.Quotient.group _ _ N₀ hN₀) n)
@@ -70,8 +71,8 @@ private theorem dvd_card_inf_centralizer_of_rootLine
   classical
   have hp' : p.Prime := (D.sig_prime p hp).1
   have hp2 : p ≠ 2 := (D.sig_prime p hp).2
-  haveI : Fact p.Prime := ⟨hp'⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp'⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hXM : X ≤ D.M := by
     rw [hX]
     exact CFSG.LocalAnalysis.RankThreeUC.pElementSubgroup_le r D.M
@@ -119,9 +120,9 @@ private theorem one_lt_pRank_centralizer_of_pRank_eq_two
   classical
   have hp' : p.Prime := (D.sig_prime p hp).1
   have hp2 : p ≠ 2 := (D.sig_prime p hp).2
-  haveI : Fact p.Prime := ⟨hp'⟩
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : N₀.Normal := hN₀
+  have : Fact p.Prime := ⟨hp'⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : N₀.Normal := hN₀
   have hYtX : Yt ≤ X := hYt.trans inf_le_left
   have hYtC : Yt ≤ Subgroup.centralizer (B : Set G) := hYt.trans inf_le_right
   have hXM : X ≤ D.M := by
@@ -158,7 +159,7 @@ private theorem one_lt_pRank_centralizer_of_pRank_eq_two
     have h1 : K ≤ Subgroup.normalizer (pCoreOf 2 X : Set G) := hKD.trans hDM_O2
     exact (le_inf h1 Subgroup.le_normalizer).trans Subgroup.inf_normalizer_le_normalizer_inf
   have hUnorm : (U.subgroupOf K).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hKU
-  haveI : (U.subgroupOf K).Normal := hUnorm
+  have : (U.subgroupOf K).Normal := hUnorm
   have hUp : IsPGroup 2 U := by
     have h := (CFSG.pCore_isPGroup (p := 2) (G := ↥X)).map X.subtype
     exact h.to_inf_left
@@ -388,8 +389,8 @@ theorem exists_mem_uniqueSet_rootLine
   classical
   have hp' : p.Prime := (D.sig_prime p hp).1
   have hp2 : p ≠ 2 := (D.sig_prime p hp).2
-  haveI : Fact p.Prime := ⟨hp'⟩
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact p.Prime := ⟨hp'⟩
+  have : Fact r.Prime := ⟨hr⟩
   have hXM : X ≤ D.M := by
     rw [hX]
     exact CFSG.LocalAnalysis.RankThreeUC.pElementSubgroup_le r D.M
@@ -417,7 +418,7 @@ theorem exists_mem_uniqueSet_rootLine
   have hcent : Subgroup.centralizer (B : Set G) ≤ D.M := by
     by_contra hHle
     set H : Subgroup G := Subgroup.centralizer (B : Set G) with hHdef
-    haveI hGsimple : IsSimpleGroup G := D.standing.simple
+    have hGsimple : IsSimpleGroup G := D.standing.simple
     have hHtop : H ≠ ⊤ := by
       intro htop
       have hBcenter : B ≤ Subgroup.center G := by
@@ -436,7 +437,7 @@ theorem exists_mem_uniqueSet_rootLine
         exact hr.ne_one h1
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center G) with hbot | htop'
       · exact hne hbot
-      · haveI : IsMulCommutative G := by
+      · have : IsMulCommutative G := by
           refine ⟨⟨fun a b => ?_⟩⟩
           have ha : a ∈ Subgroup.center G := by rw [htop']; exact Subgroup.mem_top a
           exact (Subgroup.mem_center_iff.mp ha b).symm

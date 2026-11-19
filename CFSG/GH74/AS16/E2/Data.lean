@@ -47,12 +47,12 @@ theorem Cfg.decomp (h : Cfg G T z L) (hZ : center ↥L = ⊥)
     (hout : ∀ (φ : MulAut ↥L) (n : ℕ), φ ^ 2 ^ n = 1 → ∃ k : ↥L, ∀ x : ↥L, φ x = k * x * k⁻¹) :
     ∀ t ∈ (T : Subgroup G), ∃ s ∈ (T : Subgroup G) ⊓ L,
       ∃ c ∈ (T : Subgroup G) ⊓ centralizer (L : Set G), t = s * c := by
-  refine exists_decomp_of_inner T.isPGroup' (center_trivial' hZ) ?_ ?_
+  refine exists_decomp_of_inner T.isPGroup (center_trivial' hZ) ?_ ?_
   · intro P hP hPL hle
     exact h.isSylowOf_inf.eq_of_le hle hPL hP
   · intro t ht
     have htN := h.le_normalizer ht
-    obtain ⟨n, hn⟩ := T.isPGroup' ⟨t, ht⟩
+    obtain ⟨n, hn⟩ := T.isPGroup ⟨t, ht⟩
     have hn' : t ^ 2 ^ n = 1 := by simpa using congrArg Subtype.val hn
     have hφn : (L.normalizerMonoidHom ⟨t, htN⟩) ^ 2 ^ n = 1 := by
       rw [← map_pow]
@@ -69,7 +69,7 @@ theorem Cfg.tC_cyclic (h : Cfg G T z L) (hZ : center ↥L = ⊥) {U : Subgroup �
     IsCyclic ↥((T : Subgroup G) ⊓ centralizer (L : Set G)) := by
   apply isCyclic_of_rank_le_one
   refine rank_le_one_of_gen4 h.hyp.gen4 (U := U.map L.subtype) (hU.map L.subtype)
-    T.isPGroup'.to_inf_left ?_ ?_ ?_
+    T.isPGroup.to_inf_left ?_ ?_ ?_
   · rintro _ ⟨u, _, rfl⟩ c hc
     exact Subgroup.mem_centralizer_iff.1 hc.2 u u.2
   · rw [Subgroup.eq_bot_iff_forall]

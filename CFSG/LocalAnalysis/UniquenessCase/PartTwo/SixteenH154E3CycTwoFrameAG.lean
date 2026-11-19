@@ -14,7 +14,7 @@ open CFSG.Open CFSG.Quasithin Subgroup
 private theorem s16h_e3_CycTwoG_map_conj_one {T : Type*} [Group T] (X : Subgroup T) :
     X.map (MulAut.conj (1 : T)).toMonoidHom = X := by
   ext x
-  simp [Subgroup.mem_map, MulAut.conj_apply]
+  simp [Subgroup.mem_map]
 
 private theorem s16h_e3_CycTwoG_map_conj_map_conj {T : Type*} [Group T] (X : Subgroup T)
     (x y : T) :

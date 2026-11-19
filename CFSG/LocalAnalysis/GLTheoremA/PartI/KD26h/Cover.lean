@@ -41,7 +41,7 @@ namespace CFSG.LocalAnalysis.GLTheoremA
 
 theorem bijective_of_cover {G K X : Type} [Group G] [Finite G] [Group K] [Finite K] [Group X]
     (π : G →* X) (hπ : Function.Surjective π) (ρ : K →* X) (hρ : Function.Surjective ρ)
-    (φ : G →* K) (hφ : Function.Surjective φ) (hcomp : ∀ g, ρ (φ g) = π g)
+    (φ : G →* K) (hφ : Function.Surjective φ) (_hcomp : ∀ g, ρ (φ g) = π g)
     (hker : Nat.card π.ker = Nat.card ρ.ker) : Function.Bijective φ := by
   have h1 : Nat.card π.ker * Nat.card X = Nat.card G := by
     have := Subgroup.card_ker_mul_card_range π

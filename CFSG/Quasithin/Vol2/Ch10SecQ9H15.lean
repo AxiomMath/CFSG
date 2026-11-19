@@ -40,7 +40,6 @@ theorem exists_fixed_of_card_two {W : AddSubgroup (Fin 4 → ZMod 2)} (hW : Nat.
       intro i j hij
       fin_cases i <;> fin_cases j <;> simp only at hij ⊢ <;>
         first
-        | rfl
         | (exfalso
            have h' := congrArg Subtype.val hij
            simp only [ZeroMemClass.coe_zero] at h'

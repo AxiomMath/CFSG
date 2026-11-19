@@ -14,6 +14,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma KI_le_I49 (X I : Subgroup G) : KI X I ≤ I := by
   rw [KI]
   exact (CFSG.Quasithin.perfectCore_le _).trans inf_le_right
@@ -187,6 +188,7 @@ theorem coreMod5_alt_invariant_eq_bot_or_top (W : Subgroup (G6.coreMod 5))
   rw [bv_basis5 w'] at hprod
   exact hprod
 
+omit [Finite G] in
 theorem NatA5Sec_eq_bot_or_eq_top {D N₀ N₁ M : Subgroup G} (hnat : NatA5Sec D N₀ N₁)
     (h1M : N₁ ≤ M) (hM0 : M ≤ N₀) (hDM : D ≤ Subgroup.normalizer (M : Set G)) :
     M = N₁ ∨ M = N₀ := by
@@ -225,10 +227,11 @@ theorem NatA5Sec_eq_bot_or_eq_top {D N₀ N₁ M : Subgroup G} (hnat : NatA5Sec 
     rw [hψk] at hker
     have hN1 : ((p⁻¹ * ⟨n, hn⟩ : ↥N₀) : G) ∈ N₁ := Subgroup.mem_subgroupOf.mp hker
     have hnM : (n : G) = (p : G) * ((p⁻¹ * ⟨n, hn⟩ : ↥N₀) : G) := by
-      simp [mul_assoc]
+      simp
     rw [hnM]
     exact M.mul_mem hpM (h1M hN1)
 
+omit [Finite G] in
 theorem centralizer_sup_eq (A B : Subgroup G) :
     Subgroup.centralizer ((A ⊔ B : Subgroup G) : Set G) =
       Subgroup.centralizer (A : Set G) ⊓ Subgroup.centralizer (B : Set G) := by
@@ -242,6 +245,7 @@ theorem centralizer_sup_eq (A B : Subgroup G) :
     · exact ha y hyA
     · exact hb y hyB
 
+omit [Finite G] in
 theorem I_eq_sup_conjugates {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x : G}
     (hxX : x ∈ X) (hxgen : X = Subgroup.zpowers x) :
     I = Lc L x 0 ⊔ Lc L x 1 ⊔ Lc L x 2 := by
@@ -315,7 +319,7 @@ private theorem k334_local_commutator_facts {H X L Q I : Subgroup G} (h : Setup4
   exact ⟨hDQ, h0, h1, hD1, hVleN0.trans hN0Q, hN0QV⟩
 
 theorem k334_local {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x : G} (hxX : x ∈ X)
-    {i : ℕ} (hi : i < 3) {N0 N1 : Subgroup G}
+    {i : ℕ} (_hi : i < 3) {N0 N1 : Subgroup G}
     (hN1N0 : N1 ≤ N0) (hN0Q : N0 ≤ Q) (hHN0 : H ≤ Subgroup.normalizer (N0 : Set G))
     (hHN1 : H ≤ Subgroup.normalizer (N1 : Set G)) (hN1I : ⁅N1, I⁆ = ⊥)
     (hN0QN1 : ⁅N0, Q⁆ ≤ N1) (hQi : ⁅Q, Lc L x i⁆ ≤ ⁅N0, Lc L x i⁆ ⊔ N1)
@@ -341,11 +345,13 @@ theorem k334_local {H X L Q I : Subgroup G} (h : Setup49 H X L Q I) {x : G} (hxX
     (le_sup_right : N1 ≤ (⁅N0, Lc L x i⁆ ⊔ N1 : Subgroup G)) hVleQ h0 h1 hD1 hQi hN0QV hnat
   exact ⟨hQeq, hSC, hSN1, hSV⟩
 
+omit [Finite G] in
 private theorem commutator_le_normalizer_inf_centralizer (Q A : Subgroup G)
     (h : ⁅⁅Q, A⁆, Q ⊓ Subgroup.centralizer (A : Set G)⁆ = ⊥) :
     ⁅Q, A⁆ ≤ Subgroup.normalizer ((Q ⊓ Subgroup.centralizer (A : Set G)) : Set G) :=
   (Subgroup.commutator_eq_bot_iff_le_centralizer.mp h).trans (Subgroup.centralizer_le_normalizer _)
 
+omit [Finite G] in
 private theorem part2_decompose_initial_conjugates {Q L0 L1 : Subgroup G} {q : G}
     (hl0 : Q = ⁅Q, L0⁆ ⊔ (Q ⊓ Subgroup.centralizer (L0 : Set G)))
     (hl1 : Q = ⁅Q, L1⁆ ⊔ (Q ⊓ Subgroup.centralizer (L1 : Set G)))
@@ -368,6 +374,7 @@ private theorem part2_decompose_initial_conjugates {Q L0 L1 : Subgroup G} {q : G
     rwa [← h1eq, ← mul_assoc, inv_mul_cancel, one_mul] at h1
   exact ⟨s0, s1, c1, hs0, hs1, hc1.1, hc1C0, hc1.2, by rw [← h0eq, ← h1eq]; group⟩
 
+omit [Finite G] in
 private theorem part2_decompose_final_conjugate {Q L0 L1 L2 : Subgroup G} {c1 : G}
     (hl2 : Q = ⁅Q, L2⁆ ⊔ (Q ⊓ Subgroup.centralizer (L2 : Set G)))
     (hn2 : ⁅Q, L2⁆ ≤ Subgroup.normalizer ((Q ⊓ Subgroup.centralizer (L2 : Set G)) : Set G))
@@ -391,6 +398,7 @@ private theorem part2_decompose_final_conjugate {Q L0 L1 L2 : Subgroup G} {c1 : 
     rwa [← h2eq, ← mul_assoc, inv_mul_cancel, one_mul] at h1
   exact ⟨s2, c2, hs2, hc2.1, hc2C0, hc2C1, hc2.2, h2eq.symm⟩
 
+omit [Finite G] in
 private theorem part2_le_sup_centralizer {Q I L : Subgroup G} {x : G}
     (hSle : ∀ i : ℕ, i < 3 → ⁅Q, Lc L x i⁆ ≤ ⁅Q, I⁆)
     (hn0 : ⁅Q, Lc L x 0⁆ ≤
@@ -443,6 +451,7 @@ private theorem part2_distinct_commutator_eq_bot {H X L Q I : Subgroup G}
     rw [hN1I] at hle
     exact le_bot_iff.mp hle
 
+omit [Finite G] in
 private theorem part2_commutator_le_centralizer_conjugates {Q L : Subgroup G} {x : G}
     (hcomm : ∀ i j : ℕ, i < 3 → j < 3 → i ≠ j → ⁅⁅Q, Lc L x i⁆, Lc L x j⁆ = ⊥) :
     ⁅Q, Lc L x 1⁆ ≤ Subgroup.centralizer (Lc L x 0 : Set G) ∧
@@ -559,6 +568,7 @@ theorem eq_of_sup_frattiniOf_eq {P K : Subgroup G}
     rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hK]
   rw [← hKeq, hKP, htopmap]
 
+omit [Finite G] in
 theorem commutator_conj_eq_bot_iff {A B : Subgroup G} {g : G}
     (hA : CFSG.conjugate A g = A) :
     ⁅A, CFSG.conjugate B g⁆ = ⊥ ↔ ⁅A, B⁆ = ⊥ := by
@@ -575,6 +585,7 @@ theorem commutator_conj_eq_bot_iff {A B : Subgroup G} {g : G}
     rw [h, Subgroup.map_bot] at hmap
     exact hmap.symm
 
+omit [Finite G] in
 theorem commutator_sup_le_of_normal {Q A B E : Subgroup G}
     (hE : A ⊔ B ≤ Subgroup.normalizer (E : Set G))
     (hA : ⁅Q, A⁆ ≤ E) (hB : ⁅Q, B⁆ ≤ E) : ⁅Q, A ⊔ B⁆ ≤ E := by
@@ -605,6 +616,7 @@ theorem commutator_sup_le_of_normal {Q A B E : Subgroup G}
     rw [commutatorElement_inv_right]
     simpa [inv_inv] using this
 
+omit [Finite G] in
 private theorem commutator_sup_ne_of_commutator_ne_bot {D E N1 : Subgroup G}
     (hperf : ⁅D, D⁆ = D) (hN1D : ⁅N1, D⁆ = ⊥) (hEi : ⁅E, D⁆ ≠ ⊥) :
     (⁅E, D⁆ ⊔ N1 : Subgroup G) ≠ N1 := by
@@ -615,6 +627,7 @@ private theorem commutator_sup_ne_of_commutator_ne_bot {D E N1 : Subgroup G}
   exact hEi (CFSG.GroupTheory.CoprimeSection.commutator_eq_bot_of_two_step
     (D := D) (Y := E) (Y₁ := N1) hperf hEN hN1D)
 
+omit [Finite G] in
 private theorem commutator_eq_sup_frattini_of_le_sup {S E N1 : Subgroup G}
     (hE_N1 : E ≤ Subgroup.normalizer (N1 : Set G))
     (hle : S ≤ E ⊔ N1) (hES : E ≤ S)
@@ -679,6 +692,7 @@ theorem commutator_S_le_of_commutator_E {H X L Q I : Subgroup G} (h : Setup49 H 
   rw [← hEq]
   exact hELi_le_E
 
+omit [Finite G] in
 private theorem commutator_conj_succ_eq_bot_iff {E L : Subgroup G} {x : G}
     (hEx : CFSG.conjugate E x = E) (i : ℕ) :
     ⁅E, Lc L x (i + 1)⁆ = ⊥ ↔ ⁅E, Lc L x i⁆ = ⊥ := by
@@ -687,6 +701,7 @@ private theorem commutator_conj_succ_eq_bot_iff {E L : Subgroup G} {x : G}
   rw [← hL]
   exact commutator_conj_eq_bot_iff hEx
 
+omit [Finite G] in
 private theorem commutator_conj_eq_bot_iff_of_lt_three {E L : Subgroup G} {x : G}
     (hEx : CFSG.conjugate E x = E) {i : ℕ} (hi : i < 3) :
     ⁅E, Lc L x i⁆ = ⊥ ↔ ⁅E, Lc L x 0⁆ = ⊥ := by
@@ -695,6 +710,7 @@ private theorem commutator_conj_eq_bot_iff_of_lt_three {E L : Subgroup G} {x : G
   · exact commutator_conj_succ_eq_bot_iff hEx 0
   · exact (commutator_conj_succ_eq_bot_iff hEx 1).trans (commutator_conj_succ_eq_bot_iff hEx 0)
 
+omit [Finite G] in
 private theorem commutator_eq_bot_of_forall_conjugates {E I L : Subgroup G} {x : G}
     (hIeq : I = Lc L x 0 ⊔ Lc L x 1 ⊔ Lc L x 2)
     (h : ∀ i : ℕ, i < 3 → ⁅E, Lc L x i⁆ = ⊥) : ⁅E, I⁆ = ⊥ := by
@@ -715,6 +731,7 @@ private theorem commutator_eq_bot_of_forall_conjugates {E I L : Subgroup G} {x :
   rw [hbot] at hle
   exact le_bot_iff.mp hle
 
+omit [Finite G] in
 private theorem commutator_Q_I_le_of_commutator_E_conjugates {H X L Q I : Subgroup G}
     (h : Setup49 H X L Q I) {x : G} (hxX : x ∈ X) {E : Subgroup G}
     (hEnorm : H ≤ Subgroup.normalizer (E : Set G))
@@ -788,6 +805,7 @@ private theorem false_of_commutator_isQ8D8_eq_bot {K V : Subgroup G}
   rw [heq, hcard32] at hZcard
   norm_num at hZcard
 
+omit [Finite G] in
 private theorem false_of_commutator_isQ8D8_eq_centralizer {K V : Subgroup G}
     (hperf : ⁅K, K⁆ = K) (hZ : ⁅V, K⁆ = V ⊓ Subgroup.centralizer (V : Set G))
     (hKZ : ⁅K, V ⊓ Subgroup.centralizer (V : Set G)⁆ = ⊥)
@@ -834,7 +852,7 @@ private theorem false_of_le_commutator_Q_I_of_elemAbelian (hI : Inputs49)
   exact not_isMulCommutative_of_isQ8D8 hQ8D8 hZcard hVkcomm
 
 theorem commutator_E_I_eq_bot (hI : Inputs49) {H X L Q I : Subgroup G} (h : Setup49 H X L Q I)
-    (hK : KI49 X I) {E : Subgroup G} (hEH : E ≤ H)
+    (hK : KI49 X I) {E : Subgroup G} (_hEH : E ≤ H)
     (hEnorm : H ≤ Subgroup.normalizer (E : Set G))
     (hEel : CFSG.Open.IsElemAbelian 2 E) (hEQ : E ≤ Q) : ⁅E, I⁆ = ⊥ := by
   by_contra hEIn
@@ -876,7 +894,7 @@ theorem part3_49 (hI : Inputs49) {H X L Q I : Subgroup G} (h : Setup49 H X L Q I
       ⟨hEQ hx, Subgroup.commutator_eq_bot_iff_le_centralizer.mp hEI hx⟩
     intro x hx
     exact Subgroup.subset_closure ⟨hEP hx, by simpa using hEel.2 x hx⟩
-  · haveI : Fact p.Prime := ⟨hp⟩
+  · have : Fact p.Prime := ⟨hp⟩
     have hEp : IsPGroup p ↥E := fun g => ⟨1, by
       apply Subtype.ext
       simpa using hEel.2 (g : G) g.2⟩

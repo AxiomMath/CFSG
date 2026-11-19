@@ -30,9 +30,9 @@ structure SylowParts : Prop where
     ((wordTabs wP₂).map (invTab 42)) (wordTabs wU₂) = true
   prod : prodOK = true
 
-@[expose] def U1 : Subgroup (Equiv.Perm (Fin 42)) := closure (wordSet wU₁)
+def U1 : Subgroup (Equiv.Perm (Fin 42)) := closure (wordSet wU₁)
 
-@[expose] def U2 : Subgroup (Equiv.Perm (Fin 42)) := closure (wordSet wU₂)
+def U2 : Subgroup (Equiv.Perm (Fin 42)) := closure (wordSet wU₂)
 
 theorem le_normalizer_of_normalOK {ws us : List (List ℕ)} {T : Array Tab}
     (hT : Enumerates (closure (wordSet us)) T.toList)
@@ -88,8 +88,7 @@ theorem closure_P1_P2 : closure (wordSet (wP₁ ++ wP₂)) = S := by
     simpa [wordPerm, genS] using h
   have h1 : g₁ ∈ closure (wordSet (wP₁ ++ wP₂)) := by
     have h := hm [1, 0, 1] (by simp [wP₁, wP₂])
-    simp only [wordPerm, genS, List.foldl_cons, List.foldl_nil, one_mul, if_pos, if_neg,
-      one_ne_zero, reduceIte] at h
+    simp only [wordPerm, genS, List.foldl_cons, List.foldl_nil, one_mul, ite_eq_left, one_ne_zero, reduceIte] at h
     have h' := mul_mem (mul_mem (inv_mem h2) h) (inv_mem h2)
     have e : g₂⁻¹ * (g₂ * g₁ * g₂) * g₂⁻¹ = g₁ := by group
     rwa [e] at h'

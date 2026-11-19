@@ -48,6 +48,7 @@ section StepVI
 
 variable {k : Type u} [Field k] [CharZero k]
 
+omit [CharZero k] in
 private theorem normalized_value_eq_neg_one {f_t f_s f_ts : k}
     (h₁ : f_t * f_s = f_ts) (h₂ : f_t * f_ts = f_s)
     (hfs : f_s ≠ 0) (hft : f_t ≠ 1) :
@@ -63,6 +64,7 @@ private theorem normalized_value_eq_neg_one {f_t f_s f_ts : k}
   · exact (hft h).elim
   · exact h
 
+omit [CharZero k] in
 theorem character_value_eq_neg_degree {degree χt χs χts : k}
     (hdegree : degree ≠ 0)
     (h₁ : χt * χs = degree * χts)

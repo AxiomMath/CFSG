@@ -11,6 +11,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem zpow_mem_pair {z : G} (hzz : z * z = 1) (i : ℤ) : z ^ i = 1 ∨ z ^ i = z := by
   obtain ⟨k, rfl | rfl⟩ := Int.even_or_odd' i
   · left
@@ -36,6 +37,7 @@ theorem card_ge_of_lt {A₁ A₂ : Subgroup G} (h : A₁ < A₂) : 2 * Nat.card 
   rw [hm', mul_one] at hm
   exact h.ne (Subgroup.eq_of_le_of_card_ge h.le hm.le)
 
+omit [Finite G] in
 theorem exists_pow_sq_mem {T : Subgroup G} (hT : IsPGroup 2 T) {z x : G} (hx : x ∈ T)
     (hx1 : x ≠ 1) (hxz : x ≠ z) :
     ∃ n : ℕ, x ^ n ≠ 1 ∧ x ^ n ≠ z ∧ ((x ^ n) ^ 2 = 1 ∨ (x ^ n) ^ 2 = z) := by
@@ -91,7 +93,7 @@ theorem le_of_normalizer_le {T S : Subgroup G} (hT : IsPGroup 2 T) (hST : S ≤ 
     have : (⟨t, ht⟩ : T) ∈ S.subgroupOf T := htop ▸ mem_top _
     exact this
   have hnc := Group.normalizerCondition_of_isNilpotent (G := T) (S.subgroupOf T) hlt
-  obtain ⟨x, hxN, hxS⟩ := SetLike.exists_of_lt hnc
+  obtain ⟨x, hxN, hxS⟩ := IsConcreteLE.exists_of_lt hnc
   have hxn : (x : G) ∈ normalizer (S : Set G) := by
     apply mem_normalizer_of_conj_mem
     intro s hs

@@ -18,6 +18,7 @@ open CFSG.LocalAnalysis.RankThreeUC
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem rankThreeConj_map_conj (g h : G) (H : Subgroup G) :
     rankThreeConj h (H.map (MulAut.conj g).toMonoidHom) =
       (rankThreeConj (g⁻¹ * h * g) H).map (MulAut.conj g).toMonoidHom := by
@@ -31,6 +32,7 @@ theorem rankThreeConj_map_conj (g h : G) (H : Subgroup G) :
   simp only [MulAut.conj_apply]
   group
 
+omit [Finite G] in
 theorem rankThreeLayer_map_automorphism_le (φ : MulAut G) (H : Subgroup G) :
     (rankThreeLayer H).map φ.toMonoidHom ≤ rankThreeLayer (H.map φ.toMonoidHom) := by
   rw [Subgroup.map_le_iff_le_comap]
@@ -38,6 +40,7 @@ theorem rankThreeLayer_map_automorphism_le (φ : MulAut G) (H : Subgroup G) :
   rw [← Subgroup.map_le_iff_le_comap]
   exact le_sSup (CFSG.SignalizerFunctorTheorem.TransportA.isComponentOf_map φ hL)
 
+omit [Finite G] in
 theorem rankThreeLayer_map_automorphism (φ : MulAut G) (H : Subgroup G) :
     rankThreeLayer (H.map φ.toMonoidHom) = (rankThreeLayer H).map φ.toMonoidHom := by
   refine le_antisymm ?_ (rankThreeLayer_map_automorphism_le φ H)
@@ -51,12 +54,14 @@ theorem rankThreeLayer_map_automorphism (φ : MulAut G) (H : Subgroup G) :
 
 namespace AlmostClauseTwoCore
 
+omit [Finite G] in
 private theorem centralizer_map_conj (P₀ : Subgroup G) (g : G) :
     Subgroup.centralizer (P₀.map (MulAut.conj g).toMonoidHom : Set G) =
       (Subgroup.centralizer (P₀ : Set G)).map (MulAut.conj g).toMonoidHom :=
   (CFSG.RankThreeCoreUniqueness.Helpers.centralizer_map_automorphism P₀
     (MulAut.conj g)).symm
 
+omit [Finite G] in
 private theorem rankThreeLayer_centralizer_map_conj (P₀ : Subgroup G) (g : G) :
     rankThreeLayer (Subgroup.centralizer (P₀.map (MulAut.conj g).toMonoidHom : Set G)) =
       (rankThreeLayer (Subgroup.centralizer (P₀ : Set G))).map

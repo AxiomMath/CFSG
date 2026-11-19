@@ -192,7 +192,7 @@ theorem linCoreThree {Y : Type} [Group Y] [Finite Y] {t : StatedLieTag} {k f : �
       exact profile_ordBC hf1
     obtain ⟨hloN, hhiN⟩ := linWindow_three hf hpr hlo hup
     rcases Nat.lt_or_ge k 4 with h4 | h4 <;>
-      [interval_cases k <;> omega; nlinarith [Nat.mul_le_mul h4 h4]]
+      [(interval_cases k; omega); nlinarith [Nat.mul_le_mul h4 h4]]
   ·
     exfalso
     rcases ht with rfl | rfl

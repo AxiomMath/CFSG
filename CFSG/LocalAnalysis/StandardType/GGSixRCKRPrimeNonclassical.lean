@@ -104,7 +104,7 @@ theorem rckNC_comp_eq_of_centralizes {X : Type} [Group X] (K J : Subgroup X) (d 
       rw [Subgroup.mem_center_iff]
       intro y
       exact hcomm x y
-    haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJqs.2
+    have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJqs.2
     obtain ⟨q, hq⟩ := exists_ne (1 : ↥J ⧸ Subgroup.center ↥J)
     obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective q
     apply hq
@@ -185,14 +185,14 @@ theorem rckNonclassicalArm_of_pieces
   unfold RCKRPConfig at hcfg'
   obtain ⟨-, -, hp, hp2, -, hB1A, hDB1, -, -, -, -, -, -, -, -, -, -, -, -, hoddJ, -, -, -, -,
     -, -, -, hpos, -, -, -, hJK, -⟩ := hcfg'
-  haveI hKperf : Group.IsPerfect ↥K := ⟨hKqs.1⟩
-  haveI hJperf : Group.IsPerfect ↥J := ⟨hJcomp.2.2.1⟩
+  have hKperf : Group.IsPerfect ↥K := ⟨hKqs.1⟩
+  have hJperf : Group.IsPerfect ↥J := ⟨hJcomp.2.2.1⟩
   have hrT : rootDiagUnit (langTag t) a ∈ S.D.torus := hEt hrE
   have hapow : rootDiagUnit (langTag t) a ^ p = 1 := rckNC_pow_coord hap
   obtain ⟨M, φ, τK, SK, κ, ι, hMod, hstd, hsurj, hφker, hMfin, hMperf, hMsplit,
     ⟨βK, hβK, hlongK, γ₀, hγ₀, z₀, hz₀, hst₀p, hst₀m, hposK, -⟩, -, hτK, hqK, hκker, hκrange,
     hbij, -, hiform, hequiv, htorus⟩ := hRet (langTag t) S a hrT p hp hp2 hapow i f hq hqs hshape
-  haveI := hMfin
+  have := hMfin
   obtain ⟨ηK, hηKs, hηKv, hηKk⟩ := rckNC_etaK G₀ K hKG η _ hK hker
   set cK : ↥K →* ModGL τK GGL := κ.comp ηK with hcKdef
   have hcKker : cK.ker ≤ Subgroup.center ↥K := rck_ker_comp_le_center ηK κ hηKk hκker.le
@@ -305,7 +305,7 @@ theorem rckNonclassicalArm_of_pieces
     have h1 := hADE0
     rw [horb1, mul_one] at h1
     exact h1
-  haveI := hMJfin
+  have := hMJfin
   have hrangeJ : φJ.range = (J.subgroupOf K).map cK := by rw [hφJr]; exact hjeq.symm
   obtain ⟨αJ, hαJs, hαJ⟩ := rck_exists_lift K J hJK cK hcKker hoddK MJ.K hMJsplit φJ hrangeJ
   have hφJX_range : (J.subtype.comp αJ).range = J := by

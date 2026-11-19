@@ -20,15 +20,15 @@ theorem triCanon_triD4 (hRig : GGLabelRigidInput) {X : Type} [Group X] [Finite X
     (hK : Nat.card K = (2 ^ m) ^ 3) (T : K ≃+* K) (hT : ∀ c, T c = c ^ 2 ^ m)
     (e : ↥C ≃* ↥(graphFixedRootGroup TwistTag.D4 K T.toRingHom)) (hJ : GLAPComponent 3 C J)
     (hlabJ : HasLabel ↥J (fun l : GLALabel => l = labJ)) : canonLabel labJ = ⟨.triD4, 0, m⟩ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hG : IsSimpleGroup ↥(graphFixedRootGroup TwistTag.D4 K T.toRingHom) :=
     CFSG.RankThree.PartTwo.Sec11.Item1120V0Bar.isSimpleGroup_graphFixedRootGroup_d4 hm hK hT
   have hZ := exceptional_fixed_center_trivial TwistTag.D4 K T
-  haveI := hG
+  have := hG
   have hna := tri_nonabelian_of_center_bot hZ
   obtain ⟨eJ⟩ := triComponent_equiv_simple hna e hJ
-  haveI : IsSimpleGroup ↥J := eJ.isSimpleGroup
-  haveI : Group.IsPerfect ↥J :=
+  have : IsSimpleGroup ↥J := eJ.isSimpleGroup
+  have : Group.IsPerfect ↥J :=
     Subgroup.isPerfect_iff.mpr (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_perfect hJ)
   obtain ⟨eR⟩ := triRecipe_equiv_of hm hK T hT
   have hlam : LargeEvenInLambda2 (⟨.triD4, 0, m⟩ : GLALabel) := ⟨hm, rfl⟩

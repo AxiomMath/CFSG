@@ -54,9 +54,9 @@ theorem eq_one_of_piL_eq_one (c : GGQ2S08RoSix Bs L x) (w : Fin 6) {q : ↥L}
     (hq : q ∈ c.compL w) (h1 : c.piL q = 1) : q = 1 := by
   have hKc : Nat.card c.K = (2 ^ 1) ^ 2 := by rw [c.hK]; norm_num
   have hU := USixTwo.fieldDataFour c.hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP c.K 2 := hU.charP
-  haveI : Group.IsPerfect ↥(c.compL w) := Group.isPerfect_def.mpr (c.compL_quasisimple w).1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP c.K 2 := hU.charP
+  have : Group.IsPerfect ↥(c.compL w) := Group.isPerfect_def.mpr (c.compL_quasisimple w).1
   let ρ₀ : ↥(c.compL w) →* ↥(c.stabImg w) :=
     (c.piL.comp (c.compL w).subtype).codRestrict (c.stabImg w) (c.piL_mem_stabImg w)
   let e : ↥(c.stabImg w) ≃* ↥(CFSG.Open.StatedSU 5 (2 ^ 1) c.K) :=
@@ -214,8 +214,8 @@ theorem four_dvd_card_automizer (c : GGQ2S08RoSix Bs L x) (w : Fin 6) :
     have hiff : (τ⁻¹ i = w) ↔ i = w := by
       rw [Equiv.Perm.inv_def, Equiv.symm_apply_eq, hτw]
     by_cases hi : i = w
-    · rw [if_pos (hiff.mpr hi), if_pos hi, one_mul]
-    · rw [if_neg (fun h => hi (hiff.mp h)), if_neg hi, zero_mul]
+    · rw [ite_eq_left (hiff.mpr hi), ite_eq_left hi, one_mul]
+    · rw [ite_eq_right (fun h => hi (hiff.mp h)), ite_eq_right hi, zero_mul]
   have hgSU : (g : GL (Fin 6) c.K) ∈ LargeEvenSUGroup (Fin 6) c.K 2 :=
     (SetLike.ext_iff.mp (su6_eq c.K) _).mpr g.2
   have hsSU := ggQ2s08r6_scalar_mem c.hK (u w)⁻¹
@@ -229,8 +229,8 @@ theorem four_dvd_card_automizer (c : GGQ2S08RoSix Bs L x) (w : Fin 6) :
     rw [Units.val_mul, Matrix.GeneralLinearGroup.coe_scalar, Matrix.scalar_apply,
       Matrix.diagonal_mul, hcol i]
     by_cases hi : i = w
-    · rw [if_pos hi, if_pos hi, ← Units.val_mul, inv_mul_cancel, Units.val_one]
-    · rw [if_neg hi, if_neg hi, mul_zero]
+    · rw [ite_eq_left hi, ite_eq_left hi, ← Units.val_mul, inv_mul_cancel, Units.val_one]
+    · rw [ite_eq_right hi, ite_eq_right hi, mul_zero]
   have hfrs : c.fr s₀ = 1 := by
     rw [fr_apply, InndiagSU.frameMk_apply]
     apply (QuotientGroup.eq_one_iff _).mpr
@@ -254,7 +254,7 @@ theorem four_dvd_card_automizer (c : GGQ2S08RoSix Bs L x) (w : Fin 6) :
     have h : (⟨n', hn'L⟩ : ↥L) ∈ Subgroup.comap c.piL (c.stabImg w) := hn'P
     rw [hsup] at h
     exact h
-  haveI : (c.piL.ker).Normal := MonoidHom.normal_ker _
+  have : (c.piL.ker).Normal := MonoidHom.normal_ker _
   obtain ⟨q, hq, z, hz, hqz⟩ := Subgroup.mem_sup_of_normal_right.mp hn'P'
   have hzc : z ∈ Subgroup.center ↥L := by rw [← c.piL_ker]; exact hz
   have hqG : (q : G) = n' * (z : G)⁻¹ := by
@@ -339,7 +339,7 @@ theorem four_dvd_card_automizer (c : GGQ2S08RoSix Bs L x) (w : Fin 6) :
       rw [pow_orderOf_eq_one, MulAut.one_apply] at hμ
       have hσ : ∀ k, σ k = σ (0 : Fin 6) * c.diag b k := fun k => by rw [hb, mul_inv_cancel_left]
       refine ⟨μ⁻¹, fun i => ?_⟩
-      rw [Equiv.Perm.one_symm, Equiv.Perm.coe_one, id, hσ ((τ ^ orderOf α).symm i), hσ i,
+      rw [← Equiv.Perm.inv_def 1, inv_one, Equiv.Perm.coe_one, id, hσ ((τ ^ orderOf α).symm i), hσ i,
         hμ i, mul_left_comm μ⁻¹, inv_mul_cancel_left]
     have h := orderOf_dvd_of_pow_eq_one hτm
     rw [hτord] at h

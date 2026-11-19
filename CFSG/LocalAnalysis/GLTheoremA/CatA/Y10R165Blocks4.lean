@@ -35,7 +35,7 @@ theorem eq_closure_blockEnd_of_pRank_le (hp : p.Prime) (hpF : (p : F) ≠ 0)
     (htH : ∀ D, blockEnd A hp hpF hA t ht D ∈ H) :
     A = Subgroup.closure (Set.range (blockEnd A hp hpF hA t ht)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine le_antisymm (le_closure_blockEnd A hp hpF hA t ht) ?_
   refine (Subgroup.closure_le A).mpr (Set.range_subset_iff.mpr fun D => ?_)
   by_contra hmem
@@ -113,7 +113,7 @@ theorem eq_closure_blockEnd_of_pRank_le (hp : p.Prime) (hpF : (p : F) ≠ 0)
     exact zpow_mul_comm x m n
   have hpcomm : ∀ z w : ↥A × ↥(Subgroup.zpowers x), z * w = w * z := by
     rintro ⟨a1, b1⟩ ⟨a2, b2⟩
-    haveI : IsMulCommutative ↥A := hA.1
+    have : IsMulCommutative ↥A := hA.1
     exact Prod.ext (mul_comm' a1 a2) (hzcomm b1 b2)
   have hppow : ∀ z : ↥A × ↥(Subgroup.zpowers x), z ^ p = 1 := by
     rintro ⟨a, b⟩
@@ -233,7 +233,7 @@ theorem card_le_card_ne_bot_blockSpace (hp : p.Prime) (hpF : (p : F) ≠ 0)
     exact pow_eq_one A hA _
   have hcomm : ∀ x ∈ T, ∀ y ∈ T, x * y = y * x := by
     intro x _ y _
-    haveI : IsMulCommutative ↥A := hA.1
+    have : IsMulCommutative ↥A := hA.1
     exact mul_comm' x y
   have hcard₂ := card_closure_finset_le_pow T hp hpow hcomm
   have hcard₃ : T.card ≤ Nat.card {D : Hyperplane A p // blockSpace A D.1 ≠ ⊥} := by
@@ -251,7 +251,7 @@ theorem card_le_card_ne_bot_blockSpace (hp : p.Prime) (hpF : (p : F) ≠ 0)
 def fixedByEnd (x : V ≃ₗ[F] V) : Submodule F V := Module.End.eigenspace x.toLinearMap 1
 
 @[simp] theorem mem_fixedByEnd {x : V ≃ₗ[F] V} {v : V} : v ∈ fixedByEnd x ↔ x v = v := by
-  simp [fixedByEnd, Module.End.mem_eigenspace_iff]
+  simp [fixedByEnd]
 
 theorem finrank_ker_projBlock_add_finrank_blockSpace [FiniteDimensional F V] (hp : p.Prime)
     (hpF : (p : F) ≠ 0) (hA : IsElemAbelian p A) (D : Hyperplane A p) :

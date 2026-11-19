@@ -173,7 +173,7 @@ theorem mem_closure_conj_pLift_six_one
   have hy_eq' : (QuotientGroup.mk y : L' ⧸ Z) = φ s := by
     rw [← QuotientGroup.mk'_apply]
     exact hy_eq
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hker : (QuotientGroup.mk' Z).ker = Z := QuotientGroup.ker_mk' Z
   have hcen : (QuotientGroup.mk' Z).ker ≤ Subgroup.center L' := by
     rw [hker]

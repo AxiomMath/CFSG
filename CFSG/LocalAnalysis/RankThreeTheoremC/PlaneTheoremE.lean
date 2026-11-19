@@ -21,12 +21,12 @@ theorem gamma_one_le_of_forall_centralizer_le (hS : Setting G) (hU0 : FullCoreLo
   have hfact : Fact p.Prime := ⟨hprime⟩
   obtain ⟨hPM, hP3⟩ := sylow_le_of_isCoreMaxLocal hS hp hM
   refine (gamma_le_iff 1 p R M).mpr fun Q hQR hQ1 => ?_
-  have hQp : IsPGroup p Q := P.isPGroup'.to_le (hQR.trans hRP)
+  have hQp : IsPGroup p Q := P.isPGroup.to_le (hQR.trans hRP)
   by_cases hQc : IsCyclic Q
   · obtain ⟨y, hyQ, hy1, hyp, hNQy⟩ :=
       exists_pow_eq_one_normalizer_le_of_isCyclic hprime hQp hQc hQ1
     exact hNQy.trans (normalizer_zpowers_le_of_centralizer_le hS hU0 hp hM
-      (two_le_pRank_inf_centralizer P.isPGroup' (by omega) (hRP (hQR hyQ)) hy1 hyp)
+      (two_le_pRank_inf_centralizer P.isPGroup (by omega) (hRP (hQR hyQ)) hy1 hyp)
       (h y (hQR hyQ) hy1 hyp))
   · exact normalizer_le_of_le_of_two_le_pRank hS hU0 hp hM hQp ((hQR.trans hRP).trans hPM)
       (two_le_pRank_of_not_isCyclic hprime (sigmaA_odd p hp) hQp hQc)

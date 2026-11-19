@@ -36,9 +36,9 @@ theorem exists_gamma_le_of_isSL3Four
     ∃ R : Subgroup G, CFSG.ABGLocalTools.IsSylowOf 3 R L ∧
       CFSG.Open.rankThreeGamma 1 3 R ≤ S.M := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact S.p.Prime := ⟨S.hp.1.1⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact S.p.Prime := ⟨S.hp.1.1⟩
   have h3β : 3 ∉ CFSG.Open.uniqueFourBeta G :=
     three_not_mem_uniqueFourBeta_of_not_strong hU S hMS hnot
   have hp5 : 5 ≤ S.p := five_le_of_mem_uniqueFourSigma S.hp h3β
@@ -58,8 +58,8 @@ theorem exists_gamma_le_of_isSL3Four
       (by norm_num : (3 : ℕ) ≠ 2) ?_
     obtain ⟨K, hfield, hfin, hKcard, ⟨e⟩⟩ :=
       CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hSL.1.2
-    letI := hfield
-    letI := hfin
+    let := hfield
+    let := hfin
     have hk : Nat.card K = 4 := by rw [hKcard]; norm_num
     rw [CFSG.SectionRank.pRank_top_eq_of_mulEquiv (p := 3) (by norm_num) e]
     simpa only [CFSG.SectionRank.pRank_eq_open_pRank_top] using
@@ -99,8 +99,8 @@ theorem exists_gamma_le_of_isSL3Four
       2 ^ 8 * 3 ^ 3 * 5 * 7 := by
     obtain ⟨K, hfield, hfin, hKcard, ⟨e⟩⟩ :=
       CFSG.RankThree.PartOne.AUTSL.exists_projectiveSL_equiv_of_lieModel hSL.1.2
-    letI := hfield
-    letI := hfin
+    let := hfield
+    let := hfin
     have hk : Nat.card K = 4 := by rw [hKcard]; norm_num
     rw [Nat.card_congr (MulAut.congr e).toEquiv,
       CFSG.RankThree.PartTwo.KFacts.L34.card_mulAut hk]
@@ -109,7 +109,7 @@ theorem exists_gamma_le_of_isSL3Four
       (CFSG.GroupTheory.conjModPCore 2 L N hNle).range ≤ 1 := by
     refine (CFSG.SectionRank.pRank_mono (Fact.out : S.p.Prime).one_lt le_top).trans ?_
     have hperf : Group.IsPerfect (Bar2 L) := Group.isPerfect_def.mpr hSL.1.1.1
-    haveI : Group.IsPerfect (Bar2 L) := hperf
+    have : Group.IsPerfect (Bar2 L) := hperf
     refine (CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.pRank_mulAut_le
       (J := Bar2 L) (Fact.out : S.p.Prime)).trans ?_
     refine CFSG.QuasithinUnique.Id2519.pRank_le_one_of_not_sq_dvd

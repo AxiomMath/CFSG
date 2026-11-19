@@ -46,7 +46,7 @@ theorem e_decomp (hc : P23Cfg n Y R S t K' W u e g) :
       (mem_RSet_of_isSylow2In hc.std.hK'.1 hR₁') hR'S
   have hcomm : Commutes R₁ R₁' :=
     hΩ.commutes_of_twin_of_isPGroup hK hc.std.hK'.1 hc.std.hne.symm hz hz' hR₁.1 hR₁'.1
-      (S₀.isPGroup'.to_le (sup_le hRS hR'S))
+      (S₀.isPGroup.to_le (sup_le hRS hR'S))
   obtain ⟨b, hbRW, hb4⟩ := Q3T8.Asc77.Thompson.exists_orderOf_four hΩ hc.std.hW hRD
   obtain ⟨b', hb'RW, hb'4⟩ := Q3T8.Asc77.Thompson.exists_orderOf_four hΩ hc.std.hW hR'D
   have hWab := Q3CL.Thompson.commutes_of_mem_WSet hΩ hc.std.hW

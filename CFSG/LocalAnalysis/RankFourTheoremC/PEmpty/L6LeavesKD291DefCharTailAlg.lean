@@ -105,14 +105,14 @@ theorem sMat_single (i₀ : Fin r) (v : A) :
       simp
     · have hij : i ≠ j := fun h => hj h.symm
       have h2 : ¬ (i = i ∧ i = j) := fun h => hij h.2
-      have hz : (Pi.single i v : Fin r → A) j = 0 := by simp [Pi.single_apply, hj]
-      simp [hij, h2, hz]
-  · have hz : (Pi.single i₀ v : Fin r → A) i = 0 := by simp [Pi.single_apply, hi]
+      have hz : (Pi.single i v : Fin r → A) j = 0 := by simp [hj]
+      simp [hij]
+  · have hz : (Pi.single i₀ v : Fin r → A) i = 0 := by simp [hi]
     have h2 : ¬ (i₀ = i ∧ i₀ = j) := fun h => hi h.1.symm
     have hi' : ¬ i₀ = i := fun h => hi h.symm
     by_cases hij : i = j
     · subst hij
-      simp [hi', hz]
+      simp [hi']
     · by_cases hlt : i < j
       · simp [hij, hlt, h2, hz]
       · simp [hij, hlt, h2]

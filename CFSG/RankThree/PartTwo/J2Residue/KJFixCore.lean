@@ -178,7 +178,7 @@ theorem prod_eq_of_parityOK {V : Type*} [CommGroup V] (hV : ∀ x : V, x * x = 1
   have h0 := h 0 (by norm_num)
   have hmem : 0 ∈ l.toFinset := by
     rw [List.mem_toFinset, ← List.count_pos_iff]
-    simp only [if_true] at h0
+    simp only [ite_true] at h0
     omega
   simp [hmem]
 
@@ -337,11 +337,11 @@ theorem prod_rel_eq (hV : ∀ x : V, x * x = 1) (hfix : ∀ x : V, ρ zJ x = x �
       interval_cases c <;> rfl
     rw [relMu, hget, List.map_append, List.prod_append]
     by_cases h : Φ c = v
-    · rw [decide_eq_true h, if_pos rfl]
+    · rw [decide_eq_true h, ite_eq_left rfl]
       change Φ c * _ = 1
       simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one, phi_zero]
       rw [h, hV v]
-    · rw [decide_eq_false h, if_neg Bool.false_ne_true]
+    · rw [decide_eq_false h, ite_eq_right Bool.false_ne_true]
       change Φ c * _ = 1
       rw [(hΦ1 c hc).resolve_right h]
       simp

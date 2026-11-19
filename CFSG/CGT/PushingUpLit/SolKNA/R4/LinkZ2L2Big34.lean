@@ -76,7 +76,7 @@ theorem Z2SetR.theta_center_mem_E (hs : Z2SetR r n R S t J u R₀ T₀ P) (hr : 
     have hn : 2 ^ (r - 2) = 2 * 2 ^ (r - 3) := by
       rw [show r - 2 = r - 3 + 1 by omega, pow_succ]
       ring
-    haveI : NeZero (2 ^ (r - 3)) := ⟨by positivity⟩
+    have : NeZero (2 ^ (r - 3)) := ⟨by positivity⟩
     obtain ⟨φ, hφinj, hφsq, hφxa, hφc⟩ :=
       QuatAutH.exists_double_hom (n := 2 ^ (r - 3)) (n' := 2 ^ (r - 2)) hn δ
     let ψ : QuaternionGroup (2 ^ (r - 3)) →* Y := θ₀.comp φ

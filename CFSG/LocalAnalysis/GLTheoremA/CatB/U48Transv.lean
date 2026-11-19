@@ -95,10 +95,9 @@ theorem tvMat_mul_tvMat (h : UnitaryFieldData 2 f K) (w : Fin 4 → K) (c : K)
     (hw : vnorm h w = 0) : tvMat h w c * tvMat h w (-c) = 1 := by
   have hWW : wMat h w * wMat h w = 0 := by rw [wMat_mul_wMat, hw, zero_smul]
   unfold tvMat
-  simp only [add_mul, mul_add, one_mul, mul_one, Matrix.smul_mul, Matrix.mul_smul, smul_smul,
-    hWW, smul_zero, add_zero, zero_add]
+  simp only [add_mul, mul_add, one_mul, mul_one, Matrix.smul_mul, Matrix.mul_smul, hWW, smul_zero, add_zero]
   rw [neg_smul, add_comm]
-  simp [neg_add_cancel]
+  simp
 
 theorem det_tvMat (h : UnitaryFieldData 2 f K) (w : Fin 4 → K) (c : K) :
     (tvMat h w c).det = 1 + c * vnorm h w := by
@@ -137,7 +136,7 @@ theorem transpose_bar_tvMat (h : UnitaryFieldData 2 f K) (w : Fin 4 → K) (c : 
     ring
   · simp only [tvMat, wMat, Matrix.transpose_apply, Matrix.map_apply, Matrix.add_apply,
       Matrix.one_apply_ne hij, Matrix.smul_apply, Matrix.of_apply, smul_eq_mul, map_add, map_mul,
-      map_zero, h.bar_bar, Ne.symm hij, Matrix.one_apply_ne (Ne.symm hij), map_zero]
+      map_zero, h.bar_bar, Matrix.one_apply_ne (Ne.symm hij), map_zero]
     ring
 
 theorem conjT_tvMat_mul (h : UnitaryFieldData 2 f K) (w : Fin 4 → K) (c : K) :
@@ -146,7 +145,7 @@ theorem conjT_tvMat_mul (h : UnitaryFieldData 2 f K) (w : Fin 4 → K) (c : K) :
   rw [transpose_bar_tvMat]
   unfold tvMat
   simp only [add_mul, mul_add, one_mul, mul_one, Matrix.smul_mul, Matrix.mul_smul, smul_smul,
-    wMat_mul_wMat, smul_add, add_smul]
+    wMat_mul_wMat, add_smul]
   module
 
 theorem tvGL_mem (h : UnitaryFieldData 2 f K) {w : Fin 4 → K} {c : K} (hw : vnorm h w = 0)
@@ -238,7 +237,7 @@ theorem mul_rx1_apply (h : UnitaryFieldData 2 f K) (M : Matrix (HypIndex 2 0) (H
     (t : K) (i j : HypIndex 2 0) :
     (M * rx1 h t) i j = M i j + M i hp1 * t * (if j = hp2 then 1 else 0) -
       M i hp3 * h.bar t * (if j = hp4 then 1 else 0) := by
-  simp only [rx1, Matrix.mul_add, Matrix.mul_sub, Matrix.mul_one, Matrix.mul_single_apply_same]
+  simp only [rx1, Matrix.mul_add, Matrix.mul_sub, Matrix.mul_one]
   simp [Matrix.mul_apply, Matrix.single_apply, eq_comm]
 
 theorem rx1_mul_apply (h : UnitaryFieldData 2 f K) (M : Matrix (HypIndex 2 0) (HypIndex 2 0) K)
@@ -252,7 +251,7 @@ theorem mul_rx2_apply (h : UnitaryFieldData 2 f K) (M : Matrix (HypIndex 2 0) (H
     (t : K) (i j : HypIndex 2 0) :
     (M * rx2 h t) i j = M i j + M i hp1 * t * (if j = hp3 then 1 else 0) -
       M i hp2 * h.bar t * (if j = hp4 then 1 else 0) := by
-  simp only [rx2, Matrix.mul_add, Matrix.mul_sub, Matrix.mul_one, Matrix.mul_single_apply_same]
+  simp only [rx2, Matrix.mul_add, Matrix.mul_sub, Matrix.mul_one]
   simp [Matrix.mul_apply, Matrix.single_apply, eq_comm]
 
 theorem rx2_mul_apply (h : UnitaryFieldData 2 f K) (M : Matrix (HypIndex 2 0) (HypIndex 2 0) K)
@@ -265,12 +264,12 @@ theorem rx2_mul_apply (h : UnitaryFieldData 2 f K) (M : Matrix (HypIndex 2 0) (H
 theorem rx1_block (h : UnitaryFieldData 2 f K) (t : K) : (rx1 h t).BlockTriangular fullPos := by
   intro i j hij
   rcases hAll_index i with rfl | rfl | rfl | rfl <;> rcases hAll_index j with rfl | rfl | rfl | rfl <;>
-    simp_all [rx1, Matrix.one_apply, Matrix.single_apply, fullPos, hp1, hp2, hp3, hp4]
+    simp_all [rx1, fullPos, hp1, hp2, hp3, hp4]
 
 theorem rx2_block (h : UnitaryFieldData 2 f K) (t : K) : (rx2 h t).BlockTriangular fullPos := by
   intro i j hij
   rcases hAll_index i with rfl | rfl | rfl | rfl <;> rcases hAll_index j with rfl | rfl | rfl | rfl <;>
-    simp_all [rx2, Matrix.one_apply, Matrix.single_apply, fullPos, hp1, hp2, hp3, hp4]
+    simp_all [rx2, fullPos, hp1, hp2, hp3, hp4]
 
 theorem center_matrix (h : UnitaryFieldData 2 f K) (y : Matrix (HypIndex 2 0) (HypIndex 2 0) K)
     (hbt : y.BlockTriangular fullPos) (hd : ∀ a, y a a = 1)
@@ -332,7 +331,7 @@ theorem bar_of_unitary (h : UnitaryFieldData 2 f K) (n : K)
     n + h.bar n = 0 := by
   have := congrFun (congrFun hg hp4) hp4
   simp [Matrix.mul_apply, Matrix.single_apply, hypGram_apply, Matrix.add_apply, Matrix.one_apply,
-    Matrix.transpose_apply, Matrix.map_apply, hp1, hp2, hp3, hp4, Matrix.mul_add, Matrix.add_mul]
+    Matrix.transpose_apply, Matrix.map_apply, hp1, hp4]
     at this
   linear_combination this
 
@@ -359,7 +358,7 @@ theorem MaxP.exists_sylow {r : ℕ} {G : Type} [Group G] {P : Subgroup G} (hP : 
 
 theorem MaxP.of_sylow {r : ℕ} {G : Type} [Group G] (S : Sylow r G) :
     MaxP r (S : Subgroup G) :=
-  ⟨S.isPGroup, fun Q hPQ hQp => (S.maximal_isPGroup.eq_of_le hQp hPQ).symm⟩
+  ⟨S.isPGroup, fun _Q hPQ hQp => (S.maximal_isPGroup.eq_of_le hQp hPQ).symm⟩
 
 theorem cenIn_iff_maxP {r : ℕ} {H : Type} [Group H] (x : H) :
     CenIn r x ↔ ∃ P : Subgroup H, MaxP r P ∧ x ∈ P ∧ P ≤ Subgroup.centralizer ({x} : Set H) :=
@@ -390,7 +389,7 @@ theorem single_block (n : K) :
     (1 + Matrix.single hp1 hp4 n : Matrix (HypIndex 2 0) (HypIndex 2 0) K).BlockTriangular fullPos := by
   intro i j hij
   rcases hAll_index i with rfl | rfl | rfl | rfl <;> rcases hAll_index j with rfl | rfl | rfl | rfl <;>
-    simp_all [Matrix.one_apply, Matrix.single_apply, fullPos, hp1, hp2, hp3, hp4]
+    simp_all [fullPos, hp1, hp2, hp3, hp4]
 
 theorem wMat_smul (h : UnitaryFieldData 2 f K) (μ : K) (w : Fin 4 → K) :
     wMat h (μ • w) = (μ * h.bar μ) • wMat h w := by
@@ -485,7 +484,7 @@ theorem exists_witt (h : UnitaryFieldData 2 f K) {R : Matrix (Fin (2 * 2 + 0)) (
   obtain ⟨-, -, g, hg⟩ := exists_smul_hypFlag_eq (r := 2) (ε := 0) h (by norm_num) hW0 hWiso
   rw [finrank_span_singleton hx0] at hg
   have he : (Pi.single hp1 (1 : K) : HypIndex 2 0 → K) ∈ hypFlag h 2 0 1 := by
-    rw [hypFlag, if_pos (by norm_num)]
+    rw [hypFlag, ite_eq_left (by norm_num)]
     exact Submodule.subset_span ⟨0, by simp, by simp [hp1]⟩
   have hge : g • (Pi.single hp1 (1 : K) : HypIndex 2 0 → K) ∈ K ∙ x := by
     rw [← hg]
@@ -521,16 +520,16 @@ variable {f : ℕ} {K : Type} [Field K]
 
 theorem rx1_diag (h : UnitaryFieldData 2 f K) (t : K) (a : HypIndex 2 0) : rx1 h t a a = 1 := by
   rcases hAll_index a with rfl | rfl | rfl | rfl <;>
-    simp [rx1, Matrix.one_apply, Matrix.single_apply, hp1, hp2, hp3, hp4]
+    simp [rx1, hp1, hp2, hp3, hp4]
 
 theorem rx2_diag (h : UnitaryFieldData 2 f K) (t : K) (a : HypIndex 2 0) : rx2 h t a a = 1 := by
   rcases hAll_index a with rfl | rfl | rfl | rfl <;>
-    simp [rx2, Matrix.one_apply, Matrix.single_apply, hp1, hp2, hp3, hp4]
+    simp [rx2, hp1, hp2, hp3, hp4]
 
 theorem single_diag (n : K) (a : HypIndex 2 0) :
     (1 + Matrix.single hp1 hp4 n : Matrix (HypIndex 2 0) (HypIndex 2 0) K) a a = 1 := by
   rcases hAll_index a with rfl | rfl | rfl | rfl <;>
-    simp [Matrix.one_apply, Matrix.single_apply, hp1, hp2, hp3, hp4]
+    simp [hp1, hp2, hp3, hp4]
 
 theorem uRootMat_swap (h : UnitaryFieldData 2 f K) (t : K) :
     uRootMat 0 h (Sum.inl 0) (Sum.inr 0) t = 1 + Matrix.single hp1 hp4 t := by
@@ -661,11 +660,11 @@ theorem cenIn_two_iff (h : UnitaryFieldData 2 f K) (z : unitarySU 2 f K 4) :
   constructor
   · intro hc
     obtain ⟨P, hPM, hzP, hPC⟩ := (cenIn_iff_maxP z).mp hc
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Finite (unitarySU 2 f K 4) := by
-      haveI := h.finite
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Finite (unitarySU 2 f K 4) := by
+      have := h.finite
       infer_instance
-    haveI : Finite (Sylow 2 (unitarySU 2 f K 4)) := Finite.of_injective
+    have : Finite (Sylow 2 (unitarySU 2 f K 4)) := Finite.of_injective
       (fun Q : Sylow 2 (unitarySU 2 f K 4) => (Q : Subgroup (unitarySU 2 f K 4)))
       (fun Q Q' hQQ => Sylow.ext hQQ)
     obtain ⟨S, hS⟩ := hPM.exists_sylow
@@ -727,7 +726,7 @@ theorem cenIn_two_iff (h : UnitaryFieldData 2 f K) (z : unitarySU 2 f K 4) :
           ((g : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) = 1 := by
         have h5 : ((g⁻¹ : unitarySU 2 f K 4) : GL (Fin 4) K) * (g : GL (Fin 4) K) = 1 := by simp
         have h6 := congrArg (fun x : GL (Fin 4) K => (x : Matrix (Fin 4) (Fin 4) K)) h5
-        simpa using h6
+        simp
       refine ⟨((g : GL (Fin 4) K) : Matrix (Fin 4) (Fin 4) K) *ᵥ (fun i : Fin 4 => R i hp1), n,
         ⟨?_, ?_⟩, hn0', ?_, hzeqM⟩
       · intro h0

@@ -33,7 +33,7 @@ private theorem qTwoCover_quotient_perfect
     MonoidHom.range_eq_top.mpr (QuotientGroup.mk'_surjective Δ), ← commutator_def] at h1
 
 private theorem qTwoCover_piZ_ker
-    {L : Type} [Group L] {Δ Z : Subgroup L} [Δ.Normal] [Z.Normal] (hΔZ : Δ ≤ Z)
+    {L : Type} [Group L] {Δ Z : Subgroup L} [Δ.Normal] [Z.Normal] (_hΔZ : Δ ≤ Z)
     (πZ : L ⧸ Δ →* L ⧸ Z) (hπZ : ∀ l, πZ (QuotientGroup.mk' Δ l) = QuotientGroup.mk' Z l) :
     πZ.ker = Z.map (QuotientGroup.mk' Δ) := by
   ext y
@@ -82,8 +82,8 @@ theorem qTwoFrameL_cover
   have hΔleZ : Δ ≤ Z := CFSG.GH74.Uniqueness.primaryComponent_le
   have hΔleCenter : Δ ≤ Subgroup.center L := hΔleZ
   have hΔnormal : Δ.Normal := Subgroup.normal_of_le_center hΔleCenter
-  haveI : Δ.Normal := hΔnormal
-  haveI : Z.Normal := inferInstance
+  have : Δ.Normal := hΔnormal
+  have : Z.Normal := inferInstance
   have hΔp : IsPGroup 2 Δ := CFSG.GH74.Uniqueness.isPGroup_primaryComponent Nat.prime_two
   have hΔmem : ∀ z ∈ Z, (∃ k : ℕ, z ^ (2 ^ k) = 1) → z ∈ Δ := by
     intro z hz h
@@ -106,7 +106,7 @@ theorem qTwoFrameL_cover
     obtain ⟨l, rfl⟩ := QuotientGroup.mk'_surjective Δ w
     rw [← map_mul (QuotientGroup.mk' Δ) l z, ← map_mul (QuotientGroup.mk' Δ) z l]
     rw [(Subgroup.mem_center_iff.mp hz l).symm]
-  haveI : (Z.map (QuotientGroup.mk' Δ)).Normal := Subgroup.normal_of_le_center hZbar_central
+  have : (Z.map (QuotientGroup.mk' Δ)).Normal := Subgroup.normal_of_le_center hZbar_central
   let projS : S →* LargeEvenProj S := LargeEvenProjMk S
   have hprojS_surj : Function.Surjective projS := by
     change Function.Surjective (QuotientGroup.mk' _)

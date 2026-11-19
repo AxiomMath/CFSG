@@ -20,14 +20,14 @@ theorem exists_cubic_ext {n : ℕ} {K : Type} [Field K] [Finite K] (hK : Nat.car
       Nat.card K₃ = ((2 ^ n) ^ 3) ^ 2 ∧ (∀ c, σ₃ c = c ^ (2 ^ n) ^ 3) ∧
         ∀ c, σ₃ (ι c) = ι (σ c) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP K 2 := ringChar.of_eq h2
-  haveI : CharP (FiniteField.Extension K 2 3) 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP K 2 := ringChar.of_eq h2
+  have : CharP (FiniteField.Extension K 2 3) 2 :=
     charP_of_injective_algebraMap (algebraMap K (FiniteField.Extension K 2 3)).injective 2
   have hinj : Function.Injective (iterateFrobenius (FiniteField.Extension K 2 3) 2 (n * 3)) :=
     (iterateFrobenius (FiniteField.Extension K 2 3) 2 (n * 3)).injective
   have hpow : ∀ c : K, c ^ (2 ^ n) ^ 2 = c := fun c => by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     have h := FiniteField.pow_card c
     rwa [← Nat.card_eq_fintype_card, hK] at h
   refine ⟨FiniteField.Extension K 2 3, inferInstance, inferInstance,
@@ -49,6 +49,7 @@ section Norm
 
 variable {K K₃ : Type} [Field K] [Finite K] [Field K₃] [Finite K₃]
 
+omit [Finite K] [Finite K₃] in
 theorem twNormTwo_baseChange
     (ι : K →+* K₃) (σ : K ≃+* K) (σ₃ : K₃ ≃+* K₃) (h : ∀ c, σ₃ (ι c) = ι (σ c))
     {A : Subgroup (ModGL TwistTag.E6.tag K)} (hU : TwNormTwo K σ A) :

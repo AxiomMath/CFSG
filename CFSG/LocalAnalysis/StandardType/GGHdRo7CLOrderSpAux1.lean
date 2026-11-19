@@ -15,7 +15,7 @@ theorem hdRo7CLOSpAux_center_L_eq_bot
     {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G}
     (hH : GGResHyp p B Bs x L D J y K)
-    (lab : LargeEvenLabel) (hlab : LargeEvenInLambda2 lab)
+    (lab : LargeEvenLabel) (_hlab : LargeEvenInLambda2 lab)
     (hLlab : GGHasLabel lab (↥L ⧸ Subgroup.center ↥L))
     (htag : lab.tag = .B ∨ lab.tag = .C) (hn1 : lab.n = 1) (h4 : 4 ≤ lab.rank) :
     Subgroup.center ↥L = ⊥ := by
@@ -44,7 +44,7 @@ theorem hdRo7CLOSpAux_torus_data
     (hLlab : GGHasLabel lab (↥L ⧸ Subgroup.center ↥L))
     (htag : lab.tag = .B ∨ lab.tag = .C) (hn1 : lab.n = 1) (hp3 : p = 3) :
     ∃ (R : Type) (_ : Group R) (I : Set (MulAut R)) (θ : ↥L ⧸ Subgroup.center ↥L ≃* R)
-      (hBsN : Bs ≤ Subgroup.normalizer (L : Set G)),
+      (_hBsN : Bs ≤ Subgroup.normalizer (L : Set G)),
       commutator ↥L = ⊤ ∧ GGTorusSignedEltSC p R ∧ GGCenterPrime p R ∧
       Subgroup.center R = ⊥ ∧ I ⊆ Set.range (MulAut.conj : R →* MulAut R) ∧
       (∀ b ∈ Bs, ∃ φ ∈ I,
@@ -58,13 +58,13 @@ theorem hdRo7CLOSpAux_torus_data
     rcases htag with hB | hC
     · rw [hB] at h; exact h.2.1
     · rw [hC] at h; exact h.2.1
-  haveI : NeZero lab.rank := ⟨by omega⟩
+  have : NeZero lab.rank := ⟨by omega⟩
   have hID : GGInnerDiagOn Bs L := hH.2.2.1.1
   have hmark := ggInnerDiagOn_relabel hRig hID hlab hLlab
   obtain ⟨hperf, lab', hlab'_2, hraw'⟩ := hmark
   have hlab'_eq : lab' = lab := by
     obtain ⟨R0, hR0grp, I0, F0, hQ0⟩ := largeEvenRawDatum_exists hraw'
-    letI : Group R0 := hR0grp
+    let : Group R0 := hR0grp
     obtain ⟨_, _, hθ0⟩ := hQ0
     obtain ⟨_, hlab, _, _⟩ := hθ0
     exact hlab
@@ -78,11 +78,11 @@ theorem hdRo7CLOSpAux_torus_data
   obtain ⟨K, hKfield, hKfin, hKchar, hKcard, hQK⟩ :=
     hdRo7CLCoordAux_recipe_symplectic htag hrawL
   obtain ⟨_, _, hθ⟩ := hQK
-  obtain ⟨θ, _hlab', hBsN, hBs3⟩ := hθ
+  obtain ⟨θ, _hlab', _hBsN, hBs3⟩ := hθ
   have hpK : p ∣ Nat.card K + 1 := by rw [hKcard, hn1, hp3]; norm_num
   exact ⟨LargeEvenProj (LargeEvenSpGroup K lab.rank), inferInstance,
     LargeEvenMatConjImage (LargeEvenProjMk (LargeEvenSpGroup K lab.rank)) (LargeEvenGSpSet K lab.rank),
-    θ, hBsN, hperf,
+    θ, _hBsN, hperf,
     ggSpNonsplitSignedEltInput_holds K lab.rank p h2rank hp hpK,
     ggCenterPrime_sp (K := K) hp hp2,
     TableBSymp.center_spProj_eq_bot,
@@ -111,7 +111,7 @@ theorem hdRo7CLOSpAux_card_inf_pow
     hdRo7CLCoordAux_statedClassicalModel_of_hasLabel_BC htag (by omega) h1n hLlab
   obtain ⟨φ, hinj, hrange⟩ :=
     ggSpLiftInput_holds G L lab.rank lab.n h4 hperf hmodel
-  haveI : CharP (GaloisField 2 lab.n) 2 :=
+  have : CharP (GaloisField 2 lab.n) 2 :=
     charP_two_of_card (GaloisField.card 2 lab.n (by omega))
   obtain ⟨hpow, hcomm, hmax, hcardE⟩ :=
     comap_inf_maximal hH.1.2.1 φ hinj hrange
@@ -175,19 +175,19 @@ theorem hdRo7CLOSpAux_hinner
     (htag : lab.tag = .B ∨ lab.tag = .C) (hn1 : lab.n = 1) (h4 : 4 ≤ lab.rank)
     (hp3 : p = 3) :
     (∃ (R : Type) (_ : Group R) (I : Set (MulAut R)) (θ : ↥L ⧸ Subgroup.center ↥L ≃* R)
-      (hBsN : Bs ≤ Subgroup.normalizer (L : Set G)),
+      (_hBsN : Bs ≤ Subgroup.normalizer (L : Set G)),
       commutator ↥L = ⊤ ∧ GGTorusSignedEltSC p R ∧ GGCenterPrime p R ∧
       Subgroup.center R = ⊥ ∧ I ⊆ Set.range (MulAut.conj : R →* MulAut R) ∧
       (∀ b ∈ Bs, ∃ φ ∈ I,
         LargeEvenInduces θ (fun l l' : ↥L => (l' : G) = b⁻¹ * (l : G) * b) φ)) ∧
     Subgroup.center ↥L = ⊥ ∧
     (∀ b ∈ Bs, ∃ x ∈ L, ∀ y ∈ L, b * y * b⁻¹ = x * y * x⁻¹) := by
-  obtain ⟨R, hRgrp, I, θ, hBsN, hperf, hTSC, hCP, hcenter, hI, hBs3⟩ :=
+  obtain ⟨R, hRgrp, I, θ, _hBsN, hperf, hTSC, hCP, hcenter, hI, hBs3⟩ :=
     hdRo7CLOSpAux_torus_data hRig hH lab hlab hLlab htag hn1 hp3
-  letI : Group R := hRgrp
+  let : Group R := hRgrp
   have hZL := hdRo7CLOSpAux_center_L_eq_bot hH lab hlab hLlab htag hn1 h4
-  have hinner := hdRo7CLCoordAux_hinner p B Bs x L D J y K hH R I θ hI hZL hBsN hBs3
-  exact ⟨⟨R, hRgrp, I, θ, hBsN, hperf, hTSC, hCP, hcenter, hI, hBs3⟩, hZL, hinner⟩
+  have hinner := hdRo7CLCoordAux_hinner p B Bs x L D J y K hH R I θ hI hZL _hBsN hBs3
+  exact ⟨⟨R, hRgrp, I, θ, _hBsN, hperf, hTSC, hCP, hcenter, hI, hBs3⟩, hZL, hinner⟩
 
 end CFSG.StandardType.HdRo7C
 

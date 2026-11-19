@@ -145,7 +145,7 @@ theorem map_E_of_mulEquiv {ρ : ResM24 c}
     (ψ : ↥c.G1 ≃* ↥c.G1) :
     (c.E.subgroupOf c.G1).map ψ.toMonoidHom = c.E.subgroupOf c.G1 := by
   classical
-  haveI hEnorm : (c.E.subgroupOf c.G1).Normal :=
+  have hEnorm : (c.E.subgroupOf c.G1).Normal :=
     ⟨fun e he g => by
       rw [Subgroup.mem_subgroupOf] at he ⊢
       exact (Subgroup.mem_normalizer_iff.mp g.2 (e : G)).mp he⟩
@@ -153,7 +153,7 @@ theorem map_E_of_mulEquiv {ρ : ResM24 c}
   have hNnorm : N.Normal := hEnorm.map ψ.toMonoidHom ψ.surjective
   have hQnorm : (N.map (φM24 c ρ)).Normal :=
     hNnorm.map (φM24 c ρ) (φM24_surjective (c := c) (ρ := ρ))
-  haveI : IsSimpleGroup ↥M24g := CFSG.Monster.Code.AutPerm_isSimpleGroup
+  have : IsSimpleGroup ↥M24g := CFSG.Monster.Code.AutPerm_isSimpleGroup
   have hcardM : Nat.card ↥M24g = 244823040 := CFSG.Monster.Code.card_AutPerm
   have hQcard : Nat.card ↥(N.map (φM24 c ρ)) ≤ Nat.card ↥N :=
     Nat.card_le_card_of_surjective
@@ -300,7 +300,7 @@ theorem exists_conj_φ_of_mulEquiv {ρ : ResM24 c}
   classical
   have hE := c.map_E_of_mulEquiv (ρ := ρ) ψ
   let E : Subgroup ↥c.G1 := c.E.subgroupOf c.G1
-  haveI hEnorm : E.Normal :=
+  have hEnorm : E.Normal :=
     ⟨fun e he g => by
       rw [Subgroup.mem_subgroupOf] at he ⊢
       exact (Subgroup.mem_normalizer_iff.mp g.2 (e : G)).mp he⟩

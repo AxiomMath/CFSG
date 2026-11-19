@@ -15,6 +15,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16h_sl4ca1aa_conjSubgroup_le_of_mem {A M : Subgroup G} (hA : A ≤ M) {x : G}
     (hx : x ∈ M) : conjSubgroup A x ≤ M := by
   intro y hy
@@ -23,6 +24,7 @@ private theorem s16h_sl4ca1aa_conjSubgroup_le_of_mem {A M : Subgroup G} (hA : A 
   have e : x⁻¹ * (x * y * x⁻¹) * x = y := by group
   rwa [e] at h1
 
+omit [Finite G] in
 private theorem s16h_sl4ca1aa_barSub_sup {V₀ V : Subgroup G} (hV : IsElemAbelian 2 V)
     {A B : Subgroup G} (hA : A ≤ stabTil V₀ V) (hB : B ≤ stabTil V₀ V) :
     barSub V₀ V hV (A ⊔ B) = barSub V₀ V hV A ⊔ barSub V₀ V hV B := by
@@ -85,7 +87,7 @@ theorem s16h_sl4_engine_b_three_dvd_kernel_rank_two
     change barSub ⊥ V hV (conjSubgroup L x ⊔ F11.CTilde D.M ⊥ V) =
       barSub ⊥ V hV (conjSubgroup L x)
     rw [s16h_sl4ca1aa_barSub_sup hV (hLxM.trans hMs) (hCTM.trans hMs), hbarCT, sup_bot_eq]
-  haveI : Group.IsPerfect ↥(barSub ⊥ V hV L) := ⟨hcomp.2.2.1⟩
+  have : Group.IsPerfect ↥(barSub ⊥ V hV L) := ⟨hcomp.2.2.1⟩
   have hperfBar : Group.IsPerfect ↥(barSub ⊥ V hV (conjSubgroup L x)) := by
     rw [s15_Infra_barSub_conjSubgroup ⊥ V hV (hMs hxM) L]
     exact Group.IsPerfect.map (MulAut.conj (actTil ⊥ V hV ⟨x, hMs hxM⟩)⁻¹).toMonoidHom
@@ -114,7 +116,7 @@ theorem s16h_sl4_engine_b_three_dvd_kernel_rank_two
   have hPe : P ≃* P' := Subgroup.equivMapOfInjective P Hsub.subtype Hsub.subtype_injective
   have hP'p : IsPGroup 3 P' := hPp.of_equiv hPe
   have hP'c : ¬ IsCyclic ↥P' := fun hc => hPc (hPe.isCyclic.2 hc)
-  haveI : Fact (IsPGroup 3 ↥P') := ⟨hP'p⟩
+  have : Fact (IsPGroup 3 ↥P') := ⟨hP'p⟩
   obtain ⟨E', -, hE'card, hE'el⟩ := CFSG.lemma_4_5_a (p := 3) (R := ↥P') (by norm_num) hP'c
   let E : Subgroup G := E'.map P'.subtype
   have hE_le_P' : E ≤ P' := Subgroup.map_subtype_le E'

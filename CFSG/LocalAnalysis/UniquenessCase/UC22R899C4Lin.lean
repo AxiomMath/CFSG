@@ -12,7 +12,7 @@ theorem uc22r899c4_exists_coord {p : ℕ} [hp : Fact p.Prime] (hp3 : p % 3 ≠ 1
       (x * a + y * c ≠ 0 ∨ x * c + y * b ≠ 0) := by
   refine ⟨a - c, a - b, by ring, ?_⟩
   by_contra h
-  push_neg at h
+  push Not at h
   obtain ⟨h0, h2⟩ := h
   have hkey : (b - a) ^ 2 * (a ^ 2 + a * b + b ^ 2) = 0 := by
     linear_combination (a ^ 2 + b * c - a * b) * h0 + (-b ^ 2) * h2
@@ -30,7 +30,7 @@ theorem uc22r899c4_exists_coord {p : ℕ} [hp : Fact p.Prime] (hp3 : p % 3 ≠ 1
     intro h0
     rw [h0] at ht2
     norm_num at ht2
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have ho : orderOf (b * a⁻¹) = 3 := orderOf_eq_prime ht3 ht1
   have hd : 3 ∣ p - 1 := ho ▸ orderOf_dvd_of_pow_eq_one (ZMod.pow_card_sub_one_eq_one ht0)
   have h2 := hp.out.two_le

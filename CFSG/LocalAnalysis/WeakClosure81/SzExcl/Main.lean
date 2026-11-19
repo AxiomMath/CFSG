@@ -14,7 +14,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.WeakClosure81.SevenK
 
 theorem sevenSevenTwoInput_holds (G : Type) [Group G] [Finite G] : SevenSevenTwoInput G := by
   intro V H E h X _ φ hφ hV2 hodd n hn hSz
-  haveI : Finite X := Finite.of_surjective φ hφ.surjective
+  have : Finite X := Finite.of_surjective φ hφ.surjective
   obtain ⟨a, -, hB⟩ := CFSG.Quasithin.F7Two.benderType_of_suzukiModel hSz
   have hne : barSub (kSub V H E) φ V ≠ ⊥ := by
     intro hbot

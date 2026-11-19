@@ -55,7 +55,7 @@ public theorem theorem_8_2_b
       intro p hp P
       exact hcyc ⟨p, hp⟩ P
     have hcardU : Nat.card U = Monoid.exponent U := by
-      letI : IsZGroup U := hZU
+      let : IsZGroup U := hZU
       exact (IsZGroup.exponent_eq_card U).symm
     have hcardU0U : Nat.card U0 = Nat.card U :=
       h82a.trans hcardU.symm

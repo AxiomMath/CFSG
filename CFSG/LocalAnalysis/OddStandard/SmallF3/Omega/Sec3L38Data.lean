@@ -14,11 +14,11 @@ open Subgroup CFSG.Blueprint CFSG.ComponentClassification.UnbalancedCatalog.Even
 
 theorem asc82Omega8MinusData_holds : Asc82Omega8MinusData := by
   intro G _ _ L hL hmod
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨V, i1, i2, i3, Q, hQ, hdim, hs, ⟨e⟩⟩ := isOmegaStar_of_lieModel_minus hmod
-  letI := i1
-  letI := i2
-  letI := i3
+  let := i1
+  let := i2
+  let := i3
   have hπQ : piOrth Q ∉ omegaGroup hQ := by
     rw [piOrth_mem_omegaGroup_iff hQ, hdim, hs]
     decide

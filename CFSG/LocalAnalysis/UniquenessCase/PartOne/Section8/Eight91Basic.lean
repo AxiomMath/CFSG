@@ -71,7 +71,7 @@ private theorem k891basic_isSylowOf_barImage_top {G : Type} [Group G] [Finite G]
       (QuotientGroup.mk'_surjective _) Q).symm
   rw [hbar, CFSG.ABGLocalTools.isSylowOf_iff]
   refine ⟨le_top, (Sylow.mapSurjective (QuotientGroup.mk'_surjective
-    (CFSG.pCore 2 ↥L)) Q).isPGroup', ?_⟩
+    (CFSG.pCore 2 ↥L)) Q).isPGroup, ?_⟩
   rw [Subgroup.relIndex_top_right]
   exact (Sylow.mapSurjective (QuotientGroup.mk'_surjective (CFSG.pCore 2 ↥L)) Q).not_dvd_index
 

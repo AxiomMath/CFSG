@@ -82,12 +82,12 @@ private theorem isSylowTwoOf_map_hypUnitriangular {f R ε : ℕ} {L : Type} [Fie
     (hker : ∀ s, α s = 1 → s ∈ hypScalars h R ε) (hR : 1 ≤ R) (hε : ε ≤ 1) :
     CFSG.QuasithinUnique.IsSylowTwoOf ((hypUnitriangular h R ε).map α) ⊤ := by
   have hcardUmapSylow := card_map_hypUnitriangular h α hα hker hR hε
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P2 : Sylow 2 K := Sylow.ofCard ((hypUnitriangular h R ε).map α) hcardUmapSylow
   have hP2 : (P2 : Subgroup K) = (hypUnitriangular h R ε).map α := Sylow.coe_ofCard _ _
   refine ⟨le_top, ?_, ?_⟩
   · rw [← hP2]
-    exact P2.isPGroup'
+    exact P2.isPGroup
   · have hP2' : ((hypUnitriangular h R ε).map α : Subgroup K) = (P2 : Subgroup K) := hP2.symm
     rw [hP2']
     change ¬ 2 ∣ (P2 : Subgroup K).relIndex ⊤
@@ -164,9 +164,9 @@ theorem k_CartanRankLarge_psu :
   obtain ⟨L, hFld, hFin, h, ⟨e⟩⟩ :=
     uc22pwliu_exists_hypPSU (Y := K ⧸ Subgroup.center K) (n := f) (r := R) (ε := ε)
       (by omega) (by omega) (by simpa [hmR] using hL)
-  letI : Field L := hFld
-  letI : Finite L := hFin
-  haveI : CharP L 2 := h.charP
+  let : Field L := hFld
+  let : Finite L := hFin
+  have : CharP L 2 := h.charP
   obtain ⟨α, hα, hker, -⟩ :=
     uc22pwliu_exists_cover (K := L) h (r := R) (ε := ε) hε1 hm3 hf2 hqs e
   obtain ⟨μ, hsplit, D, hoddμ, hcardμ, hDdef, hDEA, hDcard, hDU⟩ :=
@@ -180,7 +180,6 @@ theorem k_CartanRankLarge_psu :
   have hDEAmap : IsElemAbelian r (D.map α) := CFSG.SectionRank.isElemAbelian_map hDEA α
   have hDmapcard : Nat.card (D.map α) = r ^ R := by
     rw [hDdef]
-    change Nat.card ((splitTorusHom h R ε μ hsplit).range.map α) = r ^ R
     rw [splitTorusHom_range_map_card (r := R) (ε := ε) hsplit hoddμ α hker, hcardμ]
   have hbridge := le_pRank_normalizerQuotient_of_le_normalizer (K := K) hr hr2
     hSylowAU.2.1 hmap_le hDEAmap hDmapcard

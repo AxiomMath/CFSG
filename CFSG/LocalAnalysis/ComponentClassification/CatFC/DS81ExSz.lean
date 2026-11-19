@@ -25,12 +25,12 @@ theorem lie23To89At_twistedB2 : Lie23To89At .twistedB2 := by
   · exact absurd h (by decide)
   · exact absurd h (by decide)
   obtain ⟨-, a, ha, K, _, _, hf, hKcard, ⟨e⟩⟩ := h
-  haveI : Finite (suzukiGroup a K) := Finite.of_equiv _ e.toEquiv
+  have : Finite (suzukiGroup a K) := Finite.of_equiv _ e.toEquiv
   have hK : Nat.card K = 2 ^ (2 * a + 1) := by rw [← hf]; exact hKcard
   obtain ⟨P, -, hP, -⟩ :=
     (CFSG.RankThree.Suzuki_involution_centralizers_and_inner_odd_centralizers ha hK).1 (e τ)
       (by rw [MulEquiv.orderOf_eq]; exact hτ)
-  obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨m, hm⟩ := IsPGroup.iff_card.mp P.isPGroup
   rw [card_centralizer_mulEquiv_ex e τ, hP, hm] at h23
   exact absurd (Nat.Prime.dvd_of_dvd_pow (by norm_num) h23) (by norm_num)
 

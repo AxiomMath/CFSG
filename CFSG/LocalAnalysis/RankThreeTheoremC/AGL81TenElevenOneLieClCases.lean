@@ -126,8 +126,8 @@ theorem kFactTenElevenOneLieCl_of_cases (hKC : RankOneCent.KFactCentralThreeClas
     (hPP : KFactParabolicPerfectThree) (hA6 : KFactTripleAltSixHTwo)
     (hB : KFactTenElevenOneLieAut) : KFactTenElevenOneLieCl := by
   intro Y _ _ L hLn hq hO hcl hJ hrk hE hN
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI := hLn
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have := hLn
   obtain ⟨E, hEe, hEc, hEr⟩ := id hE
   have hH2 : ¬ ∀ D : Subgroup Y, IsElemAbelian 3 D → Nat.card D = 3 ^ 2 →
       3 ≤ Open.pRank 3 (centralizer (D : Set Y)) := fun h => by
@@ -152,7 +152,7 @@ theorem kFactTenElevenOneLieCl_of_cases (hKC : RankOneCent.KFactCentralThreeClas
         obtain ⟨T, J, ⟨-, hT2, hTi⟩, hTJ, hJT, hJt⟩ := hJ
         change ¬ 2 ∣ T.relIndex ⊤ at hTi
         rw [Subgroup.relIndex_top_right] at hTi
-        haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+        have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
         have h := hmax (hT2.toSylow hTi) J (by rw [IsPGroup.toSylow_coe]; exact hTJ) hJt
         rw [IsPGroup.toSylow_coe] at h
         exact hJT h
@@ -165,7 +165,7 @@ theorem kFactTenElevenOneLieCl_of_cases (hKC : RankOneCent.KFactCentralThreeClas
           (by rw [CFSG.RankThreeCoreUniqueness.Helpers.pCoreOf_top_eq_pCore, hO]))
       have hLbot : L ≠ ⊥ := by
         intro h
-        haveI := hq.2.toNontrivial
+        have := hq.2.toNontrivial
         obtain ⟨x, y, hxy⟩ := exists_pair_ne (↥L ⧸ Subgroup.center ↥L)
         obtain ⟨x, rfl⟩ := QuotientGroup.mk_surjective x
         obtain ⟨y, rfl⟩ := QuotientGroup.mk_surjective y

@@ -32,30 +32,24 @@ theorem mem_utri_iff_eq_unitri {g : SL(2, F)} :
     fin_cases i <;> fin_cases j <;> simp [h00, h10, h11]
   · rintro ⟨t, ht⟩
     refine mem_utri_entries.mpr ⟨?_, ?_⟩
-    · change (g : Matrix (Fin 2) (Fin 2) F) 1 0 = 0
-      rw [ht]
+    · rw [ht]
       simp
-    · change (g : Matrix (Fin 2) (Fin 2) F) 0 0 = 1
-      rw [ht]
+    · rw [ht]
       simp
 
 theorem eq_utriElt_of_eq_unitri {g : SL(2, F)} {t : F}
     (h : (g : Matrix (Fin 2) (Fin 2) F) = !![1, t; 0, 1]) : g = utriElt t := by
   refine sl2_ext ?_ ?_ ?_ ?_
   · rw [utriElt_apply_00]
-    change (g : Matrix (Fin 2) (Fin 2) F) 0 0 = 1
     rw [h]
     simp
   · rw [utriElt_apply_01]
-    change (g : Matrix (Fin 2) (Fin 2) F) 0 1 = t
     rw [h]
     simp
   · rw [utriElt_apply_10]
-    change (g : Matrix (Fin 2) (Fin 2) F) 1 0 = 0
     rw [h]
     simp
   · rw [utriElt_apply_11]
-    change (g : Matrix (Fin 2) (Fin 2) F) 1 1 = 1
     rw [h]
     simp
 
@@ -226,7 +220,7 @@ theorem exists_sup_eq_of_coprime {G : Type*} [Group G] [Finite G] {N X : Subgrou
     (hXN : X ≤ Subgroup.normalizer (N : Set G)) (k : ℕ) (hcard : Nat.card X = Nat.card N * k)
     (hcop : Nat.Coprime (Nat.card N) k) :
     ∃ H : Subgroup G, H ≤ X ∧ N ⊔ H = X ∧ Nat.card H = k := by
-  haveI : (N.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXN
+  have : (N.subgroupOf X).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hXN
   have hNc : Nat.card (N.subgroupOf X) = Nat.card N :=
     Nat.card_congr (Subgroup.subgroupOfEquivOfLe hNX).toEquiv
   have hidx : (N.subgroupOf X).index = k := by
@@ -273,7 +267,7 @@ theorem range_upperUnipotent_eq_utri (F : Type) [Field F] :
 
 theorem exists_conj_mem_iff {G : Type*} [Group G] {L S : Subgroup G} {F : Type} [Field F]
     [Finite F] [CharP F 2] (hS : IsSylowTwoOf S L) (α : ↥L →* SL(2, F))
-    (hα : Function.Surjective α) (hker : α.ker = CFSG.pCore 2 ↥L) :
+    (_hα : Function.Surjective α) (hker : α.ker = CFSG.pCore 2 ↥L) :
     ∃ X : SL(2, F), ∀ x : ↥L, (x : G) ∈ S ↔ X * α x * X⁻¹ ∈ utri F := by
   classical
   have hS2 : IsPGroup 2 (S.subgroupOf L) :=
@@ -440,7 +434,7 @@ private theorem odd_two_pow_sub_one_of_ne_zero {k : ℕ} (hk : k ≠ 0) : Odd (2
 
 private theorem odd_card_of_eq_sub_one {F : Type} [Field F] [Finite F] [CharP F 2]
     {T : Subgroup SL(2, F)} (hcard : Nat.card T = Nat.card F - 1) : Odd (Nat.card T) := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨n, -, hq⟩ := FiniteField.card F 2
   have hFcard : Nat.card F = 2 ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -467,9 +461,9 @@ private theorem exists_diag_bij {F : Type} [Field F] [Finite F] [CharP F 2]
     {T : Subgroup SL(2, F)} (hT : T ≤ borel F) (hcard : Nat.card T = Nat.card F - 1) :
     ∃ π : ↥T →* Fˣ, Function.Bijective π ∧
       ∀ t : ↥T, ((π t : Fˣ) : F) = (t : SL(2, F)) 0 0 := by
-  haveI : Fintype F := Fintype.ofFinite F
-  haveI hTfin : Fintype ↥T := Fintype.ofFinite _
-  haveI hUfin : Fintype Fˣ := Fintype.ofFinite _
+  have : Fintype F := Fintype.ofFinite F
+  have hTfin : Fintype ↥T := Fintype.ofFinite _
+  have hUfin : Fintype Fˣ := Fintype.ofFinite _
   have hdisj : utri F ⊓ T = ⊥ := inf_utri_eq_bot_of_odd (odd_card_of_eq_sub_one hcard)
   let π : ↥T →* Fˣ := (diagBorel (F := F)).comp (Subgroup.inclusion hT)
   have hπval : ∀ t : ↥T, ((π t : Fˣ) : F) = (t : SL(2, F)) 0 0 := fun t => by
@@ -556,7 +550,7 @@ private theorem exists_utriElt_conj_eq_torusElt {F : Type} [Field F] [CharP F 2]
       exact haf
     · sl2_simp
       rw [hg10, hg11, hg00, hbdef]
-      simp only [mul_one, one_mul, mul_zero, zero_mul, add_zero, zero_add]
+      simp only [mul_one, one_mul, mul_zero, add_zero]
       rw [show af * (b / (af + af⁻¹)) + (b + (b / (af + af⁻¹)) * af⁻¹) =
         (af * (b / (af + af⁻¹)) + (b / (af + af⁻¹)) * af⁻¹) + b by ring]
       rw [show af * (b / (af + af⁻¹)) = (b / (af + af⁻¹)) * af from mul_comm _ _, hs',
@@ -587,7 +581,7 @@ theorem exists_utri_conj_eq_torus {F : Type} [Field F] [Finite F] [CharP F 2]
     have htor : torus F = ⊥ := by
       refine Subgroup.eq_bot_of_card_eq _ ?_
       rw [card_torus, ← hcard, hTbot, Subgroup.card_bot]
-    exact ⟨1, by simpa using utriElt_mem_utri (0 : F), by rw [hTbot, htor, Subgroup.map_bot]⟩
+    exact ⟨1, by simp, by rw [hTbot, htor, Subgroup.map_bot]⟩
   · obtain ⟨u, hu, hkey⟩ := exists_utriElt_conj_eq_torusElt (hT g.2) ha1 hgval
     have hconjapp : (MulEquiv.toMonoidHom (MulAut.conj u)) (g : SL(2, F)) = torusElt a := by
       rw [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]

@@ -22,15 +22,12 @@ theorem tw6SixZ3_mulVec {p q : ℕ} (hq : (q : ZMod p) ^ 2 - (q : ZMod p) + 1 = 
     = (-(q : ZMod p)) • (tw6SixZ3 p q)
   funext i
   revert i
-  change ∀ i : Fin 6,
-    (((e6T3Matrix6.map (Int.cast : ℤ → ZMod p)).transpose).mulVec (tw6SixZ3 p q)) i
-      = ((-(q : ZMod p)) • (tw6SixZ3 p q)) i
   intro i
   fin_cases i <;>
     change (((e6T3Matrix6.map (Int.cast : ℤ → ZMod p)).transpose).mulVec (tw6SixZ3 p q)) _
       = (-(q : ZMod p)) * tw6SixZ3 p q _ <;>
     simp [Matrix.mulVec, dotProduct, Fin.sum_univ_six, e6T3Matrix6, tw6SixZ3]
-  all_goals (first | rfl | ring)
+  all_goals (first | ring)
   · linear_combination -hq
   · linear_combination hq
 
@@ -80,21 +77,21 @@ private theorem tw6Six_mulVec_zero (p : ℕ) (z : Fin Tag.E6.rank → ZMod p) :
   change ((e6T3Matrix6.map (Int.cast : ℤ → ZMod p)).transpose).mulVec z 0
     = z 1 + z 2 + z 3 + z 4 + z 5
   simp [Matrix.mulVec, dotProduct, Fin.sum_univ_six, e6T3Matrix6]
-  first | rfl | ring
+  first | rfl
 
 private theorem tw6Six_mulVec_two (p : ℕ) (z : Fin Tag.E6.rank → ZMod p) :
     ((dualMatrix (ZMod p) e6T3W) *ᵥ z) 2 = z 3 := by
   rw [dualMatrix_e6T3W]
   change ((e6T3Matrix6.map (Int.cast : ℤ → ZMod p)).transpose).mulVec z 2 = z 3
   simp [Matrix.mulVec, dotProduct, Fin.sum_univ_six, e6T3Matrix6]
-  first | rfl | ring
+  first | rfl
 
 private theorem tw6Six_mulVec_one (p : ℕ) (z : Fin Tag.E6.rank → ZMod p) :
     ((dualMatrix (ZMod p) e6T3W) *ᵥ z) 1 = z 2 + z 3 + z 4 := by
   rw [dualMatrix_e6T3W]
   change ((e6T3Matrix6.map (Int.cast : ℤ → ZMod p)).transpose).mulVec z 1 = z 2 + z 3 + z 4
   simp [Matrix.mulVec, dotProduct, Fin.sum_univ_six, e6T3Matrix6]
-  first | rfl | ring
+  first | rfl
 
 private theorem tw6Six_mulVec_four (p : ℕ) (z : Fin Tag.E6.rank → ZMod p) :
     ((dualMatrix (ZMod p) e6T3W) *ᵥ z) 4 = -z 1 + -z 3 + -z 4 := by
@@ -102,7 +99,7 @@ private theorem tw6Six_mulVec_four (p : ℕ) (z : Fin Tag.E6.rank → ZMod p) :
   change ((e6T3Matrix6.map (Int.cast : ℤ → ZMod p)).transpose).mulVec z 4
     = -z 1 + -z 3 + -z 4
   simp [Matrix.mulVec, dotProduct, Fin.sum_univ_six, e6T3Matrix6]
-  first | rfl | ring
+  first | rfl
 
 private theorem tw6Six_eigen_eq_zero {p q : ℕ} [Fact p.Prime] [NeZero p]
     (hq : (q : ZMod p) ^ 2 - (q : ZMod p) + 1 = 0)
@@ -112,7 +109,7 @@ private theorem tw6Six_eigen_eq_zero {p q : ℕ} [Fact p.Prime] [NeZero p]
   have hq0 : (q : ZMod p) ≠ 0 := by
     intro h
     rw [h] at hq
-    have h1 : (1 : ZMod p) = 0 := by simpa using hq
+    have h1 : (1 : ZMod p) = 0 := by simp at hq
     exact one_ne_zero h1
   have h2 : z 3 = (-(q : ZMod p)) * z 2 := by
     have h := congrFun hz 2
@@ -151,11 +148,11 @@ private theorem tw6Six_eigen_eq_zero {p q : ℕ} [Fact p.Prime] [NeZero p]
   funext i
   fin_cases i <;> assumption
 
-theorem tw6Six_charSpace_card {p q : ℕ} [Fact p.Prime] (hp5 : 5 < p)
+theorem tw6Six_charSpace_card {p q : ℕ} [Fact p.Prime] (_hp5 : 5 < p)
     (hq : (q : ZMod p) ^ 2 - (q : ZMod p) + 1 = 0) :
     Nat.card {z : Fin Tag.E6.rank → ZMod p //
       (dualMatrix (ZMod p) e6T3W) *ᵥ z = (-(q : ZMod p)) • z} = p ^ 3 := by
-  haveI : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
+  have : NeZero p := ⟨(Fact.out : p.Prime).ne_zero⟩
   have hle1 : Nat.card {z : Fin Tag.E6.rank → ZMod p //
       (dualMatrix (ZMod p) e6T3W) *ᵥ z = (-(q : ZMod p)) • z}
       ≤ Nat.card (Fin 3 → ZMod p) := by
@@ -182,15 +179,15 @@ theorem tw6Six_charSpace_card {p q : ℕ} [Fact p.Prime] (hp5 : 5 < p)
     intro v w hvw
     have h3 : v 0 = w 0 := by
       have h := congrFun (congrArg Subtype.val hvw) 3
-      simp only [Subtype.coe_mk] at h
+      simp only at h
       rwa [tw6Six_lin_three, tw6Six_lin_three] at h
     have h4 : v 1 = w 1 := by
       have h := congrFun (congrArg Subtype.val hvw) 4
-      simp only [Subtype.coe_mk] at h
+      simp only at h
       rwa [tw6Six_lin_four, tw6Six_lin_four] at h
     have h5 : v 2 = w 2 := by
       have h := congrFun (congrArg Subtype.val hvw) 5
-      simp only [Subtype.coe_mk] at h
+      simp only at h
       rwa [tw6Six_lin_five, tw6Six_lin_five] at h
     funext i
     fin_cases i <;> assumption
@@ -220,7 +217,7 @@ theorem tw6Six_eigen_points_mem {L : Type} [Field L] [IsAlgClosed L] {Fr : L →
     intro a b hab
     refine Subtype.ext ?_
     rw [hg a, hg b, hab]
-  haveI : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hAcard]; positivity)
+  have : Finite ↥A := Nat.finite_of_card_ne_zero (by rw [hAcard]; positivity)
   have hVcard : Nat.card (Tw6SixEigen p q) = p ^ 3 := tw6Six_charSpace_card hp5 hq
   have hsurj : Function.Surjective g := by
     have hrange : (Set.range g).ncard = Nat.card ↥A := Set.ncard_range_of_injective hginj

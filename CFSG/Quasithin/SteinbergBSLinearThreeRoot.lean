@@ -977,7 +977,7 @@ theorem qrc_linear_three_diagram_actors_confine_normal_elementary_subgroups_to_t
       rw [isSylowOf_iff]
       refine ⟨le_top, ?_, ?_⟩
       · rw [← hPu]
-        exact Pu.isPGroup'
+        exact Pu.isPGroup
       · rw [relIndex_top_right, ← hPu]
         exact Pu.not_dvd_index
     have h2 := CFSG.QuasithinUnique.Setup.X6.isSylowOf_map_injective _ hι h1

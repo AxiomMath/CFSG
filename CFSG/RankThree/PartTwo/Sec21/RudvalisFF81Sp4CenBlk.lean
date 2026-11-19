@@ -140,7 +140,7 @@ private theorem eq_of_block {m T : M6} (hm : m * U0 = U0 * m) (hT : T * U0 = U0 
 
 private theorem blkDiag_of_not (A : M4) {i j : Fin 6} (h : ¬ (i.val < 4 ∧ j.val < 4)) :
     blkDiag A i j = (1 : M6) i j := by
-  simp only [blkDiag, Matrix.of_apply, dif_neg h]
+  simp only [blkDiag, Matrix.of_apply, dite_eq_right h]
 
 theorem blkDiag_topIdx (A : M4) (i j : Fin 4) : blkDiag A (topIdx i) (topIdx j) = A i j := by
   simp [blkDiag, topIdx]

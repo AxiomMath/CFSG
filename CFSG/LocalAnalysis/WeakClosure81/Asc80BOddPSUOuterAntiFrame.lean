@@ -200,7 +200,7 @@ private theorem sum_commProjM {A A' : Matrix (Fin 4) (Fin 4) K} {l : K}
   generalize A *ᵥ v = y₁
   generalize A' *ᵥ v = y₂
   generalize A *ᵥ y₂ = y₃
-  simp only [if_true, Bool.false_eq_true, if_false]
+  simp only [ite_true, Bool.false_eq_true, ite_false]
   match_scalars <;> field_simp <;> ring
 
 private theorem mulVec_finset_sum {ι : Type} [Fintype ι]

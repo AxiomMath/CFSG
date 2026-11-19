@@ -55,7 +55,7 @@ theorem eq_one_of_perm_fixed (hM : UnitTB.Model φ) (hd : 3 ≤ d) {A : Subgroup
   obtain ⟨t, hat⟩ := hdiag a ha
   exact eq_one_of_conj_perm hM hd hat fun σ => hfix _ ⟨σ, rfl⟩
 
-theorem conj_mul_inv_mem_heart (hM : UnitTB.Model φ) (hp : p.Prime) (hpq : p ∣ 2 ^ n + 1)
+theorem conj_mul_inv_mem_heart (hM : UnitTB.Model φ) (_hp : p.Prime) (hpq : p ∣ 2 ^ n + 1)
     (hd : 3 ≤ d) {A : Subgroup (MulAut L')} (hAp : ∀ a ∈ A, a ^ p = 1)
     (hdiag : ∀ a ∈ A, ∃ t : Fin d → K, ActsDiagU φ a t) (σ : Equiv.Perm (Fin d))
     {a : MulAut L'} (ha : a ∈ A) :

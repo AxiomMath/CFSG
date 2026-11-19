@@ -14,13 +14,15 @@ open Subgroup
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 private lemma w16l_map_conjSubgroup (α : MulAut X) (A : Subgroup X) (g : X) :
     (conjSubgroup A g).map α.toMonoidHom =
       conjSubgroup (A.map α.toMonoidHom) (α g) := by
   ext y
   simp only [Subgroup.mem_map_equiv, mem_conjSubgroup_iff, map_mul, map_inv,
-    MulEquiv.symm_apply_apply, MulEquiv.apply_symm_apply]
+    MulEquiv.symm_apply_apply]
 
+omit [Finite X] in
 private lemma w16l_mem_normalizer_conj {A : Subgroup X} {g w : X} :
     g * w * g⁻¹ ∈ Subgroup.normalizer (A : Set X) ↔
       w ∈ Subgroup.normalizer (conjSubgroup A g : Set X) := by
@@ -29,17 +31,19 @@ private lemma w16l_mem_normalizer_conj {A : Subgroup X} {g w : X} :
   · intro h y
     have := h (g * y * g⁻¹)
     rw [mem_conjSubgroup_iff, mem_conjSubgroup_iff]
-    convert this using 2 <;> group
+    convert this using 2; group
   · intro h y
     have := h (g⁻¹ * y * g)
     rw [mem_conjSubgroup_iff, mem_conjSubgroup_iff] at this
     convert this using 2 <;> group
 
+omit [Finite X] in
 private lemma w16l_conjSubgroup_mul_inv_eq {A : Subgroup X} {g h : X}
     (hgh : conjSubgroup A h = conjSubgroup A g) : conjSubgroup A (h * g⁻¹) = A := by
   rw [← conjSubgroup_conjSubgroup A h g⁻¹, hgh, conjSubgroup_conjSubgroup A g g⁻¹,
     mul_inv_cancel, conjSubgroup_one]
 
+omit [Finite X] in
 private lemma w16l_ne_bot_of_card_two_pow {Y : Subgroup X} {n : ℕ} (hn : 1 < n)
     (hY : Nat.card Y = 2 ^ n) : Y ≠ ⊥ := by
   intro hbot
@@ -54,10 +58,10 @@ theorem mulAut_eq_one_of_normalizes_conj (hperf : commutator X = ⊤)
     (hodd : Odd (Nat.card (Subgroup.center X))) {Y : Subgroup X} (hY2 : IsPGroup 2 Y)
     (hY1 : Y ≠ ⊥) (α : MulAut X)
     (hα : ∀ x : X, (conjSubgroup Y x).map α.toMonoidHom = conjSubgroup Y x) : α = 1 := by
-  haveI : Nontrivial X := by
+  have : Nontrivial X := by
     by_contra h
     rw [not_nontrivial_iff_subsingleton] at h
-    haveI := h
+    have := h
     exact hY1 (Subgroup.eq_bot_of_subsingleton Y)
   have hYnotNormal : ¬ Y.Normal := by
     intro hYN
@@ -74,8 +78,8 @@ theorem mulAut_eq_one_of_normalizes_conj (hperf : commutator X = ⊤)
       exact hY1 ((Subgroup.eq_bot_iff_card Y).2 hcard1)
     · have htop2 : IsPGroup 2 (⊤ : Subgroup X) := by rwa [← hYtop]
       have hX2 : IsPGroup 2 X := htop2.of_equiv Subgroup.topEquiv
-      haveI : Group.IsNilpotent X := hX2.isNilpotent
-      haveI : Group.IsPerfect X := ⟨hperf⟩
+      have : Group.IsNilpotent X := hX2.isNilpotent
+      have : Group.IsPerfect X := ⟨hperf⟩
       exact Group.IsPerfect.not_isNilpotent X hX2.isNilpotent
   let N : X → Subgroup X := fun x => Subgroup.normalizer (conjSubgroup Y x : Set X)
   let K : Subgroup X := ⨅ x, N x
@@ -133,13 +137,14 @@ theorem mulAut_eq_one_of_normalizes_conj (hperf : commutator X = ⊤)
   have h2 : α g * g⁻¹ = 1 := congrArg Subtype.val h1
   exact mul_inv_eq_one.1 h2
 
+omit [Finite X] in
 private lemma w16l_simple_facts {Y : Subgroup X} {n : ℕ} (hn : 1 < n)
     (hY : Nat.card Y = 2 ^ n) (hS : IsSimpleGroup X) :
     (∃ a b : X, a * b ≠ b * a) ∧ commutator X = ⊤ ∧ Subgroup.center X = ⊥ := by
-  haveI := hS.toNontrivial
+  have := hS.toNontrivial
   have hna : ∃ a b : X, a * b ≠ b * a := by
     by_contra h
-    haveI : IsMulCommutative X := by
+    have : IsMulCommutative X := by
       rw [isMulCommutative_iff]
       intro a b
       by_contra hab
@@ -164,7 +169,7 @@ private lemma w16l_simple_facts {Y : Subgroup X} {n : ℕ} (hn : 1 < n)
     rw [hp2] at h4
     norm_num at h4
   have hperf : commutator X = ⊤ := by
-    haveI : (commutator X).Normal := by
+    have : (commutator X).Normal := by
       rw [show commutator X = ⁅(⊤ : Subgroup X), (⊤ : Subgroup X)⁆ from
         _root_.commutator_def X]
       infer_instance
@@ -214,15 +219,15 @@ theorem autRank166_faith_sz {Y : Subgroup X} {n : ℕ} (hn : 1 < n) (hY : Nat.ca
 theorem autRank166_faith_u3 {Y : Subgroup X} {n : ℕ} (hn : 1 < n) (hY : Nat.card Y = 2 ^ n)
     (hYe : IsElemAbelian 2 Y) (hX : IsU3Shape X n) (α : MulAut X)
     (hα : ∀ x : X, (conjSubgroup Y x).map α.toMonoidHom = conjSubgroup Y x) : α = 1 := by
-  haveI hS : IsSimpleGroup (X ⧸ Subgroup.center X) :=
+  have hS : IsSimpleGroup (X ⧸ Subgroup.center X) :=
     CFSG.LocalAnalysis.EvenBN.GMSK.isSimpleGroup_of_lieModel_PSU3 hX.2.1
   have hodd : Odd (Nat.card (Subgroup.center X)) :=
     Odd.of_dvd_nat (by norm_num : Odd 3) hX.2.2
   have hsimp : ∀ N : Subgroup X, N.Normal → N ≤ Subgroup.center X ∨ N = ⊤ := by
     intro N hN
-    haveI := hN
+    have := hN
     let π : X →* X ⧸ Subgroup.center X := QuotientGroup.mk' (Subgroup.center X)
-    haveI hNmap : (N.map π).Normal :=
+    have hNmap : (N.map π).Normal :=
       hN.map π (QuotientGroup.mk'_surjective (N := Subgroup.center X))
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (N.map π) with hbot | htop
     · left
@@ -239,7 +244,7 @@ theorem autRank166_faith_u3 {Y : Subgroup X} {n : ℕ} (hn : 1 < n) (hY : Nat.ca
           Subgroup.commutator_sup_right N (Subgroup.center X) (Subgroup.center X)]
         rw [Subgroup.commutator_center_right, Subgroup.commutator_center_left,
           Subgroup.commutator_center_left]
-        simp only [sup_bot_eq, bot_sup_eq]
+        simp only [sup_bot_eq]
         exact Subgroup.commutator_le_left N N
       have htopN : (⊤ : Subgroup X) ≤ N := by
         calc (⊤ : Subgroup X) = commutator X := hX.1.symm

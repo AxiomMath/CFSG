@@ -35,11 +35,11 @@ theorem exists_sylow_centralizer_inf [Finite G] (t : G) (ht : orderOf t = 2) :
   have htP : (⟨t, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩ : C) ∈ (P : Subgroup C) :=
     Principal.mem_sylow_of_mem_center_of_orderOf_eq htc (k := 1)
       (by rw [Subgroup.orderOf_mk, ht, pow_one]) P
-  obtain ⟨S_t, hPS⟩ := (P.isPGroup'.map C.subtype).exists_le_sylow
+  obtain ⟨S_t, hPS⟩ := (P.isPGroup.map C.subtype).exists_le_sylow
   have htS : t ∈ (S_t : Subgroup G) := hPS (Subgroup.mem_map_of_mem _ htP)
   refine ⟨S_t, htS, P, ?_⟩
   have hR2 : IsPGroup 2 ((C ⊓ (S_t : Subgroup G)).subgroupOf C) :=
-    (S_t.isPGroup'.to_le inf_le_right).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_left).symm
+    (S_t.isPGroup.to_le inf_le_right).of_equiv (Subgroup.subgroupOfEquivOfLe inf_le_left).symm
   have hPR : (P : Subgroup C) ≤ (C ⊓ (S_t : Subgroup G)).subgroupOf C := fun c hc =>
     Subgroup.mem_subgroupOf.mpr ⟨c.2, hPS (Subgroup.mem_map_of_mem _ hc)⟩
   exact (P.maximal_isPGroup.eq_of_ge hR2 hPR).symm

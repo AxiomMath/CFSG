@@ -38,6 +38,7 @@ theorem q15_normal_Q1 (h : L41GPh10 t L S x₁ x₂ lam rho) :
   refine ⟨(q15_Q1_le_Q h.toL41GPh8).trans (q14_Q_le_M t x₁ x₂ rho), fun g hg k hk => ?_⟩
   exact (Subgroup.mem_normalizer_iff.mp (hMN hg) k).mp hk
 
+omit [Finite G] in
 theorem q15_V1_eq (hQ : l41Q t x₁ x₂ rho = l41Q1 t x₁ x₂ rho ⊔ zpowers t) :
     l41V1 t x₁ x₂ rho lam = l41Q t x₁ x₂ rho ⊔ zpowers lam := by
   have hcl : closure ({t, lam} : Set G) = zpowers t ⊔ zpowers lam := by

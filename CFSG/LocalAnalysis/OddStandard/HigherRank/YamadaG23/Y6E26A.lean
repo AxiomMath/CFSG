@@ -48,15 +48,15 @@ theorem y6e_pcore_eq {N M : Subgroup G} (hMN : M ≤ N) (hM : IsPGroup 2 ↥M)
     (hq : SecProp N M (fun Y _ _ _ => Nonempty (Y ≃* Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)))) :
     pCoreOf 2 (⊤ : Subgroup ↥N) = M.subgroupOf N := by
   obtain ⟨hn, ⟨e⟩⟩ := hq
-  haveI := hn
+  have := hn
   rw [pCoreOf_top_eq_pCore']
   refine le_antisymm ?_ ?_
   · intro x hx
     let π : ↥N →* (↥N ⧸ M.subgroupOf N) := QuotientGroup.mk' (M.subgroupOf N)
-    haveI : (((CFSG.pCore 2 ↥N).map π).map e.toMonoidHom).Normal :=
+    have : (((CFSG.pCore 2 ↥N).map π).map e.toMonoidHom).Normal :=
       ((CFSG.pCore_normal (G := ↥N) (p := 2)).map π Quotient.mk''_surjective).map
         e.toMonoidHom e.surjective
-    haveI : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
+    have : IsSimpleGroup (Matrix.GeneralLinearGroup (Fin 3) (ZMod 2)) :=
       CFSG.ComponentClassification.GHarris.isSimpleGroup_GL32_gh
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
       (((CFSG.pCore 2 ↥N).map π).map e.toMonoidHom) with hbot | htop
@@ -97,7 +97,7 @@ theorem y6e_isExt26_of_sub {n : ℕ} {N M : Subgroup G} (hMN : M ≤ N) (hM : Is
   · exact ⟨(MulEquiv.subgroupCongr h1).trans ((Subgroup.subgroupOfEquivOfLe hMN).trans e)⟩
   · rw [h1]
     obtain ⟨hn, ⟨e'⟩⟩ := hq
-    haveI := hn
+    have := hn
     unfold SecProp
     refine ⟨hn.subgroupOf (⊤ : Subgroup ↥N), ?_⟩
     have hsub : (Subgroup.topEquiv : ↥(⊤ : Subgroup ↥N) ≃* ↥N).toMonoidHom =

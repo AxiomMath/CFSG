@@ -48,7 +48,7 @@ theorem isCyclic_outer_statedSp (hF : Nat.card F = 2 ^ n) (hk : 1 ≤ k) :
     rw [hn0, pow_zero] at hF
     have h1 : 1 < Nat.card F := Finite.one_lt_card
     omega
-  haveI : CharP F 2 :=
+  have : CharP F 2 :=
     finite_field_prime_power_characteristic Nat.prime_two hn1 hF
   rcases Nat.lt_or_ge k 3 with hk3 | hk3
   · interval_cases k
@@ -56,7 +56,7 @@ theorem isCyclic_outer_statedSp (hF : Nat.card F = 2 ^ n) (hk : 1 ≤ k) :
       have hcyc := (even_SL2_full_automorphism_semilinear_model hn1 hF).2.2.1
       exact (equivalence (longBlockEquivOne F)).isCyclic.mp hcyc
     ·
-      haveI : Fintype F := Fintype.ofFinite F
+      have : Fintype F := Fintype.ofFinite F
       have hFt : Fintype.card F = 2 ^ n := by rw [Fintype.card_eq_nat_card, hF]
       have hcyc : IsCyclic (Outer (StatedProj (StatedSp 2 F))) :=
         (sp4OutCyclic F n hFt (by omega)).1
@@ -72,7 +72,7 @@ theorem mul_mem_range_conj_statedSp (hF : Nat.card F = 2 ^ n) (hk : 1 ≤ k)
     (hαo : α ∉ (MulAut.conj : ↥(StatedSp k F) →* MulAut ↥(StatedSp k F)).range)
     (hβo : β ∉ (MulAut.conj : ↥(StatedSp k F) →* MulAut ↥(StatedSp k F)).range) :
     α * β ∈ (MulAut.conj : ↥(StatedSp k F) →* MulAut ↥(StatedSp k F)).range := by
-  haveI := isCyclic_outer_statedSp hF hk
+  have := isCyclic_outer_statedSp hF hk
   exact mul_mem_range_conj_of_isCyclic_map (fun _ _ => inferInstance) hα hβ hαβ hαo hβo
 
 end CFSG.LocalAnalysis.WeakClosure81

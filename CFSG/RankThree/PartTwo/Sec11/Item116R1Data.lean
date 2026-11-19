@@ -18,6 +18,7 @@ noncomputable def thetaImage (a : G) (Y' : Subgroup G) :
   (Y'.subgroupOf (Subgroup.centralizer ({a} : Set G))).map
     (QuotientGroup.mk' (aschbacherSolvableCore 3 ↥(Subgroup.centralizer ({a} : Set G))))
 
+omit [Finite G] in
 theorem ad1_le_centralizer_of_mem {a : G} {Y : Subgroup G} (hY : Y ∈ thetaComponentsAt 3 a) :
     Y ≤ Subgroup.centralizer ({a} : Set G) := by
   obtain ⟨L, -, rfl⟩ := hY
@@ -70,6 +71,7 @@ theorem ad1_image_eq_aux {C Y K : Subgroup G} (hYC : Y ≤ C) (hKC : K ≤ C)
   rw [hx1]
   exact Subgroup.one_mem _
 
+omit [Finite G] in
 theorem subgroupOf_mem_thetaComponents {a : G} {Y' : Subgroup G} (hY' : Y' ∈ thetaComponentsAt 3 a) :
     Y'.subgroupOf (Subgroup.centralizer ({a} : Set G)) ∈
       thetaComponents 3 ↥(Subgroup.centralizer ({a} : Set G)) := by
@@ -102,7 +104,7 @@ theorem thetaImage_injective {a : G} {Y₁ Y₂ : Subgroup G} (h₁ : Y₁ ∈ t
     _ = Y₂ := Subgroup.map_subgroupOf_eq_of_le (ad1_le_centralizer_of_mem h₂)
 
 theorem thetaImage_eq_map_of_eq_sup {a : G} {Y' K : Subgroup G} (hY' : Y' ∈ thetaComponentsAt 3 a)
-    (hKY : K ≤ Y') (hKa : K ≤ Subgroup.centralizer ({a} : Set G))
+    (_hKY : K ≤ Y') (hKa : K ≤ Subgroup.centralizer ({a} : Set G))
     (hsup : Y' = K ⊔ inSubgroup (aschbacherSolvableCore 3) Y') :
     thetaImage a Y' =
       (K.subgroupOf (Subgroup.centralizer ({a} : Set G))).map

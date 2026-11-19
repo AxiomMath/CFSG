@@ -20,8 +20,9 @@ open scoped Pointwise commutatorElement
 variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
   {p : ℕ} (S : LangSetup τ L p) {a : Fin τ.rank → Lˣ}
 
+omit [CharP L 2] in
 theorem iterHom_step_s_mem_rootSpan
-    (hT : rootDiagUnit τ a ∈ S.D.torus) (i : KernelComponent (rootCharHom a))
+    (_hT : rootDiagUnit τ a ∈ S.D.torus) (i : KernelComponent (rootCharHom a))
     {s : ℕ} [NeZero s]
     (hs : (S.ρ : (Fin τ.rank → ℤ) → _)^[s] '' componentRoots (rootCharHom a) i =
       componentRoots (rootCharHom a) i) :
@@ -42,6 +43,7 @@ theorem iterHom_step_s_mem_rootSpan
       rwa [hs] at hmem) _
   exact map_mem_componentRootSpan_of_pinned i (iterHom S.D.step s) hpin_mem x hx
 
+omit [CharP L 2] in
 theorem exists_fixedData_conj_of_period
     (hT : rootDiagUnit τ a ∈ S.D.torus) (i : KernelComponent (rootCharHom a))
     {s : ℕ} [NeZero s]
@@ -97,6 +99,7 @@ theorem exists_fixedData_conj_of_period
   refine ⟨⟨g, hgC⟩, fun c => ?_⟩
   exact (hgconj c.val (D.le c.2)).symm
 
+omit [CharP L 2] in
 theorem centerQuotientHom_mem_inner_twoDExcRankFour
     (hT : rootDiagUnit τ a ∈ S.D.torus) (i : KernelComponent (rootCharHom a))
     {s : ℕ} [NeZero s]

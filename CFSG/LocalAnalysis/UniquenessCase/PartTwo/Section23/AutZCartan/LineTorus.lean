@@ -59,7 +59,7 @@ theorem exists_zpowers_transitive_of_lineTorus [Finite W] [Finite K] {Γ : Subgr
       ∀ w ∈ CFSG.fixedPointSubgroup ↥S W, v ≠ 1 → w ≠ 1 →
         ∃ k : ℤ, ((h ^ k : ↥H) : MulAut W) v = w := by
   classical
-  letI : MulDistribMulAction ↥S W :=
+  let : MulDistribMulAction ↥S W :=
     MulDistribMulAction.compHom W (H.subtype.comp (S : Subgroup ↥H).subtype)
   obtain ⟨π, e, he⟩ := KTabC.exists_natEquiv hreal
   obtain ⟨x, hx⟩ := hline (S.mapSurjective (f := π.symm.toMonoidHom) π.symm.surjective)

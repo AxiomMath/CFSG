@@ -94,7 +94,7 @@ variable {B Bs : Subgroup G} {x : G} {L D J : Subgroup G} {𝒦 : Finset (Subgro
 
 private theorem ggCoxeterMatrixA_M_le_three (n : ℕ) (i j : Fin n) (hij : i ≠ j) :
     (CoxeterMatrix.A n).M i j ≤ 3 := by
-  simp only [CoxeterMatrix.A, Matrix.of_apply, if_neg hij]
+  simp only [CoxeterMatrix.A, Matrix.of_apply, ite_eq_right hij]
   split_ifs <;> omega
 
 theorem GGSecFiveRouteCfg.exists_card_eq_of_typeB (hR : GGSecFiveRouteCfg p B Bs x L D J 𝒦)

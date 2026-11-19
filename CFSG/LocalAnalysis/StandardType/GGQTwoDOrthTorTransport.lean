@@ -15,6 +15,7 @@ open CFSG.Assembly
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ} {Bs X : Subgroup G}
 
+omit [Finite G] in
 private theorem plh_img_mono (Φ : OrthFrameCore p Bs X)
     {S S' : Subgroup (Φ.V ≃ₗ[Φ.F] Φ.V)} (h : S ≤ S') : Φ.img S ≤ Φ.img S' := by
   rw [OrthFrameCore.img, OrthFrameCore.img]
@@ -28,11 +29,11 @@ private noncomputable def plh_imgEquiv (Φ : OrthFrameCore p Bs X)
 private theorem plh_isQuasisimple_of_mulEquiv {A B : Type*} [Group A] [Group B]
     (e : A ≃* B) (h : CFSG.Assembly.IsQuasisimple A) : CFSG.Assembly.IsQuasisimple B := by
   refine ⟨?_, ?_⟩
-  · haveI : Group.IsPerfect A := ⟨h.1⟩
-    haveI : Group.IsPerfect B :=
+  · have : Group.IsPerfect A := ⟨h.1⟩
+    have : Group.IsPerfect B :=
       Group.IsPerfect.ofSurjective (f := (e : A →* B)) e.surjective
     exact (inferInstance : Group.IsPerfect B).commutator_eq_top
-  · haveI : IsSimpleGroup (A ⧸ Subgroup.center A) := h.2
+  · have : IsSimpleGroup (A ⧸ Subgroup.center A) := h.2
     have e' : A ⧸ Subgroup.center A ≃* B ⧸ Subgroup.center B :=
       QuotientGroup.congr (Subgroup.center A) (Subgroup.center B) e (Subgroup.map_center_eq e)
     exact e'.symm.isSimpleGroup
@@ -43,14 +44,14 @@ private theorem plh_assembly_isQuasisimple_of_isQuasisimple {Q : Type*} [Group Q
 
 private theorem plh_not_isSolvable_of_isQuasisimple {Q : Type*} [Group Q]
     (h : CFSG.Assembly.IsQuasisimple Q) : ¬ Group.IsSolvable Q := by
-  haveI : Group.IsPerfect Q := ⟨h.1⟩
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := h.2
-  haveI : Nontrivial Q := (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
+  have : Group.IsPerfect Q := ⟨h.1⟩
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := h.2
+  have : Nontrivial Q := (QuotientGroup.mk'_surjective (Subgroup.center Q)).nontrivial
   exact Group.IsPerfect.not_isSolvable Q
 
 private theorem plh_not_isSolvable_of_mulEquiv {A B : Type*} [Group A] [Group B]
     (e : A ≃* B) (h : ¬ Group.IsSolvable B) : ¬ Group.IsSolvable A := fun hA => by
-  haveI : Group.IsSolvable A := hA
+  have : Group.IsSolvable A := hA
   exact h (Group.isSolvable_of_isSolvable_injective
     (f := e.symm.toMonoidHom) e.symm.injective)
 
@@ -64,6 +65,7 @@ private noncomputable def plh_pullback (Φ : OrthFrameCore p Bs X) (K : Subgroup
     Subgroup (Φ.V ≃ₗ[Φ.F] Φ.V) :=
   (K.comap Φ.ψ).map (orthDerived Φ.Q).subtype
 
+omit [Finite G] in
 private theorem plh_img_pullback_eq (Φ : OrthFrameCore p Bs X) {K : Subgroup G}
     (hK : K ≤ Φ.ψ.range) : Φ.img (plh_pullback Φ K) = K := by
   unfold plh_pullback
@@ -84,6 +86,7 @@ private theorem plh_img_pullback_eq (Φ : OrthFrameCore p Bs X) {K : Subgroup G}
       exact ⟨x, hx, rfl⟩
   rw [hsub, Subgroup.map_comap_eq_self hK]
 
+omit [Finite G] in
 private theorem plh_pullback_perfect (Φ : OrthFrameCore p Bs X) {K : Subgroup G}
     (hK : K ≤ Φ.ψ.range) (hperf : ⁅K, K⁆ = K) :
     ⁅plh_pullback Φ K, plh_pullback Φ K⁆ = plh_pullback Φ K := by
@@ -222,7 +225,7 @@ theorem OrthFrameCore.torStruct_component (Φ : OrthFrameCore p Bs X)
       _ = Φ.img P₀ ⊔ Φ.img P₁ := Φ.img_sup hP₀Ω hP₁Ω
   have hs₀ : Group.IsSolvable ↥(Φ.img P₀) ∨ CFSG.Assembly.IsQuasisimple ↥(Φ.img P₀) := by
     rcases htf₀ with hsol | hq
-    · haveI : Group.IsSolvable ↥P₀ := hsol
+    · have : Group.IsSolvable ↥P₀ := hsol
       exact Or.inl (Group.isSolvable_of_isSolvable_injective
         (f := (plh_imgEquiv Φ P₀ hP₀Ω).symm.toMonoidHom)
         (plh_imgEquiv Φ P₀ hP₀Ω).symm.injective)
@@ -230,7 +233,7 @@ theorem OrthFrameCore.torStruct_component (Φ : OrthFrameCore p Bs X)
         (plh_assembly_isQuasisimple_of_isQuasisimple hq.1))
   have hs₁ : Group.IsSolvable ↥(Φ.img P₁) ∨ CFSG.Assembly.IsQuasisimple ↥(Φ.img P₁) := by
     rcases htf₁ with hsol | hq
-    · haveI : Group.IsSolvable ↥P₁ := hsol
+    · have : Group.IsSolvable ↥P₁ := hsol
       exact Or.inl (Group.isSolvable_of_isSolvable_injective
         (f := (plh_imgEquiv Φ P₁ hP₁Ω).symm.toMonoidHom)
         (plh_imgEquiv Φ P₁ hP₁Ω).symm.injective)

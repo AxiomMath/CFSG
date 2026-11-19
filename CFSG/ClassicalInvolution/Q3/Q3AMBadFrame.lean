@@ -62,7 +62,7 @@ theorem exists_quaternion_pair_of_isSylow2In (h : IsClassicalMember3 L z) (hR : 
     norm_num
   have hinj : ∀ q ∈ (Q : Subgroup L), ρ q = 1 → q = 1 := by
     intro q hq hρq
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup') ⟨q, hq⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp Q.isPGroup) ⟨q, hq⟩
     rw [Subgroup.orderOf_mk] at hk
     have hodd := odd_orderOf_of_mem_oddCore₃ (hρker q hρq)
     rw [hk] at hodd
@@ -434,7 +434,6 @@ theorem isElemAbelian_axis :
     simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx hy
     rcases hx with hx | hx | hx <;> rcases hy with hy | hy | hy <;> rw [hx, hy] <;>
       first
-        | rfl
         | exact hs1.eq
         | exact hs1.symm.eq
         | exact hs2.eq

@@ -11,7 +11,7 @@ namespace LinCase
 theorem linlift_ker_inf_eq_bot {M Λ : Type} [Group M] [Group Λ] [Finite M] (π : M →* Λ)
     {R : Subgroup M} (hR : CFSG.ABGLocalTools.IsSylowOf 2 R ⊤) (hker : Odd (Nat.card π.ker)) :
     π.ker ⊓ R = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hRcard : Nat.card R = 2 ^ (Nat.card M).factorization 2 := by
     have h := hR.card_eq
     rwa [Subgroup.card_top] at h
@@ -42,7 +42,7 @@ theorem linlift_exists_mem_normalizer {M Λ : Type} [Group M] [Group Λ] [Finite
     (hπ : Function.Surjective π) {R : Subgroup M} (hR : CFSG.ABGLocalTools.IsSylowOf 2 R ⊤)
     {j : Λ} (hj : j ∈ Subgroup.normalizer ((R.map π : Subgroup Λ) : Set Λ)) :
     ∃ m ∈ Subgroup.normalizer (R : Set M), π m = j := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨m₀, hm₀⟩ := hπ j
   obtain ⟨R₁, hR₁⟩ : ∃ R₁ : Subgroup M, R₁ = R.map (MulAut.conj m₀).toMonoidHom := ⟨_, rfl⟩
   have hR₁mem : ∀ g : M, g ∈ R₁ ↔ (MulAut.conj m₀).symm g ∈ R := fun g => by
@@ -83,7 +83,6 @@ theorem linlift_exists_mem_normalizer {M Λ : Type} [Group M] [Group Λ] [Finite
   have hn : t * m₀ ∈ Subgroup.normalizer (R : Set M) := by
     rw [Subgroup.mem_normalizer_iff'']
     intro h
-    change h ∈ R ↔ (t * m₀)⁻¹ * h * (t * m₀) ∈ R
     rw [hkey h, hR₁mem]
     have e : (MulAut.conj m₀).symm ((MulAut.conj t).symm h) = (t * m₀)⁻¹ * h * (t * m₀) := by
       simp only [MulAut.conj_symm_apply, mul_inv_rev, mul_assoc]
@@ -103,7 +102,7 @@ theorem exists_odd_normalizer_transitive {M Λ : Type} [Group M] [Group Λ] [Fin
     ∃ J : Subgroup M, J ≤ Subgroup.normalizer (R : Set M) ∧ Odd (Nat.card J) ∧
       ∀ x ∈ R ⊓ Subgroup.centralizer (R : Set M), x ≠ 1 →
         ∀ y ∈ R ⊓ Subgroup.centralizer (R : Set M), y ≠ 1 → ∃ j ∈ J, j * x * j⁻¹ = y := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK := linlift_ker_inf_eq_bot π hR hker
   have hker1 : ∀ a ∈ R, π a = 1 → a = 1 := by
     intro a ha h

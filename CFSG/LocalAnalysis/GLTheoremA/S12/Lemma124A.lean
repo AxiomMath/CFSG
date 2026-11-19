@@ -65,7 +65,7 @@ theorem mem_zpowers_y (h : Cfg12 G m p B x L D K) (hin : CommonInputs G p) {y : 
     (hM : GLAPComponent p (Subgroup.centralizer ({y} : Set G)) M) (hMK : M ≤ Ky p K y) (hnc : ¬ CentMod p M x)
     {b : G} (hb : b ∈ B) (hbM : CentMod p M b) : b ∈ Subgroup.zpowers y := by
   have hp := h.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hKKy : K ≤ Ky p K y := le_closureIn_self K _
   have hcomm := ky_comm_of_centMod h hin hy hyx hM hMK hb hbM
   have hbK : b ∈ centModSubgroup p K := by
@@ -161,7 +161,7 @@ theorem Ky_single (h : Cfg12 G m p B x L D K) (hin : CommonInputs G p) (hnn : No
     have hKy : K ≤ Ky p K y := le_closureIn_self K _
     rw [← hC2, hemp] at hKy
     simp at hKy
-    haveI := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial h.K_qs
+    have := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial h.K_qs
     exact (Subgroup.nontrivial_iff_ne_bot K).1 this hKy
   obtain ⟨M, hM𝒞⟩ := hne
   have hMK : M ≤ Ky p K y := by
@@ -181,6 +181,7 @@ theorem cover_of_centMod (h : Cfg12 G m p B x L D K) (hin : CommonInputs G p) {y
   rw [← hall K hKc] at hsup
   exact hsup.symm
 
+omit [Finite G] in
 theorem mem_normalizer_biSup {S : Set (Subgroup G)} {n : G}
     (h : ∀ M' ∈ S, n ∈ Subgroup.normalizer (M' : Set G)) :
     n ∈ Subgroup.normalizer ((⨆ M' ∈ S, M' : Subgroup G) : Set G) := by

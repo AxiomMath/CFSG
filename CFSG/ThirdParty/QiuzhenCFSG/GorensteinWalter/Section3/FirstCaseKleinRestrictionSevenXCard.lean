@@ -73,7 +73,7 @@ public theorem firstCase_klein_restrictionSeven_X_card_three
       have h1Eq : (⟨1, hone⟩ : {w : G // w ∈ invertedElements B y}) = z0 :=
         hz0 _
       have hz1 : z = 1 := congrArg Subtype.val (hzEq.trans h1Eq.symm)
-      simpa [hz1]
+      simp [hz1]
     apply le_bot_iff.mp
     intro z hz
     have hNB : N ≤ B := inf_le_right

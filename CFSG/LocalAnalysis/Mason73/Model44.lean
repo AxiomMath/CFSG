@@ -44,7 +44,7 @@ theorem x1T_eq_mul_pow (hn : 2 ≤ n) :
   rw [r1T, r2T, el_one_pow, el_one_pow, el_mul, x1T, el_eq_el_iff hn]
   refine ⟨by rw [mul_one], isConst_of_forall_eq (-zL4 n) fun i => ?_⟩
   fin_cases i <;>
-    simp only [Pi.sub_apply, Pi.add_apply, Pi.smul_apply, OneMemClass.coe_one, pv_one, hv, v1, v2,
+    simp only [Pi.sub_apply, Pi.add_apply, OneMemClass.coe_one, pv_one, hv, v1, v2,
       nsmul_eq_mul, Pi.mul_apply, Pi.natCast_apply, Matrix.cons_val, Nat.cast_one, Nat.cast_zero,
       mul_one, mul_zero, mul_neg, Fin.zero_eta, Fin.mk_one, Fin.reduceFinMk] <;>
     first

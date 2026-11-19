@@ -14,9 +14,11 @@ open Subgroup QuadraticMap
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_k3_polar_self (x : V) : polar Q x x = 2 * Q x := by
   rw [QuadraticMap.polar_self, nsmul_eq_mul, Nat.cast_ofNat]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_k3_refl_sum_diff {a b : V} (ha : Q a ≠ 0) (hb : Q a = Q b) (hab : polar Q a b = 0) :
     reflTot Q (a + b) * reflTot Q (a - b) = reflTot Q a * reflTot Q b := by
   have hbne : Q b ≠ 0 := hb ▸ ha
@@ -47,6 +49,7 @@ theorem ff_k3_refl_sum_diff {a b : V} (ha : Q a ≠ 0) (hb : Q a = Q b) (hab : p
     _ = reflTot Q b * reflTot Q a := by rw [← e2]
     _ = reflTot Q a * reflTot Q b := (reflTot_comm ha hbne hab).symm
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_k3_refl_diff_sum {a b : V} (ha : Q a ≠ 0) (hb : Q a = Q b) (hab : polar Q a b = 0) :
     reflTot Q (a - b) * reflTot Q (a + b) = reflTot Q a * reflTot Q b := by
   have hbne : Q b ≠ 0 := hb ▸ ha
@@ -63,6 +66,7 @@ theorem ff_k3_comm_aux {G : Type*} [Group G] {A B C D : G} (hCD : Commute C D)
     _ = A * ((D * B) * C) := by rw [hBD.eq]
     _ = A * D * (B * C) := by group
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_k3_commutator {t : OGroup Q} {u v s s' : V} {c : ZMod 3} (hc : c ≠ 0)
     (hu : Q u = c) (hv : Q v = c) (hs : Q s = c) (hs' : Q s' = c)
     (huv : polar Q u v = 0) (hus : polar Q u s = 0) (hus' : polar Q u s' = 0)

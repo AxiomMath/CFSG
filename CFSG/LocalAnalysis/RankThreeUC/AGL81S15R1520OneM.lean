@@ -34,7 +34,7 @@ theorem row1520One_of_ctxGen
       hp5 hlist hU5'
     have hXK : CFSG.Open.IsKGroup ↥M := ctx.cstar.kProper.isKGroup M (ctx.strong p hp).1
     have hno : ∀ N : Subgroup ↥M, N.Normal → N.index ≠ p := fun N hN => by
-      haveI := hN
+      have := hN
       exact no_normal_index_p_of_ctx_gen ctx hp N
     have hrk := two_le_pRank_cMBar_gen hK7145 hKOut hXK hpp hp5 hL.1 (ctx.three_le p hp)
       (h19 p hp Ls L hLs hL) hZ hno (h15 Ls L hLs hL _ rfl)

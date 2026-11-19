@@ -24,8 +24,8 @@ theorem exists_two_subgroup (hO : CFSG.pCore 2 Y = ⊥) {D : Subgroup Y} [D.Norm
     ∃ S : Subgroup Y, IsPGroup 2 S ∧ (∀ c ∈ S, (∀ d ∈ D, c * d = d * c) → c = 1) ∧
       ∀ t : Y, (t ∈ T₁ ∨ t ∈ T₂) → (∃ k : ℕ, t ^ (2 ^ k) = 1) → ∃ d ∈ D, d⁻¹ * t * d ∈ S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set π := QuotientGroup.mk' D with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective D
   set Q : Subgroup (Y ⧸ D) := pCoreOf 2 (⊤ : Subgroup (Y ⧸ D)) with hQ
@@ -49,7 +49,7 @@ theorem exists_two_subgroup (hO : CFSG.pCore 2 Y = ⊥) {D : Subgroup Y} [D.Norm
     exact one_mem Q
   obtain ⟨S₁⟩ : Nonempty (Sylow 2 ↥O) := inferInstance
   set S : Subgroup Y := (S₁ : Subgroup ↥O).map O.subtype with hS
-  have hS2 : IsPGroup 2 S := S₁.isPGroup'.map O.subtype
+  have hS2 : IsPGroup 2 S := S₁.isPGroup.map O.subtype
   set φ : ↥O →* Y ⧸ D := π.comp O.subtype with hφ
   have hker : φ.ker = D.subgroupOf O := by
     ext x
@@ -108,8 +108,8 @@ theorem exists_two_subgroup (hO : CFSG.pCore 2 Y = ⊥) {D : Subgroup Y} [D.Norm
       apply Subtype.ext
       have := mem_centralizer_iff.mp k'.2.1 k hkD
       simpa using this.symm
-    haveI : Group.IsNilpotent ↥Q := hQ2.isNilpotent
-    haveI : Group.IsNilpotent ↥K := Subgroup.isNilpotent_of_ker_le_center ψ hψker
+    have : Group.IsNilpotent ↥Q := hQ2.isNilpotent
+    have : Group.IsNilpotent ↥K := Subgroup.isNilpotent_of_ker_le_center ψ hψker
     obtain ⟨P₂⟩ : Nonempty (Sylow 2 ↥K) := inferInstance
     have hP₂n : (P₂ : Subgroup ↥K).Normal := inferInstance
     have hcP : (⟨c, hcK⟩ : ↥K) ∈ (P₂ : Subgroup ↥K) := by
@@ -122,18 +122,18 @@ theorem exists_two_subgroup (hO : CFSG.pCore 2 Y = ⊥) {D : Subgroup Y} [D.Norm
         simp only [SubgroupClass.coe_pow, SubgroupClass.coe_zpow, OneMemClass.coe_one]
         rw [← zpow_natCast, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hck, one_zpow]
       obtain ⟨P', hP'⟩ := h2.exists_le_sylow
-      haveI := Sylow.unique_of_normal P₂ hP₂n
+      have := Sylow.unique_of_normal P₂ hP₂n
       have : P' = P₂ := Subsingleton.elim _ _
       rw [← this]
       exact hP' (mem_zpowers _)
-    have hP₂core : (P₂ : Subgroup ↥K) ≤ CFSG.pCore 2 ↥K := le_sSup ⟨hP₂n, P₂.isPGroup'⟩
+    have hP₂core : (P₂ : Subgroup ↥K) ≤ CFSG.pCore 2 ↥K := le_sSup ⟨hP₂n, P₂.isPGroup⟩
     have hQn : Q.Normal := by
       rw [← normalizer_eq_top_iff, eq_top_iff]
       calc (⊤ : Subgroup (Y ⧸ D)) = normalizer ((⊤ : Subgroup (Y ⧸ D)) : Set (Y ⧸ D)) :=
             (normalizer_eq_top_iff.mpr inferInstance).symm
         _ ≤ _ := CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 2 ⊤
-    haveI : O.Normal := hQn.comap π
-    haveI : K.Normal := inferInstance
+    have : O.Normal := hQn.comap π
+    have : K.Normal := inferInstance
     have hcore := CFSG.RankThree.PartTwo.Late.pCoreOf_le_pCore_of_isSubnormal 2
       (Subgroup.Normal.isSubnormal (inferInstance : K.Normal))
     have hmem : c ∈ CFSG.Open.pCore 2 Y := hcore ⟨⟨c, hcK⟩, hP₂core hcP, rfl⟩
@@ -160,7 +160,7 @@ theorem exists_two_subgroup (hO : CFSG.pCore 2 Y = ⊥) {D : Subgroup Y} [D.Norm
         hS₂ (mem_subgroupOf.mpr (mem_zpowers t))
       rw [← hg, Sylow.coe_subgroup_smul, mem_pointwise_smul_iff_inv_smul_mem] at h
       refine ⟨_, h, ?_⟩
-      simp [MulAut.smul_def, MulAut.conj_apply, mul_assoc]
+      simp [MulAut.smul_def, mul_assoc]
     have hgmem : (g : Y) ∈ (↑(D ⊔ S) : Set Y) := by rw [hDS]; exact g.2
     rw [normal_mul] at hgmem
     obtain ⟨d, hd, s, hs, hgds⟩ := Set.mem_mul.mp hgmem
@@ -172,7 +172,7 @@ theorem exists_two_subgroup (hO : CFSG.pCore 2 Y = ⊥) {D : Subgroup Y} [D.Norm
 theorem eq_of_heis_of_not_mem {A Z B : Subgroup Y} (hH : Heis27 A Z) (hBA : B ≤ A) (hZB : Z ≤ B)
     {s x : Y} (hsB : s ∈ B) (hsZ : s ∉ Z) (hxB : x ∈ B) (hxs : ∀ k : ℤ, (s ^ k)⁻¹ * x ∉ Z) :
     B = A := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcen : ∀ z ∈ Z, ∀ a ∈ A, z * a = a * z := hH.central
   have hdvd : Nat.card B ∣ 27 := hH.card ▸ card_dvd_of_le hBA
   have hZcard : Nat.card Z = 3 := hH.card_center
@@ -184,7 +184,7 @@ theorem eq_of_heis_of_not_mem {A Z B : Subgroup Y} (hH : Heis27 A Z) (hBA : B �
   have hne9 : Nat.card B ≠ 9 := by
     intro h9
     set ZB := Z.subgroupOf B
-    haveI : ZB.Normal := ⟨fun n hn g => by
+    have : ZB.Normal := ⟨fun n hn g => by
       rw [mem_subgroupOf] at hn ⊢
       have : (g : Y) * n * (g : Y)⁻¹ = n := by rw [← hcen _ hn _ (hBA g.2)]; group
       simpa [this] using hn⟩
@@ -215,7 +215,7 @@ theorem eq_of_heis_of_not_mem {A Z B : Subgroup Y} (hH : Heis27 A Z) (hBA : B �
   exact eq_of_le_of_card_ge hBA (by rw [hB27, hH.card])
 
 theorem inv_mod_center {A Z : Subgroup Y} (hH : Heis27 A Z) {u s d : Y}
-    (huA : ∀ a ∈ A, u * a * u⁻¹ ∈ A) (huZ : ∀ z ∈ Z, u * z = z * u) (hs : s ∈ A) (hd : d ∈ A)
+    (_huA : ∀ a ∈ A, u * a * u⁻¹ ∈ A) (huZ : ∀ z ∈ Z, u * z = z * u) (hs : s ∈ A) (hd : d ∈ A)
     (hsd : s * d ≠ d * s) (hus : u * s * u⁻¹ = s⁻¹) (hud : u * d * u⁻¹ = d⁻¹) :
     ∀ a ∈ A, u * a * u⁻¹ * a ∈ Z := by
   have hcen : ∀ z ∈ Z, ∀ a ∈ A, z * a = a * z := hH.central
@@ -266,6 +266,7 @@ theorem inv_mod_center {A Z : Subgroup Y} (hH : Heis27 A Z) {u s d : Y}
   rw [← this] at ha
   exact ha.2
 
+omit [Finite Y] in
 theorem card_oUpperTwo_le_of_symThree {T : Subgroup Y} (e : ↥T ≃* Equiv.Perm (Fin 3)) :
     Nat.card (oUpperTwo T) ≤ 3 := by
   classical
@@ -288,8 +289,8 @@ open SUPair in
 theorem subnormalSUThreeTwoDetermined_holds : SubnormalSUThreeTwoDetermined := by
   intro Y _ _ hO T₁ T₂ hs₁ hs₂ hb₁ hb₂ hE₁ hA
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hu₁ := hb₁.resolve_left (fun ⟨e⟩ => hE₁.false e)
   obtain ⟨s₁, d₁, z₁, f₁, g₁, -, -, hf₁T, hf₁4, hs₁u, hd₁u, hz₁c, hH₁, hs₁O, hd₁O, hsd₁, hg₁T,
     hf₁2, hg₁2, hg₁f, hT₁c⟩ := SUQ.exists_qdata_of_su hu₁
@@ -313,7 +314,7 @@ theorem subnormalSUThreeTwoDetermined_holds : SubnormalSUThreeTwoDetermined := b
   have hD3 : IsPGroup 3 D := CFSG.LieType.BorelTits.pCoreOf_isPGroup 3 ⊤
   have hDN : ∀ g : Y, g ∈ normalizer (D : Set Y) := fun g =>
     CFSG.LieType.BorelTits.normalizer_le_normalizer_pCoreOf 3 ⊤ (le_normalizer (mem_top g))
-  haveI hDn : D.Normal := normalizer_eq_top_iff.mp (eq_top_iff.mpr fun g _ => hDN g)
+  have hDn : D.Normal := normalizer_eq_top_iff.mp (eq_top_iff.mpr fun g _ => hDN g)
   have hD3el : ∀ x ∈ D, ∃ k : ℕ, x ^ (3 ^ k) = 1 := fun x hx => by
     obtain ⟨k, hk⟩ := hD3 ⟨x, hx⟩
     exact ⟨k, by simpa using congrArg Subtype.val hk⟩

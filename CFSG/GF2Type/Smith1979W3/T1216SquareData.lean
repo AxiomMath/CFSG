@@ -18,22 +18,26 @@ variable {G : Type} [Group G] [Finite G] (S : Setting G) (φ : S.Q ≃* Q0)
 noncomputable def rhoQ0 (y : S.M) : Q0 ≃* Q0 :=
   φ.symm.trans ((conjAut S.normal y⁻¹).trans φ)
 
+omit [Finite G] in
 theorem coe_symm_rhoQ0_apply (y : S.M) (x : S.Q) :
     ((φ.symm (rhoQ0 S φ y (φ x)) : S.Q) : S.M) = y⁻¹ * x * y := by
   dsimp only [rhoQ0]
   rw [MulEquiv.trans_apply, MulEquiv.symm_apply_apply, MulEquiv.trans_apply,
     MulEquiv.symm_apply_apply, conjAut_apply, inv_inv]
 
+omit [Finite G] in
 private theorem symm_rhoQ0_apply (y : S.M) (x : S.Q) :
     φ.symm (rhoQ0 S φ y (φ x)) = conjAut S.normal y⁻¹ x := by
   apply Subtype.ext
   rw [coe_symm_rhoQ0_apply, conjAut_apply, inv_inv]
 
+omit [Finite G] in
 private theorem rhoQ0_apply_phi (y : S.M) (x : S.Q) :
     rhoQ0 S φ y (φ x) = φ (conjAut S.normal y⁻¹ x) := by
   have h := congrArg φ (symm_rhoQ0_apply S φ y x)
   rwa [MulEquiv.apply_symm_apply] at h
 
+omit [Finite G] in
 theorem rhoQ0_one : rhoQ0 S φ 1 = 1 := by
   refine MulEquiv.ext fun x => ?_
   dsimp only [rhoQ0]
@@ -44,6 +48,7 @@ theorem rhoQ0_one : rhoQ0 S φ 1 = 1 := by
     simp
   rw [h1, MulAut.one_apply, MulEquiv.apply_symm_apply, MulAut.one_apply]
 
+omit [Finite G] in
 theorem rhoQ0_mul (y y' : S.M) :
     rhoQ0 S φ y * rhoQ0 S φ y' = rhoQ0 S φ (y' * y) := by
   refine MulEquiv.ext fun z => ?_
@@ -55,6 +60,7 @@ theorem rhoQ0_mul (y y' : S.M) :
   rw [conjAut_apply, conjAut_apply, conjAut_apply, mul_inv_rev]
   group
 
+omit [Finite G] in
 theorem phi_zQ : φ S.zQ = z0 := by
   have hmem : φ S.zQ ∈ Subgroup.center Q0 := by
     rw [Subgroup.mem_center_iff]
@@ -75,6 +81,7 @@ theorem phi_zQ : φ S.zQ = z0 := by
     · simpa [z0] using h
   · simpa [z0] using hv
 
+omit [Finite G] in
 theorem rhoQ0_eq_rhoQ0_iff {y y' : S.M} :
     rhoQ0 S φ y' = rhoQ0 S φ y ↔ y' = y ∨ y' = y * S.zM := by
   constructor
@@ -138,6 +145,7 @@ theorem rhoQ0_eq_rhoQ0_iff {y y' : S.M} :
       rw [hcomm]
       rw [MulEquiv.trans_apply, MulEquiv.trans_apply]
 
+omit [Finite G] in
 theorem rhoQ0_coe (e : S.Q) : rhoQ0 S φ e = inn (φ e) := by
   refine MulEquiv.ext fun z => ?_
   obtain ⟨w, rfl⟩ : ∃ w : S.Q, φ w = z := ⟨φ.symm z, MulEquiv.apply_symm_apply φ z⟩
@@ -150,6 +158,7 @@ theorem rhoQ0_coe (e : S.Q) : rhoQ0 S φ e = inn (φ e) := by
   rw [conjAut_apply, inv_inv]
   simp
 
+omit [Finite G] in
 theorem rhoQ0_apply_eq_iff (y : S.M) (x : S.Q) :
     rhoQ0 S φ y (φ x) = φ x ↔ (x : S.M) * y = y * x := by
   constructor
@@ -330,7 +339,7 @@ theorem rhoQ0_mem_ThetaOver_iff {L : S.Qt ≃ₗ[ZMod 2] V₀}
     exact S.Q.inv_mem hyQ
   · intro hy
     have hyinv : y⁻¹ * y⁻¹ ∈ S.Q := by
-      have hsq : y⁻¹ * y⁻¹ = (y * y)⁻¹ := by simp only [mul_inv_rev, inv_inv]
+      have hsq : y⁻¹ * y⁻¹ = (y * y)⁻¹ := by simp only [mul_inv_rev]
       rw [hsq]
       exact S.Q.inv_mem hy
     have hρ1 : S.ρ (y⁻¹ * y⁻¹) = 1 := S.ρ_eq_one_of_mem_Q hyinv
@@ -345,6 +354,7 @@ theorem rhoQ0_mem_ThetaOver_iff {L : S.Qt ≃ₗ[ZMod 2] V₀}
     exact ⟨conjL L ↑(S.ρ y⁻¹), conjL_ρ_mem_mbarModel S L y⁻¹, hgg,
       fun x => v_rhoQ0 S φ hφ y x⟩
 
+omit [Finite G] in
 private theorem rhoQ0_conj (m y : S.M) :
     rhoQ0 S φ m * rhoQ0 S φ y * (rhoQ0 S φ m)⁻¹ =
       rhoQ0 S φ (m⁻¹ * y * m) := by
@@ -354,8 +364,9 @@ private theorem rhoQ0_conj (m y : S.M) :
   rw [hinv, rhoQ0_mul, rhoQ0_mul]
   exact congrArg (rhoQ0 S φ) (by group)
 
+omit [Finite G] in
 theorem exists_rhoQ0_mul_eq {L : S.Qt ≃ₗ[ZMod 2] V₀}
-    (hφ : ∀ x : S.Q, (φ x).v = L (S.toQt x)) (y : S.M) {θ : Q0 ≃* Q0}
+    (_hφ : ∀ x : S.Q, (φ x).v = L (S.toQt x)) (y : S.M) {θ : Q0 ≃* Q0}
     (hθ : ∀ e, (θ e).v = (rhoQ0 S φ y e).v) :
     ∃ x : S.Q, rhoQ0 S φ (y * x) = θ := by
   classical
@@ -379,12 +390,13 @@ noncomputable def sqData (S : Setting G) (φ : S.Q ≃* Q0) : (Q0 ≃* Q0) → Q
       φ ⟨h.choose * h.choose, h.choose_spec.2⟩
     else 1
 
+omit [Finite G] in
 theorem sqData_rhoQ0 {y : S.M} (hy : y * y ∈ S.Q) :
     sqData S φ (rhoQ0 S φ y) = φ ⟨y * y, hy⟩ := by
   classical
   have hex : ∃ y' : S.M, rhoQ0 S φ y' = rhoQ0 S φ y ∧ y' * y' ∈ S.Q := ⟨y, rfl, hy⟩
   unfold sqData
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   have hz2 : S.zM * S.zM = 1 := by
     apply Subtype.ext
     exact S.z_mul_z
@@ -474,7 +486,7 @@ theorem isSquareData {L : S.Qt ≃ₗ[ZMod 2] V₀}
     have hq : (⟨(y * (e' : S.M)) * (y * (e' : S.M)), hzQ⟩ : S.Q) =
         (⟨y * y, hyQ⟩ * conjAut S.normal y⁻¹ e') * e' := by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv]
+      simp only [Subgroup.coe_mul]
       rw [conjAut_apply, inv_inv]
       group
     rw [hq]
@@ -482,8 +494,8 @@ theorem isSquareData {L : S.Qt ≃ₗ[ZMod 2] V₀}
 private theorem natCard_eq_two_mul_of_fiber {α β : Type*} [Finite α] [Finite β]
     (f : α → β) (hfib : ∀ b : β, Nat.card {a : α // f a = b} = 2) :
     Nat.card α = 2 * Nat.card β := by
-  haveI : Fintype α := Fintype.ofFinite α
-  haveI : Fintype β := Fintype.ofFinite β
+  have : Fintype α := Fintype.ofFinite α
+  have : Fintype β := Fintype.ofFinite β
   rw [Nat.card_eq_fintype_card, Nat.card_eq_fintype_card]
   calc
     Fintype.card α = Nat.card α := (Nat.card_eq_fintype_card (α := α)).symm
@@ -494,20 +506,25 @@ private theorem natCard_eq_two_mul_of_fiber {α β : Type*} [Finite α] [Finite 
     _ = Fintype.card β * 2 := by simp
     _ = 2 * Fintype.card β := Nat.mul_comm _ _
 
+omit [Finite G] in
 private theorem zM_ne_one : S.zM ≠ 1 := by
   intro h
   exact S.z_ne_one (by simpa using congrArg (fun g : S.M => (g : G)) h)
 
+omit [Finite G] in
 private theorem zM_mul_self : S.zM * S.zM = 1 := by
   apply Subtype.ext
   exact S.z_mul_z
 
+omit [Finite G] in
 private theorem zM_comm (g : S.M) : g * S.zM = S.zM * g :=
   Subgroup.mem_center_iff.mp S.zM_mem_center g
 
+omit [Finite G] in
 private theorem rhoQ0_mul_zM (y : S.M) : rhoQ0 S φ (y * S.zM) = rhoQ0 S φ y :=
   (rhoQ0_eq_rhoQ0_iff S φ).mpr (Or.inr rfl)
 
+omit [Finite G] in
 private theorem coe_zQ : (S.zQ : S.M) = S.zM := rfl
 
 private theorem ρ_inv_mul_mem_Q (y : S.M) (x : S.Q) :
@@ -518,6 +535,7 @@ private theorem ρ_inv_mul_mem_Q (y : S.M) (x : S.Q) :
     rw [mul_inv_rev, map_mul, map_inv, map_inv, hx, inv_one, one_mul]
   exact congrArg (fun o : S.O => (o : S.Qt ≃ₗ[ZMod 2] S.Qt)) h
 
+omit [Finite G] in
 theorem card_centralizer_eq_ncard (y : S.M) :
     Nat.card {x : S.Q // (x : S.M) * y = y * x} =
       Set.ncard {e : Q0 | rhoQ0 S φ y e = e} := by

@@ -34,14 +34,14 @@ private theorem rckHE67_cent_minDatum
   exact (commute_one_add_smul_of_ne_zero hc₀ hcomm c).symm.eq
 
 theorem rck_lemmaHC_E67
-    {t' : StatedLieTag} (ht : t' = .E6 ∨ t' = .E7) {m g : ℕ} (hg : 1 ≤ g)
+    {t' : StatedLieTag} (ht : t' = .E6 ∨ t' = .E7) {m g : ℕ} (_hg : 1 ≤ g)
     {β : Fin (ggU t' m g).D.rank → ℤ} (hβ : GGLongRoot (ggU t' m g).D β) :
     RCKLemmaHCent (ggU t' m g) β := by
   rcases ht with rfl | rfl
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact rckHE67_cent_minDatum CFSG.LieType.Steinberg.Minuscule.e6Data_valid
       CFSG.LieType.Steinberg.Minuscule.isFiniteType_cartan_E6 (GaloisField 2 g) β
-  · haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  · have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact rckHE67_cent_minDatum CFSG.LieType.Steinberg.Minuscule.e7Data_valid
       CFSG.LieType.Steinberg.Minuscule.isFiniteType_cartan_E7 (GaloisField 2 g) β
 

@@ -163,7 +163,7 @@ theorem sup_centralizer_eq_sylow [Finite G] (P : Sylow 2 L) {z : G}
     have : (⟨x, hx⟩ : (T : Subgroup G)) ∈ R.subgroupOf T := htop ▸ mem_top _
     exact this
   obtain ⟨n, hn, hnU⟩ := IsConcreteLE.exists_of_lt
-    (p_group_normalizer_condition T.isPGroup' hlt)
+    (p_group_normalizer_condition T.isPGroup hlt)
   have hnz : (n : G) * z * (n : G)⁻¹ ∈ R := by
     have := (mem_normalizer_iff.1 hn ⟨z, hRT hzR⟩).1 (mem_subgroupOf.2 hzR)
     rwa [mem_subgroupOf] at this
@@ -177,7 +177,7 @@ theorem sup_centralizer_eq_sylow [Finite G] (P : Sylow 2 L) {z : G}
     have h := hfix n hnz hnR
     calc (n : G) * z = (n : G) * z * (n : G)⁻¹ * n := by group
       _ = z * n := by rw [h]
-  obtain ⟨k, hk⟩ := T.isPGroup' n
+  obtain ⟨k, hk⟩ := T.isPGroup n
   obtain ⟨l, hlL, hlC⟩ := hinner n hnH k (by simpa using congrArg Subtype.val hk)
   have hCT : centralizer (L : Set G) ≤ T := le_trans le_sup_right hRT
   have hlT : l ∈ (T : Subgroup G) := by
@@ -185,7 +185,7 @@ theorem sup_centralizer_eq_sylow [Finite G] (P : Sylow 2 L) {z : G}
     rw [h]
     exact mul_mem n.2 (inv_mem (hCT hlC))
   have hTL : (T : Subgroup G).subgroupOf L = P :=
-    P.maximal_isPGroup.eq_of_ge T.isPGroup'.comap_subtype
+    P.maximal_isPGroup.eq_of_ge T.isPGroup.comap_subtype
       (fun x hx => mem_subgroupOf.2 (hRT (mem_sup_left ⟨x, hx, rfl⟩)))
   have hlP : (⟨l, hlL⟩ : L) ∈ (P : Subgroup L) := hTL ▸ mem_subgroupOf.2 hlT
   apply hnU
@@ -360,7 +360,7 @@ theorem even_standard_Suzuki_eight_double_cover_Zstar
       exact ⟨⟨p, hp⟩, hpZ, rfl⟩
     exact CFSG.EvenSmallLie.mem_centralizer_of_mem_center hpZL
   set R := PG ⊔ centralizer (L : Set G) with hR
-  have hRp : IsPGroup 2 R := (P.isPGroup'.map L.subtype).to_sup_of_normal_right' hC2
+  have hRp : IsPGroup 2 R := (P.isPGroup.map L.subtype).to_sup_of_normal_right' hC2
     (le_trans hPGL le_normalizer_centralizer)
   obtain ⟨T, hRT⟩ := hRp.exists_le_sylow
   have hRT' : R = T := sup_centralizer_eq_sylow P (mem_sup_right hzC)

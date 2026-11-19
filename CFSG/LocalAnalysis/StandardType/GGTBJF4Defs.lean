@@ -98,7 +98,7 @@ theorem ggTBJReflAut_apply (p : ℕ) [Fact p.Prime] {β : Fin 4 → ℤ}
     (h : ggTBJFun p β (ggTBJVec p β) = 2) (f : Multiplicative (Fin 4 → ZMod p)) (i : Fin 4) :
     Multiplicative.toAdd (ggTBJReflAut p β f) i = Multiplicative.toAdd f i -
       ggTBJFun p β (Multiplicative.toAdd f) * ggTBJVec p β i := by
-  rw [ggTBJReflAut, dif_pos h]
+  rw [ggTBJReflAut, dite_eq_left h]
   rfl
 
 end CFSG.StandardType

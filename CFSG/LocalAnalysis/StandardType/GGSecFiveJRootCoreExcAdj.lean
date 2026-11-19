@@ -20,7 +20,7 @@ open CFSG.Assembly CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.
 
 theorem jcoreE_exists_unit {f p : ℕ} (hf : 1 ≤ f) (hp : p.Prime) (hp2 : p ≠ 2)
     (hpf : p ∣ 2 ^ f - 1) : ∃ t : (GaloisField 2 f)ˣ, (t : GaloisField 2 f) ^ 2 ≠ 1 := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hcard : p ∣ Nat.card (GaloisField 2 f)ˣ := by
     rwa [Nat.card_units, GaloisField.card 2 f (by omega)]
   obtain ⟨t, ht⟩ := exists_prime_orderOf_dvd_card' p hcard

@@ -36,6 +36,7 @@ section Codes
 
 variable {G : Type} [Group G] [Finite G] {K : Subgroup G} {M : Mdl} {κ : G → ℕ}
 
+omit [Finite G] in
 theorem MCod.comm (hκ : MCod K M κ) {a b : G} (ha : a ∈ K) (hb : b ∈ K) :
     κ (a * b * a⁻¹ * b⁻¹) = mcomm M (κ a) (κ b) := by
   have h1 : a * b ∈ K := K.mul_mem ha hb
@@ -44,6 +45,7 @@ theorem MCod.comm (hκ : MCod K M κ) {a b : G} (ha : a ∈ K) (hb : b ∈ K) :
     hκ.inv _ hb]
   rfl
 
+omit [Finite G] in
 theorem node_codes (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e : ℕ}
     (hN : nodeChk M kg m gs ts e = true) (P : G → Prop) (h1 : P 1)
     (hstep : ∀ y ∈ K, P y → ∀ g ∈ gs, ∀ r ∈ K, κ r = g → P (y * r)) :
@@ -73,6 +75,7 @@ theorem node_gens {kg gs ts : List ℕ} {m e : ℕ} (hN : nodeChk M kg m gs ts e
   rw [Bool.and_eq_true] at this
   exact this.1
 
+omit [Finite G] in
 theorem nc_sound (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e : ℕ}
     (hN : nodeChk M kg m gs ts e = true) {Q : Subgroup G} (hQK : Q ≤ K)
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ m.testBit n = true) {z : G} {k : ℕ}
@@ -102,6 +105,7 @@ theorem nc_sound (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e : ℕ}
     have hxr := hκ.inj _ (K.mul_mem hx hr) _ (K.mul_mem hr hx) hc
     rw [← mul_assoc, hP, mul_assoc, hxr, mul_assoc]
 
+omit [Finite G] in
 theorem nf_sound (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e : ℕ}
     (hN : nodeChk M kg m gs ts e = true) {Q : Subgroup G} (hQK : Q ≤ K)
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ m.testBit n = true) {x p : ℕ} {pg pr pt : List ℕ}
@@ -126,10 +130,10 @@ theorem nf_sound (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e : ℕ}
     cases hab : Nat.beq (pr.getD i 0 % 4096) (pr.getD i 0 >>> 12) with
     | true =>
       refine ⟨qa ^ 2, sq_mem_Phi' hqa, ?_⟩
-      rw [cond_true, pow_two, hκ.mul _ (hQK hqa) _ (hQK hqa), hqaκ]
+      rw [_root_.Bool.cond_true, pow_two, hκ.mul _ (hQK hqa) _ (hQK hqa), hqaκ]
     | false =>
       refine ⟨qa * qb * qa⁻¹ * qb⁻¹, comm_mem_Phi' hqa hqb, ?_⟩
-      rw [cond_false, MCod.comm hκ (hQK hqa) (hQK hqb), hqaκ, hqbκ]
+      rw [Bool.cond_false, MCod.comm hκ (hQK hqa) (hQK hqb), hqaκ, hqbκ]
   obtain ⟨k, hk, rfl⟩ := hκ.surj x hx
   have hkQ : k ∉ Q := by
     intro h
@@ -172,6 +176,7 @@ theorem mulP_div (nb AP CP x y : ℕ) : mulP nb AP CP x y / 64 = rd6 CP (x / 64 
   rw [mulP]
   omega
 
+omit [Finite G] in
 theorem v_sound (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e : ℕ}
     (hN : nodeChk M kg m gs ts e = true) {Q : Subgroup G} (hQK : Q ≤ K)
     (hQN : ∀ n, (∃ q ∈ Q, κ q = n) ↔ m.testBit n = true) {bp : List ℕ}
@@ -187,11 +192,9 @@ theorem v_sound (hκ : MCod K M κ) {kg gs ts : List ℕ} {m e : ℕ}
   refine ⟨fun c hc => (hQN _).2 ((allLt_iff.1 hV) c hc), fun q hq => ?_,
     fun i hi => ?_, hlen, fun i hi hinv => ?_, fun i hi j hj hij hi' hj' hc => ?_⟩
   · refine node_codes hκ hN (fun y => κ y / 64 ∈ bp) ?_ ?_ q (hQK hq) ((hQN _).1 ⟨q, hq, rfl⟩)
-    · change κ 1 / 64 ∈ bp
-      rw [hκ.one, Nat.mul_div_cancel _ (by norm_num)]
+    · rw [hκ.one, Nat.mul_div_cancel _ (by norm_num)]
       exact memL_iff.1 hone
     · intro y hy hP g hg r hr hrg
-      change κ (y * r) / 64 ∈ bp
       have h := (allL_iff.1 hcl) _ hP
       rw [Bool.and_eq_true] at h
       rw [hκ.mul y hy r hr, hrg, Mdl.mul, mulP_div]

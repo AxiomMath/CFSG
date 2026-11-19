@@ -21,17 +21,17 @@ theorem sec8t84a2_trace_split_grp {Q V X : Type*} [Group Q] [Group V] [Finite V]
     (hβt : ∀ x, β x t = π x) (hσt : ∀ x, σ x t = t) (hπσ : ∀ x q, π (σ x q) = ρ x (π q))
     (hβσ : ∀ x q q', β (σ x q) (σ x q') = ρ x (β q q')) :
     ∃ L : Subgroup Q, t ∉ L ∧ (∀ q : Q, q ∈ L ∨ q * t ∈ L) ∧ ∀ x, ∀ q ∈ L, σ x q ∈ L := by
-  letI : CommGroup Q := { ‹Group Q› with mul_comm := hQc }
-  letI : CommGroup V := { ‹Group V› with mul_comm := hVc }
+  let : CommGroup Q := { ‹Group Q› with mul_comm := hQc }
+  let : CommGroup V := { ‹Group V› with mul_comm := hVc }
   have hQ2' : ∀ x : Additive Q, 2 • x = 0 := by
     intro x
     rw [← ofMul_toMul x, ← ofMul_pow, pow_two, hQ2 x.toMul, ofMul_one]
   have hV2' : ∀ v : Additive V, 2 • v = 0 := by
     intro v
     rw [← ofMul_toMul v, ← ofMul_pow, pow_two, hV2 v.toMul, ofMul_one]
-  letI : Module (ZMod 2) (Additive Q) := AddCommGroup.zmodModule (n := 2) hQ2'
-  letI : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule (n := 2) hV2'
-  haveI : Finite (Additive V) := ‹Finite V›
+  let : Module (ZMod 2) (Additive Q) := AddCommGroup.zmodModule (n := 2) hQ2'
+  let : Module (ZMod 2) (Additive V) := AddCommGroup.zmodModule (n := 2) hV2'
+  have : Finite (Additive V) := ‹Finite V›
   have hcard : Nat.card (Additive V) = 16 := by
     rw [← Nat.card_congr (Additive.ofMul : V ≃ Additive V), hV16]
   have hfr : Module.finrank (ZMod 2) (Additive V) = 4 := by

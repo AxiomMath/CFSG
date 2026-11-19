@@ -60,9 +60,9 @@ theorem w16g_three_rk_eq_six (h : HAb A X Q t 3) (he : (s13Supp X Q).ncard = 3) 
   classical
   have hp3 : Nat.Prime 3 := by norm_num
   have hp32 : 3 ≠ 2 := by norm_num
-  haveI : Finite (Subgroup W) :=
+  have : Finite (Subgroup W) :=
     Finite.of_injective (fun S : Subgroup W => (S : Set W)) SetLike.coe_injective
-  haveI : Fintype {U : Subgroup W // U ∈ s13Supp X Q} := Fintype.ofFinite _
+  have : Fintype {U : Subgroup W // U ∈ s13Supp X Q} := Fintype.ofFinite _
   rw [rk_commSub_top_eq_sum h.hW hp3 hp32 h.hXe h.hQX]
   rw [← finsum_subtype_eq_finsum_cond, finsum_eq_sum_of_fintype]
   have hrank2 : ∀ i : {U : Subgroup W // U ∈ s13Supp X Q}, rk ↥(i.1) = 2 :=
@@ -76,6 +76,7 @@ theorem w16g_three_rk_eq_six (h : HAb A X Q t 3) (he : (s13Supp X Q).ncard = 3) 
     _ = 2 * (s13Supp X Q).ncard := by rw [Nat.card_coe_set_eq]
     _ = 6 := by rw [he]
 
+omit [Finite W] in
 theorem w16g_three_inv_ne_bot (h : HAb A X Q t 3) :
     ⁅Q, Subgroup.zpowers t⁆ ≠ ⊥ := by
   intro hbot
@@ -101,6 +102,7 @@ theorem w16g_three_inv_ne_bot (h : HAb A X Q t 3) :
     simpa using h
   exact hq1 hq_one
 
+omit [Finite W] in
 private theorem w16g_supp_zpowers_coord {X : Subgroup (MulAut W)} {p : ℕ}
     {lam : s13IsoComps X → Additive ↥X →+ ZMod p} (hl : IsCoord X p lam)
     {z : MulAut W} (hz : z ∈ X) (U : s13IsoComps X) :
@@ -108,15 +110,17 @@ private theorem w16g_supp_zpowers_coord {X : Subgroup (MulAut W)} {p : ℕ}
       lam U (Additive.ofMul ⟨z, hz⟩) ≠ 0 := by
   have h1 : (U : Subgroup W) ∈ s13Supp X (Subgroup.zpowers z) ↔
       commSub (U : Subgroup W) (Subgroup.zpowers z) ≠ ⊥ := by
-    simp only [s13Supp, Set.mem_setOf_eq, U.2, true_and]
+    simp only [s13Supp, Set.mem_ofPred_eq, U.2, true_and]
   rw [h1]
   exact (coord_ne_zero_iff hl ⟨z, hz⟩ U).symm
 
+omit [Finite W] in
 private theorem w16g_supp_mono {X : Subgroup (MulAut W)} {L L' : Subgroup (MulAut W)}
     (hLL' : L ≤ L') : s13Supp X L ⊆ s13Supp X L' := by
   intro U hU
   exact ⟨hU.1, fun hbot => hU.2 (le_bot_iff.mp (hbot ▸ commSub_mono le_rfl hLL'))⟩
 
+omit [Finite W] in
 private theorem w16g_commSub_zpowers_eq_bot_iff {U : Subgroup W} {z : MulAut W} :
     commSub U (Subgroup.zpowers z) = ⊥ ↔ z ∈ centSub U := by
   rw [commSub_eq_bot_iff]
@@ -130,6 +134,7 @@ private theorem w16g_commSub_zpowers_eq_bot_iff {U : Subgroup W} {z : MulAut W} 
     intro w hw
     exact mem_centSub.mp (Subgroup.zpowers_le.mpr h hw) u hu
 
+omit [Finite W] in
 private theorem w16g_supp_mul_subset_free {X : Subgroup (MulAut W)} {x y : MulAut W} :
     s13Supp X (Subgroup.zpowers (x * y)) ⊆
       s13Supp X (Subgroup.zpowers x) ∪ s13Supp X (Subgroup.zpowers y) := by
@@ -200,7 +205,7 @@ private theorem w16g_three_line_eq_of_supp_eq (h : HAb A X Q t 3)
     (hsupp : s13Supp X Q₁ = s13Supp X Q₂)
     (he : (s13Supp X Q₁).ncard = 3) : Q₁ = Q₂ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   obtain ⟨lam, hl⟩ := exists_coord h.hW (by norm_num : Nat.Prime 3)
     (by norm_num : (3 : ℕ) ≠ 2) h.hXe
   obtain ⟨q₁, hq₁⟩ := (Subgroup.isCyclic_iff_exists_zpowers_eq_top Q₁).mp
@@ -373,7 +378,7 @@ private theorem w16g_three_proj (h : HAb A X Q t 3)
   classical
   have hp3 : Nat.Prime 3 := by norm_num
   have hp32 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   set e : Set (Subgroup W) := s13Supp X Q with hedef
   have htX : ∀ x ∈ X, t * x * t⁻¹ ∈ X := h.hXA t h.htA
   have htX' : ∀ x ∈ X, t⁻¹ * x * t ∈ X := by
@@ -432,7 +437,7 @@ private theorem w16g_three_proj (h : HAb A X Q t 3)
       intro hbot
       rw [hbot, Subgroup.card_bot] at hKcard
       norm_num at hKcard
-    haveI : Nontrivial ↥(Q ⊓ s13KerOn X U) :=
+    have : Nontrivial ↥(Q ⊓ s13KerOn X U) :=
       (Subgroup.nontrivial_iff_ne_bot _).mpr hKne
     obtain ⟨x, hx1⟩ := exists_ne (1 : ↥(Q ⊓ s13KerOn X U))
     have hxQ : (x : MulAut W) ∈ Q := x.2.1
@@ -487,7 +492,7 @@ private theorem w16g_three_proj (h : HAb A X Q t 3)
     have h2 := w16g_three_rk_eq_six h he
     omega
   have hQmap1 : Q.map (MulAut.conj (1 : MulAut W)).toMonoidHom = Q := by
-    rw [show MulAut.conj (1 : MulAut W) = 1 from by ext w; simp [MulAut.conj_apply]]
+    rw [show MulAut.conj (1 : MulAut W) = 1 from by ext w; simp]
     exact Subgroup.map_id Q
   have ht1 : (1 : MulAut W) * t * 1⁻¹ = t := by simp
   have hcost' : rk ↥(commSub (commSub ⊤ (Q.map (MulAut.conj (1 : MulAut W)).toMonoidHom))
@@ -576,7 +581,7 @@ theorem w16g_three_blocks (h : HAb A X Q t 3)
   classical
   have hp3 : Nat.Prime 3 := by norm_num
   have hp32 : (3 : ℕ) ≠ 2 := by norm_num
-  haveI : Fact (Nat.Prime 3) := ⟨hp3⟩
+  have : Fact (Nat.Prime 3) := ⟨hp3⟩
   obtain ⟨lam, hl⟩ := exists_coord h.hW hp3 hp32 h.hXe
   obtain ⟨hproj_mem, hproj_not⟩ := w16g_three_proj h hH0 hQ9 he hl
   have hsuppπ : ∀ x : ↥X,
@@ -672,7 +677,7 @@ theorem w16g_three_blocks (h : HAb A X Q t 3)
         Q.map (MulAut.conj a).toMonoidHom ⊓ s13KerOn X U1
     · have hKne : (Q.map (MulAut.conj a).toMonoidHom ⊓ s13KerOn X U0) ≠ ⊥ := by
         intro hbot; rw [hbot, Subgroup.card_bot] at hK0card; norm_num at hK0card
-      haveI : Nontrivial ↥(Q.map (MulAut.conj a).toMonoidHom ⊓ s13KerOn X U0) :=
+      have : Nontrivial ↥(Q.map (MulAut.conj a).toMonoidHom ⊓ s13KerOn X U0) :=
         (Subgroup.nontrivial_iff_ne_bot _).mpr hKne
       obtain ⟨q', hq'1⟩ := exists_ne (1 : ↥(Q.map (MulAut.conj a).toMonoidHom ⊓
         s13KerOn X U0))
@@ -715,7 +720,7 @@ theorem w16g_three_blocks (h : HAb A X Q t 3)
       exact hq'1 (Subtype.ext (w16g_eq_one_of_supp_ncard_le_one h hH0 hq'X hle))
     · have hK0ne : (Q.map (MulAut.conj a).toMonoidHom ⊓ s13KerOn X U0) ≠ ⊥ := by
         intro hbot; rw [hbot, Subgroup.card_bot] at hK0card; norm_num at hK0card
-      haveI : Nontrivial ↥(Q.map (MulAut.conj a).toMonoidHom ⊓ s13KerOn X U0) :=
+      have : Nontrivial ↥(Q.map (MulAut.conj a).toMonoidHom ⊓ s13KerOn X U0) :=
         (Subgroup.nontrivial_iff_ne_bot _).mpr hK0ne
       have hnotsub : ¬ (Q.map (MulAut.conj a).toMonoidHom ⊓ s13KerOn X U0 ≤
           Q.map (MulAut.conj a).toMonoidHom ⊓ s13KerOn X U1) := by
@@ -815,8 +820,8 @@ private theorem w16g_three_plane_Xle (h : HAb A X Q t 3)
   exact hconj
 
 private theorem w16g_three_plane_Yle (h : HAb A X Q t 3)
-    (hH0 : ∀ y ∈ X, y ≠ 1 → (s13Supp X (Subgroup.zpowers y)).ncard ≠ 1)
-    (hQ3 : Nat.card ↥Q = 3) (he : (s13Supp X Q).ncard = 3)
+    (_hH0 : ∀ y ∈ X, y ≠ 1 → (s13Supp X (Subgroup.zpowers y)).ncard ≠ 1)
+    (_hQ3 : Nat.card ↥Q = 3) (_he : (s13Supp X Q).ncard = 3)
     (hXle : X ≤ Q ⊔ s13XSupp X (s13IsoComps X \ s13Supp X Q)) :
     s13XSupp X (s13Supp X Q) ≤ Q := by
   classical

@@ -35,7 +35,7 @@ theorem linLeviHom_apply_of_mem_blockPre {I : Set ℕ} {a : Fin n}
   classical
   obtain ⟨x, hx⟩ := hy
   rw [← hx]
-  simp [blockEmb, MonoidHom.mulSingle_apply, Pi.mulSingle_eq_of_ne hb]
+  simp [blockEmb, Pi.mulSingle_eq_of_ne hb]
 
 theorem linLeviHom_apply_mem_of_mem_blockPre {I : Set ℕ} {a : Fin n}
     {y : ↥(flagStabilizer n K I)} (hy : y ∈ blockPre K n I a) :
@@ -72,8 +72,8 @@ theorem blockHom_surjective (I : Set ℕ) (a : Fin n) :
     intro b _
     by_cases hb : b = a
     · subst hb
-      simpa [blockEmb] using x.2
-    · simp [blockEmb, MonoidHom.mulSingle_apply, Pi.mulSingle_eq_of_ne hb, one_mem]
+      simp [blockEmb]
+    · simp [blockEmb, Pi.mulSingle_eq_of_ne hb, one_mem]
   obtain ⟨q, hq⟩ := hmem
   refine ⟨⟨q, ⟨x, hq.symm⟩⟩, Subtype.ext ?_⟩
   rw [coe_blockHom, hq]
@@ -107,6 +107,7 @@ section Section
 
 variable [Finite K] [CharP K 2]
 
+omit [Finite K] [CharP K 2] in
 theorem card_center_linBlockSL_eq {I : Set ℕ} (a : Fin n) :
     Nat.card (Subgroup.center ↥(linBlockSL K n I a)) =
       Nat.card (scalars (linBlockLen n I a) K) := by
@@ -116,11 +117,13 @@ theorem card_center_linBlockSL_eq {I : Set ℕ} (a : Fin n) :
     (slEquivToGLRange (K := K) (linBlockLen n I a)).injective,
     ← scalars_eq_center (linBlockLen n I a) K]
 
+omit [CharP K 2] in
 theorem card_center_linBlockSL_dvd {I : Set ℕ} (a : Fin n) (hm : 1 ≤ linBlockLen n I a) :
     Nat.card (Subgroup.center ↥(linBlockSL K n I a)) ∣ Nat.card K - 1 := by
   rw [card_center_linBlockSL_eq]
   exact card_scalars_dvd hm
 
+omit [Finite K] [CharP K 2] in
 theorem blockPre_scalar_eq_one {I : Set ℕ} {a : Fin n} {b : Fin n} (hba : b ≠ a)
     (hb : 1 ≤ linBlockLen n I b) {y : ↥(blockPre K n I a)}
     (hy : ((y : ↥(flagStabilizer n K I)) : SpecialLinearGroup (Fin n) K) ∈ scalars n K) :
@@ -162,7 +165,7 @@ theorem exists_levi_section_linear (hn : 1 ≤ n) (I : Set ℕ) (a : Fin n)
   let θ' : ↥ρ'.range →* blockQuot K n I a := θ.comp eY.symm.toMonoidHom
   have hθ' : Function.Surjective θ' :=
     ((QuotientGroup.mk'_surjective _).comp (blockHom_surjective I a)).comp eY.symm.surjective
-  haveI : IsSimpleGroup (blockQuot K n I a) := hX.2
+  have : IsSimpleGroup (blockQuot K n I a) := hX.2
   have hsec := S622IsSimpleSection.of_surjective θ' hθ' (LeviBlock.exists_noncomm_centerQuotient hX)
   refine ⟨ρ'.range, θ'.ker.map ρ'.range.subtype, ?_, hsec, ?_, ?_⟩
   · rintro _ ⟨y, rfl⟩
@@ -173,7 +176,7 @@ theorem exists_levi_section_linear (hn : 1 ≤ n) (I : Set ℕ) (a : Fin n)
     rw [h1, Subgroup.index_ker, MonoidHom.range_eq_top.mpr hθ', Subgroup.card_top]
   · intro r hr hr2 hrK hdvd
     rw [Subgroup.card_map_of_injective ρ'.range.subtype_injective] at hdvd
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥θ'.ker) r hdvd
     set w : ↥ρ'.range := z.1 with hw
     set y : ↥(blockPre K n I a) := eY.symm w with hy

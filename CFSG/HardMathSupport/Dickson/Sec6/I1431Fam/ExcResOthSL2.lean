@@ -41,11 +41,11 @@ variable {K : Type} [Field K]
 
 theorem excOth_uSL_add (a b : K) : uSL (a + b) = uSL a * uSL b := by
   apply SL2_ext <;> simp [coe_uSL, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply,
-    Fin.sum_univ_two] <;> ring
+    Fin.sum_univ_two]; ring
 
 theorem excOth_vSL_add (a b : K) : vSL (a + b) = vSL a * vSL b := by
   apply SL2_ext <;> simp [coe_vSL, Matrix.SpecialLinearGroup.coe_mul, Matrix.mul_apply,
-    Fin.sum_univ_two] <;> ring
+    Fin.sum_univ_two]
 
 theorem excOth_uSL_zero : (uSL (0 : K)) = 1 := by
   apply SL2_ext <;> simp [coe_uSL]
@@ -77,10 +77,10 @@ theorem excOth_comm_u_one_entry (M : SL2 K) :
   ring
 
 @[expose] def excOth_uHom (K : Type) [Field K] : Multiplicative K →* SL2 K :=
-  MonoidHom.mk' (fun s => uSL (Multiplicative.toAdd s)) fun a b => excOth_uSL_add _ _
+  MonoidHom.mk' (fun s => uSL (Multiplicative.toAdd s)) fun _a _b => excOth_uSL_add _ _
 
 @[expose] def excOth_vHom (K : Type) [Field K] : Multiplicative K →* SL2 K :=
-  MonoidHom.mk' (fun s => vSL (Multiplicative.toAdd s)) fun a b => excOth_vSL_add _ _
+  MonoidHom.mk' (fun s => vSL (Multiplicative.toAdd s)) fun _a _b => excOth_vSL_add _ _
 
 theorem excOth_sl2_heis {G : Type*} [Group G] {F : Type} [Field F]
     (φ : (G ⧸ Subgroup.center G) ≃* StatedProj (StatedSL 2 F)) (ρ : SL2 K →* G)

@@ -268,8 +268,8 @@ theorem Psi.piD_torus (t : Kˣ) (y : RootModule TwistTag.E6.tag K) :
       ext γ
       simp only [Pi.smul_apply, piD_rootVec, smul_eq_mul, LinearMap.smul_apply, LinearMap.id_apply]
       by_cases h : μ = γ.1 - e6HighestRoot
-      · rw [if_pos h, h, sub_highest_apply_one γ, zpow_neg_one]
-      · rw [if_neg h]
+      · rw [ite_eq_left h, h, sub_highest_apply_one γ, zpow_neg_one]
+      · rw [ite_eq_right h]
         simp
   exact LinearMap.congr_fun key y
 

@@ -30,12 +30,14 @@ local instance : NeZero Tag.E6.rank := ⟨by decide⟩
 
 variable {L : Type} [Field L] [IsAlgClosed L] [CharP L 2]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem rootChar_gamma1 (a : Fin Tag.E6.rank → Lˣ) :
     rootChar a gamma1 = a 3 := by
   have h : gamma1 = Pi.single (3 : Fin Tag.E6.rank) 1 := by
     funext i; fin_cases i <;> rfl
   rw [h, rootChar_pi_single]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem rootChar_gamma2 (a : Fin Tag.E6.rank → Lˣ) :
     rootChar a gamma2 = a 1 * a 2 * a 3 * a 4 := by
   have h : gamma2 = Pi.single (1 : Fin Tag.E6.rank) 1 + Pi.single 2 1 +
@@ -44,6 +46,7 @@ theorem rootChar_gamma2 (a : Fin Tag.E6.rank → Lˣ) :
   rw [h, rootChar_add, rootChar_add, rootChar_add]
   simp [rootChar_pi_single]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem rootChar_gamma3 (a : Fin Tag.E6.rank → Lˣ) :
     rootChar a gamma3 = a 1 * a 2 * a 3 ^ 2 * a 4 := by
   have h : gamma3 = Pi.single (1 : Fin Tag.E6.rank) 1 + Pi.single 2 1 +
@@ -52,6 +55,7 @@ theorem rootChar_gamma3 (a : Fin Tag.E6.rank → Lˣ) :
   rw [h, rootChar_add, rootChar_add, rootChar_add, rootChar_nsmul_single]
   simp [rootChar_pi_single]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem rootChar_neg_eq_inv (a : Fin Tag.E6.rank → Lˣ) (α : Fin Tag.E6.rank → ℤ) :
     rootChar a (-α) = (rootChar a α)⁻¹ := by
   have h : -α = 0 - α := by abel
@@ -59,13 +63,16 @@ theorem rootChar_neg_eq_inv (a : Fin Tag.E6.rank → Lˣ) (α : Fin Tag.E6.rank 
 
 noncomputable def canonicalY : ModGL Tag.E6 L := canonicalRep (coxeterSystem Tag.E6) L cE6
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem canonicalY_mem_monomial : canonicalY (L := L) ∈ monomialSubgroup Tag.E6 L :=
   canonicalRep_mem_monomialSubgroup L cE6
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem canonicalY_weylQuotientHom :
     weylQuotientHom Tag.E6 L ⟨canonicalY (L := L), canonicalY_mem_monomial⟩ = cE6 :=
   weylQuotientHom_eq (mapsRootLines_canonicalRep cE6)
 
+omit [IsAlgClosed L] in
 theorem canonicalY_fixes_rootVec {γ : Fin Tag.E6.rank → ℤ} (hγ : γ ∈ fixedA2E6) :
     (canonicalY (L := L) : Module.End L (RootModule Tag.E6 L)) (rootVec Tag.E6 L γ) =
       rootVec Tag.E6 L γ := by
@@ -82,6 +89,7 @@ theorem canonicalY_fixes_rootVec {γ : Fin Tag.E6.rank → ℤ} (hγ : γ ∈ fi
   · rw [hε] at hY
     simpa [canonicalY, CharTwo.neg_eq] using hY
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem exists_torusTuple_of_weyl_c
     {E : Subgroup (ModGL Tag.E6 L)}
     (hEM : E ≤ monomialSubgroup Tag.E6 L)
@@ -104,6 +112,7 @@ theorem exists_torusTuple_of_weyl_c
   obtain ⟨b, hb⟩ := exists_rootDiagUnit_eq_of_mem_torusGroup hdT
   exact ⟨b, hb⟩
 
+omit [IsAlgClosed L] in
 theorem normRoute_PQ
     {E : Subgroup (ModGL Tag.E6 L)}
     (hEM : E ≤ monomialSubgroup Tag.E6 L)
@@ -253,6 +262,7 @@ theorem frameT_eq_diagTuple :
   change fixedA2Rho L (diagSL3 1 (frameOmega (L := L))) = _
   rw [fixedA2Rho_diagSL3]
 
+omit [IsAlgClosed L] in
 theorem n_rootVec_fixed {n : ModGL Tag.E6 L} {b : Fin Tag.E6.rank → Lˣ}
     (hn : n = rootDiagUnit Tag.E6 b * canonicalY (L := L))
     {γ : Fin Tag.E6.rank → ℤ} (hγ : γ ∈ fixedA2E6) :
@@ -314,7 +324,7 @@ theorem rootChar_diagTuple_gamma2 :
   have hz : (frameOmega (L := L)) ^ (5 : ℤ) =
       (frameOmega (L := L)) ^ (2 : ℤ) :=
     frameOmega_zpow_eq_of_eq_add_three_mul (a := 5) (b := 2) (m := 1) (by norm_num)
-  simpa [zpow_natCast, pow_succ, pow_two, mul_assoc] using hz
+  simp [pow_succ, mul_assoc]
 
 theorem rootChar_diagTuple_gamma3 :
     rootChar (diagTuple (1 : Lˣ) (frameOmega (L := L))) gamma3 =
@@ -323,7 +333,7 @@ theorem rootChar_diagTuple_gamma3 :
   have hz : (frameOmega (L := L)) ^ (7 : ℤ) =
       (frameOmega (L := L)) ^ (1 : ℤ) :=
     frameOmega_zpow_eq_of_eq_add_three_mul (a := 7) (b := 1) (m := 2) (by norm_num)
-  simpa [zpow_natCast, pow_succ, pow_two, mul_assoc] using hz
+  simp [pow_succ, mul_assoc]
 
 theorem n1_scalar_eq_one {b : Fin Tag.E6.rank → Lˣ} {r : Fin 3}
     (hb3 : b 3 = frameOmega (L := L) ^ (r : ℕ))
@@ -407,6 +417,7 @@ theorem n1_rootVec_fixed {n : ModGL Tag.E6 L} {b : Fin Tag.E6.rank → Lˣ}
     frameT_zpow_neg_two_mul r, frameT_pow_rootVec_fixed (r : ℕ) hγ, smul_smul,
     n1_scalar_eq_one hb3 hP γ hγ, one_smul]
 
+omit [IsAlgClosed L] [CharP L 2] in
 theorem Vlong_eq_span_fixedA2E6 :
     Vlong L = Submodule.span L
       (rootVec Tag.E6 L '' {γ : Fin Tag.E6.rank → ℤ | γ ∈ fixedA2E6}) := by

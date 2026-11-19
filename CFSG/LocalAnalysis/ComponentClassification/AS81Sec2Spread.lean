@@ -546,7 +546,7 @@ theorem eq_one_of_mem_ker_of_pow_prime {Γ A : Type*} [Group Γ] [Finite Γ] [Gr
     {z : Γ} (hz : z ∈ f.ker) (hzp : ∃ k : ℕ, z ^ p ^ k = 1) : z = 1 := by
   obtain ⟨Q⟩ : Nonempty (Sylow p Γ) := inferInstance
   have hgen0 : ∃ q₀ ∈ Q, ∀ a ∈ Q, ∃ i : ℤ, f q₀ ^ i = f a := by
-    have hQp : IsPGroup p (Q.map f) := Q.isPGroup'.map f
+    have hQp : IsPGroup p (Q.map f) := Q.isPGroup.map f
     obtain ⟨k, hk⟩ := hQp.exists_card_eq
     have hdvd : Nat.card (Q.map f) ∣ Nat.card f.range :=
       Subgroup.card_dvd_of_le (map_le_range f (Q : Subgroup Γ))
@@ -575,7 +575,7 @@ theorem eq_one_of_mem_ker_of_pow_prime {Γ A : Type*} [Group Γ] [Finite Γ] [Gr
     have hmem : (q₀ ^ i)⁻¹ * a ∈ Q := Q.mul_mem (Q.inv_mem (Q.zpow_mem hq₀ i)) ha
     refine ⟨i, (q₀ ^ i)⁻¹ * a, hcen _ ?_ ?_, by group⟩
     · rw [MonoidHom.mem_ker, map_mul, map_inv, map_zpow, hi, inv_mul_cancel]
-    · obtain ⟨k, hk⟩ := Q.isPGroup' ⟨_, hmem⟩
+    · obtain ⟨k, hk⟩ := Q.isPGroup ⟨_, hmem⟩
       exact ⟨k, by simpa using congrArg Subtype.val hk⟩
   have hQcomm : ∀ a ∈ Q, ∀ b ∈ Q, a * b = b * a := by
     intro a ha b hb
@@ -597,7 +597,7 @@ theorem eq_one_of_mem_ker_of_pow_prime {Γ A : Type*} [Group Γ] [Finite Γ] [Gr
       rintro g ⟨k, hk⟩
       have h1 : (MonoidHom.transfer (MonoidHom.id Q) g) ^ 2 ^ k = 1 := by
         rw [← map_pow, hk, map_one]
-      obtain ⟨l, hl⟩ := Q.isPGroup' (MonoidHom.transfer (MonoidHom.id Q) g)
+      obtain ⟨l, hl⟩ := Q.isPGroup (MonoidHom.transfer (MonoidHom.id Q) g)
       have hcop : Nat.Coprime (2 ^ k) (p ^ l) := Nat.Coprime.pow _ _
         ((Nat.coprime_primes Nat.prime_two hp.out).mpr (Ne.symm hp2))
       have h3 := Nat.dvd_gcd (orderOf_dvd_of_pow_eq_one h1) (orderOf_dvd_of_pow_eq_one hl)

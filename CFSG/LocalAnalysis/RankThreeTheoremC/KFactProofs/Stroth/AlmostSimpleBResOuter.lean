@@ -22,7 +22,7 @@ theorem false_of_outer_fixing_pair {p : ℕ} (hp : p.Prime)
     (hi : ∀ i j : ℤ, y₁ ^ i * y₂ ^ j = 1 → (p : ℤ) ∣ i ∧ (p : ℤ) ∣ j)
     (hfix1 : ψ x y₁ = y₁) (hfix2 : ψ x y₂ = y₂) : False := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set a : MulAut P := ψ x with ha
   have hap : a ^ p = 1 := by rw [ha, ← map_pow, hx, map_one]
   have haI : a ∉ inner P := hxout

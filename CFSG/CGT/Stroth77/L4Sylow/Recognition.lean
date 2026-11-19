@@ -298,9 +298,9 @@ theorem range_l4StdHom : F.l4StdHom.range = D ⊔ Subgroup.closure {F.uv, F.t, F
 theorem l4StdHom_injective (hm : 1 ≤ m) : Function.Injective F.l4StdHom := by
   rw [← MonoidHom.ker_eq_bot_iff]
   by_contra hne
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (L4Std m) := Nat.finite_of_card_ne_zero (by rw [card_L4Std]; positivity)
-  haveI := (IsPGroup.of_card (card_L4Std m)).isNilpotent
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (L4Std m) := Nat.finite_of_card_ne_zero (by rw [card_L4Std]; positivity)
+  have := (IsPGroup.of_card (card_L4Std m)).isNilpotent
   apply Group.IsNilpotent.inf_center_ne_bot_of_normal hne
   rw [eq_bot_iff]
   intro a ha

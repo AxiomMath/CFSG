@@ -219,7 +219,7 @@ theorem mem_M_of_commutator_mem_inf (c : Ctx147 D L n r p A X B R)
     IsPGroup.of_card (n := 1) (by rw [hcardRi']; norm_num)
   obtain ⟨Q, hRQ⟩ := hRiP'.exists_le_sylow
   let Y₀ : Subgroup G := (Q : Subgroup K).map K.subtype
-  have hY₀P : IsPGroup 7 Y₀ := Q.isPGroup'.map K.subtype
+  have hY₀P : IsPGroup 7 Y₀ := Q.isPGroup.map K.subtype
   have hRiY₀ : Ri ≤ Y₀ := by
     intro y hy
     have hyK : (⟨y, hRiKle hy⟩ : ↥K) ∈ Ri.subgroupOf K := hy

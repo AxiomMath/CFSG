@@ -12,7 +12,7 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G]
 
 theorem sec127_RL {V X : Subgroup G} {t : G} (hbot : X ⊓ centralizer (V : Set G) = ⊥)
-    (hXN : X ≤ normalizer (V : Set G)) (hXt : X ≤ centralizer ({t} : Set G))
+    (_hXN : X ≤ normalizer (V : Set G)) (hXt : X ≤ centralizer ({t} : Set G))
     (htN : t ∈ normalizer (V : Set G)) (ht2 : t * t = 1)
     (hfus : ∀ u ∈ X, u * u = 1 → u ≠ 1 → ∃ n ∈ normalizer (V : Set G), n⁻¹ * t * n = t * u)
     {y : MulAut ↥V}

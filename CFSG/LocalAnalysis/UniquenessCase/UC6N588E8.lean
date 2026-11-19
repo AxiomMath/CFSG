@@ -18,7 +18,7 @@ variable {G : Type} [Group G] [Finite G] (m : Mz614 G)
 
 theorem sup_zpowers_inf_E_ne_bot {t : G} (htA : t ∈ m.A) (htZ : t ∉ m.Z) :
     (m.Z ⊔ zpowers t) ⊓ m.E ≠ ⊥ := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   have hel := m.isElemAbelian_A
   have ht1 : t ≠ 1 := fun h => htZ (h ▸ m.Z.one_mem)
   have htcard : Nat.card (zpowers t) = m.r := by
@@ -77,7 +77,7 @@ theorem N588.card_sup_of_le_normalizer {X : Type*} [Group X] [Finite X] {N T : S
 
 theorem mem_M_of_conj_le {W : Subgroup G} (hWA : W ≤ m.A) (hZW : m.Z ≤ W) (hWZ : ¬ W ≤ m.Z)
     {y : G} (hy : ∀ w ∈ W, y * w * y⁻¹ ∈ N588.rCore m.r m.L ⊔ W) : y ∈ m.M := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
+  have : Fact m.r.Prime := ⟨m.hr⟩
   set O := N588.rCore m.r m.L with hO
   set P := O ⊔ W with hP
   have hWp : IsPGroup m.r W := m.isPGroup_A.to_le hWA
@@ -146,8 +146,8 @@ theorem conj_mem_of_sig_eq (hSch : UCK.KSch) {y w w' : ↥m.LA}
 
 theorem isStronglyPEmbedded_star_M (hSch : UCK.KSch) :
     IsStronglyPEmbedded m.r (m.star m.M) := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
-  haveI : Finite (MulAut m.Lbar) := MulEquiv.finite_left
+  have : Fact m.r.Prime := ⟨m.hr⟩
+  have : Finite (MulAut m.Lbar) := MulEquiv.finite_left
   have hel := m.isElemAbelian_star_A
   have hcardA := m.card_star_A hKM hK3 h69 hSch
   have hSyl : IsSylowOf m.r (m.star m.R) (m.star m.M) :=
@@ -242,7 +242,7 @@ theorem k35_Xs (hSch : UCK.KSch) (hK35 : UCK.K35Ω) :
     IsSimpleGroup ↥m.Xs ∧ (LieModel ↥m.Xs .PSL 2 m.r 2 ∨ IsAlt ↥m.Xs (2 * m.r) ∨
       (m.r = 3 ∧ (IsSpor ↥m.Xs .M11 ∨ LieModel ↥m.Xs .PSL 3 2 2)) ∨
       (m.r = 5 ∧ (LieModel ↥m.Xs .Tits 0 2 1 ∨ IsSpor ↥m.Xs .Fi22))) := by
-  haveI : Finite (MulAut m.Lbar) := MulEquiv.finite_left
+  have : Finite (MulAut m.Lbar) := MulEquiv.finite_left
   exact hK35 ↥m.Xs m.isKGroup_Xs m.r m.hr m.d.odd m.Opp_Xs (m.pPrimeCore_Xs hKM hK3 h69 hSch)
     (m.star m.M) (m.isStronglyPEmbedded_star_M hKM hK3 h69 hSch) (m.star m.R) (m.star m.A)
     (m.star_R_sylow h69) m.star_A_le_star_R m.isElemAbelian_star_A
@@ -250,11 +250,11 @@ theorem k35_Xs (hSch : UCK.KSch) (hK35 : UCK.K35Ω) :
     (fun _ hb _ hy => m.star_A_comm h69 hb hy)
 
 theorem innX_range_eq_top (hSch : UCK.KSch) (hK35 : UCK.K35Ω) : m.innX.range = ⊤ := by
-  haveI := (m.k35_Xs hKM hK3 h69 hSch hK35).1
-  haveI := m.innX_range_normal
+  have := (m.k35_Xs hKM hK3 h69 hSch hK35).1
+  have := m.innX_range_normal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal m.innX.range with h | h
   · exfalso
-    haveI := m.isSimpleGroup_Lbar_of_inputs hKM hK3 h69 hSch
+    have := m.isSimpleGroup_Lbar_of_inputs hKM hK3 h69 hSch
     obtain ⟨u, hu⟩ := exists_ne (1 : m.Lbar)
     apply hu
     apply m.innX_injective hKM hK3 h69 hSch

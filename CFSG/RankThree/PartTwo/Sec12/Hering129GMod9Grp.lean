@@ -66,6 +66,7 @@ theorem card_zpowers_sup_of_not_mem {F : Subgroup X} {g : X} (hg3 : g ^ 3 = 1)
   rw [hinf, Subgroup.card_bot, mul_one, Nat.card_zpowers, hgo] at hcard
   exact hcard
 
+omit [Finite X] in
 theorem isElemAbelian_bot : CFSG.Assembly.IsElemAbelian 3 (⊥ : Subgroup X) :=
   ⟨⟨⟨fun a b => Subtype.ext (by
     have ha : (a : X) = 1 := Subgroup.mem_bot.mp a.2
@@ -84,7 +85,7 @@ theorem exists_R_F_u {X₀ : Type} [Group X₀] (ι₁ ι₂ : X₀ →* X) (h�
       CFSG.Assembly.IsElemAbelian 3 F ∧ F ≤ R ∧ F ≠ R ∧ Nat.card F = 27 ∧ v ^ 2 = 1 ∧ v ≠ 1 ∧
       ∀ f ∈ F, f * v = v * f := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (Subgroup.center X₀) := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
+  have : Finite (Subgroup.center X₀) := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
   have hzo : orderOf z = 3 := orderOf_eq_prime hz3 hz1
   have hZz : Subgroup.zpowers z = Subgroup.center X₀ :=
     Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.mpr hzc)
@@ -256,8 +257,6 @@ theorem exists_R_F_u {X₀ : Type} [Group X₀] (ι₁ ι₂ : X₀ →* X) (h�
       intro d j m a
       rw [← zpow_natCast d 3, ← zpow_mul, ← zpow_mul, ← zpow_add, ← zpow_add]
       congr 1
-      try push_cast
-      try ring
     have hσd : σ = (δ ^ k₁) ^ (j + 3 * m + 3 * a) := by
       have h1 : σ = (δ ^ k₁) ^ j * ζ₁ ^ m * ζ₁ ^ a := by
         calc σ = (δ ^ k₁) ^ j * ((δ ^ k₁) ^ (-j) * σ * ζ₁ ^ (-a)) * ζ₁ ^ a := by group

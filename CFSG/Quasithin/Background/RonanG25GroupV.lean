@@ -31,7 +31,7 @@ theorem g25v_diag_odd {F : Type} [Field F] [Finite F] [CharP F 2] {c : F} (hc : 
     rw [smul_single_one, hd]
     fin_cases i <;> simp
   have hc1 : c ^ (Nat.card F - 1) = 1 := by
-    haveI : Fintype F := Fintype.ofFinite F
+    have : Fintype F := Fintype.ofFinite F
     rw [Nat.card_eq_fintype_card]
     exact FiniteField.pow_card_sub_one_eq_one c hc
   have hdk : d ^ (Nat.card F - 1) = 1 := by
@@ -84,6 +84,7 @@ theorem l1Rep (St : L3Setting n V V₁ L T H) : L1Rep (rho St.D) :=
       obtain ⟨a, ha, haθ⟩ := exists_l1_torus St hc
       exact ⟨⟨(a : G), ha⟩, haθ⟩ }
 
+omit [Finite G] in
 theorem g25v_pre_bot {E : Type} [AddCommGroup E] {B : Subgroup G}
     {φ : ↥B →* Multiplicative E} (hφ : Function.Injective φ) : pre B φ ⊥ = ⊥ := by
   rw [eq_bot_iff]
@@ -95,6 +96,7 @@ theorem g25v_pre_bot {E : Type} [AddCommGroup E] {B : Subgroup G}
   rw [Subgroup.mem_bot]
   exact congrArg Subtype.val h2
 
+omit [Finite G] in
 theorem g25v_pre_top {E : Type} [AddCommGroup E] {B : Subgroup G}
     {φ : ↥B →* Multiplicative E} : pre B φ ⊤ = B := by
   apply le_antisymm (pre_le _)

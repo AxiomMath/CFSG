@@ -355,11 +355,11 @@ theorem kgSmallB_holds :
       rw [← hquot, hcard_quot, kgsb_evenLieOrder_triD4 htri]
     have hdvd := hKdvdS
     rw [hKord, hcardS', kgsb_ordTrialityD4_two_part, ← kgsb_pow_twelve lab.n] at hdvd
-    exact kgsb_triD4_absurd (2 ^ lab.n) hQ (by convert hdvd using 1 <;> ring)
+    exact kgsb_triD4_absurd (2 ^ lab.n) hQ (by convert hdvd using 1)
   · have hcardS' : Nat.card S = ordTwistedF4 (2 ^ lab.n) := by
       rw [← hquot, hcard_quot, kgsb_evenLieOrder_twF4 htw]
     have hdvd := hKdvdS
     rw [hKord, hcardS', kgsb_ordTwistedF4_two_part, ← kgsb_pow_twelve lab.n] at hdvd
-    exact kgsb_twF4_absurd (2 ^ lab.n) hQ (by convert hdvd using 1 <;> ring)
+    exact kgsb_twF4_absurd (2 ^ lab.n) hQ (by convert hdvd using 1)
 
 end CFSG.StandardType.KG

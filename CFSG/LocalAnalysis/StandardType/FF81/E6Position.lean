@@ -98,7 +98,7 @@ private lemma e6Pos_conj_xr_zE_inv :
 
 private lemma e6Pos_xr_mem_centralizer_lE :
     xr (highRoot .E6) ∈ Subgroup.centralizer (lE : Set EC) :=
-  Subgroup.mem_centralizer_iff.mpr fun y hy =>
+  Subgroup.mem_centralizer_iff.mpr fun _y hy =>
     (commute_of_mem_sTheta_of_mem_lE xr_highRoot_mem_sTheta hy).symm
 
 private lemma e6Pos_map_eq_lE {G : Type} [Group G] {Y L : Subgroup G} {b : G}
@@ -137,13 +137,13 @@ private lemma e6Pos_map_eq_lE {G : Type} [Group G] {Y L : Subgroup G} {b : G}
     have hSL : commutator (Matrix.SpecialLinearGroup (Fin 6) (ZMod 2)) = ⊤ :=
       CFSG.ClassicalModels.specialLinear_commutator_eq_top_of_three_le (n := 6) (by norm_num)
     obtain ⟨eL⟩ := CFSG.Open.StatedAPI.nonempty_mulEquiv_specialLinear_zmod_two_of_psl hL
-    haveI : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 6) (ZMod 2)) :=
+    have : Group.IsPerfect (Matrix.SpecialLinearGroup (Fin 6) (ZMod 2)) :=
       Group.IsPerfect.mk hSL
     have hL' : commutator ↥(L.subgroupOf Y) = ⊤ :=
       (Group.IsPerfect.ofSurjective
         (f := ((Subgroup.subgroupOfEquivOfLe hLY).trans eL).symm.toMonoidHom)
         ((Subgroup.subgroupOfEquivOfLe hLY).trans eL).symm.surjective).commutator_eq_top
-    haveI : Group.IsPerfect ↥(L.subgroupOf Y) := Group.IsPerfect.mk hL'
+    have : Group.IsPerfect ↥(L.subgroupOf Y) := Group.IsPerfect.mk hL'
     exact (Group.IsPerfect.ofSurjective
       (f := ((L.subgroupOf Y).equivMapOfInjective χ.toMonoidHom χ.injective).toMonoidHom)
       ((L.subgroupOf Y).equivMapOfInjective χ.toMonoidHom χ.injective).surjective).commutator_eq_top

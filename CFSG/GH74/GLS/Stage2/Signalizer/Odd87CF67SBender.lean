@@ -79,7 +79,7 @@ theorem benderL28_no_commute {Y : Type} [Group Y] [Finite Y]
     (hh1 : h ≠ 1) (hgh : g * h = h * g) : False := by
   classical
   obtain ⟨t, hcore⟩ := hB.exists_benderCore (default : Sylow 2 Y)
-  have hP : IsPGroup 2 ((default : Sylow 2 Y) : Subgroup Y) := (default : Sylow 2 Y).isPGroup'
+  have hP : IsPGroup 2 ((default : Sylow 2 Y) : Subgroup Y) := (default : Sylow 2 Y).isPGroup
   set D : Subgroup Y := cartan ((default : Sylow 2 Y) : Subgroup Y) t with hD
   have hDcard : Nat.card D = 7 := by rw [hD, hcore.card_cartan]; norm_num
   have hYcard : Nat.card Y = 504 := by rw [hB.card_eq]; norm_num

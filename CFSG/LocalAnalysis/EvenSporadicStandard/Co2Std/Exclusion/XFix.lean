@@ -58,7 +58,7 @@ private lemma card_modEq_card_inf_fixedSubgroup {ρ : X →* MulAut V} [Finite V
     obtain ⟨z, hz⟩ := Subgroup.mem_zpowers_iff.mp h.2
     rw [← hz, map_zpow]
     exact mapsTo_zpow hS z v hv
-  letI : MulAction H S :=
+  let : MulAction H S :=
     { smul := fun h v => ⟨ρ (h : X) v.1, hinv h v.1 v.2⟩
       one_smul := by
         intro v
@@ -173,10 +173,10 @@ theorem exists_ne_one_forall_fixed {V : Type*} [Group V] (hV : IsElementaryAbeli
     (hb7 : ∃ n : ℕ, b ^ 7 ^ n = 1) (hbK : ∃ k ∈ K, b * k ≠ k * b) :
     ∃ v : V, v ≠ 1 ∧ ∀ k ∈ K, ρ k v = v := by
   classical
-  haveI := hV
-  haveI hVfin : Finite V := Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
-  haveI h11p : Fact (Nat.Prime 11) := ⟨by decide⟩
-  haveI h7p : Fact (Nat.Prime 7) := ⟨by decide⟩
+  have := hV
+  have hVfin : Finite V := Nat.finite_of_card_ne_zero (by rw [hcard]; positivity)
+  have h11p : Fact (Nat.Prime 11) := ⟨by decide⟩
+  have h7p : Fact (Nat.Prime 7) := ⟨by decide⟩
   have hexp : ∀ v : V, v ^ 2 = 1 := fun v =>
     Monoid.exponent_dvd_iff_forall_pow_eq_one.mp (IsElementaryAbelian.exponent_dvd_p 2 V) v
   have hpow : ∀ S : Subgroup V, ∃ k, Nat.card S = 2 ^ k := by
@@ -363,7 +363,7 @@ theorem exists_ne_one_forall_fixed {V : Type*} [Group V] (hV : IsElementaryAbeli
     intro v hv
     have hv' : v ∈ U ⊓ TauCeti.fixedSubgroup (ρ b).toMonoidHom := by rw [hCU]; exact hv
     exact (TauCeti.mem_fixedSubgroup (F := (ρ b).toMonoidHom)).mp (Subgroup.mem_inf.mp hv').2
-  letI : MulAction K U :=
+  let : MulAction K U :=
     { smul := fun k u => ⟨ρ (k : X) u.1, hUK (k : X) k.2 u.1 u.2⟩
       one_smul := by
         intro u
@@ -392,7 +392,7 @@ theorem exists_ne_one_forall_fixed {V : Type*} [Group V] (hV : IsElementaryAbeli
       have hcomm := (Subgroup.mem_center_iff.mp hbc) ⟨k, hkK⟩
       exact hbk (congrArg Subtype.val hcomm).symm
   have hUbig : 1 < Nat.card U := by rw [hcardU]; norm_num
-  haveI : Nontrivial U := Finite.one_lt_card_iff_nontrivial.mp hUbig
+  have : Nontrivial U := Finite.one_lt_card_iff_nontrivial.mp hUbig
   obtain ⟨u, hu1⟩ := exists_ne (1 : U)
   refine ⟨u.1, ?_, ?_⟩
   · intro h

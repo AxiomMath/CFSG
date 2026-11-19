@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Group.Defs
-public import Mathlib.Data.Finite.Defs
+public import Mathlib.Basic.Finite.Defs
 
 public import CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.Section2.Basic
 import all CFSG.ThirdParty.QiuzhenCFSG.GorensteinWalter.GWLemma21Trichotomy
@@ -125,7 +125,7 @@ private theorem central_conj_in_normalizer_of_kleinFour
           simpa [hNbot, Subgroup.index_bot] using hNindex
         omega
       · have hNcard : 1 = 2 := by
-          simpa [hNtop, Subgroup.index_top] using hNindex
+          simp [hNtop, Subgroup.index_top] at hNindex
         omega
     have hCprime : NormalizerContainsCPrime (c.S : Subgroup G) :=
       (case1_no_index_two_fusion_and_normalizer hmin.1 hno2).2

@@ -63,7 +63,7 @@ theorem img_sound (σ : Perm (Fin 7)) (m : ℕ) (j : Fin 7) (h : (img σ m).test
             decide_eq_true_eq] at h1
           rcases h1 with h1 | h1
           · exact Or.inl h1
-          · exact Or.inr ⟨i, by simp, hm, by first | exact h1 | exact Fin.ext h1⟩
+          · exact Or.inr ⟨i, by simp, hm, by first | exact Fin.ext h1⟩
         · simp only [hm] at h1
           exact Or.inl h1
       · exact Or.inr ⟨i', List.mem_cons_of_mem _ hi', h2⟩

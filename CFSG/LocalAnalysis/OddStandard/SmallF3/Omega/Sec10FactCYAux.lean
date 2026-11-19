@@ -43,7 +43,7 @@ theorem exists_conj_invol {S : Subgroup G} {s : G} (hsN : s ∈ normalizer (S : 
             map_one' := Subtype.ext (by simp [hss])
             map_mul' := fun a b => Subtype.ext ?_ }, fun y => rfl, fun y => Subtype.ext ?_⟩
   · show s * ((a : G) * b) * s = s * a * s * (s * b * s)
-    simp only [mul_assoc, hss', mul_one]
+    simp only [mul_assoc, hss']
   · show s * (s * (y : G) * s) * s = y
     simp only [mul_assoc, hss, hss', mul_one]
 

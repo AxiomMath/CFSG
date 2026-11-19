@@ -57,7 +57,7 @@ theorem isSolvable_or_opp_alt_or_fi22_of_kFacts
     (hX : CFSG.Open.IsKGroup X) (hO : CFSG.pPrimeCore p X = ⊥)
     (h2 : 2 ≤ CFSG.Open.pRank p (⊤ : Subgroup X)) {N : Subgroup X}
     (hN : IsStronglyPEmbedded p N) :
-    IsSolvable ↥N ∨ Nonempty (↥(Opp p (⊤ : Subgroup X)) ≃* alternatingGroup (Fin (2 * p))) ∨
+    Group.IsSolvable ↥N ∨ Nonempty (↥(Opp p (⊤ : Subgroup X)) ≃* alternatingGroup (Fin (2 * p))) ∨
       (p = 5 ∧ IsSpor ↥(Opp p (⊤ : Subgroup X)) .Fi22) := by
   classical
   have : Fact p.Prime := ⟨hp⟩
@@ -76,12 +76,12 @@ theorem isSolvable_or_opp_alt_or_fi22_of_kFacts
     exact h2
   have hΓ : CFSG.Open.rankThreeGamma 1 p (P : Subgroup X) ≠ ⊤ :=
     ne_top_of_le_ne_top hN.1
-      (CFSG.LocalAnalysis.UniquenessCase.UCK.glbCore_le_of_isStronglyPEmbedded hN P.isPGroup' hPN)
+      (CFSG.LocalAnalysis.UniquenessCase.UCK.glbCore_le_of_isStronglyPEmbedded hN P.isPGroup hPN)
   have hout : Group.IsSolvable (Outer ↥K) := hSch ↥K hKs hKnab hcat
   have hle : Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ N.subgroupOf K := by
     rw [hT]
     exact normalizer_subgroupOf_le_of_isStronglyPEmbedded hN hPK
-      (P.isPGroup'.to_le inf_le_left) (inf_le_left.trans hPN) inf_le_right
+      (P.isPGroup.to_le inf_le_left) (inf_le_left.trans hPN) inf_le_right
   have hne : N.subgroupOf K ≠ ⊤ := fun h =>
     CFSG.LocalAnalysis.UniquenessCase.UCK.not_le_of_isStronglyPEmbedded hN P hPN hPK T hT
       (Subgroup.subgroupOf_eq_top.mp h)
@@ -124,7 +124,7 @@ theorem isSolvable_or_opp_alt_or_fi22_of_kFacts
       have hOppK : Opp p (⊤ : Subgroup X) = K :=
         opp_top_eq_of_forall_mem hKC
           (fun x n hx => CFSG.LocalAnalysis.UniquenessCase.UCK.mem_of_forall_inner K hKC hinn hx)
-          (P.isPGroup'.to_le inf_le_left) hPK1
+          (P.isPGroup.to_le inf_le_left) hPK1
       rcases hsmall with hlin | huni | halt | h34 | h5spor | h11J4
       ·
         have hD := CFSG.AGLEmbedding.smallRankOneData_of_small hp hp5 (Or.inl hlin) T
@@ -156,7 +156,7 @@ theorem isSolvable_or_opp_alt_or_fi22_of_kFacts
         intro h
         exact hcyc (h ▸ inferInstance)
       have hdvd : p ∣ Nat.card (T : Subgroup ↥K) := by
-        obtain ⟨k, hk⟩ := T.isPGroup'.exists_card_eq
+        obtain ⟨k, hk⟩ := T.isPGroup.exists_card_eq
         have hk0 : k ≠ 0 := by
           rintro rfl
           refine hTbot (Subgroup.card_eq_one.1 ?_)

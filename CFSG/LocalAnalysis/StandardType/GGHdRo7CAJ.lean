@@ -33,7 +33,7 @@ private theorem hdRo7CAJAux_refl_ne_one {p : ℕ} [Fact p.Prime] {G : Type} [Gro
   have hcard' : Nat.card ↥Bs * p = Nat.card ↥Bs := by
     rwa [hfix] at hcard
   have hpos : 0 < Nat.card ↥Bs := by
-    haveI : Nonempty ↥Bs := ⟨1, Bs.one_mem⟩
+    have : Nonempty ↥Bs := ⟨1, Bs.one_mem⟩
     exact Nat.card_pos
   have hp1 : p = 1 := by
     have h' : Nat.card ↥Bs * p = Nat.card ↥Bs * 1 := by simpa using hcard'
@@ -69,7 +69,7 @@ private theorem hdRo7CAJAux_three_dvd_quotient {X : Type} [Group X] [Finite X]
     (tag : LargeEvenLieTag) (r n : ℕ)
     (h : CFSG.Assembly.LargeEvenRawDatum ⟨tag, r, n⟩
       (fun R _ _ _ => Nonempty (X ≃* R)))
-    (htag : tag = .B ∨ tag = .C) (hn : n = 1) (hr : 1 ≤ r) :
+    (htag : tag = .B ∨ tag = .C) (_hn : n = 1) (hr : 1 ≤ r) :
     3 ∣ Nat.card X := by
   rcases htag with hB | hC
   · subst hB
@@ -89,7 +89,7 @@ private theorem hdRo7CAJAux_three_dvd_quotient {X : Type} [Group X] [Finite X]
 
 theorem c2_aj_holds : C2AJLeaf := by
   intro hX hJ hRig hLB G _ _ p B Bs x L D J y K hH hfact hrow
-  haveI : Fact p.Prime := hfact
+  have : Fact p.Prime := hfact
   obtain ⟨labJ, labL, hΛJ, hΛL, hJlab, hLlab, hrowBC⟩ := hrow
   have hp3 : p = 3 := hrowBC.1
   have hBCJ : labJ.tag = .B ∨ labJ.tag = .C := hrowBC.2.1
@@ -123,7 +123,7 @@ theorem c2_aj_holds : C2AJLeaf := by
     rcases hJD with hSD | hLE3 | hNL
     · obtain ⟨Λ, _, _, b, M, _, MJ, V, _, _, ι, φ, h, α, _, _, hMJ, _, _, hrefl, _, _, _, _, hgenJ,
         _⟩ := hSD
-      haveI : Nonempty {j : Λ // j ≠ b} := hdRo7CAJAux_weylMatrix_nonempty hMJ
+      have : Nonempty {j : Λ // j ≠ b} := hdRo7CAJAux_weylMatrix_nonempty hMJ
       let j0 : {j : Λ // j ≠ b} := Classical.choice (inferInstance : Nonempty _)
       have hmem : φ ↑j0 ∈ Subgroup.closure (Set.range fun j : {j : Λ // j ≠ b} => φ ↑j) :=
         Subgroup.subset_closure (Set.mem_range_self j0)
@@ -134,7 +134,7 @@ theorem c2_aj_holds : C2AJLeaf := by
       exact (hdRo7CAJAux_refl_ne_one (hrefl ↑j0)) (Subgroup.mem_bot.mp hbotmem)
     · obtain ⟨Λ, _, _, S, M, _, MJ, V, _, _, ι, φ, h, α, _, _, _, _, hMJ, _, _, hrefl, _, _, _, _,
         hgenJ, _⟩ := hLE3
-      haveI : Nonempty {j : Λ // j ∉ S} := hdRo7CAJAux_weylMatrix_nonempty hMJ
+      have : Nonempty {j : Λ // j ∉ S} := hdRo7CAJAux_weylMatrix_nonempty hMJ
       let j0 : {j : Λ // j ∉ S} := Classical.choice (inferInstance : Nonempty _)
       have hmem : φ ↑j0 ∈ Subgroup.closure (Set.range fun j : {j : Λ // j ∉ S} => φ ↑j) :=
         Subgroup.subset_closure (Set.mem_range_self j0)

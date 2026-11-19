@@ -45,7 +45,7 @@ theorem data_of_normalizes {g : G} (hg : g * z * g⁻¹ = t) (ht2 : t * t = 1)
   have hRS : R ≤ (S : Subgroup G) := hyp.hR.2.2
   have hR'S : R' ≤ (S : Subgroup G) := hyp.hR'.2.2
   have hc : Commutes R R' := hΩ.commutes_of_twin_of_isPGroup hK hK' hKK'.symm hz hz'
-    (hRsyl.1) (hR'syl.1) (S.isPGroup'.to_le (sup_le hRS hR'S))
+    (hRsyl.1) (hR'syl.1) (S.isPGroup.to_le (sup_le hRS hR'S))
   have hRq : IsQuatSub R := hΩ.isQuatSub_of_mem_RSet hp hyp.hR.1
   have hR'q : IsQuatSub R' := hΩ.isQuatSub_of_mem_RSet hp hyp.hR'.1
   have hzR : IsUniqueInvolution R z :=

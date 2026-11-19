@@ -16,6 +16,7 @@ open CFSG.Timmesfeld.Bridge.Asc72 CFSG.Timmesfeld.Connectivity CFSG.OddTransposi
 
 variable {G : Type} [Group G] [Finite G] {D : Set G}
 
+omit [Finite G] in
 private theorem mem_Dalpha_of_mk_eq_w4p (hC : HypothesisC D) {γ β β' : Set G}
     (hγ : IsBlock D γ) (hBγ : BlocksInCosets D γ) (hAγ : FibresAnticlique D γ)
     (hβ : β ∈ Dalpha D γ) (hβ' : β' ∈ Dalpha D γ) {b b' : Halpha D γ}

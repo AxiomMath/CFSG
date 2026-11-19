@@ -92,23 +92,23 @@ private lemma ggQ2s08k1_orbit_all {V : Type} [AddCommGroup V] [Module (ZMod 3) V
     rw [map_smul, Module.Basis.repr_self]
   have hycoord : ∀ l, b.repr y l = if l ∈ O then b.repr xv l else 0 := by
     intro l
-    rw [hyrepr, Finsupp.finset_sum_apply]
+    rw [hyrepr, _root_.Finsupp.finsetSum_apply]
     have hterm : ∀ k ∈ O, (b.repr xv k • (Finsupp.single k 1 : Fin N →₀ ZMod 3)) l
         = (if l = k then b.repr xv l else 0) := by
       intro k hk
       rw [Finsupp.smul_apply, smul_eq_mul]
       by_cases hlk : l = k
-      · rw [if_pos hlk, hlk, Finsupp.single_eq_same, mul_one]
-      · rw [if_neg hlk, Finsupp.single_eq_of_ne hlk, mul_zero]
+      · rw [ite_eq_left hlk, hlk, Finsupp.single_eq_same, mul_one]
+      · rw [ite_eq_right hlk, Finsupp.single_eq_of_ne hlk, mul_zero]
     trans Finset.sum O (fun k => if l = k then b.repr xv l else 0)
     · exact Finset.sum_congr rfl hterm
     · exact Finset.sum_ite_eq O l (fun _ => b.repr xv l)
   have hycoord_mem : ∀ l, l ∈ O → b.repr y l = b.repr xv l := by
     intro l hl
-    rw [hycoord l, if_pos hl]
+    rw [hycoord l, ite_eq_left hl]
   have hycoord_not : ∀ l, l ∉ O → b.repr y l = 0 := by
     intro l hl
-    rw [hycoord l, if_neg hl]
+    rw [hycoord l, ite_eq_right hl]
   have hfix : ∀ w ∈ W, w y = y := by
     intro w hwmem
     obtain ⟨σ, ε, hε, hw⟩ := hWm w hwmem
@@ -293,7 +293,7 @@ private lemma ggQ2s08k1_orbit_off {V : Type} [AddCommGroup V] [Module (ZMod 3) V
   exact (hO_mem j).mp hjO
 
 theorem ggQ2s08core_orbit_dichotomy {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {N : ℕ}
-    (hN : 2 ≤ N)
+    (_hN : 2 ≤ N)
     (b : Module.Basis (Fin N) (ZMod 3) V) (W : Subgroup (V ≃ₗ[ZMod 3] V))
     (hWm : ∀ w ∈ W, GGQ2S08Mono b w) (xv : V) (hx : xv ≠ 0)
     (hWfix : ∀ v, (∀ w ∈ W, w v = v) ↔ v ∈ Submodule.span (ZMod 3) {xv})
@@ -312,7 +312,7 @@ theorem ggQ2s08core_orbit_dichotomy {V : Type} [AddCommGroup V] [Module (ZMod 3)
     · rw [h, zero_smul]
       exact Submodule.zero_mem _
     · exact Submodule.smul_mem _ _ (Submodule.subset_span
-        ⟨i, by simpa only [hS, Set.mem_setOf_eq] using h, rfl⟩)
+        ⟨i, by simpa only [hS, Set.mem_ofPred_eq] using h, rfl⟩)
   have hUle : Submodule.span (ZMod 3) {xv} ≤ ggQ2s08k1_spanB b S := by
     rw [Submodule.span_singleton_le_iff_mem]
     exact hxvU
@@ -324,7 +324,7 @@ theorem ggQ2s08core_orbit_dichotomy {V : Type} [AddCommGroup V] [Module (ZMod 3)
       intro k hk
       have h := ggQ2s08k1_repr_mono b hw xv k
       rw [hwxv] at h
-      simp only [hS, Set.mem_setOf_eq] at hk ⊢
+      simp only [hS, Set.mem_ofPred_eq] at hk ⊢
       rw [h]
       exact mul_ne_zero (hε k) hk
     have hmap : Submodule.map w.toLinearMap (ggQ2s08k1_spanB b S) ≤ ggQ2s08k1_spanB b S := by
@@ -342,16 +342,16 @@ theorem ggQ2s08core_orbit_dichotomy {V : Type} [AddCommGroup V] [Module (ZMod 3)
         intro i hi
         have hxi : b.repr xv i = 0 := by
           by_contra hne
-          exact h ⟨i, by simpa only [hS, Set.mem_setOf_eq] using hne⟩
+          exact h ⟨i, by simpa only [hS, Set.mem_ofPred_eq] using hne⟩
         rw [hxi, zero_smul]
       exact hx hzero
     obtain ⟨i₀, hi₀S⟩ := hSne
     have hi₀ne : b.repr xv i₀ ≠ 0 := by
-      simpa only [hS, Set.mem_setOf_eq] using hi₀S
+      simpa only [hS, Set.mem_ofPred_eq] using hi₀S
     have hx0 : ∀ i, i ≠ i₀ → b.repr xv i = 0 := by
       intro i hi
       by_contra hne
-      have hiS : i ∈ S := by simpa only [hS, Set.mem_setOf_eq] using hne
+      have hiS : i ∈ S := by simpa only [hS, Set.mem_ofPred_eq] using hne
       have hbi : b i ∈ Submodule.span (ZMod 3) {xv} := by
         rw [← hUspan]
         exact Submodule.subset_span ⟨i, hiS, rfl⟩
@@ -372,7 +372,7 @@ theorem ggQ2s08core_orbit_dichotomy {V : Type} [AddCommGroup V] [Module (ZMod 3)
       intro i
       by_contra hi0
       have hiS : i ∉ S := by
-        simp only [hS, Set.mem_setOf_eq]
+        simp only [hS, Set.mem_ofPred_eq]
         exact fun hne => hne hi0
       have hmem : b i ∈ ggQ2s08k1_spanB b S := by rw [hUtop]; exact Submodule.mem_top
       have hzero := ggQ2s08k1_repr_eq_zero_of_mem_spanB b hiS hmem

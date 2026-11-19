@@ -11,8 +11,8 @@ open CFSG.Open CFSG.EvenSmallLie.CatalogOrders
 theorem lieMin_le_of_admissible {t : StatedLieTag} {n p f : ℕ}
     (h : StatedLieAdmissible t n p f) : lieMin t ≤ n := by
   obtain ⟨-, -, h⟩ := h
-  cases t <;> simp only [StatedLieAdmissible, lieMin] at h ⊢ <;>
-    first | omega | exact Nat.zero_le _ | skip
+  cases t <;> simp only [lieMin] at h ⊢ <;>
+    first | omega
 
 theorem lieOrd_lt_hs_of_char_three {t : StatedLieTag} {n f : ℕ}
     (hadm : StatedLieAdmissible t n 3 f) (hmin : lieMin t ≤ n)
@@ -39,7 +39,7 @@ theorem lieOrd_lt_hs_of_char_three {t : StatedLieTag} {n f : ℕ}
       have : 1 ≤ (n - 1) * n / 2 := by
         interval_cases n <;> simp
       nlinarith
-    interval_cases n <;> interval_cases f <;> first | decide | (exfalso; revert hle; norm_num; done) | (exfalso; revert hn23; norm_num; done) | (exfalso; omega)
+    interval_cases n <;> interval_cases f <;> first | decide | (exfalso; revert hle; norm_num)
   case PSU =>
     obtain ⟨hn3, -⟩ := hrest
     simp only [lieExp] at hle
@@ -52,9 +52,9 @@ theorem lieOrd_lt_hs_of_char_three {t : StatedLieTag} {n f : ℕ}
       nlinarith
     have hf4 : f ≤ 4 := by
       have : 1 ≤ (n - 1) * n / 2 := by
-        interval_cases n <;> simp
+        interval_cases n; simp
       nlinarith
-    interval_cases n <;> interval_cases f <;> first | decide | (exfalso; revert hle; norm_num; done) | (exfalso; omega)
+    interval_cases n; interval_cases f <;> first | decide | (exfalso; revert hle; norm_num)
   case PSp =>
     obtain ⟨hn2, -⟩ := hrest
     simp only [lieExp] at hle
@@ -62,7 +62,7 @@ theorem lieOrd_lt_hs_of_char_three {t : StatedLieTag} {n f : ℕ}
       by_contra hcon
       nlinarith
     have hf4 : f ≤ 4 := by nlinarith
-    interval_cases n <;> interval_cases f <;> first | decide | (exfalso; revert hle; norm_num; done) | (exfalso; omega)
+    interval_cases n; interval_cases f <;> first | decide | (exfalso; revert hle; norm_num)
   case POmegaOdd =>
     obtain ⟨hn3, -⟩ := hrest
     simp only [lieExp] at hle

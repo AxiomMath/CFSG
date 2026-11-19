@@ -32,7 +32,7 @@ theorem cl1_of_gls3 (h : CatLeaf.GLS3OddLieAutComponentsInput) {S : Type} [Group
       rw [eq_top_iff]
       intro x _
       rfl
-    haveI : IsSimpleGroup (fixedSubgroup (1 : MulAut S)) :=
+    have : IsSimpleGroup (fixedSubgroup (1 : MulAut S)) :=
       ((MulEquiv.subgroupCongr hFtop).trans Subgroup.topEquiv).isSimpleGroup
     have hcomp : IsComponent (P.subgroupOf (fixedSubgroup (1 : MulAut S))) := hP.2.2.2
     have htop : P.subgroupOf (fixedSubgroup (1 : MulAut S)) = ⊤ := by
@@ -62,7 +62,7 @@ theorem cl1_of_gls3 (h : CatLeaf.GLS3OddLieAutComponentsInput) {S : Type} [Group
   ·
     have hPLie : LieModel ↥P .PSL 2 2 3 :=
       LieModel.of_mulEquiv (Subgroup.subgroupOfEquivOfLe hP.2.1) hKlie
-    haveI : IsSimpleGroup ↥P :=
+    have : IsSimpleGroup ↥P :=
       (CFSG.LieType.Simplicity.fam_classical_converse ↥P
         ⟨.PSL, 2, 2, 3, GH74.statedClassicalModel_of_lieModel (by norm_num) hPLie⟩).2.2
     have hnab' : ∃ x y : ↥(P.subgroupOf (fixedSubgroup σ)), x * y ≠ y * x := by

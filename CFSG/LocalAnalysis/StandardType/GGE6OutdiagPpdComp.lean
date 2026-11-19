@@ -175,13 +175,13 @@ theorem exists_orderOf_ppd_of_orbit_three
     {r : ℕ} (hr : IsTwoPowPpd f 9 r) :
     ∃ z ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i, orderOf z = r := by
   classical
-  haveI : CharP L 2 := CFSG.StandardType.LangRat.charP_two_of_langSetup_q_eq_two_pow S hq
+  have : CharP L 2 := CFSG.StandardType.LangRat.charP_two_of_langSetup_q_eq_two_pow S hq
   have hf : 1 ≤ f := by
     by_contra h0
     have h := S.hqpow.1
     rw [hq, show f = 0 by omega, pow_zero] at h
     exact not_isPrimePow_one h
-  haveI : Fact r.Prime := ⟨hr.1⟩
+  have : Fact r.Prime := ⟨hr.1⟩
   have h3L : ((3 : ℕ) : L) ≠ 0 := by
     have h2 : ((2 : ℕ) : L) = 0 := CharP.cast_eq_zero L 2
     have h3 : ((3 : ℕ) : L) = 1 := by
@@ -219,7 +219,7 @@ theorem exists_orderOf_ppd_of_orbit_three
     (CFSG.Timmesfeld.Bang.primitive_of_orderOf hord).1
   have hndvd3 : ¬ r ∣ 2 ^ (3 * f) - 1 :=
     (CFSG.Timmesfeld.Bang.primitive_of_orderOf hord).2 (3 * f) (by omega) (by omega)
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hGL : Nat.card (GL (Fin 3) K) = ∏ j : Fin 3, (Fintype.card K ^ 3 - Fintype.card K ^ (j : ℕ)) :=
     Matrix.card_GL_field 3
   have hcardK : Fintype.card K = 2 ^ (3 * f) := by rw [← Nat.card_eq_fintype_card, hK]
@@ -266,14 +266,14 @@ theorem exists_orderOf_ppd_of_triality
     (hnin : ¬ twistInner (componentRoots (rootCharHom a) i) S.ρ) {r : ℕ} (hr : IsTwoPowPpd f 12 r) :
     ∃ z ∈ rationalComponent S.ρ S.Γ (rootCharHom a) i, orderOf z = r := by
   classical
-  haveI : CharP L 2 := CFSG.StandardType.LangRat.charP_two_of_langSetup_q_eq_two_pow S hq
+  have : CharP L 2 := CFSG.StandardType.LangRat.charP_two_of_langSetup_q_eq_two_pow S hq
   have hf : 1 ≤ f := by
     by_contra h0
     have h := S.hqpow.1
     rw [hq, show f = 0 by omega, pow_zero] at h
     exact not_isPrimePow_one h
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact r.Prime := ⟨hr.1⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr.1⟩
   obtain ⟨v, hv, hsub, hρ⟩ := CFSG.LocalAnalysis.GLTheoremA.T158.e6D4T2_class S hT hap h24 i
   obtain ⟨⟨e⟩, -⟩ := CFSG.LocalAnalysis.GLTheoremA.T158.d4t2un_rationalComponent_equiv S hFr hΦ
     (ℓ := 2) hf hq (hq ▸ h3q) hT hap i v hv hsub hρ hnin
@@ -312,7 +312,7 @@ theorem exists_orderOf_ppd_of_triality
       omega
     unfold CFSG.Open.ordTrialityD4
     positivity
-  haveI : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
+  have : Finite ↥(rationalComponent S.ρ S.Γ (rootCharHom a) i) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact hpos)
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' r (hcard ▸ hdvd)
   exact ⟨z, z.2, by rw [Subgroup.orderOf_coe, hz]⟩

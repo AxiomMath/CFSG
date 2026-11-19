@@ -14,6 +14,7 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {D : Data G} {V L : Subgroup G} {hV : IsElemAbelian 2 V}
 
+omit [Finite G] in
 theorem s16c4v1_r2_eq_r1_inv (V : Subgroup G) (g : G) :
     s16c4v1_r2 V g = s16c4v1_r1 V g⁻¹ := by
   unfold s16c4v1_r2 s16c4v1_r1
@@ -21,6 +22,7 @@ theorem s16c4v1_r2_eq_r1_inv (V : Subgroup G) (g : G) :
   congr 1
   rw [E3.conjSubgroup_centralizer, E3.conjSubgroup_inv_conj]
 
+omit [Finite G] in
 theorem s16c4v1_card_comm_inv (V : Subgroup G) (g : G) :
     Nat.card (⁅V, conjSubgroup V g⁻¹⁆ : Subgroup G) =
       Nat.card (⁅V, conjSubgroup V g⁆ : Subgroup G) := by
@@ -46,7 +48,7 @@ private theorem s16c4v1_shp_inv_mul_mem_of_relIndex_le_two {H K : Subgroup G}
 
 private theorem s16c4v1_shp_comm_eq_of_relIndex {V A : Subgroup G}
     (hV : IsElemAbelian 2 V) (hA : IsElemAbelian 2 A)
-    (hVA : ⁅V, A⁆ ≤ V ⊓ A)
+    (_hVA : ⁅V, A⁆ ≤ V ⊓ A)
     (h1 : E3.mQuot V (Subgroup.centralizer (A : Set G)) ≤ 1)
     (h2 : E3.mQuot A (Subgroup.centralizer (V : Set G)) ≤ 1)
     {v v₀ a a₀ : G} (hv : v ∈ V) (hv₀ : v₀ ∈ V) (ha : a ∈ A) (ha₀ : a₀ ∈ A)
@@ -220,7 +222,7 @@ private theorem s16c4v1_shp_fix_P (S : s16c4v1_Sit D V L hV) {g : G}
     have hxp : (φ a) • x = x + p := by rw [hpdef]; abel
     rw [hy, hxp] at h1
     simp only [herm_add_left, herm_add_right, hPtot q hq x hx, hPtot q hq p hp,
-      add_zero, zero_add] at h1
+      add_zero] at h1
     have hA : herm S.F.σ y x + herm S.F.σ y p = herm S.F.σ y x + 0 := by
       rw [add_zero]; exact h1
     have hz := add_left_cancel hA
@@ -259,7 +261,7 @@ private theorem s16c4v1_shp_cent_of_mem_P (S : s16c4v1_Sit D V L hV) (hstd : s16
 private theorem s16c4v1_shp_mem_P_of_cent (S : s16c4v1_Sit D V L hV) {g : G}
     (hg : s16c4v1_Cex D V g) (hg' : s16c4v1_Cex D V g⁻¹)
     (P : Submodule S.F.K (Fin 4 → S.F.K))
-    (hPD : ∀ d ∈ ⁅V, conjSubgroup V g⁆, s16c4v1_vec S d ∈ P)
+    (_hPD : ∀ d ∈ ⁅V, conjSubgroup V g⁆, s16c4v1_vec S d ∈ P)
     (hPsurj : ∀ x ∈ P, ∃ d ∈ ⁅V, conjSubgroup V g⁆, s16c4v1_vec S d = x)
     (hPtot : ∀ x ∈ P, ∀ y ∈ P, herm S.F.σ x y = 0)
     (hP2 : Module.finrank S.F.K P = 2)
@@ -322,6 +324,7 @@ private theorem s16c4v1_shp_mem_P_of_cent (S : s16c4v1_Sit D V L hV) {g : G}
   exact s16c4v1_perp_self S.F.σ S.F.card_K S.F.isUnitary P hPtot hP2
     (s16c4v1_vec S v) horth
 
+omit [Finite G] in
 private theorem s16c4v1_shp_card_subgroupOf {H K : Subgroup G} (hHK : H ≤ K) :
     Nat.card (H.subgroupOf K) = Nat.card H := by
   refine Nat.card_congr ?_
@@ -476,7 +479,7 @@ theorem s16c4v1_shape_four (S : s16c4v1_Sit D V L hV) (hstd : s16c4v1_Std D) {z 
     rw [hkerW, s16c4v1_shp_card_subgroupOf hV1W, hcard_range] at h
     exact h.symm
   have hV1pos : 0 < Nat.card (v1Sub D.M ⊥ V hV L) := by
-    haveI : Nonempty ↥(v1Sub D.M ⊥ V hV L) :=
+    have : Nonempty ↥(v1Sub D.M ⊥ V hV L) :=
       ⟨⟨1, (v1Sub D.M ⊥ V hV L).one_mem⟩⟩
     exact Nat.card_pos
   have hV1relV : (v1Sub D.M ⊥ V hV L).relIndex V = 2 ^ 8 := by

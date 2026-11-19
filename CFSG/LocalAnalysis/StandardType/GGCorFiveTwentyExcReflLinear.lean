@@ -47,7 +47,7 @@ theorem reflection_comm_cross_eq_zero {K V : Type*} [Field K] [AddCommGroup V] [
     (hyz : LinearIndependent K ![y, z])
     (hcomm : reflection hfy * reflection hgz = reflection hgz * reflection hfy) : f z = 0 := by
   have h := congrArg (fun T : V ≃ₗ[K] V => T z) hcomm
-  simp only [LinearEquiv.mul_apply, reflection_apply, map_sub, map_smul, hgz, smul_eq_mul] at h
+  simp only [LinearEquiv.mul_apply, reflection_apply, map_sub, map_smul, hgz] at h
   have h' : (2 * f z) • y + (-(f z * g y)) • z = 0 := by
     rw [← sub_eq_zero] at h
     rw [← h]

@@ -24,7 +24,7 @@ theorem exists_constituent {F : Type*} {H : Type*} {V : Type*} [Field F] [Group 
   have exists_isCompl (ρ : Representation F H V) [Finite H]
       (hcard : (Nat.card H : F) ≠ 0) (X : Subrepresentation ρ) :
       ∃ C : Subrepresentation ρ, IsCompl X C := by
-    haveI : NeZero (Nat.card H : F) := ⟨hcard⟩
+    have : NeZero (Nat.card H : F) := ⟨hcard⟩
     obtain ⟨q, hq⟩ := MonoidAlgebra.Submodule.exists_isCompl
       (Subrepresentation.subrepresentationSubmoduleOrderIso (ρ := ρ) X)
     refine ⟨Subrepresentation.subrepresentationSubmoduleOrderIso.symm q, ?_⟩
@@ -142,7 +142,7 @@ theorem exists_constituent {F : Type*} {H : Type*} {V : Type*} [Field F] [Group 
           obtain ⟨y, hy, hyx⟩ := h1
           have : y = x := Subtype.ext hyx
           rw [← this]; exact hy
-    haveI : Nontrivial (Subrepresentation σ) := by
+    have : Nontrivial (Subrepresentation σ) := by
       refine ⟨⊥, ⊤, fun hbt => ?_⟩
       obtain ⟨w, hw⟩ := hne
       apply hw

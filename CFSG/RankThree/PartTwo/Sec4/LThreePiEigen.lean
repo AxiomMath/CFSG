@@ -111,7 +111,7 @@ theorem mul_colMat_eq {y : Matrix (Fin 3) (Fin 3) K} {b : Fin 3 → (Fin 3 → K
 
 theorem isUnit_colMat {b : Fin 3 → (Fin 3 → K)} (hb : LinearIndependent K b) :
     IsUnit (colMat b) := by
-  rw [← Matrix.linearIndependent_cols_iff_isUnit]
+  rw [← Matrix.linearIndependent_col_iff_isUnit]
   convert hb using 1
   ext i r
   rfl

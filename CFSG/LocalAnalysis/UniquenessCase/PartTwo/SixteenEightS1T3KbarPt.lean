@@ -35,7 +35,7 @@ private theorem s16t3_mem_sup_of_commute {G : Type*} [Group G] {H K : Subgroup G
     (hcomm : ∀ h ∈ H, ∀ k ∈ K, h * k = k * h) {x : G} (hx : x ∈ H ⊔ K) :
     ∃ h ∈ H, ∃ k ∈ K, h * k = x := by
   have hnorm : H ≤ Subgroup.normalizer K := s16t3_le_normalizer_of_comm hcomm
-  haveI : (K.subgroupOf (H ⊔ K)).Normal :=
+  have : (K.subgroupOf (H ⊔ K)).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer (sup_le hnorm Subgroup.le_normalizer)
   have hx' : (⟨x, hx⟩ : ↥(H ⊔ K)) ∈ H.subgroupOf (H ⊔ K) ⊔ K.subgroupOf (H ⊔ K) := by
     rw [← Subgroup.subgroupOf_sup le_sup_left le_sup_right, Subgroup.subgroupOf_self]
@@ -46,6 +46,7 @@ private theorem s16t3_mem_sup_of_commute {G : Type*} [Group G] {H K : Subgroup G
   exact ⟨(y : G), Subgroup.mem_subgroupOf.mp hy, (z : G), Subgroup.mem_subgroupOf.mp hz,
     by simpa using congrArg Subtype.val hyz⟩
 
+omit [Finite W] in
 private theorem s16t3_map_mem_irrSet_of_mem {A L : Subgroup (MulAut W)}
     (hA : A ≤ Subgroup.normalizer (L : Set (MulAut W))) {g : MulAut W} (hg : g ∈ A)
     {I : Subgroup W} (hI : I ∈ irrSet L) : I.map g.toMonoidHom ∈ irrSet L :=
@@ -55,6 +56,7 @@ private theorem s16t3_map_mem_irrSet_of_mem {A L : Subgroup (MulAut W)}
       have := (Subgroup.mem_normalizer_iff.1 (hA (A.inv_mem hg)) x).1 hx
       simpa using this) hI
 
+omit [Finite W] in
 private theorem s16t3_smul_eq_self_of_stableUnder {X : Subgroup (MulAut W)} {I : Subgroup W}
     (h : StableUnder X I) {x : MulAut W} (hx : x ∈ X) : x • I = I := by
   refine le_antisymm ?_ ?_
@@ -68,8 +70,9 @@ private theorem s16t3_smul_eq_self_of_stableUnder {X : Subgroup (MulAut W)} {I :
       exact h x⁻¹ (X.inv_mem hx) v hv
     · simp
 
+omit [Finite W] in
 private theorem s16t3_K0_trans {A L T N : Subgroup (MulAut W)} (h : ThreeNat A L T)
-    (hNA : N ≤ A) (hNfix : ∀ a ∈ N, ∀ I ∈ irrSet L, I.map a.toMonoidHom = I)
+    (_hNA : N ≤ A) (hNfix : ∀ a ∈ N, ∀ I ∈ irrSet L, I.map a.toMonoidHom = I)
     (hNcomm : ∀ n ∈ N, ∀ k ∈ s1t3KBar A L, n * k = k * n)
     (hNKsup : N ⊔ s1t3KBar A L = A) :
     ∀ I₁ ∈ irrSet L, ∀ I₂ ∈ irrSet L,
@@ -99,8 +102,8 @@ theorem ThreeNat.exists_point_stabilizer (h : ThreeNat A L T) (h7 : Nat.card ↥
         Nat.card ↥J₂ = 3 * Nat.card ↥(T ⊓ s1t3KBar A L) ∧
         ∀ k ∈ J₂, IsPGroup 3 (Subgroup.zpowers k) → k ^ 3 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨I₀, hI₀, hI₀T⟩ := h.exists_stable_irr h.odd_card_irrSet
   obtain ⟨N, hNA, -, hNfix, hNcomm, hNKbot, hNKsup, -⟩ := h.structure_of_seven h7
   have hK0trans := s16t3_K0_trans h hNA hNfix hNcomm hNKsup
@@ -111,7 +114,7 @@ theorem ThreeNat.exists_point_stabilizer (h : ThreeNat A L T) (h7 : Nat.card ↥
     calc A = N ⊔ s1t3KBar A L := hNKsup.symm
       _ ≤ Subgroup.normalizer (s1t3KBar A L : Set (MulAut W)) :=
           sup_le hNnorm Subgroup.le_normalizer
-  letI : MulAction ↥(s1t3KBar A L) (Subgroup W) :=
+  let : MulAction ↥(s1t3KBar A L) (Subgroup W) :=
     MulAction.compHom (Subgroup W) (Subgroup.subtype (s1t3KBar A L))
   let StabSub : Subgroup ↥(s1t3KBar A L) := MulAction.stabilizer ↥(s1t3KBar A L) I₀
   let J₂ : Subgroup (MulAut W) := StabSub.map (s1t3KBar A L).subtype
@@ -130,9 +133,9 @@ theorem ThreeNat.exists_point_stabilizer (h : ThreeNat A L T) (h7 : Nat.card ↥
       rw [MulAction.compHom_smul_def, Subgroup.pointwise_smul_def]
       exact hkI.symm
   have hJ₂card : Nat.card ↥J₂ = 24 := by
-    haveI : Fintype ↥(s1t3KBar A L) := Fintype.ofFinite _
-    haveI : Fintype (MulAction.orbit ↥(s1t3KBar A L) I₀) := Fintype.ofFinite _
-    haveI : Fintype (MulAction.stabilizer ↥(s1t3KBar A L) I₀) := Fintype.ofFinite _
+    have : Fintype ↥(s1t3KBar A L) := Fintype.ofFinite _
+    have : Fintype (MulAction.orbit ↥(s1t3KBar A L) I₀) := Fintype.ofFinite _
+    have : Fintype (MulAction.stabilizer ↥(s1t3KBar A L) I₀) := Fintype.ofFinite _
     have hOS := MulAction.card_orbit_mul_card_stabilizer_eq_card_group
       (G := ↥(s1t3KBar A L)) I₀
     have hOS' : Nat.card (MulAction.orbit ↥(s1t3KBar A L) I₀) *
@@ -184,7 +187,7 @@ theorem ThreeNat.exists_point_stabilizer (h : ThreeNat A L T) (h7 : Nat.card ↥
       exact s16t3_smul_eq_self_of_stableUnder hI₀stable hx
     exact Subgroup.mem_map.2 ⟨⟨x, hx.2⟩, hsm, rfl⟩
   have hJ₂card' : Nat.card ↥J₂ = 3 * Nat.card ↥(T ⊓ s1t3KBar A L) := by
-    simpa only [hJ₂card, hTK0card]
+    simp only [hJ₂card, hTK0card]
   refine ⟨I₀, hI₀, hI₀T, J₂, hJ₂le, hTle, hJ₂mem, hJ₂card', ?_⟩
   intro k hkJ h3
   have hkK : k ∈ s1t3KBar A L := hJ₂le hkJ

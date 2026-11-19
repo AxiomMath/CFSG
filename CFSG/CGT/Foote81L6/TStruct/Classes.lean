@@ -126,7 +126,7 @@ theorem isFourIn_map_conj {H V : Subgroup G} (hV : IsFourIn H V) {g : G}
 theorem mul_inv_mem_of_card_eq_two_mul {R V : Subgroup G} [Finite R] (hVR : V ≤ R)
     (hcard : Nat.card R = 2 * Nat.card V) {x y : G} (hx : x ∈ R) (hy : y ∈ R) (hxV : x ∉ V)
     (hyV : y ∉ V) : x * y⁻¹ ∈ V := by
-  haveI : Finite V := Finite.of_injective _ (inclusion_injective hVR)
+  have : Finite V := Finite.of_injective _ (inclusion_injective hVR)
   have hidx : (V.subgroupOf R).index = 2 := by
     have h1 := (V.subgroupOf R).card_mul_index
     rw [Nat.card_congr (subgroupOfEquivOfLe hVR).toEquiv, hcard] at h1
@@ -199,8 +199,8 @@ theorem cls_repW (i : ZMod 2) : D.cls (D.repW i) = i := by
   rw [cls, repW, fourClass_liftSub _ _ D.two_le_n_sub_one]
   have h01 : ∀ u : ZMod 2, u = 0 ∨ u = 1 := by decide
   rcases h01 i with rfl | rfl
-  · rw [if_pos rfl, map_zero]
-  · rw [if_neg (by decide), map_one]
+  · rw [ite_eq_left rfl, map_zero]
+  · rw [ite_eq_right (by decide), map_one]
 
 theorem cls_sConj_map_conj {V : Subgroup G} (hV : IsFourIn D.B₁ V) {h : G} (hh : h ∈ D.B₁) :
     D.cls (D.sConj (V.map (MulAut.conj h).toMonoidHom)) = D.cls (D.sConj V) := by
@@ -239,7 +239,7 @@ theorem isFourIn_repU : IsFourIn D.A D.repU := by
         zpar_half D.one_le_m D.two_le_m, add_zero]
 
 theorem repU_eq_A (hm : m = 2) : D.repU = D.A := by
-  haveI := D.finite_A
+  have := D.finite_A
   exact eq_of_le_of_card_ge D.isFourIn_repU.1 (by simp [D.isFourIn_repU.2.2, D.card_A, hm])
 
 @[expose] noncomputable def Frep (i j : ZMod 2) : Subgroup G :=
@@ -259,9 +259,9 @@ theorem inf_of_four {V V₀ V₁ : Subgroup G} (hV : IsFourIn D.A V) (hV₀ : Is
     (V ⊔ (V₀ ⊔ V₁)) ⊓ D.A = V ∧ (V ⊔ (V₀ ⊔ V₁)) ⊓ D.B₀ = V₀ ∧ (V ⊔ (V₀ ⊔ V₁)) ⊓ D.B₁ = V₁ := by
   have hE := D.isE64_of_four hV hV₀ hV₁
   obtain ⟨-, hA, hB₀, hB₁⟩ := D.E64_decomp hE
-  haveI := hA.finite
-  haveI := hB₀.finite
-  haveI := hB₁.finite
+  have := hA.finite
+  have := hB₀.finite
+  have := hB₁.finite
   exact ⟨(eq_of_le_of_card_ge (le_inf le_sup_left hV.1) (hA.2.2.trans hV.2.2.symm).le).symm,
     (eq_of_le_of_card_ge (le_inf (le_sup_left.trans le_sup_right) hV₀.1)
       (hB₀.2.2.trans hV₀.2.2.symm).le).symm,

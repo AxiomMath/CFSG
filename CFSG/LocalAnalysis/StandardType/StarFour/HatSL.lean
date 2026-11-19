@@ -84,9 +84,9 @@ private lemma exists_conjGL_of_chi {F : Type} [Field F] [Finite F] [CharP F 2] {
   · have hm01 : m = 0 ∨ m = 1 := by omega
     rcases hm01 with rfl | rfl
     · refine ⟨1, fun u => ?_⟩
-      haveI : Subsingleton (Fin (0 + 1)) := ⟨fun a b => by
+      have : Subsingleton (Fin (0 + 1)) := ⟨fun a b => by
         rw [Fin.eq_zero a, Fin.eq_zero b]⟩
-      haveI : Subsingleton (Matrix.SpecialLinearGroup (Fin (0 + 1)) F) :=
+      have : Subsingleton (Matrix.SpecialLinearGroup (Fin (0 + 1)) F) :=
         Matrix.SpecialLinearGroup.subsingleton_of_subsingleton
       have hu : u = 1 := Subsingleton.elim u 1
       rw [hu, conjSL_one]
@@ -161,7 +161,7 @@ theorem exists_hat_of_ggPsiInnerDiag {F : Type} [Field F] [Finite F] [CharP F 2]
     (hcop : Nat.Coprime (m + 1) (Nat.card F - 1)) {X : Type*} [Group X]
     (ψ : Matrix.SpecialLinearGroup (Fin (m + 1)) F →* X)
     (hker : ψ.ker ≤ Subgroup.center (Matrix.SpecialLinearGroup (Fin (m + 1)) F))
-    (B : Subgroup X) (hBN : B ≤ Subgroup.normalizer (ψ.range : Set X))
+    (B : Subgroup X) (_hBN : B ≤ Subgroup.normalizer (ψ.range : Set X))
     (hB : ∀ b ∈ B, GGPsiInnerDiag (SpecialLinear.rootDatum m F) ψ b) :
     ∃ hat : B →* Matrix.SpecialLinearGroup (Fin (m + 1)) F,
       (∀ (b : B) (u : Matrix.SpecialLinearGroup (Fin (m + 1)) F),

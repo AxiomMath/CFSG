@@ -34,8 +34,8 @@ theorem ggR4Ambient_of_excl
     refine largeEvenMarking_mono (fun lab R _ I F θ hP => ⟨?_, hP.2⟩) hmark
     rcases lab with ⟨t, l, n⟩
     cases t <;> simp only [GGR4ClassBig, GGR4ClassSmall, reduceCtorEq, false_and, false_or,
-      or_false, true_or, or_true, true_and, and_true, not_false_eq_true, and_self, forall_const] <;>
-      first | tauto | skip
+      or_false, or_true, true_and, and_true, not_false_eq_true] <;>
+      first | tauto
   rcases hsplit.elim_or with hS | h1
   · exact hS
   exfalso

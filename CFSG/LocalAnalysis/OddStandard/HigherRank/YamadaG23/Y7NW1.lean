@@ -11,6 +11,7 @@ open Subgroup CFSG.Open CFSG.OddStandard.HigherRank.G2Three.Sec1
 
 variable {G : Type} [Group G] [Finite G] {t g : G} {P U S F : Subgroup G}
 
+omit [Finite G] in
 theorem y7n_FU (h : Wr7 t P U) (hS : centEl P t = S) (hF : SgFacts S F g) (htg : t * g = g * t)
     (hgU : ∀ u ∈ U, g * u * g⁻¹ ∈ U) :
     ∃ FU : Subgroup G, FU ≤ U ∧ IsElemAbelian 2 FU ∧ Nat.card FU = 8 ∧

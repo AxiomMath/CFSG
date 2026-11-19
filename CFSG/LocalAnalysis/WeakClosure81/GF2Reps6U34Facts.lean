@@ -73,7 +73,7 @@ private theorem isSimple_autFixed {Y : Type} [Group Y] [Finite Y] {e : ℕ}
     (hout : ¬ ∃ g : Y, ∀ x : Y, β x = g * x * g⁻¹) :
     IsSimpleGroup (autFixed β) := by
   obtain ⟨φ⟩ := hBen.fixed_unitary β hβ2 hout
-  haveI : Finite (autFixed β) :=
+  have : Finite (autFixed β) :=
     Finite.of_injective (fun x : autFixed β => (x : Y)) (fun x y h => Subtype.ext h)
   exact (BenderType.linear 2 le_rfl φ).isSimple
 
@@ -104,7 +104,7 @@ theorem fourFacts_of_psu34 {Y : Type} [Group Y]
   have hout : ¬ ∃ g : Y, ∀ x : Y, β x = g * x * g⁻¹ := by
     rintro ⟨g, hg⟩
     exact hβout ⟨g, MulEquiv.ext fun x => (hg x).symm⟩
-  haveI := hfin
+  have := hfin
   have hs : IsSimpleGroup (autFixed β) := isSimple_autFixed hBen hβ2 hout
   have hc := centralizer_autFixed hBen hB2 hβB hβ2 hout
   have hle : autFixed β ≤ commY B β := autFixed_le_commY hB4 hB2 hβB hs hc

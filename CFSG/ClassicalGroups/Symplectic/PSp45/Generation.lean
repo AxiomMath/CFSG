@@ -74,7 +74,7 @@ private theorem elt_mem_of_ne_zero {n : ℕ} (H : Subgroup (StatedSp n (ZMod 5))
   have hnat : ∀ k : ℕ, elt r ((k : ZMod 5) * a) ∈ H := by
     intro k
     induction k with
-    | zero => simpa [elt_zero] using H.one_mem
+    | zero => simp [elt_zero]
     | succ k ih =>
       rw [Nat.cast_succ, add_mul, one_mul, elt_add]
       exact H.mul_mem ih h

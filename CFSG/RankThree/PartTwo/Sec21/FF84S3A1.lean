@@ -109,7 +109,7 @@ theorem card_inf_of_cycleType33 {g : P8} (h : g.cycleType = {3, 3}) :
   have h2 := card_centralizer_cycle33 h
   omega
 
-theorem A1_class (x : P8) (hx : x ∈ A8s) (h3 : orderOf x = 3) :
+theorem A1_class (x : P8) (_hx : x ∈ A8s) (h3 : orderOf x = 3) :
     Nat.card ↥(Subgroup.centralizer ({x} : Set P8) ⊓ A8s) = 18 ↔ x.cycleType = {3, 3} := by
   rcases cycleType_three_cases h3 with h | h
   · have h180 := card_inf_of_cycleType3 h

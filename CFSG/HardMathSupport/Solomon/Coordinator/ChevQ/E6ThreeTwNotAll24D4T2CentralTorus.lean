@@ -126,8 +126,8 @@ private theorem d4t2ct_transport {p f : ℕ} (hp : p.Prime) (hf : 1 ≤ f)
 theorem d4t2CentralTorus_holds : D4T2CentralTorus := by
   intro L _ _ p₀ S hS hAlg l f hl hf hq hl3 h3 h3q a hT hap hall m hm
   classical
-  haveI : Fact l.Prime := ⟨hl⟩
-  haveI : CharP L l := by
+  have : Fact l.Prime := ⟨hl⟩
+  have : CharP L l := by
     rw [CharP.charP_iff_prime_eq_zero hl]
     have h := S.hqpow.2
     rw [hq, Nat.cast_pow] at h
@@ -149,17 +149,17 @@ theorem d4t2CentralTorus_holds : D4T2CentralTorus := by
     omega
   obtain ⟨K, hKcard, -⟩ :=
     CFSG.GH74.GLS.Stage2.Bender.Thm1.mnSyl_exists_subfield (Ω := L) (ℓ := l) (f := f) hf
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by
+  have : Finite K := Nat.finite_of_card_ne_zero (by
     rw [hKcard]
     exact pow_ne_zero _ (pow_ne_zero _ hl.ne_zero))
-  letI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K l := charP_of_card_eq_prime_pow (f := f * 2)
+  let : Fintype K := Fintype.ofFinite K
+  have : CharP K l := charP_of_card_eq_prime_pow (f := f * 2)
     (by rw [← Nat.card_eq_fintype_card, hKcard, ← pow_mul])
   obtain ⟨σ, hσ⟩ : ∃ σ : K ≃+* K, ∀ c, σ c = c ^ (l ^ f) :=
     ⟨RingEquiv.ofBijective (iterateFrobenius K l f) ⟨(iterateFrobenius K l f).injective,
       Finite.surjective_of_injective (iterateFrobenius K l f).injective⟩,
       fun c => iterateFrobenius_def l f c⟩
-  haveI : IsAlgClosure K L := ⟨inferInstance, ⟨fun x => by
+  have : IsAlgClosure K L := ⟨inferInstance, ⟨fun x => by
     obtain ⟨k, hk, hx⟩ := hAlg x
     refine ⟨Polynomial.X ^ (S.D.q ^ k) - Polynomial.X,
       FiniteField.X_pow_card_sub_X_ne_zero _ (Nat.one_lt_pow hk.ne' hq1), ?_⟩
@@ -260,7 +260,7 @@ theorem d4t2CentralTorus_holds : D4T2CentralTorus := by
     have h1 := rootDiagUnit_conj_pinnedX (τ := Tag.E6) (e6RootParams u) hγ.1 c
     rw [hcent γ hγ', Units.val_one, one_mul] at h1
     exact Subgroup.mem_centralizer_singleton_iff.2 (mul_inv_eq_iff_eq_mul.1 h1).symm
-  haveI hnormal : (S.Γ.subgroupOf S.D.model).Normal := by
+  have hnormal : (S.Γ.subgroupOf S.D.model).Normal := by
     have e : S.Γ.subgroupOf S.D.model = ⁅(⊤ : Subgroup S.D.model), ⊤⁆ := by
       have h1 : ⁅S.D.model, S.D.model⁆ =
           Subgroup.map S.D.model.subtype ⁅(⊤ : Subgroup S.D.model), ⊤⁆ := by
@@ -282,7 +282,7 @@ theorem d4t2CentralTorus_holds : D4T2CentralTorus := by
   have hcard : Nat.card (S.D.model ⧸ S.Γ.subgroupOf S.D.model) = 3 := by
     rw [← Subgroup.index_eq_card]
     exact hidx3
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hne : (QuotientGroup.mk ⟨_, hT0M⟩ : S.D.model ⧸ S.Γ.subgroupOf S.D.model) ≠ 1 := by
     rw [Ne, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf]
     exact hnot

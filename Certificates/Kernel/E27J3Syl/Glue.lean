@@ -307,7 +307,7 @@ theorem sHs : ∀ i < SE.cnt, hsortPtK 6156 13 (mask 13) SE.cnt SE.T SE.HS SE.HS
     unfold hvK
     rw [← hkeyU_eq]
     exact h
-  · exact slK_spec c131001_hsv i (by change 0 ≤ i; omega) (by change i < 0 + 256; omega) hi
+  · exact slK_spec c131001_hsv i (by omega) (by omega) hi
 
 theorem sCl : ∀ c < SE.cnt * (2 + 2), findPtK SE.cnt SE.T
     (prodQK 6156 13 (mask 13) (2 + 2) SE.T (bothK 2 SE.GI SEI)) SECl c = true := by
@@ -484,15 +484,15 @@ theorem el_ok {i : Nat} (hi : i < 243) :
   simp only [CFSG.KS.Raw.Orb.bIf_eq] at hel
   rw [hsel, hcount]
   cases h0 : Nat.beq i 0
-  · rw [h0, if_neg Bool.false_ne_true] at hel
+  · rw [h0, ite_eq_right Bool.false_ne_true] at hel
     cases h3 : Nat.beq (jq i (jq i i)) 0
     · rfl
-    · rw [h3, if_pos rfl] at hel
+    · rw [h3, ite_eq_left rfl] at hel
       simp only [Bool.not_false, Bool.true_and, Bool.not_true, Bool.false_or, Bool.or_eq_true,
         beq_iff_eq]
       by_cases h81 : Nat.beq (Nat.mod (cntBelowK 243 (fun j => Nat.beq (jq j i) (jq i j)) 4) 81) 0 = true
       · exact Or.inl (Nat.eq_of_beq_eq_true h81)
-      · rw [if_neg h81] at hel
+      · rw [ite_eq_right h81] at hel
         have hpos := Nat.lt_of_lt_of_le Nat.zero_lt_one (Nat.le_of_ble_eq_true hel)
         rw [cntBelow_eq] at hpos
         obtain ⟨p, hpm, hpq⟩ := List.countP_pos_iff.1 hpos

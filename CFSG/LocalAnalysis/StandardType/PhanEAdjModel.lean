@@ -40,6 +40,7 @@ theorem adj_nm_conj (i : Fin τ.rank) {γ : Fin τ.rank → ℤ} (hγ : IsRoot �
   rw [h, hrefl, ← weylAction_simple_eq_reflect (adjDatum F k).isFiniteType i γ, heps]
   simp
 
+omit [CharP k 2] in
 theorem adj_hh_conj (i : Fin τ.rank) (t : kˣ) {γ : Fin τ.rank → ℤ} (hγ : IsRoot τ γ) (c : k) :
     torusElement τ k i t * xPar F γ c * (torusElement τ k i t)⁻¹ =
       xPar F γ (((t ^ (∑ j, τ.cartan i j * γ j) : kˣ) : k) * c) := by
@@ -47,12 +48,14 @@ theorem adj_hh_conj (i : Fin τ.rank) (t : kˣ) {γ : Fin τ.rank → ℤ} (hγ 
     xPar_of_isRoot hγ (((t ^ (∑ j, τ.cartan i j * γ j) : kˣ) : k) * c)]
   exact F.torusElement_mul_eltElement_mul_inv i t ⟨γ, hγ⟩ c
 
+omit [CharP k 2] in
 theorem adj_nm_def (i : Fin τ.rank) :
     weylElement τ k i =
       xPar F (Pi.single i 1) 1 * xPar F (-Pi.single i 1) (-1) * xPar F (Pi.single i 1) 1 := by
   rw [weylElement_eq_xPar (F := F) (K := k) i, CFSG.LieType.Steinberg.weylElement]
-  simp only [Units.val_neg, Units.val_inv_eq_inv_val, Units.val_one, inv_one]
+  simp only [Units.val_one, inv_one]
 
+omit [CharP k 2] in
 theorem adj_hh_def (i : Fin τ.rank) (t : kˣ) :
     torusElement τ k i t =
       (xPar F (Pi.single i 1) (t : k) * xPar F (-Pi.single i 1) (-((t⁻¹ : kˣ) : k)) *
@@ -63,14 +66,14 @@ theorem adj_hh_def (i : Fin τ.rank) (t : kˣ) :
 @[expose] noncomputable def adjChevModel :
     ChevModel2 (adjDatum F k) (weylElement τ k) (torus (τ := τ) k) k where
   x := xPar F
-  x_mem γ hγ g := mem_rootGroup_iff ((mem_adjDatum_roots).1 hγ) g
+  x_mem _γ hγ g := mem_rootGroup_iff ((mem_adjDatum_roots).1 hγ) g
   x_add γ _ c d := xPar_add γ c d
-  x_inj γ hγ := xPar_injective ((mem_adjDatum_roots).1 hγ)
-  nm_conj i γ hγ c := adj_nm_conj F k i ((mem_adjDatum_roots).1 hγ) c
+  x_inj _γ hγ := xPar_injective ((mem_adjDatum_roots).1 hγ)
+  nm_conj i _γ hγ c := adj_nm_conj F k i ((mem_adjDatum_roots).1 hγ) c
   nm_sq i := adj_nm_mul_self k i
   hh i := torusHom k i
-  hh_range i := rfl
-  hh_conj i t γ hγ c := adj_hh_conj F k i t ((mem_adjDatum_roots).1 hγ) c
+  hh_range _i := rfl
+  hh_conj i t _γ hγ c := adj_hh_conj F k i t ((mem_adjDatum_roots).1 hγ) c
   nm_def i := adj_nm_def F k i
   hh_def i t := adj_hh_def F k i t
 

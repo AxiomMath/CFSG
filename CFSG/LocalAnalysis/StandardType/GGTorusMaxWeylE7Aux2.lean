@@ -51,7 +51,7 @@ theorem tmW7_evenWeyl_eq_ker :
     rw [tmW7_rhoOmega_coe ⟨w, hw⟩] at h
     exact (rho_mem_omega_iff w).mp h
   have hW : Nat.card (WeylGroup Tag.E7) = 2903040 := by
-    haveI : Fintype (WeylGroup Tag.E7) := Fintype.ofFinite _
+    have : Fintype (WeylGroup Tag.E7) := Fintype.ofFinite _
     exact (CFSG.RankThree.Chevalley.E7_weyl_length_polynomial).2
   have hker_index : ((coxeterSystem Tag.E7).lengthParity.ker).index = 2 := by
     rw [Subgroup.index_ker, lengthParity_range, Subgroup.card_top,

@@ -10,12 +10,14 @@ open CFSG.QuasithinUnique.Setup.Campbell
 
 variable {G : Type} [Group G] [Finite G] {H : Subgroup G}
 
+omit [Finite G] in
 private theorem omegaOneCenterIn_eq_centerTorsion (T : Subgroup G) :
     CFSG.RankThree.PartOne.omegaOneCenterIn T =
       CFSG.Quasithin.BlueprintB2.centerTorsion 2 T := by
   rw [CFSG.RankThree.PartOne.omegaOneCenterIn, CFSG.RankThree.PartOne.omegaOne,
     ← CFSG.Quasithin.BlueprintB2.centerTorsion_eq_closure]
 
+omit [Finite G] in
 private theorem map_Kodd : (Kodd ↥H).map H.subtype = CFSG.Quasithin.opResidual 2 H := by
   have hset : (H.subtype '' {x : ↥H | x ∈ (⊤ : Subgroup ↥H) ∧ (orderOf x).Coprime 2}) =
       {x : G | x ∈ H ∧ (orderOf x).Coprime 2} := by
@@ -38,6 +40,7 @@ theorem map_Fcore :
     omegaOneZJ_eq_quasithin, CFSG.Quasithin.BlueprintB2.omegaOneCenterOf_eq_centerTorsion]
   rfl
 
+omit [Finite G] in
 theorem map_Ecore :
     (CFSG.QuasithinUnique.Setup.Campbell.Ecore ↥H).map H.subtype =
       CFSG.RankThree.PartOne.omegaOneCenterIn (CFSG.Open.pCoreOf 2 H) := by
@@ -46,6 +49,7 @@ theorem map_Ecore :
     omegaOneCenterIn_eq_centerTorsion]
   rfl
 
+omit [Finite G] in
 theorem map_Vmod :
     (CFSG.QuasithinUnique.Setup.Campbell.Vmod ↥H).map H.subtype =
       ⁅CFSG.Quasithin.opResidual 2 H,
@@ -60,6 +64,7 @@ variable {T : Subgroup G} (P : Sylow 2 ↥H)
 
 include hP
 
+omit [Finite G] in
 theorem hnc_of_not_le_center
     (hZ : ¬ CFSG.RankThree.PartOne.omegaOneCenterIn T ≤
       (Subgroup.center ↥H).map H.subtype) :

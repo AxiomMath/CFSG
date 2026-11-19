@@ -18,15 +18,18 @@ section Lambda
 
 variable {Λ : Type} [Group Λ] [Finite Λ] (ρ : Λ →* A8)
 
+omit [Finite Λ] in
 theorem ker_one (hker : ρ.ker = Subgroup.center Λ) (hZ : ∀ z ∈ Subgroup.center Λ, z ^ 2 = 1)
     {z : Λ} (hz : ρ z = 1) (h3 : z ^ 3 = 1) : z = 1 := by
   have hz2 : z ^ 2 = 1 := hZ z (hker ▸ hz)
   have : z = z ^ 3 * (z ^ 2)⁻¹ := by group
   rw [this, h3, hz2]; simp
 
+omit [Finite Λ] in
 theorem zpow_cube {w : Λ} (hw : w ^ 3 = 1) (k : ℤ) : (w ^ k) ^ 3 = 1 := by
   rw [← zpow_natCast (w ^ k) 3, ← zpow_mul, mul_comm, zpow_mul, zpow_natCast, hw, one_zpow]
 
+omit [Finite Λ] in
 theorem lift_comm (hker : ρ.ker = Subgroup.center Λ) (hZ : ∀ z ∈ Subgroup.center Λ, z ^ 2 = 1)
     {u : Λ} (hu : u ^ 3 = 1) {y : Λ} (hy : ρ y * ρ u = ρ u * ρ y) : y * u = u * y := by
   set z : Λ := y * u * y⁻¹ * u⁻¹ with hzdef
@@ -50,6 +53,7 @@ theorem lift_comm (hker : ρ.ker = Subgroup.center Λ) (hZ : ∀ z ∈ Subgroup.
   calc y * u = (y * u * y⁻¹ * u⁻¹) * (u * y) := by group
     _ = u * y := by rw [this, one_mul]
 
+omit [Finite Λ] in
 theorem card_comap_of_surjective (hρ : Function.Surjective ρ) (T : Subgroup A8) :
     Nat.card (T.comap ρ) = Nat.card ρ.ker * Nat.card T := by
   have h1 := Subgroup.card_mul_index (T.comap ρ)
@@ -61,6 +65,7 @@ theorem card_comap_of_surjective (hρ : Function.Surjective ρ) (T : Subgroup A8
   rw [h1, ← h3, ← h2]
   ring
 
+omit [Finite Λ] in
 theorem card_cent (hρ : Function.Surjective ρ) (hker : ρ.ker = Subgroup.center Λ)
     (hZ : ∀ z ∈ Subgroup.center Λ, z ^ 2 = 1) {u : Λ} (hu : u ^ 3 = 1) :
     Nat.card (Subgroup.centralizer ({u} : Set Λ)) =
@@ -270,7 +275,7 @@ theorem ff84_2_2 :
     e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : ρ.ker = Subgroup.center ↥L := by
     ext y
-    simp [ρ, MonoidHom.mem_ker, QuotientGroup.eq_one_iff]
+    simp [ρ]
   obtain ⟨hb₁B, -⟩ := Subgroup.mem_inf.1 hb₁
   obtain ⟨hb₂B, -⟩ := Subgroup.mem_inf.1 hb₂
   obtain ⟨hb₁L⟩ : Nonempty (b₁ ∈ L) := ⟨(Subgroup.mem_inf.1 hb₁).2⟩

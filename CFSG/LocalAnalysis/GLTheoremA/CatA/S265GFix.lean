@@ -55,6 +55,7 @@ private theorem exists_fixEmb (σ : K ≃+* K) :
     show (((fixedFieldImageEquiv σ y : fixedFieldImage .F4 σ)) : ModGL .F4 K) = g
     rw [hy]
 
+omit [Finite K] [CharP K 2] in
 private theorem card_fixSubfield_eq_two (hK : Nat.card K = 2 ^ 3) {σ : K ≃+* K}
     (hσ : orderOf σ = 3) : Nat.card (fixSubfield σ) = 2 := by
   have h := (CFSG.RankThree.Chevalley.SteinbergBT.card_fixSubfield Nat.prime_two (by norm_num)
@@ -62,6 +63,7 @@ private theorem card_fixSubfield_eq_two (hK : Nat.card K = 2 ^ 3) {σ : K ≃+* 
   rw [hσ] at h
   simpa using h
 
+omit [CharP K 2] in
 private theorem glaPLayer_fix_of_emb {σ : K ≃+* K}
     {ι : adjointGroup .F4 (fixSubfield σ) →* adjointGroup .F4 K} (hι : Function.Injective ι)
     (hιr : ι.range = fixSubgroup (entrywiseAdjointAut .F4 σ)) {a : adjointGroup .F4 (fixSubfield σ)}

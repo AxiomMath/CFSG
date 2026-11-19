@@ -46,7 +46,7 @@ theorem Sec6Hyp.pbarHyp (hS : Sec6Hyp M V) : QuotMod.Hyp M (Pc M V) V where
 
 @[reducible] noncomputable def Sec6Hyp.pbarModule (hS : Sec6Hyp M V) :
     Module (ZMod 2) (SecMod hS.pbarHyp) :=
-  SecMod.module hS.pbarHyp fun x hx =>
+  SecMod.module hS.pbarHyp fun _x hx =>
     Hyp.mul_self_mem_of_mem_Pc hS.sec5.toRootHyp.toHyp hx
 
 noncomputable def Sec6Hyp.pbarRep (hS : Sec6Hyp M V)
@@ -88,7 +88,7 @@ theorem Sec6Hyp.span_pbarRep_imgQ (hS : Sec6Hyp M V) {U : Subgroup G}
 
 theorem Sec7Hyp.card_pbar (hS : Sec7Hyp M V n f) :
     Nat.card (SecMod hS.pbarHyp) = (2 ^ f) ^ (2 * n) := by
-  letI := Sec6Hyp.pbarModule hS.toSec6Hyp
+  let := Sec6Hyp.pbarModule hS.toSec6Hyp
   have h := natCard_secMod hS.pbarHyp
   rw [hS.card_Pc, hS.card_V, pow_succ] at h
   exact Nat.eq_of_mul_eq_mul_right (by positivity) h

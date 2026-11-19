@@ -88,11 +88,11 @@ theorem perm_commute_d4Rho (π : Equiv.Perm (Fin Tag.D4.rank)) (h : π * d4Rho =
   exact key π h
 
 theorem orderOf_d4Rho : orderOf d4Rho = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 theorem orderOf_d4Rho_sq : orderOf (d4Rho ^ 2) = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact orderOf_eq_prime (by decide) (by decide)
 
 @[expose] def u₀ (K : Type) [Field K] : adjointGroup Tag.D4 K :=
@@ -154,15 +154,16 @@ theorem list4_sum (j : Fin Tag.D4.rank) (f : Fin Tag.D4.rank → K) :
     ([d4n2, d4n0, d4n1, d4n3].map fun i => if i = j then f i else 0).sum = f j := by
   simp only [List.map_cons, List.map_nil, List.sum_cons, List.sum_nil, add_zero]
   rcases d4_cases j with rfl | rfl | rfl | rfl
-  · rw [if_neg (by decide), if_pos rfl, if_neg (by decide), if_neg (by decide)]; simp
-  · rw [if_neg (by decide), if_neg (by decide), if_pos rfl, if_neg (by decide)]; simp
-  · rw [if_pos rfl, if_neg (by decide), if_neg (by decide), if_neg (by decide)]; simp
-  · rw [if_neg (by decide), if_neg (by decide), if_neg (by decide), if_pos rfl]; simp
+  · rw [ite_eq_right (by decide), ite_eq_left rfl, ite_eq_right (by decide), ite_eq_right (by decide)]; simp
+  · rw [ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_left rfl, ite_eq_right (by decide)]; simp
+  · rw [ite_eq_left rfl, ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_right (by decide)]; simp
+  · rw [ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_right (by decide), ite_eq_left rfl]; simp
 
 section Coordinates
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem coe_u₀ : ((u₀ K : adjointGroup Tag.D4 K) : ModGL Tag.D4 K) =
     ([d4n2, d4n0, d4n1, d4n3].map fun i => xUnit Tag.D4 K i 1).prod := by
   show xUnit Tag.D4 K d4n2 1 * (xUnit Tag.D4 K d4n0 1 * xUnit Tag.D4 K d4n1 1 *
@@ -170,6 +171,7 @@ theorem coe_u₀ : ((u₀ K : adjointGroup Tag.D4 K) : ModGL Tag.D4 K) =
   simp only [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one]
   rw [mul_assoc]
 
+omit [Finite K] in
 theorem u₀_mem_posUnipotent :
     ((u₀ K : adjointGroup Tag.D4 K) : ModGL Tag.D4 K) ∈ posUnipotent Tag.D4 K := by
   rw [coe_u₀]
@@ -182,6 +184,7 @@ theorem rootCoord_u₀ (j : Fin Tag.D4.rank) :
   rw [coe_u₀, rootCoord_single_list_prod]
   exact list4_sum j (fun _ => 1)
 
+omit [Finite K] in
 theorem coe_exactNormalAut_u₀ (a : Fin Tag.D4.rank → Kˣ) (σ : K ≃+* K) :
     ((exactNormalAut Tag.D4 K a σ 0 (u₀ K) : adjointGroup Tag.D4 K) : ModGL Tag.D4 K) =
       ([d4n2, d4n0, d4n1, d4n3].map fun i => xUnit Tag.D4 K i ((a i : K) * σ 1)).prod := by
@@ -219,7 +222,7 @@ theorem rootCoord_orbSum_zero (T : K ≃+* K) (c : K) :
     rootCoord (single_pos d4n0) ((orbSum T c : adjointGroup Tag.D4 K) : ModGL Tag.D4 K) = c := by
   change rootCoord (single_pos d4n0) (xUnit Tag.D4 K d4n0 c * xUnit Tag.D4 K d4n1 (T c) *
     xUnit Tag.D4 K d4n3 (T (T c))) = c
-  rw [rootCoord_xUnit_mul3, if_pos rfl, if_neg (by decide), if_neg (by decide)]
+  rw [rootCoord_xUnit_mul3, ite_eq_left rfl, ite_eq_right (by decide), ite_eq_right (by decide)]
   simp
 
 theorem rootCoord_exactNormalAut_orbSum_zero (a : Fin Tag.D4.rank → Kˣ) (σ T : K ≃+* K) (c : K) :
@@ -231,8 +234,8 @@ theorem rootCoord_exactNormalAut_orbSum_zero (a : Fin Tag.D4.rank → Kˣ) (σ T
   change rootCoord (single_pos d4n0) (xUnit Tag.D4 K _ _ * xUnit Tag.D4 K _ _ *
     xUnit Tag.D4 K _ _) = _
   rw [rootCoord_xUnit_mul3]
-  simp only [exactPerm_zero, Equiv.Perm.one_apply, if_true]
-  rw [if_neg (by decide), if_neg (by decide)]
+  simp only [exactPerm_zero, Equiv.Perm.one_apply, ite_true]
+  rw [ite_eq_right (by decide), ite_eq_right (by decide)]
   simp
 
 end Coordinates
@@ -329,7 +332,7 @@ theorem faithfulAt_entrywise (T : K ≃+* K) (hT3 : T ^ 3 = 1) :
     have h1 := rootCoord_ite_eq_of_adjX_eq (Subtype.ext hc.symm : adjX Tag.D4 K _ c = adjX Tag.D4 K i 1) i
     by_contra hne
     have hne' : simplePerm Tag.D4 K a i ≠ i := hne
-    rw [if_neg hne', if_pos rfl] at h1
+    rw [ite_eq_right hne', ite_eq_left rfl] at h1
     exact one_ne_zero h1.symm
   have hε : ∀ i, (simplePosSubgroup Tag.D4 K i).map φ.toMonoidHom =
         simplePosSubgroup Tag.D4 K ((d4Rho ^ 0) i) ∧
@@ -383,6 +386,7 @@ section Std
 
 variable [Finite K]
 
+omit [Finite K] in
 theorem x4_mod_three (T : K ≃+* K) (j : ℤ) : x4 j T = x4 (j % 3) T := by
   have h := twistedEntrywiseAut_add_mul_order TwistTag.D4 (j % 3) (j / 3) T
   have hj : (j % 3 + j / 3 * ((TwistTag.D4.order : ℕ) : ℤ)) = j := by
@@ -391,6 +395,7 @@ theorem x4_mod_three (T : K ≃+* K) (j : ℤ) : x4 j T = x4 (j % 3) T := by
   rw [hj] at h
   exact h
 
+omit [Finite K] in
 theorem x4_two (T : K ≃+* K) : x4 2 T = (x4 1 T⁻¹)⁻¹ := by
   have h := twistedEntrywiseAut_add_mul_order TwistTag.D4 (-1) 1 T
   rw [show (-1 : ℤ) + 1 * ((TwistTag.D4.order : ℕ) : ℤ) = 2 by decide] at h
@@ -398,6 +403,7 @@ theorem x4_two (T : K ≃+* K) : x4 2 T = (x4 1 T⁻¹)⁻¹ := by
   rw [inv_inv] at h2
   exact h.trans h2.symm
 
+omit [Finite K] in
 theorem ringEquiv_cube_inv {T : K ≃+* K} (h : ∀ c, T (T (T c)) = c) :
     ∀ c, T⁻¹ (T⁻¹ (T⁻¹ c)) = c := by
   have hinv : ∀ y, T⁻¹ y = T (T y) := fun y => by

@@ -35,7 +35,7 @@ theorem inf_component_isSylow (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A 
     {S K : Subgroup G} (hS : CFSG.ABGLocalTools.IsSylowOf 2 S (H ⊓ D.M))
     (hK : K ≤ H) (hcomp : CFSG.IsComponent (K.subgroupOf H)) :
     CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ K) K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact uc22p22r_fo_sylow_inf (h28 S hS).2.2
     (CFSG.Goldschmidt.isSubnormal_of_subgroupOf hK hcomp.2)
 
@@ -73,8 +73,8 @@ theorem not_le_M_of_actsFaithfullyOn (D : Data G) {V₀ V : Subgroup G} {p : ℕ
       intro y hy
       simpa using congrArg Subtype.val (hc ⟨x, hx⟩ ⟨y, hy⟩).symm
     have hbot : K = ⊥ := by rw [← hKperf, hcomm]
-    haveI := CFSG.LocalCores.isQuasisimple_nontrivial hKq
-    haveI : Subsingleton ↥K := by rw [hbot]; infer_instance
+    have := CFSG.LocalCores.isQuasisimple_nontrivial hKq
+    have : Subsingleton ↥K := by rw [hbot]; infer_instance
     exact not_subsingleton ↥K inferInstance
   have hDsubCent : Dsub ≤ (Subgroup.center ↥K).map K.subtype := by
     rcases CFSG.LocalCores.quasisimple_normal_subgroups hKq hDsubNormal with htop | hcenter
@@ -114,6 +114,7 @@ theorem not_le_M_of_actsFaithfullyOn (D : Data G) {V₀ V : Subgroup G} {p : ℕ
   rw [hfaith] at hle
   exact hV0ne (le_bot_iff.mp hle)
 
+omit [Finite G] in
 theorem r_ne_three {A : Subgroup G} {n r : ℕ} (hA : IsZModSq A n) (hr : r ∈ piSet A)
     (hn : Odd n) : r ≠ 3 := by
   obtain ⟨hrp, hrdvd⟩ := hr
@@ -132,10 +133,10 @@ theorem permutes_ES_of_ctx (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A : S
     (hEA : E ≤ A) (hEel : CFSG.Open.IsElemAbelian r E) (hEcard : Nat.card E = r ^ 2) :
     Permutes E S := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hASperm, hASidx, _hSH⟩ := h28 S hS
   have hAcomm : IsMulCommutative ↥A := isMulCommutative_of_isZModSq h.ctx22.ctx.hAcard
-  haveI : IsMulCommutative ↥A := hAcomm
+  have : IsMulCommutative ↥A := hAcomm
   have hAodd : Odd (Nat.card A) := odd_card_of_ctx19_10 h.ctx22.ctx
   have hS2 : IsPGroup 2 ↥S := hS.isPGroup
   have hASdisj : A ⊓ S = ⊥ := by
@@ -313,7 +314,7 @@ theorem p_sylow_of_ctx (D : Data G) {V₀ V : Subgroup G} {p : ℕ} {L A : Subgr
     CFSG.ABGLocalTools.IsSylowOf 2 (S ⊓ normalizer (K : Set G))
       ((K ⊔ E ⊔ (S ⊓ normalizer (K : Set G))) ⊓ normalizer (K : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let P : Subgroup G := S ⊓ normalizer (K : Set G)
   let EP : Subgroup G := E ⊔ P
   let N : Subgroup G := (K ⊔ E ⊔ P) ⊓ normalizer (K : Set G)
@@ -433,10 +434,10 @@ theorem k_J1JankoRee_holds :
   intro X _ hX
   obtain ⟨e⟩ := hX
   let e' : X ≃* CFSG.Open.walterJ1 := e.trans CFSG.Walter.walterJ1EquivNative.symm
-  haveI : Finite X := Finite.of_equiv _ e'.toEquiv.symm
+  have : Finite X := Finite.of_equiv _ e'.toEquiv.symm
   let hJ : CFSG.Walter.J1.JankoHyp X :=
     CFSG.Quasithin.H13.NQCat.C2.jankoHypOfMulEquiv CFSG.Walter.J1Props.jankoHyp e'
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨φ⟩ := CFSG.SectionRank.Ccomm.projective_five_alternating
   refine ⟨fun P => ?_, hJ.t, hJ.F, ZMod 5, inferInstance, inferInstance, hJ.orderOf_t,
     by rw [ZMod.card]; decide, by rw [ZMod.card]; decide, hJ.t_not_mem, hJ.le_centralizer,
@@ -481,7 +482,7 @@ theorem nineteen_twentynine
   let f : ↥N →* MulAut ↥K :=
     (Subgroup.normalizerMonoidHom (H := K)).comp (Subgroup.inclusion inf_le_right)
   let CK : Subgroup ↥N := CFSG.GroupTheory.quasisimpleActionKernel N K inf_le_right
-  letI : CK.Normal := CFSG.GroupTheory.quasisimpleActionKernel_normal N K inf_le_right
+  let : CK.Normal := CFSG.GroupTheory.quasisimpleActionKernel_normal N K inf_le_right
   let G₀ : Type := ↥N ⧸ CK
   let Kbar : Subgroup G₀ := (K.subgroupOf N).map (QuotientGroup.mk' CK)
   let Ebar : Subgroup G₀ := (E.subgroupOf N).map (QuotientGroup.mk' CK)
@@ -512,7 +513,7 @@ theorem nineteen_twentynine
     · intro hxP
       exact hxP.1
   have hTbar_syl : CFSG.ABGLocalTools.IsSylowOf 2 Tbar ⊤ := by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     have h := uc22p22r_isSylowOf_map_top (QuotientGroup.mk'_surjective CK) hPsub_syl
     simpa [Tbar, hSN_eq] using h
   have hKq : CFSG.IsQuasisimple ↥K :=
@@ -526,7 +527,7 @@ theorem nineteen_twentynine
   have hFstar : CFSG.Open.genFittingFStar G₀ = Kbar := by
     simpa [G₀, Kbar, CK, f, CFSG.GroupTheory.quasisimpleActionKernel] using
       CFSG.GroupTheory.quasisimple_genFittingFStar_image_eq N K hKN inf_le_right hKq
-  haveI : IsSimpleGroup G := D.standing.simple
+  have : IsSimpleGroup G := D.standing.simple
   have hcenter : Subgroup.center G = ⊥ :=
     CFSG.Walter.center_eq_bot_of_isSimpleGroup D.standing.nonab
   have hHne_top : H ≠ ⊤ := by
@@ -629,7 +630,7 @@ theorem nineteen_twentynine
     ⟨hTbar_syl, hEbar_comm, hEbar_odd, hEbar_perm, hEbar_rank⟩
   have hcontra3 : IsPGroup 3 ↥Ebar → False := by
     intro h3
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨k, hk⟩ := h3.exists_card_eq
     have hdvd : Nat.card ↥Ebar ∣ r ^ 2 := by
       rw [← hEcard]
@@ -681,7 +682,7 @@ theorem nineteen_twentynine
           rw [hFstar]
           simpa [Kbar, CK, f, G₀, CFSG.GroupTheory.quasisimpleActionKernel] using
             CFSG.GroupTheory.quasisimple_centralizer_image_eq_bot N K hKN inf_le_right hKq
-        haveI : Fact (Nat.Prime r) := ⟨h.ctx22.ctx.hr.1⟩
+        have : Fact (Nat.Prime r) := ⟨h.ctx22.ctx.hr.1⟩
         have hEbarp : IsPGroup r ↥Ebar := by
           have hEsubp : IsPGroup r ↥(E.subgroupOf N) :=
             hEel.isPGroup.comap_subtype (K := N)
@@ -730,14 +731,14 @@ theorem nineteen_twentynine
       hK105 G₀ Tbar Ebar hHyp10 (by rw [hFstar]; exact hSpor')
     rcases hK105' with h3 | ⟨hJ1G, hcard7⟩
     · exact (hcontra3 h3).elim
-    · haveI :
+    · have :
       ∀ s t : Equiv.Perm (Fin 3),
         (s ≠ 1 ∧ s ^ 2 = 1) → (t ≠ 1 ∧ t ^ 2 = 1) → s ≠ t →
           (s * t) ^ 3 = 1 ∧ s * t ≠ 1 := CFSG.Adapters.certificate43_holds
-      haveI := CFSG.Walter.J1Props.isSimpleGroup_walterJ1
-      haveI : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J1) :=
+      have := CFSG.Walter.J1Props.isSimpleGroup_walterJ1
+      have : IsSimpleGroup (CFSG.Blueprint.NativeSporadic.Carrier .J1) :=
         MulEquiv.isSimpleGroup CFSG.Walter.walterJ1EquivNative.symm
-      haveI : IsSimpleGroup G₀ := by
+      have : IsSimpleGroup G₀ := by
         obtain ⟨e⟩ := hJ1G
         exact MulEquiv.isSimpleGroup e
       have hnonab : ∃ a b : G₀, a * b ≠ b * a := by

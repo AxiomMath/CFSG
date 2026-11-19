@@ -211,7 +211,7 @@ theorem exists_R
     (A := V) 2 3 hV2 hD2
   set R := (Q : Subgroup D).map D.subtype with hRdef
   have hRD : R ≤ D := Subgroup.map_subtype_le _
-  have hR3 : IsPGroup 3 R := Q.isPGroup'.map _
+  have hR3 : IsPGroup 3 R := Q.isPGroup.map _
   have hRcard : Nat.card R = 3 ^ (Nat.card D).factorization 3 := by
     rw [hRdef, Subgroup.card_map_of_injective D.subtype_injective, Sylow.card_eq_multiplicity]
   have hJR : s.J ∈ Subgroup.normalizer (R : Set G) := by
@@ -561,7 +561,7 @@ theorem false_of_card_centralizer
   obtain ⟨S₀⟩ : Nonempty (Sylow 3 s.fr.E) := inferInstance
   set P₀ := (S₀ : Subgroup s.fr.E).map s.fr.E.subtype with hP₀def
   have hP₀E : P₀ ≤ s.fr.E := Subgroup.map_subtype_le _
-  have hP₀3 : IsPGroup 3 P₀ := S₀.isPGroup'.map _
+  have hP₀3 : IsPGroup 3 P₀ := S₀.isPGroup.map _
   set a := (Nat.card s.fr.E).factorization 3 with ha
   have hP₀card : Nat.card P₀ = 3 ^ a := by
     rw [hP₀def, Subgroup.card_map_of_injective s.fr.E.subtype_injective,

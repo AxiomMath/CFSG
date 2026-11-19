@@ -12,6 +12,7 @@ open CFSG.Open CFSG.Quasithin.G11
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem apply_mem_commSpace_of_normalizer {L : Subgroup (GLV V)} {x : GLV V}
     (hx : x ∈ Subgroup.normalizer (L : Set (GLV V))) {w : V} (hw : w ∈ commSpace L ⊤) :
     x w ∈ commSpace L ⊤ := by
@@ -24,6 +25,7 @@ theorem apply_mem_commSpace_of_normalizer {L : Subgroup (GLV V)} {x : GLV V}
     exact sub_mem_commSpace ((Subgroup.mem_normalizer_iff.1 hx k).1 hk) Submodule.mem_top
   exact hle hw
 
+omit [Finite V] in
 theorem apply_mem_fixedSpace_of_normalizer {L : Subgroup (GLV V)} {x : GLV V}
     (hx : x ∈ Subgroup.normalizer (L : Set (GLV V))) {w : V} (hw : w ∈ fixedSpace L) :
     x w ∈ fixedSpace L := by
@@ -36,6 +38,7 @@ theorem apply_mem_fixedSpace_of_normalizer {L : Subgroup (GLV V)} {x : GLV V}
   have h2 := congrArg x this
   rwa [glv_apply_inv_apply] at h2
 
+omit [Finite V] in
 theorem apply_mem_tildeVBot_of_normalizer {L : Subgroup (GLV V)} {x : GLV V}
     (hx : x ∈ Subgroup.normalizer (L : Set (GLV V))) {w : V} (hw : w ∈ tildeVBot L) :
     x w ∈ tildeVBot L :=
@@ -75,6 +78,7 @@ theorem finrank_commSpace_add_le {L : Subgroup (GLV V)} {c : GLV V} (hcL : c ∈
   rw [← h3]
   exact Submodule.finrank_mono (sup_le_sup_right hle _)
 
+omit [Finite V] in
 private theorem eq_one_or_eq_of_mem_zpowers' {e k : GLV V} (he : e * e = 1)
     (hk : k ∈ Subgroup.zpowers e) : k = 1 ∨ k = e := by
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.1 hk
@@ -82,6 +86,7 @@ private theorem eq_one_or_eq_of_mem_zpowers' {e k : GLV V} (he : e * e = 1)
   rw [zpow_eq_zpow_emod n h2]
   rcases Int.emod_two_eq_zero_or_one n with h | h <;> rw [h] <;> simp
 
+omit [Finite V] in
 private theorem commSpace_zpowers_inv {e : GLV V} (he : e * e = 1) (U : Submodule (ZMod 2) V)
     {w : V} : w ∈ commSpace (Subgroup.zpowers e) U ↔ ∃ u ∈ U, w = e u - u := by
   constructor
@@ -158,6 +163,7 @@ theorem finrank_tvComm_sup_le (L : Subgroup (GLV V)) (e f : GLV V) :
   have := Submodule.finrank_mono hle
   omega
 
+omit [Finite V] in
 private theorem conjSub_commSpace_of_mem {L : Subgroup (GLV V)} {l : GLV V} (hl : l ∈ L) :
     conjSub l (commSpace L ⊤) = commSpace L ⊤ := by
   have hN : l ∈ Subgroup.normalizer (L : Set (GLV V)) :=
@@ -169,6 +175,7 @@ private theorem conjSub_commSpace_of_mem {L : Subgroup (GLV V)} {l : GLV V} (hl 
     rw [mem_conjSub]
     exact apply_mem_commSpace_of_normalizer (Subgroup.inv_mem _ hN) hw
 
+omit [Finite V] in
 private theorem conjSub_tildeVBot_of_mem {L : Subgroup (GLV V)} {l : GLV V} (hl : l ∈ L) :
     conjSub l (tildeVBot L) = tildeVBot L := by
   have hN : l ∈ Subgroup.normalizer (L : Set (GLV V)) :=
@@ -180,6 +187,7 @@ private theorem conjSub_tildeVBot_of_mem {L : Subgroup (GLV V)} {l : GLV V} (hl 
     rw [mem_conjSub]
     exact apply_mem_tildeVBot_of_normalizer (Subgroup.inv_mem _ hN) hw
 
+omit [Finite V] in
 theorem tvComm_conj {L : Subgroup (GLV V)} {l : GLV V} (hl : l ∈ L) (e : GLV V) :
     tvComm L (l * e * l⁻¹) = conjSub l (tvComm L e) := by
   show commSpace (Subgroup.zpowers (l * e * l⁻¹)) (commSpace L ⊤) ⊔ tildeVBot L =
@@ -189,10 +197,12 @@ theorem tvComm_conj {L : Subgroup (GLV V)} {l : GLV V} (hl : l ∈ L) (e : GLV V
   conv_lhs => rw [← conjSub_commSpace_of_mem hl]
   exact commSpace_conjSg l _ _
 
+omit [Finite V] in
 theorem finrank_tvComm_conj {L : Subgroup (GLV V)} {l : GLV V} (hl : l ∈ L) (e : GLV V) :
     Module.finrank (ZMod 2) ↥(tvComm L (l * e * l⁻¹)) = Module.finrank (ZMod 2) ↥(tvComm L e) := by
   rw [tvComm_conj hl, finrank_conjSub]
 
+omit [Finite V] in
 theorem mem_centralizer_of_tvComm_le {L : Subgroup (GLV V)} (hfaith : FaithfulTildeV L)
     {x : GLV V} (hx : x * x = 1) (hxN : x ∈ Subgroup.normalizer (L : Set (GLV V)))
     (hle : tvComm L x ≤ tildeVBot L) : x ∈ Subgroup.centralizer (L : Set (GLV V)) := by

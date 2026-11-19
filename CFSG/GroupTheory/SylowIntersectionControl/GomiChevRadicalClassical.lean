@@ -17,7 +17,7 @@ open CFSG.Open CFSG.Blueprint
 theorem chevParabolicRadicalSimple_of_statedClassicalModel {K : Type} [Group K] [Finite K]
     {t : StatedLieTag} {n f : ℕ} (hK : IsSimpleGroup K) (ht : t ∈ classicalTags)
     (h : StatedClassicalModel K t n 2 f) : ChevParabolicRadicalSimple K := by
-  cases t <;> first | exact absurd ht (by decide) | skip
+  cases t <;> try exact absurd ht (by decide)
   case PSL =>
     exact chevParabolicRadicalSimple_of_ggNormalizerOvergroupsChar hK
       (StandardType.ggNormalizerOvergroupsChar_of_statedClassicalModel_psl h)

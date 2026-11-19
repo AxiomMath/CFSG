@@ -164,7 +164,7 @@ section TV
 variable {A : Type*} [CommGroup A] [Finite A] {Γ : Type*} [Group Γ] {ρ : Γ →* MulAut A}
 
 theorem eq_pow_of_dvd_pow_two (h2 : ∀ a : A, a * a = 1) (Y : Subgroup A) {n : ℕ}
-    (hn : n ∣ Nat.card Y) (hn0 : n ≠ 0) (h3 : n < 4) : n ≤ 2 := by
+    (hn : n ∣ Nat.card Y) (_hn0 : n ≠ 0) (h3 : n < 4) : n ≤ 2 := by
   have hp : IsPGroup 2 Y := fun g => ⟨1, by
     rw [pow_one, sq]; exact Subtype.ext (h2 g)⟩
   obtain ⟨m, hm⟩ := hp.exists_card_eq
@@ -172,7 +172,7 @@ theorem eq_pow_of_dvd_pow_two (h2 : ∀ a : A, a * a = 1) (Y : Subgroup A) {n : 
   obtain ⟨i, -, hi⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hn
   by_contra hlt
   have : 2 ≤ i := by
-    by_contra h; push_neg at h
+    by_contra h; push Not at h
     interval_cases i <;> simp at hi <;> omega
   have : 4 ≤ 2 ^ i := by
     calc 4 = 2 ^ 2 := by norm_num
@@ -180,13 +180,13 @@ theorem eq_pow_of_dvd_pow_two (h2 : ∀ a : A, a * a = 1) (Y : Subgroup A) {n : 
   omega
 
 theorem four_le_idx_section (h2 : ∀ a : A, a * a = 1) (φ : Γ →* alternatingGroup (Fin 5))
-    (hφ : Function.Surjective φ) {Y X : Subgroup A} (hXY : X ≤ Y)
+    (hφ : Function.Surjective φ) {Y X : Subgroup A} (_hXY : X ≤ Y)
     (hY : GInv ρ Y) (hX : GInv ρ X)
     (hQ : ∀ q ∈ φ.ker, ∀ y ∈ Y, ρ q y * y⁻¹ ∈ X)
     (hnt : ∃ (g : Γ) (y : A), y ∈ Y ∧ ρ g y * y⁻¹ ∉ X)
     {z : Γ} (hz1 : φ z ≠ 1) (hz2 : φ z ^ 2 = 1) : 4 ≤ idx (ρ z) Y X := by
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have hidx2 : idx (ρ z) Y X ≤ 2 := by
     refine eq_pow_of_dvd_pow_two h2 Y ?_ (idx_ne_zero _ _ _) hlt
     exact Subgroup.relIndex_dvd_card _ _
@@ -245,15 +245,18 @@ variable {A : Type*} [CommGroup A] [Finite A] {Γ : Type*} [Group Γ] {ρ : Γ �
 @[expose] def qcomm (ρ : Γ →* MulAut A) (K : Subgroup Γ) (Y : Subgroup A) : Subgroup A :=
   Subgroup.closure {a | ∃ q ∈ K, ∃ y ∈ Y, a = ρ q y * y⁻¹}
 
+omit [Finite A] in
 theorem qcomm_le {K : Subgroup Γ} {Y : Subgroup A} (hY : GInv ρ Y) : qcomm ρ K Y ≤ Y := by
   refine (Subgroup.closure_le Y).mpr ?_
   rintro _ ⟨q, -, y, hy, rfl⟩
   exact Y.mul_mem (hY q y hy) (Y.inv_mem hy)
 
+omit [Finite A] in
 theorem mul_inv_mem_qcomm {K : Subgroup Γ} {Y : Subgroup A} {q : Γ} (hq : q ∈ K) {y : A}
     (hy : y ∈ Y) : ρ q y * y⁻¹ ∈ qcomm ρ K Y :=
   Subgroup.subset_closure ⟨q, hq, y, hy, rfl⟩
 
+omit [Finite A] in
 theorem qcomm_ginv {K : Subgroup Γ} [K.Normal] {Y : Subgroup A} (hY : GInv ρ Y) :
     GInv ρ (qcomm ρ K Y) := by
   intro g a ha
@@ -289,10 +292,10 @@ theorem four_le_idx_of_nonfix (h2 : ∀ a : A, a * a = 1) (φ : Γ →* alternat
       have h4 := four_le_idx_section h2 φ hφ hXY hY hXg
         (fun q hq y hy => mul_inv_mem_qcomm hq hy) ⟨g, y, hy, hgy⟩ hz1 hz2
       exact h4.trans (idx_anti_right _ Y bot_le)
-    · push_neg at hc
+    · push Not at hc
       have hfixX : ∃ x ∈ X, ρ g0 x ≠ x := by
         by_contra hall
-        push_neg at hall
+        push Not at hall
         exact hne (coprime_sub h2 hg0 hall (fun y hy => hc g0 y hy) y0 hy0)
       have hlt : X < Y := by
         refine lt_of_le_of_ne hXY ?_
@@ -319,8 +322,10 @@ variable (ρ) in
   one_mem' := fun g _ => map_one _
   inv_mem' := fun {a} ha g hg => by rw [map_inv, ha g hg]
 
+omit [Finite A] in
 theorem mem_Cfix {m : A} : m ∈ Cfix ρ ↔ ∀ g : Γ, Odd (orderOf g) → ρ g m = m := Iff.rfl
 
+omit [Finite A] in
 theorem Cfix_ginv : GInv ρ (Cfix ρ) := by
   intro h m hm g hg
   have hoc : orderOf (h⁻¹ * g * h) = orderOf g := by
@@ -330,6 +335,7 @@ theorem Cfix_ginv : GInv ρ (Cfix ρ) := by
     simp only [← MulAut.mul_apply, ← map_mul]; congr 2; group
   rw [this, h1]
 
+omit [Finite A] in
 theorem mem_Cfix_of (h2 : ∀ a : A, a * a = 1) {m : A}
     (h : ∀ g : Γ, Odd (orderOf g) → ρ g m * m⁻¹ ∈ Cfix ρ) : m ∈ Cfix ρ := by
   intro g hg
@@ -363,6 +369,7 @@ section FourPoint
 variable {V : Type*} [CommGroup V] [Finite V] {Γ : Type*} [Group Γ] {ρ : Γ →* MulAut V}
   {Ω : Type*} [Fintype Ω] [DecidableEq Ω] [MulAction Γ Ω]
 
+omit [Finite V] [DecidableEq Ω] in
 theorem prod_transport_eq_one [MulAction.IsPretransitive Γ Ω] (p0 : Ω)
     (hNoFix : ∀ v : V, (∀ g : Γ, ρ g v = v) → v = 1) {u : V}
     (hB : ∀ b : Γ, b • p0 = p0 → ρ b u = u) (r : Ω → Γ) (hr : ∀ y, r y • p0 = y) :
@@ -484,6 +491,7 @@ section Summary
 
 variable {A : Type*} [CommGroup A] [Finite A] {Γ : Type*} [Group Γ] {ρ : Γ →* MulAut A}
 
+omit [Finite A] in
 theorem card_range_kap_eq_idx (σ : MulAut A) : Nat.card (kap σ).range = idx σ ⊤ ⊥ := by
   have h : I σ ⊤ ⊥ = (kap σ).ker := by
     ext a; simp [mem_I, MonoidHom.mem_ker]
@@ -610,8 +618,8 @@ theorem exists_odd_ne_one (φ : Γ →* alternatingGroup (Fin 5)) (hφ : Functio
 
 theorem oddNC_map_top (φ : Γ →* alternatingGroup (Fin 5)) (hφ : Function.Surjective φ) :
     (oddNC Γ).map φ = ⊤ := by
-  haveI : (oddNC Γ).Normal := Subgroup.normalClosure_normal
-  haveI : ((oddNC Γ).map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
+  have : (oddNC Γ).Normal := Subgroup.normalClosure_normal
+  have : ((oddNC Γ).map φ).Normal := Subgroup.Normal.map inferInstance φ hφ
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((oddNC Γ).map φ) with h | h
   · exfalso
     obtain ⟨g, hg, hg1⟩ := exists_odd_ne_one φ hφ
@@ -621,6 +629,7 @@ theorem oddNC_map_top (φ : Γ →* alternatingGroup (Fin 5)) (hφ : Function.Su
     exact hg1 (Subgroup.mem_bot.mp h2)
   · exact h
 
+omit [Finite Γ] [Finite A] in
 theorem oddNC_fix {ρ : Γ →* MulAut A} {g : Γ} (hg : g ∈ oddNC Γ) :
     ∀ c ∈ Cfix ρ, ρ g c = c := by
   let K0 : Subgroup Γ :=
@@ -632,7 +641,7 @@ theorem oddNC_fix {ρ : Γ →* MulAut A} {g : Γ} (hg : g ∈ oddNC Γ) :
         have := ha c hc
         rw [map_inv, MulAut.inv_apply]
         exact (MulEquiv.symm_apply_eq _).mpr this.symm }
-  haveI : K0.Normal := ⟨fun n hn h c hc => by
+  have : K0.Normal := ⟨fun n hn h c hc => by
     have hc' : ρ h⁻¹ c ∈ Cfix ρ := Cfix_ginv h⁻¹ c hc
     have := hn _ hc'
     show ρ (h * n * h⁻¹) c = c

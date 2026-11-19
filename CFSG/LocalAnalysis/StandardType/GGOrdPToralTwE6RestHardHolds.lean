@@ -38,8 +38,8 @@ theorem ggOrdPToralMax_twistedE6RootGroup_five
   obtain ⟨V, hV, -, -, hconj⟩ :=
     CFSG.LieType.SeitzGeneration.ExcHigh.TwFive.exists_elemAbelian_conj_le_six
       hℓ K hK σ hσ h5
-  haveI : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
-  haveI : Finite (twistedE6RootGroup K σ) := Subtype.finite
+  have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
+  have : Finite (twistedE6RootGroup K σ) := Subtype.finite
   exact ggOrdPToralMax_of_conj_le hV hconj
 
 theorem ggOrdPToralMax_twistedE6RootGroup_three
@@ -57,7 +57,7 @@ theorem ggOrdPToralMax_twistedE6RootGroup_three
   have hKpow : Nat.card K = 2 ^ (2 * f) := by rw [hK, ← pow_mul, mul_comm]
   have hring : ringChar K = 2 :=
     CFSG.RankThree.Chevalley.ringChar_eq_of_card Nat.prime_two (by omega) hKpow
-  haveI : CharP K 2 := hring ▸ ringChar.charP K
+  have : CharP K 2 := hring ▸ ringChar.charP K
   let k := RingHom.eqLocusField σ.toRingHom (RingHom.id K)
   have hkcard : Nat.card k = 2 ^ f := by
     exact CFSG.RankThree.Chevalley.card_eqLocusField_of_pow Nat.prime_two hf hK hσ
@@ -65,9 +65,9 @@ theorem ggOrdPToralMax_twistedE6RootGroup_three
     intro c
     have hc : σ ((c : K)) = (c : K) := c.2
     exact hc
-  haveI : CharP k 2 :=
+  have : CharP k 2 :=
     (RingHom.charP_iff (Subfield.subtype k) (Subfield.subtype_injective k) 2).mpr ‹CharP K 2›
-  haveI : Finite k := Finite.of_injective (fun x : k => (x : K)) Subtype.val_injective
+  have : Finite k := Finite.of_injective (fun x : k => (x : K)) Subtype.val_injective
   have hσ' : ∀ c : K, σ c = c ^ Nat.card k := by
     intro c; rw [hkcard]; exact hσ c
   have hK' : Nat.card K = (Nat.card k) ^ 2 := by rw [hkcard]; exact hK

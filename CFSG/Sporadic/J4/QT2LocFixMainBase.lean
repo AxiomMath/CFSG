@@ -11,7 +11,7 @@ namespace CFSG.Sporadic.J4.QT2
 open CFSG.Sporadic.J4 CFSG.Sporadic.J4.Native CFSG.Sporadic.J4.QT Matrix
 open scoped Classical
 
-@[expose] def Rel (ℓ : ℕ) (p q : Row) : Prop := ∃ g : J, g • w₀ = p ∧ g⁻¹ • q ∈ Dlt ℓ
+def Rel (ℓ : ℕ) (p q : Row) : Prop := ∃ g : J, g • w₀ = p ∧ g⁻¹ • q ∈ Dlt ℓ
 
 theorem Dlt_smul_mem {ℓ : ℕ} {h : J} (hh : h ∈ Hj) {v : Row} (hv : v ∈ Dlt ℓ) :
     h • v ∈ Dlt ℓ := by

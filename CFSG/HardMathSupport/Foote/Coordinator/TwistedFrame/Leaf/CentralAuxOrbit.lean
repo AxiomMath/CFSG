@@ -120,7 +120,7 @@ theorem exists_fixed_lift (N : ℕ) (β : ℕ → Fin τ.rank → ℤ) (hβ : �
     (s : ℕ → D.L) (hs : ∀ j, s (j + 1) = ε j * D.Fr (s j)) (hsN : s N = s 0) :
     ∃ z : D.L, twF D (Yprod β s N * pinnedX τ D.L (highRoot τ) z) =
       Yprod β s N * pinnedX τ D.L (highRoot τ) z := by
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   have hspec := heisCoord_spec τ D.L
   obtain ⟨hYQ, hYc⟩ := Yprod_spec hβ s N
   have hβ' : ∀ j, β (j + 1) ∈ Deg1 τ := fun j => hβ (j + 1)
@@ -206,11 +206,11 @@ theorem centralizes_deg1 {τ : Tag} {K : Type} [Field K] [Finite K] {w : WeylGro
     {β₀ : Fin τ.rank → ℤ} (hβS : β₀ ∈ S) (hβ1 : β₀ ∈ Deg1 τ) (cc : D.L) :
     hat D x * pinnedX τ D.L β₀ cc = pinnedX τ D.L β₀ cc * hat D x := by
   classical
-  haveI : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
+  have : IsAlgClosed D.L := IsAlgClosure.isAlgClosed K
   set q := Nat.card K with hqdef
   have hq1 : 1 < q := Finite.one_lt_card
   have hq0 : (q : D.L) = 0 := by
-    haveI := Fintype.ofFinite K
+    have := Fintype.ofFinite K
     rw [hqdef, Nat.card_eq_fintype_card, ← map_natCast (algebraMap K D.L),
       Nat.cast_card_eq_zero, map_zero]
   set N := orderOf w with hNdef
@@ -244,7 +244,7 @@ theorem centralizes_deg1 {τ : Tag} {K : Type} [Field K] [Finite K] {w : WeylGro
       have := Submodule.smul_mem _ cc h0
       have e : cc • (Pi.single β₀ 1 : (Fin τ.rank → ℤ) → D.L) = Pi.single β₀ cc := by
         funext ν
-        by_cases h : ν = β₀ <;> simp [Pi.single_apply, h]
+        by_cases h : ν = β₀ <;> simp [h]
       rwa [e] at this
     exact (mem_CQ.1 (pinnedX_mem_CQ hθ hn hβ1 cc h1)).2
   · intro a ha
@@ -270,7 +270,7 @@ theorem centralizes_deg1 {τ : Tag} {K : Type} [Field K] [Finite K] {w : WeylGro
         (heisCoord_spec τ D.L).pinnedX_highRoot, add_zero]
       refine Finset.sum_congr rfl fun j _ => ?_
       funext ν
-      by_cases h : ν = β j <;> simp [Pi.single_apply, h]
+      by_cases h : ν = β j <;> simp [h]
     have hyQ : D.g * ŷ * D.g⁻¹ ∈ Qθ τ D.L :=
       (Subgroup.mem_normalizer_iff.1
         (Pθ_le_normalizer_Qθ τ D.L (Lθ_le_Pθ τ D.L D.g_mem)) ŷ).1 hŷQ

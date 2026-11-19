@@ -29,13 +29,13 @@ open CFSG.Open Subgroup
 open CFSG.LocalAnalysis.UniquenessCase.UC22
 open CFSG.Yardstones.Md0ec50421ce4 (PSimple)
 
-theorem k324Simple_data {S : Type} [Group S] [Finite S] (hS : IsSimpleGroup S) {s : S}
+theorem k324Simple_data {S : Type} [Group S] [Finite S] (_hS : IsSimpleGroup S) {s : S}
     (hso : orderOf s = 5) {Y : Subgroup S} (hYC : Y ≤ centralizer ({s} : Set S))
     (hYn : (Y.subgroupOf (centralizer ({s} : Set S))).Normal) (hY : IsAlt ↥Y 6) :
     (∃ a b : S, a * b ≠ b * a) ∧ 3 ∣ Nat.card S ∧ 25 ∣ Nat.card S ∧
       GLAPComponent 5 (centralizer ({s} : Set S)) Y ∧
       Nonempty (PSimple 5 Y ≃* alternatingGroup (Fin 6)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨hYs, hY360, ⟨a, b, hab⟩, -⟩ := alt6_facts hY
   obtain ⟨φ⟩ := hY
   have hnab : ∃ a b : S, a * b ≠ b * a := ⟨a, b, fun h => hab (Subtype.ext h)⟩
@@ -43,7 +43,7 @@ theorem k324Simple_data {S : Type} [Group S] [Finite S] (hS : IsSimpleGroup S) {
     intro w hw hwc
     have hcen : (⟨w, hw⟩ : Y) ∈ center ↥Y :=
       mem_center_iff.2 fun g => Subtype.ext (hwc g g.2).symm
-    haveI := hYs
+    have := hYs
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (center ↥Y) with h | h
     · rw [h, mem_bot] at hcen
       exact congrArg Subtype.val hcen
@@ -104,7 +104,7 @@ theorem k324Simple_alt {S : Type} [Group S] [Finite S] {n : ℕ} (hn : 5 ≤ n)
   · have := CFSG.SectionRank.three_le_pRank_alternating h9
     omega
   · push Not at h9
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup, Nat.card_eq_fintype_card,
       Fintype.card_fin] at h25
     interval_cases n <;> revert h25 <;> decide

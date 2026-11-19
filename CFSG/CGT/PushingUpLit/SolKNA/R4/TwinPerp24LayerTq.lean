@@ -21,7 +21,7 @@ theorem exists_oddCore_mul_of_sylow {K P : Subgroup Y}
     (hq : IsPGroup 2 (↥K ⧸ classicalInvolutionOddCore ↥K)) (hP : IsSylow2In P K) {x : Y} (hx : x ∈ K) :
     ∃ o ∈ oddCoreIn K, ∃ p ∈ P, o * p = x := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨b, hb⟩ := (IsPGroup.iff_card).mp hq
   have hAi : (classicalInvolutionOddCore ↥K).index = 2 ^ b := by
     rw [Subgroup.index_eq_card]

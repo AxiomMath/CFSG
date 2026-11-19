@@ -305,7 +305,7 @@ namespace Sec5Roles
 variable {G : Type} [Group G] [Finite G] {A : Subgroup G} (ρ : Sec5Roles G A)
 
 theorem X_inf_O_eq_bot (H : Subgroup G) : ρ.X ⊓ O H = ⊥ := by
-  refine inf_eq_bot_of_coprime ?_
+  refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
   rw [ρ.card_X, show (4 : ℕ) = 2 ^ 2 by norm_num]
   exact (Nat.coprime_two_left.mpr (odd_natCard_O _)).pow_left 2
 

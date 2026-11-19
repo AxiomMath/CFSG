@@ -33,7 +33,7 @@ theorem normalizer_conj_le_of_not_normal (h31 : KFactThreeOne) (h75 : KFactSeven
     normalizer ((L.map (MulAut.conj m).toMonoidHom : Subgroup G) : Set G) ≤ M := by
   obtain ⟨H₁, R₁, he⟩ := hd.escape
   have hp : p.Prime := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hLc : IsTwoPrimeComponent M L := hL.toIsTwoPrimeComponent
   set J : Subgroup G := L.map (MulAut.conj m).toMonoidHom with hJdef
   have hJc : IsTwoPrimeComponent M J := hLc.map_conj hm
@@ -59,7 +59,7 @@ theorem normalizer_conj_le_of_not_normal (h31 : KFactThreeOne) (h75 : KFactSeven
   obtain ⟨Q₀, -, hQ₀N', hQ₀, S, hS₀⟩ := exists_sylowBase he hB hBN'
   have hNtop : N' ≠ ⊤ :=
     CFSG.LocalAnalysis.GLTheoremA.S8.isTwoLocal_ne_top hS.simple hS.nonab hN'.1
-  haveI hKn : (d1KBar p M N').Normal := by
+  have hKn : (d1KBar p M N').Normal := by
     by_cases hK : d1KBar p M N' = ⊥
     · rw [hK]
       exact Subgroup.normal_bot

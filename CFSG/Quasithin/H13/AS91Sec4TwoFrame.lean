@@ -157,7 +157,7 @@ theorem map_hatM22Γ₀ : hatM22Γ₀.map frameHom = genGrp Two.gamGens := by
   ext l
   simp only [Set.image_insert_eq, Set.image_singleton, Set.mem_insert_iff,
     Set.mem_singleton_iff, GenSet, Two.gamGens, List.mem_cons, List.not_mem_nil, or_false,
-    Set.mem_setOf_eq]
+    Set.mem_ofPred_eq]
   constructor
   · rintro (rfl | rfl)
     · exact ⟨_, Or.inl rfl, frameHom_G1⟩

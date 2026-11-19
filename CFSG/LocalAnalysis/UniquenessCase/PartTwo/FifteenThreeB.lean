@@ -26,6 +26,7 @@ variable {W : Type} [CommGroup W] [Finite W]
 @[expose] def s15TwoCoreTrivial (A : Subgroup (MulAut W)) : Prop :=
   ∀ P : Subgroup ↥A, P.Normal → IsPGroup 2 ↥P → P = ⊥
 
+omit [Finite W] in
 private lemma s15_Three_commSub_sup_le (U V : Subgroup W) (X : Subgroup (MulAut W)) :
     commSub (U ⊔ V) X ≤ commSub U X ⊔ commSub V X := by
   rw [commSub, Subgroup.closure_le]
@@ -46,6 +47,7 @@ private lemma s15_Three_commSub_sup_le (U V : Subgroup W) (X : Subgroup (MulAut 
   exact (commSub U X ⊔ commSub V X).mul_mem (Subgroup.mem_sup_left hgen)
     (Subgroup.mem_sup_right hgenv)
 
+omit [Finite W] in
 private lemma s15_Three_commSub_top_stable {X : Subgroup (MulAut W)} {g : MulAut W}
     (hg : ∀ θ ∈ X, g * θ * g⁻¹ ∈ X) {r : W} (hr : r ∈ commSub (⊤ : Subgroup W) X) :
     g r ∈ commSub (⊤ : Subgroup W) X := by
@@ -111,6 +113,7 @@ theorem s15_Three_transv_cases (hW : ∀ w : W, w ^ 2 = 1) {t : MulAut W}
   exact (Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.2 hmemc) (by
     rw [hcard, hcardz])).symm
 
+omit [Finite W] in
 theorem s15_Three_irr_inf_or_le {A : Subgroup (MulAut W)} {I X : Subgroup W}
     (hI : IsIrrOn A I ⊥) (hX : StableUnder A X) : I ⊓ X = ⊥ ∨ I ≤ X := by
   have hstable : StableUnder A (I ⊓ X) := fun a ha u hu =>
@@ -141,6 +144,7 @@ theorem s15_Three_exists_irr_le {A : Subgroup (MulAut W)} {X : Subgroup W}
       have hcard : Nat.card Y ≤ Nat.card J := hYmin J hJset
       exact Subgroup.eq_of_le_of_card_ge hJY hcard
 
+omit [Finite W] in
 theorem s15_Three_stableUnder_sSup {A : Subgroup (MulAut W)} {F : Set (Subgroup W)}
     (hF : ∀ X ∈ F, StableUnder A X) : StableUnder A (sSup F) := by
   intro φ hφ u hu
@@ -155,6 +159,7 @@ theorem s15_Three_stableUnder_sSup {A : Subgroup (MulAut W)} {F : Set (Subgroup 
     rw [map_mul]
     exact mul_mem hx hy
 
+omit [Finite W] in
 theorem s15_Three_stableUnder_sup {A : Subgroup (MulAut W)} {X Y : Subgroup W}
     (hX : StableUnder A X) (hY : StableUnder A Y) : StableUnder A (X ⊔ Y) := by
   intro φ hφ u hu
@@ -203,6 +208,7 @@ theorem s15_Three_sSup_irr_le {A : Subgroup (MulAut W)} (hsemi : s15Semisimple A
     exact h2 ▸ h1
   exact absurd (le_bot_iff.mp hbot) (ne_of_gt hIirr.1)
 
+omit [Finite W] in
 theorem s15_Three_comm_irr {A : Subgroup (MulAut W)} (hsemi : s15Semisimple A)
     (hcomm : commSub ⊤ A = ⊤) {I : Subgroup W} (hI : IsIrrOn A I ⊥) : commSub I A = I := by
   have hIle : commSub I A ≤ I := commSub_le_of_invariant hI.2.1
@@ -225,7 +231,7 @@ theorem s15_Three_comm_irr {A : Subgroup (MulAut W)} (hsemi : s15Semisimple A)
   rw [hbot, sup_bot_eq] at hkey
   exact hkey
 
-theorem s15_Three_exists_irr_noncomm (hW : ∀ w : W, w ^ 2 = 1) {A : Subgroup (MulAut W)}
+theorem s15_Three_exists_irr_noncomm (_hW : ∀ w : W, w ^ 2 = 1) {A : Subgroup (MulAut W)}
     {t : MulAut W} (ht : InducesTransvection t ⊤) (hsemi : s15Semisimple A) :
     ∃ R : Subgroup W, IsIrrOn A R ⊥ ∧ commSub R (Subgroup.zpowers t) ≠ ⊥ := by
   by_contra h
@@ -471,6 +477,7 @@ theorem s15_Three_split (hW : ∀ w : W, w ^ 2 = 1) {A : Subgroup (MulAut W)} {t
       exact hne hIR
   exact ⟨R, S, hR, hRA, hRtstab, hSstab, hRS, hRStop, hSfix, hRt, hmult⟩
 
+omit [Finite W] in
 private lemma s15_Three_commSub_map_conj (U : Subgroup W) (Y : Subgroup (MulAut W))
     (α : MulAut W) :
     commSub (U.map α.toMonoidHom) (Y.map (MulAut.conj α).toMonoidHom) =
@@ -485,13 +492,14 @@ private lemma s15_Three_commSub_map_conj (U : Subgroup W) (Y : Subgroup (MulAut 
     obtain ⟨w₀, hw₀, rfl⟩ := hw
     refine ⟨x₀ w₀ * w₀⁻¹, ⟨x₀, hx₀, w₀, hw₀, rfl⟩, ?_⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, MulAut.mul_apply,
-      MulAut.apply_inv_self, MulAut.inv_apply_self, map_mul, map_inv]
+      MulAut.inv_apply_self, map_mul, map_inv]
   · rintro ⟨s, hs, rfl⟩
     obtain ⟨x₀, hx₀, w₀, hw₀, rfl⟩ := hs
     refine ⟨MulAut.conj α x₀, ⟨x₀, hx₀, rfl⟩, α w₀, ⟨w₀, hw₀, rfl⟩, ?_⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, MulAut.mul_apply,
-      MulAut.apply_inv_self, MulAut.inv_apply_self, map_mul, map_inv]
+      MulAut.inv_apply_self, map_mul, map_inv]
 
+omit [Finite W] in
 private lemma s15_Three_map_sSup_eq (α : MulAut W) (F : Set (Subgroup W)) :
     (sSup F).map α.toMonoidHom = sSup ((Subgroup.map α.toMonoidHom) '' F) := by
   rw [sSup_eq_iSup' F, Subgroup.map_iSup, sSup_eq_iSup']
@@ -505,6 +513,7 @@ private lemma s15_Three_map_sSup_eq (α : MulAut W) (F : Set (Subgroup W)) :
     rw [← hJ]
     exact le_iSup_of_le ⟨I, hI⟩ le_rfl
 
+omit [Finite W] in
 theorem s15_Three_commSub_conj (n : MulAut W) (X : Subgroup (MulAut W)) :
     commSub ⊤ (X.map (MulAut.conj n).toMonoidHom) = (commSub ⊤ X).map n.toMonoidHom := by
   unfold commSub
@@ -521,9 +530,10 @@ theorem s15_Three_commSub_conj (n : MulAut W) (X : Subgroup (MulAut W)) :
     obtain ⟨x₀, hx₀, v, -, rfl⟩ := hs
     refine ⟨MulAut.conj n x₀, ⟨x₀, hx₀, rfl⟩, n v, trivial, ?_⟩
     change (MulAut.conj n x₀) (n v) * (n v)⁻¹ = n (x₀ v * v⁻¹)
-    simp only [MulAut.conj_apply, MulAut.mul_apply, MulAut.apply_inv_self, MulAut.inv_apply_self,
+    simp only [MulAut.conj_apply, MulAut.mul_apply, MulAut.inv_apply_self,
       map_mul, map_inv]
 
+omit [Finite W] in
 theorem s15_Three_secIso_trivial {A X : Subgroup (MulAut W)} (hXA : X ≤ A) {I I' : Subgroup W}
     (hI : StableUnder A I) (hiso : s15SecIso A I ⊥ I' ⊥)
     (hX' : ∀ b ∈ X, ∀ u ∈ I', b u = u) : ∀ b ∈ X, ∀ u ∈ I, b u = u := by
@@ -546,6 +556,7 @@ theorem s15_Three_secIso_trivial {A X : Subgroup (MulAut W)} (hXA : X ≤ A) {I 
     hinj (heq.trans hmk)
   exact congrArg Subtype.val hsub
 
+omit [Finite W] in
 private lemma s15_Three_irr_map_of_normalizes {α : MulAut W} {A : Subgroup (MulAut W)}
     (hαA : ∀ a : MulAut W, a ∈ A ↔ α * a * α⁻¹ ∈ A)
     {I : Subgroup W} (hI : IsIrrOn A I ⊥) :
@@ -601,6 +612,7 @@ variable {A N : Subgroup (MulAut W)} {R S : Subgroup W} {B : Subgroup (MulAut W)
   (hAB : ∀ a ∈ A, ∃ b ∈ B, ∀ r ∈ R, a r = b r) (hBR : commSub ⊤ B = R)
 
 include hNA in
+omit [Finite W] in
 theorem s15_Three_irr_map {n : MulAut W} (hn : n ∈ N) {I : Subgroup W} (hI : IsIrrOn A I ⊥) :
     IsIrrOn A (I.map (n : MulAut W).toMonoidHom) ⊥ :=
   s15_Three_irr_map_of_normalizes (fun a => hNA n hn a) hI
@@ -623,6 +635,7 @@ theorem s15_Three_S_eq : S = sSup {I : Subgroup W | IsIrrOn A I ⊥ ∧ I ≠ R}
   exact (s15_Three_sSup_irr_le hsemi hS).symm
 
 include hNA hsemi hR hS hRS hRS' hmult hBA hBS hAB hBR in
+omit hBR in
 theorem s15_Three_conj_B {k : MulAut W} (hk : k ∈ N) (hkR : R.map k.toMonoidHom = R) :
     B.map (MulAut.conj k).toMonoidHom = B := by
   have hS_eq : S = sSup {I : Subgroup W | IsIrrOn A I ⊥ ∧ I ≠ R} :=
@@ -696,6 +709,7 @@ theorem s15_Three_conj_B {k : MulAut W} (hk : k ∈ N) (hkR : R.map k.toMonoidHo
   rw [Subgroup.card_map_of_injective (MulAut.conj k).injective]
 
 include hNA hsemi hR hS hRS hmult hBA hBS hAB hBR in
+omit hsemi hS hRS hBA hBS hAB hBR [Finite W] in
 theorem s15_Three_conj_le_S {n : MulAut W} (hn : n ∈ N) (hne : R.map n.toMonoidHom ≠ R) :
     R ≤ S.map n.toMonoidHom := by
   have hcomp : n.toMonoidHom.comp (n⁻¹).toMonoidHom = MonoidHom.id W := by
@@ -714,6 +728,7 @@ theorem s15_Three_conj_le_S {n : MulAut W} (hn : n ∈ N) (hne : R.map n.toMonoi
     ext w; simp
   rwa [Subgroup.map_map, hcomp2, Subgroup.map_id] at hmap
 
+omit [Finite W] in
 private lemma s15_Three_conj_trivial_on_map_S
     (hBS : ∀ s ∈ S, ∀ b ∈ B, b s = s) {n : MulAut W} :
     ∀ c ∈ B.map (MulAut.conj n).toMonoidHom, ∀ u ∈ S.map n.toMonoidHom, c u = u := by
@@ -726,10 +741,11 @@ private lemma s15_Three_conj_trivial_on_map_S
     _ = n s := by rw [hBS s hs b hb]
 
 include hNA hsemi hR hS hRS hRS' hmult hBA hBS hAB hBR in
+omit hsemi hRS hAB hBR [Finite W] in
 theorem s15_Three_comm_conj {n : MulAut W} (hn : n ∈ N) (hne : R.map n.toMonoidHom ≠ R) :
     ⁅B, B.map (MulAut.conj n).toMonoidHom⁆ = ⊥ := by
   have hRle : R ≤ S.map n.toMonoidHom :=
-    s15_Three_conj_le_S hNA hsemi hR hS hRS hmult hBA hBS hAB hBR hn hne
+    s15_Three_conj_le_S hNA hR hmult hn hne
   have hCA : B.map (MulAut.conj n).toMonoidHom ≤ A := by
     rintro c ⟨b, hb, rfl⟩
     exact (hNA n hn b).mp (hBA hb)
@@ -756,6 +772,7 @@ theorem s15_Three_comm_conj {n : MulAut W} (hn : n ∈ N) (hne : R.map n.toMonoi
     _ = b (c (r * s)) := by rw [← map_mul]
 
 include hNA hR hmult in
+omit [Finite W] in
 private lemma s15_Three_conj_le_map_S {m n : MulAut W} (hm : m ∈ N) (hn : n ∈ N)
     (hne : R.map m.toMonoidHom ≠ R.map n.toMonoidHom) :
     R.map m.toMonoidHom ≤ S.map n.toMonoidHom := by
@@ -765,17 +782,18 @@ private lemma s15_Three_conj_le_map_S {m n : MulAut W} (hm : m ∈ N) (hn : n �
     intro h
     apply hne
     have hcomp : n.toMonoidHom.comp (n⁻¹ * m).toMonoidHom = m.toMonoidHom := by
-      ext w; simp [mul_assoc]
+      ext w; simp
     have := congrArg (Subgroup.map n.toMonoidHom) h
     rw [Subgroup.map_map, hcomp] at this
     exact this
   have hle : R.map (n⁻¹ * m).toMonoidHom ≤ S := hmult _ hIr hneR
   have hmap := Subgroup.map_mono (f := n.toMonoidHom) hle
   have hcomp : n.toMonoidHom.comp (n⁻¹ * m).toMonoidHom = m.toMonoidHom := by
-    ext w; simp [mul_assoc]
+    ext w; simp
   rwa [Subgroup.map_map, hcomp] at hmap
 
 include hNA hsemi htrans hR hS hRS hRS' hmult hBA hBS hAB hBR in
+omit hS hRS hAB in
 theorem s15_Three_sSup_conj :
     sSup {Z : Subgroup W | ∃ n ∈ N, Z = R.map n.toMonoidHom} = ⊤ := by
   set T : Set (Subgroup W) := {Z | ∃ n ∈ N, Z = R.map n.toMonoidHom}
@@ -845,6 +863,7 @@ theorem s15_Three_sSup_conj :
   exact hRne hbot
 
 include hNA hsemi htrans hR hS hRS hRS' hmult hBA hBS hAB hBR in
+omit hsemi htrans hS hRS' hBA hBS hAB hBR [Finite W] in
 theorem s15_Three_indep :
     sSupIndep {Z : Subgroup W | ∃ n ∈ N, Z = R.map n.toMonoidHom} := by
   intro Y hY
@@ -868,6 +887,7 @@ theorem s15_Three_indep :
   exact le_bot_iff.mp h1
 
 include hNA hsemi htrans hR hS hRS hRS' hmult hBA hBS hAB hBR in
+omit hS hRS in
 theorem s15_Three_gen : (⨆ Y ∈ conjSet B N, Y) = A := by
   classical
   refine le_antisymm ?_ ?_
@@ -979,7 +999,7 @@ theorem s15_Three_gen : (⨆ Y ∈ conjSet B N, Y) = A := by
     have hxeq : x = a := by
       ext w
       have hw : w ∈ sSup T := by
-        rw [s15_Three_sSup_conj hNA hsemi htrans hR hS hRS hRS' hmult hBA hBS hAB hBR]
+        rw [s15_Three_sSup_conj hNA hsemi htrans hR hRS' hmult hBA hBS hBR]
         exact Subgroup.mem_top w
       rw [sSup_eq_iSup'] at hw
       refine Subgroup.iSup_induction (fun Z : T => (Z : Subgroup W))
@@ -992,6 +1012,7 @@ theorem s15_Three_gen : (⨆ Y ∈ conjSet B N, Y) = A := by
     exact hxeq ▸ hxmem
 
 include hNA hsemi hR hS hRS hRS' hmult hBA hBS hAB hBR in
+omit hBR in
 private lemma s15_Three_R_ne_of_B_ne {m n : MulAut W} (hm : m ∈ N) (hn : n ∈ N)
     (hne : B.map (MulAut.conj m).toMonoidHom ≠ B.map (MulAut.conj n).toMonoidHom) :
     R.map m.toMonoidHom ≠ R.map n.toMonoidHom := by
@@ -1000,7 +1021,7 @@ private lemma s15_Three_R_ne_of_B_ne {m n : MulAut W} (hm : m ∈ N) (hn : n ∈
   have hk : n⁻¹ * m ∈ N := N.mul_mem (N.inv_mem hn) hm
   have hkR : R.map (n⁻¹ * m).toMonoidHom = R := by
     have hcomp1 : n.toMonoidHom.comp (n⁻¹ * m).toMonoidHom = m.toMonoidHom := by
-      ext w; simp [mul_assoc]
+      ext w; simp
     have h1 : (R.map (n⁻¹ * m).toMonoidHom).map n.toMonoidHom = R.map n.toMonoidHom := by
       rw [Subgroup.map_map, hcomp1, hRmn]
     have hcomp2 : (n⁻¹).toMonoidHom.comp n.toMonoidHom = MonoidHom.id W := by
@@ -1011,7 +1032,7 @@ private lemma s15_Three_R_ne_of_B_ne {m n : MulAut W} (hm : m ∈ N) (hn : n ∈
     rw [Subgroup.map_map, hcomp2, Subgroup.map_id] at h2
     exact h2
   have hBk : B.map (MulAut.conj (n⁻¹ * m)).toMonoidHom = B :=
-    s15_Three_conj_B hNA hsemi hR hS hRS hRS' hmult hBA hBS hAB hBR hk hkR
+    s15_Three_conj_B hNA hsemi hR hS hRS hRS' hmult hBA hBS hAB hk hkR
   have h1 := congrArg (Subgroup.map (MulAut.conj n).toMonoidHom) hBk
   have hcomp3 : (MulAut.conj n).toMonoidHom.comp (MulAut.conj (n⁻¹ * m)).toMonoidHom =
       (MulAut.conj m).toMonoidHom := by
@@ -1021,7 +1042,7 @@ private lemma s15_Three_R_ne_of_B_ne {m n : MulAut W} (hm : m ∈ N) (hn : n ∈
 
 end Assemble
 
-theorem s15_Three_assemble (hW : ∀ w : W, w ^ 2 = 1) {A N : Subgroup (MulAut W)}
+theorem s15_Three_assemble (_hW : ∀ w : W, w ^ 2 = 1) {A N : Subgroup (MulAut W)}
     (hNA : ∀ n ∈ N, ∀ a : MulAut W, a ∈ A ↔ n * a * n⁻¹ ∈ A) (hsemi : s15Semisimple A)
     (htrans : ∀ I I' : Subgroup W, IsIrrOn A I ⊥ → IsIrrOn A I' ⊥ →
       ∃ n ∈ N, s15SecIso A (I.map (n : MulAut W).toMonoidHom) ⊥ I' ⊥)
@@ -1038,20 +1059,20 @@ theorem s15_Three_assemble (hW : ∀ w : W, w ^ 2 = 1) {A N : Subgroup (MulAut W
   · rintro Y ⟨n, hn, rfl⟩
     rintro b ⟨b₀, hb₀, rfl⟩
     exact (hNA n hn b₀).mp (hBA hb₀)
-  · exact s15_Three_gen hNA hsemi htrans hR hS hRS hRS' hmult hBA hBS hAB hBR
+  · exact s15_Three_gen hNA hsemi htrans hR hRS' hmult hBA hBS hAB hBR
   · rintro Y ⟨m, hm, rfl⟩ Z ⟨n, hn, rfl⟩ hYZ
     have hRne : R.map m.toMonoidHom ≠ R.map n.toMonoidHom :=
-      s15_Three_R_ne_of_B_ne hNA hsemi hR hS hRS hRS' hmult hBA hBS hAB hBR hm hn hYZ
+      s15_Three_R_ne_of_B_ne hNA hsemi hR hS hRS hRS' hmult hBA hBS hAB hm hn hYZ
     have hk : m⁻¹ * n ∈ N := N.mul_mem (N.inv_mem hm) hn
     have hkRne : R.map (m⁻¹ * n).toMonoidHom ≠ R := by
       intro h
       apply hRne
       have hcomp : m.toMonoidHom.comp (m⁻¹ * n).toMonoidHom = n.toMonoidHom := by
-        ext w; simp [mul_assoc]
+        ext w; simp
       have := congrArg (Subgroup.map m.toMonoidHom) h
       rw [Subgroup.map_map, hcomp] at this
       exact this.symm
-    have hc := s15_Three_comm_conj hNA hsemi hR hS hRS hRS' hmult hBA hBS hAB hBR hk hkRne
+    have hc := s15_Three_comm_conj hNA hR hS hRS' hmult hBA hBS hk hkRne
     have hmap := congrArg (Subgroup.map (MulAut.conj m).toMonoidHom) hc
     rw [Subgroup.map_commutator, Subgroup.map_bot] at hmap
     have hcomp2 : (MulAut.conj m).toMonoidHom.comp (MulAut.conj (m⁻¹ * n)).toMonoidHom =
@@ -1073,7 +1094,7 @@ theorem s15_Three_assemble (hW : ∀ w : W, w ^ 2 = 1) {A N : Subgroup (MulAut W
       intro hZY
       obtain ⟨m, hm, rfl⟩ := hZ
       have hRne : R.map m.toMonoidHom ≠ R.map n.toMonoidHom :=
-        s15_Three_R_ne_of_B_ne hNA hsemi hR hS hRS hRS' hmult hBA hBS hAB hBR hm hn hZY
+        s15_Three_R_ne_of_B_ne hNA hsemi hR hS hRS hRS' hmult hBA hBS hAB hm hn hZY
       have hRm : R.map n.toMonoidHom ≤ S.map m.toMonoidHom :=
         s15_Three_conj_le_map_S hNA hR hmult hn hm hRne.symm
       intro z hz r hr
@@ -1101,7 +1122,7 @@ theorem s15_Three_assemble (hW : ∀ w : W, w ^ 2 = 1) {A N : Subgroup (MulAut W
       · rintro ⟨n, hn, rfl⟩
         exact ⟨n, hn, by rw [s15_Three_commSub_conj n B, hBR]⟩
     rw [hset]
-    exact s15_Three_indep hNA hsemi htrans hR hS hRS hRS' hmult hBA hBS hAB hBR
+    exact s15_Three_indep hNA hR hRS hmult
   · have hset : {Z : Subgroup W | ∃ n ∈ N,
         Z = commSub ⊤ (B.map (MulAut.conj n).toMonoidHom)} =
         {Z : Subgroup W | ∃ n ∈ N, Z = R.map n.toMonoidHom} := by
@@ -1112,7 +1133,7 @@ theorem s15_Three_assemble (hW : ∀ w : W, w ^ 2 = 1) {A N : Subgroup (MulAut W
       · rintro ⟨n, hn, rfl⟩
         exact ⟨n, hn, by rw [s15_Three_commSub_conj n B, hBR]⟩
     rw [hset]
-    exact s15_Three_sSup_conj hNA hsemi htrans hR hS hRS hRS' hmult hBA hBS hAB hBR
+    exact s15_Three_sSup_conj hNA hsemi htrans hR hRS' hmult hBA hBS hBR
 
 end Abstract
 

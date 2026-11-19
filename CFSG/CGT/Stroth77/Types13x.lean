@@ -66,7 +66,7 @@ theorem compat_uv {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
     -1, 16 * G + 2 * K + 38, 192 * G ^ 2 + 928 * G + 1121]) (by
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [k, uvM, tM, uvA, ρM, uMat, ofCols_apply, Matrix.mul_apply, Fin.sum_univ_three,
+      simp [k, uvM, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply, Fin.sum_univ_three,
         Matrix.mulVec, dotProduct] <;> ring1)
 
 theorem compat_t {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
@@ -80,7 +80,7 @@ theorem compat_t {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
     2, -64 * G - 152, -56 * G - 2 * K - 133]) (by
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [k, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply, Fin.sum_univ_three,
+      simp [k, tM, uvA, ρM, ofCols_apply, Fin.sum_univ_three,
         Matrix.mulVec, dotProduct] <;> ring1)
 
 theorem compat_u {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
@@ -93,16 +93,14 @@ theorem compat_u {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
     0, 1, 0]) (by
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [k, uM, uMat, ofCols_apply, Matrix.mul_apply, Fin.sum_univ_three,
-        Matrix.mulVec, dotProduct] <;> ring1)
+      simp [k, uM, uMat, ofCols_apply] <;> ring1)
 
-theorem compat_rho {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
+theorem compat_rho {m : ℕ} {i F G N K : ℤ} (_h : Data m i F G N K) :
     Compat (k m) (ρM) := by
   exact Compat.of_witness (C := !![1, 0, -4; 0, 0, -1; 0, 1, -1]) (by
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [k, ρM, ofCols_apply, Matrix.mul_apply, Fin.sum_univ_three,
-        Matrix.mulVec, dotProduct] <;> ring1)
+      simp [k, ρM, ofCols_apply]; ring1)
 
 theorem uv_sq {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
     MatEq (k m) ((uvM i F G N) * (uvM i F G N)) 1 := by
@@ -116,9 +114,8 @@ theorem uv_sq {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
   refine MatEq.of_three_pow_witness (k := k m) 3 (W := !![49152 * K ^ 5 - 6144 * K ^ 4 + 62976 * K ^ 3 - 5568 * K ^ 2 + 2352 * K - 168, -524288 * K ^ 7 + 16384 * K ^ 6 - 731136 * K ^ 5 + 3072 * K ^ 4 - 38976 * K ^ 3 + 1296 * K ^ 2 - 520 * K + 38, -8388608 * K ^ 9 + 1048576 * K ^ 8 - 15990784 * K ^ 7 + 1343488 * K ^ 6 - 1443840 * K ^ 5 + 119808 * K ^ 4 - 44992 * K ^ 3 + 3680 * K ^ 2 - 476 * K + 38; 46080 * K ^ 3 - 2592 * K ^ 2 + 1386 * K - 81, -491520 * K ^ 5 - 18432 * K ^ 4 - 16032 * K ^ 3 - 522 * K ^ 2 + 195 * K, -7864320 * K ^ 7 + 442368 * K ^ 6 - 162816 * K ^ 5 + 3072 * K ^ 4 - 6432 * K ^ 3 + 1488 * K ^ 2 - 282 * K + 57; -4608 * K ^ 3 - 144 * K + 27, 49152 * K ^ 5 + 4608 * K ^ 4 - 1536 * K ^ 3 - 144 * K ^ 2 - 96 * K - 9, 786432 * K ^ 7 - 270336 * K ^ 5 - 21504 * K ^ 4 + 9312 * K ^ 3 - 3306 * K ^ 2 + 795 * K - 84]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, uvM, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (24576 * K ^ 4 + 18432 * G * K ^ 2 - 3072 * K ^ 3 + 13824 * G ^ 2 - 2304 * G * K + 74496 * K ^ 2 + 88128 * G - 8160 * K + 131544) * hG'
@@ -143,9 +140,8 @@ theorem t_sq {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
   refine MatEq.of_three_pow_witness (k := k m) 2 (W := !![3072 * K ^ 3 - 2064 * K - 72, -65536 * K ^ 5 + 512 * K ^ 4 + 54272 * K ^ 3 + 656 * K ^ 2 + 1760 * K + 20, -49152 * K ^ 5 - 1536 * K ^ 4 + 27648 * K ^ 3 + 2832 * K ^ 2 + 948 * K + 18; -576 * K - 9, 16896 * K ^ 3 - 288 * K ^ 2 + 609 * K - 9, 7680 * K ^ 3 + 672 * K ^ 2 + 240 * K + 3; -1152 * K - 18, 29184 * K ^ 3 + 912 * K, 17664 * K ^ 3 + 1056 * K ^ 2 + 633 * K - 3]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (1536 * K ^ 2 + 1152 * G + 1656) * hG'
@@ -170,9 +166,8 @@ theorem uv_comm_t {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
   refine MatEq.of_three_pow_witness (k := k m) 3 (W := !![98304 * K ^ 5 - 12288 * K ^ 4 + 112128 * K ^ 3 - 11136 * K ^ 2 + 3408 * K - 228, -2097152 * K ^ 7 + 262144 * K ^ 6 - 2457600 * K ^ 5 + 245760 * K ^ 4 - 129024 * K ^ 3 + 12288 * K ^ 2 - 1804 * K + 152, -3670016 * K ^ 7 + 294912 * K ^ 6 + 2270208 * K ^ 5 - 125952 * K ^ 4 + 78624 * K ^ 3 + 768 * K ^ 2 + 128 * K + 156; 92160 * K ^ 3 - 5184 * K ^ 2 + 4500 * K - 108, -1966080 * K ^ 5 + 110592 * K ^ 4 - 159744 * K ^ 3 + 6336 * K ^ 2 - 3099 * K + 90, -73728 * K ^ 5 - 93696 * K ^ 4 - 40896 * K ^ 3 - 3012 * K ^ 2 - 1206 * K + 48; -9216 * K ^ 3 - 2016 * K, 196608 * K ^ 5 + 65280 * K ^ 3 - 576 * K ^ 2 + 1794 * K - 18, 1916928 * K ^ 5 - 104448 * K ^ 4 + 103680 * K ^ 3 - 768 * K ^ 2 + 1395 * K + 24]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, uvM, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (49152 * K ^ 4 + 36864 * G * K ^ 2 - 6144 * K ^ 3 + 27648 * G ^ 2 - 4608 * G * K + 142080 * K ^ 2 + 171072 * G - 16320 * K + 250344) * hG'
@@ -197,20 +192,8 @@ theorem rho_cube {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
   refine MatEq.of_three_pow_witness (k := k m) 0 (W := !![0, 0, 0; 0, 0, 0; 0, 0, 0]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
-    first
-
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
+    simp [k, h0, h1, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three]
 
 theorem u_sq {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
     MatEq (k m) ((uM F) * (uM F)) 1 := by
@@ -224,20 +207,8 @@ theorem u_sq {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
   refine MatEq.of_three_pow_witness (k := k m) 0 (W := !![0, 0, 0; 0, 0, 0; 0, 0, 0]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
-    first
-
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
+    simp [k, h0, h1, uM, uMat, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three]
 
 theorem u_rho {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
     MatEq (k m) (ρM * ((uM F) * (ρM * (uM F)))) 1 := by
@@ -251,20 +222,12 @@ theorem u_rho {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
   refine MatEq.of_three_pow_witness (k := k m) 0 (W := !![0, 32 * K, 0; 0, 0, 0; 0, 0, 0]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three];
     first
 
     | linear_combination (0) * hG'
     | linear_combination (16) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
 
 theorem uv_rho {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
     MatEq (k m) (ρM * (uvM i F G N)) ((tM i F G N) * ρM) := by
@@ -278,9 +241,8 @@ theorem uv_rho {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
   refine MatEq.of_three_pow_witness (k := k m) 2 (W := !![0, 0, -8192 * K ^ 5 + 1024 * K ^ 4 - 12032 * K ^ 3 + 928 * K ^ 2 - 1520 * K + 10; 0, 0, -768 * K ^ 3 - 312 * K; 0, 0, -8448 * K ^ 3 + 432 * K ^ 2 - 831 * K + 9]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, uvM, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (0) * hG'
@@ -305,9 +267,8 @@ theorem t_rho {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
   refine MatEq.of_three_pow_witness (k := k m) 3 (W := !![1728 * K - 108, 1835008 * K ^ 7 - 114688 * K ^ 6 - 4451328 * K ^ 5 + 285696 * K ^ 4 - 234336 * K ^ 3 + 8976 * K ^ 2 - 2920 * K - 2, -1835008 * K ^ 7 + 114688 * K ^ 6 + 4426752 * K ^ 5 - 282624 * K ^ 4 + 299616 * K ^ 3 - 11376 * K ^ 2 + 4876 * K + 140; 864 * K - 54, -1646592 * K ^ 5 + 144384 * K ^ 4 - 103488 * K ^ 3 + 6090 * K ^ 2 - 1626 * K + 51, 1646592 * K ^ 5 - 144384 * K ^ 4 + 128832 * K ^ 3 - 7386 * K ^ 2 + 2391 * K + 30; 432 * K - 27, -1744896 * K ^ 5 + 109056 * K ^ 4 - 72192 * K ^ 3 + 1920 * K ^ 2 - 552 * K - 33, 1744896 * K ^ 5 - 109056 * K ^ 4 + 95232 * K ^ 3 - 3216 * K ^ 2 + 1245 * K + 60]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, uvM, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (864) * hG'
@@ -333,8 +294,7 @@ theorem uv_comm_u {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
   intro i j
   fin_cases i <;> fin_cases j <;>
     simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (0) * hG'
@@ -360,8 +320,7 @@ theorem t_u {m : ℕ} {i F G N K : ℤ} (h : Data m i F G N K) :
   intro i j
   fin_cases i <;> fin_cases j <;>
     simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (-1728) * hG'
@@ -445,9 +404,8 @@ theorem uv_sq {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   refine MatEq.of_three_pow_witness (k := k m) 4 (W := !![4718592 * J ^ 5 + 737280 * J ^ 4 + 1511424 * J ^ 3 - 5760 * J ^ 2 + 14112 * J - 90, -201326592 * J ^ 7 - 25165824 * J ^ 6 - 70778880 * J ^ 5 - 1069056 * J ^ 3 + 4608 * J ^ 2 - 4128 * J + 24, 17179869184 * J ^ 10 - 10737418240 * J ^ 9 + 3087007744 * J ^ 8 - 6174015488 * J ^ 7 - 11534336 * J ^ 6 - 139591680 * J ^ 5 - 581632 * J ^ 4 - 1071104 * J ^ 3 - 1408 * J ^ 2 - 2752 * J + 8; 147456 * J ^ 4 + 1105920 * J ^ 3 - 11520 * J ^ 2 + 8640 * J - 99, -6291456 * J ^ 6 - 47185920 * J ^ 5 + 73728 * J ^ 4 - 460800 * J ^ 3 + 576 * J ^ 2 + 576 * J - 3, 536870912 * J ^ 9 + 3623878656 * J ^ 8 - 3028287488 * J ^ 7 + 20447232 * J ^ 6 - 17203200 * J ^ 5 - 2359296 * J ^ 4 - 141824 * J ^ 3 - 19872 * J ^ 2 - 1504 * J - 15; 147456 * J ^ 4 - 110592 * J ^ 3 + 2304 * J ^ 2 - 864 * J + 9, -6291456 * J ^ 6 + 4718592 * J ^ 5 - 36864 * J ^ 3 + 1152 * J ^ 2 - 576 * J + 6, 536870912 * J ^ 9 - 805306368 * J ^ 8 + 293601280 * J ^ 7 - 25165824 * J ^ 6 - 26050560 * J ^ 5 + 442368 * J ^ 4 + 148480 * J ^ 3 + 3072 * J ^ 2 + 4184 * J - 12]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, uvM, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (1179648 * J ^ 4 + 221184 * G * J ^ 2 + 184320 * J ^ 3 + 41472 * G ^ 2 + 34560 * G * J + 893952 * J ^ 2 + 264384 * G + 79200 * J + 394632) * hG'
@@ -473,9 +431,8 @@ theorem t_sq {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   refine MatEq.of_three_pow_witness (k := k m) 2 (W := !![16384 * J ^ 4 + 24576 * J ^ 3 - 1664 * J ^ 2 - 4128 * J - 14, -2097152 * J ^ 5 + 434176 * J ^ 3 + 3520 * J, -1572864 * J ^ 5 + 221184 * J ^ 3 + 1824 * J; -384 * J ^ 2 - 1152 * J - 3, 135168 * J ^ 3 + 1200 * J, 61440 * J ^ 3 + 480 * J; -1536 * J ^ 2 - 2304 * J + 6, 4096 * J ^ 4 + 233472 * J ^ 3 - 1760 * J ^ 2 + 1824 * J - 14, 8192 * J ^ 4 + 141312 * J ^ 3 - 832 * J ^ 2 + 1248 * J - 7]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (4096 * J ^ 3 + 768 * G * J + 6144 * J ^ 2 + 1152 * G + 1376 * J + 1656) * hG'
@@ -501,9 +458,8 @@ theorem uv_comm_t {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   refine MatEq.of_three_pow_witness (k := k m) 3 (W := !![3145728 * J ^ 6 + 3538944 * J ^ 5 + 1351680 * J ^ 4 + 893952 * J ^ 3 - 4224 * J ^ 2 + 6768 * J - 114, -268435456 * J ^ 7 - 33554432 * J ^ 6 - 78643200 * J ^ 5 - 1032192 * J ^ 3 + 6144 * J ^ 2 - 3392 * J + 32, -134217728 * J ^ 8 - 469762048 * J ^ 7 + 4194304 * J ^ 6 + 72351744 * J ^ 5 - 368640 * J ^ 4 + 626688 * J ^ 3 + 2432 * J ^ 2 + 256 * J + 44; 98304 * J ^ 5 + 835584 * J ^ 4 + 736512 * J ^ 3 + 4992 * J ^ 2 + 9204 * J - 66, -8388608 * J ^ 6 - 62914560 * J ^ 5 - 12288 * J ^ 4 - 1296384 * J ^ 3 + 6816 * J ^ 2 - 6288 * J + 50, 2097152 * J ^ 6 - 2359296 * J ^ 5 - 122880 * J ^ 4 - 368640 * J ^ 3 + 2880 * J ^ 2 - 2736 * J + 31; 98304 * J ^ 5 + 24576 * J ^ 4 - 74496 * J ^ 3 - 8256 * J ^ 2 - 4044 * J - 66, -8388608 * J ^ 6 + 6291456 * J ^ 5 + 24576 * J ^ 4 + 522240 * J ^ 3 + 1344 * J ^ 2 + 3696 * J + 5, 6815744 * J ^ 6 + 61145088 * J ^ 5 - 663552 * J ^ 4 + 849408 * J ^ 3 - 4704 * J ^ 2 + 2904 * J + 7]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, uvM, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (786432 * J ^ 5 + 147456 * G * J ^ 3 + 884736 * J ^ 4 + 27648 * G ^ 2 * J + 165888 * G * J ^ 2 + 681984 * J ^ 3 + 27648 * G ^ 2 + 192384 * G * J + 610560 * J ^ 2 + 171072 * G + 297312 * J + 250344) * hG'
@@ -529,20 +485,8 @@ theorem rho_cube {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   refine MatEq.of_three_pow_witness (k := k m) 0 (W := !![0, 0, 0; 0, 0, 0; 0, 0, 0]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
-    first
-
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
+    simp [k, h0, h1, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three]
 
 theorem u_sq {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
     MatEq (k m) ((uM F K) * (uM F K)) 1 := by
@@ -557,20 +501,13 @@ theorem u_sq {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   refine MatEq.of_three_pow_witness (k := k m) 1 (W := !![3 * J - 3, 0, 256 * J ^ 3 - 256 * J ^ 2 - 4 * J + 4; 0, 0, 0; 0, 0, 0]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, uM, uMat, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three] <;>
     first
 
     | linear_combination (0) * hG'
     | linear_combination (0) * hG'
     | linear_combination (64 * J ^ 2 - 64 * J) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
 
 theorem u_rho {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
     MatEq (k m) (ρM * ((uM F K) * (ρM * (uM F K)))) 1 := by
@@ -585,20 +522,13 @@ theorem u_rho {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   refine MatEq.of_three_pow_witness (k := k m) 1 (W := !![3 * J - 3, -256 * J ^ 2 + 192 * J + 1, 256 * J ^ 3 - 128 * J ^ 2 - 4 * J + 2; 0, 0, 0; 0, 0, 0]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three] <;>
     first
 
     | linear_combination (0) * hG'
     | linear_combination (-64 * J + 48) * hG'
     | linear_combination (64 * J ^ 2 - 32 * J) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
 
 theorem uv_rho {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
     MatEq (k m) (ρM * (uvM i F G N)) ((tM i F G N) * ρM) := by
@@ -613,9 +543,8 @@ theorem uv_rho {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   refine MatEq.of_three_pow_witness (k := k m) 2 (W := !![0, 0, -262144 * J ^ 5 - 96256 * J ^ 3 - 3040 * J; 0, 0, 8192 * J ^ 4 - 6144 * J ^ 3 - 64 * J ^ 2 - 624 * J - 1; 0, 0, -67584 * J ^ 3 - 1680 * J + 9]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, uvM, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (0) * hG'
@@ -641,9 +570,8 @@ theorem t_rho {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   refine MatEq.of_three_pow_witness (k := k m) 3 (W := !![-24576 * J ^ 4 + 10560 * J ^ 2 + 3456 * J + 30, 134217728 * J ^ 8 + 234881024 * J ^ 7 - 33554432 * J ^ 6 - 142344192 * J ^ 5 + 368640 * J ^ 4 - 1916928 * J ^ 3 + 2944 * J ^ 2 - 6176 * J - 16, -134217728 * J ^ 8 - 234881024 * J ^ 7 + 33554432 * J ^ 6 + 141557760 * J ^ 5 - 319488 * J ^ 4 + 2439168 * J ^ 3 - 24064 * J ^ 2 + 10304 * J - 152; 4032 * J ^ 2 + 1728 * J + 18, -9437184 * J ^ 6 - 52690944 * J ^ 5 + 98304 * J ^ 4 - 823296 * J ^ 3 + 960 * J ^ 2 - 3216 * J - 3, 9437184 * J ^ 6 + 52690944 * J ^ 5 - 98304 * J ^ 4 + 1026048 * J ^ 3 - 9024 * J ^ 2 + 4800 * J - 60; 5184 * J ^ 2 + 864 * J + 27, -14155776 * J ^ 6 - 55640064 * J ^ 5 + 663552 * J ^ 4 - 597504 * J ^ 3 + 6048 * J ^ 2 - 1272 * J, 14155776 * J ^ 6 + 55640064 * J ^ 5 - 638976 * J ^ 4 + 781824 * J ^ 3 - 16608 * J ^ 2 + 2712 * J - 84]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, uvM, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (-6144 * J ^ 3 - 1152 * G * J - 48 * J + 864) * hG'
@@ -670,8 +598,7 @@ theorem uv_comm_u {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   intro i j
   fin_cases i <;> fin_cases j <;>
     simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (-1152 * J) * hG'
@@ -698,8 +625,7 @@ theorem t_u {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   intro i j
   fin_cases i <;> fin_cases j <;>
     simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (-12288 * J ^ 4 - 2304 * G * J ^ 2 + 6144 * J ^ 3 + 1152 * G * J + 1056 * J ^ 2 + 2352 * J - 1728) * hG'
@@ -724,7 +650,7 @@ theorem compat_uv {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   exact Compat.of_witness (C := !![-8 * G - 19, 128 * G ^ 2 + 592 * G + 684, -1536 * G ^ 3 - 1024 * G ^ 2 * J - 13184 * G ^ 2 - 4736 * G * J - 36568 * G - 5472 * J - 33060; 2 * J + 1, -40 * G - 95, -256 * G ^ 2 * J - 1920 * G ^ 2 - 1184 * G * J - 9088 * G - 1368 * J - 10754; -1, 16 * G + 38, -256 * G ^ 2 * J + 192 * G ^ 2 - 1184 * G * J + 928 * G - 1368 * J + 1121]) (by
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [k, uvM, tM, uvA, ρM, uMat, ofCols_apply, Matrix.mul_apply, Fin.sum_univ_three,
+      simp [k, uvM, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply, Fin.sum_univ_three,
         Matrix.mulVec, dotProduct] <;> ring1)
 
 
@@ -738,7 +664,7 @@ theorem compat_t {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   exact Compat.of_witness (C := !![-8 * G - 15, 64 * G ^ 2 + 152 * G, 128 * G ^ 2 + 528 * G + 532; 1, -56 * G - 133, -16 * G - 38; 2 * J + 2, -64 * G - 152, -56 * G - 133]) (by
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [k, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply, Fin.sum_univ_three,
+      simp [k, tM, uvA, ρM, ofCols_apply, Fin.sum_univ_three,
         Matrix.mulVec, dotProduct] <;> ring1)
 
 
@@ -752,8 +678,7 @@ theorem compat_u {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   exact Compat.of_witness (C := !![2 * J - 1, -32 * G - 72, 64 * G * J - 32 * G + 144 * J - 72; 0, 0, 1; 0, 1, 0]) (by
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [k, uM, uMat, ofCols_apply, Matrix.mul_apply, Fin.sum_univ_three,
-        Matrix.mulVec, dotProduct] <;> ring1)
+      simp [k, uM, uMat, ofCols_apply] <;> ring1)
 
 
 theorem compat_rho {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
@@ -766,8 +691,7 @@ theorem compat_rho {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   exact Compat.of_witness (C := !![1, 0, -4; 0, 0, -1; 0, 1, -1]) (by
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [k, ρM, ofCols_apply, Matrix.mul_apply, Fin.sum_univ_three,
-        Matrix.mulVec, dotProduct] <;> ring1)
+      simp [k, ρM, ofCols_apply]; ring1)
 
 @[expose] def action {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
     SigmaFourAction (k m) :=
@@ -845,9 +769,8 @@ theorem uv_sq {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   refine MatEq.of_three_pow_witness (k := k m) 4 (W := !![4718592 * J ^ 5 + 442368 * J ^ 4 + 1511424 * J ^ 3 - 72576 * J ^ 2 + 14112 * J - 594, -201326592 * J ^ 7 - 22020096 * J ^ 6 - 71368704 * J ^ 5 + 147456 * J ^ 4 - 926208 * J ^ 3 + 20160 * J ^ 2 - 2976 * J + 138, 17179869184 * J ^ 10 - 11811160064 * J ^ 9 + 3892314112 * J ^ 8 - 6408896512 * J ^ 7 + 246415360 * J ^ 6 - 138805248 * J ^ 5 + 5169152 * J ^ 4 - 1031680 * J ^ 3 + 42752 * J ^ 2 - 2600 * J + 122; 147456 * J ^ 4 + 1105920 * J ^ 3 - 42624 * J ^ 2 + 8316 * J - 342, -6291456 * J ^ 6 - 47480832 * J ^ 5 - 811008 * J ^ 4 - 382464 * J ^ 3 - 5688 * J ^ 2 + 1206 * J - 3, 536870912 * J ^ 9 + 3623878656 * J ^ 8 - 3141533696 * J ^ 7 + 104202240 * J ^ 6 - 16023552 * J ^ 5 - 2202624 * J ^ 4 - 61184 * J ^ 3 - 1872 * J ^ 2 - 1000 * J + 156; 147456 * J ^ 4 - 110592 * J ^ 3 + 2304 * J ^ 2 - 702 * J + 90, -6291456 * J ^ 6 + 4423680 * J ^ 5 + 221184 * J ^ 4 - 34560 * J ^ 3 - 576 * J ^ 2 - 540 * J - 21, 536870912 * J ^ 9 - 805306368 * J ^ 8 + 293601280 * J ^ 7 - 25165824 * J ^ 6 - 26345472 * J ^ 5 - 589824 * J ^ 4 + 226816 * J ^ 3 - 36600 * J ^ 2 + 4814 * J - 264]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, uvM, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (1179648 * J ^ 4 + 221184 * G * J ^ 2 + 110592 * J ^ 3 + 41472 * G ^ 2 + 20736 * G * J + 893952 * J ^ 2 + 264384 * G + 30240 * J + 394632) * hG'
@@ -873,9 +796,8 @@ theorem t_sq {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   refine MatEq.of_three_pow_witness (k := k m) 2 (W := !![16384 * J ^ 4 + 24576 * J ^ 3 - 1664 * J ^ 2 - 4200 * J - 86, -2097152 * J ^ 5 + 8192 * J ^ 4 + 434176 * J ^ 3 + 2624 * J ^ 2 + 3520 * J + 20, -1572864 * J ^ 5 - 24576 * J ^ 4 + 221184 * J ^ 3 + 11328 * J ^ 2 + 1896 * J + 18; -384 * J ^ 2 - 1170 * J - 12, 135168 * J ^ 3 - 1152 * J ^ 2 + 1218 * J - 9, 61440 * J ^ 3 + 2688 * J ^ 2 + 480 * J + 3; -1536 * J ^ 2 - 2322 * J - 12, 4096 * J ^ 4 + 233472 * J ^ 3 - 1760 * J ^ 2 + 1824 * J - 14, 8192 * J ^ 4 + 141312 * J ^ 3 + 3392 * J ^ 2 + 1230 * J - 10]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (4096 * J ^ 3 + 768 * G * J + 6144 * J ^ 2 + 1152 * G + 1376 * J + 1656) * hG'
@@ -901,9 +823,8 @@ theorem uv_comm_t {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   refine MatEq.of_three_pow_witness (k := k m) 3 (W := !![3145728 * J ^ 6 + 3342336 * J ^ 5 + 1155072 * J ^ 4 + 849408 * J ^ 3 - 48768 * J ^ 2 + 6432 * J - 342, -268435456 * J ^ 7 - 16777216 * J ^ 6 - 78643200 * J ^ 5 + 3932160 * J ^ 4 - 1032192 * J ^ 3 + 55296 * J ^ 2 - 3608 * J + 184, -134217728 * J ^ 8 - 469762048 * J ^ 7 + 23068672 * J ^ 6 + 72646656 * J ^ 5 - 2383872 * J ^ 4 + 628992 * J ^ 3 + 5504 * J ^ 2 + 256 * J + 200; 98304 * J ^ 5 + 835584 * J ^ 4 + 715776 * J ^ 3 - 15960 * J ^ 2 + 8880 * J - 174, -8388608 * J ^ 6 - 62914560 * J ^ 5 + 1757184 * J ^ 4 - 1277952 * J ^ 3 + 32160 * J ^ 2 - 6198 * J + 140, 2097152 * J ^ 6 - 2457600 * J ^ 5 - 1622016 * J ^ 4 - 326400 * J ^ 3 - 9168 * J ^ 2 - 2292 * J + 79; 98304 * J ^ 5 + 24576 * J ^ 4 - 74496 * J ^ 3 - 8256 * J ^ 2 - 4044 * J - 66, -8388608 * J ^ 6 + 6291456 * J ^ 5 + 24576 * J ^ 4 + 522240 * J ^ 3 - 960 * J ^ 2 + 3588 * J - 13, 6815744 * J ^ 6 + 61243392 * J ^ 5 - 2334720 * J ^ 4 + 853248 * J ^ 3 - 7776 * J ^ 2 + 2982 * J + 31]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, uvM, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (786432 * J ^ 5 + 147456 * G * J ^ 3 + 835584 * J ^ 4 + 27648 * G ^ 2 * J + 156672 * G * J ^ 2 + 632832 * J ^ 3 + 27648 * G ^ 2 + 183168 * G * J + 577920 * J ^ 2 + 171072 * G + 264672 * J + 250344) * hG'
@@ -929,20 +850,8 @@ theorem rho_cube {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   refine MatEq.of_three_pow_witness (k := k m) 0 (W := !![0, 0, 0; 0, 0, 0; 0, 0, 0]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
-    first
-
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
+    simp [k, h0, h1, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three]
 
 theorem u_sq {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
     MatEq (k m) ((uM F K) * (uM F K)) 1 := by
@@ -957,20 +866,13 @@ theorem u_sq {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   refine MatEq.of_three_pow_witness (k := k m) 1 (W := !![3 * J - 3, 0, 256 * J ^ 3 - 256 * J ^ 2 - 4 * J + 4; 0, 0, 0; 0, 0, 0]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, uM, uMat, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three] <;>
     first
 
     | linear_combination (0) * hG'
     | linear_combination (0) * hG'
     | linear_combination (64 * J ^ 2 - 64 * J) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
 
 theorem u_rho {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
     MatEq (k m) (ρM * ((uM F K) * (ρM * (uM F K)))) 1 := by
@@ -985,20 +887,13 @@ theorem u_rho {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   refine MatEq.of_three_pow_witness (k := k m) 1 (W := !![3 * J - 3, -256 * J ^ 2 + 192 * J + 1, 256 * J ^ 3 - 128 * J ^ 2 - 4 * J + 2; 0, 0, 0; 0, 0, 0]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three] <;>
     first
 
     | linear_combination (0) * hG'
     | linear_combination (-64 * J + 48) * hG'
     | linear_combination (64 * J ^ 2 - 32 * J) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
-    | linear_combination (0) * hG'
 
 theorem uv_rho {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
     MatEq (k m) (ρM * (uvM i F G N)) ((tM i F G N) * ρM) := by
@@ -1013,9 +908,8 @@ theorem uv_rho {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   refine MatEq.of_three_pow_witness (k := k m) 2 (W := !![0, 0, -262144 * J ^ 5 + 16384 * J ^ 4 - 96256 * J ^ 3 + 3712 * J ^ 2 - 3040 * J + 10; 0, 0, 8192 * J ^ 4 - 6144 * J ^ 3 - 64 * J ^ 2 - 624 * J - 1; 0, 0, -67584 * J ^ 3 + 1728 * J ^ 2 - 1662 * J + 18]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, uvM, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (0) * hG'
@@ -1041,9 +935,8 @@ theorem t_rho {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   refine MatEq.of_three_pow_witness (k := k m) 3 (W := !![-24576 * J ^ 4 + 10560 * J ^ 2 + 3456 * J - 78, 134217728 * J ^ 8 + 234881024 * J ^ 7 - 40894464 * J ^ 6 - 142835712 * J ^ 5 + 4939776 * J ^ 4 - 1871616 * J ^ 3 + 38848 * J ^ 2 - 5792 * J - 18, -134217728 * J ^ 8 - 234881024 * J ^ 7 + 40894464 * J ^ 6 + 142049280 * J ^ 5 - 4841472 * J ^ 4 + 2393856 * J ^ 3 - 69568 * J ^ 2 + 9704 * J - 12; 4032 * J ^ 2 + 1674 * J - 36, -9437184 * J ^ 6 - 52690944 * J ^ 5 + 2408448 * J ^ 4 - 827904 * J ^ 3 + 25320 * J ^ 2 - 3252 * J + 48, 9437184 * J ^ 6 + 52690944 * J ^ 5 - 2408448 * J ^ 4 + 1030656 * J ^ 3 - 38568 * J ^ 2 + 4890 * J - 30; 5184 * J ^ 2 + 864 * J, -14155776 * J ^ 6 - 55836672 * J ^ 5 + 2408448 * J ^ 4 - 600576 * J ^ 3 + 13728 * J ^ 2 - 1284 * J - 33, 14155776 * J ^ 6 + 55836672 * J ^ 5 - 2383872 * J ^ 4 + 784896 * J ^ 3 - 29472 * J ^ 2 + 2670 * J - 24]) ?_
   intro i j
   fin_cases i <;> fin_cases j <;>
-    simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+    simp [k, h0, h1, uvM, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply,
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (-6144 * J ^ 3 - 1152 * G * J - 48 * J + 864) * hG'
@@ -1070,8 +963,7 @@ theorem uv_comm_u {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   intro i j
   fin_cases i <;> fin_cases j <;>
     simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (-1152 * J) * hG'
@@ -1098,8 +990,7 @@ theorem t_u {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   intro i j
   fin_cases i <;> fin_cases j <;>
     simp [k, h0, h1, uvM, tM, uvA, ρM, uM, uMat, ofCols_apply, Matrix.mul_apply,
-      Fin.sum_univ_three, Matrix.mulVec, dotProduct, Matrix.one_apply, Matrix.mul_one,
-      Matrix.one_mul] <;>
+      Fin.sum_univ_three, Matrix.mulVec, dotProduct] <;>
     first
 
     | linear_combination (-12288 * J ^ 4 - 2304 * G * J ^ 2 + 6144 * J ^ 3 + 1152 * G * J + 1056 * J ^ 2 + 2352 * J - 1728) * hG'
@@ -1124,7 +1015,7 @@ theorem compat_uv {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   exact Compat.of_witness (C := !![-8 * G - 19, 128 * G ^ 2 + 592 * G + 684, -1536 * G ^ 3 - 512 * G ^ 2 * J - 13184 * G ^ 2 - 1728 * G * J - 36568 * G - 1216 * J - 33060; 2 * J + 1, -40 * G - 95, -256 * G ^ 2 * J - 1920 * G ^ 2 - 896 * G * J + 16 * J ^ 2 - 9088 * G - 684 * J - 10754; -1, 16 * G + 4 * J + 38, -256 * G ^ 2 * J + 192 * G ^ 2 - 1184 * G * J + 928 * G - 1368 * J + 1121]) (by
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [k, uvM, tM, uvA, ρM, uMat, ofCols_apply, Matrix.mul_apply, Fin.sum_univ_three,
+      simp [k, uvM, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply, Fin.sum_univ_three,
         Matrix.mulVec, dotProduct] <;> ring1)
 
 
@@ -1138,7 +1029,7 @@ theorem compat_t {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   exact Compat.of_witness (C := !![-8 * G - 15, 64 * G ^ 2 + 152 * G, 128 * G ^ 2 + 528 * G - 16 * J + 532; 1, -56 * G + 4 * J - 133, -16 * G - 4 * J - 38; 2 * J + 2, -64 * G - 152, -56 * G - 4 * J - 133]) (by
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [k, tM, uvA, ρM, ofCols_apply, Matrix.mul_apply, Fin.sum_univ_three,
+      simp [k, tM, uvA, ρM, ofCols_apply, Fin.sum_univ_three,
         Matrix.mulVec, dotProduct] <;> ring1)
 
 
@@ -1152,8 +1043,7 @@ theorem compat_u {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   exact Compat.of_witness (C := !![2 * J - 1, -32 * G - 72, 64 * G * J - 32 * G + 144 * J - 72; 0, 0, 1; 0, 1, 0]) (by
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [k, uM, uMat, ofCols_apply, Matrix.mul_apply, Fin.sum_univ_three,
-        Matrix.mulVec, dotProduct] <;> ring1)
+      simp [k, uM, uMat, ofCols_apply] <;> ring1)
 
 
 theorem compat_rho {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
@@ -1166,8 +1056,7 @@ theorem compat_rho {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
   exact Compat.of_witness (C := !![1, 0, -4; 0, 0, -1; 0, 1, -1]) (by
     intro i j
     fin_cases i <;> fin_cases j <;>
-      simp [k, ρM, ofCols_apply, Matrix.mul_apply, Fin.sum_univ_three,
-        Matrix.mulVec, dotProduct] <;> ring1)
+      simp [k, ρM, ofCols_apply]; ring1)
 
 @[expose] def action {m : ℕ} {i F G N K J : ℤ} (h : Data m i F G N K J) :
     SigmaFourAction (k m) :=

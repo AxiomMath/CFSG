@@ -276,7 +276,7 @@ theorem ρ_C (σ : Perm (Fin n)) {y : Fin n → ZMod 2} (hy : ∑ i, y i = 0) :
 theorem sum_single_add_single (i j : Fin n) :
     ∑ m, (Pi.single i (1 : ZMod 2) + Pi.single j (1 : ZMod 2) : Fin n → ZMod 2) m = 0 := by
   simp only [Pi.add_apply, Finset.sum_add_distrib, Finset.sum_pi_single', Finset.mem_univ,
-    if_true]
+    ite_true]
   decide
 
 theorem ρ_c (σ : Perm (Fin n)) (i j : Fin n) :
@@ -293,6 +293,7 @@ theorem Q_ρ (σ : Perm (Fin n)) (w : ι → ZMod 2) :
   · rw [h, heartQ_permVec]
   · rw [h, heartQ_add_allOnes (four_dvd M hones) hy, heartQ_permVec]
 
+omit [Fintype ι] [DecidableEq ι] in
 theorem charTwo (v : ι → ZMod 2) : v + v = 0 := by
   funext i
   simp only [Pi.add_apply, Pi.zero_apply]

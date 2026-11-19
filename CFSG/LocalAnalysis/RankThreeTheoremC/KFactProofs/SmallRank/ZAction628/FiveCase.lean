@@ -16,30 +16,37 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem q8d8_inv_eq {x : K} (hx : x ^ 2 = 1) : x⁻¹ = x := by
   rw [inv_eq_iff_mul_eq_one, ← pow_two]
   exact hx
 
+omit [Finite K] in
 theorem q8d8_swap {x y t : K} (h : ⁅x, y⁆ = t) : x * y = t * (y * x) := by
   rw [← h, commutatorElement_def]
   group
 
+omit [Finite K] in
 theorem q8d8_comm_of_swap {x y t : K} (h : x * y = t * (y * x)) : ⁅x, y⁆ = t := by
   rw [commutatorElement_def, h]
   group
 
+omit [Finite K] in
 theorem q8d8_tt {t : K} (ht2 : t ^ 2 = 1) (w : K) : t * (t * w) = w := by
   rw [← mul_assoc, ← pow_two, ht2, one_mul]
 
+omit [Finite K] in
 theorem q8d8_swap_symm {x y t : K} (ht2 : t ^ 2 = 1) (h : x * y = t * (y * x)) :
     y * x = t * (x * y) := by
   rw [h, q8d8_tt ht2]
 
+omit [Finite K] in
 theorem q8d8_sq {x y t : K} (hx : x ^ 2 = 1) (hy : y ^ 2 = 1) (h : ⁅x, y⁆ = t) :
     (x * y) ^ 2 = t := by
   rw [← h, commutatorElement_def, q8d8_inv_eq hx, q8d8_inv_eq hy, pow_two]
   simp only [mul_assoc]
 
+omit [Finite K] in
 theorem q8d8_comm_mul {x y z t : K} (ht2 : t ^ 2 = 1) (hty : y * t = t * y)
     (hxy : x * y = t * (y * x)) (hxz : x * z = t * (z * x)) :
     x * (y * z) = (y * z) * x := by
@@ -51,6 +58,7 @@ theorem q8d8_comm_mul {x y z t : K} (ht2 : t ^ 2 = 1) (hty : y * t = t * y)
     _ = y * (z * x) := by rw [mul_assoc t y t, hty, q8d8_tt ht2]
     _ = (y * z) * x := by rw [mul_assoc]
 
+omit [Finite K] in
 theorem q8d8_anti_prod {x y z t : K} (ht2 : t ^ 2 = 1) (hxt : x * t = t * x)
     (hyt : y * t = t * y) (hy2 : y ^ 2 = 1) (hxy : x * y = t * (y * x))
     (hyz : y * z = t * (z * y)) (hxz : x * z = t * (z * x)) :
@@ -72,6 +80,7 @@ theorem q8d8_anti_prod {x y z t : K} (ht2 : t ^ 2 = 1) (hxt : x * t = t * x)
       _ = t * (x * z) := by rw [h4]
   rw [h1, h2, q8d8_tt ht2]
 
+omit [Finite K] in
 theorem q8d8_closure_comm {S T : Set K} (h : ∀ x ∈ S, ∀ y ∈ T, x * y = y * x) :
     ∀ g ∈ Subgroup.closure S, ∀ h' ∈ Subgroup.closure T, g * h' = h' * g := by
   intro g hg h' hh'
@@ -188,6 +197,7 @@ open scoped commutatorElement
 
 variable {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 theorem fiveInv_zpowers_cases {t x : K} (ht2 : t ^ 2 = 1) (hx : x ∈ zpowers t) :
     x = 1 ∨ x = t := by
   obtain ⟨n, rfl⟩ := Subgroup.mem_zpowers_iff.mp hx
@@ -199,29 +209,35 @@ theorem fiveInv_zpowers_cases {t x : K} (ht2 : t ^ 2 = 1) (hx : x ∈ zpowers t)
   · right
     rw [hn, h, zpow_add, zpow_mul, h2, one_zpow, one_mul, zpow_one]
 
+omit [Finite K] in
 theorem fiveInv_mul_self {t x : K} (ht2 : t ^ 2 = 1) (hx : x ∈ zpowers t) : x * x = 1 := by
   rcases fiveInv_zpowers_cases ht2 hx with rfl | rfl
   · simp
   · simpa [pow_two] using ht2
 
+omit [Finite K] in
 theorem fiveInv_inv_eq {t x : K} (ht2 : t ^ 2 = 1) (hx : x ∈ zpowers t) : x⁻¹ = x :=
   inv_eq_of_mul_eq_one_right (fiveInv_mul_self ht2 hx)
 
+omit [Finite K] in
 theorem fiveInv_commute_of_mem {R : Subgroup K} {t x r : K} (hR : IsExt2 R t) (hx : x ∈ zpowers t)
     (hr : r ∈ R) : r * x = x * r := by
   rcases fiveInv_zpowers_cases hR.t_sq hx with rfl | rfl
   · simp
   · exact hR.t_comm r hr
 
+omit [Finite K] in
 theorem fiveInv_conj_zpowers {t z x : K} (ht2 : t ^ 2 = 1) (hzt : z * t = t * z)
     (hx : x ∈ zpowers t) : z * x * z⁻¹ = x := by
   rcases fiveInv_zpowers_cases ht2 hx with rfl | rfl
   · simp
   · rw [hzt, mul_inv_cancel_right]
 
+omit [Finite K] in
 theorem fiveInv_comm_swap (a b : K) : a * b = ⁅a, b⁆ * (b * a) := by
   simp only [commutatorElement_def]; group
 
+omit [Finite K] in
 theorem fiveInv_comm_mul_right {R : Subgroup K} {t a b c : K} (hR : IsExt2 R t) (ha : a ∈ R)
     (hb : b ∈ R) (hc : c ∈ R) : ⁅a, b * c⁆ = ⁅a, b⁆ * ⁅a, c⁆ := by
   have h : b * ⁅a, c⁆ = ⁅a, c⁆ * b := fiveInv_commute_of_mem hR (hR.comm_mem a ha c hc) hb
@@ -229,10 +245,12 @@ theorem fiveInv_comm_mul_right {R : Subgroup K} {t a b c : K} (hR : IsExt2 R t) 
   calc ⁅a, b⁆ * b * ⁅a, c⁆ * b⁻¹ = ⁅a, b⁆ * (b * ⁅a, c⁆) * b⁻¹ := by simp only [mul_assoc]
     _ = ⁅a, b⁆ * ⁅a, c⁆ := by rw [h]; simp only [mul_assoc, mul_inv_cancel, mul_one]
 
+omit [Finite K] in
 theorem fiveInv_comm_symm {R : Subgroup K} {t a b : K} (hR : IsExt2 R t) (ha : a ∈ R) (hb : b ∈ R) :
     ⁅b, a⁆ = ⁅a, b⁆ := by
   rw [← commutatorElement_inv, fiveInv_inv_eq hR.t_sq (hR.comm_mem a ha b hb)]
 
+omit [Finite K] in
 theorem fiveInv_sq_mul {R : Subgroup K} {t Q s : K} (hR : IsExt2 R t) (hQ : Q ∈ R) (hs : s ∈ R)
     (hs2 : s ^ 2 = 1) : (Q * s) ^ 2 = Q ^ 2 * ⁅s, Q⁆ := by
   have hu : Q * ⁅s, Q⁆ = ⁅s, Q⁆ * Q := fiveInv_commute_of_mem hR (hR.comm_mem s hs Q hQ) hQ
@@ -244,6 +262,7 @@ theorem fiveInv_sq_mul {R : Subgroup K} {t Q s : K} (hR : IsExt2 R t) (hQ : Q �
     _ = ⁅s, Q⁆ * Q * Q := by rw [hss, hu]; group
     _ = Q ^ 2 * ⁅s, Q⁆ := by rw [pow_two, mul_assoc Q Q, hu, ← mul_assoc, hu]
 
+omit [Finite K] in
 theorem fiveInv_sq_five {R : Subgroup K} {t x0 x1 x2 x3 x4 : K} (hR : IsExt2 R t)
     (h0 : x0 ∈ R) (h1 : x1 ∈ R) (h2 : x2 ∈ R) (h3 : x3 ∈ R) (h4 : x4 ∈ R)
     (s0 : x0 ^ 2 = 1) (s1 : x1 ^ 2 = 1) (s2 : x2 ^ 2 = 1) (s3 : x3 ^ 2 = 1) (s4 : x4 ^ 2 = 1) :
@@ -259,12 +278,14 @@ theorem fiveInv_sq_five {R : Subgroup K} {t x0 x1 x2 x3 x4 : K} (hR : IsExt2 R t
     fiveInv_comm_mul_right hR h4 h0 h1, fiveInv_comm_mul_right hR h3 h01 h2,
     fiveInv_comm_mul_right hR h3 h0 h1, fiveInv_comm_mul_right hR h2 h0 h1]
 
+omit [Finite K] in
 theorem fiveInv_shift {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hzt : z * t = t * z)
     {a : ℕ → K} (haR : ∀ n, a n ∈ R) (hsucc : ∀ n, a (n + 1) = z * a n * z⁻¹) (n m : ℕ) :
     ⁅a (n + 1), a (m + 1)⁆ = ⁅a n, a m⁆ := by
   rw [hsucc n, hsucc m, ← conjugate_commutatorElement]
   exact fiveInv_conj_zpowers hR.t_sq hzt (hR.comm_mem _ (haR n) _ (haR m))
 
+omit [Finite K] in
 theorem fiveInv_table {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hzt : z * t = t * z)
     {a : ℕ → K} (haR : ∀ n, a n ∈ R) (ha2 : ∀ n, a n ^ 2 = 1)
     (hsucc : ∀ n, a (n + 1) = z * a n * z⁻¹) (hper : ∀ n, a (n + 5) = a n) :
@@ -321,6 +342,7 @@ theorem fiveInv_table {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hzt : z * t 
   · rw [fiveInv_sq_five hR (haR 0) (haR 1) (haR 2) (haR 3) (haR 4) (ha2 0) (ha2 1) (ha2 2) (ha2 3)
       (ha2 4), e10, e20, e21, e30, e31, e32, e40, e41, e42, e43]
 
+omit [Finite K] in
 theorem fiveInv_fixed_of_conj {R : Subgroup K} {t z P u : K} (hR : IsExt2 R t) (hz : z ^ 5 = 1)
     (hzt : z * t = t * z) (hfix : ∀ r ∈ R, z * r = r * z → r ∈ zpowers t) (hPR : P ∈ R)
     (hu : u ∈ zpowers t) (h : z * P * z⁻¹ = u * P) : P ∈ zpowers t := by
@@ -348,6 +370,7 @@ theorem fiveInv_fixed_of_conj {R : Subgroup K} {t z P u : K} (hR : IsExt2 R t) (
     have : t = 1 := by simpa using h5.symm
     exact hR.t_ne this
 
+omit [Finite K] in
 theorem fiveInv_prod_mem {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hz : z ^ 5 = 1)
     (hzt : z * t = t * z) (hfix : ∀ r ∈ R, z * r = r * z → r ∈ zpowers t)
     {a : ℕ → K} (haR : ∀ n, a n ∈ R) (ha2 : ∀ n, a n ^ 2 = 1)
@@ -373,6 +396,7 @@ theorem fiveInv_prod_mem {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hz : z ^ 
       _ = _ := by rw [commutatorElement_def, inv_mul_cancel_right, hinv]
   exact fiveInv_fixed_of_conj hR hz hzt hfix hPR (hR.comm_mem _ (haR 0) _ hPR) hconj
 
+omit [Finite K] in
 theorem fiveInv_eq_of_prod {t b1 b2 : K} (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (hb1 : b1 ∈ zpowers t)
     (hb2 : b2 ∈ zpowers t)
     (h : b1 * (b2 * b1) * (b2 * b2 * b1) * (b1 * b2 * b2 * b1) = 1) : b1 = b2 := by
@@ -391,6 +415,7 @@ theorem fiveInv_eq_of_prod {t b1 b2 : K} (ht2 : t ^ 2 = 1) (ht1 : t ≠ 1) (hb1 
     simpa [mul_assoc, htt, htt'] using h
   · rw [h1, h2]
 
+omit [Finite K] in
 theorem fiveInv_conj_closure {S : Set K} {g : K}
     (hg : ∀ x ∈ S, g * x * g⁻¹ ∈ Subgroup.closure S) {x : K} (hx : x ∈ Subgroup.closure S) :
     g * x * g⁻¹ ∈ Subgroup.closure S := by
@@ -406,6 +431,7 @@ theorem fiveInv_conj_closure {S : Set K} {g : K}
     rw [this]
     exact Subgroup.inv_mem _ ih
 
+omit [Finite K] in
 theorem fiveInv_not_abelian {R : Subgroup K} {t z : K}
     (hfix : ∀ r ∈ R, z * r = r * z → r ∈ zpowers t)
     (hstar : ∀ A : Subgroup K, A ≤ R → (∀ a ∈ A, ∀ b ∈ A, a * b = b * a) →
@@ -431,7 +457,7 @@ theorem fiveInv_not_abelian {R : Subgroup K} {t z : K}
     exact haR n
   have hAc : ∀ x ∈ Subgroup.closure (Set.range a), ∀ y ∈ Subgroup.closure (Set.range a),
       x * y = y * x := by
-    haveI : IsMulCommutative (Subgroup.closure (Set.range a)) :=
+    have : IsMulCommutative (Subgroup.closure (Set.range a)) :=
       Subgroup.isMulCommutative_closure (k := Set.range a)
         (by rintro _ ⟨n, rfl⟩ _ ⟨m, rfl⟩ _; exact hcomm n m)
     intro x hx y hy
@@ -463,6 +489,7 @@ theorem fiveInv_not_abelian {R : Subgroup K} {t z : K}
   have h0 := hstar _ hAR hAc hznorm (a 0) (Subgroup.subset_closure ⟨0, rfl⟩)
   exact ha0 (hfix _ (haR 0) h0)
 
+omit [Finite K] in
 theorem fiveInv_main {R : Subgroup K} {t z : K} (hR : IsExt2 R t) (hz : z ^ 5 = 1)
     (hzt : z * t = t * z) (hfix : ∀ r ∈ R, z * r = r * z → r ∈ zpowers t)
     (hstar : ∀ A : Subgroup K, A ≤ R → (∀ a ∈ A, ∀ b ∈ A, a * b = b * a) →

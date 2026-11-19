@@ -14,7 +14,7 @@ open CFSG.Assembly CFSG.Blueprint CFSG.Blueprint.Chevalley CFSG.LieType.Chevalle
 
 theorem ggTwE6ThreeTwoLocalInnToralInput_holds : GGTwE6ThreeTwoLocalInnToralInput := by
   intro f hf h3 Ω _ _ _ Fr hFr X V hXR hVR hXel hXc hV1 hV2 hXV
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let K := GaloisField 2 (2 * f)
   obtain ⟨A, hAI, hAX, hAU⟩ :=
     exists_twNormTwo_descent hf h3 Ω Fr hFr hXR hVR hV1 hV2 hXV

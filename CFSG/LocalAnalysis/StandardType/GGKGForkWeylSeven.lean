@@ -149,7 +149,7 @@ private theorem ggKGW7_exists_conj {τ : Tag} {p : ℕ} (hp : p.Prime) (c : Weyl
     (w : WeylGroup τ) (hw : orderOf w = p) :
     ∃ y : WeylGroup τ, y⁻¹ * w * y ∈ Subgroup.zpowers c := by
   classical
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   have hcw : Nat.card (Subgroup.zpowers c) =
       p ^ (Nat.card (WeylGroup τ)).factorization p := by
     rw [Nat.card_zpowers, hc, hfac, pow_one]
@@ -158,7 +158,7 @@ private theorem ggKGW7_exists_conj {τ : Tag} {p : ℕ} (hp : p.Prime) (c : Weyl
     rw [Nat.card_zpowers, hw, hfac, pow_one]
   let Pc : Sylow p (WeylGroup τ) := Sylow.ofCard (Subgroup.zpowers c) hcw
   let Pw : Sylow p (WeylGroup τ) := Sylow.ofCard (Subgroup.zpowers w) hww
-  haveI : MulAction.IsPretransitive (WeylGroup τ) (Sylow p (WeylGroup τ)) :=
+  have : MulAction.IsPretransitive (WeylGroup τ) (Sylow p (WeylGroup τ)) :=
     Sylow.isPretransitive_of_finite
   obtain ⟨y, hy⟩ := MulAction.exists_smul_eq (WeylGroup τ) Pc Pw
   refine ⟨y, ?_⟩
@@ -203,7 +203,7 @@ private theorem ggKGW7_M_E7_5_ne_one : ggKGW7_M_E7_5 ≠ 1 := by
 
 private theorem ggKGW7_orderOf_c_E7_5 :
     orderOf ggKGW7_c_E7_5 = 5 := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   refine orderOf_eq_prime ?_ ?_
   · apply ggKGW7_Atw_injective
     have h : Atw (ggKGW7_c_E7_5 ^ 5) = (Atw ggKGW7_c_E7_5) ^ 5 :=
@@ -235,7 +235,7 @@ private theorem ggKGW7_card_c_E7_5
     Nat.card {a : Fin Tag.E7.rank → C // mactC (Atw ggKGW7_c_E7_5) a = a} ≤ 5 ^ 4 := by
   rw [ggKGW7_Atw_c_E7_5]
   change Nat.card {a : Fin 7 → C // mactC ggKGW7_M7_E7_5 a = a} ≤ 5 ^ 4
-  haveI hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
+  have hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
   have hle : Nat.card {a : Fin 7 → C // mactC ggKGW7_M7_E7_5 a = a} ≤
       Nat.card (C × C × C) := by
     refine Nat.card_le_card_of_injective (fun a => (a.1 0, a.1 1, a.1 6)) ?_
@@ -277,7 +277,7 @@ private theorem ggKGW7_M_E7_7_ne_one : ggKGW7_M_E7_7 ≠ 1 := by
 
 private theorem ggKGW7_orderOf_c_E7_7 :
     orderOf ggKGW7_c_E7_7 = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   refine orderOf_eq_prime ?_ ?_
   · apply ggKGW7_Atw_injective
     have h : Atw (ggKGW7_c_E7_7 ^ 7) = (Atw ggKGW7_c_E7_7) ^ 7 :=
@@ -291,7 +291,7 @@ private theorem ggKGW7_orderOf_c_E7_7 :
 private theorem ggKGW7_fixed_vals_E7_7 {C : Type} [CommGroup C] (hC : Nat.card C = 7)
     (a : Fin 7 → C) (ha : mactC ggKGW7_M7_E7_7 a = a) :
     a 0 = 1 ∧ a 2 = 1 ∧ a 3 = 1 ∧ a 4 = 1 ∧ a 5 = 1 ∧ a 6 = 1 := by
-  haveI hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
+  have hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
   have h2 := congrFun ha 2
   have h3 := congrFun ha 3
   have h4 := congrFun ha 4
@@ -315,7 +315,7 @@ private theorem ggKGW7_fixed_vals_E7_7 {C : Type} [CommGroup C] (hC : Nat.card C
     rw [ha3, ha4, ha5, ha6] at h
     simpa only [pow_succ, pow_zero, one_mul, mul_assoc] using h
   have hpow7 : a 0 ^ 7 = 1 := by
-    haveI : Fintype C := Fintype.ofFinite C
+    have : Fintype C := Fintype.ofFinite C
     have h := pow_card_eq_one (G := C) (x := a 0)
     rwa [← Nat.card_eq_fintype_card, hC] at h
   have hdvd : orderOf (a 0) ∣ 1 := by
@@ -333,7 +333,7 @@ private theorem ggKGW7_card_c_E7_7
     Nat.card {a : Fin Tag.E7.rank → C // mactC (Atw ggKGW7_c_E7_7) a = a} ≤ 7 ^ 2 := by
   rw [ggKGW7_Atw_c_E7_7]
   change Nat.card {a : Fin 7 → C // mactC ggKGW7_M7_E7_7 a = a} ≤ 7 ^ 2
-  haveI hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
+  have hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
   have hle : Nat.card {a : Fin 7 → C // mactC ggKGW7_M7_E7_7 a = a} ≤ Nat.card C := by
     refine Nat.card_le_card_of_injective (fun a => a.1 1) ?_
     intro a b hab
@@ -373,7 +373,7 @@ private theorem ggKGW7_M_E8_7_ne_one : ggKGW7_M_E8_7 ≠ 1 := by
 
 private theorem ggKGW7_orderOf_c_E8_7 :
     orderOf ggKGW7_c_E8_7 = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   refine orderOf_eq_prime ?_ ?_
   · apply ggKGW7_Atw_injective
     have h : Atw (ggKGW7_c_E8_7 ^ 7) = (Atw ggKGW7_c_E8_7) ^ 7 :=
@@ -435,7 +435,7 @@ private theorem ggKGW7_card_c_E8_7
     Nat.card {a : Fin Tag.E8.rank → C // mactC (Atw ggKGW7_c_E8_7) a = a} ≤ 7 ^ 3 := by
   rw [ggKGW7_Atw_c_E8_7]
   change Nat.card {a : Fin 8 → C // mactC ggKGW7_M8_E8_7 a = a} ≤ 7 ^ 3
-  haveI hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
+  have hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
   have hle : Nat.card {a : Fin 8 → C // mactC ggKGW7_M8_E8_7 a = a} ≤ Nat.card (C × C) := by
     refine Nat.card_le_card_of_injective (fun a => (a.1 0, a.1 1)) ?_
     intro a b hab
@@ -453,7 +453,7 @@ private theorem ggKGW7_card_c_E8_7
 theorem weylE7_five_fixed
     {C : Type} [CommGroup C] (hC : Nat.card C = 5) {w : WeylGroup Tag.E7} (hw : orderOf w = 5) :
     Nat.card {a : Fin Tag.E7.rank → C // mactC (Atw w) a = a} ≤ 5 ^ 4 := by
-  haveI hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
+  have hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
   have hp : Nat.Prime 5 := by norm_num
   have hfac : (Nat.card (WeylGroup Tag.E7)).factorization 5 = 1 := by
     rw [card_weylGroup_E7']
@@ -482,7 +482,7 @@ theorem weylE7_five_fixed
 theorem weylE7_seven_fixed
     {C : Type} [CommGroup C] (hC : Nat.card C = 7) {w : WeylGroup Tag.E7} (hw : orderOf w = 7) :
     Nat.card {a : Fin Tag.E7.rank → C // mactC (Atw w) a = a} ≤ 7 ^ 2 := by
-  haveI hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
+  have hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
   have hp : Nat.Prime 7 := by norm_num
   have hfac : (Nat.card (WeylGroup Tag.E7)).factorization 7 = 1 := by
     rw [card_weylGroup_E7']
@@ -511,7 +511,7 @@ theorem weylE7_seven_fixed
 theorem weylE8_seven_fixed
     {C : Type} [CommGroup C] (hC : Nat.card C = 7) {w : WeylGroup Tag.E8} (hw : orderOf w = 7) :
     Nat.card {a : Fin Tag.E8.rank → C // mactC (Atw w) a = a} ≤ 7 ^ 3 := by
-  haveI hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
+  have hfinC : Finite C := Nat.finite_of_card_ne_zero (by rw [hC]; norm_num)
   have hp : Nat.Prime 7 := by norm_num
   have hfac : (Nat.card (WeylGroup Tag.E8)).factorization 7 = 1 := by
     rw [card_weylGroup_E8']

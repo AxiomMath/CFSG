@@ -28,7 +28,7 @@ private theorem pow_mod_seven {M : Type*} [Monoid M] {x : M} (hx : x ^ 7 = 1) (m
     x ^ (m % 7) = x ^ m := by
   conv_rhs => rw [← Nat.mod_add_div m 7, pow_add, pow_mul, hx, one_pow, mul_one]
 
-private noncomputable def fcomm {G : Type} [Monoid G] (f : Fin 4 → G)
+private theorem fcomm {G : Type} [Monoid G] (f : Fin 4 → G)
     (hfcomm : ∀ i j, Commute (f i) (f j)) (v : Fin 4 → ZMod 7) :
     Set.Pairwise (↑four : Set (Fin 4)) (Function.onFun Commute (fun i => f i ^ (v i).val)) :=
   fun i _ j _ _ => ((hfcomm i j).pow_left (v i).val).pow_right (v j).val
@@ -233,7 +233,7 @@ private theorem no_transv {G : Type} [Group G] [Finite G] {Bs : Subgroup G} {f :
     (hgN : g ∈ Subgroup.normalizer (Bs : Set G)) (hcg : ConjMat f g t)
     (ht : Certificates.A8Nbr476.IsTransv t) : False := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let ι := fPowEquiv hBs hcard hfcomm hf7
   let φ : MulAut ↥Bs := ggConjAut Bs hgN
   have hφ : φ ∈ ggInduced ⊤ Bs := ggConjAut_mem_ggInduced (Subgroup.mem_top g) hgN
@@ -489,16 +489,16 @@ private theorem mem_normalizer_of_generators {G : Type} [Group G] {Bs : Subgroup
 private def a11am_D0 : Certificates.A8Nbr476.M4 := !![2,0,0,0; 0,1,0,0; 0,0,1,0; 0,0,0,1]
 
 private lemma a11am_D0_row0 : (fun j => a11am_D0 0 j) = (2 : ℕ) • ev 0 := by
-  ext j; fin_cases j <;> simp [a11am_D0, ev, Pi.single_apply]
+  ext j; fin_cases j <;> simp [a11am_D0, ev]
 
 private lemma a11am_D0_row1 : (fun j => a11am_D0 1 j) = ev 1 := by
-  ext j; fin_cases j <;> simp [a11am_D0, ev, Pi.single_apply]
+  ext j; fin_cases j <;> simp [a11am_D0, ev]
 
 private lemma a11am_D0_row2 : (fun j => a11am_D0 2 j) = ev 2 := by
-  ext j; fin_cases j <;> simp [a11am_D0, ev, Pi.single_apply]
+  ext j; fin_cases j <;> simp [a11am_D0, ev]
 
 private lemma a11am_D0_row3 : (fun j => a11am_D0 3 j) = ev 3 := by
-  ext j; fin_cases j <;> simp [a11am_D0, ev, Pi.single_apply]
+  ext j; fin_cases j <;> simp [a11am_D0, ev]
 
 theorem a11AMatInput_holds : A11AMatInput := by
   intro G _ _ B Bs x L D J y K φ₃ f n Φ ρ hctx

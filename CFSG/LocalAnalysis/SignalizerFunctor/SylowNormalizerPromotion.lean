@@ -18,11 +18,11 @@ theorem sylow_of_normalizer_containment (prime : ℕ) (prime_prime : prime.Prime
       (ambientSylow : Subgroup GroupType) = (internalSylow : Subgroup parent).map parent.subtype := by
   let : Fact prime.Prime := ⟨prime_prime⟩
   let target := (internalSylow : Subgroup parent).map parent.subtype
-  have target_pgroup : IsPGroup prime target := internalSylow.isPGroup'.map parent.subtype
+  have target_pgroup : IsPGroup prime target := internalSylow.isPGroup.map parent.subtype
   obtain ⟨ambientSylow, target_le⟩ := target_pgroup.exists_le_sylow
   have equal : target = (ambientSylow : Subgroup GroupType) := by
     let internal := target.subgroupOf (ambientSylow : Subgroup GroupType)
-    let _nilpotent : Group.IsNilpotent (ambientSylow : Subgroup GroupType) := ambientSylow.isPGroup'.isNilpotent
+    let _nilpotent : Group.IsNilpotent (ambientSylow : Subgroup GroupType) := ambientSylow.isPGroup.isNilpotent
     have internal_normalizer_le : Subgroup.normalizer (internal : Set (ambientSylow : Subgroup GroupType)) ≤ internal := by
       have mapped_le : (Subgroup.normalizer (internal : Set (ambientSylow : Subgroup GroupType))).map
           (ambientSylow : Subgroup GroupType).subtype ≤ target := by
@@ -35,7 +35,7 @@ theorem sylow_of_normalizer_containment (prime : ℕ) (prime_prime : prime.Prime
         have mapped_pgroup : IsPGroup prime
             ((Subgroup.normalizer (internal : Set (ambientSylow : Subgroup GroupType))).map
               (ambientSylow : Subgroup GroupType).subtype) :=
-          (ambientSylow.isPGroup'.to_subgroup _).map (ambientSylow : Subgroup GroupType).subtype
+          (ambientSylow.isPGroup.to_subgroup _).map (ambientSylow : Subgroup GroupType).subtype
         let mapped := (Subgroup.normalizer (internal : Set (ambientSylow : Subgroup GroupType))).map
           (ambientSylow : Subgroup GroupType).subtype
         have mapped_internal_pgroup : IsPGroup prime (mapped.subgroupOf parent) :=
@@ -72,12 +72,12 @@ theorem pgroup_sylow_of_normalizer_pgroups (prime : ℕ) (prime_prime : prime.Pr
   let : Fact prime.Prime := ⟨prime_prime⟩
   obtain ⟨sylow, target_le⟩ := target_pgroup.exists_le_sylow
   let internal := target.subgroupOf (sylow : Subgroup GroupType)
-  let _nilpotent : Group.IsNilpotent (sylow : Subgroup GroupType) := sylow.isPGroup'.isNilpotent
+  let _nilpotent : Group.IsNilpotent (sylow : Subgroup GroupType) := sylow.isPGroup.isNilpotent
   have normalizer_le : Subgroup.normalizer (internal : Set (sylow : Subgroup GroupType)) ≤ internal := by
     let normalizer := Subgroup.normalizer (internal : Set (sylow : Subgroup GroupType))
     let embedded := normalizer.map (sylow : Subgroup GroupType).subtype
     have embedded_pgroup : IsPGroup prime embedded :=
-      (sylow.isPGroup'.to_subgroup normalizer).map (sylow : Subgroup GroupType).subtype
+      (sylow.isPGroup.to_subgroup normalizer).map (sylow : Subgroup GroupType).subtype
     have normalized : embedded ≤ Subgroup.normalizer (target : Set GroupType) := by
       have formula := normalizer_subtype_map (sylow : Subgroup GroupType) internal
       rw [Subgroup.map_subgroupOf_eq_of_le target_le] at formula

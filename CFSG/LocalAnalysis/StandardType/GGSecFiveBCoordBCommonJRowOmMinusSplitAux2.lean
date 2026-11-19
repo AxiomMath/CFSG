@@ -96,6 +96,7 @@ private theorem omMinusSwap_apply_self (m : ℕ) (a : Fin m ⊕ Fin m ⊕ Fin 2)
   · rfl
   · fin_cases j <;> rfl
 
+omit [Finite K] [CharP K 2] in
 private theorem kOmMWeight_omMinusSwap (t : Fin m → Kˣ) (a : Fin m ⊕ Fin m ⊕ Fin 2) :
     kOmMWeight K m t (omMinusSwap m a) = (kOmMWeight K m t a)⁻¹ := by
   rcases a with i | (i | j)
@@ -103,6 +104,7 @@ private theorem kOmMWeight_omMinusSwap (t : Fin m → Kˣ) (a : Fin m ⊕ Fin m 
   · simp [kOmMWeight]
   · fin_cases j <;> simp [kOmMWeight]
 
+omit [Finite K] [CharP K 2] in
 private theorem kOmMWeight_ne_zero (t : Fin m → Kˣ) (a : Fin m ⊕ Fin m ⊕ Fin 2) :
     kOmMWeight K m t a ≠ 0 := by
   rcases a with i | (i | j)
@@ -110,6 +112,7 @@ private theorem kOmMWeight_ne_zero (t : Fin m → Kˣ) (a : Fin m ⊕ Fin m ⊕ 
   · simp [kOmMWeight]
   · fin_cases j <;> simp [kOmMWeight]
 
+omit [Finite K] [CharP K 2] in
 private theorem aeval_diagonal_eq {ι : Type} [Fintype ι] [DecidableEq ι] (w : ι → K)
     (g : Polynomial K) :
     Polynomial.aeval (Matrix.diagonal w) g = Matrix.diagonal (fun a => g.eval (w a)) := by
@@ -118,6 +121,7 @@ private theorem aeval_diagonal_eq {ι : Type} [Fintype ι] [DecidableEq ι] (w :
   ext a b
   by_cases h : a = b <;> simp [h, Polynomial.aeval_fn_apply]
 
+omit [Finite K] [CharP K 2] in
 private lemma eq_diagonal_of_mem_adjoin_omMinus (t : Fin m → Kˣ)
     {y : Matrix (Fin m ⊕ Fin m ⊕ Fin 2) (Fin m ⊕ Fin m ⊕ Fin 2) K}
     (hy : y ∈ Algebra.adjoin K (Units.val ''
@@ -131,6 +135,7 @@ private lemma eq_diagonal_of_mem_adjoin_omMinus (t : Fin m → Kˣ)
   rw [kOmMDiag_coe]
   exact aeval_diagonal_eq (kOmMWeight K m t) g
 
+omit [Finite K] [CharP K 2] in
 private theorem polarGram_quadMinus_apply (a b' : Fin m ⊕ Fin m ⊕ Fin 2) :
     LinearMap.toMatrix₂' K
         (QuadraticMap.polarBilin (CFSG.LieType.Universal.Spin.quadMinus (m + 1) K b c)) a b' =
@@ -138,6 +143,7 @@ private theorem polarGram_quadMinus_apply (a b' : Fin m ⊕ Fin m ⊕ Fin 2) :
         (Pi.single a 1) (Pi.single b' 1) := by
   rw [LinearMap.toMatrix₂'_apply, QuadraticMap.polarBilin_apply_apply]
 
+omit [Finite K] in
 private theorem polarGram_statedQuadMinus_apply_eq_zero (a b' : Fin m ⊕ Fin m ⊕ Fin 2)
     (h : b' ≠ omMinusSwap m a) :
     LinearMap.toMatrix₂' K
@@ -159,7 +165,7 @@ private theorem polarGram_statedQuadMinus_apply_eq_zero (a b' : Fin m ⊕ Fin m 
         (Pi.single b' 1) (Pi.single (Sum.inr (Sum.inr (0 : Fin 2))) 1) = 0
       rw [CFSG.LieType.Universal.Spin.polar_quadMinus_single_inr_inr_zero (n := m + 1)]
       rw [h2]
-      simp only [zero_mul, mul_zero, zero_add, add_zero]
+      simp only [zero_mul, zero_add]
       rw [Pi.single_eq_of_ne (M := fun _ => K) (by simpa using (Ne.symm h')) (1 : K), mul_zero]
     · have h' : b' ≠ Sum.inr (Sum.inr (0 : Fin 2)) := fun e => h (by simpa using e)
       have h2 : (2 : K) = 0 := CharTwo.two_eq_zero
@@ -168,13 +174,14 @@ private theorem polarGram_statedQuadMinus_apply_eq_zero (a b' : Fin m ⊕ Fin m 
         (Pi.single b' 1) (Pi.single (Sum.inr (Sum.inr (1 : Fin 2))) 1) = 0
       rw [CFSG.LieType.Universal.Spin.polar_quadMinus_single_inr_inr_one (n := m + 1)]
       rw [h2]
-      simp only [zero_mul, mul_zero, zero_add, add_zero]
+      simp only [zero_mul, add_zero]
       rw [Pi.single_eq_of_ne (M := fun _ => K) (by simpa using (Ne.symm h')) (1 : K), mul_zero]
 
+omit [Finite K] in
 private theorem formAdj_quadMinus_diagonal
     (hnd : (QuadraticMap.polarBilin
       (CFSG.LieType.Universal.Spin.quadMinus (m + 1) K b c)).Nondegenerate)
-    (hb : b ≠ 0) (v : Fin m ⊕ Fin m ⊕ Fin 2 → K) :
+    (_hb : b ≠ 0) (v : Fin m ⊕ Fin m ⊕ Fin 2 → K) :
     formAdj (RingHom.id K)
       (LinearMap.toMatrix₂' K
         (QuadraticMap.polarBilin (CFSG.LieType.Universal.Spin.quadMinus (m + 1) K b c)))
@@ -207,7 +214,8 @@ private theorem formAdj_quadMinus_diagonal
     _ = (G⁻¹ * G) * Matrix.diagonal (v ∘ omMinusSwap m) := by rw [Matrix.mul_assoc]
     _ = Matrix.diagonal (v ∘ omMinusSwap m) := by rw [Matrix.nonsing_inv_mul G hG, Matrix.one_mul]
 
-private lemma diagonal_pair_mem_adjoin_omMinus (t : Fin m → Kˣ) {lam : K} (hlam : lam ≠ 0) :
+omit [CharP K 2] in
+private lemma diagonal_pair_mem_adjoin_omMinus (t : Fin m → Kˣ) {lam : K} (_hlam : lam ≠ 0) :
     Matrix.diagonal (fun a => if kOmMWeight K m t a = lam ∨ kOmMWeight K m t a = lam⁻¹
         then 1 else 0) ∈
       Algebra.adjoin K (Units.val ''
@@ -334,14 +342,14 @@ private theorem exists_diagonal_of_isPrimAdjIdemIn_omMinus
         rcases h with h | h
         · right; rw [h]
         · left; rw [h, inv_inv]
-      rw [if_pos h', if_pos h]
+      rw [ite_eq_left h', ite_eq_left h]
     · have h' : ¬ (kOmMWeight K m t (omMinusSwap m a) = kOmMWeight K m t a₀ ∨
           kOmMWeight K m t (omMinusSwap m a) = (kOmMWeight K m t a₀)⁻¹) := by
         rw [hinv]
         rintro (h' | h')
         · exact h (Or.inr (by have := congrArg (fun x : K => x⁻¹) h'; simpa using this))
         · exact h (Or.inl (by have := congrArg (fun x : K => x⁻¹) h'; simpa using this))
-      rw [if_neg h', if_neg h]
+      rw [ite_eq_right h', ite_eq_right h]
   have hπA : Matrix.diagonal p ∈ A :=
     diagonal_pair_mem_adjoin_omMinus t (kOmMWeight_ne_zero t a₀)
   let e : Matrix (Fin m ⊕ Fin m ⊕ Fin 2) (Fin m ⊕ Fin m ⊕ Fin 2) K := ε * Matrix.diagonal p
@@ -368,10 +376,10 @@ private theorem exists_diagonal_of_isPrimAdjIdemIn_omMinus
     rcases hv a with h | h <;> rcases hp a with k | k <;> rw [h, k] <;> ring
   have he_ne : e ≠ 0 := by
     have h1 : e a₀ a₀ = 1 := by
-      rw [he_eq, Matrix.diagonal_apply, if_pos rfl]
+      rw [he_eq, Matrix.diagonal_apply, ite_eq_left rfl]
       have hp1 : p a₀ = 1 := by
         unfold p
-        rw [if_pos (Or.inl rfl)]
+        rw [ite_eq_left (Or.inl rfl)]
       simp [ha₀, hp1]
     intro h0
     rw [h0, Matrix.zero_apply] at h1
@@ -382,10 +390,10 @@ private theorem exists_diagonal_of_isPrimAdjIdemIn_omMinus
   by_contra h
   have h1 : p a = 0 := by
     unfold p
-    rw [if_neg h]
+    rw [ite_eq_right h]
   have hcc := congrArg (fun M : Matrix (Fin m ⊕ Fin m ⊕ Fin 2) (Fin m ⊕ Fin m ⊕ Fin 2) K =>
     M a a) he
-  rw [he_eq, hεv, Matrix.diagonal_apply, if_pos rfl, Matrix.diagonal_apply, if_pos rfl,
+  rw [he_eq, hεv, Matrix.diagonal_apply, ite_eq_left rfl, Matrix.diagonal_apply, ite_eq_left rfl,
     h1, mul_zero, ha] at hcc
   exact zero_ne_one hcc
 
@@ -393,7 +401,7 @@ end Aux
 
 private theorem omMinus_split_exists_idempotent
     (hp : p.Prime) (hp2 : p ≠ 2) (hm : 3 ≤ m)
-    (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
+    (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (hζ : ζ ^ p = 1) (_hζo : orderOf ζ = p)
     (t : Fin m → Multiplicative (ZMod p))
     {J : Subgroup (StatedOmega (StatedQuadMinus (m + 1) K b c))}
     (hJ : CFSG.Assembly.IsComponentOf J
@@ -417,9 +425,9 @@ private theorem omMinus_split_exists_idempotent
             rw [CFSG.LieType.Universal.Spin.coe_quadMinus])).toMonoidHom) := by
   classical
   have hpodd : Odd p := hp.odd_of_ne_two hp2
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fintype K := Fintype.ofFinite K
   let Φ : QuadraticForm K (Fin m ⊕ Fin m ⊕ Fin 2 → K) :=
     CFSG.LieType.Universal.Spin.quadMinus (m + 1) K b c
   have hnd : (QuadraticMap.polarBilin Φ).Nondegenerate :=
@@ -542,21 +550,23 @@ private theorem omMinus_split_exists_idempotent
   rwa [hmap] at hJmap
 
 
+omit [CharP K 2] in
 private lemma omMinusWeight_inl_eq_one_iff
     (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
     (t : Fin m → Multiplicative (ZMod p)) (i : Fin m) :
     kOmMWeight K m (omMinusTorusParam m hζ t) (Sum.inl i) = 1 ↔ t i = 1 := by
-  haveI : NeZero p := ⟨by rw [← hζo]; exact (orderOf_pos ζ).ne'⟩
+  have : NeZero p := ⟨by rw [← hζo]; exact (orderOf_pos ζ).ne'⟩
   rw [kOmMWeight_inl, omMinusTorusParam_apply]
   constructor
   · exact fun h => (TableBSymp.zmodPowHom_eq_one_iff hζ hζo).mp (Units.ext h)
   · intro h; rw [h, map_one]; rfl
 
+omit [CharP K 2] in
 private lemma omMinusWeight_inr_inl_eq_one_iff
     (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
     (t : Fin m → Multiplicative (ZMod p)) (i : Fin m) :
     kOmMWeight K m (omMinusTorusParam m hζ t) (Sum.inr (Sum.inl i)) = 1 ↔ t i = 1 := by
-  haveI : NeZero p := ⟨by rw [← hζo]; exact (orderOf_pos ζ).ne'⟩
+  have : NeZero p := ⟨by rw [← hζo]; exact (orderOf_pos ζ).ne'⟩
   rw [kOmMWeight_inr_inl, Units.val_inv_eq_inv_val]
   constructor
   · intro h
@@ -568,6 +578,7 @@ private lemma omMinusWeight_inr_inl_eq_one_iff
     rw [omMinusTorusParam_apply, h, map_one]
     simp
 
+omit [CharP K 2] in
 private lemma omMinusWeight_eq_one_iff
     (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
     (t : Fin m → Multiplicative (ZMod p)) (a : Fin m ⊕ Fin m ⊕ Fin 2) :
@@ -595,6 +606,7 @@ private lemma omMinusWeight_eq_one_iff
       · exact absurd hi' (by simp)
       · rfl⟩
 
+omit [Finite K] [CharP K 2] in
 private lemma kOmMDiag_ggJSo2_ML_apply (u : Fin m → Kˣ)
     (w : Fin m ⊕ Fin m ⊕ Fin 2 → K) :
     ggJSo2_ML (kOmMDiag K m u) w = fun a => kOmMWeight K m u a * w a := by
@@ -604,6 +616,7 @@ private lemma kOmMDiag_ggJSo2_ML_apply (u : Fin m → Kˣ)
     Matrix.mulVecLin_apply, kOmMDiag_coe]
   rw [Matrix.mulVec_diagonal]
 
+omit [Finite K] [CharP K 2] in
 private lemma omMinus_fixed_coord_zero (u : Fin m → Kˣ)
     {w : Fin m ⊕ Fin m ⊕ Fin 2 → K}
     (hw : w ∈ CFSG.RankThree.PartOne.KCOrthogonal.fixedSpace (ggJSo2_ML (kOmMDiag K m u)))
@@ -616,6 +629,7 @@ private lemma omMinus_fixed_coord_zero (u : Fin m → Kˣ)
     rw [sub_mul, one_mul, h, sub_self]
   exact (mul_eq_zero.mp h0).resolve_left (sub_ne_zero.mpr ha)
 
+omit [Finite K] [CharP K 2] in
 private lemma omMinus_fixed_single_mem (u : Fin m → Kˣ)
     {a : Fin m ⊕ Fin m ⊕ Fin 2} (ha : kOmMWeight K m u a = 1) :
     (Pi.single a 1 : Fin m ⊕ Fin m ⊕ Fin 2 → K) ∈
@@ -624,8 +638,9 @@ private lemma omMinus_fixed_single_mem (u : Fin m → Kˣ)
   funext c
   by_cases hc : c = a
   · subst hc; simp [ha]
-  · simp [Pi.single_eq_of_ne hc, hc]
+  · simp [hc]
 
+omit [CharP K 2] in
 private lemma omMinus_fixed_isometry
     (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
     (t : Fin m → Multiplicative (ZMod p))
@@ -784,11 +799,13 @@ private lemma omMinus_fixed_isometry
       c * wv (Sum.inr (Sum.inr 1)) ^ 2)
   rw [hsum]
 
+omit [Finite K] [CharP K 2] in
 private lemma omMinus_p_dvd_card_sub_one (hζo : orderOf ζ = p) :
     p ∣ Nat.card K - 1 := by
   rw [← hζo, ← Nat.card_units]
   exact orderOf_dvd_natCard ζ
 
+omit [Finite K] [CharP K 2] in
 private lemma omMinusTorusGL_pow_prime (hζ : ζ ^ p = 1)
     (t : Fin m → Multiplicative (ZMod p)) :
     omMinusTorusGL (K := K) (m := m) hζ t ^ p = 1 := by
@@ -799,6 +816,7 @@ private lemma omMinusTorusGL_pow_prime (hζ : ζ ^ p = 1)
       ofAdd_zero]
   rw [← map_pow, ht, map_one]
 
+omit [Finite K] [CharP K 2] in
 private lemma omMinus_odd_orderOf_kOmMDiag (hp : p.Prime) (hp2 : p ≠ 2)
     (hζ : ζ ^ p = 1) (t : Fin m → Multiplicative (ZMod p)) :
     Odd (orderOf (kOmMDiag K m (omMinusTorusParam m hζ t))) := by
@@ -818,6 +836,7 @@ private lemma omMinus_statedOmega_quasisimple (hirr : ∀ s : K, s ^ 2 + b * s +
   · exact (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native _).mpr
       (CFSG.LieType.Universal.Spin.isQuasisimple_statedOmega_quadMinus (by omega) hirr)
 
+omit [Finite K] [CharP K 2] in
 private lemma omMinus_v_eq_one_of_weight_one
     (hζ : ζ ^ p = 1) (t : Fin m → Multiplicative (ZMod p))
     {ε : Matrix (Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2) (Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin
@@ -845,6 +864,7 @@ private lemma omMinus_v_eq_one_of_weight_one
   rw [hconst a a0 (ha.trans hw0.symm)]
   exact ha0
 
+omit [CharP K 2] in
 private lemma omMinus_weight_mul_one (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
     (t g : Fin m → Multiplicative (ZMod p))
     (hg : ∀ i, t i = 1 → g i = 1) {a : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2}
@@ -858,9 +878,10 @@ private lemma omMinus_weight_mul_one (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
     simp
   · rw [kOmMWeight_inr_inr]
 
+omit [Finite K] [CharP K 2] in
 private lemma omMinus_longBlock_mem_fixedBlock
-    (hp : p.Prime) (hp2 : p ≠ 2) (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
-    (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
+    (_hp : p.Prime) (_hp2 : p ≠ 2) (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0)
+    (hζ : ζ ^ p = 1) (_hζo : orderOf ζ = p)
     (t : Fin m → Multiplicative (ZMod p))
     {ε : Matrix (Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2) (Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin
         2) K}
@@ -910,7 +931,7 @@ private lemma omMinus_longBlock_mem_fixedBlock
       ext a b
       by_cases hab : a = b
       · subst hab; simp
-      · simp [Matrix.diagonal_apply, hab]
+      · simp [hab]
     rw [h1m]
     rw [omMinusLongBlock] at hw
     obtain ⟨g, -, hg⟩ := Subgroup.mem_map.mp hw
@@ -935,14 +956,14 @@ private lemma omMinus_longBlock_mem_fixedBlock
       rw [hvb, sub_self, mul_zero]
       by_cases hab : a = b
       · subst hab; simp [hvb]
-      · simp [Matrix.diagonal_apply, hab]
+      · simp [hab]
     · rw [CFSG.SeitzReduction.F4Pilot.coordEmbedMat_apply_of_not_mem (F := K)
         (g := (g : Matrix (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2)
           (Fin (2 - 1) ⊕ Fin (2 - 1) ⊕ Fin 2) K)) (a := a) (b := b)
         (fun hmem => hb hmem.2)]
       by_cases hab : a = b
       · subst hab; simp
-      · simp [Matrix.one_apply_ne hab, Matrix.diagonal_apply, hab]
+      · simp [Matrix.one_apply_ne hab, hab]
 
 private lemma omMinus_eq_one_of_sgnAut_eq_self (hp : p.Prime) (hp2 : p ≠ 2)
     {i : Fin m} {f : Fin m → Multiplicative (ZMod p)}
@@ -964,7 +985,7 @@ private lemma omMinus_eq_one_of_sgnAut_eq_self (hp : p.Prime) (hp2 : p ≠ 2)
     exact hp2 (le_antisymm (Nat.le_of_dvd (by norm_num) hd2) hp.two_le)
 
 private theorem omMinus_split_fixed_block_data
-    (hp : p.Prime) (hp2 : p ≠ 2) (hm : 3 ≤ m)
+    (hp : p.Prime) (hp2 : p ≠ 2) (_hm : 3 ≤ m)
     (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
     (t : Fin m → Multiplicative (ZMod p))
     (ε : Matrix (Fin m ⊕ Fin m ⊕ Fin 2) (Fin m ⊕ Fin m ⊕ Fin 2) K)
@@ -978,10 +999,10 @@ private theorem omMinus_split_fixed_block_data
           Set (GL (Fin m ⊕ Fin m ⊕ Fin 2) K)))) ε)
     (hεv : ε = Matrix.diagonal v)
     (hv : ∀ a, v a = 0 ∨ v a = 1)
-    (hconst : ∀ a a',
+    (_hconst : ∀ a a',
       kOmMWeight K m (omMinusTorusParam m hζ t) a =
         kOmMWeight K m (omMinusTorusParam m hζ t) a' → v a = v a')
-    (hsym : ∀ a, v a = v (omMinusSwap m a))
+    (_hsym : ∀ a, v a = v (omMinusSwap m a))
     (hfix : ∀ a, v a = 1 →
       kOmMWeight K m (omMinusTorusParam m hζ t) a = 1)
     {J : Subgroup (StatedOmega (StatedQuadMinus (m + 1) K b c))}
@@ -1005,9 +1026,9 @@ private theorem omMinus_split_fixed_block_data
           rw [CFSG.LieType.Universal.Spin.coe_quadMinus])).toMonoidHom := by
   classical
   have hpodd : Odd p := hp.odd_of_ne_two hp2
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fintype K := Fintype.ofFinite K
   have hpqK : p ∣ Nat.card K - 1 := omMinus_p_dvd_card_sub_one hζo
   have hp3 : 3 ≤ p := by have := hp.two_le; omega
   have hK4 : 4 ≤ Nat.card K := by
@@ -1103,8 +1124,7 @@ private theorem omMinus_split_fixed_block_data
         rw [← show n1 = Nat.card {i : Fin m // t i = 1} from rfl]
         exact hn1
       have hdim1 : Module.finrank K (Fin (1 - 1) ⊕ Fin (1 - 1) ⊕ Fin 2 → K) = 2 := by
-        simpa using CFSG.GroupTheory.WeirSylow.finrank_quadMinus_space (K := K) (m := 1)
-          (by norm_num)
+        simp
       have hnd1 : (QuadraticMap.polarBilin
           (CFSG.LieType.Universal.Spin.quadMinus 1 K b c)).Nondegenerate :=
         CFSG.LieType.Universal.Spin.nondegenerate_polarBilin_quadMinus_of_finite 1 K hirr
@@ -1186,6 +1206,7 @@ section FibreProjections
 
 open Classical
 
+omit [CharP K 2] in
 private lemma diagonal_single_weight_mem_adjoin_omMinus (t : Fin m → Kˣ) {lam : K} :
     Matrix.diagonal (fun a => if kOmMWeight K m t a = lam then (1 : K) else 0) ∈
       Algebra.adjoin K (Units.val ''
@@ -1202,7 +1223,7 @@ private lemma diagonal_single_weight_mem_adjoin_omMinus (t : Fin m → Kˣ) {lam
     intro a
     by_cases h : kOmMWeight K m t a = lam
     · have hzero : kOmMWeight K m t a - lam = 0 := sub_eq_zero.mpr h
-      simp [P, h, hzero, hqF.ne']
+      simp [P, h, hqF.ne']
     · have h1 : kOmMWeight K m t a - lam ≠ 0 := fun h0 => h (sub_eq_zero.mp h0)
       have hpow : (kOmMWeight K m t a - lam) ^ (Fintype.card K - 1) = 1 :=
         @FiniteField.pow_card_sub_one_eq_one K _ F _ h1
@@ -1217,6 +1238,7 @@ private lemma diagonal_single_weight_mem_adjoin_omMinus (t : Fin m → Kˣ) {lam
     (fun a => P.eval (kOmMWeight K m t a)) from funext (fun a => (hP a).symm)]
   exact hmem
 
+omit [CharP K 2] in
 private lemma isPrimIdemIn_diagonal_single_weight (t : Fin m → Kˣ) {lam : K}
     (hfib : ∃ a, kOmMWeight K m t a = lam) :
     IsPrimIdemIn (Algebra.adjoin K (Units.val ''
@@ -1240,7 +1262,7 @@ private lemma isPrimIdemIn_diagonal_single_weight (t : Fin m → Kˣ) {lam : K}
       have h := he'e
       rw [hg, Matrix.diagonal_mul_diagonal, Matrix.diagonal_injective.eq_iff] at h
       have h2 := congrFun h a
-      simp only [Pi.mul_apply, Pi.zero_apply, ha, if_false, mul_zero] at h2
+      simp only [ha, ite_false, mul_zero] at h2
       exact h2.symm
     have hidem : ∀ a, g.eval (kOmMWeight K m t a) * g.eval (kOmMWeight K m t a) =
         g.eval (kOmMWeight K m t a) := by
@@ -1267,14 +1289,15 @@ private lemma isPrimIdemIn_diagonal_single_weight (t : Fin m → Kˣ) {lam : K}
       funext a
       by_cases h : kOmMWeight K m t a = lam
       · rw [h]
-        simp only [if_pos rfl]
+        simp only
         exact sub_eq_zero.mp h1
-      · rw [hout a h, if_neg h]
+      · rw [hout a h, ite_eq_right h]
 
+omit [Finite K] [CharP K 2] in
 private lemma zmodPowHom_ne_inv (hp : p.Prime) (hp2 : p ≠ 2)
     (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p) {lam : Multiplicative (ZMod p)} (hlam : lam ≠ 1) :
     TableBSymp.zmodPowHom hζ lam ≠ (TableBSymp.zmodPowHom hζ lam)⁻¹ := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hpodd : Odd p := hp.odd_of_ne_two hp2
   intro h
   apply hlam
@@ -1295,6 +1318,7 @@ private lemma zmodPowHom_ne_inv (hp : p.Prime) (hp2 : p ≠ 2)
     rwa [hcop] at hh
   exact orderOf_eq_one_iff.mp hone
 
+omit [Finite K] [CharP K 2] in
 private lemma finrank_diagonal_omMinus_eq_card (v : Fin m ⊕ Fin m ⊕ Fin 2 → K)
     (hv : ∀ a, v a = 0 ∨ v a = 1) :
     Module.finrank K (LinearMap.range (Matrix.toLin' (Matrix.diagonal v))) =
@@ -1318,6 +1342,7 @@ private lemma finrank_diagonal_omMinus_eq_card (v : Fin m ⊕ Fin m ⊕ Fin 2 �
     rw [h]
     exact one_ne_zero
 
+omit [Finite K] [CharP K 2] in
 private lemma omMinus_split_linear_support
     (hζ : ζ ^ p = 1) (lam : Multiplicative (ZMod p))
     (u : Fin m → Kˣ) (v : Fin m ⊕ Fin m ⊕ Fin 2 → K)
@@ -1345,6 +1370,7 @@ private lemma omMinus_split_linear_support
       exact h0.symm
     · exact (hconst a a₀ (ha.trans h0.symm)).trans ha₀
 
+omit [Finite K] [CharP K 2] in
 private lemma omMinus_split_linear_finrank
     (hp : p.Prime) (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
     (t : Fin m → Multiplicative (ZMod p)) (lam : Multiplicative (ZMod p)) (hlam : lam ≠ 1)
@@ -1358,7 +1384,7 @@ private lemma omMinus_split_linear_finrank
     Module.finrank K (LinearMap.range (Matrix.toLin' (Matrix.diagonal v))) =
       2 * Nat.card {i : Fin m // t i = lam ∨ t i = lam⁻¹} := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hinj := ReflSp.zmodPowHom_injective (K := K) hζ hζo
   have hwinl : ∀ i : Fin m, kOmMWeight K m u (Sum.inl i) =
       (TableBSymp.zmodPowHom hζ (t i) : K) := by
@@ -1493,9 +1519,9 @@ private theorem omMinus_split_linear_block_data
         y * y = 1 → y ∈ J := by
   classical
   have hpodd : Odd p := hp.odd_of_ne_two hp2
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fintype K := Fintype.ofFinite K
   have hpqK : p ∣ Nat.card K - 1 := by
     rw [← hζo, ← Nat.card_units]
     exact orderOf_dvd_natCard ζ
@@ -1586,7 +1612,7 @@ private theorem omMinus_split_linear_block_data
     rw [hedef, he'def, Matrix.diagonal_injective.eq_iff] at h
     have h1 := congrFun h a₀
     rw [ha₀] at h1
-    simp only [if_pos rfl, if_neg hwinv] at h1
+    simp only [ite_eq_right hwinv] at h1
     exact one_ne_zero h1
   have hεe : ε = e + e' := by
     have hnat : (Matrix.diagonal v : Matrix (Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2)
@@ -1597,17 +1623,17 @@ private theorem omMinus_split_linear_block_data
           (TableBSymp.zmodPowHom hζ lam : K)
       · have h2 : ¬ (kOmMWeight K m (omMinusTorusParam m hζ t) a =
             ((TableBSymp.zmodPowHom hζ lam : K))⁻¹) := fun h2 => hwinv (h1.symm.trans h2)
-        rw [if_pos h1, if_neg h2, hsupp1 a (Or.inl h1)]
+        rw [ite_eq_left h1, ite_eq_right h2, hsupp1 a (Or.inl h1)]
         norm_num
       · by_cases h2 : kOmMWeight K m (omMinusTorusParam m hζ t) a =
             ((TableBSymp.zmodPowHom hζ lam : K))⁻¹
-        · rw [if_neg h1, if_pos h2, hsupp1 a (Or.inr h2)]
+        · rw [ite_eq_right h1, ite_eq_left h2, hsupp1 a (Or.inr h2)]
           norm_num
         · have h0 : v a = 0 := by
             rcases hv a with h0 | h0
             · exact h0
             · exact absurd (hsuppK a h0) (fun h => h.elim h1 h2)
-          rw [if_neg h1, if_neg h2, h0]
+          rw [ite_eq_right h1, ite_eq_right h2, h0]
           norm_num
     exact hεv.trans hnat
   have hbpow : ((kOmMDiag K m (omMinusTorusParam m hζ t) :
@@ -1643,8 +1669,8 @@ private theorem omMinus_split_linear_block_data
   obtain ⟨d, mm, E, hEf, hEfi, hd1, hEcard, hrank, hdeg, ⟨eG⟩⟩ :=
     blockGroup_iso_Omega_linear (CFSG.LieType.Universal.Spin.quadMinus (m + 1) K b c)
       hnd h8 (kOmMDiag K m (omMinusTorusParam m hζ t)) hb0 hodd hε he he' hene hεe
-  letI : Field E := hEf
-  letI : Fintype E := hEfi
+  let : Field E := hEf
+  let : Fintype E := hEfi
   have hpqK' : p ∣ Nat.card Kˣ := by
     rw [Nat.card_units]
     exact hpqK
@@ -1736,7 +1762,7 @@ private theorem omMinus_split_linear_block_data
   have hmm2 : 2 ≤ mm := by
     by_contra hlt
     have hle : mm ≤ 1 := by omega
-    haveI : Subsingleton ↥(StatedSL mm K) :=
+    have : Subsingleton ↥(StatedSL mm K) :=
       CFSG.LocalAnalysis.UniquenessCase.PartTwo.s16h_subsingleton_statedSL_of_le_one hle
     have hntriv : Nontrivial ↥(StatedSL mm K) :=
       CFSG.LocalAnalysis.UniquenessCase.PartTwo.s16h_nontrivial_of_isQuasisimple hcompSL.2.2
@@ -1904,7 +1930,7 @@ private theorem omMinus_split_criterion_fixed
         omMinusTorus (p := p) b c hζ g * j = j * omMinusTorus (p := p) b c hζ g) ↔
         ∀ i, t i = 1 → g i = 1 := by
   classical
-  haveI : NeZero p := ⟨by rw [← hζo]; exact (orderOf_pos ζ).ne'⟩
+  have : NeZero p := ⟨by rw [← hζo]; exact (orderOf_pos ζ).ne'⟩
   have hεne : ε ≠ 0 := hε.2.2.1
   have hGid : (glBlockCentralizer
       (StatedOmega ⇑(CFSG.LieType.Universal.Spin.quadMinus (m + 1) K b c)).subtype
@@ -2018,10 +2044,12 @@ section OmMinusSplitLinearAux
 open CFSG.SeitzReduction.SymplecticPilot CFSG.LieType.Universal.Spin
 open CFSG.ClassicalGroups.Orthogonal QuadraticMap Matrix
 
+omit [Finite K] [CharP K 2] in
 private lemma polar_inl (j : Fin (m + 1 - 1)) (v : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K) :
     polar (quadMinus (m+1) K b c) (Pi.single (Sum.inl j) 1) v = v (Sum.inr (Sum.inl j)) :=
   polar_single_inl_quadMinus (n := m+1) j v
 
+omit [Finite K] [CharP K 2] in
 private lemma polar_inr (j : Fin (m + 1 - 1)) (v : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K) :
     polar (quadMinus (m+1) K b c) (Pi.single (Sum.inr (Sum.inl j)) 1) v = v (Sum.inl j) :=
   polar_single_inr_quadMinus (n := m+1) j v
@@ -2052,22 +2080,25 @@ private lemma planePerm_apply_tail (i k : Fin (m + 1 - 1)) (t : Fin 2) :
         (Sum.inr (Sum.inr t) : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2) = Sum.inr (Sum.inr t) :=
             rfl
 
+omit [Finite K] [CharP K 2] in
 private lemma plane_qu (i k : Fin (m + 1 - 1)) :
     quadMinus (m+1) K b c
       (Pi.single (Sum.inl i) 1 + Pi.single (Sum.inl k) 1 : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2
           → K) = 0 := by
   rw [QuadraticMap.map_add (quadMinus (m+1) K b c),
     quadMinus_single_inl (n := m+1) i, quadMinus_single_inl (n := m+1) k, polar_inl i]
-  simp [Pi.single_apply]
+  simp
 
+omit [Finite K] [CharP K 2] in
 private lemma plane_qw (i k : Fin (m + 1 - 1)) :
     quadMinus (m+1) K b c
       (Pi.single (Sum.inr (Sum.inl i)) 1 + Pi.single (Sum.inr (Sum.inl k)) 1 :
         Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K) = 0 := by
   rw [QuadraticMap.map_add (quadMinus (m+1) K b c),
     quadMinus_single_inr (n := m+1) i, quadMinus_single_inr (n := m+1) k, polar_inr i]
-  simp [Pi.single_apply]
+  simp
 
+omit [Finite K] in
 private lemma plane_pol (i k : Fin (m + 1 - 1)) (hik : i ≠ k) :
     polar (quadMinus (m+1) K b c)
       (Pi.single (Sum.inl i) 1 + Pi.single (Sum.inl k) 1 : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2
@@ -2078,22 +2109,25 @@ private lemma plane_pol (i k : Fin (m + 1 - 1)) (hik : i ≠ k) :
         1),
     polar_inl k (Pi.single (Sum.inr (Sum.inl i)) 1), polar_inl k (Pi.single (Sum.inr (Sum.inl k))
         1)]
-  simp [Pi.single_apply, hik, Ne.symm hik]
+  simp [hik, Ne.symm hik]
   linear_combination (1 : K) * CharTwo.two_eq_zero (R := K)
 
 
 
 
+omit [Finite K] [CharP K 2] in
 private lemma polar_tail0 (v : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K) :
     polar (quadMinus (m+1) K b c) (Pi.single (Sum.inr (Sum.inr 0)) 1) v =
       2 * v (Sum.inr (Sum.inr 0)) + b * v (Sum.inr (Sum.inr 1)) := by
   rw [polar_comm, polar_quadMinus_single_inr_inr_zero]
 
+omit [Finite K] [CharP K 2] in
 private lemma polar_tail1 (v : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K) :
     polar (quadMinus (m+1) K b c) (Pi.single (Sum.inr (Sum.inr 1)) 1) v =
       b * v (Sum.inr (Sum.inr 0)) + 2 * c * v (Sum.inr (Sum.inr 1)) := by
   rw [polar_comm, polar_quadMinus_single_inr_inr_one]
 
+omit [Finite K] in
 private lemma plane_single_full (i k : Fin (m + 1 - 1)) (hik : i ≠ k)
     (a : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2) :
     eichler (quadMinus (m+1) K b c)
@@ -2112,8 +2146,8 @@ private lemma plane_single_full (i k : Fin (m + 1 - 1)) (hik : i ≠ k)
         planePerm_apply_inl, Equiv.swap_apply_left]
       funext x
       rcases x with x | (x | t) <;>
-        simp [hik, Ne.symm hik, Pi.single_apply, CharTwo.neg_eq,
-          add_self_add_char2, add_add_self_char2, CharTwo.add_self_eq_zero]
+        simp [hik, Pi.single_apply, CharTwo.neg_eq,
+          CharTwo.add_self_eq_zero]
     · by_cases hjk : j = k
       · subst j
         rw [eichler_apply (plane_qu i k) (plane_pol i k hik), plane_qw i k,
@@ -2121,12 +2155,12 @@ private lemma plane_single_full (i k : Fin (m + 1 - 1)) (hik : i ≠ k)
           polar_inl k (Pi.single (Sum.inr (Sum.inl i)) 1 + Pi.single (Sum.inr (Sum.inl k)) 1),
           planePerm_apply_inl, Equiv.swap_apply_right]
         funext x
-        rcases x with x | (x | t) <;> simp [hik, Ne.symm hik, Pi.single_apply, CharTwo.neg_eq,
-            add_self_add_char2, add_add_self_char2, CharTwo.add_self_eq_zero]
+        rcases x with x | (x | t) <;> simp [Ne.symm hik, Pi.single_apply, CharTwo.neg_eq,
+            CharTwo.add_self_eq_zero]
       · rw [eichler_apply_of_polar_eq_zero, planePerm_apply_inl,
           Equiv.swap_apply_of_ne_of_ne hji hjk]
-        · rw [polar_inl j]; simp [Pi.add_apply, Pi.single_apply, hji, hjk]
-        · rw [polar_inl j]; simp [Pi.add_apply, Pi.single_apply, hji, hjk]
+        · rw [polar_inl j]; simp [Pi.add_apply]
+        · rw [polar_inl j]; simp [Pi.add_apply, hji, hjk]
   · by_cases hji : j = i
     · subst j
       rw [eichler_apply (plane_qu i k) (plane_pol i k hik), plane_qw i k,
@@ -2135,8 +2169,7 @@ private lemma plane_single_full (i k : Fin (m + 1 - 1)) (hik : i ≠ k)
         planePerm_apply_inr, Equiv.swap_apply_left]
       funext x
       rcases x with x | (x | t) <;>
-        simp [hik, Ne.symm hik, Pi.single_apply, CharTwo.neg_eq,
-          add_self_add_char2, add_add_self_char2, CharTwo.add_self_eq_zero]
+        simp [hik, Pi.single_apply, add_self_add_char2, CharTwo.add_self_eq_zero]
     · by_cases hjk : j = k
       · subst j
         rw [eichler_apply (plane_qu i k) (plane_pol i k hik), plane_qw i k,
@@ -2144,46 +2177,48 @@ private lemma plane_single_full (i k : Fin (m + 1 - 1)) (hik : i ≠ k)
           polar_inr k (Pi.single (Sum.inr (Sum.inl i)) 1 + Pi.single (Sum.inr (Sum.inl k)) 1),
           planePerm_apply_inr, Equiv.swap_apply_right]
         funext x
-        rcases x with x | (x | t) <;> simp [hik, Ne.symm hik, Pi.single_apply, CharTwo.neg_eq,
-            add_self_add_char2, add_add_self_char2, CharTwo.add_self_eq_zero]
+        rcases x with x | (x | t) <;> simp [Ne.symm hik, Pi.single_apply, add_add_self_char2, CharTwo.add_self_eq_zero]
       · rw [eichler_apply_of_polar_eq_zero, planePerm_apply_inr,
           Equiv.swap_apply_of_ne_of_ne hji hjk]
-        · rw [polar_inr j]; simp [Pi.add_apply, Pi.single_apply, hji, hjk]
-        · rw [polar_inr j]; simp [Pi.add_apply, Pi.single_apply, hji, hjk]
+        · rw [polar_inr j]; simp [Pi.add_apply, hji, hjk]
+        · rw [polar_inr j]; simp [Pi.add_apply]
   · rw [eichler_apply_of_polar_eq_zero, planePerm_apply_tail]
     · fin_cases t
       · change polar (quadMinus (m+1) K b c)
           (Pi.single (Sum.inr (Sum.inr 0)) 1 : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K) _ = 0
-        rw [polar_tail0]; simp [Pi.add_apply, Pi.single_apply, CharTwo.two_eq_zero]
+        rw [polar_tail0]; simp [Pi.add_apply, CharTwo.two_eq_zero]
       · change polar (quadMinus (m+1) K b c)
           (Pi.single (Sum.inr (Sum.inr 1)) 1 : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K) _ = 0
-        rw [polar_tail1]; simp [Pi.add_apply, Pi.single_apply, CharTwo.two_eq_zero]
+        rw [polar_tail1]; simp [Pi.add_apply, CharTwo.two_eq_zero]
     · fin_cases t
       · change polar (quadMinus (m+1) K b c)
           (Pi.single (Sum.inr (Sum.inr 0)) 1 : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K) _ = 0
-        rw [polar_tail0]; simp [Pi.add_apply, Pi.single_apply, CharTwo.two_eq_zero]
+        rw [polar_tail0]; simp [Pi.add_apply, CharTwo.two_eq_zero]
       · change polar (quadMinus (m+1) K b c)
           (Pi.single (Sum.inr (Sum.inr 1)) 1 : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K) _ = 0
-        rw [polar_tail1]; simp [Pi.add_apply, Pi.single_apply, CharTwo.two_eq_zero]
+        rw [polar_tail1]; simp [Pi.add_apply, CharTwo.two_eq_zero]
 
 
+omit [Finite K] [CharP K 2] in
 private lemma mixed_qu (i k : Fin (m + 1 - 1)) (hik : i ≠ k) :
     quadMinus (m+1) K b c
       (Pi.single (Sum.inl i) 1 + Pi.single (Sum.inr (Sum.inl k)) 1 :
         Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K) = 0 := by
   rw [QuadraticMap.map_add (quadMinus (m+1) K b c),
     quadMinus_single_inl (n := m+1) i, quadMinus_single_inr (n := m+1) k, polar_inl i]
-  simp [Pi.single_apply, hik]
+  simp [hik]
 
+omit [Finite K] [CharP K 2] in
 private lemma mixed_qw (i k : Fin (m + 1 - 1)) (hik : i ≠ k) :
     quadMinus (m+1) K b c
       (Pi.single (Sum.inl k) 1 + Pi.single (Sum.inr (Sum.inl i)) 1 :
         Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K) = 0 := by
   rw [QuadraticMap.map_add (quadMinus (m+1) K b c),
     quadMinus_single_inl (n := m+1) k, quadMinus_single_inr (n := m+1) i, polar_inl k]
-  simp [Pi.single_apply, Ne.symm hik]
+  simp [Ne.symm hik]
 
-private lemma mixed_pol (i k : Fin (m + 1 - 1)) (hik : i ≠ k) :
+omit [Finite K] in
+private lemma mixed_pol (i k : Fin (m + 1 - 1)) (_hik : i ≠ k) :
     polar (quadMinus (m+1) K b c)
       (Pi.single (Sum.inl i) 1 + Pi.single (Sum.inr (Sum.inl k)) 1 :
         Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K)
@@ -2193,7 +2228,7 @@ private lemma mixed_pol (i k : Fin (m + 1 - 1)) (hik : i ≠ k) :
     polar_inl i (Pi.single (Sum.inr (Sum.inl i)) 1),
     polar_inr k (Pi.single (Sum.inl k) 1),
     polar_inr k (Pi.single (Sum.inr (Sum.inl i)) 1)]
-  simp [Pi.single_apply, hik, Ne.symm hik]
+  simp
   linear_combination (1 : K) * CharTwo.two_eq_zero (R := K)
 
 private lemma mixedPerm_apply_inl_self (i k : Fin (m + 1 - 1)) (hik : i ≠ k) :
@@ -2218,7 +2253,7 @@ private lemma mixedPerm_apply_inr_self (i k : Fin (m + 1 - 1)) (hik : i ≠ k) :
       (Equiv.swap (Sum.inl k : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2) (Sum.inr (Sum.inl i)) :
           Equiv.Perm _)) (Sum.inr (Sum.inl k)) =
         Sum.inl i := by
-  simp [Equiv.Perm.mul_apply, Equiv.swap_apply_def, hik, Ne.symm hik]
+  simp [Equiv.Perm.mul_apply, Equiv.swap_apply_def, Ne.symm hik]
 
 private lemma mixedPerm_apply_inr_other (i k : Fin (m + 1 - 1)) (hik : i ≠ k) :
     ((Equiv.swap (Sum.inl i : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2) (Sum.inr (Sum.inl k) : Fin
@@ -2226,7 +2261,7 @@ private lemma mixedPerm_apply_inr_other (i k : Fin (m + 1 - 1)) (hik : i ≠ k) 
       (Equiv.swap (Sum.inl k : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2) (Sum.inr (Sum.inl i)) :
           Equiv.Perm _)) (Sum.inr (Sum.inl i)) =
         Sum.inl k := by
-  simp [Equiv.Perm.mul_apply, Equiv.swap_apply_def, hik, Ne.symm hik]
+  simp [Equiv.Perm.mul_apply, Equiv.swap_apply_def, Ne.symm hik]
 
 private lemma mixedPerm_apply_inl_of_ne (i k j : Fin (m + 1 - 1)) (hji : j ≠ i) (hjk : j ≠ k) :
     ((Equiv.swap (Sum.inl i : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2) (Sum.inr (Sum.inl k) : Fin
@@ -2252,6 +2287,7 @@ private lemma mixedPerm_apply_tail (i k : Fin (m + 1 - 1)) (t : Fin 2) :
         Sum.inr (Sum.inr t) := by
   simp [Equiv.Perm.mul_apply, Equiv.swap_apply_def]
 
+omit [Finite K] in
 private lemma mixed_single_full (i k : Fin (m + 1 - 1)) (hik : i ≠ k)
     (a : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2) :
     eichler (quadMinus (m+1) K b c)
@@ -2272,8 +2308,8 @@ private lemma mixed_single_full (i k : Fin (m + 1 - 1)) (hik : i ≠ k)
         mixedPerm_apply_inl_self i k hik]
       funext x
       rcases x with x | (x | t) <;>
-        simp [hik, Ne.symm hik, Pi.single_apply, CharTwo.neg_eq,
-          add_self_add_char2, add_add_self_char2, CharTwo.add_self_eq_zero]
+        simp [hik, Pi.single_apply, CharTwo.neg_eq,
+          CharTwo.add_self_eq_zero]
     · by_cases hjk : j = k
       · subst j
         rw [eichler_apply (mixed_qu i k hik) (mixed_pol i k hik), mixed_qw i k hik,
@@ -2282,11 +2318,10 @@ private lemma mixed_single_full (i k : Fin (m + 1 - 1)) (hik : i ≠ k)
           mixedPerm_apply_inl_other i k hik]
         funext x
         rcases x with x | (x | t) <;>
-          simp [hik, Ne.symm hik, Pi.single_apply, CharTwo.neg_eq,
-            add_self_add_char2, add_add_self_char2, CharTwo.add_self_eq_zero]
+          simp [Ne.symm hik, Pi.single_apply, add_self_add_char2, CharTwo.add_self_eq_zero]
       · rw [eichler_apply_of_polar_eq_zero, mixedPerm_apply_inl_of_ne i k j hji hjk]
-        · rw [polar_inl j]; simp [Pi.add_apply, Pi.single_apply, hji, hjk]
-        · rw [polar_inl j]; simp [Pi.add_apply, Pi.single_apply, hji, hjk]
+        · rw [polar_inl j]; simp [Pi.add_apply, hjk]
+        · rw [polar_inl j]; simp [Pi.add_apply, hji]
   · by_cases hji : j = i
     · subst j
       rw [eichler_apply (mixed_qu i k hik) (mixed_pol i k hik), mixed_qw i k hik,
@@ -2295,8 +2330,7 @@ private lemma mixed_single_full (i k : Fin (m + 1 - 1)) (hik : i ≠ k)
         mixedPerm_apply_inr_other i k hik]
       funext x
       rcases x with x | (x | t) <;>
-        simp [hik, Ne.symm hik, Pi.single_apply, CharTwo.neg_eq,
-          add_self_add_char2, add_add_self_char2, CharTwo.add_self_eq_zero]
+        simp [hik, Pi.single_apply, add_add_self_char2, CharTwo.add_self_eq_zero]
     · by_cases hjk : j = k
       · subst j
         rw [eichler_apply (mixed_qu i k hik) (mixed_pol i k hik), mixed_qw i k hik,
@@ -2305,32 +2339,34 @@ private lemma mixed_single_full (i k : Fin (m + 1 - 1)) (hik : i ≠ k)
           mixedPerm_apply_inr_self i k hik]
         funext x
         rcases x with x | (x | t) <;>
-          simp [hik, Ne.symm hik, Pi.single_apply, CharTwo.neg_eq,
-            add_self_add_char2, add_add_self_char2, CharTwo.add_self_eq_zero]
+          simp [Ne.symm hik, Pi.single_apply, CharTwo.neg_eq,
+            CharTwo.add_self_eq_zero]
       · rw [eichler_apply_of_polar_eq_zero, mixedPerm_apply_inr_of_ne i k j hji hjk]
-        · rw [polar_inr j]; simp [Pi.add_apply, Pi.single_apply, hji, hjk]
-        · rw [polar_inr j]; simp [Pi.add_apply, Pi.single_apply, hji, hjk]
+        · rw [polar_inr j]; simp [Pi.add_apply, hji]
+        · rw [polar_inr j]; simp [Pi.add_apply, hjk]
   · rw [eichler_apply_of_polar_eq_zero, mixedPerm_apply_tail]
     · fin_cases t
       · change polar (quadMinus (m+1) K b c)
           (Pi.single (Sum.inr (Sum.inr 0)) 1 : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K) _ = 0
-        rw [polar_tail0]; simp [Pi.add_apply, Pi.single_apply, CharTwo.two_eq_zero]
+        rw [polar_tail0]; simp [Pi.add_apply, CharTwo.two_eq_zero]
       · change polar (quadMinus (m+1) K b c)
           (Pi.single (Sum.inr (Sum.inr 1)) 1 : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K) _ = 0
-        rw [polar_tail1]; simp [Pi.add_apply, Pi.single_apply, CharTwo.two_eq_zero]
+        rw [polar_tail1]; simp [Pi.add_apply, CharTwo.two_eq_zero]
     · fin_cases t
       · change polar (quadMinus (m+1) K b c)
           (Pi.single (Sum.inr (Sum.inr 0)) 1 : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K) _ = 0
-        rw [polar_tail0]; simp [Pi.add_apply, Pi.single_apply, CharTwo.two_eq_zero]
+        rw [polar_tail0]; simp [Pi.add_apply, CharTwo.two_eq_zero]
       · change polar (quadMinus (m+1) K b c)
           (Pi.single (Sum.inr (Sum.inr 1)) 1 : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K) _ = 0
-        rw [polar_tail1]; simp [Pi.add_apply, Pi.single_apply, CharTwo.two_eq_zero]
+        rw [polar_tail1]; simp [Pi.add_apply, CharTwo.two_eq_zero]
 
+omit [Finite K] [CharP K 2] in
 private lemma mulVec_single_entry {ι : Type} [Fintype ι] [DecidableEq ι] {E : Matrix ι ι K}
     (a b : ι) :
     (E *ᵥ Pi.single b 1) a = E a b := by
   simp [Matrix.mulVec, dotProduct, Pi.single_apply]
 
+omit [Finite K] [CharP K 2] in
 private lemma perm_diag_comm {ι : Type} [Fintype ι] [DecidableEq ι] {E : Matrix ι ι K}
     {σ : Equiv.Perm ι}
     (hE : ∀ b, E *ᵥ Pi.single b 1 = Pi.single (σ b) 1) {w : ι → K}
@@ -2343,9 +2379,10 @@ private lemma perm_diag_comm {ι : Type} [Fintype ι] [DecidableEq ι] {E : Matr
     simpa [Pi.single_apply, eq_comm] using h
   rw [Matrix.mul_diagonal, Matrix.diagonal_mul, hEb]
   by_cases h : a = σ b
-  · rw [if_pos h, one_mul, mul_one, h, hw b]
-  · rw [if_neg h, zero_mul, mul_zero]
+  · rw [ite_eq_left h, one_mul, mul_one, h, hw b]
+  · rw [ite_eq_right h, zero_mul, mul_zero]
 
+omit [Finite K] [CharP K 2] in
 private lemma perm_glFixing {ι : Type} [Fintype ι] [DecidableEq ι] {E : Matrix ι ι K}
     {σ : Equiv.Perm ι}
     (hE : ∀ b, E *ᵥ Pi.single b 1 = Pi.single (σ b) 1) {v : ι → K}
@@ -2366,17 +2403,18 @@ private lemma perm_glFixing {ι : Type} [Fintype ι] [DecidableEq ι] {E : Matri
   by_cases hab : a = b
   · subst hab
     by_cases hσ : a = σ a
-    · rw [if_pos hσ, one_mul, if_pos rfl]
-    · rw [if_neg hσ, zero_mul, if_pos rfl]
+    · rw [ite_eq_left hσ, one_mul, ite_eq_left rfl]
+    · rw [ite_eq_right hσ, zero_mul, ite_eq_left rfl]
       have hv1 : v a = 1 := hv a (by intro e; exact hσ e.symm)
       rw [hv1, sub_self]
-  · rw [if_neg hab]
+  · rw [ite_eq_right hab]
     by_cases h : a = σ b
-    · rw [if_pos h, one_mul]
+    · rw [ite_eq_left h, one_mul]
       have hne : σ b ≠ b := by intro e; exact hab (h.trans e)
       rw [hv b hne, sub_self]
-    · rw [if_neg h, zero_mul]
+    · rw [ite_eq_right h, zero_mul]
 
+omit [Finite K] [CharP K 2] in
 private lemma diag_comm_weight {ι : Type} [Fintype ι] [DecidableEq ι] {E : Matrix ι ι K}
     {σ : Equiv.Perm ι}
     (hE : ∀ b, E *ᵥ Pi.single b 1 = Pi.single (σ b) 1) {w : ι → K}
@@ -2391,7 +2429,8 @@ private lemma diag_comm_weight {ι : Type} [Fintype ι] [DecidableEq ι] {E : Ma
   rw [Matrix.mul_diagonal, Matrix.diagonal_mul, hEb] at h
   simpa using h.symm
 
-private lemma support_iff [NeZero p] (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
+omit [Finite K] [CharP K 2] in
+private lemma support_iff [NeZero p] (hζ : ζ ^ p = 1) (_hζo : orderOf ζ = p)
     (t : Fin m → Multiplicative (ZMod p)) {lam : Multiplicative (ZMod p)}
     {ε : Matrix (Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2) (Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin
         2) K}
@@ -2435,22 +2474,23 @@ private lemma support_iff [NeZero p] (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
       · exact hkey a (hwa.trans hz.symm)
       · have hswap : kOmMWeight K m (omMinusTorusParam m hζ t) (omMinusSwap m a) =
             kOmMWeight K m (omMinusTorusParam m hζ t) a₀ := by
-          rw [kOmMWeight_omMinusSwap, hwa, ← hz] <;> simp
+          rw [kOmMWeight_omMinusSwap, hwa, ← hz]; simp
         rw [hsym a]
         exact hkey (omMinusSwap m a) hswap
     · rcases hw with hwa | hwa
       · have hswap : kOmMWeight K m (omMinusTorusParam m hζ t) (omMinusSwap m a) =
             kOmMWeight K m (omMinusTorusParam m hζ t) a₀ := by
-          rw [kOmMWeight_omMinusSwap, hwa, ← hz] <;> simp
+          rw [kOmMWeight_omMinusSwap, hwa, ← hz]
         rw [hsym a]
         exact hkey (omMinusSwap m a) hswap
       · exact hkey a (hwa.trans hz.symm)
 
+omit [Finite K] [CharP K 2] in
 private lemma zpow_lam_ne_inv [NeZero p] {lam : Multiplicative (ZMod p)}
     (hp : p.Prime) (hp2 : p ≠ 2) (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p) (hlam : lam ≠ 1) :
     (TableBSymp.zmodPowHom hζ lam : K) ≠
       ((TableBSymp.zmodPowHom hζ lam : K))⁻¹ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro h
   have h' : TableBSymp.zmodPowHom hζ lam = (TableBSymp.zmodPowHom hζ lam)⁻¹ :=
     Units.ext (by simpa using h)
@@ -2462,6 +2502,7 @@ private lemma zpow_lam_ne_inv [NeZero p] {lam : Multiplicative (ZMod p)}
   have hone := CFSG.AGLEmbedding.Norton.MON5_7.eq_one_of_sq_eq_one_of_pow_eq_one hp2 hpow hsq
   exact hlam ((TableBSymp.zmodPowHom_eq_one_iff hζ hζo).mp hone)
 
+omit [Finite K] [CharP K 2] in
 private lemma tail_not_mem [NeZero p] (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
     (t : Fin m → Multiplicative (ZMod p)) {lam : Multiplicative (ZMod p)}
     (hlam : lam ≠ 1) {v : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K}
@@ -2487,6 +2528,7 @@ private lemma tail_not_mem [NeZero p] (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
   · rw [hw1] at h
     exact hzi1 h.symm
 
+omit [Finite K] [CharP K 2] in
 private lemma zpow_eq_iff [NeZero p] (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
     {a b : Multiplicative (ZMod p)} :
     ((TableBSymp.zmodPowHom hζ a : Kˣ) : K) =
@@ -2496,6 +2538,7 @@ private lemma zpow_eq_iff [NeZero p] (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
     exact ReflSp.zmodPowHom_injective hζ hζo (Units.ext h)
   · intro h; rw [h]
 
+omit [Finite K] [CharP K 2] in
 private lemma zpow_eq_inv_iff [NeZero p] (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
     {a b : Multiplicative (ZMod p)} :
     ((TableBSymp.zmodPowHom hζ a : Kˣ) : K) =
@@ -2514,6 +2557,7 @@ private lemma zpow_eq_inv_iff [NeZero p] (hζ : ζ ^ p = 1) (hζo : orderOf ζ =
   · intro h
     rw [h, map_inv, Units.val_inv_eq_inv_val]
 
+omit [Finite K] [CharP K 2] in
 private lemma dv_of_support [NeZero p] (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
     (t g : Fin m → Multiplicative (ZMod p)) {lam : Multiplicative (ZMod p)}
     (hlam : lam ≠ 1) (d : Multiplicative (ZMod p))
@@ -2543,10 +2587,10 @@ private lemma dv_of_support [NeZero p] (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p
     constructor
     · intro h
       have hti : t i = lam := zpow_eq_iff hζ hζo |>.mp (by rwa [hw] at h)
-      rw [hg, hd i |>.1 hti] <;> simp
+      rw [hg, hd i |>.1 hti]
     · intro h
       have hti : t i = lam⁻¹ := zpow_eq_inv_iff hζ hζo |>.mp (by rwa [hw] at h)
-      rw [hg, hd i |>.2 hti] <;> simp [map_inv]
+      rw [hg, hd i |>.2 hti]; simp [map_inv]
   · have hw : kOmMWeight K m (omMinusTorusParam m hζ t) (Sum.inr (Sum.inl i)) =
         ((TableBSymp.zmodPowHom hζ (t i) : Kˣ) : K)⁻¹ := by
       rw [kOmMWeight_inr_inl, omMinusTorusParam_apply]
@@ -2564,7 +2608,7 @@ private lemma dv_of_support [NeZero p] (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p
           simpa [hw] using h
         rw [← h1, inv_inv]
       have hti : t i = lam⁻¹ := zpow_eq_inv_iff hζ hζo |>.mp h'
-      rw [hg, hd i |>.2 hti] <;> simp [map_inv]
+      rw [hg, hd i |>.2 hti]; simp [map_inv]
     · intro h
       have h' : ((TableBSymp.zmodPowHom hζ (t i) : Kˣ) : K) =
           ((TableBSymp.zmodPowHom hζ lam : Kˣ) : K) := by
@@ -2573,9 +2617,10 @@ private lemma dv_of_support [NeZero p] (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p
           simpa [hw] using h
         exact inv_injective h1
       have hti : t i = lam := zpow_eq_iff hζ hζo |>.mp h'
-      rw [hg, hd i |>.1 hti] <;> simp
+      rw [hg, hd i |>.1 hti]
   · exact absurd ha (tail_not_mem hζ hζo t hlam hsupiff j)
 
+omit [Finite K] [CharP K 2] in
 private lemma hx_of_coord [NeZero p] (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
     (t g : Fin m → Multiplicative (ZMod p)) {lam : Multiplicative (ZMod p)}
     (hlam : lam ≠ 1) (d : Multiplicative (ZMod p))
@@ -2604,6 +2649,7 @@ private lemma hx_of_coord [NeZero p] (hζ : ζ ^ p = 1) (hζo : orderOf ζ = p)
         ((TableBSymp.zmodPowHom hζ lam : K))⁻¹ := by rw [← hw, ha1]
     rw [ha.2 ha1, hb.2 hb1]
 
+omit [Finite K] [CharP K 2] in
 private lemma omMinus_split_mem_block_of_perm
     (hζ : ζ ^ p = 1) (t : Fin m → Multiplicative (ZMod p))
     (ε : Matrix (Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2) (Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin
@@ -2634,6 +2680,7 @@ private lemma omMinus_split_mem_block_of_perm
     rw [hεv]
     exact perm_glFixing hE hv1
 
+omit [Finite K] [CharP K 2] in
 private lemma omMinus_split_plane_weight_invariant
     (hζ : ζ ^ p = 1) (t : Fin m → Multiplicative (ZMod p)) {i k : Fin m} (ht : t i = t k) :
     ∀ a : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2,
@@ -2659,6 +2706,7 @@ private lemma omMinus_split_plane_weight_invariant
       · rw [Equiv.swap_apply_of_ne_of_ne hji hjk]
   · rw [planePerm_apply_tail]
 
+omit [Finite K] [CharP K 2] in
 private lemma omMinus_split_plane_moved_v
     (hζ : ζ ^ p = 1) (t : Fin m → Multiplicative (ZMod p))
     {lam : Multiplicative (ZMod p)} {v : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K}
@@ -2673,22 +2721,22 @@ private lemma omMinus_split_plane_moved_v
     refine (hsupiff _).mpr ?_
     rcases hmem with h | h
     · left; rw [kOmMWeight_inl, omMinusTorusParam_apply, h]
-    · right; rw [kOmMWeight_inl, omMinusTorusParam_apply, h] <;> simp [map_inv]
+    · right; rw [kOmMWeight_inl, omMinusTorusParam_apply, h]; simp [map_inv]
   have hxk : v (Sum.inl k) = 1 := by
     refine (hsupiff _).mpr ?_
     rcases hmem with h | h
     · left; rw [kOmMWeight_inl, omMinusTorusParam_apply, ← ht, h]
-    · right; rw [kOmMWeight_inl, omMinusTorusParam_apply, ← ht, h] <;> simp [map_inv]
+    · right; rw [kOmMWeight_inl, omMinusTorusParam_apply, ← ht, h]; simp [map_inv]
   have hyi : v (Sum.inr (Sum.inl i)) = 1 := by
     refine (hsupiff _).mpr ?_
     rcases hmem with h | h
-    · right; rw [kOmMWeight_inr_inl, omMinusTorusParam_apply, h] <;> simp [map_inv]
-    · left; rw [kOmMWeight_inr_inl, omMinusTorusParam_apply, h] <;> simp [map_inv]
+    · right; rw [kOmMWeight_inr_inl, omMinusTorusParam_apply, h]; simp
+    · left; rw [kOmMWeight_inr_inl, omMinusTorusParam_apply, h]; simp [map_inv]
   have hyk : v (Sum.inr (Sum.inl k)) = 1 := by
     refine (hsupiff _).mpr ?_
     rcases hmem with h | h
-    · right; rw [kOmMWeight_inr_inl, omMinusTorusParam_apply, ← ht, h] <;> simp [map_inv]
-    · left; rw [kOmMWeight_inr_inl, omMinusTorusParam_apply, ← ht, h] <;> simp [map_inv]
+    · right; rw [kOmMWeight_inr_inl, omMinusTorusParam_apply, ← ht, h]; simp
+    · left; rw [kOmMWeight_inr_inl, omMinusTorusParam_apply, ← ht, h]; simp [map_inv]
   intro a ha
   rcases a with j | (j | t)
   · by_cases hji : j = i
@@ -2705,6 +2753,7 @@ private lemma omMinus_split_plane_moved_v
         rw [planePerm_apply_inr, Equiv.swap_apply_of_ne_of_ne hji hjk]
   · exfalso; apply ha; rw [planePerm_apply_tail]
 
+omit [Finite K] [CharP K 2] in
 private lemma omMinus_split_mixed_weight_invariant
     (hζ : ζ ^ p = 1) (t : Fin m → Multiplicative (ZMod p))
     {lam : Multiplicative (ZMod p)} {i k : Fin m} (hti : t i = lam) (htk : t k = lam⁻¹)
@@ -2724,26 +2773,27 @@ private lemma omMinus_split_mixed_weight_invariant
     · subst j
       rw [mixedPerm_apply_inl_self i k hik]
       rw [kOmMWeight_inl, kOmMWeight_inr_inl, omMinusTorusParam_apply,
-        omMinusTorusParam_apply, hti, htk] <;> simp [map_inv]
+        omMinusTorusParam_apply, hti, htk]; simp [map_inv]
     · by_cases hjk : j = k
       · subst j
         rw [mixedPerm_apply_inl_other i k hik]
         rw [kOmMWeight_inl, kOmMWeight_inr_inl, omMinusTorusParam_apply,
-          omMinusTorusParam_apply, hti, htk] <;> simp [map_inv]
+          omMinusTorusParam_apply, hti, htk]; simp [map_inv]
       · rw [mixedPerm_apply_inl_of_ne i k j hji hjk]
   · by_cases hji : j = i
     · subst j
       rw [mixedPerm_apply_inr_other i k hik]
       rw [kOmMWeight_inl, kOmMWeight_inr_inl, omMinusTorusParam_apply,
-        omMinusTorusParam_apply, hti, htk] <;> simp [map_inv]
+        omMinusTorusParam_apply, hti, htk]; simp [map_inv]
     · by_cases hjk : j = k
       · subst j
         rw [mixedPerm_apply_inr_self i k hik]
         rw [kOmMWeight_inr_inl, kOmMWeight_inl, omMinusTorusParam_apply,
-          omMinusTorusParam_apply, hti, htk] <;> simp [map_inv]
+          omMinusTorusParam_apply, hti, htk]; simp [map_inv]
       · rw [mixedPerm_apply_inr_of_ne i k j hji hjk]
   · rw [mixedPerm_apply_tail]
 
+omit [Finite K] [CharP K 2] in
 private lemma omMinus_split_mixed_moved_v
     (hζ : ζ ^ p = 1) (t : Fin m → Multiplicative (ZMod p))
     {lam : Multiplicative (ZMod p)} {v : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2 → K}
@@ -2752,7 +2802,7 @@ private lemma omMinus_split_mixed_moved_v
       kOmMWeight K m (omMinusTorusParam m hζ t) a =
         (TableBSymp.zmodPowHom hζ lam : K)⁻¹)
     {i k : Fin m} (hti : t i = lam) (htk : t k = lam⁻¹)
-    (hik : i ≠ k) :
+    (_hik : i ≠ k) :
     ∀ a, (((Equiv.swap (Sum.inl i : Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2) (Sum.inr (Sum.inl k))
         :
         Equiv.Perm (Fin (m + 1 - 1) ⊕ Fin (m + 1 - 1) ⊕ Fin 2)) *
@@ -2764,13 +2814,13 @@ private lemma omMinus_split_mixed_moved_v
     rw [kOmMWeight_inl, omMinusTorusParam_apply, hti]
   have hxk : v (Sum.inl k) = 1 := by
     refine (hsupiff _).mpr (Or.inr ?_)
-    rw [kOmMWeight_inl, omMinusTorusParam_apply, htk] <;> simp [map_inv]
+    rw [kOmMWeight_inl, omMinusTorusParam_apply, htk]; simp [map_inv]
   have hyi : v (Sum.inr (Sum.inl i)) = 1 := by
     refine (hsupiff _).mpr (Or.inr ?_)
-    rw [kOmMWeight_inr_inl, omMinusTorusParam_apply, hti] <;> simp [map_inv]
+    rw [kOmMWeight_inr_inl, omMinusTorusParam_apply, hti]; simp
   have hyk : v (Sum.inr (Sum.inl k)) = 1 := by
     refine (hsupiff _).mpr (Or.inl ?_)
-    rw [kOmMWeight_inr_inl, omMinusTorusParam_apply, htk] <;> simp [map_inv]
+    rw [kOmMWeight_inr_inl, omMinusTorusParam_apply, htk]; simp [map_inv]
   intro a ha
   rcases a with j | (j | t)
   · by_cases hji : j = i
@@ -2930,7 +2980,7 @@ private theorem omMinus_split_criterion_linear
         ∃ d : Multiplicative (ZMod p), ∀ i,
           (t i = lam → g i = d) ∧ (t i = lam⁻¹ → g i = d⁻¹) := by
   classical
-  haveI : NeZero p := ⟨by rw [← hζo]; exact (orderOf_pos ζ).ne'⟩
+  have : NeZero p := ⟨by rw [← hζo]; exact (orderOf_pos ζ).ne'⟩
   have hεne : ε ≠ 0 := hε.2.2.1
   have hGid : (glBlockCentralizer
       (StatedOmega ⇑(CFSG.LieType.Universal.Spin.quadMinus (m + 1) K b c)).subtype
@@ -3169,9 +3219,9 @@ private theorem ggCommonJOmMinusSplit_component_block (hp : p.Prime) (hp2 : p �
               (t i = lam → g i = d) ∧ (t i = lam⁻¹ → g i = d⁻¹))) := by
   classical
   have hpodd : Odd p := hp.odd_of_ne_two hp2
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact p.Prime := ⟨hp⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : Fintype K := Fintype.ofFinite K
   have hpqK : p ∣ Nat.card K - 1 := by
     rw [← hζo, ← Nat.card_units]
     exact orderOf_dvd_natCard ζ
@@ -3195,7 +3245,7 @@ private theorem ggCommonJOmMinusSplit_component_block (hp : p.Prime) (hp2 : p �
         Fin m ⊕ Fin m ⊕ Fin 2 → K) ≠ 0 := by
       intro h
       have := congrFun h (Sum.inr (Sum.inr (0 : Fin 2)))
-      simpa using this
+      simp at this
     apply hsingle
     apply hnd.1
     intro x
@@ -3311,7 +3361,7 @@ private lemma ggCommonJOmMinusSplit_count_aux (hp : p.Prime) (hp2 : p ≠ 2)
       if lam = 1 then p ^ (m - Nat.card {i : Fin m // t i = 1})
       else p ^ (m - Nat.card {i : Fin m // t i = lam ∨ t i = lam⁻¹} + 1) := by
   classical
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   let Ω := StatedOmega (StatedQuadMinus (m + 1) K b c)
   let C : Subgroup Ω := Subgroup.centralizer (J : Set Ω)
   let τ : (Fin m → Multiplicative (ZMod p)) →* Ω := omMinusTorus (p := p) b c hζ
@@ -3339,7 +3389,7 @@ private lemma ggCommonJOmMinusSplit_count_aux (hp : p.Prime) (hp2 : p ≠ 2)
       (Subgroup.comap τ C) τ hτ).toEquiv).symm
   rw [hcard, Nat.card_congr (Equiv.subtypeEquivRight hfixτ)]
   by_cases hlam : lam = 1
-  · rw [if_pos hlam]
+  · rw [ite_eq_left hlam]
     have hiff : ∀ g : Fin m → Multiplicative (ZMod p),
         ((lam = 1 ∧ ∀ i, t i = 1 → g i = 1) ∨
           (lam ≠ 1 ∧ ∃ d : Multiplicative (ZMod p), ∀ i,
@@ -3357,11 +3407,11 @@ private lemma ggCommonJOmMinusSplit_count_aux (hp : p.Prime) (hp2 : p ≠ 2)
     have hScard : S.card = Nat.card {i : Fin m // t i = 1} := by
       rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
     rw [hScard]
-  · rw [if_neg hlam]
+  · rw [ite_eq_right hlam]
     have hne_inv : lam ≠ lam⁻¹ := by
       intro h
       apply hlam
-      haveI : Fact p.Prime := ⟨hp⟩
+      have : Fact p.Prime := ⟨hp⟩
       have hx : Multiplicative.toAdd lam = -Multiplicative.toAdd lam := by
         calc Multiplicative.toAdd lam = Multiplicative.toAdd lam⁻¹ := congrArg _ h
           _ = -Multiplicative.toAdd lam := toAdd_inv lam
@@ -3424,7 +3474,7 @@ theorem ggCommonJOmMinusSplit_component_count (hp : p.Prime) (hp2 : p ≠ 2) (hm
   classical
   obtain ⟨lam, hblock, hfix⟩ :=
     ggCommonJOmMinusSplit_component_block hp hp2 hm hirr hζ hζo t hJ
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hm' : lam ≠ 1 → 1 ≤ Nat.card {i : Fin m // t i = lam ∨ t i = lam⁻¹} := by
     intro hne
     rcases hblock with ⟨h1, -, -⟩ | ⟨-, h2, -⟩
@@ -3449,7 +3499,7 @@ theorem ggCommonJOmMinusSplit_component_count (hp : p.Prime) (hp2 : p ≠ 2) (hm
       refine ⟨?_, rfl⟩
       ext i
       simp [ht]
-    · rw [if_pos hlam] at hcount
+    · rw [ite_eq_left hlam] at hcount
       rw [hcount]
       have hP : (Finset.univ.filter (fun i => t i = 1)).card =
           Nat.card {i : Fin m // t i = 1} := by
@@ -3501,12 +3551,12 @@ theorem ggCommonJOmMinusSplit_component_count (hp : p.Prime) (hp2 : p ≠ 2) (hm
       · exact hlam (hti.symm.trans h).symm
       · have h1 : (1 : Multiplicative (ZMod p)) = lam⁻¹ := hti.symm.trans h
         exact hlam (by simpa using h1.symm)
-    · rw [if_neg hlam] at hcount
+    · rw [ite_eq_right hlam] at hcount
       rw [hcount]
       have hP : (Finset.univ.filter (fun i => t i = lam ∨ t i = lam⁻¹)).card =
           Nat.card {i : Fin m // t i = lam ∨ t i = lam⁻¹} := by
         rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
-      rw [hP, if_neg ha0]
+      rw [hP, ite_eq_right ha0]
 
 private theorem ggCommonJOmMinusSplit_label_of_four
     (hK : Nat.card K = 2 ^ f) {r : ℕ} (hr : 4 ≤ r)
@@ -3523,7 +3573,7 @@ private theorem ggCommonJOmMinusSplit_label_of_four
     have h := rMinusEquivStatedOmega K (r - 1) b c
     rwa [Nat.sub_add_cancel (by omega : 1 ≤ r)] at h
   dsimp only [GGHasLabel, CFSG.StandardType.LargeEvenRawDatum]
-  rw [if_neg (by omega : ¬ r = 2), if_neg (by omega : ¬ r = 3)]
+  rw [ite_eq_right (by omega : ¬ r = 2), ite_eq_right (by omega : ¬ r = 3)]
   refine ⟨K, inferInstance, inferInstance, hK, b, c, hirr, ?_⟩
   exact ⟨(hq.trans ((QuotientGroup.quotientMulEquivOfEq hZ).trans
     QuotientGroup.quotientBot)).trans hr'.symm⟩
@@ -3543,8 +3593,8 @@ private theorem ggCommonJOmMinusSplit_label_of_three
   obtain ⟨F, hFld, hFin, hFcard, ⟨eU⟩⟩ :=
     CFSG.RankThree.GF2n.Stroth80.exists_statedOmega_quadMinus_three_mulEquiv
       (K := K) (b := b) (c := c) hK hirr
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hUFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 f F :=
     ⟨Nat.prime_two, hf1, by rw [hFcard, (pow_mul 2 f 2).symm, Nat.mul_comm f 2]⟩
   let ec : J ≃* ↥(StatedSU 4 (2 ^ f) F) := e.trans eU
@@ -3639,7 +3689,7 @@ theorem ggCommonJOmMinusSplit_dense_label (hp : p.Prime) (hp2 : p ≠ 2)
           (Fin (Nat.card {i : Fin m // t i = lam ∨ t i = lam⁻¹})) K) := by
     rcases hblock with ⟨rfl, hn1, -⟩ | h
     · exfalso
-      haveI : IsEmpty {i : Fin m // t i = (1 : Multiplicative (ZMod p))} :=
+      have : IsEmpty {i : Fin m // t i = (1 : Multiplicative (ZMod p))} :=
         ⟨fun x => htne x.1 x.2⟩
       have h0 : Nat.card {i : Fin m // t i = (1 : Multiplicative (ZMod p))} = 0 :=
         Nat.card_of_isEmpty
@@ -3650,7 +3700,7 @@ theorem ggCommonJOmMinusSplit_dense_label (hp : p.Prime) (hp2 : p ≠ 2)
   obtain ⟨j, hj⟩ : ∃ j : Fin m, t j = lam ∨ t j = lam⁻¹ := by
     by_contra h
     push Not at h
-    haveI : IsEmpty {i : Fin m // t i = lam ∨ t i = lam⁻¹} :=
+    have : IsEmpty {i : Fin m // t i = lam ∨ t i = lam⁻¹} :=
       ⟨fun x => by
         rcases x.2 with h' | h'
         · exact (h x.1).1 h'

@@ -165,6 +165,7 @@ theorem w183tp_shape_base {X : Type} [Group X] (h : IsL2 X 2 ∨ IsU3 X 2) :
     have h31 : 3 = Nat.card X := (hprime.eq_one_or_self_of_dvd 3 h3).resolve_left (by norm_num)
     omega
 
+omit [Finite G] in
 theorem w183tp_shape_dvd {K L : Subgroup G}
     (h : HasQuotShape L (K : Set G) (fun X _ => IsL2 X 2 ∨ IsU3 X 2)) :
     3 ∣ K.relIndex L := by

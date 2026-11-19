@@ -47,7 +47,7 @@ theorem d1KBar_ne_bot_of_pRank_le_two_of_bases (h31 : KFactThreeOne) (h75 : KFac
     (hR : CFSG.Quasithin.IsSylowIn p R N) (hr : CFSG.Open.pRank p R ≤ 2) :
     d1KBar p M N ≠ ⊥ := by
   have hp := he.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   intro hKN
   have hKH : d1KBar p M H ≠ ⊥ := fun h =>
     not_le_bot_of_isComponentOf hL (h ▸ le_d1KBar hL hLX)
@@ -68,7 +68,7 @@ theorem d1KBar_ne_bot_of_pRank_le_two_of_bases (h31 : KFactThreeOne) (h75 : KFac
     have hL'c : IsComponentOf L' ⊤ := (CFSG.isComponent_iff_open L').mp hL'
     by_contra hL'X
     exact not_le_bot_of_isComponentOf hL'c (hKN ▸ le_d1KBar hL'c hL'X)
-  haveI := CFSG.LocalCores.layer_characteristic (G := N ⧸ O)
+  have := CFSG.LocalCores.layer_characteristic (G := N ⧸ O)
   set W₀ : Subgroup G := (H ⊓ N) ⊓ ((d1KBar p M H).comap πH).map H.subtype with hW₀def
   have hW₀ : W₀ ≤ H ⊓ N := inf_le_left
   have hW₀H : W₀ ≤ H := hW₀.trans inf_le_left
@@ -82,7 +82,7 @@ theorem d1KBar_ne_bot_of_pRank_le_two_of_bases (h31 : KFactThreeOne) (h75 : KFac
     obtain ⟨h, hh, rfl⟩ := hcov hk
     exact ⟨⟨h, Subgroup.mem_subgroupOf.mp hh, h, hk, rfl⟩, rfl⟩
   set ρ : W₀ →* N ⧸ O := πN.comp (Subgroup.inclusion hW₀N)
-  haveI : Group.IsPerfect (d1KBar p M H) := Subgroup.isPerfect_iff.mpr (commutator_d1KBar p M H)
+  have : Group.IsPerfect (d1KBar p M H) := Subgroup.isPerfect_iff.mpr (commutator_d1KBar p M H)
   have hPψ := CFSG.LocalAnalysis.RankThreeTheoremC.map_perfectCore_comap ψ hψs ⊤
     Group.IsPerfect.commutator_eq_top
   rw [Subgroup.comap_top] at hPψ

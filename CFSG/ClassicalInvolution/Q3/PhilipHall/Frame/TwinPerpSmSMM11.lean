@@ -17,8 +17,8 @@ set_option linter.unusedSectionVars false
 theorem leaf_m11 {n : ℕ} :
     TwinLeafS n SmallM11 :=
   TwinLeafS.of_no fun Y _ _ R S t h _ hF => by
-    haveI := h.core.simple
-    haveI := genFittingFStar_normal Y
+    have := h.core.simple
+    have := genFittingFStar_normal Y
     obtain ⟨M, -, hA⟩ := M11.autModel hF
     obtain ⟨f, hf⟩ := embedsAut_of_autModel M Y (genFittingFStar Y) ⟨MulEquiv.refl _⟩
       (Nobq.centralizer_genFittingFStar_eq_bot h.core.nonab)

@@ -40,7 +40,7 @@ theorem caseIILemma511a_holds
   have hLn : ∃ a b : ↥L, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hAn
     exact ⟨e.symm a, e.symm b, fun h => hab (e.symm.injective (by rw [map_mul, map_mul, h]))⟩
-  haveI : Finite (GLV V) :=
+  have : Finite (GLV V) :=
     Finite.of_injective (fun f : GLV V => (f : V → V)) fun _ _ h => LinearEquiv.ext (congrFun h)
   have h : Hyp X J L z := ⟨hJX, hJn, hJi, hCJ, hJq, hZ, hzX, hz, hL, hLs, hLn⟩
   rcases reduce_a gh74ModelsForm CFSG.SeitzReduction.gls3OddLieAutComponentsInput
@@ -78,7 +78,7 @@ theorem caseIILemma511b_holds
   have hLn : ∃ a b : ↥L, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hAn
     exact ⟨e.symm a, e.symm b, fun h => hab (e.symm.injective (by rw [map_mul, map_mul, h]))⟩
-  haveI : Finite (GLV V) :=
+  have : Finite (GLV V) :=
     Finite.of_injective (fun f : GLV V => (f : V → V)) fun _ _ h => LinearEquiv.ext (congrFun h)
   have h : Hyp X J L z := ⟨hJX, hJn, hJi, hCJ, hJq, hZ, hzX, hz, hL, hLs, hLn⟩
   rcases reduce_b gh74ModelsForm h (Or.inl ⟨e⟩) hsyl with h8 | h9 | hS

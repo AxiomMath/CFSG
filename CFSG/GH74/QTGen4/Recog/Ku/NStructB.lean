@@ -28,10 +28,12 @@ theorem kuA_le_kuN [KuLeaf LeafIsMulCommutativeKuA]
     rw [hy']
     exact (kuA P H).mul_mem ((kuA P H).mul_mem ((kuA P H).inv_mem hx) hy) hx
 
-theorem conj_mem_kuA (h : KuHyp G T M H P z) {n e : G} (hn : n ∈ kuN P H)
+omit [Finite G] in
+theorem conj_mem_kuA (_h : KuHyp G T M H P z) {n e : G} (hn : n ∈ kuN P H)
     (he : e ∈ kuA P H) : n * e * n⁻¹ ∈ kuA P H :=
   (Subgroup.mem_normalizer_iff.mp hn e).mp he
 
+omit [Finite G] in
 theorem conj_inv_mem_kuA (h : KuHyp G T M H P z) {n e : G} (hn : n ∈ kuN P H)
     (he : e ∈ kuA P H) : n⁻¹ * e * n ∈ kuA P H := by
   have := h.conj_mem_kuA ((kuN P H).inv_mem hn) he
@@ -98,7 +100,7 @@ theorem card_kuN_dvd [KuLeaf LeafCardKuA] [KuLeaf LeafIsMulCommutativeKuA]
   rw [hidx]
   exact mul_dvd_mul_left 16 hdvd
 
-@[expose] def conjKuNAct (N : Subgroup G) : MulAction N G where
+@[expose, instance_reducible] def conjKuNAct (N : Subgroup G) : MulAction N G where
   smul n x := (n : G) * x * (n : G)⁻¹
   one_smul x := by
     show (1 : G) * x * (1 : G)⁻¹ = x
@@ -116,6 +118,7 @@ theorem z_sq [KuLeaf LeafCardKuA] [KuLeaf LeafIsMulCommutativeKuA] [KuLeaf LeafE
     (h : KuHyp G T M H P z) : z ^ 2 = 1 :=
   h.isElemAbelian_kuA.2 z h.z_mem_kuA
 
+omit [Finite G] in
 theorem mem_zpowers_of_sq (hz2 : z ^ 2 = 1) {x : G} (hx : x ∈ Subgroup.zpowers z) :
     x = 1 ∨ x = z := by
   have hz2' : z ^ (2 : ℤ) = 1 := by simpa using hz2
@@ -128,7 +131,7 @@ theorem mem_zpowers_of_sq (hz2 : z ^ 2 = 1) {x : G} (hx : x ∈ Subgroup.zpowers
 
 theorem card_kuN_eq (h : KuHyp G T M H P z) :
     Nat.card (kuN P H) = 384 * (kuOrb P H z).ncard := by
-  letI := conjKuNAct (kuN P H)
+  let := conjKuNAct (kuN P H)
   have hstab : Nat.card (MulAction.stabilizer (kuN P H) z) = 384 := by
     have hmap : (MulAction.stabilizer (kuN P H) z).map (kuN P H).subtype = H := by
       ext x
@@ -155,7 +158,7 @@ theorem card_kuN_eq (h : KuHyp G T M H P z) :
       hmap, h.card_H]
   have hO : MulAction.orbit (kuN P H) z = kuOrb P H z := by
     ext x
-    simp only [MulAction.mem_orbit_iff, kuOrb, Set.mem_setOf_eq]
+    simp only [MulAction.mem_orbit_iff, kuOrb, Set.mem_ofPred_eq]
     constructor
     · rintro ⟨g, hg⟩
       exact ⟨(g : G), g.2, hg⟩
@@ -167,6 +170,7 @@ theorem card_kuN_eq (h : KuHyp G T M H P z) :
   congr 1
   exact (Nat.card_congr (MulAction.orbitEquivQuotientStabilizer (kuN P H) z)).symm
 
+omit [Finite G] in
 theorem conj_ne_one {n x : G} (hx : x ≠ 1) : n * x * n⁻¹ ≠ 1 := fun e => hx (by
   have hx' : x = n⁻¹ * (n * x * n⁻¹) * n := by group
   rw [e] at hx'
@@ -193,13 +197,14 @@ theorem not_dvd_256 (h : KuHyp G T M H P z) : ¬ 256 ∣ Nat.card (kuN P H) := b
 
 theorem kuOrb_sub (h : KuHyp G T M H P z) {x : G} (hx : x ∈ kuOrb P H z) :
     x ∈ kuA P H ∧ x ≠ 1 := by
-  simp only [kuOrb, Set.mem_setOf_eq] at hx
+  simp only [kuOrb, Set.mem_ofPred_eq] at hx
   obtain ⟨n, hn, rfl⟩ := hx
   exact ⟨h.conj_mem_kuA hn h.z_mem_kuA, conj_ne_one h.z_ne_one⟩
 
+omit [Finite G] in
 theorem kuOrb_conj {n x : G} (hn : n ∈ kuN P H) (hx : x ∈ kuOrb P H z) :
     n * x * n⁻¹ ∈ kuOrb P H z := by
-  simp only [kuOrb, Set.mem_setOf_eq] at hx ⊢
+  simp only [kuOrb, Set.mem_ofPred_eq] at hx ⊢
   obtain ⟨m, hm, rfl⟩ := hx
   exact ⟨n * m, (kuN P H).mul_mem hn hm, by group⟩
 
@@ -326,7 +331,7 @@ theorem kuOrb_ne_seven [KuLeaf LeafCardKuA] [KuLeaf LeafIsMulCommutativeKuA]
   exact hwV hm
 
 theorem kuOrb_sub_diff (h : KuHyp G T M H P z) :
-    kuOrb P H z ⊆ (kuA P H : Set G) \ {1} := fun x hx =>
+    kuOrb P H z ⊆ (kuA P H : Set G) \ {1} := fun _x hx =>
   ⟨(h.kuOrb_sub hx).1, fun e => (h.kuOrb_sub hx).2 (Set.mem_singleton_iff.mp e)⟩
 
 theorem kuOrb_ncard [KuLeaf LeafCardKuA] [KuLeaf LeafIsMulCommutativeKuA]

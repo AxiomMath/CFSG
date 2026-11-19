@@ -34,7 +34,7 @@ theorem nsLG_subsingleton_units_of_card_two {K : Type} [Field K] [Finite K]
     (h : Nat.card K = 2) : Subsingleton Kˣ := by
   have hu : Nat.card Kˣ = 1 := by
     rw [Nat.card_units, h]
-  haveI : Fintype Kˣ := Fintype.ofFinite Kˣ
+  have : Fintype Kˣ := Fintype.ofFinite Kˣ
   have h1 : Fintype.card Kˣ = 1 := by rw [← Nat.card_eq_fintype_card, hu]
   obtain ⟨a, ha⟩ := Fintype.card_eq_one_iff.mp h1
   exact ⟨fun x y => by rw [ha x, ha y]⟩
@@ -82,9 +82,9 @@ theorem nsLG_linear_bound
     hRig lab ⟨.A, ℓ, 1⟩ (↥K ⧸ Subgroup.center ↥K) hlab hKΛ hhas_lab hhasK
   have hraw'' := largeEvenRawDatum_of_ggLabelIso hiso hraw'
   obtain ⟨K0, hfieldK0, hfinK0, hcardK0, hQ⟩ := nsLG_recipeLinear_of_rawDatum hraw''
-  letI := hfieldK0
-  letI := hfinK0
-  haveI : CharP K0 2 := nsLG_charP_two_of_card_two hcardK0
+  let := hfieldK0
+  let := hfinK0
+  have : CharP K0 2 := nsLG_charP_two_of_card_two hcardK0
   obtain ⟨-, -, θ0, -, hNK, hind⟩ := hQ
   have hxN : x ∈ Subgroup.normalizer (K : Set G) := hNK hxBs
   let e : MulAut ↥K := K.normalizerMonoidHom ⟨x, hxN⟩
@@ -111,7 +111,7 @@ theorem nsLG_linear_bound
     have h1 : TableB.linConjAut (Fin (ℓ + 1)) K0 (A ^ 3) = 1 := by
       rw [map_pow, ← hA, hφpow]
     obtain ⟨c, hc⟩ := q1CentLin_scalar_of_linConjAut_eq_one (by omega : 2 ≤ ℓ + 1) h1
-    haveI : Subsingleton K0ˣ := nsLG_subsingleton_units_of_card_two hcardK0
+    have : Subsingleton K0ˣ := nsLG_subsingleton_units_of_card_two hcardK0
     have hc1 : c = 1 := Subsingleton.elim c 1
     rw [hc1, map_one] at hc
     exact hc.symm

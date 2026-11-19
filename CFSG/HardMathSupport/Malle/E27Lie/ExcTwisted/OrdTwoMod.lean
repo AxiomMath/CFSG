@@ -43,7 +43,7 @@ private lemma v3_pow_sub_one' {q : ℕ} (hq : 1 < q) (h3 : q % 3 = 2) {d : ℕ}
   rw [hd2, key, padicValNat.pow_sub_pow (by decide : Odd 3) hyx hxy hx hm,
     v3_sq_sub_one' hq h3]
 
-private lemma v3_pow_add_one' {q : ℕ} (hq : 1 < q) (h3 : q % 3 = 2) {d : ℕ} (hd : Odd d) :
+private lemma v3_pow_add_one' {q : ℕ} (_hq : 1 < q) (h3 : q % 3 = 2) {d : ℕ} (hd : Odd d) :
     padicValNat 3 (q ^ d + 1) = padicValNat 3 (q + 1) + padicValNat 3 d := by
   have := fact_three_prime'
   have hx : ¬ 3 ∣ q := by omega

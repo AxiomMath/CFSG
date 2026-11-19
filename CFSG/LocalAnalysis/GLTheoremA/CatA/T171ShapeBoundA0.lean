@@ -22,6 +22,7 @@ variable {hact : ∀ a ∈ A, ∃ φ ∈ LargeEvenMatConjImage (LargeEvenProjMk 
   LargeEvenInduces θ (conjRel a) φ}
 variable {hS : S ⊆ Subgroup.normalizer (H : Set (GL (Fin N) K))}
 
+omit [Finite K] in
 theorem LiftMap.projConj_mul_eq [Nonempty (Fin N)]
     (M : LiftMap (L := L) (A := A) θ hact hS) (hsetup : Setup p L J A d b) (a b : ↥A) :
     TableB.projConj H ⟨M.mat (a * b), hS (M.mem (a * b))⟩ =
@@ -47,6 +48,7 @@ theorem LiftMap.projConj_mul_eq [Nonempty (Fin N)]
       ⟨M.mat (a * b), hS (M.mem (a * b))⟩) (M.ind (a * b)) hprod'
     (conjRel_total (hAnorm (A.mul_mem a.2 b.2)))
 
+omit [Finite K] in
 theorem LiftMap.mul_mem_scalars [Nonempty (Fin N)]
     (M : LiftMap (L := L) (A := A) θ hact hS) (hsetup : Setup p L J A d b) (a b : ↥A)
     (hker : ∀ (X : Subgroup.normalizer (H : Set (GL (Fin N) K))),
@@ -66,6 +68,7 @@ theorem LiftMap.mul_mem_scalars [Nonempty (Fin N)]
   have h := hker X hX1
   simpa only [X, Subgroup.coe_mk] using h
 
+omit [Finite K] in
 theorem LiftMap.one_mem_scalars [Nonempty (Fin N)]
     (M : LiftMap (L := L) (A := A) θ hact hS) (hsetup : Setup p L J A d b)
     (hker : ∀ (X : Subgroup.normalizer (H : Set (GL (Fin N) K))),
@@ -92,9 +95,9 @@ private theorem inv_mul_eq_inv_of_mul_inv_eq_central {Y : Type} [Group Y] {x y z
 theorem linFieldTypeA0Bound_holds : LinFieldTypeA0Bound := by
   intro G _ _ p N n L J A d b K _ _ hK hN θ hact hS hsetup M lam hDp hlam A₀ hA₀A hcomm
   classical
-  haveI : Fact p.Prime := ⟨hsetup.prime⟩
-  haveI : Nonempty (Fin N) := ⟨⟨0, by omega⟩⟩
-  haveI : CharP K 2 :=
+  have : Fact p.Prime := ⟨hsetup.prime⟩
+  have : Nonempty (Fin N) := ⟨⟨0, by omega⟩⟩
+  have : CharP K 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hK
   have hpK : (p : K) ≠ 0 := by
     intro h0
@@ -160,7 +163,7 @@ theorem linFieldTypeA0Bound_holds : LinFieldTypeA0Bound := by
         exact Subtype.ext hl'.symm
     have hAnorm : A ≤ Subgroup.normalizer (L : Set G) :=
       CFSG.LocalAnalysis.GLTheoremA.S11.le_normalizer_of_innerDiag hsetup.idiag
-    haveI : Group.IsPerfect ↥L := ⟨hsetup.qs.1⟩
+    have : Group.IsPerfect ↥L := ⟨hsetup.qs.1⟩
     let α : MulAut ↥L := L.normalizerMonoidHom ⟨a.1, hAnorm (hA₀A a.2)⟩
     have hαapp : ∀ l : ↥L, ((α l : ↥L) : G) = a.1 * (l : G) * a.1⁻¹ := by
       intro l
@@ -211,9 +214,9 @@ theorem linFieldTypeA0Bound_holds : LinFieldTypeA0Bound := by
 theorem uniFieldTypeA0Bound_holds : UniFieldTypeA0Bound := by
   intro G _ _ p N n L J A d b K _ _ h hN hNq hpq θ hact hS hsetup M lam hDp hlam A₀ hA₀A hcomm
   classical
-  haveI : Fact p.Prime := ⟨hsetup.prime⟩
-  haveI : Nonempty (Fin N) := ⟨⟨0, by omega⟩⟩
-  haveI : CharP K 2 := h.charP
+  have : Fact p.Prime := ⟨hsetup.prime⟩
+  have : Nonempty (Fin N) := ⟨⟨0, by omega⟩⟩
+  have : CharP K 2 := h.charP
   have hpK : (p : K) ≠ 0 := by
     intro h0
     have h2 : 2 ∣ p := (CharP.cast_eq_zero_iff K 2 p).mp h0
@@ -280,7 +283,7 @@ theorem uniFieldTypeA0Bound_holds : UniFieldTypeA0Bound := by
         exact Subtype.ext hl'.symm
     have hAnorm : A ≤ Subgroup.normalizer (L : Set G) :=
       CFSG.LocalAnalysis.GLTheoremA.S11.le_normalizer_of_innerDiag hsetup.idiag
-    haveI : Group.IsPerfect ↥L := ⟨hsetup.qs.1⟩
+    have : Group.IsPerfect ↥L := ⟨hsetup.qs.1⟩
     let α : MulAut ↥L := L.normalizerMonoidHom ⟨a.1, hAnorm (hA₀A a.2)⟩
     have hαapp : ∀ l : ↥L, ((α l : ↥L) : G) = a.1 * (l : G) * a.1⁻¹ := by
       intro l

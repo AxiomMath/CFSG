@@ -72,7 +72,7 @@ theorem swap_fix_of_commute {u v : β} (huv : u ≠ v) {s : Equiv.Perm β} (hs :
     rcases hs with ⟨p, q, hpq, rfl⟩
     exact hne (bfChain_swap_apply_eq huv h1)
 
-theorem swap_share_of_braid {u v : β} (huv : u ≠ v) {s : Equiv.Perm β} (hs : s.IsSwap)
+theorem swap_share_of_braid {u v : β} (_huv : u ≠ v) {s : Equiv.Perm β} (hs : s.IsSwap)
     (hne : s ≠ Equiv.swap u v) (h3 : (s * Equiv.swap u v) ^ 3 = 1) :
     ∃ z, z ≠ u ∧ z ≠ v ∧ (s = Equiv.swap u z ∨ s = Equiv.swap v z) := by
   rcases hs with ⟨c, d, hcd, rfl⟩
@@ -257,7 +257,7 @@ theorem chain_labels (s : ℕ → Equiv.Perm β) (N : ℕ) (hN : 2 ≤ N)
       have w'_le : ∀ k, k ≤ n → w' k = w k := by intro k hk; simp [w', hk]
       have w'_n : w' n = w n := by simp [w']
       have w'_succ : w' (n + 1) = z := by
-        simp only [w', if_neg (by omega : ¬ n + 1 ≤ n)]
+        simp only [w', ite_eq_right (by omega : ¬ n + 1 ≤ n)]
       refine ⟨w', ?_, ?_⟩
       · intro c d hc hd h
         by_cases hc' : c ≤ n

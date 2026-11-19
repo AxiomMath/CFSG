@@ -26,7 +26,6 @@ theorem omegaSmall_ggRootSub_transport {U₁ U₂ G : Type} [Group U₁] [Group 
     have hzz' : w * z' * w⁻¹ = e z := by
       first
         | exact hzz
-        | simpa using hzz
     have key : e u * w * z' * (e u * w)⁻¹ = e (u * z * u⁻¹) := by
       rw [map_mul, map_mul, map_inv, ← hzz']
       simp only [mul_assoc, mul_inv_rev]
@@ -34,7 +33,6 @@ theorem omegaSmall_ggRootSub_transport {U₁ U₂ G : Type} [Group U₁] [Group 
       rw [key, MulEquiv.symm_apply_apply]
     first
       | exact hgoal
-      | simpa using hgoal
   · rintro ⟨y, ⟨z', hz', rfl⟩, rfl⟩
     have hz'' : w * z' * w⁻¹ ∈ (Δ₁.rootGroup β).map e.toMonoidHom := by
       rw [h]
@@ -44,7 +42,6 @@ theorem omegaSmall_ggRootSub_transport {U₁ U₂ G : Type} [Group U₁] [Group 
     have hzz' : e z = w * z' * w⁻¹ := by
       first
         | exact hzz
-        | simpa using hzz
     have key : e u * w * z' * (e u * w)⁻¹ = e (u * z * u⁻¹) := by
       rw [map_mul, map_mul, map_inv, hzz']
       simp only [mul_assoc, mul_inv_rev]
@@ -52,7 +49,6 @@ theorem omegaSmall_ggRootSub_transport {U₁ U₂ G : Type} [Group U₁] [Group 
       rw [key, MulEquiv.symm_apply_apply]
     first
       | exact hgoal
-      | simpa using hgoal
 
 theorem omegaSmall_ker_le_center {U₁ U₂ G : Type} [Group U₁] [Group U₂] [Group G]
     (e : U₁ ≃* U₂) (φ : U₁ →* G) (hker : φ.ker ≤ Subgroup.center U₁) :
@@ -61,7 +57,6 @@ theorem omegaSmall_ker_le_center {U₁ U₂ G : Type} [Group U₁] [Group U₂] 
   have hx' : e.symm x ∈ φ.ker := by
     first
       | exact hx
-      | simpa [MonoidHom.mem_ker] using hx
   have hc := hker hx'
   rw [Subgroup.mem_center_iff] at hc ⊢
   intro g
@@ -79,8 +74,6 @@ theorem omegaSmall_range_eq {U₁ U₂ G : Type} [Group U₁] [Group U₂] [Grou
     refine ⟨e y, ?_⟩
     first
       | simp
-      | (show φ (e.symm (e y)) = φ y
-         rw [MulEquiv.symm_apply_apply])
 
 end CFSG.StandardType.LieKnownR2.POmega
 

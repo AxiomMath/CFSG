@@ -36,7 +36,7 @@ theorem ev_sum : ∑ j, ev j = 0 := by
 theorem Vec_eq (v : Fin 3 → ZMod 3) :
     Vec v = ![v 0, v 1, v 2, 0, -(v 0 + v 1 + v 2)] := by
   funext j
-  fin_cases j <;> simp [Vec, zv, nsmul_eq_mul] <;> ring
+  fin_cases j <;> simp [Vec, zv, nsmul_eq_mul]; ring
 
 theorem three_nsmul_eq_zero (v : Fin 5 → ZMod 3) : (3 : ℕ) • v = 0 := by
   have h3z : (3 : ZMod 3) = 0 := by decide
@@ -169,7 +169,7 @@ theorem mk_dg_ne_mk_dg_mul_pg {ρ : Equiv.Perm (Fin 5)} (hρ : ρ⁻¹ 0 ≠ 0) 
     intro h1
     exact hρ (by rw [Equiv.Perm.inv_def]; exact h1.symm)
   simp [dg_apply, pg_apply, Matrix.diagonal_mul, Matrix.mul_diagonal, Matrix.scalar_apply,
-    Matrix.diagonal_apply, hne] at h0
+    hne] at h0
   exact Units.ne_zero _ h0.symm
 
 theorem vec_inj (h3 : ω ^ 3 = 1) (hω : orderOf ω = 3) (v : Fin 3 → ZMod 3)
@@ -341,7 +341,7 @@ theorem not_729_dvd_card_u52 : ¬ 729 ∣ Nat.card (projSU 5 2 1) := by
   omega
 
 theorem exists_omega : ∃ ω : U52Fieldˣ, orderOf ω = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   apply exists_prime_orderOf_dvd_card' 3
   rw [Nat.card_units, GaloisField.card 2 (2 * 1) (by norm_num)]
   norm_num

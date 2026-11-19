@@ -10,6 +10,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF84
 
 variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B K : Subgroup G}
 
+omit [Finite G] in
 theorem eq_one_of_two_three {w : G} {k : ℕ} (h2 : w ^ 2 ^ k = 1) (h3 : w ^ 3 = 1) : w = 1 := by
   have hd1 : orderOf w ∣ 2 ^ k := orderOf_dvd_of_pow_eq_one h2
   have hd2 : orderOf w ∣ 3 := orderOf_dvd_of_pow_eq_one h3

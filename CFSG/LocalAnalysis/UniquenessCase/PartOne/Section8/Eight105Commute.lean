@@ -24,12 +24,12 @@ variable {G : Type} [Group G] [Finite G]
 private theorem eq_of_le_normalizer_of_isL2 {K X D : Subgroup G} {m : ℕ}
     (hK : ⁅K, K⁆ = K) (hL2 : IsL2 (Bar2 K) m) (hXK : X ≤ K)
     (hKX : K ≤ normalizer (X : Set G)) (hDX : D ≤ X) (hD3 : Nat.card D = 3) : X = K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsimple : IsSimpleGroup (Bar2 K) := CFSG.Blueprint.LieModel.isSimpleGroup_psl_two hL2
   have hXnorm : (X.subgroupOf K).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hXK).mpr hKX
-  haveI := hXnorm
+  have := hXnorm
   have hDK : D ≤ K := hDX.trans hXK
   have hD3K : Nat.card (D.subgroupOf K) = 3 := by
     rw [← hD3]
@@ -59,23 +59,26 @@ private theorem eq_of_le_normalizer_of_isL2 {K X D : Subgroup G} {m : ℕ}
       have hp : IsPGroup 2 ↥((CFSG.pCore 2 ↥K).map q) := CFSG.pCore_isPGroup.map q
       rw [hmap] at hp
       exact hp.of_equiv Subgroup.topEquiv
-    haveI : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hK
+    have : Group.IsPerfect ↥K := Subgroup.isPerfect_iff.mpr hK
     have htop : X.subgroupOf K = ⊤ :=
       CFSG.ComponentClassification.LiteratureLocal.eq_top_of_isPGroup_quotient_of_perfect
         (p := 2) (X.subgroupOf K) hP
     exact le_antisymm hXK (Subgroup.subgroupOf_eq_top.mp htop)
 
-private lemma le_ncl {N X : Subgroup G} (hXN : X ≤ N) : X ≤ ncl N X := by
+omit [Finite G] in
+private lemma le_ncl {N X : Subgroup G} (_hXN : X ≤ N) : X ≤ ncl N X := by
   intro x hx
   rw [ncl]
   exact Subgroup.subset_closure ⟨1, N.one_mem, x, hx, by simp⟩
 
+omit [Finite G] in
 private lemma ncl_le_self {N X : Subgroup G} (hXN : X ≤ N) : ncl N X ≤ N := by
   rw [ncl]
   refine (Subgroup.closure_le N).mpr ?_
   rintro y ⟨g, hg, x, hx, rfl⟩
   exact N.mul_mem (N.mul_mem hg (hXN hx)) (N.inv_mem hg)
 
+omit [Finite G] in
 private lemma le_normalizer_ncl (N X : Subgroup G) :
     N ≤ normalizer (ncl N X : Set G) := by
   intro g hg
@@ -92,6 +95,7 @@ private lemma le_normalizer_ncl (N X : Subgroup G) :
       ⟨g⁻¹ * h, N.mul_mem (N.inv_mem hg) hh, x, hx, rfl⟩, ?_⟩
     simp [MulAut.conj_apply, mul_assoc]
 
+omit [Finite G] in
 private lemma ncl_eq_nclIn {N X : Subgroup G} (hXN : X ≤ N) :
     ncl N X = CFSG.AGLEmbedding.nclIn N X := by
   apply le_antisymm
@@ -106,12 +110,14 @@ private lemma ncl_eq_nclIn {N X : Subgroup G} (hXN : X ≤ N) :
     · exact ncl_le_self hXN
     · exact le_normalizer_ncl N X
 
+omit [Finite G] in
 private lemma ncl_eq_normalClosure_map {N X : Subgroup G} (hXN : X ≤ N) :
     ncl N X =
       (Subgroup.normalClosure ((X.subgroupOf N : Subgroup ↥N) : Set ↥N)).map N.subtype := by
   rw [ncl_eq_nclIn hXN]
   rfl
 
+omit [Finite G] in
 private lemma ncl_mono_left {K N X : Subgroup G} (hKN : K ≤ N) :
     ncl K X ≤ ncl N X := by
   rw [ncl, ncl]
@@ -126,7 +132,7 @@ theorem kOf8103_le_ncl {D : Data G} {L P B B' D₀ H N : Subgroup G} {p n : ℕ}
   have hB'N : B' ≤ N := hB'K.trans (c.memH.2.2.1.trans c.memN.2)
   have hKN : K ≤ N := c.memH.2.2.1.trans c.memN.2
   have hperf : ⁅K, K⁆ = K := by
-    haveI : Group.IsPerfect ↥K := isPerfect_derInf8 (L ⊓ centralizer (B : Set G))
+    have : Group.IsPerfect ↥K := isPerfect_derInf8 (L ⊓ centralizer (B : Set G))
     exact Subgroup.isPerfect_iff.mp inferInstance
   have hXK : ncl K B' ≤ K := by
     rw [ncl_eq_nclIn hB'K]
@@ -162,9 +168,9 @@ private lemma not_three_dvd_card_relPPrimeCore (N : Subgroup G) :
 private lemma pRank_sup_relPPrimeCore_le_one {N X : Subgroup G} (hXN : X ≤ N)
     (hXrank : Open.pRank 3 X ≤ 1) :
     Open.pRank 3 (X ⊔ relPPrimeCore 3 N) ≤ 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let I : Subgroup G := relPPrimeCore 3 N
-  haveI hInormal : (I.subgroupOf N).Normal :=
+  have hInormal : (I.subgroupOf N).Normal :=
     CFSG.LocalAnalysis.RankThreeTheoremC.KFactProofs.Stroth.AlmostSimple.relPPrimeCore_normal
       Nat.prime_three N
   let π : ↥N →* ↥N ⧸ I.subgroupOf N := QuotientGroup.mk' (I.subgroupOf N)
@@ -225,7 +231,7 @@ private lemma pRank_P_subgroupOf_le_three {D : Data G} {L P B B' D₀ H N : Subg
     _ ≤ 3 := hPrank
 
 private lemma pRank_ncl_of_normalClosure {D : Data G} {L P B B' D₀ H N Z : Subgroup G}
-    {p n : ℕ} (c : Ctx8105 D L P B B' D₀ H N p n) (hZN : Z ≤ N)
+    {p n : ℕ} (_c : Ctx8105 D L P B B' D₀ H N p n) (hZN : Z ≤ N)
     (hres : Open.pRank 3
       (Subgroup.normalClosure ((Z.subgroupOf N : Subgroup ↥N) : Set ↥N)) = 1) :
     Open.pRank 3 (ncl N Z) = 1 := by
@@ -262,7 +268,7 @@ private lemma isSylowOf_P_subgroupOf {D : Data G} {L P B B' D₀ H N : Subgroup 
 private lemma pRank_ncl_aux (h332 : UCK.K332ThreeAb) {D : Data G}
     {L P B B' D₀ H N Z : Subgroup G} {p n : ℕ} (c : Ctx8105 D L P B B' D₀ H N p n)
     (hZ : Z = B ∨ Z = B') : Open.pRank 3 (ncl N Z) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hZP : Z ≤ P := by
     rcases hZ with h | h
     · rw [h]; exact c.notB.2.1
@@ -320,7 +326,7 @@ theorem pRank_ncl (h332 : UCK.K332ThreeAb) {D : Data G} {L P B B' D₀ H N Z : S
 private lemma false_of_three_dvd_card_inf_ncl (h332 : UCK.K332ThreeAb) {D : Data G}
     {L P B B' D₀ H N : Subgroup G} {p n : ℕ} (c : Ctx8105 D L P B B' D₀ H N p n)
     (h3dvd : 3 ∣ Nat.card ↥(ncl N B ⊓ ncl N B')) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPH : P ≤ H := P_le_of_mem_calK8104 c.memH
   have hPN : P ≤ N := hPH.trans c.memN.2
   have hBN : B ≤ N := c.notB.2.1.trans hPN
@@ -377,7 +383,7 @@ private theorem commutator_ncl_le (h332 : UCK.K332ThreeAb) {D : Data G}
     {L P B B' D₀ H N : Subgroup G}
     {p n : ℕ} (c : Ctx8105 D L P B B' D₀ H N p n) :
     ⁅ncl N B, ncl N B'⁆ ≤ relPPrimeCore 3 N := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hPH : P ≤ H := P_le_of_mem_calK8104 c.memH
   have hPN : P ≤ N := hPH.trans c.memN.2
   have hBN : B ≤ N := c.notB.2.1.trans hPN
@@ -535,7 +541,7 @@ private lemma mem_normalizer_sup_of_mem_inf {D : Data G} {L P B B' D₀ H N : Su
     have hcomp : (MulAut.conj u).toMonoidHom =
         (MulAut.conj w).toMonoidHom.comp (MulAut.conj x).toMonoidHom := by
       ext z
-      simp only [MonoidHom.coe_comp, Function.comp_apply, MulAut.conj_apply]
+      simp only [MonoidHom.coe_comp, Function.comp_apply]
       dsimp [u]
       group
     rw [Subgroup.mem_normalizer_iff_map_conj_eq]
@@ -555,7 +561,7 @@ private lemma mem_normalizer_sup_of_mem_inf {D : Data G} {L P B B' D₀ H N : Su
 theorem inf_le_normalizer (h332 : UCK.K332ThreeAb) {D : Data G} {L P B B' D₀ H N : Subgroup G}
     {p n : ℕ} (c : Ctx8105 D L P B B' D₀ H N p n) :
     D.M ⊓ N ≤ normalizer ((F08.KOf8103 L B ⊔ relPPrimeCore 3 N : Subgroup G) : Set G) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := F08.KOf8103 L B
   let I : Subgroup G := relPPrimeCore 3 N
   let McapN : Subgroup G := D.M ⊓ N

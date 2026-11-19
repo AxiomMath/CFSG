@@ -34,7 +34,7 @@ theorem natCard_range_conj_eq {Λ Λ' : Type} [Group Λ] [Finite Λ] [Group Λ']
 
 theorem NodeGood.of_mulEquiv {Λ Λ' : Type} [Group Λ] [Finite Λ] [Group Λ'] [Finite Λ']
     (e : Λ ≃* Λ') {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : NodeGood Λ' p) : NodeGood Λ p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   rcases h with ⟨hN, hRK, hI⟩ | hr
   · left
     refine ⟨fun N hNn hN2 => ?_, RKGood.of_mulEquiv e hp hp2 hRK, ?_⟩
@@ -54,10 +54,10 @@ theorem nodeGood_of_rkKind (h1 : K518RkSL2) (h2 : K518RkSU3) {Λ : Type} [Group 
     (hk : RkKind Λ) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpΛ : p ∣ Nat.card Λ) :
     NodeGood Λ p := by
   rcases hk with ⟨k, _, _, _, ⟨e⟩⟩ | ⟨F, _, _, _, f, hf, hF, ⟨e⟩⟩
-  · haveI := Finite.of_equiv Λ e.toEquiv
+  · have := Finite.of_equiv Λ e.toEquiv
     refine NodeGood.of_mulEquiv e hp hp2 (nodeGood_sl2 h1 hp hp2 ?_)
     rwa [← Nat.card_congr e.toEquiv]
-  · haveI := Finite.of_equiv Λ e.toEquiv
+  · have := Finite.of_equiv Λ e.toEquiv
     refine NodeGood.of_mulEquiv e hp hp2 (nodeGood_su3 h2 hf hF hp hp2 ?_)
     rwa [← Nat.card_congr e.toEquiv]
 

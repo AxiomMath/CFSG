@@ -128,7 +128,7 @@ theorem triD4Line_exists_conj_diagonal (k : Type) [Field k] (ω : k) (hω : ω ^
         _ = B * ((ω ^ (a 0).val) • (1 : Matrix (Fin 3) (Fin 3) k)) * A := by
             rw [hscalar_smul]
         _ = (ω ^ (a 0).val) • (B * A) := by
-            simp [Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_assoc]
+            simp
         _ = (ω ^ (a 0).val) • (1 : Matrix (Fin 3) (Fin 3) k) := by rw [hBA]
         _ = Matrix.scalar (Fin 3) (ω ^ (a 0).val) := hscalar_smul.symm
     exact hgs _ hg_scalar
@@ -162,7 +162,7 @@ theorem triD4Line_exists_conj_diagonal (k : Type) [Field k] (ω : k) (hω : ω ^
     rw [Matrix.mul_diagonal, Matrix.diagonal_mul]
     by_cases hij : i = ψ j
     · subst hij
-      simp [P, Dmat, Dfun, hDψ j]
+      simp [P, Dfun, hDψ j]
     · simp [P, hij]
   have hAg : A * g = Matrix.diagonal d * A := by
     calc A * g = A * g * (B * A) := by rw [hBA, Matrix.mul_one]

@@ -30,9 +30,9 @@ theorem graphFixed_isSplitBNPair
       graphFixedRootBorel t K σ.toRingHom ⊓ graphFixedRootMonomial t K σ.toRingHom =
         graphFixedRootTorus t K σ.toRingHom ∧
       IsPGroup p (graphFixedPosUnipotent t K σ.toRingHom) := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite (ModGL t.tag K) := finite_modGL
-  haveI : Finite ↥(graphFixedRootGroup t K σ.toRingHom) := inferInstance
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL t.tag K) := finite_modGL
+  have : Finite ↥(graphFixedRootGroup t K σ.toRingHom) := inferInstance
   obtain ⟨hBeq, -, huniq, -, hUB, hUn, -, -, -, -, -, -, hΓgen, -⟩ :=
     fixed_root_Bruhat_decomposition t K σ
   obtain ⟨hmonN, -, hker, hHnorm, -, -, hNeq⟩ := fixed_root_monomial_quotient t K σ.toRingHom
@@ -260,11 +260,11 @@ theorem parFam_graphFixed
       Fam.Q = fun a => (graphFixedParabolicRadical t K σ.toRingHom {a}).subgroupOf
         (graphFixedRootGroup t K σ.toRingHom) := by
   obtain ⟨hBN, hNle, hHp, hBNinter, hUp⟩ := graphFixed_isSplitBNPair t K Nat.prime_two σ
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite (ModGL t.tag K) := finite_modGL
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite (ModGL t.tag K) := finite_modGL
   have hrank : 2 ≤ t.foldedTag.rank := by cases t <;> decide
-  haveI : Nonempty (Fin t.foldedTag.rank) := ⟨⟨0, by omega⟩⟩
-  haveI : Nontrivial (Fin t.foldedTag.rank) := Fin.nontrivial_iff_two_le.mpr hrank
+  have : Nonempty (Fin t.foldedTag.rank) := ⟨⟨0, by omega⟩⟩
+  have : Nontrivial (Fin t.foldedTag.rank) := Fin.nontrivial_iff_two_le.mpr hrank
   have hBΓ : graphFixedRootBorel t K σ.toRingHom ≤ graphFixedRootGroup t K σ.toRingHom :=
     graphFixedRootBorel_le t K σ.toRingHom
   have hradΓ : ∀ a : Fin t.foldedTag.rank, graphFixedParabolicRadical t K σ.toRingHom {a} ≤
@@ -351,7 +351,7 @@ theorem hasParGen_of_twistedChevalleyModel
     (h : TwistedChevalleyModel G t (2 ^ f)) : HasParGen G := by
   obtain ⟨K, hK, hKf, hcard, σ, hσ, ⟨e⟩⟩ := h
   have hord := two_le_order_twistTag t
-  haveI : CharP K 2 := burnsideI2BN_charP_of_card Nat.prime_two (f := f * t.order)
+  have : CharP K 2 := burnsideI2BN_charP_of_card Nat.prime_two (f := f * t.order)
     (Nat.mul_pos hf (by omega)) (by rw [hcard, pow_mul])
   have hsurj : Function.Surjective σ := Finite.surjective_of_injective σ.injective
   obtain ⟨σ', rfl⟩ : ∃ σ' : K ≃+* K, σ'.toRingHom = σ :=
@@ -359,7 +359,7 @@ theorem hasParGen_of_twistedChevalleyModel
   have h3 := (finite_fixed_root_group_perfect t Nat.prime_two hf K hcard σ'.toRingHom hσ).2.2.1
   obtain ⟨Fam, -⟩ := parFam_graphFixed t K σ'
   obtain ⟨hBN, -, hHp, hBNinter, -⟩ := graphFixed_isSplitBNPair t K Nat.prime_two σ'
-  haveI : Finite (ModGL t.tag K) := finite_modGL
+  have : Finite (ModGL t.tag K) := finite_modGL
   have hodd : ∀ x ∈ center ↥(graphFixedRootGroup t K σ'.toRingHom), Odd (orderOf x) := by
     intro x hx
     have hx1 : x ∈ ((graphFixedRootBorel t K σ'.toRingHom).subgroupOf

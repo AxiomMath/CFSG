@@ -39,6 +39,7 @@ private noncomputable abbrev tOfA (hc : Ctx M Q Z B) {a : G} (ha : a ∈ LB M Q 
     (hA : IsA2 Q Z a) : XbarMod M Q Z B :=
   xbarToMod (xbarClassOfA hc ha hA)
 
+omit [Finite G] in
 private theorem mem_ebarIn_xbarClassOfA (hc : Ctx M Q Z B) {a : G} (ha : a ∈ LB M Q B)
     (hA : IsA2 Q Z a) : xbarClassOfA hc ha hA ∈ EbarIn M Q Z B :=
   hc.mk_mem_Ebar ha hA
@@ -151,6 +152,7 @@ private theorem conj_apply_xbarToMod (y z : ↥(Xbar M Q Z B)) :
     MulAut.conj (xbarToMod y) (xbarToMod z) = xbarToMod (y * z * y⁻¹) := by
   rw [MulAut.conj_apply, map_mul, map_mul, map_inv]
 
+omit [Finite G] in
 private theorem xbarToMod_barLBConjAct (hc : Ctx M Q Z B)
     (l : ↥(bar M Q (LB M Q B))) (x : ↥(Xbar M Q Z B)) :
     xbarToMod (barLBConjAct hc l x) =
@@ -158,6 +160,7 @@ private theorem xbarToMod_barLBConjAct (hc : Ctx M Q Z B)
         hc.Xbar_normal.conj_mem (x : Mbar M Q) x.2 (l : Mbar M Q)⟩ := by
   rw [barLBConjAct_apply]
 
+omit [Finite G] in
 private theorem conj_mul_xbarModConjAct (hc : Ctx M Q Z B) (k : ↥(Xbar M Q Z B))
     (hkN : (k : Mbar M Q) ∈ Subgroup.normalizer (bar M Q (LB M Q B) : Set (Mbar M Q)))
     (l : ↥(bar M Q (LB M Q B))) :
@@ -207,6 +210,7 @@ private theorem mem_centralizer_xbarToMod_iff (hc : Ctx M Q Z B) {a : G}
   · intro hy
     exact Subgroup.mem_map.mpr ⟨y, hy, rfl⟩
 
+omit [Finite G] in
 private theorem mem_inf_centralizer_of_mem_centralizer (hc : Ctx M Q Z B) {a : G}
     (ha : a ∈ LB M Q B) (hA : IsA2 Q Z a) {y : ↥(Xbar M Q Z B)}
     (hy : y ∈ Subgroup.centralizer ({xbarClassOfA hc ha hA} : Set ↥(Xbar M Q Z B))) :
@@ -256,6 +260,7 @@ private theorem normalizerImage_sq (hc : Ctx M Q Z B) {a : G} (ha : a ∈ LB M Q
     simpa using congrArg Subtype.val hy2
   exact hKsq (y : Mbar M Q) (mem_inf_centralizer_of_mem_centralizer hc ha hA hyC) ⟨e, hy2'⟩
 
+omit [Finite G] in
 private theorem normalizerImage_normalizes (hc : Ctx M Q Z B)
     {K : Subgroup (Mbar M Q)}
     (hKN : K ≤ Subgroup.normalizer (bar M Q (LB M Q B) : Set (Mbar M Q))) :
@@ -303,6 +308,7 @@ private noncomputable abbrev aBarOf (hc : Ctx M Q Z B) {a : G} (ha : a ∈ LB M 
   ⟨QuotientGroup.mk' (Q.subgroupOf M) ⟨a, hc.LB_le_M ha⟩,
     Subgroup.mem_map.mpr ⟨⟨a, hc.LB_le_M ha⟩, Subgroup.mem_subgroupOf.mpr ha, rfl⟩⟩
 
+omit [Finite G] in
 private theorem xbarModConjAct_aBarOf (hc : Ctx M Q Z B) {a : G} (ha : a ∈ LB M Q B)
     (hA : IsA2 Q Z a) :
     xbarModConjAct hc (aBarOf hc ha) = MulAut.conj (tOfA hc ha hA) := by
@@ -406,6 +412,7 @@ private theorem eight_le_card_innerPart (hc : Ctx M Q Z B) {n : ℕ} (hw : Width
   have hA16 := hc.sixteen_le_card_xbarModConjAct_range hw hn ha2 hy
   omega
 
+omit [Finite G] in
 private theorem card_innerSubgroup_eq_innerPart (hc : Ctx M Q Z B)
     (hconjinj : Function.Injective (MulAut.conj (G := XbarMod M Q Z B))) :
     Nat.card (innerSubgroup hc) = Nat.card (innerPart hc) := by

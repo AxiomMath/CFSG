@@ -33,7 +33,8 @@ theorem exists_fin_ne_three (hl : 4 ≤ l) (i j k : Fin l) : ∃ m : Fin l, m �
   have h3 : ({i, j, k} : Finset (Fin l)).card ≤ 3 := Finset.card_le_three
   omega
 
-private theorem eq_bot_of_rootSet_aux1 (hM : IsMixedFrame Q p U ρ i j A) {a m : Fin l} (ham : a ≠ m)
+omit [CharP F 2] in
+private theorem eq_bot_of_rootSet_aux1 (hM : IsMixedFrame Q p U ρ i j A) {a m : Fin l} (_ham : a ≠ m)
     {y : V} (hy : y ∈ U a) : ∃ z ∈ U m, Q y = Q z := by
   obtain ⟨φ⟩ := CFSG.GroupTheory.WeirSylow.nonempty_isometry_of_isPlusType_iff
     (n := 1) (hM.frame.nondeg a) (hM.frame.nondeg m)
@@ -42,6 +43,7 @@ private theorem eq_bot_of_rootSet_aux1 (hM : IsMixedFrame Q p U ρ i j A) {a m :
       fun h => absurd h (hM.frame.not_isPlusType m)⟩
   exact ⟨φ ⟨y, hy⟩, (φ ⟨y, hy⟩).2, (φ.map_app ⟨y, hy⟩).symm⟩
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem eq_bot_of_rootSet_aux2 (hM : IsMixedFrame Q p U ρ i j A) {a m : Fin l}
     (ham : a ≠ m) (hmi : m ≠ i) (hmj : m ≠ j) {K : Subgroup (V ≃ₗ[F] V)}
     {W : Submodule F V} (hTS : ∀ x ∈ W, Q x = 0) (hWij : W ≤ U i ⊔ U j)
@@ -133,6 +135,7 @@ private theorem eq_bot_of_rootSet_aux3 (hM : IsMixedFrame Q p U ρ i j A) {a m :
     rw [polar_add_right, hxz, add_zero] at h
     exact h
 
+omit [Finite F] [CharP F 2] [FiniteDimensional F V] in
 private theorem eq_bot_of_rootSet_aux4 (hM : IsMixedFrame Q p U ρ i j A) {a : Fin l}
     (ha : a = i ∨ a = j) {W : Submodule F V} (hTS : ∀ x ∈ W, Q x = 0) (hWij : W ≤ U i ⊔ U j)
     (hperp : ∀ x ∈ W, ∀ y ∈ U a, polar Q x y = 0) : W = ⊥ := by
@@ -185,6 +188,7 @@ theorem eq_bot_of_rootSet (hM : IsMixedFrame Q p U ρ i j A) {a m : Fin l} (ha :
   exact eq_bot_of_rootSet_aux4 hM ha hTS hWij
     (eq_bot_of_rootSet_aux3 hM ham hmi hmj hK hTS hWij hKW)
 
+omit [CharP F 2] in
 private theorem exists_rootSet_specialBlock_aux1 (hM : IsMixedFrame Q p U ρ i j A)
     {d : ↥(orthDerived Q)} (hd : d ∈ A) (k : Fin l) :
     ∀ x ∈ U k, (d : V ≃ₗ[F] V) x ∈ U k := by
@@ -203,6 +207,7 @@ private theorem exists_rootSet_specialBlock_aux1 (hM : IsMixedFrame Q p U ρ i j
   rw [hn x hx]
   exact hpow n x hx
 
+omit [Finite F] [CharP F 2] in
 private theorem exists_rootSet_specialBlock_aux2 (hM : IsMixedFrame Q p U ρ i j A) {a m : Fin l}
     (ham : a ≠ m) {d : V ≃ₗ[F] V} {y z : V} (hy : y ∈ U a) (hz : z ∈ U m)
     (hdya : d y ∈ U a) (hdzm : d z ∈ U m) {c : F} (hcu : d (y + z) = c • (y + z)) :
@@ -227,6 +232,7 @@ private theorem exists_rootSet_specialBlock_aux2 (hM : IsMixedFrame Q p U ρ i j
     exact (Submodule.mem_bot F).1 h2
   exact sub_eq_zero.mp hX0
 
+omit [CharP F 2] in
 private theorem exists_rootSet_specialBlock_aux3 {d : V ≃ₗ[F] V} (hp : p.Prime) (hp2 : p ≠ 2)
     (hpq : p ∣ Nat.card F + 1) {h : Polynomial F} (hh : h ∈ primaryFactors d.toLinearMap)
     (hh1 : h ≠ X - 1) {y : V} (hy0 : y ≠ 0) (hyV : y ∈ primaryComponent d.toLinearMap h)
@@ -288,9 +294,10 @@ theorem exists_rootSet_specialBlock (hM : IsMixedFrame Q p U ρ i j A) (hp : p.P
     exact exists_rootSet_specialBlock_aux3 hp hp2 hpq hh hh1 hy0 (hU a hy) hdp
       (exists_rootSet_specialBlock_aux2 hM ham hy hz hdya hdzm hcu)
 
+omit [Finite F] [FiniteDimensional F V] in
 private theorem exists_rootSet_supportedFixed_aux1 (hM : IsMixedFrame Q p U ρ i j A)
     {a m : Fin l} (ham : a ≠ m) {y z y' z' : V} (hy : y ∈ U a) (hz : z ∈ U m)
-    (hy' : y' ∈ U a) (hz' : z' ∈ U m) (hpy' : polar Q y y' ≠ 0) :
+    (_hy' : y' ∈ U a) (hz' : z' ∈ U m) (hpy' : polar Q y y' ≠ 0) :
     ∀ c : F, y' + z' ≠ c • (y + z) := by
   intro c hc
   have hyy : polar Q y y = 0 := by
@@ -382,7 +389,7 @@ theorem stdVanishes_of_fullSupport (hM : IsMixedFrame Q p U ρ i j A)
 
 theorem stdVanishes_of_weightOne (hM : IsMixedFrame Q p U ρ i j A)
     (hQ : (QuadraticMap.polarBilin Q).Nondegenerate) (hdim : Module.finrank F V = 2 * l) (hl : 4 ≤ l) (hp : p.Prime)
-    (hp2 : p ≠ 2) (hd : IsStdElt p A d) {k : Fin l} (hki : k ≠ i) (hkj : k ≠ j)
+    (hp2 : p ≠ 2) (hd : IsStdElt p A d) {k : Fin l} (hki : k ≠ i) (_hkj : k ≠ j)
     (hfs : fixedSpace (d : V ≃ₗ[F] V) = polarPerp Q (U k))
     (hL : stdLayer d = (supportedFixedDerived Q (d : V ≃ₗ[F] V)).subgroupOf (orthDerived Q)) : StdVanishes A d := by
   obtain ⟨m, hmi, hmj, hmk⟩ := exists_fin_ne_three hl i j k

@@ -15,16 +15,19 @@ namespace ZEData
 
 variable {Q Y V V' B K : Subgroup H} {ρ t τ l : H}
 
+omit [Finite H] in
 private lemma tau_cent_Y (h : ZEData Q Y V V' B K ρ t τ l) {y : H} (hy : y ∈ Y) :
     τ * y * τ⁻¹ = y := by
   rw [h.tau_inv y (h.Y_le_Q hy), inv_eq_of_mul_eq_one_right (h.Y_sq y hy)]
 
+omit [Finite H] in
 private lemma ttau_sq (h : ZEData Q Y V V' B K ρ t τ l) : (t * τ) * (t * τ) = 1 := by
   calc (t * τ) * (t * τ) = t * (τ * t) * τ := by group
     _ = t * (t * τ) * τ := by rw [← h.t_tau]
     _ = (t * t) * (τ * τ) := by group
     _ = 1 := by rw [h.t_sq, h.tau_sq, one_mul]
 
+omit [Finite H] in
 private lemma ttau_comm_eq (h : ZEData Q Y V V' B K ρ t τ l) {y : H} (hy : y ∈ Y) :
     ⁅t * τ, y⁆ = ⁅t, y⁆ := by
   have hstep : (t * τ) * y * (t * τ)⁻¹ = t * y * t⁻¹ := by
@@ -32,28 +35,34 @@ private lemma ttau_comm_eq (h : ZEData Q Y V V' B K ρ t τ l) {y : H} (hy : y �
       _ = t * y * t⁻¹ := by rw [tau_cent_Y h hy]
   rw [commutatorElement_def, commutatorElement_def, hstep]
 
+omit [Finite H] in
 private lemma ttau_norm_K (h : ZEData Q Y V V' B K ρ t τ l) {k : H} (hk : k ∈ K) :
     (t * τ) * k * (t * τ)⁻¹ ∈ K := by
   rw [show (t * τ) * k * (t * τ)⁻¹ = t * (τ * k * τ⁻¹) * t⁻¹ by group]
   exact h.t_norm_K _ (h.tau_norm_K k hk)
 
+omit [Finite H] in
 private lemma taul_sq (h : ZEData Q Y V V' B K ρ t τ l) : (τ * l) * (τ * l) = 1 := by
   calc (τ * l) * (τ * l) = τ * (l * τ) * l := by group
     _ = τ * (τ * l) * l := by rw [← h.tau_l]
     _ = (τ * τ) * (l * l) := by group
     _ = 1 := by rw [h.tau_sq, h.l_sq, one_mul]
 
+omit [Finite H] in
 private lemma taul_norm_K (h : ZEData Q Y V V' B K ρ t τ l) {k : H} (hk : k ∈ K) :
     (τ * l) * k * (τ * l)⁻¹ ∈ K := by
   rw [show (τ * l) * k * (τ * l)⁻¹ = τ * (l * k * l⁻¹) * τ⁻¹ by group]
   exact h.tau_norm_K _ (h.l_norm_K k hk)
 
+omit [Finite H] in
 private lemma rho_conj_t (h : ZEData Q Y V V' B K ρ t τ l) : ρ * t * ρ⁻¹ = t := by
   rw [← h.t_rho]; group
 
+omit [Finite H] in
 private lemma rho_conj_tau (h : ZEData Q Y V V' B K ρ t τ l) : ρ * τ * ρ⁻¹ = τ := by
   rw [← h.tau_rho]; group
 
+omit [Finite H] in
 private lemma taul_rho (h : ZEData Q Y V V' B K ρ t τ l) :
     (τ * l) * ρ * (τ * l)⁻¹ = ρ⁻¹ := by
   have hτρ : τ * ρ * τ⁻¹ = ρ := by rw [h.tau_rho]; group
@@ -62,11 +71,13 @@ private lemma taul_rho (h : ZEData Q Y V V' B K ρ t τ l) :
     _ = (τ * ρ * τ⁻¹)⁻¹ := by group
     _ = ρ⁻¹ := by rw [hτρ]
 
+omit [Finite H] in
 private lemma rho_comm_ttau (h : ZEData Q Y V V' B K ρ t τ l) :
     ρ * (t * τ) * ρ⁻¹ = t * τ := by
   calc ρ * (t * τ) * ρ⁻¹ = (ρ * t * ρ⁻¹) * (ρ * τ * ρ⁻¹) := by group
     _ = t * τ := by rw [rho_conj_t h, rho_conj_tau h]
 
+omit [Finite H] in
 private lemma rho_mem_z4iCuK (h : ZEData Q Y V V' B K ρ t τ l) {z : H}
     (hz : z ∈ z4iCuK K Y (t * τ) h.K_cent_Y) :
     ρ * z * ρ⁻¹ ∈ z4iCuK K Y (t * τ) h.K_cent_Y := by

@@ -137,6 +137,7 @@ private theorem sq_inv_sub_one_eq_zero_gl_three {E M : Type*} [CommRing E] [AddC
     (((u⁻¹ : LinearMap.GeneralLinearGroup E M) : M →ₗ[E] M) - 1) ^ 2 = 0 :=
   sq_inv_sub_one_eq_zero_three u hu
 
+omit [Finite K] in
 private theorem eq_zero_of_orbit_others' (hx : OddOrderIsometry Q p x) {h : K[X]}
     (hh : h ∈ primaryFactors x.toLinearMap) {f : V →ₗ[K] V}
     (h1 : ∀ v ∈ primaryComponent x.toLinearMap h, f v = 0)
@@ -150,7 +151,7 @@ private theorem eq_zero_of_orbit_others' (hx : OddOrderIsometry Q p x) {h : K[X]
 
 private theorem nine_le_card_of_ne_three' {F : Type*} [Field F] [Finite F] [CharP F 3]
     (h : Nat.card F ≠ 3) : 9 ≤ Nat.card F := by
-  haveI := Fintype.ofFinite F
+  have := Fintype.ofFinite F
   obtain ⟨n, -, hn⟩ := FiniteField.card F 3
   rw [Nat.card_eq_fintype_card, hn] at h ⊢
   have hn2 : 2 ≤ (n : ℕ) := by
@@ -162,7 +163,7 @@ private theorem nine_le_card_of_ne_three' {F : Type*} [Field F] [Finite F] [Char
 private theorem dvd_card_sub_one_of_orderOf_unit {E : Type*} [Field E] [Finite E] {u : Eˣ} {p : ℕ}
     (hu : orderOf u = p) : p ∣ Nat.card E - 1 := by
   classical
-  haveI := Fintype.ofFinite E
+  have := Fintype.ofFinite E
   have h2 := orderOf_dvd_card (G := Eˣ) (x := u)
   rw [hu, Fintype.card_units, ← Nat.card_eq_fintype_card] at h2
   exact h2
@@ -171,8 +172,8 @@ theorem orthBlockThree_paired [CharP K 3] (hx : OddOrderIsometry Q p x) (hp : p.
     (hp2 : p ≠ 2) {h : K[X]} [Fact (Irreducible h)] (hh : h ∈ primaryFactors x.toLinearMap)
     (hne1 : h ≠ X - 1) (hne : h ≠ reciprocalPolynomial h)
     (hm : 2 ≤ primaryMultiplicity x.toLinearMap h) : OrthBlockThree (specialBlock Q x h) := by
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
-  haveI : CharP (AdjoinRoot h) 3 :=
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : CharP (AdjoinRoot h) 3 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot h)).injective 3
   set φ := pairedBlockEquiv hx hh hne
   have hE9 : 9 ≤ Nat.card (AdjoinRoot h) := by
@@ -253,11 +254,11 @@ theorem orthBlockThree_selfDual [CharP K 3] (hx : OddOrderIsometry Q p x) (hp : 
     (hK : Nat.card K = 3 ^ f) (hm : 2 ≤ primaryMultiplicity x.toLinearMap h) :
     OrthBlockThree (specialBlock Q x h) := by
   classical
-  haveI := Fintype.ofFinite K
+  have := Fintype.ofFinite K
   have hp2' : Odd p := hp.odd_of_ne_two hp2
   have hirr : Irreducible h := Fact.out
-  haveI : Finite (AdjoinRoot h) := Module.finite_of_finite K
-  haveI : CharP (AdjoinRoot h) 3 :=
+  have : Finite (AdjoinRoot h) := Module.finite_of_finite K
+  have : CharP (AdjoinRoot h) 3 :=
     charP_of_injective_algebraMap (algebraMap K (AdjoinRoot h)).injective 3
   obtain ⟨d, H, hdeg, -, htr, hadd₁, hadd₂, hsm₁, hsm₂, hsymm⟩ :=
     hx.exists_selfDual_hermitian hp2' hh hne1 hself
@@ -267,8 +268,8 @@ theorem orthBlockThree_selfDual [CharP K 3] (hx : OddOrderIsometry Q p x) (hp : 
   have hfinE : Module.finrank K (AdjoinRoot h) = h.natDegree :=
     (AdjoinRoot.powerBasis hirr.ne_zero).finrank.trans (AdjoinRoot.powerBasis_dim _)
   have hcardE : Nat.card (AdjoinRoot h) = 3 ^ (2 * (f * d)) := by
-    haveI : Module.Finite K (AdjoinRoot h) := (AdjoinRoot.powerBasis hirr.ne_zero).finite
-    haveI := Fintype.ofFinite (AdjoinRoot h)
+    have : Module.Finite K (AdjoinRoot h) := (AdjoinRoot.powerBasis hirr.ne_zero).finite
+    have := Fintype.ofFinite (AdjoinRoot h)
     rw [Nat.card_eq_fintype_card, Module.card_eq_pow_finrank (K := K), hfinE, hdeg,
       Fintype.card_eq_nat_card, hK, ← pow_mul]
     ring_nf
@@ -277,7 +278,7 @@ theorem orthBlockThree_selfDual [CharP K 3] (hx : OddOrderIsometry Q p x) (hp : 
   have hbarσ : ∀ z, hE.bar z = frobPow K (AdjoinRoot h) d z := by
     intro z
     rw [hE.bar_apply, frobPow_apply, hK, ← pow_mul]
-  haveI : Finite hE.fixedField := Finite.of_injective _ Subtype.val_injective
+  have : Finite hE.fixedField := Finite.of_injective _ Subtype.val_injective
   have hE₀9 : 9 ≤ Nat.card hE.fixedField := by
     refine nine_le_card_of_ne_three' fun h3 => ?_
     rw [UnitaryFieldData.card_fixedField] at h3
@@ -318,26 +319,23 @@ theorem orthBlockThree_selfDual [CharP K 3] (hx : OddOrderIsometry Q p x) (hp : 
     change 1 < primaryMultiplicity x.toLinearMap h
     omega⟩
   have h01 : i₀ ≠ i₁ := by simp [i₀, i₁, Fin.ext_iff]
-  have h00 : Hb (e i₀) (e i₀) = 1 := by rw [he, if_pos rfl]
-  have h11 : Hb (e i₁) (e i₁) = 1 := by rw [he, if_pos rfl]
-  have h01' : Hb (e i₀) (e i₁) = 0 := by rw [he, if_neg h01]
-  have h10' : Hb (e i₁) (e i₀) = 0 := by rw [he, if_neg h01.symm]
+  have h00 : Hb (e i₀) (e i₀) = 1 := by rw [he, ite_eq_left rfl]
+  have h11 : Hb (e i₁) (e i₁) = 1 := by rw [he, ite_eq_left rfl]
+  have h01' : Hb (e i₀) (e i₁) = 0 := by rw [he, ite_eq_right h01]
+  have h10' : Hb (e i₁) (e i₀) = 0 := by rw [he, ite_eq_right h01.symm]
   have h2E : (2 : AdjoinRoot h) ≠ 0 := by
     intro h0
     have h3 : (3 : AdjoinRoot h) = 0 := by exact_mod_cast CharP.cast_eq_zero (AdjoinRoot h) 3
     exact one_ne_zero (by linear_combination h3 - h0 : (1 : AdjoinRoot h) = 0)
   have hvv : Hb (e i₀ + μ • e i₁) (e i₀ + μ • e i₁) = 0 := by
-    simp only [map_add, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, map_smul,
-      smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
+    simp only [map_add, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
     linear_combination hμ
   have hww : Hb ((2 : AdjoinRoot h)⁻¹ • (e i₀ - μ • e i₁))
       ((2 : AdjoinRoot h)⁻¹ • (e i₀ - μ • e i₁)) = 0 := by
-    simp only [map_sub, map_smulₛₗ, LinearMap.sub_apply, LinearMap.smul_apply, map_smul,
-      smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
+    simp only [map_sub, map_smulₛₗ, LinearMap.sub_apply, LinearMap.smul_apply, smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
     linear_combination (hE.bar (2 : AdjoinRoot h)⁻¹ * (2 : AdjoinRoot h)⁻¹) * hμ
   have hvw : Hb (e i₀ + μ • e i₁) ((2 : AdjoinRoot h)⁻¹ • (e i₀ - μ • e i₁)) = 1 := by
-    simp only [map_add, map_sub, map_smulₛₗ, LinearMap.add_apply, LinearMap.sub_apply,
-      LinearMap.smul_apply, map_smul, smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
+    simp only [map_add, map_sub, map_smulₛₗ, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, h00, h11, h01', h10', RingHom.id_apply]
     field_simp
     linear_combination -hμ
   have hM := SpBlock.modelThree_herm hsymmB hvv hww hvw hE.fixedField

@@ -3,7 +3,7 @@ module
 public import CFSG.Monster.B.TwoA.Sp8.P0RankLin
 public import Certificates.Data.Kernel.P0Vis
 public import Mathlib.Data.Finset.Attr
-public import Mathlib.Data.Nat.SuccPred
+public import Mathlib.Order.SuccPred.Nat
 public import Mathlib.Tactic.Bound.Init
 import Mathlib.Data.Rat.Cast.Order
 import Mathlib.Tactic.NormNum.Abs
@@ -46,7 +46,7 @@ theorem pAct_eq_colsAct (w m : ℕ) : ∀ n p x, x < 2 ^ n → pAct w m n p x = 
       have hlt : x / 2 < 2 ^ n := by
         rw [pow_succ] at hx
         omega
-      rw [hb, e1, e2, cond_false]
+      rw [hb, e1, e2, Bool.cond_false]
       change (bif Nat.beq (x % 2) 1 then p &&& m else 0) ^^^ pAct w m n (p >>> w) (x / 2) = _
       rw [pAct_eq_colsAct w m n _ _ hlt]
       rcases Nat.mod_two_eq_zero_or_one x with h | h
@@ -114,7 +114,7 @@ theorem actF_stable (cols : List (List ℕ)) (κ t : ℕ) (x : ℕ) :
   | n + 1, h, hb => by
     rcases Nat.eq_or_lt_of_le h with rfl | h'
     · rfl
-    · rw [actF_succ, hb n (by omega) (by omega), if_neg (by simp),
+    · rw [actF_succ, hb n (by omega) (by omega), ite_eq_right (by simp),
         actF_stable cols κ t x n (by omega) (fun k h1 h2 => hb k h1 (by omega))]
 
 theorem actF_congr (cols : List (List ℕ)) (κ κ' : ℕ) :
@@ -138,7 +138,7 @@ theorem actK_add_two_pow (cols : List (List ℕ)) {κ t : ℕ} (hκ : κ < 2 ^ t
     exact Nat.testBit_two_pow_add_gt hk κ
   change actF cols (κ + 2 ^ t) cols.length x = actF cols κ cols.length _
   rw [actF_stable cols (κ + 2 ^ t) (t + 1) x cols.length ht (fun k h1 _ => hbit_hi k h1),
-    actF_succ, hbit_t, if_pos rfl,
+    actF_succ, hbit_t, ite_eq_left rfl,
     actF_stable cols κ t _ cols.length ht.le (fun k h1 _ =>
       Nat.testBit_lt_two_pow (lt_of_lt_of_le hκ (Nat.pow_le_pow_right (by norm_num) h1)))]
   exact actF_congr cols _ _ t hbit_lo _

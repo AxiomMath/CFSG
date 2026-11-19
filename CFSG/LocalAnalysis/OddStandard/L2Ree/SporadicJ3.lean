@@ -47,7 +47,7 @@ theorem nonempty_mulEquiv_alternatingGroup_five_of_lieModel_card_sixty
     nlinarith
   have hqle5 : q ≤ 5 := by
     by_contra h
-    push_neg at h
+    push Not at h
     have h36 : 36 ≤ q ^ 2 := by
       simpa [pow_two] using Nat.mul_self_le_mul_self h
     have h35 : 35 ≤ q ^ 2 - 1 := by omega

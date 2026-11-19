@@ -16,7 +16,7 @@ open CFSG.Assembly.LowTwoRank (StatedClassicalModel)
 
 theorem ffHypA5Sp6_holds : FFHypA5Sp6 := by
   intro G _ _ A a X hpt h6 hXq hN hW B hBC hBab hT₀ hBcard
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hX : IsL4L5Sp6 X := Or.inr (Or.inr h6)
   have hG : evenRank G = 3 := hpt.standing.evenRank_eq
   have hAab := hpt.mem_S.1.1
@@ -128,8 +128,8 @@ theorem ffHypA5Sp6_holds : FFHypA5Sp6 := by
     have hB1 : IsPGroup 3 (B.subgroupOf (Subgroup.centralizer (X : Set G))) :=
       fun g => ⟨1, by simpa using hB3K _ g⟩
     obtain ⟨Q, hQ⟩ := hB1.exists_le_sylow
-    haveI := hcyc Q
-    haveI : IsCyclic ↥(B.subgroupOf (Subgroup.centralizer (X : Set G))) :=
+    have := hcyc Q
+    have : IsCyclic ↥(B.subgroupOf (Subgroup.centralizer (X : Set G))) :=
       Subgroup.isCyclic_of_le hQ
     obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard
       (α := ↥(B.subgroupOf (Subgroup.centralizer (X : Set G))))

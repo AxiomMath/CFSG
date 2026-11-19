@@ -50,7 +50,7 @@ private theorem mod_three_of_prime {p : ℕ} [hp : Fact p.Prime] (h3 : 3 < p) :
 theorem rowSOf148_projSU_three_two_one : RowSOf148 (projSU 3 2 1) := by
   intro S _ _ hs hna ⟨eS⟩
   exfalso
-  haveI : Fintype S := Fintype.ofFinite S
+  have : Fintype S := Fintype.ofFinite S
   have hS : Fintype.card S = 2 ^ 3 * 3 ^ 2 := by
     rw [← Nat.card_eq_fintype_card, Nat.card_congr eS.toEquiv,
       Sec4.Item419ThetaProof.card_projSU_three_two_one]

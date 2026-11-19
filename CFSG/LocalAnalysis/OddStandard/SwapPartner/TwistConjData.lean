@@ -68,7 +68,7 @@ theorem exists_twistData (hC : CentData z ι) (hx : IsConj z (ι τ₀)) :
     rcases hσ' with hσ' | hσ'
     · have h1 : π ⟨ι (liftS8 ρ), hρx⟩ = σ' := (hc1 σ' _ hσ').1
       have hχ1 : χ ρ = 1 := by rw [← hκc, (hc1 σ' _ hσ').2]
-      rw [if_pos hχ1, one_mul]
+      rw [ite_eq_left hχ1, one_mul]
       calc ι (liftS8 ρ)
           = ((⟨ι (liftS8 ρ), hρx⟩ : ↥(centralizer ({ι τ₀} : Set G))) : G) := rfl
         _ = ι₁ σ' := hσ'
@@ -80,7 +80,7 @@ theorem exists_twistData (hC : CentData z ι) (hx : IsConj z (ι τ₀)) :
           rw [hκc, hχe]
         rw [(hc2 σ' _ hσ').2] at hc
         exact absurd hc (by decide)
-      rw [if_neg hχ1]
+      rw [ite_eq_right hχ1]
       calc ι (liftS8 ρ)
           = ((⟨ι (liftS8 ρ), hρx⟩ : ↥(centralizer ({ι τ₀} : Set G))) : G) := rfl
         _ = (ι τ₀) * ι₁ σ' := hσ'

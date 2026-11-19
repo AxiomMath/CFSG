@@ -102,14 +102,14 @@ private theorem two_pow_pos_sub_one (e : ℕ) [NeZero e] : 0 < 2^e - 1 := by
   omega
 
 private theorem val_lt_two_pow (e : ℕ) [NeZero e] (x : ZMod (2^e - 1)) : x.val < 2^e := by
-  haveI : NeZero (2^e - 1) := ⟨by have := two_pow_pos_sub_one e; omega⟩
+  have : NeZero (2^e - 1) := ⟨by have := two_pow_pos_sub_one e; omega⟩
   have h := ZMod.val_lt x
   have hle : 2^e - 1 ≤ 2^e := Nat.sub_le _ _
   omega
 
 private theorem S_digits (e : ℕ) [NeZero e] (x : ZMod (2^e - 1)) :
     S e (digits e x) = x := by
-  haveI : NeZero (2^e - 1) := ⟨by have := two_pow_pos_sub_one e; omega⟩
+  have : NeZero (2^e - 1) := ⟨by have := two_pow_pos_sub_one e; omega⟩
   have hfilter : (Finset.range e).filter (fun i => x.val.testBit i) = x.val.bitIndices.toFinset := by
     ext i
     rw [Finset.mem_filter, Finset.mem_range, List.mem_toFinset, Nat.mem_bitIndices]
@@ -152,7 +152,7 @@ private theorem S_digits (e : ℕ) [NeZero e] (x : ZMod (2^e - 1)) :
 
 private theorem digits_S (e : ℕ) [NeZero e] (A : Finset (Fin e))
     (hA : A ≠ Finset.univ) : digits e (S e A) = A := by
-  haveI : NeZero (2^e - 1) := ⟨by have := two_pow_pos_sub_one e; omega⟩
+  have : NeZero (2^e - 1) := ⟨by have := two_pow_pos_sub_one e; omega⟩
   set n : ℕ := ∑ j ∈ A, 2^(j:ℕ) with hn
   have hS : S e A = (n : ZMod (2^e - 1)) := by
     rw [S, hn]
@@ -184,8 +184,7 @@ private theorem digits_S (e : ℕ) [NeZero e] (A : Finset (Fin e))
     exact Finset.toFinset_bitIndices_sum_two_pow _
   rw [digits, hval]
   ext j
-  simp only [Finset.mem_filter, Finset.mem_univ, true_and, List.mem_toFinset, Nat.mem_bitIndices,
-    Finset.mem_map, Fin.valEmbedding_apply]
+  simp only [Finset.mem_filter, Finset.mem_univ, true_and]
   constructor
   · intro hbit
     have hmem : (j:ℕ) ∈ n.bitIndices.toFinset := by simpa using hbit
@@ -201,7 +200,7 @@ private theorem digits_S (e : ℕ) [NeZero e] (A : Finset (Fin e))
 
 private theorem digits_ne_univ (e : ℕ) [NeZero e] (x : ZMod (2^e - 1)) :
     digits e x ≠ Finset.univ := by
-  haveI : NeZero (2^e - 1) := ⟨by have := two_pow_pos_sub_one e; omega⟩
+  have : NeZero (2^e - 1) := ⟨by have := two_pow_pos_sub_one e; omega⟩
   intro h
   have hbits : ∀ j : Fin e, x.val.testBit (j:ℕ) := by
     intro j
@@ -247,7 +246,7 @@ private theorem rho_apply_val (m : ℕ) (p : Fin (2*m+1)) :
     ((rho m p : Fin (2*m+1)) : ℕ) = (p.val + m) % (2*m+1) := by
   unfold rho
   rw [Equiv.coe_addRight, Fin.val_add]
-  simp only [Fin.val_mk]
+  simp only
   rw [Nat.add_mod_mod]
 
 private theorem zmod_pow_add {N : ℕ} (a : ZMod N) (m n : ℕ) : a^(m+n) = a^m * a^n :=

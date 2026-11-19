@@ -11,6 +11,7 @@ open Subgroup
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem commutator_eq_bot_of_center_not_le {A S Q : Subgroup H} (hAodd : Odd (Nat.card A))
     (hS2 : IsPGroup 2 S) (hQleS : Q ≤ S) (hQrel : Q.relIndex S = 2)
     (hAQ : A ≤ Subgroup.normalizer (Q : Set H)) {s : H} (hsS : s ∈ S) (hsQ : s ∉ Q)
@@ -27,7 +28,7 @@ theorem commutator_eq_bot_of_center_not_le {A S Q : Subgroup H} (hAodd : Odd (Na
   have hQn : (Q.subgroupOf S).Normal := Subgroup.normal_of_index_eq_two hQrel
   have hsNQ : s ∈ Subgroup.normalizer (Q : Set H) :=
     Subgroup.le_normalizer_of_normal_subgroupOf (hK := hQn) hQleS hsS
-  obtain ⟨z, hzZS, hzQ⟩ := SetLike.not_le_iff_exists.mp hZS
+  obtain ⟨z, hzZS, hzQ⟩ := IsConcreteLE.not_le_iff_exists.mp hZS
   obtain ⟨zc, hzc, hz_eq⟩ := Subgroup.mem_map.mp hzZS
   have hzS : z ∈ S := by
     rw [← hz_eq]
@@ -290,7 +291,7 @@ theorem le_normalizer_center_of_le {A S Q : Subgroup H} (hAodd : Odd (Nat.card A
       simpa [mul_assoc] using h
   have hAleBC : A ≤ B ⊔ C := by
     have hsolv : Group.IsSolvable ↥A := by
-      haveI : IsMulCommutative ↥A := hAab
+      have : IsMulCommutative ↥A := hAab
       infer_instance
     obtain ⟨k, hk⟩ := hS2.exists_orderOf_eq_pow (⟨s, hsS⟩ : S)
     have hk' : orderOf s = 2 ^ k := by simpa using hk

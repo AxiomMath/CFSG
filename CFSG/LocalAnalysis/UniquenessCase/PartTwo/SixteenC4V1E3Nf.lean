@@ -53,6 +53,7 @@ theorem s16c4v1e3_out_le {E : Subgroup (MulAut (Vtil V₀ V hV))}
       _ = 2 ^ 6 := by norm_num
 
 include F in
+omit [Finite G] in
 theorem s16c4v1e3_in_le {E : Subgroup (MulAut (Vtil V₀ V hV))} (hEL : E ≤ lBar V₀ V hV L)
     (hE2 : IsElemAbelian2 E) : Nat.card E * Nat.card (fixV E) ≤ 2 ^ 8 := by
   obtain ⟨hsq, hcomm⟩ := F.suSub_sq_comm hEL hE2
@@ -144,6 +145,7 @@ theorem s16c4v1e3_in_eq {E : Subgroup (MulAut (Vtil V₀ V hV))} (hEL : E ≤ lB
     omega
 
 include F in
+omit [Finite G] in
 theorem s16c4v1e3_gen_transfer {E : Subgroup (MulAut (Vtil V₀ V hV))}
     (hEL : E ≤ lBar V₀ V hV L) {g : ↥(SUid F.σ 4)}
     (hg : F.suSub E ⊔ (F.suSub E).map (MulAut.conj g).toMonoidHom = ⊤) :

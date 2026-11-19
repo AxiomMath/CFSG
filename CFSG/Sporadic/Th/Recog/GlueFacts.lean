@@ -119,7 +119,7 @@ theorem hswJ_mul_self (i : Fin 8) (hi : i.val < 5) : hswJ i * hswJ i = 1 := by
 
 theorem hswJ_ab_cube : (hswJ 0 * hswJ 1) ^ 3 = 1 := by
   have h := rel [(0, true), (1, true), (0, true), (1, true), (0, true), (1, true)] (by simp)
-  simp only [wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, if_true,
+  simp only [wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, ite_true,
     mul_one] at h
   rw [pow_succ, pow_two, ← h]
   group
@@ -128,8 +128,8 @@ theorem hswJ_comm_six (i : Fin 8) (hi : i.val < 5) : hswJ i * hswJ 6 = hswJ 6 * 
   have h : wprod hswJ [(6, false), (i, false), (6, true), (i, true)] = 1 := by
     apply rel
     fin_cases i <;> first | (simp at hi; done) | decide
-  simp only [wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, if_true,
-    Bool.false_eq_true, if_false, mul_one] at h
+  simp only [wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, ite_true,
+    Bool.false_eq_true, ite_false, mul_one] at h
   calc hswJ i * hswJ 6
       = hswJ 6 * hswJ i * ((hswJ 6)⁻¹ * ((hswJ i)⁻¹ * (hswJ 6 * hswJ i)))⁻¹ := by group
     _ = hswJ 6 * hswJ i := by rw [h, inv_one, mul_one]
@@ -137,7 +137,7 @@ theorem hswJ_comm_six (i : Fin 8) (hi : i.val < 5) : hswJ i * hswJ 6 = hswJ 6 * 
 theorem hswJ_three_conj_five : hswJ 3 * hswJ 5 * (hswJ 3)⁻¹ = (hswJ 5)⁻¹ := by
   have h := rel [(5, true), (3, true), (5, true), (3, true)] (by simp)
   have hd := hswJ_mul_self 3 (by decide)
-  simp only [wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, if_true,
+  simp only [wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, ite_true,
     mul_one] at h
   have hd' : (hswJ 3)⁻¹ = hswJ 3 := inv_eq_of_mul_eq_one_right hd
   rw [hd']
@@ -147,16 +147,16 @@ theorem hswJ_three_conj_five : hswJ 3 * hswJ 5 * (hswJ 3)⁻¹ = (hswJ 5)⁻¹ :
 
 theorem hswJ_two_comm_five : hswJ 2 * hswJ 5 = hswJ 5 * hswJ 2 := by
   have h := rel [(5, false), (2, false), (5, true), (2, true)] (by simp)
-  simp only [wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, if_true,
-    Bool.false_eq_true, if_false, mul_one] at h
+  simp only [wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, ite_true,
+    Bool.false_eq_true, ite_false, mul_one] at h
   calc hswJ 2 * hswJ 5
       = hswJ 5 * hswJ 2 * ((hswJ 5)⁻¹ * ((hswJ 2)⁻¹ * (hswJ 5 * hswJ 2)))⁻¹ := by group
     _ = hswJ 5 * hswJ 2 := by rw [h, inv_one, mul_one]
 
 theorem hswJ_six_conj_five : (hswJ 6)⁻¹ * hswJ 5 * hswJ 6 = hswJ 5 ^ 2 := by
   have h := rel [(6, false), (5, true), (6, true), (5, false), (5, false)] (by simp)
-  simp only [wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, if_true,
-    Bool.false_eq_true, if_false, mul_one] at h
+  simp only [wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, ite_true,
+    Bool.false_eq_true, ite_false, mul_one] at h
   calc (hswJ 6)⁻¹ * hswJ 5 * hswJ 6
       = ((hswJ 6)⁻¹ * (hswJ 5 * (hswJ 6 * ((hswJ 5)⁻¹ * (hswJ 5)⁻¹)))) * hswJ 5 ^ 2 := by group
     _ = hswJ 5 ^ 2 := by rw [h, one_mul]
@@ -164,7 +164,7 @@ theorem hswJ_six_conj_five : (hswJ 6)⁻¹ * hswJ 5 * hswJ 6 = hswJ 5 ^ 2 := by
 theorem hswJ_five_pow_seven : hswJ 5 ^ 7 = 1 := by
   have h := rel [(5, true), (5, true), (5, true), (5, true), (5, true), (5, true), (5, true)]
     (by simp)
-  simp only [wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, if_true,
+  simp only [wprod, List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, ite_true,
     mul_one] at h
   rw [← h]
   simp only [pow_succ, pow_zero, one_mul, mul_assoc]
@@ -177,7 +177,7 @@ theorem hswJ_five_ne_one : hswJ 5 ≠ 1 := by
   exact absurd hk.symm (by decide +kernel)
 
 theorem orderOf_hswJ_five : orderOf (hswJ 5) = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   exact orderOf_eq_prime hswJ_five_pow_seven hswJ_five_ne_one
 
 theorem hswJ_zero_not_comm_one : hswJ 0 * hswJ 1 ≠ hswJ 1 * hswJ 0 := by
@@ -217,10 +217,10 @@ theorem hswJ_mem_YJ (i : Fin 8) (hi : i ≠ 5) :
   if h : i = 5 then 1 else ⟨hswJ i, hswJ_mem_YJ i h⟩
 
 theorem coe_lettersM (i : Fin 8) (hi : i ≠ 1) : (lettersM i : J) = hswJ i := by
-  rw [lettersM, dif_neg hi]
+  rw [lettersM, dite_eq_right hi]
 
 theorem coe_lettersY (i : Fin 8) (hi : i ≠ 5) : (lettersY i : J) = hswJ i := by
-  rw [lettersY, dif_neg hi]
+  rw [lettersY, dite_eq_right hi]
 
 theorem coe_wprod_lettersM {w : List (Fin 8 × Bool)} (hw : ∀ l ∈ w, l.1 ≠ 1) :
     ((wprod lettersM w : ↥Max3.M) : J) = wprod hswJ w := by

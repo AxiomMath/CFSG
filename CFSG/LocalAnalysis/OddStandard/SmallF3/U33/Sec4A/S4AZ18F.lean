@@ -11,6 +11,7 @@ open Subgroup
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho : G}
 
+omit [Finite G] in
 theorem z18_not_cent {Y : Subgroup G} {k : G} (h4 : Nat.card ↥(Y ⊓ centralizer ({k} : Set G)) = 4)
     (hY : Nat.card Y = 16) (hc : ∀ y ∈ Y, y * k = k * y) : False := by
   have : Y ⊓ centralizer ({k} : Set G) = Y :=

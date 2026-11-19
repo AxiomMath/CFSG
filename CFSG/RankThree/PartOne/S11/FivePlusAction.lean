@@ -64,7 +64,7 @@ theorem exists_invariant_two_commutator_of_inner_action {J B : Type*} [Group J] 
     rintro b _ ⟨y, hy, rfl⟩
     have hyF : b • (y : J) ∈ F := hFinv b y y.2
     set y' : F := ⟨b • (y : J), hyF⟩ with hy'
-    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P₂.isPGroup' ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := IsPGroup.iff_orderOf.mp P₂.isPGroup ⟨y, hy⟩
     have hyk : y ^ (2 ^ k) = 1 := by
       have h1 : (⟨y, hy⟩ : (P₂ : Subgroup F)) ^ (2 ^ k) = 1 := by
         rw [← hk]; exact pow_orderOf_eq_one _
@@ -86,7 +86,7 @@ theorem exists_invariant_two_commutator_of_inner_action {J B : Type*} [Group J] 
       have := hS (Subgroup.mem_zpowers y')
       rwa [hSP] at this
     exact ⟨y', hy'mem, rfl⟩
-  have hPj2 : IsPGroup 2 Pj := P₂.isPGroup'.map F.subtype
+  have hPj2 : IsPGroup 2 Pj := P₂.isPGroup.map F.subtype
   set E := actionCommutator B Pj with hE
   have hEle : E ≤ Pj := SteinbergBM.actionCommutator_le_of_invariant hPjinv
   refine ⟨E, ?_, hPj2.to_le hEle,

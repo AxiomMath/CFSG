@@ -21,11 +21,11 @@ theorem s16h_sl24_univ (hW : ∀ w : W, w ^ 2 = 1) {L : Subgroup (MulAut W)}
   have hperf : Group.IsPerfect ↥L := by
     have hBN := hrow.2
     obtain ⟨K, hKf, hKfin, hKcard, hreal⟩ := hBN
-    letI := hKf
-    letI := hKfin
+    let := hKf
+    let := hKfin
     obtain ⟨π, hπ⟩ := hreal
     have hK4 : 4 ≤ Nat.card K := by rw [hKcard]; norm_num
-    haveI : Group.IsPerfect (FFModel.nat (StatedSL 2 K)).Gam :=
+    have : Group.IsPerfect (FFModel.nat (StatedSL 2 K)).Gam :=
       CFSG.Open.StatedAPI.isPerfect_statedSL_two_of_four_le_card hK4
     exact Group.IsPerfect.ofSurjective (f := π) hπ.1
   have hUc : commSub (commSub ⊤ L) L = commSub ⊤ L :=

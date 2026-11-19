@@ -12,6 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s1_commute_of_conj {g a b : G}
     (h : g * a * g⁻¹ * (g * b * g⁻¹) = g * b * g⁻¹ * (g * a * g⁻¹)) : a * b = b * a := by
   have e1 : g * a * g⁻¹ * (g * b * g⁻¹) = g * (a * b) * g⁻¹ := by group
@@ -22,6 +23,7 @@ private theorem s1_commute_of_conj {g a b : G}
 private theorem s1_relIndex_ne_zero (H K : Subgroup G) : H.relIndex K ≠ 0 :=
   Subgroup.index_ne_zero_of_finite
 
+omit [Finite G] in
 private theorem s1_relIndex_inf_left_of_le {H K X : Subgroup G} (h : H ≤ K) :
     (K ⊓ X).relIndex H = X.relIndex H := by
   have e := Subgroup.relIndex_inf_mul_relIndex (H := X) (K := K) (L := H)
@@ -123,10 +125,10 @@ private theorem s1_facts
     intro w hw
     exact s1_commute_of_conj (g := g) ((Subgroup.mem_centralizer_iff.mp
       (hQ2C ((CFSG.mem_conjugate_iff _ _ _).mp hy))) _ ((hmemZg w).mp hw))
-  obtain ⟨t, htZg, htQ2⟩ := SetLike.not_le_iff_exists.mp fun h : Zg ≤ Q2 L1 L2 S =>
+  obtain ⟨t, htZg, htQ2⟩ := IsConcreteLE.not_le_iff_exists.mp fun h : Zg ≤ Q2 L1 L2 S =>
     hc (Subgroup.le_centralizer_iff.mpr (h.trans hQ2C))
   obtain ⟨t', ht'Z2, ht'Q2⟩ :=
-    SetLike.not_le_iff_exists.mp fun h : Z2 L1 L2 S ≤ CFSG.conjugate (Q2 L1 L2 S) g =>
+    IsConcreteLE.not_le_iff_exists.mp fun h : Z2 L1 L2 S ≤ CFSG.conjugate (Q2 L1 L2 S) g =>
       hc (h.trans hQ2gC)
   have hidx : ∀ x ∈ S, x ∉ Q2 L1 L2 S →
       (Subgroup.centralizer ({x} : Set G)).relIndex (Z2 L1 L2 S) = 2 ^ (2 * a + 1) := by

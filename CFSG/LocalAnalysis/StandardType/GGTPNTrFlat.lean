@@ -41,7 +41,7 @@ private theorem tpfl_card {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subg
       Nat.card Bs ≤ p * Nat.card B ∧
       Nat.card B = p * Nat.card (ggAutsOf K B hNB) := by
   have hp : p.Prime := hc.1.2.2.2.2.2.1.1
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hB_le_Bs : B ≤ Bs := hc.2.1.1
   have hBs_card_le : Nat.card Bs ≤ p * Nat.card B := hc.2.1.2.2.1
   have hS : LargeEvenSStar p B x L := hc.1.2.2.2.2.2.2.1
@@ -81,7 +81,7 @@ private theorem tpfl_card {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subg
         (inf_le_left : Bs ⊓ Subgroup.centralizer (K : Set G) ≤ Bs)).toEquiv]
     exact hdvd_inf
   have hcard_range_s : p * Nat.card (ggAutsOf K Bs hN) ≤ Nat.card Bs := by
-    haveI : Nonempty ↥φs.ker := ⟨1⟩
+    have : Nonempty ↥φs.ker := ⟨1⟩
     have hle : p ≤ Nat.card φs.ker := Nat.le_of_dvd Nat.card_pos hdvd_ker_s
     have h := Subgroup.card_ker_mul_card_range φs
     calc p * Nat.card (ggAutsOf K Bs hN) = p * Nat.card φs.range := rfl
@@ -125,7 +125,7 @@ private theorem tpfl_card {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subg
 private theorem tpfl_kernel {G : Type} [Group G] [Finite G] {p : ℕ} {B Bs : Subgroup G} {x : G}
     {L D J : Subgroup G} {y : G} {K : Subgroup G} (hc : GGConfig p B Bs x L D J)
     (hn : GGNbr p B x D J y K) (hJK : J ≤ K)
-    (hN : Bs ≤ Subgroup.normalizer (K : Set G)) (hx : x ∈ Subgroup.normalizer (K : Set G))
+    (_hN : Bs ≤ Subgroup.normalizer (K : Set G)) (hx : x ∈ Subgroup.normalizer (K : Set G))
     (hNB : B ≤ Subgroup.normalizer (K : Set G)) :
     GGTPNKernel (ggAutsOf K B hNB) (K.normalizerMonoidHom ⟨x, hx⟩)
       (J.subgroupOf K) := by

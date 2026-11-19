@@ -15,7 +15,7 @@ private theorem s16c1610_normal_le_center_or_eq_top {Q : Type*} [Group Q]
     (hperf : _root_.commutator Q = ⊤) (hs : IsSimpleGroup (Q ⧸ Subgroup.center Q))
     (N : Subgroup Q) [N.Normal] : N ≤ Subgroup.center Q ∨ N = ⊤ := by
   let q : Q →* Q ⧸ Subgroup.center Q := QuotientGroup.mk' (Subgroup.center Q)
-  haveI hNq : (N.map q).Normal :=
+  have hNq : (N.map q).Normal :=
     (inferInstance : N.Normal).map q (QuotientGroup.mk'_surjective _)
   rcases hs.eq_bot_or_eq_top_of_normal (N.map q) with hbot | htop
   · left
@@ -31,9 +31,9 @@ private theorem s16c1610_normal_le_center_or_eq_top {Q : Type*} [Group Q]
     rw [hperf] at hcomm
     exact le_antisymm le_top hcomm
 
-private theorem s16c1610_card_center_SL_four_dvd {m : ℕ} (hm : 2 ≤ m) :
+private theorem s16c1610_card_center_SL_four_dvd {m : ℕ} (_hm : 2 ≤ m) :
     Nat.card (Subgroup.center (Matrix.SpecialLinearGroup (Fin m) (GaloisField 2 2))) ∣ 3 := by
-  haveI : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
+  have : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
   have h1 : Nat.card (Subgroup.center (Matrix.SpecialLinearGroup (Fin m) (GaloisField 2 2))) =
       Nat.card (rootsOfUnity (max (Fintype.card (Fin m)) 1) (GaloisField 2 2)) :=
     Nat.card_congr Matrix.SpecialLinearGroup.center_equiv_rootsOfUnity.toEquiv
@@ -51,7 +51,7 @@ private theorem s16c1610_SL_four_perfect_simple {m : ℕ} (hm : 2 ≤ m) :
       IsSimpleGroup (Matrix.SpecialLinearGroup (Fin m) (GaloisField 2 2) ⧸
         Subgroup.center (Matrix.SpecialLinearGroup (Fin m) (GaloisField 2 2))) := by
   have h4 : ∃ s : Finset (GaloisField 2 2), s.card = 4 := by
-    letI : Fintype (GaloisField 2 2) := Fintype.ofFinite (GaloisField 2 2)
+    let : Fintype (GaloisField 2 2) := Fintype.ofFinite (GaloisField 2 2)
     exact ⟨Finset.univ, by
       rw [Finset.card_univ, ← Nat.card_eq_fintype_card, GaloisField.card 2 2 (by norm_num)]
       norm_num⟩
@@ -65,16 +65,16 @@ private theorem s16c1610_normal_GL_four {m : ℕ} (hm : 2 ≤ m)
     Nat.card N ∣ 9 ∨
       Nat.card (Matrix.SpecialLinearGroup (Fin m) (GaloisField 2 2)) ∣ Nat.card N := by
   classical
-  haveI := hN
-  haveI : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
+  have := hN
+  have : Nonempty (Fin m) := ⟨⟨0, by omega⟩⟩
   let S : Subgroup (Matrix.GeneralLinearGroup (Fin m) (GaloisField 2 2)) :=
     Matrix.GeneralLinearGroup.det.ker
   let Ns : Subgroup (Matrix.SpecialLinearGroup (Fin m) (GaloisField 2 2)) :=
     N.comap (Matrix.SpecialLinearGroup.toGL :
       Matrix.SpecialLinearGroup (Fin m) (GaloisField 2 2) →*
         Matrix.GeneralLinearGroup (Fin m) (GaloisField 2 2))
-  haveI hSnormal : S.Normal := inferInstance
-  haveI hNsnormal : Ns.Normal := inferInstance
+  have hSnormal : S.Normal := inferInstance
+  have hNsnormal : Ns.Normal := inferInstance
   have hNs_card : Nat.card Ns = Nat.card (S.subgroupOf N) := by
     have hmap : Ns.map (Matrix.SpecialLinearGroup.toGL :
         Matrix.SpecialLinearGroup (Fin m) (GaloisField 2 2) →*
@@ -159,7 +159,7 @@ private theorem s16c1610_normal_SL_four {m : ℕ} (hm : 2 ≤ m)
     (N : Subgroup (Matrix.SpecialLinearGroup (Fin m) (GaloisField 2 2))) (hN : N.Normal) :
     Nat.card N ∣ 3 ∨
       Nat.card N = Nat.card (Matrix.SpecialLinearGroup (Fin m) (GaloisField 2 2)) := by
-  haveI := hN
+  have := hN
   obtain ⟨hperf, hs⟩ := s16c1610_SL_four_perfect_simple hm
   rcases s16c1610_normal_le_center_or_eq_top hperf hs N with hNZ | hNtop
   · exact Or.inl ((Subgroup.card_dvd_of_le hNZ).trans (s16c1610_card_center_SL_four_dvd hm))

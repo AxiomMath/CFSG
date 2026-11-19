@@ -135,7 +135,7 @@ theorem odd_card_centralizer_sylow
   have hPu : (P : Subgroup G) ≤ Subgroup.centralizer ({u} : Set G) := fun y hy =>
     Subgroup.mem_centralizer_singleton_iff.mpr
       (Subgroup.mem_centralizer_iff.mp huC y hy)
-  exact hnc (h.isCyclic_of_le_centralizer_pi hp3 hpq P.isPGroup' hu' hPu)
+  exact hnc (h.isCyclic_of_le_centralizer_pi hp3 hpq P.isPGroup hu' hPu)
 
 theorem lemma_7_13
     (c : TorusConf h) {p : ℕ} [hp : Fact p.Prime] (hpq : p ∣ (h.q - 1) / 2)

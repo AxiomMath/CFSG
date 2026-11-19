@@ -32,7 +32,7 @@ theorem t263SelWP_of_innerRank {Q : ℕ → TauCeti.CFSGIndex → Prop}
     le_antisymm (inf_le_inf_right _ hB₀.1) (le_inf hB₀.2.2.2.2 inf_le_right)
   have hcard₀ : p * Nat.card ↥(B₀ ⊓ Subgroup.centralizer (S : Set Ω)) < Nat.card ↥B₀ := by
     rw [hEq]; exact hcase
-  haveI : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
+  have : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
   have hnab : ∃ x y : ↥S ⧸ Subgroup.center ↥S, x * y ≠ y * x :=
     CFSG.StandardType.exists_mul_ne_mul_centerQuot_of_perfect hSq.1 inferInstance
   have hZ : Subgroup.center (↥S ⧸ Subgroup.center ↥S) = ⊥ :=

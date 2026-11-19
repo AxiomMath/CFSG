@@ -234,9 +234,9 @@ theorem look_sound : ∀ {rs : List (ℕ × ℕ × Option ℕ)}, RulesSound val 
   | (a, b, c) :: t, ht, x, y, z, h => by
     unfold look at h
     cases hc : (Nat.beq a x && Nat.beq b y)
-    · rw [hc, cond_false] at h
+    · rw [hc, Bool.cond_false] at h
       exact look_sound (fun p hp => ht p (List.mem_cons_of_mem _ hp)) h
-    · rw [hc, cond_true, Option.some.injEq] at h
+    · rw [hc, _root_.Bool.cond_true, Option.some.injEq] at h
       rw [Bool.and_eq_true] at hc
       have e1 := Nat.eq_of_beq_eq_true hc.1
       have e2 := Nat.eq_of_beq_eq_true hc.2
@@ -285,9 +285,9 @@ theorem defOf_spec {x : ℕ} : ∀ {tab : List Ent} {e : Ent}, defOf x tab = som
   | d :: t, e, h => by
     unfold defOf at h
     cases hc : (oeqB d.2.2.1 (some x) && weq d.2.2.2 [])
-    · rw [hc, cond_false] at h
+    · rw [hc, Bool.cond_false] at h
       exact ⟨List.mem_cons_of_mem _ (defOf_spec h).1, (defOf_spec h).2⟩
-    · rw [hc, cond_true, Option.some.injEq] at h
+    · rw [hc, _root_.Bool.cond_true, Option.some.injEq] at h
       subst h
       rw [Bool.and_eq_true] at hc
       refine ⟨List.mem_cons_self, ?_⟩
@@ -343,13 +343,13 @@ theorem inv_upd {ρ : ℕ → G} {σ : ℕ → Option (List ℕ)} (h : Inv f val
   unfold upd at hr
   by_cases e : r = k
   · subst e
-    rw [Nat.beq_refl, cond_true, Option.some.injEq] at hr
+    rw [Nat.beq_refl, _root_.Bool.cond_true, Option.some.injEq] at hr
     rw [Function.update_self, hg, hr]
   · have hb : Nat.beq r k = false := by
       cases hb : Nat.beq r k
       · rfl
       · exact absurd (Nat.eq_of_beq_eq_true hb) e
-    rw [hb, cond_false] at hr
+    rw [hb, Bool.cond_false] at hr
     rw [Function.update_of_ne e]
     exact h r w hr
 
@@ -451,9 +451,9 @@ theorem lookI_mem : ∀ {init : List (ℕ × Option ℕ)} {r : ℕ} {o : Option 
   | (a, b) :: t, r, o, h => by
     unfold lookI at h
     cases hc : Nat.beq a r
-    · rw [hc, cond_false] at h
+    · rw [hc, Bool.cond_false] at h
       exact List.mem_cons_of_mem _ (lookI_mem h)
-    · rw [hc, cond_true, Option.some.injEq] at h
+    · rw [hc, _root_.Bool.cond_true, Option.some.injEq] at h
       rw [← Nat.eq_of_beq_eq_true hc, ← h]
       exact List.mem_cons_self
 
@@ -463,12 +463,12 @@ theorem lookI_none : ∀ {init : List (ℕ × Option ℕ)} {r : ℕ}, lookI init
   | (a, b) :: t, r, h => by
     unfold lookI at h
     cases hc : Nat.beq a r
-    · rw [hc, cond_false] at h
+    · rw [hc, Bool.cond_false] at h
       have := lookI_none h
       have hne : a ≠ r := Nat.ne_of_beq_eq_false hc
       simp only [List.map_cons, List.mem_cons, not_or]
       exact ⟨fun e => hne e.symm, this⟩
-    · rw [hc, cond_true] at h
+    · rw [hc, _root_.Bool.cond_true] at h
       exact absurd h (by simp)
 
 theorem init0_sound {ρ : ℕ → G} {init : List (ℕ × Option ℕ)} {dflt : Bool}
@@ -482,7 +482,7 @@ theorem init0_sound {ρ : ℕ → G} {init : List (ℕ × Option ℕ)} {dflt : B
     cases dflt with
     | false => exact absurd hr (by simp)
     | true =>
-      rw [cond_true, Option.some.injEq] at hr
+      rw [_root_.Bool.cond_true, Option.some.injEq] at hr
       rw [← hr, hd rfl r (lookI_none hl), map_one, wv_nil]
   | some o =>
     rw [hl] at hr
@@ -567,7 +567,7 @@ theorem wfOK_sound {L : List (List ℕ)} : ∀ (tab : List Ent) (K : List ℕ),
       dsimp only at hw
       simp only [Option.elim_some] at hs
       cases hD : weq Ds []
-      · rw [hD, cond_false, Bool.and_eq_true, List.all_eq_true] at hw
+      · rw [hD, Bool.cond_false, Bool.and_eq_true, List.all_eq_true] at hw
         obtain ⟨hr, hw⟩ := hw
         refine hcons K hK hw ?_
         have hrk : ∀ i ∈ c :: Ds, wfMat (L.getD i idStrips) = true := fun i hi =>
@@ -582,7 +582,7 @@ theorem wfOK_sound {L : List (List ℕ)} : ∀ (tab : List Ent) (K : List ℕ),
         change wv (litV L) (A :: Ws) = wv (litV L) (c :: Ds)
         rw [wv_cons, wv_cons, wv_litV, wv_litV]
         exact hlhs.trans hrhs.symm
-      · rw [hD, cond_true] at hw
+      · rw [hD, _root_.Bool.cond_true] at hw
         have hD := weq_spec hD
         subst hD
         simp only [List.map_nil, map_mulW_nil] at hs
@@ -633,7 +633,7 @@ theorem flOK_sound {val : ℕ → Mat} {rs : List (ℕ × ℕ × Option ℕ)} {F
     by_cases hi : i < n
     · have hc := h i hi
       cases hm : memB i S
-      · rw [hm, cond_false] at hc
+      · rw [hm, Bool.cond_false] at hc
         cases hd : defOf i tab with
         | none => rw [hd] at hc; exact absurd hc (by simp)
         | some e =>
@@ -652,7 +652,7 @@ theorem flOK_sound {val : ℕ → Mat} {rs : List (ℕ × ℕ × Option ℕ)} {F
               rw [wv_append, ih x (hw' x List.mem_cons_self),
                 ihw (fun y hy => hw' y (List.mem_cons_of_mem _ hy)), wv_cons]
           rw [hc _ hlt, ht e he, hx, wv_single]
-      · rw [hm, cond_true] at hc
+      · rw [hm, _root_.Bool.cond_true] at hc
         rw [weq_spec hc, wv_single]
     · have : Fs.getD i [] = [] := by
         rw [List.getD_eq_default _ _ (by have := Nat.le_of_ble_eq_true hlen; omega)]

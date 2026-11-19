@@ -10,17 +10,20 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W] {L : Subgroup (MulAut W)}
 
+omit [Finite W] in
 private theorem s16t3_fixV_map_mk_eq_bot :
     (fixV L).map (QuotientGroup.mk' (modFix L (⊤ : Subgroup W))) = ⊥ := by
   have hZ : modFix L (⊤ : Subgroup W) = fixV L := by
     rw [modFix, fixed_eq_inf_fixV, top_inf_eq]
   rw [← hZ, QuotientGroup.map_mk'_self]
 
+omit [Finite W] in
 private theorem s16t3_tilde_sup_fixV (J : Subgroup W) :
     tilde L (⊤ : Subgroup W) (J ⊔ fixV L) = tilde L (⊤ : Subgroup W) J := by
   unfold tilde
   rw [Subgroup.map_sup, s16t3_fixV_map_mk_eq_bot, sup_bot_eq]
 
+omit [Finite W] in
 private theorem s16t3_tilde_iSup {ι : Sort*} (J : ι → Subgroup W) :
     (⨆ i, tilde L (⊤ : Subgroup W) (J i)) = tilde L (⊤ : Subgroup W) (⨆ i, J i) := by
   unfold tilde

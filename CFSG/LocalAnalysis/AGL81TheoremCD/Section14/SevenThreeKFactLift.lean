@@ -15,7 +15,7 @@ private theorem isPGroup_closure_pair_of_pow_three {a b : G} (ha : a ^ 3 = 1)
     (hb : b ^ 3 = 1) (hab : Commute a b) :
     IsPGroup 3 (Subgroup.closure ({a, b} : Set G)) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P : Subgroup G := Subgroup.closure ({a, b} : Set G)
   have haP : a ∈ P := Subgroup.subset_closure (Set.mem_insert _ _)
   have hbP : b ∈ P :=
@@ -23,8 +23,8 @@ private theorem isPGroup_closure_pair_of_pow_three {a b : G} (ha : a ^ 3 = 1)
   have hpair : ({a, b} : Set G).Pairwise Commute := by
     rw [Set.pairwise_pair]
     exact fun _ => ⟨hab, hab.symm⟩
-  haveI : IsMulCommutative P := Subgroup.isMulCommutative_closure hpair
-  letI : CommGroup P := IsMulCommutative.instCommGroup
+  have : IsMulCommutative P := Subgroup.isMulCommutative_closure hpair
+  let : CommGroup P := IsMulCommutative.instCommGroup
   let a' : P := ⟨a, haP⟩
   let b' : P := ⟨b, hbP⟩
   have ha' : a' ^ 3 = 1 := by ext; simpa using ha
@@ -45,6 +45,7 @@ private theorem isPGroup_closure_pair_of_pow_three {a b : G} (ha : a ^ 3 = 1)
   refine ⟨1, ?_⟩
   simpa using hz3
 
+omit [Finite X] in
 private theorem pow_three_eq_one_of_mem_of_inf_ker_eq_bot {ψ : X →* G} {A : Subgroup X}
     (hdisj : A ⊓ ψ.ker = ⊥) {u : X} (hu : u ∈ A) (hu3 : ψ u ^ 3 = 1) : u ^ 3 = 1 := by
   have hmem : u ^ 3 ∈ A ⊓ ψ.ker := by
@@ -54,6 +55,7 @@ private theorem pow_three_eq_one_of_mem_of_inf_ker_eq_bot {ψ : X →* G} {A : S
   rw [hdisj, Subgroup.mem_bot] at hmem
   exact hmem
 
+omit [Finite X] in
 private theorem eq_of_mem_of_map_eq_of_inf_ker_eq_bot {ψ : X →* G} {A : Subgroup X}
     (hdisj : A ⊓ ψ.ker = ⊥) {u v : X} (hu : u ∈ A) (hv : v ∈ A) (h : ψ u = ψ v) : u = v := by
   have hmem : u * v⁻¹ ∈ A ⊓ ψ.ker := by
@@ -62,6 +64,7 @@ private theorem eq_of_mem_of_map_eq_of_inf_ker_eq_bot {ψ : X →* G} {A : Subgr
   rw [hdisj, Subgroup.mem_bot] at hmem
   exact mul_inv_eq_one.mp hmem
 
+omit [Finite X] in
 private theorem eq_one_of_mem_ker_of_pow_three {ψ : X →* G}
     (h3 : ¬ 3 ∣ Nat.card ψ.ker) {u : X} (hu : u ∈ ψ.ker) (hu3 : u ^ 3 = 1) : u = 1 := by
   have hcop : Nat.Coprime 3 (Nat.card ψ.ker) :=
@@ -85,6 +88,7 @@ private theorem emod_three_eq_one_of_zpow_eq {a : G} (ha : orderOf a = 3) {m : �
   have hb2 : m % 3 < 3 := Int.emod_lt_of_pos m (by norm_num)
   omega
 
+omit [Finite X] in
 private theorem zpow_eq_self_of_emod_three_eq_one {y : X} (hy : orderOf y = 3) {m : ℤ}
     (hm : m % (3 : ℤ) = 1) : y ^ m = y := by
   have h1 : y ^ (m % (3 : ℤ)) = y ^ m := by
@@ -97,8 +101,8 @@ private theorem isConj_of_map_eq_of_pow_three (ψ : X →* G) (hψ : Function.Su
     (h3 : ¬ 3 ∣ Nat.card ψ.ker) {x y : X} (hx : x ^ 3 = 1) (hy : y ^ 3 = 1)
     (hxy : ψ x = ψ y) : IsConj x y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite G := Finite.of_surjective ψ hψ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite G := Finite.of_surjective ψ hψ
   by_cases ha1 : ψ x = 1
   · have hx1 : x = 1 :=
       eq_one_of_mem_ker_of_pow_three h3 (MonoidHom.mem_ker.mpr ha1) hx
@@ -152,8 +156,8 @@ theorem exists_lift_commute_of_pow_three (ψ : X →* G) (hψ : Function.Surject
     (hab : Commute a b) :
     ∃ x y : X, ψ x = a ∧ ψ y = b ∧ x ^ 3 = 1 ∧ y ^ 3 = 1 ∧ Commute x y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite G := Finite.of_surjective ψ hψ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite G := Finite.of_surjective ψ hψ
   set P : Subgroup G := Subgroup.closure ({a, b} : Set G)
   have haP : a ∈ P := Subgroup.subset_closure (Set.mem_insert _ _)
   have hbP : b ∈ P :=
@@ -178,8 +182,8 @@ theorem isConj_of_isConj_map_of_pow_three (ψ : X →* G) (hψ : Function.Surjec
     (h3 : ¬ 3 ∣ Nat.card ψ.ker) {x y : X} (hx : x ^ 3 = 1) (hy : y ^ 3 = 1)
     (hxy : IsConj (ψ x) (ψ y)) : IsConj x y := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite G := Finite.of_surjective ψ hψ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite G := Finite.of_surjective ψ hψ
   obtain ⟨g, hg⟩ := isConj_iff.mp hxy
   obtain ⟨k, hk⟩ := hψ g
   have hx'3 : (k * x * k⁻¹) ^ 3 = 1 := by

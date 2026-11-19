@@ -332,7 +332,7 @@ theorem stdDChamber_sub_succ_eq {j : ℕ} (hj : j ≤ m) :
   rw [stdDChamber_sub_eq_span, stdDChamber_sub_eq_span, ← Submodule.span_union]
   congr 1
   ext v
-  simp only [Set.mem_union, Set.mem_image, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_union, Set.mem_image, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨i, hi, rfl⟩
     by_cases hij : (i : ℕ) < j
@@ -413,7 +413,7 @@ theorem stdDChamber_elt_last_eq_stdLag :
   rw [stdDChamber_elt_last, stdDChamber_sub_eq_span]
   rw [show {i : Fin (m + 1) | (i : ℕ) < m + 1} = Set.univ by
     ext i
-    simp only [Set.mem_setOf_eq, Set.mem_univ, iff_true]
+    simp only [Set.mem_ofPred_eq, Set.mem_univ, iff_true]
     exact i.isLt]
   rw [Set.image_univ]
   exact (stdLag_eq_span_stdE (m + 1)).symm

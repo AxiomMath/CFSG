@@ -24,7 +24,7 @@ theorem K4_card : Nat.card K4 = 4 := by
   norm_num
 
 theorem K4_pow_card_sub_one {a : K4} (ha : a ≠ 0) : a ^ 3 = 1 := by
-  haveI : Fintype K4 := Fintype.ofFinite _
+  have : Fintype K4 := Fintype.ofFinite _
   have h := FiniteField.pow_card_sub_one_eq_one a ha
   rwa [← Nat.card_eq_fintype_card, K4_card] at h
 
@@ -159,7 +159,7 @@ theorem mem_statedSU_K4 {m : ℕ} (hm : 1 ≤ m) {g : GL (Fin m) K4} (hg : g ∈
 theorem herm_mulVec {m : ℕ} {A : Matrix (Fin m) (Fin m) K4} (hA : (A.map (· ^ 2))ᵀ * A = 1)
     (x y : Fin m → K4) :
     ∑ i, (A *ᵥ x) i ^ 2 * (A *ᵥ y) i = ∑ i, x i ^ 2 * y i := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have h1 : (fun i => (A *ᵥ x) i ^ 2) = (A.map (· ^ 2)) *ᵥ (fun j => x j ^ 2) := by
     funext i
     simp only [Matrix.mulVec, dotProduct, Matrix.map_apply]

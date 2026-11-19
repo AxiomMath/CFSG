@@ -17,7 +17,7 @@ open Matrix CFSG.ClassicalGroups.UnitaryFlag CFSG.LocalAnalysis.ComponentInitial
 
 private theorem permSU_eq_one_of_conj_comm_of_pairVec {d n p : ℕ} {K : Type} [Field K] [Finite K]
     {L' : Type} [Group L'] {φ : ↥(unitarySU 2 n K d) →* L'} (hM : Model φ)
-    (hp : p.Prime) (hp2 : p ≠ 2) (hpq : p ∣ 2 ^ n + 1) (hd : 3 ≤ d)
+    (hp : p.Prime) (_hp2 : p ≠ 2) (hpq : p ∣ 2 ^ n + 1) (hd : 3 ≤ d)
     {ζ : K} (hζ : IsPrimitiveRoot ζ p)
     (hsep : ∀ {τ : Equiv.Perm (Fin d)},
       (∀ k l : Fin d, k ≠ l → ∃ c : K,

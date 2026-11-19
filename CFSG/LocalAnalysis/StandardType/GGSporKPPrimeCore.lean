@@ -111,7 +111,7 @@ theorem ggSporK_bmPPrimeCore_B_three [Finite (TauCeti.CFSGIndex.sporadic .B).Gro
   obtain ⟨e⟩ := CFSG.Sporadic.Bridge.B.nonempty_mulEquiv
   let e' : CFSG.Blueprint.NativeSporadic.B ≃* (TauCeti.CFSGIndex.sporadic .B).Group :=
     e.trans (MulEquiv.refl _)
-  haveI : Finite CFSG.Blueprint.NativeSporadic.B := Finite.of_equiv _ e'.symm.toEquiv
+  have : Finite CFSG.Blueprint.NativeSporadic.B := Finite.of_equiv _ e'.symm.toEquiv
   have h : OPrimeCoreTrivialAt 3 CFSG.Blueprint.NativeSporadic.B :=
     BThreeFi23.oPrimeCoreTrivialAt_B_three
   have h' : BMPPrimeCore 3 CFSG.Blueprint.NativeSporadic.B :=
@@ -124,7 +124,7 @@ theorem ggSporK_bmPPrimeCore_B_five [Finite (TauCeti.CFSGIndex.sporadic .B).Grou
   obtain ⟨e⟩ := CFSG.Sporadic.Bridge.B.nonempty_mulEquiv
   let e' : CFSG.Blueprint.NativeSporadic.B ≃* (TauCeti.CFSGIndex.sporadic .B).Group :=
     e.trans (MulEquiv.refl _)
-  haveI : Finite CFSG.Blueprint.NativeSporadic.B := Finite.of_equiv _ e'.symm.toEquiv
+  have : Finite CFSG.Blueprint.NativeSporadic.B := Finite.of_equiv _ e'.symm.toEquiv
   have h : OPrimeCoreTrivialAt 5 CFSG.Blueprint.NativeSporadic.B := oPrimeCoreTrivialAt_B_five
   have h' : BMPPrimeCore 5 CFSG.Blueprint.NativeSporadic.B :=
     bmPPrimeCore_of_oPrimeCoreTrivialAt h

@@ -14,14 +14,14 @@ section Glue
 variable {p : ℕ}
 
 theorem central_of_normal_of_card_prime [Fact p.Prime] {X : Type*} [Group X] [Finite X] {Q A : Subgroup X}
-    (hQ : IsPGroup p Q) (hAQ : A ≤ Q) (hA : Nat.card A = p)
+    (hQ : IsPGroup p Q) (_hAQ : A ≤ Q) (hA : Nat.card A = p)
     (hn : ∀ q ∈ Q, A.map (MulAut.conj q).toMonoidHom ≤ A) : ∀ a ∈ A, ∀ q ∈ Q, q * a = a * q := by
   classical
   have hconj : ∀ q ∈ Q, ∀ a ∈ A, q * a * q⁻¹ ∈ A := by
     intro q hq a ha
     have h1 := hn q hq (Subgroup.mem_map_of_mem _ ha)
     simpa [MulAut.conj_apply] using h1
-  letI : MulAction Q A :=
+  let : MulAction Q A :=
     { smul := fun q a => ⟨(q : X) * (a : X) * (q : X)⁻¹, hconj (q : X) q.2 (a : X) a.2⟩
       one_smul := fun a => Subtype.ext (by
         show ((1 : Q) : X) * (a : X) * ((1 : Q) : X)⁻¹ = (a : X)
@@ -41,7 +41,7 @@ theorem central_of_normal_of_card_prime [Fact p.Prime] {X : Type*} [Group X] [Fi
     exact Subtype.ext (by
       show (g : X) * (1 : X) * (g : X)⁻¹ = 1
       simp)
-  haveI : Nonempty (MulAction.fixedPoints Q A) := ⟨⟨1, hone⟩⟩
+  have : Nonempty (MulAction.fixedPoints Q A) := ⟨⟨1, hone⟩⟩
   have hpos : 0 < Nat.card (MulAction.fixedPoints Q A) := Nat.card_pos
   have hle1 : p ≤ Nat.card (MulAction.fixedPoints Q A) := Nat.le_of_dvd hpos hdvd
   have hcardF : Nat.card (MulAction.fixedPoints Q A) = (MulAction.fixedPoints Q A).ncard :=
@@ -80,7 +80,7 @@ theorem pow_three_le_card_of_nonabelian [Fact p.Prime] {G : Type*} [Group G] [Fi
       exact IsMulCommutative.of_comm (fun a b => Subsingleton.elim _ _)
     ·
       have h1 : Nat.card G = p := by rw [hcard, pow_one]
-      haveI : IsCyclic G := isCyclic_of_prime_card h1
+      have : IsCyclic G := isCyclic_of_prime_card h1
       exact IsCyclic.isMulCommutative
     ·
       exact IsPGroup.isMulCommutative_of_card_eq_prime_sq hcard

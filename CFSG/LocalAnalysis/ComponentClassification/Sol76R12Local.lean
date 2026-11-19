@@ -208,7 +208,7 @@ theorem card_le_two_of_centralizer (hO : pPrimeCore 2 W = ⊥) (hK₁ : IsCompon
     obtain ⟨S⟩ : Nonempty (Sylow 2 ↥Y) := inferInstance
     have hSle : (S : Subgroup ↥Y).map Y.subtype ≤ zpowers z := by
       rintro _ ⟨y, hy, rfl⟩
-      exact hYz _ y.2 (hord (S.isPGroup'.map Y.subtype) _ ⟨y, hy, rfl⟩)
+      exact hYz _ y.2 (hord (S.isPGroup.map Y.subtype) _ ⟨y, hy, rfl⟩)
     have hScard : Nat.card ↥(S : Subgroup ↥Y) = 2 := by
       apply le_antisymm
       · have h1 := card_le_of_le hSle

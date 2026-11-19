@@ -39,8 +39,8 @@ public theorem complex_galois_aut_pow_on_roots_aux
     {n e : ℕ} (hn : n ≠ 0) (he : e.Coprime n) :
     ∃ τ : Gal(ℂ/ℚ), ∀ z : ℂ, z ^ n = 1 → τ z = z ^ e := by
   classical
-  letI : NeZero n := ⟨hn⟩
-  haveI : NeZero (n : ℚ) := ⟨by exact_mod_cast hn⟩
+  let : NeZero n := ⟨hn⟩
+  have : NeZero (n : ℚ) := ⟨by exact_mod_cast hn⟩
   let ζ : ℂ := Complex.exp (2 * Real.pi * Complex.I / n)
   have hζ : IsPrimitiveRoot ζ n := by
     dsimp [ζ]
@@ -56,11 +56,11 @@ public theorem complex_galois_aut_pow_on_roots_aux
     change IsCyclotomicExtension {n} ℚ F.toSubalgebra
     rw [IntermediateField.adjoin_simple_toSubalgebra_of_isAlgebraic hζalg]
     exact hζ.adjoin_isCyclotomicExtension ℚ
-  haveI : IsCyclotomicExtension {n} ℚ F := hFcyc
-  haveI : IsCyclotomicExtension {n} ℚ F.toSubalgebra := by
+  have : IsCyclotomicExtension {n} ℚ F := hFcyc
+  have : IsCyclotomicExtension {n} ℚ F.toSubalgebra := by
     change IsCyclotomicExtension {n} ℚ F
     exact hFcyc
-  haveI : NumberField F := IsCyclotomicExtension.numberField {n} ℚ F
+  have : NumberField F := IsCyclotomicExtension.numberField {n} ℚ F
   let u : (ZMod n)ˣ := ZMod.unitOfCoprime e he
   let σF : Gal(F/ℚ) := (IsCyclotomicExtension.Rat.galEquivZMod n F).symm u
   obtain ⟨s, hs⟩ := exists_isTranscendenceBasis F ℂ
@@ -107,13 +107,13 @@ public theorem complex_galois_aut_pow_on_roots_aux
     letI : IsAlgClosure B ℂ := hclosure
     exact IsAlgClosure.equivOfEquiv ℂ ℂ baseAlgAut.toRingEquiv
   have hτR_Q (q : ℚ) : τR (algebraMap ℚ ℂ q) = algebraMap ℚ ℂ q := by
-    letI : IsAlgClosure B ℂ := hclosure
+    let : IsAlgClosure B ℂ := hclosure
     have hB := IsAlgClosure.equivOfEquiv_algebraMap (L := ℂ) (M := ℂ)
       baseAlgAut.toRingEquiv (algebraMap ℚ B q)
     simp [τR, baseAlgAut] at hB ⊢
   let τ : Gal(ℂ/ℚ) := AlgEquiv.ofRingEquiv hτR_Q
   have hτ_on_F (y : F) : τ (y : ℂ) = (σF y : ℂ) := by
-    letI : IsAlgClosure B ℂ := hclosure
+    let : IsAlgClosure B ℂ := hclosure
     have hB := IsAlgClosure.equivOfEquiv_algebraMap (L := ℂ) (M := ℂ)
       baseAlgAut.toRingEquiv (algebraMap F B y)
     change (IsAlgClosure.equivOfEquiv ℂ ℂ baseAlgAut.toRingEquiv)
@@ -166,7 +166,7 @@ public abbrev CyclotomicABField (a b : ℕ) :=
 
 public instance cyclotomicABField_isCyclotomicExtension (a b : ℕ) [NeZero (a * b)] :
     IsCyclotomicExtension {a * b} ℚ (CyclotomicABField a b) := by
-  haveI : NeZero ((a * b : ℕ) : ℚ) := ⟨by exact_mod_cast (NeZero.ne (a * b))⟩
+  have : NeZero ((a * b : ℕ) : ℚ) := ⟨by exact_mod_cast (NeZero.ne (a * b))⟩
   exact CyclotomicField.isCyclotomicExtension (a * b) ℚ
 
 /--
@@ -178,11 +178,11 @@ public theorem cyclotomicABField_mem_rat_of_fixed_gal {a b : ℕ} [NeZero (a * b
     (x : CyclotomicABField a b)
     (hfixed : ∀ v : Gal((CyclotomicABField a b)/ℚ), v x = x) :
     ∃ q : ℚ, algebraMap ℚ (CyclotomicABField a b) q = x := by
-  haveI : IsCyclotomicExtension {a * b} ℚ (CyclotomicABField a b) :=
+  have : IsCyclotomicExtension {a * b} ℚ (CyclotomicABField a b) :=
     cyclotomicABField_isCyclotomicExtension a b
-  haveI : IsGalois ℚ (CyclotomicABField a b) :=
+  have : IsGalois ℚ (CyclotomicABField a b) :=
     IsCyclotomicExtension.isGalois {a * b} ℚ (CyclotomicABField a b)
-  haveI : FiniteDimensional ℚ (CyclotomicABField a b) :=
+  have : FiniteDimensional ℚ (CyclotomicABField a b) :=
     IsCyclotomicExtension.finiteDimensional {a * b} ℚ (CyclotomicABField a b)
   exact (IsGalois.mem_range_algebraMap_iff_fixed x).2 hfixed
 
@@ -217,8 +217,8 @@ public theorem cyclotomicABField_complex_rat_of_fixed_gal {a b : ℕ} [NeZero (a
 
 public instance cyclotomicLeftSubfield_isCyclotomicExtension {a b : ℕ} (hn : a * b ≠ 0) :
     IsCyclotomicExtension {a} ℚ (cyclotomicLeftSubfield a b hn) := by
-  haveI : NeZero (a * b) := ⟨hn⟩
-  haveI : NeZero a := ⟨left_ne_zero_of_mul hn⟩
+  have : NeZero (a * b) := ⟨hn⟩
+  have : NeZero a := ⟨left_ne_zero_of_mul hn⟩
   have hζ : IsPrimitiveRoot (cyclotomicABRoot a b hn) (a * b) := by
     dsimp [cyclotomicABRoot]
     exact IsCyclotomicExtension.zeta_spec (a * b) ℚ (CyclotomicABField a b)
@@ -233,8 +233,8 @@ public instance cyclotomicLeftSubfield_isCyclotomicExtension {a b : ℕ} (hn : a
 
 public instance cyclotomicRightSubfield_isCyclotomicExtension {a b : ℕ} (hn : a * b ≠ 0) :
     IsCyclotomicExtension {b} ℚ (cyclotomicRightSubfield a b hn) := by
-  haveI : NeZero (a * b) := ⟨hn⟩
-  haveI : NeZero b := ⟨right_ne_zero_of_mul hn⟩
+  have : NeZero (a * b) := ⟨hn⟩
+  have : NeZero b := ⟨right_ne_zero_of_mul hn⟩
   have hζ : IsPrimitiveRoot (cyclotomicABRoot a b hn) (a * b) := by
     dsimp [cyclotomicABRoot]
     exact IsCyclotomicExtension.zeta_spec (a * b) ℚ (CyclotomicABField a b)
@@ -249,17 +249,17 @@ public instance cyclotomicRightSubfield_isCyclotomicExtension {a b : ℕ} (hn : 
 
 public instance cyclotomicLeftSubfield_normal {a b : ℕ} (hn : a * b ≠ 0) :
     Normal ℚ (cyclotomicLeftSubfield a b hn) := by
-  haveI : IsCyclotomicExtension {a} ℚ (cyclotomicLeftSubfield a b hn) :=
+  have : IsCyclotomicExtension {a} ℚ (cyclotomicLeftSubfield a b hn) :=
     cyclotomicLeftSubfield_isCyclotomicExtension hn
-  haveI : IsGalois ℚ (cyclotomicLeftSubfield a b hn) :=
+  have : IsGalois ℚ (cyclotomicLeftSubfield a b hn) :=
     IsCyclotomicExtension.isGalois {a} ℚ (cyclotomicLeftSubfield a b hn)
   infer_instance
 
 public instance cyclotomicRightSubfield_normal {a b : ℕ} (hn : a * b ≠ 0) :
     Normal ℚ (cyclotomicRightSubfield a b hn) := by
-  haveI : IsCyclotomicExtension {b} ℚ (cyclotomicRightSubfield a b hn) :=
+  have : IsCyclotomicExtension {b} ℚ (cyclotomicRightSubfield a b hn) :=
     cyclotomicRightSubfield_isCyclotomicExtension hn
-  haveI : IsGalois ℚ (cyclotomicRightSubfield a b hn) :=
+  have : IsGalois ℚ (cyclotomicRightSubfield a b hn) :=
     IsCyclotomicExtension.isGalois {b} ℚ (cyclotomicRightSubfield a b hn)
   infer_instance
 
@@ -301,7 +301,7 @@ public theorem zmod_units_crt_val_modEq_left_int {a b : ℕ}
     (hwa : ZMod.unitsMap (Nat.dvd_mul_right a b) w =
       ZMod.unitOfIsCoprime k hk) :
     (((w : ZMod (a * b)).val : ℤ) ≡ k [ZMOD a]) := by
-  haveI : NeZero (a * b) := ⟨hn⟩
+  have : NeZero (a * b) := ⟨hn⟩
   have hvalCast : (((w : ZMod (a * b)).val : ℕ) : ZMod a) =
       ((w : ZMod (a * b)).cast : ZMod a) := by
     have hval : (((w : ZMod (a * b)).val : ℕ) : ZMod (a * b)) =
@@ -323,7 +323,7 @@ public theorem zmod_units_crt_val_modEq_right_one {a b : ℕ}
     (hn : a * b ≠ 0) {w : (ZMod (a * b))ˣ}
     (hwb : ZMod.unitsMap (Nat.dvd_mul_left b a) w = 1) :
     (((w : ZMod (a * b)).val : ℤ) ≡ (1 : ℤ) [ZMOD b]) := by
-  haveI : NeZero (a * b) := ⟨hn⟩
+  have : NeZero (a * b) := ⟨hn⟩
   have hvalCast : (((w : ZMod (a * b)).val : ℕ) : ZMod b) =
       ((w : ZMod (a * b)).cast : ZMod b) := by
     have hval : (((w : ZMod (a * b)).val : ℕ) : ZMod (a * b)) =
@@ -353,16 +353,16 @@ public theorem proposition_1_9_a {a b : ℕ} (hn : a * b ≠ 0)
       AlgEquiv.restrictNormalHom (cyclotomicLeftSubfield a b hn) v = u ∧
       AlgEquiv.restrictNormalHom (cyclotomicRightSubfield a b hn) v = 1 := by
   classical
-  haveI : NeZero (a * b) := ⟨hn⟩
-  haveI : NeZero a := ⟨left_ne_zero_of_mul hn⟩
-  haveI : NeZero b := ⟨right_ne_zero_of_mul hn⟩
+  have : NeZero (a * b) := ⟨hn⟩
+  have : NeZero a := ⟨left_ne_zero_of_mul hn⟩
+  have : NeZero b := ⟨right_ne_zero_of_mul hn⟩
   let K := CyclotomicABField a b
   let Fa := cyclotomicLeftSubfield a b hn
   let Fb := cyclotomicRightSubfield a b hn
-  haveI : IsCyclotomicExtension {a} ℚ Fa := cyclotomicLeftSubfield_isCyclotomicExtension hn
-  haveI : IsCyclotomicExtension {b} ℚ Fb := cyclotomicRightSubfield_isCyclotomicExtension hn
-  haveI : IsGalois ℚ Fa := IsCyclotomicExtension.isGalois {a} ℚ Fa
-  haveI : IsGalois ℚ Fb := IsCyclotomicExtension.isGalois {b} ℚ Fb
+  have : IsCyclotomicExtension {a} ℚ Fa := cyclotomicLeftSubfield_isCyclotomicExtension hn
+  have : IsCyclotomicExtension {b} ℚ Fb := cyclotomicRightSubfield_isCyclotomicExtension hn
+  have : IsGalois ℚ Fa := IsCyclotomicExtension.isGalois {a} ℚ Fa
+  have : IsGalois ℚ Fb := IsCyclotomicExtension.isGalois {b} ℚ Fb
   let ua : (ZMod a)ˣ := IsCyclotomicExtension.Rat.galEquivZMod a Fa u
   obtain ⟨w, hwa, hwb⟩ := zmod_units_crt_exists_of_coprime hab ua
   let v : Gal(K/ℚ) := (IsCyclotomicExtension.Rat.galEquivZMod (a * b) K).symm w
@@ -413,9 +413,9 @@ public theorem proposition_1_9_b_galois_automorphism_int {a b : ℕ} {k : ℤ}
           ZMod.unitOfIsCoprime k hk ∧
       AlgEquiv.restrictNormalHom (cyclotomicRightSubfield a b hn) v = 1 := by
   classical
-  haveI : IsCyclotomicExtension {a} ℚ (cyclotomicLeftSubfield a b hn) :=
+  have : IsCyclotomicExtension {a} ℚ (cyclotomicLeftSubfield a b hn) :=
     cyclotomicLeftSubfield_isCyclotomicExtension hn
-  haveI : IsGalois ℚ (cyclotomicLeftSubfield a b hn) :=
+  have : IsGalois ℚ (cyclotomicLeftSubfield a b hn) :=
     IsCyclotomicExtension.isGalois {a} ℚ (cyclotomicLeftSubfield a b hn)
   let u : Gal((cyclotomicLeftSubfield a b hn)/ℚ) :=
     (IsCyclotomicExtension.Rat.galEquivZMod a (cyclotomicLeftSubfield a b hn)).symm

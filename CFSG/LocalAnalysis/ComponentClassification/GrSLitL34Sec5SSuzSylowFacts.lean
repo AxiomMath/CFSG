@@ -83,7 +83,7 @@ theorem suzSylowData_of_isPComponent
     let D' : Subgroup ↥P := D.subgroupOf P
     have hD'p : IsPGroup 2 D' := by
       rw [show D' = (P' : Subgroup ↥P) from hP'.symm]
-      exact P'.isPGroup'
+      exact P'.isPGroup
     let Dbar : Subgroup Pb := D'.map π
     let R : Sylow 2 Pb := P'.mapSurjective (QuotientGroup.mk'_surjective U)
     have hRcoe : (R : Subgroup Pb) = Dbar := by

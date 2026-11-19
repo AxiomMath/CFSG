@@ -14,8 +14,8 @@ theorem eq_bot_or_eq_of_invariant {J : Type} [Group J] {T R : Subgroup J} {s : J
     (hQs : ∀ q ∈ Q, s * q * s⁻¹ ∈ Q) : Q = ⊥ ∨ Q = R := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hR9 : Nat.card R = 9 := hF.R_card
-  haveI : Finite R := Nat.finite_of_card_ne_zero (by rw [hR9]; norm_num)
-  haveI : Finite Q :=
+  have : Finite R := Nat.finite_of_card_ne_zero (by rw [hR9]; norm_num)
+  have : Finite Q :=
     Finite.of_injective (Subgroup.inclusion hQR) (Subgroup.inclusion_injective hQR)
   have hdvd : Nat.card Q ∣ 3 ^ 2 := by
     rw [show (3 : ℕ) ^ 2 = 9 by norm_num, ← hR9]

@@ -143,7 +143,7 @@ theorem exists_psl2
     rw [MonoidHom.mem_ker, MonoidHom.comp_apply, hπ, QuotientGroup.mk'_apply,
       QuotientGroup.eq_one_iff] at hy
     rw [Subgroup.mem_bot]
-    obtain ⟨k, hk⟩ := P.isPGroup' y
+    obtain ⟨k, hk⟩ := P.isPGroup y
     have h1 : orderOf (y : ↥K) ∣ 2 ^ k :=
       orderOf_dvd_of_pow_eq_one (by simpa using congrArg Subtype.val hk)
     have h2 : orderOf (y : ↥K) ∣ Nat.card ↥(Subgroup.center ↥K) :=

@@ -17,11 +17,11 @@ open Subgroup
 
 theorem cx₁_eq {x : Yaut} (hx : x ∈ Yone) : cx₁ x = coord₁ ⟨x, hx⟩ := by
   unfold cx₁
-  exact dif_pos hx
+  exact dite_eq_left hx
 
 theorem cx₂_eq {x : Yaut} (hx : x ∈ Yone) : cx₂ x = coord₂ ⟨x, hx⟩ := by
   unfold cx₂
-  exact dif_pos hx
+  exact dite_eq_left hx
 
 theorem cx_apply {x : Yaut} (hx : x ∈ Yone) (a b : A6) : x (a, b) = (cx₁ x a, cx₂ x b) := by
   rw [cx₁_eq hx, cx₂_eq hx]
@@ -296,8 +296,8 @@ theorem a6x_aut (hA : A6AutFacts) (X : Subgroup Yaut)
   have hAb1 : Ab ≤ Yone := le_Yone_of_simple eAb
   let p₁ : ↥Ab →* MulAut A6 := coord₁.comp (Subgroup.inclusion hAb1)
   let p₂ : ↥Ab →* MulAut A6 := coord₂.comp (Subgroup.inclusion hAb1)
-  haveI : IsSimpleGroup A6 := CFSG.EvenSporadicStandard.M24Std.DRes.alt6_simple
-  haveI : IsSimpleGroup ↥Ab := eAb.isSimpleGroup
+  have : IsSimpleGroup A6 := CFSG.EvenSporadicStandard.M24Std.DRes.alt6_simple
+  have : IsSimpleGroup ↥Ab := eAb.isSimpleGroup
   have hker₁ : ∀ x (hx : x ∈ Ab), cx₁ x = 1 ↔ (⟨x, hx⟩ : ↥Ab) ∈ p₁.ker := fun x hx => by
     rw [MonoidHom.mem_ker, cx₁_eq (hAb1 hx)]
     rfl

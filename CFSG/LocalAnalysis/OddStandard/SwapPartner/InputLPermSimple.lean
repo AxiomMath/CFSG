@@ -75,7 +75,7 @@ theorem le_fixingMoved_of_simple {π : Perm (Fin m)} (hπ : π * π = 1) (h1 : �
     intro h k hh hk
     exact ⟨A.mul_mem (A.mul_mem hk hh.1) (A.inv_mem hk),
       conj_mem_fixingMoved (hA hk).2 hh.2⟩
-  haveI := hnorm
+  have := hnorm
   rcases hsimple.eq_bot_or_eq_top_of_normal ((A ⊓ fixingMoved π).subgroupOf A) with hbot | htop
   · exfalso
     have hbot' : A ⊓ fixingMoved π = ⊥ := by
@@ -86,7 +86,7 @@ theorem le_fixingMoved_of_simple {π : Perm (Fin m)} (hπ : π * π = 1) (h1 : �
     have hAD' : A ≤ C := fun x hx => (hA hx).2
     have hND' : fixingMoved π ≤ C := fixingMoved_le_centralizer hπ
     let N' : Subgroup C := (fixingMoved π).subgroupOf C
-    haveI hN'norm : N'.Normal := by
+    have hN'norm : N'.Normal := by
       show ((fixingMoved π).subgroupOf C).Normal
       rw [Subgroup.normal_subgroupOf_iff hND']
       intro h k hh hk

@@ -133,9 +133,9 @@ theorem coe_eq_of_mem_sylow_of_no_four_group (haC : a ∈ C) (ha : orderOf a = 2
     rw [h', orderOf_one] at ha
     exact absurd ha (by norm_num)
   have : Nontrivial T := nontrivial_of_ne _ _ ha1
-  have hZ : Nontrivial (center T) := T.isPGroup'.center_nontrivial
+  have hZ : Nontrivial (center T) := T.isPGroup.center_nontrivial
   obtain ⟨n, hn, hcardZ⟩ :=
-    ((T.isPGroup'.to_subgroup (center T)).nontrivial_iff_card).mp hZ
+    ((T.isPGroup.to_subgroup (center T)).nontrivial_iff_card).mp hZ
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := center T) 2
     (by rw [hcardZ]; exact dvd_pow_self 2 (Nat.pos_iff_ne_zero.mp hn))
   have hzord : orderOf (((z : T) : C) : G) = 2 := by
@@ -273,8 +273,8 @@ theorem pRank_centralizer_eq_pRank {A : Subgroup G} (hAJ : A ≤ centralizer (J 
   have ha₀P : (⟨a₀, hAJ a₀.2⟩ : C) ∈ P := hP a₀.2
   have : Nontrivial P := nontrivial_of_ne ⟨⟨a₀, hAJ a₀.2⟩, ha₀P⟩ 1
     (fun h => ha₀1 (congrArg (fun y : P => ((y : C) : G)) h))
-  have hZ : Nontrivial (center P) := P.isPGroup'.center_nontrivial
-  obtain ⟨n, hn, hcardZ⟩ := ((P.isPGroup'.to_subgroup (center P)).nontrivial_iff_card).mp hZ
+  have hZ : Nontrivial (center P) := P.isPGroup.center_nontrivial
+  obtain ⟨n, hn, hcardZ⟩ := ((P.isPGroup.to_subgroup (center P)).nontrivial_iff_card).mp hZ
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := center P) 2
     (by rw [hcardZ]; exact dvd_pow_self 2 (Nat.pos_iff_ne_zero.mp hn))
   set w : G := (((z : P) : C) : G) with hw

@@ -101,9 +101,9 @@ theorem unitaryFrame_fix_le_of_two {τ : Tag} {L : Type} [Field L]
   subst hf1
   obtain ⟨k₂, hk₂, hk₂mem⟩ :=
     CFSG.GH74.GLS.Stage2.Bender.Thm1.mnSyl_exists_subfield (Ω := L) (ℓ := 2) (f := 1) hf
-  haveI : Finite k₂ := Nat.finite_of_card_ne_zero (by rw [hk₂]; norm_num)
-  letI : Fintype k₂ := Fintype.ofFinite k₂
-  letI : Fintype K := Fintype.ofFinite K
+  have : Finite k₂ := Nat.finite_of_card_ne_zero (by rw [hk₂]; norm_num)
+  let : Fintype k₂ := Fintype.ofFinite k₂
+  let : Fintype K := Fintype.ofFinite K
   have hcardeq : Fintype.card K = Fintype.card k₂ := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hk₂,
       CFSG.Fischer.Classification.Unitary.card_K]

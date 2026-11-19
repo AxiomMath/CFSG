@@ -26,6 +26,7 @@ variable {G : Type} [Group G] [Finite G]
       ∀ a ∈ V, a * u * a⁻¹ * u⁻¹ ≠ 1 →
         centralizer ({a * u * a⁻¹ * u⁻¹} : Set G) ≤ D.M
 
+omit [Finite G] in
 private theorem s15_T8_conjSubgroup_le_centralizer {X : Subgroup G} {g u v : G}
     (hu : u = g * v * g⁻¹)
     (h : conjSubgroup X g ≤ Subgroup.centralizer ({v} : Set G)) :
@@ -41,6 +42,7 @@ private theorem s15_T8_conjSubgroup_le_centralizer {X : Subgroup G} {g u v : G}
     _ = g * (v * (g⁻¹ * x * g)) * g⁻¹ := by rw [h2]
     _ = u * x := by rw [hu]; group
 
+omit [Finite G] in
 private theorem s15_T8_conjSubgroup_centralizer_singleton (g u v : G) (h : u = g * v * g⁻¹) :
     conjSubgroup (Subgroup.centralizer ({u} : Set G)) g =
       Subgroup.centralizer ({v} : Set G) := by
@@ -137,7 +139,7 @@ theorem rt8_of_one {D : Data G} (h : RT8One D) : RT8 D := by
 theorem s15_T8_transvection (D : Data G) {V₀ V L : Subgroup G} (h : Hyp154 D V₀ V L)
     (hL : barSub V₀ V h.hyp151.isElemAbelian L ≠ ⊥) (h1217 : R1217 D)
     (hV1 : v1Sub D.M V₀ V h.hyp151.isElemAbelian L = ⊥) {u : G} (hu : u ∈ D.M)
-    (hu2 : u * u = 1)
+    (_hu2 : u * u = 1)
     (hfix : ∀ E ∈ suppAct (wConj D.M V₀ V h.hyp151.isElemAbelian L) u,
       conjSubgroup E u = E ∧ E3.mQuot E (E ⊓ centralizer ({u} : Set G)) = 1)
     {a : G} (ha : a ∈ V) (hc : a * u * a⁻¹ * u⁻¹ ≠ 1) :

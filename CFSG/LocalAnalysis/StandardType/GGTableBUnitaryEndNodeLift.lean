@@ -113,7 +113,7 @@ theorem exists_lift_of_noTorsion (hπ : Function.Surjective π) {p : ℕ} (hp : 
   set A : Subgroup H := (Q : Subgroup ↥P).map P.subtype with hA
   have hApow : ∀ y ∈ A, ∃ k : ℕ, y ^ p ^ k = 1 := by
     rintro _ ⟨y, hy, rfl⟩
-    obtain ⟨k, hk⟩ := Q.isPGroup' ⟨y, hy⟩
+    obtain ⟨k, hk⟩ := Q.isPGroup ⟨y, hy⟩
     exact ⟨k, by
       have := congrArg (fun z : ↥(Q : Subgroup ↥P) => ((z : ↥P) : H)) hk
       simpa using this⟩

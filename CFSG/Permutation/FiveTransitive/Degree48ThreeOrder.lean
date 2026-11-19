@@ -18,7 +18,7 @@ private theorem card_eq_three
     (s : Set X) (hs : s.ncard = 5)
     (S : Sylow 3 (fixingSubgroup P s)) (hS : Nat.card S ≠ 1) : Nat.card S = 3 := by
   let Q := sylowImage X P s S
-  have hQ : IsPGroup 3 Q := S.isPGroup'.map (fixingSubgroup P s).subtype
+  have hQ : IsPGroup 3 Q := S.isPGroup.map (fixingSubgroup P s).subtype
   have hQcard : Nat.card Q = Nat.card S := Nat.card_congr
     ((S : Subgroup (fixingSubgroup P s)).equivMapOfInjective
       (fixingSubgroup P s).subtype Subtype.val_injective).toEquiv.symm
@@ -34,7 +34,7 @@ private theorem card_eq_three
   have hQthree := Degree48ThreeElevenCentralizer.card_le_three P hcard h5 hnotAlt Q hQ g.val
     ((Subgroup.orderOf_coe g).trans hg) hcomm
   rw [hQcard] at hQthree
-  obtain ⟨e,he⟩ := IsPGroup.iff_card.mp S.isPGroup'
+  obtain ⟨e,he⟩ := IsPGroup.iff_card.mp S.isPGroup
   have he1 : e ≤ 1 := by
     by_contra hn
     have hh := Nat.pow_le_pow_right (by norm_num : 0 < 3) (by omega : 2 ≤ e)

@@ -88,7 +88,7 @@ theorem vInter_core {A : Type*} [Group A] [Finite A] (σ : A ≃* A) (Zs Ys : Se
   have hdiff1 := Set.ncard_inter_add_ncard_sdiff_eq_ncard (σ '' ((W : Set A) ∩ Ys)) (W : Set A)
   have hdiff2 := Set.ncard_inter_add_ncard_sdiff_eq_ncard Ys (W : Set A)
   have hsubdiff : σ '' ((W : Set A) ∩ Ys) \ (W : Set A) ⊆ Ys \ (W : Set A) :=
-    Set.diff_subset_diff_left hYsub
+    Set.sdiff_subset_sdiff_left hYsub
   have hle := Set.ncard_le_ncard hsubdiff (Set.toFinite _)
   have hYW : (Ys ∩ (W : Set A)).ncard = ((W : Set A) ∩ Ys).ncard := by
     rw [Set.inter_comm]
@@ -97,7 +97,7 @@ theorem vInter_core {A : Type*} [Group A] [Finite A] (σ : A ≃* A) (Zs Ys : Se
 theorem vInter1277_of (h1222 : Stmt12_2_2) : VInter1277 := by
   intro G _ _ T L V h z hzV t htV hz45 ht18 hcov W hWV hzW hW16
   obtain ⟨hcomm, -, -⟩ := S127.card_eq_of_1222 h1222 h
-  haveI := hcomm
+  have := hcomm
   have hLV : L ≤ Subgroup.normalizer (V : Set G) := h.hyp.irrPlus.2.2.1
   obtain ⟨zA, hzA⟩ : ∃ a : ↥V, (a : G) = z := ⟨⟨z, hzV⟩, rfl⟩
   obtain ⟨tA, htA⟩ : ∃ a : ↥V, (a : G) = t := ⟨⟨t, htV⟩, rfl⟩

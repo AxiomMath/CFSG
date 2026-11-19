@@ -44,18 +44,18 @@ public theorem lemma115_qbar_inverted
   let core : Subgroup Nstar := lemma103NZeroStar M P
   let Nbar := Nstar ⧸ core
   let Omega : Type u := lemma103OmegaP M P
-  letI : Finite Omega := by
+  let : Finite Omega := by
     dsimp [Omega, lemma103OmegaP]
     infer_instance
-  letI : MulAction Nstar Omega := lemma103NormalizerAction M P
+  let : MulAction Nstar Omega := lemma103NormalizerAction M P
   let hcoreNormal : (pointStabilizerCore Nstar Omega).Normal :=
     pointStabilizerCore_normal
-  letI : (pointStabilizerCore Nstar Omega).Normal := hcoreNormal
-  letI : core.Normal := by
+  let : (pointStabilizerCore Nstar Omega).Normal := hcoreNormal
+  let : core.Normal := by
     dsimp [core, Nstar, P]
     infer_instance
-  letI : MulAction Nbar Omega := lemma103QuotientAction M P
-  letI : FaithfulSMul Nbar Omega := lemma103QuotientAction_faithful M P
+  let : MulAction Nbar Omega := lemma103QuotientAction M P
+  let : FaithfulSMul Nbar Omega := lemma103QuotientAction_faithful M P
   let alpha : Omega :=
     ⟨QuotientGroup.mk 1,
       theorem4b_baseCoset_mem_fixedPoints
@@ -108,8 +108,8 @@ public theorem lemma115_qbar_inverted
     rw [d103.uStar_eq] at hval
     apply Subtype.ext
     exact huBaseUnique omega.val hval
-  letI : Fact d103.q.Prime := ⟨d103.q_prime⟩
-  letI : IsElementaryAbelian d103.q d103.Qbar :=
+  let : Fact d103.q.Prime := ⟨d103.q_prime⟩
+  let : IsElementaryAbelian d103.q d103.Qbar :=
     d103.Qbar_elementaryAbelian
   have hQcomm : IsMulCommutative d103.Qbar := inferInstance
   exact lemma115_regular_normal_inverted_by_unique_fixed_involution
@@ -253,7 +253,7 @@ public theorem lemma115_quotient_lift
   have haBarOdd : Odd (orderOf aBar) := by
     rw [haBarOrder]
     exact hfodd
-  letI : d103.Qbar.Normal := d103.Qbar_normal
+  let : d103.Qbar.Normal := d103.Qbar_normal
   have haBarQ : aBar ∈ d103.Qbar :=
     lemma115_inverted_odd_order_mem_normal_factor d103.Qbar
       d103.factorization haBarOdd haBarInv
@@ -262,8 +262,8 @@ public theorem lemma115_quotient_lift
     have horderOne : orderOf aBar = 1 := orderOf_eq_one_iff.mpr h
     rw [haBarOrder] at horderOne
     exact hfprime.ne_one horderOne
-  letI : Fact d103.q.Prime := ⟨d103.q_prime⟩
-  letI : IsElementaryAbelian d103.q d103.Qbar :=
+  let : Fact d103.q.Prime := ⟨d103.q_prime⟩
+  let : IsElementaryAbelian d103.q d103.Qbar :=
     d103.Qbar_elementaryAbelian
   have haBarPow : aBar ^ d103.q = 1 :=
     elemPow_eq_one_of_isElementaryAbelian aBar haBarQ
@@ -313,7 +313,7 @@ public theorem lemma115_quotient_lift
       exact d103.uStar_eq.symm
     rw [← heq]
     exact huStar'
-  letI : core.Normal := by
+  let : core.Normal := by
     dsimp [core, Nstar, P]
     infer_instance
   obtain ⟨Q, hQsyl, hQmap, _huNormQ, hdisj, hQinv⟩ :=
@@ -336,7 +336,7 @@ public theorem lemma115_quotient_lift
     hHodd.of_dvd_nat (Subgroup.card_dvd_of_le hQH)
   have hQf : IsPGroup f Q := by
     rcases hQsyl with ⟨S, rfl⟩
-    exact S.isPGroup'.map H.subtype
+    exact S.isPGroup.map H.subtype
   obtain ⟨hQnormal, hQfactor, hanti⟩ :=
     lemma115_odd_lift_normal_factorization core Q hcoreOdd
       d103.Qbar d103.Qbar_normal huStar hcoreCentU hQmap hQodd hQinv
@@ -348,7 +348,7 @@ public theorem lemma115_quotient_lift
   have haStarQ : aStar ∈ Q :=
     (hanti aStar haStarH).mp haStarInv
   have hcomm : ⁅core ⊔ Q, Subgroup.zpowers d103.uStar⁆ = Q := by
-    letI : Q.Normal := hQnormal
+    let : Q.Normal := hQnormal
     exact lemma115_commutator_odd_lift_eq core Q hQodd huStar hcoreCentU hQinv
   let tuStar : Nstar := aStar
   refine ⟨{

@@ -19,15 +19,18 @@ variable {K E X : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensio
 @[expose] def LOpmSup (M : Subgroup X) (ψ : X →* (E ≃ₗ[K] E)) : Submodule K E :=
   ⨆ s : M, LinearMap.range (opm (ψ (s : X)))
 
+omit [FiniteDimensional K E] [Finite X] in
 theorem range_opm_le_LOpmSup {s : X} (hs : s ∈ L) :
     LinearMap.range (opm (φ s)) ≤ LOpmSup L φ :=
   le_iSup (fun t : L => LinearMap.range (opm (φ (t : X)))) ⟨s, hs⟩
 
+omit [Finite X] in
 theorem MoveFrame.LOpmSup_isotropic (F : MoveFrame B φ V L Nb Rb Tt q) :
     ∀ x ∈ LOpmSup L φ, ∀ y ∈ LOpmSup L φ, B x y = 0 :=
   iSup_range_opm_isotropic B F.nondeg F.refl (fun s : L => φ (s : X)) (fun s => F.isom (s : X))
     (fun i j z => F.quad i.1 i.2 j.1 j.2 z)
 
+omit [Finite X] in
 theorem MoveFrame.LOpmSup_le_orthogonal (F : MoveFrame B φ V L Nb Rb Tt q) :
     LOpmSup L φ ≤ B.orthogonal (Tt 1) := by
   unfold LOpmSup
@@ -37,6 +40,7 @@ theorem MoveFrame.LOpmSup_le_orthogonal (F : MoveFrame B φ V L Nb Rb Tt q) :
   exact sub_mem_orthogonal_of_fixes B (φ (s : X)) (F.isom (s : X)) (Tt 1)
     (F.Nb_fixes (s : X) (F.L_le_Nb s.2)) z
 
+omit [Finite X] in
 theorem MoveFrame.LOpmSup_invariant (F : MoveFrame B φ V L Nb Rb Tt q) :
     ∀ r ∈ Rb, ∀ w ∈ LOpmSup L φ, φ r w ∈ LOpmSup L φ := by
   intro r hr w hw
@@ -57,12 +61,14 @@ theorem MoveFrame.LOpmSup_invariant (F : MoveFrame B φ V L Nb Rb Tt q) :
     rw [map_add]
     exact Submodule.add_mem _ hx hy
 
+omit [Finite X] in
 theorem MoveFrame.Tt_one_le_LOpmSup (F : MoveFrame B φ V L Nb Rb Tt q) :
     Tt 1 ≤ LOpmSup L φ := by
   obtain ⟨a, ha, h1⟩ := F.exists_ne_one
   rw [← F.range_opm_V ha h1]
   exact range_opm_le_LOpmSup (F.V_le_L ha)
 
+omit [Finite X] [FiniteDimensional K E] in
 theorem range_opm_mul_le_sup {y y' : X} {T T' : Submodule K E}
     (hy : LinearMap.range (opm (φ y)) ≤ T) (hy' : LinearMap.range (opm (φ y')) ≤ T') :
     LinearMap.range (opm (φ (y * y'))) ≤ T ⊔ T' := by
@@ -73,6 +79,7 @@ theorem range_opm_mul_le_sup {y y' : X} {T T' : Submodule K E}
   · exact Submodule.mem_sup_right (hy' (LinearMap.mem_range_self _ _))
   · exact Submodule.mem_sup_left (hy (LinearMap.mem_range_self _ _))
 
+omit [Finite X] in
 theorem MoveFrame.range_opm_mul_le_inf (F : MoveFrame B φ V L Nb Rb Tt q) {y y' : X}
     {T T' : Submodule K E} (hy : LinearMap.range (opm (φ y)) ≤ T)
     (hy' : LinearMap.range (opm (φ y')) ≤ T') (hL : y * y' ∈ L) :
@@ -83,6 +90,7 @@ theorem MoveFrame.range_opm_mul_le_inf (F : MoveFrame B φ V L Nb Rb Tt q) {y y'
   exact sub_mem_orthogonal_of_fixes B (φ (y * y')) (F.isom (y * y')) (Tt 1)
     (F.Nb_fixes (y * y') (F.L_le_Nb hL)) z
 
+omit [Finite X] in
 theorem MoveFrame.map_opm_le_of_inf (F : MoveFrame B φ V L Nb Rb Tt q) {y : X}
     (hy : y ∈ normalizer (V : Set X)) {S Lm : Submodule K E}
     (hS : LinearMap.range (opm (φ y)) ≤ S) (hLS : S ⊓ B.orthogonal (Tt 1) ≤ Lm) :
@@ -92,6 +100,7 @@ theorem MoveFrame.map_opm_le_of_inf (F : MoveFrame B φ V L Nb Rb Tt q) {y : X}
   rw [opm_apply]
   exact Submodule.sub_mem _ (F.map_orthogonal_le hy hw) hw
 
+omit [Finite X] in
 theorem conj_pair_eq (h x b : X) : x * (h * b * h⁻¹) * x⁻¹ = (x * h) * b * (x * h)⁻¹ := by
   group
 
@@ -136,6 +145,7 @@ theorem MoveFrame.Y_x_conj_mem_Rb (F : MoveFrame B φ V L Nb Rb Tt q) (h x : X)
       _ = 1 := by rw [hyy]; group
   exact F.two_elements _ hk hkc (isPGroup_two_zpowers_of_sq hkk)
 
+omit [Finite X] in
 theorem MoveFrame.finrank_mul_ge_eight (F : MoveFrame B φ V L Nb Rb Tt q) {y y' : X}
     (hcomm : y * y' = y' * y) (hy2 : ∀ w, opm (φ y) (opm (φ y) w) = 0)
     (hy2' : ∀ w, opm (φ y') (opm (φ y') w) = 0)
@@ -150,6 +160,7 @@ theorem MoveFrame.finrank_mul_ge_eight (F : MoveFrame B φ V L Nb Rb Tt q) {y y'
   rw [← map_mul φ] at h
   omega
 
+omit [Finite X] in
 theorem MoveFrame.finrank_mul_le_seven (F : MoveFrame B φ V L Nb Rb Tt q) {g₁ g₂ y y' : X}
     (hy : LinearMap.range (opm (φ y)) = Tt g₁) (hy' : LinearMap.range (opm (φ y')) = Tt g₂)
     (hL : y * y' ∈ L) (h2 : 2 ≤ Module.finrank K ↥(Tt g₁ ⊓ Tt g₂))
@@ -163,7 +174,7 @@ theorem MoveFrame.finrank_mul_le_seven (F : MoveFrame B φ V L Nb Rb Tt q) {g₁
 theorem MoveFrame.Y_x_le_NbY (F : MoveFrame B φ V L Nb Rb Tt q) (h : X)
     (hK : ∀ a ∈ V, h * a * h⁻¹ ∈ normalizer (V : Set X))
     (hN : ¬ ∀ a ∈ V, h * a * h⁻¹ ∈ Nb)
-    (hcomm : ∀ v ∈ V, ∀ a ∈ V, v * (h * a * h⁻¹) = (h * a * h⁻¹) * v)
+    (_hcomm : ∀ v ∈ V, ∀ a ∈ V, v * (h * a * h⁻¹) = (h * a * h⁻¹) * v)
     (hRb : ∀ a ∈ V, h * a * h⁻¹ ∈ Rb)
     (hYx : ∀ x ∈ L, ∀ a ∈ V, ∀ b ∈ V,
       (h * a * h⁻¹) * (x * (h * b * h⁻¹) * x⁻¹) = (x * (h * b * h⁻¹) * x⁻¹) * (h * a * h⁻¹)) :

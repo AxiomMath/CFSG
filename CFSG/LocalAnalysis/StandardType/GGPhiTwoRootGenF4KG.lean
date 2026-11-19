@@ -61,7 +61,7 @@ theorem ggTorusModelAt_phiTwo_F4
       (∀ t : Fin Tag.F4.rank → ZMod p, ∑ j, (α j : ZMod p) * t j = 0 →
         ∑ j, (β j : ZMod p) * t j = 0) → β = α ∨ β = -α :=
     fun α β hα hβ h => ExcSplitRootGen.eq_or_eq_neg_of_forall_sum_eq_zero hτ4 hp2 hα hβ h
-  haveI : Nonempty {α : Fin Tag.F4.rank → ℤ // IsRoot Tag.F4 α} :=
+  have : Nonempty {α : Fin Tag.F4.rank → ℤ // IsRoot Tag.F4 α} :=
     ⟨⟨Pi.single ⟨0, Tag.F4.rank_pos⟩ 1, isRoot_single Tag.F4 _⟩⟩
   have hres : GGTorusModelAt p T.range := by
     refine ggTorusModelAt_of_reflFamily hTinj (fun β : {α : Fin Tag.F4.rank → ℤ // IsRoot .F4 α} =>
@@ -95,10 +95,10 @@ theorem ggTorusRootGenAvoidKG_F4Plus
     (hp : p.Prime) (hp5 : 5 ≤ p) (hpq : p ∣ Nat.card K + 1) (hK : 4 ≤ Nat.card K) :
     GGTorusRootGenAvoidKG p 3 (TableBF4.RecipeGroup K) (TableBF4.RecipeID K) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
-  haveI : Finite (adjointGroup .F4 K) := generated_group_finite .F4 K
-  haveI : Finite (TableBF4.RecipeGroup K) :=
+  have : Finite (adjointGroup .F4 K) := generated_group_finite .F4 K
+  have : Finite (TableBF4.RecipeGroup K) :=
     Finite.of_equiv (adjointGroup .F4 K) (TableBF4.recipeEquiv K).symm.toEquiv
   have hIp : GGOutdiagPrime p (TableBF4.RecipeGroup K) (TableBF4.RecipeID K) :=
     fun _ hφ _ => TableBF4.idImage_subset_inn K hφ

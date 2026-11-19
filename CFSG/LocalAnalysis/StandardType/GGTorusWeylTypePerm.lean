@@ -36,7 +36,7 @@ theorem ggTorusWeylTypeW_of_permEltSC {p r d : ℕ} {R : Type} [Group R] {I : Se
   intro L' _ _ ψ A hA
   obtain ⟨hψ, hker, hperf, hAab, hAI, -, h3, hsc⟩ := hA
   obtain ⟨Θ, hW, hP, hN⟩ := exists_permModel hp hZ hIp hcp h hψ hker hperf hAab hAI h3 hsc
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   have hd4 : 4 ≤ d := by
     have hle := ggWTPerm_card_sumZero_le d p
     rw [Nat.card_congr Θ.toEquiv] at hle

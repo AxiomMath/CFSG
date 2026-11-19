@@ -29,7 +29,7 @@ theorem Cover217.B_eq_F₁ {A E U : Subgroup G} {c : G} {L : Subgroup G}
   obtain ⟨hq, hZ3⟩ := h.quasi_card_center hθ
   obtain ⟨e⟩ := h.quot
   have hab := h.isElemAbelian_A
-  haveI : IsMulCommutative A := hab.1
+  have : IsMulCommutative A := hab.1
   set F : Subgroup ↥L := A.subgroupOf L with hF
   have hFmap : F.map L.subtype = A := Subgroup.map_subgroupOf_eq_of_le hAL
   have hF81 : Nat.card F = 81 := by

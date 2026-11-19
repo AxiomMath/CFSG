@@ -242,7 +242,7 @@ private lemma ltqF4_comp_statement {K : Type} [Field K] [Finite K] (hK : Nat.car
           _ = x ^ 3 * g := by group
       rwa [CFSG.LieType.Chevalley.center_adjointGroup_eq_bot, Subgroup.mem_bot] at hc
     have hx : orderOf x = 3 := by
-      haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+      have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
       exact orderOf_eq_prime hx3 hx1
     have hfixeq : ggFixSub φ = CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup φ :=
       Subgroup.ext (fun y => by

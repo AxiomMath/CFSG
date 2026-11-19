@@ -46,7 +46,7 @@ private theorem funCongrLeft_single {ι : Type} [DecidableEq ι] (e : ι ≃ ι)
   by_cases h : b = e.symm a
   · subst h
     simp
-  · rw [if_neg h, if_neg]
+  · rw [ite_eq_right h, ite_eq_right]
     intro hb
     exact h (by rw [← hb, Equiv.symm_apply_apply])
 
@@ -88,24 +88,24 @@ private theorem act_weyl8_pvec {i j : Fin 4} (hij : i ≠ j) (s t : Bool) (k : F
       else CFSG.StandardType.AutOm.pvec k r := by
   by_cases hki : k = i
   · subst hki
-    rw [if_pos rfl]
+    rw [ite_eq_left rfl]
     by_cases hrs : r = s
-    · rw [if_pos hrs, hrs]
+    · rw [ite_eq_left hrs, hrs]
       exact act_weyl8_iu hij s t
     · have hns : r = !s := by cases r <;> cases s <;> simp_all
-      rw [if_neg hrs, hns]
+      rw [ite_eq_right hrs, hns]
       exact act_weyl8_inu hij s t
-  · rw [if_neg hki]
+  · rw [ite_eq_right hki]
     by_cases hkj : k = j
     · subst hkj
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       by_cases hrt : r = t
-      · rw [if_pos hrt, hrt]
+      · rw [ite_eq_left hrt, hrt]
         exact act_weyl8_jt hij s t
       · have hnt : r = !t := by cases r <;> cases t <;> simp_all
-        rw [if_neg hrt, hnt]
+        rw [ite_eq_right hrt, hnt]
         exact act_weyl8_jnt hij s t
-    · rw [if_neg hkj]
+    · rw [ite_eq_right hkj]
       exact act_weyl8_other (K := K) hij hki hkj s t r
 
 end EtaCharTwoAux

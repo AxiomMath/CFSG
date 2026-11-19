@@ -272,7 +272,7 @@ theorem U3CoreHyp.twF4_setup {S : Type} [Group S] [Finite S] {labL : GLALabel}
     intro h1
     apply h.ne_one
     rw [← hs, h1, map_one]
-  haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
   have hsord : orderOf s = 3 := orderOf_eq_prime hs3 hs1
   let y : CFSG.LieType.Ree.ReeTag.F4.reeGamma K a := eS s
   have hy3 : orderOf y = 3 := by

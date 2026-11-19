@@ -15,6 +15,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G}
 
+omit [Finite G] in
 theorem mul_mul_inv_eq_of_conjZ_eq_one {ℓ : ↥(H z)} (hℓ : conjZ z ℓ = 1) {t : G}
     (ht : t ∈ centerIn (J z)) : (ℓ : G) * t * (ℓ : G)⁻¹ = t := by
   have h1 := congrArg (fun α : MulAut (centerIn (J z)) => ((α ⟨t, ht⟩ : centerIn (J z)) : G)) hℓ
@@ -222,6 +223,7 @@ theorem exists_complement_commutator (h : Tim79a.ParrottHyp z) (L : Subgroup ↥
   · rw [hPJ]
     exact hA2 hzmem
 
+omit [Finite G] in
 theorem inf_centralizer_eq_of_centralizerJ_eq {σ τ : ↥(H z)}
     (hK : centralizerJ σ = centralizerJ τ) {F : Subgroup G} (hFJ : F ≤ J z) :
     F ⊓ Subgroup.centralizer ({(σ : G)} : Set G) =
@@ -283,11 +285,13 @@ theorem commutator_eq_of_centralizerJ_eq_of_commute (h : Tim79a.ParrottHyp z)
     (Subgroup.mem_sup_left (Subgroup.mem_zpowers σ))
     (Subgroup.mem_sup_right (Subgroup.mem_zpowers τ)) hσ hτ hVσ hVτ hK
 
+omit [Finite G] in
 private theorem conj_mem_J (g : ↥(H z)) {j : G} (hj : j ∈ J z) :
     (g : G) * j * (g : G)⁻¹ ∈ J z := by
   have := (conjJ' z g ⟨j, hj⟩).2
   rwa [conjJ'_apply_coe] at this
 
+omit [Finite G] in
 private theorem conj_mem_commutator {Q : Subgroup G} {g : ↥(H z)}
     (hg : ∀ x ∈ Q, (g : G) * x * (g : G)⁻¹ ∈ Q) {p : G} (hp : p ∈ ⁅Q, J z⁆) :
     (g : G) * p * (g : G)⁻¹ ∈ ⁅Q, J z⁆ := by
@@ -297,7 +301,7 @@ private theorem conj_mem_commutator {Q : Subgroup G} {g : ↥(H z)}
     rw [Subgroup.mem_comap]
     have e : (MulAut.conj (g : G)).toMonoidHom ⁅x, j⁆ =
         ⁅(g : G) * x * (g : G)⁻¹, (g : G) * j * (g : G)⁻¹⁆ := by
-      simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply,
+      simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply,
         commutatorElement_def]
       group
     rw [e]

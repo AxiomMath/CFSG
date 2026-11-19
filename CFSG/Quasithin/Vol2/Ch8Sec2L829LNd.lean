@@ -297,11 +297,11 @@ theorem hb_of_subquotient
     (ρM : S₀ →* (M ≃ₗ[ZMod 2] M)) (ρW : S₀ →* (W ≃ₗ[ZMod 2] W))
     (U B₁ B V₁ : Submodule (ZMod 2) M) (WB : Submodule (ZMod 2) W)
     (hU : ∀ s : S₀, ∀ m ∈ U, ρM s m ∈ U) (hB₁ : ∀ s : S₀, ∀ m ∈ B₁, ρM s m ∈ B₁)
-    (hB : ∀ s : S₀, ∀ m ∈ B, ρM s m ∈ B) (hV₁ : ∀ s : S₀, ∀ m ∈ V₁, ρM s m ∈ V₁)
+    (_hB : ∀ s : S₀, ∀ m ∈ B, ρM s m ∈ B) (hV₁ : ∀ s : S₀, ∀ m ∈ V₁, ρM s m ∈ V₁)
     (hUB₁ : U ≤ B₁) (hB₁B : B₁ ≤ B) (hV₁B : V₁ ≤ B)
     (hirr : ∀ C : Submodule (ZMod 2) M, U ≤ C → C ≤ B₁ →
       (∀ s : S₀, ∀ m ∈ C, ρM s m ∈ C) → C = U ∨ C = B₁)
-    (hne : U ≠ B₁) (hdim : Module.finrank (ZMod 2) B₁ = Module.finrank (ZMod 2) U + 4)
+    (_hne : U ≠ B₁) (hdim : Module.finrank (ZMod 2) B₁ = Module.finrank (ZMod 2) U + 4)
     (hnonab : ∃ s s' : S₀, ∃ b ∈ B₁, ρM s (ρM s' b) - ρM s' (ρM s b) ∉ U)
     (hBdim : Module.finrank (ZMod 2) B ≤ Module.finrank (ZMod 2) B₁ + 1)
     (κ : ↥V₁ →ₗ[ZMod 2] W) (hκ : LinearMap.range κ = WB)
@@ -314,8 +314,8 @@ theorem hb_of_subquotient
       (∀ Q : Submodule (ZMod 2) W, Q ≤ P → (∀ s : S₀, ∀ w ∈ Q, ρW s w ∈ Q) → Q = ⊥ ∨ Q = P) →
       Module.finrank (ZMod 2) P = 1 ∨ (Module.finrank (ZMod 2) P = 4 ∧
         ∃ s s' : S₀, ∃ w ∈ P, ρW s (ρW s' w) ≠ ρW s' (ρW s w))) := by
-  haveI : Module.Finite (ZMod 2) M := inferInstance
-  haveI : Module.Finite (ZMod 2) W := inferInstance
+  have : Module.Finite (ZMod 2) M := inferInstance
+  have : Module.Finite (ZMod 2) W := inferInstance
   have hWBinv : ∀ s : S₀, ∀ w ∈ WB, ρW s w ∈ WB := by
     intro s w hw
     rw [← hκ] at hw ⊢

@@ -211,7 +211,7 @@ theorem cenB_two_eq_bot (h : Setting b K z) (hN : ModelN K z) (hchar : CFSG.Open
     intro hbot
     exact hS'ne (le_bot_iff.mp (hS'P.trans (le_of_eq hbot)))
   let P_G : Subgroup G := (P : Subgroup C).map C.subtype
-  have hPGp : IsPGroup 2 P_G := P.isPGroup'.map C.subtype
+  have hPGp : IsPGroup 2 P_G := P.isPGroup.map C.subtype
   have hPGleC : P_G ≤ C := Subgroup.map_subtype_le _
   have hPGne : P_G ≠ ⊥ := by
     intro hbot
@@ -312,7 +312,7 @@ theorem cenB_two_eq_bot (h : Setting b K z) (hN : ModelN K z) (hchar : CFSG.Open
     group
   have hΦpow : ∀ s : P, ∃ n, conjHom h (s : C) ^ 2 ^ n = 1 := by
     intro s
-    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup') s
+    obtain ⟨n, hn⟩ := (IsPGroup.iff_orderOf.mp P.isPGroup) s
     refine ⟨n, ?_⟩
     have hs1 : (s : C) ^ 2 ^ n = 1 := by
       have h2 : ((s ^ 2 ^ n : P) : C) = 1 := by

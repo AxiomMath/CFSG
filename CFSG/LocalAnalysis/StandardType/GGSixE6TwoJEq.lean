@@ -65,13 +65,13 @@ private lemma resMat_single_one (k l : Fin 3) :
       Matrix.single (blk k 1) (blk l 1) (1 : F2) := by
   rw [resMat_single, map_one]
   have h01 : (1 : Matrix (Fin 2) (Fin 2) F2) 0 1 = 0 := by
-    rw [Matrix.one_apply]; exact if_neg (by decide)
+    rw [Matrix.one_apply]; exact ite_eq_right (by decide)
   have h10 : (1 : Matrix (Fin 2) (Fin 2) F2) 1 0 = 0 := by
-    rw [Matrix.one_apply]; exact if_neg (by decide)
+    rw [Matrix.one_apply]; exact ite_eq_right (by decide)
   have h00 : (1 : Matrix (Fin 2) (Fin 2) F2) 0 0 = 1 := by
-    rw [Matrix.one_apply]; exact if_pos rfl
+    rw [Matrix.one_apply]; exact ite_eq_left rfl
   have h11 : (1 : Matrix (Fin 2) (Fin 2) F2) 1 1 = 1 := by
-    rw [Matrix.one_apply]; exact if_pos rfl
+    rw [Matrix.one_apply]; exact ite_eq_left rfl
   rw [h00, h01, h10, h11, Matrix.single_zero, Matrix.single_zero]
   abel
 

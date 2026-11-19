@@ -67,7 +67,7 @@ theorem exists_sylow_conj_inner (hZ : Subgroup.center Y = ⊥)
     ∃ (g : Y) (B : Subgroup Y), B ≤ (P₀ : Subgroup Y) ∧ (∀ b ∈ B, b ^ 3 = 1) ∧ Nat.card B = 9 ∧
       (∀ σ ∈ Ē, ∃ x : Y, MulAut.conj x = σ) ∧
       ∀ x : Y, MulAut.conj x ∈ Ē ↔ g * x * g⁻¹ ∈ B := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hconjinj : Function.Injective (MulAut.conj : Y →* MulAut Y) :=
     Item211LieProof.conj_injective_of_center_eq_bot hZ
   have hrange : ∀ σ ∈ Ē, ∃ x : Y, MulAut.conj x = σ := fun σ hσ => by
@@ -135,9 +135,9 @@ theorem eInvNine_of_sylow_conj_data (hZ : Subgroup.center Y = ⊥)
     intro v
     constructor
     · rintro ⟨w, hw, rfl⟩
-      exact ⟨w, hw, by simp [MulAut.conj_apply]⟩
+      exact ⟨w, hw, by simp⟩
     · rintro ⟨w, hw, rfl⟩
-      exact ⟨w, hw, by simp [MulAut.conj_apply]⟩
+      exact ⟨w, hw, by simp⟩
   refine ⟨W', CFSG.Open.IsElemAbelian.map hWab _, ?_, ?_, ?_⟩
   · rw [hW', Subgroup.card_map_of_injective (show Function.Injective
       (MulAut.conj g⁻¹).toMonoidHom from (MulAut.conj g⁻¹).injective), hW4]
@@ -175,9 +175,9 @@ theorem eInvNine_of_sylow_stable (hZ : Subgroup.center Y = ⊥)
     intro v
     constructor
     · rintro ⟨w, hw, rfl⟩
-      exact ⟨w, hw, by simp [MulAut.conj_apply]⟩
+      exact ⟨w, hw, by simp⟩
     · rintro ⟨w, hw, rfl⟩
-      exact ⟨w, hw, by simp [MulAut.conj_apply]⟩
+      exact ⟨w, hw, by simp⟩
   refine eInvFour_of_elemAbelian_two hE3 hE9 (R := R') (CFSG.Open.IsElemAbelian.map hR _) ?_ ?_
   · intro σ hσ v hv
     obtain ⟨r, hr, rfl⟩ := (hmemR' v).mp hv
@@ -297,7 +297,7 @@ theorem eInvNine_of_extraspecial27 (hZ : Subgroup.center Y = ⊥)
       ((x ^ (i : ℕ) * y ^ (j : ℕ) * ⁅x, y⁆ ^ (k : ℕ)) * u *
         (x ^ (i : ℕ) * y ^ (j : ℕ) * ⁅x, y⁆ ^ (k : ℕ))⁻¹) * u)
     (hmove : ⁅x, y⁆ * u * ⁅x, y⁆⁻¹ ≠ u) : EInvNine Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P := closure ({x, y} : Set Y) with hP
   have hPcard : Nat.card P = 27 := Asc83Table.ex27_card hx hy hzx hzy hz1
   have hPsyl : Nat.card P = 3 ^ (Nat.card Y).factorization 3 :=
@@ -333,7 +333,7 @@ theorem eInvNine_of_extraspecial27 (hZ : Subgroup.center Y = ⊥)
       obtain ⟨q, hq, rfl⟩ := hs
       refine subset_closure ⟨p * q, P.mul_mem hp hq, ?_⟩
       group
-    | one => simpa using (closure S).one_mem
+    | one => simp
     | mul a b _ _ iha ihb =>
       have := (closure S).mul_mem iha ihb
       convert this using 1
@@ -358,7 +358,7 @@ theorem eInvNine_of_extraspecial27_four (hZ : Subgroup.center Y = ⊥)
     (hz1 : ⁅x, y⁆ ≠ 1) (hL : (Nat.card Y).factorization 3 = 3)
     (h₁ : FourDatum ⁅x, y⁆ x) (h₂ : FourDatum ⁅x, y⁆ y) (h₃ : FourDatum ⁅x, y⁆ (x * y))
     (h₄ : FourDatum ⁅x, y⁆ (x * y ^ 2)) : EInvNine Y := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set P := closure ({x, y} : Set Y) with hP
   have hPcard : Nat.card P = 27 := Asc83Table.ex27_card hx hy hzx hzy hz1
   have hPsyl : Nat.card P = 3 ^ (Nat.card Y).factorization 3 :=

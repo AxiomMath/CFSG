@@ -59,8 +59,8 @@ theorem perfect_le_socle {K : Type} [Group K] [Finite K] (S : Subgroup K) [S.Nor
     (hsolv : Group.IsSolvable (CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥S))
     (D : Subgroup K) (hD : Nonempty (↥D ≃* alternatingGroup (Fin 6))) : D ≤ S := by
   obtain ⟨e⟩ := hD
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥D := e.isSimpleGroup
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥D := e.isSimpleGroup
   let φ : K →* CFSG.ComponentClassification.OuterAutomorphisms.Outer ↥S :=
     (QuotientGroup.mk' (CFSG.ComponentClassification.OuterAutomorphisms.inner ↥S)).comp
       (MulAut.conjNormal (H := S))
@@ -69,7 +69,7 @@ theorem perfect_le_socle {K : Type} [Group K] [Finite K] (S : Subgroup K) [S.Nor
   ·
     exfalso
     have hinj : Function.Injective ψ := (MonoidHom.ker_eq_bot_iff ψ).mp hker
-    haveI : Group.IsSolvable ↥D := Group.isSolvable_of_isSolvable_injective hinj
+    have : Group.IsSolvable ↥D := Group.isSolvable_of_isSolvable_injective hinj
     have hcomm : ∀ a b : ↥D, a * b = b * a :=
       IsSimpleGroup.comm_iff_isSolvable.mpr inferInstance
     obtain ⟨a, b, hab⟩ := socle_alt6_not_comm

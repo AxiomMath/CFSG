@@ -47,7 +47,7 @@ theorem burnsideF429_clause8_of (hsmall : burnsideF429_C8Small) :
     ∀ (κ : GLKind) (f : ℕ) (E : Type) [Group E] (Gp M₁ M₂ : Subgroup E),
       HypF_4_4 κ 2 f Gp M₁ M₂ → κ.IsLie → burnsideF429_C8 κ f Gp M₁ M₂ := by
   intro κ f E _ Gp M₁ M₂ hyp hκ
-  haveI := hyp.finite
+  have := hyp.finite
   by_cases hf : 2 ≤ f
   · exact burnsideF429_c8_of_le_perfectCore (Or.inl (burnsideF429_sbar_le_perfectCore hyp hκ hf).1)
   · have hf1 : f = 1 := by

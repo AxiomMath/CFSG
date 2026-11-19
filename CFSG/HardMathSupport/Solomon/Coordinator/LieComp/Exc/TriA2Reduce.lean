@@ -85,7 +85,7 @@ theorem compsWith_cocycle_q1 {P : (X : Type) → [Group X] → Prop} (hP : IsCom
     have := hp.two_le
     have h4 : p ≠ 4 := fun h => by rw [h] at hp; exact absurd hp (by norm_num)
     omega
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hq2 : 2 ≤ p ^ f := by
     have h3 : p ≤ p ^ f := Nat.le_self_pow (by omega) p
     have h2 := hp.two_le
@@ -218,8 +218,8 @@ theorem trialityOddA2Comps_of_toral (h1 : A2PlusComps) (h2 : A2MinusComps) :
     exact (compsFine_iff_compsWith _ _).1
       (h2 (K := K') (σ := σ') (s := s') hp hp2 hp3 hf' hq' hK' hσ' hs')
   · intro F _ _ hF
-    haveI : Fintype F := Fintype.ofFinite F
-    haveI : Fact ℓ.Prime := ⟨Fact.out⟩
+    have : Fintype F := Fintype.ofFinite F
+    have : Fact ℓ.Prime := ⟨Fact.out⟩
     have hFc : Fintype.card F = ℓ ^ f := by rw [← Nat.card_eq_fintype_card]; exact hF
     have hcharP : CharP F ℓ := charP_of_card_eq_prime_pow hFc
     exact (compsFine_iff_compsWith _ _).1 (compsFine_adjointGroup_G2 (ringChar.eq F ℓ))

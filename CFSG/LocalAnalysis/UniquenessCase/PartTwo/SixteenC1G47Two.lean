@@ -23,8 +23,8 @@ private theorem alt4_eq (S : Matrix (Fin 4) (Fin 4) (ZMod 2))
   have hsym : ∀ i j, S i j = S j i := by
     intro i j
     have h := hS (Pi.single i 1 + Pi.single j 1)
-    simp only [Matrix.mulVec_add, add_dotProduct, dotProduct_add, Matrix.mulVec_single_one,
-      dotProduct_single, single_dotProduct] at h
+    simp only [Matrix.mulVec_add, dotProduct_add, Matrix.mulVec_single_one,
+      dotProduct_single] at h
     simp [hdiag] at h
     have key : ∀ a b : ZMod 2, a + b = 0 → a = b := by decide
     exact key _ _ h
@@ -99,13 +99,12 @@ private theorem tb_ite (a : Bool) (x n : Nat) :
 
 private theorem dec_xorR (r r' : Rows) : dec (xorR r r') = dec r + dec r' := by
   ext i j
-  fin_cases i <;> simp [dec, xorR, tb_xor, b2z_xor]
+  fin_cases i <;> simp [dec, xorR, b2z_xor]
 
 private theorem dec_tApp (a b c d e f : Bool) (r : Rows) :
     dec (tApp a b c d e f r) = alt4 (b2z a) (b2z b) (b2z c) (b2z d) (b2z e) (b2z f) * dec r := by
   ext i j
-  fin_cases i <;> simp [dec, tApp, alt4, Matrix.mul_apply, Fin.sum_univ_four, tb_xor,
-    tb_ite, b2z_xor, b2z_and, add_assoc]
+  fin_cases i <;> simp [dec, tApp, alt4, Matrix.mul_apply, Fin.sum_univ_four, tb_ite, b2z_xor, b2z_and, add_assoc]
 
 private theorem dec_stepR (a b c d e f a' b' c' d' e' f' : Bool) (p : Rows × Rows) :
     decP (stepR a b c d e f a' b' c' d' e' f' p) =

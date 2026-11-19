@@ -79,7 +79,7 @@ theorem exists_conj_action_of_swap (hC : CentData z ι) {g₀ : G} (hz : g₀ * 
       ((eA α : ↥(Agrp ι)) : G) = ι (liftS8 (α : Perm (Fin 8))) := by
     intro α
     simp only [eA, MulEquiv.trans_apply, MulEquiv.subgroupCongr_apply,
-      MonoidHom.ofInjective_apply, F, MonoidHom.comp_apply, Subtype.coe_mk]
+      MonoidHom.ofInjective_apply, F, MonoidHom.comp_apply]
     rfl
   let c₀ : MulAut ↥(Agrp ι) :=
     (Subgroup.equivMapOfInjective (Agrp ι) (MulAut.conj g₀).toMonoidHom
@@ -105,7 +105,7 @@ theorem exists_conj_action_of_swap (hC : CentData z ι) {g₀ : G} (hz : g₀ * 
       ((θ ⟨s, hs⟩ : alternatingGroup (Fin 8)) : Perm (Fin 8)) = σ * s * σ⁻¹ := by
     intro s hs
     rw [← hσ]
-    simpa using MulAut.conjNormal_apply σ (⟨s, hs⟩ : alternatingGroup (Fin 8))
+    simp
   have hstar2 : ∀ s : Perm (Fin 8), s ∈ alternatingGroup (Fin 8) →
       g₀ * ι (liftS8 s) * g₀⁻¹ = ι (liftS8 (σ * s * σ⁻¹)) := by
     intro s hs
@@ -192,7 +192,7 @@ theorem gElt_of_conj_action (hC : CentData z ι) {g₀ : G} {σ : Perm (Fin 8)}
     have htcomm : σt * (ι τ₀) = (ι τ₀) * σt := by
       rw [hσt, ← map_mul, ← map_mul, liftS8_mul_τ₀]
     rw [mul_assoc, ← htcomm]; group
-  haveI hEcomm : IsMulCommutative ↥(Egrp z ι) :=
+  have hEcomm : IsMulCommutative ↥(Egrp z ι) :=
     IsMulCommutative.of_setLike_mul_comm fun a ha b hb => by
       obtain ⟨i, j, rfl⟩ := (mem_Egrp_iff hC).1 ha
       obtain ⟨k, l, rfl⟩ := (mem_Egrp_iff hC).1 hb

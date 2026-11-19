@@ -17,7 +17,7 @@ theorem isNaturalModule_of_dual {F : Type} [Field F] [Finite F] [CharP F 2] {W :
     [AddCommGroup W] [Module (ZMod 2) W] [Finite W] (ρ : Representation (ZMod 2) SL(2, F) W)
     (h : IsNaturalModule ρ.dual) : IsNaturalModule ρ := by
   classical
-  letI : Algebra (ZMod 2) F := ZMod.algebra F 2
+  let : Algebra (ZMod 2) F := ZMod.algebra F 2
   obtain ⟨φ, hφ⟩ := h
   have hφnat : ∀ (g : SL(2, F)) (f : Module.Dual (ZMod 2) W),
       φ ((ρ.dual g) f) = natRep F g (φ f) := by

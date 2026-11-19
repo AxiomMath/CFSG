@@ -46,7 +46,7 @@ theorem three_lt_evenRank_of_outer_element {A K L : Subgroup G} {e : G}
   set U : Subgroup ↥M := (S' : Subgroup ↥(K.subgroupOf M)).map (K.subgroupOf M).subtype with hU
   have hUne : U ≠ ⊥ := fun h =>
     hS'ne ((Subgroup.map_eq_bot_iff_of_injective _ (K.subgroupOf M).subtype_injective).mp h)
-  have hU2 : IsPGroup 2 U := S'.isPGroup'.map _
+  have hU2 : IsPGroup 2 U := S'.isPGroup.map _
   have hxp : x ^ 5 = 1 := by
     have := pow_orderOf_eq_one x
     rwa [hx5] at this

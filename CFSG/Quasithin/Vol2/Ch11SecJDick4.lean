@@ -50,7 +50,7 @@ theorem factDicksonGL2_holds : FactDicksonGL2 := by
   have : Fact r.Prime := ⟨hr⟩
   obtain ⟨P, hP⟩ := CFSG.OrderReductions.InvariantSylow.exists_invariant_sylow_of_coprime r p
     hQr hrY (Y.normalizerMonoidHom.comp (Subgroup.inclusion hQN))
-  have hPp : IsPGroup p ↥(P : Subgroup ↥Y) := P.isPGroup'
+  have hPp : IsPGroup p ↥(P : Subgroup ↥Y) := P.isPGroup
   have : Nontrivial ↥(P : Subgroup ↥Y) :=
     (Subgroup.nontrivial_iff_ne_bot _).2 (P.ne_bot_of_dvd_card hpY)
   have hZ : Nontrivial (Subgroup.center ↥(P : Subgroup ↥Y)) := hPp.center_nontrivial

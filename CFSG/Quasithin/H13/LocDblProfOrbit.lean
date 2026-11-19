@@ -17,7 +17,7 @@ theorem orbit_card_eq_one_or_six_le {Y : Type*} [Group Y] [Finite Y] (h9 : 9 ∣
   push Not at hcon
   obtain ⟨hne1, hlt6⟩ := hcon
   set f := MulAction.toPermHom Y (MulAction.orbit Y x) with hf
-  haveI : Finite (MulAction.orbit Y x) :=
+  have : Finite (MulAction.orbit Y x) :=
     Finite.of_surjective (fun y : Y => (⟨y • x, y, rfl⟩ : MulAction.orbit Y x))
       (fun ⟨z, y, hy⟩ => ⟨y, Subtype.ext hy⟩)
   by_cases hK : f.ker = ⊤
@@ -38,7 +38,7 @@ theorem orbit_card_eq_one_or_six_le {Y : Type*} [Group Y] [Finite Y] (h9 : 9 ∣
           = ⟨x, MulAction.mem_orbit_self x⟩ := htriv yb _
       have e1 := congrArg Subtype.val h1
       have e2 := congrArg Subtype.val h2
-      simp only [Submonoid.smul_def, Subgroup.smul_def] at e1 e2
+      simp only at e1 e2
       rw [← hya, ← hyb]
       exact e1.trans e2.symm
     exact Nat.card_of_subsingleton ⟨x, MulAction.mem_orbit_self x⟩

@@ -38,6 +38,7 @@ section Fix
 
 variable {S : Type} [Group S] [Finite S] {f : ℕ}
 
+omit [Finite S] in
 theorem suzuki_outer_cyclic (hS : SuzukiModel S 2 f) : IsCyclic (Outer S) :=
   (CFSG.LieType.Suzuki.Suzuki_model_and_perfect_cover_outer_cyclicity.{0} S 2 f hS).1.1
 
@@ -62,6 +63,7 @@ noncomputable def fixSubgroupConjEquiv' {Y : Type*} [Group Y] (β α : MulAut Y)
     rfl
   exact (fixSubgroupCongrEquiv (β : Y ≃* Y) α).trans (MulEquiv.subgroupCongr (by rw [hc]))
 
+omit [Finite S] in
 theorem suzuki_outer_fix (hS : SuzukiModel S 2 f) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {α : MulAut S}
     (hα : orderOf α = p) (hout : α ∉ inner S) :
     (f = p ∧ Nat.card ↥(fixSubgroup α) = 20) ∨
@@ -86,8 +88,8 @@ theorem suzuki_outer_fix (hS : SuzukiModel S 2 f) {p : ℕ} (hp : p.Prime) (hp2 
     norm_num
   · right
     obtain ⟨hfin, hnt, hsimple⟩ := CFSG.LieType.Ree.suzuki_simple hb1 hkcard
-    haveI := hsimple
-    haveI := hnt
+    have := hsimple
+    have := hnt
     refine ⟨e₁.isSimpleGroup, ?_⟩
     obtain ⟨x, y, hxy⟩ := exists_noncomm_of_commutator_eq_top
       (CFSG.LieType.Ree.suzuki_perfect hb1 hkcard).1
@@ -117,8 +119,8 @@ theorem isQuasisimple_of_simple_nonab' {L : Type*} [Group L] [IsSimpleGroup L]
 theorem glaPLayer_ne_bot_of_simple {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp : p.Prime)
     {X : Subgroup Y} (hs : IsSimpleGroup ↥X) (hnc : ∃ x y : ↥X, x * y ≠ y * x)
     (hdvd : p ∣ Nat.card X) : GLAPLayer p X ≠ ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI := hs
+  have : Fact p.Prime := ⟨hp⟩
+  have := hs
   have hq : CFSG.Open.IsQuasisimple ↥X := isQuasisimple_of_simple_nonab' hnc
   have hcore : GLAPPrimeCore p ↥X = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (GLAPPrimeCore p ↥X) with h | h
@@ -139,6 +141,7 @@ theorem glaPLayer_ne_bot_of_simple {Y : Type} [Group Y] [Finite Y] {p : ℕ} (hp
   have hx1 : x = 1 := Subtype.ext hx
   rw [hx1, one_mul, mul_one]
 
+omit [Finite S] in
 theorem szSylow_of_model_five (hS : SuzukiModel S 2 5) : SzSylow S := by
   obtain ⟨-, a, ha, F, _, _, hfa, hF, ⟨e⟩⟩ := hS
   have ha2 : a = 2 := by omega
@@ -155,8 +158,8 @@ variable {S : Type} [Group S] [Finite S]
 
 theorem not_five_normalizes_two (h : SzSylow S) {T : Subgroup S} (hT2 : IsPGroup 2 T) (hT : T ≠ ⊥)
     {s : S} (hs : orderOf s = 5) (hn : T.map (MulAut.conj s).toMonoidHom = T) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite S := Finite.of_equiv _ (Equiv.refl S)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite S := Finite.of_equiv _ (Equiv.refl S)
   obtain ⟨V, hTV⟩ := hT2.exists_le_sylow
   have hTsV : T ≤ ((s • V : Sylow 2 S) : Subgroup S) := by
     intro t ht
@@ -197,6 +200,7 @@ section RankOne
 
 variable {S : Type} [Group S] [Finite S] {f : ℕ}
 
+omit [Finite S] in
 theorem map_conj_eq_of_mem_normalizer {T : Subgroup S} {s : S}
     (hs : s ∈ Subgroup.normalizer (T : Set S)) : T.map (MulAut.conj s).toMonoidHom = T := by
   ext x

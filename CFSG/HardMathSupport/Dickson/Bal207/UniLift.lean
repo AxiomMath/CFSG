@@ -225,7 +225,7 @@ theorem ker_uniRestr_le_center {J : Subgroup X} (hJK : J ≤ K) :
   have := Subgroup.mem_center_iff.1 h1 (Subgroup.inclusion hJK i)
   exact Subtype.ext (congrArg (fun w : ↥K => (w : X)) this)
 
-theorem uni_component [Finite X] {p : ℕ} (hp : p.Prime) (hK : CFSG.Open.IsQuasisimple ↥K)
+theorem uni_component [Finite X] {p : ℕ} (hp : p.Prime) (_hK : CFSG.Open.IsQuasisimple ↥K)
     (hZ : Nat.Coprime p (Nat.card (Subgroup.center ↥K))) {a : X}
     (ha : a ∈ Subgroup.normalizer (K : Set X)) (hlay : PerfectInLayer (uniAut e ⟨a, ha⟩))
     {J : Subgroup X} (hJ : GLAPComponent p (K ⊓ Subgroup.centralizer ({a} : Set X)) J) :

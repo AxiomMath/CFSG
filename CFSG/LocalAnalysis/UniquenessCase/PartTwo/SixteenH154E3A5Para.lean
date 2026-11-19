@@ -16,7 +16,7 @@ private theorem s16h_e3_a5_para_norm_card {X : Type} [Group X]
     (ψ : X ≃* alternatingGroup (Fin 5)) (T : Subgroup X)
     (hT : IsPGroup 2 T) (hodd : ¬ 2 ∣ T.index) :
     Nat.card (Subgroup.normalizer (T : Set X)) = 12 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let T' : Subgroup (alternatingGroup (Fin 5)) := T.map ψ.toMonoidHom
   have hT' : IsPGroup 2 T' := hT.map ψ.toMonoidHom
   have hodd' : ¬ 2 ∣ T'.index := by
@@ -54,14 +54,14 @@ private theorem s16h_e3_a5_para_L_ne_L' {W : Type} [CommGroup W] [Finite W]
     have ha : a = 1 := Subgroup.mem_bot.mp (htopbot ▸ Subgroup.mem_top a)
     have hb : b = 1 := Subgroup.mem_bot.mp (htopbot ▸ Subgroup.mem_top b)
     rw [ha, hb]⟩
-  haveI : Subsingleton (MulAut W) :=
+  have : Subsingleton (MulAut W) :=
     ⟨fun f g => MulEquiv.ext fun w => Subsingleton.elim (f w) (g w)⟩
   obtain ⟨e⟩ := hL
   have hc : Nat.card ↥L = 60 := by
     rw [Nat.card_congr e.toEquiv, nat_card_alternatingGroup]
     norm_num
   have h1 : Nat.card ↥L = 1 := by
-    haveI : Subsingleton ↥L := inferInstance
+    have : Subsingleton ↥L := inferInstance
     exact Nat.card_eq_one_iff_unique.mpr ⟨inferInstance, ⟨1⟩⟩
   omega
 
@@ -126,7 +126,7 @@ private theorem s16h_e3_a5_para_mem_sup_of_commute {G : Type} [Group G] {H K : S
 private theorem s16h_e3_a5_para_mem_of_pow_nine {Y : Type} [Group Y]
     {X : Subgroup Y} [hN : X.Normal] (hP : IsPGroup 2 (Y ⧸ X)) {y : Y}
     (hy : y ^ 9 = 1) : y ∈ X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hq9 : (QuotientGroup.mk' X y) ^ 9 = 1 := by
     rw [← map_pow, hy, map_one]
   obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp hP) (QuotientGroup.mk' X y)
@@ -145,7 +145,7 @@ theorem s16h_e3_a5_parabolic {W : Type} [CommGroup W] [Finite W]
     ∃ (J : Subgroup (MulAut W)) (a : ℕ), J ≤ X ∧ T ≤ J ∧ Nat.card ↥J = 2 ^ a * 9 ∧
       ∀ x ∈ J, x ^ 9 = 1 → x ^ 3 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, htT, htL, -⟩ := F.swap
   have hLL' : L ≠ L' := s16h_e3_a5_para_L_ne_L' F hL
   have hperm : ∀ x ∈ X,

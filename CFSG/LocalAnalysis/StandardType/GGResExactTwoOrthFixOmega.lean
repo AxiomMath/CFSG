@@ -250,6 +250,7 @@ private theorem ggResX2FixAux_sgnAut_apply_self {n : ℕ} (i : Fin n)
     (f : Fin n → Multiplicative (ZMod p)) : (sgnAut i f) i = (f i)⁻¹ := by
   rw [sgnAut_apply, Function.update_self]
 
+omit [Finite K] in
 private theorem ggResX2FixAux_finrank_fixedSpace (Δ : TBJOmData Q p A r)
     (hQ : (polarBilin Q).Nondegenerate) (hps : IsPlaneSystem Q Δ.F.U)
     (f₀ : Fin r → Multiplicative (ZMod p)) :
@@ -552,7 +553,7 @@ private theorem ggResX2FixAux_fixed_factor [Fact p.Prime] (hp2 : p ≠ 2)
         exact ggResX2FixAux_sign_eq_one hp2 Δ hQ hA hi hW4 hfix hnonsplit hF'eq hcomm
 
 theorem ggResX2FixAux_isPlaneSystem [Fact p.Prime] (hp2 : p ≠ 2) (Δ : TBJOmData Q p A r)
-    (hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
+    (_hQ : (polarBilin Q).Nondegenerate) (hA : A ≤ orthDerived Q)
     (hpq : p ∣ Nat.card K + 1) :
     IsPlaneSystem Q Δ.F.U := by
   refine ⟨Δ.finrank_piece, ?_, ?_, Δ.F.orth⟩

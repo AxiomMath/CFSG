@@ -84,7 +84,7 @@ theorem not_two_dvd_genericOrders {t : StatedLieTag} {N f : ℕ} (hf : 1 ≤ f)
     | exact absurd rfl ht
     | exact ⟨fun h => hm (h.trans (Nat.gcd_dvd_right _ _)), by norm_num⟩
     | exact ⟨fun h => hp (h.trans (Nat.gcd_dvd_right _ _)), by norm_num⟩
-    | (simp only [hq, if_true]; norm_num)
+    | (simp only [hq, ite_true]; norm_num)
     | norm_num
 
 theorem exceptionalOrders_two_cases {t : StatedLieTag} {N p f : ℕ}
@@ -139,7 +139,7 @@ theorem torsBound_two_mark_cases {lab : GLALabel} (hlab : GLAInLambda2 lab)
     omega
   obtain ⟨-, key⟩ := exceptionalOrders_two_cases he
   cases t <;> simp only [markTag, markRank, markDeg] at key <;> (try split_ifs at key) <;>
-    simp_all [exempt107, cover107, small67] <;> omega
+    simp_all [exempt107, cover107, small67]; omega
 
 theorem upA107_le_two_of_small67 {lab : GLALabel} (hs : small67 lab) {p : ℕ} (hp : p.Prime)
     (hp2 : p ≠ 2) : upA107 lab p ≤ 2 := by
@@ -156,28 +156,28 @@ theorem upA107_le_two_of_small67 {lab : GLALabel} (hs : small67 lab) {p : ℕ} (
   have hpos : ∀ n, 0 < rk2Ord p n := rk2Ord_pos hp hp2
   rcases hs with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
   · have := hpos 2
-    simp only [upA107, rk2Mult, hd2, if_false]
+    simp only [upA107, rk2Mult, hd2, ite_false]
     generalize rk2Ord p 2 = m at *
     have : 2 / m ≤ 2 := Nat.div_le_self _ _
-    split_ifs <;> simp_all <;> omega
+    split_ifs <;> simp_all
   · have := hpos 1
-    simp only [upA107, rk2Mult, hd1, if_false]
+    simp only [upA107, rk2Mult, hd1, ite_false]
     generalize rk2Ord p 1 = m at *
     have h4 : m % 2 = 0 → 4 / m ≤ 2 := fun h => Nat.div_le_of_le_mul (by omega)
     have : 2 / m ≤ 2 := Nat.div_le_self _ _
     split_ifs <;> simp_all <;> omega
   · have := hpos 1
-    simp only [upA107, rk2Mult, hd1, if_false]
+    simp only [upA107, rk2Mult, hd1, ite_false]
     generalize rk2Ord p 1 = m at *
     have : 3 / m ≤ 2 := Nat.div_le_of_le_mul (by omega)
-    split_ifs <;> simp_all <;> omega
+    split_ifs <;> simp_all
   · have := hpos 1
-    simp only [upA107, rk2Mult, hd1, if_false]
+    simp only [upA107, rk2Mult, hd1, ite_false]
     generalize rk2Ord p 1 = m at *
     have : 4 / m ≤ 2 := Nat.div_le_of_le_mul (by omega)
-    split_ifs <;> simp_all <;> omega
+    split_ifs <;> simp_all
   · have := hpos 1
-    simp only [upA107, rk2Mult, hd1, if_false]
+    simp only [upA107, rk2Mult, hd1, ite_false]
     generalize rk2Ord p 1 = m at *
     rcases (by omega : m = 2 ∨ 3 ≤ m) with rfl | hm3
     · norm_num
@@ -185,22 +185,22 @@ theorem upA107_le_two_of_small67 {lab : GLALabel} (hs : small67 lab) {p : ℕ} (
       have : 3 / m ≤ 1 := Nat.div_le_of_le_mul (by omega)
       split_ifs <;> simp_all <;> omega
   · have := hpos 2
-    simp only [upA107, rk2Mult, hd2, if_false]
+    simp only [upA107, rk2Mult, hd2, ite_false]
     generalize rk2Ord p 2 = m at *
     have : m ≠ 1 → 3 / m ≤ 2 := fun h => Nat.div_le_of_le_mul (by omega)
-    split_ifs <;> simp_all <;> omega
-  · simp only [upA107, rk2Mult, rk2Cnt, List.countP_cons, List.countP_nil, hd2, if_false]
+    split_ifs <;> simp_all
+  · simp only [upA107, rk2Mult, rk2Cnt, List.countP_cons, List.countP_nil, hd2, ite_false]
     split_ifs <;> simp_all
   · simp only [upA107, rk2Mult, rk2Cnt]
     generalize rk2Ord p 3 = m at *
     have hx : ¬ (m ∣ 1 ∧ (m ∣ 2 * 2 ∧ ¬ m ∣ 2)) := fun ⟨h1, _, h3⟩ => h3 (h1.trans (one_dvd 2))
     simp only [List.countP_cons, List.countP_nil]
-    split_ifs <;> simp_all <;> omega
+    split_ifs <;> simp_all
   · have := hpos 1
-    simp only [upA107, rk2Mult, hd1, if_false]
+    simp only [upA107, rk2Mult, hd1, ite_false]
     generalize rk2Ord p 1 = m at *
     have h4 : m % 2 = 0 → 4 / m ≤ 2 := fun h => Nat.div_le_of_le_mul (by omega)
     have : 2 / m ≤ 2 := Nat.div_le_self _ _
-    split_ifs <;> simp_all <;> omega
+    split_ifs <;> simp_all
 
 end CFSG.LocalAnalysis.GLTheoremA

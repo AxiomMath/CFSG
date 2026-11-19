@@ -44,7 +44,7 @@ section Abstract
 variable {G : Type*} [Group G] [Finite G]
 theorem conj_mem_of_index_le_three {H : Subgroup G} (hH : H.index ≤ 3) {p : G} (hp : p ∈ H) {k : ℕ}
     (hk : p ^ (3 ^ k) = 1) (g : G) : g⁻¹ * p * g ∈ H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hpg : IsPGroup 3 (Subgroup.zpowers p) :=
     IsPGroup.of_card_dvd_pow (n := k) (by rw [Nat.card_zpowers]; exact orderOf_dvd_of_pow_eq_one hk)
   have hmod := hpg.card_modEq_card_fixedPoints (G ⧸ H)
@@ -88,6 +88,7 @@ theorem conj_mem_map_of_normal {A B : Type*} [Group A] [Group B] (κ : A →* B)
 variable {K : Type} [Field K] [Finite K] {d : ℕ} (Q : QuadraticForm K (Fin d → K))
 
 
+omit [Finite K] in
 theorem layers_conj {e : MulAut (matrixProjectiveDerived Q)} (he : e ∈ matrixProjectiveImage Q) :
     (∀ y ∈ (specialIsometries Q).map (isometryConjugationHom Q),
       e * y * e⁻¹ ∈ (specialIsometries Q).map (isometryConjugationHom Q)) ∧
@@ -106,8 +107,8 @@ theorem layers_conj {e : MulAut (matrixProjectiveDerived Q)} (he : e ∈ matrixP
   have h3 : (linearConjugationHom Q).range =
       (linearSimilarityPairs Q).map (matrixProjectiveConjugationHom Q) := by
     rw [linearConjugationHom, MonoidHom.range_comp, Subgroup.range_subtype]
-  haveI := specialPairs_normal Q
-  haveI := matrixIsometryPairs_normal Q
+  have := specialPairs_normal Q
+  have := matrixIsometryPairs_normal Q
   refine ⟨fun y hy => ?_, fun y hy => ?_, fun y hy => ?_⟩
   · rw [h1] at hy ⊢
     exact conj_mem_map_of_normal (matrixProjectiveConjugationHom Q) _ g hy
@@ -120,7 +121,7 @@ theorem comm_mem_linearRange {e₁ e₂ : MulAut (matrixProjectiveDerived Q)}
     (h₁ : e₁ ∈ matrixProjectiveImage Q) (h₂ : e₂ ∈ matrixProjectiveImage Q) :
     ⁅e₁, e₂⁆ ∈ (linearConjugationHom Q).range := by
   obtain ⟨g, hgE, hg⟩ := exists_gen_image Q
-  haveI := linearRange_normal Q
+  have := linearRange_normal Q
   set D' := (linearConjugationHom Q).range.subgroupOf (matrixProjectiveImage Q) with hD'
   have hcyc : IsCyclic (↥(matrixProjectiveImage Q) ⧸ D') := by
     refine ⟨⟨QuotientGroup.mk ⟨g, hgE⟩, fun y => ?_⟩⟩
@@ -151,7 +152,7 @@ theorem le_inner_of_commutator_eq_self
     (hP3 : ∀ p ∈ P, ∃ k : ℕ, p ^ (3 ^ k) = 1) (hPE : P ≤ matrixProjectiveImage Q)
     (hTP : (⁅T, P⁆ : Subgroup (MulAut (matrixProjectiveDerived Q))) = T) :
     T ≤ Inn (matrixProjectiveDerived Q) := by
-  haveI : Finite (MulAut (matrixProjectiveDerived Q)) := inferInstance
+  have : Finite (MulAut (matrixProjectiveDerived Q)) := inferInstance
   have hNK : Inn (matrixProjectiveDerived Q) ≤
       (specialIsometries Q).map (isometryConjugationHom Q) := by
     rw [inner_eq_map_commutator Q]
@@ -251,7 +252,7 @@ theorem i117D4UsedAt_of_noTriality [Finite G] (hN : NoTrialityOddAt G) : I117D4U
   intro B x J S hB hx hJ hBJ hD hS hSC hSJ hBS hSB s hs
   have hq : CFSG.Open.IsQuasisimple (PQuot 3 J) :=
     isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hJ
-  haveI : Group.IsPerfect (PQuot 3 J) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot 3 J) := ⟨hq.1⟩
   have hSN : S ≤ Subgroup.normalizer (J : Set G) := hSJ
   set N : Subgroup G := Subgroup.normalizer (J : Set G) with hN'
   have hBnorm : B.subgroupOf N ≤ Subgroup.normalizer (S.subgroupOf N : Set ↥N) := by

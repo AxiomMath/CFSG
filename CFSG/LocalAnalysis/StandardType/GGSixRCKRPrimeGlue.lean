@@ -37,11 +37,11 @@ theorem rckRootPosKnownFlag_of_at
     (hC : RCKRPAt RCKClassicalTag) (hE : RCKRPAt GGExcFive) :
     RCKRootPosKnownFlag := by
   intro X _ _ t n f ψ p G₀ A B₁ D J L
-  intro hpres hodd hprime hne2 habel hB1A hDB1 hcardD hAnorm hmarkG
+    hpres hodd hprime hne2 habel hB1A hDB1 hcardD hAnorm hmarkG
     hnormJ hinf hpow hAnorm2 hrankA hbot hnormL hmarkL hcompJ hoddJ hLG0 hex hnotD hcompJL
     hisEmpty
-  intro R Rm hRJ hRmJ hroot
-  intro e heD hene K hcompK hJK hoddK
+    R Rm hRJ hRmJ hroot
+    e heD hene K hcompK hJK hoddK
   unfold GGPresentsG0 at hpres
   have hadm : StatedLieAdmissible t n 2 f := hpres.1.1
   have hrank : 2 ≤ (ggU t n f).D.rank := hpres.1.2
@@ -59,11 +59,11 @@ theorem rckRootPosKnownII_of_at
     (hC : RCKRPIIAt RCKClassicalTag) (hE : RCKRPIIAt GGExcFive) :
     RCKRootPosKnownII := by
   intro X _ _ t n f ψ p G₀ A B₁ D J L
-  intro hrow hpres hodd hprime hne2 habel hB1A hDB1 hcardD hAnorm hmarkG
+    hrow hpres hodd hprime hne2 habel hB1A hDB1 hcardD hAnorm hmarkG
     hnormJ hinf hpow hAnorm2 hrankA hbot hnormL hmarkL hcompJ hoddJ hLG0 hex hnotD hcompJL
     hisEmpty
-  intro R Rm hRJ hRmJ hroot hcardR
-  intro e heD hene K hcompK hJK hoddK
+    R Rm hRJ hRmJ hroot hcardR
+    e heD hene K hcompK hJK hoddK
   unfold GGPresentsG0 at hpres
   have hadm : StatedLieAdmissible t n 2 f := hpres.1.1
   have hrank : 2 ≤ (ggU t n f).D.rank := hpres.1.2

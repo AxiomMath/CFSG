@@ -18,8 +18,8 @@ variable {G : Type} [Group G] [Finite G]
 private theorem dvd_card_pQuot {p : ℕ} (hp : p.Prime) {X H : Subgroup G}
     (hH : GLAPComponent p X H) : p ∣ Nat.card (PQuot p H) := by
   by_contra hdvd
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Nontrivial (PQuot p H) := isQuasisimple_nontrivial
+  have : Fact p.Prime := ⟨hp⟩
+  have : Nontrivial (PQuot p H) := isQuasisimple_nontrivial
     (isQuasisimple_pQuot_of_glaPComponent hp hH)
   have hKc : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥H)) := CFSG.pPrimeCore_coprime_card
   have hcard : Nat.card ↥H = Nat.card (PQuot p H) * Nat.card (GLAPPrimeCore p ↥H) :=
@@ -39,7 +39,7 @@ private theorem not_le_centModSubgroup_of_maximal {p : ℕ} (hp : p.Prime) (hp2 
     ¬ B ≤ centModSubgroup p H := by
   intro hC
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let π : ↥H →* PQuot p H := QuotientGroup.mk' (GLAPPrimeCore p ↥H)
   have hKc : Nat.Coprime p (Nat.card (GLAPPrimeCore p ↥H)) := CFSG.pPrimeCore_coprime_card
   obtain ⟨yb, hyord, hycen⟩ :=
@@ -141,7 +141,7 @@ theorem le_commutator_of_maximal {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {X H B
     (hmax : ∀ E : Subgroup G, IsElemAbelian p E → B ≤ E → E ≤ H ⊔ B → E = B) :
     H ≤ (⁅H, B⁆ : Subgroup G) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set N : Subgroup G := ⁅H, B⁆ with hN
   have hNH : N ≤ H := by
     rw [hN, Subgroup.commutator_le]

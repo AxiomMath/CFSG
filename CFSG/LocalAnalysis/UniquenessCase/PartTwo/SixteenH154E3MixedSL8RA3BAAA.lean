@@ -50,7 +50,7 @@ theorem s16h_sl28_C_M_Z_elemAbelian_seven
   have hsupM : L ⊔ conjSubgroup L x ≤ D.M := sup_le h.hyp151.le hLxM
   have hrank : 2 ≤ CFSG.Open.pRank 7 (L ⊔ conjSubgroup L x) :=
     s16h_sl28_seven_sup_pRank_two D h hrow hxM hxn
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨E, hEjoin, hEab, hEcard⟩ :=
     CFSG.SectionRank.exists_isElemAbelian_card_of_le_pRank (p := 7) (k := 2) hrank
   exact ⟨E, hEjoin.trans hsupM, hEjoin.trans hsupZ, hEab, hEcard⟩

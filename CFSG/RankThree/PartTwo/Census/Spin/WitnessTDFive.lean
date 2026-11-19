@@ -421,9 +421,8 @@ theorem three_witness_four {M : Type*} [Group M] {H : Subgroup M} {g₀ g₁ g�
     exacts [an, bn, cn, dn]
   · intro a b hab
     fin_cases a <;> fin_cases b
-    all_goals first
+    all_goals try first
       | exact absurd hab (by decide)
-      | skip
     exacts [o10, o20, o30, o21, o31, o32]
   · intro a
     fin_cases a

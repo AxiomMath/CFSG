@@ -16,14 +16,14 @@ private lemma nine3_polar_comb_left {F M : Type} [Field F] [CharP F 2] [AddCommG
     [Module F M] (Q : QuadraticMap F M F) (y u v : M) {a b : F} :
     polar Q (y + a • u + b • v) u = polar Q y u + b * polar Q v u := by
   have huu : polar Q u u = 0 := nine3_polar_self_zero Q u
-  simp only [polar_add_left, polar_smul_left, huu, smul_zero, mul_zero, add_zero,
+  simp only [polar_add_left, polar_smul_left, huu, mul_zero, add_zero,
     smul_eq_mul]
 
 private lemma nine3_polar_comb_right {F M : Type} [Field F] [CharP F 2] [AddCommGroup M]
     [Module F M] (Q : QuadraticMap F M F) (y u v : M) {a b : F} :
     polar Q (y + a • u + b • v) v = polar Q y v + a * polar Q u v := by
   have hvv : polar Q v v = 0 := nine3_polar_self_zero Q v
-  simp only [polar_add_left, polar_smul_left, hvv, smul_zero, mul_zero, add_zero,
+  simp only [polar_add_left, polar_smul_left, hvv, mul_zero, add_zero,
     smul_eq_mul]
 
 private lemma nine3_polar_preserve {F M : Type} [Field F] [AddCommGroup M] [Module F M]
@@ -119,13 +119,13 @@ private lemma nine3_orth_exists_w {F M : Type} [Field F] [CharP F 2] [AddCommGro
 theorem nine3_orth_exists_nonsing {F M : Type} [Field F] [Finite F] [CharP F 2] [AddCommGroup M]
     [Module F M] [FiniteDimensional F M] (Q : QuadraticMap F M F)
     (hB : ∀ x : M, (∀ y : M, polar Q x y = 0) → x = 0) {p q p' s : M}
-    (hp : Q p ≠ 0) (hq : Q q ≠ 0) (hp' : Q p' ≠ 0) (hs : Q s ≠ 0)
+    (hp : Q p ≠ 0) (_hq : Q q ≠ 0) (hp' : Q p' ≠ 0) (hs : Q s ≠ 0)
     (hpq : polar Q p q ≠ 0) (hp'q : polar Q p' q ≠ 0) (hpp' : polar Q p p' = 0)
     (hne : ∀ t : F, p' ≠ t • p) (hsp : polar Q s p = 0) (hsq : polar Q s q = 0)
     (hsp' : polar Q s p' = 0) :
     ∃ s' : M, Q s' ≠ 0 ∧ polar Q s' p = 0 ∧ polar Q s' q = 0 ∧ polar Q s s' ≠ 0 := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   obtain ⟨w, hwp, hwq, hsw⟩ := nine3_orth_exists_w Q hB hpq hs hsp hsq
   have hcard2le : 2 ≤ Fintype.card F := Nat.succ_le_of_lt Fintype.one_lt_card
   rcases lt_or_eq_of_le hcard2le with hgt | heq

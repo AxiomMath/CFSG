@@ -84,7 +84,7 @@ variable {G : Type*} [Group G] [Finite G]
 
 theorem s15k_table_one_le_pRank {H : Subgroup G} {x : G} (hxH : x ∈ H) (hx : x ^ 3 = 1)
     (hx1 : x ≠ 1) : 1 ≤ pRank 3 H := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf x = 3 := orderOf_eq_prime hx hx1
   refine le_pRank (by norm_num) (E := Subgroup.zpowers x) ?_ ?_ ?_
   · rw [Subgroup.zpowers_le]
@@ -97,7 +97,7 @@ theorem s15k_table_one_le_pRank {H : Subgroup G} {x : G} (hxH : x ∈ H) (hx : x
 theorem s15k_table_two_le_pRank {H : Subgroup G} {x y : G} (hxH : x ∈ H) (hyH : y ∈ H)
     (hx : x ^ 3 = 1) (hy : y ^ 3 = 1) (hxy : Commute x y) (hx1 : x ≠ 1)
     (hy1 : ∀ n : ℕ, x ^ n ≠ y) : 2 ≤ pRank 3 H := by
-  haveI hp : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hp : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set B₀ : Subgroup G := ⊥
   have h₀ : ∀ b : B₀, B₀.subtype b = 1 := fun b => Subgroup.mem_bot.1 b.2
   have hc₀ : ∀ a b : B₀, a * b = b * a := fun a b => Subtype.ext (by

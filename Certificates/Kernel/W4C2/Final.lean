@@ -105,11 +105,11 @@ theorem orb_all : orbOK (Hlist ()) = true := by
     rw [eqV_appE, cd_rowsOf hlt]
     by_cases hc : (n % 16 == 0) = true ∨ (n / 16 == 0) = true
     · have hc' : (n % 16 == 0 || n / 16 == 0) = true := by simpa [Bool.or_eq_true] using hc
-      rw [if_pos hc]
+      rw [ite_eq_left hc]
       rw [hc'] at heq
       exact heq
     · have hc' : (n % 16 == 0 || n / 16 == 0) = false := by simpa [Bool.or_eq_true] using hc
-      rw [if_neg hc]
+      rw [ite_eq_right hc]
       rw [hc'] at heq
       exact heq
 

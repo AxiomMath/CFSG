@@ -17,12 +17,12 @@ private def diagHom (d : ℕ) (F : Type) [Field F] : (Fin d → Fˣ) →* GL (Fi
         rw [Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one,
           Matrix.diagonal_injective.eq_iff]
         funext i
-        simpa using (f i).mul_inv,
+        simp,
       by
         rw [Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one,
           Matrix.diagonal_injective.eq_iff]
         funext i
-        simpa using (f i).inv_mul⟩
+        simp⟩
   map_one' := by
     apply Units.ext
     simp
@@ -192,7 +192,7 @@ private theorem isElemAbelian_diagP {p d : ℕ} {F : Type} [Field F] :
 private theorem card_rootsOfUnity_prime {p : ℕ} {F : Type} [Field F] [Finite F]
     (hp : p.Prime) (hdvd : p ∣ Nat.card F - 1) :
     Nat.card (rootsOfUnity p F) = p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hdvd' : p ∣ Nat.card Fˣ := by rwa [Nat.card_units F]
   obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' p hdvd'
   have hxroot : x ∈ rootsOfUnity p F := by

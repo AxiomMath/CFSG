@@ -24,6 +24,7 @@ open scoped Pointwise commutatorElement
 
 variable {τ : Tag} {L : Type} [Field L] [IsAlgClosed L]
 
+omit [IsAlgClosed L] in
 theorem map_fixedPointSubgroup_conj_eq {Ψ : Set (Fin τ.rank → ℤ)}
     {F F' : ModGL τ L →* ModGL τ L} {z : ModGL τ L}
     (hconj : ∀ g, F' (z⁻¹ * g * z) = z⁻¹ * F g * z)
@@ -56,6 +57,7 @@ theorem map_fixedPointSubgroup_conj_eq {Ψ : Set (Fin τ.rank → ℤ)}
     rw [hφ]
     group
 
+omit [IsAlgClosed L] in
 theorem map_fixedPointSubgroup_conj_eq_of_pin {Ψ : Set (Fin τ.rank → ℤ)}
     {F F' : ModGL τ L →* ModGL τ L} {y z : ModGL τ L}
     (hF' : ∀ g, F' g = y * F g * y⁻¹) (hz : F z = z * y)

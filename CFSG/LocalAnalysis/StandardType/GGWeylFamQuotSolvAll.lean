@@ -153,7 +153,7 @@ theorem conj_mem_famReflectionGroup {F : Set (Fin τ.rank → Kˣ)} {w s : WeylG
       rootReflection_smul_root w hα.1
     rw [← hrefl]
     exact Subgroup.subset_closure ⟨w • α, hα', rfl⟩
-  | one => simpa using Subgroup.one_mem _
+  | one => simp
   | mul x y _ _ hx hy =>
     have : w * (x * y) * w⁻¹ = (w * x * w⁻¹) * (w * y * w⁻¹) := by group
     rw [this]
@@ -177,10 +177,10 @@ theorem exists_ggDer_famStabilizerSubgroup_le_reflection [Finite K] {p : ℕ} (h
     (F : Set (Fin τ.rank → Kˣ)) (hF : ∀ a ∈ F, ∃ n : ℕ, a ^ p ^ n = 1) :
     ∃ k, LayerFacts.ggDer (famStabilizerSubgroup F) k ≤ famReflectionGroup F := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set H := famStabilizerSubgroup F with hH
   set N : Subgroup H := (famReflectionGroup F).subgroupOf H with hN
-  haveI hNn : N.Normal := ⟨fun n hn h => by
+  have hNn : N.Normal := ⟨fun n hn h => by
     show ((h * n * h⁻¹ : H) : WeylGroup τ) ∈ famReflectionGroup F
     exact conj_mem_famReflectionGroup h.2 hn⟩
   have hP : IsPGroup p (H ⧸ N) := by
@@ -198,8 +198,8 @@ theorem exists_ggDer_famStabilizerSubgroup_le_reflection [Finite K] {p : ℕ} (h
       exact ((Nat.Prime.coprime_iff_not_dvd hp).2 hm).symm
     rw [← QuotientGroup.mk_pow, QuotientGroup.eq_one_iff]
     exact hmem
-  haveI : Group.IsNilpotent (H ⧸ N) := hP.isNilpotent
-  haveI : Group.IsSolvable (H ⧸ N) := inferInstance
+  have : Group.IsNilpotent (H ⧸ N) := hP.isNilpotent
+  have : Group.IsSolvable (H ⧸ N) := inferInstance
   obtain ⟨k, hk⟩ := (inferInstance : Group.IsSolvable (H ⧸ N)).solvable
   refine ⟨k, ?_⟩
   rw [LayerCores.ggDer_eq_map_derivedSeries]

@@ -144,7 +144,7 @@ end E8SplitTorus
 theorem ggTorusTorData_E8_split_standard {K : Type} [Field K] [Finite K] [CharP K 2]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hq : p ∣ Nat.card K - 1) :
-    GGTorusTorData (Nat.card K - 1) 8 CartanMatrix.E₈ CoxeterMatrix.E₈
+    GGTorusTorData (Nat.card K - 1) 8 (CartanMatrix.E 8) CoxeterMatrix.E₈
       (adjointGroup .E8 K) ((TableBExc.torusPow .E8 K p).map
         (MulAut.conj : adjointGroup .E8 K →* MulAut (adjointGroup .E8 K))) := by
   have : Fact (Nat.Prime p) := ⟨hp⟩
@@ -158,7 +158,7 @@ theorem ggTorusTorData_E8_split_standard {K : Type} [Field K] [Finite K] [CharP 
     intro h
     rw [h, orderOf_one] at hζo
     exact hp.ne_one hζo.symm
-  have hC : Tag.E8.cartan = CartanMatrix.E₈ := cartanE_eq 8
+  have hC : Tag.E8.cartan = (CartanMatrix.E 8) := cartanE_eq 8
   have hM : coxeterMatrix (CFSG.LieType.Chevalley.isFiniteType_cartan .E8) = CoxeterMatrix.E₈ :=
     FrameRoute.coxeterE8_eq.symm
   suffices h : GGTorusTorData (Nat.card K - 1) Tag.E8.rank Tag.E8.cartan
@@ -184,7 +184,7 @@ theorem ggTorusTorData_E8_split {K : Type} [Field K] [Finite K] [CharP K 2]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hq : p ∣ Nat.card K - 1) (E : Subgroup (adjointGroup .E8 K))
     (hE : IsElemAbelian p E) (hcard : p ^ 8 ≤ Nat.card E) :
-    GGTorusTorData (Nat.card K - 1) 8 CartanMatrix.E₈ CoxeterMatrix.E₈
+    GGTorusTorData (Nat.card K - 1) 8 (CartanMatrix.E 8) CoxeterMatrix.E₈
       (adjointGroup .E8 K) (E.map
         (MulAut.conj : adjointGroup .E8 K →* MulAut (adjointGroup .E8 K))) := by
   have hT : GGExcToralRankInput .E8 K p := by
@@ -207,7 +207,7 @@ theorem ggTorusTorData_E8_split {K : Type} [Field K] [Finite K] [CharP K 2]
 theorem ggTorusTorW_recipe_E8_split {K : Type} [Field K] [Finite K] [CharP K 2]
     {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (hq : p ∣ Nat.card K - 1) :
-    GGTorusTorW p 8 (Nat.card K - 1) 8 CartanMatrix.E₈ CoxeterMatrix.E₈
+    GGTorusTorW p 8 (Nat.card K - 1) 8 (CartanMatrix.E 8) CoxeterMatrix.E₈
       (TableBExc.RecipeGroup .E8 K) (TableBExc.RecipeID .E8 K) := by
   intro L _ _ ψ A hTB
   obtain ⟨e, -, E, hE, hcard, -, hA⟩ := exists_e8_model_of_tableB ψ A hTB
@@ -216,7 +216,7 @@ theorem ggTorusTorW_recipe_E8_split {K : Type} [Field K] [Finite K] [CharP K 2]
 
 theorem ggTorusTorW_recipe_E8_three_split {K : Type} [Field K] [Finite K] [CharP K 2]
     (hq : 3 ∣ Nat.card K - 1) :
-    GGTorusTorW 3 8 (Nat.card K - 1) 8 CartanMatrix.E₈ CoxeterMatrix.E₈
+    GGTorusTorW 3 8 (Nat.card K - 1) 8 (CartanMatrix.E 8) CoxeterMatrix.E₈
       (TableBExc.RecipeGroup .E8 K) (TableBExc.RecipeID .E8 K) := by
   exact ggTorusTorW_recipe_E8_split Nat.prime_three (by norm_num) hq
 
@@ -234,7 +234,7 @@ theorem ggTBTorE8_holds : GGTBTorE8 := by
     have : CharP K 2 := charP_two_of_card hK
     have hq : 3 ∣ Nat.card K - 1 := by rwa [hK]
     refine ⟨K, i1, i2, hK, hQ', ?_⟩
-    change GGTorusTorW 3 8 (2 ^ n - 1) 8 CartanMatrix.E₈ CoxeterMatrix.E₈
+    change GGTorusTorW 3 8 (2 ^ n - 1) 8 (CartanMatrix.E 8) CoxeterMatrix.E₈
       (TableBExc.RecipeGroup .E8 K) (TableBExc.RecipeID .E8 K)
     rw [← hK]
     exact ggTorusTorW_recipe_E8_three_split hq
@@ -248,7 +248,7 @@ theorem ggTBTorE8_holds : GGTBTorE8 := by
     have : CharP K 2 := charP_two_of_card hK
     have hq : 3 ∣ Nat.card K + 1 := by rwa [hK]
     refine ⟨K, i1, i2, hK, hQ', ?_⟩
-    change GGTorusTorW 3 7 (2 ^ n + 1) 8 CartanMatrix.E₈ CoxeterMatrix.E₈
+    change GGTorusTorW 3 7 (2 ^ n + 1) 8 (CartanMatrix.E 8) CoxeterMatrix.E₈
       (TableBExc.RecipeGroup .E8 K) (TableBExc.RecipeID .E8 K)
     rw [← hK]
     exact ggTorusTorW_recipe_E8_three_plus hq
@@ -272,7 +272,7 @@ theorem ggTBTorE8Ind_holds : GGTBTorE8Ind := by
     have : CharP K 2 := charP_two_of_card hK
     have hq : p ∣ Nat.card K - 1 := by rwa [hK]
     refine ⟨K, i1, i2, hK, hQ', ?_⟩
-    change GGTorusTorW p 8 (2 ^ n - 1) 8 CartanMatrix.E₈ CoxeterMatrix.E₈
+    change GGTorusTorW p 8 (2 ^ n - 1) 8 (CartanMatrix.E 8) CoxeterMatrix.E₈
       (TableBExc.RecipeGroup .E8 K) (TableBExc.RecipeID .E8 K)
     rw [← hK]
     exact ggTorusTorW_recipe_E8_split hp hp2 hq
@@ -283,7 +283,7 @@ theorem ggTBTorE8Ind_holds : GGTBTorE8Ind := by
     have : CharP K 2 := charP_two_of_card hK
     have hq : p ∣ Nat.card K + 1 := by rwa [hK]
     refine ⟨K, i1, i2, hK, hQ', ?_⟩
-    change GGTorusTorW p 7 (2 ^ n + 1) 8 CartanMatrix.E₈ CoxeterMatrix.E₈
+    change GGTorusTorW p 7 (2 ^ n + 1) 8 (CartanMatrix.E 8) CoxeterMatrix.E₈
       (TableBExc.RecipeGroup .E8 K) (TableBExc.RecipeID .E8 K)
     rw [← hK]
     exact ggTorusTorW_recipe_E8_plus hp hp2 hq

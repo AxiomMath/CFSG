@@ -97,7 +97,7 @@ theorem factorization_two_card : (Nat.factorization 19595520) 2 = 8 := by
 theorem exists_conj_Lbar0_of_involution
     {g : V12 ≃ₗ[ZMod 2] V12} (hg : g ∈ K2bar0) (h2 : g * g = 1) :
     ∃ h ∈ M0, h * g * h⁻¹ ∈ Lbar0 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcardK : Nat.card ↥K2bar0 = 19595520 := card_K2bar0
   have hSle : genGrp skGens ≤ K2bar0 := genGrp_skGens_le
   let SK : Subgroup ↥K2bar0 := (genGrp skGens).subgroupOf K2bar0

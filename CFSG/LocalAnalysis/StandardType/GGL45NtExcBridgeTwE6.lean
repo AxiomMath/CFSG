@@ -66,7 +66,7 @@ theorem twisted_fixed_eq_map
       (twInndiagGroup K σ).map (baseChangeGL (algebraMap K L)) := by
   classical
   have hK2 : Nat.card K = 2 ^ (n * 2) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 := charP_two_of_card hK2
+  have : CharP K 2 := charP_two_of_card hK2
   have hcomm : (algebraMap K L).comp σ.toRingHom = Fr.comp (algebraMap K L) :=
     RingHom.ext fun c => by
       simp only [RingHom.comp_apply, RingEquiv.toRingHom_eq_coe, RingHom.coe_coe, hσ, hFr,
@@ -102,7 +102,7 @@ theorem twisted_fixed_eq_map
       rw [← twistHom_baseChangeGL (algebraMap K L) hcomm]
       exact hgF
     set L' := AlgebraicClosure K
-    haveI : CharP L' 2 := charP_of_injective_algebraMap (algebraMap K L').injective 2
+    have : CharP L' 2 := charP_of_injective_algebraMap (algebraMap K L').injective 2
     have hcomm' : (algebraMap K L').comp σ.toRingHom =
         (iterateFrobenius L' 2 n).comp (algebraMap K L') :=
       RingHom.ext fun c => by
@@ -145,12 +145,12 @@ theorem markID_subset_range
         twConj K σ w := by
   classical
   have hK2 : Nat.card K = 2 ^ (n * 2) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 := charP_two_of_card hK2
+  have : CharP K 2 := charP_two_of_card hK2
   set C₀ := graphFixedRootGroup TwistTag.E6 K σ.toRingHom with hC₀
   set E : LargeEvenCenterQuot C₀ ≃* C₀ :=
     centerQuotEquivOfBot (exceptional_fixed_center_trivial TwistTag.E6 K σ) with hEdef
   set L' := AlgebraicClosure K
-  haveI : CharP L' 2 := charP_of_injective_algebraMap (algebraMap K L').injective 2
+  have : CharP L' 2 := charP_of_injective_algebraMap (algebraMap K L').injective 2
   set ι := algebraMap K L'
   set Fr := iterateFrobenius L' 2 n
   have hcomm : ι.comp σ.toRingHom = Fr.comp ι :=
@@ -266,7 +266,7 @@ theorem bridge_twE6_model
         (graphFixedRootGroup TwistTag.E6 K σ.toRingHom)) := by
   classical
   have hK2 : Nat.card K = 2 ^ (n * 2) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 := charP_two_of_card hK2
+  have : CharP K 2 := charP_two_of_card hK2
   set C₀ := graphFixedRootGroup TwistTag.E6 K σ.toRingHom with hC₀
   set E : LargeEvenCenterQuot C₀ ≃* C₀ :=
     centerQuotEquivOfBot (exceptional_fixed_center_trivial TwistTag.E6 K σ) with hEdef
@@ -410,8 +410,8 @@ theorem bridge_twE6_model
   · rw [hΦ, twistHom_apply, ← hnpe]
   · change Finite Γ
     rw [hrat]
-    haveI : Finite (inndiagGroup TwistTag.E6.tag K) := finite_inndiagGroup
-    haveI : Finite (twInndiagGroup K σ) :=
+    have : Finite (inndiagGroup TwistTag.E6.tag K) := finite_inndiagGroup
+    have : Finite (twInndiagGroup K σ) :=
       Finite.of_injective _ (Subgroup.inclusion_injective (twInndiag_le_inndiag σ))
     exact Finite.of_surjective _ (MonoidHom.subgroupMap_surjective
       (baseChangeGL ι) (twInndiagGroup K σ))
@@ -426,7 +426,7 @@ theorem bridge_twE6_chev
       (LargeEvenChevFieldImage TwistTag.E6.tag.cartan K
         (LargeEvenTwistedH TwistTag.E6.tag.cartan K TwistTag.E6.perm n)) := by
   have hK2 : Nat.card K = 2 ^ (n * 2) := by rw [hK, ← pow_mul]
-  haveI : CharP K 2 := charP_two_of_card hK2
+  have : CharP K 2 := charP_two_of_card hK2
   set σ := iterateFrobeniusEquiv K 2 n with hσdef
   have hσ : ∀ c, σ c = c ^ 2 ^ n := fun c => by
     rw [hσdef, iterateFrobeniusEquiv_apply, iterateFrobenius_def]

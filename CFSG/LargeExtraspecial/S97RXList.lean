@@ -33,7 +33,7 @@ theorem srProp_of_sylow {Λ : Type*} [Group Λ] [Finite Λ] {T : Subgroup Λ} (h
   have hPP' : (P : Subgroup Λ) = P' := by
     have h1 : (P : Subgroup Λ) ⊓ normalizer ((P' : Subgroup Λ) : Set Λ) =
         (P : Subgroup Λ) ⊓ (P' : Subgroup Λ) :=
-      IsPGroup.inf_normalizer_sylow P.isPGroup' P'
+      IsPGroup.inf_normalizer_sylow P.isPGroup P'
     rw [inf_eq_left.mpr hPN] at h1
     exact (P.maximal_isPGroup.eq_of_ge P'.isPGroup (h1.le.trans inf_le_right)).symm
   intro y hne

@@ -24,7 +24,7 @@ theorem u4_levi_pkg {A : Type} [Group A] [Finite A] {K₁ K₀ : Subgroup A} {p 
     rw [hq2] at h1
     exact Or.inl ⟨by decide, h1⟩
   obtain ⟨K, _, h, ⟨e1⟩⟩ := CFSG.Quasithin.H13.U4Par.exists_hypSU_equiv_of_lieModel hmod
-  haveI := h.finite
+  have := h.finite
   obtain ⟨-, hsec, hhom⟩ := u4_levi_of_equiv hp hp5 hKr hpar hne hz hzK₀ h hm e1.symm
   refine ⟨hsec, ?_⟩
   have hF : Nat.card K = q'.p ^ q'.exponent := by

@@ -34,7 +34,7 @@ theorem r891g211_component_lemma {J0 : Type}
     [Group J0] [Finite J0]
     (hK : CFSG.Open.IsKGroup J0) (hO : CFSG.pPrimeCore 3 J0 = ⊥)
     {P M0 X0 E T : Subgroup J0} (hP : IsSylowOf 3 P ⊤) (hPM : P ≤ M0) (hXM : X0 ≤ M0)
-    (hXn : (X0.subgroupOf M0).Normal) (hXs : IsSolvable ↥X0) (hE : E = P ⊓ X0) (hE1 : E ≠ ⊥)
+    (hXn : (X0.subgroupOf M0).Normal) (hXs : Group.IsSolvable ↥X0) (hE : E = P ⊓ X0) (hE1 : E ≠ ⊥)
     (hE3 : ∀ a ∈ E, a ^ 3 = 1) (hEF : E ⊓ CFSG.pCore 3 J0 = ⊥) (hTX : T ≤ X0)
     (hTN : T ≤ normalizer (E : Set J0))
     (hIrr : ∀ W : Subgroup J0, W ≤ E → T ≤ normalizer (W : Set J0) → W = ⊥ ∨ W = E)

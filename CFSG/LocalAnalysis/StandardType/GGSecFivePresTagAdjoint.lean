@@ -31,8 +31,8 @@ section Tag
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem ggTagFacts_F4 {n f : ℕ} (hadm : StatedLieAdmissible .F4 n 2 f)
-    (hrank : 3 ≤ bnRank .F4 n) : GGTagFacts .F4 n f := by
+theorem ggTagFacts_F4 {n f : ℕ} (_hadm : StatedLieAdmissible .F4 n 2 f)
+    (_hrank : 3 ≤ bnRank .F4 n) : GGTagFacts .F4 n f := by
   have hD : (ggU .F4 n f).D = CFSG.LieType.Steinberg.Adjoint.f4Datum (GaloisField 2 f) := rfl
   have hrank4 : (CFSG.LieType.Steinberg.Adjoint.f4Datum (GaloisField 2 f)).rank = 4 := rfl
   unfold GGTagFacts
@@ -49,8 +49,8 @@ theorem ggTagFacts_F4 {n f : ℕ} (hadm : StatedLieAdmissible .F4 n 2 f)
       (CFSG.LieType.Steinberg.Adjoint.f4_steinbergExtras (GaloisField 2 f))
       (fun i => weylElement_mul_self_eq_one (τ := .F4) (K := GaloisField 2 f) i)
 
-theorem ggTagFacts_E8 {n f : ℕ} (hadm : StatedLieAdmissible .E8 n 2 f)
-    (hrank : 3 ≤ bnRank .E8 n) : GGTagFacts .E8 n f := by
+theorem ggTagFacts_E8 {n f : ℕ} (_hadm : StatedLieAdmissible .E8 n 2 f)
+    (_hrank : 3 ≤ bnRank .E8 n) : GGTagFacts .E8 n f := by
   have hD : (ggU .E8 n f).D = CFSG.LieType.Steinberg.Adjoint.e8Datum (GaloisField 2 f) := rfl
   have hrank8 : (CFSG.LieType.Steinberg.Adjoint.e8Datum (GaloisField 2 f)).rank = 8 := rfl
   unfold GGTagFacts

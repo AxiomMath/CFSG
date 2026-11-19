@@ -93,27 +93,32 @@ private def w1369_secIm (U Z : Subgroup W) (M : Subgroup W) : Subgroup (Sect U Z
 private def w1369_secPre (U Z : Subgroup W) (N : Subgroup (Sect U Z)) : Subgroup W :=
   (N.comap (QuotientGroup.mk' (Z.subgroupOf U))).map U.subtype
 
+omit [Finite W] in
 private theorem w1369_secIm_sup {U Z : Subgroup W} {A B : Subgroup W} (hA : A ≤ U)
     (hB : B ≤ U) : w1369_secIm U Z (A ⊔ B) = w1369_secIm U Z A ⊔ w1369_secIm U Z B := by
   unfold w1369_secIm
   rw [Subgroup.subgroupOf_sup hA hB, Subgroup.map_sup]
 
+omit [Finite W] in
 private theorem w1369_secIm_C (U Z : Subgroup W) : w1369_secIm U Z Z = ⊥ := by
   unfold w1369_secIm
   rw [Subgroup.map_eq_bot_iff]
   exact (QuotientGroup.ker_mk' (Z.subgroupOf U)).ge
 
+omit [Finite W] in
 private theorem w1369_secIm_top (U Z : Subgroup W) : w1369_secIm U Z U = ⊤ := by
   unfold w1369_secIm
   rw [Subgroup.subgroupOf_self,
     Subgroup.map_top_of_surjective _ (QuotientGroup.mk'_surjective _)]
 
+omit [Finite W] in
 private theorem w1369_secPre_bot {U Z : Subgroup W} (hZU : Z ≤ U) :
     w1369_secPre U Z ⊥ = Z := by
   unfold w1369_secPre
   rw [MonoidHom.comap_bot, QuotientGroup.ker_mk']
   exact Subgroup.map_subgroupOf_eq_of_le hZU
 
+omit [Finite W] in
 private theorem w1369_secPre_im {U Z M : Subgroup W} (hZ : Z ≤ M) (hM : M ≤ U) :
     w1369_secPre U Z (w1369_secIm U Z M) = M := by
   unfold w1369_secPre w1369_secIm
@@ -123,6 +128,7 @@ private theorem w1369_secPre_im {U Z M : Subgroup W} (hZ : Z ≤ M) (hM : M ≤ 
   rw [hsup]
   exact Subgroup.map_subgroupOf_eq_of_le hM
 
+omit [Finite W] in
 private theorem w1369_secIm_pre (U Z : Subgroup W) (N : Subgroup (Sect U Z)) :
     w1369_secIm U Z (w1369_secPre U Z N) = N := by
   unfold w1369_secIm w1369_secPre
@@ -133,6 +139,7 @@ private theorem w1369_secIm_pre (U Z : Subgroup W) (N : Subgroup (Sect U Z)) :
   rw [h1]
   exact Subgroup.map_comap_eq_self_of_surjective (QuotientGroup.mk'_surjective _) N
 
+omit [Finite W] in
 private theorem w1369_secPre_le {U Z : Subgroup W} (hZU : Z ≤ U)
     (N : Subgroup (Sect U Z)) : Z ≤ w1369_secPre U Z N := by
   intro c hc
@@ -146,7 +153,8 @@ private theorem w1369_secPre_le {U Z : Subgroup W} (hZU : Z ≤ U)
   rw [h1]
   exact N.one_mem
 
-private theorem w1369_secIm_card {U Z M : Subgroup W} (hZM : Z ≤ M) (hMU : M ≤ U) :
+omit [Finite W] in
+private theorem w1369_secIm_card {U Z M : Subgroup W} (_hZM : Z ≤ M) (hMU : M ≤ U) :
     Nat.card (w1369_secIm U Z M) = Nat.card (Sect M Z) := by
   let φ : ↥M →* Sect U Z := (QuotientGroup.mk' (Z.subgroupOf U)).comp (Subgroup.inclusion hMU)
   have hker : φ.ker = Z.subgroupOf M := by
@@ -184,8 +192,9 @@ private theorem w1369_secIm_card {U Z M : Subgroup W} (hZM : Z ≤ M) (hMU : M �
       (QuotientGroup.quotientKerEquivOfSurjective φ' hsurj)
   exact (Nat.card_congr e.toEquiv).symm
 
+omit [Finite W] in
 private theorem w1369_secStable_im {U Z : Subgroup W} {A : Subgroup (MulAut W)}
-    (hA : StabPair A U Z) {M : Subgroup W} (hAM : StableUnder A M) :
+    (_hA : StabPair A U Z) {M : Subgroup W} (hAM : StableUnder A M) :
     StableUnder (secSub U Z A) (w1369_secIm U Z M) := by
   intro γ hγ x hx
   rw [w1369_secIm, Subgroup.mem_map] at hx ⊢
@@ -209,6 +218,7 @@ private theorem w1369_secStable_pre {U Z : Subgroup W} {A : Subgroup (MulAut W)}
   rw [secAut_mk] at hmem
   exact ⟨⟨a (u : W), (hA a ha).1 u u.2⟩, hmem, rfl⟩
 
+omit [Finite W] in
 private theorem w1369_bot_lt_top_sec {U Z : Subgroup W} (hZU : Z < U) :
     (⊥ : Subgroup (Sect U Z)) < ⊤ := by
   rw [bot_lt_iff_ne_bot]
@@ -219,6 +229,7 @@ private theorem w1369_bot_lt_top_sec {U Z : Subgroup W} (hZU : Z < U) :
   rw [Subgroup.mem_bot, QuotientGroup.eq_one_iff, Subgroup.mem_subgroupOf] at h1
   exact huZ h1
 
+omit [Finite W] in
 private theorem w1369_commutator_subgroupOf {X A B : Subgroup (MulAut W)} (hA : A ≤ X)
     (hB : B ≤ X) : ⁅A.subgroupOf X, B.subgroupOf X⁆ = (⁅A, B⁆).subgroupOf X := by
   apply Subgroup.map_injective (f := X.subtype) X.subtype_injective
@@ -226,11 +237,13 @@ private theorem w1369_commutator_subgroupOf {X A B : Subgroup (MulAut W)} (hA : 
     Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hA, inf_eq_left.mpr hB,
     inf_eq_left.mpr (Subgroup.commutator_le_of_le hA hB)]
 
+omit [Finite W] in
 private theorem w1369_secSub_eq_map {A B : Subgroup (MulAut W)} {U Z : Subgroup W}
     (hAU : A ≤ stabSub U) (hAZ : A ≤ stabSub Z) (hBA : B ≤ A) :
     secSub U Z B = (B.subgroupOf A).map (B5.secHom A hAU hAZ) :=
   (B5.map_secHom_eq_autSec A hAU hAZ hBA).symm
 
+omit [Finite W] in
 theorem sect_exp_two (hw2 : ∀ w : W, w ^ 2 = 1) (U Z : Subgroup W) :
     ∀ x : Sect U Z, x ^ 2 = 1 := by
   intro x

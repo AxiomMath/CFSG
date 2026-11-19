@@ -26,14 +26,14 @@ theorem typeII_normal_core (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreL
     M ≤ Subgroup.normalizer ((u3T P x J ⊔ rankThreePrimeCore p M : Subgroup G) : Set G) := by
   exact typeII_normal_core_proof hS hD1 hU0 hK hX hc hfus
 
-theorem j4_lemma43 {P : Sylow 11 G} {M : Subgroup G} {x : G} {J : Subgroup G} (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
+theorem j4_lemma43 {P : Sylow 11 G} {M : Subgroup G} {x : G} {J : Subgroup G} (hS : Setting G) (hD1 : TheoremD1 G) (_hU0 : FullCoreLocal G)
     (hX : ExtraFacts IsJ4Type 11 J4Shape) (hc : PointConfig IsJ4Type G 11 P M x J)
     (hnorm : M ≤ Subgroup.normalizer ((u3T P x J ⊔ rankThreePrimeCore 11 M : Subgroup G) : Set G)) :
     ∀ Y : Subgroup G, IsPGroup 2 Y → Y ≤ M → u3U0 P x J ≤ Subgroup.normalizer (Y : Set G) →
       IsSylowOf 2 (Y ⊓ rankThreePrimeCore 11 M) (rankThreePrimeCore 11 M) →
       Subgroup.normalizer (Y : Set G) ≤ M := by
   intro Y hY2 hYM hUY hYB
-  haveI : Fact (Nat.Prime 11) := ⟨hc.prime⟩
+  have : Fact (Nat.Prime 11) := ⟨hc.prime⟩
   obtain ⟨hTcard, hTexp, -, hxJ⟩ := typeII_T_structure hX hc
   obtain ⟨-, hUcard, hUS, hxU, hUc, -, -⟩ := typeII_U0_facts hX hc
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
@@ -66,7 +66,7 @@ theorem j4_lemma43 {P : Sylow 11 G} {M : Subgroup G} {x : G} {J : Subgroup G} (h
     have htS : t ∈ Subgroup.centralizer ({x} : Set G) := (hTS ht).2
     exact Subgroup.mem_centralizer_iff.1 htS x rfl
   have hVp : IsPGroup 11 (u3T P x J ⊔ Subgroup.zpowers x : Subgroup G) :=
-    P.isPGroup'.to_le (sup_le hTP (Subgroup.zpowers_le.2 hxP))
+    P.isPGroup.to_le (sup_le hTP (Subgroup.zpowers_le.2 hxP))
   have hUV : u3U0 P x J ≤ u3T P x J ⊔ Subgroup.zpowers x :=
     sup_le_sup_right (inf_le_left : u3ZT P x J ≤ u3T P x J) _
   have hUcT : ∀ u ∈ u3U0 P x J, ∀ t ∈ u3T P x J, u * t = t * u :=
@@ -76,7 +76,7 @@ theorem j4_lemma43 {P : Sylow 11 G} {M : Subgroup G} {x : G} {J : Subgroup G} (h
   exact Generic49U3.case1_core hc.five hD1' hM2 hCharM hRM hRn hRcop hO2R hnorm hTM hTcard hTexp hxM hxp
     hx1 hxT hxcT hVp hUV hxU hUcard hUcT hUcx hY2 hYM hUY hYB
 
-theorem mcl_lemma43 {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G} (hS : Setting G) (hD1 : TheoremD1 G) (hU0 : FullCoreLocal G)
+theorem mcl_lemma43 {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G} (hS : Setting G) (hD1 : TheoremD1 G) (_hU0 : FullCoreLocal G)
     (hX : ExtraFacts IsMcLType 5 McLShape) (hc : PointConfig IsMcLType G 5 P M x J)
     (hnorm : M ≤ Subgroup.normalizer ((u3T P x J ⊔ rankThreePrimeCore 5 M : Subgroup G) : Set G))
     {U : Subgroup G} (hU : IIPlane 5 P x J U) :
@@ -84,7 +84,7 @@ theorem mcl_lemma43 {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G} (h
       IsSylowOf 2 (Y ⊓ rankThreePrimeCore 5 M) (rankThreePrimeCore 5 M) →
       Subgroup.normalizer (Y : Set G) ≤ M := by
   intro Y hY2 hYM hUY hYB
-  haveI : Fact (Nat.Prime 5) := ⟨hc.prime⟩
+  have : Fact (Nat.Prime 5) := ⟨hc.prime⟩
   obtain ⟨hTcard, hTexp, -, hxJ⟩ := typeII_T_structure hX hc
   have hPM : (P : Subgroup G) ≤ M := (sylow_le_of_isCoreMaxLocal hS hc.sigma hc.core).1
   obtain ⟨hRM, hRn, hRcop⟩ := CFSG.LocalAnalysis.RankThreeUC.rankThreePrimeCore_spec 5 M
@@ -116,12 +116,12 @@ theorem mcl_lemma43 {P : Sylow 5 G} {M : Subgroup G} {x : G} {J : Subgroup G} (h
     have htS : t ∈ Subgroup.centralizer ({x} : Set G) := (hTS ht).2
     exact Subgroup.mem_centralizer_iff.1 htS x rfl
   have hVp : IsPGroup 5 (u3T P x J ⊔ Subgroup.zpowers x : Subgroup G) :=
-    P.isPGroup'.to_le (sup_le hTP (Subgroup.zpowers_le.2 hxP))
+    P.isPGroup.to_le (sup_le hTP (Subgroup.zpowers_le.2 hxP))
   have hUV : U ≤ u3T P x J ⊔ Subgroup.zpowers x :=
     mcl_le_sup_of_card hc.prime hU.elem.1 hU.card hU.card_inf hU.mem hxp hx1 hxT
   have haU : ∃ a ∈ U ⊓ u3T P x J, a ≠ 1 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hbot : U ⊓ u3T P x J = ⊥ := by
       rw [eq_bot_iff]
       intro g hg

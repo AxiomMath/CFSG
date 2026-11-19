@@ -27,9 +27,9 @@ theorem cSideFacts_five_local :
   classical
   intro C _ Q _ hC ρ hρ
   have hW : WeakHyp C Q := WeakHyp.of_aschbacherHyp hC
-  haveI : Finite Q := hW.finite_Q
-  haveI : Finite C := hW.finite
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  have : Finite Q := hW.finite_Q
+  have : Finite C := hW.finite
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hW.isExtraspecialPGroup
   obtain ⟨S⟩ := hW.nonempty_setup
   obtain ⟨hρL, hg⟩ := CSideSetup.odd_data hW S (p := 5) (Or.inr rfl) hρ

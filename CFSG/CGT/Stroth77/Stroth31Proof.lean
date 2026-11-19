@@ -43,7 +43,7 @@ theorem finrank_le_two_of_invariant_span {V : Type*} [AddCommGroup V] [Module (Z
     (hR : ∀ x ∈ Submodule.span (ZMod 2) ({v, w} : Set V), R x ∈ Submodule.span (ZMod 2) ({v, w} : Set V)) :
     Module.finrank (ZMod 2) V ≤ 2 := by
   classical
-  haveI : Fact (1 < 2) := ⟨by decide⟩
+  have : Fact (1 < 2) := ⟨by decide⟩
   let W : Submodule (ZMod 2) V := Submodule.span (ZMod 2) ({v, w} : Set V)
   have hWne : W ≠ ⊥ := by
     intro hbot
@@ -76,12 +76,11 @@ theorem finrank_le_two_of_sigmaThree {V : Type*} [AddCommGroup V] [Module (ZMod 
       (∀ x ∈ W, U x ∈ W) → (∀ x ∈ W, R x ∈ W) → W = ⊥ ∨ W = ⊤) :
     Module.finrank (ZMod 2) V ≤ 2 := by
   classical
-  haveI : Fact (1 < 2) := ⟨by decide⟩
+  have : Fact (1 < 2) := ⟨by decide⟩
   have span_R_invariant : ∀ {v : V}, R (R v) = R v + v →
       ∀ x ∈ Submodule.span (ZMod 2) ({v, R v} : Set V),
         R x ∈ Submodule.span (ZMod 2) ({v, R v} : Set V) := by
-    intro v hquad
-    intro x hx
+    intro v hquad x hx
     refine Submodule.span_induction (p := fun x _ =>
       R x ∈ Submodule.span (ZMod 2) ({v, R v} : Set V)) ?_ ?_ ?_ ?_ hx
     · intro x hx
@@ -140,11 +139,11 @@ theorem finrank_le_two_of_sigmaThree {V : Type*} [AddCommGroup V] [Module (ZMod 
         zero_mem' := by simp
         add_mem' := by
           intro x y hx hy
-          simp only [Set.mem_setOf_eq] at hx hy ⊢
+          simp only [Set.mem_ofPred_eq] at hx hy ⊢
           rw [map_add, hx, hy]
         smul_mem' := by
           intro a x hx
-          simp only [Set.mem_setOf_eq] at hx ⊢
+          simp only [Set.mem_ofPred_eq] at hx ⊢
           rw [map_smul, hx] }
     have hWU : ∀ x ∈ W, U x ∈ W := by
       intro x hx
@@ -184,13 +183,13 @@ theorem finrank_le_two_of_sigmaThree {V : Type*} [AddCommGroup V] [Module (ZMod 
         rw [hRtriv x]
         exact hx
       exact finrank_le_two_of_invariant_span U R hirr hv hU hR
-    · haveI : Subsingleton V := not_nontrivial_iff_subsingleton.mp hV
+    · have : Subsingleton V := not_nontrivial_iff_subsingleton.mp hV
       have hzero : Module.finrank (ZMod 2) V = 0 :=
         Module.finrank_zero_of_subsingleton
       rw [hzero]
       omega
   ·
-    push_neg at hfix
+    push Not at hfix
     have hno : ∀ v, R v = v → v = 0 := by
       intro v hv
       by_contra hne
@@ -254,12 +253,13 @@ theorem finrank_le_two_of_sigmaThree {V : Type*} [AddCommGroup V] [Module (ZMod 
             R x ∈ Submodule.span (ZMod 2) ({z, R z} : Set V) :=
           span_R_invariant (hquad z)
         exact finrank_le_two_of_invariant_span U R hirr hz hU hWR
-    · haveI : Subsingleton V := not_nontrivial_iff_subsingleton.mp hV
+    · have : Subsingleton V := not_nontrivial_iff_subsingleton.mp hV
       have hzero : Module.finrank (ZMod 2) V = 0 :=
         Module.finrank_zero_of_subsingleton
       rw [hzero]
       omega
 
+omit [Finite G] in
 theorem le_normalizer_of_conj_mem {H K : Subgroup G}
     (h : ∀ k ∈ K, ∀ x ∈ H, k * x * k⁻¹ ∈ H) : K ≤ Subgroup.normalizer H := by
   intro k hk
@@ -280,7 +280,7 @@ noncomputable def conjOnSubgroupC {S : Type*} [Group S] {C : Subgroup S} (g : S)
   map_one' := by ext; simp
   map_mul' x y := by
     ext
-    simp only [Subgroup.coe_mk, Subgroup.coe_mul]
+    simp only [Subgroup.coe_mul]
     group
 
 theorem conjOnSubgroupC_bijective {S : Type*} [Group S] {C : Subgroup S} (g : S)
@@ -405,8 +405,7 @@ noncomputable def conjAutQuotientHomC {S : Type*} [Group S] {B C : Subgroup S}
           (x := conjOnSubgroupC (h:S) hhC x)]
       congr 1
       ext
-      simp only [conjOnSubgroupC, MonoidHom.coe_mk, OneHom.coe_mk, Subgroup.coe_mk,
-        Subgroup.coe_mul]
+      simp only [conjOnSubgroupC, MonoidHom.coe_mk, OneHom.coe_mk, Subgroup.coe_mk]
       group
 
 theorem conjAutQuotient_eq_bot_or_top {X : StrothAmbient G} {Z : StrothDatum X}
@@ -496,7 +495,7 @@ theorem isElementaryAbelian_quotient_of_minimal {X : StrothAmbient G} {Z : Strot
   have hQne : Z.D.subgroupOf C ≠ ⊤ := by
     intro htop
     exact not_le_of_gt hmin.d_lt (Subgroup.subgroupOf_eq_top.mp htop)
-  haveI hQnt : Nontrivial Q := QuotientGroup.nontrivial_iff.mpr hQne
+  have hQnt : Nontrivial Q := QuotientGroup.nontrivial_iff.mpr hQne
   have hcenter_inv : ∀ (l : G) (hl : l ∈ Z.dataD.L) (r : Q),
       r ∈ Subgroup.center Q →
         conjAutQuotientC l (hmin.le_normalizer hl) (hLD l hl) r ∈ Subgroup.center Q := by
@@ -510,7 +509,7 @@ theorem isElementaryAbelian_quotient_of_minimal {X : StrothAmbient G} {Z : Strot
     rcases hcenter with hbot | htop
     · exact absurd hbot (ne_of_gt hQp.bot_lt_center)
     · exact htop
-  haveI hQcomm : IsMulCommutative Q := Subgroup.center_eq_top_iff.mp hcenter_top
+  have hQcomm : IsMulCommutative Q := Subgroup.center_eq_top_iff.mp hcenter_top
   let M : Subgroup Q := CFSG.GroupTheory.HuppertProduct.mho (⊤ : Subgroup Q) 2
   have hM_inv : ∀ (l : G) (hl : l ∈ Z.dataD.L) (r : Q), r ∈ M →
       conjAutQuotientC l (hmin.le_normalizer hl) (hLD l hl) r ∈ M := by
@@ -669,10 +668,10 @@ theorem index_le_four_of_minimal_general (X : StrothAmbient G) (Z : StrothDatum 
     (hmin : IsMinimalLModuleMod Z.dataD C) :
     (Z.D.subgroupOf C).index ≤ 4 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   have hCN : C ≤ Subgroup.normalizer (Z.D : Set G) :=
     hCR.trans (strothR_le_normalizer X Z.D)
-  haveI hN : (Z.D.subgroupOf C).Normal :=
+  have hN : (Z.D.subgroupOf C).Normal :=
     Subgroup.normal_subgroupOf_of_le_normalizer hCN
   let Q := C ⧸ Z.D.subgroupOf C
   have hLD : ∀ l ∈ Z.dataD.L, l ∈ Subgroup.normalizer (Z.D : Set G) := by
@@ -687,12 +686,12 @@ theorem index_le_four_of_minimal_general (X : StrothAmbient G) (Z : StrothDatum 
     (conjAutQuotientHomC (S := G) (B := Z.D) (C := C)).comp (Subgroup.inclusion hLinf)
   have hEA : IsElementaryAbelian 2 Q :=
     isElementaryAbelian_quotient_of_minimal hDC hCR hmin hLD
-  haveI hEA' : IsElementaryAbelian 2 Q := hEA
+  have hEA' : IsElementaryAbelian 2 Q := hEA
   have hQp : IsPGroup 2 Q := hEA.isPGroup 2 Q
   have hQne : Z.D.subgroupOf C ≠ ⊤ := by
     intro htop
     exact not_le_of_gt hmin.d_lt (Subgroup.subgroupOf_eq_top.mp htop)
-  haveI hQnt : Nontrivial Q := QuotientGroup.nontrivial_iff.mpr hQne
+  have hQnt : Nontrivial Q := QuotientGroup.nontrivial_iff.mpr hQne
   let P : Subgroup G := Subgroup.closure ({Z.dataD.uv, Z.dataD.t} : Set G)
   have hPL : P ≤ Z.dataD.L := by
     rw [show P = Subgroup.closure ({Z.dataD.uv, Z.dataD.t} : Set G) from rfl,
@@ -730,7 +729,7 @@ theorem index_le_four_of_minimal_general (X : StrothAmbient G) (Z : StrothDatum 
   have hEAP' : IsElementaryAbelian 2 P := hP_eq ▸ hEAP
   have hPp : IsPGroup 2 P := hEAP'.isPGroup 2 P
   let ψP : P →* MulAut Q := ψ.comp (Subgroup.inclusion hPL)
-  letI : MulDistribMulAction P Q := MulDistribMulAction.compHom Q ψP
+  let : MulDistribMulAction P Q := MulDistribMulAction.compHom Q ψP
   let FixP : Subgroup Q := fixedSubgroup P Q
   have hdvd : 2 ∣ Nat.card Q := by
     rcases hQp.card_eq_or_dvd with h1 | h2
@@ -757,7 +756,7 @@ theorem index_le_four_of_minimal_general (X : StrothAmbient G) (Z : StrothDatum 
     have hprod : (⟨(p : G), hPL p.2⟩ : Z.dataD.L) * ⟨l, hl⟩ =
         ⟨l, hl⟩ * ⟨l⁻¹ * (p : G) * l, hPL hconjP⟩ := by
       apply Subtype.ext
-      simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+      simp only [Subgroup.coe_mul]
       group
     calc ψP p (ψ ⟨l, hl⟩ r)
         = ψ ⟨(p : G), hPL p.2⟩ (ψ ⟨l, hl⟩ r) := rfl
@@ -796,7 +795,7 @@ theorem index_le_four_of_minimal_general (X : StrothAmbient G) (Z : StrothDatum 
     rfl
   have hQcenter : Subgroup.center Q = ⊤ :=
     Subgroup.center_eq_top_iff.mpr hEA.toIsMulCommutative
-  letI : CommGroup Q := Group.commGroupOfCenterEqTop hQcenter
+  let : CommGroup Q := Group.commGroupOfCenterEqTop hQcenter
   let V := Additive Q
   let toAddEquiv (f : MulAut Q) : V ≃+ V :=
     { toFun := fun x => Additive.ofMul (f (Additive.toMul x))
@@ -809,7 +808,7 @@ theorem index_le_four_of_minimal_general (X : StrothAmbient G) (Z : StrothDatum 
           Additive.ofMul (f (Additive.toMul x)) + Additive.ofMul (f (Additive.toMul y))
         rw [map_mul]
         rfl }
-  haveI : NeZero 2 := ⟨by decide⟩
+  have : NeZero 2 := ⟨by decide⟩
   have zmod2_cases : ∀ c : ZMod 2, c = 0 ∨ c = 1 := by
     intro c
     have hval : c.val = 0 ∨ c.val = 1 := by
@@ -829,7 +828,7 @@ theorem index_le_four_of_minimal_general (X : StrothAmbient G) (Z : StrothDatum 
   have toLin_mul (f g : MulAut Q) : toLin (f * g) = toLin f * toLin g := by
     apply LinearEquiv.ext
     intro x
-    simp [toLin, toAddEquiv, MulAut.mul_apply, mul_assoc]
+    simp [toLin, toAddEquiv, MulAut.mul_apply]
   have toLin_inv (f : MulAut Q) : toLin f⁻¹ = (toLin f)⁻¹ := by
     apply LinearEquiv.ext
     intro x
@@ -1060,7 +1059,7 @@ theorem index_le_four_of_minimal_general (X : StrothAmbient G) (Z : StrothDatum 
   exact hcardQ
 
 theorem index_le_four_of_minimal (X : StrothAmbient G) {m : ℕ} (Z : StrothDatum X)
-    (hτ : Z.τ = StrothTypeIndex.t100 m) (C : Subgroup G)
+    (_hτ : Z.τ = StrothTypeIndex.t100 m) (C : Subgroup G)
     (hDC : Z.D ≤ C) (hCR : C ≤ strothR X Z.D)
     (hmin : IsMinimalLModuleMod Z.dataD C) :
     (Z.D.subgroupOf C).index ≤ 4 :=

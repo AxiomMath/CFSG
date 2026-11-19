@@ -89,14 +89,14 @@ section Klein
 variable {k r : ℕ} {A B : Finset (Fin k)}
 
 theorem kleinOn_of_card_ne (hA : A.card ≠ 4) : kleinOn A = ⊥ := by
-  rw [kleinOn, dif_neg hA]
+  rw [kleinOn, dite_eq_right hA]
 
 theorem mem_kleinOn_iff (hA : A.card = 4) {σ : Equiv.Perm (Fin k)} :
     σ ∈ kleinOn A ↔ (∀ x ∉ A, σ x = x) ∧ σ ^ 2 = 1 ∧ Equiv.Perm.sign σ = 1 := by
   have hr : ∀ x, x ∈ Set.range (emb A hA) ↔ x ∈ A := fun x => by
     rw [range_emb]
     rfl
-  rw [kleinOn, dif_pos hA, Subgroup.mem_map]
+  rw [kleinOn, dite_eq_left hA, Subgroup.mem_map]
   constructor
   · rintro ⟨τ, hτ, rfl⟩
     obtain ⟨hτ2, hτs⟩ := mem_kleinFour.mp hτ
@@ -128,7 +128,7 @@ theorem sign_of_mem_kleinOn {σ : Equiv.Perm (Fin k)} (hσ : σ ∈ kleinOn A) :
     rw [hσ, map_one]
 
 theorem natCard_kleinOn (hA : A.card = 4) : Nat.card (kleinOn A) = 4 := by
-  rw [kleinOn, dif_pos hA, Subgroup.card_map_of_injective (extendPerm_injective _),
+  rw [kleinOn, dite_eq_left hA, Subgroup.card_map_of_injective (extendPerm_injective _),
     natCard_kleinFour]
 
 private theorem fix_of_ne_one_kleinFour : ∀ τ : Equiv.Perm (Fin 4), τ ∈ kleinFour → τ ≠ 1 →
@@ -139,7 +139,7 @@ theorem moves_iff_of_mem_kleinOn {σ : Equiv.Perm (Fin k)} (hσ : σ ∈ kleinOn
     (x : Fin k) : σ x ≠ x ↔ x ∈ A := by
   by_cases hA : A.card = 4
   · refine ⟨fun hx => by_contra fun hxA => hx (fix_of_mem_kleinOn hσ hxA), fun hx hσx => ?_⟩
-    rw [kleinOn, dif_pos hA] at hσ
+    rw [kleinOn, dite_eq_left hA] at hσ
     obtain ⟨τ, hτ, rfl⟩ := Subgroup.mem_map.mp hσ
     have hxr : x ∈ Set.range (emb A hA) := by
       rw [range_emb]
@@ -151,7 +151,7 @@ theorem moves_iff_of_mem_kleinOn {σ : Equiv.Perm (Fin k)} (hσ : σ ∈ kleinOn
   · rw [kleinOn_of_card_ne hA, Subgroup.mem_bot] at hσ
     exact absurd hσ h1
 
-theorem eq_of_kleinOn_eq (hA : A.card = 4) (hB : B.card = 4) (h : kleinOn A = kleinOn B) :
+theorem eq_of_kleinOn_eq (hA : A.card = 4) (_hB : B.card = 4) (h : kleinOn A = kleinOn B) :
     A = B := by
   have h1 : kleinOn A ≠ ⊥ := by
     rw [← Subgroup.one_lt_card_iff_ne_bot, natCard_kleinOn hA]
@@ -254,10 +254,10 @@ theorem map_permQ_memBar {k : ℕ} (α : Finset (Fin k)) (h : α.card = 4) (b : 
   have hcomp : (permQ k).comp (mkQ k) = permHom k := MonoidHom.ext fun a => permQ_mkQ a
   have hemb : (permHom k).comp (embed (emb α h)) = (extendPerm (emb α h)).comp (permHom 4) :=
     MonoidHom.ext fun a => embedPerm_eq_extendPerm _ _
-  rw [memBar, Subgroup.map_map, hcomp, memAt, kleinOn, dif_pos h]
+  rw [memBar, Subgroup.map_map, hcomp, memAt, kleinOn, dite_eq_left h]
   cases b
-  · rw [cond_false, memKStar, Subgroup.map_map, hemb, ← Subgroup.map_map, map_permHom_kQStar]
-  · rw [cond_true, memK, Subgroup.map_map, hemb, ← Subgroup.map_map, map_permHom_kQ]
+  · rw [Bool.cond_false, memKStar, Subgroup.map_map, hemb, ← Subgroup.map_map, map_permHom_kQStar]
+  · rw [_root_.Bool.cond_true, memK, Subgroup.map_map, hemb, ← Subgroup.map_map, map_permHom_kQ]
 
 end Members
 

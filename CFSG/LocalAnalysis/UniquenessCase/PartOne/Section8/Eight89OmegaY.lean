@@ -459,10 +459,10 @@ theorem s889_y
     have hSP : (S : Subgroup G) ≤ P := by
       by_contra hSP
       have hlt : P < (S : Subgroup G) := lt_of_le_of_ne hPS (fun h => hSP (le_of_eq h.symm))
-      obtain ⟨x, hxS, hxN, hxP⟩ := r889_exists_mem_normalizer_of_lt S.isPGroup' hlt
+      obtain ⟨x, hxS, hxN, hxP⟩ := r889_exists_mem_normalizer_of_lt S.isPGroup hlt
       have hxM : x ∈ D.M := hnormP hxN
       have hxpg : IsPGroup 3 (Subgroup.zpowers x) :=
-        S.isPGroup'.to_le (Subgroup.zpowers_le.mpr hxS)
+        S.isPGroup.to_le (Subgroup.zpowers_le.mpr hxS)
       have hsuppg : IsPGroup 3 ↥(Subgroup.zpowers x ⊔ P) :=
         r889_isPGroup_sup hxpg hPpg (Subgroup.zpowers_le.mpr hxN)
       have hsupM : Subgroup.zpowers x ⊔ P ≤ D.M :=

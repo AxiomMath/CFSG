@@ -58,7 +58,7 @@ theorem exists_fieldPart_reeF4
     have hβ : β = 1 := congrArg Prod.snd hpair
     rw [hβ, hone]
     exact Subgroup.one_mem (⊥ : Subgroup (MulAut G))
-  haveI : IsCyclic (K ≃+* K) := CFSG.LieType.Chevalley.ringAut_isCyclic
+  have : IsCyclic (K ≃+* K) := CFSG.LieType.Chevalley.ringAut_isCyclic
   have hcyc : IsCyclic ↥F :=
     isCyclic_of_surjective (f := (ReeTag.F4.reeGammaFieldAutHom K a).rangeRestrict)
       (ReeTag.F4.reeGammaFieldAutHom K a).rangeRestrict_surjective
@@ -73,12 +73,12 @@ theorem i713ClauseFor_lie_twistedF4
   intro K _ _ hK hnab ⟨eK⟩ p hp hp2 hpRank
   obtain ⟨X, hXfield, hXfin, hXchar, hm, hXcard, -, ⟨eL⟩⟩ :=
     CFSG.LieType.SeitzGeneration.exists_reeGamma_equiv_cat hv
-  letI := hXfield
-  letI := hXfin
-  letI := hXchar
-  haveI : Finite (CFSG.Blueprint.Chevalley.ModGL ReeTag.F4.tag X) :=
+  let := hXfield
+  let := hXfin
+  let := hXchar
+  have : Finite (CFSG.Blueprint.Chevalley.ModGL ReeTag.F4.tag X) :=
     CFSG.LieType.Chevalley.finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma X m) := Subtype.finite
+  have : Finite (ReeTag.F4.reeGamma X m) := Subtype.finite
   exact Or.inr (Or.inl (exists_fieldPart_of_mulEquiv (eK.trans eL)
     (exists_fieldPart_reeF4 hm hXcard hp)))
 

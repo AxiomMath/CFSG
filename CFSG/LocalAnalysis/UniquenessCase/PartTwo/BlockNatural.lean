@@ -18,6 +18,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
   rw [← MonoidHom.ker_eq_bot_iff]
@@ -58,20 +59,21 @@ attribute [instance] Coordinates.fieldK Coordinates.finiteK
 instance Coordinates.charP_two {L V : Subgroup G} {hV : IsElemAbelian 2 V}
     {hLV : L ≤ Subgroup.normalizer (V : Set G)} {n : ℕ}
     (c : Coordinates L V hV hLV n) : CharP c.K 2 := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype c.K := Fintype.ofFinite c.K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype c.K := Fintype.ofFinite c.K
   exact charP_of_card_eq_prime_pow (f := n) (by
     rw [Fintype.card_eq_nat_card]
     exact c.cardK)
 
+omit [Finite G] in
 theorem exists_coordinates {L V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hLV : L ≤ Subgroup.normalizer (V : Set G)) {n : ℕ}
     (hnat : BinaryNaturalSL (barSub (⊥ : Subgroup G) V hV L) ⊤ ⊥ 2 n) :
     Nonempty (Coordinates L V hV hLV n) := by
   classical
   obtain ⟨K, hK, hKfin, hKcard, π, hπ⟩ := hnat
-  letI : Field K := hK
-  letI : Finite K := hKfin
+  let : Field K := hK
+  let : Finite K := hKfin
   let H : Subgroup (MulAut (Vtil (⊥ : Subgroup G) V hV)) := barSub ⊥ V hV L
   let D : FFModel := FFModel.nat (StatedSL 2 K)
   let eH : ↥(StatedSL 2 K) ≃* ↥H :=
@@ -192,6 +194,7 @@ theorem exists_coordinates {L V : Subgroup G} (hV : IsElemAbelian 2 V)
     rfl
   exact ⟨K, hK, hKfin, hKcard, α, hα_surj, hα_ker, E', β, hβ_bij, hβ_act⟩
 
+omit [Finite G] in
 theorem Coordinates.irreducible {L V : Subgroup G} {hV : IsElemAbelian 2 V}
     {hLV : L ≤ Subgroup.normalizer (V : Set G)} {n : ℕ} (c : Coordinates L V hV hLV n)
     {W : Subgroup G} (hWV : W ≤ V) (hLW : L ≤ Subgroup.normalizer (W : Set G)) :
@@ -233,6 +236,7 @@ theorem Coordinates.irreducible {L V : Subgroup G} {hV : IsElemAbelian 2 V}
     rw [hv']
     exact hu
 
+omit [Finite G] in
 theorem Coordinates.V_ne_bot {L V : Subgroup G} {hV : IsElemAbelian 2 V}
     {hLV : L ≤ Subgroup.normalizer (V : Set G)} {n : ℕ} (c : Coordinates L V hV hLV n) :
     V ≠ ⊥ := by
@@ -246,7 +250,7 @@ theorem Coordinates.V_ne_bot {L V : Subgroup G} {hV : IsElemAbelian 2 V}
     have h0 : (Pi.single (0 : Fin 2) (1 : c.K)) = (0 : Fin 2 → c.K) := by
       simpa using congrArg Multiplicative.toAdd h
     have h1 := congrFun h0 (0 : Fin 2)
-    simpa using h1
+    simp at h1
   rw [hu1, map_one] at hu
   exact hne hu.symm
 
@@ -272,7 +276,7 @@ theorem Coordinates.blockQ_eq {L V : Subgroup G} {hV : IsElemAbelian 2 V}
   have hQN : L ≤ Subgroup.normalizer ((Q.map L.subtype : Subgroup G) : Set G) := by
     rw [← CFSG.AGLEmbedding.NoXBlock.blockQ_eq_map L]
     exact CFSG.RankThreeCoreUniqueness.Helpers.localGroup_le_normalizer_pCoreOf 2 L
-  letI : MulAction ↥Q ↥V :=
+  let : MulAction ↥Q ↥V :=
     { smul := fun q v => conjV hLV (q : ↥L) v
       one_smul := fun v => by
         apply Subtype.ext
@@ -326,6 +330,7 @@ theorem Coordinates.blockQ_eq {L V : Subgroup G} {hV : IsElemAbelian 2 V}
         (CFSG.Quasithin.B2F.le_normalizer_inf (Subgroup.le_normalizer)
           (CFSG.Quasithin.B2F.le_normalizer_centralizer hLV))
 
+omit [Finite G] in
 theorem Coordinates.not_central {L V : Subgroup G} {hV : IsElemAbelian 2 V}
     {hLV : L ≤ Subgroup.normalizer (V : Set G)} {n : ℕ} (c : Coordinates L V hV hLV n) :
     ¬ L ≤ Subgroup.centralizer (V : Set G) := by
@@ -346,6 +351,7 @@ theorem Coordinates.not_central {L V : Subgroup G} {hV : IsElemAbelian 2 V}
   have h3 := congrFun h2 (0 : Fin 2)
   simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two] at h3
 
+omit [Finite G] in
 theorem Coordinates.commutator_eq {L V : Subgroup G} {hV : IsElemAbelian 2 V}
     {hLV : L ≤ Subgroup.normalizer (V : Set G)} {n : ℕ} (c : Coordinates L V hV hLV n) :
     ⁅V, L⁆ = V := by
@@ -372,6 +378,7 @@ theorem Coordinates.commutator_eq {L V : Subgroup G} {hV : IsElemAbelian 2 V}
     exact (Subgroup.mem_centralizer_iff.mp (hVc hv) l hl).symm
   · exact h'
 
+omit [Finite G] in
 theorem Coordinates.le_of_le_normalizer {L V : Subgroup G} {hV : IsElemAbelian 2 V}
     {hLV : L ≤ Subgroup.normalizer (V : Set G)} {n : ℕ} (c : Coordinates L V hV hLV n)
     (hVL : V ≤ Subgroup.normalizer (L : Set G)) : V ≤ L := by
@@ -481,11 +488,11 @@ theorem Coordinates.isShort2 {L V : Subgroup G} {hV : IsElemAbelian 2 V} (hVL : 
       (CFSG.Quasithin.C126.Nat.isQuasisimple_sl2 h4)
   refine ⟨?_, ?_, ⟨?_, ?_⟩, htype, ⟨?_, ?_⟩⟩
   · intro N hN hN2
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     by_contra hNtop
-    haveI : Nontrivial (↥L ⧸ N) := QuotientGroup.nontrivial_iff.mpr hNtop
-    haveI : Group.IsNilpotent (↥L ⧸ N) := hN2.isNilpotent
-    haveI : Group.IsSolvable (↥L ⧸ N) := inferInstance
+    have : Nontrivial (↥L ⧸ N) := QuotientGroup.nontrivial_iff.mpr hNtop
+    have : Group.IsNilpotent (↥L ⧸ N) := hN2.isNilpotent
+    have : Group.IsSolvable (↥L ⧸ N) := inferInstance
     have hle : (⊤ : Subgroup ↥L) ≤ N :=
       Subgroup.le_of_commutator_eq_self_of_isSolvable_quotient (M := N) (H := ⊤) hperf'
     exact hNtop (top_le_iff.mp hle)
@@ -520,7 +527,7 @@ theorem Coordinates.isLin2Type {L V : Subgroup G} {hV : IsElemAbelian 2 V} (hVL 
   have hUe := c.blockU_eq hVL hC hU
   have hZe := c.blockZ_eq hVL hC hU
   have hαker := c.ker_α hC
-  letI : Fintype c.K := Fintype.ofFinite c.K
+  let : Fintype c.K := Fintype.ofFinite c.K
   have hcard : Fintype.card c.K = 2 ^ n := by
     rw [Fintype.card_eq_nat_card]
     exact c.cardK

@@ -47,8 +47,8 @@ private theorem transvection_two_one_mem_stabilizer_flagSpace_one {p : ℕ} [Fac
     intro j hj
     fin_cases j
     · simp at hj
-    · simp [Matrix.add_mulVec, Matrix.one_mulVec, Matrix.single_mulVec_eq, hv 1 le_rfl]
-    · simp [Matrix.add_mulVec, Matrix.one_mulVec, Matrix.single_mulVec_eq, hv 1 le_rfl,
+    · simp [Matrix.single_mulVec_eq, hv 1 le_rfl]
+    · simp [Matrix.single_mulVec_eq, hv 1 le_rfl,
         hv 2 (by decide)]
   refine le_antisymm (hmap c) ?_
   intro v hv
@@ -80,7 +80,7 @@ private theorem transvection_one_zero_mem_stabilizer_flagSpace_two {p : ℕ} [Fa
     fin_cases j
     · simp at hj
     · simp at hj
-    · simp [Matrix.add_mulVec, Matrix.one_mulVec, Matrix.single_mulVec_eq, hv 2 le_rfl]
+    · simp [Matrix.single_mulVec_eq, hv 2 le_rfl]
   refine le_antisymm (hmap c) ?_
   intro v hv
   refine ⟨(1 + single (1 : Fin 3) (0 : Fin 3) (-c) :
@@ -447,7 +447,7 @@ theorem eq_one_of_commute_isMaxParabolicP_psl_three {A : Type} [Group A] [Finite
     (hCK : Subgroup.centralizer (K : Set A) = ⊥) {a : A}
     (ha : ∀ y ∈ Y, a * y = y * a) : a = 1 := by
   classical
-  haveI : K.Normal := hK
+  have : K.Normal := hK
   obtain ⟨k, hk⟩ := exists_conjNormal_eq_of_centralizes_isMaxParabolicP e hY ha
   have ha_eq : a = (k : A) := eq_of_conjNormal_eq_conj hk hCK
   exact eq_one_of_eq_coe_centralizes_isMaxParabolicP e hY ha_eq ha

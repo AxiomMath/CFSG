@@ -70,7 +70,7 @@ theorem uD_single (β : ↥Psi0) (b : K) : uD (Pi.single β b) = xE β.1 b := by
       by_cases hγ' : γ ∈ Psi0
       · rw [extD_of_mem hγ']
         have : (⟨γ, hγ'⟩ : ↥Psi0) ≠ β := fun e => hne (congrArg Subtype.val e)
-        simp [Pi.single_apply, this]
+        simp [this]
       · exact extD_of_not_mem hγ' _)
   rw [h, extD_of_mem β.2]
   simp
@@ -95,7 +95,7 @@ theorem coef_uD (n : ND K) {δ : Rt} (hδ : IsRoot .E7 δ) (hδa : δ ∈ Psi0) 
     (hb : pr b δ = -1) :
     endoE (uD n) (Finsupp.single b 1) (shift δ b) = n ⟨δ, hδa⟩ := by
   unfold uD
-  rw [coef_prodX (a0 : Fin e7Data.d) (extD n) b hδ hb, if_pos (Psi0_subset_Phi hδa),
+  rw [coef_prodX (a0 : Fin e7Data.d) (extD n) b hδ hb, ite_eq_left (Psi0_subset_Phi hδa),
     extD_of_mem hδa]
 
 theorem uD_injective : Function.Injective (uD : ND K → Gp K) := by

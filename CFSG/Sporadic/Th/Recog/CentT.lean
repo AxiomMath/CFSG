@@ -287,7 +287,7 @@ theorem ThCore.exists_sylow_eq (C : ThCore G) {tM : ↥Max3.M}
       · left; rw [hn, zpow_mul, h2, one_zpow]
       · right; rw [hn, zpow_add, zpow_mul, h2, one_zpow, one_mul, zpow_one]
   have hP2 : IsPGroup 2 ↥P := IsPGroup.of_card (n := 6) (by rw [hc]; norm_num)
-  haveI hPnt : Nontrivial ↥P :=
+  have hPnt : Nontrivial ↥P :=
     Finite.one_lt_card_iff_nontrivial.mp (by rw [hc]; norm_num)
   have hcenter_nt : Nontrivial ↥(Subgroup.center ↥P) := IsPGroup.center_nontrivial hP2
   obtain ⟨y, hyne⟩ := exists_ne (1 : ↥(Subgroup.center ↥P))
@@ -341,11 +341,11 @@ theorem ThCore.exists_sylow_eq (C : ThCore G) {tM : ↥Max3.M}
       intro z hzS
       have hzPS : (⟨z, hzS⟩ : ↥S) ∈ PS := by rw [htop]; exact Subgroup.mem_top _
       exact Subgroup.mem_subgroupOf.mp (Subgroup.mem_subgroupOf.mp hzPS)
-    haveI hSnil : Group.IsNilpotent ↥S := IsPGroup.isNilpotent S.isPGroup'
+    have hSnil : Group.IsNilpotent ↥S := IsPGroup.isNilpotent S.isPGroup
     have hnc : NormalizerCondition ↥S := Group.normalizerCondition_of_isNilpotent (G := ↥S)
     have hPSlt : PS < ⊤ := lt_of_le_of_ne le_top hPSne
     have hgrowth : PS < Subgroup.normalizer (PS : Set ↥S) := hnc PS hPSlt
-    obtain ⟨x, hxN, hxnot⟩ := SetLike.exists_of_lt hgrowth
+    obtain ⟨x, hxN, hxnot⟩ := _root_.IsConcreteLE.exists_of_lt hgrowth
     let nx : G := (((x : ↥S) : ↥CT) : G)
     have hxCTN : ((x : ↥S) : ↥CT) ∈
         Subgroup.normalizer ((P.subgroupOf CT) : Set ↥CT) := by
@@ -423,7 +423,7 @@ theorem ThCore.exists_sylow_eq (C : ThCore G) {tM : ↥Max3.M}
       · rw [Subgroup.zpowers_le]
         exact Subgroup.mem_map_of_mem _ x.2
     have hSmap2 : IsPGroup 2 ↥((S : Subgroup ↥CT).map CT.subtype) :=
-      S.isPGroup'.map CT.subtype
+      S.isPGroup.map CT.subtype
     have hsup2 : IsPGroup 2 ↥(P ⊔ Subgroup.zpowers nx) :=
       IsPGroup.to_le hSmap2 hleS
     obtain ⟨n, hn⟩ := IsPGroup.iff_card.mp hsup2
@@ -979,8 +979,6 @@ theorem ThCore.nonempty_centralizer_zbar_mulEquiv (C : ThCore G) {tM : ↥Max3.M
     have hxz : (C.ψ x : G) * C.z = C.z * (C.ψ x : G) :=
       Subgroup.mem_centralizer_singleton_iff.mp (C.ψ x).2
     refine Subgroup.mem_centralizer_singleton_iff.mpr ?_
-    change π ⟨(C.ψ x : G), hCT x⟩ * π (C.zC tM) =
-      π (C.zC tM) * π ⟨(C.ψ x : G), hCT x⟩
     rw [← map_mul, ← map_mul]
     congr 1
     apply Subtype.ext
@@ -1060,9 +1058,9 @@ theorem ThCore.nonempty_centralizer_zbar_mulEquiv (C : ThCore G) {tM : ↥Max3.M
       rw [hEq, htMpow_eq_one k hmemD]
     exact Subtype.ext (mul_inv_eq_one.mp h1)
   have hCYcard : Nat.card ↥CY = 576 := ThCore.card_centralizer_zbar C htM hCt π hπ hker
-  haveI hYfin : Finite Y := Finite.of_surjective π hπ
-  haveI : Fintype ↥D := Fintype.ofFinite _
-  haveI : Fintype ↥CY := Fintype.ofFinite _
+  have hYfin : Finite Y := Finite.of_surjective π hπ
+  have : Fintype ↥D := Fintype.ofFinite _
+  have : Fintype ↥CY := Fintype.ofFinite _
   have hcardF : Fintype.card ↥D = Fintype.card ↥CY := by
     rw [← Nat.card_eq_fintype_card, ← Nat.card_eq_fintype_card, hDc, hCYcard]
   obtain ⟨e⟩ := Fintype.card_eq.mp hcardF
@@ -1083,7 +1081,7 @@ theorem ThCore.card_sylow_quot (C : ThCore G) {tM : ↥Max3.M} (htM : orderOf tM
   let H : Subgroup G := Subgroup.centralizer ({C.z} : Set G)
   let tG : G := (C.ψ tM : G)
   let tCT : ↥CT := ⟨tG, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
-  haveI hYfin : Finite Y := Finite.of_surjective π hπ
+  have hYfin : Finite Y := Finite.of_surjective π hπ
   have htCTord : orderOf tCT = 3 := by
     rw [show tCT = ⟨tG, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩ from rfl,
       Subgroup.orderOf_mk]
@@ -1159,7 +1157,7 @@ theorem ThCore.exists_conj_zbar (C : ThCore G) {tM : ↥Max3.M} (htM : orderOf t
   let CT : Subgroup G := Subgroup.centralizer ({(C.ψ tM : G)} : Set G)
   let tG : G := (C.ψ tM : G)
   let tCT : ↥CT := ⟨tG, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
-  haveI hYfin : Finite Y := Finite.of_surjective π hπ
+  have hYfin : Finite Y := Finite.of_surjective π hπ
   have htCTord : orderOf tCT = 3 := by
     rw [show tCT = ⟨tG, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩ from rfl,
       Subgroup.orderOf_mk]
@@ -1203,7 +1201,7 @@ theorem ThCore.exists_conj_zbar (C : ThCore G) {tM : ↥Max3.M} (htM : orderOf t
   let jCT : ↥CT := ⟨yt ^ 3, CT.pow_mem yt.2 3⟩
   have hj2 : jCT * jCT = 1 := by
     apply Subtype.ext
-    simp only [jCT, Subgroup.coe_mul, Subgroup.coe_pow, Subgroup.coe_one]
+    simp only [jCT, Subgroup.coe_mul, Subgroup.coe_one]
     calc (yt : G) ^ 3 * (yt : G) ^ 3 = (yt : G) ^ (3 + 3) := by rw [← pow_add]
       _ = (yt : G) ^ 6 := by norm_num
       _ = 1 := by simpa using congrArg Subtype.val hyt6
@@ -1268,7 +1266,7 @@ structure MG1 (tM : ↥Max3.M) (H₁ H₂ : Subgroup ↥Max3.M) : Prop where
 
 theorem ThCore.pi_psi_injective_on (C : ThCore G) {tM : ↥Max3.M} (htM : orderOf tM = 3)
     {Y : Type} [Group Y] (π : ↥(Subgroup.centralizer ({(C.ψ tM : G)} : Set G)) →* Y)
-    (hπ : Function.Surjective π)
+    (_hπ : Function.Surjective π)
     (hker : π.ker = Subgroup.zpowers
       ⟨(C.ψ tM : G), Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩)
     {K : Subgroup ↥Max3.M} (hK : K ≤ Subgroup.centralizer ({tM} : Set ↥Max3.M))
@@ -1377,7 +1375,7 @@ theorem ThCore.g23One_barOf (C : ThCore G) {tM : ↥Max3.M} (htM : orderOf tM = 
   let K2 : Subgroup ↥CT := (H₂.map C.psiG).subgroupOf CT
   let H1b : Subgroup Y := C.barOf π H₁
   let H2b : Subgroup Y := C.barOf π H₂
-  haveI hYfin : Finite Y := Finite.of_surjective π hπ
+  have hYfin : Finite Y := Finite.of_surjective π hπ
   have hCT : ∀ {K : Subgroup ↥Max3.M}, K ≤ CM → ∀ x : ↥K, (C.ψ x : G) ∈ CT := by
     intro K hK x
     refine (Subgroup.mem_centralizer_iff).mpr ?_
@@ -1431,7 +1429,7 @@ theorem ThCore.g23One_barOf (C : ThCore G) {tM : ↥Max3.M} (htM : orderOf tM = 
     · calc C.psiG (m * h * m⁻¹) = C.psiG m * C.psiG h * (C.psiG m)⁻¹ := by
             rw [map_mul, map_mul, map_inv]
         _ = (g : G) * (x : G) * (g : G)⁻¹ := by rw [hmψ, hhx]
-        _ = ((g * x * g⁻¹ : ↥CT) : G) := by simp [Subgroup.coe_mul, Subgroup.coe_inv]
+        _ = ((g * x * g⁻¹ : ↥CT) : G) := by simp [Subgroup.coe_mul]
   have normal_bar : ∀ {K : Subgroup ↥Max3.M}, CM ≤ Subgroup.normalizer (K : Set ↥Max3.M) →
       Hb ≤ Subgroup.normalizer (C.barOf π K : Set Y) := by
     intro K hKn

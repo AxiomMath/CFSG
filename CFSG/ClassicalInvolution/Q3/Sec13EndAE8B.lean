@@ -23,7 +23,7 @@ variable {Ω : Set (Subgroup G)} {u : G}
 private theorem ae8b1_exists_avoid {n : ℕ} (s : Finset (Fin n)) (hs : s.card < n) :
     ∃ j : Fin n, j ∉ s := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hsub : (Finset.univ : Finset (Fin n)) ⊆ s := fun j _ => h j
   have := Finset.card_le_card hsub
   simp only [Finset.card_univ, Fintype.card_fin] at this
@@ -107,7 +107,7 @@ theorem ae8b1_core {n : ℕ} (hn : 5 ≤ n) (w : AE.Wr n)
       have := congrArg (fun a : AE.Wr n => a.vec l) h
       have hsl : (Equiv.swap i j * Equiv.swap j k).symm l = l :=
         (Equiv.symm_apply_eq _).mpr hcl.symm
-      simp [AE.Wr.mul_vec, AE.Wr.ofPerm, AE.Wr.allOnes, hperm1, hsl] at this
+      simp [AE.Wr.mul_vec, AE.Wr.ofPerm, AE.Wr.allOnes, hsl] at this
   have hconst : ∀ a b : Fin n, w.vec a = w.vec b := by
     intro a b
     by_cases hab : a = b
@@ -141,7 +141,7 @@ theorem ae8b1_core {n : ℕ} (hn : 5 ≤ n) (w : AE.Wr n)
 
 theorem ae8b1_centre_aeSub {n : ℕ} (hn : 5 ≤ n) (w : AE.Wr n)
     (hc : ∀ a ∈ AE.aeSub n, w * a = a * w) : w = 1 ∨ w = AE.Wr.allOnes n :=
-  ae8b1_core hn w fun c hs => Or.inl (hc _ (ae8b1_ofPerm_mem hs))
+  ae8b1_core hn w fun _c hs => Or.inl (hc _ (ae8b1_ofPerm_mem hs))
 
 theorem ae8b1_centre_image {n : ℕ} (hn : 5 ≤ n) (x : AE.AEQ n)
     (hx : ∀ a ∈ AE.aeSub n, x * AE.mkQ n a = AE.mkQ n a * x) : x = 1 := by
@@ -173,6 +173,7 @@ theorem ae8b1_memAt_inj {n : ℕ} (hn : 5 ≤ n) {s s' : Finset (Fin n)} {h : s.
   · exact AE.memBar_true_ne_false hn s h (em.symm.trans (by rfl))
   · exact AE.memBar_true_ne_false hn s h em
 
+omit [Finite G] in
 theorem ae8b1_twin_of_comm (H : End18.Hyp Ω) {A B : Subgroup G} (hA : A ∈ Ω) (hB : B ∈ Ω)
     (hc : Commutes A B) : B ∈ twinSet Ω A := by
   obtain ⟨zA, hzA⟩ := (H.endHyp.thmD.hyp.omega1 A hA).1
@@ -196,6 +197,7 @@ private theorem ae8b1_oddCore (H : End18.Hyp Ω) (hu : SectData Ω u) :
   rw [h1] at h2
   exact oddCore_eq_bot_of_oddCoreImg (le_bot_iff.mp h2)
 
+omit [Finite G] in
 private theorem ae8b1_not_commutes_self (H : End18.Hyp Ω) {L : Subgroup G} (hL : L ∈ Ω) :
     ¬ Commutes L L := by
   intro hc
@@ -334,7 +336,8 @@ theorem ae8b1_aeCoverHyp (H : End18.Hyp Ω) (hu : SectData Ω u) {m : ℕ}
       twin_z := fun α h L hL L' hL' hl hl' v v' hv hv' =>
         H.perp9 L hL.1 L' hL'.1 (hcomm α h L hL L' hL' hl hl') v v' hv hv' }
 
-private theorem ae8b1_central_absurd (H : End18.Hyp Ω) (hu : SectData Ω u) {m : ℕ} (hm : 5 ≤ m)
+omit [Finite G] in
+private theorem ae8b1_central_absurd (_H : End18.Hyp Ω) (hu : SectData Ω u) {m : ℕ} (hm : 5 ≤ m)
     (I : AEIdent (Generic.centMembers Ω u) m) (hker : I.φ.ker = ⊥) : False := by
   have hinj : Function.Injective I.φ := (MonoidHom.ker_eq_bot_iff I.φ).mp hker
   have hx1 : I.φ ⟨u, hu.mem_span⟩ ≠ 1 := by
@@ -515,6 +518,7 @@ namespace Chart
 
 variable (c : Chart Ω u)
 
+omit [Finite G] in
 theorem ncard_centMembers_of_chart (c : Chart Ω u) : (Generic.centMembers Ω u).ncard = 30 := by
   classical
   choose! α hα b hl using c.label
@@ -550,6 +554,7 @@ theorem ncard_centMembers_of_chart (c : Chart Ω u) : (Generic.centMembers Ω u)
   rfl
 
 include c in
+omit [Finite G] in
 theorem ncard_centMembers : (Generic.centMembers Ω u).ncard = 30 :=
   ncard_centMembers_of_chart c
 
@@ -572,7 +577,7 @@ theorem ae8b2_ofVec_inv (x : Fin 6 → ZMod 2) : (ofVec x)⁻¹ = ofVec x := by
 theorem ae8b2_conj_ofPerm (σ : Equiv.Perm (Fin 6)) (x : Fin 6 → ZMod 2) :
     ofPerm σ * ofVec x * (ofPerm σ)⁻¹ = ofVec (fun i => x (σ.symm i)) := by
   refine Wr.ext (funext fun i => ?_) ?_
-  · simp [mul_vec, inv_vec, ofPerm, ofVec, mul_perm, inv_perm]
+  · simp [mul_vec, inv_vec, ofPerm, ofVec, mul_perm]
   · simp [mul_perm, inv_perm, ofPerm, ofVec]
 
 theorem ae8b2_piSub_ofVec (f : Fin 6 → ZMod 2) : ofVec f ∈ piSub 6 ↔ f = 0 ∨ f = 1 := by
@@ -658,11 +663,11 @@ theorem ae8b2_comm_vec_iff (w : Wr 6) (x : Fin 6 → ZMod 2) :
 
 theorem ae8b2_ite_zmod_iff (p q : Prop) [Decidable p] [Decidable q] :
     (if p then (1 : ZMod 2) else 0) = (if q then 1 else 0) ↔ (p ↔ q) := by
-  by_cases hp : p <;> by_cases hq : q <;> simp [hp, hq] <;> (try decide)
+  by_cases hp : p <;> by_cases hq : q <;> simp [hp, hq]
 
 theorem ae8b2_ite_zmod_add_one (p q : Prop) [Decidable p] [Decidable q] :
     (if p then (1 : ZMod 2) else 0) = (if q then 1 else 0) + 1 ↔ (p ↔ ¬ q) := by
-  by_cases hp : p <;> by_cases hq : q <;> simp [hp, hq] <;> (try decide)
+  by_cases hp : p <;> by_cases hq : q <;> simp [hp, hq]; (try decide)
 
 theorem ae8b2_not_complement (σ : Equiv.Perm (Fin 6)) (S : Finset (Fin 6))
     (hS : ∑ j, (if j ∈ S then (1:ℕ) else 0) = 2)
@@ -877,9 +882,9 @@ theorem ae8b2_vec_mem_CA (v : Fin 6 → ZMod 2) (hv : ∑ j, v j = 0) :
   have hv' : v 0 + v 1 + v 2 + v 3 + v 4 + v 5 = 0 := by simpa [Fin.sum_univ_six] using hv
   have hdec : v = ∑ i : Fin 5, v i.succ • ae8b2_ind {0, i.succ} := by
     funext j
-    fin_cases j <;> simp [Fin.sum_univ_five, ae8b2_ind] <;> revert hv' <;> generalize v 0 = a <;>
-      generalize v 1 = b <;> generalize v 2 = c <;> generalize v 3 = d <;>
-      generalize v 4 = e <;> generalize v 5 = f <;> revert a b c d e f <;> decide
+    fin_cases j <;> simp [Fin.sum_univ_five, ae8b2_ind]; revert hv'; generalize v 0 = a;
+      generalize v 1 = b; generalize v 2 = c; generalize v 3 = d;
+      generalize v 4 = e; generalize v 5 = f; revert a b c d e f; decide
   have hc := ae8b2_zmod2_cases
   rw [hdec]
   refine Finset.sum_induction _ (fun w => ofVec w ∈ (commutator (↥(aeSub 6))).map (aeSub 6).subtype)
@@ -950,9 +955,9 @@ theorem ae8b2_vec_mem_of_pairs (H : Subgroup (Wr 6))
   have hv' : v 0 + v 1 + v 2 + v 3 + v 4 + v 5 = 0 := by simpa [Fin.sum_univ_six] using hv
   have hdec : v = ∑ i : Fin 5, v i.succ • ae8b2_ind {0, i.succ} := by
     funext j
-    fin_cases j <;> simp [Fin.sum_univ_five, ae8b2_ind] <;> revert hv' <;> generalize v 0 = a <;>
-      generalize v 1 = b <;> generalize v 2 = c <;> generalize v 3 = d <;>
-      generalize v 4 = e <;> generalize v 5 = f <;> revert a b c d e f <;> decide
+    fin_cases j <;> simp [Fin.sum_univ_five, ae8b2_ind]; revert hv'; generalize v 0 = a;
+      generalize v 1 = b; generalize v 2 = c; generalize v 3 = d;
+      generalize v 4 = e; generalize v 5 = f; revert a b c d e f; decide
   have hc := ae8b2_zmod2_cases
   rw [hdec]
   refine Finset.sum_induction _ (fun w => ofVec w ∈ H)
@@ -987,7 +992,7 @@ theorem ae8b2_perm_one_of_normal (N : Subgroup ↥(aeSub 6)) [N.Normal]
     intro τ
     refine ⟨⟨ofPerm (τ : Equiv.Perm (Fin 6)),
       ae8b2_ofPerm_mem _ (Equiv.Perm.mem_alternatingGroup.mp τ.2)⟩, Subtype.ext rfl⟩
-  haveI : (N.map ρ).Normal := Subgroup.Normal.map ‹N.Normal› ρ hρ
+  have : (N.map ρ).Normal := Subgroup.Normal.map ‹N.Normal› ρ hρ
   rcases alternatingGroup.normal_subgroup_eq_bot_or_eq_top (α := Fin 6) (by simp)
       (N := N.map ρ) with h | h
   · intro n hn
@@ -1024,16 +1029,19 @@ theorem ae8b2_normalize (v : Fin 6 → ZMod 2) :
         (QuotientGroup.eq_one_iff _).mpr ((mem_piSub).mpr (Or.inr rfl))
       rw [key, map_mul, hpi, mul_one]
 
+omit [Finite G] in
 theorem ae8b2_u_central (c : Chart Ω u) (y : ↥(pSpan (Generic.centMembers Ω u))) :
     y * ⟨u, c.mem⟩ = ⟨u, c.mem⟩ * y := by
   have hle : pSpan (Generic.centMembers Ω u) ≤ Subgroup.centralizer {u} :=
     pSpan_le fun L hL => hL.2
   exact Subtype.ext (Subgroup.mem_centralizer_singleton_iff.mp (hle y.2))
 
+omit [Finite G] in
 theorem ae8b2_cm {L : Subgroup G} (hL : L ∈ Generic.centMembers Ω u) (m : G) (hm : m ∈ L) :
     m * u = u * m :=
   Subgroup.mem_centralizer_singleton_iff.mp (hL.2 hm)
 
+omit [Finite G] in
 theorem ae8b2_zOf_mem (c : Chart Ω u) (H : End18.Hyp Ω) {α : Finset (Fin 6)} (hα : α.card = 4) :
     ∃ y : ↥(pSpan (Generic.centMembers Ω u)), (y : G) ∈ zGroup Ω ∧
       (c.ψ y : AE.Wr 6) = AE.zOf (AE.emb α hα) := by
@@ -1068,9 +1076,10 @@ theorem ae8b2_zOf_eq {α : Finset (Fin 6)} (hα : α.card = 4) :
   rw [AE.zOf_vec_apply]
   unfold ae8b2_ind
   by_cases h : x ∈ α
-  · rw [if_pos h, if_pos (hx.mpr h)]
-  · rw [if_neg h, if_neg (fun h' => h (hx.mp h'))]
+  · rw [ite_eq_left h, ite_eq_left (hx.mpr h)]
+  · rw [ite_eq_right h, ite_eq_right (fun h' => h (hx.mp h'))]
 
+omit [Finite G] in
 theorem ae8b2_zGroup_normal (hΩ : ConjInvariant Ω) : (zGroup Ω).Normal := by
   refine ⟨fun n hn g => ?_⟩
   have hn' : n ∈ Subgroup.closure {u : G | ∃ L ∈ Ω, IsUniqueInvolution L u} := hn
@@ -1100,6 +1109,7 @@ theorem ae8b2_cz_spec : ∀ i : Fin 6, i ≠ 0 →
   unfold ae8b2_cz
   decide
 
+omit [Finite G] in
 theorem ae8b2_pair (c : Chart Ω u) (H : End18.Hyp Ω) {i : Fin 6} (hi : i ≠ 0) :
     ∃ y : ↥(pSpan (Generic.centMembers Ω u)), (y : G) ∈ zGroup Ω ∧
       (c.ψ y : AE.Wr 6) = ofVec (ae8b2_ind {0, i}) := by
@@ -1111,6 +1121,7 @@ theorem ae8b2_pair (c : Chart Ω u) (H : End18.Hyp Ω) {i : Fin 6} (hi : i ≠ 0
   show (c.ψ y₁ : AE.Wr 6) * (c.ψ y₂ : AE.Wr 6) = _
   rw [hy₁, hy₂, ae8b2_zOf_eq, ae8b2_zOf_eq, ae8b2_ofVec_mul, h3]
 
+omit [Finite G] in
 theorem ae8b2_even (c : Chart Ω u) (H : End18.Hyp Ω) (v : Fin 6 → ZMod 2) (hv : ∑ j, v j = 0) :
     ∃ y : ↥(pSpan (Generic.centMembers Ω u)), (y : G) ∈ zGroup Ω ∧
       (c.ψ y : AE.Wr 6) = ofVec v := by
@@ -1135,7 +1146,7 @@ theorem ae8b2_perm_of_mem (c : Chart Ω u) (H : End18.Hyp Ω)
   have hD : (zGroup Ω).Normal := ae8b2_zGroup_normal H.endHyp.thmD.hyp.conjInvariant
   let N : Subgroup ↥(AE.aeSub 6) :=
     ((zGroup Ω).subgroupOf (pSpan (Generic.centMembers Ω u))).map c.ψ.toMonoidHom
-  haveI : N.Normal :=
+  have : N.Normal :=
     Subgroup.Normal.map (Subgroup.Normal.subgroupOf hD _) c.ψ.toMonoidHom c.ψ.surjective
   have hsq : ∀ n ∈ N, n * n = 1 := by
     intro n hn
@@ -1148,6 +1159,7 @@ theorem ae8b2_perm_of_mem (c : Chart Ω u) (H : End18.Hyp Ω)
   exact ae8b2_perm_one_of_normal N hsq (c.ψ y)
     (Subgroup.mem_map_of_mem _ (Subgroup.mem_subgroupOf.mpr hy))
 
+omit [Finite G] in
 theorem ae8b2_mem_of_perm (c : Chart Ω u) (H : End18.Hyp Ω)
     (y : ↥(pSpan (Generic.centMembers Ω u))) (hy : (c.ψ y : AE.Wr 6).perm = 1) :
     (y : G) ∈ zGroup Ω := by
@@ -1157,6 +1169,7 @@ theorem ae8b2_mem_of_perm (c : Chart Ω u) (H : End18.Hyp Ω)
   rw [← hyy]
   exact hy'D
 
+omit [Finite G] in
 theorem ae8b2_comm_top (c : Chart Ω u) :
     ⁅(⊤ : Subgroup ↥(pSpan (Generic.centMembers Ω u))), ⊤⁆ =
       (⊤ : Subgroup ↥(pSpan (Generic.centMembers Ω u))) := by
@@ -1178,6 +1191,7 @@ theorem ae8b2_comm_top (c : Chart Ω u) :
   obtain ⟨x, hx, hxy⟩ := Subgroup.mem_map.mp hy
   rwa [show x = y from c.ψ.injective hxy] at hx
 
+omit [Finite G] in
 theorem ae8b2_u_mem (c : Chart Ω u) (H : End18.Hyp Ω) : u ∈ zGroup Ω := by
   obtain ⟨y₁, h₁, e₁⟩ := ae8b2_zOf_mem c H (α := {0, 1, 2, 3}) (by decide)
   obtain ⟨y₂, h₂, e₂⟩ := ae8b2_zOf_mem c H (α := {0, 1, 2, 4}) (by decide)
@@ -1307,6 +1321,7 @@ theorem ae8b2_twist (c : Chart Ω u) (H : End18.Hyp Ω) (I : AEIdent (Generic.ce
     refine ⟨conjSub d⁻¹ L', ae8b2_conj_mem H hdi hu hL', ?_⟩
     rw [← Subgroup.map_map, ae8b2_map_cj H hd hu, conjSub_conjSub_inv, hlab]
 
+omit [Finite G] in
 theorem ae8b2_chart_ident (c : Chart Ω u) :
     ∃ I : AEIdent (Generic.centMembers Ω u) 6, ∀ y : ↥(pSpan (Generic.centMembers Ω u)),
       I.φ y = AE.mkQ 6 (c.ψ y : AE.Wr 6) := by
@@ -1457,6 +1472,7 @@ theorem mem_zGroup_iff (H : End18.Hyp Ω) (y : ↥(pSpan (Generic.centMembers Ω
   exact ⟨fun hy => ae8b2_perm_of_mem c H y hy, fun hy => ae8b2_mem_of_perm c H y hy⟩
 
 include c in
+omit [Finite G] in
 theorem perfect : commutator ↥(pSpan (Generic.centMembers Ω u)) = ⊤ := by
   exact ae8b2_comm_top c
 
@@ -1552,6 +1568,7 @@ theorem ae8b2_ker_sub (c : Chart Ω u) (H : End18.Hyp Ω)
       _ = (d : G) * h := by group
   exact hC _ d.2 hcent
 
+omit [Finite G] in
 theorem ae8b2_range_le (θ : ↥(zGroup Ω) →* AE.AEQ 6)
     (hθv : ∀ d : ↥(zGroup Ω), ∃ v : Fin 6 → ZMod 2, θ d = AE.mkQ 6 (AE.Wr.ofVec v)) :
     Nat.card θ.range ≤ 32 := by
@@ -1613,7 +1630,7 @@ theorem ae8b2_card_ge (H : End18.Hyp Ω) : 64 ≤ Nat.card ↥(zGroup Ω) := by
   have hKs : conjSub s K ∈ twinSet Ω K := H.conjSub_mem_twinSet hK hs
   obtain ⟨K₃, hK₃T, hK₃K, hK₃s⟩ : ∃ K₃ ∈ twinSet Ω K, K₃ ≠ K ∧ K₃ ≠ conjSub s K := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have hsub : twinSet Ω K ⊆ {K, conjSub s K} := by
       intro L hL
       by_cases hLK : L = K

@@ -117,8 +117,8 @@ theorem cstep : ∀ l < 4, ∀ i < 1100, ∀ j < 1100, stC A CR.TF l i j = true 
     fun q hq => ?_
   exact Nat.eq_of_beq_eq_true (CFSG.KS.allN_spec h q hq)
 
-theorem toList_inj : Function.Injective (fun a : Array Nat => (Encodable.encode a.toList : Nat)) :=
-  fun a b h => Array.toList_inj.1 (Encodable.encode_injective h)
+theorem toList_inj : Function.Injective (fun _a : Array Nat => (Encodable.encode _a.toList : Nat)) :=
+  fun _a _b h => Array.toList_inj.1 (Encodable.encode_injective h)
 
 theorem croot : TC 0 = r0Tab := good_ext (good_TC (by norm_num)) good_r0Tab cent'.2
 

@@ -714,7 +714,7 @@ theorem center_eq_bot (hF : Nat.card F = q) (hq : q.Prime) (hq5 : 5 ≤ q) :
   · exact h
   · exfalso
     obtain ⟨S⟩ := (inferInstance : Nonempty (Sylow 2 (PSL2 F)))
-    have hS2 : IsPGroup 2 (S : Subgroup (PSL2 F)) := S.isPGroup'
+    have hS2 : IsPGroup 2 (S : Subgroup (PSL2 F)) := S.isPGroup
     have hSi : ¬ 2 ∣ (S : Subgroup (PSL2 F)).index := S.not_dvd_index
     obtain ⟨-, -, -, hSne⟩ :=
       sylow_sub_data hF hq hq5 hS2 hSi (le_top : (S : Subgroup (PSL2 F)) ≤ ⊤)

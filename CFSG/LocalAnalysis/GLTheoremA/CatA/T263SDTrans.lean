@@ -219,7 +219,7 @@ theorem sdCore_of_famSel (hChev : CFSG.LocalAnalysis.GLTheoremA.I142M.Three.Chev
     exact Subgroup.mul_mem _ (Subgroup.mem_sup_left hjJ) (Subgroup.mem_sup_right hdD)
   ·
     have hTs : IsSimpleGroup P := by
-      haveI : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
+      have : IsSimpleGroup (↥S ⧸ Subgroup.center ↥S) := hSq.2
       exact θ.symm.isSimpleGroup
     have hTnc : ∃ a b : P, a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := (native_of_open_dx hSq).2.2

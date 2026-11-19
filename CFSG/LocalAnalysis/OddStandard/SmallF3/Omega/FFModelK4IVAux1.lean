@@ -21,6 +21,7 @@ open CFSG.LocalAnalysis.ComponentInitial
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_aux_hadj {ρ : ↥(simGroup Q)}
     (hρ : IsSimilitude Q (ρ : V ≃ₗ[ZMod 3] V) (-1))
     (hρρ : ∀ v, (ρ : V ≃ₗ[ZMod 3] V) ((ρ : V ≃ₗ[ZMod 3] V) v) = -v) :
@@ -31,7 +32,7 @@ theorem ff_aux_hadj {ρ : ↥(simGroup Q)}
     intro x y
     rw [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polarBilin_apply_apply,
       QuadraticMap.polar, QuadraticMap.polar, ← map_add, hρ (x + y), hρ x, hρ y]
-    simp only [Units.val_neg, Units.val_one, neg_mul, neg_neg]
+    simp only [Units.val_neg, Units.val_one, neg_mul]
     ring
   intro x y
   have h := hpol x (-(ρ : V ≃ₗ[ZMod 3] V) y)
@@ -41,6 +42,7 @@ theorem ff_aux_hadj {ρ : ↥(simGroup Q)}
     QuadraticMap.polar_neg_right] at h
   simpa using h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_aux_hsquare {ρ : ↥(simGroup Q)}
     (hρρ : ∀ v, (ρ : V ≃ₗ[ZMod 3] V) ((ρ : V ≃ₗ[ZMod 3] V) v) = -v) :
     ((ρ : V ≃ₗ[ZMod 3] V) : Module.End (ZMod 3) V) ^ 2 =
@@ -54,6 +56,7 @@ theorem ff_aux_hsquare {ρ : ↥(simGroup Q)}
   rw [h]
   simp
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_aux_fixSub_eq {ρ : ↥(simGroup Q)} :
     fixSub (simAct Q ρ) = orthogonalOperatorCentralizer Q
       (((ρ : V ≃ₗ[ZMod 3] V)) : Module.End (ZMod 3) V) := by
@@ -79,15 +82,15 @@ theorem ff_aux_fixSub_eq {ρ : ↥(simGroup Q)} :
     simpa only [LinearEquiv.mul_apply, LinearEquiv.coe_inv] using h2.symm
 
 theorem ff_aux_layerModel_core' (hQ : Q.Nondegenerate)
-    (hdim : Module.finrank (ZMod 3) V = 6) (hsgn : quadSign Q = 1) {ρ : ↥(simGroup Q)}
+    (hdim : Module.finrank (ZMod 3) V = 6) (_hsgn : quadSign Q = 1) {ρ : ↥(simGroup Q)}
     (hρ : IsSimilitude Q (ρ : V ≃ₗ[ZMod 3] V) (-1))
     (hρρ : ∀ v, (ρ : V ≃ₗ[ZMod 3] V) ((ρ : V ≃ₗ[ZMod 3] V) v) = -v) :
     LayerModel ↥(omegaGroup hQ ⊓ fixSub (simAct Q ρ)) .PSL 2 2 ∧
       ∃ G1 : Subgroup (OGroup Q),
         (∀ g h : OGroup Q, simAct Q ρ g = g → simAct Q ρ h = h → g * h * g⁻¹ * h⁻¹ ∈ G1) ∧
         G1 ≤ omegaGroup hQ ⊓ fixSub (simAct Q ρ) ∧ LieModel ↥G1 .PSL 2 3 2 := by
-  haveI : Fact (¬ IsSquare (-1 : ZMod 3)) := ⟨by decide⟩
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 3) (by rw [hdim]; norm_num)
+  have : Fact (¬ IsSquare (-1 : ZMod 3)) := ⟨by decide⟩
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := ZMod 3) (by rw [hdim]; norm_num)
   let T : Module.End (ZMod 3) V := ((ρ : V ≃ₗ[ZMod 3] V) : Module.End (ZMod 3) V)
   have hns : ¬ IsSquare (-1 : ZMod 3) := by decide
   have h2 : (2 : ZMod 3) ≠ 0 := by decide
@@ -95,13 +98,13 @@ theorem ff_aux_layerModel_core' (hQ : Q.Nondegenerate)
   have hsquare : T ^ 2 = algebraMap (ZMod 3) (Module.End (ZMod 3) V) (-1) := ff_aux_hsquare hρρ
   have hadj : ∀ x y, Q.polarBilin (T x) y = Q.polarBilin x (T y) := ff_aux_hadj hρ hρρ
   have hQp : Q.polarBilin.Nondegenerate := QuadraticMap.nondegenerate_polar_iff.mpr hQ
-  letI : Field (scalarAlgebra T) := scalarField T (-1) hns hsquare
-  letI : Module (scalarAlgebra T) V := evaluationModule T
-  haveI : IsScalarTower (ZMod 3) (scalarAlgebra T) V := evaluationScalarTower T
-  haveI : Module.Finite (ZMod 3) (scalarAlgebra T) := scalarAlgebra_finite T (-1) hns hsquare
-  haveI : Finite (scalarAlgebra T) := Module.finite_of_finite (ZMod 3)
+  let : Field (scalarAlgebra T) := scalarField T (-1) hns hsquare
+  let : Module (scalarAlgebra T) V := evaluationModule T
+  have : IsScalarTower (ZMod 3) (scalarAlgebra T) V := evaluationScalarTower T
+  have : Module.Finite (ZMod 3) (scalarAlgebra T) := scalarAlgebra_finite T (-1) hns hsquare
+  have : Finite (scalarAlgebra T) := Module.finite_of_finite (ZMod 3)
   have hfin := scalar_square_actual_finite_dimension (K := ZMod 3) (V := V) T (-1) hns hsquare
-  haveI : Module.Finite (scalarAlgebra T) V := hfin.1
+  have : Module.Finite (scalarAlgebra T) V := hfin.1
   let QE : QuadraticForm (scalarAlgebra T) V :=
     actualPositiveQuadratic Q T (-1) hd hns hsquare hadj
   obtain ⟨-, -, -, hQEnd, -, -, e1, -, -, -, -⟩ :=

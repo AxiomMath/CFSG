@@ -222,7 +222,7 @@ theorem pair_ne [Finite V] {L : Subgroup (Module.End (ZMod 2) V)ˣ}
       exact ⟨_, rfl⟩
     have := hrank _ hyL hyne hyinv
     omega
-  · push_neg at hcase
+  · push Not at hcase
     have hxinv : (s * t) * (s * t) = 1 := (inv_iff _).2 fun v => by rw [hxx, hcase]
     have hxne : s * t ≠ 1 := by
       intro h
@@ -262,7 +262,7 @@ theorem outer_transvection_core [Finite V] {L : Subgroup (Module.End (ZMod 2) V)
   have : Module.Finite (ZMod 2) V := Module.Finite.of_finite
   have : Finite (Module.End (ZMod 2) V)ˣ := finite_units
   set D := tvClass L b with hD
-  haveI : Fintype ↥D := Fintype.ofFinite _
+  have : Fintype ↥D := Fintype.ofFinite _
   have hbi : b⁻¹ = b := inv_eq_of_mul_eq_one_right hb2
   obtain ⟨wb, hwb⟩ := tvW_exists hbr
   have hbD : b ∈ D := ⟨1, one_mem _, by simp⟩
@@ -284,7 +284,7 @@ theorem outer_transvection_core [Finite V] {L : Subgroup (Module.End (ZMod 2) V)
     exact ⟨g * h, mul_mem hg hh, by group⟩
   let wOf : (Module.End (ZMod 2) V)ˣ → V := fun t => if h : ∃ w, TvW t w then h.choose else 0
   have hwOf : ∀ t, (∃ w, TvW t w) → TvW t (wOf t) := fun t h => by
-    simp only [wOf, dif_pos h]
+    simp only [wOf, dite_eq_left h]
     exact h.choose_spec
   have hwOfconj : ∀ g t, (∃ w, TvW t w) → wOf (g * t * g⁻¹) = g.val (wOf t) := fun g t h =>
     tvW_unique (hwOf _ ⟨_, tvW_conj g t (hwOf t h)⟩) (tvW_conj g t (hwOf t h))

@@ -71,7 +71,7 @@ private theorem fieldCoreAt_adjointG2_of_dvd_card {q : TauCeti.PrimePower} {K : 
       MulAut (adjointGroup Tag.G2 K)).range :=
     fun hx => hxo (inner_le_innAutDerived _ hx)
   have hxord : orderOf x = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact orderOf_eq_prime hxp fun h => hxinner (by rw [h]; exact one_mem _)
   by_cases h2 : q.p = 2
   · have hK2 : Nat.card K = 2 ^ q.exponent := by rw [hK', h2]
@@ -150,7 +150,7 @@ private theorem fieldCoreAt_adjointF4_of_dvd_card {q : TauCeti.PrimePower} {K : 
       MulAut (adjointGroup Tag.F4 K)).range :=
     fun hx => hxo (inner_le_innAutDerived _ hx)
   have hxord : orderOf x = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact orderOf_eq_prime hxp fun h => hxinner (by rw [h]; exact one_mem _)
   exact fieldCoreAt_adjointF4 q.prime_p q.exponent_pos K hK' hp hp2 hcnt hxord hxinner
 
@@ -158,7 +158,7 @@ theorem degCount_E6_pos_of_dvd_card {K : Type} [Field K] [Finite K] {p : ℕ}
     (hp : p.Prime) (hp5 : 5 ≤ p) (hpK : ¬ p ∣ Nat.card K)
     (hcard : p ∣ Nat.card (adjointGroup Tag.E6 K)) :
     0 < degCount Tag.E6 (orderOf ((Nat.card K : ℕ) : ZMod p)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra h0
   have hzero : degCount Tag.E6 (orderOf ((Nat.card K : ℕ) : ZMod p)) = 0 := by omega
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := adjointGroup Tag.E6 K) p hcard
@@ -184,7 +184,7 @@ private theorem fieldCoreAt_adjointE6_of_dvd_card {q : TauCeti.PrimePower} {K : 
       MulAut (adjointGroup Tag.E6 K)).range :=
     fun hx => hxo (inner_le_innAutDerived _ hx)
   have hxord : orderOf x = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact orderOf_eq_prime hxp fun h => hxinner (by rw [h]; exact one_mem _)
   by_cases h3 : p = 3
   · subst h3
@@ -205,7 +205,7 @@ theorem degCount_E7_pos_of_dvd_card {K : Type} [Field K] [Finite K] {p : ℕ}
     (hp : p.Prime) (hp5 : 5 ≤ p) (hpK : ¬ p ∣ Nat.card K)
     (hcard : p ∣ Nat.card (adjointGroup Tag.E7 K)) :
     0 < degCount Tag.E7 (orderOf ((Nat.card K : ℕ) : ZMod p)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra h0
   have hzero : degCount Tag.E7 (orderOf ((Nat.card K : ℕ) : ZMod p)) = 0 := by omega
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := adjointGroup Tag.E7 K) p hcard
@@ -221,7 +221,7 @@ theorem degCount_E8_pos_of_dvd_card {K : Type} [Field K] [Finite K] {p : ℕ}
     (hp : p.Prime) (hp5 : 5 ≤ p) (hpK : ¬ p ∣ Nat.card K)
     (hcard : p ∣ Nat.card (adjointGroup Tag.E8 K)) :
     0 < degCount Tag.E8 (orderOf ((Nat.card K : ℕ) : ZMod p)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra h0
   have hzero : degCount Tag.E8 (orderOf ((Nat.card K : ℕ) : ZMod p)) = 0 := by omega
   obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' (G := adjointGroup Tag.E8 K) p hcard
@@ -258,7 +258,7 @@ private theorem fieldCoreAt_adjointE7_of_dvd_card {q : TauCeti.PrimePower} {K : 
       MulAut (adjointGroup Tag.E7 K)).range :=
     fun hx => hxo (inner_le_innAutDerived _ hx)
   have hxord : orderOf x = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact orderOf_eq_prime hxp fun h => hxinner (by rw [h]; exact one_mem _)
   have hcnt : 0 < degCount Tag.E7 (orderOf ((Nat.card K : ℕ) : ZMod p)) := by
     by_cases h3 : p = 3
@@ -287,7 +287,7 @@ private theorem fieldCoreAt_adjointE8_of_dvd_card {q : TauCeti.PrimePower} {K : 
       MulAut (adjointGroup Tag.E8 K)).range :=
     fun hx => hxo (inner_le_innAutDerived _ hx)
   have hxord : orderOf x = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     exact orderOf_eq_prime hxp fun h => hxinner (by rw [h]; exact one_mem _)
   have hcnt : 0 < degCount Tag.E8 (orderOf ((Nat.card K : ℕ) : ZMod p)) := by
     by_cases h3 : p = 3

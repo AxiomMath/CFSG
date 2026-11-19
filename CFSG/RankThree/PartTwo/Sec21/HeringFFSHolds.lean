@@ -24,7 +24,7 @@ theorem ffs_core {G : Type} [Group G] [Finite G] {A : Subgroup G} {a : G} {X : S
     (∃ P : Sylow 3 ↥(Subgroup.centralizer ({a} : Set G)),
       (P : Subgroup ↥(Subgroup.centralizer ({a} : Set G))).map
         (Subgroup.centralizer ({a} : Set G)).subtype = A) ∧ Nat.card A = 27 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hX : IsL4L5Sp6 X := hmod.elim Or.inl fun h => Or.inr (Or.inl h)
   have hQ' : CFSG.IsQuasisimple (lBar X) :=
     Sec6.isQuasisimple_of_mem_thetaComponentsAt hpt.mem_theta
@@ -75,7 +75,7 @@ theorem ffSylowIsAL45_holds : FFSylowIsAL45 := by
 
 theorem ffPRankL5_holds : FFPRankL5 := by
   intro G _ _ A a X hpt hmod hXq hN hW
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨⟨P, hPA⟩, hcard⟩ := ffs_core hpt (Or.inr hmod) hXq hN hW
   rw [hpt.standing.toTheoremFourHyp.localRank_three]
   have hAab := hpt.mem_S.1.1

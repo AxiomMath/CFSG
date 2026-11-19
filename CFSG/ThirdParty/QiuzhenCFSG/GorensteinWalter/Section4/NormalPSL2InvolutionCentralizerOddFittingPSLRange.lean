@@ -157,7 +157,6 @@ public theorem normalPSL2_involutionCentralizer_oddFitting_image_le_pslRange
     have hlC : (l : R) ∈ C := by
       rw [Subgroup.mem_centralizer_singleton_iff]
       apply hfinj
-      change f ((l : R) * t) = f (t * (l : R))
       rw [map_mul, map_mul, hfl]
       have hxcomm := Subgroup.mem_centralizer_singleton_iff.mp hx.1
       simpa [tau] using hxcomm
@@ -281,7 +280,7 @@ public theorem normalPSL2_involutionCentralizer_oddFitting_image_le_pslRange
   have hNker : N ≤ pGammaL2LinearKernel K A := by
     by_contra hnle
     have hproj : ∃ n : N, SemidirectProduct.rightHom (n : PGammaL2 K) ≠ 1 := by
-      rcases SetLike.not_le_iff_exists.mp hnle with ⟨n, hnN, hnker⟩
+      rcases IsConcreteLE.not_le_iff_exists.mp hnle with ⟨n, hnN, hnker⟩
       refine ⟨⟨n, hnN⟩, ?_⟩
       intro hright
       apply hnker

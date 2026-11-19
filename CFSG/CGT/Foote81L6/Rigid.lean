@@ -46,17 +46,20 @@ end End
 
 variable {ι : Type*} [DecidableEq ι] [Fintype ι] {a : ι → ℕ}
 
-theorem central_apply_cases (ha : ∀ i, 2 ≤ a i) {c : PX a} (hc : ∀ x, x * c = c * x) (i : ι) :
-    c i = 1 ∨ c i = zc (a i) :=
-  eq_one_or_zc_of_comm (ha i) fun g =>
-    ((comm_mulSingle_iff c).mp (fun i h => (hc _).symm) i g).symm
+omit [Fintype ι] in
+theorem central_apply_cases (ha : ∀ _i, 2 ≤ a _i) {c : PX a} (hc : ∀ x, x * c = c * x) (_i : ι) :
+    c _i = 1 ∨ c _i = zc (a _i) :=
+  eq_one_or_zc_of_comm (ha _i) fun g =>
+    ((comm_mulSingle_iff c).mp (fun _i _h => (hc _).symm) _i g).symm
 
+omit [Fintype ι] in
 theorem central_sq (ha : ∀ i, 2 ≤ a i) {c : PX a} (hc : ∀ x, x * c = c * x) : c * c = 1 := by
   ext i
   rcases central_apply_cases ha hc i with h | h
   · simp [h]
   · simp [h, zc_mul_self (a := a i) (by have := ha i; omega)]
 
+omit [Fintype ι] in
 theorem central_pow_odd (ha : ∀ i, 2 ≤ a i) {c : PX a} (hc : ∀ x, x * c = c * x) {N : ℕ}
     (hN : Odd N) : c ^ N = c := by
   obtain ⟨k, rfl⟩ := hN
@@ -137,6 +140,7 @@ theorem fix_center (ha : ∀ i, 2 ≤ a i) (y : MulAut (PX a)) (hfix : ∀ j, y 
     {c : PX a} (hc : ∀ x, x * c = c * x) : y c = c :=
   fix_center_gen y (fun j _ => hfix j) hc fun i hi => by have := ha i; omega
 
+omit [DecidableEq ι] [Fintype ι] in
 theorem central_mul {c₁ c₂ : PX a} (h₁ : ∀ x, x * c₁ = c₁ * x) (h₂ : ∀ x, x * c₂ = c₂ * x) :
     ∀ x, x * (c₁ * c₂) = (c₁ * c₂) * x := by
   intro x
@@ -146,6 +150,7 @@ theorem central_mul {c₁ c₂ : PX a} (h₁ : ∀ x, x * c₁ = c₁ * x) (h₂
     _ = c₁ * (c₂ * x) := by rw [h₂ x]
     _ = (c₁ * c₂) * x := (mul_assoc ..).symm
 
+omit [DecidableEq ι] [Fintype ι] in
 theorem central_of_comp {c : PX a} (h : ∀ i (h : DihedralGroup (2 ^ a i)), c i * h = h * c i) :
     ∀ x, x * c = c * x := by
   intro x
@@ -156,6 +161,7 @@ theorem central_of_comp {c : PX a} (h : ∀ i (h : DihedralGroup (2 ^ a i)), c i
   ∀ j k, k ≠ j → ∀ (d : DihedralGroup (2 ^ a j)) (h : DihedralGroup (2 ^ a k)),
     y (Pi.mulSingle j d) * Pi.mulSingle k h = Pi.mulSingle k h * y (Pi.mulSingle j d)
 
+omit [Fintype ι] in
 theorem fix_of_cent (ha : ∀ i, 2 ≤ a i) (y : MulAut (PX a)) (hc : Cent y) :
     ∀ j, y (zz a j) = zz a j := by
   intro j
@@ -246,6 +252,7 @@ theorem perm (ha : ∀ i, 2 ≤ a i) (y : MulAut (PX a)) :
     exact zz_injective (by have := ha j; omega) (by have := ha j'; omega) (y.injective this)
   exact ⟨Equiv.ofBijective f (Finite.injective_iff_bijective.mp hinj), hfz, hfle⟩
 
+omit [Fintype ι] in
 theorem pow_zz (y : MulAut (PX a)) (σ : Equiv.Perm ι) (h : ∀ j, y (zz a j) = zz a (σ j))
     (m : ℕ) : ∀ j, (y ^ m) (zz a j) = zz a ((σ ^ m) j) := by
   induction m with

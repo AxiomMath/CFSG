@@ -14,13 +14,13 @@ open CFSG.LargeExtraspecial.RepresentationSupport.ExtraspecialTwoCommutatorForm
 theorem exists_width (E : Type*) [Group E] [Finite E]
     (hE : CFSG.IsExtraspecialPGroup 2 E) :
     ∃ w : ℕ, 0 < w ∧ Nat.card E = 2 ^ (2 * w + 1) := by
-  haveI : Fact (CFSG.IsExtraspecialPGroup 2 E) := ⟨hE⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (CFSG.IsExtraspecialPGroup 2 E) := ⟨hE⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hc : Nat.card (Subgroup.center E) = 2 := hE.2.2.2
   have hM : Nat.card (Multiplicative (ZMod 2)) = 2 := by simp [Nat.card_eq_fintype_card]
   let ζ : Subgroup.center E ≃* Multiplicative (ZMod 2) := mulEquivOfPrimeCardEq hc hM
-  haveI : Finite (QSpace E) := inferInstanceAs (Finite (Additive (E ⧸ Subgroup.center E)))
-  haveI : FiniteDimensional (ZMod 2) (QSpace E) := Module.Finite.of_finite
+  have : Finite (QSpace E) := inferInstanceAs (Finite (Additive (E ⧸ Subgroup.center E)))
+  have : FiniteDimensional (ZMod 2) (QSpace E) := Module.Finite.of_finite
   obtain ⟨n, hn⟩ := CFSG.LinearAlgebra.CoprimeActions.AlternatingFormEvenDimension.exists_half_finrank (form ζ)
     (alternating ζ) (nondegenerate ζ)
   have h1 := Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center E)

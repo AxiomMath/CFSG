@@ -38,7 +38,7 @@ theorem ggKGCCentSolv_A_five :
   have hφinj : Function.Injective φ := by
     intro a b hab
     exact Matrix.SpecialLinearGroup.toGL_injective (e.injective hab)
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨eJ⟩ := hJ
   have hcardJ : Nat.card ↥J = 20160 := by
     rw [Nat.card_congr eJ.toEquiv, ggKGCFiveMain_card_SL4]
@@ -79,7 +79,7 @@ theorem ggKGCCentSolv_A_five :
     apply Subtype.ext
     apply hφinj
     exact congrArg Subtype.val hab
-  haveI : Group.IsSolvable ↥C := hsol
+  have : Group.IsSolvable ↥C := hsol
   exact Group.isSolvable_of_isSolvable_injective (f := f) hfinj
 
 end CFSG.StandardType

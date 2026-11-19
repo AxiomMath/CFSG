@@ -93,7 +93,7 @@ theorem borelRigid_projectiveSL_three (hK : 4 ≤ Nat.card K) (hsimple : IsSimpl
   obtain ⟨S, hS⟩ := exists_sylow_projUnitriangular (K := K) 2 (n := 3) (by norm_num)
   have h0 : IsSylowTwoOf (projUnitriangular 3 K) ⊤ := by
     rw [← hS]
-    exact K1.isSylowTwoOf_top_iff.mpr ⟨S.isPGroup', S.not_dvd_index⟩
+    exact K1.isSylowTwoOf_top_iff.mpr ⟨S.isPGroup, S.not_dvd_index⟩
   have hZ : Subgroup.center (projectiveSL 3 K) = ⊥ := by
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (projectiveSL 3 K)) with hb | ht
     · exact hb

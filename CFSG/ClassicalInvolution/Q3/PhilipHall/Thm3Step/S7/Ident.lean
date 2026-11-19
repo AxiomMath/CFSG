@@ -102,11 +102,11 @@ theorem orbitLie_of_lieSystem (h : OrbitHyp H M z) {Λ : Subgroup H} (hMΛ : M �
   classical
   obtain ⟨ι, _, ⟨D₀⟩⟩ := hL
   set L := genFittingFStar H with hLdef
-  haveI : IsSimpleGroup ↥L := h.fstar.1
-  haveI hLn : L.Normal := CFSG.ClassicalInvolution.genFittingFStar_normal H
+  have : IsSimpleGroup ↥L := h.fstar.1
+  have hLn : L.Normal := CFSG.ClassicalInvolution.genFittingFStar_normal H
   have hle : ∀ N : Subgroup H, N.Normal → N ≠ ⊥ → L ≤ N := by
     intro N hN hN1
-    haveI := hN
+    have := hN
     rcases (inferInstance : (N.subgroupOf L).Normal).eq_bot_or_eq_top with hb | ht
     · exfalso
       apply hN1
@@ -188,7 +188,7 @@ theorem orbitIdent_of_pkg {n : ℕ} (hA : CIT3Below n) (hP : TL4.TightBelowRPlus
     exact ⟨((S : Subgroup M).equivMapOfInjective M.subtype M.subtype_injective).trans e⟩
   have hd : QuaternionBridge.Q8TwinDatum M S z :=
     { quat := ⟨3, le_rfl, hq⟩
-      mem := T3.mem_of_isPGroup h.inv (Subgroup.map_subtype_le _) (S.isPGroup'.map _)
+      mem := T3.mem_of_isPGroup h.inv (Subgroup.map_subtype_le _) (S.isPGroup.map _)
         (le_trans (by norm_num) (Sec6Gen.eight_le_of_mem_RSet h.hyp.hyp
           (mem_RSet_of_isSylow2In hMΦ (isSylow2In_map_subtype M S))))
       order := orderOf_eq_prime (by rw [pow_two]; exact h.inv.sq) h.inv.ne_one

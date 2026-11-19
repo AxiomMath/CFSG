@@ -104,8 +104,8 @@ theorem exists_t_move (hDeg : Gap129HessL3Deg)
     (hYn : Y.Normal) (hY : Y ∈ thetaComponents 3 H) (hYA : Y ⊔ A = ⊤)
     (hAel : CFSG.Assembly.IsElemAbelian 3 A) (hA27 : Nat.card A = 27)
     (hgen : A = Subgroup.zpowers x ⊔ Subgroup.zpowers b ⊔ Subgroup.zpowers c)
-    (hx1 : x ≠ 1) (hxc : ∀ h : H, x * h = h * x) (hxY : x ∉ Y) (hcY : c ∈ Y)
-    (hbxc : b ∉ Subgroup.zpowers x ⊔ Subgroup.zpowers c)
+    (_hx1 : x ≠ 1) (hxc : ∀ h : H, x * h = h * x) (_hxY : x ∉ Y) (hcY : c ∈ Y)
+    (_hbxc : b ∉ Subgroup.zpowers x ⊔ Subgroup.zpowers c)
     (hAC : A ⊓ Sec4.thetaQuotCentralizer Y = Subgroup.zpowers x)
     (hX : ∃ X : Subgroup H, X ≤ Y ∧ X ≤ Subgroup.centralizer ({b} : Set H) ∧
       Group.IsPerfect X ∧ (X.subgroupOf (Y ⊓ Subgroup.centralizer ({b} : Set H))).IsSubnormal ∧
@@ -129,7 +129,7 @@ theorem exists_t_move (hDeg : Gap129HessL3Deg)
   have hc3 : c ^ 3 = 1 := hAel.2 c hcA
   have hbc : b * c = c * b := congrArg Subtype.val (hAel.1.is_comm.comm ⟨b, hbA⟩ ⟨c, hcA⟩)
   have hT : aschbacherSolvableCore 3 H ≤ Y := by
-    haveI := hYn
+    have := hYn
     exact Hering129KEa.theta_le_of_sup_eq_top hA3 hYA
   have hHD := hessData_of_core hYn hY hT hAel hA27 hgen hb3 hxc hcY hAC hX hkind
   obtain ⟨η, -⟩ := (theta_component_quotient_structure (G := H) Nat.prime_three hY).2.2.1

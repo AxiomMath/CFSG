@@ -149,9 +149,9 @@ theorem false_of_linear_alt5 {n : ℕ} (hn : 2 ≤ n) {k : Type} [Field k] [Fini
     obtain ⟨⟨⟨b, hb⟩, hgood⟩, rfl⟩ :=
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.linear_inner_components h3 hA J hJc
     have hsq := squarefree_minpoly_glA h3 hA
-    haveI : Fact (Irreducible b) := ⟨irreducible_of_mem_primaryFactors hb⟩
-    haveI : Finite (AdjoinRoot b) := Module.finite_of_finite k
-    haveI : CharP (AdjoinRoot b) 2 :=
+    have : Fact (Irreducible b) := ⟨irreducible_of_mem_primaryFactors hb⟩
+    have : Finite (AdjoinRoot b) := Module.finite_of_finite k
+    have : CharP (AdjoinRoot b) 2 :=
       charP_of_injective_algebraMap (algebraMap k (AdjoinRoot b)).injective 2
     obtain ⟨eF⟩ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.nonempty_mulEquiv_specialFactor hsq hb
     obtain ⟨f, hf, hker⟩ := exists_surjective_map_proj eF
@@ -187,7 +187,7 @@ theorem false_of_linear_alt5 {n : ℕ} (hn : 2 ≤ n) {k : Type} [Field k] [Fini
     have h60 := card_center_quot_of_isAltType hJ₀ hJ₀c hJ₀5
     obtain ⟨hperfc, f, hf, hker⟩ :=
       CFSG.HardMathSupport.Solomon.Coordinator.LieComp.linearFieldAut_components hn σ _ hJ₀c
-    haveI : CharP (CFSG.GH74.GLS.IVK.fixedField σ) 2 := Subfield.charP _ 2
+    have : CharP (CFSG.GH74.GLS.IVK.fixedField σ) 2 := Subfield.charP _ 2
     have hpow := CFSG.GH74.GLS.IVK.fixedField_card_pow σ
     rw [hσ] at hpow
     refine false_of_sl_cover_alt5 hn ?_ f hf hker h60
@@ -229,8 +229,8 @@ theorem noA5On_linear :
   dsimp only at hdq
   subst hdq
   have hq2 : q.p = 2 := by rw [← TauCeti.LieTypeIndex.characteristic_A r q]; exact hd2
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
-  haveI : CharP (GaloisField q.p q.exponent) 2 := hq2 ▸ inferInstance
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : CharP (GaloisField q.p q.exponent) 2 := hq2 ▸ inferInstance
   have hk : Nat.card (GaloisField q.p q.exponent) = 2 ^ q.exponent := by
     rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', hq2]
   have hdf : Inputs256c.defField (TauCeti.LieTypeIndex.A r q) = 2 ^ q.exponent := by
@@ -289,7 +289,7 @@ theorem noA5On_tits :
   have hZ : Subgroup.center CFSG.Sporadic.Schreier.Tits.titsD = ⊥ := by
     rw [← Subgroup.map_center_eq e, CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_center_eq_bot hnc,
       Subgroup.map_bot]
-  haveI : IsSimpleGroup CFSG.Sporadic.Schreier.Tits.titsD := e.symm.isSimpleGroup
+  have : IsSimpleGroup CFSG.Sporadic.Schreier.Tits.titsD := e.symm.isSimpleGroup
   have hJ' := Inputs141c.glaPComponent_congr e hJ
   have hβ' : MulAut.congr e β ^ 3 = 1 := by rw [← map_pow, hβ, map_one]
   by_cases hβ1 : MulAut.congr e β = 1
@@ -299,7 +299,7 @@ theorem noA5On_tits :
       ext z
       simp [mem_fixSubgroup]
     rw [hfix] at hJ'
-    haveI : IsSimpleGroup ↥(⊤ : Subgroup CFSG.Sporadic.Schreier.Tits.titsD) :=
+    have : IsSimpleGroup ↥(⊤ : Subgroup CFSG.Sporadic.Schreier.Tits.titsD) :=
       (Subgroup.topEquiv : ↥(⊤ : Subgroup CFSG.Sporadic.Schreier.Tits.titsD) ≃* _).isSimpleGroup
     rcases CFSG.Open.IsSubnormal.eq_bot_or_eq_of_isSimpleGroup hJ'.2.1 inferInstance with h | h
     · exact Input183.glaPComponent_ne_bot' hJ' h
@@ -336,10 +336,10 @@ theorem noA5On_tits :
       exact (QuotientGroup.eq_one_iff _).1 (orderOf_eq_one_iff.1 h3)
     obtain ⟨x, hxβ, hx3, hx1⟩ :=
       CFSG.HardMathSupport.Dickson.SuzukiReeB.exists_eq_conj_of_mem_range hZ hinner hβ' hβ1
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     have hxo : orderOf x = 3 := orderOf_eq_prime hx3 hx1
     obtain ⟨a, b, hcard, -⟩ := CFSG.RankThree.PartTwo.Sec4.Res417Seven.exists_card_centralizer_of_titsD hxo
-    haveI := Fintype.ofFinite ↥(Subgroup.centralizer ({x} : Set CFSG.Sporadic.Schreier.Tits.titsD))
+    have := Fintype.ofFinite ↥(Subgroup.centralizer ({x} : Set CFSG.Sporadic.Schreier.Tits.titsD))
     have hsolv : Group.IsSolvable ↥(Subgroup.centralizer ({x} : Set CFSG.Sporadic.Schreier.Tits.titsD)) :=
       CFSG.Burnside.finite_group_isSolvable_of_card_eq_prime_pow_mul_prime_pow (p := 2) (q := 3) (a := a)
         (b := b) Nat.prime_two Nat.prime_three (by norm_num) (by rw [Nat.card_eq_fintype_card] at hcard; exact hcard)
@@ -386,7 +386,7 @@ theorem card_eq_sixty_of_subnormal_simple {G : Type} [Group G] [Finite G] {X J C
   rcases hsn.eq_bot_or_eq_of_isSimpleGroup hC with h | h
   · exact absurd h (Input183.glaPComponent_ne_bot' hJ)
   · subst h
-    haveI := hC
+    have := hC
     have hperf := Inputs141c.commutator_eq_top_of_glaPComponent hJ
     have hnc : ∃ x y : ↥J, x * y ≠ y * x := by
       by_contra hab
@@ -437,7 +437,7 @@ theorem false_of_fieldAut_reeGamma_alt5
   ·
     subst hb0
     have hk2 : Nat.card (fixSubfield σ) = 2 := by simpa using hkcard
-    haveI : Fact (Nat.card (fixSubfield σ) = 2) := ⟨hk2⟩
+    have : Fact (Nat.card (fixSubfield σ) = 2) := ⟨hk2⟩
     set C := fixSubgroup (ReeTag.F4.reeGammaFieldAut K a σ) with hCdef
     let E : ↥C ≃* reeFixed ReeTag.F4 (fixSubfield σ) 0 :=
       eC.trans (ReeTag.reeFixedEquivReeGamma (fixSubfield σ) 0).symm
@@ -465,7 +465,7 @@ theorem false_of_fieldAut_reeGamma_alt5
         C.subtype C.subtype_injective).symm).trans
         (((commutator (reeFixed ReeTag.F4 (fixSubfield σ) 0)).equivMapOfInjective E.symm.toMonoidHom
           E.symm.injective).symm)).trans (CFSG.Sporadic.Schreier.Tits.titsDerivedIso (K := fixSubfield σ))
-    haveI : IsSimpleGroup CFSG.Sporadic.Schreier.Tits.titsD := CFSG.Sporadic.Schreier.Tits.titsD_simple
+    have : IsSimpleGroup CFSG.Sporadic.Schreier.Tits.titsD := CFSG.Sporadic.Schreier.Tits.titsD_simple
     have hT : IsSimpleGroup ↥T := eT.isSimpleGroup
     have hsn : CFSG.Open.IsSubnormal J T := by
       have := hJ.2.1.inf_of_le hTC
@@ -474,7 +474,7 @@ theorem false_of_fieldAut_reeGamma_alt5
     rw [Nat.card_congr eT.toEquiv, CFSG.Sporadic.Schreier.Tits.card_titsD] at h60
     norm_num at h60
   ·
-    haveI : IsSimpleGroup (ReeTag.F4.reeGamma (fixSubfield σ) b) :=
+    have : IsSimpleGroup (ReeTag.F4.reeGamma (fixSubfield σ) b) :=
       CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 hb hkcard
     have hC : IsSimpleGroup ↥(fixSubgroup (ReeTag.F4.reeGammaFieldAut K a σ)) := eC.isSimpleGroup
     have h60 := card_eq_sixty_of_subnormal_simple hJ hJ5 hC hJ.2.1
@@ -488,16 +488,16 @@ theorem false_of_reeGamma_alt5
     (hβ : β ^ 3 = 1) {J : Subgroup (ReeTag.F4.reeGamma K a)} (hJ : GLAPComponent 3 (fixSubgroup β) J)
     (hJ5 : IsAltType 5 (PSimple 3 J)) : False := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_cases hβ1 : β = 1
   · subst hβ1
     have hfix : fixSubgroup (1 : MulAut (ReeTag.F4.reeGamma K a)) = ⊤ := by
       ext z
       simp [mem_fixSubgroup]
     rw [hfix] at hJ
-    haveI : IsSimpleGroup (ReeTag.F4.reeGamma K a) :=
+    have : IsSimpleGroup (ReeTag.F4.reeGamma K a) :=
       CFSG.SignalizerFunctorTheorem.CatalogBridge.isSimpleGroup_reeGamma_F4 ha hK
     have hs : IsSimpleGroup ↥(⊤ : Subgroup (ReeTag.F4.reeGamma K a)) :=
       (Subgroup.topEquiv : ↥(⊤ : Subgroup (ReeTag.F4.reeGamma K a)) ≃* _).isSimpleGroup
@@ -610,7 +610,7 @@ theorem le_of_isSubnormal_of_sixty_dvd {G : Type} [Group G] [Finite G] {J : Subg
       rw [Subgroup.mem_subgroupOf] at hz ⊢
       simp only [Subgroup.coe_mul, Subgroup.coe_inv]
       exact (Subgroup.mem_normalizer_iff.1 (hnorm g.2) (z : G)).1 hz
-    haveI := hnJ
+    have := hnJ
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (H.subgroupOf J) with h | h
     · exfalso
       have hdisj : Disjoint H J := Subgroup.subgroupOf_eq_bot.1 h
@@ -627,7 +627,7 @@ theorem not_alt5_of_subnormal_sup {G : Type} [Group G] [Finite G] {L J : Subgrou
     (hyJ : ∀ j ∈ J, y * j = j * y) (hL60 : 60 ∣ Nat.card L) (h25 : ¬ 25 ∣ Nat.card ↥(L ⊔ J))
     {Y : Subgroup G} (hY : CFSG.Open.IsSubnormal Y (L ⊔ J)) (hLY : L ≤ Y) : ¬ IsAltType 5 (barOf 3 Y) := by
   rintro ⟨eY⟩
-  haveI : IsSimpleGroup ↥J := (MulEquiv.isSimpleGroup_congr eJ).mpr inferInstance
+  have : IsSimpleGroup ↥J := (MulEquiv.isSimpleGroup_congr eJ).mpr inferInstance
   have hJ60 : Nat.card J = 60 := (Nat.card_congr eJ.toEquiv).trans Inputs256b.card_alt5
   have hY60 : 60 ∣ Nat.card Y := hL60.trans (Subgroup.card_dvd_of_le hLY)
   have hJY : J ≤ Y := le_of_isSubnormal_of_sixty_dvd hJ60 hY le_sup_right h25 hY60
@@ -659,7 +659,7 @@ theorem not_alt5_of_subnormal_sup {G : Type} [Group G] [Finite G] {L J : Subgrou
     rw [hι, MonoidHom.comp_apply, ← map_mul, ← map_mul]
     congr 1
     exact Subtype.ext (hyJ j j.2).symm
-  haveI : IsSimpleGroup (barOf 3 Y) := (MulEquiv.isSimpleGroup_congr eY).mpr inferInstance
+  have : IsSimpleGroup (barOf 3 Y) := (MulEquiv.isSimpleGroup_congr eY).mpr inferInstance
   obtain ⟨a, b, hab⟩ := Inputs256b.alt5_noncomm
   have hZ : Subgroup.center (barOf 3 Y) = ⊥ :=
     center_eq_bot_of_simple_nonab (a := eY.symm a) (b := eY.symm b)
@@ -681,14 +681,17 @@ variable {k : Type} [Field k] [Fintype k]
 
 noncomputable abbrev muPoly (k : Type) [Field k] : k[X] := X ^ 2 + X + 1
 
+omit [Fintype k] in
 theorem muPoly_natDegree : (muPoly k).natDegree = 2 := by
   unfold muPoly
   compute_degree!
 
+omit [Fintype k] in
 theorem muPoly_monic : (muPoly k).Monic := by
   unfold muPoly
   monicity!
 
+omit [Fintype k] in
 theorem X_sub_one_mul_muPoly : (X - C 1) * muPoly k = X ^ 3 - 1 := by
   rw [map_one]
   ring
@@ -706,6 +709,7 @@ theorem muPoly_irreducible [CharP k 2] (hk : Fintype.card k = 2) : Irreducible (
   rw [sq_eq_self_of_card_two hk, ← two_mul, CharTwo.two_eq_zero, zero_mul, zero_add] at ha
   exact one_ne_zero ha
 
+omit [Fintype k] in
 theorem X_sub_one_irreducible : Irreducible (X - C (1 : k)) := irreducible_X_sub_C 1
 
 theorem eq_of_irreducible_dvd [CharP k 2] (hk : Fintype.card k = 2) {j : k[X]} (hj : Irreducible j)
@@ -765,6 +769,7 @@ open Polynomial
 
 variable {k : Type} [Field k] [Fintype k] [CharP k 2]
 
+omit [Fintype k] [CharP k 2] in
 theorem minpoly_dvd_of_pow_three {V : Type*} [AddCommGroup V] [Module k V] [FiniteDimensional k V]
     {f : Module.End k V} (hf : f ^ 3 = 1) : minpoly k f ∣ X ^ 3 - 1 :=
   minpoly.dvd k f (by simp [hf])
@@ -790,9 +795,10 @@ theorem mem_sup_primaryComponent (hk : Fintype.card k = 2) {V : Type*} [AddCommG
       exact Submodule.mem_sup_right hz
   exact key _ (primaryCoords f hsq v b).2
 
+omit [CharP k 2] in
 theorem card_adjoinRoot (hk : Fintype.card k = 2) {b : k[X]} [Fact (Irreducible b)] :
     Nat.card (AdjoinRoot b) = 2 ^ b.natDegree := by
-  haveI : Module.Finite k (AdjoinRoot b) :=
+  have : Module.Finite k (AdjoinRoot b) :=
     (AdjoinRoot.powerBasis (Fact.out : Irreducible b).ne_zero).finite
   rw [Module.natCard_eq_pow_finrank (K := k), (AdjoinRoot.powerBasis (Fact.out : Irreducible b).ne_zero).finrank,
     AdjoinRoot.powerBasis_dim, Nat.card_eq_fintype_card, hk]
@@ -814,9 +820,9 @@ theorem gf2_comp_shape {n : ℕ} (hk : Fintype.card k = 2) {A : GL (Fin n) k} (h
   obtain ⟨⟨⟨b, hb⟩, hgood⟩, rfl⟩ :=
     CFSG.HardMathSupport.Solomon.Coordinator.LieComp.linear_inner_components h3 hA' L hLc
   have hsq := squarefree_minpoly_glA h3 hA'
-  haveI : Fact (Irreducible b) := ⟨irreducible_of_mem_primaryFactors hb⟩
-  haveI : Finite (AdjoinRoot b) := Module.finite_of_finite k
-  haveI : CharP (AdjoinRoot b) 2 :=
+  have : Fact (Irreducible b) := ⟨irreducible_of_mem_primaryFactors hb⟩
+  have : Finite (AdjoinRoot b) := Module.finite_of_finite k
+  have : CharP (AdjoinRoot b) 2 :=
     charP_of_injective_algebraMap (algebraMap k (AdjoinRoot b)).injective 2
   obtain ⟨eF⟩ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.nonempty_mulEquiv_specialFactor hsq hb
   obtain ⟨f, hf, hker⟩ := exists_surjective_map_proj eF
@@ -849,6 +855,7 @@ theorem gf2_comp_shape {n : ℕ} (hk : Fintype.card k = 2) {A : GL (Fin n) k} (h
   subst hbmu
   exact ⟨hb, hm, rfl⟩
 
+omit [Fintype k] in
 theorem gf2_fpf {n : ℕ} {A : GL (Fin n) k} (hsq : Squarefree (minpoly k (glA A : Module.End k (Fin n → k))))
     [Fact (Irreducible (muPoly k))]
     (hm : primaryMultiplicity (glA A : Module.End k (Fin n → k)) (muPoly k) = 2)
@@ -869,7 +876,7 @@ theorem gf2_fpf {n : ℕ} {A : GL (Fin n) k} (hsq : Squarefree (minpoly k (glA A
     rw [map_one]
     exact congrArg Subtype.val hg1
   by_contra hw0
-  haveI : CharP (AdjoinRoot (muPoly k)) 2 :=
+  have : CharP (AdjoinRoot (muPoly k)) 2 :=
     charP_of_injective_algebraMap (algebraMap k (AdjoinRoot (muPoly k))).injective 2
   let b₂ := Module.finBasisOfFinrankEq (AdjoinRoot (muPoly k))
     (primaryComponent (glA A : Module.End k (Fin n → k)) (muPoly k)) hm
@@ -913,6 +920,7 @@ theorem gf2_fpf {n : ℕ} {A : GL (Fin n) k} (hsq : Squarefree (minpoly k (glA A
   have h1 : f z = z := by rw [hf1]; rfl
   exact h1
 
+omit [Fintype k] [CharP k 2] in
 theorem X_sub_one_mem_primaryFactors {V : Type*} [AddCommGroup V] [Module k V] [FiniteDimensional k V]
     {f : Module.End k V} {v : V} (hv : v ≠ 0) (hfv : f v = v) : X - C 1 ∈ primaryFactors f := by
   refine mem_primaryFactors.2 ⟨irreducible_X_sub_C 1, monic_X_sub_C 1, ?_⟩
@@ -920,15 +928,18 @@ theorem X_sub_one_mem_primaryFactors {V : Type*} [AddCommGroup V] [Module k V] [
   exact Module.End.hasEigenvalue_of_hasEigenvector
     (Module.End.hasEigenvector_iff.2 ⟨Module.End.mem_eigenspace_iff.2 (by rw [hfv, one_smul]), hv⟩)
 
+omit [Fintype k] [CharP k 2] in
 theorem mem_primaryComponent_X_sub_one {V : Type*} [AddCommGroup V] [Module k V] {f : Module.End k V} {v : V} :
     v ∈ primaryComponent f (X - C 1) ↔ f v = v := by
   rw [mem_primaryComponent]
   simp [sub_eq_zero]
 
+omit [Fintype k] [CharP k 2] in
 theorem aeval_muPoly {V : Type*} [AddCommGroup V] [Module k V] (f : Module.End k V) (v : V) :
     aeval f (muPoly k) v = f (f v) + f v + v := by
   simp [muPoly, pow_two, Module.End.mul_apply]
 
+omit [CharP k 2] [Fintype k] in
 theorem X_sub_one_ne_muPoly : (X - C (1 : k)) ≠ muPoly k := by
   intro h
   have := congrArg natDegree h
@@ -948,7 +959,7 @@ theorem gf2_Y_facts {n : ℕ} (hk : Fintype.card k = 2) {A : GL (Fin n) k} (hA :
       X - C 1 ∈ primaryFactors (slGL n k Y : Module.End k (Fin n → k)) ∧
       muPoly k ∈ primaryFactors (slGL n k Y : Module.End k (Fin n → k)) ∧
       primaryMultiplicity (slGL n k Y : Module.End k (Fin n → k)) (muPoly k) = 2 := by
-  haveI : Fact (Irreducible (muPoly k)) := ⟨muPoly_irreducible hk⟩
+  have : Fact (Irreducible (muPoly k)) := ⟨muPoly_irreducible hk⟩
   have h3 : ((3 : ℕ) : k) ≠ 0 := Inputs141c.three_ne_zero_of_charTwo
   have hA' : A ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin n) (1 : kˣ) := by rw [hA, map_one]
   have hsq := squarefree_minpoly_glA h3 hA'
@@ -1034,11 +1045,13 @@ theorem gf2_Y_facts {n : ℕ} (hk : Fintype.card k = 2) {A : GL (Fin n) k} (hA :
     omega
   exact ⟨hfU, heq, hX1f, hμf, hmf⟩
 
+omit [Fintype k] [CharP k 2] in
 theorem slGL_mul_apply {n : ℕ} (g h : Matrix.SpecialLinearGroup (Fin n) k) (v : Fin n → k) :
     (slGL n k (g * h) : Module.End k (Fin n → k)) v =
       (slGL n k g : Module.End k (Fin n → k)) ((slGL n k h : Module.End k (Fin n → k)) v) := by
   rw [map_mul, Units.val_mul, Module.End.mul_apply]
 
+omit [Fintype k] [CharP k 2] in
 theorem slGL_one_apply {n : ℕ} (v : Fin n → k) :
     (slGL n k 1 : Module.End k (Fin n → k)) v = v := by
   rw [map_one, Units.val_one, Module.End.one_apply]
@@ -1065,6 +1078,7 @@ theorem slGL_one_apply {n : ℕ} (v : Fin n → k) :
           rw [hg1 v hv]
       _ = v := by rw [← slGL_mul_apply, inv_mul_cancel, slGL_one_apply]
 
+omit [Fintype k] [CharP k 2] in
 theorem card_stabUW_dvd {n : ℕ} {U W : Submodule k (Fin n → k)} (hUW : ∀ v, v ∈ U ⊔ W) :
     Nat.card (stabUW U W) ∣ Nat.card (LinearMap.GeneralLinearGroup k W) := by
   let r : stabUW U W → (W →ₗ[k] W) := fun g =>
@@ -1094,6 +1108,7 @@ theorem card_stabUW_dvd {n : ℕ} {U W : Submodule k (Fin n → k)} (hUW : ∀ v
   have := congrArg (fun φ : W →ₗ[k] W => (φ ⟨w, hw⟩ : Fin n → k)) hrgh
   exact this
 
+omit [CharP k 2] in
 theorem card_generalLinearGroup_four (hk : Fintype.card k = 2) {W : Type*} [AddCommGroup W] [Module k W]
     [FiniteDimensional k W] (hW : Module.finrank k W = 4) :
     Nat.card (LinearMap.GeneralLinearGroup k W) = 20160 := by
@@ -1101,13 +1116,14 @@ theorem card_generalLinearGroup_four (hk : Fintype.card k = 2) {W : Type*} [AddC
   rw [← Nat.card_congr (Matrix.GeneralLinearGroup.toLin' b).toEquiv, Matrix.card_GL_field, hk]
   decide
 
+omit [CharP k 2] in
 theorem proj_injective_of_card_two {n : ℕ} (hk : Fintype.card k = 2) :
     Function.Injective (LinearFlag.proj n k) := by
   classical
   rw [← MonoidHom.ker_eq_bot_iff, LinearFlag.ker_proj, eq_bot_iff]
   rintro A ⟨c, -, hA⟩
   have hc : c = 1 := by
-    haveI : Subsingleton kˣ := by
+    have : Subsingleton kˣ := by
       rw [← Fintype.card_le_one_iff_subsingleton, Fintype.card_units, hk]
     exact Subsingleton.elim _ _
   rw [Subgroup.mem_bot]
@@ -1115,6 +1131,7 @@ theorem proj_injective_of_card_two {n : ℕ} (hk : Fintype.card k = 2) :
   rw [hA, hc, Units.val_one, map_one]
   rfl
 
+omit [Fintype k] [CharP k 2] in
 theorem mem_fixSubgroup_slConjugation_toGL {n : ℕ} {Y g : Matrix.SpecialLinearGroup (Fin n) k} :
     g ∈ fixSubgroup (CFSG.ComponentClassification.CatalogueBHigherLinearAction.slConjugation n k
       (Matrix.SpecialLinearGroup.toGL Y)) ↔ g * Y = Y * g := by
@@ -1133,7 +1150,7 @@ theorem mem_fixSubgroup_slConjugation_toGL {n : ℕ} {Y g : Matrix.SpecialLinear
 theorem glaPComponent_of_alt5 {G : Type} [Group G] [Finite G] {X J : Subgroup G} (hJX : J ≤ X)
     (hn : (J.subgroupOf X).Normal) (e : ↥J ≃* alternatingGroup (Fin 5)) :
     GLAPComponent 3 X J ∧ IsAltType 5 (barOf 3 J) := by
-  haveI : IsSimpleGroup ↥J := (MulEquiv.isSimpleGroup_congr e).mpr inferInstance
+  have : IsSimpleGroup ↥J := (MulEquiv.isSimpleGroup_congr e).mpr inferInstance
   have h60 : Nat.card ↥J = 60 := (Nat.card_congr e.toEquiv).trans Inputs256b.card_alt5
   have hnc : ∃ a b : ↥J, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := Inputs256b.alt5_noncomm
@@ -1149,7 +1166,7 @@ theorem gf2_model {n : ℕ} (hn : 5 ≤ n) (hk : Fintype.card k = 2) {A : GL (Fi
     (hL5 : IsAltType 5 (PSimple 3 L)) {y : LinearFlag.projectiveSL n k} (hyL : y ∈ L) (hy : orderOf y = 3) :
     ∃ J : Subgroup (LinearFlag.projectiveSL n k), GLAPComponent 3 (fixSubgroup (MulAut.conj y)) J ∧
       Nonempty (↥J ≃* alternatingGroup (Fin 5)) ∧ ¬ 25 ∣ Nat.card ↥(L ⊔ J) := by
-  haveI : Fact (Irreducible (muPoly k)) := ⟨muPoly_irreducible hk⟩
+  have : Fact (Irreducible (muPoly k)) := ⟨muPoly_irreducible hk⟩
   have h3 : ((3 : ℕ) : k) ≠ 0 := Inputs141c.three_ne_zero_of_charTwo
   have hA' : A ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin n) (1 : kˣ) := by rw [hA, map_one]
   have hsq := squarefree_minpoly_glA h3 hA'
@@ -1196,7 +1213,7 @@ theorem gf2_model {n : ℕ} (hn : 5 ≤ n) (hk : Fintype.card k = 2) {A : GL (Fi
   have eJ : Nonempty (↥J ≃* alternatingGroup (Fin 5)) := by
     obtain ⟨eF⟩ := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.nonempty_mulEquiv_specialFactor hsq' hμf'
     rw [hmf'] at eF
-    haveI : Finite (AdjoinRoot (muPoly k)) := Module.finite_of_finite k
+    have : Finite (AdjoinRoot (muPoly k)) := Module.finite_of_finite k
     have : Fintype (AdjoinRoot (muPoly k)) := Fintype.ofFinite _
     have : Fintype (GaloisField 2 2) := Fintype.ofFinite _
     have hcard : Fintype.card (AdjoinRoot (muPoly k)) = Fintype.card (GaloisField 2 2) := by
@@ -1305,7 +1322,7 @@ theorem center_eq_bot_of_psl_two (hGA : CFSG.Open.GriessAllModelsStatement) {K :
     (hq : CFSG.Open.IsQuasisimple K) (hO : GLAPPrimeCore 3 K = ⊥) {X : Type} [Group X]
     (e : K ⧸ Subgroup.center K ≃* X) {n : ℕ} (hm : CFSG.Models.LieModel X .PSL n 2 1) :
     Subgroup.center K = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hle := center_torsion_le hGA hq e hm Nat.prime_three
   rw [torsBound_psl_two n] at hle
   by_contra hne
@@ -1324,7 +1341,7 @@ theorem center_eq_bot_of_psl_two (hGA : CFSG.Open.GriessAllModelsStatement) {K :
 
 theorem isAltType_barOf_of_equiv {G : Type} [Group G] [Finite G] {J : Subgroup G}
     (e : ↥J ≃* alternatingGroup (Fin 5)) : IsAltType 5 (barOf 3 J) := by
-  haveI : IsSimpleGroup ↥J := (MulEquiv.isSimpleGroup_congr e).mpr inferInstance
+  have : IsSimpleGroup ↥J := (MulEquiv.isSimpleGroup_congr e).mpr inferInstance
   have h3 : 3 ∣ Nat.card ↥J := by
     rw [(Nat.card_congr e.toEquiv).trans Inputs256b.card_alt5]
     norm_num
@@ -1348,13 +1365,13 @@ theorem chev2GF2Lin_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) : Input
     rw [hq2] at hcard
     have h1 : 2 ^ q.exponent = 2 ^ 1 := by rw [hcard, pow_one]
     exact Nat.pow_right_injective le_rfl h1
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hkN : Nat.card (GaloisField q.p q.exponent) = 2 := by
     rw [GaloisField.card q.p q.exponent q.exponent_pos.ne', hcard]
-  haveI : Fintype (GaloisField q.p q.exponent) := Fintype.ofFinite _
+  have : Fintype (GaloisField q.p q.exponent) := Fintype.ofFinite _
   have hk : Fintype.card (GaloisField q.p q.exponent) = 2 := by
     rw [← Nat.card_eq_fintype_card, hkN]
-  haveI : CharP (GaloisField q.p q.exponent) 2 := hq2 ▸ inferInstance
+  have : CharP (GaloisField q.p q.exponent) 2 := hq2 ▸ inferInstance
   have hqc : q.card = 2 := by rw [TauCeti.PrimePower.card_def]; exact hcard
   have hr : 4 ≤ r := by
     have hv' := (TauCeti.LieTypeIndex.valid_iff _).mp hv
@@ -1386,7 +1403,7 @@ theorem chev2GF2Lin_of_griess (hGA : CFSG.Open.GriessAllModelsStatement) : Input
       ⟨A, c, hA, hβA⟩ | ⟨h, σ, hσ, -⟩
     · refine ⟨A, ?_, hβA⟩
       have hc : c = 1 := by
-        haveI : Subsingleton (GaloisField q.p q.exponent)ˣ := by
+        have : Subsingleton (GaloisField q.p q.exponent)ˣ := by
           rw [← Finite.card_le_one_iff_subsingleton, Nat.card_units, hkN]
         exact Subsingleton.elim _ _
       rw [hA, hc, map_one]

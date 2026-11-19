@@ -50,7 +50,7 @@ theorem card_mulAut_fTD42 {S : Type} [Group S] [Finite S] [IsSimpleGroup S] (h :
 
 theorem kDescFam_td42_of_ne_three_seven (p : ℕ) (h3 : p ≠ 3) (h7 : p ≠ 7) : KDescFam p fTD42 := by
   intro hp hp2 Y _ _ K B hK hc hcB
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.qs.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.qs.2
   have hA := card_mulAut_fTD42 hc
   refine (false_of_not_sq_dvd hp hK hcB (MulEquiv.refl _) ?_).elim
   rw [hA]
@@ -71,7 +71,7 @@ theorem kDescFam_td42_seven_of_rankBound
       IsElemAbelian 7 E → IsPGroup 2 T → T ≠ ⊥ → E ≤ Subgroup.normalizer (T : Set S) → Nat.card E ≤ 7) :
     KDescFam 7 fTD42 := by
   intro hp hp2 Y _ _ K B hK hc hcB
-  haveI : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.qs.2
+  have : IsSimpleGroup (↥K ⧸ Subgroup.center ↥K) := hK.qs.2
   have hA := card_mulAut_fTD42 hc
   have hS := card_fTD42 hc
   have hO : Nat.card (Outer (↥K ⧸ Subgroup.center ↥K)) = 3 := by

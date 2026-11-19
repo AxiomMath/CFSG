@@ -40,7 +40,7 @@ theorem exists_nonabelian_isPGroup_mulAut {K : Subgroup X} [K.Normal] {E : Subgr
     (by simpa using hEp x.1.1 (Subgroup.mem_subgroupOf.mp x.2)))⟩
   have hES : E.subgroupOf N ≤ (S : Subgroup N) := hEpg.le_sylow_of_normal S
   refine ⟨(S : Subgroup N).map ((MulAut.conjNormal (H := K)).comp N.subtype),
-    S.isPGroup'.map _, fun hcomm => hψ ?_⟩
+    S.isPGroup.map _, fun hcomm => hψ ?_⟩
   have hρu : MulAut.conjNormal (H := K) u ∈
       (S : Subgroup N).map ((MulAut.conjNormal (H := K)).comp N.subtype) :=
     ⟨⟨u, hu⟩, hS (Subgroup.mem_zpowers _), rfl⟩

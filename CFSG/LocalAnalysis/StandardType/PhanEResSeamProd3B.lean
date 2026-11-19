@@ -261,7 +261,7 @@ theorem hmbS3_chart_coord [CharP Fld 2] (Lx Ly Lz : SLPath M 1) {x y z : Fin D.r
           ↥(residue (cs) (stdδ hct) (insert y {x}) ((g : K) : K ⧸ borel D H))) =
         (⟨((g * t * Lx.ε Ax : K) : K ⧸ borel D H), hp₁⟩,
           ⟨((g * t * Ly.ε Ay : K) : K ⧸ borel D H), hp₂⟩) := by
-      rw [Equiv.apply_eq_iff_eq_symm_apply]
+      rw [← _root_.Equiv.eq_symm_apply]
       exact Subtype.ext houter.symm
     have hΦ : combined.Φ c₁ =
         ((slChart hct hext Lx hJx g).Φ ⟨((g * t * Lx.ε Ax : K) : K ⧸ borel D H), hp₁⟩,
@@ -331,7 +331,7 @@ theorem hmbS3_chart_coord [CharP Fld 2] (Lx Ly Lz : SLPath M 1) {x y z : Fin D.r
       ↥(residue (cs) (stdδ hct) (insert z (insert y {x})) ((g : K) : K ⧸ borel D H))) =
       (⟨((g * t * Lx.ε Ax * Ly.ε Ay : K) : K ⧸ borel D H), hp⟩,
         ⟨((g * t * Lz.ε Az : K) : K ⧸ borel D H), hq⟩) := by
-    rw [Equiv.apply_eq_iff_eq_symm_apply]
+    rw [← _root_.Equiv.eq_symm_apply]
     exact Subtype.ext houter.symm
   have hΦ : (hmbS3_chart hct hext Lx Ly Lz hx hy hz hxy hxz hyz hmxy hmxz hmyz hR).Φ c =
       (combined.Φ ⟨((g * t * Lx.ε Ax * Ly.ε Ay : K) : K ⧸ borel D H), hp⟩,

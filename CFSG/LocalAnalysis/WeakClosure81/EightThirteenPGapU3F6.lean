@@ -25,7 +25,7 @@ theorem orderFiveData_of_isU3 {G : Type} [Group G] [Finite G]
   have hcard_cartan : Nat.card (cartan (S : Subgroup G) t) = 15 := by
     rw [hc.card_cartan]
     norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨d, hd_order⟩ := exists_prime_orderOf_dvd_card' (G := ↥(cartan (S : Subgroup G) t)) 5 (by
     rw [hcard_cartan]
     norm_num)
@@ -78,7 +78,7 @@ theorem orderFiveData_of_isU3 {G : Type} [Group G] [Finite G]
 
 theorem borelGL32SylowOn_shapeU3 : BorelGL32SylowOn ShapeU3 :=
   borelGL32SylowOn_of_kills ShapeU3 fun Y _ _ L hL S hSy => by
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact borelKills_sylow_of_orderFive (orderFiveData_of_isU3 hL.2 hSy.toSylow)
 
 end CFSG.LocalAnalysis.WeakClosure81

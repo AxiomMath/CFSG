@@ -15,13 +15,13 @@ section Generic
 
 variable {G : Type} [Group G] [Finite G]
 
-theorem kp_central_of_series {X N : Subgroup G} (hX2 : IsPGroup 2 X) (hNX : N ≤ X)
+theorem kp_central_of_series {X N : Subgroup G} (hX2 : IsPGroup 2 X) (_hNX : N ≤ X)
     (hNn : ∀ x ∈ X, ∀ m ∈ N, x * m * x⁻¹ ∈ N) {k : G}
     (hodd : Odd (Nat.card (Subgroup.zpowers k)))
     (hkX : k ∈ Subgroup.normalizer (X : Set G)) (hkN : k ∈ Subgroup.normalizer (N : Set G))
     (hN : ∀ m ∈ N, k * m = m * k) (hXN : ∀ a ∈ Subgroup.zpowers k, ∀ x ∈ X, ⁅a, x⁆ ∈ N) :
     ∀ x ∈ X, k * x = x * k := by
-  haveI hnorm : Subgroup.Normalizes (Subgroup.zpowers k) X :=
+  have hnorm : Subgroup.Normalizes (Subgroup.zpowers k) X :=
     ⟨Subgroup.zpowers_le.mpr hkX⟩
   have hNn' : (N.subgroupOf X).Normal := by
     refine ⟨fun n hn g => ?_⟩
@@ -73,7 +73,7 @@ theorem kp_central_of_series {X N : Subgroup G} (hX2 : IsPGroup 2 X) (hNX : N �
   calc k * x = k * x * k⁻¹ * k := by group
     _ = x * k := by rw [h5]
 
-@[expose] def kp_K (M V P : Subgroup G) (hMP : M ≤ Subgroup.normalizer (P : Set G))
+@[expose] def kp_K (M V P : Subgroup G) (_hMP : M ≤ Subgroup.normalizer (P : Set G))
     (hMV : ∀ g ∈ M, ∀ y ∈ V, g * y * g⁻¹ ∈ V) : Subgroup G where
   carrier := {k | k ∈ M ∧ ∀ x ∈ P, ⁅k, x⁆ ∈ V}
   mul_mem' := by
@@ -94,6 +94,7 @@ theorem kp_central_of_series {X N : Subgroup G} (hX2 : IsPGroup 2 X) (hNX : N �
     rw [e]
     exact hMV a⁻¹ (M.inv_mem ha) _ (V.inv_mem (ha' x hx))
 
+omit [Finite G] in
 theorem kp_K_conj {M V P : Subgroup G} (hMP : M ≤ Subgroup.normalizer (P : Set G))
     (hMV : ∀ g ∈ M, ∀ y ∈ V, g * y * g⁻¹ ∈ V) {g k : G} (hg : g ∈ M)
     (hk : k ∈ kp_K M V P hMP hMV) : g * k * g⁻¹ ∈ kp_K M V P hMP hMV := by

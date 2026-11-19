@@ -48,11 +48,11 @@ theorem letV_cdL {G : Type*} [Group G] (y : ℕ → G) {l : ℕ × Bool} (hl : l
   obtain ⟨g, b⟩ := l
   cases b
   · simp only [cdL, letV, Bool.false_eq_true, ↓reduceIte]
-    rw [if_neg (by simp only at hl; omega), if_neg (by omega)]
+    rw [ite_eq_right (by simp only at hl; omega), ite_eq_right (by omega)]
     congr 2
     omega
   · simp only [cdL, letV, ↓reduceIte, Nat.add_zero]
-    rw [if_neg (by omega), if_pos (by omega)]
+    rw [ite_eq_right (by omega), ite_eq_left (by omega)]
     congr 1
     omega
 

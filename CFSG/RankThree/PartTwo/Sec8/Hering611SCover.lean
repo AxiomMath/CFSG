@@ -16,7 +16,7 @@ theorem false_of_coverX (hX : Group.IsPerfect X) (h : CoverX X Z R T s) (hidx : 
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨R₀, hR₀R, hdisj, hsup, hsR₀⟩ := exists_R0 h
   have hR₀T : R₀ ≤ T := hR₀R.trans h.R_le_T
-  haveI hN : (R₀.subgroupOf T).Normal := by
+  have hN : (R₀.subgroupOf T).Normal := by
     refine ⟨fun n hn g => ?_⟩
     rw [Subgroup.mem_subgroupOf] at hn ⊢
     have h1 : (g : X) * (n : X) * (g : X)⁻¹ = (n : X) := by
@@ -49,7 +49,7 @@ theorem false_of_coverX (hX : Group.IsPerfect X) (h : CoverX X Z R T s) (hidx : 
   have h4 : π ⟨z, h.R_le_T (h.Z_le_R z.2)⟩ = π ⟨((1 : Z) : X), h.R_le_T (h.Z_le_R (1 : Z).2)⟩ := by
     have := congrArg Subtype.val h3
     rw [show π ⟨((1 : Z) : X), h.R_le_T (h.Z_le_R (1 : Z).2)⟩ = 1 from
-      (hker _).mpr (by simpa using R₀.one_mem)]
+      (hker _).mpr (by simp)]
     exact this
   exact hinj z 1 h4
 

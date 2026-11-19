@@ -86,6 +86,7 @@ theorem str83G4_isSylowTwoOf_sup_left
   rw [sup_eq_of_S_eq hS1]
   exact isSylowTwoOf_sup_pCoreOf hF.1 hS1
 
+omit [Finite G] in
 theorem sup_left_le_p1 (L1 L2 S : Subgroup G) : L1 ⊔ S ≤ P1 L1 L2 S :=
   sup_le le_sup_left ((le_sup_right : S ≤ bigB L1 L2 S).trans le_sup_right)
 
@@ -120,11 +121,13 @@ theorem str83G4_exists_equiv_sylow
   rw [hmap, hg]
   rfl
 
+omit [Finite G] in
 theorem bigB_le_normalizer_z2 (L1 L2 S : Subgroup G) :
     bigB L1 L2 S ≤ Subgroup.normalizer (Z2 L1 L2 S : Set G) :=
   (le_sup_right : bigB L1 L2 S ≤ P2 L1 L2 S).trans ((le_normalizer_pCoreOf 2 (P2 L1 L2 S)).trans
     (normalizer_le_normalizer_omegaOneCenterOf (Q2 L1 L2 S)))
 
+omit [Finite G] in
 theorem le_normalizer_centralizerMod_bigB (L1 L2 S : Subgroup G) :
     bigB L1 L2 S ≤ Subgroup.normalizer
       (centralizerMod (Z2 L1 L2 S) (Q2 L1 L2 S) (str83X L1 L2 S) : Set G) :=
@@ -202,7 +205,7 @@ theorem str83X_mul_self_mem_z1
         have e : x * y * (x * y) = x * x * (x⁻¹ * y * x⁻¹⁻¹ * y⁻¹) * (y * y) := by group
         rw [e]
         exact (Z1 L1 L2 S).mul_mem ((Z1 L1 L2 S).mul_mem hxx hc) hyy
-      one_mem' := ⟨(str83X L1 L2 S).one_mem, by simpa using (Z1 L1 L2 S).one_mem⟩
+      one_mem' := ⟨(str83X L1 L2 S).one_mem, by simp⟩
       inv_mem' := by
         rintro x ⟨hx, hxx⟩
         refine ⟨(str83X L1 L2 S).inv_mem hx, ?_⟩

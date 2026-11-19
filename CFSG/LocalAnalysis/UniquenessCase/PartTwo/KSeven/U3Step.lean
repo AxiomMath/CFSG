@@ -22,7 +22,7 @@ open Subgroup
 theorem goodU3_of_mulEquiv (J J' : Type) [Group J] [Group J'] (e : J ≃* J') (h : GoodU3 J) :
     GoodU3 J' := by
   obtain ⟨hfin, h3, h9, h7, p, f, K, hK, hU, hq, ⟨eJ⟩⟩ := h
-  haveI : Finite J := hfin
+  have : Finite J := hfin
   have hcard : Nat.card J = Nat.card J' := Nat.card_congr e.toEquiv
   refine ⟨Finite.of_equiv J e.toEquiv, ?_, ?_, ?_, p, f, K, hK, hU, hq, ⟨e.symm.trans eJ⟩⟩
   · rw [← hcard]; exact h3
@@ -71,7 +71,7 @@ private theorem ksu3s_prod_lt_pow_eight (q : ℕ) (hq : 2 ≤ q) :
 private theorem ksu3s_card_gramSU_three (h : UnitaryFieldData p f K) :
     Nat.card (gramSU h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) =
       (p ^ f) ^ 3 * ((p ^ f) ^ 2 - 1) * ((p ^ f) ^ 3 + 1) := by
-  haveI := h.finite
+  have := h.finite
   have hsymm : (gramForm h (1 : Matrix (Fin 3) (Fin 3) K)).IsSymm :=
     gramForm_isSymm h (by simp [Matrix.map_one])
   have hsep : (gramForm h (1 : Matrix (Fin 3) (Fin 3) K)).SeparatingLeft :=
@@ -93,12 +93,12 @@ private theorem ksu3s_card_gramSU_three (h : UnitaryFieldData p f K) :
 
 private theorem ksu3s_card_U3_le_gramSU (h : UnitaryFieldData p f K) :
     Nat.card (U3 h) ≤ Nat.card (gramSU h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) := by
-  haveI := h.finite
+  have := h.finite
   let S : Subgroup (gramSU h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) :=
     normOneScalars h (gramSU h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) 3
   have hc := Subgroup.card_eq_card_quotient_mul_card_subgroup S
   have hpos : 0 < Nat.card S := by
-    haveI : Nonempty S := ⟨1⟩
+    have : Nonempty S := ⟨1⟩
     exact Nat.card_pos
   calc Nat.card (U3 h)
       = Nat.card (gramSU h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) ⧸ S) := rfl
@@ -117,7 +117,7 @@ private theorem ksu3s_card_U3_lt (h : UnitaryFieldData p f K) :
 
 private theorem ksu3s_center_eq_bot (h : UnitaryFieldData p f K) (hq : p ^ f % 3 = 1) :
     Subgroup.center (U3 h) = ⊥ := by
-  haveI := h.finite
+  have := h.finite
   have hnq : ¬(3 = 3 ∧ p ^ f = 2) := by
     rintro ⟨-, h2⟩
     rw [h2] at hq
@@ -125,7 +125,7 @@ private theorem ksu3s_center_eq_bot (h : UnitaryFieldData p f K) (hq : p ^ f % 3
   have hnc : ¬∀ x y : primeFormP h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K),
       x * y = y * x :=
     CFSG.RankThree.Classical.not_commute_primeFormP_one (n := 3) h (by norm_num) hnq
-  haveI : IsSimpleGroup (primeFormP h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) :=
+  have : IsSimpleGroup (primeFormP h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) :=
     CFSG.RankThree.Classical.isSimpleGroup_primeFormP_one (n := 3) h (by norm_num) hnq
   change Subgroup.center (primeFormP h ((1 : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K)) = ⊥
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal
@@ -137,7 +137,7 @@ private theorem ksu3s_center_eq_bot (h : UnitaryFieldData p f K) (hq : p ^ f % 3
 
 private theorem ksu3s_orderOf_u3Field (h : UnitaryFieldData p f K) (hq : p ^ f % 3 = 1)
     (σ : K ≃+* K) (hσ : orderOf σ = 7) : orderOf (u3Field h σ) = 7 := by
-  haveI := h.finite
+  have := h.finite
   have hnq : ¬(3 = 3 ∧ p ^ f = 2) := by
     rintro ⟨-, h2⟩
     rw [h2] at hq
@@ -148,7 +148,7 @@ private theorem ksu3s_orderOf_u3Field (h : UnitaryFieldData p f K) (hq : p ^ f %
 
 private theorem ksu3s_lieModel (h : UnitaryFieldData p f K) (hq : p ^ f % 3 = 1) :
     CFSG.Blueprint.LieModel (U3 h) .PSU 3 p f := by
-  haveI := h.finite
+  have := h.finite
   refine Or.inl ⟨by decide, ?_⟩
   refine ⟨⟨h.prime, h.one_le, le_rfl, ?_⟩, K, inferInstance, inferInstance, ?_, ?_⟩
   · intro hh
@@ -180,7 +180,7 @@ theorem u3_stepConcl_zpowers {p f : ℕ} {K : Type} [Field K]
     (h7 : ¬ 7 ∣ Nat.card (U3 h)) (σ : K ≃+* K) (hσ : orderOf σ = 7) (Z : Subgroup (U3 h))
     (hZ3 : Nat.card Z = 3) (hZ : ∀ w ∈ Subgroup.zpowers (u3Field h σ), ∀ z ∈ Z, w z = z) :
     StepConcl GoodU3 (Subgroup.zpowers (u3Field h σ)) Z := by
-  haveI := h.finite
+  have := h.finite
   obtain ⟨f₀, h₀, hf7, ⟨eF⟩, hsimple, hnab⟩ := u3_fixedBy_zpowers_equiv h hq σ hσ
   let W₀ : Subgroup (MulAut (U3 h)) := Subgroup.zpowers (u3Field h σ)
   let F : Subgroup (U3 h) := fixedBy W₀

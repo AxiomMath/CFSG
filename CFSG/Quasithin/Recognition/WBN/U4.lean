@@ -115,20 +115,20 @@ private theorem r2X_mem_normalizer_IX {f : ℕ} {K : Type} [Field K]
     r2X h ∈ Subgroup.normalizer (IX h : Set (Xg h)) :=
   mem_normalizer_IX_of_conj h (miyamotoR2_mem_gramSU h)
     (inv_eq_of_mul_eq_one_right (miyamotoR2_mul_self (K := K)))
-    (fun g hg => miyamotoR2_conj_mem_I h hg)
+    (fun _g hg => miyamotoR2_conj_mem_I h hg)
 
 private theorem r1X_mem_normalizer_IX {f : ℕ} {K : Type} [Field K]
     (h : UnitaryFieldData 2 f K) [CharP K 2] :
     r1X h ∈ Subgroup.normalizer (IX h : Set (Xg h)) :=
   mem_normalizer_IX_of_conj h (miyamotoR1_mem_gramSU h)
     (inv_eq_of_mul_eq_one_right (miyamotoR1_mul_self (K := K)))
-    (fun g hg => miyamotoR1_conj_mem_I h hg)
+    (fun _g hg => miyamotoR1_conj_mem_I h hg)
 
 theorem invertsByWeyl_u4 {f : ℕ} {K : Type} [Field K] (h : UnitaryFieldData 2 f K)
     [CharP K 2] :
     InvertsByWeyl (CFSG.Quasithin.H13.F431.Un.OL.Pt h) (CFSG.Quasithin.H13.F431.Un.OL.Ln h)
       (2 ^ f - 1) := by
-  haveI : Finite (Xg h) := finite_gramSU_miyamotoJ4 h
+  have : Finite (Xg h) := finite_gramSU_miyamotoJ4 h
   have hodd : Odd (2 ^ f - 1) :=
     Nat.Even.sub_odd Nat.one_le_two_pow
       (Nat.even_pow.2 ⟨by norm_num, by have := h.one_le; omega⟩) odd_one
@@ -166,9 +166,9 @@ theorem allInvertsByWeyl_u4 {f : ℕ} (hf : 2 ≤ f) :
   intro Y _ hY T M₁ M₂ hpair
   obtain ⟨K, hField, h, hChar, -, ⟨e⟩, S⟩ :=
     CFSG.Quasithin.H13.F431.Un.OL.exists_model_yamStd hf hY
-  letI : Field K := hField
-  letI : CharP K 2 := hChar
-  haveI : Finite (CFSG.Quasithin.H13.F431.Un.OL.Xg h) :=
+  let : Field K := hField
+  let : CharP K 2 := hChar
+  have : Finite (CFSG.Quasithin.H13.F431.Un.OL.Xg h) :=
     CFSG.LocalAnalysis.EvenBN.U4.finite_gramSU_miyamotoJ4 h
   exact InvertsByWeyl.of_yamStd S (invertsByWeyl_u4 h) e hpair
 

@@ -13,7 +13,7 @@ theorem conj_orderOf {K : Type} [Group K] (g x : K) : orderOf (g * x * g⁻¹) =
 
 theorem subsingleton_of_perfect_isPGroup {Q : Type} [Group Q] [Finite Q] (hp : IsPGroup 2 Q)
     (hperf : ⁅(⊤ : Subgroup Q), (⊤ : Subgroup Q)⁆ = ⊤) : Subsingleton Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hnil : Group.IsNilpotent Q := hp.isNilpotent
   have hnilT : Group.IsNilpotent (⊤ : Subgroup Q) := Group.isNilpotent_top.2 hnil
   obtain ⟨n, hn⟩ := (Subgroup.isNilpotent_iff_lowerCentralSeries (⊤ : Subgroup Q)).1 hnilT
@@ -64,7 +64,7 @@ theorem closure_three_eq_top {K : Type} [Group K] [Finite K] (P : Subgroup K) [P
       rw [← hx]; exact orderOf_dvd_of_pow_eq_one h1
     have h3' : (3 : ℕ) ∣ 2 := Nat.Prime.dvd_of_dvd_pow Nat.prime_three h2
     norm_num at h3'
-  haveI := hsimp
+  have := hsimp
   have hNbar : Y.map (QuotientGroup.mk' P) = ⊤ := by
     have hN : (Y.map (QuotientGroup.mk' P)).Normal :=
       Subgroup.Normal.map hYn _ QuotientGroup.mk_surjective

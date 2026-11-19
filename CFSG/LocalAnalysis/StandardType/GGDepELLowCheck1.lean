@@ -54,7 +54,7 @@ private theorem l05nK1_cases1_extract (c0 : ℕ) (wits : List GGDepANWit)
   have hc : (ggDepANDot 3 la lh == 2 && ggDepANDot 3 la ggDepELNX != 0) = true := by
     rw [Bool.and_eq_true]
     exact ⟨beq_iff_eq.mpr hd, bne_iff_ne.mpr hz⟩
-  rw [if_pos hc] at h2
+  rw [ite_eq_left hc] at h2
   cases hfind : exc.find?
       (fun e => ggTWLVecEq 3 e.1.1 lh && ggTWLVecEq 3 e.1.2 la) with
   | none =>

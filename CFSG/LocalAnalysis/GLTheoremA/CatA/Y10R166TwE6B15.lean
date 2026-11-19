@@ -40,7 +40,7 @@ private theorem caseB_exists_E {F : Type} [Field F] [Finite F] [CharP F 2]
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 n
   have hFr : ∀ c, Fr c = c ^ (2 ^ n) := fun c => iterateFrobenius_def 2 n c
   let C : Subgroup (ModGL Tag.E6 Ω) := twE6C Fr
-  haveI : Finite ↥C := Finite.of_surjective π hπ
+  have : Finite ↥C := Finite.of_surjective π hπ
   obtain ⟨-, -, -, -, -, hB0J, -, -, -, -⟩ :=
     twE6_caseB_data (F := F) (σ := σ) hn hod hF hσ hω3 hω1
   obtain ⟨hebarC, hfbarC, -, -, -, h9, hLC, -, -, -, hLsn0, hLq0, h3quo⟩ :=
@@ -58,7 +58,7 @@ private theorem caseB_exists_E {F : Type} [Field F] [Finite F] [CharP F 2]
         Subgroup.closure ({TwE6B.eBar (Ω := Ω) ω, TwE6B.fBar (Ω := Ω) ω} :
           Set (ModGL Tag.E6 Ω)) := by
       rw [MonoidHom.map_closure]
-      simp only [Set.image_insert_eq, Set.image_singleton, Set.image_empty]
+      simp only [Set.image_insert_eq, Set.image_singleton]
       rfl
     calc Nat.card ↥(Subgroup.closure ({ebarC, fbarC} : Set ↥C))
         = Nat.card ↥(Subgroup.map C.subtype
@@ -140,7 +140,7 @@ private theorem caseB_exists_S {F : Type} [Field F] [Finite F] [CharP F 2]
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 n
   have hFr : ∀ c, Fr c = c ^ (2 ^ n) := fun c => iterateFrobenius_def 2 n c
   let C : Subgroup (ModGL Tag.E6 Ω) := twE6C Fr
-  haveI : Finite ↥C := Finite.of_surjective π hπ
+  have : Finite ↥C := Finite.of_surjective π hπ
   obtain ⟨-, Sbar, -, -, -, -, hSC, hS2bar, hBSbar, hBCbar⟩ :=
     twE6_caseB_data (F := F) (σ := σ) hn hod hF hσ hω3 hω1
   have hker_le_center : π.ker ≤ Subgroup.center X := by
@@ -196,7 +196,7 @@ theorem exists_caseB_witness_of_cover {F : Type} [Field F] [Finite F] [CharP F 2
   let Fr : Ω →+* Ω := iterateFrobenius Ω 2 n
   have hFr : ∀ c, Fr c = c ^ (2 ^ n) := fun c => iterateFrobenius_def 2 n c
   let C : Subgroup (ModGL Tag.E6 Ω) := twE6C Fr
-  haveI : Finite ↥C := Finite.of_surjective π hπ
+  have : Finite ↥C := Finite.of_surjective π hπ
   obtain ⟨ω, hω3, hω1, hωo⟩ := exists_unit_orderOf_three_algebraicClosure F (n := n) hF
   obtain ⟨Jbar, Sbar, hJC, hJq, hJmult, hB0J, hSC, hS2bar, hBSbar, hBCbar⟩ :=
     twE6_caseB_data (F := F) (σ := σ) hn hod hF hσ hω3 hω1

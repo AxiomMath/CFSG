@@ -45,13 +45,15 @@ theorem f15a_listAnd_iff (f : ℕ → Bool) : ∀ l : List ℕ,
       true ↔ _
     rw [Bool.and_eq_true, f15a_listAnd_iff f l, List.forall_mem_cons]
 
+omit [Group Γ] in
 theorem f15a_subM {X Y : ℕ} (h : subM X Y = true) : mset elt X ⊆ mset elt Y :=
   subset_of_land (Nat.eq_of_beq_eq_true h)
 
+omit [Group Γ] in
 theorem f15a_mset_land (hinj : ∀ i < 128, ∀ j < 128, elt i = elt j → i = j) (A B : ℕ) :
     mset elt (Nat.land A B) = mset elt A ∩ mset elt B := by
   ext g
-  simp only [mset, Set.mem_setOf_eq, Set.mem_inter_iff, hasB_eq]
+  simp only [mset, Set.mem_ofPred_eq, Set.mem_inter_iff, hasB_eq]
   change (∃ i < 128, (A &&& B).testBit i = true ∧ elt i = g) ↔ _
   simp only [Nat.testBit_and, Bool.and_eq_true]
   constructor
@@ -71,13 +73,13 @@ theorem f15a_cenS (X : ℕ) (gs : List ℕ) (hgs : ∀ g ∈ gs, g < 128) :
   induction gs with
   | nil =>
     ext x
-    simp only [List.not_mem_nil, false_imp_iff, imp_true_iff, and_true, Set.mem_setOf_eq]
+    simp only [List.not_mem_nil, false_imp_iff, imp_true_iff, and_true, Set.mem_ofPred_eq]
     rfl
   | cons g gs ih =>
     change mset elt (cenE P C (cenS P C X gs) g) = _
     rw [cenE_mset hR _ (hgs g (by simp)), ih (fun g' hg' => hgs g' (by simp [hg']))]
     ext x
-    simp only [Set.mem_setOf_eq, List.mem_cons, forall_eq_or_imp]
+    simp only [Set.mem_ofPred_eq, List.mem_cons, forall_eq_or_imp]
     tauto
 
 theorem f15a_upS (X Zm : ℕ) (gs : List ℕ) (hgs : ∀ g ∈ gs, g < 128) :
@@ -86,7 +88,7 @@ theorem f15a_upS (X Zm : ℕ) (gs : List ℕ) (hgs : ∀ g ∈ gs, g < 128) :
   simp only [upS, strictN_eq]
   rw [mset_recMaskId]
   ext x
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   simp only [bAnd_eq, Bool.and_eq_true, f15a_listAnd_iff]
   constructor
   · rintro ⟨i, hi, ⟨hX, hc⟩, rfl⟩
@@ -105,7 +107,7 @@ theorem f15a_conjM {s : ℕ} (hs : s < 128) (X : ℕ) :
   rw [mset_recMask (fun i => hasB X i) (fun i => conjR (rowT P s) (rowT C (atR V s)) i)
     (fun i _ => atR_lt _ _)]
   ext y
-  simp only [Set.mem_setOf_eq]
+  simp only [Set.mem_ofPred_eq]
   constructor
   · rintro ⟨i, hi, hb, rfl⟩
     exact ⟨elt i, ⟨i, hi, hb, rfl⟩, (conjR_elt hR hs hi).symm⟩
@@ -164,7 +166,7 @@ theorem f15a_zSeries_succ (k : ℕ) {s : Set Γ} :
     (zSeries (k + 1) (closure s) : Set Γ) =
       {x | x ∈ closure s ∧ ∀ g ∈ s, ⁅x, g⁆ ∈ zSeries k (closure s)} := by
   ext x
-  simp only [SetLike.mem_coe, Set.mem_setOf_eq,
+  simp only [SetLike.mem_coe, Set.mem_ofPred_eq,
     CFSG.OddStandard.HigherRank.G2Three.Sec1Proof.Tab.mem_zSeries_succ]
   refine and_congr_right fun _ => ⟨fun h g hg => h g (subset_closure hg), fun h => ?_⟩
   exact f15a_comm_closure (f15a_zSeries_conj k _) h
@@ -173,7 +175,7 @@ theorem f15a_cen_eq {s : Set Γ} :
     (cen (closure s) : Set Γ) = {x | x ∈ closure s ∧ ∀ g ∈ s, x * g = g * x} := by
   ext x
   simp only [cen, coe_inf, Set.mem_inter_iff, SetLike.mem_coe, mem_centralizer_iff,
-    Set.mem_setOf_eq]
+    Set.mem_ofPred_eq]
   refine and_congr_right fun _ => ⟨fun h g hg => (h g (subset_closure hg)).symm, fun h y hy => ?_⟩
   have := f15a_comm_closure (N := ⊥) (fun t _ n hn => by
     rw [mem_bot] at hn ⊢; rw [hn]; group) (x := x) (fun g hg => by
@@ -185,7 +187,7 @@ theorem f15a_zSeries_one {s : Set Γ} : zSeries 1 (closure s) = cen (closure s) 
   apply SetLike.coe_injective
   rw [f15a_zSeries_succ 0, f15a_zSeries_zero, f15a_cen_eq]
   ext x
-  simp only [Set.mem_setOf_eq, mem_bot, commutatorElement_eq_one_iff_mul_comm]
+  simp only [Set.mem_ofPred_eq, mem_bot, commutatorElement_eq_one_iff_mul_comm]
 
 theorem f15a_normal {T N : Subgroup Γ} (hn : ∀ t ∈ T, ∀ n ∈ N, t * n * t⁻¹ ∈ N) :
     (N.subgroupOf T).Normal :=
@@ -207,7 +209,7 @@ theorem f15a_secE [Finite Γ] {T N : Subgroup Γ} {k : ℕ} (hNT : N ≤ T)
     (hn : ∀ t ∈ T, ∀ n ∈ N, t * n * t⁻¹ ∈ N) (hsq : ∀ t ∈ T, t * t ∈ N)
     (hc : (T : Set Γ).ncard = 2 ^ k * (N : Set Γ).ncard) :
     SecProp T N (fun Y _ _ _ => IsE k Y) := by
-  haveI hnorm := f15a_normal hn
+  have hnorm := f15a_normal hn
   refine ⟨hnorm, ?_, ?_⟩
   · have hq : ∀ q : ↥T ⧸ N.subgroupOf T, q * q = 1 := by
       intro q
@@ -229,7 +231,7 @@ theorem f15a_secMax [Finite Γ] {T N X₁ X₂ : Subgroup Γ} (hNT : N ≤ T)
       (f15aP T N K ∧ ∀ K', f15aP T N K' → K ≤ K' → K = K') ↔ K = X₁ ∨ K = X₂) :
     SecProp T N (fun Y _ _ π => maxElemAbelian (⊤ : Subgroup Y) =
       {(X₁.subgroupOf T).map π, (X₂.subgroupOf T).map π}) := by
-  haveI hnorm := f15a_normal hn
+  have hnorm := f15a_normal hn
   refine ⟨hnorm, ?_⟩
   set π := QuotientGroup.mk' (N.subgroupOf T)
   have hsurj : Function.Surjective π := QuotientGroup.mk'_surjective _
@@ -291,7 +293,7 @@ theorem f15a_secMax [Finite Γ] {T N X₁ X₂ : Subgroup Γ} (hNT : N ≤ T)
     rw [ea_iff, pre_map K hK.1 hK.2.1]
     exact hK.2.2
   ext Y
-  simp only [maxElemAbelian, Set.mem_setOf_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
+  simp only [maxElemAbelian, Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff]
   constructor
   · rintro ⟨-, hEA, hY⟩
     have hK : f15aP T N (pre Y) ∧ ∀ K', f15aP T N K' → pre Y ≤ K' → pre Y = K' := by
@@ -335,7 +337,7 @@ theorem f15a_q8Code_surj : ∀ t : Fin 8, ∃ a, f15a_q8Code a = t.val := by dec
 theorem f15a_q8M_code : ∀ a b : QuaternionGroup 2,
     q8M (f15a_q8Code a) (f15a_q8Code b) = f15a_q8Code (a * b) := by decide
 
-theorem f15a_pair {u v : ℕ} (hu : u < 8) (hv : v < 8) :
+theorem f15a_pair {u v : ℕ} (_hu : u < 8) (hv : v < 8) :
     Nat.shiftRight (8 * u + v) 3 = u ∧ Nat.land (8 * u + v) 7 = v := by
   constructor
   · change (8 * u + v) >>> 3 = u
@@ -428,7 +430,6 @@ theorem f15a_q8map [Finite Γ] {X Nm r s : ℕ} {T N : Subgroup Γ} [(N.subgroup
         change π ⟨_, hmem 1⟩ = 1
         rw [e, map_one]
       map_mul' := fun a b => by
-        change π ⟨_, hmem (a * b)⟩ = π ⟨_, hmem a⟩ * π ⟨_, hmem b⟩
         rw [← map_mul, QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq,
           mem_subgroupOf, ← SetLike.mem_coe, ← hN]
         have := hspec _ (f15a_q8Code_lt a) _ (f15a_q8Code_lt b)
@@ -449,7 +450,6 @@ theorem f15a_q8map [Finite Γ] {X Nm r s : ℕ} {T N : Subgroup Γ} [(N.subgroup
       rw [QuotientGroup.mk'_apply, QuotientGroup.mk'_apply, QuotientGroup.eq, mem_subgroupOf,
         ← SetLike.mem_coe, ← hN]
       simp only [Subgroup.coe_mul, Subgroup.coe_inv]
-      change (elt (d8I P r s (f15a_q8Code c)))⁻¹ * (elt (d8I P r s k) * n) ∈ _
       rw [hc]
       simpa using hn
     · rintro ⟨t, ⟨c, hct⟩, rfl⟩
@@ -555,7 +555,7 @@ theorem f15a_cenS_cen {X : ℕ} {gs : List ℕ} (hgs : ∀ g ∈ gs, g < 128) {T
   subst hTc
   rw [f15a_cenS hR X gs hgs, hT, f15a_cen_eq]
   ext x
-  simp only [Set.mem_setOf_eq, SetLike.mem_coe]
+  simp only [Set.mem_ofPred_eq, SetLike.mem_coe]
   exact and_congr_right fun _ =>
     ⟨fun h _ ⟨g, hg, he⟩ => he ▸ h g hg, fun h g hg => h _ ⟨g, hg, rfl⟩⟩
 
@@ -565,7 +565,7 @@ theorem f15a_upS_z {X Zm : ℕ} {gs : List ℕ} (hgs : ∀ g ∈ gs, g < 128) {T
   subst hTc
   rw [f15a_upS hR X Zm gs hgs, hT, hZ, f15a_zSeries_succ]
   ext x
-  simp only [Set.mem_setOf_eq, SetLike.mem_coe]
+  simp only [Set.mem_ofPred_eq, SetLike.mem_coe]
   exact and_congr_right fun _ =>
     ⟨fun h _ ⟨g, hg, he⟩ => he ▸ h g hg, fun h g hg => h _ ⟨g, hg, rfl⟩⟩
 
@@ -650,6 +650,7 @@ theorem f15a_centIn (T : Subgroup Γ) (y : Γ) : centIn T (closure {y}) = centEl
     | inv a _ ha => rw [inv_mul_eq_iff_eq_mul, ← mul_assoc, ha, mul_inv_cancel_right]
   rw [centIn, centEl, e]
 
+omit [Group Γ] in
 theorem f15a_setOf_four (u v w s : Γ) : {x | x ∈ [u, v, w, s]} = ({u, v, w, s} : Set Γ) := by
   ext x
   simp

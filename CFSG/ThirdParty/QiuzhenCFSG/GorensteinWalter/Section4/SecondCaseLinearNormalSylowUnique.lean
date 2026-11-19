@@ -47,9 +47,9 @@ public theorem secondCase_linear_eq_of_normal_sylow
           rw [Subgroup.subgroupOf_map_subtype, inf_eq_left.mpr hX₂le]]
       _ = p := hX₂card
   have hX₁p : IsPGroup p X₁D :=
-    IsPGroup.of_card (n := 1) (by simpa [hX₁Dcard])
+    IsPGroup.of_card (n := 1) (by simp [hX₁Dcard])
   have hX₂p : IsPGroup p X₂D :=
-    IsPGroup.of_card (n := 1) (by simpa [hX₂Dcard])
+    IsPGroup.of_card (n := 1) (by simp [hX₂Dcard])
   let S₁ : Sylow p D := hX₁p.toSylow (by simpa [X₁D] using hidx₁)
   let S₂ : Sylow p D := hX₂p.toSylow (by simpa [X₂D] using hidx₂)
   have hX₁normal : X₁D.Normal :=

@@ -146,7 +146,7 @@ theorem code_nA_mem_dCodes (hι : Function.Injective ι) {d : Msp} (hd : d ∈ D
   have hcard := card_trS_Asp hι
   induction hd using Subgroup.closure_induction with
   | mem x hx =>
-    simp only [gensDsp, List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hx
+    simp only [gensDsp, List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hx
     rcases hx with rfl | rfl | rfl
     · rw [code_uv hι]; exact uvC_mem_dCodes
     · rw [code_t hι]; exact tC_mem_dCodes
@@ -194,7 +194,7 @@ theorem code_nA_mem_vCodes (hι : Function.Injective ι) {m : Msp} (hm : m ∈ A
   have hcard := card_trS_Asp hι
   induction hm using Subgroup.closure_induction with
   | mem x hx =>
-    simp only [gensAEsp, List.mem_cons, List.not_mem_nil, or_false, Set.mem_setOf_eq] at hx
+    simp only [gensAEsp, List.mem_cons, List.not_mem_nil, or_false, Set.mem_ofPred_eq] at hx
     have hA : ∀ {a : Msp} (ha : a ∈ Asp) (haT : a ∈ AEsp),
         code (basisA ι) (Mconj (nA hι (AEsp_le_Tsp haT))) ∈ vCodes := by
       intro a ha haT

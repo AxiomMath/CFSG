@@ -14,6 +14,7 @@ section TwoE
 variable {G : Type} [Group G] {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
   {n m : ℕ}
 
+omit [Finite V] in
 theorem regularOnNonzero_map_comp {H : Type} [Group H] (φ : H →* G) (ρ : G →* LGL 2 V)
     (T : Subgroup H) (Z : Submodule (ZMod 2) V) (h : RegularOnNonzero (ρ.comp φ) T Z) :
     RegularOnNonzero ρ (T.map φ) Z := by
@@ -35,7 +36,7 @@ theorem twelveTwo_two_general
       ∃ (t : G) (T : Subgroup G), t ∈ L ∧ t * t = 1 ∧ t ∉ B ∧ T ≤ B ⊓ L ∧ IsCyclic T ∧
         Nat.card T = 2 ^ m - 1 ∧ (∀ x ∈ T, t * x * t = x⁻¹) ∧ RegularOnNonzero ρ T Z ∧
         commSpace (T.map ρ) Z = Z := by
-  haveI : Finite G := rankOne_finite h.type
+  have : Finite G := rankOne_finite h.type
   obtain ⟨k, hk, hSL, hminL⟩ := Setting12One.exists_restrict_of_minimal h hL
   obtain ⟨hkm, hZk, hodd, tL, TL, htL2, htLB, hTLB, hTLcyc, hTLcard, hTLinv, hTLreg, hTLcomm⟩ :=
     twelveTwo_two_spec hSL hminL hZ
@@ -51,7 +52,7 @@ theorem twelveTwo_two_general
   · intro x hx
     obtain ⟨y, hy, rfl⟩ := Subgroup.mem_map.mp hx
     exact ⟨Subgroup.mem_subgroupOf.mp (hTLB hy), y.2⟩
-  · haveI := hTLcyc
+  · have := hTLcyc
     let e := Subgroup.equivMapOfInjective TL L.subtype (Subgroup.subtype_injective L)
     exact isCyclic_of_surjective e.toMonoidHom e.surjective
   · rw [Subgroup.card_map_of_injective (Subgroup.subtype_injective L), hTLcard, hkm]

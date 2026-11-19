@@ -14,23 +14,28 @@ section Mact
 
 variable {K : Type} [Field K] [Finite K] {r : ℕ}
 
+omit [Finite K] in
 theorem mact_one_vec (M : Matrix (Fin r) (Fin r) ℤ) : mact K M (1 : Fin r → Kˣ) = 1 := by
   ext1 k
   simp [mact]
 
+omit [Finite K] in
 theorem mact_neg (M : Matrix (Fin r) (Fin r) ℤ) (t : Fin r → Kˣ) :
     mact K (-M) t = (mact K M t)⁻¹ := by
   ext1 k
   simp [mact, Finset.prod_inv_distrib]
 
+omit [Finite K] in
 theorem mact_sub (M N : Matrix (Fin r) (Fin r) ℤ) (t : Fin r → Kˣ) :
     mact K (M - N) t = mact K M t * (mact K N t)⁻¹ := by
   rw [sub_eq_add_neg, mact_add, mact_neg]
 
+omit [Finite K] in
 theorem mact_one_sub (X : Matrix (Fin r) (Fin r) ℤ) (t : Fin r → Kˣ) :
     mact K (1 - X) t = t * (mact K X t)⁻¹ := by
   rw [mact_sub, mact_one]
 
+omit [Finite K] in
 theorem mact_smul_one (c : ℤ) (t : Fin r → Kˣ) :
     mact K (c • (1 : Matrix (Fin r) (Fin r) ℤ)) t = t ^ c := by
   ext1 k
@@ -41,11 +46,13 @@ theorem mact_smul_one (c : ℤ) (t : Fin r → Kˣ) :
   map_one' := mact_one_vec M
   map_mul' := mact_mul_apply M
 
+omit [Finite K] in
 @[simp] theorem mactHom_apply (M : Matrix (Fin r) (Fin r) ℤ) (t : Fin r → Kˣ) :
     mactHom M t = mact K M t := rfl
 
 @[expose] def vecT (w : Fin r → ℤ) (g : Kˣ) : Fin r → Kˣ := fun i => g ^ w i
 
+omit [Finite K] in
 theorem mact_vecT (M : Matrix (Fin r) (Fin r) ℤ) (w : Fin r → ℤ) (g : Kˣ) :
     mact K M (vecT w g) = vecT (M.mulVec w) g := by
   ext1 k
@@ -54,6 +61,7 @@ theorem mact_vecT (M : Matrix (Fin r) (Fin r) ℤ) (w : Fin r → ℤ) (g : Kˣ)
   refine Finset.prod_congr rfl fun j _ => ?_
   rw [mul_comm]
 
+omit [Finite K] in
 theorem vecT_eq_of_dvd (w w' : Fin r → ℤ) (ω : Kˣ) (hω : orderOf ω = 3)
     (h : ∀ i, (3 : ℤ) ∣ w i - w' i) : vecT w ω = vecT w' ω := by
   ext1 k
@@ -67,6 +75,7 @@ section Torus
 
 variable (τ : Tag) (K : Type) [Field K] [Finite K]
 
+omit [Finite K] in
 theorem psi_wordProd (l : List (Fin τ.rank)) :
     monomialSubHom (τ := τ) (K := K) (l.map (weylRep τ K)).prod = wordW τ l := by
   induction l with
@@ -75,6 +84,7 @@ theorem psi_wordProd (l : List (Fin τ.rank)) :
     rw [List.map_cons, List.prod_cons, map_mul, ih, monomialSubHom_weylRep]
     simp [wordW]
 
+omit [Finite K] in
 theorem exists_torusN_of_psi_eq_one {x : ↥(monomialSub τ K)}
     (hx : monomialSubHom (τ := τ) (K := K) x = 1) : ∃ t, torusN τ K t = x := by
   have hx' : x ∈ (monomialSubHom (τ := τ) (K := K)).ker := hx
@@ -85,6 +95,7 @@ theorem exists_torusN_of_psi_eq_one {x : ↥(monomialSub τ K)}
   rw [monoι_torusN]
   exact congrArg Subtype.val ht
 
+omit [Finite K] in
 theorem psi_torusN (t : Fin τ.rank → Kˣ) :
     monomialSubHom (τ := τ) (K := K) (torusN τ K t) = 1 := by
   have h : torusN τ K t ∈ (monomialSubHom (τ := τ) (K := K)).ker := by
@@ -92,6 +103,7 @@ theorem psi_torusN (t : Fin τ.rank → Kˣ) :
     exact (torusCoordHom τ K t).2
   exact h
 
+omit [Finite K] in
 theorem conj_N_word {g : ↥(monomialSub τ K)} (l : List (Fin τ.rank))
     (hg : monomialSubHom (τ := τ) (K := K) g = wordW τ l) (t : Fin τ.rank → Kˣ) :
     g * torusN τ K t * g⁻¹ = torusN τ K (mact K (l.map (Rmat τ)).prod t) := by
@@ -123,7 +135,7 @@ theorem vecT_pow_three (c : Fin r → ℤ) (ω : Kˣ) (hω : orderOf ω = 3) : v
     one_zpow]
 
 theorem nine_dvd_of_vecT (H : Subgroup (Fin r → Kˣ)) (ω : Kˣ) (hω : orderOf ω = 3)
-    (c₁ c₂ : Fin r → ℤ) (p₁ p₂ : Fin r) (h11 : c₁ p₁ = 1) (h12 : c₂ p₁ = 0) (h21 : c₁ p₂ = 0)
+    (c₁ c₂ : Fin r → ℤ) (p₁ p₂ : Fin r) (h11 : c₁ p₁ = 1) (_h12 : c₂ p₁ = 0) (h21 : c₁ p₂ = 0)
     (h22 : c₂ p₂ = 1) (m₁ : vecT c₁ ω ∈ H) (m₂ : vecT c₂ ω ∈ H) : 9 ∣ Nat.card H := by
   have hne : ω ≠ 1 := by
     intro h; rw [h, orderOf_one] at hω; omega
@@ -145,6 +157,7 @@ section Main
 
 variable (τ : Tag) (K : Type) [Field K] [Finite K]
 
+omit [Finite K] in
 theorem eightyOne_dvd_of_pair (hinj : Function.Injective (torusN τ K))
     (lx ly : List (Fin τ.rank)) (s c : ↥(monomialSub τ K))
     (hs : monomialSubHom (τ := τ) (K := K) s = wordW τ lx)
@@ -189,6 +202,7 @@ theorem eightyOne_dvd_of_pair (hinj : Function.Injective (torusN τ K))
       · exact ⟨c, hc, hcy⟩
     exact hQ.trans (Subgroup.card_dvd_of_le hle)
 
+omit [Finite K] in
 theorem exists_decomp {s gx : ↥(monomialSub τ K)}
     (h : monomialSubHom (τ := τ) (K := K) s = monomialSubHom (τ := τ) (K := K) gx) :
     ∃ t, s = torusN τ K t * gx := by
@@ -197,6 +211,7 @@ theorem exists_decomp {s gx : ↥(monomialSub τ K)}
   obtain ⟨t, ht⟩ := exists_torusN_of_psi_eq_one τ K hker
   exact ⟨t, by rw [ht]; exact (inv_mul_cancel_right s gx).symm⟩
 
+omit [Finite K] in
 theorem lift_centralizer_of_solve (lx ly : List (Fin τ.rank)) {s gx gy : ↥(monomialSub τ K)}
     (hgx : monomialSubHom (τ := τ) (K := K) gx = wordW τ lx)
     (hgy : monomialSubHom (τ := τ) (K := K) gy = wordW τ ly)
@@ -211,6 +226,7 @@ theorem lift_centralizer_of_solve (lx ly : List (Fin τ.rank)) {s gx gy : ↥(mo
     (fun t => conj_N_word τ K lx hgx t) (fun t => conj_N_word τ K ly hgy t) hu ha, ?_⟩
   rw [map_mul, psi_torusN, one_mul, hgy]
 
+omit [Finite K] in
 theorem exists_comm_torus (hinj : Function.Injective (torusN τ K))
     {gx gy : ↥(monomialSub τ K)} (hx : gx ∈ What τ K) (hy : gy ∈ What τ K)
     (hcomm : monomialSubHom (τ := τ) (K := K) gy * monomialSubHom (τ := τ) (K := K) gx =
@@ -228,6 +244,7 @@ theorem exists_comm_torus (hinj : Function.Injective (torusN τ K))
   · rw [map_mul, map_one, hu, ← sq]; exact Z0_sq τ K hzZ
   · rw [hu, hz]; group
 
+omit [Finite K] in
 theorem caseA (hinj : Function.Injective (torusN τ K))
     (lx ly : List (Fin τ.rank)) (s gx gy : ↥(monomialSub τ K))
     (hs : monomialSubHom (τ := τ) (K := K) s = wordW τ lx)

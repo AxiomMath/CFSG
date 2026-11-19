@@ -194,7 +194,7 @@ theorem ggRefl_sub_mem {ι : Type} [Fintype ι] [DecidableEq ι] {C : Matrix ι 
     have h1 : ρ x (ρ (x⁻¹) v) = v := by
       have hmul : ρ x * ρ (x⁻¹) = 1 := by rw [← map_mul, mul_inv_cancel, map_one]
       have := congrArg (fun e : V ≃ₗ[ZMod p] V => e v) hmul
-      simpa [LinearEquiv.mul_apply] using this
+      simp
     have hx2 : ρ x (ρ (x⁻¹) v) - ρ (x⁻¹) v ∈ V₁ := hx' (ρ (x⁻¹) v)
     rw [h1] at hx2
     rw [show ρ (x⁻¹) v - v = -(v - ρ (x⁻¹) v) by abel]
@@ -349,7 +349,7 @@ theorem ggFinrank_minus_eq_one {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Typ
     (hfix : Nat.card {v : V // T v = v} * p = Nat.card V) :
     Module.finrank (ZMod p) (LinearMap.ker (T.toLinearMap + 1)) = 1 := by
   classical
-  haveI : FiniteDimensional (ZMod p) V := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod p) V := Module.Finite.of_finite
   have hp : p.Prime := Fact.out
   have h2 : (2 : ZMod p) ≠ 0 := by
     intro h

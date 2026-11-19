@@ -147,13 +147,13 @@ theorem ggRemTableBLExc_of_resCx {p : ℕ} {lab : LargeEvenLabel} (hp : p.Prime)
     all_goals
       by_cases h1 : p ∣ 2 ^ n - 1
       · by_cases h3 : 3 ≤ rank
-        · simp_all <;> omega
+        · simp_all
         · have hr' : rank = 1 ∨ rank = 2 := by omega
-          rcases hr' with rfl | rfl <;> simp_all <;> omega
+          rcases hr' with rfl | rfl <;> simp_all
       · rcases hS with h | ⟨rfl, rfl⟩
         · exact absurd h h1
         · by_cases h5 : rank ≤ 4
-          · simp_all <;> omega
+          · simp_all
           · have h6 : 5 ≤ rank := by omega
             simp_all
   case twA =>
@@ -161,42 +161,42 @@ theorem ggRemTableBLExc_of_resCx {p : ℕ} {lab : LargeEvenLabel} (hp : p.Prime)
     ggRemExc_unfold
     all_goals
       have hD2 : p ∣ 2 ^ n + 1 := by
-        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
       by_cases h2 : rank = 2
-      · simp_all <;> omega
+      · simp_all
       · have hr3 : 3 ≤ rank := by omega
         by_cases h3 : p ∣ rank + 1
         · by_cases h5 : rank = 5 ∧ p = 3
-          · simp_all <;> omega
-          · simp_all <;> omega
+          · simp_all
+          · simp_all
         · by_cases hn3 : p ∣ n
-          · simp_all <;> omega
-          · simp_all <;> omega
+          · simp_all
+          · simp_all
   case B =>
     obtain ⟨hn, hr, -⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case C =>
     obtain ⟨hn, hr, -⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case D =>
     obtain ⟨hn, hr⟩ := hΛ
     ggRemExc_unfold
     all_goals
       by_cases h3 : rank = 3
       · subst h3
-        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
       · have h4 : 4 ≤ rank := by omega
-        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all; omega
   case twD =>
     obtain ⟨hn, hr⟩ := hΛ
     ggRemExc_unfold
     all_goals
       have hD : p ∣ 2 ^ n - 1 ∨ p ∣ 2 ^ n + 1 := by
-        rcases hS with h | h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+        rcases hS with h | h | ⟨rfl, rfl⟩ <;> simp_all
       by_cases h2 : rank = 2
       · subst h2
         have hsq := ggRemTableBLExc_dvd_sq_sub hD
@@ -204,67 +204,62 @@ theorem ggRemTableBLExc_of_resCx {p : ℕ} {lab : LargeEvenLabel} (hp : p.Prime)
       · by_cases h3 : rank = 3
         · subst h3
           rcases hD with h | h
-          · simp_all <;> omega
-          · by_cases hn3 : p ∣ n <;> simp_all <;> omega
+          · simp_all
+          · by_cases hn3 : p ∣ n <;> simp_all
         · have hr4 : 4 ≤ rank := by omega
           rcases hD with h | h
-          · simp_all <;> omega
-          · by_cases hn3 : p ∣ n <;> simp_all <;> omega
+          · simp_all
+          · by_cases hn3 : p ∣ n <;> simp_all; omega
   case twE6 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case E6 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
       by_cases hp3 : p = 3
       · subst hp3
-        rcases hS with h | ⟨rfl, -⟩ <;> simp_all <;> omega
+        rcases hS with h | ⟨rfl, -⟩ <;> simp_all
       · rcases hS with h | ⟨-, rfl⟩
-        · simp_all <;> omega
+        · simp_all
         · exact absurd rfl hp3
   case E7 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case E8 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case F4 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case triD4 =>
     ggRemExc_unfold
-    all_goals simp_all
   case G2 =>
     ggRemExc_unfold
-    all_goals simp_all
   case twB2 =>
     ggRemExc_unfold
-    all_goals simp_all
   case twF4 =>
     obtain ⟨hn, hr0, -, hn3⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      by_cases hp3 : p = 3 <;> simp_all <;> omega
+      by_cases hp3 : p = 3 <;> simp_all
   case B2der =>
     obtain ⟨hn, hr0, rfl⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨-, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨-, rfl⟩ <;> simp_all
   case G2der =>
     ggRemExc_unfold
-    all_goals simp_all
   case twF4der =>
     ggRemExc_unfold
-    all_goals simp_all
 
 theorem ggRemTableBLExc_of_resTv {p : ℕ} {lab : LargeEvenLabel} (hp : p.Prime)
     (hΛ : LargeEvenInLambda2 lab) (hS : LargeEvenSplit p lab)
@@ -293,13 +288,13 @@ theorem ggRemTableBLExc_of_resTv {p : ℕ} {lab : LargeEvenLabel} (hp : p.Prime)
     all_goals
       by_cases h1 : p ∣ 2 ^ n - 1
       · by_cases h3 : 3 ≤ rank
-        · simp_all <;> omega
+        · simp_all
         · have hr' : rank = 1 ∨ rank = 2 := by omega
-          rcases hr' with rfl | rfl <;> simp_all <;> omega
+          rcases hr' with rfl | rfl <;> simp_all
       · rcases hS with h | ⟨rfl, rfl⟩
         · exact absurd h h1
         · by_cases h5 : rank ≤ 4
-          · simp_all <;> omega
+          · simp_all
           · have h6 : 5 ≤ rank := by omega
             simp_all
   case twA =>
@@ -307,23 +302,23 @@ theorem ggRemTableBLExc_of_resTv {p : ℕ} {lab : LargeEvenLabel} (hp : p.Prime)
     ggRemExc_unfold
     all_goals
       have hD2 : p ∣ 2 ^ n + 1 := by
-        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
       by_cases h2 : rank = 2
-      · simp_all <;> omega
+      · simp_all
       · have hr3 : 3 ≤ rank := by omega
         by_cases h5 : rank = 5 ∧ p = 3
-        · simp_all <;> omega
-        · simp_all <;> omega
+        · simp_all
+        · simp_all
   case B =>
     obtain ⟨hn, hr, -⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case C =>
     obtain ⟨hn, hr, -⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case D =>
     obtain ⟨hn, hr⟩ := hΛ
     ggRemExc_unfold
@@ -331,79 +326,74 @@ theorem ggRemTableBLExc_of_resTv {p : ℕ} {lab : LargeEvenLabel} (hp : p.Prime)
       have h4 : 3 ≤ rank := hr
       by_cases h3 : rank = 3
       · subst h3
-        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
       · have h4' : 4 ≤ rank := by omega
-        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case twD =>
     obtain ⟨hn, hr⟩ := hΛ
     ggRemExc_unfold
     all_goals
       have hD : p ∣ 2 ^ n - 1 ∨ p ∣ 2 ^ n + 1 := by
-        rcases hS with h | h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+        rcases hS with h | h | ⟨rfl, rfl⟩ <;> simp_all
       by_cases h2 : rank = 2
       · subst h2
         have hsq := ggRemTableBLExc_dvd_sq_sub hD
         simp_all
       · by_cases h3 : rank = 3
         · subst h3
-          rcases hD with h | h <;> simp_all <;> omega
+          rcases hD with h | h <;> simp_all
         · have hr4 : 4 ≤ rank := by omega
-          rcases hD with h | h <;> simp_all <;> omega
+          rcases hD with h | h <;> simp_all
   case twE6 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case E6 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
       by_cases hp3 : p = 3
       · subst hp3
-        rcases hS with h | ⟨rfl, -⟩ <;> simp_all <;> omega
+        rcases hS with h | ⟨rfl, -⟩ <;> simp_all
       · rcases hS with h | ⟨-, rfl⟩
-        · simp_all <;> omega
+        · simp_all
         · exact absurd rfl hp3
   case E7 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case E8 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case F4 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case triD4 =>
     ggRemExc_unfold
-    all_goals simp_all
   case G2 =>
     ggRemExc_unfold
-    all_goals simp_all
   case twB2 =>
     ggRemExc_unfold
-    all_goals simp_all
   case twF4 =>
     obtain ⟨hn, hr0, -, hn3⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      by_cases hp3 : p = 3 <;> simp_all <;> omega
+      by_cases hp3 : p = 3 <;> simp_all
   case B2der =>
     obtain ⟨hn, hr0, rfl⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨-, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨-, rfl⟩ <;> simp_all
   case G2der =>
     ggRemExc_unfold
-    all_goals simp_all
   case twF4der =>
     ggRemExc_unfold
-    all_goals simp_all
 
 theorem ggRemTableBLExc_of_resLine {p : ℕ} {lab : LargeEvenLabel} (hp : p.Prime)
     (hΛ : LargeEvenInLambda2 lab) (hS : LargeEvenSplit p lab)
@@ -431,13 +421,13 @@ theorem ggRemTableBLExc_of_resLine {p : ℕ} {lab : LargeEvenLabel} (hp : p.Prim
     all_goals
       by_cases h1 : p ∣ 2 ^ n - 1
       · by_cases h3 : 3 ≤ rank
-        · simp_all <;> omega
+        · simp_all
         · have hr' : rank = 1 ∨ rank = 2 := by omega
-          rcases hr' with rfl | rfl <;> simp_all <;> omega
+          rcases hr' with rfl | rfl <;> simp_all
       · rcases hS with h | ⟨rfl, rfl⟩
         · exact absurd h h1
         · by_cases h5 : rank ≤ 4
-          · simp_all <;> omega
+          · simp_all
           · have h6 : 5 ≤ rank := by omega
             simp_all
   case twA =>
@@ -445,102 +435,97 @@ theorem ggRemTableBLExc_of_resLine {p : ℕ} {lab : LargeEvenLabel} (hp : p.Prim
     ggRemExc_unfold
     all_goals
       have hD2 : p ∣ 2 ^ n + 1 := by
-        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
       by_cases h2 : rank = 2
-      · simp_all <;> omega
+      · simp_all
       · have hr3 : 3 ≤ rank := by omega
         by_cases h3 : p ∣ rank + 1
-        · simp_all <;> omega
-        · simp_all <;> omega
+        · simp_all
+        · simp_all
   case B =>
     obtain ⟨hn, hr, -⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case C =>
     obtain ⟨hn, hr, -⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case D =>
     obtain ⟨hn, hr⟩ := hΛ
     ggRemExc_unfold
     all_goals
       by_cases h3 : rank = 3
       · subst h3
-        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
       · have h4 : 4 ≤ rank := by omega
-        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case twD =>
     obtain ⟨hn, hr⟩ := hΛ
     ggRemExc_unfold
     all_goals
       have hD : p ∣ 2 ^ n - 1 ∨ p ∣ 2 ^ n + 1 := by
-        rcases hS with h | h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+        rcases hS with h | h | ⟨rfl, rfl⟩ <;> simp_all
       by_cases h2 : rank = 2
       · subst h2
         have hsq := ggRemTableBLExc_dvd_sq_sub hD
         simp_all
       · by_cases h3 : rank = 3
         · subst h3
-          rcases hD with h | h <;> simp_all <;> omega
+          rcases hD with h | h <;> simp_all
         · have hr4 : 4 ≤ rank := by omega
-          rcases hD with h | h <;> simp_all <;> omega
+          rcases hD with h | h <;> simp_all
   case twE6 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case E6 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
       by_cases hp3 : p = 3
       · subst hp3
-        rcases hS with h | ⟨rfl, -⟩ <;> simp_all <;> omega
+        rcases hS with h | ⟨rfl, -⟩ <;> simp_all
       · rcases hS with h | ⟨-, rfl⟩
-        · simp_all <;> omega
+        · simp_all
         · exact absurd rfl hp3
   case E7 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case E8 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case F4 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case triD4 =>
     ggRemExc_unfold
-    all_goals simp_all
   case G2 =>
     ggRemExc_unfold
-    all_goals simp_all
   case twB2 =>
     ggRemExc_unfold
-    all_goals simp_all
   case twF4 =>
     obtain ⟨hn, hr0, -, hn3⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      by_cases hp3 : p = 3 <;> simp_all <;> omega
+      by_cases hp3 : p = 3 <;> simp_all
   case B2der =>
     obtain ⟨hn, hr0, rfl⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨-, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨-, rfl⟩ <;> simp_all
   case G2der =>
     ggRemExc_unfold
-    all_goals simp_all
   case twF4der =>
     ggRemExc_unfold
-    all_goals simp_all
 
 theorem ggRemTableBLExc_resLID_false {p : ℕ} {lab : LargeEvenLabel} (hp : p.Prime)
     (hΛ : LargeEvenInLambda2 lab) (hS : LargeEvenSplit p lab)
@@ -568,32 +553,32 @@ theorem ggRemTableBLExc_resLID_false {p : ℕ} {lab : LargeEvenLabel} (hp : p.Pr
     all_goals
       rcases hS with h | ⟨rfl, rfl⟩
       · by_cases h3 : 3 ≤ rank
-        · simp_all <;> omega
+        · simp_all
         · have hr' : rank = 1 ∨ rank = 2 := by omega
-          rcases hr' with rfl | rfl <;> simp_all <;> omega
-      · simp_all <;> omega
+          rcases hr' with rfl | rfl <;> simp_all
+      · simp_all
   case twA =>
     obtain ⟨hn, hr, -⟩ := hΛ
     ggRemExc_unfold
     all_goals
       have hD2 : p ∣ 2 ^ n + 1 := by
-        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
       by_cases h2 : rank = 2
-      · simp_all <;> omega
+      · simp_all
       · have hr3 : 3 ≤ rank := by omega
         by_cases hn3 : p ∣ n
         · by_cases h3 : p ∣ rank + 1
           · by_cases h5 : rank = 5 ∧ p = 3
-            · simp_all <;> omega
-            · simp_all <;> omega
-          · simp_all <;> omega
-        · simp_all <;> omega
+            · simp_all
+            · simp_all
+          · simp_all
+        · simp_all
   case twD =>
     obtain ⟨hn, hr⟩ := hΛ
     ggRemExc_unfold
     all_goals
       have hD : p ∣ 2 ^ n - 1 ∨ p ∣ 2 ^ n + 1 := by
-        rcases hS with h | h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+        rcases hS with h | h | ⟨rfl, rfl⟩ <;> simp_all
       by_cases h2 : rank = 2
       · subst h2
         have hsq := ggRemTableBLExc_dvd_sq_sub hD
@@ -601,19 +586,19 @@ theorem ggRemTableBLExc_resLID_false {p : ℕ} {lab : LargeEvenLabel} (hp : p.Pr
       · by_cases h3 : rank = 3
         · subst h3
           rcases hD with h | h
-          · simp_all <;> omega
-          · by_cases hn3 : p ∣ n <;> simp_all <;> omega
+          · simp_all
+          · by_cases hn3 : p ∣ n <;> simp_all
         · have hr4 : 4 ≤ rank := by omega
           rcases hD with h | h
-          · simp_all <;> omega
-          · by_cases hn3 : p ∣ n <;> simp_all <;> omega
+          · simp_all
+          · by_cases hn3 : p ∣ n <;> simp_all; omega
   case twE6 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
       have hD2 : p ∣ 2 ^ n + 1 := by
-        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
-      by_cases hn3 : p ∣ n <;> simp_all <;> omega
+        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
+      by_cases hn3 : p ∣ n <;> simp_all
   case E6 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
@@ -621,74 +606,69 @@ theorem ggRemTableBLExc_resLID_false {p : ℕ} {lab : LargeEvenLabel} (hp : p.Pr
       by_cases hp3 : p = 3
       · subst hp3
         by_cases hn3 : 3 ∣ n
-        · rcases hS with h | ⟨rfl, -⟩ <;> simp_all <;> omega
-        · simp_all <;> omega
+        · rcases hS with h | ⟨rfl, -⟩ <;> simp_all
+        · simp_all
       · rcases hS with h | ⟨-, rfl⟩
-        · simp_all <;> omega
+        · simp_all
         · exact absurd rfl hp3
   case E7 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case E8 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case F4 =>
     obtain ⟨hn, hr0⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case triD4 =>
     ggRemExc_unfold
-    all_goals simp_all
   case G2 =>
     ggRemExc_unfold
-    all_goals simp_all
   case twB2 =>
     ggRemExc_unfold
-    all_goals simp_all
   case twF4 =>
     obtain ⟨hn, hr0, -, hn3⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      by_cases hp3 : p = 3 <;> simp_all <;> omega
+      by_cases hp3 : p = 3 <;> simp_all
   case B =>
     obtain ⟨hn, hr, -⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case C =>
     obtain ⟨hn, hr, -⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
   case D =>
     obtain ⟨hn, hr⟩ := hΛ
     ggRemExc_unfold
     all_goals
       by_cases h3 : rank = 3
       · subst h3
-        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all <;> omega
+        rcases hS with h | ⟨rfl, rfl⟩ <;> simp_all
       · have h4 : 4 ≤ rank := by omega
         rcases hS with h | ⟨rfl, rfl⟩
-        · simp_all <;> omega
+        · simp_all
         · by_cases h5 : rank = 4
-          · simp_all <;> omega
+          · simp_all
           · have h6 : 5 ≤ rank := by omega
             simp_all
   case B2der =>
     obtain ⟨hn, hr0, rfl⟩ := hΛ
     ggRemExc_unfold
     all_goals
-      rcases hS with h | ⟨-, rfl⟩ <;> simp_all <;> omega
+      rcases hS with h | ⟨-, rfl⟩ <;> simp_all
   case G2der =>
     ggRemExc_unfold
-    all_goals simp_all
   case twF4der =>
     ggRemExc_unfold
-    all_goals simp_all
 
 end CFSG.Yardstones.M3f9567aba59d

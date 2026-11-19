@@ -28,7 +28,7 @@ theorem cP_wN : ∀ (v : List ℕ), (∀ l ∈ v, l < 26) → ∀ x,
     change CFSG.KS.Fi24ThreeO.CF NW NT l (CFSG.KS.Fi24ThreeO.cP NW NT v x) = LN NW l (wN NW v x)
     rw [cP_wN v (fun l' h => hv l' (List.mem_cons_of_mem l h)) x]
     unfold CFSG.KS.Fi24ThreeO.CF
-    rw [if_neg (by have := hv l List.mem_cons_self; omega)]
+    rw [ite_eq_right (by have := hv l List.mem_cons_self; omega)]
 
 theorem wv (hB : Bridge) {w : List ℕ} (hw : ∀ l ∈ w, l < 26) (x : Fin 306936) :
     ((wordElt w) • x).val = wN NW w x.val := by
@@ -179,10 +179,10 @@ theorem evalW_eq {S : List (List ℕ)} {n : Fin 6 → J}
     rw [evalW_cons, e2, wordElt_append, evalW_eq hS hc w]
     dsimp only
     cases c
-    · rw [if_neg (by decide), inv_sq (hc j)]
+    · rw [ite_eq_right (by decide), inv_sq (hc j)]
       change n j * n j * _ = wordElt (nthL S j.val ++ nthL S j.val) * _
       rw [wordElt_append, hS]
-    · rw [if_pos rfl]
+    · rw [ite_eq_left rfl]
       change n j * _ = wordElt (nthL S j.val) * _
       rw [hS]
 

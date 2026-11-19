@@ -33,6 +33,7 @@ noncomputable abbrev leviU (ℓ : ι → ℕ) (g : SpecialLinearGroup ι K) :
       show π (p : SpecialLinearGroup ι K) ∈ leviN U
       exact Subgroup.mem_comap.mp (by rw [hP]; exact p.2))
 
+omit [Finite K] in
 theorem leviTheta_apply (π : SpecialLinearGroup ι K →* G) (U : Subgroup G) (ℓ : ι → ℕ)
     (g : SpecialLinearGroup ι K) (hP : (leviN U).comap π = leviP ℓ g) (p : leviP ℓ g) :
     leviTheta π U ℓ g hP p =
@@ -45,6 +46,7 @@ theorem leviTheta_apply (π : SpecialLinearGroup ι K →* G) (U : Subgroup G) (
   ((MulAut.conj g).symm.toMonoidHom.comp (leviP ℓ g).subtype).codRestrict (stdP ℓ)
     fun p => Subgroup.mem_map_equiv.mp p.2
 
+omit [Finite K] in
 theorem leviInner_apply (ℓ : ι → ℕ) (g : SpecialLinearGroup ι K) (p : leviP ℓ g) :
     ((leviInner ℓ g p : stdP (K := K) ℓ) : SpecialLinearGroup ι K) =
       (MulAut.conj g).symm p.val :=
@@ -55,12 +57,14 @@ theorem leviInner_apply (ℓ : ι → ℕ) (g : SpecialLinearGroup ι K) (p : le
   (QuotientGroup.mk' (Subgroup.center (GL (Block ℓ x) K))).comp
     ((blockHom ℓ x).comp (leviInner ℓ g))
 
+omit [Finite K] in
 theorem leviF_apply (ℓ : ι → ℕ) (g : SpecialLinearGroup ι K) (x : ℕ) (p : leviP ℓ g) :
     leviF ℓ g x p =
       QuotientGroup.mk' (Subgroup.center (GL (Block ℓ x) K))
         (blockHom ℓ x (leviInner ℓ g p)) :=
   rfl
 
+omit [Finite K] in
 theorem leviTheta_surjective (π : SpecialLinearGroup ι K →* G) (U : Subgroup G) (ℓ : ι → ℕ)
     (g : SpecialLinearGroup ι K) (hP : (leviN U).comap π = leviP ℓ g)
     (hπ : Function.Surjective π) : Function.Surjective (leviTheta π U ℓ g hP) := by
@@ -115,6 +119,7 @@ theorem leviTheta_ker_le_leviF_ker (π : SpecialLinearGroup ι K →* G) (U : Su
   rw [hbu, one_mul, QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
   exact hbz
 
+omit [Finite K] in
 theorem leviBlock_central (ℓ : ι → ℕ) (g : SpecialLinearGroup ι K) (p : leviP ℓ g) {x : ℕ}
     (hp : leviF ℓ g x p = 1) :
     blockHom ℓ x (leviInner ℓ g p) ∈ Subgroup.center (GL (Block ℓ x) K) := by
@@ -160,8 +165,8 @@ theorem leviInner_commutator_mem_stdU (ℓ : ι → ℕ) (g : SpecialLinearGroup
       simp only [map_mul, map_inv]
       rw [hAB]
       group
-    · haveI : IsEmpty (Block ℓ x) := not_nonempty_iff.mp hne
-      haveI : Subsingleton (Matrix (Block ℓ x) (Block ℓ x) K) :=
+    · have : IsEmpty (Block ℓ x) := not_nonempty_iff.mp hne
+      have : Subsingleton (Matrix (Block ℓ x) (Block ℓ x) K) :=
         Matrix.subsingleton_of_empty_left
       exact Subsingleton.elim _ _
   simpa only [hP', hQ', hC'] using hmem
@@ -174,6 +179,7 @@ theorem leviInner_commutator_mem_stdU (ℓ : ι → ℕ) (g : SpecialLinearGroup
   (QuotientGroup.lift (leviTheta π U ℓ g hP).ker (leviF ℓ g x) hx).comp
     (QuotientGroup.liftEquiv (leviTheta π U ℓ g hP).ker hθ rfl).symm.toMonoidHom
 
+omit [Finite K] in
 theorem leviPsi_apply (π : SpecialLinearGroup ι K →* G) (U : Subgroup G)
     (ℓ : ι → ℕ) (g : SpecialLinearGroup ι K) (hP : (leviN U).comap π = leviP ℓ g)
     (hθ : Function.Surjective (leviTheta π U ℓ g hP)) (x : ℕ)

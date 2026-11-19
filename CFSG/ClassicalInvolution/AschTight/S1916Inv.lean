@@ -113,7 +113,7 @@ theorem exists_sq_mem_cStar [IsSimpleGroup G] (hd : Sec19Data p f K z S W)
   have hSN : (S : Subgroup G) ≤ Subgroup.normalizer (K : Set G) := hd.hSz.trans hNC.ge
   set Ψ := normalizerToPGammaL2Mod e hFcard hF h3 with hΨ
   set E := ((S : Subgroup G).subgroupOf (Subgroup.normalizer (K : Set G))).map Ψ with hE
-  have hE2 : IsPGroup 2 E := (S.isPGroup'.comap_subtype).map Ψ
+  have hE2 : IsPGroup 2 E := (S.isPGroup.comap_subtype).map Ψ
   have hXN : sec19X K z ≤ Subgroup.normalizer (K : Set G) :=
     (sec19X_le_centralizer K z).trans hNC.ge
   have hSX : IsSylow2In ((S : Subgroup G) ⊓ sec19X K z) (sec19X K z) :=

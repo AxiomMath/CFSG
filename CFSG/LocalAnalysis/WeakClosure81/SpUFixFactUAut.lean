@@ -23,9 +23,10 @@ private lemma spUFix_suTv_val (hF : Nat.card F = (2 ^ n) ^ 2) {m : ℕ} {e : Fin
         ↥(SUid (unitaryInvolution F 2 n) m)) : GL (Fin m) F) :
       Matrix (Fin m) (Fin m) F) =
       1 + s • vecMulVec e (unitaryInvolution F 2 n ∘ e) := by
-  rw [suTv, dif_pos ⟨he, hs⟩]
+  rw [suTv, dite_eq_left ⟨he, hs⟩]
   rfl
 
+omit [Finite F] [CharP F 2] in
 private lemma spUFix_herm_comp {σ τ : F ≃+* F} (h : ∀ c, σ (τ c) = τ (σ c)) {m : ℕ}
     (v w : Fin m → F) : herm τ (σ ∘ v) (σ ∘ w) = σ (herm τ v w) := by
   simp only [herm]
@@ -48,6 +49,7 @@ private lemma spUFix_herm_mulVec (h : UnitaryFieldData 2 n F) {m : ℕ} {A : GL 
     rw [conjTr, hmap]; exact hA
   rw [herm_mulVec, hA', Matrix.one_mulVec]
 
+omit [Finite F] [CharP F 2] in
 private theorem spUFix_ud_conj_val (h : UnitaryFieldData 2 n F) {σ : F ≃+* F} {m : ℕ}
     {A : GL (Fin m) F}
     (hA : ((A : Matrix (Fin m) (Fin m) F).map h.bar)ᵀ * (A : Matrix (Fin m) (Fin m) F) = 1)

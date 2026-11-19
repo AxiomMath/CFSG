@@ -329,10 +329,10 @@ theorem TightStd8R.no_root_zt (hNR : TightSecNoRootR r n)
   have htY := mem_layerY_of_isUniqueInvolution h hXJ hs.ht
   have hvY := mem_layerY_of_isUniqueInvolution h hX hv
   have hRc : R ≤ coreAt (z * t) (tightCore Rd) :=
-    le_coreAt (z * t) (S.isPGroup'.to_le hs.hR.2.2) hs.hR.2.1
+    le_coreAt (z * t) (S.isPGroup.to_le hs.hR.2.2) hs.hR.2.1
       (Q3CL.T8R.Loc.le_centralizer_mul hs.toStd8Core)
   have hTc : T ≤ coreAt (z * t) J :=
-    le_coreAt (z * t) (S.isPGroup'.to_le hs.hT.2.2) hs.hT.2.1 hs.T_le_centralizer_mul
+    le_coreAt (z * t) (S.isPGroup.to_le hs.hT.2.2) hs.hT.2.1 hs.T_le_centralizer_mul
   have hgY : g ∈ layerY Ω (z * t) := coreAt_le_layerY hXK (hRc hgR)
   have hkY : k ∈ layerY Ω (z * t) := coreAt_le_layerY hXJ (hTc hkT)
   have hyY : y ∈ layerY Ω (z * t) := by

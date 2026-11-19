@@ -23,7 +23,7 @@ namespace Hyp193
 variable {D : Data G} {V₀ : Subgroup G} {p : ℕ} {X : Subgroup G}
 
 theorem isSolvable (h : Hyp193 D V₀ p X) : Group.IsSolvable ↥(X ⊔ D.T) := by
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   obtain ⟨a, ha⟩ := (IsPGroup.iff_card).1 h.isPGroup
   obtain ⟨b, hb⟩ := (IsPGroup.iff_card).1 D.sylowM.isPGroup
   exact CFSG.Quasithin.A312Ru.isSolvable_of_card_pq Nat.prime_two h.prime (Ne.symm h.odd)
@@ -46,8 +46,8 @@ theorem A_le_K (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) : conjSubgr
 
 theorem isSolvable_K (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) :
     Group.IsSolvable ↥K := by
-  haveI := c.hyp.isSolvable
-  exact solvable_of_solvable_injective (Subgroup.inclusion_injective hc.le_H)
+  have := c.hyp.isSolvable
+  exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hc.le_H)
 
 theorem eOneAmb (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) :
     E1.EOneAmb K (conjSubgroup V g) :=
@@ -82,7 +82,7 @@ theorem pCoreOf_le_K (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) :
 
 theorem pCoreOf_le (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) :
     pCoreOf 2 (X ⊔ D.T) ≤ pCoreOf 2 K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact CFSG.LieType.BorelTits.le_pCoreOf_of_le_normalizer 2 (hc.pCoreOf_le_K c)
     (hc.le_H.trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 _))
     (CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _)
@@ -100,7 +100,7 @@ theorem g_not_mem_M (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) : g �
 
 theorem exists_orderOf_eq (c : MinCex193 D V₀ V p X) (hc : Conf196 D V X g K) :
     ∃ x ∈ K, orderOf x = p := by
-  haveI : Fact p.Prime := ⟨c.hyp.prime⟩
+  have : Fact p.Prime := ⟨c.hyp.prime⟩
   obtain ⟨p', hp', hp'2, R, hRK, -, hOR, hRp, -, hRne, -, -⟩ := hc.eOneAmb c
   obtain ⟨x, hxR, hxO⟩ : ∃ x ∈ R, x ∉ pCoreOf 2 K := by
     by_contra hcon

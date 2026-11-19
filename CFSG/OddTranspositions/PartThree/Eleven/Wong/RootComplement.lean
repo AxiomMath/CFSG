@@ -31,8 +31,8 @@ private lemma u_ne_one : D.u ≠ 1 :=
 
 private lemma isKleinFour_closure_t_u [Finite G] :
     IsKleinFour (closure {D.t, D.u} : Subgroup G) := by
-  haveI : Fintype (closure {D.t, D.u} : Subgroup G) := Fintype.ofFinite _
-  haveI : Nontrivial (closure {D.t, D.u} : Subgroup G) := by
+  have : Fintype (closure {D.t, D.u} : Subgroup G) := Fintype.ofFinite _
+  have : Nontrivial (closure {D.t, D.u} : Subgroup G) := by
     rw [← Fintype.one_lt_card_iff_nontrivial, ← Nat.card_eq_fintype_card, card_closure_t_u D]
     norm_num
   refine IsKleinFour.mk (card_closure_t_u D) ?_
@@ -86,7 +86,7 @@ private lemma closure_t_u_le_centralizer_sup :
     closure {D.t, D.u} ≤
       centralizer ((D.D1 ⊔ closure {D.t, D.u} : Subgroup G) : Set G) := by
   rw [CFSG.GroupTheory.centralizer_sup_eq_inf_centralizer]
-  haveI := isMulCommutative_closure_t_u D
+  have := isMulCommutative_closure_t_u D
   exact le_inf (closure_t_u_le_centralizer D) (Subgroup.le_centralizer (H := closure {D.t, D.u}))
 
 private lemma conj_u_of_mem_normalizer_closure_t_u {g : G}
@@ -142,13 +142,13 @@ private lemma normalizer_closure_t_u_inf_le [Finite G] :
 
 private lemma le_of_inf_normalizer_le {P H : Subgroup G} [Finite G]
     (hP : IsPGroup 2 P) (hHP : H ≤ P) (h : normalizer (H : Set G) ⊓ P ≤ H) : P ≤ H := by
-  haveI : Group.IsNilpotent ↥P := hP.isNilpotent
+  have : Group.IsNilpotent ↥P := hP.isNilpotent
   by_contra hle
   have hHlt : H.subgroupOf P < ⊤ := by
     rw [lt_top_iff_ne_top, Ne, Subgroup.subgroupOf_eq_top]
     exact fun htop => hle htop
   have hnc := Group.normalizerCondition_of_isNilpotent (G := ↥P)
-  obtain ⟨x, hxN, hxH⟩ := SetLike.exists_of_lt (hnc (H.subgroupOf P) hHlt)
+  obtain ⟨x, hxN, hxH⟩ := _root_.IsConcreteLE.exists_of_lt (hnc (H.subgroupOf P) hHlt)
   rw [← Subgroup.subgroupOf_normalizer_eq hHP] at hxN
   exact hxH (Subgroup.mem_subgroupOf.mpr
     (h (Subgroup.mem_inf.mpr ⟨Subgroup.mem_subgroupOf.mp hxN, x.2⟩)))
@@ -208,7 +208,7 @@ private lemma sylow_closure_t_u [Finite G] :
   have hSeq : (S : Subgroup ↥(centralizer (D.D1 : Set G))) =
       (closure {D.t, D.u}).subgroupOf (centralizer (D.D1 : Set G)) := by
     have hP2 : IsPGroup 2 ((S : Subgroup ↥(centralizer (D.D1 : Set G))).map
-        (centralizer (D.D1 : Set G)).subtype) := S.isPGroup'.map _
+        (centralizer (D.D1 : Set G)).subtype) := S.isPGroup.map _
     have hPC : (S : Subgroup ↥(centralizer (D.D1 : Set G))).map
         (centralizer (D.D1 : Set G)).subtype ≤ centralizer (D.D1 : Set G) :=
       Subgroup.map_subtype_le _
@@ -248,8 +248,8 @@ private lemma D1_le_R : D.D1 ≤ D.R := by
   exact mul_mem (mem_sup_left ⟨a, rfl⟩) (mem_sup_right ⟨a, rfl⟩)
 
 private lemma isMulCommutative_R : IsMulCommutative D.R := by
-  haveI h1 : IsMulCommutative D.P1 := Subgroup.range_isMulCommutative D.q1
-  haveI h2 : IsMulCommutative D.P2 := Subgroup.range_isMulCommutative D.q2
+  have h1 : IsMulCommutative D.P1 := Subgroup.range_isMulCommutative D.q1
+  have h2 : IsMulCommutative D.P2 := Subgroup.range_isMulCommutative D.q2
   have hR : D.R = D.P1 ⊔ D.P2 := rfl
   rw [hR]
   refine Subgroup.le_centralizer_iff_isMulCommutative.mp ?_
@@ -268,7 +268,7 @@ private lemma isMulCommutative_R : IsMulCommutative D.R := by
     (le_inf h21 (Subgroup.le_centralizer (H := D.P2)))
 
 private lemma R_le_centralizer : D.R ≤ centralizer (D.D1 : Set G) := by
-  haveI := isMulCommutative_R D
+  have := isMulCommutative_R D
   exact (Subgroup.le_centralizer (H := D.R)).trans (Subgroup.centralizer_le (D1_le_R D))
 
 private lemma R_le_centralizer_t [Finite G] : D.R ≤ centralizer {D.t} := by
@@ -290,7 +290,7 @@ private lemma card_sup_R_closure_t_u [Finite G] :
     Nat.card (D.R ⊔ closure {D.t, D.u} : Subgroup G) = 100 := by
   obtain ⟨-, -, -, -, hRcard, -, -, -, -, -, -, -⟩ := D.diagonal_unipotent_local_data
   have hinf : D.R ⊓ closure {D.t, D.u} = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [hRcard, card_closure_t_u D]
     norm_num
   rw [CFSG.GH74.GLS.SP.card_sup_of_inf_eq_bot (closure_t_u_le_normalizer_R D) hinf,
@@ -587,7 +587,7 @@ private lemma closure_t_u_le_normalizer_Q :
     ((Subgroup.normal_subgroupOf_iff_le_normalizer D.Q_le_centralizer).mp hnormal)
 
 private lemma card_Q [Finite G] : Nat.card D.Q = 125 := by
-  haveI : IsKleinFour ↥(closure {D.t, D.u}) := isKleinFour_closure_t_u D
+  have : IsKleinFour ↥(closure {D.t, D.u}) := isKleinFour_closure_t_u D
   have hBW := CFSG.ABGLocalTools.card_mul_card_centralizer_four_sq
     (T := closure {D.t, D.u}) (K := D.Q) D.odd_card_Q (closure_t_u_le_normalizer_Q D)
     (subset_closure (by simp)) (subset_closure (by simp)) (t_ne_one D) (u_ne_one D)
@@ -608,7 +608,7 @@ private lemma relIndex_Q [Finite G] : D.Q.relIndex (centralizer (D.D1 : Set G)) 
         D.Q.relIndex (centralizer (D.D1 : Set G)) := dvd_mul_left _ _
     rwa [hmul, relIndex_pPrimeCore D] at h
   have hQ_inf_F : D.Q ⊓ closure {D.t, D.u} = ⊥ := by
-    refine Subgroup.inf_eq_bot_of_coprime ?_
+    refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
     rw [card_Q D, card_closure_t_u D]
     norm_num
   have hge : 4 ≤ D.Q.relIndex (centralizer (D.D1 : Set G)) := by
@@ -661,7 +661,7 @@ private lemma u_ne_t_mul_u [Finite G] : D.u ≠ D.t * D.u := by
 
 private lemma Q_eq_mul [Finite G] :
     (D.Q : Set G) = (D.R.map (MulAut.conj D.y⁻¹).toMonoidHom : Set G) * (D.R : Set G) := by
-  haveI : IsKleinFour ↥(closure {D.t, D.u}) := isKleinFour_closure_t_u D
+  have : IsKleinFour ↥(closure {D.t, D.u}) := isKleinFour_closure_t_u D
   have hprod := CFSG.ABGLocalTools.four_group_odd_eq_mul_centralizers
     (T := closure {D.t, D.u}) (K := D.Q) D.odd_card_Q (closure_t_u_le_normalizer_Q D)
     (a₁ := D.t * D.u) (a₂ := D.u) (a₃ := D.t)

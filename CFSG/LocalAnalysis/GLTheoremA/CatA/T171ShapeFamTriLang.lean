@@ -28,7 +28,7 @@ theorem triCompClassical_holds : TriCompClassical := by
   classical
   obtain ⟨hf1, hK, hσ⟩ := hdata
   let q : TauCeti.PrimePower := ⟨2, f, Nat.prime_two, hf1⟩
-  haveI : Finite (TriGrp K σ) := Subtype.finite
+  have : Finite (TriGrp K σ) := Subtype.finite
   have hKq : Nat.card K = (q.p ^ q.exponent) ^ 3 := hK
   have hσq : ∀ c, σ c = c ^ (q.p ^ q.exponent) := hσ
   have hpq : p ≠ q.p := hp2

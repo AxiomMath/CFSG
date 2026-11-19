@@ -18,6 +18,7 @@ section Orth
 variable {K V : Type} [Field K] [Finite K] [CharP K 2] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V]
 
+omit [Finite K] in
 theorem odd_finrank_commSpace_of_normalClosure_eq_top [Nontrivial V] {Q : QuadraticForm K V}
     (hQ : Q.polarBilin.Nondegenerate) (d : ↥(TauCeti.QuadraticMap.orthogonalGroup Q))
     (hcl : Subgroup.normalClosure ({d} : Set ↥(TauCeti.QuadraticMap.orthogonalGroup Q)) = ⊤) :
@@ -61,17 +62,19 @@ theorem map_eq_natCast_finrank_commSpace {Q : QuadraticForm K V}
     Q u = (finrank K (orthCommSpace g) : K) := by
   exact w85g_map_eq_natCast_finrank_commSpace hQ hg hgg hu
 
+omit [Finite K] [FiniteDimensional K V] in
 theorem apply_eq_of_polar_sq_eq {Q : QuadraticForm K V} (hQ : Q.polarBilin.Nondegenerate)
     {g : V ≃ₗ[K] V} {u : V} (hu : ∀ x : V, (polar Q x u) ^ 2 = Q (g x - x))
     {h : V ≃ₗ[K] V} (hh : h ∈ TauCeti.QuadraticMap.orthogonalGroup Q) (hhg : h * g = g * h) :
     h u = u := by
   exact w85g_apply_eq_of_polar_sq_eq hQ hu hh hhg
 
+omit [Finite K] in
 theorem exists_orthogonalGroup_apply_eq_of_map_eq_one {Q : QuadraticForm K V}
-    (hQ : Q.polarBilin.Nondegenerate) (hd : 4 ≤ finrank K V) {x y : V} (hx : Q x = 1)
+    (hQ : Q.polarBilin.Nondegenerate) (_hd : 4 ≤ finrank K V) {x y : V} (hx : Q x = 1)
     (hy : Q y = 1) : ∃ g ∈ TauCeti.QuadraticMap.orthogonalGroup Q, g x = y := by
-  have hx0 : x ≠ 0 := by rintro rfl; simpa using hx
-  have hy0 : y ≠ 0 := by rintro rfl; simpa using hy
+  have hx0 : x ≠ 0 := by rintro rfl; simp at hx
+  have hy0 : y ≠ 0 := by rintro rfl; simp at hy
   obtain ⟨g, hg, hgx⟩ :=
     CFSG.RankThree.OrthogonalInvolutions.exists_mem_orthogonalGroup_apply_eq hQ
       (u := fun _ : Fin 1 => x) (u' := fun _ : Fin 1 => y)
@@ -101,10 +104,10 @@ theorem not_centralInSylow_orth [Nontrivial V] {Q : QuadraticForm K V}
     (hcl : Subgroup.normalClosure ({d} : Set ↥(TauCeti.QuadraticMap.orthogonalGroup Q)) = ⊤) :
     ¬ CentralInSylow ↥(TauCeti.QuadraticMap.orthogonalGroup Q) (Subgroup.zpowers d) := by
   classical
-  haveI : Finite V := Module.finite_of_finite K
-  haveI : Finite (V ≃ₗ[K] V) :=
+  have : Finite V := Module.finite_of_finite K
+  have : Finite (V ≃ₗ[K] V) :=
     Finite.of_injective (fun f : V ≃ₗ[K] V => (f : V → V)) DFunLike.coe_injective
-  haveI : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := inferInstance
+  have : Finite ↥(TauCeti.QuadraticMap.orthogonalGroup Q) := inferInstance
   intro hc
   have hodd := (centralInSylow_zpowers_iff_odd_index d hdd).1 hc
   have hgg : (d : V ≃ₗ[K] V) * d = 1 := by

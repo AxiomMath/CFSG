@@ -39,8 +39,8 @@ theorem gamma_card_dvd_of_le_normalizer {P L : Subgroup K} (hp : (Nat.card P).Pr
   have hcard : Nat.card L = Nat.card f.ker * Nat.card f.range :=
     (Subgroup.card_ker_mul_card_range f).symm
   have hrange : Nat.card f.range ∣ Nat.card P - 1 := by
-    haveI : Fact (Nat.card P).Prime := ⟨hp⟩
-    haveI : IsCyclic P := isCyclic_of_prime_card (p := Nat.card P) rfl
+    have : Fact (Nat.card P).Prime := ⟨hp⟩
+    have : IsCyclic P := isCyclic_of_prime_card (p := Nat.card P) rfl
     have h1 : Nat.card f.range ∣ Nat.card (MulAut P) := Subgroup.card_subgroup_dvd_card _
     rwa [IsCyclic.card_mulAut, Nat.totient_prime hp] at h1
   rw [hcard, hcard_ker]
@@ -50,7 +50,7 @@ theorem gamma_card_modEq_of_le_normalizer {q : ℕ} [Fact q.Prime] {P R : Subgro
     (hR : IsPGroup q R) (hRP : R ≤ Subgroup.normalizer (P : Set K)) :
     Nat.card P ≡ Nat.card ↥(P ⊓ Subgroup.centralizer (R : Set K)) [MOD q] := by
   let f : R →* MulAut P := P.normalizerMonoidHom.comp (Subgroup.inclusion hRP)
-  letI : MulAction R P := MulAction.compHom P f
+  let : MulAction R P := MulAction.compHom P f
   have hsmul : ∀ (r : R) (x : P), ((r • x : P) : K) = r * x * (r : K)⁻¹ := by
     intro r x
     change ((f r x : P) : K) = r * x * (r : K)⁻¹

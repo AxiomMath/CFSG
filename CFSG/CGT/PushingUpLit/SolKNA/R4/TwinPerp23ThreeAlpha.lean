@@ -46,7 +46,7 @@ theorem bGrp_comm' {x y : Y} (hx : x ∈ bGrp d.D) (hy : y ∈ bGrp d.D) : x * y
   bGrp_comm d.D d.hc x hx y hy
 
 theorem bGrp_le_centralizer {x : Y} (hx : x ∈ bGrp d.D) :
-    bGrp d.D ≤ Subgroup.centralizer ({x} : Set Y) := fun y hy =>
+    bGrp d.D ≤ Subgroup.centralizer ({x} : Set Y) := fun _y hy =>
   Subgroup.mem_centralizer_singleton_iff.mpr (d.bGrp_comm' hy hx)
 
 theorem isElemAbelian2_pair {a b : Y} (ha : a ∈ bGrp d.D) (hb : b ∈ bGrp d.D) (ha1 : a ≠ 1)
@@ -179,7 +179,7 @@ theorem alpha_eq_bot (he1 : d.D.ce ≠ 1)
   exact le_bot_iff.mp hle
 
 omit hH in
-theorem u_ne_ce (he1 : d.D.ce ≠ 1) : d.D.u ≠ d.D.ce := by
+theorem u_ne_ce (_he1 : d.D.ce ≠ 1) : d.D.u ≠ d.D.ce := by
   intro h
   have h1 := e_mul_j d.D d.hc
   rw [← h] at h1

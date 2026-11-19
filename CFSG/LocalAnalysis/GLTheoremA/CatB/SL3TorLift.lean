@@ -17,8 +17,8 @@ theorem lift_torus {H M : Type} [Group H] [Finite H] [Group M] [Finite M]
       ∃ T : Subgroup H, IsPGroup 2 T ∧ (∀ w ∈ W, w ∈ Subgroup.normalizer (T : Set H)) ∧
         ¬ T ≤ π.ker := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hEπ : E0 ≤ π.range := by
     rw [MonoidHom.range_eq_top.2 hsurj]
     exact le_top
@@ -93,7 +93,7 @@ theorem lift_torus {H M : Type} [Group H] [Finite H] [Group M] [Finite M]
   have hact : ∀ (w : W) (t : T₁), T₁.subtype (c w t) = (w : H) * T₁.subtype t * (w : H)⁻¹ :=
     fun w t => rfl
   let T : Subgroup H := (S₀ : Subgroup T₁).map T₁.subtype
-  have hT2 : IsPGroup 2 T := (S₀.isPGroup').map T₁.subtype
+  have hT2 : IsPGroup 2 T := (S₀.isPGroup).map T₁.subtype
   have hTnorm : ∀ w ∈ W, w ∈ Subgroup.normalizer (T : Set H) := by
     intro w hw
     rw [Subgroup.mem_normalizer_iff]
@@ -143,7 +143,7 @@ theorem lift_torus {H M : Type} [Group H] [Finite H] [Group M] [Finite M]
   have hWab : IsElemAbelian 3 W := by
     refine ⟨⟨⟨fun a b => ?_⟩⟩, ?_⟩
     · apply hWinj
-      simp only [MonoidHom.comp_apply, Subgroup.coe_subtype, map_mul, Subgroup.coe_mul]
+      simp only [MonoidHom.comp_apply, Subgroup.coe_subtype, map_mul]
       have hca := hmemE a a.2
       have hcb := hmemE b b.2
       have := hE0ab.1.is_comm.comm ⟨π a, hca⟩ ⟨π b, hcb⟩

@@ -16,6 +16,7 @@ section Model2
 
 variable {K : Type} [Field K] [CharP K 2] {γ : G → K}
 
+omit [Finite G] in
 theorem conj_pow_mem {τ : G} (hτ : ∀ y ∈ Q, τ⁻¹ * y * τ ∈ Q) (k : ℕ) {y : G} (hy : y ∈ Q) :
     (τ ^ k)⁻¹ * y * τ ^ k ∈ Q := by
   induction k generalizing y with
@@ -25,6 +26,7 @@ theorem conj_pow_mem {τ : G} (hτ : ∀ y ∈ Q, τ⁻¹ * y * τ ∈ Q) (k : �
     rwa [show (τ ^ k)⁻¹ * (τ⁻¹ * y * τ) * τ ^ k = (τ ^ (k + 1))⁻¹ * y * τ ^ (k + 1) by
       rw [pow_succ]; group] at h1
 
+omit [CharP K 2] [Finite G] in
 theorem Top_pow_apply {a : K} {τ : G} (hτ : ∀ y ∈ Q, τ⁻¹ * y * τ ∈ Q) (k : ℕ) (φ : ↥Q → K)
     (y : ↥Q) :
     (Top Q a τ hτ ^ k) φ y = a ^ k * φ ⟨(τ ^ k)⁻¹ * y * τ ^ k, conj_pow_mem hτ k y.2⟩ := by
@@ -41,6 +43,7 @@ theorem Top_pow_apply {a : K} {τ : G} (hτ : ∀ y ∈ Q, τ⁻¹ * y * τ ∈ 
     rw [pow_succ (Top Q a τ hτ) k, Module.End.mul_apply, ih, e, pow_succ a k]
     ring
 
+omit [CharP K 2] [Finite G] in
 theorem Top_pow_eq_one {a : K} {τ : G} (hτ : ∀ y ∈ Q, τ⁻¹ * y * τ ∈ Q) {N : ℕ} (hτN : τ ^ N = 1)
     (haN : a ^ N = 1) : Top Q a τ hτ ^ N = 1 := by
   refine LinearMap.ext fun φ => funext fun y => ?_
@@ -56,11 +59,13 @@ variable (C : ModelCtx V Q γ)
 
 include C
 
+omit [Finite G] [CharP K 2] in
 theorem jf_pow {x : G} (hx : x ∈ Q) (k : ℕ) : jf γ Q (x ^ k) = k • jf γ Q x := by
   induction k with
   | zero => simp [jf_one C]
   | succ k ih => rw [pow_succ, jf_mul C (Subgroup.pow_mem _ hx _) hx, ih, succ_nsmul]
 
+omit [Finite G] [CharP K 2] in
 theorem jf_prod_range (xs : ℕ → G) (hxs : ∀ i, xs i ∈ Q) (c : ℕ → ℕ) (m : ℕ) :
     jf γ Q (((List.range m).map fun i => (xs i) ^ (c i)).prod) =
       ∑ i ∈ Finset.range m, c i • jf γ Q (xs i) := by
@@ -76,6 +81,7 @@ theorem jf_prod_range (xs : ℕ → G) (hxs : ∀ i, xs i ∈ Q) (c : ℕ → �
     rw [List.map_cons, List.map_nil, List.prod_cons, List.prod_nil, mul_one,
       jf_mul C hpre (Subgroup.pow_mem _ (hxs m) _), jf_pow C (hxs m)]
 
+omit [Finite G] in
 theorem Wsp_add_right {S : Set G} (hS : S ⊆ Q) {φ : ↥Q → K} (hφ : φ ∈ Wsp γ Q S) (y y' : ↥Q) :
     φ (y * y') = φ y + φ y' := by
   induction hφ using Submodule.span_induction with
@@ -86,6 +92,7 @@ theorem Wsp_add_right {S : Set G} (hS : S ⊆ Q) {φ : ↥Q → K} (hφ : φ ∈
   | add φ₁ φ₂ _ _ h₁ h₂ => simp only [Pi.add_apply, h₁, h₂]; ring
   | smul c φ _ h => simp only [Pi.smul_apply, smul_eq_mul, h]; ring
 
+omit [Finite G] [CharP K 2] in
 theorem Wsp_vanish_of_commute {S : Set G} {φ : ↥Q → K} (hφ : φ ∈ Wsp γ Q S) {y : ↥Q}
     (hy : ∀ x ∈ S, x * (y : G) = (y : G) * x) : φ y = 0 := by
   induction hφ using Submodule.span_induction with
@@ -96,6 +103,7 @@ theorem Wsp_vanish_of_commute {S : Set G} {φ : ↥Q → K} (hφ : φ ∈ Wsp γ
   | add φ₁ φ₂ _ _ h₁ h₂ => simp only [Pi.add_apply, h₁, h₂, add_zero]
   | smul c φ _ h => simp only [Pi.smul_apply, h, smul_zero]
 
+omit [Finite G] in
 theorem Wsp_disjoint {Q₀ : Subgroup G} (hQ₀ : Q₀ ≤ Q)
     (hQ : Q = Q₀ ⊔ (Q ⊓ Subgroup.centralizer (Q₀ : Set G))) :
     Disjoint (Wsp γ Q (Q₀ : Set G))
@@ -118,6 +126,7 @@ theorem Wsp_disjoint {Q₀ : Subgroup G} (hQ₀ : Q₀ ≤ Q)
   rw [hyeq, Wsp_add_right C hsub₀ h₀, h1, h2, add_zero]
   rfl
 
+omit [Finite G] [CharP K 2] in
 theorem Wsp_ne_bot {S : Set G} {x : G} (hx : x ∈ S) (hxQ : x ∈ Q) (hxV : x ∉ V) :
     Wsp γ Q S ≠ ⊥ := by
   intro h
@@ -131,6 +140,7 @@ theorem Wsp_ne_bot {S : Set G} {x : G} (hx : x ∈ S) (hxQ : x ∈ Q) (hxV : x �
   have h3 : ⁅x, y⁆ = 1 := C.γ_inj _ (C.comm_mem x hxQ y hyQ) h1
   exact hxy (commutatorElement_eq_one_iff_mul_comm.mp h3)
 
+omit [Finite G] [CharP K 2] in
 theorem aeval_Top_jf {a : K} {τ : G} (hτ : ∀ y ∈ Q, τ⁻¹ * y * τ ∈ Q)
     (hτ' : ∀ y ∈ Q, τ * y * τ⁻¹ ∈ Q) (hγ : ∀ v ∈ V, γ (τ * v * τ⁻¹) = a * γ v) (p : ℕ[X])
     {x : G} (hx : x ∈ Q) :
@@ -151,6 +161,7 @@ theorem aeval_Top_jf {a : K} {τ : G} (hτ : ∀ y ∈ Q, τ⁻¹ * y * τ ∈ Q
   rw [LinearMap.smul_apply, Top_pow_jf C hτ hτ' hγ hx i, coeff_map, eq_natCast,
     Nat.cast_smul_eq_nsmul]
 
+omit [Finite G] [CharP K 2] in
 theorem Top_sub_one_jf {a : K} {τ : G} (hτ : ∀ y ∈ Q, τ⁻¹ * y * τ ∈ Q)
     (hγ : ∀ v ∈ V, γ (τ * v * τ⁻¹) = a * γ v) {l : G} (hl : l ∈ Q)
     (hτl : τ * l * τ⁻¹ * l⁻¹ ∈ V) : (Top Q a τ hτ - 1) (jf γ Q l) = 0 := by

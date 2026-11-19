@@ -18,7 +18,7 @@ theorem exists_ringEquiv_comp_subtype {k K : Type} [Field k] [Finite k] [Field K
     (ι : k →+* K) (ρ : k ≃+* k) :
     ∃ ρ' : K ≃+* K, ∀ c, ρ' (ι c) = ι (ρ c) := by
   classical
-  haveI : Fintype k := Fintype.ofFinite k
+  have : Fintype k := Fintype.ofFinite k
   obtain ⟨n, hp, hn⟩ := FiniteField.card k (ringChar k)
   have hk : Nat.card k = ringChar k ^ (n : ℕ) := by
     rw [Nat.card_eq_fintype_card]
@@ -26,8 +26,8 @@ theorem exists_ringEquiv_comp_subtype {k K : Type} [Field k] [Finite k] [Field K
   obtain ⟨e, -, hρ⟩ := exists_ringEquiv_eq_frobenius_pow hp n.pos hk ρ
   have hcharP : CharP K (ringChar k) :=
     (RingHom.charP_iff ι ι.injective (ringChar k)).mp (ringChar.charP k)
-  haveI : Fact (ringChar k).Prime := ⟨hp⟩
-  haveI : CharP K (ringChar k) := hcharP
+  have : Fact (ringChar k).Prime := ⟨hp⟩
+  have : CharP K (ringChar k) := hcharP
   refine ⟨iterateFrobeniusEquiv K (ringChar k) e, fun c => ?_⟩
   rw [iterateFrobeniusEquiv_apply, iterateFrobenius_def, hρ c, map_pow]
 
@@ -165,7 +165,7 @@ theorem exists_inndiag_restrict_twFJ {ℓ f : ℕ} (hℓ : ℓ.Prime) (hf : 1 �
       ∀ y, a (twFJModelEquiv σ η y : twistedE6RootGroup K σ) =
         (twFJModelEquiv σ η (ψ y) : twistedE6RootGroup K σ) := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let C := twistedE6RootGroup K σ
   let C₀ := twistedE6RootGroup (fixSubfield η) (fixSubfieldRestrict σ η)
   let J := twFJ σ η

@@ -44,7 +44,7 @@ theorem exists_pointMaps_of_lieModel_psl4
         IsPointMaps ((rhoX S a).comp Ψ) (qS S) P Pd ∧
         LinearMap.range P ⊔ LinearMap.range Pd = ⊤ := by
   classical
-  haveI : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
+  have : FiniteDimensional (ZMod 2) (Additive (QbarOf S)) := Module.Finite.of_finite
   obtain ⟨e⟩ := (CFSG.ComponentClassification.SymmetricLocal.lie_model_linear_four_two_iff _).mp hL
   obtain ⟨Ψ, hs, hinj, hA'⟩ := CFSG.LargeExtraspecial.AS35YU.exists_surjective_sl4_of_lieModel_psl4
     (rootClass_Xsub S h h217 h34) (a2Action_Xsub S a) hL

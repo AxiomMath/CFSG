@@ -175,17 +175,17 @@ theorem set_loop_const {D : ℕ → ℕ} {v : ℕ} : ∀ (m : ℕ) (a : Array �
     refine ⟨by rw [Array.set!_eq_setIfInBounds, Array.size_setIfInBounds, hs], fun p hp => ?_⟩
     rw [getElem!_set!' _ _ _ _ (by rw [hs]; exact hp), hv p hp]
     by_cases e : D m = p
-    · rw [if_pos e, if_pos ⟨m, by omega, e⟩]
-    · rw [if_neg e]
+    · rw [ite_eq_left e, ite_eq_left ⟨m, by omega, e⟩]
+    · rw [ite_eq_right e]
       by_cases h : ∃ k < m, D k = p
       · obtain ⟨k, hk, hk'⟩ := h
-        rw [if_pos ⟨k, hk, hk'⟩, if_pos ⟨k, by omega, hk'⟩]
+        rw [ite_eq_left ⟨k, hk, hk'⟩, ite_eq_left ⟨k, by omega, hk'⟩]
       · have h' : ¬ ∃ k < m + 1, D k = p := by
           rintro ⟨k, hk, hk'⟩
           rcases Nat.lt_succ_iff_lt_or_eq.1 hk with hk | rfl
           · exact h ⟨k, hk, hk'⟩
           · exact e hk'
-        rw [if_neg h, if_neg h']
+        rw [ite_eq_right h, ite_eq_right h']
 
 theorem labelsOf_eq (n : ℕ) (S : Array Tree) : labelsOf n S = (List.range' 0 S.size).foldl
     (fun labs j => (List.range' 0 S[j]!.pts.size).foldl (fun labs k => labs.set! (ap S[j]!.pts k) j)
@@ -237,14 +237,14 @@ theorem labs_loop : ∀ J ≤ 5,
       · rintro ⟨k, hk, e⟩
         exact ⟨k, hk, by rw [rec_pts_ap hk]; exact e⟩
     by_cases h : r32 LB p = J
-    · rw [if_pos (hex.2 h), if_pos (by omega), h]
-    · rw [if_neg (fun h' => h (hex.1 h'))]
+    · rw [ite_eq_left (hex.2 h), ite_eq_left (by omega), h]
+    · rw [ite_eq_right (fun h' => h (hex.1 h'))]
       by_cases h2 : r32 LB p < J
-      · rw [if_pos h2, if_pos (by omega)]
-      · rw [if_neg h2, if_neg (by omega)]
+      · rw [ite_eq_left h2, ite_eq_left (by omega)]
+      · rw [ite_eq_right h2, ite_eq_right (by omega)]
 
 theorem labs_get {p : ℕ} (hp : p < 122760) : (labelsOf nLines subTT)[p]! = r32 LB p := by
-  rw [labelsOf_eq, subTT_size, (labs_loop 5 (le_refl 5)).2 p hp, if_pos (lb_pt hp).1]
+  rw [labelsOf_eq, subTT_size, (labs_loop 5 (le_refl 5)).2 p hp, ite_eq_left (lb_pt hp).1]
 
 theorem inTreeB_eq {i p : ℕ} (hi : i < 5) (hp : p < 122760) :
     inTreeB subTT[i]! p = inTK (3 + i) p := by

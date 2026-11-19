@@ -14,7 +14,7 @@ private lemma s1611e3_sixFixMod_mem_iff {W : Type} [CommGroup W]
     {K : Subgroup (SixE6 × SixE6)} {Φ : SixE6 × SixE6 →* W} (hker : Φ.ker = K)
     (X : Subgroup (MulAut (SixE6 × SixE6))) (u : SixE6 × SixE6) :
     u ∈ sixFixMod K X ↔ ∀ x ∈ X, Φ (x u) = Φ u := by
-  simp only [sixFixMod, Set.mem_setOf_eq]
+  simp only [sixFixMod, Set.mem_ofPred_eq]
   constructor
   · intro hu x hx
     have h : x u * u⁻¹ ∈ Φ.ker := by rw [hker]; exact hu x hx
@@ -35,7 +35,7 @@ private lemma s1611e3_fixV_image {W : Type} [CommGroup W] {M : Subgroup (MulAut 
       w ∈ Φ '' sixFixMod K X := by
   constructor
   · intro hw
-    simp only [fixV, Set.mem_setOf_eq] at hw
+    simp only [fixV] at hw
     obtain ⟨u, rfl⟩ := hΦ w
     refine (Set.mem_image Φ (sixFixMod K X) (Φ u)).mpr ⟨u, ?_, rfl⟩
     rw [s1611e3_sixFixMod_mem_iff hker X u]
@@ -50,7 +50,7 @@ private lemma s1611e3_fixV_image {W : Type} [CommGroup W] {M : Subgroup (MulAut 
     exact h1
   · intro hw
     obtain ⟨u, hu, rfl⟩ := (Set.mem_image Φ (sixFixMod K X) w).mp hw
-    simp only [fixV, Set.mem_setOf_eq]
+    simp only [fixV]
     intro y hy
     obtain ⟨x, hx, rfl⟩ := Subgroup.mem_map.mp hy
     have hxX : (x : MulAut (SixE6 × SixE6)) ∈ X := hx
@@ -113,7 +113,7 @@ private lemma s1611e3_sixFixMod_eq_of_image_eq {W : Type} [CommGroup W] {M : Sub
 
 theorem s1611e3_six_transport {W : Type} [CommGroup W] {M : Subgroup (MulAut W)}
     {K : Subgroup (SixE6 × SixE6)} {Φ : SixE6 × SixE6 →* W} {Θ : ↥sixGhat ≃* ↥M}
-    (hK : K = ⊥ ∨ K = sixDiag) (hΦ : Function.Surjective Φ) (hker : Φ.ker = K)
+    (_hK : K = ⊥ ∨ K = sixDiag) (hΦ : Function.Surjective Φ) (hker : Φ.ker = K)
     (hΘ : ∀ (g : ↥sixGhat) (u : SixE6 × SixE6),
       Φ ((g : MulAut (SixE6 × SixE6)) u) = ((Θ g : ↥M) : MulAut W) (Φ u))
     (hfin : ∀ E : Subgroup (MulAut (SixE6 × SixE6)), E ≤ sixGhat → E ≠ ⊥ →
@@ -122,7 +122,7 @@ theorem s1611e3_six_transport {W : Type} [CommGroup W] {M : Subgroup (MulAut W)}
         sixFixMod K B ≠ sixFixMod K E) :
     ∀ E ∈ E3.aSet 2 M, False := by
   intro E hE
-  simp only [E3.aSet, Set.mem_setOf_eq] at hE
+  simp only [E3.aSet, Set.mem_ofPred_eq] at hE
   obtain ⟨hEM, hEbot, hEab, hEfix⟩ := hE
   let g : ↥M →* MulAut (SixE6 × SixE6) := sixGhat.subtype.comp Θ.symm.toMonoidHom
   let f : ↥sixGhat →* MulAut W := M.subtype.comp Θ.toMonoidHom

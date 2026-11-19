@@ -42,12 +42,15 @@ abbrev SzBar (E : Set G) : Type :=
 @[expose] def szMk (E : Set G) : ↥(Subgroup.closure E) →* SzBar E :=
   QuotientGroup.mk' (CFSG.pCore 2 ↥(Subgroup.closure E))
 
+omit [Finite G] in
 theorem SzCfg.subset_commSet (c : SzCfg G D d E e n) : E ⊆ commSet D d :=
   OddLocal.subset_commSet c.hyp.setup.normal c.maxOrbit
 
+omit [Finite G] in
 theorem SzCfg.d_not_mem (c : SzCfg G D d E e n) : d ∉ E := fun hd =>
   (c.subset_commSet hd).2.2 rfl
 
+omit [Finite G] in
 theorem SzCfg.conj_mem (c : SzCfg G D d E e n) {h a : G} (hh : h ∈ Subgroup.closure E)
     (ha : a ∈ E) : h * a * h⁻¹ ∈ E := by
   have himage : (fun y => h * y * h⁻¹) '' E = E :=
@@ -56,6 +59,7 @@ theorem SzCfg.conj_mem (c : SzCfg G D d E e n) {h a : G} (hh : h ∈ Subgroup.cl
   rw [← himage]
   exact ⟨a, ha, rfl⟩
 
+omit [Finite G] in
 theorem SzCfg.exists_conj (c : SzCfg G D d E e n) {a b : G} (ha : a ∈ E) (hb : b ∈ E) :
     ∃ h ∈ Subgroup.closure E, h * a * h⁻¹ = b := by
   obtain ⟨h, hh, hb'⟩ := OddLocal.orbitGen c.hyp.setup c.maxOrbit ha b hb
@@ -71,6 +75,7 @@ theorem SzCfg.exists_not_commute (c : SzCfg G D d E e n) {a : G} (ha : a ∈ E) 
     OddLocal.exists_not_commute c.hyp.setup c.d_mem c.maxOrbit hconn ha
   exact ⟨x, hx, fun h => hxa h.symm⟩
 
+omit [Finite G] in
 theorem SzCfg.rootSet_subset_of_mem (c : SzCfg G D d E e n) {a : G} (ha : a ∈ E) :
     rootSet D a ⊆ E := by
   obtain ⟨e₀, he₀, hEeq, -⟩ := c.maxOrbit
@@ -91,6 +96,7 @@ theorem SzCfg.rootSet_subset_of_mem (c : SzCfg G D d E e n) {a : G} (ha : a ∈ 
   obtain ⟨y, hy, rfl⟩ := hx
   exact himage ▸ ⟨y, c.rootSet_subset hy, rfl⟩
 
+omit [Finite G] in
 theorem SzCfg.setup (c : SzCfg G D d E e n) :
     Asc72.Setup ↥(Subgroup.closure E) (szE E) := by
   let H : Subgroup G := Subgroup.closure E
@@ -101,6 +107,7 @@ theorem SzCfg.setup (c : SzCfg G D d E e n) :
   have h1 := OddLocal.setup_hClass c.hyp.setup.oddT c.hyp.setup.normal heH heD hgen
   simpa [szE, hclass] using h1
 
+omit [Finite G] in
 theorem SzCfg.perfect (c : SzCfg G D d E e n) :
     commutator ↥(Subgroup.closure E) = ⊤ := by
   let H : Subgroup G := Subgroup.closure E
@@ -116,6 +123,7 @@ theorem SzCfg.perfect (c : SzCfg G D d E e n) :
     simpa [szE] using hevE
   exact OddLocal.commutator_eq_top_of_mul_mem hsetup heH hvH hevH
 
+omit [Finite G] in
 theorem mem_szQ_iff {x : G} : x ∈ szQ E ↔ ∃ h : x ∈ Subgroup.closure E,
     (⟨x, h⟩ : ↥(Subgroup.closure E)) ∈ CFSG.pCore 2 ↥(Subgroup.closure E) := by
   rw [szQ, CFSG.Open.pCoreOf, Subgroup.mem_map]
@@ -128,9 +136,11 @@ theorem mem_szQ_iff {x : G} : x ∈ szQ E ↔ ∃ h : x ∈ Subgroup.closure E,
   · rintro ⟨hx, hxQ⟩
     exact ⟨⟨x, hx⟩, hxQ, rfl⟩
 
+omit [Finite G] in
 theorem szQ_le_closure (E : Set G) : szQ E ≤ Subgroup.closure E :=
   CFSG.openPCoreOf_le 2 _
 
+omit [Finite G] in
 private theorem isPGroup_zpowers_sup_pCore {H : Subgroup G} {x : G} (hx : x ∈ H)
     (hx2 : x * x = 1) :
     IsPGroup 2 ↥(Subgroup.zpowers (⟨x, hx⟩ : H) ⊔ CFSG.pCore 2 H) := by
@@ -143,6 +153,7 @@ private theorem isPGroup_zpowers_sup_pCore {H : Subgroup G} {x : G} (hx : x ∈ 
     exact le_top
   exact IsPGroup.to_sup_of_normal_right' h1 (CFSG.pCore_isPGroup (p := 2) (G := H)) hnorm
 
+omit [Finite G] in
 theorem conj_mem_szQ {g x : G}
     (hg : (fun y => g * y * g⁻¹) '' E = E) (hx : x ∈ szQ E) :
     g * x * g⁻¹ ∈ szQ E := by
@@ -171,6 +182,7 @@ theorem conj_mem_szQ {g x : G}
   · convert hφQ using 2
     exact (hφ ⟨x, hxH⟩).symm
 
+omit [Finite G] in
 theorem SzCfg.conj_mem_szZ (c : SzCfg G D d E e n) {h z : G}
     (hh : h ∈ Subgroup.closure E) (hz : z ∈ szZ E) : h * z * h⁻¹ ∈ szZ E := by
   have hnorm : h ∈ Subgroup.normalizer E :=
@@ -214,6 +226,7 @@ theorem SzCfg.not_mem_szQ (c : SzCfg G D d E e n) {a : G} (ha : a ∈ E) : a ∉
       (Subgroup.mem_sup_left (Subgroup.mem_zpowers _)) (Subgroup.mem_sup_right haQ)
   exact hxa ((commute_coe_iff (H := H)).mpr hcomm)
 
+omit [Finite G] in
 theorem isPGroup_zpowers_sup_szQ {x : G}
     (hx : x ∈ Subgroup.closure E) (hx2 : x * x = 1) :
     IsPGroup 2 ↥(Subgroup.zpowers x ⊔ szQ E) := by
@@ -230,6 +243,7 @@ theorem isPGroup_zpowers_sup_szQ {x : G}
   have h' := h.map H.subtype
   rwa [hmap] at h'
 
+omit [Finite G] in
 theorem SzCfg.commute_of_inv_mul_mem (c : SzCfg G D d E e n) {u v : G} (hu : u ∈ D)
     (hv : v ∈ D) (huH : u ∈ Subgroup.closure E) (huv : u⁻¹ * v ∈ szQ E) :
     Commute u v := by
@@ -262,6 +276,7 @@ theorem SzCfg.commute_of_inv_mul_mem (c : SzCfg G D d E e n) {u v : G} (hu : u �
       (show vH ∈ ((↑) : H → G) ⁻¹' D from hv)).mp hquot
   exact (commute_coe_iff (H := H)).mpr hcomm
 
+omit [Finite G] in
 theorem SzCfg.commute_mk_iff (c : SzCfg G D d E e n) {u v : ↥(Subgroup.closure E)}
     (hu : (u : G) ∈ E) (hv : (v : G) ∈ E) :
     Commute (szMk E u) (szMk E v) ↔ Commute u v :=
@@ -269,6 +284,7 @@ theorem SzCfg.commute_mk_iff (c : SzCfg G D d E e n) {u v : ↥(Subgroup.closure
     (CFSG.pCore_isPGroup (p := 2) (G := ↥(Subgroup.closure E)))
     (show u ∈ szE E from hu) (show v ∈ szE E from hv)
 
+omit [Finite G] in
 theorem SzCfg.isBenderGroup_zStar (c : SzCfg G D d E e n) :
     IsBenderGroup (↥(Subgroup.closure E) ⧸ zStar ↥(Subgroup.closure E)) := by
   obtain ⟨e⟩ := c.iso

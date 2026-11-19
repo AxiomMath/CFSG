@@ -48,6 +48,7 @@ namespace S11
 
 variable {G : Type} [Group G] [Finite G] {m p q : ℕ} {B : Subgroup G} {x : G} {L : Subgroup G}
 
+omit [Finite G] in
 private theorem counterb_isPGroup_subgroupOf {q : ℕ} {Q L : Subgroup G} (hQ : IsPGroup q Q) :
     IsPGroup q (Q.subgroupOf L) := by
   intro g
@@ -83,7 +84,7 @@ private theorem counterb_twoLocalRank_le {q : ℕ} (hq : q.Prime) (L : Subgroup 
 private theorem counterb_card_le_of_twoLocal {p : ℕ} (hp : p.Prime) {M E : Subgroup G}
     (hM : IsTwoLocal M) (hEM : E ≤ M) (hE : IsElemAbelian p E) :
     Nat.card E ≤ p ^ GLATwoLocalRank p G := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp1 : 1 < p := hp.one_lt
   have hEp : IsPGroup p ↥E := fun g => ⟨1, by
     rw [pow_one]
@@ -99,12 +100,13 @@ private theorem counterb_card_le_of_twoLocal {p : ℕ} (hp : p.Prime) {M E : Sub
   rw [hn]
   exact Nat.pow_le_pow_right hp.pos (h1.trans (h2.trans h3))
 
+omit [Finite G] in
 private theorem counterb_sup_zpowers {p : ℕ} (hp : p.Prime) {B L T : Subgroup G} {x : G}
     (hB : IsElemAbelian p B) (hxB : x ∈ B) (hx1 : x ≠ 1) (hxL : ∀ l ∈ L, l * x = x * l)
     (hd : IsDirectZpowersInf B x L) (hT : IsElemAbelian p T) (hTL : T ≤ L) :
     IsElemAbelian p (T ⊔ Subgroup.zpowers x) ∧
       Nat.card ↥(T ⊔ Subgroup.zpowers x) = Nat.card ↥T * p := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxp : x ^ p = 1 := hB.2 x hxB
   have hord : orderOf x = p := orderOf_eq_prime hxp hx1
   have hZ : IsElemAbelian p (Subgroup.zpowers x) := CFSG.SectionRank.QTK.isElemAbelian_zpowers hxp
@@ -122,6 +124,7 @@ private theorem counterb_sup_zpowers {p : ℕ} (hp : p.Prime) {B L T : Subgroup 
   obtain ⟨h1, h2⟩ := CFSG.SectionRank.QTK.CentreFact.layer_isElemAbelian_sup_card hT hZ hAB hdisj
   exact ⟨h1, by rw [h2, Nat.card_zpowers, hord]⟩
 
+omit [Finite G] in
 private theorem counterb_inf_cent_sup {K T : Subgroup G} {x : G} (hK : ∀ l ∈ K, l * x = x * l) :
     K ⊓ Subgroup.centralizer ((T ⊔ Subgroup.zpowers x : Subgroup G) : Set G) =
       K ⊓ Subgroup.centralizer (T : Set G) := by
@@ -170,10 +173,10 @@ theorem exists_closed_M (h2315 : I2315aAt G) {q : ℕ} (hq : q.Prime) (hq2 : q �
     ∃ M : Subgroup G, IsTwoLocal M ∧ L ≤ M ∧ (∃ R : Sylow q G, GLAWeakCore q (R : Subgroup G) ≤ M) ∧
       ∀ P : Subgroup G, IsPGroup q P → P ≤ M → 3 ≤ CFSG.Open.pRank q P →
         Subgroup.normalizer (P : Set G) ≤ M := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let S : Sylow q ↥L := default
   let Qo : Subgroup G := S.toSubgroup.map L.subtype
-  have hQo_q : IsPGroup q Qo := S.isPGroup'.map L.subtype
+  have hQo_q : IsPGroup q Qo := S.isPGroup.map L.subtype
   have hQoL : Qo ≤ L := by
     rintro _ ⟨y, -, rfl⟩
     exact y.2

@@ -83,7 +83,7 @@ theorem exists_sylow_le {M X : Subgroup G} (hXM : X ≤ M) (hXp : IsPGroup 3 X) 
   have hWM : W ≤ M := Subgroup.map_subtype_le _
   have hWsub : W.subgroupOf M = Q :=
     Subgroup.comap_map_eq_self_of_injective M.subtype_injective _
-  refine ⟨W, hWM, Q.isPGroup'.map _, ?_, fun x hx =>
+  refine ⟨W, hWM, Q.isPGroup.map _, ?_, fun x hx =>
     ⟨⟨x, hXM hx⟩, hXQ (Subgroup.mem_subgroupOf.mpr hx), rfl⟩⟩
   rw [hWsub]
   exact Q.not_dvd_index

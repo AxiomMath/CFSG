@@ -541,8 +541,8 @@ private theorem characterValueOrder_natCard_of_irreducible_comm_pf39
   · exact Nat.card_pos
   · intro g
     rcases hχ with ⟨n, ρ, hirr, hχeq⟩
-    haveI : IsMulCommutative H := ⟨⟨mul_comm⟩⟩
-    haveI : Representation.IsIrreducible ρ := hirr
+    have : IsMulCommutative H := ⟨⟨mul_comm⟩⟩
+    have : Representation.IsIrreducible ρ := hirr
     have hdim : Module.finrank ℂ (Fin n → ℂ) = 1 := by
       exact Representation.IsIrreducible.finrank_eq_one_of_isMulCommutative (ρ := ρ)
     obtain ⟨c, hc, _hcuniq⟩ :=
@@ -577,8 +577,8 @@ private theorem exactCharacterValueOrder_dvd_natCard_of_pf39
     (ha : exactCharacterValueOrder ω' a) :
     a ∣ Nat.card G := by
   rcases h with ⟨_hW1, _hW2, _hIP, hcyc, _hodd, _hcard1, _hcard2, _hTI⟩
-  letI : IsCyclic W := hcyc
-  letI : CommGroup W := IsCyclic.commGroup
+  let : IsCyclic W := hcyc
+  let : CommGroup W := IsCyclic.commGroup
   have horderW : characterValueOrder ω' (Nat.card W) :=
     characterValueOrder_natCard_of_irreducible_comm_pf39 hω'
   exact dvd_trans (ha.2 (Nat.card W) horderW) (Subgroup.card_subgroup_dvd_card W)
@@ -590,8 +590,8 @@ private theorem irreducibleCharacterOnGroup_value_pow_eq_argument_pow_comm_pf39
     (g : H) (e : ℕ) :
     χ (g ^ e) = χ g ^ e := by
   rcases hχ with ⟨n, ρ, hirr, hχeq⟩
-  haveI : IsMulCommutative H := ⟨⟨mul_comm⟩⟩
-  haveI : Representation.IsIrreducible ρ := hirr
+  have : IsMulCommutative H := ⟨⟨mul_comm⟩⟩
+  have : Representation.IsIrreducible ρ := hirr
   have hdim : Module.finrank ℂ (Fin n → ℂ) = 1 := by
     exact Representation.IsIrreducible.finrank_eq_one_of_isMulCommutative (ρ := ρ)
   obtain ⟨c, hc, _hcuniq⟩ :=
@@ -734,7 +734,7 @@ private theorem irreducibleCharacterOnGroup_argumentPow_of_coprime_natCard_comm_
     Section1.IsIrreducibleCharacterOnGroup (fun h : H => χ (h ^ e)) := by
   rcases hχ with ⟨n, ρ, hirr, hchar⟩
   let powEquiv : H ≃* H := powMulEquivOfCoprime_natCard_pf39 (H := H) e he
-  haveI : Representation.IsIrreducible ρ := hirr
+  have : Representation.IsIrreducible ρ := hirr
   refine ⟨n, ρ.comp powEquiv.toMonoidHom, irreducible_compMulEquiv_pf39 ρ powEquiv, ?_⟩
   ext h
   rw [hchar]
@@ -1119,9 +1119,9 @@ public theorem signed_irreducible_of_virtual_norm_one_pf39
     isVirtualCharacter_isClassFunction hvirt
   rcases Theory.Character.irreducible_characters_form_basis (G := G) with
     ⟨ι, hι, χ, hχ, _b, _hb⟩
-  letI : Fintype ι := hι
-  letI : Finite ι := Finite.of_fintype ι
-  letI : Fintype ι := Fintype.ofFinite ι
+  let : Fintype ι := hι
+  let : Finite ι := Finite.of_fintype ι
+  let : Fintype ι := Fintype.ofFinite ι
   rcases hχ with ⟨hirr, hall, _hinj⟩
   let ψ : ι → Section1.ClassFunction G := fun i => Section1.ofConjClassFunction (χ i)
   have hψclass : ∀ i, Section1.IsClassFunction (ψ i) := by
@@ -1367,7 +1367,7 @@ private theorem coefficientNonzeroCount_le_two_of_projection_diff_pf39
       ∀ {p : I × J}, p ≠ (i, j) → a p.1 p.2 ≠ 0 →
         Section1.scalarProduct G X (χ p.1 p.2) ≠ 0 := by
     intro p hp hnon hzero
-    rw [ha_formula p.1 p.2, if_neg hp, hzero] at hnon
+    rw [ha_formula p.1 p.2, ite_eq_right hp, hzero] at hnon
     simp at hnon
   let f : {p : I × J // a p.1 p.2 ≠ 0} → Bool := fun p =>
     decide (p.1 = (i, j))
@@ -1706,8 +1706,8 @@ public theorem weightedFamilySum_eq_of_inner_omega_pf39
         (fun p : I × J => ω p.1 p.2) = α := by
   classical
   rcases h with ⟨_hW1, _hW2, _hIP, hcyc, _hodd, _hcard1, _hcard2, _hTI⟩
-  letI : IsCyclic W := hcyc
-  letI : CommGroup W := IsCyclic.commGroup
+  let : IsCyclic W := hcyc
+  let : CommGroup W := IsCyclic.commGroup
   have hαclass : Section1.IsClassFunction α := isClassFunction_of_commGroup_pf39 α
   have hsumclass :
       Section1.IsClassFunction
@@ -1806,8 +1806,8 @@ private theorem exists_alpha_basis_pf39
     rintro ⟨φ, hφsupp⟩ hy
     have hφsupp' := (Section1.mem_classFunctionsOn).mp hφsupp
     rcases h with ⟨_hW1, _hW2, _hIP, hcyc, _hodd, _hcard1, _hcard2, _hTI⟩
-    letI : IsCyclic W := hcyc
-    letI : CommGroup W := IsCyclic.commGroup
+    let : IsCyclic W := hcyc
+    let : CommGroup W := IsCyclic.commGroup
     rcases h34.2.2 φ
         (by
           constructor
@@ -3216,14 +3216,14 @@ private theorem two_cell_update_base_row_vanish_of_small_shape_pf39
         exact hi2 (congrArg Prod.fst hp)
       have h1 : a i1 j ≠ 0 := by
         rw [hupdate_other i1 j hi1j_ne_active hi1j_ne_base, hcol i1 j,
-          if_pos rfl]
+          ite_eq_left rfl]
         exact hc
       have h2 : a i2 j ≠ 0 := by
         rw [hupdate_other i2 j hi2j_ne_active hi2j_ne_base, hcol i2 j,
-          if_pos rfl]
+          ite_eq_left rfl]
         exact hc
       have hbase : a i0 j0 ≠ 0 := by
-        rw [hupdate_j0, hcol i0 j0, if_neg (fun h => hj h.symm)]
+        rw [hupdate_j0, hcol i0 j0, ite_eq_right (fun h => hj h.symm)]
         simpa using (neg_ne_zero.mpr hδne)
       have hthree : 3 ≤ coefficientNonzeroCount a :=
         three_le_coefficientNonzeroCount_of_three_nonzero_cells_pf39
@@ -3251,14 +3251,14 @@ private theorem two_cell_update_base_row_vanish_of_small_shape_pf39
           exact hi2 (congrArg Prod.fst hp)
         have h1 : a i1 j0 ≠ 0 := by
           rw [hupdate_other i1 j0 hi1j0_ne_active hi1j0_ne_base,
-            hcol i1 j0, if_pos rfl]
+            hcol i1 j0, ite_eq_left rfl]
           exact hc
         have h2 : a i2 j0 ≠ 0 := by
           rw [hupdate_other i2 j0 hi2j0_ne_active hi2j0_ne_base,
-            hcol i2 j0, if_pos rfl]
+            hcol i2 j0, ite_eq_left rfl]
           exact hc
         have hbase : a i0 j ≠ 0 := by
-          rw [hupdate_j, hcol i0 j, if_neg hj]
+          rw [hupdate_j, hcol i0 j, ite_eq_right hj]
           simpa using hδne
         have hthree : 3 ≤ coefficientNonzeroCount a :=
           three_le_coefficientNonzeroCount_of_three_nonzero_cells_pf39
@@ -3269,8 +3269,8 @@ private theorem two_cell_update_base_row_vanish_of_small_shape_pf39
             h1 h2 hbase
         omega
       · constructor
-        · rw [hcol i0 j, if_neg (fun h => hkj h.symm)]
-        · rw [hcol i0 j0, if_neg (fun h => hkj0 h.symm)]
+        · rw [hcol i0 j, ite_eq_right (fun h => hkj h.symm)]
+        · rw [hcol i0 j0, ite_eq_right (fun h => hkj0 h.symm)]
   · rcases hrow with ⟨c, hc, i, hrow⟩
     by_cases hii0 : i = i0
     · subst i
@@ -3283,11 +3283,11 @@ private theorem two_cell_update_base_row_vanish_of_small_shape_pf39
         intro hp
         exact hk0 (congrArg Prod.snd hp)
       have haj : a i0 j = c + δ := by
-        rw [hupdate_j, hrow i0 j, if_pos rfl]
+        rw [hupdate_j, hrow i0 j, ite_eq_left rfl]
       have haj0 : a i0 j0 = c - δ := by
-        rw [hupdate_j0, hrow i0 j0, if_pos rfl]
+        rw [hupdate_j0, hrow i0 j0, ite_eq_left rfl]
       have hak : a i0 k = c := by
-        rw [hupdate_other i0 k hcell_kj hcell_kj0, hrow i0 k, if_pos rfl]
+        rw [hupdate_other i0 k hcell_kj hcell_kj0, hrow i0 k, ite_eq_left rfl]
       have hpq : (i0, j) ≠ (i0, j0) := by
         intro hp
         exact hj (congrArg Prod.snd hp)
@@ -3311,8 +3311,8 @@ private theorem two_cell_update_base_row_vanish_of_small_shape_pf39
         lt_of_lt_of_le hgt hle
       exact False.elim ((not_lt_of_ge ha_norm) hsum_gt)
     · have hi0_ne_i : i0 ≠ i := fun h => hii0 h.symm
-      exact ⟨by rw [hrow i0 j, if_neg hi0_ne_i],
-        by rw [hrow i0 j0, if_neg hi0_ne_i]⟩
+      exact ⟨by rw [hrow i0 j, ite_eq_right hi0_ne_i],
+        by rw [hrow i0 j0, ite_eq_right hi0_ne_i]⟩
 
 
 public theorem eq_signed_sub_cTIiso
@@ -4355,8 +4355,8 @@ private theorem exists_irreducible_argumentPow_on_cyclic_subgroup_pf39
       Section1.IsIrreducibleCharacterOnGroup ωk ∧
       classFunctionArgumentPow ω' ωk e := by
   rcases h with ⟨_hW1, _hW2, _hIP, hcyc, _hodd, _hcard1, _hcard2, _hTI⟩
-  letI : IsCyclic W := hcyc
-  letI : CommGroup W := IsCyclic.commGroup
+  let : IsCyclic W := hcyc
+  let : CommGroup W := IsCyclic.commGroup
   have heW : e.Coprime (Nat.card W) := by
     exact Nat.Coprime.of_dvd_right (Subgroup.card_subgroup_dvd_card W) he
   refine ⟨fun w : W => ω' (w ^ e), ?_, ?_⟩
@@ -4405,7 +4405,7 @@ public theorem proposition_3_9_b_structured_of_rootAction_pf35
     int_isCoprime_of_natAbs_coprime_pf39 hkc_nat
   have hn : c * b ≠ 0 :=
     Section1.nat_card_factor_ne_zero (G := G) hcard
-  haveI : NeZero c := ⟨left_ne_zero_of_mul hn⟩
+  have : NeZero c := ⟨left_ne_zero_of_mul hn⟩
   obtain ⟨v, hv⟩ :=
     Section1.proposition_1_9_b_galois_automorphism_int
       (a := c) (b := b) (k := k) hn hcop hkc
@@ -4419,10 +4419,10 @@ public theorem proposition_3_9_b_structured_of_rootAction_pf35
   have hecop : e.Coprime (c * b) := by
     simpa [e] using ZMod.val_coe_unit_coprime w
   obtain ⟨τ, hτroot⟩ := hroot (c := c) (b := b) (e := e) hecop
-  haveI : IsCyclic W := by
+  have : IsCyclic W := by
     rcases h with ⟨_hW1, _hW2, _hIP, hcyc, _hodd, _hcard1, _hcard2, _hTI⟩
     exact hcyc
-  letI : CommGroup W := IsCyclic.commGroup
+  let : CommGroup W := IsCyclic.commGroup
   have hcardF : Fintype.card G = c * b := by
     simpa [Nat.card_eq_fintype_card] using hcard
   have hecopG : e.Coprime (Nat.card G) := by
@@ -4571,7 +4571,7 @@ public theorem pf39_cyclotomic_model_of_mem_cyclotomicOrder
         x = Polynomial.eval₂ (Int.castRingHom (Section1.CyclotomicABField c b))
           (Section1.cyclotomicABRoot c b hn) P ∧
         ι (Section1.cyclotomicABRoot c b hn) = η := by
-  letI : NeZero (c * b) := ⟨hn⟩
+  let : NeZero (c * b) := ⟨hn⟩
   let K := Section1.CyclotomicABField c b
   let ζ : K := Section1.cyclotomicABRoot c b hn
   have hζ : IsPrimitiveRoot ζ (c * b) := by
@@ -4649,7 +4649,7 @@ public theorem pf39_complex_image_aut_root_eq_pow
     ∃ e : ℕ, e.Coprime (c * b) ∧
       ι (v (Section1.cyclotomicABRoot c b hn)) =
         ι (Section1.cyclotomicABRoot c b hn) ^ e := by
-  letI : NeZero (c * b) := ⟨hn⟩
+  let : NeZero (c * b) := ⟨hn⟩
   let K := Section1.CyclotomicABField c b
   let ζ : K := Section1.cyclotomicABRoot c b hn
   let u : (ZMod (c * b))ˣ :=
@@ -4801,7 +4801,7 @@ public theorem pf39_rationality_of_fixed_cyclotomic_model
     (hvalue : sigmaOfPF35 ω χ ω' g = ι x)
     (hfixed : ∀ v : Gal((Section1.CyclotomicABField c b)/ℚ), v x = x) :
     ∃ r : ℚ, sigmaOfPF35 ω χ ω' g = (r : ℂ) := by
-  letI : NeZero (c * b) := ⟨hn⟩
+  let : NeZero (c * b) := ⟨hn⟩
   exact Section1.cyclotomicABField_complex_rat_of_fixed_gal ι x
     (sigmaOfPF35 ω χ ω' g) hvalue hfixed
 

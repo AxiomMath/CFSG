@@ -377,7 +377,7 @@ theorem item2130ThreeIPlus_holds :
   have hU'I : U' ≤ I := by
     rw [hU', hIdef]
     exact Subgroup.map_mono ((Subgroup.map_subtype_le _).trans inf_le_left)
-  have hU'2 : IsPGroup 2 U' := (S.isPGroup'.map _).map _
+  have hU'2 : IsPGroup 2 U' := (S.isPGroup.map _).map _
   have hξU' : (ξ : G) ∈ Subgroup.normalizer (U' : Set G) := by
     apply GroupTheory.SteinbergBY.mem_normalizer_of_map_conj_eq
     have hS1 := hS ⟨ξ, Subgroup.mem_zpowers ξ⟩

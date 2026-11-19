@@ -114,7 +114,7 @@ theorem exists_partner (h₃ : CFSG.FeitThompson.Statements.FNI_type_p_prime_fac
 
 theorem sat_eq_conjugatesOfSet (A : Set G) : Prep03.sat A = Group.conjugatesOfSet A := by
   ext x
-  simp only [Prep03.sat, conjSet, Set.mem_iUnion, Set.mem_image, Group.mem_conjugatesOfSet_iff,
+  simp only [Prep03.sat, Set.mem_iUnion, Group.mem_conjugatesOfSet_iff,
     isConj_iff]
   constructor
   · rintro ⟨g, a, ha, rfl⟩

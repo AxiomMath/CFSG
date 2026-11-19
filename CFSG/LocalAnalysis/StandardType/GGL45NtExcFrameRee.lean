@@ -60,19 +60,19 @@ private theorem eR1_finite_of_frobTwist
       intro h
       have hc := congrArg (fun p : Polynomial L' => p.coeff q) h
       rw [Polynomial.coeff_sub, Polynomial.coeff_X_pow_self, Polynomial.coeff_X,
-        if_neg (by omega), sub_zero, Polynomial.coeff_zero] at hc
+        ite_eq_right (by omega), sub_zero, Polynomial.coeff_zero] at hc
       exact one_ne_zero hc
     have hset : {x : L' | x ^ q = x} =
         {x : L' | Polynomial.IsRoot (Polynomial.X ^ q - Polynomial.X) x} := by
       ext x
-      simp only [Set.mem_setOf_eq]
+      simp only [Set.mem_ofPred_eq]
       change x ^ q = x ↔ Polynomial.eval x ((Polynomial.X : Polynomial L') ^ q - Polynomial.X) = 0
       rw [Polynomial.eval_sub, Polynomial.eval_pow, Polynomial.eval_X, sub_eq_zero]
     have hfin : ({x : L' | x ^ q = x} : Set L').Finite := by
       rw [hset]
-      exact Polynomial.finite_setOf_isRoot hp
+      exact Polynomial.finite_setOfPred_isRoot hp
     exact hfin.to_subtype
-  haveI : Finite {x : L' // x ^ q = x} := hSfin
+  have : Finite {x : L' // x ^ q = x} := hSfin
   refine Finite.of_injective
     (fun (g : ratPts τ L' (endPow (frobTwistGL τ L' 2 e Q) n)) (a b : Label τ) =>
       (⟨_, hentry g a b⟩ : {x : L' // x ^ q = x})) ?_
@@ -276,7 +276,7 @@ theorem prop43_ree_abstract
   intro y hyM hyfix hgp
   have hFMp : ∀ g ∈ M, endPow F₀ p g ∈ M := fun g hg => endPow_mem hFM p hg
   let F₁ : ↥M →* ↥M := eC1_restrictEnd (endPow F₀ p) M hFMp
-  haveI : Finite ↥((Z.subgroupOf M) ⊓ (S.subgroupOf M)) := by
+  have : Finite ↥((Z.subgroupOf M) ⊓ (S.subgroupOf M)) := by
     refine Finite.of_injective
       (fun x : ↥((Z.subgroupOf M) ⊓ (S.subgroupOf M)) =>
         (⟨(x : Γ), ?_⟩ : ↥(Z ⊓ S))) ?_
@@ -287,7 +287,7 @@ theorem prop43_ree_abstract
       apply Subtype.ext
       apply Subtype.ext
       simpa using congrArg Subtype.val hxy
-  haveI : Finite ↥(fixG F₁ ⊓ S.subgroupOf M) := by
+  have : Finite ↥(fixG F₁ ⊓ S.subgroupOf M) := by
     refine Finite.of_injective
       (fun x : ↥(fixG F₁ ⊓ S.subgroupOf M) =>
         (⟨(x.1 : Γ), ?_⟩ : ↥(S ⊓ fixG (endPow F₀ p)))) ?_
@@ -375,7 +375,7 @@ theorem exc_ree_central
   have hSM : S ≤ M := hstruct.2.1
   have hMS : ∀ m ∈ M, ∃ z ∈ Z, ∃ s ∈ S, m = z * s := hstruct.2.2.1
   have hZc : ∀ z ∈ Z, ∀ m ∈ M, z * m = m * z := hstruct.2.2.2.1
-  haveI hZS : Finite ↥(Z ⊓ S) := hstruct.2.2.2.2.2
+  have hZS : Finite ↥(Z ⊓ S) := hstruct.2.2.2.2.2
   have hK : ¬ p ∣ Nat.card ↥(Z ⊓ S) := by
     have hcard : Nat.card ↥(Z ⊓ S) =
         Nat.card {g : adjointGroup Tag.F4 L //
@@ -386,8 +386,8 @@ theorem exc_ree_central
     commutator_stable F' (famM a) hFM s hs
   have hFZ' : ∀ z ∈ Z, F' z ∈ Z := fun z hz =>
     Subgroup.mem_subgroupOf.mpr (hFZ z (Subgroup.mem_subgroupOf.mp hz))
-  haveI hfin' : Finite ↥((endPow F' p).eqLocus (MonoidHom.id _)) := hfin
-  haveI hSfix : Finite ↥(S ⊓ fixG (endPow F' p)) :=
+  have hfin' : Finite ↥((endPow F' p).eqLocus (MonoidHom.id _)) := hfin
+  have hSfix : Finite ↥(S ⊓ fixG (endPow F' p)) :=
     Finite.of_injective _ (Subgroup.inclusion_injective
       (inf_le_right : S ⊓ fixG (endPow F' p) ≤ fixG (endPow F' p)))
   have hEM : ∀ x ∈ E, ∀ m ∈ M, x * m = m * x := by
@@ -737,7 +737,7 @@ theorem excAlgGeoRee_of_frame
       rootDiagUnit_injective (by rw [h2, rootDiagUnit_one])
     simpa using congrFun h3 j
   have hfin_tw : Finite ↥(ratPts ReeTag.F4.tag L (endPow (twFw ReeTag.F4.tag L e 1 w) p)) := by
-    haveI : Finite ↥(ratPts ReeTag.F4.tag L (endPow ψ p)) := hfinψ
+    have : Finite ↥(ratPts ReeTag.F4.tag L (endPow ψ p)) := hfinψ
     have hψconj : ∀ z : ModGL ReeTag.F4.tag L,
         endPow (twFw ReeTag.F4.tag L e 1 w) p (h * z * h⁻¹) = h * endPow ψ p z * h⁻¹ :=
       fun z => endPow_conj ψ (twFw ReeTag.F4.tag L e 1 w) h (fun y => hF y) p z
@@ -819,7 +819,7 @@ theorem excAlgGeoRee_of_frame
     have hidx : hΓ⁻¹ * (cΓ y) * hΓ = y := by rw [MulAut.conj_apply]; group
     rw [hidx]
   have hfinF₀ : Finite ↥(F₀.eqLocus (MonoidHom.id (adjointGroup ReeTag.F4.tag L))) := by
-    haveI : Finite ↥((endPow F₀ p).eqLocus (MonoidHom.id (adjointGroup ReeTag.F4.tag L))) := hfin
+    have : Finite ↥((endPow F₀ p).eqLocus (MonoidHom.id (adjointGroup ReeTag.F4.tag L))) := hfin
     refine Finite.of_injective
       (Subgroup.inclusion (show F₀.eqLocus (MonoidHom.id (adjointGroup ReeTag.F4.tag L)) ≤
         (endPow F₀ p).eqLocus (MonoidHom.id (adjointGroup ReeTag.F4.tag L)) from fun g hg => ?_))
@@ -828,7 +828,7 @@ theorem excAlgGeoRee_of_frame
     rw [endPow_apply]
     exact Function.iterate_fixed (mem_fixG.mp hg) p
   have hfinF'p : Finite ↥((endPow F' p).eqLocus (MonoidHom.id (adjointGroup ReeTag.F4.tag L))) := by
-    haveI : Finite ↥((endPow F₀ p).eqLocus (MonoidHom.id (adjointGroup ReeTag.F4.tag L))) := hfin
+    have : Finite ↥((endPow F₀ p).eqLocus (MonoidHom.id (adjointGroup ReeTag.F4.tag L))) := hfin
     refine Finite.of_injective
       (fun x : ↥((endPow F' p).eqLocus (MonoidHom.id (adjointGroup ReeTag.F4.tag L))) =>
         (⟨cΓ.symm (x : adjointGroup ReeTag.F4.tag L), ?_⟩ :
@@ -851,7 +851,7 @@ theorem excAlgGeoRee_of_frame
           cΓ.symm (y : adjointGroup ReeTag.F4.tag L) := Subtype.ext_iff.mp hxy
       exact Subtype.ext (cΓ.symm.injective h2)
   have hfinF' : Finite ↥(F'.eqLocus (MonoidHom.id (adjointGroup ReeTag.F4.tag L))) := by
-    haveI : Finite ↥((endPow F' p).eqLocus (MonoidHom.id (adjointGroup ReeTag.F4.tag L))) := hfinF'p
+    have : Finite ↥((endPow F' p).eqLocus (MonoidHom.id (adjointGroup ReeTag.F4.tag L))) := hfinF'p
     refine Finite.of_injective
       (Subgroup.inclusion (show F'.eqLocus (MonoidHom.id (adjointGroup ReeTag.F4.tag L)) ≤
         (endPow F' p).eqLocus (MonoidHom.id (adjointGroup ReeTag.F4.tag L)) from fun g hg => ?_))

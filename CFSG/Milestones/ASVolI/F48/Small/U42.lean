@@ -124,8 +124,8 @@ theorem burnsideF48s_u42_chart {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
       ((∀ x : ↥(M₁ ⊔ M₂), (x : E) ∈ M₁ ↔
           ((θ x : ↥(A0.N1 ⊔ A0.N2)) : MulAut Y) ∈ A0.N2) ∧
         ∀ x : ↥(M₁ ⊔ M₂), (x : E) ∈ M₂ ↔ ((θ x : ↥(A0.N1 ⊔ A0.N2)) : MulAut Y) ∈ A0.N1) := by
-  haveI : Finite E := hyp.finite
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite E := hyp.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   subst hGp
   have hP := burnsideF48_parabolics_of_compat ChF.nativeChartCompatibility hyp
   obtain ⟨ε₀⟩ := nonempty_mulEquiv_Y (burnsideF48_lieModel_U4 hyp.model)
@@ -157,7 +157,7 @@ theorem burnsideF48s_u42_chart {E : Type} [Group E] {Gp M₁ M₂ : Subgroup E}
 theorem burnsideF48s_small_U4_two_top (h45 : F_4_5) (h46 : F_4_6) {E : Type} [Group E]
     {Gp M₁ M₂ : Subgroup E} (hyp : HypF_4_4 .U4 2 1 Gp M₁ M₂) (hGp : Gp = ⊤) :
     F48Concl .U4 2 1 Gp M₁ M₂ := by
-  haveI : Finite E := hyp.finite
+  have : Finite E := hyp.finite
   have hext := burnsideF48s_isLieExtGroup_E ChF.nativeChartCompatibility hyp
   obtain ⟨θ, hθ⟩ := burnsideF48s_u42_chart hyp hGp
   subst hGp
@@ -167,7 +167,7 @@ theorem burnsideF48s_small_U4_two_top (h45 : F_4_5) (h46 : F_4_6) {E : Type} [Gr
   intro Y _ β hβ hs
   have h13 := (burnside_as_F_4_13_of h45 h46 .U4 2 1 E ⊤ M₁ M₂ hyp Y β hβ hs).2
   rw [card_G0] at h13
-  haveI : Finite Y := Nat.finite_of_card_ne_zero (by rw [h13]; exact Nat.card_pos.ne')
+  have : Finite Y := Nat.finite_of_card_ne_zero (by rw [h13]; exact Nat.card_pos.ne')
   exact burnsideF48s_qe_of_match_or burnsideF48s_u42_match θ hθ β hβ hs
 
 end Main

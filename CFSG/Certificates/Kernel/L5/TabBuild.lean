@@ -28,7 +28,7 @@ theorem buildTab_eq (elems : List M) (code : M → Nat) :
       (List.range elems.length).map fun b =>
         (elems.map code).idxOf (code (elems.getD a 1 * elems.getD b 1))).toArray := by
   unfold buildTab
-  simp [Id.run, foldl_push_map_eq, foldl_append_flatMap_eq, KT.getD_toArray, ← List.range_eq_range']
+  simp [Id.run, foldl_append_flatMap_eq, ← List.range_eq_range']
   rfl
 
 theorem buildTab_getD (elems : List M) (code : M → Nat) {a b : Nat} (ha : a < elems.length)

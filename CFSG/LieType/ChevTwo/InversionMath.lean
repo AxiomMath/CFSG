@@ -77,9 +77,6 @@ theorem key_matrix_math (A : Matrix (Fin 4) (Fin 4) (ZMod 2))
     norm_num
     rw [Polynomial.coeff_reverse, Matrix.charpoly_natDegree_eq_dim, Fintype.card_fin,
       Polynomial.revAt_le (by norm_num)]
-    all_goals
-      have : ∀ d : ZMod 2, -d = d := by decide
-      exact this _
   have hc : A.charpoly.coeff 1 = A.charpoly.coeff 3 := by rw [← ht1, ← ht2, htr]
   have hpA := cayley4 A
   simp only [hdet, hc, map_one] at hpA

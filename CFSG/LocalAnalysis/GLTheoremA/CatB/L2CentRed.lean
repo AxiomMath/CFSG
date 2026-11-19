@@ -21,6 +21,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem l2c_conj_mem_cent {x g h : G} (hg : g ∈ Subgroup.centralizer ({x} : Set G))
     (hh : h ∈ Subgroup.centralizer ({x} : Set G)) :
     g * h * g⁻¹ ∈ Subgroup.centralizer ({x} : Set G) := by
@@ -40,6 +41,7 @@ theorem l2c_conj_mem_cent {x g h : G} (hg : g ∈ Subgroup.centralizer ({x} : Se
     _ = g * h * (g⁻¹ * x) := by rw [h3]
     _ = g * h * g⁻¹ * x := by group
 
+omit [Finite G] in
 theorem l2c_conj_O {W : Subgroup G} {w o : G} (hw : w ∈ Subgroup.normalizer (W : Set G))
     (ho : o ∈ GLAPPrimeCoreOf 3 W) : w * o * w⁻¹ ∈ GLAPPrimeCoreOf 3 W := by
   have hE : GLBConj w (GLAPPrimeCoreOf 3 W) = GLAPPrimeCoreOf 3 W := by
@@ -47,7 +49,8 @@ theorem l2c_conj_O {W : Subgroup G} {w o : G} (hw : w ∈ Subgroup.normalizer (W
   have : o ∈ GLBConj w (GLAPPrimeCoreOf 3 W) := by rw [hE]; exact ho
   exact (mem_gLBConj).1 this
 
-theorem l2c_O_mul {W : Subgroup G} {w₁ w₂ l : G} (h₁ : w₁ ∈ W) (h₂ : w₂ ∈ W)
+omit [Finite G] in
+theorem l2c_O_mul {W : Subgroup G} {w₁ w₂ l : G} (h₁ : w₁ ∈ W) (_h₂ : w₂ ∈ W)
     (e₁ : ⁅w₁, l⁆ ∈ GLAPPrimeCoreOf 3 W) (e₂ : ⁅w₂, l⁆ ∈ GLAPPrimeCoreOf 3 W) :
     ⁅w₁ * w₂, l⁆ ∈ GLAPPrimeCoreOf 3 W := by
   rw [commutatorElement_def] at e₁ e₂ ⊢
@@ -56,6 +59,7 @@ theorem l2c_O_mul {W : Subgroup G} {w₁ w₂ l : G} (h₁ : w₁ ∈ W) (h₂ :
   rw [key]
   exact (GLAPPrimeCoreOf 3 W).mul_mem (l2c_conj_O (Subgroup.le_normalizer h₁) e₂) e₁
 
+omit [Finite G] in
 theorem l2c_O_inv {W : Subgroup G} {w l : G} (h₁ : w ∈ W)
     (e₁ : ⁅w, l⁆ ∈ GLAPPrimeCoreOf 3 W) : ⁅w⁻¹, l⁆ ∈ GLAPPrimeCoreOf 3 W := by
   have key : ⁅w⁻¹, l⁆ = w⁻¹ * (⁅w, l⁆)⁻¹ * w⁻¹⁻¹ := by
@@ -71,6 +75,7 @@ def l2cZ (W L : Subgroup G) : Subgroup G where
     l2c_O_mul ha.1 hb.1 (ha.2 l hl) (hb.2 l hl)⟩
   inv_mem' := fun {a} ha => ⟨W.inv_mem ha.1, fun l hl => l2c_O_inv ha.1 (ha.2 l hl)⟩
 
+omit [Finite G] in
 theorem l2c_normal_inf {V W : Subgroup G} {x : G} (hWV : V ≤ Subgroup.normalizer (W : Set G))
     (hWV' : W ≤ V) :
     ((W ⊓ Subgroup.centralizer ({x} : Set G)).subgroupOf
@@ -151,12 +156,14 @@ theorem l2c_fam_mem {Y W : Subgroup G} {𝒞 : Set (Subgroup G)} {V : Subgroup G
   have hEq : M = L := CFSG.HardMathSupport.Solomon.LocalBalance.Lemma53Ns.glaPComponent_eq_of_le hp hMW' hLWc hML
   exact hEq ▸ hM
 
+omit [Finite G] in
 theorem l2c_isPGroup_zpowers {x : G} (hx3 : x ^ 3 = 1) : IsPGroup 3 ↥(Subgroup.zpowers x) := by
   have hd : orderOf x ∣ 3 := orderOf_dvd_of_pow_eq_one hx3
   rcases (Nat.dvd_prime Nat.prime_three).1 hd with h | h
   · exact IsPGroup.of_card (n := 0) (by rw [Nat.card_zpowers, h]; rfl)
   · exact IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, h]; norm_num)
 
+omit [Finite G] in
 theorem l2c_zpowers_cases {x e : G} (hx3 : x ^ 3 = 1) (he : e ∈ Subgroup.zpowers x) :
     e = 1 ∨ e = x ∨ e = x * x := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 he
@@ -225,7 +232,7 @@ theorem l2c_orbit (Y W : Subgroup G) (𝒞 : Set (Subgroup G)) (x : G)
     have hq := isQuasisimple_pQuot_of_glaPComponent hp hKV
     have hK0 : K = ⊥ := le_bot_iff.1 hbot
     subst hK0
-    haveI := CFSG.LocalCores.isQuasisimple_nontrivial
+    have := CFSG.LocalCores.isQuasisimple_nontrivial
       (CFSG.Quasithin.A3.isQuasisimple_iff_open.mpr hq)
     have : Subsingleton (PQuot 3 (⊥ : Subgroup G)) := by unfold PQuot; infer_instance
     exact (not_subsingleton (PQuot 3 (⊥ : Subgroup G))) this
@@ -272,7 +279,7 @@ theorem l2c_diag {V L K : Subgroup G} {x : G} (hx3 : x ^ 3 = 1) (hxV : x ∈ V)
     Nonempty (PSimple 3 K ≃* PSimple 3 L) := by
   have hp : Nat.Prime 3 := Nat.prime_three
   obtain ⟨Z, hZn, -, ⟨e⟩⟩ := i183v_diag (⟨hxV, hx3, hL, h1, h2⟩ : I183vCyc V x L) hKc hKd
-  haveI := hZn
+  have := hZn
   let f : ↥L →* PQuot 3 K :=
     ((e.symm.toMonoidHom.comp (QuotientGroup.mk' Z)).comp
       (QuotientGroup.mk' (GLAPPrimeCore 3 ↥L)))

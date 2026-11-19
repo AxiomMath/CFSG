@@ -49,7 +49,7 @@ theorem le_localRank_statedSU_quot_pow
     d - 2 ≤ CFSG.Assembly.RankThreeEven.localRank r
       (↥(StatedSU d (p ^ f) F) ⧸ N) := by
   classical
-  haveI : Fact p.Prime := ⟨h.prime⟩
+  have : Fact p.Prime := ⟨h.prime⟩
   have hd2 : 2 ≤ d := by omega
   set k := d - 3 with hk
   have hk2 : k + 2 < d := by omega
@@ -59,8 +59,8 @@ theorem le_localRank_statedSU_quot_pow
       show p ^ f * p ^ f - 1 = p ^ f * p ^ f - 1 * 1 by rw [mul_one],
       Nat.mul_self_sub_mul_self_eq]
     exact dvd_mul_of_dvd_left hrq _
-  haveI : NeZero r := ⟨hr.ne_zero⟩
-  haveI : NeZero (r ^ (s + 1)) := ⟨pow_ne_zero _ hr.ne_zero⟩
+  have : NeZero r := ⟨hr.ne_zero⟩
+  have : NeZero (r ^ (s + 1)) := ⟨pow_ne_zero _ hr.ne_zero⟩
   have hμ : Nat.card (rootsOfUnity (r ^ (s + 1)) F) = r ^ (s + 1) :=
     CFSG.LinearGroups.card_rootsOfUnity_of_dvd hdvdF
   set μ := rootsOfUnity (r ^ (s + 1)) F
@@ -324,18 +324,18 @@ theorem exists_surjective_center_quotient_two
       ∃ (φ : SU →* G ⧸ N), Function.Surjective φ ∧ φ.ker ≤ Subgroup.center SU := by
   classical
   let H := CFSG.RankThree.PerfectCover.HopfCover P
-  haveI : Finite H := CFSG.RankThree.PerfectCover.finite_hopfCover (X := P) inferInstance
+  have : Finite H := CFSG.RankThree.PerfectCover.finite_hopfCover (X := P) inferInstance
   obtain ⟨-, hSU, hcompSU, -, hsurjSU, hmapSU, -⟩ :=
     CFSG.RankThree.PerfectCover.perfect_central_kernel_quotient_of_hopf_multiplier pSU hpSU hkSU
   obtain ⟨-, hG, hcompG, -, hsurjG, hmapG, -⟩ :=
     CFSG.RankThree.PerfectCover.perfect_central_kernel_quotient_of_hopf_multiplier pG hpG hkG
   let B : Subgroup H := hSU.ker
-  haveI hBnorm : B.Normal := MonoidHom.normal_ker hSU
+  have hBnorm : B.Normal := MonoidHom.normal_ker hSU
   have hBleM : B ≤ CFSG.RankThree.PerfectCover.hopfMultiplier P := by
     intro b hb
     change (CFSG.RankThree.PerfectCover.hopfCoverMap P) b = 1
     rw [← hcompSU, MonoidHom.comp_apply, hb, map_one]
-  haveI hMnorm : (CFSG.RankThree.PerfectCover.hopfMultiplier P).Normal :=
+  have hMnorm : (CFSG.RankThree.PerfectCover.hopfMultiplier P).Normal :=
     Subgroup.normal_of_le_center CFSG.RankThree.PerfectCover.hopfMultiplier_le_center
   have h1 : Nat.card H = Nat.card P * Nat.card (CFSG.RankThree.PerfectCover.hopfMultiplier P) := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup
@@ -381,7 +381,7 @@ theorem exists_surjective_center_quotient_two
       CFSG.RankThree.PerfectCover.hopfMultiplier_le_center hbM
     have hbc' := Subgroup.mem_center_iff.mp hbc
     rw [← map_mul, ← map_mul, hbc' y]
-  haveI hNnorm : N.Normal := Subgroup.normal_of_le_center hNle
+  have hNnorm : N.Normal := Subgroup.normal_of_le_center hNle
   have hN2 : IsPGroup 2 N := hB2.map hG
   refine ⟨N, hNnorm, hN2, ?_⟩
   let q : H ⧸ B →* G ⧸ N := QuotientGroup.map B N hG (by
@@ -508,8 +508,8 @@ private theorem le_evenRank_of_statedSU_unitary_pow
     (hgd : Nat.gcd d (r ^ (s + 1)) = r ^ s) :
     d - 2 ≤ evenRank K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hcardF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hcardF
   have hFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n F :=
     ⟨Nat.prime_two, hn1, by rw [hcardF, ← pow_mul, mul_comm]⟩
   have hperfSU : Group.IsPerfect (StatedSU d (2 ^ n) F) :=
@@ -519,7 +519,7 @@ private theorem le_evenRank_of_statedSU_unitary_pow
   have hZeq : Subgroup.center (StatedSU d (2 ^ n) F) =
       (StatedScalars (Fin d) F).subgroupOf (StatedSU d (2 ^ n) F) :=
     (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU hperfSU hsimpleP).2
-  haveI : Group.IsPerfect (StatedProj (StatedSU d (2 ^ n) F)) :=
+  have : Group.IsPerfect (StatedProj (StatedSU d (2 ^ n) F)) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk'
       ((StatedScalars (Fin d) F).subgroupOf (StatedSU d (2 ^ n) F)))
       (QuotientGroup.mk'_surjective _)
@@ -577,8 +577,8 @@ private theorem le_evenRank_of_statedSU_unitary
     (hk : k + 2 < d) (hcen : k + 3 < d ∨ ¬ r ∣ d) (hk1 : 1 ≤ k + 1) :
     k + 1 ≤ evenRank K := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hcardF
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F 2 := CFSG.ClassicalGroups.Unitary.charP_of_card_sq (p := 2) (f := n) hcardF
   have hFD : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 n F :=
     ⟨Nat.prime_two, hn1, by rw [hcardF, ← pow_mul, mul_comm]⟩
   have hperfSU : Group.IsPerfect (StatedSU d (2 ^ n) F) :=
@@ -588,7 +588,7 @@ private theorem le_evenRank_of_statedSU_unitary
   have hZeq : Subgroup.center (StatedSU d (2 ^ n) F) =
       (StatedScalars (Fin d) F).subgroupOf (StatedSU d (2 ^ n) F) :=
     (CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU hperfSU hsimpleP).2
-  haveI : Group.IsPerfect (StatedProj (StatedSU d (2 ^ n) F)) :=
+  have : Group.IsPerfect (StatedProj (StatedSU d (2 ^ n) F)) :=
     Group.IsPerfect.ofSurjective (f := QuotientGroup.mk'
       ((StatedScalars (Fin d) F).subgroupOf (StatedSU d (2 ^ n) F)))
       (QuotientGroup.mk'_surjective _)
@@ -651,8 +651,8 @@ theorem rk2_low_twa_two (K : Type) [Group K] [Finite K] (lab : GLALabel)
         CFSG.StandardType.markRank, CFSG.StandardType.markChar,
         CFSG.StandardType.markDeg] using hM
     obtain ⟨-, F, hFld, hFin, hFcard, ⟨θ⟩⟩ := hM'.statedClassicalModel (by decide)
-    letI : Field F := hFld
-    letI : Finite F := hFin
+    let : Field F := hFld
+    let : Finite F := hFin
     have hne : (l + 1, 2 ^ n) ≠ (3, 2) := by
       intro h
       have h1 : l + 1 = 3 := congrArg Prod.fst h
@@ -711,8 +711,8 @@ theorem rk2_low_twa_one (K : Type) [Group K] [Finite K] (lab : GLALabel)
       CFSG.StandardType.markRank, CFSG.StandardType.markChar,
       CFSG.StandardType.markDeg] using hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨θ⟩⟩ := hM'.statedClassicalModel (by decide)
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hne : (l + 1, 2 ^ n) ≠ (3, 2) := by
     intro h
     have h1 : l + 1 = 3 := congrArg Prod.fst h
@@ -747,8 +747,8 @@ theorem rk2_low_twd_three (K : Type) [Group K] [Finite K] (lab : GLALabel)
       CFSG.StandardType.markRank, CFSG.StandardType.markChar,
       CFSG.StandardType.markDeg] using hM
   obtain ⟨-, F, hFld, hFin, hFcard, ⟨θ⟩⟩ := hM'.statedClassicalModel (by decide)
-  letI : Field F := hFld
-  letI : Finite F := hFin
+  let : Field F := hFld
+  let : Finite F := hFin
   have hne : (4, 2 ^ n) ≠ (3, 2) := by
     intro h
     exact absurd (congrArg Prod.fst h) (by norm_num)

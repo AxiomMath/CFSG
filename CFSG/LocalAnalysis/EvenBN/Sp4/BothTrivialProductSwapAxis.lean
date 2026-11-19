@@ -101,7 +101,7 @@ theorem eq_bot_or_eq_map_upperSL {μ : kˣ} (hμ : ∀ x : kˣ, x ∈ Subgroup.z
   by_cases hc : c = 0
   · subst hc
     rw [unipotent_zero]
-    simpa using A.one_mem
+    simp
   obtain ⟨r, hr⟩ := FiniteField.isSquare_of_char_two (ringChar.eq k 2) (c / c₀)
   have hr0 : r ≠ 0 := by
     rintro rfl
@@ -569,7 +569,7 @@ theorem master {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Finite K] {
   obtain ⟨k₂, _, _, hk₂, ψ, -, -⟩ := hF
   have hk₂' : Nat.card k₂ = 2 ^ (2 * m) := by
     rw [Nat.card_eq_fintype_card, hk₂, ← pow_mul, mul_comm]
-  haveI : CharP k₂ 2 :=
+  have : CharP k₂ 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two
       (by omega) hk₂'
   have hq4 : 4 ≤ Nat.card K := by
@@ -587,7 +587,7 @@ theorem master {G : Type} [Group G] [Finite G] {K : Type} [Field K] [Finite K] {
     not_inf_centralizer_prodFst_le ρ hρ hker hXN htN hswap htX htF hXab hFX hPΛ hPperf hPX hPt
       hPmax hwN hw hw₀inv hXw hXF
   have hobs2 : ¬ X ≤ X' ⊔ (X ⊓ centralizer ((prodFst ρ : Subgroup G) : Set G)) := by
-    letI : Fintype K := Fintype.ofFinite K
+    let : Fintype K := Fintype.ofFinite K
     have hK : Fintype.card K = 2 ^ m := by
       rw [← Nat.card_eq_fintype_card]
       exact hq

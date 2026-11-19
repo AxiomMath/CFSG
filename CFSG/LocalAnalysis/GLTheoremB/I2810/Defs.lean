@@ -29,7 +29,7 @@ structure Setup28 (W K S : Subgroup X) [W.Normal] : Prop where
 
 @[expose] def kerAct (W K S : Subgroup X) [W.Normal] : Subgroup X where
   carrier := {s | s ∈ S ∧ ∀ k ∈ K, ⁅s, k⁆ ∈ W}
-  one_mem' := ⟨S.one_mem, fun k _ => by simpa using W.one_mem⟩
+  one_mem' := ⟨S.one_mem, fun k _ => by simp⟩
   mul_mem' := by
     rintro a b ⟨haS, ha⟩ ⟨hbS, hb⟩
     refine ⟨S.mul_mem haS hbS, fun k hk => ?_⟩
@@ -71,7 +71,7 @@ structure Setup28 (W K S : Subgroup X) [W.Normal] : Prop where
 
 @[expose] def zPre (W K : Subgroup X) [W.Normal] : Subgroup X where
   carrier := {k | k ∈ K ∧ ∀ k' ∈ K, ⁅k, k'⁆ ∈ W}
-  one_mem' := ⟨K.one_mem, fun k _ => by simpa using W.one_mem⟩
+  one_mem' := ⟨K.one_mem, fun k _ => by simp⟩
   mul_mem' := by
     rintro a b ⟨haK, ha⟩ ⟨hbK, hb⟩
     refine ⟨K.mul_mem haK hbK, fun k hk => ?_⟩
@@ -168,6 +168,7 @@ end Step0
 section Induced
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem indAut_mono {B B' : Subgroup X} (h : B ≤ B') : indAut W K B ≤ indAut W K B' :=
   Subgroup.map_mono (Subgroup.subgroupOf_mono _ (Subgroup.map_mono h))
 
@@ -176,6 +177,7 @@ end Induced
 section ActionOnV
 variable {X : Type} [Group X] [Finite X] {W K S : Subgroup X} [W.Normal]
 
+omit [Finite X] in
 theorem N_le_normalizer_V (hR : Red28 W K S) :
     K ⊔ S ≤ Subgroup.normalizer (vOf W K S : Set X) := by
   intro n hn
@@ -199,6 +201,7 @@ theorem N_le_normalizer_V (hR : Red28 W K S) :
   ((vAct hR).comp (Subgroup.inclusion (le_sup_left : K ≤ K ⊔ S))).codRestrict (khOf hR)
     fun k => ⟨Subgroup.inclusion (le_sup_left : K ≤ K ⊔ S) k, k.2, rfl⟩
 
+omit [Finite X] in
 theorem vAct_sq (hR : Red28 W K S) {a : X} (haN : a ∈ K ⊔ S) (ha2 : a ^ 2 = 1) :
     vAct hR ⟨a, haN⟩ * vAct hR ⟨a, haN⟩ = 1 := by
   rw [← map_mul]
@@ -235,6 +238,7 @@ structure A7Struct (Kh : Subgroup (MulAut V)) : Prop where
 variable {Kh Eh : Subgroup (MulAut V)} {n : ℕ} {π : ↥Kh →* ↥(alternatingGroup (Fin n))}
   {Vv V₄ : Subgroup ↥(alternatingGroup (Fin n))}
 
+omit [Finite V] in
 theorem fixV'_le_of_le {X Y : Subgroup (MulAut V)} (h : X ≤ Y) : fixV' Y ≤ fixV' X :=
   fun _ hv x hx => hv x (h hx)
 

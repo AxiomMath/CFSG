@@ -16,7 +16,7 @@ section TorsionE67Linear
 
 private theorem te67_center_eq_bot {R : Type} [Group R] (hs : IsSimpleGroup R)
     (hna : ∃ a b : R, a * b ≠ b * a) : Subgroup.center R = ⊥ := by
-  haveI := hs
+  have := hs
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center R) with h | h
   · exact h
   · obtain ⟨a, b, hab⟩ := hna
@@ -52,7 +52,7 @@ theorem ggTorsion_not_markingE67_psl
       lab.tag = .E6 ∨ lab.tag = .twE6 ∨ lab.tag = .E7 := by
   intro hJ
   have hcard := ggTorsion_markingE67_card hJ
-  haveI : Fintype D := Fintype.ofFinite D
+  have : Fintype D := Fintype.ofFinite D
   obtain ⟨k, -, hk⟩ := FiniteField.card D 2
   have hkpos : 0 < (k : ℕ) := k.pos
   have hf : 1 ≤ (k : ℕ) := by omega
@@ -96,7 +96,7 @@ theorem ggTorsionKnownOverTagsE67_typeA :
   obtain ⟨d, D, _, _, hd, hD2, -, ⟨e₁⟩⟩ :=
     ggTorsion_psl_components (m := r) (n := n) hF (te67_center_eq_bot hs hna) hp hp2 hδp' hI hJ'
   obtain ⟨e₂⟩ := ggTorsion_centerQuot_image_equiv θ hcomp.2.2.1
-  haveI := hD2
+  have := hD2
   exact ggTorsion_not_markingE67_psl hd (e₂.trans e₁) hJ
 
 theorem ggTorsionKnownOverTagsE67_typeTwA :

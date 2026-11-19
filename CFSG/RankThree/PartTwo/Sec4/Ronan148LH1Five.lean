@@ -154,7 +154,7 @@ theorem rowOf427_of_not_nine_dvd {X : Type} [Group X] (h9 : ¬ 9 ∣ Nat.card X)
   let φ : T ≃* X := eT.trans eS
   have hT9 : ¬ 9 ∣ Nat.card T := by rwa [Nat.card_congr φ.toEquiv]
   have hT60 : Nat.card T ≠ 60 := by rwa [Nat.card_congr φ.toEquiv]
-  haveI hsT : IsSimpleGroup T := (MulEquiv.isSimpleGroup_congr eT).2 hs
+  have hsT : IsSimpleGroup T := (MulEquiv.isSimpleGroup_congr eT).2 hs
   have hnaT : ∃ a b : T, a * b ≠ b * a := by
     obtain ⟨a, b, hab⟩ := hna
     exact ⟨eT.symm a, eT.symm b, fun h => hab (by simpa using congrArg eT h)⟩
@@ -183,7 +183,7 @@ theorem rowOf427_of_not_nine_dvd {X : Type} [Group X] (h9 : ¬ 9 ∣ Nat.card X)
       rwa [Subgroup.subgroupOf_map_subtype, inf_of_le_left le_top] at h
     rcases Subgroup.IsSubnormal.eq_bot_or_top_of_isSimpleGroup hsT hsn' with hb | ht
     ·
-      haveI : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hq.2.1.toNontrivial
+      have : Nontrivial (↥J ⧸ Subgroup.center ↥J) := hq.2.1.toNontrivial
       obtain ⟨a, b, hab⟩ := exists_pair_ne (↥J ⧸ Subgroup.center ↥J)
       obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective a
       obtain ⟨b, rfl⟩ := QuotientGroup.mk_surjective b
@@ -301,7 +301,7 @@ theorem not_three_dvd_card_outer_projSL_two {p f : ℕ} [Fact p.Prime] (hf : ¬ 
 
 theorem not_three_dvd_card_outer_projSL_three_five :
     ¬ 3 ∣ Nat.card (Outer (projSL 3 (GaloisField 5 1))) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hd := higher_linear_outer_order_divides_field_gcd_bound
       (k := GaloisField 5 1) (p := 5) (f := 1) (n := 3) (by norm_num) le_rfl le_rfl
       (GaloisField.card 5 1 (by norm_num))
@@ -313,7 +313,7 @@ theorem not_three_dvd_card_outer_projSL_three_five :
 
 theorem not_three_dvd_card_outer_projSU_three_five_two :
     ¬ 3 ∣ Nat.card (Outer (projSU 3 5 2)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hd := card_outer_projSU_dvd 3 5 2 (by norm_num) le_rfl (by norm_num)
   intro h3
   have h3' := h3.trans hd
@@ -322,7 +322,7 @@ theorem not_three_dvd_card_outer_projSU_three_five_two :
 section Rows
 
 theorem kH1_one_three_one : RowOf427 (projSL 2 (GaloisField 3 1)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hc := CFSG.RankThree.PartTwo.Sec11.KSListsProof.card_projSL_two_mul (GaloisField 3 1)
   rw [GaloisField.card 3 1 (by norm_num)] at hc
   norm_num at hc
@@ -331,7 +331,7 @@ theorem kH1_one_three_one : RowOf427 (projSL 2 (GaloisField 3 1)) := by
     (cubeInner_of_not_three_dvd_card_outer (not_three_dvd_card_outer_projSL_two (by norm_num)))
 
 theorem kH1_two_SL_five : RowOf427 (projSL 3 (GaloisField 5 1)) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hc := CFSG.RankThree.PartTwo.KFacts.KS14.card_projSL_three_mul_gcd (GaloisField 5 1)
   rw [GaloisField.card 5 1 (by norm_num)] at hc
   norm_num at hc
@@ -339,7 +339,7 @@ theorem kH1_two_SL_five : RowOf427 (projSL 3 (GaloisField 5 1)) := by
     (cubeInner_of_not_three_dvd_card_outer not_three_dvd_card_outer_projSL_three_five)
 
 theorem kH1_two_SU_five_two : RowOf427 (projSU 3 5 2) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hc := CFSG.RankThree.PartTwo.KFacts.KS14.card_projSU_three_mul_gcd 5 2 (by norm_num)
   norm_num at hc
   refine rowOf427_of_not_nine_dvd (by rw [hc]; norm_num) (by rw [hc]; norm_num)
@@ -351,7 +351,7 @@ section Alt
 
 theorem kH1_one_three_two
     : RowOf427 (projSL 2 (GaloisField 3 2)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨e⟩ := CFSG.LocalAnalysis.EvenBN.Tits.I21L.a6aut_nonempty_equiv_psl
   exact RowOf427.of_mulEquiv ((projSLEquivPSLn 2 (GaloisField 3 2)).trans e.symm)
     (Ronan148R.rowOf427_alternating (n := 6) (by norm_num) (by norm_num) (by norm_num)

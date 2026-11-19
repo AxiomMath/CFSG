@@ -29,7 +29,7 @@ private theorem two_mul_natCast (m : ℕ) : (2 : ZMod (2 * m)) * (m : ZMod (2 * 
   push_cast at h
   exact h
 
-private theorem quat_common_aa {m : ℕ} (half : ZMod (2 * m))
+private theorem quat_common_aa {m : ℕ} (_half : ZMod (2 * m))
     (h2m : 2 * (m : ZMod (2 * m)) = 0)
     (i j : ZMod (2 * m)) (hi : i + i = (m : ZMod (2 * m))) (hj : j + j = (m : ZMod (2 * m))) :
     ∃ c : QuaternionGroup m, c * c = a (m : ZMod (2 * m)) ∧
@@ -93,8 +93,8 @@ private theorem quat_common {m : ℕ} (half : ZMod (2 * m))
 
 private theorem quat_unique {m : ℕ} (hm0 : 0 < m) (g : QuaternionGroup m) (hg : g * g = 1) :
     g = 1 ∨ g = a (m : ZMod (2 * m)) := by
-  haveI : NeZero m := ⟨hm0.ne'⟩
-  haveI : NeZero (2 * m) := ⟨by omega⟩
+  have : NeZero m := ⟨hm0.ne'⟩
+  have : NeZero (2 * m) := ⟨by omega⟩
   cases g with
   | a i =>
     simp only [a_mul_a, one_def, a.injEq] at hg
@@ -108,7 +108,7 @@ private theorem quat_unique {m : ℕ} (hm0 : 0 < m) (g : QuaternionGroup m) (hg 
     obtain ⟨c, hc⟩ := hdvd'
     have hc2 : c < 2 := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have : m * 2 ≤ m * c := Nat.mul_le_mul_left m hcon
       omega
     interval_cases c

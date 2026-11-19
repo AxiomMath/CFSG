@@ -16,25 +16,30 @@ section Coord
 
 variable {s p : ℕ} [Fact p.Prime]
 
+omit [Fact (Nat.Prime p)] in
 theorem swapMap_swapMap (i j : Fin s) (t : Fin s → ZMod p) :
     swapMap i j (swapMap i j t) = t := by
   funext m
   simp only [swapMap, Function.comp_apply, Equiv.swap_apply_self]
 
+omit [Fact (Nat.Prime p)] in
 theorem negMap_negMap (i : Fin s) (t : Fin s → ZMod p) :
     negMap i (negMap i t) = t := by
   funext m
   by_cases hm : m = i
   · subst hm
-    simp [negMap, Function.update_apply]
+    simp [negMap]
   · simp [negMap, Function.update_of_ne hm]
 
+omit [Fact p.Prime] in
 theorem swapMap_surjective (i j : Fin s) : Function.Surjective (swapMap (p := p) i j) :=
   fun t => ⟨swapMap i j t, swapMap_swapMap i j t⟩
 
+omit [Fact p.Prime] in
 theorem negMap_surjective (i : Fin s) : Function.Surjective (negMap (p := p) i) :=
   fun t => ⟨negMap i t, negMap_negMap i t⟩
 
+omit [Fact (Nat.Prime p)] in
 theorem swapMap_eq_self_iff {i j : Fin s} {t : Fin s → ZMod p} :
     swapMap i j t = t ↔ t i = t j := by
   constructor
@@ -70,7 +75,7 @@ theorem card_fixed_swapMap {i j : Fin s} (hij : i ≠ j) :
     Nat.card {t // swapMap (p := p) i j t = t} * p = p ^ s := by
   let f : (Fin s → ZMod p) →+ ZMod p :=
     AddMonoidHom.mk' (fun t => t i - t j) fun t u => by
-      simp only [Pi.add_apply, Pi.sub_apply]
+      simp only [Pi.add_apply]
       abel
   have hsurj : Function.Surjective f := by
     intro c
@@ -154,10 +159,10 @@ theorem swapMap_ne_negMap {i j : Fin s} (hij : i ≠ j) (m : Fin s) :
   rw [negMap] at h1
   by_cases hm : j = m
   · subst hm
-    rw [Function.update_apply, if_pos rfl, Pi.single_eq_of_ne (Ne.symm hij)] at h1
+    rw [Function.update_apply, ite_eq_left rfl, Pi.single_eq_of_ne (Ne.symm hij)] at h1
     have h2 : (1 : ZMod p) = 0 := h1.trans (neg_zero : (-(0 : ZMod p)) = 0)
     exact (Fact.out : p.Prime).not_dvd_one
-      ((ZMod.natCast_eq_zero_iff 1 p).mp (by simpa using h2))
+      ((ZMod.natCast_eq_zero_iff 1 p).mp (by simp at h2))
   · rw [Function.update_of_ne hm, Pi.single_eq_of_ne (Ne.symm hij)] at h1
     exact one_ne_zero h1
 
@@ -165,13 +170,13 @@ theorem eq_of_negMap_eq (hp2 : p ≠ 2) {m m' : Fin s} (h : negMap (p := p) m = 
     m = m' := by
   by_contra hne
   have h1 := congrFun (congrFun h (Pi.single m 1)) m
-  rw [negMap, Function.update_apply, if_pos rfl] at h1
+  rw [negMap, Function.update_apply, ite_eq_left rfl] at h1
   rw [negMap, Function.update_of_ne hne] at h1
   rw [Pi.single_eq_same] at h1
   have hp2' : 2 < p := by
     have hle := (Fact.out : p.Prime).two_le
     omega
-  haveI : Fact (2 < p) := ⟨hp2'⟩
+  have : Fact (2 < p) := ⟨hp2'⟩
   exact (CharP.neg_one_ne_one (ZMod p) p) h1
 
 end Coord
@@ -181,12 +186,14 @@ variable {K : Type} [Field K] [Finite K] {g : K[X]} [Fact (Irreducible g)] {n s 
   {hCp : rootMat g ^ p = 1} {L' : Type} [Group L'] {φ : SpecialLinearGroup (Fin n) K →* L'}
   {A : Subgroup (MulAut L')}
 
+omit [Finite K] in
 private theorem torusSL_pow_p (a : Multiplicative (Fin s → ZMod p)) :
     torusSL ε hC hCp a ^ p = 1 := by
   simpa [torusSL] using
     CoordSL.frameHom_pow_p (ψ := MonoidHom.id (SpecialLinearGroup (Fin n) K))
       (A₀ := 1) (ε := ε) (C := rootMat g) (hC := hC) hCp a
 
+omit [Finite K] in
 theorem injective_conj_torusSL
     (hφc : ∀ x, φ x ∈ Subgroup.center L' → x ∈ Subgroup.center (SpecialLinearGroup (Fin n) K))
     (hunit : ∀ j : ℕ, ¬ p ∣ j → ∀ c : K, IsUnit (rootMat g ^ j - c • 1)) :
@@ -211,15 +218,16 @@ theorem injective_conj_torusSL
     funext t
     rw [show t = ofAdd (toAdd t) from (ofAdd_toAdd t).symm]
     rw [CoordSL.frameHom_apply, torusSL, CoordSL.frameHom_apply]
-    simp [ψ, MulAut.conj_apply]
+    simp [ψ]
   change Function.Injective (fun t => CoordSL.frameHom ψ 1 ε hC hCp t) at hinj
   rw [hfun] at hinj
   exact hinj
 
 @[expose] noncomputable def torusFun (hCp : rootMat g ^ p = 1)
-    (hM : IsBlockTorusModel φ ε hC A) (t : Multiplicative (Fin s → ZMod p)) : MulAut L' :=
+    (_hM : IsBlockTorusModel φ ε hC A) (t : Multiplicative (Fin s → ZMod p)) : MulAut L' :=
   MulAut.conj (φ (torusSL ε hC hCp t))
 
+omit [Finite K] in
 theorem torusFun_mem (hCp : rootMat g ^ p = 1)
     (hM : IsBlockTorusModel φ ε hC A) (t : Multiplicative (Fin s → ZMod p)) :
     torusFun hCp hM t ∈ A := by
@@ -259,6 +267,7 @@ theorem torusFun_mem (hCp : rootMat g ^ p = 1)
       rw [torusFun]
       exact ht.symm⟩
 
+omit [Finite K] in
 theorem coe_torusEquiv (hCp : rootMat g ^ p = 1) (hM : IsBlockTorusModel φ ε hC A)
     (hφc : ∀ x, φ x ∈ Subgroup.center L' → x ∈ Subgroup.center (SpecialLinearGroup (Fin n) K))
     (hunit : ∀ j : ℕ, ¬ p ∣ j → ∀ c : K, IsUnit (rootMat g ^ j - c • 1))
@@ -269,6 +278,7 @@ theorem coe_torusEquiv (hCp : rootMat g ^ p = 1) (hM : IsBlockTorusModel φ ε h
     MulAut.conj (φ (torusSL ε hC hCp t))
   rfl
 
+omit [Finite K] in
 theorem IsBlockTorusModel.card_eq (hCp : rootMat g ^ p = 1) (hM : IsBlockTorusModel φ ε hC A)
     (hφc : ∀ x, φ x ∈ Subgroup.center L' → x ∈ Subgroup.center (SpecialLinearGroup (Fin n) K))
     (hunit : ∀ j : ℕ, ¬ p ∣ j → ∀ c : K, IsUnit (rootMat g ^ j - c • 1)) :
@@ -279,6 +289,7 @@ theorem IsBlockTorusModel.card_eq (hCp : rootMat g ^ p = 1) (hM : IsBlockTorusMo
 
 variable {w : SpecialLinearGroup (Fin n) K} {f : (Fin s → ZMod p) → (Fin s → ZMod p)}
 
+omit [Finite K] in
 theorem ggTorusWeylElt_of_conj (hM : IsBlockTorusModel φ ε hC A)
     (hw : ∀ t, w * torusSL ε hC hCp (ofAdd t) * w⁻¹ = torusSL ε hC hCp (ofAdd (f t))) :
     GGTorusWeylElt p A (φ w) := by
@@ -314,6 +325,7 @@ theorem ggTorusWeylElt_of_conj (hM : IsBlockTorusModel φ ε hC A)
     rw [hkey, MulAut.conj_apply, hcomm]
     group
 
+omit [Finite K] in
 theorem conj_mem_normalizer_of_conj (hM : IsBlockTorusModel φ ε hC A)
     (hw : ∀ t, w * torusSL ε hC hCp (ofAdd t) * w⁻¹ = torusSL ε hC hCp (ofAdd (f t)))
     (hf : Function.Surjective f) :
@@ -342,6 +354,7 @@ theorem conj_mem_normalizer_of_conj (hM : IsBlockTorusModel φ ε hC A)
               rw [← hw u]
               group]
 
+omit [Finite K] in
 theorem ggConjAut_torusEquiv (hM : IsBlockTorusModel φ ε hC A)
     (hφc : ∀ x, φ x ∈ Subgroup.center L' → x ∈ Subgroup.center (SpecialLinearGroup (Fin n) K))
     (hunit : ∀ j : ℕ, ¬ p ∣ j → ∀ c : K, IsUnit (rootMat g ^ j - c • 1))
@@ -353,6 +366,7 @@ theorem ggConjAut_torusEquiv (hM : IsBlockTorusModel φ ε hC A)
   rw [ggConjAut_apply, coe_torusEquiv, coe_torusEquiv]
   simp only [← map_mul, ← map_inv, hw t]
 
+omit [Finite K] in
 theorem commute_conj_iff_of_conj
     (hφc : ∀ x, φ x ∈ Subgroup.center L' → x ∈ Subgroup.center (SpecialLinearGroup (Fin n) K))
     (hunit : ∀ j : ℕ, ¬ p ∣ j → ∀ c : K, IsUnit (rootMat g ^ j - c • 1))
@@ -363,7 +377,6 @@ theorem commute_conj_iff_of_conj
   have hAB : MulAut.conj (φ w) * MulAut.conj (φ (torusSL ε hC hCp (ofAdd t))) =
       MulAut.conj (φ (torusSL ε hC hCp (ofAdd (f t)))) * MulAut.conj (φ w) := by
     rw [← map_mul, ← map_mul]
-    congr 1
     rw [← map_mul, ← map_mul, ← hw t]
     group
   constructor
@@ -377,6 +390,7 @@ theorem commute_conj_iff_of_conj
   · intro h
     rw [hAB, h]
 
+omit [Finite K] in
 theorem isReflection_of_conj (hM : IsBlockTorusModel φ ε hC A)
     (hφc : ∀ x, φ x ∈ Subgroup.center L' → x ∈ Subgroup.center (SpecialLinearGroup (Fin n) K))
     (hunit : ∀ j : ℕ, ¬ p ∣ j → ∀ c : K, IsUnit (rootMat g ^ j - c • 1))
@@ -418,6 +432,7 @@ theorem isReflection_of_conj (hM : IsBlockTorusModel φ ε hC A)
     rw [hcard]
     exact hfix.trans (hM.card_eq hCp hφc hunit).symm
 
+omit [Finite K] in
 theorem eq_of_ggConjAut_eq (hM : IsBlockTorusModel φ ε hC A)
     (hφc : ∀ x, φ x ∈ Subgroup.center L' → x ∈ Subgroup.center (SpecialLinearGroup (Fin n) K))
     (hunit : ∀ j : ℕ, ¬ p ∣ j → ∀ c : K, IsUnit (rootMat g ^ j - c • 1))

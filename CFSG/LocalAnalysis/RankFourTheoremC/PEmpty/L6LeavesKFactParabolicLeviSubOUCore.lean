@@ -27,8 +27,8 @@ theorem exists_levi_section_of_blocks_gen [Finite Q] {β : Q →* ∀ j, G j}
         ¬ r ∣ Nat.card W := by
   classical
   set ρ' : ↥(blockPreOf β S j₀) →* A := ρ.comp (blockPreOf β S j₀).subtype with hρ'
-  haveI : Finite ↥(blockPreOf β S j₀) := inferInstance
-  haveI : Finite ↥ρ'.range := Finite.of_surjective _ ρ'.rangeRestrict_surjective
+  have : Finite ↥(blockPreOf β S j₀) := inferInstance
+  have : Finite ↥ρ'.range := Finite.of_surjective _ ρ'.rangeRestrict_surjective
   let θ : ↥(blockPreOf β S j₀) →* ↥(S j₀) ⧸ Subgroup.center ↥(S j₀) :=
     (QuotientGroup.mk' (Subgroup.center ↥(S j₀))).comp (blockHomOf β S j₀)
   have hkerle : ρ'.rangeRestrict.ker ≤ θ.ker := by
@@ -50,7 +50,7 @@ theorem exists_levi_section_of_blocks_gen [Finite Q] {β : Q →* ∀ j, G j}
     intro t
     obtain ⟨y, rfl⟩ := (QuotientGroup.mk'_surjective _).comp (blockHomOf_surjective hS j₀) t
     exact ⟨ρ'.rangeRestrict y, hθθ' y⟩
-  haveI : IsSimpleGroup (↥(S j₀) ⧸ Subgroup.center ↥(S j₀)) := hq.2
+  have : IsSimpleGroup (↥(S j₀) ⧸ Subgroup.center ↥(S j₀)) := hq.2
   have hsec := S622IsSimpleSection.of_surjective θ' hθ'surj
     (CFSG.AGLEmbedding.LeviBlock.exists_noncomm_centerQuotient hq)
   refine ⟨ρ'.range, θ'.ker.map ρ'.range.subtype, ?_, hsec, ?_, ?_⟩
@@ -78,7 +78,7 @@ theorem exists_levi_section_of_blocks_gen [Finite Q] {β : Q →* ∀ j, G j}
       refine hdvd.trans ?_
       rw [hker']
       exact Subgroup.card_map_dvd θ.ker ρ'.rangeRestrict
-    haveI : Fact r.Prime := ⟨hr⟩
+    have : Fact r.Prime := ⟨hr⟩
     obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := ↥θ.ker) r hdvd'
     set y : ↥(blockPreOf β S j₀) := z.1 with hy
     have hyker : y ∈ θ.ker := z.2
@@ -124,7 +124,7 @@ theorem leviAt_of_blocks {K₀ : Subgroup S} (ρ : Q →* S) (hρK : ρ.range �
       2 ≤ CFSG.Open.pRank f (⊤ : Subgroup S) ∧
       Y ≤ K₀ ∧ S622IsSimpleSection Y W ∧ f ∣ W.relIndex Y ∧
       p ∣ W.relIndex Y ∧ ¬ p ∣ Nat.card W := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨g, hg⟩ := exists_prime_orderOf_dvd_card' (G := Q) p hpQ
   have hgp : g ^ p = 1 := hg ▸ pow_orderOf_eq_one g
   have hg1 : g ≠ 1 := fun h => hp.one_lt.ne' (by rw [← hg, h, orderOf_one])
@@ -153,9 +153,9 @@ theorem map_eq_one_of_pow_eq_one_of_not_dvd {G H : Type*} [Group G] [Group H] (�
 theorem mem_of_pow_eq_one_of_index_two {G : Type*} [Group G] {H : Subgroup G}
     (hH : H.index = 2) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {x : G} (hx : x ^ p = 1) :
     x ∈ H := by
-  haveI : H.Normal := Subgroup.normal_of_index_eq_two hH
+  have : H.Normal := Subgroup.normal_of_index_eq_two hH
   have hcard : Nat.card (G ⧸ H) = 2 := hH
-  haveI : Finite (G ⧸ H) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (G ⧸ H) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have hp2' : ¬ p ∣ Nat.card (G ⧸ H) := by
     rw [hcard]
     intro h
@@ -183,7 +183,7 @@ theorem slBlock_data {K : Type} [Field K] [Finite K] [CharP K 2] {k : ℕ} (hk2 
       ¬ p ∣ Nat.card (Subgroup.center ↥(slRange K k)) ∧
       p ∣ Nat.card (↥(slRange K k) ⧸ Subgroup.center ↥(slRange K k)) ∧
       3 ∣ Nat.card (↥(slRange K k) ⧸ Subgroup.center ↥(slRange K k)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let e := slEquivToGLRange (K := K) k
   have hxR : x ∈ slRange K k := by
     change x ∈ (Matrix.SpecialLinearGroup.toGL :

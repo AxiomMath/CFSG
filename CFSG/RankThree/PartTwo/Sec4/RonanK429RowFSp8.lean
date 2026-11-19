@@ -96,7 +96,7 @@ theorem y0M8_pow_seven : y0M8 ^ 7 = 1 := by decide +kernel
 theorem y0M8_ne_one : y0M8 ≠ 1 := by decide +kernel
 
 theorem orderOf_y0 : orderOf y0 = 7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   refine orderOf_eq_prime (matH8_injective ?_) fun h => y0M8_ne_one ?_
   · rw [map_pow, matH8_y0, y0M8_pow_seven, map_one]
   · rw [← matH8_y0, h, map_one]
@@ -325,9 +325,9 @@ theorem good429_e : Good429 (Subgroup.centralizer ({sp8E} : Set H8)) := by
     apply bl_injective e8
     rw [map_mul, map_mul, bl_mul, bl_mul, matH8_iota6, bl_emb6, bl_sp8E, fromBlocks_diag_mul,
       fromBlocks_diag_mul, Matrix.mul_one, Matrix.one_mul, Matrix.one_mul, Matrix.mul_one]
-  haveI : IsSimpleGroup H6 := isSimpleGroup_H6
-  haveI : Group.IsPerfect H6 := isPerfect_of_simple exists_not_comm_H6
-  haveI : Group.IsPerfect D :=
+  have : IsSimpleGroup H6 := isSimpleGroup_H6
+  have : Group.IsPerfect H6 := isPerfect_of_simple exists_not_comm_H6
+  have : Group.IsPerfect D :=
     Group.IsPerfect.ofSurjective (f := iota6.rangeRestrict) iota6.rangeRestrict_surjective
   have hcard : Nat.card D = 1451520 := by
     rw [hD, ← Nat.card_congr (MonoidHom.ofInjective iota6_injective).toEquiv, card_H6]
@@ -358,7 +358,7 @@ theorem noCfgS429_sp82 {S : Type} [Group S] [Finite S] [IsSimpleGroup S]
 
 theorem eight_Sp8 : RowSOf429 (projSp 4 (GaloisField 2 1)) :=
   rowSOf429_of_noCfg fun S _ _ hs hna ⟨e⟩ => by
-    haveI := hs
+    have := hs
     exact noCfgS429_sp82 hna e
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK429F

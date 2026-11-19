@@ -94,7 +94,7 @@ theorem ltrP_rep (k : Nat) : RepF 3850 (pg 12 (mask 12) (PHSA.ltrP k)) (hsLtr k)
         · exact absurd (Nat.blt_eq.mp h) (by omega)
       rw [hb, hl]
     have e : hsLtr k = PHSCheck.g 1 := by
-      rw [hsLtr, if_neg (by omega), hsGen, hsStrongPerm, PHSCheck.arr_eq 1 (by norm_num)]
+      rw [hsLtr, ite_eq_right (by omega), hsGen, hsStrongPerm, PHSCheck.arr_eq 1 (by norm_num)]
       rfl
     rw [e1, e]
     exact repF_of_rep (PHSCheck.rep_g 1 (by norm_num)).1
@@ -103,7 +103,7 @@ theorem a0_rep : RepF 3850 PHSA.a0P (hsLtr 0) := ltrP_rep 0
 
 theorem a1_rep : RepF 3850 PHSA.a1P (hsGen 1) := by
   have h := ltrP_rep 4
-  rw [hsLtr, if_neg (by norm_num)] at h
+  rw [hsLtr, ite_eq_right (by norm_num)] at h
   exact h
 
 theorem wP_rep : ∀ w : List Nat, RepF 3850 (PHSA.wP w) (wordElt w)
@@ -149,7 +149,7 @@ theorem ltrK_mem (k : Nat) : hsLtr k ∈ P3 := by
     · obtain ⟨j, rfl⟩ : ∃ j, k = j + 1 := ⟨k - 1, by omega⟩
       rw [ltr_eq_E (by omega)]
       exact E_mem (allN_spec smallParts.2.1 j (by omega))
-  · rw [hsLtr, if_neg (by omega)]
+  · rw [hsLtr, ite_eq_right (by omega)]
     exact hsGen_mem 1 (by norm_num)
 
 theorem wordK_mem : ∀ w : List Nat, wordElt w ∈ P3

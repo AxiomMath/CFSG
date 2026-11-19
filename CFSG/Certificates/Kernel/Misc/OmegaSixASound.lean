@@ -216,7 +216,7 @@ theorem relA_eq (X Y : ℕ) :
       simp only [matF_mul, matF_ONE, mul_one, mul_assoc])
   have F2 : MULF X (MULF X ONE) = MULF X X :=
     eqF (CFSG.KC.Sp62.MULF_lt _ _) (CFSG.KC.Sp62.MULF_lt _ _) (by
-      simp only [matF_mul, matF_ONE, mul_one, mul_assoc])
+      simp only [matF_mul, matF_ONE, mul_one])
   have F3 : MULF X (MULF Y (MULF X (MULF Y (MULF X (MULF Y (MULF X (MULF Y (MULF X
       (MULF Y ONE))))))))) =
       MULF (MULF (MULF (MULF X Y) (MULF X Y)) (MULF (MULF X Y) (MULF X Y))) (MULF X Y) :=
@@ -430,7 +430,6 @@ theorem centCheck_of {L : ℕ → ℕ} (hA : aMat = matF (R 0)) (hB : bMat = mat
         obtain ⟨m, -, hm, hLm⟩ := bsK_sound _ _ _ _ _ _ hall
         have hcl := (CFSG.KC.Misc.Clos.allR_iff _ _ _).mp hc' m (Nat.zero_le _) (by omega)
         rw [strictY_eq] at hcl
-        beta_reduce at hLm
         rw [hLm] at hcl
         rw [arrF_mul, arrF_mul, beq_arrF (CFSG.KC.Sp62.MULF_lt _ _) (CFSG.KC.Sp62.MULF_lt _ _)]
         cases h3 : Nat.beq (MULF (recX G 3 j) (recX R 10 i)) (MULF (recX R 10 i) (recX G 3 j))

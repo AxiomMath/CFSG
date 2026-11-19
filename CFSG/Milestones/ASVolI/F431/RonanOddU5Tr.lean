@@ -24,9 +24,9 @@ theorem ronOdd5_transfer (hyp : HypF_4_31 .U5 1 Gp M₁ M₂ β ε z) {s : E} (h
     (hfus0 : ∀ (g : M) (x : ↥(M₁ ⊓ M₂)), (x : E) ∈ pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) → x ≠ 1 →
       x * x = 1 → bM β ε x ≠ g⁻¹ * bM β ε ⟨s, hsM⟩ * g) : False := by
   classical
-  haveI := hyp.amalgam.finite
-  haveI := hyp.finite_M
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := hyp.amalgam.finite
+  have := hyp.finite_M
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set S := pCoreOf 2 (Gp ⊓ (M₁ ⊓ M₂)) with hSdef
   set b1 := burnsideF4d_bOne β ε with hb1def
   have hb1 : Function.Injective b1 := burnsideF4j_bOne_injective hyp

@@ -81,7 +81,7 @@ theorem chevTwo_small_cases (S : Type) [Group S] (hch : IsChevSimple 2 S)
         have hsc : CFSG.Open.StatedClassicalModel S CFSG.Open.StatedLieTag.PSL 2 q.p q.exponent :=
           hM.2.resolve_right (fun h => absurd h.1 (by norm_num))
         have hq7 : q.p ^ q.exponent = 7 := (TauCeti.PrimePower.card_def q).symm.trans h7
-        haveI : Fact (Nat.Prime q.p) := ⟨q.prime_p⟩
+        have : Fact (Nat.Prime q.p) := ⟨q.prime_p⟩
         have hF : Nat.card (GaloisField 7 1) = q.p ^ q.exponent := by
           rw [GaloisField.card 7 1 (by norm_num), pow_one, hq7]
         obtain ⟨e7⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_stated q.p q.exponent
@@ -108,13 +108,13 @@ theorem oddInner_transport {S X : Type} [Group S] [Group X] (e : S ≃* X)
   simp only [MulAut.conj_apply, map_mul, map_inv, MulEquiv.apply_symm_apply]
   exact h1
 
-theorem oddInner_alt5 : ∀ φ : MulAut (alternatingGroup (Fin 5)), Odd (orderOf φ) →
-    ∃ g : alternatingGroup (Fin 5), φ = MulAut.conj g :=
-  fun φ hφ => CFSG.ASVolI.burnsideA315x_alt_odd_inner (n := 5) (Or.inl rfl) hφ
+theorem oddInner_alt5 : ∀ _φ : MulAut (alternatingGroup (Fin 5)), Odd (orderOf _φ) →
+    ∃ g : alternatingGroup (Fin 5), _φ = MulAut.conj g :=
+  fun _φ hφ => CFSG.ASVolI.burnsideA315x_alt_odd_inner (n := 5) (Or.inl rfl) hφ
 
-theorem oddInner_alt6 : ∀ φ : MulAut (alternatingGroup (Fin 6)), Odd (orderOf φ) →
-    ∃ g : alternatingGroup (Fin 6), φ = MulAut.conj g :=
-  fun φ hφ => CFSG.ASVolI.burnsideA315x_alt6_odd_inner hφ
+theorem oddInner_alt6 : ∀ _φ : MulAut (alternatingGroup (Fin 6)), Odd (orderOf _φ) →
+    ∃ g : alternatingGroup (Fin 6), _φ = MulAut.conj g :=
+  fun _φ hφ => CFSG.ASVolI.burnsideA315x_alt6_odd_inner hφ
 
 theorem oddInner_alt8 : ∀ φ : MulAut (alternatingGroup (Fin 8)), Odd (orderOf φ) →
     ∃ g : alternatingGroup (Fin 8), φ = MulAut.conj g :=
@@ -354,7 +354,7 @@ theorem coreStmt_alt6 : CoreStmt (alternatingGroup (Fin 6)) :=
 
 theorem coreStmt_psl27 : CoreStmt (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 7 1)) :=
   fun g hg R hR hRne _ hc => by
-    haveI : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 7 1)) := inferInstance
+    have : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 2) (GaloisField 7 1)) := inferInstance
     exact core_of_involution hinv_psl27 g hg R hR hRne hc
 
 theorem small_facts {S : Type} [Group S]
@@ -390,13 +390,13 @@ theorem aut_eq_one_of_central_pert {H : Type} [Group H] (hperf : commutator H = 
   let F : Subgroup H :=
     { carrier := {x | α x = x}
       mul_mem' := fun {a b} ha hb => by
-        simp only [Set.mem_setOf_eq] at ha hb ⊢
+        simp only [Set.mem_ofPred_eq] at ha hb ⊢
         rw [map_mul, ha, hb]
       one_mem' := by
-        simp only [Set.mem_setOf_eq]
+        simp only [Set.mem_ofPred_eq]
         rw [map_one]
       inv_mem' := fun {a} ha => by
-        simp only [Set.mem_setOf_eq] at ha ⊢
+        simp only [Set.mem_ofPred_eq] at ha ⊢
         rw [map_inv, ha] }
   have hcomm_fix : ∀ a b : H, α ⁅a, b⁆ = ⁅a, b⁆ := by
     intro a b
@@ -421,7 +421,7 @@ theorem smallChev2Aut_holds : SmallChev2Aut := by
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup (Subgroup.center H),
       i133_twoPart_mul_of_ne h1 h2, i133_twoPart_eq_one_of_odd hZodd, mul_one]
   have hZS : Subgroup.center (H ⧸ Subgroup.center H) = ⊥ := by
-    haveI : Nontrivial (H ⧸ Subgroup.center H) := hsimple.toNontrivial
+    have : Nontrivial (H ⧸ Subgroup.center H) := hsimple.toNontrivial
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center (H ⧸ Subgroup.center H)) with h | h
     · exact h
     · exfalso

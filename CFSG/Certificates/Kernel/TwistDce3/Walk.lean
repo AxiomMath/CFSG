@@ -31,7 +31,7 @@ theorem evalWord_twist {x : ℕ → G} {s : G} {NT M : ℕ}
       (hs c (hl c List.mem_cons_self)).2, mul_assoc]
 
 theorem GD.th {x : ℕ → G} {s : G} {NT M B tw : ℕ}
-    (hs : ∀ c < NT, thL M c < 12 ∧ x c * s = s * x (thL M c)) (hok : wOK tw = true)
+    (hs : ∀ c < NT, thL M c < 12 ∧ x c * s = s * x (thL M c)) (_hok : wOK tw = true)
     (hlt : ∀ c ∈ lst tw, c < NT) (hl : wLen tw < B) :
     GD B (wTh M tw) ∧ val x tw * s = s * val x (wTh M tw) := by
   obtain ⟨h1, h2, h3⟩ := wTh_spec M tw
@@ -148,7 +148,7 @@ theorem tStep_spec (hinv : ∀ c < 12, ivL INVM c < 12 ∧ x (ivL INVM c) = (x c
     have hfa' : dKind (RD (hNat J 20)) < 3 := Nat.blt_eq.mp hfa
     have hk' := Nat.eq_of_beq_eq_true hk
     obtain ⟨hSg, hSc⟩ := hpath _ _ hm (Nat.blt_eq.mp hS)
-    rw [(wsMk_spec (by first | exact dN1_lt _ | exact dN2_lt _) (by norm_num) _).1]
+    rw [(wsMk_spec (by first | exact dN1_lt _) (by norm_num) _).1]
     subst hk'
   · exact step_core3 PB F INVM BS NB H x hinv hone (ce_flip_t (hR.fact hfa')) hTb hNT hR.ra hR.rw
       hT' (hWord_spec _).1 hSg hSc ha h1
@@ -175,7 +175,7 @@ theorem posStep_mk (r w pos : ℕ) (back : Bool) (s a : ℕ) :
 theorem posStep_fail (r w pos : ℕ) (back : Bool) {st : WS} (h : wsFail st.1 = 1) :
     wsFail (posStep PB F INVM BS NB NT PSF PSB RD RW RA r w pos back st).1 = 1 := by
   obtain ⟨s, a⟩ := st
-  rw [posStep_mk, if_pos (by simpa using h)]
+  rw [posStep_mk, ite_eq_left (by simpa using h)]
   exact wsBad_fail a
 
 theorem foldl_fail (r w : ℕ) (back : Bool) (ps : List ℕ) : ∀ {st : WS}, wsFail st.1 = 1 →
@@ -208,11 +208,11 @@ theorem posStep_spec (hinv : ∀ c < 12, ivL INVM c < 12 ∧ x (ivL INVM c) = (x
   rw [posStep_mk] at hf ⊢
   unfold pval
   by_cases h1 : Nat.beq (wsFail s) 1 = true
-  · rw [if_pos h1] at hf
+  · rw [ite_eq_left h1] at hf
     exact absurd hf (by rw [wsBad_fail]; norm_num)
-  rw [if_neg h1] at hf ⊢
+  rw [ite_eq_right h1] at hf ⊢
   by_cases h12 : Nat.blt (wAt w pos) 12 = true
-  · rw [if_pos h12] at hf ⊢
+  · rw [ite_eq_left h12] at hf ⊢
     have hc12 : wAt w pos < 12 := Nat.blt_eq.mp h12
     have hd : (if back = true then ivL INVM (wAt w pos) else wAt w pos) < 12 := by
       split_ifs
@@ -231,17 +231,17 @@ theorem posStep_spec (hinv : ∀ c < 12, ivL INVM c < 12 ∧ x (ivL INVM c) = (x
         x (if back = true then ivL INVM (wAt w pos) else wAt w pos) by
       rw [val, o3]; simp [evalWord]]
     cases back <;> simp [hv _ hc12, (hinv _ hc12).2]
-  · rw [if_neg h12] at hf ⊢
+  · rw [ite_eq_right h12] at hf ⊢
     have hc12 : 12 ≤ wAt w pos := by
       have : ¬ wAt w pos < 12 := fun h => h12 (Nat.blt_eq.mpr h)
       omega
     by_cases h14 : Nat.beq (wAt w pos) 14 = true
-    · rw [if_pos h14] at hf ⊢
+    · rw [ite_eq_left h14] at hf ⊢
       obtain ⟨hce, hgd⟩ := eStep_spec RD RW RA INVM H x t hinv back hH ha (by omega) hf
       refine ⟨?_, hgd.mono (by omega)⟩
       rw [Nat.eq_of_beq_eq_true h14, hv14, inv_one, ite_self, mul_one]
       exact hce
-    · rw [if_neg h14] at hf ⊢
+    · rw [ite_eq_right h14] at hf ⊢
       have hc14 : wAt w pos ≠ 14 := fun h => h14 (by rw [h]; rfl)
       obtain ⟨hce, hgd⟩ := tStep_spec PB F RD RW RA INVM BS NB NT PSF PSB H x t hinv hNT hTf hTb
         hone _ hH (ha.mono (by omega)) hf
@@ -377,12 +377,12 @@ theorem walk_core (hinv : ∀ c < 12, ivL INVM c < 12 ∧ x (ivL INVM c) = (x c)
     (dKind d = 3 ∧ CE H (X (dN1 d)) (X (dN2 d) * val x (RW r))) := by
   rw [brec_eq] at h
   by_cases h14 : Nat.blt c 14 = true
-  · rw [if_pos h14, kandB_iff, brec_eq] at h
+  · rw [ite_eq_left h14, kandB_iff, brec_eq] at h
     obtain ⟨hk2, h⟩ := h
     left
     refine ⟨Nat.eq_of_beq_eq_true hk2, ?_⟩
     by_cases h12 : Nat.beq c 12 = true
-    · rw [if_pos h12] at h
+    · rw [ite_eq_left h12] at h
       simp only [kandB_iff] at h
       obtain ⟨hkf, hkb, h1f, h1b⟩ := h
       rw [hv12 (Nat.eq_of_beq_eq_true h12)] at key
@@ -390,7 +390,7 @@ theorem walk_core (hinv : ∀ c < 12, ivL INVM c < 12 ∧ x (ivL INVM c) = (x c)
         val_eq_of_isOne3 hinv hone hRW gf (by norm_num) h1f,
         val_eq_of_isOne3 hinv hone hRA gb (by norm_num) h1b]
       exact key
-    · rw [if_neg h12] at h
+    · rw [ite_eq_right h12] at h
       simp only [kandB_iff] at h
       obtain ⟨h13, hkb, hkf, h1b, h1f⟩ := h
       rw [hv13 (Nat.eq_of_beq_eq_true h13)] at key
@@ -398,7 +398,7 @@ theorem walk_core (hinv : ∀ c < 12, ivL INVM c < 12 ∧ x (ivL INVM c) = (x c)
         val_eq_of_isOne3 hinv hone hRW gb (by norm_num) h1b,
         val_eq_of_isOne3 hinv hone hRA gf (by norm_num) h1f]
       exact ce_flip_inv key
-  · rw [if_neg h14] at h
+  · rw [ite_eq_right h14] at h
     simp only [kandB_iff] at h
     obtain ⟨h14', hk3, hkf, hkb, h1⟩ := h
     right
@@ -431,7 +431,7 @@ theorem walkOK_spec (hinv : ∀ c < 12, ivL INVM c < 12 ∧ x (ivL INVM c) = (x 
     (dKind d = 2 ∧ CE H (X (dN1 d) * val x (RW r) * t) (X (dN2 d) * val x (RA r))) ∨
     (dKind d = 3 ∧ CE H (X (dN1 d)) (X (dN2 d) * val x (RW r))) := by
   unfold walkOK at h
-  simp only [sB_eq, prod_rec_eq, walkRun_eq, kandB_iff] at h
+  simp only [sB_eq, walkRun_eq, kandB_iff] at h
   obtain ⟨hh0, hg, hff, hfb, -, h⟩ := h
   obtain ⟨hL, hlt, hwv⟩ := hWD _ (land4095_lt J)
   generalize WD (Nat.land J 4095) = w at hL hlt hwv hg hff hfb h
@@ -450,7 +450,7 @@ theorem walkOK_spec (hinv : ∀ c < 12, ivL INVM c < 12 ∧ x (ivL INVM c) = (x 
       intro p hp
       simp only [List.mem_map, List.mem_range'_1] at hp
       obtain ⟨o, ho, rfl⟩ := hp
-      exact hat _ (by simp only [Nat.sub_eq, Bool.false_eq_true, ↓reduceIte] at ho ⊢; omega))
+      exact hat _ (by simp only [Bool.false_eq_true, ↓reduceIte] at ho ⊢; omega))
     _ 131072 le_rfl (by simp only [List.length_map, List.length_range']; omega) h0 hff
   obtain ⟨c2, g2⟩ := walk_list PB F RD RW RA INVM BS NB NT PSF PSB H x t hinv hNT hTf hTb hone v
     hv hv12 hv13 hv14 true hH _ (by

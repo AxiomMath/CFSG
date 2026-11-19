@@ -66,7 +66,7 @@ theorem conj_mem_of_mem_proofS (D : Data G) {V L : Subgroup G} (hV : InCalW D.M 
     (hL : F12.IsComponentModO2 D.M L) (hLV : ⁅L, V⁆ ≠ ⊥)
     (hJL : ⁅F12.jOf D.T, L⁆ ≤ pCoreOf 2 L) {s : G} (hs : s ∈ proofS D) :
     ∀ y ∈ L, s * y * s⁻¹ ∈ L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLE := le_normalizer_proofE D hL hJL
   have hLM : L ≤ D.M := hL.2.1
   have hsM : s ∈ D.M := D.sylowM.le hs.1
@@ -164,7 +164,7 @@ theorem commutator_mem_of_mem_proofS (D : Data G) {V L : Subgroup G} (hV : InCal
     (hL : F12.IsComponentModO2 D.M L) (hLV : ⁅L, V⁆ ≠ ⊥)
     (hJL : ⁅F12.jOf D.T, L⁆ ≤ pCoreOf 2 L) :
     ∀ x ∈ L, ∀ s ∈ proofS D, ⁅x, s⁆ ∈ pCoreOf 2 D.M := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hLE := le_normalizer_proofE D hL hJL
   have hLCE : L ≤ normalizer ((centralizer (proofE D : Set G) : Subgroup G) : Set G) :=
     A1a.le_normalizer_centralizer hLE

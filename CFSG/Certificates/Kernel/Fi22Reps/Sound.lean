@@ -462,7 +462,7 @@ theorem card_fixG_le {P nL s f1 f2 : ℕ → ℕ} {cd cl cb : ℕ → ℕ → �
     hlast
   have hPl : ∀ m < nP, ptE (P m) < 3510 := fun m hm => (phi_cases (hphi m hm)).1
   obtain ⟨pos, hpl, hpg⟩ : ∃ pos : ℕ → ℕ, (∀ u < L, pos u = nL u) ∧ (∀ u, L ≤ u → pos u = nP) :=
-    ⟨fun u => if u < L then nL u else nP, fun u hu => if_pos hu, fun u hu => if_neg (by omega)⟩
+    ⟨fun u => if u < L then nL u else nP, fun u hu => ite_eq_left hu, fun u hu => ite_eq_right (by omega)⟩
   have hcell : ∀ u < L, ∀ h ∈ fixG x (preQ P (nL u)),
       idx 3510 h (ptE (P (nL u))) ∈ (Finset.range (s u)).image (cl u) := fun u hu h hh =>
     cell_mem hL hw hX (fun m hm => hPl m (by have := hnP u hu; omega)) (hlev u hu) (hlevB u hu)
@@ -575,7 +575,7 @@ theorem sep_of {P fp sw : ℕ → ℕ} {nF : ℕ} (hL : ∀ c, RepE (LT c) (letJ
     swap
     · rw [(cmE_iff hL hw (hPl m1 h1) (hPl m2 h2)).2 hcm] at hb
       exact absurd hb (by decide)
-    simp only [sB_eq, bRec_and, Bool.and_eq_true, blt_iff] at h5
+    simp only [bRec_and, Bool.and_eq_true, blt_iff] at h5
     obtain ⟨he1, he2, c1, c2, c3, c4⟩ := h5
     have q1 := (cmE_iff hL hw (hPl _ he1) (hPl m2 h2)).1 c1
     have q3 := (cmE_iff hL hw (hPl _ he2) (hPl m1 h1)).1 c3

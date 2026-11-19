@@ -393,7 +393,7 @@ theorem nonempty_mulEquiv_omegaMinus_of_marking {X : Type} [Group X] {r : ℕ} (
   subst hl
   subst hn
   dsimp only [CFSG.Assembly.LargeEvenRawDatumLegacy] at hraw
-  rw [if_neg (by omega : ¬ l = 2), if_neg (by omega : ¬ l = 3)] at hraw
+  rw [ite_eq_right (by omega : ¬ l = 2), ite_eq_right (by omega : ¬ l = 3)] at hraw
   obtain ⟨K, hK, hKfin, hcard, b, c, hirr, hQ⟩ := hraw
   obtain ⟨θ, -⟩ := hQ.2.2
   let : Field K := hK

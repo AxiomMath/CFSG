@@ -14,8 +14,8 @@ section Group
 variable {L Q : Type} [Group L] [Group Q]
 
 theorem commute_of_lift_relations (Ψ : L →* Q) (hker : ∀ z : L, Ψ z = 1 → ∀ g : L, g * z = z * g)
-    {x x' y y' : Q} (hxx' : x * x' = x' * x) (hxy : x * y = y * x) (hxy' : x * y' = y' * x)
-    (hx'y : x' * y = y * x') (hx'y' : x' * y' = y' * x') (hyy' : y * y' = y' * y)
+    {x x' y y' : Q} (hxx' : x * x' = x' * x) (_hxy : x * y = y * x) (hxy' : x * y' = y' * x)
+    (hx'y : x' * y = y * x') (_hx'y' : x' * y' = y' * x') (hyy' : y * y' = y' * y)
     (hx2 : x * x = 1) {s u : L}
     (hs1 : Ψ s * x * (Ψ s)⁻¹ = y) (hs2 : Ψ s * x' * (Ψ s)⁻¹ = y')
     (hs3 : Ψ s * y' * (Ψ s)⁻¹ = x')
@@ -141,13 +141,13 @@ theorem xSL_mul_zSL_comm (a b : F) : xSL a * zSL b = zSL b * xSL a := by
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul, coe_xSL]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [zSL, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+    simp [zSL, Matrix.mul_apply, Fin.sum_univ_three]
 
 theorem zSL_mul_comm (b b' : F) : zSL b * zSL b' = zSL b' * zSL b := by
   apply Subtype.ext
   repeat rw [Matrix.SpecialLinearGroup.coe_mul]
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [zSL, Matrix.mul_apply, Fin.sum_univ_three] <;> ring
+  fin_cases i <;> fin_cases j <;> simp [zSL, Matrix.mul_apply, Fin.sum_univ_three]; ring
 
 theorem xSL_mul_self [CharP F 2] (a : F) : xSL a * xSL a = 1 := by
   rw [← xSL_add, CharTwo.add_self_eq_zero, xSL_zero]

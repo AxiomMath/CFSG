@@ -33,7 +33,7 @@ private lemma l05nDP2_alpha_c {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup 
     (ha' : ∀ v, ra v = v - αa v • ha) (h0 : αc ha = 0) (hαc : αc hc = 2) (v : V) :
     αc (rc (ra v)) = -αc v := by
   rw [l05nDP2_rc_ra rc ra hc' ha' h0 v]
-  simp only [map_sub, map_smul, h0, hαc, smul_zero, zero_smul, smul_eq_mul]
+  simp only [map_sub, map_smul, h0, hαc, smul_eq_mul]
   ring
 
 private lemma l05nDP2_alpha_a {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
@@ -42,7 +42,7 @@ private lemma l05nDP2_alpha_a {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup 
     (ha' : ∀ v, ra v = v - αa v • ha) (h0 : αc ha = 0) (hαa : αa ha = 2) (v : V) :
     αa (rc (ra v)) = -αa v - αa hc * αc v := by
   rw [l05nDP2_rc_ra rc ra hc' ha' h0 v]
-  simp only [map_sub, map_smul, h0, hαa, smul_zero, zero_smul, smul_eq_mul]
+  simp only [map_sub, map_smul, hαa, smul_eq_mul]
   ring
 
 private lemma l05nDP2_sq_form {p : ℕ} [Fact p.Prime] {V : Type} [AddCommGroup V]
@@ -91,7 +91,7 @@ theorem ggDepA_pair_zero_symm {p : ℕ} [Fact p.Prime] (hp2 : p ≠ 2) {V : Type
       rw [← hv, LinearMap.sub_apply, LinearMap.id_apply, LinearEquiv.coe_toLinearMap, hGform v]
       abel
     · rw [Submodule.span_le, Set.singleton_subset_iff]
-      simp only [ggLinMove, LinearMap.mem_range]
+      simp only [ggLinMove]
       refine ⟨((2 : ZMod p) * αa hc)⁻¹ • hc, ?_⟩
       have hscal : αa hc * αc (((2 : ZMod p) * αa hc)⁻¹ • hc) = 1 := by
         rw [map_smul, hαc, smul_eq_mul]
@@ -230,7 +230,7 @@ private theorem l05nDP1_perm_embed_aux {p m : ℕ} [Fact p.Prime] (hp : 5 ≤ p)
           rw [← LinearEquiv.mul_apply, inv_mul_cancel]; rfl
         rw [ha i] at h2
         exact h2 }
-  haveI hKnormal : K.Normal := ⟨fun n hn σ => by
+  have hKnormal : K.Normal := ⟨fun n hn σ => by
     intro i
     rw [map_mul, map_mul, map_inv]
     have h1 : (ρ σ)⁻¹ (h i) ∈ H := (hRpres (ρ σ) (hρmem σ)).2 (h i) (hsub i)
@@ -265,7 +265,7 @@ private theorem l05nDP1_perm_embed_aux {p m : ℕ} [Fact p.Prime] (hp : 5 ≤ p)
         dsimp only [a, b] at hval
         omega
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg h1]
+      rw [ite_eq_right h1]
       norm_num
     have hab : α a (h b) = -1 := by
       rw [hpair a b]
@@ -275,7 +275,7 @@ private theorem l05nDP1_perm_embed_aux {p m : ℕ} [Fact p.Prime] (hp : 5 ≤ p)
         dsimp only [a, b] at hval
         omega
       simp only [CartanMatrix.A, Matrix.of_apply]
-      rw [if_neg h1]
+      rw [ite_eq_right h1]
       norm_num
     have hrb : r b (h a) = h a + h b := by
       rw [hr b (h a), hba]
@@ -447,7 +447,7 @@ private lemma l05nDP2_closure_preserves {p N : ℕ} [Fact p.Prime] {V : Type} [A
       rw [inv_inv]
       exact ih.1 v hv
 
-theorem ggDepA_perm_swap_refl {p N : ℕ} [Fact p.Prime] (hp : 5 ≤ p) (hN : 5 ≤ N) {V : Type}
+theorem ggDepA_perm_swap_refl {p N : ℕ} [Fact p.Prime] (_hp : 5 ≤ p) (hN : 5 ≤ N) {V : Type}
     [AddCommGroup V] [Module (ZMod p) V] {h : Fin (N - 1) → V}
     {α : Fin (N - 1) → Module.Dual (ZMod p) V} {x : V} (F : GGDepAFrame p N h α x)
     (r : Fin (N - 1) → (V ≃ₗ[ZMod p] V)) (hr : ∀ i v, r i v = v - α i v • h i)

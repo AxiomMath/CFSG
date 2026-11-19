@@ -29,7 +29,7 @@ theorem lagrangian_img [Finite K] (M₀ : Tim79.QuadModel QF V K γ)
     (hDcard : Nat.card D = Nat.card K ^ (n + 1)) :
     ∃ W : Submodule K M₀.E, (∀ e, e ∈ M₀.img D ↔ e ∈ W) ∧ Module.finrank K W = n ∧
       M₀.B.orthogonal W = W := by
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hq1 : 1 < Nat.card K := Finite.one_lt_card
   have hqpos : 0 < Nat.card K := by omega
   have hiso : ∀ e ∈ M₀.img D, ∀ f ∈ M₀.img D, M₀.B e f = 0 := by
@@ -113,7 +113,7 @@ theorem mem_of_comm [Finite K] (M₀ : Tim79.QuadModel QF V K γ)
 theorem finrank_of_card [Finite K] [Finite G] (M₀ : Tim79.QuadModel QF V K γ)
     (R : Tim79.GammaReg QF V γ) (hKV : Nat.card K = Nat.card V) {n : ℕ}
     (hQF : Nat.card QF = Nat.card V ^ (2 * n + 1)) : Module.finrank K M₀.E = 2 * n := by
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hq1 : 1 < Nat.card K := Finite.one_lt_card
   have hqpos : 0 < Nat.card K := by omega
   have h1 := Tim79.QuadModel.card_eq M₀ (le_refl QF) R.V_le
@@ -157,7 +157,7 @@ theorem card_count [Finite K] [Finite G] (M₀ : Tim79.QuadModel QF V K γ)
     Nat.card ↥(D ⊓ Subgroup.centralizer (Λ : Set G)) * Nat.card Λ ≤
       Nat.card K ^ (n + 1) * Nat.card ↥(Λ ⊓ D) := by
   obtain ⟨W, hmem, hWn, hWo⟩ := lagrangian_img M₀ R hK2 hKV hE hDQ hVD hDc hDcard
-  haveI : Finite M₀.E := Module.finite_of_finite K
+  have : Finite M₀.E := Module.finite_of_finite K
   have hqpos : 0 < Nat.card K := Nat.card_pos
   have hnd : M₀.B.Nondegenerate := Smith81.Sec115Dim.nondeg_of M₀.B hK2 M₀.alt M₀.nondeg
   obtain ⟨C, hCdef⟩ : ∃ C : Subgroup G, C = D ⊓ Subgroup.centralizer (Λ : Set G) :=

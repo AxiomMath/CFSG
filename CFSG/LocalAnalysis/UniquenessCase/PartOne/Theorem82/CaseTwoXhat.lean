@@ -31,7 +31,7 @@ private theorem card_Z_subgroupOf : Nat.card (t.Z.subgroupOf t.Xz : Subgroup ↥
 
 private theorem inf_pPrimeCore_eq_bot :
     (t.Z.subgroupOf t.Xz : Subgroup ↥t.Xz) ⊓ CFSG.pPrimeCore 3 ↥t.Xz = ⊥ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcop : Nat.Coprime (Nat.card ↥((t.Z.subgroupOf t.Xz : Subgroup ↥t.Xz) ⊓
       CFSG.pPrimeCore 3 ↥t.Xz)) 3 :=
     (Nat.Coprime.of_dvd_right (Subgroup.card_dvd_of_le inf_le_right)
@@ -43,7 +43,7 @@ private theorem inf_pPrimeCore_eq_bot :
   exact Subgroup.card_eq_one.mp (Nat.Coprime.eq_one_of_dvd hcop hdvd)
 
 theorem card_Zhat : Nat.card t.Zhat = 3 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hdvd : Nat.card t.Zhat ∣ 3 := by
     have h := Subgroup.card_map_dvd (t.Z.subgroupOf t.Xz)
       (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥t.Xz))
@@ -78,7 +78,7 @@ theorem isCyclic_Dz (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     (hp : p ∈ c.sig)
     (hN : t.PairNormalizerLe p)
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) : IsCyclic ↥t.Dz := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   refine CFSG.LocalAnalysis.UniquenessCase.UCK.K31.isCyclic_of_pRank_le_one Nat.prime_three
     (by norm_num) (t.d.hS.isPGroup.to_le inf_le_left) ?_
   calc CFSG.Open.pRank 3 t.Dz ≤ CFSG.Open.pRank 3 t.Xz :=
@@ -94,7 +94,7 @@ private theorem isSylowOf_Dz_subgroupOf_top
     (hN : t.PairNormalizerLe p)
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) :
     CFSG.ABGLocalTools.IsSylowOf 3 (t.Dz.subgroupOf t.Xz) ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hD : CFSG.ABGLocalTools.IsSylowOf 3 t.Dz t.Xz :=
     t.isSylowOf_Dz_Xz hK32 hGA hSp hK332 hOut hp hN hZ
   rw [← CFSG.ABGLocalTools.isSylowOf_map_subtype_iff t.Xz,
@@ -110,7 +110,7 @@ theorem exists_mem_Xz_map_conj_eq_Z (hK32 : CFSG.LocalAnalysis.UniquenessCase.UC
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) {W : Subgroup G} (hWX : W ≤ t.Xz)
     (hW : Nat.card W = 3) : ∃ x ∈ t.Xz, W.map (MulAut.conj x).toMonoidHom = t.Z := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hDsyl : CFSG.ABGLocalTools.IsSylowOf 3 (t.Dz.subgroupOf t.Xz) ⊤ :=
     t.isSylowOf_Dz_subgroupOf_top hK32 hGA hSp hK332 hOut hp hN hZ
   have hDcyc : IsCyclic ↥(t.Dz.subgroupOf t.Xz) :=
@@ -126,7 +126,7 @@ theorem exists_mem_Xz_map_conj_eq_Z (hK32 : CFSG.LocalAnalysis.UniquenessCase.UC
   obtain ⟨Q, hWQ⟩ := hW'p.exists_le_sylow
   have hQsyl : CFSG.ABGLocalTools.IsSylowOf 3 (Q : Subgroup ↥t.Xz) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, Q.isPGroup', Q.not_dvd_index⟩
+    exact ⟨le_top, Q.isPGroup, Q.not_dvd_index⟩
   obtain ⟨k, -, hk⟩ := hDsyl.exists_mem_conj hQsyl
   have hle : (W.subgroupOf t.Xz).map (MulAut.conj k⁻¹).toMonoidHom ≤
       t.Dz.subgroupOf t.Xz := by
@@ -138,7 +138,7 @@ theorem exists_mem_Xz_map_conj_eq_Z (hK32 : CFSG.LocalAnalysis.UniquenessCase.UC
     rw [Subgroup.card_map_of_injective (MulAut.conj k⁻¹).injective, hW'card]
   have hsub : ((W.subgroupOf t.Xz).map (MulAut.conj k⁻¹).toMonoidHom).subgroupOf
         (t.Dz.subgroupOf t.Xz) = (t.Z.subgroupOf t.Xz).subgroupOf (t.Dz.subgroupOf t.Xz) := by
-    haveI : IsCyclic ↥(t.Dz.subgroupOf t.Xz) := hDcyc
+    have : IsCyclic ↥(t.Dz.subgroupOf t.Xz) := hDcyc
     refine (IsCyclic.subgroup_eq_iff_card_eq (G := ↥(t.Dz.subgroupOf t.Xz))).mpr ?_
     rw [Nat.card_congr (Subgroup.subgroupOfEquivOfLe hle).toEquiv, hcard,
       Nat.card_congr (Subgroup.subgroupOfEquivOfLe hZ'le).toEquiv, hZ'card]
@@ -153,7 +153,7 @@ theorem exists_mem_Xz_map_conj_eq_Z (hK32 : CFSG.LocalAnalysis.UniquenessCase.UC
   have hcomp : (MulAut.conj ((k : G)⁻¹)).toMonoidHom.comp t.Xz.subtype =
       t.Xz.subtype.comp (MulAut.conj (k⁻¹)).toMonoidHom := by
     ext x
-    simp [MulAut.conj_apply]
+    simp
   refine ⟨(k : G)⁻¹, t.Xz.inv_mem k.2, ?_⟩
   rw [← hmapW, Subgroup.map_map, hcomp, ← Subgroup.map_map, hWeq, hmapZ]
 
@@ -166,7 +166,7 @@ theorem normalClosure_Z_subgroupOf_Xz (hK32 : CFSG.LocalAnalysis.UniquenessCase.
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) :
     Subgroup.normalClosure ((t.Z.subgroupOf t.Xz : Subgroup ↥t.Xz) : Set ↥t.Xz) = ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let K : Subgroup G := Subgroup.centralizer ({t.y} : Set G)
   let N : Subgroup ↥t.Xz := Subgroup.normalClosure (t.Z.subgroupOf t.Xz : Set ↥t.Xz)
   let N₀ : Subgroup G := N.map t.Xz.subtype
@@ -239,7 +239,7 @@ private theorem isSylowOf_Dhat (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) :
     CFSG.ABGLocalTools.IsSylowOf 3 t.Dhat ⊤ := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hDsyl : CFSG.ABGLocalTools.IsSylowOf 3 (t.Dz.subgroupOf t.Xz) ⊤ :=
     t.isSylowOf_Dz_subgroupOf_top hK32 hGA hSp hK332 hOut hp hN hZ
   have hD'p : IsPGroup 3 ↥(t.Dz.subgroupOf t.Xz) := hDsyl.isPGroup
@@ -254,7 +254,7 @@ private theorem isSylowOf_Dhat (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32
     rw [Sylow.coe_mapSurjective, hQD]
     rfl
   rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right, ← hQDhat]
-  exact ⟨le_top, QDhat.isPGroup', QDhat.not_dvd_index⟩
+  exact ⟨le_top, QDhat.isPGroup, QDhat.not_dvd_index⟩
 
 private theorem isCyclic_Dhat (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     (hGA : CFSG.ComponentClassification.TBLit.GriessMultipliersAllModels)
@@ -263,7 +263,7 @@ private theorem isCyclic_Dhat (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     (hp : p ∈ c.sig)
     (hN : t.PairNormalizerLe p)
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) : IsCyclic ↥t.Dhat := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hcyc : IsCyclic ↥(t.Dz.subgroupOf t.Xz) :=
     (Subgroup.subgroupOfEquivOfLe (t.Dz_le_Xz hK32 hGA hSp)).isCyclic.mpr
       (t.isCyclic_Dz hK32 hGA hSp hK332 hOut hp hN hZ)
@@ -292,15 +292,15 @@ private theorem exists_conj_map_eq_Zhat (hK32 : CFSG.LocalAnalysis.UniquenessCas
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) {W : Subgroup t.Xhat}
     (hW : Nat.card W = 3) : ∃ k : t.Xhat, W.map (MulAut.conj k).toMonoidHom = t.Zhat := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hDcyc : IsCyclic ↥t.Dhat := t.isCyclic_Dhat hK32 hGA hSp hK332 hOut hp hN hZ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hDcyc : IsCyclic ↥t.Dhat := t.isCyclic_Dhat hK32 hGA hSp hK332 hOut hp hN hZ
   have hDsyl : CFSG.ABGLocalTools.IsSylowOf 3 t.Dhat ⊤ :=
     t.isSylowOf_Dhat hK32 hGA hSp hK332 hOut hp hN hZ
   have hWp : IsPGroup 3 ↥W := IsPGroup.of_card (n := 1) (by rw [hW]; norm_num)
   obtain ⟨Q, hWQ⟩ := hWp.exists_le_sylow
   have hQsyl : CFSG.ABGLocalTools.IsSylowOf 3 (Q : Subgroup t.Xhat) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, Q.isPGroup', Q.not_dvd_index⟩
+    exact ⟨le_top, Q.isPGroup, Q.not_dvd_index⟩
   obtain ⟨k, -, hk⟩ := hDsyl.exists_mem_conj hQsyl
   have hle : W.map (MulAut.conj k⁻¹).toMonoidHom ≤ t.Dhat := by
     intro y hy
@@ -329,14 +329,14 @@ theorem isCyclic_of_isPGroup_Xhat (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) {P : Subgroup t.Xhat}
     (hP : IsPGroup 3 P) : IsCyclic ↥P := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI hDcyc : IsCyclic ↥t.Dhat := t.isCyclic_Dhat hK32 hGA hSp hK332 hOut hp hN hZ
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hDcyc : IsCyclic ↥t.Dhat := t.isCyclic_Dhat hK32 hGA hSp hK332 hOut hp hN hZ
   have hDsyl : CFSG.ABGLocalTools.IsSylowOf 3 t.Dhat ⊤ :=
     t.isSylowOf_Dhat hK32 hGA hSp hK332 hOut hp hN hZ
   obtain ⟨Q, hPQ⟩ := hP.exists_le_sylow
   have hQsyl : CFSG.ABGLocalTools.IsSylowOf 3 (Q : Subgroup t.Xhat) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff, Subgroup.relIndex_top_right]
-    exact ⟨le_top, Q.isPGroup', Q.not_dvd_index⟩
+    exact ⟨le_top, Q.isPGroup, Q.not_dvd_index⟩
   obtain ⟨k, -, hk⟩ := hDsyl.exists_mem_conj hQsyl
   have hle : P.map (MulAut.conj k⁻¹).toMonoidHom ≤ t.Dhat := by
     intro y hy
@@ -353,7 +353,7 @@ theorem pRank_Xhat (hK332 : CFSG.LocalAnalysis.UniquenessCase.UCK.K332ThreeAb)
     (hN : t.PairNormalizerLe p)
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) :
     CFSG.Open.pRank 3 (⊤ : Subgroup t.Xhat) = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hO : ¬ 3 ∣ Nat.card (CFSG.pPrimeCore 3 ↥t.Xz) := by
     intro h
     have h1 : 3 = 1 := Nat.Coprime.eq_one_of_dvd CFSG.pPrimeCore_coprime_card h
@@ -377,7 +377,7 @@ private theorem normalClosure_Zhat_eq_top
     (hN : t.PairNormalizerLe p)
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) :
     Subgroup.normalClosure (t.Zhat : Set t.Xhat) = ⊤ := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hsurj : Function.Surjective (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥t.Xz)) :=
     QuotientGroup.mk'_surjective _
   have hset : (QuotientGroup.mk' (CFSG.pPrimeCore 3 ↥t.Xz)) ''
@@ -401,7 +401,7 @@ theorem isSimpleGroup_Xhat (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
     (hN : t.PairNormalizerLe p)
     (hZ : Subgroup.centralizer (t.Z : Set G) ≤ c.S.M) : IsSimpleGroup t.Xhat := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have htop : Subgroup.normalClosure (t.Zhat : Set t.Xhat) = ⊤ :=
     t.normalClosure_Zhat_eq_top hK32 hGA hSp hK332 hOut hp hN hZ
   have hnt : Nontrivial t.Xhat := by
@@ -410,7 +410,7 @@ theorem isSimpleGroup_Xhat (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32)
       have h1 : Nat.card t.Zhat = 1 := by rw [hb, Subgroup.card_bot]
       rw [t.card_Zhat] at h1
       norm_num at h1
-    haveI : Nontrivial ↥t.Zhat := (Subgroup.nontrivial_iff_ne_bot t.Zhat).mpr hne
+    have : Nontrivial ↥t.Zhat := (Subgroup.nontrivial_iff_ne_bot t.Zhat).mpr hne
     obtain ⟨a, b, hab⟩ := ‹Nontrivial ↥t.Zhat›
     exact ⟨(a : t.Xhat), (b : t.Xhat), fun h => hab (Subtype.ext h)⟩
   refine (isSimpleGroup_iff t.Xhat).mpr ⟨hnt, fun N hNnorm => ?_⟩
@@ -444,10 +444,10 @@ theorem exists_mul_ne_mul_Xhat (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32
     (hSp : CFSG.CGT.PushingUpLit.CGT6.SporadicThreeCenterSmallPrimes) :
     ∃ a b : t.Xhat, a * b ≠ b * a := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   by_contra h
   push Not at h
-  haveI hcomm : IsMulCommutative t.Xhat := isMulCommutative_iff.mpr fun a b => h a b
+  have hcomm : IsMulCommutative t.Xhat := isMulCommutative_iff.mpr fun a b => h a b
   have hKyX : t.Ky ≤ t.Xz := t.Ky_le_Xz hK32 hGA hSp
   have hquot : ⁅(⊤ : Subgroup ↥t.Xz), ⊤⁆ ≤ CFSG.pPrimeCore 3 ↥t.Xz := by
     rw [Subgroup.commutator_le]
@@ -481,10 +481,10 @@ theorem exists_mul_ne_mul_Xhat (hK32 : CFSG.LocalAnalysis.UniquenessCase.UCK.K32
   norm_num at h1
 
 theorem isKGroup_Xhat : CFSG.Open.IsKGroup t.Xhat := by
-  haveI hOnormal : (CFSG.pPrimeCore 3 ↥t.Xz).Normal := CFSG.pPrimeCore_normal
+  have hOnormal : (CFSG.pPrimeCore 3 ↥t.Xz).Normal := CFSG.pPrimeCore_normal
   have hXne : t.Xz ≠ ⊤ := by
     intro htop
-    haveI : IsSimpleGroup G := c.standing.simple
+    have : IsSimpleGroup G := c.standing.simple
     have hcent : t.y ∈ Subgroup.center G := by
       rw [Subgroup.mem_center_iff]
       intro g

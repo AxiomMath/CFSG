@@ -32,8 +32,8 @@ theorem perfectCentralizerPlanes_twistedE6_three_cyc {ℓ f : ℕ} (hℓ : ℓ.P
     (by rw [← Nat.card_eq_fintype_card, hK, ← pow_mul])
   have : Finite (ModGL TwistTag.E6.tag K) := finite_modGL
   let Ω := AlgebraicClosure K
-  haveI : CharP Ω ℓ := charP_of_injective_algebraMap (algebraMap K Ω).injective ℓ
-  haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
+  have : CharP Ω ℓ := charP_of_injective_algebraMap (algebraMap K Ω).injective ℓ
+  have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K
   have hFr : ∀ c, (iterateFrobenius Ω ℓ f) c = c ^ (ℓ ^ f) := fun c => iterateFrobenius_def ℓ f c
   obtain ⟨g, hg, hgn⟩ := exists_inv_mul_twistE6_eq hf hFr
     (canonicalRep_mem_adjointGroup (coxeterSystem Tag.E6) Ω phi3V)
@@ -49,7 +49,7 @@ theorem perfectCentralizerPlanes_twistedE6_three_cyc {ℓ f : ℕ} (hℓ : ℓ.P
   obtain ⟨R, -, hRD, -, hq, hpR⟩ :=
     layerA2A2 hℓ hf hK hσ hFr hp hp3 hpq hg hgn c₀ e (hc₀' e he) (hord e he he1) hA2A2
   refine ⟨e, he, he1, R, hRD, ?_, (Nat.Prime.dvd_iff_not_coprime hp).2 hpR⟩
-  haveI : Group.IsPerfect ↥R := hq.1
+  have : Group.IsPerfect ↥R := hq.1
   exact Subgroup.commutator_eq_self
 
 end CFSG.LocalAnalysis.GLTheoremA.KD264Lie

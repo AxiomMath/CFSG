@@ -136,7 +136,7 @@ theorem false_of_pure3B {G : Type} [Group G] [Finite G] {L : Subgroup G}
         _ = l * u := by rw [h1]
     rw [← hc]; group
   have hL0 : L = ⊥ := by rw [← hLU, hcomm]
-  haveI : Subsingleton ↥L := ⟨fun a b => Subtype.ext
+  have : Subsingleton ↥L := ⟨fun a b => Subtype.ext
     ((Subgroup.mem_bot.1 (hL0 ▸ a.2)).trans (Subgroup.mem_bot.1 (hL0 ▸ b.2)).symm)⟩
   have : Nat.card (center ↥L) = 1 :=
     Nat.card_eq_one_iff_unique.2 ⟨inferInstance, ⟨⟨1, one_mem _⟩⟩⟩

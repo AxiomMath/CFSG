@@ -18,7 +18,7 @@ private theorem fsEnds_not_isCyclic_of_card {R : Type} [Group R] {E : Subgroup R
     (hE : IsElemAbelian 3 E) (hcard : Nat.card E = 3 ^ k) (hk : 2 ≤ k) :
     ¬ IsCyclic E := by
   intro hcyc
-  haveI : IsCyclic E := hcyc
+  have : IsCyclic E := hcyc
   obtain ⟨g, hg⟩ := IsCyclic.exists_ofOrder_eq_natCard (α := E)
   have hg3 : g ^ 3 = 1 := Subtype.ext (by simpa using hE.2 (g : R) g.2)
   have hdvd : orderOf g ∣ 3 := orderOf_dvd_iff_pow_eq_one.mpr hg3
@@ -42,11 +42,11 @@ private theorem fsEnds_noncyclic_three_of_surjective {L R : Type} [Group L] [Gro
     (hE : ∃ E : Subgroup R, IsPGroup 3 E ∧ ¬ IsCyclic E) :
     ∃ S : Subgroup L, IsPGroup 3 S ∧ ¬ IsCyclic S := by
   obtain ⟨E, hEp, hEnc⟩ := hE
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let P : Subgroup L := E.comap π
   have hPmap : P.map π = E := by
     rw [Subgroup.map_comap_eq, MonoidHom.range_eq_top.mpr hπ, top_inf_eq]
-  haveI : Finite ↥P := Subtype.finite
+  have : Finite ↥P := Subtype.finite
   obtain ⟨Q⟩ := (inferInstance : Nonempty (Sylow 3 ↥P))
   let φ : ↥P →* ↥E := (π.comp P.subtype).codRestrict E (by
     intro x
@@ -59,7 +59,7 @@ private theorem fsEnds_noncyclic_three_of_surjective {L R : Type} [Group L] [Gro
       (show (e : R) ∈ P.map π by rw [hPmap]; exact e.2)
     exact ⟨⟨p, hp⟩, Subtype.ext hpe⟩
   have hQtop : ((Sylow.mapSurjective (f := φ) hφsurj Q : Sylow 3 ↥E) : Subgroup ↥E) = ⊤ := by
-    haveI : IsPGroup 3 ↥E := hEp
+    have : IsPGroup 3 ↥E := hEp
     refine top_le_iff.mp ((Sylow.mapSurjective (f := φ) hφsurj Q).maximal_isPGroup.le_of_ge
       (IsPGroup.to_subgroup hEp ⊤) le_top)
   have hQmap : (Q : Subgroup ↥P).map φ = ⊤ := by
@@ -67,14 +67,14 @@ private theorem fsEnds_noncyclic_three_of_surjective {L R : Type} [Group L] [Gro
     exact hQtop
   refine ⟨(Q : Subgroup ↥P).map P.subtype, Q.isPGroup.map P.subtype, ?_⟩
   intro hScyc
-  haveI : IsCyclic ((Q : Subgroup ↥P).map P.subtype) := hScyc
+  have : IsCyclic ((Q : Subgroup ↥P).map P.subtype) := hScyc
   have hQcyc : IsCyclic ↥Q :=
     isCyclic_of_injective
       (Subgroup.equivMapOfInjective (Q : Subgroup ↥P) P.subtype
         (Subgroup.subtype_injective P)).toMonoidHom
       (Subgroup.equivMapOfInjective (Q : Subgroup ↥P) P.subtype
         (Subgroup.subtype_injective P)).injective
-  haveI : IsCyclic ↥Q := hQcyc
+  have : IsCyclic ↥Q := hQcyc
   let ψ : ↥Q →* ↥E := φ.comp (Q : Subgroup ↥P).subtype
   have hψsurj : Function.Surjective ψ := by
     intro e
@@ -97,7 +97,7 @@ private theorem isElemAbelian_top_multiplicative_pi_zmod3 (d : ℕ) :
 private theorem not_isCyclic_multiplicative_pi_zmod3 (d : ℕ) (hd : 2 ≤ d) :
     ¬ IsCyclic (Multiplicative (Fin d → ZMod 3)) := by
   intro hcyc
-  haveI : IsCyclic (Multiplicative (Fin d → ZMod 3)) := hcyc
+  have : IsCyclic (Multiplicative (Fin d → ZMod 3)) := hcyc
   have hE := isElemAbelian_top_multiplicative_pi_zmod3 d
   have hcard : Nat.card (⊤ : Subgroup (Multiplicative (Fin d → ZMod 3))) = 3 ^ d := by
     rw [Subgroup.card_top, Nat.card_congr (Multiplicative.toAdd), Nat.card_fun,
@@ -109,7 +109,7 @@ private theorem e7_model_noncyclic_three
     {K : Type} [Field K] [Finite K] (hK : Nat.card K = 2) :
     ∃ E : Subgroup (LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 7) K false)),
       IsPGroup 3 E ∧ ¬ IsCyclic E := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       Nat.prime_two le_rfl (by rw [pow_one]; exact hK)
   let e : LargeEvenCenterQuot (LargeEvenChevH (LargeEvenCartanE 7) K false) ≃*
@@ -124,14 +124,14 @@ private theorem e7_model_noncyclic_three
     simpa [T] using h
   have hTnc : ¬ IsCyclic T := by
     intro hcyc
-    haveI : IsCyclic T := hcyc
+    have : IsCyclic T := hcyc
     exact not_isCyclic_multiplicative_pi_zmod3 7 (by norm_num)
       (isCyclic_of_injective
         (MonoidHom.ofInjective (TableBExcTwoTB.tE_injective (K := K) TableBExcTwo.frameE7)).toMonoidHom
         (MonoidHom.ofInjective (TableBExcTwoTB.tE_injective (K := K) TableBExcTwo.frameE7)).injective)
   refine ⟨T.map e.symm.toMonoidHom, hTp.map e.symm.toMonoidHom, ?_⟩
   intro hEcyc
-  haveI : IsCyclic (T.map e.symm.toMonoidHom) := hEcyc
+  have : IsCyclic (T.map e.symm.toMonoidHom) := hEcyc
   exact hTnc (isCyclic_of_injective
     (Subgroup.equivMapOfInjective T e.symm.toMonoidHom e.symm.injective).toMonoidHom
     (Subgroup.equivMapOfInjective T e.symm.toMonoidHom e.symm.injective).injective)
@@ -167,7 +167,7 @@ private theorem exists_noncyclic_three_of_fsLab_marking
     dsimp only [CFSG.Assembly.LargeEvenRawDatumLegacy] at hraw
     obtain ⟨K, hK, hKfin, hcard, b, c, hirr, hQ⟩ := hraw
     obtain ⟨θ, -⟩ := hQ.2.2
-    haveI : CharP K 2 :=
+    have : CharP K 2 :=
       CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
         Nat.prime_two le_rfl hcard
     obtain ⟨-, E, -, -, -, hEab, hEcard⟩ :=

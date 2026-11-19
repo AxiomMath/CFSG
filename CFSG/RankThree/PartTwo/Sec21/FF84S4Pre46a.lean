@@ -18,6 +18,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21 CFSG.RankThree.PartTwo.Sec21.FF84
 
 variable {G : Type} [Group G] [Finite G] {b b₁ b₂ : G} {L B K : Subgroup G}
 
+omit [Finite G] in
 theorem conj_cenS {g c : G} (hg : g ∈ Nor L) (hc : c ∈ CenS L) : g * c * g⁻¹ ∈ CenS L := by
   rw [Subgroup.mem_centralizer_iff]
   intro l hl
@@ -30,6 +31,7 @@ theorem conj_cenS {g c : G} (hg : g ∈ Nor L) (hc : c ∈ CenS L) : g * c * g�
   have e2 : (g * c * g⁻¹) * l = g * (c * (g⁻¹ * l * g)) * g⁻¹ := by group
   rw [e1, e2, hc']
 
+omit [Finite G] in
 theorem L_inf_cenS (hZ : Subgroup.center L = ⊥) : ∀ z ∈ L, z ∈ CenS L → z = 1 := by
   intro z hz hzc
   have : (⟨z, hz⟩ : ↥L) ∈ Subgroup.center ↥L := by
@@ -86,7 +88,7 @@ theorem Q_norm (h : FF84Sec4 b L B K b₁ b₂) : ∀ g ∈ Cen b, ∀ c ∈ Cen
 
 theorem Q_decomp (h : FF84Sec4 b L B K b₁ b₂) (hZ : Subgroup.center L = ⊥) :
     ∀ c ∈ Cen b ⊓ CenS L, ∃ i : ℤ, ∃ x ∈ Opp 3 (Cen b), c = b ^ i * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C₀ := Cen b ⊓ CenS L with hC₀
   have hBsyl : IsSylowOf 3 (B ⊓ C₀) C₀ :=
     FF79.L14.isSylowOf_inf_normal h.sylB inf_le_left (Q_norm h)

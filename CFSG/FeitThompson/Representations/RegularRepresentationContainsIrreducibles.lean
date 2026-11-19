@@ -113,7 +113,7 @@ theorem charBilinForm_eq_zero_of_ne [Fintype G] {χ ψ : G → ℂ}
     simp [Nat.card_eq_fintype_card, Fintype.card_ne_zero]
   have : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hc
   have key := Representation.char_orthonormal (k := ℂ) X.ρ Y.ρ
-  rw [if_neg (fun ⟨e⟩ => hne (Representation.char_iso e).symm)] at key
+  rw [ite_eq_right (fun ⟨e⟩ => hne (Representation.char_iso e).symm)] at key
   rw [charBilinForm_apply]
   rcases mul_eq_zero.1 key with h | h
   · exact absurd h (inv_ne_zero hc)
@@ -128,7 +128,7 @@ theorem charBilinForm_self_ne_zero [Fintype G] {χ : G → ℂ} (hχ : χ ∈ ir
     simp [Nat.card_eq_fintype_card, Fintype.card_ne_zero]
   have : Invertible (Nat.card G : ℂ) := invertibleOfNonzero hc
   have key := Representation.char_orthonormal (k := ℂ) X.ρ X.ρ
-  rw [if_pos ⟨Representation.Equiv.refl _⟩] at key
+  rw [ite_eq_left ⟨Representation.Equiv.refl _⟩] at key
   rw [charBilinForm_apply]
   intro h
   rw [h, mul_zero] at key

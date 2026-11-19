@@ -11,6 +11,7 @@ open scoped Pointwise
 
 variable {H : Type} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem f112sa_S_inf_P1' {L1 L2 S : Subgroup H}
     (hF : F112HypW L1 L2 S) :
     S ⊓ f112saP1' L1 L2 S = S ⊓ f112saK L1 L2 S := by
@@ -24,6 +25,7 @@ theorem f112sa_S_inf_P1' {L1 L2 S : Subgroup H}
     rw [f112saK, f112saP1']
     exact sup_le ((f112sa_X1_le_oTwoRes L1 L2 S).trans le_sup_left) le_sup_right
 
+omit [Finite H] in
 theorem f112sa_S_inf_P2' {L1 L2 S : Subgroup H}
     (hF : F112HypW L1 L2 S) :
     S ⊓ f112saP2' L1 L2 S = S ⊓ f112saK L1 L2 S := by

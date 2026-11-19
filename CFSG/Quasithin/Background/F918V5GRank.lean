@@ -36,7 +36,7 @@ theorem hasNoncentral3_of_three_dvd [Finite G] {K : Subgroup G}
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨P⟩ : Nonempty (Sylow 3 ↥K) := inferInstance
   refine ⟨(P : Subgroup ↥K).map K.subtype, Subgroup.map_subtype_le _,
-    P.isPGroup'.map K.subtype, fun hle => ?_⟩
+    P.isPGroup.map K.subtype, fun hle => ?_⟩
   have hP : (P : Subgroup ↥K) ≤ Subgroup.center ↥K := by
     intro x hx
     rw [Subgroup.mem_center_iff]

@@ -30,7 +30,7 @@ theorem noT_sp8 (hGap : FpfIrrGap) [IsSimpleGroup (StatedSp 4 (ZMod 2))]
       rw [Subgroup.card_bot] at h1
       omega
     · obtain ⟨N, hN, hcard⟩ := quotU4_kernel hq
-      haveI : IsSimpleGroup ↥(⊤ : Subgroup (StatedSp 4 (ZMod 2))) :=
+      have : IsSimpleGroup ↥(⊤ : Subgroup (StatedSp 4 (ZMod 2))) :=
         Subgroup.topEquiv.isSimpleGroup
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with rfl | rfl
       · rw [Subgroup.card_bot, Subgroup.card_top] at hcard

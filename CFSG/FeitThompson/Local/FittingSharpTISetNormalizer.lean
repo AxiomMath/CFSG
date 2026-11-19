@@ -69,7 +69,7 @@ theorem mixedFitting_ne_bot_of_normal_sylow (hq : q ∈ betaPrimes ↥M) (S : Sy
     rw [h, Subgroup.card_bot] at hcard
     exact (Nat.one_lt_pow hpos.ne' hqp.one_lt).ne' hcard.symm
   have hle : (S : Subgroup ↥M) ≤ fittingRaw ↥M :=
-    le_fittingRaw_of_isPGroup hqp hSnormal S.isPGroup'
+    le_fittingRaw_of_isPGroup hqp hSnormal S.isPGroup
   intro hbot
   rw [mixedFitting_eq] at hbot
   have h2 : (S : Subgroup ↥M).map M.subtype ≤ ⊥ := hbot ▸ Subgroup.map_mono hle

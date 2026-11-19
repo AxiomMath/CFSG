@@ -42,9 +42,11 @@ theorem card_le_of_isSylowIn {P H R : Subgroup G}
 
 abbrev conjMap (g : G) (S : Subgroup G) : Subgroup G := S.map (MulAut.conj g).toMonoidHom
 
+omit [Finite G] in
 theorem card_conjMap (g : G) (S : Subgroup G) : Nat.card (conjMap g S) = Nat.card S :=
   card_map_of_injective (MulAut.conj g).injective
 
+omit [Finite G] in
 theorem conjMap_le_cent {g x : G} {S : Subgroup G} (hS : S ≤ centralizer {x}) :
     conjMap g S ≤ centralizer {g * x * g⁻¹} := by
   rintro _ ⟨s, hs, rfl⟩
@@ -58,6 +60,7 @@ theorem conjMap_le_cent {g x : G} {S : Subgroup G} (hS : S ≤ centralizer {x}) 
 variable (ht : CentHyp t)
 include ht
 
+omit [Finite G] in
 theorem pinv_of_conj {K : Subgroup G} (hK : IsPGroup 2 K) {g x : G} (hx : x = g * t * g⁻¹)
     (h8 : 2 ^ 8 ≤ Nat.card (K ⊓ centralizer {x} : Subgroup G)) :
     PInv (K ⊓ centralizer {x} : Subgroup G) := by
@@ -75,6 +78,7 @@ theorem pinv_of_conj {K : Subgroup G} (hK : IsPGroup 2 K) {g x : G} (hx : x = g 
   exact pinv_of_mulEquiv ((K ⊓ centralizer {g * t * g⁻¹}).equivMapOfInjective _
     (MulAut.conj g⁻¹).injective).symm hP
 
+omit [Finite G] in
 theorem pinvol_t {K : Subgroup G} (hK : IsPGroup 2 K) (htK : t ∈ K) (ht2 : t ^ 2 = 1)
     (ht1 : t ≠ 1) (hC : Nat.card (K ⊓ centralizer {t} : Subgroup G) = 2 ^ 8) :
     IsPInvol K t :=
@@ -119,16 +123,16 @@ theorem exists_normalizer_sq {K : Subgroup G} (hK : IsPGroup 2 K) (hidx : 2 ∣ 
       exact mem_subgroupOf.1 h
     have h := le_antisymm hKP hPK
     exact P.not_dvd_index (h ▸ hidx)
-  have hnil : Group.IsNilpotent P := P.isPGroup'.isNilpotent
+  have hnil : Group.IsNilpotent P := P.isPGroup.isNilpotent
   have hlt := Group.normalizerCondition_of_isNilpotent (G := P) _ (lt_of_le_of_ne le_top hne)
-  obtain ⟨⟨y₀, hy₀P⟩, hy₀N, hy₀K⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨⟨y₀, hy₀P⟩, hy₀N, hy₀K⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hy₀N' : y₀ ∈ normalizer (K : Set G) := by
     have h : (⟨y₀, hy₀P⟩ : P) ∈ (normalizer (K : Set G)).subgroupOf (P : Subgroup G) := by
       rw [subgroupOf_normalizer_eq hKP]
       exact hy₀N
     exact mem_subgroupOf.1 h
   have hy₀K' : y₀ ∉ K := fun h => hy₀K (mem_subgroupOf.2 h)
-  obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup') ⟨y₀, hy₀P⟩
+  obtain ⟨m, hm⟩ := (IsPGroup.iff_orderOf.1 P.isPGroup) ⟨y₀, hy₀P⟩
   have hm' : orderOf y₀ = 2 ^ m := by rw [← hm, Subgroup.orderOf_mk]
   have hex : ∃ j, y₀ ^ (2 ^ (j + 1)) ∈ K := by
     refine ⟨m, ?_⟩
@@ -142,7 +146,7 @@ theorem exists_normalizer_sq {K : Subgroup G} (hK : IsPGroup 2 K) (hidx : 2 ∣ 
     · rw [pow_zero, pow_one]
       exact hy₀K'
     · exact hmin j' (by omega)
-  refine ⟨P, P.isPGroup', hKP, y₀ ^ (2 ^ j), pow_mem hy₀P _, pow_mem hy₀N' _, hjK', ?_⟩
+  refine ⟨P, P.isPGroup, hKP, y₀ ^ (2 ^ j), pow_mem hy₀P _, pow_mem hy₀N' _, hjK', ?_⟩
   rw [← pow_mul, ← pow_succ]
   exact hjK
 

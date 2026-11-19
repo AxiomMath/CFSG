@@ -10,6 +10,7 @@ open Subgroup CFSG.OddStandard.SmallF3.HarrisU33
 
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho q : G}
 
+omit [Finite G] in
 theorem fzc_sy3_P_le_R (hq : FzCQFacts t S x₁ x₂ lam rho) :
     fzP t x₁ x₂ rho ≤ fzR t x₁ x₂ :=
   le_of_le_of_eq le_sup_left hq.R_eq_PK.symm

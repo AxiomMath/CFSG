@@ -20,7 +20,7 @@ variable {K : Type} [Group K]
 theorem centralizer_range_mulAut_conj_of_perfect
     (hperf : ⁅(⊤ : Subgroup K), (⊤ : Subgroup K)⁆ = ⊤) :
     Subgroup.centralizer ((MulAut.conj : K →* MulAut K).range : Set (MulAut K)) = ⊥ := by
-  haveI : Group.IsPerfect K := ⟨hperf⟩
+  have : Group.IsPerfect K := ⟨hperf⟩
   rw [eq_bot_iff]
   intro α hα
   rw [Subgroup.mem_bot]
@@ -53,7 +53,7 @@ theorem eq_map_conj_of_coverMax [Finite K] (hperf : ⁅(⊤ : Subgroup K), (⊤ 
     (hN : A₀.map (MulAut.conj : K →* MulAut K) ≤ Subgroup.normalizer (R'' : Set (MulAut K)))
     (hRR : R.map (MulAut.conj : K →* MulAut K) ≤ R'') :
     R'' = R.map (MulAut.conj : K →* MulAut K) := by
-  haveI : Finite (MulAut K) := finite_mulAut
+  have : Finite (MulAut K) := finite_mulAut
   have hker : Subgroup.center K = (MulAut.conj : K →* MulAut K).ker := by
     apply le_antisymm
     · intro z hz
@@ -97,18 +97,19 @@ theorem card_outer_pQuot_le_two
     (hp : p.Prime) {X L : Subgroup G} (hL : GLAPComponent p X L) {row : Row}
     (hrow : RowL row p L) : Nat.card (Outer (PQuot p L)) ≤ 2 := by
   obtain ⟨-, hcat, -⟩ := hrow
-  haveI : Group.IsPerfect (PQuot p L) := ⟨(isQuasisimple_pQuot_of_glaPComponent hp hL).1⟩
+  have : Group.IsPerfect (PQuot p L) := ⟨(isQuasisimple_pQuot_of_glaPComponent hp hL).1⟩
   obtain ⟨hsimple, a, b, hab⟩ := chev_pSimple_simple_nonabelian hp hL
   obtain ⟨i, hi, ⟨f⟩⟩ := hcat
   have hi' : i = .sporadic row.name := hi
   subst hi'
-  haveI : Finite (MulAut (PSimple p L)) := finite_mulAut
+  have : Finite (MulAut (PSimple p L)) := finite_mulAut
   have h2 : Nat.card (Outer (PSimple p L)) ≤ 2 :=
     hOut (PSimple p L) hsimple ⟨a, b, hab⟩ row.name ⟨f⟩
   exact (Nat.card_le_card_of_injective _
     (CFSG.ComponentClassification.OuterAutomorphisms.centerQuotient_outer_injective
       (PQuot p L))).trans h2
 
+omit [Finite G] in
 private theorem map_barAut_eq_map_conj_of_le {p : ℕ} {L Y : Subgroup G} (hY : Y ≤ L) :
     (Y.subgroupOf (Subgroup.normalizer (L : Set G))).map (barAut p L) =
       (lImg p L Y).map (MulAut.conj : PQuot p L →* MulAut (PQuot p L)) := by
@@ -134,7 +135,7 @@ theorem eq_of_le_of_map_barAut_of_odd {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {
       (lImg p L R).map MulAut.conj ≤ R'' → R'' = (lImg p L R).map MulAut.conj)
     {R' : Subgroup G} (hR'X : R' ≤ cx x) (hR'2 : IsPGroup 2 R')
     (hAN : A₀ ≤ Subgroup.normalizer (R' : Set G)) (hRR' : R ≤ R') : R' = R := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set NL : Subgroup G := Subgroup.normalizer (L : Set G) with hNL
   have hR'N : R' ≤ NL := hR'X.trans hXL
   set Rb : Subgroup (MulAut (PQuot p L)) := (R'.subgroupOf NL).map (barAut p L) with hRb

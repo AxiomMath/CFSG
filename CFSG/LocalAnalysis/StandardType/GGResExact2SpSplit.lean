@@ -33,7 +33,7 @@ theorem GGResHyp.false_of_exact2_L_spSplit_geSix
   obtain ⟨m, F, _, _, _, hN, ψ, hm4, hpq, -, hTB⟩ :=
     exists_spPlus_model_of_marking hp hp2 hSp (fun R _ θ I hN hI r hLift hperf =>
       ggTorusTBGroup_of_L hH.1 hperf θ hN hI hLift)
-  letI : NeZero m := ⟨by omega⟩
+  let : NeZero m := ⟨by omega⟩
   have hEq : Bs = B := ggTBJ_sp_bstar_eq hp hp2 hH.1 L hN hpq ψ hTB
   have hI1 := hH.iOne_of_eq_bstar hEq.symm
   have hrow : GGInnerDiagOnLabel (fun p lab => ∃ (r m N : ℕ)

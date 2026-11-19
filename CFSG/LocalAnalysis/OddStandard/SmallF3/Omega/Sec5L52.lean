@@ -49,7 +49,7 @@ theorem asc82Lemma52b_of (h52a : Asc82Lemma52a) : Asc82Lemma52b := by
     have hx2 : ∃ k : ℕ, orderOf x = 2 ^ k := by
       unfold twoCoreIn CFSG.inSubgroup at hx
       obtain ⟨y, hy, hyx⟩ := Subgroup.mem_map.mp hx
-      haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+      have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
       obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp
         (CFSG.pCore_isPGroup (p := 2) (G := ↥L))) ⟨y, hy⟩
       have hkG : orderOf ((y : ↥L) : G) = 2 ^ k := by

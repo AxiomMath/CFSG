@@ -115,7 +115,7 @@ private theorem ggQ2s08r3_exists_stab_smul_last_eq_zero {K : Type*} [Field K] {�
       have hne : (⟨n - 1, by omega⟩ : Fin n) ≠ ⟨0, by omega⟩ := by
         intro hcon
         have := congrArg (fun x : Fin n => (x : ℕ)) hcon
-        simp only [Fin.val_zero] at this
+        simp only at this
         omega
       exact Pi.single_eq_of_ne hne 1
     rw [h1, h2, mul_zero, mul_zero, add_zero]

@@ -15,6 +15,7 @@ variable {G : Type*} [Group G] [Finite G] {P S Q W Z M D : Subgroup G} {g y z : 
 variable (h : QD P S Q W Z M D g y z)
 include h
 
+omit [Finite G] in
 theorem b1_conj {s : G} (hs : s ∈ Q)
     (hfix : ∀ w ∈ conjSub g W ⊓ Q, s * w * s⁻¹ * w⁻¹ ∈ conjSub g Z) : s ∈ conjSub g M := by
   have hQg : conjSub g Q = Q := conjSub_eq_of_mem_normalizer (h.vh.qn h.hg)
@@ -37,6 +38,7 @@ theorem b1_conj {s : G} (hs : s ∈ Q)
   rw [mem_conjSub]
   exact hM
 
+omit [Finite G] in
 theorem D_le_Q : D ≤ Q := fun x hx =>
   h.hQV x (h.hMS (h.hD hx)) (fun v hv => h.hDc x hx v (h.V_le_W hv))
 

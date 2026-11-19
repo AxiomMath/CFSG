@@ -71,9 +71,8 @@ theorem center_eq_bot_of_f4EndMarking
     dsimp only at ht hn
     subst hn
     rcases ht with ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ | ⟨rfl, rfl⟩ <;>
-      simp [markTag, markRank, markChar, markDeg, genericOrders, exceptionalOrders,
-        Nat.card_congr Multiplicative.toAdd]
-  haveI : Finite (CFSG.Open.griessHopfMultiplier R) :=
+      simp [markTag, markRank, markChar, markDeg, genericOrders, exceptionalOrders]
+  have : Finite (CFSG.Open.griessHopfMultiplier R) :=
     Nat.finite_of_card_ne_zero (by rw [hcard]; exact one_ne_zero)
   have hd := CFSG.GH74.GLS.Stage2.Signalizer.Odd87.card_center_dvd_hopf hq θ
   rw [hcard, Nat.dvd_one] at hd
@@ -107,7 +106,7 @@ theorem le_normalizer_of_sstar_markingA {G : Type} [Group G] [Finite G] {B : Sub
   subst ht hr hm
   obtain ⟨K, _, _, hK, -, -, θ, -⟩ := hraw
   have hK2 : Nat.card K = 2 := by rw [hK, pow_one]
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (le_refl 1) hK
   exact UnitTB.exists_noncyclic_of_torusLift Nat.prime_three (show 2 ≤ (r + 1) / 2 by omega) hL θ
     (TypeA.ggTorusLift_of_mulEquiv (TypeA.recipeEquiv (r + 1) K)
@@ -136,7 +135,7 @@ theorem isCyclic_sylow_of_le_centralizer_of_forall {G : Type} [Group G] {p : ℕ
     {H : Subgroup G} (hH : H ≤ Subgroup.centralizer (L : Set G)) (P : Sylow p ↥H) : IsCyclic P := by
   have hle : (P : Subgroup H).map H.subtype ≤ Subgroup.centralizer (L : Set G) :=
     (Subgroup.map_subtype_le _).trans hH
-  have hc := hcyc _ hle (P.isPGroup'.map H.subtype)
+  have hc := hcyc _ hle (P.isPGroup.map H.subtype)
   exact isCyclic_of_surjective
     ((P : Subgroup H).equivMapOfInjective H.subtype H.subtype_injective).symm.toMonoidHom
     (MulEquiv.surjective _)
@@ -205,7 +204,7 @@ theorem exists_torus_of_markingA {G : Type} [Group G] [Finite G] {M : Subgroup G
   subst ht hr hm
   obtain ⟨K, _, _, hK, -, -, θ, -⟩ := hraw
   have hK2 : Nat.card K = 2 := by rw [hK, pow_one]
-  haveI : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP K 2 := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     Nat.prime_two (le_refl 1) hK
   have hlift := TypeA.ggTorusLift_of_mulEquiv (TypeA.recipeEquiv (r + 1) K)
     (TwoThree.ggTorusLift_two hK2 (by omega))

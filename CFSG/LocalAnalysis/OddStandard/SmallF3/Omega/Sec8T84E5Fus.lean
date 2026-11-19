@@ -12,7 +12,7 @@ open Subgroup CFSG.Blueprint
 private lemma isElemAbelian_map_hom {G : Type*} [Group G] {E : Subgroup G}
     (hE : CFSG.Open.IsElemAbelian 2 E) (f : G →* G) :
     CFSG.Open.IsElemAbelian 2 (E.map f) := by
-  haveI : IsMulCommutative E := hE.1
+  have : IsMulCommutative E := hE.1
   refine ⟨?_, ?_⟩
   · infer_instance
   · intro x hx

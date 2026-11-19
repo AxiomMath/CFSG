@@ -84,8 +84,8 @@ theorem isSolvable_of_unitary {d : TauCeti.ValidLieTypeIndex}
     CFSG.RankThree.PartOne.Sec1511.spe_fstar Fact.out hO hN
   set K := CFSG.generalizedFitting X with hKdef
   have hK1 : K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   obtain ⟨P, hPN, hPK, T, hT, -⟩ :=
     exists_sylow_glbCore_ne_top_of_isStronglyPEmbedded
       hO hK1 hN
@@ -115,7 +115,7 @@ theorem isSolvable_of_unitary {d : TauCeti.ValidLieTypeIndex}
   have hle : Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ N.subgroupOf K := by
     have h := normalizer_subgroupOf_le_of_isStronglyPEmbedded
       hN (p := p) (K := K) (Q := (T : Subgroup ↥K).map K.subtype)
-      (by rw [hTmap]; exact hPK) (T.isPGroup'.map K.subtype)
+      (by rw [hTmap]; exact hPK) (T.isPGroup.map K.subtype)
       (by rw [hTmap]; exact inf_le_left.trans hPN) (Subgroup.map_subtype_le _)
     rwa [hTsub] at h
   have hne : N.subgroupOf K ≠ ⊤ := fun h => hnotle (Subgroup.subgroupOf_eq_top.1 h)
@@ -124,6 +124,7 @@ theorem isSolvable_of_unitary {d : TauCeti.ValidLieTypeIndex}
   exact isSolvable_of_isCoatom_normalizer
     hKC hout hmax hsol hle hne
 
+omit [Finite X] in
 theorem map_conjNormal_eq_of_mem_normalizer {K : Subgroup X} [K.Normal] {T : Subgroup ↥K} {n : X}
     (hn : n ∈ Subgroup.normalizer ((T.map K.subtype : Subgroup X) : Set X)) :
     T.map (MulAut.conjNormal (G := X) (H := K) n).toMonoidHom = T := by
@@ -147,8 +148,8 @@ theorem pRank_three_commutator_le_one_of_unitary (hp5 : 5 ≤ p)
     CFSG.RankThree.PartOne.Sec1511.spe_fstar Fact.out hO hN
   set K := CFSG.generalizedFitting X with hKdef
   have hK1 : K ≠ ⊥ := (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance
-  haveI : K.Normal := hKn
-  haveI : IsSimpleGroup ↥K := hKs
+  have : K.Normal := hKn
+  have : IsSimpleGroup ↥K := hKs
   obtain ⟨P, hPN, hPK, T, hT, -⟩ :=
     exists_sylow_glbCore_ne_top_of_isStronglyPEmbedded hO hK1 hN
   have hTmap : (T : Subgroup ↥K).map K.subtype = (P : Subgroup X) ⊓ K := by
@@ -162,7 +163,7 @@ theorem pRank_three_commutator_le_one_of_unitary (hp5 : 5 ≤ p)
   have hle : Subgroup.normalizer ((T : Subgroup ↥K) : Set ↥K) ≤ N.subgroupOf K := by
     have h := normalizer_subgroupOf_le_of_isStronglyPEmbedded
       hN (p := p) (K := K) (Q := (T : Subgroup ↥K).map K.subtype)
-      (by rw [hTmap]; exact hPK) (T.isPGroup'.map K.subtype)
+      (by rw [hTmap]; exact hPK) (T.isPGroup.map K.subtype)
       (by rw [hTmap]; exact inf_le_left.trans hPN) (Subgroup.map_subtype_le _)
     rwa [hTsub] at h
   have hne : N.subgroupOf K ≠ ⊤ := fun h => hnotle (Subgroup.subgroupOf_eq_top.1 h)

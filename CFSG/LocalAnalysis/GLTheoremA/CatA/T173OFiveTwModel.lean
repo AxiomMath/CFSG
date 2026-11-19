@@ -84,7 +84,7 @@ private theorem exists_lift_hom_twE6 {Ω : Type} [Group Ω] {B : Subgroup Ω} {p
     refine MulEquiv.ext fun x => ?_
     apply Subtype.ext
     simp only [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_symm,
-      MulEquiv.apply_symm_apply, MulEquiv.symm_apply_apply]
+      MulEquiv.symm_apply_apply]
   have hβ_mem : ∀ b : ↥B, ∃ g : ↥(twistedE6InndiagGL K σ),
       twistedE6InndiagConj K σ g = (α b)⁻¹ := by
     intro b
@@ -193,8 +193,8 @@ theorem exists_dmodel_twE6 {Ω : Type} [Group Ω] [Finite Ω] {S B N D K : Subgr
   subst htag
   dsimp only [GLARawDatum, CFSG.Assembly.LargeEvenRawDatum] at hraw
   obtain ⟨K, hKfield, hKfin, hKcard, -, -, θ, -, hsplit, hN, hind⟩ := hraw
-  letI : Field K := hKfield
-  letI : Finite K := hKfin
+  let : Field K := hKfield
+  let : Finite K := hKfin
   obtain ⟨σ, hσ, ε, hε⟩ := TwE6Transport.exists_recipeConj (K := K) hlab.1 hKcard
   have hpq : 3 ∣ 2 ^ n + 1 :=
     Y10F.dvd_two_pow_add_one_of_split16_of_twA_or_twE6 hsplit (Or.inr rfl)

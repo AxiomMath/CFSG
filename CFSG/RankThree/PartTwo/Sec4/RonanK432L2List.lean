@@ -50,8 +50,7 @@ theorem tSL_mul_uSL (s : Fˣ) (x : F) : tSL s * uSL x = uSL ((s : F) ^ 2 * x) * 
   rw [Matrix.SpecialLinearGroup.coe_mul, Matrix.SpecialLinearGroup.coe_mul]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [uSL, tSL, Matrix.mul_apply, Fin.sum_univ_two, pow_two, mul_comm, mul_left_comm,
-      mul_assoc]
+    simp [uSL, tSL, Matrix.mul_apply, Fin.sum_univ_two, pow_two, mul_comm, mul_assoc]
 
 @[expose] def uP (x : F) : PSL2 F := QuotientGroup.mk (uSL x)
 

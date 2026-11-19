@@ -20,7 +20,7 @@ theorem ExtremalObstruction.mem_of_mem_centralizer_of_isMulCommutative (hS : Set
   have hprime := sigmaA_prime p hp
   have hfact : Fact p.Prime := ⟨hprime⟩
   obtain ⟨hM, hDP, hD2, hDM⟩ := hext.obstruction
-  have hPp : IsPGroup p (P : Subgroup G) := P.isPGroup'
+  have hPp : IsPGroup p (P : Subgroup G) := P.isPGroup
   have hiso := hext.isIsolatedPlane_of_isMulCommutative hprime hDab
   obtain ⟨hDe, hDc⟩ := hext.isElemAbelian_of_isMulCommutative hprime hDab
   by_contra hyD

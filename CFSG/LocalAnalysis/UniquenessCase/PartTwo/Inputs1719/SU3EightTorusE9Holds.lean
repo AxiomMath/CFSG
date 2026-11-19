@@ -31,7 +31,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator.ChevQ
 theorem exists_mulEquiv_unitarySU_three_of_isSU3
     {X : Type} [Group X] [Finite X]
     (hX : IsSU3 X 3) (hZ : 3 ∣ Nat.card (Subgroup.center X)) :
-    ∃ (F : Type) (_ : Field F) (h : UnitaryFieldData 2 3 F),
+    ∃ (F : Type) (_ : Field F) (_h : UnitaryFieldData 2 3 F),
       Nat.card F = 64 ∧ Nat.card (Subgroup.center X) = 3 ∧
         Nonempty (unitarySU 2 3 F 3 ≃* X) := by
   have hz : Subgroup.center X ≠ ⊥ := by
@@ -40,7 +40,7 @@ theorem exists_mulEquiv_unitarySU_three_of_isSU3
     omega
   obtain ⟨-, F, hField, hFinite, hFcard, ⟨e₀⟩⟩ :=
     (CFSG.Blueprint.LieModel.classical_iff (by decide)).1 hX.2
-  letI := hField
+  let := hField
   have : Finite F := hFinite
   have hFc : Nat.card F = (2 ^ 3) ^ 2 := hFcard
   let hd : UnitaryFieldData 2 3 F := unitaryFieldDataOfCard hFc
@@ -154,8 +154,7 @@ theorem exists_unitarySU_three_orderOf_nine_elemAbelian {F : Type} [Field F]
     fin_cases k
     · simp [u, a]
     · simp [u, a]
-    · simp only [Pi.pow_apply, u, a, Matrix.cons_val_zero, Matrix.cons_val_one,
-        Matrix.cons_val_two, Matrix.head_cons, Matrix.tail_cons]
+    · simp only [Pi.pow_apply, u, a]
       exact inv_mul_self_pow_three hζ9
   have hnorma : h.norm (a : F) = 1 := by
     rw [CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData.norm,
@@ -170,7 +169,7 @@ theorem exists_unitarySU_three_orderOf_nine_elemAbelian {F : Type} [Field F]
     apply Units.ext
     rw [KSFourU.coe_diagGL, Matrix.GeneralLinearGroup.coe_scalar]
     ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.diagonal_apply, Matrix.scalar_apply]
+    fin_cases i <;> fin_cases j <;> simp [Matrix.scalar_apply]
   have hx3cen : x ^ 3 ∈ Subgroup.center (unitarySU 2 3 F 3) :=
     unitaryScalars_le_center h 3
       ((mem_unitaryScalars).mpr ⟨a, hnorma, ha3, hx3mat⟩)
@@ -213,7 +212,7 @@ theorem exists_unitarySU_three_orderOf_nine_elemAbelian {F : Type} [Field F]
     rw [Subgroup.coe_mul, Subgroup.coe_mul, he1mat, he2mat, ← map_mul, ← map_mul]
     congr 1
     funext k
-    fin_cases k <;> simp [v₁, v₂] <;> group
+    fin_cases k <;> simp [v₁, v₂]
   have he1ne : e₁ ≠ 1 := by
     intro h1
     have h00 : (((e₁ : GL (Fin 3) F)) : Matrix (Fin 3) (Fin 3) F) 0 0 = 1 := by
@@ -322,7 +321,7 @@ theorem k_SU3EightTorusE9_holds :
     S17.K_SU3EightTorusE9 := by
   intro X _ _ hX hZ
   obtain ⟨F, hF, hd, -, -, ⟨ψ⟩⟩ := exists_mulEquiv_unitarySU_three_of_isSU3 hX hZ
-  letI := hF
+  let := hF
   obtain ⟨x, E, hxord, hx3, hEel, hEcard, hEx⟩ :=
     exists_unitarySU_three_orderOf_nine_elemAbelian hd
   refine ⟨ψ x, E.map ψ.toMonoidHom, ?_, ?_, ?_, ?_, ?_⟩

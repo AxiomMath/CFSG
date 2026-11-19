@@ -217,7 +217,7 @@ theorem ih8_nbr_sylow3 (hΩ : HypOmegaGen Ω) {K J : Subgroup G} (hJ : J ∈ ome
   obtain ⟨-, -, A, hA, hAJ, hAN⟩ := hJ
   have hA' := hA
   obtain ⟨M, -, P, rfl⟩ := hA
-  exact ⟨_, P.isPGroup'.map _, hAJ, hAN,
+  exact ⟨_, P.isPGroup.map _, hAJ, hAN,
     (Sec6Gen.isQuatSub_of_mem_RSet hΩ hA').exists_not_commute⟩
 
 theorem commutes_of_omegaNbr3 {t : StatedLieTag} {k e : ℕ}

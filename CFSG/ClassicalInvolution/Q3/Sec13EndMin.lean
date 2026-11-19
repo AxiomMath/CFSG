@@ -208,7 +208,7 @@ theorem map_mem_etaG_quotZ (hD : ThmDHypO r Ω) (hZc : Z ≤ Subgroup.center H)
         exact hV
       · intro hV
         obtain ⟨U, hU, hUS, hUV⟩ :=
-          exists_lift_USet_quotZ hD hZc hZo (hη'sub hV).1 S.isPGroup' (hη'sub hV).2
+          exists_lift_USet_quotZ hD hZc hZo (hη'sub hV).1 S.isPGroup (hη'sub hV).2
         exact ⟨U, ⟨hU, hUS, hUV ▸ hV⟩, hUV⟩
     have hinj₀ : Set.InjOn (fun U : Subgroup H => U.map πz) η₀ := fun U hU U' hU' h =>
       hinj hU.1 hU'.1 h
@@ -281,6 +281,7 @@ open scoped IsMulCommutative
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem map_eq_one_of_closure_two {A : Type*} [Group A] {p : ℕ} [hp : Fact p.Prime]
     (hp2 : p ≠ 2) (hA : IsPGroup p A)
     (hgen : Subgroup.closure {x : X | ∃ k : ℕ, x ^ 2 ^ k = 1} = ⊤) (φ : X →* A) (x : X) :
@@ -306,10 +307,10 @@ theorem eq_one_of_mem_center_of_sylow {p : ℕ} [hp : Fact p.Prime] (hp2 : p ≠
       inv_mul_cancel_left]
   have h1 := MonoidHom.transfer_eq_pow (MonoidHom.id ↥(T : Subgroup X)) c key
   have h2 : (MonoidHom.id ↥(T : Subgroup X)).transfer c = 1 :=
-    map_eq_one_of_closure_two hp2 T.isPGroup' hgen _ c
+    map_eq_one_of_closure_two hp2 T.isPGroup hgen _ c
   rw [h2, MonoidHom.id_apply] at h1
   have h3 : c ^ (T : Subgroup X).index = 1 := (congrArg Subtype.val h1).symm
-  obtain ⟨j, hj⟩ := T.isPGroup' ⟨c, hcT⟩
+  obtain ⟨j, hj⟩ := T.isPGroup ⟨c, hcT⟩
   have h4 : orderOf c ∣ p ^ j :=
     orderOf_dvd_of_pow_eq_one (by simpa using congrArg Subtype.val hj)
   have hcop : Nat.Coprime (p ^ j) (T : Subgroup X).index :=
@@ -343,7 +344,7 @@ theorem eq_bot_of_le_center_of_sq {R : Subgroup X} [R.Normal]
   set f : ↥(T : Subgroup X) →* X ⧸ R := (QuotientGroup.mk' R).comp (T : Subgroup X).subtype
   have hcyc : IsCyclic f.range := by
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp
-      (T.isPGroup'.of_surjective f.rangeRestrict f.rangeRestrict_surjective)
+      (T.isPGroup.of_surjective f.rangeRestrict f.rangeRestrict_surjective)
     have hdvd : p ^ k ∣ Nat.card (X ⧸ R) := hk ▸ Subgroup.card_subgroup_dvd_card f.range
     have hk1 : k ≤ 1 := by
       by_contra hk1
@@ -515,6 +516,7 @@ theorem sectionConcl {P : Set (Subgroup G)} (hPΩ : P ⊆ Ω)
     by_contra hne
     exact htrans fun L hL L' hL' => by_contra fun h' => hne ⟨L, hL, L', hL', h'⟩
 
+omit [Finite G] in
 theorem conjSub_mem_centMembers {a : G} {L : Subgroup G} (hL : L ∈ Generic.centMembers Ω a)
     {x : G} (hx : x ∈ pSpan (Generic.centMembers Ω a)) :
     conjSub x L ∈ Generic.centMembers Ω a := by
@@ -581,6 +583,7 @@ namespace StarHyp
 variable {Ω : Set (Subgroup G)} (h : StarHyp Ω)
 include h
 
+omit [Finite G] in
 theorem conjSub_mem_dComp {K : Subgroup G} (hK : K ∈ Ω) {L : Subgroup G} (hL : L ∈ dComp Ω K)
     {x : G} (hx : x ∈ pSpan (dComp Ω K)) : conjSub x L ∈ dComp Ω K :=
   ((pSpan_le fun _ hM => le_sigmaNorm_of_mem_dComp h.thmD.hyp.conjInvariant hK hM) hx L).mp hL

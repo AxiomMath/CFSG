@@ -58,7 +58,7 @@ theorem isCyclic_of_isPGroup_GL_four {k : Type} [Field k] [Fintype k] {p : ℕ} 
     · exact Nat.Coprime.mul_right (hcq 3) (hc 1 (by norm_num))
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow r S))
   set T' : Subgroup (GL (Fin 4) k) := (T : Subgroup S).map S.subtype with hT'
-  have hT'p : IsPGroup r T' := T.isPGroup'.map S.subtype
+  have hT'p : IsPGroup r T' := T.isPGroup.map S.subtype
   obtain ⟨R₀, hR₀⟩ := hT'p.exists_le_sylow
   have hq4 : q ^ 4 - 1 ≠ 0 := by
     have : 2 ≤ q := Fintype.one_lt_card
@@ -66,7 +66,7 @@ theorem isCyclic_of_isPGroup_GL_four {k : Type} [Field k] [Fintype k] {p : ℕ} 
     omega
   have hR₀eq : (R₀ : Subgroup (GL (Fin 4) k)) = T' := by
     refine (Subgroup.eq_of_le_of_card_ge hR₀ ?_).symm
-    obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 R₀.isPGroup'
+    obtain ⟨j, hj⟩ := IsPGroup.iff_card.1 R₀.isPGroup
     have hdvd : r ^ j ∣ q ^ 4 - 1 := by
       have h := hj ▸ Subgroup.card_subgroup_dvd_card (R₀ : Subgroup (GL (Fin 4) k))
       rw [hGL] at h
@@ -95,7 +95,7 @@ theorem sylow_isCyclic_of_cyclic_subgroup {G : Type*} [Group G] [Finite G] {r : 
     IsCyclic (R : Subgroup G) := by
   obtain ⟨T⟩ := (inferInstance : Nonempty (Sylow r C))
   set T' : Subgroup G := (T : Subgroup C).map C.subtype with hT'
-  have hT'p : IsPGroup r T' := T.isPGroup'.map C.subtype
+  have hT'p : IsPGroup r T' := T.isPGroup.map C.subtype
   obtain ⟨R₀, hR₀⟩ := hT'p.exists_le_sylow
   have hR₀eq : (R₀ : Subgroup G) = T' := by
     refine (Subgroup.eq_of_le_of_card_ge hR₀ ?_).symm
@@ -284,7 +284,7 @@ theorem suzuki_sylow_isCyclic (hm : 0 < m) {r : ℕ} [hr : Fact r.Prime] (hr2 : 
     have hcyc := isCyclic_of_isPGroup_GL_four (k := K) (p := 2) (r := r)
       (hK ▸ h0) (hK ▸ h1) (hK ▸ h2) (hK ▸ h3)
       ((R : Subgroup (SuzukiMatrixGroup m)).map (SuzukiMatrixGroup m).subtype)
-      (R.isPGroup'.map _)
+      (R.isPGroup.map _)
     exact isCyclic_of_surjective
       ((R : Subgroup (SuzukiMatrixGroup m)).equivMapOfInjective _
         (SuzukiMatrixGroup m).subtype_injective).symm.toMonoidHom

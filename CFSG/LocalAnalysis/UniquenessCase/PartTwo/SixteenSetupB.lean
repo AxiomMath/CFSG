@@ -19,6 +19,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s16b_eq_of_mem_zpowers {w x : G} (hw2 : w ^ 2 = 1) (hx : x ∈ Subgroup.zpowers w)
     (hx1 : x ≠ 1) : x = w := by
   obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hx

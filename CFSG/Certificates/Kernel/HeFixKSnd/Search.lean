@@ -25,7 +25,7 @@ theorem hfFindE8_isSome {m : Nat} {TT : Array Tab} {C : List Nat} {i j k : Nat}
     (hfFindE8 m TT C).isSome = true := by
   unfold hfFindE8
   refine List.findSome?_isSome_iff.2 ⟨i, hi, List.findSome?_isSome_iff.2 ⟨j, hj, ?_⟩⟩
-  rw [if_pos (out2_E8_pre h)]
+  rw [ite_eq_left (out2_E8_pre h)]
   refine List.findSome?_isSome_iff.2 ⟨k, hk, ?_⟩
   simp [h]
 
@@ -76,7 +76,7 @@ theorem hfPairOK_of_triple {m : Nat} {TT : Array Tab} {a b : Tab} {i j k : Nat}
   obtain ⟨l3, a3, b3⟩ := out2_of_mem_hfCands h3
   have hT : hfTripleOK m TT a b i' j' k' = true := by
     simp only [hfTripleOK, Bool.and_eq_true_iff, decide_eq_true_eq, List.all_cons, List.all_nil,
-      Bool.and_true, l1, l2, l3, h4, a1, b1, a2, b2, a3, b3, and_self, and_true, true_and]
+      Bool.and_true, l1, l2, l3, h4, a1, b1, a2, b2, a3, b3, and_self]
   unfold hfPairOK
   rw [hp]
   exact hT
@@ -110,7 +110,7 @@ theorem hfE8OK_unpack {x y z : Nat} (hx : PP 32 6 x) (hy : PP 32 6 y) (hz : PP 3
   rw [strictB_app, tab_sq hx, tab_sq hy, tab_sq hz, tab_comm hx hy, tab_comm hx hz,
     tab_comm hy hz, tab_eq_id hx, tab_eq_id hy, tab_eq_id hz, beq_unpack_PP hy hx,
     beq_unpack_PP hz hx, beq_unpack_PP hz hy, tab_eq_mul hx hy hz]
-  simp only [andB_eq, notB_eq, beq_nat, Bool.and_assoc]
+  simp only [andB_eq, notB_eq, Bool.and_assoc]
 
 @[expose] noncomputable def tabsOf (N : Nat) (T : Nat → Nat) : Array Tab :=
   Array.ofFn (n := N) fun i => unpack 32 6 (T i.val)

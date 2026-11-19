@@ -28,13 +28,14 @@ theorem oThreeWStar_le_autIn {A P : Subgroup G}
     (hP : IsSylowOf 3 P (Subgroup.normalizer (A : Set G))) :
     Sec13.oThreeWStar A ≤ Sec4.autIn P A := by
   have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : ((Sec13.oThreeWStar A).subgroupOf (Sec13.wStar A)).Normal := by
+  have : ((Sec13.oThreeWStar A).subgroupOf (Sec13.wStar A)).Normal := by
     rw [Sec13.oThreeWStar, Subgroup.subgroupOf,
       Subgroup.comap_map_eq_self_of_injective (Subgroup.subtype_injective _)]
     exact CFSG.pCore_normal
   exact SylowTop.le_of_isSylowOf (Subgroup.map_subtype_le _)
     (CFSG.pCore_isPGroup.map _) (Sec13.Holds134.isSylowOf_autIn_wStar hP)
 
+omit [Finite G] in
 theorem conj_mem_centralizer {B : Subgroup G} {w y : G}
     (hw : w ∈ Subgroup.normalizer (B : Set G)) (hy : y ∈ Subgroup.centralizer (B : Set G)) :
     w * y * w⁻¹ ∈ Subgroup.centralizer (B : Set G) := by
@@ -198,7 +199,7 @@ theorem pow_three_eq_one_of_sec18H (h1812 : Item181_2) (h184 : Item184_1)
     t ^ 3 = 1 := by
   by_contra hne
   have hc3 := orderOf_eq_three_of_sec18H h184 hH
-  obtain ⟨w, hw, hwc⟩ := SetLike.not_le_iff_exists.mp hWa
+  obtain ⟨w, hw, hwc⟩ := IsConcreteLE.not_le_iff_exists.mp hWa
   have hconjA : ∀ a ∈ A, w * a * w⁻¹ ∈ A := fun a ha => (Subgroup.mem_normalizer_iff.mp hw a).mp ha
   have h1 := zpowers_eq_of_mem hc3
     (pow_three_mem_zpowers_of_sec18H h1812 h184 h1842 hH htk htA ht3) hne

@@ -13,7 +13,6 @@ open CertificateChecks
 open CertificateChecks.KernelCo2Census
 
 theorem certificate21100 :     CFSG.Sporadic.Co2Smith.CCFacts := by
-  intros
   exact
     { classes := cc_classes.1
       cls := cc_classes.2

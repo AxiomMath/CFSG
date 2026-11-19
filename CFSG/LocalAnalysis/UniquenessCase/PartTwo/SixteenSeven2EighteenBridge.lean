@@ -13,6 +13,7 @@ open scoped commutatorElement Pointwise
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s16c167_mem_stabTil_bot {V : Subgroup G} {m : G} (hm : m ∈ normalizer (V : Set G)) :
     m ∈ stabTil (⊥ : Subgroup G) V := by
   rw [stabTil, Subgroup.mem_inf]
@@ -21,11 +22,13 @@ theorem s16c167_mem_stabTil_bot {V : Subgroup G} {m : G} (hm : m ∈ normalizer 
   rw [Subgroup.normalizer_eq_top]
   exact Subgroup.mem_top m
 
+omit [Finite G] in
 theorem s16c167_rk_imgTil {V U : Subgroup G} (hV : IsElemAbelian 2 V) (hU : U ≤ V) :
     rk ↥(imgTil ⊥ V hV U) = rk ↥U := by
   unfold rk
   rw [s16c167_card_imgTil_bot hV hU]
 
+omit [Finite G] in
 private theorem s16c167_mkTil_bot_injective {V : Subgroup G} (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil ⊥ V hV) := by
   rw [← MonoidHom.ker_eq_bot_iff]
@@ -53,6 +56,7 @@ theorem s16c167_mQuot_imgTil {V : Subgroup G} (hV : IsElemAbelian 2 V) {I C : Su
   unfold E3.mQuot
   rw [Nat.eq_of_mul_eq_mul_right Nat.card_pos (h1.trans h2.symm)]
 
+omit [Finite G] in
 theorem s16c167_fixV_actTil {V : Subgroup G} (hV : IsElemAbelian 2 V) {m : G}
     (hm : m ∈ stabTil (⊥ : Subgroup G) V) :
     fixV (Subgroup.zpowers (actTil ⊥ V hV ⟨m, hm⟩)) =
@@ -93,6 +97,7 @@ theorem s16c167_rkIdx_fixV_actTil {V : Subgroup G} (hV : IsElemAbelian 2 V) {m :
   unfold E3.mQuot rkIdx
   rw [Subgroup.relIndex_top_right]
 
+omit [Finite G] in
 theorem s16c167_imgTil_conjSubgroup {V : Subgroup G} (hV : IsElemAbelian 2 V) {m : G}
     (hm : m ∈ stabTil (⊥ : Subgroup G) V) (hm2 : m ^ 2 = 1) (I : Subgroup G) :
     imgTil ⊥ V hV (conjSubgroup I m) =
@@ -169,6 +174,7 @@ theorem s16c167_mBar_le_mQuot {M V : Subgroup G} (hV : IsElemAbelian 2 V)
   rw [s16c167_rkIdx_fixV_actTil hV hm] at hle
   simpa [mBar] using hle
 
+omit [Finite G] in
 theorem s16c167_imgTil_decomp {V : Subgroup G} (hV : IsElemAbelian 2 V) {Δ : Set (Subgroup G)}
     (hn : Δ.ncard = 2) (hle : ∀ I ∈ Δ, I ≤ V) (hi : sSupIndep Δ) (hs : sSup Δ = V) :
     (imgTil ⊥ V hV '' Δ).ncard = 2 ∧ sSupIndep (imgTil ⊥ V hV '' Δ) ∧
@@ -205,6 +211,7 @@ theorem s16c167_imgTil_decomp {V : Subgroup G} (hV : IsElemAbelian 2 V) {Δ : Se
   exact ⟨Set.ncard_pair himg_inj, (sSupIndep_pair himg_inj).2 hdisj, by
     rw [sSup_pair, ← hmap, hsup, htop]⟩
 
+omit [Finite G] in
 theorem s16c167_imgTil_wConj {M V : Subgroup G} (hV : IsElemAbelian 2 V)
     (hM : M ≤ normalizer (V : Set G)) (L : Subgroup G) :
     imgTil ⊥ V hV '' wConj M ⊥ V hV L =

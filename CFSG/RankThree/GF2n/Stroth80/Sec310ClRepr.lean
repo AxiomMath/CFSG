@@ -120,7 +120,7 @@ theorem exists_repr_of_subspace {R V N : Subgroup G} (H : StrothHyp M Q Z) (hVQ 
       apply Subtype.ext
       exact hu
     have hn : (Z.subgroupOf V).Normal := hker' ▸ πV.normal_ker
-    haveI := hn
+    have := hn
     let e1 : ↥V ⧸ Z.subgroupOf V ≃* Multiplicative W :=
       (QuotientGroup.quotientMulEquivOfEq hker'.symm).trans
         (QuotientGroup.quotientKerEquivOfSurjective πV hsurj)

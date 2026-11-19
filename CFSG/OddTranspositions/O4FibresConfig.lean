@@ -17,14 +17,17 @@ theorem K₁_le_X (hQ : Config D u w v z a K₁ S') {X : Subgroup G}
     (hKX : thirdK D z ≤ X) : K₁ ≤ X :=
   ((le_sup_left : K₁ ≤ K₁ ⊔ Subgroup.zpowers z).trans hQ.K_eq.ge).trans hKX
 
+omit [Finite G] in
 theorem u_mem_X_config (hQ : Config D u w v z a K₁ S') {X : Subgroup G}
     (hKX : thirdK D z ≤ X) : u ∈ X :=
   hKX (Delta_subset_thirdK (hQ.z_facts).2.2.1)
 
+omit [Finite G] in
 theorem v_mem_X_config (hQ : Config D u w v z a K₁ S') {X : Subgroup G}
     (hKX : thirdK D z ≤ X) : v ∈ X :=
   hKX (Delta_subset_thirdK (hQ.z_facts).2.2.2.1)
 
+omit [Finite G] in
 theorem K₁_inf_R_eq_bot (hQ : Config D u w v z a K₁ S') {X : Subgroup G} {R : Subgroup X}
     [R.Normal] (hR : Group.IsSolvable R) (hKX : thirdK D z ≤ X) :
     K₁ ⊓ (R.map (Subgroup.subtype X)) = ⊥ := by
@@ -41,9 +44,10 @@ theorem K₁_inf_R_eq_bot (hQ : Config D u w v z a K₁ S') {X : Subgroup G} {R 
   have hOs : Group.IsSolvable (R.map (Subgroup.subtype X)) := by
     have : Group.IsSolvable R := hR
     let f := (R.equivMapOfInjective (Subgroup.subtype X) (Subgroup.subtype_injective X)).symm
-    exact solvable_of_solvable_injective (f := f.toMonoidHom) f.injective
+    exact Group.isSolvable_of_isSolvable_injective (f := f.toMonoidHom) f.injective
   exact inf_eq_bot_of_mulEquiv_A5 eK hOn hOs
 
+omit [Finite G] in
 theorem u_mul_v_mem_K₁ (hQ : Config D u w v z a K₁ S') : u * v ∈ K₁ := by
   obtain ⟨hz2, -, huΔ, hvΔ, -, -⟩ := hQ.z_facts
   have hzu : z * u ∈ K₁ := hQ.delta_sub u huΔ
@@ -55,6 +59,7 @@ theorem u_mul_v_mem_K₁ (hQ : Config D u w v z a K₁ S') : u * v ∈ K₁ := b
   rw [← hprod]
   exact K₁.mul_mem hzu hzv
 
+omit [Finite G] in
 theorem v_not_congruent_u (hQ : Config D u w v z a K₁ S') {X : Subgroup G} {R : Subgroup X}
     [R.Normal] (hR : Group.IsSolvable R) (hKX : thirdK D z ≤ X) :
     QuotientGroup.mk' R ⟨v, v_mem_X_config hQ hKX⟩ ≠

@@ -23,7 +23,7 @@ open CFSG.Assembly.RankThreeEven (projSL projSU projSp projOmegaPlus projOmegaMi
 open TauCeti (PrimePower LieTypeIndex ValidLieTypeIndex)
 
 variable (hJ : K9J2Facts) (hb : LieOrderBridge) (hLSC : LieSemisimpleCent)
-  (hLC : LieComp.LieComp)
+  (hLC : LieComp.LieCompAll)
 
 include hJ hb hLSC hLC
 
@@ -116,7 +116,7 @@ theorem k9_four_SU (p : ℕ) [Fact p.Prime] (hp : 3 < p) : RowOfK9 (projSU 4 p 1
     (valid_twistedA (by norm_num) (by omega))
 
 theorem k9_seven_SL2 (n : ℕ) (hn : 1 ≤ n) : RowOfK9 (projSL 2 (GaloisField 2 n)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases Nat.lt_or_ge n 3 with h | h
   · refine rowOfK9_of_not_dvd fun hd => ?_
     have h2 := hd.trans (Sec8.Hering418.card_projSL_two_dvd 2 n hn)
@@ -135,7 +135,7 @@ theorem k9_seven_SL2 (n : ℕ) (hn : 1 ≤ n) : RowOfK9 (projSL 2 (GaloisField 2
         omega) (fun h => absurd h (by omega)))
 
 theorem k9_seven_SL3 (n : ℕ) (hn : 1 ≤ n) : RowOfK9 (projSL 3 (GaloisField 2 n)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases Nat.lt_or_ge n 2 with h | h
   · obtain rfl : n = 1 := by omega
     exact rowOfK9_of_not_dvd (by rw [card_projSL_three_two]; norm_num)
@@ -146,7 +146,7 @@ theorem k9_seven_SL3 (n : ℕ) (hn : 1 ≤ n) : RowOfK9 (projSL 3 (GaloisField 2
         omega)
 
 theorem k9_seven_SU3 (n : ℕ) (hn : 1 ≤ n) : RowOfK9 (projSU 3 2 n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases Nat.lt_or_ge n 2 with h | h
   · obtain rfl : n = 1 := by omega
     refine rowOfK9_of_not_dvd fun hd => ?_
@@ -160,7 +160,7 @@ theorem k9_seven_SU3 (n : ℕ) (hn : 1 ≤ n) : RowOfK9 (projSU 3 2 n) := by
         omega)
 
 theorem k9_seven_Sp4 (n : ℕ) (hn : 1 ≤ n) : RowOfK9 (projSp 2 (GaloisField 2 n)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases Nat.lt_or_ge n 2 with h | h
   · obtain rfl : n = 1 := by omega
     exact rowOfK9_of_not_dvd (by rw [CFSG.PGLModel.card_projSp_two_two]; norm_num)
@@ -170,7 +170,7 @@ theorem k9_seven_Sp4 (n : ℕ) (hn : 1 ≤ n) : RowOfK9 (projSp 2 (GaloisField 2
         (by simp only [TauCeti.PrimePower.card_def]; omega))
 
 theorem k9_seven_SU4 (n : ℕ) (hn : 1 ≤ n) : RowOfK9 (projSU 4 2 n) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact rowOfK9_projSU hJ hb hLSC hLC 3 2 n hn (by norm_num)
     (valid_twistedA (by norm_num) (by omega))
 
@@ -200,27 +200,27 @@ theorem k9_seven_Tits (ht : LieTypeIndex.tits.Valid) :
     ⟨MulEquiv.refl _⟩
 
 theorem k9_eight_SL5 : RowOfK9 (projSL 5 (GaloisField 2 1)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact rowOfK9_projSL hJ hb hLSC hLC 4 2 1 le_rfl (by norm_num)
     (valid_A (by norm_num) (fun h => absurd h (by norm_num)) (by omega))
 
 theorem k9_eight_SU5 : RowOfK9 (projSU 5 2 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact rowOfK9_projSU hJ hb hLSC hLC 4 2 1 le_rfl (by norm_num)
     (valid_twistedA (by norm_num) (by omega))
 
 theorem k9_eight_SL6 : RowOfK9 (projSL 6 (GaloisField 2 1)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact rowOfK9_projSL hJ hb hLSC hLC 5 2 1 le_rfl (by norm_num)
     (valid_A (by norm_num) (fun h => absurd h (by norm_num)) (by omega))
 
 theorem k9_eight_SU6 : RowOfK9 (projSU 6 2 1) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact rowOfK9_projSU hJ hb hLSC hLC 5 2 1 le_rfl (by norm_num)
     (valid_twistedA (by norm_num) (by omega))
 
 theorem k9_eight_SL7 : RowOfK9 (projSL 7 (GaloisField 2 1)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact rowOfK9_projSL hJ hb hLSC hLC 6 2 1 le_rfl (by norm_num)
     (valid_A (by norm_num) (fun h => absurd h (by norm_num)) (by omega))
 
@@ -253,7 +253,7 @@ theorem k9_eight_OmegaMinus (b c : GaloisField 2 1)
   exact rowOfK9_of_lie hJ hb hLSC hLC _ (by simp) ⟨e.symm⟩
 
 theorem k9_eight_SL4 : RowOfK9 (projSL 4 (GaloisField 2 2)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact rowOfK9_projSL hJ hb hLSC hLC 3 2 2 (by norm_num) (by norm_num)
     (valid_A (by norm_num) (fun h => absurd h (by norm_num)) fun _ => by
       simp only [TauCeti.PrimePower.card_def]
@@ -264,12 +264,12 @@ theorem k9_eight_Sp6_4 : RowOfK9 (projSp 3 (GaloisField 2 2)) := by
   exact rowOfK9_of_lie hJ hb hLSC hLC _ (by simp) ⟨e.symm⟩
 
 theorem k9_eight_SU5_4 : RowOfK9 (projSU 5 2 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact rowOfK9_projSU hJ hb hLSC hLC 4 2 2 (by norm_num) (by norm_num)
     (valid_twistedA (by norm_num) (by omega))
 
 theorem k9_eight_SU5_8 : RowOfK9 (projSU 5 2 3) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact rowOfK9_projSU hJ hb hLSC hLC 4 2 3 (by norm_num) (by norm_num)
     (valid_twistedA (by norm_num) (by omega))
 

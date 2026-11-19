@@ -63,6 +63,7 @@ private theorem inf_centralizer_ne_bot' {S S₀ : Subgroup Y} (hSp : IsPGroup p 
   rw [hbot, mem_bot] at this
   exact Subtype.ext (Subtype.ext this)
 
+omit [Finite Y] in
 private theorem le_normalizer_inf (P : Subgroup Y) (K : Subgroup Y) [K.Normal] :
     P ≤ normalizer ((P ⊓ K : Subgroup Y) : Set Y) := by
   intro g hg
@@ -109,7 +110,7 @@ theorem three_le_pRank_centralizer_of_heis (hp2 : p ≠ 2) {N C : Subgroup Y} [N
       rw [mem_centralizer_iff]
       intro d hd
       by_contra hne
-      obtain ⟨E, hEP, hEc, hEe, hEn⟩ := exists_heis_of_not_commute hp2 P.isPGroup' (hDP hd)
+      obtain ⟨E, hEP, hEc, hEe, hEn⟩ := exists_heis_of_not_commute hp2 P.isPGroup (hDP hd)
         (hAP ha) (hD.2 d hd) (hA.2 a ha) hne
       refine hheis E hEc hEe hEn (eq_bot_iff.2 fun g hg => ?_)
       rw [← hPC]
@@ -120,8 +121,8 @@ theorem three_le_pRank_centralizer_of_heis (hp2 : p ≠ 2) {N C : Subgroup Y} [N
   have hcen : ∀ (K : Subgroup Y) [K.Normal], (P : Subgroup Y) ⊓ K ≠ ⊥ →
       ∃ z ∈ K, z ∈ centralizer ((P : Subgroup Y) : Set Y) ∧ orderOf z = p := by
     intro K _ hK
-    have h1 := inf_centralizer_ne_bot' P.isPGroup' inf_le_left (le_normalizer_inf _ K) hK
-    obtain ⟨z, hz, hzp⟩ := exists_orderOf_eq (P.isPGroup'.to_le (inf_le_left.trans inf_le_left))
+    have h1 := inf_centralizer_ne_bot' P.isPGroup inf_le_left (le_normalizer_inf _ K) hK
+    obtain ⟨z, hz, hzp⟩ := exists_orderOf_eq (P.isPGroup.to_le (inf_le_left.trans inf_le_left))
       h1
     exact ⟨z, hz.1.2, hz.2, hzp⟩
   obtain ⟨z₁, hz₁C, hz₁P, hz₁p⟩ := hcen C hPC

@@ -34,9 +34,9 @@ theorem five_le_of_prime {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3
 
 theorem two_ne_zero_of_card {K : Type} [Field K] [Finite K] {p f : ℕ} (hpp : p.Prime)
     (hp2 : p ≠ 2) (hK : Nat.card K = p ^ f) : (2 : K) ≠ 0 := by
-  haveI : Fact p.Prime := ⟨hpp⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K p := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hK)
+  have : Fact p.Prime := ⟨hpp⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K p := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card]; exact hK)
   intro h
   have h' : ((2 : ℕ) : K) = 0 := by exact_mod_cast h
   rw [CharP.cast_eq_zero_iff K p] at h'

@@ -15,11 +15,13 @@ open CFSG.AGLEmbedding.ParabHub CFSG.AGLEmbedding.ParabPrime CFSG.LieType.Univer
 
 variable {n : ℕ} {F : Type} [Field F] [Finite F] [CharP F 2]
 
+omit [CharP F 2] in
 theorem sp_card_rankOne (hF : Nat.card F = 2) (k : Fin n) :
     Nat.card (rankOne (rootDatum n F).rootGroup k) = 6 := by
   obtain ⟨φ, hφ, hx, hy⟩ := Sp.rankOne (F := F) k
   exact card_rankOne_eq_six hF Sp.isParametrization hφ hx hy
 
+omit [Finite F] [CharP F 2] in
 theorem sp_cartan_eq_zero (a c : Fin n) (hac : a.val + 2 ≤ c.val) :
     (rootDatum n F).cartan a c = 0 := by
   simp only [rootDatum, cartanC]

@@ -112,6 +112,7 @@ theorem item148At_centPre148
     Item148At A LB (centPre148 A Y J) (centPre148_mem_scriptY hY hAJ) :=
   ih _ (centPre148_mem_scriptY hY hAJ) (card_centPre148_lt hJY hnc)
 
+omit [Finite G] in
 theorem exists_ne_comm_of_isPerfect (hp : Group.IsPerfect ↥(img148 A Y J))
     (hnt : img148 A Y J ≠ ⊥) :
     ∃ x ∈ img148 A Y J, ∃ y ∈ img148 A Y J, x * y ≠ y * x := by
@@ -139,6 +140,7 @@ theorem pPrimeCoreOf_le_pPrimeCoreOf_centPre148 :
   le_pPrimeCoreOf pPrimeCoreOf_le_centPre148
     (centPre148_le.trans (le_normalizer_pPrimeCoreOf 3 Y)) (coprime_card_pPrimeCoreOf 3 Y)
 
+omit [Finite G] in
 theorem centPre148_sup_le : centPre148 A Y J ⊔ A ≤ Y ⊔ A :=
   sup_le_sup_right centPre148_le A
 
@@ -152,12 +154,14 @@ theorem centPre148_sup_le : centPre148 A Y J ⊔ A ≤ Y ⊔ A :=
       rw [Subgroup.mem_comap, ker148, Subgroup.mem_subgroupOf]
       exact hcore hg)
 
+omit [Finite G] in
 theorem compare148_mk (hcore : pPrimeCoreOf 3 (centPre148 A Y J) ≤ pPrimeCoreOf 3 Y)
     [(ker148 A (centPre148 A Y J)).Normal] (g : ↥(centPre148 A Y J ⊔ A)) :
     compare148 hcore (QuotientGroup.mk' (ker148 A (centPre148 A Y J)) g) =
       QuotientGroup.mk' (ker148 A Y) (Subgroup.inclusion centPre148_sup_le g) :=
   rfl
 
+omit [Finite G] in
 theorem compare148_injective (hcore : pPrimeCoreOf 3 (centPre148 A Y J) = pPrimeCoreOf 3 Y)
     [(ker148 A (centPre148 A Y J)).Normal] : Function.Injective (compare148 hcore.le) := by
   rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
@@ -172,6 +176,7 @@ theorem compare148_injective (hcore : pPrimeCoreOf 3 (centPre148 A Y J) = pPrime
     rw [mk'_ker148_eq_one_iff, hcore]
     exact hx
 
+omit [Finite G] in
 theorem map_img148_compare148 (hcore : pPrimeCoreOf 3 (centPre148 A Y J) ≤ pPrimeCoreOf 3 Y)
     [(ker148 A (centPre148 A Y J)).Normal] {X : Subgroup G} (hX : X ≤ centPre148 A Y J ⊔ A) :
     (img148 A (centPre148 A Y J) X).map (compare148 hcore) = img148 A Y X := by
@@ -187,6 +192,7 @@ theorem map_img148_compare148 (hcore : pPrimeCoreOf 3 (centPre148 A Y J) ≤ pPr
     rw [compare148_mk]
     rfl
 
+omit [Finite G] in
 theorem nonempty_img148_centPre148_equiv
     (hcore : pPrimeCoreOf 3 (centPre148 A Y J) = pPrimeCoreOf 3 Y)
     [(ker148 A (centPre148 A Y J)).Normal] {X : Subgroup G} (hX : X ≤ centPre148 A Y J ⊔ A) :
@@ -194,6 +200,7 @@ theorem nonempty_img148_centPre148_equiv
   refine ⟨(Subgroup.equivMapOfInjective _ _ (compare148_injective hcore)).trans
     (MulEquiv.subgroupCongr (map_img148_compare148 hcore.le hX))⟩
 
+omit [Finite G] in
 theorem img148_deltaZero_centPre148_le {LB : Subgroup G → Subgroup G} :
     img148 A Y (deltaZero A LB (centPre148 A Y J)) ≤
       img148 A Y (deltaZero A LB Y) ⊓

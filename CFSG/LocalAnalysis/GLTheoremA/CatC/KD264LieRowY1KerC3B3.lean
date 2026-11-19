@@ -45,7 +45,7 @@ theorem KD264Y1KerB3_even (d : ValidLieTypeIndex) (q : PrimePower) (hd : d.1 = .
         LieTypeIndex.characteristic_B 3 q,
       show ValidLieTypeIndex.fieldExponent ⟨.B 3 q, hd1⟩ = q.exponent from
         LieTypeIndex.fieldExponent_B 3 q]
-  haveI : Finite ↥(ValidLieTypeIndex.fixedField ⟨.B 3 q, hd1⟩) :=
+  have : Finite ↥(ValidLieTypeIndex.fixedField ⟨.B 3 q, hd1⟩) :=
     Nat.finite_of_card_ne_zero (by rw [hcardK]; positivity)
   have hnd3 : ¬ 3 ∣ Nat.card ↥(ValidLieTypeIndex.fixedField ⟨.B 3 q, hd1⟩) := by
     rw [hcardK, hp]

@@ -107,7 +107,7 @@ theorem le_centralizer_of_odd_index (hG : GoldSetting G S A)
   intro s hs
   set s' : N := ⟨s, hSN hs⟩ with hs'
   have h1 : s' ^ C.index ∈ C := Subgroup.pow_index_mem C s'
-  obtain ⟨k, hk⟩ := S.isPGroup' ⟨s, hs⟩
+  obtain ⟨k, hk⟩ := S.isPGroup ⟨s, hs⟩
   have hk' : s' ^ 2 ^ k = 1 := Subtype.ext (by
     have := congrArg Subtype.val hk
     simpa using this)

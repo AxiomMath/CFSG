@@ -28,7 +28,7 @@ private lemma lt_two_pow_iff_testBit (m n : Nat) :
   · intro h
     exact Nat.lt_pow_two_of_testBit m h
 
-private lemma testBit_log2_gt (m : Nat) (hm : m ≠ 0) {i : Nat} (hi : m.log2 < i) :
+private lemma testBit_log2_gt (m : Nat) (_hm : m ≠ 0) {i : Nat} (hi : m.log2 < i) :
     m.testBit i = false :=
   Nat.testBit_lt_two_pow (Nat.lt_of_lt_of_le Nat.lt_log2_self
     (Nat.pow_le_pow_of_le (by decide : 1 < 2) (by omega)))
@@ -431,12 +431,12 @@ private lemma filter_cons_length (p : Nat → Bool) (k : Nat) (l : List Nat) :
     ((k :: l).filter p).length = (p k).toNat + (l.filter p).length := by
   rw [List.filter_cons]
   by_cases hp : p k = true
-  · rw [if_pos hp, List.length_cons, hp, Bool.toNat_true]; omega
+  · rw [ite_eq_left hp, List.length_cons, hp, Bool.toNat_true]; omega
   · have hp' : p k = false := by
       cases h : p k with
       | false => rfl
       | true => exact absurd h hp
-    rw [if_neg hp, hp', Bool.toNat_false]; omega
+    rw [ite_eq_right hp, hp', Bool.toNat_false]; omega
 
 private lemma shiftRight_land_one (m k : Nat) : (m >>> k) &&& 1 = (m.testBit k).toNat := by
   rw [Nat.shiftRight_eq_div_pow, Nat.and_one_is_mod, Nat.testBit_eq_decide_div_mod_eq]
@@ -483,7 +483,7 @@ theorem hasFive_iff (R : Nat) (l : List Nat) (c : Nat) :
         · have hpmf : (Nat.land R m == R) = true := hpm
           have ih' := ih (bif Nat.beq (Nat.land R m) R then c + 1 else c)
           simp only [hpm, Bool.cond_true] at ih' ⊢
-          rw [List.filter_cons, if_pos hpmf, List.length_cons, ih']
+          rw [List.filter_cons, ite_eq_left hpmf, List.length_cons, ih']
           omega
         · have hpm' : Nat.beq (Nat.land R m) R = false := by
             cases h : Nat.beq (Nat.land R m) R with
@@ -492,7 +492,7 @@ theorem hasFive_iff (R : Nat) (l : List Nat) (c : Nat) :
           have hpmf' : (Nat.land R m == R) = false := hpm'
           have ih' := ih (bif Nat.beq (Nat.land R m) R then c + 1 else c)
           simp only [hpm', Bool.cond_false] at ih' ⊢
-          rw [List.filter_cons, if_neg (by rw [hpmf']; exact fun h => Bool.noConfusion h), ih']
+          rw [List.filter_cons, ite_eq_right (by rw [hpmf']; exact fun h => Bool.noConfusion h), ih']
 
 private lemma rowsOK_aux (S : Nat) :
     ∀ n rem, rem < 2 ^ 72 → rowsOK S n rem = true → ∀ k, rem.testBit k = true →

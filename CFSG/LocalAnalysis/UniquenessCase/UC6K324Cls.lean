@@ -13,7 +13,7 @@ open CFSG.HardMathSupport.Solomon.Coordinator CFSG.HardMathSupport.Solomon.Coord
 open CFSG.LocalAnalysis.ComponentInitial
 
 theorem not_isSolvable_of_isQuasisimple_k324 {G : Type*} [Group G]
-    (hq : CFSG.Open.IsQuasisimple G) : ¬ IsSolvable G := by
+    (hq : CFSG.Open.IsQuasisimple G) : ¬ Group.IsSolvable G := by
   intro hs
   obtain ⟨hcomm, hsimp⟩ := hq
   have hder : ∀ n, derivedSeries G n = ⊤ := by
@@ -52,7 +52,7 @@ theorem noA6Comp_linear {S : Type} [Group S] [Finite S] (r : ℕ) (q : TauCeti.P
     (hv : (TauCeti.LieTypeIndex.A r q).Valid) (hq3 : q.p ≠ 3) (hq5 : q.p ≠ 5)
     (e : S ≃* (TauCeti.CFSGIndex.lie ⟨.A r q, hv⟩).Group) {s : S} (hso : orderOf s = 5) :
     NoA6Comp (MulAut.conj s) := by
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   let e' : S ≃* LinearFlag.projectiveSL (r + 1) (GaloisField q.p q.exponent) :=
     e.trans ((CFSG.ClassicalModels.linearCatalogCandidateEquivPSL r q hv).trans
       (LinearCover.projectiveSpecialLinearEquivProjectiveSL (r + 1) _))
@@ -90,9 +90,9 @@ theorem noA6Comp_linear {S : Type} [Group S] [Finite S] (r : ℕ) (q : TauCeti.P
   refine ⟨fun g => ?_⟩
   by_cases hsmall : m = 2 ∧ Fintype.card E < 4
   · obtain ⟨rfl, h4⟩ := hsmall
-    haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) E) :=
+    have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) E) :=
       isSolvable_specialLinear_two_of_card_le_three (by rw [Nat.card_eq_fintype_card]; omega)
-    exact not_isSolvable_of_isQuasisimple_k324 hK.2.2 (solvable_of_surjective hf)
+    exact not_isSolvable_of_isQuasisimple_k324 hK.2.2 (Group.isSolvable_of_surjective hf)
   · have hLF := slFactorFacts_holds E m hm (fun h2 => by
       by_contra h4
       exact hsmall ⟨h2, by omega⟩)

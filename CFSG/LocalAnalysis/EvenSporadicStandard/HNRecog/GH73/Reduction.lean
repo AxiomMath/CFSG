@@ -44,12 +44,12 @@ theorem gh73TheoremA64K_of_models
   intro X _ _ hK hperf hO hZ hA8
   obtain ⟨S, hS8⟩ := hA8
   let D : A8SylowData X := A8SylowData.of_sylow S hS8
-  haveI : Group.IsPerfect X := ⟨hperf⟩
+  have : Group.IsPerfect X := ⟨hperf⟩
   by_cases hE : CFSG.layer X = ⊥
   · rcases caseA hO hE D with h | h
     · exact Or.inr (Or.inr (Or.inl h))
     · exact Or.inr (Or.inr (Or.inr (Or.inl h)))
-  · haveI : IsSimpleGroup X := caseB hK hS hZ D hE
+  · have : IsSimpleGroup X := caseB hK hS hZ D hE
     have hnonab : ∃ a b : X, a * b ≠ b * a :=
       let ⟨a, _, b, _, _, _, hab⟩ := D.exists_noncomm S
       ⟨a, b, hab⟩

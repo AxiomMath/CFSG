@@ -38,6 +38,7 @@ private theorem faith_eq_one_of_map (h : SL(3, Fq n K))
   intro i j
   exact congrFun (congrFun hm i) j
 
+omit [Finite K] in
 private theorem faith_adjugate_one (M : Matrix (Fin 3) (Fin 3) K)
     (e1 : M 1 1 * M 2 2 + M 1 2 * M 2 1 = 1) (e2 : M 0 1 * M 2 2 + M 0 2 * M 2 1 = 0)
     (e3 : M 0 1 * M 1 2 + M 0 2 * M 1 1 = 0) (e4 : M 1 0 * M 2 2 + M 1 2 * M 2 0 = 0)
@@ -90,17 +91,20 @@ private theorem faith_eq_one_of_alt (M : Matrix (Fin 3) (Fin 3) K) (hdet : M.det
   rw [faith_adjugate_one M e1 e2 e3 e4 e5 e6 e7 e8 e9, Matrix.mul_one, hdet, one_smul] at h1
   exact h1
 
+omit [Finite K] [CharP K 2] in
 private theorem faith_diag_sandwich (M : Matrix (Fin 3) (Fin 3) K) (j i : Fin 3) :
     (M * Matrix.single j j (1 : K) * Mᵀ) i i = M i j * M i j := by
-  fin_cases j <;> simp [Matrix.mul_apply, Matrix.single_apply, Fin.sum_univ_three] <;> ring
+  fin_cases j <;> simp [Matrix.mul_apply, Matrix.single_apply, Fin.sum_univ_three]
 
+omit [Finite K] [CharP K 2] in
 private theorem faith_single_diag (i j : Fin 3) :
     (Matrix.single j j (1 : K)) i i = (1 : Matrix (Fin 3) (Fin 3) K) i j := by
   by_cases hij : i = j
   · subst hij
     simp
-  · simp [Matrix.single_apply, Matrix.one_apply, hij, Ne.symm hij]
+  · simp [hij, Ne.symm hij]
 
+omit [Finite K] [CharP K 2] in
 private theorem faith_one_entry (i j : Fin 3) :
     (1 : Matrix (Fin 3) (Fin 3) K) i j = 0 ∨ (1 : Matrix (Fin 3) (Fin 3) K) i j = 1 := by
   rw [Matrix.one_apply]
@@ -108,6 +112,7 @@ private theorem faith_one_entry (i j : Fin 3) :
   · exact Or.inr rfl
   · exact Or.inl rfl
 
+omit [Finite K] in
 private theorem faith_eq_of_mul_self (x c : K) (hc : c = 0 ∨ c = 1) (hx : x * x = c) :
     x = c := by
   rcases hc with rfl | rfl

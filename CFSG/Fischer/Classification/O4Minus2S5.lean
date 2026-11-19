@@ -419,10 +419,10 @@ theorem linearIndependent_of_dual_pairing {K V : Type*} [Field K] [AddCommGroup 
     have := congrArg (fun x => B x (w j)) hc
     simpa [map_sum, map_smul, smul_eq_mul, Finset.sum_apply] using this
   rw [Finset.sum_eq_single j] at hsum
-  · rw [h j j, if_pos rfl, mul_one] at hsum
+  · rw [h j j, ite_eq_left rfl, mul_one] at hsum
     exact hsum
   · intro i _ hij
-    rw [h i j, if_neg hij, mul_zero]
+    rw [h i j, ite_eq_right hij, mul_zero]
   · intro hj
     exact absurd (Finset.mem_univ j) hj
 
@@ -543,18 +543,18 @@ theorem exists_isometry_stdQ {Q : QuadraticForm (ZMod 2) (Fin 4 → ZMod 2)}
         rcases CFSG.Timmesfeld.Transvection.QTwo.zmod_two_eq_zero_or_one (Q e3') with h0 | h1
         · exact absurd h0 h
         · exact h1
-      simp only [e3, if_neg h]
+      simp only [e3, ite_eq_right h]
       rw [QuadraticMap.map_add Q, h1, he2_Q, he3'_e2polar]
       decide
   have he3_e1 : B e3 e1 = 0 := by
     by_cases h : Q e3' = 0
     · simp [e3, h, he3'_e1']
-    · simp only [e3, if_neg h]
+    · simp only [e3, ite_eq_right h]
       rw [map_add, LinearMap.add_apply, he3'_e1', he2e1, add_zero]
   have he3_e2 : B e3 e2 = 1 := by
     by_cases h : Q e3' = 0
     · simp [e3, h, he3'_e2']
-    · simp only [e3, if_neg h]
+    · simp only [e3, ite_eq_right h]
       rw [map_add, LinearMap.add_apply, he3'_e2', hself e2, add_zero]
   have he3_not_mem : e3 ∉ Submodule.span (ZMod 2) ({e1, e2} : Set (Fin 4 → ZMod 2)) := by
     intro h

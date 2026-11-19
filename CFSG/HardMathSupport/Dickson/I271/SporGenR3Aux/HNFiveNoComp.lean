@@ -59,14 +59,14 @@ theorem hnNoComp_of_normal_solvable {C Q : Subgroup G} (hQC : Q ≤ C)
         rw [ho, one_mul, mul_one])
   have hcomp : CFSG.Assembly.IsComponentOf J C :=
     CFSG.Assembly.isComponentOf_iff_open.2 ⟨hJC, hJ.2.1, hJq⟩
-  haveI : Group.IsPerfect ↥J := ⟨hJq.1⟩
-  haveI : Nontrivial ↥J := CFSG.ComponentClassification.Quasisimple.nontrivial hJq
+  have : Group.IsPerfect ↥J := ⟨hJq.1⟩
+  have : Nontrivial ↥J := CFSG.ComponentClassification.Quasisimple.nontrivial hJq
   have hNQ : C ≤ Subgroup.normalizer (Q : Set G) :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hQC).1 hQn
   rcases hnComp_le_or_commute hcomp hQC hNQ with h | h
   ·
-    haveI := hQs
-    haveI : Group.IsSolvable ↥J :=
+    have := hQs
+    have : Group.IsSolvable ↥J :=
       Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective h)
     exact Group.IsPerfect.not_isSolvable (↥J) inferInstance
   ·
@@ -80,7 +80,7 @@ theorem hnNoComp_of_normal_solvable {C Q : Subgroup G} (hQC : Q ≤ C)
       rw [e] at hJcard
       have hd : Nat.card ↥J ∣ 2 ^ a * 5 ^ b := hcop.dvd_of_dvd_mul_left hJcard
       exact Group.IsPerfect.not_isSolvable (↥J) (isSolvable_of_card_dvd_two_five hd)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨s, hs⟩ := exists_prime_orderOf_dvd_card' (G := ↥J) 3 h3
     have hso : orderOf (s : G) = 3 := by rw [Subgroup.orderOf_coe]; exact hs
     obtain ⟨q, hq, hne⟩ := hmov (s : G) (hJC s.2) hso
@@ -91,7 +91,7 @@ theorem hnMoved_of_sylow {C Q : Subgroup G} (hQC : Q ≤ C) (hQn : (Q.subgroupOf
     (h9 : ¬ 3 ^ 2 ∣ Nat.card ↥C) {s₀ : G} (hs₀C : s₀ ∈ C) (hs₀ : orderOf s₀ = 3)
     (hmov : ∃ q ∈ Q, s₀ * q ≠ q * s₀) :
     ∀ s ∈ C, orderOf s = 3 → ∃ q ∈ Q, s * q ≠ q * s := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro s hsC hso
   by_contra hcon
   push Not at hcon

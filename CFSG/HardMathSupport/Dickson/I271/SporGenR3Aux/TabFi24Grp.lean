@@ -10,7 +10,7 @@ namespace CFSG.HardMathSupport.Dickson.I271
 theorem normal_of_isSimple_of_index {H : Type*} [Group H] [Finite H] (K : Subgroup H)
     [IsSimpleGroup K] {m : ℕ} (hidx : K.index = m) (hm : m ≠ 0) (hcard : m.factorial < Nat.card H) :
     K.Normal := by
-  haveI : K.FiniteIndex := ⟨by omega⟩
+  have : K.FiniteIndex := ⟨by omega⟩
   have h1 : K.normalCore.index ∣ K.index.factorial :=
     Subgroup.index_normalCore_dvd_factorial_index K
   have hle : K.normalCore ≤ K := Subgroup.normalCore_le K

@@ -22,6 +22,7 @@ open scoped Pointwise commutatorElement
 variable {G : Type} [Group G] [Finite G]
 variable {A : Subgroup G} {c : G} {L Y₀ : Subgroup G}
 
+omit [Finite G] in
 private theorem commutatorElement_zpow_mem {N : Subgroup G} {c q : G}
     (hcN : c ∈ Subgroup.normalizer (N : Set G)) (hqc : ⁅q, c⁆ ∈ N) :
     ∀ k : ℤ, ⁅q, c ^ k⁆ ∈ N := by

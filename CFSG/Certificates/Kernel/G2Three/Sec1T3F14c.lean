@@ -24,7 +24,7 @@ theorem f14c_recOr_iff (f : ℕ → Bool) : ∀ n,
       ∃ t < n, f t = true
   | 0 => by simp
   | n + 1 => by
-    simp only [Nat.rec_add_one]
+    simp only
     rw [f14c_bIf_eq]
     split_ifs with hf
     · exact ⟨fun _ => ⟨n, by omega, hf⟩, fun _ => rfl⟩
@@ -46,14 +46,14 @@ theorem f14c_cenS_mset (X : ℕ) : ∀ {gs : List ℕ}, (∀ g ∈ gs, g < 128) 
     mset elt (cenS P C X gs) = {x | x ∈ mset elt X ∧ ∀ g ∈ gs, x * elt g = elt g * x}
   | [], _ => by
     ext x
-    simp only [List.not_mem_nil, false_imp_iff, imp_true_iff, and_true, Set.mem_setOf_eq]
+    simp only [List.not_mem_nil, false_imp_iff, imp_true_iff, and_true, Set.mem_ofPred_eq]
     rfl
   | g :: gs, hgs => by
     change mset elt (cenE P C (cenS P C X gs) g) = _
     rw [cenE_mset hR _ (hgs g List.mem_cons_self),
       f14c_cenS_mset X (fun g' hg' => hgs g' (List.mem_cons_of_mem _ hg'))]
     ext x
-    simp only [Set.mem_setOf_eq, List.forall_mem_cons]
+    simp only [Set.mem_ofPred_eq, List.forall_mem_cons]
     tauto
 
 theorem f14c_cenR_mset (X g : ℕ) : ∀ n,
@@ -61,13 +61,13 @@ theorem f14c_cenR_mset (X g : ℕ) : ∀ n,
       {x | x ∈ mset elt X ∧ ∀ t < n, x * elt (genAt g t) = elt (genAt g t) * x}
   | 0 => by
     ext x
-    simp only [Set.mem_setOf_eq, Nat.not_lt_zero, false_imp_iff, imp_true_iff, and_true]
+    simp only [Set.mem_ofPred_eq, Nat.not_lt_zero, false_imp_iff, imp_true_iff, and_true]
     rfl
   | n + 1 => by
-    simp only [Nat.rec_add_one]
+    simp only
     rw [cenE_mset hR _ (genAt_lt _ _), f14c_cenR_mset X g n]
     ext x
-    simp only [Set.mem_setOf_eq]
+    simp only [Set.mem_ofPred_eq]
     constructor
     · rintro ⟨⟨h1, h2⟩, h3⟩
       refine ⟨h1, fun t ht => ?_⟩
@@ -311,7 +311,7 @@ theorem f14c_cen_closure (s : Set Γ) :
     ((cen (closure s) : Subgroup Γ) : Set Γ) = {x | x ∈ closure s ∧ ∀ g ∈ s, x * g = g * x} := by
   ext x
   simp only [cen, coe_inf, Set.mem_inter_iff, SetLike.mem_coe, mem_centralizer_iff,
-    Set.mem_setOf_eq]
+    Set.mem_ofPred_eq]
   constructor
   · rintro ⟨hx, h⟩
     exact ⟨hx, fun g hg => (h g (subset_closure hg)).symm⟩
@@ -363,7 +363,7 @@ theorem f14c_zSeries_two (T : Subgroup Γ) (s : Set Γ) (hs : closure s = T) :
       rw [e, central _ ((cen T).inv_mem ih) y⁻¹ (T.inv_mem (hT hy))]
       exact (cen T).inv_mem ih
   ext x
-  simp only [zSeries, coe_map, coe_subtype, Set.mem_image, SetLike.mem_coe, Set.mem_setOf_eq]
+  simp only [zSeries, coe_map, coe_subtype, Set.mem_image, SetLike.mem_coe, Set.mem_ofPred_eq]
   constructor
   · rintro ⟨y, hy, rfl⟩
     refine ⟨y.2, (key y).1 fun w hw => ?_⟩
@@ -390,6 +390,7 @@ theorem f14c_closure_invols (A : Set Γ) :
       exact one_mem _
     · exact subset_closure ⟨hy, h1, by rw [← pow_two]; exact h2⟩
 
+omit [Group Γ] in
 theorem f14c_setOf_two (u v : Γ) : {x | x ∈ [u, v]} = ({u, v} : Set Γ) := by
   ext x
   simp
@@ -406,6 +407,7 @@ section Thompson
 variable [Finite Γ] (hR : RealT elt P C V Q)
 include hR
 
+omit [Finite Γ] in
 theorem f14c_thompson_j0U {L RG N Xm : ℕ} {G₀ W : Subgroup Γ} (hL : LatOK elt L N G₀)
     (hN : N ≤ 448)
     (hgen : ∀ k < N, ∀ K : Subgroup Γ, RepM elt (entL L k) (K : Set Γ) →
@@ -535,7 +537,7 @@ theorem fact14_3_of_twin [Finite Γ] {fr : Frame Γ} {L RG OR N R : ℕ}
     have hm : x ∈ mset elt Bm ↔ x ∈ fr.B := by
       rw [hB]
       rfl
-    simp only [Set.mem_setOf_eq, hm]
+    simp only [Set.mem_ofPred_eq, hm]
     constructor
     · rintro ⟨hx, h⟩
       exact ⟨hx, by rintro _ ⟨g, hg, rfl⟩; exact h g hg⟩
@@ -544,7 +546,7 @@ theorem fact14_3_of_twin [Finite Γ] {fr : Frame Γ} {L RG OR N R : ℕ}
   have hZ2 : mset elt Z2 = (zSeries 2 fr.S : Set Γ) := by
     rw [hZ2def, f14c_upS_mset hR _ _ (by decide), f14c_zSeries_two fr.S _ hs5, hS, hZm, ← hZS]
     ext x
-    simp only [Set.mem_setOf_eq, SetLike.mem_coe]
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe]
     constructor
     · rintro ⟨hx, h⟩
       exact ⟨hx, by rintro _ ⟨g, hg, rfl⟩; exact h g hg⟩
@@ -592,7 +594,7 @@ theorem fact14_3_of_twin [Finite Γ] {fr : Frame Γ} {L RG OR N R : ℕ}
       unfold cenR
       rw [f14c_cenR_mset hR, entL_eq, hkM, hMgen, f14c_cen_closure, ← hMgen]
       ext x
-      simp only [Set.mem_setOf_eq, rgSet]
+      simp only [Set.mem_ofPred_eq, rgSet]
       constructor
       · rintro ⟨hx, h⟩
         exact ⟨hx, by rintro _ ⟨t, ht, rfl⟩; exact h t ht⟩
@@ -609,7 +611,7 @@ theorem fact14_3_of_twin [Finite Γ] {fr : Frame Γ} {L RG OR N R : ℕ}
     have hpop : Nat.beq (pop (entL L k)) 32 = true := by
       rw [Nat.beq_eq, ← hcM, entL_eq, ← f11_card hR hkM]
     have := allBelow_spec hall32 (by omega) k hk
-    rw [f14c_bIf_eq, if_pos (by rw [hsub, hpop, hcyc]; rfl)] at this
+    rw [f14c_bIf_eq, ite_eq_left (by rw [hsub, hpop, hcyc]; rfl)] at this
     apply SetLike.coe_injective
     rw [← hB, ← Nat.eq_of_beq_eq_true this, entL_eq, hkM]
   · apply SetLike.coe_injective

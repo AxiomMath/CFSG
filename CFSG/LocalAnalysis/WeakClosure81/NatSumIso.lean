@@ -166,7 +166,7 @@ private theorem frobenius_not_inner {X : Type} [Group X]
       Matrix.SpecialLinearGroup.map (frobenius K 2) (φ' g)) :
     α ∉ (MulAut.conj : X →* MulAut X).range := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   intro hαInn
   obtain ⟨x, hx⟩ := MonoidHom.mem_range.mp hαInn
   have hαx : ∀ g : X, α g = x * g * x⁻¹ := by
@@ -269,7 +269,7 @@ private theorem core {X : Type} [Group X]
     ∃ T : (Fin 2 → K) ≃+ (Fin 2 → K), ∀ (g : X) (v : Fin 2 → K),
       T ((φ' g : Matrix (Fin 2) (Fin 2) K).mulVec v) =
         (φ g : Matrix (Fin 2) (Fin 2) K).mulVec (T v) := by
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
       (k := 2) Nat.prime_two (by omega) (by rw [hK]; norm_num)
   have hFr : Function.Bijective (frobenius K 2) :=
@@ -364,8 +364,8 @@ theorem exists_equiv_of_natural {X : Type} [Group X] (hX : CFSG.Quasithin.IsPSL 
       T ((φ₂ g : Matrix (Fin 2) (Fin 2) K₂).mulVec v) =
         (φ₁ g : Matrix (Fin 2) (Fin 2) K₁).mulVec (T v) := by
   obtain ⟨eA5⟩ := CFSG.Quasithin.nonempty_equiv_alt5_of_isPSL_two_two_two hX
-  haveI : Fintype K₁ := Fintype.ofFinite K₁
-  haveI : Fintype K₂ := Fintype.ofFinite K₂
+  have : Fintype K₁ := Fintype.ofFinite K₁
+  have : Fintype K₂ := Fintype.ofFinite K₂
   have hcard : Fintype.card K₂ = Fintype.card K₁ := by
     rw [Fintype.card_eq_nat_card, Fintype.card_eq_nat_card, h₂, h₁]
   let ε : K₂ ≃+* K₁ := FiniteField.ringEquivOfCardEq hcard

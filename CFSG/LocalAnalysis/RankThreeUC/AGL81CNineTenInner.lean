@@ -23,6 +23,7 @@ theorem mem_compNormalizer_iff {x : X} :
 
 variable [Finite X]
 
+omit [Finite X] in
 theorem compNormalizer_normal : (compNormalizer X).Normal := by
   refine ⟨fun x hx g => ?_⟩
   rw [mem_compNormalizer_iff] at hx ⊢
@@ -58,6 +59,7 @@ theorem layer_le_compNormalizer : CFSG.layer X ≤ compNormalizer X := by
         (Subgroup.centralizer_le_normalizer _)
   exact hl hx
 
+omit [Finite X] in
 theorem centralizer_layer_le_compNormalizer :
     centralizer (CFSG.layer X : Set X) ≤ compNormalizer X := by
   intro x hx
@@ -177,8 +179,8 @@ theorem isPClosedMod_layer_sup_centralizer_subgroupOf {p : ℕ} [Fact p.Prime]
   have hsupnorm : ∀ C : Subgroup X, CFSG.IsComponent C →
       ((C ⊔ centralizer (C : Set X)).subgroupOf (normalizer (C : Set X))).Normal := by
     intro C _
-    haveI h1 : (C.subgroupOf (normalizer (C : Set X))).Normal := Subgroup.normal_in_normalizer
-    haveI h2 : ((centralizer (C : Set X)).subgroupOf (normalizer (C : Set X))).Normal :=
+    have h1 : (C.subgroupOf (normalizer (C : Set X))).Normal := Subgroup.normal_in_normalizer
+    have h2 : ((centralizer (C : Set X)).subgroupOf (normalizer (C : Set X))).Normal :=
       Subgroup.normal_subgroupOf_centralizer_normalizer (C : Set X)
     rw [Subgroup.subgroupOf_sup (Subgroup.le_normalizer)
       (Subgroup.centralizer_le_normalizer (C : Set X))]
@@ -193,7 +195,7 @@ theorem isPClosedMod_layer_sup_centralizer_subgroupOf {p : ℕ} [Fact p.Prime]
       IsPClosedMod p ((C ⊔ centralizer (C : Set X)).subgroupOf (compNormalizer X)) := by
     intro C hC
     have hCN : compNormalizer X ≤ normalizer (C : Set X) := hmemN C hC
-    haveI := hsupnorm C hC
+    have := hsupnorm C hC
     have hcom := IsPClosedMod.comap (h C hC) (Subgroup.inclusion hCN)
     rwa [Subgroup.comap_inclusion_subgroupOf hCN (C ⊔ centralizer (C : Set X))] at hcom
   have hfin := IsPClosedMod.finset_inf
@@ -226,11 +228,11 @@ theorem isPClosedMod_layer_sup_centralizer {p : ℕ} [Fact p.Prime]
       IsPClosedMod p ((C ⊔ centralizer (C : Set X)).subgroupOf (normalizer (C : Set X))))
     (hN : ¬ p ∣ (compNormalizer X).index) :
     IsPClosedMod p (CFSG.layer X ⊔ centralizer (CFSG.layer X : Set X)) := by
-  haveI hNn : (compNormalizer X).Normal := compNormalizer_normal
-  haveI hLc : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hLn : (CFSG.layer X).Normal := inferInstance
-  haveI hCn : (centralizer (CFSG.layer X : Set X)).Normal := inferInstance
-  haveI hUn : (CFSG.layer X ⊔ centralizer (CFSG.layer X : Set X)).Normal := inferInstance
+  have hNn : (compNormalizer X).Normal := compNormalizer_normal
+  have hLc : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
+  have hLn : (CFSG.layer X).Normal := inferInstance
+  have hCn : (centralizer (CFSG.layer X : Set X)).Normal := inferInstance
+  have hUn : (CFSG.layer X ⊔ centralizer (CFSG.layer X : Set X)).Normal := inferInstance
   have hUN : CFSG.layer X ⊔ centralizer (CFSG.layer X : Set X) ≤ compNormalizer X :=
     sup_le layer_le_compNormalizer centralizer_layer_le_compNormalizer
   exact IsPClosedMod.of_subgroupOf hUN hN

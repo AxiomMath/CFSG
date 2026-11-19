@@ -46,6 +46,7 @@ private theorem gensL_isometry_gram : ∀ i : Fin 6,
     (gensL i).transpose * gram6 * gensL i = gram6 := by
   decide +kernel
 
+omit [Finite G] in
 private lemma actsAs_ext {Bs : Subgroup G} {ι : Additive ↥Bs ≃+ Vec6} {φ ψ : MulAut ↥Bs}
     {g : Mat6} (h₁ : ActsAs ι φ g) (h₂ : ActsAs ι ψ g) : φ = ψ := by
   refine MulEquiv.ext fun b => ?_
@@ -103,6 +104,7 @@ theorem evalWord_gensAll_isometry {t w : ZMod 3} (htw : t * w = 2) (word : List 
               rw [gensAll_isometry t w htw i]
         _ = gram6 := ih
 
+omit [Finite G] in
 theorem corootOrth_of_words {Bs L : Subgroup G} {x : G} {hxBs : x ∈ Bs}
     {ι : Additive ↥Bs ≃+ Vec6} (hι : GGE6DepCoord Bs L x hxBs ι) {a b : Vec6}
     (ha : norm6 a = 1) (hb : norm6 b = 1) (hab : a ≠ b) (hab' : a ≠ -b)
@@ -152,6 +154,7 @@ theorem corootOrth_of_words {Bs L : Subgroup G} {x : G} {hxBs : x ∈ Bs}
   · have hba : b = -a := by rw [← hna, h2, two_smul_neg]
     exact hab' (by rw [hba]; simp)
 
+omit [Finite G] in
 theorem mem_fixedByCentres_of_perp {Bs L : Subgroup G} {x : G} {hxBs : x ∈ Bs}
     {ι : Additive ↥Bs ≃+ Vec6} (hι : GGE6DepCoord Bs L x hxBs ι) {S : Set ↥Bs} {u : ↥Bs}
     (hS : ∀ c ∈ S, norm6 (ι (Additive.ofMul c)) = 1 ∧

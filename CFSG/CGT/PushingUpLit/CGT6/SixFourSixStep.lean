@@ -62,7 +62,7 @@ theorem sixFourConcl_of_sup_ne_top (hK : KProper InCatalog G) (hchar : IsCharact
   obtain ⟨hmax, hcR⟩ := normal_setting_facts hchar hRP
   have hNoY : SubTwo.NoTwoQuotient Y := SubTwo.noTwoQuotient_of_oResidualTwo hY.1.residual_eq
   have hR2 : IsPGroup 2 R := hR.2.1
-  have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup'
+  have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup
   have hTtop : IsSylowOf 2 (T : Subgroup G) ⊤ :=
     ⟨le_top, hT2, by simpa [Subgroup.relIndex_top_right] using T.not_dvd_index⟩
   have hRT : R ≤ (T : Subgroup G) :=
@@ -115,7 +115,7 @@ theorem sixFourNormalFor_of_core
   by_cases hHT : centralizerQuot (omegaOneCenterIn R) R ⊔ (T : Subgroup G) = ⊤
   · obtain ⟨hY, hYT, hR, hRP, hU, hU₀T, hYU, hYs⟩ := hH
     obtain ⟨hmax, hcR⟩ := normal_setting_facts hchar hRP
-    have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup'
+    have hT2 : IsPGroup 2 (T : Subgroup G) := T.isPGroup
     refine hc hK hchar Y T R U₀ ⟨hY, hYT, hR, hRP, hU, hU₀T, hYU, hYs⟩ hRn (le_antisymm ?_ ?_)
     · exact centralizer_le_of_sup_eq_top hR.2.1 hcR hmax hT2 hHT
     · intro r hr

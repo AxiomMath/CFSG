@@ -116,7 +116,7 @@ theorem elem_eight_of_three {G : Type*} [Group G] {x y z : G} (hxx : x * x = 1)
         a = false ∧ b = false ∧ c = false := by
     intro a b c habc
     cases a <;> cases b <;> cases c <;>
-      simp only [CGT.Stroth77.Stroth42Core.bpow, Bool.false_eq_true, if_false, if_true,
+      simp only [CGT.Stroth77.Stroth42Core.bpow, Bool.false_eq_true, ite_false, ite_true,
         one_mul, mul_one] at habc ⊢
     · exact ⟨trivial, trivial, trivial⟩
     · exact absurd habc hz1
@@ -270,7 +270,7 @@ theorem on_eight_normalizers_Pv :
     exact mem_sup_right ⟨evalS_mem _, hmem⟩
 
 theorem normalizer_subgroupOf_sup_eq_top {X : Type*} [Group X] {P E₀ E₁ : Subgroup X}
-    (hE₀ : E₀ ≤ P) (hE₁ : E₁ ≤ P)
+    (_hE₀ : E₀ ≤ P) (_hE₁ : E₁ ≤ P)
     (hgen : P ≤ P ⊓ normalizer (E₀ : Set X) ⊔ P ⊓ normalizer (E₁ : Set X)) :
     normalizer ((E₀.subgroupOf P : Subgroup ↥P) : Set ↥P) ⊔
       normalizer ((E₁.subgroupOf P : Subgroup ↥P) : Set ↥P) = ⊤ := by
@@ -316,9 +316,9 @@ theorem exists_eight_normalizers_of_mulEquiv {X Y : Type*} [Group X] [Group Y] [
       (∀ x ∈ F₀, ∀ y ∈ F₀, x * y = y * x) ∧ (∀ x ∈ F₀, x * x = 1) ∧ Nat.card F₀ = 8 ∧
       (∀ x ∈ F₁, ∀ y ∈ F₁, x * y = y * x) ∧ (∀ x ∈ F₁, x * x = 1) ∧ Nat.card F₁ = 8 ∧
       normalizer (F₀ : Set Y) ⊔ normalizer (F₁ : Set Y) = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite Y := Finite.of_equiv X φ.toEquiv
-  haveI : Finite (Sylow 2 Y) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite Y := Finite.of_equiv X φ.toEquiv
+  have : Finite (Sylow 2 Y) :=
     Finite.of_injective (fun S : Sylow 2 Y => (S : Set Y)) SetLike.coe_injective
   let T' : Sylow 2 Y := Sylow.mapSurjective (f := φ.toMonoidHom) φ.surjective T
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Y T' R

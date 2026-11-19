@@ -63,12 +63,12 @@ public theorem secondCase_linear_K_eq_zpowers_commutator
       rw [← hn, zpow_eq_zpow_emod' n hs.2]
       rcases Int.emod_two_eq_zero_or_one n with hn0 | hn1
       · left
-        simpa [hn0]
+        simp [hn0]
       · right
-        simpa [hn1]
+        simp [hn1]
     rcases hz_cases with hz1 | hzs
     · rw [hz1]
-      simpa [commutatorElement_def] using K.one_mem
+      simp [commutatorElement_def]
     · subst z
       have hxsK : ⁅x, s⁆ ∈ K := by
         change ⁅x, s⁆ ∈ (K : Set G)

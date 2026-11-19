@@ -204,7 +204,7 @@ theorem dec8_iff (hD : DatumRaw Tag.E8 240 vec (fun g v => fld (RTs g) 8 v) adj 
     refine Finset.sum_congr rfl fun i hi => ?_
     have := hq i (Finset.mem_range.1 hi)
     simp only [qOK, Lane.strictB_eq, Lane.allLt_iff, Lane.beq_eq_true] at this
-    rw [this m hm, fld_lsum hb, if_pos (Finset.mem_range.1 hi)]
+    rw [this m hm, fld_lsum hb, ite_eq_left (Finset.mem_range.1 hi)]
   have h := hdec g hg
   simp only [dec8OK, Lane.strictB_eq, Lane.andB_eq_true, Lane.beq_eq_true] at h
   obtain ⟨-, hrow⟩ := h
@@ -227,7 +227,7 @@ theorem dec8_iff (hD : DatumRaw Tag.E8 240 vec (fun g v => fld (RTs g) 8 v) adj 
       rw [Lane.nland, Nat.testBit_and, low16_testBit hd, Bool.and_true, Lane.nshr,
         Nat.testBit_shiftRight, show 4 + 16 * d = 16 * d + 4 by ring, testBit4_lane, Lane.nadd,
         Lane.nmul, hQ m hm, low16_eq, mul_lsum, lsum_add,
-        fld_lsum (fun i hi => by have := hVl i hi m hm; omega), if_pos hd, mul_one,
+        fld_lsum (fun i hi => by have := hVl i hi m hm; omega), ite_eq_left hd, mul_one,
         bit4_add9 _ (hVl d hd m hm)]
     constructor
     · intro h m
@@ -253,7 +253,7 @@ theorem dec8_iff (hD : DatumRaw Tag.E8 240 vec (fun g v => fld (RTs g) 8 v) adj 
         Nat.testBit_shiftRight, show 4 + 16 * d = 16 * d + 4 by ring, testBit4_lane, Lane.nsub,
         Lane.nmul, Lane.nadd, hQ m hm, low16_eq, mul_lsum,
         lsum_sub (fun i hi => by have := hVl i hi m hm; omega),
-        fld_lsum (fun i hi => by have := hVl i hi m hm; omega), if_pos hd, mul_one,
+        fld_lsum (fun i hi => by have := hVl i hi m hm; omega), ite_eq_left hd, mul_one,
         bit4_sub _ hvg _ (hVl d hd m hm)]
     constructor
     · intro h m
@@ -272,9 +272,9 @@ theorem dec8_iff (hD : DatumRaw Tag.E8 240 vec (fun g v => fld (RTs g) 8 v) adj 
     rw [hmf, testBit_lsum (fun i _ => by split_ifs <;> omega), iform_comm (vec g)]
     constructor
     · rintro ⟨-, h⟩
-      split_ifs at h with h' <;> omega
+      split_ifs at h with h'; omega
     · intro h
-      exact ⟨hd, by rw [if_pos (by omega)]⟩
+      exact ⟨hd, by rw [ite_eq_left (by omega)]⟩
   rw [hrow, Lane.bit_iff, testBit_squash16 (fun k _ => ?_), decide_eq_true hd, Bool.true_and,
     Lane.nland, Lane.nland, Nat.testBit_and, Nat.testBit_and, Bool.and_eq_true, Bool.and_eq_true]
   rotate_left
@@ -327,7 +327,7 @@ theorem olen8_spec (ph : ℕ → ℕ) (psi : ℕ) : ∀ f x s, 1 ≤ s → 0 < o
     intro x s hs h
     rw [olen_succ] at h ⊢
     cases hb : bit psi (ph x)
-    · simp only [hb, cond_false] at h ⊢
+    · simp only [hb, Bool.cond_false] at h ⊢
       obtain ⟨h1, h2, h3, h4⟩ := ih (ph x) (s + 1) (by omega) h
       refine ⟨by omega, by omega, ?_, fun t ht0 ht => ?_⟩
       · have e : olen ph psi f (ph x) (s + 1) + 1 - s =
@@ -340,7 +340,7 @@ theorem olen8_spec (ph : ℕ → ℕ) (psi : ℕ) : ∀ f x s, 1 ≤ s → 0 < o
           · simpa using hb
           · rw [Function.iterate_succ_apply]
             exact h4 (t + 1) (by omega) (by omega)
-    · simp only [hb, cond_true]
+    · simp only [_root_.Bool.cond_true]
       refine ⟨le_refl _, by omega, ?_, fun t ht0 ht => by omega⟩
       rw [show s + 1 - s = 1 by omega]
       simpa using hb
@@ -452,7 +452,7 @@ theorem treeM8_walk (ADJ Φ : ℕ) : ∀ c rest C NB rt k, TInv8 ADJ Φ C NB rt 
     · rw [hk] at h
       exact absurd h fail_not_lt
     · rw [hk] at h
-      simp only [hk]
+      simp only
       simp only [Lane.andB_eq_true, Lane.notB_eq_true] at hk
       obtain ⟨hΦg, hCg, -, hCpa, hag⟩ := hk
       rw [Lane.bit_iff] at hΦg hCpa hag
@@ -539,13 +539,13 @@ theorem treeM8_spec {ADJ Φ c rest R : ℕ} (hR : treeM8 ADJ Φ c rest 0 0 = R) 
   · rw [hk] at h
     exact absurd h fail_not_lt
   · rw [hk] at h
-    simp only [hk]
+    simp only
     simp only [Lane.andB_eq_true] at hk
     obtain ⟨hΦg, -, -⟩ := hk
     rw [Lane.bit_iff] at hΦg
     have hglt : g < 256 := lt_of_le_of_lt Nat.and_le_right (by norm_num)
-    have e1 : Nat.lor 0 (Nat.shiftLeft 1 g) = 1 <<< g := by simp [Lane.nlor, Lane.nshl]
-    have e2 : Nat.lor 0 (fld ADJ 240 g) = fld ADJ 240 g := by simp [Lane.nlor]
+    have e1 : Nat.lor 0 (Nat.shiftLeft 1 g) = 1 <<< g := by simp
+    have e2 : Nat.lor 0 (fld ADJ 240 g) = fld ADJ 240 g := by simp
     rw [e1, e2] at h ⊢
     have hI : TInv8 ADJ Φ (1 <<< g) (fld ADJ 240 g) g 1 := by
       refine ⟨by rw [pow_testBit]; simp, fun x hx => ?_, fun y hy x hx => ?_, ?_, fun x hx => ?_⟩
@@ -610,7 +610,7 @@ theorem simpN8_eq (POS DEC psi : ℕ) : ∀ c rest acc, simpN8 POS DEC psi c res
       (Nat.beq (Nat.land (fld DEC 240 (Nat.land rest 255)) psi) 0) = true then 1 else 0)
     cases CFSG.TcRes.TK.andB (bit POS (Nat.land rest 255)) (Nat.beq (Nat.land (fld DEC 240 (Nat.land rest 255)) psi) 0)
     · simp
-    · simp only [if_true]
+    · simp only [ite_true]
       change acc + 1 + _ = _
       ring
 
@@ -620,7 +620,7 @@ theorem code8_dec {e r c ks d : ℕ} (he : e < 16) (hr : r < 16) (hc : c < 256)
   subst hd
   have l15 : ∀ x, Nat.land x 15 = x % 16 := fun x => Nat.and_two_pow_sub_one_eq_mod x 4
   have l255 : ∀ x, Nat.land x 255 = x % 256 := fun x => Nat.and_two_pow_sub_one_eq_mod x 8
-  simp only [dE, dR, CFSG.TcRes.TK.dN, dKs, l15, l255, Nat.shiftRight_eq_div_pow, Lane.nadd, Lane.nmul]
+  simp only [dE, dR, CFSG.TcRes.TK.dN, dKs, l15, l255, Lane.nadd, Lane.nmul]
   norm_num
   refine ⟨by omega, by omega, by omega, by omega⟩
 

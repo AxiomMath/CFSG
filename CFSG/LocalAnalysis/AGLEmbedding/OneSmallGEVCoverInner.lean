@@ -132,7 +132,7 @@ theorem D1CompI.mem_sup_centralizer_of_comm (hK1 : KFactOneLie)
       _ = t := by group
   have hinn : α ∈ CFSG.ComponentClassification.OuterAutomorphisms.inner Ks := by
     by_cases hsm : Open.pRank p (⊤ : Subgroup (MulAut Ks)) ≤ 2
-    · have : Fact (IsPGroup p (T₁ : Subgroup Ks)) := ⟨T₁.isPGroup'⟩
+    · have : Fact (IsPGroup p (T₁ : Subgroup Ks)) := ⟨T₁.isPGroup⟩
       obtain ⟨S, -, hScard, hSel⟩ := CFSG.lemma_4_5_a (R := (T₁ : Subgroup Ks)) hp2 hTnc
       set E := S.map (T₁ : Subgroup Ks).subtype with hE
       have hEl : CFSG.IsElementaryAbelian p E := hSel.map _
@@ -154,7 +154,7 @@ theorem D1CompI.mem_sup_centralizer_of_comm (hK1 : KFactOneLie)
         have hcc : ⁅(T₁ : Subgroup Ks), (T₁ : Subgroup Ks)⁆ = (T₁ : Subgroup Ks) := by
           rw [hcomm]
           exact hZT.symm
-        exact hne (ne_bot_of_commutator_eq_self T₁.isPGroup' hcc)
+        exact hne (ne_bot_of_commutator_eq_self T₁.isPGroup hcc)
   obtain ⟨k, hk⟩ := hinn
   rw [hα] at hk
   have hcen : (k : Hs ⧸ primeComplementCore (G := Hs) p)⁻¹ * x ∈

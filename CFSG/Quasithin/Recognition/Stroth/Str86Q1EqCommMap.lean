@@ -13,6 +13,7 @@ open scoped Pointwise commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem commutatorMap_mul {Q Z : Subgroup G} {c : G}
     (hZc : ∀ z ∈ Z, ∀ y ∈ Q, z * y = y * z)
     (hcZ : ∀ y ∈ Q, c * y * c⁻¹ * y⁻¹ ∈ Z) {y y' : G} (hy : y ∈ Q) (hy' : y' ∈ Q) :
@@ -26,6 +27,7 @@ private theorem commutatorMap_mul {Q Z : Subgroup G} {c : G}
     _ = (c * y * c⁻¹ * y⁻¹) * ((c * y' * c⁻¹ * y'⁻¹) * y) * y⁻¹ := by rw [hcomm]
     _ = (c * y * c⁻¹ * y⁻¹) * (c * y' * c⁻¹ * y'⁻¹) := by group
 
+omit [Finite G] in
 private theorem commutatorMap_conj {H Q Z : Subgroup G} {c : G}
     (hZc : ∀ z ∈ Z, ∀ y ∈ Q, z * y = y * z)
     (hHQ : H ≤ Subgroup.normalizer (Q : Set G)) (hcQ : c ∈ Q)
@@ -58,6 +60,7 @@ private theorem commutatorMap_conj {H Q Z : Subgroup G} {c : G}
       _ = c * y' * c⁻¹ * y'⁻¹ := by group
   exact hmain.symm
 
+omit [Finite G] in
 private theorem commutatorMap_mem_of_fixed {H Q Z : Subgroup G} {c : G}
     (hc : ∀ g ∈ H, g * c * g⁻¹ * c⁻¹ ∈ Z) (hQH : Q ≤ H) {y : G} (hy : y ∈ Q) :
     c * y * c⁻¹ * y⁻¹ ∈ Z := by
@@ -71,6 +74,7 @@ private def commutatorMapHom {Q Z : Subgroup G} {c : G}
   map_one' := by simp
   map_mul' y y' := commutatorMap_mul hZc hcZ y.2 y'.2
 
+omit [Finite G] in
 private theorem commutatorMapHom_eq_one_iff_mem_centralizer {Q Z : Subgroup G} {c : G}
     (hZc : ∀ z ∈ Z, ∀ y ∈ Q, z * y = y * z)
     (hcZ : ∀ y ∈ Q, c * y * c⁻¹ * y⁻¹ ∈ Z) {y : G} (hy : y ∈ Q) :
@@ -88,6 +92,7 @@ private theorem commutatorMapHom_eq_one_iff_mem_centralizer {Q Z : Subgroup G} {
     rw [← h]
     group
 
+omit [Finite G] in
 private theorem commutatorMapHom_eq_of_mem_centralizer {Q Z : Subgroup G} {c : G}
     (hZc : ∀ z ∈ Z, ∀ y ∈ Q, z * y = y * z)
     (hcZ : ∀ y ∈ Q, c * y * c⁻¹ * y⁻¹ ∈ Z) {a b : G} (ha : a ∈ Q) (hb : b ∈ Q)
@@ -104,9 +109,10 @@ private theorem commutatorMapHom_eq_of_mem_centralizer {Q Z : Subgroup G} {c : G
     simpa [map_mul, map_inv] using h2
   exact mul_inv_eq_one.mp hprod
 
+omit [Finite G] in
 private theorem isNormalIn_centralizer {H Q Z : Subgroup G} {c : G}
     (hZc : ∀ z ∈ Z, ∀ y ∈ Q, z * y = y * z)
-    (hHQ : H ≤ Subgroup.normalizer (Q : Set G)) (hQH : Q ≤ H)
+    (hHQ : H ≤ Subgroup.normalizer (Q : Set G)) (_hQH : Q ≤ H)
     (hcQ : c ∈ Q) (hc : ∀ g ∈ H, g * c * g⁻¹ * c⁻¹ ∈ Z) :
     IsNormalIn H Q (Q ⊓ Subgroup.centralizer ({c} : Set G)) := by
   refine ⟨inf_le_left, ?_⟩
@@ -136,6 +142,7 @@ private def commutatorModHom (K Q T Z : Subgroup G) {c : G}
   map_mul' y y' := commutatorMap_mul hZc hcZ
     (centralizerMod_le_left K Q T y.2) (centralizerMod_le_left K Q T y'.2)
 
+omit [Finite G] in
 theorem exists_commutator_eq_of_minimal {H Q Z : Subgroup G} {c : G}
     (hZc : ∀ z ∈ Z, ∀ y ∈ Q, z * y = y * z)
     (hHQ : H ≤ Subgroup.normalizer (Q : Set G)) (hQH : Q ≤ H)
@@ -175,6 +182,7 @@ theorem exists_commutator_eq_of_minimal {H Q Z : Subgroup G} {c : G}
     obtain ⟨y, hyz⟩ := MonoidHom.mem_range.mp hzrange
     exact ⟨(y : G), y.2, hyz⟩
 
+omit [Finite G] in
 theorem isChiefStep_centralizer_of_commutatorMap {H Q Z : Subgroup G} {c : G}
     (hZc : ∀ z ∈ Z, ∀ y ∈ Q, z * y = y * z)
     (hHQ : H ≤ Subgroup.normalizer (Q : Set G)) (hQH : Q ≤ H)
@@ -293,6 +301,7 @@ theorem isChiefStep_centralizer_of_commutatorMap {H Q Z : Subgroup G} {c : G}
     rw [hgz]
     group
 
+omit [Finite G] in
 theorem relIndex_centralizerMod_centralizer_eq_card {H Q Z T : Subgroup G} {c : G}
     (hZc : ∀ z ∈ Z, ∀ y ∈ Q, z * y = y * z)
     (hHQ : H ≤ Subgroup.normalizer (Q : Set G)) (hQH : Q ≤ H) (hTH : T ≤ H) (hcQ : c ∈ Q)

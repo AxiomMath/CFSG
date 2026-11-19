@@ -32,7 +32,7 @@ theorem hasNormalPComplement_of_unique {G : Type} [Group G] [Finite G] {p : ℕ}
     CFSG.HasNormalPComplement p ↥(centralizer ({x} : Set G)) := by
   classical
   have hprime := hpl.prime
-  haveI : Fact p.Prime := ⟨hprime⟩
+  have : Fact p.Prime := ⟨hprime⟩
   have hPM : (P : Subgroup G) ≤ M := hpl.sylow_le
   have hBP : zpowers x ⊔ zpowers z ≤ (P : Subgroup G) := hpl.plane.isIsolatedPlane.1
   have hxM : x ∈ M := hPM (hBP (mem_sup_left (mem_zpowers x)))
@@ -42,7 +42,7 @@ theorem hasNormalPComplement_of_unique {G : Type} [Group G] [Finite G] {p : ℕ}
     h ↥M p (P.subtype hPM) ⟨x, hxM⟩ ⟨z, hzM⟩ (plane63_of_plane65 hpl hxM hzM) L hL hLu
   unfold CFSG.HasNormalPComplement at hK
   obtain ⟨N, hNn, hNcop, hNq⟩ := hK
-  haveI := hNn
+  have := hNn
   have hsyl : CFSG.ABGLocalTools.IsSylowOf p
       ((L6Delta.Pxc (P : Subgroup G) x).subgroupOf M)
       (centralizer ({(⟨x, hxM⟩ : M)} : Set M)) := by

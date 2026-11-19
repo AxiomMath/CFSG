@@ -28,8 +28,6 @@ private theorem centralizer_smul_conj_eq {G : Type*} [Group G] (g : G) (s : Set 
     intro y hy
     have h := hx ((MulAut.conj g) y) (Set.smul_mem_smul_set hy)
     apply (MulAut.conj g).injective
-    change (MulAut.conj g) (y * (MulAut.conj g).symm x) =
-      (MulAut.conj g) ((MulAut.conj g).symm x * y)
     simp only [map_mul, MulEquiv.apply_symm_apply]
     exact h
   · rintro ⟨y, hy, rfl⟩ z hz
@@ -60,8 +58,8 @@ theorem gk7b_stdGroup_card_centralizer_eq :
   have hzS : z ∈ S :=
     Subgroup.mem_inf.2 ⟨hz, Subgroup.mem_centralizer_singleton_iff.mpr rfl⟩
   have hSsq : Nat.card ↥S = 7 ^ 2 := by rw [hScardS]; norm_num
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
-  haveI : IsMulCommutative ↥S :=
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : IsMulCommutative ↥S :=
     IsPGroup.isMulCommutative_of_card_eq_prime_sq (p := 7) hSsq
   have hle : S ≤ Subgroup.centralizer (S : Set Rgrp) := Subgroup.le_centralizer S
   have hge : Subgroup.centralizer (S : Set Rgrp) ≤ S := by
@@ -73,7 +71,7 @@ theorem gk7b_stdGroup_card_centralizer_eq :
       exact ((Subgroup.mem_centralizer_iff.mp hx) z hzS).symm
   have hcentS : Nat.card ↥(Subgroup.centralizer (S : Set Rgrp)) = 49 := by
     rw [le_antisymm hge hle, hScardS]
-  haveI : Finite Rgrp := rgrp_finite
+  have : Finite Rgrp := rgrp_finite
   have h343 : ¬ 343 ∣ Nat.card Rgrp := by
     rw [CFSG.LieType.Chevalley.C2E6Std.card_stdGroup]
     norm_num
@@ -91,7 +89,7 @@ theorem gk7b_stdGroup_card_centralizer_eq :
     rw [← P.index_mul_card, hP]
     obtain ⟨k, hk⟩ := h7
     exact ⟨k, by rw [hk]; ring⟩
-  haveI : Finite (Sylow 7 Rgrp) :=
+  have : Finite (Sylow 7 Rgrp) :=
     Finite.of_injective (fun T : Sylow 7 Rgrp => (T : Set Rgrp)) SetLike.coe_injective
   obtain ⟨g, hg⟩ :=
     MulAction.exists_smul_eq Rgrp (hS7.toSylow hSnot) (hP7.toSylow hPnot)

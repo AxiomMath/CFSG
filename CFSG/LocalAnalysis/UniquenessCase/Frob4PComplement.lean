@@ -28,7 +28,7 @@ theorem frob4P_le_normalizer_of_frobenius {p : ℕ} [Fact p.Prime] {M P₀ D : S
   set Q₀ : Subgroup G := uniqueFourPrimeCore p C with hQ₀
   set V₀ : Subgroup G := Q₀ ⊔ P₀ with hV₀def
   set R : Subgroup G := Q ⊔ P₀ with hR
-  haveI hcyc : IsCyclic ↥P₀ := isCyclic_of_prime_card (p := p) hP₀
+  have hcyc : IsCyclic ↥P₀ := isCyclic_of_prime_card (p := p) hP₀
   have hPcomm : IsMulCommutative ↥P₀ := hcyc.isMulCommutative
   have hP₀C : P₀ ≤ C := fun x hx => mem_centralizer_iff.2 fun y hy =>
     congrArg Subtype.val (hPcomm.is_comm.comm ⟨y, hy⟩ ⟨x, hx⟩)
@@ -120,7 +120,7 @@ theorem frob4P_centralizer_layer_le_normalizer (hS : Standing4 G) (hU : uniqueFo
   classical
   have hcl' := hcl
   obtain ⟨hP₀P, hcard, hwc, ⟨hf, -, -, -⟩, -, -, hfrob, -⟩ := hcl'
-  haveI := hf
+  have := hf
   have hsolv : Group.IsSolvable ↥(UC6.dataOfSetup4 hS hU S).M :=
     UC6S846.solvable_of_sigmaTwo4 hU S.maxLocal hH.mem_sig2.1 hH.mem_sig2.2
   have hN := frob4P_primeCore_sup_normal hsolv hH.sylow hab hP₀P hwc
@@ -128,7 +128,7 @@ theorem frob4P_centralizer_layer_le_normalizer (hS : Standing4 G) (hU : uniqueFo
   have hE2 := uc22p22qzb_centralizer_layer_le hS hU S hH h5 hab hcl
   have hE3 := uc22p22qzb_not_two_dvd hS hU S hH h5 hab hcl
   refine frob4P_le_normalizer_of_frobenius hcard hE2 ?_ hE1 hN hfrob
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [inf_comm]
   have hpg : IsPGroup 2 ↥(pCoreOf 2 (UC6.dataOfSetup4 hS hU S).M ⊓
       centralizer (rankThreeLayer (centralizer (P₀ : Set G)) : Set G)) :=

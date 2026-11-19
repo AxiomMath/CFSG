@@ -132,7 +132,7 @@ theorem isConj_tSL {K : Type} [Field K] (h2 : (2 : K) ≠ 0)
     · simpa using hp 0
   set u : Matrix (Fin 3) (Fin 3) K := Matrix.of fun i j => v j i with hu
   have huU : IsUnit u := by
-    rw [← Matrix.linearIndependent_cols_iff_isUnit]
+    rw [← Matrix.linearIndependent_col_iff_isUnit]
     convert hli using 1
     funext j i
     rfl

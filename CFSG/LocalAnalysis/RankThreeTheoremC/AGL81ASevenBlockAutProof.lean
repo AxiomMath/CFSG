@@ -157,7 +157,7 @@ theorem eq_seven_of_card_alternatingGroup {m : ℕ} (h : Nat.card (alternatingGr
       interval_cases m <;> rfl
     have h2 := Subgroup.card_le_card_group (alternatingGroup (Fin m))
     omega
-  · haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr hm
+  · have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.mpr hm
     have h2 := two_mul_card_alternatingGroup (α := Fin m)
     rw [Fintype.card_perm, Fintype.card_fin, ← Nat.card_eq_fintype_card, h] at h2
     have h7 : (7 : ℕ).factorial = m.factorial := by rw [← h2]; decide
@@ -176,6 +176,7 @@ theorem isOrthogonalTwo_congr {X Y : Type} [Group X] [Group Y] (e : X ≃* Y)
   · exact Or.inl ⟨d, hd, ⟨e.symm.trans f⟩⟩
   · exact Or.inr ⟨n, hn, ⟨e.symm.trans f⟩⟩
 
+omit [Finite G] in
 theorem nineThreeFive_of_altSeven
     (hord : ∀ (q : TauCeti.PrimePower) (hv : (TauCeti.LieTypeIndex.G2 q).Valid), q.p = 2 →
       Nat.card (TauCeti.CFSGIndex.lie ⟨.G2 q, hv⟩).Group = CFSG.Open.ordG2 q.card)

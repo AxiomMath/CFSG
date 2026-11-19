@@ -213,8 +213,7 @@ theorem apL_pow (c : ℕ) :
   unfold apL
   simp only [bitN_mul]
   have hx : ∀ a b : ℕ, Nat.xor a b = a ^^^ b := fun _ _ => rfl
-  simp (config := { decide := true }) only [hx, if_true, if_false, Nat.xor_zero, Nat.zero_xor,
-    Bool.false_eq_true]
+  simp (config := { decide := true }) only [hx, ite_true, ite_false, Nat.xor_zero, Nat.zero_xor]
 
 theorem enc6_fld {c : ℕ} (hc : c < 2 ^ 36) :
     enc6 (fld c 0) (fld c 6) (fld c 12) (fld c 18) (fld c 24) (fld c 30) = c := by

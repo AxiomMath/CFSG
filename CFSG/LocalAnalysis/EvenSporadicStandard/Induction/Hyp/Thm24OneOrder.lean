@@ -19,7 +19,7 @@ theorem not_card_dvd_95040_of_cover (inp : Thm24ThreeSimpleInputs) {s : TauCeti.
     (hs : s ∈ pinnedNames) {H : Type} [Group H] [Finite H] {N L : Subgroup H} (hLN : L ≤ N)
     (hq : CFSG.IsQuasisimple ↥L) (hcq : IsSporadic (↥L ⧸ center ↥L) s) :
     ¬ Nat.card ↥N ∣ 95040 := by
-  haveI : IsSimpleGroup (↥L ⧸ center ↥L) := hq.2.1
+  have : IsSimpleGroup (↥L ⧸ center ↥L) := hq.2.1
   have h1 : Nat.card (↥L ⧸ center ↥L) = pinnedOrder s := inp.card_pinned s hs _ hcq
   have h2 : Nat.card (↥L ⧸ center ↥L) ∣ Nat.card ↥L := Subgroup.card_quotient_dvd_card _
   have h3 : Nat.card ↥L ∣ Nat.card ↥N := Subgroup.card_dvd_of_le hLN

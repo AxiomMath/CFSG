@@ -45,7 +45,7 @@ theorem eq_of_act (hf : ∀ g : Γ, (∀ p < n, act n g p = p) → g = 1) {g k :
 
 theorem el_rep {l : ℕ} (h : ∃ g : Γ, Rep n T l g) : Rep n T l (el Γ n T l) := by
   unfold el
-  rw [dif_pos h]
+  rw [dite_eq_left h]
   exact h.choose_spec
 
 theorem el_eq (hf : ∀ g : Γ, (∀ p < n, act n g p = p) → g = 1) {l : ℕ} {g : Γ}
@@ -261,7 +261,7 @@ theorem alph_sound (hf : ∀ g : Γ, (∀ p < n, act n g p = p) → g = 1) {nL :
     exact pow_mem (hYw _ (bnd_iff.mp hB)) _
   · have h1 := (idP_iff hf (u := [nL + 2 * r, nL + 2 * r]) (fun l hl => ?_)).mp hD
     · simpa [wp] using h1
-    · simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false, or_self] at hl
+    · simp only [List.mem_cons, List.not_mem_nil, or_false, or_self] at hl
       exact ⟨_, hl ▸ ht⟩
   · rw [YT, Subgroup.closure_le]
     rintro _ ⟨l, hl, rfl⟩
@@ -439,7 +439,7 @@ theorem act_inj {g : Γ} {p q : ℕ} (hp : p < n) (hq : q < n) (h : act n g p = 
     p = q := by
   rw [← act_inv_act g hp, h, act_inv_act g hq]
 
-theorem smul_blk_eq {g : Γ} {b b' : List ℕ} (hb : b.Nodup) (hb' : b'.Nodup)
+theorem smul_blk_eq {g : Γ} {b b' : List ℕ} (hb : b.Nodup) (_hb' : b'.Nodup)
     (hlt : ∀ p ∈ b, p < n) (hlen : b.length = b'.length) (hin : ∀ p ∈ b, act n g p ∈ b') :
     g • CFSG.Quasithin.A312M23.blkSet n b = CFSG.Quasithin.A312M23.blkSet n b' := by
   rw [CFSG.Quasithin.A312M23.smul_blkSet g hlt]
@@ -754,12 +754,10 @@ end Image
     rw [act_one (hb p hp)]
     exact hp
   mul_mem' := fun {g h} hg hh p hp => by
-    change act n (g * h) p ∈ b
     rw [act_mul _ _ (hb p hp)]
     exact hg _ (hh p hp)
   inv_mem' := fun {g} hg p hp => by
     classical
-    change act n g⁻¹ p ∈ b
     have hsub : b.toFinset.image (act n g) ⊆ b.toFinset := fun x hx => by
       obtain ⟨q, hq, rfl⟩ := Finset.mem_image.mp hx
       exact List.mem_toFinset.mpr (hg q (List.mem_toFinset.mp hq))
@@ -813,7 +811,7 @@ theorem normW_sound (hf : ∀ g : Γ, (∀ p < n, act n g p = p) → g = 1) {α 
       obtain ⟨a, ha, rfl⟩ := hx
       exact hA a (by have := hwb a ha; omega))
     (fun x hx => by
-      simp only [List.mem_cons, List.mem_singleton, List.not_mem_nil, or_false] at hx
+      simp only [List.mem_cons, List.not_mem_nil, or_false] at hx
       rcases hx with rfl | rfl | rfl
       · exact hA (2 * r) (by omega)
       · exact hA i (by omega)
@@ -920,17 +918,17 @@ theorem e2_sound (hf : ∀ g : Γ, (∀ p < n, act n g p = p) → g = 1) {AB S g
   set nL := S.length + gw.length with hnL
   set R := xs.length with hR
   have h0 := hp 0 (by omega)
-  simp only [e2Part, Nat.beq_refl, cond_true] at h0
+  simp only [e2Part, Nat.beq_refl, _root_.Bool.cond_true] at h0
   have h1 := hp 1 (by omega)
-  simp only [e2Part, show Nat.beq 1 0 = false from rfl, Nat.beq_refl, cond_false,
-    cond_true] at h1
+  simp only [e2Part, show Nat.beq 1 0 = false from rfl, Nat.beq_refl, Bool.cond_false,
+    Bool.cond_true] at h1
   have h2 := hp 2 (by omega)
   simp only [e2Part, show Nat.beq 2 0 = false from rfl, show Nat.beq 2 1 = false from rfl,
-    Nat.beq_refl, cond_false, cond_true, Bool.and_eq_true] at h2
+    Nat.beq_refl, Bool.cond_false, _root_.Bool.cond_true, Bool.and_eq_true] at h2
   obtain ⟨⟨⟨⟨⟨hvb, hveq⟩, hci⟩, hwit⟩, hblk⟩, hfix⟩ := h2
   have h3 := hp 3 (by omega)
   simp only [e2Part, show Nat.beq 3 0 = false from rfl, show Nat.beq 3 1 = false from rfl,
-    show Nat.beq 3 2 = false from rfl, Nat.beq_refl, cond_false, cond_true,
+    show Nat.beq 3 2 = false from rfl, Nat.beq_refl, Bool.cond_false, _root_.Bool.cond_true,
     Bool.and_eq_true] at h3
   obtain ⟨⟨himg, hcyc⟩, halt⟩ := h3
   have hnorm : ∀ a < 2 * R + 1,
@@ -940,7 +938,7 @@ theorem e2_sound (hf : ∀ g : Γ, (∀ p < n, act n g p = p) → g = 1) {AB S g
     have h := hp (a + 4) (by omega)
     simp only [e2Part, show Nat.beq (a + 4) 0 = false from rfl,
       show Nat.beq (a + 4) 1 = false from rfl, show Nat.beq (a + 4) 2 = false from rfl,
-      show Nat.beq (a + 4) 3 = false from rfl, cond_false, Nat.add_sub_cancel] at h
+      show Nat.beq (a + 4) 3 = false from rfl, Bool.cond_false, Nat.add_sub_cancel] at h
     exact h
   have hlet := letters_sound hS hAB h0
   have hL : ∀ l < nL, ∃ g : Γ, Rep n T l g := fun l hl => ⟨_, hlet l hl⟩
@@ -996,10 +994,10 @@ theorem e2_sound (hf : ∀ g : Γ, (∀ p < n, act n g p = p) → g = 1) {AB S g
   refine ⟨fun l hl => el_eq hf (hlet l hl), hid, fun hat => ?_, fun haf => ?_, hpt, hYp, hvol,
     hVnorm, hvc, hvsq, fun a ha i => ?_, hcard, ?_, fun htr => ?_⟩
   · rw [hat] at halt
-    simp only [cond_true, Bool.and_eq_true] at halt
+    simp only [_root_.Bool.cond_true, Bool.and_eq_true] at halt
     exact ⟨normW_sound hf hA hid.tsq halt.1, witB_sound hA halt.2⟩
   · rw [haf] at halt
-    simp only [cond_false] at halt
+    simp only [Bool.cond_false] at halt
     have := (idP_iff hf (u := [nL + 2 * R]) (fun l hl => by
       rw [List.mem_singleton.mp hl]
       exact hA (2 * R) (by omega))).mp halt
@@ -1043,17 +1041,17 @@ theorem l34_sound (hf : ∀ g : Γ, (∀ p < n, act n g p = p) → g = 1) {AB S 
   set nL := S.length + gw.length with hnL
   set R := xs.length with hR
   have h0 := hp 0 (by omega)
-  simp only [l34Part, Nat.beq_refl, cond_true] at h0
+  simp only [l34Part, Nat.beq_refl, _root_.Bool.cond_true] at h0
   have h1 := hp 1 (by omega)
-  simp only [l34Part, show Nat.beq 1 0 = false from rfl, Nat.beq_refl, cond_false,
-    cond_true] at h1
+  simp only [l34Part, show Nat.beq 1 0 = false from rfl, Nat.beq_refl, Bool.cond_false,
+    Bool.cond_true] at h1
   have h2 := hp 2 (by omega)
   simp only [l34Part, show Nat.beq 2 0 = false from rfl, show Nat.beq 2 1 = false from rfl,
-    Nat.beq_refl, cond_false, cond_true, Bool.and_eq_true, Bool.not_eq_true'] at h2
+    Nat.beq_refl, Bool.cond_false, _root_.Bool.cond_true, Bool.and_eq_true, Bool.not_eq_true'] at h2
   obtain ⟨⟨⟨⟨⟨⟨⟨hnw, hbu⟩, hbv⟩, heu⟩, hev⟩, hiu⟩, hiv⟩, hu1⟩ := h2
   have h3 := hp 3 (by omega)
   simp only [l34Part, show Nat.beq 3 0 = false from rfl, show Nat.beq 3 1 = false from rfl,
-    show Nat.beq 3 2 = false from rfl, cond_false, Bool.and_eq_true, List.all_eq_true,
+    show Nat.beq 3 2 = false from rfl, Bool.cond_false, Bool.and_eq_true, List.all_eq_true,
     List.mem_range] at h3
   obtain ⟨⟨⟨⟨hrb, hrel⟩, hwl⟩, hwb⟩, hwx⟩ := h3
   have hlet := letters_sound hS hAB h0
@@ -1199,7 +1197,7 @@ theorem tri_sound {AB S gw : List (List ℕ)} {sE ab : ℕ → Γ}
     (hAB : ∀ i < AB.length, Rep n AB i (ab i)) {bl bi : List (List ℕ)}
     {x : List ℕ × ℕ × ℕ} (hc : triChk T AB S gw n bl bi x = true) :
     (∀ l < S.length + gw.length, el Γ n T l = letE S gw sE ab l) ∧ bl.length = 3 ∧
-    ∃ (hpt : Function.Injective (bPt n bl))
+    ∃ (_hpt : Function.Injective (bPt n bl))
       (_ : ∀ z ∈ YT Γ n T (S.length + gw.length), ∀ i, ∃ j, z • bPt n bl i = bPt n bl j),
       el Γ n T (S.length + gw.length) ∈ YT Γ n T (S.length + gw.length) ∧ x.2.2 % 2 = 1 ∧
       el Γ n T (S.length + gw.length) ^ x.2.2 = 1 ∧
@@ -1212,7 +1210,7 @@ theorem tri_sound {AB S gw : List (List ℕ)} {sE ab : ℕ → Γ}
   have hblk' := hblk
   simp only [blkChk, Bool.and_eq_true, Bool.not_eq_true'] at hblk'
   have hne := hblk'.1.1.1.1.1
-  obtain ⟨-, hltb, hpt, hYp, -⟩ := lblk_sound hL hblk
+  obtain ⟨-, hltb, _hpt, hYp, -⟩ := lblk_sound hL hblk
   have h3 := Nat.eq_of_beq_eq_true hl3
   have hxw : ∀ l ∈ repW x.2.1 x.1, ∃ g : Γ, Rep n T l g := fun l hl =>
     hL l (bnd_iff.mp hbx l (mem_repW hl))
@@ -1221,7 +1219,7 @@ theorem tri_sound {AB S gw : List (List ℕ)} {sE ab : ℕ → Γ}
   have hxY : el Γ n T nL ∈ YT Γ n T nL := by
     rw [hxe]
     exact prod_mem_of fun a ha => Subgroup.subset_closure ⟨a, bnd_iff.mp hbx a (mem_repW ha), rfl⟩
-  refine ⟨fun l hl => el_eq hf (hlet l hl), h3, hpt, hYp, hxY, Nat.eq_of_beq_eq_true hodd, ?_,
+  refine ⟨fun l hl => el_eq hf (hlet l hl), h3, _hpt, hYp, hxY, Nat.eq_of_beq_eq_true hodd, ?_,
     ⟨0, by omega⟩, fun h => ?_⟩
   · have := (idP_iff hf (fun l hl => by
       have := mem_repW hl

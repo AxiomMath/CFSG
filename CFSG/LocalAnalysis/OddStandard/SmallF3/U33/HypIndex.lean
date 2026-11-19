@@ -43,7 +43,7 @@ private theorem commutator_le_of_index_le_two {X : Type*} [Group X] [Finite X]
 private theorem commutator_sup_eq_right {X : Type*} [Group X] {P R : Subgroup X}
     [P.Normal] [R.Normal] (hPP : ⁅P, P⁆ = ⊥) (hPR : ⁅P, R⁆ = ⊥) (hRR : ⁅R, R⁆ = R) :
     ⁅P ⊔ R, P ⊔ R⁆ = R := by
-  haveI : (P ⊔ R).Normal := inferInstance
+  have : (P ⊔ R).Normal := inferInstance
   have hRP : ⁅R, P⁆ = ⊥ := by rw [Subgroup.commutator_comm, hPR]
   calc ⁅P ⊔ R, P ⊔ R⁆
       = ⁅P ⊔ R, P⁆ ⊔ ⁅P ⊔ R, R⁆ := Subgroup.commutator_sup_left (P ⊔ R) P R
@@ -54,7 +54,7 @@ private theorem commutator_sup_eq_right {X : Type*} [Group X] {P R : Subgroup X}
 theorem inSubgroup_generalizedFitting_invCent_eq (hC : SmallF3Cyclic G L) {t : G}
     (ht : orderOf t = 2) (htL : t ∈ Subgroup.centralizer (L : Set G)) :
     CFSG.inSubgroup CFSG.generalizedFitting (invCent t) = twoCore t ⊔ L := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hOdd : CFSG.oddCore ↥(invCent t) = ⊥ := hC.balanced t ht
   have hF : CFSG.fittingSubgroup ↥(invCent t) = CFSG.pCore 2 ↥(invCent t) := by
     refine le_antisymm ?_ (CFSG.pCore_le_fitting _ 2)
@@ -98,15 +98,15 @@ theorem inSubgroup_perfectResidual_invCent_eq
   obtain ⟨-, hLH, hLn, -, -⟩ :=
     CFSG.LocalAnalysis.ComponentInitial.standard_involution_centralizer_normality
       hC.standard htL ht
-  haveI : P.Normal := CFSG.pCore_normal
-  haveI : L'.Normal := hLn
-  haveI : K.Normal := inferInstance
+  have : P.Normal := CFSG.pCore_normal
+  have : L'.Normal := hLn
+  have : K.Normal := inferInstance
   have hPmap : P.map (invCent t).subtype = twoCore t := rfl
   have hLmap : L'.map (invCent t).subtype = L := by
     rw [Subgroup.subgroupOf_map_subtype]
     exact inf_eq_left.mpr hLH
-  haveI hCyc : IsCyclic (twoCore t) := isCyclic_twoCore hC ht htL
-  haveI hComm : IsMulCommutative (twoCore t) := IsCyclic.isMulCommutative
+  have hCyc : IsCyclic (twoCore t) := isCyclic_twoCore hC ht htL
+  have hComm : IsMulCommutative (twoCore t) := IsCyclic.isMulCommutative
   have hPP : ⁅P, P⁆ = ⊥ := by
     rw [← Subgroup.map_subtype_inj (H := invCent t)]
     rw [Subgroup.map_commutator, hPmap, Subgroup.map_bot,
@@ -118,7 +118,7 @@ theorem inSubgroup_perfectResidual_invCent_eq
       Subgroup.commutator_eq_bot_iff_le_centralizer]
     exact (centralizer_inf_invCent_eq_twoCore hC ht htL).ge.trans inf_le_left
   have hLL' : ⁅L', L'⁆ = L' := by
-    haveI : Group.IsPerfect ↥L := ⟨hC.standard.1.1⟩
+    have : Group.IsPerfect ↥L := ⟨hC.standard.1.1⟩
     rw [← Subgroup.map_subtype_inj (H := invCent t)]
     rw [Subgroup.map_commutator, hLmap, Subgroup.commutator_eq_self]
   have hKcomm : ⁅K, K⁆ = L' := by

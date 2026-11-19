@@ -83,12 +83,14 @@ variable [Finite G] {L U U₁ U₂ : Subgroup G} {α : ↥L →* Γ} {β₁ : �
   map_one' := rfl
   map_mul' _ _ := rfl
 
+omit [Finite G] in
 theorem burnsideC137_ι_val {U W : Subgroup G} (hU : IsElemAbelian 2 U) (h : W ≤ U) (w : ↥W) :
     (burnsideC137_ι hU h w).val = w := rfl
 
 variable (hs : SumOfTwoNat L U α U₁ U₂ β₁ β₂)
 include hs
 
+omit [Finite G] in
 theorem burnsideC137_LN : L ≤ normalizer (U : Set G) := by
   intro l hl
   rw [← hs.join]
@@ -115,11 +117,13 @@ include hU
   MonoidHom.coprod ((burnsideC137_ι hU hs.le₁).comp (burnsideC137_natE hs.nat₁).symm.toMonoidHom)
     ((burnsideC137_ι hU hs.le₂).comp (burnsideC137_natE hs.nat₂).symm.toMonoidHom)
 
+omit [Finite G] in
 theorem burnsideC137_Φ_val (p : Multiplicative Vec × Multiplicative Vec) :
     (burnsideC137_Φ hs hU p).val =
       ((burnsideC137_natE hs.nat₁).symm p.1 : G) * ((burnsideC137_natE hs.nat₂).symm p.2 : G) :=
   rfl
 
+omit [Finite G] in
 theorem burnsideC137_Φ_injective : Function.Injective (burnsideC137_Φ hs hU) := by
   rw [injective_iff_map_eq_one]
   intro p hp
@@ -145,6 +149,7 @@ theorem burnsideC137_Φ_injective : Function.Injective (burnsideC137_Φ hs hU) :
     exact this
   exact Prod.ext h1' h2'
 
+omit [Finite G] in
 theorem burnsideC137_le_normalizer₂ : U₂ ≤ normalizer (U₁ : Set G) := by
   intro b hb
   rw [Subgroup.mem_normalizer_iff]
@@ -166,6 +171,7 @@ theorem burnsideC137_le_normalizer₂ : U₂ ≤ normalizer (U₁ : Set G) := by
     rw [this]
     exact ha
 
+omit [Finite G] in
 theorem burnsideC137_Φ_surjective : Function.Surjective (burnsideC137_Φ hs hU) := by
   intro m
   have hm : m.val ∈ ((U₁ ⊔ U₂ : Subgroup G) : Set G) := by
@@ -187,10 +193,12 @@ theorem burnsideC137_Φ_surjective : Function.Surjective (burnsideC137_Φ hs hU)
   (MulEquiv.ofBijective (burnsideC137_Φ hs hU)
     ⟨burnsideC137_Φ_injective hs hU, burnsideC137_Φ_surjective hs hU⟩).symm
 
+omit [Finite G] in
 theorem burnsideC137_Φ_κ (m : IntMod U hU) : burnsideC137_Φ hs hU (burnsideC137_κ hs hU m) = m :=
   (MulEquiv.ofBijective (burnsideC137_Φ hs hU)
     ⟨burnsideC137_Φ_injective hs hU, burnsideC137_Φ_surjective hs hU⟩).apply_symm_apply m
 
+omit [Finite G] in
 theorem burnsideC137_κ_Φ (p : Multiplicative Vec × Multiplicative Vec) :
     burnsideC137_κ hs hU (burnsideC137_Φ hs hU p) = p :=
   (MulEquiv.ofBijective (burnsideC137_Φ hs hU)
@@ -201,6 +209,7 @@ theorem burnsideC137_κ_Φ (p : Multiplicative Vec × Multiplicative Vec) :
   (Multiplicative.ofAdd (act g (Multiplicative.toAdd p.1)),
     Multiplicative.ofAdd (act g (Multiplicative.toAdd p.2)))
 
+omit [Finite G] in
 theorem burnsideC137_Φ_conv (l : ↥L) (hl : (l : G) ∈ normalizer (U : Set G))
     (p : Multiplicative Vec × Multiplicative Vec) :
     convI hU ⟨l, hl⟩ (burnsideC137_Φ hs hU p) =
@@ -212,12 +221,14 @@ theorem burnsideC137_Φ_conv (l : ↥L) (hl : (l : G) ∈ normalizer (U : Set G)
   simp only [ofAdd_toAdd]
   group
 
+omit [Finite G] in
 theorem burnsideC137_κ_conv (l : ↥L) (hl : (l : G) ∈ normalizer (U : Set G)) (m : IntMod U hU) :
     burnsideC137_κ hs hU (convI hU ⟨l, hl⟩ m) =
       burnsideC137_dact (α l) (burnsideC137_κ hs hU m) := by
   conv_lhs => rw [← burnsideC137_Φ_κ hs hU m, burnsideC137_Φ_conv hs hU l hl]
   exact burnsideC137_κ_Φ hs hU _
 
+omit [Finite G] in
 theorem burnsideC137_card_U : Nat.card (IntMod U hU) = 64 := by
   rw [Nat.card_congr (burnsideC137_κ hs hU).toEquiv, Nat.card_prod]
   simp [Nat.card_eq_fintype_card]

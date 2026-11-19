@@ -38,7 +38,7 @@ theorem sec11_cls_of_card [Finite G] {A M : Subgroup G} {Alt : Subgroup (Equiv.P
   classical
   obtain ⟨v, rfl⟩ := hm.surj t ht
   by_contra hcon
-  push_neg at hcon
+  push Not at hcon
   have hone : φ (fun _ => 1) = 1 := (hm.ker _).2 (Or.inr rfl)
   have hv0 : v ≠ 0 := fun h => ht1 (by rw [h, hm.map_zero])
   have hv1 : v ≠ (fun _ => 1) := fun h => ht1 (by rw [h, hone])

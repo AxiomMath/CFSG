@@ -131,7 +131,7 @@ theorem step3_component {Γ : Type} [Group Γ] [Finite Γ] {KΓ : Subgroup Γ} {
   have hKGΓ : CFSG.SectionRank.IsKGroupCat Γ := hKG Γ (MonoidHom.id Γ) Function.injective_id
   have hr2sq : r ^ 2 = 1 := by rw [pow_two]; exact hr2
   have hI := CFSG.ASVolI.as_I_3_2 Γ hKGΓ r hr2sq hr1 KΓ hcomp
-  have hK1 : KΓ ≤ CFSG.conjugate KΓ 1 := fun k hk => ⟨k, hk, by simp [MulAut.conj_apply]⟩
+  have hK1 : KΓ ≤ CFSG.conjugate KΓ 1 := fun k hk => ⟨k, hk, by simp⟩
   have hJcle : CFSG.ASVolI.ChIJK.conjClosure KΓ (CFSG.ASVolI.ChIJK.oddCoreE Γ) ≤
       ⨆ g : Γ, CFSG.conjugate KΓ g := by
     unfold CFSG.ASVolI.ChIJK.conjClosure

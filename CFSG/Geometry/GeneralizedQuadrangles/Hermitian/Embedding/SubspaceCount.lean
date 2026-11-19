@@ -61,11 +61,11 @@ theorem card_submodule_between_eq_geom_sum {U X : Submodule K W} [FiniteDimensio
           · rw [Submodule.finrank_map_subtype_eq, M.2.2, hU']⟩
       left_inv := fun M => by
         apply Subtype.ext
-        simp only [Subtype.coe_mk]
+        simp only
         rw [Submodule.map_comap_subtype, inf_eq_right.mpr M.2.2.1]
       right_inv := fun M => by
         apply Subtype.ext
-        simp only [Subtype.coe_mk]
+        simp only
         rw [Submodule.comap_map_eq_of_injective (f := X.subtype) (by exact Subtype.val_injective)] }
   let e₂ : {M : Submodule K X // U' ≤ M ∧ finrank K M = finrank K U' + 1} ≃
       {q : Submodule K (X ⧸ U') // finrank K q = 1} :=

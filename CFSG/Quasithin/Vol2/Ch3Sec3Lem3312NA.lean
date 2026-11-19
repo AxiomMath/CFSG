@@ -384,7 +384,7 @@ theorem le_centralizer_of_fitting (hcomm : A36Common Q) (hcase : A36Case3 Q ∨ 
     refine ⟨P, fun x hx => ?_⟩
     have hPF : (P : Subgroup ↥E).map E.subtype ≤ CFSG.fittingSubgroup Q :=
       (Subgroup.map_subtype_le _).trans inf_le_left
-    have hPq : IsPGroup q ↥((P : Subgroup ↥E).map E.subtype) := P.isPGroup'.map E.subtype
+    have hPq : IsPGroup q ↥((P : Subgroup ↥E).map E.subtype) := P.isPGroup.map E.subtype
     have hxR : (x : Q) ∈ CFSG.pCore q Q := le_pCore_of_le_fitting hPF hPq ⟨x, hx, rfl⟩
     have hxz : (x : Q) * z = z * x :=
       Subgroup.mem_centralizer_singleton_iff.mp x.2.2

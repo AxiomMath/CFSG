@@ -32,16 +32,15 @@ variable {K : Type} [Field K]
         have ha : a = 0 ∨ a = 1 := by omega
         rcases ha with rfl | rfl <;> simp
       · have hEb : (if b = 0 then ⊥ else if b = 1 then z else ⊤) = ⊤ := by
-          rw [if_neg hb0, if_neg hb1]
+          rw [ite_eq_right hb0, ite_eq_right hb1]
         rw [hEb]
         exact le_top
   dim := by
     intro j hj
-    interval_cases j <;> simp [hz, Module.finrank_fin_fun]
+    interval_cases j <;> simp [hz]
   top := by
     intro j hj
-    change (if j = 0 then ⊥ else if j = 1 then z else ⊤) = ⊤
-    rw [if_neg (show ¬ j = 0 by omega), if_neg (show ¬ j = 1 by omega)]
+    rw [ite_eq_right (show ¬ j = 0 by omega), ite_eq_right (show ¬ j = 1 by omega)]
 
 theorem ofPoint_E_one (z : Submodule K (Fin 2 → K)) (hz : finrank K z = 1) :
     (ofPoint z hz).E 1 = z := by
@@ -92,7 +91,7 @@ private theorem plxd_phi_not_mem_Vsub {u : Fin 2 → K} (hu : u ≠ 0) :
     have : sg K f (u 1) = 0 := by simpa [plxd_phi] using h2
     exact (sg K f).injective (by simpa using this)
 
-private theorem plxd_span_phi_span_singleton {u : Fin 2 → K} (hu : u ≠ 0) :
+private theorem plxd_span_phi_span_singleton {u : Fin 2 → K} (_hu : u ≠ 0) :
     Submodule.span K (plxd_phi (K := K) (f := f) '' (Submodule.span K {u})) =
       Submodule.span K {plxd_phi (K := K) (f := f) u} := by
   apply le_antisymm
@@ -111,7 +110,7 @@ theorem Vsub_le_dirZ (z : Submodule K (Fin 2 → K)) : Vsub 3 1 ≤ dirZ K f z :
   rw [dirZ]
   exact le_sup_left
 
-theorem finrank_dirZ (hK : Nat.card K = (2 ^ f) ^ 2) {z : Submodule K (Fin 2 → K)}
+theorem finrank_dirZ (_hK : Nat.card K = (2 ^ f) ^ 2) {z : Submodule K (Fin 2 → K)}
     (hz : finrank K z = 1) : finrank K (dirZ K f z) = 2 := by
   obtain ⟨u, huz, hu0⟩ : ∃ u ∈ z, u ≠ 0 := by
     have hne : z ≠ ⊥ := by
@@ -229,7 +228,7 @@ theorem exists_z_avoid (hK : Nat.card K = (2 ^ f) ^ 2) (hq : 4 ≤ 2 ^ f)
     (D : Finset (Submodule K (Fin 3 → K))) (hD : D.card ≤ 4) :
     ∃ z : Submodule K (Fin 2 → K), finrank K z = 1 ∧ ∀ d ∈ D, dirZ K f z ≠ d := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   let zOf : K → Submodule K (Fin 2 → K) := fun a => Submodule.span K {![1, a]}
   have hfin : ∀ a : K, finrank K (zOf a) = 1 := by
     intro a

@@ -35,8 +35,8 @@ variable {G : Type} [Group G] [Finite G] (m : Mz614 G)
 
 theorem pPrimeCore_le_center_uc6 (hq : CFSG.Open.IsQuasisimple ↥m.L) (hr : m.r ∣ Nat.card ↥m.L) :
     CFSG.pPrimeCore m.r ↥m.L ≤ center ↥m.L := by
-  haveI : Fact m.r.Prime := ⟨m.hr⟩
-  haveI := CFSG.pPrimeCore_normal (p := m.r) (G := ↥m.L)
+  have : Fact m.r.Prime := ⟨m.hr⟩
+  have := CFSG.pPrimeCore_normal (p := m.r) (G := ↥m.L)
   rcases normal_dichotomy_uc6 hq (CFSG.pPrimeCore m.r ↥m.L) with hc | htop
   · exact hc
   · exfalso
@@ -47,7 +47,7 @@ theorem pPrimeCore_le_center_uc6 (hq : CFSG.Open.IsQuasisimple ↥m.L) (hr : m.r
 
 theorem hmult_of_kMultList620 (hK : UCK.KMultList620) (hL : m.L620) (hq : CFSG.Open.IsQuasisimple ↥m.L)
     (hr : 3 < m.r) : Odd (Nat.card (center ↥m.L)) → center ↥m.L = ⊥ := by
-  haveI := CFSG.pPrimeCore_normal (p := m.r) (G := ↥m.L)
+  have := CFSG.pPrimeCore_normal (p := m.r) (G := ↥m.L)
   have h5 : 5 ≤ m.r := by
     by_contra h
     have h4 : m.r = 4 := by omega

@@ -29,7 +29,7 @@ theorem leviAlt_levi_data (ha : 1 ≤ a)
   obtain ⟨hs, hna⟩ := isSimpleGroup_leviN ha hK i
   have hSyl := isSylowOf_rootV_leviN ha hK hi
   obtain ⟨Q, hQ⟩ := hSyl
-  have hV0 : IsPGroup 2 ↥(rootV K a i) := hQ ▸ Q.isPGroup'.map _
+  have hV0 : IsPGroup 2 ↥(rootV K a i) := hQ ▸ Q.isPGroup.map _
   refine leviAlt_pElement_of_levi_decomp hP hVn hV2 hs hna
     (le_pElementSubgroup_of_simple hs (rootV_le_leviN hK i) hV0 (rootV_ne_bot hK i)) ?_ ?_
   · intro x hx

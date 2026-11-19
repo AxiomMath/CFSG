@@ -13,6 +13,7 @@ open CFSG CFSG.RankThree.PartTwo.Sec21
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem conj_cenS {B : Subgroup G} {n σ : G} (hn : n ∈ Nor B) (hσ : σ ∈ CenS B) :
     n⁻¹ * σ * n ∈ CenS B := by
   rw [Subgroup.mem_centralizer_iff]
@@ -23,6 +24,7 @@ theorem conj_cenS {B : Subgroup G} {n σ : G} (hn : n ∈ Nor B) (hσ : σ ∈ C
     _ = n⁻¹ * (σ * (n * y * n⁻¹)) * n := by rw [h2]
     _ = (n⁻¹ * σ * n) * y := by group
 
+omit [Finite G] in
 theorem orderOf_conj_inv (n σ : G) : orderOf (n⁻¹ * σ * n) = orderOf σ := by
   have := MulEquiv.orderOf_eq (MulAut.conj n⁻¹) σ
   simpa [MulAut.conj_apply] using this
@@ -31,7 +33,7 @@ theorem good_B0 {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79Sec4 b J B 
     (hσB : σ ∈ CenS B) (hσo : orderOf σ = 2)
     (hall : ∀ τ ∈ CenS B, orderOf τ = 2 → Good43 τ b ∧ Good43 τ (b₁ * b₂)) :
     ∀ x ∈ Subgroup.closure ({b₁, b₂} : Set G), x ≠ 1 → Good43 σ x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨hb₁3, hb₂3, hb₁b₂, hK1, -, -⟩ := sec4_facts h4
   obtain ⟨-, -, -, ⟨n₀, hn₀, h0b, h0b₁, h0b₂⟩, ⟨n₁, hn₁, h1b, h1b₁, h1b₂⟩,
     ⟨n₂, hn₂, h2b, h2b₁, h2b₂⟩⟩ := h4.mono
@@ -131,6 +133,7 @@ theorem good_B0 {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79Sec4 b J B 
     rw [e]
     exact g3.of_mul_eq_one (hmul _ hβ3)
 
+omit [Finite G] in
 theorem zpow_eq_one_or_self' {σ : G} (hσ : orderOf σ = 2) (k : ℤ) : σ ^ k = 1 ∨ σ ^ k = σ := by
   have h := zpow_mod_orderOf σ k
   rw [hσ] at h
@@ -140,6 +143,7 @@ theorem zpow_eq_one_or_self' {σ : G} (hσ : orderOf σ = 2) (k : ℤ) : σ ^ k 
   · right
     rw [← h]; simp [h1]
 
+omit [Finite G] in
 theorem cen_isPLocal {σ : G} (hσ : orderOf σ = 2) : IsPLocal 2 (Cen σ) := by
   have hσ1 : σ ≠ 1 := by
     intro h; rw [h, orderOf_one] at hσ; omega
@@ -165,6 +169,7 @@ theorem cen_isPLocal {σ : G} (hσ : orderOf σ = 2) : IsPLocal 2 (Cen σ) := by
         calc g * σ = (g * σ * g⁻¹) * g := by group
           _ = σ * g := by rw [← hk]
 
+omit [Finite G] in
 theorem Op_isPGroup (p : ℕ) (H : Subgroup G) : IsPGroup p (Op p H) := by
   intro z
   obtain ⟨z', hz', hzz⟩ := Subgroup.mem_map.mp z.2
@@ -175,20 +180,22 @@ theorem Op_isPGroup (p : ℕ) (H : Subgroup G) : IsPGroup p (Op p H) := by
   rw [← hzz]
   simpa using this
 
+omit [Finite G] in
 theorem Op_conj_mem {p : ℕ} {H : Subgroup G} {g z : G} (hg : g ∈ H) (hz : z ∈ Op p H) :
     g * z * g⁻¹ ∈ Op p H := by
   obtain ⟨z', hz', rfl⟩ := Subgroup.mem_map.mp hz
   refine Subgroup.mem_map.mpr ⟨⟨g, hg⟩ * z' * ⟨g, hg⟩⁻¹, ?_, by simp⟩
-  haveI : (pCore p ↥H).Normal := CFSG.pCore_normal
+  have : (pCore p ↥H).Normal := CFSG.pCore_normal
   exact Subgroup.Normal.conj_mem inferInstance z' hz' ⟨g, hg⟩
 
+omit [Finite G] in
 theorem Op_le (p : ℕ) (H : Subgroup G) : Op p H ≤ H := Subgroup.map_subtype_le _
 
 theorem no_involution {b : G} {J B : Subgroup G} {b₁ b₂ : G} (h4 : FF79Sec4 b J B b₁ b₂)
     (hall : ∀ τ ∈ CenS B, orderOf τ = 2 → Good43 τ b ∧ Good43 τ (b₁ * b₂)) {σ : G}
     (hσB : σ ∈ CenS B) (hσo : orderOf σ = 2) : False := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hb₁3, hb₂3, hb₁b₂, hK1, hcard, hE3⟩ := sec4_facts h4
   have hgood := good_B0 h4 hσB hσo hall
   have hb₁B : b₁ ∈ B := (Subgroup.mem_inf.mp h4.hb₁).1

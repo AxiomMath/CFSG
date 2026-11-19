@@ -61,14 +61,14 @@ theorem exists_component_dvd_card_center {p : ℕ} (hp : p.Prime) {z : X} (hzo :
     (hO : CFSG.pPrimeCore p X = ⊥) {K : Subgroup X} (hK : CFSG.IsComponent K) :
     ∃ K' : Subgroup X, CFSG.IsComponent K' ∧ p ∣ Nat.card (center K') := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   by_contra hcon
   push Not at hcon
   obtain ⟨E, hE⟩ : ∃ E : Subgroup X, E = CFSG.layer X := ⟨_, rfl⟩
-  haveI : E.Characteristic := hE ▸ CFSG.LocalCores.layer_characteristic (G := X)
-  haveI hEn : E.Normal := inferInstance
+  have : E.Characteristic := hE ▸ CFSG.LocalCores.layer_characteristic (G := X)
+  have hEn : E.Normal := inferInstance
   have hKE : K ≤ E := hE ▸ CFSG.LocalCores.component_le_layer hK
-  haveI : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
+  have : Nontrivial ↥K := CFSG.LocalCores.isQuasisimple_nontrivial hK.1
   have hEne : E ≠ ⊥ := fun h =>
     (Subgroup.nontrivial_iff_ne_bot K).1 inferInstance (le_bot_iff.1 (h ▸ hKE))
   have hpE : p ∣ Nat.card E := by
@@ -91,7 +91,7 @@ theorem exists_component_dvd_card_center {p : ℕ} (hp : p.Prime) {z : X} (hzo :
     rw [h, orderOf_one] at hco
     exact hp.one_lt.ne hco
   have hPp : IsPGroup p P := IsPGroup.of_card hP
-  haveI : Group.IsNilpotent ↥P := IsPGroup.isNilpotent hPp
+  have : Group.IsNilpotent ↥P := IsPGroup.isNilpotent hPp
   have hHne : E.subgroupOf P ≠ ⊥ := by
     intro h
     have : (⟨c * (e : X) * c⁻¹, hcP⟩ : P) ∈ E.subgroupOf P := hcE

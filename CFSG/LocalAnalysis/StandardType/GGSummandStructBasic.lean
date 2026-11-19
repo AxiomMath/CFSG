@@ -93,11 +93,11 @@ theorem pCoreOf_map_conj (p : ℕ) (H : Subgroup G) (g : G) :
       · rintro h hh _ ⟨y, hy, rfl⟩
         refine ⟨(g * h * g⁻¹) * y * (g * h * g⁻¹)⁻¹,
           conj_mem_pCoreOf' p (H := H.map (MulAut.conj g).toMonoidHom)
-            ⟨h, hh, by simp [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]⟩ hy, ?_⟩
+            ⟨h, hh, by simp [MulAut.conj_apply]⟩ hy, ?_⟩
         simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
         group
     intro x hx
-    refine ⟨g⁻¹ * x * g⁻¹⁻¹, key ⟨x, hx, by simp [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]⟩, ?_⟩
+    refine ⟨g⁻¹ * x * g⁻¹⁻¹, key ⟨x, hx, by simp⟩, ?_⟩
     simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
     group
   · refine le_pCoreOf_of_normalized p (Subgroup.map_mono (pCoreOf_le' p H))
@@ -204,7 +204,7 @@ theorem pCoreOf_inf_le_of_isComponent [Finite X] {K V : Subgroup X} (hK : CFSG.I
   have h1 : A 1 = pCoreOf p (K ⊓ V) := by
     have : cK 1 = K := by
       ext x
-      simp [cK, MulAut.conj_apply]
+      simp [cK]
     simp only [A, this]
   rw [← h1]
   exact (le_sSup (Set.mem_range_self (1 : ↥V))).trans hbig
@@ -215,7 +215,7 @@ section Dichotomy
 
 variable {X : Type} [Group X]
 
-theorem commutator_mul_commute {a a' c c' : X} (hca : Commute c a) (hca' : Commute c a')
+theorem commutator_mul_commute {a a' c c' : X} (_hca : Commute c a) (hca' : Commute c a')
     (hcc' : Commute c c') (hc'a : Commute c' a) : ⁅a * c, a' * c'⁆ = ⁅a, a'⁆ := by
   rw [commutatorElement_def, commutatorElement_def]
   have e1 : c * a' * c' * c⁻¹ = a' * c' := by
@@ -316,6 +316,7 @@ section Rho
 
 variable (V E K : Subgroup X) [hN : ((ggRCSU V E K).subgroupOf (E ⊔ K)).Normal]
 
+omit [Finite X] hN in
 theorem ggSumH_le : E ⊔ (K ⊓ V) ≤ E ⊔ K := sup_le_sup_left inf_le_left E
 
 abbrev ggSumT : Subgroup (↥(E ⊔ K) ⧸ (ggRCSU V E K).subgroupOf (E ⊔ K)) :=

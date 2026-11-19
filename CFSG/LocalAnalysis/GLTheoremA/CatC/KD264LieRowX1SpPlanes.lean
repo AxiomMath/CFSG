@@ -63,7 +63,7 @@ theorem ea_trivial (a b : Fin n) (hab : a ≠ b) (t : ℕ) : ∀ u ∈ D.X a, (D
   | zero => intro u _; simp
   | succ t ih =>
     intro u hu
-    rw [pow_succ, LinearEquiv.mul_apply, D.eact b a u hu, if_neg hab]
+    rw [pow_succ, LinearEquiv.mul_apply, D.eact b a u hu, ite_eq_right hab]
     exact ih u hu
 
 theorem ea_pow_plane (a : Fin n) (s : ℕ) : ∀ u ∈ D.X a, (D.e a ^ s) u = (D.ρ a ^ s) u := by
@@ -71,7 +71,7 @@ theorem ea_pow_plane (a : Fin n) (s : ℕ) : ∀ u ∈ D.X a, (D.e a ^ s) u = (D
   | zero => intro u _; simp
   | succ s ih =>
     intro u hu
-    rw [pow_succ, LinearEquiv.mul_apply, D.eact a a u hu, if_pos rfl, pow_succ,
+    rw [pow_succ, LinearEquiv.mul_apply, D.eact a a u hu, ite_eq_left rfl, pow_succ,
       LinearEquiv.mul_apply]
     exact ih _ (D.rho_mem a u hu)
 
@@ -116,11 +116,12 @@ theorem range_sub (i : Fin n) (v : W) : D.e i v - v ∈ D.X i := by
   intro j x hx
   by_cases hji : j = i
   · subst hji
-    rw [D.eact j j x hx, if_pos rfl]
+    rw [D.eact j j x hx, ite_eq_left rfl]
     exact Submodule.sub_mem _ (D.rho_mem j x hx) hx
-  · rw [D.eact i j x hx, if_neg hji, sub_self]
+  · rw [D.eact i j x hx, ite_eq_right hji, sub_self]
     exact Submodule.zero_mem _
 
+omit [FiniteDimensional (ZMod 2) W] in
 theorem two_smul_eq_zero' (z : W) : z + z = 0 := by
   have h : ((1 : ZMod 2) + 1) • z = 0 := by
     rw [show ((1 : ZMod 2) + 1) = 0 from rfl, zero_smul]
@@ -137,7 +138,7 @@ theorem exists_pre (hE : IsElemAbelian 3 E) (i : Fin n) (x : W) (hx : x ∈ D.X 
   have hρρx : ρ (ρ x) ∈ D.X i := D.rho_mem i _ hρx
   refine ⟨x + ρ (ρ x), Submodule.add_mem _ hx hρρx, ?_⟩
   have hy : D.e i (x + ρ (ρ x)) = ρ (x + ρ (ρ x)) := by
-    rw [D.eact i i _ (Submodule.add_mem _ hx hρρx), if_pos rfl]
+    rw [D.eact i i _ (Submodule.add_mem _ hx hρρx), ite_eq_left rfl]
   rw [hy, map_add, hcube]
   have hc := D.cyc i x hx
   have h4 := two_smul_eq_zero' (ρ (ρ x))

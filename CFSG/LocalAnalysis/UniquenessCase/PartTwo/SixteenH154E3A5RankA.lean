@@ -145,7 +145,7 @@ theorem s16h_e3_fix_le_four {W : Type} [CommGroup W] [Finite W]
       have := congrArg (fun z : ↥J => (z : W)) h4
       simpa using this)
   have hfin : Nat.card {v : Fin 5 → ZMod 2 // P v} ≤ 4 := by
-    haveI : Fintype {v : Fin 5 → ZMod 2 // P v} := Fintype.ofFinite _
+    have : Fintype {v : Fin 5 → ZMod 2 // P v} := Fintype.ofFinite _
     rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
     exact hcheck
   exact (Nat.card_le_card_of_injective _ hinj).trans hfin
@@ -162,9 +162,10 @@ theorem s16h_e3_card_isAlt_five {X : Type} [Group X] (h : IsAlt X 5) : Nat.card 
 theorem s16h_e3_isSimpleGroup_of_isAlt {X : Type} [Group X] (h : IsAlt X 5) :
     IsSimpleGroup X := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+  have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
   exact e.isSimpleGroup
 
+omit [Finite W] in
 theorem s16h_e3_card_commSub_mul {A : Subgroup W} {x : MulAut W} (hx : x ∈ stabSub A) :
     Nat.card ↥(commSub A (Subgroup.zpowers x)) *
       Nat.card ↥(A ⊓ fixV (Subgroup.zpowers x)) = Nat.card ↥A := by
@@ -177,16 +178,19 @@ theorem s16h_e3_card_sup_of_inf_eq_bot {A B : Subgroup W} (h : A ⊓ B = ⊥) :
     (fun a _ b _ => mul_comm a b)).1
   simpa [h] using hc
 
+omit [Finite W] in
 theorem s16h_e3_commSub_sup {A B : Subgroup W} {X : Subgroup (MulAut W)} :
     commSub (A ⊔ B) X = commSub A X ⊔ commSub B X :=
   commSub_sup_left A B X
 
+omit [Finite W] in
 theorem s16h_e3_commSub_zpowers_le_of_stab {A : Subgroup W} {g : MulAut W}
     (hg : g ∈ stabSub A) : commSub A (Subgroup.zpowers g) ≤ A := by
   apply commSub_le_of_invariant
   intro y hy a ha
   exact ((mem_stabSub.mp (Subgroup.zpowers_le.mpr hg hy)) a).mpr ha
 
+omit [Finite W] in
 theorem s16h_e3_commSub_zpowers_mul_le {A : Subgroup W} {a b : MulAut W}
     (ha : a ∈ stabSub A) (hb : b ∈ stabSub A) :
     commSub A (Subgroup.zpowers (a * b)) ≤
@@ -238,6 +242,7 @@ theorem s16h_e3_four_le_card_commSub_natural {L : Subgroup (MulAut W)} {J : Subg
       _ = 16 := by norm_num
   exact Nat.le_of_mul_le_mul_right hkey hfpos
 
+omit [Finite W] in
 theorem s16h_e3_iSup_fin_three_eq (I : Fin 3 → Subgroup W) :
     (⨆ i, I i) = I 0 ⊔ I 1 ⊔ I 2 := by
   refine le_antisymm (iSup_le fun i => ?_) (sup_le (sup_le ?_ ?_) ?_)
@@ -249,6 +254,7 @@ theorem s16h_e3_iSup_fin_three_eq (I : Fin 3 → Subgroup W) :
   · exact le_iSup I 1
   · exact le_iSup I 2
 
+omit [Finite W] in
 theorem s16h_e3_indep_pair {I : Fin 3 → Subgroup W}
     (hind : ∀ i, I i ⊓ (⊥ ⊔ ⨆ (j : Fin 3) (_ : j ≠ i), I j) ≤ ⊥)
     {i j : Fin 3} (hij : i ≠ j) : I i ⊓ I j = ⊥ := by
@@ -257,6 +263,7 @@ theorem s16h_e3_indep_pair {I : Fin 3 → Subgroup W}
         inf_le_inf_left _ (le_sup_of_le_right (le_iSup₂_of_le j (Ne.symm hij) le_rfl))
     _ ≤ ⊥ := hind i
 
+omit [Finite W] in
 theorem s16h_e3_iSup_ne_zero (I : Fin 3 → Subgroup W) :
     (⨆ (j : Fin 3) (_ : j ≠ 0), I j) = I 1 ⊔ I 2 := by
   refine le_antisymm (iSup₂_le fun j hj => ?_)
@@ -267,6 +274,7 @@ theorem s16h_e3_iSup_ne_zero (I : Fin 3 → Subgroup W) :
   · exact le_sup_left
   · exact le_sup_right
 
+omit [Finite W] in
 theorem s16h_e3_iSup_ne_one (I : Fin 3 → Subgroup W) :
     (⨆ (j : Fin 3) (_ : j ≠ 1), I j) = I 0 ⊔ I 2 := by
   refine le_antisymm (iSup₂_le fun j hj => ?_)
@@ -277,6 +285,7 @@ theorem s16h_e3_iSup_ne_one (I : Fin 3 → Subgroup W) :
   · exact absurd rfl hj
   · exact le_sup_right
 
+omit [Finite W] in
 theorem s16h_e3_iSup_ne_two (I : Fin 3 → Subgroup W) :
     (⨆ (j : Fin 3) (_ : j ≠ 2), I j) = I 0 ⊔ I 1 := by
   refine le_antisymm (iSup₂_le fun j hj => ?_)
@@ -287,6 +296,7 @@ theorem s16h_e3_iSup_ne_two (I : Fin 3 → Subgroup W) :
   · exact le_sup_right
   · exact absurd rfl hj
 
+omit [Finite W] in
 theorem s16h_e3_indep_three {I : Fin 3 → Subgroup W}
     (hind : ∀ i, I i ⊓ (⊥ ⊔ ⨆ (j : Fin 3) (_ : j ≠ i), I j) ≤ ⊥) :
     I 0 ⊓ (I 1 ⊔ I 2) = ⊥ ∧ I 1 ⊓ (I 0 ⊔ I 2) = ⊥ ∧ I 2 ⊓ (I 0 ⊔ I 1) = ⊥ := by
@@ -375,13 +385,13 @@ theorem s16h_e3_invariant_ge_eight {L : Subgroup (MulAut W)} {U S : Subgroup W}
     fun l s => ⟨(l : MulAut W) s, hSinv (l : MulAut W) l.2 s s.2⟩
   have hact_one : ∀ s : ↥S, act 1 s = s := fun s => Subtype.ext (by simp [act])
   have hact_mul : ∀ (l m : ↥L) (s : ↥S), act (l * m) s = act l (act m s) :=
-    fun l m s => Subtype.ext (by simp [act, map_mul])
-  letI : MulAction ↥L ↥S :=
+    fun l m s => Subtype.ext (by simp [act])
+  let : MulAction ↥L ↥S :=
     { smul := act
       one_smul := hact_one
       mul_smul := hact_mul }
   let ψ : ↥L →* Equiv.Perm ↥S := MulAction.toPermHom ↥L ↥S
-  haveI : IsSimpleGroup ↥L := s16h_e3_isSimpleGroup_of_isAlt hL
+  have : IsSimpleGroup ↥L := s16h_e3_isSimpleGroup_of_isAlt hL
   have hker : ψ.ker = ⊥ ∨ ψ.ker = ⊤ := IsSimpleGroup.eq_bot_or_eq_top_of_normal ψ.ker
   rcases hker with hk | hk
   · have hinj : Function.Injective ψ := (MonoidHom.ker_eq_bot_iff ψ).mp hk

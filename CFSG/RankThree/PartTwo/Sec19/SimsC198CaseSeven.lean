@@ -35,9 +35,9 @@ theorem noAutDatum_of_isoGTwo [IsSimpleGroup S] {q : TauCeti.PrimePower} (hq2 : 
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ q.exponent := Nat.pow_le_pow_right (by norm_num) hexp2
   have hK2 : ringChar K = 2 := by
-    haveI : Fintype K := Fintype.ofFinite K
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : CharP K 2 :=
+    have : Fintype K := Fintype.ofFinite K
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : CharP K 2 :=
       charP_of_card_eq_prime_pow (f := q.exponent) (by rw [← Nat.card_eq_fintype_card, hK])
     exact ringChar.eq K 2
   exact noAutDatum_of_G2 hK2 hK4 e
@@ -60,7 +60,7 @@ end ReeF4Even
 theorem caseHolds_seven :
     CaseHolds Alt42Seven := by
   intro X _ _ hX c L 𝒟 hD h
-  haveI : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.quasisimple.2.1
+  have : IsSimpleGroup (X ⧸ Subgroup.center X) := hX.quasisimple.2.1
   rcases h with ⟨n, hn, ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩ | ⟨⟨e⟩⟩⟩ | ⟨q, hq2, hG⟩ |
     ⟨q, hv, hq2, ⟨e⟩⟩ | ⟨m, hm, ⟨e⟩⟩ | ⟨m, hm, ⟨e⟩⟩ | ⟨ht, ⟨e⟩⟩
   ·

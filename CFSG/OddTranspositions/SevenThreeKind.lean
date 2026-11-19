@@ -16,15 +16,19 @@ def Delta (D : Set G) (z : G) : Set G := {x | x ∈ D ∧ Commute x z}
 
 @[expose] def thirdK (D : Set G) (z : G) : Subgroup G := Subgroup.closure (Delta D z)
 
+omit [Finite G] in
 theorem Delta_subset_D {z : G} : Delta D z ⊆ D := fun _ hx => hx.1
 
+omit [Finite G] in
 theorem mem_Delta_iff {z x : G} : x ∈ Delta D z ↔ x ∈ D ∧ Commute x z := Iff.rfl
 
+omit [Finite G] in
 theorem vertices_mem_Delta {u w v z : G} (htri : IsTriangle D u w v)
     (hzu : Commute z u) (hzv : Commute z v) (hzw : Commute z w) :
     u ∈ Delta D z ∧ v ∈ Delta D z ∧ w ∈ Delta D z :=
   ⟨⟨htri.1, hzu.symm⟩, ⟨htri.2.1, hzv.symm⟩, ⟨htri.2.2.1, hzw.symm⟩⟩
 
+omit [Finite G] in
 theorem thirdK_le_centralizer {z : G} :
     thirdK D z ≤ Subgroup.centralizer ({z} : Set G) := by
   rw [thirdK, Subgroup.closure_le]
@@ -34,8 +38,10 @@ theorem thirdK_le_centralizer {z : G} :
     subst hy
     exact hx.2.eq.symm)
 
+omit [Finite G] in
 theorem Delta_subset_thirdK {z : G} : Delta D z ⊆ thirdK D z := Subgroup.subset_closure
 
+omit [Finite G] in
 theorem Delta_conj_mem {z k : G} (hN : IsNormalSet D) (hk : k ∈ thirdK D z) {x : G}
     (hx : x ∈ Delta D z) : k * x * k⁻¹ ∈ Delta D z := by
   have hkz : Commute k z := by
@@ -47,6 +53,7 @@ theorem Delta_conj_mem {z k : G} (hN : IsNormalSet D) (hk : k ∈ thirdK D z) {x
   have hconjz : k * z * k⁻¹ = z := by rw [hkz.eq]; group
   rwa [hconjz] at h
 
+omit [Finite G] in
 theorem thirdK_orbits_commute (hS : Setup G D) {z : G}
     {O₁ O₂ : Set G} (hO₁ : O₁ ⊆ Delta D z) (hO₂ : O₂ ⊆ Delta D z)
     (hinv₁ : ∀ k ∈ thirdK D z, ∀ x ∈ O₁, k * x * k⁻¹ ∈ O₁)
@@ -56,6 +63,7 @@ theorem thirdK_orbits_commute (hS : Setup G D) {z : G}
   commute_of_isOddTransp_invariant_partition (hS.oddT.mono Delta_subset_D) hO₁ hO₂
     hinv₁ hinv₂ hdisj
 
+omit [Finite G] in
 theorem conj_eq_of_orderOf_mul_eq_three {b v : G} (hb : b * b = 1) (hv : v * v = 1)
     (h3 : orderOf (b * v) = 3) : v * b * v = b * v * b := by
   have hx3 : b * v * b * v * b * v = 1 := by
@@ -76,6 +84,7 @@ theorem conj_eq_of_orderOf_mul_eq_three {b v : G} (hb : b * b = 1) (hv : v * v =
     rwa [hL] at this
   exact h3'
 
+omit [Finite G] in
 theorem thirdK_lt_top_of_no_solvable_normal
     (hZ : ∀ N : Subgroup G, N.Normal → Group.IsSolvable N → N = ⊥)
     {z : G} (hz1 : z ≠ 1) : thirdK D z < ⊤ := by
@@ -91,7 +100,7 @@ theorem thirdK_lt_top_of_no_solvable_normal
       have hzbot : z ∈ (⊥ : Subgroup G) := hbot ▸ hcent
       exact hz1 (Subgroup.mem_bot.mp hzbot)
     have hsolv : Group.IsSolvable (Subgroup.center G) :=
-      isSolvable_of_comm (fun a b => Subtype.ext (Subgroup.mem_center_iff.mp a.2 b).symm)
+      _root_.Group.isSolvable_of_comm (fun a b => Subtype.ext (Subgroup.mem_center_iff.mp a.2 b).symm)
     exact hZne (hZ (Subgroup.center G) inferInstance hsolv)
   exact lt_top_iff_ne_top.mpr hK
 

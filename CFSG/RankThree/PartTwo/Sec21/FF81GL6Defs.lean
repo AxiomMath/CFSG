@@ -19,11 +19,11 @@ def Sp0 : Subgroup G6 where
   carrier := {g | (g : Matrix (Fin 6) (Fin 6) (ZMod 2))ᵀ * J0 * g = J0}
   one_mem' := by simp
   mul_mem' {a b} ha hb := by
-    simp only [Set.mem_setOf_eq, Units.val_mul, transpose_mul] at *
+    simp only [Set.mem_ofPred_eq, Units.val_mul, transpose_mul] at *
     rw [show b.valᵀ * a.valᵀ * J0 * (a.val * b.val) = b.valᵀ * (a.valᵀ * J0 * a.val) * b.val by
       simp only [Matrix.mul_assoc], ha, hb]
   inv_mem' {a} ha := by
-    simp only [Set.mem_setOf_eq] at *
+    simp only [Set.mem_ofPred_eq] at *
     have h1 : a.val * (a⁻¹).val = 1 := by rw [← Units.val_mul, mul_inv_cancel, Units.val_one]
     calc (a⁻¹).valᵀ * J0 * (a⁻¹).val
         = (a⁻¹).valᵀ * (a.valᵀ * J0 * a.val) * (a⁻¹).val := by rw [ha]

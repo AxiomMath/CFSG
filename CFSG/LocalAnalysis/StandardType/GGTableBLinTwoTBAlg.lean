@@ -28,7 +28,7 @@ theorem signV_single_of_ne {i k : Fin s} (h : k ≠ i) (c : ZMod 3) :
   funext m
   by_cases hm : m = i
   · subst hm
-    simp [signV_self, Pi.single_apply, Ne.symm h]
+    simp [signV_self, Ne.symm h]
   · simp [signV_of_ne hm]
 
 theorem signV_single_self (i : Fin s) (c : ZMod 3) :
@@ -37,7 +37,7 @@ theorem signV_single_self (i : Fin s) (c : ZMod 3) :
   by_cases hm : m = i
   · subst hm
     simp [signV_self]
-  · simp [signV_of_ne hm, Pi.single_apply, hm]
+  · simp [signV_of_ne hm, hm]
 
 theorem swapV_single_left (i j : Fin s) (c : ZMod 3) :
     swapV i j (Pi.single i c) = Pi.single j c := by
@@ -59,7 +59,7 @@ theorem single_eq_nsmul (l : Fin s) (c : ZMod 3) :
   by_cases hk : k = l
   · subst hk
     simp [nsmul_eq_mul]
-  · simp [Pi.single_apply, hk]
+  · simp [hk]
 
 theorem swapV_single_of_ne {i j k : Fin s} (hi : k ≠ i) (hj : k ≠ j) (c : ZMod 3) :
     swapV i j (Pi.single k c) = Pi.single k c := by
@@ -111,7 +111,7 @@ theorem eq_top_of_signed (F : AddSubgroup (Fin s → ZMod 3))
       · subst hk
         simp only [Pi.sub_apply, signV_self, Pi.single_eq_same]
         ring
-      · simp [signV_of_ne hk, Pi.single_apply, hk]
+      · simp [signV_of_ne hk, hk]
     rw [← e]
     exact F.sub_mem hvF (hsg i v hvF)
   have h2 : Pi.single i (1 : ZMod 3) ∈ F := by
@@ -155,7 +155,7 @@ theorem exists_scalar_of_commute (F : (Fin s → ZMod 3) → (Fin s → ZMod 3))
     · subst hk
       simp
     · rw [hoff i k x hk]
-      simp [Pi.single_apply, hk]
+      simp [hk]
   set c : Fin s → ZMod 3 := fun i => F (Pi.single i 1) i with hc
   have hsingle : ∀ (i : Fin s) (x : ZMod 3), F (Pi.single i x) = Pi.single i (x * c i) := by
     intro i x
@@ -189,10 +189,10 @@ theorem exists_scalar_of_commute (F : (Fin s → ZMod 3) → (Fin s → ZMod 3))
     simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul]
     simp only [← hFf, hsingle]
     rw [Finset.sum_eq_single k]
-    · simp only [Pi.single_eq_same, hconst k i₀, Finset.sum_apply, Pi.single_apply]
-      simp [Finset.sum_apply, Pi.single_apply, mul_comm]
+    · simp only [Pi.single_eq_same, hconst k i₀, Pi.single_apply]
+      simp [mul_comm]
     · intro m _ hm
-      simp [Pi.single_apply, Ne.symm hm]
+      simp [Ne.symm hm]
     · simp
   · refine ⟨0, fun v => ?_⟩
     funext k

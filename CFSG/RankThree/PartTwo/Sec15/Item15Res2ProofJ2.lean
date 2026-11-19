@@ -295,7 +295,7 @@ theorem false_of_three_dvd_card_ker (h415 : Sec4.Item4_15)
   obtain ⟨Q⟩ : Nonempty (Sylow 3 N) := inferInstance
   have hQ1 : (Q : Subgroup N) ≠ ⊥ := Q.ne_bot_of_dvd_card h3
   have hQ3 : Nat.card (Q : Subgroup N) = 3 := by
-    obtain ⟨k, hk⟩ := Q.isPGroup'.exists_card_eq
+    obtain ⟨k, hk⟩ := Q.isPGroup.exists_card_eq
     have hdvd : 3 ^ k ∣ 240 := hk ▸ (Subgroup.card_subgroup_dvd_card _).trans h240
     have hk1 : k < 2 := by
       by_contra hk2
@@ -353,7 +353,7 @@ theorem false_of_not_three_dvd_card_ker (h415 : Sec4.Item4_15)
   set E := (S : Subgroup M).map M.subtype with hEdef
   have hEc : Nat.card E = Nat.card (S : Subgroup M) :=
     Subgroup.card_map_of_injective M.subtype_injective
-  have hE3 : IsPGroup 3 E := S.isPGroup'.map M.subtype
+  have hE3 : IsPGroup 3 E := S.isPGroup.map M.subtype
   have hEM : E ≤ M := Subgroup.map_subtype_le _
   have hNM : N ≤ M := MonoidHom.ker_le_comap f a7E
   have hdisj : N ⊓ E = ⊥ := by

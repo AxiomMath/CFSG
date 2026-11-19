@@ -20,9 +20,9 @@ theorem s16c167_endUnits_omegaMinus {W : Type} [CommGroup W] [Finite W]
   classical
   have hNat : NatOmegaMinus H U ⊥ 6 1 := h
   obtain ⟨-, K, hK, hKf, b, c, hK2, hpoly, π, hπ⟩ := h
-  letI := hK
-  haveI : Finite K := hKf
-  haveI : Fintype K := Fintype.ofFinite K
+  let := hK
+  have : Finite K := hKf
+  have : Fintype K := Fintype.ofFinite K
   let R := CFSG.Quasithin.SzN15.NatReal.of_realizesVia hπ
   obtain ⟨β, hβsurj, hβker, hβe⟩ := R.exists_β
   have hstab : ∀ x : ↥H, ∀ u ∈ U, (x : MulAut W) u ∈ U := R.U_inv
@@ -51,7 +51,7 @@ theorem s16c167_endUnits_omegaMinus {W : Type} [CommGroup W] [Finite W]
     intro i j hij
     exact minusPair_orth (fun hh => hij (Fin.castLE_injective _ hh))
   obtain ⟨P, hPorth⟩ := hP
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     charP_of_card_eq_prime (p := 2) (by rw [← Nat.card_eq_fintype_card]; simpa using hK2)
   have hex : ∀ u w : Fin (3 - 1) ⊕ Fin (3 - 1) ⊕ Fin 2 → K, ∃ φ : ↥H, ∀ x : ↥U,
       β ⟨(φ : MulAut W) (x : W), hstab φ x x.2⟩ =

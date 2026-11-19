@@ -372,7 +372,7 @@ private theorem k891normzcong_two_le_pRank_centralizer
 private theorem k891normzcong_X_perfect {G : Type} [Group G] [Finite G] {L Z : Subgroup G} {n : ℕ}
     (hn1 : n ≠ 1) : ⁅R891X L Z n, R891X L Z n⁆ = R891X L Z n := by
   have hXeq : R891X L Z n = F08.DerInf8 (L ⊓ centralizer (Z : Set G)) := by
-    rw [R891X, if_neg hn1]
+    rw [R891X, ite_eq_right hn1]
   rw [hXeq]
   refine letI : Group.IsPerfect ↥(CFSG.RankThreeCoreUniqueness.Helpers.perfectResidual
       ↥(L ⊓ centralizer (Z : Set G))) :=

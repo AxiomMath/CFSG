@@ -249,20 +249,20 @@ theorem le_sup_of_isPGroup [Finite H] [D.Normal]
   have hVT : V ⊔ zpowers a ≤ T := hVS.trans hST
   have hTsyl : IsSylowOf 2 (T : Subgroup H) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    refine ⟨le_top, T.isPGroup', ?_⟩
+    refine ⟨le_top, T.isPGroup, ?_⟩
     rw [relIndex_top_right]
     exact T.not_dvd_index
   have hTD : IsSylowOf 2 ((T : Subgroup H) ⊓ D) D :=
     hTsyl.inf_of_le_normalizer le_top (by rw [normalizer_eq_top_iff.mpr inferInstance])
   have hTDW : (T : Subgroup H) ⊓ D ≤ W :=
-    h.unique _ inf_le_right (T.isPGroup'.to_le inf_le_left)
+    h.unique _ inf_le_right (T.isPGroup.to_le inf_le_left)
       (le_inf (le_sup_left.trans hVT) (h.le.trans h.le_D))
   have hWeq : W = (T : Subgroup H) ⊓ D := hTD.eq_of_le hTDW h.le_D h.isPGroup
   have hWT : W ≤ T := hWeq ▸ inf_le_left
   have haT : a ∈ T := hVT (mem_sup_right (mem_zpowers a))
   have hMT : W ⊔ zpowers a ≤ T := sup_le hWT (zpowers_le.mpr haT)
   have hTC : (T : Subgroup H) ⊓ centralizer {a} = V ⊔ zpowers a := by
-    refine hC.eq_of_le (le_inf hVT ?_) inf_le_right (T.isPGroup'.to_le inf_le_left)
+    refine hC.eq_of_le (le_inf hVT ?_) inf_le_right (T.isPGroup.to_le inf_le_left)
     exact sup_le h.le_centralizer (zpowers_le.mpr (mem_centralizer_singleton_iff.mpr rfl))
   refine le_antisymm ?_ hMT
   by_contra hne
@@ -271,7 +271,7 @@ theorem le_sup_of_isPGroup [Finite H] [D.Normal]
     refine lt_of_le_of_ne le_top fun hMtop => hne fun x hx => ?_
     have : (⟨x, hx⟩ : T) ∈ M := hMtop ▸ mem_top _
     exact this
-  have : Group.IsNilpotent (T : Subgroup H) := T.isPGroup'.isNilpotent
+  have : Group.IsNilpotent (T : Subgroup H) := T.isPGroup.isNilpotent
   obtain ⟨s, hsN, hsM⟩ := IsConcreteLE.exists_of_lt
     (Group.normalizerCondition_of_isNilpotent M hMlt)
   apply hsM

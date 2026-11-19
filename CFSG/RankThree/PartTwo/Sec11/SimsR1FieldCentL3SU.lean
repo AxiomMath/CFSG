@@ -83,7 +83,7 @@ theorem exists_injective_rankTwo_su {m : ℕ} (hm : 1 ≤ m) {r : ℕ} [Fact r.P
     exact ⟨N, by omega⟩
   obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' r hdvd
   have hζr : ζ ^ r = 1 := hζ ▸ pow_orderOf_eq_one ζ
-  haveI : NeZero r := ⟨(Fact.out : r.Prime).ne_zero⟩
+  have : NeZero r := ⟨(Fact.out : r.Prime).ne_zero⟩
   have hι : ∀ a : Multiplicative (ZMod r), (powZMod r ζ hζr a) ^ r = 1 := fun a => by
     change (ζ ^ (Multiplicative.toAdd a).val) ^ r = 1
     rw [← pow_mul, Nat.mul_comm (Multiplicative.toAdd a).val r, pow_mul, hζr, one_pow]
@@ -115,7 +115,7 @@ theorem exists_prank_su {m : ℕ} (hm : 2 ≤ m) (hq : 2 ^ m % 3 = 1) :
     · rw [h] at hdvd; omega
     · rw [h] at hdvd; omega
     · rw [h] at hpr; norm_num at hpr
-  haveI : Fact (N + 1).minFac.Prime := ⟨hpr⟩
+  have : Fact (N + 1).minFac.Prime := ⟨hpr⟩
   obtain ⟨ψ, hψ⟩ := exists_injective_rankTwo_su (m := m) (by omega) (r := (N + 1).minFac) hdvd
   obtain ⟨ν⟩ := nonempty_unitarySU_mulEquiv_projSU (m := m) (by omega) hq
   exact ⟨_, ⟨hpr⟩, h5, ν.toMonoidHom.comp ψ, ν.injective.comp hψ⟩

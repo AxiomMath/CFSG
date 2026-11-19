@@ -100,7 +100,7 @@ theorem smallCentralizerWitness_projectiveSL_two [Finite K] (hK : Nat.card K = 2
   refine ⟨projUnitriangular n K, proj n K (rootZ (by omega)), ?_, fun x hx =>
     centralizer_projUnitriangular_of_card_two hK hn x hx⟩
   rw [← hP]
-  exact P.isPGroup'
+  exact P.isPGroup
 
 theorem noFourCentralizing_projectiveSL_two [Finite K] (hK : Nat.card K = 2) (hn : 3 ≤ n) :
     NoFourCentralizing (projectiveSL n K) := by

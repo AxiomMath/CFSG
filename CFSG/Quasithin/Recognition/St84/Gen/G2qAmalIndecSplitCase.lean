@@ -295,7 +295,7 @@ theorem commutator_inf_eq_or [Finite F] (hd : G2qSplitData L Q Z W α nv zv)
       fun k hk h => by_contra fun hk1 => hcase ⟨k, hk, hk1, h⟩
     by_cases hRW : ⁅Q, L⁆ ⊓ W ≤ Z
     · exact Or.inl (le_antisymm hRW hZRW)
-    · obtain ⟨y, hy, hyZ⟩ := SetLike.not_le_iff_exists.mp hRW
+    · obtain ⟨y, hy, hyZ⟩ := IsConcreteLE.not_le_iff_exists.mp hRW
       exact Or.inr (W_le_commutator_of_inj hd hcard hL hQ ht hinj (Subgroup.mem_inf.mp hy).1
         (Subgroup.mem_inf.mp hy).2 hyZ)
 

@@ -12,7 +12,7 @@ theorem TB_le_of {i : Fin 4} {P : Subgroup P16} (hTD : TD ≤ P) (hb : ∀ g ∈
     TB i ≤ P := by
   rw [TB, closure_le]
   intro x hx
-  simp only [Set.mem_setOf_eq, List.mem_append] at hx
+  simp only [Set.mem_ofPred_eq, List.mem_append] at hx
   rcases hx with hx | hx
   · exact hTD (subset_closure hx)
   · exact hb x hx

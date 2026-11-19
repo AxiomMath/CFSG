@@ -245,7 +245,7 @@ private theorem CFSG.section11_exists_msigma_complement_containing_P
     IsMinCE.proper_subgroups_solvable M (lt_top_iff_ne_top.mpr h11.maximal.1)
   have hcop : Nat.Coprime (Nat.card Unit) (Nat.card M) := by simp
   have hPsingle : IsPiSubgroup (G := M) ({p} : Set Nat.Primes) (P : Subgroup M) :=
-    section11_isPiSubgroup_singleton_of_isPGroup (G := M) P.isPGroup'
+    section11_isPiSubgroup_singleton_of_isPGroup (G := M) P.isPGroup
   have hPσc : IsPiSubgroup (G := M) (section10SigmaPrimes M)ᶜ (P : Subgroup M) := by
     intro q hqP
     have hqp : q ∈ ({p} : Set Nat.Primes) := hPsingle q hqP
@@ -323,7 +323,7 @@ private theorem CFSG.section11_prime_dvd_complement_of_contains_P
     p.val ∣ Nat.card E := by
   have : Fact p.val.Prime := ⟨p.property⟩
   have hpP : p.val ∣ Nat.card (P : Subgroup M) := by
-    rcases P.isPGroup'.card_eq_or_dvd with hcard | hpdiv
+    rcases P.isPGroup.card_eq_or_dvd with hcard | hpdiv
     · exfalso
       have hPbot : (P : Subgroup M) = ⊥ :=
         (Subgroup.card_eq_one (H := (P : Subgroup M))).1 hcard
@@ -470,7 +470,7 @@ private theorem CFSG.section11_complement_sylow_le_hall_ge
   have : Fact p.val.Prime := ⟨p.property⟩
   have hPπ_single :
       IsPiSubgroup (G := E) ({p} : Set Nat.Primes) (P.subtype hPleE : Subgroup E) :=
-    section11_isPiSubgroup_singleton_of_isPGroup (G := E) (P.subtype hPleE).isPGroup'
+    section11_isPiSubgroup_singleton_of_isPGroup (G := E) (P.subtype hPleE).isPGroup
   have hPπ :
       IsPiSubgroup (G := E) ({q : Nat.Primes | p.val ≤ q.val})
         (P.subtype hPleE : Subgroup E) := by
@@ -572,7 +572,7 @@ private theorem CFSG.section11_complement_sylow_subgroupOf_hall_ge_isHall_single
   have : Fact p.val.Prime := ⟨p.property⟩
   let PE : Sylow p.val E := P.subtype hPleE
   have hPsub_p : IsPGroup p.val ((PE : Subgroup E).subgroupOf L) := by
-    exact PE.isPGroup'.of_equiv
+    exact PE.isPGroup.of_equiv
       (Subgroup.subgroupOfEquivOfLe (H := (PE : Subgroup E)) (K := L) hPLeL).symm
   have hPsubπ :
       IsPiSubgroup (G := L) ({p} : Set Nat.Primes) ((PE : Subgroup E).subgroupOf L) :=
@@ -745,7 +745,7 @@ private theorem CFSG.section11_pCore_le_sylow
     pCore p H ≤ (S : Subgroup H) := by
   have hsup_p : IsPGroup p (((S : Subgroup H) ⊔ pCore p H : Subgroup H)) := by
     exact IsPGroup.to_sup_of_normal_right (p := p) (H := (S : Subgroup H))
-      (K := pCore p H) S.isPGroup' (pCore_isPGroup (G := H) (p := p))
+      (K := pCore p H) S.isPGroup (pCore_isPGroup (G := H) (p := p))
   have hEq : (((S : Subgroup H) ⊔ pCore p H : Subgroup H)) = (S : Subgroup H) :=
     le_antisymm (S.maximal_isPGroup.right hsup_p le_sup_left) le_sup_left
   exact sup_eq_left.mp hEq
@@ -769,7 +769,7 @@ private theorem CFSG.section11_complement_pCore_hall_ge_le_sylow
     map_one' := rfl
     map_mul' _ _ := rfl }
   have hPLp : IsPGroup p.val PL := by
-    exact (P.subtype hPleE).isPGroup'.of_injective ι (by
+    exact (P.subtype hPleE).isPGroup.of_injective ι (by
       intro x y hxy
       have hE :
           (((x : PL) : L) : E) = (((y : PL) : L) : E) :=
@@ -1187,7 +1187,7 @@ private theorem CFSG.section11_complement_exists_A_invariant_tail_sylow
     change ((x : E) : M) ∈ (P : Subgroup M)
     exact section11_A_subgroupOf_le_sylow h11 hx
   have hAEp : IsPGroup p.val AE :=
-    IsPGroup.to_le (H := AE) (K := PE) (P.subtype hPleE).isPGroup' hAE_le_PE
+    IsPGroup.to_le (H := AE) (K := PE) (P.subtype hPleE).isPGroup hAE_le_PE
   have : Fact (IsPGroup p.val AE) := ⟨hAEp⟩
   have hp_not_dvd_K : ¬ p.val ∣ Nat.card K := by
     intro hpdvd
@@ -1381,7 +1381,7 @@ private theorem CFSG.section11_prime_mem_centralizer_of_tail_sylow_fixed_ne_bot
   let CG : Subgroup G := CM.map M.subtype
   have hQE_p : IsPGroup q.val QE := by
     simpa [K, QE] using
-      IsPGroup.map (p := q.val) (H := (Q : Subgroup K)) Q.isPGroup' K.subtype
+      IsPGroup.map (p := q.val) (H := (Q : Subgroup K)) Q.isPGroup K.subtype
   have hC_le_QE : C ≤ QE := by
     intro x hx
     exact hx.1
@@ -1821,14 +1821,14 @@ private theorem CFSG.section11_tail_sylow_noncyclic_of_fixed_ne_bot
       hQM_cyc
   have hQE_p : IsPGroup q.val QE := by
     simpa [K, QE] using
-      IsPGroup.map (p := q.val) (H := (Q : Subgroup K)) Q.isPGroup' K.subtype
+      IsPGroup.map (p := q.val) (H := (Q : Subgroup K)) Q.isPGroup K.subtype
   have hAE_le_PE : AE ≤ (P.subtype hPleE : Subgroup E) := by
     intro a ha
     change (a : M) ∈ (P : Subgroup M)
     exact section11_A_subgroupOf_le_sylow h11 ha
   have hAE_p : IsPGroup p.val AE :=
     IsPGroup.to_le (H := AE) (K := (P.subtype hPleE : Subgroup E))
-      (P.subtype hPleE).isPGroup' hAE_le_PE
+      (P.subtype hPleE).isPGroup hAE_le_PE
   have hp_ne_q_val : p.val ≠ q.val := by
     intro hpq
     exact hq_ne_p (Subtype.ext hpq.symm)
@@ -2062,7 +2062,7 @@ public theorem CFSG.theorem_11_7
   have hQG_p : IsPGroup q.val QG := by
     have hQE_p : IsPGroup q.val QE := by
       simpa [Ktail, QE] using
-        IsPGroup.map (p := q.val) (H := (Q : Subgroup Ktail)) Q.isPGroup' Ktail.subtype
+        IsPGroup.map (p := q.val) (H := (Q : Subgroup Ktail)) Q.isPGroup Ktail.subtype
     have hQM_p : IsPGroup q.val QM := by
       simpa [QE, QM] using
         IsPGroup.map (p := q.val) (H := QE) hQE_p E.subtype
@@ -2104,7 +2104,7 @@ public theorem CFSG.theorem_11_7
     simpa [Ktail] using section11_complement_piCore_gt_isHall h11 hcomp hPleE
   have hQE_p : IsPGroup q.val QE := by
     simpa [Ktail, QE] using
-      IsPGroup.map (p := q.val) (H := (Q : Subgroup Ktail)) Q.isPGroup' Ktail.subtype
+      IsPGroup.map (p := q.val) (H := (Q : Subgroup Ktail)) Q.isPGroup Ktail.subtype
   have hQM_p : IsPGroup q.val QM := by
     simpa [QE, QM] using
       IsPGroup.map (p := q.val) (H := QE) hQE_p E.subtype

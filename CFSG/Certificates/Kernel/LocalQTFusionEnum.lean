@@ -24,7 +24,7 @@ theorem can_mul (hn : n ≤ 32) {c d : Nat} (hc : Can n c) (hd : Can n d) : Can 
   can_ofFn hn (g := fun i => P.img c (P.img d i)) fun j hj => hc.1 _ (hd.1 j hj)
 
 theorem can_one (hn : n ≤ 32) : Can n (P.one n) :=
-  can_ofFn hn (g := fun i => i) fun j hj => hj
+  can_ofFn hn (g := fun i => i) fun _j hj => hj
 
 theorem mul_assoc' (hn : n ≤ 32) {a b c : Nat} (ha : Can n a) (hb : Can n b) (hc : Can n c) :
     P.mul n (P.mul n a b) c = P.mul n a (P.mul n b c) :=
@@ -123,14 +123,14 @@ theorem kidsK_cons_false {n x : Nat} {g : Nat} {G : List Nat} {k : NT → List N
 theorem body_found {nb i : Nat} {T : List Nat} {acc : St} {s : Array Nat}
     (h : acc.2.2.contains (keyNat n nb (applyTab s T)) = true) : bodyB n nb i T acc s = acc := by
   unfold bodyB
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 theorem body_new {nb i : Nat} {T : List Nat} {acc : St} {s : Array Nat}
     (h : ¬ acc.2.2.contains (keyNat n nb (applyTab s T)) = true) :
     bodyB n nb i T acc s = (acc.1.push (applyTab s T), acc.2.1.push i,
       acc.2.2.insert (keyNat n nb (applyTab s T)) acc.1.size) := by
   unfold bodyB
-  rw [if_neg h]
+  rw [ite_eq_right h]
 
 section Body
 
@@ -229,7 +229,7 @@ theorem inv_get {m : Nat} {S : St} (h : Inv n G L m S) {i : Nat} (hi : i < m) :
   simp [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem (show i < L.length by omega)]
 
 theorem take_succ' {m : Nat} (h : m < L.length) : L.take (m + 1) = L.take m ++ [L.getD m 0] := by
-  rw [List.take_succ, List.getD_eq_getElem?_getD, List.getElem?_eq_getElem h]
+  rw [List.take_add_one, List.getD_eq_getElem?_getD, List.getElem?_eq_getElem h]
   rfl
 
 theorem drop_cons' {m : Nat} {r : Nat} {R' : List Nat} (h : r :: R' = L.drop m) :
@@ -401,7 +401,7 @@ theorem outer_sim (hn : n ≤ 32) (hG : ∀ s ∈ G, ∀ q < n, img s q < n)
     obtain ⟨m', t', R', s', hI', -, hmm', hcl, ho', hm', hR', hs'', hk'⟩ := kids_sim hn hG hSi Gp hGp
       (outerK n (Gp.map Prod.fst) Q) t R (Nat.sub s 1) m S hI hxm ho hm hR hs' rfl hk
     rw [hGG] at hI'
-    rw [bfsLoopB_succ, if_pos (by omega)]
+    rw [bfsLoopB_succ, ite_eq_left (by omega)]
     obtain ⟨hIf, hcf⟩ := ih (i + 1) f' t' R' s' m' _ (by rw [hQ']) hI' ho' hm' hR' (by omega)
       (by omega) hk'
     refine ⟨hIf, fun i' h1 h2 q hq => ?_⟩

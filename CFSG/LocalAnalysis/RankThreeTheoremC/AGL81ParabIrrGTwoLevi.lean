@@ -23,7 +23,7 @@ theorem parabLeviData (h4 : 4 ≤ Nat.card K) {A : Subgroup (adjointGroup .G2 K)
     (hI : negIndices (g2Datum K) A = {i}) :
     ParabLeviData A (rankOne (g2Datum K).rootGroup i) (posUnipotentExcept (g2Datum K) i)
       (⨆ k, torus (τ := .G2) K k) (CFSG.Open.pCoreOf 2 A) := by
-  haveI : Finite ↥(adjointGroup .G2 K) := generated_group_finite .G2 _
+  have : Finite ↥(adjointGroup .G2 K) := generated_group_finite .G2 _
   have hB := borelQuotient_g2 (CFSG.AGLEmbedding.ParabAutIrr.adjointQuotientEquiv K).symm
   set M := rankOne (g2Datum K).rootGroup i with hMdef
   set U := posUnipotentExcept (g2Datum K) i with hUdef

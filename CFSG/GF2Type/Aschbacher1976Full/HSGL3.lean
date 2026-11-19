@@ -12,7 +12,7 @@ open CFSG.ComponentClassification.GHarris
 theorem nonempty_mulAut_mulEquiv_GL3 {V : Type*} [Group V] [Finite V] (hV : Nat.card V = 8)
     (hcomm : ∀ a b : V, a * b = b * a) (hsq : ∀ v : V, v * v = 1) :
     Nonempty (MulAut V ≃* GL (Fin 3) (ZMod 2)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨e⟩ := CFSG.SectionRank.Ccomm.nonempty_mulEquiv_of_elementary (W := V) (p := 2) (n := 3)
     hcomm (fun a => by rw [pow_two, hsq]) (by rw [hV]; norm_num)
   exact ⟨CFSG.SectionRank.Ccomm.elemAutEquivGL e⟩
@@ -28,7 +28,7 @@ theorem dvd_56_of_dvd_14 {V : Type*} [Group V] [Finite V] (hV : Nat.card V = 8)
     (hcomm : ∀ a b : V, a * b = b * a) (hsq : ∀ v : V, v * v = 1)
     (X : Subgroup (MulAut V)) (h : 14 ∣ Nat.card X) : Nat.card X = 168 := by
   obtain ⟨f⟩ := nonempty_mulAut_mulEquiv_GL3 hV hcomm hsq
-  haveI := isSimpleGroup_GL32_gh
+  have := isSimpleGroup_GL32_gh
   have hY : Nat.card (X.map f.toMonoidHom) = Nat.card X :=
     Subgroup.card_map_of_injective f.injective
   have htop := eq_top_of_dvd_fourteen_simple168 card_GL32_gh (X := X.map f.toMonoidHom) (hY ▸ h)

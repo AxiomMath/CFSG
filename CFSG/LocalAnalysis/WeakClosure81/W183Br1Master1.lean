@@ -23,9 +23,10 @@ private theorem w183_master1_eight_le_card_of_three_le_mRank {A : Subgroup (LGL 
   simpa using hpow
 
 private theorem w183_master1_finite_lgl : Finite (LGL 2 V) :=
-  Finite.of_injective (fun e : LGL 2 V => fun v : V => e v)
-    (fun e f h => LinearEquiv.ext (congrFun h))
+  Finite.of_injective (fun _e : LGL 2 V => fun v : V => _e v)
+    (fun _e _f h => LinearEquiv.ext (congrFun h))
 
+omit [Finite V] in
 private theorem w183_master1_mem_normalizer_of_normal {Y L : Subgroup (LGL 2 V)}
     (hLn : ∀ y ∈ Y, ∀ l ∈ L, y * l * y⁻¹ ∈ L) {y : LGL 2 V} (hy : y ∈ Y) :
     y ∈ Subgroup.normalizer (L : Set (LGL 2 V)) := by
@@ -38,6 +39,7 @@ private theorem w183_master1_mem_normalizer_of_normal {Y L : Subgroup (LGL 2 V)}
     have h := hLn y⁻¹ (Y.inv_mem hy) (y * l * y⁻¹) hl
     rwa [show y⁻¹ * (y * l * y⁻¹) * (y⁻¹)⁻¹ = l by group] at h
 
+omit [Finite V] in
 private theorem w183_master1_cj_map_center {S : Subgroup (LGL 2 V)} {y : LGL 2 V} :
     cj y ((Subgroup.center ↥S).map S.subtype) =
       (Subgroup.center ↥(cj y S)).map (cj y S).subtype := by
@@ -79,8 +81,8 @@ theorem br1_master_one_small (rows : Br1Rows) {Y T L : Subgroup (LGL 2 V)}
     {Γ : Set (Subgroup (LGL 2 V))} {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V}
     {𝒢 : Set (Subgroup (LGL 2 V))} {Zs : Submodule (ZMod 2) V} {m i₀ : ℕ}
     {δ : Subgroup (LGL 2 V) → ℕ} (hB : Br2Common Y Γ VA T 𝒢 Zs m i₀ δ)
-    (hLY : L ≤ Y) (hLn : ∀ y ∈ Y, ∀ l ∈ L, y * l * y⁻¹ ∈ L) (hsimple : IsSimpleGroup ↥L)
-    (hnab : ∃ a ∈ L, ∃ b ∈ L, a * b ≠ b * a)
+    (hLY : L ≤ Y) (hLn : ∀ y ∈ Y, ∀ l ∈ L, y * l * y⁻¹ ∈ L) (_hsimple : IsSimpleGroup ↥L)
+    (_hnab : ∃ a ∈ L, ∃ b ∈ L, a * b ≠ b * a)
     (hcent : ∀ y ∈ Y, (∀ l ∈ L, y * l = l * y) → y = 1)
     (hshape : IsL2 ↥L 2 ∨ IsU3 ↥L 2)
     {A₀ : Subgroup (LGL 2 V)} (hA₀ : A₀ ∈ Γ) (h4 : 4 ≤ Nat.card ↥A₀) :
@@ -97,8 +99,8 @@ theorem br1_master_one_small (rows : Br1Rows) {Y T L : Subgroup (LGL 2 V)}
     · exact (br1_rank_false_one rows.rk2 rows.rkU rows.h65f hB.h131 hLY hLn hcent
         (Or.inr (Or.inr hs)) hA₀ h8).elim
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Finite (LGL 2 V) := w183_master1_finite_lgl
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Finite (LGL 2 V) := w183_master1_finite_lgl
     have h2 : 2 ≤ mRank A₀ := by
       have hp : 2 ^ 2 ≤ Nat.card ↥A₀ := by simpa using h4
       have hlog := Nat.le_log_of_pow_le (by norm_num : 1 < 2) hp
@@ -162,8 +164,8 @@ theorem br1_master_one_big (rows : Br1Rows) {Y T L : Subgroup (LGL 2 V)}
     · have hL : Br2OneComp Y T L := ⟨hLY, hLn, hsimple, hnab, hcent, hτ⟩
       exact (br2_false_of_one_Sp44 hB hL hs hrk hne (hPT hs) rows.g45).elim
   ·
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-    haveI : Finite (LGL 2 V) := w183_master1_finite_lgl
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Finite (LGL 2 V) := w183_master1_finite_lgl
     rw [not_forall] at hrk
     obtain ⟨D, hrk'⟩ := hrk
     rw [not_imp, not_le] at hrk'

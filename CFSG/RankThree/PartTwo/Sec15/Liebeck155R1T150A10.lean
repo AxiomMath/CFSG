@@ -403,7 +403,7 @@ public theorem exists_normalizer_moving (ρ : H →* MulAut S) {A : Subgroup H}
     hA3.of_equiv (Subgroup.subgroupOfEquivOfLe hAN).symm
   obtain ⟨Q, hQ⟩ := hAN3.exists_le_sylow
   have hQA : ((Q : Subgroup N).map N.subtype) = A := by
-    refine le_sylow_eq ρ hAinj hcent _ (Q.isPGroup'.map N.subtype) ?_ ?_
+    refine le_sylow_eq ρ hAinj hcent _ (Q.isPGroup.map N.subtype) ?_ ?_
     · intro a ha
       exact ⟨⟨a, hAN ha⟩, hQ (Subgroup.mem_subgroupOf.mpr ha), rfl⟩
     · rintro _ ⟨x, -, rfl⟩

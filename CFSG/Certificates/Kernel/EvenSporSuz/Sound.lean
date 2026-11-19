@@ -406,7 +406,7 @@ theorem tokLetters_eq {p : List Char} (h : tokK p = true) :
         by_cases h0 : decVal t = 0
         · simp [h0]
         · have : ¬ ((decVal t : ℤ) ≤ 0) := by omega
-          simp [this]
+          simp
   · simp at h
 
 theorem parseLetters_ofList (L : List Char) (h : (L.splitOn ' ').all tokK = true) :
@@ -438,10 +438,10 @@ theorem parseMats_ofList (cs : List Char) : parseMats (String.ofList cs) = matsK
     funext l
     cases l with
     | nil => rfl
-    | cons c l => simpa using ofList_ne_empty (List.cons_ne_nil c l)
+    | cons c l => simp
   rw [hf]
   apply Array.toList_inj.1
-  simp only [Array.toList_map, Array.toList_range, List.toList_toArray, List.length_map]
+  simp only [Array.toList_map, Array.toList_range, List.length_map]
   refine List.map_congr_left fun k _ => ?_
   rw [foldl_app, Array.empty_append, ← List.map_drop, ← List.map_take, List.flatMap_map]
   simp only [toList_ofList]

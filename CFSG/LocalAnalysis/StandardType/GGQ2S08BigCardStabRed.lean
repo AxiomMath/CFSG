@@ -12,11 +12,11 @@ private def ggQ2s08b3b_stabEquiv {G : Type*} [Group G] (S A : Subgroup G) :
     ↥(S.subgroupOf A) ≃ ↥(A ⊓ S) where
   toFun x := ⟨((x : ↥A) : G), (x : ↥A).2, x.2⟩
   invFun x := ⟨⟨(x : G), x.2.1⟩, x.2.2⟩
-  left_inv x := Subtype.ext (Subtype.ext rfl)
-  right_inv x := Subtype.ext rfl
+  left_inv _x := Subtype.ext (Subtype.ext rfl)
+  right_inv _x := Subtype.ext rfl
 
 theorem ggQ2s08_card_le_of_stab_red {G : Type} [Group G] [Finite G] {Bs : Subgroup G} {x : G}
-    (hx : x ∈ Bs) (hab : ∀ a b : ↥Bs, a * b = b * a) {S : ℕ}
+    (hx : x ∈ Bs) (_hab : ∀ a b : ↥Bs, a * b = b * a) {S : ℕ}
     (hstab : Nat.card ↥(ggAutomizer ⊤ Bs ⊓ MulAction.stabilizer (MulAut ↥Bs) (⟨x, hx⟩ : ↥Bs)) ≤ S)
     {A : Subgroup (MulAut ↥Bs)} (hA : A ≤ ggAutomizer ⊤ Bs) {H : Subgroup ↥Bs}
     (hxH : (⟨x, hx⟩ : ↥Bs) ∉ H) (hidx : H.index = 3) (hinv : ∀ φ ∈ A, ∀ b ∈ H, φ b ∈ H) :

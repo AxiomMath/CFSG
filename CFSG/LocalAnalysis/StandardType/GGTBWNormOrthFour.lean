@@ -43,7 +43,7 @@ theorem eq_one_or_neg_one_of_linRefl_smul_isometry [Fact p.Prime] (hp2 : p ≠ 2
     rcases mul_eq_zero.mp this with h1 | h1
     · exact hne.1 (by linear_combination h1)
     · exact hne.2 (by linear_combination h1)
-  haveI : FiniteDimensional (ZMod p) V := Module.Basis.finiteDimensional_of_finite b
+  have : FiniteDimensional (ZMod p) V := Module.Basis.finiteDimensional_of_finite b
   set F := LinearMap.ker (T.toLinearMap - LinearMap.id) with hF
   have hFr : Module.finrank (ZMod p) F = k - 1 := by
     have h1 := LinearMap.finrank_range_add_finrank_ker (T.toLinearMap - LinearMap.id)

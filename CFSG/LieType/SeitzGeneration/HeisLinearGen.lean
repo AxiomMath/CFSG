@@ -76,19 +76,19 @@ theorem heisGen_comm_shift {F : Type*} [Field F] {p : ℕ} [NeZero p] {ζ : F}
         rw [Matrix.mul_assoc]
 
 theorem closure_centralizers_psl_of_heisenberg_p {F : Type*} [Field F] [Finite F] {p : ℕ}
-    (hp : p.Prime) (hp5 : 5 ≤ p) (hG : TorusFourierGen F p)
+    (hp : p.Prime) (_hp5 : 5 ≤ p) (hG : TorusFourierGen F p)
     {E : Subgroup (ProjectiveSpecialLinearGroup (Fin p) F)}
     {x y : SpecialLinearGroup (Fin p) F} (hxE : toPSL x ∈ E) (hyE : toPSL y ∈ E)
     (hxZ : x ∉ Subgroup.center (SpecialLinearGroup (Fin p) F))
     (hyZ : y ∉ Subgroup.center (SpecialLinearGroup (Fin p) F))
-    {P : GL (Fin p) F} {ω ξ : F} (hω : IsPrimitiveRoot ω p) (hξ : ξ ^ p = 1)
+    {P : GL (Fin p) F} {ω ξ : F} (hω : IsPrimitiveRoot ω p) (_hξ : ξ ^ p = 1)
     (hy : ((P⁻¹ : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) * (y : Matrix (Fin p) (Fin p) F) *
         (P : Matrix (Fin p) (Fin p) F) = ξ • heisDiagMat ω)
     (hx : ((P⁻¹ : GL (Fin p) F) : Matrix (Fin p) (Fin p) F) * (x : Matrix (Fin p) (Fin p) F) *
         (P : Matrix (Fin p) (Fin p) F) = heisShiftMat F p) :
     Subgroup.closure {k : ProjectiveSpecialLinearGroup (Fin p) F |
       ∃ z ∈ E, z ≠ 1 ∧ k * z = z * k} = ⊤ := by
-  haveI : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
   set C := Subgroup.closure {k : ProjectiveSpecialLinearGroup (Fin p) F |
       ∃ z ∈ E, z ≠ 1 ∧ k * z = z * k} with hC
   set K : Subgroup (SpecialLinearGroup (Fin p) F) := C.comap toPSL with hK

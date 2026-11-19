@@ -15,7 +15,7 @@ theorem r890_false_of_isQuasisimple_perfInter {G : Type} [Group G] [Finite G] {J
     {n : ℕ} (hKX : perfInter890 J C ≤ perfInter890 J N)
     (hJ : perfInter890 J C ⊔ pCoreOf 2 J = J)
     (hF : Fstar (perfInter890 J C) = pCoreOf 2 (perfInter890 J C))
-    (hSz : IsSz (Bar2 (perfInter890 J N)) n)
+    (_hSz : IsSz (Bar2 (perfInter890 J N)) n)
     (hQ : CFSG.Open.IsQuasisimple ↥(perfInter890 J N)) : False := by
   set K : Subgroup G := perfInter890 J C with hK
   set X : Subgroup G := perfInter890 J N with hX
@@ -46,12 +46,12 @@ theorem r890_false_of_isQuasisimple_perfInter {G : Type} [Group G] [Finite G] {J
   have hQleX : pCoreOf 2 X ≤ X := CFSG.LieType.BorelTits.pCoreOf_le 2 X
   have hQne : pCoreOf 2 X ≠ X := by
     intro hEq
-    haveI : Group.IsPerfect ↥X := ⟨hQ.1⟩
-    haveI : Nontrivial ↥X := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial hQ
+    have : Group.IsPerfect ↥X := ⟨hQ.1⟩
+    have : Nontrivial ↥X := CFSG.LocalAnalysis.GLTheoremA.isQuasisimple_nontrivial hQ
     have h2 : IsPGroup 2 ↥X := by
       rw [← hEq]
       exact CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 X
-    haveI : Group.IsNilpotent ↥X := IsPGroup.isNilpotent (p := 2) h2
+    have : Group.IsNilpotent ↥X := IsPGroup.isNilpotent (p := 2) h2
     exact (Group.IsPerfect.not_isSolvable ↥X) inferInstance
   have hQcent : ∀ q ∈ pCoreOf 2 X, ∀ x ∈ X, q * x = x * q := by
     have hMnorm : ((pCoreOf 2 X).subgroupOf X).Normal :=
@@ -101,8 +101,8 @@ theorem r890_false_of_isQuasisimple_perfInter {G : Type} [Group G] [Finite G] {J
   have hK_eq_X : K = X := le_antisymm hKX hXleK
   have hF' : Fstar X = pCoreOf 2 X := hK_eq_X ▸ hF
   have hqsX : CFSG.IsQuasisimple ↥X := by
-    haveI : Group.IsPerfect ↥X := ⟨hQ.1⟩
-    haveI : IsSimpleGroup (↥X ⧸ Subgroup.center ↥X) := hQ.2
+    have : Group.IsPerfect ↥X := ⟨hQ.1⟩
+    have : IsSimpleGroup (↥X ⧸ Subgroup.center ↥X) := hQ.2
     refine ⟨inferInstance, hQ.2, ?_⟩
     have h := Group.IsPerfect.not_isMulCommutative (↥X ⧸ Subgroup.center ↥X)
     simpa only [isMulCommutative_iff, not_forall] using h

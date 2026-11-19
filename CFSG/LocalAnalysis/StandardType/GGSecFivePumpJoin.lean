@@ -36,7 +36,7 @@ theorem ggSecFiveRouteCfg_singleton {G : Type} [Group G] [Finite G] {p : ℕ}
   have hWK : GGWeylReflectionGroup p (ggAutomizerJoin L Bs {K}) := by
     rw [ggAutomizerJoin_singleton]
     exact hR.2.2.2.2.1 y K hK (hW y K hK) (Or.inr hW)
-  haveI : Finite (MulAut ↥Bs) := MulEquiv.finite_left
+  have : Finite (MulAut ↥Bs) := MulEquiv.finite_left
   have heq : ggAutomizerJoin L Bs {K} = ggAutomizerJoin L Bs 𝒦 :=
     (Subgroup.eq_of_le_of_card_ge (hle.trans_eq (ggAutomizerJoin_singleton L Bs K).symm)
       (hmax {K} hset hWK)).symm

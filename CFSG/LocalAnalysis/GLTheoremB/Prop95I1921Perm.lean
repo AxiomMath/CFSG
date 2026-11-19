@@ -19,7 +19,7 @@ theorem mem_fixF {σ : Perm Ω} {x : Ω} : x ∈ fixF σ ↔ σ x = x := by simp
 
 theorem card_modEq_fixF {p : ℕ} (hp : p.Prime) {σ : Perm Ω} (h : σ ^ p = 1) :
     Fintype.card Ω ≡ (fixF σ).card [MOD p] := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : σ ^ p ^ 1 = 1 := by simpa using h
   have h2 := Equiv.Perm.card_compl_support_modEq h1
   have hset : fixF σ = σ.supportᶜ := by
@@ -272,10 +272,10 @@ theorem pcore_alt {F : Type*} [Fintype F] [DecidableEq F] {N : Subgroup (Perm F)
   intro g hg
   by_cases h5 : 5 ≤ Fintype.card F
   · left
-    haveI : IsSimpleGroup (alternatingGroup F) :=
+    have : IsSimpleGroup (alternatingGroup F) :=
       alternatingGroup.isSimpleGroup (by simpa using h5)
     let M : Subgroup (alternatingGroup F) := N.subgroupOf (alternatingGroup F)
-    haveI : M.Normal := ⟨fun n hn' a => by
+    have : M.Normal := ⟨fun n hn' a => by
       have hnN : (n : Perm F) ∈ N := hn'
       exact hn (a : Perm F) (Perm.mem_alternatingGroup.1 a.2) _ hnN⟩
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal M with hM | hM
@@ -400,6 +400,7 @@ theorem pcore_perm {F : Type*} [Fintype F] [DecidableEq F] {N : Subgroup (Perm F
   · exact Or.inl h
   · exact Or.inr (Or.inr h)
 
+omit [Fintype Ω] in
 theorem isDT_preserves {F : Finset Ω} {s : Perm Ω} (hs : IsDT F s) (x : Ω) :
     x ∈ F ↔ s x ∈ F := by
   obtain ⟨h1, h2, h3⟩ := hs
@@ -416,6 +417,7 @@ theorem isDT_preserves {F : Finset Ω} {s : Perm Ω} (hs : IsDT F s) (x : Ω) :
     rw [h4] at hsx
     exact hx hsx
 
+omit [Fintype Ω] in
 theorem isDT_of_ofSubtype {F : Finset Ω} {s' : Perm ↥F}
     (h : IsDT (Finset.univ : Finset ↥F) s') : IsDT F (Perm.ofSubtype s') := by
   obtain ⟨-, h2, h3⟩ := h
@@ -426,6 +428,7 @@ theorem isDT_of_ofSubtype {F : Finset Ω} {s' : Perm ↥F}
     apply h3 ⟨x, hx⟩ (Finset.mem_univ _)
     exact Subtype.ext hc
 
+omit [Fintype Ω] in
 theorem exists_even_conj_of_isDT {F : Finset Ω} (hF : F.card = 4) {s s' : Perm Ω}
     (hs : IsDT F s) (hs' : IsDT F s') :
     ∃ h : Perm ↥F, sign h = 1 ∧ Perm.ofSubtype h * s * (Perm.ofSubtype h)⁻¹ = s' := by

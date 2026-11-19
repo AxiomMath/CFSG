@@ -111,7 +111,7 @@ theorem not_u1 (hS2 : O2Structure) (hT : IsT (T : Subgroup X))
     have := track_alperin S' W hW hxT hxW (hU'S' hg)
     exact this.2 (Subgroup.mem_subgroupOf.1 hg)
   obtain ⟨N, hNn, hNidx⟩ := CFSG.ThompsonIndexTwo.exists_normal_index_two_of_thompson
-    S'.isPGroup' S'.not_dvd_index hU'S' hrel hxT hxU hmin hconj
+    S'.isPGroup S'.not_dvd_index hU'S' hrel hxT hxU hmin hconj
   have hq : IsPGroup 2 (L ⧸ N) := IsPGroup.of_card (n := 1) (by rw [pow_one]; exact hNidx)
   have hNtop : N = ⊤ := eq_top_of_pGroup_quotient hq
   rw [hNtop, Subgroup.index_top] at hNidx
@@ -164,7 +164,7 @@ theorem not_abel (hS2 : O2Structure) (hGor : CFSG.OddStandard.ThmC.O2.Gor42)
   have hsolv : Group.IsSolvable (L ⧸ (S' : Subgroup L)) :=
     CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
   have htop : (S' : Subgroup L) = ⊤ := eq_top_of_solvable_quotient hsolv
-  obtain ⟨n, hn⟩ := S'.isPGroup'.exists_card_eq
+  obtain ⟨n, hn⟩ := S'.isPGroup.exists_card_eq
   have hL2 : IsPGroup 2 L := IsPGroup.of_card (n := n) (by
     rw [← hn, htop, Subgroup.card_top])
   have : Group.IsNilpotent L := hL2.isNilpotent

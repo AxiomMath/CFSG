@@ -13,14 +13,17 @@ open scoped Bracket commutatorElement
 
 variable {G : Type*} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem s6_conj_mem {S : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (S : Set G))
     {s : G} (hs : s ∈ S) : g * s * g⁻¹ ∈ S :=
   (Subgroup.mem_normalizer_iff.mp hg s).mp hs
 
+omit [Finite G] in
 private theorem s6_inv_conj_mem {S : Subgroup G} {g : G}
     (hg : g ∈ Subgroup.normalizer (S : Set G)) {s : G} (hs : s ∈ S) : g⁻¹ * s * g ∈ S :=
   (Subgroup.mem_normalizer_iff''.mp hg s).mp hs
 
+omit [Finite G] in
 private theorem s6_comm_conj {U V : Subgroup G} {g y : G}
     (hgV : g ∈ Subgroup.normalizer (V : Set G)) (hgU : ∀ u ∈ U, g⁻¹ * u * g ∈ U)
     (hy : ∀ u ∈ U, ⁅y, u⁆ ∈ V) : ∀ u ∈ U, ⁅g * y * g⁻¹, u⁆ ∈ V := by
@@ -30,6 +33,7 @@ private theorem s6_comm_conj {U V : Subgroup G} {g y : G}
   rw [e]
   exact s6_conj_mem hgV (hy _ (hgU u hu))
 
+omit [Finite G] in
 private theorem s6_comm_mul {U V : Subgroup G} {a b : G}
     (ha : a ∈ Subgroup.normalizer (V : Set G)) (hb : ∀ u ∈ U, ⁅b, u⁆ ∈ V)
     (ha' : ∀ u ∈ U, ⁅a, u⁆ ∈ V) : ∀ u ∈ U, ⁅a * b, u⁆ ∈ V := by
@@ -39,6 +43,7 @@ private theorem s6_comm_mul {U V : Subgroup G} {a b : G}
   rw [e]
   exact V.mul_mem (s6_conj_mem ha (hb u hu)) (ha' u hu)
 
+omit [Finite G] in
 private theorem s6_comm_inv {U V : Subgroup G} {n : G}
     (hn : n ∈ Subgroup.normalizer (V : Set G)) (hy : ∀ u ∈ U, ⁅n, u⁆ ∈ V) :
     ∀ u ∈ U, ⁅n⁻¹, u⁆ ∈ V := by
@@ -48,6 +53,7 @@ private theorem s6_comm_inv {U V : Subgroup G} {n : G}
   rw [e]
   exact s6_inv_conj_mem hn (V.inv_mem (hy u hu))
 
+omit [Finite G] in
 private theorem s6_conj_mem_centralizer {V : Subgroup G} {m n : G}
     (hm : m ∈ Subgroup.normalizer (V : Set G)) (hn : n ∈ Subgroup.centralizer (V : Set G)) :
     m * n * m⁻¹ ∈ Subgroup.centralizer (V : Set G) := by
@@ -61,9 +67,9 @@ private theorem s6_conj_mem_centralizer {V : Subgroup G} {m n : G}
 private theorem s6_perfect_map {H Q : Type*} [Group H] [Group.IsPerfect H] [Group Q] [Finite Q]
     (hQ : IsPGroup 2 Q) (f : H →* Q) (h : H) : f h = 1 := by
   by_contra hne
-  haveI : Nontrivial f.range :=
+  have : Nontrivial f.range :=
     ⟨⟨f h, MonoidHom.mem_range.mpr ⟨h, rfl⟩⟩, 1, fun e => hne (congrArg Subtype.val e)⟩
-  haveI : Group.IsPerfect f.range := Group.IsPerfect.range f
+  have : Group.IsPerfect f.range := Group.IsPerfect.range f
   exact Group.IsPerfect.not_isNilpotent (↥f.range) ((hQ.to_subgroup f.range).isNilpotent)
 
 private theorem s6_claimJ (hchar : CFSG.Assembly.IsCharTwoType G) {V : Subgroup G}
@@ -165,6 +171,7 @@ private def s6_conjAut {U : Subgroup G} {n : G} (h1 : ∀ u ∈ U, n * u * n⁻�
   right_inv u := Subtype.ext (by simp [mul_assoc])
   map_mul' u v := Subtype.ext (by simp [mul_assoc])
 
+omit [Finite G] in
 private theorem s6_conjAut_pow {U : Subgroup G} {n : G} (h1 : ∀ u ∈ U, n * u * n⁻¹ ∈ U)
     (h2 : ∀ u ∈ U, n⁻¹ * u * n ∈ U) (k : ℕ) : ∀ u : U,
     (((s6_conjAut h1 h2) ^ k) u : G) = n ^ k * (u : G) * (n ^ k)⁻¹ := by
@@ -177,6 +184,7 @@ private theorem s6_conjAut_pow {U : Subgroup G} {n : G} (h1 : ∀ u ∈ U, n * u
     simp only [pow_succ]
     group
 
+omit [Finite G] in
 private theorem s6_conjAut_pow_eq_one {U : Subgroup G} {n : G} (h1 : ∀ u ∈ U, n * u * n⁻¹ ∈ U)
     (h2 : ∀ u ∈ U, n⁻¹ * u * n ∈ U) {r : ℕ} (hnr : n ^ r = 1) :
     (s6_conjAut h1 h2) ^ r = 1 := by
@@ -242,6 +250,7 @@ private def s6_kerSet (V : Subgroup G) : Subgroup G where
     ⟨(Subgroup.centralizer (V : Set G)).inv_mem ha.1,
       s6_comm_inv (Subgroup.centralizer_le_normalizer _ ha.1) ha.2⟩
 
+omit [Finite G] in
 private theorem s6_mem_kerSet {V : Subgroup G} {n : G} :
     n ∈ s6_kerSet V ↔ n ∈ Subgroup.centralizer (V : Set G) ∧
       ∀ u ∈ CFSG.Assembly.pCoreOf 2 (Subgroup.centralizer (V : Set G)), ⁅n, u⁆ ∈ V :=
@@ -265,7 +274,7 @@ private theorem s6_kerSet_le (hchar : CFSG.Assembly.IsCharTwoType G) {V : Subgro
     refine ⟨_, Nat.eq_prime_pow_of_unique_prime_dvd (Nat.card_pos.ne') ?_⟩
     intro d hd hdvd
     by_contra hd2
-    haveI := Fact.mk hd
+    have := Fact.mk hd
     obtain ⟨y, hy⟩ := exists_prime_orderOf_dvd_card' d hdvd
     have hyd : y ^ d = 1 := by rw [← hy]; exact pow_orderOf_eq_one y
     have hyd' : (y : G) ^ d = 1 := by
@@ -294,7 +303,7 @@ private def s6_prodSet (X U : Subgroup G) (hUX : ∀ u ∈ U, ∀ x ∈ X, u * x
     rwa [inv_inv] at h
 
 theorem step6_normalizes (hchar : CFSG.Assembly.IsCharTwoType G) {V X : Subgroup G}
-    (hV2 : IsPGroup 2 V) (hV1 : V ≠ ⊥) (hVc : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x)
+    (hV2 : IsPGroup 2 V) (hV1 : V ≠ ⊥) (_hVc : ∀ x ∈ V, ∀ y ∈ V, x * y = y * x)
     (hX : Group.IsPerfect X) (hXN : X ≤ Subgroup.normalizer (V : Set G)) (hVX : V ≤ X)
     (hUX : ⁅CFSG.Assembly.pCoreOf 2 (Subgroup.centralizer (V : Set G)), X⁆ ≤ V) :
     ∀ x ∈ Subgroup.centralizer (V : Set G), ∀ y ∈ X, x * y * x⁻¹ ∈ X := by
@@ -333,7 +342,7 @@ theorem step6_normalizes (hchar : CFSG.Assembly.IsCharTwoType G) {V X : Subgroup
         exact N.mul_mem h1 (N.inv_mem hg)
       · exact s6_comm_mul (inv_mem hxM) hb (hXP x⁻¹ (X.inv_mem hx))
     exact ⟨x, hx, x⁻¹ * (g * x * g⁻¹), s6_kerSet_le hchar hV2 hV1 hu, by group⟩
-  haveI hK : (X.subgroupOf Z).Normal := by
+  have hK : (X.subgroupOf Z).Normal := by
     rw [Subgroup.normal_subgroupOf_iff hXZ]
     intro h k hh hk
     obtain ⟨x', hx', u, hu, rfl⟩ := hk
@@ -368,7 +377,7 @@ theorem step6_normalizes (hchar : CFSG.Assembly.IsCharTwoType G) {V X : Subgroup
         rw [← QuotientGroup.mk_mul]
         congr 1
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subgroup.coe_mk]
+        simp only [Subgroup.coe_mul]
         group }
   have hfy : (QuotientGroup.mk (⟨g * y * g⁻¹, hgXZ y hy⟩ : ↥Z) : ↥Z ⧸ X.subgroupOf Z) = 1 :=
     s6_perfect_map hQ f ⟨y, hy⟩

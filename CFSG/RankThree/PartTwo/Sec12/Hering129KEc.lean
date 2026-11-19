@@ -82,8 +82,8 @@ theorem hessData_of_core {H : Type} [Group H] [Finite H] {Y A : Subgroup H} {x b
       exact (Commute.zpow_right (show Commute y (π x) from (hxc' y).symm) k).eq
   ·
     obtain ⟨X, hXY, hXC, hXp, hXs, hcX, p, n, hp, h4, ⟨e⟩⟩ := hX
-    haveI := hp
-    haveI := hXp
+    have := hp
+    have := hXp
     obtain ⟨φ, hφ⟩ := Hering129KEd.exists_surjective_hom_map X e
     refine ⟨X.map π, Subgroup.map_mono hXY, ?_, ?_,
       Hering129KEd.isSubnormal_map_inf_centralizer hb3 hT (le_inf hXY hXC) hXs,

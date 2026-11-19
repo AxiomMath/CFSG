@@ -105,7 +105,7 @@ theorem u3GenSeven_holds :
   obtain ⟨F, _, _, _, _, hF, ⟨e⟩⟩ :=
     CFSG.AGLEmbeddingD2.McLaughlin.OddIndex.exists_mulEquiv_SU3 hst hq3
   have hstG := CFSG.Open.StatedAPI.statedClassicalModel_of_mulEquiv e hst
-  haveI := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hstG
+  have := CFSG.Open.StatedAPI.isSimpleGroup_of_statedClassicalModel hstG
   refine (genSeven_map_equiv_iff e X).1 (Q7U3.genSeven_SU3 hF hstG hp2 hq3 ?_ ?_)
   · intro P hP
     have h2 := hcyc _ (hP.map e.symm.toMonoidHom)

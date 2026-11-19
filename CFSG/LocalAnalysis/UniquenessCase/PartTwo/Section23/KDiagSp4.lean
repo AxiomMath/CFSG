@@ -53,7 +53,7 @@ theorem congr_symm_conjAut {K : Type} [Field K] [CharP K 2] (s : StatedSp 2 K) :
 theorem mulAut_decomp {K : Type} [Field K] [Finite K] [CharP K 2]
     (θ : MulAut (StatedSp 2 K)) (hodd : Odd (orderOf θ)) :
     ∃ (g : StatedSp 2 K) (σ : K ≃+* K), θ = MulAut.conj g * fieldSp 2 K σ := by
-  haveI : NeZero (2 : ℕ) := ⟨by norm_num⟩
+  have : NeZero (2 : ℕ) := ⟨by norm_num⟩
   set α : MulAut (StatedProj (StatedSp 2 K)) := MulAut.congr (projMulEquiv K) θ with hα
   have hαp : α ^ orderOf θ = 1 := by
     rw [hα, ← map_pow, pow_orderOf_eq_one, map_one]
@@ -88,7 +88,7 @@ theorem kDiag_statedSp (K : Type) [Field K] [Finite K] [CharP K 2] :
   intro θ hodd S hSθ P hPpar hSP x hx
   obtain ⟨g, σ, hθeq⟩ := mulAut_decomp (K := K) θ hodd
   have hSP' : (S : Subgroup (StatedSp 2 K)) ≤ P :=
-    hPpar.le_of_le_normalizer S.isPGroup' hSP
+    hPpar.le_of_le_normalizer S.isPGroup hSP
   have hNP : Subgroup.normalizer ((S : Subgroup (StatedSp 2 K)) : Set (StatedSp 2 K)) ≤ P :=
     hPpar.normalizer_le S hSP'
   have hSmap : (S : Subgroup (StatedSp 2 K)).map
@@ -125,16 +125,16 @@ theorem kDiag_of_isSp4 {n : ℕ} {X : Type} [Group X] [Finite X] (hX : IsSp4 X n
     CFSG.Blueprint.LieModel.statedClassicalModel hX' ht
   rw [CFSG.Open.StatedClassicalModel] at hmodel
   obtain ⟨hadm, K, hfield, hfinite, hcard, ⟨e⟩⟩ := hmodel
-  letI : Field K := hfield
-  letI : Finite K := hfinite
-  letI : Fintype K := Fintype.ofFinite K
+  let : Field K := hfield
+  let : Finite K := hfinite
+  let : Fintype K := Fintype.ofFinite K
   rw [CFSG.Open.StatedLieAdmissible] at hadm
   have hn1 : 1 ≤ n := hadm.2.1
   have hEven : Fintype.card K % 2 = 0 := by
     rw [Fintype.card_eq_nat_card, hcard]
     exact Nat.mod_eq_zero_of_dvd (dvd_pow_self 2 (by omega))
   have hchar : ringChar K = 2 := FiniteField.even_card_iff_char_two.mpr hEven
-  haveI : CharP K 2 := ringChar.of_eq hchar
+  have : CharP K 2 := ringChar.of_eq hchar
   exact kDiag_transport e (kDiag_statedProj K)
 
 end CFSG.LocalAnalysis.UniquenessCase.UC22

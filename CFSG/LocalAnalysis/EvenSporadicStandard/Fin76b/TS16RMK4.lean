@@ -28,7 +28,7 @@ theorem normalizer_cent_of_conj {β u : G} (hu : u * β * u⁻¹ = β ∨ u * β
     have e2 : u * β * u⁻¹ * (u * h * u⁻¹) = u * (β * h) * u⁻¹ := by group
     rw [e1, e2]
     simp
-  simp only [SetLike.mem_coe, mem_centralizer_singleton_iff]
+  simp only [mem_centralizer_singleton_iff]
   exact hconj.symm.trans (hcomm _)
 
 theorem inv_of_mem_normalizer_zpowers {β y : G} (hβ3 : orderOf β = 3)

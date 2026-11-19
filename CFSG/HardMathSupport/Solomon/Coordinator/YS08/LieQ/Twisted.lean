@@ -33,7 +33,7 @@ theorem radRigid_of_twistedChevalleyModel {S : Type} [Group S] [Finite S] {t : T
   have e'' : S ≃* ↥(graphFixedRootGroup t K σ'.toRingHom) := by
     rw [hσσ']
     exact e.trans e'
-  haveI : CharP K 2 := charP_two_of_card_two_pow' (f := f * t.order) (by rw [hK, ← pow_mul])
+  have : CharP K 2 := charP_two_of_card_two_pow' (f := f * t.order) (by rw [hK, ← pow_mul])
   have hσ'ord : σ' ^ t.order = 1 := by
     rw [← hord]
     exact pow_orderOf_eq_one σ'

@@ -37,7 +37,7 @@ theorem i1429InnerRest_holds : I1429InnerRest := by
   have hI' := h1429_map_component q hI
   have hnc : ∃ a b : Q ⧸ Subgroup.center Q, a * b ≠ b * a :=
     exists_mul_ne_mul_of_glaPComponent Nat.prime_three hI'
-  haveI : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
+  have : IsSimpleGroup (Q ⧸ Subgroup.center Q) := hQ.2
   have hZ : Subgroup.center (Q ⧸ Subgroup.center Q) = ⊥ := chev_center_eq_bot_of_simple_nonabelian hnc
   have hq3 : q ^ 3 ∈ Subgroup.center Q := by
     have h' : MulAut.conj (q ^ 3) = 1 := by rw [map_pow, h3]

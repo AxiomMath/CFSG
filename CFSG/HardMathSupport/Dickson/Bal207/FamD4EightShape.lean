@@ -80,9 +80,9 @@ theorem compShapeOn_of_coordBridge {p : ℕ} {T : ∀ (Q : Type) [Group Q], Prop
 theorem bal207PlusFamD4Eight_of_orthInnerShape (hS : OrthFix.OrthInnerShapeRankInput)
     (hGA : GriessAllModelsStatement) : Bal207PlusFamD4Eight NonSemilinD4Eight := by
   refine bal207PlusFamD4Eight_of_inner hGA fun S _ F₀ _ _ hF₀ e₀ s hs => ?_
-  haveI : CharP F₀ 2 := by
-    haveI := Fintype.ofFinite F₀
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F₀ 2 := by
+    have := Fintype.ofFinite F₀
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     exact charP_of_card_eq_prime_pow (f := 3) (by rw [Fintype.card_eq_nat_card, hF₀]; norm_num)
   have hd : 0 < 2 * 4 := by norm_num
   obtain ⟨hQ, hT⟩ := regular_coordinateQuadPlus 4 F₀ (by norm_num)

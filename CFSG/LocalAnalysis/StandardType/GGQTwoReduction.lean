@@ -15,13 +15,13 @@ private def ggQ2r_fixed {G : Type} [Group G] {Bs : Subgroup G} (t : MulAut ↥Bs
   carrier := {b | t b = b}
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [map_mul, ha, hb]
   one_mem' := by
     simp
   inv_mem' := by
     intro a ha
-    simp only [Set.mem_setOf_eq] at ha ⊢
+    simp only [Set.mem_ofPred_eq] at ha ⊢
     rw [map_inv, ha]
 
 private lemma ggQ2r_exists_fixed {G : Type} [Group G] [Finite G] {p : ℕ} (hp : p.Prime)
@@ -45,7 +45,7 @@ private lemma ggQ2r_exists_fixed {G : Type} [Group G] [Finite G] {p : ℕ} (hp :
     Nat.card_le_card_of_injective _ hinj
   rw [Nat.card_prod, hD, ← hF] at hle
   have hcpos : 0 < Nat.card F := by
-    haveI : Nonempty ↥F := ⟨⟨1, F.one_mem⟩⟩
+    have : Nonempty ↥F := ⟨⟨1, F.one_mem⟩⟩
     exact Nat.card_pos
   have hle2 : Nat.card F * p ^ 2 ≤ Nat.card F * p := by
     calc Nat.card F * p ^ 2 = p ^ 2 * Nat.card F := Nat.mul_comm _ _

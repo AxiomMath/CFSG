@@ -34,7 +34,7 @@ theorem mem_Vmem_self {D : Set G} {u : G} (hu : u ∈ D) : u ∈ Vmem D u :=
 theorem not_odd_orderOf_of_eq_mul_mem_normal {N : Subgroup G} (hN : N.Normal)
     (hNo : Odd (Nat.card N)) {n x y : G} (hn : n ∈ N) (hy : y = n * x)
     (hx2 : x ^ 2 = 1) (hx1 : x ≠ 1) : ¬ Odd (orderOf y) := by
-  haveI : N.Normal := hN
+  have : N.Normal := hN
   have hxN : x ∉ N := by
     intro hxmem
     exact hNo.ne_two_of_dvd_nat (Subgroup.orderOf_dvd_natCard N hxmem)

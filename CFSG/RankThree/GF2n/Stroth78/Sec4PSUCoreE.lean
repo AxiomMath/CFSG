@@ -116,9 +116,9 @@ theorem dKL_twice_eq {k l p : Fin n} (hkl : k ≠ l) (hkp : k ≠ p) (hlp : l �
   ext a
   simp only [Pi.add_apply, mulVec_diagonal, Pi.single_apply]
   by_cases hak : a = k
-  · rw [if_pos hak, hak, h1k, h2k]
+  · rw [ite_eq_left hak, hak, h1k, h2k]
     linear_combination (x k) * omega_sq + add_self_K (ω * x k + x k)
-  · rw [if_neg hak]
+  · rw [ite_eq_right hak]
     by_cases hal : a = l
     · rw [hal, h1l, h2o l (fun h => hkl h.symm) hlp, one_mul]
       exact add_self_K _

@@ -17,10 +17,10 @@ theorem card_le_two_of_isElemAbelian_of_cyclic_sylow {Y : Type} [Group Y] [Finit
     (hY : ∀ P : Sylow 2 Y, IsCyclic P) (A : Subgroup Y) (hA : IsElemAbelian 2 A) :
     Nat.card A ≤ 2 := by
   obtain ⟨P, hAP⟩ := (IsElemAbelian.isPGroup hA).exists_le_sylow
-  haveI : IsCyclic P := hY P
-  haveI : IsCyclic A :=
+  have : IsCyclic P := hY P
+  have : IsCyclic A :=
     isCyclic_of_injective (Subgroup.inclusion hAP) (Subgroup.inclusion_injective hAP)
-  haveI : Fintype A := Fintype.ofFinite A
+  have : Fintype A := Fintype.ofFinite A
   classical
   have h := IsCyclic.card_pow_eq_one_le (α := A) (n := 2) (by norm_num)
   have hall : (Finset.univ.filter fun a : A => a ^ 2 = 1) = Finset.univ := by
@@ -50,9 +50,9 @@ theorem exists_benderType_of_psu3 {G : Type} [Group G] {s : ℕ} (hs : 2 ≤ s)
 theorem outer_elemAbelian_card_le_two_of_benderType
     {K : Type} [Group K] [Finite K] {n i e : ℕ} (h : BenderType K n i e)
     (A : Subgroup (Outer K)) (hA : IsElemAbelian 2 A) : Nat.card A ≤ 2 := by
-  haveI : Finite (MulAut K) := Finite.of_injective (fun f : MulAut K => (f : K → K))
+  have : Finite (MulAut K) := Finite.of_injective (fun f : MulAut K => (f : K → K))
     DFunLike.coe_injective
-  haveI : Finite (Outer K) := inferInstance
+  have : Finite (Outer K) := inferInstance
   exact card_le_two_of_isElemAbelian_of_cyclic_sylow (fun P => h.isCyclic_sylow_outer P) A hA
 
 theorem listOutBound_psl2 {S : Type} [Group S] [Finite S] {f : ℕ}

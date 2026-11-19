@@ -28,7 +28,7 @@ private theorem gk5_fittingSubgroup_le_pCore_sup_pPrimeCore {G : Type*} [Group G
           {K : Subgroup G | K.Normal ∧ IsPGroup p K} from
             ⟨CFSG.pCore_normal, hpgroup⟩)
       exact hle.trans le_sup_left
-    · haveI : Fact (Nat.Prime (q : ℕ)) := ⟨hqprime⟩
+    · have : Fact (Nat.Prime (q : ℕ)) := ⟨hqprime⟩
       have hcop : Nat.Coprime p (Nat.card (CFSG.pCore (q : ℕ) G)) := by
         obtain ⟨n, hn⟩ := (CFSG.pCore_isPGroup (p := (q : ℕ)) (G := G)).exists_card_eq
         rw [hn]
@@ -84,7 +84,7 @@ theorem ggSporK_components_simple {W : Type} [Group W] [Finite W] {p : ℕ} {H :
     intro a b
     by_contra hab
     exact hcon ⟨a, b, hab⟩
-  haveI : IsMulCommutative ↥J := IsMulCommutative.of_comm hcomm
+  have : IsMulCommutative ↥J := IsMulCommutative.of_comm hcomm
   have hbot : commutator ↥J = ⊥ := commutator_eq_bot ↥J
   rw [hJ.2.2.1] at hbot
   obtain ⟨a, b, hab⟩ := hsimpleJ.toNontrivial.exists_pair_ne

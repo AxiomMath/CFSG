@@ -37,13 +37,13 @@ section Rep
 variable {X : Type} [Group X] [Finite X]
 
 theorem secRep_exists_proof (K : Subgroup X) (a : X) (U₁ U₂ : Subgroup X)
-    (hel : IsElemAbelian 2 U₁) (hle : U₂ ≤ U₁)
+    (hel : IsElemAbelian 2 U₁) (_hle : U₂ ≤ U₁)
     (hK₁ : ∀ k ∈ K, ∀ x ∈ U₁, k * x * k⁻¹ ∈ U₁) (hK₂ : ∀ k ∈ K, ∀ x ∈ U₂, k * x * k⁻¹ ∈ U₂)
     (ha₁ : ∀ x ∈ U₁, a * x * a⁻¹ ∈ U₁) (ha₂ : ∀ x ∈ U₂, a * x * a⁻¹ ∈ U₂) :
     ∃ (P : Type) (_ : AddCommGroup P) (_ : Module (ZMod 2) P) (_ : Finite P)
       (ρ : ↥(K ⊔ Subgroup.zpowers a) →* LinearMap.GeneralLinearGroup (ZMod 2) P)
       (φ : ↥U₁ →* Multiplicative P), SecRepData (K ⊔ Subgroup.zpowers a) U₁ U₂ ρ φ := by
-  haveI := hel.1
+  have := hel.1
   set M := K ⊔ Subgroup.zpowers a with hM
   have hnorm : ∀ V : Subgroup X, (∀ k ∈ K, ∀ x ∈ V, k * x * k⁻¹ ∈ V) →
       (∀ x ∈ V, a * x * a⁻¹ ∈ V) → M ≤ Subgroup.normalizer (V : Set X) := by
@@ -82,7 +82,7 @@ theorem secRep_exists_proof (K : Subgroup X) (a : X) (U₁ U₂ : Subgroup X)
       · show c g (c g⁻¹ x) = x
         rw [← MulAut.mul_apply, ← map_mul, mul_inv_cancel, map_one]; rfl
   let Q := ↥U₁ ⧸ N
-  haveI : N.Normal := Subgroup.normal_of_comm N
+  have : N.Normal := Subgroup.normal_of_isMulCommutative N
   let qc : ↥M →* MulAut Q :=
     { toFun := fun g => QuotientGroup.congr N N (c g) (hcN g)
       map_one' := by
@@ -106,7 +106,7 @@ theorem secRep_exists_proof (K : Subgroup X) (a : X) (U₁ U₂ : Subgroup X)
     rw [← hv, pow_two, ← QuotientGroup.mk_mul]
     have : (v * v : ↥U₁) = 1 := Subtype.ext (by simpa [pow_two] using hel.2 v v.2)
     rw [this]; rfl
-  letI : Module (ZMod 2) P := AddCommGroup.zmodModule h2
+  let : Module (ZMod 2) P := AddCommGroup.zmodModule h2
   let ρ : ↥M →* LinearMap.GeneralLinearGroup (ZMod 2) P :=
     (CFSG.HardMathSupport.Solomon.Coordinator.i285_Φ (V := Q)).toMonoidHom.comp qc
   let φ : ↥U₁ →* Multiplicative P :=

@@ -16,6 +16,7 @@ variable {G : Type} [Group G] [Finite G]
     centralizer ({z} : Set G) ≤ M ∧
       ∀ g : G, g ∉ M → ¬ centralizer ({z} : Set G) ≤ M.map (MulAut.conj g).toMonoidHom
 
+omit [Finite G] in
 theorem CentralizersUnique.inv {M T : Subgroup G} (h : CentralizersUnique M T) :
     CentralizersUniqueInv M T := by
   intro z hz hc ho

@@ -27,7 +27,7 @@ variable (D : GHSylow Y)
 theorem eq_one_of_odd_of_mem_sylowXt (hO : pPrimeCore 2 Y = ⊥)
     (hz : ∀ y : Y, y * D.z = D.z * y) {w : D.Xt} (hodd : Odd (orderOf w))
     (hwT : w ∈ ((D.sylowXt hO hz : Sylow 2 D.Xt) : Subgroup D.Xt)) : w = 1 := by
-  obtain ⟨k, hk⟩ := (D.sylowXt hO hz).isPGroup' ⟨w, hwT⟩
+  obtain ⟨k, hk⟩ := (D.sylowXt hO hz).isPGroup ⟨w, hwT⟩
   have hk' : w ^ 2 ^ k = 1 := congrArg Subtype.val hk
   obtain ⟨b, -, hb⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp (orderOf_dvd_of_pow_eq_one hk')
   rcases b with _ | b
@@ -233,7 +233,7 @@ theorem not_iso_Z3A5
     · exact h ▸ ⟨f, hf, rfl⟩
   obtain ⟨w, hwP, hw1, hwZ⟩ := D.exists_centralizes_ZT hO hz hP9 hPE hPF
   have hodd : Odd (orderOf w) := by
-    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp (P₀.isPGroup'.map Q.subtype)) ⟨w, hwP⟩
+    obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.mp (P₀.isPGroup.map Q.subtype)) ⟨w, hwP⟩
     rw [Subgroup.orderOf_mk] at hk
     rw [hk]
     exact Odd.pow (by decide)

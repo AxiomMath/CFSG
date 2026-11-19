@@ -80,6 +80,7 @@ theorem not_inner_fixedComponentImage_of_semilinear
   exact hc (hσc c)
 
 
+omit [Finite K] [CharP K 2] [FiniteDimensional K V] in
 theorem supportedDerived_top_eq_orthDerived {Q : QuadraticForm K V}
     (hQ : (polarBilin Q).Nondegenerate) :
     supportedDerived Q (⊤ : Submodule K V) = orthDerived Q := by
@@ -115,7 +116,7 @@ theorem not_inner_orthDerived_of_semilinear
     (f : MulAut (orthDerived Q))
     (hf : ∀ (g : orthDerived Q) v, (f g : V ≃ₗ[K] V) v = S ((g : V ≃ₗ[K] V) (S.symm v))) :
     f ∉ CFSG.ComponentClassification.OuterAutomorphisms.inner (orthDerived Q) := by
-  haveI : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
+  have : Nontrivial V := Module.nontrivial_of_finrank_pos (R := K) (by omega)
   have hσ' : ∃ c, σ c ≠ c := by
     by_contra h
     push Not at h
@@ -123,7 +124,7 @@ theorem not_inner_orthDerived_of_semilinear
   have hx1 : OddOrderIsometry Q 1 (1 : V ≃ₗ[K] V) :=
     { mem := one_mem _
       pow_eq_one := one_pow 1
-      cast_ne_zero := by simpa using (one_ne_zero : (1 : K) ≠ 0)
+      cast_ne_zero := by simp
       regular := fun v hv => hQ.1 v (by simpa only [QuadraticMap.polarBilin_apply_apply] using hv) }
   have hfix : fixedSpace (1 : V ≃ₗ[K] V) = ⊤ := by
     ext v
@@ -138,7 +139,7 @@ theorem not_inner_orthDerived_of_semilinear
     intro ω
     refine ⟨f ω, hf ω, ?_⟩
     rw [hαdef]
-    simp only [MulAut.congr_apply, MulEquiv.trans_apply, MulEquiv.symm_apply_apply]
+    simp only [MulAut.congr_apply, MulEquiv.trans_apply]
     have hsymm : ee.symm ((piOrth Q) ω) = ω := by
       change ee.symm (ee ω) = ω
       exact ee.symm_apply_apply ω

@@ -35,7 +35,7 @@ private theorem fixedA3_frameRoots_eq_a2Roots
   have e21 : σ 2 1 = -σ 1 2 := hneg 1 2
   have e20 : σ 2 0 = -σ 0 2 := hneg 0 2
   ext r
-  simp only [frameRoots, a2Roots, Set.mem_setOf_eq, Set.mem_insert_iff,
+  simp only [frameRoots, a2Roots, Set.mem_ofPred_eq, Set.mem_insert_iff,
     Set.mem_singleton_iff]
   constructor
   · rintro ⟨i, j, hij, rfl⟩
@@ -269,7 +269,7 @@ theorem fixedWeyl_mem_rationalComponent_of_a3
       (by norm_num : 3 ≤ 4) Fr (fun c => (hFr c).trans (by rw [hq, pow_one])) S.D.step (splitLine_step_injective S) π hΨ
   let P : Subgroup (ModGL Tag.E6 L) := ψ.range ⊓ S.D.step.eqLocus (MonoidHom.id _)
   have hPperf : ⁅(⊤ : Subgroup ↥P), (⊤ : Subgroup ↥P)⁆ = ⊤ := by
-    haveI : Group.IsPerfect ↥P := hqs.1
+    have : Group.IsPerfect ↥P := hqs.1
     rw [← commutator_def]
     exact Group.IsPerfect.commutator_eq_top
   have hδ_frame : δ ∈ frameRoots (chainσ β) := by

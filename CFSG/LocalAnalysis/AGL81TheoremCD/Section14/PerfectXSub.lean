@@ -23,13 +23,14 @@ open CFSG.LocalAnalysis.RankThreeUC.AGL81C
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem starImg_isPerfect {N Y : Subgroup G} (hYN : Y ≤ N)
     (hY : Group.IsPerfect ↥Y) : Group.IsPerfect ↥(starImg 3 N Y) := by
   have hYsubperf : Group.IsPerfect ↥(Y.subgroupOf N) :=
     Group.IsPerfect.ofSurjective
       (f := (Subgroup.subgroupOfEquivOfLe hYN).symm.toMonoidHom)
       (Subgroup.subgroupOfEquivOfLe hYN).symm.surjective
-  haveI : Group.IsPerfect ↥(Y.subgroupOf N) := hYsubperf
+  have : Group.IsPerfect ↥(Y.subgroupOf N) := hYsubperf
   exact Group.IsPerfect.map (QuotientGroup.mk' (primeComplementCore (G := ↥N) 3))
 
 private theorem starImg_le_layer_of_isPerfect {M E N : Subgroup G}
@@ -38,7 +39,7 @@ private theorem starImg_le_layer_of_isPerfect {M E N : Subgroup G}
     (hYX : Y ≤ xSub 3 M N) :
     starImg 3 N Y ≤ CFSG.layer (StarGroup 3 N) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X := StarGroup 3 N
   let Ys : Subgroup X := starImg 3 N Y
   have hxSubN : xSub 3 M N ≤ N := by
@@ -96,12 +97,12 @@ private theorem starImg_le_layer_of_isPerfect {M E N : Subgroup G}
     exact CFSG.LocalAnalysis.RankThreeUC.AGL81C.pRank_pCore_le_two
       CFSG.LocalAnalysis.RankThreeUC.AGL81C.kFactOmegaNotCentral_holds hKX hO hr'
       (L := L) hLcomp
-  haveI hSolv : Group.IsSolvable
+  have hSolv : Group.IsSolvable
       ↥(Subgroup.centralizer (CFSG.layer X : Set X)) :=
     CFSG.LocalAnalysis.RankThreeUC.AGL81C.isSolvable_centralizer_layer_three N hR
-  haveI : Group.IsPerfect ↥Ys := hYsperfect
-  haveI hLn : (CFSG.layer X).Normal := by
-    haveI := CFSG.LocalCores.layer_characteristic (G := X)
+  have : Group.IsPerfect ↥Ys := hYsperfect
+  have hLn : (CFSG.layer X).Normal := by
+    have := CFSG.LocalCores.layer_characteristic (G := X)
     infer_instance
   exact CFSG.ClassicalInvolution.LBalanceProof.perfect_le_of_le_sup_solvable Ys
     (CFSG.layer X) (Subgroup.centralizer (CFSG.layer X : Set X)) hYlayer
@@ -111,7 +112,7 @@ theorem HypCGen.le_of_isPerfect_of_le_xSub {M E N : Subgroup G}
     (hLN : ¬ pLayerIn 3 N ≤ M) {Y : Subgroup G} (hY : Group.IsPerfect ↥Y)
     (hYX : Y ≤ xSub 3 M N) : Y ≤ M := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let X := StarGroup 3 N
   let A : Subgroup X := starImg 3 N M
   let K : Subgroup X := kStar 3 M N

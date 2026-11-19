@@ -20,7 +20,7 @@ variable {W : Type} [AddCommGroup W] [Module (ZMod 3) W] [FiniteDimensional (ZMo
 
 theorem toSign_frameNorm (R : QuadraticForm (ZMod 3) W) : toSign (frameNorm R) = -(quadSign R) := by
   rcases Int.units_eq_one_or (-(quadSign R)) with h | h <;>
-    simp [frameNorm, h, toSign] <;> decide
+    simp [frameNorm, h, toSign]; decide
 
 theorem frameNorm_ne_zero (R : QuadraticForm (ZMod 3) W) : (frameNorm R : ZMod 3) ≠ 0 :=
   (frameNorm R).ne_zero
@@ -84,6 +84,7 @@ theorem k3_frame (hR : R.Nondegenerate) (hdim : Module.finrank (ZMod 3) W = 3) :
   · rw [e.polar_apply]
     exact hbpol 1 2 (by decide)
 
+omit [FiniteDimensional (ZMod 3) W] in
 theorem mul_comm_reflOf_of_orth (u v : W) (hu : R u ≠ 0) (hv : R v ≠ 0)
     (huv : polar R u v = 0) :
     reflOf R u hu * reflOf R v hv = reflOf R v hv * reflOf R u hu := by
@@ -112,7 +113,7 @@ theorem commSp_reflOf_mul_reflOf_of_orth (hR : R.Nondegenerate) (u v : W) (hu : 
       _ = reflOf R u hu * (reflOf R u hu * reflOf R v hv) * reflOf R v hv := by rw [← hcomm]
       _ = 1 := by rw [← mul_assoc, reflOf_mul_self, one_mul, reflOf_mul_self]
   have hu_self : (reflOf R u hu : W ≃ₗ[ZMod 3] W) u = -u := by
-    letI : Invertible (R u) := invertibleOfNonzero hu
+    let : Invertible (R u) := invertibleOfNonzero hu
     rw [reflOf_eq u hu, TauCeti.QuadraticMap.coe_reflectionOrthogonal]
     exact TauCeti.QuadraticMap.reflection_apply_self R u
   have hu_g : (g : W ≃ₗ[ZMod 3] W) u = -u := by
@@ -124,7 +125,7 @@ theorem commSp_reflOf_mul_reflOf_of_orth (hR : R.Nondegenerate) (u v : W) (hu : 
   have hv_g : (g : W ≃ₗ[ZMod 3] W) v = -v := by
     rw [hg, Subgroup.coe_mul, LinearEquiv.mul_apply]
     have hv_self : (reflOf R v hv : W ≃ₗ[ZMod 3] W) v = -v := by
-      letI : Invertible (R v) := invertibleOfNonzero hv
+      let : Invertible (R v) := invertibleOfNonzero hv
       rw [reflOf_eq v hv, TauCeti.QuadraticMap.coe_reflectionOrthogonal]
       exact TauCeti.QuadraticMap.reflection_apply_self R v
     rw [hv_self]
@@ -162,10 +163,12 @@ section SigCube
 
 variable (z u v : W)
 
+omit [FiniteDimensional (ZMod 3) W] in
 private theorem polar_add_self' (x : W) : polar R x x = 2 * R x := by
   rw [QuadraticMap.polar_self, nsmul_eq_mul]
   norm_num
 
+omit [FiniteDimensional (ZMod 3) W] in
 private theorem frame_linearIndependent (hzu : polar R z u = 0) (hzv : polar R z v = 0)
     (huv : polar R u v = 0) (hz : R z = R u) (huv' : R u = R v) (hne : R u ≠ 0) :
     LinearIndependent (ZMod 3) ![z, u, v] := by
@@ -189,6 +192,7 @@ private theorem frame_linearIndependent (hzu : polar R z u = 0) (hzv : polar R z
       rw [QuadraticMap.polarBilin_apply_apply, polar_add_self']
       exact fun h => hv ((mul_eq_zero.mp h).resolve_left (by decide))
 
+omit [FiniteDimensional (ZMod 3) W] in
 theorem k3_ext (hdim : Module.finrank (ZMod 3) W = 3)
     (hzu : polar R z u = 0) (hzv : polar R z v = 0) (huv : polar R u v = 0)
     (hz : R z = R u) (huv' : R u = R v) (hne : R u ≠ 0)
@@ -208,6 +212,7 @@ theorem k3_ext (hdim : Module.finrank (ZMod 3) W = 3)
 @[expose] noncomputable def k3Sig (hau : R (u + z) ≠ 0) (hbv : R (v + z) ≠ 0) : OGroup R :=
   reflOf R (u + z) hau * reflOf R (v + z) hbv
 
+omit [FiniteDimensional (ZMod 3) W] in
 theorem k3Sig_actions (hzu : polar R z u = 0) (hzv : polar R z v = 0)
     (huv : polar R u v = 0) (hz : R z = R u) (huv' : R u = R v) (hne : R u ≠ 0)
     (hau : R (u + z) ≠ 0) (hbv : R (v + z) ≠ 0) :
@@ -261,6 +266,7 @@ theorem k3Sig_actions (hzu : polar R z u = 0) (hzv : polar R z v = 0)
     rw [hb_v, map_neg, coe_reflOf_apply (u + z) hau z, hp_az, hRay, hratio, one_smul]
     abel
 
+omit [FiniteDimensional (ZMod 3) W] in
 theorem k3_sig_cube (hdim : Module.finrank (ZMod 3) W = 3)
     (hzu : polar R z u = 0) (hzv : polar R z v = 0) (huv : polar R u v = 0)
     (hz : R z = R u) (huv' : R u = R v) (hne : R u ≠ 0)

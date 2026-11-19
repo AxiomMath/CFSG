@@ -19,14 +19,14 @@ variable {F : Type} [Field F]
 theorem kfl3_stab_inj [Finite F] [CharP F 2] {W U : Submodule F (Fin 3 → F)}
     (hW : ⊥ < W ∧ W < ⊤) (hU : ⊥ < U ∧ U < ⊤) (h : projStabilizer W = projStabilizer U) :
     W = U := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨-, hinj, -⟩ := maximal_parabolics (K := F) (n := 3) 2 (by norm_num)
   exact hinj hW hU h
 
 theorem kfl3_stab_of_isMax [Finite F] [CharP F 2] {Q : Subgroup (projectiveSL 3 F)}
     (hQ : Sec18.IsMaxParabolicRankTwo Q) :
     ∃ W : Submodule F (Fin 3 → F), (⊥ < W ∧ W < ⊤) ∧ projStabilizer W = Q := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hc, T, hT⟩ := hQ
   have hmem : Q ∈ maximalParabolics (projectiveSL 3 F) 2 := ⟨hc, _, ⟨T, rfl⟩, hT⟩
   obtain ⟨hMP, -, -⟩ := maximal_parabolics (K := F) (n := 3) 2 (by norm_num)
@@ -120,7 +120,7 @@ theorem kfl3_stab_conj_of_finrank {W U : Submodule F (Fin 3 → F)}
       projStabilizer U = (projStabilizer W).map (MulAut.conj y).toMonoidHom := by
   obtain ⟨g, hg⟩ := exists_map_eq_of_finrank_eq (K := F) (n := 3) h
   refine ⟨proj 3 F g, ?_⟩
-  rw [← hg, kfl3_stab_conj_proj] <;> rfl
+  rw [← hg, kfl3_stab_conj_proj]; rfl
 
 end Model
 
@@ -299,7 +299,7 @@ theorem kfl3_isCoatom_borel_model {F : Type} [Field F] [Finite F] [CharP F 2]
     (hTP : Subgroup.normalizer ((T : Subgroup (projectiveSL 3 F)) : Set (projectiveSL 3 F)) ≤ P)
     (hne : Subgroup.normalizer ((T : Subgroup (projectiveSL 3 F)) : Set (projectiveSL 3 F)) ≠ P) :
     IsCoatom P := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hmem : Subgroup.normalizer ((T : Subgroup (projectiveSL 3 F)) : Set (projectiveSL 3 F)) ∈
       sylowNormalizers (projectiveSL 3 F) 2 := ⟨T, rfl⟩
   rw [sylowNormalizers_eq (K := F) 2 (by norm_num)] at hmem
@@ -314,7 +314,7 @@ theorem kfl3_isCoatom_borel_model {F : Type} [Field F] [Finite F] [CharP F 2]
     have : (MulAut.conj x⁻¹ : projectiveSL 3 F →* projectiveSL 3 F).comp
         (MulAut.conj x : projectiveSL 3 F →* projectiveSL 3 F) = MonoidHom.id _ := by
       ext g
-      simp [MulAut.conj_apply, mul_assoc]
+      simp
     rw [this, Subgroup.map_id]
   rw [← OrderIso.isCoatom_iff Φ P]
   refine kfl3_isCoatom_upper ?_ ?_ ?_
@@ -325,7 +325,7 @@ theorem kfl3_isCoatom_borel_model {F : Type} [Field F] [Finite F] [CharP F 2]
   · rw [← hΦB]
     exact fun h => hne (Φ.injective h)
 
-theorem kfl3_isCoatom_borel {X : Type} [Group X] [Finite X] {n : ℕ} (hn : Odd n)
+theorem kfl3_isCoatom_borel {X : Type} [Group X] [Finite X] {n : ℕ} (_hn : Odd n)
     (e₀ : X ≃* projSL 3 (GaloisField 2 n)) (S : Sylow 2 X) {P : Subgroup X} (hP : P ≠ ⊤)
     (hSP : Subgroup.normalizer ((S : Subgroup X) : Set X) ≤ P)
     (hne : Subgroup.normalizer ((S : Subgroup X) : Set X) ≠ P) : IsCoatom P := by

@@ -10,8 +10,8 @@ namespace CFSG.LocalAnalysis.WeakClosure81
 open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.LinearFlag
 
 theorem outerRigid_field_std {k : Type} [Field k] [Finite k] {σ : k ≃+* k} (hk : Nat.card k = 4)
-    (hσ : ∀ a, σ a = a ^ 2) {γ : MulAut (projectiveSL 3 k)} (hγ : γ * γ = 1)
-    (hc : γ * (fieldAut 3 k σ) = (fieldAut 3 k σ) * γ)
+    (hσ : ∀ a, σ a = a ^ 2) {γ : MulAut (projectiveSL 3 k)} (_hγ : γ * γ = 1)
+    (_hc : γ * (fieldAut 3 k σ) = (fieldAut 3 k σ) * γ)
     (hf : ∀ x : projectiveSL 3 k, (fieldAut 3 k σ) x = x → γ x = x) :
     γ = 1 ∨ γ = fieldAut 3 k σ := by
   obtain ⟨-, -, hNinn, -, hNC, -, hCN⟩ :=

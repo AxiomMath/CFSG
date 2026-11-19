@@ -26,12 +26,12 @@ variable {f t s ε : ℕ} {K : Type} [Field K]
 theorem blockOK_gu_suP_of_ne_bot {p : ℕ} [OddPrime p] (h : UnitaryFieldData 2 f K) (hε : ε ≤ 1)
     (hne : hypSU h s ε ≠ ⊥) : BlockOKP p (hypUnitary h s ε) (hypSU h s ε) := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have hm2 : 2 ≤ 2 * s + ε := by
     by_contra hlt
     have hs0 : s = 0 := by omega
     subst hs0
-    haveI := subsingleton_hypSU_zero h hε
+    have := subsingleton_hypSU_zero h hε
     exact hne (Subgroup.eq_bot_of_subsingleton _)
   intro g hg _ k hk
   by_cases hdiv : p ∣ Nat.gcd (2 * s + ε) (2 ^ f + 1)
@@ -84,8 +84,8 @@ theorem blockOK_gu_suP_of_ne_bot {p : ℕ} [OddPrime p] (h : UnitaryFieldData 2 
 theorem uniBlockOKPW {p : ℕ} [OddPrime p] (h : UnitaryFieldData 2 f K) (hε : ε ≤ 1)
     {I : Finset ℕ} (j : Option ↥I) (hne : uniBlockSub (s := s) (ε := ε) h I j ≠ ⊥) :
     BlockOKP p (uniBlockH h s ε I j) (uniBlockSub (s := s) (ε := ε) h I j) := by
-  haveI : Finite K := h.finite
-  haveI : CharP K 2 := h.charP
+  have : Finite K := h.finite
+  have : CharP K 2 := h.charP
   rcases j with _ | b
   · exact blockOK_gu_suP_of_ne_bot h hε hne
   · have h4 := four_le_card_of_unitaryFieldData_two h
@@ -107,8 +107,8 @@ theorem odd_relIndex_uniLeviHom (h : UnitaryFieldData 2 f K) (hε : ε ≤ 1) {I
     (hI : IsTopCut I t) :
     Odd ((Subgroup.pi Set.univ (uniBlockSub (s := s) (ε := ε) h I)).relIndex
       (uniLeviHom h hε hI).range) := by
-  haveI : Finite K := h.finite
-  haveI : CharP K 2 := h.charP
+  have : Finite K := h.finite
+  have : CharP K 2 := h.charP
   refine Nat.not_even_iff_odd.mp fun he => ?_
   refine ParabCensus.not_two_dvd_relIndex_pi_of_finite (T := uniBlockH h s ε I) ?_
     (pi_uniBlockSub_le_range h hε hI) ?_ ?_ (even_iff_two_dvd.mp he)
@@ -166,8 +166,8 @@ theorem uniHZW {Y : Type} [Group Y] {L : Subgroup Y} (h : UnitaryFieldData 2 f K
     (hβx : uniLeviHom h hε hI x ∈
       (uniBlockSub (s := s) (ε := ε) h I j).map (MonoidHom.mulSingle (uniBlockGroup K s ε I) j)) :
     uniLeviHom h hε hI x = 1 := by
-  haveI : Finite K := h.finite
-  haveI : CharP K 2 := h.charP
+  have : Finite K := h.finite
+  have : CharP K 2 := h.charP
   rcases j with _ | b
   · have hxs : (x : hypSU h (t + s) ε) ∈ hypScalars h (t + s) ε :=
       (hZ _).1 (by rw [hρx]; exact Subgroup.one_mem _)
@@ -201,7 +201,7 @@ theorem uniActsInnerlyW_of_compatP {p : ℕ} [OddPrime p]
     (hrk : Open.pRank p (wPre P) ≤ 1) :
     ∃ v ∈ wPre P, ∀ w ∈ wPre P, ⁅a * v, w⁆ ∈ pCoreOf 2 P := by
   classical
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have ht1 : 1 ≤ t := (hI.le t hI.mem).1
   have hr : 0 < t + s := by omega
   have hIr : ∀ c ∈ (↑I : Set ℕ), c ≤ t + s := fun c hc =>
@@ -323,10 +323,10 @@ end LeviData
 theorem fieldIndexOnPW_unitary (p : ℕ) [OddPrime p] :
     FieldIndexOnPW p (IsLieOf IdxTwistedA) := by
   intro Y _ _ L P hCP hC hLn hrank h3 hrk a ha3 haN hout
-  haveI := hLn
+  have := hLn
   obtain ⟨K, hK, f, t, s, ε, h, ρ, I, hε, hI, hn3, hnq, hρs, hZ, hcomap⟩ :=
     exists_uniCover_std hCP hC
-  haveI : Finite K := h.finite
+  have : Finite K := h.finite
   have ht1 : 1 ≤ t := (hI.le t hI.mem).1
   have hr : 1 ≤ t + s := by omega
   obtain ⟨θ, hθ⟩ : ∃ θ : hypPSU h (t + s) ε ≃* ↥L ⧸ Subgroup.center ↥L,

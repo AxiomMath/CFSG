@@ -180,7 +180,7 @@ theorem sec10T_sl23_involution {K : Subgroup G}
       map_mul' := by
         intro x y
         apply Subtype.ext
-        simp only [Subgroup.coe_mul, Subtype.coe_mk]
+        simp only [Subgroup.coe_mul]
         group }
   have hconj2 : ∀ x : ↥K, conj (conj x) = x := by
     intro x

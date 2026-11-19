@@ -105,10 +105,10 @@ private theorem conjV_sigma1Nine_fixed_of_conj_eq_mul_centerIn (h : Tim79a.Parro
 
 theorem sigma1Nine_conj_ne_mul_of_not_mem_centerIn (h : Tim79a.ParrottHyp z) (P : GL8)
     (hP : ∀ a : A45, actionQA45 (z := z) h D a = P * rhoA a * P⁻¹)
-    {σ₂ : ↥(H z)} (hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
-    (hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
+    {σ₂ : ↥(H z)} (_hσ₂ : orderOf σ₂ = 3) (hq₂ : qH (z := z) D σ₂ = s2A)
+    (_hc₂ : σ₂ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * σ₂)
     {τ : ↥(H z)} (hqτ : qH (z := z) D τ = tA)
-    (hτ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ) (hτ₂ : τ * σ₂ = σ₂ * τ)
+    (_hτ₁ : τ * sigma1Nine (z := z) D = sigma1Nine (z := z) D * τ) (_hτ₂ : τ * σ₂ = σ₂ * τ)
     {n e : G}
     (hn : n ∈ J z ⊓ centralizer ({((sigma1Nine (z := z) D * σ₂⁻¹ : ↥(H z)) : G)} : Set G) ⊓
       centralizer ({(τ : G)} : Set G))
@@ -163,6 +163,7 @@ theorem sigma1Nine_conj_ne_mul_of_not_mem_centerIn (h : Tim79a.ParrottHyp z) (P 
     rw [← hw, hzero, spinVecToV_zero h P]
   exact hnZ ((pi_eq_one_iff_mem_centerIn hnJ).mp hpi)
 
+omit hN in
 private theorem mem_normalizer_lemma54W_of_conj {σ τ g : G}
     (hgN : ∀ n ∈ J z ⊓ centralizer ({σ} : Set G) ⊓ centralizer ({τ} : Set G),
       g * n * g⁻¹ ∈ J z ⊓ centralizer ({σ} : Set G) ⊓ centralizer ({τ} : Set G))
@@ -249,6 +250,7 @@ theorem tau_mem_lemma54N₀ (h : Tim79a.ParrottHyp z) (P : GL8)
   exact Subgroup.mem_inf.mpr ⟨Subgroup.mem_inf.mpr
     ⟨hnormal, Subgroup.mem_centralizer_singleton_iff.mpr hS⟩, τ.2⟩
 
+omit hN [Finite G] in
 private theorem conj_mem_lemma54N_of_mem_H_centralizer {σ τ g : G} (hgH : g ∈ H z)
     (hgσ : g * σ = σ * g) (hgτ : g * τ = τ * g) :
     (∀ n ∈ J z ⊓ centralizer ({σ} : Set G) ⊓ centralizer ({τ} : Set G),

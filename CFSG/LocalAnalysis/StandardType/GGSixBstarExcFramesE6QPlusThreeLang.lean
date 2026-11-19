@@ -129,8 +129,8 @@ theorem exists_lang_eqpN
       Units.map (entrywiseHom (frobenius L 2)) g0 = g0 * eqpN L ∧
       Units.map (entrywiseHom Fr) g0 = g0 * eqpN L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, -, hfcard⟩ := FiniteField.card K 2
   have hq : Nat.card K = 2 ^ (f : ℕ) := by
     rw [Nat.card_eq_fintype_card, hfcard]
@@ -141,7 +141,7 @@ theorem exists_lang_eqpN
     have hmod : (2 ^ (f : ℕ) + 1) % 3 = 0 :=
       Nat.dvd_iff_mod_eq_zero.mp (by simpa only [hq] using h3)
     rw [Nat.add_mod, CFSG.Timmesfeld.ExceptionalOrders.two_pow_mod_three,
-      if_pos hev] at hmod
+      ite_eq_left hev] at hmod
     norm_num at hmod
   obtain ⟨g0, hg0adj, hg0⟩ :=
     CFSG.RankThree.PartOne.KE.lang_conjugator Tag.E6 K (ℓ := 2) (f := 1) le_rfl L e6W0

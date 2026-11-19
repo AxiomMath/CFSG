@@ -49,7 +49,7 @@ private theorem core_conj_aux {c : G} (hc : c ∈ Subgroup.normalizer (J : Set G
     rwa [e] at h2
   one_mem' := by
     refine ⟨one_mem _, one_mem _, fun j hj => ?_⟩
-    simpa using one_mem (rankThreePrimeCore p J)
+    simp
   inv_mem' := by
     rintro a ⟨haC, haN, haO⟩
     refine ⟨inv_mem haC, inv_mem haN, fun j hj => ?_⟩
@@ -101,7 +101,7 @@ theorem x_mem_u3K0_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hc : Poin
 
 theorem u3_T_inf_K0_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hc : PointConfig Typ G p P M x J) : u3T P x J ⊓ u3K0 p x J = ⊥ := by
   have hp : p.Prime := hc.prime
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨Q, hQg, ψ, hψ, hker, hQ⟩ := hc.typ
   set O : Subgroup G := rankThreePrimeCore p J with hO
   have hOJ : O ≤ J := CFSG.AGLEmbedding.glbPrimeCore_le p J
@@ -109,7 +109,7 @@ theorem u3_T_inf_K0_gen {Typ : ℕ → ∀ (Q : Type) [Group Q], Prop} (hc : Poi
   have hZ : Subgroup.center Q = ⊥ :=
     CFSG.LocalAnalysis.RankThreeTheoremC.u3main_center_bot hOJ hc.perfect hc.lt hc.minimal ψ hψ hker
   have hPO : (P : Subgroup G) ⊓ O = ⊥ := by
-    have hPp : IsPGroup p ↥((P : Subgroup G) ⊓ O) := P.isPGroup'.to_inf_left
+    have hPp : IsPGroup p ↥((P : Subgroup G) ⊓ O) := P.isPGroup.to_inf_left
     obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp hPp
     have hdvd : Nat.card ((P : Subgroup G) ⊓ O : Subgroup G) ∣ Nat.card O :=
       Subgroup.card_dvd_of_le inf_le_right

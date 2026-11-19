@@ -43,7 +43,7 @@ theorem sq_eq_zero_of_commute_nilpotent {K V : Type*} [Field K] [AddCommGroup V]
     refine Polynomial.irreducible_of_degree_le_three_of_not_isRoot (by rw [hfdeg]; decide)
       fun a ha => hirr a ?_
     simpa [hf, IsRoot] using ha
-  haveI : Fact (Irreducible f) := ⟨hfirr⟩
+  have : Fact (Irreducible f) := ⟨hfirr⟩
   have hgf : aeval g f = 0 := by
     rw [hf, map_add, map_add, map_pow, aeval_X, map_one]
     exact hg
@@ -54,14 +54,14 @@ theorem sq_eq_zero_of_commute_nilpotent {K V : Type*} [Field K] [AddCommGroup V]
         show aeval g (f * q) = 0
         rw [map_mul, hgf, zero_mul]
   have hψ : ∀ p : K[X], ψ (AdjoinRoot.mk f p) = aeval g p := fun _ => rfl
-  letI : Module (AdjoinRoot f) V := Module.compHom V ψ
+  let : Module (AdjoinRoot f) V := Module.compHom V ψ
   have hsmul : ∀ (l : AdjoinRoot f) (v : V), l • v = ψ l v := fun _ _ => rfl
-  haveI : IsScalarTower K (AdjoinRoot f) V := ⟨fun c l v => by
+  have : IsScalarTower K (AdjoinRoot f) V := ⟨fun c l v => by
     rw [hsmul, hsmul, Algebra.smul_def, map_mul, Module.End.mul_apply, AdjoinRoot.algebraMap_eq,
       ← AdjoinRoot.mk_C, hψ, aeval_C, Module.algebraMap_end_apply]⟩
   have hL : Module.finrank K (AdjoinRoot f) = 2 := by
     rw [(AdjoinRoot.powerBasis hfirr.ne_zero).finrank, AdjoinRoot.powerBasis_dim, hfdeg]
-  haveI : Module.Finite (AdjoinRoot f) V :=
+  have : Module.Finite (AdjoinRoot f) V :=
     Module.Finite.of_restrictScalars_finite K (AdjoinRoot f) V
   have htower := Module.finrank_mul_finrank K (AdjoinRoot f) V
   rw [hL] at htower

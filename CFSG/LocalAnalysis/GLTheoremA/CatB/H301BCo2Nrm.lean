@@ -101,7 +101,7 @@ theorem exists_mem_locC_of_not_le_locQ
     refine lt_top_iff_ne_top.2 fun htop => hne fun r hr => ?_
     have h1 : (⟨r, hr⟩ : R) ∈ Q' := htop ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.1 h1
-  obtain ⟨y, hyN, hyQ⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent Q' hlt)
+  obtain ⟨y, hyN, hyQ⟩ := _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent Q' hlt)
   have hconj : ∀ u : R, u ∈ Subgroup.normalizer (Q' : Set R) → ∀ q ∈ locQ,
       (u : Equiv.Perm (Fin 2300)) * q * (u : Equiv.Perm (Fin 2300))⁻¹ ∈ locQ := by
     intro u hu q hq
@@ -125,14 +125,14 @@ theorem exists_mem_locC_of_gt_locZ
     ∃ x, x ∈ R ∧ x ∈ locC ∧ x ∉ Subgroup.zpowers locZ := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have := hR.isNilpotent
-  obtain ⟨r, hrR, hrZ⟩ := SetLike.exists_of_lt hlt
+  obtain ⟨r, hrR, hrZ⟩ := _root_.IsConcreteLE.exists_of_lt hlt
   have hzR : locZ ∈ R := hlt.le (Subgroup.mem_zpowers _)
   set Z' : Subgroup R := (Subgroup.zpowers locZ).subgroupOf R
   have hZ' : Z' < ⊤ := by
     refine lt_top_iff_ne_top.2 fun htop => hrZ ?_
     have h1 : (⟨r, hrR⟩ : R) ∈ Z' := htop ▸ Subgroup.mem_top _
     exact Subgroup.mem_subgroupOf.1 h1
-  obtain ⟨y, hyN, hyZ⟩ := SetLike.exists_of_lt (Group.normalizerCondition_of_isNilpotent Z' hZ')
+  obtain ⟨y, hyN, hyZ⟩ := _root_.IsConcreteLE.exists_of_lt (Group.normalizerCondition_of_isNilpotent Z' hZ')
   have h2 : (y : Equiv.Perm (Fin 2300)) * locZ * (y : Equiv.Perm (Fin 2300))⁻¹ ∈
       Subgroup.zpowers locZ :=
     Subgroup.mem_subgroupOf.1 ((Subgroup.mem_normalizer_iff.1 hyN ⟨locZ, hzR⟩).1

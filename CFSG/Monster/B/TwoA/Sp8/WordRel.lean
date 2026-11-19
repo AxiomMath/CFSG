@@ -36,9 +36,9 @@ theorem toD_lift (k : ℕ) :
   change iotaD (kappa (if h : k < 44 then h1LiftC ⟨k, h⟩ else 1)) =
     (if h : k < 44 then h1LiftD ⟨k, h⟩ else 1)
   by_cases h : k < 44
-  · rw [dif_pos h, dif_pos h]
+  · rw [dite_eq_left h, dite_eq_left h]
     rfl
-  · rw [dif_neg h, dif_neg h]
+  · rw [dite_eq_right h, dite_eq_right h]
     rfl
 
 theorem toD_pc
@@ -52,7 +52,7 @@ theorem toD_sign_three :
   have hC : XLetter.toC (.sign 3) = slC := by
     rw [show XLetter.toC (.sign 3) =
         ⟨thetaEquiv (signPair 3), Jstar_le_Cgen hJ⟩ from by
-      simp only [XLetter.toC, dif_pos hJ]]
+      simp only [XLetter.toC, dite_eq_left hJ]]
     apply Subtype.ext
     show thetaEquiv (signPair 3) = thetaEquiv slPair
     rw [slPair_eq_signPair]
@@ -181,7 +181,7 @@ private theorem pcC_eq {y : Model.Pauli}
     pcC y = ⟨rhoEquiv (pauliQ y), rhoEquiv_mem_Cgen h⟩ := by
   change (if h : pauliQ y ∈ Subgroup.centralizer {rStar} then
     (⟨rhoEquiv (pauliQ y), rhoEquiv_mem_Cgen h⟩ : Cgen) else 1) = _
-  rw [dif_pos h]
+  rw [dite_eq_left h]
 
 theorem toC_keyVec_W
     {ℓ : XLetter} (hℓ : ℓ.ok = true) (η : Bool) (c : ℕ) :
@@ -210,7 +210,7 @@ theorem toC_keyVec_W
       apply thetaEquiv_signPair_mem_Jstar
       simpa only [beq_iff_eq] using hok.2
     have htoC : XLetter.toC (.sign a) = ⟨thetaEquiv (signPair a), Jstar_le_Cgen hJ⟩ := by
-      simp only [XLetter.toC, dif_pos hJ]
+      simp only [XLetter.toC, dite_eq_left hJ]
     change (XLetter.toC (.sign a) : SpaceB ≃ₗ[ℚ] SpaceB) _ = _
     rw [htoC]
     change thetaEquiv (signPair a) (keyVec (Model.Key.W η c)) = _
@@ -222,7 +222,7 @@ theorem toC_keyVec_W
     have hk43 : k < 43 := by simpa only [XLetter.ok, decide_eq_true_eq] using hℓ
     have hk44 : k < 44 := by omega
     have htoC : XLetter.toC (.lift k) = h1LiftC ⟨k, hk44⟩ := by
-      simp only [XLetter.toC, dif_pos hk44]
+      simp only [XLetter.toC, dite_eq_left hk44]
     change (XLetter.toC (.lift k) : SpaceB ≃ₗ[ℚ] SpaceB) _ = _
     rw [htoC]
     change thetaEquiv (h1Lift ⟨k, hk44⟩) (keyVec (Model.Key.W η c)) = _
@@ -230,7 +230,7 @@ theorem toC_keyVec_W
     · rw [h1Lift_pauli (k := ⟨k, hk44⟩) h23]
       change (rhoEquiv (pauliQ (pauliGen k))) (keyVec (Model.Key.W η c)) = _
       rw [rhoEquiv_keyVec_W (pauliGen k) η c]
-      simp only [XLetter.actW, if_pos h23]
+      simp only [XLetter.actW, ite_eq_left h23]
     · by_cases h32 : k < 32
       · have h23le : 23 ≤ k := by omega
         have hperm : thetaEquiv (TwoA.permPair (fAut ⟨k - 23, by omega⟩))
@@ -245,7 +245,7 @@ theorem toC_keyVec_W
           (thetaEquiv (TwoA.permPair (fAut ⟨k - 23, by omega⟩))
             (keyVec (Model.Key.W η c))) = _
         rw [hperm]
-        simp only [XLetter.actW, if_neg (by omega : ¬ k < 23), if_pos h32]
+        simp only [XLetter.actW, ite_eq_right (by omega : ¬ k < 23), ite_eq_left h32]
         rw [keyActPerm_W (fPerms[k - 23]!) η c, interp_signedTerm, map_smul]
         change sgn (boolZ ((Model.ePermN (fPerms[k - 23]!) η c).1 ^^
             ((fPerms[k - 23]!)[0]! != 0))) •
@@ -260,7 +260,7 @@ theorem toC_keyVec_W
         have h23' : ¬ k < 23 := by omega
         rw [h1Lift_sign (k := ⟨k, hk44⟩) (by simpa using (show 32 ≤ k from by omega)) hk43]
         change thetaEquiv (signProd (signCodesOf (k - 32))) (keyVec (Model.Key.W η c)) = _
-        simp only [XLetter.actW, if_neg h23', if_neg h32']
+        simp only [XLetter.actW, ite_eq_right h23', ite_eq_right h32']
         rw [theta_signProd_keyVec_W (signCodesOf (k - 32))
           (wFixN_signCodesOf (k - 32) (by omega)) η c]
 
@@ -360,7 +360,7 @@ theorem letter_mem_Jhat {ℓ : XLetter} (hℓ : ℓ.ok = true) : ℓ.toD ∈ Jha
       simpa only [XLetter.ok, decide_eq_true_eq] using hℓ
     have hk : k < 44 := by omega
     rw [XLetter.toD, show XLetter.toC (.lift k) = h1LiftC ⟨k, hk⟩ from by
-      simp only [XLetter.toC, dif_pos hk]]
+      simp only [XLetter.toC, dite_eq_left hk]]
     exact h1LiftD_mem_Jhat ⟨k, hk⟩
   | pc y =>
     show pcD y ∈ Jhat
@@ -373,7 +373,7 @@ theorem letter_mem_Jhat {ℓ : XLetter} (hℓ : ℓ.ok = true) : ℓ.toD ∈ Jha
       simpa only [beq_iff_eq] using hok.2
     rw [XLetter.toD, show XLetter.toC (.sign a) =
         ⟨thetaEquiv (signPair a), Jstar_le_Cgen hJ⟩ from by
-      simp only [XLetter.toC, dif_pos hJ]]
+      simp only [XLetter.toC, dite_eq_left hJ]]
     rw [Jhat_eq_map]
     exact ⟨kappa ⟨thetaEquiv (signPair a), Jstar_le_Cgen hJ⟩, kappa_mem_Jbar hJ, rfl⟩
 
@@ -428,7 +428,7 @@ private theorem letter_conj_pcD {ℓ : XLetter} (hℓ : ℓ.ok = true) {y : Mode
         (iotaD (kappa (if h : thetaEquiv (signPair a) ∈ Jstar then
         (⟨thetaEquiv (signPair a), Jstar_le_Cgen h⟩ : Cgen) else 1)))⁻¹ =
       pcD (Model.conjYN a y)
-    rw [dif_pos hJ]
+    rw [dite_eq_left hJ]
     have h := congrArg (fun c : Cgen => iotaD (kappa c))
       (pcC_conj_pvis hJ hy (y' := Model.conjYN a y) (conjQ_sign_toQ a y).symm).2
     simp only [map_mul, map_inv] at h
@@ -440,7 +440,7 @@ private theorem letter_conj_pcD {ℓ : XLetter} (hℓ : ℓ.ok = true) {y : Mode
       pauliQ_h1ConjN_mem ⟨k, hk44⟩ hy
     refine ⟨by simpa only [XLetter.conjN] using hmem, ?_⟩
     have h := h1LiftD_conj_pcD (⟨k, hk44⟩ : Fin 44) hy
-    simpa only [XLetter.toD, XLetter.toC, XLetter.conjN, h1LiftD, dif_pos hk44] using h
+    simpa only [XLetter.toD, XLetter.toC, XLetter.conjN, h1LiftD, dite_eq_left hk44] using h
 
 private theorem wordX_conj_pcD : ∀ (w : List XLetter), w.all XLetter.ok = true →
     ∀ {y : Model.Pauli}, pauliQ y ∈ Subgroup.centralizer {rStar} →
@@ -544,7 +544,7 @@ theorem wordX_eq_of_relCheck {w w' : List XLetter} (h : relCheck w w' = true) :
         rw [he]
         show (if (1 : ZMod 2) = 0 then (1 : ℚ) else -1) •
             keyVec (Model.Key.W false 0) = -keyVec (Model.Key.W false 0)
-        rw [if_neg (by decide)]
+        rw [ite_eq_right (by decide)]
         exact neg_one_smul ℚ (keyVec (Model.Key.W false 0))
       have htS : (tStarC : SpaceB ≃ₗ[ℚ] SpaceB) (keyVec (Model.Key.W false 0)) =
           keyVec (Model.Key.W false 0) := by
@@ -555,7 +555,7 @@ theorem wordX_eq_of_relCheck {w w' : List XLetter} (h : relCheck w w' = true) :
         rw [he]
         show (if (0 : ZMod 2) = 0 then (1 : ℚ) else -1) •
             keyVec (Model.Key.W false 0) = keyVec (Model.Key.W false 0)
-        rw [if_pos rfl, one_smul]
+        rw [ite_eq_left rfl, one_smul]
       have hneg : (G : SpaceB ≃ₗ[ℚ] SpaceB) (keyVec (Model.Key.W false 0)) =
           - ((G' : SpaceB ≃ₗ[ℚ] SpaceB) (keyVec (Model.Key.W false 0))) := by
         rcases (kappa_eq_one_iff (G * (G' * xC)⁻¹)).1 hker with hG | hG

@@ -12,9 +12,10 @@ open Subgroup CFSG.Blueprint
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private lemma local_t84_zpowers_inf_eq_bot_of_notMem {t : G} {C : Subgroup G}
     (ht : t ∉ C) (hcard : Nat.card ↥(zpowers t) = 2) : zpowers t ⊓ C = ⊥ := by
-  haveI : Fact (Nat.card ↥(zpowers t)).Prime := ⟨by rw [hcard]; exact Nat.prime_two⟩
+  have : Fact (Nat.card ↥(zpowers t)).Prime := ⟨by rw [hcard]; exact Nat.prime_two⟩
   rcases Subgroup.eq_bot_or_eq_top_of_prime_card (C.subgroupOf (zpowers t)) with h | h
   · have hd : Disjoint C (zpowers t) := Subgroup.subgroupOf_eq_bot.mp h
     rw [Subgroup.disjoint_def] at hd
@@ -29,7 +30,7 @@ theorem sec8t84_S_card (F : Sec8T84Base) (hI : Asc82Step84IK)
     {B E T T1 T2 V1 V2 F1 F2 : Subgroup G} (hE : Sec8E G t L S z g B E)
     (hgood : S ⊓ L ≤ normalizer (E : Set G)) (hST : S ⊓ normalizer (E : Set G) ≤ T)
     (D : Sec8T84TData G t E T T1 T2 V1 V2 F1 F2) {c : G}
-    (hcC : c ∈ centralizer ({t} : Set G)) (hcT : c ∉ T) (hcN : c ∈ normalizer (T : Set G))
+    (hcC : c ∈ centralizer ({t} : Set G)) (hcT : c ∉ T) (_hcN : c ∈ normalizer (T : Set G))
     (hc2 : IsPGroup 2 ↥((T ⊓ centralizer ({t} : Set G)) ⊔ zpowers c)) :
     S ⊓ normalizer (E : Set G) = T ⊓ centralizer ({t} : Set G) ∧
       T ⊓ centralizer ({t} : Set G) = zpowers t ⊔ (S ⊓ L) ∧ Nat.card S = 2 ^ 9 ∧

@@ -21,12 +21,12 @@ theorem bitM_eq (m x : ℕ) : bitM m x = m.testBit x := by
     change (m &&& (1 <<< x)).testBit i = _
     rw [Nat.testBit_and, Nat.one_shiftLeft, Nat.testBit_two_pow]
     by_cases hb : m.testBit x
-    · rw [if_pos hb, Nat.testBit_two_pow]
+    · rw [ite_eq_left hb, Nat.testBit_two_pow]
       by_cases hi : x = i
       · subst hi
         simp [hb]
       · simp [hi]
-    · rw [if_neg hb, Nat.zero_testBit]
+    · rw [ite_eq_right hb, Nat.zero_testBit]
       by_cases hi : x = i
       · subst hi
         simp [hb]
@@ -34,10 +34,10 @@ theorem bitM_eq (m x : ℕ) : bitM m x = m.testBit x := by
   unfold bitM
   rw [h]
   by_cases hb : m.testBit x
-  · rw [if_pos hb, hb]
+  · rw [ite_eq_left hb, hb]
     exact Nat.blt_eq.mpr (Nat.two_pow_pos x)
   · have hf : m.testBit x = false := by simpa using hb
-    rw [if_neg hb, hf]
+    rw [ite_eq_right hb, hf]
     rfl
 
 @[expose] noncomputable def nodupMK (L : List ℕ) : ℕ → Bool :=

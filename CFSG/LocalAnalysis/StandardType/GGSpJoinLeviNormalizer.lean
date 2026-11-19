@@ -23,7 +23,7 @@ theorem pairMat_mulVec_apply_inl {ι : Type*} [Fintype ι] [DecidableEq ι]
     (pairMat a b g *ᵥ v) a = g 0 0 * v a + g 0 1 * v b := by
   change (∑ x, pairMat a b g a x * v x) = g 0 0 * v a + g 0 1 * v b
   rw [Fintype.sum_eq_add a b hab (fun x hx => by
-    rw [pairMat_apply_fst, if_neg hx.1, if_neg hx.2, zero_mul])]
+    rw [pairMat_apply_fst, ite_eq_right hx.1, ite_eq_right hx.2, zero_mul])]
   obtain ⟨h1, h2, _, _⟩ := pairMat_apply_pair hab g
   rw [h1, h2]
 
@@ -33,7 +33,7 @@ theorem pairMat_mulVec_apply_inr {ι : Type*} [Fintype ι] [DecidableEq ι]
     (pairMat a b g *ᵥ v) b = g 1 0 * v a + g 1 1 * v b := by
   change (∑ x, pairMat a b g b x * v x) = g 1 0 * v a + g 1 1 * v b
   rw [Fintype.sum_eq_add a b hab (fun x hx => by
-    rw [pairMat_apply_snd hab, if_neg hx.1, if_neg hx.2, zero_mul])]
+    rw [pairMat_apply_snd hab, ite_eq_right hx.1, ite_eq_right hx.2, zero_mul])]
   obtain ⟨_, _, h3, h4⟩ := pairMat_apply_pair hab g
   rw [h3, h4]
 
@@ -227,7 +227,7 @@ theorem exists_lam_mul_levi_of_entries_zero {m : ℕ} {u : StatedSp (m + 1) F}
   have hdet : g₀.det = 1 := by
     have hUU := congrFun (congrFun (mat_transpose_mul_gram_mul u) (Sum.inl 0)) (Sum.inr 0)
     rw [transpose_mul_gram_mul_apply,
-      CFSG.ClassicalInvolution.Models.SymplecticPairs.gram_apply, par_inl, if_pos rfl,
+      CFSG.ClassicalInvolution.Models.SymplecticPairs.gram_apply, par_inl, ite_eq_left rfl,
       sgn_inl] at hUU
     rw [Fintype.sum_eq_add (Sum.inl 0) (Sum.inr 0) (by simp) (fun c hc => by
       rcases exists_succ_of_ne_plane hc with ⟨j, rfl⟩ | ⟨j, rfl⟩

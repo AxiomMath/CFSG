@@ -155,7 +155,7 @@ theorem lre6b_card_linearEquiv {F ι : Type} [Field F] [Finite F] [Fintype ι] [
     {N : ℕ} (hN : Fintype.card ι = N) :
     Nat.card ((ι → F) ≃ₗ[F] (ι → F)) = bmGlOrd N (Nat.card F) := by
   classical
-  letI : Fintype F := Fintype.ofFinite F
+  let : Fintype F := Fintype.ofFinite F
   let b : Module.Basis (Fin N) F (ι → F) :=
     (Pi.basisFun F ι).reindex (Fintype.equivFinOfCardEq hN)
   have hcard : Nat.card ((ι → F) ≃ₗ[F] (ι → F)) =
@@ -193,15 +193,15 @@ theorem lre6b_factorization_le_of_lift {F V H K : Type} [Field F] [Finite F] [Ad
       r ∈ semilinGroup F V ∧ P r ∧ Induces π ρ r α) :
     (Nat.card (MulAut K)).factorization ℓ ≤ (Nat.card (semilinGroup F V)).factorization ℓ := by
   classical
-  haveI : Finite (MulAut K) := inferInstance
+  have : Finite (MulAut K) := inferInstance
   obtain ⟨S⟩ : Nonempty (Sylow ℓ (MulAut K)) := Sylow.nonempty
   let R : Subgroup (MulAut K) := S
-  have hR : IsPGroup ℓ R := by simpa only [R] using S.isPGroup'
+  have hR : IsPGroup ℓ R := by simpa only [R] using S.isPGroup
   have hS : Nat.card R = ℓ ^ (Nat.card (MulAut K)).factorization ℓ := by
     simpa only [R] using Sylow.card_eq_multiplicity S
   obtain ⟨Rh, hRh_le, _hRh_P, hRh_p, _hRh_norm, hInd, _hInd'⟩ :=
     autLift_of_induced (P := P) hP1 hPm hPi ℓ R hR (hind R hR)
-  haveI : Finite Rh := inferInstance
+  have : Finite Rh := inferInstance
   have hchoose : ∀ α : R, ∃ r ∈ Rh, Induces π ρ r (α : MulAut K) :=
     fun α => hInd α α.2
   let rOf : R → Rh := fun α =>

@@ -147,7 +147,7 @@ theorem card_sylGrp (hs : sylowCheck () = true) : Nat.card sylGrp = 27 := by
   obtain ⟨hlen, -, -, -, hnd⟩ := sylowCheck_spec hs
   have hset : (sylGrp : Set ↥titsA) = ((sylWords.map valA).toFinset : Set ↥titsA) := by
     ext g
-    simp only [SetLike.mem_coe, mem_sylGrp_iff hs, Finset.mem_coe, List.mem_toFinset, List.mem_map]
+    simp only [SetLike.mem_coe, mem_sylGrp_iff hs, List.mem_toFinset, List.mem_map]
     constructor
     · rintro ⟨w, hw, rfl⟩
       exact ⟨w, hw, rfl⟩

@@ -17,7 +17,8 @@ open CFSG.RankThree.OrthogonalInvolutions Module
 
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
-theorem card_ZQ_inf_QaOf_eq (S : Setting z E F) (a : G) :
+omit [Finite G] in
+theorem card_ZQ_inf_QaOf_eq (_S : Setting z E F) (a : G) :
     Nat.card (ZQ z ⊓ QaOf a : Subgroup G) = Nat.card ↥((ZQ z).subgroupOf (QaOf a)) := by
   rw [← Subgroup.inf_subgroupOf_right (ZQ z) (QaOf a)]
   exact (Nat.card_congr (Subgroup.subgroupOfEquivOfLe
@@ -92,7 +93,7 @@ theorem rhoZ_eq_self_of_mem_Xsub_of_card_ZQ_eq_four (S : Setting z E F) {a : G} 
     (h34 : ThreeFourPlus S a) (hZ : Nat.card ↥(ZQ z) = 4) :
     ∀ x ∈ Xsub S a, ∀ u : ↥(ZQ z), rhoZ S x u = u := by
   let ψ : Hbar z →* Equiv.Perm ↥(ZQ z) := (MulAut.toPerm ↥(ZQ z)).comp (rhoZ S)
-  haveI : Group.IsSolvable (Equiv.Perm ↥(ZQ z)) := Equiv.Perm.isSolvable (by rw [hZ])
+  have : Group.IsSolvable (Equiv.Perm ↥(ZQ z)) := Equiv.Perm.isSolvable (by rw [hZ])
   have hperf := commutator_Xsub_eq_of_threeFourPlus S h h217 h34
   have hY : ⁅(Xsub S a).map ψ, (Xsub S a).map ψ⁆ = (Xsub S a).map ψ := by
     rw [← Subgroup.map_commutator, hperf]

@@ -98,8 +98,8 @@ theorem lineStabilizer_isPGroup_two [CharP K 2] {e : Fin 2 → K} (he : e ≠ 0)
 
 theorem card_lineStabilizer_dvd [Finite K] [CharP K 2] {e : Fin 2 → K} (he : e ≠ 0) :
     Nat.card (lineStabilizer e) ∣ Nat.card K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  letI : Fintype K := Fintype.ofFinite K
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  let : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hn⟩ := isPGroup_iff_card_dvd_pow.mp (lineStabilizer_isPGroup_two he)
   obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_two).mp hn
   obtain ⟨m, -, hm⟩ := FiniteField.card K 2

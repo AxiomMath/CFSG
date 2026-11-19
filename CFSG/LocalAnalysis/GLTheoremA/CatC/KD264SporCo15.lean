@@ -369,7 +369,7 @@ section Row
 
 
 theorem kd264RowData_Co1_five : KD264RowData 5 ↥GA := by
-  haveI : Finite ↥GA := Nat.finite_of_card_ne_zero (by rw [card_GA_eq]; norm_num)
+  have : Finite ↥GA := Nat.finite_of_card_ne_zero (by rw [card_GA_eq]; norm_num)
   have hG : GOK := Certificates.certificate13670
   have hC : compOK Native.aR Native.bR = true := Certificates.certificate10145
   obtain ⟨ho, hJ1⟩ := comp_fiveA hG hC
@@ -394,9 +394,9 @@ set_option maxRecDepth 100000 in
 theorem kd264SporAt_Co1_five
     (hOut : CFSG.HardMathSupport.Timmesfeld.Coordinator.SporadicOuterLeTwo) :
     KD264SporAt 5 .Co1 := by
-  haveI : Finite ↥GA := Nat.finite_of_card_ne_zero (by rw [card_GA_eq]; norm_num)
+  have : Finite ↥GA := Nat.finite_of_card_ne_zero (by rw [card_GA_eq]; norm_num)
   have e : CFSG.Blueprint.NativeSporadic.Co1 ≃* ↥GA := CFSG.Sporadic.Co1Block.co1MatEquiv
-  haveI : IsSimpleGroup ↥GA :=
+  have : IsSimpleGroup ↥GA :=
     @MulEquiv.isSimpleGroup _ _ _ _ CFSG.Sporadic.Co1.isSimpleGroup_Co1 e.symm
   obtain ⟨b⟩ := CFSG.Sporadic.Bridge.Co1.nonempty_mulEquiv
   have hp : ¬ (Nat.card ↥GA).Prime := by rw [card_GA_eq]; norm_num

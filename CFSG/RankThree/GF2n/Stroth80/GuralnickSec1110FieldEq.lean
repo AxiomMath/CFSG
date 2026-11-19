@@ -391,10 +391,10 @@ private theorem Ctx.exists_transvection_of_psl (hc : Ctx M Q Z B) {m x : ℕ}
           mk_mem_Xbar_of_LB M Q Z B ⟨a, hc.LB_le_M ha⟩ ha hA2⟩ : ↥(Xbar M Q Z B)) =
         proj m K A := by
   obtain ⟨-, K, hKf, hKfin, hKcard, ⟨e⟩⟩ := h.statedClassicalModel (by decide)
-  letI : Field K := hKf
-  letI : Finite K := hKfin
+  let : Field K := hKf
+  let : Finite K := hKfin
   have hx : 1 ≤ x := (h.admissible).2.1
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic Nat.prime_two hx
       hKcard
   let aM : ↥M := ⟨a, hc.LB_le_M ha⟩
@@ -743,7 +743,7 @@ private theorem Ctx.proj_commute_of_transvection (hc : Ctx M Q Z B) {m : ℕ}
     (hm : 3 ≤ m) {t : SL(m, K)} (ht : t ∈ tvCenterSL c ∨ t ∈ tvAxisSL a₀) :
     T * t = t * T := by
   have hm2 : 3 ≤ m := hm
-  haveI : NeZero m := ⟨by omega⟩
+  have : NeZero m := ⟨by omega⟩
   have hu2 : t * t = 1 := by
     rcases ht with h | h
     · exact mul_self_of_mem_tvCenter h
@@ -828,6 +828,7 @@ private theorem Ctx.exists_root_form_of_line (hc : Ctx M Q Z B) {m : ℕ}
       (fun x hx => hcommC x hx) (fun x hx => hcommA x hx)
   exact ⟨s, T, hT2, hTproj, hs⟩
 
+omit [Finite G] in
 private theorem Ctx.card_Z_le_two_pow_of_root_form {m : ℕ}
     {K : Type} [Field K] [Finite K] [CharP K 2]
     {e : XbarMod M Q Z B ≃* StatedProj (StatedSL m K)}
@@ -883,9 +884,9 @@ theorem Ctx.card_Z_le_two_pow_of_psl (hc : Ctx M Q Z B) {m x : ℕ}
   obtain ⟨a, ha, hA2⟩ := ha2
   obtain ⟨K, hKf, hKfin, hKchar, e, A, c, a₀, hKcard, hA2A, hA1, hAform, hc0, ha0, hac,
     hρa⟩ := hc.exists_transvection_of_psl ha hA2 h
-  letI : Field K := hKf
-  letI : Finite K := hKfin
-  letI : CharP K 2 := hKchar
+  let : Field K := hKf
+  let : Finite K := hKfin
+  let : CharP K 2 := hKchar
   let aM : ↥M := ⟨a, hc.LB_le_M ha⟩
   let aX : ↥(Xbar M Q Z B) := ⟨QuotientGroup.mk aM, mk_mem_Xbar_of_LB M Q Z B aM ha hA2⟩
   have haX : (aX : Mbar M Q) = QuotientGroup.mk (⟨a, hc.LB_le_M ha⟩ : ↥M) := rfl

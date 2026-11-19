@@ -39,7 +39,7 @@ theorem gLAPPrimeCoreOf_fixSub_matrixProjectiveDerived_four_eq_bot {K : Type} [F
     [Finite K] (hK : Nat.card K = 2)
     {x : MulAut (matrixProjectiveDerived (coordinateQuadPlus 4 K))} (hx3 : x ^ 3 = 1)
     (hx1 : x ≠ 1) : GLAPPrimeCoreOf 3 (fixSub x) = ⊥ := by
-  haveI : CharP K 2 := CFSG.HardMathSupport.Dickson.Bal207.OrthRow.Two.charP_two hK
+  have : CharP K 2 := CFSG.HardMathSupport.Dickson.Bal207.OrthRow.Two.charP_two hK
   have hd : 0 < 2 * 4 := by norm_num
   obtain ⟨hQ, hT⟩ := regular_coordinateQuadPlus 4 K (by norm_num)
   have hpar : CFSG.GroupTheory.WeirSylow.IsPlusType (coordinateQuadPlus 4 K) ↔

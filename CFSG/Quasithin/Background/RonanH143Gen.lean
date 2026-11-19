@@ -100,8 +100,8 @@ theorem alternatingGroup_le_map_of_index_le_two {G : Type*} [Group G] [Finite G]
 theorem ronanH143_not_isPGroup_alt {n : ℕ} (hn : 5 ≤ n) :
     ¬ IsPGroup 2 ↥(alternatingGroup (Fin n)) := by
   intro hA
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.mpr (by omega)
   obtain ⟨k, hk⟩ := hA.exists_card_eq
   rw [nat_card_alternatingGroup, Nat.card_eq_fintype_card, Fintype.card_fin] at hk
   have h2 : 2 ∣ Nat.factorial n := Nat.dvd_factorial (by norm_num) (by omega)

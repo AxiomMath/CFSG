@@ -26,7 +26,7 @@ theorem exists_injective_fixSub {G : Type} [Group G] [Finite G] {L : Subgroup G}
     (Subgroup.subgroupOfEquivOfLe hKle) hKc.1
   have hZ : Subgroup.center K = ⊥ := Res419Two.center_eq_bot_of_isType419 ht
   have hs : IsSimpleGroup K := by
-    haveI : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2.1
+    have : IsSimpleGroup (K ⧸ Subgroup.center K) := hq.2.1
     exact ((QuotientGroup.quotientMulEquivOfEq hZ).trans
       QuotientGroup.quotientBot).symm.isSimpleGroup
   have hKL : K ≤ L := hKle.trans inf_le_left

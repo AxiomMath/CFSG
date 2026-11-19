@@ -16,7 +16,7 @@ private theorem one_le_k_of_natCard_eq_sq {K : Type} [Field K] [Finite K] {k : �
   rcases Nat.eq_zero_or_pos k with rfl | hk
   · exfalso
     have h2 : 1 < Nat.card K := Finite.one_lt_card (α := K)
-    simp only [pow_zero, one_pow, one_mul] at hK
+    simp only [pow_zero, one_pow] at hK
     omega
   · exact hk
 
@@ -119,7 +119,7 @@ private theorem coe_su3BlockY {K : Type} [Field K] [CharP K 2] :
   CFSG.Quasithin.H.SU3.coe_glOfDetOne (su3BlockMat K) (det_su3BlockMat (K := K))
 
 private theorem su3BlockY_mem_su3Anti {K : Type} [Field K] [Finite K] [CharP K 2] {k : ℕ}
-    (hK : Nat.card K = (2 ^ k) ^ 2) (hk : 1 ≤ k) : su3BlockY K ∈ su3Anti K k := by
+    (hK : Nat.card K = (2 ^ k) ^ 2) (_hk : 1 ≤ k) : su3BlockY K ∈ su3Anti K k := by
   rw [mem_su3Anti_iff (F := K) hK]
   refine ⟨?_, ?_⟩
   · rw [coe_su3BlockY]
@@ -143,8 +143,7 @@ private theorem su3BlockY_pow_three {K : Type} [Field K] [CharP K 2] :
   rw [Units.val_pow_eq_pow_val, coe_su3BlockY, Units.val_one]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [su3BlockMat, Matrix.mul_apply, Fin.sum_univ_three, pow_succ, pow_two,
-      CharTwo.add_self_eq_zero]
+    simp [su3BlockMat, Matrix.mul_apply, Fin.sum_univ_three, pow_succ, CharTwo.add_self_eq_zero]
 
 private theorem commute_su3BlockY_torJ {K : Type} [Field K] [Finite K] [CharP K 2] {k : ℕ}
     (μ : Kˣ)
@@ -154,8 +153,7 @@ private theorem commute_su3BlockY_torJ {K : Type} [Field K] [Finite K] [CharP K 
   rw [Units.val_mul, Units.val_mul, coe_su3BlockY, CFSG.Quasithin.H.SU3.coe_torJ]
   ext i j
   fin_cases i <;> fin_cases j <;>
-    simp [su3BlockMat, CFSG.Quasithin.H.SU3.torJMat, hbar, Matrix.mul_apply, Matrix.diagonal,
-      Fin.sum_univ_three, CharTwo.add_self_eq_zero]
+    simp [su3BlockMat, CFSG.Quasithin.H.SU3.torJMat, hbar, Matrix.mul_apply, Matrix.diagonal]
 
 private theorem su3BlockY_not_mem_normalizer {K : Type} [Field K] [Finite K] [CharP K 2]
     {k : ℕ} (hk : 1 ≤ k) (hK : Nat.card K = (2 ^ k) ^ 2) :
@@ -171,9 +169,8 @@ private theorem su3BlockY_not_mem_normalizer {K : Type} [Field K] [Finite K] [Ch
     rw [hyu, Units.val_mul]
     obtain ⟨hlow, -⟩ := CFSG.Quasithin.H.Tri.uni3_entries
       (CFSG.Quasithin.H.SU3.ujSub_le_uni3 hu)
-    simp [Matrix.mul_apply, Fin.sum_univ_three, CFSG.Quasithin.H.SU3.coe_torJ,
-      CFSG.Quasithin.H.SU3.torJMat, Matrix.diagonal, hlow 1 0 (by decide),
-      hlow 2 0 (by decide), hlow 2 1 (by decide)]
+    simp [Matrix.mul_apply, CFSG.Quasithin.H.SU3.coe_torJ,
+      CFSG.Quasithin.H.SU3.torJMat, Matrix.diagonal, hlow 2 0 (by decide)]
   have hy20 : ((su3BlockY K : GL (Fin 3) K) : Matrix (Fin 3) (Fin 3) K) 2 0 = 1 := by
     rw [coe_su3BlockY]
     simp [su3BlockMat]

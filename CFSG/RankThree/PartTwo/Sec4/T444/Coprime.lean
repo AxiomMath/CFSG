@@ -45,7 +45,7 @@ theorem pRank_map_le_of_not_dvd {p : ℕ} (hp : p.Prime) (φ : X →* Y)
   have htop : ((T.mapSurjective hψ : Sylow p E) : Subgroup E) = ⊤ :=
     ((T.mapSurjective hψ).maximal_isPGroup.eq_of_le (hEp.to_subgroup ⊤) le_top)
   set T' : Subgroup X := (T : Subgroup W).map W.subtype with hT'
-  have hT'p : IsPGroup p T' := T.isPGroup'.map _
+  have hT'p : IsPGroup p T' := T.isPGroup.map _
   have hT'K : T' ⊓ φ.ker = ⊥ := inf_eq_bot_of_isPGroup_of_not_dvd hp hT'p hker
   have hinj : ∀ x ∈ T', ∀ y ∈ T', φ x = φ y → x = y := by
     intro x hx y hy hxy
@@ -99,7 +99,7 @@ theorem map_normalizer_eq_of_not_dvd {p : ℕ} (hp : p.Prime) (K : Subgroup X) [
   have hBT' : B ≤ T' := by
     intro b hb
     exact ⟨⟨b, hBW hb⟩, hTB (Subgroup.mem_subgroupOf.mpr hb), rfl⟩
-  have hT'p : IsPGroup p T' := T.isPGroup'.map _
+  have hT'p : IsPGroup p T' := T.isPGroup.map _
   have hkerK : ¬ p ∣ Nat.card ρ.ker := by rwa [QuotientGroup.ker_mk']
   have hT'eq : T' = B := by
     refine (Subgroup.eq_of_le_of_card_ge hBT' ?_).symm

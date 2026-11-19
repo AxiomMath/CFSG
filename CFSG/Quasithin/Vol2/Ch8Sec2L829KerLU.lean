@@ -73,8 +73,8 @@ theorem stmtKerLUOdd_holds (hmod : StmtFSUModule) (h711n : Stmt7_1_1_normal)
     autSub_hom_klu (fsuV T I) LU U F hUV hF hLNV hLNU
   set Hs := autSub (autOn LU (fsuV T I)) F with hHsdef
   obtain ⟨hHsfin, hHssimple, hHscard⟩ := simple_card_of_alternatingNatural_klu hA5 hH0
-  haveI : Finite ↥Hs := hHsfin
-  haveI : IsSimpleGroup ↥Hs := hHssimple
+  have : Finite ↥Hs := hHsfin
+  have : IsSimpleGroup ↥Hs := hHssimple
   let Φ : ↥LU →* ↥Hs := Φ0.codRestrict Hs hΦmem
   have hΦsurj' : Function.Surjective Φ := by
     intro y
@@ -89,7 +89,7 @@ theorem stmtKerLUOdd_holds (hmod : StmtFSUModule) (h711n : Stmt7_1_1_normal)
       exact this
     · intro h
       exact Subtype.ext h
-  haveI : Group.IsPerfect ↥LU :=
+  have : Group.IsPerfect ↥LU :=
     Subgroup.isPerfect_iff.mpr (perfectCore_perfect (L ⊓ Subgroup.normalizer (U : Set G)))
   have hcent : ∀ g k : ↥LU, Φ k = 1 → ⁅g, k⁆ ∈ CFSG.pCore 2 ↥LU := by
     intro g k hk

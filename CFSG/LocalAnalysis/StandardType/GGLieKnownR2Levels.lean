@@ -54,7 +54,7 @@ theorem pairing_le_two {r γ : Fin D.rank → ℤ} (hr : IsHighestRoot D r) (hγ
   exact sub_eq_zero.1 (toRat_injective (by rw [h5, map_zero]))
 
 theorem openCone_subset_of_pos (hdiv : D.divisible = ∅) {r γ δ : Fin D.rank → ℤ}
-    (hr : IsHighestRoot D r) (hγ : γ ∈ D.roots) (hδ : δ ∈ D.roots)
+    (hr : IsHighestRoot D r) (_hγ : γ ∈ D.roots) (_hδ : δ ∈ D.roots)
     (hγr : 0 < rootForm D γ r) (hδr : 0 < rootForm D δ r) :
     openCone D.roots γ δ ⊆ {r} := by
   rintro ε ⟨hε, a, b, ha, hb, rfl⟩
@@ -90,7 +90,7 @@ theorem openCone_subset_of_pos (hdiv : D.divisible = ∅) {r γ δ : Fin D.rank 
   exact heq hcε2
 
 theorem openCone_eq_empty_of_pos (hdiv : D.divisible = ∅) {r γ : Fin D.rank → ℤ}
-    (hr : IsHighestRoot D r) (hγ : γ ∈ D.roots) (hγr : 0 < rootForm D γ r) :
+    (hr : IsHighestRoot D r) (_hγ : γ ∈ D.roots) (hγr : 0 < rootForm D γ r) :
     openCone D.roots γ r = ∅ := by
   refine Set.eq_empty_of_forall_notMem ?_
   rintro ε ⟨hε, a, b, ha, hb, rfl⟩

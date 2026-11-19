@@ -310,9 +310,9 @@ theorem eq_one_of_mulAut_of_psl24 [Finite L] (e : L ≃* PSL(2, GaloisField 2 2)
       intro y hyY hyT
       by_contra hy1
       have hyP : y ∈ (P : Subgroup L) := by
-        have h2 : IsPGroup 2 (Subgroup.zpowers y) := (T.isPGroup'.to_le
+        have h2 : IsPGroup 2 (Subgroup.zpowers y) := (T.isPGroup.to_le
           ((Subgroup.zpowers_le).mpr hyT))
-        have := P.maximal_isPGroup.eq_of_ge (IsPGroup.to_sup_of_normal_left' P.isPGroup' h2
+        have := P.maximal_isPGroup.eq_of_ge (IsPGroup.to_sup_of_normal_left' P.isPGroup h2
           ((Subgroup.zpowers_le).mpr hyY.2)) le_sup_left
         rw [← this]
         exact Subgroup.mem_sup_right (Subgroup.mem_zpowers y)
@@ -326,7 +326,7 @@ theorem eq_one_of_mulAut_of_psl24 [Finite L] (e : L ≃* PSL(2, GaloisField 2 2)
       have hyT : (y : L) ∈ (T : Subgroup L) := by
         have h2 : IsPGroup 2 (Subgroup.zpowers (y : L)) := IsPGroup.of_card (n := 1) (by
           rw [Nat.card_zpowers, hy2, pow_one])
-        have := T.maximal_isPGroup.eq_of_ge (IsPGroup.to_sup_of_normal_left' T.isPGroup' h2
+        have := T.maximal_isPGroup.eq_of_ge (IsPGroup.to_sup_of_normal_left' T.isPGroup h2
           ((Subgroup.zpowers_le).mpr y.2.1)) le_sup_left
         rw [← this]
         exact Subgroup.mem_sup_right (Subgroup.mem_zpowers _)

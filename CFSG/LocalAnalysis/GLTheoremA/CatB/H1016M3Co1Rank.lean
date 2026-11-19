@@ -12,12 +12,12 @@ open scoped Matrix
 
 private theorem comm_of_card_dvd {G : Type*} [Group G] (h : Nat.card G ∣ 3 ^ 2) (x y : G) :
     x * y = y * x := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   obtain ⟨k, hk, hk'⟩ := (Nat.dvd_prime_pow Nat.prime_three).1 h
   interval_cases k
-  · haveI : Subsingleton G := (Nat.card_eq_one_iff_unique.1 (by rw [hk', pow_zero])).1
+  · have : Subsingleton G := (Nat.card_eq_one_iff_unique.1 (by rw [hk', pow_zero])).1
     exact Subsingleton.elim _ _
-  · haveI := isCyclic_of_prime_card (α := G) (p := 3) (by rw [hk', pow_one])
+  · have := isCyclic_of_prime_card (α := G) (p := 3) (by rw [hk', pow_one])
     exact (IsCyclic.isMulCommutative (α := G)).is_comm.comm x y
   · exact (IsPGroup.isMulCommutative_of_card_eq_prime_sq hk').is_comm.comm x y
 
@@ -40,7 +40,7 @@ private theorem card_range : Nat.card rho.range = 27 := by
   norm_num
 
 private theorem ker_rho : rho.ker = (ElemThree.E.subgroupOf GA).subgroupOf Co1T.Qg := by
-  haveI : Finite ↥GA := Co1T.finite_GA
+  have : Finite ↥GA := Co1T.finite_GA
   symm
   refine Subgroup.eq_of_le_of_card_ge (fun x hx => MonoidHom.mem_ker.2 (rho_eq_one
     (Subgroup.mem_subgroupOf.1 (Subgroup.mem_subgroupOf.1 hx)))) ?_
@@ -88,7 +88,7 @@ private theorem card_ker_le {F : Subgroup ↥GA} (hFQ : F ≤ Co1T.Qg)
 private theorem card_range_comp_le {F : Subgroup ↥GA} (hFQ : F ≤ Co1T.Qg)
     (hcomm : ∀ y ∈ F, ∀ z ∈ F, y * z = z * y) :
     Nat.card (rho.comp (Subgroup.inclusion hFQ)).range ≤ 9 := by
-  haveI : Finite ↥rho.range := Nat.finite_of_card_ne_zero (by rw [card_range]; norm_num)
+  have : Finite ↥rho.range := Nat.finite_of_card_ne_zero (by rw [card_range]; norm_num)
   have hle : (rho.comp (Subgroup.inclusion hFQ)).range ≤ rho.range := by
     rintro _ ⟨y, rfl⟩
     exact ⟨_, rfl⟩
@@ -119,8 +119,8 @@ private theorem card_range_comp_le {F : Subgroup ↥GA} (hFQ : F ≤ Co1T.Qg)
 
 theorem card_le_or_eq_of_le_Qg {F : Subgroup ↥GA} (hFQ : F ≤ Co1T.Qg)
     (hF : IsElemAbelian 3 F) : Nat.card F ≤ 3 ^ 5 ∨ F = ElemThree.E.subgroupOf GA := by
-  haveI : Finite ↥GA := Co1T.finite_GA
-  haveI := hF.1
+  have : Finite ↥GA := Co1T.finite_GA
+  have := hF.1
   have hcomm : ∀ y ∈ F, ∀ z ∈ F, y * z = z * y := fun y hy z hz => setLike_mul_comm hy hz
   by_cases h1 : ∀ y : F, rho (Subgroup.inclusion hFQ y) = 1
   · have hFE : F ≤ ElemThree.E.subgroupOf GA := by

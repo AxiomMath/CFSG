@@ -24,6 +24,7 @@ private theorem frameE8Root_succ_highNode :
     ∀ i : Fin 7, frameE8Root i.succ (highNode .E8) = 0 := by
   decide +kernel
 
+omit [Finite K] [CharP K 2] in
 private theorem nW_mem_subsystemGroup_of_le (w : List (Fin Tag.E8.rank))
     (hw : ∀ i ∈ w, i.val ≤ 6) : nW .E8 K w ∈ subsystemGroup .E8 K (perpNodes .E8) := by
   induction w with
@@ -31,7 +32,7 @@ private theorem nW_mem_subsystemGroup_of_le (w : List (Fin Tag.E8.rank))
   | cons i w ih =>
       rw [nW_cons]
       refine mul_mem (weylElt_mem_subsystemGroup ?_ (1 : Kˣ)) (ih ?_)
-      · simp only [perpNodes, Set.mem_setOf_eq, highNode]
+      · simp only [perpNodes, Set.mem_ofPred_eq, highNode]
         intro h
         have hle := hw i (by simp)
         rw [h] at hle
@@ -55,6 +56,7 @@ private theorem e8SingerPerm_bijective : Function.Bijective e8SingerPerm := by
 private noncomputable def e8SingerPermEquiv : Fin 8 ≃ Fin 8 :=
   Equiv.ofBijective e8SingerPerm e8SingerPerm_bijective
 
+omit [Finite K] [CharP K 2] in
 theorem nGen_succ_mem_e7Levi (i : Fin 7) : nGen K frameE8 i.succ ∈ e7Levi K := by
   rw [mem_e7Levi_iff]
   have hpos : frameE8Root i.succ ∈ perpRoots .E8 :=
@@ -73,6 +75,7 @@ theorem nGen_succ_mem_e7Levi (i : Fin 7) : nGen K frameE8 i.succ ∈ e7Levi K :=
     rootSpan .E8 K (perpRoots .E8)
   rwa [coe_rho]
 
+omit [Finite K] [CharP K 2] in
 theorem nWA_e8SingerWord_mem_e7Levi : nWA .E8 K e8SingerWord ∈ e7Levi K := by
   rw [mem_e7Levi_iff,
     ← parabolicRoots_perpNodes (τ := .E8),
@@ -82,7 +85,7 @@ theorem nWA_e8SingerWord_mem_e7Levi : nWA .E8 K e8SingerWord ∈ e7Levi K := by
 
 theorem map_conj_nGen_succ_e8FrameV (i : Fin 7) :
     (e8FrameV K).map (MulAut.conj (nGen K frameE8 i.succ)).toMonoidHom = e8FrameV K := by
-  haveI : Finite ↥(adjointGroup .E8 K) := generated_group_finite .E8 K
+  have : Finite ↥(adjointGroup .E8 K) := generated_group_finite .E8 K
   refine Subgroup.eq_of_le_of_card_ge ?_ ?_
   · intro x hx
     rw [Subgroup.mem_map] at hx
@@ -101,20 +104,23 @@ theorem map_conj_nGen_succ_e8FrameV (i : Fin 7) :
       (MulAut.conj (nGen K frameE8 i.succ)).injective, card_e8FrameV]
 
 
+omit [Finite K] in
 private theorem tC_commute_singer (v k : Fin 8 → ZMod 3) :
     ((Finset.univ : Finset (Fin 8)) : Set (Fin 8)).Pairwise
-      (Function.onFun Commute fun a =>
-        tC K frameE8 (e8SingerPerm a) (Multiplicative.ofAdd (v a * k a))) :=
-  fun a _ b _ hab =>
+      (Function.onFun Commute fun _a =>
+        tC K frameE8 (e8SingerPerm _a) (Multiplicative.ofAdd (v _a * k _a))) :=
+  fun _a _ _b _ hab =>
     tC_commute frameE8 (fun h => hab (e8SingerPerm_bijective.injective h)) _ _
 
+omit [Finite K] in
 private theorem tC_commute_singerEquiv (u : Fin 8 → ZMod 3) :
     ((Finset.univ : Finset (Fin 8)) : Set (Fin 8)).Pairwise
-      (Function.onFun Commute fun a =>
-        tC K frameE8 (e8SingerPermEquiv a) (Multiplicative.ofAdd (u (e8SingerPermEquiv a)))) :=
-  fun a _ b _ hab =>
+      (Function.onFun Commute fun _a =>
+        tC K frameE8 (e8SingerPermEquiv _a) (Multiplicative.ofAdd (u (e8SingerPermEquiv _a)))) :=
+  fun _a _ _b _ hab =>
     tC_commute frameE8 (fun h => hab (e8SingerPermEquiv.injective h)) _ _
 
+omit [Finite K] in
 private theorem exists_conj_tE_of_coordAction (n : adjointGroup .E8 K) (v : Fin 8 → ZMod 3)
     (k : Fin 8 → ZMod 3) (hk0 : ∀ a, k a ≠ 0)
     (hk : ∀ a, n * tC K frameE8 a (Multiplicative.ofAdd (v a)) * n⁻¹ =
@@ -170,6 +176,7 @@ private theorem exists_conj_tE_of_coordAction (n : adjointGroup .E8 K) (v : Fin 
         (fun j => tC K frameE8 j (Multiplicative.ofAdd (u j))) hcomm₃ hcomm₂'
     rw [h1, h2a, h2b]
 
+omit [Finite K] in
 theorem exists_conj_tE_support_e8SingerPerm (hK : Nat.card K = 2) (v : Fin 8 → ZMod 3) :
     ∃ u : Fin 8 → ZMod 3, (∀ j, (u (e8SingerPerm j) ≠ 0 ↔ v j ≠ 0)) ∧
       nWA .E8 K e8SingerWord * tE K frameE8 (Multiplicative.ofAdd v) *
@@ -193,7 +200,7 @@ theorem exists_conj_tE_support_e8SingerPerm (hK : Nat.card K = 2) (v : Fin 8 →
 
 theorem map_conj_nWA_e8SingerWord_e8FrameV (hK : Nat.card K = 2) :
     (e8FrameV K).map (MulAut.conj (nWA .E8 K e8SingerWord)).toMonoidHom = e8FrameV K := by
-  haveI : Finite ↥(adjointGroup .E8 K) := generated_group_finite .E8 K
+  have : Finite ↥(adjointGroup .E8 K) := generated_group_finite .E8 K
   refine Subgroup.eq_of_le_of_card_ge ?_ ?_
   · intro x hx
     rw [Subgroup.mem_map] at hx
@@ -220,21 +227,25 @@ private theorem zmod3_eq_zero_or_one_or_two (a : ZMod 3) : a = 0 ∨ a = 1 ∨ a
   have h : ∀ b : ZMod 3, b = 0 ∨ b = 1 ∨ b = 2 := by decide +kernel
   exact h a
 
+omit [Finite K] [CharP K 2] in
 private theorem nGenProd_comm (S : Finset (Fin 8)) :
-    (S : Set (Fin 8)).Pairwise (Function.onFun Commute fun i => rho K frameE8 i WSL) :=
-  fun i _ j _ hij => commute_rho frameE8 hij WSL WSL
+    (S : Set (Fin 8)).Pairwise (Function.onFun Commute fun _i => rho K frameE8 _i WSL) :=
+  fun _i _ _j _ hij => commute_rho frameE8 hij WSL WSL
 
 private noncomputable def nGenProd (S : Finset (Fin 8)) : adjointGroup .E8 K :=
   S.noncommProd (fun i => rho K frameE8 i WSL) (nGenProd_comm S)
 
+omit [Finite K] [CharP K 2] in
 private theorem nGenProd_empty : nGenProd (K := K) ∅ = 1 := by
   rw [nGenProd, Finset.noncommProd_empty]
 
+omit [Finite K] [CharP K 2] in
 private theorem nGenProd_insert {a : Fin 8} {S : Finset (Fin 8)} (ha : a ∉ S) :
     nGenProd (K := K) (insert a S) = nGen K frameE8 a * nGenProd (K := K) S := by
   rw [nGenProd, Finset.noncommProd_insert_of_notMem _ _ _ _ ha]
   rfl
 
+omit [Finite K] in
 private theorem nGen_conj_tE_of_ne_zero {a : Fin 8} (ha : a ≠ 0) (v : Fin 8 → ZMod 3) :
     nGen K frameE8 a * tE K frameE8 (Multiplicative.ofAdd v) * (nGen K frameE8 a)⁻¹ =
       tE K frameE8 (Multiplicative.ofAdd fun j => if j = a then -v j else v j) := by
@@ -244,9 +255,10 @@ private theorem nGen_conj_tE_of_ne_zero {a : Fin 8} (ha : a ≠ 0) (v : Fin 8 �
   funext j
   by_cases hj : j = i.succ
   · subst hj
-    rw [reflVec_apply_self, if_pos rfl]
-  · rw [reflVec_apply_of_ne hj, if_neg hj]
+    rw [reflVec_apply_self, ite_eq_left rfl]
+  · rw [reflVec_apply_of_ne hj, ite_eq_right hj]
 
+omit [Finite K] in
 private theorem conj_nGenProd_tE (S : Finset (Fin 8)) :
     ∀ v : Fin 8 → ZMod 3, (0 : Fin 8) ∉ S →
       nGenProd (K := K) S * tE K frameE8 (Multiplicative.ofAdd v) *
@@ -287,7 +299,7 @@ private theorem conj_nGenProd_tE (S : Finset (Fin 8)) :
               by_cases hja : j = a
               · subst hja
                 simp [ha]
-              · simp [hja, Finset.mem_insert, hja]
+              · simp [Finset.mem_insert, hja]
 
 private theorem map_conj_nGenProd_e8FrameV (S : Finset (Fin 8))
     (hS : ∀ i ∈ S, i ≠ 0) :
@@ -300,12 +312,13 @@ private theorem map_conj_nGenProd_e8FrameV (S : Finset (Fin 8))
   · rw [map_conj_mul, hb, ha]
   · have h : (MulAut.conj (1 : adjointGroup .E8 K)).toMonoidHom = MonoidHom.id _ := by
       ext x
-      simp [MulAut.conj_apply]
+      simp
     rw [h, Subgroup.map_id]
   · intro i hi
     obtain ⟨j, rfl⟩ := Fin.exists_succ_eq_of_ne_zero (hS i hi)
     exact map_conj_nGen_succ_e8FrameV j
 
+omit [Finite K] [CharP K 2] in
 private theorem nGenProd_mem_e7Levi (S : Finset (Fin 8)) (hS : ∀ i ∈ S, i ≠ 0) :
     nGenProd (K := K) S ∈ e7Levi K := by
   classical
@@ -335,7 +348,7 @@ theorem exists_conj_tE_eq_indicator {v : Fin 8 → ZMod 3} (hv0 : v 0 = 0) :
   · have hv2 : v j = 2 := by
       have hmem := Finset.mem_of_mem_erase hj
       simpa using hmem
-    rw [if_pos hj, hv2]
+    rw [ite_eq_left hj, hv2]
     decide
   · by_cases hj0 : j = 0
     · subst hj0
@@ -344,12 +357,13 @@ theorem exists_conj_tE_eq_indicator {v : Fin 8 → ZMod 3} (hv0 : v 0 = 0) :
         intro h
         exact hj (Finset.mem_erase.mpr ⟨hj0, h⟩)
       have hv2 : v j ≠ 2 := by simpa using hmem
-      rw [if_neg hj]
+      rw [ite_eq_right hj]
       rcases zmod3_eq_zero_or_one_or_two (v j) with h | h | h
       · simp [h]
       · simp [h]
       · exact absurd h hv2
 
+omit [Finite K] in
 private theorem exists_conj_tE_support_iterate (hK : Nat.card K = 2) (v : Fin 8 → ZMod 3) :
     ∀ k : ℕ, ∃ u : Fin 8 → ZMod 3,
       (∀ j, u (e8SingerPerm^[k] j) ≠ 0 ↔ v j ≠ 0) ∧
@@ -390,7 +404,7 @@ private theorem map_conj_pow_nWA_e8FrameV (hK : Nat.card K = 2) (k : ℕ) :
       rw [pow_zero]
       have h : (MulAut.conj (1 : adjointGroup .E8 K)).toMonoidHom = MonoidHom.id _ := by
         ext x
-        simp [MulAut.conj_apply]
+        simp
       rw [h, Subgroup.map_id]
   | succ k ih =>
       rw [pow_succ, map_conj_mul, map_conj_nWA_e8SingerWord_e8FrameV hK, ih]

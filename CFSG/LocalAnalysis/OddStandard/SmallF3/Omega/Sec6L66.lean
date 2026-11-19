@@ -23,10 +23,10 @@ theorem sec66_nonabelian [Finite G] {t : G} {L : Subgroup G} (hS : Sec3SettingLB
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext (h y x)
-  haveI : Subsingleton (↥L ⧸ Subgroup.center ↥L) := by
+  have : Subsingleton (↥L ⧸ Subgroup.center ↥L) := by
     rw [QuotientGroup.subsingleton_iff]
     exact hcenter
-  haveI : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hS.component.isQuasisimple.2.1.toNontrivial
+  have : Nontrivial (↥L ⧸ Subgroup.center ↥L) := hS.component.isQuasisimple.2.1.toNontrivial
   obtain ⟨a, b, hab⟩ :=
     (inferInstance : Nontrivial (↥L ⧸ Subgroup.center ↥L)).exists_pair_ne
   exact hab (Subsingleton.elim a b)

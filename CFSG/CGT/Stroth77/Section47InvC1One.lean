@@ -15,6 +15,7 @@ namespace Stroth47Core
 
 variable {D : Subgroup G} {m : ℕ} (dD : StrothWeakTypeData D (.t200 m)) {e : G}
 
+omit [Finite G] in
 theorem t200inv_sqE_ne_zero_of_eq_one (hm : m = 1) {p : ℕ} (hp : p % 2 = 1)
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p)
     (x : Fin 3 → ℤ) (i j l : Bool) (hlj : (l && j) = false) :
@@ -28,15 +29,13 @@ theorem t200inv_sqE_ne_zero_of_eq_one (hm : m = 1) {p : ℕ} (hp : p % 2 = 1)
   have hwt : (dD.t200invEAction hrel).wt =
       Torus.ofInt _ ![0, -((2 * q + 1 : ℕ) : ℤ), 0] := rfl
   simp only [EAction.sqE, EAction.twist, hwuv, hwt, t200invEAction_ve,
-      StrothWeakTypeData.t200inv_φe dD hrel, SigmaFourAction.d8Act,
-      AddMonoidHom.comp_apply, AddMonoidHom.id_apply, Bool.false_eq_true, Bool.true_eq_false,
-      Bool.and_false, Bool.and_true, ↓reduceIte, map_zero] at h0
+      SigmaFourAction.d8Act,
+      AddMonoidHom.comp_apply, AddMonoidHom.id_apply, Bool.false_eq_true, ↓reduceIte] at h0
   cases i <;> cases j <;> cases l <;>
-    simp only [Bool.and_true, Bool.and_false, Bool.false_eq_true, Bool.true_eq_false] at hlj <;>
-    (try exact absurd hlj (by decide)) <;>
-    simp only [SigmaFourAction.d8Act, Bool.false_eq_true, Bool.true_eq_false, Bool.and_false,
-      Bool.and_true, ↓reduceIte, AddMonoidHom.comp_apply, AddMonoidHom.id_apply, map_zero,
-      map_add, map_sub, t200_φuv, t200_φt, t200_φu, StrothWeakTypeData.t200inv_φe dD hrel,
+    simp only [Bool.and_true, Bool.and_false, Bool.true_eq_false] at hlj <;>
+    simp only [Bool.false_eq_true, Bool.and_false,
+      Bool.and_true, ↓reduceIte, AddMonoidHom.id_apply, map_zero,
+      t200_φuv, t200_φt, t200_φu, StrothWeakTypeData.t200inv_φe dD hrel,
       ← Torus.ofInt_add, ← Torus.ofInt_sub, add_zero, zero_add] at h0
   all_goals
     rw [Stroth34T200.t200_ofInt_eq_zero_iff] at h0
@@ -44,9 +43,9 @@ theorem t200inv_sqE_ne_zero_of_eq_one (hm : m = 1) {p : ℕ} (hp : p % 2 = 1)
       Matrix.head_cons, Matrix.tail_cons] at h0
     obtain ⟨⟨k0, hk0⟩, ⟨k1, hk1⟩, ⟨k2, hk2⟩⟩ := h0
     norm_num at hk0 hk1 hk2
-    push_cast at hk0 hk1 hk2
     omega
 
+omit [Finite G] in
 theorem t200inv_mem_of_mul_self_of_eq_one (hm : m = 1) {p : ℕ} (hp : p % 2 = 1)
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p)
     {y : G}
@@ -85,6 +84,7 @@ namespace Stroth47Core
 
 variable {D : Subgroup G} {m : ℕ} (dD : StrothWeakTypeData D (.t200 m)) {e : G}
 
+omit [Finite G] in
 theorem t200_inv_h9_of_one_le {p : ℕ} (hm : 1 ≤ m)
     (hrel : Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p) :
     ∀ X : Subgroup G, X ≤ (D ⊔ Subgroup.closure {dD.uv, dD.t, dD.u} ⊔ Subgroup.zpowers e) ⊓
@@ -96,9 +96,9 @@ theorem t200_inv_h9_of_one_le {p : ℕ} (hm : 1 ≤ m)
   have hDcard : Nat.card D = 2 ^ (m + (m + 2) + (m + 2)) := dD.card
   have hcomm : ∀ a ∈ X, ∀ b ∈ X, a * b = b * a := fun a ha b hb =>
     congrArg Subtype.val (hab.is_comm.comm ⟨a, ha⟩ ⟨b, hb⟩)
-  haveI : NeZero (2 ^ m) := ⟨by positivity⟩
-  haveI : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
-  haveI : NeZero (2 ^ (m + 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ m) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m + 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (m + 2)) := ⟨by positivity⟩
   have hnf : ∀ y ∈ X, ∃ (v : Torus (StrothTypeIndex.t200 m).k) (l k : Bool),
       y = dD.ofTorus v * dD.d8 false false l * bpow e k :=
     fun y hy => t200_inv_mem_CSc₁ dD hrel (by omega) (hX hy)
@@ -120,7 +120,7 @@ theorem t200_inv_h9_of_one_le {p : ℕ} (hm : 1 ≤ m)
     · exact h.choose_spec.1
     · exact X.one_mem
   by_cases hD : ∀ x ∈ X, x ∈ D
-  · haveI : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
+  · have : Finite D := Nat.finite_of_card_ne_zero (by rw [hDcard]; positivity)
     exact Subgroup.eq_of_le_of_card_ge hD hcard.ge
   exfalso
   push Not at hD
@@ -338,7 +338,7 @@ theorem stroth_4_7_hinv_c1_one :
   rcases Nat.lt_or_ge m 2 with hm2 | hm2
   · have hm1 : 1 ≤ m := by omega
     have hme : m = 1 := by omega
-    haveI := F.simple
+    have := F.simple
     obtain ⟨p, hp, hrelp⟩ : ∃ p : ℕ, p % 2 = 1 ∧
         Rel34inv dD e (2 ^ (m + 1)) ((dD.c : G) ^ 2 ^ (m - 1)) p :=
       hrel.elim (fun h' => ⟨1, by norm_num, h'⟩) (fun h' => ⟨3, by norm_num, h'⟩)
@@ -382,7 +382,7 @@ theorem stroth_4_7_hinv_c1_one :
         rw [pow_mul, pow_two, hrelp.e_sq]
       rcases H47Inv_c₁_pow dD hm1 k with hk | hk
       · rw [h1, hk]
-        simpa using U.one_mem
+        simp
       · rw [h1, hk] at hmem ⊢
         exact hc₁ g hmem
   · exact stroth_4_7_hinv_c1 F hm2 dD h hSN hnc e he hS hrel

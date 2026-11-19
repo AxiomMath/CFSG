@@ -91,7 +91,7 @@ theorem E27Config.isSylow_centralizer_of_not_mem (h : E27Config X K R T z) (hz :
     have : Nat.card T' = 3 ^ 2 := by rw [hT'card]; norm_num
     exact IsPGroup.of_card this
   obtain ⟨Q, hQ⟩ := hT'p.exists_le_sylow
-  have hQp : IsPGroup 3 (Subgroup.map D.subtype (Q : Subgroup ↥D)) := Q.isPGroup'.map _
+  have hQp : IsPGroup 3 (Subgroup.map D.subtype (Q : Subgroup ↥D)) := Q.isPGroup.map _
   have hQle : Nat.card (Subgroup.map D.subtype (Q : Subgroup ↥D)) ≤ 9 :=
     h.card_le_nine_of_isPGroup hz (by rintro _ ⟨x, -, rfl⟩; exact x.2) hQp
   have hQcard : Nat.card (Q : Subgroup ↥D) ≤ 9 := by

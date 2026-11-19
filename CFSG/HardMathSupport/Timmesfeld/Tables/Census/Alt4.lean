@@ -42,9 +42,9 @@ theorem sign_of_inV4 {u : Perm (Fin 4)} (h : InV4 u) : Perm.sign u = 1 := by
 
 @[expose] def kleinFour4 : Subgroup (alternatingGroup (Fin 4)) where
   carrier := {g | InV4 (g : Perm (Fin 4))}
-  mul_mem' := fun {a b} ha hb => inV_mul4 _ _ ha hb
+  mul_mem' := fun {_a _b} ha hb => inV_mul4 _ _ ha hb
   one_mem' := Or.inl rfl
-  inv_mem' := fun {a} ha => inV_inv4 _ ha
+  inv_mem' := fun {_a} ha => inV_inv4 _ ha
 
 theorem kleinFour_ne_bot4 : kleinFour4 ≠ ⊥ := by
   intro h

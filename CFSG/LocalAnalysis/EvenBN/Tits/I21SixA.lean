@@ -13,8 +13,10 @@ variable {G : Type} [Group G] [Finite G] {t u : G}
 
 @[expose] def TConj (t s : G) : Prop := ∃ g : G, g * t * g⁻¹ = s
 
+omit [Finite G] in
 theorem tConj_self (t : G) : TConj t t := ⟨1, by group⟩
 
+omit [Finite G] in
 theorem TConj.conj {s : G} (hs : TConj t s) (p : G) : TConj t (p * s * p⁻¹) := by
   obtain ⟨g, rfl⟩ := hs
   exact ⟨p * g, by group⟩
@@ -107,6 +109,7 @@ theorem exists_four_group :
     rwa [← Nat.card_coe_set_eq] at this
   exact ⟨E, hER, htE, hzE, hE2, le_antisymm hle hge⟩
 
+omit [Finite G] in
 theorem four_group_isElemAbelian {E : Subgroup G} (hER : E ≤ secTwoR t u)
     (hE2 : ∀ e ∈ E, e ^ 2 = 1) : IsElemAbelian 2 E :=
   ⟨⟨⟨fun a b => Subtype.ext (h.mul_comm_of_mem_R (hER a.2) (hER b.2))⟩⟩, hE2⟩
@@ -173,9 +176,8 @@ theorem four_group_elements [Finite K] {V : Subgroup K} (hV : IsElemAbelian 2 V)
     exact mul_eq_left.mp h0
   let S : Finset K := {1, z, v, v * z, a}
   have hS : S.card = 5 := by
-    simp [S, Finset.card_insert_of_notMem, hz1, hz1.symm, hv1, hv1.symm, hvz, hvz.symm, hvz1,
-      hvz1.symm, hvzz, hvzz.symm, hvzv, hvzv.symm, ha1, ha1.symm, haz, haz.symm, hav, hav.symm,
-      havz, havz.symm]
+    simp [S, Finset.card_insert_of_notMem, hz1.symm, hv1.symm, hvz.symm, hvz1.symm, hvzz.symm, hvzv.symm, ha1.symm, haz.symm, hav.symm,
+      havz.symm]
   have hsub : (S : Set K) ⊆ (V : Set K) := by
     intro g hg
     simp only [S, Finset.coe_insert, Finset.coe_singleton, Set.mem_insert_iff,
@@ -237,16 +239,19 @@ theorem z_not_tConj : ¬ TConj t (u ^ 2) := by
   apply C.secTwo.conj_z_ne_t g⁻¹
   rw [← hg]; group
 
+omit [Finite G] in
 theorem V_no_tConj {v : G} (hv : v ∈ V) : ¬ TConj t v := by
   rintro ⟨g, hg⟩
   exact C.no_meet V C.V_le C.V_norm C.V_elem C.V_card v hv g hg
 
+omit [Finite G] in
 theorem V_ne_bot : V ≠ ⊥ := by
   intro h0
   have := C.V_card
   rw [h0, Subgroup.card_bot] at this
   omega
 
+omit [Finite G] in
 theorem t_norm_V {v : G} (hv : v ∈ V) : t * v * t⁻¹ ∈ V :=
   C.V_norm t (C.R_le SecTwoHyp.t_mem_R) v hv
 
@@ -323,12 +328,16 @@ variable {G : Type} [Group G] [Finite G] {t u : G} {P V : Subgroup G} {v : G}
 
 include C
 
+omit [Finite G] in
 theorem v_sq : v ^ 2 = 1 := C.V_elem.2 v C.v_mem
 
+omit [Finite G] in
 theorem v_mul_v : v * v = 1 := by rw [← sq]; exact C.v_sq
 
+omit [Finite G] in
 theorem v_inv : v⁻¹ = v := inv_eq_of_mul_eq_one_right C.v_mul_v
 
+omit [Finite G] in
 theorem v_mem_P : v ∈ P := C.V_le C.v_mem
 
 theorem t_v : t * v * t⁻¹ = v * u ^ 2 := by
@@ -404,6 +413,7 @@ theorem v_normalizer : v ∈ normalizer (secTwoR t u : Set G) := by
       _ = r := by rw [C.v_mul_v, ← mul_inv_rev, C.v_mul_v, inv_one]; group
   rwa [e] at this
 
+omit [Finite G] in
 theorem v_sq_mem_R : v ^ 2 ∈ secTwoR t u := by rw [C.v_sq]; exact one_mem _
 
 theorem exists_w : ∃ w : G, (w = u ∨ w = t * u) ∧ w ^ 2 = u ^ 2 ∧ v * w * v⁻¹ = w :=
@@ -450,7 +460,7 @@ theorem N_ne_P : nsub t u P ≠ P := by
     have := C.z_central hp
     rw [this]; group
   rcases h.eq_of_mem_R_of_sq_eq_one (hER he) (hE2 e he) with h1 | h1 | h1 | h1
-  · rw [h1]; simpa using one_mem E
+  · rw [h1]; simp
   · rw [h1]; exact hpt
   · rw [h1, hpz]; exact hzE
   · rw [h1]
@@ -476,24 +486,30 @@ variable {G : Type} [Group G] [Finite G] {t u : G} {P V : Subgroup G} {v u₀ : 
 
 include C
 
+omit [Finite G] in
 theorem u₀_mem_R : u₀ ∈ secTwoR t u := by
   rcases C.hu₀ with h1 | h1
   · rw [h1]; exact SecTwoHyp.u_mem_R
   · rw [h1]; exact mul_mem SecTwoHyp.t_mem_R SecTwoHyp.u_mem_R
 
+omit [Finite G] in
 theorem u₀_mem_P : u₀ ∈ P := C.R_le C.u₀_mem_R
 
+omit [Finite G] in
 theorem u₀_four : u₀ ^ 4 = 1 := by
   rw [show (4 : ℕ) = 2 * 2 from rfl, pow_mul, C.u₀_sq]
   exact C.secTwo.z_sq
 
+omit [Finite G] in
 theorem u₀_order : orderOf u₀ = 4 := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   exact orderOf_eq_prime_pow (p := 2) (n := 1) (by simpa [C.u₀_sq] using C.secTwo.z_ne_one)
     (by simpa using C.u₀_four)
 
+omit [Finite G] in
 theorem t_u₀ : t * u₀ = u₀ * t := C.secTwo.mul_comm_of_mem_R SecTwoHyp.t_mem_R C.u₀_mem_R
 
+omit [Finite G] in
 theorem v_u₀' : v * u₀ = u₀ * v := by
   have := C.v_u₀
   rwa [mul_inv_eq_iff_eq_mul] at this
@@ -506,6 +522,7 @@ theorem nrel : I21.NRel t u₀ v where
   vw := C.v_u₀'
   vt := by rw [C.v_t, C.u₀_sq]
 
+omit [Finite G] in
 theorem R_nf {r : G} (hr : r ∈ secTwoR t u) : ∃ a b : ℕ, r = t ^ a * u₀ ^ b :=
   C.secTwo.exists_pow_t_w C.hu₀ hr
 
@@ -639,6 +656,7 @@ variable {G : Type} [Group G] [Finite G] {t u : G} {P V : Subgroup G} {v u₀ y�
 
 include C
 
+omit [Finite G] in
 theorem y₀_mem_P : y₀ ∈ P := by
   have hv := C.v_mem_P
   have hu := C.u₀_mem_P
@@ -646,6 +664,7 @@ theorem y₀_mem_P : y₀ ∈ P := by
   · rw [h1]; exact mul_mem hu hv
   · rw [h1]; exact mul_mem (pow_mem hu 3) hv
 
+omit [Finite G] in
 theorem ty₀_sq : (t * y₀) ^ 2 = 1 := by
   obtain ⟨g, hg⟩ := C.ty₀_conj
   rw [← hg, conj_pow, C.secTwo.t_sq]; group
@@ -657,7 +676,7 @@ theorem y₀_sq : y₀ ^ 2 = u ^ 2 := by
     simp only [pow_zero, one_mul, pow_one, mul_zero, add_zero, mul_one] at this
     rw [h1, this, C.u₀_sq]
   · have := h.nf_sq 0 3 1
-    simp only [pow_zero, one_mul, pow_one, mul_zero, add_zero, mul_one] at this
+    simp only [pow_zero, one_mul, pow_one, mul_zero, add_zero] at this
     rw [h1, this, show 2 * 3 = 4 + 2 by norm_num, pow_add, C.u₀_four, one_mul, C.u₀_sq]
 
 theorem u₀_y₀ : u₀ * y₀ = y₀ * u₀ := by
@@ -673,6 +692,7 @@ theorem u₀_y₀ : u₀ * y₀ = y₀ * u₀ := by
       _ = u₀ ^ 3 * (v * u₀) := by rw [hv]
       _ = (u₀ ^ 3 * v) * u₀ := by group
 
+omit [Finite G] in
 theorem t_y₀ : t * y₀ * t⁻¹ = y₀⁻¹ := by
   have h := C.secTwo
   have h1 : (t * y₀) * (t * y₀) = 1 := by rw [← pow_two]; exact C.ty₀_sq
@@ -681,6 +701,7 @@ theorem t_y₀ : t * y₀ * t⁻¹ = y₀⁻¹ := by
   have : t * y₀ * t * y₀ = 1 := by simpa [mul_assoc] using h1
   exact (eq_inv_of_mul_eq_one_left (by simpa [mul_assoc] using this))
 
+omit [Finite G] in
 theorem dihRel : I21.DihRel t y₀ := ⟨C.secTwo.t_sq, by rw [C.t_y₀]⟩
 
 theorem y₀_order : orderOf y₀ = 4 := by

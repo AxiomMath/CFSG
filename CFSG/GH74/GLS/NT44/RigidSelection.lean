@@ -91,8 +91,8 @@ theorem exists_rigid_selection_of_center_card_sixteen
     intro s hs hcount hcl hsKz
     by_contra hxKz
     have hle := ((hmax s hs).2 hcount).2 hcl
-    have hs1 : (if s ∈ Kz (kBar K0) s then 1 else 0) = 1 := if_pos hsKz
-    have hx0 : (if x ∈ Kz (kBar K0) x then 1 else 0) = 0 := if_neg hxKz
+    have hs1 : (if s ∈ Kz (kBar K0) s then 1 else 0) = 1 := ite_eq_left hsKz
+    have hx0 : (if x ∈ Kz (kBar K0) x then 1 else 0) = 0 := ite_eq_right hxKz
     rw [hs1, hx0] at hle
     omega
   have hposSeed : 0 < (RigidSet (kBar K0) zSeed).ncard :=
@@ -188,7 +188,7 @@ theorem exists_rigid_selection_of_center_card_sixteen
     exact ⟨J, hJ, hrig, hEq, fun K hK => (hvert K hK).1,
       by rw [hEq, hinj.ncard_image]⟩
   obtain ⟨Q, hQ⟩ := hT.isPGroup.exists_le_sylow
-  have hSp : IsPGroup 2 ↥(Q : Subgroup G) := Q.isPGroup'
+  have hSp : IsPGroup 2 ↥(Q : Subgroup G) := Q.isPGroup
   have hx1 : x ≠ 1 := by
     intro h
     rw [h, orderOf_one] at hx2

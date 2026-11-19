@@ -83,17 +83,17 @@ theorem ggSecFiveBNativeRow_spSplit {K : Type} [Field K] [Finite K] {f p r : ℕ
     interval_cases f
     · have h1 : 1 < Nat.card K := Finite.one_lt_card
       rw [hK] at h1
-      simpa using h1
+      simp at h1
     · have h1 : p ∣ 1 := by simpa using hpq
       exact hp.ne_one (Nat.dvd_one.mp h1)
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.ABGLocalTools.SL2Facts.charP_of_card_eq_prime_pow Nat.prime_two hK
   have hpq' : p ∣ Nat.card K - 1 := by rw [hK]; exact hpq
   have hpK : (p : K) ≠ 0 := TableBSymp.natCast_ne_zero_of_charTwo hp hp2
   obtain ⟨ζ, hζo⟩ := ReflSp.exists_orderOf_eq (K := K) hp hpq'
   have hζ : ζ ^ p = 1 := by rw [← hζo]; exact pow_orderOf_eq_one ζ
-  haveI : NeZero p := ⟨hp.ne_zero⟩
-  haveI : NeZero r := ⟨by omega⟩
+  have : NeZero p := ⟨hp.ne_zero⟩
+  have : NeZero r := ⟨by omega⟩
   let τ : (Fin r → Multiplicative (ZMod p)) →* StatedSp r K :=
     TableBSymp.spTorusSp (m := r) hζ
   have hτ : Function.Injective τ := TableBSymp.spTorusSp_injective (m := r) hζ hζo
@@ -123,7 +123,7 @@ theorem ggSecFiveBNativeRow_spSplit {K : Type} [Field K] [Finite K] {f p r : ℕ
     by_cases hlam : lam = 1
     ·
       have hm1 : Nat.card {i : Fin r // x i = 1} = r - 1 := by
-        rw [if_pos hlam] at hcount
+        rw [ite_eq_left hlam] at hcount
         have h1 : p ^ (r - Nat.card {i : Fin r // x i = 1}) = p ^ 1 := by
           simpa using hcount.symm
         have h2 : r - Nat.card {i : Fin r // x i = 1} = 1 :=
@@ -143,7 +143,7 @@ theorem ggSecFiveBNativeRow_spSplit {K : Type} [Field K] [Finite K] {f p r : ℕ
       exact Or.inr ⟨hsparse, ⟨⟨.C, r - 1, f⟩, rfl, hLam, hlab⟩⟩
     ·
       have hm2 : Nat.card {i : Fin r // x i = lam ∨ x i = lam⁻¹} = r := by
-        rw [if_neg hlam] at hcount
+        rw [ite_eq_right hlam] at hcount
         have h1 : p ^ (r - Nat.card {i : Fin r // x i = lam ∨ x i = lam⁻¹} + 1) = p ^ 1 := by
           simpa using hcount.symm
         have h2 : r - Nat.card {i : Fin r // x i = lam ∨ x i = lam⁻¹} + 1 = 1 :=

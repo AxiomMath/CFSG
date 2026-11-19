@@ -37,7 +37,7 @@ private theorem orbit_span_stable {K W : Type*} [CommRing K] [AddCommGroup W] [M
   · rintro z ⟨i, rfl⟩
     refine Submodule.subset_span ⟨i + 1, ?_⟩
     simp only [pow_succ', Module.End.mul_apply]
-  · simpa using Submodule.zero_mem (Submodule.span K (Set.range fun i : ℕ => (σ ^ i) u))
+  · simp
   · intro z w _ _ hz hw
     rw [map_add]
     exact Submodule.add_mem _ hz hw
@@ -65,9 +65,9 @@ theorem four_dvd_finrank_of_fpf {W : Type*} [AddCommGroup W] [Module (ZMod 2) W]
     (σ : W →ₗ[ZMod 2] W) (h5 : σ ^ 5 = 1) (hfix : ∀ x : W, σ x = x → x = 0) :
     4 ∣ Module.finrank (ZMod 2) W := by
   classical
-  letI := Fintype.ofFinite W
-  haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  let := Fintype.ofFinite W
+  have : Fact (Nat.Prime 5) := ⟨by decide⟩
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   let f : Function.End W := fun x => σ x
   have hf : f ^ 5 ^ 1 = 1 := by
     change (fun x : W => σ x) ^[5] = id
@@ -96,7 +96,7 @@ theorem finrank_span_orbit_eq_four {W : Type*} [AddCommGroup W] [Module (ZMod 2)
       σ x = x → x = 0) :
     Module.finrank (ZMod 2) (Submodule.span (ZMod 2) (Set.range fun i : ℕ => (σ ^ i) u)) = 4 := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨by decide⟩
+  have : Fact (Nat.Prime 2) := ⟨by decide⟩
   let M : Submodule (ZMod 2) W := Submodule.span (ZMod 2) (Set.range fun i : ℕ => (σ ^ i) u)
   have hgen : ∀ i : ℕ, (σ ^ i) u ∈ M := fun i => Submodule.subset_span ⟨i, rfl⟩
   have huM : u ∈ M := by simpa using hgen 0
@@ -157,7 +157,7 @@ theorem finrank_span_orbit_eq_four {W : Type*} [AddCommGroup W] [Module (ZMod 2)
     rintro _ ⟨k, rfl⟩
     exact hgen (k : ℕ)
   have hMN_eq : M = N := le_antisymm hMN hNM
-  haveI : Module.Finite (ZMod 2) ↥N := by
+  have : Module.Finite (ZMod 2) ↥N := by
     change Module.Finite (ZMod 2) ↥(Submodule.span (ZMod 2) (Set.range b))
     exact Module.Finite.span_of_finite (ZMod 2) (Set.finite_range b)
   have hfinN_le : Module.finrank (ZMod 2) ↥N ≤ 4 := by
@@ -224,7 +224,7 @@ theorem commute_on_orbit_span {K W : Type*} [CommRing K] [AddCommGroup W] [Modul
         simpa [Module.End.mul_apply] using h
       rw [hci]
       exact hMpow i hφu
-    · simpa using Submodule.zero_mem M
+    · simp
     · intro z w _ _ hz hw
       rw [map_add]
       exact Submodule.add_mem _ hz hw

@@ -50,7 +50,7 @@ theorem exists_conj_mem_ne_one (hF : UnitaryFieldData 2 m F) (h5 : 5 ∣ 2 ^ m +
     · subst hr1
       exact Subtype.ext (by rw [← hr, map_one, Subgroup.coe_one])
     · exact (hall r hr1 (hr ▸ x.2)).elim
-  haveI : Finite (D ⧸ (inner (primeFormP hF
+  have : Finite (D ⧸ (inner (primeFormP hF
       ((1 : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F))).subgroupOf D) :=
     Nat.finite_of_card_ne_zero (by rw [hDI]; norm_num)
   have h1 := Nat.card_le_card_of_injective φ hinj
@@ -62,7 +62,7 @@ theorem exists_inv_of_conj_mem (hF : UnitaryFieldData 2 m F) (h5 : 5 ∣ 2 ^ m +
     (hX : IsElemAbelian 5 X) (hnl : ∀ α ∈ X, α ≠ 1 → GLAPLayer 5 (fixSubgroup α) = ⊥)
     {r : primeFormP hF ((1 : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F)}
     (hr : MulAut.conj r ∈ X) : r ^ 5 = 1 ∧ ∃ w, w * r * w⁻¹ = r⁻¹ := by
-  haveI := hF.charP
+  have := hF.charP
   have hne : ¬(5 = 3 ∧ 2 ^ m = 2) := fun h' => by omega
   have hZ : ∀ T : gramSU hF ((1 : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F),
       primeFormConjHom hF ((1 : GL (Fin 5) F) : Matrix (Fin 5) (Fin 5) F) ⟨T, T.2.1⟩ = 1 →

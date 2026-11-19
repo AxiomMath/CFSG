@@ -56,10 +56,6 @@ public theorem secondCase_psl2_normalizer_innerAction_of_quotientInner
           ⟨(ℓ : G) * (x : G) * (ℓ : G)⁻¹,
             hLnorm.2 (ℓ : G) hℓN (x : G) x.2⟩
       convert hqeq using 1
-      all_goals
-        apply congrArg (QuotientGroup.mk' (Subgroup.center L))
-        apply Subtype.ext
-        rfl
     have hqone : QuotientGroup.mk' (Subgroup.center L) (α x * (β x)⁻¹) = 1 := by
       rw [map_mul, map_inv, hqeq']
       simp

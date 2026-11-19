@@ -28,7 +28,7 @@ theorem center_eq_bot_and_three_dvd {X : Type} [Group X] [Finite X] (hO : pPrime
   ·
     refine (Subgroup.eq_bot_iff_forall (Subgroup.center K)).mpr fun z hz => ?_
     obtain ⟨P⟩ : Nonempty (Sylow 3 K) := inferInstance
-    have hPmap : IsPGroup 3 ((P : Subgroup K).map K.subtype) := P.isPGroup'.map K.subtype
+    have hPmap : IsPGroup 3 ((P : Subgroup K).map K.subtype) := P.isPGroup.map K.subtype
     obtain ⟨Q, hQ⟩ := hPmap.exists_le_sylow
     have hPcomm : IsMulCommutative P := by
       refine IsMulCommutative.of_comm fun a b => Subtype.ext (K.subtype_injective ?_)

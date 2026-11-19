@@ -16,7 +16,7 @@ variable {G : Type} [Group G] [Finite G] {V T A K S X : Subgroup G} {p : ℕ}
 namespace Nine3Core
 
 theorem V_le (h : Nine3Core V T A K S X p) : V ≤ T := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hVnorm : (V.subgroupOf (normalizer (V : Set G))).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer Subgroup.le_normalizer).2 le_rfl
   have hVp : IsPGroup 2 V := B2F.isPGroup_of_isElemAbelian h.h9.hyp7.1
@@ -104,7 +104,7 @@ theorem nine_three_four_wClos (h : Nine3Core V T A K S X p) :
 namespace Nine3Core
 
 theorem V_le_S (h : Nine3Core V T A K S X p) : V ≤ S :=
-  fun x hx => nine_three_four_centralizer h ⟨h.V_le hx, h.V_le_centralizer hx⟩
+  fun _x hx => nine_three_four_centralizer h ⟨h.V_le hx, h.V_le_centralizer hx⟩
 
 theorem V_mem_nineDelta (h : Nine3Core V T A K S X p) : V ∈ nineDelta V S :=
   ⟨⟨1, (CFSG.Quasithin.conjSubgroup_one V).symm⟩, h.V_le_S⟩

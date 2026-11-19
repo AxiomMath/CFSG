@@ -62,7 +62,7 @@ theorem natCard_closure {gs : List G} (hinv : ∀ g ∈ gs, g * g = 1)
   have hset : ((Subgroup.closure {g | g ∈ gs} : Subgroup G) : Set G) =
       ↑(subprods gs).toFinset := by
     ext y
-    simp only [SetLike.mem_coe, List.coe_toFinset, Set.mem_setOf_eq]
+    simp only [SetLike.mem_coe, List.coe_toFinset, Set.mem_ofPred_eq]
     exact ⟨mem_subprods_of_mem_closure hinv hcl, subprods_mem_closure gs y⟩
   have h1 : Nat.card (Subgroup.closure {g | g ∈ gs}) =
       ((Subgroup.closure {g | g ∈ gs} : Subgroup G) : Set G).ncard := Nat.card_coe_set_eq _
@@ -107,7 +107,7 @@ variable {n : ℕ}
 
 @[expose] def tcomp (a b : List ℕ) : List ℕ := b.map fun j => a.getD j 0
 
-@[expose] abbrev tid (n : ℕ) : List ℕ := tab (1 : Perm (Fin n))
+abbrev tid (n : ℕ) : List ℕ := tab (1 : Perm (Fin n))
 
 @[expose] def subprodsL (e : List ℕ) : List (List ℕ) → List (List ℕ)
   | [] => [e]
@@ -141,13 +141,13 @@ theorem mem_subprodsL {gs : List (Perm (Fin n))} {y : Perm (Fin n)}
   rw [← map_tab_subprods]
   exact List.mem_map.mpr ⟨y, hy, rfl⟩
 
-@[expose] abbrev TableClosed (n : ℕ) (gs : List (Perm (Fin n))) : Prop :=
+abbrev TableClosed (n : ℕ) (gs : List (Perm (Fin n))) : Prop :=
   (∀ a ∈ gs.map tab, tcomp a a = tid n) ∧
   (∀ a ∈ gs.map tab, ∀ b ∈ subprodsL (tid n) (gs.map tab),
     tcomp a b ∈ subprodsL (tid n) (gs.map tab)) ∧
   (subprodsL (tid n) (gs.map tab)).Nodup
 
-@[expose] abbrev TablePair (n : ℕ) (gsE gsK : List (Perm (Fin n))) : Prop :=
+abbrev TablePair (n : ℕ) (gsE gsK : List (Perm (Fin n))) : Prop :=
   (∀ b ∈ subprodsL (tid n) (gsE.map tab), tcomp b b = tid n) ∧
   (∀ b ∈ subprodsL (tid n) (gsE.map tab),
     b ∈ subprodsL (tid n) (gsK.map tab) → b = tid n) ∧
@@ -203,7 +203,7 @@ theorem sylowFourJoined_of_tables (G : Subgroup (Perm (Fin n))) (gsE gsK : List 
     (hlen : 3 ≤ gsE.length) (hcard : Nat.card G = 2 ^ (gsE.length + gsK.length) * m)
     (hm : ¬ 2 ∣ m) : SylowFourJoined G := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hsq, hdisj, hnorm⟩ := hEK
   have hinvE := hE.involutions
   have hinvK := hK.involutions
@@ -274,7 +274,7 @@ def m12a₃ : Equiv.Perm (Fin 12) := M12Cover.s₃ * M12Cover.s₃
 
 def m12gsA : List (Equiv.Perm (Fin 12)) := [m12a₁, m12a₂, m12a₃]
 
-@[expose] abbrev m12A : Subgroup (Equiv.Perm (Fin 12)) := Subgroup.closure {g | g ∈ m12gsA}
+abbrev m12A : Subgroup (Equiv.Perm (Fin 12)) := Subgroup.closure {g | g ∈ m12gsA}
 
 theorem m12_tableClosed : TableClosed 12 m12gsA := by decide +kernel
 

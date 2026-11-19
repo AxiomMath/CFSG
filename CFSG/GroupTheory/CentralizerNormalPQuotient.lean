@@ -66,7 +66,7 @@ theorem not_dvd_card_centralizer_of_isPGroup_quotient {X : Type*} [Group X] [Fin
     have hCnorm : C.Normal := Subgroup.normal_centralizer
     have hPchar' : (P : Subgroup C).Characteristic := hPchar
     exact ConjAct.normal_of_characteristic_of_normal (H := C) (K := (P : Subgroup C))
-  have hPisP : IsPGroup p (P.map C.subtype) := P.isPGroup'.map C.subtype
+  have hPisP : IsPGroup p (P.map C.subtype) := P.isPGroup.map C.subtype
   have hbot : P.map C.subtype = ⊥ := hO _ hPnormalX hPisP
   have hPbot : (P : Subgroup C) = ⊥ :=
     (Subgroup.map_eq_bot_iff_of_injective (P : Subgroup C) C.subtype_injective).mp hbot

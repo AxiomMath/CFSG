@@ -66,7 +66,7 @@ theorem k1419ClsSympData {S : Type} [Group S] [Finite S] {labK : GLALabel} {α :
         omega
       · exact h0
     have h2 : (2 : K) = 0 := by
-      haveI := Fintype.ofFinite K
+      have := Fintype.ofFinite K
       obtain ⟨q, hq, k, hqp, hqcard⟩ := FiniteField.card' K
       have hc2 := hcard'
       rw [Nat.card_eq_fintype_card, hqcard] at hc2

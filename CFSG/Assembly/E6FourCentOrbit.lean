@@ -36,7 +36,7 @@ private theorem rho_rho_e6RootVec
 private theorem e6MaskRoots_or (c m : ℕ) :
     e6MaskRoots (c ||| m) = e6MaskRoots c ∪ e6MaskRoots m := by
   ext γ
-  simp only [e6MaskRoots, Set.mem_setOf_eq, Set.mem_union]
+  simp only [e6MaskRoots, Set.mem_ofPred_eq, Set.mem_union]
   constructor
   · rintro ⟨k, hk, hbit, rfl⟩
     rw [Nat.testBit_or, Bool.or_eq_true] at hbit
@@ -137,9 +137,9 @@ theorem e6Four_rationalRoots {L : Type} [Field L]
     · exact ⟨0, γ, by rw [hi]; exact hγ, by simp⟩
     · rw [← himg] at hγ
       obtain ⟨δ, hδ, rfl⟩ := hγ
-      exact ⟨1, δ, by rw [hi]; exact hδ, by simp [Function.iterate_one]⟩
+      exact ⟨1, δ, by rw [hi]; exact hδ, by simp⟩
 
-theorem e6Four_hasFive_card {R : ℕ} (hR : R < 2 ^ 72) (h : hasFive R sigsLit 0 = true) :
+theorem e6Four_hasFive_card {R : ℕ} (_hR : R < 2 ^ 72) (h : hasFive R sigsLit 0 = true) :
     6 ≤ Nat.card {w : Fin Tag.E6.rank → ZMod 5 //
       E6FourIsSol w ∧ ∀ γ ∈ e6MaskRoots R, e6Pair w γ = 0} := by
   classical
@@ -177,7 +177,7 @@ theorem e6Four_hasFive_card {R : ℕ} (hR : R < 2 ^ 72) (h : hasFive R sigsLit 0
       ∀ γ ∈ e6MaskRoots R, e6Pair 0 γ = 0 := by
     refine ⟨?_, ?_⟩
     · intro j
-      simp [E6FourIsSol]
+      simp
     · intro γ _
       simp [e6Pair]
   let z : S := ⟨0, hzero.1, hzero.2⟩
@@ -197,8 +197,8 @@ theorem e6Four_hasFive_card {R : ℕ} (hR : R < 2 ^ 72) (h : hasFive R sigsLit 0
     intro a ha b hb hab
     have ha' : a ∈ l := by simpa [T] using ha
     have hb' : b ∈ l := by simpa [T] using hb
-    have hfa : f a = ⟨e6SolVec a, (hmem a ha').1, (hmem a ha').2⟩ := dif_pos ha'
-    have hfb : f b = ⟨e6SolVec b, (hmem b hb').1, (hmem b hb').2⟩ := dif_pos hb'
+    have hfa : f a = ⟨e6SolVec a, (hmem a ha').1, (hmem a ha').2⟩ := dite_eq_left ha'
+    have hfb : f b = ⟨e6SolVec b, (hmem b hb').1, (hmem b hb').2⟩ := dite_eq_left hb'
     rw [hfa, hfb] at hab
     have heq : e6SolVec a = e6SolVec b := congrArg Subtype.val hab
     have ha625 : a < 625 := by
@@ -213,7 +213,7 @@ theorem e6Four_hasFive_card {R : ℕ} (hR : R < 2 ^ 72) (h : hasFive R sigsLit 0
     intro hz
     obtain ⟨n, hnT, hnf⟩ := Finset.mem_image.mp hz
     have hn' : n ∈ l := by simpa [T] using hnT
-    have hfn : f n = ⟨e6SolVec n, (hmem n hn').1, (hmem n hn').2⟩ := dif_pos hn'
+    have hfn : f n = ⟨e6SolVec n, (hmem n hn').1, (hmem n hn').2⟩ := dite_eq_left hn'
     rw [hfn] at hnf
     have hz0 : e6SolVec n = 0 := by
       have := congrArg Subtype.val hnf

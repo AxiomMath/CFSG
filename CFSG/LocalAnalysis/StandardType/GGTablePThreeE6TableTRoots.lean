@@ -22,15 +22,15 @@ private lemma ofFn_pi_single (i : Fin Tag.E6.rank) :
   rw [List.getElem?_ofFn, basisVec, List.getElem?_map]
   by_cases hk : k < Tag.E6.rank
   · have hk6 : k < 6 := hk
-    rw [dif_pos hk, List.getElem?_range hk6]
+    rw [dite_eq_left hk, List.getElem?_range hk6]
     simp only [Option.map_some, Option.some.injEq]
     by_cases hik : i.val = k
     · have hfin : (⟨k, hk⟩ : Fin Tag.E6.rank) = i := Fin.ext hik.symm
-      rw [hfin, Pi.single_eq_same, if_pos hik]
+      rw [hfin, Pi.single_eq_same, ite_eq_left hik]
     · have hne : (⟨k, hk⟩ : Fin Tag.E6.rank) ≠ i := fun heq => hik (Fin.ext_iff.mp heq).symm
-      rw [Pi.single_eq_of_ne hne, if_neg hik]
+      rw [Pi.single_eq_of_ne hne, ite_eq_right hik]
   · have hk6 : 6 ≤ k := Nat.le_of_not_lt (show ¬ k < 6 from hk)
-    rw [dif_neg hk, List.getElem?_eq_none (by simpa using hk6)]
+    rw [dite_eq_right hk, List.getElem?_eq_none (by simpa using hk6)]
     rfl
 
 private lemma length_row (i : Fin Tag.E6.rank) : (cartan.getD i.val []).length = 6 := by
@@ -52,7 +52,7 @@ private lemma pi_single_apply (i k : Fin Tag.E6.rank) :
   · subst h; simp [Pi.single_eq_same]
   · have hki : k ≠ i := fun hki => h hki.symm
     have hval : ¬ i.val = k.val := fun hv => h (Fin.ext hv)
-    rw [Pi.single_eq_of_ne hki, if_neg hval]
+    rw [Pi.single_eq_of_ne hki, ite_eq_right hval]
 
 private lemma basisVec_getElem (i : Fin Tag.E6.rank) {k : Nat} (hk : k < 6) :
     (basisVec i.val)[k]'(by rw [length_basisVec]; exact hk) =
@@ -104,7 +104,7 @@ private lemma ofFn_reflect (i : Fin Tag.E6.rank) (γ : Fin Tag.E6.rank → ℤ) 
   rw [List.getElem?_ofFn, Certificates.Data.E6TableT.reflect]
   by_cases hk : k < Tag.E6.rank
   · have hk6 : k < 6 := hk
-    rw [dif_pos hk]
+    rw [dite_eq_left hk]
     rw [getElem?_sub_of_lt (a := List.ofFn γ)
       (b := scalarMul (dot (cartan.getD i.val []) (List.ofFn γ)) (basisVec i.val))
       (by rw [List.length_ofFn]; exact hk)
@@ -112,7 +112,7 @@ private lemma ofFn_reflect (i : Fin Tag.E6.rank) (γ : Fin Tag.E6.rank → ℤ) 
     rw [Option.some.injEq, reflect_apply i γ ⟨k, hk⟩, List.getElem_ofFn]
     simp only [scalarMul_eq_map, List.getElem_map, basisVec_getElem i hk6]
   · have hk6 : 6 ≤ k := Nat.le_of_not_lt (show ¬ k < 6 from hk)
-    rw [dif_neg hk]
+    rw [dite_eq_right hk]
     rw [getElem?_sub_eq_none
       (by rw [List.length_ofFn]; exact Nat.le_of_not_lt hk)
       (by rw [length_scalarMul, length_basisVec]; exact hk6)]
@@ -176,8 +176,8 @@ private lemma closureStep_sound {acc frontier : List Vec}
     dsimp only
     by_cases hc : acc.contains (Certificates.Data.E6TableT.reflect i v) ||
         p'.2.contains (Certificates.Data.E6TableT.reflect i v)
-    · rw [if_pos hc]; exact hp'
-    · rw [if_neg hc]
+    · rw [ite_eq_left hc]; exact hp'
+    · rw [ite_eq_right hc]
       intro w hw
       rw [List.mem_append] at hw
       rcases hw with hw | hw

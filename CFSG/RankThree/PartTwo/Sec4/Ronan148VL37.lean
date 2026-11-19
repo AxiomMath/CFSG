@@ -166,10 +166,10 @@ private lemma pow_three_of_mem_sup {X : Type*} [Group X] {U V : Subgroup X}
 private lemma pow_three_of_pow_nine {G : Type*} [Group G] [Finite G] {S : Subgroup G}
     (hS : Nat.card S = 9) (hind : ¬ 3 ∣ S.index) (hexp : ∀ s ∈ S, s ^ 3 = 1) {x : G}
     (hx : x ^ 9 = 1) : x ^ 3 = 1 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hP : IsPGroup 3 S := IsPGroup.of_card (n := 2) (hS.trans (by norm_num))
   obtain ⟨Q0, hQ0⟩ : ∃ Q0 : Sylow 3 G, (Q0 : Subgroup G) = S := ⟨hP.toSylow hind, rfl⟩
-  haveI : Finite (Sylow 3 G) := Sylow.finite_of_finiteIndex Q0
+  have : Finite (Sylow 3 G) := Sylow.finite_of_finiteIndex Q0
   have hxP : IsPGroup 3 (Subgroup.zpowers x) :=
     IsPGroup.of_card_dvd_pow (n := 2)
       (by rw [Nat.card_zpowers]; exact orderOf_dvd_of_pow_eq_one hx)
@@ -193,7 +193,7 @@ private lemma pow_three_of_pow_nine_psl
     (hS : Nat.card S = 9) (hexp : ∀ s ∈ S, s ^ 3 = 1)
     {x : Matrix.ProjectiveSpecialLinearGroup (Fin 3) (ZMod 7)} (hx : x ^ 9 = 1) :
     x ^ 3 = 1 := by
-  haveI : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 3) (ZMod 7)) :=
+  have : Finite (Matrix.ProjectiveSpecialLinearGroup (Fin 3) (ZMod 7)) :=
     Nat.finite_of_card_ne_zero (by rw [card_psl_three_seven]; norm_num)
   have hidx : S.index * Nat.card S =
       Nat.card (Matrix.ProjectiveSpecialLinearGroup (Fin 3) (ZMod 7)) :=

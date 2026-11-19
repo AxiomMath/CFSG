@@ -14,7 +14,7 @@ namespace TableBExc.E6Three
 open CFSG.Blueprint.Chevalley CFSG.LieType.Chevalley CFSG.LieType.Steinberg.Minuscule
 
 
-theorem card_ker_dvd_three_e6 {n : ℕ} {K : Type} [Field K] [Finite K] (hn : 1 ≤ n)
+theorem card_ker_dvd_three_e6 {n : ℕ} {K : Type} [Field K] [Finite K] (_hn : 1 ≤ n)
     (hK : Nat.card K = 2 ^ n) {L' : Type} [Group L'] [Finite L']
     {ψ : L' →* RecipeGroup .E6 K} (hψ : Function.Surjective ψ)
     (hker : ψ.ker ≤ Subgroup.center L') (hperf : commutator L' = ⊤) :

@@ -171,9 +171,9 @@ theorem uc22s13xc_center_eq_bot_of_isU3_quot
     (hX : CFSG.Open.IsQuasisimple X) {n : ℕ} (hn : Even n)
     (hU : IsU3 (X ⧸ Subgroup.center X) n) : Subgroup.center X = ⊥ := by
   obtain ⟨hp, hf, F, _, _, hFcard, ⟨e₀⟩⟩ := CFSG.GH74.Generic.lieModel_psu_data hU
-  haveI : Fact (Nat.Prime 2) := ⟨hp⟩
-  haveI : CharP F 2 := CFSG.LieType.Steinberg.charP_of_card_eq_sq_pow hp hFcard
-  haveI : Group.IsPerfect X := Group.isPerfect_def.mpr hX.1
+  have : Fact (Nat.Prime 2) := ⟨hp⟩
+  have : CharP F 2 := CFSG.LieType.Steinberg.charP_of_card_eq_sq_pow hp hFcard
+  have : Group.IsPerfect X := Group.isPerfect_def.mpr hX.1
   have hX' : CFSG.IsQuasisimple X :=
     (CFSG.Foundations.SteinbergCA.quasisimple_iff X).2.2.1.mpr hX
   have hne : ((3 : ℕ), 2 ^ n) ≠ (3, 2) := by

@@ -23,7 +23,7 @@ open CFSG.ASVolI.ChH CFSG.Quasithin CFSG.Quasithin.H CFSG.Quasithin.H.Mathieu
 private theorem congrHom_mul_inv_aux {V W : Type*} [CommGroup V] [CommGroup W]
     (e : V ≃* W) (g : MulAut V) (y : V) :
     congrHom e g (e y) * (e y)⁻¹ = e (g y * y⁻¹) := by
-  simp [congrHom_apply]
+  simp
 
 theorem h162O_transport
     {V : Type*} [CommGroup V]

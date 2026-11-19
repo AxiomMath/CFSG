@@ -50,6 +50,7 @@ section Main
 variable {G : Type} [Group G] [Finite G]
 variable {b : G} {J B A P D : Subgroup G} {a : G}
 
+omit [Finite G] in
 theorem mem_oppE {U : Subgroup G} {x : G} :
     x ∈ OppE 3 (CenS U) ↔ ∃ c : ↥(CenS U), (c : G) = x ∧
       (QuotientGroup.mk c : CQ U) ∈ layer (CQ U) := by
@@ -57,6 +58,7 @@ theorem mem_oppE {U : Subgroup G} {x : G} :
     Subgroup.subtype_apply]
   exact ⟨fun ⟨c, hc, h⟩ => ⟨c, h, hc⟩, fun ⟨c, h, hc⟩ => ⟨c, hc, h⟩⟩
 
+omit [Finite G] in
 theorem mem_opp {U : Subgroup G} {x : G} :
     x ∈ Opp 3 (CenS U) ↔ ∃ c : ↥(CenS U), (c : G) = x ∧ c ∈ pPrimeCore 3 ↥(CenS U) := by
   simp only [Opp, inSubgroup, Subgroup.mem_map, Subgroup.subtype_apply]
@@ -81,9 +83,9 @@ theorem sec35_iii (hKL : FF79KL35b) (hG : IsSimpleGroup G) (hna : ∃ x y : G, x
   have hfix := kl35b_apply hKL hd.beta3 hS hd.K_fix hKm hL
   have hKle : cqImg U (Lay (J ⊓ Cen a)) ≤ layer (CQ U) := hS.layer_eq ▸ hS.K_le
   have hQodd : Odd (Nat.card (Opp 3 (CenS U))) := sec34_odd_opp hs h hU
-  haveI : (pPrimeCore 3 ↥(CenS U)).Normal := pPrimeCore_normal
+  have : (pPrimeCore 3 ↥(CenS U)).Normal := pPrimeCore_normal
   have hsimp : IsSimpleGroup ↥(Lay (J ⊓ Cen a)) := by
-    haveI : IsSimpleGroup (alternatingGroup (Fin 5)) := alternatingGroup.isSimpleGroup_five
+    have : IsSimpleGroup (alternatingGroup (Fin 5)) := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
     exact e1.isSimpleGroup
   have hKeven : Even (Nat.card (Lay (J ⊓ Cen a))) := by
     rw [Nat.card_congr e1.toEquiv, nat_card_alternatingGroup]

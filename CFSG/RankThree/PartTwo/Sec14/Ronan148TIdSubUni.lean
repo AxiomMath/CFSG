@@ -14,8 +14,8 @@ open CFSG.LocalAnalysis.ComponentInitial (UnitaryFieldData)
 variable {K : Type} [Field K] {π : Bool} {p f : ℕ}
 
 private def uniOfSqZero (N : Matrix (Fin 3) (Fin 3) K) (hN : N * N = 0) : GL (Fin 3) K :=
-  ⟨1 + N, 1 - N, by simp [mul_add, add_mul, mul_sub, sub_mul, hN],
-    by simp [mul_add, add_mul, mul_sub, sub_mul, hN]⟩
+  ⟨1 + N, 1 - N, by simp [add_mul, mul_sub, hN],
+    by simp [mul_add, sub_mul, hN]⟩
 
 private theorem uni_pow_one_add (N : Matrix (Fin 3) (Fin 3) K) (hN : N * N = 0) (n : ℕ) :
     (1 + N) ^ n = 1 + (n : K) • N := by
@@ -61,7 +61,7 @@ private theorem uni_of_sqZero (N : Matrix (Fin 3) (Fin 3) K) (hN : N * N = 0)
 theorem exists_uni (hK : PiField π p f K) :
     ∃ U ∈ slPi π 3 (p ^ f) K, U ∉ StatedScalars (Fin 3) K ∧ U ^ p = 1 ∧
       ∀ e : Kˣ, U * diagE e = diagE e * U := by
-  haveI : CharP K p := charP_of_piField hK
+  have : CharP K p := charP_of_piField hK
   have hp : (p : K) = 0 := CharP.cast_eq_zero K p
   cases π
   ·
@@ -98,12 +98,12 @@ theorem exists_uni (hK : PiField π p f K) :
     constructor
     · rw [hU, Matrix.det_fin_three]
       simp [hNdef]
-      first | ring1 | linear_combination hγ' | linear_combination (-1 : K) * hγ'
+      linear_combination hγ'
     · rw [hU]
       ext i j
       fin_cases i <;> fin_cases j <;>
         simp [hNdef, Matrix.mul_apply, Fin.sum_univ_three, hbt, h.bar_bar] <;>
-        first | ring1 | linear_combination hγ' | linear_combination (-1 : K) * hγ'
+        first | ring1 | linear_combination hγ'
   ·
     obtain ⟨N, hNdef⟩ : ∃ N : Matrix (Fin 3) (Fin 3) K,
         N = !![0, 0, 0; 0, 0, 1; 0, 0, 0] := ⟨_, rfl⟩

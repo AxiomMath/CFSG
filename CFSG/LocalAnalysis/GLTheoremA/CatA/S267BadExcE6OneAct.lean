@@ -144,8 +144,8 @@ theorem actData_of_diagAct {Ω : Type} [Group Ω] {B : Subgroup Ω} [Finite K]
         rootCharKernel (zetaHom ζ hζ (Multiplicative.ofAdd y))) :
     ModelGen.ActData 3 B (fun x => Γ x) := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite ↥(adjointGroup .E6 K) := generated_group_finite .E6 K
   set j₀ := highNode .E6 with hj₀
   set e₁ : Fin Tag.E6.rank → ZMod 3 := Pi.single j₀ 1 with he₁
   set ρ := diagHom (K := K) ζ hζ with hρ

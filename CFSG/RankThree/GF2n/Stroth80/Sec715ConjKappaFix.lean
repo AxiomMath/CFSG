@@ -44,10 +44,12 @@ end Generic
 variable {K E X : Type*} [Field K] [AddCommGroup E] [Module K E] [FiniteDimensional K E]
   [Group X] {φ : X →* (E ≃ₗ[K] E)} {V L Nb Rb : Subgroup X} {Tt : X → Submodule K E}
 
+omit [FiniteDimensional K E] in
 private theorem phi_inv_phi (g : X) (x : E) : φ g⁻¹ (φ g x) = x := by
   rw [← LinearEquiv.mul_apply, ← map_mul, inv_mul_cancel, map_one]
   rfl
 
+omit [FiniteDimensional K E] in
 private theorem symm_phi (g : X) : ((φ g).symm : E →ₗ[K] E) = (φ g⁻¹ : E →ₗ[K] E) := by
   refine LinearMap.ext fun x => ?_
   apply (φ g).injective
@@ -61,7 +63,7 @@ theorem kappa_of_frame (F : Sec715Frame φ V L Nb Rb Tt) {ψ : E →ₗ[K] E}
     (hψV : LinearMap.range ψ = Tt 1)
     (hRV : ∀ r ∈ Rb, ∀ v ∈ Tt 1, φ r v ∈ Tt 1)
     (hRW : ∀ r ∈ Rb, ∀ w, ψ w = 0 → ψ (φ r w) = 0)
-    {h : X} (hL : ∀ a ∈ V, h * a * h⁻¹ ∈ L) (hout : ¬ ∀ a ∈ V, h * a * h⁻¹ ∈ Nb)
+    {h : X} (hL : ∀ a ∈ V, h * a * h⁻¹ ∈ L) (_hout : ¬ ∀ a ∈ V, h * a * h⁻¹ ∈ Nb)
     (hdim : Module.finrank K (Tt 1) = 8)
     (hP : Module.finrank K ((Tt 1).map ((φ h).conj ψ)) = 2)
     (hS : 12 ≤ Module.finrank K ↥((LinearMap.ker ψ).map ((φ h).conj ψ) ⊔ Tt 1))

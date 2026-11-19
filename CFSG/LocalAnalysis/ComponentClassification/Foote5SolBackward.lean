@@ -53,7 +53,7 @@ theorem backward {J K K₁ T : Subgroup G} (hML : GSMirrorMaximal J) (hK : IsSol
   obtain ⟨P₀, hTP₀⟩ := (hT2.comap_subtype (K := coreActionKernel K)).exists_le_sylow
   obtain ⟨Y, hY, hKY, -⟩ := single_of_sylow hK P₀
   set P := (P₀ : Subgroup ↥(coreActionKernel K)).map (coreActionKernel K).subtype with hP
-  have hP2 : IsPGroup 2 P := P₀.isPGroup'.map (coreActionKernel K).subtype
+  have hP2 : IsPGroup 2 P := P₀.isPGroup.map (coreActionKernel K).subtype
   have hPQ : P ≤ coreActionKernel K := map_subtype_le _
   have hTP : T ≤ P := fun x hx => ⟨⟨x, hTQ hx⟩, hTP₀ (mem_subgroupOf.mpr hx), rfl⟩
   obtain ⟨z, hzP, hz, hzP'⟩ :=

@@ -21,11 +21,11 @@ private theorem not_le_rep_ker {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch
     (d : S23_9_A0Data D Ch c) {P : Subgroup (Bar2 D.M)} (hP : ⁅P, P⁆ = P)
     (hcomm : ⁅P, d.E⁆ ≠ ⊥) : ¬ P ≤ d.rep.ker := by
   intro hker
-  letI : Fact d.q.Prime := ⟨d.hq⟩
-  letI : d.E.Normal := d.hEnorm
-  letI : IsPGroup d.q ↥d.E := d.hEp
-  letI : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
-  letI : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
+  let : Fact d.q.Prime := ⟨d.hq⟩
+  let : d.E.Normal := d.hEnorm
+  let : IsPGroup d.q ↥d.E := d.hEp
+  let : IsElementaryAbelian d.q (↥d.E ⧸ frattini ↥d.E) := d.hEel
+  let : CommGroup (↥d.E ⧸ frattini ↥d.E) := IsMulCommutative.instCommGroup
   let φ : Bar2 D.M →* MulAut ↥d.E := MulAut.conjNormal (H := d.E)
   have hrep : ∀ (z : Bar2 D.M) (w : ↥d.E),
       d.rep z (Additive.ofMul (QuotientGroup.mk' (frattini ↥d.E) w)) =
@@ -49,8 +49,8 @@ private theorem not_le_rep_ker {D : Data G} {Ch : Choice2011 G} {c : Ctx23L D Ch
     isPerfect_iff.mpr (by rw [← Subgroup.map_commutator, hP])
   have hmapbot : P.map φ = ⊥ := by
     by_contra hne
-    haveI : Nontrivial ↥(P.map φ) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
-    haveI : Group.IsPerfect ↥(P.map φ) := hImgPerf
+    have : Nontrivial ↥(P.map φ) := (Subgroup.nontrivial_iff_ne_bot _).2 hne
+    have : Group.IsPerfect ↥(P.map φ) := hImgPerf
     have hsolv : Group.IsSolvable ↥(P.map φ) :=
       @IsNilpotent.to_isSolvable _ _ hImgP.isNilpotent
     exact Group.IsPerfect.not_isSolvable ↥(P.map φ) hsolv
@@ -81,7 +81,7 @@ private theorem exists_odd_prime_pCore_commutator {D : Data G}
   obtain ⟨q, hqmem, hqcomm⟩ : ∃ q ∈ (Nat.card (Bar2 D.M)).primeFactors,
       ⁅P, CFSG.pCore q (Bar2 D.M)⁆ ≠ ⊥ := by
     by_contra h
-    push_neg at h
+    push Not at h
     exact hP (Subgroup.commutator_eq_bot_iff_le_centralizer.mpr
       (CFSG.subgroup_le_centralizer_fitting_of_le_centralizer_pCores fun p =>
         Subgroup.commutator_eq_bot_iff_le_centralizer.mp (h p.1.1 p.1.2)))
@@ -118,10 +118,10 @@ private theorem exists_critical_A0_subgroup {D : Data G} {Kbar : Subgroup (Bar2 
     ∃ E : Subgroup (Bar2 D.M), E.Normal ∧ IsPGroup q ↥E ∧ E ≠ ⊥ ∧
       (∀ x ∈ E, x ^ q = 1) ∧ ⁅⁅E, E⁆, E⁆ = ⊥ ∧
       IsElementaryAbelian q (↥E ⧸ frattini ↥E) ∧ ¬ IsCyclic ↥E ∧ ⁅Kbar, E⁆ ≠ ⊥ := by
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   let Q0 : Subgroup (Bar2 D.M) := CFSG.pCore q (Bar2 D.M)
   have hQ0n : Q0.Normal := CFSG.pCore_normal
-  haveI : Q0.Normal := hQ0n
+  have : Q0.Normal := hQ0n
   have hQ0p : IsPGroup q ↥Q0 := CFSG.pCore_isPGroup
   have hQ0ne : Q0 ≠ ⊥ := by
     intro hbot
@@ -131,9 +131,9 @@ private theorem exists_critical_A0_subgroup {D : Data G} {Kbar : Subgroup (Bar2 
   obtain ⟨D0, hD0n, hD0p, hD0ne, hD0exp, hD0cl, hD0fix⟩ :=
     CFSG.GroupTheory.exists_critical_map_subtype (q := q) (Q := Q0) hq2 hQ0p hQ0ne
   let E : Subgroup (Bar2 D.M) := D0.map Q0.subtype
-  haveI : E.Normal := hD0n
+  have : E.Normal := hD0n
   have hEp : IsPGroup q ↥E := hD0p
-  haveI : Fact (IsPGroup q ↥E) := ⟨hEp⟩
+  have : Fact (IsPGroup q ↥E) := ⟨hEp⟩
   obtain ⟨hEnc, hcommE⟩ := CFSG.GroupTheory.critical_map_noncyclic_and_commutator_ne_bot
     (q := q) (P := Kbar) (Q := Q0) (D := D0) hKbar hD0fix hcomm
   exact ⟨E, hD0n, hEp, hD0ne, hD0exp, hD0cl,
@@ -152,11 +152,11 @@ theorem s23_9_A0_of (D : Data G) (Ch : Choice2011 G) : S23_9_A0 D Ch := by
     rw [← Subgroup.map_commutator, CFSG.GroupTheory.commutator_subgroupOf_eq hKM hKM, hKperf]
   obtain ⟨q, hqmem, hq2, hqcomm⟩ := exists_odd_prime_pCore_commutator hcomm'
   have hq : q.Prime := Nat.prime_of_mem_primeFactors hqmem
-  haveI : Fact q.Prime := ⟨hq⟩
+  have : Fact q.Prime := ⟨hq⟩
   obtain ⟨E, hEnorm, hEp, hEne, hEexp, hEclass, hEel, hEnc, hcommE⟩ :=
     exists_critical_A0_subgroup hq hq2 hKbarperf hqcomm
-  haveI : E.Normal := hEnorm
-  haveI : Fact (IsPGroup q ↥E) := ⟨hEp⟩
+  have : E.Normal := hEnorm
+  have : Fact (IsPGroup q ↥E) := ⟨hEp⟩
   obtain ⟨Q, hQsyl⟩ := CFSG.ABGLocalTools.exists_isSylowOf q (barPreimage D.M E)
   have hQM : Q ≤ D.M := hQsyl.le.trans (uc22p21c_barPreimage_le D.M E)
   obtain ⟨hQbar, hQinf⟩ := uc22p22u_sylow_barPreimage hq hq2 hEp hQsyl

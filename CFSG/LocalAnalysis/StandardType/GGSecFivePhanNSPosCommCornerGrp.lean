@@ -29,6 +29,7 @@ theorem ggNSPosPF3C_mem_normalizer_of_conj_mem {H : Subgroup G} {g : G}
   rw [← h2]
   exact b.2
 
+omit [Finite G] in
 theorem ggNSPosPF3C_conj_trivial_of_noTransvection {Bs : Subgroup G} (hel : IsElemAbelian 3 Bs)
     (hNT : GGNoTransvection 3 Bs) {E : Subgroup G} (hE : Nat.card ↥E = 3) {g : G}
     (hg : g ∈ Subgroup.normalizer (Bs : Set G)) (hEg : ∀ e ∈ E, g * e * g⁻¹ = e)

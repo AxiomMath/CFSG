@@ -14,11 +14,13 @@ open scoped commutatorElement
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {s : Setting3 G L}
   {e : Setting3.Ext s}
 
+omit [Finite G] in
 private lemma mul_eq_scalar_mul {x y z : G} (h : ⁅x, y⁆ = z) : x * y = z * (y * x) := by
   rw [commutatorElement_def] at h
   calc x * y = (x * y * x⁻¹ * y⁻¹) * (y * x) := by group
     _ = z * (y * x) := by rw [h]
 
+omit [Finite G] in
 private lemma conj_eq_scalar_mul {x y z : G} (h : ⁅x, y⁆ = z) : x * y * x⁻¹ = z * y := by
   rw [commutatorElement_def] at h
   calc x * y * x⁻¹ = (x * y * x⁻¹ * y⁻¹) * y := by group
@@ -32,6 +34,7 @@ private lemma commutator_z_of_mem_S (c : Ctx4 s e) {a : G} (ha : a ∈ s.fr.S) :
     ⁅s.fr.z, a⁆ = 1 :=
   commutatorElement_eq_one_iff_mul_comm.mpr (y4_z_comm_S c ha).symm
 
+omit [Finite G] in
 private lemma mul_sq_eq_z {z x y : G} (hx : x * x = z) (hy : y * y = z)
     (hz2 : z * z = 1) (hzy : z * y = y * z) (hxy : x * y = z * (y * x)) :
     (x * y) ^ 2 = z := by

@@ -99,7 +99,7 @@ theorem lieSTwo_concl_of_not {S : Type} [Group S] {α : MulAut S} {R : Prop}
 theorem lieSTwo_three_pow_five_dvd {S : Type} [Group S] [Finite S] {x : S} (hx3 : x ^ 3 = 1)
     (hx1 : x ≠ 1) (J : Subgroup S) (hJ : GLAPComponent 3 (fixSubgroup (MulAut.conj x)) J)
     (h4 : 3 ^ 4 ∣ Nat.card (PSimple 3 J)) : 3 ^ 5 ∣ Nat.card S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hJc : J ≤ Subgroup.centralizer ({x} : Set S) := by
     rw [← I1431C2.cl_fixSubgroup_conj_eq_centralizer]
     exact hJ.1
@@ -150,7 +150,7 @@ theorem lieSTwo_three_pow_five_dvd {S : Type} [Group S] [Finite S] {x : S} (hx3 
       obtain ⟨k, rfl⟩ := Subgroup.mem_zpowers_iff.1 hz
       exact Commute.zpow_right (show Commute (j : S) x from (hcomm j).symm) k
     have hZcard : Nat.card Z = 3 := by rw [hZ, Nat.card_zpowers, hxo]
-    haveI : Fact (Nat.card Z).Prime := ⟨by rw [hZcard]; exact Nat.prime_three⟩
+    have : Fact (Nat.card Z).Prime := ⟨by rw [hZcard]; exact Nat.prime_three⟩
     have hJZ : ∀ z : Z, (z : S) ∈ J → z = 1 := by
       intro z hz
       rcases (J.subgroupOf Z).eq_bot_or_eq_top_of_prime_card with h | h

@@ -37,7 +37,7 @@ theorem sylow_mem_of_comm {G : Type*} [Group G] {p : ℕ} [Fact p.Prime] (P : Sy
   have hN : (P : Subgroup G) ≤ Subgroup.normalizer ((Subgroup.zpowers x : Subgroup G) : Set G) :=
     hC.trans (centralizer_le_normalizer_of_set _)
   have hsup : IsPGroup p ((P : Subgroup G) ⊔ Subgroup.zpowers x : Subgroup G) :=
-    IsPGroup.to_sup_of_normal_right' P.isPGroup' hxp hN
+    IsPGroup.to_sup_of_normal_right' P.isPGroup hxp hN
   have hle : Subgroup.zpowers x ≤ (P : Subgroup G) :=
     le_sup_right.trans (P.maximal_isPGroup.2 hsup le_sup_left)
   exact hle (Subgroup.mem_zpowers x)
@@ -188,9 +188,9 @@ theorem sylow_hN {τ : Tag} (hτ : τ = .G2 ∨ τ = .D4 ∨ τ = .F4)
     u ^ (if τ = .G2 then 6 else 24) ∈
       Subgroup.centralizer ((P : Subgroup ↥(adjointGroup τ K)) : Set ↥(adjointGroup τ K)) := by
   classical
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
-  haveI : Finite (ModGL τ K) := finite_modGL
-  letI : Fintype (Label τ) := Fintype.ofFinite _
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Finite (ModGL τ K) := finite_modGL
+  let : Fintype (Label τ) := Fintype.ofFinite _
   let ρ : ↥(adjointGroup τ K) →* Module.End K (RootModule τ K) :=
     (Units.coeHom (Module.End K (RootModule τ K))).comp (adjointGroup τ K).subtype
   have hρ : Function.Injective ρ := fun x y h => Subtype.ext (Units.ext h)
@@ -234,7 +234,7 @@ theorem sylow_hN {τ : Tag} (hτ : τ = .G2 ∨ τ = .D4 ∨ τ = .F4)
     intro β
     obtain ⟨i0, hi0⟩ : ∃ i0, wt τ 11 β.1 i0 ≠ 0 := by
       by_contra h
-      push_neg at h
+      push Not at h
       exact wt_ne_zero hτ β.2 (funext h)
     refine ⟨Pi.single i0 1, ?_⟩
     rw [hchi_root]
@@ -299,7 +299,7 @@ theorem sylow_hN {τ : Tag} (hτ : τ = .G2 ∨ τ = .D4 ∨ τ = .F4)
     funext j
     have h := hstar β (Pi.single j 1)
     simp only [Pi.single_apply, ite_mul, one_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ,
-      if_true] at h
+      ite_true] at h
     simp only [Matrix.mulVec, dotProduct, Bm, Matrix.of_apply]
     exact h.symm
   have hB : ∀ β : Fin τ.rank → ℤ, IsRoot τ β →
@@ -355,8 +355,8 @@ theorem sylowAutBoundAll_adjointGroup_split {τ : Tag}
     (hτ : τ = .G2 ∨ τ = .D4 ∨ τ = .F4) {K : Type} [Field K] [Finite K]
     (hK : 11 ∣ Nat.card K - 1) :
     SylowAutBoundAll 11 (if τ = .G2 then 6 else 24) (adjointGroup τ K) := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Finite (ModGL τ K) := finite_modGL
   have hunits : 11 ∣ Nat.card Kˣ := by
     rw [Nat.card_units]
     exact hK
@@ -381,14 +381,14 @@ theorem sylowAutBoundAll_adjointGroup {τ : Tag}
     (hτ : τ = .G2 ∨ τ = .D4 ∨ τ = .F4) {K : Type} [Field K] [Finite K] (hK : ¬ 11 ∣ Nat.card K) :
     SylowAutBoundAll 11 (if τ = .G2 then 6 else 24) (adjointGroup τ K) := by
   classical
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
-  haveI : Finite (ModGL τ K) := finite_modGL
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨ℓ, hℓ⟩ := CharP.exists K
-  haveI : CharP K ℓ := hℓ
-  haveI : Fintype K := Fintype.ofFinite K
+  have : CharP K ℓ := hℓ
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨-, hℓp, -⟩ := FiniteField.card K ℓ
-  haveI : Fact ℓ.Prime := ⟨hℓp⟩
-  letI : Algebra (ZMod ℓ) K := ZMod.algebra K ℓ
+  have : Fact ℓ.Prime := ⟨hℓp⟩
+  let : Algebra (ZMod ℓ) K := ZMod.algebra K ℓ
   set f := Module.finrank (ZMod ℓ) K with hf
   have hKf : ℓ ^ f = Nat.card K := FiniteField.pow_finrank_eq_natCard ℓ K
   have hf0 : f ≠ 0 := Module.finrank_pos.ne'
@@ -413,7 +413,7 @@ theorem sylowAutBoundAll_adjointGroup {τ : Tag}
       fun g => hle (Subgroup.mem_map_of_mem _ g.2)
   have hφ : Function.Injective φ := fun a b h =>
     Subtype.ext (baseChangeGL_injective ι.toRingHom (congrArg Subtype.val h))
-  haveI : Finite (ModGL τ (GaloisField ℓ (f * (11 - 1)))) := finite_modGL
+  have : Finite (ModGL τ (GaloisField ℓ (f * (11 - 1)))) := finite_modGL
   exact SylowAutBoundAll.of_injective φ hφ (sylowAutBoundAll_adjointGroup_split hτ hdvd)
 
 end Main

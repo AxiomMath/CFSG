@@ -68,9 +68,9 @@ private theorem l10sdsp_card_galoisField_two_zero : Nat.card (GaloisField 2 0) =
 private theorem l10sdsp_ns_of_component {X : Type} [Group X] {J G₀ D : Subgroup X}
     (h : CFSG.Assembly.IsComponentOf J (G₀ ⊓ Subgroup.centralizer (D : Set X))) :
     ¬ Group.IsSolvable ↥J := by
-  haveI : Group.IsPerfect ↥J := Group.isPerfect_def.mpr h.2.2.1
-  haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := h.2.2.2
-  haveI : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
+  have : Group.IsPerfect ↥J := Group.isPerfect_def.mpr h.2.2.1
+  have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := h.2.2.2
+  have : Nontrivial ↥J := (QuotientGroup.mk'_surjective (Subgroup.center ↥J)).nontrivial
   exact Group.IsPerfect.not_isSolvable ↥J
 
 private theorem l10sdsp_innerNoCentral_sp
@@ -105,9 +105,9 @@ theorem jDim_sp
   · by_contra hm
     have hm0 : m = 0 := by omega
     subst hm0
-    haveI : Subsingleton ((ggU .PSp 0 f).K) :=
+    have : Subsingleton ((ggU .PSp 0 f).K) :=
       inferInstanceAs (Subsingleton (StatedSp 0 (GaloisField 2 f)))
-    haveI : Subsingleton ↥φ.range := by
+    have : Subsingleton ↥φ.range := by
       refine ⟨fun a b => ?_⟩
       obtain ⟨x, hx⟩ := a.2
       obtain ⟨y, hy⟩ := b.2
@@ -121,16 +121,16 @@ theorem jDim_sp
       rcases hf01 with rfl | rfl
       · exact l10sdsp_card_galoisField_two_zero
       · simpa using GaloisField.card 2 1 (by norm_num)
-    haveI : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
+    have : Group.IsSolvable (Matrix.SpecialLinearGroup (Fin 2) (GaloisField 2 f)) :=
       CFSG.StandardType.isSolvable_specialLinear_of_card_eq_two (ι := Fin 2)
         (Q := GaloisField 2 f) (by simp) hK
-    haveI : Group.IsSolvable (StatedSp 1 (GaloisField 2 f)) :=
+    have : Group.IsSolvable (StatedSp 1 (GaloisField 2 f)) :=
       Group.isSolvable_of_surjective
         (f := (CFSG.ClassicalInvolution.Models.SymplecticPairs.longBlockEquivOne
           (GaloisField 2 f)).toMonoidHom)
         (CFSG.ClassicalInvolution.Models.SymplecticPairs.longBlockEquivOne
           (GaloisField 2 f)).surjective
-    haveI : Group.IsSolvable ((ggU .PSp 1 f).K) :=
+    have : Group.IsSolvable ((ggU .PSp 1 f).K) :=
       inferInstanceAs (Group.IsSolvable (StatedSp 1 (GaloisField 2 f)))
     exact hns (Group.isSolvable_of_surjective φ.rangeRestrict_surjective)
 

@@ -219,7 +219,7 @@ theorem exists_rationalComponent_eq_of_isComponentOf_of_ne_G2
     ∃ i : KernelComponent (rootCharHom a),
       CFSG.IsQuasisimple (rationalComponent S.ρ S.Γ (rootCharHom a) i) ∧
         K = rationalComponent S.ρ S.Γ (rootCharHom a) i := by
-  haveI := S.finite
+  have := S.finite
   have hfin : Finite S.Γ := Finite.of_injective
     (Subgroup.inclusion (Subgroup.commutator_le_self S.D.model)) (Subgroup.inclusion_injective _)
   exact CFSG.HardMathSupport.Dickson.Sec6.Up34Exc.exists_rationalComponent_eq_of_isComponentOf S hp

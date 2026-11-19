@@ -19,7 +19,7 @@ theorem card_barSub_lt_card_V (d : ShapeData V H T φ) :
   have hJK : pCoreOf 2 (kGenIn V H) ≤ kGenIn V H :=
     CFSG.LieType.BorelTits.pCoreOf_le 2 (kGenIn V H)
   have hrel := card_barSub_eq_relIndex_of_isBarMap hVK hJK d.bar
-  haveI : IsMulCommutative (eSub V H T) := d.hyp83.isMulCommutative_eSub
+  have : IsMulCommutative (eSub V H T) := d.hyp83.isMulCommutative_eSub
   have hEsub : V ⊓ eSub V H T ≤ V ⊓ Subgroup.centralizer (eSub V H T : Set G) :=
     inf_le_inf_left V (Subgroup.le_centralizer (eSub V H T))
   have hCE : V ⊓ Subgroup.centralizer (eSub V H T : Set G) ≠ ⊥ := by

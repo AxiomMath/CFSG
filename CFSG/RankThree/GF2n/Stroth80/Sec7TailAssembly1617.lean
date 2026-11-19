@@ -14,6 +14,7 @@ open scoped commutatorElement Matrix
 
 variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
 
+omit [Finite G] in
 theorem step716_mk_mul_comm [(Q.subgroupOf M).Normal] {a b : M}
     (h : ⁅(a : G), (b : G)⁆ ∈ Q) :
     QuotientGroup.mk' (Q.subgroupOf M) a * QuotientGroup.mk' (Q.subgroupOf M) b =
@@ -23,6 +24,7 @@ theorem step716_mk_mul_comm [(Q.subgroupOf M).Normal] {a b : M}
   rw [← commutatorElement_eq_one_iff_mul_comm, ← map_commutatorElement]
   exact (QuotientGroup.eq_one_iff _).mpr hmem
 
+omit [Finite G] in
 theorem step716_le_of_fstar [(Q.subgroupOf M).Normal] {K A N : Subgroup G}
     (hKM : K ≤ M) (hQN : Q ≤ N) (hAK : A ≤ K) (hAn : ∀ k ∈ K, conjSubgroup k A = A)
     (hAab : ∀ x ∈ A, ∀ y ∈ A, ⁅x, y⁆ ∈ Q)
@@ -50,7 +52,7 @@ theorem step716_le_of_fstar [(Q.subgroupOf M).Normal] {K A N : Subgroup G}
     rw [Subgroup.coe_mul, Subgroup.coe_mul, ← hax, ← hby]
     exact step716_mk_mul_comm (hAab _ (Subgroup.mem_subgroupOf.mp ha) _
       (Subgroup.mem_subgroupOf.mp hb))
-  haveI : IsMulCommutative ↥Ab := ⟨⟨fun x y => Subtype.ext (hcomm x.1 x.2 y.1 y.2)⟩⟩
+  have : IsMulCommutative ↥Ab := ⟨⟨fun x y => Subtype.ext (hcomm x.1 x.2 y.1 y.2)⟩⟩
   have hAbNil : Group.IsNilpotent ↥Ab := inferInstance
   have hAbF : Ab ≤ generalizedFitting ↥(bar M Q K) := by
     rw [generalizedFitting.eq_sup]

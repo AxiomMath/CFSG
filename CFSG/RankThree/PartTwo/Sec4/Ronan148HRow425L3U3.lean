@@ -99,6 +99,7 @@ section L3
 
 variable {k : Type} [Field k] [Finite k]
 
+omit [Finite k] in
 theorem exists_lift_conjAut {s : LinearFlag.projectiveSL 3 k} (hs3 : s ^ 3 = 1) :
     ∃ (A' : Matrix.SpecialLinearGroup (Fin 3) k) (c : kˣ), LinearFlag.proj 3 k A' = s ∧
       Matrix.SpecialLinearGroup.toGL A' ^ 3 = Matrix.GeneralLinearGroup.scalar (Fin 3) c ∧
@@ -139,6 +140,7 @@ theorem exists_lift_conjAut {s : LinearFlag.projectiveSL 3 k} (hs3 : s ^ 3 = 1) 
     rw [← hx]
     group
 
+omit [Finite k] in
 theorem center_map_proj_eq_bot {n : ℕ} {F : Subgroup (Matrix.SpecialLinearGroup (Fin n) k)}
     (hF : Subgroup.center ↥F = ⊥) : Subgroup.center ↥(F.map (LinearFlag.proj n k)) = ⊥ := by
   rw [eq_bot_iff]
@@ -312,7 +314,7 @@ section Row
 
 
 omit [Field k] [Finite k] [CharP k 2] in
-theorem rowOf425_projSL_three_two (n : ℕ) (hn : 1 ≤ n) :
+theorem rowOf425_projSL_three_two (n : ℕ) (_hn : 1 ≤ n) :
     Ronan148S.RowOf425 (projSL 3 (GaloisField 2 n)) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨τ⟩ := CFSG.RankThree.PartTwo.KFacts.nonempty_projSL_mulEquiv 3 (GaloisField 2 n)
@@ -320,7 +322,7 @@ theorem rowOf425_projSL_three_two (n : ℕ) (hn : 1 ≤ n) :
   exact Ronan148S.NoCC425.of_mulEquiv (e.trans τ) noCC425_projectiveSL_three
 
 omit [Field k] [Finite k] [CharP k 2] in
-theorem rowOf425_projSU_three_two (n : ℕ) (hn : 1 ≤ n) :
+theorem rowOf425_projSU_three_two (n : ℕ) (_hn : 1 ≤ n) :
     Ronan148S.RowOf425 (projSU 3 2 n) := by
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨τ⟩ := CFSG.RankThree.PartTwo.KFacts.nonempty_projSL_mulEquiv 3 (GaloisField 2 (2 * n))

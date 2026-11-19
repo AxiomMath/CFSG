@@ -85,8 +85,8 @@ theorem fbkP_anyN {n : Nat} {f : Nat → Bool} (h : anyN n f = true) : ∃ i < n
 theorem fbkP_nIf_blt (i r a b : Nat) :
     Bool.rec (motive := fun _ => Nat) b a (Nat.blt i r) = if i < r then a else b := by
   by_cases h : i < r
-  · rw [if_pos h, fbkP_blt.2 h]
-  · rw [if_neg h]
+  · rw [ite_eq_left h, fbkP_blt.2 h]
+  · rw [ite_eq_right h]
     have hb : Nat.blt i r = false := by
       cases hb : Nat.blt i r
       · rfl
@@ -204,9 +204,9 @@ theorem repOK_spec {IV RG BP nB n t r : Nat} {gl : List (List Nat)}
 theorem fbkP_nIf_beq (s a b : Nat) :
     Bool.rec (motive := fun _ => Nat) b a (Nat.beq s (nat_lit 0)) = if s = 0 then a else b := by
   by_cases h : s = 0
-  · rw [if_pos h, h]
+  · rw [ite_eq_left h, h]
     rfl
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hb : Nat.beq s (nat_lit 0) = false := by
       cases hb : Nat.beq s (nat_lit 0)
       · rfl

@@ -52,7 +52,7 @@ theorem normalizer_inf_le {K K₀ X : Subgroup A} {f : ℕ} [Fact f.Prime]
     ((prime_dvd_card_of_isPGroup hX hne).trans (Subgroup.card_dvd_of_le ?_))
   refine le_inf hXK₀ fun x hx => ?_
   refine ⟨g * x * g⁻¹, hXK₀ ((Subgroup.mem_normalizer_iff.mp hgN x).mp hx), ?_⟩
-  simp only [MulEquiv.toMonoidHom_eq_coe, MonoidHom.coe_coe, MulAut.conj_apply, inv_inv]
+  simp only [MulEquiv.toMonoidHom_eq_coe, _root_.MonoidHom.coe_ofClass, MulAut.conj_apply, inv_inv]
   group
 
 theorem le_of_inf_ne_bot {K K₀ F : Subgroup A} {f : ℕ} [Fact f.Prime]
@@ -90,7 +90,7 @@ theorem exists_conj_inf_dvd {K K₀ : Subgroup A} {f : ℕ} [hf : Fact f.Prime] 
   obtain ⟨Q, hQ⟩ := hZ.exists_le_sylow
   set F₂ : Subgroup A := (Q : Subgroup ↥K).map K.subtype with hF₂
   have hF₂K : F₂ ≤ K := Subgroup.map_subtype_le _
-  have hF₂p : IsPGroup f F₂ := Q.isPGroup'.map K.subtype
+  have hF₂p : IsPGroup f F₂ := Q.isPGroup.map K.subtype
   have huF₂ : (u₀ : A) ∈ F₂ := ⟨u₁, hQ (Subgroup.mem_zpowers u₁), rfl⟩
   have hF₂ne : F₂ ⊓ K₀ ≠ ⊥ := by
     intro h

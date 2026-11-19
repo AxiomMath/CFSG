@@ -27,7 +27,7 @@ private theorem hOrd : CFSG.ComponentClassification.CatLeaf.LieOrderFormulasInpu
 
 private theorem card_alt_eq (m : ℕ) (hm : 2 ≤ m) :
     Nat.card (alternatingGroup (Fin m)) = m.factorial / 2 := by
-  haveI : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 hm
+  have : Nontrivial (Fin m) := Fin.nontrivial_iff_two_le.2 hm
   rw [nat_card_alternatingGroup, Nat.card_fin]
 
 private theorem card_alt_mono (k m : ℕ) (hk : 2 ≤ k) (hkm : k ≤ m) :
@@ -316,11 +316,11 @@ private theorem k3_held {S : Type} [Group S] (hS : Nat.card S = 4030387200) :
 
 private theorem kLevel_three_of (S : Type) [Group S] (h1 : ¬ IsChevSimple 3 S)
     (h2 : ¬ catalogIs S (k2 3)) (h3 : catalogIs S (k3 3)) : kLevel 3 S = 3 := by
-  rw [kLevel, if_neg h1, if_neg h2, if_pos h3]
+  rw [kLevel, ite_eq_right h1, ite_eq_right h2, ite_eq_left h3]
 
 private theorem kLevel_three_four_of (S : Type) [Group S] (h1 : ¬ IsChevSimple 3 S)
     (h2 : ¬ catalogIs S (k2 3)) (h3 : ¬ catalogIs S (k3 3)) : kLevel 3 S = 4 := by
-  rw [kLevel, if_neg h1, if_neg h2, if_neg h3]
+  rw [kLevel, ite_eq_right h1, ite_eq_right h2, ite_eq_right h3]
 
 theorem kLevelAltAt_holds : KLevelAltAt := by
   intro Q _ _ hQ hO
@@ -357,19 +357,19 @@ private theorem numer_PSL2 (q : ℕ) :
     CFSG.ComponentClassification.CatLeaf.lieOrderNumerator CFSG.Open.StatedLieTag.PSL 2 q =
       q * (q ^ 2 - 1) := by
   have hI : Finset.Icc 2 2 = ({2} : Finset ℕ) := by decide
-  simp [CFSG.ComponentClassification.CatLeaf.lieOrderNumerator, hI]
+  simp [CFSG.ComponentClassification.CatLeaf.lieOrderNumerator]
 
 private theorem numer_PSL3 (q : ℕ) :
     CFSG.ComponentClassification.CatLeaf.lieOrderNumerator CFSG.Open.StatedLieTag.PSL 3 q =
       q ^ 3 * ((q ^ 2 - 1) * (q ^ 3 - 1)) := by
   have hI : Finset.Icc 2 3 = ({2, 3} : Finset ℕ) := by decide
-  simp [CFSG.ComponentClassification.CatLeaf.lieOrderNumerator, hI, Finset.prod_pair]
+  simp [CFSG.ComponentClassification.CatLeaf.lieOrderNumerator, hI]
 
 private theorem numer_PSU3 (q : ℕ) :
     CFSG.ComponentClassification.CatLeaf.lieOrderNumerator CFSG.Open.StatedLieTag.PSU 3 q =
       q ^ 3 * ((q ^ 2 - 1) * (q ^ 3 + 1)) := by
   have hI : Finset.Icc 2 3 = ({2, 3} : Finset ℕ) := by decide
-  simp [CFSG.ComponentClassification.CatLeaf.lieOrderNumerator, hI, Finset.prod_pair, Nat.even_iff]
+  simp [CFSG.ComponentClassification.CatLeaf.lieOrderNumerator, hI, Nat.even_iff]
 
 private theorem divisor_PSL2 (q : ℕ) :
     CFSG.ComponentClassification.CatLeaf.lieOrderDivisor CFSG.Open.StatedLieTag.PSL 2 q =

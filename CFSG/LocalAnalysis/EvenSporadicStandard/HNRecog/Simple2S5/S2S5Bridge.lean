@@ -27,14 +27,14 @@ theorem isPretransitive_P1408 : MulAction.IsPretransitive ↥P1408 (Fin 1408) :=
   exact (Equiv.symm_apply_eq gy).2 hy.symm
 
 theorem card_u0 (hP : Nat.card ↥P1408 = 177408000) : Nat.card ↥u0 = 126000 := by
-  haveI := isPretransitive_P1408
+  have := isPretransitive_P1408
   have hOS : Nat.card (MulAction.orbit ↥P1408 (0 : Fin 1408)) *
       Nat.card (MulAction.stabilizer ↥P1408 (0 : Fin 1408)) = Nat.card ↥P1408 := by
     rw [← Nat.card_prod]
     exact Nat.card_congr (MulAction.orbitProdStabilizerEquivGroup ↥P1408 (0 : Fin 1408))
   have horbit : Nat.card (MulAction.orbit ↥P1408 (0 : Fin 1408)) = 1408 := by
     rw [MulAction.orbit_eq_univ]
-    simp [Nat.card_coe_set_eq]
+    simp
   change Nat.card (MulAction.stabilizer ↥P1408 (0 : Fin 1408)) = 126000
   rw [horbit, hP] at hOS
   omega
@@ -94,7 +94,7 @@ private theorem bridge_core (hP : Nat.card ↥P1408 = 177408000) :
 
 theorem isShapeU35_u0 (hP : Nat.card ↥P1408 = 177408000) : Section3.IsShapeU35 ↥u0 := by
   obtain ⟨-, ⟨e₁⟩⟩ := bridge_core hP
-  haveI : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
+  have : Fact (Nat.Prime 5) := ⟨Nat.prime_five⟩
   obtain ⟨e₂⟩ := nonempty_psu3_mulEquiv_i50
   exact ⟨e₁.trans e₂.symm⟩
 

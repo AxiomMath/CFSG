@@ -82,6 +82,7 @@ variable (ℓ f : ℕ) [Fact ℓ.Prime] [CharP L ℓ]
 abbrev fixedSubE7 : Subgroup (ModGL Tag.E7 L) :=
   (Units.map (entrywiseHom (iterateFrobenius L ℓ f))).eqLocus (MonoidHom.id _)
 
+omit [IsAlgClosed L] in
 theorem mem_fixedSubE7 {x : ModGL Tag.E7 L} :
     x ∈ fixedSubE7 (L := L) ℓ f ↔ entrywiseFrobGL Tag.E7 L ℓ f x = x :=
   Iff.rfl
@@ -128,8 +129,8 @@ theorem fixed_mem_or_mul_mem (ℓ f : ℕ) [Fact ℓ.Prime] [CharP L ℓ] (hf : 
     rintro _ (rfl | rfl)
     · exact hhG
     · exact htG
-  haveI : Finite (fixedSubE7 (L := L) ℓ f) := finite_fixedSubE7 ℓ f hf
-  haveI : Finite X := Finite.of_injective
+  have : Finite (fixedSubE7 (L := L) ℓ f) := finite_fixedSubE7 ℓ f hf
+  have : Finite X := Finite.of_injective
     (fun x : X => (⟨x.1, hXFix x.2⟩ : fixedSubE7 (L := L) ℓ f))
     (by intro x y hxy; have h := congrArg Subtype.val hxy; exact Subtype.ext h)
   have hFr : ∀ c : L, iterateFrobenius L ℓ f c = c ^ Nat.card K := fun c => by
@@ -166,8 +167,8 @@ theorem seven_mem_of_fixed (ℓ f : ℕ) [Fact ℓ.Prime] [CharP L ℓ] (hf : 1 
   set X : Subgroup (ModGL Tag.E7 L) := Subgroup.zpowers x with hXdef
   have hXFix' : X ≤ fixedSubE7 (L := L) ℓ f := (Subgroup.zpowers_le).2 hxFix
   have hXle : X ≤ adjointGroup Tag.E7 L := (Subgroup.zpowers_le).2 hx
-  haveI : Finite (fixedSubE7 (L := L) ℓ f) := finite_fixedSubE7 ℓ f hf
-  haveI : Finite X := Finite.of_injective
+  have : Finite (fixedSubE7 (L := L) ℓ f) := finite_fixedSubE7 ℓ f hf
+  have : Finite X := Finite.of_injective
     (fun y : X => (⟨y.1, hXFix' y.2⟩ : fixedSubE7 (L := L) ℓ f))
     (by intro y z hyz; have h := congrArg Subtype.val hyz; exact Subtype.ext h)
   have hFr : ∀ c : L, iterateFrobenius L ℓ f c = c ^ Nat.card K := fun c => by
@@ -175,7 +176,7 @@ theorem seven_mem_of_fixed (ℓ f : ℕ) [Fact ℓ.Prime] [CharP L ℓ] (hf : 1 
   have hXF : ∀ y ∈ X, Units.map (entrywiseHom (iterateFrobenius L ℓ f)) y = y :=
     fun y hy => (mem_fixedSubE7 ℓ f).1 (hXFix' hy)
   have hPgrp : IsPGroup 7 X := by
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     rw [IsPGroup.iff_card]
     have hd : orderOf x ∣ 7 := orderOf_dvd_of_pow_eq_one hx7
     rw [hXdef, Nat.card_zpowers]
@@ -194,7 +195,7 @@ section Descent
 theorem frame_descent {K : Type} [Field K] [Finite K] (ℓ f : ℕ) [Fact ℓ.Prime]
     [CharP (AlgebraicClosure K) ℓ] (hf : 1 ≤ f) (hq : Nat.card K = ℓ ^ f)
     (hpq : 7 ∣ Nat.card K + 1) (hT : E7SplitTorusNonSimple) (hN : E7TorusNormalizesFrame)
-    (w0 : WeylGroup Tag.E7) (hw0 : ∀ u : Fin Tag.E7.rank → ℤ, w0 • u = -u)
+    (w0 : WeylGroup Tag.E7) (_hw0 : ∀ u : Fin Tag.E7.rank → ℤ, w0 • u = -u)
     (gf : ModGL Tag.E7 (AlgebraicClosure K)) (hgf : gf ∈ adjointGroup Tag.E7 (AlgebraicClosure K))
     (hgfF : Units.map (entrywiseHom (iterateFrobenius (AlgebraicClosure K) ℓ f)) gf =
       gf * canonicalRep (coxeterSystem Tag.E7) (AlgebraicClosure K) w0)
@@ -316,10 +317,10 @@ theorem e7TwoSylowSeven_of_frame_inputs (hS : E7SevenPlaneWeyl) (hF : E7SevenFra
     (langToralPlane_of_bar Nat.prime_seven planesToralBar_E7_seven) K hpK E₀ hE₀p hE₀c
   have : Fintype K := Fintype.ofFinite K
   obtain ⟨f, hℓ, hf⟩ := FiniteField.card K (ringChar K)
-  haveI : Fact (ringChar K).Prime := ⟨hℓ⟩
-  haveI : CharP K (ringChar K) := ringChar.charP K
+  have : Fact (ringChar K).Prime := ⟨hℓ⟩
+  have : CharP K (ringChar K) := ringChar.charP K
   have hq : Nat.card K = ringChar K ^ (f : ℕ) := by rw [Nat.card_eq_fintype_card]; exact hf
-  haveI : CharP (AlgebraicClosure K) (ringChar K) :=
+  have : CharP (AlgebraicClosure K) (ringChar K) :=
     charP_of_injective_algebraMap (algebraMap K (AlgebraicClosure K)).injective _
   have hfr : Fr = iterateFrobenius (AlgebraicClosure K) (ringChar K) (f : ℕ) :=
     RingHom.ext fun x => by rw [hFr, iterateFrobenius_def, hq]

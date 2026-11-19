@@ -166,13 +166,14 @@ section NormalForm
 
 variable {K : Type} [Field K] [Finite K] [CharP K 2]
 
+omit [CharP K 2] in
 theorem exists_mulAut_conj_exactNormalAut_rootChar_one {f : ℕ} (hf : 1 ≤ f)
     (hK : Nat.card K = 2 ^ f) (α : MulAut (adjointGroup .E6 K)) :
     ∃ (g : adjointGroup .E6 K) (a : Fin Tag.E6.rank → Kˣ) (σ : K ≃+* K)
       (ε : Fin (exactE .E6)),
       rootChar a (highRoot .E6) = 1 ∧ α = MulAut.conj g * exactNormalAut .E6 K a σ ε := by
   classical
-  letI := Fintype.ofFinite K
+  let := Fintype.ofFinite K
   have hK' : Fintype.card K = 2 ^ f := by rw [← Nat.card_eq_fintype_card]; exact hK
   have hxK : ∀ x : Kˣ, x ^ 2 ^ f = x := by
     intro x
@@ -201,7 +202,7 @@ theorem exists_mulAut_conj_exactNormalAut_rootChar_one {f : ℕ} (hf : 1 ≤ f)
       MulAut.conj t * exactNormalAut .E6 K a σ ε := by
     refine MulEquiv.ext fun k => Subtype.ext ?_
     rw [MulAut.mul_apply, MulAut.conj_apply]
-    simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk, ht]
+    simp only [Subgroup.coe_mul, Subgroup.coe_inv, ht]
     rw [coe_exactNormalAut, coe_exactNormalAut, rootDiagUnit_mul]
     have hcomm : rootDiagUnit .E6 a * rootDiagUnit .E6 (EPilot.highDiag .E6 l) =
         rootDiagUnit .E6 (EPilot.highDiag .E6 l) * rootDiagUnit .E6 a := by
@@ -263,7 +264,7 @@ theorem exists_eq_conj_of_mem_a5Levi_fixed {f : ℕ} (hf : 1 ≤ f) (hK : Nat.ca
       have hN1 : exactNormalAut .E6 K 1 (RingEquiv.refl K) ε = 1 := by
         refine MulEquiv.ext fun k => Subtype.ext ?_
         rw [coe_exactNormalAut, hε, exactQ_zero, rootDiagUnit_one]
-        simp only [Subgroup.coe_one, MulAut.one_apply, one_mul, inv_one]
+        simp only [MulAut.one_apply, one_mul, inv_one]
         exact Units.ext (entrywise_id _)
       rw [hN1, map_one]
     ·
@@ -282,7 +283,7 @@ theorem exists_eq_conj_of_mem_a5Levi_fixed {f : ℕ} (hf : 1 ≤ f) (hK : Nat.ca
       have hkD : (⟨pinnedX .E6 K (a5Root i 0) 1, pinnedX_mem_adjointGroup _ 1⟩ :
           adjointGroup .E6 K) ∈ a5Levi K := pinnedX_a5Root_mem_a5Levi hi0 1
       have e := congrArg Subtype.val (hkey _ hkD)
-      simp only [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mk] at e
+      simp only [Subgroup.coe_mul, Subgroup.coe_inv] at e
       have hQk : (exactNormalAut .E6 K 1 (RingEquiv.refl K) ε
           ⟨pinnedX .E6 K (a5Root i 0) 1, pinnedX_mem_adjointGroup _ 1⟩ : ModGL .E6 K) =
           pinnedX .E6 K (a5Root (Fin.rev 0) (Fin.rev i)) 1 := by

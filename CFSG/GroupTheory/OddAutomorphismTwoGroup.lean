@@ -12,7 +12,7 @@ open Subgroup
 theorem no_orderOf_five_mulAut {V : Type*} [Group V] [Finite V]
     (hV2 : IsPGroup 2 V) (h8 : Nat.card V ≤ 8) {σ : MulAut V} (hσ : orderOf σ = 5) :
     False := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have h5 : σ ^ 5 ^ 1 = 1 := by
     simpa [hσ] using pow_orderOf_eq_one σ
   have hmod := CFSG.Walter.Huppert.card_fixedSubgroup_modEq (p := 5) (σ := σ) (k := 1) h5
@@ -61,7 +61,7 @@ theorem eq_one_of_perfect_of_simple_quotient_of_dvd
     [hperf : Group.IsPerfect L]
     (φ : L →* Q) (hQ5 : ¬ n ∣ Nat.card ↥φ.range) : φ = 1 := by
   classical
-  haveI hperf' : Group.IsPerfect ↥φ.range := Group.IsPerfect.range φ
+  have hperf' : Group.IsPerfect ↥φ.range := Group.IsPerfect.range φ
   let ψ : L →* ↥φ.range := φ.codRestrict φ.range (fun x => MonoidHom.mem_range.mpr ⟨x, rfl⟩)
   have hψsurj : Function.Surjective ψ := by
     rintro ⟨y, hy⟩
@@ -88,7 +88,7 @@ theorem eq_one_of_perfect_of_simple_quotient_of_dvd
     obtain ⟨y', rfl⟩ := QuotientGroup.mk_surjective y
     obtain ⟨x, rfl⟩ := hψsurj y'
     exact ⟨x, rfl⟩
-  haveI : (f.ker).Normal := MonoidHom.normal_ker f
+  have : (f.ker).Normal := MonoidHom.normal_ker f
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (f.ker) with hk | hk
   · have hinj : Function.Injective f := (MonoidHom.ker_eq_bot_iff f).mp hk
     have hbij : Function.Bijective f := ⟨hinj, hfsurj⟩
@@ -135,10 +135,10 @@ theorem le_centralizer_of_perfect_of_isSimple_quotient
     (hLsimple : IsSimpleGroup (↥L ⧸ P)) (h5 : 5 ∣ Nat.card (↥L ⧸ P))
     (hLN : L ≤ normalizer (V : Set G)) (hV2 : IsPGroup 2 V) (h8 : Nat.card V ≤ 8) :
     L ≤ centralizer (V : Set G) := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   intro l hl
   let φ : ↥L →* MulAut ↥V := (CFSG.Quasithin.conjAct V).comp (Subgroup.inclusion hLN)
-  haveI hperf : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hLperf
+  have hperf : Group.IsPerfect ↥L := Subgroup.isPerfect_iff.mpr hLperf
   have hQ5 : ¬ 5 ∣ Nat.card ↥φ.range := by
     intro hdvd
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' 5 hdvd

@@ -29,6 +29,6 @@ theorem chevParabolicRadicalSimple_of_ggNormalizerOvergroupsChar {K : Type} [Gro
     (hK : IsSimpleGroup K) (h : StandardType.GGNormalizerOvergroupsChar 2 K) :
     ChevParabolicRadicalSimple K :=
   chevParabolicRadicalSimple_of_forall_charTwo hK fun S Y hSY hY =>
-    QuasithinUnique.charTwo_iff_isCharacteristicP.2 (h _ Y S.isPGroup' S.not_dvd_index hSY hY)
+    QuasithinUnique.charTwo_iff_isCharacteristicP.2 (h _ Y S.isPGroup S.not_dvd_index hSY hY)
 
 end CFSG.GroupTheory

@@ -14,13 +14,13 @@ theorem arith_three_pow_five_dvd_even_factors {q : ℕ} (hq3 : ¬ 3 ∣ q) :
   have hr9 : q % 9 = 1 ∨ q % 9 = 2 ∨ q % 9 = 4 ∨ q % 9 = 5 ∨ q % 9 = 7 ∨ q % 9 = 8 := by
     omega
   have h2 : q ^ 2 % 3 = 1 := by
-    rcases hr with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases hr with h | h <;> rw [Nat.pow_mod, h]
   have h4 : q ^ 4 % 3 = 1 := by
-    rcases hr with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases hr with h | h <;> rw [Nat.pow_mod, h]
   have h8 : q ^ 8 % 3 = 1 := by
-    rcases hr with h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases hr with h | h <;> rw [Nat.pow_mod, h]
   have h6 : q ^ 6 % 9 = 1 := by
-    rcases hr9 with h | h | h | h | h | h <;> rw [Nat.pow_mod, h] <;> norm_num
+    rcases hr9 with h | h | h | h | h | h <;> rw [Nat.pow_mod, h]
   have d2 : 3 ∣ q ^ 2 - 1 := by omega
   have d4 : 3 ∣ q ^ 4 - 1 := by omega
   have d6 : 9 ∣ q ^ 6 - 1 := by omega

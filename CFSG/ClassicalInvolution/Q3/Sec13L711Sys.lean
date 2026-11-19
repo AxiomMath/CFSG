@@ -37,9 +37,10 @@ section Eta
 variable {η : Set (Subgroup G)} (hη : η ∈ etaG Ω)
 include hη
 
+omit [Finite G] hΩ in
 theorem W_isPGroup : IsPGroup 2 (⨆ V ∈ η, V : Subgroup G) := by
   obtain ⟨S, hS, -⟩ := hη
-  exact S.isPGroup'.to_le (iSup₂_le fun V hV => (hS.1 hV).2)
+  exact S.isPGroup.to_le (iSup₂_le fun V hV => (hS.1 hV).2)
 
 theorem W_comm : ∀ x ∈ (⨆ V ∈ η, V : Subgroup G), ∀ y ∈ (⨆ V ∈ η, V : Subgroup G),
     x * y = y * x := by
@@ -47,6 +48,7 @@ theorem W_comm : ∀ x ∈ (⨆ V ∈ η, V : Subgroup G), ∀ y ∈ (⨆ V ∈ 
   exact (Sec6Gen.eta_abelian_of_cyc66 hΩ.hyp (Sec6Gen.cyc66 hΩ.hyp) hS hinv).1
 
 omit hΩ hη in
+omit [Finite G] in
 theorem le_W {V : Subgroup G} (hV : V ∈ η) : V ≤ (⨆ V ∈ η, V : Subgroup G) :=
   le_biSup (fun V => V) hV
 
@@ -75,7 +77,7 @@ theorem inf_mem_eta_of_le_normalizer {K : Subgroup G} (hK : K ∈ Ω)
     (hKW : K ≤ Subgroup.normalizer ((⨆ V ∈ η, V : Subgroup G) : Set G)) :
     K ⊓ (⨆ V ∈ η, V : Subgroup G) ∈ η := by
   have hP : IsPGroup 2 ↥(K ⊔ (⨆ V ∈ η, V : Subgroup G)) :=
-    (hΩ.two K hK).to_sup_of_normal_right' (hΩ.W_isPGroup hη) hKW
+    (hΩ.two K hK).to_sup_of_normal_right' (Q8Omega.W_isPGroup hη) hKW
   refine hΩ.inf_mem_eta hη hP le_sup_right hK ?_
   rw [inf_eq_left.mpr le_sup_left, hΩ.card K hK]
   norm_num

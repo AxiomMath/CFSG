@@ -28,7 +28,7 @@ theorem conjHom_eq_one_iff {n : ℕ} (hn : 3 ≤ n) (hq : ¬(n = 3 ∧ r ^ f = 2
     primeFormConjHom h _ A = 1 ↔ ∃ c : Kˣ, h.norm (c : K) = 1 ∧
       (A : GL (Fin n) K) = GeneralLinearGroup.scalar (Fin n) c := by
   classical
-  haveI := h.finite
+  have := h.finite
   have hC : IsPrimeFormGram (1 : GL (Fin n) K) := isPrimeFormGram_one
   obtain ⟨-, -, hker1, -⟩ := unitary_prime_form_full_semilinear_realization h hC hn hq
   have e := hker1 ⟨A, 1⟩
@@ -43,7 +43,7 @@ theorem conjHom_not_mem_inner {n : ℕ} (hn : 3 ≤ n) (hq : ¬(n = 3 ∧ r ^ f 
       inner (primeFormP h ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) := by
   intro hin
   classical
-  haveI := h.finite
+  have := h.finite
   have hC : IsPrimeFormGram (1 : GL (Fin n) K) := isPrimeFormGram_one
   obtain ⟨-, -, -, -, -, -, -, -, -, hinn, -⟩ :=
     unitary_prime_form_full_semilinear_realization h hC hn hq
@@ -122,7 +122,7 @@ theorem uniModelHyps [Finite K] (hp : p.Prime) (hn : 3 ≤ p) (hq : ¬(p = 3 ∧
     (hŷU : ŷ ∈ primeFormUnitary h ((1 : GL (Fin p) K) : Matrix (Fin p) (Fin p) K)) {ω : K}
     (hωN : h.bar ω * ω = 1) (hy : (ŷ : Matrix (Fin p) (Fin p) K) ^ p = Matrix.scalar (Fin p) ω)
     (hω : ∀ b : K, b ^ p ≠ ω) : ModelHyps (uniModel h hn hq) ŷ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hK1card : Nat.card (Units.map h.normHom).ker = r ^ f + 1 := (unitary_field_norm h).2.2.1
   refine ⟨hŷU, ?_, ?_, ?_⟩
@@ -135,7 +135,7 @@ theorem uniModelHyps [Finite K] (hp : p.Prime) (hn : 3 ≤ p) (hq : ¬(p = 3 ∧
     set K1 : Subgroup Kˣ := (Units.map h.normHom).ker with hK1
     obtain ⟨S⟩ : Nonempty (Sylow p K1) := inferInstance
     set Q : Subgroup Kˣ := (S : Subgroup K1).map K1.subtype with hQ
-    have hQp : IsPGroup p Q := S.isPGroup'.map K1.subtype
+    have hQp : IsPGroup p Q := S.isPGroup.map K1.subtype
     have hQcard : Nat.card Q = p ^ (r ^ f + 1).factorization p := by
       rw [hQ, Subgroup.card_map_of_injective K1.subtype_injective, Sylow.card_eq_multiplicity,
         hK1card]
@@ -224,7 +224,7 @@ theorem uniAutHyps [Finite K] (hp : p.Prime) (hn : 3 ≤ p) (hq : ¬(p = 3 ∧ r
   obtain ⟨-, -, hcard, -⟩ := unitary_full_diagonal_outer_order h hn hq
   set I := inner (primeFormP h ((1 : GL (Fin p) K) : Matrix (Fin p) (Fin p) K)) with hI
   set D := primeFormD h ((1 : GL (Fin p) K) : Matrix (Fin p) (Fin p) K) with hD
-  haveI : D.Normal := hDn
+  have : D.Normal := hDn
   have hIle : I ≤ (thetaP L eP).range := by
     rintro _ ⟨w, rfl⟩
     obtain ⟨u, rfl⟩ := eP.surjective w
@@ -239,8 +239,8 @@ theorem uniAutHyps [Finite K] (hp : p.Prime) (hn : 3 ≤ p) (hq : ¬(p = 3 ∧ r
   have hab : ∀ a b : MulAut (primeFormP h ((1 : GL (Fin p) K) :
       Matrix (Fin p) (Fin p) K)), a * b * a⁻¹ * b⁻¹ ∈ D := by
     obtain ⟨-, hcyc⟩ := card_ringAut_and_isCyclic h.prime K (n := 2 * f) h.card
-    haveI : IsCyclic (K ≃+* K) := hcyc
-    letI : CommGroup (K ≃+* K) := IsCyclic.commGroup
+    have : IsCyclic (K ≃+* K) := hcyc
+    let : CommGroup (K ≃+* K) := IsCyclic.commGroup
     intro a b
     rw [← hFker, MonoidHom.mem_ker]
     simp only [map_mul, map_inv]
@@ -271,7 +271,7 @@ theorem uniHyps_of_cfg {Y : Type} [Group Y] [Finite Y] {P : Subgroup Y} {x z : Y
       AutHyps (thetaP L (e.trans (statedEquiv hU (by omega : 1 ≤ p)))) (uniModel hU hn hq) ∧
       thetaP L (e.trans (statedEquiv hU (by omega : 1 ≤ p))) x =
         (uniModel hU hn hq).c ⟨ŷ, hM.ŷ_mem⟩ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hp2 : p ≠ 2 := by omega
   have hn1 : 1 ≤ p := by omega
   have hŷ : ŷ ∈ primeFormUnitary hU ((1 : GL (Fin p) K) : Matrix (Fin p) (Fin p) K) := by
@@ -308,9 +308,9 @@ theorem kd292CaseBSylow_uni (p : ℕ) (Y : Type) [Group Y] [Finite Y] (P : Subgr
   have hp2 : p ≠ 2 := by omega
   have hL := hcfg.comp
   have hLu := hcfg.uniq
-  haveI hLn : L.Normal := I291.normal_of_unique hL hLu
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hperf : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
+  have hLn : L.Normal := I291.normal_of_unique hL hLu
+  have : Fact p.Prime := ⟨hp⟩
+  have hperf : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
   have hCp : IsPGroup p (centralizer (L : Set Y)) :=
     I292.centralizer_isPGroup hY.core hL hLu hzero.pCore_cyclic hzero.omega_le
   obtain ⟨q, K, instF, instFin, e, ŷ, ω, hK, hpq, hŷu, hŷp, hω, hact⟩ := hmodel
@@ -336,9 +336,9 @@ theorem kd292CaseBConstr_uni (p : ℕ) (Y : Type) [Group Y] [Finite Y] (P : Subg
   have hp2 : p ≠ 2 := by omega
   have hL := hcfg.comp
   have hLu := hcfg.uniq
-  haveI hLn : L.Normal := I291.normal_of_unique hL hLu
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI hperf : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
+  have hLn : L.Normal := I291.normal_of_unique hL hLu
+  have : Fact p.Prime := ⟨hp⟩
+  have hperf : Group.IsPerfect ↥L := ⟨hL.2.2.1⟩
   have hCp : IsPGroup p (centralizer (L : Set Y)) :=
     I292.centralizer_isPGroup hY.core hL hLu hzero.pCore_cyclic hzero.omega_le
   obtain ⟨q, K, instF, instFin, e, ŷ, ω, hK, hpq, hŷu, hŷp, hω, hact⟩ := hmodel

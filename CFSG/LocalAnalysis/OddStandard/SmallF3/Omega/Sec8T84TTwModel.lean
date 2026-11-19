@@ -69,6 +69,7 @@ theorem sec8t84tw_coset (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V
     rw [heq]
     exact hρh
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec8t84tw_y_inv (fr : NFrame Q (Fin 6) 1) {y : ProjSim Q}
     (hy : y = ffX0 fr ∨ y = ffX0 fr * ffM fr ffRhoPerm ffRhoSet) :
     y * y = 1 ∧ ¬ SimInGStar y := by
@@ -101,6 +102,7 @@ private def sec8t84tw_Kr (σ : Equiv.Perm (Fin 6)) (K : Finset (Fin 6)) : Finset
   symmDiff (ffRhoSet.map ((σ * ffRhoPerm⁻¹)⁻¹).toEmbedding)
     (symmDiff (K.map ffRhoPerm.toEmbedding) (ffRhoSet.map ffRhoPerm.toEmbedding))
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec8t84tw_x0_conj_K0 (fr : NFrame Q (Fin 6) 1) {σ : Equiv.Perm (Fin 6)}
     (hσ : σ ∈ ffK0) :
     ffX0 fr * ffM fr σ ∅ = ffM fr 1 (sec8t84tw_Ks σ) * ffX0 fr := by
@@ -108,6 +110,7 @@ private theorem sec8t84tw_x0_conj_K0 (fr : NFrame Q (Fin 6) 1) {σ : Equiv.Perm 
   rcases hσ with rfl | rfl | rfl | rfl <;>
     exact ffX0_conj_of_mat fr (Or.inl (by unfold sec8t84tw_Ks; decide +kernel))
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec8t84tw_x0_conj (fr : NFrame Q (Fin 6) 1) {σ : Equiv.Perm (Fin 6)}
     (hσ : σ ∈ ffK0) (K : Finset (Fin 6)) :
     ffX0 fr * ffM fr σ K * ffX0 fr =
@@ -127,6 +130,7 @@ private theorem sec8t84tw_x0_conj (fr : NFrame Q (Fin 6) 1) {σ : Equiv.Perm (Fi
     _ = _ := by
         rw [ffX0_mul_self, mul_one, ffM_mul, one_mul]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec8t84tw_conj_perm_eq (fr : NFrame Q (Fin 6) 1) (σ τ : Equiv.Perm (Fin 6))
     (K J : Finset (Fin 6)) :
     ffM fr σ K * ffM fr τ J * (ffM fr σ K)⁻¹ = ffM fr (σ * τ * σ⁻¹)
@@ -134,6 +138,7 @@ private theorem sec8t84tw_conj_perm_eq (fr : NFrame Q (Fin 6) 1) (σ τ : Equiv.
         (symmDiff (J.map σ.toEmbedding) (K.map σ.toEmbedding))) := by
   rw [ffM_inv, mul_assoc, ffM_mul, inv_inv, ffM_mul, mul_assoc]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec8t84tw_rho_conj (fr : NFrame Q (Fin 6) 1) (σ : Equiv.Perm (Fin 6))
     (K : Finset (Fin 6)) :
     ffM fr ffRhoPerm ffRhoSet * ffM fr σ K * ffM fr ffRhoPerm ffRhoSet =
@@ -144,6 +149,7 @@ private theorem sec8t84tw_rho_conj (fr : NFrame Q (Fin 6) 1) (σ : Equiv.Perm (F
       = ffM fr ffRhoPerm ffRhoSet * ffM fr σ K * (ffM fr ffRhoPerm ffRhoSet)⁻¹ := by rw [hR]
     _ = _ := sec8t84tw_conj_perm_eq fr ffRhoPerm σ ffRhoSet K
 
+omit [FiniteDimensional (ZMod 3) V] in
 private theorem sec8t84tw_x0rho_conj (fr : NFrame Q (Fin 6) 1) {σ : Equiv.Perm (Fin 6)}
     (hσ : σ ∈ ffK0) (K : Finset (Fin 6)) :
     (ffX0 fr * ffM fr ffRhoPerm ffRhoSet) * ffM fr σ K *
@@ -176,6 +182,7 @@ private theorem sec8t84tw_key_x0rho : ∀ σ ∈ ffK0, ∀ K : Finset (Fin 6),
             (ffConjSign (sec8t84tw_Kr σ K)))ᶜ)) ↔ (σ = 1 ∧ K ∈ ffF0) := by
   decide +kernel
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec8t84tw_cent_iff (fr : NFrame Q (Fin 6) 1) {y : ProjSim Q}
     (hy : y = ffX0 fr ∨ y = ffX0 fr * ffM fr ffRhoPerm ffRhoSet) {σ : Equiv.Perm (Fin 6)}
     (hσ : σ ∈ ffK0) (K : Finset (Fin 6)) :
@@ -189,11 +196,13 @@ theorem sec8t84tw_cent_iff (fr : NFrame Q (Fin 6) 1) {y : ProjSim Q}
   · rw [sec8t84tw_x0rho_conj fr hσ K]
     exact (eq_comm.trans (ffM_eq_iff fr)).trans (sec8t84tw_key_x0rho σ hσ K)
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec8t84tw_signChange_comm (fr : NFrame Q (Fin 6) 1) (J K : Finset (Fin 6)) :
     ffM fr 1 J * ffM fr 1 K = ffM fr 1 K * ffM fr 1 J := by
   rw [ffM_mul, ffM_mul, mul_one, inv_one, ffOutClass_map_one, ffOutClass_map_one,
     symmDiff_comm]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec8t84tw_signChange_sq (fr : NFrame Q (Fin 6) 1) (J : Finset (Fin 6)) :
     ffM fr 1 J * ffM fr 1 J = 1 := by
   rw [ffM_mul, mul_one, inv_one, ffOutClass_map_one, symmDiff_self, Finset.bot_eq_empty,
@@ -214,6 +223,7 @@ private theorem sec8t84tw_F0_cover : ∀ J ∈ ffF0,
       Jᶜ ∈ ({∅, {0, 2}, {1, 3}, {4, 5}} : Finset (Finset (Fin 6))) := by
   decide +kernel
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec8t84tw_T4_card (fr : NFrame Q (Fin 6) 1) :
     {z : ProjSim Q | ∃ J ∈ ffF0, z = ffM fr 1 J}.ncard = 4 := by
   classical
@@ -221,7 +231,7 @@ theorem sec8t84tw_T4_card (fr : NFrame Q (Fin 6) 1) :
       ↑(({∅, {0, 2}, {1, 3}, {4, 5}} : Finset (Finset (Fin 6))).image
         (fun J => ffM fr 1 J)) := by
     ext z
-    simp only [Set.mem_setOf_eq, Finset.coe_image, Set.mem_image, Finset.mem_coe]
+    simp only [Set.mem_ofPred_eq, Finset.coe_image, Set.mem_image, Finset.mem_coe]
     constructor
     · rintro ⟨J, hJ, rfl⟩
       rcases sec8t84tw_F0_cover J hJ with h | h

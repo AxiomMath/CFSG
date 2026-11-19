@@ -84,11 +84,13 @@ theorem le_range_theta_of_perfect (hF : Nat.card F = 3)
       intro x hx y hy
       exact commutator_mem_range_theta hF hg (hTc x hx) (hTc y hy)
 
+omit [Finite F] [Fact (¬ IsSquare (-1 : F))] in
 theorem omega_mul_omega_gauss : (QuadraticAlgebra.omega : GaussField F) * QuadraticAlgebra.omega =
     -1 := by
   rw [QuadraticAlgebra.omega_mul_omega_eq_mk]
   ext <;> simp [QuadraticAlgebra.re_one, QuadraticAlgebra.im_one]
 
+omit [Finite F] [Fact (¬ IsSquare (-1 : F))] in
 theorem coe_mul_self_of_gauss {g : Matrix.SpecialLinearGroup (Fin 2 × Fin 2) F}
     (hg : (g : Matrix (Fin 2 × Fin 2) (Fin 2 × Fin 2) F) =
       gaussIota 2 (Matrix.scalar (Fin 2) (QuadraticAlgebra.omega : GaussField F))) :
@@ -156,7 +158,7 @@ theorem part_B_std {L : Type*} [Group L] [Finite L] (hF : Nat.card F = 3)
     show φ (Θ s) * φ g = φ g * φ (Θ s)
     rw [← map_mul, ← map_mul, theta_mul_comm hF hg s]
   · have hker := ker_comp_theta_eq_center hF φ hφk hg hy
-    haveI : Fintype (GaussField F) := Fintype.ofFinite _
+    have : Fintype (GaussField F) := Fintype.ofFinite _
     have hE9 : Fintype.card (GaussField F) = 9 := by
       rw [← Nat.card_eq_fintype_card, card_gaussField_eq_nine hF]
     obtain ⟨e3⟩ :=

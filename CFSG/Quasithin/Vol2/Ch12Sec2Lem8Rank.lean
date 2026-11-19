@@ -221,7 +221,7 @@ theorem two_le_pRank_su_three_three {F : Type} [Field F] [Finite F] (hF : Nat.ca
     rw [show (6048 : ℕ) = 3 ^ 3 * 224 by norm_num, Nat.factorization_mul (by norm_num)
       (by norm_num), Finsupp.add_apply, Nat.Prime.factorization_pow Nat.prime_three]
     simp [Nat.factorization_eq_zero_of_not_dvd (by norm_num : ¬ 3 ∣ 224)]
-  have hP2 : IsPGroup 3 P := P.isPGroup'
+  have hP2 : IsPGroup 3 P := P.isPGroup
   have hPnt : Nontrivial (Subgroup.center P) := by
     have : Nontrivial P := by
       rw [← Finite.one_lt_card_iff_nontrivial, hP]

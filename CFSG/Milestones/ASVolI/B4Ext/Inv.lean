@@ -179,8 +179,8 @@ theorem burnsideB49x_B1A_of_vanish_stab [FiniteDimensional (ZMod 2) W] [Module (
     {μ : (W ≃ₗ[ZMod 2] W) →* AddMonoid.End M} {φ : Dual (ZMod 2) W} (hφ : φ ≠ 0)
     {δ : (W ≃ₗ[ZMod 2] W) → M} (hδ : δ ∈ Z1A μ)
     (hP : ∀ s ∈ burnsideB49_stab φ, δ s = 0) : δ ∈ B1A μ := by
-  haveI : Finite W := Module.finite_of_finite (ZMod 2)
-  haveI : Finite (W ≃ₗ[ZMod 2] W) :=
+  have : Finite W := Module.finite_of_finite (ZMod 2)
+  have : Finite (W ≃ₗ[ZMod 2] W) :=
     Finite.of_injective (fun f : W ≃ₗ[ZMod 2] W => (f : W → W))
       (fun _ _ h => LinearEquiv.ext (congrFun h))
   exact mem_B1A_of_vanish (fun m => two_add_self m) (burnsideB49_stab_index_odd hφ) hδ hP

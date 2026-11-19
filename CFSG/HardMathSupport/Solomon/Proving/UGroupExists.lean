@@ -62,7 +62,7 @@ theorem isPPlane_kleinOf [Finite G] {ha : a ^ 2 = 1} {hb : b ^ 2 = 1} {hab : a *
     rw [mem_kleinOf] at hx hy
     rcases hx with rfl | rfl | rfl | rfl <;> rcases hy with rfl | rfl | rfl | rfl <;>
       (try simp only [mul_one, one_mul, haa, hbb, h1, h2, h3, h4, h5]) <;>
-      first | rfl | exact hab | exact hab.symm
+      first | exact hab | exact hab.symm
   refine ⟨⟨⟨⟨fun x y => Subtype.ext (hcomm x.1 x.2 y.1 y.2)⟩⟩, ?_⟩, ?_⟩
   · intro x hx
     rw [mem_kleinOf] at hx

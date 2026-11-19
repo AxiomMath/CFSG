@@ -22,16 +22,20 @@ private def inComps (N : Subgroup X) : Subgroup X :=
 private def outComps (N : Subgroup X) : Subgroup X :=
   sSup {K : Subgroup X | CFSG.IsComponent K ∧ ¬ K ≤ N}
 
+omit [Finite X] in
 private theorem inComps_eq (N : Subgroup X) :
     inComps N = sSup {K : Subgroup X | CFSG.IsComponent K ∧ K ≤ N} := rfl
 
+omit [Finite X] in
 private theorem outComps_eq (N : Subgroup X) :
     outComps N = sSup {K : Subgroup X | CFSG.IsComponent K ∧ ¬ K ≤ N} := rfl
 
+omit [Finite X] in
 private theorem inComps_le (N : Subgroup X) : inComps N ≤ N := by
   rw [inComps_eq N]
   exact sSup_le fun _ hK => hK.2
 
+omit [Finite X] in
 private theorem outComps_le_layer (N : Subgroup X) : outComps N ≤ CFSG.layer X := by
   rw [outComps_eq N]
   exact sSup_le fun K hK => CFSG.LocalCores.component_le_layer hK.1
@@ -51,12 +55,13 @@ private theorem inComps_le_centralizer_outComps {N : Subgroup X} (hN : N.Normal)
   intro y hy
   exact (Subgroup.mem_centralizer_iff.mp (outComps_centralizes hN hy) z (inComps_le N hz)).symm
 
+omit [Finite X] in
 private theorem layer_eq_inComps_sup_outComps (N : Subgroup X) :
     CFSG.layer X = inComps N ⊔ outComps N := by
   rw [CFSG.layer.eq_sSup, inComps_eq N, outComps_eq N, ← sSup_union]
   congr 1
   ext K
-  simp only [Set.mem_setOf_eq, Set.mem_union]
+  simp only [Set.mem_ofPred_eq, Set.mem_union]
   constructor
   · intro hK
     by_cases h : K ≤ N
@@ -64,6 +69,7 @@ private theorem layer_eq_inComps_sup_outComps (N : Subgroup X) :
     · exact Or.inr ⟨hK, h⟩
   · rintro (⟨hK, _⟩ | ⟨hK, _⟩) <;> exact hK
 
+omit [Finite X] in
 private theorem exists_mul_of_mem_sup_of_le_centralizer {H K : Subgroup X}
     (h : H ≤ Subgroup.centralizer (K : Set X)) {x : X} (hx : x ∈ H ⊔ K) :
     ∃ h ∈ H, ∃ k ∈ K, x = h * k := by
@@ -76,6 +82,7 @@ private theorem exists_mul_of_mem_sup_of_le_centralizer {H K : Subgroup X}
   rcases Set.mem_mul.mp hx' with ⟨h, hh, k, hk, hk'⟩
   exact ⟨h, hh, k, hk, hk'.symm⟩
 
+omit [Finite X] in
 theorem s15_Three_layer_normal_eq {N : Subgroup X} (hN : N.Normal) :
     (CFSG.layer ↥N).map N.subtype = sSup {K : Subgroup X | CFSG.IsComponent K ∧ K ≤ N} := by
   change (CFSG.layer ↥N).map N.subtype = inComps N
@@ -91,6 +98,7 @@ theorem s15_Three_layer_normal_eq {N : Subgroup X} (hN : N.Normal) :
     have hle := Subgroup.map_mono (f := N.subtype) (CFSG.LocalCores.component_le_layer hcomp)
     simpa only [Subgroup.map_subgroupOf_eq_of_le hK.2] using hle
 
+omit [Finite X] in
 theorem s15_Three_center_layer_le_fitting :
     ∀ z ∈ CFSG.layer X, (∀ y ∈ CFSG.layer X, z * y = y * z) → z ∈ CFSG.fittingSubgroup X := by
   intro z hz hzc
@@ -98,15 +106,15 @@ theorem s15_Three_center_layer_le_fitting :
     rw [CFSG.LocalCores.mem_map_center_iff (CFSG.layer X)]
     exact ⟨hz, Subgroup.mem_centralizer_iff.mpr fun y hy => (hzc y hy).symm⟩
   have hchar : ((Subgroup.center (CFSG.layer X)).map (CFSG.layer X).subtype).Characteristic := by
-    haveI : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
-    haveI : (Subgroup.center (CFSG.layer X)).Characteristic := inferInstance
+    have : (CFSG.layer X).Characteristic := CFSG.LocalCores.layer_characteristic
+    have : (Subgroup.center (CFSG.layer X)).Characteristic := inferInstance
     infer_instance
   have hnil : Group.IsNilpotent ((Subgroup.center (CFSG.layer X)).map
       (CFSG.layer X).subtype) :=
     Group.nilpotent_of_mulEquiv
       (Subgroup.equivMapOfInjective (Subgroup.center (CFSG.layer X))
         (CFSG.layer X).subtype Subtype.val_injective)
-  haveI : ((Subgroup.center (CFSG.layer X)).map (CFSG.layer X).subtype).Characteristic := hchar
+  have : ((Subgroup.center (CFSG.layer X)).map (CFSG.layer X).subtype).Characteristic := hchar
   exact (CFSG.LocalCores.fitting_characteristic (G := X)).2.2 _ inferInstance hnil hzM
 
 theorem s15_Three_decomp {N : Subgroup X} (hN : N.Normal)
@@ -151,7 +159,7 @@ private theorem commute_fitting_mul_comps_of_mem {N : Subgroup X} (hN : N.Normal
     _ = n * (f * e₂) := mul_assoc n f e₂
 
 private theorem outComps_centralizes_outComps_of_mem {N : Subgroup X} (hN : N.Normal)
-    {f e₂ x : X} (hf : f ∈ CFSG.fittingSubgroup X) (he₂ : e₂ ∈ outComps N)
+    {f e₂ x : X} (hf : f ∈ CFSG.fittingSubgroup X) (_he₂ : e₂ ∈ outComps N)
     (hx : x = f * e₂) (hxN : x ∈ N) :
     e₂ ∈ Subgroup.centralizer (outComps N : Set X) := by
   have he₂eq : e₂ = f⁻¹ * x := by
@@ -196,6 +204,7 @@ section Generic
 
 variable {Γ : Type} [Group Γ] [Finite Γ]
 
+omit [Finite Γ] in
 private theorem map_subtype_top_eq (H : Subgroup Γ) :
     (⊤ : Subgroup ↥H).map H.subtype = H := by
   refine le_antisymm (Subgroup.map_subtype_le ⊤) ?_
@@ -211,7 +220,7 @@ private theorem s15_layer_map_le_of_mulEquiv {G H : Type*} [Group G] [Group H] [
 
 private theorem s15_fitting_map_le_of_mulEquiv {G H : Type*} [Group G] [Group H] [Finite G]
     (e : G ≃* H) : (CFSG.fittingSubgroup G).map e.toMonoidHom ≤ CFSG.fittingSubgroup H := by
-  haveI : Group.IsNilpotent (CFSG.fittingSubgroup G) :=
+  have : Group.IsNilpotent (CFSG.fittingSubgroup G) :=
     (CFSG.LocalCores.fitting_nilpotent (G := G)).1
   refine (CFSG.LocalCores.fitting_characteristic (G := H)).2.2 _ ?_ ?_
   · exact (inferInstance : (CFSG.fittingSubgroup G).Normal).map e.toMonoidHom e.surjective
@@ -227,6 +236,7 @@ private theorem s15_genFittingFStar_map_le_of_mulEquiv {G H : Type*} [Group G] [
   exact sup_le ((s15_fitting_map_le_of_mulEquiv e).trans le_sup_left)
     ((s15_layer_map_le_of_mulEquiv e).trans le_sup_right)
 
+omit [Finite Γ] in
 private theorem s15_fitting_sup_layer_of_fstar {A : Subgroup Γ} (hF : Fstar A = A) :
     CFSG.fittingSubgroup ↥A ⊔ CFSG.layer ↥A = ⊤ := by
   apply Subgroup.map_injective A.subtype_injective
@@ -237,7 +247,7 @@ private theorem s15_fitting_sup_layer_of_fstar {A : Subgroup Γ} (hF : Fstar A =
 theorem s15_Three_fstar_of_normal {A B : Subgroup Γ} (hBA : B ≤ A)
     (hn : (B.subgroupOf A).Normal) (hF : Fstar A = A) : Fstar B = B := by
   let N : Subgroup ↥A := B.subgroupOf A
-  haveI hNn : N.Normal := hn
+  have hNn : N.Normal := hn
   have hFA : CFSG.fittingSubgroup ↥A ⊔ CFSG.layer ↥A = ⊤ :=
     s15_fitting_sup_layer_of_fstar hF
   have hFN : CFSG.Open.genFittingFStar ↥N = ⊤ := by
@@ -310,7 +320,7 @@ theorem s15_Three_eq_cent_mul_layer {A B : Subgroup Γ} (hBA : B ≤ A)
     ∀ a ∈ A, ∃ c ∈ A, ∃ e ∈ (CFSG.layer ↥B).map B.subtype,
       (∀ x ∈ (CFSG.layer ↥B).map B.subtype, c * x = x * c) ∧ a = c * e := by
   let N : Subgroup ↥A := B.subgroupOf A
-  haveI hNn : N.Normal := hn
+  have hNn : N.Normal := hn
   have hFA : CFSG.fittingSubgroup ↥A ⊔ CFSG.layer ↥A = ⊤ :=
     s15_fitting_sup_layer_of_fstar hF
   intro a ha

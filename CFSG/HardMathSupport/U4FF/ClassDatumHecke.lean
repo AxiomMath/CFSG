@@ -71,15 +71,17 @@ theorem forall_lt_four {P : Fin 4 → Fin 4 → Prop} :
   · rintro ⟨h10, h20, h21, h30, h31, h32⟩ a b hba
     fin_cases a <;> fin_cases b <;> first | exact absurd hba (by decide) | assumption
 
+omit [Finite K] [CharP K 2] in
 theorem wMat_diag (n : ℕ) (a b c d : K) (x : Fin 4) : wMat n a b c d x x = 1 := by
   fin_cases x <;> simp [wMat]
 
+omit [Finite K] [CharP K 2] in
 theorem pat_iff (i : Fin 8) (a b c d : K) :
     (∀ x y : Fin 4, y < x → wMat n a b c d (permVal i x) (permVal i y) = 0) ↔
       patK i (a, b, c, d) := by
   have hq : (2 : ℕ) ^ n ≠ 0 := pow_ne_zero n two_ne_zero
   rw [forall_lt_four]
-  fin_cases i <;> simp [permVal, patK, wMat, hq] <;>
+  fin_cases i <;> simp [permVal, patK, wMat] <;>
     first
     | tauto
     | (constructor <;> intro h <;> simp_all [zero_pow hq])

@@ -83,7 +83,7 @@ theorem le_size_of_tree {n r root t : Nat} {st : Array (Array Nat)} {STEP : Nat 
     _ = (cbfs n root st).pts.size := Finset.card_range _
 
 theorem hyp_of {n m s : Nat} {S : Array (Array Nat)} {base : Array Nat} {W : Array (List Int)}
-    {F FI : Nat → Nat → Nat} (hn : 0 < n) (hS : S.size = s) (hm : m ≤ s)
+    {F FI : Nat → Nat → Nat} (hn : 0 < n) (hS : S.size = s) (_hm : m ≤ s)
     (hF : ∀ j < s, ∀ x < n, (S[j]!)[x]! = F j x ∧ F j x < n ∧ FI j x < n ∧ FI j (F j x) = x)
     (hW : ∀ j, m ≤ j → j < s → (∀ l ∈ W[j]!, l ≠ 0 ∧ l.natAbs ≤ j) ∧
       ∀ x < n, F j x = W[j]!.foldr (CFSG.KS.TW.GZ F FI) x)

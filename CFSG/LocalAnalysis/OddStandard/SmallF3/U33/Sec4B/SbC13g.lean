@@ -11,6 +11,7 @@ open Subgroup
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G}
   {x₁ x₂ lam rho tau om : G}
 
+omit [Finite G] in
 theorem c13_X_eq (t tau x₁ x₂ : G) :
     ctxX t tau x₁ x₂ = closure ({t, tau} : Set G) ⊔ fourGrp x₁ x₂ := by
   apply le_antisymm

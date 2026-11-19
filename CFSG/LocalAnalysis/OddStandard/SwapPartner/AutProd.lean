@@ -38,7 +38,7 @@ private theorem wt_abar_le_layer (H : WreathCase t Sg V K) :
   intro g hg
   change g ∈ ((⁅Sg, Sg⁆ : Subgroup X) : Set X) at hg
   rw [H.diag] at hg
-  simp only [Set.mem_setOf_eq] at hg
+  simp only [Set.mem_ofPred_eq] at hg
   obtain ⟨k, hk, rfl⟩ := hg
   rw [H.layer_eq]
   have hk' : t * k * t⁻¹ ∈ K.map (MulAut.conj t).toMonoidHom := by

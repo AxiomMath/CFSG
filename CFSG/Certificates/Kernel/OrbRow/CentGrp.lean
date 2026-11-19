@@ -10,6 +10,7 @@ open Subgroup
 
 variable {H : Type*} [Group H] [Finite H]
 
+omit [Finite H] in
 theorem mem_of_orderOf_coprime (N : Subgroup H) [N.Normal] {x : H} {a : ℕ} (hx : orderOf x ∣ a)
     (hc : Nat.Coprime a (Nat.card (H ⧸ N))) : x ∈ N := by
   have h1 : orderOf (QuotientGroup.mk x : H ⧸ N) ∣ a :=
@@ -77,7 +78,7 @@ theorem closure_c3_rot : closure {c3, finRotate 5} = alternatingGroup (Fin 5) :=
       ⟨fun x hxH g => by
         simp_rw [Subgroup.mul_mem_iff_of_index_two hidx, hxH, iff_true, inv_mem_iff]⟩
     rcases @IsSimpleGroup.eq_bot_or_eq_top_of_normal (alternatingGroup (Fin 5)) _
-        alternatingGroup.isSimpleGroup_five N hn with hb | ht
+        (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge) N hn with hb | ht
     · rw [hb, Subgroup.card_bot] at hN
       omega
     · rw [ht, Subgroup.card_top, card_alt5] at hN
@@ -152,6 +153,7 @@ theorem conj_mem_of_closure {R : Subgroup H} {X Y : Set H} (hR : R = closure Y)
       simpa [mul_assoc] using this
   exact fun x hx r hr => hX hx r hr
 
+omit [Finite H] in
 theorem centralizer_normal (R : Subgroup H) [hRn : R.Normal] :
     (centralizer (R : Set H)).Normal := by
   constructor
@@ -166,6 +168,7 @@ theorem centralizer_normal (R : Subgroup H) [hRn : R.Normal] :
     _ = g * (z * (g⁻¹ * r * g)) * g⁻¹ := by rw [hc]
     _ = g * z * g⁻¹ * r := by group
 
+omit [Finite H] in
 theorem centralizer_le (K R T : Subgroup H) [K.Normal] [R.Normal] (hRK : R ≤ K)
     (hK : Nat.card K = 2 ^ 5 * 3 ^ 5) (hR : Nat.card R = 3 ^ 5) (hTK : T ≤ K)
     (hT : Nat.card T = 2 ^ 5) (hTc : ∀ t ∈ T, t ∈ centralizer (R : Set H) → t = 1)
@@ -196,7 +199,7 @@ theorem centralizer_le (K R T : Subgroup H) [K.Normal] [R.Normal] (hRK : R ≤ K
       rw [map_mul, map_mul, map_inv, hh, hzn]
       simp
     rcases @IsSimpleGroup.eq_bot_or_eq_top_of_normal (alternatingGroup (Fin 5)) _
-        alternatingGroup.isSimpleGroup_five N hNn with hb | ht
+        (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge) N hNn with hb | ht
     · intro z hz
       have hzA : φ z ∈ A := by
         rw [← hrange]

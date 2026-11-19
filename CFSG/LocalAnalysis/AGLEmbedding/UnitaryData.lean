@@ -42,7 +42,7 @@ theorem stmtUnitaryData_of (hB : StmtUnitaryBorel) : StmtUnitaryData := by
   have hXb : (X.subgroupOf H).map π = Zb := by
     rw [hXdef, map_inf_centralizer_eq hUH hUp, hUb]
   have hNHM : GLBPrimeCore p H ≤ H ⊓ M := h.ext.primeCore_le_inf'.1
-  have hZbp : IsPGroup p Zb := Rbar.isPGroup'.to_le (inf_le_left.trans inf_le_left)
+  have hZbp : IsPGroup p Zb := Rbar.isPGroup.to_le (inf_le_left.trans inf_le_left)
   have hZbcard := (isElemAbelian_range_galoisField hn0 ψ hψ).2
   rw [hψZ] at hZbcard
   have hZb1 : Zb ≠ ⊥ := by

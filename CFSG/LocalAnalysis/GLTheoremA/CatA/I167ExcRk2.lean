@@ -38,12 +38,12 @@ theorem exists_elemAbelian_nine_of_isLnA {S : Type} [Group S] {n : ℕ} (hn : 5 
           rcases hmodel.2 with hc | ⟨-, d', hnames, -⟩
           · exact hc
           · exfalso
-            cases d' <;> simp [CFSG.Models.NamesTag] at hnames
+            cases d'; simp [CFSG.Models.NamesTag] at hnames
         obtain ⟨-, K, hK, hKfin, hKcard, ⟨eModel⟩⟩ := hclass
-        letI : Field K := hK
-        letI : Finite K := hKfin
+        let : Field K := hK
+        let : Finite K := hKfin
         have hK2 : Nat.card K = 2 := hKcard.trans hq2
-        haveI : CharP K 2 :=
+        have : CharP K 2 :=
           CFSG.QuasithinUnique.Setup.Family.charP_two_of_card (f := 1) (by simpa using hK2)
         have ePSL : Matrix.ProjectiveSpecialLinearGroup (Fin (r + 1)) K ≃* S :=
           (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj (r + 1) K).trans eModel.symm
@@ -52,17 +52,16 @@ theorem exists_elemAbelian_nine_of_isLnA {S : Type} [Group S] {n : ℕ} (hn : 5 
     | _ =>
       exfalso
       simp [isLnA, onLie, isLnEps, isAltN] at hi
-      try omega
   | cyclic _ _ =>
     exfalso
-    simp [isLnA, onLie, isLnEps, isAltN] at hi
+    simp [isLnA, onLie, isAltN] at hi
   | alternating _ _ =>
     exfalso
-    simp [isLnA, onLie, isLnEps, isAltN] at hi
+    simp [isLnA, onLie, isAltN] at hi
     omega
   | sporadic _ =>
     exfalso
-    simp [isLnA, onLie, isLnEps, isAltN] at hi
+    simp [isLnA, onLie, isAltN] at hi
 
 theorem exists_elemAbelian_nine_of_isOmMA {S : Type} [Group S] {n : ℕ} (hn : 6 ≤ n)
     (h : catalogIs S (isOmMA n 2)) : ∃ E : Subgroup S, IsElemAbelian 3 E ∧ Nat.card E = 3 ^ 2 := by
@@ -80,7 +79,7 @@ theorem exists_elemAbelian_nine_of_isOmMA {S : Type} [Group S] {n : ℕ} (hn : 6
         rcases hmodel.2 with hc | ⟨-, d', hnames, -⟩
         · exact hc
         · exfalso
-          cases d' <;> simp [CFSG.Models.NamesTag] at hnames
+          cases d'; simp [CFSG.Models.NamesTag] at hnames
       have hqp : q.p = 2 := by
         have hdvd : q.p ∣ 2 := by
           rw [← hq2]
@@ -102,13 +101,13 @@ theorem exists_elemAbelian_nine_of_isOmMA {S : Type} [Group S] {n : ℕ} (hn : 6
       simp [isOmMA, isOmM, onLie, isLnEps] at hi
   | cyclic _ _ =>
     exfalso
-    simp [isOmMA, isOmM, onLie, isLnEps] at hi
+    simp [isOmMA, isOmM, onLie] at hi
   | alternating _ _ =>
     exfalso
-    simp [isOmMA, isOmM, onLie, isLnEps] at hi
+    simp [isOmMA, isOmM, onLie] at hi
   | sporadic _ =>
     exfalso
-    simp [isOmMA, isOmM, onLie, isLnEps] at hi
+    simp [isOmMA, isOmM, onLie] at hi
 
 private theorem exists_elemAbelian_sq_of_isOmPA_aux1 {q : TauCeti.PrimePower} {k : ℕ}
     (h : q.p ^ q.exponent = 2 ^ k) : q.p = 2 ∧ q.exponent = k := by
@@ -135,17 +134,17 @@ private theorem exists_elemAbelian_sq_of_isOmPA_aux2 {S : Type} [Group S] {p k r
     rcases hmodel.2 with hc | ⟨-, d', hnames, -⟩
     · exact hc
     · exfalso
-      cases d' <;> simp [CFSG.Models.NamesTag] at hnames
+      cases d'; simp [CFSG.Models.NamesTag] at hnames
   obtain ⟨-, K, hK, hKfin, hKcard, ⟨eModel⟩⟩ := hclass
-  letI : Field K := hK
-  letI : Finite K := hKfin
+  let : Field K := hK
+  let : Finite K := hKfin
   have hKcard' : Nat.card K = 2 ^ k := by rw [hKcard, hqp, hqk]
   have hpk' : p ∣ Nat.card K + 1 := by rw [hKcard']; exact hpk
   obtain ⟨-, E, hE, hEcard⟩ :=
     CFSG.QuasithinUnique.Setup.Family.even_orthogonal_plus (f := k) hKcard' hp
       hpk' (n := r) (by omega)
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CFSG.IsElementaryAbelian p ↥E := hE
+  have : Fact p.Prime := ⟨hp⟩
+  have : CFSG.IsElementaryAbelian p ↥E := hE
   have hdvd : p ^ 2 ∣ Nat.card E := by
     rw [hEcard]
     exact pow_dvd_pow p (Nat.mul_le_mul_left 2 (Nat.div_pos (by omega) (by norm_num)))
@@ -164,7 +163,7 @@ private theorem exists_elemAbelian_sq_of_isOmPA_aux3 {S : Type} [Group S] {p k :
     have h3 : p ∣ 3 := by simpa [hk1] using hpk
     exact (Nat.prime_dvd_prime_iff_eq hp Nat.prime_three).1 h3
   have hK2 : Nat.card K = 2 := by simpa [hk1] using hKcard
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.QuasithinUnique.Setup.Family.charP_two_of_card (f := 1) hK2
   have ePSL : Matrix.ProjectiveSpecialLinearGroup (Fin 4) K ≃* S :=
     (CFSG.Assembly.LowTwoRank.projectiveSpecialLinearGroupEquivStatedProj 4 K).trans eModel.symm
@@ -177,7 +176,7 @@ private theorem exists_elemAbelian_sq_of_isOmPA_aux4 {S : Type} [Group S] {p k :
     (eModel : S ≃* StatedProj (StatedSL 4 K)) :
     ∃ E : Subgroup S, IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
   have hk2 : 2 ≤ k := by omega
-  haveI : CharP K 2 :=
+  have : CharP K 2 :=
     CFSG.QuasithinUnique.Setup.Family.charP_two_of_card (f := k) hKcard
   have hK4 : 4 ≤ Nat.card K := by
     rw [hKcard]
@@ -223,10 +222,10 @@ private theorem exists_elemAbelian_sq_of_isOmPA_aux5 {S : Type} [Group S] {p k r
     rcases hmodel.2 with hc | ⟨-, d', hnames, -⟩
     · exact hc
     · exfalso
-      cases d' <;> simp [CFSG.Models.NamesTag] at hnames
+      cases d'; simp [CFSG.Models.NamesTag] at hnames
   obtain ⟨-, K, hK, hKfin, hKcard, ⟨eModel⟩⟩ := hclass
-  letI : Field K := hK
-  letI : Finite K := hKfin
+  let : Field K := hK
+  let : Finite K := hKfin
   have hKcard' : Nat.card K = 2 ^ k := by rw [hKcard, hqp, hqk]
   by_cases hk1 : k = 1
   · exact exists_elemAbelian_sq_of_isOmPA_aux3 hp hpk hk1 hKcard' eModel
@@ -248,7 +247,7 @@ private theorem exists_elemAbelian_sq_of_isOmPA_aux6 {S : Type} [Group S] {p k d
         (N := degree) (by omega : 6 ≤ degree))
   simpa [hp3, CFSG.AGLEmbedding.BlockCyc.HasE9] using hE9
 
-theorem exists_elemAbelian_sq_of_isOmPA {S : Type} [Group S] {p n k : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem exists_elemAbelian_sq_of_isOmPA {S : Type} [Group S] {p n k : ℕ} (hp : p.Prime) (_hp2 : p ≠ 2)
     (hn : 3 ≤ n) (hk : 1 ≤ k) (hpk : p ∣ 2 ^ k + 1) (h : catalogIs S (isOmPA n (2 ^ k))) :
     ∃ E : Subgroup S, IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
   obtain ⟨i, hi, ⟨e⟩⟩ := h
@@ -257,14 +256,14 @@ theorem exists_elemAbelian_sq_of_isOmPA {S : Type} [Group S] {p n k : ℕ} (hp :
     obtain ⟨d, hv⟩ := dl
     cases d with
     | D r q =>
-      simp [isOmPA, isOmP, onLie, isLnEps, isAltN] at hi
+      simp [isOmPA, isOmP, onLie] at hi
       rcases hi with ⟨hrn, hq2k⟩ | hbad
       · exact exists_elemAbelian_sq_of_isOmPA_aux2 hp hpk hv (by omega) e hq2k
       · exfalso
         rcases hbad with ⟨-, hln⟩
         simp [isLnA, onLie, isLnEps, isAltN] at hln
     | A rank q =>
-      simp [isOmPA, isOmP, onLie, isLnEps, isAltN] at hi
+      simp [isOmPA, isOmP, onLie] at hi
       obtain ⟨hn3, hln⟩ := hi
       simp [isLnA, onLie, isLnEps, isAltN] at hln
       obtain ⟨hrn, hq2k⟩ := hln
@@ -280,21 +279,22 @@ theorem exists_elemAbelian_sq_of_isOmPA {S : Type} [Group S] {p n k : ℕ} (hp :
     rcases hi with hP | ⟨-, hln⟩
     · unfold isOmP at hP
       simp [onLie] at hP
-    · simp [isLnA, onLie, isLnEps, isAltN] at hln
+    · simp [isLnA, onLie, isAltN] at hln
   | alternating _ _ =>
     rcases hi with hP | ⟨hn3, hln⟩
     · exfalso
       unfold isOmP at hP
       simp [onLie] at hP
-    · simp [isLnA, onLie, isLnEps, isAltN] at hln
+    · simp [isLnA, onLie, isAltN] at hln
       exact exists_elemAbelian_sq_of_isOmPA_aux6 hp hpk e hln.1 hln.2
   | sporadic _ =>
     exfalso
     rcases hi with hP | ⟨-, hln⟩
     · unfold isOmP at hP
       simp [onLie] at hP
-    · simp [isLnA, onLie, isLnEps, isAltN] at hln
+    · simp [isLnA, onLie, isAltN] at hln
 
+omit [Finite Ω] in
 theorem exists_elemAbelian_sq_of_type167J {p : ℕ} {J : Subgroup Ω} (hp : p.Prime) (hp2 : p ≠ 2)
     (h : Type167J p J) : ∃ E : Subgroup (PSimple p J), IsElemAbelian p E ∧ Nat.card E = p ^ 2 := by
   rcases h with ⟨rfl, n, -, hn, hJ⟩ | ⟨rfl, n, -, hn, hJ⟩ | ⟨n, k, -, hn, -, hk, hpk, hJ⟩
@@ -374,7 +374,7 @@ theorem card_elemAbelian_le_sq_of_rk2 {S : Type} [Group S] [Finite S] {p : ℕ} 
     exfalso
     simp [ExcRk2Idx, onLie] at hi
 
-private theorem inducesInnerMod_of_rk2_aux2 {S : Type} [Group S] {p : ℕ}
+private theorem inducesInnerMod_of_rk2_aux2 {S : Type} [Group S] {_p : ℕ}
     (h : catalogIs S ExcRk2Idx) : IsChevSimple 2 S := by
   obtain ⟨i, hi, ⟨e⟩⟩ := h
   cases i with
@@ -393,7 +393,7 @@ private theorem inducesInnerMod_of_rk2_aux2 {S : Type} [Group S] {p : ℕ}
         by simpa [onLie, TauCeti.LieTypeIndex.characteristic_trialityD4] using hq, ⟨e⟩⟩
     | reeF4 m =>
       exact Or.inl ⟨.lie ⟨.reeF4 m, hv⟩,
-        by simpa [onLie] using TauCeti.LieTypeIndex.characteristic_reeF4 m, ⟨e⟩⟩
+        by simp [onLie], ⟨e⟩⟩
     | _ =>
       exfalso
       simp [ExcRk2Idx, onLie] at hi
@@ -464,7 +464,7 @@ private theorem inducesInnerMod_of_rk2_aux4 {d : TauCeti.LieTypeIndex} {hv : d.V
       simp [ExcRk2Idx, onLie] at hi
   exact ⟨hct, hchar⟩
 
-theorem inducesInnerMod_of_rk2 {p : ℕ} {X : Subgroup Ω} {x : Ω} (hp : p.Prime) (hp2 : p ≠ 2)
+theorem inducesInnerMod_of_rk2 {p : ℕ} {X : Subgroup Ω} {x : Ω} (hp : p.Prime) (_hp2 : p ≠ 2)
     (hX : CFSG.Open.IsQuasisimple ↥X) (h : catalogIs (PSimple p X) ExcRk2Idx)
     (hinn : InnDiagOn p (Subgroup.zpowers x) X) : InducesInnerMod p X x := by
   have hcat : catalogIs (PSimple p X) ExcRk2Idx := h
@@ -474,7 +474,7 @@ theorem inducesInnerMod_of_rk2 {p : ℕ} {X : Subgroup Ω} {x : Ω} (hp : p.Prim
     obtain ⟨d, hv⟩ := dl
     obtain ⟨hd, hfam⟩ := inducesInnerMod_of_rk2_aux3 hi
     obtain ⟨hct, hchar⟩ := inducesInnerMod_of_rk2_aux4 hi
-    haveI : Nontrivial (TauCeti.CFSGIndex.lie ⟨d, hv⟩).Group :=
+    have : Nontrivial (TauCeti.CFSGIndex.lie ⟨d, hv⟩).Group :=
       (CFSG.Assembly.lie_finite_simple ⟨d, hv⟩).2.toNontrivial
     have hnt : Nontrivial (PSimple p X) := e.symm.injective.nontrivial
     have hXq : CFSG.Open.IsQuasisimple (PQuot p X) :=
@@ -487,7 +487,7 @@ theorem inducesInnerMod_of_rk2 {p : ℕ} {X : Subgroup Ω} {x : Ω} (hp : p.Prim
       e.isSimpleGroup_congr.mpr (CFSG.Assembly.lie_finite_simple ⟨d, hv⟩).2
     have hnab : ∃ a b : PSimple p X, a * b ≠ b * a :=
       CFSG.LocalAnalysis.GLTheoremA.chevTwoNonabelian_holds (S := PSimple p X) hsimple
-        (inducesInnerMod_of_rk2_aux2 (p := p) hcat)
+        (inducesInnerMod_of_rk2_aux2 (_p := p) hcat)
     have hβ : chevAut p X ⟨x, hinn.1 (Subgroup.mem_zpowers x)⟩ ∈
         CFSG.ComponentClassification.OuterAutomorphisms.innAutDerived (PSimple p X) :=
       CFSG.LocalAnalysis.GLTheoremA.K1419E.mem_innAutDerived_of_exc hsimple hnab
@@ -511,7 +511,7 @@ theorem inducesInnerMod_of_rk2 {p : ℕ} {X : Subgroup Ω} {x : Ω} (hp : p.Prim
 theorem false_of_exc_rk2 {p : ℕ} {B X D J : Subgroup Ω} {x : Ω} (H : ExcHyp p B X D J x)
     (hr : catalogIs (PSimple p X) ExcRk2Idx) : False := by
   have hZ := center_pQuot_eq_bot_of_type167J H.hp H.hp2 H.hJ H.htype
-  haveI : Nontrivial (PSimple p X) := nontrivial_pSimple_of_innDiagOn H.hinn
+  have : Nontrivial (PSimple p X) := nontrivial_pSimple_of_innDiagOn H.hinn
   obtain ⟨s, hs1, hsp, hsc⟩ := exists_fixed_element H.hp H.hX inferInstance H.hJX H.hxN H.hxp H.hxX H.hxJ
     (inducesInnerMod_of_rk2 H.hp H.hp2 H.hX hr H.hinn)
   obtain ⟨E, hE, hEc⟩ := exists_elemAbelian_sq_of_type167J H.hp H.hp2 H.htype

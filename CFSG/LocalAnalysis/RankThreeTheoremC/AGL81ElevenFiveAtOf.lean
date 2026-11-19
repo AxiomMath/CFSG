@@ -128,7 +128,7 @@ theorem AGL81ElevenData.isComponentOf_of_simple {p : ℕ} {P : Sylow p G} {M H Q
 theorem isSimpleGroup_of_isAltTwoP_three {K : Type} [Group K] (h : IsAltTwoP 3 K) :
     IsSimpleGroup K := by
   obtain ⟨e⟩ := h
-  haveI : IsSimpleGroup (alternatingGroup (Fin (2 * 3))) :=
+  have : IsSimpleGroup (alternatingGroup (Fin (2 * 3))) :=
     alternatingGroup.isSimpleGroup (by simp)
   exact e.isSimpleGroup
 

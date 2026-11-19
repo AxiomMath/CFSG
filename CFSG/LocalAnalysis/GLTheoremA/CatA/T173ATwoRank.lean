@@ -23,6 +23,7 @@ private theorem linTwo_isPGroup_two_of_mul_self {G : Type*} [Group G] (H : Subgr
   rw [pow_one, pow_two]
   exact Subtype.ext (h x x.2)
 
+omit [FiniteDimensional (ZMod 2) V] in
 private theorem linTwo_Q_conj_mem {P : Submodule (ZMod 2) V} {g : V ≃ₗ[ZMod 2] V}
     (hg : ∀ x ∈ P, g x ∈ P) (hg' : ∀ x ∈ P, g⁻¹ x ∈ P) {q : V ≃ₗ[ZMod 2] V}
     (hq : q ∈ CFSG.ASVolI.burnsideB49x_gl_Q P) :
@@ -46,7 +47,7 @@ theorem lin_two_twoLocalRank (hV : 3 ≤ Module.finrank (ZMod 2) V) :
     glaTwoLocalRank_le_of_card_le Nat.prime_three
       (fun _ E _ _ _ hE => CFSG.LocalAnalysis.GLTheoremA.S172A.GL.card_le_three_pow E hE)
   obtain ⟨E, hEel, hEcard⟩ := exists_elemAb_card V (Module.finrank (ZMod 2) V) rfl
-  haveI : Fintype E := Fintype.ofFinite E
+  have : Fintype E := Fintype.ofFinite E
   have hge : 3 ^ (Module.finrank (ZMod 2) V / 2) ≤ Fintype.card E := by
     rw [← Nat.card_eq_fintype_card]
     exact hEcard.ge

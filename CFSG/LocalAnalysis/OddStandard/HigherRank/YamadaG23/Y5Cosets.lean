@@ -58,7 +58,7 @@ private theorem y5_mem_sup_zpowers_normal {H : Type*} [Group H] {c : H} {Z : Sub
     (hx : x ∈ Subgroup.zpowers c ⊔ Z) :
     ∃ k : ℤ, ∃ z ∈ Z, c ^ k * z = x := by
   let M : Subgroup H := Subgroup.zpowers c ⊔ Z
-  haveI : (Z.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hZ
+  have : (Z.subgroupOf M).Normal := Subgroup.normal_subgroupOf_of_le_normalizer hZ
   have htop : (⊤ : Subgroup ↥M) = (Subgroup.zpowers c).subgroupOf M ⊔ Z.subgroupOf M := by
     rw [← Subgroup.subgroupOf_sup (show Subgroup.zpowers c ≤ M from le_sup_left)
       (show Z ≤ M from le_sup_right), Subgroup.subgroupOf_self]

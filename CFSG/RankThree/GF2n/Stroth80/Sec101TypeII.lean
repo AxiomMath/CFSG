@@ -58,8 +58,8 @@ theorem Sec10Hyp.false_of_small_layer [(Q.subgroupOf M).Normal] (h34 : Stroth34S
     False := by
   let L := layer (Mbar M Q)
   let Λ := bar M Q (LB M Q B)
-  haveI hchar : L.Characteristic := CFSG.LocalCores.layer_characteristic
-  haveI hnorm : L.Normal := Subgroup.normal_of_characteristic L
+  have hchar : L.Characteristic := CFSG.LocalCores.layer_characteristic
+  have hnorm : L.Normal := Subgroup.normal_of_characteristic L
   have hn : ∀ k ∈ Λ, ∀ l ∈ L, k * l * k⁻¹ ∈ L := fun k _ l hl => hnorm.conj_mem l hl k
   let f : ↥Λ →* Outer ↥L := endgOuterHom L Λ hn
   have hΛH : Λ ≤ bar M Q (H0 M Z) := hc.bar_LB_le_bar_Lgen.trans hc.bar_Lgen_le_bar_H0

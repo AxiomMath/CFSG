@@ -18,7 +18,7 @@ theorem core_le_ker {J S : Type} [Group J] [Finite J] [Group S] (ψ : J →* S) 
     [Group.IsPerfect J] [Nontrivial (J ⧸ R)] (hrange : IsSimpleGroup ↥ψ.range)
     (hN : ∀ k : J, ψ k = 1 → ∃ a : ℕ, k ^ (3 ^ a) ∈ R) : R ≤ ψ.ker := by
   classical
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   let Tr : Subgroup ↥ψ.range := (R.map ψ).subgroupOf ψ.range
   have hTr : Tr.Normal := by
     refine ⟨fun n hn g => ?_⟩
@@ -53,7 +53,7 @@ theorem core_le_ker {J S : Type} [Group J] [Finite J] [Group S] (ψ : J →* S) 
       show (QuotientGroup.mk j : J ⧸ R) ^ (3 ^ a) = 1
       rw [hj, ← QuotientGroup.mk_pow]
       exact (QuotientGroup.eq_one_iff _).2 ha
-    haveI : Group.IsNilpotent (J ⧸ R) := hPG.isNilpotent
+    have : Group.IsNilpotent (J ⧸ R) := hPG.isNilpotent
     exact (Group.IsPerfect.not_isNilpotent (J ⧸ R)) inferInstance
 
 end Abstract
@@ -102,7 +102,7 @@ theorem card_center_dvd_U6 (hGA : CFSG.Open.GriessAllModelsStatement) {Q : Type}
     have : 2 ∣ 2 ^ n := dvd_pow_self 2 (by omega)
     omega
   have hgpos : 0 < Nat.gcd 6 (2 ^ n + 1) := Nat.gcd_pos_of_pos_left _ (by norm_num)
-  have hne : Nat.gcd 6 (2 ^ n + 1) * 1 * (1 * 1) ≠ 0 := by simpa using hgpos.ne'
+  have hne : Nat.gcd 6 (2 ^ n + 1) * 1 * (1 * 1) ≠ 0 := by simp
   have hd := card_center_dvd_of_table hGA hQ hm hg he hne
   have hgd : Nat.gcd 6 (2 ^ n + 1) ∣ 3 := by
     have h1 : Nat.gcd 6 (2 ^ n + 1) ∣ 3 * 2 := Nat.gcd_dvd_left 6 _
@@ -117,6 +117,7 @@ section Center
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem ker_chevQuotHom_eq_center_of_core (I : Subgroup G) (hcomm : commutator ↥I = ⊤)
     (hRZ : GLAPPrimeCore 3 ↥I ≤ Subgroup.center ↥I) :
     (chevQuotHom 3 I).ker = Subgroup.center ↥I := by
@@ -179,7 +180,7 @@ theorem layer_core_eq_bot_u6 (hGA : CFSG.Open.GriessAllModelsStatement) {X L I C
     (hE : ∃ E : Subgroup (PSimple 3 L), IsSimpleGroup ↥E ∧ chevTransfer 3 L I = E) :
     GLAPPrimeCoreOf 3 I = ⊥ := by
   classical
-  haveI hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have hp3 : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hIL : I ≤ L := hI.1.trans hCL
   obtain ⟨E, hEs, hEq⟩ := hE
   let R : Subgroup ↥I := GLAPPrimeCore 3 ↥I
@@ -249,10 +250,10 @@ theorem layer_core_eq_bot_u6 (hGA : CFSG.Open.GriessAllModelsStatement) {X L I C
   have hcomm : commutator ↥I = ⊤ := by
     apply Subgroup.map_injective (f := I.subtype) (Subgroup.subtype_injective I)
     rw [commutator_def, Subgroup.map_commutator, htop, hperf]
-  haveI : Group.IsPerfect ↥I := ⟨hcomm⟩
+  have : Group.IsPerfect ↥I := ⟨hcomm⟩
   have hPQ : CFSG.Open.IsQuasisimple (PQuot 3 I) := isQuasisimple_pQuot_of_glaPComponent Nat.prime_three hI
-  haveI hnt : Nontrivial (↥I ⧸ R) := by
-    haveI := hPQ.2.toNontrivial
+  have hnt : Nontrivial (↥I ⧸ R) := by
+    have := hPQ.2.toNontrivial
     exact (QuotientGroup.mk'_surjective (Subgroup.center (PQuot 3 I))).nontrivial
   have hRK : R ≤ ψ.ker := core_le_ker ψ R hrange hN
   have hRZ : R ≤ Subgroup.center ↥I := by

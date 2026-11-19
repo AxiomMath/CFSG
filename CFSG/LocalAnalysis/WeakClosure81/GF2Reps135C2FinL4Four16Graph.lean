@@ -11,7 +11,7 @@ open CFSG.LieType.SpecialLinear
 open CFSG.HardMathSupport.Meierfrankenfeld.PSUScalar
 
 theorem false_of_borelStd_one_intertwiner_pair {K : Type} [Field K] [Fintype K] [CharP K 2]
-    (hK : Fintype.card K = 4) {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
+    (_hK : Fintype.card K = 4) {W : Type} [AddCommGroup W] [Module (ZMod 2) W] [Finite W]
     (ρ : Representation (ZMod 2) (Matrix.SpecialLinearGroup (Fin 4) K) W)
     [ρ.IsIrreducible] {ε : Fin 2 → Finset (Fin 4)} (hε : HasTwistedLabel ρ ε)
     (hE : Nat.card (Module.End (MonoidAlgebra (ZMod 2) (Matrix.SpecialLinearGroup (Fin 4) K))
@@ -25,13 +25,13 @@ theorem false_of_borelStd_one_intertwiner_pair {K : Type} [Field K] [Fintype K] 
   let E := Module.End (MonoidAlgebra (ZMod 2)
     (Matrix.SpecialLinearGroup (Fin 4) K)) ρ.asModule
   obtain ⟨k, hfield, hcharp, hEalg, hKalg, y, χ, J, _hε0, ht, _hεχ, hεJ, β, _hβ⟩ := hε
-  letI : Field k := hfield
-  letI : CharP k 2 := hcharp
-  letI : Algebra E k := hEalg
-  letI : Algebra K k := hKalg
+  let : Field k := hfield
+  let : CharP k 2 := hcharp
+  let : Algebra E k := hEalg
+  let : Algebra K k := hKalg
   have htwo : ∀ c : E, c = 0 ∨ c = 1 := by
     obtain ⟨y₀, hy₀, hyuniq⟩ := (Nat.card_eq_two_iff' (0 : E)).1 hE
-    haveI : Nontrivial E := ⟨⟨y₀, 0, hy₀⟩⟩
+    have : Nontrivial E := ⟨⟨y₀, 0, hy₀⟩⟩
     intro c
     by_cases hc : c = 0
     · exact Or.inl hc
@@ -74,21 +74,21 @@ theorem false_of_borelStd_one_intertwiner_pair {K : Type} [Field K] [Fintype K] 
   · have h := hiff (0 : Fin 3)
     have heq : (0 : Fin 3).succ = j := by
       apply Fin.ext
-      simp [Fin.val_succ, hj]
+      simp [hj]
     have hne : (Fin.rev (0 : Fin 3)).succ ≠ j := by
       intro hc
       have hv := congrArg Fin.val hc
-      simp [Fin.val_succ, Fin.val_rev] at hv
+      simp at hv
       omega
     exact (h.mpr hne) heq
   · have h := hiff (2 : Fin 3)
     have heq : (2 : Fin 3).succ = j := by
       apply Fin.ext
-      simp [Fin.val_succ, hj]
+      simp [hj]
     have hne : (Fin.rev (2 : Fin 3)).succ ≠ j := by
       intro hc
       have hv := congrArg Fin.val hc
-      simp [Fin.val_succ, Fin.val_rev] at hv
+      simp at hv
       omega
     exact (h.mpr hne) heq
 

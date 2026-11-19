@@ -23,7 +23,7 @@ theorem exists_sl2_involution {k : Type*} [Field k] (h2 : (2 : k) = 0) :
     rw [pow_two, Matrix.SpecialLinearGroup.coe_mul]
     ext i j
     fin_cases i <;> fin_cases j <;> simp [t, Matrix.mul_apply, Fin.sum_univ_two]
-    all_goals first | exact h2' | done
+    all_goals first | exact h2'
   · intro h
     have := congrArg (fun y : Matrix.SpecialLinearGroup (Fin 2) k =>
       (y : Matrix (Fin 2) (Fin 2) k) 0 1) h
@@ -55,12 +55,12 @@ theorem zpowers_eq_of_mem_zpowers_prime {G : Type*} [Group G] {p : ℕ} (hp : p.
     (ha : a ^ p = 1) (ha1 : a ≠ 1) (hb : b ^ p = 1) (hb1 : b ≠ 1) (h : a ∈ Subgroup.zpowers b) :
     Subgroup.zpowers a = Subgroup.zpowers b := by
   have hcard : Nat.card (Subgroup.zpowers b) = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     rw [Nat.card_zpowers, orderOf_eq_prime hb hb1]
   have hcarda : Nat.card (Subgroup.zpowers a) = p := by
-    haveI : Fact p.Prime := ⟨hp⟩
+    have : Fact p.Prime := ⟨hp⟩
     rw [Nat.card_zpowers, orderOf_eq_prime ha ha1]
-  haveI : Finite (Subgroup.zpowers b) := Nat.finite_of_card_ne_zero (by rw [hcard]; exact hp.ne_zero)
+  have : Finite (Subgroup.zpowers b) := Nat.finite_of_card_ne_zero (by rw [hcard]; exact hp.ne_zero)
   exact Subgroup.eq_of_le_of_card_ge ((Subgroup.zpowers_le).mpr h) (by rw [hcard, hcarda])
 
 theorem commutator_self_le {G : Type*} [Group G] (C : Subgroup G) : ⁅C, C⁆ ≤ C := by
@@ -76,7 +76,7 @@ section ClassX
 
 variable {X : Type} [Field X] [Finite X] (σ : X ≃+* X)
 
-theorem three_conj_dichotomy (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) ^ 3)
+theorem three_conj_dichotomy (n : ℕ) (_hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n) ^ 3)
     (hσ : ∀ c : X, σ c = c ^ (2 ^ n)) {x : C0 σ} (hx3 : x ^ 3 = 1) (hx1 : x ≠ 1) :
     IsClassX σ x ∨ ∃ g : C0 σ, g * x * g⁻¹ ∈ Bsub σ := by
   have h3 : ¬ 3 ∣ 2 ^ n := fun h => by
@@ -87,6 +87,7 @@ theorem three_conj_dichotomy (n : ℕ) (hn : 1 ≤ n) (hX : Nat.card X = (2 ^ n)
   · exact Or.inl ⟨hx3, hx1, g, hA⟩
   · exact Or.inr ⟨g, hB⟩
 
+omit [Finite X] in
 theorem IsClassX.conj_mem {x : C0 σ} (hx : IsClassX σ x) (h : C0 σ) :
     IsClassX σ (h * x * h⁻¹) := by
   obtain ⟨hx3, hx1, g, hg⟩ := hx
@@ -118,10 +119,10 @@ theorem classX_conj {n : ℕ} (P : D4Par n X σ) {x z : C0 σ} (hx : IsClassX σ
 
 theorem classX_even_centralizer {n : ℕ} (P : D4Par n X σ) {x : C0 σ} (hx : IsClassX σ x) :
     Even (Nat.card (Subgroup.centralizer ({x} : Set (C0 σ)))) := by
-  haveI := P.charP
+  have := P.charP
   have hK : ringChar X = 2 := ringChar.eq X 2
   have h2 : (2 : fixSubfield σ) = 0 := KFacts.two_eq_zero_fixSubfield σ hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨t, ht2, ht1⟩ := exists_sl2_involution h2
   set b : Bsub σ := bsubEquiv P t with hbdef
   have hb2 : b ^ 2 = 1 := by rw [hbdef, ← map_pow, ht2, map_one]

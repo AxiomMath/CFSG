@@ -58,7 +58,7 @@ theorem flatWreathedBlock_iff (basis : FiniteIrreducibleCharacterBasis G)
       (ambientOddCore (Subgroup.centralizer ((S : Subgroup G) : Set G)))) (θ : eb.index)
     (nb : FiniteIrreducibleCharacterBasis (Subgroup.normalizer ((S : Subgroup G) : Set G)))
     (θhat : nb.index) (hθ : InflatedLabel (oddCore_le_normalizer S) nb eb θ θhat)
-    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+    (hB : brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
         (Subgroup.normalizer ((S : Subgroup G) : Set G)) (Subgroup.centralizer_le_normalizer _)
         le_rfl nb θhat = centralCharacterResidueHom basis ideal B) :
     FlatWreathedBlock basis ideal S e B ↔
@@ -93,7 +93,7 @@ theorem exists_canonicalLabel_of_mem_flatWreathedBlocks (basis : FiniteIrreducib
     {𝔅 : Finset basis.index} (h𝔅 : 𝔅 ∈ flatWreathedBlocks basis ideal S e) {B : basis.index}
     (hB : B ∈ 𝔅) :
     ∃ (θ : eb.index) (θhat : nb.index), InflatedLabel (oddCore_le_normalizer S) nb eb θ θhat ∧
-      brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+      brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
           (Subgroup.normalizer ((S : Subgroup G) : Set G))
           (Subgroup.centralizer_le_normalizer _) le_rfl nb θhat =
         centralCharacterResidueHom basis ideal B := by
@@ -121,7 +121,7 @@ theorem exists_equiv_flatWreathedBlocks (basis : FiniteIrreducibleCharacterBasis
     ∃ g : Ξ ≃ flatWreathedBlocks basis ideal S e, ∀ (θ : Ξ) (B : basis.index),
       B ∈ (g θ : Finset basis.index) → ∀ (θ' : eb.index) (θhat' : nb.index),
         InflatedLabel (oddCore_le_normalizer S) nb eb θ' θhat' →
-        brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+        brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
             (Subgroup.normalizer ((S : Subgroup G) : Set G))
             (Subgroup.centralizer_le_normalizer _) le_rfl nb θhat' =
           centralCharacterResidueHom basis ideal B → θ' = θ := by
@@ -150,7 +150,7 @@ theorem exists_equiv_flatWreathedBlocks (basis : FiniteIrreducibleCharacterBasis
   have hlab : ∀ (θ : Ξ) (B' : basis.index), B' ∈ (g θ : Finset basis.index) →
       ∀ (θ' : eb.index) (θhat' : nb.index),
         InflatedLabel (oddCore_le_normalizer S) nb eb θ' θhat' →
-        brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup'
+        brauerNormalizerCharacterResidueHom ideal 2 (S : Subgroup G) S.isPGroup
             (Subgroup.normalizer ((S : Subgroup G) : Set G))
             (Subgroup.centralizer_le_normalizer _) le_rfl nb θhat' =
           centralCharacterResidueHom basis ideal B' → θ' = θ := by

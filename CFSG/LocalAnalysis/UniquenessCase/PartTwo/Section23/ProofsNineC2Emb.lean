@@ -117,16 +117,16 @@ private theorem one_le_pRank_three_of_isL2 {X : Type} [Group X] [Finite X] {n : 
   exact CFSG.Quasithin.A3Facts.one_le_pRank_of_orderOf Nat.prime_three hx
 
 private theorem pRank_three_K_eq_two (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D Ch)
-    (hV : IsElemAbelian 2 c.V) {n : ℕ}
+    (_hV : IsElemAbelian 2 c.V) {n : ℕ}
     (hsq : IsL2Square (Bar2 (K c)) n) :
     CFSG.pRank 3 ↥(K c) = 2 := by
   classical
   obtain ⟨A, B, gA, gB, ⟨e⟩, hA, hB⟩ := hsq
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
-  haveI : Finite (A × B) := Finite.of_equiv (Bar2 (K c)) e.toEquiv
-  haveI : Finite A := Finite.of_injective (fun a : A => (a, (1 : B)))
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Finite (A × B) := Finite.of_equiv (Bar2 (K c)) e.toEquiv
+  have : Finite A := Finite.of_injective (fun a : A => (a, (1 : B)))
     (fun a b h => by simpa using h)
-  haveI : Finite B := Finite.of_injective (fun b : B => ((1 : A), b))
+  have : Finite B := Finite.of_injective (fun b : B => ((1 : A), b))
     (fun a b h => by simpa using h)
   have hA1 : CFSG.Open.pRank 3 (⊤ : Subgroup A) = 1 :=
     le_antisymm (pRank_le_one_of_isL2_or_isSz (Or.inl hA) Nat.prime_three (by norm_num))
@@ -152,15 +152,15 @@ private theorem pRank_three_K_eq_two (D : Data G) (Ch : Choice2011 G) (c : Ctx23
     _ = 2 := hbar
 
 private theorem isMulCommutative_of_le_K (D : Data G) (Ch : Choice2011 G) (c : Ctx23L D Ch)
-    (hV : IsElemAbelian 2 c.V) {n : ℕ} (hsq : IsL2Square (Bar2 (K c)) n)
+    (_hV : IsElemAbelian 2 c.V) {n : ℕ} (hsq : IsL2Square (Bar2 (K c)) n)
     {R : Subgroup G} (hRK : R ≤ K c) (hRp : IsPGroup 3 ↥R) :
     IsMulCommutative ↥R := by
   classical
   obtain ⟨A, B, gA, gB, ⟨e⟩, hA, hB⟩ := hsq
-  haveI : Finite (A × B) := Finite.of_equiv (Bar2 (K c)) e.toEquiv
-  haveI : Finite A := Finite.of_injective (fun a : A => (a, (1 : B)))
+  have : Finite (A × B) := Finite.of_equiv (Bar2 (K c)) e.toEquiv
+  have : Finite A := Finite.of_injective (fun a : A => (a, (1 : B)))
     (fun a b h => by simpa using h)
-  haveI : Finite B := Finite.of_injective (fun b : B => ((1 : A), b))
+  have : Finite B := Finite.of_injective (fun b : B => ((1 : A), b))
     (fun a b h => by simpa using h)
   let q : ↥(K c) →* Bar2 (K c) := QuotientGroup.mk' (CFSG.pCore 2 ↥(K c))
   let φ : ↥(K c) →* A × B := e.toMonoidHom.comp q
@@ -191,7 +191,7 @@ private theorem pRank_three_sylow_eq_two (D : Data G) (Ch : Choice2011 G) (c : C
     (hV : IsElemAbelian 2 c.V) {n : ℕ} (hsq : IsL2Square (Bar2 (K c)) n)
     {R : Subgroup G} (hR : CFSG.ABGLocalTools.IsSylowOf 3 R (K c)) :
     CFSG.pRank 3 ↥R = 2 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hK2 := pRank_three_K_eq_two D Ch c hV hsq
   obtain ⟨Q, hQ⟩ := hR.exists_sylow_eq_subgroupOf
   have h1 : CFSG.pRank 3 (R.subgroupOf (K c)) = CFSG.pRank 3 ↥(K c) := by
@@ -208,11 +208,12 @@ private theorem card_omega_one_sylow_eq_nine (D : Data G) (Ch : Choice2011 G) (c
     (hV : IsElemAbelian 2 c.V) {n : ℕ} (hsq : IsL2Square (Bar2 (K c)) n)
     {R : Subgroup G} (hR : CFSG.ABGLocalTools.IsSylowOf 3 R (K c)) (hRcomm : IsMulCommutative ↥R) :
     Nat.card (omega₁ ↥R (p := 3)) = 9 := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   rw [CFSG.GroupTheory.card_omega₁_eq_pow_pRank_of_isMulCommutative (X := ↥R) (p := 3),
     pRank_three_sylow_eq_two D Ch c hV hsq hR]
   norm_num
 
+omit [Finite G] in
 private theorem le_normalizer_omega_one_sylow {R B : Subgroup G}
     (hBR : B ≤ Subgroup.normalizer (R : Set G)) :
     B ≤ Subgroup.normalizer
@@ -268,6 +269,7 @@ theorem exists_elemAbelian_nine_normalized_of_isSylowOf (D : Data G) (Ch : Choic
   · rw [Subgroup.card_map_of_injective R.subtype_injective]
     exact card_omega_one_sylow_eq_nine D Ch c hV hsq hR hcomm
 
+omit [Finite G] in
 private theorem mem_omega_one_of_order_three {R : Subgroup G} (hRcomm : IsMulCommutative ↥R)
     {x : G} (hxR : x ∈ R) (hxord : orderOf x = 3) :
     x ∈ (omega₁ ↥R (p := 3)).map R.subtype := by
@@ -286,8 +288,8 @@ private theorem normalizer_sup_of_mem_calC (D : Data G) (Ch : Choice2011 G) (c :
   have hX₂M : X₂ ≤ D.M := hX₂.1.le
   have hJM : X₁ ⊔ X₂ ≤ D.M := sup_le hX₁M hX₂M
   have hJN : ((X₁ ⊔ X₂).subgroupOf D.M).Normal := by
-    haveI h1 : (X₁.subgroupOf D.M).Normal := (h8 h1930 c X₁ hX₁).1
-    haveI h2 : (X₂.subgroupOf D.M).Normal := (h8 h1930 c X₂ hX₂).1
+    have h1 : (X₁.subgroupOf D.M).Normal := (h8 h1930 c X₁ hX₁).1
+    have h2 : (X₂.subgroupOf D.M).Normal := (h8 h1930 c X₂ hX₂).1
     rw [Subgroup.subgroupOf_sup hX₁M hX₂M]
     exact Subgroup.sup_normal (X₁.subgroupOf D.M) (X₂.subgroupOf D.M)
   exact (Subgroup.normal_subgroupOf_iff_le_normalizer hJM).mp hJN
@@ -380,7 +382,7 @@ private theorem exists_prime_normalizer_le_M_of_dvd_card_K
   obtain ⟨p, hpσ, hpdvd⟩ := hcase
   have hp := (D.sig_prime p hpσ).1
   have hp2 := (D.sig_prime p hpσ).2
-  haveI : Fact (Nat.Prime p) := ⟨hp⟩
+  have : Fact (Nat.Prime p) := ⟨hp⟩
   have hsp : IsStronglyPEmbedded p D.M :=
     hσ.sig1_sp p (by rw [← h6 h1930 c]; exact hpσ)
   refine ⟨p, hp, hp2, hpdvd, ?_⟩
@@ -474,7 +476,7 @@ private theorem exists_conj_normalizer_le_gamma_of_mem_K
   let e : G := k⁻¹ * x * k
   have heR : e ∈ R := hkQ x (Subgroup.mem_zpowers x)
   have heord : orderOf e = 3 := by
-    have hconj : e = MulAut.conj k⁻¹ x := by simp [e, MulAut.conj_apply]
+    have hconj : e = MulAut.conj k⁻¹ x := by simp [e]
     rw [hconj, MulEquiv.orderOf_eq, hxord]
   have heE : e ∈ E := by
     rw [hEeq]
@@ -541,7 +543,7 @@ private theorem exists_prime_normalizer_data_of_not_dvd_card_K
   have hKne : K c ≠ ⊥ := by
     intro hbot
     rw [hbot] at h3K
-    simpa using h3K
+    simp at h3K
   obtain ⟨B, R, hBM, hBel, hBcard, hRsyl, hBR⟩ :=
     exists_isSylowOf_three_normalized_of_not_dvd_card_K D Ch c hV h8 hΩ h1930 h3 hline
       hp hpσ hpdvd hKne

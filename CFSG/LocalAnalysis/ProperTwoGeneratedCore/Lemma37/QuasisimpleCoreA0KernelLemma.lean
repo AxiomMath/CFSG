@@ -144,7 +144,7 @@ theorem conj_self_eq_of_mul (hc : A0Config Q B z u N) {t : J} (htQ : t ∈ (Q : 
 theorem a0Kernel_quaternion (hc : A0Config Q B z u N) :
     ∃ n, 3 ≤ n ∧ Nat.card (a0Kernel Q B N) = 2 ^ n ∧
       Nonempty (a0Kernel Q B N ≃* QuaternionGroup (2 ^ (n - 2))) := by
-  have hK2 : IsPGroup 2 (a0Kernel Q B N) := Q.isPGroup'.to_le a0Kernel_le_sylow
+  have hK2 : IsPGroup 2 (a0Kernel Q B N) := Q.isPGroup.to_le a0Kernel_le_sylow
   rcases CFSG.TwoRankLowerBound.Helpers.rank_one_two_group_cyclic_or_quaternion
       (a0Kernel Q B N) hK2 (twoRank_le_one_of_unique fun x hx hx2 =>
         hc.eq_centralElt_of_mem_a0Kernel hx hx2) with hcyc | ⟨n, hn, ⟨φ⟩⟩

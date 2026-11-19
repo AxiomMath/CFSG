@@ -66,7 +66,7 @@ theorem tInv_step {rr : Array (Array (Nat × Int)) × Array (Nat × Int)} {st : 
     have ex : entStep rr v =
         (rr.1.push (rr.2.push (v % 8192, CFSG.Monster.B.Native.numOfCode (v / 8192 % 8))), #[]) := by
       unfold entStep
-      rw [if_pos hv]
+      rw [ite_eq_left hv]
     rw [ex]
     refine ⟨by rw [Array.size_push, e1], rfl, ?_⟩
     intro hok j hj
@@ -76,16 +76,16 @@ theorem tInv_step {rr : Array (Array (Nat × Int)) × Array (Nat × Int)} {st : 
     change ((rr.1.push _)[j]!).toList = tauT j
     rw [CFSG.KC.BM.Pkt.getElem!_push]
     by_cases h1 : j < rr.1.size
-    · rw [if_pos h1]
+    · rw [ite_eq_left h1]
       exact e3 hok1 j h1
     · have h2 : j = rr.1.size := by omega
-      rw [if_neg h1, if_pos h2, h2, ← e1, ← eqTL_true hok2, revT_eq, List.append_nil, List.reverse_cons,
+      rw [ite_eq_right h1, ite_eq_left h2, h2, ← e1, ← eqTL_true hok2, revT_eq, List.append_nil, List.reverse_cons,
         e2, List.reverse_reverse, Array.toList_push]
   · rw [tauStep_mid hv, ht]
     have ex : entStep rr v =
         (rr.1, rr.2.push (v % 8192, CFSG.Monster.B.Native.numOfCode (v / 8192 % 8))) := by
       unfold entStep
-      rw [if_neg hv]
+      rw [ite_eq_right hv]
     rw [ex]
     refine ⟨e1, ?_, e3⟩
     change _ :: st.2.1 = (rr.2.push _).toList.reverse

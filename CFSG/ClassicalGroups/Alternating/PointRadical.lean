@@ -28,7 +28,7 @@ theorem siegel_apply (hB : B.IsAlt) {v w : V} (hvw : B v w = 0) (c : K) (x : V) 
     (siegel B hB v w c : V →ₗ[K] V) x = x + B x v • w + B x w • v + (c * B x v) • v := by
   have hwv := flip_eq_zero hB hvw
   simp only [siegel, Units.val_mul, Module.End.mul_apply, symplecticTransvection_apply, map_add,
-    map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul, hB.self_eq_zero, hvw, hwv]
+    map_smul, hB.self_eq_zero, hvw, hwv]
   module
 
 theorem siegel_mem_bilinIsometryGroup (hB : B.IsAlt) (v w : V) (c : K) :
@@ -46,7 +46,7 @@ theorem siegel_mul (hB : B.IsAlt) {v w w' : V} (hw : B v w = 0) (hw' : B v w' = 
   rw [Units.val_mul, Module.End.mul_apply, siegel_apply hB hw', siegel_apply hB hw,
     siegel_apply hB hww']
   simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
-    hB.self_eq_zero, hw, hwv, hw'v]
+    hB.self_eq_zero, hw, hw'v]
   module
 
 theorem siegel_zero (hB : B.IsAlt) (v : V) : siegel B hB v 0 0 = 1 :=

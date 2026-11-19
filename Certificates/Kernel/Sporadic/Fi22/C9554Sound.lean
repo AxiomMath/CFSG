@@ -27,7 +27,7 @@ theorem wd_eq {kS : Nat} {S : Array (Array Nat)} {PS PSI : Nat → Nat}
     wordA 3510 S (rawInvs 3510 S) w = unpack 3510 12 (wd PS PSI w) := by
   refine (wordEqK_sound hS hp ?_).1
   rw [wordEqK]
-  simp only [bAnd_iff, szOK', hl, true_and]
+  simp only [szOK', hl]
   exact Nat.beq_refl _
 
 theorem at_of_rep {P : Nat} {g : Equiv.Perm (Fin 3510)} (h : Rep 3510 (unpack 3510 12 P) g)

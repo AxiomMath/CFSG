@@ -73,10 +73,10 @@ section SL2
 theorem exists_central_involution_sl2_uc6 {F : Type} [Field F] [Finite F]
     (hF : Odd (Nat.card F)) :
     ∃ z : SL(2, F), z ∈ Subgroup.center SL(2, F) ∧ z ^ 2 = 1 ∧ z ≠ 1 := by
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hchar : (2 : F) ≠ 0 := by
     intro h2
-    haveI : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
+    have : CharP F 2 := CharTwo.of_one_ne_zero_of_two_eq_zero one_ne_zero h2
     obtain ⟨k, hk⟩ := FiniteField.card F 2
     rw [Nat.card_eq_fintype_card, hk.2] at hF
     have : Even (2 ^ (k : ℕ)) := (Nat.even_pow.2 ⟨even_two, k.ne_zero⟩)
@@ -216,7 +216,7 @@ theorem exists_klein_basis_uc6 {d : G} (hd3 : orderOf d = 3) {S : Subgroup G}
     exact mul_right_cancel (h.trans (one_mul b).symm)
   have hlist : ∀ x ∈ S, x = 1 ∨ x = a ∨ x = b ∨ x = a * b := by
     classical
-    haveI : Fintype ↥S := Fintype.ofFinite _
+    have : Fintype ↥S := Fintype.ofFinite _
     let T : Finset ↥S := {1, ⟨a, haS⟩, ⟨b, hbS⟩, ⟨a * b, hcS⟩}
     have hT1 : (1 : ↥S) ∉ ({⟨a, haS⟩, ⟨b, hbS⟩, ⟨a * b, hcS⟩} : Finset ↥S) := by
       simp [Subtype.ext_iff, Ne.symm ha1, Ne.symm hb1, Ne.symm hc1]

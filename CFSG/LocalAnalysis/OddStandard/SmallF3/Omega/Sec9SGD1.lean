@@ -19,6 +19,7 @@ private lemma sec9gd_sign_mul_symmDiff {n : ℕ} (T₁ T₂ : Finset (Fin n)) (i
   by_cases h1 : i ∈ T₁ <;> by_cases h2 : i ∈ T₂ <;>
     simp [Finset.mem_symmDiff, h1, h2]
 
+omit [FiniteDimensional (ZMod 3) V] in
 private lemma sec9gd_finrank_range_sub_one {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V}
     {g : V ≃ₗ[ZMod 3] V} {T : Finset (Fin n)}
     (h : ∀ i, g (b i) = (if i ∈ T then (-1 : ZMod 3) else 1) • b i) :
@@ -58,7 +59,7 @@ private lemma sec9gd_finrank_range_sub_one {n : ℕ} {b : Module.Basis (Fin n) (
     constructor
     · intro hj
       by_contra hT
-      simp only [μ, hT, if_false] at hj
+      simp only [μ, hT, ite_false] at hj
       exact (by decide : (1 : ZMod 3) ≠ -1) hj
     · intro hT
       simp [μ, hT]
@@ -78,6 +79,7 @@ private lemma sec9gd_finrank_range_sub_one {n : ℕ} {b : Module.Basis (Fin n) (
     _ = (Finset.univ.filter (fun j : Fin n => μ j = -1)).card := hcard.symm
     _ = T.card := by rw [hfilterT]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec9g_mul_self_diag {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V} {g : OGroup Q}
     {T : Finset (Fin n)}
     (h : ∀ i, (g : V ≃ₗ[ZMod 3] V) (b i) = (if i ∈ T then (-1 : ZMod 3) else 1) • b i) :
@@ -89,6 +91,7 @@ theorem sec9g_mul_self_diag {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V} {g :
   rw [LinearEquiv.mul_apply, h i, map_smul, h i, smul_smul]
   by_cases hi : i ∈ T <;> simp [hi]
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec9g_invDim_diag {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V} {g : OGroup Q}
     {T : Finset (Fin n)}
     (h : ∀ i, (g : V ≃ₗ[ZMod 3] V) (b i) = (if i ∈ T then (-1 : ZMod 3) else 1) • b i) :
@@ -96,6 +99,7 @@ theorem sec9g_invDim_diag {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V} {g : O
   show Module.finrank (ZMod 3) (LinearMap.range ((g : V →ₗ[ZMod 3] V) - 1)) = T.card
   exact sec9gd_finrank_range_sub_one h
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec9g_mul_diag {n : ℕ} {b : Module.Basis (Fin n) (ZMod 3) V} {g₁ g₂ : OGroup Q}
     {T₁ T₂ : Finset (Fin n)}
     (h₁ : ∀ i, (g₁ : V ≃ₗ[ZMod 3] V) (b i) = (if i ∈ T₁ then (-1 : ZMod 3) else 1) • b i)

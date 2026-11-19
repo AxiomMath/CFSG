@@ -16,7 +16,7 @@ namespace CFSG.RankThree.PartTwo.Sec11.SimsR1.Blackburn
 private theorem frattini_le_of_comm_pow {p : ℕ} [Fact p.Prime] {P : Type} [Group P] [Finite P]
     (hP : IsPGroup p P) (N : Subgroup P) (hc : ∀ x y : P, ⁅x, y⁆ ∈ N)
     (hpow : ∀ x : P, x ^ p ∈ N) : frattini P ≤ N := by
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
+  have : Fact (IsPGroup p P) := ⟨hP⟩
   rw [CFSG.frattini_eq_closure_commutator_union_powers (p := p)]
   refine (closure_le _).2 ?_
   rintro x (hx | ⟨y, rfl⟩)
@@ -64,7 +64,7 @@ private theorem relIndex_zpowers_dvd {p : ℕ} {P : Type*} [Group P] (F : Subgro
 private theorem card_zpowers_sup_center {p : ℕ} (hp : p.Prime) {D : Type*} [Group D] [Finite D]
     (hexp : ∀ x : D, x ^ p = 1) (hcZ : Nat.card (center D) = p) {w : D} (hw : w ∉ center D) :
     Nat.card ↥(zpowers w ⊔ center D) = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hw1 : w ≠ 1 := fun h => hw (h ▸ one_mem _)
   have hord : orderOf w = p := orderOf_eq_prime (hexp w) hw1
   have hzp : Nat.card (zpowers w) = p := by rw [Nat.card_zpowers, hord]
@@ -130,7 +130,7 @@ private theorem exists_two_gen_le {p : ℕ} (hp : p.Prime) {P : Type} [Group P] 
 
 private theorem commutator_le_center_of_isExtraspecial {p : ℕ} (E : Type*) [Group E]
     [IsExtraspecial p E] : _root_.commutator E ≤ center E := by
-  haveI : IsElementaryAbelian p (E ⧸ center E) := IsExtraspecial.quotient_elementary_abelian p E
+  have : IsElementaryAbelian p (E ⧸ center E) := IsExtraspecial.quotient_elementary_abelian p E
   exact Subgroup.Normal.quotient_commutative_iff_commutator_le.1 inferInstance
 
 theorem blackburn_of_extraspecial {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {P : Type} [Group P]
@@ -143,7 +143,7 @@ theorem blackburn_of_extraspecial {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {P : T
           (frattini P).relIndex Z₀ = p) := by
   classical
   have hpp : p.Prime := Fact.out
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
+  have : Fact (IsPGroup p P) := ⟨hP⟩
   have hcZ : Nat.card (center E) = p := IsExtraspecial.center_order_p p E
   have hEpow : ∀ e ∈ E, e ^ p = 1 := by
     intro e he
@@ -151,7 +151,7 @@ theorem blackburn_of_extraspecial {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {P : T
     rw [hEexp] at h
     simpa using congrArg Subtype.val h
   set C : Subgroup P := centralizer (E : Set P)
-  haveI hCchar : C.Characteristic := inferInstance
+  have hCchar : C.Characteristic := inferInstance
   obtain ⟨c, hcC⟩ := exists_zpowers_eq hC
   have hEC : ∀ e ∈ E, ∀ y ∈ C, e * y = y * e := fun e he y hy => mem_centralizer_iff.1 hy e he
   have hZC : (center E).map E.subtype ≤ C := by
@@ -288,15 +288,15 @@ theorem blackburn_of_extraspecial {p : ℕ} [Fact p.Prime] (hp : p ≠ 2) {P : T
 
 theorem blackburnRankTwo_holds : KFacts.BlackburnRankTwo := by
   intro p _ hp P _ _ hP hE
-  haveI : Fact (IsPGroup p P) := ⟨hP⟩
+  have : Fact (IsPGroup p P) := ⟨hP⟩
   by_cases hΩ : Nat.card (CFSG.omega₁ (G := P) (p := p)) ≤ p ^ 2
   · obtain ⟨s, hs, hcl⟩ := blackburn_small hp hP hΩ
     exact ⟨⟨s, hs.trans (by norm_num), hcl⟩, fun h => absurd hcl (h s hs)⟩
   · have hp3 : 3 < p := by omega
     have hrank := groupRank_le_two hP hE
-    haveI : IsExtraspecial p (CFSG.omega₁ (G := P) (p := p)) :=
+    have : IsExtraspecial p (CFSG.omega₁ (G := P) (p := p)) :=
       isExtraspecial_omega hp3 hrank hΩ
-    haveI : (CFSG.omega₁ (G := P) (p := p)).Characteristic :=
+    have : (CFSG.omega₁ (G := P) (p := p)).Characteristic :=
       CFSG.omega₁_characteristic P (p := p)
     obtain ⟨hexp, hcard⟩ := omega_large hp3 hrank hΩ
     exact blackburn_of_extraspecial (by omega) hP (CFSG.omega₁ (G := P) (p := p)) hcard hexp

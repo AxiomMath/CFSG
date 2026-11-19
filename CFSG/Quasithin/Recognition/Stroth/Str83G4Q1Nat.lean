@@ -21,8 +21,9 @@ private theorem str83G4_conj_eq_of_mem_z1
   rw [← h]
   group
 
+omit [Finite G] in
 private theorem str83G4_commutator_mem_q1
-    {L1 L2 S : Subgroup G} {a : ℕ} (hfr : Str83G4Frame L1 L2 S a) {u : G}
+    {L1 L2 S : Subgroup G} {a : ℕ} (_hfr : Str83G4Frame L1 L2 S a) {u : G}
     (hu : u ∈ Q1 L1 L2 S) {t : G} (ht : t ∈ L1 ⊔ S) : ⁅u, t⁆ ∈ Q1 L1 L2 S := by
   have htu : t * u * t⁻¹ ∈ Q1 L1 L2 S :=
     (Subgroup.mem_normalizer_iff.mp

@@ -44,7 +44,8 @@ section Transport
 variable (f : G →* G') (hf : Function.Injective f)
 include hf
 
-theorem isElemAbelian_comap {P : Subgroup G'} (hP : P ≤ f.range)
+omit [Finite G] [Finite G'] in
+theorem isElemAbelian_comap {P : Subgroup G'} (_hP : P ≤ f.range)
     (h : CFSG.Assembly.IsElemAbelian 3 P) : CFSG.Assembly.IsElemAbelian 3 (P.comap f) := by
   refine ⟨⟨⟨fun u v => Subtype.ext (hf ?_)⟩⟩, fun x hx => hf ?_⟩
   · have := h.1.is_comm.comm ⟨_, u.2⟩ ⟨_, v.2⟩
@@ -53,10 +54,12 @@ theorem isElemAbelian_comap {P : Subgroup G'} (hP : P ≤ f.range)
   · rw [map_pow, map_one]
     exact h.2 _ hx
 
+omit [Finite G] [Finite G'] in
 theorem card_comap_of_le_range {H : Subgroup G'} (hH : H ≤ f.range) :
     Nat.card (H.comap f) = Nat.card H := by
   rw [← Subgroup.card_map_of_injective hf, Subgroup.map_comap_eq_self hH]
 
+omit [Finite G] [Finite G'] hf in
 theorem mem_normalizer_comap_iff {H : Subgroup G'} (hH : H ≤ f.range) (x : G) :
     x ∈ Subgroup.normalizer ((H.comap f : Subgroup G) : Set G) ↔
       f x ∈ Subgroup.normalizer (H : Set G') := by
@@ -84,6 +87,7 @@ theorem mem_normalizer_comap_iff {H : Subgroup G'} (hH : H ≤ f.range) (x : G) 
     rw [Subgroup.mem_comap, Subgroup.mem_comap, map_mul, map_mul, map_inv]
     exact h (f y)
 
+omit [Finite G] [Finite G'] in
 theorem mem_centralizer_comap_iff {H : Subgroup G'} (hH : H ≤ f.range) (x : G) :
     x ∈ Subgroup.centralizer ((H.comap f : Subgroup G) : Set G) ↔
       f x ∈ Subgroup.centralizer (H : Set G') := by
@@ -96,6 +100,7 @@ theorem mem_centralizer_comap_iff {H : Subgroup G'} (hH : H ≤ f.range) (x : G)
   · intro h y hy
     exact hf (by rw [map_mul, map_mul]; exact h (f y) hy)
 
+omit [Finite G] [Finite G'] in
 theorem comap_commutator_of_le_range {A B : Subgroup G'} (hA : A ≤ f.range) (hB : B ≤ f.range) :
     (⁅A, B⁆ : Subgroup G').comap f = ⁅A.comap f, B.comap f⁆ := by
   apply Subgroup.map_injective hf
@@ -107,6 +112,7 @@ theorem comap_commutator_of_le_range {A B : Subgroup G'} (hA : A ≤ f.range) (h
   obtain ⟨y, rfl⟩ := hB hb
   exact ⟨⁅x, y⁆, by rw [map_commutatorElement]⟩
 
+omit [Finite G'] in
 theorem map_theta_comap {K : Subgroup G'} (hK : K ≤ f.range) :
     ((aschbacherSolvableCore 3 ↥(K.comap f)).map (K.comap f).subtype).map f =
       (aschbacherSolvableCore 3 ↥K).map K.subtype := by
@@ -114,6 +120,7 @@ theorem map_theta_comap {K : Subgroup G'} (hK : K ≤ f.range) :
   rw [Subgroup.map_comap_eq_self hK] at this
   exact this.symm
 
+omit [Finite G'] in
 theorem SigGenHyp.comap {P K Q D : Subgroup G'} (hP : P ≤ f.range) (hK : K ≤ f.range)
     (hQ : Q ≤ f.range) (h : SigGenHyp P K Q D) :
     SigGenHyp (P.comap f) (K.comap f) (Q.comap f) (D.comap f) := by
@@ -139,7 +146,7 @@ theorem SigGenHyp.comap {P K Q D : Subgroup G'} (hP : P ≤ f.range) (hK : K ≤
         Nat.prime_three eK)).symm h.quasi
   · rw [card_comap_of_le_range f hf hK]; exact h.three
   · intro p hp
-    exact (mem_normalizer_comap_iff f hf hK p).mpr (h.normK hp)
+    exact (mem_normalizer_comap_iff f hK p).mpr (h.normK hp)
   · intro p hp hpK
     apply hf
     rw [map_one]
@@ -157,10 +164,10 @@ theorem SigGenHyp.comap {P K Q D : Subgroup G'} (hP : P ≤ f.range) (hK : K ≤
     apply h.inv.2.1 r
     rwa [card_comap_of_le_range f hf hQ] at hr
   · intro p hp
-    exact (mem_normalizer_comap_iff f hf hQ p).mpr (h.inv.2.2 hp)
+    exact (mem_normalizer_comap_iff f hQ p).mpr (h.inv.2.2 hp)
   · rw [← comap_commutator_of_le_range f hf hQ hP, ← h.comm]
   · intro q hq
-    exact (mem_normalizer_comap_iff f hf hK q).mpr (h.normQ hq)
+    exact (mem_normalizer_comap_iff f hK q).mpr (h.normQ hq)
   · intro hle
     apply h.nontriv
     rw [← comap_commutator_of_le_range f hf hK hQ] at hle
@@ -176,6 +183,7 @@ theorem SigGenHyp.comap {P K Q D : Subgroup G'} (hP : P ≤ f.range) (hK : K ≤
     obtain ⟨x, rfl⟩ := hyr
     exact (hθmem x).mp (hle hy)
 
+omit [Finite G] [Finite G'] in
 theorem SigGenConcl.of_comap {P K : Subgroup G'} (hP : P ≤ f.range) (hK : K ≤ f.range)
     (h : SigGenConcl (P.comap f) (K.comap f)) : SigGenConcl P K := by
   intro y hy
@@ -310,7 +318,7 @@ theorem InspIn148.of_mulEquiv {X Y : Type} [Group X] [Finite X] [Group Y] [Finit
     have hP' := isElemAbelian_comap f hfi (hfr P) hP
     have hsol := ha (P.comap f) (V.comap f) hP' (by rw [card_comap_of_le_range f hfi (hfr P), hP9])
       (by rwa [card_comap_of_le_range f hfi (hfr V)])
-      (fun p hp => (mem_normalizer_comap_iff f hfi (hfr V) p).mpr (hPV hp))
+      (fun p hp => (mem_normalizer_comap_iff f (hfr V) p).mpr (hPV hp))
     have eV : ↥(V.comap f) ≃* ↥V :=
       ((V.comap f).equivMapOfInjective f hfi).trans
         (MulEquiv.subgroupCongr (Subgroup.map_comap_eq_self (hfr V)))

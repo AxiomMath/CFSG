@@ -12,14 +12,14 @@ universe u
 
 private theorem xv_mem_inner {X : Type} [Group X] {P1 P2 : Subgroup X}
     {Y : Type} [Group Y] {c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y}
-    {n : ℕ} (hn : 3 ≤ n) : c.xv ∈ edgeBall (n - 2) c := by
+    {n : ℕ} (_hn : 3 ≤ n) : c.xv ∈ edgeBall (n - 2) c := by
   left
   rw [SimpleGraph.dist_self]
   omega
 
 private theorem lv_mem_ball {X : Type} [Group X] {P1 P2 : Subgroup X}
     {Y : Type} [Group Y] {c : (RankTwoAmalgam.ofSubgroups P1 P2).Completion Y}
-    {n : ℕ} (hn : 3 ≤ n) : c.lv ∈ edgeBall (n - 1) c := by
+    {n : ℕ} (_hn : 3 ≤ n) : c.lv ∈ edgeBall (n - 1) c := by
   right
   rw [SimpleGraph.dist_self]
   omega
@@ -200,7 +200,7 @@ theorem weissEmbeddingFacts_of_rootGroupLift (n : ℕ) (hroot : RootGroupLift n)
         change ψ₁ (Subgroup.inclusion inf_le_left b') =
           ψ₂ (Subgroup.inclusion inf_le_right b')
         exact hAgree b'
-      simpa [hpsi, hg]
+      simp [hpsi, hg]
     · rintro _ ⟨b, rfl⟩
       constructor
       · have hb : (psiB P2 ψ₁) b = ψ₂ (Subgroup.inclusion inf_le_right b) := by

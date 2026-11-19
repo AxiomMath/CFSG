@@ -209,8 +209,8 @@ private lemma excPayR_dvd_of_rootChar_eq_one {τ : Tag} {p : ℕ} (hp : p.Prime)
     have h2 := (CharP.cast_eq_zero_iff GGL 2 p).1 h
     have := (Nat.prime_dvd_prime_iff_eq Nat.prime_two hp).1 h2
     omega
-  haveI : NeZero (p : GGL) := ⟨hpG⟩
-  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot GGL p
+  have : NeZero (p : GGL) := ⟨hpG⟩
+  obtain ⟨ζ₀, hζ₀⟩ := HasEnoughRootsOfUnity.exists_isPrimitiveRoot GGL p
   lift ζ₀ to GGLˣ using hζ₀.isUnit hp.ne_zero
   rw [IsPrimitiveRoot.coe_units_iff] at hζ₀
   have hζp : ζ₀ ^ p = 1 := hζ₀.pow_eq_one

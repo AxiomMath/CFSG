@@ -37,7 +37,7 @@ private theorem false_of_alternating_six (hK : CFSG.IsQuasisimple K) {n : ℕ} (
   subst hn
   have hdvd := GL83.I243.CoverList.card_center_dvd_alternating
     (CFSG.Alternating.Multipliers.schurAlternatingMultiplierInput) hK (by norm_num) e
-  rw [if_pos (Or.inl rfl)] at hdvd
+  rw [ite_eq_left (Or.inl rfl)] at hdvd
   have hp3 : p = 3 :=
     GL83.I243.CoverList.eq_three_of_dvd_twelve hp hp2 (hpZ.trans hdvd |>.trans (by norm_num))
   exact hqZ (hp3 ▸ hpZ)
@@ -48,7 +48,7 @@ private theorem false_of_alternating_ten (hK : CFSG.IsQuasisimple K) {n : ℕ} (
   subst hn
   have hdvd := GL83.I243.CoverList.card_center_dvd_alternating
     (CFSG.Alternating.Multipliers.schurAlternatingMultiplierInput) hK (by norm_num) e
-  rw [if_neg (by omega)] at hdvd
+  rw [ite_eq_right (by omega)] at hdvd
   have hp2' : p = 2 :=
     (Nat.dvd_prime Nat.prime_two).1 (hpZ.trans hdvd) |>.resolve_left hp.ne_one
   exact hp2 hp2'
@@ -92,6 +92,7 @@ private theorem false_of_linTwo_nine (hK : CFSG.IsQuasisimple K)
   rw [hQp3] at hqZ
   exact false_of_alternating_six hK rfl (e.trans eA) hp hp2 hpZ hqZ
 
+omit [Finite K] in
 private theorem false_of_linTwo_ne_nine (hK : CFSG.IsQuasisimple K)
     {Q : TauCeti.PrimePower} {hv : (TauCeti.LieTypeIndex.A 1 Q).Valid}
     (hQp : Q.p = q) (hQexp : 2 ≤ Q.exponent) (h9 : Q.card ≠ 9)
@@ -113,7 +114,7 @@ private theorem false_of_linTwo_ne_nine (hK : CFSG.IsQuasisimple K)
         _ ≤ Q.p ^ 2 := Nat.pow_le_pow_left h3 2
         _ ≤ Q.p ^ Q.exponent := Nat.pow_le_pow_right Q.prime_p.pos hQexp
     omega
-  haveI : Fintype (GaloisField Q.p Q.exponent) := Fintype.ofFinite _
+  have : Fintype (GaloisField Q.p Q.exponent) := Fintype.ofFinite _
   have hk5 : 5 ≤ Fintype.card (GaloisField Q.p Q.exponent) := by
     rw [Fintype.card_eq_nat_card, GaloisField.card Q.p Q.exponent Q.exponent_pos.ne', ← hcard]
     exact hQcard5
@@ -134,7 +135,7 @@ private theorem false_of_linTwo_ne_nine (hK : CFSG.IsQuasisimple K)
       (hpZ.trans (hdvd.trans (Nat.gcd_dvd_left _ _))) |>.resolve_left hp.ne_one
   exact hp2 hp2'
 
-private theorem false_of_linTwo (hq : q.Prime) (hq2 : q ≠ 2) (hK : CFSG.IsQuasisimple K)
+private theorem false_of_linTwo (_hq : q.Prime) (hq2 : q ≠ 2) (hK : CFSG.IsQuasisimple K)
     {d : TauCeti.ValidLieTypeIndex}
     (hd : ∃ Q : TauCeti.PrimePower, Q.p = q ∧ 2 ≤ Q.exponent ∧ d.1 = .A 1 Q)
     (e : K ⧸ Subgroup.center K ≃* (TauCeti.CFSGIndex.lie d).Group)
@@ -144,7 +145,7 @@ private theorem false_of_linTwo (hq : q.Prime) (hq2 : q ≠ 2) (hK : CFSG.IsQuas
   obtain ⟨d1, hv⟩ := d
   change d1 = .A 1 Q at hQd
   subst hQd
-  haveI : Fact Q.p.Prime := ⟨Q.prime_p⟩
+  have : Fact Q.p.Prime := ⟨Q.prime_p⟩
   have hm := CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.lieModel_typeA 1 Q hv
   have hclass : CFSG.Open.StatedClassicalModel (TauCeti.CFSGIndex.lie ⟨.A 1 Q, hv⟩).Group
       .PSL 2 Q.p Q.exponent :=
@@ -163,6 +164,7 @@ section Unitary
 
 variable {q p : ℕ} {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 private theorem unitary_case (hK : CFSG.IsQuasisimple K) {d : TauCeti.ValidLieTypeIndex}
     (hd : ∃ Q : TauCeti.PrimePower, Q.p = q ∧ d.1 = .twistedA 2 Q)
     (e : K ⧸ Subgroup.center K ≃* (TauCeti.CFSGIndex.lie d).Group)
@@ -201,6 +203,7 @@ section LinThree
 
 variable {q p : ℕ} {K : Type} [Group K] [Finite K]
 
+omit [Finite K] in
 private theorem false_of_linThree_four (hK : CFSG.IsQuasisimple K) (hq3 : q = 3)
     {d : TauCeti.ValidLieTypeIndex} {Q : TauCeti.PrimePower} (hQp2 : Q.p = 2)
     (hQexp : Q.exponent = 2) (hQd : d.1 = .A 2 Q)
@@ -211,7 +214,7 @@ private theorem false_of_linThree_four (hK : CFSG.IsQuasisimple K) (hq3 : q = 3)
   obtain ⟨d1, hv⟩ := d
   change d1 = .A 2 Q at hQd
   subst hQd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hm := CFSG.HardMathSupport.Timmesfeld.Tables.Multiplier.lieModel_typeA 2 Q hv
   have hclass : CFSG.Open.StatedClassicalModel (TauCeti.CFSGIndex.lie ⟨.A 2 Q, hv⟩).Group
       .PSL 3 2 2 := by
@@ -264,7 +267,7 @@ private theorem false_of_suzuki (hK : CFSG.IsQuasisimple K)
     e.trans eS
   let π : K →* CFSG.BenderSuzuki.MatrixGroups.SuzukiMatrixGroup a :=
     eS'.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K))
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   have hπ : Function.Surjective π :=
     eS'.surjective.comp (QuotientGroup.mk'_surjective (Subgroup.center K))
   have hker : π.ker = Subgroup.center K :=
@@ -296,16 +299,16 @@ private theorem false_of_tits (hK : CFSG.IsQuasisimple K)
     CFSG.RankThree.PartOne.CTP.reeTitsModel_tits ⟨hv, ⟨MulEquiv.refl _⟩⟩
   obtain ⟨F, hF, hFfin, hFchar, hFcard, ⟨eT⟩⟩ :=
     CFSG.SectionRank.exists_mulEquiv_titsGroup_of_model hmodel
-  letI : Field F := hF
-  letI : Finite F := hFfin
-  letI : CharP F CFSG.LieType.Ree.ReeTag.F4.prime := hFchar
+  let : Field F := hF
+  let : Finite F := hFfin
+  let : CharP F CFSG.LieType.Ree.ReeTag.F4.prime := hFchar
   let eT' : K ⧸ Subgroup.center K ≃*
       ↥(commutator (CFSG.LieType.Ree.reeFixed CFSG.LieType.Ree.ReeTag.F4 F 0)) :=
     e.trans eT
   let π : K →*
       ↥(commutator (CFSG.LieType.Ree.reeFixed CFSG.LieType.Ree.ReeTag.F4 F 0)) :=
     eT'.toMonoidHom.comp (QuotientGroup.mk' (Subgroup.center K))
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   have hπ : Function.Surjective π :=
     eT'.surjective.comp (QuotientGroup.mk'_surjective (Subgroup.center K))
   have hker : π.ker = Subgroup.center K :=
@@ -359,7 +362,7 @@ private theorem false_of_M11 (hK : CFSG.IsQuasisimple K)
   let e' : K ⧸ Subgroup.center K ≃* TauCeti.SporadicName.M11.Group := e
   let eN : K ⧸ Subgroup.center K ≃* CFSG.Blueprint.NativeSporadic.M11 := e'.trans eB.symm
   let π : K →* CFSG.Blueprint.NativeSporadic.M11 := CFSG.GH74.Generic.centralQuotientMap eN
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   have hπ : Function.Surjective π := CFSG.GH74.Generic.centralQuotientMap_surjective eN
   have hker : π.ker = Subgroup.center K := CFSG.GH74.Generic.centralQuotientMap_ker eN
   have hZ : Subgroup.center K = ⊥ := by
@@ -379,7 +382,7 @@ private theorem false_of_J4 (hK : CFSG.IsQuasisimple K)
   have eN : K ⧸ Subgroup.center K ≃* CFSG.Blueprint.NativeSporadic.J4 := e'.trans eB.symm
   let π : K →* CFSG.Blueprint.NativeSporadic.J4 :=
     MonoidHom.mk' (fun x => eN (QuotientGroup.mk x)) (by intro a b; simp)
-  haveI : Group.IsPerfect K := hK.1
+  have : Group.IsPerfect K := hK.1
   have hπ : Function.Surjective π := by
     intro y
     obtain ⟨z, rfl⟩ := eN.surjective y
@@ -408,6 +411,7 @@ private theorem false_of_J4 (hK : CFSG.IsQuasisimple K)
   rw [hcard] at hpZ
   exact hp.not_dvd_one hpZ
 
+omit [Finite K] in
 private theorem McL_case (hq5 : q = 5) (hK : CFSG.IsQuasisimple K)
     (e : K ⧸ Subgroup.center K ≃* (TauCeti.CFSGIndex.sporadic .McL).Group)
     (hp : p.Prime) (hpZ : p ∣ Nat.card (Subgroup.center K)) :

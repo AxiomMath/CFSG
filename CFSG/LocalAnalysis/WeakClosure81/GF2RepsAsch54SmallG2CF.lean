@@ -66,7 +66,7 @@ theorem shape_not_isCompositionFactor {P : ∀ (X : Type) [Group X], Prop}
         (CFSG.GH74.SectionalTwoRankLE.of_mulEquiv S.e₂.symm
           (CFSG.GH74.SectionalTwoRankLE.specialLinearGroup F₂ (two_ne_zero₂ S)))
   · exact not_isCompositionFactor_of_isSolvable (fun L _ _ hL => (hP L hL).1)
-      (isSolvable_of_comm (shape_quotient_comm S))
+      (_root_.Group.isSolvable_of_comm (shape_quotient_comm S))
 
 end CFSG.LocalAnalysis.WeakClosure81.Asch80G2
 

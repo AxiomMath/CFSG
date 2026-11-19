@@ -23,7 +23,7 @@ open CFSG.ComponentClassification.OuterAutomorphisms (innAutDerived inner_le_inn
 private theorem three_le_card_of_ringChar_ne_two {K : Type} [Field K] [Finite K]
     (hK2 : ringChar K ≠ 2) : 3 ≤ Nat.card K := by
   classical
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   obtain ⟨n, hℓ, hn⟩ := FiniteField.card K (ringChar K)
   rw [Nat.card_eq_fintype_card, hn]
   have h2 := hℓ.two_le
@@ -32,9 +32,9 @@ private theorem three_le_card_of_ringChar_ne_two {K : Type} [Field K] [Finite K]
 
 private theorem three_le_card_subfield {K : Type} [Field K] [Finite K] (hK2 : ringChar K ≠ 2)
     (k : Subfield K) : 3 ≤ Nat.card k := by
-  haveI : CharP K (ringChar K) := ringChar.charP K
-  haveI : CharP k (ringChar K) := (k.subtype.charP_iff k.subtype_injective _).2 inferInstance
-  haveI : Finite k := Subtype.finite
+  have : CharP K (ringChar K) := ringChar.charP K
+  have : CharP k (ringChar K) := (k.subtype.charP_iff k.subtype_injective _).2 inferInstance
+  have : Finite k := Subtype.finite
   exact three_le_card_of_ringChar_ne_two (by rw [ringChar.eq k (ringChar K)]; exact hK2)
 
 section Field
@@ -46,7 +46,7 @@ theorem compsNormal_entrywiseAdjointAut (τ : Tag) {K : Type} [Field K] [Finite 
   classical
   have : Finite (ModGL τ K) := finite_modGL
   obtain ⟨ι, hι, hJC, hJn, hsol⟩ := ExcCopy.exists_fixed_structure τ σ
-  haveI : Finite (fixSubfield σ) := Subtype.finite
+  have : Finite (fixSubfield σ) := Subtype.finite
   obtain ⟨hs, hnc⟩ := ExcCopy.isSimpleGroup_adjointGroup_of_perfect τ (fixSubfield σ)
     (ExcCopy.isPerfect_adjointGroup τ (fixSubfield σ) hk)
   let e : adjointGroup τ (fixSubfield σ) ≃* ι.range := MonoidHom.ofInjective hι
@@ -54,7 +54,7 @@ theorem compsNormal_entrywiseAdjointAut (τ : Tag) {K : Type} [Field K] [Finite 
   have hJnc : ∃ x y : ι.range, x * y ≠ y * x := by
     obtain ⟨x, y, hxy⟩ := hnc
     exact ⟨e x, e y, fun h => hxy (e.injective (by simpa using h))⟩
-  haveI := hJn
+  have := hJn
   exact compsNormal_fixSubgroup_of_le hJC
     (CFSG.HardMathSupport.Solomon.Coordinator.LieSemisimple.isQuasisimple_of_isSimpleGroup hJs
       hJnc) hsol

@@ -46,6 +46,7 @@ lemma blockDiag_pow (a : E ≃ₗ[k] E) (g : X ≃ₗ[k] X) (b : E ≃ₗ[k] E) 
 
 variable [Finite k] [Finite E] [Module.Finite k X] [CharP k 2]
 
+omit [Finite k] [CharP k 2] in
 lemma blockSL_conj_rootElt (a : E ≃ₗ[k] E) (g : X ≃ₗ[k] X) (b : E ≃ₗ[k] E)
     (hdet : LinearEquiv.det a * LinearEquiv.det g * LinearEquiv.det b = 1) (t : E)
     (hconj : a.toLinearMap ∘ₗ LinearMap.mulLeft k t ∘ₗ b.symm.toLinearMap =
@@ -55,6 +56,7 @@ lemma blockSL_conj_rootElt (a : E ≃ₗ[k] E) (g : X ≃ₗ[k] X) (b : E ≃ₗ
   change blockDiag a g b * rootEquiv k X t * (blockDiag a g b)⁻¹ = rootEquiv k X t
   rw [rootEquiv, blockDiag_mul_shearE_mul_inv, hconj]
 
+omit [Finite k] [Finite E] [Module.Finite k X] [CharP k 2] in
 lemma blockDiag_conj_of_centralizer {h g' : SpecialLinearGroup k (DSpace E X)}
     (hcent : h * g' * h⁻¹ = g')
     {a : E ≃ₗ[k] E} {g : X ≃ₗ[k] X} {b : E ≃ₗ[k] E}

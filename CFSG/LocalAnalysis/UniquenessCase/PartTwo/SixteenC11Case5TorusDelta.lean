@@ -20,6 +20,7 @@ variable {K : Type} [Field K] [Finite K]
     rintro _ ⟨x, rfl⟩
     exact ⟨-x, (s16c11_case5_rhoU_inv x x).symm⟩
 
+omit [Finite K] in
 private theorem s16c11_case5_sa_eq_def [CharP K 2] (a : K) :
     s16c11_case5_sa a = s16c11_case5_rhoU a a * s16c11_case5_sigma := by
   refine MulEquiv.ext fun X => Multiplicative.toAdd.injective ?_
@@ -30,6 +31,7 @@ private theorem s16c11_case5_sa_eq_def [CharP K 2] (a : K) :
   rw [MulAut.mul_apply, s16c11_case5_sigma_ofAdd, s16c11_case5_rhoU_toAdd,
     s16c11_case5_sa_toAdd]
 
+omit [Finite K] in
 private theorem s16c11_case5_rhoU_sigma_mul_sa [CharP K 2] (p q a : K) :
     s16c11_case5_rhoU p q * s16c11_case5_sigma * s16c11_case5_sa a =
       s16c11_case5_rhoU (p + a) (q + a) := by
@@ -43,12 +45,14 @@ private theorem s16c11_case5_rhoU_sigma_mul_sa [CharP K 2] (p q a : K) :
         rw [s16c11_case5_sigma_conj_rhoU]
     _ = s16c11_case5_rhoU (p + a) (q + a) := s16c11_case5_rhoU_mul p q a a
 
+omit [Finite K] in
 private theorem s16c11_case5_rhoU_sigma_mul_sa_mem_V [CharP K 2] (p q a : K) :
     s16c11_case5_rhoU p q * s16c11_case5_sigma * s16c11_case5_sa a ∈
       s16c11_case5_V := by
   rw [s16c11_case5_mem_V]
   exact ⟨(p + a, q + a), s16c11_case5_rhoU_sigma_mul_sa p q a⟩
 
+omit [Finite K] in
 private theorem s16c11_case5_sigma_notMem_V [CharP K 2] :
     s16c11_case5_sigma (K := K) ∉ s16c11_case5_V := by
   intro h
@@ -68,8 +72,9 @@ private theorem s16c11_case5_sigma_notMem_V [CharP K 2] :
     simpa using h2
   have h3 := congrFun (congrFun h2' 0) 1
   rw [Matrix.transpose_apply, s16c11_case5_act_entry_01] at h3
-  simp [Matrix.single_apply] at h3
+  simp at h3
 
+omit [Finite K] in
 private theorem s16c11_case5_sa_notMem_V [CharP K 2] (a : K) :
     s16c11_case5_sa a ∉ s16c11_case5_V := by
   intro h
@@ -82,15 +87,19 @@ private theorem s16c11_case5_sa_notMem_V [CharP K 2] (a : K) :
 
 private def s16c11_case5_Z (a : K) : Matrix (Fin 2) (Fin 2) K := !![0, a; 0, 1]
 
+omit [Finite K] in
 private theorem s16c11_case5_Z_01 (a : K) : s16c11_case5_Z a 0 1 = a := by
   simp [s16c11_case5_Z]
 
+omit [Finite K] in
 private theorem s16c11_case5_Z_10 (a : K) : s16c11_case5_Z a 1 0 = 0 := by
   simp [s16c11_case5_Z]
 
+omit [Finite K] in
 private theorem s16c11_case5_Z_11 (a : K) : s16c11_case5_Z a 1 1 = 1 := by
   simp [s16c11_case5_Z]
 
+omit [Finite K] in
 private theorem s16c11_case5_Z_mem_fixV_sa [CharP K 2] (a : K) :
     Multiplicative.ofAdd (s16c11_case5_Z a) ∈
       fixV (Subgroup.zpowers (s16c11_case5_sa a)) := by
@@ -101,6 +110,7 @@ private theorem s16c11_case5_Z_mem_fixV_sa [CharP K 2] (a : K) :
   · rw [s16c11_case5_Z_01, s16c11_case5_Z_10, s16c11_case5_Z_11, mul_one, add_zero]
     exact CharTwo.add_self_eq_zero a
 
+omit [Finite K] in
 private theorem s16c11_case5_Z_notMem_fixV_rhoU (x : K) (hx : x ≠ 0) (a : K) :
     Multiplicative.ofAdd (s16c11_case5_Z a) ∉
       fixV (Subgroup.zpowers (s16c11_case5_rhoU x x)) := by
@@ -110,6 +120,7 @@ private theorem s16c11_case5_Z_notMem_fixV_rhoU (x : K) (hx : x ≠ 0) (a : K) :
     have h1 := h.1
     rwa [s16c11_case5_Z_11, mul_one] at h1)
 
+omit [Finite K] in
 theorem s16c11_case5_mem_Delta {x : MulAut (VM K)} :
     x ∈ s16c11_case5_Delta (K := K) ↔ ∃ a : K, x = s16c11_case5_rhoU a a := by
   have h : x ∈ s16c11_case5_Delta (K := K) ↔
@@ -119,7 +130,7 @@ theorem s16c11_case5_mem_Delta {x : MulAut (VM K)} :
 
 theorem s16c11_case5_card_Delta (hK : Nat.card K = 4) :
     Nat.card ↥(s16c11_case5_Delta (K := K)) = 4 := by
-  haveI := s16c11_case5_charP hK
+  have := s16c11_case5_charP hK
   have hinj : Function.Injective (fun a : K => s16c11_case5_rhoU a a) :=
     fun _ _ h => (s16c11_case5_rhoU_injective h).1
   change Nat.card (Set.range (fun a : K => s16c11_case5_rhoU a a)) = 4
@@ -128,7 +139,7 @@ theorem s16c11_case5_card_Delta (hK : Nat.card K = 4) :
 theorem s16c11_case5_exists_sa_mem (hK : Nat.card K = 4) {A : Subgroup (MulAut (VM K))}
     (hA : A ∈ E3.aSet 2 (s16c11_case5_S0 (K := K))) (hAV : ¬ A ≤ s16c11_case5_V) :
     ∃ a : K, s16c11_case5_sa a ∈ A := by
-  haveI := s16c11_case5_charP hK
+  have := s16c11_case5_charP hK
   have hx : ∃ x : MulAut (VM K), x ∈ A ∧ x ∉ s16c11_case5_V := by
     by_contra h
     exact hAV fun x hxA => by
@@ -169,7 +180,7 @@ theorem s16c11_case5_inf_V_le_Delta (hK : Nat.card K = 4) {A : Subgroup (MulAut 
     (hA : A ∈ E3.aSet 2 (s16c11_case5_S0 (K := K))) {a : K}
     (hsa : s16c11_case5_sa a ∈ A) :
     A ⊓ s16c11_case5_V ≤ s16c11_case5_Delta := by
-  haveI := s16c11_case5_charP hK
+  have := s16c11_case5_charP hK
   rintro y hy
   rw [Subgroup.mem_inf] at hy
   obtain ⟨hyA, hyV⟩ := hy
@@ -207,7 +218,7 @@ theorem s16c11_case5_inf_V_le_Delta (hK : Nat.card K = 4) {A : Subgroup (MulAut 
 theorem s16c11_case5_card_eq_two_mul (hK : Nat.card K = 4) {A : Subgroup (MulAut (VM K))}
     (hA : A ∈ E3.aSet 2 (s16c11_case5_S0 (K := K))) (hAV : ¬ A ≤ s16c11_case5_V) :
     Nat.card ↥A = 2 * Nat.card ↥(A ⊓ s16c11_case5_V) := by
-  haveI := s16c11_case5_charP hK
+  have := s16c11_case5_charP hK
   obtain ⟨a, hsa⟩ := s16c11_case5_exists_sa_mem hK hA hAV
   have hindex : (A ⊓ s16c11_case5_V).relIndex A = 2 := by
     rw [Subgroup.relIndex_eq_two_iff_exists_notMem_and]
@@ -230,8 +241,8 @@ theorem s16c11_case5_card_eq_two_mul (hK : Nat.card K = 4) {A : Subgroup (MulAut
 theorem s16c11_case5_Delta_le (hK : Nat.card K = 4) {A : Subgroup (MulAut (VM K))}
     (hA : A ∈ E3.aSet 2 (s16c11_case5_S0 (K := K))) (hAV : ¬ A ≤ s16c11_case5_V) :
     s16c11_case5_Delta ≤ A := by
-  haveI := s16c11_case5_charP hK
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have := s16c11_case5_charP hK
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨a, hsa⟩ := s16c11_case5_exists_sa_mem hK hA hAV
   have hinf_le : A ⊓ s16c11_case5_V ≤ s16c11_case5_Delta :=
     s16c11_case5_inf_V_le_Delta hK hA hsa
@@ -321,7 +332,7 @@ theorem s16c11_case5_Delta_le (hK : Nat.card K = 4) {A : Subgroup (MulAut (VM K)
 theorem s16c11_case5_eq_Delta_sup_sigma (hK : Nat.card K = 4) {A : Subgroup (MulAut (VM K))}
     (hA : A ∈ E3.aSet 2 (s16c11_case5_S0 (K := K))) (hAV : ¬ A ≤ s16c11_case5_V) :
     A = s16c11_case5_Delta ⊔ Subgroup.zpowers (s16c11_case5_sigma (K := K)) := by
-  haveI := s16c11_case5_charP hK
+  have := s16c11_case5_charP hK
   obtain ⟨a, hsa⟩ := s16c11_case5_exists_sa_mem hK hA hAV
   have hDelta : s16c11_case5_Delta ≤ A := s16c11_case5_Delta_le hK hA hAV
   have hinf : A ⊓ s16c11_case5_V ≤ s16c11_case5_Delta :=

@@ -171,10 +171,10 @@ theorem nat_or_orth_or_eight_or_split {Y : Type} [AddCommGroup Y] [Module (ZMod 
         ⟨hVnt, fun U hU => or_iff_not_imp_left.mpr (hc U hU)⟩)
     obtain ⟨U', hU'U, hU'⟩ := exists_irreducible_sub π hU hU0
     have hU'top : U'.toSubmodule ≠ ⊤ := fun h => hUt (top_le_iff.mp (by rw [← h]; exact hU'U))
-    haveI : Nontrivial U'.toSubmodule :=
+    have : Nontrivial U'.toSubmodule :=
       ((CFSG.QuasithinUnique.Setup.X7.isIrreducible_iff _).mp hU').1
-    haveI : Finite (Y ⧸ U'.toSubmodule) := Finite.of_surjective _ (Submodule.mkQ_surjective _)
-    haveI : Nontrivial (Y ⧸ U'.toSubmodule) := Submodule.Quotient.nontrivial_iff.mpr hU'top
+    have : Finite (Y ⧸ U'.toSubmodule) := Finite.of_surjective _ (Submodule.mkQ_surjective _)
+    have : Nontrivial (Y ⧸ U'.toSubmodule) := Submodule.Quotient.nontrivial_iff.mpr hU'top
     have hNTU := NoTrivSec.sub hNT U'
     have hNTQ := NoTrivSec.quot hNT U'
     have hcod := codim_sub_quot π U' {tElt L t}
@@ -286,7 +286,7 @@ theorem nat_or_orth_or_eight_or_split_sub [Finite V] (hLH : L ≤ H)
       ∃ U C : Submodule (ZMod 2) V, CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ L U ∧ CFSG.HardMathSupport.Meierfrankenfeld.GeneralFF.IsInvariant ρ L C ∧ U ⊔ C = A ∧
         U ⊓ C = ⊥ ∧ U ≠ ⊥ ∧ C ≠ ⊥ := by
   obtain ⟨hA, hA0, hAmin⟩ := hmin
-  haveI : (L.subgroupOf H).Normal := (normal_subgroupOf_iff_le_normalizer hLH).mpr hHN
+  have : (L.subgroupOf H).Normal := (normal_subgroupOf_iff_le_normalizer hLH).mpr hHN
   let σ : Representation (ZMod 2) ↥H ↥A := restr ρ hA
   let t' : ↥H := ⟨t, htH⟩
   have hirr : σ.IsIrreducible := by

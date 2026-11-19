@@ -11,6 +11,7 @@ open CFSG.SignalizerFunctorTheorem.Quadratic CFSG.Quasithin.G11 CFSG.Open Subgro
 
 variable {V : Type} [AddCommGroup V] [Module (ZMod 2) V] [Finite V]
 
+omit [Finite V] in
 theorem w183_mul_comm_of_comp_eq {N : Subgroup (LGL 2 V)}
     (hN : ∀ a ∈ N, ∀ b ∈ N, ∀ v : V, a (b v - v) = b v - v) :
     ∀ a ∈ N, ∀ b ∈ N, a * b = b * a := by
@@ -24,6 +25,7 @@ theorem w183_mul_comm_of_comp_eq {N : Subgroup (LGL 2 V)}
     _ = (a v - v) + b v := by abel
     _ = b (a v) := by rw [← h2]; abel
 
+omit [Finite V] in
 theorem w183_fixSub_le_of_simple {L X : Subgroup (LGL 2 V)} [IsSimpleGroup ↥L] (hXL : X ≤ L)
     (hX : X ≠ ⊥) {P : Submodule (ZMod 2) V} (hP : ∀ l ∈ L, ∀ p ∈ P, l p ∈ P)
     (hfix : P ≤ fixSub X) : P ≤ fixSub L := by
@@ -47,7 +49,7 @@ theorem w183_fixSub_le_of_simple {L X : Subgroup (LGL 2 V)} [IsSimpleGroup ↥L]
           simp only [Subgroup.coe_mul, Subgroup.coe_inv, LinearEquiv.mul_apply]
       _ = (g : LGL 2 V) ((g : LGL 2 V)⁻¹ p) := by rw [hn']
       _ = p := LinearEquiv.apply_symm_apply (g : LGL 2 V) p⟩
-  haveI := hNnormal
+  have := hNnormal
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal N with hbot | htop
   · exfalso
     apply hX
@@ -61,6 +63,7 @@ theorem w183_fixSub_le_of_simple {L X : Subgroup (LGL 2 V)} [IsSimpleGroup ↥L]
     have hlN : (⟨l, hl⟩ : ↥L) ∈ N := by rw [htop]; trivial
     exact hlN p hp
 
+omit [Finite V] in
 theorem w183_fixSub_le_of_not_centralizes {L Y : Subgroup (LGL 2 V)} [IsSimpleGroup ↥L]
     (hY : ∀ y ∈ Y, ∀ x ∈ L, y * x * y⁻¹ ∈ L) (hnc : ∃ y ∈ Y, ∃ x ∈ L, x * y ≠ y * x)
     {P : Submodule (ZMod 2) V} (hP : ∀ l ∈ L, ∀ p ∈ P, l p ∈ P) (hfix : P ≤ fixSub Y) :
@@ -109,11 +112,12 @@ namespace Assumption131
 variable {G : Subgroup (LGL 2 V)} {Γ : Set (Subgroup (LGL 2 V))}
   {VA : Subgroup (LGL 2 V) → Submodule (ZMod 2) V} {i : ℕ}
 
+omit [Finite V] in
 theorem false_of_two_kernels (h : Assumption131 G Γ VA i)
-    {A L₁ L₂ D F : Subgroup (LGL 2 V)} (hA : A ∈ Γ) (hL₁G : L₁ ≤ G) (hL₂G : L₂ ≤ G)
+    {A L₁ L₂ D F : Subgroup (LGL 2 V)} (hA : A ∈ Γ) (_hL₁G : L₁ ≤ G) (hL₂G : L₂ ≤ G)
     [IsSimpleGroup ↥L₁] [IsSimpleGroup ↥L₂]
     (hnab₁ : ∃ a ∈ L₁, ∃ b ∈ L₁, a * b ≠ b * a) (hnab₂ : ∃ a ∈ L₂, ∃ b ∈ L₂, a * b ≠ b * a)
-    (hcomm : ∀ a ∈ L₁, ∀ b ∈ L₂, a * b = b * a)
+    (_hcomm : ∀ a ∈ L₁, ∀ b ∈ L₂, a * b = b * a)
     (hAn₁ : ∀ a ∈ A, ∀ l ∈ L₁, a * l * a⁻¹ ∈ L₁)
     (hAn₂ : ∀ a ∈ A, ∀ l ∈ L₂, a * l * a⁻¹ ∈ L₂)
     (hD : D = A ⊓ Subgroup.centralizer (L₁ : Set (LGL 2 V)))
@@ -237,7 +241,7 @@ theorem false_of_two_kernels (h : Assumption131 G Γ VA i)
         exact (Subgroup.mem_normalizer_iff.mp (hL₂norm g.2) (n : LGL 2 V)).mp hn.1
       · show (g : LGL 2 V) * (n : LGL 2 V) * (g : LGL 2 V)⁻¹ ∈ L₂
         exact L₂.mul_mem (L₂.mul_mem g.2 hn.2) (L₂.inv_mem g.2)⟩
-    haveI := hNnormal
+    have := hNnormal
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal ((A ⊓ L₂).subgroupOf L₂) with hNbot | hNtop
     · have hAL₂bot : A ⊓ L₂ = ⊥ := by
         rw [eq_bot_iff]

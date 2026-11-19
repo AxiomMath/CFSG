@@ -56,7 +56,7 @@ private theorem ltqE6h_conj_injective {S : Type*} [Group S] (hZ : Subgroup.cente
     _ = g * x := by group
 
 private theorem ltqE6h_mulAut_card_le_of_normalForm {C Q : Type} [Group C] [Group Q] [Finite C]
-    (hZ : Subgroup.center C = ⊥) (Θ : MulAut C →* Q) (hsurj : Function.Surjective Θ)
+    (hZ : Subgroup.center C = ⊥) (Θ : MulAut C →* Q) (_hsurj : Function.Surjective Θ)
     (hker : Θ.ker = (MulAut.conj : C →* MulAut C).range) (hcyc : IsCyclic Q)
     (hAut : ∀ F : Subgroup C, IsElemAbelian 3 F → Nat.card F ≤ 9)
     (E : Subgroup (MulAut C)) (hE : IsElemAbelian 3 E) : Nat.card E ≤ 3 ^ 3 := by
@@ -81,8 +81,8 @@ private theorem ltqE6h_mulAut_card_le_of_normalForm {C Q : Type} [Group C] [Grou
     rw [← hcard]
     exact hAut _ hT
   have himg : IsElemAbelian 3 (E.map Θ) := CFSG.Open.IsElemAbelian.map hE Θ
-  haveI : IsCyclic Q := hcyc
-  haveI : IsCyclic (⊤ : Subgroup Q) :=
+  have : IsCyclic Q := hcyc
+  have : IsCyclic (⊤ : Subgroup Q) :=
     isCyclic_of_surjective (Subgroup.topEquiv (G := Q)).symm.toMonoidHom
       (Subgroup.topEquiv (G := Q)).symm.surjective
   have hcycS : IsCyclic (E.map Θ) := Subgroup.isCyclic_of_le le_top
@@ -118,7 +118,7 @@ theorem ggTriD4AutThreeBound
   dsimp only [LargeEvenRawDatum] at hlab
   unfold LargeEvenRecipeTwisted at hlab
   obtain ⟨K, hKf, hKfin, hKcard, ⟨e⟩⟩ := hlab
-  haveI : Fintype K := Fintype.ofFinite K
+  have : Fintype K := Fintype.ofFinite K
   have hKge : 2 ≤ Nat.card K := by
     have h1 : 1 < Nat.card K := by
       rw [Nat.card_eq_fintype_card]
@@ -317,8 +317,8 @@ theorem ggE6TorusLiftFiveRank
 private theorem ltqE6h_false_of_E6_hard
     (hβ : GGE6CoverThreeLocalRank)
     {X : Type} [Group X] [Finite X] {A Ab : Subgroup (MulAut X)} {σ : MulAut X} {J : Subgroup X}
-    (hd : GGTPNDatumB 3 (3 ^ 6) (fun _ _ => True) A Ab σ J) (hk : GGTPNKernel A σ J)
-    {labJ labX : LargeEvenLabel} (hΛJ : LargeEvenInLambda2 labJ)
+    (hd : GGTPNDatumB 3 (3 ^ 6) (fun _ _ => True) A Ab σ J) (_hk : GGTPNKernel A σ J)
+    {labJ labX : LargeEvenLabel} (_hΛJ : LargeEvenInLambda2 labJ)
     (hΛX : LargeEvenInLambda2 labX)
     (hcase : labJ = ⟨.triD4, 0, labX.n⟩ ∨ labJ = ⟨.A, 2, 3 * labX.n⟩)
     (htagX : labX.tag = .E6) (h3 : 3 ∣ 2 ^ labX.n - 1)
@@ -330,7 +330,7 @@ private theorem ltqE6h_false_of_E6_hard
   have hperfJ : commutator ↥J = ⊤ := hlocCore.2.2.2.1.2.2.1
   have hAbab : IsElemAbelian 3 Ab := by
     obtain ⟨hc, hp⟩ := hlocCore.1
-    haveI : IsMulCommutative A := hc
+    have : IsMulCommutative A := hc
     refine ⟨⟨⟨fun u v => ?_⟩⟩, fun z hz => ?_⟩
     · apply Subtype.ext
       exact setLike_mul_comm (s := A) (hAbA u.2) (hAbA v.2)
@@ -365,10 +365,10 @@ private theorem ltqE6h_false_of_E6_hard
   have hperfX : commutator X = ⊤ := hmarked.1
   by_cases hZ : 3 ∣ Nat.card (Subgroup.center X)
   · have h6 := hβ X labX hΛX htagX h3 hhX hperfX hZ
-    rw [if_pos hZ] at hmrank
+    rw [ite_eq_left hZ] at hmrank
     omega
   · have h5 := ggE6TorusLiftFiveRank hperfX htagX h3 hhX
-    rw [if_neg hZ] at hmrank
+    rw [ite_eq_right hZ] at hmrank
     omega
 
 private theorem ltqE6h_iso_twE6 {l : LargeEvenLabel}

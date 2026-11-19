@@ -67,7 +67,7 @@ private noncomputable def kgLangS1AUniCompAux_inclusion {d n p : ℕ} {F : Type}
       ↥(LargeEvenSUGroup (Fin d) F (2 ^ n)) where
   toFun A := ⟨Matrix.GeneralLinearGroup.map (semilinearFixedSubfield σ).subtype A.1, by
     have hσOdd : Odd (orderOf σ) := by rw [hσ]; exact hp.odd_of_ne_two hp2
-    haveI : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
+    have : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
       (f := 2 * n) (by rw [hF, ← pow_mul, mul_comm])
     have hAsu : A.1 ∈ LargeEvenSUGroup (Fin d)
         (CFSG.LocalAnalysis.GLTheoremA.FQ.fixF σ) (2 ^ (n / orderOf σ)) := by
@@ -106,7 +106,7 @@ private theorem kgLangS1AUniCompAux_fixSubgroup_eq_range {d n p : ℕ} {F : Type
       (kgLangS1AUniCompAux_inclusion (d := d) hF hn hp hp2 hσ).range := by
   classical
   have hσOdd : Odd (orderOf σ) := by rw [hσ]; exact hp.odd_of_ne_two hp2
-  haveI : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
+  have : CharP F 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
     (f := 2 * n) (by rw [hF, ← pow_mul, mul_comm])
   ext x
   rw [CFSG.HardMathSupport.Solomon.Coordinator.mem_fixSubgroup, MonoidHom.mem_range]
@@ -213,7 +213,7 @@ theorem kgLangS1A_uni_component {d n p : ℕ} {F : Type} [Field F] [Finite F]
             TableB.projConj (LargeEvenSUGroup (Fin d) (semilinearFixedSubfield σ) (2 ^ (n / p))) M
               (ρ (QuotientGroup.mk j)) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   let F₀ := semilinearFixedSubfield σ
   let ι := kgLangS1AUniCompAux_inclusion (d := d) hF hn hp hp2 hσ
   let α : MulAut ↥(LargeEvenSUGroup (Fin d) F (2 ^ n)) :=
@@ -234,8 +234,8 @@ theorem kgLangS1A_uni_component {d n p : ℕ} {F : Type} [Field F] [Finite F]
     kgLangS1AUniCompAux_inclusion_injective (d := d) hF hn hp hp2 hσ
   have hF₀ : Nat.card F₀ = (2 ^ (n / p)) ^ 2 :=
     (kgLangTorA_card_fixed_unitary hn hp hp2 hF hσ).2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : CharP F₀ 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : CharP F₀ 2 := CFSG.Timmesfeld.ClassicalOrders.charP_two_of_card_eq
     (f := 2 * (n / p)) (by rw [hF₀, ← pow_mul, mul_comm])
   have hSU := CFSG.LieType.Universal.Unitary.isQuasisimple_statedSU_of_card
     (F := F₀) (p := 2) (f := n / p) hF₀ hd
@@ -388,7 +388,7 @@ theorem kgLangS1A_uni_not_component {n p : ℕ} {F : Type} [Field F] [Finite F]
     {ξ : MulAut K} (hξ : ∀ h, ξ (κ h) = κ (ψ₀ h)) (J₀ : Subgroup K) :
     ¬ IsComponentOf J₀ (ggFixSub ξ) := by
   classical
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   let F₀ := semilinearFixedSubfield σ
   let ι := kgLangS1AUniCompAux_inclusion (d := 3) hF hn hp hp2 hσ
   let α : MulAut ↥(LargeEvenSUGroup (Fin 3) F (2 ^ n)) :=
@@ -413,7 +413,7 @@ theorem kgLangS1A_uni_not_component {n p : ℕ} {F : Type} [Field F] [Finite F]
     have hF₀' : Nat.card F₀ = (2 ^ 1) ^ 2 := by rw [hF₀, hq₀, pow_one]
     rw [hq₀, CFSG.Assembly.largeEvenSUGroup_eq_statedSU]
     exact CFSG.Quasithin.isSolvable_statedSU_one hF₀'
-  haveI : Group.IsSolvable ↥(CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup α) := by
+  have : Group.IsSolvable ↥(CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup α) := by
     let e : ↥(LargeEvenSUGroup (Fin 3) F₀ (2 ^ (n / p))) ≃*
         ↥(CFSG.HardMathSupport.Solomon.Coordinator.fixSubgroup α) :=
       (MonoidHom.ofInjective hinj).trans (MulEquiv.subgroupCongr hfix.symm)

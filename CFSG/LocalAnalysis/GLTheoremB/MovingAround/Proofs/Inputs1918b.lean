@@ -107,7 +107,7 @@ theorem card_zpowers_sup_zpowers {G : Type*} [Group G] [Finite G] {p : ℕ} (hp 
     {x y : G} (hxy : x * y = y * x) (hx : orderOf x = p) (hy : orderOf y = p)
     (hyx : y ∉ Subgroup.zpowers x) :
     Nat.card ↥(Subgroup.zpowers x ⊔ Subgroup.zpowers y) = p ^ 2 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpow : ∀ z : G, orderOf z = p → IsPGroup p (Subgroup.zpowers z) := fun z hz =>
     IsPGroup.of_card (n := 1) (by rw [Nat.card_zpowers, hz, pow_one])
   have hxcent : x ∈ Subgroup.centralizer ((Subgroup.zpowers y : Subgroup G) : Set G) := by
@@ -190,7 +190,7 @@ theorem isElementaryAbelian_zpowers_sup_zpowers {G : Type*} [Group G] {p : ℕ} 
     refine sup_le ?_ ?_
     · exact Subgroup.le_centralizer_iff.2 hxE
     · exact Subgroup.le_centralizer_iff.2 hyE
-  haveI : IsMulCommutative ↥E := Subgroup.le_centralizer_iff_isMulCommutative.1 hcomm
+  have : IsMulCommutative ↥E := Subgroup.le_centralizer_iff_isMulCommutative.1 hcomm
   refine { toIsMulCommutative := inferInstance, exponent_dvd_p := ?_ }
   refine Monoid.exponent_dvd_of_forall_pow_eq_one fun u => ?_
   have hnorm : Subgroup.zpowers x ≤ Subgroup.normalizer (Subgroup.zpowers y : Set G) :=
@@ -222,8 +222,8 @@ theorem innerStepAt_of_plane {S : Type} [Group S] [Finite S] {p : ℕ} (hp : p.P
         ¬ 2 ∣ Nat.card ↥(⁅CFSG.inSubgroup (aschbacherSolvableCore p)
           (innerAut S ⊓ Subgroup.centralizer ({a} : Set (MulAut S))), E⁆)) :
     InnerStepAt p S := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro x y hx hy hxo hyp hxy t ht
   have htC : t ∈ Subgroup.centralizer ({x} : Set (MulAut S)) :=
     (CFSG.LieType.BorelTits.pCoreOf_le 2 _ ht).2
@@ -311,7 +311,7 @@ open CFSG.LocalAnalysis.ComponentInitial.LinearFlag (projectiveSL) in
 theorem innerStepAt_projectiveSL {n ℓ f p : ℕ} {K : Type} [Field K] (hp : p.Prime) (hp3 : 3 < p)
     (hℓ : ℓ.Prime) (hℓp : ℓ ≠ p) (hf : 1 ≤ f) (hn : 3 ≤ n) (hK : Nat.card K = ℓ ^ f)
     (hpq : ¬ p ∣ ℓ ^ f - 1) : InnerStepAt p (projectiveSL n K) := by
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ hℓ.ne_zero)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ hℓ.ne_zero)
   refine innerStepAt_of_plane hp (by omega) fun E hEI hE hEc a ha ha1 => ?_
   have h1 := (CFSG.RankThree.PartOne.linear_nonsplit_inner_plane_products_trivial p ℓ f n K hp hp3
     hℓ hℓp hf hn hK hpq (innerAut (projectiveSL n K)) le_rfl E hEI hE hEc).1 a ha ha1
@@ -323,7 +323,7 @@ open CFSG.LocalAnalysis.ComponentInitial CFSG.LocalAnalysis.ComponentInitial.Uni
 theorem innerStepAt_primeFormP {ℓ f n p : ℕ} {K : Type} [Field K] (h : UnitaryFieldData ℓ f K)
     (hp : p.Prime) (hp3 : 3 < p) (hpℓ : p ≠ ℓ) (hpq : ¬ p ∣ ℓ ^ f + 1) (hn : 3 ≤ n)
     (hne : ¬ (n = 3 ∧ ℓ ^ f = 2)) : InnerStepAt p (primeFormP h (idGram K n)) := by
-  haveI := CFSG.RankThree.PartOne.KCUnitaryModel.finite_primeFormP (h := h) (n := n)
+  have := CFSG.RankThree.PartOne.KCUnitaryModel.finite_primeFormP (h := h) (n := n)
   refine innerStepAt_of_plane hp (by omega) fun E hEI hE hEc a ha ha1 hdvd => ?_
   have h1 := (CFSG.RankThree.PartOne.unitary_nonsplit_inner_plane_products_trivial ℓ f n p K h hp
     hp3 hpℓ hpq hn hne (innerAut (primeFormP h (idGram K n))) le_rfl E hEI hE hEc).2 a ha ha1
@@ -346,7 +346,7 @@ theorem mem_of_prime_dvd_prod {p : ℕ} (hp : p.Prime) :
 
 theorem prime_dvd_three_pow_orderOf_sub_one {p : ℕ} (hp : p.Prime) :
     p ∣ 3 ^ orderOf ((3 : ℕ) : ZMod p) - 1 := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have h1 : ((3 : ℕ) : ZMod p) ^ orderOf ((3 : ℕ) : ZMod p) = 1 := pow_orderOf_eq_one _
   have h2 : ((3 ^ orderOf ((3 : ℕ) : ZMod p) - 1 : ℕ) : ZMod p) = 0 := by
     rw [Nat.cast_sub (Nat.one_le_pow _ _ (by norm_num)), Nat.cast_pow, h1, Nat.cast_one, sub_self]
@@ -603,7 +603,7 @@ theorem innerStepAt_cat_twistedE6
   have hpq : p ≠ q.p := by rw [hq3]; omega
   obtain ⟨K, _, σ, hK, hσ, ⟨φ⟩⟩ := CFSG.LieType.SeitzGeneration.exists_catEquiv_twistedE6 q hv
   rw [hq3, hqe] at hK hσ
-  haveI : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
+  have : Finite K := Nat.finite_of_card_ne_zero (by rw [hK]; norm_num)
   have hplane : ∀ h : PlaneLocalCoreOdd p ↥(CFSG.LieType.Chevalley.twistedE6RootGroup K σ),
       InnerStepAt p S := fun h =>
     innerStepAt_of_planeLocalCoreOdd hp (by omega) (h.of_mulEquiv hp (e.trans φ))
@@ -674,7 +674,7 @@ theorem innerStepAt_cat_A {S : Type} [Group S] (r : ℕ) (q : TauCeti.PrimePower
     have h := hq
     rw [TauCeti.PrimePower.card_def] at h
     exact ((Nat.Prime.pow_eq_iff Nat.prime_three).1 h).2
-  haveI : Fact q.p.Prime := ⟨q.prime_p⟩
+  have : Fact q.p.Prime := ⟨q.prime_p⟩
   have hr := (TauCeti.LieTypeIndex.inStandardRange_iff _).mp ((TauCeti.LieTypeIndex.valid_iff _).mp hv).1
   have hr2 : 2 ≤ r := by
     rcases (show r = 1 ∨ 2 ≤ r by omega) with h | h

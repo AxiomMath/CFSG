@@ -81,7 +81,7 @@ theorem central_of_wSet {K : Subgroup X} {t : X} (hS : Q8Sec X K t) (hTD : NoCen
       have := conj_mem_conjSub (n := g) htW
       rwa [hWnorm g] at this
     exact hTD g hne k hk.1 hk4 (hWab _ hsW k hk.2)
-  haveI : Fintype X := Fintype.ofFinite X
+  have : Fintype X := Fintype.ofFinite X
   obtain ⟨N, hNn, hNodd, hN⟩ := CFSG.ZStar.glauberman_zStar X t hS.uniq.ne_one hS.uniq.sq hiso
   have hNle : N ≤ classicalInvolutionOddCore X := le_sSup ⟨hNn, hNodd⟩
   intro g
@@ -164,8 +164,8 @@ theorem central_of_sec {K : Subgroup X} {t : X} (hS : Q8Sec X K t) (hEC : OddEC 
   rcases hOut with ⟨P, hPn, hP2, htP⟩ | hE4 | hLF
   · exact central_of_inO2 hS hEC hTD hD hPn hP2 htP
   · obtain ⟨Q, hG, f, hf, hker, hmod⟩ := hE4
-    letI := hG
-    haveI : Finite Q := Finite.of_surjective f hf
+    let := hG
+    have : Finite Q := Finite.of_surjective f hf
     by_cases htN : t ∈ f.ker
     · exact central_of_inO2 hS hEC hTD hD (inferInstance : f.ker.Normal) hker htN
     · exact (false_of_twinE4 hS.hyp hS.uniq (hS.quat K (CoreAssembly.mem_conjClass_self K)) hEC hTD f

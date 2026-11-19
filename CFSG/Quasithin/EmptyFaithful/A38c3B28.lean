@@ -190,7 +190,7 @@ theorem input28A7_holds : Input28A7 := by
     Subtype.val_injective.comp (Subtype.val_injective.comp Subtype.val_injective)
   have hιY : ι.range ≤ Yp := by
     rintro _ ⟨p, rfl⟩
-    have hp3 := (P.isPGroup' : IsPGroup 3 (P : Subgroup ↥F)) p
+    have hp3 := (P.isPGroup : IsPGroup 3 (P : Subgroup ↥F)) p
     obtain ⟨k, hk⟩ := hp3
     have hord : orderOf (ι p) ∣ 3 ^ k := orderOf_dvd_of_pow_eq_one (by rw [← map_pow, hk, map_one])
     obtain ⟨j, -, hj⟩ := (Nat.dvd_prime_pow Nat.prime_three).mp hord
@@ -198,7 +198,7 @@ theorem input28A7_holds : Input28A7 := by
     rw [hF.yp_eq]
     exact Subgroup.subset_closure ⟨hKM hxK, j, hj⟩
   have hcyc : IsCyclic ↥(P : Subgroup ↥F) :=
-    isCyclic_of_isPGroup_of_range_le P.isPGroup' ι hι hιY hrank.le
+    isCyclic_of_isPGroup_of_range_le P.isPGroup ι hι hιY hrank.le
   have hsurj : Function.Surjective (ρ.comp (P : Subgroup ↥F).subtype) := by
     intro e'
     have : e' ∈ (P : Subgroup ↥F).map ρ := by rw [hPmap]; trivial

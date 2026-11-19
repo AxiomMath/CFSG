@@ -77,7 +77,7 @@ theorem ggIndep_p3_refl_affine {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {
     intro i j hij hjm
     rw [LinearMap.sum_apply]
     rw [l6p2_filter_sum_eq_tail m (fun l => αv l ht) u
-      (fun k hk => by dsimp only [u]; exact dif_pos hk) hjm]
+      (fun k hk => by dsimp only [u]; exact dite_eq_left hk) hjm]
     exact (l6p2_tail_sub m u hij.le hjm).symm
   have hB : ∀ i j : ℕ, i < j → j ≤ m →
       αt (∑ l ∈ Finset.univ.filter (fun l : Fin m => i ≤ l.val ∧ l.val < j), hv l)
@@ -85,7 +85,7 @@ theorem ggIndep_p3_refl_affine {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {
     intro i j hij hjm
     rw [map_sum]
     rw [l6p2_filter_sum_eq_tail m (fun l => αt (hv l)) w
-      (fun k hk => by dsimp only [w]; exact dif_pos hk) hjm]
+      (fun k hk => by dsimp only [w]; exact dite_eq_left hk) hjm]
     exact (l6p2_tail_sub m w hij.le hjm).symm
   have hiff_sub : ∀ i j : ℕ, i < j → j ≤ m →
       (l6p2_tail m u i = l6p2_tail m u j ↔ l6p2_tail m w i = l6p2_tail m w j) := by
@@ -117,7 +117,7 @@ theorem ggIndep_p3_refl_affine {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {
     have hmem : l6p2_tail m u i ∈ S := Finset.mem_image.mpr ⟨i, hi, rfl⟩
     have hspec := Classical.choose_spec (Finset.mem_image.mp hmem)
     dsimp only [ψ]
-    rw [dif_pos hmem]
+    rw [dite_eq_left hmem]
     exact (hiff (Classical.choose (Finset.mem_image.mp hmem)) hspec.1 i hi).mp hspec.2
   have hψinj : ∀ a ∈ S, ∀ b ∈ S, ψ a = ψ b → a = b := by
     intro a ha b hb hab
@@ -149,10 +149,10 @@ theorem ggIndep_p3_refl_affine {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {
     have hut := l6p2_tail_sub_succ m u l.isLt
     have hwv : w l.val = αt (hv l) := by
       dsimp only [w]
-      exact dif_pos l.isLt
+      exact dite_eq_left l.isLt
     have huv : u l.val = αv l ht := by
       dsimp only [u]
-      exact dif_pos l.isLt
+      exact dite_eq_left l.isLt
     calc αt (hv l) = w l.val := hwv.symm
       _ = l6p2_tail m w l.val - l6p2_tail m w (l.val + 1) := hwt.symm
       _ = (κ * l6p2_tail m u l.val + cc) - (κ * l6p2_tail m u (l.val + 1) + cc) := by
@@ -164,7 +164,7 @@ theorem ggIndep_p3_refl_affine {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {
 
 theorem ggIndep_p3_refl_fixes_x {V : Type} [AddCommGroup V] [Module (ZMod 3) V] {m : ℕ}
     (hv : Fin m → V) (αv : Fin m → Module.Dual (ZMod 3) V) (c : Fin m → ZMod 3)
-    (hpair : ∀ i j, αv i (hv j) = (CartanMatrix.A m i j : ZMod 3))
+    (_hpair : ∀ i j, αv i (hv j) = (CartanMatrix.A m i j : ZMod 3))
     (ht : V) (αt : Module.Dual (ZMod 3) V) (hcα : (∑ i, c i • αv i) ht = 0)
     (hCLL : ∀ i j : ℕ, i < j → j ≤ m →
       ((∑ l ∈ Finset.univ.filter (fun l : Fin m => i ≤ l.val ∧ l.val < j), αv l) ht = 0 ↔

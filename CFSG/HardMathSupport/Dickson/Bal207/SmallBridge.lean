@@ -38,7 +38,7 @@ theorem barX_centralQuotient {p : ℕ} [Finite X] {C J : Subgroup X} (hJ : GLAPC
     rcases i253_normal_le_center_or_top hq (barMap p hJC).ker with h | h
     · exact h
     · exfalso
-      haveI : Nontrivial (↥(barX p C J) ⧸ Subgroup.center ↥(barX p C J)) := hq'.2.toNontrivial
+      have : Nontrivial (↥(barX p C J) ⧸ Subgroup.center ↥(barX p C J)) := hq'.2.toNontrivial
       obtain ⟨u, v, huv⟩ := exists_pair_ne (↥(barX p C J) ⧸ Subgroup.center ↥(barX p C J))
       obtain ⟨u', rfl⟩ := QuotientGroup.mk_surjective u
       obtain ⟨v', rfl⟩ := QuotientGroup.mk_surjective v
@@ -61,6 +61,7 @@ section Data
 
 variable {X : Type} [Group X] [Finite X]
 
+omit [Finite X] in
 theorem le_centralizer_of_mem {p : ℕ} {B : Subgroup X} (hB : IsSCp p ⊤ B) {a : X} (haB : a ∈ B) :
     B ≤ Subgroup.centralizer ({a} : Set X) := by
   intro b hb

@@ -21,10 +21,10 @@ theorem l2_su_scale {K : Type} [Field K] {p f : ℕ} (hp : p.Prime)
       (ν • ((x : Matrix.GeneralLinearGroup (Fin n) K) : Matrix (Fin n) (Fin n) K)) *
         (ν • ((x : Matrix.GeneralLinearGroup (Fin n) K) : Matrix (Fin n) (Fin n) K)) = 1 := by
   classical
-  haveI : Finite K :=
+  have : Finite K :=
     Nat.finite_of_card_ne_zero (by rw [hK]; exact pow_ne_zero _ (pow_ne_zero _ hp.ne_zero))
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : Nonempty (Fin n) := ⟨⟨0, hn⟩⟩
   have hn1 : 1 ≤ n := by omega
   have hcm : ((x * x'⁻¹ : ↥(CFSG.Open.StatedSU n (p ^ f) K)) : GL (Fin n) K) ∈
       CFSG.Open.StatedScalars (Fin n) K := Subgroup.mem_subgroupOf.mp hc

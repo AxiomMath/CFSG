@@ -45,10 +45,10 @@ theorem pkF_ggFDualAt {n tab : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2)
   rw [pkDotC_eq, Nat.cast_sum, ← pkF_sum_fin_ite (L := n + 1) le_rfl]
   unfold ggFDualAt
   refine Finset.sum_congr rfl fun o _ => ?_
-  have hj' : (j.castSucc : Fin (n + 2)).val < n + 1 := by rw [Fin.coe_castSucc]; exact j.isLt
+  have hj' : (j.castSucc : Fin (n + 2)).val < n + 1 := by rw [Fin.val_castSucc]; exact j.isLt
   rw [hw o]
   split_ifs with ho
-  · rw [hT o j.castSucc hj', Fin.coe_castSucc, Nat.cast_mul]
+  · rw [hT o j.castSucc hj', Fin.val_castSucc, Nat.cast_mul]
   · simp
 
 theorem pkFRep_refl {n tab : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2)} (hT : PkTabF n tab T)
@@ -59,15 +59,15 @@ theorem pkFRep_refl {n tab : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2)} 
   have hlt : (pkLane x j.val + 2 * pkDotR tab (n + 1) j.val x) % 3 < 4 := by omega
   rw [ggFRefl, Vector.get_ofFn, pkRefl_eq, pkLane_pkSet _ _ _ _ hlt]
   by_cases hl : l = j.castSucc
-  · have hv : l.val = j.val := by rw [hl, Fin.coe_castSucc]
+  · have hv : l.val = j.val := by rw [hl, Fin.val_castSucc]
     have hln : l.val < n + 1 := by omega
-    have hzl : z.get l = ((pkLane x l.val : ℕ) : ZMod 3) := (hz l).trans (if_pos hln)
-    rw [if_pos hl, if_pos hv, if_pos hln, hzl, hd, ZMod.natCast_mod, hv]
+    have hzl : z.get l = ((pkLane x l.val : ℕ) : ZMod 3) := (hz l).trans (ite_eq_left hln)
+    rw [ite_eq_left hl, ite_eq_left hv, ite_eq_left hln, hzl, hd, ZMod.natCast_mod, hv]
     push_cast
     rw [pkF_two]
     ring
-  · have hv : l.val ≠ j.val := fun h => hl (Fin.ext (by rw [h, Fin.coe_castSucc]))
-    rw [if_neg hl, if_neg hv, hz l]
+  · have hv : l.val ≠ j.val := fun h => hl (Fin.ext (by rw [h, Fin.val_castSucc]))
+    rw [ite_eq_right hl, ite_eq_right hv, hz l]
 
 theorem pkFRep_drefl {n tab : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2)}
     (hT : PkTabF n tab T) (j : Fin (n + 1)) {c : ℕ} {w : Vector (ZMod 3) (n + 1)}
@@ -80,25 +80,25 @@ theorem pkFRep_drefl {n tab : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2)}
   by_cases ho : o = j
   · have hv : o.val = j.val := by rw [ho]
     have hon : o.val < n + 1 := o.isLt
-    have hwo : w.get o = ((pkLane c o.val : ℕ) : ZMod 3) := (hw o).trans (if_pos hon)
-    rw [if_pos ho, if_pos hv, if_pos hon, hwo, hd, ZMod.natCast_mod, hv]
+    have hwo : w.get o = ((pkLane c o.val : ℕ) : ZMod 3) := (hw o).trans (ite_eq_left hon)
+    rw [ite_eq_left ho, ite_eq_left hv, ite_eq_left hon, hwo, hd, ZMod.natCast_mod, hv]
     push_cast
     rw [pkF_two]
     ring
   · have hv : o.val ≠ j.val := fun h => ho (Fin.ext h)
-    rw [if_neg ho, if_neg hv, hw o]
+    rw [ite_eq_right ho, ite_eq_right hv, hw o]
 
 theorem pkFRep_unitH {n : ℕ} (k : Fin (n + 1)) :
     PkRep (n + 1) (pkUnit k.val) (ggFUnit (R := ZMod 3) (N := n + 1) k.castSucc) := by
   intro l
   rw [ggFUnit, Vector.get_ofFn, pkUnit, pkLane_pkSet _ _ _ _ (by norm_num)]
   by_cases hl : l = k.castSucc
-  · have hv : l.val = k.val := by rw [hl, Fin.coe_castSucc]
+  · have hv : l.val = k.val := by rw [hl, Fin.val_castSucc]
     have hln : l.val < n + 1 := by omega
-    rw [if_pos hl, if_pos hv, if_pos hln]
+    rw [ite_eq_left hl, ite_eq_left hv, ite_eq_left hln]
     simp
-  · have hv : l.val ≠ k.val := fun h => hl (Fin.ext (by rw [h, Fin.coe_castSucc]))
-    rw [if_neg hl, if_neg hv, pkLane_zero]
+  · have hv : l.val ≠ k.val := fun h => hl (Fin.ext (by rw [h, Fin.val_castSucc]))
+    rw [ite_eq_right hl, ite_eq_right hv, pkLane_zero]
     simp
 
 theorem pkFRep_unitC {n : ℕ} (k : Fin (n + 1)) :
@@ -107,10 +107,10 @@ theorem pkFRep_unitC {n : ℕ} (k : Fin (n + 1)) :
   rw [ggFDUnit, Vector.get_ofFn, pkUnit, pkLane_pkSet _ _ _ _ (by norm_num)]
   by_cases ho : o = k
   · have hv : o.val = k.val := by rw [ho]
-    rw [if_pos ho, if_pos hv, if_pos o.isLt]
+    rw [ite_eq_left ho, ite_eq_left hv, ite_eq_left o.isLt]
     simp
   · have hv : o.val ≠ k.val := fun h => ho (Fin.ext h)
-    rw [if_neg ho, if_neg hv, pkLane_zero]
+    rw [ite_eq_right ho, ite_eq_right hv, pkLane_zero]
     simp
 
 theorem pkFRep_ggFH {n tab : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2)} (hT : PkTabF n tab T)
@@ -155,14 +155,14 @@ theorem pkFBlkM_refMat {n tab : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2
   intro l m hl hm
   have hD := pkF_ggFDualAt hT ⟨l, hl⟩ hc
   have hH : (ggFH T t).get (⟨m, hm⟩ : Fin (n + 1)).castSucc = ((pkLane h m : ℕ) : ZMod 3) :=
-    (hh _).trans (if_pos hm)
+    (hh _).trans (ite_eq_left hm)
   have hif : (if (⟨l, hl⟩ : Fin (n + 1)) = ⟨m, hm⟩ then (1 : ZMod 3) else 0) =
       ((pkDelta l m : ℕ) : ZMod 3) := by
     rw [pkDelta_eq]
     by_cases hlm : l = m
     · subst hlm
       simp
-    · rw [if_neg (fun e => hlm (Fin.mk.inj e)), if_neg hlm]
+    · rw [ite_eq_right (fun e => hlm (Fin.mk.inj e)), ite_eq_right hlm]
       simp
   have e : ((ggFRefMat T t).getD l []).getD m 0 =
       ((pkDelta l m + 2 * (pkDotC tab (n + 1) l c * pkLane h m) : ℕ) : ZMod 3) := by
@@ -171,7 +171,6 @@ theorem pkFBlkM_refMat {n tab : ℕ} {T : Fin (n + 1) → Vector (ZMod 3) (n + 2
     push_cast
     rw [pkF_two]
     ring
-  beta_reduce
   rw [e, ZMod.val_natCast]
   rfl
 
@@ -213,7 +212,6 @@ theorem pkSharedF_sound {n tab : ℕ} {side : List (Fin (n + 1))}
       ∃ r ∈ R, ggFMat T (ggConjWord r) = ggFRefMat T t := by
     intro t c h hc hh hm
     obtain ⟨d, hd, hm⟩ := pkAnyL_sound hm
-    beta_reduce at hm
     obtain ⟨r, hr, hc', hh'⟩ := hD d hd
     refine ⟨r, hr, ?_⟩
     rw [ggFMat_conjWord_eq_ggFRefMat h2 hx r]

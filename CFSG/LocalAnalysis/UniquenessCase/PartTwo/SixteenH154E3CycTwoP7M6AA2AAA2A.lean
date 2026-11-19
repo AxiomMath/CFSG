@@ -17,14 +17,14 @@ private theorem s16h_e3_CycTwoP7M6AA2AAA2A_le_of_normal_of_relIndex
     (hnorm : (P.subgroupOf H).Normal) (hrank : IsElemAbelianOfRank 7 3 ↥P)
     (hrel : ¬ 7 ∣ P.relIndex H) :
     ∀ Q : Subgroup A, Q ≤ H → IsPGroup 7 ↥Q → Q ≤ P := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hPp : IsPGroup 7 ↥P := by
     obtain ⟨e⟩ := hrank
     exact (ZModModule.isPGroup_multiplicative (n := 7) (G := Fin 3 → ZMod 7)).of_equiv e.symm
   have hP' : IsPGroup 7 (P.subgroupOf H) := hPp.comap_subtype
   have hrel' : ¬ 7 ∣ (P.subgroupOf H).index := hrel
   let S7 : Sylow 7 ↥H := hP'.toSylow hrel'
-  haveI : (S7 : Subgroup ↥H).Normal := hnorm
+  have : (S7 : Subgroup ↥H).Normal := hnorm
   intro Q hQH hQ
   obtain ⟨R, hR⟩ := (hQ.comap_subtype (K := H)).exists_le_sylow
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq ↥H S7 R
@@ -68,8 +68,8 @@ theorem s16h_e3_CycTwoP7M6AA2AAA2A_exists_normal_sylow_structure
     rw [← hLbdef] at h1
     rw [h1, hp7]
   have hoddLb : Odd (Nat.card ↥Lb) := by rw [hLbcard]; exact hodd7
-  haveI : IsCyclic ↥Lb := hLp.1
-  letI : CommGroup ↥Lb := IsCyclic.commGroup
+  have : IsCyclic ↥Lb := hLp.1
+  let : CommGroup ↥Lb := IsCyclic.commGroup
   have hLstab : Lb ≤ stabSub W := by
     intro g hg
     rw [mem_stabSub]
@@ -115,7 +115,7 @@ theorem s16h_e3_CycTwoP7M6AA2AAA2A_exists_normal_sylow_structure
     have hcent : Nat.card ↥(Lb ⊓ centSub W) = 1 := by rw [hLbCentBot, Subgroup.card_bot]
     rw [hcent, mul_one, hLbcard] at hcard
     exact hcard
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨g, hg⟩ := IsCyclic.exists_generator (α := ↥Lb)
   have hgcard : orderOf g = 7 := (orderOf_eq_card_of_forall_mem_zpowers hg).trans hLbcard
   set l : MulAut (Vtil V₀ V hV) := (g : MulAut (Vtil V₀ V hV)) with hldef
@@ -278,7 +278,7 @@ theorem s16h_e3_CycTwoP7M6AA2AAA2A_exists_normal_sylow_structure
     rcases c23_perm_wTil h.hyp151 hV hs2 hLbne hxM hxn g hg with ⟨h1, -⟩ | ⟨h1, -⟩
     · exact (le_of_eq h1).trans le_sup_left
     · exact (le_of_eq h1).trans le_sup_right
-  letI : MulAction ↥(Mbar D.M V₀ V hV) (Subgroup (MulAut (Vtil V₀ V hV))) :=
+  let : MulAction ↥(Mbar D.M V₀ V hV) (Subgroup (MulAut (Vtil V₀ V hV))) :=
     MulAction.compHom (Subgroup (MulAut (Vtil V₀ V hV)))
       ((MulAut.conj : MulAut (Vtil V₀ V hV) →* MulAut (MulAut (Vtil V₀ V hV))).comp
         (Mbar D.M V₀ V hV).subtype)
@@ -294,7 +294,7 @@ theorem s16h_e3_CycTwoP7M6AA2AAA2A_exists_normal_sylow_structure
     ext m
     rw [MulAction.mem_stabilizer_iff, hsmulM, Subgroup.mem_subgroupOf, Subgroup.mem_inf,
       Subgroup.mem_normalizer_iff_map_conj_eq]
-    simp [hBdef]
+    simp
   have horbM : MulAction.orbit ↥(Mbar D.M V₀ V hV) Lb =
       {X : Subgroup (MulAut (Vtil V₀ V hV)) |
         ∃ φ ∈ Mbar D.M V₀ V hV, X = Lb.map (MulAut.conj φ).toMonoidHom} := by

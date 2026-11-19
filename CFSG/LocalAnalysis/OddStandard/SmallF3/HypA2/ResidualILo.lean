@@ -15,7 +15,7 @@ open Subgroup CFSG.Blueprint
 private theorem isPCompIn_two_of_isComponentIn_of_even {G : Type} [Group G] [Finite G]
     {H K : Subgroup G} (hK : Omega.IsComponentIn K H) (hev : 2 ∣ Nat.card ↥K) :
     GH74.GLS.IsPCompIn 2 H K := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨hK.1, CFSG.LocalAnalysis.ComponentInitial.isPComponent_of_isComponent_of_not_le 2 hK.2 ?_⟩
   intro hle
   have h1 : Nat.card ↥(K.subgroupOf H) ∣ Nat.card ↥(CFSG.pPrimeCore 2 ↥H) :=
@@ -33,7 +33,7 @@ theorem isILo_of_residual (hR : ResidualTwoRank) {G : Type} [Group G] [Finite G]
     {y : G} (hy : orderOf y = 2) {K : Subgroup G}
     (hK : Omega.IsComponentIn K (centralizer ({y} : Set G))) (hres : IsResidualA2 ↥K) :
     GH74.GLS.IsILo 2 y K ∧ 3 ≤ CFSG.pRank 2 G := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hCbal : CFSG.oddCore (centralizer ({y} : Set G)) = ⊥ := hbal y hy
   have hZ : IsPGroup 2 ↥(center ↥K) := isPGroup_two_center_of_isComponentIn hCbal hK
   have hQuasi : IsQuasisimple ↥K :=
@@ -74,7 +74,7 @@ theorem isILo_of_residual (hR : ResidualTwoRank) {G : Type} [Group G] [Finite G]
       let E : Subgroup G := A.map K.subtype
       have hE_le_K : E ≤ K := Subgroup.map_subtype_le A
       have hE_el : IsElementaryAbelian 2 E := by
-        haveI := hAel'
+        have := hAel'
         dsimp only [E]
         exact IsElementaryAbelian.map_subtype
       have hE_card : Nat.card E = 2 ^ CFSG.pRank 2 ↥K := by
@@ -91,8 +91,8 @@ theorem isILo_of_residual (hR : ResidualTwoRank) {G : Type} [Group G] [Finite G]
       have hzy_el : IsElementaryAbelian 2 (zpowers y) :=
         IsElementaryAbelian.zpowers_of_pow_eq_one hy2
       have hsup_el : IsElementaryAbelian 2 ↥(E ⊔ zpowers y) := by
-        haveI := hE_el
-        haveI := hzy_el
+        have := hE_el
+        have := hzy_el
         refine IsElementaryAbelian.sup_of_le_centralizer (p := 2) ?_
         rw [Subgroup.zpowers_le]
         exact Subgroup.mem_centralizer_iff.mpr hcomm

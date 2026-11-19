@@ -227,11 +227,11 @@ private theorem map_sum_smul_frame (hb : IsGramFrame Q G₀ b) (q₀ x₀ : Fin 
         if i < j then x₀ i * x₀ j * G₀ i j else 0) =
           ∑ i ∈ s, x₀ i * x₀ a * G₀ i a +
             ∑ i ∈ s, ∑ j ∈ s, if i < j then x₀ i * x₀ j * G₀ i j else 0 := by
-      rw [Finset.sum_insert has, Finset.sum_insert has, if_neg (lt_irrefl a),
-        Finset.sum_eq_zero fun j hj => if_neg (not_lt.mpr (ha j hj).le), zero_add, zero_add,
+      rw [Finset.sum_insert has, Finset.sum_insert has, ite_eq_right (lt_irrefl a),
+        Finset.sum_eq_zero fun j hj => ite_eq_right (not_lt.mpr (ha j hj).le), zero_add, zero_add,
         ← Finset.sum_add_distrib]
       refine Finset.sum_congr rfl fun i hi => ?_
-      rw [Finset.sum_insert has, if_pos (ha i hi)]
+      rw [Finset.sum_insert has, ite_eq_left (ha i hi)]
     rw [Finset.sum_insert has, QuadraticMap.map_add Q, ih, hQa, hpol, hds, Finset.sum_insert has]
     simp only [map_add]
     ring
@@ -276,14 +276,14 @@ theorem isGramFrame_rootPairFrame {k : ℕ} {x y : Fin k → V}
     obtain ⟨l', ⟨hj, hjl⟩ | ⟨hj, hjl⟩⟩ := rootPairFrame_cases x y j <;>
     rw [hi, hj] <;>
     rcases eq_or_ne l l' with rfl | hll
-  · rw [if_neg (by omega), map_zero, hself]
-  · rw [if_neg (fun h => hll (Fin.ext (by omega))), map_zero, (horth l l' hll).1]
-  · rw [if_pos (by omega), map_one, hxy]
-  · rw [if_neg (fun h => hll (Fin.ext (by omega))), map_zero, (horth l l' hll).2.1]
-  · rw [if_pos (by omega), map_one, polar_comm, hxy]
-  · rw [if_neg (fun h => hll (Fin.ext (by omega))), map_zero, (horth l l' hll).2.2.1]
-  · rw [if_neg (by omega), map_zero, hself]
-  · rw [if_neg (fun h => hll (Fin.ext (by omega))), map_zero, (horth l l' hll).2.2.2]
+  · rw [ite_eq_right (by omega), map_zero, hself]
+  · rw [ite_eq_right (fun h => hll (Fin.ext (by omega))), map_zero, (horth l l' hll).1]
+  · rw [ite_eq_left (by omega), map_one, hxy]
+  · rw [ite_eq_right (fun h => hll (Fin.ext (by omega))), map_zero, (horth l l' hll).2.1]
+  · rw [ite_eq_left (by omega), map_one, polar_comm, hxy]
+  · rw [ite_eq_right (fun h => hll (Fin.ext (by omega))), map_zero, (horth l l' hll).2.2.1]
+  · rw [ite_eq_right (by omega), map_zero, hself]
+  · rw [ite_eq_right (fun h => hll (Fin.ext (by omega))), map_zero, (horth l l' hll).2.2.2]
 
 end CharTwo
 

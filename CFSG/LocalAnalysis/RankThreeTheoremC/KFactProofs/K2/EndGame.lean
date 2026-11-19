@@ -147,14 +147,14 @@ theorem tor_main {R : Subgroup PSL(2, GaloisField 3 3)}
     have hU : Nat.card U = 14 := by
       rw [hK] at hmod
       omega
-    haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
     exact tor_of_torus hT (p := 7) (by rw [hU]; norm_num) (by rw [hU]; norm_num)
       (by rw [hL]; norm_num) hR hc
   · obtain ⟨U, w, hT, -, hmod⟩ := CFSG.Walter.JT.psl2_odd_torus hK hKodd
     have hU : Nat.card U = 13 := by
       rw [hK] at hmod
       omega
-    haveI : Fact (Nat.Prime 13) := ⟨by norm_num⟩
+    have : Fact (Nat.Prime 13) := ⟨by norm_num⟩
     exact tor_of_torus hT (p := 13) (by rw [hU]) (by rw [hU]; norm_num)
       (by rw [hL]; norm_num) hR hc
 
@@ -177,12 +177,13 @@ section EndGame
 
 variable {H : Type} [Group H] [Finite H] {L : Subgroup H}
 
+omit [Finite H] in
 theorem exists_index_three_normal (hL : L.Normal)
     (e : Nonempty (L ≃* PSL(2, GaloisField 3 3))) (hc : centralizer (L : Set H) = ⊥)
     (hi : L.index = 3 ∨ L.index = 6) : ∃ N : Subgroup H, N.Normal ∧ N.index = 3 := by
   rcases hi with h3 | h6
   · exact ⟨L, hL, h3⟩
-  · haveI := hL
+  · have := hL
     obtain ⟨e⟩ := e
     have hcyc : IsCyclic (CFSG.ComponentClassification.OuterAutomorphisms.Outer L) :=
       CFSG.Walter.W67.JROut.isCyclic_outer_of_equiv e (p := 3) (n := 3) (by decide) (by decide)
@@ -217,8 +218,8 @@ theorem exists_index_three_normal (hL : L.Normal)
         exact ⟨⟨h, hh⟩, (MulAut.conjNormal_val (h := ⟨h, hh⟩)).symm⟩
     have hrange_card : Nat.card ψ.range = 6 := by
       rw [← Subgroup.index_ker, hker, h6]
-    haveI : Finite ψ.range := Nat.finite_of_card_ne_zero (by omega)
-    haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+    have : Finite ψ.range := Nat.finite_of_card_ne_zero (by omega)
+    have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
     obtain ⟨x, hx⟩ := exists_prime_orderOf_dvd_card' (G := ψ.range) 2
       (by rw [hrange_card]; norm_num)
     let T : Subgroup ψ.range := Subgroup.zpowers x
@@ -239,7 +240,7 @@ variable {H : Type} [Group H] [Finite H] {L : Subgroup H}
 
 theorem eg_eq_of_card_seven {W : Subgroup H} (hW : Nat.card W = 91) {A B : Subgroup H}
     (hA : A ≤ W) (hB : B ≤ W) (hA7 : Nat.card A = 7) (hB7 : Nat.card B = 7) : A = B := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hS : ∀ {C : Subgroup H}, C ≤ W → Nat.card C = 7 →
       ∃ P : Sylow 7 W, (P : Subgroup W) = C.subgroupOf W ∧ (C.subgroupOf W).index = 13 := by
     intro C hC hC7
@@ -274,11 +275,11 @@ theorem eg_eq_of_card_seven {W : Subgroup H} (hW : Nat.card W = 91) {A B : Subgr
   rwa [inf_of_le_left hA, inf_of_le_left hB] at h7
 
 theorem eq_bot_of_elemAbelian_normalizes (hL : L.Normal)
-    (e : Nonempty (L ≃* PSL(2, GaloisField 3 3))) (hc : centralizer (L : Set H) = ⊥)
+    (e : Nonempty (L ≃* PSL(2, GaloisField 3 3))) (_hc : centralizer (L : Set H) = ⊥)
     (hi : L.index = 3 ∨ L.index = 6) {D W : Subgroup H} (hD : IsElemAbelian 3 D)
     (hD9 : Nat.card D = 9) (hDW : D ≤ normalizer (W : Set H))
     (hW : Nat.Coprime (Nat.card W) 6) : W = ⊥ := by
-  haveI := hL
+  have := hL
   obtain ⟨e⟩ := e
   have hLcard : Nat.card L = 9828 :=
     (Nat.card_congr e.toEquiv).trans CFSG.RankThree.PartTwo.KFacts.card_psl2_27
@@ -289,7 +290,7 @@ theorem eq_bot_of_elemAbelian_normalizes (hL : L.Normal)
     have h2 : orderOf (QuotientGroup.mk w : H ⧸ L) ∣ L.index := orderOf_dvd_natCard _
     have h3 : Nat.Coprime (Nat.card W) L.index := by
       refine Nat.Coprime.coprime_dvd_right ?_ hW
-      rcases hi with h | h <;> rw [h] <;> norm_num
+      rcases hi with h | h <;> rw [h]; norm_num
     have h4 : orderOf (QuotientGroup.mk w : H ⧸ L) = 1 :=
       Nat.dvd_one.mp (h3.gcd_eq_one ▸ Nat.dvd_gcd h1 h2)
     rw [orderOf_eq_one_iff] at h4
@@ -312,7 +313,7 @@ theorem eq_bot_of_elemAbelian_normalizes (hL : L.Normal)
     rcases hcases with h | h | h
     · exact ⟨W, le_rfl, Or.inl h, hDW⟩
     · exact ⟨W, le_rfl, Or.inr h, hDW⟩
-    · haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+    · have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
       obtain ⟨K, hK⟩ := Sylow.exists_subgroup_card_pow_prime (G := W) 7
         (n := 1) (by rw [h]; norm_num)
       have hRcard : Nat.card (K.map W.subtype) = 7 := by
@@ -339,7 +340,7 @@ theorem eq_bot_of_elemAbelian_normalizes (hL : L.Normal)
     obtain ⟨x, hx, hx1⟩ := hnotinj
     refine ⟨(x : H), x.2, fun h => hx1 (Subtype.ext h), ?_⟩
     exact (QuotientGroup.eq_one_iff (x : H)).mp hx
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have hord : orderOf c = 3 := orderOf_eq_prime (hD.2 c hcD) hc1
   have hcR : c ∈ normalizer (R : Set H) := hDR hcD
   have hRL : R ≤ L := hRW.trans hWL

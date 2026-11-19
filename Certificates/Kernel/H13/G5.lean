@@ -30,8 +30,8 @@ theorem g5_zB_true : CFSG.Quasithin.H13.G5Cert.zB = true := by
   decide +kernel
 
 theorem g5_wB_true : CFSG.Quasithin.H13.G5Cert.wB = true := by
-  simp only [CFSG.Quasithin.H13.G5Cert.wB, pAG, eSpanA, eSpanS, elemsOf_toF, hs_contains_toLR',
-    mul8_toF, mv8_toR, nodupN, decide_isChain_toP]
+  simp only [CFSG.Quasithin.H13.G5Cert.wB, pAG, eSpanA, elemsOf_toF, hs_contains_toLR',
+    mv8_toR, nodupN, decide_isChain_toP]
   decide +kernel
 
 @[expose] def g5ovF (y : List ℕ) : Bool :=
@@ -53,56 +53,56 @@ set_option maxHeartbeats 0 in
 theorem g5_ovC0 : ((gSE.drop (0 * 90)).take 90).all g5ovF = true := by
   delta g5ovF
   simp only [gSE, mES, nodupB_toP, CFSG.KC.Mat8T.elemsOf_T, List.any_map, Function.comp_def,
-    hs_contains_toLR', contains_toLR, mul8_toF]
+    hs_contains_toLR']
   decide +kernel
 
 set_option maxHeartbeats 0 in
 theorem g5_ovC1 : ((gSE.drop (1 * 90)).take 90).all g5ovF = true := by
   delta g5ovF
   simp only [gSE, mES, nodupB_toP, CFSG.KC.Mat8T.elemsOf_T, List.any_map, Function.comp_def,
-    hs_contains_toLR', contains_toLR, mul8_toF]
+    hs_contains_toLR']
   decide +kernel
 
 set_option maxHeartbeats 0 in
 theorem g5_ovC2 : ((gSE.drop (2 * 90)).take 90).all g5ovF = true := by
   delta g5ovF
   simp only [gSE, mES, nodupB_toP, CFSG.KC.Mat8T.elemsOf_T, List.any_map, Function.comp_def,
-    hs_contains_toLR', contains_toLR, mul8_toF]
+    hs_contains_toLR']
   decide +kernel
 
 set_option maxHeartbeats 0 in
 theorem g5_ovC3 : ((gSE.drop (3 * 90)).take 90).all g5ovF = true := by
   delta g5ovF
   simp only [gSE, mES, nodupB_toP, CFSG.KC.Mat8T.elemsOf_T, List.any_map, Function.comp_def,
-    hs_contains_toLR', contains_toLR, mul8_toF]
+    hs_contains_toLR']
   decide +kernel
 
 set_option maxHeartbeats 0 in
 theorem g5_ovC4 : ((gSE.drop (4 * 90)).take 90).all g5ovF = true := by
   delta g5ovF
   simp only [gSE, mES, nodupB_toP, CFSG.KC.Mat8T.elemsOf_T, List.any_map, Function.comp_def,
-    hs_contains_toLR', contains_toLR, mul8_toF]
+    hs_contains_toLR']
   decide +kernel
 
 set_option maxHeartbeats 0 in
 theorem g5_ovC5 : ((gSE.drop (5 * 90)).take 90).all g5ovF = true := by
   delta g5ovF
   simp only [gSE, mES, nodupB_toP, CFSG.KC.Mat8T.elemsOf_T, List.any_map, Function.comp_def,
-    hs_contains_toLR', contains_toLR, mul8_toF]
+    hs_contains_toLR']
   decide +kernel
 
 set_option maxHeartbeats 0 in
 theorem g5_ovC6 : ((gSE.drop (6 * 90)).take 90).all g5ovF = true := by
   delta g5ovF
   simp only [gSE, mES, nodupB_toP, CFSG.KC.Mat8T.elemsOf_T, List.any_map, Function.comp_def,
-    hs_contains_toLR', contains_toLR, mul8_toF]
+    hs_contains_toLR']
   decide +kernel
 
 set_option maxHeartbeats 0 in
 theorem g5_ovC7 : ((gSE.drop (7 * 90)).take 90).all g5ovF = true := by
   delta g5ovF
   simp only [gSE, mES, nodupB_toP, CFSG.KC.Mat8T.elemsOf_T, List.any_map, Function.comp_def,
-    hs_contains_toLR', contains_toLR, mul8_toF]
+    hs_contains_toLR']
   decide +kernel
 
 theorem g5_ovY : gSE.all g5ovF = true := by
@@ -122,8 +122,7 @@ theorem g5_ovY : gSE.all g5ovF = true := by
 set_option maxHeartbeats 0 in
 theorem g5_ovB_true : CFSG.Quasithin.H13.G5Cert.ovB = true := by
   rw [g5_ovB_eq, g5_ovY, Bool.and_true]
-  simp only [gSE, mES, subB, closedB, nodupB_toP, CFSG.KC.Mat8T.elemsOf_T, List.any_map,
-    Function.comp_def, hs_contains_toLR', contains_toLR, mul8_toF]
+  simp only [gSE, mES, subB, closedB, nodupB_toP, CFSG.KC.Mat8T.elemsOf_T, hs_contains_toLR', contains_toLR, mul8_toF]
   decide +kernel
 
 theorem g5_oB_true : CFSG.Quasithin.H13.G5Cert.oB = true := by

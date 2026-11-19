@@ -78,7 +78,7 @@ theorem odd_relIndex_oTwoTwoPrime (K : Subgroup G) :
       (Subgroup.subgroupOfEquivOfLe (pCoreOf_le_oTwoTwoPrime K)).symm
   obtain ⟨S, hS⟩ := hQ2.exists_le_sylow
   have hSQ : (S : Subgroup ↥P).map P.subtype ≤ Q :=
-    le_pCoreOf_of_le_oTwoTwoPrime (S.isPGroup'.map _) (Subgroup.map_subtype_le _)
+    le_pCoreOf_of_le_oTwoTwoPrime (S.isPGroup.map _) (Subgroup.map_subtype_le _)
   have hSeq : (S : Subgroup ↥P) = Q.subgroupOf P := le_antisymm (fun x hx => by
     have := hSQ ⟨x, hx, rfl⟩
     exact this) hS

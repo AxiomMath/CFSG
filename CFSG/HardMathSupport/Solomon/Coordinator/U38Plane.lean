@@ -98,8 +98,8 @@ theorem u38_comm_of_comm_pow {G : Type*} [Group G] {x r : G} (hx : x ^ 3 = 1) {k
 
 include hω in
 theorem rho_uF_conj :
-    ρ (uF h hω) * ρ (uP h hω) * (ρ (uF h hω))⁻¹ = ρ (uA h hω) := by
-  have e : uF h hω * uP h hω = uA h hω * uF h hω := by
+    ρ (uF h hω) * ρ (uP h) * (ρ (uF h hω))⁻¹ = ρ (uA h hω) := by
+  have e : uF h hω * uP h = uA h hω * uF h hω := by
     apply Subtype.ext
     apply Units.ext
     exact mF_mP ω hω (u38_two_eq_zero h)
@@ -107,24 +107,23 @@ theorem rho_uF_conj :
 
 include hω in
 theorem rho_uQ_conj :
-    ρ (uQ h hω) * ρ (uP h hω) * (ρ (uQ h hω))⁻¹ = ρ (uA h hω) * ρ (uP h hω) := by
-  have e : uQ h hω * uP h hω = uA h hω * uP h hω * uQ h hω := by
+    ρ (uQ h hω) * ρ (uP h) * (ρ (uQ h hω))⁻¹ = ρ (uA h hω) * ρ (uP h) := by
+  have e : uQ h hω * uP h = uA h hω * uP h * uQ h hω := by
     apply Subtype.ext
     apply Units.ext
     change mQ ω * mP = mA ω * mP * mQ ω
-    rw [mA_mP_eq_conj_Q ω hω (u38_two_eq_zero h), Matrix.mul_assoc, Matrix.mul_assoc,
+    rw [mA_mP_eq_conj_Q ω, Matrix.mul_assoc, Matrix.mul_assoc,
       mQi_mQ ω hω (u38_two_eq_zero h), Matrix.mul_one]
   rw [← map_mul, e, map_mul, map_mul, mul_inv_cancel_right]
 
 include hω in
 theorem rho_uR_conj :
-    ρ (uR h hω) * ρ (uP h hω) ^ 2 * (ρ (uR h hω))⁻¹ = ρ (uA h hω) * ρ (uP h hω) ^ 2 := by
-  have e : uR h hω * uP h hω ^ 2 = uA h hω * uP h hω ^ 2 * uR h hω := by
+    ρ (uR h hω) * ρ (uP h) ^ 2 * (ρ (uR h hω))⁻¹ = ρ (uA h hω) * ρ (uP h) ^ 2 := by
+  have e : uR h hω * uP h ^ 2 = uA h hω * uP h ^ 2 * uR h hω := by
     apply Subtype.ext
     apply Units.ext
-    simp only [Subgroup.coe_mul, SubgroupClass.coe_pow, Units.val_mul, Units.val_pow_eq_pow_val,
-      coe_uR, coe_uP, coe_uA, sq]
-    rw [mA_mP_sq_eq_conj_R ω hω (u38_two_eq_zero h), Matrix.mul_assoc (mR ω * (mP * mP)),
+    simp only [Subgroup.coe_mul, Units.val_mul, coe_uR, coe_uP, coe_uA, sq]
+    rw [mA_mP_sq_eq_conj_R ω, Matrix.mul_assoc (mR ω * (mP * mP)),
       mRi_mR ω hω (u38_two_eq_zero h), Matrix.mul_one]
   rw [← map_pow, ← map_mul, e, map_mul, map_mul, map_pow, mul_inv_cancel_right]
 
@@ -144,8 +143,8 @@ theorem rho_uA_pow_three : ρ (uA h hω) ^ 3 = 1 := by
     fin_cases i <;> simp [← pow_mul, h3, h6]
   rw [← map_pow, e, map_one]
 
-theorem rho_uP_pow_three : ρ (uP h hω) ^ 3 = 1 := by
-  have e : (uP h hω) ^ 3 = 1 := by
+theorem rho_uP_pow_three : ρ (uP h) ^ 3 = 1 := by
+  have e : (uP h) ^ 3 = 1 := by
     apply Subtype.ext
     apply Units.ext
     change mP ^ 3 = 1
@@ -153,8 +152,8 @@ theorem rho_uP_pow_three : ρ (uP h hω) ^ 3 = 1 := by
     fin_cases i <;> fin_cases j <;> simp [mP, pow_three, Matrix.mul_apply, Fin.sum_univ_three]
   rw [← map_pow, e, map_one]
 
-theorem rho_uA_comm_uP : ρ (uA h hω) * ρ (uP h hω) = ρ (uP h hω) * ρ (uA h hω) := by
-  have h1 : ((uA h hω * uP h hω * (uP h hω * uA h hω)⁻¹ : primeFormUnitary h (idGram K 3)) :
+theorem rho_uA_comm_uP : ρ (uA h hω) * ρ (uP h) = ρ (uP h) * ρ (uA h hω) := by
+  have h1 : ((uA h hω * uP h * (uP h * uA h hω)⁻¹ : primeFormUnitary h (idGram K 3)) :
       GL (Fin 3) K) = GeneralLinearGroup.scalar (Fin 3) (uω hω) := by
     rw [Subgroup.coe_mul, Subgroup.coe_inv, Subgroup.coe_mul, Subgroup.coe_mul, uA_mul_uP h hω,
       ← GeneralLinearGroup.scalar_commute (uω hω), mul_assoc, mul_inv_cancel, mul_one]
@@ -163,12 +162,12 @@ theorem rho_uA_comm_uP : ρ (uA h hω) * ρ (uP h hω) = ρ (uP h hω) * ρ (uA 
   exact h2
 
 theorem mem_plane_iff {b : MulAut (primeFormP h (idGram K 3))}
-    (hb : b ∈ Subgroup.closure {ρ (uA h hω), ρ (uP h hω)}) :
-    ∃ i j : ℕ, i < 3 ∧ j < 3 ∧ b = ρ (uA h hω) ^ i * ρ (uP h hω) ^ j := by
+    (hb : b ∈ Subgroup.closure {ρ (uA h hω), ρ (uP h)}) :
+    ∃ i j : ℕ, i < 3 ∧ j < 3 ∧ b = ρ (uA h hω) ^ i * ρ (uP h) ^ j := by
   set a := ρ (uA h hω)
-  set p := ρ (uP h hω)
+  set p := ρ (uP h)
   have ha3 : a ^ 3 = 1 := rho_uA_pow_three h hω
-  have hp3 : p ^ 3 = 1 := rho_uP_pow_three h hω
+  have hp3 : p ^ 3 = 1 := rho_uP_pow_three h
   have hap : Commute a p := rho_uA_comm_uP h hω
   have hmod : ∀ (x : MulAut (primeFormP h (idGram K 3))), x ^ 3 = 1 → ∀ n : ℕ,
       x ^ n = x ^ (n % 3) := by
@@ -208,15 +207,15 @@ theorem mem_plane_iff {b : MulAut (primeFormP h (idGram K 3))}
 
 include hω in
 theorem torus_lineP (t : primeFormUnitary h (idGram K 3))
-    (ht : ρ t * ρ (uP h hω) = ρ (uP h hω) * ρ t) (hc : Nat.Coprime 3 (orderOf (ρ t))) :
+    (ht : ρ t * ρ (uP h) = ρ (uP h) * ρ t) (hc : Nat.Coprime 3 (orderOf (ρ t))) :
     ρ t = 1 := by
   have h1 : ρ (uF h hω * t * (uF h hω)⁻¹) * ρ (uA h hω) =
       ρ (uA h hω) * ρ (uF h hω * t * (uF h hω)⁻¹) := by
     rw [← rho_uF_conj h hω, map_mul, map_mul, map_inv]
-    calc ρ (uF h hω) * ρ t * (ρ (uF h hω))⁻¹ * (ρ (uF h hω) * ρ (uP h hω) * (ρ (uF h hω))⁻¹)
-        = ρ (uF h hω) * (ρ t * ρ (uP h hω)) * (ρ (uF h hω))⁻¹ := by group
-      _ = ρ (uF h hω) * (ρ (uP h hω) * ρ t) * (ρ (uF h hω))⁻¹ := by rw [ht]
-      _ = ρ (uF h hω) * ρ (uP h hω) * (ρ (uF h hω))⁻¹ *
+    calc ρ (uF h hω) * ρ t * (ρ (uF h hω))⁻¹ * (ρ (uF h hω) * ρ (uP h) * (ρ (uF h hω))⁻¹)
+        = ρ (uF h hω) * (ρ t * ρ (uP h)) * (ρ (uF h hω))⁻¹ := by group
+      _ = ρ (uF h hω) * (ρ (uP h) * ρ t) * (ρ (uF h hω))⁻¹ := by rw [ht]
+      _ = ρ (uF h hω) * ρ (uP h) * (ρ (uF h hω))⁻¹ *
           (ρ (uF h hω) * ρ t * (ρ (uF h hω))⁻¹) := by group
   have h2 : Nat.Coprime 3 (orderOf (ρ (uF h hω * t * (uF h hω)⁻¹))) := by
     rw [map_mul, map_mul, map_inv, u38_orderOf_conj]
@@ -229,20 +228,20 @@ theorem torus_lineP (t : primeFormUnitary h (idGram K 3))
 
 include hω in
 theorem torus_lineAP (t : primeFormUnitary h (idGram K 3))
-    (ht : ρ t * (ρ (uA h hω) * ρ (uP h hω)) = ρ (uA h hω) * ρ (uP h hω) * ρ t)
+    (ht : ρ t * (ρ (uA h hω) * ρ (uP h)) = ρ (uA h hω) * ρ (uP h) * ρ t)
     (hc : Nat.Coprime 3 (orderOf (ρ t))) : ρ t = 1 := by
   have e := rho_uQ_conj h hω
-  have h1 : ρ ((uQ h hω)⁻¹ * t * uQ h hω) * ρ (uP h hω) =
-      ρ (uP h hω) * ρ ((uQ h hω)⁻¹ * t * uQ h hω) := by
+  have h1 : ρ ((uQ h hω)⁻¹ * t * uQ h hω) * ρ (uP h) =
+      ρ (uP h) * ρ ((uQ h hω)⁻¹ * t * uQ h hω) := by
     rw [map_mul, map_mul, map_inv]
-    have e' : ρ (uP h hω) =
-        (ρ (uQ h hω))⁻¹ * (ρ (uA h hω) * ρ (uP h hω)) * ρ (uQ h hω) := by rw [← e]; group
+    have e' : ρ (uP h) =
+        (ρ (uQ h hω))⁻¹ * (ρ (uA h hω) * ρ (uP h)) * ρ (uQ h hω) := by rw [← e]; group
     rw [e']
     calc (ρ (uQ h hω))⁻¹ * ρ t * ρ (uQ h hω) *
-          ((ρ (uQ h hω))⁻¹ * (ρ (uA h hω) * ρ (uP h hω)) * ρ (uQ h hω))
-        = (ρ (uQ h hω))⁻¹ * (ρ t * (ρ (uA h hω) * ρ (uP h hω))) * ρ (uQ h hω) := by group
-      _ = (ρ (uQ h hω))⁻¹ * (ρ (uA h hω) * ρ (uP h hω) * ρ t) * ρ (uQ h hω) := by rw [ht]
-      _ = (ρ (uQ h hω))⁻¹ * (ρ (uA h hω) * ρ (uP h hω)) * ρ (uQ h hω) *
+          ((ρ (uQ h hω))⁻¹ * (ρ (uA h hω) * ρ (uP h)) * ρ (uQ h hω))
+        = (ρ (uQ h hω))⁻¹ * (ρ t * (ρ (uA h hω) * ρ (uP h))) * ρ (uQ h hω) := by group
+      _ = (ρ (uQ h hω))⁻¹ * (ρ (uA h hω) * ρ (uP h) * ρ t) * ρ (uQ h hω) := by rw [ht]
+      _ = (ρ (uQ h hω))⁻¹ * (ρ (uA h hω) * ρ (uP h)) * ρ (uQ h hω) *
           ((ρ (uQ h hω))⁻¹ * ρ t * ρ (uQ h hω)) := by group
   have h2 : Nat.Coprime 3 (orderOf (ρ ((uQ h hω)⁻¹ * t * uQ h hω))) := by
     rw [map_mul, map_mul, map_inv]
@@ -258,21 +257,21 @@ theorem torus_lineAP (t : primeFormUnitary h (idGram K 3))
 
 include hω in
 theorem torus_lineAP2 (t : primeFormUnitary h (idGram K 3))
-    (ht : ρ t * (ρ (uA h hω) * ρ (uP h hω) ^ 2) = ρ (uA h hω) * ρ (uP h hω) ^ 2 * ρ t)
+    (ht : ρ t * (ρ (uA h hω) * ρ (uP h) ^ 2) = ρ (uA h hω) * ρ (uP h) ^ 2 * ρ t)
     (hc : Nat.Coprime 3 (orderOf (ρ t))) : ρ t = 1 := by
   have e := rho_uR_conj h hω
-  have h1 : ρ ((uR h hω)⁻¹ * t * uR h hω) * ρ (uP h hω) =
-      ρ (uP h hω) * ρ ((uR h hω)⁻¹ * t * uR h hω) := by
-    refine u38_comm_of_comm_pow (rho_uP_pow_three h hω) (Or.inr rfl) ?_
+  have h1 : ρ ((uR h hω)⁻¹ * t * uR h hω) * ρ (uP h) =
+      ρ (uP h) * ρ ((uR h hω)⁻¹ * t * uR h hω) := by
+    refine u38_comm_of_comm_pow (rho_uP_pow_three h) (Or.inr rfl) ?_
     rw [map_mul, map_mul, map_inv]
-    have e' : ρ (uP h hω) ^ 2 =
-        (ρ (uR h hω))⁻¹ * (ρ (uA h hω) * ρ (uP h hω) ^ 2) * ρ (uR h hω) := by rw [← e]; group
+    have e' : ρ (uP h) ^ 2 =
+        (ρ (uR h hω))⁻¹ * (ρ (uA h hω) * ρ (uP h) ^ 2) * ρ (uR h hω) := by rw [← e]; group
     rw [e']
     calc (ρ (uR h hω))⁻¹ * ρ t * ρ (uR h hω) *
-          ((ρ (uR h hω))⁻¹ * (ρ (uA h hω) * ρ (uP h hω) ^ 2) * ρ (uR h hω))
-        = (ρ (uR h hω))⁻¹ * (ρ t * (ρ (uA h hω) * ρ (uP h hω) ^ 2)) * ρ (uR h hω) := by group
-      _ = (ρ (uR h hω))⁻¹ * (ρ (uA h hω) * ρ (uP h hω) ^ 2 * ρ t) * ρ (uR h hω) := by rw [ht]
-      _ = (ρ (uR h hω))⁻¹ * (ρ (uA h hω) * ρ (uP h hω) ^ 2) * ρ (uR h hω) *
+          ((ρ (uR h hω))⁻¹ * (ρ (uA h hω) * ρ (uP h) ^ 2) * ρ (uR h hω))
+        = (ρ (uR h hω))⁻¹ * (ρ t * (ρ (uA h hω) * ρ (uP h) ^ 2)) * ρ (uR h hω) := by group
+      _ = (ρ (uR h hω))⁻¹ * (ρ (uA h hω) * ρ (uP h) ^ 2 * ρ t) * ρ (uR h hω) := by rw [ht]
+      _ = (ρ (uR h hω))⁻¹ * (ρ (uA h hω) * ρ (uP h) ^ 2) * ρ (uR h hω) *
           ((ρ (uR h hω))⁻¹ * ρ t * ρ (uR h hω)) := by group
   have h2 : Nat.Coprime 3 (orderOf (ρ ((uR h hω)⁻¹ * t * uR h hω))) := by
     rw [map_mul, map_mul, map_inv]
@@ -288,12 +287,12 @@ theorem torus_lineAP2 (t : primeFormUnitary h (idGram K 3))
 
 include hω in
 theorem torus_plane {b : MulAut (primeFormP h (idGram K 3))}
-    (hb : b ∈ Subgroup.closure {ρ (uA h hω), ρ (uP h hω)}) (hb1 : b ≠ 1)
+    (hb : b ∈ Subgroup.closure {ρ (uA h hω), ρ (uP h)}) (hb1 : b ≠ 1)
     (s : primeFormUnitary h (idGram K 3)) (hs : ρ s * b = b * ρ s)
     (hcop : Nat.Coprime 3 (orderOf (ρ s))) : ρ s = 1 := by
   have ha3 := rho_uA_pow_three h hω
-  have hp3 := rho_uP_pow_three h hω
-  have hap : Commute (ρ (uA h hω)) (ρ (uP h hω)) := rho_uA_comm_uP h hω
+  have hp3 := rho_uP_pow_three h
+  have hap : Commute (ρ (uA h hω)) (ρ (uP h)) := rho_uA_comm_uP h hω
   obtain ⟨i, j, hi, hj, rfl⟩ := mem_plane_iff h hω hb
   interval_cases i <;> interval_cases j <;>
     (try simp only [pow_zero, pow_one, one_mul, mul_one] at hs hb1)
@@ -305,17 +304,17 @@ theorem torus_plane {b : MulAut (primeFormP h (idGram K 3))}
   · exact torus_lineAP2 h hω s hs hcop
   · exact torus_rho_uA h hω s (u38_comm_of_comm_pow ha3 (Or.inr rfl) hs) hcop
   ·
-    have hx3 : (ρ (uA h hω) * ρ (uP h hω) ^ 2) ^ 3 = 1 := by
+    have hx3 : (ρ (uA h hω) * ρ (uP h) ^ 2) ^ 3 = 1 := by
       rw [(hap.pow_right 2).mul_pow, ha3, ← pow_mul, show (2 * 3 : ℕ) = 3 * 2 by norm_num,
         pow_mul, hp3, one_pow, one_mul]
-    have e : ρ (uA h hω) ^ 2 * ρ (uP h hω) = (ρ (uA h hω) * ρ (uP h hω) ^ 2) ^ 2 := by
+    have e : ρ (uA h hω) ^ 2 * ρ (uP h) = (ρ (uA h hω) * ρ (uP h) ^ 2) ^ 2 := by
       rw [(hap.pow_right 2).mul_pow, ← pow_mul, show (2 * 2 : ℕ) = 1 + 3 by norm_num, pow_add,
         hp3, mul_one, pow_one]
     rw [e] at hs
     exact torus_lineAP2 h hω s (u38_comm_of_comm_pow hx3 (Or.inr rfl) hs) hcop
   ·
-    have hx3 : (ρ (uA h hω) * ρ (uP h hω)) ^ 3 = 1 := by rw [hap.mul_pow, ha3, hp3, one_mul]
-    have e : ρ (uA h hω) ^ 2 * ρ (uP h hω) ^ 2 = (ρ (uA h hω) * ρ (uP h hω)) ^ 2 := by
+    have hx3 : (ρ (uA h hω) * ρ (uP h)) ^ 3 = 1 := by rw [hap.mul_pow, ha3, hp3, one_mul]
+    have e : ρ (uA h hω) ^ 2 * ρ (uP h) ^ 2 = (ρ (uA h hω) * ρ (uP h)) ^ 2 := by
       rw [hap.mul_pow]
     rw [e] at hs
     exact torus_lineAP h hω s (u38_comm_of_comm_pow hx3 (Or.inr rfl) hs) hcop

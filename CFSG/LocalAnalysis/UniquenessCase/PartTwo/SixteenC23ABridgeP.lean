@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Quasithin.FFC CFSG.Open Subgroup
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem c23a_bridgep_mkTil_bot_injective (V : Subgroup G) (hV : IsElemAbelian 2 V) :
     Function.Injective (mkTil (⊥ : Subgroup G) V hV) := by
   intro x y h
@@ -19,6 +20,7 @@ private theorem c23a_bridgep_mkTil_bot_injective (V : Subgroup G) (hV : IsElemAb
     (mkTil_eq_iff (⊥ : Subgroup G) V hV x y).1 h
   exact IntMod.val_injective (mul_inv_eq_one.1 (Subgroup.mem_bot.1 h1))
 
+omit [Finite G] in
 private theorem c23a_bridgep_card_preTil (V : Subgroup G) (hV : IsElemAbelian 2 V)
     (E : Subgroup (Vtil (⊥ : Subgroup G) V hV)) :
     Nat.card (preTil (⊥ : Subgroup G) V hV E) = Nat.card E := by
@@ -54,6 +56,7 @@ private theorem c23a_bridgep_map_eq_of_forall_mem {A : Type*} [Group A] [Finite 
   refine ⟨hE', Subgroup.eq_of_le_of_card_ge hle' ?_⟩
   rw [hcardE', ← hE', hcardE]
 
+omit [Finite G] in
 theorem c23a_bridge_sup {V : Subgroup G} (hV : IsElemAbelian 2 V)
     {E₁ E₂ : Subgroup (Vtil (⊥ : Subgroup G) V hV)} (h : E₁ ⊔ E₂ = ⊤) :
     preTil (⊥ : Subgroup G) V hV E₁ ⊔ preTil (⊥ : Subgroup G) V hV E₂ = V := by
@@ -74,6 +77,7 @@ theorem c23a_bridge_sup {V : Subgroup G} (hV : IsElemAbelian 2 V)
   exact Subgroup.mul_mem_sup ((mem_preTil _ _ _ _).2 ⟨a', rfl, ha⟩)
     ((mem_preTil _ _ _ _).2 ⟨b', rfl, hb⟩)
 
+omit [Finite G] in
 theorem c23a_bridge_mSub {V : Subgroup G} (hV : IsElemAbelian 2 V)
     (E : Subgroup (Vtil (⊥ : Subgroup G) V hV)) :
     mSub (preTil (⊥ : Subgroup G) V hV E) = rk ↥E := by

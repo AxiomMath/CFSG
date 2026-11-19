@@ -201,7 +201,7 @@ public lemma U_normal_in_H (c : Hyp11 G) {h u : G} (hh : h ∈ c.H) (hu : u ∈ 
   have huU : u ∈ (pPrimeCore 2 c.H).map c.H.subtype := by
     simpa [Hyp11.U, oddCoreOf] using hu
   have huH : u ∈ c.H :=
-    SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
+    _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
   have hchar : (pPrimeCore 2 c.H).Characteristic :=
     pPrimeCore_characteristic (p := 2) (G := c.H)
   have hcomap : (pPrimeCore 2 c.H) ≤ (pPrimeCore 2 c.H).comap
@@ -230,7 +230,7 @@ private lemma U_le_H (c : Hyp11 G) : (c.U : Subgroup G) ≤ c.H := by
   intro u hu
   have huU : u ∈ (pPrimeCore 2 c.H).map c.H.subtype := by
     simpa [Hyp11.U, oddCoreOf] using hu
-  exact SetLike.le_def.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
+  exact _root_.IsConcreteLE.le_iff.1 (Subgroup.map_subtype_le (H := c.H) (pPrimeCore 2 c.H)) huU
 
 /-! ## Local structure facts (private infrastructure mirrored from
 `Section2/Basic.lean`, where the same lemmas are private to that file) -/
@@ -689,7 +689,7 @@ private lemma zmod_two_mul_even_val {n : ℕ} [NeZero n] (hn2 : 2 ∣ n) {x : ZM
 
 /-- In `ZMod n` with `2 ∣ n`, an element with even canonical representative is
 twice something. -/
-private lemma zmod_two_mul_of_even_val {n : ℕ} [NeZero n] (hn2 : 2 ∣ n) {x : ZMod n}
+private lemma zmod_two_mul_of_even_val {n : ℕ} [NeZero n] (_hn2 : 2 ∣ n) {x : ZMod n}
     (h : 2 ∣ x.val) : ∃ c : ZMod n, 2 * c = x := by
   refine ⟨((x.val / 2 : ℕ) : ZMod n), ?_⟩
   have hdiv : 2 * (x.val / 2) = x.val := by
@@ -787,7 +787,7 @@ private lemma t1_ne_t2 (c : Hyp11 G) : c.t1 ≠ c.t2 := by
 
 /-- Every involution of `S − S0` is conjugate in `S` to `t1` or to `t2`. -/
 private lemma involution_S_not_S0_conj_to_t1_or_t2 (c : Hyp11 G) {x : G}
-    (hxS : x ∈ (c.S : Subgroup G)) (hxS0 : x ∉ (c.S0 : Subgroup G)) (hx2 : x * x = 1) :
+    (hxS : x ∈ (c.S : Subgroup G)) (hxS0 : x ∉ (c.S0 : Subgroup G)) (_hx2 : x * x = 1) :
     ∃ g : G, g ∈ (c.S : Subgroup G) ∧ (g * x * g⁻¹ = c.t1 ∨ g * x * g⁻¹ = c.t2) := by
   classical
   by_cases hm1 : c.m = 1
@@ -861,13 +861,13 @@ private lemma involution_S_not_S0_conj_to_t1_or_t2 (c : Hyp11 G) {x : G}
             simpa [xS] using (congrArg (fun z : ↥(c.S : Subgroup G) => (z : G)) ht1)
           refine ⟨1, by simp, ?_⟩
           left
-          simpa [hx1]
+          simp [hx1]
         · rcases Finset.mem_singleton.mp ht2 with ht2'
           have hx2' : x = c.t2 := by
             simpa [xS] using (congrArg (fun z : ↥(c.S : Subgroup G) => (z : G)) ht2')
           refine ⟨1, by simp, ?_⟩
           right
-          simpa [hx2']
+          simp [hx2']
   · -- m ≥ 2: transport to the dihedral model `S ≅ D_{2^m}`
     have hm2 : 2 ≤ c.m := Nat.succ_le_of_lt (lt_of_le_of_ne c.one_le_m (Ne.symm hm1))
     let n := 2 ^ c.m
@@ -1614,8 +1614,7 @@ private lemma tG_mem_involution (c : Hyp11 G) {z : G} (hz : z ∈ (ConjClasses.m
       c.t = g * z * g⁻¹ := hg.symm
       _ = g * 1 * g⁻¹ := by rw [hz1]
       _ = 1 := by simp
-  · change z ^ 2 = 1
-    calc
+  · calc
       z ^ 2 = (g⁻¹ * c.t * g) ^ 2 := by rw [hzeq]
       _ = (g⁻¹ * c.t * g) * (g⁻¹ * c.t * g) := by rw [pow_two]
       _ = g⁻¹ * (c.t * c.t) * g := by group
@@ -1690,7 +1689,7 @@ private lemma tH_class_unique (c : Hyp11 G) (h12 : Hyp12 c) {i j : Fin 2}
   have hz : z ∈ (ConjClasses.mk (lemma_2_2_tH c i)).carrier ∩
       (ConjClasses.mk (lemma_2_2_tH c j)).carrier := ⟨hzi, hzj⟩
   rw [hdisj] at hz
-  simpa using hz
+  simp at hz
 
 set_option backward.isDefEq.respectTransparency false in
 /-- For involutions `x, y` with `x·y = g ∈ T`, the TI property of `T` gives
@@ -1723,7 +1722,7 @@ private lemma pair_in_normalizer_T (c : Hyp11 G) (h12 : Hyp12 c)
     intro h
     have hmem : g⁻¹ ∈ c.T ∩ (fun t : G => x * t * x⁻¹) '' c.T := ⟨hg', himage⟩
     rw [h] at hmem
-    simpa using hmem
+    simp at hmem
   have hTconj : (fun t : G => x * t * x⁻¹) '' c.T = c.T := by
     rcases (h12.T_is_TI x) with h | h
     · exact h
@@ -2022,7 +2021,7 @@ private lemma two_class_sum_split (c : Hyp11 G) (h12 : Hyp12 c) {ψ : G → ℂ}
 
 /-- The pairs with product `x` in `t_i^H × t_j^H` are in bijection with the
 pairs in `t^G × t^G` whose ambient elements lie in `t_i^H`, `t_j^H`. -/
-private lemma class_pair_cell (c : Hyp11 G) (h12 : Hyp12 c) {x : ↥c.H} (i j : Fin 2) :
+private lemma class_pair_cell (c : Hyp11 G) (_h12 : Hyp12 c) {x : ↥c.H} (i j : Fin 2) :
     (∑ y : {w : ↥c.H // w ∈ (ConjClasses.mk (lemma_2_2_tH c i)).carrier},
       ∑ z : {w : ↥c.H // w ∈ (ConjClasses.mk (lemma_2_2_tH c j)).carrier},
         (Nat.card {p : (ConjClasses.mk c.t).carrier × (ConjClasses.mk c.t).carrier //
@@ -2379,7 +2378,7 @@ private lemma tH_involution (c : Hyp11 G) (i : Fin 2) :
 
 /-- The pair count `f_ij` on `H` expands over `Irr(H)`:
 `(f_ij, δ)_H = (|t_i^H|·|t_j^H|/|H|)·Σ_θ (θ(t_i)·θ(t_j)/θ(1))·(θ, δ)_H`. -/
-private lemma scalarProduct_fij_delta (c : Hyp11 G) (h12 : Hyp12 c)
+private lemma scalarProduct_fij_delta (c : Hyp11 G) (_h12 : Hyp12 c)
     (δ : ClassFunction (↥c.H)) (i j : Fin 2) :
     scalarProduct (↥c.H) (lemma_2_2_fij c i j) δ =
       ((Nat.card (ConjClasses.mk (lemma_2_2_tH c i)).carrier : ℂ) *
@@ -2633,7 +2632,7 @@ private lemma sum_cθ_mul_scalarProduct_irreducible (c : Hyp11 G)
             intro θ hθ
             by_cases h : θ = ψ'
             · have hθψ : θ.1 = ψ := congrArg Subtype.val h
-              rw [if_pos h, hθψ, scalarProduct_irreducible_self hψ]
+              rw [ite_eq_left h, hθψ, scalarProduct_irreducible_self hψ]
               norm_num
             · have hsp0 : scalarProduct (↥c.H) θ.1 ψ = 0 := by
                 refine scalarProduct_irreducible_orthogonal θ.2 hψ ?_
@@ -2641,14 +2640,14 @@ private lemma sum_cθ_mul_scalarProduct_irreducible (c : Hyp11 G)
                 apply h
                 apply Subtype.ext
                 exact hEq
-              rw [if_neg h, hsp0]
+              rw [ite_eq_right h, hsp0]
               norm_num
     _ = lemma_2_2_cθ c ψ := by
         simp [Finset.sum_ite_eq']
 
 /-- `c(α) = 0` when `α` vanishes at `t1` and `t2` (the `τ`-case: `t_i ∉ H0`). -/
 private lemma cθ_zero_of_vanishes_at_tH (c : Hyp11 G)
-    {α : ClassFunction (↥c.H)} (hα : IsIrreducibleCharacter α)
+    {α : ClassFunction (↥c.H)} (_hα : IsIrreducibleCharacter α)
     (h1 : α (lemma_2_2_tH c 0) = 0) (h2 : α (lemma_2_2_tH c 1) = 0) :
     lemma_2_2_cθ c α = 0 := by
   unfold lemma_2_2_cθ
@@ -2872,7 +2871,7 @@ private lemma mem_H0_of_not_mem_left_not_mem_right (c : Hyp11 G) (h12 : Hyp12 c)
 /-- The `ε`-extension of a linear character `κ1` of `H0` to `H` (`ε = ±1`):
 `κ1` on `H0`, and `ε·κ1(s⁻¹·g)` on the coset `s·H0`. -/
 private noncomputable def tauExt (c : Hyp11 G) (h12 : Hyp12 c) (ε : ℂ)
-    {κ1 : ClassFunction (↥c.H0)} (hκ1lin : IsLinearCharacter κ1) :
+    {κ1 : ClassFunction (↥c.H0)} (_hκ1lin : IsLinearCharacter κ1) :
     ClassFunction (↥c.H) :=
   fun g => if hg : (g : G) ∈ c.H0 then κ1 ⟨(g : G), hg⟩
     else ε * κ1 ⟨c.s⁻¹ * (g : G), s_inv_mul_mem_H0_of_not_mem c h12 (g := g) hg⟩
@@ -3060,7 +3059,7 @@ private lemma induced_kappaOne_eq_tauExt_sum (c : Hyp11 G) (h12 : Hyp12 c)
       (H0_index c h12) hg
 
 /-- The product of two linear characters is linear. -/
-private lemma isLinearCharacter_mul (c : Hyp11 G) (h12 : Hyp12 c)
+private lemma isLinearCharacter_mul (c : Hyp11 G) (_h12 : Hyp12 c)
     {φ ψ : ClassFunction (↥c.H0)} (hφ : IsLinearCharacter φ) (hψ : IsLinearCharacter ψ) :
     IsLinearCharacter (φ * ψ) := by
   let φh := linearCharHom hφ
@@ -3122,7 +3121,7 @@ private lemma LambdaChar_conj_eq_inv (c : Hyp11 G) (h12 : Hyp12 c)
   exact_mod_cast hval.trans hxval.symm
 
 private lemma conj_kappa_apply (c : Hyp11 G) (h12 : Hyp12 c)
-    {κ1 : ClassFunction (↥c.H0)} (hκ1lin : IsLinearCharacter κ1)
+    {κ1 : ClassFunction (↥c.H0)} (_hκ1lin : IsLinearCharacter κ1)
     (hκ1fix : conjChar c.H0 (s_normalizes_H0 c h12) κ1 = κ1)
     (l : LambdaHom c.H0 c.U) (x : ↥c.H0) :
     conjChar c.H0 (s_normalizes_H0 c h12) (kappa c κ1 l) x = (l.1 x⁻¹) * κ1 x := by

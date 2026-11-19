@@ -46,12 +46,12 @@ theorem szh1_center_bot (hI6103 : KFactI6103Five) (hcat : CFSG.AGLEmbedding.Cata
     (hOm : ∀ g ∈ (S : Subgroup Y), ∀ h ∈ (S : Subgroup Y), g ^ 5 = 1 → h ^ 5 = 1 → g * h = h * g)
     {L : Subgroup Y} (hL : IsComponentOf L ⊤) : Subgroup.center ↥L = ⊥ := by
   have h5 : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨h5⟩
+  have : Fact (Nat.Prime 5) := ⟨h5⟩
   have hcoreL : primeComplementCore (G := ↥L) 5 = ⊥ :=
     cfsg_subnormal_primeComplementCore_eq_bot 5 L hL.2.1 hcore
   have hnd : ¬ 5 ∣ Nat.card (Subgroup.center ↥L) := by
     intro hdvd
-    haveI : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
+    have : IsSimpleGroup (↥L ⧸ Subgroup.center ↥L) := hL.2.2.2
     have hcatL : IsCatalogGroup (↥L ⧸ Subgroup.center ↥L) :=
       hcat L (Subgroup.center ↥L) inferInstance inferInstance
         (CFSG.ComponentClassification.Helpers.quasisimple_central_quotient_nonabelian ↥L hL.2.2)

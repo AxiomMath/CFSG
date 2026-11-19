@@ -39,7 +39,7 @@ theorem pCore_two_eq_bot_of_odd {G X : Type*} [Group G] [MulAction G X] [Finite 
     _ = g • (g⁻¹ * n * g) • x₀ := mul_smul _ _ _
     _ = g • x₀ := by rw [h1]
 
-@[expose, instance_reducible] def nativeAction : MulAction P₂ NativeCoord :=
+@[instance_reducible] def nativeAction : MulAction P₂ NativeCoord :=
   MulAction.compHom NativeCoord restP
 
 attribute [local instance] nativeAction
@@ -49,7 +49,7 @@ theorem nativeAction_smul (p : P₂) (i : NativeCoord) : p • i = restP p i := 
 theorem nativeAction_faithful : FaithfulSMul P₂ NativeCoord :=
   ⟨fun h => restP_injective (Equiv.ext fun i => h i)⟩
 
-@[expose] def nativeRest (i : NativeCoord) : Rest :=
+def nativeRest (i : NativeCoord) : Rest :=
   ⟨i, fun h => by have := i.2; rw [h] at this; exact absurd this (by decide),
     fun h => by have := i.2; rw [h] at this; exact absurd this (by decide)⟩
 
@@ -83,9 +83,9 @@ theorem pCore_P₂ : CFSG.pCore 2 P₂ = ⊥ := by
   have := nativeAction_pretransitive
   exact pCore_two_eq_bot_of_odd (X := NativeCoord) (by rw [natCard_nativeCoord]; decide)
 
-@[expose] def inclH : H2 →* Ntwo := Subgroup.inclusion H2_le_Ntwo
+def inclH : H2 →* Ntwo := Subgroup.inclusion H2_le_Ntwo
 
-@[expose] def phiH :
+def phiH :
     H2 →* Ppair × Equiv.Perm (Fin 3) :=
   twoCoreEquiv.toMonoidHom.comp (mkK.comp inclH)
 
@@ -110,7 +110,7 @@ theorem phiH_fst_mem
   rw [Unitary.mem_P2]
   exact ⟨(phiH h).1.2, congrArg Subtype.val (blockP_inclH_rest2 h)⟩
 
-@[expose] def psiH :
+def psiH :
     H2 →* P₂ :=
   ((AutPerm.subtype.comp Ppair.subtype).comp ((MonoidHom.fst _ _).comp phiH)).codRestrict P₂
     fun h => (mem_P₂_iff _).2 (phiH_fst_mem h)
@@ -123,7 +123,7 @@ theorem R2_inf_le_H2 :
     R2 ⊓ Subgroup.centralizer {cQ} ≤ H2 :=
   inf_le_inf_right _ R2_le_Ntwo
 
-@[expose] def toRest (j : Fin 24) (hj : 2 ≤ j) : Rest :=
+def toRest (j : Fin 24) (hj : 2 ≤ j) : Rest :=
   ⟨j, fun h => by rw [h] at hj; exact absurd hj (by decide),
     fun h => by rw [h] at hj; exact absurd hj (by decide)⟩
 

@@ -28,7 +28,7 @@ theorem strong_odd_of_good {R : Type} [Group R] [Finite R] {L' : Type} [Group L'
     {A : Subgroup (MulAut L')} (hA : CFSG.Open.IsElemAbelian 3 A) (hsc : GGTorusSelfCent 3 A)
     (hal : ∀ a ∈ A, ρ a ∈ D.diag.range) (hAI : ∀ a ∈ A, ∃ φ ∈ I, ∀ l : L', φ (ψ l) = ψ (a l))
     (h5 : 3 ^ 5 ≤ Nat.card A) : GGE6ThreeStrongData ψ.ker A := by
-  haveI : Finite (MulAut L') :=
+  have : Finite (MulAut L') :=
     Finite.of_injective (fun f : MulAut L' => (f : L' → L')) (fun f g h => by
       ext x; exact congrFun h x)
   have hodd : Odd (Nat.card ψ.ker) := by
@@ -157,7 +157,7 @@ theorem strong_odd_of_good {R : Type} [Group R] [Finite R] {L' : Type} [Group L'
         ?_ ?_ ?_ ?_ hg
       · intro y hy
         exact Subgroup.subset_closure (hgen_inv n hn y hy)
-      · simpa using Subgroup.one_mem (Subgroup.closure gen)
+      · simp
       · intro x y _ _ hx hy
         rw [show n * (x * y) * n⁻¹ = (n * x * n⁻¹) * (n * y * n⁻¹) from by group]
         exact Subgroup.mul_mem _ hx hy
@@ -215,7 +215,7 @@ theorem strong_odd_of_good {R : Type} [Group R] [Finite R] {L' : Type} [Group L'
       refine ⟨1, ?_⟩
       rcases hcard with h | h
       · rw [h, pow_one] at h2
-        simpa [h2]
+        simp [h2]
       · rw [h] at h2
         simpa using h2
     have hzG : g⁻¹ * c ∈ G := by

@@ -48,7 +48,7 @@ section Group
 theorem sum_single_one (w : Fin e7Data.d →₀ ZMod 2) :
     w = ∑ a, w a • Finsupp.single a (1 : ZMod 2) := by
   ext c
-  simp [Finsupp.finset_sum_apply, Finsupp.single_apply]
+  simp
 
 set_option maxRecDepth 20000 in
 theorem rootOp_apply_eq_sum (β : Fin (Tag.rank .E7) → ℤ) (w : Fin e7Data.d →₀ ZMod 2) :
@@ -81,12 +81,12 @@ theorem coord_pinned_sub {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7 β)
     (hc : e7Data.wt c = e7Data.wt b + MinData.toWeight β) :
     (e7Rep56 (ZMod 2) (pinnedElt .E7 β 1) w - w) c = w b := by
   rw [e7Rep56_pinnedElt_apply hβ, one_smul, add_sub_cancel_left, rootOp_apply_eq_sum,
-    Finsupp.finset_sum_apply]
+    _root_.Finsupp.finsetSum_apply]
   rw [Finset.sum_eq_single b]
-  · rw [Finsupp.smul_apply, rootOp_single_coord hβ, if_pos ⟨hb, hc⟩]
+  · rw [Finsupp.smul_apply, rootOp_single_coord hβ, ite_eq_left ⟨hb, hc⟩]
     simp
   · intro a _ hab
-    rw [Finsupp.smul_apply, rootOp_single_coord hβ, if_neg]
+    rw [Finsupp.smul_apply, rootOp_single_coord hβ, ite_eq_right]
     · simp
     · rintro ⟨_, h⟩
       exact hab (e7Data_valid.wt_injective (add_right_cancel (h.symm.trans hc)))
@@ -159,7 +159,7 @@ theorem pinnedElt_mem_W0stab {β : Fin (Tag.rank .E7) → ℤ} (hβ : IsRoot .E7
   refine ⟨?_, fun w hw => ?_⟩
   · unfold e7Y56
     rw [e7Rep56_pinnedElt_single hβ]
-    rw [if_neg (by rw [h]; decide), add_zero]
+    rw [ite_eq_right (by rw [h]; decide), add_zero]
   · rw [e7Rep56_pinnedElt_apply hβ, one_smul, add_sub_cancel_left, rootOp_apply_eq_sum]
     refine Submodule.sum_mem _ fun a _ => ?_
     by_cases hwa : w a = 0
@@ -206,7 +206,7 @@ theorem mem_W0_iff (u : Fin e7Data.d →₀ ZMod 2) :
     have hc0 : c ≠ ⟨0, by decide⟩ := fun h0 => hne (by rw [← hc, h0])
     have := congrArg (fun v : Fin e7Data.d →₀ ZMod 2 => v c) hs
     simp only [Finsupp.smul_apply, e7Y56, Finsupp.single_apply, smul_eq_mul] at this
-    rw [if_neg (fun h' => hc0 h'.symm), mul_zero] at this
+    rw [ite_eq_right (fun h' => hc0 h'.symm), mul_zero] at this
     rw [← hcoord]
     exact this.symm
   · intro hu q hq

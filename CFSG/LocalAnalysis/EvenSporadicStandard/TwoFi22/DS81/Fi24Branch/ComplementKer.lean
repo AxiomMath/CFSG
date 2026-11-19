@@ -25,7 +25,7 @@ theorem exists_normKer {P E U : Subgroup G} {r : G} (h : NormSetting P E U r) :
       rw [show p * u * p⁻¹ = (p * u * p⁻¹ * u⁻¹) * u by group]
       exact U.mul_mem (h.PP p hp u (hUP hu)) hu
     exact hmem
-  letI : (U.subgroupOf P).Normal := hUnorm
+  let : (U.subgroupOf P).Normal := hUnorm
   let Q := ↥P ⧸ U.subgroupOf P
   let q : ↥P →* Q := QuotientGroup.mk' _
   let σ : ↥P →* ↥P :=
@@ -41,7 +41,7 @@ theorem exists_normKer {P E U : Subgroup G} {r : G} (h : NormSetting P E U r) :
     intro u hu
     exact h.r_U (u : G) hu
   let ρ : Q →* Q := QuotientGroup.map _ _ σ hσU
-  haveI hQcomm : IsMulCommutative Q := by
+  have hQcomm : IsMulCommutative Q := by
     change IsMulCommutative (↥P ⧸ U.subgroupOf P)
     rw [Subgroup.Normal.quotient_commutative_iff_commutator_le]
     change ⁅(⊤ : Subgroup ↥P), (⊤ : Subgroup ↥P)⁆ ≤ U.subgroupOf P

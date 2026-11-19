@@ -24,15 +24,17 @@ open CFSG.Models CFSG.Open
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_polar_isSimilitude_neg {ρ : V ≃ₗ[ZMod 3] V}
     (hρ : IsSimilitude Q ρ (-1)) (x y : V) :
     Q.polarBilin (ρ x) (ρ y) = (-1) * Q.polarBilin x y := by
   simp only [QuadraticMap.polarBilin_apply_apply, QuadraticMap.polar]
   rw [← ρ.map_add, hρ, hρ, hρ]
-  simp only [Units.val_neg, Units.val_one, neg_mul, neg_neg]
+  simp only [Units.val_neg, Units.val_one, neg_mul]
   ring
 
 
+omit [FiniteDimensional (ZMod 3) V] in
 @[simp] theorem ff_mem_orthogonalOperatorCentralizer_iff
     (T : Module.End (ZMod 3) V) (g : OGroup Q) :
     g ∈ orthogonalOperatorCentralizer Q T ↔
@@ -40,6 +42,7 @@ theorem ff_polar_isSimilitude_neg {ρ : V ≃ₗ[ZMod 3] V}
   rw [orthogonalOperatorCentralizer, Subgroup.mem_comap]
   rfl
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem ff_fixSub_simAct_eq_orthogonalOperatorCentralizer (ρ : ↥(simGroup Q)) :
     fixSub (simAct Q ρ) = orthogonalOperatorCentralizer Q (ρ : V ≃ₗ[ZMod 3] V).toLinearMap := by
   ext g
@@ -92,10 +95,10 @@ theorem ff_center_specialLinear_fin_three_zmod_three :
   apply Subtype.ext
   rw [← hA', hr1]
   ext i j
-  simp [Matrix.scalar_apply, Pi.single_apply]
+  simp [Matrix.scalar_apply]
 
 theorem ff_K4III_C_layerModel (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMod 3) V = 6)
-    (hsgn : quadSign Q = 1) {ρ : ↥(simGroup Q)}
+    (_hsgn : quadSign Q = 1) {ρ : ↥(simGroup Q)}
     (hρ : IsSimilitude Q (ρ : V ≃ₗ[ZMod 3] V) (-1))
     (hρρ : ∀ v, (ρ : V ≃ₗ[ZMod 3] V) ((ρ : V ≃ₗ[ZMod 3] V) v) = v) :
     LayerModel ↥(omegaGroup hQ ⊓ fixSub (simAct Q ρ)) .PSL 3 1 := by
@@ -128,7 +131,7 @@ theorem ff_K4III_C_layerModel (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMo
       positiveSquareKernel (ρ : V ≃ₗ[ZMod 3] V) 1))
       SpecialLinearGroup.toLinearEquiv_injective
   have hperfect_SL : Group.IsPerfect SLsub := by
-    haveI : Group.IsPerfect (SpecialLinearGroup (ZMod 3)
+    have : Group.IsPerfect (SpecialLinearGroup (ZMod 3)
         (positiveSquareKernel (ρ : V ≃ₗ[ZMod 3] V) 1)) := ff_specialLinear_perfect _ hfin
     exact Group.IsPerfect.ofSurjective (f := eSL.toMonoidHom)
       (fun x => ⟨eSL.symm x, eSL.apply_symm_apply x⟩)
@@ -137,13 +140,13 @@ theorem ff_K4III_C_layerModel (hQ : Q.Nondegenerate) (hdim : Module.finrank (ZMo
   let Ebig : Subgroup ↥D := SLsub.comap e.toMonoidHom
   have hmapE : Ebig.map e.toMonoidHom = SLsub :=
     Subgroup.map_comap_eq_self_of_surjective e.surjective SLsub
-  haveI : Group.IsPerfect ↥Ebig := by
+  have : Group.IsPerfect ↥Ebig := by
     have h1 : ↥Ebig ≃* ↥SLsub := (e.subgroupMap Ebig).trans (MulEquiv.subgroupCongr hmapE)
     exact Group.IsPerfect.ofSurjective (f := (h1.symm : ↥SLsub →* ↥Ebig)) h1.symm.surjective
   let E : Subgroup (OGroup Q) := Ebig.map D.subtype
   let C : Subgroup (OGroup Q) := omegaGroup hQ ⊓ D
   have hE_le_C : E ≤ C := by
-    haveI : Group.IsPerfect ↥E := Group.IsPerfect.ofSurjective
+    have : Group.IsPerfect ↥E := Group.IsPerfect.ofSurjective
       (f := (Subgroup.equivMapOfInjective Ebig D.subtype D.subtype_injective).toMonoidHom)
       (fun x => ⟨(Subgroup.equivMapOfInjective Ebig D.subtype D.subtype_injective).symm x,
         (Subgroup.equivMapOfInjective Ebig D.subtype D.subtype_injective).apply_symm_apply x⟩)

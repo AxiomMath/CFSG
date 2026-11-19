@@ -23,12 +23,15 @@ namespace Cyc
 variable {c : Ctx T L V E z v} {g : G} (hg : c.Cyc g)
 include hg
 
+omit hg in
+include c in
+variable (c) in
 theorem comm_cube_F4 (h12210 : Stmt12_2_10_F4) {h : G} (hh : h ∈ Subgroup.normalizer (E : Set G))
     {P : Subgroup G} (hPK : P ≤ Subgroup.centralizer (E : Set G)) (hP3 : IsPGroup 3 P)
     {s s' : G} (hs : s ∈ P) (hs' : s' ∈ P) :
     s * s' * s⁻¹ * s'⁻¹ ∈ Subgroup.centralizer (B6.conjSub h V : Set G) ∧
       s * s * s ∈ Subgroup.centralizer (B6.conjSub h V : Set G) := by
-  have hP'K := hg.conjSub_inv_le_CE hh hPK
+  have hP'K := CFSG.Quasithin.H13.N1246.Ctx.Cyc.conjSub_inv_le_CE hh hPK
   have hP'3 : IsPGroup 3 (B6.conjSub h⁻¹ P) := hP3.map _
   obtain ⟨h1, h2, -⟩ := c.three_sub_facts_F4 h12210 hP'K hP'3
   have hmem : ∀ x ∈ P, h⁻¹ * x * h ∈ B6.conjSub h⁻¹ P := fun x hx => by
@@ -42,6 +45,9 @@ theorem comm_cube_F4 (h12210 : Stmt12_2_10_F4) {h : G} (hh : h ∈ Subgroup.norm
     convert this using 1
     group
 
+omit hg in
+include c in
+variable (c) in
 theorem idx3_F4 (h12210 : Stmt12_2_10_F4) {h : G} (hh : h ∈ Subgroup.normalizer (E : Set G))
     {P : Subgroup G} (hPK : P ≤ Subgroup.centralizer (E : Set G)) (hP3 : IsPGroup 3 P)
     {s y : G} (hs : s ∈ P) (hy : y ∈ P)
@@ -49,7 +55,7 @@ theorem idx3_F4 (h12210 : Stmt12_2_10_F4) {h : G} (hh : h ∈ Subgroup.normalize
     y ∈ Subgroup.centralizer (B6.conjSub h V : Set G) ∨
       s⁻¹ * y ∈ Subgroup.centralizer (B6.conjSub h V : Set G) ∨
       (s * s)⁻¹ * y ∈ Subgroup.centralizer (B6.conjSub h V : Set G) := by
-  have hP'K := hg.conjSub_inv_le_CE hh hPK
+  have hP'K := CFSG.Quasithin.H13.N1246.Ctx.Cyc.conjSub_inv_le_CE hh hPK
   have hP'3 : IsPGroup 3 (B6.conjSub h⁻¹ P) := hP3.map _
   obtain ⟨-, -, h3⟩ := c.three_sub_facts_F4 h12210 hP'K hP'3
   have hmem : ∀ x ∈ P, h⁻¹ * x * h ∈ B6.conjSub h⁻¹ P := fun x hx => by
@@ -78,9 +84,9 @@ theorem isElemAbelian_F4 (h12210 : Stmt12_2_10_F4) (hcomm : ⁅pCoreOf 2 (L ⊔ 
     exact Odd.of_dvd_nat (Odd.pow (by decide)) (orderOf_dvd_of_pow_eq_one h1)
   have key : ∀ s ∈ P, ∀ s' ∈ P, s * s' * s⁻¹ * s'⁻¹ = 1 ∧ s * s * s = 1 := by
     intro s hs s' hs'
-    obtain ⟨h0, h0'⟩ := hg.comm_cube_F4 h12210 (Subgroup.one_mem _) hPK hP3 hs hs'
-    obtain ⟨h1, h1'⟩ := hg.comm_cube_F4 h12210 hgE hPK hP3 hs hs'
-    obtain ⟨h2, h2'⟩ := hg.comm_cube_F4 h12210 hggE hPK hP3 hs hs'
+    obtain ⟨h0, h0'⟩ := (CFSG.Quasithin.H13.N1246.Ctx.Cyc.comm_cube_F4 c) h12210 (Subgroup.one_mem _) hPK hP3 hs hs'
+    obtain ⟨h1, h1'⟩ := (CFSG.Quasithin.H13.N1246.Ctx.Cyc.comm_cube_F4 c) h12210 hgE hPK hP3 hs hs'
+    obtain ⟨h2, h2'⟩ := (CFSG.Quasithin.H13.N1246.Ctx.Cyc.comm_cube_F4 c) h12210 hggE hPK hP3 hs hs'
     rw [B6.conjSub_one] at h0 h0'
     have hm : s * s' * s⁻¹ * s'⁻¹ ∈ P :=
       P.mul_mem (P.mul_mem (P.mul_mem hs hs') (P.inv_mem hs)) (P.inv_mem hs')

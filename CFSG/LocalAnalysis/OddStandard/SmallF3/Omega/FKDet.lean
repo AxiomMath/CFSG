@@ -198,7 +198,7 @@ private lemma fk_det_of_sq_one
 
 private lemma fk_det_of_sq_neg_one
     (a : fk_V ≃ₗ[fk_K] fk_V)
-    (hQ : ∀ v, quadPlus 4 fk_K (a v) = -quadPlus 4 fk_K v)
+    (_hQ : ∀ v, quadPlus 4 fk_K (a v) = -quadPlus 4 fk_K v)
     (hs : ∀ v, a (a v) = -v) :
     LinearMap.det (a : fk_V →ₗ[fk_K] fk_V) = 1 := by
   let A : fk_V →ₗ[fk_K] fk_V := (a : fk_V →ₗ[fk_K] fk_V)
@@ -222,7 +222,7 @@ private lemma fk_det_of_sq_neg_one
     have hne : LinearMap.det (1 - A) ≠ 0 := by
       intro h
       exact hdetne (by rw [hdet, h, pow_two, mul_zero])
-    haveI : Fintype fk_K := Fintype.ofFinite fk_K
+    have : Fintype fk_K := Fintype.ofFinite fk_K
     have hcard : Fintype.card fk_K = 3 := by
       rw [← Nat.card_eq_fintype_card, GaloisField.card 3 1 (by norm_num), pow_one]
     have hpow := FiniteField.pow_card_sub_one_eq_one (LinearMap.det (1 - A)) hne
@@ -242,7 +242,7 @@ theorem fk_det_eq_one
       with hv0
     have hQv0 : quadPlus 4 fk_K v0 = 1 := by
       rw [hv0]
-      simp [quadPlus_apply, Pi.single_apply, Fin.sum_univ_succ]
+      simp [quadPlus_apply, Pi.single_apply]
     have h1 : quadPlus 4 fk_K (a (a v0)) = quadPlus 4 fk_K v0 := by
       rw [hQ (a v0), hQ v0, neg_neg]
     rw [hs v0] at h1

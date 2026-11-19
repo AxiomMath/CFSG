@@ -33,7 +33,7 @@ theorem a6sq_card : Nat.card (alternatingGroup (Fin 6)) = 360 := by
   decide
 
 theorem a6sq_center : center (alternatingGroup (Fin 6)) = ⊥ := by
-  haveI := a6sq_simple
+  have := a6sq_simple
   exact CFSG.ComponentClassification.CatLeaf.center_eq_bot_of_simple a6sq_nonab
 
 section Pair
@@ -98,7 +98,7 @@ theorem a6sq_commutator_component
       Nonempty (↥D ⧸ center ↥D ≃* alternatingGroup (Fin 6)) := by
   classical
   have hqC : CFSG.IsQuasisimple ↥(commutator ↥(autCentralizer τ)) := by
-    haveI := a6sq_simple
+    have := a6sq_simple
     exact CFSG.LocalCores.isQuasisimple_of_mulEquiv e.symm
       (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup a6sq_nonab).1
   let φ : ↥(autCentralizer τ) ≃* ↥(fixedSubgroup τ) :=

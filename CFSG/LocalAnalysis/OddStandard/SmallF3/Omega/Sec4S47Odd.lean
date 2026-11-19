@@ -16,6 +16,7 @@ open Subgroup CFSG.Blueprint
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {z : G} {A B : Subgroup G}
   {φ : (Fin 7 → ZMod 2) → G}
 
+omit [Finite G] in
 private theorem sec4F_normalizer_le_normalizer_centralizer (X : Subgroup G) :
     normalizer (X : Set G) ≤ normalizer (centralizer (X : Set G) : Set G) := by
   intro x hx
@@ -92,7 +93,7 @@ theorem Sec4FSetup.sup_oddCore (h : Sec4FSetup t L S z A B φ) :
   intro k hk a ha
   exact Subgroup.mem_centralizer_iff.mp hk a ha
 
-theorem Sec4FSetup.conj_mem_oddCore (h : Sec4FSetup t L S z A B φ) {m o : G}
+theorem Sec4FSetup.conj_mem_oddCore (_h : Sec4FSetup t L S z A B φ) {m o : G}
     (hm : m ∈ normalizer (A : Set G)) (ho : o ∈ oddCoreIn (centralizer (A : Set G))) :
     m * o * m⁻¹ ∈ oddCoreIn (centralizer (A : Set G)) :=
   conj_mem_oddCoreIn (sec4F_normalizer_le_normalizer_centralizer A hm) ho

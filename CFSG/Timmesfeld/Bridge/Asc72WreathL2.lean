@@ -40,7 +40,7 @@ theorem mem_sylow_of_mem_normalizer (P : Sylow 2 K) {x : K}
   have hdvd : orderOf x ∣ 2 ^ 1 := orderOf_dvd_of_pow_eq_one (by rw [pow_one, pow_two, hx2])
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow Nat.prime_two).1 hdvd
   have hp : IsPGroup 2 (Subgroup.zpowers x) := IsPGroup.of_card (by rw [Nat.card_zpowers, hk])
-  have hmax := P.maximal_isPGroup.eq_of_ge (IsPGroup.to_sup_of_normal_right' hp P.isPGroup'
+  have hmax := P.maximal_isPGroup.eq_of_ge (IsPGroup.to_sup_of_normal_right' hp P.isPGroup
     (Subgroup.zpowers_le.2 hx)) le_sup_right
   have hmem : x ∈ Subgroup.zpowers x ⊔ (P : Subgroup K) :=
     Subgroup.mem_sup_left (Subgroup.mem_zpowers x)
@@ -93,9 +93,9 @@ theorem exists_psl2_of_forall_commute [IsSimpleGroup K] (hnab : ∃ a b : K, a *
   obtain ⟨P⟩ : Nonempty (Sylow 2 K) := inferInstance
   have hPne : (P : Subgroup K) ≠ ⊥ := P.ne_bot_of_dvd_card (even_iff_two_dvd.mp heven)
   have : Nontrivial P := (Subgroup.nontrivial_iff_ne_bot _).mpr hPne
-  have hZ := P.isPGroup'.center_nontrivial
+  have hZ := P.isPGroup.center_nontrivial
   obtain ⟨k, hk, hkcard⟩ :=
-    ((P.isPGroup'.to_subgroup (Subgroup.center P)).nontrivial_iff_card).mp hZ
+    ((P.isPGroup.to_subgroup (Subgroup.center P)).nontrivial_iff_card).mp hZ
   obtain ⟨z, hz⟩ := exists_prime_orderOf_dvd_card' (G := Subgroup.center P) 2
     (hkcard ▸ dvd_pow_self 2 hk.ne')
   set t : K := ((z : P) : K)
@@ -142,7 +142,7 @@ theorem exists_psl2_of_forall_commute [IsSimpleGroup K] (hnab : ∃ a b : K, a *
     · obtain ⟨a, b, hab⟩ := hnab
       exact hab (hcomm a (h ▸ Subgroup.mem_top a) b (h ▸ Subgroup.mem_top b))
   have hPeven : Even (Nat.card (P : Subgroup K)) := by
-    rcases P.isPGroup'.card_eq_or_dvd with h | h
+    rcases P.isPGroup.card_eq_or_dvd with h | h
     · exact absurd (Subgroup.card_eq_one.mp h) hPne
     · exact even_iff_two_dvd.mpr h
   have hSE := fusionStronglyEmbedded_normalizer_of_isTI P hTI hN hPeven

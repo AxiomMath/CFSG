@@ -40,14 +40,14 @@ theorem e178U3Q8_of_twin : E178U3Q8 := by
   obtain ⟨eR'⟩ := hq8 R' hR'
   obtain ⟨a, haR, b, hbR, hQ⟩ := exists_u3QTriple hz hRK eR
   obtain ⟨a', ha'R, b', hb'R, hQ'⟩ := exists_u3QTriple hzK'z hR'K' eR'
-  have hRR'2 : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup'.to_le (sup_le hRS hR'S)
+  have hRR'2 : IsPGroup 2 ↥(R ⊔ R') := S.isPGroup.to_le (sup_le hRS hR'S)
   have hcomm : Commutes R R' :=
     Sec6Gen.commutes_of_twin_of_isPGroup hΩ hK hK'Ω (Ne.symm hK'ne) hz hzK'z hRK hR'K' hRR'2
   set L : Subgroup G := Subgroup.normalClosure ({z} : Set G) with hL
-  haveI hLn : L.Normal := Subgroup.normalClosure_normal
+  have hLn : L.Normal := Subgroup.normalClosure_normal
   have hzL : z ∈ L := Subgroup.subset_normalClosure (Set.mem_singleton z)
   obtain ⟨n, ⟨e⟩⟩ := hP
-  haveI := hFs
+  have := hFs
   have hnabL : ¬ IsMulCommutative ↥L := by
     intro hc
     obtain ⟨x, hx, y, hy, hne⟩ := hnab
@@ -56,7 +56,7 @@ theorem e178U3Q8_of_twin : E178U3Q8 := by
     exact congrArg Subtype.val this
   have hB : BenderSuzuki.IsBenderGroup ↥L :=
     BenderSuzuki.IsBenderGroup.isPSU3 n (psu3_two_le hnabL e) e
-  have hc2 := u3_two_group_cases L hFc hB (S : Subgroup G) S.isPGroup'
+  have hc2 := u3_two_group_cases L hFc hB (S : Subgroup G) S.isPGroup
   obtain ⟨x, hxN, y, hyN, hxS, hyS, hx2, -, hxy⟩ :=
     u3_pair_noncomm (N := L) (S := (S : Subgroup G)) (T := R) (T' := R') hzL hz.sq hc2 hRS hR'S
       hcomm haR hbR ha'R hb'R hQ hQ'

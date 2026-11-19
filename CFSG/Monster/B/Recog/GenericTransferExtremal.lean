@@ -202,7 +202,7 @@ theorem exists_conj_mem_odd_relIndex_of_transfer {G : Type*} [Group G] [Finite G
           rw [e]
           have hm := Subgroup.mem_subgroupOf.1 hconj
           simpa only [Subgroup.coe_mul, Subgroup.coe_inv, inv_inv] using hm }
-  have hcong := S.isPGroup'.card_modEq_card_fixedPoints A
+  have hcong := S.isPGroup.card_modEq_card_fixedPoints A
   have hAcard : Nat.card A = Nat.card {x : G ⧸ (T : Subgroup G) //
       t • x = x ∧ x.out⁻¹ * t * x.out ∈ M} := rfl
   rw [hAcard] at hcong

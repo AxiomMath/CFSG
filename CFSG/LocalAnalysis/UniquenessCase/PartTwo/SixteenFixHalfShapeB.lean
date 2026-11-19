@@ -22,15 +22,15 @@ private theorem s16fh_nontrivial_of_isQuasisimple {X : Type} [Group X]
 
 private theorem s16fh_false_of_isCyclicOrd_of_quasisimple {X : Type} [Group X]
     (hq : CFSG.Open.IsQuasisimple X) {n : ℕ} (h : IsCyclicOrd X n) : False := by
-  haveI : Group.IsPerfect X := Group.isPerfect_def.mpr hq.1
-  haveI : Nontrivial X := s16fh_nontrivial_of_isQuasisimple hq
-  haveI : IsCyclic X := h.1
+  have : Group.IsPerfect X := Group.isPerfect_def.mpr hq.1
+  have : Nontrivial X := s16fh_nontrivial_of_isQuasisimple hq
+  have : IsCyclic X := h.1
   exact Group.IsPerfect.not_isMulCommutative X inferInstance
 
 private theorem s16fh_false_of_isElemAbelianOfRank_of_quasisimple {X : Type} [Group X]
     (hq : CFSG.Open.IsQuasisimple X) {p r : ℕ} (h : IsElemAbelianOfRank p r X) : False := by
-  haveI : Group.IsPerfect X := Group.isPerfect_def.mpr hq.1
-  haveI : Nontrivial X := s16fh_nontrivial_of_isQuasisimple hq
+  have : Group.IsPerfect X := Group.isPerfect_def.mpr hq.1
+  have : Nontrivial X := s16fh_nontrivial_of_isQuasisimple hq
   obtain ⟨e⟩ := h
   exact Group.IsPerfect.not_isMulCommutative X
     (IsMulCommutative.of_comm fun a b => e.injective (by

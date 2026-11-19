@@ -1582,23 +1582,23 @@ theorem cell_A7_b0 :
   intro s hs
   simp only [GGResIDisp.A7.shapes_A7_b0, List.mem_cons, List.not_mem_nil, or_false] at hs
   rcases hs with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
-  · simp only [wits_A7_b0, if_pos rfl]
+  · simp only [wits_A7_b0]
     exact hwits_A7b0c1w12
-  · simp only [wits_A7_b0, if_neg (by decide : ¬ (((1, -2, -1)) = ((1, -1, -2)))), if_pos rfl]
+  · simp only [wits_A7_b0]
     exact hwits_A7b0c1w21
-  · simp only [wits_A7_b0, if_neg (by decide : ¬ (((2, -1, -1)) = ((1, -1, -2)))), if_neg (by decide : ¬ (((2, -1, -1)) = ((1, -2, -1)))), if_pos rfl]
+  · simp only [wits_A7_b0]
     exact hwits_A7b0c2
-  · simp only [wits_A7_b0, if_neg (by decide : ¬ (((3, -1, -1)) = ((1, -1, -2)))), if_neg (by decide : ¬ (((3, -1, -1)) = ((1, -2, -1)))), if_neg (by decide : ¬ (((3, -1, -1)) = ((2, -1, -1)))), if_pos rfl]
+  · simp only [wits_A7_b0]
     exact hwits_A7b0c3
-  · simp only [wits_A7_b0, if_neg (by decide : ¬ (((4, -1, -1)) = ((1, -1, -2)))), if_neg (by decide : ¬ (((4, -1, -1)) = ((1, -2, -1)))), if_neg (by decide : ¬ (((4, -1, -1)) = ((2, -1, -1)))), if_neg (by decide : ¬ (((4, -1, -1)) = ((3, -1, -1)))), if_pos rfl]
+  · simp only [wits_A7_b0]
     exact hwits_A7b0c4
-  · simp only [wits_A7_b0, if_neg (by decide : ¬ (((5, -1, -1)) = ((1, -1, -2)))), if_neg (by decide : ¬ (((5, -1, -1)) = ((1, -2, -1)))), if_neg (by decide : ¬ (((5, -1, -1)) = ((2, -1, -1)))), if_neg (by decide : ¬ (((5, -1, -1)) = ((3, -1, -1)))), if_neg (by decide : ¬ (((5, -1, -1)) = ((4, -1, -1)))), if_pos rfl]
+  · simp only [wits_A7_b0]
     exact hwits_A7b0c5
-  · simp only [wits_A7_b0, if_neg (by decide : ¬ (((6, -1, -1)) = ((1, -1, -2)))), if_neg (by decide : ¬ (((6, -1, -1)) = ((1, -2, -1)))), if_neg (by decide : ¬ (((6, -1, -1)) = ((2, -1, -1)))), if_neg (by decide : ¬ (((6, -1, -1)) = ((3, -1, -1)))), if_neg (by decide : ¬ (((6, -1, -1)) = ((4, -1, -1)))), if_neg (by decide : ¬ (((6, -1, -1)) = ((5, -1, -1)))), if_pos rfl]
+  · simp only [wits_A7_b0]
     exact hwits_A7b0c6
-  · simp only [wits_A7_b0, if_neg (by decide : ¬ (((6, -1, -2)) = ((1, -1, -2)))), if_neg (by decide : ¬ (((6, -1, -2)) = ((1, -2, -1)))), if_neg (by decide : ¬ (((6, -1, -2)) = ((2, -1, -1)))), if_neg (by decide : ¬ (((6, -1, -2)) = ((3, -1, -1)))), if_neg (by decide : ¬ (((6, -1, -2)) = ((4, -1, -1)))), if_neg (by decide : ¬ (((6, -1, -2)) = ((5, -1, -1)))), if_neg (by decide : ¬ (((6, -1, -2)) = ((6, -1, -1)))), if_pos rfl]
+  · simp only [wits_A7_b0]
     exact hwits_A7b0c6w12
-  · simp only [wits_A7_b0, if_neg (by decide : ¬ (((6, -2, -1)) = ((1, -1, -2)))), if_neg (by decide : ¬ (((6, -2, -1)) = ((1, -2, -1)))), if_neg (by decide : ¬ (((6, -2, -1)) = ((2, -1, -1)))), if_neg (by decide : ¬ (((6, -2, -1)) = ((3, -1, -1)))), if_neg (by decide : ¬ (((6, -2, -1)) = ((4, -1, -1)))), if_neg (by decide : ¬ (((6, -2, -1)) = ((5, -1, -1)))), if_neg (by decide : ¬ (((6, -2, -1)) = ((6, -1, -1)))), if_neg (by decide : ¬ (((6, -2, -1)) = ((6, -1, -2)))), if_pos rfl]
+  · simp only [wits_A7_b0]
     exact hwits_A7b0c6w21
 theorem hsideOK_A7_b0 :
     ∀ s ∈ GGResIDisp.A7.shapes_A7_b0, ∀ w ∈ wits_A7_b0 s,
@@ -3095,23 +3095,23 @@ theorem cell_A7_b6 :
   intro s hs
   simp only [GGResIDisp.A7.shapes_A7_b6, List.mem_cons, List.not_mem_nil, or_false] at hs
   rcases hs with rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl | rfl
-  · simp only [wits_A7_b6, if_pos rfl]
+  · simp only [wits_A7_b6]
     exact hwits_A7b6c0
-  · simp only [wits_A7_b6, if_neg (by decide : ¬ (((0, -1, -2)) = ((0, -1, -1)))), if_pos rfl]
+  · simp only [wits_A7_b6]
     exact hwits_A7b6c0w12
-  · simp only [wits_A7_b6, if_neg (by decide : ¬ (((0, -2, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((0, -2, -1)) = ((0, -1, -2)))), if_pos rfl]
+  · simp only [wits_A7_b6]
     exact hwits_A7b6c0w21
-  · simp only [wits_A7_b6, if_neg (by decide : ¬ (((1, -1, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((1, -1, -1)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((1, -1, -1)) = ((0, -2, -1)))), if_pos rfl]
+  · simp only [wits_A7_b6]
     exact hwits_A7b6c1
-  · simp only [wits_A7_b6, if_neg (by decide : ¬ (((2, -1, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((2, -1, -1)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((2, -1, -1)) = ((0, -2, -1)))), if_neg (by decide : ¬ (((2, -1, -1)) = ((1, -1, -1)))), if_pos rfl]
+  · simp only [wits_A7_b6]
     exact hwits_A7b6c2
-  · simp only [wits_A7_b6, if_neg (by decide : ¬ (((3, -1, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((3, -1, -1)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((3, -1, -1)) = ((0, -2, -1)))), if_neg (by decide : ¬ (((3, -1, -1)) = ((1, -1, -1)))), if_neg (by decide : ¬ (((3, -1, -1)) = ((2, -1, -1)))), if_pos rfl]
+  · simp only [wits_A7_b6]
     exact hwits_A7b6c3
-  · simp only [wits_A7_b6, if_neg (by decide : ¬ (((4, -1, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((4, -1, -1)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((4, -1, -1)) = ((0, -2, -1)))), if_neg (by decide : ¬ (((4, -1, -1)) = ((1, -1, -1)))), if_neg (by decide : ¬ (((4, -1, -1)) = ((2, -1, -1)))), if_neg (by decide : ¬ (((4, -1, -1)) = ((3, -1, -1)))), if_pos rfl]
+  · simp only [wits_A7_b6]
     exact hwits_A7b6c4
-  · simp only [wits_A7_b6, if_neg (by decide : ¬ (((5, -1, -2)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((5, -1, -2)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((5, -1, -2)) = ((0, -2, -1)))), if_neg (by decide : ¬ (((5, -1, -2)) = ((1, -1, -1)))), if_neg (by decide : ¬ (((5, -1, -2)) = ((2, -1, -1)))), if_neg (by decide : ¬ (((5, -1, -2)) = ((3, -1, -1)))), if_neg (by decide : ¬ (((5, -1, -2)) = ((4, -1, -1)))), if_pos rfl]
+  · simp only [wits_A7_b6]
     exact hwits_A7b6c5w12
-  · simp only [wits_A7_b6, if_neg (by decide : ¬ (((5, -2, -1)) = ((0, -1, -1)))), if_neg (by decide : ¬ (((5, -2, -1)) = ((0, -1, -2)))), if_neg (by decide : ¬ (((5, -2, -1)) = ((0, -2, -1)))), if_neg (by decide : ¬ (((5, -2, -1)) = ((1, -1, -1)))), if_neg (by decide : ¬ (((5, -2, -1)) = ((2, -1, -1)))), if_neg (by decide : ¬ (((5, -2, -1)) = ((3, -1, -1)))), if_neg (by decide : ¬ (((5, -2, -1)) = ((4, -1, -1)))), if_neg (by decide : ¬ (((5, -2, -1)) = ((5, -1, -2)))), if_pos rfl]
+  · simp only [wits_A7_b6]
     exact hwits_A7b6c5w21
 theorem hsideOK_A7_b6 :
     ∀ s ∈ GGResIDisp.A7.shapes_A7_b6, ∀ w ∈ wits_A7_b6 s,

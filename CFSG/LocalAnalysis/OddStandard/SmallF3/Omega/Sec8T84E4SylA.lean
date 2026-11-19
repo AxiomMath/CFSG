@@ -27,8 +27,8 @@ theorem sec8t84_le_sylow_of_normal {G : Type} [Group G] [Finite G] {X T E : Subg
     (hT : IsSylow2Of T X) (hEX : E ≤ X) (hE : ∀ x ∈ X, ∀ e ∈ E, x * e * x⁻¹ ∈ E)
     (hE2 : IsPGroup 2 E) : E ≤ T := by
   obtain ⟨hTX, hT2, hTodd⟩ := hT
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hEnorm : (E.subgroupOf X).Normal :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hEnorm : (E.subgroupOf X).Normal :=
     (Subgroup.normal_subgroupOf_iff_le_normalizer hEX).mpr (Subgroup.le_normalizer_iff.mpr hE)
   have hE2' : IsPGroup 2 ↥(E.subgroupOf X) :=
     hE2.of_equiv (Subgroup.subgroupOfEquivOfLe hEX).symm
@@ -64,13 +64,13 @@ theorem sec8t84_sylow_inf_normal {G : Type} [Group G] [Finite G] {S H N : Subgro
 
 theorem sec8t84_sylow_sup_commuting {G : Type} [Group G] [Finite G] {Y1 Y2 S1 S2 : Subgroup G}
     (h12 : ∀ a ∈ Y1, ∀ b ∈ Y2, a * b * a⁻¹ ∈ Y2)
-    (h21 : ∀ b ∈ Y2, ∀ a ∈ Y1, b * a * b⁻¹ ∈ Y1)
-    (hodd : Odd (Nat.card ↥(Y1 ⊓ Y2))) (hS1 : IsSylow2Of S1 Y1) (hS2 : IsSylow2Of S2 Y2)
+    (_h21 : ∀ b ∈ Y2, ∀ a ∈ Y1, b * a * b⁻¹ ∈ Y1)
+    (_hodd : Odd (Nat.card ↥(Y1 ⊓ Y2))) (hS1 : IsSylow2Of S1 Y1) (hS2 : IsSylow2Of S2 Y2)
     (hcomm : ∀ a ∈ S1, ∀ b ∈ S2, a * b = b * a) (hinf : S1 ⊓ S2 = ⊥) :
     IsSylow2Of (S1 ⊔ S2) (Y1 ⊔ Y2) ∧ Nat.card ↥(S1 ⊔ S2) = Nat.card S1 * Nat.card S2 := by
   obtain ⟨hS1Y1, hS1_2, hS1odd⟩ := hS1
   obtain ⟨hS2Y2, hS2_2, hS2odd⟩ := hS2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hY12 : Y1 ≤ Subgroup.normalizer (Y2 : Set G) := Subgroup.le_normalizer_iff.mpr h12
   have hS12 : S1 ≤ Subgroup.normalizer (S2 : Set G) :=
     Subgroup.le_normalizer_iff.mpr fun a ha b hb => by

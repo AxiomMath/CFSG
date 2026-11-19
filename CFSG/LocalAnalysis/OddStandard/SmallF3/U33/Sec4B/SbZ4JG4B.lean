@@ -23,11 +23,11 @@ variable {Mc : Subgroup H} (hMc : IsZJMc ρ Q Mh Mc) include hMc
 theorem lt_not_mem_McTT : l * t ∉ Mc ⊔ closure ({t, τ} : Set H) := by
   intro hx
   obtain ⟨m, hm, h1 | h2 | h3 | h4⟩ := (mem_McTT_iff h hMh hMc).mp hx
-  · exact tl_not_mem_Mh h hMh (by rw [h.t_l, h1]; exact Mc_le_Mh h hMh hMc hm)
-  · exact l_not_mem_Mh h hMh (mul_right_cancel h2 ▸ Mc_le_Mh h hMh hMc hm)
+  · exact tl_not_mem_Mh h hMh (by rw [h.t_l, h1]; exact Mc_le_Mh hMc hm)
+  · exact l_not_mem_Mh h hMh (mul_right_cancel h2 ▸ Mc_le_Mh hMc hm)
   · have hlt : l * t ∈ Mh := by
       rw [h3]
-      exact Mh.mul_mem (Mc_le_Mh h hMh hMc hm) (tau_mem_Mh h hMh)
+      exact Mh.mul_mem (Mc_le_Mh hMc hm) (tau_mem_Mh h hMh)
     exact tl_not_mem_Mh h hMh (by rwa [h.t_l])
   · have hl : l = m * τ := by
       calc l = l * 1 := by rw [mul_one]
@@ -40,7 +40,7 @@ theorem lt_not_mem_McTT : l * t ∉ Mc ⊔ closure ({t, τ} : Set H) := by
                   _ = τ * (t * t) := by group
                   _ = τ := by rw [h.t_sq, mul_one]
               rw [show m * (t * τ) * t = m * ((t * τ) * t) by group, hword]
-    exact l_not_mem_Mh h hMh (hl ▸ Mh.mul_mem (Mc_le_Mh h hMh hMc hm) (tau_mem_Mh h hMh))
+    exact l_not_mem_Mh h hMh (hl ▸ Mh.mul_mem (Mc_le_Mh hMc hm) (tau_mem_Mh h hMh))
 
 theorem V_le_commutator_Vh : V ≤ ⁅zjVh Mc t τ l, zjVh Mc t τ l⁆ := by
   have hexists : ∃ α ∈ Mc, α ∉ Q := by
@@ -67,6 +67,7 @@ theorem V_le_commutator_Vh : V ≤ ⁅zjVh Mc t τ l, zjVh Mc t τ l⁆ := by
     (Mc_le_zjVh Mc t τ l (Mc.inv_mem hα))
     (Mc_le_zjVh Mc t τ l (Q_le_Mc h hMh hMc (h.Y_le_Q huY)))
 
+omit [Finite H] hMh hMc in
 theorem V_elem_ab : ∀ a ∈ V, ∀ b ∈ V, a * b = b * a ∧ a * a = 1 := by
   have hVY : V ≤ Y := by rw [h.Y_eq]; exact le_sup_left
   intro a ha b hb

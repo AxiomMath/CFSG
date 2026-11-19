@@ -19,7 +19,7 @@ theorem cover_pair_facts {X Y : Type} [Group X] [Group Y] (π : Y →* X)
     (hker : ∀ z ∈ π.ker, z ^ 4 = 1) {a b : Y} (ha3 : a ^ 3 = 1) (ha1 : a ≠ 1) (hb3 : b ^ 3 = 1)
     (hab : a * b = b * a) (hbn : b ∉ Subgroup.zpowers a) :
     orderOf (π a) = 3 ∧ π b ^ 3 = 1 ∧ π a * π b = π b * π a ∧ π b ∉ Subgroup.zpowers (π a) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   have key : ∀ w : Y, π w = 1 → w ^ 3 = 1 → w = 1 := by
     intro w hw hw3
     have h4 : w ^ 4 = 1 := hker w (MonoidHom.mem_ker.mpr hw)

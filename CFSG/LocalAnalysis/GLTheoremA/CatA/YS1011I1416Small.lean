@@ -18,7 +18,7 @@ theorem small_sq_dvd_aut {G : Type} [Group G] [Finite G] {X K A : Subgroup G} {p
     (hK : GLAPComponent p X K) (hAN : A ≤ Subgroup.normalizer (K : Set G)) (hA : IsElemAbelian p A)
     (hcard : p ^ 2 * Nat.card ↥(A ⊓ centModSubgroup p K) ≤ Nat.card A) :
     p ^ 2 ∣ Nat.card (MulAut (PSimple p K)) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let N : Subgroup G := Subgroup.normalizer (K : Set G)
   let H : Subgroup N := A.subgroupOf N
   let ψ : H →* MulAut (PSimple p K) := (chevAut p K).comp H.subtype
@@ -68,25 +68,25 @@ theorem small_not_sq_120 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ^ 2 ∣
   have hle : p ≤ 11 := by
     have : p ^ 2 ≤ 120 := Nat.le_of_dvd (by norm_num) h
     nlinarith [hp.two_le]
-  interval_cases p <;> first | omega | (norm_num at hp; done) | (norm_num at h; done) | (norm_num at hp2; done)
+  interval_cases p <;> first | omega | (norm_num at hp)
 
 theorem small_not_sq_336 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ^ 2 ∣ 336) : False := by
   have hle : p ≤ 18 := by
     have : p ^ 2 ≤ 336 := Nat.le_of_dvd (by norm_num) h
     nlinarith [hp.two_le]
-  interval_cases p <;> first | omega | (norm_num at hp; done) | (norm_num at h; done) | (norm_num at hp2; done)
+  interval_cases p <;> first | omega | (norm_num at hp)
 
 theorem small_eq3_1512 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ^ 2 ∣ 1512) : p = 3 := by
   have hle : p ≤ 38 := by
     have : p ^ 2 ≤ 1512 := Nat.le_of_dvd (by norm_num) h
     nlinarith [hp.two_le]
-  interval_cases p <;> first | rfl | omega | (norm_num at hp; done) | (norm_num at h; done) | (norm_num at hp2; done)
+  interval_cases p <;> first | rfl | omega | (norm_num at hp)
 
 theorem small_eq3_12096 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ^ 2 ∣ 12096) : p = 3 := by
   have hle : p ≤ 110 := by
     have : p ^ 2 ≤ 12096 := Nat.le_of_dvd (by norm_num) h
     nlinarith [hp.two_le]
-  interval_cases p <;> first | rfl | omega | (norm_num at hp; done) | (norm_num at h; done) | (norm_num at hp2; done)
+  interval_cases p <;> first | rfl | omega | (norm_num at hp)
 
 theorem small_psl_iso {S : Type} [Group S] {p f : ℕ} [Fact p.Prime] (hf : 1 ≤ f)
     (h : StatedClassicalModel S .PSL 2 p f) : Nonempty (S ≃* CFSG.AGLEmbedding.PSL2GF p f) :=
@@ -184,7 +184,7 @@ theorem small_l2_8 {G : Type} [Group G] [Finite G] {p : ℕ} {Y K A : Subgroup G
   have h3 : p = 3 := small_eq3_1512 hp hp2 hAut
   subst h3
   obtain ⟨hs, hnc⟩ := chev_pSimple_simple_nonabelian hp hK
-  haveI := hs
+  have := hs
   exact i112d_l2_false hK hA hinn hcard (chev_center_eq_bot_of_simple_nonabelian hnc) hL2
 
 end L2Certs
@@ -233,7 +233,7 @@ section MainCerts
 
 theorem i1416TwoSmall_holds (G : Type) [Group G] [Finite G] : I1416TwoSmall G := by
   intro p Y K A r hp hp2 hr hr2 _hY hK h2 hrC hA hinn hcard
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hAut := small_sq_dvd_aut hp hK hinn.1 hA hcard
   rcases CFSG.StandardType.ChevTwo.chevTwo_cases h2 with ⟨t, n, f, hX⟩ | ⟨e6⟩ | hPSU
   · rcases hrC with ⟨i, hi, ⟨e⟩⟩ | ⟨i, hi, ⟨e⟩⟩

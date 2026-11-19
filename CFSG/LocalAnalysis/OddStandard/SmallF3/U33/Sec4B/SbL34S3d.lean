@@ -12,6 +12,7 @@ open CFSG.OddStandard.SmallF3.HarrisU33.L34
 variable {G : Type} [Group G] [Finite G] {t : G} {L S : Subgroup G} {x₁ x₂ lam rho tau : G}
 
 
+omit [Finite G] in
 theorem pCoreOf_eq_of_normal_max {p : ℕ} (H U : Subgroup G) (hUH : U ≤ H)
     (hnorm : ∀ h ∈ H, ∀ u ∈ U, h * u * h⁻¹ ∈ U) (hU : IsPGroup p U)
     (hmax : ∀ R : Subgroup G, R ≤ H → (∀ h ∈ H, ∀ r ∈ R, h * r * h⁻¹ ∈ R) →
@@ -92,7 +93,7 @@ theorem pCoreOf_eq_ctxPL (ha : Ctx4A t L S x₁ x₂ lam rho tau) (σ : Sig4 t t
       · rw [Nat.coprime_pow_right_iff hk0]; norm_num
     exact orderOf_eq_one_iff.mp (Nat.eq_one_of_dvd_coprimes hcop hdvd3 hdvd2)
   have hNle : N' ≤ klein4 := by
-    haveI : N'.Normal := hN'normal
+    have : N'.Normal := hN'normal
     exact normal_le_klein4 N' hno3
   exact hNle (show σ.φ ⟨r, hRL hr⟩ ∈ N' from
     Subgroup.mem_map.mpr ⟨⟨r, hRL hr⟩, Subgroup.mem_subgroupOf.mpr hr, rfl⟩)

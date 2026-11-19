@@ -18,7 +18,7 @@ theorem ts24L_eq : LA m24Ts = ts24L :=
   LA_cosArr _ _ _
 
 theorem coset_eq : m24CosetOK = coset24L := by
-  simp only [m24CosetOK, coset24L, cosetOK_eq, ts24L_eq, List.toList_toArray]
+  simp only [m24CosetOK, coset24L, cosetOK_eq, ts24L_eq]
 
 theorem flag_eq (i : ℕ) : m24FlagOK i = flag24L i := by
   simp only [m24FlagOK, flagOK, flag24L, invCols_eq]

@@ -157,7 +157,7 @@ theorem exists_elementary_lift {L : Subgroup G} {t : ↥(normalizer (L : Set G))
   have hRker : ∀ r : M, r ∈ (R : Subgroup M) → r ∈ f.ker → r = 1 := by
     intro r hr hrk
     have h1 : (R : Subgroup M) ⊓ f.ker = ⊥ := by
-      apply eq_bot_of_isPGroup_two_of_coprime (R.isPGroup'.to_le inf_le_left)
+      apply eq_bot_of_isPGroup_two_of_coprime (R.isPGroup.to_le inf_le_left)
       exact Nat.Coprime.coprime_dvd_right (Subgroup.card_dvd_of_le inf_le_right) hkerodd
     have : r ∈ (R : Subgroup M) ⊓ f.ker := mem_inf.mpr ⟨hr, hrk⟩
     rw [h1] at this

@@ -112,7 +112,7 @@ theorem Φ_matU_y0 : Φ (matU y0) = yC := by
   exact eK.symm_apply_apply c
 
 theorem orderOf_y0 : orderOf y0 = 11 := by
-  haveI : Fact (Nat.Prime 11) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 11) := ⟨by norm_num⟩
   refine orderOf_eq_prime (matU_injective (Φ.injective ?_)) fun h => yC_ne_one ?_
   · rw [map_pow, map_pow, Φ_matU_y0, yC_pow_eleven, map_one, map_one]
   · rw [← Φ_matU_y0, h, map_one, map_one]
@@ -203,7 +203,7 @@ theorem noCfgS429_su52 {S : Type} [Group S] [Finite S] (hna : ∃ a b : S, a * b
 
 theorem eight_SU5 : RowSOf429 (projSU 5 2 1) :=
   rowSOf429_of_noCfg fun S _ _ hs hna ⟨e⟩ => by
-    haveI := hs
+    have := hs
     exact noCfgS429_su52 hna e
 
 end CFSG.RankThree.PartTwo.Sec4.RonanK429E

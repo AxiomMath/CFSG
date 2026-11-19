@@ -30,7 +30,7 @@ theorem eq_one_of_commute_eigenbasis [CharP K 2] {n : ℕ} (b : Module.Basis (Fi
     by_cases hij : i = j
     · subst hij
       simp
-    · rw [if_neg (Ne.symm hij), if_neg hij, smul_zero]
+    · rw [ite_eq_right (Ne.symm hij), ite_eq_right hij, smul_zero]
   have hcomm : diagonal μ * LinearMap.toMatrix b b U = LinearMap.toMatrix b b U * diagonal μ := by
     rw [← hdiag, ← LinearMap.toMatrix_mul, ← LinearMap.toMatrix_mul, hTU]
   have hsq : LinearMap.toMatrix b b U * LinearMap.toMatrix b b U = 1 := by
@@ -181,8 +181,8 @@ theorem lpEpsNoGoodTwoLocal_unitary (q : TauCeti.PrimePower)
     · injection hq'' with _ h2
       rw [h2]
       exact h
-  haveI := hU.charP
-  haveI : CharP K 2 := CharP.congr q.p hq
+  have := hU.charP
+  have : CharP K 2 := CharP.congr q.p hq
   have hcard := TauCeti.PrimePower.card_def q
   have h3' : 3 ∣ q.p ^ q.exponent + 1 := by rwa [← hcard]
   have hq3 : 3 < q.p ^ q.exponent := by

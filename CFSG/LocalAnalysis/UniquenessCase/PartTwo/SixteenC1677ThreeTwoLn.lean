@@ -276,7 +276,7 @@ theorem s168e3_pointFix_of_star {D : Data G} {V₀ V L : Subgroup G} {hV : IsEle
     ∀ x : Vtil V₀ V hV, x ≠ 1 →
       ∃ b ∈ Mbar D.M V₀ V hV, orderOf b = p ∧ b x = x := by
   intro x hx
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨ρ, θ, hρs, hρe, hρk⟩ := s168e3_star c hs
   have hmono : lBar V₀ V hV L ≤ Mbar D.M V₀ V hV :=
     barSub_mono V₀ V hV c.setting.hyp151.le

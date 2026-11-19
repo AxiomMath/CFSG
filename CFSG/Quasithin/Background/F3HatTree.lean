@@ -43,8 +43,8 @@ private noncomputable def ghatToGold (h1 : Function.Injective α.α1)
     (h2 : Function.Injective α.α2) : α.Ghat →* (α.toGold h1 h2).Universal :=
   Amalgam.lift (α := α.toAmalgam) (α.ghatMu h1 h2) (α.ghatMu_compat h1 h2)
 
-private noncomputable def goldMu (h1 : Function.Injective α.α1)
-    (h2 : Function.Injective α.α2) :
+private noncomputable def goldMu (_h1 : Function.Injective α.α1)
+    (_h2 : Function.Injective α.α2) :
     ∀ b : Bool, goldVertexGroup α.G1 α.G2 b →* α.Ghat
   | true => Amalgam.ξ α.toAmalgam RankTwoIndex.one
   | false => Amalgam.ξ α.toAmalgam RankTwoIndex.two
@@ -57,8 +57,8 @@ private noncomputable def goldMu (h1 : Function.Injective α.α1)
     (h2 : Function.Injective α.α2) :
     α.goldMu h1 h2 false = Amalgam.ξ α.toAmalgam RankTwoIndex.two := rfl
 
-private noncomputable def goldEdge (h1 : Function.Injective α.α1)
-    (h2 : Function.Injective α.α2) : α.G12 →* α.Ghat :=
+private noncomputable def goldEdge (_h1 : Function.Injective α.α1)
+    (_h2 : Function.Injective α.α2) : α.G12 →* α.Ghat :=
   Amalgam.ξ α.toAmalgam RankTwoIndex.onetwo
 
 private noncomputable def goldToGhat (h1 : Function.Injective α.α1)

@@ -34,7 +34,7 @@ public theorem CFSG.psu3Model_card (n : ℕ) (hn : 2 ≤ n) :
         Nat.gcd 3 (2 ^ n + 1) := by
   let k := GaloisField 2 n
   let E := FiniteField.Extension k 2 2
-  letI : Fintype E := Fintype.ofFinite E
+  let : Fintype E := Fintype.ofFinite E
   let sigma : E ≃+* E :=
     (FiniteField.Extension.frob k 2 2).toRingEquiv
   have hsigma_involutive : Function.Involutive sigma := by

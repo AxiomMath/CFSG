@@ -27,7 +27,7 @@ theorem false_of_perfect_three_pSolvable {Y : Type*} [Group Y] [Finite Y] {V : S
   refine false_of_perfect_pSolvable_cyclicSylow hperf h3 hs fun P => ?_
   have hcard : Nat.card (P : Subgroup ↥V) ∣ Nat.card V := by
     exact Subgroup.card_subgroup_dvd_card (P : Subgroup ↥V)
-  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup'
+  obtain ⟨k, hk⟩ := IsPGroup.iff_card.mp P.isPGroup
   have hk1 : k ≤ 1 := by
     by_contra hk2
     apply h9
@@ -36,10 +36,10 @@ theorem false_of_perfect_three_pSolvable {Y : Type*} [Group Y] [Finite Y] {V : S
     exact hcard
   interval_cases k
   · rw [pow_zero] at hk
-    haveI : Subsingleton (P : Subgroup ↥V) := (Nat.card_eq_one_iff_unique.mp hk).1
+    have : Subsingleton (P : Subgroup ↥V) := (Nat.card_eq_one_iff_unique.mp hk).1
     exact isCyclic_of_subsingleton
   · rw [pow_one] at hk
-    haveI : Fact (Nat.card (P : Subgroup ↥V)).Prime := ⟨by rw [hk]; exact Nat.prime_three⟩
+    have : Fact (Nat.card (P : Subgroup ↥V)).Prime := ⟨by rw [hk]; exact Nat.prime_three⟩
     exact isCyclic_of_prime_card hk
 
 end Pure
@@ -158,6 +158,7 @@ theorem coverOne_solv (L A : Subgroup W) (h2 : Open.pRank 3 A ≤ 2)
   exact Tits.OrdinaryProofs.PSolvableClosure.isPSolvable_of_le
     (isPSolvable_image_subgroupOf L hsolv) hVC
 
+omit [Finite W] in
 theorem card_ker_image_dvd (L A : Subgroup W) :
     Nat.card (((QuotientGroup.mk' (Subgroup.center ↥L)).comp
       (A.subgroupOf L).subtype).ker) ∣ Nat.card (Subgroup.center ↥L) := by

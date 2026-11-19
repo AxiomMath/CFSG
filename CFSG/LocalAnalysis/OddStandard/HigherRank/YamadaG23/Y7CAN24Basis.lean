@@ -56,7 +56,7 @@ theorem n24_conj_z0 (τ : GL (Fin 6) (ZMod 2)) (hτ : τ * τ = 1)
     (hr : Module.finrank (ZMod 2)
       (LinearMap.range (Matrix.toLin' ((τ : Matrix (Fin 6) (Fin 6) (ZMod 2)) + 1))) = 3) :
     ∃ g : GL (Fin 6) (ZMod 2), g * τ * g⁻¹ = z₀ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let E := Fin 6 → ZMod 2
   let M : Matrix (Fin 6) (Fin 6) (ZMod 2) := (τ : Matrix (Fin 6) (Fin 6) (ZMod 2))
   have hM : M * M = 1 := by

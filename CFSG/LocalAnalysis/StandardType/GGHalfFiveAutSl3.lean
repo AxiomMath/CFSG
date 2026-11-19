@@ -52,9 +52,9 @@ private theorem exists_zpowers_omegaBlock_of_mem_halfTorus_supp_two
       funext i
       rw [gen, Pi.mulSingle_apply, Pi.pow_apply, Pi.mulSingle_apply]
       by_cases hi : i = j
-      · rw [if_pos hi, if_pos hi]
+      · rw [ite_eq_left hi, ite_eq_left hi]
         exact (ofAdd_one_pow (v j)).symm
-      · rw [if_neg hi, if_neg hi]
+      · rw [ite_eq_right hi, ite_eq_right hi]
         simp
     conv_lhs => rw [hv_eq, h1]
     rw [show Φ (gen j ^ (Multiplicative.toAdd (v j)).val) =

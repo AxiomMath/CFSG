@@ -212,7 +212,7 @@ theorem D1CaseTwoData3.exists_inverting_two_element (hOut : KFactOutCyclic)
   obtain ⟨⟨s, hsN, hsfpf⟩, hfix, -⟩ := hloc T
   have hcyc : IsCyclic ((Rbar : Subgroup (H ⧸ O)) ⊓ Kb : Subgroup (H ⧸ O)) := hd.cyclic Kb hKb
   have hpg : IsPGroup 3 ((Rbar : Subgroup (H ⧸ O)) ⊓ Kb : Subgroup (H ⧸ O)) :=
-    Rbar.isPGroup'.to_le inf_le_left
+    Rbar.isPGroup.to_le inf_le_left
   have hTmem : ∀ y : H ⧸ O, y ∈ (Rbar : Subgroup (H ⧸ O)) ⊓ Kb ↔
       ∃ x ∈ (T : Subgroup Kb), (x : H ⧸ O) = y := by
     intro y

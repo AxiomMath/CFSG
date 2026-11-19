@@ -42,8 +42,8 @@ private lemma l48g1_pad_pv {K : Type} [Field K] (N : ℕ) (k : Fin N) (z : Kˣ) 
   cases i using Fin.cases with
   | zero =>
       rw [Fin.cons_zero, l48g1_pv_apply, Fin.castSucc_succ]
-      rw [if_neg (fun h => Fin.succ_ne_zero k.castSucc h.symm),
-          if_neg (fun h => Fin.succ_ne_zero k.succ h.symm)]
+      rw [ite_eq_right (fun h => Fin.succ_ne_zero k.castSucc h.symm),
+          ite_eq_right (fun h => Fin.succ_ne_zero k.succ h.symm)]
       simp
   | succ i =>
       simp only [Fin.cons_succ, l48g1_pv_apply, Fin.castSucc_succ, Fin.succ_inj]
@@ -112,7 +112,7 @@ private lemma l48g1_telescope (μ : Subgroup Kˣ) :
 theorem ggTDroot_of_act (M : GGTDModel K N m L') {a : MulAut L'} {t : Fin (N + 1) → Kˣ}
     (h : M.Act a t) (k : Fin N) :
     ggTDroot M k a = M.ι ⟨t k.castSucc / t k.succ, M.act_ratio_mem h _ _⟩ := by
-  rw [ggTDroot, dif_pos ⟨t, h⟩]
+  rw [ggTDroot, dite_eq_left ⟨t, h⟩]
   obtain ⟨c, hc⟩ := M.act_ratio (Classical.choose_spec ⟨t, h⟩) h
   congr 1
   apply Subtype.ext
@@ -130,7 +130,7 @@ theorem ggTDTg_gen (μ : Subgroup Kˣ) (N : ℕ) : (⨆ k : Fin N, (ggTDpv μ N 
   obtain ⟨f, hf⟩ := l48g1_telescope μ N s
   have hsub : s = ∏ k, ggTDpv μ N k (f k) := by
     apply Subtype.ext
-    simpa [Subgroup.val_finset_prod, ggTDpv] using hf
+    simpa [Subgroup.val_finsetProd, ggTDpv] using hf
   rw [hsub]
   refine Subgroup.prod_mem _ (fun k _ => ?_)
   exact Subgroup.mem_iSup_of_mem k ⟨f k, rfl⟩
@@ -254,12 +254,12 @@ theorem ggTDholdsOne (M : GGTDModel K N m L') {A : Subgroup (MulAut L')}
           (simp only [ne_eq, Fin.ext_iff, Fin.val_castSucc, Fin.val_succ]; omega)
     have hci : ((ggTDpv M.μ N k (z / z') : Fin (N + 1) → Kˣ) i) = 1 := by
       show ggTDpvFun N k ((z / z' : M.μ) : Kˣ) i = 1
-      rw [l48g1_pv_apply, if_neg hi1, if_neg hi2]
+      rw [l48g1_pv_apply, ite_eq_right hi1, ite_eq_right hi2]
       simp
     have hc1 : c = 1 := by rw [← hc i, hci]
     have hz : ((ggTDpv M.μ N k (z / z') : Fin (N + 1) → Kˣ) k.castSucc) = (z / z' : Kˣ) := by
       show ggTDpvFun N k ((z / z' : M.μ) : Kˣ) k.castSucc = (z / z' : Kˣ)
-      rw [l48g1_pv_apply, if_pos rfl, if_neg (l48g1_castSucc_ne_succ k)]
+      rw [l48g1_pv_apply, ite_eq_left rfl, ite_eq_right (l48g1_castSucc_ne_succ k)]
       simp
     have hzz : z / z' = 1 := by
       have : ((z / z' : M.μ) : Kˣ) = 1 := by
@@ -306,7 +306,7 @@ theorem ggTDholdsOne (M : GGTDModel K N m L') {A : Subgroup (MulAut L')}
       rw [l48g1_pv_apply N j ((z : M.μ) : Kˣ) i.castSucc,
         l48g1_pv_apply N j ((z : M.μ) : Kˣ) i.succ]
       simp only [Fin.ext_iff, Fin.val_castSucc, Fin.val_succ]
-      split_ifs <;> simp_all <;> (first | omega | group | rw [pow_two])
+      split_ifs <;> simp_all; (first | omega)
     rw [hL]
     have hA : (CartanMatrix.A N) i j =
         (if i = j then (2 : ℤ) else

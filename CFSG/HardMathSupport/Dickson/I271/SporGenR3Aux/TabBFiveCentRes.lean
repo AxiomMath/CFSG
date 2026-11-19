@@ -60,7 +60,7 @@ theorem exists_hom_of_card_center_two [Finite G] {Q : Type*} [Group Q] {X : Subg
     ∃ f : ↥X →* Q, Nat.card ↥f.ker = 2 ∧ ∀ x : ↥X,
       Nat.card ↥(X ⊓ centralizer ({(x : G)} : Set G)) ≤
         2 * Nat.card ↥(centralizer ({f x} : Set Q)) := by
-  haveI : Finite Q := Finite.of_equiv _ e.toEquiv
+  have : Finite Q := Finite.of_equiv _ e.toEquiv
   refine ⟨e.toMonoidHom.comp (QuotientGroup.mk' (center ↥X)), ?_, fun x => ?_⟩
   · have hker : (e.toMonoidHom.comp (QuotientGroup.mk' (center ↥X))).ker = center ↥X := by
       ext y
@@ -80,7 +80,7 @@ theorem exists_hom_of_twoA (hE : MonsterExistenceStatement G) {t : G} (ht : orde
         Nat.card ↥(centralizer ({t} : Set G) ⊓ centralizer ({(x : G)} : Set G)) ≤
           2 * Nat.card ↥(centralizer ({f x} : Set NativeSporadic.B)) := by
   obtain ⟨⟨hfin, -, -, -⟩, a, z, -, -, -, hcls, hA, hB, -⟩ := id hE
-  haveI : Finite G := hfin
+  have : Finite G := hfin
   have htA : IsConj a t := by
     rcases hcls t ht with h | h
     · exact h
@@ -126,13 +126,13 @@ theorem card_inf_centralizer_le_of_twoA_res (hE : MonsterExistenceStatement G)
     (hL : L ≤ centralizer ({t} : Set G) ⊓ centralizer ({k} : Set G))
     (hLc : Nat.card ↥L = 887040000) :
     Nat.card ↥(centralizer ({t} : Set G) ⊓ centralizer ({k} : Set G)) ≤ 887040000 := by
-  haveI : Finite G := hE.1.1
+  have : Finite G := hE.1.1
   obtain ⟨f, hker, hle⟩ := exists_hom_of_twoA hE ht htc
   have hkX : k ∈ centralizer ({t} : Set G) := mem_centralizer_singleton_iff.2 htk.symm
   have hy : orderOf (f ⟨k, hkX⟩) = 5 :=
     orderOf_map_of_card_ker_two f hker Nat.prime_five (by norm_num)
       (by rw [Subgroup.orderOf_mk]; exact hk)
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   obtain ⟨w, hw⟩ := exists_prime_orderOf_dvd_card' (G := ↥L) 7 (by rw [hLc]; norm_num)
   have hwX : (w : G) ∈ centralizer ({t} : Set G) := (hL w.2).1
   have hwk : (w : G) * k = k * w := mem_centralizer_singleton_iff.1 (hL w.2).2

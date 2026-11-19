@@ -123,6 +123,7 @@ theorem finrank_orthogonal_polar [FiniteDimensional K V]
     finrank K (LinearMap.BilinForm.orthogonal (polarBilin Qf) A) = finrank K V - finrank K A :=
   LinearMap.BilinForm.finrank_orthogonal (nondegenerate_polarBilin hnd) A
 
+omit [CharP K 2] in
 theorem exists_polar_pair (hnd : ∀ x : V, (∀ y, polar Qf x y = 0) → x = 0) {a b : V}
     (hli : LinearIndependent K ![a, b]) (α β : K) :
     ∃ x : V, polar Qf x a = α ∧ polar Qf x b = β :=

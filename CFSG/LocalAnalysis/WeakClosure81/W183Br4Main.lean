@@ -34,7 +34,7 @@ theorem false_of_branchIV
   classical
   obtain ⟨hOK, -⟩ := exists_component182_ker_AS h172 h5_4 h5_11 h5_13 c h2
   obtain ⟨X, instX, φ, hφs, hφk, hXS⟩ := hX
-  letI : Group X := instX
+  let : Group X := instX
   have hgood : Br4Good X := br4Good_of_shapeIV hGA hXS
   have hXgood : HasQuotShape L (kerMV V H : Set G) (fun X _ => Br4Good X) :=
     ⟨X, instX, φ, hφs, hφk, hgood⟩

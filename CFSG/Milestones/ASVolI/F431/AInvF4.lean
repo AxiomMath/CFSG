@@ -66,11 +66,11 @@ theorem burnsideF4m_centInput_F4 (hyp : HypF_4_4 .F4tw 2 f Gp M₁ M₂) (hf : 3
     (hodd : Odd Gp.index) {x : E} (hx1 : x ≠ 1) (hx2 : x * x = 1) :
     ∃ w : E, IsConj x w ∧
       (Subgroup.centralizer ({w} : Set E) ≤ M₁ ∨ Subgroup.centralizer ({w} : Set E) ≤ M₂) := by
-  haveI := hyp.finite
+  have := hyp.finite
   obtain ⟨a, K, fK, finK, charK, hscope, hfa, marking, h1, h2⟩ :=
     burnsideF4g_chart_F4tw hyp.toHypF_4_4g
-  letI := fK
-  haveI := finK
+  let := fK
+  have := finK
   obtain ⟨TD, hTD⟩ := burnsideF4g_yamF4 (by omega) hscope marking
   rw [← h1, ← h2] at hTD
   have hmodel := burnsideF4g_lieModel_F4tw hf hyp.model

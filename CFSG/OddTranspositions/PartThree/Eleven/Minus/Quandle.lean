@@ -114,7 +114,7 @@ private theorem minusQuandleStep_subset {S : Set (Fin 65)}
     rw [Set.mem_iUnion] at hxU
     obtain ⟨-, hxj⟩ := hxU
     by_cases hc : ((K.image (minusQuandleTf j)) ∩ K).Nonempty
-    · rw [if_pos hc] at hxj
+    · rw [ite_eq_left hc] at hxj
       rw [Finset.coe_image] at hxj
       obtain ⟨k, hkK, hkx⟩ := hxj
       have hneK : (((minusQuandleTf j) '' (K : Set (Fin 65))) ∩
@@ -132,7 +132,7 @@ private theorem minusQuandleStep_subset {S : Set (Fin 65)}
         exact ⟨k, hK hkK, hkx⟩
       · obtain ⟨y, hy⟩ := hne
         exact (Set.disjoint_left.mp hdisj hy.1 hy.2).elim
-    · rw [if_neg hc] at hxj
+    · rw [ite_eq_right hc] at hxj
       exact absurd hxj (by simp)
 
 private theorem minusQuandleIter_subset {S : Set (Fin 65)}
@@ -206,7 +206,7 @@ theorem minusClass_primitive : ∀ B : Set minusPerm, B ⊆ minusClass → B.Non
     rw [hSsing hk hl]
 
 private theorem minusQuandleAgree {a₀ : Fin 65} {θ : Fin 65 → Fin 65} {c' : ℕ}
-    (hseed : minusQuandleSeed[(a₀ : ℕ)]! < 65)
+    (_hseed : minusQuandleSeed[(a₀ : ℕ)]! < 65)
     (hθhom : ∀ i j : Fin 65, θ (minusQuandleTf i j) = minusQuandleTf (θ i) (θ j))
     (hθfix : ∀ b : Fin 65, minusQuandleTf a₀ b = b → θ b = b)
     (hθc : (θ (Fin.ofNat 65 (minusQuandleSeed[(a₀ : ℕ)]!)) : ℕ) = c')
@@ -247,15 +247,15 @@ private theorem minusQuandleAgree {a₀ : Fin 65} {θ : Fin 65 → Fin 65} {c' :
         fun hle => ⟨(hderiv ⟨t, ht⟩ hle).1, (hderiv ⟨t, ht⟩ hle).2.1⟩
       have hmkD := minusQuandleMkD_get (a₀ : ℕ) c' t ht hst hinj hsrc
       by_cases hc0 : minusQuandleCode (a₀ : ℕ) t = 0
-      · rw [if_pos hc0] at hmkD
+      · rw [ite_eq_left hc0] at hmkD
         rw [hmkD]
         have hfix : minusQuandleTf a₀ (pt t) = pt t := by
           apply Fin.ext
           rw [minusQuandleTf_val, hpt t ht, hcode0 ⟨t, ht⟩ hc0]
         rw [hθfix _ hfix, hpt t ht]
-      · rw [if_neg hc0] at hmkD
+      · rw [ite_eq_right hc0] at hmkD
         by_cases hc1 : minusQuandleCode (a₀ : ℕ) t = 1
-        · rw [if_pos hc1] at hmkD
+        · rw [ite_eq_left hc1] at hmkD
           rw [hmkD]
           have hpteq : pt t = Fin.ofNat 65 (minusQuandleSeed[(a₀ : ℕ)]!) := by
             show Fin.ofNat 65 (minusQuandleSeq (a₀ : ℕ) t) =
@@ -263,7 +263,7 @@ private theorem minusQuandleAgree {a₀ : Fin 65} {θ : Fin 65 → Fin 65} {c' :
             rw [hcode1 ⟨t, ht⟩ hc1]
           rw [hpteq]
           exact hθc
-        · rw [if_neg hc1] at hmkD
+        · rw [ite_eq_right hc1] at hmkD
           rw [hmkD]
           have hle : 2 ≤ minusQuandleCode (a₀ : ℕ) t := by omega
           obtain ⟨hxl, hyl, hT⟩ := hderiv ⟨t, ht⟩ hle

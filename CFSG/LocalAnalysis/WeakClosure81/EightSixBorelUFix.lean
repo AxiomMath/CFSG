@@ -32,7 +32,7 @@ theorem mem_range_conj_of_fix_conj_iff_commute_statedProjSU (hF : Nat.card F = (
       MulAut (StatedProj (StatedSU m (2 ^ n) F))).range := by
   have h : UnitaryFieldData 2 n F :=
     ⟨Nat.prime_two, by omega, by rw [hF, ← pow_mul, Nat.mul_comm n 2]⟩
-  haveI : CharP F 2 := h.charP
+  have : CharP F 2 := h.charP
   have hq : ¬(m = 3 ∧ 2 ^ n = 2) := by
     rintro ⟨-, h2⟩
     have h4 : 2 ^ 2 ≤ 2 ^ n := Nat.pow_le_pow_right (by norm_num) hn
@@ -40,7 +40,7 @@ theorem mem_range_conj_of_fix_conj_iff_commute_statedProjSU (hF : Nat.card F = (
   obtain ⟨a, c, N₀, ha, haa, hc0, hc, hN₀, rfl⟩ := borel86_un_exists_eq_mk h ht
   by_cases hg1 : g = 1
   · subst hg1
-    haveI : IsSimpleGroup (StatedProj (StatedSU m (2 ^ n) F)) :=
+    have : IsSimpleGroup (StatedProj (StatedSU m (2 ^ n) F)) :=
       CFSG.ClassicalGroups.Unitary.isSimpleGroup_statedProj_statedSU F 2 n hF m hm
         fun h3 => hq (Prod.mk.inj h3)
     have h1 : α = 1 := borel86_conj_eq_one_of_forall_fix (borel86_un_ne_one h ht) α

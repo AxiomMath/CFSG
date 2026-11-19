@@ -55,7 +55,7 @@ private theorem eq_top_of_Q_zero_le_of_normal (Y : Setup Γ G) (H : Y.Sec5Hyp s 
   have hLnormQ : Y.L 0 ≤ Subgroup.normalizer (Y.Q 0 : Set G) :=
     (Y.L_le_Gi 0).trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (Y.Gi 0))
   have hQLnormal : QL.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hLnormQ
-  haveI : QL.Normal := hQLnormal
+  have : QL.Normal := hQLnormal
   have hN : IsLocL2 Γ G (Y.vert 0) (Y.n 0) (Y.L 0) := Y.hyp.isLocL2_oTwoPrime (Y.vert 0)
   have hqeq : QL = CFSG.pCore 2 ↥(Y.L 0) := by
     rw [hQLdef, ← CFSG.openPCoreOf_subgroupOf 2 (Y.L 0), hN.pCoreOf_eq]
@@ -65,17 +65,17 @@ private theorem eq_top_of_Q_zero_le_of_normal (Y : Setup Γ G) (H : Y.Sec5Hyp s 
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ Y.n 0 := Nat.pow_le_pow_right (by norm_num) h2n
   obtain ⟨e⟩ := hN.quot
-  haveI hsimplePSL : IsSimpleGroup (PSL(2, GaloisField 2 (Y.n 0))) :=
+  have hsimplePSL : IsSimpleGroup (PSL(2, GaloisField 2 (Y.n 0))) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hcardF
-  haveI hsimplePcore : IsSimpleGroup (↥(Y.L 0) ⧸ CFSG.pCore 2 ↥(Y.L 0)) :=
+  have hsimplePcore : IsSimpleGroup (↥(Y.L 0) ⧸ CFSG.pCore 2 ↥(Y.L 0)) :=
     e.isSimpleGroup_congr.mpr hsimplePSL
-  haveI hsimpleQ : IsSimpleGroup (↥(Y.L 0) ⧸ QL) :=
+  have hsimpleQ : IsSimpleGroup (↥(Y.L 0) ⧸ QL) :=
     (QuotientGroup.quotientMulEquivOfEq hqeq.symm).isSimpleGroup_congr.mp hsimplePcore
   let π : ↥(Y.L 0) →* (↥(Y.L 0) ⧸ QL) := QuotientGroup.mk' QL
   let M : Subgroup (↥(Y.L 0) ⧸ QL) := C.map π
   have hMnormal : M.Normal :=
     Subgroup.Normal.map (inferInstance : C.Normal) π (QuotientGroup.mk'_surjective QL)
-  haveI : M.Normal := hMnormal
+  have : M.Normal := hMnormal
   have hMne : M ≠ ⊥ := by
     intro hbot
     apply hC
@@ -120,7 +120,7 @@ private theorem Z_zero_eq_centerOf_L_zero_of_Zt (Y : Setup Γ G) (H : Y.Sec5Hyp 
   have hLnormQ : Y.L 0 ≤ Subgroup.normalizer (Y.Q 0 : Set G) :=
     (Y.L_le_Gi 0).trans (CFSG.LieType.BorelTits.le_normalizer_pCoreOf 2 (Y.Gi 0))
   have hQLnormal : QL.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hLnormQ
-  haveI : QL.Normal := hQLnormal
+  have : QL.Normal := hQLnormal
   have hN : IsLocL2 Γ G (Y.vert 0) (Y.n 0) (Y.L 0) := Y.hyp.isLocL2_oTwoPrime (Y.vert 0)
   have hqeq : QL = CFSG.pCore 2 ↥(Y.L 0) := by
     rw [hQLdef, ← CFSG.openPCoreOf_subgroupOf 2 (Y.L 0), hN.pCoreOf_eq]
@@ -130,11 +130,11 @@ private theorem Z_zero_eq_centerOf_L_zero_of_Zt (Y : Setup Γ G) (H : Y.Sec5Hyp 
     calc 4 = 2 ^ 2 := by norm_num
       _ ≤ 2 ^ Y.n 0 := Nat.pow_le_pow_right (by norm_num) h2n
   obtain ⟨e⟩ := hN.quot
-  haveI hsimplePSL : IsSimpleGroup (PSL(2, GaloisField 2 (Y.n 0))) :=
+  have hsimplePSL : IsSimpleGroup (PSL(2, GaloisField 2 (Y.n 0))) :=
     Matrix.ProjectiveSpecialLinearGroup.rank_two_simple hcardF
-  haveI hsimplePcore : IsSimpleGroup (↥(Y.L 0) ⧸ CFSG.pCore 2 ↥(Y.L 0)) :=
+  have hsimplePcore : IsSimpleGroup (↥(Y.L 0) ⧸ CFSG.pCore 2 ↥(Y.L 0)) :=
     e.isSimpleGroup_congr.mpr hsimplePSL
-  haveI hsimpleQ : IsSimpleGroup (↥(Y.L 0) ⧸ QL) :=
+  have hsimpleQ : IsSimpleGroup (↥(Y.L 0) ⧸ QL) :=
     (QuotientGroup.quotientMulEquivOfEq hqeq.symm).isSimpleGroup_congr.mp hsimplePcore
   have hLnormZ : Y.L 0 ≤ Subgroup.normalizer (Y.Z 0 : Set G) := by
     intro g hg
@@ -142,7 +142,7 @@ private theorem Z_zero_eq_centerOf_L_zero_of_Zt (Y : Setup Γ G) (H : Y.Sec5Hyp 
   have hCLnormal : CL.Normal := by
     rw [hCLdef]
     exact subgroupOf_inf_centralizer_normal hZ0L hLnormZ
-  haveI : CL.Normal := hCLnormal
+  have : CL.Normal := hCLnormal
   have hKCL : Y.K ≤ Y.L 0 ⊓ Subgroup.centralizer (Y.Z 0 : Set G) := by
     refine le_inf (Y.K_le_L_zero H) ?_
     rw [← Subgroup.commutator_eq_bot_iff_le_centralizer, Subgroup.commutator_comm]
@@ -184,7 +184,7 @@ private theorem Z_zero_eq_centerOf_L_zero_of_Zt (Y : Setup Γ G) (H : Y.Sec5Hyp 
   intro l hl
   exact (Subgroup.mem_centralizer_iff.mp (hL0CL hl).2 z hz).symm
 
-private theorem center_S_eq_Z_zero (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 = ⊥)
+private theorem center_S_eq_Z_zero (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (_hZ : Y.Zt 0 = ⊥)
     (hZ0L0 : Y.Z 0 = centerOf (Y.L 0)) : centerOf Y.S = Y.Z 0 := by
   have hSL : Y.S ≤ Y.L 0 :=
     le_oTwoPrime_of_isPGroup (pCoreOf_isPGroup' (Y.Gi 0 ⊓ Y.Gi 1))
@@ -201,7 +201,7 @@ private theorem center_S_eq_Z_zero (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ :
   rw [inf_eq_left.mpr hZ0C] at hEq
   exact hEq.symm
 
-private theorem center_L_one_eq_bot (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 = ⊥)
+private theorem center_L_one_eq_bot (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (_hZ : Y.Zt 0 = ⊥)
     (hZ0L0 : Y.Z 0 = centerOf (Y.L 0)) (h2 : centerOf Y.S = Y.Z 0) :
     centerOf (Y.L 1) = ⊥ := by
   have hQ1p : IsPGroup 2 (Y.Q 1) := pCoreOf_isPGroup' (Y.Gi 1)
@@ -264,7 +264,7 @@ private theorem relIndex_Q_one_L_one (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) :
     exact hcard
   simpa [Subgroup.relIndex] using hindex
 
-private theorem Z_zero_le_Q_one_of_center (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 = ⊥)
+private theorem Z_zero_le_Q_one_of_center (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (_hZ : Y.Zt 0 = ⊥)
     (hZ0L0 : Y.Z 0 = centerOf (Y.L 0)) (hZL1 : centerOf (Y.L 1) = ⊥) : Y.Z 0 ≤ Y.Q 1 := by
   classical
   have hQ1L : Y.Q 1 ≤ Y.L 1 :=
@@ -321,8 +321,8 @@ private theorem Z_zero_le_Q_one_of_center (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀
       exact absurd hmul (by norm_num)
     · exact h
   have ha_le : a ≤ 6 := Nat.le_of_dvd (by norm_num) ha_dvd
-  haveI : Finite ↥C := finite_of_le_stabilizer Y.hyp (hCL.trans (Y.L_le_Gi 1))
-  haveI : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (hQ1L.trans (Y.L_le_Gi 1))
+  have : Finite ↥C := finite_of_le_stabilizer Y.hyp (hCL.trans (Y.L_le_Gi 1))
+  have : Finite ↥(Y.Q 1) := finite_of_le_stabilizer Y.hyp (hQ1L.trans (Y.L_le_Gi 1))
   set Qc : Subgroup ↥C := (Y.Q 1).subgroupOf C with hQc_def
   have hQcNormal : Qc.Normal := by
     refine Subgroup.normal_subgroupOf_of_le_normalizer ?_
@@ -352,7 +352,7 @@ private theorem Z_zero_le_Q_one_of_center (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀
     exact absurd h2 (by norm_num)
   ·
     have h3 : (Y.Q 1).relIndex C = 3 := by rw [← ha_def]; exact h
-    haveI : Qc.Normal := hQcNormal
+    have : Qc.Normal := hQcNormal
     let π : ↥C →* (↥C ⧸ Qc) := QuotientGroup.mk' Qc
     have hcardquot : Nat.card (↥C ⧸ Qc) = 3 := by
       have h := Subgroup.index_eq_card Qc
@@ -463,7 +463,7 @@ private theorem isSylowTwoOf_S_Gi_one (Y : Setup Γ G) : IsSylowTwoOf Y.S (Y.Gi 
   exact isSylowTwoOf_of_edgeStab Y.hyp (α := Y.vert 1) (β := Y.vert 0) (Y.adj 0).symm
     (by simpa [inf_comm] using hSsyl0)
 
-private theorem Z_zero_le_Z_one (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 = ⊥)
+private theorem Z_zero_le_Z_one (Y : Setup Γ G) (_H : Y.Sec5Hyp s n₀) (_hZ : Y.Zt 0 = ⊥)
     (h2 : centerOf Y.S = Y.Z 0) (h4 : Y.Z 0 ≤ Y.Q 1) : Y.Z 0 ≤ Y.Z 1 := by
   have hSsyl1 : IsSylowTwoOf Y.S (Y.Gi 1) := isSylowTwoOf_S_Gi_one Y
   have hsum : centerOf Y.S ⊓ Y.Q 1 = Y.Z 0 := by rw [h2, inf_eq_left.mpr h4]
@@ -491,7 +491,7 @@ private theorem Z_one_eq_iSup_conj (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ :
     (h2 : centerOf Y.S = Y.Z 0) (h4 : Y.Z 0 ≤ Y.Q 1) :
     (⨆ g ∈ Y.L 1, (Y.Z 0).map (MulAut.conj g).toMonoidHom) = Y.Z 1 := by
   classical
-  haveI hfin1 : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+  have hfin1 : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
   have hZ0Z1 : Y.Z 0 ≤ Y.Z 1 := Z_zero_le_Z_one Y H hZ h2 h4
   refine le_antisymm ?_ ?_
   · refine iSup_le fun g => iSup_le fun hg => ?_
@@ -508,7 +508,7 @@ private theorem Z_one_eq_iSup_conj (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ :
     have hcPsyl : IsSylowTwoOf (conjSub c Y.S) (Y.Gi 1) := by
       have h := F7.isSylowTwoOf_conj hSsyl1 c
       rwa [conjSub_eq_of_mem hcG1] at h
-    haveI hfinS : Finite ↥(conjSub c Y.S) := finite_of_le_stabilizer Y.hyp hcPsyl.1
+    have hfinS : Finite ↥(conjSub c Y.S) := finite_of_le_stabilizer Y.hyp hcPsyl.1
     have hPeq : P = conjSub c Y.S :=
       (CFSG.GroupTheory.eq_of_isSylowTwoOf_of_le hP hcPsyl.2.1 hcPsyl.1 hcP).symm
     rw [hPeq] at hxP
@@ -524,7 +524,7 @@ private theorem Z_one_eq_iSup_conj (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ :
         (B := Y.Gi 1) inf_le_left (Y.L_le_Gi 1), h, Subgroup.subgroupOf_self]
     have hc : (⟨c, hcG1⟩ : ↥(Y.Gi 1)) ∈ ⊤ := Subgroup.mem_top _
     rw [← hfratt] at hc
-    haveI hL1n : ((Y.L 1).subgroupOf (Y.Gi 1)).Normal :=
+    have hL1n : ((Y.L 1).subgroupOf (Y.Gi 1)).Normal :=
       Subgroup.normal_subgroupOf_of_le_normalizer (le_normalizer_oTwoPrime (Y.Gi 1))
     rw [Subgroup.mem_sup_of_normal_left] at hc
     obtain ⟨l, hl, a, ha, hla⟩ := hc
@@ -581,13 +581,13 @@ private theorem card_Z_zero_and_Zt_one (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (
     have h := hZt1
     unfold Setup.Zt at h
     rwa [Subgroup.commutator_eq_bot_iff_le_centralizer] at h
-  haveI : Finite ↥(Y.Qs 1) :=
+  have : Finite ↥(Y.Qs 1) :=
     finite_of_le_stabilizer Y.hyp (inf_le_left.trans (Y.Q_le_Gi 1))
   have hcardZ1le : Nat.card (Y.Z 1) ≤ 8 :=
     (Nat.card_le_card_of_injective (Subgroup.inclusion hZ1Qs)
       (Subgroup.inclusion_injective hZ1Qs)).trans (Y.card_Qs_le H)
   have hZ0ne : Y.Z 0 ≠ ⊥ := Y.Z_ne_bot_of 0 (Y.Q_ne_bot H.char 0)
-  haveI : Finite ↥(Y.Z 0) := finite_of_le_stabilizer Y.hyp ((Y.Z_le_Q 0).trans (Y.Q_le_Gi 0))
+  have : Finite ↥(Y.Z 0) := finite_of_le_stabilizer Y.hyp ((Y.Z_le_Q 0).trans (Y.Q_le_Gi 0))
   have hZ0pos : 0 < Nat.card (Y.Z 0) := Nat.card_pos_iff.mpr ⟨⟨1⟩, inferInstance⟩
   have hZ0p : IsPGroup 2 (Y.Z 0) := (pCoreOf_isPGroup' (Y.Gi 0)).to_le (Y.Z_le_Q 0)
   obtain ⟨k, hk⟩ := hZ0p.exists_card_eq
@@ -614,7 +614,7 @@ private theorem card_Z_zero_and_Zt_one (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (
   rw [hk, hk1]
   norm_num
 
-private theorem conj_eq_of_smul_eq (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 = ⊥)
+private theorem conj_eq_of_smul_eq (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (_hZ : Y.Zt 0 = ⊥)
     (h2 : centerOf Y.S = Y.Z 0) {g g' : G} (hg : g ∈ Y.L 1) (hg' : g' ∈ Y.L 1)
     (h : g • Y.vert 0 = g' • Y.vert 0) {u : G} (hu : u ∈ Y.Z 0) :
     g * u * g⁻¹ = g' * u * g'⁻¹ := by
@@ -1337,16 +1337,16 @@ private theorem hasB_one_eq_pred_of_hasB_zero (Y : Setup Γ G) (H : Y.Sec5Hyp s 
   have hupper : d1 ≤ d0 - 1 := by
     have hL : (((d1 : ℤ) + 1 - 1).natAbs ≤ d1) := by
       have : (d1 : ℤ) + 1 - 1 = (d1 : ℤ) := by ring
-      rw [this, Int.natAbs_cast]
+      rw [this, Int.natAbs_natCast]
     have hR := (hkey ((d1 : ℤ) + 1)).mp hL
     have hplus : (((d1 : ℤ) + 1).natAbs) = d1 + 1 := by
-      rw [show (d1 : ℤ) + 1 = ((d1 + 1 : ℕ) : ℤ) by push_cast; ring, Int.natAbs_cast]
+      rw [show (d1 : ℤ) + 1 = ((d1 + 1 : ℕ) : ℤ) by push_cast; ring, Int.natAbs_natCast]
     rw [hplus] at hR
     have hcast : (d1 + 1 : ℤ) ≤ (d0 : ℤ) := by exact_mod_cast hR.1
     omega
   have hlower : d0 - 1 ≤ d1 := by
     have hR : ((d0 : ℤ).natAbs ≤ d0 ∧ ((d0 : ℤ) - 2).natAbs ≤ d0) := by
-      refine ⟨by rw [Int.natAbs_cast], ?_⟩
+      refine ⟨by rw [Int.natAbs_natCast], ?_⟩
       have h1 : ((((d0 : ℤ) - 2).natAbs : ℤ)) ≤ (d0 : ℤ) := by
         rcases Int.natAbs_eq ((d0 : ℤ) - 2) with h | h
         · rw [h]; omega
@@ -1355,13 +1355,13 @@ private theorem hasB_one_eq_pred_of_hasB_zero (Y : Setup Γ G) (H : Y.Sec5Hyp s 
     have hL := (hkey (d0 : ℤ)).mpr hR
     have hcast : (((d0 : ℤ) - 1).natAbs) = d0 - 1 := by
       rw [show (d0 : ℤ) - 1 = ((d0 - 1 : ℕ) : ℤ) by push_cast [hd0ge]; ring,
-        Int.natAbs_cast]
+        Int.natAbs_natCast]
     rw [hcast] at hL
     exact hL
   have hodd : Odd d0 := by
     rcases Int.even_or_odd (d0 : ℤ) with he | ho
     · exfalso
-      have hZ0d : Y.Z 0 ≤ Y.Gi (0 + (d0 : ℤ)) := (h0i (d0 : ℤ)).mpr (by rw [Int.natAbs_cast])
+      have hZ0d : Y.Z 0 ≤ Y.Gi (0 + (d0 : ℤ)) := (h0i (d0 : ℤ)).mpr (by rw [Int.natAbs_natCast])
       have hZ0p : IsPGroup 2 (Y.Z 0) :=
         (pCoreOf_isPGroup' (Y.Gi 0)).to_le (Y.Z_le_Q 0)
       have hZ0d' : Y.Z 0 ≤ Y.Gi (d0 : ℤ) := by simpa using hZ0d
@@ -1486,7 +1486,7 @@ private theorem commutator_Z_one_Z_ne_bot (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀
   have hxC : x ∈ C := hZ1C hxZ1
   have he1C : Y.edgeSylow (j - 1) ≤ C :=
     he1_le.trans (sup_le hQDC (Subgroup.zpowers_le.mpr hxC))
-  haveI : Finite ↥(Y.L j) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi j)
+  have : Finite ↥(Y.L j) := finite_of_le_stabilizer Y.hyp (Y.L_le_Gi j)
   have hE1syl : IsSylowTwoOf (Y.edgeSylow (j - 1)) (Y.L j) := by
     have h := Y.isSylowTwoOf_edgeSylow_L_succ (j - 1)
     rwa [show j - 1 + 1 = j by ring] at h
@@ -1570,8 +1570,8 @@ private theorem Z_pred_eq_Z_two (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     rw [show ⁅x, y⁆ = ⁅y, x⁆⁻¹ from (commutatorElement_inv y x).symm]
     exact (Y.Z 2).inv_mem h2'
   have hcardR : Nat.card ↥(⁅Y.Z 1, Y.Z j⁆) = 2 := by
-    haveI : Finite ↥(Y.Gi j) := Y.hyp.finite_stab (Y.vert j)
-    haveI : Finite ↥(⁅Y.Z 1, Y.Z j⁆) :=
+    have : Finite ↥(Y.Gi j) := Y.hyp.finite_stab (Y.vert j)
+    have : Finite ↥(⁅Y.Z 1, Y.Z j⁆) :=
       Finite.of_injective (Subgroup.inclusion (hR_leD.trans (Y.Z_le_Gi j)))
         (Subgroup.inclusion_injective _)
     have hdvd : Nat.card ↥(⁅Y.Z 1, Y.Z j⁆) ∣ 2 := by
@@ -1584,10 +1584,10 @@ private theorem Z_pred_eq_Z_two (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     rcases Nat.dvd_prime (by norm_num : Nat.Prime 2) |>.mp hdvd with h | h
     · exact absurd h hne1
     · exact h
-  haveI hfinDm1 : Finite ↥(Y.Z (j - 1)) :=
+  have hfinDm1 : Finite ↥(Y.Z (j - 1)) :=
     finite_of_le_stabilizer Y.hyp (α := Y.vert (j - 1))
       ((Y.Z_le_Q (j - 1)).trans (Y.Q_le_Gi (j - 1)))
-  haveI hfinZ2 : Finite ↥(Y.Z 2) :=
+  have hfinZ2 : Finite ↥(Y.Z 2) :=
     finite_of_le_stabilizer Y.hyp (α := Y.vert 2)
       ((Y.Z_le_Q 2).trans (Y.Q_le_Gi 2))
   have hRD : ⁅Y.Z 1, Y.Z j⁆ = Y.Z (j - 1) :=
@@ -1601,13 +1601,13 @@ private theorem eq_zero_of_conjSub_zpow_Z_two (Y : Setup Γ G) {d : ℕ}
     (hk : conjSub (Y.τ ^ k) (Y.Z 2) = Y.Z 2) : k = 0 := by
   by_contra hk0
   have hright : Y.Z 2 ≤ Y.Gi (2 + (d : ℤ) + 2 * k) := by
-    have h2end : Y.Z 2 ≤ Y.Gi (2 + (d : ℤ)) := (h2 (d : ℤ)).mpr (by rw [Int.natAbs_cast])
+    have h2end : Y.Z 2 ≤ Y.Gi (2 + (d : ℤ)) := (h2 (d : ℤ)).mpr (by rw [Int.natAbs_natCast])
     have h := conjSub_mono (Y.τ ^ k) h2end
     rw [hk, ← Y.Gi_add k (2 + (d : ℤ))] at h
     exact h
   have hleft : Y.Z 2 ≤ Y.Gi (2 - (d : ℤ) + 2 * k) := by
     have h2end : Y.Z 2 ≤ Y.Gi (2 - (d : ℤ)) :=
-      (h2 (-(d : ℤ))).mpr (by rw [Int.natAbs_neg, Int.natAbs_cast])
+      (h2 (-(d : ℤ))).mpr (by rw [Int.natAbs_neg, Int.natAbs_natCast])
     have h := conjSub_mono (Y.τ ^ k) h2end
     rw [hk, ← Y.Gi_add k (2 - (d : ℤ))] at h
     exact h
@@ -1656,26 +1656,26 @@ private theorem d0_eq_three (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0
     · rwa [show (d0 : ℤ) + (1 - (d0 : ℤ)) = 1 by ring] at h
     · rw [hd1eq]
       rw [show (1 - (d0 : ℤ)) = -(((d0 - 1 : ℕ)) : ℤ) by push_cast [hd0ge]; ring,
-        Int.natAbs_neg, Int.natAbs_cast]
+        Int.natAbs_neg, Int.natAbs_natCast]
   have hZD2 : Y.Z (d0 : ℤ) ≤ Y.Gi 2 := by
     have h := (hDi (2 - (d0 : ℤ))).mpr ?_
     · rwa [show (d0 : ℤ) + (2 - (d0 : ℤ)) = 2 by ring] at h
     · rw [hd1eq]
       rw [show (2 - (d0 : ℤ)) = -(((d0 - 2 : ℕ)) : ℤ) by push_cast [hd0ge2]; ring,
-        Int.natAbs_neg, Int.natAbs_cast]
+        Int.natAbs_neg, Int.natAbs_natCast]
       omega
   have hZ1GD : Y.Z 1 ≤ Y.Gi (d0 : ℤ) := by
     have h := (h1i ((d0 : ℤ) - 1)).mpr ?_
     · rwa [show 1 + ((d0 : ℤ) - 1) = (d0 : ℤ) by ring] at h
     · rw [hd1eq]
       rw [show (d0 : ℤ) - 1 = ((d0 - 1 : ℕ) : ℤ) by push_cast [hd0ge]; ring,
-        Int.natAbs_cast]
+        Int.natAbs_natCast]
   have hZ1GDm1 : Y.Z 1 ≤ Y.Gi ((d0 : ℤ) - 1) := by
     have h := (h1i ((d0 : ℤ) - 2)).mpr ?_
     · rwa [show 1 + ((d0 : ℤ) - 2) = (d0 : ℤ) - 1 by ring] at h
     · rw [hd1eq]
       rw [show (d0 : ℤ) - 2 = ((d0 - 2 : ℕ) : ℤ) by push_cast [hd0ge2]; ring,
-        Int.natAbs_cast]
+        Int.natAbs_natCast]
       omega
   have hZ1j1 : ¬ Y.Z 1 ≤ Y.Gi ((d0 : ℤ) + 1) := by
     have h := h1.2.1
@@ -1794,9 +1794,9 @@ theorem vertZ_le_stabilizer_iff (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.
   obtain ⟨h3, h2⟩ := Y.s52_step9_cons H hZ
   have h5 : 5 ≤ s := H.five_le
   by_cases hi : Even i
-  · rw [if_pos hi]
+  · rw [ite_eq_left hi]
     exact Y.Z_le_stabilizer_iff_of_hasB H (h3 i hi) (by omega) (g⁻¹ • w)
-  · rw [if_neg hi]
+  · rw [ite_eq_right hi]
     exact Y.Z_le_stabilizer_iff_of_hasB H (h2 i (Int.not_even_iff_odd.mp hi)) (by omega)
       (g⁻¹ • w)
 
@@ -1871,7 +1871,7 @@ theorem vertZ_le_stabilizer_nbr (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
   have hd : Γ.dist (u : V) w ≤ 2 := dist_nbr_le_two Y u.2 hw
   rw [← hgu]
   refine (vertZ_le_stabilizer_iff Y H hZ 1 g w).mpr ?_
-  rw [if_neg (by norm_num : ¬ Even (1 : ℤ))]
+  rw [ite_eq_right (by norm_num : ¬ Even (1 : ℤ))]
   simpa [hgu] using hd
 
 theorem VNbr0_fixes_nbr (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 = ⊥)
@@ -1881,8 +1881,8 @@ theorem VNbr0_fixes_nbr (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 = �
     exact iSup_le fun u => vertZ_le_stabilizer_nbr Y H hZ u hw
   exact MulAction.mem_stabilizer_iff.mp (hle hx)
 
-private theorem Gi_zero_le_normalizer_VNbr0 (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
-    (hZ : Y.Zt 0 = ⊥) : Y.Gi 0 ≤ Subgroup.normalizer (Y.VNbr0 : Set G) := by
+private theorem Gi_zero_le_normalizer_VNbr0 (Y : Setup Γ G) (_H : Y.Sec5Hyp s n₀)
+    (_hZ : Y.Zt 0 = ⊥) : Y.Gi 0 ≤ Subgroup.normalizer (Y.VNbr0 : Set G) := by
   intro g hg
   rw [Subgroup.mem_normalizer_iff_map_conj_eq]
   show conjSub g Y.VNbr0 = Y.VNbr0
@@ -1944,7 +1944,7 @@ theorem exists_mem_vertZ_not_mem_Z_zero (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀)
     (hZ : Y.Zt 0 = ⊥) (u : Γ.neighborSet (Y.vert 0)) :
     ∃ x ∈ vertZ (G := G) (u : V), x ∉ Y.Z 0 := by
   have hZ0le : Y.Z 0 ≤ vertZ (G := G) (u : V) := Y.Z_zero_le_vertZ H hZ u
-  haveI : Finite ↥(Y.Z 0) := Nat.finite_of_card_ne_zero (by
+  have : Finite ↥(Y.Z 0) := Nat.finite_of_card_ne_zero (by
     rw [(s52_step8 Y H hZ).2.2.2.2.2.2.1]
     norm_num)
   have hne : ¬ vertZ (G := G) (u : V) ≤ Y.Z 0 := by
@@ -2050,7 +2050,7 @@ private theorem relIndex_Q_of_fixes_nbr (Y : Setup Γ G) (i : ℤ) (hi : Y.n i =
       rw [hbot] at hmem
       simpa using hmem
     exact (hN.phi_ker ⟨x, hxL⟩).mp hphi
-  haveI : Finite ↥((C.subgroupOf (Y.L i)).map hN.phi) :=
+  have : Finite ↥((C.subgroupOf (Y.L i)).map hN.phi) :=
     Finite.of_injective (Subgroup.inclusion hmaple) (Subgroup.inclusion_injective hmaple)
   have hge : 2 ≤ Nat.card ↥((C.subgroupOf (Y.L i)).map hN.phi) := by
     have h1 : Nat.card ↥((C.subgroupOf (Y.L i)).map hN.phi) ≠ 1 := fun h =>
@@ -2185,9 +2185,9 @@ private theorem VNbr0_commutator_eq_Z (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (h
       le_bot_iff.mp ((Subgroup.commutator_mono hZ1V hZmV).trans (le_of_eq hbot))
     exact Z_one_not_le_centralizer_Z_neg_one Y H hZ
       (Subgroup.commutator_eq_bot_iff_le_centralizer.mp hcomm)
-  haveI : Finite ↥(Y.Z 0) :=
+  have : Finite ↥(Y.Z 0) :=
     Nat.finite_of_card_ne_zero (α := ↥(Y.Z 0)) (by rw [hcard0]; norm_num)
-  haveI : Finite ↥⁅Y.VNbr0, Y.VNbr0⁆ :=
+  have : Finite ↥⁅Y.VNbr0, Y.VNbr0⁆ :=
     Finite.of_injective (Subgroup.inclusion hle) (Subgroup.inclusion_injective hle)
   have hcardle : Nat.card ↥⁅Y.VNbr0, Y.VNbr0⁆ ≤ 2 := by
     calc Nat.card ↥⁅Y.VNbr0, Y.VNbr0⁆
@@ -2386,7 +2386,7 @@ private theorem smul_vert_zero_ne_of_orderOf_three (Y : Setup Γ G) (H : Y.Sec5H
     rw [Setup.edgeSylow_zero] at h
     exact h.1.trans inf_le_left
   have hmemS : d ∈ Y.S := Y.L_one_inf_Gi_zero_le_S H ⟨hd, hdG0⟩
-  haveI : Finite ↥Y.S := finite_of_le_stabilizer Y.hyp (α := Y.vert 0) hSle
+  have : Finite ↥Y.S := finite_of_le_stabilizer Y.hyp (α := Y.vert 0) hSle
   have hdvd := Subgroup.orderOf_dvd_natCard Y.S hmemS
   obtain ⟨k, hk⟩ := hS2.exists_card_eq
   rw [hd3, hk] at hdvd
@@ -2482,7 +2482,7 @@ private theorem coe_eq_insert_of_card_eq_four {Z : Subgroup G} (hZ : Nat.card Z 
       Set.ncard_insert_of_notMem h1, Set.ncard_insert_of_notMem h2,
       Set.ncard_insert_of_notMem h3]
     simp
-  haveI : Finite ↥Z := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
+  have : Finite ↥Z := Nat.finite_of_card_ne_zero (by rw [hZ]; norm_num)
   have hncardZ : (Z : Set G).ncard = 4 := hZ
   exact (Set.eq_of_subset_of_ncard_le hsub (by rw [hncardZ, hncard]) (Set.toFinite _)).symm
 
@@ -2590,7 +2590,7 @@ private theorem three_dvd_relIndex_of_not_mem {W L : Subgroup G} {d : G} (hWL : 
     (hLN : L ≤ Subgroup.normalizer (W : Set G)) (hdW : d ∉ W) : 3 ∣ W.relIndex L := by
   have hcardZp : Nat.card ↥(Subgroup.zpowers d) = 3 := by
     rw [Nat.card_zpowers, hd3]
-  haveI hfinZp : Finite ↥(Subgroup.zpowers d) :=
+  have hfinZp : Finite ↥(Subgroup.zpowers d) :=
     Nat.finite_of_card_ne_zero (by rw [hcardZp]; norm_num)
   have hInt : W ⊓ Subgroup.zpowers d = ⊥ := by
     have hdvd : Nat.card ↥(W ⊓ Subgroup.zpowers d) ∣ 3 := by
@@ -2615,7 +2615,7 @@ private theorem three_dvd_relIndex_of_not_mem {W L : Subgroup G} {d : G} (hWL : 
   have hrelA : W.relIndex A2 = 3 := by
     let W' : Subgroup ↥A2 := W.subgroupOf A2
     let R' : Subgroup ↥A2 := (Subgroup.zpowers d).subgroupOf A2
-    haveI : W'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer (hA2L.trans hLN)
+    have : W'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer (hA2L.trans hLN)
     have hsup2 : W' ⊔ R' = ⊤ := by
       have h := (Subgroup.subgroupOf_sup hWA2 hZA2).symm
       rw [← hA2] at h
@@ -2678,7 +2678,7 @@ private theorem mem_VNbr0_sup_VNbr2_of_orderOf_three (Y : Setup Γ G) (H : Y.Sec
   have hIdx : W.relIndex (Y.L 1) = (W ⊓ Y.Q 1).relIndex (Y.Q 1) := by
     let W' : Subgroup ↥(Y.L 1) := W.subgroupOf (Y.L 1)
     let Q' : Subgroup ↥(Y.L 1) := (Y.Q 1).subgroupOf (Y.L 1)
-    haveI : W'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hL1NW
+    have : W'.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hL1NW
     have hsup' : W' ⊔ Q' = ⊤ := by
       have h := (Subgroup.subgroupOf_sup hWL hQ1L).symm
       rw [hsup] at h
@@ -2692,8 +2692,8 @@ private theorem mem_VNbr0_sup_VNbr2_of_orderOf_three (Y : Setup Γ G) (H : Y.Sec
       _ = (W ⊓ Y.Q 1).relIndex (Y.Q 1) :=
           (Subgroup.inf_relIndex_right W (Y.Q 1)).symm
   have h3rel : ¬ 3 ∣ (W ⊓ Y.Q 1).relIndex (Y.Q 1) := by
-    haveI hG1fin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
-    haveI hQ1fin : Finite ↥(Y.Q 1) :=
+    have hG1fin : Finite ↥(Y.Gi 1) := Y.hyp.finite_stab (Y.vert 1)
+    have hQ1fin : Finite ↥(Y.Q 1) :=
       Finite.of_injective (Subgroup.inclusion (Y.Q_le_Gi 1))
         (Subgroup.inclusion_injective _)
     have hQ1p : IsPGroup 2 (Y.Q 1) := pCoreOf_isPGroup' (Y.Gi 1)
@@ -2792,11 +2792,11 @@ theorem s52_A_eq (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 = ⊥) {d 
     Y.Q 0 ⊓ Y.Q 2 = (Y.Q 0 ⊓ Y.Q 2 ⊓ Subgroup.centralizer ({d} : Set G)) ⊔ Y.Z 1 ∧
       Y.Q 0 ⊓ Y.Q 2 ⊓ Subgroup.centralizer ({d} : Set G) ⊓ Y.Z 1 = ⊥ := by
   classical
-  haveI hG0fin : Finite ↥(Y.Gi 0) := Y.hyp.finite_stab (Y.vert 0)
-  haveI hQ0fin : Finite ↥(Y.Q 0) :=
+  have hG0fin : Finite ↥(Y.Gi 0) := Y.hyp.finite_stab (Y.vert 0)
+  have hQ0fin : Finite ↥(Y.Q 0) :=
     Finite.of_injective (Subgroup.inclusion (Y.Q_le_Gi 0))
       (Subgroup.inclusion_injective _)
-  haveI hAfin : Finite ↥(Y.Q 0 ⊓ Y.Q 2) :=
+  have hAfin : Finite ↥(Y.Q 0 ⊓ Y.Q 2) :=
     Finite.of_injective (Subgroup.inclusion inf_le_left)
       (Subgroup.inclusion_injective _)
   obtain ⟨-, -, -, -, hsup, -, -, -⟩ := Y.s52_step8 H hZ
@@ -2813,7 +2813,7 @@ theorem s52_A_eq (Y : Setup Γ G) (H : Y.Sec5Hyp s n₀) (hZ : Y.Zt 0 = ⊥) {d 
   have hzN : Subgroup.zpowers d ≤
       Subgroup.normalizer ((Y.Q 0 ⊓ Y.Q 2 : Subgroup G) : Set G) :=
     Subgroup.zpowers_le.mpr ((s52_A_normal Y H hZ).1 hd)
-  haveI hTfin : Finite ↥T := by
+  have hTfin : Finite ↥T := by
     rw [hT]
     exact finite_sup_zpowers_of_le_normalizer hzN
   have hcommG : ⁅(Y.Q 0 ⊓ Y.Q 2 : Subgroup G), Subgroup.zpowers d⁆ ≤ Y.Z 1 :=

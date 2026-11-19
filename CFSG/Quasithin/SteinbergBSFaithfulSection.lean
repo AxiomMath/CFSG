@@ -65,7 +65,7 @@ theorem qrc_original_single_core_faithful_section_preselector
     CFSG.SectionRank.IsSQTKCat (H ⧸ kerIn M ⊤) := by
   classical
   have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  have hTsyl : IsSylowTwoOf (T : Subgroup H) ⊤ := ⟨le_top, T.isPGroup', by
+  have hTsyl : IsSylowTwoOf (T : Subgroup H) ⊤ := ⟨le_top, T.isPGroup, by
     show ¬ 2 ∣ (T : Subgroup H).relIndex ⊤
     rw [relIndex_top_right]
     exact T.not_dvd_index⟩
@@ -163,7 +163,7 @@ theorem qrc_original_single_core_faithful_section_preselector
   have hVDQ : V ⊓ J = V ⊓ Q := by
     refine le_antisymm (fun v hv => ?_) (inf_le_inf_left V hQJ)
     obtain ⟨hvV, hvJ⟩ := mem_inf.1 hv
-    obtain ⟨n, hn⟩ := T.isPGroup' ⟨v, hVT hvV⟩
+    obtain ⟨n, hn⟩ := T.isPGroup ⟨v, hVT hvV⟩
     have hvn : v ^ 2 ^ n = 1 := congrArg Subtype.val hn
     have h1 := map_eq_one_of_odd_card hodd (QuotientGroup.mk' (CFSG.Open.pCore 2 H))
       (mem_map_of_mem _ hvJ) hvn
@@ -199,7 +199,7 @@ theorem qrc_original_single_core_faithful_section_preselector
       rw [sup_comm, hKS]
       exact mem_top a
     obtain ⟨s, hs, k, hk, rfl⟩ := Subgroup.mem_sup_of_normal_right.1 ha
-    obtain ⟨n, hn⟩ := (T.isPGroup'.map π) ⟨s, hs⟩
+    obtain ⟨n, hn⟩ := (T.isPGroup.map π) ⟨s, hs⟩
     have hsn : s ^ 2 ^ n = 1 := congrArg Subtype.val hn
     refine ⟨n, ?_⟩
     rw [QuotientGroup.mk_mul, (QuotientGroup.eq_one_iff k).2 hk, mul_one, ← QuotientGroup.mk_pow,

@@ -115,15 +115,15 @@ private theorem heisCnt_index_single {F V G : Type} [Field F] [AddCommGroup V] [
   have hpow1 : ∀ g, (ε g) ^ p = 1 := fun g => heisCnt_commHom_pow φ hpow hcomm g z
   have hcard : Nat.card ε.range ≤ p ∧ Nat.card ε.range ≠ 0 := by
     by_cases hV : Subsingleton V
-    · haveI : Subsingleton V := hV
-      haveI : Subsingleton ε.range := inferInstance
-      haveI : Finite ε.range := Finite.of_subsingleton
+    · have : Subsingleton V := hV
+      have : Subsingleton ε.range := inferInstance
+      have : Finite ε.range := Finite.of_subsingleton
       have hle : Nat.card ε.range ≤ p := by
         have hle1 : Nat.card ε.range ≤ 1 :=
           (Finite.card_le_one_iff_subsingleton).mpr inferInstance
         exact le_trans hle1 (Nat.one_le_iff_ne_zero.mpr hp)
       exact ⟨hle, Nat.card_ne_zero.mpr ⟨⟨1⟩, inferInstance⟩⟩
-    · haveI : Nontrivial V := not_subsingleton_iff_nontrivial.mp hV
+    · have : Nontrivial V := not_subsingleton_iff_nontrivial.mp hV
       let roots : Finset F := (Polynomial.nthRoots p (1 : F)).toFinset
       have hrootmem : ∀ c : F, c ∈ roots ↔ c ^ p = 1 := by
         intro c

@@ -10,6 +10,7 @@ open Subgroup CFSG.SignalizerFunctor.Helpers
 
 variable {Y : Type} [Group Y] [Finite Y]
 
+omit [Finite Y] in
 theorem inj_of_pgroup {p : ℕ} [hp : Fact p.Prime] (O : Subgroup Y) [O.Normal]
     (hO : ¬ p ∣ Nat.card O) {Q : Subgroup Y} (hQ : IsPGroup p Q) :
     ∀ a ∈ Q, ∀ b ∈ Q, QuotientGroup.mk' O a = QuotientGroup.mk' O b → a = b := by

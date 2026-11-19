@@ -57,8 +57,8 @@ theorem twE6Cov_cube_eq_one {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Na
     (hg : (e6IsogenyFixed σ.toRingHom g) ^ 3 = 1) : g ^ 3 = 1 := by
   classical
   set L := AlgebraicClosure K with hL
-  haveI hcL : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hcL : CharP L 2 := charP_of_injective_algebraMap (algebraMap K L).injective 2
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK2 : Nat.card K = (2 ^ 1) ^ 2 := by rw [hK]; norm_num
   have hσ2 : ∀ c, σ c = c ^ (2 ^ 1) := fun c => by rw [hσ]; norm_num
   obtain ⟨-, -, -, -, -, -, -, -, -, -, hder, -, -, -⟩ :=
@@ -90,9 +90,9 @@ theorem twE6Cov_cube_eq_one {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Na
     have h2 : s ^ 3 = 1 := by rw [hs_def, ← map_pow, h1, map_one]
     simpa using congrArg Subtype.val h2
   obtain ⟨ω, hω⟩ : ∃ ω : Lˣ, orderOf ω = 3 := by
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     obtain ⟨ζ, hζ⟩ := exists_prime_orderOf_dvd_card' (G := Kˣ) 3
-      (by rw [Nat.card_units, hK] <;> norm_num)
+      (by rw [Nat.card_units, hK])
     refine ⟨Units.map (algebraMap K L).toMonoidHom ζ, ?_⟩
     rw [← hζ]
     exact orderOf_injective _ (Units.map_injective (algebraMap K L).injective) ζ
@@ -105,8 +105,8 @@ theorem twE6Cov_cube_eq_one {K : Type} [Field K] [Finite K] [CharP K 2] (hK : Na
     group
   have hh : m * G0⁻¹ ∈ adjointGroup Tag.E6 L := mul_mem hmM.1 (inv_mem hG0C)
   obtain ⟨k, hk, hωk, hKk, h₃, hh₃G, hh₃⟩ := twE6Cov_descent ω hh
-  haveI : Finite k := hk
-  haveI : CharP k 2 := Subfield.charP k 2
+  have : Finite k := hk
+  have : CharP k 2 := Subfield.charP k 2
   obtain ⟨ι₃, hι₃⟩ : ∃ ι₃ : K →+* k, k.subtype.comp ι₃ = algebraMap K L :=
     ⟨(algebraMap K L).codRestrict k hKk, RingHom.ext fun _ => rfl⟩
   obtain ⟨ω₃, hω₃⟩ : ∃ ω₃ : kˣ, Units.map k.subtype.toMonoidHom ω₃ = ω :=

@@ -74,6 +74,7 @@ theorem tSL_pow_five (hF : Fintype.card F = 4) : tSL hF ^ 5 = 1 := by
 abbrev matG (x : ↥(StatedSp 3 F)) : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) F :=
   ((x : GL (Fin 3 ⊕ Fin 3) F) : Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) F)
 
+omit [Fintype F] in
 theorem mulVec_lam (j : Fin 3) (g : Matrix.SpecialLinearGroup (Fin 2) F)
     (w : Fin 3 ⊕ Fin 3 → F) (x : Fin 3 ⊕ Fin 3) :
     (matG (lam j g)).mulVec w x =
@@ -88,17 +89,17 @@ theorem mulVec_lam (j : Fin 3) (g : Matrix.SpecialLinearGroup (Fin 2) F)
   simp only [Matrix.mulVec, dotProduct]
   by_cases h1 : x = Sum.inl j
   · subst h1
-    rw [if_pos rfl, Fintype.sum_eq_add (Sum.inl j) (Sum.inr j) hab]
+    rw [ite_eq_left rfl, Fintype.sum_eq_add (Sum.inl j) (Sum.inr j) hab]
     · simp [pairMat_apply_fst, hab.symm]
     · intro z hz
       rw [pairMat_apply_fst_of_ne hz.1 hz.2, zero_mul]
   · by_cases h2 : x = Sum.inr j
     · subst h2
-      rw [if_neg h1, if_pos rfl, Fintype.sum_eq_add (Sum.inl j) (Sum.inr j) hab]
+      rw [ite_eq_right h1, ite_eq_left rfl, Fintype.sum_eq_add (Sum.inl j) (Sum.inr j) hab]
       · simp [pairMat_apply_snd hab, hab.symm]
       · intro z hz
         rw [pairMat_apply_snd_of_ne hab hz.1 hz.2, zero_mul]
-    · rw [if_neg h1, if_neg h2]
+    · rw [ite_eq_right h1, ite_eq_right h2]
       rw [Finset.sum_eq_single x]
       · rw [pairMat_apply_of_ne h1 h2, one_apply_eq, one_mul]
       · intro z _ hzx
@@ -109,9 +110,11 @@ theorem mulVec_lam (j : Fin 3) (g : Matrix.SpecialLinearGroup (Fin 2) F)
     ↥(StatedSp 3 F) :=
   lam 0 (g 0) * lam 1 (g 1) * lam 2 (g 2)
 
+omit [Fintype F] in
 theorem matG_tor3 (g : Fin 3 → Matrix.SpecialLinearGroup (Fin 2) F) :
     matG (tor3 g) = matG (lam 0 (g 0)) * matG (lam 1 (g 1)) * matG (lam 2 (g 2)) := rfl
 
+omit [Fintype F] in
 theorem mulVec_tor3_inl (g : Fin 3 → Matrix.SpecialLinearGroup (Fin 2) F)
     (w : Fin 3 ⊕ Fin 3 → F) (j : Fin 3) :
     (matG (tor3 g)).mulVec w (Sum.inl j) =
@@ -120,6 +123,7 @@ theorem mulVec_tor3_inl (g : Fin 3 → Matrix.SpecialLinearGroup (Fin 2) F)
   rw [matG_tor3, ← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec]
   fin_cases j <;> simp only [mulVec_lam] <;> simp
 
+omit [Fintype F] in
 theorem mulVec_tor3_inr (g : Fin 3 → Matrix.SpecialLinearGroup (Fin 2) F)
     (w : Fin 3 ⊕ Fin 3 → F) (j : Fin 3) :
     (matG (tor3 g)).mulVec w (Sum.inr j) =
@@ -128,6 +132,7 @@ theorem mulVec_tor3_inr (g : Fin 3 → Matrix.SpecialLinearGroup (Fin 2) F)
   rw [matG_tor3, ← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec]
   fin_cases j <;> simp only [mulVec_lam] <;> simp
 
+omit [Fintype F] in
 theorem tor3_mul (g g' : Fin 3 → Matrix.SpecialLinearGroup (Fin 2) F) :
     tor3 g * tor3 g' = tor3 (fun j => g j * g' j) := by
   unfold tor3
@@ -153,7 +158,7 @@ theorem torus_add (hF : Fintype.card F = 4) (v w : Fin 3 → ZMod 5) :
 
 @[expose] noncomputable def torHom (hF : Fintype.card F = 4) :
     Multiplicative (Fin 3 → ZMod 5) →* ↥(StatedSp 3 F) :=
-  MonoidHom.mk' (fun v => torus hF (Multiplicative.toAdd v)) (fun v w => torus_add hF _ _)
+  MonoidHom.mk' (fun _v => torus hF (Multiplicative.toAdd _v)) (fun _v _w => torus_add hF _ _)
 
 theorem torHom_apply (hF : Fintype.card F = 4) (v : Fin 3 → ZMod 5) :
     torHom hF (Multiplicative.ofAdd v) = torus hF v := rfl
@@ -203,6 +208,7 @@ theorem torus_injective (hF : Fintype.card F = 4) : Function.Injective (torHom h
   funext j
   exact torus_val_eq_zero hF hv j
 
+omit [Fintype F] in
 theorem eq_zero_of_det_ne_zero (M : Matrix (Fin 2) (Fin 2) F) (hM : (M - 1).det ≠ 0) (a b : F)
     (e1 : M 0 0 * a + M 0 1 * b = a) (e2 : M 1 0 * a + M 1 1 * b = b) : a = 0 ∧ b = 0 := by
   have hd : (M - 1).det = (M 0 0 - 1) * (M 1 1 - 1) - M 0 1 * M 1 0 := by
@@ -269,11 +275,11 @@ theorem mulVec_torus_single (hF : Fintype.card F = 4) (v : Fin 3 → ZMod 5) (x 
       rw [hg _ hx]
       rcases x with x | x <;> simp [plane] at hx ⊢
     · have h1 : (Pi.single x (1 : F) : Fin 3 ⊕ Fin 3 → F) (Sum.inl l) = 0 := by
-        rw [Pi.single_apply, if_neg]
+        rw [Pi.single_apply, ite_eq_right]
         rintro rfl
         exact hl rfl
       have h2 : (Pi.single x (1 : F) : Fin 3 ⊕ Fin 3 → F) (Sum.inr l) = 0 := by
-        rw [Pi.single_apply, if_neg]
+        rw [Pi.single_apply, ite_eq_right]
         rintro rfl
         exact hl rfl
       rw [h1, h2]
@@ -285,11 +291,11 @@ theorem mulVec_torus_single (hF : Fintype.card F = 4) (v : Fin 3 → ZMod 5) (x 
       rw [hg _ hx]
       rcases x with x | x <;> simp [plane] at hx ⊢
     · have h1 : (Pi.single x (1 : F) : Fin 3 ⊕ Fin 3 → F) (Sum.inl l) = 0 := by
-        rw [Pi.single_apply, if_neg]
+        rw [Pi.single_apply, ite_eq_right]
         rintro rfl
         exact hl rfl
       have h2 : (Pi.single x (1 : F) : Fin 3 ⊕ Fin 3 → F) (Sum.inr l) = 0 := by
-        rw [Pi.single_apply, if_neg]
+        rw [Pi.single_apply, ite_eq_right]
         rintro rfl
         exact hl rfl
       rw [h1, h2]
@@ -391,6 +397,7 @@ theorem torus_eq_torus3 (hF : Fintype.card F = 4) (v : Fin 3 → ZMod 5) :
   funext j
   fin_cases j <;> rfl
 
+omit [Fintype F] in
 theorem conj_lam_self (j : Fin 3) (s g : Matrix.SpecialLinearGroup (Fin 2) F) :
     lam j s * lam j g * (lam j s)⁻¹ = lam (k := F) j (s * g * s⁻¹) := by
   simp [map_mul, map_inv]
@@ -411,11 +418,13 @@ theorem conj_iota2 (hF : Fintype.card F = 4) (a b c : ZMod 5) :
     (tSL hF ^ b.val)).mul_inv_cancel
   rw [torus3_eq, torus3_eq, survivor_conj_mul_three, h0, h1, conj_lam_self, sSL_conj_tSL_pow]
 
+omit [Fintype F] in
 theorem conj_rho_lam_fst {i j : Fin 3} (hij : i ≠ j) (g : Matrix.SpecialLinearGroup (Fin 2) F) :
     rho i j hij sl2W * lam i g * (rho i j hij sl2W)⁻¹ = lam (k := F) j g := by
   have h := DFunLike.congr_fun (conj_rho_sl2W_comp_lam_fst (k := F) hij) g
   simpa [MulAut.conj_apply] using h
 
+omit [Fintype F] in
 theorem conj_rho_lam_snd {i j : Fin 3} (hij : i ≠ j) (g : Matrix.SpecialLinearGroup (Fin 2) F) :
     rho i j hij sl2W * lam j g * (rho i j hij sl2W)⁻¹ = lam (k := F) i g := by
   have h := DFunLike.congr_fun (conj_rho_sl2W_comp_lam_snd (k := F) hij) g
@@ -492,6 +501,7 @@ theorem six_lines_of_normal_form (hF : Fintype.card F = 4) (g n : ↥(StatedSp 3
   · intro i j m hm
     exact wvec_ne a b ha hb i j m hm
 
+omit [Fintype F] in
 theorem finrank_ker_conj_sp (g A : ↥(StatedSp 3 F)) :
     Module.finrank F (LinearMap.ker (Matrix.toLin' (matG (g⁻¹ * A * g) - 1))) =
       Module.finrank F (LinearMap.ker (Matrix.toLin' (matG A - 1))) := by
@@ -515,7 +525,7 @@ end Sp6
 
 theorem dsp6_lines {F : Type} [Field F] [Fintype F] [DecidableEq F] (hF : Fintype.card F = 4)
     (Q : Sylow 5 ↥(StatedSp 3 F)) (A : ↥(StatedSp 3 F)) (hAQ : A ∈ (Q : Subgroup ↥(StatedSp 3 F)))
-    (hA5 : A ^ 5 = 1) (hA1 : A ≠ 1)
+    (_hA5 : A ^ 5 = 1) (_hA1 : A ≠ 1)
     (hker : Module.finrank F (LinearMap.ker (Matrix.toLin' (((A : GL (Fin 3 ⊕ Fin 3) F) :
       Matrix (Fin 3 ⊕ Fin 3) (Fin 3 ⊕ Fin 3) F) - 1))) = 2) :
     6 ≤ Set.ncard {B : Subgroup ↥(StatedSp 3 F) | ∃ g : ↥(StatedSp 3 F),

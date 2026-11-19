@@ -135,7 +135,7 @@ theorem SecFacts.map_equiv {P : Subgroup (MulAut M)} {zs : M} (h : SecFacts P zs
       rwa [MulEquiv.apply_symm_apply] at this
     let f : ↥(fixOf L) →* ↥(fixOf L') :=
       (σ.toMonoidHom.comp (fixOf L).subtype).codRestrict (fixOf L') fun x => hfix x x.2
-    refine solvable_of_solvable_injective (f := f) ?_
+    refine Group.isSolvable_of_isSolvable_injective (f := f) ?_
     intro x y hxy
     apply Subtype.ext
     apply σ.injective

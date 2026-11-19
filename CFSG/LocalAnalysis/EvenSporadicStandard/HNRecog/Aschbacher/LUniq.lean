@@ -26,17 +26,17 @@ variable {C C' : Type} [Group C] [Group C'] [Finite C] [Finite C'] {Q : Subgroup
 theorem AschbacherHyp.nonempty_mulEquiv_commutator (hC : AschbacherHyp C Q)
     (hC' : AschbacherHyp C' Q') : Nonempty (↥(commutator C) ≃* ↥(commutator C')) := by
   classical
-  haveI : Finite Q := hC.plus.finite
+  have : Finite Q := hC.plus.finite
   have hE : IsExtraspecialPGroup 2 Q := hC.plus.isExtraspecialPGroup
-  letI : Module (ZMod 2) (Additive (Abelianization Q)) :=
+  let : Module (ZMod 2) (Additive (Abelianization Q)) :=
     CFSG.GroupTheory.extraspecialQuotientModule hE
-  haveI : Finite (Additive (Abelianization Q)) := by
+  have : Finite (Additive (Abelianization Q)) := by
     change Finite (Q ⧸ _root_.commutator Q); infer_instance
-  haveI : Finite Q' := hC'.plus.finite
+  have : Finite Q' := hC'.plus.finite
   have hE' : IsExtraspecialPGroup 2 Q' := hC'.plus.isExtraspecialPGroup
-  letI : Module (ZMod 2) (Additive (Abelianization Q')) :=
+  let : Module (ZMod 2) (Additive (Abelianization Q')) :=
     CFSG.GroupTheory.extraspecialQuotientModule hE'
-  haveI : Finite (Additive (Abelianization Q')) := by
+  have : Finite (Additive (Abelianization Q')) := by
     change Finite (Q' ⧸ _root_.commutator Q'); infer_instance
   obtain ⟨e, θ, σ, hθs, hθk, hθb, hσθ, hσi, hirr⟩ := hC.exists_hom_baseEmb
   obtain ⟨e', θ', σ', hθs', hθk', hθb', hσθ', hσi', hirr'⟩ := hC'.exists_hom_baseEmb
@@ -68,7 +68,7 @@ theorem AschbacherHyp.nonempty_mulEquiv_commutator (hC : AschbacherHyp C Q)
     hC.sq_ne_one_of_innerInv e θ hθs hθb l hl
   have hne' : ∀ l : ↥(commutator C'), InnerInv (θ' l) → l ^ 2 ≠ 1 := fun l hl =>
     hC'.sq_ne_one_of_innerInv e' θ' hθs' hθb' l hl
-  haveI : (Q.subgroupOf (commutator C)).Normal := inferInstance
+  have : (Q.subgroupOf (commutator C)).Normal := inferInstance
   refine CoreHyp.nonempty_mulEquiv (N := Q.subgroupOf (commutator C))
     (N' := Q'.subgroupOf (commutator C')) (θ := θ) (θ' := θ') (ψ := ψ)
     (φ := liftSub hK hK' φ₀) (z := ⟨z, hK hzQ⟩) ?_

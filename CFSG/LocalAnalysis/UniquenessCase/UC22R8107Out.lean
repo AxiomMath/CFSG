@@ -23,7 +23,7 @@ open CFSG.LocalAnalysis.ComponentInitial (UnitaryFieldData)
 
 private theorem isCyclic_sylow {X : Type} [Group X] [Finite X]
     (h1 : CFSG.Open.pRank 3 (⊤ : Subgroup X) = 1) (S : Sylow 3 X) : IsCyclic S := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   exact RankFourTheoremC.Nongeneration.isCyclic_sylow_of_pRank_le_one (by norm_num) h1.le S
 
 private theorem shape_cases {X : Type} [Group X] [Finite X]
@@ -52,7 +52,7 @@ private theorem shape_cases {X : Type} [Group X] [Finite X]
       omega
     have h2 : 2 ^ n ≠ 2 := fun h2 => hne (by rw [h2])
     have h4 : 2 ≤ 2 ^ n := le_trans (by norm_num) (Nat.pow_le_pow_right (by norm_num) h.one_le)
-    haveI := h.charP
+    have := h.charP
     refine Or.inr (Or.inl ⟨n, K, inferInstance, inferInstance, h, ?_, by omega, he⟩)
     omega
 

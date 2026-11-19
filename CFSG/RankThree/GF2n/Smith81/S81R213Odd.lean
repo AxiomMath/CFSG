@@ -21,6 +21,7 @@ variable [Finite G] {M Q Z B : Subgroup G} {K : Type} [Field K]
   [Finite K] [CharP K 2] {γ : G → K} {M₀ : Tim79.QuadModel Q Z K γ} {ψ : M₀.E ≃ₗ[K] Cube K}
   {φ : Lgen M (LB M Q B) →* (Cube K ≃ₗ[K] Cube K)} {z : G}
 
+omit [Finite K] in
 theorem isTransvec_mul_self {g : GL (Fin 6) K} (hg : IsTransvec K g) : g * g = 1 := by
   apply Units.ext
   have h := hg.1
@@ -34,18 +35,21 @@ theorem isTransvec_mul_self {g : GL (Fin 6) K} (hg : IsTransvec K g) : g * g = 1
   calc A * A = (A * A + 1) + 1 := by rw [add_assoc, h1, add_zero]
     _ = 1 := by rw [h, zero_add]
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem ActsAs.pow {x : G} {g : GL (Fin 6) K} (hx : ActsAs φ x g) (n : ℕ) :
     ActsAs φ (x ^ n) (g ^ n) := by
   induction n with
   | zero => simpa using (ActsAs.one : ActsAs φ (1 : G) (1 : GL (Fin 6) K))
   | succ n ih => rw [pow_succ, pow_succ]; exact ih.mul hx
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem ActsAs.mem_Q_of_one {v : G} (Dt : E3LDat M Q Z B K γ M₀ ψ φ z) (hv : ActsAs φ v 1) :
     v ∈ Q := by
   have hL := hv.mem_Lgen
   have : φ ⟨v, hL⟩ = 1 := by rw [hv.phi hL, map_one]
   exact (Dt.d.ker _).mp this
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem ActsAs.not_mem_Q {v : G} {g : GL (Fin 6) K} (Dt : E3LDat M Q Z B K γ M₀ ψ φ z)
     (hv : ActsAs φ v g) (hg : rhoEquiv K g ≠ 1) : v ∉ Q := by
   intro hQ
@@ -54,6 +58,7 @@ theorem ActsAs.not_mem_Q {v : G} {g : GL (Fin 6) K} (Dt : E3LDat M Q Z B K γ M�
   rw [← hv.phi hL]
   exact (Dt.d.ker _).mpr hQ
 
+omit [Finite G] [Finite K] [CharP K 2] in
 theorem ActsAs.rho_ne_one_of_not_mem_Q {v : G} {g : GL (Fin 6) K}
     (Dt : E3LDat M Q Z B K γ M₀ ψ φ z) (hv : ActsAs φ v g) (hvQ : v ∉ Q) :
     rhoEquiv K g ≠ 1 := by

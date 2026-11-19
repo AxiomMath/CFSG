@@ -31,7 +31,7 @@ theorem uc22p22l_ocp_typeI
     {H : Type} [Group H] [Finite H] [IsSimpleGroup H] (hI : IsGoldTypeI H) :
     OddCyclicProper H := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   refine ⟨fun S hbot => ?_, fun S Y hSY hY W hWY hW => ?_⟩
   · obtain ⟨D, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, -, hcoat, -⟩ := G32 H hI S
     have htop : Subgroup.normalizer ((S : Subgroup H) : Set H) = ⊤ := by
@@ -43,7 +43,7 @@ theorem uc22p22l_ocp_typeI
       rw [hsup]
       exact hmax _ hSY hY
     set N : Subgroup H := (S : Subgroup H) ⊔ D with hNdef
-    haveI hnorm : ((S : Subgroup H).subgroupOf N).Normal :=
+    have hnorm : ((S : Subgroup H).subgroupOf N).Normal :=
       (Subgroup.normal_subgroupOf_iff_le_normalizer le_sup_left).mpr
         (sup_le Subgroup.le_normalizer hDN)
     have hsurjD : Function.Surjective ((QuotientGroup.mk' ((S : Subgroup H).subgroupOf N)).comp
@@ -59,8 +59,8 @@ theorem uc22p22l_ocp_typeI
         Subgroup.mem_subgroupOf]
       have h := (Subgroup.mem_normalizer_iff''.mp (hDN hv) u).mp hu
       simpa [mul_assoc] using h
-    haveI : IsCyclic ↥D := hDcyc
-    haveI : IsCyclic (↥N ⧸ (S : Subgroup H).subgroupOf N) := isCyclic_of_surjective _ hsurjD
+    have : IsCyclic ↥D := hDcyc
+    have : IsCyclic (↥N ⧸ (S : Subgroup H).subgroupOf N) := isCyclic_of_surjective _ hsurjD
     have hWN : ∀ w : W, (w : H) ∈ N := fun w => hYN (hWY w.2)
     let g : W →* N := W.subtype.codRestrict N hWN
     let f : W →* ↥N ⧸ (S : Subgroup H).subgroupOf N := (QuotientGroup.mk' _).comp g
@@ -71,7 +71,7 @@ theorem uc22p22l_ocp_typeI
         have : g w ∈ (S : Subgroup H).subgroupOf N := (QuotientGroup.eq_one_iff _).1 hw
         exact this
       have h2 : Odd (orderOf (w : H)) := hW.of_dvd_nat (Subgroup.orderOf_dvd_natCard W w.2)
-      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup') ⟨(w : H), h1⟩
+      obtain ⟨k, hk⟩ := (IsPGroup.iff_orderOf.1 S.isPGroup) ⟨(w : H), h1⟩
       rw [Subgroup.orderOf_mk] at hk
       have hk0 : k = 0 := by
         by_contra hk0
@@ -83,7 +83,7 @@ theorem uc22p22l_ocp_typeI
 
 theorem uc22p22l_ocp_sixty {X : Type} [Group X] [Finite X] [IsSimpleGroup X]
     (hX : Nat.card X = 60) : OddCyclicProper X := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hS : ∀ S : Sylow 2 X, Nat.card (S : Subgroup X) = 4 := by
     intro S
     rw [Sylow.card_eq_multiplicity, hX]
@@ -108,7 +108,7 @@ theorem uc22p22l_ocp_sixty {X : Type} [Group X] [Finite X] [IsSimpleGroup X]
       have := Subgroup.card_mul_index Y
       rw [h20, hX] at this
       omega
-    haveI : Y.FiniteIndex := ⟨by omega⟩
+    have : Y.FiniteIndex := ⟨by omega⟩
     have hcore : Y.normalCore = ⊥ := by
       rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal Y.normalCore with h | h
       · exact h
@@ -133,9 +133,9 @@ theorem uc22p22l_ocp_sixty {X : Type} [Group X] [Finite X] [IsSimpleGroup X]
     obtain ⟨k, hk⟩ := hW
     omega
   rcases hW13 with h | h
-  · haveI : Subsingleton W := (Nat.card_eq_one_iff_unique.1 h).1
+  · have : Subsingleton W := (Nat.card_eq_one_iff_unique.1 h).1
     infer_instance
-  · haveI : Fact (Nat.Prime 3) := ⟨by norm_num⟩
+  · have : Fact (Nat.Prime 3) := ⟨by norm_num⟩
     exact isCyclic_of_prime_card h
 
 theorem uc22p22l_commutator_le {A : Type*} [Group A] {Y : Subgroup A}
@@ -223,11 +223,11 @@ theorem uc22p22l_factor_cyclic {X : Type} [Group X] [Finite X] {H : Type} [Group
     (hSY : (S : Subgroup X) ≤ Y) (hY : ¬ X₁ ≤ Y) {W : Subgroup X} (hWY : W ≤ Y)
     (hW : Odd (Nat.card W)) : IsCyclic ↥(W.map ρ) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hρs : Function.Surjective ρ := fun h => by
     obtain ⟨a, ha⟩ := hρ h
     exact ⟨(a : X), ha⟩
-  haveI : Finite H := Finite.of_surjective ρ hρs
+  have : Finite H := Finite.of_surjective ρ hρs
   let S' : Sylow 2 H := S.mapSurjective hρs
   have hS'Y : (S' : Subgroup H) ≤ Y.map ρ := by
     rw [Sylow.coe_mapSurjective]
@@ -236,7 +236,7 @@ theorem uc22p22l_factor_cyclic {X : Type} [Group X] [Finite X] {H : Type} [Group
     intro htop
     apply hY
     set K : Subgroup H := (Y ⊓ X₁).map ρ with hK
-    haveI hKn : K.Normal := by
+    have hKn : K.Normal := by
       refine ⟨fun k hk h => ?_⟩
       obtain ⟨z, hz, rfl⟩ := hk
       have hh : h ∈ Y.map ρ := htop ▸ Subgroup.mem_top h
@@ -247,7 +247,7 @@ theorem uc22p22l_factor_cyclic {X : Type} [Group X] [Finite X] {H : Type} [Group
       intro hbot
       have hSyl : CFSG.ABGLocalTools.IsSylowOf 2 (S : Subgroup X) ⊤ := by
         rw [CFSG.ABGLocalTools.isSylowOf_iff]
-        refine ⟨le_top, S.isPGroup', ?_⟩
+        refine ⟨le_top, S.isPGroup, ?_⟩
         rw [Subgroup.relIndex_top_right]
         exact S.not_dvd_index
       have hSyl1 := hSyl.inf_of_le_normalizer (le_top : X₁ ≤ ⊤)
@@ -273,7 +273,7 @@ theorem uc22p22l_factor_cyclic {X : Type} [Group X] [Finite X] {H : Type} [Group
       obtain ⟨z, hz, hza⟩ := ha
       refine ⟨⟨z, hz.2⟩, hz, hker _ ?_⟩
       simp [hza]
-    haveI : Group.IsPerfect ↥X₁ := Subgroup.isPerfect_iff.2 hperf
+    have : Group.IsPerfect ↥X₁ := Subgroup.isPerfect_iff.2 hperf
     have hY₁top : Y₁ = ⊤ := top_unique (Group.IsPerfect.commutator_eq_top.symm.le.trans hcom)
     intro x hx
     have : (⟨x, hx⟩ : ↥X₁) ∈ Y₁ := hY₁top ▸ Subgroup.mem_top _
@@ -294,7 +294,7 @@ theorem uc22p22l_comm_of_cyclic_image {A H : Type*} [Group A] [Group H] (q : A �
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext (Subgroup.mem_center_iff.1 h2 y)
-  exact congrArg Subtype.val (commutative_of_cyclic_center_quotient f hf ⟨a, ha⟩ ⟨a', ha'⟩)
+  exact congrArg Subtype.val ((MonoidHom.isMulCommutative_of_isCyclic_of_ker_le_center f hf).is_comm.comm ⟨a, ha⟩ ⟨a', ha'⟩)
 
 theorem uc22p22l_oddAbelianIn_product {X : Type} [Group X] [Finite X] {X₁ X₂ : Subgroup X}
     (hsup : X₁ ⊔ X₂ = ⊤) (hcomm : ∀ a ∈ X₁, ∀ b ∈ X₂, a * b = b * a)
@@ -308,8 +308,8 @@ theorem uc22p22l_oddAbelianIn_product {X : Type} [Group X] [Finite X] {X₁ X₂
   classical
   have hsup' : X₂ ⊔ X₁ = ⊤ := by rwa [sup_comm]
   have hcomm' : ∀ b ∈ X₂, ∀ a ∈ X₁, b * a = a * b := fun b hb a ha => (hcomm a ha b hb).symm
-  haveI hN₁ : X₁.Normal := uc22p22l_normal_of_commuting hsup hcomm
-  haveI hN₂ : X₂.Normal := uc22p22l_normal_of_commuting hsup' hcomm'
+  have hN₁ : X₁.Normal := uc22p22l_normal_of_commuting hsup hcomm
+  have hN₂ : X₂.Normal := uc22p22l_normal_of_commuting hsup' hcomm'
   have hle : X₁ ≤ Subgroup.normalizer (X₂ : Set X) := by
     rw [Subgroup.normalizer_eq_top_iff.2 hN₂]
     exact le_top
@@ -366,8 +366,8 @@ theorem uc22p22l_oddAbelianIn_product {X : Type} [Group X] [Finite X] {X₁ X₂
     refine ⟨c * d, hcd, ?_⟩
     rw [map_mul, hρ₂a c hc, one_mul]
     exact hρ₂b ⟨d, hd⟩
-  haveI := hc₁
-  haveI := hc₂
+  have := hc₁
+  have := hc₂
   have haa : a * a' = a' * a :=
     congrArg Subtype.val (uc22p22l_comm_of_cyclic_image q₁ hk₁.le (W.map ρ₁)
       (a := ⟨a, ha⟩) (a' := ⟨a', ha'⟩) (hr₁ a ha b hb hw) (hr₁ a' ha' b' hb' hw'))
@@ -398,10 +398,10 @@ theorem uc22p22l_ocp_of_shape
     {B : Type} [Group B] [Finite B] (hperf : _root_.commutator B = ⊤) {n : ℕ}
     (h : IsSz B n ∨ IsL2 B n ∨ IsSU3 B n) :
     IsSimpleGroup (B ⧸ center B) ∧ OddCyclicProper (B ⧸ center B) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rcases h with hSz | hL2 | hU
   · obtain ⟨hs, hI⟩ := uc22p22j_typeI_of_shape hperf (Or.inl hSz)
-    haveI := hs
+    have := hs
     exact ⟨hs, uc22p22l_ocp_typeI hI⟩
   · have hn2 : 2 ≤ n := by
       obtain ⟨-, h1n, -, hne, -⟩ := CFSG.Blueprint.LieModel.admissible hL2
@@ -414,30 +414,30 @@ theorem uc22p22l_ocp_of_shape
       obtain ⟨E⟩ := CFSG.GH74.KGroups.PSL2.psl2_equiv_of_lieModel (F := GaloisField 2 2) 2 2
         (by omega) (GaloisField.card 2 2 (by omega)) hL2
       have hB : fusionIsBenderGroup B := Or.inl ⟨2, le_rfl, ⟨E⟩⟩
-      haveI hsB := CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hB
+      have hsB := CFSG.QuasithinUnique.RankOneRecog.isSimpleGroup_of_fusionIsBenderGroup hB
       have hZ : center B = ⊥ := uc22p22j_center_bot hperf hB
       let e1 : B ⧸ center B ≃* B :=
         (QuotientGroup.quotientMulEquivOfEq hZ).trans QuotientGroup.quotientBot
-      haveI hsq : IsSimpleGroup (B ⧸ center B) := e1.isSimpleGroup
+      have hsq : IsSimpleGroup (B ⧸ center B) := e1.isSimpleGroup
       have hcard : Nat.card (B ⧸ center B) = 60 := by
         rw [Nat.card_congr e1.toEquiv, Nat.card_congr E.toEquiv,
           CFSG.Walter.psl2_even_card (by omega)]
         norm_num
       exact ⟨hsq, uc22p22l_ocp_sixty hcard⟩
     · obtain ⟨hs, hI⟩ := uc22p22j_typeI_of_shape hperf (Or.inr (Or.inl ⟨hL2, h3⟩))
-      haveI := hs
+      have := hs
       exact ⟨hs, uc22p22l_ocp_typeI hI⟩
   · obtain ⟨hs, hI⟩ := uc22p22j_typeI_of_shape hperf (Or.inr (Or.inr hU))
-    haveI := hs
+    have := hs
     exact ⟨hs, uc22p22l_ocp_typeI hI⟩
 
 theorem uc22p22l_lift {Λ : Type} [Group Λ] [Finite Λ] {Ω : Subgroup Λ}
-    (hOΩ : CFSG.pCore 2 Λ ≤ Ω)
+    (_hOΩ : CFSG.pCore 2 Λ ≤ Ω)
     (hX : OddAbelianIn (Ω.map (QuotientGroup.mk' (CFSG.pCore 2 Λ)))) {V : Subgroup Λ}
     (hVΩ : V ≤ Ω) (hV : Odd (Nat.card V)) {a b : Λ} (ha : a ∈ V) (hb : b ∈ V) :
     a * b = b * a := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set O : Subgroup Λ := CFSG.pCore 2 Λ with hO
   let π : Λ →* Λ ⧸ O := QuotientGroup.mk' O
   have hW : Odd (Nat.card (V.map π)) := by
@@ -498,7 +498,7 @@ theorem uc22p22l_commute_mem_span {x y : Matrix (Fin 2) (Fin 2) F}
         exact (mul_eq_zero.1 this).resolve_right hps'
       refine ⟨a - (a - d) / (p - s) * p, (a - d) / (p - s), ?_⟩
       ext i j
-      fin_cases i <;> fin_cases j <;> simp [hb, hc, hq, hr] <;> field_simp <;> ring
+      fin_cases i <;> fin_cases j <;> simp [hb, hc, hq, hr]; field_simp; ring
     · have hb : b = 0 := by
         subst hq
         have : r * b = 0 := by linear_combination h22
@@ -624,16 +624,16 @@ theorem uc22p22l_gl2_odd_abelian_aux [CharP F 2] :
     by_contra hnc
     push Not at hnc
     obtain ⟨a, ha, b, hb, hab⟩ := hnc
-    haveI : Finite E := Nat.finite_of_card_ne_zero hEodd.pos.ne'
-    haveI : Group.IsSolvable E := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hEodd
-    haveI : Nontrivial E := ⟨⟨⟨a, ha⟩, ⟨b, hb⟩, fun h => hab (by
+    have : Finite E := Nat.finite_of_card_ne_zero hEodd.pos.ne'
+    have : Group.IsSolvable E := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hEodd
+    have : Nontrivial E := ⟨⟨⟨a, ha⟩, ⟨b, hb⟩, fun h => hab (by
       have : a = b := congrArg Subtype.val h
       rw [this])⟩⟩
     set D : Subgroup (GL (Fin 2) F) := ⁅E, E⁆ with hD
     have hDE : D ≤ E := Subgroup.commutator_le_self E
     have hDne : D ≠ E := by
       intro h
-      haveI : Group.IsPerfect E := Subgroup.isPerfect_iff.2 h
+      have : Group.IsPerfect E := Subgroup.isPerfect_iff.2 h
       exact Group.IsPerfect.not_isSolvable E inferInstance
     have hlt : Nat.card D < Nat.card E := by
       refine lt_of_le_of_ne (Subgroup.card_le_of_le hDE) fun h => hDne ?_
@@ -715,7 +715,7 @@ theorem uc22p22l_oddAbelianProper_of_cover {Gt X : Type} [Group Gt] [Finite Gt] 
       ∀ a ∈ V, ∀ b ∈ V, a * b = b * a) :
     OddAbelianProper X := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro S Y hSY hY W hWY hW a ha b hb
   obtain ⟨T, hT⟩ := hUt
   let T' : Sylow 2 X := T.mapSurjective hπ
@@ -732,7 +732,7 @@ theorem uc22p22l_oddAbelianProper_of_cover {Gt X : Type} [Group Gt] [Finite Gt] 
     rw [hx] at h1
     exact h1
   let c : X →* X := (MulAut.conj x⁻¹).toMonoidHom
-  have hc : ∀ y, c y = x⁻¹ * y * x := fun y => by simp [c, MulAut.conj_apply]
+  have hc : ∀ y, c y = x⁻¹ * y * x := fun y => by simp [c]
   set Y₁ : Subgroup X := Y.map c with hY₁
   set W₁ : Subgroup X := W.map c with hW₁
   have hY₁mem : ∀ z, z ∈ Y₁ ↔ x * z * x⁻¹ ∈ Y := by
@@ -925,11 +925,11 @@ theorem uc22p22l_oddAbelianProper_sl3
     (hperf : _root_.commutator X = ⊤) (hodd : Odd (Nat.card (Subgroup.center X))) {n : ℕ}
     (h : IsSL3 X n) : OddAbelianProper X := by
   classical
-  haveI : Group.IsPerfect X := ⟨hperf⟩
+  have : Group.IsPerfect X := ⟨hperf⟩
   obtain ⟨-, hL3⟩ := h
   have hcl := (CFSG.Blueprint.LieModel.classical_iff (t := .PSL) (by decide)).1 hL3
   obtain ⟨⟨-, hf, -⟩, K, hF, hFin, hcard, ⟨e⟩⟩ := hcl
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hcard
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hcard
   have e' : X ⧸ Subgroup.center X ≃* LinearFlag.projectiveSL 3 K :=
     e.trans (statedSLEquivProjectiveSL 3 K)
   obtain ⟨φ, hφs, hφk, -⟩ := CFSG.QuasithinUnique.Ch1.exists_cover_map_of_odd_splitting
@@ -961,7 +961,7 @@ theorem uc22p22l_oddAbelianProper_sp4 {X : Type} [Group X] [Finite X] {n : ℕ}
   classical
   have hcl := (CFSG.Blueprint.LieModel.classical_iff (t := .PSp) (by decide)).1 h
   obtain ⟨⟨-, hf, -⟩, K, hF, hFin, hcard, ⟨e⟩⟩ := hcl
-  haveI : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hcard
+  have : CharP K 2 := finite_field_prime_power_characteristic Nat.prime_two hf hcard
   let π : StatedSp 2 K →* X := e.symm.toMonoidHom.comp (SymplecticFlag.proj 2 K)
   have hπ : Function.Surjective π :=
     e.symm.surjective.comp (SymplecticHigher.proj_surjective (r := 2) (K := K))
@@ -986,14 +986,14 @@ section OddCentre
 
 theorem uc22p22l_pCore_quotient {Λ : Type} [Group Λ] [Finite Λ] :
     CFSG.pCore 2 (Λ ⧸ CFSG.pCore 2 Λ) = ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set N : Subgroup Λ := CFSG.pCore 2 Λ
   set M : Subgroup (Λ ⧸ N) := CFSG.pCore 2 (Λ ⧸ N)
   have hMp : IsPGroup 2 (M.comap (QuotientGroup.mk' N)) := by
     refine IsPGroup.comap_of_ker_isPGroup (CFSG.pCore_isPGroup) _ ?_
     rw [QuotientGroup.ker_mk']
     exact CFSG.pCore_isPGroup
-  haveI : (M.comap (QuotientGroup.mk' N)).Normal := Subgroup.Normal.comap inferInstance _
+  have : (M.comap (QuotientGroup.mk' N)).Normal := Subgroup.Normal.comap inferInstance _
   have hle : M.comap (QuotientGroup.mk' N) ≤ N :=
     le_sSup (show M.comap (QuotientGroup.mk' N) ∈ {K : Subgroup Λ | K.Normal ∧ IsPGroup 2 K} from
       ⟨inferInstance, hMp⟩)
@@ -1005,7 +1005,7 @@ theorem uc22p22l_pCore_quotient {Λ : Type} [Group Λ] [Finite Λ] :
 
 theorem uc22p22l_odd_center_quotient {Λ : Type} [Group Λ] [Finite Λ] :
     Odd (Nat.card (Subgroup.center (Λ ⧸ CFSG.pCore 2 Λ))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Q := Λ ⧸ CFSG.pCore 2 Λ
   by_contra hne
   have h2 : 2 ∣ Nat.card (Subgroup.center Q) := by
@@ -1041,7 +1041,7 @@ theorem uc22p22l_oddAbelianL0_of_overgroups (D : Data G) {L : Subgroup G}
       (∀ l : ↥L, (QuotientGroup.mk l : Bar2 L) ∈ Y → (l : G) ∈ D.M) → OddAbelianIn Y) :
     OddAbelianL0 D L := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   intro V hVL hVM hVodd a ha b hb
   obtain ⟨hTN, -, hLT, -⟩ := hL
   have hTM : D.T ≤ D.M := D.sylowM.le
@@ -1083,6 +1083,7 @@ theorem uc22p22l_oddAbelianL0_of_overgroups (D : Data G) {L : Subgroup G}
 theorem uc22p22l_not_le_M (D : Data G) {L : Subgroup G} (hL : L ∈ calL D.T D.M) :
     ¬ L ≤ D.M := fun h => hL.2.2.1.2.1 (sup_le h D.sylowM.le)
 
+omit [Finite G] in
 theorem uc22p22l_barImage_equiv {L K : Subgroup G} (hK : K ∈ calC L) :
     ∃ e : Bar2 K ≃* ↥(barImage L K), ∀ k : ↥K, ((e (QuotientGroup.mk k) : ↥(barImage L K)) :
       Bar2 L) = QuotientGroup.mk (Subgroup.inclusion (CFSG.Quasithin.A3.subnormal_le hK.1) k) :=
@@ -1090,9 +1091,9 @@ theorem uc22p22l_barImage_equiv {L K : Subgroup G} (hK : K ∈ calC L) :
 
 theorem uc22p22l_barImage_isComponent {L K : Subgroup G} (hK : K ∈ calC L) :
     CFSG.IsComponent (barImage L K) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hPn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
-  haveI hPs := uc22p20d_pCore_solvable L
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hPn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have hPs := uc22p20d_pCore_solvable L
   obtain ⟨e, -⟩ := uc22p22l_barImage_equiv hK
   have hqs : CFSG.Open.IsQuasisimple ↥(barImage L K) := CFSG.Open.IsQuasisimple.of_mulEquiv e.symm hK.2.2
   have hKc := uc22p20e_cComp_of_calC hK
@@ -1104,9 +1105,9 @@ theorem uc22p22l_barImage_isComponent {L K : Subgroup G} (hK : K ∈ calC L) :
 
 theorem uc22p22l_barImage_commute {L L₁ L₂ : Subgroup G} (h₁ : L₁ ∈ calC L) (h₂ : L₂ ∈ calC L)
     (hne : L₁ ≠ L₂) : ∀ a ∈ barImage L L₁, ∀ b ∈ barImage L L₂, a * b = b * a := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI hPn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
-  haveI hPs := uc22p20d_pCore_solvable L
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have hPn : (CFSG.pCore 2 ↥L).Normal := CFSG.pCore_normal
+  have hPs := uc22p20d_pCore_solvable L
   have hA := uc22p22l_barImage_isComponent h₁
   have hA' := uc22p22l_barImage_isComponent h₂
   have hc₁ := uc22p20e_cComp_of_calC h₁
@@ -1193,8 +1194,8 @@ theorem uc22p22l_oddAbelianL0_product
     intro hXY
     refine hLM (hLle_of (hL₂M_of fun x hx => ?_))
     exact hpre ⟨x, hL₂L hx⟩ (hXY ⟨⟨x, hL₂L hx⟩, hx, rfl⟩)
-  haveI := hsim₁
-  haveI := hsim₂
+  have := hsim₁
+  have := hsim₂
   exact uc22p22l_oddAbelianIn_product hsupX (uc22p22l_barImage_commute h₁ h₂ hne) hperf₁ hperf₂
     hocp₁ hocp₂ q₁ q₂ hq₁ hq₂ hk₁ hk₂ S hSY hX₁ hX₂
 

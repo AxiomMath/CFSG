@@ -146,7 +146,7 @@ theorem twLayer_exists_shift (hL : TwE6ThreeA2Line K σ h₀ L T n) {s : twisted
       (L (i + k)).subgroupOf (twistedE6RootGroup K σ) := by
   have hcomm' : ε⁻¹ * MulAut.conj s = MulAut.conj s * ε⁻¹ := by
     have := congrArg (fun f : MulAut (twistedE6RootGroup K σ) => ε⁻¹ * f * ε⁻¹) hcomm
-    simp only [mul_assoc, inv_mul_cancel_left, mul_inv_cancel_left] at this
+    simp only [mul_assoc, inv_mul_cancel_left] at this
     simpa [← mul_assoc] using this.symm
   exact (twLayer_shiftData hL hs).exists_shift hε3 (twLayer_centralizer_stable hcomm)
     (twLayer_centralizer_stable hcomm')

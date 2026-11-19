@@ -128,7 +128,7 @@ variable {L : Type} [Field L] [Finite L]
 theorem card_orbitRel_quotient_five {F : Subgroup (Equiv.Perm (Fin 5))} (hF : IsPGroup 5 F)
     (hne : F ≠ ⊥) : Nat.card (MulAction.orbitRel.Quotient F (Fin 5)) = 1 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨σ, hσ1⟩ := (Subgroup.ne_bot_iff_exists_ne_one).1 hne
   obtain ⟨x, hx⟩ : ∃ x : Fin 5, (σ : Equiv.Perm (Fin 5)) x ≠ x := by
     by_contra hcon
@@ -170,7 +170,7 @@ theorem card_orbitRel_quotient_five {F : Subgroup (Equiv.Perm (Fin 5))} (hF : Is
       have hz : z ∈ MulAction.orbit F x := horb ▸ Set.mem_univ z
       exact (Quotient.sound hy).trans (Quotient.sound hz).symm
 
-theorem card_inf_torus_le (hp5 : 5 ∣ Nat.card Lˣ) {E : Subgroup (PGL 5 L)} (hEm : E ≤ monoImage 5 L)
+theorem card_inf_torus_le (_hp5 : 5 ∣ Nat.card Lˣ) {E : Subgroup (PGL 5 L)} (_hEm : E ≤ monoImage 5 L)
     (hE : IsElemAbelian 5 E) (F : Subgroup (Equiv.Perm (Fin 5)))
     (hFE : ∀ σ ∈ F, ∃ e ∈ E, ∃ he : e ∈ monoImage 5 L, monoPerm 5 L ⟨e, he⟩ = σ)
     (hF : IsElemAbelian 5 F) (hm : Nat.card (MulAction.orbitRel.Quotient F (Fin 5)) = 1) :
@@ -279,7 +279,7 @@ theorem le_torusImage_of_card (hp5 : 5 ∣ Nat.card Lˣ) {E : Subgroup (PGL 5 L)
     (hEm : E ≤ monoImage 5 L) (hE : IsElemAbelian 5 E) (hc : 5 ^ 3 ≤ Nat.card E) :
     E ≤ torusImage 5 L := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   set ψ : ↥E →* Equiv.Perm (Fin 5) := (monoPerm 5 L).comp (Subgroup.inclusion hEm) with hψ
   have hker : ∀ e : ↥E, ψ e = 1 ↔ (e : PGL 5 L) ∈ torusImage 5 L := fun e =>
     monoPerm_eq_one_iff (Subgroup.inclusion hEm e)
@@ -343,7 +343,7 @@ theorem exists_conj_le_monoImage (hp5 : 5 ∣ Nat.card Lˣ) {Q : Subgroup (PGL 5
     ∃ g : PGL 5 L, Q.map (MulAut.conj g).toMonoidHom ≤ monoImage 5 L := by
   classical
   have hp : Nat.Prime 5 := by norm_num
-  haveI : Fact (Nat.Prime 5) := ⟨hp⟩
+  have : Fact (Nat.Prime 5) := ⟨hp⟩
   have hidx := not_dvd_index_monoImage (n := 5) hp (by norm_num) hp5
   obtain ⟨Q₀⟩ := (inferInstance : Nonempty (Sylow 5 (monoImage 5 L)))
   set P₀ : Subgroup (PGL 5 L) := (Q₀ : Subgroup (monoImage 5 L)).map (monoImage 5 L).subtype
@@ -394,6 +394,7 @@ theorem exists_conj_toral (hp5 : 5 ∣ Nat.card Lˣ) {Q E₁ E₂ : Subgroup (PG
     exact le_torusImage_of_card hp5 hle hel hcard ⟨x, hx, rfl⟩
   exact ⟨g, key h₁ hE₁ hc₁, key h₂ hE₂ hc₂⟩
 
+omit [Finite L] in
 theorem exists_diag_of_mk_mem {X : GL (Fin 5) L}
     (hX : (QuotientGroup.mk X : PGL 5 L) ∈ torusImage 5 L) :
     ∃ d : Fin 5 → Lˣ, X = CFSG.SectionRank.OddCover.diagHom 5 d := by
@@ -449,10 +450,10 @@ theorem exists_cover_su4 (hGA : CFSG.Open.GriessAllModelsStatement) {L : Type} [
     (e₀ : K ⧸ Subgroup.center K ≃* StatedProj (StatedSU n (2 ^ 2) L)) :
     ∃ φ : ↥(StatedSU n (2 ^ 2) L) →* K, Function.Surjective φ ∧
       ∀ s, e₀ (QuotientGroup.mk (φ s)) = QuotientGroup.mk s := by
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype L := Fintype.ofFinite L
-  haveI : CharP L 2 := charP_of_card_eq_prime_pow (f := 4) (by rw [← Nat.card_eq_fintype_card, hL]; norm_num)
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype L := Fintype.ofFinite L
+  have : CharP L 2 := charP_of_card_eq_prime_pow (f := 4) (by rw [← Nat.card_eq_fintype_card, hL]; norm_num)
   have hq : (n, 2 ^ 2) ≠ (3, 2) := fun h => absurd (congrArg Prod.snd h) (by norm_num)
   let H₀ := StatedSU n (2 ^ 2) L
   let N : Subgroup H₀ := (StatedScalars (Fin n) L).subgroupOf H₀
@@ -476,7 +477,7 @@ theorem exists_cover_su4 (hGA : CFSG.Open.GriessAllModelsStatement) {L : Type} [
     ⟨Nat.prime_two, by norm_num, hn, hq⟩
   have hmodel : CFSG.Models.LieModel (StatedProj H₀) .PSU n 2 2 :=
     ⟨hadm, Or.inl ⟨hadm, L, inferInstance, inferInstance, hL, ⟨MulEquiv.refl _⟩⟩⟩
-  haveI : Finite (hopfMultiplier (StatedProj H₀)) :=
+  have : Finite (hopfMultiplier (StatedProj H₀)) :=
     CFSG.LocalAnalysis.GLTheoremA.YS04G.finite_hopf_of_model hGA hmodel
   have hg : CFSG.Blueprint.Multiplier.genericOrders .PSU n 2 2 = (Nat.gcd n (2 ^ 2 + 1), 1) := rfl
   have hM := CFSG.LocalAnalysis.GLTheoremA.YS04G.hopf_factorization_le hGA hmodel (Or.inr rfl)
@@ -501,9 +502,9 @@ theorem exists_cover_su54 (hGA : CFSG.Open.GriessAllModelsStatement) {L : Type} 
 
 theorem commutator_statedSU4 {L : Type} [Field L] [Finite L] (hL : Nat.card L = (2 ^ 2) ^ 2) {n : ℕ}
     (hn : 3 ≤ n) : commutator ↥(StatedSU n (2 ^ 2) L) = ⊤ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Fintype L := Fintype.ofFinite L
-  haveI : CharP L 2 :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fintype L := Fintype.ofFinite L
+  have : CharP L 2 :=
     charP_of_card_eq_prime_pow (f := 4) (by rw [← Nat.card_eq_fintype_card, hL]; norm_num)
   exact Group.isPerfect_def.1 (CFSG.LieType.Steinberg.CentralExt.SUOdd.isPerfect_statedSU_odd hL hn
     fun h => absurd (congrArg Prod.snd h) (by norm_num))
@@ -518,7 +519,7 @@ theorem mem_primeFormD_of_pow' {L : Type} [Field L] [Finite L] (h : UnitaryField
   set φ := primeFormFieldFactor h hC hn hq b
   have hcard : Nat.card (L ≃+* L) = 2 * 2 :=
     (CFSG.LocalAnalysis.ComponentInitial.card_ringAut_and_isCyclic Nat.prime_two L h.card).1
-  haveI : Finite (L ≃+* L) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
+  have : Finite (L ≃+* L) := Nat.finite_of_card_ne_zero (by rw [hcard]; norm_num)
   have h1 : φ ^ (5 ^ k) = 1 := by rw [← map_pow, hb, map_one]
   have h2 : orderOf φ ∣ 5 ^ k := orderOf_dvd_of_pow_eq_one h1
   have h3 : orderOf φ ∣ 4 := by
@@ -572,6 +573,7 @@ variable {L : Type} [Field L] [Finite L] (h : UnitaryFieldData 2 2 L)
           QuotientGroup.eq_one_iff]
         exact (primeFormConjHom_eq_one_iff_center h (by norm_num) (by norm_num) A).1 hA⟩
 
+omit [Finite L] in
 theorem thetaD_apply (A : primeFormUnitary h (idGram L 5)) :
     thetaD h ((primeFormConjHom h (idGram L 5)).rangeRestrict A) =
       QuotientGroup.mk (A : GL (Fin 5) L) := by
@@ -579,6 +581,7 @@ theorem thetaD_apply (A : primeFormUnitary h (idGram L 5)) :
   erw [MonoidHom.liftOfRightInverse_comp_apply]
   rfl
 
+omit [Finite L] in
 theorem thetaD_injective : Function.Injective (thetaD h) := by
   rw [← MonoidHom.ker_eq_bot_iff, eq_bot_iff]
   intro y hy
@@ -593,6 +596,7 @@ theorem mem_primeFormD_of_pow (b : MulAut (primeFormP h (idGram L 5))) {k : ℕ}
     b ∈ primeFormD h (idGram L 5) :=
   mem_primeFormD_of_pow' h (by norm_num) b hb
 
+omit [Finite L] in
 theorem conj_mk_eq (s : gramSU h (idGram L 5)) :
     MulAut.conj (QuotientGroup.mk s : primeFormP h (idGram L 5)) =
       primeFormConjHom h (idGram L 5) ⟨s, s.2.1⟩ := by
@@ -628,7 +632,7 @@ theorem commutator_statedSU54 {L : Type} [Field L] [Finite L] (hL : Nat.card L =
 theorem inputU5Sylow_of (hGA : CFSG.Open.GriessAllModelsStatement) : Claims1110f.InputU5Sylow := by
   intro K _ _ hK hO hU P hP E hEP hE hEc F hF hFP hFc β hβ f hf
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨L, _, _, hL, ⟨e₀⟩⟩ := hU
   have hL' : Nat.card L = (2 ^ 2) ^ 2 := hL.trans (by norm_num)
   have h : UnitaryFieldData 2 2 L := ⟨Nat.prime_two, by norm_num, hL.trans (by norm_num)⟩
@@ -822,8 +826,8 @@ theorem commHom_eq_one_iff {G : Type*} [Group G] {a : G} {N : Subgroup G}
 
 theorem not_isSolvable_alternatingGroup_five : ¬ Group.IsSolvable ↥(alternatingGroup (Fin 5)) := by
   intro hA
-  haveI := hA
-  haveI : Group.IsSolvable ℤˣ := Group.isSolvable_of_comm fun a b => mul_comm a b
+  have := hA
+  have : Group.IsSolvable ℤˣ := Group.isSolvable_of_comm fun a b => mul_comm a b
   apply Equiv.Perm.not_isSolvable_fin_5
   exact Group.isSolvable_of_ker_le_range (alternatingGroup (Fin 5)).subtype Equiv.Perm.sign
     (by rw [Subgroup.range_subtype]; exact le_rfl)
@@ -856,7 +860,7 @@ theorem pow_five_eq_one_of_pumpup (hGA : CFSG.Open.GriessAllModelsStatement) {K 
       primeFormConjHom h (idGram L 5) A) :
     (A : GL (Fin 5) L) ^ 5 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   have hL : Nat.card L = (2 ^ 2) ^ 2 := h.card.trans (by norm_num)
   have hKc : commutator K = ⊤ := hK.1.1
   have hZ : IsPGroup 5 (Subgroup.center K) :=
@@ -884,7 +888,7 @@ theorem pow_five_eq_one_of_pumpup (hGA : CFSG.Open.GriessAllModelsStatement) {K 
     have hb0 : b ≠ 0 := by
       rintro rfl
       exact c.ne_zero (by rw [← hb]; norm_num)
-    haveI : Fintype L := Fintype.ofFinite L
+    have : Fintype L := Fintype.ofFinite L
     have h15 : b ^ 15 = 1 := by
       have := FiniteField.pow_card_sub_one_eq_one b hb0
       rwa [← Nat.card_eq_fintype_card, hL] at this
@@ -921,29 +925,29 @@ theorem pow_five_eq_one_of_pumpup (hGA : CFSG.Open.GriessAllModelsStatement) {K 
     have h3 : φ (t * s⁻¹) = 1 := by rw [map_mul, map_inv, ← h1, h2, mul_inv_cancel]
     exact hscal _ h3
   let δ := commHom (A : GL (Fin 5) L) N hδ
-  haveI : Group.IsSolvable ↥δ.ker := Group.isSolvable_of_comm fun a b => by
+  have : Group.IsSolvable ↥δ.ker := Group.isSolvable_of_comm fun a b => by
     have ha := (commHom_eq_one_iff (a : ↥N)).1 a.2
     have hb := (commHom_eq_one_iff (b : ↥N)).1 b.2
     exact Subtype.ext (Subtype.ext (hcomm _ _ ha hb))
-  haveI : Group.IsSolvable ↥(Subgroup.center (GL (Fin 5) L)) := Group.isSolvable_of_comm fun a b =>
+  have : Group.IsSolvable ↥(Subgroup.center (GL (Fin 5) L)) := Group.isSolvable_of_comm fun a b =>
     Subtype.ext ((Subgroup.mem_center_iff.1 b.2) a)
-  haveI hNs : Group.IsSolvable ↥N :=
+  have hNs : Group.IsSolvable ↥N :=
     Group.isSolvable_of_ker_le_range δ.ker.subtype δ (by rw [Subgroup.range_subtype])
   let ι : ↥N₀ →* ↥N :=
     ((StatedSU 5 (2 ^ 2) L).subtype.comp N₀.subtype).codRestrict N fun s => ⟨s, s.2, rfl⟩
   have hι : Function.Injective ι := fun a b hab =>
     Subtype.ext (Subtype.ext (congrArg (fun g : ↥N => (g : GL (Fin 5) L)) hab))
-  haveI : Group.IsSolvable ↥N₀ := Group.isSolvable_of_isSolvable_injective hι
+  have : Group.IsSolvable ↥N₀ := Group.isSolvable_of_isSolvable_injective hι
   let ψ : ↥N₀ →* ↥(Lemma1314.fixSub x) := (φ.comp N₀.subtype).codRestrict _ fun s => s.2
   have hψ : Function.Surjective ψ := by
     rintro ⟨y, hy⟩
     obtain ⟨s, rfl⟩ := hφs y
     exact ⟨⟨s, hy⟩, rfl⟩
-  haveI : Group.IsSolvable ↥(Lemma1314.fixSub x) := Group.isSolvable_of_surjective hψ
+  have : Group.IsSolvable ↥(Lemma1314.fixSub x) := Group.isSolvable_of_surjective hψ
   obtain ⟨-, J₁, hJ₁, ⟨eJ⟩⟩ := hx
-  haveI : Group.IsSolvable ↥J₁ :=
+  have : Group.IsSolvable ↥J₁ :=
     Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hJ₁.1)
-  haveI : Group.IsSolvable (CFSG.HardMathSupport.Solomon.LocalBalance.barOf 5 J₁) :=
+  have : Group.IsSolvable (CFSG.HardMathSupport.Solomon.LocalBalance.barOf 5 J₁) :=
     Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective _)
   exact not_isSolvable_alternatingGroup_five
     (Group.isSolvable_of_surjective (f := eJ.toMonoidHom) eJ.surjective)
@@ -972,7 +976,7 @@ theorem exists_orthonormal_eigenbasis_five {n : ℕ} {L : Type} [Field L] (h : U
       ∀ i, ∃ μ : L, ((X : GL (Fin n) L) : Matrix (Fin n) (Fin n) L) *ᵥ b i = μ • b i := by
   classical
   have := h.finite
-  haveI : NeZero (5 : ℕ) := ⟨by norm_num⟩
+  have : NeZero (5 : ℕ) := ⟨by norm_num⟩
   obtain ⟨ζ, hζ⟩ := CFSG.RankThree.PartOne.KCUnitaryPlane.exists_primitiveRoot_of_dvd h
     (by norm_num : Nat.Prime 5) (by norm_num : 5 ∣ 2 ^ 2 + 1)
   set T : Module.End L (Fin n → L) := ((toLinU h n X :
@@ -1080,11 +1084,11 @@ theorem exists_F_of_lift {L : Type} [Field L] [Finite L] (h : UnitaryFieldData 2
   have hL : Nat.card L = (2 ^ 2) ^ 2 := h.card.trans (by norm_num)
   have hSU := commutator_statedSU4 hL hn
   obtain ⟨S, μ, hAS⟩ := exists_unitary_conj_diagonal h hA5
-  haveI : NeZero (5 : ℕ) := ⟨by norm_num⟩
+  have : NeZero (5 : ℕ) := ⟨by norm_num⟩
   obtain ⟨ζ, hζ⟩ := CFSG.RankThree.PartOne.KCUnitaryPlane.exists_primitiveRoot_of_dvd h
     (by norm_num : Nat.Prime 5) (by norm_num : 5 ∣ 2 ^ 2 + 1)
   have hμ5 : Nat.card ↥(rootsOfUnity 5 L) = 5 := hζ.card_rootsOfUnity
-  haveI : Finite ↥(rootsOfUnity 5 L) := Nat.finite_of_card_ne_zero (by rw [hμ5]; norm_num)
+  have : Finite ↥(rootsOfUnity 5 L) := Nat.finite_of_card_ne_zero (by rw [hμ5]; norm_num)
   have hroot : ∀ u : ↥(rootsOfUnity 5 L), ((u : Lˣ) : L) ^ 5 = 1 := fun u =>
     (mem_rootsOfUnity' 5 (u : Lˣ)).1 u.2
   set T₀ : Subgroup (Fin n → ↥(rootsOfUnity 5 L)) := (prodHom (↥(rootsOfUnity 5 L)) n).ker with hT₀
@@ -1242,7 +1246,7 @@ theorem input30_5_of (hGA : CFSG.Open.GriessAllModelsStatement) (hLift : Input8_
     Claims1110f.Input30_5 := by
   intro K _ _ hK hO x hx k hk hU
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
   obtain ⟨L, _, _, hL, ⟨e₀⟩⟩ := hU
   have hL' : Nat.card L = (2 ^ 2) ^ 2 := hL.trans (by norm_num)
   have h : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 2 L :=
@@ -1303,8 +1307,8 @@ theorem isQuasisimple_unitarySpecial_two {f : ℕ} {E : Type} [Field E] (hE : Un
     (hf : 2 ≤ f) {W : Type*} [AddCommGroup W] [Module E W] [FiniteDimensional E W]
     (hW : 2 ≤ Module.finrank E W) {C : W →ₛₗ[hE.bar] W →ₗ[E] E} (hC : C.IsSymm)
     (hCl : C.SeparatingLeft) : CFSG.IsQuasisimple (unitarySpecial C) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
-  haveI : Finite E := hE.finite
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Finite E := hE.finite
   obtain ⟨hsigma, hne, hk0⟩ :=
     CFSG.ComponentClassification.CatalogueBUnitaryTwo.unitaryFieldConjugation_data 2 f hE.card_eq_sq
   have h4 : 4 ≤ 2 ^ f := by
@@ -1342,7 +1346,7 @@ theorem derivedSeries_alternatingGroup_five (i : ℕ) :
   | zero => exact derivedSeries_zero _
   | succ i ih =>
     rw [derivedSeries_succ, ih, ← commutator_def]
-    haveI := alternatingGroup.isSimpleGroup_five
+    have := (alternatingGroup.isSimpleGroup (Nat.card_fin 5).ge)
     rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (commutator ↥(alternatingGroup (Fin 5))) with h | h
     · exfalso
       exact not_isSolvable_alternatingGroup_five ⟨⟨1, by rw [derivedSeries_one, h]⟩⟩
@@ -1368,8 +1372,8 @@ theorem pow_five_eq_one_of_pumpup_high (hGA : CFSG.Open.GriessAllModelsStatement
       primeFormConjHom h (idGram L n) A) :
     (A : GL (Fin n) L) ^ 5 = 1 := by
   classical
-  haveI : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn1 : 1 ≤ n := by omega
   have hn3 : 3 ≤ n := by omega
   have hL : Nat.card L = (2 ^ 2) ^ 2 := h.card.trans (by norm_num)
@@ -1399,7 +1403,7 @@ theorem pow_five_eq_one_of_pumpup_high (hGA : CFSG.Open.GriessAllModelsStatement
     have hb0 : b ≠ 0 := by
       rintro rfl
       exact c.ne_zero (by rw [← hb]; norm_num)
-    haveI : Fintype L := Fintype.ofFinite L
+    have : Fintype L := Fintype.ofFinite L
     have h15 : b ^ 15 = 1 := by
       have := FiniteField.pow_card_sub_one_eq_one b hb0
       rwa [← Nat.card_eq_fintype_card, hL] at this
@@ -1490,7 +1494,7 @@ theorem pow_five_eq_one_of_pumpup_high (hGA : CFSG.Open.GriessAllModelsStatement
       (hNA (Subgroup.commutator_mono hDgN hDgN hd))).symm
   set P : L[X] := X ^ 5 - Polynomial.C (c : L) with hP
   have hPirr : Irreducible P := X_pow_sub_C_irreducible_of_prime (by norm_num) hcp
-  haveI : Fact (Irreducible P) := ⟨hPirr⟩
+  have : Fact (Irreducible P) := ⟨hPirr⟩
   have hP0 : P ≠ 0 := hPirr.ne_zero
   set xA : Module.End L (Fin n → L) :=
     Matrix.toLinAlgEquiv' ((A : GL (Fin n) L) : Matrix (Fin n) (Fin n) L) with hxA
@@ -1507,13 +1511,13 @@ theorem pow_five_eq_one_of_pumpup_high (hGA : CFSG.Open.GriessAllModelsStatement
   have hφroot : φQ (AdjoinRoot.root P) = xA := by
     rw [← AdjoinRoot.mk_X]
     exact aeval_X xA
-  letI : Module (AdjoinRoot P) (Fin n → L) := Module.compHom (Fin n → L) φQ.toRingHom
+  let : Module (AdjoinRoot P) (Fin n → L) := Module.compHom (Fin n → L) φQ.toRingHom
   have hsmul : ∀ (l : AdjoinRoot P) (v : Fin n → L), l • v = φQ l v := fun _ _ => rfl
-  haveI : IsScalarTower L (AdjoinRoot P) (Fin n → L) := ⟨fun a l v => by
+  have : IsScalarTower L (AdjoinRoot P) (Fin n → L) := ⟨fun a l v => by
     rw [hsmul, hsmul, map_smul, LinearMap.smul_apply]⟩
-  haveI : Module.Finite L (AdjoinRoot P) := (AdjoinRoot.powerBasis hP0).finite
-  haveI : Finite (AdjoinRoot P) := Module.finite_of_finite L
-  haveI : Module.Finite (AdjoinRoot P) (Fin n → L) :=
+  have : Module.Finite L (AdjoinRoot P) := (AdjoinRoot.powerBasis hP0).finite
+  have : Finite (AdjoinRoot P) := Module.finite_of_finite L
+  have : Module.Finite (AdjoinRoot P) (Fin n → L) :=
     Module.Finite.of_restrictScalars_finite L (AdjoinRoot P) (Fin n → L)
   have hdimL : Module.finrank L (AdjoinRoot P) = 5 := by
     rw [PowerBasis.finrank (AdjoinRoot.powerBasis hP0), AdjoinRoot.powerBasis_dim hP0,
@@ -1755,9 +1759,9 @@ theorem pow_five_eq_one_of_pumpup_high (hGA : CFSG.Open.GriessAllModelsStatement
       have h1 : D = ⊥ :=
         (Subgroup.map_eq_bot_iff_of_injective _ (StatedSU n (2 ^ 2) L).subtype_injective).1 hD1
       exact (Subgroup.map_eq_bot_iff_of_injective _ J₀.subtype_injective).1 h1
-    haveI : Group.IsSolvable ↥J₀ := ⟨⟨i₀, hD0⟩⟩
-    haveI : Group.IsSolvable ↥J₁ := Group.isSolvable_of_surjective hψJ
-    haveI : Group.IsSolvable (CFSG.HardMathSupport.Solomon.LocalBalance.barOf 5 J₁) :=
+    have : Group.IsSolvable ↥J₀ := ⟨⟨i₀, hD0⟩⟩
+    have : Group.IsSolvable ↥J₁ := Group.isSolvable_of_surjective hψJ
+    have : Group.IsSolvable (CFSG.HardMathSupport.Solomon.LocalBalance.barOf 5 J₁) :=
       Group.isSolvable_of_surjective (QuotientGroup.mk'_surjective _)
     exact not_isSolvable_alternatingGroup_five
       (Group.isSolvable_of_surjective (f := eJ.toMonoidHom) eJ.surjective)

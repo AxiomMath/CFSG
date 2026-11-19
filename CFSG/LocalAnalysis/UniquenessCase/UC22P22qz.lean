@@ -70,6 +70,7 @@ theorem uc22p22qz_action_trivial {F : Type} [Field F] [Finite F] {K : Type} [Gro
   rw [hασ, L2Borel.action_wt, ha1]
   simp
 
+omit [Finite G] in
 theorem uc22p22qz_pow_apply {L : Subgroup G} {a : G} {α : MulAut ↥L}
     (hα : ∀ k : ↥L, ((α k : ↥L) : G) = a * k * a⁻¹) (m : ℕ) (k : ↥L) :
     (((α ^ m) k : ↥L) : G) = a ^ m * (k : G) * (a ^ m)⁻¹ := by
@@ -79,11 +80,13 @@ theorem uc22p22qz_pow_apply {L : Subgroup G} {a : G} {α : MulAut ↥L}
     rw [pow_succ, MulAut.mul_apply, ih, hα]
     group
 
+omit [Finite G] in
 theorem uc22p22qz_exists_pow {p : ℕ} {S : Subgroup G} (hS : IsPGroup p S) {a : G} (ha : a ∈ S) :
     ∃ j : ℕ, a ^ p ^ j = 1 := by
   obtain ⟨j, hj⟩ := hS ⟨a, ha⟩
   exact ⟨j, by simpa using congrArg Subtype.val hj⟩
 
+omit [Finite G] in
 theorem uc22p22qz_eq_one_of_central {p n : ℕ} (hp : p.Prime) (hn : 2 ≤ n) {L : Subgroup G} [IsSimpleGroup ↥L]
     (hdvd : p ^ n ∣ Nat.card ↥L) {z : G} (hzL : z ∈ L) (hz : ∀ l ∈ L, z * l = l * z) : z = 1 := by
   by_contra hz1

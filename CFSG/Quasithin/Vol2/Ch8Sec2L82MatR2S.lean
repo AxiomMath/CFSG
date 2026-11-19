@@ -85,10 +85,10 @@ private theorem mem_id_combos_r2s {c L L' : List ℕ}
     rw [e]
     exact xor_mem_combos L' ha hb'
 
-private theorem mem_combos_sub_r2s {L L' : List ℕ} (h : ∀ a ∈ L, a ∈ combos L') :
+private theorem mem_combos_sub_r2s {L L' : List ℕ} (h : ∀ _a ∈ L, _a ∈ combos L') :
     ∀ m ∈ combos L, m ∈ combos L' :=
   fun m hm => mem_of_combos (fun m => m ∈ combos L') (zero_mem_combos L')
-    (fun a b ha hb => xor_mem_combos L' ha hb) L h m hm
+    (fun _a _b ha hb => xor_mem_combos L' ha hb) L h m hm
 
 private theorem maskSub_mono_r2s {n : ℕ} {L L' : List ℕ} (h : ∀ a ∈ L, a ∈ combos L') :
     maskSub n L ≤ maskSub n L' := by

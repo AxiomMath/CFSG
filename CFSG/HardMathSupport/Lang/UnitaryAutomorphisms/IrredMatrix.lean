@@ -185,7 +185,7 @@ theorem irred_frame (h : UnitaryFieldData p f K) (Bm : Matrix (Fin 3) (Fin 3) K)
     have hcol : Q.col = ![w, Bm *ᵥ w, (Bm ^ 2) *ᵥ w] := by
       ext j i
       fin_cases j <;> simp [hQ]
-    have hu : IsUnit Q := Matrix.linearIndependent_cols_iff_isUnit.1 (hcol ▸ hli)
+    have hu : IsUnit Q := Matrix.linearIndependent_col_iff_isUnit.1 (hcol ▸ hli)
     exact (Matrix.isUnit_iff_isUnit_det Q).1 hu |>.ne_zero
   refine ⟨Q, ν, ?_, hQQ, ?_⟩
   · intro hν0

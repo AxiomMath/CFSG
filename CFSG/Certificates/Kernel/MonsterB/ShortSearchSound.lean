@@ -30,7 +30,7 @@ theorem fastAct_frame {g v : ℕ} (hg : g < 15) (hv : v < 2 ^ 24) :
   rw [frameTabs_get hg, fastAct_fastTables _ hv]
   rfl
 
-@[expose] abbrev shortF (g v : ℕ) : ℕ := fastAct (frameRows.map fastTables)[g]! v
+abbrev shortF (g v : ℕ) : ℕ := fastAct (frameRows.map fastTables)[g]! v
 
 theorem shortTables_eq : shortTables = ⟨(kRun shortF 15 (1 <<< 24) 12288).1,
     (kRun shortF 15 (1 <<< 24) 12288).2.1, (kRun shortF 15 (1 <<< 24) 12288).2.2.1⟩ := by
@@ -79,13 +79,13 @@ theorem shortCertOK_of_orbit (S : Finset ℕ) (hS : ∀ u, Reach gimg 15 12288 u
     by_cases h0 : rd8 lev v = 0
     · rw [h0]
       rfl
-    · rw [if_neg (by simpa using h0)]
+    · rw [ite_eq_right (by simpa using h0)]
       have hv := (hne v).1 h0
       by_cases hl : rd8 lev v = 1
-      · rw [if_pos (by simpa using hl)]
+      · rw [ite_eq_left (by simpa using hl)]
         have := ((h1 v hv).1 hl)
         simp only [shortSeed, this, beq_self_eq_true]
-      · rw [if_neg (by simpa using hl)]
+      · rw [ite_eq_right (by simpa using hl)]
         have hvs : v ≠ 12288 := fun e => hl ((h1 v hv).2 e)
         obtain ⟨hp, hg, hf, hlev⟩ := htree v hv hvs
         rw [← hFG _ hg _ hp, hf, hlev]

@@ -27,7 +27,7 @@ theorem hp95 (h34 : Stroth34Statement) (h91b : Stroth91bStatement)
   have hrR : r ∈ Rt M (LB M Q B) t := hr.mem
   obtain ⟨K, fK, finK, hK2, E, hnrm, φ, ψ, u, hK, hφ, hker, hψ, hQu, hu0, hBiff, hW, hpol, hLB,
     hLA⟩ := exists_points95 h34 hs hr
-  haveI := hnrm
+  have := hnrm
   let C : Coord95 hc t K := ⟨E, φ, ψ, u, hK, hφ, hker, hψ, hQu, hu0, hBiff, hW, hLB⟩
   have hxR : x ∈ Rt M (LB M Q B) t := le_Rt (M := M) (LB M Q B) ht hxL
   have hQnd := nondegenerate_polarBilin_quadPlus 2 K

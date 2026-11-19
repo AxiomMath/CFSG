@@ -14,7 +14,7 @@ namespace LayerS6
 
 private theorem odd_card_oddCore' (X : Type*) [Group X] [Finite X] :
     Odd (Nat.card (CFSG.oddCore X)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   rw [CFSG.oddCore_eq_piCore, ← CFSG.pPrimeCore_eq_piCore 2 (G := X)]
   exact Nat.coprime_two_left.mp (CFSG.pPrimeCore_coprime_card (p := 2) (G := X))
 
@@ -56,9 +56,9 @@ private theorem card_alt6 : Nat.card (alternatingGroup (Fin 6)) = 360 := by
 
 private theorem alt6_exists_not_comm : ∃ a b : alternatingGroup (Fin 6), a * b ≠ b * a := by
   by_contra hcon
-  push_neg at hcon
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  letI : CommGroup (alternatingGroup (Fin 6)) :=
+  push Not at hcon
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  let : CommGroup (alternatingGroup (Fin 6)) :=
     { (inferInstance : Group (alternatingGroup (Fin 6))) with mul_comm := hcon }
   have hp := IsSimpleGroup.prime_card (α := alternatingGroup (Fin 6))
   rw [card_alt6] at hp
@@ -66,7 +66,7 @@ private theorem alt6_exists_not_comm : ∃ a b : alternatingGroup (Fin 6), a * b
   omega
 
 private theorem isQuasisimple_alt6 : CFSG.IsQuasisimple (alternatingGroup (Fin 6)) := by
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
   exact isQuasisimple_of_simple alt6_exists_not_comm
 
 theorem layer_eq_of_normal_quasisimple {Y : Type*} [Group Y] (E : Subgroup Y) [E.Normal]
@@ -88,7 +88,7 @@ theorem layer_eq_of_normal_quasisimple {Y : Type*} [Group Y] (E : Subgroup Y) [E
 theorem layer_equiv_alt6 {H : Type*} [Group H] (e : H ≃* Equiv.Perm (Fin 6)) :
     Nonempty (↥(CFSG.layer H) ≃* alternatingGroup (Fin 6)) := by
   let E : Subgroup H := (alternatingGroup (Fin 6)).map e.symm.toMonoidHom
-  haveI : E.Normal := Subgroup.Normal.map inferInstance _ e.symm.surjective
+  have : E.Normal := Subgroup.Normal.map inferInstance _ e.symm.surjective
   let eE : ↥E ≃* alternatingGroup (Fin 6) :=
     ((alternatingGroup (Fin 6)).equivMapOfInjective e.symm.toMonoidHom e.symm.injective).symm
   have hmem : ∀ x : H, x ∈ E ↔ e x ∈ alternatingGroup (Fin 6) := by
@@ -129,9 +129,9 @@ theorem layerCent_ne_bot_of_equiv (e : ↥(L ⊓ centralizer ({s} : Set G)) ≃*
 theorem isL29_layerCent_of_equiv (e : ↥(L ⊓ centralizer ({s} : Set G)) ≃* Equiv.Perm (Fin 6)) :
     IsL29 (layerCent L s) := by
   obtain ⟨e1⟩ := layerCent_equiv_alt6 e
-  haveI : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
-  haveI : IsSimpleGroup ↥(layerCent L s) := e1.isSimpleGroup
-  haveI : Finite ↥(layerCent L s) := Finite.of_equiv _ e1.symm.toEquiv
+  have : IsSimpleGroup (alternatingGroup (Fin 6)) := alternatingGroup.isSimpleGroup (by simp)
+  have : IsSimpleGroup ↥(layerCent L s) := e1.isSimpleGroup
+  have : Finite ↥(layerCent L s) := Finite.of_equiv _ e1.symm.toEquiv
   have hcard : Nat.card ↥(layerCent L s) = 360 := by
     rw [Nat.card_congr e1.toEquiv, card_alt6]
   have hodd : CFSG.oddCore ↥(layerCent L s) = ⊥ :=

@@ -87,7 +87,7 @@ theorem normalizer_le_M_of_seven (c : Ctx82E3 D) (h7 : D.sig = {7}) {R : Subgrou
       by_contra h
       push Not at h
       exact hRne ((Subgroup.eq_bot_iff_forall (H := R)).mpr h)
-    haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+    have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
     have h7' : 7 ∣ orderOf (⟨r, hrR⟩ : ↥R) :=
       hR.dvd_orderOf (g := (⟨r, hrR⟩ : ↥R)) (by simpa using hr1)
     exact h7'.trans (orderOf_dvd_natCard (⟨r, hrR⟩ : ↥R))
@@ -98,7 +98,7 @@ theorem eq_inf_sup_theta_of_seven (c : Ctx82E3 D) (h7 : D.sig = {7})
     (hyC : y ∈ thetaQuotCentralizer J) :
     J = (J ⊓ D.M) ⊔ theta3 J := by
   classical
-  haveI : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
+  have : Fact (Nat.Prime 7) := ⟨Nat.prime_seven⟩
   have hy1 : y ≠ 1 := by rintro rfl; rw [orderOf_one] at hy7; norm_num at hy7
   have hyN : y ∈ Subgroup.normalizer (J : Set G) :=
     CFSG.RankThree.PartTwo.Sec6.thetaQuotCentralizer_le_normalizer J hyC
@@ -154,7 +154,7 @@ theorem eq_inf_sup_theta_of_seven (c : Ctx82E3 D) (h7 : D.sig = {7})
     rw [Nat.card_zpowers, hordX]; norm_num) :
       IsPGroup 7 (Subgroup.zpowers (⟨y, hyX⟩ : ↥X))).exists_le_sylow
   set R' : Subgroup G := (P : Subgroup ↥X).map X.subtype with hR'
-  have hR'7 : IsPGroup 7 R' := P.isPGroup'.map X.subtype
+  have hR'7 : IsPGroup 7 R' := P.isPGroup.map X.subtype
   have hyR' : y ∈ R' := by
     have hyPX : (⟨y, hyX⟩ : ↥X) ∈ (P : Subgroup ↥X) := hyP (Subgroup.mem_zpowers _)
     rw [hR']
@@ -176,7 +176,7 @@ theorem eq_inf_sup_theta_of_seven (c : Ctx82E3 D) (h7 : D.sig = {7})
   have hZR_M : ZR ≤ D.M :=
     hZR_C.trans (centralizer_le_M_of_orderOf_seven c h7 hyM hy7)
   have hZRne : ZR ≠ ⊥ := by
-    haveI : Nontrivial ↥R' := (Subgroup.nontrivial_iff_ne_bot R').mpr hR'ne
+    have : Nontrivial ↥R' := (Subgroup.nontrivial_iff_ne_bot R').mpr hR'ne
     intro hbot
     have hc : Subgroup.center ↥R' = ⊥ := by
       have h1 : Subgroup.comap R'.subtype ZR = Subgroup.center ↥R' := by

@@ -21,7 +21,7 @@ open CFSG.Assembly.LowTwoRank (StatedLieTag)
 
 theorem uc22p20r_rankWit_of_le_pRank {K : Type} [Group K] [Finite K] {p k : ℕ} (hp : p.Prime)
     (hk : k ≤ CFSG.Open.pRank p (⊤ : Subgroup K)) : uc22p20oRankWit K p k := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨E, -, hE, hcard⟩ := CFSG.SectionRank.exists_pRank hp.one_lt (⊤ : Subgroup K)
   obtain ⟨F, hF⟩ := Sylow.exists_subgroup_card_pow_prime (G := E) p (n := k)
     (by rw [hcard]; exact pow_dvd_pow p hk)
@@ -34,7 +34,7 @@ theorem uc22p20r_ker_comp {K X : Type} [Group K] [Group X] (e : K ⧸ center K �
 
 theorem uc22p20r_a9 : uc22p20oA9Witness := by
   intro K _ _ hq hodd ⟨e⟩
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
   set η : K →* alternatingGroup (Fin (7 + 2)) := e.toMonoidHom.comp (QuotientGroup.mk' (center K))
   have hηs : Function.Surjective η := e.surjective.comp (QuotientGroup.mk'_surjective _)
   have hker : η.ker = center K := uc22p20r_ker_comp e
@@ -112,7 +112,7 @@ theorem uc22p20r_card_table {t : StatedLieTag} {m n : ℕ} (h : uc22p20oNoOddMul
 
 theorem uc22p20r_center_of_native (hN : uc22p20rNativeGriess) : uc22p20oTrivialCenter := by
   intro K _ _ hq hodd t m n hNo hM
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
   obtain ⟨-, ⟨eM⟩⟩ := hN (K ⧸ center K) t m 2 n hM
   obtain ⟨k, hk⟩ := uc22p20r_card_table hNo
   have hM' : Nat.card (hopfMultiplier (K ⧸ center K)) = 2 ^ k := by
@@ -132,12 +132,12 @@ theorem uc22p20r_center_of_native (hN : uc22p20rNativeGriess) : uc22p20oTrivialC
 
 theorem uc22p20r_u38_of_griess (hG : CFSG.Open.GriessAllModelsStatement) : uc22p20oU38Witness := by
   intro K _ _ hq hodd hU
-  haveI : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Group.IsPerfect K := Group.isPerfect_def.mpr hq.1
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hcl : StatedClassicalModel (K ⧸ center K) .PSU (2 + 1) 2 3 :=
     CFSG.Blueprint.LieModel.statedClassicalModel hU (by decide)
   obtain ⟨hadm, F, instF, instFin, hcardF, ⟨φ⟩⟩ := hcl
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fintype F := Fintype.ofFinite F
   have hS₀ : Group.IsPerfect (StatedSU (2 + 1) (2 ^ 3) F) := by
     obtain ⟨-, -, -, hnq⟩ := hadm
     exact CFSG.ClassicalGroups.Unitary.isPerfect_statedSU hcardF (n := 2 + 1) (by omega) hnq

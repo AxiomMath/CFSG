@@ -17,7 +17,7 @@ variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
 private theorem h_acts_on_inf_H
     (S : Setting z E F) {a h : G}
-    (hha : h * a * h⁻¹ = a) (hhH : h ∈ H z)
+    (_hha : h * a * h⁻¹ = a) (hhH : h ∈ H z)
     (hconj : IsConj z a) (hza : z ∈ QaOf a) (hzaZ : z ∉ centerIn (QaOf a))
     (hhCa : h ∈ Subgroup.centralizer ({a} : Set G)) :
     h ∈ Subgroup.normalizer ((QaOf a ⊓ H z : Subgroup G) : Set G) ∧
@@ -112,6 +112,7 @@ private theorem commutator_inf_H_zpowers_le_Q
     exact commutator_mem_Q_of_mem_inf_H S hhH (Subgroup.mem_inf.mp hu).1
       (Subgroup.mem_inf.mp hu).2 hy
 
+omit [Finite G] in
 private theorem commutator_mem_centerIn_of_centralizes_U
     {a h u : G} {Qa U : Subgroup G}
     (hhCa : h ∈ Subgroup.centralizer ({a} : Set G))
@@ -283,7 +284,7 @@ theorem eq_one_of_odd_prime_power_mem_centralizer_Lbar_of_centralizes_a
     exact (Subgroup.mem_normalizer_iff.mp hUNorm (h⁻¹ * x * h)).mpr (by
       rw [show h * (h⁻¹ * x * h) * h⁻¹ = x by group]
       exact hx)
-  letI : Fact l.Prime := ⟨hl⟩
+  let : Fact l.Prime := ⟨hl⟩
   have hRp : IsPGroup l R := by
     change IsPGroup l ↥(Subgroup.zpowers h)
     exact IsPGroup.of_card (n := k) (by rw [Nat.card_zpowers, hord])

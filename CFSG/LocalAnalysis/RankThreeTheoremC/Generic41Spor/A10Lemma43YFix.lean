@@ -68,7 +68,7 @@ theorem a10y_fix_W (h : A10YData Y P x t₁ t₂ J₁ J₂ F) {Z : Subgroup Y}
     (hFZ : ∀ f ∈ F, ∀ z ∈ Z, f * z * f⁻¹ ∈ Z)
     (hTZ : (zpowers t₁ ⊔ zpowers t₂) ⊓ Z = ⊥) (hxZ : x ∉ Z) {w : Y}
     (hwV : w ∈ zpowers t₁ ⊔ zpowers t₂ ⊔ zpowers x) (hwZ : w ∈ Z) : w = 1 := by
-  haveI : IsMulCommutative P := h.P_comm
+  have : IsMulCommutative P := h.P_comm
   have hVP := (a10y_V h).2.2.1
   have hcomm : ∀ a ∈ zpowers t₁ ⊔ zpowers t₂, ∀ b ∈ zpowers x, a * b = b * a := fun a ha b hb =>
     setLike_mul_comm (s := P) (hVP (Subgroup.mem_sup_left ha)) (hVP (Subgroup.mem_sup_right hb))

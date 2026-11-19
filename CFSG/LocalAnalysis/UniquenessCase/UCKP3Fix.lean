@@ -189,7 +189,7 @@ theorem fixCheck_spec (h : U38Fix.fixCheck () = true) :
       unfold isIdA at hnid
       rw [this] at hnid
       exact absurd hnid (by simp)
-    haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+    have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
     refine ⟨permOfArr 513 hCert.pts[i]!, sift3_mem hri hsx, orderOf_eq_prime hz3 hz1, ?_⟩
     unfold commAt at hcomm'
     exact (eqA_iff (rep_compA hri hrx7) (rep_compA hrx7 hri)).1 hcomm'
@@ -234,7 +234,7 @@ theorem X'_le_U38G : X' ≤ U38G := by
 theorem exists_conj_X7 (hX7X : X7 ∈ X') (s : ↥X') (hs : orderOf s = 7) :
     ∃ g : ↥X', (g : Equiv.Perm (Fin 513)) * (s : Equiv.Perm (Fin 513)) * (g : Equiv.Perm (Fin 513))⁻¹
       ∈ Subgroup.zpowers X7 := by
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hX7o : orderOf (⟨X7, hX7X⟩ : ↥X') = 7 := by
     rw [← Subgroup.orderOf_coe]
     exact X7_order
@@ -298,7 +298,7 @@ theorem nonempty_X'_equiv_projSU : Nonempty (↥X' ≃* CFSG.PGLModel.projSU 3 2
         ⟨Nat.prime_two, by norm_num, le_rfl, by decide⟩ (MulEquiv.refl _))
   exact ⟨e1.trans e2⟩
 
-theorem mem_X'_of_commute {γ x g : Equiv.Perm (Fin 513)} (hX7X : X7 ∈ X')
+theorem mem_X'_of_commute {γ x g : Equiv.Perm (Fin 513)} (_hX7X : X7 ∈ X')
     (hkey : ∀ β ∈ U38G, β ^ 3 = 1 → β * X7 = X7 * β → β ∈ X')
     (hγΓ : γ ∈ U38G) (hgΓ : g ∈ U38G) (hgX : g ∈ X') (hγ3 : γ ^ 3 = 1) (hγx : γ * x = x * γ)
     (hxo : orderOf x = 7) (hg : g * x * g⁻¹ ∈ Subgroup.zpowers X7) : γ ∈ X' := by

@@ -65,7 +65,7 @@ theorem ggRC_isTransvection_of_lin {p : ℕ} [Fact p.Prime] {G : Type} [Group G]
     (h : Module.finrank (ZMod p) (ggLinMove (ggLin (p := p) ι φ)) = 1 ∧
       ∀ w, ggLin (p := p) ι φ (ggLin (p := p) ι φ w - w) = ggLin (p := p) ι φ w - w) :
     GGIsTransvection p φ := by
-  haveI : Finite V := Finite.of_equiv _ ι.toEquiv
+  have : Finite V := Finite.of_equiv _ ι.toEquiv
   rw [ggIsTransvection_iff_ggLin ι φ]
   refine ⟨h.1, ?_⟩
   intro w hw
@@ -80,8 +80,8 @@ private def l05nC2a_stabEquiv {G : Type*} [Group G] (S A : Subgroup G) :
     ↥(S.subgroupOf A) ≃ ↥(A ⊓ S) where
   toFun x := ⟨((x : ↥A) : G), (x : ↥A).2, x.2⟩
   invFun x := ⟨⟨(x : G), x.2.1⟩, x.2.2⟩
-  left_inv x := Subtype.ext (Subtype.ext rfl)
-  right_inv x := Subtype.ext rfl
+  left_inv _x := Subtype.ext (Subtype.ext rfl)
+  right_inv _x := Subtype.ext rfl
 
 theorem ggRC_card_join_le_of_orbit (hOrb : GGResCentBoundInput)
     {G : Type} [Group G] [Finite G] {p : ℕ} [Fact p.Prime] {B Bs : Subgroup G} {x : G}

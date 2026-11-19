@@ -395,8 +395,8 @@ theorem semi_eq_smul_of_commute_eichler_short (hirr : ∀ s : F, s ^ 2 + b * s +
     have hAB := (hTwA0 p0).symm.trans (hTwB0 p0)
     have hcoord := congrFun hAB (.inr (.inr 0))
     simpa only [p0, fVec, eVec, Pi.single_apply, Pi.add_apply, Pi.smul_apply,
-      Pi.zero_apply, planeVec, hr_plane 0, hr'_plane 0, Sum.inr.injEq, Sum.inr_ne_inl, if_true,
-      if_false, smul_eq_mul, mul_zero, zero_mul, add_zero, zero_add, mul_one, one_mul] using hcoord
+      Pi.zero_apply, planeVec, hr_plane 0, hr'_plane 0, Sum.inr.injEq, Sum.inr_ne_inl, ite_true,
+      ite_false, smul_eq_mul, mul_zero, zero_mul, add_zero, zero_add, mul_one, one_mul] using hcoord
   have hphiQ0 : φ (Qw p0) ≠ 0 := by
     rw [hQ0, map_one]
     exact one_ne_zero
@@ -457,7 +457,7 @@ theorem semi_eq_smul_of_commute_eichler_short (hirr : ∀ s : F, s ^ 2 + b * s +
     have hcoord := congrFun h2 (.inr (.inr 0))
     have hcoord' : α * a = φ a * α := by
       simpa only [p0, fVec, eVec, Pi.single_apply, Pi.add_apply, Pi.smul_apply,
-        Pi.zero_apply, planeVec, hr_plane 0, Sum.inr.injEq, Sum.inr_ne_inl, if_true, if_false,
+        Pi.zero_apply, planeVec, hr_plane 0, Sum.inr.injEq, Sum.inr_ne_inl, ite_true, ite_false,
         smul_eq_mul, mul_zero, zero_mul, add_zero, zero_add, mul_one, one_mul] using hcoord
     rw [mul_comm (φ a) α] at hcoord'
     exact (mul_left_cancel₀ hα_ne hcoord').symm
@@ -486,7 +486,7 @@ theorem semi_eq_smul_of_commute_eichler_short (hirr : ∀ s : F, s ^ 2 + b * s +
         have hk' : c0 ^ 2 * r (.inl j) = c0 * r (.inl j) := by
           simpa only [p0, fVec, eVec, Pi.single_apply, Pi.add_apply, Pi.smul_apply,
             Pi.zero_apply, planeVec, hj, Sum.inl_ne_inr, Sum.inr_ne_inl, Sum.inl.injEq,
-            Sum.inr.injEq, RingEquiv.refl_apply, if_true, if_false, smul_eq_mul, mul_zero,
+            Sum.inr.injEq, RingEquiv.refl_apply, ite_true, ite_false, smul_eq_mul, mul_zero,
             zero_mul, add_zero, zero_add, mul_one, one_mul, one_smul] using hk
         have hzero : (c0 ^ 2 - c0) * r (.inl j) = 0 := by
           linear_combination hk'
@@ -499,7 +499,7 @@ theorem semi_eq_smul_of_commute_eichler_short (hirr : ∀ s : F, s ^ 2 + b * s +
         have hk' : c0 ^ 2 * r (.inr (.inl j)) = c0 * r (.inr (.inl j)) := by
           simpa only [p0, fVec, eVec, Pi.single_apply, Pi.add_apply, Pi.smul_apply,
             Pi.zero_apply, planeVec, hj, Sum.inl_ne_inr, Sum.inr_ne_inl, Sum.inl.injEq,
-            Sum.inr.injEq, RingEquiv.refl_apply, if_true, if_false, smul_eq_mul, mul_zero,
+            Sum.inr.injEq, RingEquiv.refl_apply, ite_true, ite_false, smul_eq_mul, mul_zero,
             zero_mul, add_zero, zero_add, mul_one, one_mul, one_smul] using hk
         have hzero : (c0 ^ 2 - c0) * r (.inr (.inl j)) = 0 := by
           linear_combination hk'

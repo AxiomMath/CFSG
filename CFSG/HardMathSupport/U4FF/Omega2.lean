@@ -71,9 +71,9 @@ theorem exists_mulEquiv_su_statedOmega
     [Finite K] [CharP K 2] {n : ℕ} (hE : Nat.card E = 2 ^ n) (hK : Nat.card K = (2 ^ n) ^ 2)
     {b c : E} (hirr : ∀ s : E, s ^ 2 + b * s + c ≠ 0) :
     Nonempty (↥(SU (unitaryInvolution K 2 n) 4) ≃* ↥(StatedOmega (StatedQuadMinus 3 E b c))) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨inst, ⟨D⟩⟩ := exists_kleinDataEven hE hK hirr
-  letI : Algebra E K := inst
+  let : Algebra E K := inst
   have h2 : (2 : E) = 0 := CharTwo.two_eq_zero
   have hperfSU : Group.IsPerfect (SU (unitaryInvolution K 2 n) 4) :=
     (isQuasisimple_SU hK (by norm_num) (by simp)).1
@@ -99,17 +99,17 @@ theorem omega2Input_holds :
             NaturalOmega6 n L := by
   intro S _ n L hL K _ _ _ hK η E _ _ hE ε₀ R hR k _ _ _ P i₀ hP
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hn : 1 ≤ n := one_le_of_isU4Group hL
-  haveI hEchar : CharP E 2 := by
+  have hEchar : CharP E 2 := by
     have h := CFSG.ClassicalGroups.Orthogonal.ringChar_eq_of_card_eq Nat.prime_two hn hE
-    haveI := ringChar.charP E
+    have := ringChar.charP E
     rwa [h] at this
   have h2 : (2 : E) = 0 := CharTwo.two_eq_zero
-  haveI hkchar : CharP k 2 := charP_of_injective_algebraMap (algebraMap K k).injective 2
+  have hkchar : CharP k 2 := charP_of_injective_algebraMap (algebraMap K k).injective 2
   obtain ⟨b, c, hirr⟩ := CFSG.LieType.Universal.exists_irreducible_quadratic E
   obtain ⟨inst, ⟨D⟩⟩ := exists_kleinDataEven hE hK hirr
-  letI : Algebra E K := inst
+  let : Algebra E K := inst
   let Φ : spinGroup (quadMinus 3 E b c) ≃* SU (unitaryInvolution K 2 n) 4 :=
     D.phiSUEven hK hirr
   have hperfSU : Group.IsPerfect (SU (unitaryInvolution K 2 n) 4) :=
@@ -131,7 +131,7 @@ theorem omega2Input_holds :
       colEquiv colEquiv).map (algebraMap E K) = comp2 (g l) * Tm D := fun l => by
     rw [← hg l]
     exact tm_mul_spin D (ξ l) (hSU l)
-  haveI : ExpChar k 2 := ExpChar.prime Nat.prime_two
+  have : ExpChar k 2 := ExpChar.prime Nat.prime_two
   let α : K →+* k := algebraMap K k
   let ι₀ : E →+* K := algebraMap E K
   let β : E →+* k := algebraMap E k

@@ -14,8 +14,8 @@ private theorem nonabelian_of_commutator_eq_top {G : Type} [Group G] [Nontrivial
     (h : commutator G = ⊤) : ∃ a b : G, a * b ≠ b * a := by
   by_contra hcon
   push Not at hcon
-  haveI : Group.IsPerfect G := Group.isPerfect_def.mpr h
-  haveI : IsMulCommutative G := ⟨⟨fun a b => hcon a b⟩⟩
+  have : Group.IsPerfect G := Group.isPerfect_def.mpr h
+  have : IsMulCommutative G := ⟨⟨fun a b => hcon a b⟩⟩
   exact (Group.IsPerfect.not_isMulCommutative G) inferInstance
 
 theorem statedSL_quasisimple_of_card (m : ℕ) (K : Type) [Field K] [Finite K] (hm : 2 ≤ m)
@@ -36,7 +36,7 @@ open CFSG.ComponentClassification.RankTwoClassical.ORigid in
 theorem statedOmega_minus_quasisimple_of_two_le (K : Type) [Field K] [Finite K] [CharP K 2]
     {m : ℕ} {b c : K} (hm : 2 ≤ m) (hirr : ∀ s : K, s ^ 2 + b * s + c ≠ 0) :
     CFSG.IsQuasisimple ↥(StatedOmega (StatedQuadMinus m K b c)) := by
-  haveI : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus m K b c)) :=
+  have : IsSimpleGroup ↥(StatedOmega (StatedQuadMinus m K b c)) :=
     isSimpleGroup_statedOmega_quadMinus_of_two_le hm hirr
   exact (CFSG.LocalCores.isQuasisimple_of_isSimpleGroup
     (nonabelian_of_commutator_eq_top (commutator_statedOmega_quadMinus_eq_top hm hirr))).1

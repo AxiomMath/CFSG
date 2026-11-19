@@ -118,8 +118,8 @@ public theorem section13_prime_dvd_geom_quotient_mod_eq_one
     (hpmod_ne : p % q ≠ 1) (hr : Nat.Prime r)
     (hrdvd : r ∣ (p ^ q - 1) / (p - 1)) :
     r % q = 1 := by
-  haveI : Fact (Nat.Prime q) := ⟨hq⟩
-  haveI : Fact (Nat.Prime r) := ⟨hr⟩
+  have : Fact (Nat.Prime q) := ⟨hq⟩
+  have : Fact (Nat.Prime r) := ⟨hr⟩
   have hroot : (Polynomial.cyclotomic q (ZMod r)).IsRoot (p : ZMod r) := by
     rw [Polynomial.cyclotomic_prime (ZMod r) q]
     rw [Polynomial.IsRoot]

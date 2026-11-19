@@ -38,7 +38,7 @@ theorem sec34S_inf_zpowers (hb : orderOf b = 3) {H : Subgroup G} (hbH : b ∉ H)
 
 theorem sec34S_b_not_mem {a : G} (hU : FF79Sec34UFacts b a J A) : b ∉ CenS (U34 b a J A) := by
   intro hb
-  haveI := hU.elemU.1
+  have := hU.elemU.1
   have hle : U34 b a J A ≤ Cen b := by
     intro u hu
     rw [Subgroup.mem_centralizer_iff]
@@ -55,10 +55,10 @@ theorem sec34S_b_not_mem {a : G} (hU : FF79Sec34UFacts b a J A) : b ∉ CenS (U3
   have := Nat.le_of_dvd (by norm_num) h2
   omega
 
-theorem sec34_As_syl (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D) {a : G}
+theorem sec34_As_syl (_hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D) {a : G}
     (hU : FF79Sec34UFacts b a J A) {As : Subgroup G} (hAs : FF79AStar b D A As) :
     IsSylowOf 3 As (CenS (U34 b a J A)) := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   set C : Subgroup G := CenS (U34 b a J A) with hC
   set Z : Subgroup G := Subgroup.zpowers b with hZ
   obtain ⟨hAAs, hAsyl, hcomm, hbAs, -, -, hTsyl, -⟩ := hAs
@@ -99,10 +99,10 @@ theorem sec34_As_syl (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D) {a : G}
   congr 1
   omega
 
-theorem sec34_no27 (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D) {a : G}
+theorem sec34_no27 (_hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D) {a : G}
     (hU : FF79Sec34UFacts b a J A) :
     ∀ T : Subgroup G, T ≤ Cen b ⊓ CenS (U34 b a J A) → ¬ IsElemAb 3 3 T := by
-  haveI : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
+  have : Fact (Nat.Prime 3) := ⟨Nat.prime_three⟩
   intro T hT hE
   have hb3 : orderOf b = 3 := h.hyp.ord
   have hbC := sec34S_b_not_mem hU
@@ -122,7 +122,7 @@ theorem sec34_no27 (hs : FF79Sec3 b J) (h : FF79Sec34In b J B A P D) {a : G}
   have hP : IsPGroup 3 ↥(T ⊔ Z) := IsPGroup.of_card h81
   obtain ⟨Q, hQ⟩ := hP.exists_le_sylow
   have hSyl : IsSylowOf 3 (Q : Subgroup G) ⊤ := by
-    refine ⟨le_top, Q.isPGroup', ?_⟩
+    refine ⟨le_top, Q.isPGroup, ?_⟩
     rw [Subgroup.relIndex_top_right]
     exact (Nat.Prime.coprime_iff_not_dvd Nat.prime_three).mpr Q.not_dvd_index
   have hbQ : b ∈ (Q : Subgroup G) := hQ (Subgroup.mem_sup_right (Subgroup.mem_zpowers b))

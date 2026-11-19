@@ -100,7 +100,7 @@ theorem triOdd_gsub_plane_gen {ℓ f : ℕ} (hℓ : ℓ.Prime) (hℓ2 : ℓ ≠ 
     calc ℓ = ℓ ^ 1 := (pow_one ℓ).symm
       _ ≤ ℓ ^ f := Nat.pow_le_pow_right hℓ.pos hf)
   have hX' : Nat.card X = ℓ ^ (3 * f) := by rw [hX, ← pow_mul]; ring_nf
-  haveI : CharP X ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
+  have : CharP X ℓ := CFSG.LocalAnalysis.ComponentInitial.finite_field_prime_power_characteristic
     hℓ (k := 3 * f) (by omega) hX'
   have hK2 : ringChar X ≠ 2 := by rw [ringChar.eq X ℓ]; exact hℓ2
   have hσ3 : ∀ c, σ (σ (σ c)) = c := CFSG.LieType.Steinberg.TwistedD4.sigma_three_of_card

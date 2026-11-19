@@ -20,7 +20,7 @@ theorem badClsAt_D_four (hGA : GriessAllModelsStatement) (Q : TauCeti.PrimePower
   intro p q hp hp2 hq hq2 hqp Ω _ _ hK S B hSn hperf hcore hchar he hB hSB hrank hB4 hBC hp3B hHq
   by_cases hp3 : p = 3
   · subst hp3
-    haveI := hSn
+    have := hSn
     have hQq : Q.p = q := by rwa [TauCeti.LieTypeIndex.characteristic_D] at hchar
     exact concl_d4_three Q hv hq2 hqp hperf hcore hQq he hB hrank hB4 hBC
       (fun h => hp3B ⟨rfl, h⟩) hHq

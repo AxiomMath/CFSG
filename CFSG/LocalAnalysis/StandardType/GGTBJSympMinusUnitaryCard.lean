@@ -22,12 +22,12 @@ theorem smu_eq_of_suppIn_singleton {x : Fin m} {w : Fin m ⊕ Fin m → K} (hw :
     · subst hy
       simp
     · have h0 : w (Sum.inl y) = 0 := hw _ (by simpa [WitSpNs.plane] using hy)
-      simp [h0, Pi.single_apply, hy]
+      simp [h0, hy]
   · by_cases hy : y = x
     · subst hy
       simp
     · have h0 : w (Sum.inr y) = 0 := hw _ (by simpa [WitSpNs.plane] using hy)
-      simp [h0, Pi.single_apply, hy]
+      simp [h0, hy]
 
 theorem SmuOffFix.mulVec_single_card_le_one {S : Finset (Fin m)} (hS : S.card ≤ 1)
     {j : Matrix (Fin m ⊕ Fin m) (Fin m ⊕ Fin m) K}
@@ -171,7 +171,7 @@ theorem card_ge_two_of_component [Finite K] [CharP K 2] {p : ℕ} (hp : p.Prime)
         (hcent j hj x) (hcent j' hj' x)
     · have e1 := hsupp j hj x hx x
       have e2 := hsupp j' hj' x hx x
-      simp only [if_true] at e1 e2
+      simp only [ite_true] at e1 e2
       change blk (M j) x x * blk (M j') x x = blk (M j') x x * blk (M j) x x
       rw [e1, e2]
   have hq := (CFSG.ComponentClassification.AssemblyBPredicates.isQuasisimple_iff_native _).mp

@@ -216,7 +216,7 @@ theorem D1OneSmallData.exists_irr_linTwo_period_cz [Fact p.Prime] (h3 : D1PhaseT
       rw [hγμ, ← pow_mul, hsplit, pow_add, hμ1, mul_one]
     have hγbot : γ ∈ (⊥ : Subfield (GaloisField p 2)) :=
       (Subfield.mem_bot_iff_pow_eq_self (GaloisField p 2) p).mpr hγp
-    rw [Subfield.bot_eq_of_zMod_algebra p] at hγbot
+    rw [Subfield.bot_eq_of_zmod_algebra p] at hγbot
     obtain ⟨a, ha⟩ := RingHom.mem_fieldRange.mp hγbot
     have hγl : γ = ((a.val : ℕ) : GaloisField p 2) := by
       have h1 : algebraMap (ZMod p) (GaloisField p 2) ((a.val : ℕ) : ZMod p) =

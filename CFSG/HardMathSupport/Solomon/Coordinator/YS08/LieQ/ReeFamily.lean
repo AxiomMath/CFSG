@@ -38,7 +38,7 @@ theorem radRigid_tits_of_LI {S : Type} [Group S] (h : ReeTitsModel S .Tits 2 1)
     have := Fintype.ofFinite K
     exact charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have : CharP K ReeTag.F4.prime := hc
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
   have e' := e.trans (CFSG.LieType.BorelTits.derivedCentralQuotientEquiv _
     ((MulEquiv.subgroupCongr (reeFixedGroup_eq_map_reeFixed ReeTag.F4 K 0)).trans
       ((reeFixed ReeTag.F4 K 0).equivMapOfInjective _ Subtype.val_injective).symm))

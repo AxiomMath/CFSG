@@ -14,7 +14,7 @@ open CFSG.Open (pCoreOf)
 theorem exists_lift_orderOf {G : Type*} [Group G] [Finite G] (Z : Subgroup G) [Z.Normal]
     (hZc : Z ≤ Subgroup.center G) {r : ℕ} (hr : r.Prime) (hrZ : ¬ r ∣ Nat.card Z)
     (s : G ⧸ Z) (hs : orderOf s = r) : ∃ g : G, orderOf g = r ∧ (g : G ⧸ Z) = s := by
-  haveI : Fact r.Prime := ⟨hr⟩
+  have : Fact r.Prime := ⟨hr⟩
   obtain ⟨g₀, hg₀⟩ := QuotientGroup.mk_surjective s
   have hsr : s ^ r = 1 := hs ▸ pow_orderOf_eq_one s
   have hg₀r : g₀ ^ r ∈ Z := by
@@ -44,7 +44,7 @@ theorem exists_two_subgroup_preimage {G : Type*} [Group G] [Finite G] (Z : Subgr
     [Z.Normal] (hZc : Z ≤ Subgroup.center G) (R : Subgroup (G ⧸ Z)) (hR2 : IsPGroup 2 R)
     (hR1 : R ≠ ⊥) :
     pCoreOf 2 (R.comap (QuotientGroup.mk' Z)) ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Rt : Subgroup G := R.comap (QuotientGroup.mk' Z) with hRt
   have hmem : ∀ x : G, x ∈ Rt ↔ (x : G ⧸ Z) ∈ R := fun x => Iff.rfl
   let f : ↥Rt →* ↥R :=
@@ -60,8 +60,8 @@ theorem exists_two_subgroup_preimage {G : Type*} [Group G] [Finite G] (Z : Subgr
     rw [Subgroup.mem_center_iff]
     intro y
     exact Subtype.ext ((Subgroup.mem_center_iff.mp (hZc hxZ)) (y : G))
-  haveI : Group.IsNilpotent ↥R := hR2.isNilpotent
-  haveI : Group.IsNilpotent ↥Rt := Subgroup.isNilpotent_of_ker_le_center f hker
+  have : Group.IsNilpotent ↥R := hR2.isNilpotent
+  have : Group.IsNilpotent ↥Rt := Subgroup.isNilpotent_of_ker_le_center f hker
   have hfsurj : Function.Surjective f := by
     intro y
     obtain ⟨x, hx⟩ := QuotientGroup.mk_surjective (y : G ⧸ Z)
@@ -88,7 +88,7 @@ theorem exists_two_subgroup_preimage {G : Type*} [Group G] [Finite G] (Z : Subgr
   have hNnorm : (N.subgroupOf Rt).Normal := by
     rw [hNP]
     exact inferInstance
-  have hNp : IsPGroup 2 N := P.isPGroup'.map Rt.subtype
+  have hNp : IsPGroup 2 N := P.isPGroup.map Rt.subtype
   have hle : N ≤ pCoreOf 2 Rt := le_pCoreOf 2 hNRt hNnorm hNp
   intro hbot
   have hNbot : N = ⊥ := le_bot_iff.mp (hbot ▸ hle)
@@ -107,8 +107,8 @@ theorem exists_lift_normalizing {G : Type*} [Group G] [Finite G] (Z : Subgroup G
     (hrN : r ∣ Nat.card (Subgroup.normalizer (R : Set (G ⧸ Z)))) :
     ∃ (g : G) (R' : Subgroup G), orderOf g = r ∧ IsPGroup 2 R' ∧ R' ≠ ⊥ ∧
       ∀ x : G, x ∈ R' ↔ g * x * g⁻¹ ∈ R' := by
-  haveI : Fact r.Prime := ⟨hr⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact r.Prime := ⟨hr⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨s, hs⟩ := exists_prime_orderOf_dvd_card'
     (G := ↥(Subgroup.normalizer (R : Set (G ⧸ Z)))) r hrN
   have hs' : orderOf (s : G ⧸ Z) = r := by rw [Subgroup.orderOf_coe]; exact hs

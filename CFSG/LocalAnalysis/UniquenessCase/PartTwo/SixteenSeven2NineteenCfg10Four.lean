@@ -12,6 +12,7 @@ open CFSG.Quasithin CFSG.Open Subgroup CFSG.LocalAnalysis.UniquenessCase.UC22
 
 variable {W : Type} [CommGroup W] [Finite W] {X Fs : Subgroup (MulAut W)} {I₁ I₂ : Subgroup W}
 
+omit [Finite W] in
 private theorem s16c167_disjoint_sup_of_inf_eq_bot {A B J J' : Subgroup W}
     (hAB : A ⊓ B = ⊥) (hs : A ⊔ B = J) (hJ : J ⊓ J' = ⊥) : Disjoint A (B ⊔ J') := by
   rw [disjoint_iff, eq_bot_iff]
@@ -37,6 +38,7 @@ private theorem s16c167_disjoint_sup_of_inf_eq_bot {A B J J' : Subgroup W}
     exact Subgroup.mem_bot.mp hmem
   simpa using hxbot
 
+omit [Finite W] in
 private theorem s16c167_fixV_map_conj (x : MulAut W) (R : Subgroup (MulAut W)) :
     (fixV R).map x.toMonoidHom = fixV (R.map (MulAut.conj x).toMonoidHom) := by
   ext v
@@ -56,12 +58,14 @@ private theorem s16c167_fixV_map_conj (x : MulAut W) (R : Subgroup (MulAut W)) :
     refine x.injective ?_
     simpa using h
 
+omit [Finite W] in
 private theorem s16c167_map_inf_fixV (x : MulAut W) (I : Subgroup W)
     (R : Subgroup (MulAut W)) :
     (I ⊓ fixV R).map x.toMonoidHom =
       (I.map x.toMonoidHom) ⊓ fixV (R.map (MulAut.conj x).toMonoidHom) := by
   rw [Subgroup.map_inf I (fixV R) x.toMonoidHom x.injective, s16c167_fixV_map_conj]
 
+omit [Finite W] in
 private theorem s16c167_ne_of_inf_eq_bot {A B : Subgroup W} (h : A ⊓ B = ⊥)
     (hrk : rk ↥A = 2) : A ≠ B := by
   intro hAB
@@ -69,6 +73,7 @@ private theorem s16c167_ne_of_inf_eq_bot {A B : Subgroup W} (h : A ⊓ B = ⊥)
   have hzero : rk ↥A = 0 := by rw [hbot]; exact rk_bot
   omega
 
+omit [Finite W] in
 private theorem s16c167_ne_of_le_indep {A B I J : Subgroup W} (hA : A ≤ I) (hB : B ≤ J)
     (hIJ : I ⊓ J = ⊥) (hrk : rk ↥A = 2) : A ≠ B := by
   intro hAB
@@ -78,6 +83,7 @@ private theorem s16c167_ne_of_le_indep {A B I J : Subgroup W} (hA : A ≤ I) (hB
   have hzero : rk ↥A = 0 := by rw [hbot]; exact rk_bot
   omega
 
+omit [Finite W] in
 theorem s16c167_indep_four {A₁ B₁ A₂ B₂ J₁ J₂ : Subgroup W} (hJ : J₁ ⊓ J₂ = ⊥)
     (hs : J₁ ⊔ J₂ = ⊤) (h₁ : A₁ ⊓ B₁ = ⊥) (hs₁ : A₁ ⊔ B₁ = J₁) (h₂ : A₂ ⊓ B₂ = ⊥)
     (hs₂ : A₂ ⊔ B₂ = J₂) :

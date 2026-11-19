@@ -44,6 +44,7 @@ theorem spanW_top0 :
 
 theorem card_Idx0 : Fintype.card Idx0 = 32 := (Fintype.card_coe idx0).trans card_idx0
 
+omit [CharP K 2] [Finite K] in
 theorem finrank_W32 : Module.finrank K (W K) = 32 := by
   rw [Module.finrank_finsupp_self, card_Idx0]
 
@@ -122,7 +123,7 @@ theorem xt_p0 (t : K) : ((xt t : ↥(EAut0 K)) : W K ≃ₗ[K] W K) (p0 K) = p0 
 
 theorem xt_sp0 (t : K) :
     ((xt t : ↥(EAut0 K)) : W K ≃ₗ[K] W K) (sp0 K) = sp0 K + t • p0 K := by
-  rw [coe_xt, vAut0_apply, sp0_eq, xuWUnit_apply, EW_single alphaA2_mem_Perp, if_pos pr_a1W,
+  rw [coe_xt, vAut0_apply, sp0_eq, xuWUnit_apply, EW_single alphaA2_mem_Perp, ite_eq_left pr_a1W,
     shiftW_a1W]
   rfl
 
@@ -269,10 +270,12 @@ variable (K) in
 
 @[expose] def ptW0 (g : ↥(EAut0 K)) : ↥(ptsW K) := ⟨K ∙ (g : W K ≃ₗ[K] W K) (p0 K), g, rfl⟩
 
+omit [CharP K 2] [Finite K] in
 theorem ptW0_surjective : Function.Surjective (ptW0 (K := K)) := by
   rintro ⟨_, g, rfl⟩
   exact ⟨g, rfl⟩
 
+omit [CharP K 2] [Finite K] in
 theorem ptW0_val (g : ↥(EAut0 K)) :
     ((ptW0 g : ↥(ptsW K)) : Submodule K (W K)) = K ∙ (g : W K ≃ₗ[K] W K) (p0 K) := rfl
 
@@ -323,6 +326,7 @@ theorem exists_g0 {u₁ u₂ : Submodule K (W K)} (h₁ : u₁ ∈ L0W K) (h₂ 
       rw [hv]
       exact Submodule.span_singleton_smul_eq (isUnit_iff_ne_zero.2 hc0) _
 
+omit [CharP K 2] [Finite K] in
 theorem apply_inv_apply0 (g : ↥(EAut0 K)) (v : W K) :
     (g : W K ≃ₗ[K] W K) (((g⁻¹ : ↥(EAut0 K)) : W K ≃ₗ[K] W K) v) = v :=
   LinearEquiv.apply_symm_apply _ _
@@ -363,6 +367,7 @@ theorem line_points {g₀ : ↥(EAut0 K)} (hg₀ : g₀ ∈ Hsl0 K) {z : Submodu
 @[expose] def hEq (h : (Module.End K (W K))ˣ) (hh : h ∈ LamW K) : ↥(EAut0 K) :=
   ⟨vAut0 K h, h, hh, rfl⟩
 
+omit [CharP K 2] [Finite K] in
 theorem act_ptW (h : (Module.End K (W K))ˣ) (hh : h ∈ LamW K) (g : ↥(EAut0 K)) :
     act h (K ∙ (g : W K ≃ₗ[K] W K) (p0 K)) =
       K ∙ ((hEq h hh * g : ↥(EAut0 K)) : W K ≃ₗ[K] W K) (p0 K) := by

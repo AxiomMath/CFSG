@@ -385,7 +385,7 @@ theorem omegaBlock_frame_inr_inr (n : ℕ) (j : Fin (blockCount n))
   by_cases h : i = i'
   · subst h
     simp_all [blockIdx_castSucc, blockIdx_succ]
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     simp_all [blockIdx_castSucc, blockIdx_succ]
 
 @[expose] noncomputable def torusBlk (n : ℕ)
@@ -1008,11 +1008,11 @@ theorem torusBlk_gen (n : ℕ) (j : Fin (blockCount n)) :
   rw [torusGen, Pi.mulSingle_apply, Pi.mulSingle_apply]
   by_cases hi : i = j
   · subst hi
-    rw [if_pos rfl, if_pos rfl]
+    rw [ite_eq_left rfl, ite_eq_left rfl]
     rw [show (Multiplicative.toAdd (Multiplicative.ofAdd (1 : ZMod 3))).val = 1 by
       show (1 : ZMod 3).val = 1
       decide, pow_one]
-  · rw [if_neg hi, if_neg hi]
+  · rw [ite_eq_right hi, ite_eq_right hi]
     simp
 
 @[simp] theorem torusGen_self (n : ℕ) (j : Fin (blockCount n)) :
@@ -1169,7 +1169,7 @@ theorem closure_range_torusGen (n : ℕ) :
         rfl
       exact hpow.symm
     · intro b _ hb
-      rw [Pi.pow_apply, torusGen, Pi.mulSingle_apply, if_neg (fun h => hb h.symm)]
+      rw [Pi.pow_apply, torusGen, Pi.mulSingle_apply, ite_eq_right (fun h => hb h.symm)]
       simp
     · intro hk
       exact absurd (Finset.mem_univ k) hk
@@ -1301,7 +1301,7 @@ theorem omegaBlock_ne_of_zpow_eq_one (n : ℕ)
     rw [hs]
     exact (hΦ j).symm
   have hi := congrFun hv i
-  rw [htgen i, if_neg hij] at hi
+  rw [htgen i, ite_eq_right hij] at hi
   exact hother i hij hi
 
 theorem omegaBlock_ne_of_zpow_sq (n : ℕ)

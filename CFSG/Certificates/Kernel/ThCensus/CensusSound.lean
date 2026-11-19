@@ -54,7 +54,7 @@ theorem ord3_spec (hk : constsOK c rm tm0 tm1 tm2 tm3 tm4 tm5 tm6 tm7 up dg ONE 
     · rw [hb] at h2
       exact absurd h2 Bool.false_ne_true
   have hp : Nat.Prime 3 := Nat.prime_three
-  haveI : Fact (Nat.Prime 3) := ⟨hp⟩
+  have : Fact (Nat.Prime 3) := ⟨hp⟩
   refine orderOf_eq_prime ?_ ?_
   · apply hφ
     have e := congrArg pkMat (Nat.eq_of_beq_eq_true h1)

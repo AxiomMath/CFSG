@@ -23,9 +23,9 @@ theorem titsCentSolv_holds : TitsCentSolv := by
     subst hi
     obtain ⟨eD⟩ := CFSG.Sporadic.Schreier.Tits.titsModelEquiv T 2 1
       (CFSG.RankThree.PartOne.CTP.reeTitsModel_tits (S := T) ⟨hv, ⟨e⟩⟩)
-    haveI : IsSimpleGroup CFSG.Sporadic.Schreier.Tits.titsD := CFSG.Sporadic.Schreier.Tits.titsD_simple
-    haveI : IsSimpleGroup T := eD.isSimpleGroup
-    haveI : Nontrivial CFSG.Sporadic.Schreier.Tits.titsD := CFSG.Sporadic.Schreier.Tits.titsD_nontrivial
+    have : IsSimpleGroup CFSG.Sporadic.Schreier.Tits.titsD := CFSG.Sporadic.Schreier.Tits.titsD_simple
+    have : IsSimpleGroup T := eD.isSimpleGroup
+    have : Nontrivial CFSG.Sporadic.Schreier.Tits.titsD := CFSG.Sporadic.Schreier.Tits.titsD_nontrivial
     have hncD := CFSG.HardMathSupport.Dickson.Sec6.I923.exists_noncomm_of_center_bot
       CFSG.Sporadic.Schreier.Tits.titsD_center
     have hnc : ∃ a b : T, a * b ≠ b * a := by
@@ -34,17 +34,17 @@ theorem titsCentSolv_holds : TitsCentSolv := by
     obtain ⟨β, hβ1⟩ := Subgroup.ne_bot_iff_exists_ne_one.1 hF1
     have hβp : (β : MulAut T) ^ p = 1 := hF.2 β β.2
     have hβ1' : (β : MulAut T) ≠ 1 := fun h => hβ1 (Subtype.ext h)
-    haveI := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.isSolvable_fixSubgroup_tits hv hnc ⟨e⟩ hp hp2
+    have := CFSG.HardMathSupport.Solomon.Coordinator.LieComp.isSolvable_fixSubgroup_tits hv hnc ⟨e⟩ hp hp2
       hβp hβ1'
     have hle : I142.centFix F ≤ fixSubgroup (β : MulAut T) := fun x hx =>
       mem_fixSubgroup.2 ((I142.mem_centFix).1 hx _ β.2)
-    exact solvable_of_solvable_injective (Subgroup.inclusion_injective hle)
+    exact Group.isSolvable_of_isSolvable_injective (Subgroup.inclusion_injective hle)
   | _ => simp [onLie] at hi
 
 theorem exists_noncomm_quot_center {K : Type*} [Group K] (hK : CFSG.Open.IsQuasisimple K) :
     ∃ a b : K ⧸ Subgroup.center K, a * b ≠ b * a := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hnt := hK.2.toNontrivial
   have hker : commutator K ≤ (QuotientGroup.mk' (Subgroup.center K)).ker := by
     rw [commutator_def]
@@ -73,17 +73,17 @@ theorem compTypesCyc_holds : CompTypesCyc := by
       ext x
       simp [mem_fixSubgroup]
     rw [htop] at hK
-    haveI := hS
-    haveI : IsSimpleGroup ↥(⊤ : Subgroup S) := Subgroup.topEquiv.isSimpleGroup
+    have := hS
+    have : IsSimpleGroup ↥(⊤ : Subgroup S) := Subgroup.topEquiv.isSimpleGroup
     have hKnt : Nontrivial ↥K := by
       by_contra h
       rw [not_nontrivial_iff_subsingleton] at h
-      haveI := h
+      have := h
       exact (not_subsingleton_iff_nontrivial.2 hQ.2.toNontrivial) inferInstance
     have hKtop : K = ⊤ := CFSG.LocalAnalysis.GLTheoremA.AltDown.eq_of_isSubnormal_of_isSimpleGroup hK.2.1
       ((Subgroup.nontrivial_iff_ne_bot K).1 hKnt)
     have eK : ↥K ≃* S := (MulEquiv.subgroupCongr hKtop).trans Subgroup.topEquiv
-    haveI : IsSimpleGroup ↥K := eK.isSimpleGroup
+    have : IsSimpleGroup ↥K := eK.isSimpleGroup
     have hncK : ∃ a b : ↥K, a * b ≠ b * a := by
       obtain ⟨a, b, hab⟩ := hnc
       exact ⟨eK.symm a, eK.symm b, fun h => hab (eK.symm.injective (by simpa using h))⟩

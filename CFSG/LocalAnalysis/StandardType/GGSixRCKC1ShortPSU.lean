@@ -22,15 +22,14 @@ theorem rckLemmaHCore_PSU
     simp only [ggU, lieUniversal, hg, ↓reduceDIte]
   revert β
   rw [e]
-  intro β hβ hL h2
-  intro x hx hx1
+  intro β hβ hL h2 x hx hx1
   obtain ⟨v, w, v', w', hfr, hmap, -⟩ :=
     exists_unitPairGroup_eq_conj_rootGroup_SU (card_galoisField_two_mul 2 g hg) m hβ hL h2
       (1 : SU (unitaryInvolution (GaloisField 2 (2 * g)) 2 g) m)
   have hconj1 : (MulAut.conj
       (1 : SU (unitaryInvolution (GaloisField 2 (2 * g)) 2 g) m)).toMonoidHom =
       MonoidHom.id (SU (unitaryInvolution (GaloisField 2 (2 * g)) 2 g) m) := by
-    ext g; simp [MulAut.conj_apply]
+    ext g; simp
   rw [hconj1, Subgroup.map_id] at hmap
   rw [hmap] at hx
   have h := rckSPSU_suPair_core m g hg hfr hx hx1
@@ -39,7 +38,7 @@ theorem rckLemmaHCore_PSU
 theorem rckK2NbrRootSubShortAt_PSU
     : RCKK2NbrRootSubShortAt .PSU := by
   intro X _ _ K R m g β ht hg hβ hL hS h2 hvia r hr hr1
-  exact rckGL1_of_core ht hg (fun h => by first | exact absurd h (by decide) | omega)
+  exact rckGL1_of_core ht hg (fun h => by first | exact absurd h (by decide))
     (rckLemmaHCore_PSU hg hβ hL h2) hvia hr hr1
 
 end CFSG.StandardType.RCKC1

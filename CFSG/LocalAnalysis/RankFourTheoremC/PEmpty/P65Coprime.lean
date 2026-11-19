@@ -158,7 +158,7 @@ private theorem p65cp_conjAut_pow {A : Type*} [Group A] (Y : Subgroup A) (b : A)
 
 theorem p65_coprime_rank_two : P65CoprimeRankTwo := by
   intro A _ _ p f Y B hp _ hf hf2 hfp hY hB hBN hrank
-  haveI : Fact f.Prime := ⟨hf⟩
+  have : Fact f.Prime := ⟨hf⟩
   intro b hb
   rw [mem_centralizer_iff]
   intro y hy

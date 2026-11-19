@@ -14,7 +14,7 @@ theorem card_of_isShapeTwoTwoTimesTwoFourA5 {X : Type*} [Group X]
   obtain ⟨e⟩ := hiso
   have hY : Nat.card Y = 16 * 60 := by
     obtain ⟨N, hN, hNiso, hQiso⟩ := hshape
-    haveI : N.Normal := hN
+    have : N.Normal := hN
     obtain ⟨eN⟩ := hNiso
     obtain ⟨eQ⟩ := hQiso
     rw [Subgroup.card_eq_card_quotient_mul_card_subgroup N, Nat.card_congr eQ.toEquiv,

@@ -21,7 +21,7 @@ theorem kF135At_fam5 : KF135At Fam5 := by
   intro S _ _ p P x u V hF h
   obtain ⟨n, hn5, hn12, ⟨f⟩⟩ := hF
   exfalso
-  haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+  have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
   have hp7 := h.seven_le
   have hout : ¬ p ∣ Nat.card (Outer S) := by
     rw [Nat.card_congr (CFSG.ComponentClassification.OuterAutomorphisms.equivalence f).toEquiv]

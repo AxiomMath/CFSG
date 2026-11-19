@@ -50,11 +50,11 @@ include hF6 S h1 h2 ha ham hxN hxa hx3 in
 theorem isPGroup_cent_z_B :
     IsPGroup 2 ↥(centralizer ({z} : Set G) ⊓ centralizer ((HeB e x : Subgroup G) : Set G)) := by
   have hD := HeJ.data40 e hF6 S h1 h2 ha ham
-  obtain ⟨b, hbB, hbm⟩ := hD.exists_b hxN hxa hx3
+  obtain ⟨b, hbB, hbm⟩ := hD.exists_b hxN hxa
   obtain ⟨hbZ, -⟩ := Subgroup.mem_inf.1 hbB
   obtain ⟨y, rfl⟩ := exists_emb e (tr_le_Cz e L52.A1 (Subgroup.mem_inf.1 hbZ).1)
   rw [HeJ.mG_emb] at hbm
-  have hg3 := hD.g_pow_three hxN hxa hx3
+  have hg3 := hD.g_pow_three hxN hx3
   have hg1 := hD.g_ne_one hxN hxa hx3
   have hy1 : L52.zC y 1 0 = 1 := by
     rw [hbm]
@@ -88,9 +88,9 @@ theorem z_facts_426 :
   refine ⟨hzZ, ?_, hzm⟩
   intro hzB
   have hzB' : z ∈ (tr e L52.A1 ⊓ tr e L52.A2) ⊓ centralizer ({x} : Set G) := hzB
-  have h := ((hD.mem_B_iff hxN hxa hx3).1 hzB').2
+  have h := ((hD.mem_B_iff hxN hxa).1 hzB').2
   rw [hzm] at h
-  exact he42s8_gl2_not_comm_e12 _ (hD.g_pow_three hxN hxa hx3) (hD.g_ne_one hxN hxa hx3) h
+  exact he42s8_gl2_not_comm_e12 _ (hD.g_pow_three hxN hx3) (hD.g_ne_one hxN hxa hx3) h
 
 theorem he42Input426_of_422
     (h422 : ∀ (hF6 : L52.F6Model) (G : Type) [Group G] [Finite G] (z : G) (e : ↥(Cz z) ≃* L52.Hc),

@@ -272,8 +272,7 @@ theorem nonempty_oTwoQuot_equiv
     simpa using hn
   have hker : ω.ker = CFSG.Open.pCore 2 ↥(X ⊔ T) := by
     apply le_antisymm
-    · try with_reducible rfl
-      exact le_sSup ⟨ω.normal_ker, hker2⟩
+    · exact le_sSup ⟨ω.normal_ker, hker2⟩
     · intro x hx
       have hn : ((CFSG.pCore 2 ↥(X ⊔ T)).map ω).Normal :=
         (CFSG.pCore_normal (p := 2) (G := ↥(X ⊔ T))).map ω hsurj

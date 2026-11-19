@@ -146,7 +146,7 @@ theorem not_unitaryRootAt_of_card [(Q.subgroupOf M).Normal] (hc : Ctx M Q Z B)
     exists_lift_order_comm hc ht hZ0 hr hr2 horder hcomm
   have hQZ0 : Q ≤ Z0 := hc.Q_le_centre ht hZ0
   have hZ0ne : ∃ s ∈ Z0, s ∉ Q := by
-    refine SetLike.exists_of_lt (lt_of_le_of_ne hQZ0 fun h => ?_)
+    refine _root_.IsConcreteLE.exists_of_lt (lt_of_le_of_ne hQZ0 fun h => ?_)
     have hcard : Nat.card Q = Nat.card Q * Nat.card Z := by
       rw [← hZ0card]
       exact congrArg (fun S : Subgroup G => Nat.card ↥S) h

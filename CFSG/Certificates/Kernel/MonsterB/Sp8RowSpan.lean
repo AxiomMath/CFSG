@@ -171,12 +171,12 @@ theorem testBit_packN (f : ℕ → Bool) :
     rcases Nat.lt_trichotomy i n with h | rfl | h
     · have h' : i < n + 1 := by omega
       have hne : n ≠ i := by omega
-      cases f n <;> simp [h, h', hne, Nat.testBit_two_pow]
-    · cases hf : f i <;> simp [hf, Nat.testBit_two_pow]
+      cases f n <;> simp [h, h', hne]
+    · cases hf : f i <;> simp
     · have h1 : ¬ i < n := by omega
       have h2 : ¬ i < n + 1 := by omega
       have hne : n ≠ i := by omega
-      cases f n <;> simp [h1, h2, hne, Nat.testBit_two_pow]
+      cases f n <;> simp [h1, h2, hne]
 
 theorem packN_xor (f g : ℕ → Bool) (n : ℕ) :
     Model.packN (fun i => f i ^^ g i) n = Model.packN f n ^^^ Model.packN g n := by
@@ -201,8 +201,7 @@ theorem combN_xor (m : ℕ → ℕ) : ∀ n x y : ℕ,
     generalize Model.combN m n x = u
     generalize Model.combN m n y = v
     cases x.testBit n <;> cases y.testBit n <;>
-      simp only [Bool.false_xor, Bool.xor_false, Bool.true_xor, Bool.not_true, Bool.not_false,
-        Bool.false_eq_true, if_false, if_true, Nat.xor_zero] <;>
+      simp only [Bool.false_xor, Bool.xor_false, Bool.true_xor, Bool.not_true, Bool.false_eq_true, ite_false, ite_true, Nat.xor_zero] <;>
       apply Nat.eq_of_testBit_eq <;> intro i <;> simp only [Nat.testBit_xor] <;>
       cases u.testBit i <;> cases v.testBit i <;> cases (m n).testBit i <;> rfl
 
@@ -212,8 +211,7 @@ theorem pi0N_xor (x y : ℕ) : Model.pi0N (x ^^^ y) = Model.pi0N x ^^^ Model.pi0
   unfold Model.pi0N
   rw [Nat.testBit_xor]
   cases x.testBit 0 <;> cases y.testBit 0 <;>
-    simp only [Bool.false_xor, Bool.xor_false, Bool.true_xor, Bool.not_true, Bool.not_false,
-      Bool.false_eq_true, if_false, if_true, Nat.xor_zero] <;>
+    simp only [Bool.false_xor, Bool.xor_false, Bool.true_xor, Bool.not_true, Bool.false_eq_true, ite_false, ite_true, Nat.xor_zero] <;>
     apply Nat.eq_of_testBit_eq <;> intro i <;> simp only [Nat.testBit_xor] <;>
     cases x.testBit i <;> cases y.testBit i <;> cases (63 : ℕ).testBit i <;> rfl
 
@@ -350,8 +348,7 @@ theorem thetaRec_xor : ∀ n x y : ℕ,
     generalize Model.dualN (Model.combN Model.bmaskN n x &&& Model.bmaskN n) = t₅
     generalize Model.dualN (Model.combN Model.bmaskN n y &&& Model.bmaskN n) = t₆
     cases x.testBit n <;> cases y.testBit n <;>
-      simp only [Bool.false_xor, Bool.xor_false, Bool.true_xor, Bool.not_true, Bool.not_false,
-        Bool.false_eq_true, ite_true, ite_false, ↓reduceIte] <;>
+      simp only [Bool.false_xor, Bool.xor_false, Bool.true_xor, Bool.not_true, Bool.false_eq_true, ↓reduceIte] <;>
       apply Nat.eq_of_testBit_eq <;> intro i <;> simp only [Nat.testBit_xor, Nat.zero_testBit] <;>
       cases t₁.testBit i <;> cases t₂.testBit i <;> cases t₃.testBit i <;> cases t₄.testBit i <;>
       cases t₅.testBit i <;> cases t₆.testBit i <;> rfl
@@ -368,8 +365,7 @@ theorem thB_add : ∀ n x x' y : ℕ, thB n (x ^^^ x') y = thB n x y ^^^ thB n x
     generalize thD n x' = t₄
     generalize thD n y = t₅
     cases x.testBit n <;> cases x'.testBit n <;> cases y.testBit n <;>
-      simp only [Bool.false_xor, Bool.xor_false, Bool.true_xor, Bool.not_true, Bool.not_false,
-        Bool.false_eq_true, ite_true, ite_false, ↓reduceIte] <;>
+      simp only [Bool.false_xor, Bool.xor_false, Bool.true_xor, Bool.not_true, Bool.false_eq_true, ↓reduceIte] <;>
       apply Nat.eq_of_testBit_eq <;> intro i <;> simp only [Nat.testBit_xor, Nat.zero_testBit] <;>
       cases t₁.testBit i <;> cases t₂.testBit i <;> cases t₃.testBit i <;> cases t₄.testBit i <;>
       cases t₅.testBit i <;> rfl

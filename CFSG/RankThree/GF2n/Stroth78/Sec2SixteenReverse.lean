@@ -13,11 +13,13 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
+omit [Finite G] in
 theorem z_mul_self_eq_one (S : Setting z E F) : z * z = 1 := by
   have h := pow_orderOf_eq_one z
   rw [S.hyp.orderOf_z] at h
   simpa [pow_two] using h
 
+omit [Finite G] in
 theorem a_mul_self_eq_one (S : Setting z E F) {a : G} (hconj : IsConj z a) :
     a * a = 1 := by
   have h := sq_eq_one_of_isConj S hconj
@@ -172,6 +174,7 @@ theorem map_conj_Q_eq_QaOf (S : Setting z E F) {a g : G} (haQ : a ∈ Q z)
   have hgz := conj_z_eq_of_conj_a_eq S haQ hconj haZ hgQaz hga
   rw [map_conj_QaOf z g, hgz]
 
+omit [Finite G] in
 theorem map_conj_QaOf_eq_Q {a g : G} (hga : g * a * g⁻¹ = z) :
     (QaOf a).map (MulAut.conj g).toMonoidHom = Q z := by
   rw [map_conj_QaOf a g, hga]

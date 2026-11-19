@@ -36,7 +36,7 @@ theorem flag_one (h : 0 < n) :
   unfold flag
   congr 1
   ext v
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_singleton_iff]
   constructor
   · rintro ⟨j, hj, rfl⟩
     have : j = ⟨0, h⟩ := Fin.ext (show (j : ℕ) = 0 by omega)
@@ -52,7 +52,7 @@ theorem flag_two (h : 1 < n) :
   rw [← Submodule.span_union]
   congr 1
   ext v
-  simp only [Set.mem_image, Set.mem_setOf_eq, Set.mem_union, Set.mem_singleton_iff]
+  simp only [Set.mem_image, Set.mem_ofPred_eq, Set.mem_union, Set.mem_singleton_iff]
   constructor
   · rintro ⟨j, hj, rfl⟩
     by_cases hj0 : (j : ℕ) = 0
@@ -73,7 +73,7 @@ theorem splitVec_one_notMem (h : 1 < n) :
   intro hmem
   obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.1 hmem
   have := congrFun ha (Sum.inl ⟨1, h⟩)
-  simp [splitVec, Pi.single_apply] at this
+  simp [splitVec] at this
 
 end PlusFlag
 
@@ -87,7 +87,7 @@ theorem twoParabolics_POmegaPlus {n f : ℕ} {S : Type} [Group S] [Finite S]
   have hn4' : 4 ≤ n := hn4
   have hm' := hm
   obtain ⟨-, K, _, hfin, hcard, ⟨e⟩⟩ := hm'
-  haveI : CharP K q := charP_of_natCard_eq hcard
+  have : CharP K q := charP_of_natCard_eq hcard
   have hn3 : 3 ≤ n := by omega
   have h0 : 0 < n := by omega
   have h1 : 1 < n := by omega

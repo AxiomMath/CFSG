@@ -147,6 +147,7 @@ variable {Q L V S : Subgroup G} (D : ShortData Q L V S)
   (H : ShortSection Q L V S π θ)
 include D H
 
+omit H in
 theorem conj_mem_U {m : G} (hm : m ∈ L ⊔ S) {u : G} (hu : u ∈ ⁅V, L⁆) : m * u * m⁻¹ ∈ ⁅V, L⁆ :=
   conj_mem_commutator_VL (D.hMV m hm) (D.hML m hm) hu
 
@@ -157,7 +158,7 @@ theorem Fy_mul {y : G} (hy : y ∈ Q) {l₁ l₂ : G} (h₁ : l₁ ∈ L) (h₂ 
     simp only [commutatorElement_def]; group
   have hU₂ := D.comm_mem_U hy h₂
   have hU₁ := D.comm_mem_U hy h₁
-  have hc := D.conj_mem_U H hm₁ hU₂
+  have hc := D.conj_mem_U hm₁ hU₂
   show piA π ⁅l₁ * l₂, y⁆ = piA π ⁅l₁, y⁆ + altAct (thetaA θ l₁) (piA π ⁅l₂, y⁆)
   rw [e, piA_mul hc hU₁, piA_conj H.hequiv hm₁ hU₂ hc]
   exact altHeart_add_comm _ _
@@ -185,8 +186,9 @@ theorem Fy_twist {y : G} (hy : y ∈ Q) {m : G} (hm : m ∈ L ⊔ S) {l : G} (hl
     simp only [commutatorElement_def]; group
   show piA π ⁅l, m * y * m⁻¹⁆ = altAct (thetaA θ m) (piA π ⁅m⁻¹ * l * m, y⁆)
   rw [e]
-  exact piA_conj H.hequiv hm hU (D.conj_mem_U H hm hU)
+  exact piA_conj H.hequiv hm hU (D.conj_mem_U hm hU)
 
+omit H in
 theorem Fy_yMul {y₁ y₂ : G} (hy₁ : y₁ ∈ Q) (hy₂ : y₂ ∈ Q) {l : G} (hl : l ∈ L) :
     Fy π (y₁ * y₂) l = Fy π y₁ l + Fy π y₂ l := by
   have hU₁ := D.comm_mem_U hy₁ hl
@@ -201,14 +203,16 @@ theorem Fy_yMul {y₁ y₂ : G} (hy₁ : y₁ ∈ Q) (hy₂ : y₂ ∈ Q) {l : G
   rw [e, hc]
   exact piA_mul hU₁ hU₂
 
+omit D H in
 theorem Fy_one {l : G} : Fy π (1 : G) l = 0 := by
   show piA π ⁅l, (1 : G)⁆ = 0
   have : ⁅l, (1 : G)⁆ = 1 := by simp [commutatorElement_def]
   rw [this]; exact piA_one
 
+omit H in
 theorem Fy_yInv {y : G} (hy : y ∈ Q) {l : G} (hl : l ∈ L) : Fy π y⁻¹ l = - Fy π y l := by
-  have h := D.Fy_yMul H (Q.inv_mem hy) hy hl
-  rw [inv_mul_cancel, D.Fy_one H] at h
+  have h := D.Fy_yMul (Q := Q) (L := L) (V := V) (S := S) (π := π) (Q.inv_mem hy) hy hl
+  rw [inv_mul_cancel, CFSG.HardMathSupport.RichardWeiss.Proving.ShortData.Fy_one] at h
   exact eq_neg_of_add_eq_zero_left h.symm
 
 end ShortData

@@ -43,14 +43,14 @@ theorem card_le_two_mul_of_fixing_frame (M₀ : Tim79.QuadModel QF V K γ)
     refine ⟨?_, ?_, ?_, ?_⟩ <;>
       simp only [map_add, map_smul, LinearMap.add_apply, LinearMap.smul_apply, smul_eq_mul,
         gww, gaa, gvv, gbb, gaw, gbv, gvw, gbw, gva, gba, hwa, hvb, hwv, hwb, hav, hab,
-        mul_zero, mul_one, zero_add, add_zero] <;> ring
+        mul_zero, mul_one, zero_add, add_zero]
   have hQcomb : ∀ α β t δ : K,
       M₀.Qf (α • w + β • a + t • v + δ • b') = α ^ 2 * M₀.Qf w + β ^ 2 * M₀.Qf a +
         t ^ 2 * M₀.Qf v + δ ^ 2 * M₀.Qf b' + α * β + t * δ := by
     intro α β t δ
     simp only [M₀.Qf_add, M₀.Qf_smul, map_add, map_smul, LinearMap.add_apply,
       LinearMap.smul_apply, smul_eq_mul, hwa, hwv, hwb, hav, hab, hvb, mul_zero, mul_one,
-      zero_mul, add_zero, zero_add] <;> ring
+      add_zero, zero_add]; ring
   have hdecY : ∀ y ∈ Y, ∃ α β t δ : K, y = α • w + β • a + t • v + δ • b' := by
     intro y hy
     rw [hY] at hy
@@ -151,7 +151,7 @@ theorem card_le_two_mul_of_fixing_frame (M₀ : Tim79.QuadModel QF V K γ)
       linear_combination h - (p ^ 2 * M₀.Qf w) * h2
     refine ⟨α, t, hαdich, ?_, ?_, hBTa, hBTb⟩
     · simp only [hTa, hβ, hδ, one_smul, zero_smul, add_zero]
-    · simp only [hTb, hq, hs, hr, hpt, zero_smul, one_smul, add_zero, zero_add]
+    · simp only [hTb, hq, hs, hr, hpt, zero_smul, one_smul, add_zero]
       abel
   have hinj : Function.Injective
       (fun T : P => (decide (M₀.B (T.1 a) a = 0), M₀.B (T.1 a) b')) := by

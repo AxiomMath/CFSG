@@ -257,7 +257,7 @@ theorem fusionIsBenderGroup_sup_map_conj {Y : Type} [Group Y]
     intro hle
     have hW2 : IsPGroup 2 W := hV2.map _
     have h1 : W ≤ (P : Subgroup Y) := by
-      have h2 := IsPGroup.to_sup_of_normal_right' hW2 P.isPGroup' hle
+      have h2 := IsPGroup.to_sup_of_normal_right' hW2 P.isPGroup hle
       have := P.maximal_isPGroup.eq_of_le h2 le_sup_right
       rw [this]
       exact le_sup_left
@@ -450,7 +450,7 @@ theorem kgBenderSubSz_holds :
       congr 1
       exact Subtype.ext h1
     rw [hcent] at hx
-    obtain ⟨n, hn⟩ := Q.isPGroup' ⟨_, hx⟩
+    obtain ⟨n, hn⟩ := Q.isPGroup ⟨_, hx⟩
     refine ⟨n, Subtype.ext ?_⟩
     have h1 : (e ⟨(x : G), (x.2 : (x : G) ∈ K ⊓ _).1⟩) ^ 2 ^ n = 1 := by
       simpa using congrArg Subtype.val hn

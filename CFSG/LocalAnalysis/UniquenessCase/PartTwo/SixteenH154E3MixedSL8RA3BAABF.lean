@@ -44,7 +44,7 @@ theorem s16h_sl28_involution_centralizes_seven
     (hκL : κ ∈ Subgroup.centralizer ((lBar ⊥ V h.hyp151.isElemAbelian L : Subgroup _) : Set _))
     (hκB : κ ∈ Subgroup.centralizer
       ((barSub ⊥ V h.hyp151.isElemAbelian (conjSubgroup L x) : Subgroup _) : Set _))
-    (hκ7 : orderOf κ = 7) (hκW : κ ∉ centSub (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))) :
+    (_hκ7 : orderOf κ = 7) (_hκW : κ ∉ centSub (commSub ⊤ (lBar ⊥ V h.hyp151.isElemAbelian L))) :
     τ * κ = κ * τ := by
   have hκK : κ ∈ s16h_sl28_kbar_two D V L x h.hyp151.isElemAbelian :=
     ⟨⟨hκM, hκL⟩, hκB⟩

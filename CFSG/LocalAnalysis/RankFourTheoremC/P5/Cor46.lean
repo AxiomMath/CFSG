@@ -78,14 +78,14 @@ theorem le_of_coprime_normalized_p (hp5 : 5 ≤ p) (hK : P5KFacts) (hG : P5Globa
     · exact inf_le_right.trans hC
     have hpt : IsPPoint p P M a := isPPoint_of_mem_abelian hloc hab (hAP haA) hao hC
     obtain ⟨R, K, d, n, hf, hn3, hd, hReq, -⟩ := exists_linTwo_p hp5 hK hG hloc hType hpt
-    haveI : K.Normal := hf.red.normal
+    have : K.Normal := hf.red.normal
     set C : Subgroup G := centralizer ({a} : Set G) with hCdef
     set O : Subgroup C := primeComplementCore (G := C) p with hO
     set ρ : C →* RedCent p a := QuotientGroup.mk' O with hρ
     have hOcop : p.Coprime (Nat.card O) := primeComplementCore_coprime p
     obtain ⟨b, hbA, hbn⟩ : ∃ b ∈ A, b ∉ zpowers a := by
       by_contra hcon
-      push_neg at hcon
+      push Not at hcon
       have hle : A ≤ zpowers a := fun g hg => hcon g hg
       have h1 := Subgroup.card_le_of_le hle
       rw [hAc, Nat.card_zpowers, hao] at h1
@@ -152,7 +152,7 @@ theorem le_of_coprime_normalized_p (hp5 : 5 ≤ p) (hK : P5KFacts) (hG : P5Globa
     have hd'p : d' ^ p = 1 := by
       rw [hkp1, one_mul] at hmulpow
       exact hmulpow
-    haveI : IsCyclic (centralizer (K : Set (RedCent p a))) := hf.isCyclic
+    have : IsCyclic (centralizer (K : Set (RedCent p a))) := hf.isCyclic
     have habarC : (ρ aC) ∈ centralizer (K : Set (RedCent p a)) :=
       mem_centralizer_iff.mpr fun h _ => (Subgroup.mem_center_iff.mp hzc h)
     have hord' : orderOf (⟨ρ aC, habarC⟩ : centralizer (K : Set (RedCent p a))) = p := by

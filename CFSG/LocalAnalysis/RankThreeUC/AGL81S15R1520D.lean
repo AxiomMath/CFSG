@@ -32,7 +32,7 @@ theorem row1520_gen {G : Type} [Group G] [Finite G] {M T : Subgroup G} {T₁ T�
   have hMtop : M ≠ ⊤ := (ctx.strong p hp).1
   have hXK : CFSG.Open.IsKGroup ↥M := ctx.cstar.kProper.isKGroup M hMtop
   have hno : ∀ N : Subgroup ↥M, N.Normal → N.index ≠ p := fun N hN => by
-    haveI := hN
+    have := hN
     exact no_normal_index_p_of_ctx_gen ctx hp N
   have hX3 : CFSG.Open.pRank 3 (⊤ : Subgroup ↥M) ≤ 3 :=
     ctx.rank_odd_off 3 Nat.prime_three (by norm_num) h11

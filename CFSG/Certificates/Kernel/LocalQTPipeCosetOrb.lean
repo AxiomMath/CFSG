@@ -40,7 +40,7 @@ theorem f2_map {α : Type} {R : Nat → Array Nat → Prop} (l : List α) (f : �
 @[expose] def MaskOf (N : Nat) (ts : List (Array Nat)) (B : Nat) : Prop :=
   ∀ i, B.testBit i = true ↔ (i < N ∧ Reach ts 0 i)
 
-noncomputable def smallLoop (N W : Nat) (GS : List Nat) (PT : List Nat) : List Nat → Bool :=
+noncomputable def smallLoop (_N W : Nat) (GS : List Nat) (PT : List Nat) : List Nat → Bool :=
   List.rec (motive := fun _ => List Nat → Bool) (fun seen => Nat.blt 0 (lenA seen))
     (fun p _ ih seen => andB
       (List.rec (motive := fun _ => Bool) (Nat.beq p 0)

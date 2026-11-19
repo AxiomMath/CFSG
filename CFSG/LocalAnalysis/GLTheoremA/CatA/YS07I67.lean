@@ -145,7 +145,6 @@ theorem generic_two_odd {t : StatedLieTag} {n f : ℕ} (hadm : StatedLieAdmissib
     | exact hg _ _ (odd_two_pow_sub_one hf)
     | exact hg _ _ (odd_two_pow_add_one hf)
     | exact hg _ _ (Even.add_one (Even.pow_of_ne_zero hq (by have := hadm.2.2; omega)))
-    | exact (Odd.of_dvd_nat (by decide) (Nat.gcd_dvd_left _ _))
     | simp_all [StatedLieAdmissible]
 
 theorem chev2_exc_ne (hGA : CFSG.Open.GriessAllModelsStatement) {Q : Type} [Group Q] [Finite Q]
@@ -414,7 +413,7 @@ theorem commutator_QT {p : ℕ} {X L : Subgroup G} (hL : GLAPComponent p X L) :
 
 theorem ker_phiQT {p : ℕ} {X L : Subgroup G} (hL : GLAPComponent p X L) :
     (phiQT p L).ker = Subgroup.center (QT p L) := by
-  haveI : Group.IsPerfect (QT p L) := Group.isPerfect_def.2 (commutator_QT hL)
+  have : Group.IsPerfect (QT p L) := Group.isPerfect_def.2 (commutator_QT hL)
   ext x
   rw [MonoidHom.mem_ker]
   constructor
@@ -448,7 +447,7 @@ noncomputable def quotCenterQT {p : ℕ} {X L : Subgroup G} (hL : GLAPComponent 
 theorem isQuasisimple_QT [Finite G] {p : ℕ} {X L : Subgroup G} (hp : p.Prime)
     (hL : GLAPComponent p X L) : CFSG.Open.IsQuasisimple (QT p L) := by
   refine ⟨commutator_QT hL, ?_⟩
-  haveI : IsSimpleGroup (PSimple p L) := (isQuasisimple_pQuot_of_glaPComponent hp hL).2
+  have : IsSimpleGroup (PSimple p L) := (isQuasisimple_pQuot_of_glaPComponent hp hL).2
   exact (quotCenterQT hL).isSimpleGroup
 
 theorem even_center_QT {p : ℕ} {L : Subgroup G} (hO : Even (Nat.card (GLAPPrimeCoreOf p L)))
@@ -504,7 +503,7 @@ private theorem finite_mulAut (S : Type) [Group S] [Finite S] : Finite (MulAut S
 theorem cube_dvd_of_elemAb {M : Type} [Group M] [Finite M] {p : ℕ} (hp : p.Prime)
     {E : Subgroup M} (hE : CFSG.Open.IsElemAbelian p E) (h3 : p ^ 3 ≤ Nat.card E) :
     p ^ 3 ∣ Nat.card E := by
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   obtain ⟨n, hn⟩ := (isPGroup_of_isElemAbelian hE).exists_card_eq
   rw [hn] at h3 ⊢
   exact pow_dvd_pow p ((Nat.pow_le_pow_iff_right hp.one_lt).1 h3)
@@ -512,7 +511,7 @@ theorem cube_dvd_of_elemAb {M : Type} [Group M] [Finite M] {p : ℕ} (hp : p.Pri
 theorem cube_dvd_mulAut {S : Type} [Group S] [Finite S] {p : ℕ} (hp : p.Prime)
     {E : Subgroup (MulAut S)} (hE : CFSG.Open.IsElemAbelian p E) (h3 : p ^ 3 ≤ Nat.card E) :
     p ^ 3 ∣ Nat.card (MulAut S) := by
-  haveI := finite_mulAut S
+  have := finite_mulAut S
   exact (cube_dvd_of_elemAb hp hE h3).trans (Subgroup.card_subgroup_dvd_card E)
 
 theorem isElemAbelian_map {M N : Type} [Group M] [Group N] {p : ℕ} (f : M →* N) {E : Subgroup M}
@@ -537,7 +536,7 @@ theorem not_cube_dvd_120 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ^ 3 ∣
     have := Nat.le_of_dvd (by norm_num) h
     norm_num at *
     omega
-  interval_cases p <;> first | (norm_num at hp; done) | (norm_num at hp2; done) | (norm_num at h; done)
+  interval_cases p <;> first | (norm_num at hp; done) | (norm_num at hp2; done) | (norm_num at h)
 
 theorem not_cube_dvd_1440 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ^ 3 ∣ 1440) : False := by
   have : p ≤ 11 := by
@@ -546,7 +545,7 @@ theorem not_cube_dvd_1440 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ^ 3 �
     have := Nat.le_of_dvd (by norm_num) h
     norm_num at *
     omega
-  interval_cases p <;> first | (norm_num at hp; done) | (norm_num at hp2; done) | (norm_num at h; done)
+  interval_cases p <;> first | (norm_num at hp; done) | (norm_num at hp2; done) | (norm_num at h)
 
 theorem not_cube_dvd_40320 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ^ 3 ∣ 40320) : False := by
   have : p ≤ 34 := by
@@ -555,7 +554,7 @@ theorem not_cube_dvd_40320 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ^ 3 �
     have := Nat.le_of_dvd (by norm_num) h
     norm_num at *
     omega
-  interval_cases p <;> first | (norm_num at hp; done) | (norm_num at hp2; done) | (norm_num at h; done)
+  interval_cases p <;> first | (norm_num at hp; done) | (norm_num at hp2; done) | (norm_num at h)
 
 theorem not_cube_dvd_87360 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ^ 3 ∣ 87360) : False := by
   have : p ≤ 44 := by
@@ -564,7 +563,7 @@ theorem not_cube_dvd_87360 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (h : p ^ 3 �
     have := Nat.le_of_dvd (by norm_num) h
     norm_num at *
     omega
-  interval_cases p <;> first | (norm_num at hp; done) | (norm_num at hp2; done) | (norm_num at h; done)
+  interval_cases p <;> first | (norm_num at hp; done) | (norm_num at hp2; done) | (norm_num at h)
 
 theorem not_cube_dvd_241920 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3)
     (h : p ^ 3 ∣ 241920) : False := by
@@ -574,7 +573,7 @@ theorem not_cube_dvd_241920 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p �
     have := Nat.le_of_dvd (by norm_num) h
     norm_num at *
     omega
-  interval_cases p <;> first | (norm_num at hp; done) | (norm_num at hp2; done) | (norm_num at hp3; done) | (norm_num at h; done)
+  interval_cases p <;> first | (norm_num at hp; done) | (norm_num at hp2; done) | (norm_num at hp3; done) | (norm_num at h)
 
 theorem not_cube_dvd_251596800 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3)
     (h : p ^ 3 ∣ 251596800) : False := by
@@ -584,7 +583,7 @@ theorem not_cube_dvd_251596800 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p
     have := Nat.le_of_dvd (by norm_num) h
     norm_num at *
     omega
-  interval_cases p <;> first | (norm_num at hp; done) | (norm_num at hp2; done) | (norm_num at hp3; done) | (norm_num at h; done)
+  interval_cases p <;> first | (norm_num at hp; done) | (norm_num at hp2; done) | (norm_num at hp3; done) | (norm_num at h)
 
 theorem no_alt5 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S : Type} [Group S] [Finite S]
     (e : S ≃* alternatingGroup (Fin 5)) {E : Subgroup (MulAut S)}
@@ -633,11 +632,11 @@ theorem no_L27_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {F : Type} [Field F
   have hle : Nat.card (MulAut (CFSG.GorensteinWalter.PSL2 F)) ≤ 2016 :=
     CFSG.ComponentClassification.ExcSelector.card_mulAut_psl2_seven hF
   have hsub : Subsingleton (F ≃+* F) := by
-    haveI : Finite (F ≃+* F) :=
+    have : Finite (F ≃+* F) :=
       Finite.of_injective (fun e : F ≃+* F => (e : F → F)) (fun _ _ h => RingEquiv.ext (congrFun h))
     exact Finite.card_le_one_iff_subsingleton.1
       (CFSG.ComponentClassification.ExcSelector.card_ringEquiv_le_one_of_card_seven hF)
-  haveI := hsub
+  have := hsub
   rcases eq_or_ne p 3 with rfl | hp3
   · have hinner : E ≤ CFSG.ComponentClassification.OuterAutomorphisms.inner
         (CFSG.GorensteinWalter.PSL2 F) := by
@@ -672,7 +671,7 @@ theorem no_L27_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {F : Type} [Field F
       omega
     generalize Nat.card (MulAut (CFSG.GorensteinWalter.PSL2 F) ⧸
       CFSG.ComponentClassification.OuterAutomorphisms.inner (CFSG.GorensteinWalter.PSL2 F)) = q at h hle hpos
-    interval_cases p <;> first | (norm_num at hp; done) | (norm_num at hp2; done) | (norm_num at hp3; done) | (norm_num at h <;> omega)
+    interval_cases p <;> first | (norm_num at hp; done) | (norm_num at hp2; done) | (norm_num at hp3; done) | (norm_num at h; omega)
 
 theorem no_L27 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S F : Type} [Group S] [Finite S] [Field F]
     [Finite F] (hF : Nat.card F = 7) (e : S ≃* CFSG.GorensteinWalter.PSL2 F) {E : Subgroup (MulAut S)}
@@ -684,8 +683,8 @@ theorem no_L27 {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) {S F : Type} [Group S] [
 theorem card_le_pRank {H : Type} [Group H] [Finite H] {p : ℕ} (hp : p.Prime) {A : Subgroup H}
     (hA : CFSG.Open.IsElemAbelian p A) (n : ℕ) (hn : Nat.card A = p ^ n) :
     n ≤ CFSG.pRank p H := by
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : CFSG.IsElementaryAbelian p A :=
+  have : Fact p.Prime := ⟨hp⟩
+  have : CFSG.IsElementaryAbelian p A :=
     { toIsMulCommutative := hA.1
       exponent_dvd_p := Monoid.exponent_dvd_of_forall_pow_eq_one (fun g =>
         Subtype.ext (by simpa using hA.2 (g : H) g.2)) }
@@ -769,7 +768,7 @@ section Certs
 theorem no_G24_core {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     {E : Subgroup (MulAut (CFSG.RankThree.PartTwo.Sec4.Item434RemG24.G2K (GaloisField 2 2)))}
     (hE : CFSG.Open.IsElemAbelian p E) (h3 : p ^ 3 ≤ Nat.card E) : False := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hK : Nat.card (GaloisField 2 2) = 4 := by
     rw [GaloisField.card 2 2 (by norm_num)]; norm_num
   set G := CFSG.RankThree.PartTwo.Sec4.Item434RemG24.G2K (GaloisField 2 2) with hG

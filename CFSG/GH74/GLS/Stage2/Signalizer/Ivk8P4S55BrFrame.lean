@@ -62,12 +62,12 @@ theorem frame_of_data {G : Type} [Group G] [Finite G] {k : Kind} {p : ℕ} {H P 
   have haN : π ⟨g, hgH⟩ ∈ N := hP₁N hgP₁
   have hT₁p : IsPGroup 2 ↥T₁ := by
     rw [← hT₀]
-    exact T₀.isPGroup'
+    exact T₀.isPGroup
   have hT₁P₁ : T₁ ≤ normalizer (P₁ : Set Γ₀) := map_le_normalizer π hTP
   have hP₁p : IsPGroup p ↥P₁ := map_isPGroup π hPp
   have hT₀top : CFSG.ABGLocalTools.IsSylowOf 2 (T₀ : Subgroup Γ₀) ⊤ := by
     rw [CFSG.ABGLocalTools.isSylowOf_iff]
-    exact ⟨le_top, T₀.isPGroup', by rw [Subgroup.relIndex_top_right]; exact T₀.not_dvd_index⟩
+    exact ⟨le_top, T₀.isPGroup, by rw [Subgroup.relIndex_top_right]; exact T₀.not_dvd_index⟩
   have hsyl : CFSG.ABGLocalTools.IsSylowOf 2 (T₁ ⊓ K) K := by
     have := YCfg.isSylowOf_inf_isSubnormal_top hT₀top hK.2
     rwa [hT₀] at this

@@ -77,9 +77,9 @@ theorem weight_g2FixedBasis
       else height (Tag.G2.rootCertificate.root (g2FixedPos l - Tag.G2.rank)) := by
   unfold g2FixedBasis posLabel
   by_cases h : g2FixedPos l < Tag.G2.rank
-  · rw [dif_pos h, if_pos h]
+  · rw [dite_eq_left h, ite_eq_left h]
     rfl
-  · rw [dif_neg h, if_neg h]
+  · rw [dite_eq_right h, ite_eq_right h]
     rfl
 
 theorem g2FixedBasis_precedes

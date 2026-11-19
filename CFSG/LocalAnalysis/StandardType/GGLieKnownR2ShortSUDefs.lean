@@ -122,8 +122,7 @@ private theorem suFrame_linearIndependent {F : Type} [Field F] [Finite F] [CharP
   have h0 : g 0 = 0 := by
     have h := hpair w'
     rw [Fin.sum_univ_four] at h
-    simp only [hv0, hv1, hv2, hv3, hw'v, hw'w, hw'v', h6, mul_one, mul_zero, add_zero,
-      zero_add] at h
+    simp only [hv0, hv1, hv2, hv3, hw'v, hw'w, hw'v', h6, mul_one, mul_zero, add_zero] at h
     exact h
   have h1' : g 1 = 0 := by
     have h := hpair v'
@@ -356,7 +355,7 @@ private theorem exists_suPair_Tc {F : Type} [Field F] [Finite F] [CharP F 2] {f 
     intro u u'
     simp only [hNv u, hNv u', (suForm σ hσ n).add_left, (suForm σ hσ n).add_right,
       (suForm σ hσ n).smul_left, (suForm σ hσ n).smul_right, suForm_σ, hv', hwv', hvw', hw',
-      mul_zero, zero_mul, add_zero, zero_add]
+      mul_zero, add_zero]
   have hN2 : ∀ y, N (N y) = 0 := by
     intro y
     rw [hNv (N y), hNw y, hNv0 y]
@@ -569,9 +568,8 @@ private theorem suFrame_expand {F : Type} [Field F] {n : ℕ} (σ : F ≃+* F)
   conv_lhs => rw [hy]
   simp only [uForm_add_left, uForm_add_right, uForm_smul_left, uForm_smul_right,
     h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, hwv, hv'v, hw'w, hw'v', hw'v, hv'w,
-    hxz_v, hxz_w, hxz_v', hxz_w', hyz_v, hyz_w, hyz_v', hyz_w',
-    hzx_v, hzx_w, hzx_v', hzx_w', hzy_v, hzy_w, hzy_v', hzy_w',
-    mul_zero, mul_one, zero_mul, add_zero, zero_add, sub_zero]
+    hyz_v, hyz_w, hyz_v', hyz_w',
+    hzx_v, hzx_w, hzx_v', hzx_w', mul_zero, mul_one, add_zero, zero_add]
   ring
 
 private theorem suTorus_of_frame {F : Type} [Field F] {m : ℕ}
@@ -602,8 +600,7 @@ private theorem suTorus_of_frame {F : Type} [Field F] {m : ℕ}
       + (((σ ν)⁻¹ - 1) * uForm σ w x) • v' := by
     intro x
     simp only [hMdef, ← mulVec_mulVec, one_add_smul_vecMulVec_uRow_mulVec, uForm_add_right,
-      uForm_smul_right, g3, g4, g5, g6, g7, g8, g9, g10, hwv, hv'v, hw'w, hw'v', hw'v, hv'w,
-      mul_zero, mul_one, add_zero]
+      uForm_smul_right, g5, g6, g7, g8, hw'w, hw'v', mul_zero, add_zero]
     abel
   have hdet : M.det = 1 := by
     rw [hMdef, det_mul, det_mul, det_mul, det_one_add_smul_vecMulVec_uRow,
@@ -808,23 +805,20 @@ private theorem suSwap_of_frame {F : Type} [Field F] [CharP F 2] {m : ℕ}
     refine ⟨?_, ?_, ?_, ?_⟩
     · rw [hf z, hNv z, uForm_add_right, uForm_add_right, uForm_smul_right,
         uForm_smul_right, uForm_add_right, uForm_add_right]
-      simp only [g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, hwv, hv'v, hw'w, hw'v', hw'v,
-        hv'w, mul_one, mul_zero, add_zero, zero_add]
+      simp only [g6, hw'w, hw'v', hw'v,
+        mul_one, mul_zero, add_zero]
       linear_combination (uForm σ w' z) * (CharTwo.two_eq_zero : (2 : F) = 0)
     · rw [hf z, hNv z, uForm_add_right, uForm_add_right, uForm_smul_right,
         uForm_smul_right, uForm_add_right, uForm_add_right]
-      simp only [g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, hwv, hv'v, hw'w, hw'v', hw'v,
-        hv'w, mul_one, mul_zero, add_zero, zero_add]
+      simp only [g5, g10, hv'v, hv'w, mul_one, mul_zero, add_zero, zero_add]
       linear_combination (uForm σ v' z) * (CharTwo.two_eq_zero : (2 : F) = 0)
     · rw [hf z, hNv z, uForm_add_right, uForm_add_right, uForm_smul_right,
         uForm_smul_right, uForm_add_right, uForm_add_right]
-      simp only [g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, hwv, hv'v, hw'w, hw'v', hw'v,
-        hv'w, mul_one, mul_zero, add_zero, zero_add]
+      simp only [g2, g4, g9, hwv, mul_one, mul_zero, add_zero, zero_add]
       linear_combination (uForm σ w z) * (CharTwo.two_eq_zero : (2 : F) = 0)
     · rw [hf z, hNv z, uForm_add_right, uForm_add_right, uForm_smul_right,
         uForm_smul_right, uForm_add_right, uForm_add_right]
-      simp only [g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, hwv, hv'v, hw'w, hw'v', hw'v,
-        hv'w, mul_one, mul_zero, add_zero, zero_add]
+      simp only [g1, g3, g7, g8, mul_one, mul_zero, add_zero, zero_add]
       linear_combination (uForm σ v z) * (CharTwo.two_eq_zero : (2 : F) = 0)
   have hzcoord : ∀ z, suFrameZ σ v w v' w' (f z) = suFrameZ σ v w v' w' z := by
     intro z
@@ -852,7 +846,7 @@ private theorem suSwap_of_frame {F : Type} [Field F] [CharP F 2] {m : ℕ}
     rw [natRep_apply] at h
     rw [suMat_apply, h, LinearMap.add_apply, LinearMap.id_apply, hNv v]
     rw [hw'v, hv'v, hwv, g3]
-    simp only [add_zero, zero_add, zero_smul, one_smul]
+    simp only [add_zero, zero_smul, one_smul]
     rw [← add_assoc, ← two_smul F v, CharTwo.two_eq_zero, zero_smul, zero_add]
   · have h := hs w
     rw [natRep_apply] at h

@@ -52,6 +52,7 @@ theorem etaSet_eq_singleton (hΩ : HypOmegaGen Ω)
   · rintro rfl
     exact hmem
 
+omit [Finite G] in
 theorem isPGroup_of_mem_wSet {W : Subgroup G} (hW : W ∈ WSet Ω) : IsPGroup 2 W := by
   obtain ⟨η, hη, rfl⟩ := hW
   exact TC.etaSpan_isPGroup hη
@@ -68,7 +69,7 @@ theorem eq_iSup_uinS_of_le (hΩ : HypOmegaGen Ω)
   obtain ⟨η, ⟨S₁, hη, -⟩, rfl⟩ := hW
   have hsub : ∀ V ∈ η, V ≤ (S : Subgroup G) := fun V hV => (le_iSup₂_of_le V hV le_rfl).trans hWS
   have hηS := mem_etaSet_of_le hΩ.conjInvariant hη hsub
-  rw [etaSet_eq_singleton hΩ h16 S.isPGroup', Set.mem_singleton_iff] at hηS
+  rw [etaSet_eq_singleton hΩ h16 S.isPGroup, Set.mem_singleton_iff] at hηS
   rw [hηS]
 
 theorem eq_of_le_of_isPGroup (hΩ : HypOmegaGen Ω)
@@ -131,6 +132,7 @@ theorem mem_of_mem_USet_of_le (hΩ : HypOmegaGen Ω) {K U : Subgroup G} {z : G}
   exact mem_of_isUniqueInvolution_of_isPGroup hz hUK (Sec6Gen.isPGroup_of_mem_USet hΩ hU)
     (by omega)
 
+omit [Finite G] in
 theorem sylow16_of_quat {r : ℕ} (hr : 4 ≤ r) (hΩ : HypOmegaGen Ω)
     (hquat : ∀ L ∈ Ω, ∃ P : Subgroup G, IsSylow2In P L ∧
       Nonempty (↥P ≃* QuaternionGroup (2 ^ (r - 2)))) :
@@ -138,7 +140,7 @@ theorem sylow16_of_quat {r : ℕ} (hr : 4 ≤ r) (hΩ : HypOmegaGen Ω)
   intro J hJ P hP
   obtain ⟨P₀, hP₀, ⟨e⟩⟩ := hquat J hJ
   rw [← Sec6Gen.natCard_isSylow2In_eq hΩ hJ hJ hP₀ hP]
-  haveI : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (r - 2)) := ⟨by positivity⟩
   rw [Nat.card_congr e.toEquiv, Nat.card_eq_fintype_card, QuaternionGroup.card]
   have : 2 ^ 2 ≤ 2 ^ (r - 2) := Nat.pow_le_pow_right (by norm_num) (by omega)
   omega

@@ -61,13 +61,13 @@ theorem glaPLayer_perpJ_inf_fix_ne_bot [Finite K] (hτ : τ = .F4 ∨ τ = .E6 �
     GLAPLayer p ((rootSpan τ K (perpRoots τ)).subgroupOf (adjointGroup τ K) ⊓
       fixSubgroup (entrywiseAdjointAut τ σ)) ≠ ⊥ := by
   classical
-  haveI : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
+  have : Finite ↥(adjointGroup τ K) := generated_group_finite τ K
   set K₀ := fixSubfield σ with hK₀
   set ι : K₀ →+* K := K₀.subtype with hι
   have hιinj : Function.Injective (baseChangeGL (τ := τ) ι) := baseChangeGL_injective ι
   have hK02 : ringChar K₀ ≠ 2 := by
-    haveI : CharP K (ringChar K) := ringChar.charP K
-    haveI : CharP K₀ (ringChar K) := (RingHom.charP_iff ι K₀.subtype_injective _).mpr ‹_›
+    have : CharP K (ringChar K) := ringChar.charP K
+    have : CharP K₀ (ringChar K) := (RingHom.charP_iff ι K₀.subtype_injective _).mpr ‹_›
     rw [ringChar.eq K₀ (ringChar K)]
     exact hK2
   have hd := hrRootData_of hτ
@@ -146,7 +146,7 @@ theorem glaPLayer_perpJ_inf_fix_ne_bot [Finite K] (hτ : τ = .F4 ∨ τ = .E6 �
     · exact isQuasisimple_perpLevi_E8 hK02
   have hq : CFSG.Open.IsQuasisimple ↥M' :=
     CFSG.LocalAnalysis.GLTheoremA.KD264Gen.Co15.isQuasisimple_of_equiv eM.symm hq0
-  haveI : Finite K₀ := Subtype.finite
+  have : Finite K₀ := Subtype.finite
   have hodd : Odd p := hp.odd_of_ne_two hp2
   obtain ⟨A₀, hA₀⟩ := exists_orderOf_eq_sl2 hp hpK0
   obtain ⟨W, hW⟩ := exists_not_commute_sl2 hp hodd hA₀

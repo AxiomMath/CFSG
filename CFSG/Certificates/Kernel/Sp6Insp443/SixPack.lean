@@ -39,8 +39,8 @@ theorem exists_mprod_eq_eElt : ∀ {k : Nat} (x : Nat → Equiv.Perm (Fin n)) (c
     rw [h3]
     have h4 : (c 0).val = 0 ∨ (c 0).val = 1 := by omega
     rcases h4 with h4 | h4
-    · rw [if_pos h4, h4, pow_zero]
-    · rw [if_neg (by omega), h4, pow_one]
+    · rw [ite_eq_left h4, h4, pow_zero]
+    · rw [ite_eq_right (by omega), h4, pow_one]
       rfl
 
 theorem mprod_mem_closure (x : Nat → Equiv.Perm (Fin n)) (s k : Nat) :

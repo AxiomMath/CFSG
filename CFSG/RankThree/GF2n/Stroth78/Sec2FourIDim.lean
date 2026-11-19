@@ -12,7 +12,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {z : G} {E F : Subgroup G}
 
-theorem conj_mem_centerIn_QaOf (S : Setting z E F) {a c x : G}
+theorem conj_mem_centerIn_QaOf (_S : Setting z E F) {a c x : G}
     (hc : c ∈ Subgroup.centralizer ({a} : Set G))
     (hx : x ∈ centerIn (QaOf a)) :
     c * x * c⁻¹ ∈ centerIn (QaOf a) := by

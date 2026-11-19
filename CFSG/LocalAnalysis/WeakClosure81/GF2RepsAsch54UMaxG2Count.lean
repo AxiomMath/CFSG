@@ -122,14 +122,14 @@ theorem card_sl2_sq_eq_neg_one_mod_four {F : Type} [Field F] [Finite F] (h2 : (2
     ← Nat.card_eq_fintype_card]
   by_cases hsq : IsSquare (-1 : F)
   · have h4 : Fintype.card F % 4 ≠ 3 := FiniteField.isSquare_neg_one_iff.mp hsq
-    rw [if_pos hsq]
+    rw [ite_eq_left hsq]
     rw [← Nat.card_eq_fintype_card] at h4 hodd
     obtain ⟨k, hk⟩ : ∃ k, Nat.card F = 4 * k + 1 := ⟨Nat.card F / 4, by omega⟩
     rw [hk, Nat.add_sub_cancel]
     have : (4 * k + 1) * (4 * k) + 2 * (4 * k + 1) = 4 * (4 * k * k + 3 * k) + 2 := by ring
     omega
   · have h4 : ¬ Fintype.card F % 4 ≠ 3 := fun h => hsq (FiniteField.isSquare_neg_one_iff.mpr h)
-    rw [if_neg hsq]
+    rw [ite_eq_right hsq]
     rw [← Nat.card_eq_fintype_card] at h4 hodd
     obtain ⟨k, hk⟩ : ∃ k, Nat.card F = 4 * k + 3 := ⟨Nat.card F / 4, by omega⟩
     have h' : 4 * k + 3 - 1 = 4 * k + 2 := by omega

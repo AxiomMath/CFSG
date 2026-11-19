@@ -16,6 +16,7 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
+omit [Finite G] in
 theorem isPGroup_zpowers_iff_exists_pow {y : G} :
     IsPGroup p (Subgroup.zpowers y) ↔ ∃ m : ℕ, y ^ p ^ m = 1 := by
   constructor
@@ -98,6 +99,7 @@ theorem le_commutator_of_genByPElts (hp : p.Prime) (hp2 : p ≠ 2) {I C : Subgro
   intro g hg c hc
   exact hPN (hmain g hg c hc)
 
+omit [Finite G] in
 theorem le_of_commutator_subnormal {K X S I : Subgroup G} (hKX : IsSubnormal K X) (hIK : I ≤ K)
     (hSX : S ≤ X) (hS : S ≤ ⁅S, I⁆) : S ≤ K := by
   induction hKX with
@@ -111,12 +113,12 @@ theorem le_of_commutator_subnormal {K X S I : Subgroup G} (hKX : IsSubnormal K X
     rw [commutatorElement_def]
     exact Subgroup.mul_mem _ h2 (Subgroup.inv_mem _ (hIK hi))
 
-theorem exists_invariant_twoGroup (hp : p.Prime) (hp2 : p ≠ 2) {O B : Subgroup G}
+theorem exists_invariant_twoGroup (hp : p.Prime) (_hp2 : p ≠ 2) {O B : Subgroup G}
     (hB : IsPGroup p B) (hBO : B ≤ Subgroup.normalizer (O : Set G))
     (hcop : Nat.Coprime p (Nat.card ↥O)) (hev : ¬ Odd (Nat.card ↥O)) :
     ∃ U : Subgroup G, U ≤ O ∧ U ≠ ⊥ ∧ IsPGroup 2 U ∧ B ≤ Subgroup.normalizer (U : Set G) := by
   classical
-  haveI := Fact.mk hp
+  have := Fact.mk hp
   have hV2 : 2 ∣ Nat.card ↥O := even_iff_two_dvd.1 (Nat.not_odd_iff_even.1 hev)
   have hnd : ¬ p ∣ Nat.card ↥O := (Nat.Prime.coprime_iff_not_dvd hp).1 hcop
   let f : B →* MulAut O := O.normalizerMonoidHom.comp (Subgroup.inclusion hBO)
@@ -134,7 +136,7 @@ theorem exists_invariant_twoGroup (hp : p.Prime) (hp2 : p ≠ 2) {O B : Subgroup
     exact hnd' ((Nat.modEq_zero_iff_dvd).1 hmod)
   obtain ⟨Q, hQ⟩ := hfix
   rw [MulAction.mem_fixedPoints] at hQ
-  refine ⟨(Q : Subgroup O).map O.subtype, Subgroup.map_subtype_le _, ?_, Q.isPGroup'.map O.subtype, ?_⟩
+  refine ⟨(Q : Subgroup O).map O.subtype, Subgroup.map_subtype_le _, ?_, Q.isPGroup.map O.subtype, ?_⟩
   · intro h
     exact Q.ne_bot_of_dvd_card hV2
       ((Subgroup.map_eq_bot_iff_of_injective (Q : Subgroup O) O.subtype_injective).1 h)
@@ -177,11 +179,13 @@ theorem exists_gen_of_index (hp : p.Prime) {D A : Subgroup G} (hD : Nat.card ↥
   refine (Subgroup.eq_of_le_of_card_ge (Subgroup.zpowers_le.2 a.2) ?_).symm
   rw [Nat.card_zpowers, hao, hAcard]
 
+omit [Finite G] in
 theorem isElemAbelian_sup_of_commute {A B : Subgroup G} (hA : IsElemAbelian p A)
     (hB : IsElemAbelian p B) (h : ∀ a ∈ A, ∀ b ∈ B, a * b = b * a) : IsElemAbelian p (A ⊔ B) :=
   CFSG.LocalAnalysis.GLTheoremB.isElemAbelian_sup_of_commute hA hB fun a ha =>
     Subgroup.mem_centralizer_iff.2 fun b hb => (h a ha b hb).symm
 
+omit [Finite G] in
 theorem exists_mul_of_mem_sup_of_le_normalizer {A N : Subgroup G}
     (hA : A ≤ Subgroup.normalizer (N : Set G)) {y : G} (hy : y ∈ A ⊔ N) :
     ∃ a ∈ A, ∃ n ∈ N, y = a * n := by
@@ -199,13 +203,14 @@ theorem exists_mul_of_mem_sup_of_le_normalizer {A N : Subgroup G}
     refine ⟨a⁻¹, A.inv_mem ha, a * n⁻¹ * a⁻¹, ?_, by group⟩
     exact (Subgroup.mem_normalizer_iff.1 (hA ha) n⁻¹).1 (N.inv_mem hn)
 
+omit [Finite G] in
 theorem permOfMod_of_mem {L : Subgroup G} {n : ℕ} (e : PQuot p L ≃* ↥(alternatingGroup (Fin n)))
     {y : G} (hy : y ∈ L) :
     permOfMod p L n e y =
       ((e (QuotientGroup.mk (⟨y, hy⟩ : ↥L) : PQuot p L) : ↥(alternatingGroup (Fin n))) :
         Equiv.Perm (Fin n)) := by
   unfold permOfMod
-  rw [dif_pos hy]
+  rw [dite_eq_left hy]
 
 theorem exists_elemAbelian_blocks {M : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpM : p ≤ M) :
     ∃ (E₀ : Subgroup ↥(alternatingGroup (Fin M))) (c₀ : ↥(alternatingGroup (Fin M))),
@@ -214,7 +219,7 @@ theorem exists_elemAbelian_blocks {M : ℕ} (hp : p.Prime) (hp2 : p ≠ 2) (hpM 
       (2 ≤ M / p → ∃ c₁ ∈ E₀, ((c₁ : ↥(alternatingGroup (Fin M))) : Equiv.Perm (Fin M)).cycleType = {p} ∧
         Equiv.Perm.Disjoint (c₀ : Equiv.Perm (Fin M)) (c₁ : Equiv.Perm (Fin M))) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hex : ∀ j : ℕ, ∃ τ : ↥(alternatingGroup (Fin M)), (j + 1) * p ≤ M →
       (((τ : ↥(alternatingGroup (Fin M))) : Equiv.Perm (Fin M)).cycleType = {p} ∧ τ ^ p = 1 ∧
         (∀ x : Fin M, x.val < j * p ∨ j * p + p ≤ x.val →
@@ -367,7 +372,7 @@ theorem exists_lift_elemAbelian (hp : p.Prime) {L : Subgroup G} {n : ℕ}
       ∀ σ ∈ Ebar, ∃ z ∈ E, permOfMod p L n e z = ((σ : ↥(alternatingGroup (Fin n))) :
         Equiv.Perm (Fin n)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨π, hπ⟩ : ∃ π : ↥L →* PQuot p L, π = QuotientGroup.mk' (GLAPPrimeCore p ↥L) := ⟨_, rfl⟩
   obtain ⟨O, hO⟩ : ∃ O : Subgroup ↥L, O = GLAPPrimeCore p ↥L := ⟨_, rfl⟩
   have hOcop : Nat.Coprime p (Nat.card O) := by
@@ -406,7 +411,7 @@ theorem exists_lift_elemAbelian (hp : p.Prime) {L : Subgroup G} {n : ℕ}
   obtain ⟨Pm, hPm⟩ : ∃ Pm : Subgroup ↥L, Pm = (P0 : Subgroup ↥Mhat).map Mhat.subtype := ⟨_, rfl⟩
   have hPmcard : Nat.card Pm = p ^ k := by
     rw [hPm, Subgroup.card_map_of_injective Mhat.subtype_injective]; exact hP0card
-  have hPmp : IsPGroup p Pm := by rw [hPm]; exact P0.isPGroup'.map Mhat.subtype
+  have hPmp : IsPGroup p Pm := by rw [hPm]; exact P0.isPGroup.map Mhat.subtype
   have hPmle : Pm ≤ Mhat := by rw [hPm]; exact Subgroup.map_subtype_le _
   have hPmπ : ∀ x ∈ Pm, π x ∈ Eb := fun x hx => by
     have := hPmle hx; rw [hMhat] at this; exact this

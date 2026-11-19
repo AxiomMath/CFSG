@@ -820,7 +820,7 @@ theorem exists_gt_V5_sup_t :
   obtain ⟨he12, -, he2, -⟩ := h.e_f_mem_orderOf
   obtain ⟨y₀, hy₀Y, hy₀⟩ := hYt h.e he12
   have he1 : h.e ≠ 1 := fun h1 => by rw [h1, orderOf_one] at he2; exact absurd he2 (by norm_num)
-  letI : MulDistribMulAction (h.Ht .i5) Y :=
+  let : MulDistribMulAction (h.Ht .i5) Y :=
     Subgroup.conjMulDistribMulActionOfLeNormalizer (h.Ht .i5) Y hHY
   set N : Subgroup Y := h.RT.subgroupOf Y with hNdef
   have : N.Normal := Subgroup.normal_subgroupOf_of_le_normalizer hYRT

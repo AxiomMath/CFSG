@@ -17,6 +17,7 @@ section SixB3
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 theorem s828_reflection {I P : Subgroup G} [(P.subgroupOf I).Normal]
     (e : ↥I ⧸ P.subgroupOf I ≃* DihedralGroup 5) {v : ↥I} (hvP : (v : G) ∉ P)
     (hv2 : (v : G) ^ 2 = 1) : ∃ b : ZMod 5, e (QuotientGroup.mk v) = DihedralGroup.sr b := by
@@ -157,7 +158,7 @@ theorem s828_sixB_tau {T L I H : Subgroup G} {h : G} {k : ℕ} [IsMulCommutative
     exact hkerI
   have hJ2 : IsPGroup 2 ↥(pCoreOf 2 (ch82I (fsuV T I) h)) :=
     CFSG.LieType.BorelTits.pCoreOf_isPGroup 2 _
-  haveI hNP : ((pCoreOf 2 (ch82I (fsuV T I) h)).subgroupOf (ch82I (fsuV T I) h)).Normal := by
+  have hNP : ((pCoreOf 2 (ch82I (fsuV T I) h)).subgroupOf (ch82I (fsuV T I) h)).Normal := by
     rw [← hkerI]
     infer_instance
   let e' : ↥(ch82I (fsuV T I) h) ⧸ (pCoreOf 2 (ch82I (fsuV T I) h)).subgroupOf
@@ -262,7 +263,7 @@ theorem step828SixB_holds (hE214 : ASInputs.AS_E_2_14)
   obtain ⟨K, hKf, hKfin, hK4, ⟨κ⟩⟩ := s828_mb2_field4_G hMB2 hcard c (Or.inr hr)
   obtain ⟨τ, hτ, hcomτ⟩ := s828_sixB_tau c hK4 κ eI ρ hker hcomm t (hTI htT) ht2
   have hchar : (2 : K) = 0 := by
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hc4 : Fintype.card K = 4 := by rw [← Nat.card_eq_fintype_card]; exact hK4
     have h4 : ((Fintype.card K : ℕ) : K) = 0 := FiniteField.cast_card_eq_zero K
     rw [hc4] at h4

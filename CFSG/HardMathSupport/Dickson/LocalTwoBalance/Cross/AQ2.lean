@@ -63,7 +63,7 @@ theorem noNormalPPrime_three_gl (hE : Nat.card E = 2 ∨ Nat.card E = 4) (m : �
   intro M _ hMn hMc
   have hMnorm : M.Normal := ⟨fun x hx g => by simpa using hMn g (Subgroup.mem_top g) x hx⟩
   have hunits : Nat.card Eˣ ∣ 3 := by
-    rw [Nat.card_units]; rcases hE with h | h <;> rw [h] <;> norm_num
+    rw [Nat.card_units]; rcases hE with h | h <;> rw [h]; norm_num
   by_cases hbig : 3 ≤ m ∨ (2 ≤ m ∧ Nat.card E = 4)
   ·
     have hm2 : 2 ≤ m := by omega
@@ -95,7 +95,7 @@ theorem noNormalPPrime_three_gl (hE : Nat.card E = 2 ∨ Nat.card E = 4) (m : �
           (by omega : 1 ≤ m) E
         have hd3 : Nat.card S' ∣ 3 := by
           refine (Subgroup.card_dvd_of_le hcen).trans (hz.trans ((Nat.gcd_dvd_right _ _).trans ?_))
-          rcases hE with h | h <;> rw [h] <;> norm_num
+          rcases hE with h | h <;> rw [h]; norm_num
         exact Subgroup.eq_bot_of_card_eq _ (Nat.Coprime.eq_one_of_dvd hS'c.symm hd3)
     have hdet : Function.Injective
         ((GeneralLinearGroup.det : GL (Fin m) E →* Eˣ).comp M.subtype) := by
@@ -120,12 +120,12 @@ theorem noNormalPPrime_three_gl (hE : Nat.card E = 2 ∨ Nat.card E = 4) (m : �
     have hMd : Nat.card M ∣ Nat.card (GL (Fin m) E) := Subgroup.card_subgroup_dvd_card M
     have hpos : 0 < Nat.card M := Nat.card_pos
     interval_cases m
-    · have h1 : Nat.card M ∣ 1 := by simpa [hGL] using hMd
+    · have h1 : Nat.card M ∣ 1 := by simp
       exact Subgroup.eq_bot_of_card_eq _ (Nat.dvd_one.1 h1)
     · have h1 : Nat.card (GL (Fin 1) E) = Nat.card E - 1 := by
         rw [hGL, Fin.prod_univ_one]; simp
       rw [h1] at hMd
-      have h3 : Nat.card M ∣ 3 := hMd.trans (by rcases hE with h | h <;> rw [h] <;> norm_num)
+      have h3 : Nat.card M ∣ 3 := hMd.trans (by rcases hE with h | h <;> rw [h]; norm_num)
       exact Subgroup.eq_bot_of_card_eq _ (Nat.Coprime.eq_one_of_dvd hMc.symm h3)
     ·
       have h2 : Nat.card E = 2 := hm2 rfl
@@ -135,7 +135,7 @@ theorem noNormalPPrime_three_gl (hE : Nat.card E = 2 ∨ Nat.card E = 4) (m : �
       have hle : Nat.card M ≤ 6 := Nat.le_of_dvd (by norm_num) hMd
       have hM12 : Nat.card M = 1 ∨ Nat.card M = 2 := by
         generalize Nat.card M = k at hMd hMc hpos hle
-        interval_cases k <;> first | omega | (exfalso; revert hMc; decide) | (exfalso; omega)
+        interval_cases k <;> first | omega | (exfalso; revert hMc; decide)
       rcases hM12 with h1 | h2'
       · exact Subgroup.eq_bot_of_card_eq _ h1
       · exfalso

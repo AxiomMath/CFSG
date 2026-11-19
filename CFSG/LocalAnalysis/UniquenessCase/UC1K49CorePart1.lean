@@ -12,9 +12,10 @@ open scoped commutatorElement
 
 variable {G : Type} [Group G] [Finite G]
 
+omit [Finite G] in
 private theorem commutator_le_commutator_left_of_normalizer {A B : Subgroup G}
     (hA : ⁅A, A⁆ = A)
-    (hAB : A ≤ Subgroup.normalizer (B : Set G))
+    (_hAB : A ≤ Subgroup.normalizer (B : Set G))
     (hBA : B ≤ Subgroup.normalizer (A : Set G)) :
     ⁅A, B⁆ ≤ ⁅⁅A, B⁆, A⁆ := by
   have hTleA : ⁅A, B⁆ ≤ A := Subgroup.le_normalizer_iff_commutator_le_left.mp hBA
@@ -33,6 +34,7 @@ private theorem commutator_le_commutator_left_of_normalizer {A B : Subgroup G}
     le_sup_left le_sup_right hNle hNnorm le_rfl (by rw [Subgroup.commutator_comm B A])
   rwa [hA] at hrot
 
+omit [Finite G] in
 private theorem commutator_le_commutator_right_of_normalizer {A B : Subgroup G}
     (hB : ⁅B, B⁆ = B)
     (hAB : A ≤ Subgroup.normalizer (B : Set G))
@@ -41,12 +43,13 @@ private theorem commutator_le_commutator_right_of_normalizer {A B : Subgroup G}
   have h := commutator_le_commutator_left_of_normalizer (A := B) (B := A) hB hBA hAB
   rwa [Subgroup.commutator_comm B A] at h
 
+omit [Finite G] in
 theorem commutator_eq_bot_of_perfect_of_mutual {A B Q : Subgroup G}
     (hA : ⁅A, A⁆ = A) (hB : ⁅B, B⁆ = B)
     (hAB : A ≤ Subgroup.normalizer (B : Set G))
     (hBA : B ≤ Subgroup.normalizer (A : Set G))
     (hABQ : ⁅A, B⁆ ≤ Q)
-    (hQAB : ⁅⁅Q, A⁆, B⁆ = ⊥) (hQBA : ⁅⁅Q, B⁆, A⁆ = ⊥) :
+    (_hQAB : ⁅⁅Q, A⁆, B⁆ = ⊥) (hQBA : ⁅⁅Q, B⁆, A⁆ = ⊥) :
     ⁅A, B⁆ = ⊥ := by
   have hA_le : ⁅A, B⁆ ≤ ⁅⁅A, B⁆, A⁆ :=
     commutator_le_commutator_left_of_normalizer hA hAB hBA
@@ -62,6 +65,7 @@ theorem commutator_eq_bot_of_perfect_of_mutual {A B Q : Subgroup G}
   rw [hTAeq] at hA_le
   exact le_bot_iff.mp hA_le
 
+omit [Finite G] in
 theorem zpowers_eq_triple {x y : G} (hord : orderOf x = 3) (hy : y ∈ Subgroup.zpowers x) :
     y = 1 ∨ y = x ∨ y = x ^ 2 := by
   obtain ⟨m, rfl⟩ := Subgroup.mem_zpowers_iff.mp hy
@@ -94,6 +98,7 @@ private theorem commutator_commutator_conjugate_eq_bot {H X L Q I : Subgroup G}
     rw [hN1I] at hle
     exact le_bot_iff.mp hle
 
+omit [Finite G] in
 private theorem exists_lt_three_conjugate_eq_Lc {L : Subgroup G} {x₀ z : G}
     (hord : orderOf x₀ = 3) (hz : z ∈ Subgroup.zpowers x₀) :
     ∃ i : ℕ, i < 3 ∧ CFSG.conjugate L z = Lc L x₀ i := by

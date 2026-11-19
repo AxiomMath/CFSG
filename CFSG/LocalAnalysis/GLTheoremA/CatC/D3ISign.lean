@@ -50,8 +50,8 @@ theorem pc_conj_pinnedX {g : ModGL Tag.D4 K} (hg : BorelScalar g) {γ γ' : D4Ve
   rw [pc_of_pos hpos, hg.spec.2 γ' hpos _ hxm]
   by_cases hc : γ' = γ
   · subst hc
-    rw [rootCoord_self hpos, if_pos rfl, mul_one]
-  · rw [if_neg hc, rootCoord_pinnedX_of_ne hpos hγ (by rw [h2]) (Ne.symm hc), mul_zero]
+    rw [rootCoord_self hpos, ite_eq_left rfl, mul_one]
+  · rw [ite_eq_right hc, rootCoord_pinnedX_of_ne hpos hγ (by rw [h2]) (Ne.symm hc), mul_zero]
 
 theorem borelScalar_add {g : ModGL Tag.D4 K} (hg : BorelScalar g) {γ δ : D4Vec}
     (hγ : IsRoot Tag.D4 γ ∧ 0 < height γ) (hδ : IsRoot Tag.D4 δ ∧ 0 < height δ)
@@ -80,7 +80,7 @@ theorem borelScalar_add {g : ModGL Tag.D4 K} (hg : BorelScalar g) {γ δ : D4Vec
     exact commutator_heightSeries_le K _ _ (Subgroup.commutator_mem_commutator hXm hYm)
   have hcoord : rootCoord hβ' ⁅X, Y⁆ = (commConst Tag.D4 γ δ (1, 1) : K) := by
     have := rootCoord_commutator_pinnedX_d4 hγ hδ hβ' (by rw [d4_height_add]) (1 : K) 1
-    rw [if_pos rfl] at this
+    rw [ite_eq_left rfl] at this
     simpa using this
   have hL := hg.spec.2 (γ + δ) hβ' ⁅X, Y⁆ hcomm
   rw [hcoord] at hL
@@ -98,13 +98,13 @@ theorem borelScalar_add {g : ModGL Tag.D4 K} (hg : BorelScalar g) {γ δ : D4Vec
   have hδm : δ ∈ d4RootsAt (height δ) := mem_d4RootsAt.2 ⟨hδ.1, rfl⟩
   rw [Finset.sum_eq_single γ (fun γ' hγ' hne' => by
       refine Finset.sum_eq_zero fun δ' _ => ?_
-      rw [pc_conj_pinnedX hg hγ hγ', if_neg hne']
+      rw [pc_conj_pinnedX hg hγ hγ', ite_eq_right hne']
       simp) (fun h => absurd hγm h),
     Finset.sum_eq_single δ (fun δ' hδ' hne' => by
-      rw [pc_conj_pinnedX hg hδ hδ', if_neg hne']
+      rw [pc_conj_pinnedX hg hδ hδ', ite_eq_right hne']
       simp) (fun h => absurd hδm h),
     pc_conj_pinnedX hg hγ hγm, pc_conj_pinnedX hg hδ hδm] at hL
-  simp only [if_true] at hL
+  simp only [ite_true] at hL
   have : (commConst Tag.D4 γ δ (1, 1) : K) * (hg.s (γ + δ) - hg.s γ * hg.s δ) = 0 := by
     linear_combination -hL
   exact sub_eq_zero.1 ((mul_eq_zero.1 this).resolve_left hCne)

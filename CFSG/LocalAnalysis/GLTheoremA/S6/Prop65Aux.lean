@@ -20,6 +20,7 @@ variable {G : Type} [Group G] [Finite G] {p : ℕ}
 
 namespace P65
 
+omit [Finite G] in
 theorem mem_normalizer_glaPLayer {X : Subgroup G} {g : G} (hg : g ∈ Subgroup.normalizer (X : Set G)) :
     g ∈ Subgroup.normalizer (GLAPLayer p X : Set G) := by
   have key : GLAPLayer p (GLBConj g X) = GLBConj g (GLAPLayer p X) := by
@@ -31,12 +32,15 @@ theorem mem_normalizer_glaPLayer {X : Subgroup G} {g : G} (hg : g ∈ Subgroup.n
     exact le_sSup (CFSG.LocalAnalysis.GLTheoremB.glaPComponent_gLBConj hL g)
   rw [mem_normalizer_iff_gLBConj_eq, ← key, gLBConj_eq_of_mem_normalizer hg]
 
+omit [Finite G] in
 theorem le_normalizer_glaPLayer {X B : Subgroup G} (hB : B ≤ Subgroup.normalizer (X : Set G)) :
     B ≤ Subgroup.normalizer (GLAPLayer p X : Set G) := fun _ hg => mem_normalizer_glaPLayer (hB hg)
 
+omit [Finite G] in
 theorem glaPLayer_le_self (X : Subgroup G) : GLAPLayer p X ≤ X :=
   sSup_le fun _ hL => (show GLAPComponent p X _ from hL).1
 
+omit [Finite G] in
 theorem coversMod_of_le {N J : Subgroup G} (h : J ≤ N) : CoversMod p N J := by
   unfold CoversMod
   rw [inf_eq_right.2 h]
@@ -128,7 +132,7 @@ theorem zpowers_inf_eq_bot_of_center (hp : p.Prime) {B L : Subgroup G} {x : G}
     (hcomp : GLAPComponent p (Subgroup.centralizer ({x} : Set G)) L) (hxB : x ∈ B)
     (hB : IsElemAbelian p B) (hx1 : x ≠ 1) (hcen : Subgroup.center (PQuot p L) = ⊥) :
     Subgroup.zpowers x ⊓ L = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hxp : x ^ p = 1 := hB.2 x hxB
   rw [Subgroup.eq_bot_iff_forall]
   intro g hg
@@ -160,10 +164,10 @@ theorem zpowers_inf_eq_bot_of_center (hp : p.Prime) {B L : Subgroup G} {x : G}
 
 theorem exists_sylow_two_ne_bot (hp : p.Prime) {Y J : Subgroup G} (hJ : GLAPComponent p Y J) :
     ∃ T : Subgroup G, CFSG.Open.fusionIsSylowIn 2 T J ∧ T ≠ ⊥ := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨P⟩ : Nonempty (Sylow 2 ↥J) := inferInstance
   refine ⟨(P : Subgroup J).map J.subtype, ?_, ?_⟩
-  · refine ⟨Subgroup.map_subtype_le _, P.isPGroup'.map _, fun Q hQM hQ hSQ => ?_⟩
+  · refine ⟨Subgroup.map_subtype_le _, P.isPGroup.map _, fun Q hQM hQ hSQ => ?_⟩
     have hle : (P : Subgroup J) ≤ Q.subgroupOf J := fun x hx =>
       Subgroup.mem_subgroupOf.mpr (hSQ ⟨x, hx, rfl⟩)
     have heq : Q.subgroupOf J = (P : Subgroup J) :=
@@ -189,10 +193,10 @@ theorem exists_sylow_two_ne_bot (hp : p.Prime) {Y J : Subgroup G} (hJ : GLAPComp
       exact Nat.odd_iff.2 (by omega)
     have hsolv : Group.IsSolvable ↥J := CFSG.FeitThompson.isSolvable_of_odd_natCard _ hodd
     have hq := isQuasisimple_pQuot_of_glaPComponent hp hJ
-    haveI := isQuasisimple_nontrivial hq
-    haveI : Group.IsSolvable (PQuot p J) :=
+    have := isQuasisimple_nontrivial hq
+    have : Group.IsSolvable (PQuot p J) :=
       inferInstanceAs (Group.IsSolvable (↥J ⧸ GLAPPrimeCore p ↥J))
-    exact (IsSolvable.commutator_lt_top_of_nontrivial (PQuot p J)).ne hq.1
+    exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (PQuot p J)).ne hq.1
 
 theorem exists_a_of_I33 (hc : S6Ctx G p) {D T : Subgroup G} {x : G} (hDel : IsElemAbelian p D)
     (hDcard : Nat.card D = p ^ 2) (hxD : x ∈ D) (hx1 : x ≠ 1) (hT2 : IsPGroup 2 T) (hTne : T ≠ ⊥)
@@ -202,7 +206,7 @@ theorem exists_a_of_I33 (hc : S6Ctx G p) {D T : Subgroup G} {x : G} (hDel : IsEl
         Subgroup G) ≠ ⊥ := by
   have hp := hc.prime
   have hp2 := hc.odd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set M := Subgroup.normalizer (T : Set G) with hM
   have hM2 : IsTwoLocal M := ⟨T, hTne, hT2, rfl⟩
   have hDM : D ≤ M := fun d hd => Subgroup.centralizer_le_normalizer _ (hDT hd)
@@ -300,7 +304,7 @@ theorem exists_S_package (hc : S6Ctx G p) {q : ℕ} {B : Subgroup G} {x : G} {L 
       S ≤ Subgroup.centralizer ({a} : Set G) ∧ S ≤ Subgroup.centralizer (T : Set G) := by
   have hp := hc.prime
   have hp2 := hc.odd
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨T, hTsyl, hTne⟩ := exists_sylow_two_ne_bot hp hDJ.comp
   have hT2 : IsPGroup 2 T := hTsyl.2.1
   have hDT : D ≤ Subgroup.centralizer (T : Set G) := by
@@ -330,6 +334,7 @@ theorem exists_S_package (hc : S6Ctx G p) {q : ℕ} {B : Subgroup G} {x : G} {L 
   exact commutator_commutator_eq_of_isPGroup hp (isPGroup_of_isElemAbelian hDJ.elem) hY2 hp2 hDY
 
 
+omit [Finite G] in
 theorem closure_basic {a : G} {J B : Subgroup G} (haJ : J ≤ Subgroup.centralizer ({a} : Set G))
     (hBa : B ≤ Subgroup.centralizer ({a} : Set G)) (hBJ : B ≤ Subgroup.normalizer (J : Set G)) :
     J ≤ closureIn J (GLAPLayer p (Subgroup.centralizer ({a} : Set G))) ∧
@@ -452,6 +457,7 @@ theorem closure_single_or_multi (hp : p.Prime) (hI18 : Input18_3_4) {a x : G} {B
       have h1 : GLBConj b L₁ ≤ GLBConj b (closureIn J La) := gLBConj_mono (g := b) (hLK L₁ hL₁)
       rwa [gLBConj_eq_of_mem_normalizer (hBK hb)] at h1
 
+omit [Finite G] in
 theorem isOmega_not_A2 (hni : LieTypeNonIsoAt) {q : ℕ} {J : Subgroup G} (h : IsOmegaType p q J)
     (h2 : ∃ Q : TauCeti.PrimePower,
       pSimpleIsLie p J (.A 2 Q) ∨ pSimpleIsLie p J (.twistedA 2 Q)) : False := by
@@ -460,6 +466,7 @@ theorem isOmega_not_A2 (hni : LieTypeNonIsoAt) {q : ℕ} {J : Subgroup G} (h : I
   exact hni (PSimple p J) Q Q' hQ hQ'
 
 
+omit [Finite G] in
 theorem centMod_conj {K : Subgroup G} {n c : G} (hn : n ∈ Subgroup.normalizer (K : Set G))
     (hc : c ∈ centModSubgroup p K) : n * c * n⁻¹ ∈ centModSubgroup p K := by
   refine ⟨?_, fun l hl => ?_⟩
@@ -478,6 +485,7 @@ theorem centMod_conj {K : Subgroup G} {n c : G} (hn : n ∈ Subgroup.normalizer 
     rw [h3]
     exact h2
 
+omit [Finite G] in
 theorem le_normalizer_closureIn (I H : Subgroup G) :
     H ≤ Subgroup.normalizer (closureIn I H : Set G) := by
   intro h hh
@@ -500,7 +508,7 @@ theorem sylow_not_le_centMod {K J T : Subgroup G} (hJK : J ≤ K) (hJ : ⁅J, J�
     (hJO : ¬ J ≤ GLAPPrimeCoreOf p K) (hT : CFSG.Open.fusionIsSylowIn 2 T J) :
     ¬ T ≤ centModSubgroup p K := by
   intro hTC
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hTJ : T ≤ J := hT.1
   set N : Subgroup G := closureIn T J with hN
   have hNe : N = ⨆ g ∈ J, GLBConj g T := closureIn_eq_iSup_gLBConj T J
@@ -550,7 +558,7 @@ theorem sylow_not_le_centMod {K J T : Subgroup G} (hJK : J ≤ K) (hJ : ⁅J, J�
     have h1 : (commutator ↥J).map J.subtype = ⁅J, J⁆ := by
       rw [commutator_def, Subgroup.map_commutator, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
     rw [h1, hJ, ← MonoidHom.range_eq_map, Subgroup.range_subtype]
-  haveI : (N.subgroupOf J).Normal := hNn
+  have : (N.subgroupOf J).Normal := hNn
   have hfin : Group.IsSolvable (↥J ⧸ N.subgroupOf J) := by
     apply CFSG.FeitThompson.isSolvable_of_odd_natCard _
     exact hodd
@@ -564,12 +572,12 @@ theorem sylow_not_le_centMod {K J T : Subgroup G} (hJK : J ≤ K) (hJ : ⁅J, J�
   have hNtop : N.subgroupOf J = ⊤ := by
     by_contra hne
     have hidx : (N.subgroupOf J).index ≠ 1 := fun h => hne (Subgroup.index_eq_one.1 h)
-    haveI : Nontrivial (↥J ⧸ N.subgroupOf J) := by
+    have : Nontrivial (↥J ⧸ N.subgroupOf J) := by
       rw [← Finite.one_lt_card_iff_nontrivial]
       have h0 : (N.subgroupOf J).index ≠ 0 := Subgroup.index_ne_zero_of_finite
       have : Nat.card (↥J ⧸ N.subgroupOf J) = (N.subgroupOf J).index := rfl
       omega
-    exact (IsSolvable.commutator_lt_top_of_nontrivial (↥J ⧸ N.subgroupOf J)).ne hQperf
+    exact (Group.IsSolvable.commutator_lt_top_of_nontrivial (↥J ⧸ N.subgroupOf J)).ne hQperf
   have hJN : J ≤ N := fun j hj => Subgroup.mem_subgroupOf.1 (hNtop ▸ Subgroup.mem_top (⟨j, hj⟩ : ↥J))
   apply hJO
   rw [← hJ]
@@ -600,6 +608,7 @@ theorem mem_normalizer_of_centralizes {X K T : Subgroup G} {s : G} (hp : p.Prime
     exact hTK ht
   exact hT (hTK'.trans (le_centModSubgroup_of_ne hp hK' hK hne))
 
+omit [Finite G] in
 theorem le_centMod_of_comm_eq {K S D : Subgroup G} (hSK : S ≤ Subgroup.normalizer (K : Set G))
     (hD : D ≤ centModSubgroup p K) (hSD : ⁅S, D⁆ = S) : S ≤ centModSubgroup p K := by
   rw [← hSD, Subgroup.commutator_le]
@@ -610,6 +619,7 @@ theorem le_centMod_of_comm_eq {K S D : Subgroup G} (hSK : S ≤ Subgroup.normali
   rw [h2]
   exact mul_mem h1 (inv_mem (hD hd))
 
+omit [Finite G] in
 theorem commutator_le_core_of_centMod {K J S : Subgroup G} (hJK : J ≤ K) (hJ : ⁅J, J⁆ = J)
     (hSK : S ≤ Subgroup.normalizer (K : Set G)) (hc : ⁅J, S⁆ ≤ centModSubgroup p K) :
     ⁅J, S⁆ ≤ GLAPPrimeCoreOf p K := by
@@ -619,7 +629,7 @@ theorem commutator_le_core_of_centMod {K J S : Subgroup G} (hJK : J ≤ K) (hJ :
   have hKn : K ≤ Subgroup.normalizer (K : Set G) := Subgroup.le_normalizer
   let W : Subgroup G :=
     { carrier := {j | j ∈ J ∧ ∀ s ∈ S, ⁅j, s⁆ ∈ O}
-      one_mem' := ⟨J.one_mem, fun s _ => by simpa using O.one_mem⟩
+      one_mem' := ⟨J.one_mem, fun s _ => by simp⟩
       mul_mem' := by
         rintro a b ⟨haJ, ha⟩ ⟨hbJ, hb⟩
         refine ⟨J.mul_mem haJ hbJ, fun s hs => ?_⟩
@@ -674,7 +684,7 @@ noncomputable def phiC (p : ℕ) (C : Subgroup G) :
 theorem phiC_eq_one_iff (hp : p.Prime) {X C : Subgroup G} (hC : GLAPComponent p X C) {g : G}
     (hg : g ∈ Subgroup.normalizer (C : Set G)) : phiC p C ⟨g, hg⟩ = 1 ↔ CentMod p C g := by
   have hq := isQuasisimple_pQuot_of_glaPComponent hp hC
-  haveI : Group.IsPerfect (PQuot p C) := ⟨hq.1⟩
+  have : Group.IsPerfect (PQuot p C) := ⟨hq.1⟩
   rw [centMod_iff]
   constructor
   · intro h
@@ -839,8 +849,8 @@ theorem exists_twoLocal_weak_cover (hp : p.Prime) (hp2 : p ≠ 2) {a : G} {D J S
       J ≤ (Subgroup.normalizer (S₀ : Set G) ⊓ Subgroup.centralizer ({a} : Set G)) ⊔
         GLAPPrimeCoreOf p (Subgroup.centralizer ({a} : Set G)) := by
   classical
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set Ca := Subgroup.centralizer ({a} : Set G) with hCa
   set O := GLAPPrimeCoreOf p Ca with hO
   have hOCa : O ≤ Ca := Subgroup.map_subtype_le _
@@ -935,12 +945,13 @@ theorem exists_twoLocal_weak_cover (hp : p.Prime) (hp2 : p ≠ 2) {a : G} {D J S
 
 theorem inf_eq_bot_of_isPGroup (hp : p.Prime) {D O : Subgroup G} (hD : IsPGroup p D)
     (hO : ¬ p ∣ Nat.card O) : D ⊓ O = ⊥ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨n, hn⟩ := hD.exists_card_eq
-  refine Subgroup.inf_eq_bot_of_coprime ?_
+  refine (Disjoint.eq_bot (_root_.Subgroup.disjoint_of_coprime_natCard ?_))
   rw [hn]
   exact Nat.Coprime.pow_left n ((Nat.Prime.coprime_iff_not_dvd hp).2 hO)
 
+omit [Finite G] in
 theorem mem_centralizer_of_mem_normalizer_of_inf_eq_bot {D O : Subgroup G}
     (hDO : D ≤ Subgroup.normalizer (O : Set G)) (hbot : D ⊓ O = ⊥) {o : G} (ho : o ∈ O)
     (hoD : o ∈ Subgroup.normalizer (D : Set G)) : o ∈ Subgroup.centralizer (D : Set G) := by
@@ -958,7 +969,7 @@ theorem mem_centralizer_of_mem_normalizer_of_inf_eq_bot {D O : Subgroup G}
 theorem fusionIsSylowIn_of_card_dvd (hp : p.Prime) {X Q : Subgroup G} {n : ℕ} (hXQ : X ≤ Q)
     (hX : IsPGroup p X) (hQ : Nat.card Q ∣ Nat.card X * n) (hn : ¬ p ∣ n) :
     fusionIsSylowIn p X Q := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   refine ⟨hXQ, hX, fun Y hYQ hY hXY => ?_⟩
   obtain ⟨m, hm⟩ := hY.exists_card_eq
   have h1 : Nat.card Y ∣ Nat.card X * n := (Subgroup.card_dvd_of_le hYQ).trans hQ
@@ -971,7 +982,7 @@ theorem fusionIsSylowIn_of_card_dvd (hp : p.Prime) {X Q : Subgroup G} {n : ℕ} 
 theorem exists_mem_conj_of_fusionIsSylowIn (hp : p.Prime) {X X' Q : Subgroup G}
     (hX : fusionIsSylowIn p X Q) (hX' : fusionIsSylowIn p X' Q) :
     ∃ q ∈ Q, X' = GLBConj q⁻¹ X := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨P, rfl⟩ := CFSG.Goldschmidt.G310.exists_sylow_of_fusionIsSylowIn hX
   obtain ⟨P', rfl⟩ := CFSG.Goldschmidt.G310.exists_sylow_of_fusionIsSylowIn hX'
   obtain ⟨g, hg⟩ := MulAction.exists_smul_eq Q P P'
@@ -1045,17 +1056,18 @@ theorem exists_conj_mem_centralizer (hp : p.Prime) {D O S₀ : Subgroup G} (hD :
   have hdS : GLBConj d₁ S₀ = S₀ := gLBConj_eq_of_mem_normalizer (hDS hd₁)
   rw [hoeq, ← gLBConj_gLBConj, ← gLBConj_gLBConj, hqS, hdS]
 
+omit [Finite G] in
 theorem exists_fixed_conj (hp : p.Prime) {C P S₀ : Subgroup G} (hP : IsPGroup p P)
     (hC : ¬ p ∣ Nat.card C) (hPC : P ≤ Subgroup.normalizer (C : Set G))
     (hstab : ∀ t ∈ P, ∃ c ∈ C, GLBConj t S₀ = GLBConj c S₀) :
     ∃ c ∈ C, ∀ t ∈ P, GLBConj t (GLBConj c S₀) = GLBConj c S₀ := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   let Ω : Type := {X : Subgroup G // ∃ c ∈ C, X = GLBConj c S₀}
   have hCst : ∀ (c : C) (X : Ω), ∃ c' ∈ C, GLBConj (c : G)⁻¹ X.1 = GLBConj c' S₀ := by
     intro c X
     obtain ⟨c₀, hc₀, hX⟩ := X.2
     exact ⟨c₀ * (c : G)⁻¹, C.mul_mem hc₀ (C.inv_mem c.2), by rw [hX, gLBConj_gLBConj]⟩
-  letI actC : MulAction C Ω :=
+  let actC : MulAction C Ω :=
     { smul := fun c X => ⟨GLBConj (c : G)⁻¹ X.1, hCst c X⟩
       one_smul := fun X => Subtype.ext (by
         show GLBConj ((1 : C) : G)⁻¹ X.1 = X.1
@@ -1063,7 +1075,7 @@ theorem exists_fixed_conj (hp : p.Prime) {C P S₀ : Subgroup G} (hP : IsPGroup 
       mul_smul := fun a b X => Subtype.ext (by
         show GLBConj ((a * b : C) : G)⁻¹ X.1 = GLBConj (a : G)⁻¹ (GLBConj (b : G)⁻¹ X.1)
         rw [gLBConj_gLBConj, Subgroup.coe_mul, mul_inv_rev]) }
-  haveI : MulAction.IsPretransitive C Ω :=
+  have : MulAction.IsPretransitive C Ω :=
     ⟨fun X Y => by
       obtain ⟨c₁, hc₁, hX⟩ := X.2
       obtain ⟨c₂, hc₂, hY⟩ := Y.2
@@ -1090,7 +1102,7 @@ theorem exists_fixed_conj (hp : p.Prime) {C P S₀ : Subgroup G} (hP : IsPGroup 
       congr 1
       group
     rw [hX, gLBConj_gLBConj, e]
-  letI actP : MulAction P Ω :=
+  let actP : MulAction P Ω :=
     { smul := fun t X => ⟨GLBConj (t : G)⁻¹ X.1, hPst t X⟩
       one_smul := fun X => Subtype.ext (by
         show GLBConj ((1 : P) : G)⁻¹ X.1 = X.1
@@ -1125,7 +1137,7 @@ theorem conj_mem_and_comm_mem_core (hp : p.Prime) {X J : Subgroup G} (hJ : GLAPC
 theorem le_cover_of_forall_pSubgroup_le (hp : p.Prime) (hp2 : p ≠ 2) {X J R : Subgroup G}
     (hJ : GLAPComponent p X J) (hO : GLAPPrimeCoreOf p J ≤ R)
     (h : ∀ P : Subgroup G, P ≤ J → IsPGroup p P → P ≤ R) : J ≤ R := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   set K : Subgroup ↥J := GLAPPrimeCore p ↥J with hK
   set π : ↥J →* PQuot p J := QuotientGroup.mk' K with hπ
   have hπs : Function.Surjective π := QuotientGroup.mk'_surjective K
@@ -1135,7 +1147,7 @@ theorem le_cover_of_forall_pSubgroup_le (hp : p.Prime) (hp2 : p ≠ 2) {X J R : 
   have hPsyl : ∀ P : Sylow p ↥J, (P : Subgroup ↥J) ≤ R' := by
     intro P x hx
     have : ((P : Subgroup ↥J).map J.subtype) ≤ R :=
-      h _ (Subgroup.map_subtype_le _) (P.isPGroup'.map _)
+      h _ (Subgroup.map_subtype_le _) (P.isPGroup.map _)
     exact this ⟨x, hx, rfl⟩
   have hQsyl : ∀ P' : Sylow p (PQuot p J), (P' : Subgroup (PQuot p J)) ≤ R'.map π := by
     intro P'
@@ -1278,7 +1290,7 @@ theorem not_le_core_of_component (hp : p.Prime) {Y J K : Subgroup G} (hJ : GLAPC
     rw [Subgroup.card_top]
     exact hcop
   have hq := isQuasisimple_pQuot_of_glaPComponent hp hJ
-  haveI := isQuasisimple_nontrivial hq
+  have := isQuasisimple_nontrivial hq
   have hsub : Subsingleton (PQuot p J) := by
     refine ⟨fun a b => ?_⟩
     induction a using QuotientGroup.induction_on with

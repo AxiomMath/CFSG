@@ -14,9 +14,9 @@ open CFSG.LocalAnalysis.ComponentInitial (SchreierFor)
 namespace Hyp52
 
 theorem sectionData_of_T_eq {X : Type} [Group X] [Finite X] [IsSimpleGroup X]
-    (hS : SchreierFor Blueprint.Catalog) (hnonab : ∃ u v : X, u * v ≠ v * u)
-    (hK : Assembly.KProper Blueprint.Catalog X) (h : Hyp52 X)
-    (hmax : GSMaximalUnbalancingTriple h.a h.x h.J) (hiso : GSIsoAt h.a h.J)
+    (_hS : SchreierFor Blueprint.Catalog) (_hnonab : ∃ u v : X, u * v ≠ v * u)
+    (_hK : Assembly.KProper Blueprint.Catalog X) (h : Hyp52 X)
+    (_hmax : GSMaximalUnbalancingTriple h.a h.x h.J) (_hiso : GSIsoAt h.a h.J)
     (hCN : centralizer ({h.a} : Set X) ≤ normalizer (h.J : Set X))
     (hSa : ∃ R : Sylow 2 ↥(centralizer ({h.a} : Set X)),
       (R : Subgroup _) = h.S.subgroupOf (centralizer ({h.a} : Set X)))
@@ -35,7 +35,7 @@ theorem sectionData_of_T_eq {X : Type} [Group X] [Finite X] [IsSimpleGroup X]
     ⟨R, (comap_map_eq_self_of_injective C.subtype_injective _).symm⟩
   have hSS' : h.subS y ≤ S' := fun z hz =>
     ⟨⟨z, hSC hz⟩, hR (show (⟨z, hSC hz⟩ : ↥C) ∈ (h.subS y).subgroupOf C from hz), rfl⟩
-  have hS'2 : IsPGroup 2 S' := R.isPGroup'.map _
+  have hS'2 : IsPGroup 2 S' := R.isPGroup.map _
   exact hc.sectionData_of_sub S' hS'le hS'syl hSS'
     (fun E hE hEc => hc.isoCorr_subStar hCN hSa hW hT hS'le hS'2 hSS' E hE hEc)
     (hc.inf_normalizer_subB_eq hCN hSa hW hS'2 (hS'le.trans inf_le_left) hSS')

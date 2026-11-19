@@ -44,8 +44,8 @@ theorem compIdxAt_suzukiGroup_excTw {a : ℕ} (ha : 1 ≤ a) {K : Type}
     [Field K] [Finite K] (hK : Nat.card K = 2 ^ (2 * a + 1)) {p : ℕ} (hp : p.Prime) (hp2 : p ≠ 2)
     (d : TauCeti.LieTypeIndex) : CompIdxAt p d ↥(suzukiGroup a K) := by
   refine compIdxAt_excTw_of_isSolvable fun β hβ hβp hβ1 => ?_
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Finite ↥(suzukiGroup a K) := (suzuki_simple ha hK).1
+  have : Fact p.Prime := ⟨hp⟩
+  have : Finite ↥(suzukiGroup a K) := (suzuki_simple ha hK).1
   have hinn : β ∈ inner ↥(suzukiGroup a K) := innAutDerived_le_inner_excTw_of_isCyclic
     (CFSG.LieType.Suzuki.suzukiGroup_outer_isCyclic_card_dvd ha hK).1 hβ
   obtain ⟨x, rfl, hxp, hx1⟩ :=
@@ -72,13 +72,13 @@ theorem compIdxAt_reeGamma_G2_excTw
     (hp : p.Prime) (hp2 : p ≠ 2) (hp3 : p ≠ 3) (d : TauCeti.LieTypeIndex) :
     CompIdxAt p d ↥(ReeTag.G2.reeGamma K a) := by
   refine compIdxAt_excTw_of_isSolvable fun β hβ hβp hβ1 => ?_
-  haveI : Finite (ModGL ReeTag.G2.tag K) := finite_modGL
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL ReeTag.G2.tag K) := finite_modGL
+  have : Fact p.Prime := ⟨hp⟩
   have hinn : β ∈ inner ↥(ReeTag.G2.reeGamma K a) := innAutDerived_le_inner_excTw_of_isCyclic
     (CFSG.HardMathSupport.Curtis.Coordinator.SeitzCyc.isCyclic_outer_reeG2 ha hK) hβ
   obtain ⟨-, hsimple, hnc⟩ :=
     CFSG.ComponentClassification.CatalogueBSmallRee.reeGamma_G2_simple ha K hK
-  haveI := hsimple
+  have := hsimple
   obtain ⟨x, rfl, hxp, hx1⟩ := exists_eq_conj_of_mem_range
     (CFSG.HardMathSupport.Solomon.Coordinator.b3Lie_center_eq_bot hnc) hinn hβp hβ1
   rw [fixSubgroup_conj]
@@ -129,13 +129,13 @@ theorem compIdx_reeGamma_F4_three_excTw
     ∃ i : TauCeti.CFSGIndex, Nonempty (↥J ⧸ Subgroup.center ↥J ≃* i.Group) ∧
       compRelC (.reeF4 a) i := by
   classical
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite ↥(ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite ↥(ReeTag.F4.reeGamma K a) := Subtype.finite
   obtain ⟨e⟩ :=
     CFSG.RankThree.PartTwo.Sec8.Item8KFacts2Proof.centralizer_mulEquiv_unitarySU a K hK y hy
   have hFcard : Nat.card (GaloisField 2 (2 * (2 * a + 1))) = (2 ^ (2 * a + 1)) ^ 2 := by
     rw [GaloisField.card 2 _ (by omega), ← pow_mul, mul_comm]
-  haveI : Fintype (GaloisField 2 (2 * (2 * a + 1))) := Fintype.ofFinite _
+  have : Fintype (GaloisField 2 (2 * (2 * a + 1))) := Fintype.ofFinite _
   have hFfcard : Fintype.card (GaloisField 2 (2 * (2 * a + 1))) = (2 ^ (2 * a + 1)) ^ 2 := by
     rw [← Nat.card_eq_fintype_card]
     exact hFcard
@@ -178,11 +178,11 @@ theorem compIdx_reeGamma_F4_gt3_excTw
   subst hJN
   rcases hty with hbot | hf | hf
   · exfalso
-    haveI : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
+    have : IsSimpleGroup (↥J ⧸ Subgroup.center ↥J) := hJ.2.2.2
     have hnt : Nontrivial ↥J := (QuotientGroup.mk_surjective (s := Subgroup.center ↥J)).nontrivial
     exact (Subgroup.nontrivial_iff_ne_bot J).1 hnt hbot
   · obtain ⟨f⟩ := hf
-    haveI : Fintype K := Fintype.ofFinite K
+    have : Fintype K := Fintype.ofFinite K
     have hcard : Fintype.card K = 2 ^ (2 * a + 1) := by
       rw [← Nat.card_eq_fintype_card]
       exact hK
@@ -212,9 +212,9 @@ theorem compIdxAt_reeGamma_F4_excTw
     (hinn : innAutDerived ↥(ReeTag.F4.reeGamma K a) ≤ inner ↥(ReeTag.F4.reeGamma K a)) {p : ℕ}
     (hp : p.Prime) (hp2 : p ≠ 2) : CompIdxAt p (.reeF4 a) ↥(ReeTag.F4.reeGamma K a) := by
   intro β hβ hβp hβ1 J hJ
-  haveI : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
-  haveI : Finite ↥(ReeTag.F4.reeGamma K a) := Subtype.finite
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Finite (ModGL ReeTag.F4.tag K) := finite_modGL
+  have : Finite ↥(ReeTag.F4.reeGamma K a) := Subtype.finite
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨y, rfl, hyp, hy1⟩ := exists_eq_conj_of_mem_range
     (ReeTag.large_Ree_fixed_group_center_trivial a K hK) (hinn hβ) hβp hβ1
   have hy : orderOf y = p := orderOf_eq_prime hyp hy1

@@ -82,8 +82,8 @@ theorem ins_spec {z : PBits} {alpha beta : Table} {S0 X : PBits} {h : Nat} {lv :
     have hpush : ∀ k < sets.size + 1, (sets.push X)[k]! = if k < sets.size then sets[k]! else X := by
       intro k hk
       by_cases hk' : k < sets.size
-      · rw [if_pos hk', get!_push_lt _ _ hk']
-      · rw [if_neg hk', get!_push_of (by omega)]
+      · rw [ite_eq_left hk', get!_push_lt _ _ hk']
+      · rw [ite_eq_right hk', get!_push_of (by omega)]
     refine ⟨⟨by simp, ?_, by simp [c3], by simp [c4], fun i hi j hj e => ?_, fun k hk => ?_,
       fun B hB => ?_, fun k hk0 hk => ?_⟩, by simp, by rw [get!_push_eq], by simp, by simp,
       fun k hk => get!_push_lt _ _ hk⟩
@@ -91,24 +91,24 @@ theorem ins_spec {z : PBits} {alpha beta : Table} {S0 X : PBits} {h : Nat} {lv :
     · rw [Array.size_push] at hi hj
       rw [hpush i hi, hpush j hj] at e
       by_cases hi' : i < sets.size <;> by_cases hj' : j < sets.size
-      · rw [if_pos hi', if_pos hj'] at e
+      · rw [ite_eq_left hi', ite_eq_left hj'] at e
         exact c5 i hi' j hj' e
-      · rw [if_pos hi', if_neg hj'] at e
+      · rw [ite_eq_left hi', ite_eq_right hj'] at e
         exact absurd e (hnew i hi')
-      · rw [if_neg hi', if_pos hj'] at e
+      · rw [ite_eq_right hi', ite_eq_left hj'] at e
         exact absurd e.symm (hnew j hj')
       · omega
     · rw [Array.size_push] at hk
       rw [Std.HashMap.get?_eq_getElem?, Std.HashMap.getElem?_insert, hpush k hk]
       by_cases hk' : k < sets.size
-      · rw [if_pos hk']
+      · rw [ite_eq_left hk']
         have : (X == sets[k]!) = false := by
           rw [beq_eq_false_iff_ne]
           exact fun e => hnew k hk' e.symm
         rw [this]
         exact c6 k hk'
       · have ek : k = sets.size := by omega
-        rw [if_neg hk', beq_self_eq_true, ek]
+        rw [ite_eq_right hk', beq_self_eq_true, ek]
         rfl
     · rw [Std.HashMap.get?_eq_getElem?, Std.HashMap.getElem?_insert]
       have hXB : (X == B) = false := by
@@ -156,7 +156,7 @@ theorem trBFS_eq (z : PBits) (alpha beta : Table) (S0 : PBits) (limit : Nat) :
       s.2.2.2.2.2, s.2.1⟩ : TrOrb) : Id TrOrb))) (funext fun h => funext fun s => ?_)).trans rfl
   unfold body ins
   by_cases hh : h < s.1.size
-  · simp only [hh, if_true]
+  · simp only [hh, ite_true]
     cases ha : s.2.1.get? (pImg z alpha s.1[h]!) with
     | some j =>
       simp only
@@ -168,7 +168,7 @@ theorem trBFS_eq (z : PBits) (alpha beta : Table) (S0 : PBits) (limit : Nat) :
       cases hb : (s.2.1.insert (pImg z alpha s.1[h]!) s.1.size).get? (pImg z beta s.1[h]!) with
       | some j' => rfl
       | none => rfl
-  · simp only [hh, if_false]
+  · simp only [hh, ite_false]
 
 @[expose] def TInv (z : PBits) (alpha beta : Table) (q : Nat) (s : FSt) : Prop :=
   s.2.2.1.size = q ∧ s.2.2.2.1.size = q ∧ ∀ k < q, ap s.2.2.1 k < s.1.size ∧
@@ -208,7 +208,7 @@ theorem trBFS_spec (z : PBits) (alpha beta : Table) (S0 : PBits) (limit : Nat)
   · rintro q s hq ⟨hC, hqs, hsz, hT⟩
     unfold body
     by_cases hlt : q < s.1.size
-    · rw [if_pos hlt]
+    · rw [ite_eq_left hlt]
       change CInv z alpha beta S0 _ ∧ _
       obtain ⟨a1, a2, a3, a4, a5, a6⟩ := ins_spec (lv := 1) hC hlt (by dsimp only [P]; omega)
         (Or.inl ⟨rfl, rfl⟩)
@@ -234,7 +234,7 @@ theorem trBFS_spec (z : PBits) (alpha beta : Table) (S0 : PBits) (limit : Nat)
         refine ⟨by omega, ?_, b2, ?_⟩
         · rw [b6 _ (by omega), a6 k hlt, b6 _ a2, a3]
         · rw [b6 _ (by omega), a6 k hlt, b3]
-    · rw [if_neg hlt]
+    · rw [ite_eq_right hlt]
       have e : q = s.1.size := by omega
       exact ⟨hC, fun _ => e ▸ hT⟩
   · rintro s ⟨hC, hqs, -, hT⟩

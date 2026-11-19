@@ -224,12 +224,12 @@ theorem pair_mask {w n : Nat} (hw : 0 < w) {g : Nat → Nat} (hg : ∀ i < 2 * n
     rw [hm, lanes_shift (hg 0 (by omega)), lanes_top_zero (by simp)]
     apply lanes_congr
     intro i hi
-    rw [if_pos (by omega)]
+    rw [ite_eq_left (by omega)]
   rw [hl g hg, hs, hl _ fun i hi => by split <;> [exact hg _ ‹_›; exact Nat.two_pow_pos w],
     lanes_add]
   apply lanes_congr
   intro j hj
-  rw [if_pos (by omega)]
+  rw [ite_eq_left (by omega)]
 
 theorem pair_addShift {w n : Nat} (hw : 0 < w) {g : Nat → Nat}
     (hg : ∀ i < 2 * n, g i + (if i + 1 < 2 * n then g (i + 1) else 0) < 2 ^ w) :
@@ -245,11 +245,11 @@ theorem pair_addShift {w n : Nat} (hw : 0 < w) {g : Nat → Nat}
     rw [hm, lanes_shift (hg0 0 (by omega)), lanes_top_zero (by simp)]
     apply lanes_congr
     intro i hi
-    rw [if_pos (by omega)]
+    rw [ite_eq_left (by omega)]
   rw [hs, lanes_add, lanes_regroup, lanes_mask hpos (by omega)]
   · apply lanes_congr
     intro j hj
-    rw [Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt (hg _ (by omega)), if_pos (by omega)]
+    rw [Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt (hg _ (by omega)), ite_eq_left (by omega)]
   · intro j hj
     have h1 := hg (2 * j) (by omega)
     have h2 := hg (2 * j + 1) (by omega)
@@ -263,7 +263,7 @@ theorem pair_addShift {w n : Nat} (hw : 0 < w) {g : Nat → Nat}
       omega
     omega
 
-theorem addShift_lt {w n : Nat} (hw : 0 < w) {g : Nat → Nat}
+theorem addShift_lt {w n : Nat} (_hw : 0 < w) {g : Nat → Nat}
     (hg : ∀ i < 2 * n, g i + (if i + 1 < 2 * n then g (i + 1) else 0) < 2 ^ w) :
     lanes w g (2 * n) + (lanes w g (2 * n) >>> w) < 2 ^ (w * (2 * n)) := by
   rcases Nat.eq_zero_or_pos n with rfl | hn
@@ -275,7 +275,7 @@ theorem addShift_lt {w n : Nat} (hw : 0 < w) {g : Nat → Nat}
     rw [hm, lanes_shift (hg0 0 (by omega)), lanes_top_zero (by simp)]
     apply lanes_congr
     intro i hi
-    rw [if_pos (by omega)]
+    rw [ite_eq_left (by omega)]
   rw [hs, lanes_add]
   exact lanes_lt _ hg
 
@@ -315,15 +315,15 @@ theorem lanes_mul_pow (w : Nat) (g : Nat → Nat) : ∀ m n,
   | m + 1, n => by
     rw [Nat.mul_succ, Nat.pow_add, ← Nat.mul_assoc, lanes_mul_pow w g m n, ← Nat.add_assoc,
       lanes_cons]
-    rw [if_neg (by omega), Nat.zero_add, Nat.mul_comm]
+    rw [ite_eq_right (by omega), Nat.zero_add, Nat.mul_comm]
     apply congrArg
     apply lanes_congr
     intro i _
     by_cases h : m ≤ i
-    · rw [if_pos h, if_pos (by omega)]
+    · rw [ite_eq_left h, ite_eq_left (by omega)]
       congr 1
       omega
-    · rw [if_neg h, if_neg (by omega)]
+    · rw [ite_eq_right h, ite_eq_right (by omega)]
 
 theorem lanes_mul_ones {w : Nat} {f : Nat → Nat} {n B : Nat} (hf : ∀ i, f i ≤ B)
     (hB : n * B < 2 ^ w) : ∀ m, m ≤ n →

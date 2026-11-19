@@ -218,7 +218,7 @@ theorem card_O3H (h : Tim79a.ParrottHyp z) (D : QuotientData (z := z) hN) :
 
 theorem isPGroup_O3H (D : QuotientData (z := z) hN) : IsPGroup 3 (O3H D) := by
   rw [O3H]
-  exact IsPGroup.map (O3Sylow D).isPGroup' (toH D)
+  exact IsPGroup.map (O3Sylow D).isPGroup (toH D)
 
 theorem sigma1Nine_mem_O3H (D : QuotientData (z := z) hN) :
     sigma1Nine (z := z) D ∈ O3H D := by

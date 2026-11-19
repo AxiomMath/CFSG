@@ -547,30 +547,30 @@ private lemma k0shape_label_shape_eq (n : ℕ) (hn : 1 ≤ n) (fam : LargeEvenLi
   case A =>
     simp only [k0LabelOf, k0shapeTagRank]
     by_cases htw : tw = 1
-    · simp only [if_pos htw, ggKacShapeLabel]; rw [hdiv]
-    · simp only [if_neg htw, ggKacShapeLabel]; rw [hdiv]
+    · simp only [ite_eq_left htw, ggKacShapeLabel]; rw [hdiv]
+    · simp only [ite_eq_right htw, ggKacShapeLabel]; rw [hdiv]
   case C =>
     simp only [k0LabelOf, k0shapeTagRank]
     by_cases hc : r = 2 ∧ k * n = 1
-    · simp only [if_pos hc]
+    · simp only [ite_eq_left hc]
       obtain ⟨hr, hkn⟩ := hc
       obtain ⟨hk, hn1⟩ := k0shape_mul_eq_one hn hkn
       subst hr; subst hk; subst hn1
       simp only [ggKacShapeLabel]
-    · simp only [if_neg hc, ggKacShapeLabel]; rw [hdiv]
+    · simp only [ite_eq_right hc, ggKacShapeLabel]; rw [hdiv]
   case D =>
     simp only [k0LabelOf, k0shapeTagRank]
     by_cases h1 : tw = 1
-    · simp only [if_pos h1, ggKacShapeLabel]; rw [hdiv]
-    · simp only [if_neg h1]
+    · simp only [ite_eq_left h1, ggKacShapeLabel]; rw [hdiv]
+    · simp only [ite_eq_right h1]
       by_cases h2 : tw = 2
-      · simp only [if_pos h2, ggKacShapeLabel]; rw [hdiv]
-      · simp only [if_neg h2, ggKacShapeLabel]; rw [hdiv]
+      · simp only [ite_eq_left h2, ggKacShapeLabel]; rw [hdiv]
+      · simp only [ite_eq_right h2, ggKacShapeLabel]; rw [hdiv]
   case E6 =>
     simp only [k0LabelOf, k0shapeTagRank]
     by_cases h1 : tw = 1
-    · simp only [if_pos h1, ggKacShapeLabel]; rw [hdiv]
-    · simp only [if_neg h1, ggKacShapeLabel]; rw [hdiv]
+    · simp only [ite_eq_left h1, ggKacShapeLabel]; rw [hdiv]
+    · simp only [ite_eq_right h1, ggKacShapeLabel]; rw [hdiv]
   case E7 => simp only [k0LabelOf, k0shapeTagRank, ggKacShapeLabel]; rw [hdiv]
   case E8 => simp only [k0LabelOf, k0shapeTagRank, ggKacShapeLabel]; rw [hdiv]
   case F4 => simp only [k0LabelOf, k0shapeTagRank, ggKacShapeLabel]; rw [hdiv]
@@ -687,19 +687,19 @@ lemma k0shape_table_branch1 (T : GGKacType) (tw : Bool) (p n : ℕ)
     (h : p ∣ 2 ^ n - 1) :
     ggKacTable T tw p n = k0SortDatums (k0RawDatums (k0DiagOf T) tw p n 1) := by
   unfold ggKacTable
-  rw [if_pos h]
+  rw [ite_eq_left h]
 
 lemma k0shape_table_branch2 (T : GGKacType) (tw : Bool) (p n : ℕ)
     (h1 : ¬ p ∣ 2 ^ n - 1) (h2 : p ∣ 2 ^ n + 1) :
     ggKacTable T tw p n = k0SortDatums (k0RawDatums (k0DiagOf T) tw p n 2) := by
   unfold ggKacTable
-  rw [if_neg h1, if_pos h2]
+  rw [ite_eq_right h1, ite_eq_left h2]
 
 lemma k0shape_table_branch0 (T : GGKacType) (tw : Bool) (p n : ℕ)
     (h1 : ¬ p ∣ 2 ^ n - 1) (h2 : ¬ p ∣ 2 ^ n + 1) :
     ggKacTable T tw p n = [] := by
   unfold ggKacTable
-  rw [if_neg h1, if_neg h2]
+  rw [ite_eq_right h1, ite_eq_right h2]
 
 private lemma k0shape_dvd_pos_imp_not_dvd_neg {p n : ℕ} (hp : p.Prime) (hn : 1 ≤ n) :
     p ∣ 2 ^ n + 1 → ¬ p ∣ 2 ^ n - 1 := by
@@ -737,8 +737,7 @@ private lemma k0shape_label_qs (fam : LargeEvenLieTag) (r tw k n : ℕ) (hn : 2 
   have hne : k * n ≠ 1 := k0shape_mul_ne_one hn
   cases fam <;> simp only [k0LabelOf] <;>
     first
-      | (split_ifs <;> simp_all [hne])
-      | rfl
+      | (split_ifs <;> simp_all)
 
 private lemma k0shapeOrbLabel_qs (D : K0Diag) (rho : List ℕ) (d n : ℕ) (orb : List (List ℕ))
     (hn : 2 ≤ n) : (k0shapeOrbLabel D rho d n orb).qs = true := by

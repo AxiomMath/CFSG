@@ -22,7 +22,7 @@ theorem nonempty_quotient_pCore_mulEquiv_of_map {n : ℕ} {L : Subgroup X} (hLn 
     (hL : L.map φ = alternatingGroup (Fin n)) :
     Nonempty (↥L ⧸ CFSG.pCore 2 ↥L ≃* alternatingGroup (Fin n)) := by
   classical
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   let ψ : ↥L →* Equiv.Perm (Fin n) := φ.comp L.subtype
   have hmem : ∀ x : ↥L, (x ∈ CFSG.pCore 2 ↥L ↔ (x : X) ∈ L ⊓ CFSG.pCore 2 X) := by
     intro x

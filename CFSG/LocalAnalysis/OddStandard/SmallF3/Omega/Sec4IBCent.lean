@@ -16,6 +16,7 @@ open QuadraticMap
 variable {V : Type} [AddCommGroup V] [Module (ZMod 3) V] [FiniteDimensional (ZMod 3) V]
   {Q : QuadraticForm (ZMod 3) V}
 
+omit [FiniteDimensional (ZMod 3) V] in
 theorem sec4IPsi_conj_mono (fr : Sec4IFrame Q) (σ : Equiv.Perm (Fin 7)) (u v : Fin 7 → ZMod 2) :
     toProj Q (sec4IMono fr σ u) * sec4IPsi fr v * (toProj Q (sec4IMono fr σ u))⁻¹ =
       sec4IPsi fr (permVec σ v) := by

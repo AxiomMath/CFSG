@@ -39,7 +39,7 @@ theorem false_of_rank_le_two (h : E27Config X K R T z) (hz : z ∈ K) {G : Type}
   false_of_elemAbelian_card_lt h hz e fun E hE => lt_of_le_of_lt (hbound E hE) (by norm_num)
 
 theorem three_ne_zero_of_card {F : Type} [Field F] [Finite F] {p f : ℕ} (hp : p.Prime)
-    (hf : 1 ≤ f) (hF : Nat.card F = p ^ f) (hp3 : p ≠ 3) : ((3 : ℕ) : F) ≠ 0 := by
+    (_hf : 1 ≤ f) (hF : Nat.card F = p ^ f) (hp3 : p ≠ 3) : ((3 : ℕ) : F) ≠ 0 := by
   have hchar : CharP F p := by
     have := Fintype.ofFinite F
     have : Fact p.Prime := ⟨hp⟩

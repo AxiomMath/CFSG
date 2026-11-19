@@ -185,7 +185,7 @@ theorem two_pow_five_le_card_inf_centralizer [Finite Γ] {V : Subgroup Γ}
   rw [hc] at h1 h2
   rw [hV] at hcard
   by_contra hlt
-  push_neg at hlt
+  push Not at hlt
   have : Nat.card ↥(V ⊓ centralizer ({s} : Set Γ)) ≤ 31 := by omega
   have := Nat.mul_le_mul (h1.trans this) (h2.trans this)
   omega

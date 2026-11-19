@@ -155,7 +155,7 @@ theorem coordDiff_surjective {p q : Fin 4} (hpq : p ≠ q) :
   apply Multiplicative.toAdd.injective
   change v p - v q = Multiplicative.toAdd a
   rw [hv]
-  simp [Pi.single_apply, hrp.symm, hrq.symm, hpq, hpq.symm]
+  simp [hrp.symm, hrq.symm, hpq.symm]
 
 theorem card_ker_coordDiff {p q : Fin 4} (hpq : p ≠ q) :
     Nat.card (coordDiff (n := n) p q).ker = 2 ^ (2 * n) := by
@@ -198,7 +198,7 @@ theorem card_centA_le_of_fixed (hn : 2 ≤ n) {d : Fin 4 → ZMod (2 ^ n)} {π :
   ZMod.castHom (pow_dvd_pow 2 (Nat.sub_le n 1)) _
 
 theorem red_eq_zero_of_two_mul (hn : 1 ≤ n) {x : ZMod (2 ^ n)} (hx : 2 * x = 0) : red n x = 0 := by
-  haveI : NeZero (2 ^ n) := ⟨by positivity⟩
+  have : NeZero (2 ^ n) := ⟨by positivity⟩
   have hx' : ((2 * x.val : ℕ) : ZMod (2 ^ n)) = 0 := by
     rw [Nat.cast_mul, ZMod.natCast_zmod_val]
     exact_mod_cast hx
@@ -224,9 +224,9 @@ theorem red_eq_zero_of_two_mul (hn : 1 ≤ n) {x : ZMod (2 ^ n)} (hx : 2 * x = 0
       ← map_add]
     congr 2 <;> ring
 
-theorem red_surjective (hn : 1 ≤ n) : Function.Surjective (red n) := by
+theorem red_surjective (_hn : 1 ≤ n) : Function.Surjective (red n) := by
   intro y
-  haveI : NeZero (2 ^ (n - 1)) := ⟨by positivity⟩
+  have : NeZero (2 ^ (n - 1)) := ⟨by positivity⟩
   refine ⟨(y.val : ZMod (2 ^ n)), ?_⟩
   rw [map_natCast, ZMod.natCast_zmod_val]
 
@@ -240,15 +240,14 @@ theorem pairHom_surjective (hn : 1 ≤ n) {a b c d' : Fin 4} (hab : a ≠ b) (ha
   set v : Fin 4 → ZMod (2 ^ n) := Pi.single b y' + Pi.single c x' - Pi.single d' (x' + y') with hv
   have hvB : Multiplicative.ofAdd v ∈ B n := by
     rw [mem_B, toAdd_ofAdd, hsum, hv]
-    simp [Pi.single_apply, hab, hab.symm, hac, hac.symm, hbc, hbc.symm, hd'a, hd'a.symm, hd'b,
+    simp [hab, hac, hbc, hbc.symm, hd'a.symm, hd'b,
       hd'b.symm, hd'c, hd'c.symm]
     ring
   refine ⟨⟨Multiplicative.ofAdd v, hvB⟩, ?_⟩
   apply Multiplicative.toAdd.injective
   change (red n (v a + v c), red n (v b - v a)) = (red n x', red n y')
   rw [hv]
-  simp [Pi.single_apply, hab, hab.symm, hac, hac.symm, hbc, hbc.symm, hd'a, hd'a.symm, hd'b,
-    hd'b.symm, hd'c, hd'c.symm]
+  simp [hab, hac, hbc, hbc.symm, hd'a.symm, hd'b.symm, hd'c.symm]
 
 theorem card_ker_pairHom (hn : 1 ≤ n) {a b c d' : Fin 4} (hab : a ≠ b) (hac : a ≠ c)
     (hbc : b ≠ c) (hd'a : d' ≠ a) (hd'b : d' ≠ b) (hd'c : d' ≠ c)

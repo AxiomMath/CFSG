@@ -12,7 +12,7 @@ open CFSG.Quasithin.JonesParshall CFSG.LieType.SpinGeom
 
 theorem spinMu_Z1A_eq_B1A : Z1A spinMu = B1A spinMu := by
   refine le_antisymm (fun f hf => ?_) (B1A_le_Z1A _)
-  haveI : Finite ↥spinH := Nat.finite_of_card_ne_zero (by rw [card_spinH]; norm_num)
+  have : Finite ↥spinH := Nat.finite_of_card_ne_zero (by rw [card_spinH]; norm_num)
   obtain ⟨x, hx⟩ := exists_cob_stab hf
   refine mem_B1A_of_restrict (μ := spinMu) (M := Fin 8 → ZMod 2) (G := ↥spinH)
     (H := MulAction.stabilizer ↥spinH

@@ -44,6 +44,7 @@ theorem diagonalHom_xm (b : Fin Tag.E6.rank → Kˣ) {γ : Fin Tag.E6.rank → �
   · rw [← map_pow, hx, map_one]
   · exact hx _
 
+omit [Finite K] in
 private theorem sigma_xm_charTwo (θ : K →+* K) {γ : Fin Tag.E6.rank → ℤ}
     (hγ : IsRoot .E6 γ) (c : K) :
     sigma K θ (e6Data_valid.xm K γ c) = e6Data_valid.xm K (rho γ) (θ c) := by
@@ -56,6 +57,7 @@ private def longestSigma (θ : K →+* K) :
     e6Data_valid.minGroup K →* e6Data_valid.minGroup K :=
   (MulAut.conj (weylHom K frameLongest)).toMonoidHom.comp (sigma K θ)
 
+omit [Finite K] in
 private theorem longestSigma_xm (θ : K →+* K) {γ : Fin Tag.E6.rank → ℤ}
     (hγ : IsRoot .E6 γ) (c : K) :
     longestSigma K θ (e6Data_valid.xm K γ c) = e6Data_valid.xm K (-γ) (θ c) := by
@@ -64,6 +66,7 @@ private theorem longestSigma_xm (θ : K →+* K) {γ : Fin Tag.E6.rank → ℤ}
   rw [sigma_xm_charTwo K θ hγ c, weylHom_conj_xm K frameLongest (isRoot_rho hγ),
     frameLongest_rho]
 
+omit [Finite K] [CharP K 2] in
 private theorem map_rootChar_of_norm (θ : K →+* K) (b : Fin Tag.E6.rank → Kˣ)
     (hb : ∀ i, Units.map θ.toMonoidHom (b i) = (b i)⁻¹) (γ : Fin Tag.E6.rank → ℤ) :
     Units.map θ.toMonoidHom (rootChar b γ) = rootChar b (-γ) := by
@@ -107,6 +110,7 @@ private def langDiagonal (b : Fin Tag.E6.rank → CFSG.LieType.Steinberg.normOne
 
 include hθ hl
 
+omit [Finite K] in
 private theorem langG_sigma :
     sigma K θ.toRingHom (langG K θ.toRingHom l) =
       langG K θ.toRingHom l * weylHom K frameLongest := by
@@ -148,6 +152,7 @@ private theorem langDiagonal_sigma
     _ = _ := by rw [he]
 
 omit hθ hl in
+omit [CharP K 2] in
 private theorem langDiagonal_one : langDiagonal K n hK θ l 1 = 1 := by
   unfold langDiagonal
   change MulAut.conj (langG K θ.toRingHom l) * diagonalHom K n hK 1 *
@@ -155,6 +160,7 @@ private theorem langDiagonal_one : langDiagonal K n hK θ l 1 = 1 := by
   rw [map_one, mul_one, mul_inv_cancel]
 
 omit hθ hl in
+omit [CharP K 2] in
 private theorem langDiagonal_mul
     (b c : Fin Tag.E6.rank → CFSG.LieType.Steinberg.normOne θ) :
     langDiagonal K n hK θ l (b * c) =
@@ -167,6 +173,7 @@ private theorem langDiagonal_mul
   group
 
 omit hθ hl in
+omit [CharP K 2] in
 private theorem langDiagonal_inv
     (b : Fin Tag.E6.rank → CFSG.LieType.Steinberg.normOne θ) :
     langDiagonal K n hK θ l b⁻¹ = (langDiagonal K n hK θ l b)⁻¹ := by
@@ -184,6 +191,7 @@ private theorem langDiagonal_mem_fixed
   rw [mem_fixedGroup, langDiagonal_sigma K n hK θ hθ l hl]
   rw [(mem_fixedGroup θ.toRingHom).mp hx]
 
+omit [Finite K] [CharP K 2] in
 theorem langCoroot_mem_fixed (i : Fin Tag.E6.rank) (s : CFSG.LieType.Steinberg.normOne θ) :
     langG K θ.toRingHom l * e6Data_valid.hm K i (s : Kˣ) *
       (langG K θ.toRingHom l)⁻¹ ∈ fixedGroup K θ.toRingHom := by
@@ -209,6 +217,7 @@ theorem langCoroot_mem_fixed (i : Fin Tag.E6.rank) (s : CFSG.LieType.Steinberg.n
     (CFSG.LieType.Steinberg.normOne θ).subtype).codRestrict
       (fixedGroup K θ.toRingHom) (langCoroot_mem_fixed K θ hθ l hl i)
 
+omit [Finite K] [CharP K 2] in
 theorem langCoroot_apply (i : Fin Tag.E6.rank) (s : CFSG.LieType.Steinberg.normOne θ) :
     (langCoroot K θ hθ l hl i s : e6Data_valid.minGroup K) =
       langG K θ.toRingHom l * e6Data_valid.hm K i (s : Kˣ) *
@@ -295,6 +304,7 @@ theorem fixedDiagonalHom_langWeyl_simple
   group
 
 omit hθ hl in
+omit [CharP K 2] in
 private theorem diagonalHom_eq_conj_hm (i : Fin Tag.E6.rank) (s : Kˣ) :
     diagonalHom K n hK (fun j => s ^ Tag.E6.cartan i j) =
       MulAut.conj (e6Data_valid.hm K i s) := by

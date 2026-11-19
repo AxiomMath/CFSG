@@ -21,40 +21,48 @@ variable {A : Type*} [AddCommGroup A] [DistribMulAction Γ A] {P : Subgroup Y} {
 
 namespace LiftData
 
+omit [Finite Y] in
 theorem map_one (hL : LiftData A P θ Lift) : θ 1 = 1 := by
   have h := hL.hom 1 P.one_mem 1 P.one_mem
   rw [one_mul] at h
   calc θ 1 = (θ 1)⁻¹ * (θ 1 * θ 1) := by group
     _ = 1 := by rw [← h, inv_mul_cancel]
 
+omit [Finite Y] in
 theorem map_inv (hL : LiftData A P θ Lift) {x : Y} (hx : x ∈ P) : θ x⁻¹ = (θ x)⁻¹ := by
   apply eq_inv_of_mul_eq_one_left
   rw [← hL.hom _ (P.inv_mem hx) _ hx, inv_mul_cancel, hL.map_one]
 
+omit [Finite Y] in
 theorem map_pow (hL : LiftData A P θ Lift) {x : Y} (hx : x ∈ P) (n : ℕ) : θ (x ^ n) = θ x ^ n := by
   induction n with
   | zero => rw [pow_zero, pow_zero, hL.map_one]
   | succ n ih => rw [pow_succ, hL.hom _ (P.pow_mem hx n) _ hx, ih, pow_succ]
 
+omit [Finite Y] in
 theorem odd_orderOf (hL : LiftData A P θ Lift) (hPodd : Odd (Nat.card P)) {x : Y} (hx : x ∈ P) :
     Odd (orderOf (θ x)) := by
   have h1 : θ x ^ orderOf x = 1 := by rw [← hL.map_pow hx, pow_orderOf_eq_one, hL.map_one]
   exact Odd.of_dvd_nat (Odd.of_dvd_nat hPodd (Subgroup.orderOf_dvd_natCard P hx))
     (orderOf_dvd_of_pow_eq_one h1)
 
+omit [Finite Y] in
 theorem map_comm (hL : LiftData A P θ Lift) {x y : Y} (hx : x ∈ P) (hy : y ∈ P) :
     θ (x * y * x⁻¹ * y⁻¹) = θ x * θ y * (θ x)⁻¹ * (θ y)⁻¹ := by
   rw [hL.hom _ (P.mul_mem (P.mul_mem hx hy) (P.inv_mem hx)) _ (P.inv_mem hy),
     hL.hom _ (P.mul_mem hx hy) _ (P.inv_mem hx), hL.hom _ hx _ hy, hL.map_inv hx, hL.map_inv hy]
 
+omit [Finite Y] in
 theorem commute_of_commute (hL : LiftData A P θ Lift) {x y : Y} (hx : x ∈ P) (hy : y ∈ P)
     (h : x * y = y * x) : θ x * θ y = θ y * θ x := by
   rw [← hL.hom _ hx _ hy, h, hL.hom _ hy _ hx]
 
+omit [Finite Y] in
 theorem inv_of_mem (hL : LiftData A P θ Lift) {e : Fin 3 → Y} {w : Γ} {i : Fin 3}
     (hw : Lift w (e i)) {x : Y} (hx : x ∈ InvSet P e i) : w * θ x * w⁻¹ = (θ x)⁻¹ := by
   rw [hL.conj _ _ hw x hx.1, hx.2.1, hL.map_inv hx.1]
 
+omit [Finite Y] in
 theorem comm_of_mem (hL : LiftData A P θ Lift) {e : Fin 3 → Y} {w : Γ} {i j : Fin 3}
     (hij : i ≠ j) (hw : Lift w (e j)) {x : Y} (hx : x ∈ InvSet P e i) : w * θ x = θ x * w := by
   have h := hL.conj _ _ hw x hx.1
@@ -62,6 +70,7 @@ theorem comm_of_mem (hL : LiftData A P θ Lift) {e : Fin 3 → Y} {w : Γ} {i j 
   calc w * θ x = w * θ x * w⁻¹ * w := by group
     _ = θ x * w := by rw [h]
 
+omit [Finite Y] in
 theorem fix_sq (hL : LiftData A P θ Lift) (hPodd : Odd (Nat.card P)) {e : Fin 3 → Y}
     (he : ∀ i, e i * e i = 1) (hec : ∀ i j, e i * e j = e j * e i)
     (hen : ∀ i j, i ≠ j → e i ≠ e j) {w : Fin 3 → Γ} (hw : ∀ i, Lift (w i) (e i))
@@ -86,6 +95,7 @@ theorem fix_sq (hL : LiftData A P θ Lift) (hPodd : Odd (Nat.card P)) {e : Fin 3
   exact fix_of_square (hL.inv_of_mem (hw i) hx) (hwc i j) (hL.comm_of_mem hij (hw j) hx)
     (hL.odd_orderOf hPodd hxP) (hL.ti _ _ _ _ (hw i) (hw j) (hen i j hij)) hTI2 a
 
+omit [Finite Y] in
 theorem fix_fact (hL : LiftData A P θ Lift) (h2 : ∀ a : A, a + a = 0)
     (hPodd : Odd (Nat.card P)) {e : Fin 3 → Y}
     (he : ∀ i, e i * e i = 1) (hec : ∀ i j, e i * e j = e j * e i)
@@ -97,6 +107,7 @@ theorem fix_fact (hL : LiftData A P θ Lift) (h2 : ∀ a : A, a + a = 0)
     (hL.inv_of_mem (hw j) hy) (hL.odd_orderOf hPodd hx.1) (hL.odd_orderOf hPodd hy.1)
     (hL.fix_sq hPodd he hec hen hw hwc hij hx) a
 
+omit [Finite Y] in
 theorem comm_of_invSet (hL : LiftData A P θ Lift) (h2 : ∀ a : A, a + a = 0) [hPn : P.Normal]
     {Z₀ : Subgroup Y} (hZc : Z₀ ≤ center Y) (hZP : Z₀ ≤ P)
     (hP' : ∀ x ∈ P, ∀ y ∈ P, x * y * x⁻¹ * y⁻¹ ∈ Z₀) (hPodd : Odd (Nat.card P))
@@ -159,6 +170,7 @@ theorem comm_of_invSet (hL : LiftData A P θ Lift) (h2 : ∀ a : A, a + a = 0) [
     · rw [show c * x⁻¹ * c⁻¹ = (c * x * c⁻¹)⁻¹ by group, hxc]
     · rw [hL.map_inv hxP, inv_smul_eq_iff, hxU u hu]
 
+omit [Finite Y] in
 theorem false_of_frame [Finite A] (hL : LiftData A P θ Lift) (h2 : ∀ a : A, a + a = 0)
     [hPn : P.Normal] {Z₀ R : Subgroup Y} [hZn : Z₀.Normal] [hRn : R.Normal]
     (hZc : Z₀ ≤ center Y) (hZP : Z₀ ≤ P)
@@ -193,7 +205,7 @@ theorem false_of_frame [Finite A] (hL : LiftData A P θ Lift) (h2 : ∀ a : A, a
   have hC : ∀ c₀ ∈ P, c * c₀ * c⁻¹ = c₀⁻¹ → ∀ a : A, θ c₀ • a = a := by
     intro c₀ hc₀P hc₀
     by_contra hne
-    push_neg at hne
+    push Not at hne
     obtain ⟨a₀, ha₀⟩ := hne
     let f : A →+ A :=
       { toFun := fun a => θ c₀ • a - a

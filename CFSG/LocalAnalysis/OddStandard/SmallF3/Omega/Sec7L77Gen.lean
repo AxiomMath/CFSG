@@ -10,20 +10,20 @@ namespace CFSG.OddStandard.SmallF3.Omega
 theorem sec7l77_solvable_of_odd_le {H : Type*} [Group H] [Finite H] (N : Subgroup H) [N.Normal]
     (hN : Group.IsSolvable N) (hodd : ∀ x : H, Odd (orderOf x) → x ∈ N) :
     Group.IsSolvable H := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hQ : IsPGroup 2 (H ⧸ N) :=
     CFSG.Glauberman.isPGroup_quotient_of_pPrime_order_elements_mem N fun x hx =>
       hodd x (Nat.odd_iff.mpr (Nat.two_dvd_ne_zero.mp hx))
-  haveI : Group.IsNilpotent (H ⧸ N) := hQ.isNilpotent
-  haveI : Group.IsSolvable (H ⧸ N) := inferInstance
-  haveI := hN
+  have : Group.IsNilpotent (H ⧸ N) := hQ.isNilpotent
+  have : Group.IsSolvable (H ⧸ N) := inferInstance
+  have := hN
   exact Group.isSolvable_of_subgroup_quotient N
 
 theorem sec7l77_solvable_sup {G : Type*} [Group G] {D C : Subgroup G}
     (hDC : D ≤ Subgroup.centralizer (C : Set G)) (hD : Group.IsSolvable D)
     (hC : Group.IsSolvable C) : Group.IsSolvable ↥(D ⊔ C) := by
-  haveI := hD
-  haveI := hC
+  have := hD
+  have := hC
   let φ : ↥D × ↥C →* G :=
     { toFun := fun p => (p.1 : G) * (p.2 : G)
       map_one' := by simp
@@ -45,7 +45,7 @@ theorem sec7l77_solvable_sup {G : Type*} [Group G] {D C : Subgroup G}
         exact ⟨(⟨d, hd⟩, 1), by simp [φ]⟩
       · intro c hc
         exact ⟨(1, ⟨c, hc⟩), by simp [φ]⟩
-  have hsol : Group.IsSolvable φ.range := solvable_of_surjective φ.rangeRestrict_surjective
+  have hsol : Group.IsSolvable φ.range := Group.isSolvable_of_surjective φ.rangeRestrict_surjective
   rw [hrange] at hsol
   exact hsol
 

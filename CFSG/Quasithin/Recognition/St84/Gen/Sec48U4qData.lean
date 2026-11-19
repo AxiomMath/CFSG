@@ -56,8 +56,8 @@ private theorem relCent_S_generates (B : X.U4qBase) :
 
 private theorem exists_nat_mul_eq (B : X.U4qBase) : ∃ k : ℕ, X.n 1 = X.n 0 * k := by
   classical
-  haveI : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (H := X.L 0) (X.L_le_Gi 0)
-  haveI : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (H := X.Q 0) (X.Q_le_Gi 0)
+  have : Finite ↥(X.L 0) := finite_of_le_stabilizer X.hyp (H := X.L 0) (X.L_le_Gi 0)
+  have : Finite ↥(X.Q 0) := finite_of_le_stabilizer X.hyp (H := X.Q 0) (X.Q_le_Gi 0)
   have hQ : pCoreOf 2 (X.L 0) = X.Q 0 :=
     (X.hyp.isLocL2_oTwoPrime (X.vert 0)).pCoreOf_eq
   have hLQ : X.L 0 ≤ Subgroup.normalizer (X.Q 0 : Set G) := by

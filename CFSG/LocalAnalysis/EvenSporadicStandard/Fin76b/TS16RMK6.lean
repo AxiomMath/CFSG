@@ -16,6 +16,7 @@ open Subgroup CFSG.Open
 variable {G : Type} [Group G] [Finite G] {L : Subgroup G} {z t : G} {T E : Subgroup G}
   {Q : Sylow 2 G} {x : G} {B : Subgroup G} {β : G}
 
+omit [Finite G] in
 theorem mem_OG_iff {a : G} (ha : a ∈ centralizer ({β} : Set G)) :
     a ∈ OG β ↔ (⟨a, ha⟩ : ↥(centralizer ({β} : Set G))) ∈
       fusionOddCore ↥(centralizer ({β} : Set G)) := by

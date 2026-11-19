@@ -536,7 +536,7 @@ noncomputable def pv (P : Nat) : Equiv.Perm (Fin 820) :=
 theorem pv_eq {P : Nat} {g : Equiv.Perm (Fin 820)} (h : PRep 820 10 P g) : pv P = g := by
   have hex : ∃ g, PRep 820 10 P g := ⟨g, h⟩
   unfold pv
-  rw [dif_pos hex]
+  rw [dite_eq_left hex]
   exact prep_unique hex.choose_spec h
 
 noncomputable def evK (E : Nat → Nat) (a : Nat) : Equiv.Perm (Fin 820) := pv (E a)
@@ -611,7 +611,7 @@ theorem rec_facts (hrec : ∀ s < 16, recR E G RP (16 * s) 16 = true) :
   have h := allN_eq_true.1 (hrec s hs) j hj
   simp only [letB_eq] at h
   have h3 := allN_eq_true.1 h k hk
-  simp only [letB_eq, andB_eq_true, blt_eq_true, beq_eq_true] at h3
+  simp only [andB_eq_true, blt_eq_true, beq_eq_true] at h3
   exact h3
 
 theorem mt_facts (hmt : ∀ s < 8, mtR M RP PA LA (32 * s) 32 = true) : ∀ a < 256,

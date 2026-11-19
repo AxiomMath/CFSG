@@ -32,9 +32,9 @@ theorem torSU_isSolvable {H : Type} [Group H] {E : Type} [Field E] [Finite E]
     Group.IsSolvable H := by
   have hKd : CFSG.LocalAnalysis.ComponentInitial.UnitaryFieldData 2 1 E :=
     ⟨Nat.prime_two, le_rfl, by rw [hE]; norm_num⟩
-  haveI : Group.IsSolvable ↥(StatedSU n (2 ^ 1) E) := by
+  have : Group.IsSolvable ↥(StatedSU n (2 ^ 1) E) := by
     interval_cases n
-    · haveI : Subsingleton ↥(StatedSU 0 (2 ^ 1) E) := inferInstance
+    · have : Subsingleton ↥(StatedSU 0 (2 ^ 1) E) := inferInstance
       infer_instance
     · have hpos : ∀ x : ↥(StatedSU 1 (2 ^ 1) E), x = 1 := by
         intro x
@@ -46,7 +46,7 @@ theorem torSU_isSolvable {H : Type} [Group H] {E : Type} [Field E] [Finite E]
         have h := CFSG.LieType.Universal.Unitary.det_eq_one_of_mem_statedSU x.2
         rw [Matrix.det_fin_one] at h
         simpa using h
-      haveI : Subsingleton ↥(StatedSU 1 (2 ^ 1) E) := ⟨fun a b => by rw [hpos a, hpos b]⟩
+      have : Subsingleton ↥(StatedSU 1 (2 ^ 1) E) := ⟨fun a b => by rw [hpos a, hpos b]⟩
       infer_instance
     · refine CFSG.LocalAnalysis.ComponentInitial.isSolvable_of_card_primeFactors_le_two ?_
       have h := CFSG.RankThree.PartOne.LSTD.card_unitarySU_two (K := E) (f := 1) hKd
@@ -70,7 +70,7 @@ theorem torSU_isQuasisimple_label {H : Type} [Group H] {E : Type} [Field E] [Fin
       ∃ lab : LargeEvenLabel, LargeEvenInLambda2 lab ∧
         GGHasLabel lab (H ⧸ Subgroup.center H) ∧ lab.n = 1 ∧ lab.tag ≠ .A ∧
           (lab.tag = .twD → lab.rank ≠ 2) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   have hE4 : Nat.card E = (2 ^ 1) ^ 2 := by rw [hE]; norm_num
   have hn3 : 3 ≤ n := by omega
   have hnq : (n, 2 ^ 1) ≠ (3, 2) := by

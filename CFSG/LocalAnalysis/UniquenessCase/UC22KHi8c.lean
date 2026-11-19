@@ -79,7 +79,7 @@ theorem KLift.proofIi_le_pCoreOf (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 
     (h51 : S22_5_1 D Ch) (hH : H1930 D) (c : Ctx22c D Ch) {m : ℕ} {Nb : Fin m → Subgroup (MBar D.M D.U)}
     (hNb : NbarSplit D Nb) {i : Fin m} (hK : KLift D (Nb i) K) :
     proofIi D (preN D (Nb i)) ≤ pCoreOf 2 (K ⊔ proofS D) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   obtain ⟨hIH, hHI, -, -⟩ := KLift.isTwoReducedIn D Ch h2 h3 h51 hH c hNb hK
   have hIU : proofIi D (preN D (Nb i)) ≤ D.U := P22x.proofIi_le D (preN_le_M D (Nb i))
   have hI2 : IsPGroup 2 (proofIi D (preN D (Nb i))) := fun x =>
@@ -100,7 +100,7 @@ theorem KLift.proofIi_le_omegaZJ22 (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_
 theorem KLift.inf_centralizer_le_pCoreOf (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D Ch) (h3 : S22_3_3 D Ch)
     (h51 : S22_5_1 D Ch) (hH : H1930 D) (c : Ctx22c D Ch) {m : ℕ} {Nb : Fin m → Subgroup (MBar D.M D.U)}
     (hNb : NbarSplit D Nb) {i : Fin m} (hK : KLift D (Nb i) K) :
-    proofS D ⊓ centralizer (proofIi D (preN D (Nb i)) : Set G) ≤ pCoreOf 2 (K ⊔ proofS D) := fun s hs =>
+    proofS D ⊓ centralizer (proofIi D (preN D (Nb i)) : Set G) ≤ pCoreOf 2 (K ⊔ proofS D) := fun _s hs =>
   KLift.kerN_le_pCoreOf D Ch h2 h3 h51 hH c hNb hK
     ⟨Subgroup.mem_sup_right hs.1, P22sp.inf_centralizer_le_preMbar D Ch h2 h3 h51 hH c m Nb hNb i hs⟩
 
@@ -110,7 +110,7 @@ theorem KLift.eq_sup_of_isMax (D : Data G) (Ch : Choice2011 G) (h2 : S22_3_2 D C
     (hA : CFSG.Quasithin.IsMaxElemAbelian D.T A) :
     omegaZJ22 (pCoreOf 2 (K ⊔ proofS D)) =
       proofIi D (preN D (Nb i)) ⊔ (omegaZJ22 (pCoreOf 2 (K ⊔ proofS D)) ⊓ centralizer (A : Set G)) := by
-  haveI : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
   set R : Subgroup G := pCoreOf 2 (K ⊔ proofS D) with hRdef
   set W : Subgroup G := omegaZJ22 R with hWdef
   set Ii : Subgroup G := proofIi D (preN D (Nb i)) with hIidef

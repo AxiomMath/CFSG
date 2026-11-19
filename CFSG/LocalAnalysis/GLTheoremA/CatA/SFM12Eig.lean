@@ -185,6 +185,7 @@ theorem eq_one_of_eigP_fix (d : Fin 6 → F) {x : Matrix (Fin 6) (Fin 6) F}
   simp only [eigP, Matrix.mul_diagonal, Matrix.diagonal_apply, Matrix.one_apply] at h1 ⊢
   split_ifs at h1 ⊢ <;> simp_all
 
+omit [DecidableEq F] in
 theorem inv_comm_of (g : GL (Fin 6) F) {M : Matrix (Fin 6) (Fin 6) F}
     (h : (g : Matrix (Fin 6) (Fin 6) F) * M = M * (g : Matrix (Fin 6) (Fin 6) F)) :
     ((g⁻¹ : GL (Fin 6) F) : Matrix (Fin 6) (Fin 6) F) * M =

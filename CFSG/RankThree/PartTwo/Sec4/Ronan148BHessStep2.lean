@@ -16,7 +16,7 @@ variable {k : Type} [Field k]
 noncomputable abbrev pslMk (k : Type) [Field k] : SL(2, k) →* PSL2MatrixGroup k :=
   QuotientGroup.mk' (Subgroup.center SL(2, k))
 
-theorem pslMk_eq_one_iff (h2 : (2 : k) ≠ 0) (x : SL(2, k)) :
+theorem pslMk_eq_one_iff (_h2 : (2 : k) ≠ 0) (x : SL(2, k)) :
     pslMk k x = 1 ↔ x = 1 ∨ x = -1 := by
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff,
     Matrix.SpecialLinearGroup.mem_center_iff]
@@ -122,7 +122,7 @@ theorem closure_eq_of_dickson (hp5 : 5 ≤ p) (hk : Nat.card k = p ^ f)
     have : ((-1 : SL(2, k)) ^ 3) = -1 := by
       rw [pow_succ, pow_two]
       ext i j
-      simp [Matrix.mul_apply]
+      simp
     exact hneg1 (this.symm.trans hδ3)
   have hord : ∀ z : H, (∀ j, 1 ≤ j → j ≤ 2 → z ^ j ≠ 1) → 2 < orderOf z := by
     intro z hz
@@ -142,7 +142,7 @@ theorem closure_eq_of_dickson (hp5 : 5 ≤ p) (hk : Nat.card k = p ^ f)
         _ = -1 := by
           rw [hδ3, h, one_mul]
           ext i j
-          simp [Matrix.inv_def]
+          simp
   have hδH : 2 < orderOf δH := by
     refine hord δH (fun j hj1 hj2 h => ?_)
     rcases (hpowH δ hδL j).mp h with h' | h'
@@ -165,9 +165,9 @@ theorem closure_eq_of_dickson (hp5 : 5 ≤ p) (hk : Nat.card k = p ^ f)
     simp only [Subgroup.coe_mul, Subgroup.coe_inv, hc, map_mul, map_inv]
     rfl
   have htr1 : ((1 : SL(2, k)) : Matrix (Fin 2) (Fin 2) k).trace = 2 := by
-    simp [Matrix.trace_fin_two]
+    simp
   have htrn : ((-1 : SL(2, k)) : Matrix (Fin 2) (Fin 2) k).trace = -2 := by
-    simp [Matrix.trace_fin_two]
+    simp
   have hxy : δH * gH ≠ gH * δH := by
     intro h
     have h1 : δH * gH * δH⁻¹ * gH⁻¹ = 1 := by

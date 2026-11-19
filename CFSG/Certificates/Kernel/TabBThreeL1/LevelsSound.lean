@@ -66,27 +66,27 @@ variable {R : Type*} [CommRing R]
 
 theorem ch17575_toVec_apply (m : ℕ) (k : Fin 78) :
     toVec R m (lab k) = if m.testBit k then 1 else 0 := by
-  rw [toVec, Finsupp.finset_sum_apply, Finset.sum_eq_single k]
+  rw [toVec, _root_.Finsupp.finsetSum_apply, Finset.sum_eq_single k]
   · split_ifs <;> simp
   · intro j _ hj
     split_ifs
-    · rw [Finsupp.single_apply, if_neg fun h => hj (lab_injective h)]
+    · rw [Finsupp.single_apply, ite_eq_right fun h => hj (lab_injective h)]
     · rfl
   · simp
 
 theorem ch17575_eLab_apply (j k : Fin 78) : eLab R j (lab k) = if j = k then 1 else 0 := by
   rw [eLab, Finsupp.single_apply]
   by_cases h : j = k
-  · rw [if_pos (congrArg lab h), if_pos h]
-  · rw [if_neg fun h' => h (lab_injective h'), if_neg h]
+  · rw [ite_eq_left (congrArg lab h), ite_eq_left h]
+  · rw [ite_eq_right fun h' => h (lab_injective h'), ite_eq_right h]
 
 theorem ch17575_eq_sum (y : RootModule Tag.E6 R) : y = ∑ k : Fin 78, y (lab k) • eLab R k := by
   ext l
   obtain ⟨k₀, rfl⟩ := lab_surjective l
-  rw [Finsupp.finset_sum_apply, Finset.sum_eq_single k₀]
-  · rw [Finsupp.smul_apply, ch17575_eLab_apply, if_pos rfl, smul_eq_mul, mul_one]
+  rw [_root_.Finsupp.finsetSum_apply, Finset.sum_eq_single k₀]
+  · rw [Finsupp.smul_apply, ch17575_eLab_apply, ite_eq_left rfl, smul_eq_mul, mul_one]
   · intro j _ hj
-    rw [Finsupp.smul_apply, ch17575_eLab_apply, if_neg hj, smul_zero]
+    rw [Finsupp.smul_apply, ch17575_eLab_apply, ite_eq_right hj, smul_zero]
   · simp
 
 theorem ch17575_ext {y w : RootModule Tag.E6 R} (h : ∀ k : Fin 78, y (lab k) = w (lab k)) :
@@ -101,7 +101,7 @@ theorem ch17575_bracket_apply (a : Fin 78) (y : RootModule Tag.E6 R) (c : Fin 78
     bracket R (eLab R a) y (lab c) =
       ∑ k : Fin 78, if (brMask a k).testBit c then y (lab k) else 0 := by
   conv_lhs => rw [ch17575_eq_sum y]
-  rw [map_sum, Finsupp.finset_sum_apply]
+  rw [map_sum, _root_.Finsupp.finsetSum_apply]
   refine Finset.sum_congr rfl fun k _ => ?_
   rw [map_smul, eLab, eLab, bracket_lab, Finsupp.smul_apply, ch17575_toVec_apply, smul_eq_mul]
   split_ifs <;> simp
@@ -120,6 +120,7 @@ theorem ch17575_form_lev (hG : Ch17575Graded) (a b : Fin 78)
   · exact ch17575_fbit_lev hG a.2 b.2 hb
   · simp [hb] at h
 
+omit [CharP R 2] in
 theorem ch17575_piv_zero (f : ℕ → ℕ → ℕ) (g : ℕ → R) :
     ∀ P : List (ℕ × ℕ × ℕ), pivOK f P = true → (∀ p ∈ P, p.1 < 78) →
       (∀ k : Fin 78, (k : ℕ) ∉ P.map (·.1) → g k = 0) →
@@ -133,7 +134,7 @@ theorem ch17575_piv_zero (f : ℕ → ℕ → ℕ) (g : ℕ → R) :
     have hk : g k = 0 := by
       have e := hE (k, β, c) List.mem_cons_self
       rw [Finset.sum_eq_single (⟨k, hk78⟩ : Fin 78)] at e
-      · simpa only [hkc, if_true] using e
+      · simpa only [hkc, ite_true] using e
       · intro j _ hj
         by_cases hjP : (j : ℕ) ∈ P.map (·.1)
         · obtain ⟨q, hq, hqj⟩ := List.mem_map.1 hjP
@@ -166,6 +167,7 @@ theorem ch17575_testBit_certMask (P : List (ℕ × ℕ × ℕ)) (k : ℕ) :
       Nat.one_shiftLeft, Nat.testBit_two_pow, decide_eq_true_eq, List.map_cons, List.mem_cons]
     exact or_congr ⟨fun h => h.symm, fun h => h.symm⟩ Iff.rfl
 
+omit [CharP R 2] in
 theorem ch17575_piv_lev (hM : levMaskOK levMask = true) (f : ℕ → ℕ → ℕ) (P : List (ℕ × ℕ × ℕ))
     (hP : pivOK f P = true) (hlt : ∀ p ∈ P, p.1 < 78) {j : ℕ} (hcert : certMask P = levMask j)
     (y : RootModule Tag.E6 R) (hy : ∀ k : Fin 78, lev k ≠ j → y (lab k) = 0)
@@ -221,10 +223,11 @@ theorem ch17575_xOne_apply (a : Fin 78) (y : RootModule Tag.E6 R) (c : Fin 78) :
     ch17575_eLab_apply, smul_eq_mul]
   split_ifs <;> simp
 
+omit [CharP R 2] in
 theorem ch17575_sum_eq_zero (a c : Fin 78) (y : RootModule Tag.E6 R)
     (h : ∀ k : Fin 78, (brMask a k).testBit c = true → False) :
     (∑ k : Fin 78, if (brMask a k).testBit c then y (lab k) else 0) = 0 :=
-  Finset.sum_eq_zero fun k _ => if_neg fun hb => h k hb
+  Finset.sum_eq_zero fun k _ => ite_eq_right fun hb => h k hb
 
 theorem ch17575_fixed_lev_of (hM : levMaskOK levMask = true) (hG : Ch17575Graded)
     (θp θm : Fin 78) (hθp : lev θp = 4) (hθm : lev θm = 0) (P : List (ℕ × ℕ × ℕ))
@@ -239,7 +242,7 @@ theorem ch17575_fixed_lev_of (hM : levMaskOK levMask = true) (hG : Ch17575Graded
     h (congrArg (fun x : Fin 78 => lev x) e)
   have hw3 : ∀ c : Fin 78, lev c = 3 → w (lab c) = y (lab c) := by
     intro c hc
-    rw [hw, ch17575_xOne_apply, ch17575_sum_eq_zero, if_neg (hne (by omega)), add_zero,
+    rw [hw, ch17575_xOne_apply, ch17575_sum_eq_zero, ite_eq_right (hne (by omega)), add_zero,
       add_zero]
     intro k hk
     have h1 := hlev hk
@@ -248,7 +251,7 @@ theorem ch17575_fixed_lev_of (hM : levMaskOK levMask = true) (hG : Ch17575Graded
   have hz1 : ∀ c : Fin 78, lev c = 1 → y (lab c) = w (lab c) := by
     intro c hc
     rw [← congrArg (fun v => v (lab c)) hz, ch17575_xOne_apply, ch17575_sum_eq_zero,
-      if_neg (hne (by omega)), add_zero, add_zero]
+      ite_eq_right (hne (by omega)), add_zero, add_zero]
     intro k hk
     have := hlev hk
     omega
@@ -256,7 +259,7 @@ theorem ch17575_fixed_lev_of (hM : levMaskOK levMask = true) (hG : Ch17575Graded
       (∑ k : Fin 78, if (brMask θp k).testBit c then y (lab k) else 0) = 0 := by
     intro c hc
     have e : xOne R (eLab R θp) w (lab c) = y (lab c) := by rw [hz]
-    rw [ch17575_xOne_apply, if_neg (hne (by omega)), add_zero, hw3 c hc] at e
+    rw [ch17575_xOne_apply, ite_eq_right (hne (by omega)), add_zero, hw3 c hc] at e
     have hs : (∑ k : Fin 78, if (brMask θp k).testBit c then w (lab k) else 0) =
         ∑ k : Fin 78, if (brMask θp k).testBit c then y (lab k) else 0 := by
       refine Finset.sum_congr rfl fun k _ => ?_
@@ -274,14 +277,14 @@ theorem ch17575_fixed_lev_of (hM : levMaskOK levMask = true) (hG : Ch17575Graded
   have hmem : ∀ k : Fin 78, (k : ℕ) ∈ P.map (·.1) ↔ lev k = 1 := fun k => by
     rw [← ch17575_testBit_certMask, hcert, ch17575_levMask_testBit hM k.2]
   have h0 := ch17575_piv_zero brMask g P hpiv (fun p hp => (hall p hp).1.1.1)
-    (fun k hk => by rw [hgk, if_neg fun h => hk ((hmem k).2 h)])
+    (fun k hk => by rw [hgk, ite_eq_right fun h => hk ((hmem k).2 h)])
     (fun p hp => by
       obtain ⟨⟨⟨-, hθ⟩, hc⟩, hc3⟩ := hall p hp
       have e := hz3 ⟨p.2.2, hc⟩ hc3
       rw [hθ]
       refine Eq.trans (Finset.sum_congr rfl fun k _ => ?_) e
       split_ifs with hk
-      · rw [hgk, if_pos]
+      · rw [hgk, ite_eq_left]
         have := hlev (c := ⟨p.2.2, hc⟩) hk
         change lev θp + lev k = lev p.2.2 + 2 at this
         omega
@@ -289,7 +292,7 @@ theorem ch17575_fixed_lev_of (hM : levMaskOK levMask = true) (hG : Ch17575Graded
   intro k hk
   obtain ⟨p, hp, hpk⟩ := List.mem_map.1 ((hmem k).2 hk)
   have := h0 p hp
-  rw [hpk, hgk, if_pos hk] at this
+  rw [hpk, hgk, ite_eq_left hk] at this
   exact this
 
 theorem ch17575_fixed_lev (hM : levMaskOK levMask = true) (hG : Ch17575Graded)

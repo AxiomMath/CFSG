@@ -111,7 +111,7 @@ theorem exists_conj_V1_F4 (h621 : Stmt6_2_1_F4) : ∃ k ∈ V ⊔ conjSubgroup V
     rw [hgkc, ← conjSubgroup_conjSubgroup]
     exact conjSubgroup_eq_iff_mem_normalizer.mpr (CHU_le_normalizer_conj_V_F4 h hZ h621 hkH hc)
   rw [h1, CFSG.QuasithinUnique.C5.conjSubgroup_inf,
-    conjSubgroup_eq_iff_mem_normalizer.mpr (HH_le_normalizer_CHU h hZ hkH)]
+    conjSubgroup_eq_iff_mem_normalizer.mpr (HH_le_normalizer_CHU hZ hkH)]
 
 end KData
 

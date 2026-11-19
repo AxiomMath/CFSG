@@ -51,6 +51,6 @@ theorem not_isAlt_five_of_isL2_odd {X : Type} [Group X] [Finite X] {p e : ℕ} (
     have h2' : 120 ≤ q ^ 2 - 1 := by omega
     have h3 : q * 120 ≤ q * (q ^ 2 - 1) := Nat.mul_le_mul_left q h2'
     omega
-  interval_cases q <;> first | exact hq rfl | (norm_num at h2) | omega
+  interval_cases q <;> first | exact hq rfl | (norm_num at h2)
 
 end CFSG.LocalAnalysis.WeakClosure81

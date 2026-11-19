@@ -32,15 +32,18 @@ theorem str86_relIndex_q1_s {L1 L2 S : Subgroup G} {k : ℕ}
       hk hFc ((oTwoQuotSupEquiv hF.1).trans eL) hT
     rwa [pCoreOf_sup_pCoreOf hF.1] at h
 
+omit [Finite G] in
 theorem u3Y_le_z2 {L1 L2 S : Subgroup G} : u3Y L1 L2 S ≤ Z2 L1 L2 S := by
   rw [u3Y]
   exact inf_le_left
 
+omit [Finite G] in
 theorem map_mulDistrib_eq_smul (a : MulAut G) (H : Subgroup G) :
     H.map (MulDistribMulAction.toMonoidHom G a) = a • H := by
   rw [Subgroup.pointwise_smul_def]
   rfl
 
+omit [Finite G] in
 theorem le_normalizer_q2_of_sylow {L1 L2 S : Subgroup G} :
     S ≤ Subgroup.normalizer (Q2 L1 L2 S : Set G) := by
   have hSP2 : S ≤ P2 L1 L2 S :=

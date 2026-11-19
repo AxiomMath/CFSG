@@ -246,8 +246,8 @@ theorem sgnSetAut_apply_of_support {T : Finset (Fin k)} {f : Fin k → Multiplic
   funext i
   rw [sgnSetAut_apply, Pi.inv_apply]
   by_cases h : i ∈ T
-  · rw [if_pos h]
-  · rw [if_neg h, hf i h, inv_one]
+  · rw [ite_eq_left h]
+  · rw [ite_eq_right h, hf i h, inv_one]
 
 theorem sgnSetAut_empty : (sgnSetAut ∅ : MulAut (Fin k → Multiplicative (ZMod p))) = 1 := by
   ext f i
@@ -261,16 +261,16 @@ theorem sgnSetAut_eq_mul_erase {T : Finset (Fin k)} {a b : Fin k} (ha : a ∈ T)
   rw [MulAut.mul_apply, MulAut.mul_apply, sgnSetAut_apply, sgnAut_apply, sgnAut_apply]
   by_cases hia : i = a
   · subst hia
-    rw [if_pos ha, Function.update_self, Function.update_of_ne hab, sgnSetAut_apply,
-      if_neg (by simp)]
+    rw [ite_eq_left ha, Function.update_self, Function.update_of_ne hab, sgnSetAut_apply,
+      ite_eq_right (by simp)]
   · rw [Function.update_of_ne hia]
     by_cases hib : i = b
     · subst hib
-      rw [if_pos hb, Function.update_self, sgnSetAut_apply, if_neg (by simp)]
+      rw [ite_eq_left hb, Function.update_self, sgnSetAut_apply, ite_eq_right (by simp)]
     · rw [Function.update_of_ne hib, sgnSetAut_apply]
       by_cases hiT : i ∈ T
-      · rw [if_pos hiT, if_pos (by simp [hiT, hia, hib])]
-      · rw [if_neg hiT, if_neg (by simp [hiT])]
+      · rw [ite_eq_left hiT, ite_eq_left (by simp [hiT, hia, hib])]
+      · rw [ite_eq_right hiT, ite_eq_right (by simp [hiT])]
 
 theorem sgnSetAut_mem_of_even {S : Set (MulAut (Fin k → Multiplicative (ZMod p)))}
     (h1 : (1 : MulAut (Fin k → Multiplicative (ZMod p))) ∈ S)

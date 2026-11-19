@@ -22,8 +22,8 @@ theorem pRank_statedProj_SU_formula {F : Type} [Field F] [Finite F] {p ℓ n q :
       if p ∣ q + 1 then n - 1 else n / orderOf (-(q : ZMod p)) := by
   classical
   obtain ⟨f, rfl⟩ := hqℓ
-  haveI : Fact p.Prime := ⟨hp⟩
-  haveI : Fintype F := Fintype.ofFinite F
+  have : Fact p.Prime := ⟨hp⟩
+  have : Fintype F := Fintype.ofFinite F
   have hc : Fintype.card F = Nat.card F := (Nat.card_eq_fintype_card).symm
   have hZ : ¬ p ∣ Nat.card ((StatedScalars (Fin n) F).subgroupOf (StatedSU n (ℓ ^ f) F)) := by
     intro h
@@ -43,7 +43,7 @@ theorem pRank_statedProj_SU_eq_of_pow {F F₀ : Type} [Field F] [Field F₀] [Fi
     (hq : q = q₀ ^ p) (hpq : ¬ p ∣ q) (hdiv : ¬ p ∣ Nat.gcd n (q + 1)) :
     CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedSU n q F))) =
       CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedSU n q₀ F₀))) := by
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   have hpq₀ : ¬ p ∣ q₀ := fun h => hpq (hq ▸ h.trans (dvd_pow_self _ hp.ne_zero))
   have hiff : p ∣ q + 1 ↔ p ∣ q₀ + 1 := by
     rw [hq]
@@ -60,7 +60,7 @@ theorem outerFixedRankCrossAt_PSU : OuterFixedRankCrossAt .PSU := by
     hmodel.statedClassicalModel (by simp [CFSG.Blueprint.classicalTags])
   have hdiv : ¬ p ∣ Nat.gcd n (ℓ ^ f + 1) := hdivL
   have hcl' := hcl
-  haveI : Fact p.Prime := ⟨hp⟩
+  have : Fact p.Prime := ⟨hp⟩
   obtain ⟨⟨hℓp, hf, hn3, hne⟩, F, hF, hFin, hFcard, ⟨e⟩⟩ := hcl
   have hpq : ¬ p ∣ ℓ ^ f := OFRC.not_dvd_pow_of_ne hp hℓp hℓ
   have hK : CFSG.Open.pRank p (⊤ : Subgroup K) =
@@ -81,7 +81,7 @@ theorem outerFixedRankCrossAt_PSU : OuterFixedRankCrossAt .PSU := by
       omega
     have hform := pRank_statedProj_SU_formula (F := F) hp (by omega) hℓp ⟨f, rfl⟩ (by omega)
       hFcard hpq hdiv
-    rw [if_neg hnot] at hform
+    rw [ite_eq_right hnot] at hform
     have hz : -((ℓ ^ f : ℕ) : ZMod p) ≠ 1 := fun h1 => hnot ((OFRC.dvd_add_one_iff_neg_eq_one _).2 h1)
     have h3 : CFSG.Open.pRank p (⊤ : Subgroup (StatedProj (StatedSU 3 (ℓ ^ f) F))) ≤ 1 := by
       rw [hform]

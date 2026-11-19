@@ -64,6 +64,7 @@ section Tori
 variable {F : Type} [Field F] [Finite F] [CharP F 2] (hF : Nat.card F = (2 ^ 1) ^ 2) {n : ℕ}
 
 include hF in
+omit [CharP F 2] in
 theorem exists_unit_orderOf_three : ∃ ω : Fˣ, orderOf ω = 3 := by
   have h3 : Nat.card Fˣ = 3 := by
     rw [Nat.card_units, hF]
@@ -289,7 +290,7 @@ theorem su_exists_E9_six {π : SU (unitaryInvolution F 2 1) 6 →* Y}
     subst hk₁e
     unfold tFun
     rw [dite_eq_left hk₁']
-    fin_cases s <;> simp [shortTorusFun, lowIdx, unitaryInvolution_apply, frobenius_def, Fin.ext_iff]
+    fin_cases s <;> simp [shortTorusFun, lowIdx, frobenius_def, Fin.ext_iff]
   have hf : ∀ s : Fin 6, tFun (unitaryInvolution F 2 1) k₁ (ω : F) s =
       ![1, (ω : F), (ω : F) ^ 2, (ω : F) ^ 2, (ω : F), 1] s := by
     intro s
@@ -313,7 +314,7 @@ theorem su_exists_E9_six {π : SU (unitaryInvolution F 2 1) 6 →* Y}
     intro k hk
     funext s
     unfold levelSign
-    rw [dif_pos hk]
+    rw [dite_eq_left hk]
     unfold shortSign
     split_ifs <;> simp [CharTwo.neg_eq]
   set P : SU (unitaryInvolution F 2 1) 6 := levelWeyl hσ ζ k₀ * levelWeyl hσ ζ k₁ with hP
@@ -336,7 +337,7 @@ theorem su_exists_E9_six {π : SU (unitaryInvolution F 2 1) 6 →* Y}
     congr 1
     funext r
     simp only [hρs, hf]
-    fin_cases r <;> simp [hinv, hinv2, pow_two] <;> linear_combination (ω : F) * hω3
+    fin_cases r <;> simp [hinv, pow_two] <;> linear_combination (ω : F) * hω3
   have hzk : P * t * P⁻¹ * t⁻¹ ∈ π.ker := (hker _).2 ⟨_, hz⟩
   have hcomm : Commute (π t) (π P) := by
     rw [MonoidHom.mem_ker, map_mul, map_mul, map_mul, map_inv, map_inv] at hzk
@@ -355,8 +356,7 @@ theorem su_exists_E9_six {π : SU (unitaryInvolution F 2 1) 6 →* Y}
       (∀ s, ε s ≠ 0) → π' 0 ≠ 0 → diagonal d * signedPerm π' ε ≠ Matrix.scalar (Fin 6) u := by
     intro π' ε d u hd hε h0 heq
     have := congrFun (congrFun heq (π' 0)) 0
-    simp [signedPerm_apply, Matrix.diagonal_mul, Matrix.scalar_apply, Matrix.diagonal_apply,
-      h0] at this
+    simp [signedPerm_apply, Matrix.diagonal_mul, Matrix.scalar_apply, h0] at this
     exact hd _ (this.resolve_right (hε 0))
   have hω1 : ∀ i : ℕ, i < 3 → (ω : F) ^ i = 1 → i = 0 := fun i hi h' => by
     have h1 : ω ^ i = 1 := Units.ext (by simpa using h')
@@ -445,7 +445,7 @@ theorem hasTorusSL2_su_short {k : Fin (n / 2)} (hk : k.val + 1 < n / 2) :
     rw [hτm]
     ext i j
     fin_cases i <;> fin_cases j <;>
-      simp [SUExtras.toBlock, diagonal_apply, shortTorusFun_left, shortTorusFun_right hpq, hpq, hpq.symm]
+      simp [SUExtras.toBlock, shortTorusFun_left, shortTorusFun_right hpq, hpq, hpq.symm]
   have hnc : (sl2Rels F).h c * sl2Upper 1 ≠ sl2Upper 1 * (sl2Rels F).h c := by
     intro hc
     have := congrArg (fun A : Matrix.SpecialLinearGroup (Fin 2) F =>
@@ -502,7 +502,7 @@ theorem su_cartan_far {p f : ℕ} [Fact p.Prime] [CharP F p] [Finite F]
   split_ifs
   · simp [Symplectic.cartanC, Fin.ext_iff, hv]
     omega
-  · simp [Symplectic.cartanC, Fin.ext_iff, hv, Ne.symm hv]
+  · simp [Symplectic.cartanC, Fin.ext_iff, Ne.symm hv]
     omega
 
 end Final

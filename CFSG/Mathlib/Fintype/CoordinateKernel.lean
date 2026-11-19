@@ -78,24 +78,24 @@ theorem lt_card_of_paired_coordinate_kernel_bound [DecidableEq ι] [Group M]
       fun cg => ⟨fun i => if hi : i ∈ Spos then cg.1
           else if hi' : i ∈ Sneg then cg.1⁻¹
           else cg.2 ⟨i, fun hI => (mem_union.mp hI).elim hi hi'⟩,
-        hC _ ⟨cg.1, (fun i hi => dif_pos hi), (fun i hi => by
+        hC _ ⟨cg.1, (fun i hi => dite_eq_left hi), (fun i hi => by
           have hni : i ∉ Spos := fun h => disjoint_left.mp hdisj h hi
-          rw [dif_neg hni, dif_pos hi])⟩⟩
+          rw [dite_eq_right hni, dite_eq_left hi])⟩⟩
     have he : Function.Injective e := by
       intro cg cg' hgg
       have h₁ : (e cg).val = (e cg').val := congrArg Subtype.val hgg
       have hc : cg.1 = cg'.1 := by
         have hi := congrFun h₁ i₀
         rcases mem_union.mp hi₀ with hipos | hineg
-        · simpa only [e, dif_pos hipos] using hi
+        · simpa only [e, dite_eq_left hipos] using hi
         · have hni : i₀ ∉ Spos := fun h => disjoint_left.mp hdisj h hineg
           apply inv_injective
-          simpa only [e, dif_neg hni, dif_pos hineg] using hi
+          simpa only [e, dite_eq_right hni, dite_eq_left hineg] using hi
       have hg : cg.2 = cg'.2 := by
         funext i
         have hi := congrFun h₁ i.1
-        simpa only [e, dif_neg (fun h => i.2 (mem_union_left _ h)),
-          dif_neg (fun h => i.2 (mem_union_right _ h))] using hi
+        simpa only [e, dite_eq_right (fun h => i.2 (mem_union_left _ h)),
+          dite_eq_right (fun h => i.2 (mem_union_right _ h))] using hi
       exact Prod.ext hc hg
     have hcardOutside : Nat.card {i : ι // i ∉ S} = Fintype.card ι - S.card := by
       rw [Nat.card_eq_fintype_card (α := {i : ι // i ∉ S}), Fintype.card_subtype_compl]

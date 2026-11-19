@@ -95,7 +95,7 @@ theorem mb4G_conj : cArr (cArr mb4GArr mb4TArr) mb4GInv =
   decide +kernel
 
 theorem mb4_conj_into_KS :
-    ∃ g : Equiv.Perm (Fin 24), ∃ hg : g ∈ AutPerm, g * mb4T * g⁻¹ ∈ sxKS :=
+    ∃ g : Equiv.Perm (Fin 24), ∃ _hg : g ∈ AutPerm, g * mb4T * g⁻¹ ∈ sxKS :=
   ⟨permOfArr 24 mb4GArr mb4GInv mb4G_ok.1, mem_AutPerm_of_arr _ mb4G_ok.2,
     mem_KS_of_arr (hasArr_mul (hasArr_mul (hasArr_permOfArr _) hasArr_mb4T)
       (hasArr_permOfArr_inv _)) mb4G_conj⟩

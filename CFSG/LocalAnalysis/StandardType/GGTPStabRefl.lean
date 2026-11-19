@@ -99,7 +99,7 @@ theorem ggTPStab_le_closure_refl
         iform γ β = 0 ∧
         ∀ a : ↥A, Multiplicative.toAdd (κ (ψ a)) = KGL.rootRefl γ (Multiplicative.toAdd (κ a))} := by
   intro φ hφ hφc
-  haveI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  have : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   let a : Fin Tag.E6.rank → (ZMod 7)ˣ :=
     zetaVec ggTP_zeta ggTP_zeta_pow_three (KGL.kgExpVec β)
   obtain ⟨u, hu⟩ := KGL.KGAutFrame.exists_weyl_of_mem hF hφ

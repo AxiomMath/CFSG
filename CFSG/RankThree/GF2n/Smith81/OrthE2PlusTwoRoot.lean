@@ -17,6 +17,7 @@ variable {G : Type} [Group G] [Finite G] {M Q Z B : Subgroup G}
   {ι : Type} [Fintype ι] [DecidableEq ι] {qU : QuadraticForm K (ι → K)}
   {φ : M₀.E ≃ₗ[K] (ι → K) × (ι → K)}
 
+omit [Finite K] [Fintype ι] [DecidableEq ι] in
 theorem exists_pure_of_mem_conj_fixer (hcB : Ctx M Q Z B) (hD : GlobalModelData M Q Z γ M₀)
     (hLfix : ∀ s ∈ LB M Q B, ∀ b ∈ B, M₀.π (s * b * s⁻¹) = M₀.π b)
     (hN : ∀ x ∈ M, ∃ s ∈ LB M Q B, s ∉ Q ∧ ∃ g' : Matrix (Fin 2) (Fin 2) K, g'.det = 1 ∧
@@ -106,6 +107,7 @@ theorem orthFrame_of_tensor_fixer (hcB : Ctx M Q Z B)
   · exact pairTypeA_of_isConj_fixer hcB hconj hno hD hF hAct hLfix hN hn hz hxQ hxZ hx
   · exact isConj_of_pairTypeA hcB hD hF hAct hn ⟨c₀, u₀, hc₀, hu₀, hqu₀, hBimg⟩ hz hz1 hxQ hxZ hx
 
+omit [Finite K] [CharP K 2] in
 theorem orth_LB_fix_pi (h34 : Stroth34Statement) (hc : Ctx M Q Z B) {n : ℕ} (hw : Width Q Z n)
     (hn : 2 < n) (hno : NoA2 Q Z (LB M Q B)) (hgen : GenByB M Q B) :
     ∀ s ∈ LB M Q B, ∀ b ∈ B, M₀.π (s * b * s⁻¹) = M₀.π b := by

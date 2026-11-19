@@ -283,7 +283,7 @@ theorem c8_case1 (h11a : Lemma11aStatement) (cfg : QPCfg M V Q P H Φ ψ a T)
 
 
 theorem c8_VF_comm (cfg : QPCfg M V Q P H Φ ψ a T) :
-    ∀ s ∈ V, ∀ t ∈ P ⊓ wOf V H, s * t = t * s := fun s hs t ht =>
+    ∀ _s ∈ V, ∀ _t ∈ P ⊓ wOf V H, _s * _t = _t * _s := fun _s hs _t ht =>
   cfg.hyp.setup.mc.toMinCex.commute_of_mem_P (Subgroup.mem_inf.mp ht).1 hs
 
 theorem c8Kvec_VF (h11a : Lemma11aStatement) (cfg : QPCfg M V Q P H Φ ψ a T)
@@ -355,6 +355,7 @@ theorem c8_gamma_data (cfg : QPCfg M V Q P H Φ ψ a T)
   · exact c8_comm_normalizes (K := Subgroup.centralizer ({c8W ψ a} : Set G)) hMN
       (Subgroup.mem_inf.mp hx₁).2 (Subgroup.mem_inf.mp hx₂).2
 
+omit [Finite G] in
 theorem c8_conj_inv_P {ρ : G} (hρP : ∀ p ∈ P, ρ * p * ρ⁻¹ ∈ P) (hρ3 : ρ ^ 3 = 1) :
     ∀ p ∈ P, ρ⁻¹ * p * ρ ∈ P := by
   intro p hp
@@ -686,7 +687,7 @@ theorem ntCaseVIII_holds (h11a : Lemma11aStatement) (h11b : Lemma11bStatement)
   have hCcard : Nat.card C = 3 := by
     show Nat.card (C₀.map θ.symm.toMonoidHom) = 3
     rw [Subgroup.card_map_of_injective θ.symm.injective, hC₀card]
-  haveI := hN
+  have := hN
   obtain ⟨ρ, hρK, hord, hmem⟩ :=
     sc_lift (M := Subgroup.centralizer ({cfg.aG} : Set G)) hQ2 hCcard
   have hρ3 : ρ ^ 3 = 1 := by

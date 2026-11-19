@@ -21,7 +21,7 @@ open scoped Pointwise
 
 
 theorem exists_d4ThreeOuter_normalForm {K : Type} [Field K] [Finite K] {q f : ℕ}
-    (hq : q.Prime) (hq2 : q ≠ 2) (hq3 : q ≠ 3) (hK : Nat.card K = q ^ f)
+    (hq : q.Prime) (_hq2 : q ≠ 2) (_hq3 : q ≠ 3) (hK : Nat.card K = q ^ f)
     (t : MulAut (matrixProjectiveDerived (coordinateQuadPlus 4 K))) (ht3 : t ^ 3 = 1)
     (htE : t ∉ matrixProjectiveImage (coordinateQuadPlus 4 K)) :
     ∃ (g : adjointGroup Tag.D4 K) (a : Fin Tag.D4.rank → Kˣ) (σ : K ≃+* K) (ε : ℕ),
@@ -29,9 +29,9 @@ theorem exists_d4ThreeOuter_normalForm {K : Type} [Field K] [Finite K] {q f : �
         MulAut.congr (coordinatePlusWitnessEquiv K (isoAdj K).symm).symm t =
           MulAut.conj g * (exactNormalAut Tag.D4 K a σ 0 * d4Graph K ε) := by
   classical
-  haveI : Fact q.Prime := ⟨hq⟩
-  haveI : Fintype K := Fintype.ofFinite K
-  haveI : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
+  have : Fact q.Prime := ⟨hq⟩
+  have : Fintype K := Fintype.ofFinite K
+  have : CharP K q := charP_of_card_eq_prime_pow (by rw [← Nat.card_eq_fintype_card, hK])
   have hf : 1 ≤ f := by
     by_contra hf
     have hf0 : f = 0 := by omega
@@ -40,9 +40,9 @@ theorem exists_d4ThreeOuter_normalForm {K : Type} [Field K] [Finite K] {q f : �
     omega
   set Φ : adjointGroup Tag.D4 K ≃* matrixProjectiveDerived (coordinateQuadPlus 4 K) :=
     coordinatePlusWitnessEquiv K (isoAdj K).symm with hΦ
-  haveI : Finite (ModGL Tag.D4 K) := finite_modGL
-  haveI : Finite (adjointGroup Tag.D4 K) := Subtype.finite
-  haveI : Finite (matrixProjectiveDerived (coordinateQuadPlus 4 K)) :=
+  have : Finite (ModGL Tag.D4 K) := finite_modGL
+  have : Finite (adjointGroup Tag.D4 K) := Subtype.finite
+  have : Finite (matrixProjectiveDerived (coordinateQuadPlus 4 K)) :=
     Finite.of_equiv _ Φ.toEquiv
   set α := MulAut.congr Φ.symm t with hαdef
   have hα3 : α ^ 3 = 1 := by rw [hαdef, ← map_pow, ht3, map_one]

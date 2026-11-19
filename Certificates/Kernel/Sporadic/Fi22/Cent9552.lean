@@ -251,11 +251,9 @@ theorem starK_of_B {v : Nat} (hv : Fi22X.cn v = true) (h : starB Q v = true) :
   · refine Or.inr ?_
     rw [List.any_eq_true] at h ⊢
     obtain ⟨a, ha, h⟩ := h
-    try dsimp only at h
     rw [List.any_eq_true] at h
     obtain ⟨b, hb, h⟩ := h
     refine ⟨a, ha, List.any_eq_true.2 ⟨b, hb, ?_⟩⟩
-    try dsimp only
     rw [ne_of_moves h (ap_st8K hQ hv (List.mem_range.1 ha) (List.mem_range.1 hb))]
     rfl
 

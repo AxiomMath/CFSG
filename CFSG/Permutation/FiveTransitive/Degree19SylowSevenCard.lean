@@ -16,7 +16,7 @@ private theorem orderOf_ne_fortyNine
     (hcard : Fintype.card X = 19) (g : Equiv.Perm X) :
     orderOf g ≠ 49 := by
   intro horder
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hcycleLength :
       ∀ c ∈ g.cycleType, c = 7 := by
     intro c hc
@@ -156,9 +156,9 @@ private theorem sylowSeven_card_ne_fortyNine
         if u = 1 then 19 else 5 := by
     by_cases hu : u = 1
     · subst u
-      rw [if_pos rfl]
+      rw [ite_eq_left rfl]
       exact hfixedOne
-    · rw [if_neg hu]
+    · rw [ite_eq_right hu]
       exact nonidentity_sylowSeven_fixed_points_of_card_fortyNine
         X P hcard h5 hnotAlt S hScard u hu
   have hsum :
@@ -176,7 +176,7 @@ private theorem sylowSeven_card_ne_fortyNine
             ∑ _u ∈ (Finset.univ : Finset S).erase 1, 5 := by
           apply Finset.sum_congr rfl
           intro u hu
-          rw [hfixed, if_neg (Finset.ne_of_mem_erase hu)]
+          rw [hfixed, ite_eq_right (Finset.ne_of_mem_erase hu)]
         _ = ((Finset.univ : Finset S).erase 1).card * 5 := by
           simp
     calc
@@ -210,7 +210,7 @@ theorem sylowSeven_card_eq_seven
     (S : Sylow 7 P) :
     Nat.card S = 7 := by
   classical
-  letI : Fact (Nat.Prime 7) := ⟨by norm_num⟩
+  let : Fact (Nat.Prime 7) := ⟨by norm_num⟩
   have hpositive :
       0 < (Nat.card P).factorization 7 :=
     Nat.prime_seven.factorization_pos_of_dvd Nat.card_pos.ne' hsevenDvd

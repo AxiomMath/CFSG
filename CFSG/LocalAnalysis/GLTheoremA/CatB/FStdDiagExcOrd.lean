@@ -170,7 +170,7 @@ theorem fstd_fieldSize_two_of_small (hB : LieOrderBridge) {T : Type} [Group T] [
   | cyclic _ _ => exact hrel.elim
   | sporadic _ => exact hrel.elim
   | alternating n hn =>
-    haveI : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
+    have : Nontrivial (Fin n) := Fin.nontrivial_iff_two_le.2 (by omega)
     simp only [compRelC] at hrel
     have hcard : Nat.card T = n.factorial / 2 := by
       rw [Nat.card_congr φ.toEquiv, nat_card_alternatingGroup]

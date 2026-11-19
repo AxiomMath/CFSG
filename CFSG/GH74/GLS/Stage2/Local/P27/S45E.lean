@@ -136,7 +136,7 @@ theorem hasCyclicOrDihedralSylowTwo_of_isSylowOf {G : Type} [Group G] [Finite G]
   rcases h' with h' | h'
   · exact Or.inl h'
   · refine Or.inr ?_
-    obtain ⟨m, hm, he⟩ := (isDihedral_iff_two_group S.isPGroup').1 h'
+    obtain ⟨m, hm, he⟩ := (isDihedral_iff_two_group S.isPGroup).1 h'
     exact ⟨m, hm, he⟩
 
 end SylowTransfer

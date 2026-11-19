@@ -151,14 +151,14 @@ theorem rotMat_triIdx_right {v : Fin 3 → ZMod 3} (hv : v 2 = 0) (a : Idx) (j :
   rcases a with i | i | u
   · fin_cases j <;> fin_cases i <;> simp [rotMat, triIdx, hv, planeRot_zero]
   · fin_cases j <;> fin_cases i <;> simp [rotMat, triIdx, hv, planeRot_zero]
-  · fin_cases j <;> simp [rotMat, triIdx, hv, planeRot_zero]
+  · fin_cases j <;> simp [rotMat, triIdx]
 
 theorem rotMat_triIdx_left {v : Fin 3 → ZMod 3} (hv : v 2 = 0) (j : Fin 3) (b : Idx) :
     rotMat K v (triIdx j) b = if b = triIdx j then 1 else 0 := by
   rcases b with i | i | u
   · fin_cases j <;> fin_cases i <;> simp [rotMat, triIdx, hv, planeRot_zero]
   · fin_cases j <;> fin_cases i <;> simp [rotMat, triIdx, hv, planeRot_zero]
-  · fin_cases j <;> simp [rotMat, triIdx, hv, planeRot_zero]
+  · fin_cases j <;> simp [rotMat, triIdx]
 
 theorem rotMat_mul_triIn {v : Fin 3 → ZMod 3} (hv : v 2 = 0) :
     rotMat K v * triIn K = triIn K := by

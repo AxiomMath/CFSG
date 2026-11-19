@@ -25,7 +25,7 @@ open CFSG.Blueprint (LieModel)
 theorem center_eq_bot_of_sit {J : Type} [Group J] [Finite J] (hs : Sit J) :
     Subgroup.center J = ⊥ := by
   obtain ⟨hsimple, ⟨a, b, hab⟩, -⟩ := hs
-  haveI := hsimple
+  have := hsimple
   rcases IsSimpleGroup.eq_bot_or_eq_top_of_normal (Subgroup.center J) with h | h
   · exact h
   · exfalso
